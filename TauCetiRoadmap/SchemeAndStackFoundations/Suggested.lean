@@ -3019,6 +3019,73 @@ Layer 0's `affine pushforward qcoh equivalence`, Layer 0's `relative proj` with 
 change, affine comparison and the compatibility with StableReduction Layer 2's
 finitely generated relative Proj. -/
 
+namespace PushforwardAlgebra
+open _root_.AlgebraicGeometry
+
+-- Check `pushforwardAlgebra_hartogs`: regular functions extend across the origin.
+example (k : Type u) [Field k] :
+    let A := MvPolynomial (Fin 2) k
+    let S := Spec (.of A)
+    let U : S.Opens := PrimeSpectrum.basicOpen (MvPolynomial.X (0 : Fin 2)) ⊔
+      PrimeSpectrum.basicOpen (MvPolynomial.X (1 : Fin 2))
+    Nonempty ((Scheme.Modules.pushforward U.ι).obj
+      (SheafOfModules.unit U.toScheme.ringCatSheaf) ≅ SheafOfModules.unit S.ringCatSheaf) := by
+  sorry
+
+-- Check `pushforwardAlgebra_reduced_points_isQuasicoherent`: coordinatewise localization.
+example (k : Type u) [Field k] :
+    let A := Polynomial k
+    let X := ∐ fun _ : ℕ => Spec (.of k)
+    let f : X ⟶ Spec (.of A) := Sigma.desc fun n : ℕ =>
+      Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (n : k)))
+    ((Scheme.Modules.pushforward f).obj (SheafOfModules.unit X.ringCatSheaf)).IsQuasicoherent ∧
+      Nonempty (Γ(X, ⊤) ≃+* (ℕ → k)) ∧
+      ∀ g : A,
+        Nonempty (Γ(X, f ⁻¹ᵁ PrimeSpectrum.basicOpen g) ≃+*
+          ({n : ℕ // g.eval (n : k) ≠ 0} → k)) ∧
+        ∃ e : Localization.Away (fun n : ℕ => g.eval (n : k)) ≃+*
+            ({n : ℕ // g.eval (n : k) ≠ 0} → k),
+          ∀ m : ℕ → k, ∀ n : {n : ℕ // g.eval (n : k) ≠ 0},
+            e (algebraMap (ℕ → k) _ m) n = m n.val := by
+  sorry
+
+-- Check `pushforwardAlgebra_unbounded_thickenings_not_quasicoherent`: no common annihilator.
+example (k : Type u) [Field k] :
+    let A := Polynomial k
+    let B := fun n : ℕ => A ⧸ Ideal.span {(Polynomial.X : A) ^ (n + 1)}
+    let M := (n : ℕ) → B n
+    let t : M := fun n => Ideal.Quotient.mk _ Polynomial.X
+    let X := ∐ fun n : ℕ => Spec (.of (B n))
+    let f : X ⟶ Spec (.of A) := Sigma.desc fun n : ℕ =>
+      Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk
+        (Ideal.span {(Polynomial.X : A) ^ (n + 1)})))
+    Nonempty (Γ(X, ⊤) ≃+* M) ∧
+      f ⁻¹ᵁ PrimeSpectrum.basicOpen (Polynomial.X : A) = ⊥ ∧
+      Subsingleton Γ(X, f ⁻¹ᵁ PrimeSpectrum.basicOpen (Polynomial.X : A)) ∧
+      (∀ r : ℕ, (t ^ r) r ≠ 0) ∧
+      (1 : Localization.Away t) ≠ 0 ∧
+      ¬ ((Scheme.Modules.pushforward f).obj
+        (SheafOfModules.unit X.ringCatSheaf)).IsQuasicoherent := by
+  sorry
+
+-- Check `pushforwardAlgebra_finite_thickenings_isQuasicoherent`: t^N kills every coordinate.
+example (k : Type u) [Field k] (N : ℕ) :
+    let A := Polynomial k
+    let B := fun n : Fin N => A ⧸ Ideal.span {(Polynomial.X : A) ^ (n.val + 1)}
+    let M := (n : Fin N) → B n
+    let t : M := fun n => Ideal.Quotient.mk _ Polynomial.X
+    let X := ∐ fun n : Fin N => Spec (.of (B n))
+    let f : X ⟶ Spec (.of A) := Sigma.desc fun n : Fin N =>
+      Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk
+        (Ideal.span {(Polynomial.X : A) ^ (n.val + 1)})))
+    ((Scheme.Modules.pushforward f).obj (SheafOfModules.unit X.ringCatSheaf)).IsQuasicoherent ∧
+      Nonempty (Γ(X, ⊤) ≃+* M) ∧ t ^ N = 0 ∧ Subsingleton (Localization.Away t) ∧
+      f ⁻¹ᵁ PrimeSpectrum.basicOpen (Polynomial.X : A) = ⊥ ∧
+      Subsingleton Γ(X, f ⁻¹ᵁ PrimeSpectrum.basicOpen (Polynomial.X : A)) := by
+  sorry
+
+end PushforwardAlgebra
+
 namespace Proj
 open _root_.AlgebraicGeometry
 
@@ -4827,6 +4894,7 @@ theorem isAffine_of_H1_ideal_vanishing (X : Scheme.{u}) [CompactSpace X]
   sorry
 
 -- Check `higherDirectImage_unbounded_base`: the coproduct base is excluded by the affine bound.
+-- The same family gives `rightAdjoint_unbounded_disjoint_projective_spaces` in §2.19.
 example (k : Type u) [Field k] :
     ¬ IsAffine (∐ fun _ : ℕ => Spec (.of k)) := by sorry
 
@@ -5727,18 +5795,81 @@ noncomputable def derivedPullback_totalDirectImage_adj {X Y : Scheme.{u}} (f : X
 
 /-- The right adjoint `a_f` of `Rf_*` on `D_QCoh` for qcqs schemes. -/
 noncomputable def pushforwardRightAdjoint {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f]
-    [QuasiSeparated f] : DQCoh Y ⥤ DQCoh X :=
+    [QuasiSeparated f] [CompactSpace Y] [QuasiSeparatedSpace Y] : DQCoh Y ⥤ DQCoh X :=
   sorry
 noncomputable def pushforwardRightAdjoint_adj {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f]
-    [QuasiSeparated f] : totalDirectImage f ⊣ pushforwardRightAdjoint f :=
+    [QuasiSeparated f] [CompactSpace Y] [QuasiSeparatedSpace Y] :
+    totalDirectImage f ⊣ pushforwardRightAdjoint f :=
   sorry
 /-- The trace (counit) `Rf_* a_f K → K`. -/
-noncomputable def trace {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f] :
+noncomputable def trace {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f]
+    [CompactSpace Y] [QuasiSeparatedSpace Y] :
     pushforwardRightAdjoint f ⋙ totalDirectImage f ⟶ 𝟭 (DQCoh Y) :=
   (pushforwardRightAdjoint_adj f).counit
 
+/-- One lower-bound shift works for all coefficients, by finite cohomological dimension of
+`Rf_*` on qcqs schemes (Stacks, Lemma 48.3.5). -/
+theorem pushforwardRightAdjoint_lowerBound {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [QuasiCompact f] [QuasiSeparated f] [CompactSpace Y] [QuasiSeparatedSpace Y] :
+    ∃ N : ℤ, ∀ (K : DQCoh Y) (c : ℤ),
+      (∀ i < c, IsZero ((DerivedCategory.homologyFunctor Y.Modules i).obj K.obj)) →
+      ∀ i < c - N, IsZero ((DerivedCategory.homologyFunctor X.Modules i).obj
+        ((pushforwardRightAdjoint f).obj K).obj) := by sorry
+
+/-- The right adjoint preserves a global lower bound on qcqs schemes
+(Stacks, Lemma 48.3.5). -/
+theorem pushforwardRightAdjoint_boundedBelow {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [QuasiCompact f] [QuasiSeparated f] [CompactSpace Y] [QuasiSeparatedSpace Y]
+    (K : DQCoh Y) (hK : K.IsBoundedBelow) :
+    ((pushforwardRightAdjoint f).obj K).IsBoundedBelow := by
+  obtain ⟨N, hN⟩ := pushforwardRightAdjoint_lowerBound f
+  obtain ⟨c, hc⟩ := hK
+  exact ⟨c - N, hN K c hc⟩
+
+-- Check `rightAdjoint_fixed_projective_space`: O(-n-1)[n] has cohomology only in degree -n.
+example (k : Type u) [Field k] (n : ℕ) (K : DQCoh (Spec (.of k)))
+    (hK : Nonempty (K.obj ≅ (DerivedCategory.singleFunctor (Spec (.of k)).Modules 0).obj
+      (SheafOfModules.unit (Spec (.of k)).ringCatSheaf))) :
+    let G := MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k
+    letI : GradedAlgebra G := MvPolynomial.gradedAlgebra (σ := Fin (n + 1)) (R := k)
+    let P := _root_.AlgebraicGeometry.Proj G
+    let f : P ⟶ Spec (.of k) := _root_.AlgebraicGeometry.Proj.toSpecZero G ≫
+      Spec.map (CommRingCat.ofHom (algebraMap k (G 0)))
+    letI : QuasiCompact f := by sorry
+    letI : QuasiSeparated f := by sorry
+    let H := fun i : ℤ => (DerivedCategory.homologyFunctor P.Modules i).obj
+      ((pushforwardRightAdjoint f).obj K).obj
+    ¬ IsZero (H (-(n : ℤ))) ∧ (∀ i, i ≠ -(n : ℤ) → IsZero (H i)) ∧
+      ((pushforwardRightAdjoint f).obj K).IsBoundedBelow := by sorry
+
+-- Check `rightAdjoint_unbounded_disjoint_projective_spaces`: compare §2.6's unbounded base.
+example (k : Type u) [Field k]
+    (K : DQCoh (∐ fun _ : ℕ => Spec (.of k)))
+    (hK : Nonempty (K.obj ≅
+      (DerivedCategory.singleFunctor (∐ fun _ : ℕ => Spec (.of k)).Modules 0).obj
+        (SheafOfModules.unit (∐ fun _ : ℕ => Spec (.of k)).ringCatSheaf))) :
+    let G := fun n : ℕ => MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k
+    letI : ∀ n : ℕ, GradedAlgebra (G n) := fun n =>
+      MvPolynomial.gradedAlgebra (σ := Fin (n + 1)) (R := k)
+    let P := fun n : ℕ => _root_.AlgebraicGeometry.Proj (G n)
+    let Y := ∐ fun _ : ℕ => Spec (.of k)
+    let X := ∐ P
+    let f : X ⟶ Y := Sigma.desc fun n : ℕ =>
+      _root_.AlgebraicGeometry.Proj.toSpecZero (G n) ≫
+        Spec.map (CommRingCat.ofHom (algebraMap k (G n 0))) ≫
+          Sigma.ι (fun _ : ℕ => Spec (.of k)) n
+    letI : QuasiCompact f := by sorry
+    letI : QuasiSeparated f := by sorry
+    Flat f ∧ IsProper f ∧ ¬ CompactSpace X ∧ ¬ CompactSpace Y ∧ K.IsBoundedBelow ∧
+      ∃ a : DQCoh Y ⥤ DQCoh X, Nonempty (totalDirectImage f ⊣ a) ∧
+        (∀ n : ℕ, ¬ IsZero ((DerivedCategory.homologyFunctor (P n).Modules (-(n : ℤ))).obj
+          ((derivedPullback (Sigma.ι P n)).obj (a.obj K)).obj)) ∧
+        (∀ c : ℤ, ∃ i < c, ¬ IsZero ((DerivedCategory.homologyFunctor X.Modules i).obj
+          (a.obj K).obj)) ∧ ¬ (a.obj K).IsBoundedBelow := by sorry
+
 -- Check `test_rightAdjoint_id`
-example (X : Scheme.{u}) : Nonempty (pushforwardRightAdjoint (𝟙 X) ≅ 𝟭 (DQCoh X)) := sorry
+example (X : Scheme.{u}) [CompactSpace X] [QuasiSeparatedSpace X] :
+    Nonempty (pushforwardRightAdjoint (𝟙 X) ≅ 𝟭 (DQCoh X)) := sorry
 -- Check `test_rightAdjoint_closed_point`
 -- Check `test_rightAdjoint_not_upperShriek`
 /- Closed point of `𝔸¹` and non-proper affine line (statements in the README). -/
