@@ -5675,6 +5675,46 @@ Quasi-coherence of its output requires separate hypotheses. -/
 noncomputable def derivedHom {X : Scheme.{u}} :
     (DerivedCategory X.Modules)ᵒᵖ ⥤ DerivedCategory X.Modules ⥤ DerivedCategory X.Modules := sorry
 
+-- Check `test_derivedHom_affine_ext`: Stacks 36.10.8(3), modules in degree zero.
+example (A : Type u) [CommRing A] (M N : ModuleCat.{u} A)
+    (hM : PseudoCoherence.IsPseudoCoherentModule A M) (i : ℕ) :
+    let M' := (DerivedCategory.singleFunctor (Spec (.of A)).Modules 0).obj (tilde M)
+    let N' := (DerivedCategory.singleFunctor (Spec (.of A)).Modules 0).obj (tilde N)
+    Nonempty (((DerivedCategory.homologyFunctor (Spec (.of A)).Modules (i : ℤ)).obj
+      ((derivedHom.obj (Opposite.op M')).obj N')) ≅
+      tilde (((_root_.Ext A (ModuleCat.{u} A) i).obj (Opposite.op M)).obj N)) := by sorry
+
+-- Check `test_derivedHom_affine_ext_finite`: finiteness over a Noetherian ring suffices.
+example (A : Type u) [CommRing A] [IsNoetherianRing A] (M N : ModuleCat.{u} A)
+    [Module.Finite A M] (i : ℕ) :
+    let M' := (DerivedCategory.singleFunctor (Spec (.of A)).Modules 0).obj (tilde M)
+    let N' := (DerivedCategory.singleFunctor (Spec (.of A)).Modules 0).obj (tilde N)
+    Nonempty (((DerivedCategory.homologyFunctor (Spec (.of A)).Modules (i : ℤ)).obj
+      ((derivedHom.obj (Opposite.op M')).obj N')) ≅
+      tilde (((_root_.Ext A (ModuleCat.{u} A) i).obj (Opposite.op M)).obj N)) := by sorry
+
+-- Check `test_derivedHom_affine_ext_infinite_free`: (t⁻ⁿ) has no common denominator.
+example (k : Type u) [Field k] :
+    let A := Polynomial k
+    let S := Localization.Away (Polynomial.X : A)
+    let B := Localization.Away (fun _ : ℕ => (Polynomial.X : A))
+    let M := ModuleCat.of A (ℕ →₀ A)
+    let N := ModuleCat.of A A
+    let M' := (DerivedCategory.singleFunctor (Spec (.of A)).Modules 0).obj (tilde M)
+    let N' := (DerivedCategory.singleFunctor (Spec (.of A)).Modules 0).obj (tilde N)
+    IsNoetherianRing A ∧ Module.Free A M ∧ Module.Projective A M ∧
+      (¬ ∃ z : B, ∀ n : ℕ,
+        letI : IsLocalization.Away
+            ((Pi.evalRingHom (fun _ : ℕ => A) n) (fun _ : ℕ => (Polynomial.X : A))) S := by
+          change IsLocalization.Away (Polynomial.X : A) S
+          infer_instance
+        IsLocalization.Away.map B S (Pi.evalRingHom (fun _ : ℕ => A) n)
+          (fun _ : ℕ => (Polynomial.X : A)) z =
+          (IsLocalization.Away.invSelf (S := S) (Polynomial.X : A)) ^ n) ∧
+      ¬ (((DerivedCategory.homologyFunctor (Spec (.of A)).Modules 0).obj
+        ((derivedHom.obj (Opposite.op M')).obj N'))).IsQuasicoherent := by
+  sorry
+
 noncomputable def derivedPullback {X Y : Scheme.{u}} (f : X ⟶ Y) : DQCoh Y ⥤ DQCoh X := sorry
 noncomputable def totalDirectImage {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f]
     [QuasiSeparated f] : DQCoh X ⥤ DQCoh Y :=
@@ -7961,7 +8001,8 @@ theorem serre_normality_R1 (A : Type u) [CommRing A] [IsNoetherianRing A] [IsDom
      AlgebraicGeometry.StableCurves.Mbar.smooth    -- the open substack M_{g,n}
      AlgebraicGeometry.StableCurves.Mbar.pullback
      AlgebraicGeometry.StableCurves.Mbar.aut_finite
-     AlgebraicGeometry.StableCurves.Mbar.forget
+     AlgebraicGeometry.StableCurves.Mbar.forget   -- Mbar_{g,n+1} → Mbar_{g,n}, 2g−2+n>0;
+                                                -- universal curve (Knudsen II, 2.6–2.7, p. 179)
    Tests: StableCurves.Mbar_zero_three, StableCurves.Mbar_one_one_aut,
      StableCurves.not_stable_zero_two, StableCurves.not_stable_rational_tail,
      StableCurves.Mbar_smooth_open.
@@ -7979,6 +8020,16 @@ theorem serre_normality_R1 (A : Type u) [CommRing A] [IsNoetherianRing A] [IsDom
            (C' : StablePointedFamily g n Y'), Nonempty (C'.restrict (ψ ⁻¹ᵁ U) ≅ C.pullback (ψ ∣_ U))
 -/
 
+-- Check `Mbar.forget_zero_four`: target (0,3) for the source (0,4).
+example : 2 * (0 : ℤ) - 2 + 3 = 1 ∧ 0 < 2 * (0 : ℤ) - 2 + 3 := by norm_num
+
+-- Check `Mbar.forget_one_two`: target (1,1) for the source (1,2).
+example : 2 * (1 : ℤ) - 2 + 1 = 1 ∧ 0 < 2 * (1 : ℤ) - 2 + 1 := by norm_num
+
+-- Check `Mbar.forget_zero_three_excluded`: source (0,3) is stable, target (0,2) is not.
+example : 0 < 2 * (0 : ℤ) - 2 + 3 ∧ 2 * (0 : ℤ) - 2 + 2 = 0 ∧
+    ¬ (0 < 2 * (0 : ℤ) - 2 + 2) := by norm_num
+
 /- `level_structure_cover` uses full ordered bases J[m] ≅ (Z/m)^(2g), retaining the
    transported Weil pairing. `level_structure_cover_pairing` identifies the symplectic
    subcover after choosing a primitive root over the cyclotomic base (Deligne §3.3).
@@ -7993,7 +8044,8 @@ theorem serre_normality_R1 (A : Type u) [CommRing A] [IsNoetherianRing A] [IsDom
    Chow domination alone gives a proper map, not the finite q_m.
    `level_structure_cover_pointed` starts with (g,0) for g ≥ 2, (1,1) (Deligne §2.2,
    p. 135, with its finite map to the compactified j-line), and (0,3) = Spec Z. Adding
-   markings pulls back the projective universal curve; prove its total space normal
+   markings uses Mbar.forget with target bound 2g−2+n>0 and pulls back its projective
+   universal curve, including the first steps from (0,3) and (1,1); prove its total space normal
    using the nodal charts and smooth generic fibre, and identify it with the next
    normalization on the dense smooth locus. See Knudsen II, Corollary 2.6 and
    Theorem 2.7, p. 179, and StableReduction Layers 2, 3, 9.

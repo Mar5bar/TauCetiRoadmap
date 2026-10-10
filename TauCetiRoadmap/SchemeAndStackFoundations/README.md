@@ -2853,8 +2853,23 @@ square with `g : S' → S` and `f : X → S` Tor-independent (`Tor_i^{O_S}(O_X, 
 - `test_DQCoh_extension_by_zero_not_qc`: for `X = Spec` of a DVR and `j : U → X` the generic point,
   `j_! O_U[0]` is not in `DQCoh X`.
 - `test_derivedTensor_unit`, `test_derivedTensor_affine_tor` (`(ℤ/2)~ ⊗^L (ℤ/2)~` has cohomology
-  `(ℤ/2)~` in degrees `0` and `−1`), `test_derivedHom_affine_ext` (`H^i RHom(M~, N~) = Ext^i_A(M,
-  N)~`), `test_underived_tensor_differs`.
+  `(ℤ/2)~` in degrees `0` and `−1`), `test_underived_tensor_differs`.
+- `test_derivedHom_affine_ext`: for a commutative ring `A`, a pseudo-coherent
+  `A`-module `M`, any `A`-module `N` and `i≥0`, the natural comparison gives
+  `H^i R𝓗om(M~, N~) ≅ Ext^i_A(M,N)~`. For complexes the comparison requires
+  pseudo-coherent/bounded-below or perfect/arbitrary arguments, respectively
+  ([Stacks, Lemma 36.10.8(3)](https://stacks.math.columbia.edu/tag/0A6H)).
+- `test_derivedHom_affine_ext_finite`: the same comparison applies to every finite
+  `M` over a Noetherian `A`, with arbitrary `N`.
+- `test_derivedHom_affine_ext_infinite_free`: over `A=k[t]` for a field `k`, take
+  `M=⊕_{n≥0} A` and `N=A`. Although `M` is free and projective and `A` is
+  Noetherian, `H⁰ R𝓗om(M~,O_X)=∏_{n≥0} O_X` is not quasi-coherent. On `D(t)`
+  the natural map `(∏ A)_t → ∏ A_t` misses `(t⁻ⁿ)_{n≥0}`: a fraction in the
+  source has one denominator `t^r`, whereas its coordinate `n=r+1` cannot
+  equal `t⁻ⁿ`. For arbitrary complexes the general description uses the sheaf
+  associated to `D(f) ↦ Ext^i_{A_f}(M_f,N_f)`
+  ([Stacks, Lemma 36.10.8(4)](https://stacks.math.columbia.edu/tag/0A6H)).
+  Global Ext under `DQCoh.affineEquiv` remains distinct from internal sheaf Ext.
 - `test_pullback_identity`, `test_pushforward_projective_line` (`Rf_* O(−2) = k[−1]` for `ℙ¹_k →
   Spec k`), `test_pullback_affine_tensor` (`Lf^* M~` has cohomology `Tor_i^A(M, B)~` in degree `−i`),
   `test_underived_pullback_not_exact`.
@@ -4026,8 +4041,10 @@ relatively ample, `R¹ f_* O_C` locally free of rank `g`), morphisms the isomorp
 families (de Jong 1996, 2.24, p. 62). API: `Mbar.isStack` (fppf descent of stable families, from
 StableReduction Layer 2's polarised descent), `Mbar.smooth` (the open substack `M_{g,n}` of smooth
 families), `Mbar.pullback`, `Mbar.aut_finite` (automorphism groups of stable curves over fields are
-finite), `Mbar.forget` (for `2g − 2 + n − 1 > 0`, the morphism `M̄_{g,n+1} → M̄_{g,n}` forgetting the
-last point and stabilising, StableReduction Layer 9's). Prove `isom_stable_curves`: for stable
+finite), `Mbar.forget` (for `2g − 2 + n > 0`, the morphism `M̄_{g,n+1} → M̄_{g,n}` forgetting the
+last marking and stabilising, compatible with StableReduction Layer 9; its identification
+with the universal curve supplies the added-marking induction, Knudsen II, Corollary 2.6
+and Theorem 2.7, p. 179). Prove `isom_stable_curves`: for stable
 pointed families `C, C'` over `S`, `Isom_S(C, C')` is a finite unramified `S`-scheme (Deligne–Mumford
 1969, §1, Theorem (1.11), pp. 84–85). Prove `Mbar_algebraic_proper_DM`: `M̄_{g,n}` is a proper
 Deligne–Mumford stack over `Spec ℤ` (§1.19–§1.20), with `M_{g,n}` open dense (Deligne–Mumford 1969,
@@ -4087,8 +4104,9 @@ kills the automorphisms on the prime-to-level opens by the same torsion argument
 Its normalized cover is finite over the compactified `j`-line and hence projective;
 prove this finite-map comparison using ModularCurves §9D's coarse-moduli quotient.
 At `(0,3)` the Jacobian is trivial and the normalization is `Spec ℤ`.
-For each extra marking, use the projective universal stable curve
-`M̄_{g,n+1} → M̄_{g,n}` supplied by stabilization and the relatively ample log-dualizing
+For each extra marking, apply `Mbar.forget` with target bound `2g−2+n>0`, including
+`(g,n)=(0,3)` and `(1,1)`. Its projective universal stable curve
+`M̄_{g,n+1} → M̄_{g,n}` comes from stabilization and the relatively ample log-dualizing
 bundle (StableReduction Layers 2, 3, 9). Pull back the normalized finite cover and
 prove that its normal total space is the normalization for the added marking: the
 finite maps agree on the dense smooth distinct-marking locus, and normalization
@@ -4120,6 +4138,12 @@ ModularCurves §§3D, 9D; Mathlib `IsStack`, `Functor.IsFibered`,
 `Scheme.Hom.normalization`, `Scheme.Hom.normalizationPullback`.
 
 **Checks.**
+- `Mbar.forget_zero_four`: `M̄_{0,4} → M̄_{0,3}` is in range since
+  `2·0−2+3=1>0`.
+- `Mbar.forget_one_two`: `M̄_{1,2} → M̄_{1,1}` is in range since
+  `2·1−2+1=1>0`.
+- `Mbar.forget_zero_three_excluded`: `M̄_{0,3} → M̄_{0,2}` has target expression
+  `2·0−2+2=0`; it is excluded from the stable-target assertion despite its stable source.
 - `level_structure_cover_normalization_characteristic_three`: with `m=15`, the
   integral normalization has points in characteristic three; `5` is invertible
   there, so the level-five map proves trivial stabilizers. On an excellent normal
