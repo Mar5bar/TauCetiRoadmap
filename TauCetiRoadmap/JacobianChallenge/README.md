@@ -110,8 +110,14 @@ milestones in `Suggested.lean` (with `sorry`).
 ### Layer C, relative coherent cohomology and base change
 The part that the classical "Sym^g" story quietly relies on, so it comes *before* Picard.
 - Proper-flat-finitely-presented pushforward of coherent sheaves; **flat base change**;
-  **cohomology and base change / semicontinuity** (Grauert), and the theorem on formal
-  functions if following Grothendieck's Picard-scheme proof.
+  **cohomology and base change / semicontinuity** (Grauert), and, if following
+  Grothendieck's Picard-scheme proof, the theorem on formal functions. That theorem is
+  consumed here, not proved here: its general form is owned by SchemeAndStackFoundations
+  §4.9, exported as `Scheme.Modules.Cohomology.formalFunctionsIso` in
+  `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`. The proper coherent
+  cohomology finiteness and coherent higher-direct-image results above are its inputs, and
+  the Picard construction of Layer D is its consumer; this layer builds no second completion
+  or formal-functions API.
 - **Relative effective Cartier divisors** and **symmetric powers** `Symᵈ X` (smooth
   projective for a smooth curve): the geometric input to the Abel maps.
 
