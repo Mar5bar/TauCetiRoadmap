@@ -305,10 +305,13 @@ The following exact algebraic suppliers are used directly:
   representation on an invariant quotient.
 - `Representation.invariants` in `Mathlib/RepresentationTheory/Invariants.lean` supplies
   subgroup invariants by restriction of the representation.
-- `Representation.Coinvariants`, `Representation.Coinvariants.mk` in
-  `Mathlib/RepresentationTheory/Coinvariants.lean` supply ordinary coinvariants. The
-  Whittaker quotient records the ψ-twisted relation explicitly and must be identified with
-  the ordinary coinvariants of the inverse character twist.
+- `Representation.Coinvariants`, `Representation.Coinvariants.ker`, `Representation.Coinvariants.mk`,
+  `Representation.Coinvariants.lift`, `Representation.Coinvariants.lift_comp_mk`,
+  `Representation.Coinvariants.hom_ext`, `Representation.Coinvariants.map` and
+  `Representation.Coinvariants.map_mk` in `Mathlib/RepresentationTheory/Coinvariants.lean`
+  supply the Whittaker carrier and quotient API, applied to `Representation.charTwist ψ⁻¹ ρ`.
+  `WhittakerCoinvariants` and its `mk` are definitional aliases. The explicit ψ-relation is
+  their presentation theorem, valid over every commutative coefficient ring.
 - `LinearMap.eventually_isCompl_ker_pow_range_pow` in
   `Mathlib/RingTheory/Artinian/Module.lean` supplies Fitting decomposition on Noetherian Artinian
   modules. `StableOperator` allows arbitrary modules and asks for such a decomposition
@@ -348,9 +351,14 @@ of the tame quotient, consumed by the finite-wild discretisation).
 
 `Representation.ofLinearCharacter` in `TauCeti/RepresentationTheory/LinearCharacter/Basic.lean`
 supplies the character representation over any commutative semiring. `Representation.charTwist`,
-`Representation.charTwist_one` and `Representation.charTwist_charTwist` in
-`TauCeti/RepresentationTheory/CharacterTwist.lean` supply twisting. SR.0 adds the open-kernel
-criterion and the functor on smooth representations. `TauCeti.IsCrossedHom` in
+`Representation.charTwist_apply_apply`, `Representation.charTwist_one`,
+`Representation.charTwist_charTwist`, `Representation.charTwist_trivial`,
+`Representation.tprodEquivCharTwist`, `Representation.subrepresentationCharTwistOrderIso`
+and `Representation.isIrreducible_charTwist_iff` in
+`TauCeti/RepresentationTheory/CharacterTwist.lean` supply the algebraic twist and its API.
+`Representation.twist ρ χ` abbreviates `Representation.charTwist χ ρ` with the arguments reversed.
+SR.0 adds the open-kernel criterion and smooth functor. The unramified action, parabolic
+normalization, Bernstein families and derivative twists all use this same supplier action. `TauCeti.IsCrossedHom` in
 `TauCeti/Topology/Algebra/Group/CrossedHom.lean` treats additive ring-valued crossed maps;
 SR.6's `CrossedCocycle` instead has an arbitrary, possibly noncommutative, target group.
 
@@ -752,6 +760,10 @@ compatible with invariants under compact open subgroups contained in ker χ. Pro
 - `isSmoothCharacter_one`: the trivial character is smooth and twisting by it is the identity.
 - `not_isSmoothCharacter_padicExp`: x ↦ (1+p)^x, ℤ_p → ℤ_p^×, is not smooth with ℤ_p^× discrete.
 
+
+Checks: `Representation.twist_one`, `Representation.twist_product` and
+`Representation.twist_value` specialize the supplier's trivial-character, successive-twist
+and χ(g)ρ(g)v formulas, respectively.
 
 `SmoothRep.twist_composition`, `SmoothRep.twist_inverse`, `SmoothRep.twist_exact` and `SmoothRep.twist_invariants` specify the functorial identities and the invariants when the twisting character is trivial on the subgroup.
 
@@ -1979,7 +1991,8 @@ smooth G-representation V, and prove `SmoothRep.whittakerFunctionals_equiv_hom_i
 Hom_U(V, ψ) ≃ Hom_G(V, Ind_U^G ψ) by Frobenius reciprocity; V is ψ-generic if this is nonzero.
 The Gelfand–Graev representation is c-Ind_U^G ψ. Whittaker data (B, ψ) are acted on by T(F) and
 conjugation, and genericity depends only on the T(F)-orbit of ψ. Define `SmoothRep.twistedJacquet`,
-the twisted Jacquet module V_{U,ψ} := V/span{ρ(u)v − ψ(u)v}, and prove
+the canonical inverse-twist coinvariants `WhittakerCoinvariants` with presentation
+V/span{ρ(u)v − ψ(u)v}, and prove
 (V_{U,ψ})* ≃ Hom_U(V, ψ), so that it is dual to Whittaker functionals. For G = GL_2(F), A = ℂ, nontrivial smooth ψ and irreducible smooth V of infinite
 dimension, prove `SmoothRep.whittakerMultiplicityOne_gl2`: both V_{U,ψ} and
 Hom_U(V,ψ) have dimension one, and there is a unique G-subrepresentation of Ind_U^G ψ
@@ -3273,13 +3286,23 @@ explains why endomorphisms of generic objects are scalars after any coefficient 
 ### SR.5.1 Derivatives
 
 **Whittaker coinvariants** (*twisted-coinvariants*). For an A-linear U-action ρ and a character
-ψ : U → Aˣ, define V_{U,ψ} as V modulo the A-span of ρ(u)v − ψ(u)v. Prove
+ψ : U → Aˣ, take V_{U,ψ} to be Mathlib's `Representation.Coinvariants`
+of Tau Ceti's `Representation.charTwist ψ⁻¹ ρ`, with the canonical `Coinvariants.mk`.
+`WhittakerCoinvariants.presentation` identifies its relation submodule with the A-span of
+ρ(u)v − ψ(u)v: multiplying the supplier generator ψ(u)⁻¹ρ(u)v − v by the unit ψ(u)
+gives that relation, and multiplying back by ψ(u)⁻¹ gives the reverse inclusion. Prove
 `WhittakerCoinvariants.relation`, that the image of ρ(u)v equals ψ(u) times the image of v;
 `WhittakerCoinvariants.lift`, that a linear map satisfying that relation factors uniquely through
-the quotient; and `WhittakerCoinvariants.tensor`, that tensoring with any coefficient module
-commutes with this quotient. For the maximal unipotent subgroup of GL_n and a nondegenerate
+the quotient, using the supplier's `lift` and `hom_ext`; and `WhittakerCoinvariants.tensor`,
+that tensoring with any coefficient module commutes with the canonical inverse-twist
+coinvariants, sending m ⊗ mk(v) to mk(m ⊗ v). No flatness hypothesis is needed. For the maximal unipotent subgroup of GL_n and a nondegenerate
 smooth ψ, this is the top Bernstein–Zelevinsky derivative. Ordinary coinvariants are already in
-Mathlib and occur when ψ = 1 ([EH] §3.1, pp. 12–15; [Hel12] §3, pp. 4–5). *Needs:* layer SR.0.
+Mathlib and occur by `charTwist_one` when ψ = 1 ([EH] §3.1, pp. 12–15;
+[Hel12] §3, pp. 4–5). `SmoothRep.twistedJacquet`, `BZDerivative.module`, its `action_mk`
+and arbitrary `baseChange` formulas, Generic, EssentiallyAIG, CoWhittaker and
+`UniversalWhittaker.represents_block` all use this carrier and this vector image.
+The universal object requires the block projection and the stated GL_n and generic-character
+hypotheses. *Needs:* layer SR.0.
 
 **Checks.**
 
@@ -3288,6 +3311,13 @@ Mathlib and occur when ψ = 1 ([EH] §3.1, pp. 12–15; [Hel12] §3, pp. 4–5).
 - `WhittakerCoinvariants.trivialGroup`: for U = 1 the quotient map is an isomorphism.
 - `WhittakerCoinvariants.incompatibleCharacter`: a trivial rank-one action and a ψ value with
   ψ(u) − 1 invertible have zero Whittaker quotient.
+- `WhittakerCoinvariants.mk_supplier`: every vector maps to the canonical supplier class.
+- `WhittakerCoinvariants.mk_inverse`: the action entering the supplier is ψ(u)⁻¹ρ(u).
+- `WhittakerCoinvariants.mk_trivial`: at ψ=1 the quotient map specializes to ordinary `Coinvariants.mk`.
+- `WhittakerCoinvariants_rankOne`: the ψ-character line has quotient A, with mk(a) sent to a.
+- `WhittakerCoinvariants_zeroDivisor`: for C₂=(ℤ/6)ˣ, the trivial line and the sign character
+  give A/(2); mk(1) is nonzero. A nontrivial character alone does not force vanishing.
+- `WhittakerCoinvariants_inverseValue`: at ψ(2)=2 over ℚ, the inverse twist acts on 1 by 1/2.
 
 **Mirabolic functors and derivatives** (*mirabolic-derivatives*). For this target and the next
 two, let k be a perfect field of characteristic ℓ ≠ p and A a Noetherian W(k)-algebra. After
@@ -3827,9 +3857,27 @@ tame invariant quotient. The normalizer condition and the finite action are esse
 ([DHKM1] Lemmas 2.7–2.9, pp. 7–8). *Needs:* *wild-strata*,
 *twisted-component-finiteness*.
 
-`TameTorus.normalizerIdeal` defines the scheme normalizer by conjugation over every coefficient algebra. `TameTorus.fixedTorusIdeal_characterization` specifies the maximal fixed split subtorus; it does not replace the fixed subgroup by its full, possibly disconnected kernel. `TameTorus.normalizerLocusIdeal_points` and `TameTorus.equationIdeal_points` give the equations for N_s and A_s. `TameTorus.fixedTorusIdeal_isogeny` states finite faithful flatness of the relative isogeny with its two coordinates, `TameTorus.equationIdeal_finite` pins the finite projection by the second tensor inclusion, and `TameTorus.equationIdeal_quotient` gives a representative above every geometric quotient point.
+`TameTorus.normalizerIdeal` takes a finitely presented affine coordinate Hopf algebra H
+and a Hopf ideal T whose quotient is a split torus. Its universal property
+`TameTorus.normalizerIdeal_points` tests conjugation after every coefficient-algebra extension,
+including non-flat algebras. This is the split-torus case of Conrad, *Reductive Group Schemes*,
+Proposition 2.1.2, printed p. 56. Finite presentation and the split-torus hypothesis are arguments
+of the normalizer, normalizer-locus and relation-locus constructors and therefore of their
+point, exclusion and specialization interfaces. In the tame application, smoothness of the
+reductive ambient group supplies finite presentation and T is the split maximal torus of the
+preserved Borel pair. `TameTorus.fixedTorusIdeal_characterization` specifies the maximal fixed split subtorus; it does not replace the fixed subgroup by its full, possibly disconnected kernel. `TameTorus.normalizerLocusIdeal_points` and `TameTorus.equationIdeal_points` give the equations for N_s and A_s. `TameTorus.fixedTorusIdeal_isogeny` states finite faithful flatness of the relative isogeny with its two coordinates, `TameTorus.equationIdeal_finite` pins the finite projection by the second tensor inclusion, and `TameTorus.equationIdeal_quotient` gives a representative above every geometric quotient point.
 
-Checks: `TameTorus.normalizerIdeal_whole`, `TameTorus.normalizerIdeal_commutative`, and `TameTorus.normalizerIdeal_excludes` test the whole group, a commutative group, and a point moving the torus. `TameTorus.fixedTorusIdeal_identity`, `TameTorus.fixedTorusIdeal_inversion`, and `TameTorus.fixedTorusIdeal_subtorus` distinguish the fixed subtorus from torsion in the fixed subgroup. `TameTorus.normalizerLocusIdeal_identity`, `TameTorus.normalizerLocusIdeal_untwisted`, and `TameTorus.normalizerLocusIdeal_excludes` test both normalizer equations. `TameTorus.equationIdeal_identity`, `TameTorus.equationIdeal_split`, and `TameTorus.equationIdeal_one` test t=1, the (q−1)-power kernel, and failure of finiteness when q=1.
+Checks: `TameTorus.normalizerIdeal_whole`, `TameTorus.normalizerIdeal_commutative`, and `TameTorus.normalizerIdeal_excludes` test a whole split torus, a split-torus subgroup of a commutative finitely presented affine group,
+and a point moving the torus, within the same valid domain. `TameTorus.fixedTorusIdeal_identity`, `TameTorus.fixedTorusIdeal_inversion`, and `TameTorus.fixedTorusIdeal_subtorus` distinguish the fixed subtorus from torsion in the fixed subgroup. `TameTorus.normalizerLocusIdeal_identity`, `TameTorus.normalizerLocusIdeal_untwisted`, and `TameTorus.normalizerLocusIdeal_excludes` test both normalizer equations. `TameTorus.equationIdeal_identity`, `TameTorus.equationIdeal_split`, and `TameTorus.equationIdeal_one` test t=1, the (q−1)-power kernel, and failure of finiteness when q=1.
+
+Checks: `TameTorus.normalizerIdeal_nonflat` uses the subgroup
+U(S)={[[1,x],[0,1]] : 2x=0} of GL₂ over ℤ, whose coordinate ring ℤ[t]/(2t) has nonzero
+2-torsion and is not flat. `TameTorus.normalizerIdeal_invertTwo` checks that U becomes the
+identity after inverting 2. `TameTorus.normalizerIdeal_swap` computes that over 𝔽₂ the swap
+matrix conjugates [[1,1],[0,1]] to [[1,0],[1,1]], outside U. Thus no closed ideal in
+ℤ[GL₂] can represent this normalizer on all coefficient algebras: it would vanish after
+inverting 2, hence vanish already since ℤ[GL₂] has no 2-torsion, contradicting the 𝔽₂ test.
+The subgroup hypothesis cannot be replaced by a condition only on the ambient group.
 
 **Finite Frobenius evaluation on cocycle quotients** (*frobenius-quotient-finite*). Prove that
 the Frobenius evaluation Z¹(W_F⁰/P_F^e, Ĥ)//Ĥ → (Ĥ ⋊ Fr)//Ĥ to the twisted Frobenius component is
@@ -3998,6 +4046,8 @@ families of Galois representations of the modularity-lifting roadmaps are matche
 integral local families of SR.5.
 
 ## References
+
+- [Conrad] B. Conrad, *Reductive Group Schemes*, [Proposition 2.1.2, printed p. 56](https://math.stanford.edu/~conrad/papers/luminysga3.pdf#page=56).
 
 Locators use the printed page numbers of the following editions.
 

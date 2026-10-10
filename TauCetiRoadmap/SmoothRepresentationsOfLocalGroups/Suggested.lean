@@ -5,6 +5,7 @@ import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCeti.NumberTheory.HeckeRing.Associativity
 import TauCeti.RepresentationTheory.BaseChange
 import TauCeti.RepresentationTheory.LinearCharacter.Basic
+import TauCeti.RepresentationTheory.CharacterTwist
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 
 /-!
@@ -1288,26 +1289,75 @@ end HallLittlewood
 section Whittaker
 variable {A U V : Type*} [CommRing A] [Group U] [AddCommGroup V] [Module A V]
 abbrev WhittakerCoinvariants (rho : Representation A U V) (psi : U →* Aˣ) :=
-  V ⧸ Submodule.span A {z | ∃ (u : U) (v : V), z = rho u v - (psi u : A) • v}
+  _root_.Representation.Coinvariants (_root_.Representation.charTwist psi⁻¹ rho)
 namespace WhittakerCoinvariants
 abbrev mk (rho : Representation A U V) (psi : U →* Aˣ) :
-    V →ₗ[A] WhittakerCoinvariants rho psi := Submodule.mkQ _
+    V →ₗ[A] WhittakerCoinvariants rho psi :=
+  _root_.Representation.Coinvariants.mk (_root_.Representation.charTwist psi⁻¹ rho)
+
+/-- The ψ-relations present the canonical coinvariants of the inverse twist.
+Multiplying each supplier generator by the unit ψ(u) gives the displayed generator. -/
+theorem presentation (rho : Representation A U V) (psi : U →* Aˣ) :
+    _root_.Representation.Coinvariants.ker (_root_.Representation.charTwist psi⁻¹ rho) =
+      Submodule.span A {z | ∃ (u : U) (v : V), z = rho u v - (psi u : A) • v} := sorry
+
+/- Check `WhittakerCoinvariants.mk_supplier`: every vector has exactly its canonical supplier image. -/
+example (rho : Representation A U V) (psi : U →* Aˣ) (v : V) :
+    mk rho psi v =
+      _root_.Representation.Coinvariants.mk (_root_.Representation.charTwist psi⁻¹ rho) v := rfl
+
+/- Check `WhittakerCoinvariants.mk_inverse`: the supplier action uses ψ⁻¹, with no condition on A. -/
+example (rho : Representation A U V) (psi : U →* Aˣ) (u : U) (v : V) :
+    _root_.Representation.charTwist psi⁻¹ rho u v = ((psi u)⁻¹ : Aˣ) • rho u v := rfl
+
+/- Check `WhittakerCoinvariants.mk_trivial`: ψ=1 specializes the canonical map to ordinary coinvariants. -/
+example (rho : Representation A U V) :
+    HEq (mk rho (1 : U →* Aˣ)) (_root_.Representation.Coinvariants.mk rho) := by
+  have h : _root_.Representation.charTwist (1 : U →* Aˣ)⁻¹ rho = rho := by
+    have hψ : (1 : U →* Aˣ)⁻¹ = 1 := by ext u; simp
+    exact (congrArg (fun χ => _root_.Representation.charTwist χ rho) hψ).trans
+      (_root_.Representation.charTwist_one rho)
+  have transport (σ τ : Representation A U V) (e : σ = τ) :
+      HEq (_root_.Representation.Coinvariants.mk σ) (_root_.Representation.Coinvariants.mk τ) := by
+    cases e
+    rfl
+  exact transport _ _ h
+
 theorem relation (rho : Representation A U V) (psi : U →* Aˣ) (u : U) (v : V) :
     mk rho psi (rho u v) = (psi u : A) • mk rho psi v := sorry
 theorem lift {M : Type*} [AddCommGroup M] [Module A M]
     (rho : Representation A U V) (psi : U →* Aˣ) (f : V →ₗ[A] M)
     (hf : ∀ u v, f (rho u v) = (psi u : A) • f v) :
-    ∃! b : WhittakerCoinvariants rho psi →ₗ[A] M, b.comp (mk rho psi) = f := sorry
-/-- The tensor relation quotient is explicit, so no flatness is assumed. -/
+    ∃! b : WhittakerCoinvariants rho psi →ₗ[A] M, b.comp (mk rho psi) = f := by
+  have h : ∀ u, f ∘ₗ (_root_.Representation.charTwist psi⁻¹ rho) u = f := by
+    intro u
+    ext v
+    simp only [LinearMap.comp_apply, _root_.Representation.charTwist_apply_apply,
+      map_smul, hf, MonoidHom.inv_apply]
+    simp [smul_smul]
+  refine ⟨_root_.Representation.Coinvariants.lift _ f h,
+    _root_.Representation.Coinvariants.lift_comp_mk _ f h, ?_⟩
+  intro b hb
+  apply _root_.Representation.Coinvariants.hom_ext
+  exact hb.trans (_root_.Representation.Coinvariants.lift_comp_mk _ f h).symm
+/-- Tensoring the canonical inverse-twist coinvariants needs no flatness. -/
 theorem tensor {M : Type*} [AddCommGroup M] [Module A M]
     (rho : Representation A U V) (psi : U →* Aˣ) :
-    Nonempty ((M ⊗[A] WhittakerCoinvariants rho psi) ≃ₗ[A]
-      (M ⊗[A] V) ⧸ Submodule.span A
-        {z | ∃ (u : U) (m : M) (v : V),
-          z = m ⊗ₜ[A] rho u v - (psi u : A) • (m ⊗ₜ[A] v)}) := sorry
+    ∃ e : (M ⊗[A] WhittakerCoinvariants rho psi) ≃ₗ[A]
+      WhittakerCoinvariants ((_root_.Representation.trivial A U M).tprod rho) psi,
+      ∀ m v, e (m ⊗ₜ[A] mk rho psi v) = mk _ psi (m ⊗ₜ[A] v) := sorry
 theorem trivialCharacter (rho : Representation A U V) :
     Nonempty (WhittakerCoinvariants rho (1 : U →* Aˣ) ≃ₗ[A]
-      Representation.Coinvariants rho) := sorry
+      Representation.Coinvariants rho) := by
+  have h : _root_.Representation.charTwist (1 : U →* Aˣ)⁻¹ rho = rho := by
+    have hψ : (1 : U →* Aˣ)⁻¹ = 1 := by ext u; simp
+    exact (congrArg (fun χ => _root_.Representation.charTwist χ rho) hψ).trans
+      (_root_.Representation.charTwist_one rho)
+  have transport (σ τ : Representation A U V) (e : σ = τ) :
+      Nonempty (σ.Coinvariants ≃ₗ[A] τ.Coinvariants) := by
+    cases e
+    exact ⟨LinearEquiv.refl A _⟩
+  exact transport _ _ h
 theorem trivialGroup (rho : Representation A Unit V) (psi : Unit →* Aˣ) :
     Function.Bijective (mk rho psi) := sorry
 theorem incompatibleCharacter (psi : U →* Aˣ) (u : U)
@@ -1316,13 +1366,36 @@ theorem incompatibleCharacter (psi : U →* Aˣ) (u : U)
 /- Check `WhittakerCoinvariants.trivialCharacter`: for ψ = 1 the quotient agrees with Mathlib's ordinary coinvariants. -/
 example (rho : Representation A U V) :
     Nonempty (WhittakerCoinvariants rho (1 : U →* Aˣ) ≃ₗ[A]
-      Representation.Coinvariants rho) := sorry
+      Representation.Coinvariants rho) := trivialCharacter rho
 /- Check `WhittakerCoinvariants.trivialGroup`: for U = 1 the quotient map is an isomorphism. -/
 example (rho : Representation A Unit V) (psi : Unit →* Aˣ) :
     Function.Bijective (mk rho psi) := sorry
 /- Check `WhittakerCoinvariants.incompatibleCharacter`: a trivial rank-one action and a ψ value with ψ(u) − 1 invertible have zero Whittaker quotient. -/
 example (psi : U →* Aˣ) (u : U) (h : IsUnit ((psi u : A) - 1)) :
     Subsingleton (WhittakerCoinvariants (Representation.trivial A U A) psi) := sorry
+/- Check `WhittakerCoinvariants_rankOne`: matching a character line with ψ leaves the coefficient line. -/
+example (psi : U →* Aˣ) :
+    ∃ e : WhittakerCoinvariants (_root_.Representation.ofLinearCharacter psi) psi ≃ₗ[A] A,
+      ∀ a, e (mk _ psi a) = a := sorry
+
+/- Check `WhittakerCoinvariants_zeroDivisor`: C₂ = (ℤ/6)ˣ with its sign character
+has quotient A/(2), and the canonical image of 1 is nonzero. -/
+example :
+    let A := ZMod 6
+    let rho := _root_.Representation.trivial A Aˣ A
+    let psi := MonoidHom.id Aˣ
+    let I : Ideal A := Ideal.span {2}
+    Fintype.card Aˣ = 2 ∧
+      (∃ e : WhittakerCoinvariants rho psi ≃ₗ[A] A ⧸ I,
+        ∀ a, e (mk rho psi a) = Ideal.Quotient.mk I a) ∧
+      mk rho psi 1 ≠ 0 := sorry
+
+/- Check `WhittakerCoinvariants_inverseValue`: at ψ(2)=2 over ℚ the inverse twist acts by 1/2. -/
+example :
+    _root_.Representation.charTwist (MonoidHom.id ℚˣ)⁻¹
+      (_root_.Representation.trivial ℚ ℚˣ ℚ) (Units.mk0 2 (by norm_num)) 1 = (1/2 : ℚ) := by
+  norm_num [_root_.Representation.charTwist_apply_apply]
+
 end WhittakerCoinvariants
 end Whittaker
 
@@ -3138,11 +3211,25 @@ theorem modulusCharacter_eq_modularCharacter (L : LeviDecomposition (G := G))
       (MeasureTheory.Measure.modularCharacter g : ℝ) := sorry
 
 /-- Twisting changes the action on the same coefficient module. -/
-def Representation.twist {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
-    (ρ : Representation A G V) (χ : G →* Aˣ) : Representation A G V where
-  toFun g := (χ g : A) • ρ g
-  map_one' := by sorry
-  map_mul' := by sorry
+abbrev Representation.twist {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
+    (ρ : Representation A G V) (χ : G →* Aˣ) : Representation A G V :=
+  _root_.Representation.charTwist χ ρ
+
+/- Check `Representation.twist_one`: the trivial character leaves the supplier action unchanged. -/
+example {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
+    (ρ : Representation A G V) : Representation.twist ρ 1 = ρ :=
+  _root_.Representation.charTwist_one ρ
+
+/- Check `Representation.twist_product`: successive twists multiply the characters in the supplier. -/
+example {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
+    (ρ : Representation A G V) (χ ψ : G →* Aˣ) :
+    Representation.twist (Representation.twist ρ ψ) χ = Representation.twist ρ (χ * ψ) :=
+  _root_.Representation.charTwist_charTwist χ ψ ρ
+
+/- Check `Representation.twist_value`: twisting multiplies, rather than divides, each action by χ(g). -/
+example {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
+    (ρ : Representation A G V) (χ : G →* Aˣ) (g : G) (v : V) :
+    Representation.twist ρ χ g v = (χ g : A) • ρ g v := rfl
 
 abbrev SmoothRep.twist {A : Type u} [CommRing A] (V : SmoothRep A G)
     (χ : G →* Aˣ) (hχ : IsSmoothCharacter χ) : SmoothRep A G :=
@@ -3964,7 +4051,7 @@ def character (n r : ℕ) (ψ : Multiplicative F →* Aˣ) : unipotent (F := F) 
   map_one' := by sorry
   map_mul' := by sorry
 
-/-- The derivative module is the explicit twisted relation quotient. -/
+/-- The derivative module uses canonical coinvariants of the inverse character twist. -/
 abbrev module (n r : ℕ) (ψ : Multiplicative F →* Aˣ) (ρ : Representation A (GL (Fin n) F) V) :=
   WhittakerCoinvariants (ρ.comp (unipotent n r).subtype) (character n r ψ)
 
@@ -14733,42 +14820,74 @@ theorem highestDerivative_involution (s : List (Segment (F := F)))
 end Zelevinsky
 
 namespace TameTorus
+section Normalizer
 variable {R : Type} [CommRing R]
   (H : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} R) (T : TauCeti.HopfIdeal R H)
+  (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T))
 
-/-- The closed scheme normalizer of the torus. Extension of coefficients in the
-point equation is essential: preservation only on R-points does not define a normalizer. -/
-def normalizerIdeal (T : TauCeti.HopfIdeal R H) : TauCeti.HopfIdeal R H := sorry
+/-- The closed normalizer of a split torus in a finitely presented affine group.
+Conrad, Reductive Group Schemes, Proposition 2.1.2, p. 56. The point equation
+tests conjugation after every coefficient extension. -/
+def normalizerIdeal [Algebra.FinitePresentation R H] (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) : TauCeti.HopfIdeal R H := sorry
+
+variable [Algebra.FinitePresentation R H]
 
 theorem normalizerIdeal_points (B : Type) [CommRing B] [Algebra R B]
     (n : WithConv (H →ₐ[R] B)) :
-    (normalizerIdeal H T).toIdeal ≤ RingHom.ker n.ofConv.toRingHom ↔
+    (normalizerIdeal H T hT).toIdeal ≤ RingHom.ker n.ofConv.toRingHom ↔
       ∀ (C : Type) [CommRing C] [Algebra R C] (f : B →ₐ[R] C)
         (t : WithConv (H →ₐ[R] C)),
         T.toIdeal ≤ RingHom.ker t.ofConv.toRingHom ↔
           T.toIdeal ≤ RingHom.ker
             ((TauCeti.AlgHom.mapValue f n)*t*(TauCeti.AlgHom.mapValue f n)⁻¹).ofConv.toRingHom := sorry
 
-theorem normalizerIdeal_whole : normalizerIdeal H ⊥ = ⊥ := sorry
+theorem normalizerIdeal_whole
+    (hWhole : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H ⊥)) : normalizerIdeal H ⊥ hWhole = ⊥ := sorry
 /- Check `TameTorus.normalizerIdeal_whole`: the whole group is normalized by every point. -/
-example : normalizerIdeal H ⊥ = ⊥ := sorry
+example (hWhole : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H ⊥)) : normalizerIdeal H ⊥ hWhole = ⊥ := sorry
 
 theorem normalizerIdeal_commutative
     (h : ∀ (B : Type) [CommRing B] [Algebra R B] (x y : WithConv (H →ₐ[R] B)), x*y = y*x) :
-    normalizerIdeal H T = ⊥ := sorry
+    normalizerIdeal H T hT = ⊥ := sorry
 /- Check `TameTorus.normalizerIdeal_commutative`: conjugation imposes no condition in a commutative group scheme. -/
 example (h : ∀ (B : Type) [CommRing B] [Algebra R B]
-    (x y : WithConv (H →ₐ[R] B)), x*y = y*x) : normalizerIdeal H T = ⊥ := sorry
+    (x y : WithConv (H →ₐ[R] B)), x*y = y*x) : normalizerIdeal H T hT = ⊥ := sorry
 
 theorem normalizerIdeal_excludes (B : Type) [CommRing B] [Algebra R B]
     (n t : WithConv (H →ₐ[R] B)) (ht : T.toIdeal ≤ RingHom.ker t.ofConv.toRingHom)
     (hnt : ¬ T.toIdeal ≤ RingHom.ker (n*t*n⁻¹).ofConv.toRingHom) :
-    ¬ (normalizerIdeal H T).toIdeal ≤ RingHom.ker n.ofConv.toRingHom := sorry
+    ¬ (normalizerIdeal H T hT).toIdeal ≤ RingHom.ker n.ofConv.toRingHom := sorry
 /- Check `TameTorus.normalizerIdeal_excludes`: a point moving the torus outside itself is rejected. -/
 example (B : Type) [CommRing B] [Algebra R B] (n t : WithConv (H →ₐ[R] B))
     (ht : T.toIdeal ≤ RingHom.ker t.ofConv.toRingHom)
     (hnt : ¬ T.toIdeal ≤ RingHom.ker (n*t*n⁻¹).ofConv.toRingHom) :
-    ¬ (normalizerIdeal H T).toIdeal ≤ RingHom.ker n.ofConv.toRingHom := sorry
+    ¬ (normalizerIdeal H T hT).toIdeal ≤ RingHom.ker n.ofConv.toRingHom := sorry
+
+/- Check `TameTorus.normalizerIdeal_nonflat`: the subgroup U(S) = {u(x) : 2x = 0}
+has coordinate ring ℤ[t]/(2t), nonzero 2-torsion, and is not flat over ℤ. -/
+example :
+    let I : Ideal (Polynomial ℤ) := Ideal.span {2 * Polynomial.X}
+    let t := Ideal.Quotient.mk I Polynomial.X
+    t ≠ 0 ∧ (2 : Polynomial ℤ ⧸ I) * t = 0 ∧ ¬ Module.Flat ℤ (Polynomial ℤ ⧸ I) := sorry
+
+/- Check `TameTorus.normalizerIdeal_invertTwo`: after inverting 2, U is the identity subgroup. -/
+example (S : Type) [CommRing S] [Algebra ℤ S] (h : IsUnit (2 : S)) (x : S) :
+    (2 : S) * x = 0 ↔ x = 0 := by
+  exact h.mul_right_eq_zero
+
+/- Check `TameTorus.normalizerIdeal_swap`: on the F₂ fibre the swap matrix carries
+u(1) to a lower unipotent matrix outside U. -/
+example :
+    let w : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![0, 1; 1, 0]
+    let v : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![1, 1; 0, 1]
+    w * w = 1 ∧ w * v * w = !![1, 0; 1, 1] ∧
+      ¬ ∃ x : ZMod 2, w * v * w = !![1, x; 0, 1] := by decide
+
+end Normalizer
+
+variable {R : Type} [CommRing R]
+  (H : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} R) (T : TauCeti.HopfIdeal R H)
 
 /-- The maximal split subtorus of the fixed torus. The universal characterization
 below distinguishes it from the possibly disconnected or nonreduced fixed subgroup. -/
@@ -14839,68 +14958,87 @@ variable {R : Type} [CommRing R]
 
 /-- The inverse image of the s-fixed Weyl cosets, cut further by the fixed-subtorus
 condition n s^q(n)⁻¹ ∈ T^{s,0}. -/
-def normalizerLocusIdeal (T : TauCeti.HopfIdeal R H) (σ : Aut H.obj) (q : ℕ) :
+def normalizerLocusIdeal [Algebra.FinitePresentation R H] (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ : Aut H.obj) (q : ℕ) :
     Ideal H := sorry
 
-theorem normalizerLocusIdeal_points (T : TauCeti.HopfIdeal R H) (σ : Aut H.obj) (q : ℕ)
+section NormalizerLocus
+variable [Algebra.FinitePresentation R H]
+
+theorem normalizerLocusIdeal_points (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ : Aut H.obj) (q : ℕ)
     (B : Type) [CommRing B] [Algebra R B] (n : WithConv (H →ₐ[R] B)) :
-    normalizerLocusIdeal H T σ q ≤ RingHom.ker n.ofConv.toRingHom ↔
-      (normalizerIdeal H T).toIdeal ≤ RingHom.ker n.ofConv.toRingHom ∧
+    normalizerLocusIdeal H T hT σ q ≤ RingHom.ker n.ofConv.toRingHom ↔
+      (normalizerIdeal H T hT).toIdeal ≤ RingHom.ker n.ofConv.toRingHom ∧
       T.toIdeal ≤ RingHom.ker
         (n * (WithConv.toConv (n.ofConv.comp σ.inv.hom.toAlgHom))⁻¹).ofConv.toRingHom ∧
       (fixedTorusIdeal H T σ).toIdeal ≤ RingHom.ker
         (n * (WithConv.toConv (n.ofConv.comp (σ^q).inv.hom.toAlgHom))⁻¹).ofConv.toRingHom := sorry
 
-theorem normalizerLocusIdeal_identity (T : TauCeti.HopfIdeal R H) (σ : Aut H.obj) (q : ℕ) :
-    normalizerLocusIdeal H T σ q ≤ RingHom.ker (Bialgebra.counitAlgHom R H).toRingHom := sorry
+theorem normalizerLocusIdeal_identity (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ : Aut H.obj) (q : ℕ) :
+    normalizerLocusIdeal H T hT σ q ≤ RingHom.ker (Bialgebra.counitAlgHom R H).toRingHom := sorry
 /- Check `TameTorus.normalizerLocusIdeal_identity`: the identity normalizer point always belongs to N_s. -/
-example (T : TauCeti.HopfIdeal R H) (σ : Aut H.obj) (q : ℕ) :
-    normalizerLocusIdeal H T σ q ≤ RingHom.ker (Bialgebra.counitAlgHom R H).toRingHom := sorry
+example (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ : Aut H.obj) (q : ℕ) :
+    normalizerLocusIdeal H T hT σ q ≤ RingHom.ker (Bialgebra.counitAlgHom R H).toRingHom := sorry
 
-theorem normalizerLocusIdeal_untwisted (T : TauCeti.HopfIdeal R H) (q : ℕ) :
-    normalizerLocusIdeal H T (1 : Aut H.obj) q = (normalizerIdeal H T).toIdeal := sorry
+theorem normalizerLocusIdeal_untwisted (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (q : ℕ) :
+    normalizerLocusIdeal H T hT (1 : Aut H.obj) q = (normalizerIdeal H T hT).toIdeal := sorry
 /- Check `TameTorus.normalizerLocusIdeal_untwisted`: trivial tame action leaves the whole scheme normalizer. -/
-example (T : TauCeti.HopfIdeal R H) (q : ℕ) :
-    normalizerLocusIdeal H T (1 : Aut H.obj) q = (normalizerIdeal H T).toIdeal := sorry
+example (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (q : ℕ) :
+    normalizerLocusIdeal H T hT (1 : Aut H.obj) q = (normalizerIdeal H T hT).toIdeal := sorry
 
-theorem normalizerLocusIdeal_excludes (T : TauCeti.HopfIdeal R H) (σ : Aut H.obj) (q : ℕ)
+theorem normalizerLocusIdeal_excludes (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ : Aut H.obj) (q : ℕ)
     (B : Type) [CommRing B] [Algebra R B] (n : WithConv (H →ₐ[R] B))
     (h : ¬ (fixedTorusIdeal H T σ).toIdeal ≤ RingHom.ker
       (n * (WithConv.toConv (n.ofConv.comp (σ^q).inv.hom.toAlgHom))⁻¹).ofConv.toRingHom) :
-    ¬ normalizerLocusIdeal H T σ q ≤ RingHom.ker n.ofConv.toRingHom := sorry
+    ¬ normalizerLocusIdeal H T hT σ q ≤ RingHom.ker n.ofConv.toRingHom := sorry
 /- Check `TameTorus.normalizerLocusIdeal_excludes`: normalizing the torus alone does not remove the fixed-subtorus condition. -/
-example (T : TauCeti.HopfIdeal R H) (σ : Aut H.obj) (q : ℕ)
+example (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ : Aut H.obj) (q : ℕ)
     (B : Type) [CommRing B] [Algebra R B] (n : WithConv (H →ₐ[R] B))
     (h : ¬ (fixedTorusIdeal H T σ).toIdeal ≤ RingHom.ker
       (n * (WithConv.toConv (n.ofConv.comp (σ^q).inv.hom.toAlgHom))⁻¹).ofConv.toRingHom) :
-    ¬ normalizerLocusIdeal H T σ q ≤ RingHom.ker n.ofConv.toRingHom := sorry
+    ¬ normalizerLocusIdeal H T hT σ q ≤ RingHom.ker n.ofConv.toRingHom := sorry
+
+end NormalizerLocus
 
 /-- The closed tame torus relation locus A_s inside H × H; the first coordinate is
 in the fixed subtorus, the second in N_s, and their equation includes both Weil actions. -/
-def equationIdeal (T : TauCeti.HopfIdeal R H) (σ Fr : Aut H.obj) (q : ℕ) :
+def equationIdeal [Algebra.FinitePresentation R H] (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ Fr : Aut H.obj) (q : ℕ) :
     Ideal (H ⊗[R] H) := sorry
 
-theorem equationIdeal_points (T : TauCeti.HopfIdeal R H) (σ Fr : Aut H.obj) (q : ℕ)
+variable [Algebra.FinitePresentation R H]
+
+theorem equationIdeal_points (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ Fr : Aut H.obj) (q : ℕ)
     (B : Type) [CommRing B] [Algebra R B] (t n : WithConv (H →ₐ[R] B)) :
-    equationIdeal H T σ Fr q ≤ RingHom.ker
+    equationIdeal H T hT σ Fr q ≤ RingHom.ker
       (Algebra.TensorProduct.lift t.ofConv n.ofConv (by intros; exact Commute.all _ _)).toRingHom ↔
       (fixedTorusIdeal H T σ).toIdeal ≤ RingHom.ker t.ofConv.toRingHom ∧
-      normalizerLocusIdeal H T σ q ≤ RingHom.ker n.ofConv.toRingHom ∧
+      normalizerLocusIdeal H T hT σ q ≤ RingHom.ker n.ofConv.toRingHom ∧
       n * WithConv.toConv (t.ofConv.comp Fr.inv.hom.toAlgHom) * n⁻¹ * t^(-(q:ℤ)) =
         WithConv.toConv (n.ofConv.comp (σ^q).inv.hom.toAlgHom) * n⁻¹ := sorry
 
-theorem equationIdeal_identity (T : TauCeti.HopfIdeal R H) (σ Fr : Aut H.obj) (q : ℕ)
+theorem equationIdeal_identity (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ Fr : Aut H.obj) (q : ℕ)
     (B : Type) [CommRing B] [Algebra R B] (n : WithConv (H →ₐ[R] B))
-    (hn : normalizerLocusIdeal H T σ q ≤ RingHom.ker n.ofConv.toRingHom) :
-    equationIdeal H T σ Fr q ≤ RingHom.ker
+    (hn : normalizerLocusIdeal H T hT σ q ≤ RingHom.ker n.ofConv.toRingHom) :
+    equationIdeal H T hT σ Fr q ≤ RingHom.ker
       (Algebra.TensorProduct.lift (1 : WithConv (H →ₐ[R] B)).ofConv n.ofConv
         (by intros; exact Commute.all _ _)).toRingHom ↔
       n.ofConv.comp (σ^q).inv.hom.toAlgHom = n.ofConv := sorry
 /- Check `TameTorus.equationIdeal_identity`: t=1 requires the normalizer point to be fixed by s^q. -/
-example (T : TauCeti.HopfIdeal R H) (σ Fr : Aut H.obj) (q : ℕ)
+example (T : TauCeti.HopfIdeal R H)
+    (hT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H T)) (σ Fr : Aut H.obj) (q : ℕ)
     (B : Type) [CommRing B] [Algebra R B] (n : WithConv (H →ₐ[R] B))
-    (hn : normalizerLocusIdeal H T σ q ≤ RingHom.ker n.ofConv.toRingHom) :
-    equationIdeal H T σ Fr q ≤ RingHom.ker
+    (hn : normalizerLocusIdeal H T hT σ q ≤ RingHom.ker n.ofConv.toRingHom) :
+    equationIdeal H T hT σ Fr q ≤ RingHom.ker
       (Algebra.TensorProduct.lift (1 : WithConv (H →ₐ[R] B)).ofConv n.ofConv
         (by intros; exact Commute.all _ _)).toRingHom ↔
       n.ofConv.comp (σ^q).inv.hom.toAlgHom = n.ofConv := sorry
@@ -14908,21 +15046,21 @@ example (T : TauCeti.HopfIdeal R H) (σ Fr : Aut H.obj) (q : ℕ)
 theorem equationIdeal_split [IsDomain R]
     (hH : TauCeti.splitTorusCommHopfAlgProperty R H) (q : ℕ) (hq : 1 ≤ q)
     (B : Type) [CommRing B] [Algebra R B] (t n : WithConv (H →ₐ[R] B)) :
-    equationIdeal H ⊥ 1 1 q ≤ RingHom.ker
+    equationIdeal H ⊥ (by sorry) 1 1 q ≤ RingHom.ker
       (Algebra.TensorProduct.lift t.ofConv n.ofConv (by intros; exact Commute.all _ _)).toRingHom ↔
       t^(q-1) = 1 := sorry
 /- Check `TameTorus.equationIdeal_split`: a split torus with trivial Weil action gives the (q−1)-power kernel. -/
 example [IsDomain R] (hH : TauCeti.splitTorusCommHopfAlgProperty R H) (q : ℕ) (hq : 1 ≤ q)
     (B : Type) [CommRing B] [Algebra R B] (t n : WithConv (H →ₐ[R] B)) :
-    equationIdeal H ⊥ 1 1 q ≤ RingHom.ker
+    equationIdeal H ⊥ (by sorry) 1 1 q ≤ RingHom.ker
       (Algebra.TensorProduct.lift t.ofConv n.ofConv (by intros; exact Commute.all _ _)).toRingHom ↔
       t^(q-1) = 1 := sorry
 
 theorem equationIdeal_one [IsDomain R] (hH : TauCeti.splitTorusCommHopfAlgProperty R H) :
-    equationIdeal H ⊥ 1 1 1 = ⊥ := sorry
+    equationIdeal H ⊥ (by sorry) 1 1 1 = ⊥ := sorry
 /- Check `TameTorus.equationIdeal_one`: q=1 leaves the entire torus product, so the q>1 hypothesis cannot be dropped. -/
 example [IsDomain R] (hH : TauCeti.splitTorusCommHopfAlgProperty R H) :
-    equationIdeal H ⊥ 1 1 1 = ⊥ := sorry
+    equationIdeal H ⊥ (by sorry) 1 1 1 = ⊥ := sorry
 end TameTorus
 
 
@@ -14935,7 +15073,7 @@ variable {F R : Type} [Field F] [TopologicalSpace F] [ValuativeRel F]
   [Algebra (integralClosure ℤ (AlgebraicClosure ℚ)) R]
   [IsLocalization.Away (N : integralClosure ℤ (AlgebraicClosure ℚ)) R]
   (Fr s : WeilGroup F) (hgen : WeilDiscretization.Generators Fr s)
-  (H : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} R)
+  (H : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} R) [Algebra.FinitePresentation R H]
   (hH : Algebra.Smooth R H ∧ ∀ (k : Type) [Field k] [Algebra R k] [IsAlgClosed k],
     TauCeti.reductiveCommHopfAlgProperty k (TauCeti.FiniteTypeCommHopfAlgCat.baseChange (K := k) H))
   (T J : TauCeti.HopfIdeal R H) (hJT : J ≤ T)
@@ -14962,8 +15100,8 @@ include hp hN hgen hH hJT hT hMax hJ hα hαopen htame hpair in
 /-- The projection of the closed relation locus to the normalizer locus is finite.
 Its pullback is the second tensor inclusion. DHKM1 Lemmas 2.7–2.9, pp. 7–8. -/
 theorem equationIdeal_finite :
-    let I := normalizerLocusIdeal H T (α s) (Nat.card 𝓀[F])
-    let A := equationIdeal H T (α s) (α Fr) (Nat.card 𝓀[F])
+    let I := normalizerLocusIdeal H T hT (α s) (Nat.card 𝓀[F])
+    let A := equationIdeal H T hT (α s) (α Fr) (Nat.card 𝓀[F])
     ∃ f : (H ⧸ I) →ₐ[R] ((H ⊗[R] H) ⧸ A),
       (∀ x, f (Ideal.Quotient.mk I x) = Ideal.Quotient.mk A (1 ⊗ₜ[R] x)) ∧
       (letI := f.toAlgebra; Module.Finite (H ⧸ I) ((H ⊗[R] H) ⧸ A)) := sorry
@@ -14973,7 +15111,7 @@ include hp hN hgen hH hJT hT hMax hJ hα hαopen htame hpair in
 The equation on all coefficient-algebra points fixes both its coordinates. -/
 theorem fixedTorusIdeal_isogeny :
     let I := (fixedTorusIdeal H T (α s)).toIdeal
-    let JN := normalizerLocusIdeal H T (α s) (Nat.card 𝓀[F])
+    let JN := normalizerLocusIdeal H T hT (α s) (Nat.card 𝓀[F])
     let D := (H ⧸ I) ⊗[R] (H ⧸ JN)
     ∃ f : D →ₐ[R] D,
       (letI := f.toAlgebra; Module.Finite D D ∧ Module.FaithfullyFlat D D) ∧
@@ -15003,7 +15141,7 @@ theorem equationIdeal_quotient
     (χ : CocycleScheme.invariants H.obj a →ₐ[R] k) :
     ∃ (t n : WithConv (H →ₐ[R] k))
       (c : CrossedCocycle (CocycleScheme.pointAction H.obj a k)),
-      equationIdeal H T (α s) (α Fr) (Nat.card 𝓀[F]) ≤ RingHom.ker
+      equationIdeal H T hT (α s) (α Fr) (Nat.card 𝓀[F]) ≤ RingHom.ker
         (Algebra.TensorProduct.lift t.ofConv n.ofConv (by intros; exact Commute.all _ _)).toRingHom ∧
       c.value (QuotientGroup.mk si) = t ∧ c.value (QuotientGroup.mk fr) = n ∧
       ∀ f : CocycleScheme.invariants H.obj a, χ f = (CocycleScheme.points H.obj a k).symm c f.val := sorry
