@@ -7562,11 +7562,8 @@ def diag : GL (Fin 2) ℚ →* GL (Fin 2) Af := Matrix.GeneralLinearGroup.map (a
 def toReal : GL (Fin 2) ℚ →* GL (Fin 2) ℝ := Matrix.GeneralLinearGroup.map (Rat.castHom ℝ)
 
 /-- `ℤ̂^×` inside `𝔸_f^×`. -/
-def zhatUnits : Subgroup Afˣ where
-  carrier := {x | IsAdelicInteger (x : Af) ∧ IsAdelicInteger ((x⁻¹ : Afˣ) : Af)}
-  one_mem' := sorry
-  mul_mem' := sorry
-  inv_mem' := sorry
+abbrev zhatUnits : Subgroup Afˣ :=
+  IsDedekindDomain.FiniteAdeleRing.integralUnits ℤ ℚ
 
 /-- `GL₂(ℤ̂)`: integral matrices with integral inverse. -/
 def GL2Zhat : Subgroup (GL (Fin 2) Af) where
