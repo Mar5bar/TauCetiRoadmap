@@ -309,6 +309,17 @@ here for the roadmaps that import them.
 - `TauCeti.AlgebraicGeometry.PureRelativeDimension`,
   `TauCeti/AlgebraicGeometry/Morphisms/PureRelativeDimension.lean`: the dimension hypothesis for
   flat pullback and its stability under base change.
+- `IsDiscreteValuationRing.eq_unit_mul_pow_irreducible`,
+  `Mathlib/RingTheory/DiscreteValuationRing/Basic.lean`: the nonzero DVR parameter
+  factorization. §4.18 additionally retains the zero branch, positivity in the maximal
+  ideal and the coordinate equivalence with the supplier's local model.
+- `TauCeti.NodeAlgebra`, `TauCeti/RingTheory/Node/Basic.lean`, and
+  `TauCeti.NodeAlgebra.jacobianQuotientEquiv`,
+  `TauCeti/RingTheory/Node/Jacobian/Locus.lean`: the model `uv=a` and its Jacobian
+  quotient `R/(a)`. The Lean Checks use their defining polynomial quotient and coordinate ideal.
+  StableReduction Layer 1 supplies the étale local charts with either `uv=0` or
+  `uv=π^n`, `n≥1`; §4.18 compares those charts and their completions with its
+  general local parameter.
 - `AlgebraicGeometry.AlgebraicCycle`,
   `Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`: cycles with locally finite support.
   The new `cyclesOfDimension` only restricts this carrier to support of one dimension.
@@ -4024,18 +4035,110 @@ Deligne–Mumford stack over `Spec ℤ` (§1.19–§1.20), with `M_{g,n}` open d
 Spec ℤ` is smooth of relative dimension `3g − 3 + n`, the boundary is a normal crossings divisor,
 and the versal deformation of a stable curve is the node-smoothing family of §4.6 (Deligne–Mumford
 1969, Proposition (1.5), p. 81, Theorem (1.6), Corollaries (1.7)–(1.9), p. 83, Theorem (5.2), p.
-104). Prove `level_structure_cover`: for `m ≥ 3` the stack of stable curves with a level-`m`
-structure (a symplectic basis of the `m`-torsion of the Jacobian of the generic fibre, extended
-over the boundary as in Deligne's construction) is a scheme, projective over `ℤ[1/m]`, finite over
-`M̄_{g,n}[1/m]`; hence `M̄_{g,n}` admits a finite surjective morphism from a projective scheme
-(Deligne 1985, §3, 3.1–3.7, pp. 137–141: Proposition 3.5, Lemma 3.5.7, Corollary 3.6, 3.7). Prove
-`stable_extension_after_alteration`: for `Y` integral Noetherian, `U ⊆ Y` dense open and a stable
-pointed family over `U`, there is an alteration `ψ : Y' → Y` (§4.16) and a stable pointed family
-over `Y'` restricting to the pullback of the given one over `ψ⁻¹(U)` (de Jong 1996, 4.17, pp.
-71–72; 5.13, pp. 80–81; Deligne 1985, Lemme 1.6). *Needs:* §1.18, §1.19, §1.20, §4.6, §4.16; StableReduction
-Layers 2–3, 9; Mathlib `IsStack`, `Functor.IsFibered`.
+104). Prove `level_structure_cover` by the following constructions on the existing stack.
+For the level convention, use Deligne's full ordered bases
+`J[m] ≅ (ℤ/mℤ)^{2g}` over the smooth locus with `m` invertible. The transported
+Weil pairing is retained; a primitive `m`th root of unity is not fixed over `ℤ`.
+The symplectic convention is recovered after adjoining such a root by selecting the
+bases with the standard alternating pairing (`level_structure_cover_pairing`). Both
+conventions give finite étale surjective covers of the smooth locus over the indicated
+base, and the normalized symplectic compactification is projective over the cyclotomic
+base after inverting `m` (Deligne §3.3, p. 137; the Weil pairing and basis convention of
+ModularCurves §3D).
+
+Prove `level_structure_cover_normalization`: normalize the **whole** `M̄_{g,n}/ℤ`
+in that full-basis cover of `M_{g,n}[1/m]`; denote this particular normalization by
+`N_{g,n}(m)` and its map by `q_m`. On a normal excellent étale atlas `S`, its algebra
+is the integral closure of `O_S` in the finite extension algebras on the dense open.
+Glue with Mathlib's relative normalization and its compatibility with étale base
+change. Prove that `q_m` is representable, finite and surjective and restricts to the
+original level cover on `M_{g,n}[1/m]`. Finiteness uses the Nagata/excellence results
+of §0.20–§0.21; surjectivity uses lying over and density. The Lean theorem records
+this normalization map and the restriction isomorphism on scheme atlases (Deligne
+§3.4, pp. 137–138). This construction includes the fibres at primes dividing `m`.
+
+Prove `level_structure_cover_representable`: for `m≥3`, `N_{g,n}(m)[1/m]` is an
+algebraic space. For an algebraic space over all of `Spec ℤ` choose `m` divisible by coprime
+`a,b≥3`, for example `m=15`, `a=3`, `b=5`. Forgetting part of the basis extends to
+maps `N_{g,n}(m)[1/a] → N_{g,n}(a)[1/a]` and similarly for `b`; the induced maps
+on stabilizers are injective. The target stabilizers are trivial, so the source
+stabilizers are trivial on both opens. Since `D(a) ∪ D(b)=Spec ℤ`, this proves
+representability in every characteristic, including primes dividing `m` (Deligne
+Proposition 3.5 and its automorphism lemma, pp. 138–140; Corollary 3.6, p. 140).
+
+Prove `level_structure_cover_projective`: for these composite levels the normalized
+level space itself is projective over `ℤ`, and is therefore a scheme. For `g≥2,n=0`
+use the projectivity input attributed to Mumford in Deligne §3.7, p. 140. Properness
+follows separately from the finite map to the proper stack; Chow's lemma gives a
+projective proper domination, whose map need not be finite. The exported finite
+projective cover is `q_m : N_{g,n}(m) → M̄_{g,n}`, with this projectivity theorem for
+its source. For an arbitrary single `m≥3`, also prove that
+`N_{g,n}(m)[1/m]` is a projective scheme over `ℤ[1/m]`: refine to a level divisible
+by `m` and by two coprime integers at least three, then identify the single-level
+normalization with the finite quotient by the group forgetting the extra basis data.
+A suitable power of the tensor product of the translates of an ample line bundle
+descends to an ample bundle on this quotient (§1.17's finite-group quotients). This retains the single-level
+projectivity statement as well as the integral composite-level cover.
+
+Prove `level_structure_cover_pointed` to extend these conclusions to every
+`2g−2+n>0`. Start at `(g,0)` for `g≥2`, at `(1,1)`, and at `(0,3)`. The genus-one
+case uses pointed stable genus-one curves, as in Deligne §2.2, p. 135; full level
+kills the automorphisms on the prime-to-level opens by the same torsion argument.
+Its normalized cover is finite over the compactified `j`-line and hence projective;
+prove this finite-map comparison using ModularCurves §9D's coarse-moduli quotient.
+At `(0,3)` the Jacobian is trivial and the normalization is `Spec ℤ`.
+For each extra marking, use the projective universal stable curve
+`M̄_{g,n+1} → M̄_{g,n}` supplied by stabilization and the relatively ample log-dualizing
+bundle (StableReduction Layers 2, 3, 9). Pull back the normalized finite cover and
+prove that its normal total space is the normalization for the added marking: the
+finite maps agree on the dense smooth distinct-marking locus, and normalization
+identifies them. Prove normality using the nodal charts and the dense smooth generic
+fibre. Projectivity then follows from that of the universal curve and the previous
+level space. This also gives the genus-zero induction without adding level data
+(Knudsen 1983, II, Corollary 2.6 and Theorem 2.7, p. 179). These are
+comparisons on `Mbar` and its existing families, not another moduli carrier.
+
+Prove `stable_extension_after_alteration`: for `Y` integral Noetherian, `U ⊆ Y` dense
+open and a stable pointed family over `U`, there is an alteration `ψ : Y' → Y`
+(§4.16) and a stable pointed family over `Y'` restricting to its pullback over
+`ψ⁻¹(U)`. Use the **finite surjective normalized map** `q_15` above. Pull it back
+along the classifying map on `U`; its finite surjective source includes the specified
+isomorphism of pointed families. Its map to `U ×_ℤ N_{g,n}(15)` is finite. Take the
+closure of its image in `Y ×_ℤ N_{g,n}(15)`, and prove
+`stable_extension_finite_isom_closure`: extend that finite cover over the closure,
+retaining its restriction over `U`. This is the finite Isom-cover extension in the
+proof of Deligne Lemme 1.6, p. 133; it does not assume that a generic isomorphism
+extends on an arbitrary nonnormal base. A reduced integral component dominating `Y`
+is proper over `Y` by projectivity of `N_{g,n}(15)` and generically finite because
+the original cover was finite over `U`. Pulling back the universal family gives the
+required family and the retained Isom-cover gives its identification over all of
+`ψ⁻¹(U)` (de Jong 1996, §4.17, pp. 71–72; §5.13, pp. 80–81;
+Deligne 1985, Lemme 1.6, pp. 132–133).
+The proper closure map is the alteration; no finiteness claim is made for it.
+*Needs:* §0.20–§0.21, §1.18–§1.20, §4.6, §4.16; StableReduction Layers 2–3, 9;
+ModularCurves §§3D, 9D; Mathlib `IsStack`, `Functor.IsFibered`,
+`Scheme.Hom.normalization`, `Scheme.Hom.normalizationPullback`.
 
 **Checks.**
+- `level_structure_cover_normalization_characteristic_three`: with `m=15`, the
+  integral normalization has points in characteristic three; `5` is invertible
+  there, so the level-five map proves trivial stabilizers. On an excellent normal
+  integral atlas, normalize its finite étale surjective level cover on the dense
+  open. The normalized map is finite and its fibre at a characteristic-three point
+  is nonempty. The Lean example records that assertion together with invertibility
+  of `5` in its residue field.
+- `level_structure_cover_normalization_characteristic_five`: the same normalization
+  covers characteristic five; use the level-three map, since `3` is invertible there.
+  The Lean example tests its nonempty fibre and finite map at that characteristic.
+- `level_structure_cover_normalization_zero_three`: for `(g,n)=(0,3)` the basis
+  data is unique and the normalized map is the identity on `Spec ℤ`, covering
+  characteristics three and five. On its arithmetic chart this is the normalization
+  of `Spec ℤ` in `Spec ℤ[1/15]`; the latter open alone has neither of those fibres.
+- `level_structure_cover_prime_opens`: `D(3) ∪ D(5)=Spec ℤ`; the equality is false
+  for the pair `3,9`, whose union misses characteristic three.
+- `level_structure_cover_proper_not_finite`: `ℙ¹_k → Spec k` is projective and
+  proper but not finite. Proper projective domination alone does not certify the
+  finite map required by `level_structure_cover`; that map is `q_15`.
 - `Mbar_zero_three`: every stable `3`-pointed genus-`0` curve over `S` is `ℙ¹_S` with `0, 1, ∞`;
   `M̄_{0,3} = Spec ℤ`.
 - `Mbar_one_one_aut`: for an elliptic curve `(E, O)` over an algebraically closed field of
@@ -4117,24 +4220,62 @@ are smooth, a finite separable extension splits the components and nodes). Prove
 for a nodal family `f : X → S` over a Noetherian base and a rational split node `x` of the fibre over `s`, the
 complete local ring `O^∧_{X,x}` is `O^∧_{S,s}[[u, v]]/(uv − a)` for some `a ∈ m_s`, and étale-locally
 `X` is `Spec O_S[u, v]/(uv − a)` (de Jong 1996, 2.23, pp. 61–62; 3.3, p. 63); over a discrete
-valuation ring this is StableReduction Layer 1's local normal form with `a = π^n`, and the two
-agree (`node_local_structure_dvr`). Prove `nodal_family_resolution`: for a nodal family over a regular
+valuation ring retain both alternatives of StableReduction Layer 1:
+`R'[u,v]/(uv)` or `R'[u,v]/(uv−π^n)` after the same étale localization used there.
+Prove `node_local_structure_dvr`: for `a ∈ m_R`, either `a=0`, giving the persistent
+node, or `a≠0` and `a=ε π^n` with `ε ∈ Rˣ` and `n≥1`; the coordinate change
+`u=εu'`, `v=v'` gives `u'v'=π^n`. The algebra equivalence sends the old `u` to
+`εu'` and the old `v` to `v'`, and induces the equivalence on completions. This is a
+comparison on the supplier's nodal-family carrier. Prove
+`node_local_structure_dvr_nonzero_of_generic_smooth`: smoothness of the generic fibre
+at this local model implies `a≠0`, hence the finite-thickness alternative. The general
+nodal-family theorem allows persistent nodes, including stable nodal generic fibres
+(de Jong §2.23, pp. 61–62; StableReduction Layer 1). Prove `nodal_family_resolution`: for a nodal family over a regular
 base with normal crossings discriminant and `X` normal, the singularities of `X` are resolved by
 blow-ups in nodes (Tau Ceti's `NodeAlgebra.isRegularLocalRing_stalk_blowup_iff` is the local
 computation), giving a regular `X'` with `X' → S` nodal (de Jong 1996, §3: 3.1, p. 62, Lemma 3.2, p.
-62, 3.3–3.5, pp. 63–64, Proposition 3.6 and proof, pp. 64–65). Prove `generic_projection`: for `X ⊆
-ℙ^N_k` projective of dimension `d` over an infinite field, a general linear projection `X → ℙ^{d}`
-is finite, and a general projection to `ℙ^{d−1}` from a general point has one-dimensional fibres
-(de Jong 1996, 2.11, pp. 56–57). Prove `curve_fibration`: for `X` projective integral of dimension
-`d ≥ 1` over `k` and `Z ⊆ X` a proper closed subset, after a modification there is a morphism
-`X' → Y` to a projective integral `Y` of dimension `d − 1` whose generic fibre is a geometrically
-integral curve, with `Z'` finite over `Y` and `X'` smooth over an open of `Y` (de Jong 1996, Lemma
-4.11, pp. 67–68; 4.12, pp. 68–69). Prove `three_point_divisor`: after a further modification and
-alteration of `Y`, there is a divisor `H ⊆ X'`, finite étale over an open of `Y`, meeting every
+62, 3.3–3.5, pp. 63–64, Proposition 3.6 and proof, pp. 64–65). Prove `generic_projection`: for a pure
+`d`-dimensional projective `X ⊆ ℙ^N_k` over an infinite field, a general linear projection
+with centre disjoint from `X` gives a finite morphism `π : X → ℙ^d_k`. Projection from a
+point `p ∈ ℙ^d_k` to `ℙ^{d−1}_k`, for `d≥1`, is a rational map. Its composite with `π` is resolved
+on `b : X' = Bl_{π⁻¹(p)} X → X`; the resulting proper morphism
+`f : X' → ℙ^{d−1}_k` has nonempty pure one-dimensional fibres. The fibre assertions
+refer to `X'` (de Jong 1996, §2.11, pp. 56–57; proof of Lemma 4.11, pp. 67–68).
+
+Prove `curve_fibration` in the following reduced situation: `k` is algebraically closed,
+`X/k` is normal, integral and projective of dimension `d ≥ 1`, and `Z` is the support of
+an effective Cartier divisor on `X` (the empty divisor is allowed). There are a finite
+set `S ⊆ Reg(X) ∖ Z` of closed points, the modification `b : X' = Bl_S X → X`, a
+projective integral `Y/k` of dimension `d−1`, and a projective morphism `f : X' → Y`.
+Require `f ≫ (Y → Spec k) = b ≫ (X → Spec k)`, nonempty geometrically connected pure
+one-dimensional fibres, and a relative smooth locus dense in every fibre. The reduced
+inverse image `Z'` is finite over `Y` and étale over a nonempty open of `Y`. There is a
+**nonempty** open `V ⊆ Y` over which `f` is smooth; its generic fibre is therefore smooth
+and geometrically integral. Use Lemma 4.11 for the blow-up and fibre conditions and
+§4.12 for the smooth open and Stein factorization (de Jong 1996, pp. 67–69).
+
+Prove `curve_fibration_field_reduction`: for an integral finite-type `X/k`, there is a
+finite field extension `k'/k`, a reduced irreducible component
+`C ↪ X ×_k k'` geometrically integral over `k'`, and the alteration
+`q : C ↪ X ×_k k' → X`, retaining `C → Spec k' → Spec k` and its equality with
+`q ≫ (X → Spec k)`. No separability is required. Prove
+`curve_fibration_spread`: after passage to an algebraic closure, the component,
+projective modification, boundary blow-up, normalization, fibration, nonempty smooth
+open and their structural maps descend together to some finite `k'/k`; their stated
+properties descend by faithful flatness. Compose the descended modification with `q`
+to obtain an alteration over `k`, keeping its `k'`-structure. These are the component
+and finite-presentation descent steps of de Jong §4.5, p. 66, with the projective,
+divisor and normal reductions of §§4.6–4.10, pp. 66–67. They precede applying the
+reduced `curve_fibration` helper in the arbitrary-field theorem. A field-changing
+alteration is not asserted to be a modification over `k`.
+
+Prove `three_point_divisor`: for the projective family over the algebraically closed field
+with the fibrewise dimension, connectedness and dense-smooth-locus hypotheses just stated,
+there is a divisor `H ⊆ X'`, finite over `Y` and étale over a nonempty open of `Y`, meeting every
 irreducible component of every fibre in at least three smooth points (de Jong 1996, Lemma 4.13,
 pp. 69–70). Prove `stable_model_domination`: given the stable pointed model of the generic fibre
 extended over an alteration of `Y` (§4.15), the stable family dominates the strict transform of
-the original family after a modification, with the dominating map an isomorphism over an open (de
+the original family after a modification, with the dominating map an isomorphism over a nonempty open of `Y` (de
 Jong 1996, 4.18–4.21, pp. 72–74). Prove `curve_family_alteration`: let `f : X → Y` be projective with `X` and `Y` integral
 excellent schemes, all fibres nonempty and equidimensional of dimension one, and the relative
 smooth locus dense in every fibre. For every proper closed subset `Z ⊊ X`, there are alterations
@@ -4147,7 +4288,33 @@ The containment allows both vertical and horizontal boundary components
 proof §§5.9–5.17). The generic smoothness conclusion in particular gives regular generic fibre. *Needs:* §4.11, §4.13, §4.15, §4.16,
 §4.17; StableReduction Layers 1, 3, 4; Tau Ceti `NodeAlgebra`; Mathlib `Flat`, `IsProper`.
 
+The inputs to `curve_family_alteration` come from `curve_fibration` after the component
+and spreading reductions, or from the relative projection in de Jong §6.13 in the trait
+case. Its output is used in the induction on the altered base with its vertical divisor;
+it is not an input to the fibration helper or to StableReduction's reduction proof.
+
 **Checks.**
+- `curve_fibration_imperfect_conic_rejected`: let `k = 𝔽₂(s,t)` and
+  `C = V(X²+sY²+tZ²) ⊆ ℙ²_k`. This regular integral projective curve has
+  `Γ(C,O_C)=k`; over `k(√s,√t)` it is a double line. Thus `k` fails the
+  algebraic-closedness input, and no modification `C' → C` can admit a geometrically
+  integral generic fibre over an integral zero-dimensional proper `k`-scheme `Y`.
+  Indeed the modification is an isomorphism and `Y=Spec k`. The Lean example uses
+  the reduced closed subscheme of the displayed projective zero locus, which over
+  `k` is the conic itself (Stacks §53.2, Lemma 53.2.4, 0BXX; Lemma 29.55.8, 0AB1).
+- `curve_fibration_imperfect_conic_double_line`: over a field of characteristic two,
+  adjoining square roots of `s,t` makes the displayed quadratic the square of
+  `X+√sY+√tZ`; its affine chart is nonreduced.
+- `generic_projection_plane_base_point`: `[X:Y:Z] ↦ [X:Y]` is undefined at
+  `[0:0:1]`. On `Z=1`, both coordinates vanish at the origin.
+- `generic_projection_plane_blowup`: the incidence surface
+  `Bl_[0:0:1] ℙ² ⊆ ℙ² × ℙ¹`, with equation `XV=YU`, projects to `ℙ¹` with
+  fibres `ℙ¹`. On `U≠0, Z≠0`, put `t=V/U`; its chart is `(x,t) ↦ (x,xt)`
+  and the fibration is `(x,t) ↦ t`. The other chart interchanges `x,y`.
+  The Lean example checks these two polynomial-ring charts, the exceptional
+  sections and their transition `t ↦ 1/t`.
+- `curve_fibration_smooth_open_nonempty`: for this blow-up the smooth base open is
+  all of `ℙ¹`, which is nonempty; an empty open cannot meet the fibration conclusion.
 - `curve_family_alteration_vertical_fibre`: for `Y = A¹_k`, `X = P¹_Y` and `Z = X_0`, the
   identity diagram works with `D₁ = {0}` and no sections. No finite union of sections contains
   `Z`; each section contributes one point to that one-dimensional fibre. Use
@@ -4162,7 +4329,20 @@ proof §§5.9–5.17). The generic smoothness conclusion in particular gives reg
 - `split_after_extension`: `V(x² − a y²) ⊆ ℙ²_k`, `a` not a square, is not split over `k` and is
   split over `k(√a)`.
 - `split_smooth`: a smooth family with geometrically irreducible fibres is split.
-- `node_local_structure_test_dvr`: `Spec ℤ_p[x, y]/(xy − p^n)` has complete local ring
+- `node_local_structure_dvr_persistent`: for `R=k[[π]]`, the proper flat split
+  prestable family `V(XY) ⊆ ℙ²_R` has node chart `NodeAlgebra R 0` and completed
+  local ring `R[[u,v]]/(uv)`. Its Jacobian quotient is `R`, so its singular section
+  persists on the generic fibre. Zero is not a unit times any finite positive power
+  of `π`; this family takes precisely the zero-parameter branch.
+- `node_local_structure_dvr_thickness_one`: `uv=π` takes the positive branch with
+  `n=1, ε=1`. Its Jacobian quotient is `R/(π)`, a reduced field, and its generic
+  fibre is smooth.
+- `node_local_structure_dvr_thickness_two`: `uv=π²` takes the positive branch with
+  `n=2, ε=1`. Its Jacobian quotient is the nonreduced `R/(π²)`, and its generic
+  fibre is smooth. This distinguishes thickness from persistence and from thickness one.
+- `node_local_structure_dvr_unit_coordinates`: for `uv=ε π²`, the equivalence sends
+  `(u,v)` to `(εu',v')`; their product is `ε π²`, fixing the direction of the unit change.
+- `node_local_structure_test_dvr`: for `n≥1`, `Spec ℤ_p[x, y]/(xy − p^n)` has complete local ring
   `ℤ_p[[u, v]]/(uv − p^n)` at the node, StableReduction Layer 1's form.
 
 ### 4.19 de Jong's alteration theorem over a field
@@ -4175,12 +4355,23 @@ the complement of `j` together with `j(φ⁻¹(Z))` is the support of a strict n
 (§4.17); when `k` is perfect the alteration can be chosen generically étale (de Jong 1996, Theorem
 4.1 and Remark 4.2, p. 66; proof 4.3–4.28, pp. 66–76). *Needs:* §4.12, §4.13, §4.14, §4.15, §4.16, §4.17, §4.18; StableReduction Layer 2.
 
+For arbitrary `k`, use `curve_fibration_field_reduction` and `curve_fibration_spread`
+before the reduced fibration helper. The descended diagram retains the finite extension
+`k'/k` and the map `X_1 → Spec k'`; composition with `Spec k' → Spec k` is its given
+`k`-structure. The composed map to `X` is an alteration. When `k` is perfect the finite
+extension is separable, and the separate generically étale conclusion is retained.
+
 The boundary construction retains §4.18's vertical part: apply the induction to the altered
 base together with `D₁`, enlarge it by the discriminant, and resolve the nodal total space while
 retaining the disjoint smooth sections. Both its inverse-image boundary and these horizontal
 sections enter the normal-crossings boundary (de Jong, §§4.22–4.28).
 
 **Checks.**
+- `alteration_imperfect_conic_valid`: the same `𝔽₂(s,t)` conic with `Z=∅` satisfies
+  the arbitrary-field theorem. Its identity alteration and compactification already
+  work because it is regular. To obtain a geometrically integral smooth model over
+  a new field, `k'=k(√s,√t)` gives the reduced line `ℙ¹_{k'}` mapping finitely and
+  surjectively to `C`; retain the structural map through `Spec k'`.
 - `alteration_test_curve`: for a curve the theorem is resolution by normalisation (§4.13) with
   `φ` a modification.
 - `alteration_test_cone`: the quadric cone in `𝔸³` with `Z` the vertex: the blow-up at the vertex is
@@ -4253,7 +4444,9 @@ theorem. Its stronger projectivity conclusion is outside this statement; both th
 StableReduction Layers 0, 2–3; Mathlib `IsDiscreteValuationRing`, `IsAdicComplete`, `Smooth`.
 
 In the curve-family step, apply §4.18 with its fibrewise dimension and smooth-locus hypotheses,
-obtained in de Jong §6.13. Enlarge `D₁` by the discriminant and apply induction to the base pair;
+obtained on the modified source by the relative projection in de Jong §6.13, after the
+finite trait extensions and normalization of §§6.8–6.12. This uses the relative argument,
+not the algebraically closed field helper over the original fraction field. Enlarge `D₁` by the discriminant and apply induction to the base pair;
 carry the inverse image of `D₁` and the disjoint smooth sections through the nodal resolution
 (de Jong, §§6.14–6.16, pp. 85–86). The special-fibre boundary remains part of the resulting pair.
 
@@ -4909,7 +5102,11 @@ consumes nothing from this roadmap.
 - Grothendieck Brauer I, II, III: *Le groupe de Brauer I–III*, Dix exposés sur la cohomologie des
   schémas (1968).
 - Deligne–Mumford 1969: *The irreducibility of the space of curves of given genus*, Publ. IHÉS 36.
-- Deligne 1985: *Le lemme de Gabber*, Astérisque 127.
+- Deligne 1985: *Le lemme de Gabber*, Astérisque 127,
+  [§§3.3–3.7, pp. 137–140](https://www.numdam.org/item/AST_1985__127__131_0.pdf).
+- Knudsen 1983, II: *The projectivity of the moduli space of stable curves, II:
+  The stacks M_{g,n}*, Math. Scand. 52, 161–199,
+  [Corollary 2.6 and Theorem 2.7, p. 179](https://journals.msp.org/mscand/article/download/1622/1621/1653).
 - de Jong 1996: A. J. de Jong, [*Smoothness, semi-stability and alterations*](https://www.numdam.org/item/PMIHES_1996__83__51_0.pdf),
   Publ. IHÉS 83 (1996), pp. 51–93.
 - Morel–Voevodsky 1999: *A¹-homotopy theory of schemes*, Publ. IHÉS 90.

@@ -7979,6 +7979,83 @@ theorem serre_normality_R1 (A : Type u) [CommRing A] [IsNoetherianRing A] [IsDom
            (C' : StablePointedFamily g n Y'), Nonempty (C'.restrict (ψ ⁻¹ᵁ U) ≅ C.pullback (ψ ∣_ U))
 -/
 
+/- `level_structure_cover` uses full ordered bases J[m] ≅ (Z/m)^(2g), retaining the
+   transported Weil pairing. `level_structure_cover_pairing` identifies the symplectic
+   subcover after choosing a primitive root over the cyclotomic base (Deligne §3.3).
+   `level_structure_cover_normalization` on Mbar is normalization over the whole stack
+   in the smooth-locus level cover; the theorem below supplies its scheme-atlas comparison.
+   Its representable finite surjective map is q_m, including characteristics dividing m.
+   `level_structure_cover_representable` uses m divisible by coprime a,b ≥ 3: the maps
+   to levels a and b inject stabilizers on D(a), D(b), which cover Spec Z (Deligne
+   §§3.4–3.6, pp. 137–140).
+   `level_structure_cover_projective` proves projectivity of this normalized space
+   itself, using Mumford's projectivity input recorded in Deligne §3.7, p. 140.
+   Chow domination alone gives a proper map, not the finite q_m.
+   `level_structure_cover_pointed` starts with (g,0) for g ≥ 2, (1,1) (Deligne §2.2,
+   p. 135, with its finite map to the compactified j-line), and (0,3) = Spec Z. Adding
+   markings pulls back the projective universal curve; prove its total space normal
+   using the nodal charts and smooth generic fibre, and identify it with the next
+   normalization on the dense smooth locus. See Knudsen II, Corollary 2.6 and
+   Theorem 2.7, p. 179, and StableReduction Layers 2, 3, 9.
+   `stable_extension_after_alteration` consumes q_15 and its projective source. The
+   pullback on U includes the Isom data. `stable_extension_finite_isom_closure`
+   extends its finite map over the closure of its image in Y × N_{g,n}(15), as in
+   Deligne Lemme 1.6, pp. 132–133. A reduced component dominating Y gives an alteration
+   with the prescribed identification over the entire inverse image of U. -/
+
+/-- The normalized finite cover on an excellent normal atlas extends over the boundary,
+and recovers the finite étale cover on the dense open. Deligne §3.4, pp. 137–138.
+This adds finiteness, surjectivity and the open comparison to Mathlib's relative normalization. -/
+theorem level_structure_cover_normalization {S T : Scheme.{u}}
+    [IsIntegral S] [IsNoetherian S]
+    (hS : Excellence.IsExcellentScheme S)
+    (hN : ∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s))
+    (U : S.Opens) (hU : Dense (U : Set S))
+    (q : T ⟶ U.toScheme) [IsFinite q] [Etale q] [Surjective q] :
+    let n := Scheme.Hom.fromNormalization (q ≫ U.ι)
+    IsFinite n ∧ Surjective n ∧
+      Nonempty (Over.mk (pullback.snd n U.ι) ≅ Over.mk q) := by sorry
+
+-- Check `level_structure_cover_normalization_characteristic_three`
+example {S T : Scheme.{u}} [IsIntegral S] [IsNoetherian S]
+    (hS : Excellence.IsExcellentScheme S)
+    (hN : ∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s))
+    (U : S.Opens) (hU : Dense (U : Set S))
+    (q : T ⟶ U.toScheme) [IsFinite q] [Etale q] [Surjective q]
+    (s : S) [CharP (S.residueField s) 3] :
+    let n := Scheme.Hom.fromNormalization (q ≫ U.ι)
+    IsFinite n ∧ Nonempty (n.fiber s) ∧ IsUnit (5 : S.residueField s) := by sorry
+
+-- Check `level_structure_cover_normalization_characteristic_five`
+example {S T : Scheme.{u}} [IsIntegral S] [IsNoetherian S]
+    (hS : Excellence.IsExcellentScheme S)
+    (hN : ∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s))
+    (U : S.Opens) (hU : Dense (U : Set S))
+    (q : T ⟶ U.toScheme) [IsFinite q] [Etale q] [Surjective q]
+    (s : S) [CharP (S.residueField s) 5] :
+    let n := Scheme.Hom.fromNormalization (q ≫ U.ι)
+    IsFinite n ∧ Nonempty (n.fiber s) ∧ IsUnit (3 : S.residueField s) := by sorry
+
+-- Check `level_structure_cover_normalization_zero_three`
+example :
+    let e := Spec.map (CommRingCat.ofHom (algebraMap ℤ (Localization.Away (15 : ℤ))))
+    IsIso (Scheme.Hom.fromNormalization e) ∧
+      (∀ x, (e x).asIdeal ≠ Ideal.span {(3 : ℤ)}) ∧
+      (∀ x, (e x).asIdeal ≠ Ideal.span {(5 : ℤ)}) := by sorry
+
+-- Check `level_structure_cover_prime_opens`
+example :
+    PrimeSpectrum.basicOpen (3 : ℤ) ⊔ PrimeSpectrum.basicOpen (5 : ℤ) = ⊤ ∧
+      PrimeSpectrum.basicOpen (3 : ℤ) ⊔ PrimeSpectrum.basicOpen (9 : ℤ) ≠ ⊤ := by sorry
+
+-- Check `level_structure_cover_proper_not_finite`
+example (k : Type u) [Field k] :
+    let G := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    letI : GradedAlgebra G := MvPolynomial.gradedAlgebra
+    let p := _root_.AlgebraicGeometry.Proj.toSpecZero G ≫
+      Spec.map (CommRingCat.ofHom (algebraMap k (G 0)))
+    IsProper p ∧ ¬ IsFinite p := by sorry
+
 /-! ### De Jong's alterations -/
 
 namespace DeJong
@@ -8219,6 +8296,190 @@ theorem IsStrictSemistablePair.restrict {R : Type u} [CommRing R] [IsDomain R]
    Layer 4 (nc to snc), Layer 4 (faltings formal smoothness), Layer 4 (bertini smoothness) are stated in the
    roadmap. -/
 
+open scoped _root_.TensorProduct
+
+/-- The DVR node model includes the zero parameter; the nonzero branch absorbs the unit
+in the first coordinate. Compare de Jong §2.23, pp. 61–62, and StableReduction Layer 1.
+The displayed quotient is the defining presentation of `TauCeti.NodeAlgebra`.
+Mathlib supplies `eq_unit_mul_pow_irreducible`; the conclusion also retains the persistent
+branch, positivity and the coordinate equivalence. -/
+theorem node_local_structure_dvr (R : Type u) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] (π a : R) (hπ : Irreducible π)
+    (ha : a ∈ IsLocalRing.maximalIdeal R) :
+    let P := MvPolynomial (Fin 2) R
+    let J : R → Ideal P := fun b =>
+      Ideal.span {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C b}
+    let A := fun b : R => P ⧸ J b
+    (a = 0 ∧ Nonempty (A a ≃ₐ[R] A 0)) ∨
+    (a ≠ 0 ∧ ∃ (n : ℕ) (ε : Rˣ), 0 < n ∧ a = (ε : R) * π ^ n ∧
+      ∃ e : A a ≃ₐ[R] A (π ^ n),
+        e (Ideal.Quotient.mk (J a) (MvPolynomial.X 0)) =
+          algebraMap R (A (π ^ n)) (ε : R) *
+            Ideal.Quotient.mk (J (π ^ n)) (MvPolynomial.X 0) ∧
+        e (Ideal.Quotient.mk (J a) (MvPolynomial.X 1)) =
+          Ideal.Quotient.mk (J (π ^ n)) (MvPolynomial.X 1)) := by sorry
+
+/-- A smooth generic fibre excludes the persistent node. De Jong §2.23, pp. 61–62;
+the relative singular locus of the chart has coordinate ring R/(a). -/
+theorem node_local_structure_dvr_nonzero_of_generic_smooth
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (a : R)
+    (hsmooth : Algebra.Smooth (FractionRing R) (FractionRing R ⊗[R]
+      (MvPolynomial (Fin 2) R ⧸ Ideal.span
+        {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C a}))) :
+    a ≠ 0 := by sorry
+
+-- Check `node_local_structure_dvr_persistent`: the node chart of V(XY) in P²_R.
+example (k : Type u) [Field k] :
+    let R := PowerSeries k
+    let A := MvPolynomial (Fin 2) R ⧸ Ideal.span {MvPolynomial.X 0 * MvPolynomial.X 1}
+    letI : CommRing A := Ideal.Quotient.commRing _
+    letI : Algebra R A := Ideal.Quotient.algebra R
+    let u : A := Ideal.Quotient.mk _ (MvPolynomial.X 0)
+    let v : A := Ideal.Quotient.mk _ (MvPolynomial.X 1)
+    Nonempty ((A ⧸ Ideal.span {u, v}) ≃ₐ[R] R) ∧
+      ¬ Algebra.Smooth (FractionRing R) (FractionRing R ⊗[R] A) ∧
+      ¬ ∃ (n : ℕ) (ε : Rˣ), 0 < n ∧ (0 : R) = (ε : R) * PowerSeries.X ^ n := by sorry
+
+-- Check `node_local_structure_dvr_thickness_one`
+example (k : Type u) [Field k] :
+    let R := PowerSeries k
+    let π : R := PowerSeries.X
+    let A := MvPolynomial (Fin 2) R ⧸ Ideal.span
+      {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C π}
+    letI : CommRing A := Ideal.Quotient.commRing _
+    letI : Algebra R A := Ideal.Quotient.algebra R
+    let u : A := Ideal.Quotient.mk _ (MvPolynomial.X 0)
+    let v : A := Ideal.Quotient.mk _ (MvPolynomial.X 1)
+    π ≠ 0 ∧ π = (1 : R) * π ^ 1 ∧
+      Nonempty ((A ⧸ Ideal.span {u, v}) ≃ₐ[R] R ⧸ Ideal.span {π}) ∧
+      IsReduced (R ⧸ Ideal.span {π}) ∧
+      Algebra.Smooth (FractionRing R) (FractionRing R ⊗[R] A) := by sorry
+
+-- Check `node_local_structure_dvr_thickness_two`
+example (k : Type u) [Field k] :
+    let R := PowerSeries k
+    let π : R := PowerSeries.X
+    let A := MvPolynomial (Fin 2) R ⧸ Ideal.span
+      {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C (π ^ 2)}
+    letI : CommRing A := Ideal.Quotient.commRing _
+    letI : Algebra R A := Ideal.Quotient.algebra R
+    let u : A := Ideal.Quotient.mk _ (MvPolynomial.X 0)
+    let v : A := Ideal.Quotient.mk _ (MvPolynomial.X 1)
+    π ^ 2 ≠ 0 ∧ π ^ 2 = (1 : R) * π ^ 2 ∧
+      Nonempty ((A ⧸ Ideal.span {u, v}) ≃ₐ[R] R ⧸ Ideal.span {π ^ 2}) ∧
+      ¬ IsReduced (R ⧸ Ideal.span {π ^ 2}) ∧
+      Algebra.Smooth (FractionRing R) (FractionRing R ⊗[R] A) := by sorry
+
+-- Check `node_local_structure_dvr_unit_coordinates`
+example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (π : R) (hπ : Irreducible π) (ε : Rˣ) :
+    let P := MvPolynomial (Fin 2) R
+    let A := P ⧸ Ideal.span
+      {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C ((ε : R) * π ^ 2)}
+    let B := P ⧸ Ideal.span {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C (π ^ 2)}
+    ∃ e : A ≃ₐ[R] B,
+      e (Ideal.Quotient.mk _ (MvPolynomial.X 0)) =
+        algebraMap R _ (ε : R) * Ideal.Quotient.mk _ (MvPolynomial.X 0) ∧
+      e (Ideal.Quotient.mk _ (MvPolynomial.X 1)) =
+        Ideal.Quotient.mk _ (MvPolynomial.X 1) := by sorry
+
+/-- A geometrically integral reduced component is defined over a finite extension.
+The map to the original integral variety is an alteration, including inseparable extensions.
+This is the component step of de Jong (1996), §4.5, p. 66. -/
+theorem curve_fibration_field_reduction (k : Type u) [Field k] {X : Scheme.{u}}
+    (f : X ⟶ Spec (.of k)) [IsIntegral X] [LocallyOfFiniteType f] [QuasiCompact f] :
+    ∃ (k' : Type u) (_ : Field k') (_ : Algebra k k') (_ : Module.Finite k k'),
+      let e := Spec.map (CommRingCat.ofHom (algebraMap k k'))
+      ∃ (D : (pullback f e).IdealSheafData) (_ : IsIntegral D.subscheme),
+        (D.support : Set (pullback f e : Scheme.{u})) ∈
+          irreducibleComponents (pullback f e : Scheme.{u}) ∧
+        GeometricallyIntegral (D.subschemeι ≫ pullback.snd f e) ∧
+        IsAlteration (D.subschemeι ≫ pullback.fst f e) ∧
+        (D.subschemeι ≫ pullback.snd f e) ≫ e =
+          (D.subschemeι ≫ pullback.fst f e) ≫ f := by sorry
+
+/- `generic_projection` resolves the rational projection from p on Bl_{π⁻¹(p)} X;
+   its pure one-dimensional fibres belong to that modified source.
+   `curve_fibration` takes k algebraically closed, X normal integral projective,
+   dim X ≥ 1, and Z the support of an effective Cartier divisor (possibly empty).
+   It returns b : Bl_S X → X for S finite in Reg(X) outside Z, a projective f : X' → Y
+   over k with Y projective integral of dimension dim X - 1, nonempty geometrically
+   connected pure one-dimensional fibres and fibrewise dense smooth locus. It retains
+   a nonempty smooth base open, smooth geometrically integral generic fibre, and
+   (b⁻¹Z)_red finite over Y and étale on a nonempty base open.
+   These are de Jong Lemma 4.11 and §4.12, pp. 67–69.
+   `curve_fibration_spread` descends the component and the entire finite-presentation
+   diagram over an algebraic closure to a finite k'/k (§4.5, p. 66), after the
+   projective, boundary and normal reductions (§§4.6–4.10). The modification over k'
+   composed with the component alteration above is an alteration over k. All structure
+   maps and the nonempty smooth open descend with the diagram. The resulting family
+   supplies the dimension and fibrewise smooth-density inputs of Theorem 5.8.
+   The trait application instead uses the relative projection of §6.13 after the
+   finite trait extensions in §§6.8–6.12. -/
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+-- Check `curve_fibration_imperfect_conic_rejected`
+example :
+    let k := FractionRing (MvPolynomial (Fin 2) (ZMod 2))
+    let s : k := algebraMap (MvPolynomial (Fin 2) (ZMod 2)) k (MvPolynomial.X 0)
+    let t : k := algebraMap (MvPolynomial (Fin 2) (ZMod 2)) k (MvPolynomial.X 1)
+    let G := MvPolynomial.homogeneousSubmodule (Fin 3) k
+    let P := _root_.AlgebraicGeometry.Proj G
+    let F : MvPolynomial (Fin 3) k := MvPolynomial.X 0 ^ 2 +
+      MvPolynomial.C s * MvPolynomial.X 1 ^ 2 + MvPolynomial.C t * MvPolynomial.X 2 ^ 2
+    let D : P.IdealSheafData := Scheme.IdealSheafData.vanishingIdeal
+      ⟨ProjectiveSpectrum.zeroLocus G {F}, by sorry⟩
+    let C := D.subscheme
+    let f : C ⟶ Spec (.of k) := D.subschemeι ≫
+      _root_.AlgebraicGeometry.Proj.toSpecZero G ≫
+        Spec.map (CommRingCat.ofHom (algebraMap k (G 0)))
+    ¬ IsAlgClosed k ∧ IsIntegral C ∧ IsRegular C ∧ IsProper f ∧
+      ¬ ∃ (C' Y : Scheme) (_ : IsIntegral C') (_ : IsIntegral Y)
+        (b : C' ⟶ C) (_ : IsModification b) (g : C' ⟶ Y) (y : Y ⟶ Spec (.of k)),
+        IsProper y ∧ topologicalKrullDim Y = 0 ∧ g ≫ y = b ≫ f ∧
+        GeometricallyIntegral g := by sorry
+
+-- Check `curve_fibration_imperfect_conic_double_line`
+example (K : Type u) [Field K] [CharP K 2] (s t r q : K)
+    (hr : r ^ 2 = s) (hq : q ^ 2 = t) :
+    let F : MvPolynomial (Fin 3) K := MvPolynomial.X 0 ^ 2 +
+      MvPolynomial.C s * MvPolynomial.X 1 ^ 2 + MvPolynomial.C t * MvPolynomial.X 2 ^ 2
+    F = (MvPolynomial.X 0 + MvPolynomial.C r * MvPolynomial.X 1 +
+      MvPolynomial.C q * MvPolynomial.X 2) ^ 2 ∧
+      ¬ IsReduced (MvPolynomial (Fin 2) K ⧸ Ideal.span
+        {(MvPolynomial.X 0 + MvPolynomial.C r * MvPolynomial.X 1 + MvPolynomial.C q) ^ 2}) := by
+  sorry
+
+-- Check `generic_projection_plane_base_point`
+example (k : Type u) [Field k] :
+    MvPolynomial.eval ![0, 0, 1] (MvPolynomial.X (0 : Fin 3) : MvPolynomial (Fin 3) k) = 0 ∧
+    MvPolynomial.eval ![0, 0, 1] (MvPolynomial.X (1 : Fin 3) : MvPolynomial (Fin 3) k) = 0 ∧
+    (![0, 0, 1] : Fin 3 → k) ≠ 0 := by sorry
+
+-- Check `generic_projection_plane_blowup`: the two incidence charts and their overlap.
+example (k : Type u) [Field k] :
+    let A := Polynomial k
+    let B := Polynomial A
+    let t : B := Polynomial.C Polynomial.X
+    let x : B := Polynomial.X
+    let bx : MvPolynomial (Fin 2) k →ₐ[k] B := MvPolynomial.aeval ![x, x * t]
+    let byChart : MvPolynomial (Fin 2) k →ₐ[k] B := MvPolynomial.aeval ![x * t, x]
+    bx (MvPolynomial.X 0) * t = bx (MvPolynomial.X 1) ∧
+    byChart (MvPolynomial.X 1) * t = byChart (MvPolynomial.X 0) ∧
+    (∀ i, Polynomial.eval 0 (bx (MvPolynomial.X i)) = 0) ∧
+    (∀ i, Polynomial.eval 0 (byChart (MvPolynomial.X i)) = 0) ∧
+    Polynomial.eval 0 t = Polynomial.X ∧
+    (∀ (K : Type u) [Field K] (a v : K), v ≠ 0 → (a * v) * v⁻¹ = a) := by sorry
+
+-- Check `curve_fibration_smooth_open_nonempty`
+example (k : Type u) [Field k] :
+    let G := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let Y := _root_.AlgebraicGeometry.Proj G
+    Nonempty Y ∧ Nonempty (⊤ : Y.Opens) ∧
+      Smooth (Spec.map (CommRingCat.ofHom
+        (algebraMap (Polynomial k) (Polynomial (Polynomial k))))) := by sorry
+
 /-- The vertical boundary pulls back to a whole fibre in a commuting alteration diagram.
 This is the vertical term in de Jong (1996), Theorem 5.8, p. 79. -/
 theorem curve_family_vertical_boundary {X Y X' Y' : Scheme.{u}}
@@ -8254,7 +8515,9 @@ example {X X' Y' : Scheme.{u}} (k : Type u) [Field k]
 /-- de Jong's alteration theorem (de Jong 1996, Theorem 4.1): a regular projective `Xbar₁` with an
 open `X₁` altering `X`, with SNC boundary containing the preimage of `Z`; generically étale over a
 perfect field. The curve step retains both the inverse image of the base divisor and the
-horizontal sections of Theorem 5.8; induction applies to that base pair.
+horizontal sections of Theorem 5.8; induction applies to that base pair. The fibration
+helper is applied over an algebraic closure and its diagram descends to a finite extension
+as in §4.5, with the structural map through that extension; the map to X is an alteration.
 The conclusion below uses properness of the compactification. -/
 theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (CommRingCat.of k)) [IsIntegral X] [IsSeparated f] [LocallyOfFiniteType f]
@@ -8266,9 +8529,34 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
       ((PerfectField k) → IsAlteration.IsGenericallyEtale φ) := by
   sorry
 
+-- Check `alteration_imperfect_conic_valid`: Z is the empty divisor.
+example :
+    let k := FractionRing (MvPolynomial (Fin 2) (ZMod 2))
+    let s : k := algebraMap (MvPolynomial (Fin 2) (ZMod 2)) k (MvPolynomial.X 0)
+    let t : k := algebraMap (MvPolynomial (Fin 2) (ZMod 2)) k (MvPolynomial.X 1)
+    let G := MvPolynomial.homogeneousSubmodule (Fin 3) k
+    let P := _root_.AlgebraicGeometry.Proj G
+    let F : MvPolynomial (Fin 3) k := MvPolynomial.X 0 ^ 2 +
+      MvPolynomial.C s * MvPolynomial.X 1 ^ 2 + MvPolynomial.C t * MvPolynomial.X 2 ^ 2
+    let D : P.IdealSheafData := Scheme.IdealSheafData.vanishingIdeal
+      ⟨ProjectiveSpectrum.zeroLocus G {F}, by sorry⟩
+    let C := D.subscheme
+    let f : C ⟶ Spec (.of k) := D.subschemeι ≫
+      _root_.AlgebraicGeometry.Proj.toSpecZero G ≫
+        Spec.map (CommRingCat.ofHom (algebraMap k (G 0)))
+    IsIntegral C ∧ IsProper f ∧ IsRegular C ∧ IsAlteration (𝟙 C) ∧
+      IsStrictNormalCrossings (⊤ : C.IdealSheafData) ∧
+      ∃ (k' : Type) (_ : Field k') (_ : Algebra k k') (_ : Module.Finite k k')
+        (r q : k') (L : Scheme) (l : L ⟶ Spec (.of k')) (a : L ⟶ C),
+        r ^ 2 = algebraMap k k' s ∧ q ^ 2 = algebraMap k k' t ∧
+        IsIntegral L ∧ Smooth l ∧ GeometricallyIntegral l ∧ IsFinite a ∧ IsAlteration a ∧
+        l ≫ Spec.map (CommRingCat.ofHom (algebraMap k k')) = a ≫ f := by sorry
+
 /-- Properness consequence of de Jong (1996), Theorem 6.5 and Diagram 6.6, p. 83.
 The finite trait extension may be inseparable. The curve step uses the vertical divisor and
-disjoint smooth sections of Theorem 5.8, as in de Jong 6.14–6.16. The boundary contains exactly the preimage of Z
+disjoint smooth sections of Theorem 5.8, as in de Jong 6.14–6.16. The dimension and
+smooth-density hypotheses come from the relative projection on the modified source (§6.13),
+after the finite trait extensions (§§6.8–6.12). The boundary contains exactly the preimage of Z
 and the compactification complement. The statement records properness of the compactification. -/
 theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R]
