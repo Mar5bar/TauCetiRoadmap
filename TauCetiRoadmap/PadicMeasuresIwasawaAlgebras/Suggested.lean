@@ -141,73 +141,74 @@ end AbstractMeasure
 namespace Iwasawa
 
 variable {G R : Type*} [Group G] [CommRing R]
-variable (δ : G →* R) (Q : Type*) [CommRing Q] [Algebra R Q] [IsFractionRing R Q]
+variable (δ : G →* R) (Q : Type*) [CommRing Q] [Algebra R Q]
 
 /-- Fractions made integral by every Dirac difference. -/
 def pseudomeasures : Submodule R Q :=
   (1 : Submodule R Q) /
     Submodule.span R (Set.range (fun g : G => algebraMap R Q (δ g - 1)))
 
-theorem mem_pseudomeasures_iff (z : Q) :
+theorem mem_pseudomeasures_iff [IsFractionRing R Q] (z : Q) :
     z ∈ pseudomeasures δ Q ↔
       ∀ g : G, ∃ r : R, algebraMap R Q r = algebraMap R Q (δ g - 1) * z := sorry
 
-theorem pseudomeasures_eq_top_of_trivial (hδ : ∀ g, δ g = 1) :
+theorem pseudomeasures_eq_top_of_trivial [IsFractionRing R Q] (hδ : ∀ g, δ g = 1) :
     pseudomeasures δ Q = ⊤ := sorry
 
 /-- The canonical integral inclusion, with its linear structure inherited from the total quotient. -/
 def integral : R →ₗ[R] pseudomeasures δ Q := sorry
 
-theorem coe_integral (r : R) : (integral δ Q r : Q) = algebraMap R Q r := sorry
+theorem coe_integral [IsFractionRing R Q] (r : R) : (integral δ Q r : Q) = algebraMap R Q r := sorry
 
-theorem integral_zero : integral δ Q 0 = 0 := sorry
+theorem integral_zero [IsFractionRing R Q] : integral δ Q 0 = 0 := sorry
 
-theorem integral_injective : Function.Injective (integral δ Q) := sorry
+theorem integral_injective [IsFractionRing R Q] : Function.Injective (integral δ Q) := sorry
 
-theorem pseudomeasure_ext (x y : pseudomeasures δ Q) (h : (x : Q) = (y : Q)) : x = y := sorry
+theorem pseudomeasure_ext
+    [IsFractionRing R Q] (x y : pseudomeasures δ Q) (h : (x : Q) = (y : Q)) : x = y := sorry
 
 /-- The unique integral numerator after multiplication by `δ g - 1`. -/
-def numerator (g : G) : pseudomeasures δ Q →ₗ[R] R := sorry
+def numerator [IsFractionRing R Q] (g : G) : pseudomeasures δ Q →ₗ[R] R := sorry
 
-theorem algebraMap_numerator (g : G) (z : pseudomeasures δ Q) :
+theorem algebraMap_numerator [IsFractionRing R Q] (g : G) (z : pseudomeasures δ Q) :
     algebraMap R Q (numerator δ Q g z) = algebraMap R Q (δ g - 1) * (z : Q) := sorry
 
-theorem numerator_unique (g : G) (z : pseudomeasures δ Q) (r : R)
+theorem numerator_unique [IsFractionRing R Q] (g : G) (z : pseudomeasures δ Q) (r : R)
     (hr : algebraMap R Q r = algebraMap R Q (δ g - 1) * (z : Q)) :
     numerator δ Q g z = r := sorry
 
-theorem numerator_integral (g : G) (r : R) :
+theorem numerator_integral [IsFractionRing R Q] (g : G) (r : R) :
     numerator δ Q g (integral δ Q r) = (δ g - 1) * r := sorry
 
-theorem numerator_one (z : pseudomeasures δ Q) : numerator δ Q 1 z = 0 := sorry
+theorem numerator_one [IsFractionRing R Q] (z : pseudomeasures δ Q) : numerator δ Q 1 z = 0 := sorry
 
-theorem numerator_cross (g h : G) (z : pseudomeasures δ Q) :
+theorem numerator_cross [IsFractionRing R Q] (g h : G) (z : pseudomeasures δ Q) :
     (δ h - 1) * numerator δ Q g z = (δ g - 1) * numerator δ Q h z := sorry
 
 variable (A : Type*) [CommRing A] [Algebra R A]
 
 /-- Evaluation is defined only for a clearing factor with unit image. -/
-def evalAt (g : G) (hg : IsUnit (algebraMap R A (δ g - 1))) :
+def evalAt [IsFractionRing R Q] (g : G) (hg : IsUnit (algebraMap R A (δ g - 1))) :
     pseudomeasures δ Q →ₗ[R] A := sorry
 
-theorem evalAt_spec (g : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
+theorem evalAt_spec [IsFractionRing R Q] (g : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
     (z : pseudomeasures δ Q) :
     algebraMap R A (δ g - 1) * evalAt δ Q A g hg z =
       algebraMap R A (numerator δ Q g z) := sorry
 
-theorem evalAt_eq (g h : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
+theorem evalAt_eq [IsFractionRing R Q] (g h : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
     (hh : IsUnit (algebraMap R A (δ h - 1))) :
     evalAt δ Q A g hg = evalAt δ Q A h hh := sorry
 
-theorem evalAt_integral (g : G) (hg : IsUnit (algebraMap R A (δ g - 1))) (r : R) :
+theorem evalAt_integral [IsFractionRing R Q] (g : G) (hg : IsUnit (algebraMap R A (δ g - 1))) (r : R) :
     evalAt δ Q A g hg (integral δ Q r) = algebraMap R A r := sorry
 
-theorem evalAt_unique (g : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
+theorem evalAt_unique [IsFractionRing R Q] (g : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
     (L : pseudomeasures δ Q →ₗ[R] A)
     (hL : ∀ r : R, L (integral δ Q r) = algebraMap R A r) :
     L = evalAt δ Q A g hg := sorry
 
-theorem evalAt_map {B : Type*} [CommRing B] [Algebra R B] (f : A →ₐ[R] B)
+theorem evalAt_map [IsFractionRing R Q] {B : Type*} [CommRing B] [Algebra R B] (f : A →ₐ[R] B)
     (g : G) (hg : IsUnit (algebraMap R A (δ g - 1)))
     (hgB : IsUnit (algebraMap R B (δ g - 1))) (z : pseudomeasures δ Q) :
     f (evalAt δ Q A g hg z) = evalAt δ Q B g hgB z := sorry
@@ -1381,53 +1382,59 @@ namespace AbstractMeasure
 open scoped BoundedContinuousFunction
 section FieldAmice
 variable {p : ℕ} [Fact p.Prime]
-variable {K : Type*} [NontriviallyNormedField K] [Algebra ℤ_[p] K]
-  [IsBoundedSMul ℤ_[p] K]
+variable {K : Type*} [NontriviallyNormedField K]
 
-theorem norm_coeff_amiceTransform_le (μ : D(ℤ_[p], K)) (n : ℕ) :
+theorem norm_coeff_amiceTransform_le [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] (μ : D(ℤ_[p], K)) (n : ℕ) :
     ‖μ.amiceTransform.coeff n‖ ≤ ‖toCLMEquiv μ‖ := by sorry
 
 /-- The existing Amice coefficients, bundled in the existing bounded sequence space. -/
-def boundedAmiceCoefficients : D(ℤ_[p], K) →ₗ[K] (ℕ →ᵇ K) := by sorry
+def boundedAmiceCoefficients
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] : D(ℤ_[p], K) →ₗ[K] (ℕ →ᵇ K) := by sorry
 
-theorem boundedAmiceCoefficients_apply (μ : D(ℤ_[p], K)) (n : ℕ) :
+theorem boundedAmiceCoefficients_apply [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] (μ : D(ℤ_[p], K)) (n : ℕ) :
     boundedAmiceCoefficients μ n = μ.amiceTransform.coeff n := by sorry
 
-theorem boundedAmiceCoefficients_zero :
+theorem boundedAmiceCoefficients_zero [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] :
     boundedAmiceCoefficients (p := p) (K := K) 0 = 0 := by sorry
 
-theorem boundedAmiceCoefficients_add (μ ν : D(ℤ_[p], K)) :
+theorem boundedAmiceCoefficients_add [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] (μ ν : D(ℤ_[p], K)) :
     boundedAmiceCoefficients (μ + ν) =
       boundedAmiceCoefficients μ + boundedAmiceCoefficients ν := by sorry
 
-theorem boundedAmiceCoefficients_smul (a : K) (μ : D(ℤ_[p], K)) :
+theorem boundedAmiceCoefficients_smul [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] (a : K) (μ : D(ℤ_[p], K)) :
     boundedAmiceCoefficients (a • μ) = a • boundedAmiceCoefficients μ := by sorry
 
-theorem boundedAmiceCoefficients_norm_le (μ : D(ℤ_[p], K)) :
+theorem boundedAmiceCoefficients_norm_le [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] (μ : D(ℤ_[p], K)) :
     ‖boundedAmiceCoefficients μ‖ ≤ ‖toCLMEquiv μ‖ := by sorry
 
-variable [IsUltrametricDist K] [CompleteSpace K]
-
-theorem norm_boundedInvTransform (c : ℕ →ᵇ K) :
+theorem norm_boundedInvTransform
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (c : ℕ →ᵇ K) :
     ‖toCLMEquiv (boundedInvTransform (p := p) c)‖ = ‖c‖ := by sorry
 
-theorem boundedInvTransform_boundedAmiceCoefficients (μ : D(ℤ_[p], K)) :
+theorem boundedInvTransform_boundedAmiceCoefficients
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (μ : D(ℤ_[p], K)) :
     boundedInvTransform (boundedAmiceCoefficients μ) = μ := by sorry
 
 /-- The strong continuous-dual model is isometric to bounded Amice sequences. -/
-def boundedAmiceEquiv : (C(ℤ_[p], K) →L[K] K) ≃ₗᵢ[K] (ℕ →ᵇ K) := by sorry
+def boundedAmiceEquiv
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K]
+    : (C(ℤ_[p], K) →L[K] K) ≃ₗᵢ[K] (ℕ →ᵇ K) := by sorry
 
-theorem boundedAmiceEquiv_apply (μ : D(ℤ_[p], K)) :
+theorem boundedAmiceEquiv_apply
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (μ : D(ℤ_[p], K)) :
     boundedAmiceEquiv (toCLMEquiv μ) = boundedAmiceCoefficients μ := by sorry
 
-theorem boundedAmiceEquiv_symm_apply (c : ℕ →ᵇ K) :
+theorem boundedAmiceEquiv_symm_apply
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (c : ℕ →ᵇ K) :
     (boundedAmiceEquiv (p := p)).symm c =
       toCLMEquiv (boundedInvTransform c) := by sorry
 
-theorem boundedAmiceCoefficients_norm (μ : D(ℤ_[p], K)) :
+theorem boundedAmiceCoefficients_norm
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (μ : D(ℤ_[p], K)) :
     ‖boundedAmiceCoefficients μ‖ = ‖toCLMEquiv μ‖ := by sorry
 
-theorem mem_range_amiceTransform_iff (F : K⟦X⟧) :
+theorem mem_range_amiceTransform_iff
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (F : K⟦X⟧) :
     (∃ μ : D(ℤ_[p], K), μ.amiceTransform = F) ↔
       ∃ C : ℝ, 0 ≤ C ∧ ∀ n, ‖F.coeff n‖ ≤ C := by sorry
 end FieldAmice
@@ -1596,47 +1603,62 @@ carrier receives no new norm or topology instance in this specification.
 namespace AbstractMeasure
 section UnitIntegralCoefficients
 variable {p : ℕ} [Fact p.Prime] {R : Type*}
-  [NormedCommRing R] [Algebra ℤ_[p] R] [IsUltrametricDist R]
-  [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+  [NormedCommRing R]
+
 local notation "U" => (ℤ_[p])ˣ
 local notation "uMap" => (ContinuousMap.mk Units.val Units.continuous_val : C(U, ℤ_[p]))
 
-theorem extendIntegralCoefficients_unitRestriction (μ : D(ℤ_[p], ℤ_[p])) :
+theorem extendIntegralCoefficients_unitRestriction
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] (μ : D(ℤ_[p], ℤ_[p])) :
     extendIntegralCoefficients (R := R) (unitRestriction p ℤ_[p] μ) =
       unitRestriction p R (extendIntegralCoefficients μ) := by sorry
 
-def extendIntegralUnitCoefficients (μ : D(U, ℤ_[p])) : D(U, R) := sorry
+def extendIntegralUnitCoefficients
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+    (μ : D(U, ℤ_[p])) : D(U, R) := sorry
 
-theorem extendIntegralUnitCoefficients_eq (μ : D(U, ℤ_[p])) :
+theorem extendIntegralUnitCoefficients_eq
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] (μ : D(U, ℤ_[p])) :
     extendIntegralUnitCoefficients (R := R) μ =
       restrictUnits p R (extendIntegralCoefficients (map uMap μ)) := by sorry
-theorem extendIntegralUnitCoefficients_zero :
+theorem extendIntegralUnitCoefficients_zero
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] :
     extendIntegralUnitCoefficients (p := p) (R := R) 0 = 0 := by sorry
-theorem extendIntegralUnitCoefficients_add (μ ν : D(U, ℤ_[p])) :
+theorem extendIntegralUnitCoefficients_add
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] (μ ν : D(U, ℤ_[p])) :
     extendIntegralUnitCoefficients (R := R) (μ + ν) =
       extendIntegralUnitCoefficients μ + extendIntegralUnitCoefficients ν := by sorry
-theorem extendIntegralUnitCoefficients_smul (a : ℤ_[p]) (μ : D(U, ℤ_[p])) :
+theorem extendIntegralUnitCoefficients_smul
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+    (a : ℤ_[p]) (μ : D(U, ℤ_[p])) :
     extendIntegralUnitCoefficients (R := R) (a • μ) =
       algebraMap ℤ_[p] R a • extendIntegralUnitCoefficients μ := by sorry
 theorem extendIntegralUnitCoefficients_self (μ : D(U, ℤ_[p])) :
     extendIntegralUnitCoefficients (R := ℤ_[p]) μ = μ := by sorry
-theorem extendIntegralUnitCoefficients_dirac (u : U) :
+theorem extendIntegralUnitCoefficients_dirac
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] (u : U) :
     extendIntegralUnitCoefficients (R := R) (dirac ℤ_[p] u) = dirac R u := by sorry
 
-theorem map_val_extendIntegralUnitCoefficients (μ : D(U, ℤ_[p])) :
+theorem map_val_extendIntegralUnitCoefficients
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] (μ : D(U, ℤ_[p])) :
     map uMap (extendIntegralUnitCoefficients (R := R) μ) =
       extendIntegralCoefficients (map uMap μ) := by sorry
 
-theorem extendIntegralUnitCoefficients_test (μ : D(U, ℤ_[p])) (f : C(U, ℤ_[p])) :
+theorem extendIntegralUnitCoefficients_test
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+    (μ : D(U, ℤ_[p])) (f : C(U, ℤ_[p])) :
     extendIntegralUnitCoefficients (R := R) μ (f • (1 : C(U, R))) =
       algebraMap ℤ_[p] R (μ f) := by sorry
 
-theorem extendIntegralUnitCoefficients_unique (μ : D(U, ℤ_[p])) (ν : D(U, R))
+theorem extendIntegralUnitCoefficients_unique
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+    (μ : D(U, ℤ_[p])) (ν : D(U, R))
     (hν : ∀ f : C(U, ℤ_[p]),
       ν (f • (1 : C(U, R))) = algebraMap ℤ_[p] R (μ f)) :
     ν = extendIntegralUnitCoefficients μ := by sorry
 
-theorem extendIntegralUnitCoefficients_restrict (μ : D(ℤ_[p], ℤ_[p])) :
+theorem extendIntegralUnitCoefficients_restrict
+    [Algebra ℤ_[p] R] [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R] (μ : D(ℤ_[p], ℤ_[p])) :
     extendIntegralUnitCoefficients (R := R) (restrictUnits p ℤ_[p] μ) =
       restrictUnits p R (extendIntegralCoefficients μ) := by sorry
 end UnitIntegralCoefficients
@@ -1896,31 +1918,38 @@ noncomputable section
 open scoped AbstractMeasure
 section FiniteCoefficients
 variable {X A B R : Type*} [TopologicalSpace X]
-  [Fintype A] [DecidableEq A] [TopologicalSpace A] [DiscreteTopology A]
+    [TopologicalSpace A]
   [Fintype B] [DecidableEq B] [TopologicalSpace B] [DiscreteTopology B]
   [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
 
-def finiteProjection (q : C(X,A)) : D(X,R) →ₗ[R] (A →₀ R) := sorry
-theorem finiteProjection_zero (q : C(X,A)) : finiteProjection (R := R) q 0 = 0 := sorry
-theorem finiteProjection_add (q : C(X,A)) (μ ν : D(X,R)) :
+def finiteProjection
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) : D(X,R) →ₗ[R] (A →₀ R) := sorry
+theorem finiteProjection_zero
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) : finiteProjection (R := R) q 0 = 0 := sorry
+theorem finiteProjection_add [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (μ ν : D(X,R)) :
     finiteProjection q (μ+ν) = finiteProjection q μ + finiteProjection q ν := sorry
-theorem finiteProjection_smul (q : C(X,A)) (c : R) (μ : D(X,R)) :
+theorem finiteProjection_smul
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (c : R) (μ : D(X,R)) :
     finiteProjection q (c • μ) = c • finiteProjection q μ := sorry
-theorem finiteProjection_apply (q : C(X,A)) (μ : D(X,R)) (a : A) :
+theorem finiteProjection_apply
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (μ : D(X,R)) (a : A) :
     finiteProjection q μ a = μ ((ContinuousMap.equivFnOfDiscrete.symm
       (Function.update (fun _ => 0) a 1)).comp q) := sorry
-theorem finiteProjection_pairing (q : C(X,A)) (μ : D(X,R)) (h : A → R) :
+theorem finiteProjection_pairing
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (μ : D(X,R)) (h : A → R) :
     μ ((ContinuousMap.equivFnOfDiscrete.symm h).comp q) =
       ∑ a, h a * finiteProjection q μ a := sorry
-theorem finiteProjection_dirac (q : C(X,A)) (x : X) :
+theorem finiteProjection_dirac [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (x : X) :
     finiteProjection q (dirac R x) = Finsupp.single (q x) 1 := sorry
-theorem finiteProjection_refinement (q : C(X,A)) (h : C(A,B)) (μ : D(X,R)) :
+theorem finiteProjection_refinement
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (h : C(A,B)) (μ : D(X,R)) :
     finiteProjection (h.comp q) μ = Finsupp.mapDomain h (finiteProjection q μ) := sorry
-theorem finiteProjection_totalMass (q : C(X,A)) (μ : D(X,R)) :
+theorem finiteProjection_totalMass
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (μ : D(X,R)) :
     ∑ a, finiteProjection q μ a = μ (ContinuousMap.const X 1) := sorry
-theorem finiteProjection_reconstruct (μ : D(A,R)) :
+theorem finiteProjection_reconstruct [Fintype A] [DecidableEq A] [DiscreteTopology A] (μ : D(A,R)) :
     μ = ∑ a, finiteProjection (ContinuousMap.id A) μ a • dirac R a := sorry
-theorem finiteProjection_bijective :
+theorem finiteProjection_bijective [Fintype A] [DecidableEq A] [DiscreteTopology A] :
     Function.Bijective (finiteProjection (R := R) (ContinuousMap.id A)) := sorry
 end FiniteCoefficients
 
@@ -1939,29 +1968,35 @@ end FiniteTopology
 
 section JointFinite
 variable {X A B : Type*} [TopologicalSpace X]
-  [Fintype A] [DecidableEq A] [TopologicalSpace A] [DiscreteTopology A]
+    [TopologicalSpace A]
   [Fintype B] [DecidableEq B] [TopologicalSpace B] [DiscreteTopology B]
 variable (p : ℕ) [Fact p.Prime]
-def jointFiniteProjection (r : ℕ) (q : C(X,A)) :
+def jointFiniteProjection [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : C(X,A)) :
     D(X,ℤ_[p]) →+ (A →₀ ZMod (p^r)) := sorry
-theorem jointFiniteProjection_zero (r : ℕ) (q : C(X,A)) :
+theorem jointFiniteProjection_zero [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : C(X,A)) :
     jointFiniteProjection p r q 0 = 0 := sorry
-theorem jointFiniteProjection_add (r : ℕ) (q : C(X,A)) (μ ν : D(X,ℤ_[p])) :
+theorem jointFiniteProjection_add
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : C(X,A)) (μ ν : D(X,ℤ_[p])) :
     jointFiniteProjection p r q (μ+ν) =
       jointFiniteProjection p r q μ + jointFiniteProjection p r q ν := sorry
-theorem jointFiniteProjection_zero_precision (q : C(X,A)) (μ : D(X,ℤ_[p])) :
+theorem jointFiniteProjection_zero_precision
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(X,A)) (μ : D(X,ℤ_[p])) :
     jointFiniteProjection p 0 q μ = 0 := sorry
-theorem jointFiniteProjection_apply (r : ℕ) (q : C(X,A)) (μ : D(X,ℤ_[p])) (a : A) :
+theorem jointFiniteProjection_apply
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : C(X,A)) (μ : D(X,ℤ_[p])) (a : A) :
     jointFiniteProjection p r q μ a = PadicInt.toZModPow r (finiteProjection q μ a) := sorry
-theorem jointFiniteProjection_precision (r s : ℕ) (hrs : r ≤ s)
+theorem jointFiniteProjection_precision
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r s : ℕ) (hrs : r ≤ s)
     (q : C(X,A)) (μ : D(X,ℤ_[p])) :
     Finsupp.mapRange (ZMod.castHom (pow_dvd_pow p hrs) (ZMod (p^r))) (map_zero _)
       (jointFiniteProjection p s q μ) = jointFiniteProjection p r q μ := sorry
-theorem jointFiniteProjection_refinement (r : ℕ) (q : C(X,A)) (h : C(A,B))
+theorem jointFiniteProjection_refinement
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : C(X,A)) (h : C(A,B))
     (μ : D(X,ℤ_[p])) :
     jointFiniteProjection p r (h.comp q) μ =
       Finsupp.mapDomain h (jointFiniteProjection p r q μ) := sorry
-theorem jointFiniteProjection_dirac (r : ℕ) (q : C(X,A)) (x : X) :
+theorem jointFiniteProjection_dirac
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : C(X,A)) (x : X) :
     jointFiniteProjection p r q (dirac ℤ_[p] x) = Finsupp.single (q x) 1 := sorry
 variable [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X]
 theorem jointFiniteProjection_ext (μ ν : D(X,ℤ_[p]))
@@ -2126,63 +2161,78 @@ end CommutativeConvolution
 
 section FiniteAlgebra
 variable {G A R : Type*} [TopologicalSpace G] [Monoid G] [ContinuousMul G]
-  [LocallyCompactSpace G] [TopologicalSpace A] [Monoid A] [Fintype A] [DecidableEq A]
-  [DiscreteTopology A] [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
-theorem finiteProjection_map (q : C(G,A)) (μ : D(G,R)) :
+  [LocallyCompactSpace G] [TopologicalSpace A] [Monoid A]
+   [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
+theorem finiteProjection_map [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : C(G,A)) (μ : D(G,R)) :
     finiteProjection (.id A) (map q μ) = finiteProjection q μ := sorry
-theorem finite_convolution_expansion (μ ν : D(A,R)) :
+theorem finite_convolution_expansion [Fintype A] [DecidableEq A] [DiscreteTopology A] (μ ν : D(A,R)) :
     μ*ν = ∑ a, ∑ b, (finiteProjection (.id A) μ a * finiteProjection (.id A) ν b) •
       dirac R (a*b) := sorry
-theorem finiteProjection_mul (q : G →* A) (hq : Continuous q) (μ ν : D(G,R)) :
+theorem finiteProjection_mul
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) (μ ν : D(G,R)) :
     MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ (μ*ν)) =
       MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ μ) *
         MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ ν) := sorry
-def finiteProjectionAlgHom (q : G →* A) (hq : Continuous q) :
+def finiteProjectionAlgHom [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) :
     D(G,R) →ₐ[R] MonoidAlgebra R A := sorry
-theorem finiteProjectionAlgHom_apply (q : G →* A) (hq : Continuous q) (μ : D(G,R)) :
+theorem finiteProjectionAlgHom_apply
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) (μ : D(G,R)) :
     finiteProjectionAlgHom q hq μ = MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ μ) := sorry
-theorem finiteProjectionAlgHom_coeff (q : G →* A) (hq : Continuous q) (μ : D(G,R)) (a : A) :
+theorem finiteProjectionAlgHom_coeff
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) (μ : D(G,R)) (a : A) :
     (finiteProjectionAlgHom q hq μ).coeff a = finiteProjection ⟨q,hq⟩ μ a := sorry
-theorem finiteProjectionAlgHom_dirac (q : G →* A) (hq : Continuous q) (x : G) :
+theorem finiteProjectionAlgHom_dirac
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) (x : G) :
     finiteProjectionAlgHom (R := R) q hq (dirac R x) = MonoidAlgebra.single (q x) 1 := sorry
 
-def finiteProjectionAlgEquiv : D(A,R) ≃ₐ[R] MonoidAlgebra R A := sorry
-theorem finiteProjectionAlgEquiv_apply (μ : D(A,R)) :
+def finiteProjectionAlgEquiv [Fintype A] [DiscreteTopology A] : D(A,R) ≃ₐ[R] MonoidAlgebra R A := sorry
+theorem finiteProjectionAlgEquiv_apply [Fintype A] [DecidableEq A] [DiscreteTopology A] (μ : D(A,R)) :
     finiteProjectionAlgEquiv μ = finiteProjectionAlgHom (MonoidHom.id A) continuous_id μ := sorry
-theorem finiteProjectionAlgEquiv_symm_apply (c : MonoidAlgebra R A) :
+theorem finiteProjectionAlgEquiv_symm_apply
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (c : MonoidAlgebra R A) :
     finiteProjectionAlgEquiv.symm c = ∑ a, c.coeff a • dirac R a := sorry
-theorem finiteProjectionAlgEquiv_symm_single (a : A) (r : R) :
+theorem finiteProjectionAlgEquiv_symm_single
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (a : A) (r : R) :
     finiteProjectionAlgEquiv.symm (MonoidAlgebra.single a r) = r • dirac R a := sorry
 -- ConvolutionTests.finite_algebra_one
-example (q : G →* A) (hq : Continuous q) :
+example [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) :
     finiteProjectionAlgHom (R := R) q hq 1 = 1 := sorry
 -- ConvolutionTests.finite_algebra_atoms
-example (q : G →* A) (hq : Continuous q) (x y : G) :
+example [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q) (x y : G) :
     finiteProjectionAlgHom (R := R) q hq (dirac R x * dirac R y) =
       MonoidAlgebra.single (q x * q y) 1 := sorry
 -- ConvolutionTests.finite_equiv_atom
-example (a : A) : finiteProjectionAlgEquiv (dirac R a) = MonoidAlgebra.single a 1 := sorry
+example
+    [Fintype A] [DecidableEq A] [DiscreteTopology A]
+    (a : A) : finiteProjectionAlgEquiv (dirac R a) = MonoidAlgebra.single a 1 := sorry
 -- ConvolutionTests.finite_equiv_inverse_zero
-example : (finiteProjectionAlgEquiv (R := R) (A := A)).symm 0 = 0 := sorry
+example
+    [Fintype A] [DecidableEq A] [DiscreteTopology A]
+    : (finiteProjectionAlgEquiv (R := R) (A := A)).symm 0 = 0 := sorry
 -- ConvolutionTests.finite_equiv_inverse_product
-example (a b : A) (r s : R) :
+example [Fintype A] [DecidableEq A] [DiscreteTopology A] (a b : A) (r s : R) :
     finiteProjectionAlgEquiv.symm (MonoidAlgebra.single a r * MonoidAlgebra.single b s) =
       (r*s) • dirac R (a*b) := sorry
 
 variable (p : ℕ) [Fact p.Prime]
-theorem jointFiniteProjection_mul (r : ℕ) (q : G →* A) (hq : Continuous q)
+theorem jointFiniteProjection_mul
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : G →* A) (hq : Continuous q)
     (μ ν : D(G,ℤ_[p])) :
     MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ (μ*ν)) =
       MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ μ) *
         MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ ν) := sorry
-def jointFiniteProjectionRingHom (r : ℕ) (q : G →* A) (hq : Continuous q) :
+def jointFiniteProjectionRingHom
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : G →* A) (hq : Continuous q) :
     D(G,ℤ_[p]) →+* MonoidAlgebra (ZMod (p^r)) A := sorry
-theorem jointFiniteProjectionRingHom_apply (r : ℕ) (q : G →* A) (hq : Continuous q)
+theorem jointFiniteProjectionRingHom_apply
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : G →* A) (hq : Continuous q)
     (μ : D(G,ℤ_[p])) : jointFiniteProjectionRingHom p r q hq μ =
       MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ μ) := sorry
-theorem jointFiniteProjectionRingHom_dirac (r : ℕ) (q : G →* A) (hq : Continuous q) (x : G) :
+theorem jointFiniteProjectionRingHom_dirac
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (r : ℕ) (q : G →* A) (hq : Continuous q) (x : G) :
     jointFiniteProjectionRingHom p r q hq (dirac ℤ_[p] x) = MonoidAlgebra.single (q x) 1 := sorry
-theorem jointFiniteProjectionRingHom_zero_precision (q : G →* A) (hq : Continuous q)
+theorem jointFiniteProjectionRingHom_zero_precision
+    [Fintype A] [DecidableEq A] [DiscreteTopology A] (q : G →* A) (hq : Continuous q)
     (μ : D(G,ℤ_[p])) : jointFiniteProjectionRingHom p 0 q hq μ = 0 := sorry
 end FiniteAlgebra
 
@@ -2731,6 +2781,7 @@ example [Nontrivial Γ] :
 Tau Ceti's completed group algebra `ℤ_p⟦Γ⟧`, whose projection to the level `Γ ⧸ U` is the finite
 algebra projection along `Γ → Γ ⧸ U`. -/
 def toCompletedGroupAlgebra : D(Γ,ℤ_[p]) →ₐ[ℤ_[p]] TauCeti.completedGroupAlgebra ℤ_[p] Γ := sorry
+open scoped Classical in
 theorem toCompletedGroupAlgebra_apply (μ : D(Γ,ℤ_[p])) (U : OpenNormalSubgroup Γ)
     [Fintype (Γ ⧸ U.toSubgroup)] [DiscreteTopology (Γ ⧸ U.toSubgroup)] :
     TauCeti.completedGroupAlgebra.proj ℤ_[p] Γ U (toCompletedGroupAlgebra p μ) =
@@ -2812,44 +2863,66 @@ namespace AbstractMeasure
 noncomputable section
 section CoefficientExtension
 
-variable {X : Type*} [TopologicalSpace X] [CompactSpace X] [T2Space X]
-  [TotallyDisconnectedSpace X]
-variable (O K : Type*) [NormedCommRing O] [CompleteSpace O]
-  [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+variable {X : Type*} [TopologicalSpace X]
+variable (O K : Type*) [NormedCommRing O]
+  [NontriviallyNormedField K]
 variable (j : O →+* K)
 
 /-- §1.7: `ι_j : D(X, O) →+ D(X, K)`, the additive map with
 `ι_j(μ)(j ∘ f) = j(μ f)`; on a locally constant `Σ cᵢ 1_{Uᵢ}` its value is `Σ cᵢ j(μ(1_{Uᵢ}))`,
 extended by continuity using the ultrametric bound `‖Σ cᵢ j(μ 1_{Uᵢ})‖ ≤ max ‖cᵢ‖ · sup ‖j(μ 1_U)‖`. -/
-def extendCoefficients (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) : D(X, O) →+ D(X, K) := sorry
+def extendCoefficients
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K]
+    (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) : D(X, O) →+ D(X, K) := sorry
 
-theorem extendCoefficients_apply_comp (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) (f : C(X, O)) :
+theorem extendCoefficients_apply_comp
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K]
+    (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) (f : C(X, O)) :
     extendCoefficients O K j hj hj1 μ ((ContinuousMap.mk j hj.continuous).comp f) = j (μ f) := sorry
-theorem extendCoefficients_smul (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (a : O) (μ : D(X, O)) :
+theorem extendCoefficients_smul
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (a : O) (μ : D(X, O)) :
     extendCoefficients O K j hj hj1 (a • μ) = j a • extendCoefficients O K j hj hj1 μ := sorry
-theorem extendCoefficients_dirac (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (x : X) :
+theorem extendCoefficients_dirac
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (x : X) :
     extendCoefficients O K j hj hj1 (dirac O x) = dirac K x := sorry
-theorem extendCoefficients_map (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) {Y : Type*} [TopologicalSpace Y] [CompactSpace Y] [T2Space Y]
+theorem extendCoefficients_map
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K]
+    (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) {Y : Type*} [TopologicalSpace Y] [CompactSpace Y] [T2Space Y]
     [TotallyDisconnectedSpace Y] (φ : C(X, Y)) (μ : D(X, O)) :
     extendCoefficients O K j hj hj1 (map φ μ) = map φ (extendCoefficients O K j hj hj1 μ) := sorry
 /-- Injectivity follows from test-function agreement and injectivity of `j`. -/
-theorem extendCoefficients_injective (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) :
+theorem extendCoefficients_injective
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) :
     Function.Injective (extendCoefficients O K j hj hj1 (X := X)) := sorry
 /-- The operator-norm bound on the field-valued carrier; this is the meaning of `‖μ‖` for an
 `O`-valued measure in L3a, where no norm is installed on `D(X, O)` itself. -/
-theorem norm_toCLMEquiv_extendCoefficients_le (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) :
+theorem norm_toCLMEquiv_extendCoefficients_le
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) :
     ‖toCLMEquiv (extendCoefficients O K j hj hj1 μ)‖ ≤ 1 := sorry
 
-theorem extendCoefficients_clopen_bound (hj1 : ∀ a, ‖j a‖ ≤ 1)
+theorem extendCoefficients_clopen_bound
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj1 : ∀ a, ‖j a‖ ≤ 1)
     (μ : D(X, O)) (s : TopologicalSpace.Clopens X) :
     ‖j (μ (ContinuousMap.zeroExtendClopen s O 1))‖ ≤ 1 := sorry
 
-theorem extendCoefficients_restrictClopen (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
+theorem extendCoefficients_restrictClopen
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
     (s : TopologicalSpace.Clopens X) (μ : D(X, O)) :
+    letI : CompactSpace s := isCompact_iff_compactSpace.mp s.isClosed.isCompact
     extendCoefficients O K j hj hj1 (restrictClopen s O μ) =
       restrictClopen s K (extendCoefficients O K j hj hj1 μ) := sorry
 
-theorem extendCoefficients_eq_extendIntegralCoefficients {p : ℕ} [Fact p.Prime]
+theorem extendCoefficients_eq_extendIntegralCoefficients
+    [IsUltrametricDist K] [CompleteSpace K] {p : ℕ} [Fact p.Prime]
     [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K]
     (hi : Isometry (algebraMap ℤ_[p] K)) (hb : ∀ a : ℤ_[p], ‖algebraMap ℤ_[p] K a‖ ≤ 1)
     (μ : D(ℤ_[p], ℤ_[p])) :
@@ -2862,7 +2935,9 @@ example {p : ℕ} [Fact p.Prime] :
     ¬ (∀ a : ℚ_[p], ‖(RingHom.id ℚ_[p]) a‖ ≤ 1) := sorry
 
 /-- §1.7: comparison on finite-free base-change tensors. -/
-theorem extendCoefficients_baseChange_tmul {p : ℕ} [Fact p.Prime]
+theorem extendCoefficients_baseChange_tmul
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] {p : ℕ} [Fact p.Prime]
     [CommGroup X] [IsTopologicalGroup X] [Algebra ℤ_[p] O] [ContinuousSMul ℤ_[p] O]
     [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O]
     (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
@@ -2876,23 +2951,37 @@ theorem extendCoefficients_baseChange_tmul {p : ℕ} [Fact p.Prime]
 variable [CommMonoid X] [ContinuousMul X] [LocallyCompactSpace X]
 
 /-- `ι_j` as a ring homomorphism for the right-handed convolutions of a profinite monoid. -/
-def extendCoefficientsRingHom (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) : D(X, O) →+* D(X, K) := sorry
-theorem coe_extendCoefficientsRingHom (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) :
+def extendCoefficientsRingHom
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K]
+    (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) : D(X, O) →+* D(X, K) := sorry
+theorem coe_extendCoefficientsRingHom
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) :
     ⇑(extendCoefficientsRingHom O K j hj hj1 (X := X)) = ⇑(extendCoefficients O K j hj hj1 (X := X)) := sorry
-theorem extendCoefficients_mul (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ ν : D(X, O)) :
+theorem extendCoefficients_mul
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ ν : D(X, O)) :
     extendCoefficients O K j hj hj1 (μ * ν) =
       extendCoefficients O K j hj hj1 μ * extendCoefficients O K j hj hj1 ν := sorry
 -- test extendCoefficients_id (degenerate) [§1.7]
 -- Identity on source tests is retained; a nontrivially normed field is not its unit ball.
-example (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) (f : C(X, O)) :
+example
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K]
+    (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) (f : C(X, O)) :
     extendCoefficients O K j hj hj1 μ ((ContinuousMap.mk j hj.continuous).comp f) =
       j (μ f) := sorry
 -- test extendCoefficients_dirac_apply (computation) [§1.7]
-example (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (x : X) (f : C(X, K)) :
+example
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (x : X) (f : C(X, K)) :
     extendCoefficients O K j hj hj1 (dirac O x) f = f x := sorry
 -- test extendCoefficients_two_smul (non-example) [§1.7]
 -- a map forgetting the coefficient would send `2 δ_x` to `δ_x`.
-example (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) [CharZero K] (x : X) :
+example
+    [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X] [CompleteSpace O]
+    [IsUltrametricDist K] [CompleteSpace K] (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) [CharZero K] (x : X) :
     extendCoefficients O K j hj hj1 ((2 : O) • dirac O x) ≠
       extendCoefficients O K j hj hj1 (dirac O x) := sorry
 
@@ -2941,57 +3030,71 @@ end CharacterIntegration
 section ExtendedCharacterEvaluation
 variable {G O K : Type*} [TopologicalSpace G] [CompactSpace G] [T2Space G]
   [TotallyDisconnectedSpace G] [CommGroup G] [IsTopologicalGroup G]
-  [NormedCommRing O] [CompleteSpace O] [NontriviallyNormedField K]
-  [CompleteSpace K] [IsUltrametricDist K]
+  [NormedCommRing O] [NontriviallyNormedField K]
+
 variable (j : O →+* K) (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
   (χ : ContinuousMonoidHom G K)
 
 /-- §1.7/§3.3: the scalar ring map f_χ, before localization. -/
-def extendedCharacterRingHom : D(G, O) →+* K :=
+def extendedCharacterRingHom [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] : D(G, O) →+* K :=
   (characterIntegralAlgHom χ).toRingHom.comp (extendCoefficientsRingHom O K j hj hj1)
-theorem extendedCharacterRingHom_apply (μ : D(G, O)) :
+theorem extendedCharacterRingHom_apply
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] (μ : D(G, O)) :
     extendedCharacterRingHom j hj hj1 χ μ =
       extendCoefficients O K j hj hj1 μ χ.toContinuousMap := sorry
-theorem extendedCharacterRingHom_dirac (g : G) :
+theorem extendedCharacterRingHom_dirac [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] (g : G) :
     extendedCharacterRingHom j hj hj1 χ (dirac O g) = χ g := sorry
 
-theorem exists_character_ne_one (hχ : χ ≠ 1) : ∃ g, χ g ≠ 1 := sorry
+theorem exists_character_ne_one [CompleteSpace K] [IsUltrametricDist K] (hχ : χ ≠ 1) : ∃ g, χ g ≠ 1 := sorry
 
-variable (Q : Type*) [CommRing Q] [Algebra D(G, O) Q] [IsFractionRing D(G, O) Q]
+variable (Q : Type*) [CommRing Q] [Algebra D(G, O) Q]
 local notation "δ" => (diracHom (G := G) (R := O))
 
 /-- §3.3: choose a clearing element separately for each nontrivial character. -/
-def extendedPseudoCharacterEval (hχ : χ ≠ 1) (z : Iwasawa.pseudomeasures δ Q) : K :=
+def extendedPseudoCharacterEval
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q]
+    (hχ : χ ≠ 1) (z : Iwasawa.pseudomeasures δ Q) : K :=
   let g := Classical.choose (exists_character_ne_one χ hχ)
   extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) / (χ g - 1)
 
-theorem extendCoefficients_numerator_evalAt (hχ : χ ≠ 1) (g : G)
+theorem extendCoefficients_numerator_evalAt
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q] (hχ : χ ≠ 1) (g : G)
     (z : Iwasawa.pseudomeasures δ Q) :
     (χ g - 1) * extendedPseudoCharacterEval j hj hj1 χ Q hχ z =
       extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) := sorry
 
-theorem extendedPseudoCharacterEval_eq (hχ : χ ≠ 1) (g : G) (hg : χ g ≠ 1)
+theorem extendedPseudoCharacterEval_eq
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q]
+    (hχ : χ ≠ 1) (g : G) (hg : χ g ≠ 1)
     (z : Iwasawa.pseudomeasures δ Q) :
     extendedPseudoCharacterEval j hj hj1 χ Q hχ z =
       extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) / (χ g - 1) := sorry
 
-theorem extendedPseudoCharacterEval_independent (g h : G) (hg : χ g ≠ 1) (hh : χ h ≠ 1)
+theorem extendedPseudoCharacterEval_independent
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q]
+    (g h : G) (hg : χ g ≠ 1) (hh : χ h ≠ 1)
     (z : Iwasawa.pseudomeasures δ Q) :
     extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) / (χ g - 1) =
       extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q h z) / (χ h - 1) := sorry
 
-theorem extendedPseudoCharacterEval_integral (hχ : χ ≠ 1) (μ : D(G, O)) :
+theorem extendedPseudoCharacterEval_integral
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q]
+    (hχ : χ ≠ 1) (μ : D(G, O)) :
     extendedPseudoCharacterEval j hj hj1 χ Q hχ (Iwasawa.integral δ Q μ) =
       extendedCharacterRingHom j hj hj1 χ μ := sorry
 
 /-- The `Iwasawa.evalAt` denominator is a unit in the scalar field. -/
-theorem extendedPseudoCharacterEval_eq_evalAt (hχ : χ ≠ 1) (g : G) (hg : χ g ≠ 1)
+theorem extendedPseudoCharacterEval_eq_evalAt
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q]
+    (hχ : χ ≠ 1) (g : G) (hg : χ g ≠ 1)
     (z : Iwasawa.pseudomeasures δ Q) :
     letI : Algebra D(G, O) K := (extendedCharacterRingHom j hj hj1 χ).toAlgebra
     ∃ hu : IsUnit (algebraMap D(G, O) K (δ g - 1)),
       extendedPseudoCharacterEval j hj hj1 χ Q hχ z = Iwasawa.evalAt δ Q K g hu z := sorry
 
-theorem extendedPseudoCharacterEval_smul (hχ : χ ≠ 1) (μ : D(G, O))
+theorem extendedPseudoCharacterEval_smul
+    [CompleteSpace O] [CompleteSpace K] [IsUltrametricDist K] [IsFractionRing D(G, O) Q]
+    (hχ : χ ≠ 1) (μ : D(G, O))
     (z : Iwasawa.pseudomeasures δ Q) :
     extendedPseudoCharacterEval j hj hj1 χ Q hχ (μ • z) =
       extendedCharacterRingHom j hj hj1 χ μ * extendedPseudoCharacterEval j hj hj1 χ Q hχ z := sorry
@@ -3348,16 +3451,18 @@ end PseudoNull
 
 section CharacteristicIdeal
 
-variable (A : Type*) [CommRing A] [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A]
+variable (A : Type*) [CommRing A]
   (M : Type*) [AddCommGroup M] [Module A M]
 
 /-- §4.6: the divisor of a finitely generated torsion module, `𝔭 ↦ length_{A_𝔭} M_𝔭` at the
 height-one primes (zero elsewhere). -/
-noncomputable def charDivisor [Module.Finite A M]
+noncomputable def charDivisor
+    [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] [Module.Finite A M]
     (hM : Module.IsTorsion A M) : PrimeSpectrum A →₀ ℕ := sorry
 
 /-- The finite-support and finite-length inputs are proof obligations, not consequences of a name search. -/
-theorem charDivisor_spec [Module.Finite A M] (hM : Module.IsTorsion A M)
+theorem charDivisor_spec
+    [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] [Module.Finite A M] (hM : Module.IsTorsion A M)
     (𝔭 : PrimeSpectrum A) :
     charDivisor A M hM 𝔭 =
       if 𝔭.asIdeal.height = 1 then
@@ -3367,16 +3472,21 @@ theorem charDivisor_spec [Module.Finite A M] (hM : Module.IsTorsion A M)
 
 /-- §4.6: over a unique factorisation domain the divisor is principal; `charIdeal` is the
 ideal it generates. -/
-noncomputable def charIdeal [UniqueFactorizationMonoid A] (M : Type*) [AddCommGroup M]
+noncomputable def charIdeal
+    [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] [UniqueFactorizationMonoid A]
+    (M : Type*) [AddCommGroup M]
     [Module A M] [Module.Finite A M] (hM : Module.IsTorsion A M) : Ideal A :=
   (charDivisor A M hM).prod (fun 𝔭 n => 𝔭.asIdeal ^ n)
 
 /-- §4.6: the value on a cyclic module. -/
-theorem charIdeal_quotient_span [UniqueFactorizationMonoid A] (f : A) (hf : f ≠ 0) :
+theorem charIdeal_quotient_span
+    [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] [UniqueFactorizationMonoid A]
+    (f : A) (hf : f ≠ 0) :
     charIdeal A (A ⧸ Ideal.span {f}) (by sorry) = Ideal.span {f} := sorry
 
 /-- §4.6: finite modules over a two-dimensional local ring have unit characteristic ideal. -/
-theorem charIdeal_eq_top_of_isPseudoNull [UniqueFactorizationMonoid A]
+theorem charIdeal_eq_top_of_isPseudoNull
+    [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] [UniqueFactorizationMonoid A]
     [Module.Finite A M] (h : IsPseudoNull A M) :
     charIdeal A M (h.isTorsion) = ⊤ := sorry
 
@@ -3569,15 +3679,15 @@ theorem charpoly_mulT_quotient (F : O[X]) (hF : F.Monic) :
 end MonicRoot
 
 section SplitCharacters
-variable {O H : Type*} [CommRing O] [IsDomain O] [CommGroup H] [Finite H]
+variable {O H : Type*} [CommRing O] [CommGroup H] [Finite H]
   (hH : IsUnit (Nat.card H : O))
 
 include hH in
-theorem charIdempotent_mul [DecidableEq (H →* Oˣ)] (χ ψ : H →* Oˣ) :
+theorem charIdempotent_mul [IsDomain O] [DecidableEq (H →* Oˣ)] (χ ψ : H →* Oˣ) :
     charIdempotent χ * charIdempotent ψ = if χ = ψ then charIdempotent χ else 0 := sorry
 
 include hH in
-theorem sum_charIdempotent [HasEnoughRootsOfUnity O (Monoid.exponent H)] :
+theorem sum_charIdempotent [IsDomain O] [HasEnoughRootsOfUnity O (Monoid.exponent H)] :
     ∑ᶠ χ : H →* Oˣ, charIdempotent χ = 1 := sorry
 
 variable (M : Type*) [AddCommGroup M] [Module O M] [Module (MonoidAlgebra O H) M]
@@ -3589,47 +3699,54 @@ def isotypicComponent (χ : H →* Oˣ) : Submodule O M :=
 include hH in
 /-- §4.6: the eigencharacter criterion. With `#H` a unit, the range of
 the projector `e_χ` is the set of vectors on which every `h` acts by `χ(h)`. -/
-theorem isotypicComponent_spec (χ : H →* Oˣ) (m : M) :
+theorem isotypicComponent_spec [IsDomain O] (χ : H →* Oˣ) (m : M) :
     m ∈ isotypicComponent M χ ↔ ∀ h : H, MonoidAlgebra.of O H h • m = ((χ h : Oˣ) : O) • m := sorry
 
 include hH in
 /-- The fixed-point form of the criterion, equivalent to `isotypicComponent_spec` because
 `h · e_χ = χ(h) e_χ` in `O[H]`. -/
-theorem mem_isotypicComponent_iff_smul_eq (χ : H →* Oˣ) (m : M) :
+theorem mem_isotypicComponent_iff_smul_eq [IsDomain O] (χ : H →* Oˣ) (m : M) :
     m ∈ isotypicComponent M χ ↔ charIdempotent χ • m = m := sorry
 
-theorem isotypicComponent_zero (χ : H →* Oˣ) :
+theorem isotypicComponent_zero [IsDomain O] (χ : H →* Oˣ) :
     isotypicComponent PUnit χ = ⊥ := sorry
 
-theorem isotypicComponent_equiv {N : Type*} [AddCommGroup N] [Module O N]
+theorem isotypicComponent_equiv [IsDomain O] {N : Type*} [AddCommGroup N] [Module O N]
     [Module (MonoidAlgebra O H) N] [IsScalarTower O (MonoidAlgebra O H) N]
     (e : M ≃ₗ[MonoidAlgebra O H] N) (χ : H →* Oˣ) :
     (isotypicComponent M χ).map (e.toLinearMap.restrictScalars O) = isotypicComponent N χ := sorry
 
 /-- §4.6: a finite product is the finite direct sum here.
 The inverse is the sum of inclusions; the forward map consists of the e_χ projections. -/
-def isotypicDecomposition (hH : IsUnit (Nat.card H : O)) [HasEnoughRootsOfUnity O (Monoid.exponent H)] :
+def isotypicDecomposition
+    [IsDomain O] (hH : IsUnit (Nat.card H : O)) [HasEnoughRootsOfUnity O (Monoid.exponent H)] :
     M ≃ₗ[O] (∀ χ : H →* Oˣ, isotypicComponent M χ) := sorry
 
 end SplitCharacters
 
 section ProductCharacteristic
-variable {ι : Type*} [Finite ι] (A : Type*) [CommRing A] [IsDomain A]
-  [IsNoetherianRing A] [IsIntegrallyClosed A] [UniqueFactorizationMonoid A]
+variable {ι : Type*} (A : Type*) [CommRing A]
+    [UniqueFactorizationMonoid A]
   (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
   [∀ i, Module.Finite A (M i)]
 /-- §4.6: ideal on the product ring, by its components.
 A completed-algebra result pulls this ideal back along the owner's split ring equivalence. -/
-def charIdealProduct (hM : ∀ i, Module.IsTorsion A (M i)) : Ideal (ι → A) :=
+def charIdealProduct
+    [Finite ι] [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A]
+    (hM : ∀ i, Module.IsTorsion A (M i)) : Ideal (ι → A) :=
   ⨅ i, (charIdeal A (M i) (hM i)).comap (Pi.evalRingHom (fun _ : ι => A) i)
 
-theorem charIdealProduct_spec (hM : ∀ i, Module.IsTorsion A (M i)) (x : ι → A) :
+theorem charIdealProduct_spec
+    [Finite ι] [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A]
+    (hM : ∀ i, Module.IsTorsion A (M i)) (x : ι → A) :
     x ∈ charIdealProduct A M hM ↔ ∀ i, x i ∈ charIdeal A (M i) (hM i) := sorry
 
-theorem charIdealProduct_zero :
+theorem charIdealProduct_zero [Finite ι] [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] :
     charIdealProduct A (fun _ : ι => PUnit) (by sorry) = ⊤ := sorry
 
-theorem charIdealProduct_equiv (N : ι → Type*) [∀ i, AddCommGroup (N i)]
+theorem charIdealProduct_equiv
+    [Finite ι] [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A]
+    (N : ι → Type*) [∀ i, AddCommGroup (N i)]
     [∀ i, Module A (N i)] [∀ i, Module.Finite A (N i)]
     (hM : ∀ i, Module.IsTorsion A (M i)) (hN : ∀ i, Module.IsTorsion A (N i))
     (e : ∀ i, M i ≃ₗ[A] N i) : charIdealProduct A M hM = charIdealProduct A N hN := sorry
@@ -4360,7 +4477,8 @@ section EqualCharacteristicGrowthTest
 local instance : AddCommGroup (PowerSeries (ZMod p)) :=
   (inferInstance : CommRing (PowerSeries (ZMod p))).toAddCommGroup
 
-example [IsAdicComplete (IsLocalRing.maximalIdeal (PowerSeries (ZMod p))) (PowerSeries (ZMod p))]
+example
+    [IsAdicComplete (IsLocalRing.maximalIdeal (PowerSeries (ZMod p))) (PowerSeries (ZMod p))]
     [Finite (IsLocalRing.ResidueField (PowerSeries (ZMod p)))]
     (hX : Irreducible (PowerSeries.X : PowerSeries (ZMod p))) :
     let O := PowerSeries (ZMod p)
@@ -5226,14 +5344,16 @@ example {G' Gp : Subgroup G} (hcompl : G'.IsComplement' Gp) (hcard : Nat.card G'
   sorry
 
 -- test componentEquiv_trivialComplement (degenerate) [§6.1]
-example [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
+example
+    [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
     (h1 : IsUnit (Nat.card (⊥ : Subgroup G) : O)) (x : MonoidAlgebra O G) :
     charGroupRing.componentEquiv Subgroup.isComplement'_bot_top h1 (1 : (⊥ : Subgroup G) →* Oˣ)
         (charGroupRing.restrict (Set.subset_univ _) (charGroupRing.proj Set.univ x)) =
       MonoidAlgebra.mapDomainAlgHom O O (Subgroup.topEquiv (G := G)).symm x := sorry
 
 -- test componentEquiv_trivialSylow (degenerate) [§6.1]
-example [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
+example
+    [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
     (hG : IsUnit (Nat.card (⊤ : Subgroup G) : O)) (χ : (⊤ : Subgroup G) →* Oˣ) (g : G) :
     charGroupRing.componentEquiv Subgroup.isComplement'_top_bot hG χ
         (charGroupRing.proj _ (MonoidAlgebra.of O G g)) =
@@ -5575,18 +5695,18 @@ end ContragredientDual
 
 section GroupRing
 
-variable {O G : Type*} [CommRing O] [CommGroup G] [Fintype G]
+variable {O G : Type*} [CommRing O] [CommGroup G]
 
 /-- For a finite commutative group `G`, `R = S = O[G]`, `σ = #` and an `O[G]`-module `M`:
 `Hom_O(M, O) ≅ M^*`, `f ↦ (m ↦ Σ_g f(g • m) • g⁻¹)`, an isomorphism of abelian groups whose
 inverse takes the coefficient of `1` (Dasgupta–Kakde, proof of Lemma A.8). -/
-def ContragredientDual.equivDualOfGroupRing (M : Type*) [AddCommGroup M]
+def ContragredientDual.equivDualOfGroupRing [Fintype G] (M : Type*) [AddCommGroup M]
     [Module (MonoidAlgebra O G) M] :
     Module.Dual O (RestrictScalars O (MonoidAlgebra O G) M) ≃+
       ContragredientDual (sharpAlgEquiv (O := O) (G := G)).toRingEquiv M := sorry
 
 /-- The formula for `equivDualOfGroupRing`: `Ψ_f(x) = Σ_g f(g • x) • g⁻¹`. -/
-theorem ContragredientDual.equivDualOfGroupRing_apply (M : Type*) [AddCommGroup M]
+theorem ContragredientDual.equivDualOfGroupRing_apply [Fintype G] (M : Type*) [AddCommGroup M]
     [Module (MonoidAlgebra O G) M]
     (f : Module.Dual O (RestrictScalars O (MonoidAlgebra O G) M)) (x : M) :
     ContragredientDual.toDual _ (ContragredientDual.equivDualOfGroupRing M f) x =
@@ -5597,7 +5717,7 @@ theorem ContragredientDual.equivDualOfGroupRing_apply (M : Type*) [AddCommGroup 
 /-- `equivDualOfGroupRing` carries Mathlib's dual representation `Representation.dual` of the
 representation of `G` on `M`, `(g • f)(m) = f(g⁻¹ • m)`, to the action of `g ∈ G ⊆ O[G]` on
 `M^*`. -/
-theorem ContragredientDual.equivDualOfGroupRing_dual (M : Type*) [AddCommGroup M]
+theorem ContragredientDual.equivDualOfGroupRing_dual [Fintype G] (M : Type*) [AddCommGroup M]
     [Module (MonoidAlgebra O G) M] (g : G)
     (f : Module.Dual O (RestrictScalars O (MonoidAlgebra O G) M)) :
     ContragredientDual.equivDualOfGroupRing M
@@ -6670,40 +6790,54 @@ end TauCeti.Iwasawa
 noncomputable section
 namespace TauCeti.Iwasawa
 section Coordinate
-variable (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O]
+variable (p : ℕ) (O : Type*) [CommRing O]
 /- NSW (5.3.5) takes `O` to be the integers of a finite extension of `ℚ_p`. The level maps need
 `p` in the Jacobson radical and `p`-adic completeness: for `O = ℚ` and `n > 0` one has `(ω_n) = (T)` and no
 ring map `O⟦T⟧ → O[ℤ/pⁿ]` sends `T` to `[1] − 1`. A local noetherian ring complete for its
 maximal ideal with residue characteristic `p` covers the source's case and ℤ_p-algebras such as
 `ℤ_p⟦X⟧`; the same hypotheses give the injectivity and the image description below. -/
-variable [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
-  [CharP (IsLocalRing.ResidueField O) p]
+
 
 /-- §4.5, level `n`: `O⟦T⟧ → O[ℤ/pⁿ]`, `T ↦ [1] − 1`. -/
-def levelCoordinate (n : ℕ) :
+def levelCoordinate
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) :
     PowerSeries O →ₐ[O] MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) := sorry
-theorem levelCoordinate_X (n : ℕ) :
+theorem levelCoordinate_X
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) :
     levelCoordinate p O n PowerSeries.X =
       MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod (p ^ n))) 1 - 1 := sorry
-theorem levelCoordinate_C (n : ℕ) (a : O) :
+theorem levelCoordinate_C
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) (a : O) :
     levelCoordinate p O n (PowerSeries.C a) = algebraMap O _ a := sorry
 
 /-- Continuity for the (m,T)-adic source and m-adic finite group algebra. -/
-theorem continuous_levelCoordinate (n : ℕ) :
+theorem continuous_levelCoordinate
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) :
     let I := (IsLocalRing.maximalIdeal O).map (PowerSeries.C (R := O)) ⊔
       Ideal.span {(PowerSeries.X : PowerSeries O)}
     let J := (IsLocalRing.maximalIdeal O).map
       (algebraMap O (MonoidAlgebra O (Multiplicative (ZMod (p ^ n)))))
     @Continuous _ _ I.adicTopology J.adicTopology (levelCoordinate p O n) := sorry
 
-theorem levelCoordinate_unique (n : ℕ)
+theorem levelCoordinate_unique
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ)
     (f : PowerSeries O →ₐ[O] MonoidAlgebra O (Multiplicative (ZMod (p ^ n))))
     (hf : f PowerSeries.X =
       MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod (p ^ n))) 1 - 1) :
     f = levelCoordinate p O n := sorry
 
-theorem levelCoordinate_surjective (n : ℕ) : Function.Surjective (levelCoordinate p O n) := sorry
-theorem ker_levelCoordinate (n : ℕ) :
+theorem levelCoordinate_surjective
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    (n : ℕ) : Function.Surjective (levelCoordinate p O n) := sorry
+theorem ker_levelCoordinate
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) :
     RingHom.ker (levelCoordinate p O n).toRingHom =
       Ideal.span {(1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1} := sorry
 
@@ -6711,41 +6845,63 @@ theorem ker_levelCoordinate (n : ℕ) :
 def transition {m n : ℕ} (h : m ≤ n) :
     Multiplicative (ZMod (p ^ n)) →* Multiplicative (ZMod (p ^ m)) :=
   AddMonoidHom.toMultiplicative (ZMod.castHom (pow_dvd_pow p h) (ZMod (p ^ m))).toAddMonoidHom
-theorem levelCoordinate_transition {m n : ℕ} (h : m ≤ n) (F : PowerSeries O) :
+theorem levelCoordinate_transition
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    {m n : ℕ} (h : m ≤ n) (F : PowerSeries O) :
     MonoidAlgebra.mapDomainRingHom O (transition p h) (levelCoordinate p O n F) =
       levelCoordinate p O m F := sorry
 
 /-- §4.5: `O⟦T⟧ → lim_n O[ℤ/pⁿ]`, the coordinate `γ ↦ 1 + T`. -/
-def iwasawaCoordinate : PowerSeries O →ₐ[O] ∀ n, MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) :=
+def iwasawaCoordinate
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    : PowerSeries O →ₐ[O] ∀ n, MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) :=
   sorry
-theorem iwasawaCoordinate_apply (F : PowerSeries O) (n : ℕ) :
+theorem iwasawaCoordinate_apply
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    (F : PowerSeries O) (n : ℕ) :
     iwasawaCoordinate p O F n = levelCoordinate p O n F := sorry
 
 -- test coordinate_level_zero (degenerate) [§4.5]
-example (F : PowerSeries O) :
+example
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    (F : PowerSeries O) :
     levelCoordinate p O 0 F = MonoidAlgebra.single 1 (PowerSeries.constantCoeff F) := sorry
 -- test coordinate_group_element (computation) [§4.5]
-example (n k : ℕ) :
+example
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n k : ℕ) :
     levelCoordinate p O n ((1 + PowerSeries.X) ^ k) =
       MonoidAlgebra.single (Multiplicative.ofAdd (k : ZMod (p ^ n))) 1 := sorry
 -- test coordinate_omega_not_power_of_T (negative control, same level) [§4.5]
-example (n : ℕ) (hn : 0 < n) :
+example [Fact p.Prime] (n : ℕ) (hn : 0 < n) :
+    letI : CharP (IsLocalRing.ResidueField ℤ_[p]) p :=
+      PadicInt.residueField.toRingHom.charP PadicInt.residueField.injective p
     levelCoordinate p ℤ_[p] n ((1 + PowerSeries.X) ^ (p ^ n) - 1) = 0 ∧
       levelCoordinate p ℤ_[p] n (PowerSeries.X ^ (p ^ n)) ≠ 0 := sorry
 
 -- test coordinate_two_level_one (computation) [§4.5]
-example : let t : MonoidAlgebra ℤ_[2] (Multiplicative (ZMod (2 ^ 1))) :=
+example :
+    letI : CharP (IsLocalRing.ResidueField ℤ_[2]) 2 :=
+      PadicInt.residueField.toRingHom.charP PadicInt.residueField.injective 2
+    let t : MonoidAlgebra ℤ_[2] (Multiplicative (ZMod (2 ^ 1))) :=
       MonoidAlgebra.single (Multiplicative.ofAdd 1) 1 - 1
     t ^ 2 = -2 * t ∧ t ^ 2 ≠ 0 ∧
       levelCoordinate 2 ℤ_[2] 1 ((1 + PowerSeries.X) ^ 2 - 1) = 0 := sorry
 
 -- test coordinate_characteristic_p (specialization) [§4.5]
-theorem omega_eq_X_pow_of_charP [CharP O p] (n : ℕ) :
+theorem omega_eq_X_pow_of_charP
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    [CharP O p] (n : ℕ) :
     (1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1 = PowerSeries.X ^ (p ^ n) := sorry
 
 -- test coordinate_coefficient_shear_rejected (negative control) [§4.5]
 -- In O = Z_p[[S]], a sheared map takes C(S) to C(S) + ([1]-1).
-example (n : ℕ) (hn : 0 < n) :
+example [Fact p.Prime] (n : ℕ) (hn : 0 < n) :
     let Oₛ := PowerSeries ℤ_[p]
     let A := MonoidAlgebra Oₛ (Multiplicative (ZMod (p ^ n)))
     ∀ f : PowerSeries Oₛ →ₐ[Oₛ] A,
@@ -6753,30 +6909,48 @@ example (n : ℕ) (hn : 0 < n) :
         (MonoidAlgebra.single (Multiplicative.ofAdd 1) 1 - 1) := sorry
 
 /-- Assemble into the existing Tau Ceti carrier via its inverse-limit universal property. -/
-def completedCoordinate : PowerSeries O ≃ₐ[O]
+def completedCoordinate
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    : PowerSeries O ≃ₐ[O]
     TauCeti.completedGroupAlgebra O (Multiplicative ℤ_[p]) := sorry
 
-theorem completedCoordinate_X : completedCoordinate p O PowerSeries.X =
+theorem completedCoordinate_X
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    : completedCoordinate p O PowerSeries.X =
     TauCeti.completedGroupAlgebra.of O (Multiplicative ℤ_[p]) (Multiplicative.ofAdd 1) - 1 := sorry
 
 /-- The projection induced by reduction Z_p → Z/p^n, using the cofinal open kernels. -/
-def completedLevel (n : ℕ) : TauCeti.completedGroupAlgebra O (Multiplicative ℤ_[p]) →ₐ[O]
+def completedLevel [Fact p.Prime] (n : ℕ) : TauCeti.completedGroupAlgebra O (Multiplicative ℤ_[p]) →ₐ[O]
     MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) := sorry
 
-theorem completedLevel_of (n : ℕ) (a : ℤ_[p]) :
+theorem completedLevel_of
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    (n : ℕ) (a : ℤ_[p]) :
     completedLevel p O n (TauCeti.completedGroupAlgebra.of O (Multiplicative ℤ_[p])
       (Multiplicative.ofAdd a)) =
         MonoidAlgebra.single (Multiplicative.ofAdd (PadicInt.toZModPow n a)) 1 := sorry
 
-theorem completedCoordinate_level (n : ℕ) :
+theorem completedCoordinate_level
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) :
     (completedLevel p O n).comp (completedCoordinate p O).toAlgHom = levelCoordinate p O n := sorry
 
-theorem iwasawaCoordinate_injective : Function.Injective (iwasawaCoordinate p O) := sorry
-theorem range_iwasawaCoordinate :
+theorem iwasawaCoordinate_injective
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p]
+    : Function.Injective (iwasawaCoordinate p O) := sorry
+theorem range_iwasawaCoordinate
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] :
     Set.range (iwasawaCoordinate p O) =
       {c | ∀ {m n : ℕ} (h : m ≤ n),
         MonoidAlgebra.mapDomainRingHom O (transition p h) (c n) = c m} := sorry
-theorem iInf_span_cyclotomic_eq_bot :
+theorem iInf_span_cyclotomic_eq_bot
+    [Fact p.Prime] [IsLocalRing O] [IsNoetherianRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharP (IsLocalRing.ResidueField O) p] :
     ⨅ n : ℕ, Ideal.span {(1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1} = ⊥ := sorry
 end Coordinate
 end TauCeti.Iwasawa
@@ -6916,19 +7090,23 @@ end TauCeti.Iwasawa
 namespace TauCeti
 section ProjectiveRank
 variable (A P : Type*) [CommRing A] [AddCommGroup P] [Module A P]
-  [Module.Finite A P] [Module.Projective A P]
+
 
 /-- §5.1: the clopen rank-r piece used to construct the determinant. -/
-def projectiveRankClopen (r : ℕ) : TopologicalSpace.Clopens (PrimeSpectrum A) :=
+def projectiveRankClopen
+    [Module.Finite A P] [Module.Projective A P] (r : ℕ) : TopologicalSpace.Clopens (PrimeSpectrum A) :=
   ⟨{x | Module.rankAtStalk P x = r}, by sorry⟩
-theorem projectiveRankClopen_mem (r : ℕ) (x : PrimeSpectrum A) :
+theorem projectiveRankClopen_mem [Module.Finite A P] [Module.Projective A P] (r : ℕ) (x : PrimeSpectrum A) :
     x ∈ projectiveRankClopen A P r ↔ Module.rankAtStalk P x = r := sorry
-theorem projectiveRank_finite_range : Set.Finite (Set.range (Module.rankAtStalk (R := A) P)) := sorry
+theorem projectiveRank_finite_range
+    [Module.Finite A P] [Module.Projective A P]
+    : Set.Finite (Set.range (Module.rankAtStalk (R := A) P)) := sorry
 
 /-- Parity is a locally constant function, including when Spec A is disconnected. -/
-def projectiveDeterminantParity : LocallyConstant (PrimeSpectrum A) (ZMod 2) :=
+def projectiveDeterminantParity
+    [Module.Finite A P] [Module.Projective A P] : LocallyConstant (PrimeSpectrum A) (ZMod 2) :=
   ⟨fun x => (Module.rankAtStalk P x : ZMod 2), by sorry⟩
-theorem projectiveDeterminantParity_apply (x : PrimeSpectrum A) :
+theorem projectiveDeterminantParity_apply [Module.Finite A P] [Module.Projective A P] (x : PrimeSpectrum A) :
     projectiveDeterminantParity A P x = (Module.rankAtStalk P x : ZMod 2) := sorry
 end ProjectiveRank
 
