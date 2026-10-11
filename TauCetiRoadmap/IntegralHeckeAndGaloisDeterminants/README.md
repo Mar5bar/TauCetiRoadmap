@@ -1,5 +1,7 @@
 # Roadmap: integral Hecke actions, determinants and interpolation
 
+**For the expert reviewer.** This roadmap builds the integral algebra that links a Hecke action on cohomology to Galois data over its coefficient ring, with Chenevier's determinants (multiplicative polynomial laws of fixed degree) as the central object because their characteristic coefficients survive torsion and nonreduced rings: Cayley–Hamilton algebras and reconstruction of representations over henselian and complete local rings, integral and derived Hecke actions with the ghost comparison, Hecke polynomial normalisations for `GLₙ` and `GSp₄`, residual maximal ideals of Galois type, interpolation of determinants through finite quotients over nonreduced rings, quantified nilpotent comparison with uniform exponents, and integral Ribet modules with Fitting ideals. It imports SmoothRepresentationsOfLocalGroups and consumes the Azumaya splitting and normalisation suppliers of SchemeAndStackFoundations. The sources are Chenevier, Wang-Erickson, Scholze's torsion paper, Newton–Thorne and Ribet. Check first the determinant axioms in torsion, the uniqueness clause of the interpolation theorem, the error exponents of Layer 5, and the Fitting-ideal conventions.
+
 This roadmap builds the integral algebra that connects a Hecke action on cohomology to Galois data
 over its coefficient ring. The central object is a multiplicative polynomial law of specified degree,
 Chenevier's determinant: its characteristic coefficients remain meaningful in torsion and over
