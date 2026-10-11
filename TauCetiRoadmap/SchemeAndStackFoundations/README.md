@@ -1005,7 +1005,9 @@ the annihilator ideal sheaf `Ann(F)` is quasi-coherent, and the scheme-theoretic
 (Stacks, Lemmas 29.5.1 (056I), 29.5.3 (056J), 29.5.4 (05JU), Definition 29.5.5 (05JV)). Define
 `Scheme.Modules.IsCohenMacaulay F` for a coherent `F` on a locally Noetherian `X`: for every `x` in
 the support, `depth_{O_{X,x}} F_x = dim Supp F_x`; and `Scheme.IsCohenMacaulay X := IsCohenMacaulay
-O_X` (Stacks, Definition 28.8.1 (02IO)). API: `isCohenMacaulay_iff_forall_satisfiesSerreS`,
+O_X` (Stacks, Definition 28.8.1 (02IO)). Equivalently, `X` is locally Noetherian and each stalk
+admits a regular sequence of length its Krull dimension (Stacks, §10.104).
+API: `isCohenMacaulay_iff_forall_satisfiesSerreS`,
 `isCohenMacaulay_iff_stalks`, `isCohenMacaulay_iff_affineOpens`, `isCohenMacaulay_Spec_iff`
 (agreement with §0.17 on affine schemes), `IsCohenMacaulay.of_isOpenImmersion`,
 `IsCohenMacaulay.of_smooth` (smooth over a Cohen–Macaulay base), `IsCohenMacaulay.regular`. *Needs:*
@@ -2501,7 +2503,7 @@ ampleness); JacobianChallenge Layer B.
 
 ### 2.7 Cohomology with supports and local cohomology
 
-Define `sectionsWithSupport Z F := ker(F(X) → F(X ∖ Z))` for a closed `Z ⊆ X`, `supportedSubsheaf Z
+Define `sectionsWithSupport Z hZ F := ker(F(X) → F(X ∖ Z))` for `Z ⊆ X` with `hZ : IsClosed Z`, `supportedSubsheaf Z
 F` (the sheaf `H_Z(F)` on `Z`), `cohomologyWithSupport Z F q := R^q Γ_Z(X, −)` applied to `F` with
 its `O(X)`-module structure, and `localCohomologySheaf Z F q := R^q H_Z(F)` (Stacks, Section 20.21
 (0A39)). API: `cohomologyWithSupport_zero`, `cohomologyWithSupport_univ` (`Z = X` gives `H^q`,
@@ -3067,9 +3069,11 @@ dualising complex, which is defined in terms of it. Define `RelativeDualizingCom
 isomorphism `Δ_* O_X ≅ RHom_{O_W}(Δ_* O_X, L pr_1^* K|_W)` (Stacks, Definition 48.28.1 (0E2S)). API:
 `RelativeDualizingComplex.unique`, `.exists`, `.baseChange` (derived pullback along `S' → S`),
 `.homothety_iso` (`O_X ≅ RHom(K, K)`), `.upperShriek` (for `f` flat in `FTS_S`, `f^! O_S` with its
-canonical `ξ` is one) (Lemmas 48.28.2–48.28.7, 48.28.9). Define `relativeDualizingModule f :=
-H^{−d}(f^! O_Y)` for `f` flat Cohen–Macaulay of relative dimension `d` in `FTS_S` (fibres
-Cohen–Macaulay of pure dimension `d`, §0.18), with `upperShriek_structureSheaf_iso_shift`
+canonical `ξ` is one) (Lemmas 48.28.2–48.28.7, 48.28.9). Define `relativeDualizingModule f d hd hCM :=
+H^{−d}(f^! O_Y)` for `f : X → Y` flat, separated, quasi-compact and locally of finite type with
+`Y` Noetherian, `d : ℕ`, `hd : PureRelativeDimension d f`, and
+`hCM : ∀ y : Y, Scheme.IsCohenMacaulay (f.fiber y)` (fibres Cohen–Macaulay of pure dimension `d`,
+§0.18), with `upperShriek_structureSheaf_iso_shift`
 (`f^! O_Y ≅ ω_{X/Y}[d]`), `relativeDualizingModule_coherent` (coherent, flat over `Y`),
 `relativeDualizingModule_baseChange`, `relativeDualizingModule_invertible_iff` (invertible at `x`
 iff `f` is Gorenstein at `x`), `relativeDualizingModule_smooth` (`ω ≅ ∧^d Ω_{X/Y}` for smooth `f`)
@@ -4538,7 +4542,9 @@ sections enter the normal-crossings boundary (de Jong, §§4.22–4.28).
 
 Define `IsTrait R`: `R` is a complete discrete valuation ring (de Jong 1996, 2.12, p. 57); a
 morphism of traits is a local homomorphism `R → R'` of complete discrete valuation rings sending a
-uniformiser to a nonzero element, with `TraitHom.ramificationIndex` (the valuation of `π`). A
+uniformiser to a nonzero element, equivalently an injective local homomorphism.
+Define `TraitHom.ramificationIndex φ hφ` for an injective local homomorphism `φ` of DVRs,
+with `hφ : Function.Injective φ`, as the valuation of `φ(π)`; completeness is not needed. A
 finite extension of traits means a finite injective local homomorphism `R → R'` of complete DVRs
 (de Jong 1996, 2.12, p. 57). No separability of `Frac(R')/Frac(R)` is required. In the separable
 case use Tau Ceti's `FiniteDVRExtension R K` (StableReduction Layer 0), and prove that its local
@@ -4618,7 +4624,7 @@ carry the inverse image of `D₁` and the disjoint smooth sections through the n
   fails the input condition; adding a horizontal divisor requires its inverse image in the boundary.
 - `isTrait_padicInt`: `ℤ_p` is a trait with uniformiser `p`.
 - `not_isTrait_localization`: `ℤ_{(p)}` is a DVR and not a trait (not complete).
-- `ramification_sqrt`: `ℤ_p → ℤ_p[x]/(x² − p)` is a `FiniteDVRExtension` of ramification index `2`.
+- `ramification_sqrt`: the injective local map `ℤ_p → ℤ_p[x]/(x² − p)` has ramification index `2`.
 - `isSVariety_genericOnly`: `Spec ℚ_p` is a `ℤ_p`-variety with empty special fibre.
 - `not_isSVariety_specialPoint`: `Spec 𝔽_p → Spec ℤ_p` is not flat, hence not an `S`-variety.
 - `baseChange_component_test_vertical_excluded`: `ℤ_p → 𝔽_p` is not a `FiniteDVRExtension`, so

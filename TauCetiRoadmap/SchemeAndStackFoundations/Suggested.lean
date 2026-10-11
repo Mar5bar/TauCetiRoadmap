@@ -3343,6 +3343,13 @@ example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p]
 
 end AffineControls
 
+/-- A locally Noetherian scheme whose stalks admit regular sequences of length their
+Krull dimension: the stalkwise Cohen–Macaulay condition (Stacks, §§10.104, 28.8). -/
+def _root_.AlgebraicGeometry.Scheme.IsCohenMacaulay (X : Scheme.{u}) : Prop :=
+  IsLocallyNoetherian X ∧ ∀ x : X, ∃ rs : List (X.presheaf.stalk x),
+    RingTheory.Sequence.IsRegular (X.presheaf.stalk x) rs ∧
+      ringKrullDim (X.presheaf.stalk x) = rs.length
+
 /-! ### Layer 0 definitions without a typed form at the pins
 
 The following README definitions of Layer 0 §3, §4, §5, §6 and §7 have no declaration above, because
@@ -5060,7 +5067,8 @@ noncomputable def cohomologyWithSupport {X : Scheme.{u}} (Z : Set X) (hZ : IsClo
   sorry
 
 /-- Sections supported in `Z`. -/
-noncomputable def sectionsWithSupport {X : Scheme.{u}} (Z : Set X) (F : X.Modules) : Type u :=
+noncomputable def sectionsWithSupport {X : Scheme.{u}} (Z : Set X) (hZ : IsClosed Z)
+    (F : X.Modules) : Type u :=
   sorry
 
 /- `supportedSubsheaf`, `localCohomologySheaf`, `cohomologyWithSupport_zero`,
@@ -6128,9 +6136,12 @@ noncomputable def RelativeDualizingComplex {X S : Scheme.{u}} (f : X ⟶ S) [Fla
     [LocallyOfFinitePresentation f] : Type (u + 1) :=
   sorry
 
-/-- The relative dualizing module `ω_{X/Y}` of a flat Cohen–Macaulay morphism (carrier). -/
+/-- The relative dualizing module `H^{-d}(f^! O_Y)` of a flat Cohen–Macaulay morphism
+of pure relative dimension `d`, separated and of finite type over a Noetherian base. -/
 noncomputable def relativeDualizingModule {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f]
-    [LocallyOfFiniteType f] : X.Modules :=
+    [LocallyOfFiniteType f] [IsSeparated f] [QuasiCompact f] [IsNoetherian Y]
+    (d : ℕ) (hd : TauCeti.AlgebraicGeometry.PureRelativeDimension d f)
+    (hCM : ∀ y : Y, Scheme.IsCohenMacaulay (f.fiber y)) : X.Modules :=
   sorry
 
 /- Roadmap statements, stated with `upperShriek`, `relativeDualizingModule` and the derived
@@ -6593,17 +6604,19 @@ class PicardGroupoid (C : Type*) [Category C] [MonoidalCategory C] [SymmetricCat
 
 namespace PicardGroupoid
 
-variable (C : Type*) [Category C] [MonoidalCategory C] [SymmetricCategory C] [PicardGroupoid C]
+variable (C : Type*) [Category C]
 
 /-- The abelian group of isomorphism classes. -/
 def pi0 : Type _ := Skeleton C
 
-instance : CommGroup (pi0 C) := sorry
+instance [MonoidalCategory C] [SymmetricCategory C] [PicardGroupoid C] :
+    CommGroup (pi0 C) := sorry
 
 /-- The abelian group of automorphisms of the unit. -/
-def pi1 : Type _ := Aut (𝟙_ C)
+def pi1 [MonoidalCategory C] : Type _ := Aut (𝟙_ C)
 
-instance : CommGroup (pi1 C) := sorry
+instance [MonoidalCategory C] [SymmetricCategory C] [PicardGroupoid C] :
+    CommGroup (pi1 C) := sorry
 
 end PicardGroupoid
 
@@ -8400,7 +8413,7 @@ class IsTrait (R : Type u) [CommRing R] [IsDomain R] : Prop where
 /-- The ramification index of a local extension of DVRs: the valuation of a uniformiser. -/
 def TraitHom.ramificationIndex {R R' : Type u} [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [CommRing R'] [IsDomain R'] [IsDiscreteValuationRing R']
-    (φ : R →+* R') : ℕ :=
+    (φ : R →+* R') [IsLocalHom φ] (hφ : Function.Injective φ) : ℕ :=
   sorry
 
 /-- An `S`-variety over a trait: integral, separated, flat and of finite type (de Jong 2.15). -/
@@ -8480,8 +8493,9 @@ example (p : ℕ) [Fact p.Prime] [(Ideal.span {(p : ℤ)}).IsPrime] :
 -- Check `ramification_sqrt`: Z_p → Z_p[x]/(x² − p) has ramification index 2.
 example (p : ℕ) [Fact p.Prime] (R' : Type) [CommRing R'] [IsDomain R'] [IsDiscreteValuationRing R']
     (e : R' ≃+* Polynomial ℤ_[p] ⧸ Ideal.span {Polynomial.X ^ 2 - Polynomial.C (p : ℤ_[p])})
-    (φ : ℤ_[p] →+* R') (hφ : ∀ a, e (φ a) = Ideal.Quotient.mk _ (Polynomial.C a)) :
-    TraitHom.ramificationIndex φ = 2 := by
+    (φ : ℤ_[p] →+* R') [IsLocalHom φ] (hinj : Function.Injective φ)
+    (hφ : ∀ a, e (φ a) = Ideal.Quotient.mk _ (Polynomial.C a)) :
+    TraitHom.ramificationIndex φ hinj = 2 := by
   sorry
 
 -- Check `isSVariety_genericOnly`: Spec Q_p is a Z_p-variety with empty special
