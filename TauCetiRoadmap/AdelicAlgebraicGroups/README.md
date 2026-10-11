@@ -1,5 +1,7 @@
 # Roadmap: adelic algebraic groups and arithmetic quotients
 
+**For the expert reviewer.** This roadmap develops affine algebraic groups over number fields on the adeles: the topology on adelic points with integral models and levels, restricted products of Haar measures with convergence factors, the idele norm, the norm-one subgroup and the split component, gauge forms and Tamagawa measures with their discriminant normalisation, reduction theory (standard parabolics, Siegel sets, heights, cusps, the Orr–Schnell containment theorems), finiteness of class numbers, finite volume and compactness criteria for `G(F)\G(𝔸_F)^1`, strong approximation and the Hasse principle for simply connected groups, neat levels and Hecke correspondences, with GL₁, GL₂ and definite quaternion examples. It imports the local structure from ReductiveGroupsPartII and the number-field material from GlobalNumberFields. The sources are Borel, Platonov–Rapinchuk, Weil, Arthur's Clay notes and Orr–Schnell. Check first the measure normalisations, the definitions of admissible compacts and Siegel sets, and the counterexamples kept as Checks (the tilted torus and the twisted orthogonal form), which fix where reduction theory genuinely needs its hypotheses.
+
 The adeles let one study the real geometry of an algebraic group and its congruence conditions in
 a single locally compact group. This roadmap develops that passage for affine groups over number
 fields: the topology on their adelic points, Haar and Tamagawa measures, arithmetic quotients,
