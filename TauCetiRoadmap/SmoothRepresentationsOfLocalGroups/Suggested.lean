@@ -892,29 +892,41 @@ example [Group G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] (μ
     (hU : ∃ K : Subgroup G, (K : Set G) = (U : Set G)) (hv : IsUnit (μ.vol U)) :
     HeckeAlgebra.idempotent μ U hU hv * HeckeAlgebra.idempotent μ U hU hv =
       HeckeAlgebra.idempotent μ U hU hv := sorry
+/-- In `HeckeAlgebra` of C₂ with counting measure, the indicator of the coset `{s}` squares to
+the indicator of `{1}`, so a compact open coset that is not a subgroup is not idempotent. -/
 theorem HeckeAlgebra.idempotent_nonSubgroup :
-    let d : MonoidAlgebra ℚ (Multiplicative (ZMod 2)) :=
-      MonoidAlgebra.single (Multiplicative.ofAdd 1) 1
-    d * d = 1 ∧ d ≠ 1 := sorry
+    let δ : Multiplicative (ZMod 2) →
+        HeckeAlgebra (HaarMeasureWithValues.counting (G := Multiplicative (ZMod 2)) (A := ℚ)) :=
+      fun g => LocallyConstantCompact.indicator ⟨⟨{g}, isCompact_singleton⟩, isOpen_discrete _⟩ 1
+    δ (Multiplicative.ofAdd 1) * δ (Multiplicative.ofAdd 1) = δ 1 ∧
+      δ (Multiplicative.ofAdd 1) * δ (Multiplicative.ofAdd 1) ≠ δ (Multiplicative.ofAdd 1) := sorry
 
-/- Check `HeckeAlgebra.idempotent_nonSubgroup`: In C₂ a singleton coset gives δ_s² = 1 and δ_s ≠ 1. -/
+/- Check `HeckeAlgebra.idempotent_nonSubgroup`: In C₂ a singleton coset gives δ_s² = δ_1 and δ_s² ≠ δ_s. -/
 example :
-    let d : MonoidAlgebra ℚ (Multiplicative (ZMod 2)) :=
-      MonoidAlgebra.single (Multiplicative.ofAdd 1) 1
-    d * d = 1 ∧ d ≠ 1 := sorry
+    let δ : Multiplicative (ZMod 2) →
+        HeckeAlgebra (HaarMeasureWithValues.counting (G := Multiplicative (ZMod 2)) (A := ℚ)) :=
+      fun g => LocallyConstantCompact.indicator ⟨⟨{g}, isCompact_singleton⟩, isOpen_discrete _⟩ 1
+    δ (Multiplicative.ofAdd 1) * δ (Multiplicative.ofAdd 1) = δ 1 ∧
+      δ (Multiplicative.ofAdd 1) * δ (Multiplicative.ofAdd 1) ≠ δ (Multiplicative.ofAdd 1) := sorry
 -- Two noncommuting basis elements pin the convolution multiplication order.
-theorem HeckeAlgebra.mul_order :
-    let s := Equiv.swap (0 : Fin 3) 1
-    let t := Equiv.swap (1 : Fin 3) 2
-    (MonoidAlgebra.single s (1 : ℤ) * MonoidAlgebra.single t 1).coeff (s * t) = 1 ∧
-      (MonoidAlgebra.single s (1 : ℤ) * MonoidAlgebra.single t 1).coeff (t * s) = 0 := sorry
+/-- In `HeckeAlgebra` of S₃ (discrete, counting measure), `δ_s * δ_t` is `δ_{st}`, as
+`HeckeAlgebra.mul_apply` gives `(f * g)(x) = Σ_y f(y) g(y⁻¹x)`. -/
+theorem HeckeAlgebra.mul_order {G : Type*} [Group G] [TopologicalSpace G] [DiscreteTopology G]
+    [Finite G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+    (e : G ≃* Equiv.Perm (Fin 3)) (s t : G) (hs : e s = Equiv.swap 0 1)
+    (ht : e t = Equiv.swap 1 2) :
+    let δ : G → HeckeAlgebra (HaarMeasureWithValues.counting (G := G) (A := ℤ)) := fun g =>
+      LocallyConstantCompact.indicator ⟨⟨{g}, isCompact_singleton⟩, isOpen_discrete _⟩ 1
+    (δ s * δ t).toFun (s * t) = 1 ∧ (δ s * δ t).toFun (t * s) = 0 := sorry
 
 /- Check `HeckeAlgebra.mul_order`: In S₃, δ_s δ_t has coefficient 1 at st and 0 at ts. -/
-example :
-    let s := Equiv.swap (0 : Fin 3) 1
-    let t := Equiv.swap (1 : Fin 3) 2
-    (MonoidAlgebra.single s (1 : ℤ) * MonoidAlgebra.single t 1).coeff (s * t) = 1 ∧
-      (MonoidAlgebra.single s (1 : ℤ) * MonoidAlgebra.single t 1).coeff (t * s) = 0 := sorry
+example {G : Type*} [Group G] [TopologicalSpace G] [DiscreteTopology G]
+    [Finite G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+    (e : G ≃* Equiv.Perm (Fin 3)) (s t : G) (hs : e s = Equiv.swap 0 1)
+    (ht : e t = Equiv.swap 1 2) :
+    let δ : G → HeckeAlgebra (HaarMeasureWithValues.counting (G := G) (A := ℤ)) := fun g =>
+      LocallyConstantCompact.indicator ⟨⟨{g}, isCompact_singleton⟩, isOpen_discrete _⟩ 1
+    (δ s * δ t).toFun (s * t) = 1 ∧ (δ s * δ t).toFun (t * s) = 0 := sorry
 
 end HeckeAlgebras
 
@@ -960,7 +972,7 @@ example [IsTopologicalGroup G] (ρ : Representation A G V) : Nonempty (Represent
 
 end Induction
 
-/-! ## Layer SR.3: the sourced dimension bound -/
+/-! ## Layer SR.3a: the sourced dimension bound -/
 
 /-- Bernstein–Zelevinsky [BZ76], Lemma 4.10, p. 39, proof 4.12, p. 40.
 The source states this over `ℂ`; `l` is the number of algebra generators, excluding the unit. -/
@@ -975,19 +987,6 @@ theorem commutativeSubalgebraBound {V : Type*} [AddCommGroup V] [Module ℂ V]
 
 example : (2 : ℝ) - (2 : ℝ) ^ (1 - (3 : ℤ)) = 7 / 4 := by norm_num
 example : (2 : ℝ) - (2 : ℝ) ^ (1 - (1 : ℤ)) = 1 := by norm_num
-
-/-- HKP [HKP], (1.5.1)–(1.5.2), p. 2: the coefficient character is the inverse
-of the tautological character. In rank one the two Laurent monomials differ. -/
-theorem hkpInverseCoefficient :
-    (MonoidAlgebra.single (Multiplicative.ofAdd (-1 : ℤ)) (1 : ℚ)) ≠
-      MonoidAlgebra.single (Multiplicative.ofAdd (1 : ℤ)) 1 := by
-  intro h
-  have hcoeff := congrArg (fun f : MonoidAlgebra ℚ (Multiplicative ℤ) =>
-    f.coeff (Multiplicative.ofAdd (-1 : ℤ))) h
-  norm_num [MonoidAlgebra.coeff_single, Finsupp.single_apply] at hcoeff
-  have hz := congrArg Multiplicative.toAdd hcoeff
-  change (1 : ℤ) = -1 at hz
-  omega
 
 /-! ## Layer SR.4: spherical representations and Satake -/
 
@@ -1034,11 +1033,12 @@ example (a : W →* MulAut H) (d : W → H) (s x y : H)
 characteristic other than two: a negative control for the square condition. -/
 theorem square_controls (a : W →* MulAut H) (d : W → H) (s : H) (hs : s ≠ 1) : ¬ Pseudoroot a d s 1 := sorry
 
-/- Check `Pseudoroot.square_controls`: The square condition rejects the identity with nontrivial prescribed square and a bad invariant translate. -/
+/- Check `Pseudoroot.square_controls`: the square condition rejects the identity when the
+prescribed square is nontrivial. -/
 example (a : W →* MulAut H) (d : W → H) (s : H) (hs : s ≠ 1) : ¬ Pseudoroot a d s 1 := sorry
-/-- A pseudoroot times a Weyl-invariant `c` with `c² ≠ 1` is still twisted-fixed but fails the
-square condition, so the fixed-point condition alone does not determine the pseudoroot. -/
-/- Check `Pseudoroot.square_controls`: The square condition rejects the identity with nontrivial prescribed square and a bad invariant translate. -/
+/- Check `Pseudoroot.translate_square`: a pseudoroot times a Weyl-invariant `c` with `c² ≠ 1` is
+still twisted-fixed but fails the square condition, so the fixed-point condition alone does not
+determine the pseudoroot. -/
 example (a : W →* MulAut H) (d : W → H) (s x c : H) (hx : Pseudoroot a d s x)
     (hc : ∀ w, a w c = c) (hc2 : c * c ≠ 1) :
     (∀ w, a w (x * c) * d w = x * c) ∧ ¬ Pseudoroot a d s (x * c) := by
@@ -1110,7 +1110,7 @@ def xiVariables {A : Type*} [CommRing A] (q : Aˣ) (a b : ℕ)
   (fun i => ((q⁻¹ : Aˣ) : A) ^ b * x i,
    fun j => ((q⁻¹ : Aˣ) : A) ^ a * y j)
 
-/- Check `parabolicDescent.xiVariables`: ξ_{(a,b)} replaces the first a variables by q^{−b} X_i and the last b by q^{−a} Y_j. For a = 1, b = 2, q = 3 and all coordinates 1, the -/
+/- Check `parabolicDescent.xiVariables`: ξ_{(a,b)} replaces the first a variables by q^{−b} X_i and the last b by q^{−a} Y_j. For a = 1, b = 2, q = 3 and all coordinates 1, the X-coordinate becomes 3⁻² = 1/9 and both Y-coordinates become 3⁻¹ = 1/3. -/
 example : xiVariables (Units.mk0 (3 : ℚ) (by norm_num)) 1 2 (fun _ => 1) (fun _ => 1) =
     ((fun _ => 1 / 9), (fun _ => 1 / 3)) := by
   norm_num [xiVariables]
@@ -1225,16 +1225,19 @@ theorem reciprocal (q T0 T1 T2 : A) :
         C (q^3*T2*T0)*X + C (q^6*T0^2) := sorry
 theorem rankFour (q T0 T1 T2 : A) :
     (SpinPolynomial q T0 T1 T2).coeff 2 = q*T1+(q^3+q)*T0 := sorry
-theorem similitude (q T0 : A) (a b c d : A) (hq : IsUnit q)
-    (hab : a*d=b*c) (hT0 : q^3*T0=a*d) : q^6*T0^2=a*b*c*d := sorry
+/-- The top coefficient is the central similitude: under the pairing `ad = bc = q³T₀` of
+`SpinPolynomial.factorization` it is the product of the four spin roots. -/
+theorem similitude (q T0 T1 T2 : A) (a b c d : A)
+    (hab : a*d=b*c) (hT0 : q^3*T0=a*d) : (SpinPolynomial q T0 T1 T2).coeff 4 = a*b*c*d := sorry
 theorem centralScaling (q T0 T1 T2 z : A) (j : ℕ) :
     (SpinPolynomial q (z^2*T0) (z^2*T1) (z*T2)).coeff j =
       z^j * (SpinPolynomial q T0 T1 T2).coeff j := sorry
 example (q T0 T1 T2 : A) :
     (SpinPolynomial q T0 T1 T2).coeff 2 = q*T1+(q^3+q)*T0 := sorry
 /- Check `SpinPolynomial.similitude`: for roots α, β, γ, δ with αδ = βγ, its top coefficient is their product. -/
-example (q T0 : A) (a b c d : A) (hq : IsUnit q)
-    (hab : a*d=b*c) (hT0 : q^3*T0=a*d) : q^6*T0^2=a*b*c*d := sorry
+example (q T0 T1 T2 : A) (a b c d : A)
+    (hab : a*d=b*c) (hT0 : q^3*T0=a*d) : (SpinPolynomial q T0 T1 T2).coeff 4 = a*b*c*d :=
+  similitude q T0 T1 T2 a b c d hab hT0
 /- Check `SpinPolynomial.centralScaling`: scaling all four spin roots by c multiplies the coefficient of X^j by c^j. -/
 example (q T0 T1 T2 z : A) (j : ℕ) :
     (SpinPolynomial q (z^2*T0) (z^2*T1) (z*T2)).coeff j =
@@ -1570,19 +1573,13 @@ example (psi : (⊤ : Subgroup G) →* Aˣ)
 end CompactInductionInterface
 
 -- Homomorphisms out of a direct sum of infinitely many block summands, each contributing one
--- line, form the product `ℕ → ℚ`; the top derivative of the target is the sum `ℕ →₀ ℚ`. So
--- The blockwise statement also gives the formula for finite block support. The unrestricted
--- wording of [Hel12] §3 property (2), p. 5, cannot be used with ordinary module Hom here
--- (GL₁: `W = C_c^∞(F^×)`). No admissibility or finite-generation condition is needed on
--- the target inside a fixed block, including for `n ≥ 2`.
-theorem UniversalWhittaker.productOfBlocks : ¬ Nonempty ((ℕ → ℚ) ≃ₗ[ℚ] (ℕ →₀ ℚ)) := by
-  rintro ⟨e⟩
-  have hc : Countable (ℕ → ℚ) := e.toEquiv.injective.countable
-  have h1 : Cardinal.mk (ℕ → ℚ) ≤ Cardinal.aleph0 := Cardinal.mk_le_aleph0_iff.mpr hc
-  rw [← Cardinal.power_def, Cardinal.mkRat, Cardinal.mk_nat, Cardinal.aleph0_power_aleph0] at h1
-  exact absurd h1 (not_le.mpr Cardinal.aleph0_lt_continuum)
-
-/- Check `UniversalWhittaker.productOfBlocks`: The countable product of ℚ is not linearly equivalent to its direct sum. -/
+-- line, form the product `ℕ → ℚ`, while the top derivative of the target is the sum `ℕ →₀ ℚ`, so
+-- the unrestricted wording of [Hel12] §3 property (2), p. 5, cannot be used with ordinary module
+-- Hom here (GL₁: `W = C_c^∞(F^×)`), and the blockwise statement gives the formula for finite block
+-- support. No admissibility or finite-generation condition is needed on the target inside a fixed
+-- block, including for `n ≥ 2`.
+/- Check `UniversalWhittaker.productOfBlocks` (linear-algebra core only): the countable product of
+ℚ is not linearly equivalent to its direct sum. -/
 example : ¬ Nonempty ((ℕ → ℚ) ≃ₗ[ℚ] (ℕ →₀ ℚ)) := by
   rintro ⟨e⟩
   have hc : Countable (ℕ → ℚ) := e.toEquiv.injective.countable
@@ -1590,7 +1587,7 @@ example : ¬ Nonempty ((ℕ → ℚ) ≃ₗ[ℚ] (ℕ →₀ ℚ)) := by
   rw [← Cardinal.power_def, Cardinal.mkRat, Cardinal.mk_nat, Cardinal.aleph0_power_aleph0] at h1
   exact absurd h1 (not_le.mpr Cardinal.aleph0_lt_continuum)
 
-/-! ## Layer SR.6: late integral finiteness and second adjointness -/
+/-! ## Layer SR.6: finite-wild parameters and cocycle schemes -/
 
 section Cocycle
 variable {Gamma H : Type*} [Group Gamma] [Group H]
@@ -2331,15 +2328,6 @@ example {A G : Type*} [CommRing A] [Group G] [Finite G] :
     ∃ e : Representation.Coinvariants (Representation.ofMulAction A G G) ≃ₗ[A] A,
       ∀ g, e (Representation.Coinvariants.mk _ (MonoidAlgebra.single g 1)) = 1 := sorry
 
-theorem SmoothRep.universalUnramifiedTwist_hkpInverse :
-    (MonoidAlgebra.single (Multiplicative.ofAdd (-1 : ℤ)) (1 : ℚ)) ≠
-      MonoidAlgebra.single (Multiplicative.ofAdd (1 : ℤ)) 1 := sorry
-
-/- Check `SmoothRep.universalUnramifiedTwist_hkpInverse`: in rank one, the untransported HKP model has ϖ acting by t⁻¹, while our tautological twist has ϖ acting by t; the coefficient involution t ↦ t⁻¹ identifies them. `hkpInverseCoefficient` distinguishes the two Laurent monomials in Lean. -/
-example :
-    (MonoidAlgebra.single (Multiplicative.ofAdd (-1 : ℤ)) (1 : ℚ)) ≠
-      MonoidAlgebra.single (Multiplicative.ofAdd (1 : ℤ)) 1 := sorry
-
 example : Pseudoroot (1 : Unit →* MulAut ℚˣ) (fun _ => 1) 1 (-1) := sorry
 
 /- Check `HallLittlewood.minuscule`: for λ = (1, …, 1, 0, …, 0) with r ≤ n ones, P_λ = e_r at pairwise distinct coordinates with nonzero Hall normalizer. -/
@@ -2606,12 +2594,6 @@ def HasCofinalUnitProOrder (A G : Type u) [CommRing A] [Group G] [TopologicalSpa
 theorem HasUnitProOrder.map {B : Type u} [CommRing B] (f : A →+* B)
     (K : Subgroup G) (h : HasUnitProOrder A K) : HasUnitProOrder B K := sorry
 
-theorem Representation.averaging_idem {V : Type u} [AddCommGroup V] [Module A V]
-    (ρ : Representation A G V) (hs : Representation.IsSmooth ρ)
-    (U : OpenSubgroup G) (hc : IsCompact (U : Set G)) (hu : HasUnitProOrder A U.toSubgroup) :
-    Representation.averaging ρ hs U hc hu ∘ₗ Representation.averaging ρ hs U hc hu =
-      Representation.averaging ρ hs U hc hu := sorry
-
 theorem Representation.range_averaging {V : Type u} [AddCommGroup V] [Module A V]
     (ρ : Representation A G V) (hs : Representation.IsSmooth ρ)
     (U : OpenSubgroup G) (hc : IsCompact (U : Set G)) (hu : HasUnitProOrder A U.toSubgroup) :
@@ -2725,8 +2707,12 @@ example [Nontrivial H] (hzero : ∀ x y : H, x * y = 0) : ¬ IsIdempotented H :=
 example [SMulCommClass A H H] [IsScalarTower A H H] : ∀ m : ModuleCat.of (Unitization A H) (Fin 0 → Unitization A H),
     ∃ e : H, e * e = e ∧ (Unitization.inr e : Unitization A H) • m = m := sorry
 
-/- Check `NondegMod.scalarQuotient`: the augmentation module of a nonzero scalar ring is degenerate. -/
-example [Nontrivial A] : ¬ ∀ a : A, ∃ e : H, (0 : A) * a = a := sorry
+/- Check `NondegMod.scalarQuotient`: the augmentation module `A` of `Unitization A H`, on which `H`
+acts by zero, is not an object of `NondegMod` when `A ≠ 0`: no idempotent `e` has `inr e • 1 = 1`. -/
+example [Nontrivial A] [SMulCommClass A H H] [IsScalarTower A H H] :
+    letI : Module (Unitization A H) A := Module.compHom A (Unitization.fstHom A H).toRingHom
+    ¬ ∀ m : ModuleCat.of (Unitization A H) A,
+      ∃ e : H, e * e = e ∧ (Unitization.inr e : Unitization A H) • m = m := sorry
 
 end NondegenerateModules
 
@@ -2837,16 +2823,12 @@ theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.cInd_
 example [IsTopologicalGroup G] (H : Subgroup G) : Subsingleton
     (Representation.cInd H (Representation.trivial A H (Fin 0 → A))).toSubmodule := sorry
 
-theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.cInd_character [IsTopologicalGroup G] [LocallyCompactSpace G] [TotallyDisconnectedSpace G] [T2Space G]
-    (H : Subgroup G) (hH : IsClosed (H : Set G)) (χ : H →* Aˣ) (hχ : IsSmoothCharacter χ) :
-    ∃ e : (Representation.cInd H (Representation.ofLinearCharacter χ)).toSubmodule ≃ₗ[A]
-      CompactInducedFunctions H χ, ∀ f g, (e f).val g = f.val.val g := sorry
-
-/- Check `SmoothRep.cInd_character`: the general construction agrees pointwise with the character carrier. -/
+/- Check `Representation.cInd_character`: the general construction agrees pointwise with the character carrier. -/
 example [IsTopologicalGroup G] [LocallyCompactSpace G] [TotallyDisconnectedSpace G] [T2Space G]
     (H : Subgroup G) (hH : IsClosed (H : Set G)) (χ : H →* Aˣ) (hχ : IsSmoothCharacter χ) :
     ∃ e : (Representation.cInd H (Representation.ofLinearCharacter χ)).toSubmodule ≃ₗ[A]
-      CompactInducedFunctions H χ, ∀ f g, (e f).val g = f.val.val g := sorry
+      CompactInducedFunctions H χ, ∀ f g, (e f).val g = f.val.val g :=
+  Representation.cInd_character H hH χ hχ
 
 end GeneralCompactInduction
 
@@ -3039,13 +3021,23 @@ theorem SmoothRep.homology_rHom (V W : CochainComplex (SmoothRep A G) ℤ) (n : 
       (SmoothRep.rHom V W)) ≃+
       ((DerivedCategory.Q.obj V) ⟶ (DerivedCategory.Q.obj W)⟦n⟧)) := sorry
 
-/-- Both variances descend through the localization of complexes. -/
+/-- Both variances descend through the localization of complexes. On morphisms the bifunctor is
+fixed by its cohomology: `Hⁿ RHom(V, W) ≃ Hom(V, W[n])`, naturally in both variables. -/
 theorem SmoothRep.rHom_functorial :
     ∃ F : (DerivedCategory (SmoothRep A G))ᵒᵖ ⥤
-      DerivedCategory (SmoothRep A G) ⥤ DerivedCategory (ModuleCat A),
-      ∀ V W : CochainComplex (SmoothRep A G) ℤ,
+      DerivedCategory (SmoothRep A G) ⥤ DerivedCategory (ModuleCat.{u} A),
+      (∀ V W : CochainComplex (SmoothRep A G) ℤ,
         Nonempty (((F.obj (Opposite.op (DerivedCategory.Q.obj V))).obj (DerivedCategory.Q.obj W)) ≅
-          DerivedCategory.Q.obj (SmoothRep.rHom V W)) := sorry
+          DerivedCategory.Q.obj (SmoothRep.rHom V W))) ∧
+      ∃ ε : ∀ (V W : DerivedCategory (SmoothRep A G)) (n : ℤ),
+          (DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).obj ((F.obj (Opposite.op V)).obj W) ≃+
+            (V ⟶ W⟦n⟧),
+        (∀ (V W W' : DerivedCategory (SmoothRep A G)) (g : W ⟶ W') (n : ℤ) x,
+          ε V W' n (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map
+            ((F.obj (Opposite.op V)).map g)).hom x) = ε V W n x ≫ g⟦n⟧') ∧
+        ∀ (V V' W : DerivedCategory (SmoothRep A G)) (f : V' ⟶ V) (n : ℤ) x,
+          ε V' W n (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map
+            ((F.map f.op).app W)).hom x) = f ≫ ε V W n x := sorry
 
 theorem SmoothRep.homology_rHom_zero :
     let V := (HomologicalComplex.single (SmoothRep A G) (ComplexShape.up ℤ) 0).obj
@@ -3231,30 +3223,25 @@ theorem modulusCharacter_eq_modularCharacter [IsTopologicalGroup G] (L : LeviDec
     (((modulus L.N (L.normalizerMap g) : ℚˣ) : ℚ) : ℝ) =
       (MeasureTheory.Measure.modularCharacter g : ℝ) := sorry
 
-/-- Twisting changes the action on the same coefficient module. -/
-abbrev Representation.twist {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
-    (ρ : Representation A G V) (χ : G →* Aˣ) : Representation A G V :=
-  _root_.Representation.charTwist χ ρ
-
-/- Check `Representation.twist_one`: the trivial character leaves the supplier action unchanged. -/
+/- Check `charTwist_one`: the trivial character leaves the supplier action unchanged. -/
 example {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
-    (ρ : Representation A G V) : Representation.twist ρ 1 = ρ :=
+    (ρ : Representation A G V) : _root_.Representation.charTwist 1 ρ = ρ :=
   _root_.Representation.charTwist_one ρ
 
-/- Check `Representation.twist_product`: successive twists multiply the characters in the supplier. -/
+/- Check `charTwist_product`: successive twists multiply the characters in the supplier. -/
 example {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
     (ρ : Representation A G V) (χ ψ : G →* Aˣ) :
-    Representation.twist (Representation.twist ρ ψ) χ = Representation.twist ρ (χ * ψ) :=
+    _root_.Representation.charTwist χ (_root_.Representation.charTwist ψ ρ) = _root_.Representation.charTwist (χ * ψ) ρ :=
   _root_.Representation.charTwist_charTwist χ ψ ρ
 
-/- Check `Representation.twist_value`: twisting multiplies, rather than divides, each action by χ(g). -/
+/- Check `charTwist_value`: twisting multiplies, rather than divides, each action by χ(g). -/
 example {A V : Type u} [CommRing A] [AddCommGroup V] [Module A V]
     (ρ : Representation A G V) (χ : G →* Aˣ) (g : G) (v : V) :
-    Representation.twist ρ χ g v = (χ g : A) • ρ g v := rfl
+    _root_.Representation.charTwist χ ρ g v = (χ g : A) • ρ g v := rfl
 
 abbrev SmoothRep.twist [IsTopologicalGroup G] {A : Type u} [CommRing A] (V : SmoothRep A G)
     (χ : G →* Aˣ) (hχ : IsSmoothCharacter χ) : SmoothRep A G :=
-  ⟨Rep.of (Representation.twist V.obj.ρ χ), by sorry⟩
+  ⟨Rep.of (_root_.Representation.charTwist χ V.obj.ρ), by sorry⟩
 
 /-- Inflation is restriction along the continuous Levi projection. -/
 abbrev SmoothRep.inflate [IsTopologicalGroup G] {A : Type u} [CommRing A] (L : LeviDecomposition (G := G)) :
@@ -3477,6 +3464,12 @@ theorem SmoothRep.derivedInvariantsUnbounded_obj [IsTopologicalGroup G] [HasDeri
       DerivedCategory.Q.obj (((SmoothRep.invariantsFunctor (A := A) U).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj (SmoothRep.injectiveResolution V))) := sorry
 
+/-- On bounded-below objects the unbounded derived invariants are Mathlib's right derived functor
+`SmoothRep.derivedInvariants`, as functors, which fixes their action on morphisms there. -/
+theorem SmoothRep.derivedInvariantsUnbounded_plus [IsTopologicalGroup G] [HasDerivedCategory (SmoothRep A G)] [HasDerivedCategory (ModuleCat.{u} A)] (U : Subgroup G) :
+    Nonempty (DerivedCategory.Plus.ι ⋙ SmoothRep.derivedInvariantsUnbounded U ≅
+      SmoothRep.derivedInvariants (A := A) U ⋙ DerivedCategory.Plus.ι) := sorry
+
 /-- Perfect means represented by a bounded complex of finite projective A-modules. -/
 def SmoothRep.IsPerfect [HasDerivedCategory (ModuleCat.{u} A)] (V : DerivedCategory (ModuleCat.{u} A)) : Prop :=
   ∃ P : CochainComplex (ModuleCat A) ℤ,
@@ -3505,6 +3498,16 @@ theorem SmoothRep.moduleDerivedDual_obj [HasDerivedCategory (ModuleCat.{u} A)] (
           (ComplexShape.up ℤ)).obj C ≅ CochainComplex.HomComplex V I) ∧
         Nonempty ((SmoothRep.moduleDerivedDual (A := A)).obj
           (Opposite.op (DerivedCategory.Q.obj V)) ≅ DerivedCategory.Q.obj C) := sorry
+
+/-- On morphisms the module dual is `RHom(-, A)`: `Hⁿ 𝔻V ≃ Hom(V, A[n])`, naturally in `V`. -/
+theorem SmoothRep.moduleDerivedDual_map [HasDerivedCategory (ModuleCat.{u} A)] :
+    ∃ ε : ∀ (V : DerivedCategory (ModuleCat.{u} A)) (n : ℤ),
+        (DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).obj
+            (SmoothRep.moduleDerivedDual.obj (Opposite.op V)) ≃+
+          (V ⟶ ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A))⟦n⟧),
+      ∀ (V V' : DerivedCategory (ModuleCat.{u} A)) (f : V' ⟶ V) (n : ℤ) x,
+        ε V' n (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map
+          (SmoothRep.moduleDerivedDual.map f.op)).hom x) = f ≫ ε V n x := sorry
 
 /-- Derived smooth duality is characterized on the cofinal family of averaging subgroups. -/
 def SmoothRep.derivedSmoothDual [IsTopologicalGroup G] [HasDerivedCategory (SmoothRep A G)] [HasDerivedCategory (ModuleCat.{u} A)] (hG : HasCofinalUnitProOrder A G) :
@@ -3602,8 +3605,8 @@ abbrev SmoothRep.unramifiedTwist [IsTopologicalGroup G] {A : Type u} [CommRing A
     [IsMulCommutative (G ⧸ SmoothRep.compactlyGeneratedSubgroup)] (V : SmoothRep A G) :
     SmoothRep (MonoidAlgebra A (G ⧸ SmoothRep.compactlyGeneratedSubgroup)) G :=
   let B := MonoidAlgebra A (G ⧸ SmoothRep.compactlyGeneratedSubgroup)
-  ⟨Rep.of (Representation.twist (_root_.Representation.baseChange B V.obj.ρ)
-    (SmoothRep.tautologicalUnramifiedCharacter A)), by sorry⟩
+  ⟨Rep.of (_root_.Representation.charTwist (SmoothRep.tautologicalUnramifiedCharacter A)
+    (_root_.Representation.baseChange B V.obj.ρ)), by sorry⟩
 
 theorem SmoothRep.unramifiedTwist_apply [IsTopologicalGroup G] {A : Type u} [CommRing A]
     [IsMulCommutative (G ⧸ SmoothRep.compactlyGeneratedSubgroup)]
@@ -3678,11 +3681,6 @@ abbrev SmoothRep.steinberg [IsTopologicalGroup G] (B : Subgroup G) (parabolics :
   let S := SmoothRep.steinbergRelations (A := A) B parabolics
   ⟨Rep.of
     (ρ.quotient (V := (Representation.ind B (Representation.trivial A B A)).toSubmodule) S.toSubmodule (fun g => S.apply_mem_toSubmodule g)), by sorry⟩
-
-/-- The quotient map pins the construction to the function model. -/
-theorem SmoothRep.steinberg_quotient [IsTopologicalGroup G] (B : Subgroup G) (parabolics : Set (Subgroup G)) :
-    let S := SmoothRep.steinbergRelations (A := A) B parabolics
-    Function.Surjective (Submodule.mkQ (R := A) (M := (Representation.ind B (Representation.trivial A B A)).toSubmodule) S.toSubmodule) ∧ LinearMap.ker (Submodule.mkQ (R := A) (M := (Representation.ind B (Representation.trivial A B A)).toSubmodule) S.toSubmodule) = S.toSubmodule := sorry
 
 theorem SmoothRep.steinberg_torus [IsTopologicalGroup G] :
     Nonempty (SmoothRep.steinberg (A := A) (⊤ : Subgroup G) {⊤} ≅
@@ -4366,24 +4364,6 @@ theorem SmoothRep.central_ext_vanishing [IsTopologicalGroup G] [CategoryTheory.H
     (hab : IsUnit (a - b)) (n : ℕ) : Subsingleton (CategoryTheory.Abelian.Ext V W n) := sorry
 
 
-/-- Yoneda associativity gives compatible actions of the two derived corners on
-every compact-open derived bimodule. Opposite composition is the Hecke convention. -/
-theorem SmoothRep.derivedHecke_bimodule [IsTopologicalGroup G] [CategoryTheory.HasExt (SmoothRep A G)] (U₁ U₂ : OpenSubgroup G) (r s t : ℕ)
-    (a : SmoothRep.derivedHecke (A := A) U₁ r)
-    (x : CategoryTheory.Abelian.Ext (SmoothRep.permutation (A := A) U₁)
-      (SmoothRep.permutation U₂) s)
-    (b : SmoothRep.derivedHecke (A := A) U₂ t) :
-    (a.comp x rfl).comp b (show (r+s)+t = r+s+t from rfl) =
-      a.comp (x.comp b rfl) (by omega) := sorry
-
-/-- The derived corner action commutes with every morphism of smooth coefficients. -/
-theorem SmoothRep.derivedHeckeAction_natural [IsTopologicalGroup G] [CategoryTheory.HasExt (SmoothRep A G)] (U : OpenSubgroup G)
-    (V W : SmoothRep A G) (f : V ⟶ W) (r s : ℕ)
-    (a : SmoothRep.derivedHecke (A := A) U r)
-    (x : CategoryTheory.Abelian.Ext (SmoothRep.permutation (A := A) U) V s) :
-    (a.comp x rfl).comp (CategoryTheory.Abelian.Ext.mk₀ f) (show r+s+0 = r+s from by omega) =
-      a.comp (x.comp (CategoryTheory.Abelian.Ext.mk₀ f) (show s+0 = s from by omega)) rfl := sorry
-
 end DerivedHecke
 
 section AdmissibleComplexChecks
@@ -4638,21 +4618,6 @@ example (p : ℕ) [Fact p.Prime]
     (V : SmoothRep ℂ (PadicGL2.diagonal p)) :
     Function.Injective ((SmoothRep.secondAdjunctionUnit p μ hμ).app V).hom.hom := sorry
 
-theorem SmoothRep.secondAdjunction_left_triangle (p : ℕ) [Fact p.Prime]
-    (μ : HaarMeasureWithValues (PadicGL2.lower p) ℂ) (hμ : ∃ K, μ.vol K ≠ 0)
-    (W : SmoothRep ℂ (PadicGL2.Group p)) :
-    (SmoothRep.secondAdjunctionUnit p μ hμ).app ((PadicGL2.oppositeJacquet p).obj W) ≫
-      (PadicGL2.oppositeJacquet p).map ((SmoothRep.secondAdjunctionCounit p μ hμ).app W) =
-        𝟙 _ := sorry
-
-theorem SmoothRep.secondAdjunction_right_triangle (p : ℕ) [Fact p.Prime]
-    (μ : HaarMeasureWithValues (PadicGL2.lower p) ℂ) (hμ : ∃ K, μ.vol K ≠ 0)
-    (V : SmoothRep ℂ (PadicGL2.diagonal p)) :
-    (PadicGL2.normalizedInduction p).map ((SmoothRep.secondAdjunctionUnit p μ hμ).app V) ≫
-      (SmoothRep.secondAdjunctionCounit p μ hμ).app ((PadicGL2.normalizedInduction p).obj V) =
-        𝟙 _ := sorry
-
-
 section InvariantIdentities
 variable {A G : Type u} [CommRing A] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 
@@ -4764,6 +4729,35 @@ example (p : ℕ) [Fact p.Prime] :
     ∃ e : (SmoothRep.unramifiedTwist V).obj.V ≃ₗ[B] B,
       ∀ v, e ((SmoothRep.unramifiedTwist V).obj.ρ ϖ v) =
         MonoidAlgebra.single (QuotientGroup.mk ϖ) 1 * e v := sorry
+
+/-- HKP [HKP], (1.5.1)–(1.5.2), p. 2: for G = M = ℚ_p^× and σ = 1 the tautological twist has
+ϖ acting by `t = [ϖ]`; after transporting the coefficients by the involution `[λ] ↦ [−λ]`, ϖ
+acts by `t⁻¹`, as in HKP's untransported model. -/
+theorem SmoothRep.universalUnramifiedTwist_hkpInverse (p : ℕ) [Fact p.Prime] :
+    let V : SmoothRep ℂ ℚ_[p]ˣ := SmoothRep.trivial (ModuleCat.of ℂ ℂ)
+    let Λ := ℚ_[p]ˣ ⧸ SmoothRep.compactlyGeneratedSubgroup
+    let ϖ := Units.mk0 (p : ℚ_[p]) (by sorry)
+    let ι : MonoidAlgebra ℂ Λ →+* MonoidAlgebra ℂ Λ :=
+      MonoidAlgebra.mapDomainRingHom ℂ (MulEquiv.inv Λ).toMonoidHom
+    ∃ e : (SmoothRep.unramifiedTwist V).obj.V ≃ₗ[MonoidAlgebra ℂ Λ] MonoidAlgebra ℂ Λ,
+      (∀ v, e ((SmoothRep.unramifiedTwist V).obj.ρ ϖ v) =
+        MonoidAlgebra.single (QuotientGroup.mk ϖ) 1 * e v) ∧
+      ∀ v, ι (e ((SmoothRep.unramifiedTwist V).obj.ρ ϖ v)) =
+        MonoidAlgebra.single (QuotientGroup.mk ϖ)⁻¹ 1 * ι (e v) := sorry
+
+/- Check `SmoothRep.universalUnramifiedTwist_hkpInverse`: in rank one, ϖ acts by t on the
+tautological twist and by t⁻¹ after the coefficient involution, the untransported HKP model. -/
+example (p : ℕ) [Fact p.Prime] :
+    let V : SmoothRep ℂ ℚ_[p]ˣ := SmoothRep.trivial (ModuleCat.of ℂ ℂ)
+    let Λ := ℚ_[p]ˣ ⧸ SmoothRep.compactlyGeneratedSubgroup
+    let ϖ := Units.mk0 (p : ℚ_[p]) (by sorry)
+    let ι : MonoidAlgebra ℂ Λ →+* MonoidAlgebra ℂ Λ :=
+      MonoidAlgebra.mapDomainRingHom ℂ (MulEquiv.inv Λ).toMonoidHom
+    ∃ e : (SmoothRep.unramifiedTwist V).obj.V ≃ₗ[MonoidAlgebra ℂ Λ] MonoidAlgebra ℂ Λ,
+      (∀ v, e ((SmoothRep.unramifiedTwist V).obj.ρ ϖ v) =
+        MonoidAlgebra.single (QuotientGroup.mk ϖ) 1 * e v) ∧
+      ∀ v, ι (e ((SmoothRep.unramifiedTwist V).obj.ρ ϖ v)) =
+        MonoidAlgebra.single (QuotientGroup.mk ϖ)⁻¹ 1 * ι (e v) := sorry
 
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.universalUnramifiedTwist.unit_character (p : ℕ) [Fact p.Prime] (V : SmoothRep ℂ ℚ_[p]ˣ) :
     let B := MonoidAlgebra ℂ (ℚ_[p]ˣ ⧸ SmoothRep.compactlyGeneratedSubgroup)
@@ -4910,6 +4904,69 @@ example [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] {Λ : Type u}
     (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
     (d : SatakeDatum A L K Λ) (μ : HaarMeasureWithValues G A) :
     (satakeTransform L K d μ 0).coeff.support = ∅ := sorry
+
+/-- The radical integrand of a level-`K` Hecke operator at `m`: `n` goes to the double-coset
+coefficient of `mn`. The compactness of `K` makes the support compact. -/
+def satakeLevelIntegrand [IsTopologicalGroup G] [T2Space G] (L : LeviDecomposition (G := G))
+    (K : OpenSubgroup G) (hc : IsCompact (K : Set G))
+    [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (f : HeckeAlgebraLevel A G K.toSubgroup) (m : L.M) : LocallyConstantCompact L.N A where
+  toFun := ⟨fun n => HeckeAlgebraLevel.equivHeckeRing K f
+    (HeckeCoset.mk K.toSubgroup K.toSubgroup ⟨m.val * n.val, trivial⟩), by sorry⟩
+  isCompact_closure_support := by sorry
+
+/- Check `satakeLevelIntegrand_apply`: the value at `n` is the double-coset coefficient of `mn`. -/
+example [IsTopologicalGroup G] [T2Space G] (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
+    (hc : IsCompact (K : Set G)) [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (f : HeckeAlgebraLevel A G K.toSubgroup) (m : L.M) (n : L.N) :
+    (satakeLevelIntegrand L K hc f m).toFun n = HeckeAlgebraLevel.equivHeckeRing K f
+      (HeckeCoset.mk K.toSubgroup K.toSubgroup ⟨m.val * n.val, trivial⟩) := rfl
+
+/- Check `satakeLevelIntegrand_one`: for the identity operator at `m = 1` the integrand is the
+indicator of `N ∩ K`. -/
+example [IsTopologicalGroup G] [T2Space G] (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
+    (hc : IsCompact (K : Set G)) [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (n : L.N) :
+    (satakeLevelIntegrand (A := A) L K hc 1 1).toFun n = if n.val ∈ K then 1 else 0 := sorry
+
+/- Check `satakeLevelIntegrand_zero`: the zero operator has zero integrand. -/
+example [IsTopologicalGroup G] [T2Space G] (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
+    (hc : IsCompact (K : Set G)) [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (m : L.M) (n : L.N) : (satakeLevelIntegrand (A := A) L K hc 0 m).toFun n = 0 := sorry
+
+/-- The raw Satake transform on the level-`K` Hecke algebra with its finite double-coset product.
+Only the radical volume `vol(N ∩ K) = 1` of `d.haar` enters, never a volume on `G`. -/
+def satakeTransformLevel [IsTopologicalGroup G] [T2Space G] {Λ : Type u} [CommGroup Λ]
+    (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
+    [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (d : SatakeDatum A L K Λ) :
+    HeckeAlgebraLevel A G K.toSubgroup →ₗ[A] MonoidAlgebra A Λ := sorry
+
+/-- The coefficient at the lattice image of `m` is the `d.haar`-integral of the radical integrand;
+since `d.lattice` is onto, this fixes every coefficient. -/
+theorem satakeTransformLevel.coefficient [IsTopologicalGroup G] [T2Space G] {Λ : Type u}
+    [CommGroup Λ] (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
+    [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (d : SatakeDatum A L K Λ) (f : HeckeAlgebraLevel A G K.toSubgroup) (m : L.M) :
+    (satakeTransformLevel L K d f).coeff (d.lattice m) =
+      d.haar.integrate (satakeLevelIntegrand L K d.compact_K f m) := sorry
+
+/- Check `satakeTransformLevel_unit`: the identity operator, the double coset `K` itself, goes to
+the identity monomial because `vol(N ∩ K) = 1`. -/
+example [IsTopologicalGroup G] [T2Space G] {Λ : Type u} [CommGroup Λ]
+    (L : LeviDecomposition (G := G)) (K : OpenSubgroup G)
+    [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup] (d : SatakeDatum A L K Λ) :
+    satakeTransformLevel L K d 1 = MonoidAlgebra.single 1 1 := sorry
+
+/- Check `satakeTransformLevel_torus`: with trivial radical the coefficient at the image of `g` is
+the double-coset coefficient of `g`. -/
+example [IsTopologicalGroup G] [T2Space G] {Λ : Type u} [CommGroup Λ] (K : OpenSubgroup G)
+    [IsHeckeTriple (⊤ : Submonoid G) K.toSubgroup K.toSubgroup]
+    (d : SatakeDatum A LeviDecomposition.self K Λ) (f : HeckeAlgebraLevel A G K.toSubgroup)
+    (g : G) :
+    (satakeTransformLevel LeviDecomposition.self K d f).coeff (d.lattice ⟨g, trivial⟩) =
+      HeckeAlgebraLevel.equivHeckeRing K f (HeckeCoset.mk K.toSubgroup K.toSubgroup ⟨g, trivial⟩) :=
+  sorry
 end SatakeCarrier
 
 
@@ -4983,6 +5040,21 @@ example (p : ℕ) [Fact p.Prime] (μ : HaarMeasureWithValues (PadicGL2.Group p) 
         MonoidAlgebra.single (Multiplicative.ofAdd (1, 0)) (p : ℂ) +
           MonoidAlgebra.single (Multiplicative.ofAdd (0, 1)) 1 := sorry
 
+/- Check `satakeTransformLevel_gl2`: on the level-K Hecke algebra of GL₂(ℚ_p) the operator of the
+double coset of diag(p, 1) has the same raw transform p X^{(1,0)} + X^{(0,1)}, with no Haar measure
+on GL₂(ℚ_p). -/
+example (p : ℕ) [Fact p.Prime]
+    [IsHeckeTriple (⊤ : Submonoid (PadicGL2.Group p)) (PadicGL2.hyperspecial p).toSubgroup
+      (PadicGL2.hyperspecial p).toSubgroup] :
+    satakeTransformLevel (PadicGL2.levi p) (PadicGL2.hyperspecial p) (PadicGL2.satakeDatum p)
+      ((HeckeAlgebraLevel.equivHeckeRing (A := ℂ) (PadicGL2.hyperspecial p)).symm
+        (HeckeCosetModule.of (Finsupp.single
+          (HeckeCoset.mk (PadicGL2.hyperspecial p).toSubgroup (PadicGL2.hyperspecial p).toSubgroup
+            ⟨(PadicGL2.diag p (Units.mk0 (p : ℚ_[p])
+              (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero)) 1).val, trivial⟩) 1))) =
+      MonoidAlgebra.single (Multiplicative.ofAdd (1, 0)) (p : ℂ) +
+        MonoidAlgebra.single (Multiplicative.ofAdd (0, 1)) 1 := sorry
+
 /- Check `normalizeSatake.one`: omitting the normalization character preserves every coefficient. -/
 example {A Λ : Type u} [CommRing A] [CommGroup Λ] (f : MonoidAlgebra A Λ) :
     normalizeSatake 1 f = f := sorry
@@ -5033,18 +5105,13 @@ example {G : Type} [CommGroup G] [TopologicalSpace G] [IsTopologicalGroup G]
     (V : SmoothRep ℂ G) (hV : Representation.IsAdmissible V.obj.ρ) :
     SmoothRep.IsSquareIntegrable V ↔ SmoothRep.HasUnitaryCentralCharacter V := sorry
 
-/-- In rank one the finite-length case is a specialization of the admissible statement. -/
-theorem CasselmanCriterion.finiteLength (p : ℕ) [Fact p.Prime]
-    (V : SmoothRep ℂ (PadicGL2.Group p)) (hV : Representation.IsAdmissible V.obj.ρ)
-    (hfinite : IsNoetherian ℂ[PadicGL2.Group p] V.obj.ρ.asModule ∧
-      IsArtinian ℂ[PadicGL2.Group p] V.obj.ρ.asModule) :
-    SmoothRep.IsSquareIntegrable V ↔ (PadicGL2.casselmanData p).StrictExponentBound V := sorry
-/- Check `CasselmanCriterion.finiteLength`: the extra finite-length assumption specializes the full rank-one criterion. -/
+/- Check `CasselmanCriterion.finiteLength`: the extra finite-length assumption specializes the full rank-one criterion `CasselmanCriterion.gl2`. -/
 example (p : ℕ) [Fact p.Prime]
     (V : SmoothRep ℂ (PadicGL2.Group p)) (hV : Representation.IsAdmissible V.obj.ρ)
-    (hfinite : IsNoetherian ℂ[PadicGL2.Group p] V.obj.ρ.asModule ∧
+    (_hfinite : IsNoetherian ℂ[PadicGL2.Group p] V.obj.ρ.asModule ∧
       IsArtinian ℂ[PadicGL2.Group p] V.obj.ρ.asModule) :
-    SmoothRep.IsSquareIntegrable V ↔ (PadicGL2.casselmanData p).StrictExponentBound V := sorry
+    SmoothRep.IsSquareIntegrable V ↔ (PadicGL2.casselmanData p).StrictExponentBound V :=
+  CasselmanCriterion.gl2 p V hV
 
 
 section DescentCarrier
@@ -5303,6 +5370,15 @@ theorem SmoothRep.toDiscrete_carrier [IsTopologicalGroup G] [DiscreteTopology A]
     ∃ e : ((SmoothRep.toDiscrete.obj V).obj).V ≃ₗ[A] V.obj.V,
       ∀ g v, e (((SmoothRep.toDiscrete.obj V).obj).ρ g v) = V.obj.ρ g (e v) := sorry
 
+/-- `SmoothRep.toDiscrete` keeps morphisms: under carrier identifications chosen for all objects
+at once, `toDiscrete.map f` is `f`. -/
+theorem SmoothRep.toDiscrete_map [IsTopologicalGroup G] [DiscreteTopology A] :
+    ∃ e : ∀ V : SmoothRep A G, ((SmoothRep.toDiscrete.obj V).obj).V ≃ₗ[A] V.obj.V,
+      (∀ (V : SmoothRep A G) g v,
+        e V (((SmoothRep.toDiscrete.obj V).obj).ρ g v) = V.obj.ρ g (e V v)) ∧
+      ∀ (V W : SmoothRep A G) (f : V ⟶ W) (v : ((SmoothRep.toDiscrete.obj V).obj).V),
+        e W ((SmoothRep.toDiscrete.map f).hom.hom v) = f.hom.hom (e V v) := sorry
+
 theorem SmoothRep.toDiscrete_equivalence [IsTopologicalGroup G] [DiscreteTopology A] :
     (SmoothRep.toDiscrete (A := A) (G := G)).IsEquivalence := sorry
 
@@ -5358,13 +5434,6 @@ theorem SmoothRep.derivedInvariants_iso_rHom (U : OpenSubgroup G)
       DerivedCategory.Q.obj (SmoothRep.rHom
         ((HomologicalComplex.single (SmoothRep A G) (ComplexShape.up ℤ) 0).obj
           (SmoothRep.permutation U)) V)) := sorry
-
-theorem SmoothRep.rHom_permutation (U : OpenSubgroup G)
-    (hc : IsCompact (U : Set G)) (V : CochainComplex (SmoothRep A G) ℤ) :
-    Nonempty (DerivedCategory.Q.obj (SmoothRep.rHom
-      ((HomologicalComplex.single (SmoothRep A G) (ComplexShape.up ℤ) 0).obj
-        (SmoothRep.permutation U)) V) ≅
-      (SmoothRep.derivedInvariantsUnbounded U.toSubgroup).obj (DerivedCategory.Q.obj V)) := sorry
 
 theorem SmoothRep.permutation_projective (U : OpenSubgroup G)
     (hc : IsCompact (U : Set G)) (hu : HasUnitProOrder A U.toSubgroup) :
@@ -5512,29 +5581,6 @@ theorem secondAdjunctionUnit_injective (hH : TauCeti.reductiveCommHopfAlgPropert
     (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M) :
     Function.Injective ((secondAdjunctionUnit H hH l μ hμ).app V).hom.hom := sorry
 
-theorem secondAdjunction_left_triangle (hH : TauCeti.reductiveCommHopfAlgProperty F H)
-    (l : Cocharacter H) (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
-    (hμ : ∃ U, μ.vol U ≠ 0) (W : SmoothRep ℂ (Points H)) :
-    (secondAdjunctionUnit H hH l μ hμ).app ((oppositeRestriction H l).obj W) ≫
-      (oppositeRestriction H l).map ((secondAdjunctionCounit H hH l μ hμ).app W) = 𝟙 _ := sorry
-
-theorem secondAdjunction_right_triangle (hH : TauCeti.reductiveCommHopfAlgProperty F H)
-    (l : Cocharacter H) (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
-    (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M) :
-    (induction H l).map ((secondAdjunctionUnit H hH l μ hμ).app V) ≫
-      (secondAdjunctionCounit H hH l μ hμ).app ((induction H l).obj V) = 𝟙 _ := sorry
-
-theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.RationalParabolic.secondAdjunction_zero (hH : TauCeti.reductiveCommHopfAlgProperty F H)
-    (l : Cocharacter H) (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
-    (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M)
-    (hV : Limits.IsZero V) : IsIso ((secondAdjunctionUnit H hH l μ hμ).app V) := sorry
-
-/- Check `RationalParabolic.secondAdjunction_zero`: the unit on zero is invertible. -/
-example (hH : TauCeti.reductiveCommHopfAlgProperty F H)
-    (l : Cocharacter H) (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
-    (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M)
-    (hV : Limits.IsZero V) : IsIso ((secondAdjunctionUnit H hH l μ hμ).app V) := sorry
-
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.RationalParabolic.secondAdjunction_self (hH : TauCeti.reductiveCommHopfAlgProperty F H)
     (l : Cocharacter H) (hl : (decomposition H l).P = ⊤)
     (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
@@ -5552,16 +5598,13 @@ example (hH : TauCeti.reductiveCommHopfAlgProperty F H)
     IsIso ((secondAdjunctionUnit H hH l μ hμ).app V) ∧
       IsIso ((secondAdjunctionCounit H hH l μ hμ).app W) := sorry
 
-theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.RationalParabolic.secondAdjunction_injective (hH : TauCeti.reductiveCommHopfAlgProperty F H)
-    (l : Cocharacter H) (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
-    (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M) :
-    Function.Injective ((secondAdjunctionUnit H hH l μ hμ).app V).hom.hom := sorry
-
-/- Check `RationalParabolic.secondAdjunction_injective`: no admissibility on the inducing object. -/
+/- Check `RationalParabolic.secondAdjunction_injective`: no admissibility on the inducing object;
+this is `RationalParabolic.secondAdjunctionUnit_injective`. -/
 example (hH : TauCeti.reductiveCommHopfAlgProperty F H)
     (l : Cocharacter H) (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
     (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M) :
-    Function.Injective ((secondAdjunctionUnit H hH l μ hμ).app V).hom.hom := sorry
+    Function.Injective ((secondAdjunctionUnit H hH l μ hμ).app V).hom.hom :=
+  secondAdjunctionUnit_injective H hH l μ hμ V
 
 theorem jacquet_duality (hH : TauCeti.reductiveCommHopfAlgProperty F H)
     (l : Cocharacter H) (V : SmoothRep ℂ (Points H)) :
@@ -5622,6 +5665,24 @@ theorem jacquet_fg (hH : TauCeti.reductiveCommHopfAlgProperty F H)
 def IsMinimal (l : Cocharacter H) : Prop :=
   ∀ m : Cocharacter H, (decomposition H m).P ≤ (decomposition H l).P →
     (decomposition H m).P = (decomposition H l).P
+
+/-- For a proper minimal parabolic and a nonzero `τ`, the geometric-lemma filtration of
+`r_{P̄}(i_P τ)` has one nonzero piece for each element of the relative Weyl group, so the unit,
+which lands in the bottom piece, is injective but not invertible. -/
+theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.RationalParabolic.secondAdjunctionUnit_not_iso (hH : TauCeti.reductiveCommHopfAlgProperty F H)
+    (l : Cocharacter H) (hl : IsMinimal H l) (hP : (decomposition H l).P ≠ ⊤)
+    (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
+    (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M)
+    (hV : Nontrivial V.obj.V) : ¬ IsIso ((secondAdjunctionUnit H hH l μ hμ).app V) := sorry
+
+/- Check `RationalParabolic.secondAdjunctionUnit_not_iso`: on a nonzero τ and a proper minimal
+parabolic the unit is not invertible. -/
+example (hH : TauCeti.reductiveCommHopfAlgProperty F H)
+    (l : Cocharacter H) (hl : IsMinimal H l) (hP : (decomposition H l).P ≠ ⊤)
+    (μ : HaarMeasureWithValues (oppositeDecomposition H l).N ℂ)
+    (hμ : ∃ U, μ.vol U ≠ 0) (V : SmoothRep ℂ (decomposition H l).M)
+    (hV : Nontrivial V.obj.V) : ¬ IsIso ((secondAdjunctionUnit H hH l μ hμ).app V) :=
+  RationalParabolic.secondAdjunctionUnit_not_iso H hH l hl hP μ hμ V hV
 
 abbrev steinberg (l : Cocharacter H) : SmoothRep ℂ (Points H) :=
   SmoothRep.steinberg (decomposition H l).P (Set.range fun m : Cocharacter H => (decomposition H m).P)
@@ -5713,12 +5774,11 @@ theorem SmoothCentre.equivLimCornerCentre_apply [IsTopologicalGroup G] [LocallyC
     (((SmoothCentre.equivLimCornerCentre hG z).val U).val) =
       Representation.IntertwiningMap.equivAlgEnd _ (z.app (SmoothRep.permutation U.val)).hom.hom := sorry
 
-theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothCentre.cornerCentreTransition_identity [IsTopologicalGroup G] (U : UnitLevel A G) (z : Subring.center (HeckeAlgebraLevel A G U.val.toSubgroup)) :
-    SmoothCentre.cornerCentreTransition U U le_rfl z = z := sorry
-
-/- Check `SmoothCentre.cornerCentreTransition_identity`: equal levels give the identity. -/
+/- Check `SmoothCentre.cornerCentreTransition_identity`: equal levels give the identity
+(`SmoothCentre.cornerCentreTransition_self`). -/
 example [IsTopologicalGroup G] (U : UnitLevel A G) (z : Subring.center (HeckeAlgebraLevel A G U.val.toSubgroup)) :
-    SmoothCentre.cornerCentreTransition U U le_rfl z = z := sorry
+    SmoothCentre.cornerCentreTransition U U le_rfl z = z :=
+  SmoothCentre.cornerCentreTransition_self U z
 
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothCentre.cornerCentreTransition_scalar [IsTopologicalGroup G] (U U' : UnitLevel A G) (hle : U'.val ≤ U.val) (a : A) :
     (SmoothCentre.cornerCentreTransition U U' hle ⟨a • 1, by sorry⟩).val = a • 1 := sorry
@@ -5846,6 +5906,23 @@ theorem SmoothRep.derivedTensor_obj [IsTopologicalGroup G] (P V : CochainComplex
     Nonempty (((SmoothRep.derivedTensor.obj (DerivedCategory.Q.obj P)).obj
       (DerivedCategory.Q.obj V)) ≅ DerivedCategory.Q.obj (SmoothRep.tensorComplex P V)) := sorry
 
+/-- On K-flat representatives the derived tensor product acts on morphisms by the tensor product
+of chain maps, through identifications chosen for all K-flat `P` and all `V` at once. -/
+theorem SmoothRep.derivedTensor_map [IsTopologicalGroup G] :
+    ∃ e : ∀ (P V : CochainComplex (SmoothRep A G) ℤ), SmoothRep.IsKFlat P →
+        ((SmoothRep.derivedTensor.obj (DerivedCategory.Q.obj P)).obj (DerivedCategory.Q.obj V) ≅
+          DerivedCategory.Q.obj (SmoothRep.tensorComplex P V)),
+      ∀ (P P' V V' : CochainComplex (SmoothRep A G) ℤ) (hP : SmoothRep.IsKFlat P)
+        (hP' : SmoothRep.IsKFlat P') (φ : P ⟶ P') (ψ : V ⟶ V'),
+        (SmoothRep.derivedTensor.map (DerivedCategory.Q.map φ)).app (DerivedCategory.Q.obj V) ≫
+            (SmoothRep.derivedTensor.obj (DerivedCategory.Q.obj P')).map (DerivedCategory.Q.map ψ) ≫
+            (e P' V' hP').hom =
+          (e P V hP).hom ≫ DerivedCategory.Q.map
+            (((SmoothRep.smoothPart A G).mapHomologicalComplex (ComplexShape.up ℤ)).map
+              (HomologicalComplex.tensorHom
+                (((SmoothRep.ι A G).mapHomologicalComplex (ComplexShape.up ℤ)).map φ)
+                (((SmoothRep.ι A G).mapHomologicalComplex (ComplexShape.up ℤ)).map ψ))) := sorry
+
 /-- Derived internal Hom, right adjoint to derived tensor in the smooth category. -/
 def SmoothRep.derivedInternalHom [IsTopologicalGroup G] : (DerivedCategory (SmoothRep A G))ᵒᵖ ⥤
     DerivedCategory (SmoothRep A G) ⥤ DerivedCategory (SmoothRep A G) := sorry
@@ -5853,6 +5930,16 @@ def SmoothRep.derivedInternalHom [IsTopologicalGroup G] : (DerivedCategory (Smoo
 theorem SmoothRep.derivedTensorHomAdjunction [IsTopologicalGroup G] (V : DerivedCategory (SmoothRep A G)) :
     Nonempty (SmoothRep.derivedTensor.obj V ⊣
       SmoothRep.derivedInternalHom.obj (Opposite.op V)) := sorry
+
+/-- The contravariant variable of the derived internal Hom is fixed by the adjunctions: precomposing
+with `f : V' ⟶ V` corresponds to tensoring with `f`. -/
+theorem SmoothRep.derivedInternalHom_map [IsTopologicalGroup G] :
+    ∃ adj : ∀ V : DerivedCategory (SmoothRep A G),
+        SmoothRep.derivedTensor.obj V ⊣ SmoothRep.derivedInternalHom.obj (Opposite.op V),
+      ∀ (V V' : DerivedCategory (SmoothRep A G)) (f : V' ⟶ V) (B W : DerivedCategory (SmoothRep A G))
+        (g : B ⟶ (SmoothRep.derivedInternalHom.obj (Opposite.op V)).obj W),
+        ((adj V').homEquiv B W).symm (g ≫ (SmoothRep.derivedInternalHom.map f.op).app W) =
+          (SmoothRep.derivedTensor.map f).app B ≫ ((adj V).homEquiv B W).symm g := sorry
 
 theorem SmoothRep.derivedInternalHom_dual [IsTopologicalGroup G] (hG : HasCofinalUnitProOrder A G)
     (V : DerivedCategory (SmoothRep A G)) :
@@ -5867,6 +5954,20 @@ theorem SmoothRep.hom_derivedSmoothDual [IsTopologicalGroup G] (hG : HasCofinalU
       (((SmoothRep.derivedTensor.obj B).obj V) ⟶
         (DerivedCategory.singleFunctor (SmoothRep A G) 0).obj
           (SmoothRep.trivial (ModuleCat.of A A)))) := sorry
+
+/-- In degree zero over a field the bidual morphism is the evaluation map: under identifications
+`ι V : 𝔻(V[0]) ≅ V^∨[0]`, `SmoothRep.derivedBidualMap` of `V[0]` is the degree-zero image of
+`SmoothRep.toDoubleDual V`. In particular it is nonzero on nonzero `V`. -/
+theorem SmoothRep.derivedBidualMap_single {k : Type u} [Field k] [IsTopologicalGroup G]
+    (hG : HasCofinalUnitProOrder k G) :
+    ∃ ι : ∀ V : SmoothRep k G,
+        (SmoothRep.derivedSmoothDual hG).obj
+            (Opposite.op ((DerivedCategory.singleFunctor (SmoothRep k G) 0).obj V)) ≅
+          (DerivedCategory.singleFunctor (SmoothRep k G) 0).obj (SmoothRep.smoothDual V),
+      ∀ V : SmoothRep k G,
+        SmoothRep.derivedBidualMap hG ((DerivedCategory.singleFunctor (SmoothRep k G) 0).obj V) ≫
+            (SmoothRep.derivedSmoothDual hG).map (ι V).inv.op ≫ (ι (SmoothRep.smoothDual V)).hom =
+          (DerivedCategory.singleFunctor (SmoothRep k G) 0).map (SmoothRep.toDoubleDual V) := sorry
 
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.derivedTensor_unit [IsTopologicalGroup G] (V : DerivedCategory (SmoothRep A G)) :
     Nonempty (((SmoothRep.derivedTensor.obj
@@ -6112,8 +6213,8 @@ def SmoothRep.CuspidalPair.inertiallyEquivalent [IsTopologicalGroup G] {P : Set 
     (∀ m, (e m).val = g * m.val * g⁻¹) ∧
     ∃ χ : SmoothRep.unramifiedCharacters (G := E.levi.M) ℂ,
       Nonempty (D.representation.obj ≅ Rep.of
-        ((Representation.twist E.representation.obj.ρ
-          (SmoothRep.unramifiedCharacter χ)).comp e.toMonoidHom))
+        ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ)
+          E.representation.obj.ρ).comp e.toMonoidHom))
 
 def SmoothRep.CuspidalPair.inertia [IsTopologicalGroup G] (P : Set (LeviDecomposition (G := G))) :
     Setoid (SmoothRep.CuspidalPair P) where
@@ -6131,8 +6232,8 @@ def SmoothRep.CuspidalDatum.inertialClass [IsTopologicalGroup G] {P : Set (LeviD
 def SmoothRep.cuspidalComponent [IsTopologicalGroup G] {P : Set (LeviDecomposition (G := G))}
     (D : SmoothRep.CuspidalPair P) : Set (SmoothRep ℂ D.levi.M) :=
   {V | ∃ χ : SmoothRep.unramifiedCharacters (G := D.levi.M) ℂ,
-    Nonempty (V.obj ≅ Rep.of (Representation.twist D.representation.obj.ρ
-      (SmoothRep.unramifiedCharacter χ)))}
+    Nonempty (V.obj ≅ Rep.of (_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ)
+      D.representation.obj.ρ))}
 
 /-- The group of normalizing elements preserving the unramified orbit. -/
 def SmoothRep.inertialNormalizer [IsTopologicalGroup G] {P : Set (LeviDecomposition (G := G))}
@@ -6141,8 +6242,8 @@ def SmoothRep.inertialNormalizer [IsTopologicalGroup G] {P : Set (LeviDecomposit
     (∀ m, (e m).val = g * m.val * g⁻¹) ∧
     ∃ χ : SmoothRep.unramifiedCharacters (G := D.levi.M) ℂ,
       Nonempty (D.representation.obj ≅ Rep.of
-        ((Representation.twist D.representation.obj.ρ
-          (SmoothRep.unramifiedCharacter χ)).comp e.toMonoidHom))}
+        ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ)
+          D.representation.obj.ρ).comp e.toMonoidHom))}
   one_mem' := by sorry
   mul_mem' := by sorry
   inv_mem' := by sorry
@@ -6169,15 +6270,6 @@ theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.Cuspi
 
 /- Check `SmoothRep.CuspidalDatum_empty`: there are no data without Levi subgroups. -/
 example [IsTopologicalGroup G] : IsEmpty (SmoothRep.CuspidalDatum (∅ : Set (LeviDecomposition (G := G)))) := sorry
-
-theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.CuspidalDatum_conjugacy [IsTopologicalGroup G] {P : Set (LeviDecomposition (G := G))} (D E : SmoothRep.CuspidalPair P)
-    (h : SmoothRep.CuspidalPair.conjugate D E) :
-    (Quotient.mk _ D : SmoothRep.CuspidalDatum P) = Quotient.mk _ E := sorry
-
-/- Check `SmoothRep.CuspidalDatum_conjugacy`: changing the conjugate representative changes no datum. -/
-example [IsTopologicalGroup G] {P : Set (LeviDecomposition (G := G))} (D E : SmoothRep.CuspidalPair P)
-    (h : SmoothRep.CuspidalPair.conjugate D E) :
-    (Quotient.mk _ D : SmoothRep.CuspidalDatum P) = Quotient.mk _ E := sorry
 
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.InertialClass_conjugacy [IsTopologicalGroup G] {P : Set (LeviDecomposition (G := G))} (D E : SmoothRep.CuspidalPair P)
     (h : SmoothRep.CuspidalPair.conjugate D E) :
@@ -6557,6 +6649,25 @@ def inverseHalf : diagonal p →* ℂˣ :=
 theorem inverseHalf_smooth : IsSmoothCharacter (inverseHalf p) := sorry
 end PadicGL2
 
+/-- The Weyl element of GL₂(ℚ_p) swaps the diagonal entries, so the diagonal characters `χ` and
+`χ'` with `χ'(diag(a, d)) = χ(diag(d, a))` give the same cuspidal datum. -/
+theorem SmoothRep.CuspidalDatum_conjugacy (p : ℕ) [Fact p.Prime]
+    (χ χ' : PadicGL2.diagonal p →* ℂˣ) (hχ : IsSmoothCharacter χ) (hχ' : IsSmoothCharacter χ')
+    (hswap : ∀ a d : ℚ_[p]ˣ, χ' (PadicGL2.diag p a d) = χ (PadicGL2.diag p d a)) :
+    (Quotient.mk _ (PadicGL2.characterDatum p χ hχ) :
+        SmoothRep.CuspidalDatum (PadicGL2.standardParabolics p)) =
+      Quotient.mk _ (PadicGL2.characterDatum p χ' hχ') := sorry
+
+/- Check `SmoothRep.CuspidalDatum_conjugacy`: for GL₂(ℚ_p) the diagonal character and its
+Weyl conjugate give the same cuspidal datum. -/
+example (p : ℕ) [Fact p.Prime]
+    (χ χ' : PadicGL2.diagonal p →* ℂˣ) (hχ : IsSmoothCharacter χ) (hχ' : IsSmoothCharacter χ')
+    (hswap : ∀ a d : ℚ_[p]ˣ, χ' (PadicGL2.diag p a d) = χ (PadicGL2.diag p d a)) :
+    (Quotient.mk _ (PadicGL2.characterDatum p χ hχ) :
+        SmoothRep.CuspidalDatum (PadicGL2.standardParabolics p)) =
+      Quotient.mk _ (PadicGL2.characterDatum p χ' hχ') :=
+  SmoothRep.CuspidalDatum_conjugacy p χ χ' hχ hχ' hswap
+
 theorem SmoothRep.cuspidalSupport_trivial_gl2 (p : ℕ) [Fact p.Prime] :
     SmoothRep.cuspidalSupports (PadicGL2.standardParabolics p)
       (SmoothRep.trivial (ModuleCat.of ℂ ℂ)) =
@@ -6812,14 +6923,6 @@ theorem SmoothRep.indSheafEquiv_stalkAction [IsTopologicalGroup G] [LocallyCompa
         (TopCat.Presheaf.germ F.sheaf.obj (cosetTranslateOpen H h.val U)
           (QuotientGroup.mk (1:G)) (by sorry)).hom (F.act h.val U s) := sorry
 
-/-- Compact global sections are precisely compactly induced functions, with the
-right translation action and the literal support-modulo-H condition. -/
-theorem SmoothRep.indSheafEquiv_compact [IsTopologicalGroup G] [LocallyCompactSpace G] [TotallyDisconnectedSpace G] [T2Space G] (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (V : SmoothRep A H) :
-    ∃ e : (SmoothRep.cInd H V).obj.V ≃ₗ[A]
-      InductionCompactSections H V.obj.ρ Set.univ,
-      ∀ f g, (e f).val.val ⟨g, by simp⟩ = f.val.val g := sorry
-
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.SmoothRep.indEquivariantSheaf_point [IsTopologicalGroup G] (V : SmoothRep.{u,u} A (⊤ : Subgroup G)) :
     Nonempty ((SmoothRep.indEquivariantSheaf ⊤ (by simp) V).fibre ≃ₗ[A] V.obj.V) := sorry
 
@@ -7001,7 +7104,18 @@ end AffineCell
 
 section NondegenerateCategory
 variable (A H : Type u) [CommRing A] [NonUnitalRing H] [Module A H]
-  [IsScalarTower A H H] [SMulCommClass A H H]
+
+/-- The bimodule endomorphism ring uses the given A-linear structure and both H actions. -/
+def NondegMod.bimoduleEnd [IsScalarTower A H H] [SMulCommClass A H H] :
+    Subring (Module.End A H) where
+  carrier := {f | (∀ h x, f (h * x) = h * f x) ∧ ∀ h x, f (x * h) = f x * h}
+  zero_mem' := by sorry
+  one_mem' := by sorry
+  add_mem' := by sorry
+  neg_mem' := by sorry
+  mul_mem' := by sorry
+
+variable [IsScalarTower A H H] [SMulCommClass A H H]
 
 theorem NondegMod.principal_projective [IsIdempotented H] (e : H) (he : e * e = e) :
     Projective (NondegMod.principal A H e he) := sorry
@@ -7033,15 +7147,6 @@ theorem NondegMod.part_eq_top [IsIdempotented H] (M : NondegMod A H) : NondegMod
 theorem NondegMod.part_idempotent [IsIdempotented H] (M : ModuleCat.{u} (Unitization A H)) :
     NondegMod.part A H (ModuleCat.of _ (NondegMod.part A H M)) = ⊤ := sorry
 
-/-- The bimodule endomorphism ring uses the given A-linear structure and both H actions. -/
-def NondegMod.bimoduleEnd : Subring (Module.End A H) where
-  carrier := {f | (∀ h x, f (h * x) = h * f x) ∧ ∀ h x, f (x * h) = f x * h}
-  zero_mem' := by sorry
-  one_mem' := by sorry
-  add_mem' := by sorry
-  neg_mem' := by sorry
-  mul_mem' := by sorry
-
 def NondegMod.centreEquiv [IsIdempotented H] : CatCenter (NondegMod A H) ≃+* NondegMod.bimoduleEnd A H := sorry
 
 theorem NondegMod.centreEquiv_principal [IsIdempotented H] (z : CatCenter (NondegMod A H))
@@ -7050,10 +7155,9 @@ theorem NondegMod.centreEquiv_principal [IsIdempotented H] (z : CatCenter (Nonde
     ∀ v, (b ((z.app (NondegMod.principal A H e he)).hom.hom v)).val =
       (NondegMod.centreEquiv A H z).val (b v).val := sorry
 
-theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.NondegMod.part_nondegenerate [IsIdempotented H] (M : NondegMod A H) : NondegMod.part A H M.obj = ⊤ := sorry
-
-/- Check `NondegMod.part_nondegenerate`: a nondegenerate input is unchanged. -/
-example [IsIdempotented H] (M : NondegMod A H) : NondegMod.part A H M.obj = ⊤ := sorry
+/- Check `NondegMod.part_nondegenerate`: a nondegenerate input is unchanged (`NondegMod.part_eq_top`). -/
+example [IsIdempotented H] (M : NondegMod A H) : NondegMod.part A H M.obj = ⊤ :=
+  NondegMod.part_eq_top A H M
 
 theorem _root_.TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.NondegMod.part_zeroAction [IsIdempotented H] (M : ModuleCat.{u} (Unitization A H))
     (hM : ∀ h : H, ∀ m : M, (Unitization.inr h : Unitization A H) • m = 0) :
@@ -7145,111 +7249,41 @@ section UniversalWhittakerModule
 open ValuativeRel
 variable (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] (hpℓ : p ≠ ℓ)
   {F k : Type} [Field F] [TopologicalSpace F] [ValuativeRel F]
-  [IsNonarchimedeanLocalField F] [hAlg : Algebra ℚ_[p] F] [hfin : FiniteDimensional ℚ_[p] F]
-  [hcont : ContinuousSMul ℚ_[p] F] [Field k] [hkChar : CharP k ℓ]
-  [hkClosed : IsAlgClosed k] [hkPerfect : PerfectRing k ℓ]
+  [IsNonarchimedeanLocalField F] [Field k]
   (n : ℕ)
 
 namespace UniversalWhittaker
 set_option synthInstance.maxHeartbeats 200000
 /-- The block summand of compact induction of the nondegenerate upper-unipotent character. -/
-def representation (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+def representation [Algebra ℚ_[p] F] [FiniteDimensional ℚ_[p] F] [ContinuousSMul ℚ_[p] F]
+    [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
     (hψ : BZDerivative.IsGenericCharacter ψ)
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
     SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F) :=
   SmoothRep.blockPart e (SmoothRep.cInd (BZDerivative.unipotent (n + 1) (n + 1))
     (SmoothRep.ofCharacter (BZDerivative.character (n + 1) (n + 1) ψ) (by sorry)))
 
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-theorem represents (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F))
-    (hV : e.idempotent.app V = 𝟙 V) :
-    Nonempty ((representation ℓ n ψ hψ e ⟶ V) ≃ₗ[WittVector ℓ k]
-      BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ) := sorry
-
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-theorem projective (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
-    Projective (representation ℓ n ψ hψ e) := sorry
-
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-theorem center (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
-    ∃ q : SmoothRep.blockCentre e ≃+* End (representation ℓ n ψ hψ e),
-      ∀ z, q z = z.val.app (representation ℓ n ψ hψ e) := sorry
-
 /-- The central action descends to the top derivative. -/
-instance derivativeModule (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+instance derivativeModule [Algebra ℚ_[p] F] [FiniteDimensional ℚ_[p] F] [ContinuousSMul ℚ_[p] F]
+    [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
     (hψ : BZDerivative.IsGenericCharacter ψ)
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
     Module (SmoothRep.blockCentre e)
-      (BZDerivative.module (n + 1) (n + 1) ψ (representation ℓ n ψ hψ e).obj.ρ) := by sorry
+      (BZDerivative.module (n + 1) (n + 1) ψ (representation p ℓ n ψ hψ e).obj.ρ) := by sorry
 
-theorem derivativeModule_mk (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (z : SmoothRep.blockCentre e) (v : (representation ℓ n ψ hψ e).obj.V) :
-    let q := WhittakerCoinvariants.mk
-      ((representation ℓ n ψ hψ e).obj.ρ.comp (BZDerivative.unipotent (n + 1) (n + 1)).subtype)
-      (BZDerivative.character (n + 1) (n + 1) ψ)
-    z • q v = q ((z.val.app (representation ℓ n ψ hψ e)).hom.hom v) := sorry
-
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-theorem line (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
-    Nonempty (BZDerivative.module (n + 1) (n + 1) ψ (representation ℓ n ψ hψ e).obj.ρ
-      ≃ₗ[SmoothRep.blockCentre e] SmoothRep.blockCentre e) := sorry
-
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-theorem nongeneric (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
-    (h : Subsingleton (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
-    Subsingleton (representation ℓ n ψ hψ e ⟶ V) := sorry
-
-/- Check `UniversalWhittaker.nongeneric`: zero derivative gives no maps from the block Whittaker projective. -/
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-example (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
-    (h : Subsingleton (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
-    Subsingleton (representation ℓ n ψ hψ e ⟶ V) := sorry
-
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-theorem genericSimple (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
-    (hi : Simple V) (hg : Nontrivial (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
-    ∃ f : representation ℓ n ψ hψ e ⟶ V, Epi f := sorry
-
-/- Check `UniversalWhittaker.genericSimple`: a generic simple block object is a nonzero quotient. -/
-include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
-example (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
-    (hi : Simple V) (hg : Nontrivial (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
-    ∃ f : representation ℓ n ψ hψ e ⟶ V, Epi f := sorry
 /-- The block centre acts on the Whittaker module by evaluation of natural endomorphisms. -/
-instance representationModule (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+instance representationModule [Algebra ℚ_[p] F] [FiniteDimensional ℚ_[p] F] [ContinuousSMul ℚ_[p] F]
+    [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
     (hψ : BZDerivative.IsGenericCharacter ψ)
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
-    Module (SmoothRep.blockCentre e) (representation ℓ n ψ hψ e).obj.V := by sorry
-
-theorem representationModule_apply (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
-    (hψ : BZDerivative.IsGenericCharacter ψ)
-    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
-    (z : SmoothRep.blockCentre e) (v : (representation ℓ n ψ hψ e).obj.V) :
-    z • v = (z.val.app (representation ℓ n ψ hψ e)).hom.hom v := sorry
+    Module (SmoothRep.blockCentre e) (representation p ℓ n ψ hψ e).obj.V := by sorry
 
 /-- The coefficient map to the block centre is scalar multiplication followed by its idempotent. -/
-def coefficientMap
+def coefficientMap [Algebra ℚ_[p] F] [FiniteDimensional ℚ_[p] F] [ContinuousSMul ℚ_[p] F]
+    [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
     WittVector ℓ k →+* SmoothRep.blockCentre e where
   toFun a := ⟨CategoryTheory.Linear.toCatCenter (WittVector ℓ k)
@@ -7260,23 +7294,104 @@ def coefficientMap
   map_mul' := by sorry
 
 /-- The same group operators, now linear over the block centre. -/
-def centerRepresentation (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+def centerRepresentation [Algebra ℚ_[p] F] [FiniteDimensional ℚ_[p] F] [ContinuousSMul ℚ_[p] F]
+    [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
     (hψ : BZDerivative.IsGenericCharacter ψ)
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
     Representation (SmoothRep.blockCentre e) (GL (Fin (n + 1)) F)
-      (representation ℓ n ψ hψ e).obj.V where
+      (representation p ℓ n ψ hψ e).obj.V where
   toFun g :=
-    { toFun := (representation ℓ n ψ hψ e).obj.ρ g
+    { toFun := (representation p ℓ n ψ hψ e).obj.ρ g
       map_add' := by sorry
       map_smul' := by sorry }
   map_one' := by sorry
   map_mul' := by sorry
 
+variable [hAlg : Algebra ℚ_[p] F] [hfin : FiniteDimensional ℚ_[p] F]
+  [hcont : ContinuousSMul ℚ_[p] F] [hkChar : CharP k ℓ]
+  [hkClosed : IsAlgClosed k] [hkPerfect : PerfectRing k ℓ]
+
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+theorem represents (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F))
+    (hV : e.idempotent.app V = 𝟙 V) :
+    Nonempty ((representation p ℓ n ψ hψ e ⟶ V) ≃ₗ[WittVector ℓ k]
+      BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ) := sorry
+
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+theorem projective (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
+    Projective (representation p ℓ n ψ hψ e) := sorry
+
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+theorem center (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
+    ∃ q : SmoothRep.blockCentre e ≃+* End (representation p ℓ n ψ hψ e),
+      ∀ z, q z = z.val.app (representation p ℓ n ψ hψ e) := sorry
+
+theorem derivativeModule_mk (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (z : SmoothRep.blockCentre e) (v : (representation p ℓ n ψ hψ e).obj.V) :
+    let q := WhittakerCoinvariants.mk
+      ((representation p ℓ n ψ hψ e).obj.ρ.comp (BZDerivative.unipotent (n + 1) (n + 1)).subtype)
+      (BZDerivative.character (n + 1) (n + 1) ψ)
+    z • q v = q ((z.val.app (representation p ℓ n ψ hψ e)).hom.hom v) := sorry
+
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+theorem line (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
+    Nonempty (BZDerivative.module (n + 1) (n + 1) ψ (representation p ℓ n ψ hψ e).obj.ρ
+      ≃ₗ[SmoothRep.blockCentre e] SmoothRep.blockCentre e) := sorry
+
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+theorem nongeneric (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
+    (h : Subsingleton (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
+    Subsingleton (representation p ℓ n ψ hψ e ⟶ V) := sorry
+
+/- Check `UniversalWhittaker.nongeneric`: zero derivative gives no maps from the block Whittaker projective. -/
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+example (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
+    (h : Subsingleton (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
+    Subsingleton (representation p ℓ n ψ hψ e ⟶ V) := sorry
+
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+theorem genericSimple (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
+    (hi : Simple V) (hg : Nontrivial (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
+    ∃ f : representation p ℓ n ψ hψ e ⟶ V, Epi f := sorry
+
+/- Check `UniversalWhittaker.genericSimple`: a generic simple block object is a nonzero quotient. -/
+include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
+example (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (V : SmoothRep (WittVector ℓ k) (GL (Fin (n + 1)) F)) (hV : e.idempotent.app V = 𝟙 V)
+    (hi : Simple V) (hg : Nontrivial (BZDerivative.module (n + 1) (n + 1) ψ V.obj.ρ)) :
+    ∃ f : representation p ℓ n ψ hψ e ⟶ V, Epi f := sorry
+theorem representationModule_apply (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
+    (hψ : BZDerivative.IsGenericCharacter ψ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (z : SmoothRep.blockCentre e) (v : (representation p ℓ n ψ hψ e).obj.V) :
+    z • v = (z.val.app (representation p ℓ n ψ hψ e)).hom.hom v := sorry
+
 include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
 theorem admissible_overCentre (ψ : Multiplicative F →* (WittVector ℓ k)ˣ)
     (hψ : BZDerivative.IsGenericCharacter ψ)
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F)) :
-    Representation.IsAdmissible (centerRepresentation ℓ n ψ hψ e) := sorry
+    Representation.IsAdmissible (centerRepresentation p ℓ n ψ hψ e) := sorry
 
 include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
 theorem baseChange {B : Type*} [CommRing B]
@@ -7284,8 +7399,8 @@ theorem baseChange {B : Type*} [CommRing B]
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
     [Algebra (SmoothRep.blockCentre e) B] :
     Nonempty (BZDerivative.module (n + 1) (n + 1)
-      ((Units.map ((algebraMap (SmoothRep.blockCentre e) B).comp (coefficientMap ℓ n e)).toMonoidHom).comp ψ)
-      (_root_.Representation.baseChange B (centerRepresentation ℓ n ψ hψ e)) ≃ₗ[B] B) := sorry
+      ((Units.map ((algebraMap (SmoothRep.blockCentre e) B).comp (coefficientMap p ℓ n e)).toMonoidHom).comp ψ)
+      (_root_.Representation.baseChange B (centerRepresentation p ℓ n ψ hψ e)) ≃ₗ[B] B) := sorry
 
 /- Check `UniversalWhittaker.baseChange`: the derivative line remains the coefficient ring after a centre map. -/
 include hpℓ hAlg hfin hcont hkChar hkClosed hkPerfect in
@@ -7294,8 +7409,8 @@ example {B : Type*} [CommRing B]
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
     [Algebra (SmoothRep.blockCentre e) B] :
     Nonempty (BZDerivative.module (n + 1) (n + 1)
-      ((Units.map ((algebraMap (SmoothRep.blockCentre e) B).comp (coefficientMap ℓ n e)).toMonoidHom).comp ψ)
-      (_root_.Representation.baseChange B (centerRepresentation ℓ n ψ hψ e)) ≃ₗ[B] B) := sorry
+      ((Units.map ((algebraMap (SmoothRep.blockCentre e) B).comp (coefficientMap p ℓ n e)).toMonoidHom).comp ψ)
+      (_root_.Representation.baseChange B (centerRepresentation p ℓ n ψ hψ e)) ≃ₗ[B] B) := sorry
 
 end UniversalWhittaker
 end UniversalWhittakerModule
@@ -8289,17 +8404,12 @@ example [TopologicalSpace F] [IsNonarchimedeanLocalField F] (s : IwahoriWeylGrou
     T * T = ((Nat.card (𝓀[F]) : A) - 1) • T + (Nat.card (𝓀[F]) : A) • 1 := sorry
 
 include hsplit in
-theorem HeckeAlgebraLevel.iwahoriBasis_residueOne [TopologicalSpace F] [IsNonarchimedeanLocalField F] (hq : (Nat.card (𝓀[F]) : A) = 1) :
-    ∃ e : HeckeAlgebraLevel A (RationalParabolic.Points H) a.iwahori ≃ₐ[A]
-      MonoidAlgebra A (IwahoriWeylGroup D),
-      ∀ w, e (HeckeAlgebraLevel.iwahoriBasis D φ a A w) = MonoidAlgebra.single w 1 := sorry
-
-include hsplit in
-/- Check `HeckeAlgebraLevel.iwahoriBasis_residueOne`: reduction to q = 1 recovers the group algebra, including its basis. -/
+/- Check `HeckeAlgebraLevel.iwahoriBasis_residueOne`: reduction to q = 1 recovers the group algebra, including its basis (`HeckeAlgebraLevel.iwahoriBasis_groupAlgebra`). -/
 example [TopologicalSpace F] [IsNonarchimedeanLocalField F] (hq : (Nat.card (𝓀[F]) : A) = 1) :
     ∃ e : HeckeAlgebraLevel A (RationalParabolic.Points H) a.iwahori ≃ₐ[A]
       MonoidAlgebra A (IwahoriWeylGroup D),
-      ∀ w, e (HeckeAlgebraLevel.iwahoriBasis D φ a A w) = MonoidAlgebra.single w 1 := sorry
+      ∀ w, e (HeckeAlgebraLevel.iwahoriBasis D φ a A w) = MonoidAlgebra.single w 1 := by
+  apply HeckeAlgebraLevel.iwahoriBasis_groupAlgebra <;> assumption
 end SplitIwahori
 
 section BernsteinBlocks
@@ -8417,12 +8527,6 @@ theorem SpinPolynomial.factorization (q : Aˣ) (α β γ δ T₀ T₁ T₂ : A)
       α * β + α * γ + α * δ + β * γ + β * δ + γ * δ) :
     SpinPolynomial (q : A) T₀ T₁ T₂ =
       (1 - C α * X) * (1 - C β * X) * (1 - C γ * X) * (1 - C δ * X) := sorry
-
-/-- The reciprocal monic polynomial has the CG generator order T₂, T₁, T₀. -/
-theorem SpinPolynomial.monic_comparison (q T₀ T₁ T₂ : A) :
-    Polynomial.reflect 4 (SpinPolynomial q T₀ T₁ T₂) =
-      X^4 - C T₂ * X^3 + C (q * T₁ + (q^3 + q) * T₀) * X^2 -
-        C (q^3 * T₂ * T₀) * X + C (q^6 * T₀^2) := sorry
 end SpinFactorization
 
 section IrreducibleCorners
@@ -9180,7 +9284,7 @@ theorem CoWhittaker.centerCharacter (n : ℕ)
         ((Units.map (algebraMap (WittVector ℓ k) A).toMonoidHom).comp ψ)))
     (he : e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj W) = 𝟙 _) :
     ∃! φ : SmoothRep.blockCentre e →+* A,
-      φ.comp (UniversalWhittaker.coefficientMap ℓ n e) = algebraMap (WittVector ℓ k) A ∧
+      φ.comp (UniversalWhittaker.coefficientMap p ℓ n e) = algebraMap (WittVector ℓ k) A ∧
       ∀ z, z.val.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj W) =
         (SmoothRep.restrictScalars (A := WittVector ℓ k)).map (φ z • 𝟙 W) := sorry
 
@@ -9191,11 +9295,11 @@ theorem UniversalWhittaker.domination (n : ℕ)
     (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
     [Algebra (SmoothRep.blockCentre e) A]
     (hcompat : (algebraMap (SmoothRep.blockCentre e) A).comp
-      (UniversalWhittaker.coefficientMap ℓ n e) = algebraMap (WittVector ℓ k) A) :
+      (UniversalWhittaker.coefficientMap p ℓ n e) = algebraMap (WittVector ℓ k) A) :
     let ψA := (Units.map (algebraMap (WittVector ℓ k) A).toMonoidHom).comp ψ
     let U := BZDerivative.unipotent (n + 1) (n + 1) (F := F)
     let χ := BZDerivative.character (n + 1) (n + 1) ψA
-    let ρ := _root_.Representation.baseChange A (UniversalWhittaker.centerRepresentation ℓ n ψ hψ e)
+    let ρ := _root_.Representation.baseChange A (UniversalWhittaker.centerRepresentation p ℓ n ψ hψ e)
     CoWhittaker ρ U χ ∧ ∀ W : SmoothRep A (GL (Fin (n + 1)) F),
       CoWhittaker W.obj.ρ U χ →
       (∀ z, z.val.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj W) =
@@ -9376,6 +9480,10 @@ theorem SmoothRep.iwahori_weakPrincipalSeries [IsNonarchimedeanLocalField F] (V 
 
 /-- The cuspidal pair on a minimal Levi attached to a connected-parahoric character. -/
 def SmoothRep.iwahoriCuspidalPair [IsNonarchimedeanLocalField F] (hmin : RationalParabolic.IsMinimal H l)
+    (hT : TauCeti.Cocharacter.levi F l = D.rootDatum.T)
+    (hgood : HasIwahoriDecomposition a.iwahori (TauCeti.Cocharacter.levi F l)
+      (TauCeti.Cocharacter.unipotent F l)
+      (TauCeti.Cocharacter.unipotent F (RationalParabolic.opposite H l)))
     (χ : SmoothRep.weaklyUnramifiedCharacters
       (a.iwahori.comap (RationalParabolic.decomposition H l).M.subtype)) :
     SmoothRep.CuspidalPair (RationalParabolic.family H) where
@@ -9395,7 +9503,7 @@ theorem SmoothRep.iwahori_components [IsNonarchimedeanLocalField F] (V : SmoothR
         ∃ χ : SmoothRep.weaklyUnramifiedCharacters
             (a.iwahori.comap (RationalParabolic.decomposition H l).M.subtype),
           SmoothRep.inertialSupport H D.reductive W hW =
-            Quotient.mk _ (SmoothRep.iwahoriCuspidalPair D φ a l hl χ) := sorry
+            Quotient.mk _ (SmoothRep.iwahoriCuspidalPair D φ a l hl hT hgood χ) := sorry
 
 include hT hgood in
 /-- Restriction to M° distinguishes components; the remaining identification is Weyl conjugacy.
@@ -9403,9 +9511,9 @@ M°/M₁ is the torsion subgroup retained by the Kottwitz quotient (Rostami §2.
 theorem SmoothRep.iwahori_componentIndex [IsNonarchimedeanLocalField F]
     (χ ψ : SmoothRep.weaklyUnramifiedCharacters
       (a.iwahori.comap (RationalParabolic.decomposition H l).M.subtype)) :
-    (Quotient.mk _ (SmoothRep.iwahoriCuspidalPair D φ a l hl χ) :
+    (Quotient.mk _ (SmoothRep.iwahoriCuspidalPair D φ a l hl hT hgood χ) :
       SmoothRep.InertialClass (RationalParabolic.family H)) =
-        Quotient.mk _ (SmoothRep.iwahoriCuspidalPair D φ a l hl ψ) ↔
+        Quotient.mk _ (SmoothRep.iwahoriCuspidalPair D φ a l hl hT hgood ψ) ↔
     ∃ g : D.normalizer,
       ∃ e : (RationalParabolic.decomposition H l).M ≃* (RationalParabolic.decomposition H l).M,
         (∀ m, (e m).val = g.val * m.val * g.val⁻¹) ∧
@@ -9423,6 +9531,16 @@ variable {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
 
 /-- The maximal split subtorus contained in the centre of this rational Levi. -/
 def RationalParabolic.splitCenter (l : RationalParabolic.Cocharacter H) : TauCeti.HopfIdeal F H := sorry
+
+/-- Without any hypothesis on `H`, the value is a split torus whose points are central in the
+Levi; this is the obligation `central` of `RationalParabolic.casselmanData`. For reductive `H`,
+`RationalParabolic.splitCenter_characterization` makes it the largest such torus. -/
+theorem RationalParabolic.splitCenter_central (l : RationalParabolic.Cocharacter H) :
+    TauCeti.splitTorusCommHopfAlgProperty F
+        (TauCeti.FiniteTypeCommHopfAlgCat.quotient H (RationalParabolic.splitCenter H l)) ∧
+      subgroupPoints (RationalParabolic.splitCenter H l) F ≤
+        ((Subgroup.center (RationalParabolic.decomposition H l).M).map
+          (RationalParabolic.decomposition H l).M.subtype) := sorry
 
 include hH in
 theorem RationalParabolic.splitCenter_characterization (l : RationalParabolic.Cocharacter H) :
@@ -9786,11 +9904,11 @@ def FunG : Submodule A (S → S → A) where
   add_mem' := by sorry
   smul_mem' := by sorry
 
-variable [TopologicalSpace G] [IsTopologicalGroup G]
-  [Fact (∀ s : S, IsCompact (MulAction.stabilizer G s : Set G) ∧
-    IsOpen (MulAction.stabilizer G s : Set G))]
-
-instance FunG.nonUnitalRing : NonUnitalRing (FunG A G S) where
+/-- Matrix convolution, a finite sum because the stabilizers are compact and open. -/
+instance FunG.nonUnitalRing [TopologicalSpace G] [IsTopologicalGroup G]
+    [Fact (∀ s : S, IsCompact (MulAction.stabilizer G s : Set G) ∧
+      IsOpen (MulAction.stabilizer G s : Set G))] :
+    NonUnitalRing (FunG A G S) where
   toAddCommGroup := inferInstance
   mul f g := ⟨fun x z => ∑ᶠ y : S, f.val x y * g.val y z, by sorry⟩
   mul_assoc := by sorry
@@ -9799,24 +9917,37 @@ instance FunG.nonUnitalRing : NonUnitalRing (FunG A G S) where
   left_distrib := by sorry
   right_distrib := by sorry
 
+/-- The same matrix acts on finitely supported column vectors. -/
+def FunG.actPermutation [TopologicalSpace G] [IsTopologicalGroup G]
+    [Fact (∀ s : S, IsCompact (MulAction.stabilizer G s : Set G) ∧
+      IsOpen (MulAction.stabilizer G s : Set G))] :
+    FunG A G S →ₗ[A] Module.End A (S →₀ A) := sorry
+
+instance FunG.ring [TopologicalSpace G] [IsTopologicalGroup G]
+    [Fact (∀ s : S, IsCompact (MulAction.stabilizer G s : Set G) ∧
+      IsOpen (MulAction.stabilizer G s : Set G))]
+    [Finite (MulAction.orbitRel.Quotient G S)] : Ring (FunG A G S) :=
+  { FunG.nonUnitalRing A G S with
+    one := ⟨fun x y => if x = y then 1 else 0, by sorry⟩
+    one_mul := by sorry
+    mul_one := by sorry }
+instance FunG.algebra [TopologicalSpace G] [IsTopologicalGroup G]
+    [Fact (∀ s : S, IsCompact (MulAction.stabilizer G s : Set G) ∧
+      IsOpen (MulAction.stabilizer G s : Set G))]
+    [Finite (MulAction.orbitRel.Quotient G S)] : Algebra A (FunG A G S) := by sorry
+
+variable [TopologicalSpace G] [IsTopologicalGroup G]
+  [Fact (∀ s : S, IsCompact (MulAction.stabilizer G s : Set G) ∧
+    IsOpen (MulAction.stabilizer G s : Set G))]
+
 theorem FunG.add_apply (f g : FunG A G S) (x y : S) :
     (f + g).val x y = f.val x y + g.val x y := sorry
 
 theorem FunG.mul_apply (f g : FunG A G S) (x z : S) :
     (f * g).val x z = ∑ᶠ y : S, f.val x y * g.val y z := sorry
 
-/-- The same matrix acts on finitely supported column vectors. -/
-def FunG.actPermutation : FunG A G S →ₗ[A] Module.End A (S →₀ A) := sorry
-
 theorem FunG.actPermutation_apply (f : FunG A G S) (v : S →₀ A) (x : S) :
     FunG.actPermutation A G S f v x = v.sum (fun y a => f.val x y * a) := sorry
-
-instance FunG.ring [Finite (MulAction.orbitRel.Quotient G S)] : Ring (FunG A G S) :=
-  { FunG.nonUnitalRing A G S with
-    one := ⟨fun x y => if x = y then 1 else 0, by sorry⟩
-    one_mul := by sorry
-    mul_one := by sorry }
-instance FunG.algebra [Finite (MulAction.orbitRel.Quotient G S)] : Algebra A (FunG A G S) := by sorry
 
 theorem FunG.algebraMap_apply [Finite (MulAction.orbitRel.Quotient G S)] (a : A) (x y : S) :
     (algebraMap A (FunG A G S) a).val x y = if x = y then a else 0 := sorry
@@ -10640,8 +10771,8 @@ variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 /-- Stabilizer of the isomorphism class under the actual unramified twist action. -/
 def SmoothRep.unramifiedStabilizer (V : SmoothRep ℂ G) :
     Subgroup (SmoothRep.unramifiedCharacters (G := G) ℂ) where
-  carrier := {χ | Nonempty (V.obj ≅ Rep.of (Representation.twist V.obj.ρ
-    (SmoothRep.unramifiedCharacter χ)))}
+  carrier := {χ | Nonempty (V.obj ≅ Rep.of (_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ)
+    V.obj.ρ))}
   one_mem' := by sorry
   mul_mem' := by sorry
   inv_mem' := by sorry
@@ -10732,8 +10863,9 @@ theorem satakeTransform.gln_macdonald (q : ℕ) (hres : Nat.card (𝓀[F]) = q^2
 
 include hM hN hK hlat hq hθ in
 /-- The normalized matrix-group transform identifies the spherical algebra with
-symmetric Laurent polynomials, over the same coefficient ring. TV Theorem 7.2. -/
-theorem satakeTransform.gln_symmetric_laurent (hμ : μ.vol (compactOpenSet K d.compact_K) = 1) :
+symmetric Laurent polynomials, over the same coefficient ring. The Haar measure `μ` only carries
+the double-coset function `φ`; no volume of `K` is fixed. TV Theorem 7.2. -/
+theorem satakeTransform.gln_symmetric_laurent :
     let S : Subalgebra A (MonoidAlgebra A (Multiplicative (Fin n → ℤ))) :=
       { carrier := {f | ∀ (w : Equiv.Perm (Fin n)) t,
           f.coeff (Multiplicative.ofAdd (t.toAdd ∘ w)) = f.coeff t}
@@ -10946,12 +11078,11 @@ example (Fr s : WeilGroup F) (h : WeilDiscretization.Generators Fr s) :
     ∃ w : WeilDiscretization Fr s, WeilDiscretization.inclusion Fr s w = Fr ∧
       (weilDegree F (WeilDiscretization.inclusion Fr s w)).toAdd = 1 := sorry
 
-theorem WeilDiscretization.inclusion_dense (Fr s : WeilGroup F)
-    (h : WeilDiscretization.Generators Fr s) :
-    DenseRange (WeilDiscretization.inclusion Fr s) := sorry
-/- Check `WeilDiscretization.inclusion_dense`: tame and Frobenius generators give dense image. -/
+/- Check `WeilDiscretization.inclusion_dense`: tame and Frobenius generators give dense image
+(`WeilDiscretization.dense`). -/
 example (Fr s : WeilGroup F) (h : WeilDiscretization.Generators Fr s) :
-    DenseRange (WeilDiscretization.inclusion Fr s) := sorry
+    DenseRange (WeilDiscretization.inclusion Fr s) :=
+  WeilDiscretization.dense Fr s h
 
 theorem WeilDiscretization_wildCoset (Fr s : WeilGroup F) (g : WeilDiscretization Fr s) :
     IsOpen {w : WeilDiscretization Fr s | g.val⁻¹*w.val ∈ WeilDiscretization.wild} := sorry
@@ -11375,7 +11506,6 @@ variable {F A Λ : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
   (hK : IntegralModel.IsHyperspecialSubgroup K.toSubgroup)
   (d : SatakeDatum A (RationalParabolic.decomposition H l) K Λ)
   (μ : HaarMeasureWithValues (RationalParabolic.Points H) A)
-  (hμ : μ.vol (compactOpenSet K d.compact_K) = 1)
   (q : Aˣ) (hq : (q : A) = (Nat.card (𝓀[F]) : A))
   (r : Λ →* Multiplicative ℤ)
   (hr : ∀ m : (RationalParabolic.decomposition H l).M,
@@ -11410,36 +11540,42 @@ theorem satakeTransform.weyl_invariant (qhalf : Aˣ) (hh : qhalf^2 = q)
     (normalizeSatake θ (satakeTransform _ K d μ f)).coeff (d.lattice m') =
       (normalizeSatake θ (satakeTransform _ K d μ f)).coeff (d.lattice m) := sorry
 
-include hl hT hK hμ hq hr in
-/-- Integral Satake is bijective onto the twisted invariant lattice algebra and multiplicative.
-The image criterion works over every coefficient ring in which q is a unit, including
-residue characteristics dividing the relative Weyl-group order. TV §7.2, pp. 206–207. -/
-theorem satakeTransform.integral_isomorphism :
-    Function.Injective (satakeTransform _ K d μ) ∧
+include hl hT hK hq hr in
+/-- Integral Satake on the level-`K` Hecke algebra, with its finite double-coset product, is
+bijective onto the twisted invariant lattice algebra and multiplicative. Only `vol(N ∩ K) = 1`
+enters, which needs `p` invertible but no volume of `K`, so the statement covers residue
+characteristics dividing the relative Weyl-group order. TV §7.2, pp. 206–207. -/
+theorem satakeTransform.integral_isomorphism
+    [IsHeckeTriple (⊤ : Submonoid (RationalParabolic.Points H)) K.toSubgroup K.toSubgroup] :
+    Function.Injective (satakeTransformLevel _ K d) ∧
     (∀ a : MonoidAlgebra A Λ,
-      (∃ f : SphericalHeckeFunctions μ K, satakeTransform _ K d μ f = a) ↔
+      (∃ f : HeckeAlgebraLevel A (RationalParabolic.Points H) K.toSubgroup,
+          satakeTransformLevel _ K d f = a) ↔
         ∀ (w : D.normalizer) (m m' : (RationalParabolic.decomposition H l).M),
           m'.val = w.val * m.val * w.val⁻¹ →
           a.coeff (d.lattice m') =
             (q ^ (((r (d.lattice m)).toAdd - (r (d.lattice m')).toAdd) / 2) : Aˣ) *
               a.coeff (d.lattice m)) ∧
-    (∀ f g : SphericalHeckeFunctions μ K,
-      ∃ fg : SphericalHeckeFunctions μ K, fg.val = f.val * g.val ∧
-        satakeTransform _ K d μ fg = satakeTransform _ K d μ f * satakeTransform _ K d μ g) := sorry
+    (∀ f g : HeckeAlgebraLevel A (RationalParabolic.Points H) K.toSubgroup,
+      satakeTransformLevel _ K d (f * g) =
+        satakeTransformLevel _ K d f * satakeTransformLevel _ K d g) := sorry
 
-include hl hT hK hμ hq hr in
-/-- Normalized Satake is the algebra isomorphism onto ordinary invariants, specified without
-choosing an averaging operator or inverting the Weyl-group order. -/
-theorem satakeTransform.normalized_isomorphism (qhalf : Aˣ) (hh : qhalf^2 = q)
+include hl hT hK hq hr in
+/-- Normalized Satake on the level-`K` Hecke algebra is the algebra isomorphism onto ordinary
+invariants, specified without choosing an averaging operator, a volume of `K`, or inverting the
+Weyl-group order. -/
+theorem satakeTransform.normalized_isomorphism
+    [IsHeckeTriple (⊤ : Submonoid (RationalParabolic.Points H)) K.toSubgroup K.toSubgroup]
+    (qhalf : Aˣ) (hh : qhalf^2 = q)
     (θ : Λ →* Aˣ) (hθ : ∀ t, θ t = qhalf ^ (r t).toAdd) :
-    let S := fun f => normalizeSatake θ (satakeTransform _ K d μ f)
+    let S := fun f => normalizeSatake θ (satakeTransformLevel _ K d f)
     Function.Injective S ∧
     (∀ a : MonoidAlgebra A Λ,
-      (∃ f : SphericalHeckeFunctions μ K, S f = a) ↔
+      (∃ f : HeckeAlgebraLevel A (RationalParabolic.Points H) K.toSubgroup, S f = a) ↔
         ∀ (w : D.normalizer) (m m' : (RationalParabolic.decomposition H l).M),
           m'.val = w.val * m.val * w.val⁻¹ → a.coeff (d.lattice m') = a.coeff (d.lattice m)) ∧
-    (∀ f g : SphericalHeckeFunctions μ K,
-      ∃ fg : SphericalHeckeFunctions μ K, fg.val = f.val * g.val ∧ S fg = S f * S g) := sorry
+    (∀ f g : HeckeAlgebraLevel A (RationalParabolic.Points H) K.toSubgroup,
+      S (f * g) = S f * S g) := sorry
 end RationalSatakeIsomorphism
 
 namespace CocycleScheme
@@ -11546,21 +11682,19 @@ theorem pointAction_inverse (B : Type) [CommRing B] [Algebra R B] (γ : Γ) (h :
 example (B : Type) [CommRing B] [Algebra R B] (γ : Γ) (h : WithConv (H →ₐ[R] B)) :
     pointAction H a B γ⁻¹ h = WithConv.toConv (h.ofConv.comp (a γ).hom.hom.toAlgHom) := sorry
 
-theorem coordinateRing_cyclic (b : Multiplicative ℤ →* Aut H) :
-    ∃ e : H ≃ₐ[R] coordinateRing H b, ∀ h, e h = evaluation H b (Multiplicative.ofAdd 1) h := sorry
-/- Check `CocycleScheme.coordinateRing_cyclic`: an infinite cyclic source gives the underlying group scheme. -/
+/- Check `CocycleScheme.coordinateRing_cyclic`: an infinite cyclic source gives the underlying group scheme (`CocycleScheme.cyclic`). -/
 example (b : Multiplicative ℤ →* Aut H) :
-    ∃ e : H ≃ₐ[R] coordinateRing H b, ∀ h, e h = evaluation H b (Multiplicative.ofAdd 1) h := sorry
+    ∃ e : H ≃ₐ[R] coordinateRing H b, ∀ h, e h = evaluation H b (Multiplicative.ofAdd 1) h := by
+  apply CocycleScheme.cyclic
 
-theorem coordinateRing_trivialSource [Subsingleton Γ] : Nonempty (coordinateRing H a ≃ₐ[R] R) := sorry
-/- Check `CocycleScheme.coordinateRing_trivialSource`: a trivial source gives the base scheme. -/
-example [Subsingleton Γ] : Nonempty (coordinateRing H a ≃ₐ[R] R) := sorry
+/- Check `CocycleScheme.coordinateRing_trivialSource`: a trivial source gives the base scheme (`CocycleScheme.trivialSource`). -/
+example [Subsingleton Γ] : Nonempty (coordinateRing H a ≃ₐ[R] R) := by
+  apply CocycleScheme.trivialSource
 
-theorem coordinateRing_trivialTarget (b : Γ →* Aut (CommHopfAlgCat.of R R)) :
-    Nonempty (coordinateRing (CommHopfAlgCat.of R R) b ≃ₐ[R] R) := sorry
-/- Check `CocycleScheme.coordinateRing_trivialTarget`: a trivial target gives the base scheme. -/
+/- Check `CocycleScheme.coordinateRing_trivialTarget`: a trivial target gives the base scheme (`CocycleScheme.trivialTarget`). -/
 example (b : Γ →* Aut (CommHopfAlgCat.of R R)) :
-    Nonempty (coordinateRing (CommHopfAlgCat.of R R) b ≃ₐ[R] R) := sorry
+    Nonempty (coordinateRing (CommHopfAlgCat.of R R) b ≃ₐ[R] R) := by
+  apply CocycleScheme.trivialTarget
 
 theorem points_identity (B : Type) [CommRing B] [Algebra R B] (γ : Γ) (h : H) :
     (points H a B).symm (CrossedCocycle.identityCocycle _) (evaluation H a γ h) =
@@ -11883,16 +12017,19 @@ open ValuativeRel
 open TauCetiRoadmap.ReductiveGroupsPartII BruhatTits
 open scoped PointTopology
 variable {F R : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
-  [IsNonarchimedeanLocalField F] [ModelField F] [CommRing R]
+  [IsNonarchimedeanLocalField F] [CommRing R]
   {H : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} F}
-  (D : LocalRootData F H) (φ : Valuation D.rootDatum) [GeometricValuation D φ]
+  (D : LocalRootData F H) (φ : Valuation D.rootDatum)
 
 /-- The depth-at-most-r summand is generated by the actual Moy–Prasad r-plus invariants. -/
-def SmoothRep.depthPart (r : ℝ) (V : SmoothRep R (RationalParabolic.Points H)) :
+def SmoothRep.depthPart [ModelField F] [GeometricValuation D φ] (r : ℝ)
+    (V : SmoothRep R (RationalParabolic.Points H)) :
     Subrepresentation V.obj.ρ where
   toSubmodule := Submodule.span R {v | ∃ y : Building D φ,
     ∀ g ∈ MoyPrasad.filtrationPlus D φ y r, V.obj.ρ g v = v}
   apply_mem_toSubmodule := by sorry
+
+variable [ModelField F] [GeometricValuation D φ]
 
 theorem SmoothRep.depthPart_zero (r : ℝ) (V : SmoothRep R (RationalParabolic.Points H))
     [Subsingleton V.obj.V] : SmoothRep.depthPart D φ r V = ⊥ := sorry
@@ -12238,14 +12375,6 @@ theorem SmoothRep.ext_supercuspidalSupport (i : ℕ)
     ∃ g : G, ∃ e : L.M ≃* M.M,
       (∀ x, (e x).val = g*x.val*g⁻¹) ∧
       Nonempty (σ.obj ≅ Rep.of (τ.obj.ρ.comp e.toMonoidHom)) := sorry
-
-include hp hpk hG hiV haV hiW haW hL hM hσ hτ hV hW in
-/-- Distinct exact supports give Ext vanishing in every degree. -/
-theorem SmoothRep.ext_distinctSupport
-    (hne : ¬ ∃ g : G, ∃ e : L.M ≃* M.M,
-      (∀ x, (e x).val = g*x.val*g⁻¹) ∧
-      Nonempty (σ.obj ≅ Rep.of (τ.obj.ρ.comp e.toMonoidHom))) (i : ℕ) :
-    Subsingleton (CategoryTheory.Abelian.Ext V W i) := sorry
 end MatrixLeviExt
 
 section IntegralCuspidalEmbeddings
@@ -12380,6 +12509,29 @@ theorem RationalParabolic.harishChandra_temperedSupport : ∀ (J : TauCeti.Finit
         Representation.IsIrreducible σ.obj.ρ ∧ SmoothRep.IsSquareIntegrable σ ∧
         ∃ i : V ⟶ (RationalParabolic.induction J l).obj σ,
           ∃ r : (RationalParabolic.induction J l).obj σ ⟶ V, i ≫ r = 𝟙 V := sorry
+
+/-- The square-integrable support of an irreducible tempered representation is unique up to
+conjugacy: if `V` is a direct summand of the normalized inductions of irreducible
+square-integrable `σ` on `M` and `σ'` on `M'`, some `g ∈ G(F)` conjugates `M` onto `M'` and `σ`
+onto `σ'`. -/
+theorem RationalParabolic.harishChandra_temperedSupport_unique
+    (J : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} F) (hJ : TauCeti.reductiveCommHopfAlgProperty F J)
+    (V : SmoothRep ℂ (RationalParabolic.Points J)) (hV : Representation.IsIrreducible V.obj.ρ)
+    (l l' : RationalParabolic.Cocharacter J)
+    (σ : SmoothRep ℂ (RationalParabolic.decomposition J l).M)
+    (σ' : SmoothRep ℂ (RationalParabolic.decomposition J l').M)
+    (hσ : Representation.IsIrreducible σ.obj.ρ ∧ SmoothRep.IsSquareIntegrable σ)
+    (hσ' : Representation.IsIrreducible σ'.obj.ρ ∧ SmoothRep.IsSquareIntegrable σ')
+    (i : V ⟶ (RationalParabolic.induction J l).obj σ)
+    (r : (RationalParabolic.induction J l).obj σ ⟶ V) (hir : i ≫ r = 𝟙 V)
+    (i' : V ⟶ (RationalParabolic.induction J l').obj σ')
+    (r' : (RationalParabolic.induction J l').obj σ' ⟶ V) (hir' : i' ≫ r' = 𝟙 V) :
+    ∃ g : RationalParabolic.Points J,
+      ∃ hg : ∀ m, m ∈ (RationalParabolic.decomposition J l).M ↔
+        g * m * g⁻¹ ∈ (RationalParabolic.decomposition J l').M,
+      ∃ e : σ.obj.V ≃ₗ[ℂ] σ'.obj.V,
+        ∀ (m : (RationalParabolic.decomposition J l).M) (v : σ.obj.V),
+          e (σ.obj.ρ m v) = σ'.obj.ρ ⟨g * m.val * g⁻¹, (hg m.val).mp m.property⟩ (e v) := sorry
 
 variable (hHC : ∀ (J : TauCeti.FiniteTypeCommHopfAlgCat.{0,0} F),
   TauCeti.reductiveCommHopfAlgProperty F J →
@@ -12743,10 +12895,9 @@ theorem comparison_cyclic (b : Multiplicative ℤ →* Aut H) :
     Function.Bijective (comparison H b) := sorry
 /- Check `ExcursionAlgebra.comparison_cyclic`: a cyclic source recovers the twisted component quotient. -/
 example (b : Multiplicative ℤ →* Aut H) : Function.Bijective (comparison H b) := sorry
-theorem comparison_freeRankTwo (b : FreeGroup (Fin 2) →* Aut H) :
-    Function.Bijective (comparison H b) := sorry
-/- Check `ExcursionAlgebra.comparison_freeRankTwo`: a free pair retains simultaneous, rather than separate, conjugacy invariants. -/
-example (b : FreeGroup (Fin 2) →* Aut H) : Function.Bijective (comparison H b) := sorry
+/- Check `ExcursionAlgebra.comparison_freeRankTwo`: a free pair retains simultaneous, rather than separate, conjugacy invariants (`ExcursionAlgebra.algebra_free` at n = 2). -/
+example (b : FreeGroup (Fin 2) →* Aut H) : Function.Bijective (comparison H b) := by
+  apply ExcursionAlgebra.algebra_free
 end ExcursionAlgebra
 
 section ExcursionWeilComparison
@@ -13245,14 +13396,20 @@ theorem SmoothRep.distinctEigenvalueBlock_excludes (π σ : SmoothRep A G) [Simp
 /- Check `SmoothRep.distinctEigenvalueBlock_excludes`: a different simple cannot enter the category. -/
 example (π σ : SmoothRep A G) [Simple σ] (h : ¬ Nonempty (σ ≅ π)) :
     ¬ ∃ V : SmoothRep.distinctEigenvalueBlock π, V.obj = σ := sorry
-theorem SmoothRep.distinctEigenvalueBlock_subquotient (π : SmoothRep A G)
+/-- Closure under subquotients. Local admissibility passes to quotients through averaging over
+the cofinal compact opens of invertible pro-order, and the Noetherian hypothesis gives finite
+generation of the invariants at the remaining compact opens. -/
+theorem SmoothRep.distinctEigenvalueBlock_subquotient [IsNoetherianRing A]
+    (hG : HasCofinalUnitProOrder A G) (π : SmoothRep A G)
     (V : SmoothRep.distinctEigenvalueBlock π) (W : SmoothRep A G)
     (h : SmoothRep.IsSubquotient W V.obj) :
     ∃ X : SmoothRep.distinctEigenvalueBlock π, X.obj = W := sorry
 /- Check `SmoothRep.distinctEigenvalueBlock_subquotient`: the condition sees subquotients, including nonsplit extensions. -/
-example (π : SmoothRep A G) (V : SmoothRep.distinctEigenvalueBlock π)
+example [IsNoetherianRing A] (hG : HasCofinalUnitProOrder A G) (π : SmoothRep A G)
+    (V : SmoothRep.distinctEigenvalueBlock π)
     (W : SmoothRep A G) (h : SmoothRep.IsSubquotient W V.obj) :
-    ∃ X : SmoothRep.distinctEigenvalueBlock π, X.obj = W := sorry
+    ∃ X : SmoothRep.distinctEigenvalueBlock π, X.obj = W :=
+  SmoothRep.distinctEigenvalueBlock_subquotient hG π V W h
 end DistinctEigenvalueCategory
 
 
@@ -13648,8 +13805,8 @@ example (π : Fˣ) (hπ : TauCeti.normalizedValuation F π = Multiplicative.ofAd
 def normalizedProduct {a b : ℕ} (V : SmoothRep ℂ (GL (Fin a) F))
     (W : SmoothRep ℂ (GL (Fin b) F)) : SmoothRep ℂ (GL (Fin (a+b)) F) :=
   BZDerivative.blockInduction a b
-    (Representation.twist V.obj.ρ (normCharacter a ((b : ℝ)/2)))
-    (Representation.twist W.obj.ρ (normCharacter b (-(a : ℝ)/2)))
+    (_root_.Representation.charTwist (normCharacter a ((b : ℝ)/2)) V.obj.ρ)
+    (_root_.Representation.charTwist (normCharacter b (-(a : ℝ)/2)) W.obj.ρ)
     (by sorry) (by sorry)
 
 theorem normalizedProduct_zero {a b : ℕ} (V : SmoothRep ℂ (GL (Fin a) F))
@@ -13952,29 +14109,41 @@ variable {F k Λ : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
   (hK : IntegralModel.IsHyperspecialSubgroup K.toSubgroup)
   (d : SatakeDatum k (RationalParabolic.decomposition H l) K Λ)
   (μ : HaarMeasureWithValues (RationalParabolic.Points H) k)
-  (hμ : μ.vol (compactOpenSet K d.compact_K) = 1)
   (hchar : ringChar k ≠ ringChar 𝓀[F])
   (χ : Λ →* kˣ)
 
-include hl hT hK hμ hchar in
-/-- The actual convolution action on the unique spherical line evaluates the raw
-constant term at the inducing character. TV (7.5.2)-(7.5.5), pp. 210-211. -/
-theorem satakeTransform.spherical_line :
+include hl hT hK hchar in
+/-- The double-coset operator `v ↦ Σ_{xK ⊆ KgK} ρ(x) v` acts on the unique spherical line by the
+raw constant term of `[KgK]` at the inducing character. No Haar measure enters, so every residue
+characteristic of `k` other than `p` is covered. TV (7.5.2)-(7.5.5), pp. 210-211. -/
+theorem satakeTransform.spherical_line
+    [IsHeckeTriple (⊤ : Submonoid (RationalParabolic.Points H)) K.toSubgroup K.toSubgroup] :
     let θ := χ.comp d.lattice
     let V := (SmoothRep.unnormalizedParabolicInd (RationalParabolic.decomposition H l)).obj
       (SmoothRep.ofCharacter θ (by sorry))
     Module.finrank k (SmoothRep.invariants K.toSubgroup V) = 1 ∧
-      ∀ (f : SphericalHeckeFunctions μ K) (v : SmoothRep.invariants K.toSubgroup V),
-        μ.integrateModule (⟨⟨fun g => f.val.toFun g • V.obj.ρ g v.val, by sorry⟩, by sorry⟩) =
-          (satakeTransform _ K d μ f).coeff.sum (fun ell a => a * (χ ell : k)) • v.val := sorry
+      ∀ (g : RationalParabolic.Points H) (v : SmoothRep.invariants K.toSubgroup V),
+        ∑ᶠ c : RationalParabolic.Points H ⧸ K.toSubgroup,
+            (if ∃ k₁ k₂ : K, c.out = k₁.val * g * k₂.val then V.obj.ρ c.out v.val else 0) =
+          (satakeTransformLevel _ K d
+              ((HeckeAlgebraLevel.equivHeckeRing (A := k) K).symm
+                (HeckeCosetModule.of (Finsupp.single
+                  (HeckeCoset.mk K.toSubgroup K.toSubgroup ⟨g, trivial⟩) 1)))).coeff.sum
+            (fun ell a => a * (χ ell : k)) • v.val := sorry
 
-/-- Multiplying the inducing character by the half modulus multiplies its torus
-point by that pseudoroot. Removing it recovers the normalized parameter. -/
-theorem satakeTransform.parameter_normalization (a₀ : Λ →* kˣ)
-    (f : SphericalHeckeFunctions μ K) :
-    (satakeTransform _ K d μ f).coeff.sum (fun ell a => a * ((χ*a₀) ell : k)) =
-      (normalizeSatake a₀ (satakeTransform _ K d μ f)).coeff.sum
-        (fun ell a => a * (χ ell : k)) ∧ (χ*a₀)*a₀⁻¹ = χ := sorry
+/-- The half-modulus change of the inducing character, computed for GL₂(ℚ_p) at the character
+`χ` of ℤ² with values `2` and `3` on the coordinate generators: the raw transform of
+`[K diag(p, 1) K]` at `χ` times the half modulus and the normalized transform at `χ` are both
+`√p (2 + 3)`. -/
+theorem satakeTransform.parameter_normalization (p : ℕ) [Fact p.Prime]
+    (μ : HaarMeasureWithValues (PadicGL2.Group p) ℂ) (χ : Multiplicative (ℤ × ℤ) →* ℂˣ)
+    (hχ : (χ (Multiplicative.ofAdd (1, 0)) : ℂ) = 2 ∧ (χ (Multiplicative.ofAdd (0, 1)) : ℂ) = 3) :
+    let S := satakeTransform (PadicGL2.levi p) (PadicGL2.hyperspecial p) (PadicGL2.satakeDatum p) μ
+      (PadicGL2.firstSpherical p μ)
+    S.coeff.sum (fun ell a => a * ((χ * PadicGL2.satakeHalf p) ell : ℂ)) =
+        (Real.sqrt (p : ℝ) : ℂ) * 5 ∧
+      (normalizeSatake (PadicGL2.satakeHalf p) S).coeff.sum (fun ell a => a * (χ ell : ℂ)) =
+        (Real.sqrt (p : ℝ) : ℂ) * 5 := sorry
 end SphericalEigencharacters
 
 namespace CGroupSatake
@@ -14282,7 +14451,7 @@ def Support (F k : Type) [Field F] [TopologicalSpace F] [ValuativeRel F]
       ∃ χ : SmoothRep.unramifiedCharacters (G := e.levi.M) k,
         (inertial = false → χ = 1) ∧
         Nonempty (d.representation.obj ≅ Rep.of
-          ((Representation.twist e.representation.obj.ρ (SmoothRep.unramifiedCharacter χ)).comp
+          ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ) e.representation.obj.ρ).comp
             a.toMonoidHom)), by sorry⟩ : Setoid (Pair F k n))
 
 theorem Support_exact (d e : Pair F k n) :
@@ -14300,14 +14469,14 @@ theorem Support_inertial (d e : Pair F k n) (g : GL (Fin n) F)
     (a : d.levi.M ≃* e.levi.M) (ha : ∀ m, (a m).val = g*m.val*g⁻¹)
     (χ : SmoothRep.unramifiedCharacters (G := e.levi.M) k)
     (hχ : Nonempty (d.representation.obj ≅ Rep.of
-      ((Representation.twist e.representation.obj.ρ (SmoothRep.unramifiedCharacter χ)).comp a.toMonoidHom))) :
+      ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ) e.representation.obj.ρ).comp a.toMonoidHom))) :
     (Quotient.mk _ d : Support F k n true) = Quotient.mk _ e := sorry
 /- Check `IntegralBernstein.Support_inertial`: an unramified twist stays in the same inertial class. -/
 example (d e : Pair F k n) (g : GL (Fin n) F) (a : d.levi.M ≃* e.levi.M)
     (ha : ∀ m, (a m).val = g*m.val*g⁻¹)
     (χ : SmoothRep.unramifiedCharacters (G := e.levi.M) k)
     (hχ : Nonempty (d.representation.obj ≅ Rep.of
-      ((Representation.twist e.representation.obj.ρ (SmoothRep.unramifiedCharacter χ)).comp a.toMonoidHom))) :
+      ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ) e.representation.obj.ρ).comp a.toMonoidHom))) :
     (Quotient.mk _ d : Support F k n true) = Quotient.mk _ e := sorry
 theorem Support_nonconjugate (d e : Pair F k n)
     (h : ¬ ∃ g : GL (Fin n) F, ∃ a : d.levi.M ≃* e.levi.M,
@@ -14469,12 +14638,12 @@ variable {F k : Type} [Field F] [TopologicalSpace F] [ValuativeRel F]
 The block projection is necessary even when V has infinitely many nonzero block parts. -/
 theorem UniversalWhittaker.represents_block :
     ∃ E : ∀ V : SmoothRep (WittVector ℓ k) (GL (Fin (n+1)) F),
-      (UniversalWhittaker.representation ℓ n ψ hψ (IntegralBernstein.block p ℓ hp hne s) ⟶ V)
+      (UniversalWhittaker.representation p ℓ n ψ hψ (IntegralBernstein.block p ℓ hp hne s) ⟶ V)
         ≃ₗ[WittVector ℓ k]
       BZDerivative.module (n+1) (n+1) ψ
         (SmoothRep.blockPart (IntegralBernstein.block p ℓ hp hne s) V).obj.ρ,
       ∀ (V W : SmoothRep (WittVector ℓ k) (GL (Fin (n+1)) F))
-        (f : V ⟶ W) (x : UniversalWhittaker.representation ℓ n ψ hψ
+        (f : V ⟶ W) (x : UniversalWhittaker.representation p ℓ n ψ hψ
           (IntegralBernstein.block p ℓ hp hne s) ⟶ V)
         (v : (SmoothRep.blockPart (IntegralBernstein.block p ℓ hp hne s) V).obj.V),
         E V x = WhittakerCoinvariants.mk _ _ v →
@@ -14494,8 +14663,8 @@ def SmoothRep.componentRegularFunctions (d : SmoothRep.CuspidalPair P) :
   carrier := {f | ∀ χ ψ : SmoothRep.unramifiedCharacters (G := d.levi.M) ℂ,
     (∃ g : G, ∃ e : d.levi.M ≃* d.levi.M,
       (∀ m, (e m).val = g*m.val*g⁻¹) ∧
-      Nonempty (Rep.of (Representation.twist d.representation.obj.ρ (SmoothRep.unramifiedCharacter χ)) ≅
-        Rep.of ((Representation.twist d.representation.obj.ρ (SmoothRep.unramifiedCharacter ψ)).comp
+      Nonempty (Rep.of (_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ) d.representation.obj.ρ) ≅
+        Rep.of ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter ψ) d.representation.obj.ρ).comp
           e.toMonoidHom))) →
     SmoothRep.unramifiedEvaluation χ f = SmoothRep.unramifiedEvaluation ψ f}
   algebraMap_mem' := by sorry
@@ -14549,8 +14718,8 @@ theorem SmoothCentre.bernstein_coordinates
         Representation.IsIrreducible V.obj.obj.ρ →
         SmoothRep.IsSubquotient V.obj (SmoothRep.parabolicInd d.levi
           (complexHalfModulus d.levi) (complexHalfModulus_smooth d.levi)
-          (⟨Rep.of (Representation.twist d.representation.obj.ρ
-            (SmoothRep.unramifiedCharacter χ)), by sorry⟩ : SmoothRep ℂ d.levi.M)) →
+          (⟨Rep.of (_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ)
+            d.representation.obj.ρ), by sorry⟩ : SmoothRep ℂ d.levi.M)) →
         ∀ v : V.obj.obj.V,
           (z.app V).hom.hom.hom v = SmoothRep.unramifiedEvaluation χ (E z).val • v := sorry
 end RationalBernsteinCoordinates
@@ -14675,7 +14844,9 @@ attribute [local instance 2100] Semiring.toModule
 variable (S T : Type) [CommRing S] [Group T]
 
 /-- Cup product on Mathlib group cohomology with trivial coefficients.
-Its value is fixed on every inhomogeneous cocycle by the following equation. -/
+Its value is fixed on every inhomogeneous cocycle by the following equation. It differs from Tau
+Ceti's `TauCeti.TopPairing.cup` only in the carrier: Mathlib `groupCohomology` of the finite torus
+quotient instead of `continuousCohomology`. -/
 def cup (n m : ℕ) :
     groupCohomology (Rep.trivial S T S) n →ₗ[S]
       groupCohomology (Rep.trivial S T S) m →ₗ[S]
@@ -14702,6 +14873,7 @@ example (a b : S) :
       (groupCohomology.π _ 0 (groupCohomology.cocyclesMk (fun _ => b) (by sorry))) =
       groupCohomology.π _ 0 (groupCohomology.cocyclesMk (fun _ => a*b) (by sorry)) := sorry
 
+/-- The unit law, the specialisation of `TauCeti.TopPairing.cup_one_left` to this carrier. -/
 theorem cup_unit (n : ℕ) (x : groupCohomology (Rep.trivial S T S) n) :
     HEq (cup S T 0 n (groupCohomology.π _ 0
       (groupCohomology.cocyclesMk (fun _ => 1) (by sorry))) x) x := sorry
@@ -14710,6 +14882,8 @@ example (n : ℕ) (x : groupCohomology (Rep.trivial S T S) n) :
     HEq (cup S T 0 n (groupCohomology.π _ 0
       (groupCohomology.cocyclesMk (fun _ => 1) (by sorry))) x) x := sorry
 
+/-- Odd classes square to zero when `2` is a unit, the specialisation of
+`TauCeti.TopPairing.cup_gradedComm` to this carrier. -/
 theorem cup_oddSquare (h2 : IsUnit (2:S))
     (x : groupCohomology (Rep.trivial S T S) 1) : cup S T 1 1 x x = 0 := sorry
 /- Check `TorusCohomology.cup_oddSquare`: with two invertible an odd-degree square vanishes. -/
@@ -14975,19 +15149,16 @@ example (h : ∀ (B : Type) [CommRing B] [Algebra R B] (t : WithConv (H →ₐ[R
     (B : Type) [CommRing B] [Algebra R B] (t : WithConv (H →ₐ[R] B)) :
     (fixedTorusIdeal H T σ).toIdeal ≤ RingHom.ker t.ofConv.toRingHom ↔ t = 1 := sorry
 
-include hT hσ hfinite hDomain in
-theorem fixedTorusIdeal_subtorus (J : TauCeti.HopfIdeal R H) (hJ : T ≤ J)
-    (hJT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H J))
-    (hfix : ∀ (B : Type) [CommRing B] [Algebra R B] (t : WithConv (H →ₐ[R] B)),
-      J.toIdeal ≤ RingHom.ker t.ofConv.toRingHom → t.ofConv.comp σ.inv.hom.toAlgHom = t.ofConv) :
-    fixedTorusIdeal H T σ ≤ J := sorry
-/- Check `TameTorus.fixedTorusIdeal_subtorus`: every fixed split subtorus is contained in the chosen maximal one. -/
+/- Check `TameTorus.fixedTorusIdeal_subtorus`: every fixed split subtorus is contained in the chosen maximal one (the last clause of `TameTorus.fixedTorusIdeal_characterization`). -/
 include hT hσ hfinite hDomain in
 example (J : TauCeti.HopfIdeal R H) (hJ : T ≤ J)
     (hJT : TauCeti.splitTorusCommHopfAlgProperty R (TauCeti.FiniteTypeCommHopfAlgCat.quotient H J))
     (hfix : ∀ (B : Type) [CommRing B] [Algebra R B] (t : WithConv (H →ₐ[R] B)),
       J.toIdeal ≤ RingHom.ker t.ofConv.toRingHom → t.ofConv.comp σ.inv.hom.toAlgHom = t.ofConv) :
-    fixedTorusIdeal H T σ ≤ J := sorry
+    fixedTorusIdeal H T σ ≤ J := by
+  have h := TameTorus.fixedTorusIdeal_characterization (H := H) (T := T) (σ := σ) (hT := hT)
+    (hσ := hσ) (hfinite := hfinite)
+  exact h.2.2.2 J hJ hJT hfix
 end FixedTorus
 end TameTorus
 
@@ -15486,8 +15657,8 @@ theorem SmoothRep.componentRegularFunctions_geometry :
           SmoothRep.unramifiedEvaluation ψ z.val) ↔
         ∃ g : RationalParabolic.Points H, ∃ e : d.levi.M ≃* d.levi.M,
           (∀ m, (e m).val = g*m.val*g⁻¹) ∧
-          Nonempty (Rep.of (Representation.twist d.representation.obj.ρ (SmoothRep.unramifiedCharacter χ)) ≅
-            Rep.of ((Representation.twist d.representation.obj.ρ (SmoothRep.unramifiedCharacter ψ)).comp
+          Nonempty (Rep.of (_root_.Representation.charTwist (SmoothRep.unramifiedCharacter χ) d.representation.obj.ρ) ≅
+            Rep.of ((_root_.Representation.charTwist (SmoothRep.unramifiedCharacter ψ) d.representation.obj.ρ).comp
               e.toMonoidHom))) := sorry
 end RationalOrbitGeometry
 
@@ -15971,7 +16142,6 @@ variable {F k Λ : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
   (hK : IntegralModel.IsHyperspecialSubgroup K.toSubgroup)
   (d : SatakeDatum k (RationalParabolic.decomposition H l) K Λ)
   (μ : HaarMeasureWithValues (RationalParabolic.Points H) k)
-  (hμ : μ.vol (compactOpenSet K d.compact_K) = 1)
   (γ : Field.absoluteGaloisGroup F)
   (hγ : TauCetiRoadmap.LocalFieldsRamification.IsArithFrobeniusLift F γ)
   (q : kˣ) (hq : (q:k) = (Nat.card (𝓀[F]) : k)) (hk : ringChar k ≠ 2)
@@ -15980,7 +16150,7 @@ variable {F k Λ : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
     r (d.lattice m) = (RationalParabolic.residueModulus H l).exponent
       ⟨m.val,(RationalParabolic.decomposition H l).m_le m.property⟩)
 
-include hU hl hT hK hμ hγ hq hk hr in
+include hU hl hT hK hγ hq hk hr in
 /-- The valuation lattice is the Frobenius-fixed absolute cocharacter lattice.
 On this identification the C-group Satake map is specified in every square-root
 chart at once. TV §2.9, pp. 186–187; TVpre Theorem 7.9, pp. 30–31. -/
@@ -16333,6 +16503,429 @@ example :
     -N.transpose = !![0, 0; -1, 0] ∧ -(-N.transpose).transpose = N := by
   dsimp
   constructor <;> ext i j <;> fin_cases i <;> fin_cases j <;> norm_num
+end LLCFamily
+
+namespace LLCFamily
+open ValuativeRel TauCetiRoadmap.ClassFieldTheory
+
+section ClassicalParameters
+variable (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+
+/-- A Frobenius-semisimple Weil–Deligne parameter of rank `n` over a field `E`: a smooth
+representation `r` of the Weil group by semisimple matrices and a monodromy matrix `N` with
+`r(w) N r(w)⁻¹ = q^{deg w} N`, where `q = #𝓀[F]` and arithmetic Frobenius has degree one. -/
+structure WDParameter (E : Type) [Field E] (n : ℕ) where
+  r : WeilGroup F →* GL (Fin n) E
+  isOpen_ker : IsOpen (r.ker : Set (WeilGroup F))
+  semisimple : ∀ w, Module.End.IsSemisimple (Matrix.toLin' (r w : Matrix (Fin n) (Fin n) E))
+  N : Matrix (Fin n) (Fin n) E
+  conj : ∀ w, (r w : Matrix (Fin n) (Fin n) E) * N * (↑(r w)⁻¹ : Matrix (Fin n) (Fin n) E) =
+    ((Nat.card 𝓀[F] : E) ^ (weilDegree F w).toAdd) • N
+
+/- Check `WDParameter_rankOne`: in rank one over a field of characteristic zero the monodromy
+vanishes, because `q ≠ 1`. -/
+example {E : Type} [Field E] [CharZero E] (φ : WDParameter F E 1) : φ.N = 0 := sorry
+
+/- Check `WDParameter_special`: `N = [[0,1],[0,0]]` with `r(w) = diag(q^{deg w}, 1)` is a
+parameter. -/
+example (r : WeilGroup F →* GL (Fin 2) ℚ)
+    (hr : ∀ w, (r w : Matrix (Fin 2) (Fin 2) ℚ) =
+      !![(Nat.card 𝓀[F] : ℚ) ^ (weilDegree F w).toAdd, 0; 0, 1]) :
+    ∃ φ : WDParameter F ℚ 2, φ.r = r ∧ φ.N = !![0, 1; 0, 0] := sorry
+
+/- Check `WDParameter_special_reversed`: with `r(w) = diag(1, q^{deg w})` the same `N` is not a
+parameter, which fixes the direction of the monodromy relation. -/
+example (r : WeilGroup F →* GL (Fin 2) ℚ)
+    (hr : ∀ w, (r w : Matrix (Fin 2) (Fin 2) ℚ) =
+      !![1, 0; 0, (Nat.card 𝓀[F] : ℚ) ^ (weilDegree F w).toAdd]) :
+    ¬ ∃ φ : WDParameter F ℚ 2, φ.r = r ∧ φ.N = !![0, 1; 0, 0] := sorry
+
+/-- The contragredient `g ↦ (g⁻¹)ᵀ` of `GL_n`; composing a representation with it gives the
+algebraic dual in the dual basis. -/
+def contragredient (n : ℕ) (E : Type) [CommRing E] : GL (Fin n) E →* GL (Fin n) E where
+  toFun g := ⟨(↑g⁻¹ : Matrix (Fin n) (Fin n) E).transpose,
+    (↑g : Matrix (Fin n) (Fin n) E).transpose,
+    by rw [← Matrix.transpose_mul, Units.mul_inv, Matrix.transpose_one],
+    by rw [← Matrix.transpose_mul, Units.inv_mul, Matrix.transpose_one]⟩
+  map_one' := by ext : 1; simp
+  map_mul' g h := by ext : 1; simp [Matrix.transpose_mul]
+
+/-- The algebraic dual of a continuous representation is continuous. -/
+theorem continuous_contragredient_comp {G : Type} [Group G] [TopologicalSpace G] {n : ℕ}
+    {E : Type} [CommRing E] [TopologicalSpace E] [IsTopologicalRing E] {ρ : G →* GL (Fin n) E}
+    (hρ : Continuous ρ) : Continuous ((contragredient n E).comp ρ) :=
+  Units.continuous_iff.mpr
+    ⟨(Units.continuous_val.comp (continuous_inv.comp hρ)).matrix_transpose,
+      (Units.continuous_val.comp hρ).matrix_transpose⟩
+
+/- Check `contragredient_rankOne`: in rank one the contragredient inverts the scalar. -/
+example (E : Type) [Field E] (g : GL (Fin 1) E) :
+    (contragredient 1 E g : Matrix (Fin 1) (Fin 1) E) 0 0 =
+      ((g : Matrix (Fin 1) (Fin 1) E) 0 0)⁻¹ := sorry
+
+/- Check `contragredient_unipotent`: the unipotent `[[1,1],[0,1]]` goes to `[[1,0],[-1,1]]`. -/
+example (g : GL (Fin 2) ℚ) (hg : (g : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1]) :
+    (contragredient 2 ℚ g : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; -1, 1] := sorry
+
+/- Check `contragredient_involutive`: the double contragredient is the identity. -/
+example (n : ℕ) (E : Type) [CommRing E] (g : GL (Fin n) E) :
+    contragredient n E (contragredient n E g) = g := sorry
+end ClassicalParameters
+
+section ClassicalCorrespondences
+variable (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+  (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime]
+
+/-- The Frobenius-semisimplified Weil–Deligne parameter of a continuous representation of `G_F`
+on `E^n`, for `E` a complete normed extension of `ℚ_ℓ` and `ℓ` different from the residue
+characteristic `p` (Grothendieck's monodromy theorem). -/
+noncomputable def weilDeligne [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E] {n : ℕ}
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) E) (hρ : Continuous ρ) : WDParameter F E n :=
+  sorry
+
+/- Check `weilDeligne_rankOne`: a character has zero monodromy and its parameter is its
+restriction to the Weil group. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin 1) E) (hρ : Continuous ρ) :
+    (weilDeligne F p ℓ hpℓ ρ hρ).N = 0 ∧
+      (weilDeligne F p ℓ hpℓ ρ hρ).r = ρ.comp (weilToAbsolute F) := sorry
+
+/- Check `weilDeligne_unramified`: an unramified representation with semisimple Frobenius images
+has zero monodromy and its restriction to the Weil group as parameter. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E] {n : ℕ}
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) E) (hρ : Continuous ρ)
+    (hI : TauCetiRoadmap.LocalFieldsRamification.inertia F ≤ ρ.ker)
+    (hss : ∀ w, Module.End.IsSemisimple
+      (Matrix.toLin' (ρ (weilToAbsolute F w) : Matrix (Fin n) (Fin n) E))) :
+    (weilDeligne F p ℓ hpℓ ρ hρ).N = 0 ∧
+      (weilDeligne F p ℓ hpℓ ρ hρ).r = ρ.comp (weilToAbsolute F) := sorry
+
+/- Check `weilDeligne_frobeniusSemisimplification`: if inertia acts trivially and Frobenius
+acts by the unipotent `[[1,1],[0,1]]`, the parameter is trivial: Frobenius semisimplification
+removes the unipotent part, which does not become monodromy. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin 2) E) (hρ : Continuous ρ)
+    (hI : TauCetiRoadmap.LocalFieldsRamification.inertia F ≤ ρ.ker)
+    (hu : ∀ w, (ρ (weilToAbsolute F w) : Matrix (Fin 2) (Fin 2) E) =
+      !![1, ((weilDegree F w).toAdd : E); 0, 1]) :
+    (weilDeligne F p ℓ hpℓ ρ hρ).N = 0 ∧ (weilDeligne F p ℓ hpℓ ρ hρ).r = 1 := sorry
+
+/-- The classical local Langlands correspondence for `GL_n(F)` over `ℂ` (Harris–Taylor,
+Henniart): the irreducible smooth representation of a Frobenius-semisimple Weil–Deligne
+parameter, with reciprocity `localWeilArtinEquiv` sending a uniformizer to arithmetic
+Frobenius. -/
+noncomputable def classicalLLC [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] {n : ℕ}
+    (φ : WDParameter F ℂ n) : SmoothRep ℂ (GL (Fin n) F) := sorry
+
+/- Check `classicalLLC_rankOne`: for `n = 1` the correspondence is local class field theory:
+`g` acts by the parameter at a Weil element over `det g`. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (φ : WDParameter F ℂ 1) (g : GL (Fin 1) F)
+    (w : WeilGroup F)
+    (hw : QuotientGroup.mk w = localWeilArtinEquiv F p (Matrix.GeneralLinearGroup.det g))
+    (v : (classicalLLC F p φ).obj.V) :
+    (classicalLLC F p φ).obj.ρ g v = ((φ.r w : Matrix (Fin 1) (Fin 1) ℂ) 0 0) • v := sorry
+
+/- Check `classicalLLC_centralCharacter`: the scalar matrix `a` acts by the determinant of the
+parameter at a Weil element over `a`. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] {n : ℕ} (φ : WDParameter F ℂ n) (a : Fˣ)
+    (w : WeilGroup F) (hw : QuotientGroup.mk w = localWeilArtinEquiv F p a)
+    (v : (classicalLLC F p φ).obj.V) :
+    (classicalLLC F p φ).obj.ρ
+        (Units.map (Matrix.scalar (Fin n) : F →+* Matrix (Fin n) (Fin n) F).toMonoidHom a) v =
+      (φ.r w : Matrix (Fin n) (Fin n) ℂ).det • v := sorry
+
+/- Check `classicalLLC_reducibleParameter`: for `r(w) = diag(q^{deg w}, 1)` and `N = 0` the
+correspondent is a character of `GL_2(F)`. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (φ : WDParameter F ℂ 2) (hN : φ.N = 0)
+    (hr : ∀ w, (φ.r w : Matrix (Fin 2) (Fin 2) ℂ) =
+      !![(Nat.card 𝓀[F] : ℂ) ^ (weilDegree F w).toAdd, 0; 0, 1]) :
+    Module.finrank ℂ (classicalLLC F p φ).obj.V = 1 := sorry
+
+/-- The generic-socle representation of a Weil–Deligne parameter over a field of characteristic
+zero (Breuil–Schneider; [EH] §4.2, Definition 4.2.1): it is built from the segments of the
+parameter with the `|det|^{-(n-1)/2}` normalization, so it is defined over the field of the
+parameter. -/
+noncomputable def breuilSchneider [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] {E : Type} [Field E]
+    [CharZero E] {n : ℕ} (φ : WDParameter F E n) : SmoothRep E (GL (Fin n) F) := sorry
+
+/- Check `breuilSchneider_rankOne`: for `n = 1` the normalization is trivial and `g` acts by
+the parameter at a Weil element over `det g`. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] {E : Type} [Field E] [CharZero E]
+    (φ : WDParameter F E 1) (g : GL (Fin 1) F) (w : WeilGroup F)
+    (hw : QuotientGroup.mk w = localWeilArtinEquiv F p (Matrix.GeneralLinearGroup.det g))
+    (v : (breuilSchneider F p φ).obj.V) :
+    (breuilSchneider F p φ).obj.ρ g v = ((φ.r w : Matrix (Fin 1) (Fin 1) E) 0 0) • v := sorry
+
+/- Check `breuilSchneider_reducibleParameter`: for `r(w) = diag(q^{deg w}, 1)` and `N = 0` the
+generic-socle representation is the reducible principal series, unlike `classicalLLC`. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (φ : WDParameter F ℂ 2) (hN : φ.N = 0)
+    (hr : ∀ w, (φ.r w : Matrix (Fin 2) (Fin 2) ℂ) =
+      !![(Nat.card 𝓀[F] : ℂ) ^ (weilDegree F w).toAdd, 0; 0, 1]) :
+    ¬ Simple (breuilSchneider F p φ) := sorry
+
+/- Check `breuilSchneider_special`: the same `r` with `N = [[0,1],[0,0]]` gives an irreducible
+representation. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (φ : WDParameter F ℂ 2)
+    (hN : φ.N = !![0, 1; 0, 0])
+    (hr : ∀ w, (φ.r w : Matrix (Fin 2) (Fin 2) ℂ) =
+      !![(Nat.card 𝓀[F] : ℂ) ^ (weilDegree F w).toAdd, 0; 0, 1]) :
+    Simple (breuilSchneider F p φ) := sorry
+
+/-- The normalized fibre of an `ℓ`-adic representation: the smooth dual of the generic-socle
+representation of the parameter of the algebraic dual `ρ∨` ([Hel12] Theorem 7.1, p. 13). The
+Galois dual and the smooth dual are separate operations. -/
+noncomputable def normalizedFiber [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E] {n : ℕ}
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) E) (hρ : Continuous ρ) :
+    SmoothRep E (GL (Fin n) F) :=
+  haveI : CharZero E := charZero_of_injective_algebraMap (algebraMap ℚ_[ℓ] E).injective
+  SmoothRep.smoothDual (breuilSchneider F p
+    (weilDeligne F p ℓ hpℓ ((contragredient n E).comp ρ) (continuous_contragredient_comp hρ)))
+
+/- Check `normalizedFiber_rankOne`: for a character the two duals cancel, so `g` acts by `ρ`
+at a Weil element over `det g`. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin 1) E) (hρ : Continuous ρ) (g : GL (Fin 1) F)
+    (w : WeilGroup F)
+    (hw : QuotientGroup.mk w = localWeilArtinEquiv F p (Matrix.GeneralLinearGroup.det g))
+    (v : (normalizedFiber F p ℓ hpℓ ρ hρ).obj.V) :
+    (normalizedFiber F p ℓ hpℓ ρ hρ).obj.ρ g v =
+      ((ρ (weilToAbsolute F w) : Matrix (Fin 1) (Fin 1) E) 0 0) • v := sorry
+
+/- Check `normalizedFiber_rankZero`: in rank zero the fibre is the trivial line. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin 0) E) (hρ : Continuous ρ) :
+    Module.finrank E (normalizedFiber F p ℓ hpℓ ρ hρ).obj.V = 1 := sorry
+
+/- Check `normalizedFiber_reducible`: if inertia acts trivially and Frobenius images are
+`diag(q^{deg w}, 1)`, the fibre is reducible. -/
+example [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin 2) E) (hρ : Continuous ρ)
+    (hI : TauCetiRoadmap.LocalFieldsRamification.inertia F ≤ ρ.ker)
+    (hd : ∀ w, (ρ (weilToAbsolute F w) : Matrix (Fin 2) (Fin 2) E) =
+      !![(Nat.card 𝓀[F] : E) ^ (weilDegree F w).toAdd, 0; 0, 1]) :
+    ¬ Simple (normalizedFiber F p ℓ hpℓ ρ hρ) := sorry
+
+/-- The parameter of the algebraic dual is the dual parameter `(r∨, -Nᵀ)`, so the normalized
+fibre is the smooth dual of the generic-socle representation of `WD(ρ)∨`. This compares the
+parameters before Breuil–Schneider and smooth duality; it does not assert that the generic-socle
+construction commutes with smooth duality. [EH] Corollary 4.3.3, p. 32; [Hel12] Theorem 7.1,
+p. 13. -/
+theorem normalizedFiber_dualParameter [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    [CharZero E] {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) E) (hρ : Continuous ρ)
+    (ψ : WDParameter F E n)
+    (hψr : ∀ w, ψ.r w = contragredient n E ((weilDeligne F p ℓ hpℓ ρ hρ).r w))
+    (hψN : ψ.N = -((weilDeligne F p ℓ hpℓ ρ hρ).N).transpose) :
+    weilDeligne F p ℓ hpℓ ((contragredient n E).comp ρ) (continuous_contragredient_comp hρ) = ψ ∧
+      Nonempty (normalizedFiber F p ℓ hpℓ ρ hρ ≅
+        SmoothRep.smoothDual (breuilSchneider F p ψ)) := sorry
+end ClassicalCorrespondences
+
+section IntegralFamilies
+
+/-- The integral centre map of a continuous `ρ : G_F → GL_n(A)`, for `A` a complete reduced
+`ℓ`-torsion-free Noetherian local `W(k)`-algebra with residue field `k`: a ring map from the
+centre of the integral block `e` of the residual parameter to `A` whose characteristic-zero
+specializations are the centre characters of the normalized fibres (Helm–Moss
+interpolation). -/
+noncomputable def integralCenterMap (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime]
+    [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {k : Type} [Field k] [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+    {A : Type} [CommRing A] [IsLocalRing A] [IsNoetherianRing A] [IsReduced A]
+    [Algebra (WittVector ℓ k) A] [TopologicalSpace A] [IsTopologicalRing A]
+    (hadic : IsAdic (IsLocalRing.maximalIdeal A))
+    (hcomplete : IsAdicComplete (IsLocalRing.maximalIdeal A) A)
+    (htors : (ℓ : A) ∈ nonZeroDivisors A)
+    (hres : Function.Surjective ((IsLocalRing.residue A).comp (algebraMap (WittVector ℓ k) A)))
+    {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin n) F)) :
+    SmoothRep.blockCentre e →+* A := sorry
+
+/-- The local Langlands family of `ρ` ([Hel12] Theorem 7.8): the universal co-Whittaker module of
+the block `e`, base changed along `integralCenterMap ρ`, modulo the intersection of the kernels of
+its maps to the normalized fibres at the minimal primes of `A`. -/
+noncomputable def pi (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime]
+    [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (hpℓ : p ≠ ℓ)
+    {k : Type} [Field k] [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+    {A : Type} [CommRing A] [IsLocalRing A] [IsNoetherianRing A] [IsReduced A]
+    [Algebra (WittVector ℓ k) A] [TopologicalSpace A] [IsTopologicalRing A]
+    (hadic : IsAdic (IsLocalRing.maximalIdeal A))
+    (hcomplete : IsAdicComplete (IsLocalRing.maximalIdeal A) A)
+    (htors : (ℓ : A) ∈ nonZeroDivisors A)
+    (hres : Function.Surjective ((IsLocalRing.residue A).comp (algebraMap (WittVector ℓ k) A)))
+    {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ) :
+    SmoothRep A (GL (Fin (n + 1)) F) := sorry
+
+variable (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+  (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
+  (hpℓ : p ≠ ℓ) {k : Type} [Field k] [CharP k ℓ] [IsAlgClosed k] [PerfectRing k ℓ]
+  {A : Type} [CommRing A] [IsLocalRing A] [IsNoetherianRing A] [IsReduced A]
+  [Algebra (WittVector ℓ k) A] [TopologicalSpace A] [IsTopologicalRing A]
+  (hadic : IsAdic (IsLocalRing.maximalIdeal A))
+  (hcomplete : IsAdicComplete (IsLocalRing.maximalIdeal A) A)
+  (htors : (ℓ : A) ∈ nonZeroDivisors A)
+  (hres : Function.Surjective ((IsLocalRing.residue A).comp (algebraMap (WittVector ℓ k) A)))
+
+include hpℓ hadic hcomplete htors hres in
+/-- At a continuous ring map `x : A → E` to a complete normed extension of `ℚ_ℓ`, a block-centre
+element acts on the normalized fibre of `ρ_x` by `x (integralCenterMap ρ z)`, when that fibre lies
+in the block `e`. [HM18] Theorems 7.4–7.5, pp. 1019–1020, and Corollary 7.7, p. 1021. -/
+theorem integralCenterMap_genericFiber {n : ℕ}
+    (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin n) F))
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (x : A →+* E) (hx : Continuous x)
+    (ρx : Field.absoluteGaloisGroup F →* GL (Fin n) E) (hρx : Continuous ρx)
+    (hρxe : ∀ g, (ρx g : Matrix (Fin n) (Fin n) E) = x.mapMatrix (ρ g : Matrix (Fin n) (Fin n) A))
+    (he : letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+      e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx)) = 𝟙 _)
+    (z : SmoothRep.blockCentre e) (v : (normalizedFiber F p ℓ hpℓ ρx hρx).obj.V) :
+    letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+    (z.val.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx))).hom.hom v =
+      x (integralCenterMap F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e z) • v := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/- Check `integralCenterMap_unique`: if every continuous characteristic-zero fibre lies in `e` and a
+ring map `z'` has the specializations of `integralCenterMap_genericFiber`, then `z'` is
+`integralCenterMap ρ`. -/
+example {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin n) F))
+    (z' : SmoothRep.blockCentre e →+* A)
+    (hz' : ∀ (E : Type) [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+      (x : A →+* E), Continuous x → ∀ (ρx : Field.absoluteGaloisGroup F →* GL (Fin n) E)
+      (hρx : Continuous ρx),
+      (∀ g, (ρx g : Matrix (Fin n) (Fin n) E) = x.mapMatrix (ρ g : Matrix (Fin n) (Fin n) A)) →
+      letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+      e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx)) = 𝟙 _ ∧
+      ∀ (z : SmoothRep.blockCentre e) (v : (normalizedFiber F p ℓ hpℓ ρx hρx).obj.V),
+        (z.val.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+          (normalizedFiber F p ℓ hpℓ ρx hρx))).hom.hom v = x (z' z) • v) :
+    z' = integralCenterMap F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/- Check `integralCenterMap_conj`: the map does not depend on the framing of `ρ`. -/
+example {n : ℕ} (ρ ρ' : Field.absoluteGaloisGroup F →* GL (Fin n) A) (hρ : Continuous ρ)
+    (hρ' : Continuous ρ') (P : GL (Fin n) A) (hP : ∀ g, ρ' g = P * ρ g * P⁻¹)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin n) F)) :
+    integralCenterMap F p ℓ hpℓ hadic hcomplete htors hres ρ' hρ' e =
+      integralCenterMap F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/- Check `integralCenterMap_map`: a continuous `W(k)`-algebra map `f : A → A'` of rings of the same
+kind carries the map of `ρ` to the map of `f ∘ ρ`. -/
+example {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin n) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin n) F))
+    {A' : Type} [CommRing A'] [IsLocalRing A'] [IsNoetherianRing A'] [IsReduced A']
+    [Algebra (WittVector ℓ k) A'] [TopologicalSpace A'] [IsTopologicalRing A']
+    (hadic' : IsAdic (IsLocalRing.maximalIdeal A'))
+    (hcomplete' : IsAdicComplete (IsLocalRing.maximalIdeal A') A')
+    (htors' : (ℓ : A') ∈ nonZeroDivisors A')
+    (hres' : Function.Surjective
+      ((IsLocalRing.residue A').comp (algebraMap (WittVector ℓ k) A')))
+    (f : A →ₐ[WittVector ℓ k] A') (hf : Continuous f)
+    (ρ' : Field.absoluteGaloisGroup F →* GL (Fin n) A') (hρ' : Continuous ρ')
+    (hρ'e : ∀ g, (ρ' g : Matrix (Fin n) (Fin n) A') =
+      f.toRingHom.mapMatrix (ρ g : Matrix (Fin n) (Fin n) A)) :
+    integralCenterMap F p ℓ hpℓ hadic' hcomplete' htors' hres' ρ' hρ' e =
+      f.toRingHom.comp (integralCenterMap F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e) := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/-- At a continuous ring map `x : A → E` to a complete normed extension of `ℚ_ℓ` whose kernel is a
+minimal prime of `A`, the scalar extension of `pi ρ` is the normalized fibre of `ρ_x`, when that
+fibre lies in the block `e`. [Hel12] Theorem 7.8, pp. 15–16. -/
+theorem pi_genericFiber {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) A)
+    (hρ : Continuous ρ) (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
+    {E : Type} [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+    (x : A →+* E) (hx : Continuous x) (hmin : RingHom.ker x ∈ minimalPrimes A)
+    (ρx : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) E) (hρx : Continuous ρx)
+    (hρxe : ∀ g, (ρx g : Matrix (Fin (n + 1)) (Fin (n + 1)) E) =
+      x.mapMatrix (ρ g : Matrix (Fin (n + 1)) (Fin (n + 1)) A))
+    (he : letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+      e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx)) = 𝟙 _) :
+    letI : Algebra A E := x.toAlgebra
+    Nonempty ((SmoothRep.baseChange (B := E)).obj
+        (pi F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e ψ hψ) ≅
+      normalizedFiber F p ℓ hpℓ ρx hρx) := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/-- When every continuous characteristic-zero fibre of `ρ` lies in the block `e`, `pi ρ` is
+co-Whittaker and `A`-torsion-free; by `CoWhittaker.reconstruction` it is then the unique such
+family with the fibres of `pi_genericFiber`. [Hel12] Theorem 7.8, pp. 15–16. -/
+theorem pi_coWhittaker {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) A)
+    (hρ : Continuous ρ) (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
+    (he : ∀ (E : Type) [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+      (x : A →+* E), Continuous x → ∀ (ρx : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) E)
+      (hρx : Continuous ρx),
+      (∀ g, (ρx g : Matrix (Fin (n + 1)) (Fin (n + 1)) E) = x.mapMatrix (ρ g : Matrix (Fin (n + 1)) (Fin (n + 1)) A)) →
+      letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+      e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx)) = 𝟙 _) :
+    let V := pi F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e ψ hψ
+    CoWhittaker V.obj.ρ (BZDerivative.unipotent (n + 1) (n + 1))
+        (BZDerivative.character (n + 1) (n + 1)
+          ((Units.map (algebraMap (WittVector ℓ k) A).toMonoidHom).comp ψ)) ∧
+      ∀ r : A, r ∈ nonZeroDivisors A → Function.Injective (r • · : V.obj.V → V.obj.V) := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/- Check `pi_rankOne`: in rank one, with the fibres in `e`, the family is the character family:
+`g` acts by `ρ` at a Weil element over `det g`. -/
+example (ρ : Field.absoluteGaloisGroup F →* GL (Fin 1) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin 1) F))
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
+    (he : ∀ (E : Type) [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+      (x : A →+* E), Continuous x → ∀ (ρx : Field.absoluteGaloisGroup F →* GL (Fin 1) E)
+      (hρx : Continuous ρx),
+      (∀ g, (ρx g : Matrix (Fin 1) (Fin 1) E) = x.mapMatrix (ρ g : Matrix (Fin 1) (Fin 1) A)) →
+      letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+      e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx)) = 𝟙 _)
+    (g : GL (Fin 1) F) (w : WeilGroup F)
+    (hw : QuotientGroup.mk w = localWeilArtinEquiv F p (Matrix.GeneralLinearGroup.det g))
+    (v : (pi F p ℓ hpℓ hadic hcomplete htors hres (n := 0) ρ hρ e ψ hψ).obj.V) :
+    (pi F p ℓ hpℓ hadic hcomplete htors hres (n := 0) ρ hρ e ψ hψ).obj.ρ g v =
+      ((ρ (weilToAbsolute F w) : Matrix (Fin 1) (Fin 1) A) 0 0) • v := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/- Check `pi_conj`: conjugating `ρ` by a matrix over `A` does not change the family. -/
+example {n : ℕ} (ρ ρ' : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) A) (hρ : Continuous ρ)
+    (hρ' : Continuous ρ') (P : GL (Fin (n + 1)) A) (hP : ∀ g, ρ' g = P * ρ g * P⁻¹)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ) :
+    Nonempty (pi F p ℓ hpℓ hadic hcomplete htors hres ρ' hρ' e ψ hψ ≅
+      pi F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e ψ hψ) := sorry
+
+include hpℓ hadic hcomplete htors hres in
+/- Check `pi_nontrivial`: with the fibres in `e` the family is not zero. -/
+example {n : ℕ} (ρ : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) A) (hρ : Continuous ρ)
+    (e : SmoothRep.CentralBlock (A := WittVector ℓ k) (G := GL (Fin (n + 1)) F))
+    (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : BZDerivative.IsGenericCharacter ψ)
+    (he : ∀ (E : Type) [NontriviallyNormedField E] [CompleteSpace E] [NormedAlgebra ℚ_[ℓ] E]
+      (x : A →+* E), Continuous x → ∀ (ρx : Field.absoluteGaloisGroup F →* GL (Fin (n + 1)) E)
+      (hρx : Continuous ρx),
+      (∀ g, (ρx g : Matrix (Fin (n + 1)) (Fin (n + 1)) E) = x.mapMatrix (ρ g : Matrix (Fin (n + 1)) (Fin (n + 1)) A)) →
+      letI : Algebra (WittVector ℓ k) E := (x.comp (algebraMap (WittVector ℓ k) A)).toAlgebra
+      e.idempotent.app ((SmoothRep.restrictScalars (A := WittVector ℓ k)).obj
+        (normalizedFiber F p ℓ hpℓ ρx hρx)) = 𝟙 _) :
+    Nontrivial (pi F p ℓ hpℓ hadic hcomplete htors hres ρ hρ e ψ hψ).obj.V := sorry
+end IntegralFamilies
 end LLCFamily
 
 end
