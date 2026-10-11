@@ -439,8 +439,8 @@ contracts.
 ## Layer 0: restricted products of Haar measures
 
 For the measure targets let `ι` be countable, `G_i` second countable locally compact Hausdorff
-groups, and `B_i` open subgroups compact at almost every index. Measures `μ_i` are left Haar
-unless a target explicitly allows general measures. Purely topological finite-splitting results
+groups with their Borel sigma algebras, and `B_i` open subgroups compact at almost every index.
+Measures `μ_i` are left Haar unless a target explicitly allows general measures. Purely topological finite-splitting results
 allow arbitrary index sets. Use the restricted-product carrier and topology already in Mathlib.
 Build its Borel structure from countably many open principal pieces, put probability measures on
 the compact tails, and glue compatible level measures. The convergent rescaling construction
@@ -913,8 +913,9 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   models the identity of `G(𝔸_{F,f})` corresponds to the canonical isomorphism
   `restrictedProductCongr` of Tau Ceti, and enlarging `S` does not change it ([Conrad],
   Theorem 3.6, p. 6). *Needs:* AA.1.2; AA.1.1; AA.0.3.
-- **Adelic groups are locally compact.** For finitely generated `H`, prove that `G(𝔸_F)`,
-  `G(𝔸_{F,f})` and `G(F_∞)` are second countable, locally compact, Hausdorff topological groups
+- **Adelic groups are locally compact.** For a number field `F` and finitely generated
+  `F`-algebra `H`, prove that `G(𝔸_F)`, `G(𝔸_{F,f})` and `G(F_∞)` are second countable, locally
+  compact, Hausdorff topological groups
   ([Borel], §1.2, p. 7). *Needs:* AA.1.2; Mathlib `RestrictedProduct.locallyCompactSpace_of_group`;
   AA.0.1; ReductiveGroupsPartII, RG2.0; GlobalNumberFields, layer 5.
 - **Splitting off finitely many places.** For finitely generated `H` and a finite set `S` of
@@ -1365,7 +1366,8 @@ restriction of scalars.
   `C_c(H\G)` ([Arthur], §1, p. 9; [BHV], Appendix B.1, Lemma B.1.3, pp. 344–346). *Needs:* AA.2.2.
 - **Invariant measure on a coset space.** (*quotient-measure*) Let `G` be a second countable
   locally compact Hausdorff group, `H ≤ G` a closed subgroup with `Δ_G` restricted to `H` equal
-  to `Δ_H`, and `dg`, `dh` right Haar measures; invariance means the right `G`-action on `H\G`.
+  to `Δ_H`, and `dg`, `dh` right Haar measures on the Borel sigma algebras; invariance means
+  the right `G`-action on `H\G`.
   Define `QuotientMeasure.measure`, the measure `dġ` on the right coset space `H\G` given `dg`,
   `dh` and the modular condition, and prove `QuotientMeasure.integral_eq`
   (`∫_G f dg = ∫_{H\G} ∫_H f(hg) dh dġ` for `f ∈ C_c(G)`), `QuotientMeasure.invariant` (invariance
@@ -1412,9 +1414,10 @@ restriction of scalars.
     and final mass `4/3` (`stages_rescaled_bottom`). The inner bottom measure is transported
     by `subgroupOfEquiv`; scaling the middle measure cancels, scaling the bottom does not.
 
-- **Inversion between left and right quotient conventions.** For `G` second countable locally
-  compact Hausdorff and unimodular, `Γ` a countable discrete subgroup, and a normalized Haar
-  measure `μ` that is left and right invariant, prove that inversion sends `Γg` to `g⁻¹Γ`, giving
+- **Inversion between left and right quotient conventions.** For any topological group `G` and
+  subgroup `H`, define `QuotientMeasure.inversionHomeomorph : H\G ≃ₜ G/H` by `Hg ↦ g⁻¹H`.
+  For `G` second countable locally compact Hausdorff and unimodular, `Γ` a countable discrete
+  subgroup, and a normalized Haar measure `μ` that is left and right invariant, prove that inversion sends `Γg` to `g⁻¹Γ`, giving
   a homeomorphism `Γ\G ≃ G/Γ` that preserves the correspondingly normalized quotient measures,
   and that it carries left-orbit unfolding to Mathlib's right `Γ.op`-orbit unfolding; use the
   fundamental-domain quotient measures and the integrability/measurability hypotheses of
@@ -1523,11 +1526,13 @@ restriction of scalars.
   The latter translation identity is a consequence of change of variables and
   `R_g^*ω = det Ad(g)⁻¹ • ω`; pullback and measure pushforward have reciprocal factors.
   The representative `analyticMeasure` signatures use arbitrary characteristic-zero
-  nonarchimedean local fields. For a number field `F`, finite `v` and `G/F`, retain
+  nonarchimedean local fields with a specified valuation relation and a finite-type coordinate
+  Hopf algebra. For a number field `F`, finite `v` and `G/F`, retain
   `GaugeForm.localMeasure` as the specialization to the scalar extension of `ω` to `F_v`,
   and prove `localMeasure_eq_analyticMeasure` through the point adjunction. The existing `localMeasure_isHaar`,
   `localMeasure_smul` and `localMeasure_rightTranslate` signatures are the corresponding
-  specialization (the last takes rational `g`). At the archimedean places the product
+  specialization (the last takes rational `g`). For a finite-type `F`-group over the number
+  field `F`, the archimedean product
   `GaugeForm.archimedeanMeasure ω = ∏_{w|∞} |ω|_w` on `G(F ⊗ ℝ)` carries
   `archimedeanMeasure_isHaar`, `archimedeanMeasure_smul` (a scalar `c ∈ F` multiplies it by
   `∏_w |c|_w`, squared at complex places) and `archimedeanMeasure_ga` (for `G_a` it is

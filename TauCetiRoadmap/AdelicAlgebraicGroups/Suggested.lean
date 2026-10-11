@@ -71,15 +71,13 @@ namespace RestrictedProduct
 open _root_.RestrictedProduct
 
 variable {ι : Type*} {G : ι → Type*} [∀ i, Group (G i)] [∀ i, TopologicalSpace (G i)]
-  [hctx1 : ∀ i, IsTopologicalGroup (G i)] [hcount : Countable ι]
-  [hT2 : ∀ i, T2Space (G i)] [hLC : ∀ i, LocallyCompactSpace (G i)]
-  [hsecond : ∀ i, SecondCountableTopology (G i)] {B : ∀ i, Subgroup (G i)}
-  [hBopen : Fact (∀ i, IsOpen (B i : Set (G i)))]
-include hctx1 hcount hT2 hLC hsecond hBopen
+  {B : ∀ i, Subgroup (G i)}
 
 /-- countably many second countable factors give a second countable
 restricted product. -/
-theorem secondCountable :
+theorem secondCountable [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))] :
     SecondCountableTopology (Πʳ i, [G i, B i]) := by
   sorry
 
@@ -88,23 +86,34 @@ instance instMeasurableSpace : MeasurableSpace (Πʳ i, [G i, B i]) := borel _
 
 instance borelSpace : BorelSpace (Πʳ i, [G i, B i]) := ⟨rfl⟩
 
-theorem measurable_eval (i : ι) [MeasurableSpace (G i)] [BorelSpace (G i)] :
+theorem measurable_eval [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (i : ι) [MeasurableSpace (G i)] [BorelSpace (G i)] :
     Measurable (fun x : Πʳ i, [G i, B i] => x i) := by
   sorry
 
 /-- The box with factors `C i`, equal to `B i` for all but finitely many `i`. -/
 def box (C : ∀ i, Set (G i)) : Set (Πʳ i, [G i, B i]) := {x | ∀ i, x i ∈ C i}
 
-theorem measurableSet_box [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
+theorem measurableSet_box [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
     (C : ∀ i, Set (G i)) (hC : ∀ i, MeasurableSet (C i))
     (hcof : ∀ᶠ i in cofinite, C i = B i) : MeasurableSet (box (B := B) C) := by
   sorry
 
-theorem measurable_inclusion {S : Set ι} (hS : cofinite ≤ 𝓟 S) :
+theorem measurable_inclusion [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    {S : Set ι} (hS : cofinite ≤ 𝓟 S) :
     @Measurable _ _ (borel _) _ (inclusion G (fun i => (B i : Set (G i))) hS) := by
   sorry
 
-theorem borel_eq_generateFrom_boxes :
+theorem borel_eq_generateFrom_boxes [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))] :
     (inferInstance : MeasurableSpace (Πʳ i, [G i, B i])) =
       MeasurableSpace.generateFrom
         {s | ∃ C : ∀ i, Set (G i), (∀ i, IsOpen (C i)) ∧ (∀ᶠ i in cofinite, C i = B i) ∧
@@ -112,11 +121,17 @@ theorem borel_eq_generateFrom_boxes :
   sorry
 
 -- Test RestrictedProduct.measurableSet_structureMap_range
-example : MeasurableSet {x : Πʳ i, [G i, B i] | ∀ i, x i ∈ B i} := by
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))] :
+    MeasurableSet {x : Πʳ i, [G i, B i] | ∀ i, x i ∈ B i} := by
   sorry
 
 -- Test RestrictedProduct.borel_finite_index
-example [Finite ι] [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [Finite ι] [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
     :
     borel (Πʳ i, [G i, B i]) = MeasurableSpace.comap
       (fun x : Πʳ i, [G i, B i] => (⇑x : ∀ i, G i))
@@ -126,7 +141,10 @@ example [Finite ι] [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
 -- Test RestrictedProduct.measurableSet_singleton_not_box
 /-- For `ι = ℕ`, `G i = ZMod 4`, `B i = 2(ZMod 4)`: the singleton `{1}` is not a box with
 cofinitely trivial factors, yet it is measurable (a decreasing intersection of boxes). -/
-example [Infinite ι] [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [Infinite ι] [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
     (hne : ∀ i, (B i : Set (G i)) ≠ {1}) :
     MeasurableSet ({1} : Set (Πʳ i, [G i, B i])) ∧
       ¬ ∃ C : ∀ i, Set (G i), (∀ᶠ i in cofinite, C i = B i) ∧ box (B := B) C = {1} := by
@@ -140,78 +158,120 @@ def levelSubgroup (S : Set ι) : Subgroup (Πʳ i, [G i, B i]) where
   inv_mem' := by sorry
 
 -- Test RestrictedProduct.box_univ
-example : box (B := B) (fun _ => Set.univ) = Set.univ := by
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))] :
+    box (B := B) (fun _ => Set.univ) = Set.univ := by
   ext x
   simp [box]
 
 -- Test RestrictedProduct.box_empty_factor
-example (j : ι) : box (B := B) (fun i => if i = j then ∅ else Set.univ) = ∅ := by
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (j : ι) : box (B := B) (fun i => if i = j then ∅ else Set.univ) = ∅ := by
   ext x
   simp only [box, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
   intro h
   simpa using h j
 
 -- Test RestrictedProduct.box_integral
-example : box (B := B) (fun i => (B i : Set (G i))) =
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))] :
+    box (B := B) (fun i => (B i : Set (G i))) =
     (levelSubgroup (B := B) ∅ : Set (Πʳ i, [G i, B i])) := by
   ext x
   simp [box, levelSubgroup]
 
 -- Test RestrictedProduct.level_all
-example : levelSubgroup (B := B) Set.univ = ⊤ := by
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))] :
+    levelSubgroup (B := B) Set.univ = ⊤ := by
   ext x
   simp [levelSubgroup]
 
 -- Test RestrictedProduct.level_singleton
-example (j : ι) (x : Πʳ i, [G i, B i]) :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (j : ι) (x : Πʳ i, [G i, B i]) :
     x ∈ levelSubgroup (B := B) {j} ↔ ∀ i, i ≠ j → x i ∈ B i := by
   simp [levelSubgroup]
 
 -- Test RestrictedProduct.level_reject
-example (j : ι) (x : Πʳ i, [G i, B i]) (hx : x j ∉ B j) :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (j : ι) (x : Πʳ i, [G i, B i]) (hx : x j ∉ B j) :
     x ∉ levelSubgroup (B := B) ∅ := by
   intro h
   exact hx (h j (by simp))
 
-theorem isOpen_levelSubgroup (S : Set ι) (hS : S.Finite) :
+theorem isOpen_levelSubgroup [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (S : Set ι) (hS : S.Finite) :
     IsOpen ((levelSubgroup (B := B) S : Subgroup _) : Set (Πʳ i, [G i, B i])) := by
   sorry
 
-variable [∀ i, MeasurableSpace (G i)] [hctx2 : ∀ i, BorelSpace (G i)]
-  [hcB : Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
-include hctx2 hcB
-include hcount hT2 hLC hsecond hcB
+variable [∀ i, MeasurableSpace (G i)]
 
 /-- the product measure `μ_S` on the level subgroup `U_S`, built from
 `Measure.pi` over the finite set `S` and `Measure.infinitePi` of the probability measures
 `μ i` restricted to `B i` off `S`. Its product formulas are stated for sigma-finite local
 measures (in particular, Haar measures in the stated second countable setting). -/
-def levelMeasure (μ : ∀ i, Measure (G i)) (S : Finset ι)
+def levelMeasure [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) (S : Finset ι)
     (hμ : ∀ i ∉ S, μ i (B i) = 1) : Measure (levelSubgroup (B := B) (S : Set ι)) := sorry
 
-theorem levelMeasure_box (μ : ∀ i, Measure (G i)) [∀ i, SigmaFinite (μ i)] (S : Finset ι) (hμ : ∀ i ∉ S, μ i (B i) = 1)
+theorem levelMeasure_box [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) [∀ i, SigmaFinite (μ i)] (S : Finset ι) (hμ : ∀ i ∉ S, μ i (B i) = 1)
     (C : ∀ i, Set (G i)) (hC : ∀ i ∉ S, C i = B i)
     (hCm : ∀ i, MeasurableSet (C i)) :
     levelMeasure μ S hμ {x | ∀ i, (x : Πʳ i, [G i, B i]) i ∈ C i} = ∏ i ∈ S, μ i (C i) := by
   sorry
 
-theorem levelMeasure_isHaar (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
+theorem levelMeasure_isHaar [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
     (S : Finset ι) (hμ : ∀ i ∉ S, μ i (B i) = 1) :
     (levelMeasure μ S hμ).IsHaarMeasure := by
   sorry
 
-theorem levelMeasure_univ_compact (μ : ∀ i, Measure (G i)) (hcpt : ∀ i, IsCompact (B i : Set (G i)))
+theorem levelMeasure_univ_compact [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) (hcpt : ∀ i, IsCompact (B i : Set (G i)))
     (hμ : ∀ i, μ i (B i) = 1) :
     IsProbabilityMeasure (levelMeasure μ ∅ (fun i _ => hμ i)) := by
   sorry
 
 -- Test RestrictedProduct.levelMeasure_empty_prob
-example (μ : ∀ i, Measure (G i)) (hcpt : ∀ i, IsCompact (B i : Set (G i)))
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) (hcpt : ∀ i, IsCompact (B i : Set (G i)))
     (hμ : ∀ i, μ i (B i) = 1) : levelMeasure μ ∅ (fun i _ => hμ i) univ = 1 := by
   sorry
 
 -- Test RestrictedProduct.levelMeasure_two_factor
-example {G₂ : Fin 2 → Type*} [∀ i, Group (G₂ i)] [∀ i, TopologicalSpace (G₂ i)]
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    {G₂ : Fin 2 → Type*} [∀ i, Group (G₂ i)] [∀ i, TopologicalSpace (G₂ i)]
     [∀ i, IsTopologicalGroup (G₂ i)] [∀ i, T2Space (G₂ i)]
     [∀ i, LocallyCompactSpace (G₂ i)] [∀ i, SecondCountableTopology (G₂ i)] {B₂ : ∀ i, Subgroup (G₂ i)}
     [Fact (∀ i, IsOpen (B₂ i : Set (G₂ i)))]
@@ -226,32 +286,52 @@ example {G₂ : Fin 2 → Type*} [∀ i, Group (G₂ i)] [∀ i, TopologicalSpac
 -- Test RestrictedProduct.levelMeasure_unnormalized_factor
 /-- The factors indexed by `S` are not normalized: with `S = {i₀}` the mass of `{x | x i₀ ∈ C}` is
 `μ i₀ C` whatever `μ i₀ (B i₀)` is (counting measure on `ZMod 4`, `C = {0}`: value `1`, not `1/2`). -/
-example (μ : ∀ i, Measure (G i)) [∀ i, SigmaFinite (μ i)] (i₀ : ι)
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) [∀ i, SigmaFinite (μ i)] (i₀ : ι)
     (hμ : ∀ i ∉ ({i₀} : Finset ι), μ i (B i) = 1) (C : Set (G i₀)) (hC : MeasurableSet C) :
     levelMeasure μ {i₀} hμ {x | (x : Πʳ i, [G i, B i]) i₀ ∈ C} = μ i₀ C := by
   sorry
 
 /-- the restricted product of Haar measures. -/
-def haarProduct (μ : ∀ i, Measure (G i)) (hμ : ∀ᶠ i in cofinite, μ i (B i) = 1) :
+def haarProduct [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (μ : ∀ i, Measure (G i)) (hμ : ∀ᶠ i in cofinite, μ i (B i) = 1) :
     Measure (Πʳ i, [G i, B i]) := sorry
 
 variable (μ : ∀ i, Measure (G i)) [hSigma : ∀ i, SigmaFinite (μ i)]
   (hμ : ∀ᶠ i in cofinite, μ i (B i) = 1)
 include hSigma
 
-theorem haarProduct_restrict_level (S : Finset ι) (hS : ∀ i ∉ S, μ i (B i) = 1) :
+theorem haarProduct_restrict_level [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (S : Finset ι) (hS : ∀ i ∉ S, μ i (B i) = 1) :
     (haarProduct μ hμ).restrict (levelSubgroup (B := B) (S : Set ι)) =
       Measure.map Subtype.val (levelMeasure μ S hS) := by
   sorry
 
 -- Test RestrictedProduct.restrict_empty: the compact integral level has mass one.
-example (h1 : ∀ i, μ i (B i) = 1) :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (h1 : ∀ i, μ i (B i) = 1) :
     (haarProduct μ hμ).restrict (levelSubgroup (B := B) (∅ : Set ι)) =
       Measure.map Subtype.val (levelMeasure μ ∅ (fun i _ => h1 i)) := by
   simpa using haarProduct_restrict_level μ hμ ∅ (fun i _ => h1 i)
 
 -- Test RestrictedProduct.restrict_singleton: an exceptional mass is not divided out.
-example (j : ι) (hS : ∀ i ∉ ({j} : Finset ι), μ i (B i) = 1)
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (j : ι) (hS : ∀ i ∉ ({j} : Finset ι), μ i (B i) = 1)
     (hj : μ j (B j) = 2) :
     (haarProduct μ hμ).restrict (levelSubgroup (B := B) ({j} : Set ι)) =
       Measure.map Subtype.val (levelMeasure μ {j} hS) ∧
@@ -260,77 +340,133 @@ example (j : ι) (hS : ∀ i ∉ ({j} : Finset ι), μ i (B i) = 1)
   sorry
 
 -- Test RestrictedProduct.restrict_all: a finite full level is the whole measure.
-example [Fintype ι] :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [Fintype ι] :
     haarProduct μ hμ = Measure.map Subtype.val
       (levelMeasure (B := B) μ Finset.univ (by simp)) := by
   sorry
 
-theorem haarProduct_eq_of_restrict (ν : Measure (Πʳ i, [G i, B i]))
+theorem haarProduct_eq_of_restrict [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (ν : Measure (Πʳ i, [G i, B i]))
     (hν : ∀ (S : Finset ι) (hS : ∀ i ∉ S, μ i (B i) = 1),
       ν.restrict (levelSubgroup (B := B) (S : Set ι)) = Measure.map Subtype.val (levelMeasure μ S hS)) :
     ν = haarProduct μ hμ := by
   sorry
 
-theorem haarProduct_box (C : ∀ i, Set (G i)) (hC : ∀ i, MeasurableSet (C i))
+theorem haarProduct_box [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (C : ∀ i, Set (G i)) (hC : ∀ i, MeasurableSet (C i))
     (hcof : ∀ᶠ i in cofinite, C i = B i) :
     haarProduct μ hμ (box (B := B) C) = ∏ᶠ i, μ i (C i) := by
   sorry
 
-theorem haarProduct_isHaarMeasure [∀ i, (μ i).IsHaarMeasure]
+theorem haarProduct_isHaarMeasure [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [∀ i, (μ i).IsHaarMeasure]
     (hcpt : ∀ᶠ i in cofinite, IsCompact (B i : Set (G i))) :
     (haarProduct μ hμ).IsHaarMeasure := by
   sorry
 
-theorem haarProduct_smul (c : ι → ℝ≥0∞) (hc : ∀ᶠ i in cofinite, c i = 1) (hpos : ∀ i, c i ≠ 0 ∧ c i ≠ ∞)
+theorem haarProduct_smul [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (c : ι → ℝ≥0∞) (hc : ∀ᶠ i in cofinite, c i = 1) (hpos : ∀ i, c i ≠ 0 ∧ c i ≠ ∞)
     (hcμ : ∀ᶠ i in cofinite, (c i • μ i) (B i) = 1) :
     haarProduct (fun i => c i • μ i) hcμ = (∏ᶠ i, c i) • haarProduct μ hμ := by
   sorry
 
 -- Test RestrictedProduct.haarProduct_compact_open_box
-example (h1 : ∀ i, μ i (B i) = 1) :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (h1 : ∀ i, μ i (B i) = 1) :
     haarProduct μ hμ {x : Πʳ i, [G i, B i] | ∀ i, x i ∈ B i} = 1 := by
   sorry
 
 /-- An exceptional local mass two survives in the integral box. -/
-example (j : ι) (hj : μ j (B j) = 2) (hother : ∀ i, i ≠ j → μ i (B i) = 1) :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (j : ι) (hj : μ j (B j) = 2) (hother : ∀ i, i ≠ j → μ i (B i) = 1) :
     haarProduct μ hμ (box (B := B) (fun i => (B i : Set (G i)))) = 2 := by
   sorry
 
 /-- Two exceptional factors with masses two and three contribute six. -/
-example (j k : ι) (hjk : j ≠ k) (hj : μ j (B j) = 2) (hk : μ k (B k) = 3)
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    (j k : ι) (hjk : j ≠ k) (hj : μ j (B j) = 2) (hk : μ k (B k) = 3)
     (hother : ∀ i, i ≠ j → i ≠ k → μ i (B i) = 1) :
     haarProduct μ hμ (box (B := B) (fun i => (B i : Set (G i)))) = 6 := by
   sorry
 
 -- Test RestrictedProduct.haarProduct_finite_index
-example [Fintype ι] :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [Fintype ι] :
     Measure.map (fun x : Πʳ i, [G i, B i] => (⇑x : ∀ i, G i)) (haarProduct μ hμ) = Measure.pi μ := by
   sorry
 
 -- Test RestrictedProduct.haarProduct_not_probability_product
 /-- The restricted product of Haar measures of noncompact groups is not a product of probability
 measures: it gives infinite mass to the whole group. -/
-example [Infinite ι] [∀ i, (μ i).IsHaarMeasure]
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [Infinite ι] [∀ i, (μ i).IsHaarMeasure]
     (hnc : ∃ i, μ i univ = ∞) : haarProduct μ hμ univ = ∞ := by
   sorry
 
 -- Test RestrictedProduct.haar_left_translation: translation preserves the actual measure.
-example [∀ i, (μ i).IsHaarMeasure] (g : Πʳ i, [G i, B i]) :
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [∀ i, (μ i).IsHaarMeasure] (g : Πʳ i, [G i, B i]) :
     Measure.map (g * ·) (haarProduct μ hμ) = haarProduct μ hμ := by
   sorry
 
 -- Test RestrictedProduct.haar_compact_finite: Haar mass is finite on each compact set.
-example [∀ i, (μ i).IsHaarMeasure] (C : Set (Πʳ i, [G i, B i]))
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [∀ i, (μ i).IsHaarMeasure] (C : Set (Πʳ i, [G i, B i]))
     (hC : IsCompact C) : haarProduct μ hμ C < ∞ := by
   sorry
 
 -- Test RestrictedProduct.haar_open_positive: nonempty open sets have nonzero mass.
-example [∀ i, (μ i).IsHaarMeasure] (V : Set (Πʳ i, [G i, B i]))
+example [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [∀ i, (μ i).IsHaarMeasure] (V : Set (Πʳ i, [G i, B i]))
     (hV : IsOpen V) (hne : V.Nonempty) : 0 < haarProduct μ hμ V := by
   sorry
 
 /-- Right invariance passes from the factors to the restricted product measure. -/
-theorem haarProduct_isMulRightInvariant [∀ i, (μ i).IsMulRightInvariant] :
+theorem haarProduct_isMulRightInvariant [∀ i, IsTopologicalGroup (G i)] [Countable ι]
+    [∀ i, T2Space (G i)] [∀ i, LocallyCompactSpace (G i)]
+    [∀ i, SecondCountableTopology (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [∀ i, BorelSpace (G i)] [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))]
+    [∀ i, (μ i).IsMulRightInvariant] :
     (haarProduct μ hμ).IsMulRightInvariant := by
   sorry
 
@@ -386,6 +522,15 @@ theorem splitFinite_mono (S S' : Finset ι) (h : S ⊆ S') (x : Πʳ i, [G i, B 
       ∀ i : {i // i ∉ S'}, (splitFinite S' x).2 i =
         (splitFinite S x).2 ⟨i, fun hi => i.2 (h hi)⟩ := by
   sorry
+
+local instance (S : Finset ι) :
+    Fact (∀ i : {i // i ∉ S}, IsOpen (B i : Set (G i))) :=
+  ⟨fun i => hBopen.out i⟩
+
+local instance (S : Finset ι) [Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))] :
+    Fact (∀ᶠ i : {i // i ∉ S} in cofinite, IsCompact (B i : Set (G i))) :=
+  ⟨(Subtype.val_injective (p := fun i => i ∉ S)).tendsto_cofinite.eventually
+    (show ∀ᶠ i in cofinite, IsCompact (B i : Set (G i)) from Fact.out)⟩
 
 -- Test RestrictedProduct.splitFinite_empty
 example [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)]
@@ -461,6 +606,7 @@ namespace RestrictedProduct
 example :
     let B : Fin 0 → Subgroup (Multiplicative (ZMod 2)) := fun _ => ⊤
     letI : MeasurableSpace (Multiplicative (ZMod 2)) := borel _
+    letI : BorelSpace (Multiplicative (ZMod 2)) := ⟨rfl⟩
     letI : Fact (∀ i, IsOpen (B i : Set (Multiplicative (ZMod 2)))) := ⟨by simp [B]⟩
     letI : Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (Multiplicative (ZMod 2)))) :=
       ⟨Filter.Eventually.of_forall (fun _ => isCompact_univ)⟩
@@ -473,6 +619,7 @@ example :
 example :
     let B : Fin 1 → Subgroup (Multiplicative (ZMod 2)) := fun _ => ⊤
     letI : MeasurableSpace (Multiplicative (ZMod 2)) := borel _
+    letI : BorelSpace (Multiplicative (ZMod 2)) := ⟨rfl⟩
     letI : Fact (∀ i, IsOpen (B i : Set (Multiplicative (ZMod 2)))) := ⟨by simp [B]⟩
     letI : Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (Multiplicative (ZMod 2)))) :=
       ⟨Filter.Eventually.of_forall (fun _ => isCompact_univ)⟩
@@ -484,6 +631,7 @@ example :
 example :
     let B : Fin 2 → Subgroup (Multiplicative (ZMod 2)) := fun _ => ⊤
     letI : MeasurableSpace (Multiplicative (ZMod 2)) := borel _
+    letI : BorelSpace (Multiplicative (ZMod 2)) := ⟨rfl⟩
     letI : Fact (∀ i, IsOpen (B i : Set (Multiplicative (ZMod 2)))) := ⟨by simp [B]⟩
     letI : Fact (∀ᶠ i in cofinite, IsCompact (B i : Set (Multiplicative (ZMod 2)))) :=
       ⟨Filter.Eventually.of_forall (fun _ => isCompact_univ)⟩
@@ -503,43 +651,43 @@ theorem tamagawa_convergence_failure :
 namespace NumberField
 open _root_.NumberField
 
-variable (K : Type*) [Field K] [NumberField K]
+variable (K : Type*) [Field K]
 
-instance : MeasurableSpace (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) := borel _
-instance : BorelSpace (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) := ⟨rfl⟩
-instance : MeasurableSpace (AdeleRing (𝓞 K) K) := borel _
-instance : BorelSpace (AdeleRing (𝓞 K) K) := ⟨rfl⟩
-instance : MeasurableSpace (IdeleGroup (𝓞 K) K) := borel _
-instance : BorelSpace (IdeleGroup (𝓞 K) K) := ⟨rfl⟩
+instance [NumberField K] : MeasurableSpace (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) := borel _
+instance [NumberField K] : BorelSpace (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) := ⟨rfl⟩
+instance [NumberField K] : MeasurableSpace (AdeleRing (𝓞 K) K) := borel _
+instance [NumberField K] : BorelSpace (AdeleRing (𝓞 K) K) := ⟨rfl⟩
+instance [NumberField K] : MeasurableSpace (IdeleGroup (𝓞 K) K) := borel _
+instance [NumberField K] : BorelSpace (IdeleGroup (𝓞 K) K) := ⟨rfl⟩
 instance : MeasurableSpace (InfiniteAdeleRing K) := borel _
 instance : BorelSpace (InfiniteAdeleRing K) := ⟨rfl⟩
 instance : MeasurableSpace (InfiniteAdeleRing K)ˣ := borel _
 
 /-- The archimedean component of an adele. -/
-def adeleInfPart : AdeleRing (𝓞 K) K →+* InfiniteAdeleRing K := RingHom.fst _ _
+def adeleInfPart [NumberField K] : AdeleRing (𝓞 K) K →+* InfiniteAdeleRing K := RingHom.fst _ _
 
 /-- The compact open subring `∏_v 𝒪_v` of the finite adeles. -/
-def finiteIntegers : Set (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) :=
+def finiteIntegers [NumberField K] : Set (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) :=
   {x | ∀ v, x v ∈ v.adicCompletionIntegers K}
 
-def finiteAdeleHaar : Measure (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) := sorry
+def finiteAdeleHaar [NumberField K] : Measure (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) := sorry
 
-@[simp] theorem finiteAdeleHaar_integers : finiteAdeleHaar K (finiteIntegers K) = 1 := by
+@[simp] theorem finiteAdeleHaar_integers [NumberField K] : finiteAdeleHaar K (finiteIntegers K) = 1 := by
   sorry
 
-theorem finiteAdeleHaar_isAddHaar : (finiteAdeleHaar K).IsAddHaarMeasure := by
+theorem finiteAdeleHaar_isAddHaar [NumberField K] : (finiteAdeleHaar K).IsAddHaarMeasure := by
   sorry
 
 /-- The idele norm of a finite idele, the product of the normalized absolute values. -/
-def finiteIdeleNorm (a : (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K)ˣ) : ℝ≥0∞ := sorry
+def finiteIdeleNorm [NumberField K] (a : (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K)ˣ) : ℝ≥0∞ := sorry
 
-theorem finiteAdeleHaar_smul (a : (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K)ˣ) :
+theorem finiteAdeleHaar_smul [NumberField K] (a : (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K)ˣ) :
     Measure.map (fun x => (a : IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) * x) (finiteAdeleHaar K) =
       (finiteIdeleNorm K a)⁻¹ • finiteAdeleHaar K := by
   sorry
 
 -- Test NumberField.finiteAdeleHaar_ideal
-example (I : Ideal (𝓞 K)) (hI : I ≠ ⊥) :
+example [NumberField K] (I : Ideal (𝓞 K)) (hI : I ≠ ⊥) :
     finiteAdeleHaar K (closure (algebraMap (𝓞 K) (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K) '' I)) =
       (Ideal.absNorm I : ℝ≥0∞)⁻¹ := by
   sorry
@@ -552,25 +700,25 @@ example (v₂ : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))
   sorry
 
 -- Test NumberField.finiteAdeleHaar_not_finite
-example : ¬ IsFiniteMeasure (finiteAdeleHaar K) := by
+example [NumberField K] : ¬ IsFiniteMeasure (finiteAdeleHaar K) := by
   sorry
 
 /-- The archimedean measure: Lebesgue measure at real places and twice Lebesgue at complex places,
 transported from the mixed space. -/
-def infiniteAdeleHaar : Measure (InfiniteAdeleRing K) := sorry
+def infiniteAdeleHaar [NumberField K] : Measure (InfiniteAdeleRing K) := sorry
 
-def adeleHaar : Measure (AdeleRing (𝓞 K) K) := sorry
+def adeleHaar [NumberField K] : Measure (AdeleRing (𝓞 K) K) := sorry
 
-theorem adeleHaar_isAddHaar : (adeleHaar K).IsAddHaarMeasure := by
+theorem adeleHaar_isAddHaar [NumberField K] : (adeleHaar K).IsAddHaarMeasure := by
   sorry
 
-theorem adeleHaar_prod (s : Set (InfiniteAdeleRing K)) (t : Set (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K))
+theorem adeleHaar_prod [NumberField K] (s : Set (InfiniteAdeleRing K)) (t : Set (IsDedekindDomain.FiniteAdeleRing (𝓞 K) K))
     (hs : MeasurableSet s) (ht : MeasurableSet t) :
     adeleHaar K (s ×ˢ t) = infiniteAdeleHaar K s * finiteAdeleHaar K t := by
   sorry
 
 open scoped Classical in
-theorem adeleHaar_infinite_eq_mixed (s : Set (mixedEmbedding.mixedSpace K)) (hs : MeasurableSet s) :
+theorem adeleHaar_infinite_eq_mixed [NumberField K] (s : Set (mixedEmbedding.mixedSpace K)) (hs : MeasurableSet s) :
     infiniteAdeleHaar K (InfiniteAdeleRing.ringEquiv_mixedSpace K ⁻¹' s) =
       (2 : ℝ≥0∞) ^ InfinitePlace.nrComplexPlaces K * volume s := by
   sorry
@@ -590,19 +738,19 @@ example (K : Type*) [Field K] [NumberField K] (h : InfinitePlace.nrRealPlaces K 
 open scoped Classical in
 /-- The `𝓞_K` parallelotope in `K_∞` times `∏_v 𝒪_v` is a fundamental domain for `K` in `𝔸_K`;
 its mass is `2^{r₂} · 2^{-r₂} |d_K|^{1/2}`. The self-dual measure gives it volume one. -/
-example : adeleHaar K (((InfiniteAdeleRing.ringEquiv_mixedSpace K) ⁻¹'
+example [NumberField K] : adeleHaar K (((InfiniteAdeleRing.ringEquiv_mixedSpace K) ⁻¹'
     ZSpan.fundamentalDomain (mixedEmbedding.latticeBasis K)) ×ˢ finiteIntegers K) =
       ENNReal.ofReal (Real.sqrt |(discr K : ℝ)|) := by
   sorry
 
 /-- The archimedean idele measure: `dx/|x|` at real places and `2 dx dy/(x² + y²)` at complex
 places; fixed by `infiniteIdeleHaar_eq_withDensity`. -/
-def infiniteIdeleHaar : Measure (InfiniteAdeleRing K)ˣ := sorry
+def infiniteIdeleHaar [NumberField K] : Measure (InfiniteAdeleRing K)ˣ := sorry
 
 /-- On the units of `K_∞`, `infiniteIdeleHaar` is `infiniteAdeleHaar` with density
 `∏_w |x_w|_w⁻¹`, the normalized absolute value being squared at complex places
 (`mixedEmbedding.norm`). -/
-theorem infiniteIdeleHaar_eq_withDensity :
+theorem infiniteIdeleHaar_eq_withDensity [NumberField K] :
     Measure.map (Units.val : (InfiniteAdeleRing K)ˣ → InfiniteAdeleRing K) (infiniteIdeleHaar K) =
       ((infiniteAdeleHaar K).withDensity (fun x => ENNReal.ofReal
         (mixedEmbedding.norm (InfiniteAdeleRing.ringEquiv_mixedSpace K x))⁻¹)).restrict
@@ -619,19 +767,19 @@ example (K : Type*) [Field K] [NumberField K] (h : InfinitePlace.nrRealPlaces K 
       ENNReal.ofReal (4 * Real.pi) := by
   sorry
 
-def ideleHaar : Measure (IdeleGroup (𝓞 K) K) := sorry
+def ideleHaar [NumberField K] : Measure (IdeleGroup (𝓞 K) K) := sorry
 
-theorem ideleHaar_isHaar : (ideleHaar K).IsHaarMeasure := by
+theorem ideleHaar_isHaar [NumberField K] : (ideleHaar K).IsHaarMeasure := by
   sorry
 
-theorem ideleHaar_units (C : Set (InfiniteAdeleRing K)ˣ) (hC : MeasurableSet C) :
+theorem ideleHaar_units [NumberField K] (C : Set (InfiniteAdeleRing K)ˣ) (hC : MeasurableSet C) :
     ideleHaar K {x | (∀ v, (x : AdeleRing (𝓞 K) K).2 v ∈ v.adicCompletionIntegers K ∧
         ((x⁻¹ : IdeleGroup (𝓞 K) K) : AdeleRing (𝓞 K) K).2 v ∈ v.adicCompletionIntegers K) ∧
       (Units.map (adeleInfPart K).toMonoidHom x) ∈ C} =
       infiniteIdeleHaar K C := by
   sorry
 
-theorem ideleHaar_invariant_principal (a : Kˣ) :
+theorem ideleHaar_invariant_principal [NumberField K] (a : Kˣ) :
     Measure.map (fun x : IdeleGroup (𝓞 K) K => Units.map (algebraMap K (AdeleRing (𝓞 K) K)) a * x)
       (ideleHaar K) = ideleHaar K := by
   sorry
@@ -644,13 +792,13 @@ example : ideleHaar ℚ {x | (∀ v, (x : AdeleRing (𝓞 ℚ) ℚ).2 v ∈ v.ad
   sorry
 
 -- Test NumberField.ideleHaar_neq_restrict_adele
-example : adeleHaar K (Set.range (fun x : IdeleGroup (𝓞 K) K => (x : AdeleRing (𝓞 K) K))) = 0 := by
+example [NumberField K] : adeleHaar K (Set.range (fun x : IdeleGroup (𝓞 K) K => (x : AdeleRing (𝓞 K) K))) = 0 := by
   sorry
 
 -- Test NumberField.ideleHaar_form_factor
 /-- At a finite place, with the additive normalization `μ_v(𝒪_v) = 1`, the units `𝒪_v^×` (where
 `|x|_v = 1`, so `dx/|x|_v = dx`) have volume `1 - q_v⁻¹`. -/
-example (v : IsDedekindDomain.HeightOneSpectrum (𝓞 K)) [MeasurableSpace (v.adicCompletion K)] [BorelSpace (v.adicCompletion K)]
+example [NumberField K] (v : IsDedekindDomain.HeightOneSpectrum (𝓞 K)) [MeasurableSpace (v.adicCompletion K)] [BorelSpace (v.adicCompletion K)]
     (μv : Measure (v.adicCompletion K)) [μv.IsAddHaarMeasure]
     (hμv : μv (v.adicCompletionIntegers K) = 1) :
     μv {x | x ∈ v.adicCompletionIntegers K ∧ Valued.v x = 1} =
@@ -1086,6 +1234,7 @@ example [Nonempty ι] (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
 example :
     let G := Multiplicative (ZMod 4)
     letI : MeasurableSpace G := borel G
+    letI : BorelSpace G := ⟨rfl⟩
     let B : Fin 1 → Subgroup G := fun _ => ⊤
     let B' : Fin 1 → Subgroup G := fun _ => ⊤
     letI : Fact (∀ i, IsOpen (B i : Set G)) := ⟨by sorry⟩
@@ -1103,6 +1252,7 @@ example :
 example :
     let G := Multiplicative (ZMod 4)
     letI : MeasurableSpace G := borel G
+    letI : BorelSpace G := ⟨rfl⟩
     let B : Fin 1 → Subgroup G := fun _ => ⊤
     let B' : Fin 1 → Subgroup G := fun _ => ⊥
     letI : Fact (∀ i, IsOpen (B i : Set G)) := ⟨by sorry⟩
@@ -1120,6 +1270,7 @@ example :
 example :
     let G := Multiplicative (ZMod 4)
     letI : MeasurableSpace G := borel G
+    letI : BorelSpace G := ⟨rfl⟩
     let B : Fin 2 → Subgroup G := fun _ => ⊤
     let B' : Fin 2 → Subgroup G := fun _ => ⊥
     letI : Fact (∀ i, IsOpen (B i : Set G)) := ⟨by sorry⟩
@@ -1137,11 +1288,8 @@ end RestrictedProduct
 
 namespace QuotientMeasure
 
-variable {G : Type*} [Group G] [TopologicalSpace G] [hctx13 : IsTopologicalGroup G]
-  [hctx14 : T2Space G] [hctx15 : LocallyCompactSpace G] [hctx16 : SecondCountableTopology G]
-  [MeasurableSpace G] [hctx17 : BorelSpace G]
-  (H : Subgroup G) [hctx18 : Fact (IsClosed (H : Set G))] [hctx19 : LocallyCompactSpace H]
-include hctx13 hctx14 hctx15 hctx16 hctx17 hctx18 hctx19
+variable {G : Type*} [Group G] [TopologicalSpace G] [MeasurableSpace G]
+  (H : Subgroup G)
 
 /-- The left H-orbits with their canonical quotient topology. -/
 abbrev Cosets := MulAction.orbitRel.Quotient H G
@@ -1155,25 +1303,33 @@ def IsRightHaar {A : Type*} [Group A] [TopologicalSpace A] [MeasurableSpace A]
   μ.IsMulRightInvariant ∧ IsFiniteMeasureOnCompacts μ ∧ μ.IsOpenPosMeasure
 
 /-- The modular equality is required even when H is not normal. -/
-def measure (μ : Measure G) (ν : Measure H)
+def measure [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h) :
     Measure (Cosets H) := sorry
 
 /-- Hg ↦ g⁻¹H, from left orbits to Mathlib's left cosets. -/
-def inversionHomeomorph : Cosets H ≃ₜ (G ⧸ H) := sorry
+def inversionHomeomorph [IsTopologicalGroup G] : Cosets H ≃ₜ (G ⧸ H) := sorry
 
-theorem inversionHomeomorph_mk (g : G) :
+theorem inversionHomeomorph_mk [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (g : G) :
     inversionHomeomorph H (Quotient.mk _ g) = ((g⁻¹ : G) : G ⧸ H) := by
   sorry
 
 /-- , with the canonical orbit quotient topology. -/
-theorem homogeneous_topology :
+theorem homogeneous_topology [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] :
     T2Space (Cosets H) ∧ LocallyCompactSpace (Cosets H) ∧
       SecondCountableTopology (Cosets H) ∧ IsOpenMap (fun g : G => (Quotient.mk _ g : Cosets H)) := by
   sorry
 
-theorem compact_lift (C : Set (Cosets H)) (hC : IsCompact C) :
+theorem compact_lift [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (C : Set (Cosets H)) (hC : IsCompact C) :
     ∃ K : Set G, IsCompact K ∧ C ⊆ (fun g : G => (Quotient.mk _ g : Cosets H)) '' K := by
   sorry
 
@@ -1181,20 +1337,26 @@ theorem compact_lift (C : Set (Cosets H)) (hC : IsCompact C) :
 def average (ν : Measure H) (hν : IsRightHaar ν) (f : G → ℝ) : Cosets H → ℝ :=
   fun q => Quotient.liftOn q (fun g => ∫ h : H, f (h * g) ∂ν) (by sorry)
 
-theorem average_continuous_compact (ν : Measure H) (hν : IsRightHaar ν)
+theorem average_continuous_compact [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (ν : Measure H) (hν : IsRightHaar ν)
     (f : G → ℝ) (hf : Continuous f) (hfc : HasCompactSupport f) :
     Continuous (average H ν hν f) ∧ HasCompactSupport (average H ν hν f) ∧
       Function.support (average H ν hν f) ⊆
         (fun g : G => (Quotient.mk _ g : Cosets H)) '' tsupport f := by
   sorry
 
-theorem compact_cutoff (ν : Measure H) (hν : IsRightHaar ν)
+theorem compact_cutoff [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (ν : Measure H) (hν : IsRightHaar ν)
     (C : Set (Cosets H)) (hC : IsCompact C) :
     ∃ β : G → ℝ, Continuous β ∧ HasCompactSupport β ∧ (∀ g, 0 ≤ β g) ∧
       ∀ q ∈ C, average H ν hν β q = 1 := by
   sorry
 
-theorem right_haar_exchange (μ : Measure G) (ν : Measure H)
+theorem right_haar_exchange [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (f β : G → ℝ) (hf : Continuous f) (hfc : HasCompactSupport f)
@@ -1203,7 +1365,9 @@ theorem right_haar_exchange (μ : Measure G) (ν : Measure H)
       ∫ g, f g * average H ν hν β (Quotient.mk _ g) ∂μ := by
   sorry
 
-theorem quotient_lintegral (μ : Measure G) (ν : Measure H)
+theorem quotient_lintegral [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (f : G → ℝ≥0∞) (hf : Measurable f) :
@@ -1212,7 +1376,9 @@ theorem quotient_lintegral (μ : Measure G) (ν : Measure H)
       (∫⁻ g, f g ∂μ) = ∫⁻ q, P q ∂(measure H μ ν hμ hν hmod) := by
   sorry
 
-theorem integral_eq_of_integrable (μ : Measure G) (ν : Measure H)
+theorem integral_eq_of_integrable [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (f : G → ℝ) (hf : Integrable f μ) :
@@ -1223,11 +1389,15 @@ theorem integral_eq_of_integrable (μ : Measure G) (ν : Measure H)
 
 def rightAct (g : G) : Cosets H → Cosets H := sorry
 
-theorem rightAct_mk (g x : G) :
+theorem rightAct_mk [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (g x : G) :
     rightAct H g (Quotient.mk _ x) = Quotient.mk _ (x * g) := by
   sorry
 
-theorem integral_eq (μ : Measure G) (ν : Measure H)
+theorem integral_eq [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (f : G → ℝ) (hf : Continuous f) (hfc : HasCompactSupport f) :
@@ -1235,14 +1405,18 @@ theorem integral_eq (μ : Measure G) (ν : Measure H)
       (by sorry) ∂(measure H μ ν hμ hν hmod) := by
   sorry
 
-theorem invariant (μ : Measure G) (ν : Measure H)
+theorem invariant [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (g : G) :
     Measure.map (rightAct H g) (measure H μ ν hμ hν hmod) = measure H μ ν hμ hν hmod := by
   sorry
 
-theorem unique (μ : Measure G) (ν : Measure H)
+theorem unique [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (lam : Measure (Cosets H)) [Measure.Regular lam]
@@ -1250,7 +1424,9 @@ theorem unique (μ : Measure G) (ν : Measure H)
     ∃ c : ℝ≥0, lam = c • measure H μ ν hμ hν hmod := by
   sorry
 
-theorem smul_left (μ : Measure G) (ν : Measure H)
+theorem smul_left [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (ν : Measure H)
     (hμ : IsRightHaar μ) (hν : IsRightHaar ν)
     (hmod : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (c : ℝ≥0∞) (hc : c ≠ 0) (hcfin : c ≠ ∞) :
@@ -1259,7 +1435,9 @@ theorem smul_left (μ : Measure G) (ν : Measure H)
   sorry
 
 -- Test QuotientMeasure.trivial_subgroup: the subgroup measure is normalized counting.
-example (μ : Measure G) (hμ : IsRightHaar μ) :
+example [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] (μ : Measure G) (hμ : IsRightHaar μ) :
     let H : Subgroup G := ⊥
     letI : Fact (IsClosed (H : Set G)) := ⟨by sorry⟩
     letI : LocallyCompactSpace H := by sorry
@@ -1269,7 +1447,9 @@ example (μ : Measure G) (hμ : IsRightHaar μ) :
   sorry
 
 -- Test QuotientMeasure.z_in_r: a unit-period lattice has quotient volume one.
-example :
+example [IsTopologicalGroup G] [T2Space G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [BorelSpace G] [Fact (IsClosed (H : Set G))]
+    [LocallyCompactSpace H] :
     let G := Multiplicative ℝ
     letI : MeasurableSpace G := borel G
     letI : BorelSpace G := ⟨rfl⟩
@@ -1812,58 +1992,58 @@ abbrev evalTopology (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F 
     TopologicalSpace (WithConv (H →ₐ[F] R)) :=
   PointTopology.instTopologicalSpaceWithConv F H R
 
-variable (F : Type) [Field F] [NumberField F] (H : Type) [CommRing H] [HopfAlgebra F H]
+variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
 
-instance instTopologicalSpace : TopologicalSpace (AdelicPoints F H) :=
+instance instTopologicalSpace [NumberField F] : TopologicalSpace (AdelicPoints F H) :=
   evalTopology F H (NumberField.AdeleRing (NumberField.RingOfIntegers F) F)
 
-instance instTopologicalSpaceFinite : TopologicalSpace (FiniteAdelicPoints F H) :=
+instance instTopologicalSpaceFinite [NumberField F] : TopologicalSpace (FiniteAdelicPoints F H) :=
   evalTopology F H (IsDedekindDomain.FiniteAdeleRing (NumberField.RingOfIntegers F) F)
 
 instance instTopologicalSpaceInfinite : TopologicalSpace (InfinitePoints F H) :=
   evalTopology F H (NumberField.InfiniteAdeleRing F)
 
-instance instTopologicalSpaceLocal
+instance instTopologicalSpaceLocal [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     TopologicalSpace (LocalPoints F H v) :=
   evalTopology F H (v.adicCompletion F)
 
-instance instIsTopologicalGroup : IsTopologicalGroup (AdelicPoints F H) := sorry
+instance instIsTopologicalGroup [NumberField F] : IsTopologicalGroup (AdelicPoints F H) := sorry
 
-instance instIsTopologicalGroupFinite : IsTopologicalGroup (FiniteAdelicPoints F H) := sorry
+instance instIsTopologicalGroupFinite [NumberField F] : IsTopologicalGroup (FiniteAdelicPoints F H) := sorry
 
 instance instIsTopologicalGroupInfinite : IsTopologicalGroup (InfinitePoints F H) := sorry
 
-instance instIsTopologicalGroupLocal
+instance instIsTopologicalGroupLocal [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     IsTopologicalGroup (LocalPoints F H v) := sorry
 
-theorem continuous_eval (h : H) :
+theorem continuous_eval [NumberField F] (h : H) :
     Continuous (fun x : AdelicPoints F H =>
       (x.ofConv h : NumberField.AdeleRing (NumberField.RingOfIntegers F) F)) := by
   sorry
 
-theorem continuous_proj (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
+theorem continuous_proj [NumberField F] (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     Continuous (proj F H v) := by
   sorry
 
-theorem continuous_finiteProjection : Continuous (finiteProjection F H) := by
+theorem continuous_finiteProjection [NumberField F] : Continuous (finiteProjection F H) := by
   sorry
 
-theorem continuous_infiniteProjection : Continuous (infiniteProjection F H) := by
+theorem continuous_infiniteProjection [NumberField F] : Continuous (infiniteProjection F H) := by
   sorry
 
-theorem continuous_finiteEmbed : Continuous (finiteEmbed F H) := by
+theorem continuous_finiteEmbed [NumberField F] : Continuous (finiteEmbed F H) := by
   sorry
 
 /-- the induced map on adelic points is continuous. -/
-theorem continuous_map {H' : Type} [CommRing H'] [HopfAlgebra F H'] (φ : H' →ₐc[F] H) :
+theorem continuous_map [NumberField F] {H' : Type} [CommRing H'] [HopfAlgebra F H'] (φ : H' →ₐc[F] H) :
     Continuous (map F H φ) := by
   sorry
 
 -- Test AdelicPoints.not_product_topology: for `G_m` evaluation at `T` is injective but is not an
 -- embedding into `𝔸_F`; the topology is not the subspace topology of `𝔸_F^×` in `𝔸_F`.
-example : Function.Injective (fun x : AdelicPoints F (LaurentPolynomial F) =>
+example [NumberField F] : Function.Injective (fun x : AdelicPoints F (LaurentPolynomial F) =>
       (x.ofConv (LaurentPolynomial.T 1) : NumberField.AdeleRing (NumberField.RingOfIntegers F) F)) ∧
     ¬ Topology.IsEmbedding (fun x : AdelicPoints F (LaurentPolynomial F) =>
       (x.ofConv (LaurentPolynomial.T 1) : NumberField.AdeleRing (NumberField.RingOfIntegers F) F)) := by
@@ -1871,70 +2051,70 @@ example : Function.Injective (fun x : AdelicPoints F (LaurentPolynomial F) =>
 
 /-! The local groups `G(F_v)`: ReductiveGroupsPartII, RG2.0. -/
 
-instance instT2SpaceLocal
+instance instT2SpaceLocal [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     T2Space (LocalPoints F H v) := sorry
 
-instance instLocallyCompactSpaceLocal [Algebra.FiniteType F H]
+instance instLocallyCompactSpaceLocal [NumberField F] [Algebra.FiniteType F H]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     LocallyCompactSpace (LocalPoints F H v) := sorry
 
-instance instSecondCountableLocal [Algebra.FiniteType F H]
+instance instSecondCountableLocal [NumberField F] [Algebra.FiniteType F H]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     SecondCountableTopology (LocalPoints F H v) := sorry
 
-instance instT2Space : T2Space (AdelicPoints F H) := sorry
+instance instT2Space [NumberField F] : T2Space (AdelicPoints F H) := sorry
 
-instance instLocallyCompactSpace [Algebra.FiniteType F H] :
+instance instLocallyCompactSpace [NumberField F] [Algebra.FiniteType F H] :
     LocallyCompactSpace (AdelicPoints F H) := sorry
 
-instance instSecondCountable [Algebra.FiniteType F H] :
+instance instSecondCountable [NumberField F] [Algebra.FiniteType F H] :
     SecondCountableTopology (AdelicPoints F H) := sorry
 
-instance instT2SpaceFinite : T2Space (FiniteAdelicPoints F H) := sorry
+instance instT2SpaceFinite [NumberField F] : T2Space (FiniteAdelicPoints F H) := sorry
 
-instance instLocallyCompactSpaceFinite [Algebra.FiniteType F H] :
+instance instLocallyCompactSpaceFinite [NumberField F] [Algebra.FiniteType F H] :
     LocallyCompactSpace (FiniteAdelicPoints F H) := sorry
 
-instance instSecondCountableFinite [Algebra.FiniteType F H] :
+instance instSecondCountableFinite [NumberField F] [Algebra.FiniteType F H] :
     SecondCountableTopology (FiniteAdelicPoints F H) := sorry
 
-instance instLocallyCompactSpaceInfinite [Algebra.FiniteType F H] :
+instance instLocallyCompactSpaceInfinite [NumberField F] [Algebra.FiniteType F H] :
     LocallyCompactSpace (InfinitePoints F H) := sorry
 
 /-- the diagonal is injective with discrete closed image. -/
-theorem diagonal_injective : Function.Injective (diagonal F H) := by
+theorem diagonal_injective [NumberField F] : Function.Injective (diagonal F H) := by
   sorry
 
-theorem discreteTopology_range_diagonal [Algebra.FiniteType F H] :
+theorem discreteTopology_range_diagonal [NumberField F] [Algebra.FiniteType F H] :
     DiscreteTopology (diagonal F H).range := by
   sorry
 
-theorem isClosed_range_diagonal [Algebra.FiniteType F H] :
+theorem isClosed_range_diagonal [NumberField F] [Algebra.FiniteType F H] :
     IsClosed ((diagonal F H).range : Set (AdelicPoints F H)) := by
   sorry
 
 /-- The diagonal into the finite adelic points. -/
-def finiteDiagonal : WithConv (H →ₐ[F] F) →* FiniteAdelicPoints F H :=
+def finiteDiagonal [NumberField F] : WithConv (H →ₐ[F] F) →* FiniteAdelicPoints F H :=
   TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId F _)
 
 /-- `G(F)` is discrete in `G(𝔸_{F,f})` exactly when it
 meets a compact open subgroup in a finite set. -/
-theorem discreteTopology_finiteDiagonal_iff [Algebra.FiniteType F H]
+theorem discreteTopology_finiteDiagonal_iff [NumberField F] [Algebra.FiniteType F H]
     (U : Subgroup (FiniteAdelicPoints F H)) (hU : IsCompact (U : Set (FiniteAdelicPoints F H)))
     (hUo : IsOpen (U : Set (FiniteAdelicPoints F H))) :
     DiscreteTopology (finiteDiagonal F H).range ↔ ((finiteDiagonal F H) ⁻¹' U).Finite := by
   sorry
 
 /-- archimedean and finite parts. -/
-def infiniteFiniteEquiv : AdelicPoints F H ≃ₜ* (InfinitePoints F H × FiniteAdelicPoints F H) :=
+def infiniteFiniteEquiv [NumberField F] : AdelicPoints F H ≃ₜ* (InfinitePoints F H × FiniteAdelicPoints F H) :=
   sorry
 
-theorem infiniteFiniteEquiv_apply (x : AdelicPoints F H) :
+theorem infiniteFiniteEquiv_apply [NumberField F] (x : AdelicPoints F H) :
     infiniteFiniteEquiv F H x = (infiniteProjection F H x, finiteProjection F H x) := by
   sorry
 
-theorem infiniteFiniteEquiv_diagonal (g : WithConv (H →ₐ[F] F)) :
+theorem infiniteFiniteEquiv_diagonal [NumberField F] (g : WithConv (H →ₐ[F] F)) :
     infiniteFiniteEquiv F H (diagonal F H g) =
       (TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId F _) g, finiteDiagonal F H g) := by
   sorry
@@ -2875,6 +3055,7 @@ theorem lintegral_trans (H₂ : Subgroup G) [Fact (IsClosed (H₂ : Set G))] [Lo
     (hmod₂ : ∀ h : H₂, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (hmod₁ : ∀ h : H, Measure.modularCharacter (h : G) = Measure.modularCharacter h)
     (f : Cosets H → ℝ≥0∞) (hf : Measurable f) :
+    letI : SecondCountableTopology H₂ := TopologicalSpace.secondCountableTopology_induced H₂ G Subtype.val
     let H₁₂ := H.subgroupOf H₂
     letI : Fact (IsClosed (H₁₂ : Set H₂)) := ⟨by sorry⟩
     letI : LocallyCompactSpace H₁₂ := by sorry
@@ -2894,6 +3075,7 @@ theorem lintegral_trans (H₂ : Subgroup G) [Fact (IsClosed (H₂ : Set G))] [Lo
 example :
     let G := Multiplicative (ZMod 4)
     letI : MeasurableSpace G := borel G
+    letI : BorelSpace G := ⟨rfl⟩
     let H₂ : Subgroup G := Subgroup.zpowers (Multiplicative.ofAdd (2 : ZMod 4))
     let H₁ : Subgroup G := ⊥
     let H₁₂ : Subgroup H₂ := H₁.subgroupOf H₂
@@ -2919,6 +3101,7 @@ example :
 example :
     let G := Multiplicative (ZMod 4)
     letI : MeasurableSpace G := borel G
+    letI : BorelSpace G := ⟨rfl⟩
     let H₂ : Subgroup G := Subgroup.zpowers (Multiplicative.ofAdd (2 : ZMod 4))
     let H₁ : Subgroup G := ⊥
     let H₁₂ : Subgroup H₂ := H₁.subgroupOf H₂
@@ -2944,6 +3127,7 @@ example :
 example :
     let G := Multiplicative (ZMod 4)
     letI : MeasurableSpace G := borel G
+    letI : BorelSpace G := ⟨rfl⟩
     let H₂ : Subgroup G := Subgroup.zpowers (Multiplicative.ofAdd (2 : ZMod 4))
     let H₁ : Subgroup G := ⊥
     let H₁₂ : Subgroup H₂ := H₁.subgroupOf H₂
@@ -3119,9 +3303,8 @@ namespace GaugeForm
 
 section Analytic
 open scoped PointTopology
-variable {K : Type} [Field K] [CharZero K] [ValuativeRel K] [TopologicalSpace K]
-  [IsNonarchimedeanLocalField K] {H : Type} [CommRing H] [HopfAlgebra K H]
-  [Algebra.FiniteType K H]
+variable {K : Type} [Field K] [TopologicalSpace K] {H : Type} [CommRing H]
+  [HopfAlgebra K H]
 
 local instance : MeasurableSpace (WithConv (H →ₐ[K] K)) := borel _
 local instance : BorelSpace (WithConv (H →ₐ[K] K)) := ⟨rfl⟩
@@ -3129,13 +3312,16 @@ local instance : BorelSpace (WithConv (H →ₐ[K] K)) := ⟨rfl⟩
 /-- The analytic measure of an invariant top form over any characteristic-zero nonarchimedean
 local field, with the valuation ring of additive measure one. PRR, Theorem 3.71, p. 196.
 The zero form gives the zero measure. -/
-def analyticMeasure (ω : GaugeForm K H) : Measure (WithConv (H →ₐ[K] K)) := sorry
+def analyticMeasure [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] (ω : GaugeForm K H) : Measure (WithConv (H →ₐ[K] K)) := sorry
 
-theorem analyticMeasure_isHaar [FiniteDimensional K (cotangent K H)]
+theorem analyticMeasure_isHaar [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] [FiniteDimensional K (cotangent K H)]
     (ω : GaugeForm K H) (hω : ω ≠ 0) : (analyticMeasure ω).IsHaarMeasure := by
   sorry
 
-theorem analyticMeasure_smul (ω : GaugeForm K H) (c : K) :
+theorem analyticMeasure_smul [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] (ω : GaugeForm K H) (c : K) :
     analyticMeasure (c • ω) =
       (((TauCeti.normalizedAbsoluteValue K c : ℚ≥0) : ℝ≥0) : ℝ≥0∞) •
         analyticMeasure ω := by
@@ -3143,7 +3329,8 @@ theorem analyticMeasure_smul (ω : GaugeForm K H) (c : K) :
 
 /-- Pushforward by right translation has the reciprocal of the differential-form pullback
 factor. Unlike the rational-point specialization, this quantifies over all local points. -/
-theorem analyticMeasure_rightTranslate [FiniteDimensional K (cotangent K H)]
+theorem analyticMeasure_rightTranslate [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] [FiniteDimensional K (cotangent K H)]
     (ω : GaugeForm K H)
     (g : TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of K K)) :
     Measure.map (· * g) (analyticMeasure ω) =
@@ -3153,17 +3340,20 @@ theorem analyticMeasure_rightTranslate [FiniteDimensional K (cotangent K H)]
   sorry
 
 -- Test GaugeForm.analyticMeasure_zero: the nonzero hypothesis in the Haar theorem is essential.
-example : analyticMeasure (0 : GaugeForm K H) = 0 := by
+example [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] : analyticMeasure (0 : GaugeForm K H) = 0 := by
   simpa using analyticMeasure_smul (0 : GaugeForm K H) 0
 
 -- Test GaugeForm.analyticMeasure_scalar: scalar multiplication acts once, not to the dimension.
-example (ω : GaugeForm K H) :
+example [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] (ω : GaugeForm K H) :
     analyticMeasure ((2 : K) • ω) =
       (((TauCeti.normalizedAbsoluteValue K 2 : ℚ≥0) : ℝ≥0) : ℝ≥0∞) •
         analyticMeasure ω := analyticMeasure_smul ω 2
 
 -- Test GaugeForm.analyticMeasure_identity: pushforward at the identity has factor one.
-example (ω : GaugeForm K H) :
+example [CharZero K] [ValuativeRel K] [IsNonarchimedeanLocalField K]
+    [Algebra.FiniteType K H] (ω : GaugeForm K H) :
     Measure.map (fun x : WithConv (H →ₐ[K] K) => x * 1) (analyticMeasure ω) =
       analyticMeasure ω := by simp
 
@@ -3336,11 +3526,11 @@ end Tamagawa
 
 namespace GaugeForm
 
-variable {F : Type} [Field F] [NumberField F] {H : Type} [CommRing H] [HopfAlgebra F H]
+variable {F : Type} [Field F] {H : Type} [CommRing H] [HopfAlgebra F H]
 
 /-- the Haar measure `|ω|_v` on `G(F_v)`, given in an `F_v`-analytic
 chart by `|f(x)|_v dx`, where `φ^*ω = f dx_1 ∧ ⋯ ∧ dx_d` and `𝒪_v` has volume one. -/
-def localMeasure [Algebra.FiniteType F H] (ω : GaugeForm F H)
+def localMeasure [NumberField F] [Algebra.FiniteType F H] (ω : GaugeForm F H)
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     Measure (AdelicPoints.LocalPoints F H v) :=
   sorry
@@ -3349,7 +3539,7 @@ open scoped PointTopology
 
 /-- The point adjunction identifies the general local-field construction with the existing
 finite-completion measure. The form is extended by the canonical cotangent comparison. -/
-theorem localMeasure_eq_analyticMeasure [Algebra.FiniteType F H]
+theorem localMeasure_eq_analyticMeasure [NumberField F] [Algebra.FiniteType F H]
     (ω : GaugeForm F H)
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     localMeasure ω v = @Measure.map _ _ (borel _) _
@@ -3358,13 +3548,13 @@ theorem localMeasure_eq_analyticMeasure [Algebra.FiniteType F H]
       (analyticMeasure (baseChange (v.adicCompletion F) (1 ⊗ₜ[F] ω))) := by
   sorry
 
-theorem localMeasure_isHaar [Algebra.FiniteType F H] [FiniteDimensional F (cotangent F H)]
+theorem localMeasure_isHaar [NumberField F] [Algebra.FiniteType F H] [FiniteDimensional F (cotangent F H)]
     (ω : GaugeForm F H) (hω : ω ≠ 0)
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     (localMeasure ω v).IsHaarMeasure := by
   sorry
 
-theorem localMeasure_smul [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F)
+theorem localMeasure_smul [NumberField F] [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F)
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     localMeasure (c • ω) v =
       (((TauCeti.normalizedAbsoluteValue (v.adicCompletion F)
@@ -3372,13 +3562,13 @@ theorem localMeasure_smul [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F)
   sorry
 
 /-- The diagonal `G(F) → G(F_v)`. -/
-def localDiagonal (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
+def localDiagonal [NumberField F] (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     WithConv (H →ₐ[F] F) →* AdelicPoints.LocalPoints F H v :=
   TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId F _)
 
 /-- Right translation scales `|ω|_v` by `|det Ad(g)|_v`, matching Mathlib's
 `map (· * g) μ = Δ(g) μ`; here for rational `g`, where `Ad(g)` is the adjoint action. -/
-theorem localMeasure_rightTranslate [Algebra.FiniteType F H] [FiniteDimensional F (cotangent F H)] (ω : GaugeForm F H)
+theorem localMeasure_rightTranslate [NumberField F] [Algebra.FiniteType F H] [FiniteDimensional F (cotangent F H)] (ω : GaugeForm F H)
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
     (g : TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of F F)) :
     Measure.map (· * localDiagonal v g) (localMeasure ω v) =
@@ -3402,7 +3592,7 @@ def gmForm : GaugeForm F (LaurentPolynomial F) :=
 
 -- Test GaugeForm.localMeasure_ga: under `x ↦ x(X)`, `|dX|_v` is the Haar measure of `F_v` with
 -- `vol(𝒪_v) = 1`.
-example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
+example [NumberField F] (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
     [MeasurableSpace (v.adicCompletion F)] [BorelSpace (v.adicCompletion F)]
     (μ : Measure (v.adicCompletion F)) [μ.IsAddHaarMeasure]
     (hμ : μ (v.adicCompletionIntegers F) = 1) :
@@ -3411,7 +3601,7 @@ example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
   sorry
 
 -- Test GaugeForm.localMeasure_gm_units: `|dT/T|_v(𝒪_v^×) = 1 - q_v⁻¹`.
-example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
+example [NumberField F] (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     localMeasure gmForm v
         {x | (TauCeti.MultiplicativeGroup.pointsMulEquiv x : v.adicCompletion F) ∈
             v.adicCompletionIntegers F ∧
@@ -3422,7 +3612,7 @@ example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) 
 
 -- Test GaugeForm.localMeasure_not_normalized: `|dT/T|_v` gives `𝒪_v^×` volume `1 - q_v⁻¹ ≠ 1`, so
 -- it is not the normalized idele measure of AA.0.
-example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
+example [NumberField F] (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     (1 : ℝ≥0∞) - ((Ideal.absNorm v.asIdeal : ℝ≥0∞))⁻¹ ≠ 1 := by
   sorry
 
@@ -3433,7 +3623,7 @@ example : (1 : ℝ≥0∞) - (2 : ℝ≥0∞)⁻¹ = 1 / 2 := by norm_num
 of the coordinates `X_ij - δ_ij` (in an order `e`; another order changes `ω_e` by a sign),
 `|ω_e|_v(GL_n(𝒪_v)) = #GL_n(k_v) · q_v^{-n²}`. This fixes the normalization of `localMeasure` on
 `GL_n`, which `localMeasure_smul` and `localMeasure_rightTranslate` leave open. -/
-theorem localMeasure_gln_integral (n : ℕ)
+theorem localMeasure_gln_integral [NumberField F] (n : ℕ)
     [Algebra.FiniteType F (TauCeti.GeneralLinear.coordinateHopfAlgebra F n)]
     (e : Fin (Module.finrank F (cotangent F (TauCeti.GeneralLinear.coordinateHopfAlgebra F n))) ≃
       Fin n × Fin n)
@@ -3454,24 +3644,24 @@ example : (6 : ℝ≥0∞) / 2 ^ (2 ^ 2) = 3 / 8 := by
 /-- The archimedean Haar measure `∏_{w | ∞} |ω|_w` on `G(F_∞) = G(F ⊗_ℚ ℝ)`, given in analytic
 charts by `|f|_w` against `dx` at real places and `2 dx dy` at complex places, with
 `|z|_w = z z̄` at complex places. -/
-def archimedeanMeasure [Algebra.FiniteType F H] (ω : GaugeForm F H) :
+def archimedeanMeasure [NumberField F] [Algebra.FiniteType F H] (ω : GaugeForm F H) :
     Measure (AdelicPoints.InfinitePoints F H) :=
   sorry
 
-theorem archimedeanMeasure_isHaar [Algebra.FiniteType F H] [FiniteDimensional F (cotangent F H)]
+theorem archimedeanMeasure_isHaar [NumberField F] [Algebra.FiniteType F H] [FiniteDimensional F (cotangent F H)]
     (ω : GaugeForm F H) (hω : ω ≠ 0) : (archimedeanMeasure ω).IsHaarMeasure := by
   sorry
 
 /-- A scalar `c ∈ F` multiplies `∏_w |ω|_w` by `∏_w |c|_w`, the absolute value being squared at
 complex places. -/
-theorem archimedeanMeasure_smul [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F) :
+theorem archimedeanMeasure_smul [NumberField F] [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F) :
     archimedeanMeasure (c • ω) =
       ENNReal.ofReal (∏ w : NumberField.InfinitePlace F, w c ^ w.mult) • archimedeanMeasure ω := by
   sorry
 
 /-- For `G_a` and `ω = dX`, evaluation at `X` carries the archimedean measure to `infiniteAdeleHaar`
 (`dx` at real places, `2 dx dy` at complex places). -/
-theorem archimedeanMeasure_ga :
+theorem archimedeanMeasure_ga [NumberField F] :
     Measure.map (fun x : AdelicPoints.InfinitePoints F (SymmetricAlgebra F F) =>
         (x.ofConv (SymmetricAlgebra.ι F F 1) : NumberField.InfiniteAdeleRing F))
       (archimedeanMeasure (gaForm (F := F))) = NumberField.infiniteAdeleHaar F := by
@@ -3485,7 +3675,7 @@ example : archimedeanMeasure (gaForm (F := ℚ))
 
 -- Test GaugeForm.archimedeanMeasure_complex_scalar: over an imaginary quadratic field, scaling the
 -- form by `2` scales the archimedean measure by `|2|_ℂ = 4`, not by `2`.
-example (hr : NumberField.InfinitePlace.nrRealPlaces F = 0)
+example [NumberField F] (hr : NumberField.InfinitePlace.nrRealPlaces F = 0)
     (hc : NumberField.InfinitePlace.nrComplexPlaces F = 1) :
     (∏ w : NumberField.InfinitePlace F, w (2 : F) ^ w.mult) = 4 := by
   sorry
@@ -3494,18 +3684,18 @@ end GaugeForm
 
 namespace Tamagawa
 
-variable (F : Type) [Field F] [NumberField F] (H : Type) [CommRing H] [HopfAlgebra F H]
+variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
 
 /-- Complexified canonical geometric character lattice. -/
 abbrev characterSpace := ℂ ⊗[ℤ]
   Additive (TauCeti.CommHopfAlgCat.geometricCharacterGroup (CommHopfAlgCat.of F H))
 
 /-- A prolongation of the finite place to the algebraic closure. -/
-def characterPlace
+def characterPlace [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     ValuationSubring (AlgebraicClosure F) := sorry
 
-theorem characterPlace_restrict
+theorem characterPlace_restrict [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) (x : F) :
     algebraMap F (AlgebraicClosure F) x ∈ characterPlace F v ↔ v.valuation F x ≤ 1 := by sorry
 
@@ -3518,11 +3708,11 @@ theorem characterAction_tmul (σ : Field.absoluteGaloisGroup F) (z : ℂ)
     characterAction F H σ (z ⊗ₜ[ℤ] χ) = z ⊗ₜ[ℤ] (σ • χ) := by sorry
 
 /-- A lift of arithmetic residue Frobenius in the decomposition group. -/
-def residueFrobenius
+def residueFrobenius [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     (characterPlace F v).decompositionSubgroup F := sorry
 
-theorem residueFrobenius_apply
+theorem residueFrobenius_apply [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
     (y : IsLocalRing.ResidueField (characterPlace F v)) :
     residueFrobenius F v • y = y ^ Ideal.absNorm v.asIdeal := by sorry
@@ -3534,7 +3724,7 @@ def characterInertiaSpace
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     Submodule ℂ (characterSpace F H) := sorry
 
-theorem mem_characterInertiaSpace
+theorem mem_characterInertiaSpace [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
     (x : characterSpace F H) :
     x ∈ characterInertiaSpace F H v ↔
@@ -3546,45 +3736,45 @@ def characterFrobenius
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     characterInertiaSpace F H v ≃ₗ[ℂ] characterInertiaSpace F H v := sorry
 
-theorem characterFrobenius_apply
+theorem characterFrobenius_apply [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
     (x : characterInertiaSpace F H v) :
     (characterFrobenius F H v x).val = characterAction F H
       (show Field.absoluteGaloisGroup F from (residueFrobenius F v).val) x.val := by sorry
 
 /-- The canonical Artin factor for the geometric character representation. -/
-def characterLocalFactor
+def characterLocalFactor [NumberField F]
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) (s : ℂ) : ℂ :=
   FiniteImageArtin.localFactor (characterInertiaSpace F H v) (characterFrobenius F H v)
     (Ideal.absNorm v.asIdeal) s
 
 /-- On Re(s)>1 the Artin L-function is this convergent Euler product. -/
-def characterGlobalL (s : ℂ) : ℂ := ∏' v, characterLocalFactor F H v s
+def characterGlobalL [NumberField F] (s : ℂ) : ℂ := ∏' v, characterLocalFactor F H v s
 
 /-- The real leading coefficient at one. Existence and positivity are the Artin supplier. -/
-def characterLeadingCoeff : ℝ :=
+def characterLeadingCoeff [NumberField F] : ℝ :=
   Filter.limUnder (𝓝[>] (1 : ℝ)) fun s : ℝ =>
     (((s - 1 : ℝ) : ℂ) ^ Module.finrank ℤ (Additive (RationalCharacter F H)) *
       characterGlobalL F H s).re
 
-theorem characterLeadingCoeff_pos [Algebra.FiniteType F H]
+theorem characterLeadingCoeff_pos [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H)) :
     0 < characterLeadingCoeff F H := by sorry
 
-theorem tendsto_characterLeadingCoeff [Algebra.FiniteType F H]
+theorem tendsto_characterLeadingCoeff [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H)) :
     Tendsto (fun s : ℝ =>
       (((s - 1 : ℝ) : ℂ) ^ Module.finrank ℤ (Additive (RationalCharacter F H)) *
         characterGlobalL F H s)) (𝓝[>] 1) (𝓝 (characterLeadingCoeff F H : ℂ)) := by sorry
 
-theorem characterLocalFactor_split [Algebra.FiniteType F H]
+theorem characterLocalFactor_split [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (hsplit : Function.Surjective (RationalCharacter.toGeometric (F := F) (H := H)))
     (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) (s : ℂ) :
     characterLocalFactor F H v s =
       splitLocalFactor F v (Module.finrank ℤ (Additive (RationalCharacter F H))) s := by sorry
 
-theorem characterLeadingCoeff_split [Algebra.FiniteType F H]
+theorem characterLeadingCoeff_split [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (hsplit : Function.Surjective (RationalCharacter.toGeometric (F := F) (H := H))) :
     characterLeadingCoeff F H =
@@ -3592,20 +3782,20 @@ theorem characterLeadingCoeff_split [Algebra.FiniteType F H]
 
 /-- `τ_G = |d_F|^{-d/2} ρ_G⁻¹ ∏_v λ_v |ω|_v`, with the convergence
 factors and the convergent Haar product of AA.0. -/
-def measure [Algebra.FiniteType F H] (ω : GaugeForm F H) : Measure (AdelicPoints F H) := sorry
+def measure [NumberField F] [Algebra.FiniteType F H] (ω : GaugeForm F H) : Measure (AdelicPoints F H) := sorry
 
-theorem measure_isHaar [Algebra.FiniteType F H]
+theorem measure_isHaar [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (ω : GaugeForm F H) (hω : ω ≠ 0) : (measure F H ω).IsHaarMeasure := by
   sorry
 
 /-- by the product formula, `τ_G` does not depend on `ω`. -/
-theorem measure_smul [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F) (hc : c ≠ 0) :
+theorem measure_smul [NumberField F] [Algebra.FiniteType F H] (ω : GaugeForm F H) (c : F) (hc : c ≠ 0) :
     measure F H (c • ω) = measure F H ω := by
   sorry
 
 /-- For `G_a`, `τ = |d_F|^{-1/2} • adeleHaar`. -/
-theorem measure_ga :
+theorem measure_ga [NumberField F] :
     Measure.map (fun x => Multiplicative.toAdd (AdelicPoints.gaEquiv F x))
         (measure F (SymmetricAlgebra F F) GaugeForm.gaForm) =
       (ENNReal.ofReal (|(NumberField.discr F : ℝ)| ^ (-(1 / 2 : ℝ)))) • NumberField.adeleHaar F := by
@@ -3617,7 +3807,7 @@ On the set of points with archimedean component in `C∞`, component in `C v` at
 of `T` and in the integral points of a model `M` outside `T`, `τ_G` is
 `|d_F|^{-d/2} ρ_G⁻¹ · |ω|_∞(C∞) · ∏_{v ∈ T} λ_v |ω|_v(C v) · ∏_{v ∉ T} λ_v |ω|_v(𝓗(𝒪_v))`, the last
 product converging. The general formula is `measure_eq_product_artin`. -/
-theorem measure_eq_product [Algebra.FiniteType F H]
+theorem measure_eq_product [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (hsplit : Function.Surjective (RationalCharacter.toGeometric (F := F) (H := H)))
     (ω : GaugeForm F H) (hω : ω ≠ 0)
@@ -3642,7 +3832,7 @@ theorem measure_eq_product [Algebra.FiniteType F H]
   sorry
 
 /-- General Artin normalization on measurable adelic boxes; no split-character hypothesis. -/
-theorem measure_eq_product_artin [Algebra.FiniteType F H]
+theorem measure_eq_product_artin [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (ω : GaugeForm F H) (hω : ω ≠ 0)
     {S : Finset (IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))}
@@ -3668,12 +3858,12 @@ theorem measure_eq_product_artin [Algebra.FiniteType F H]
 -- Test Tamagawa.splitLocalFactor_cancels_gm: the convergence factor `λ_v = (1 - q_v⁻¹)⁻¹` of `G_m`
 -- cancels the form volume `1 - q_v⁻¹` of `𝒪_v^×` exactly, so the integral factors of `τ_{G_m}` are
 -- `1`; with `λ_v = 1` their product over all `v` would be `0`.
-example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
+example [NumberField F] (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) :
     (splitLocalFactor F v 1 1).re * (1 - (Ideal.absNorm v.asIdeal : ℝ)⁻¹) = 1 := by
   sorry
 
 -- Test Tamagawa.measure_trivial: for the trivial group `τ` is the unit point mass.
-example (ω : GaugeForm F F) (hω : ω ≠ 0) : measure F F ω = Measure.dirac 1 := by
+example [NumberField F] (ω : GaugeForm F F) (hω : ω ≠ 0) : measure F F ω = Measure.dirac 1 := by
   sorry
 
 -- Test Tamagawa.measure_not_naive_product: `∏_p (1 - p⁻¹)` tends to `0`, so the unnormalized
@@ -3683,23 +3873,23 @@ example : Filter.Tendsto (fun N : ℕ => ∏ p ∈ Finset.filter Nat.Prime (Fins
   sorry
 
 /-- `τ(G) = vol(G(F)\G(𝔸_F)^1)`. -/
-def number [Algebra.FiniteType F H]
+def number [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (ω : GaugeForm F H) : ℝ≥0∞ :=
   AutomorphicQuotient.measure F H hred (measure F H ω) Set.univ
 
-theorem number_pos [Algebra.FiniteType F H]
+theorem number_pos [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (ω : GaugeForm F H) (hω : ω ≠ 0) : 0 < number F H hred ω := by
   sorry
 
-theorem number_smul [Algebra.FiniteType F H]
+theorem number_smul [NumberField F] [Algebra.FiniteType F H]
     (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F H))
     (ω : GaugeForm F H) (c : F) (hc : c ≠ 0) : number F H hred (c • ω) = number F H hred ω := by
   sorry
 
 -- Test Tamagawa.number_gm_statement: `τ(G_m) = 1` over every number field.
-example (hred : TauCeti.reductiveCommHopfAlgProperty F
+example [NumberField F] (hred : TauCeti.reductiveCommHopfAlgProperty F
     (AdelicPoints.finiteTypeObj F (LaurentPolynomial F))) :
     number F (LaurentPolynomial F) hred GaugeForm.gmForm = 1 := by
   sorry
@@ -3714,7 +3904,7 @@ example : (1 / 2 : ℝ) * (Real.pi / 4)⁻¹ * (Real.pi / 2) = 1 ∧
   refine ⟨?_, ?_, ?_⟩ <;> field_simp <;> ring
 
 -- Test Tamagawa.number_trivial: `τ = 1` for the trivial group.
-example (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F F))
+example [NumberField F] (hred : TauCeti.reductiveCommHopfAlgProperty F (AdelicPoints.finiteTypeObj F F))
     (ω : GaugeForm F F) (hω : ω ≠ 0) : number F F hred ω = 1 := by
   sorry
 
@@ -3730,7 +3920,7 @@ example (D : Set (NumberField.AdeleRing (NumberField.RingOfIntegers ℚ) ℚ))
 
 -- Test Tamagawa.number_not_full_quotient: `G_m(F)\G_m(𝔸_F)` has infinite volume: every
 -- fundamental domain of `F^×` in `G_m(𝔸_F)` has infinite Haar measure.
-example (μ : Measure (AdelicPoints F (LaurentPolynomial F))) [μ.IsHaarMeasure]
+example [NumberField F] (μ : Measure (AdelicPoints F (LaurentPolynomial F))) [μ.IsHaarMeasure]
     (D : Set (AdelicPoints F (LaurentPolynomial F)))
     (hD : IsFundamentalDomain (AdelicPoints.diagonal F (LaurentPolynomial F)).range D μ) :
     μ D = ⊤ := by
