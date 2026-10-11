@@ -1,6 +1,6 @@
 # Roadmap: scheme, stack, cohomology and intersection foundations
 
-**For the expert reviewer.** This roadmap specifies the general algebraic geometry that the arithmetic roadmaps consume and that neither Mathlib nor Tau Ceti owns yet, in six layers: relative Proj, henselian pairs and excellent rings; descent, algebraic spaces, torsors and algebraic stacks; sheaf cohomology on the Zariski, Nisnevich, étale, fppf and pro-étale sites with coherent duality and Brauer groups; curves, divisors and Picard functors; deformations, formal schemes, algebraization and de Jong's alterations; and Chow groups, Chern classes, Riemann–Roch and the Hodge index theorem. The statements are standard (Stacks Project, EGA, SGA, Fulton, de Jong) and are phrased on Mathlib's `Scheme` and its sites. The places that deserve the closest look are the hypotheses without which the general statement fails (quasi-compact quasi-separated schemes for the pushforward right adjoint, locally Noetherian bases for component theorems, pseudo-coherence for the derived internal Hom), the supplier contracts with AlgebraicVectorBundles, StableReduction, JacobianChallenge and the integral Hecke roadmap, and the counterexamples recorded as Checks. Deliberately absent: logarithmic geometry, motives, and anything specific to a single arithmetic application.
+**Summary.** This roadmap is the general algebraic geometry that the arithmetic roadmaps stand on: relative Proj, henselian pairs and excellent rings; descent, algebraic spaces, torsors and algebraic stacks; cohomology on the Zariski, Nisnevich, étale, fppf and pro-étale sites with coherent duality and Brauer groups; curves, divisors and Picard functors; deformations, formal schemes, algebraization and de Jong's alterations; and Chow groups with Chern classes, Riemann–Roch and the Hodge index theorem. We want it because Mathlib stops at schemes and their morphisms, while Shimura varieties, moduli of curves and abelian varieties, Galois representations in étale cohomology and the comparison theorems of p-adic Hodge theory all need stacks, site cohomology, duality and alterations. Rather than let each arithmetic roadmap rebuild a private version, this roadmap fixes one set of carriers and statements that the others import and cite.
 
 This roadmap builds the general algebraic geometry that the arithmetic roadmaps of Tau Ceti stand
 on and that neither Mathlib nor another Tau Ceti roadmap owns. From Mathlib's `AlgebraicGeometry.Scheme`,
@@ -1076,8 +1076,43 @@ normalisation of `X` in a finite extension of its function field is finite over 
 - `IsJapanese.test_not_japanese_dvr`: the DVR of §0.22 is N-1 (integrally closed) and not N-2.
 - `IsNagata.test_field`, `test_int`: fields and `ℤ` are Nagata (`ℤ/p` is a field for `p ≠ 0`).
 - `IsNagata.test_zero`: the zero ring is Nagata: Noetherian with no primes.
-- `IsUniversallyJapanese.test_not_noetherian`: an infinite polynomial ring over a field is
-  universally Japanese and not Noetherian, so not Nagata.
+- `IsUniversallyJapanese.test_not_noetherian`: write `E` for the subring of eventually
+  constant `𝔽₂`-valued sequences from §0.10. It is universally Japanese but not Noetherian,
+  hence not Nagata. Indeed, `e² = e` for every `e ∈ E`, so a unital map from `E` to a domain
+  `D` has image exactly `𝔽₂`: the only idempotents in a domain are `0` and `1`. If `D` is
+  finite type over `E`, the same generators make it finite type over `𝔽₂`. It is therefore
+  Nagata and Japanese by [Stacks, Proposition 10.162.16
+  (0335)](https://stacks.math.columbia.edu/tag/0335). The ideal of finitely supported
+  sequences is not finitely generated, as in §0.10, which proves the non-Noetherian claim.
+- `IsUniversallyJapanese.test_countable_cusp`: for any field `k`, put
+  `P = k[x_i | i ∈ ℕ]`, `T = k[t_i | i ∈ ℕ]` and `R = k[t_i², t_i³ | i ∈ ℕ] ⊆ T`.
+  The map `P → R` taking `x_{2i}` to `t_i²` and `x_{2i+1}` to `t_i³` is surjective, so
+  `R` is a finite-type domain algebra over `P`. Its normalisation is `T`, which is not
+  finite over `R`; thus `R` is not N-1 or Japanese, and `P` is not universally Japanese
+  ([Stacks, Definitions 10.161.1 (032F)](https://stacks.math.columbia.edu/tag/032F)
+  and [10.162.1 (032R)](https://stacks.math.columbia.edu/tag/032R)). To identify the
+  normalisation, use `t_i = t_i³/t_i²` to identify the fraction fields and the monic
+  equation `Z² − t_i²` to see that each `t_i` is integral over `R`. The ring `T` is
+  integrally closed: a fraction and an integral equation over `T` involve finitely many
+  variables, where the polynomial ring over `k` is integrally closed. Hence the elements
+  of the common fraction field integral over `R` are exactly `T`. If finitely many
+  polynomials generated `T` as an `R`-module, choose `j` outside all their variable
+  supports and set every `t_i` with `i ≠ j` to zero. Their images would be scalars and
+  the image of `R` would be `k[t_j², t_j³]`, forcing `t_j` into that subring. Its elements
+  have zero coefficient of degree one, a contradiction. The quotient map is finite type
+  regardless of whether its kernel is finitely generated. Writing `P` as a union of
+  finite-variable polynomial rings therefore does not establish universal Japanese-ness:
+  [Stacks, Lemma 10.162.4 (032S)](https://stacks.math.columbia.edu/tag/032S) gives stability
+  under finite-type algebras, not arbitrary filtered unions.
+- `IsN1.test_finite_cusps`: for a field `k` and `r ∈ ℕ`, let
+  `R_r = k[t_1², t_1³, …, t_r², t_r³] ⊆ T_r = k[t_1, …, t_r]`. The same fraction-field
+  and integrality calculation identifies `T_r` as the normalisation of `R_r`. It is
+  generated over `R_r` by the `2^r` monomials `∏_{i=1}^r t_i^{ε_i}`, with each
+  `ε_i ∈ {0, 1}`: remove even powers from each exponent into the coefficient ring.
+  At `r = 0` both rings are `k` and the generating family is `{1}`; at `r = 1` it is
+  `{1, t_1}`. Thus `R_r` is N-1, and it is also Japanese since it is finite type over
+  `k` (Stacks, Proposition 10.162.16 (0335)). The countable case fails because no single
+  finite family generates its normalisation.
 
 ### 0.21 Regular maps, G-rings, J-2 rings, excellent rings and schemes
 
