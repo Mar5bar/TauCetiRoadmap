@@ -900,7 +900,7 @@ filtration of X by open subsets gives the filtration used in the Mackey and geom
 ([Ber92] Ch. I §1.2, Proposition 2, p. 8). *Needs:* *locally-constant-compact-support*.
 
 
-`LocallyConstantCompact.extendOpen` is literal extension by zero and `LocallyConstantCompact.restrictClosed` is literal restriction. `LocallyConstantCompact.openClosed_exact` states injectivity, exactness and surjectivity for the underlying module sequence.
+For Hausdorff X, `LocallyConstantCompact.extendOpen` is literal extension by zero and `LocallyConstantCompact.restrictClosed` is literal restriction. `LocallyConstantCompact.openClosed_exact` states injectivity, exactness and surjectivity for the underlying module sequence.
 
 Checks:
 
@@ -908,7 +908,7 @@ Checks:
 - `LocallyConstantCompact.extendOpen_full`: extension from the whole space is unchanged.
 - `LocallyConstantCompact.extendOpen_complement`: restriction to the complement annihilates the extension.
 
-`LocallyConstantCompact.translation` is the left action on compact sections, with inverse pullback on arguments. `LocallyConstantCompact.openClosed_equivariant` states smoothness and equivariance of both maps as well as exactness. `LocallyConstantCompact.openClosed_filtration` identifies the successive quotients with compact sections on the locally closed strata, by restriction.
+For a topological group G acting continuously on a Hausdorff space X, `LocallyConstantCompact.translation` is the left action on compact sections, with inverse pullback on arguments. `LocallyConstantCompact.openClosed_equivariant` states smoothness and equivariance of both maps as well as exactness. `LocallyConstantCompact.openClosed_filtration` identifies the successive quotients with compact sections on the locally closed strata, by restriction.
 
 Checks: `LocallyConstantCompact.translation_trivial` gives a trivial representation for a trivial space action; `LocallyConstantCompact.translation_support` moves support by g; `LocallyConstantCompact.translation_delta` sends the mass at x to the mass at gx.
 
@@ -1111,7 +1111,7 @@ projective generators ([Ber87] §1.1–1.2 and §1.8, pp. 3–4 and 8). *Needs:*
 vocabulary of this layer.
 
 
-`NondegMod.principal_projective`, `NondegMod.principal_finitelyGenerated`, `NondegMod.principal_generators` and `NondegMod.grothendieckAbelian` give the categorical assertions. `NondegMod.homProjEquiv_evaluation` fixes the evaluation convention. `NondegMod.part` takes the submodule on which local units act, and `NondegMod.centreEquiv_principal` pins the centre comparison on principal objects.
+`NondegMod.principal_projective`, `NondegMod.principal_finitelyGenerated`, `NondegMod.principal_generators` and `NondegMod.grothendieckAbelian` give the categorical assertions. `NondegMod.homProjEquiv_evaluation` fixes the evaluation convention. The scalar action in `NondegMod.principalIdeal` satisfies `IsScalarTower A H H` and `SMulCommClass A H H`. For an idempotented H, `NondegMod.part` takes the submodule on which local units act, and `NondegMod.centreEquiv_principal` pins the centre comparison on principal objects.
 
 Checks:
 
@@ -1340,7 +1340,7 @@ Proposition 3.4, Theorem 3.5, Proposition 3.8, pp. 44–47). *Needs:* *hecke-rin
 *permutation-hecke-algebra*; ReductiveGroupsPartII RG2.4, ReductiveGroupsPartII RG2.3,
 ReductiveGroups layer 7.
 
-`HeckeAlgebraLevel.iwahoriBasis` uses the Iwahori–Bruhat indexing from ReductiveGroupsPartII; `HeckeAlgebraLevel.iwahoriBasis_coefficient` specifies characteristic functions in the permutation model. `HeckeAlgebraLevel.iwahoriMatsumoto` states the length-additive and quadratic relations, and `HeckeAlgebraLevel.iwahoriMatsumoto_presentation` states their universal property. `HeckeAlgebraLevel.iwahoriBasis_unit` and `HeckeAlgebraLevel.iwahoriBasis_groupAlgebra` give invertibility and the q = 1 specialization. The equal-parameter assertions explicitly require splitness.
+Over a nonarchimedean local field F, `HeckeAlgebraLevel.iwahoriBasis` uses the Iwahori–Bruhat indexing from ReductiveGroupsPartII without requiring splitness; `HeckeAlgebraLevel.iwahoriBasis_coefficient` specifies characteristic functions in the permutation model. `HeckeAlgebraLevel.iwahoriMatsumoto` states the length-additive and quadratic relations, and `HeckeAlgebraLevel.iwahoriMatsumoto_presentation` states their universal property. `HeckeAlgebraLevel.iwahoriBasis_unit` and `HeckeAlgebraLevel.iwahoriBasis_groupAlgebra` give invertibility and the q = 1 specialization. The equal-parameter assertions explicitly require splitness.
 
 Checks: `HeckeAlgebraLevel.iwahoriBasis_identity` gives T₁ = 1; `HeckeAlgebraLevel.iwahoriBasis_reflection` gives Tₛ² = (q − 1)Tₛ + q; `HeckeAlgebraLevel.iwahoriBasis_residueOne` identifies each basis vector at q = 1 with its group-algebra basis vector.
 
@@ -1361,7 +1361,7 @@ works over ℂ[v,v⁻¹]; its equal-parameter relations have integral coefficien
 obligation, not a quoted conclusion of that source. *Needs:*
 *iwahori-matsumoto*, *positive-hecke-homomorphism*.
 
-`HeckeAlgebraLevel.bernsteinEmbedding` has source the translation subgroup of the pinned Iwahori–Weyl group. Its dominant values and injectivity are `HeckeAlgebraLevel.bernsteinEmbedding_dominant` and `HeckeAlgebraLevel.bernsteinEmbedding_injective`. `HeckeAlgebraLevel.bernstein_tensor` specifies multiplication on pure tensors, and `HeckeAlgebraLevel.bernstein_relation` uses a finite geometric sum for the divided difference, including negative pairings.
+`HeckeAlgebraLevel.bernsteinEmbedding` has source the translation subgroup of the pinned Iwahori–Weyl group; it takes the splitness hypothesis, a unit qhalf with qhalf² = #𝓀[F], and a regular vector v specifying dominance over the nonarchimedean local field F. Its dominant values and injectivity are `HeckeAlgebraLevel.bernsteinEmbedding_dominant` and `HeckeAlgebraLevel.bernsteinEmbedding_injective`. `HeckeAlgebraLevel.bernstein_tensor` specifies multiplication on pure tensors, and `HeckeAlgebraLevel.bernstein_relation` uses a finite geometric sum for the divided difference, including negative pairings.
 
 Checks: `HeckeAlgebraLevel.bernsteinEmbedding_identity` identifies the zero cocharacter with the unit; `HeckeAlgebraLevel.bernsteinEmbedding_dominant` fixes the normalization exponent; `HeckeAlgebraLevel.bernsteinEmbedding_inverse` distinguishes opposite translations.
 
@@ -3357,7 +3357,7 @@ Checks:
 - `BZDerivative.descent`: over W(k) the functor and the composite adjunction maps descend; a natural surjection V → Φ⁻V is not part of the descended data.
 
 
-`BZDerivative.WittFunctors` bundles the descended functors and adjunctions, and `BZDerivative.wittFunctors` constructs them. `BZDerivative.descent` specifies their scalar-extension comparisons and the exact adjunction sequence ([EH], Proposition 3.1.4, pp. 13–14).
+`BZDerivative.WittFunctors` bundles the descended functors and adjunctions, and `BZDerivative.wittFunctors` constructs them over a nonarchimedean local field F from perfect fields k and κ of characteristic ℓ, with κ algebraically closed, a k-algebra structure on κ, and a W(k)-algebra structure on W(κ) whose structure map is `WittVector.map (algebraMap k κ)`. `BZDerivative.descent` specifies their scalar-extension comparisons and the exact adjunction sequence ([EH], Proposition 3.1.4, pp. 13–14).
 
 Checks: `BZDerivative.wittFunctors_zero` sends the zero object to zero; `BZDerivative.wittFunctors_inflation` recovers an inflated coefficient module; `BZDerivative.wittFunctors_compactInduction` recovers the inducing module on the nontrivial character orbit.
 
