@@ -4183,6 +4183,8 @@ theorem omega_isDistinguishedAt (n : ℕ) :
     (((1 + X) ^ (p ^ n) - 1 : O[X]).IsDistinguishedAt (IsLocalRing.maximalIdeal O)) ∧
       ((1 + X) ^ (p ^ n) - 1 : O[X]).natDegree = p ^ n := sorry
 
+/-- The cyclotomic factors are distinguished over every coefficient DVR of residue
+characteristic `p`; they can split over ramified coefficient extensions. -/
 theorem xi_isDistinguishedAt (n : ℕ) :
     let ξ : O[X] := if n = 0 then X else ∑ i ∈ Finset.range p, (1 + X) ^ (i * p ^ (n - 1))
     ξ.IsDistinguishedAt (IsLocalRing.maximalIdeal O) ∧
@@ -4198,6 +4200,20 @@ theorem cyclotomic_joint_ideal_bound (ϖ : O) (hϖ : Irreducible ϖ) (n : ℕ) :
       (Ideal.span ({PowerSeries.C ϖ, PowerSeries.X} : Set (PowerSeries O))) ^ (n + 1) := sorry
 
 end CyclotomicPolynomials
+
+/-- Over `ℤ_[p]`, the positive-index factors are Eisenstein at `p`, and `ξ₀ = X`.
+The integer Eisenstein input is Mathlib's
+`Polynomial.cyclotomic_prime_pow_comp_X_add_one_isEisensteinAt`. -/
+theorem xi_irreducible_padicInt (p : ℕ) [Fact p.Prime] (n : ℕ) :
+    let ξ : ℤ_[p][X] :=
+      if n = 0 then X else ∑ i ∈ Finset.range p, (1 + X) ^ (i * p ^ (n - 1))
+    Irreducible ξ := sorry
+
+-- test xi_isDistinguishedAt_two_split (negative control) [§4.3]
+example (O : Type*) [CommRing O] [IsDomain O] (i : O) (hi : i ^ 2 = -1) :
+    (X ^ 2 + 2 * X + 2 : O[X]) =
+      (X - C (i - 1)) * (X - C (-i - 1)) ∧
+    ¬ Irreducible (X ^ 2 + 2 * X + 2 : O[X]) := sorry
 
 
 section JointAdic
