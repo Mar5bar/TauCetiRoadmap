@@ -5909,7 +5909,7 @@ end RationalCohomology
 namespace AlgebraicInduction
 open CategoryTheory
 variable {A H K M : Type u} [CommRing A] [CommRing H] [CommRing K]
-    [HopfAlgebra A H] [HopfAlgebra A K] [Module.Flat A H] [Module.Flat A K]
+    [HopfAlgebra A H] [HopfAlgebra A K]
     [AddCommGroup M] [Module A M] [TauCeti.Comodule A K M]
 
 /-- Functions F with F(hg)=hF(g). Inversion converts this to the usual
@@ -5922,21 +5922,21 @@ def module (f : H →ₐc[A] K) : Submodule A (M ⊗[A] H) :=
           (Coalgebra.comul (R := A) (A := H))).lTensor M))
 
 /-- Restriction of id_M⊗Δ_H to the cotensor equalizer. -/
-instance moduleComodule (f : H →ₐc[A] K) : TauCeti.Comodule A H (module (M := M) f) := sorry
+instance moduleComodule [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) : TauCeti.Comodule A H (module (M := M) f) := sorry
 
-theorem coact_inclusion (f : H →ₐc[A] K) (x : module (M := M) f) :
+theorem coact_inclusion [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) (x : module (M := M) f) :
     TensorProduct.map (module f).subtype LinearMap.id (TauCeti.Comodule.coact x) =
       (TensorProduct.assoc A M H H).symm
         ((Coalgebra.comul (R := A) (A := H)).lTensor M x.val) := sorry
 
 /-- Frobenius reciprocity with restriction along the given Hopf map. -/
-def reciprocity (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
+def reciprocity [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
     [TauCeti.Comodule A H N] :
     TauCeti.Comodule.Hom A H N (module (M := M) f) ≃
       (letI := TauCeti.Comodule.Corestrict (M := N) f.toCoalgHom
        TauCeti.Comodule.Hom A K N M) := sorry
 
-theorem reciprocity_apply (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
+theorem reciprocity_apply [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
     [TauCeti.Comodule A H N] (q : TauCeti.Comodule.Hom A H N (module (M := M) f))
     (x : N) :
     (reciprocity f q) x = (TensorProduct.rid A M)
@@ -5951,11 +5951,11 @@ example (f : H →ₐc[A] K) (x : M ⊗[A] H) :
             (Coalgebra.comul (R := A) (A := H))).lTensor M x) := sorry
 example (f : H →ₐc[A] K) : (0 : M ⊗[A] H) ∈ module (M := M) f := by simp
 
-example (f : H →ₐc[A] K) : Function.Bijective
+example [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) : Function.Bijective
     (reciprocity (M := M) (N := module (M := M) f) f) := sorry
-example (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
+example [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
     [TauCeti.Comodule A H N] : reciprocity (M := M) (N := N) f 0 = 0 := sorry
-example (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
+example [Module.Flat A H] [Module.Flat A K] (f : H →ₐc[A] K) {N : Type u} [AddCommGroup N] [Module A N]
     [TauCeti.Comodule A H N] (q : TauCeti.Comodule.Hom A H N (module (M := M) f))
     (x : N) : (reciprocity f q) x = (TensorProduct.rid A M)
       ((Coalgebra.counit (R := A) (A := H)).lTensor M (q x).val) := sorry
