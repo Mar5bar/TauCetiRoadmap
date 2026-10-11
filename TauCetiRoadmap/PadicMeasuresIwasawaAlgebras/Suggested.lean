@@ -7119,6 +7119,27 @@ end TauCeti
 
 
 namespace TauCeti.WeightSpace
+
+-- test W_power_torsion_odd (torsion restriction) [§3a.1]
+-- For odd p the torsion subgroup of ℤ_pˣ has order p − 1.
+example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (k k' : ℤ) :
+    (∀ u : ℤ_[p]ˣ, IsOfFinOrder u →
+      ((u : ℤ_[p]) : ℚ_[p]) ^ k = ((u : ℤ_[p]) : ℚ_[p]) ^ k') ↔
+      Int.ModEq (p - 1 : ℕ) k k' := sorry
+
+-- test W_power_torsion_two (torsion restriction) [§3a.1]
+-- For p = 2 the torsion subgroup is {±1}, so parity controls the restriction.
+example (k k' : ℤ) :
+    (∀ u : ℤ_[2]ˣ, IsOfFinOrder u →
+      ((u : ℤ_[2]) : ℚ_[2]) ^ k = ((u : ℤ_[2]) : ℚ_[2]) ^ k') ↔
+      Int.ModEq 2 k k' := sorry
+
+-- test W_power_torsion_two_distinct (negative control) [§3a.1]
+example : Int.ModEq 1 1 2 ∧ ¬ Int.ModEq 2 1 2 ∧
+    IsOfFinOrder (-1 : ℤ_[2]ˣ) ∧
+    (-1 : ℚ_[2]) ^ (1 : ℤ) = -1 ∧ (-1 : ℚ_[2]) ^ (2 : ℤ) = 1 ∧
+    (-1 : ℚ_[2]) ^ (1 : ℤ) ≠ (-1 : ℚ_[2]) ^ (2 : ℤ) := sorry
+
 /-- §3a.1: a continuous dual-number character outside the coefficient-maximum norm disc. -/
 def dualNumberCharacter (p : ℕ) [Fact p.Prime] :
     ContinuousMonoidHom (Multiplicative ℤ_[p]) (TrivSqZeroExt ℚ_[p] ℚ_[p]) := sorry

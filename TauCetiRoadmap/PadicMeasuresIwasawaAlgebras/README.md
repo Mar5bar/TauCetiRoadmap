@@ -846,7 +846,7 @@ References: RJW Remark 3.47, p. 135, which treats odd p (the decomposition at p 
 
 **Checks.**
 - For A = C_p and p odd, the p − 1 characters of μ_{p−1} index the fibres of `W.restrictTorsion`.
-- The character x ↦ x^k lies in W(ℚ_p) for every integer k, and k ≡ k′ mod (p − 1) exactly when x^k and x^{k′} have the same torsion restriction.
+- The character x ↦ x^k lies in W(ℚ_p) for every integer k, and x^k and x^{k′} have the same torsion restriction exactly when k ≡ k′ modulo p − 1 for odd p, or modulo 2 for p = 2: the modulus is the order of the torsion subgroup of ℤ_pˣ (`W_power_torsion_odd`, `W_power_torsion_two`). At p = 2, the exponents 1 and 2 are congruent modulo 1, but their characters take the distinct values −1 and 1 at −1 (`W_power_torsion_two_distinct`).
 - For p odd and A = ℚ_p, the Teichmüller character ω(x) = lim x^{p^n} has trivial principal restriction and torsion restriction the inclusion μ_{p−1} ⊂ ℚ_pˣ, so `W.equivProd`(ω) = (incl, 1) although ω ≠ 1.
 - At p = 2, A = ℚ_2: the sign character sgn, the projection ℤ_2ˣ = {±1} × (1 + 4ℤ_2) → {±1} ⊂ ℚ_2ˣ, so sgn(−1) = −1 and sgn = 1 on 1 + 4ℤ_2, has `W.equivProd`(sgn) = (sgn|_{±1}, 1), and the element e = (1 − [−1])/2 of ℚ_2[{±1}] is not in ℤ_2[{±1}], so the splitting of the two components is generic and not integral.
 
