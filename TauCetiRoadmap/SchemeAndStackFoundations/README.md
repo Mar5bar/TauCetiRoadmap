@@ -739,9 +739,17 @@ geometrically unibranch), `isUnibranch_iff_irreducible_henselization` and
 `isGeometricallyUnibranch_iff_irreducible_strictHenselization` (ModularCurves 4D's strict
 henselization; Stacks, Lemma 15.108.5), `IsGeometricallyUnibranch.of_etale`,
 `IsGeometricallyUnibranch.baseChange_sepClosed` (invariance under separable field extension).
-Prove `unibranch_finite_components`: for `X` geometrically unibranch and `Y → X` étale-locally
-constant with finite fibres, the connected components of `Y` are finite étale over `X`
-(Česnavičius 2020, proof of Lemma 5.1, p. 16, via SGA 3 X 5.14 and EGA I 6.1.9). Prove
+Prove `unibranch_finite_components`: let `X` be locally Noetherian and let `p : Y → X`
+represent a finite locally constant étale sheaf. Every connected component `C` of `Y` is open
+and closed, and the composite `C ↪ Y → X` is finite étale. Use the existing finite étale
+morphism predicates for the representing map, by [Stacks, Lemma 59.64.4
+(03RV)](https://stacks.math.columbia.edu/tag/03RV); local Noetherianness makes `Y` locally
+connected ([Stacks, Lemma 5.9.6 (04MF)](https://stacks.math.columbia.edu/tag/04MF)). The Lean
+conclusion specifies an open `U` with underlying set `connectedComponent y`, its closedness,
+and finiteness and étaleness of `U.ι ≫ p`. Geometric unibranchness is not needed for this
+finite-sheaf statement. The locally constant
+Isom-schemes in Česnavičius 2020, Lemma 5.1 and its proof, can have infinite fibres and require
+the stronger component result used there over a Noetherian semilocal base. Prove
 `jacobian_etale_algebra`: for polynomials `f_1, …, f_r ∈ R[x_1, …, x_r]`, the localisation of
 `R[x]/(f)` at the Jacobian determinant is an étale finitely presented `R`-algebra; it is finite
 étale, with degree bounded by the product of the degrees, only under the finiteness hypotheses
@@ -750,6 +758,21 @@ from the Jacobian condition alone. *Needs:* Mathlib `Scheme.Hom.normalization`,
 `Scheme.Hom.normalizationObjIso`, `IsIntegrallyClosed`, `IsPurelyInseparable`; ModularCurves 4D.
 
 **Checks.**
+- `unibranch_finite_components_eventual_sequences`: let `A ⊆ (ℕ → 𝔽₂)` be the subring of
+  eventually constant sequences and `q : A → 𝔽₂` their eventual value. Its kernel `m∞`
+  consists of the finitely supported sequences; it is not finitely generated, since any
+  finite set of generators misses some coordinate idempotent `e_j`. Thus `q` is surjective
+  and not finitely presented. All stalks of `X = Spec A` are `𝔽₂`, so `X` is geometrically
+  unibranch, and `id_X` is a finite étale one-sheet cover. The actual quotient inclusion
+  `i : Spec 𝔽₂ → X` is finite and closed, with image the connected component `{m∞}`;
+  this image is not open and `i` is not étale. Every neighbourhood of `m∞` contains all but
+  finitely many coordinate points. Affineness and field stalks therefore do not replace the
+  local-Noetherian hypothesis.
+- `unibranch_finite_components_finite_product`: for a finite family of fields `k_i`,
+  `X = Spec (∏ i, k_i)` is locally Noetherian. Each coordinate projection induces an
+  inclusion `Spec k_i → X` whose image is a connected component, open and closed, and whose
+  composite with `id_X` is finite étale. The family may be empty, in which case `X` is empty
+  and there are no component inclusions.
 - `jacobian_test_not_finite`: for `R = A[t]` and `f = t x − 1`, the Jacobian is `t`, already a
   unit in `R[x]/(t x − 1) = A[t, t⁻¹]`, which is étale over `A[t]` and not finite.
 - `IsLocalRing.not_isUnibranch_node`: for a field `k` of characteristic not `2`, the local ring of

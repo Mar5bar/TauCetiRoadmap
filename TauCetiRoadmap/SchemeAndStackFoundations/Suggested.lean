@@ -3235,6 +3235,43 @@ example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
 
 end PseudoCoherence
 
+/-- Components of a finite locally constant étale sheaf over a locally Noetherian base.
+The sheaf is given by its finite étale representing morphism (Stacks, Lemma 59.64.4,
+03RV); local connectedness follows from Stacks, Lemma 5.9.6, 04MF. -/
+theorem unibranch_finite_components {X Y : Scheme.{u}} [IsLocallyNoetherian X]
+    (p : Y ⟶ X) [IsFinite p] [Etale p] (y : Y) :
+    IsClopen (connectedComponent y) ∧
+      ∃ U : Y.Opens, (U : Set Y) = connectedComponent y ∧
+        IsClosed (U : Set Y) ∧ IsFinite (U.ι ≫ p) ∧ Etale (U.ι ≫ p) := by
+  sorry
+
+-- Check `unibranch_finite_components_eventual_sequences`: the quotient at infinity.
+example :
+    ∃ A : Subring (ℕ → ZMod 2),
+      (∀ a : ℕ → ZMod 2, a ∈ A ↔ ∃ c : ZMod 2, ∃ N : ℕ, ∀ n ≥ N, a n = c) ∧
+      ∃ q : A →+* ZMod 2,
+        (∀ a : A, ∃ N : ℕ, ∀ n ≥ N, a.val n = q a) ∧ Function.Surjective q ∧
+        (∀ a : A, a ∈ RingHom.ker q ↔ (Function.support a.val).Finite) ∧
+        ¬ (RingHom.ker q).FG ∧ ¬ q.FinitePresentation ∧
+        let X := Spec (.of A)
+        let i := Spec.map (CommRingCat.ofHom q)
+        (∀ x : X, Nonempty (X.presheaf.stalk x ≃+* ZMod 2)) ∧
+        IsFinite (𝟙 X) ∧ Etale (𝟙 X) ∧
+        IsClosedImmersion i ∧ IsFinite i ∧ ¬ Etale i ∧
+        IsClosed (Set.range i) ∧ ¬ IsOpen (Set.range i) ∧
+        ∀ z : Spec (.of (ZMod 2)), connectedComponent (i z) = Set.range i := by
+  sorry
+
+-- Check `unibranch_finite_components_finite_product`: every coordinate component, including
+-- the empty family's absence of components.
+example (ι : Type u) [Fintype ι] (k : ι → Type u) [∀ i, Field (k i)] :
+    let X := Spec (.of (∀ i, k i))
+    IsLocallyNoetherian X ∧ ∀ j : ι,
+      let i := Spec.map (CommRingCat.ofHom (Pi.evalRingHom k j))
+      IsClopen (Set.range i) ∧ IsFinite (i ≫ 𝟙 X) ∧ Etale (i ≫ 𝟙 X) ∧
+        ∀ z : Spec (.of (k j)), connectedComponent (i z) = Set.range i := by
+  sorry
+
 /-- Dominating components over a Dedekind scheme give flatness, without a fibre-purity claim.
 The base condition is affine-local. Stacks, Lemma 15.22.11. -/
 theorem flat_over_dedekind {X S : Scheme.{u}} (f : X ⟶ S) [IsReduced X] [IsIntegral S]
