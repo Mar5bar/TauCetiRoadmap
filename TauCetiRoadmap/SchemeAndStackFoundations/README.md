@@ -272,7 +272,9 @@ here for the roadmaps that import them.
 4. The genus of a proper curve is `dim H¹(X, O_X)`; the degree of a locally free sheaf of rank `r` is
    `χ(E) − r·χ(O_X)`. Thickenings are closed immersions surjective on points; modifications are
    proper birational, alterations proper dominant and generically finite. Chow groups are graded by
-   dimension; intersection products on smooth varieties are graded by codimension.
+   dimension, measured by `Order.height x` for the closure of a scheme point `x`;
+   `Order.coheight x` measures codimension. Intersection products on smooth varieties are graded
+   by codimension.
 5. Names live under `TauCetiRoadmap.SchemeAndStackFoundations`, in namespaces named after the
    strand (`Henselization`, `Excellence`, `IdealPullback`, `Spaces`, `Torsor`, `Coherent`, `Brauer`,
    `Picard`, `Formal`, `Deformation`, `IsAlteration`, `Chow`, among others); the names proposed for
@@ -4685,7 +4687,12 @@ related by `E ↔ E^∨`, recorded in `projectiveBundle_dual_convention`.
 
 For a fixed field `κ` and a scheme `X → Spec κ` locally of finite type,
 the carrier `cyclesOfDimension κ X k` is the subgroup of `AlgebraicCycle X ℤ` supported in
-dimension `k`. `RatEquiv κ X k` is a subgroup of this carrier, and `ChowGroup κ X k` is its quotient.
+dimension `k`: every point with nonzero coefficient has `Order.height x = n` for a natural
+number `n` with `k = n`. In Mathlib's scheme order, `x ≤ y ↔ y ⤳ x`, so height is the dimension
+of the closure of `x`, while coheight measures codimension. This is the dimension grading of
+[Stacks, Definition 42.8.1](https://stacks.math.columbia.edu/tag/02QR), using the closure-dimension
+comparison of [Lemma 42.7.5](https://stacks.math.columbia.edu/tag/02QO).
+`RatEquiv κ X k` is a subgroup of this carrier, and `ChowGroup κ X k` is its quotient.
 **Checks:** `cycles_zero` includes zero; `cycles_negative` computes degree `−1` as the zero
 subgroup; `cycles_support_agreement` identifies membership with the support condition in Mathlib's
 cycle carrier. The rational graded group uses a direct sum over degrees. Flat pullback requires
@@ -4730,7 +4737,8 @@ first Chern class `Pic(X) → CH^1(X)` of §5.3, an isomorphism for `X` locally 
 - `CH_coprod_countable_points`: `CH_0(∐_n Spec κ) ≃ ∏_n Z`, whereas its degree `−1` group is zero.
   Rank-one homotopy invariance identifies the latter with `CH_0(E)` above.
 - `cycleClass_surjective`: every class has a cycle representative.
-- `cycles_dvr_closed_point`: on a DVR, the closed point has closure dimension zero and height one.
+- `cycles_dvr_closed_point`: on a DVR, the closed point has closure dimension and height zero,
+  and coheight one.
 - `chow_dvr_generic_open_rejected`: for a DVR `R` with fraction field `K`,
   `Spec K → Spec R` is an open immersion with zero-dimensional fibres, but its
   generic point has closure dimension zero in `Spec K` and one in `Spec R`.

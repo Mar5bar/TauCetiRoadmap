@@ -8992,13 +8992,12 @@ instance {X Y Z : Scheme.{u}} [X.Over (Spec (.of κ))]
     LocallyOfFiniteType (pullback f g ↘ Spec (.of κ)) := by sorry
 
 /-- Cycles supported at generic points of closed subsets of dimension `k`: the dimension of the
-closure of `x` is its coheight in the specialisation order (`Order.height x` would be its
-codimension, which differs on a non-equidimensional scheme and already on `Spec` of a discrete
-valuation ring, whose closed point has coheight `0` and height `1`). Negative degrees contain only
-the zero cycle. -/
+closure of `x` is `Order.height x` in the scheme specialisation order, where generic points are
+maximal. `Order.coheight x` measures codimension; on `Spec` of a discrete valuation ring the closed
+point has height `0` and coheight `1`. Negative degrees contain only the zero cycle. -/
 def cyclesOfDimension (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
   Function.locallyFinsuppWithin.supported ℤ Set.univ
-    {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.coheight x = n}
+    {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n}
 
 -- Check `cycles_zero`
 example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : (0 : AlgebraicCycle X ℤ) ∈ cyclesOfDimension κ X k :=
@@ -9010,11 +9009,11 @@ example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Sp
 -- Check `cycles_support_agreement`
 example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) (c : AlgebraicCycle X ℤ) :
     c ∈ cyclesOfDimension κ X k ↔
-      ∀ x, c x ≠ 0 → ∃ n : ℕ, k = (n : ℤ) ∧ Order.coheight x = n := Iff.rfl
+      ∀ x, c x ≠ 0 → ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n := Iff.rfl
 
 -- Check `cycles_dvr_closed_point` (dimension, not codimension)
 example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (x : Spec (.of R))
-    (hx : IsClosed ({x} : Set (Spec (.of R)))) : Order.coheight x = 0 ∧ Order.height x = 1 := by
+    (hx : IsClosed ({x} : Set (Spec (.of R)))) : Order.height x = 0 ∧ Order.coheight x = 1 := by
   sorry
 
 -- Check `chow_dvr_generic_open_rejected`: absolute dimension drops under this open immersion.
