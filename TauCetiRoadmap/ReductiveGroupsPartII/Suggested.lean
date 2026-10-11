@@ -14085,20 +14085,22 @@ theorem descend_mk {G A : Type*} [Group G] [CommGroup A] (κ : G →* A)
 abbrev PGLTwo (E : Type u) [Field E] :=
   Matrix.GeneralLinearGroup (Fin 2) E ⧸ Subgroup.center (Matrix.GeneralLinearGroup (Fin 2) E)
 
-variable {E : Type u} [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+variable {E : Type u} [Field E]
 
 /-- Determinant valuation modulo two, independent of a scalar representative. -/
-def pglKappa : PGLTwo E →* Multiplicative (ZMod 2) := sorry
+def pglKappa [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] : PGLTwo E →* Multiplicative (ZMod 2) := sorry
 
-theorem pglKappa_mk (g : Matrix.GeneralLinearGroup (Fin 2) E) :
+theorem pglKappa_mk [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+    (g : Matrix.GeneralLinearGroup (Fin 2) E) :
     pglKappa (QuotientGroup.mk g) = Multiplicative.ofAdd
       ((Multiplicative.toAdd (TauCeti.normalizedValuation E (Matrix.GeneralLinearGroup.det g)) : ℤ) : ZMod 2) := sorry
 
 /-- The connected Iwahori is the image of integral matrices with unit determinant and
 lower-left entry in the maximal ideal. -/
-def connectedIwahori : Subgroup (PGLTwo E) := sorry
+def connectedIwahori [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] : Subgroup (PGLTwo E) := sorry
 
-theorem connectedIwahori_mem (g : PGLTwo E) :
+theorem connectedIwahori_mem [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+    (g : PGLTwo E) :
     g ∈ connectedIwahori ↔ ∃ A : Matrix.GeneralLinearGroup (Fin 2) E,
       QuotientGroup.mk A = g ∧
       (∀ i j, ValuativeRel.valuation E (A.val i j) ≤ 1) ∧
@@ -14107,7 +14109,8 @@ theorem connectedIwahori_mem (g : PGLTwo E) :
 
 /-- The edge reversal normalizes the connected Iwahori. The subgroup it generates
 with I has exactly the two I-cosets. -/
-theorem fullEdgeFixer_cosets (π : E) (hπ : GLBuilding.ω E π = 1)
+theorem fullEdgeFixer_cosets [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+    (π : E) (hπ : GLBuilding.ω E π = 1)
     (A : Matrix.GeneralLinearGroup (Fin 2) E) (hA : A.val = !![0, 1; π, 0]) :
     let τ : PGLTwo E := QuotientGroup.mk A
     let K := connectedIwahori ⊔ Subgroup.zpowers τ
@@ -14116,10 +14119,12 @@ theorem fullEdgeFixer_cosets (π : E) (hπ : GLBuilding.ω E π = 1)
         {g | ∃ i ∈ connectedIwahori, g = τ * i} := sorry
 
 -- Test kottwitzCoset_connected_iwahori
-example : connectedIwahori (E := E) ≤ (pglKappa (E := E)).ker := sorry
+example [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E] :
+    connectedIwahori (E := E) ≤ (pglKappa (E := E)).ker := sorry
 
 -- Test kottwitzCoset_full_edge_fixer
-example (π : E) (hπ : GLBuilding.ω E π = 1)
+example [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+    (π : E) (hπ : GLBuilding.ω E π = 1)
     (A : Matrix.GeneralLinearGroup (Fin 2) E) (hA : A.val = !![0, 1; π, 0]) :
     let τ : PGLTwo E := QuotientGroup.mk A
     let K := connectedIwahori ⊔ Subgroup.zpowers τ

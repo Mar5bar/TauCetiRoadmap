@@ -5449,7 +5449,8 @@ the displayed maps (4.12)–(4.13) in part (II) of its proof, pp. 30–31, and L
 
 **Checks.**
 
-- `kottwitzCoset_full_edge_fixer` — in `PGL₂`, `τ=class(0 1;ϖ 0)` has order two,
+- `kottwitzCoset_full_edge_fixer` — over a nonarchimedean local field `E` with its
+  valuation and topology, in `PGL₂(E)`, `τ=class(0 1;ϖ 0)` has order two,
   normalizes the connected Iwahori `I`, and has `κ(τ)=1∈ℤ/2`. The compact open full
   edge fixer `K=I∪τI` fails `K≤ker κ`; `τK=K` forbids an unquotiented descended map.
 - `kottwitzCoset_connected_iwahori` — the same connected `I` lies in `ker κ`, so
