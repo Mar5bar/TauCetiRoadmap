@@ -1,6 +1,6 @@
 # Roadmap: scheme, stack, cohomology and intersection foundations
 
-**Summary.** This roadmap is the general algebraic geometry that the arithmetic roadmaps stand on: relative Proj, henselian pairs and excellent rings; descent, algebraic spaces, torsors and algebraic stacks; cohomology on the Zariski, Nisnevich, étale, fppf and pro-étale sites with coherent duality and Brauer groups; curves, divisors and Picard functors; deformations, formal schemes, algebraization and de Jong's alterations; and Chow groups with Chern classes, Riemann–Roch and the Hodge index theorem. We want it because Mathlib stops at schemes and their morphisms, while Shimura varieties, moduli of curves and abelian varieties, Galois representations in étale cohomology and the comparison theorems of p-adic Hodge theory all need stacks, site cohomology, duality and alterations. Rather than let each arithmetic roadmap rebuild a private version, this roadmap fixes one set of carriers and statements that the others import and cite.
+**Summary.** This roadmap is the general algebraic geometry that the arithmetic roadmaps stand on: relative Proj, henselian pairs and excellent rings; descent, algebraic spaces, torsors and algebraic stacks; cohomology on the Zariski, Nisnevich, étale, fppf and pro-étale sites with coherent duality and Brauer groups; curves, divisors and Picard functors; deformations, formal schemes, algebraization and de Jong's alterations; and Chow groups with Chern classes, Riemann–Roch and the Hodge index theorem. We want it because Mathlib provides schemes, their morphisms and much of the abstract categorical infrastructure, but the stacks, site cohomology, duality and alterations needed for Shimura varieties, moduli of curves and abelian varieties, Galois representations in étale cohomology and the comparison theorems of p-adic Hodge theory still require substantial shared development. Rather than let each arithmetic roadmap rebuild a private version, this roadmap fixes one set of carriers and statements that the others import and cite.
 
 This roadmap builds the general algebraic geometry that the arithmetic roadmaps of Tau Ceti stand
 on and that neither Mathlib nor another Tau Ceti roadmap owns. From Mathlib's `AlgebraicGeometry.Scheme`,
@@ -1689,14 +1689,46 @@ rings, giving the ringed site `(F_ét, O_F)` (Definition 66.21.2 (03G7)). API: `
 (for `F = h_X`, `smallEtale F ≌ X.Etale` after passing to the scheme site), `smallEtale_localize`
 (for `V → F` étale, `smallEtale F / V ≌ smallEtale V`), and `smallEtale_map f` for a morphism
 `f : F → G` of algebraic spaces: the functor `smallEtale G ⥤ smallEtale F`, `V ↦ V ×_G F`, well
-defined because the fibre product is an algebraic space étale over `F`; it is continuous and
-cocontinuous and induces a morphism of ringed topoi `(F_ét, O_F) → (G_ét, O_G)`, with
-`smallEtale_map_id`, `smallEtale_map_comp` (Stacks, Lemma 66.18.7). The objects of `smallEtale`
+defined because the fibre product is an algebraic space étale over `F`.
+`smallEtale_map_continuous` and `smallEtale_map_preservesFiniteLimits` give continuity and
+preservation of finite limits, hence the morphism of ringed topoi `(F_ét, O_F) → (G_ét, O_G)`,
+with identity and composition isomorphisms `smallEtale_map_id`, `smallEtale_map_comp`
+(Stacks, Lemma [66.18.8 (03G2)](https://stacks.math.columbia.edu/tag/03G2)).
+For étale `f`, define the separate composition functor `smallEtale_compose f`:
+`smallEtale F → smallEtale G`, `(U → F) ↦ (U → F → G)`.
+`smallEtale_compose_continuous` and `smallEtale_compose_cocontinuous` make it continuous
+and cocontinuous; through `smallEtale_localize` it realises the same geometric morphism
+as a localisation (Stacks, Lemma [66.18.11 (03LP)](https://stacks.math.columbia.edu/tag/03LP)).
+Here cocontinuity means the covering-refinement condition of Stacks, Definition
+[7.20.1 (00XJ)](https://stacks.math.columbia.edu/tag/00XJ); it does not hold for base change
+in general, even along finite étale maps. Direct images, the ringed-topos morphism and
+its downstream cohomology use the continuous, finite-limit-preserving base-change functor;
+in particular `(f_* A)(V) = A(V ×_G F)`.
+The objects of `smallEtale`
 must be algebraic spaces: if `G` is a scheme and `F → G` a nonschematic space, the pullback of
 `𝟙_G` is `F`, which is not a scheme (`test_pullback_not_scheme` below). *Needs:* §1.4, §1.8, §1.9;
 Mathlib `GrothendieckTopology`, `Sheaf`, `X.Etale`.
 
 **Checks.**
+- `smallEtale_map_fold`: for a field `k`, put `S = Spec k`, `T = S ⊔ S`, and let
+  `f : T → S` be the fold map. It is finite étale, and `smallEtale_map f` is continuous
+  and preserves finite limits, but is not cocontinuous. The inclusions `j₀,j₁ : S → T`
+  cover `T`. For each étale `v : V → S`, the image object is the specified projection
+  `p : V ×_S T → T`, identified over `T` with `V ⊔ V → T`. Factoring `p` through
+  either `j₀` or `j₁` is possible exactly when `V` is empty: otherwise its two copies
+  meet different components. Thus a family whose base-change maps refine `{j₀,j₁}`
+  consists entirely of empty schemes and cannot cover the nonempty `S`. Scheme charts
+  of any putative covering by spaces give the same obstruction.
+- `smallEtale_map_identity` and `smallEtale_compose_identity`: base change along `𝟙_F`
+  is naturally isomorphic to the identity and is continuous and cocontinuous;
+  composition along `𝟙_F` is likewise naturally isomorphic to the identity.
+- `smallEtale_compose_etale` and `smallEtale_compose_two_sheets`: for étale `f : F → G`,
+  composition is continuous and cocontinuous in the direction `smallEtale F → smallEtale G`,
+  with underlying object `(U → F → G)`. For the fold above it sends the terminal object
+  `T → T` to `T → S`, whereas base change sends `S → S` to `T → T`. More decisively,
+  base change followed by composition sends `S → S` to `T → S`, which is not isomorphic
+  to `S → S` over `S`. The two functors therefore have distinct directions and object
+  actions despite inducing the same geometric morphism.
 - `smallEtale.test_spec_global_sections`: `Γ(h_{Spec R}, O) = R`.
 - `smallEtale.test_folded_line_functions`: for the folded line (`char k ≠ 2`) the global sections
   of `O` are `k[x²]`.

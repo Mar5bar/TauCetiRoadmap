@@ -3907,6 +3907,35 @@ theorem smallEtale_ofScheme (X : Scheme.{u}) :
 products of algebraic spaces are algebraic spaces and étaleness is stable under base change. -/
 def smallEtale_map {F G : AlgSpace.{u}} (f : F ⟶ G) : smallEtale G ⥤ smallEtale F := sorry
 
+/-- Base change is continuous for the small étale topologies (Stacks 66.18.8, 03G2). -/
+theorem smallEtale_map_continuous {F G : AlgSpace.{u}} (f : F ⟶ G) :
+    (smallEtale_map f).IsContinuous (smallEtaleTopology G) (smallEtaleTopology F) := sorry
+
+/-- Base change preserves finite limits (Stacks 66.18.8, 03G2). -/
+theorem smallEtale_map_preservesFiniteLimits {F G : AlgSpace.{u}} (f : F ⟶ G) :
+    PreservesFiniteLimits (smallEtale_map f) := sorry
+
+/-- Composition with an étale map, in the opposite direction to base change
+(Stacks 66.18.11, 03LP). -/
+def smallEtale_compose {F G : AlgSpace.{u}} (f : F ⟶ G)
+    (hf : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) f) : smallEtale F ⥤ smallEtale G :=
+  ObjectProperty.lift
+    (fun (V : Over G) => EtaleLocal (@Etale : MorphismProperty Scheme.{u}) V.hom)
+    (ObjectProperty.ι
+      (fun (V : Over F) => EtaleLocal (@Etale : MorphismProperty Scheme.{u}) V.hom) ⋙
+      Over.map f)
+    (by intro V; sorry)
+
+/-- Étale composition is continuous (Stacks 66.18.11, 03LP). -/
+theorem smallEtale_compose_continuous {F G : AlgSpace.{u}} (f : F ⟶ G)
+    (hf : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) f) :
+    (smallEtale_compose f hf).IsContinuous (smallEtaleTopology F) (smallEtaleTopology G) := sorry
+
+/-- Étale composition satisfies covering refinement (Stacks 66.18.11, 03LP). -/
+theorem smallEtale_compose_cocontinuous {F G : AlgSpace.{u}} (f : F ⟶ G)
+    (hf : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) f) :
+    (smallEtale_compose f hf).IsCocontinuous (smallEtaleTopology F) (smallEtaleTopology G) := sorry
+
 theorem smallEtale_map_id (F : AlgSpace.{u}) : Nonempty (smallEtale_map (𝟙 F) ≅ 𝟭 _) := sorry
 
 theorem smallEtale_map_comp {F G H : AlgSpace.{u}} (f : F ⟶ G) (g : G ⟶ H) :
@@ -3919,6 +3948,86 @@ theorem smallEtale_map_top {F G : AlgSpace.{u}} (f : F ⟶ G) (hG : EtaleLocal (
 /-- Localisation: the slice of `X_ét` at an object `V → X` is `V_ét`. -/
 theorem smallEtale_localize (F : AlgSpace.{u}) (V : smallEtale F) :
     Nonempty (Over V ≌ smallEtale V.obj.left) := sorry
+
+-- Check `smallEtale_map_fold`: the actual projections cannot refine the component cover.
+example (k : Type u) [Field k] :
+    let S := Spec (CommRingCat.of k)
+    let T := S ⨿ S
+    let f : T ⟶ S := coprod.desc (𝟙 S) (𝟙 S)
+    let u := smallEtale_map (AlgSpace.ofScheme.map f)
+    IsFinite f ∧ Etale f ∧
+      u.IsContinuous (smallEtaleTopology (AlgSpace.ofScheme.obj S))
+        (smallEtaleTopology (AlgSpace.ofScheme.obj T)) ∧
+      PreservesFiniteLimits u ∧
+      ¬ u.IsCocontinuous (smallEtaleTopology (AlgSpace.ofScheme.obj S))
+        (smallEtaleTopology (AlgSpace.ofScheme.obj T)) := sorry
+
+-- Check `smallEtale_map_fold`: the covering and the specified maps over the two-point target.
+example (k : Type u) [Field k] :
+    let S := Spec (CommRingCat.of k)
+    let T := S ⨿ S
+    let f : T ⟶ S := coprod.desc (𝟙 S) (𝟙 S)
+    let j : Bool → (S ⟶ T) := fun b => if b then coprod.inr else coprod.inl
+    Nonempty S ∧ Sieve.ofArrows (fun _ : Bool => S) j ∈ Scheme.etaleTopology T ∧
+      ∀ (V : Scheme.{u}) (v : V ⟶ S), Etale v →
+        ∃ hv : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) (AlgSpace.ofScheme.map v),
+        Nonempty (((smallEtale_map (AlgSpace.ofScheme.map f)).obj
+          ⟨Over.mk (AlgSpace.ofScheme.map v), hv⟩).obj ≅
+            Over.mk (AlgSpace.ofScheme.map (pullback.snd v f))) ∧
+        Nonempty (Over.mk (pullback.snd v f) ≅
+          Over.mk (coprod.desc (v ≫ j false) (v ≫ j true))) ∧
+        ((∃ (b : Bool) (a : pullback v f ⟶ S), a ≫ j b = pullback.snd v f) ↔
+          IsEmpty V) := sorry
+
+-- Check `smallEtale_map_fold`: no étale covering pulls back to a refinement of {j₀,j₁}.
+example (k : Type u) [Field k] :
+    let S := Spec (CommRingCat.of k)
+    let T := S ⨿ S
+    let f : T ⟶ S := coprod.desc (𝟙 S) (𝟙 S)
+    let j : Bool → (S ⟶ T) := fun b => if b then coprod.inr else coprod.inl
+    ∀ (I : Type u) (V : I → Scheme.{u}) (v : ∀ i, V i ⟶ S),
+      (∀ i, Etale (v i)) → Sieve.ofArrows V v ∈ Scheme.etaleTopology S →
+      ¬ ∀ i, ∃ (b : Bool) (a : pullback (v i) f ⟶ S),
+        a ≫ j b = pullback.snd (v i) f := sorry
+
+-- Check `smallEtale_map_identity`
+example (F : AlgSpace.{u}) :
+    Nonempty (smallEtale_map (𝟙 F) ≅ 𝟭 _) ∧
+      (smallEtale_map (𝟙 F)).IsContinuous (smallEtaleTopology F) (smallEtaleTopology F) ∧
+      (smallEtale_map (𝟙 F)).IsCocontinuous (smallEtaleTopology F) (smallEtaleTopology F) := sorry
+
+-- Check `smallEtale_compose_identity`
+example (F : AlgSpace.{u}) (hF : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) (𝟙 F)) :
+    Nonempty (smallEtale_compose (𝟙 F) hF ≅ 𝟭 _) := sorry
+
+-- Check `smallEtale_compose_etale`: composition keeps the source and composes its structure map.
+example {F G : AlgSpace.{u}} (f : F ⟶ G)
+    (hf : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) f) (V : smallEtale F) :
+    (smallEtale_compose f hf).IsContinuous (smallEtaleTopology F) (smallEtaleTopology G) ∧
+      (smallEtale_compose f hf).IsCocontinuous (smallEtaleTopology F) (smallEtaleTopology G) ∧
+      ((smallEtale_compose f hf).obj V).obj = Over.mk (V.obj.hom ≫ f) :=
+  ⟨smallEtale_compose_continuous f hf, smallEtale_compose_cocontinuous f hf, rfl⟩
+
+-- Check `smallEtale_compose_two_sheets`: the composite on S_ét is not the identity.
+example (k : Type u) [Field k] :
+    let S := Spec (CommRingCat.of k)
+    let T := S ⨿ S
+    let F := AlgSpace.ofScheme.obj T
+    let G := AlgSpace.ofScheme.obj S
+    let f := AlgSpace.ofScheme.map (coprod.desc (𝟙 S) (𝟙 S))
+    ∃ (hf : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) f)
+      (hF : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) (𝟙 F))
+      (hG : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) (𝟙 G)),
+      let u := smallEtale_map f
+      let j := smallEtale_compose f hf
+      let topF : smallEtale F := ⟨Over.mk (𝟙 F), hF⟩
+      let topG : smallEtale G := ⟨Over.mk (𝟙 G), hG⟩
+      j.IsContinuous (smallEtaleTopology F) (smallEtaleTopology G) ∧
+        j.IsCocontinuous (smallEtaleTopology F) (smallEtaleTopology G) ∧
+        Nonempty ((j.obj topF).obj ≅ Over.mk f) ∧
+        Nonempty (u.obj topG ≅ topF) ∧
+        Nonempty (((u ⋙ j).obj topG).obj ≅ Over.mk f) ∧
+        ¬ Nonempty ((u ⋙ j).obj topG ≅ topG) := sorry
 
 -- Check `test_spec_global_sections`
 example (R : CommRingCat.{u}) (h : EtaleLocal (@Etale : MorphismProperty Scheme.{u}) (𝟙 (AlgSpace.ofScheme.obj (Spec R)))) :
@@ -4480,7 +4589,10 @@ theorem IsCategoricalQuotient.unique {U R X X' : SchemePresheaf.{u}} (s t : R �
 /-- The direct image `φ_* 𝒪_U` on the small étale site of `X`. -/
 noncomputable def pushforwardStructureSheaf {U X : AlgSpace.{u}} (φ : U ⟶ X) :
     Sheaf (smallEtaleTopology X) CommRingCat.{u} :=
-  ⟨(smallEtale_map φ).op ⋙ (structureSheaf U).obj, by sorry⟩
+  letI := smallEtale_map_continuous φ
+  ⟨(smallEtale_map φ).op ⋙ (structureSheaf U).obj,
+    (smallEtale_map φ).op_comp_isSheaf (smallEtaleTopology X) (smallEtaleTopology U)
+      (structureSheaf U)⟩
 
 /-- Pullback of functions along an arrow over `X`, on the small étale site of `X`.
 The equation identifies the structure map of the source with the composite. -/
