@@ -90,13 +90,13 @@ exact declarations are listed under *Exact supplier contracts*.
   coboundaries and `H¹`; **ModularForms** (layer 9) supplies the classical Hecke polynomial
   `X²−a_ℓX+ω(ℓ)ℓ^{k−1}`; **PadicMeasuresIwasawaAlgebras** (§5.1) supplies the ring-level
   finite-projective determinant-line API; AlgebraicVectorBundles L0C sheafifies it.
-- **SchemeAndStackFoundations** (§0.20) owns `IsJapanese.of_complete_local` and
-  `IsNagata.of_complete_local`, including finite normalization in inseparable extensions;
+- **SchemeAndStackFoundations** (§0.20) owns `Ring.IsJapanese.of_complete_local` and
+  `Ring.IsNagata.of_complete_local`, including finite normalization in inseparable extensions;
   §2.22 owns affine Azumaya étale splitting and the
   finite-cover-to-one-faithfully-flat-étale-algebra adapter in the neutral `IsAzumaya` API.
   The reduced-norm polynomial law is owned here.
-- **PadicMeasuresIwasawaAlgebras** (§4.5) owns `TauCeti.fittingIdeal_le_annihilator` in
-  `TauCeti/RingTheory/FittingIdeal`; the Ribet consequences are owned here.
+- **PadicMeasuresIwasawaAlgebras** (§4.5) owns `TauCeti.Iwasawa.fittingIdeal_le_annihilator`;
+  the Ribet consequences are owned here.
 
 Tau Ceti's `HeckeRing.GL2.Newform.satakeParameters` carries the classical rank-two polynomial
 `X²−a_pX+χ(p)p^(k−1)` over `ℂ`; the rank-two normalisation in Layer IHG.3a only matches coefficient
@@ -110,8 +110,8 @@ The following are the library or roadmap halves of statements kept here, each of
 which adds the polynomial-law, local-ring or integral clause: the `GSp₄` spin polynomial and its
 Calegari–Geraghty normalisation, `SpinPolynomial`, `SpinPolynomial.reciprocal`, its
 similitude and `gsp4-galois-comparison` of SmoothRepresentationsOfLocalGroups,
-SR.4, whose `gln-generators` is the hypothesis of the `GLₙ` product formula; the excursion algebra
-of SR.6; the henselian and artinian interfaces
+SR.4, whose *gln-generators* supplies the Satake values `S(T_r) = q^{r(n−r)/2} e_r` substituted
+into `glnPolynomial_satake`; the excursion algebra of SR.6; the henselian and artinian interfaces
 `IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
 constant rank (PadicMeasuresIwasawaAlgebras, §5.1); conjugacy
 of algebra isomorphisms over a field (Tau Ceti `exists_unit_conj_of_algEquiv`; SemisimpleAlgebras,
@@ -123,11 +123,13 @@ layer 5); arithmetic and geometric Frobenius and the Artin map (ClassFieldTheory
 `a+b−1` here), `LinearMap.eventually_isCompl_ker_pow_range_pow` (the finite-length case of the
 ghost decomposition), `Matrix.det_fromBlocks_zero₂₁`, `MvPolynomial.mul_esymm_eq_sum`,
 `Matrix.charpoly_inv`, `Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm` and the
-group-algebra antipode `MonoidAlgebra.antipode`, each the matrix or universal case of a determinant
-statement here. The Fitting ideal is `TauCeti.fittingIdeal`, its base change
-`TauCeti.fittingIdeal_baseChange`, the character map of a group algebra `MonoidAlgebra.lift`, and
-the spin polynomials are those of SmoothRepresentationsOfLocalGroups; `Suggested.lean` uses
-`TauCeti.fittingIdeal`, `MonoidAlgebra.lift` and `SmoothRepresentationsOfLocalGroups.SpinPolynomial`.
+group-algebra antipode, the `HopfAlgebra (MonoidAlgebra A G)` instance of
+`Mathlib/RingTheory/HopfAlgebra/MonoidAlgebra.lean`, with `MonoidAlgebra.antipode_single`, each the
+matrix or universal case of a determinant statement here. The Fitting ideal is
+`TauCeti.fittingIdeal`, its base change `TauCeti.fittingIdeal_baseChange`, the character map of a
+group algebra `MonoidAlgebra.lift`, and the spin polynomials are those of
+SmoothRepresentationsOfLocalGroups; `Suggested.lean` uses `TauCeti.fittingIdeal`,
+`MonoidAlgebra.lift` and `SmoothRepresentationsOfLocalGroups.SpinPolynomial`.
 
 ## Conventions
 
@@ -378,9 +380,10 @@ The cocycle identity is Mathlib's `groupCohomology.IsCocycle₁`, `f(gh) = g •
 matrix and universal cases already in Mathlib, listed under *Scope and ownership* as the library
 halves of statements kept here, are `Ideal.sup_pow_add_le_pow_sup_pow`, `LinearMap.eventually_isCompl_ker_pow_range_pow`,
 `Matrix.det_fromBlocks_zero₂₁`, `MvPolynomial.mul_esymm_eq_sum`, `Matrix.charpoly_inv`,
-`Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm`, `MonoidAlgebra.antipode`,
-`IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the character map of a group algebra is
-`MonoidAlgebra.lift`.
+`Matrix.reverse_charpoly`, `Matrix.det_one_add_mul_comm`, `IsAdicComplete.henselianRing`,
+`IsArtinianRing.equivPi` and the `HopfAlgebra (MonoidAlgebra A G)` instance of
+`Mathlib/RingTheory/HopfAlgebra/MonoidAlgebra.lean`, with `MonoidAlgebra.antipode_single`; the
+character map of a group algebra is `MonoidAlgebra.lift`.
 
 ### From Tau Ceti
 
@@ -416,12 +419,12 @@ Satake images `q^{r(n−r)/2} e_r` in the symmetric Laurent ring over `ℤ[q^{±
 `GLₙ` Hecke polynomial of Layer IHG.3a is a formal expression in `q` and the `T_r`; the `GSp₄` spin polynomial with constant term `1`
 (`SpinPolynomial`), its reciprocal monic form (`SpinPolynomial.reciprocal`), its similitude
 (a README-only target of SR.4), the comparison with the Calegari–Geraghty normalisation
-(`gsp4-galois-comparison`) and the `GLₙ` generator statement `gln-generators`, which is the
-hypothesis of the `GLₙ` product formula of Layer IHG.3a. Its general construction is applied here
-to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and SR.6.3: the integral
-finite-wild cocycle scheme (*One integral finite-wild cocycle scheme*) and the excursion algebra
-(*Finite-wild excursion algebra*), the library half of the universal reductive pseudocharacter ring
-of Layer IHG.1.
+(`gsp4-galois-comparison`) and the Satake values `S(T_r) = q^{r(n−r)/2} e_r` (SR.4's *gln-generators*),
+which are the substitution `T_i = s^{i(n−i)} e_i` read in `glnPolynomial_satake`. Its general
+construction is applied here to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and
+SR.6.3: the integral finite-wild cocycle scheme (*One integral finite-wild cocycle scheme*) and the
+excursion algebra (*Finite-wild excursion algebra*), the library half of the universal reductive
+pseudocharacter ring of Layer IHG.1.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -468,23 +471,25 @@ The degree-`d` multiplicative polynomial law on endomorphisms is the additional 
 AlgebraicVectorBundles L0C consumes that ring-level foundation for sheaf determinants.
 
 [PadicMeasuresIwasawaAlgebras §4.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c2b687410d8df022e1212fdf22129450963d696/TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md#45-the-iwasawa-coordinate-and-the-initial-fitting-ideal)
-supplies `TauCeti.fittingIdeal_le_annihilator` on the existing `TauCeti.fittingIdeal` carrier:
-for a commutative ring `A` and `[Module.Finite A M]`, `fittingIdeal A M 0 ≤ Module.annihilator A M`.
-Its implementation belongs to `TauCeti/RingTheory/FittingIdeal`, without finite-presentation
-hypotheses. This is the common bound consumed by Ribet and Iwasawa theory.
+supplies `TauCeti.Iwasawa.fittingIdeal_le_annihilator` on the existing `TauCeti.fittingIdeal`
+carrier: for a commutative ring `A` and `[Module.FinitePresentation A M]`,
+`fittingIdeal A M 0 ≤ Module.annihilator A M`, that is, for finitely presented modules; the Ribet
+modules of Layer 6 are finite over the noetherian `T`, hence finitely presented, so this form
+suffices. This is the common bound consumed by Ribet and Iwasawa theory.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
 [SchemeAndStackFoundations §0.20](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a5f34f36fd23d27dd9eaa4a2c69a12d857213fe/TauCetiRoadmap/SchemeAndStackFoundations/README.md#020-japanese-and-nagata-rings)
-supplies `Ring.IsJapanese`, `Ring.IsNagata`, `IsJapanese.of_complete_local` and
-`IsNagata.of_complete_local` in the neutral ring-level API. For a complete noetherian local
+supplies `Ring.IsJapanese`, `Ring.IsNagata`, `Ring.IsJapanese.of_complete_local` and
+`Ring.IsNagata.of_complete_local` in the neutral ring-level API. For a complete noetherian local
 domain `A`, the Japanese condition gives `Module.Finite A (integralClosure A E)` for every
 finite extension `E` of its fraction field, including inseparable extensions
 ([Stacks Lemma 10.162.8, tag 032W](https://stacks.math.columbia.edu/tag/032W)).
-The finiteness of integral closures used in §6.1 only specializes `IsJapanese.of_complete_local`
-to the supplied fraction field and scalar tower. The additional result here is the global
-difference lattice of §6.1; together with the fraction-lattice topology of §6.1 it supplies the
-finite-lattice and topology inputs to `IntegralRibet.local_ribet`.
+The finiteness of integral closures used in §6.1 only specializes
+`Ring.IsJapanese.of_complete_local` to the supplied fraction field and scalar tower. The
+additional result here is the global difference lattice of §6.1; together with the
+fraction-lattice topology of §6.1 it supplies the finite-lattice and topology inputs to
+`IntegralRibet.local_ribet`.
 
 [SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a5f34f36fd23d27dd9eaa4a2c69a12d857213fe/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
 owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
@@ -2660,6 +2665,13 @@ action on such a `C` is a finite `A`-module, as a submodule of `End(C)`.
 *Needs:* `ModuleCat.finite_ext`, `DerivedCategory`.
 *Lean:* `HeckeImage.Supported`, `HeckeImage.FiniteCohomology`, `HeckeImage.derived_hom_finite`.
 
+**Checks.**
+
+- `(ℤ²)[0]` is supported on `[0,0]` and on `[−1,3]` but not on `[1,1]` (a Lean `example`).
+- An object supported on `[1,0]` is zero (a Lean `example`).
+- `ℤ[0]` has finite cohomology while `(⊕_{n∈ℕ} ℤ)[0]` does not (a Lean `example`).
+- Every object supported on an empty interval has finite cohomology (a Lean `example`).
+
 **Chain, homotopy and derived images.** Use `AlgHom.range` for each actual action;
 use `AlgHom.rangeRestrict`, `Subalgebra.val` and `AlgHom.quotientKerEquivRange` for
 its surjection, inclusion and kernel quotient. Prove that a chain action descends to the homotopy
@@ -2735,7 +2747,7 @@ complete noetherian local and `T` is a finite commutative `A`-algebra, there are
 noetherian, local and complete at its own maximal ideal. Allow `s=0` for the zero
 algebra. This product decomposition is the algebra input to the summand construction;
 the chosen coordinate idempotents are transported by the algebra equivalence.
-Source: [Stacks, Lemma 10.160.2](https://stacks.math.columbia.edu/tag/0323).
+Source: [Stacks, Lemma 10.160.2](https://stacks.math.columbia.edu/tag/0325).
 *Needs:* finite algebras, adic completeness.
 *Lean:* `HeckeImage.finite_local_factors`.
 
@@ -3390,10 +3402,12 @@ without irreducibility.
 fraction-ring hypothesis were omitted, every assertion about field quotients of that zero ring
 would be vacuous; `¬ IsLocalization (nonZeroDivisors ℤ) (ZMod 1)` excludes this case.
 
-**Fitting annihilator bound.** The supplier `TauCeti.fittingIdeal_le_annihilator`, owned by
-PadicMeasuresIwasawaAlgebras §4.5, states
-`Fitt₀_A(M) ⊆ Ann_A(M)` for a finite module over a commutative ring, without a finite-presentation
-hypothesis ([Stacks](https://stacks.math.columbia.edu/tag/07ZA), Lemma 15.8.4(6), tag 07ZA). The supplier proves the bound using adjugates of finite relation minors.
+**Fitting annihilator bound.** The supplier `TauCeti.Iwasawa.fittingIdeal_le_annihilator`, owned
+by PadicMeasuresIwasawaAlgebras §4.5, states
+`Fitt₀_A(M) ⊆ Ann_A(M)` for a finitely presented module over a commutative ring
+([Stacks](https://stacks.math.columbia.edu/tag/07ZA), Lemma 15.8.4(6), tag 07ZA); the Ribet
+modules of this layer are finite over the noetherian `T`, hence finitely presented. The supplier
+proves the bound using adjugates of finite relation minors.
 *Needs:* PadicMeasuresIwasawaAlgebras §4.5, Tau Ceti `fittingIdeal`, Mathlib `Module.annihilator`.
 
 **Checks.**
@@ -3545,7 +3559,7 @@ In the matrix case a basis selected from group elements and the nondegenerate ma
 pairing bound the coefficients by a finite trace-dual module. In the field case the image
 elements are integral over the corresponding domain quotient of `T`; finite normalization
 bounds them even for a purely inseparable quadratic field. SchemeAndStackFoundations §0.20
-supplies `IsJapanese.of_complete_local` and `IsNagata.of_complete_local`:
+supplies `Ring.IsJapanese.of_complete_local` and `Ring.IsNagata.of_complete_local`:
 the integral closure of a complete noetherian local domain in any finite extension of its
 fraction field is finite, including inseparable extensions
 ([Stacks Lemma 10.162.8, tag 032W](https://stacks.math.columbia.edu/tag/032W)).
@@ -3560,8 +3574,8 @@ of `M₂(Frac(T))`, assuming `T` noetherian local with its adic topology, a topo
 structure on `Frac(T)`, and an embedding `T → Frac(T)`. Clear a common regular denominator
 and use Artin–Rees inside a finite free `T`-module. Thus `T̃=T` supplies both inputs to the
 canonical local theorem without changing the global hypotheses. *Needs:* SemisimpleAlgebras
-layers 2–4, SchemeAndStackFoundations §0.20 `IsJapanese.of_complete_local` and
-`IsNagata.of_complete_local` through the finiteness of integral closures above, and the
+layers 2–4, SchemeAndStackFoundations §0.20 `Ring.IsJapanese.of_complete_local` and
+`Ring.IsNagata.of_complete_local` through the finiteness of integral closures above, and the
 submodule topology comparison of Finite and continuous Ribet modules.
 
 **Checks.**
@@ -4496,6 +4510,7 @@ Ribet theory for distinct residual characters, Irreducibility excludes an exact 
 | `extraPlaces` | The two-place local datum gives `{1}` | The full local datum, with its single distinguished place, gives the empty set | With three places, all in `sigma`, and distinguished place `1`, the result is `{0,2}` |
 | `localRelations` | For unipotent data with the full local datum, relations fill the enlarged module | Empty scalar data have no relations | Scalar data with the two-place local datum have no relations despite the surviving free generator |
 | `localCocycle` | With unipotent data and the full local datum, every class vanishes | Empty scalar data give zero | With empty local input and the sign-character representation, `κ(−1)≠0` |
+| `localVector` | Over `A = ℤ` and for any `ρ, χ, ψ`, the two-place local datum gives a local vector at place `1` of infinite order | The full local datum has no local vector | With three places, all in `sigma`, trivial subgroups and distinguished place `1`, the local vectors at places `0` and `2` differ over a nonzero ring |
 
 **Checks for formal coordinates and relations.** These are computations in the specified
 polynomial quotients.
@@ -4634,8 +4649,9 @@ cocycles, coboundaries and `H¹`. The annihilator bound is an additional relatio
 in this layer. From Mathlib: `MonoidAlgebra`, `Matrix`, `Submodule`,
 `ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`, `MvPolynomial` and
 `IsLocalization.Away`. SchemeAndStackFoundations §0.20 supplies
-`IsJapanese.of_complete_local` and `IsNagata.of_complete_local` for the finite normalization
-used by the global difference lattice. The sources are DKSW, Buchsbaum and the Stacks Project.
+`Ring.IsJapanese.of_complete_local` and `Ring.IsNagata.of_complete_local` for the finite
+normalization used by the global difference lattice. The sources are DKSW, Buchsbaum and the
+Stacks Project.
 
 ## Downstream consumers
 

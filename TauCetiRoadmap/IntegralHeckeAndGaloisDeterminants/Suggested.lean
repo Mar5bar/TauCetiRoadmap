@@ -273,7 +273,7 @@ example : glnPolynomial 2 (4 : ℤ) ![1, 16, 15] = (X - 6) * (X - 10) := by
 
 /-- The monic `GSp₄` spin polynomial `X⁴ − T₁X³ + (qT₂ + (q³+q)T₀)X² − q³T₀T₁X + q⁶T₀²`: the
 reflection of `SmoothRepresentationsOfLocalGroups.SpinPolynomial`, whose `T1, T2` are `T₂, T₁`
-here ([BCGP], equation (1.8.27), p. 17). -/
+here ([BCGP], the polynomial `Q_ℓ` of §1.8.8, p. 16). -/
 def gsp4SpinPolynomial (q T₀ T₁ T₂ : A) : A[X] :=
   Polynomial.reflect 4 (SmoothRepresentationsOfLocalGroups.SpinPolynomial q T₀ T₂ T₁)
 
@@ -399,8 +399,9 @@ theorem Determinant.exists_semisimple_ofMatrix_eq {k R : Type u} [Field k] [IsAl
 
 /-- Henselian reconstruction: over a henselian local ring, a determinant on `A[G]` whose reduction
 is the determinant of an absolutely irreducible representation over the residue field is the
-determinant of a representation `A[G] → M_d(A)`, unique up to conjugation (Theorem 2.22(i) applied
-to `A[G]/CH(D)`; [Chenevier], Theorem 2.22(i), p. 34). -/
+determinant of a representation `A[G] → M_d(A)`, unique up to conjugation ([Chenevier], Theorem
+2.22(i), p. 34, applied to `A[G]/CH(D)` for existence; uniqueness by inner conjugacy of
+automorphisms of `M_d(A)` over a local ring, [Allen–Newton–Thorne], proof of Theorem 2.4, p. 5). -/
 theorem Determinant.exists_ofMatrix_eq_of_henselian {A G : Type u} [CommRing A]
     [HenselianLocalRing A] [Group G] {d : ℕ} (D : Determinant A (MonoidAlgebra A G) d)
     (ρbar : MonoidAlgebra (IsLocalRing.ResidueField A) G →ₐ[IsLocalRing.ResidueField A]
@@ -492,6 +493,21 @@ def Supported (C : DerivedCategory (ModuleCat.{u} A)) (a b : ℤ) : Prop :=
 def FiniteCohomology (C : DerivedCategory (ModuleCat.{u} A)) : Prop :=
   ∀ i : ℤ, Module.Finite A ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj C)
 
+-- `(ℤ²)[0]` is supported on `[0,0]` and on `[−1,3]` but not on `[1,1]`.
+example : let C := (DerivedCategory.singleFunctor (ModuleCat.{0} ℤ) 0).obj (.of ℤ (Fin 2 → ℤ))
+    Supported C 0 0 ∧ Supported C (-1) 3 ∧ ¬ Supported C 1 1 := sorry
+
+-- An object supported on `[1,0]` is zero.
+example (C : DerivedCategory (ModuleCat.{u} A)) (hC : Supported C 1 0) : Limits.IsZero C := sorry
+
+-- `ℤ[0]` has finite cohomology while `(⊕_{n∈ℕ} ℤ)[0]` does not.
+example : let F := DerivedCategory.singleFunctor (ModuleCat.{0} ℤ) 0
+    FiniteCohomology (F.obj (.of ℤ ℤ)) ∧ ¬ FiniteCohomology (F.obj (.of ℤ (ℕ →₀ ℤ))) := sorry
+
+-- Every object supported on an empty interval has finite cohomology.
+example (C : DerivedCategory (ModuleCat.{u} A)) (a b : ℤ) (hab : b < a) (hC : Supported C a b) :
+    FiniteCohomology C := sorry
+
 /-- An endomorphism is a ghost if it acts by zero on every cohomology module. -/
 def IsGhost {C : DerivedCategory (ModuleCat.{u} A)} (f : End C) : Prop :=
   ∀ i : ℤ, (DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map f = 0
@@ -527,7 +543,7 @@ theorem exists_idempotent_splitting (C : DerivedCategory (ModuleCat.{u} A)) (e :
       i ≫ p = 𝟙 Ce ∧ p ≫ i = e := sorry
 
 /-- A finite commutative algebra over a complete noetherian local ring is a finite (possibly empty)
-product of finite complete noetherian local algebras ([Stacks], Lemma 10.160.2, tag 0323). -/
+product of finite complete noetherian local algebras ([Stacks], Lemma 10.160.2, tag 0325). -/
 theorem finite_local_factors [IsLocalRing A] [IsNoetherianRing A]
     [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
     (T : Type u) [CommRing T] [Algebra A T] [Module.Finite A T] :
