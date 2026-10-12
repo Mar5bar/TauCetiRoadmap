@@ -40,7 +40,10 @@ glued from R0's modules.
 3. Adic spaces are the objects of `TauCeti.AdicSpace` (locally `Spa(A, A⁺)` with a sheaf structure
    presheaf). A point is analytic if its support is not open; a space is analytic if every point
    has a Tate affinoid neighbourhood. A Huber ring is of noetherian type if it has a noetherian ring
-   of definition or is a strongly noetherian Tate ring.
+   of definition or is a strongly noetherian Tate ring. Huber's standing class (Huber96 (1.1.1)) is
+   narrower: a noetherian ring of definition over which the ring is finitely generated, a strongly
+   noetherian Tate ring, or a discrete ring. Sheafiness (R0.2) needs only noetherian type; the
+   unramified, smooth and étale theory (R0.16–R0.17) carries the standing class on every space.
 4. `K` is complete for a nontrivial rank-one nonarchimedean absolute value, `K°` its valuation ring,
    `ϖ` a pseudouniformiser, `Spa K = Spa(K, K°)`. `K°` is noetherian only when `K` is discretely
    valued; no statement assumes this unless it says so.
@@ -77,10 +80,11 @@ glued from R0's modules.
 ## How to read the build
 
 `Suggested.lean` carries the definitions that are a few lines over Tau Ceti's carriers (noetherian
-type, adic homomorphisms, affinoid charts, the morphism classes, `K`-affinoid algebras through Tau
-Ceti's Tate algebras, affinoid subdomains of `Max A`) and the headline theorems about them. Each
-target below is one paragraph: statement with hypotheses, source locator, the discriminating Checks,
-and its Lean carrier or "README target". Within a layer, supporting results come last.
+type, Huber's standing class, adic homomorphisms, affinoid charts, the morphism classes,
+`K`-affinoid algebras through Tau Ceti's Tate algebras, affinoid subdomains of `Max A`) and the
+headline theorems about them. Each target below is one paragraph: statement with hypotheses,
+source locator, the discriminating Checks, and its Lean carrier or "README target". Within a layer,
+supporting results come last.
 
 ## Layer R0: morphisms and admissible affinoid products
 
@@ -98,6 +102,25 @@ noetherian; `ℂ_p` qualifies by (ii), but no ring of definition `A₀ ⊇ p^N·
 (`p^N·𝔪_{ℂ_p}` is not finitely generated over `A₀`). Lean: `Huber.IsNoetherianType`,
 `IsNoetherianType.of_pairOfDefinition`, `IsNoetherianType.of_isStronglyNoetherian`,
 `IsNoetherianType.isStronglyNoetherian`.
+
+**Huber's standing class.** (*huber-standing-class*) A Huber ring `A` is in Huber's standing class
+if (a) some pair of definition `(A₀, I)` has `A₀` noetherian and `A` finitely generated as an
+`A₀`-algebra, or (b) `A` is a strongly noetherian Tate ring, or (c) `A` is discrete (Huber96 §1.1,
+(1.1.1), p. 37, where (a) is asked of the completion; chart rings here are complete). Huber96
+imposes this on every f-adic ring and proves the unramified, smooth and étale theory of §§1.6–1.7
+under it. Prove: every ring in the class is of noetherian type (in (c) the prime subring with ideal
+`0` is a noetherian ring of definition); in case (a) `A` is noetherian; the class is stable under
+rational localisation and topologically finite type extensions (in case (a), each element of the
+completed algebra is a polynomial in finitely many fixed elements plus a tail in the completed ring
+of definition, so the completed algebra is finitely generated over that noetherian ring). The
+inclusion in noetherian type is strict: noetherian type does not ask `A` to be finitely generated
+over its ring of definition. Checks: discrete rings, e.g. `ℤ[T₁, T₂, …]`, are in the class
+by (c) though not noetherian; `ℚ_p` is in it by (b) and `ℤ_p⟦T⟧` (`(p, T)`-adic) by (a); the ring
+`A = ℤ_p ×_{𝔽_p} E` of *etale-standing-class-control* (R0.16) is of noetherian type (open
+noetherian ring of definition `ℤ_p`) but outside the class, since its ideal `J` of finitely
+supported sequences is not finitely generated, so `A` is not finitely generated over `ℤ_p` (nor
+noetherian, so no other ring of definition serves), and it is neither Tate nor discrete. Lean:
+`Huber.IsHuberStandard`, `IsHuberStandard.isNoetherianType`.
 
 **Completion of a noetherian ring of definition.** (*noetherian-adic-completion*) For a pair of
 definition `(A₀, I)` of `A`, the pair `(Â₀, Î)` of `Â` (closure of the image of `A₀`, ideal generated
@@ -484,10 +507,16 @@ finitely presented over `O_Y(V)` whenever `O_Y(V)` is discrete (Huber96 §1.2, D
 Wedhorn §6.6, Ex. 6.32(1), p. 53). It implies local finite type, equivalently so over analytic `Y`
 or when every complete affinoid chart of `Y` with discrete ring has a noetherian ring (stronger than
 noetherian type); it composes, contains open immersions, restricts to opens, but is not stable under
-all base changes (*base-change-stability* (iv)). Checks: `Spa(ℚ_p⟨T, S⟩/(TS − p)) → Spa(ℚ_p)`
-qualifies. For discrete `A = ℤ[T₁, T₂, …]`, `Spa(A/(T₁, T₂, …)) → Spa(A)` is locally of finite type,
-not of finite presentation, though `A` is of noetherian type. Lean:
-`AdicSpace.LocallyOfFinitePresentation`, `locallyOfFinitePresentation_iff_of_isAnalytic`.
+all base changes (*base-change-stability* (iv)). The Lean predicate is Def. 1.2.1(v) as printed;
+Huber96 develops the étale and smooth theory on it only for rings of Huber's standing class, and
+over a target outside the class it no longer controls base change or openness
+(*etale-standing-class-control*), so the theorems of R0.16–R0.17 carry the class. Checks:
+`Spa(ℚ_p⟨T, S⟩/(TS − p)) → Spa(ℚ_p)` qualifies. For discrete `A = ℤ[T₁, T₂, …]`,
+`Spa(A/(T₁, T₂, …)) → Spa(A)` is locally of finite type, not of finite presentation, though `A` is
+of noetherian type. The quotient `Spa ℤ_p → Spa(A, A)` of *etale-standing-class-control* qualifies,
+although its kernel is not finitely generated, because its target ring is not discrete. Lean:
+`AdicSpace.LocallyOfFinitePresentation`, `LocallyOfFinitePresentation.locallyOfFiniteType`,
+`locallyOfFinitePresentation_iff_of_isAnalytic`.
 
 **Locally noetherian adic spaces.** (*locally-noetherian-adic-space*) `X` is locally noetherian if
 every point has an open affinoid neighbourhood `U` with `O_X(U)` of noetherian type
@@ -502,6 +531,21 @@ perfectoid disc `Spa(K⟨T^{1/p^∞}⟩, K°⟨T^{1/p^∞}⟩)` is sheafy but no
 `(T^{1/pⁿ})` increase strictly near `T = 0`). Lean: `AdicSpace.IsLocallyNoetherian`,
 `AdicSpace.HasStablySheafyCharts`, `IsLocallyNoetherian.spa`,
 `IsLocallyNoetherian.of_locallyOfWeaklyFiniteType`, `IsLocallyNoetherian.isStablySheafy`.
+
+**Locally Huber-standard adic spaces.** (*locally-huber-standard*) `X` is locally Huber-standard
+if every point has an affinoid chart whose coordinate ring is in Huber's standing class
+(*huber-standing-class*; Huber96 §1.1, (1.1.1), p. 37). Such `X` is locally noetherian, hence has
+stably sheafy charts, and `Spa(A, A⁺)` qualifies, through its identity chart, when `A` is in the
+class. For analytic `X` it is the same as being locally noetherian (both say: locally `Spa` of
+complete strongly noetherian Tate rings). It is the hypothesis that every theorem of R0.16–R0.17
+places on each space it involves, in place of Huber's book-wide convention. Checks: `Spa(ℤ_p⟦T⟧)`
+and every discretely ringed space qualify. `Spa(A, A)` for `A = ℤ_p ×_{𝔽_p} E` of
+*etale-standing-class-control* is locally noetherian but not locally Huber-standard at the point
+`∞` of `V(p) = Spa(E, E)`: every chart around `∞` meets cofinitely many coordinate points, so its
+ring contains infinitely many nonzero orthogonal idempotents and is not noetherian, which rules
+out (a) and (b); and `∞` specialises the analytic point of `Spa(ℤ_p, ℤ_p) ⊆ Spa(A, A)`, so no chart
+around it is discrete. Lean: `AdicSpace.IsLocallyHuberStandard`,
+`IsLocallyHuberStandard.isLocallyNoetherian`, `IsLocallyHuberStandard.spa`.
 
 ### R0.7 fibre products
 
@@ -540,12 +584,18 @@ non-affinoid open unit disc (Hübner §9, Ex. 9.4); `ℤ_p⟨T⟩` gives `Spa �
 morphisms, `Y` covered by `Spa(B, B⁺)` with `B` complete and stably sheafy (e.g. locally
 noetherian), and (a) `f` locally of finite type, or (b) `f` locally of weakly finite type and `g`
 adic. Then `X ×_S Y` exists with stably sheafy charts; the projection `q` to `Y` is locally of
-finite type in (a), of weakly finite type in (b), and `p` is adic if `g` is; locally `Spa(C ⊗̂_A B)`
-for adic `g`, else the union of *fibre-product-along-finite-type* (Huber94 §3, Prop. 3.7, p. 535;
-Huber96 §1.2, Prop. 1.2.2 and proof, pp. 47–49, and Cor. 1.2.3(i), (iii)(a), p. 49; Wedhorn §8.6,
-Thm 8.56, p. 89; Berkeley Lecture 4, §4.1, p. 28). Checks: `Spa(ℤ_p⟦T⟧) ×_{Spa ℤ_p} Spa(ℚ_p, ℤ_p)`
-exists, not affinoid. `Spa(ℤ[T₁, T₂, …], ℤ) × Spa K` is not representable (Berkeley Lecture 4, §4.1,
-p. 28). Lean: existence `hasPullback_of_finiteType`.
+finite type in (a) and locally of weakly finite type in (b), and `p` is adic if `g` is; locally
+`Spa(C ⊗̂_A B)` for adic `g`, else the union of *fibre-product-along-finite-type* (Huber94 §3,
+Prop. 3.7, p. 535; Huber96 §1.2, Prop. 1.2.2 and proof, pp. 47–49, and Cor. 1.2.3(i), (iii)(a), p.
+49; Wedhorn §8.6, Thm 8.56, p. 89, and Rem. 8.57, p. 90; Berkeley Lecture 4, §4.1, p. 28). The
+global form holds only with quasi-compactness: if in (b) `f` is moreover quasi-compact, `q` is
+quasi-compact by *base-change-stability* (vi), so of weakly finite type. Checks:
+`Spa(ℤ_p⟦T⟧) ×_{Spa ℤ_p} Spa(ℚ_p, ℤ_p)` exists, not affinoid. `Spa(ℤ[T₁, T₂, …], ℤ) × Spa K` is not
+representable (Berkeley Lecture 4, §4.1, p. 28). For `f : ∐_{n ≥ 0} Spa(K, K°) → Spa(K, K°)` and
+`g = id` (all charts strongly noetherian Tate, `g` adic) the base change is `f` itself: locally of
+finite type, not quasi-compact, so not of weakly finite type; a finite disjoint union is of finite
+type. Lean: existence `hasPullback_of_finiteType`; the local conclusion of (b) is
+`LocallyOfWeaklyFiniteType.baseChange`.
 
 **Points of fibre products.** (*fibre-product-points*) In case (b) of *fibre-products-existence*
 (`f` locally of weakly finite type, `g` adic, `Y` with stably sheafy charts),
@@ -561,7 +611,11 @@ discrete `ℤ_p[T]` with `0 < |T| < |p|ⁿ` (all `n`) and the Gauss point of rad
 locally of finite type ⇒ `q` is; (ii) `f` locally of weakly finite type, `g` adic ⇒ `q` is; (iii)
 the same for +weakly finite type; (iv) `f` locally of finite presentation ⇒ `q` locally of finite
 type, and of finite presentation if `Y` is analytic or `f` has charts `O_S(W)⟨X⟩_M/𝔞` with `𝔞`
-finitely generated (e.g. `O_S(W)⟨X⟩_M` noetherian or `O_S(W)` discrete); (v) `g` adic ⇒ `p` adic;
+finitely generated (e.g. `O_S(W)⟨X⟩_M` noetherian or `O_S(W)` discrete); the second condition
+holds when `S` is locally Huber-standard (*locally-huber-standard*), since for `O_S(W)` in classes
+(a), (b) of *huber-standing-class* the ring `O_S(W)⟨X⟩_M` is noetherian and in class (c) `f` is
+finitely presented on the chart; without either condition (iv) fails, even for adic `g` and `S`
+of noetherian type (the check below, and *etale-standing-class-control*); (v) `g` adic ⇒ `p` adic;
 (vi) for adic `g`, `q` (resp. `p`) is quasi-compact or quasi-separated if `f` (resp. `g`) is
 (Wedhorn §8.6, Rem. 8.57, p. 90; Huber94 §3, Prop. 3.7, p. 535; Huber96 §1.2, Cor. 1.2.3, p. 49,
 whose (i) needs (1.1.1)). Checks: for `A = ℤ_p ⊕ M`, `M = ⊕_ℕ 𝔽_p e_i`, `M² = 0`, basis `pⁿℤ_p ⊕ 0`
@@ -953,12 +1007,21 @@ between locally noetherian analytic adic spaces and maximal `x ↦ y`, `O_{X,x}`
 
 ### R0.16 flat, unramified, smooth and étale morphisms
 
-`Ω_{X/Y}` denotes the modules `Ωᶜ_{O_X(U)/O_Y(V)}` on affinoid charts. Unramified, smooth and étale
-are defined by lifting (Huber96 §1.6, Def. 1.6.5, p. 78) against `Spa A` for complete Huber pairs
-`(A, A⁺)` (not necessarily sheafy), closed ideals `I` with `I² = 0` and quotient pairs `A/I`.
-The Lean predicates take the chart-local form (each point has a chart of `f` with the lifting
-property); it agrees with Huber's form by *etale-smooth-locality*, for smooth morphisms between
-locally noetherian spaces.
+`Ω_{X/Y}` denotes the modules `Ωᶜ_{O_X(U)/O_Y(V)}` on affinoid charts. Huber defines unramified,
+smooth and étale by lifting (Huber96 §1.6, Def. 1.6.5, p. 78): for every affinoid ring `A` (not
+necessarily complete or sheafy), every ideal `I` of `A` with `I² = 0` and every `Spa A → Y`, the
+restriction `Hom_Y(Spa A, X) → Hom_Y(Spa(A/I), X)` is injective, surjective or bijective. The Lean
+lifting predicates test only complete Hausdorff Huber pairs `(C, C⁺)` (not necessarily sheafy) and
+closed ideals `I` with `I² = 0`, through Tau Ceti's quotient pair `(C/I, (C/I)⁺)`: this is the
+complete-pair, closed-ideal specialisation of Huber's test. The restriction is kept because Tau
+Ceti's quotient by a non-closed ideal is not Hausdorff, and ring maps into it are not morphisms to
+Huber's `Spa(A/I)`, which is formed from the completion. The chart-level predicates ask each point
+for a chart of `f` with the lifting property; agreement with Huber's definition is the separate
+target *lifting-test-agreement*, through which Huber's results transfer to the Lean predicates (or
+their proofs are adapted directly). Huber96 proves the results of §§1.6–1.7
+under the standing assumption (1.1.1); here every theorem of R0.16–R0.17 asks each space it
+involves to be locally Huber-standard (*locally-huber-standard*), which for analytic spaces is the
+same as locally noetherian. Without the class the package fails (*etale-standing-class-control*).
 
 **Flat morphisms.** (*flat-morphism*) `f` is flat if all stalk maps `O_{Y,f(x)} → O_{X,x}` are flat
 (Zavyalov-Q Appendix B.4, Def. B.4.1, p. 49); for strongly noetherian Tate affinoids this implies
@@ -971,12 +1034,12 @@ and `Hom_Y(Spa A, X) → Hom_Y(Spa(A/I), X)` is injective (Huber96 §1.6, Def. 1
 finite maps over a noetherian Tate ring it is `Algebra.FormallyUnramified`. Checks: `S ↦ T²`
 (`2 ∈ K^×`) is unramified exactly off the origin; a nonzero closed square-zero quotient `A → A/I`
 has unique lifts but no lift of the identity.
-Lean: `AdicSpace.Unramified_affinoid`, `AdicSpace.Unramified`.
+Lean: `AdicSpace.Unramified_affinoid` (complete-pair, closed-ideal test), `AdicSpace.Unramified`.
 
 **Smooth morphisms.** (*smooth-morphism*) `f` is smooth if it is locally of finite presentation and
-the restriction is surjective (Huber96 §1.6, Def. 1.6.5, p. 78); for `X`, `Y` locally noetherian the
-relative dimension is the locally constant rank of `Ω_{X/Y}` (Huber96 Prop. 1.6.9 and Cor. 1.6.10,
-pp. 79–80). Checks: the `n`-polydisc is smooth of relative dimension `n` though
+the restriction is surjective (Huber96 §1.6, Def. 1.6.5, p. 78); for `X`, `Y` locally Huber-standard
+the relative dimension is the locally constant rank of `Ω_{X/Y}` (Huber96 Prop. 1.6.9 and Cor.
+1.6.10, pp. 79–80). Checks: the `n`-polydisc is smooth of relative dimension `n` though
 `Algebra.Smooth K K⟨T⟩` fails; the node `T₁T₂ = 0` is not smooth.
 Lean: `AdicSpace.Smooth_affinoid`, `AdicSpace.Smooth`.
 
@@ -987,12 +1050,23 @@ by finite étale" (AdicEtaleGeometry A1). Checks: `{|T| ≤ |p|} ⊆ Spa(ℚ_p�
 not of finite type, so `Algebra.Etale` is the wrong notion; `S ↦ T^p` in characteristic `p` is
 finite and flat, not étale. Lean: `AdicSpace.Etale_affinoid`, `AdicSpace.Etale`.
 
-**Open embeddings are étale.** (*open-embedding-etale*) Every open embedding of adic spaces is étale
-(Huber96 §1.6, Prop. 1.6.7(i), p. 79, first clause). Lean: `Etale.of_isOpenImmersion`.
+**Agreement with Huber's lifting test.** (*lifting-test-agreement*) For `f : X → Y` between locally
+Huber-standard spaces, locally of finite type (for smooth and étale: locally of finite
+presentation), `f` satisfies `AdicSpace.Unramified` (`AdicSpace.Smooth`, `AdicSpace.Etale`) iff it
+is unramified (smooth, étale) in the sense of Huber96 §1.6, Def. 1.6.5, p. 78, with arbitrary
+affinoid test rings and arbitrary ideals of square zero. Ingredients: Huber's `Spa A` and
+`Spa(A/I)` are formed from `Â` and from `Â` modulo the closure of `IÂ`, an ideal that still has
+square zero, and *etale-smooth-locality* passes between chart-local and global lifting. Lean: README
+target.
+
+**Open embeddings are étale.** (*open-embedding-etale*) Every open embedding of locally
+Huber-standard adic spaces is étale (Huber96 §1.6, Prop. 1.6.7(i), p. 79, first clause). Lean:
+`Etale.of_isOpenImmersion` (source and target locally Huber-standard).
 
 **Immersions are unramified.** (*immersion-unramified*) Monomorphisms of pre-adic spaces locally of
 finite type, so locally closed embeddings, are unramified (Huber96 §1.6, Prop. 1.6.7(i), p. 79,
-second clause, generalised). Lean: closed case `IsClosedImmersion.unramified`.
+second clause, generalised), all spaces locally Huber-standard. Lean: closed case
+`IsClosedImmersion.unramified` (source and target locally Huber-standard).
 
 **Relative polydiscs are smooth.** (*restricted-power-series-smooth*) For complete `(A, A⁺)` and
 finite `Mᵢ ⊆ A` with `MᵢA` open, `Spa A⟨X₁,…,Xₙ⟩_M → Spa A` is smooth, of relative dimension `n` if
@@ -1000,54 +1074,101 @@ finite `Mᵢ ⊆ A` with `MᵢA` open, `Spa A⟨X₁,…,Xₙ⟩_M → Spa A` is
 
 **Composites.** (*etale-smooth-composition*) Unramified, smooth and étale morphisms are each closed
 under composition (Huber96 §1.6, Prop. 1.6.7(ii), p. 79). Check: the origin followed by
-`D → Spa(K, K°)` is the identity, so the converse fails. Lean: étale case `Etale.comp`.
+`D → Spa(K, K°)` is the identity, so the converse fails. Lean: étale case `Etale.comp` (all three
+spaces locally Huber-standard).
 
 **Cancellation.** (*etale-smooth-cancellation*) If `g ∘ f` is unramified, so is `f`; if `g ∘ f` is
 smooth (étale) and `g` unramified, `f` is smooth (étale) (Huber96 §1.6, Prop. 1.6.7(iii), p. 79).
 Check: the same pair shows `g` unramified is needed. Lean: README target.
 
 **Locality.** (*etale-smooth-locality*) Unramified, étale and smooth are local on the source
-(smooth: `X`, `Y` locally noetherian) (Huber96 §1.6, Prop. 1.6.7(v) and Def. 1.6.5(ii), pp. 78–79).
+(smooth: `X`, `Y` locally Huber-standard) (Huber96 §1.6, Prop. 1.6.7(v) and Def. 1.6.5(ii), pp.
+78–79).
 Lean: README target.
 
 **Unramified maps.** (*unramified-locally-quasi-finite*) An unramified, e.g. étale, `f : X → Y` of
-locally noetherian spaces is locally quasi-finite (Huber96 §1.7, Cor. 1.7.4, p. 86). Lean: README
+locally Huber-standard spaces is locally quasi-finite (Huber96 §1.7, Cor. 1.7.4, p. 86). Lean: README
 target.
 
 **Unramified criteria.** (*infinitesimal-criteria*) For `f` locally of finite type between locally
-noetherian spaces, equivalent: (a) unramified; (b) `Ω_{X/Y} = 0`; (c) `Δ_f` is an open embedding;
+Huber-standard spaces, equivalent: (a) unramified; (b) `Ω_{X/Y} = 0`; (c) `Δ_f` is an open embedding;
 (d) locally a closed embedding then étale (Huber96 §1.6, Prop. 1.6.8, p. 79). Lean: README target.
 
-**Differentials.** (*smooth-differentials-locally-free*) For smooth `f` of locally noetherian
+**Differentials.** (*smooth-differentials-locally-free*) For smooth `f` of locally Huber-standard
 spaces, `Ω_{X/Y}` is locally finite free (Huber96 §1.6, Prop. 1.6.9(i), p. 79). Lean: README target.
 
 **Jacobian criterion.** (*jacobian-criterion-closed-subspace*) For `Z → Y` smooth between locally
-noetherian spaces and `X ⊆ Z` closed with ideal `J`, `X → Y` is étale (smooth) near `x` iff `J` has
-local generators whose differentials form a basis (part of a basis) of `Ω_{Z/Y}` (Huber96 §1.6,
+Huber-standard spaces and `X ⊆ Z` closed with ideal `J`, `X → Y` is étale (smooth) near `x` iff `J`
+has local generators whose differentials form a basis (part of a basis) of `Ω_{Z/Y}` (Huber96 §1.6,
 Prop. 1.6.9(ii), p. 79). Check: for `a ∈ K^×`, `|a| ≤ 1`, `2 ∈ K^×`, `V(T² − a) ⊆ D` is étale since
 `2T` is a unit on it, though not in `K⟨T⟩`. Lean: README target.
 
 **Differential criterion.** (*differential-criterion-morphism*) For `X`, `X'` smooth over `Y`, all
-locally noetherian, and a `Y`-map `h : X → X'`, `h` is étale (smooth) near `x` iff
+locally Huber-standard, and a `Y`-map `h : X → X'`, `h` is étale (smooth) near `x` iff
 `O_{X,x} ⊗ Ωᶜ_{X'/Y,h(x)} → Ωᶜ_{X/Y,x}` is bijective (split injective) (Huber96 §1.6, Prop.
 1.6.9(iii), p. 79). Lean: README target.
 
-**Base change.** (*smooth-etale-base-change*) For `f : X → S` and any `g : Y → S`, with `X ×_S Y`
-existing by case (a) of *fibre-products-existence* and, for smooth and étale, `S` as in clause (iv)
-of *base-change-stability*, the projection to `Y` is unramified (smooth, étale) if `f` is, of the
-same relative dimension when `X`, `Y`, `S` are locally noetherian (Huber96 §1.6, Prop. 1.6.7(iv), p.
-79). Check: for non-adic `g`, the étale `Spa(ℚ_p, ℤ_p) → Spa(ℤ_p, ℤ_p)` pulls back along
-`Spa ℤ_p⟦T⟧` to the non-quasi-compact open disc over `ℚ_p`. Lean: étale case `Etale.baseChange`.
+**Base change.** (*smooth-etale-base-change*) Let `f : X → S` and `g : Y → S` be morphisms, `g` not
+necessarily adic, with `X`, `S`, `Y` and `X ×_S Y` locally Huber-standard. The fibre product exists
+by case (a) of *fibre-products-existence* (`f` is locally of finite type, and `Y`, being locally
+noetherian, has stably sheafy charts), and the class on `S` gives the finite-relation condition of
+*base-change-stability* (iv), so local finite presentation passes to the projection. Then the
+projection to `Y` is unramified (smooth, étale) if `f` is, of the same relative dimension (Huber96
+§1.6, Prop. 1.6.7(iv), p. 79). A pullback square alone does not suffice: over a base of noetherian
+type outside the class even an adic base change of an étale map can fail to be étale
+(*etale-standing-class-control*). Check: for non-adic `g`, the étale `Spa(ℚ_p, ℤ_p) → Spa(ℤ_p, ℤ_p)`
+pulls back along `Spa ℤ_p⟦T⟧` to the non-quasi-compact open disc over `ℚ_p`, all four spaces being
+locally Huber-standard. Lean: étale case `Etale.baseChange`, with all four spaces locally
+Huber-standard; the existence of the square under these hypotheses is an `example` derived from
+`hasPullback_of_finiteType`.
+
+**The standing class is needed.** (*etale-standing-class-control*) Fix a prime `p`. Let `E` be the
+ring of eventually constant sequences in `∏_{i ≥ 0} 𝔽_p`, `ε : E → 𝔽_p` the eventual value and
+`J = ker ε` the ideal of finitely supported sequences, spanned by the orthogonal idempotents `e_i`;
+`J` is not finitely generated, since finitely many finitely supported sequences generate only
+sequences supported in their joint support. Put `A = ℤ_p ×_{𝔽_p} E` (reduction and `ε`), embed `ℤ_p`
+diagonally, and take the images of `pⁿℤ_p`, `n ≥ 1`, as basic neighbourhoods of `0`; additively
+`A = ℤ_p ⊕ J` with `J` discrete and `pJ = 0`. Then `A` is complete Hausdorff with open noetherian
+ring of definition `ℤ_p` and ideal of definition `(p)`, so it is of noetherian type, `(A, A)` is a
+sheafy Huber pair (every element is power-bounded, as `pⁿA = pⁿℤ_p`) and `Spa(A, A)` is locally
+noetherian; but `A` is outside Huber's standing class (*huber-standing-class*). Let
+`π : (A, A) → (B, B)`, `B = ℤ_p`, be the first projection: a continuous open surjection with closed
+kernel `J`, finite as a morphism of pairs, with `A/pA ≅ E` discrete. (i) `Spa(π)` satisfies
+`LocallyOfFinitePresentation`, with the zero-variable presentation, because the target ring `A`
+is not discrete; it satisfies the lifting test of `Etale_affinoid`, because in a lifting problem
+each `e_i` goes to an idempotent lying in a square-zero ideal, hence to `0`, so the given map out of
+`A` kills `J` and factors uniquely, continuously and compatibly with plus rings through `B`. So
+`Spa(π)` is `Etale` and `Smooth`. (ii) Its adic base change along `A → A/pA = E` is
+`Spa(𝔽_p, 𝔽_p) → Spa(E, E)`; here `Spa(E, E)` is `ℕ ∪ {∞}` with isolated coordinate points, and the
+image is `∞`. Every chart around `∞` has a discrete ring whose kernel onto `𝔽_p` is again a
+non-finitely-generated ideal of finitely supported sequences, so the base change is not locally of
+finite presentation and not étale. (iii) The image of `Spa(π)` meets the closed subspace
+`V(p) = Spa(E, E)` in `{∞}`, which is not open there, so `Spa(π)` is a smooth map with non-open
+image over a locally noetherian target. (iv) The ring map `A → B` is finite but not finitely
+presented (its kernel is `J`), so not `RingHom.Etale`, although `Spa(π)` is `Etale`; and a standard
+presentation of `π`, reduced modulo `p`, would finitely present `E → 𝔽_p`. These four failures
+refute the broad forms of `Etale.baseChange`, `Smooth.isOpenMap`,
+`Etale.iff_ringHom_etale_of_finite` and `Etale.exists_standardPresentation`; their hypotheses
+exclude the example, since `Spa(A, A)` is not locally Huber-standard (*locally-huber-standard*)
+and `A` is not noetherian. Lean: the ring-level part, that `ker ε` is not finitely generated, is an
+`example`; the adic part is this README Check.
 
 ### R0.17 local structure of étale and smooth morphisms; étale affinoid morphisms over a field
 
-Here `A = (A, A⁺)` is a Huber pair, not necessarily complete, whose completion is of noetherian type
-or discrete (Huber's (1.1.1)); `Spa A` means `Spa Â`.
+Here `A = (A, A⁺)` is a Huber pair, not necessarily complete, whose completion is in Huber's
+standing class (*huber-standing-class*; Huber96 §1.1, (1.1.1)); `Spa A` means `Spa Â`. Spaces are
+locally Huber-standard, as in R0.16.
 
-**Finite étale covers.** (*finite-etale-algebra-comparison*) For a complete strongly noetherian Tate
-pair `(A, A⁺)`, `C ↦ Spa(C, C⁺)`, `C⁺` the integral closure of `A⁺`, is an equivalence from finite
-étale `A`-algebras to spaces finite étale over `Spa(A, A⁺)`, inverse `X ↦ O_X(X)` (Huber96 §1.6, Ex.
-1.6.6(ii), pp. 78–79). Lean: affinoid core `Etale.iff_ringHom_etale_of_finite`.
+**Finite étale covers.** (*finite-etale-algebra-comparison*) For a complete Huber pair `(A, A⁺)`
+whose ring `A` is noetherian, `C ↦ Spa(C, C⁺)`, `C` with its natural module topology and `C⁺` the
+integral closure of `A⁺`, is an equivalence from finite étale `A`-algebras to spaces finite étale
+over `Spa(A, A⁺)`, inverse `X ↦ O_X(X)` (Huber96 §1.6, Ex. 1.6.6(ii), pp. 78–79, for noetherian
+complete f-adic rings). A complete strongly noetherian Tate ring is noetherian
+(`isNoetherianRing_of_isStronglyNoetherian`), so the strongly noetherian Tate case is a special
+case. Checks: `ℚ_p` and `ℤ_p⟦T⟧` are noetherian; the ring `A = ℤ_p ×_{𝔽_p} E` of
+*etale-standing-class-control* is not, and there the comparison fails (`Spa ℤ_p → Spa(A, A)` is
+finite and étale in the Lean sense, `A → ℤ_p` is not étale). Lean: affinoid core
+`Etale.iff_ringHom_etale_of_finite` (finite `φ`, `A.ring` noetherian).
 
 **Algebraically finite type.** (*algebraically-finite-type-ring-map*) For finite `Mᵢ ⊆ A` with `MᵢA`
 open, `A[X₁,…,Xₙ]_M` has the topology of `A⟨X⟩_M` and plus ring the integral closure of `A⁺[mXᵢ]`;
@@ -1058,12 +1179,14 @@ finite `L ⊆ B` makes `B⁺` the integral closure of `A⁺[L]` and `A₀[L]` a 
 `A·A⁺[L] = B` if `A` is Tate (Rem. 1.2.6(iii)); so are composites and `A → A[1/g]`. Check: for
 `(ℤ_p, ℤ_p)`, weight `{p}`, `X` is not in the plus ring: spanning needs Tate. Lean: README target.
 
-**Standard étale presentations.** (*etale-local-structure*) For `s : X → Spa A`, `X` affinoid,
-equivalent: (i) `s` is étale; (ii) `X ≅ Spa(B/(f₁,…,fₙ))` over `Spa A` for some `B = A⟨X₁,…,Xₙ⟩_T`
-(`Tᵢ` finite, `TᵢA` open) with `det(∂fᵢ/∂Xⱼ)` a unit in `B/(f)`; (iii) the same with `fᵢ ∈ A[X]`
-(Huber96 §1.7, Prop. 1.7.1, p. 80); for Tate `A`, `Tᵢ = {1}` (Cor. 1.7.2(ii), p. 85). Check: the
-unit is read in `B/(f)`: for `X² − S` it fails over the disc and holds over the annulus. Lean:
-`Etale.exists_standardPresentation` ((i) ⇒ (iii), complete base).
+**Standard étale presentations.** (*etale-local-structure*) For `s : X → Spa A`, `X` affinoid, `A`
+as above, equivalent: (i) `s` is étale; (ii) `X ≅ Spa(B/(f₁,…,fₙ))` over `Spa A` for some
+`B = A⟨X₁,…,Xₙ⟩_T` (`Tᵢ` finite, `TᵢA` open) with `det(∂fᵢ/∂Xⱼ)` a unit in `B/(f)`; (iii) the same
+with `fᵢ ∈ A[X]` (Huber96 §1.7, Prop. 1.7.1, p. 80); for Tate `A`, `Tᵢ = {1}` (Cor. 1.7.2(ii), p.
+85). Check: the unit is read in `B/(f)`: for `X² − S` it fails over the disc and holds over the
+annulus; without the standing class (i) ⇒ (iii) fails (*etale-standing-class-control*). Lean:
+`Etale.exists_standardPresentation` ((i) ⇒ (iii), complete base, the rings of `Spa A` and `X` in
+Huber's standing class).
 
 **Perturbation.** (*etale-presentation-perturbation*) Given a presentation as in 1.7.1(ii) and a
 neighbourhood `V` of `0` in `B/(f)`, some neighbourhood `S` of `0` in `B` ensures: if
@@ -1096,18 +1219,23 @@ rational embeddings and finite étale maps (Scholze13 §5, Lem. 5.2, and its pro
 README target.
 
 **Étale is flat and unramified.** (*etale-flat-unramified*) For `f` locally of finite type between
-analytic adic spaces, `Y` locally noetherian, equivalent: (a) étale; (b) flat and unramified; (c) at
+analytic, locally Huber-standard adic spaces (for analytic spaces the same as locally noetherian),
+equivalent: (a) étale; (b) flat and unramified; (c) at
 maximal `x`, `O_{X,x}` is flat over `O_{Y,f(x)}` with fibre a finite separable field extension
 (Huber96 §1.7, Prop. 1.7.5 and proof, p. 87). Checks: the origin is not flat; `S ↦ T^p` is not
-unramified. Lean: `Etale.iff_flat_and_unramified` ((a) ⇔ (b)).
+unramified. Lean: `Etale.iff_flat_and_unramified` ((a) ⇔ (b); `X`, `Y` analytic and locally
+Huber-standard).
 
 **Flatness of étale affinoid maps.** (*etale-ring-flatness*) For `X → Spa(A, A⁺)` étale between
-affinoids, `A` complete with a noetherian ring of definition or strongly noetherian Tate, the ring
-map is flat (Huber96 §1.7, Lem. 1.7.6 and proof, pp. 87–88). Lean: README target.
+affinoids, `A` complete in Huber's standing class (the proof treats a noetherian ring of definition
+and the strongly noetherian Tate case separately), the ring map is flat (Huber96 §1.7, Lem. 1.7.6
+and proof, pp. 87–88). Lean: README target.
 
-**Smooth morphisms are open.** (*smooth-morphism-open*) Smooth morphisms to a locally noetherian
-`Y`, so also étale ones, are open (Huber96 §1.7, (1.7.7), Prop. 1.7.8 and Lem. 1.7.9, pp. 88–89).
-Check: `S ↦ T^p` in characteristic `p` is open, not étale. Lean: `Smooth.isOpenMap`.
+**Smooth morphisms are open.** (*smooth-morphism-open*) Smooth morphisms between locally
+Huber-standard spaces, so also étale ones, are open (Huber96 §1.7, (1.7.7), Prop. 1.7.8 and Lem.
+1.7.9, pp. 88–89). Checks: `S ↦ T^p` in characteristic `p` is open, not étale; a locally noetherian
+target does not suffice: the smooth `Spa ℤ_p → Spa(A, A)` of *etale-standing-class-control* has
+non-open image. Lean: `Smooth.isOpenMap` (`X`, `Y` locally Huber-standard).
 
 ### R0.18 supporting results
 
@@ -1175,7 +1303,9 @@ unramified exactly off the origin, `T ↦ ϖT` is étale and not finite, and `T 
 characteristic `p` is finite and flat but not étale. A nonzero closed square-zero quotient
 `A → A/I` is unramified but neither smooth nor étale; a countable disjoint union of points is
 locally quasi-finite but not quasi-finite; the torus `(W(κ)[1/p][T^{±1}], W(κ)[T^{±1}])` is of
-algebraically finite type.
+algebraically finite type. The ring `ℤ_p ×_{𝔽_p} E` built from eventually constant sequences is of
+noetherian type but outside Huber's standing class; its quotient `Spa ℤ_p` passes the Lean étale
+test, while base change, openness and the finite-étale comparison fail for it.
 
 ### Dependencies
 
@@ -1189,7 +1319,8 @@ valuation rings and pullbacks. Internally, noetherian type (R0.1) gives closed i
 tensor products of R0.3–R0.5, fibre products (R0.7); these carry closed immersions, properness and
 the valuative criteria (R0.8, R0.10–R0.12) and finite and quasi-finite morphisms (R0.13–R0.14);
 `K`-affinoid algebras (R0.9) serve the field case; continuous differentials (R0.15) and the lifting
-definitions (R0.16) lead to the local structure theory (R0.17); R0.18 collects auxiliary facts.
+definitions (R0.16) lead to the local structure theory (R0.17), all under Huber's standing class
+(R0.1) in its space-level form (R0.6); R0.18 collects auxiliary facts.
 
 ## Layer R1: analytification and algebraic correspondences
 
@@ -1431,9 +1562,15 @@ locally of finite type over `Y` and `S → Y` as in *scheme-fibre-product-analyt
 (smooth, unramified) implies `h_S` étale (smooth, unramified) in the sense of Huber96
 Definition 1.6.5; so `h^ad` inherits these, and smooth `X` of pure dimension `d` has `X^ad` smooth
 with `Ωᶜ_{O(U)/K}` finite projective of rank `d` on each chart (Huber96 §1.7, Prop. 1.7.1, p. 80,
-Cor. 1.7.3, pp. 85–86; Conrad-IC Appendix A.2, Thm A.2.1(1), p. 33). Checks: `K[X]_{P'}/(P)` over
-`{|X| ≤ |ϖ|^{-k}}` becomes `K⟨ϖ^kX⟩/(P)`, the roots of `P` in that disc; `T ↦ T²` (`char K ≠ 2`)
-analytifies to a map étale exactly away from `0`. Lean: README target.
+Cor. 1.7.3, pp. 85–86; Conrad-IC Appendix A.2, Thm A.2.1(1), p. 33). Checks: for `P ∈ K[X]` the
+étale `K`-algebra `K[X]_{P'}/(P)` analytifies over the disc `{|X| ≤ |ϖ|^{-k}}` to the locus
+`{P' ≠ 0}` of `Spa(K⟨ϖ^kX⟩/(P))` (open, and here also closed), i.e. to the simple roots of `P` in
+that disc, not to the whole quotient: over `ℚ_3`, `P = X²(X − 1)` has `P' = 3X² − 2X`, so
+`K[X]_{P'}/(P) ≅ K` (the simple root `1`) analytifies to one reduced point, while on the unit disc
+`K⟨X⟩/(P) ≅ K[ε]/(ε²) × K` keeps the double point at `0`. If `P'` is a unit modulo `P`, e.g.
+`P = X² − a` with `a, 2 ∈ K^×`, the localisation changes nothing and the analytification over the
+disc is `Spa(K⟨ϖ^kX⟩/(P))` itself. `T ↦ T²` (`char K ≠ 2`) analytifies to a map étale exactly away
+from `0`. Lean: README target.
 
 ### R1.5 local rings, constructible sets, connectedness
 
@@ -1588,14 +1725,28 @@ kernel `μ_p` and zero differential, yet is finite locally free of rank `p`. Lea
 a `K`-scheme locally of finite type and `(G, m, e, i)` a group scheme over `Y`, locally of finite
 type with structure map `f`, let `ω_{G/Y} = e^*Ω¹_{G/Y}` and
 `ω_{G^ad/Y^ad} = (e^ad)^*Ω¹_{G^ad/Y^ad}`. Prove `ω_{G^ad/Y^ad} ≅ (ω_{G/Y})^ad`, natural in
-homomorphisms and base change in `Y`; `Ω¹_{G^ad/Y^ad} ≅ (f^ad)^*ω_{G^ad/Y^ad}`; local freeness of
-rank `g` for `G` smooth of relative dimension `g`. For `Y = Spec K` the unit fibre of continuous
+homomorphisms and base change in `Y`, by pulling back along `e^ad` the identification
+`Ω¹_{G^ad/Y^ad} ≅ (Ω_{G/Y})^ad` of the analytified algebraic differential sheaf
+(*analytic-kahler-differentials*, glued in Part III R3) and using `(e^ad)^*(F^ad) ≅ (e^*F)^ad`
+(*analytification-of-modules*); `Ω¹_{G^ad/Y^ad} ≅ (f^ad)^*ω_{G^ad/Y^ad}`; local freeness of rank `g`
+for `G` smooth of relative dimension `g`. For `Y = Spec K` the unit fibre of continuous
 differentials is the Zariski cotangent space `m_e/m_e²` (`I/I²` for `G = Spec H`; the dual tangent
-space for abelian varieties), where `μ^*db = pr₁^*db + pr₂^*db`, `e^*db = 0`, `[n]^*db = n·db`; for
-locally finite-type maps of locally noetherian analytic spaces, algebraic and continuous stalk
-differentials agree after tensoring with the residue field (Stacks Tag 047I; Huber96 (1.6.2)(i), p.
-76, Prop. 1.6.3, pp. 77–78; Conrad-AWS §2.4, pp. 20–21; BHW §3.3, p. 1730; CHJ §1, p. 4). Checks:
-`ω_{G_m^ad} = K·dT/T`, killed by `[p]^*` in characteristic `p`. Lean: README target.
+space for abelian varieties), where `μ^*db = pr₁^*db + pr₂^*db`, `e^*db = 0`, `[n]^*db = n·db`.
+Ordinary differentials of the analytic local rings are compared with continuous ones only at
+classical points: for `u : X → X'` locally of finite type between adic spaces locally of finite
+type over `Spa(K, K°)` and `x ∈ X` with residue field `k(x)` finite and separable over `K` (every
+classical point when `char K = 0`; e.g. the identity `e` of `G^ad` over `Y = Spec K`), the natural
+map `Ω_{O_{X,x}/O_{X',u(x)}} ⊗ k(x) → (Ωᶜ_{X/X'})_x ⊗ k(x)` is an isomorphism, both sides being the
+cokernel of the cotangent map `(m_{u(x)}/m_{u(x)}²) ⊗ k(x) → m_x/m_x²` (Stacks Tag 047I; Huber96
+(1.6.2)(i), p. 76, Prop. 1.6.3, pp. 77–78; Conrad-AWS §2.4, pp. 20–21; BHW §3.3, p. 1730; CHJ §1, p.
+4). Checks: `ω_{G_m^ad} = K·dT/T`, killed by `[p]^*` in characteristic `p`. The comparison fails at
+non-classical points: at the Gauss point `x` of the closed disc over `K = ℚ_3`, `O_{X,x}` is a field
+`F = k(x)` containing `K⟨T⟩`, and `h = log(1 + 3T) = Σ_{n ≥ 1} (−1)^{n+1} 3ⁿTⁿ/n ∈ K⟨T⟩` is
+transcendental over `K(T)` (were it algebraic, the trace of `h` from `K(T, h)` would be a rational
+function whose derivative, `[K(T, h) : K(T)]·3/(1 + 3T)`, has a nonzero residue at `T = −1/3`,
+impossible for a derivative); so `dT`, `dh` are independent in `Ω_{F/K}`, while `dh = 3(1 + 3T)⁻¹dT`
+in continuous differentials, and `dh − 3(1 + 3T)⁻¹dT` is a nonzero element of the kernel that
+tensoring with `k(x) = F` does not remove. Lean: README target.
 
 ### R1.9 dimension of affinoid domains and the rigid identity principle
 

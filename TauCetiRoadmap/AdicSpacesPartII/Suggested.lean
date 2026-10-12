@@ -10,11 +10,12 @@ import TauCeti.RingTheory.Huber.Padic.Field
 
 Huber rings, Huber pairs, pairs of definition, restricted power series, the adic spectrum and
 the category `TauCeti.AdicSpace` are Tau Ceti's. Completeness includes the Hausdorff property.
-This file states the ring-level noetherian and adicness conditions, the morphism classes of
-adic spaces (adic, finite type, separated, proper, finite, quasi-finite, flat, unramified,
-smooth, étale) with their main theorems, classical `K`-affinoid algebras and affinoid
-subdomains. The completed tensor product, continuous differentials, the spectral seminorm,
-rigid-analytic spaces and the analytification functors are README targets.
+This file states the ring-level noetherian and adicness conditions, Huber's standing class of
+f-adic rings (Huber 1996, (1.1.1)), the morphism classes of adic spaces (adic, finite type,
+separated, proper, finite, quasi-finite, flat, unramified, smooth, étale) with their main
+theorems, classical `K`-affinoid algebras and affinoid subdomains. The completed tensor product,
+continuous differentials, the spectral seminorm, rigid-analytic spaces and the analytification
+functors are README targets.
 -/
 
 set_option autoImplicit false
@@ -74,6 +75,40 @@ theorem IsNoetherianType.isStronglyNoetherian : IsNoetherianType A ↔ IsStrongl
   sorry
 
 end NoetherianTypeTate
+
+/-! ### R0.1 Huber's standing class (*huber-standing-class*) -/
+
+section HuberStandard
+
+variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsHuberRing A]
+
+/-- *Huber's standing class* (Huber 1996, (1.1.1), p. 37): `A` has a noetherian ring of
+definition over which it is a finitely generated algebra, or `A` is a strongly noetherian Tate
+ring, or `A` is discrete. Huber asks the first clause of the completion of `A`; for a complete
+`A` the two readings agree. The unramified, smooth and étale theory of Huber 1996, §§1.6–1.7, is
+developed for rings in this class. -/
+@[mk_iff isHuberStandard_iff]
+class IsHuberStandard : Prop where
+  /-- A noetherian ring of definition over which `A` is of finite type, or a strongly noetherian
+  Tate ring, or the discrete topology. -/
+  out : (∃ P : PairOfDefinition A, IsNoetherianRing P.ringOfDefinition ∧
+      Algebra.FiniteType P.ringOfDefinition A) ∨
+    (IsTateRing A ∧ IsStronglyNoetherian A) ∨ DiscreteTopology A
+
+variable {A}
+
+/-- Rings in Huber's standing class are of noetherian type: in the first two clauses directly,
+and a discrete ring has its prime subring, with ideal of definition `0`, as a noetherian ring of
+definition. -/
+theorem IsHuberStandard.isNoetherianType [IsHuberStandard A] : IsNoetherianType A := sorry
+
+/-- Every discrete ring is in Huber's standing class (third clause), noetherian or not. -/
+example [DiscreteTopology A] : IsHuberStandard A := ⟨Or.inr (Or.inr inferInstance)⟩
+
+end HuberStandard
+
+/-- `ℚ_p` is in Huber's standing class: it is a strongly noetherian Tate ring (BGR 5.2.6). -/
+example (p : ℕ) [Fact p.Prime] : IsHuberStandard ℚ_[p] := sorry
 
 /-- The discrete ring `ℤ[X₀, X₁, …]` is of noetherian type (its prime subring is an open
 noetherian ring of definition) but is neither a noetherian ring nor strongly noetherian. -/
@@ -339,7 +374,7 @@ end ValuationSpectrum
 
 /-! ### R0.6, R0.16 Affinoid-level cores of the morphism classes
 (*plus-weakly-finite-type*, *unramified-morphism*, *smooth-morphism*,
-*differentials-unramified-smooth-etale*) -/
+*differentials-unramified-smooth-etale*, *lifting-test-agreement*) -/
 
 namespace AdicSpace
 
@@ -365,16 +400,20 @@ variable {A : Type u₁} {B : Type u₂} [CommRing A] [UniformSpace A] [IsUnifor
   {S : Pair A} {T : Pair B}
 
 /-- Uniqueness of lifts: two morphisms `(B, B⁺) → (C, C⁺)` under `(A, A⁺)` that agree modulo a
-closed square-zero ideal of a complete Huber pair `(C, C⁺)` are equal (Huber 1996, Definition
-1.6.5). -/
+closed square-zero ideal of a complete Huber pair `(C, C⁺)` are equal. This is the
+complete-pair, closed-ideal specialisation of the test of Huber 1996, Definition 1.6.5, which
+ranges over all affinoid rings and all ideals of square zero: Tau Ceti's quotient pair by a
+non-closed ideal is not Hausdorff, and maps into it are not morphisms to Huber's `Spa(C/I)`,
+which is formed from the completion. The two tests are not identified here. -/
 def Unramified_affinoid (φ : Pair.Hom S T) : Prop :=
   ∀ (C : Type w) [CommRing C] [UniformSpace C] [IsUniformAddGroup C] [IsTopologicalRing C]
     [IsHuberRing C] [CompleteSpace C] [T2Space C] (U : Pair C) (I : Ideal C),
     IsClosed (I : Set C) → I ^ 2 = ⊥ → ∀ g₁ g₂ : Pair.Hom T U, g₁.comp φ = g₂.comp φ →
       (Pair.quotientHom U I).comp g₁ = (Pair.quotientHom U I).comp g₂ → g₁ = g₂
 
-/-- Existence of lifts across closed square-zero ideals of complete Huber pairs
-(Huber 1996, Definition 1.6.5). -/
+/-- Existence of lifts across closed square-zero ideals of complete Huber pairs: the
+complete-pair, closed-ideal specialisation of the test of Huber 1996, Definition 1.6.5 (all
+affinoid rings, all ideals of square zero); the two tests are not identified here. -/
 def Smooth_affinoid (φ : Pair.Hom S T) : Prop :=
   ∀ (C : Type w) [CommRing C] [UniformSpace C] [IsUniformAddGroup C] [IsTopologicalRing C]
     [IsHuberRing C] [CompleteSpace C] [T2Space C] (U : Pair C) (I : Ideal C),
@@ -382,7 +421,9 @@ def Smooth_affinoid (φ : Pair.Hom S T) : Prop :=
       (Pair.quotientHom U I).comp a = b.comp φ →
         ∃ g : Pair.Hom T U, g.comp φ = a ∧ (Pair.quotientHom U I).comp g = b
 
-/-- Existence and uniqueness of lifts (Huber 1996, Definition 1.6.5). -/
+/-- Existence and uniqueness of lifts across closed square-zero ideals of complete Huber pairs:
+the complete-pair, closed-ideal specialisation of the test of Huber 1996, Definition 1.6.5 (all
+affinoid rings, all ideals of square zero); the two tests are not identified here. -/
 def Etale_affinoid (φ : Pair.Hom S T) : Prop :=
   ∀ (C : Type w) [CommRing C] [UniformSpace C] [IsUniformAddGroup C] [IsTopologicalRing C]
     [IsHuberRing C] [CompleteSpace C] [T2Space C] (U : Pair C) (I : Ideal C),
@@ -416,7 +457,7 @@ end InfinitesimalLifting
 
 /-! ### R0.6 Affinoid charts, adic morphisms and the finite-type classes
 (*adic-morphism*, *finite-type-morphism-classes*, *locally-finite-presentation*,
-*locally-noetherian-adic-space*) -/
+*locally-noetherian-adic-space*, *locally-huber-standard*) -/
 
 open CategoryTheory Limits TopologicalSpace Opposite TauCeti.ValuationSpectrum
 
@@ -489,6 +530,12 @@ structure HomChart {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) where
 def IsLocallyNoetherian (X : TauCeti.AdicSpace.{w}) : Prop :=
   ∀ x : X.obj, ∃ c : Chart X, x ∈ Set.range c.ι.hom.base ∧
     Huber.IsNoetherianType c.affinoid.ring
+
+/-- `X` is *locally Huber-standard* if it is covered by charts whose coordinate rings lie in
+Huber's standing class `Huber.IsHuberStandard` (Huber 1996, (1.1.1)). -/
+def IsLocallyHuberStandard (X : TauCeti.AdicSpace.{w}) : Prop :=
+  ∀ x : X.obj, ∃ c : Chart X, x ∈ Set.range c.ι.hom.base ∧
+    Huber.IsHuberStandard c.affinoid.ring
 
 /-- `X` is *analytic* if every point has a Tate affinoid neighbourhood (Huber 1996, §1.1). -/
 def IsAnalytic (X : TauCeti.AdicSpace.{w}) : Prop :=
@@ -587,6 +634,22 @@ theorem IsLocallyNoetherian.of_locallyOfWeaklyFiniteType {X Y : TauCeti.AdicSpac
 Definition 8.54). -/
 theorem IsLocallyNoetherian.isStablySheafy {X : TauCeti.AdicSpace.{w}}
     (hX : IsLocallyNoetherian X) : HasStablySheafyCharts X := sorry
+
+/-- Locally Huber-standard adic spaces are locally noetherian. -/
+theorem IsLocallyHuberStandard.isLocallyNoetherian {X : TauCeti.AdicSpace.{w}}
+    (hX : IsLocallyHuberStandard X) : IsLocallyNoetherian X :=
+  fun x ↦ (hX x).imp fun _ hc ↦
+    ⟨hc.1, @Huber.IsHuberStandard.isNoetherianType _ _ _ _ _ hc.2⟩
+
+/-- `Spa` of a complete pair in Huber's standing class is locally Huber-standard. -/
+theorem IsLocallyHuberStandard.spa (A : Affinoid.{w}) [Huber.IsHuberStandard A.ring] :
+    IsLocallyHuberStandard A.spa := sorry
+
+/-- Local finite presentation includes local finite type (Huber 1996, §1.2, after Definition
+1.2.1). -/
+theorem LocallyOfFinitePresentation.locallyOfFiniteType {X Y : TauCeti.AdicSpace.{w}}
+    {f : X ⟶ Y} (hf : LocallyOfFinitePresentation f) : LocallyOfFiniteType f :=
+  fun x ↦ (hf x).imp fun _ hc ↦ ⟨hc.1, hc.2.1⟩
 
 /-! ### R0.7 Fibre products
 (*fibre-products-existence*, *fibre-product-points*, *base-change-stability*) -/
@@ -821,7 +884,7 @@ theorem LocallyQuasiFinite.iff_finite_fibres {X Y : TauCeti.AdicSpace.{w}} (f : 
 /-! ### R0.16–R0.17 Flat, unramified, smooth and étale morphisms
 (*flat-morphism*, *open-embedding-etale*, *immersion-unramified*, *etale-smooth-composition*,
 *smooth-etale-base-change*, *etale-flat-unramified*, *smooth-morphism-open*,
-*etale-local-structure*, *finite-etale-algebra-comparison*) -/
+*etale-local-structure*, *finite-etale-algebra-comparison*, *etale-standing-class-control*) -/
 
 /-- `f` is *flat* if every stalk map is flat (Zavyalov-Q, Definition B.4.1). -/
 def Flat {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
@@ -845,38 +908,63 @@ def Etale {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   LocallyOfFinitePresentation f ∧ ∀ x : X.obj, ∃ c : HomChart f,
     x ∈ Set.range c.source.ι.hom.base ∧ Etale_affinoid.{w, w, w} c.ringHom
 
-/-- Open immersions are étale (Huber 1996, Proposition 1.6.7(i)). -/
+/-- Open immersions between locally Huber-standard spaces are étale (Huber 1996, Proposition
+1.6.7(i), under the standing assumption (1.1.1)). -/
 theorem Etale.of_isOpenImmersion {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
-    [TauCeti.PreAdicSpace.IsOpenImmersion f.hom] : Etale f := sorry
+    [TauCeti.PreAdicSpace.IsOpenImmersion f.hom] (hX : IsLocallyHuberStandard X)
+    (hY : IsLocallyHuberStandard Y) : Etale f := sorry
 
-/-- Closed immersions are unramified (Huber 1996, Proposition 1.6.7(i)). -/
+/-- Closed immersions between locally Huber-standard spaces are unramified (Huber 1996,
+Proposition 1.6.7(i), under (1.1.1)). -/
 theorem IsClosedImmersion.unramified {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
-    (hf : IsClosedImmersion f) : Unramified f := sorry
+    (hf : IsClosedImmersion f) (hX : IsLocallyHuberStandard X) (hY : IsLocallyHuberStandard Y) :
+    Unramified f := sorry
 
-/-- Composites of étale morphisms are étale (Huber 1996, Proposition 1.6.7(ii)). -/
+/-- Composites of étale morphisms of locally Huber-standard spaces are étale (Huber 1996,
+Proposition 1.6.7(ii), under (1.1.1)). -/
 theorem Etale.comp {X Y Z : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (g : Y ⟶ Z)
-    (hf : Etale f) (hg : Etale g) : Etale (f ≫ g) := sorry
+    (hf : Etale f) (hg : Etale g) (hX : IsLocallyHuberStandard X)
+    (hY : IsLocallyHuberStandard Y) (hZ : IsLocallyHuberStandard Z) : Etale (f ≫ g) := sorry
 
-/-- Étale morphisms are stable under base change (Huber 1996, Proposition 1.6.7(iv)). -/
+/-- Étale morphisms are stable under base change when all four spaces are locally
+Huber-standard (Huber 1996, Proposition 1.6.7(iv), under (1.1.1)). Such a square exists by case
+(a) of `hasPullback_of_finiteType`: `f` is locally of finite type and `Z`, being locally
+noetherian, has stably sheafy charts. The class on `Y` makes the relation ideals of the charts
+of `f` finitely generated, which is the condition under which finite presentation passes to
+`q`. -/
 theorem Etale.baseChange {X Y Z W : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (g : Z ⟶ Y)
-    (p : W ⟶ X) (q : W ⟶ Z) (hs : IsPullback p q f g) (hf : Etale f) : Etale q := sorry
+    (p : W ⟶ X) (q : W ⟶ Z) (hs : IsPullback p q f g) (hf : Etale f)
+    (hX : IsLocallyHuberStandard X) (hY : IsLocallyHuberStandard Y)
+    (hZ : IsLocallyHuberStandard Z) (hW : IsLocallyHuberStandard W) : Etale q := sorry
 
-/-- For analytic spaces over a locally noetherian base, étale is flat and unramified
-(Huber 1996, Proposition 1.7.5). -/
+/-- Under the hypotheses of `Etale.baseChange` the fibre product exists, by case (a) of
+`hasPullback_of_finiteType`. -/
+example {X Y Z : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (g : Z ⟶ Y) (hf : Etale f)
+    (hZ : IsLocallyHuberStandard Z) : HasPullback f g :=
+  hasPullback_of_finiteType f g hZ.isLocallyNoetherian.isStablySheafy
+    (Or.inl hf.1.locallyOfFiniteType)
+
+/-- For analytic, locally Huber-standard spaces, étale is flat and unramified (Huber 1996,
+Proposition 1.7.5, under (1.1.1)). For analytic spaces the standing class is the same as being
+locally noetherian. -/
 theorem Etale.iff_flat_and_unramified {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
-    (hX : IsAnalytic X) (hY : IsAnalytic Y) (hN : IsLocallyNoetherian Y)
-    (hf : LocallyOfFiniteType f) : Etale f ↔ Flat f ∧ Unramified f := sorry
+    (hX : IsAnalytic X) (hY : IsAnalytic Y) (hXs : IsLocallyHuberStandard X)
+    (hYs : IsLocallyHuberStandard Y) (hf : LocallyOfFiniteType f) :
+    Etale f ↔ Flat f ∧ Unramified f := sorry
 
-/-- Smooth morphisms to locally noetherian spaces are open (Huber 1996, (1.7.7), Proposition 1.7.8,
-Lemma 1.7.9). -/
+/-- Smooth morphisms of locally Huber-standard spaces are open (Huber 1996, (1.7.7),
+Proposition 1.7.8, Lemma 1.7.9, under (1.1.1)). -/
 theorem Smooth.isOpenMap {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (hf : Smooth f)
-    (hY : IsLocallyNoetherian Y) : IsOpenMap f.hom.base := sorry
+    (hX : IsLocallyHuberStandard X) (hY : IsLocallyHuberStandard Y) : IsOpenMap f.hom.base :=
+  sorry
 
-/-- Local structure of étale morphisms: an étale morphism of affinoids over a base of noetherian
-type has a standard étale presentation, with as many equations as variables and an invertible
-Jacobian determinant (Huber 1996, Proposition 1.7.1). -/
+/-- Local structure of étale morphisms: an étale morphism of affinoids whose coordinate rings lie
+in Huber's standing class has a standard étale presentation, with as many equations as
+variables and an invertible Jacobian determinant (Huber 1996, Proposition 1.7.1, stated for
+affinoid rings under (1.1.1)). -/
 theorem Etale.exists_standardPresentation (A B : Affinoid.{w})
-    (hA : Huber.IsNoetherianType A.ring) (φ : Pair.Hom A.pair B.pair) (g : B.spa ⟶ A.spa)
+    (hA : Huber.IsHuberStandard A.ring) (hB : Huber.IsHuberStandard B.ring)
+    (φ : Pair.Hom A.pair B.pair) (g : B.spa ⟶ A.spa)
     (hg : Affinoid.IsInducedBy g φ) (hf : Etale g) :
     ∃ (n : ℕ) (M : Fin n → Set A.ring) (hM : IsWeightFamily M),
       (∀ i, (M i).Finite) ∧
@@ -894,12 +982,24 @@ theorem Etale.exists_standardPresentation (A B : Affinoid.{w})
            UniformSpace.Completion.coeRingHom (weightedPolynomialHom M hM (p i))) ∧
          IsUnit (Matrix.det (fun i j : Fin n ↦ e (MvPolynomial.pderiv j (p i))))) := sorry
 
-/-- For finite morphisms of affinoids over a base of noetherian type, adic and algebraic
-étaleness agree (Huber 1996, Example 1.6.6(ii)). -/
-theorem Etale.iff_ringHom_etale_of_finite (A B : Affinoid.{w})
-    (hA : Huber.IsNoetherianType A.ring) (φ : Pair.Hom A.pair B.pair)
+/-- For finite morphisms of affinoids over a complete pair whose ring is noetherian, adic and
+algebraic étaleness agree (Huber 1996, Example 1.6.6(ii), stated for noetherian complete f-adic
+rings). Complete strongly noetherian Tate rings are noetherian
+(`TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`), so they are a special case. -/
+theorem Etale.iff_ringHom_etale_of_finite (A B : Affinoid.{w}) [IsNoetherianRing A.ring]
+    (φ : Pair.Hom A.pair B.pair)
     (hφ : Huber.Pair.Hom.IsFinite φ) (g : B.spa ⟶ A.spa) (hg : Affinoid.IsInducedBy g φ) :
     Etale g ↔ φ.toRingHom.Etale := sorry
+
+/-- The ring-level part of the control showing that the étale package needs Huber's standing
+class: on the ring `E` of eventually constant sequences `ℕ → ℤ/p`, the eventual-value map
+`ε : E → ℤ/p` has kernel the finitely supported sequences, which is not a finitely generated
+ideal. Hence `ℤ_p ×_{𝔽_p} E` is not of finite type over its noetherian ring of definition
+`ℤ_p`. -/
+example (p : ℕ) [Fact p.Prime] :
+    ∃ (E : Subring (ℕ → ZMod p)) (ε : E →+* ZMod p),
+      (E : Set (ℕ → ZMod p)) = {a | ∃ N, ∀ n ≥ N, a n = a N} ∧
+        (∀ a : E, ∃ N, ∀ n ≥ N, (a : ℕ → ZMod p) n = ε a) ∧ ¬ (RingHom.ker ε).FG := sorry
 
 section DiscMorphisms
 
