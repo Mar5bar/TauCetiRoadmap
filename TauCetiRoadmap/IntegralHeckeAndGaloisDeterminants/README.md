@@ -1136,7 +1136,7 @@ reversal of products still gives a multiplicative polynomial law of the same deg
 with the determinant of the dual representation. Define `D∨`, the determinant pulled back by
 group-algebra inversion; prove `(D∨)∨ = D`, that for `g ∈ G`,
 `P_D∨,g(X) = X^d P_D,g(X⁻¹)/P_D,g(0)`, and that the determinant of the transpose-inverse matrix
-representation is `D∨` ([Quast](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf), §3.4, p.17; Chenevier §1.5, p.9). *Needs:*
+representation is `D∨` ([Quast](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf), §3.4, p.17; Chenevier §1.5, p.9, for the definition of a determinant on `A[G]`). *Needs:*
 The determinant of a matrix representation. The identity `χ_{D∨}(g) = χ_D(g⁻¹)` pins inversion
 on every group element, so the dual is read as evaluation of `D` at `g⁻¹`; the reciprocal formula
 `Determinant.reciprocal_charpoly` of Layer 3a is stated in that form and follows from this identity
