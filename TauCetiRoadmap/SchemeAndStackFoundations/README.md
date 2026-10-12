@@ -2133,8 +2133,9 @@ of §1.5 by the diagonal action, with `contractedProduct_trivial` (`G ×^G X ≅
 `contractedProduct_baseChange`, `contractedProduct_isAlgebraicSpace`; `innerForm G P := P ×^G G` for
 the conjugation action, a group space; `pushforwardTorsor φ P := P ×^G H` along a homomorphism
 `φ : G → H` (Poonen 2017, §5.12.5.2, §6.5.6). Prove `twistingBijection`: for a `G`-torsor `E`,
-`P ↦ P ×^G E` is a bijection `torsorClasses (innerForm G E) ≃ torsorClasses G` sending the base
-point to the class of `E`, and twisting forms: `G`-forms of `X` trivialised by `E` correspond to
+`P ↦ P ×^{innerForm G E} E`, the contraction over `innerForm G E = Aut_G(E)` acting on `E` on the
+left, is a bijection `torsorClasses (innerForm G E) ≃ torsorClasses G` sending the base point to
+the class of `E`, with inverse `Q ↦ Isom_G(E, Q)`, and twisting forms: `G`-forms of `X` trivialised by `E` correspond to
 `H¹`-classes (Poonen 2017, Theorem 4.5.2, §5.12.5.1, §6.5.6.4). *Needs:* §1.5, §1.15.
 
 **Checks.**
@@ -5674,7 +5675,8 @@ inequality, which is the form the height applications use (Fulton 1998, Example 
 Theorem 12.3, Example 12.3.1). *Needs:* §5.2, §5.3, §5.6.
 
 **Checks.**
-- `test_bezout_plane_curves`: two plane curves of degrees `d`, `e` meet in at most `de` points.
+- `test_bezout_plane_curves`: two plane curves of degrees `d`, `e` with no common component meet in
+  at most `de` closed points (the intersection is then finite and every closed point has degree `≥ 1`).
 - `test_bezout_improper`: a line and itself: one component of degree `1 ≤ 1`.
 - `test_bezout_skew_lines`: two skew lines in `ℙ³` do not meet: `0 ≤ 1`, and no equality is
   asserted since `1 + 1 < 3`.
