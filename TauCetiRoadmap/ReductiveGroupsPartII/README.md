@@ -171,14 +171,14 @@ RG2 owns the shared
 `AlgebraicRelativeRoots` declarations: `Character`, `Cocharacter`, `characterValue`, `adjoint`,
 `weightSpace`, `Root`, `centralizer`, `normalizer`, `centralizerIdeal` and `rootRayPoints`.
 They are specified in RG2.1.2 (*rational-points-root-datum*); `Suggested.lean` does not declare
-them. *BruhatTits.GeometricRoots* and AA's `Reduction.GeometricRoots` are abbreviations of these
+them. *BruhatTits.GeometricRoots* and AA's positive-system constructions are abbreviations of these
 carriers and operations. Their implementation belongs in an unvalued algebraic-group
 module refining ReductiveGroups layer 7, so adelic users can import it without buildings.
 RG2 adds valuations and buildings; AA adds the positive system,
 `a_P`, logarithms and reduction theory. `RelativeRootData.rootEquiv` is the identity on
 characters between the finite enumeration and the shared subtype of nonzero adjoint weights.
-`Reduction.localModulus_eq_rg2` equates the local factors on the identical `Root S` and
-`weightSpace S χ`, with no independently chosen root indices.
+AA's supplier table records that its local modulus, the product over positive relative roots, is
+formed on the identical `Root S` and `weightSpace S χ`, with no independently chosen root indices.
 
 ## Exact supplier contracts
 
@@ -427,7 +427,7 @@ points (`PointTopology.isOpenEmbedding_integralPoints`, `compactSpace_integralPo
 congruence subgroups `CongruenceSubgroup.subgroup`. Two traps shape the statements. The unit group of
 a topological ring with the subspace topology need not be a topological group, so `G_m(R)` carries
 the hyperbola topology `xy = 1`; over `ℚ_p` it agrees with the subspace topology (`units_hyperbola`),
-and the failure over the adeles is the AdelicAlgebraicGroups check `AdelicPoints.not_product_topology`.
+and the failure over the adeles is the AdelicAlgebraicGroups check `AdelicPoints.gm_not_subspace`.
 And `GL_n(O)` is the group of integral matrices with unit determinant, not the integral matrices with
 nonzero determinant (`generalLinear_integral_iff_det`, `diag_uniformizer_not_integral`).
 
