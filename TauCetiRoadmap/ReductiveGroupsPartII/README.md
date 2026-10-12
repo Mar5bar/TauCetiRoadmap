@@ -2925,7 +2925,9 @@ RG2.1 *unramified-descent-of-valuation*; RG2.1 *rational-maximal-unramified-spli
 `H` be connected reductive over a field `k` and `Θ` a finite group acting on `H` by automorphisms,
 of order invertible in `k`. Then the fixed-point functor `R ↦ H(R)^Θ` is represented by a closed
 subgroup `H^Θ` ([Edixhoven], Prop. 3.1, p. 293), which is smooth ([Edixhoven], Prop. 3.4, p. 294),
-and `(H^Θ)°` is connected reductive ([Prasad], §2.4, p. 6, citing Prasad–Yu); `H^Θ` itself may be
+and `(H^Θ)°` is connected reductive ([Prasad], §2.4, p. 6, under the hypothesis that the residue characteristic does not divide `|Θ|`;
+over an arbitrary field with `|Θ|` invertible this is G. Prasad and J.-K. Yu, *On finite group
+actions on reductive groups and buildings*, Invent. Math. 147 (2002), Thm. 2.1, which Prasad cites); `H^Θ` itself may be
 disconnected (inversion on `G_m` has fixed points `μ_2`), which is why the reductivity clause
 concerns the identity component only. If `k = K` is henselian and discretely valued, `Θ` acts on
 `B(H,K)` by transport of structure, by isometries for a `Θ`-invariant scalar product, compatibly
@@ -3261,7 +3263,7 @@ Galois- and `G(K^ur)`-equivariant toral `ι : B(G,K^ur) → B(GL(V),K^ur)` with
 `ι(x_o) = [(⊕Λ_i) ⊗ O^ur]` exists; if `ρ` is faithful, `ι` is an isometric embedding, it is unique,
 and it restricts to a `G(K)`-equivariant embedding of `B(G,K)` ([Kisin–Pappas], Prop. 1.2.3 and
 Lem. 1.2.5, pp. 132–133). (2) Let `char K = 0`, let `G` be split over a tame Galois extension
-`K̃ ⊃ K^ur`, and let `ρ` be minuscule. The split map for `G_{K̃}` is equivariant for the twisted
+`K̃ ⊃ K^ur` with finite inertia group `Gal(K̃/K^ur)`, and let `ρ` be minuscule. The split map for `G_{K̃}` is equivariant for the twisted
 Galois action, and passing to inertia fixed points gives a `G(K^ur)`-equivariant toral map for
 `G`, compatible with Levi factorizations, which is an embedding when `ρ` is faithful
 ([Kisin–Pappas], §1.2.14, pp. 135–136; Prop. 1.2.21 and §§1.2.22–1.2.26, pp. 137–138;
@@ -3945,7 +3947,7 @@ the connected fixer and the type-preserving facet stabilizer coincide. (5) If `G
 of Weil restrictions of split groups, `X_*(G_ab)_I` is torsion-free and `x` is very special, then
 `𝒢_x = 𝒢°_x`. (6) For `PGL_2` and `x` the edge barycentre,
 `Fix(x) = Stab(edge) = N(I) ⊋ I = P°_x`, of index `2` ([van Hoften], §2.2.1, Lem. 2.2.2 and
-Lem. 2.2.4, arXiv pp. 13–15; [Kisin–Zhou], Lem. 4.2.4, arXiv pp. 34–35, for (5); [Bruhat–Tits II],
+Lem. 2.2.4, arXiv pp. 13–15; [Kisin–Zhou], Lem. 4.2.4, arXiv pp. 34–35, for (5) (stated there over `ℚ_p`; the proof applies over `E`); [Bruhat–Tits II],
 4.6.32, p. 137, for (4)). In *BruhatTits.Parahoric*, prove `fixer_eq_parahoric_of_simplyConnected`
 (the fixer of a
 point of the apartment is its parahoric when `π₁(G)` is trivial). *Needs:*
