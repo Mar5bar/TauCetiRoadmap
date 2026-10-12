@@ -108,8 +108,8 @@ characteristic-zero eigenforms.
 
 The following are the library or roadmap halves of statements kept here, each of
 which adds the polynomial-law, local-ring or integral clause: the `GSp₄` spin polynomial and its
-Calegari–Geraghty normalisation, `SpinPolynomial`, `SpinPolynomial.reciprocal`,
-`SpinPolynomial.similitude` and `gsp4-galois-comparison` of SmoothRepresentationsOfLocalGroups,
+Calegari–Geraghty normalisation, `SpinPolynomial`, `SpinPolynomial.reciprocal`, its
+similitude and `gsp4-galois-comparison` of SmoothRepresentationsOfLocalGroups,
 SR.4, whose `gln-generators` is the hypothesis of the `GLₙ` product formula; the excursion algebra
 of SR.6; the henselian and artinian interfaces
 `IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
@@ -415,7 +415,7 @@ Satake images `q^{r(n−r)/2} e_r` in the symmetric Laurent ring over `ℤ[q^{±
 `T_r` generate the spherical Hecke algebra over `ℤ`, and nothing here uses such generation: the
 `GLₙ` Hecke polynomial of Layer IHG.3a is a formal expression in `q` and the `T_r`; the `GSp₄` spin polynomial with constant term `1`
 (`SpinPolynomial`), its reciprocal monic form (`SpinPolynomial.reciprocal`), its similitude
-(`SpinPolynomial.similitude`), the comparison with the Calegari–Geraghty normalisation
+(a README-only target of SR.4), the comparison with the Calegari–Geraghty normalisation
 (`gsp4-galois-comparison`) and the `GLₙ` generator statement `gln-generators`, which is the
 hypothesis of the `GLₙ` product formula of Layer IHG.3a. Its general construction is applied here
 to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and SR.6.3: the integral
