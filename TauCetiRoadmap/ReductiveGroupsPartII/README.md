@@ -264,11 +264,12 @@ algebras (`Algebra.TensorProduct.map`, `Algebra.TensorProduct.basis`, `Algebra.T
 algebras (`Algebra.FiniteType`, `Algebra.FinitePresentation`, `Algebra.FormallySmooth`,
 `Algebra.Smooth`, `Algebra.FormallyEtale.equivPiOfIsSepClosed`,
 `Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`), norms (`Algebra.norm`,
-`Algebra.norm_eq_matrix_det`, `AlgHom.card`), ideals (`Ideal.comap`), schemes and their morphism
-properties (`AlgebraicGeometry.Scheme`), root pairings with their Weyl groups, bases and flips
-(`RootPairing`, `RootPairing.IsReduced`, `RootPairing.Aut`, `RootPairing.flip`,
-`RootPairing.Base.flip`, `RootPairing.Base.flip_support`, `RootPairing.flip_flip`), Coxeter
-systems with length (`CoxeterSystem`, `CoxeterSystem.length`, `CoxeterSystem.length_inv`,
+`Algebra.norm_algebraMap`, `Module.finrank_baseChange`, `Algebra.norm_eq_matrix_det`,
+`AlgHom.card`), ideals (`Ideal.comap`), schemes and their morphism properties
+(`AlgebraicGeometry.Scheme`), root pairings with their Weyl groups, bases and flips (`RootPairing`,
+`RootPairing.IsReduced`, `RootPairing.Aut`, `RootPairing.flip`, `RootPairing.Base.flip`,
+`RootPairing.Base.flip_support`, `RootPairing.flip_flip`), Coxeter systems with length
+(`CoxeterSystem`, `CoxeterSystem.length`, `CoxeterSystem.length_inv`,
 `CoxeterSystem.length_simple_mul`), double cosets (`DoubleCoset.Quotient`, `DoubleCoset.mk`,
 `DoubleCoset.doubleCoset`), subgroup indices and complements (`Subgroup.index`, `Subgroup.relIndex`,
 `Subgroup.IsComplement'`, `Subgroup.quotient_finite_of_isOpen'`), quotient groups
@@ -295,7 +296,11 @@ general linear, special linear and multiplicative groups with their point compar
 `TauCeti.GeneralLinear.instSmoothCoordinateHopfAlgebra`,
 `TauCeti.GeneralLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`,
 `TauCeti.GeneralLinear.diagonalRootDatum`,
-`TauCeti.GeneralLinear.commutatorElement_rootSubgroupPoints`, `TauCeti.Symplectic.diagonalTorus`,
+`TauCeti.GeneralLinear.commutatorElement_rootSubgroupPoints`, the upper-triangular subgroup
+`TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra` with its points
+`TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv`
+(`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/UpperTriangular/Basic.lean`),
+`TauCeti.Symplectic.diagonalTorus`,
 `TauCeti.GL2NonSplitTorusHom`), split tori and diagonalizable groups with their character lattices
 and pairings (`TauCeti.SplitTorus.pointsMulEquiv`, `TauCeti.DiagonalizableGroup.pointsMulEquiv`,
 `TauCeti.DiagonalizableGroup.pairing`, `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
@@ -309,10 +314,11 @@ unit filtration of a local field (`TauCeti.unitFiltration`,
 `unitFiltration_one_isProP`), and pro-p groups (`TauCeti.IsProP`). Tau Ceti also has the
 maximal unramified extension of a local field with its Frobenius
 (`TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius`), pinnings of split
-groups (`TauCeti.Pinning`), Borel subgroups (`TauCeti.IsBorel`), dynamic parabolic subgroups with
-their Levi decompositions (`TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.levi`), central
-isogenies (`TauCeti.CommHopfAlgCat.IsCentralIsogeny`), simply connected semisimple groups, root-datum isogenies
-(`TauCeti.RootPairingIsogeny`), the flip of a based root pairing (`RootPairing.Base.flipSupportEquiv`),
+groups (`TauCeti.Pinning`), Borel subgroups (`TauCeti.HopfIdeal.IsBorel`), dynamic parabolic
+subgroups with their Levi decompositions (`TauCeti.Cocharacter.parabolic`,
+`TauCeti.Cocharacter.levi`), central isogenies (`TauCeti.CommHopfAlgCat.IsCentralIsogeny`), simply
+connected semisimple groups, root-datum isogenies (`TauCeti.RootPairingIsogeny`), the flip of a
+based root pairing (`RootPairing.Base.flipSupportEquiv`),
 Tits systems with the Bruhat decomposition (`TauCeti.TitsSystem`,
 `TauCeti.TitsSystem.bruhatCells_eq_univ`, `TitsSystem.bruhatCell_mul_eq_of_wordLength_le`,
 `bruhatCell_mul_eq_union_of_wordLength_lt`), the Bruhat order on a Coxeter system
@@ -1116,7 +1122,8 @@ ReductiveGroups layer 4.
 **Norm maps and norm-one tori.** (*norm-torus*) For a finite free algebra `k → k'` of rank `d`,
 `NormTorus.norm` is the algebra norm on units of `k' ⊗_k R`, after commuting tensor factors
 (*norm_points*; in `Suggested.lean` this is the definition of `NormTorus.norm`); `normOne` is its
-kernel subgroup. `norm_comp_diagonal` gives `Nm(1 ⊗ r) = r^d`.
+kernel subgroup. `norm_comp_diagonal` gives `Nm(1 ⊗ r) = r^d`; it is Mathlib's
+`Algebra.norm_algebraMap` with `Module.finrank_baseChange`, after commuting tensor factors.
 For a finite separable extension of fields, `normOne_isTorus` recognizes a finite-type Hopf
 algebra whose point functor is naturally isomorphic to these kernels. Its hypotheses require
 compatibility with every coefficient-algebra homomorphism. `characterGroup_normOne` supplies
@@ -1128,7 +1135,7 @@ exact sequence of [Kaletha], §3.1, display (3.1), p. 10 (stated there for `k'/k
 `n = 0`, the first group is the whole unit group. ([Bruhat–Tits II], 1.5.13 and 1.5.17,
 pp. 30–32, for the norm on `Res G_m`; [Česnavičius], Rem. 6.3, display (6.3.3), p. 14, for the
 norm-one torus of `ℂ/ℝ`.) *Needs:* *weil-restriction-group-scheme*; Mathlib `Algebra.norm`,
-`rootsOfUnity`.
+`Algebra.norm_algebraMap`, `Module.finrank_baseChange`, `rootsOfUnity`.
 *Lean:* `NormTorus.norm`, `NormTorus.normOne`, `NormTorus.norm_comp_diagonal`,
 `NormTorus.normOne_isTorus`, `NormTorus.characterGroup_normOne`.
 
@@ -1576,7 +1583,9 @@ valuations are equipollent if `ψ_a = φ_a + a(v)` for some `v ∈ V`. In `Bruha
 `(n·φ)_a(u) = φ_{w^{-1}a}(n^{-1}un)` with `w = ν(n)` for the isomorphism `ν` of
 `RootDatum.exists_weylGroupEquiv` (pinned by *Valuation.smul_apply*), *Valuation.IsCompatible* as
 `φ_a(zuz^{-1}) = φ_a(u) + ω(a(z))` for `z ∈ Z(K)`, and `Valuation.IsDiscrete` as each `Γ_a` being
-finite on each closed bounded interval in `ℝ`; prove *Valuation.filtration_antitone*
+finite on each closed bounded interval in `ℝ` (closed discrete, which is stronger than the discrete
+subsets of [Bruhat–Tits I], Def. 6.2.21, for abstract data and agrees with it for the value sets of
+reductive groups, which are cosets of discrete groups); prove *Valuation.filtration_antitone*
 (`k ≤ l ⇒ U_{a,l} ⊂ U_{a,k}`), *Valuation.bruhat_value_left* ((V5) in value form) and
 `Valuation.valueSet_neg` (`Γ_{−a} = −Γ_a`) ([Bruhat–Tits I], Def. 6.2.1, pp. 116–117, 6.2.2,
 p. 117, 6.2.5, p. 120, and Def. 6.2.21, p. 127; [Bruhat–Tits II], 4.2.7–4.2.9, p. 91).
@@ -1604,6 +1613,11 @@ p. 117, 6.2.5, p. 120, and Def. 6.2.21, p. 127; [Bruhat–Tits II], 4.2.7–4.2.
   for `k = 1` the values on `U_a` drop by `2`.
 - *Valuation.isDiscrete_rankZero* — every valuation of an empty root datum is discrete.
 - *Valuation.isDiscrete_shift* — discreteness is invariant under equipollence.
+- `Valuation.isDiscrete_sl2_standard` (Lean example) — if `ω(K^×) = ℤ`, the valuation of
+  `Valuation.sl2_standard` is discrete, with `Γ_a = ℤ` for both roots.
+- `Valuation.not_isDiscrete_dense` (non-example; Lean example, proved) — if every rational number
+  is a value of `ω` (for instance `ω(K^×) = ℚ`), no valuation of a root datum of `SL_2(K)` with
+  `φ_+(x_+(u)) = ω(u)` is discrete: `Γ_a ∩ [0,1]` contains every `1/(n+1)`, so it is infinite.
 - *Valuation.not_valuation_wrong_sign* (non-example) — by (V5), if `u'uu'' ∈ M_a` and `φ_a(u) = 1`
   then `φ_{−a}(u') ≠ 1`; so for `SL_2` the family `φ_+(x_+(u)) = ω(u)`, `φ_−(x_−(u)) = −ω(u)` is not
   a valuation (at `u = ϖ` it gives `φ_−(x_−(−ϖ^{-1})) = 1`).
@@ -1930,6 +1944,9 @@ layer 4.
   exactly `ℤ` (as for `SL_2` with `ω(K^×) = ℤ`), the alcoves are the strips
   `n < a(x − φ) < n + 1`, `n ∈ ℤ`.
 - `Facet.rankZero` — for `Φ = ∅`, every facet is the whole apartment and is an alcove.
+- `Apartment.isSpecial_base` (Lean example, proved) — for `SL_2` with `φ_±(x_±(u)) = ω(u)`, the
+  base point `φ` is special: `ω(1) = 0` puts `0` in `Γ'_a` for both roots, so the wall of the affine
+  root `a + 0` passes through `φ`.
 - `Facet.not_special_barycentre` (non-example) — a point on no wall, such as the barycentre of an
   alcove of `SL_2`, is not special once `Φ ≠ ∅`; in particular it is not a vertex.
 - `Facet.not_isAlcove_of_special` (non-example) — once `Φ ≠ ∅`, the facet of a special point is not
@@ -3463,13 +3480,13 @@ reduction of smooth models, and explicit level subgroups. A parahoric subgroup i
 points of the connected group scheme; the fixer and the stabilizer of a facet can be larger.
 
 In Lean the base is `O = 𝒪[K]` for a field `K` with a valuative relation. The definitions of smooth
-models (`SmoothModel`, `integralPoints`, `Hom`, `specialFibre`, `HasConnectedFibres`,
-`IsReductive`, `IsHyperspecialSubgroup`) make sense for any valuation ring; every theorem below that
-uses a discrete valuation ring carries the Mathlib instances `ValuativeRel.IsDiscrete`,
-`ValuativeRel.IsNontrivial` and `ValuativeRel.IsRankLeOne` (the first alone also admits valuations of
-higher rank). `ModelField K` bundles these with a henselian valuation ring and a perfect residue
-field; it is the context of [Bruhat–Tits II], 5.1.1, pp. 145–146, and every nonarchimedean local
-field is a `ModelField`.
+models (`SmoothModel`, `integralPoints`, *SmoothModel.Hom*, `specialFibre`,
+*SmoothModel.HasConnectedFibres*, `IsReductive`, `IsHyperspecialSubgroup`) make sense for any
+valuation ring; every theorem below that uses a discrete valuation ring carries the Mathlib
+instances `ValuativeRel.IsDiscrete`, `ValuativeRel.IsNontrivial` and `ValuativeRel.IsRankLeOne` (the
+first alone also admits valuations of higher rank). `ModelField K` bundles these with a henselian
+valuation ring and a perfect residue field; it is the context of [Bruhat–Tits II], 5.1.1, pp.
+145–146, and every nonarchimedean local field is a `ModelField`.
 
 **Checks.**
 
@@ -5642,11 +5659,13 @@ Lean file. *Needs:* *iwasawa-decomposition*; Mathlib `MeasureTheory.Measure.haar
 
 - *adjointModulus_trivial* and `adjointModulus_gm` (the latter a Lean example) — the zero Lie
   algebra and the trivial adjoint action give modulus one.
-- *adjointModulus_q3_upper*, *adjointModulus_f3Laurent_upper* — the upper Borel of
-  `GL₂(ℚ₃)` and `GL₂(𝔽₃((t)))` has both adjoint modulus and modular character `1/3`
-  at `diag(ϖ,1)`.
-- *adjointModulus_q3_opposite*, *adjointModulus_f3Laurent_opposite* — the lower Borel
-  gives `3` on those same matrices, detecting the root and Haar convention.
+- `adjointModulus_upperTriangular_two_terms` (Lean example) — over a nonarchimedean local field `E`
+  with `q = #𝓀[E]`, the upper Borel of `GL₂` has both adjoint modulus and modular character `q⁻¹`
+  at `diag(ϖ,1)` and `q⁻²` at `diag(ϖ²,1)`; these values separate `|det Ad|` from its inverse,
+  which the value `1` of `adjointModulus_gm` does not. For `ℚ₃` and `𝔽₃((t))`
+  (*adjointModulus_q3_upper*, *adjointModulus_f3Laurent_upper*) they are `1/3` and `1/9`.
+- *adjointModulus_q3_opposite*, *adjointModulus_f3Laurent_opposite* — the lower Borel of
+  `GL₂(ℚ₃)` and `GL₂(𝔽₃((t)))` gives `3` at `diag(ϖ,1)`, detecting the root and Haar convention.
 - `nonreduced_modulus_uses_weight_spaces` (computation) — in `SU_3` the positive weight
   multiplicities are `2, 1`, so on a cocharacter with `a(λ) = 1` the exponent is `2·1 + 1·2 = 4`;
   using `dim U_a = 3` would give `5`. The check computes both values.

@@ -5,6 +5,7 @@ import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
 import TauCeti.Algebra.AlgebraicGroup.Smooth.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.FunctorOfPoints
+import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.UpperTriangular.Basic
 import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.CharacterLattice.Basic
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
 import TauCeti.Algebra.AlgebraicGroup.Tangent.Representation
@@ -336,7 +337,9 @@ def norm (R : Type u) [CommRing R] [Algebra k R] : (k' ⊗[k] R)ˣ →* Rˣ :=
 /-- The norm-one subgroup of points, the points of the norm-one torus `R^1_{k'/k} G_m`. -/
 def normOne (R : Type u) [CommRing R] [Algebra k R] : Subgroup (k' ⊗[k] R)ˣ := (norm k k' R).ker
 
-/-- On the diagonal `G_m ⊂ Res_{k'/k} G_m` the norm is the `d`-th power, `d = rank_k k'`. -/
+/-- On the diagonal `G_m ⊂ Res_{k'/k} G_m` the norm is the `d`-th power, `d = rank_k k'`: the
+specialisation of Mathlib's `Algebra.norm_algebraMap` and `Module.finrank_baseChange` to the carrier
+`k' ⊗[k] R` through `Algebra.TensorProduct.comm`. -/
 theorem norm_comp_diagonal [Module.Finite k k'] [Module.Free k k'] (R : Type u) [CommRing R]
     [Algebra k R] (r : Rˣ) :
     norm k k' R (Units.map (Algebra.TensorProduct.includeRight).toMonoidHom r) =
@@ -492,7 +495,10 @@ def primedValueSet (i : ι) : Set ℝ :=
     ∀ (j : ι) (hj : Φ.root j = (2 : ℝ) • Φ.root i) (w : G) (hw : w ∈ D.U j),
       φ.φ i ⟨(u : G) * w, mul_mem u.2 (D.le_of_root_eq_two_smul i j hj hw)⟩ ≤ φ.φ i u}
 
-/-- Discreteness: every bounded interval contains only finitely many root values. -/
+/-- Discreteness: every bounded interval contains only finitely many root values (closed discrete,
+which is stronger than the discrete subsets of Bruhat–Tits I, Def. 6.2.21, p. 127, for abstract
+data and agrees with it for the value sets of reductive groups, which are cosets of discrete
+groups). -/
 def IsDiscrete : Prop := ∀ i (a b : ℝ), (φ.valueSet i ∩ Set.Icc a b).Finite
 
 -- Test BruhatTits.Valuation.not_constant
@@ -528,6 +534,43 @@ example (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ)) (hω : ∃ x : 
           φ.φ 0 ⟨_, h⟩ = ω c) ∧
         (∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 1,
           φ.φ 1 ⟨_, h⟩ = ω c) := sorry
+
+-- Test BruhatTits.Valuation.isDiscrete_sl2_standard
+/- If `ω(K^×) = ℤ`, the standard valuation of the root datum of `SL₂(K)` is discrete, with
+`Γ_a = ℤ` for both roots. -/
+example (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ))
+    (hω : ∀ x : K, x ≠ 0 → ∃ n : ℤ, ω x = ((n : ℝ) : WithTop ℝ)) (hω₁ : ∃ x : K, ω x = 1) :
+    ∃ (Φ : RootPairing (Fin 2) ℝ ℝ ℝ) (D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) K) Φ)
+      (φ : Valuation D), (∀ c : K,
+        (∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 0,
+          φ.φ 0 ⟨_, h⟩ = ω c) ∧
+        (∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 1,
+          φ.φ 1 ⟨_, h⟩ = ω c)) ∧
+      φ.IsDiscrete ∧ ∀ i, φ.valueSet i = Set.range ((↑) : ℤ → ℝ) := sorry
+
+-- Test BruhatTits.Valuation.not_isDiscrete_dense (non-example)
+/- If every rational number is a value of `ω` (for instance `ω(K^×) = ℚ`), no valuation of a root
+datum of `SL₂(K)` with `φ_+(x_+(c)) = ω(c)` is discrete: `Γ_a ∩ [0, 1]` contains every
+`1/(n + 1)`. -/
+example (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ))
+    (hω : ∀ q : ℚ, ∃ x : K, ω x = ((q : ℝ) : WithTop ℝ))
+    {Φ : RootPairing (Fin 2) ℝ ℝ ℝ} {D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) K) Φ}
+    (φ : Valuation D)
+    (h₀ : ∀ c : K, ∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 0,
+      φ.φ 0 ⟨_, h⟩ = ω c) :
+    ¬ φ.IsDiscrete := by
+  intro hd
+  refine Set.infinite_of_injective_forall_mem (f := fun n : ℕ => ((n : ℝ) + 1)⁻¹)
+    (fun m n h => by simpa using h) (fun n => ?_) (hd 0 0 1)
+  obtain ⟨x, hx⟩ := hω ((n : ℚ) + 1)⁻¹
+  obtain ⟨h, hφ⟩ := h₀ x
+  have hx0 : x ≠ 0 := by
+    rintro rfl
+    simp at hx
+  refine ⟨⟨⟨_, h⟩, fun h1 => hx0 ?_, by rw [hφ, hx]; push_cast; rfl⟩, by positivity, ?_⟩
+  · simpa using congrArg (fun g : D.U 0 =>
+      ((g : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 1) h1
+  · exact inv_le_one_of_one_le₀ (by simp)
 
 /-- Two valuations are equipollent if they differ by a vector `v` of the coroot space:
 `ψ_a = φ_a + a(v)` (Bruhat–Tits I, 6.2.5, p. 120). -/
@@ -599,6 +642,45 @@ end AffineRoot
 def Apartment.IsSpecial {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
     {φ : Valuation D} (x : Apartment φ) : Prop :=
   ∀ i : ι, ∃ α : AffineRoot φ, (∃ c : ℝ, 0 < c ∧ Φ.root α.gradient = c • Φ.root i) ∧ x ∈ α.wall
+
+-- Test BruhatTits.Apartment.isSpecial_base
+/- For `SL₂` with `φ_±(x_±(c)) = ω(c)` the base point is special: `ω(1) = 0` puts `0` in `Γ'_a`
+for both roots (neither root of a root pairing on `Fin 2` is twice a root), so the wall of the
+affine root `a + 0` passes through the base point. -/
+example (K : Type) [Field K] (ω : AddValuation K (WithTop ℝ))
+    {Φ : RootPairing (Fin 2) ℝ ℝ ℝ} {D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) K) Φ}
+    (φ : Valuation D)
+    (h₀ : ∀ c : K, ∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 0,
+      φ.φ 0 ⟨_, h⟩ = ω c)
+    (h₁ : ∀ c : K, ∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) K) ∈ D.U 1,
+      φ.φ 1 ⟨_, h⟩ = ω c) :
+    (⟨φ, 0, fun i u => by simp⟩ : Apartment φ).IsSpecial := by
+  have key : ∀ a b c : Fin 2, a = b ∨ a = c ∨ b = c := by decide
+  have hnm : ∀ i j : Fin 2, Φ.root j ≠ (2 : ℝ) • Φ.root i := by
+    intro i j hij
+    have hi := Φ.ne_zero i
+    have hk : Φ.root (Φ.reflectionPerm i i) = -Φ.root i := by
+      rw [Φ.root_reflectionPerm, Φ.reflection_apply_self]
+    rw [smul_eq_mul] at hij
+    rcases key i j (Φ.reflectionPerm i i) with h | h | h
+    · subst h
+      exact hi (by linarith)
+    · rw [← h] at hk
+      exact hi (by linarith)
+    · rw [← h] at hk
+      exact hi (by linarith)
+  have hmem : ∀ i, (0 : ℝ) ∈ φ.primedValueSet i := by
+    refine Fin.forall_fin_two.2 ⟨?_, ?_⟩
+    · obtain ⟨h, hφ⟩ := h₀ 1
+      refine ⟨⟨_, h⟩, fun h1 => ?_, by simp [hφ], fun j hj => absurd hj (hnm 0 j)⟩
+      simpa using congrArg (fun g : D.U 0 =>
+        ((g : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 0 1) h1
+    · obtain ⟨h, hφ⟩ := h₁ 1
+      refine ⟨⟨_, h⟩, fun h1 => ?_, by simp [hφ], fun j hj => absurd hj (hnm 1 j)⟩
+      simpa using congrArg (fun g : D.U 1 =>
+        ((g : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 1 0) h1
+  exact fun i => ⟨⟨i, 0, hmem i⟩, ⟨1, one_pos, (one_smul ℝ _).symm⟩,
+    by simp [AffineRoot.wall, AffineRoot.eval]⟩
 
 /-- The `R`-points of the closed subgroup cut out by a Hopf ideal: the pinned
 `TauCeti.CommHopfAlgCat.quotientPointsSubgroup`, indexed by the coefficient type `R`. -/
@@ -1152,6 +1234,27 @@ example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
     [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (LaurentPolynomial E))]
     (g : WithConv (LaurentPolynomial E →ₐ[E] E)) :
     adjointModulus E (LaurentPolynomial E) g = 1 := sorry
+
+-- Test LocalIntegration.adjointModulus_upperTriangular_two_terms
+/- On the upper-triangular subgroup of `GL₂` over `E`, with `q = #𝓀[E]`, the adjoint modulus and the
+modular character are both `q⁻¹` at `diag(ϖ, 1)` and `q⁻²` at `diag(ϖ², 1)`: the adjoint action
+multiplies the root line by `ϖ` and `ϖ²`, so these values separate `|det Ad|` from its inverse. -/
+open ValuativeRel in
+example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E]
+    [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E
+      (TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra E 2))]
+    (ϖ : 𝒪[E]) (hϖ : Irreducible ϖ)
+    (g₁ g₂ : WithConv
+      (TauCeti.GeneralLinear.UpperTriangular.finiteTypeCoordinateHopfAlgebra E 2 →ₐ[E] E))
+    (hg₁ : ((TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv (R := E) (n := 2) (A := E) g₁ :
+      GL (Fin 2) E) : Matrix (Fin 2) (Fin 2) E) = Matrix.diagonal ![(ϖ : E), 1])
+    (hg₂ : ((TauCeti.GeneralLinear.UpperTriangular.pointsMulEquiv (R := E) (n := 2) (A := E) g₂ :
+      GL (Fin 2) E) : Matrix (Fin 2) (Fin 2) E) = Matrix.diagonal ![(ϖ : E) ^ 2, 1]) :
+    adjointModulus E _ g₁ = (Nat.card 𝓀[E] : ℝ≥0)⁻¹ ∧
+      MeasureTheory.Measure.modularCharacter g₁ = (Nat.card 𝓀[E] : ℝ≥0)⁻¹ ∧
+      adjointModulus E _ g₂ = ((Nat.card 𝓀[E] : ℝ≥0) ^ 2)⁻¹ ∧
+      MeasureTheory.Measure.modularCharacter g₂ = ((Nat.card 𝓀[E] : ℝ≥0) ^ 2)⁻¹ := sorry
 
 end LocalIntegration
 
