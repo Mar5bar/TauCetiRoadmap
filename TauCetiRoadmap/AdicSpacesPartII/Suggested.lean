@@ -688,15 +688,18 @@ theorem exists_pullback_point {X Y S Z : TauCeti.AdicSpace.{w}} (f : X ⟶ S) (g
     (hxy : f.hom.base x = g.hom.base y) :
     ∃ z : Z.obj, p.hom.base z = x ∧ q.hom.base z = y := sorry
 
-/-- Adicness is stable under base change (Huber 1996, Corollary 1.2.3; Wedhorn, Remark 8.57). -/
+/-- Adicness is stable under base change along a morphism locally of weakly finite type (Huber
+1996, Corollary 1.2.3(iii)(a); Wedhorn, Remark 8.57(1), with the roles of `f` and `g` exchanged). -/
 theorem IsAdic.baseChange {X Y Z W : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (g : Z ⟶ Y)
-    (p : W ⟶ X) (q : W ⟶ Z) (hs : IsPullback p q f g) (hf : IsAdic f) : IsAdic q := sorry
+    (p : W ⟶ X) (q : W ⟶ Z) (hs : IsPullback p q f g) (hf : IsAdic f)
+    (hg : LocallyOfWeaklyFiniteType g) (hX : HasStablySheafyCharts X) : IsAdic q := sorry
 
-/-- Local weak finite type is stable under adic base change (Huber 1996, Corollary 1.2.3; Wedhorn,
-Remark 8.57). -/
+/-- Local weak finite type is stable under adic base change from a space with stably sheafy charts
+(Huber 1996, Corollary 1.2.3(iii)(a); Wedhorn, Remark 8.57(1)). -/
 theorem LocallyOfWeaklyFiniteType.baseChange {X Y Z W : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
     (g : Z ⟶ Y) (p : W ⟶ X) (q : W ⟶ Z) (hs : IsPullback p q f g)
-    (hf : LocallyOfWeaklyFiniteType f) (hg : IsAdic g) : LocallyOfWeaklyFiniteType q := sorry
+    (hf : LocallyOfWeaklyFiniteType f) (hg : IsAdic g) (hZ : HasStablySheafyCharts Z) :
+    LocallyOfWeaklyFiniteType q := sorry
 
 /-- Base change along the identity: the fibre product over the identity is the source. -/
 example {X S Z : TauCeti.AdicSpace.{w}} (f : X ⟶ S)
@@ -736,24 +739,27 @@ theorem diagonal_locallyClosed {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) [HasP
 *proper-iff-partially-proper-quasi-compact*, *separated-diagonal-closed-embedding*,
 *proper-comp*, *proper-base-change*, *closed-embedding-proper*) -/
 
-/-- `f` is *separated*: locally of weakly finite type with closed diagonal (Huber 1996, Definition
-1.3.1). -/
+/-- `f` is *separated*: locally of weakly finite type, with `X` covered by stably sheafy affinoids
+(so that `X ×_Y X` exists) and closed diagonal (Huber 1996, Definition 1.3.1, under (1.1.1)). -/
 def IsSeparated {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   LocallyOfWeaklyFiniteType f ∧ HasStablySheafyCharts X ∧
     ∃ h : HasPullback f f, IsClosed (Set.range (@pullback.diagonal _ _ _ _ f h).hom.base)
 
 /-- `f` is *universally closed*: locally of weakly finite type and closed after every adic base
-change (Huber 1996, Definition 1.3.2(i)). -/
+change from a space with stably sheafy charts (Huber 1996, Definition 1.3.2(i), under (1.1.1); the
+test spaces are stable in the sense of Wedhorn, Definition 8.54). -/
 def UniversallyClosed {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   LocallyOfWeaklyFiniteType f ∧
     ∀ (Z W : TauCeti.AdicSpace.{w}) (g : Z ⟶ Y) (p : W ⟶ X) (q : W ⟶ Z),
-      IsAdic g → IsPullback p q f g → IsClosedMap q.hom.base
+      HasStablySheafyCharts Z → IsAdic g → IsPullback p q f g → IsClosedMap q.hom.base
 
-/-- `f` is *universally specializing* (Huber 1996, Definition 1.3.3(i)). -/
+/-- `f` is *universally specializing*: locally of weakly finite type and specializing after every
+adic base change from a space with stably sheafy charts (Huber 1996, Definition 1.3.3(i), under
+(1.1.1); the test spaces are stable in the sense of Wedhorn, Definition 8.54). -/
 def UniversallySpecializing {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   LocallyOfWeaklyFiniteType f ∧
     ∀ (Z W : TauCeti.AdicSpace.{w}) (g : Z ⟶ Y) (p : W ⟶ X) (q : W ⟶ Z),
-      IsAdic g → IsPullback p q f g → SpecializingMap q.hom.base
+      HasStablySheafyCharts Z → IsAdic g → IsPullback p q f g → SpecializingMap q.hom.base
 
 /-- `f` is *partially proper* (Huber 1996, Definition 1.3.3(ii)). -/
 def IsPartiallyProper {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
@@ -778,7 +784,10 @@ theorem IsSeparated.iff_closedImmersion_diagonal {X Y : TauCeti.AdicSpace.{w}} (
     [HasPullback f f] (hf : LocallyOfWeaklyFiniteType f) (hX : HasStablySheafyCharts X) :
     IsSeparated f ↔ IsClosedImmersion (pullback.diagonal f) := sorry
 
-/-- Composites of proper morphisms are proper (Stacks, Tag 01W3, for the scheme analogue). -/
+/-- Composites of proper morphisms are proper (Stacks, Tag 01W3, for the scheme analogue). The
+standing class of R0.12 is carried by the definitions, so no hypothesis on `Z` is needed:
+`IsSeparated` gives `X` and `Y` stably sheafy charts, and `UniversallyClosed` tests only base
+changes from spaces with stably sheafy charts. -/
 theorem IsProper.comp {X Y Z : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (g : Y ⟶ Z)
     (hf : IsProper f) (hg : IsProper g) : IsProper (f ≫ g) := sorry
 

@@ -305,8 +305,8 @@ them as `AdicSpace.IsClosedImmersion`, `AdicSpace.IsTopologicallyFiniteTypePair`
 
 ### From TauCetiRoadmap.ModularCurves
 
-Layer 0E supplies effective faithfully flat descent of modules; layer 2B supplies quotients
-of elliptic curves by finite subgroup schemes, used by R1.
+Layer 2B supplies quotients of elliptic curves by finite subgroup schemes, used by R1
+(*analytification-finite-quotient*); layer 0E is not used.
 
 ## How to read the build
 
@@ -365,7 +365,8 @@ The local geometric predicates `AdicSpace.IsLocallyNoetherian`, `IsLocallyHuberS
 adic spaces. `HomChart` records the source and target charts, the morphism between them, the
 morphism of Huber pairs it induces on global sections (`Affinoid.IsInducedBy`) and the
 commuting chart square. Partial properness uses universal specialization
-under adic base change; properness uses quasi-compactness and universal closedness
+under adic base change from spaces with stably sheafy charts; properness uses quasi-compactness
+and universal closedness
 (Huber96, Definitions 1.3.2–1.3.3, pp. 52–53; Proposition 1.3.4).
 
 **Checks for the geometric predicates.**
@@ -394,7 +395,7 @@ and the integral closure of its generated plus ring. `LocallyOfFiniteType` and
 asks the witness target chart to be in Huber's standing class and adds algebraic finite
 presentation on discrete target charts. `Unramified`, `Smooth` and
 `Etale` combine those finiteness conditions with the square-zero lifting predicates of
-AdicSpacesPartII (Huber96, Definitions 1.2.1, 1.6.5 and 1.7.1).
+AdicSpacesPartII on a morphism chart at each point (Huber96, Definitions 1.2.1, 1.6.5 and 1.7.1).
 
 **Checks for the affine maps and finiteness predicates.**
 
@@ -2704,12 +2705,13 @@ polynomial quotient presentation and the integral-closure equation for the plus 
 `IsFinite` and `IsClosedImmersion` require a single chart for the **whole inverse image**
 of each target chart; the latter uses an open quotient map and its integral quotient
 plus ring. `Flat` uses the actual stalk maps. The definitions of `Unramified`, `Smooth`
-and `Etale` combine these finiteness conditions with the affinoid infinitesimal criteria
-(Huber96, Definitions 1.2.1, 1.4.1 and 1.6.5). `LocallyQuasiFinite` uses discrete fibres.
-`QuasiCompact` uses inverse images of quasi-compact opens; `IsSeparated` uses the actual
-diagonal. `UniversallyClosed` and `UniversallySpecializing` quantify over pullback squares
-along adic maps. The conjunctions defining `IsProper` and `IsPartiallyProper` are those
-of Huber96, Definitions 1.3.2–1.3.3, including the plus weak finite-type hypothesis.
+and `Etale` combine these finiteness conditions with the affinoid infinitesimal criteria on a
+morphism chart at each point (Huber96, Definitions 1.2.1, 1.4.1 and 1.6.5). `LocallyQuasiFinite`
+uses discrete fibres. `QuasiCompact` uses inverse images of quasi-compact opens; `IsSeparated` uses
+the actual diagonal. `UniversallyClosed` and `UniversallySpecializing` quantify over pullback
+squares along adic maps from spaces with stably sheafy charts. The conjunctions defining `IsProper`
+and `IsPartiallyProper` are those of Huber96, Definitions 1.3.2–1.3.3, including the plus weak
+finite-type hypothesis.
 
 The three restriction theorems `LocallyOfWeaklyFiniteType.restrict`,
 `LocallyOfPlusWeaklyFiniteType.restrict` and `LocallyOfFinitePresentation.restrict`
@@ -2765,7 +2767,8 @@ the property is multiplicative), the cancellation statement (if `g ∘ f` is adi
 since a non-analytic image `f(x)` would give a non-analytic `g(f(x))`), `IsAdic.of_isOpenImmersion`
 (an instance: open immersions are adic), `IsAdic.iff_isAdicHom` (for affinoids, a morphism induced
 by `φ` is adic iff `φ` is), and `IsAdic.baseChange` (the base change of an adic
-morphism is adic when the fibre product exists; clause (v) of *base-change-stability*). *Needs:*
+morphism with stably sheafy source along a morphism locally of weakly finite type is adic; clause
+(v) of *base-change-stability*). *Needs:*
 *adic-ring-homomorphism*; Tau Ceti `TauCeti.ValuationSpectrum.IsAnalyticPoint`.
 Lean: `AdicSpace.IsAnalytic`, `AdicSpace.IsAdic`, `IsAdic.iff_isAdicHom`, `IsAdic.of_isAnalytic`.
 
@@ -2833,7 +2836,8 @@ weakly finite type then `f` is; Wedhorn 6.33(2)), `LocallyOfWeaklyFiniteType.res
 `LocallyOfWeaklyFiniteType.of_isOpenImmersion` (an instance: open immersions are locally of weakly
 finite type; Wedhorn 8.49(1)), the discrete affinoid comparison (for discrete rings: locally of
 weakly finite type iff `RingHom.FiniteType`) and `LocallyOfWeaklyFiniteType.baseChange`
-(stable under base change along adic morphisms; clause (ii) of *base-change-stability*). Every open
+(stable under base change along adic morphisms from spaces with `HasStablySheafyCharts`; clause
+(ii) of *base-change-stability*). Every open
 immersion is locally of finite type, and the closed unit disc over `ℚ_p` is of finite type over
 `Spa ℚ_p`. *Needs:* *topologically-finite-type-is-adic*; *adic-morphism*; Tau Ceti
 `TauCeti.Huber.IsTopologicallyFiniteType`; Mathlib `RingHom.FiniteType`.
@@ -2884,10 +2888,10 @@ locally weakly finite type), `LocallyOfPlusWeaklyFiniteType.comp` (composites ar
 finite type: the union of the finite sets `E`, images of `E` under the second map),
 `LocallyOfPlusWeaklyFiniteType.restrict` (restriction to open subspaces; for rational localisations
 `O(W)⁺` is the integral closure of the image of `O⁺` and the fractions `t/s`),
-`LocallyOfPlusWeaklyFiniteType.baseChange` (stable under adic base change; clause (iii)
-of *base-change-stability*) and `IsPlusWeaklyFiniteType.isWeaklyFiniteType` (+weakly finite type
-implies weakly finite type). *Needs:* *finite-type-morphism-classes*; Tau Ceti
-`TauCeti.Huber.IsTopologicallyFiniteType`.
+`LocallyOfPlusWeaklyFiniteType.baseChange` (stable under base change along adic morphisms from
+spaces with `HasStablySheafyCharts`; clause (iii) of *base-change-stability*) and
+`IsPlusWeaklyFiniteType.isWeaklyFiniteType` (+weakly finite type implies weakly finite type).
+*Needs:* *finite-type-morphism-classes*; Tau Ceti `TauCeti.Huber.IsTopologicallyFiniteType`.
 Lean: `LocallyOfPlusWeaklyFiniteType_affinoid`, `AdicSpace.LocallyOfPlusWeaklyFiniteType`.
 
 **Checks.**
@@ -3420,8 +3424,8 @@ and smooth morphisms are stated with those notions (*proper-base-change*,
 *finite-type-morphism-classes*; *plus-weakly-finite-type*; *locally-finite-presentation*;
 *adic-morphism*; Mathlib `Algebra.FinitePresentation.baseChange`,
 `Algebra.FinitePresentation.quotient`, `Algebra.FinitePresentation.ker_fG_of_surjective`.
-Lean: `IsAdic.baseChange` (v), `LocallyOfWeaklyFiniteType.baseChange` (ii); the identity
-base-change Check is an `example`.
+Lean: `IsAdic.baseChange` (v, under the hypotheses of *fibre-products-existence*),
+`LocallyOfWeaklyFiniteType.baseChange` (ii); the identity base-change Check is an `example`.
 
 ### R0.8 closed subspaces and the diagonal
 
@@ -4084,30 +4088,36 @@ These are the diagonal computations of Huber96 §1.3, pp. 51–53.
 
 **Universally closed morphism of adic spaces.** (*universally-closed-morphism*) Let `f : X → Y` be a
 morphism of adic spaces that is locally of weakly finite type. The morphism `f` is *universally
-closed* if, for every adic morphism `g : Y' → Y` and every pullback square of `f` along `g` in the
-category of adic spaces, with base change `f' : X' → Y'`, the continuous map `|f'| : |X'| → |Y'|` is a
-closed map (Huber96 §1.3, Def. 1.3.2(i), p. 51; Berkeley Lecture 17, Def. 17.4.5, p. 156, for the
-same notion, closed after every pullback, in the v-sheaf setting, the adic definition restricting the
-pullbacks to adic morphisms). Such pullbacks exist whenever `Y'` is covered by open affinoids with
-complete stably sheafy rings (*fibre-products-existence*, case (b)), in particular always under
-Huber's standing hypothesis (1.1.1); the pullback along `g = id_Y` always exists (`X' = X`), so a
-universally closed `f` has `|f|` closed. The condition is independent of the choice of pullback
-(pullbacks are unique up to unique isomorphism), so quantifying over pullback squares (the shape of
-Mathlib's `MorphismProperty.universally`) is the same as quantifying over the base changes
-`X ×_Y Y'` that exist. Convention: base change is only taken along adic morphisms, which is the
-class along which Huber's fibre product (b) exists; over an analytic `Y` every morphism is adic
-(*adic-iff-analytic-locus* (iii)), so there the condition is "closed after every base change".
+closed* if, for every adic morphism `g : Y' → Y` from an adic space `Y'` covered by open affinoids
+with complete stably sheafy rings and every pullback square of `f` along `g` in the category of
+adic spaces, with base change `f' : X' → Y'`, the continuous map `|f'| : |X'| → |Y'|` is a closed
+map (Huber96 §1.3, Def. 1.3.2(i), p. 51, under (1.1.1); Wedhorn §8.6, Def. 8.54, p. 89, the
+stable test spaces; Berkeley Lecture 17, Def. 17.4.5, p. 156, for the same notion, closed after
+every pullback, in the v-sheaf setting, the adic definition restricting the pullbacks to adic
+morphisms from stable spaces). Such pullbacks exist whenever `Y'` is covered by open affinoids
+with complete stably sheafy rings (*fibre-products-existence*, case (b)), in particular always
+under Huber's standing hypothesis (1.1.1); the pullback along `g = id_Y` always exists
+(`X' = X`), so a universally closed `f` whose target `Y` is covered by such affinoids has `|f|`
+closed. The condition is independent of
+the choice of pullback (pullbacks are unique up to unique isomorphism), so quantifying over
+pullback squares (the shape of Mathlib's `MorphismProperty.universally`) is the same as quantifying
+over the base changes `X ×_Y Y'` that exist. Convention: base change is only taken along adic
+morphisms from spaces covered by complete stably sheafy affinoids, which is the class along which
+Huber's fibre product (b) exists and is known to be the categorical one; over an analytic `Y` every
+morphism is adic (*adic-iff-analytic-locus* (iii)), so there the condition is "closed after every
+base change from a stable space".
 `UniversallyClosed.hasPullback` supplies `HasPullback f g` for a universally closed `f`
 and an adic `g : Z → Y` with `HasStablySheafyCharts Z`, by Huber96 Prop. 1.2.2(b),
 pp. 47–49. Thus every adic base change from a stably sheafy source has a pullback on
 which the closedness condition applies.
 Universal closedness is the third condition of properness (Huber96 §1.3, Def. 1.3.2(ii), p. 51). In
 `AdicSpace`, define `UniversallyClosed f` as the class: `f` locally of weakly finite type and `|f'|`
-closed for every base change `f'` of `f` along an adic morphism; prove
-`UniversallyClosed.isClosedMap` (`UniversallyClosed f → IsClosedMap |f|`, base change along the
-identity), `UniversallyClosed.baseChange` (`UniversallyClosed f → UniversallyClosed f'` for the base
-change `f'` along any adic `g : Y' → Y`, since fibre products compose), `UniversallyClosed.comp`
-(composites of universally closed morphisms are universally closed),
+closed for every base change `f'` of `f` along an adic morphism `g : Y' → Y` with
+`HasStablySheafyCharts Y'`; prove `UniversallyClosed.isClosedMap` (`UniversallyClosed f →
+IsClosedMap |f|` for `Y` with stably sheafy charts, base change along the identity),
+`UniversallyClosed.baseChange` (`UniversallyClosed f → UniversallyClosed f'` for the base change
+`f'` along any adic `g : Y' → Y` with `HasStablySheafyCharts Y'`, since fibre products compose),
+`UniversallyClosed.comp` (composites of universally closed morphisms are universally closed),
 `UniversallyClosed.universallySpecializing` (`UniversallyClosed f → UniversallySpecializing f`,
 closed maps being specializing), the converse under quasi-compactness (a
 quasi-compact universally specializing morphism is universally closed, Huber 1.3.4,
@@ -4140,9 +4150,10 @@ Lean: `AdicSpace.UniversallyClosed`; the closed-disc Check is an `example`.
   A definition requiring only that `|f|` itself be closed would accept `D`, since
   `|D| → |Spa(K, K°)|` (a point) is trivially closed.
 - *Compatibility.* If `f` is universally closed then every base change of `|f|` along an adic
-  morphism is a specializing map in the sense of Mathlib's `SpecializingMap`; this mirrors Mathlib's
-  `AlgebraicGeometry.universallyClosed_eq_universallySpecializing` for schemes, whose other half (quasi-compact plus
-  universally specializing implies universally closed) is
+  morphism from a space with stably sheafy charts is a specializing map in the sense of
+  Mathlib's `SpecializingMap`; this mirrors Mathlib's
+  `AlgebraicGeometry.universallyClosed_eq_universallySpecializing` for schemes, whose other half
+  (quasi-compact plus universally specializing implies universally closed) is
   *proper-iff-partially-proper-quasi-compact* here.
 
 **Proper morphism of adic spaces.** (*universally-closed-and-proper-morphism*) A morphism `f : X → Y`
@@ -4206,11 +4217,13 @@ are `example`s.
 `f : X → Y` be a morphism of adic spaces. For `x ∈ X`, `f` is *specializing at `x`* if for every
 specialization `y'` of `f(x)` (that is, `y' ∈ closure{f(x)}` in `|Y|`) there is a specialization `x'`
 of `x` with `f(x') = y'`. If `f` is locally of weakly finite type, `f` is *universally specializing
-at `x₀ ∈ X`* if for every adic morphism `g : Y' → Y`, every pullback square of `f` along `g` in the
-category of adic spaces with base change `f' : X' → Y'` and projection `p : X' → X`, and every point
+at `x₀ ∈ X`* if for every adic morphism `g : Y' → Y` from an adic space `Y'` covered by open
+affinoids with complete stably sheafy rings, every pullback square of `f` along `g` in the category
+of adic spaces with base change `f' : X' → Y'` and projection `p : X' → X`, and every point
 `x₀' ∈ X'` with `p(x₀') = x₀`, the base change `f'` is specializing at `x₀'`; `f` is *universally
-specializing* if it is so at every point (Huber96 §1.3, Def. 1.3.3(i), p. 51, with the same lifting argument, with the
-fibre-product existence made explicit; the definition itself has no analyticity hypothesis, which
+specializing* if it is so at every point (Huber96 §1.3, Def. 1.3.3(i), p. 51, under (1.1.1), with
+the same lifting argument, with the fibre-product existence made explicit; Wedhorn §8.6, Def. 8.54,
+p. 89, the stable test spaces; the definition itself has no analyticity hypothesis, which
 enters only with the valuative criterion, Huber96 §1.3, before Def. 1.3.5, p. 52). Such pullbacks
 exist whenever `Y'` is covered by complete stably sheafy affinoids (*fibre-products-existence* (b)),
 in particular always under Huber's standing hypothesis (1.1.1). Convention: "`f` specializing at every
@@ -4219,11 +4232,13 @@ partial properness (the specialization-lifting condition) together with quasi-co
 properness, which is the role universal specialization plays here (Berkeley Lecture 17, Cor. 17.4.8,
 p. 157). In `AdicSpace`, define `SpecializingAt f x` (`f` is specializing at `x`: every
 specialization of `f(x)` is the image of a specialization of `x`), `UniversallySpecializingAt f x₀`
-(all base changes along adic morphisms are specializing at all points over `x₀`) and
-`UniversallySpecializing f` (local weak finite type together with `SpecializingMap` for every
-base change along an adic morphism, equivalently `UniversallySpecializingAt f x` for every `x`); prove
+(all base changes along adic morphisms `g : Y' → Y` with `HasStablySheafyCharts Y'` are
+specializing at all points over `x₀`) and `UniversallySpecializing f` (local weak finite type
+together with `SpecializingMap` for every base change along an adic morphism `g : Y' → Y` with
+`HasStablySheafyCharts Y'`, equivalently `UniversallySpecializingAt f x` for every `x`); prove
 `specializingAt_forall_iff` (`(∀ x, SpecializingAt f x) ↔ SpecializingMap |f|`),
-`UniversallySpecializing.baseChange` (stable under base change along adic morphisms),
+`UniversallySpecializing.baseChange` (stable under base change along adic morphisms from spaces
+with stably sheafy charts),
 `UniversallySpecializing.comp` (stable under composition), 
 `UniversallySpecializingAt.iff_valuativeCriterion` (for `f` locally of weakly finite type between
 analytic adic spaces, the valuative characterisation at `x₀`, *valuative-criterion-specializing*).
@@ -4521,10 +4536,14 @@ README target).
 **Proper equals partially proper and quasi-compact (Huber 1.3.4).**
 (*proper-iff-partially-proper-quasi-compact*) Let `f : X → Y` be any morphism of adic spaces (no
 analyticity hypothesis). Prove that `f` is proper if and only if it is partially proper and
-quasi-compact (Huber96 §1.3, Lem. 1.3.4 and proof, pp. 51–52, the statement and the route of (⇐);
-Stacks Tag 0903, Lem. 5.23.6, for the closedness step for pro-constructible images; Stacks Tag 0A2S,
-Lem. 5.23.3, images of spectral maps are pro-constructible; Berkeley Lecture 17, Cor. 17.4.8, p. 157,
-the same statement in the v-sheaf setting). Open unit disc: partially proper, not quasi-compact, not
+quasi-compact, universal closedness and universal specialization being tested on base changes along
+adic morphisms from spaces with stably sheafy charts (*universally-closed-morphism*,
+*universally-specializing-morphism*) (Huber96 §1.3, Lem. 1.3.4 and proof, pp. 51–52, under
+(1.1.1), the statement and the route of (⇐); Wedhorn §8.6, Def. 8.54 and Rem. 8.55(2), p. 89, the
+stable test spaces, whose base changes along `f` are again stable; Stacks Tag 0903, Lem. 5.23.6,
+for the closedness step for pro-constructible images; Stacks Tag 0A2S, Lem. 5.23.3, images of
+spectral maps are pro-constructible; Berkeley Lecture 17, Cor. 17.4.8, p. 157, the same statement
+in the v-sheaf setting). Open unit disc: partially proper, not quasi-compact, not
 proper; closed unit disc: quasi-compact, not partially proper, not proper; `P¹`: proper. The scheme
 analogue is Mathlib's `AlgebraicGeometry.universallyClosed_eq_universallySpecializing` (universally closed =
 universally specializing + quasi-compact). *Needs:* *universally-closed-and-proper-morphism*;
@@ -4639,7 +4658,9 @@ proper, `D → Spa(K, K°)` is not, and the composite is the identity of `Spa(K,
 *fibre-products-existence*; *separated-diagonal-closed-embedding*;
 *closed-adic-subspaces-and-embeddings*; Mathlib `CategoryTheory.IsPullback.paste_horiz`,
 `CategoryTheory.IsPullback.of_right`.
-Lean: `IsProper.comp` (proper case).
+Lean: `IsProper.comp` (proper case; no hypothesis on `Z`: `IsSeparated` gives `X` and `Y` stably
+sheafy charts, and `UniversallyClosed` tests only base changes from spaces with stably sheafy
+charts).
 
 **Cancellation: `g ∘ h` proper and `g` separated imply `h` proper.** (*proper-of-comp-separated*)
 Let `h : X → Y` and `g : Y → Z` be morphisms of adic spaces with `g ∘ h` locally of weakly finite type
@@ -5744,7 +5765,8 @@ spaces is *unramified* if it is locally of finite type (*finite-type-morphism-cl
 complete Huber pair `A`, every closed ideal `I ⊆ A` with `I² = 0` and every morphism `Spa A → Y`, the
 restriction map `Hom_Y(Spa A, X) → Hom_Y(Spa(A/I), X)` is injective (Huber96 §1.6, Def. 1.6.5, p. 78),
 with the test objects fixed above. In `AdicSpace`, define `Unramified f` as the class: locally of
-finite type with injective restriction along square-zero affinoid thickenings; prove
+finite type and every point has a `HomChart` of `f` whose pair map satisfies `Unramified_affinoid`;
+the global Hom-test form of Def. 1.6.5(i) is *lifting-test-agreement*; prove
 uniqueness of lifts (two `Y`-morphisms `Spa A → X` agreeing on `Spa(A/I)`, `I² = 0`, are equal),
 `Unramified.comp` (composites of unramified morphisms are unramified, *etale-smooth-composition*),
 cancellation (if `g ∘ f` is unramified then `f` is unramified, *etale-smooth-cancellation*),
@@ -5808,8 +5830,9 @@ objects fixed above. For `X` and `Y` locally Huber-standard (*locally-huber-stan
 *continuous-differentials* applies), the *relative dimension* of `f` at `x` is the rank of the
 locally free (*smooth-differentials-locally-free*) module of continuous differentials near `x`; no
 relative dimension is attached to a smooth morphism outside the locally Huber-standard case. In
-`AdicSpace`, define `Smooth f` as the class: locally of finite presentation with surjective
-restriction along square-zero affinoid thickenings, and, for locally Huber-standard `X`, `Y`,
+`AdicSpace`, define `Smooth f` as the class: locally of finite presentation and every point has a
+`HomChart` of `f` whose pair map satisfies `Smooth_affinoid` (the global Hom-test form of
+Def. 1.6.5(i) is *lifting-test-agreement*), and, for locally Huber-standard `X`, `Y`,
 `Smooth.relativeDimension` as the locally constant function `x ↦` rank of `Ω_{X/Y}` near `x`; prove
 existence of lifts (every `Y`-morphism `Spa(A/I) → X`
 extends to `Spa A → X`; the signature uses complete sheafy `Affinoid` presentations
@@ -5881,8 +5904,9 @@ immersion followed by a finite étale map"), designed to agree with Huber's (KL1
 applied to coordinate rings does not (a rational embedding is étale but its ring map is not of
 finite type). The étale site of AdicEtaleGeometry layer A1, which AdicSpacesPartIV layer R4 places on these
 carriers, is built on this definition (Huber96 §2.1, p. 109). In `AdicSpace`, define `Etale f` as
-the class: locally of finite presentation with bijective restriction along square-zero affinoid
-thickenings; prove the equivalence with smooth and unramified (`Etale f ↔ Smooth f ∧ Unramified f`),
+the class: locally of finite presentation and every point has a `HomChart` of `f` whose pair map
+satisfies `Etale_affinoid`; the global Hom-test form of Def. 1.6.5(i) is *lifting-test-agreement*;
+prove the equivalence with smooth and unramified (`Etale f ↔ Smooth f ∧ Unramified f`),
 `Etale.lift` (existence and uniqueness of the extension `Spa A → X` of a
 `Y`-morphism `Spa(A/I) → X`, `I² = 0`; as for existence of lifts of smooth morphisms, the signature
 specifies a continuous open quotient of complete sheafy pairs, its quotient plus
