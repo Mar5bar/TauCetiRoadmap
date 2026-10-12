@@ -91,9 +91,10 @@ comparisons to them and never a second carrier.
   comparison to StableReduction's along blow-ups, and the Noetherian-base nodal local structure with
   the comparison to StableReduction's over a discrete valuation ring.
 - *Group objects* (the convention `GrpObj (Over.mk f)` in `Over S`), *finite locally free group
-  schemes, finite affine invariant quotients (`TauCeti.AffineInvariantQuotient`), finite étale
-  schemes and Galois sets, effective descent of affine schemes and of finite locally free schemes
-  along a faithfully flat morphism, polarised descent of projective curves, Weil restriction, the
+  schemes, finite affine invariant quotients (`TauCeti.AffineInvariantQuotient.quotient` and
+  `.projection`), finite étale schemes and Galois sets, effective descent of affine schemes and
+  of finite locally free schemes along a faithfully flat morphism, polarised descent of projective
+  curves, Weil restriction, the
   relative Grassmannian, strict henselization and the openness of the regular locus of a finite-type
   scheme over an excellent base, the Artinian test algebras `ArtinianTestAlgebra` over `W(k)`,
   coarse schemes of finite quotient problems*: [ModularCurves](../ModularCurves/README.md) Layers
@@ -179,8 +180,8 @@ pinned libraries; each is cited where it lives and is not a target here.
   coverings with a compatible ample sheaf: StableReduction Layer 2 and ModularCurves 0E.
 - Quotients of affine schemes by finite groups with the universal property, integrality and
   surjectivity of the projection and the orbit description of fibres:
-  `TauCeti.AffineInvariantQuotient` (`TauCeti.AlgebraicGeometry.Quotient.Affine`,
-  `.FiniteGroup.Affine`) and ModularCurves 0C.
+  `TauCeti.AffineInvariantQuotient.quotient` and `.projection`
+  (`TauCeti.AlgebraicGeometry.Quotient.Affine`, `.FiniteGroup.Affine`) and ModularCurves 0C.
 - The étale-to-pro-étale morphism of topoi, the Bhatt–Scholze comparison of classical and pro-étale
   cohomology for torsion coefficients, and lisse adic sheaves: EllAdicRealization Layers 1, 3 and 4.
 - The cohomological Brauer group of a field as the Brauer group: `TauCeti.brauerCohomologyEquiv`
@@ -385,15 +386,18 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 
 **From Tau Ceti** (`a91d3aaf`). `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
 `CategoryTheory.CommMon.relativeSpec`, `CommMon.sectionsPresheaf`,
-`CommMon.isLocalization_basicOpen`; `Scheme.Modules.Cohomology`, `eulerCharBelow`,
-`finrank_cohomology_zero_sub_one_eq_add`; `TauCeti.AlgebraicGeometry.InvertibleSheaf`,
+`CommMon.isLocalization_basicOpen`; `Scheme.Modules.Cohomology`, `Scheme.Modules.eulerCharBelow`
+(`TauCeti/AlgebraicGeometry/Cohomology/EulerCharacteristic.lean`), `AlgebraicGeometry.Scheme.genus`
+(`TauCeti/AlgebraicGeometry/Cohomology/Genus.lean`, guarded by finite-dimensionality of
+`H¹(X, (InvertibleSheaf.trivial X).obj)`), `finrank_cohomology_zero_sub_one_eq_add`;
+`TauCeti.AlgebraicGeometry.InvertibleSheaf`,
 `LineBundleClass` (with its `CommGroup` instance), `SchemeWeilDivisor`, `CartierDivisor`,
 `CodimensionOnePoint`, `SchemeWeilDivisor.toInvertibleSheaf`, `classGroupToLineBundleClass`;
 `TauCeti.Model`, `genericFiber`, `specialFiberι`, `FiniteDVRExtension`;
 `TauCeti.CommHopfAlgCat.fppfQuotientSheaf`, `isPullback_fppfQuotientTorsor`,
 `TauCeti.ConstantGroup.groupScheme`, `linearlyReductiveAffineGroupSchemeProperty`;
 `TauCeti.AlgebraicGeometry.AbelianVariety` with `dim`; `TauCeti.derivationToDualNumberEquivLift`;
-`TauCeti.AffineInvariantQuotient`; `SheafOfModules.dual`, `monoidalClosed`;
+`TauCeti.AffineInvariantQuotient.quotient` and `.projection`; `SheafOfModules.dual`, `monoidalClosed`;
 `TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf`;
 `TauCeti.IsIntegralClosure.finite_mvPolynomial_of_isPurelyInseparable`, `finite_of_injective`;
 `TauCeti.ScalarAut.instMulSemiringAction`; `TauCeti.brauerCohomologyEquiv`,
@@ -2183,7 +2187,8 @@ Lemmas 80.11.1 (04SK), 80.11.6 (06PG), 80.11.7 (06PH)). *Needs:* §1.7, §1.9, �
 **Checks.**
 - `Quotient.test_finite_affine`: for a finite group `Γ` acting on `Spec A`, `Spec A → Spec A^Γ` is a
   geometric quotient: two primes with the same contraction to `A^Γ` are conjugate, and
-  `O_{Spec A^Γ} = (π_* O)^Γ`; this is Tau Ceti's `AffineInvariantQuotient` (ModularCurves 0C).
+  `O_{Spec A^Γ} = (π_* O)^Γ`; this is Tau Ceti's `TauCeti.AffineInvariantQuotient.quotient` and
+  `.projection` (ModularCurves 0C).
 - `Quotient.test_scaling_plane`: `𝔸²_k → Spec k` is a categorical but not a geometric quotient for
   the scaling action of `𝔾_m` (the fibre over the point is not one orbit).
 - `Quotient.test_punctured_plane`: `𝔸² ∖ {0} → ℙ¹` is a geometric quotient for scaling.
@@ -2651,7 +2656,7 @@ theorem: if `H^q(U_{i_0…i_p}, F) = 0` for all `q > 0` and all finite intersect
 cohomology computes `H^*(V, F)` (Stacks, Lemmas 21.10.1–21.10.7 (03AV); Theorem 59.19.2 (03OW)).
 Spectral sequences are stated with Mathlib's `CategoryTheory.Abelian.SpectralObject` and
 `HasSpectralSequence`, attached to the filtered complexes of injective resolutions. *Needs:* §2.1;
-Mathlib `SpectralObject`, `HasSpectralSequence`, `CechNerve`.
+Mathlib `SpectralObject`, `HasSpectralSequence`, `Arrow.cechNerve`.
 
 **Checks.**
 - `leray_test_identity`: for `f = 𝟙` the spectral sequence degenerates to the identity.
@@ -2787,8 +2792,8 @@ ampleness); JacobianChallenge Layer B.
 
 *Lean:* `QCoh.higherDirectImage_vanishing` (over an affine base), `QCoh.isAffine_of_H1_vanishing`
 (the direction of `serre_affineness_criterion` from the vanishing of `H¹` of every quasi-coherent
-module to affineness), with the non-affineness of `⨿_n Spec k` used in
-`higherDirectImage_unbounded_base` as an `example`.
+module to affineness), with `higherDirectImage_unbounded_base` (qcqs over the non-affine base
+`⨿_n Spec k`, and no uniform bound on the source) as an `example`.
 
 ### 2.7 Cohomology with supports and local cohomology
 
@@ -3053,10 +3058,14 @@ Nisnevich covering), `ofZariski` (an open cover `X = U ∪ V`), `pullback` along
 `isPullback`, `iso_over_complement`, `of_pointwise` (for finite `p⁻¹(Z) → Z`,
 every fibre must consist of exactly one point and its residue-field map must be an isomorphism).
 Finiteness alone does not repair uniqueness only among points with trivial residue extension:
-the same `Spec ℝ ⊔ Spec ℂ` counterexample is finite. Prove `distinguishedSquare_mayerVietoris`: an elementary distinguished
-square is a Mayer–Vietoris square for the Nisnevich topology (Mathlib's `MayerVietorisSquare`), so
-every Nisnevich sheaf sends it to a pullback and every abelian Nisnevich sheaf has a long exact
-Mayer–Vietoris sequence (Morel–Voevodsky 1999, §3.1, Lemma 1.6, Remark 1.7, pp. 97–98). Prove
+the same `Spec ℝ ⊔ Spec ℂ` counterexample is finite. Prove `distinguishedSquare_mayerVietoris`:
+every sheaf of sets `F` for `nisnevichTopology` sends an elementary distinguished square to a
+pullback, `F(X) → F(U) ×_{F(U ×_X V)} F(V)` bijective; this is the sheaf condition for the
+covering `{j, p}` and needs no sheafification. On `X.Etale` with `smallNisnevichTopology X`, construct the instance
+`HasSheafify (smallNisnevichTopology X) (Type u)` as Mathlib constructs it for `smallEtaleTopology`,
+through the essentially small dense subsite `X.AffineEtale`; there the square is moreover a
+Mayer–Vietoris square (Mathlib's `MayerVietorisSquare`), so every abelian sheaf on `X_Nis` has a
+long exact Mayer–Vietoris sequence (Morel–Voevodsky 1999, §3.1, Lemma 1.6, Remark 1.7, pp. 97–98). Prove
 `nisnevich_sheaf_criterion` (*Nisnevich.isSheaf_iff_distinguishedSquares*): fix a
 Noetherian finite-dimensional scheme `X`. Let `QcEtale X` be the full subcategory
 of `X.Etale` on quasi-compact structure maps, with `qcNisnevichTopology X` induced
@@ -3072,7 +3081,8 @@ this basis, with the underlying restriction functor identified (Stacks,
 Lemma 7.29.1 (03A0)). Arbitrary étale schemes, such as an infinite coproduct
 of field points, remain objects of the larger site. No closure of arbitrary
 Noetherian schemes under arbitrary fibre products is claimed. *Needs:*
-§2.12; Mathlib `Square`, `IsPullback`, `MayerVietorisSquare`, `IsOpenImmersion`, `Etale`,
+§2.12; Mathlib `Square`, `IsPullback`, `MayerVietorisSquare`, `HasSheafify`, `Scheme.AffineEtale`,
+`IsOpenImmersion`, `Etale`,
 `IsNoetherian`, `topologicalKrullDim`.
 
 **Checks.**
@@ -3102,8 +3112,9 @@ Noetherian schemes under arbitrary fibre products is claimed. *Needs:*
 *Lean:* `Nisnevich.ElementaryDistinguishedSquare` (the isomorphism over the reduced closed
 complement is recorded as invertibility of the base change of `p`),
 `Nisnevich.ElementaryDistinguishedSquare.toSquare`,
-`Nisnevich.ElementaryDistinguishedSquare.exists_mayerVietorisSquare` (the Mayer–Vietoris part of
-`distinguishedSquare_mayerVietoris`), with `test_eds_not_distinguished_extra_point`, for any
+`Nisnevich.ElementaryDistinguishedSquare.isPullback_of_isSheaf` (the sheaf-condition part of
+`distinguishedSquare_mayerVietoris`, on the big site), with
+`test_eds_not_distinguished_extra_point`, for any
 separable quadratic `L/K`, as an `example`.
 
 ### 2.14 Nisnevich points, cohomological dimension, Čech comparison and Brown–Gersten
@@ -3192,7 +3203,7 @@ theorem and the Kummer sequence (§2.11) and is TraceFormula Layer 8's, which co
 `proper_hypercover_descent`: cohomological descent for proper hypercoverings: for a proper
 surjective `X_0 → X` and the associated hypercovering, `RΓ(X, F) = RΓ(X_•, F)` for every abelian
 sheaf `F` on `X_ét`, with the descent spectral sequence (Stacks, Lemmas 85.36.4 (0DHM) and 85.36.6 (0DHP)).
-*Needs:* §2.11, §2.15; Tau Ceti `BrauerGroup`; Layer 3's genus is not needed here.
+*Needs:* §2.11, §2.15; Mathlib's `BrauerGroup`; Layer 3's genus is not needed here.
 
 **Checks.**
 - `tsen_test_rational`: `Br(k(t)) = 0` for `k` algebraically closed.
@@ -3512,7 +3523,7 @@ positive rank at every point with `A ⊗ End(E) ≅ B ⊗ End(F)`, with `refl`, 
 `SchemeBrauerGroup X := Azumaya algebras / ≈`, an abelian group under `⊗` with inverse `A^op`, with
 `SchemeBrauerGroup.mk`, `mk_eq_zero_iff` (`A ≅ End(E)`), `mk_tensor`, `mk_opposite`, `pullback f :
 Br(Y) → Br(X)` (a group homomorphism, functorial), `brauer_affine_iff` (for `X = Spec R` it is
-Mathlib's `BrauerGroup R`), `brauer_field` (for `Spec K`, Tau Ceti's `BrauerGroup K`). Define
+Mathlib's `BrauerGroup R`), `brauer_field` (for `Spec K`, Mathlib's `BrauerGroup K`). Define
 `CohomologicalBrauer X := (GmEtale X).H 2`'s torsion subgroup `Br′(X)` with `inclusion`, `mem_iff`,
 `pullback`. For affine `X` and an Azumaya algebra over `Γ(X,O_X)` finite projective as a module,
 `azumayaClass` takes values in `H²(X_ét,𝔾_m)`, with `azumayaClass_tensor` and
@@ -3657,9 +3668,11 @@ curve over `k` is an integral separated `k`-scheme of finite type of dimension o
 properness, projectivity and geometric connectedness are hypotheses written where used, and regular
 is not smooth over an imperfect field. `Pic(X)` is Tau Ceti's `LineBundleClass X`, `Pic_{X/k}` the
 fppf Picard sheaf of JacobianChallenge Layer D, `Pic^d_{X/k}` its degree-`d` component. The genus is
-`dim_k H¹(X, O_X)` (`Curve.genus`, JacobianChallenge Layer B's) and `χ(X, F) = dim H⁰ − dim H¹`
-(`Curve.eulerChar`, which is Tau Ceti's `eulerCharBelow` truncated at degree two); both are
-computed with `Curve.cohomologyDim` on Tau Ceti's `Scheme.Modules.Cohomology`. Finite locally
+`dim_k H¹(X, O_X)`, Tau Ceti's `X.genus k` (`AlgebraicGeometry.Scheme.genus`), read under the
+instance `FiniteDimensional k H¹(X, O_X)` that §2.6's finiteness (Stacks, Lemma 30.19.2 (02O6))
+gives for `X` proper; `χ(X, F) = dim H⁰ − dim H¹` is Tau Ceti's
+`Scheme.Modules.eulerCharBelow k X F 2`; and `Curve.cohomologyDim k X F i` abbreviates
+`Module.finrank k` of Tau Ceti's `Scheme.Modules.Cohomology F i`. Finite locally
 free sheaves of rank `r` are
 AlgebraicVectorBundles L0B's `isFiniteLocallyFreeOfRank`. Abel–Jacobi with a base point is
 JacobianChallenge Layer F; the Abel maps here need no base point. Néron–Severi groups and Picard
@@ -3688,8 +3701,8 @@ irreducible when `K/k` is inseparable (Stacks, Definition 0BY7, Lemma 0BY9; Lemm
   dimension `1` with `H⁰ = L` and genus `0`, and for `K = L` the ring `H⁰(X_L, O) = L ⊗_k L` has
   dimension `[L : k] > 1` over `L`, so the conclusion `H⁰(X_K) = K` fails without `H⁰ = k`.
 
-*Lean:* `Curve.cohomologyDim`, `Curve.structureModule`, `Curve.eulerChar`, `Curve.genus`,
-`Curve.isAffine_or_isProper` (the dichotomy; projectivity of proper curves is specified here
+*Lean:* `Curve.cohomologyDim`, `Curve.structureModule`, `Curve.isAffine_or_isProper` (the
+dichotomy; projectivity of proper curves is specified here
 only), `Curve.baseChange`, `Curve.genus_baseChange`.
 
 ### 3.2 Riemann–Hurwitz for schemes, the projective line, genus one, degree bounds
@@ -3706,7 +3719,8 @@ iff it has an invertible sheaf of odd degree, and a degree-zero invertible sheaf
 (Stacks, Lemmas 0C6M, 0C6T, 0C6N, Proposition 0C6U). Prove *genus_one_curves*: a smooth proper
 geometrically connected curve of genus `1` with an invertible sheaf of degree `1` has a rational
 point, and conversely; its degree-`d` Picard torsors are torsors under the Jacobian (Stacks, Lemma
-0AYY; Lemma 0CDU (1)); the rational-point consequence for divisors is Tau Ceti's
+0E3B for `h⁰(L) = 1`, Lemma 0AYY for the degree of the resulting divisor; Lemma 0CDU (1)); the
+rational-point consequence for divisors is Tau Ceti's
 `exists_linearlyEquivalent_ofPoint_of_genus_eq_one`. Prove `lineBundle_degree_bounds`: for a smooth
 proper geometrically connected curve of genus `g` and `L` invertible: `deg L > 2g − 2` implies
 `H¹(L) = 0` and `h⁰(L) = deg L + 1 − g`; `deg L ≥ g` implies `h⁰(L) > 0`; `deg L ≥ 2g` implies `L`
@@ -3728,9 +3742,10 @@ Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D; Algebr
   `deg > 2g − 2` is sharp.
 
 *Lean:* `Curve.genus_of_finite_etale` (the finite étale case of `scheme_riemann_hurwitz`),
-`Curve.exists_rationalPoint_of_degree_one` (the rational point of *genus_one_curves*),
 `Curve.cohomologyDim_one_eq_zero_of_degree_gt` (the case `deg L > 2g − 2` of
-`lineBundle_degree_bounds`).
+`lineBundle_degree_bounds`). *genus_one_curves* is specified in this README only; its
+rational-point consequence for divisors is Tau Ceti's
+`SchemeWeilDivisor.exists_linearlyEquivalent_ofPoint_of_genus_eq_one`.
 
 ### 3.3 Degrees of vector bundles, Riemann–Roch and Serre duality on curves
 
@@ -3743,11 +3758,13 @@ of locally free sheaves; Lemma 0AYS), `_tensor` (`deg(E ⊗ V) = r deg V + s deg
 (`deg E^∨ = −deg E`), `_twist` (by an effective Cartier divisor `D`: `deg E(D) = deg E + r deg D`),
 `_elementaryModification`, `_baseChange` (invariant under field extension; Lemma 0B59), `_pullback` (`deg f^* E
 = n deg E` for `f` finite of degree `n`; Lemma 0AYZ), `_divisor` (for `E = O(D)` on a regular curve,
-`deg = Σ n_x [κ(x) : k]`; Lemma 0AYY). Prove `vectorBundle_riemann_roch`: for a proper Gorenstein
-curve `X` over `k` with `H⁰ = k` and `E` locally free of rank `r`, `χ(X, E) = deg E + r(1 − g)`
-(Stacks, Lemmas 0BS5, 0BS6); the rank-one case is Tau Ceti's
+`deg = Σ n_x [κ(x) : k]`; Lemma 0AYY). Prove `vectorBundle_riemann_roch`: for a proper curve `X`
+over `k` with `H⁰ = k` and `E` locally free of rank `r`, `χ(X, E) = deg E + r(1 − g)`; by the
+definition of the degree this is `χ(X, O_X) = 1 − g` (Stacks, Definition 0AYR), and `H⁰ = k` holds
+for every proper geometrically integral `X` (`cohomologyDim_zero_structureModule`; Stacks, Lemma
+33.9.3 (0BUG) (7)). The rank-one case is Tau Ceti's
 `eulerCharBelow_eq_relativeDegree_add_one_sub_genus` and JacobianChallenge Layer B, and this target
-differs by allowing higher rank and Gorenstein singular curves. Prove `curve_serre_duality`: for a
+differs by allowing higher rank and singular curves. Prove `curve_serre_duality`: for a
 proper equidimensional Cohen–Macaulay curve `X` of dimension one over `k` with dualising module `ω_X` (§2.20), `Ext^{1+i}(F, ω_X) ≅
 H^{−i}(X, F)^∨` for coherent `F` and all `i`, `H^i(X, E^∨ ⊗ ω_X) ≅ H^{1−i}(X, E)^∨` for `E` locally
 free of finite rank. Separately prove `curve_serre_duality_ext_hom`:
@@ -3766,7 +3783,7 @@ A–B; StableReduction Layer 2.
 - *vectorBundleDegree_filtration*: `O(1) ⊕ O(−1)` on `ℙ¹` has degree `0` and is not trivial.
 - *vectorBundleDegree_divisor*: on a regular proper curve, `deg O(D) = Σ n_x [κ(x) : k]`.
 - *vectorBundleDegree_ne_eulerChar*: on a curve of genus `2`, `deg O = 0 ≠ χ(O) = −1`.
-- `riemann_roch_test_nodal`: on the nodal cubic (Gorenstein, `g = 1`) `χ(E) = deg E`.
+- `riemann_roch_test_nodal`: on the nodal cubic (geometrically integral, `g = 1`) `χ(E) = deg E`.
 - `serre_duality_test_torsion`: for `F = κ(x)` a skyscraper on a smooth curve, `Ext¹(κ(x), ω) ≅
   H⁰(κ(x))^∨ ≅ κ(x)^∨` and `Hom(κ(x), ω) = 0`.
 - `curve_serre_duality_node`: on the projective nodal cubic
@@ -3786,8 +3803,9 @@ A–B; StableReduction Layer 2.
 
 *Lean:* `Curve.isFiniteLocallyFreeOfRank` (AlgebraicVectorBundles' rank predicate),
 `Curve.vectorBundleDegree`, `Curve.vectorBundleDegree_add_of_shortExact`,
-`Curve.eulerChar_eq_degree_add_rank_mul` (the smooth geometrically integral case of
-`vectorBundle_riemann_roch`), with *vectorBundleDegree_ne_eulerChar* as an `example`.
+`Curve.cohomologyDim_zero_structureModule` (`H⁰(X, O_X) = k` for `X` proper and geometrically
+integral, the input of `vectorBundle_riemann_roch`, which is otherwise the definition of the degree
+and is specified in this README only), with *vectorBundleDegree_ne_eulerChar* as an `example`.
 
 ### 3.4 Picard groups: divisor classes, excision, Picard groupoids
 
@@ -4327,7 +4345,7 @@ finitely presented, as are all their reductions. General adic rings retain the
 finitely presented carrier; they do not supply this finite-module equivalence.
 Prove *completionFunctor_obj_sections* on Noetherian affine `X = Spec A` with
 coherent `M`: inverse-limit sections are the `I`-adic completion of `Γ(X,M)`
-(Stacks, §30.23, Lemmas 30.23.1, 30.23.3 (0880)).
+(Stacks, §30.23, Lemma 30.23.1 (087W) and Equation (30.23.3.1) (0880)).
 
 *Needs:* §4.7; Mathlib `IdealSheafData.subscheme`, `inclusion`, `AdicCompletion`,
 `AdicCompletion.map_exact`, `AdicCompletion.flat_of_isNoetherian`, `SheafOfModules.IsFinitePresentation`,
@@ -4921,9 +4939,11 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
   identity diagram works with `D₁ = {0}` and no sections. No finite union of sections contains
   `Z`; each section contributes one point to that one-dimensional fibre. Use
   the native `Proj` model of `P¹_Y` and its structure map.
-- `curve_family_alteration_vertical_after_base_change`: for any commuting diagram above and any
-  `y'` over `0`, the whole fibre over `y'` maps into `Z`. The theorem
-  `curve_family_vertical_boundary` expresses this containment for any base change diagram.
+- `curve_family_alteration_vertical_after_base_change`: in the same situation every output of
+  `curve_family_alteration` has `ψ⁻¹(0) ⊆ D₁`. For `y'` over `0` the fibre `f'⁻¹(y')` maps into `Z`,
+  so lies in `(φ⁻¹Z)_red`; the sections meet this one-dimensional fibre in the finitely many points
+  `σ_i(y')`, so the containment `(φ⁻¹Z)_red ⊆ (f'⁻¹D₁)_red ∪ ⋃ᵢ σ_i(Y')` puts the fibre in
+  `f'⁻¹D₁`.
 - `split_twoLines`: `V(xy) ⊆ ℙ²_k` (two lines meeting at a rational point) is split prestable over
   `k`.
 - `not_split_nodalCubic`: the nodal cubic over `k` with its node's branches defined over a
@@ -4950,10 +4970,9 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
 *Lean:* `Formal.DeJong.node_local_structure_dvr` (on the polynomial model `R[u, v]/(uv − a)`, with
 the coordinate change `u ↦ εu'`, `v ↦ v'`),
 `Formal.DeJong.node_local_structure_dvr_nonzero_of_generic_smooth`,
-`Formal.DeJong.curve_fibration_field_reduction`, `Formal.DeJong.curve_family_vertical_boundary` (the
-fibre containment of `curve_family_alteration_vertical_after_base_change`). The other definitions
-and theorems of this subsection, `curve_family_alteration` among them, are specified in this README
-only.
+`Formal.DeJong.curve_fibration_field_reduction`. The other definitions and theorems of this
+subsection, `curve_family_alteration` among them, and the Checks on its conclusion are specified in
+this README only.
 
 ### 4.19 de Jong's alteration theorem over a field
 
@@ -5078,6 +5097,9 @@ carry the inverse image of `D₁` and the disjoint smooth sections through the n
   fails the input condition; adding a horizontal divisor requires its inverse image in the boundary.
 - *isTrait_padicInt*: `ℤ_p` is a trait with uniformiser `p`.
 - `not_isTrait_localization`: `ℤ_{(p)}` is a DVR and not a trait (not complete).
+- `isTrait_powerSeries`: `k[[t]]` is a trait with uniformiser `t`.
+- `not_isTrait_field`: a field is not a trait: its maximal ideal is zero, so it is not a discrete
+  valuation ring.
 - `ramification_sqrt`: the injective local map `ℤ_p → ℤ_p[x]/(x² − p)` has ramification index `2`.
 - *isSVariety_genericOnly*: `Spec ℚ_p` is a `ℤ_p`-variety with empty special fibre.
 - `not_isSVariety_specialPoint`: `Spec 𝔽_p → Spec ℤ_p` is not flat, hence not an `S`-variety.
@@ -5095,7 +5117,8 @@ carry the inverse image of `D₁` and the disjoint smooth sections through the n
 
 *Lean:* `Formal.DeJong.IsTrait`, `Formal.DeJong.IsSVariety`, `Formal.DeJong.SemistableConditions`,
 `Formal.DeJong.IsStrictlySemistable`, `Formal.DeJong.IsStrictSemistablePair`,
-`Formal.DeJong.semistable_alteration_theorem`, with `not_isSVariety_specialPoint` as an `example`.
+`Formal.DeJong.semistable_alteration_theorem`, with `not_isSVariety_specialPoint`,
+`isTrait_powerSeries` and `not_isTrait_field` as `example`s.
 
 ### Examples
 
@@ -5507,10 +5530,18 @@ AlgebraicVectorBundles L0B; JacobianChallenge Layer B; StableReduction Layer 2.
   `K_0`, and its Chern character does not depend on the resolution.
 - `test_pushforward_pone`: for `f : ℙ¹ → Spec k`, `f_! [O(n)] = n + 1` in `K_0(Spec k) = ℤ`.
 - `test_chernCharacter_line`: `ch(L) = e^{c_1(L)}`.
+- `resolutionProperty_affine`: `Spec A` has the resolution property for every ring `A`: a finitely
+  presented module is `M~` with `M` a finitely presented `A`-module, a quotient of some `A^n`.
+- `resolutionProperty_empty`: the empty scheme has the resolution property, every module on it
+  being zero.
+- `resolutionProperty_quasiProjective`: `ℙ¹_k`, which is not affine, has the resolution property:
+  a finitely presented `F` is a quotient of `O(−n)^m` for `n ≫ 0` (the case of
+  `resolutionProperty_of_quasiProjective`).
 
 *Lean:* `Chow.HasResolutionProperty`, `Chow.G0`, `Chow.K0` (as additive groups), `Chow.K0.toG0`
 (defined by `[E] ↦ [E]`), `Chow.K0.toG0_bijective` (for `X` Noetherian with regular local rings
-and the resolution property).
+and the resolution property), with `resolutionProperty_affine`, `resolutionProperty_empty` and
+`resolutionProperty_quasiProjective` as `example`s.
 
 ### 5.8 Grothendieck–Riemann–Roch and Hirzebruch–Riemann–Roch
 
@@ -5670,8 +5701,8 @@ FrobeniusGeometry Layer 3; Tau Ceti `WeierstrassCurve.hasse_bound`; AlgebraicCur
 - `weilBound_test_sharp`: the Hermitian curve `y^q + y = x^{q+1}` over `𝔽_{q²}` attains the bound.
 
 *Lean:* `weil_bound` (the inequality `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` for a smooth proper geometrically
-integral curve over a finite field, with `Curve.genus` and the rational points as sections of the
-structure map). The intersection-theoretic proof and its tables are specified in this README only.
+integral curve over a finite field, with Tau Ceti's `X.genus k` and the rational points as sections
+of the structure map). The intersection-theoretic proof and its tables are specified in this README only.
 
 ### 5.12 Bézout's inequality
 

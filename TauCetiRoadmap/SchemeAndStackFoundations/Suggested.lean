@@ -1,6 +1,7 @@
 import Mathlib
 import TauCetiRoadmap.AlgebraicVectorBundles.Suggested
 import TauCeti.Algebra.BrauerGroup.Group
+import TauCeti.AlgebraicGeometry.Cohomology.Genus
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
@@ -600,8 +601,17 @@ theorem higherDirectImage_vanishing {X S : Scheme.{u}} (f : X ⟶ S) [QuasiCompa
       Subsingleton (Scheme.Modules.Cohomology F p) := by
   sorry
 
--- The disjoint union of countably many points is not affine; the uniform bound excludes it.
-example (k : Type u) [Field k] : ¬ IsAffine (∐ fun _ : ℕ => Spec (.of k)) := by sorry
+-- `∐ₙ ℙⁿ_k → ∐ₙ Spec k` is qcqs over a base that is not affine, and no uniform bound holds on
+-- its source: `Hⁿ(ℙⁿ_k, O(−n−1)) ≠ 0` on the `n`-th component.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let P : ℕ → Scheme.{u} := fun n => Proj (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k)
+    let f : ∐ P ⟶ ∐ fun _ : ℕ => Spec (.of k) := Limits.Sigma.map fun n =>
+      Proj.toSpecZero _ ≫ Spec.map (CommRingCat.ofHom (algebraMap k _))
+    QuasiCompact f ∧ QuasiSeparated f ∧ ¬ IsAffine (∐ fun _ : ℕ => Spec (.of k)) ∧
+      ¬ ∃ N : ℕ, ∀ (F : (∐ P).Modules) [F.IsQuasicoherent] (p : ℕ), N ≤ p →
+        Subsingleton (Scheme.Modules.Cohomology F p) := by
+  sorry
 
 /-- Serre's criterion: a quasi-compact scheme on which `H¹` of every quasi-coherent module
 vanishes is affine. Stacks, Lemmas 30.3.1, 30.3.2 and 30.3.4 (01XE). -/
@@ -713,11 +723,12 @@ def toSquare {X : Scheme.{u}} (S : ElementaryDistinguishedSquare X) : Square Sch
   { f₁₂ := pullback.fst S.j S.p, f₁₃ := pullback.snd S.j S.p, f₂₄ := S.j, f₃₄ := S.p,
     fac := pullback.condition }
 
-/-- An elementary distinguished square is a Mayer–Vietoris square for the Nisnevich topology.
-Morel–Voevodsky, §3.1, Lemma 1.6. -/
-theorem exists_mayerVietorisSquare {X : Scheme.{u}}
-    [HasWeakSheafify nisnevichTopology.{u} (Type u)] (S : ElementaryDistinguishedSquare X) :
-    ∃ M : nisnevichTopology.{u}.MayerVietorisSquare, M.toSquare = S.toSquare := by
+/-- Every Nisnevich sheaf sends an elementary distinguished square to a pullback square: the sheaf
+condition for the covering `{j, p}`. Morel–Voevodsky, §3.1, Lemma 1.6 and Remark 1.7. -/
+theorem isPullback_of_isSheaf {X : Scheme.{u}} (S : ElementaryDistinguishedSquare X)
+    (F : Sheaf nisnevichTopology.{u} (Type u)) :
+    IsPullback (F.obj.map S.j.op) (F.obj.map S.p.op) (F.obj.map (pullback.fst S.j S.p).op)
+      (F.obj.map (pullback.snd S.j S.p).op) := by
   sorry
 
 end ElementaryDistinguishedSquare
@@ -842,22 +853,16 @@ open scoped _root_.CategoryTheory.MonoidalCategory
 
 namespace Curve
 
+open TauCeti.AlgebraicGeometry
+
 variable (k : Type u) [Field k]
 
 /-- `dim_k Hⁱ(X, M)` for Tau Ceti's `Scheme.Modules.Cohomology` (`0` if infinite-dimensional). -/
-def cohomologyDim (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) (i : ℕ) : ℕ :=
-  Module.finrank k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology M i)
+abbrev cohomologyDim (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) (i : ℕ) : ℕ :=
+  Module.finrank k (Scheme.Modules.Cohomology M i)
 
 /-- The structure sheaf as a module over itself. -/
 abbrev structureModule (X : Scheme.{u}) : X.Modules := _root_.SheafOfModules.unit X.ringCatSheaf
-
-/-- `χ(X, M) = dim H⁰ − dim H¹`, used on schemes of dimension at most one. -/
-def eulerChar (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) : ℤ :=
-  (cohomologyDim k X M 0 : ℤ) - cohomologyDim k X M 1
-
-/-- The genus `dim_k H¹(X, O_X)`. -/
-def genus (X : Scheme.{u}) [X.Over (Spec (.of k))] : ℕ :=
-  cohomologyDim k X (structureModule X) 1
 
 /-- A curve is affine and not proper, or proper and not affine. Stacks, Lemmas 0A27 and 0A26. -/
 theorem isAffine_or_isProper (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X]
@@ -879,10 +884,13 @@ instance (X : Scheme.{u}) [X.Over (Spec (.of k))] (K : Type u) [Field K] [Algebr
 Stacks, Lemma 0BY9. -/
 theorem genus_baseChange (X : Scheme.{u}) [X.Over (Spec (.of k))]
     [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
+    [FiniteDimensional k (Scheme.Modules.Cohomology (InvertibleSheaf.trivial X).obj 1)]
     (hH0 : cohomologyDim k X (structureModule X) 0 = 1)
-    (K : Type u) [Field K] [Algebra k K] :
+    (K : Type u) [Field K] [Algebra k K]
+    [FiniteDimensional K
+      (Scheme.Modules.Cohomology (InvertibleSheaf.trivial (baseChange k X K)).obj 1)] :
     cohomologyDim K (baseChange k X K) (structureModule _) 0 = 1 ∧
-      genus K (baseChange k X K) = genus k X := by
+      (baseChange k X K).genus K = X.genus k := by
   sorry
 
 /-- AlgebraicVectorBundles' constant-rank predicate. -/
@@ -891,7 +899,8 @@ abbrev isFiniteLocallyFreeOfRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Pr
 
 /-- `deg E = χ(E) − r·χ(O_X)` for `E` locally free of rank `r`. Stacks, Definition 0AYR. -/
 def vectorBundleDegree (X : Scheme.{u}) [X.Over (Spec (.of k))] (E : X.Modules) (r : ℕ) : ℤ :=
-  eulerChar k X E - r * eulerChar k X (structureModule X)
+  Scheme.Modules.eulerCharBelow k X E 2 -
+    r * Scheme.Modules.eulerCharBelow k X (structureModule X) 2
 
 /-- Additivity in short exact sequences. Stacks, Lemma 0AYS. -/
 theorem vectorBundleDegree_add_of_shortExact (X : Scheme.{u}) [X.Over (Spec (.of k))]
@@ -902,20 +911,20 @@ theorem vectorBundleDegree_add_of_shortExact (X : Scheme.{u}) [X.Over (Spec (.of
       vectorBundleDegree k X S.X₁ r₁ + vectorBundleDegree k X S.X₃ r₃ := by
   sorry
 
-/-- Riemann–Roch for vector bundles on a smooth proper geometrically integral curve.
-Stacks, Lemmas 0BS5 and 0BS6. -/
-theorem eulerChar_eq_degree_add_rank_mul (X : Scheme.{u}) [X.Over (Spec (.of k))]
-    [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
-    [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-    (E : X.Modules) (r : ℕ) (hE : isFiniteLocallyFreeOfRank E r) :
-    eulerChar k X E = vectorBundleDegree k X E r + r * (1 - (genus k X : ℤ)) := by
+/-- A proper geometrically integral scheme over `k` has `H⁰(X, O_X) = k`.
+Stacks, Lemma 33.9.3 (0BUG), part (7). -/
+theorem cohomologyDim_zero_structureModule (X : Scheme.{u}) [X.Over (Spec (.of k))]
+    [IsProper (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] :
+    cohomologyDim k X (structureModule X) 0 = 1 := by
   sorry
 
 -- On a curve of genus two, `deg O = 0` differs from `χ(O) = −1`.
 example (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsProper (X ↘ Spec (.of k))]
     (hdim : topologicalKrullDim X = 1)
-    (hH0 : cohomologyDim k X (structureModule X) 0 = 1) (hg : genus k X = 2) :
-    vectorBundleDegree k X (structureModule X) 1 ≠ eulerChar k X (structureModule X) := by
+    [FiniteDimensional k (Scheme.Modules.Cohomology (InvertibleSheaf.trivial X).obj 1)]
+    (hH0 : cohomologyDim k X (structureModule X) 0 = 1) (hg : X.genus k = 2) :
+    vectorBundleDegree k X (structureModule X) 1 ≠
+      Scheme.Modules.eulerCharBelow k X (structureModule X) 2 := by
   sorry
 
 /-- Riemann–Hurwitz for finite étale maps of smooth proper curves: `g_X − 1 = n (g_Y − 1)`.
@@ -924,21 +933,13 @@ theorem genus_of_finite_etale {X Y : Scheme.{u}} [X.Over (Spec (.of k))] [Y.Over
     [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
     [IsProper (Y ↘ Spec (.of k))] [Smooth (Y ↘ Spec (.of k))]
     (hXd : topologicalKrullDim X = 1) (hYd : topologicalKrullDim Y = 1)
+    [FiniteDimensional k (Scheme.Modules.Cohomology (InvertibleSheaf.trivial X).obj 1)]
+    [FiniteDimensional k (Scheme.Modules.Cohomology (InvertibleSheaf.trivial Y).obj 1)]
     (hX : cohomologyDim k X (structureModule X) 0 = 1)
     (hY : cohomologyDim k Y (structureModule Y) 0 = 1) (f : X ⟶ Y) [IsFinite f] [Etale f]
     (hf : f ≫ Y ↘ Spec (.of k) = X ↘ Spec (.of k))
     (n : ℕ) (hn : ∀ y : Y, f.finrank y = n) :
-    (genus k X : ℤ) - 1 = n * ((genus k Y : ℤ) - 1) := by
-  sorry
-
-/-- A genus-one curve with an invertible sheaf of degree one has a rational point.
-Stacks, Lemma 0AYY. -/
-theorem exists_rationalPoint_of_degree_one (X : Scheme.{u}) [X.Over (Spec (.of k))]
-    [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
-    [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-    (hg : genus k X = 1) (N : TauCeti.AlgebraicGeometry.InvertibleSheaf X)
-    (hN : vectorBundleDegree k X N.obj 1 = 1) :
-    ∃ x : Spec (.of k) ⟶ X, x ≫ X ↘ Spec (.of k) = 𝟙 _ := by
+    (X.genus k : ℤ) - 1 = n * ((Y.genus k : ℤ) - 1) := by
   sorry
 
 /-- `deg L > 2g − 2` forces `H¹(L) = 0` and `h⁰(L) = deg L + 1 − g`.
@@ -946,10 +947,10 @@ Stacks, Lemmas 0E3A, 0E3B, 0E3C and 0E3D. -/
 theorem cohomologyDim_one_eq_zero_of_degree_gt (X : Scheme.{u}) [X.Over (Spec (.of k))]
     [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
     [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-    (L : TauCeti.AlgebraicGeometry.InvertibleSheaf X)
-    (hL : 2 * (genus k X : ℤ) - 2 < vectorBundleDegree k X L.obj 1) :
+    [FiniteDimensional k (Scheme.Modules.Cohomology (InvertibleSheaf.trivial X).obj 1)]
+    (L : InvertibleSheaf X) (hL : 2 * (X.genus k : ℤ) - 2 < vectorBundleDegree k X L.obj 1) :
     cohomologyDim k X L.obj 1 = 0 ∧
-      (cohomologyDim k X L.obj 0 : ℤ) = vectorBundleDegree k X L.obj 1 + 1 - genus k X := by
+      (cohomologyDim k X L.obj 0 : ℤ) = vectorBundleDegree k X L.obj 1 + 1 - X.genus k := by
   sorry
 
 end Curve
@@ -1060,7 +1061,7 @@ structure Scheme.CoherentFormalModule (𝔛 : AdicThickeningSystem.{u}) where
   fp : ∀ n, (F n).IsFinitePresentation
   iso : ∀ n, (Scheme.Modules.pullback (𝔛.ι n)).obj (F (n + 1)) ≅ F n
 
-/-- The completion of a finitely presented module. Stacks, Lemma 30.23.3 (0880). -/
+/-- The completion of a finitely presented module. Stacks, Equation (30.23.3.1) (0880). -/
 def Scheme.completionFunctor (X : Scheme.{u}) (I : X.IdealSheafData)
     (M : X.Modules) (hM : M.IsFinitePresentation) :
     Scheme.CoherentFormalModule (Scheme.formalCompletion X I) where
@@ -1269,14 +1270,6 @@ theorem curve_fibration_field_reduction (k : Type u) [Field k] {X : Scheme.{u}}
           (D.subschemeι ≫ pullback.fst f e) ≫ f := by
   sorry
 
-/-- In a commuting square of alterations the fibre over a point of the new base lies over the
-corresponding fibre: the vertical boundary of de Jong 1996, Theorem 5.8, p. 79. -/
-theorem curve_family_vertical_boundary {X Y X' Y' : Scheme.{u}}
-    (f : X ⟶ Y) (f' : X' ⟶ Y') (φ : X' ⟶ X) (ψ : Y' ⟶ Y)
-    (hcomm : φ ≫ f = f' ≫ ψ) (y : Y) (y' : Y') (hy : ψ y' = y) :
-    f' ⁻¹' {y'} ⊆ φ ⁻¹' (f ⁻¹' {y}) := by
-  sorry
-
 /-- de Jong's alteration theorem over a field: a regular proper compactification of an
 alteration with strict normal crossings boundary containing the preimage of `Z`, generically
 étale over a perfect field. de Jong 1996, Theorem 4.1 and Remark 4.2, p. 66. -/
@@ -1296,6 +1289,12 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
 class IsTrait (R : Type u) [CommRing R] [IsDomain R] : Prop where
   isDVR : IsDiscreteValuationRing R
   complete : IsAdicComplete (IsLocalRing.maximalIdeal R) R
+
+-- `isTrait_powerSeries`: `k[[t]]` is a trait.
+example (k : Type u) [Field k] : IsTrait (PowerSeries k) := by sorry
+
+-- `not_isTrait_field`: a field is not a discrete valuation ring, hence not a trait.
+example (k : Type u) [Field k] : ¬ IsTrait k := by sorry
 
 /-- An `S`-variety over a trait: integral, separated, flat and of finite type.
 de Jong 1996, 2.15. -/
@@ -1467,6 +1466,18 @@ def HasResolutionProperty (X : Scheme.{u}) : Prop :=
   ∀ F : X.Modules, F.IsFinitePresentation →
     ∃ (E : X.Modules) (_ : E.IsLocallyFree) (_ : E.IsFiniteType) (q : E ⟶ F), Epi q
 
+-- `resolutionProperty_affine`: on `Spec A` every finitely presented module is a quotient of a
+-- finite free one.
+example (A : Type u) [CommRing A] : HasResolutionProperty (Spec (.of A)) := by sorry
+
+-- `resolutionProperty_empty`: the empty scheme has the resolution property.
+example : HasResolutionProperty (∅ : Scheme.{u}) := by sorry
+
+-- `resolutionProperty_quasiProjective`: on `ℙ¹_κ` every finitely presented module is a quotient
+-- of some `O(−n)^m`.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example : HasResolutionProperty (Proj (MvPolynomial.homogeneousSubmodule (Fin 2) κ)) := by sorry
+
 /-- `G_0(X)`: the Grothendieck group of finitely presented `O_X`-modules. -/
 def G0 (X : Scheme.{u}) : Type (u + 1) :=
   FreeAbelianGroup {F : X.Modules // F.IsFinitePresentation} ⧸
@@ -1511,10 +1522,12 @@ end Chow
 `|#X(𝔽_q) − (q + 1)| ≤ 2g√q`. Milne 2024, Chapter 11, Theorem 11.53 and Example 11.55. -/
 theorem weil_bound (k : Type u) [Field k] [Fintype k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
     [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
-    [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1) :
+    [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
+    [FiniteDimensional k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
+      (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial X).obj 1)] :
     |(Nat.card {x : Spec (.of k) ⟶ X // x ≫ X ↘ Spec (.of k) = 𝟙 _} : ℝ) -
         (Fintype.card k + 1)| ≤
-      2 * Curve.genus k X * Real.sqrt (Fintype.card k) := by
+      2 * X.genus k * Real.sqrt (Fintype.card k) := by
   sorry
 
 end Layer5
