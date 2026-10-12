@@ -18,15 +18,18 @@ mapping theorem, GAGA and the traces of finite locally free morphisms are README
 file states the parts that are a few lines over the pinned carriers:
 
 * F0: adic rings of finite ideal type, completed localisations and completed tensor products
-  of adic rings, finite modules as adic systems, and on schemes proper over an adic noetherian
-  ring the theorem on formal functions and Grothendieck's existence theorem, with the
-  thickenings `Xₙ` encoded as universal quotients `F ⧸ I^{n+1} F` of `𝒪_X`-modules;
+  of adic rings, finite modules as adic systems, the first-order ideal of a square-zero tower,
+  and on schemes proper over an adic noetherian ring the theorem on formal functions and
+  Grothendieck's existence theorem of SchemeAndStackFoundations (§4.9, §4.10) in quotient-system
+  form, with the thickenings `Xₙ` encoded as universal quotients `F ⧸ I^{n+1} F` of
+  `𝒪_X`-modules;
 * R2: algebras topologically of finite presentation over a complete rank-one valuation ring and
   the fractional valuation bounds behind Hasse domains;
 * R3: glueing squares and Kiehl's glueing theorem for finite projective modules, descent of
   finite modules along strongly noetherian Laurent covers, acyclicity of finite modules on
   Laurent covers of rings of noetherian type, the trace of a finite projective module and of a
-  finite locally free algebra, and the Gel'fand spectrum of a Banach ring.
+  finite locally free algebra with affine checks of the pull–identify–trace normalisation, and
+  the Gel'fand spectrum of a Banach ring.
 
 Completeness includes the Hausdorff property.
 -/
@@ -245,11 +248,34 @@ theorem IsAdicRing.finite_limit {A : Type*} [CommRing A] [TopologicalSpace A]
         LinearMap.ker ((LinearMap.proj n : (∀ n, M n) →ₗ[A] M n).comp L.subtype) =
           (IsAdicRing.ideal A ^ (n + 1)) • ⊤ := sorry
 
+/-! ### F0.3 The first-order ideal of a square-zero tower (*formal-scheme-carrier-comparison*)
+
+A marked formal scheme `(X, 𝒥)` with `𝒥` of finite type has first-order ideal
+`ker(O_{X_1} → O_{X_0}) = 𝒥/𝒥²` of finite type. For the square-zero tower
+`Spec k → Spec(k ⊕ V) = Spec(k ⊕ V) = ⋯` this ideal is `V`, the kernel of `k ⊕ V → k`. -/
+
+/-- For `V = ⊕_{i ∈ ℕ} k` the first-order ideal `V` of `k ⊕ V` is not finitely generated, so the
+square-zero tower with this `V` is not the tower of a formal scheme marked by an ideal of
+definition of finite type. -/
+example (k : Type*) [Field k] :
+    ¬ (RingHom.ker (TrivSqZeroExt.fstHom k k (ℕ →₀ k))).FG := sorry
+
+/-- For `V = k^m` the first-order ideal is finitely generated: the tower is that of the discrete
+`Spec(k ⊕ k^m)` marked by its square-zero ideal of definition `k^m`. -/
+example (k : Type*) [Field k] (m : ℕ) :
+    (RingHom.ker (TrivSqZeroExt.fstHom k k (Fin m → k))).FG := sorry
+
 /-! ### F0.7 Formal functions and Grothendieck's existence theorem
-(*theorem-on-formal-functions*, *grothendieck-existence*)
+(*pow-quotient-formal-module-comparison*, *theorem-on-formal-functions*, *grothendieck-existence*)
 
 For a scheme `X` over `Spec A` and an ideal `J ⊆ A`, the restriction of an `𝒪_X`-module `F` to
-the thickening `Xₙ = V(J^{n+1} 𝒪_X)` is encoded by the universal quotient `F ⧸ J^{n+1} F`. -/
+the thickening `Xₙ = V(J^{n+1} 𝒪_X)` is encoded by the universal quotient `F ⧸ J^{n+1} F`, which
+is `F → iₙ_* iₙ^* F` for the closed immersion `iₙ : Xₙ → X`. SchemeAndStackFoundations owns,
+on the coherent formal modules of `Formal.Scheme.formalCompletion X (J𝒪_X)`, the theorem on formal
+functions (§4.9, `Scheme.Modules.Cohomology.formalFunctionsIso`) and Grothendieck's existence
+theorem (§4.10, `Formal.grothendieck_existence`); the statements below are their forms on
+quotient systems, transported along the identification of such systems with coherent formal
+modules and of their cohomology towers. -/
 
 section FormalFunctions
 
@@ -259,7 +285,9 @@ open scoped ZeroObject
 variable (A : Type u) [CommRing A] {X : Scheme.{u}} [X.Over (Spec (CommRingCat.of A))]
 
 /-- `q : F ⟶ G` exhibits `G` as `F ⧸ J^{n+1} F`: it is killed by every element of `J^{n+1}`
-and every morphism out of `F` killed by `J^{n+1}` factors uniquely through it. -/
+and every morphism out of `F` killed by `J^{n+1}` factors uniquely through it. Such a `q` is the
+unit `F → iₙ_* iₙ^* F` of the closed immersion `iₙ : V(J^{n+1} 𝒪_X) → X`, up to unique
+isomorphism under `F`. -/
 def IsPowQuotient (J : Ideal A) (n : ℕ) {F G : X.Modules} (q : F ⟶ G) : Prop :=
   (∀ a ∈ J ^ (n + 1), Scheme.Modules.globalSectionsSmul F
       (Scheme.Modules.baseRingToGlobalSections A X a) ≫ q = 0) ∧
@@ -277,7 +305,10 @@ example (n : ℕ) (F : X.Modules) : IsPowQuotient A ⊤ n (0 : F ⟶ 0) := sorry
 /-- The theorem on formal functions: for `X` proper over a noetherian ring `A`, a coherent
 `𝒪_X`-module `F` and an ideal `J`, `Hⁱ(X, F)` is finite and its `J`-adic completion is the
 module of compatible families in `Hⁱ(Xₙ, F ⧸ J^{n+1} F)`, through the natural maps
-(EGA III₁, Ch. III, 4.1.7 (4.1.7.1); Stacks, Tag 02OC, Theorem 30.20.5). -/
+(EGA III₁, Ch. III, 4.1.7 (4.1.7.1); Stacks, Tag 02OC, Theorem 30.20.5). This is the
+quotient-system form of SchemeAndStackFoundations' `Scheme.Modules.Cohomology.formalFunctionsIso`
+(§4.9, file `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`), which owns the theorem:
+an `IsPowQuotient` system `F → Qₙ` is `F → F ⧸ J^{n+1} F` up to unique isomorphism. -/
 theorem formalFunctions [IsNoetherianRing A] [IsLocallyNoetherian X]
     [IsProper (X ↘ Spec (CommRingCat.of A))] (F : X.Modules)
     [SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) F] (J : Ideal A)
@@ -299,7 +330,9 @@ variable [TopologicalSpace A] [IsTopologicalRing A] [IsAdicRing A] [IsNoetherian
 noetherian ring `A` with ideal of definition `I`, every adic system of coherent modules on the
 thickenings (`Qₙ` coherent with `Q_{n+1} ⧸ I^{n+1} Q_{n+1} = Qₙ`) is the system of quotients
 of a coherent `𝒪_X`-module (EGA III₁, Ch. III, 5.1.4 and 5.1.7, p. 150; Stacks, Tag 088F,
-Remark 30.27.2). -/
+Remark 30.27.2). This is SchemeAndStackFoundations' `Formal.grothendieck_existence` (§4.10), which
+owns the theorem, for the completion along `I𝒪_X`: such a system is the pushforward to `X` of a
+`Formal.Scheme.CoherentFormalModule` on `Formal.Scheme.formalCompletion X (I𝒪_X)`. -/
 theorem grothendieckExistence {I : Ideal A} (hI : IsAdic I) [IsLocallyNoetherian X]
     [IsProper (X ↘ Spec (CommRingCat.of A))] (Q : ℕ → X.Modules)
     [∀ n, SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) (Q n)]
@@ -310,7 +343,9 @@ theorem grothendieckExistence {I : Ideal A} (hI : IsAdic I) [IsLocallyNoetherian
 
 /-- Grothendieck's existence theorem, full faithfulness: compatible morphisms between the
 quotient systems of two coherent modules come from a unique morphism (EGA III₁, Ch. III, 5.1.4
-and 5.1.7, p. 150). -/
+and 5.1.7, p. 150; Stacks, Tag 0883, Lemma 30.24.1). This is the full-faithfulness clause of
+SchemeAndStackFoundations' Grothendieck existence theorem (§4.10), which owns it, read on the
+quotient systems of `F` and `G`, i.e. on the morphisms of their completions along `I𝒪_X`. -/
 theorem grothendieckExistence_hom {I : Ideal A} (hI : IsAdic I) [IsLocallyNoetherian X]
     [IsProper (X ↘ Spec (CommRingCat.of A))] (F G : X.Modules)
     [SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) F]
@@ -823,6 +858,19 @@ example (k : Type*) [Field k] [CharP k 2]
     [Module.Projective k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k))] :
     projectiveTraceForm k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k)) = 0 ∧
       ¬ Algebra.Etale k (AdjoinRoot (Polynomial.X ^ 2 - 1 : Polynomial k)) := sorry
+
+/-! Pull–identify–trace with structure-sheaf coefficients on an affine correspondence
+`Spec R' ← Spec B → Spec R`, `B` finite projective over `R` (*pull-identify-trace*): the
+coefficient map is multiplication by `c = φ(1) ∈ B` and `T(1) = Tr_{B/R}(c)`, unnormalised. -/
+
+/-- The identity correspondence (`B = R`, both maps the identity) with coefficient map `1`, `0`,
+`2` gives `T(1) = 1, 0, 2`: the value is `Tr(φ(1))`, not the degree. -/
+example (R : Type*) [CommRing R] :
+    projectiveTrace R R 1 = 1 ∧ projectiveTrace R R 0 = 0 ∧ projectiveTrace R R 2 = 2 := sorry
+
+/-- The canonical coefficient map on the degree-two cover `Spec(R × R) → Spec R` gives
+`T(1) = Tr(1) = 2`. -/
+example (R : Type*) [CommRing R] : projectiveTrace R (R × R) 1 = 2 := sorry
 
 end Algebra
 
