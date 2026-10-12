@@ -689,6 +689,12 @@ example : ¬ ∃ C : Set (AdelicPoints F (TauCeti.SpecialLinear.coordinateHopfAl
       ∃ γ, diagonal F (TauCeti.SpecialLinear.coordinateHopfAlgebra F 2) γ * x ∈ C := by
   sorry
 
+-- Test Reduction.isCentralCocharacter_gm: every cocharacter of the commutative group `G_m` is
+-- central.
+example (c : LaurentPolynomial F →ₐc[F] LaurentPolynomial F) :
+    IsCentralCocharacter F (LaurentPolynomial F) c := by
+  sorry
+
 end Reduction
 
 /-! ## Layer AA.4: approximation, neat levels and Hecke maps -/
@@ -769,6 +775,10 @@ theorem hasStrongApproximation_sln (n : ℕ) :
 example : ¬ HasStrongApproximation ℚ (LaurentPolynomial ℚ) ∅ := by
   sorry
 
+-- Test Approximation.supportedAt_empty: a point with finite component `1` is supported at `∅`.
+example (x : AdelicPoints F H) (hx : finiteProjection F H x = 1) : x ∈ supportedAt F H ∅ := by
+  sorry
+
 end Approximation
 
 namespace Neat
@@ -817,6 +827,12 @@ example : IsNeatAut (Matrix.GeneralLinearGroup.mkOfDetNeZero (Matrix.diagonal ![
 -- Test Neat.not_isNeat_rotation: the order-`3` element `(0 −1; 1 −1)` is not neat.
 example : ¬ IsNeatAut (Matrix.GeneralLinearGroup.mkOfDetNeZero !![(0 : ℂ), -1; 1, -1]
     (by simp [Matrix.det_fin_two_of])) := by
+  sorry
+
+-- Test Neat.not_isFaithful_trivial_gm: the trivial point action of `G_m` is not induced by a
+-- surjective coordinate map.
+example (τ : F →+* ℂ) (n : ℕ) : ¬ IsFaithfulAlgebraicPointHom τ n
+    (1 : WithConv (LaurentPolynomial F →ₐ[F] F) →* GL (Fin n) ℂ) := by
   sorry
 
 /-- Neat levels exist: every compact open `U` contains a normal open subgroup of finite index that
@@ -903,8 +919,8 @@ theorem isCoveringMap_levelMap [Algebra.FiniteType F H] (τ : F →+* ℂ) (n : 
 
 end LevelMaps
 
-/-- The idele class group modulo squares is compact ([Khayutin], Definition 3.1, p. 22, and
-Remark 3.7, p. 25). -/
+/-- The idele class group modulo squares is compact ([Khayutin], proof of Proposition 3.6, p. 25
+(compactness of `ℚ^×\𝔸^×/𝔸^{×2}`); Definition 3.1, p. 22, for `G_res`). -/
 theorem compactSpace_ideleClassGroup_quotient_squares (F : Type) [Field F] [NumberField F] :
     CompactSpace (NumberField.IdeleClassGroup (𝓞 F) F ⧸
       Subgroup.closure (Set.range fun x : NumberField.IdeleClassGroup (𝓞 F) F => x ^ 2)) := by
@@ -931,7 +947,8 @@ def levelUnits (U : Subgroup (FiniteAdeleRing (𝓞 F) F)ˣ) : Subgroup (𝓞 F)
   U.comap ((FiniteAdeleRing.unitEmbedding (𝓞 F) F).comp
     (Units.map (algebraMap (𝓞 F) F).toMonoidHom))
 
-/-- For open `U ≤ Ô^×`, `Γ_U` has finite index in `𝒪_F^×` ([CG], §8.2, p. 79). -/
+/-- For open `U ≤ Ô^×`, `Γ_U` has finite index in `𝒪_F^×` ([CG], §8.2, p. 78 (the rank; finite
+index is a direct deduction from compactness of `Ô^×`)). -/
 theorem levelUnits_finiteIndex (U : Subgroup (FiniteAdeleRing (𝓞 F) F)ˣ)
     (hU : IsOpen (U : Set (FiniteAdeleRing (𝓞 F) F)ˣ))
     (hle : U ≤ FiniteAdeleRing.integralUnits (𝓞 F) F) : (levelUnits F U).FiniteIndex := by
@@ -939,6 +956,10 @@ theorem levelUnits_finiteIndex (U : Subgroup (FiniteAdeleRing (𝓞 F) F)ˣ)
 
 -- Test GL1.levelUnits_rat: over `ℚ` the level `ℤ̂^×` gives `{±1}`.
 example : levelUnits ℚ (FiniteAdeleRing.integralUnits (𝓞 ℚ) ℚ) = Subgroup.zpowers (-1) := by
+  sorry
+
+-- Test GL1.levelUnits_top: the full level gives every unit.
+example : levelUnits F ⊤ = ⊤ := by
   sorry
 
 /-- `U_Q = K_∞ × ∏_v U_{Q,v}`: trivial at real places, the unit circle at complex places, `𝒪_v^×`
@@ -982,6 +1003,22 @@ def posRealsDiag : Subgroup (IdeleGroup (𝓞 F) F) where
 example (t : ℝ) (ht : 0 < t) :
     ((TauCeti.GlobalNumberFields.ideleNorm (archimedeanScalar F t) : ℝ≥0) : ℝ) =
       t ^ Module.finrank ℚ F := by
+  sorry
+
+-- Test GL1.levelQ_empty: with `Q = ∅` the level does not depend on `p` and `n`.
+example (p n p' n' : ℕ) : levelQ F ∅ p n = levelQ F ∅ p' n' := by
+  sorry
+
+-- Test GL1.archimedeanScalar_one: the scalar `1` is the unit idele.
+example : archimedeanScalar F 1 = 1 := by
+  sorry
+
+-- Test GL1.archimedeanScalar_mul: the scalars `2` and `3` multiply to the scalar `6`.
+example : archimedeanScalar F 2 * archimedeanScalar F 3 = archimedeanScalar F 6 := by
+  sorry
+
+-- Test GL1.archimedeanScalar_neg_one: the scalar `−1` is not in `ℝ_{>0}` diagonally.
+example : archimedeanScalar F (-1) ∉ posRealsDiag F := by
   sorry
 
 /-- `X_Q = F^×\𝔸_F^×/U_Q A_∞^0`, with the quotient topology. -/
@@ -1196,6 +1233,16 @@ theorem nrd_image (ha : a ≠ 0) (hb : b ≠ 0) (c : ℚ) (hc : c ≠ 0) :
 -- Test DefiniteQuaternion.hamilton_negative_norm: the Hamilton quaternions have no element of
 -- reduced norm `−1`.
 example : ¬ ∃ x : ℍ[ℚ, -1, -1], QuaternionAlgebra.normForm _ 0 _ x = -1 := by
+  sorry
+
+-- Test DefiniteQuaternion.stab_top: at the full level every stabilizer is all of `D^×`.
+example (x : ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ) : stab a b ⊤ x = ⊤ := by
+  sorry
+
+-- Test DefiniteQuaternion.normForm_coeffMap_i: in `ℍ[ℚ, −1, −1]` the image of `i` under
+-- `coeffMap` has reduced norm `1`.
+example :
+    QuaternionAlgebra.normForm _ 0 _ (coeffMap (-1) (-1) (⟨0, 1, 0, 0⟩ : ℍ[ℚ, -1, -1])) = 1 := by
   sorry
 
 end AdelicExamples.DefiniteQuaternion

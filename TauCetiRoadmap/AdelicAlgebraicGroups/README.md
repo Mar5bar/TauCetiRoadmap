@@ -242,8 +242,8 @@ one, and a single weight of multiplicity two contributes the square.
 
 | Object | Exact supplier and file | Use here |
 |---|---|---|
-| Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`, `.localModulus`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. |
-| Geometric torsors and classes | SchemeAndStackFoundations #779, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_one_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
+| Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
+| Geometric torsors and classes | SchemeAndStackFoundations #779, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
 | Linear Haar scaling | [MassFormula #226, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
 | Rational tuple heights | [ArithmeticHeights #287, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
@@ -257,11 +257,11 @@ one, and a single weight of multiplicity two contributes the square.
 | Algebraically closed central-simple splitting | Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`, `Mathlib/RingTheory/SimpleModule/IsAlgClosed.lean`; `Algebra.IsCentral`, `Mathlib/Algebra/Central/Defs.lean`; `Module.Basis.baseChange`, `Mathlib/LinearAlgebra/TensorProduct/Basis.lean`. | The `SL₁(D)` target of AA.3.4 uses this matrix splitting and the extended regular basis; its reduced-norm-one Hopf ideal and compact arithmetic quotients are the additional targets. |
 | Semialgebraic sets | `TauCeti.IsSemialgebraic`, `TauCeti.isSemialgebraic_def`; `TauCeti/Geometry/RealAlgebraic/Semialgebraic/Basic.lean` | AA.3.2 uses this exact polynomial set algebra on matrix-entry coordinates; the new assertions concern the horospherical graph, windows and reduced forms. |
 | Adjoint weight spaces | `Derivation.adjointWeightSpace`, `Derivation.mem_adjointWeightSpace_iff_universalPointAction`, `Derivation.isInternal_adjointWeightSpace`; `TauCeti/Algebra/AlgebraicGroup/Tangent/RootSpace.lean` | The relative weight spaces of AA.3.1 instead realize the geometric weight space inside counit derivations for a Hopf-ideal split torus; the supplier uses the cotangent dual and a specified split-torus coordinate map. |
-| Derived subgroup | `TauCeti.CommHopfAlgCat.derivedDefiningIdeal`; `TauCeti/Algebra/AlgebraicGroup/Derived/Basic.lean`; RG2.1 target `ZExtension.derivedIdeal`, `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | The anisotropy criterion of AA.3.4 specifies the derived Hopf ideal by this universal property (largest ideal killed by every algebra-valued commutator) and tests all rational cocharacters; no independent derived-subgroup definition. |
+| Derived subgroup | `TauCeti.CommHopfAlgCat.derivedDefiningIdeal`; `TauCeti/Algebra/AlgebraicGroup/Derived/Basic.lean`; RG2.1 tests `ZExtension.derivedIdeal_gl_n`, `ZExtension.derivedIdeal_sl_n`, `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | The anisotropy criterion of AA.3.4 specifies the derived Hopf ideal by this universal property (largest ideal killed by every algebra-valued commutator) and tests all rational cocharacters; no independent derived-subgroup definition. |
 | Geometric identity component | `TauCeti.HopfAlgebra.identityComponentHopfIdeal`; `TauCeti/Algebra/AlgebraicGroup/Connected/Comultiplication.lean` | This supplier assumes an algebraically closed field. The finite-volume criterion of AA.3.4 gives the number-field descent by the largest geometrically connected closed subgroup; the disconnected case of that criterion uses its ideal. |
 | Constant-form matrix subgroup | `TauCeti.ConstantForm.definingHopfIdeal`, `TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/ConstantForm/Basic.lean` | The twisted orthogonal group of AA.3.7 is the determinant-one restriction of this equation for its explicit rational form; it does not define another general orthogonal-group construction. |
 | Connected reductivity | `TauCeti.reductiveCommHopfAlgProperty`; `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean` | The reductive groups with finite component groups of AA.3.3 drop connectedness in characteristic zero for the Borel–Harish-Chandra statements. |
-| Homogeneous quotient sheaf | `TauCeti.CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
+| Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
 | Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.AlgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
 | Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`; `TauCeti/Algebra/Quaternion/NormForm.lean` | The norm-image theorems use this quadratic form directly. |
 | Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `AdelicPoints.logHeight` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
@@ -1591,7 +1591,7 @@ restriction of scalars.
   map `c ⊗ (dh₁ ∧ ⋯ ∧ dh_d) ↦ c • (d(1 ⊗ h₁) ∧ ⋯ ∧ d(1 ⊗ h_d))`
   (both sides are lines, so a linear equivalence alone could be any rescaling of it), and
   that right pullback by `g` acts on the left-invariant top-form line by
-  `det(Ad(g))⁻¹` ([Rosengarten], §1, p. 2). *Needs:* Tau Ceti `TauCeti.Bialgebra.CotangentSpace`,
+  `det(Ad(g))⁻¹` ([Rosengarten], §1, p. 3). *Needs:* Tau Ceti `TauCeti.Bialgebra.CotangentSpace`,
   `Derivation.adjointPointRepresentation`; Mathlib `Ideal.Cotangent`, `Bialgebra.counitAlgHom`,
   `exteriorPower.ιMulti`; Tau Ceti `Derivation.adjointAction`; Mathlib `Module.evalEquiv`,
   `TensorProduct.lid`, `exteriorPower.map`.
@@ -2526,7 +2526,7 @@ The standard real Siegel domain `Σ_n(u,t)` is the full real domain
 ```
 
 Theorems about reduction use `u,t>0`. Both determinant signs occur through `O(n)`.
-This is [Orr], §2.1, p. 5; inversion converts [Platonov–Rapinchuk–Rapinchuk],
+This is [Orr], §2.A, p. 5; inversion converts [Platonov–Rapinchuk–Rapinchuk],
 §4.2, pp. 205–208, from `KAU` with right arithmetic action to this `UAK` domain.
 `gram g = (g⁻¹)ᵀg⁻¹` records the Gram matrix of the columns of `g⁻¹`.
 These are positive forms, and equal
@@ -2848,6 +2848,12 @@ in the standard integral level.
 
   **Checks.**
   - `F^×\𝔸_F^1` is compact (`Reduction.compact_gm`).
+  - The trivial cocharacter (the counit followed by the unit of `F[T,T⁻¹]`) is central for every
+    `H`.
+  - For `G_m` every cocharacter `T ↦ T^k` is central (Lean example).
+  - For `GL₂` the cocharacter with coordinate map `X₁₁ ↦ T`, `X₂₂ ↦ 1`, `X₁₂, X₂₁ ↦ 0` (so
+    `det⁻¹ ↦ T⁻¹`) is not central: over `R = F` its point `diag(2, 1)` does not commute with
+    `[[1,1],[0,1]]`, the two products being `[[2,2],[0,1]]` and `[[2,1],[0,1]]`.
 - **Isotropic groups have noncompact quotients.** For connected reductive `G` over `F` with a
   proper `F`-parabolic subgroup, prove that `G(F)\G(𝔸_F)^1` is not compact; precisely,
   `G(F)\G(𝔸)^1` is compact iff `G(F)` has no nontrivial unipotent element iff `G^der` is
@@ -3091,7 +3097,7 @@ cannot replace the reduced norm in the defining equation.
   horospherical window cannot contain a noncompact minimal-parabolic domain.
   Prove that any triple domain for `K` lies inside a single rational
   translate of one for another fixed minimal parabolic and the same `K`.
-  [BKT], §2.2, p. 8; [Orr], §§2.2–2.3, pp. 6–7. *Needs:* AA.3.2; AA.3.1.
+  [BKT], §2.2, p. 8; [Orr], §§2.B–2.C, pp. 6–7. *Needs:* AA.3.2; AA.3.1.
   *Lean:* none; specified in the README only.
 
 ### 3.7 Subgroup containment and orbit maps
@@ -3129,7 +3135,7 @@ rational split torus, then conjugate by the real point `u` on every real algebra
 `logA` takes values in the existing `RealCharacterSpace`. A triple exists with
 a given Cartan compact and a given rational minimal parabolic.
 Its `N` is the actual real unipotent radical, `M⁺=M⁰`, and the window group is `N M⁺`.
-[Orr], Lemma 2.1 and §2.2, pp. 6–7.
+[Orr], Lemma 2.1 and §2.B, pp. 6–7.
 
 **Checks.** For `G_m`, `S=G_m(ℝ)` with no simple roots;
 for the trivial group `A=N=1`; with `K=SO₂` the tilted torus is excluded.
@@ -3142,7 +3148,7 @@ are the cone `{a∈A : exp(logA(a)(α))≥t for all simple α}` and
 the domain `Ω·cone(t)·K`. These use weak inequalities; the comparison with the horospherical
 Siegel sets of AA.3.2 changes thresholds when passing to their strict inequalities. Membership in
 the domain is the literal three-factor formula, and the domain grows when the window is enlarged
-and the threshold lowered. [Orr], §2.2, p. 6.
+and the threshold lowered. [Orr], §2.A, (4), p. 6.
 
 **Checks.** The empty
 and singleton-identity windows are allowed at `t=1`, and `t=−1` is excluded.
@@ -3158,7 +3164,7 @@ torus inclusion, `S_G∩H=S_H`, `N_H⊆N_G`, and a homomorphism
 `χ_G(u_G⁻¹e(u_H s u_H⁻¹)u_G)=res(χ_G)(s)` for every real split-torus point.
 Thus restriction and the dual real-character-space map are fixed by the
 algebraic embedding; they are not independent maps of abstract root systems.
-[Orr], §§4.2–4.3, pp. 15–20; [Orr–Schnell], §§A,E.
+[Orr], §§4.B–4.C, pp. 17–22; [Orr–Schnell], §§A,E.
 
 **Checks.** The identity embedding is the identity on every coefficient algebra; a
 closed embedding is injective on points; the identity group has trivial image.
@@ -3233,11 +3239,11 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
 
 - **Compatible parabolic and torus for a subgroup.** (*containment-parabolic-torus*) For
   `H ⊂ G` reductive `ℚ`-groups, a Siegel triple `(P_H, S_H, K_H)` for `H` with `S_H` `ℚ`-split
-  (the general case reduces to this by conjugating with an element of `R_u(P_H)(ℝ)`, Orr §4.1),
-  and `K_G ⊂ G(ℝ)` maximal compact with `K_H ⊂ K_G` whose Cartan involution stabilises `S_H`,
-  choose a parabolic `ℚ`-subgroup `Q ⊂ G` with Levi `Z_G(S_H)` and `N_H ⊂ R_u(Q)`, then a minimal
-  `P_G ⊂ Q`. Prove that its Cartan-stable Siegel torus `S_G` contains `S_H`, satisfies
-  `S_G ∩ H = S_H`, and `N_H ⊂ N_G` ([Orr], §4.2, Lemmas 4.2–4.6, pp. 15–17; [Orr–Schnell], §§A,E,
+  (the general case reduces to this by conjugating with an element of `R_u(P_H)(ℝ)`, [Orr], §4.A,
+  p. 16), and `K_G ⊂ G(ℝ)` maximal compact with `K_H ⊂ K_G` whose Cartan involution stabilises
+  `S_H`, choose a parabolic `ℚ`-subgroup `Q ⊂ G` with Levi `Z_G(S_H)` and `N_H ⊂ R_u(Q)`, then a
+  minimal `P_G ⊂ Q`. Prove that its Cartan-stable Siegel torus `S_G` contains `S_H`, satisfies
+  `S_G ∩ H = S_H`, and `N_H ⊂ N_G` ([Orr], §4.B, Lemmas 4.2–4.6, pp. 17–19; [Orr–Schnell], §§A,E,
   pp. 1232, 1236). *Needs:* AA.3.1; AA.3.2; ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
 - **Finite root-cone comparison.** (*containment-finite-root-cones*) In the notation and under
@@ -3246,7 +3252,7 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   prove that there is `t′ ∈ (0, 1]` such that every `a ∈ A_{H,t}` belongs to `w A_{G,t′} w⁻¹` for
   some `w` in the finite Weyl group of `S_G` satisfying `N_H, N_Z ⊂ w N_G w⁻¹`. Roots of `S_G`
   vanishing on `S_H` take the value `1 ≥ t′` on `a`, so they impose no further condition ([Orr],
-  §4.3, Proposition 4.7 and Lemmas 4.8–4.9, pp. 17–20; [Orr–Schnell], §§A,E, pp. 1232, 1236).
+  §4.C, Proposition 4.7 and Lemmas 4.8–4.9, pp. 19–22; [Orr–Schnell], §§A,E, pp. 1232, 1236).
   *Needs:* AA.3.7; ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
 - **Rational and compact Weyl representatives.** (*containment-weyl-representatives*) In the
@@ -3256,7 +3262,7 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   `S_G` chosen stable under the Cartan involution of `K_G`: for each admissible `w`, choose a
   compact representative `w_K ∈ K_G` and a representative `w_Q = u⁻¹ w′_Q u` with `w′_Q ∈ G(ℚ)`
   and `w′_Q⁻¹ w_Q ∈ N_G(ℝ)`, and prove that their quotient can be chosen in the identity component
-  of `Z_G(S_G)(ℝ)` ([Orr], §4.4, Lemmas 4.10–4.11, pp. 20–21; [Orr–Schnell], §§A,E, pp. 1232,
+  of `Z_G(S_G)(ℝ)` ([Orr], §4.D, Lemmas 4.10–4.11, pp. 22–23; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; ReductiveGroups, layer 7; RepresentationTheory/LieGroups, layer 9.
   *Lean:* none; specified in the README only.
 - **Uniform compact factors for subgroup Siegel sets.** In the notation and under the
@@ -3264,7 +3270,7 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   `K_Z = K_G ∩ Z_G(S_H)(ℝ)` (maximal compact in `Z_G(S_H)(ℝ)` by the Cartan hypothesis), prove
   that one can choose a compact `Ω_G ⊂ N_G M_G` and, for every admissible `w`, a compact
   `B_w ⊂ S_G(ℝ)^0` such that `w′_Q⁻¹ Ω_H ⊂ Ω_G w_K⁻¹ B_w K_Z`; all these choices range over a
-  finite Weyl set ([Orr], §4.5, Lemmas 4.12–4.13, pp. 21–22; [Orr–Schnell], §§A,E, pp. 1232,
+  finite Weyl set ([Orr], §4.E, Lemmas 4.12–4.13, pp. 23–24; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; AA.3.2.
   *Lean:* none; specified in the README only.
 - **Containment of subgroup Siegel sets.** (*orr-schnell-containment*) Let `𝐇 ⊂ 𝐆` be
@@ -3272,8 +3278,8 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   set. Let `K_G ⊂ 𝐆(ℝ)` be maximal compact with `K_H ⊂ K_G` and whose Cartan involution
   `θ_{K_G}` stabilises `𝐒_H`. Prove that there are a Siegel triple `(𝐏_G, 𝐒_G, K_G)`, a Siegel
   set `𝔖_G` for it and a finite `C ⊂ 𝐆(ℚ)` with `𝔖_H ⊂ C·𝔖_G`; moreover `R_u(𝐏_H) ⊂ R_u(𝐏_G)` and
-  `𝐒_H = 𝐒_G ∩ 𝐇` ([Orr–Schnell], Theorem 1, pp. 1231–1232; §§A,E; [Orr], §4.6, Proposition 4.14,
-  pp. 22–23; [Orr], §4.1, p. 15). *Needs:* AA.3.7; AA.3.6.
+  `𝐒_H = 𝐒_G ∩ 𝐇` ([Orr–Schnell], Theorem 1, pp. 1231–1232; §§A,E; [Orr], §4.F, Proposition 4.14,
+  p. 24; [Orr], §4, Theorem 4.1, p. 15). *Needs:* AA.3.7; AA.3.6.
   *Lean:* none; specified in the README only.
 - **Stability of the subgroup under the Cartan involution suffices.** In the setting of
   *orr-schnell-containment* with `K_H ⊂ K_G`, prove that if the Cartan involution `Θ` of `𝐆` for
@@ -3422,7 +3428,8 @@ quaternion norms and compact abelian Fourier limits.
   `A →ₐ[k] k′`. The Hasse principle below is stated through base change, so these equations
   carry its content: a base change returning the trivial torsor would make every torsor
   locally trivial. Prove that `X` is trivial iff `X` is
-  isomorphic to `G` acting on itself ([HW], Lemme 6.3, p. 22). *Needs:* Tau Ceti
+  isomorphic to `G` acting on itself (#779 `Torsor.trivial_iff_section`; the statement is
+  elementary). *Needs:* Tau Ceti
   `TauCeti.HopfAlgebra.points`.
   *Lean:* none; specified in the README only.
 
@@ -3458,13 +3465,13 @@ quaternion norms and compact abelian Fourier limits.
     change has the distinguished class.
 
 - **Canonical μ₂ class and scalar extension.** The target
-  uses #779's `GroupSpace` associated to `Spec ℚ[ℤ/2]` and
-  `torsorClasses G = SiteCohomology.NonabelianH1 (Scheme.fppfTopology.over (Spec ℚ))
-  G.sheafOfGroups`. Its class is `torsorClasses.mk` of `Spec ℚ[t]/(t²−2)` with
-  coaction `t ↦ t⊗g`; it is not the identity class. Pullback along the identity
-  of `Spec ℚ` fixes this nontrivial class, while pullback along `Spec ℝ → Spec ℚ`
-  gives the identity. Use geometric `Torsor.baseChange` and its section comparison,
-  then `torsorClasses.mk_eq_one_iff`; coefficient `pushforward` is a different map.
+  uses #779's group space `G = GroupSpace.ofGroupScheme (Spec ℚ[ℤ/2])` and
+  `torsorClasses G = NonabelianH1 (fppfTopology.over (Spec ℚ)) h_G`. Its class is
+  `torsorClasses.mk` of `Spec ℚ[t]/(t²−2)` with coaction `t ↦ t⊗g`; it is not the
+  identity class. Pullback along the identity of `Spec ℚ` fixes this nontrivial
+  class, while pullback along `Spec ℝ → Spec ℚ` gives the identity. Use geometric
+  `Torsor.baseChange` and its section comparison, then `torsorClasses.mk_eq_base_iff`;
+  coefficient `pushforward` is a different map.
   These are equalities in the canonical class set, independently of an arbitrary C.
   Source interfaces are [#779 §§1.15, 2.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94dae83ded2e18c604ce405d00e059692ea7673b/TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean).
   *Lean:* none; specified in the README only.
@@ -3472,7 +3479,7 @@ quaternion norms and compact abelian Fourier limits.
   **Checks.** This concrete
   affine torsor has no sections over ℚ, and none after identity
   scalar extension; it has sections after extension
-  to ℝ. The canonical `torsorClasses.mk_eq_one_iff` turns these into exactly the three class
+  to ℝ. The canonical `torsorClasses.mk_eq_base_iff` turns these into exactly the three class
   assertions of the target; the class-comparison Checks above remain transport tests.
 
 - **Local H¹ vanishing.** For connected semisimple simply connected `G` over a
@@ -3503,7 +3510,7 @@ quaternion norms and compact abelian Fourier limits.
   surjectivity for tori (§7.3, Corollary 2). Combined with twisting injectivity this gives
   bijectivity of real localization on #779's canonical fppf class set.
   The affine comparison uses #779's `torsorClasses.surjective_mk`,
-  `torsorClasses.mk_eq_one_iff`, representability and natural base change.
+  `torsorClasses.mk_eq_base_iff`, representability and natural base change.
   *Lean:* none; specified in the README only.
 - **Weak approximation.** `Approximation.hasWeakApproximation_of_simplyConnected` holds
   for every finite set of places. [PR94], Theorem 7.8, p. 415, proof in §7.3, uses
@@ -3546,6 +3553,10 @@ quaternion norms and compact abelian Fourier limits.
     (AA.1.3; `Approximation.not_hasStrongApproximation_gm`).
   - For `SL₂/ℚ` and `S = {∞}`, strong approximation holds (`Approximation.hasStrongApproximation_sln`,
     for `SL_n` over every number field).
+  - `1 ∈ supportedAt Sf` for every `Sf`.
+  - For `G_m` over `ℚ` and `v` the place of a prime `p`, `finiteEmbed` of the finite idele with
+    component `p` at `v` and `1` elsewhere lies in `supportedAt {v}` and not in `supportedAt ∅`.
+  - Every point whose finite component is `1` lies in `supportedAt ∅` (Lean example).
 
 - **Strong approximation for unipotent groups.** Every unipotent group `N` over the
   number field `F` has dense rational points in `N(𝔸_F^S)` for every nonempty set `S`
@@ -3777,6 +3788,13 @@ quaternion norms and compact abelian Fourier limits.
   - The order-`3` element `(0 −1; 1 −1)` of `SL_2(ℤ)` is not neat (`Neat.not_isNeat_rotation`).
   - Nor is a torsion-free element whose eigenvalue group contains `ζ_3`, such as
     `(0 −1; 1 1)·(scalar 2)` in `GL_2(ℚ)`.
+  - For `r` the identity of `O(GL_n)`, `Neat.algebraicPointMap τ n r` is
+    `Matrix.GeneralLinearGroup.map τ` composed with `TauCeti.GeneralLinear.pointsMulEquiv`.
+  - Over `ℚ`, the coordinate map `X ↦ T³` of the cube map `G_m → GL₁` has point map `x ↦ x³`,
+    injective on `ℚ^×`, but that point map is not `Neat.IsFaithfulAlgebraicPointHom`: a surjective
+    bialgebra map `O(GL₁) → ℚ[T,T⁻¹]` sends `X` to `T` or `T⁻¹`, with point map `x ↦ x^{±1}`.
+  - The trivial point action of `G_m` is not `Neat.IsFaithfulAlgebraicPointHom`, since a
+    surjective coordinate map makes the point map injective on `F^×` (Lean example).
 - **Neatness does not depend on the representation.** For a finite-type linear algebraic group
   `G` over the number field `F`, `ρ` a faithful algebraic representation (a closed immersion),
   `σ` an algebraic representation defined over a subfield of `ℂ`, and the compared complex point
@@ -3858,8 +3876,8 @@ quaternion norms and compact abelian Fourier limits.
   π⁻¹{[g]}`, `kK′ ↦ [g k]`. Prove that `π [g] = [g]`, that `π` is
   surjective, that the fibre map is surjective for each `g`, and
   that the maps for `K″ ≤ K′ ≤ K` compose; no normality is assumed
-  ([LT], §3.2.3, (28), second inequality, p. 16). *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`; Tau Ceti
-  `DoubleCoset.quotientMapOfLELeft`.
+  (elementary; no source needed). *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`;
+  Tau Ceti `DoubleCoset.quotientMapOfLELeft`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -3875,7 +3893,7 @@ quaternion norms and compact abelian Fourier limits.
   fibre of `H\G/K′ → H\G/K` has at most `N` elements, and that if `H\G/K` is finite of
   cardinality `h` then `H\G/K′` is finite of cardinality at most `Nh`
   (the conclusion states finiteness as well as the bound). No
-  normality, freeness or neatness is assumed ([LT], §3.2.3, p. 16). *Needs:* AA.4.4.
+  normality, freeness or neatness is assumed (elementary; no source needed). *Needs:* AA.4.4.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -4110,8 +4128,8 @@ quaternion norms and compact abelian Fourier limits.
   of squares, using the idele norm and the compactness of `C_F^1` from GlobalNumberFields
   layer 6, prove that `C_F/C_F²` is compact Hausdorff: the norm decomposition
   `C_F ≃ ℝ_{>0} × C_F¹` identifies it with the quotient of compact `C_F¹` by its square image
-  ([Khayutin], Definition 3.1, arXiv v3 p. 22, and Remark 3.7, p. 25). *Needs:* GlobalNumberFields,
-  layer 6.
+  ([Khayutin], proof of Proposition 3.6, arXiv v3 p. 25 (compactness of `ℚ^×\𝔸^×/𝔸^{×2}`);
+  Definition 3.1, p. 22, for `G_res`). *Needs:* GlobalNumberFields, layer 6.
   *Lean:* `compactSpace_ideleClassGroup_quotient_squares`.
 
   **Checks.**
@@ -4200,13 +4218,24 @@ preceding layers; each item is a target with its own locator.
   *Lean:* in `AdelicExamples.GL1`: `exists_quotientHomeomorph` (the homeomorphism onto the idele
   class group, given by `TauCeti.MultiplicativeGroup.pointsMulEquiv`), `archComponent`,
   `archimedeanScalar`, `posRealsDiag` (`A_{G_m}(ℝ)^0 = ℝ_{>0}` diagonally).
+
+  **Checks.**
+  - `archimedeanScalar F 1 = 1` (Lean example).
+  - `archimedeanScalar F 2 * archimedeanScalar F 3 = archimedeanScalar F 6` (Lean example).
+  - `archimedeanScalar F (-1) ∉ posRealsDiag F` (Lean example).
 - **Units at level U_Q form a lattice of rank r₁ + r₂ − 1.** For a compact open `U ⊂ Ô^×`,
   prove that `Γ_U = F^× ∩ U` is a finite-index subgroup of `𝒪_F^×`, and that its image under the
   logarithmic embedding is a lattice of rank `r₁ + r₂ − 1` in the trace-zero hyperplane of
-  `ℝ^{r₁+r₂}` ([CG], §8.2, p. 79). *Needs:* Mathlib `NumberField.Units.unitLattice_rank`,
+  `ℝ^{r₁+r₂}` ([CG], §8.2, p. 78 (the rank; finite index is a direct deduction from compactness
+  of `Ô^×`)). *Needs:* Mathlib `NumberField.Units.unitLattice_rank`,
   `NumberField.Units.rank`, `NumberField.Units.instZLattice_unitLattice`.
   *Lean:* `AdelicExamples.GL1.levelUnits`, `AdelicExamples.GL1.levelUnits_finiteIndex` (finite
   index; the lattice statement is specified in the README only).
+
+  **Checks.**
+  - Over `ℚ` the level `ℤ̂^×` gives `{±1}` (`GL1.levelUnits_rat`).
+  - Over `ℚ` the principal level `{x ∈ ℤ̂^× : x ≡ 1 mod 3}` gives `⊥`, since `−1 ≢ 1 mod 3`.
+  - `levelUnits F ⊤ = ⊤` (Lean example).
 - **Canonical logarithmic torus at GL₁ level.** For `F` a number field with `r₁` real and `r₂`
   complex places, `Q` a finite set of finite places, `p` a prime and `n ≥ 1` with
   `N(v) ≡ 1 mod p^n` for `v ∈ Q`, and `U_Q = K_∞ × ∏_v U_{Q,v}` with `K_∞` and `A_∞^0` as in
@@ -4225,7 +4254,8 @@ preceding layers; each item is a target with its own locator.
   `X_Q` is a compact torus `(S¹)^{r₁+r₂−1}`, and that
   `π_0(X_Q) = F^×\𝔸_F^×/U_Q (F ⊗ ℝ)^{×,0}`, an extension of the narrow class group of `F` by a
   quotient of `∏_{v∈Q} 𝒪_v^×/𝒪_v^{×p^n}` (not, in general, the maximal exponent-`p^n` quotient of
-  the ray class group) ([CG], §8.2, p. 79). The identification
+  the ray class group) (correcting the sentence of [CG], §8.2, p. 79, which holds only when the
+  narrow class group has exponent dividing `p^n`). The identification
   of `π_0(X_Q)` sends the component of the class of an idele `x` to the
   class of `x`; a bijection permuting the components would satisfy every
   other clause. *Needs:* AA.5.1; AA.3.4; Mathlib `NumberField.Units.rank`,
@@ -4236,6 +4266,10 @@ preceding layers; each item is a target with its own locator.
 
   **Checks.**
   - An idele of `(F ⊗ ℝ)^{×,0}` lies in the identity component.
+  - `levelQ F ∅ p n` does not depend on `p` and `n` (Lean example).
+  - For `F = ℚ`, `Q = {3}`, `p = 2` and `n = 1`, the idele with component `4` at `3` and `1` at
+    every other place lies in `levelQ` (`4 = 2²` with `2 ∈ ℤ_3^×`); the idele with component `2`
+    at `3` does not, since `2` is not a square mod `3`.
 - **The invariant l0 for GL_1.** Prove that every connected component of `X_Q` has dimension
   `r₁ + r₂ − 1 = NumberField.Units.rank F`, the value of Calegari–Geraghty's invariant `l0` for
   `G = GL_1/F`; in particular its cohomology vanishes above degree `r₁ + r₂ − 1` ([CG], §8.2,
@@ -4371,6 +4405,11 @@ preceding layers; each item is a target with its own locator.
   *Lean:* in `AdelicExamples.DefiniteQuaternion`: `Af`, the topology on `(D ⊗ 𝔸_f)`, `coeffMap`,
   `diag`, `stab`, `finite_classes` (for every `ℍ[ℚ, a, b]`, without definiteness), `finite_stab`
   (for `a, b < 0`).
+
+  **Checks.**
+  - `stab a b ⊤ x = ⊤` for every `x` (Lean example).
+  - `coeffMap a b 1 = 1`.
+  - For `a = b = −1` the unit `i` has `coeffMap` image of reduced norm `1` (Lean example).
 - **Volume comparison under level change for a definite quaternion algebra.** For `D` definite
   over `ℚ` and compact open `U′ ⊂ U ⊂ (D ⊗ 𝔸_f)^×`, with `Γ_x = (D^× ∩ xUx⁻¹)/(ℚ^× ∩ U)` the
   finite stabilizers and `Cl(U) = D^×\(D ⊗ 𝔸_f)^×/U`, prove
