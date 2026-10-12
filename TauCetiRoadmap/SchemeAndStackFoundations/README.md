@@ -2123,12 +2123,39 @@ Define `StackInGroupoids`: a `SchPseudofunctor` whose fibre categories are group
 *StackInGroupoids.ofSheaf* (the stack in setoids of an fppf sheaf), `yonedaEquiv` (`Hom(h_T, X) ≃
 X(T)`; Lemma 8.6.3 (0432)), `isFiberedInGroupoids` (the Grothendieck construction is fibred in
 groupoids), `limit` (stacks in groupoids are closed under limits), `test_trivial_torsor_prestack`.
-Define `stackification` of a prestack in groupoids with `stackification.η`, `.lift` (the universal
-property), `.isom_sheafify` (`Isom` presheaves become their sheafifications), `.locally_essSurj`
-(Stacks, Lemma 8.9.1 (02ZP), Section 8.9 (02ZO)). Define `twoFiberProduct X Y Z` with `.fst`, `.snd`,
-`.iso` (the 2-cell), `.lift`, `.ofSheaf` (for sheaves it is the fibre product of sheaves) (Stacks,
-Lemma 8.5.6 (02ZL); Section 4.31 (003O)). *Needs:* §1.1; Mathlib `Pseudofunctor`, `IsStack`,
-`IsGroupoid`, `StrongTrans`, `CoGrothendieck`.
+Define the generic, site-level stackification first, and the scheme/fppf/groupoid version as
+its specialisation: for any small site `(C, J)` (a category `C : Type u` with `Category.{u} C` and
+`J : GrothendieckTopology C`) and any category-valued pseudofunctor
+`F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{u, u}` — not required to be a prestack in Mathlib's sense (the
+Hom presheaves need not be sheaves) and not required to be groupoid-valued — define
+`Stack.stackification J F`, the associated stack for `J`, by Hom-sheafification followed by
+adjoining descent objects (Stacks, Sections 8.8 (02ZM), Lemmas 8.8.1–8.8.3, and 8.9 (02ZO),
+Lemma 8.9.1 (02ZP), whose argument does not use that the fibres are groupoids), with the unit
+`Stack.toStackification` (a strong transformation `F → stackification J F`), and prove
+`Stack.isStack_stackification` (Mathlib `IsStack` for `J`), `Stack.stackificationUniversal` (for
+every `J`-stack `G`, precomposition with the unit is an equivalence between the categories of
+strong transformations and modifications `stackification J F → G` and `F → G`: a 2-categorical
+universal property), `Stack.stackification_of_isStack` (a stack is its own stackification),
+`Stack.stackificationDiscreteEquiv` (for a discrete pseudofunctor from a presheaf of sets it is
+Mathlib's `presheafToSheaf`), `Stack.stackification_isom_sheafify` (the `Isom` presheaves of the
+stackification are the `J`-sheafifications of those of `F`) and
+`Stack.stackification_locally_essSurj` (every object of the stackification is `J`-locally in the
+image of the unit). Then `stackification` of a prestack in groupoids on `Scheme.{u}` for the fppf
+topology, with `stackification.η`, `.lift`, `.isom_sheafify` and `.locally_essSurj`, is
+`Stack.stackification fppfTopology` applied to a groupoid-valued `SchPseudofunctor`, and the
+v-stacks of DiamondsAndVStacks D0.25 are `Stack.stackification` on `(Perfd, v)`; neither is a
+second construction. Likewise define the generic 2-fibre product `Stack.twoFibreProduct` of two
+maps of `J`-stacks over a common target on any site, objectwise Mathlib's
+`CategoryTheory.Limits.CategoricalPullback` with its restriction functors and constraints, with
+`.fst`, `.snd`, `.iso` (the 2-cell), `.lift` and its 2-universal property, and let
+`twoFiberProduct X Y Z` with `.fst`, `.snd`, `.iso`, `.lift`, `.ofSheaf` (for sheaves it is the
+fibre product of sheaves) be its fppf scheme instance (Stacks, Lemma 8.5.6 (02ZL); Section 4.31
+(003O)); DiamondsAndVStacks D0.26 is the `(Perf, v)` instance. The geometric separatedness
+conventions stay separate from the carrier: proper-diagonal separatedness of algebraic stacks
+(§1.19) is not identified with the closed-immersion-diagonal separatedness of DiamondsAndVStacks.
+*Needs:* §1.1; Mathlib `Pseudofunctor`, `IsStack`, `IsPrestack`, `DescentData`, `toDescentData`,
+`sheafHom`, `presheafToSheaf`, `IsGroupoid`, `StrongTrans`, `StrongTrans.Modification`,
+`CategoricalPullback`, `CoGrothendieck`.
 
 **Checks.**
 - *StackInGroupoids.test_scheme*: `T ↦ Hom(T, X)` (discrete) is a stack in groupoids.
@@ -2141,9 +2168,16 @@ Lemma 8.5.6 (02ZL); Section 4.31 (003O)). *Needs:* §1.1; Mathlib `Pseudofunctor
   with the class of `Spec ℂ`).
 - `twoFiberProduct.test_identity`, `test_schemes` (agrees with fibre products of schemes),
   `test_classifying` (`pt ×_{BG} pt = G`).
+- `Stack.stackification.test_site_generic` (compatibility) — on the site of open subsets of a
+  topological space with its canonical topology, the stackification of the constant prestack with
+  fibre a fixed category `A` is the stack of locally constant `A`-valued data; on a connected
+  space it is `A` again, and the result is not groupoid-valued when `A` is not.
+- `Stack.stackification.test_cat_valued` (non-groupoid) — the quasi-coherent pseudofunctor is a
+  category-valued fppf stack and is its own stackification; the groupoid-only version does not
+  apply to it.
 
-*Lean:* `Stacks.StackInGroupoids`. Its morphisms and API, stackification and 2-fibre products are
-specified in this README only.
+*Lean:* `Stacks.StackInGroupoids`. Its morphisms and API, the generic site-level stackification
+and 2-fibre products and their fppf/groupoid specialisations are specified in this README only.
 
 ### 1.19 Representable morphisms, algebraic stacks and Deligne–Mumford stacks
 
@@ -2197,11 +2231,18 @@ the quotient stack of a smooth groupoid is algebraic; atlas independence (Stacks
 
 ### 1.21 Quotient stacks, line bundles with a section, root stacks
 
-Define `quotientStack (U, R)` for a groupoid and `actionQuotient G X = [X/G]` with
+Define first the generic quotient stack on any site `(C, J)`: for a groupoid object `(X, R)` in
+`J`-sheaves (source and target `s, t : R → X`, composition, identity, inverse), `Stack.quotient J
+(X, R) = [X/R]` is the `Stack.stackification` (§1.18) of the objectwise groupoid prestack with
+objects `X(T)` and arrows `R(T)`, with `Stack.quotient.π : X → [X/R]`, the equivalence
+`R ≃ X ×_{[X/R]} X` (from the groupoid axioms), the description of its objects over `T` as
+locally trivial `R`-torsors, `.desc` and the sheafification of `X/R` as its sheaf of isomorphism
+classes (Stacks, Definition 78.20.1 (044Q), Lemmas 78.22.2 (04M9), 78.23.2 (044U), 78.26.1 (06PB),
+whose arguments are site-independent); DiamondsAndVStacks D0.26 is the `(Perf, v)` instance.
+Then `quotientStack (U, R)` for a groupoid scheme and `actionQuotient G X = [X/G]` with
 `actionQuotient.torsorEquiv` (objects over `T` are `G_T`-torsors with equivariant maps to `X`),
 `quotientStack.π : U → [U/R]`, `.isCartesian`, `.desc`, `.torsor` (`π` is a `G`-torsor for
-`[X/G]`) (Stacks, Definition 78.20.1 (044Q), Lemmas 78.22.2 (04M9), 78.23.2 (044U), 78.26.1
-(06PB)). Prove `quotientStack_algebraic`: `[U/R]` is algebraic for a flat locally finitely
+`[X/G]`) are the fppf scheme instances of `Stack.quotient`. Prove `quotientStack_algebraic`: `[U/R]` is algebraic for a flat locally finitely
 presented groupoid, and `[X/G]` is DM iff the stabilizers are unramified (Stacks, Theorems 94.17.3
 (04TK), 97.17.2 (06FI)). Prove `lineBundleSectionStack`: `[𝔸¹/𝔾_m]` classifies pairs `(L, s)` of a
 line bundle with a section (Cadman 2005, §2.2, p. 6). Define `rootStack n (L, s)` for a line bundle
