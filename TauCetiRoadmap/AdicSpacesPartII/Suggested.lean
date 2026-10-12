@@ -597,6 +597,17 @@ def LocallyOfFinitePresentation {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Pr
     IsTopologicallyFiniteTypePair c.ringHom ∧
       (DiscreteTopology c.target.affinoid.ring → c.ringHom.toRingHom.FinitePresentation)
 
+/-- The standing-class clause is a condition on the base: if the identity of `S` is locally of
+finite presentation then `S` is locally Huber-standard, since the target chart of a witness for
+the identity also contains the point (the chart square commutes). -/
+example (S : TauCeti.AdicSpace.{w}) (h : LocallyOfFinitePresentation (𝟙 S)) :
+    IsLocallyHuberStandard S := by
+  intro s
+  obtain ⟨c, ⟨t, rfl⟩, hstd, -, -⟩ := h s
+  refine ⟨c.target, ⟨c.map.hom.base t, ?_⟩, hstd⟩
+  have hc := congrArg (fun φ => φ.hom.base t) c.commutes
+  simpa using hc.symm
+
 /-- `X` is covered by charts with stably sheafy coordinate rings. -/
 def HasStablySheafyCharts (X : TauCeti.AdicSpace.{w}) : Prop :=
   ∀ x : X.obj, ∃ c : Chart X, x ∈ Set.range c.ι.hom.base ∧

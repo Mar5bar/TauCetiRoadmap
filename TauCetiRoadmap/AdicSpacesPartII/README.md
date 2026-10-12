@@ -3091,7 +3091,9 @@ analytic point of `Spa(ℤ_p, ℤ_p) ⊆ Spa(A, A)`, so no chart around it is di
 product `ℤ_p × E` of *etale-standing-class-product-control*, `Spa(ℤ_p × E) = Spa(ℤ_p) ⊔ Spa(E)` is
 locally Huber-standard (its points have the charts `Spa(ℤ_p)` and discrete charts inside `Spa(E)`)
 although its global ring is not in the class. Lean: `AdicSpace.IsLocallyHuberStandard`,
-`IsLocallyHuberStandard.isLocallyNoetherian`, `IsLocallyHuberStandard.spa`.
+`IsLocallyHuberStandard.isLocallyNoetherian`, `IsLocallyHuberStandard.spa`, and the proved
+`example` after `LocallyOfFinitePresentation` that `LocallyOfFinitePresentation (𝟙 S)` implies
+`IsLocallyHuberStandard S`.
 
 The geometric Checks are stated with morphisms induced by pair morphisms
 (`Affinoid.IsInducedBy`) and the predicates above. In
@@ -8674,16 +8676,26 @@ All three Checks apply the specified comparison map.
 
 **Analytification preserves étale, smooth and unramified morphisms.**
 (*analytification-etale-smooth*) Let `h : X₁ → X₂` be a morphism of schemes locally of finite type
-over `Y` and `S → Y` as in *scheme-fibre-product-analytification*, with `S` locally
-noetherian and having stably sheafy charts. For an affinoid base, the targets
-`AdicSpace.analytification.etale` and `AdicSpace.analytification.smooth` both assume
-`hA : HasStablySheafyCharts A.spa` and `hN : IsLocallyNoetherian A.spa`, together with
-`AlgebraicGeometry.Etale f.hom.left` or `AlgebraicGeometry.Smooth f.hom.left`, respectively,
-for a morphism `f` in `SchemeOver A`.
-Prove that if `h` is étale (resp. smooth, resp. unramified) then
-`h_S : X₁ ×_Y S → X₂ ×_Y S` is étale (resp. smooth, resp. unramified) in the sense of Huber96
+over `Y` and `S → Y` as in *scheme-fibre-product-analytification*. The mixed fibre products and
+`h_S : X₁ ×_Y S → X₂ ×_Y S` exist for `S` locally noetherian with stably sheafy charts, the
+hypotheses of that construction, which are not changed here. Preservation of the étale and smooth
+predicates of layer R0 needs more, because those predicates contain local finite presentation
+(*locally-finite-presentation*), whose witness charts are in Huber's standing class: assume in
+addition `hStd : IsLocallyHuberStandard S` (*locally-huber-standard*), which implies the
+noetherian-type and stable-chart inputs (`IsLocallyHuberStandard.isLocallyNoetherian`,
+`IsLocallyNoetherian.isStablySheafy`). For an affinoid base, the targets
+`AdicSpace.analytification.etale` and `AdicSpace.analytification.smooth` assume
+`hStd : IsLocallyHuberStandard A.spa` (local standardness of the base space, not membership of
+the global ring `A.ring` in the class), together with `AlgebraicGeometry.Etale f.hom.left` or
+`AlgebraicGeometry.Smooth f.hom.left`, respectively, for a morphism `f` in `SchemeOver A`; the
+unramified statement keeps the construction's hypotheses only, since `Unramified` has no
+finite-presentation conjunct.
+Prove that if `h` is étale (resp. smooth) and `S` is locally Huber-standard, resp. if `h` is
+unramified, then `h_S` is étale (resp. smooth, resp. unramified) in the sense of Huber96
 Definition 1.6.5 (*differentials-unramified-smooth-etale*, *smooth-morphism*,
-*unramified-morphism*, layer R0). In particular, for `K`-schemes locally of finite type, `h` étale
+*unramified-morphism*, layer R0): the mixed products are locally of finite type over `S`, so
+they are locally Huber-standard too (*locally-huber-standard*), and the R0.16–R0.17 package
+applies with its hypotheses. In particular, for `K`-schemes locally of finite type, `h` étale
 / smooth / unramified implies `h^ad` étale / smooth / unramified, and a smooth `X` of pure dimension
 `d` gives `X^ad` smooth over `Spa K` with `Ωᶜ_{O(U)/K}` finite projective of rank `d` on every chart
 `U` (so `Ω¹_{X^ad/Spa K}`, glued in AdicSpacesPartIII layer R3, is locally free of rank `d`) (Huber96 §1.7,
@@ -8722,6 +8734,36 @@ type over `Spec A.ring`, so `f.hom.left` is locally of finite type and the forma
 expresses unramifiedness here. The open-diagonal criterion (Huber96, Proposition 1.6.8,
 p. 79), together with preservation of fibre products and open immersions, gives the relative
 statement alongside `AdicSpace.analytification.etale` and `AdicSpace.analytification.smooth`.
+
+**Checks.**
+
+- *analytification_etale_identity_implication* (structural) — for every adic space `S`,
+  `LocallyOfFinitePresentation (𝟙 S) → IsLocallyHuberStandard S`: a witness chart for the identity
+  has a standard target chart, and the commuting square `source.ι ≫ 𝟙 S = map ≫ target.ι` puts
+  the point in the image of that target chart. Hence `Etale (𝟙 S)` and `Smooth (𝟙 S)` fail for
+  every `S` that is not locally Huber-standard (a Lean `example`, proved, after
+  `LocallyOfFinitePresentation`).
+- *analytification_etale_fibre_product_base* (non-example for the hypothesis) — for
+  `A = ℤ_p ×_{𝔽_p} E` of *etale-standing-class-control* and `S = Spa(A, A)`, the mixed
+  analytification of `id_{Spec A}` exists and is `id_S` (`S` is locally noetherian with stably
+  sheafy charts, so the construction applies), but `S` is not locally Huber-standard at `∞`
+  (*locally-huber-standard*), so `S` fails the hypothesis `hStd` and the theorem does not apply;
+  consistently, `id_S` is not `Etale` in the sense of R0 by the previous Check. The old
+  hypotheses `hA`, `hN` alone would have concluded `Etale id_S`, contradicting it.
+- *analytification_etale_identity_padic*, *analytification_etale_identity_field* (positive
+  controls) — over `S = Spa(ℤ_p, ℤ_p)` (non-analytic, discrete-free standard regime through the
+  noetherian ring of definition) and over `Spa(K, K°)` (analytic standard regime), `S` is locally
+  Huber-standard and the identity analytifies to the identity, which is étale and smooth.
+- *analytification_etale_locality* (positive locality control) — for the direct product
+  `ℤ_p × E` of *etale-standing-class-product-control*, `Spa(ℤ_p × E) = Spa(ℤ_p) ⊔ Spa(E)` is
+  locally Huber-standard although its global ring is not in the class; the theorem applies to it
+  through its component charts, so the hypothesis is local standardness, never standardness of
+  the whole coefficient ring.
+- The consumers that infer the scoped predicates through this target are over a complete
+  rank-one field: *analytification-reflects-etale-smooth* and *analytification-group-objects* work over
+  `Spa(K, K°)`, which is locally Huber-standard, and the relative polydisc and algebraic étale
+  chart Checks of R1.1–R1.3 are over such a base as well; the derivative-localisation Check
+  (`P = X²(X − 1)` over `ℚ_3`) above is unchanged.
 
 ### R1.5 local rings, constructible sets, connectedness
 
