@@ -2297,24 +2297,38 @@ the Kummer-field Check below) — `X_L → Y_L` is again an affinoid perfectoid 
 `Γ`-torsor (base change of the torsor data along `Spa L → Spa L₀`), and `X_𝒰 := X_L ×_L 𝒰`,
 `Y_𝒰 := Y_L ×_L 𝒰` are the sousperfectoid adic spaces of AdicSpacesPartIV R5.5
 (*perfectoid-times-smooth-fibre-product*). That supplier describes affinoid rings on its
-*product charts* only: for affinoid perfectoid `W' = Spa(S, S⁺) ⊆ X_L` and an open `V' ⊆ 𝒰`
-with an étale map `h : V' → 𝔹^n_L`, the piece `W' ×_L V' = Spa(S⟨T⟩) ×_{𝔹^n} V'` with the
-affinoid formula of *sousperfectoid-etale-base-change*; for an arbitrary affinoid open of `𝒰`
-it supplies quasi-compactness and a finite cover by such charts, not an affinoid product or a
-tensor formula, and nothing more is used here. Then for every affinoid `V ⊆ Y_L`, with affinoid
-perfectoid `W = h^{-1}(V)`, and every product chart `V' ⊆ 𝒰` as above:
+*affinoid finite-composite charts* only: an affinoid open `V' = Spa(B, B⁺) ⊆ 𝒰` whose
+`L`-affinoid algebra `B` is obtained from a Tate algebra `L⟨T⟩` by a finite composition of
+rational localisations and finite étale maps (this is the chart class; an arbitrary open with an
+étale map to a polydisc, such as the non-quasi-compact open unit disc, is not one), for which
+`W' ×_L V' = Spa(S⟨T⟩) ×_{𝔹^n} V'` for affinoid perfectoid `W' = Spa(S, S⁺) ⊆ X_L`, with the
+affinoid formula of *sousperfectoid-etale-base-change* identifying `O(W' ×_L V')` with
+`S ⊗̂_L B`; for an arbitrary affinoid open of `𝒰` it supplies quasi-compactness and a finite
+cover by such charts, not an affinoid product or a tensor formula, and nothing more is used here.
+Then for every affinoid `V ⊆ Y_L`, with affinoid perfectoid `W = h^{-1}(V)`, and every affinoid
+finite-composite chart `V' = Spa(B, B⁺) ⊆ 𝒰`:
 `O⁺(W ×_L V')^Γ = O⁺(V ×_L V')` and `O(W ×_L V')^Γ = O(V ×_L V')`. Proof route for the `O`
-equality on a chart: `Γ` acts through `S = O(W)` only; `S⟨T⟩ ≅ S ⊗̂_L L⟨T⟩` with `L⟨T⟩` of
-countable type over `L` (orthonormal basis the monomials), so
+equality on a chart, in one step on the whole chart algebra: `Γ` acts through `S = O(W)` only, and
+`B` is of countable type as a Banach `L`-space (present it as a quotient of a Tate algebra; the
+images of the countably many monomials span a dense subspace), so
 *invariants-of-completed-tensor-with-banach-space* in its countable-type form (P8.7) gives
-`S⟨T⟩^Γ = S^Γ⟨T⟩ = O(V)⟨T⟩`; the étale chart step `L⟨T⟩ → O(V')` is a finite composition of
-rational localisations and finite étale maps, along which invariants commute with the base change
-by *function-descent-along-tower*'s rational step and by flatness of a finite étale map
-(`S⟨T⟩ ⊗_{L⟨T⟩} O(V')` is a finite projective `S⟨T⟩`-module and `(−)^Γ` is additive and
-commutes with finite direct sums and summands). The `O⁺` equality follows because
-`W ×_L V' → V ×_L V'` is surjective on points, so a function on `V ×_L V'` is bounded by `1`
-iff its pullback is. For `𝒰 = Spa L` (one weight) the statement is
-*function-descent-over-perfectoid-base* for the base-changed torsor; for `Γ = {1}` it is an
+`(S ⊗̂_L B)^Γ = S^Γ ⊗̂_L B`, and R5.5's chart formula identifies the two sides with
+`O(W ×_L V')^Γ` and, after `S^Γ = O(V)`, with `O(V ×_L V')` (the product formula for the rigid
+or perfectoid base side). No stage-by-stage induction along `L⟨T⟩ → B` is used: a rational
+localisation is not finite, so `S⟨T⟩ ⊗_{L⟨T⟩} B` is not a finite projective `S⟨T⟩`-module in
+general (for the annulus `B = L⟨T, π/T⟩`, `T^{-1} ∈ B` satisfies no monic polynomial over
+`L⟨T⟩`), and *function-descent-along-tower*'s rational step, which has a discretely valued
+ground field and a perfectoid tower limit, does not apply to `Spa(S⟨T⟩)`, which is not perfectoid.
+The base input `S^Γ = O(V)` has two cases: for `Y` perfectoid (hence `Y_L` affinoid perfectoid) it
+is *function-descent-over-perfectoid-base*; for `Y` smooth rigid, `Y_L` is smooth rigid over
+`L` and generally not perfectoid (`Spa(L⟨T^{±1}⟩)` is not, although its `p`-power toric cover is),
+and the input is P9.12's *function-descent-seminormal-base*, smooth rigid spaces being
+seminormal, with the topological identification of the sections that the Banach comparison
+needs; P9.12 depends on P9.6, the Čech inputs, the completed structure sheaf and DiamondsAndVStacks
+D6.9, not on this target. The `O⁺` equality follows because `W ×_L V' → V ×_L V'` is surjective
+on points, so a function on `V ×_L V'` is bounded by `1` iff its pullback is. For `𝒰 = Spa L`
+(one weight) the statement is the base input itself: *function-descent-over-perfectoid-base* for
+`Y` perfectoid, *function-descent-seminormal-base* for `Y` smooth rigid; for `Γ = {1}` it is an
 identity; for the trivial torsor `X = Y × \underline{Γ}`,
 `O⁺(W ×_L V') = C(Γ, O⁺(V ×_L V'))` and the invariants are the constants. The arithmetic
 branch over `L₀` itself (sections over `Spa L₀`-opens before base change to `L`) is not a target
@@ -2336,18 +2350,20 @@ completions of AdicSpacesPartII layer R0) is a natural topological isomorphism, 
 is isometric to `c₀(I, K)` (an orthonormal basis)
 (*invariants-of-completed-tensor-with-banach-space*) ([CHJ] Lemma 2.23(2), pp. 19–20). *Needs:*
 *quotient-scalar-extension* (P8.7);
-*function-descent-along-tower*; *cech-descent-datum*; [P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); AdicSpacesPartIV layer R5
-(perfectoid times smooth; sousperfectoid rings); AdicSpacesPartII layer R0; DiamondsAndVStacks
-layer D2.
+*function-descent-over-perfectoid-base*; *function-descent-seminormal-base* (P9.12, for a smooth
+rigid base); *cech-descent-datum*; [P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); AdicSpacesPartIV layer R5
+(*perfectoid-times-smooth-fibre-product*, *sousperfectoid-etale-base-change*); AdicSpacesPartII
+layer R0; DiamondsAndVStacks layer D2 and D6.9 (through P9.12).
 
 `WeightExtension.function_descent` states this comparison with a product-chart
-hypothesis: sheafy affinoids `B,C` embed openly in `Y,𝒰`, the torsor preimage of
-`Spa B` is `Spa R` for a perfectoid pair `R`, and the two projections identify
-the selected open with `Spa B ×_{L₀} Spa C`. Its pullback map is injective with
-image the invariant functions and reflects membership in `boundedFunctions`.
-The tensor argument is made on the product charts of R5.5 over the perfectoid base `L`, with
-`L⟨T⟩` of countable type (P8.7); it is not applied to an ordinary completed tensor over `L₀`.
-It makes no assertion on nonproduct opens;
+hypothesis over the common perfectoid field `L`: sheafy affinoids `B, C` embed openly in
+`Y_L, 𝒰`, with `C` an affinoid finite-composite chart algebra, the torsor preimage of `Spa B`
+is `Spa R` for a perfectoid pair `R`, and the two projections identify the selected open with
+`Spa B ×_L Spa C`; the base-change isomorphism `Y_L = Y ×_{L₀} Spa L` relates it to the
+`Y`/`L₀` data of the statement, and no ordinary completed tensor over `L₀` is involved. Its
+pullback map is injective with image the invariant functions and reflects membership in
+`boundedFunctions`. The tensor argument is made on the whole chart algebra `C`, of countable
+type over `L` (P8.7); it makes no assertion on nonproduct opens;
 the all-opens comparisons in P9.11 have a perfectoid base field.
 
 **Checks.** `function_descent_nonproduct_domain` tests the rational region
