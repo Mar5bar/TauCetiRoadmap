@@ -21,9 +21,10 @@ comparison ([HJ] Lemma 5.7), and descent along towers ([CHJ] §2, [BHW] §3–4)
 ## Scope and ownership
 
 PerfectoidSpaces owns P0–P7; this roadmap owns P8–P9. DiamondsAndVStacks owns the v-topology,
-diamonds, spatiality and its site equivalences, proved there from [KL16] directly; the tower
-applications of its §2.9 and §6.9 (module and seminormal function descent along a given tower)
-belong here. AdicEtaleGeometry owns the étale and pro-étale sites and finite étale torsor towers
+diamonds, spatiality, the foundational vector-bundle comparison (D2.9) and the seminormal
+`O → ν_*Ô` comparison with its diamondification consequence (D6.9), using [KL16].
+P9.8 and P9.12 apply these inputs to a specified tower; they do not supply the foundations.
+AdicEtaleGeometry owns the étale and pro-étale sites and finite étale torsor towers
 (A1, A4); AdicSpacesPartII completed tensor products, separatedness and analytification (R0, R1);
 AdicSpacesPartIII Kiehl's theorem (R3); AdicSpacesPartIV sousperfectoid coefficients and
 coefficient localisation (R4, R5). Locally analytic distributions and Shimura varieties are
@@ -63,6 +64,17 @@ Sibling suppliers are cited by layer: AdicEtaleGeometry A1 (`AdicSpace.ProEtaleS
 (`Algebra.galoisTensorMap`, `Algebra.IsFiniteEtaleTorsor`); AdicSpacesPartII R0 (`CompletedTensor`)
 and R1; AdicSpacesPartIV R5 (`IsProfiniteFlat`, `mixedTensorInt`); DiamondsAndVStacks D2–D6
 (`vTopology`, `geometricDiamond`).
+
+The foundational comparisons and their tower specialisations have distinct suppliers:
+
+| Declaration or target | Supplier | Use here |
+| --- | --- | --- |
+| Vector bundles across the analytic, étale, pro-étale and v-sites; [KL16] Theorem 3.5.8 | DiamondsAndVStacks D2.9; PerfectoidSpaces P3.19 and P6 supply the étale and pro-étale inputs | P9.8 specialises pullback to a chosen tower |
+| Seminormal `O_X ≅ ν_*Ô_X`, [KL16] Theorem 8.2.3, and the vector-bundle unit of Corollary 8.2.4 | DiamondsAndVStacks D6.9, with D2.9 for vector bundles | P9.12 supplies tower fixed sections; P9.8 supplies tower morphism descent |
+| Full faithfulness of diamondification on seminormal rigid spaces | DiamondsAndVStacks D6.9 | An upstream comparison, not a consequence assigned to P9 |
+| Finite-level pro-object, covering and torsor Čech nerve | AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering` | P9.4–P9.5 add perfectoid completion and continuous completed sections |
+| Tower function and module corollaries | PerfectoidTowers P9.6, P9.8, P9.12; `finite_projective_sections_descent` is the affine lemma | Functions fixed by the specified tower action and full faithfulness of its pullback |
+| Affinoid reconstruction with coefficients | AdicSpacesPartIV R5, `coefficient-sheaf-kiehl` and `affinoid-weight-coefficient-sheaf` | P9.10 uses only the branches specified there |
 
 ## How to read the build
 
@@ -482,36 +494,63 @@ Needs P9.2 and PerfectoidSpaces P1.31.
 
 ### P9.4 Pro-étale Galois towers
 
-**Galois towers with perfectoid limit.** Let `X` be a locally noetherian adic space over
-`Spa(ℚ_p, ℤ_p)` or a perfectoid space, and `G` profinite with a cofinal decreasing sequence of open
-normal subgroups `Gⱼ`. A pro-étale `G`-tower is a system of finite étale `G/Gⱼ`-Galois covers
-`Xⱼ → X` with compatible right actions, a perfectoid `X_∞ ~ lim Xⱼ` with a right `G`-action
-continuous on functions and equivariant projections, and an affinoid cover `V` of `X` with
-`V_∞ = V ×_X X_∞` affinoid perfectoid; rational `U ⊆ V` then have `U_∞` affinoid perfectoid and form
-a basis. In `X_proét`, `X_∞ ×_X X_∞ ≅ X_∞ × G` via `(x, g) ↦ (x, xg)`, and base change to `U ∈ X_proét`
-gives a tower over `U` ([CHJ] §4.1, p. 28; AdicEtaleGeometry A4; DiamondsAndVStacks D3.10).
-Checks: for `G = {1}` and `X` perfectoid the tower is `X` itself; for the trivial torsor
-`X × G`, `O(X × G) = C(G, O(X))` with constant invariants; a free finite action with perfectoid
-`Y → Y/G` finite étale gives a constant tower with `O(Y)^G = O(Y/G)`; on the torus over `ℂ_p` with
-`G = ℤ_p(1)` acting by `T^{1/pⁿ} ↦ ζ_{pⁿ}^γ T^{1/pⁿ}` the invariants of `ℂ_p⟨T^{±1/p^∞}⟩` are the
-series in integral powers of `T`; `γ^*(δ^*f) = (γδ)^*f`, with `(01)(12)` and `(12)(01)` differing at
-`0`; over `Spa(ℂ_p[ε]/ε², ℂ_p° + ℂ_pε)` the reduction is a perfectoid tilde-limit that is neither an
-isomorphism nor finite étale, so the locally noetherian branch alone does not give these
-conclusions ([SW13] Remark 2.3.5, p. 18, Proposition 2.4.4, p. 20).
+**Galois towers with perfectoid completion.** Let `X` be locally noetherian over
+`Spa(ℚ_p, ℤ_p)` or perfectoid, and let `G` be profinite with a cofinal decreasing sequence of open
+normal subgroups `Gⱼ`. Start with the compatible finite étale `G/Gⱼ`-torsors `Xⱼ → X` of
+AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering`, with right actions. Write
+`𝒯 = (Xⱼ)` for their pro-object. In the locally noetherian branch this is an object of A1.12's
+site, and the covering and identities `𝒯 ×_X 𝒯 ≅ 𝒯 × G` and
+`𝒯^{×_X(n+1)} ≅ 𝒯 × Gⁿ` are identities in that pro-object site. The map in degree one sends
+`(x, g)` to `(x, xg)`; in degree `n` use the increments of the Conventions. Base change by an
+arbitrary `U ∈ X_proét` takes place in the slice `X_proét/U`, with torsor `𝒯_U = U ×_X 𝒯`.
+It need not give a locally noetherian or perfectoid adic base `U`.
+
+The additional tower data are a perfectoid completion `X_∞ = 𝒯̂ ~ lim Xⱼ`, equivariant
+projections and a right `G`-action continuous on functions. Require an affinoid cover `V ⊆ X`
+with `V_∞ = V ×_X X_∞` affinoid perfectoid, also on rational restrictions. In the locally
+noetherian branch require the completion of `𝒯_V` in P9.1–P9.2 to identify with `V_∞`. Thus
+`Ô⁺(𝒯_V) = O⁺(V_∞)` and `Ô(𝒯_V) = O(V_∞)` identify completed sections, not objects of the
+pro-object site. Completion of the nerve identifies `widehat(𝒯_V × Gⁿ)` with the actual
+perfectoid space `V_∞ × Gⁿ` (PerfectoidSpaces P6.8 and P9.2). Over a perfectoid base, finite
+levels and their realisation lie in PerfectoidSpaces P6's pro-category equivalence and limit
+construction, using a pseudouniformiser topology for the completed pairs in either
+characteristic. There `X_∞ ×_X X_∞ ≅ X_∞ × G` is an identity of perfectoid spaces. These are
+specialisations of the supplied torsor constructions ([CHJ] §4.1, p. 28; PerfectoidSpaces
+P6.9, P6.12; DiamondsAndVStacks D3.10).
+
+Checks: for `G = {1}` and `X` perfectoid the completion is `X`; for the trivial torsor,
+`O(X × G) = C(G, O(X))` with constant invariants; a free finite action with perfectoid
+`Y → Y/G` finite étale gives a constant tower with `O(Y)^G = O(Y/G)`. On the torus over `ℂ_p`,
+`G = ℤ_p(1)` acts by `T^{1/pⁿ} ↦ ζ_{pⁿ}^γ T^{1/pⁿ}` and fixes exactly the series in integral
+powers of `T`; `γ^*(δ^*f) = (γδ)^*f`, with `(01)(12)` and `(12)(01)` differing at `0`.
+For `G = 1`, the constant system on `Spa(ℂ_p[ε]/ε², ℂ_p° + ℂ_pε)` has strong completion
+`Spa(ℂ_p, ℂ_p°)`. Its nonzero nilpotent disappears, so the completion map is neither an
+isomorphism nor finite étale. Even strong completion does not identify the pro-object with its
+completed adic space ([SW13] Remark 2.3.5, p. 18, Proposition 2.4.4, p. 20).
 
 ### P9.5 The Čech descent datum
 
-**Čech complex as continuous cochains.** For a tower and `U` with `U_∞` affinoid perfectoid, the
-Čech nerve of `U_∞ → U` is `U_∞ × Gⁿ`, `F(U_∞ × Gⁿ) = C(Gⁿ, F(U_∞))` for `F = Ô⁺, Ô` (with the `p`-adic
-and lattice topologies), and the Čech complex is the continuous inhomogeneous cochain complex with
-`d⁰(a)(g) = g(a) − a` and `d¹(b)(g, h) = g(b(h)) − b(gh) + b(g)`; in degree zero this is `F(U_∞)^G`
-([BHW] Lemma 3.7, p. 10; [CHJ] Remark 2.25, p. 20). The cochain model extends Tau Ceti's
-degree-`0`–`2` comparisons `ContCohomology.cochainEquiv0`–`cochainEquiv2` to all degrees and
-non-discrete coefficients. For a profinite `G` and a filtered system of `G`-sets with open kernels,
+**Čech complex as continuous cochains.** On an affinoid `U` of P9.4, use the nerve
+`𝒯_U × Gⁿ` of the covering pro-object in `X_proét/U`. In the locally noetherian branch,
+for `F = Ô⁺, Ô`, evaluation and completion
+give `F(𝒯_U × Gⁿ) = C(Gⁿ, F(𝒯_U))` and `F(𝒯_U) = O⁺(U_∞), O(U_∞)` respectively, with the
+`p`-adic and lattice topologies. The completed spaces are `U_∞ × Gⁿ`; the covering used for
+the sheaf equalizer remains `𝒯_U → U`. In the perfectoid branch use the realised torsor
+and `O⁺, O` directly, with the lattice topology in either characteristic. The resulting Čech
+complex is the continuous
+inhomogeneous cochain complex, with
+`d⁰(a)(g) = g(a) − a` and `d¹(b)(g, h) = g(b(h)) − b(gh) + b(g)`; degree-zero cohomology is
+`F(𝒯_U)^G` ([BHW] Lemma 3.7, p. 10; [CHJ] Remark 2.25, p. 20).
+Compare this complex in every degree with Mathlib's `TopRep.homogeneousCochains` and its
+continuous cohomology, extending Tau Ceti's discrete-coefficient
+`ContCohomology.cochainEquiv0`–`cochainEquiv2` to the non-discrete topological modules just
+specified. For profinite `G`, compactness supports the required continuous currying maps;
+the homogeneous coordinates are obtained from successive group increments. No separate
+cohomology theory is needed. For a profinite `G` and a filtered system of `G`-sets with open kernels,
 `colim(Mᵢ^G) → (colim Mᵢ)^G` is a bijection, as for any group when the transitions are eventually
 injective ([CHJ] Lemma 2.24, p. 20). Checks: for the trivial group the normalised complex is
 `F(U)` in degree `0`, and on the identity cover the unnormalised differentials begin `0, id`; for
-`ℤ/2` and `U_∞ = U ⊔ U` the equaliser is the diagonal; degree zero agrees with Mathlib's
+`ℤ/2` and the two-copy torsor the equaliser is the diagonal; degree zero agrees with Mathlib's
 `ContinuousCohomology.zeroIso`.
 
 ### P9.6 Descent of functions along a tower
@@ -519,7 +558,8 @@ injective ([CHJ] Lemma 2.24, p. 20). Checks: for the trivial group the normalise
 **Function descent.** Let `X` be smooth rigid over a complete discretely valued `k ⊇ ℚ_p` with
 perfect residue field and `X_∞ → X` a pro-étale `G`-tower. For every open, or qcqs étale, `U ⊆ X`:
 `O⁺_X(U) = O⁺_{X_∞}(U_∞)^G` and `O_X(U) = O_{X_∞}(U_∞)^G`, as equalities of rings, from
-`O_X = ν_*Ô_X` (P9.3) and the sheaf property of `Ô_X` for `U_∞ → U`; the `O⁺` case follows since
+`O_X = ν_*Ô_X` (P9.3) and the sheaf property of `Ô_X` for `𝒯_U → U`, followed by
+the completed-section identifications of P9.4–P9.5; the `O⁺` case follows since
 `h⁻¹(U) → U` is surjective on points ([CHJ] Lemma 2.26, p. 20). For a Galois cover of a rigid
 variety and qcqs `U`, every sheaf pulled back from `Y_ét` has `F(U) = F(U ×_Y Y_∞)^G` (P9.5
 applied to `colim F(U ×_Y Yⱼ)`). After base change to a completed algebraic closure `C`, for
@@ -541,22 +581,45 @@ not a basis ([BHW] Lemma 3.7, p. 10). For `Y` affinoid perfectoid,
 `O⁺_X(X)^Γ = O⁺_Y(Y)` and `O_X(X)^Γ = O_Y(Y)` ([BHW] Lemma 3.7). For Banach `K`-spaces `E` with
 continuous `G`-action and `V` with trivial action, of countable type or with `K` discretely
 valued, `E^G ⊗̂_K V → (E ⊗̂_K V)^G` is a natural topological isomorphism, isometric for an
-orthonormal basis ([CHJ] Lemma 2.23(2), pp. 19–20; AdicSpacesPartII R0). Check: the region
-`|T|, |S| ≤ 1`, `|T − S| ≤ |π|` of the bidisc contains `(0, 0)` and `(1, 1)` but not `(0, 1)`, so it is
-not a product open.
+orthonormal basis ([CHJ] Lemma 2.23(2), pp. 19–20; AdicSpacesPartII R0). Check: in the unit bidisc, let `0 < |π| < 1` and take the Gauss point of the diagonal
+`T = S`. It belongs to the rational open `|T − S| ≤ |π|` and both its projections are disc Gauss
+points. Every product-open neighbourhood therefore also contains the independent bidisc Gauss
+point, where `|T − S| = 1`. No such neighbourhood lies inside this rational open, so product
+opens fail to form a basis. Descent on all opens is the separate assertion of P9.11.
 
 ### P9.8 Descent of finite locally free modules
 
-**Module descent.** For a tower as in P9.6 and finite locally free `O_X`-modules (or locally free
-`O⁺_X`-modules of finite rank) `E, F`, on affinoid `U` with `E(U)` finite projective by Kiehl
-(AdicSpacesPartIII R3): `E(U) = (E ⊗ O_{X_∞})(U_∞)^G` and `Hom(E, F) = Hom_G(h^*E, h^*F)`, so pullback
-is fully faithful on finite locally free modules. It is not essentially surjective: effectivity
-needs a finite-level trivialisation (P9.10) or an integral coboundary (P9.13). The affine form: if
-`A → B` is injective and every `G`-fixed element of `B` comes from `A`, then for finite projective
-`M` the map `m ↦ 1 ⊗ m` is injective with image the fixed tensors; no averaging enters ([KL16]
-Corollary 8.2.4, p. 163). The sheaf form holds for any continuous inverse-image functor between
-sites with finite limits and ring sheaves `R → h_*B` identifying `R` with the fixed sections.
-Lean: `finite_projective_sections_descent`.
+**Rational module descent.** For `h : X_∞ → X` as in P9.6 and finite locally free
+`O_X`-modules `E, F`, affinoid Kiehl (AdicSpacesPartIII R3) makes `E(U)` finite projective on an
+affinoid `U`. Set `h^*E = h^{-1}E ⊗_{h^{-1}O_X} O_{X_∞}`. Then
+`E(U) ≅ (h^*E)(U_∞)^G` and `Hom_{O_X}(E, F) ≅ Hom_{O_{X_∞},G}(h^*E, h^*F)`.
+This is the tower application of the upstream vector-bundle comparison ([KL16] Corollary 8.2.4,
+p. 163; DiamondsAndVStacks D2.9 and D6.9).
+
+**Integral module descent.** For locally free finite-rank `O_X⁺`-modules `E⁺, F⁺`, define
+`h^{+*}E⁺ = h^{-1}E⁺ ⊗_{h^{-1}O_X⁺} O_{X_∞}⁺`. The fixed-section identity of P9.6 gives
+`E⁺ ≅ (h_*h^{+*}E⁺)^G` and
+`Hom_{O_X⁺}(E⁺, F⁺) ≅ Hom_{O_{X_∞}⁺,G}(h^{+*}E⁺, h^{+*}F⁺)`.
+To prove this, trivialise both bundles locally: an equivariant morphism is a matrix whose entries
+are fixed `O⁺` sections. Descend its entries and glue the matrices using uniqueness on overlaps.
+This proof uses no assertion about projectivity of integral sections on an arbitrary affinoid.
+More generally, the same local argument applies to ring sheaves `R → h_*B` identifying `R` with
+fixed sections for a continuous inverse-image functor between sites with finite limits.
+Full faithfulness alone gives no effectivity; P9.10 gives rational finite-level effectivity and
+P9.13 gives integral effectivity under its unit-frame hypothesis.
+
+**Affine projective descent.** If `A → B` is injective and identifies `A` with `B^G`, and `M` is
+already a finite projective `A`-module, `m ↦ 1 ⊗ m` is injective and its image is the fixed tensors.
+A direct-summand presentation reduces this to the free case without averaging. It applies to
+rational or integral rings with these algebraic hypotheses. Lean: `finite_projective_sections_descent`.
+
+Negative control for integral Kiehl: on `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`, glue `p O⁺` on
+`U₀ = {|T| ≤ |p|}` to `T O⁺` on `U₁ = {|p| ≤ |T|}`. Their generators differ by the integral unit
+`T/p` on the overlap, giving a locally free rank-one sheaf `E⁺`. A series `Σ a_n T^n` is a global
+section exactly when `a₀ ∈ pℤ_p`: on `U₀` divide by `p`, and on `U₁` write the constant term as
+`(a₀/p)(p/T)` after dividing by `T`. Hence `E⁺(X) = (p,T)`. At the maximal ideal `(p,T)` this ideal
+has rank one and two independent generators modulo the maximal ideal times itself. It is not
+projective, despite local freeness of `E⁺` on `X`.
 
 ### P9.9 Twisted character sheaves
 
@@ -578,14 +641,60 @@ projective Banach tensor with `M[1/p]`. Lean: `twistedInvariants`.
 
 ### P9.10 Finite-level comparison and local freeness
 
-**Finite-level comparison.** Let `U` be affinoid, `Gₙ ⊴ G` open with `Uₙ = U_∞/Gₙ` and
-`Γₙ = G/Gₙ`. If `c(γ) = (γ^*u/u)·cₙ(γ)` for a unit `u` of `O(U_∞) ⊗̂ A` and a cocycle `cₙ` of `Γₙ`
-with values in `O(Uₙ) ⊗̂ A`, then `f ↦ fu` identifies `ω_c(U)` with the `cₙ`-twisted invariants of
-`O(Uₙ) ⊗̂ A`, a direct summand which is finite projective of rank one over `O(U) ⊗̂ A`, compatible
-with restriction; if such decompositions exist on a finite affinoid cover and the coefficient Kiehl
-comparison of AdicSpacesPartIV R5 holds, then `ω_c = Loc(ω_c(X))` is locally projective of rank one
-and trivial over the finite levels ([CHJ] paragraph after Proposition 2.27, pp. 21–22, and Theorem
-2.28, p. 22). Lean: `finite_character_comparison`.
+**Finite-level comparison on an affinoid.** Let `U` be affinoid in P9.9, let `Gₙ ⊴ G` be open,
+and use the finite stage `Uₙ → U` of P9.4 with group `Γₙ = G/Gₙ`. Write
+`R_U = O(U) ⊗̂ A`, `B = O(Uₙ) ⊗̂ A` and `C = O(U_∞) ⊗̂ A`. Use the coefficient fixed-section
+comparison `B ≅ C^{Gₙ}` and the finite étale torsor comparison
+`B ⊗_{R_U} B ≅ ∏_{Γₙ} B`, with `R_U → B` faithfully flat; these follow from P9.7, P9.9 and
+AdicSpacesPartIV R5's finite-module tensor comparison for the indicated coefficients.
+If `c(γ) = (γ^*u/u)·cₙ(γ̄)` for `u ∈ C^×` and a cocycle `cₙ : Γₙ → B^×`, multiplication by `u`
+identifies `ω_c(U)` with the `cₙ`-twisted invariants in `B`. Finite Galois descent makes this a
+finite projective rank-one `R_U`-module, and rational averaging makes it a direct summand of `B`.
+The comparison is `R_U`-linear, identifying `B^{Γₙ}` with `C^G`, and commutes with restrictions
+that transport `u` and `cₙ`. For an admissible coefficient map `A → A′`, require the coefficient
+fixed-section and finite étale tensor comparisons on both sides; finite projective base change
+then identifies the corresponding modules, with `f u` mapping to `f′ u′`. The additive comparison,
+its linear upgrade and its restriction and coefficient-change identities are Lean targets
+`finite_character_comparison`, `finite_character_comparison_linear`,
+`finite_character_comparison_restriction`, `finite_character_comparison_coefficient_change`
+([CHJ] after Proposition 2.27 and the finite Galois argument in Theorem 2.28, pp. 21–22).
+Checks: for the swap on `ℚ × ℚ`, `u = (1,2)` and `cₙ = 1` give `c(σ) = (2,1/2)`;
+the inverse-twisted line `(a,a/2)` maps to `(a,a)` by multiplication by `u`. With `u = 1`
+and the trivial group the comparison is the identity, and scalar change preserves the displayed
+multiplication formula, including over the zero ring.
+
+**Gluing the coefficient line sheaf.** On a general base `X`, affinoids with these decompositions
+and restriction compatibilities give a locally projective rank-one coefficient sheaf `ω_c`,
+locally free of rank one after the finite étale covers `Uₙ → U`. Equivalently it is a coefficient
+line sheaf in the étale topology; for affinoid weights it is a line bundle on the product with
+the weight space. This gluing assertion does not identify it with `Loc(ω_c(X))`, even when the
+cover is finite ([CHJ] Theorem 2.28, local descent argument).
+
+**Affinoid reconstruction.** Assume now that `X` itself is affinoid. Then
+`ω_c ≅ Loc(ω_c(X))` with finite projective rank-one global sections under the following precise
+supplier hypotheses from AdicSpacesPartIV R5:
+
+- For small `A` finite free over `ℤ_p` and a discretely valued base field, apply
+  `coefficient-sheaf-kiehl` branch (a) for global generation and branch (b) for projectivity.
+- For an arbitrary small `A` over a discretely valued base, assume a global presentation
+  `ω_c ≅ Loc(M)` with `M` finitely generated over `R_X`. Branch (b) proves projectivity of `M`,
+  and full faithfulness of `Loc` identifies `M` with `ω_c(X)`. This finite global presentation
+  is an additional input, not a consequence of coherence on a finite cover.
+- For reduced affinoid `ℚ_p`-algebra coefficients, use `affinoid-weight-coefficient-sheaf` and
+  Kiehl on the affinoid product `X ×_{ℚ_p} Spa(A)` in its rigid branch. On other bases require
+  a coefficient Kiehl theorem with the same global-generation conclusion as an explicit input.
+
+These are the supported applications of [CHJ] Theorem 2.28. The unrestricted small-ring
+form of [CHJ] Theorem 6.20 is not an input: AdicSpacesPartIV's `coefficient-sheaf-kiehl` separates
+its valid projectivity argument from global generation because Lemma 6.19(2) fails for an
+infinite pseudobasis.
+
+Regression control: let `E/k` be an elliptic curve with good reduction, where `k/ℚ_p` is finite
+and contains `μ_p` and all `E[p]` points. For a nontrivial character `χ : E[p] → μ_p`, the
+`χ`-eigensheaf of `[p]_*O_E` is a nonzero line bundle and pulls back to a trivial line bundle
+along the finite étale torsor `[p]`. However `H⁰(E, O_E) = k`, and every translation fixes these
+constants, so the nontrivial eigensheaf has zero global sections. Thus even finite-level
+triviality and a finite affinoid cover do not imply reconstruction from global sections.
 
 **Finite Galois descent.** For `A → B` injective, finite étale and Galois with finite group `H`
 (`B ⊗_A B ≅ ∏_H B`, AdicEtaleGeometry A4's `Algebra.galoisTensorMap` bijective), `B` is
@@ -600,11 +709,22 @@ diagonal invariants although averaging is impossible; the Galois map sends `e₁
 `colim O⁺(Uₙ)`, every `t ∈ O(U_∞)^×` and `m ≥ 1` admit `n`, `sₙ ∈ O(Uₙ)^×` and
 `t′ ∈ 1 + pᵐO⁺(U_∞)` with `t = t′sₙ` ([CHJ] Proposition 2.27, p. 21).
 
-**Integral coboundaries.** For an integral cocycle and `F ∈ (O⁺(V_∞) ⊗̂ A°)^×` with
-`γ^*F = c(γ)⁻¹F`, `ω_c⁺|_V = F·(O⁺_V ⊗̂ A°)` is free of rank one; without such `F` the integral
-twisted invariants need not be locally free, since `eₙ` is not integral when `p | |Γₙ|`, and even
-an integral `eₙ` is not enough: for `ℚ_p(√p)/ℚ_p`, `p` odd, with the sign twist the invariants
-of `ℤ_p[√p]` are `√p·ℤ_p`, generating a proper ideal ([BHW] Theorem 4.8, proof, p. 18).
+**Integral coboundaries and the counit.** For an integral cocycle and a unit
+`F ∈ (O⁺(V_∞) ⊗̂ A°)^×` satisfying `γ^*F = c(γ)⁻¹F`, P9.13 gives
+`ω_c⁺|_V = F·(O⁺_V ⊗̂ A°)` and an isomorphism from its integral pullback to the prescribed
+rank-one lattice upstairs ([BHW] Theorem 4.8, proof, p. 18). Distinguish three properties:
+the invariant module is locally free of rank one; it has an eigenvector that is a unit in the
+upstairs ring; and the descent counit is an isomorphism. A unit eigenvector gives both
+rank-one freeness and an isomorphic counit by P9.13; freeness alone does not give the counit.
+
+Checks: for `L = ℚ_p(α)`, `α² = p` and `p` odd, the nontrivial automorphism sends `α` to `−α`.
+The sign-twisted invariants of `O_L = ℤ_p[α]` are `N = αℤ_p`, and `a ↦ αa` is a
+`ℤ_p`-linear isomorphism `ℤ_p ≅ N`. This is a positive rank-one freeness test. Every such
+eigenvector lies in `αO_L`, so none is an integral unit; the counit
+`O_L ⊗_{ℤ_p} N → O_L`, `b ⊗ n ↦ bn`, has image `αO_L` and is not surjective. Although averaging
+by `1/2` is integral, the prescribed lattice does not descend effectively. After inverting `p`,
+`α` is a unit and the counit is an isomorphism. This example asserts no failure of local freeness
+of `N`; it is a negative test for the integral counit.
 
 **Coefficient change.** For `A_𝒰` noetherian, `A_𝒰 → A_𝒵` surjective with kernel generated by a
 regular `x`, `K` discretely valued and `ω_𝒰 = Loc` of a finite projective module with finite-level
@@ -647,7 +767,8 @@ inverse of a topologically nilpotent unit.
 
 **Seminormal bases.** For `K` complete of mixed characteristic, `Y` a seminormal rigid space over
 `K` and `X_∞ → Y` a pro-étale `G`-tower with perfectoid limit, `O_Y = (h_*O_{X_∞})^G` and
-`O_Y⁺ = (h_*O⁺_{X_∞})^G`, by the argument of P9.6 with `O_Y ≅ ν_*Ô_Y` for seminormal `Y` ([KL16]
+`O_Y⁺ = (h_*O⁺_{X_∞})^G`, by the argument of P9.6 using DiamondsAndVStacks D6.9's foundational
+`O_Y ≅ ν_*Ô_Y` comparison for seminormal `Y` ([KL16]
 Definition 3.7.1, Theorem 8.2.3 and proof, pp. 162–163; [Berkeley] Proposition 10.2.3, p. 78).
 Seminormality of a ring: reduced, and `a³ = b²` forces a common `c` with `c² = a`, `c³ = b` ([KL16]
 Definition 1.4.1, p. 19, Remark 3.7.3, p. 80). Checks: fields are seminormal, the property commutes
@@ -678,14 +799,14 @@ residue characteristic `2`, where averaging is unavailable and the descent state
 
 PerfectoidSpaces P0 (P0.2, P0.5), P1.31, P2 (P2.7, P2.8, P2.17), P3.21, P5 (P5.1, P5.3), P6.14 and
 P7 (P7.1, P7.2); layer P8 (free quotients, P8.7); AdicEtaleGeometry A1 and A4; AdicSpacesPartII
-R0; AdicSpacesPartIII R3; AdicSpacesPartIV R4–R5; DiamondsAndVStacks D2.5 and D3.10.
+R0; AdicSpacesPartIII R3; AdicSpacesPartIV R4–R5, specifically the coefficient branches in P9.10;
+DiamondsAndVStacks D2.5, D2.9, D3.10 and D6.9 for the foundational comparisons in the supplier table.
 
 ## Downstream consumers
 
-DiamondsAndVStacks §2.9 and §6.9 use the tower forms of module descent (P9.8) and seminormal
-function descent (P9.12); its site equivalences and geometric full faithfulness are proved there
-directly from [KL16] and [Berkeley]. Perfectoid Shimura varieties and period spaces consume the
-finite quotients of good towers, closed perfectoid loci, and descent of functions, modules and
+Perfectoid Shimura varieties and period spaces use the tower forms of module descent (P9.8) and
+seminormal function descent (P9.12), whose foundational comparisons come from DiamondsAndVStacks
+D2.9 and D6.9. They also consume the finite quotients of good towers, closed perfectoid loci, and descent of functions, modules and
 character sheaves with weight-space coefficients.
 
 ## References

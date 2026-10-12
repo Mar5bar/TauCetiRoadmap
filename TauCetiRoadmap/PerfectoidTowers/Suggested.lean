@@ -414,12 +414,99 @@ theorem finite_character_comparison {B C G H : Type*} [CommRing B] [CommRing C] 
     ∃ e : twistedInvariants c ≃+ twistedInvariants c₀, ∀ z, i (e z).val = z.val * u :=
   sorry
 
+/-- The finite-level comparison is linear over any common scalar ring acting through the
+fixed rings, with compatible scalar maps to `B` and `C`. In the tower application this ring is
+`O(U) ⊗̂ A`, identified with both fixed rings (CHJ Theorem 2.28, proof, p. 22). -/
+theorem finite_character_comparison_linear {A B C G H : Type*}
+    [CommRing A] [CommRing B] [CommRing C] [Group G] [Group H]
+    [MulSemiringAction G C] [MulSemiringAction H B]
+    [Algebra A B] [Algebra A C]
+    [Algebra A (FixedPoints.subring B H)] [Algebra A (FixedPoints.subring C G)]
+    [IsScalarTower A (FixedPoints.subring B H) B]
+    [IsScalarTower A (FixedPoints.subring C G) C]
+    (q : G →* H) (hq : Function.Surjective q) (i : B →ₐ[A] C)
+    (hi : Function.Injective i) (hequiv : ∀ g b, i (q g • b) = g • i b)
+    (hfixed : ∀ z : C, (∀ g : q.ker, g.val • z = z) ↔ ∃ b, i b = z)
+    (c : G → Cˣ) (c₀ : H → Bˣ) (u : Cˣ)
+    (hc₀ : ∀ g h, (c₀ (g * h) : B) = c₀ g * (g • (c₀ h : B)))
+    (hc : ∀ g, (c g : C) * u = (g • (u : C)) * i (c₀ (q g))) :
+    ∃ e : (twistedInvariants c).restrictScalars A ≃ₗ[A]
+        (twistedInvariants c₀).restrictScalars A,
+      ∀ z, i (e z).val = z.val * u := sorry
+
+/-- Restriction commutes with multiplication by the comparing unit. Here `rB` and `rC` are
+restriction maps on finite-level and completed sections, and `he`, `he'` specify the two
+finite-level comparisons by their multiplication formulas (CHJ Theorem 2.28, proof, p. 22). -/
+theorem finite_character_comparison_restriction {B C B' C' G H : Type*}
+    [CommRing B] [CommRing C] [CommRing B'] [CommRing C'] [Group G] [Group H]
+    [MulSemiringAction G C] [MulSemiringAction H B]
+    [MulSemiringAction G C'] [MulSemiringAction H B']
+    (i : B →+* C) (i' : B' →+* C') (hi' : Function.Injective i')
+    (rB : B →+* B') (rC : C →+* C')
+    (hsquare : ∀ b, i' (rB b) = rC (i b))
+    (hequiv : ∀ (g : G) (z : C), rC (g • z) = g • rC z)
+    (c : G → Cˣ) (c₀ : H → Bˣ) (c' : G → C'ˣ) (c₀' : H → B'ˣ)
+    (hc : ∀ g, rC (c g) = (c' g : C'))
+    (u : Cˣ) (u' : C'ˣ) (hu : rC u = (u' : C'))
+    (e : twistedInvariants c ≃+ twistedInvariants c₀)
+    (e' : twistedInvariants c' ≃+ twistedInvariants c₀')
+    (he : ∀ z, i (e z).val = z.val * u)
+    (he' : ∀ z, i' (e' z).val = z.val * u') :
+    ∀ z, ∃ z' : twistedInvariants c',
+      z'.val = rC z.val ∧ (e' z').val = rB (e z).val := sorry
+
+/-- Coefficient change commutes with the linear finite-level comparison. The maps `βC`, `βB`
+are the scalar-extension maps, specified on pure tensors in the ambient rings. Finite étale
+Galois descent supplies their bijectivity in the rational tower application; compatibility
+itself does not require flat coefficient change (CHJ Lemma 2.29, pp. 22–23). -/
+theorem finite_character_comparison_coefficient_change {A A' B C B' C' G H : Type*}
+    [CommRing A] [CommRing A'] [Algebra A A']
+    [CommRing B] [CommRing C] [CommRing B'] [CommRing C'] [Group G] [Group H]
+    [MulSemiringAction G C] [MulSemiringAction H B]
+    [MulSemiringAction G C'] [MulSemiringAction H B']
+    [Algebra A B] [Algebra A C] [Algebra A B'] [Algebra A C']
+    [Algebra A' B'] [Algebra A' C']
+    [IsScalarTower A A' B'] [IsScalarTower A A' C']
+    [Algebra A (FixedPoints.subring B H)] [Algebra A (FixedPoints.subring C G)]
+    [IsScalarTower A (FixedPoints.subring B H) B]
+    [IsScalarTower A (FixedPoints.subring C G) C]
+    [Algebra A' (FixedPoints.subring B' H)] [Algebra A' (FixedPoints.subring C' G)]
+    [IsScalarTower A' (FixedPoints.subring B' H) B']
+    [IsScalarTower A' (FixedPoints.subring C' G) C']
+    (i : B →ₐ[A] C) (i' : B' →ₐ[A'] C') (hi' : Function.Injective i')
+    (rB : B →ₐ[A] B') (rC : C →ₐ[A] C')
+    (hsquare : ∀ b, i' (rB b) = rC (i b))
+    (c : G → Cˣ) (c₀ : H → Bˣ) (c' : G → C'ˣ) (c₀' : H → B'ˣ)
+    (u : Cˣ) (u' : C'ˣ) (hu : rC u = (u' : C'))
+    (e : (twistedInvariants c).restrictScalars A ≃ₗ[A]
+      (twistedInvariants c₀).restrictScalars A)
+    (e' : (twistedInvariants c').restrictScalars A' ≃ₗ[A']
+      (twistedInvariants c₀').restrictScalars A')
+    (he : ∀ z, i (e z).val = z.val * u)
+    (he' : ∀ z, i' (e' z).val = z.val * u')
+    (βC : A' ⊗[A] (twistedInvariants c).restrictScalars A →ₗ[A']
+      (twistedInvariants c').restrictScalars A')
+    (βB : A' ⊗[A] (twistedInvariants c₀).restrictScalars A →ₗ[A']
+      (twistedInvariants c₀').restrictScalars A')
+    (hβC : ∀ a z, (βC (a ⊗ₜ[A] z)).val = a • rC z.val)
+    (hβB : ∀ a z, (βB (a ⊗ₜ[A] z)).val = a • rB z.val) :
+    ∀ t, e' (βC t) = βB (e.toLinearMap.lTensor A' t) := sorry
+
+-- Check: on two factors with the swap, `u = (1, 2)` gives `c(σ) = (2, 1/2)`
+-- and the twisted line `(a, a/2)` maps to the diagonal by multiplication by `u`.
+example (a : ℚ) :
+    ((a, a / 2) : ℚ × ℚ).swap = ((1 / 2, 2) : ℚ × ℚ) * (a, a / 2) ∧
+      ((a, a / 2) : ℚ × ℚ) * (1, 2) = (a, a) := by
+  constructor <;> ext <;> dsimp <;> ring
+
 /-! ### Descent of finite projective modules -/
 
 /-- **Degree-zero descent of finite projective modules.** If `A → B` is injective and every
 `G`-fixed element of `B` comes from `A`, then for a finite projective `A`-module `M` the map
-`m ↦ 1 ⊗ m` is injective with image the `G`-fixed tensors. This is full faithfulness of pullback
-along a tower on finite locally free modules, not effectivity (KL16 Corollary 8.2.4, p. 163). -/
+`m ↦ 1 ⊗ m` is injective with image the `G`-fixed tensors. The finite-projective hypothesis
+is an input, also for integral rings. Rational affinoid Kiehl supplies it for `O`-bundles; integral
+`O⁺`-bundle full faithfulness instead uses local frames and matrix gluing (KL16 Corollary 8.2.4,
+p. 163, for the rational comparison). -/
 theorem finite_projective_sections_descent (A B G : Type*) [CommRing A] [CommRing B]
     [Algebra A B] [Group G] [MulSemiringAction G B] [SMulCommClass G A B] [FaithfulSMul A B]
     (hfixed : Algebra.IsInvariant A B G) (M : Type*) [AddCommGroup M] [Module A M]
