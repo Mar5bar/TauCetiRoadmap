@@ -82,7 +82,7 @@ duality it feeds (the lattice dual Hom_R(M, R) of a module over an order R, and 
 dual Hom_O(M, K/O), which differ already for M = O/ϖ, whose lattice dual is 0 and whose finite dual
 is O/ϖ again; the dualizing object, exactness, biduality and the compatibility with the
 involution #) are left to the roadmap that proves the Brumer–Stark integrality statements, which
-will state them with the generic order/trace-dual lemmas shared with GlobalNumberFields. Those
+will state them with the generic lemmas on orders shared with GlobalNumberFields. Those
 subjects consume the statements here through the interfaces named in each layer.
 
 It leaves to named roadmaps:
@@ -101,7 +101,7 @@ It leaves to named roadmaps:
   decomposition, locally constant parity, base change and functoriality) is stated once in §5.1.
   AlgebraicVectorBundles L0C must import this ring-level determinant API and identify its affine
   sheaf determinant with the sheafification of `projectiveDeterminant`, naturally in isomorphisms
-  and arbitrary ring base change; its L0C dependency reference must point to this contract. §5.1
+  and arbitrary ring base change; AlgebraicVectorBundles L0C is to cite this contract in its dependency reference (a companion edit to that roadmap). §5.1
   imports nothing geometric, and the determinant of a perfect complex is the new work of Layer 5;
 - orders in number fields and the Gorenstein property for those orders, to Tau
   Ceti **GlobalNumberFields**; the character group rings R_Ψ of Layer 6 are orders in products of
@@ -3213,7 +3213,7 @@ consequence: for f = T² and P = [Λ --T--> Λ] both H^{−1}(P ⊗ A′) and H�
 has infinite projective dimension over A′ = Λ/(T²) (its minimal resolution ⋯ → A′ --T--> A′ --T-->
 A′ never stops), so no determinant of either module over A′ is available, although det_{A′}(P ⊗
 A′) = det_Λ(P) ⊗ A′ ≅ A′ is (Knudsen–Mumford, Definition 1(iii), p. 24, for the compatibility of det
-with base change; Stacks, Tag 0FJI, for the two-term determinant and its canonical section; the
+with base change; Stacks, Tag 0FJI, for the two-term determinant and its canonical element δ; the
 universal-coefficient description of the specialized cohomology has no source in this roadmap's
 register and is stated as the specification). *Needs:* `detLine`, the line-module foundation,
 `charIdeal` (§4.6), Mathlib `lTensor_exact`, `Module.FinitePresentation`.
