@@ -5055,7 +5055,7 @@ single surjective pro-étale map of qcqs perfectoid spaces as a pro-étale cover
 surjective family of open immersions as a covering, and a point-surjective pro-étale family failing
 the finite quasicompact image condition as a non-covering; the agreement of the image condition with
 Mathlib's quasi-compact cover condition for schemes; a surjective map of affinoid perfectoid spaces
-as a v-cover, the criterion of [ECD] Lem. 11.11, 12.5 and 12.11; a proper extension
+as a v-cover, the criterion of [ECD] Lem. 12.11, p. 72 (and the proof of Lem. 12.5); a proper extension
 of algebraically closed perfectoid fields, a v-cover that is not pro-étale; the refused small
 v-site; the empty family covering only the empty space; `O` and `O⁺` as small sheaves by commutation
 with `ω₁`-filtered colimits of affinoid perfectoid rings; the non-quasiseparated final object of the
