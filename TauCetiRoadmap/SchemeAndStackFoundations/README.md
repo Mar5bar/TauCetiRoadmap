@@ -982,8 +982,9 @@ polynomial with a simple root modulo `I` has a root lifting it; every finite `R`
 for every integral `R`-algebra `S`, `(S, IS)` is henselian (Stacks, Lemma 15.11.6 (09XI)). Prove
 *henselian_pair_permanence*: henselian pairs are stable under quotients, integral extensions, finite
 products, filtered colimits, taking radicals, and passage to `(R, J)` for `J ⊆ I` radical-equivalent;
-the pair `(R, I)` is henselian when `R` is `I`-adically complete, and the Example 15.11.14 that a
-henselian pair need not be local (Stacks, Lemmas 15.11.2–15.11.4, 15.11.7–15.11.16). Prove
+the pair `(R, I)` is henselian when `R` is `I`-adically complete, and permanence fails for
+non-filtered colimits: the coproduct `(ℤ_p ⊗_ℤ ℤ_p, p)` of two copies of `(ℤ_p, (p))` is not henselian
+(Stacks, Lemmas 15.11.2–15.11.4, 15.11.7–15.11.16, and Example 15.11.14 (0FWU)). Prove
 *henselian_finiteEtale_equivalence*: for a henselian pair `(R, I)`, base change is an equivalence
 from finite étale `R`-algebras to finite étale `R/I`-algebras (Stacks, Lemmas 15.13.1 (0D4A), 15.13.2
 (09ZL)). Prove *henselian_local_finite_algebras*: for a henselian local ring `R`, every finite
@@ -5580,10 +5581,11 @@ dim H^i(S, ℚ_ℓ)` is a separate comparison owned by the CohomologicalPointCou
 (TraceFormula) and is not part of this target. Define `Chow.NumericallyEquivalent D
 D'`: `D · C = D' · C` for every class `C` (equivalently every integral curve), and `Num S :=
 Pic(S)/≡` with the induced pairing; `Num.free_finiteRank` (a free abelian group of finite rank, the
-Picard number; Hartshorne 1977, V.1, Exercise 1.8) is a separate statement which the next two
-theorems do not use. Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
+Picard number `ρ`; Hartshorne 1977, V.1, Exercise 1.8) is a separate statement which
+`hodge_index` does not use. Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
 equality iff `D ≡ 0`; hence on the real span of any finite set of classes orthogonal to `H` the
-form is negative definite, and on `Num S ⊗ ℝ` it has signature `(1, ρ − 1)`. Proof inputs:
+form is negative definite. Prove `hodge_index_signature`, which takes `Num.free_finiteRank` as an
+input: on `Num S ⊗ ℝ` the intersection form has signature `(1, ρ − 1)`. Proof inputs:
 `surface_riemann_roch` with Serre duality, giving `h⁰(nD) + h⁰(K − nD) ≥ ½ n² D² + O(n)`, and the
 ample-section estimate of Lemma 1.7 controlling the duality term `H⁰(K − nD)`.
 For `D · H = 0`, `(K − nD) · H = K · H` is constant, so growing `n` does not
