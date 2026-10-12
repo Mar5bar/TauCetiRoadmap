@@ -585,10 +585,15 @@ def LocallyOfFiniteType {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   ∀ x : X.obj, ∃ c : HomChart f, x ∈ Set.range c.source.ι.hom.base ∧
     IsTopologicallyFiniteTypePair c.ringHom
 
-/-- `f` is *locally of finite presentation*: finite type, and finitely presented over discrete
-target charts (Huber 1996, Definition 1.2.1(v)). -/
+/-- `f` is *locally of finite presentation*: finite type, witnessed on a target chart in Huber's
+standing class (1.1.1), and finitely presented over discrete target charts (Huber 1996, Definition
+1.2.1(v)). Huber's definition quantifies over the affinoid charts of his adic spaces, all of which
+are in the class; demanding the witness chart to be in the class keeps that reading. Without it the
+discrete clause can be switched off by a non-discrete, non-standard chart such as the whole of
+`Spa(ℤ_p × E)` for `E` the eventually constant `𝔽_p`-sequences. -/
 def LocallyOfFinitePresentation {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   ∀ x : X.obj, ∃ c : HomChart f, x ∈ Set.range c.source.ι.hom.base ∧
+    Huber.IsHuberStandard c.target.affinoid.ring ∧
     IsTopologicallyFiniteTypePair c.ringHom ∧
       (DiscreteTopology c.target.affinoid.ring → c.ringHom.toRingHom.FinitePresentation)
 
@@ -987,7 +992,7 @@ algebraic étaleness agree (Huber 1996, Example 1.6.6(ii), stated for noetherian
 rings). Complete strongly noetherian Tate rings are noetherian
 (`TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`), so they are a special case. -/
 theorem Etale.iff_ringHom_etale_of_finite (A B : Affinoid.{w}) [IsNoetherianRing A.ring]
-    (φ : Pair.Hom A.pair B.pair)
+    [Huber.IsHuberStandard A.ring] (φ : Pair.Hom A.pair B.pair)
     (hφ : Huber.Pair.Hom.IsFinite φ) (g : B.spa ⟶ A.spa) (hg : Affinoid.IsInducedBy g φ) :
     Etale g ↔ φ.toRingHom.Etale := sorry
 
