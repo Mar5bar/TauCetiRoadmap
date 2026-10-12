@@ -8046,7 +8046,8 @@ definition of the formal model; after Lem. III.2.13, p. 38, the generic fibre of
 Def. III.2.12, p. 37, the Hasse invariant as a section of `ω^{⊗(p−1)}` on the special fibre; BHW
 §2.1, p. 7 of the author version, the definition through local lifts). For the modular curve (`Γ(N)`, `N ≥ 3`) with `ω`
 the Hodge bundle, `X(ε)` is BHW's `ε`-nearly ordinary locus `X*(ε)`, and `𝔛(ε)` is the canonical
-formal model of BHW Definition 4.1. *Needs:* *section-valuation-domain*;
+formal model of BHW Definition 4.1 when `0 ≤ ε ≤ 1/p^{m+1}` for a canonical-subgroup level
+`m ≥ 1`, the range of that definition. *Needs:* *section-valuation-domain*;
 *section-domain-formal-model*; *fractional-valuation-bound*; *admissible-formal-scheme*; *tube*;
 *generic-fibre-fibre-products*.
 
@@ -10501,9 +10502,12 @@ valued `K`: a Kiehl-proper morphism to `r(Sp A)` admits two finite affinoid open
 covers, with each inner member relatively compact in the corresponding outer
 member over `A`. `isKiehlProper_of_relativelyCompact_covers` gives the converse
 for a separated morphism. The inclusions commute with the structure maps, and
-their images cover every adic point. These are the finite-cover criterion of
-Bosch 2014, §6.3, Definition 8, p. 131, and §6.4, p. 133, transported by Huber96,
-Remark 1.3.19(i), pp. 59–60.
+their images cover every adic point. Bosch 2014, §6.3, Definition 8, p. 131, and §6.4, p. 133,
+transported by Huber96, Remark 1.3.19(i), pp. 59–60, define properness by such pairs of finite
+covers over the members of an admissible affinoid covering of the target; that the two covers
+can be taken over all of `Sp A` is the characterisation of properness through formal models
+(Lütkebohmert [L1] for discretely valued `K`, Temkin [Te] in general), which Bosch cites after
+Definition 8, p. 131.
 
 Prove `proper_relativelyCompact_covers` for adic proper morphisms obtained from
 rigid morphisms over a discretely valued `K`
@@ -10822,7 +10826,8 @@ precisely, for `X = Spec B` affine, `F = M̃` with `M` a finite `B`-module and a
 `Spa(C, C⁺) ⊆ X^an` over `Spec B` (via `B → C`), `F^an|_{Spa C} ≅ (M ⊗_B C)~` as `𝒪`-modules,
 naturally in `M` (Conrad-RA Ex. 2.2.11, p. 13, analytification of modules preserves coherence in
 the rigid setting, `F ↦ F^an` being an exact functor from `𝒪_X`-modules to `𝒪_{X^an}`-modules;
-Scholze13 §9, Thm 9.1(ii), p. 53, the analytification of coherent modules over an affinoid base).
+Scholze13 §9, the setup before Thm 9.1, p. 53, the analytification functor on coherent modules
+over an affinoid base, there for a proper morphism to `Spec A`).
 For `X = A¹_K` and `F = 𝒪_X/(T)`, `F^an` restricted to each disc `{|T| ≤ ρ}` is
 `(K⟨T/ρ⟩/(T))~`, the skyscraper `K` at the origin; for `X = Spec K`, `F^an` is the same
 finite-dimensional `K`-vector space on `Spa(K, K°)`. *Needs:* *analytification-of-modules*,
