@@ -859,7 +859,7 @@ def eulerChar (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) : ℤ :=
 def genus (X : Scheme.{u}) [X.Over (Spec (.of k))] : ℕ :=
   cohomologyDim k X (structureModule X) 1
 
-/-- A curve is affine and not proper, or proper and not affine. Stacks, Lemmas 0A24, 0A26. -/
+/-- A curve is affine and not proper, or proper and not affine. Stacks, Lemmas 0A27 and 0A26. -/
 theorem isAffine_or_isProper (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X]
     [IsSeparated (X ↘ Spec (.of k))] [LocallyOfFiniteType (X ↘ Spec (.of k))]
     (hdim : topologicalKrullDim X = 1) :

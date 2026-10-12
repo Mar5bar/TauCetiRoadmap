@@ -838,7 +838,7 @@ from the Jacobian condition alone. *Needs:* Mathlib `Scheme.Hom.normalization`,
   inclusion `Spec k_i → X` whose image is a connected component, open and closed, and whose
   composite with `id_X` is finite étale. The family may be empty, in which case `X` is empty
   and there are no component inclusions.
-- `jacobian_test_not_finite`: for `R = A[t]` and `f = t x − 1`, the Jacobian is `t`, already a
+- `jacobian_test_not_finite`: for a nonzero ring `A` and `R = A[t]` and `f = t x − 1`, the Jacobian is `t`, already a
   unit in `R[x]/(t x − 1) = A[t, t⁻¹]`, which is étale over `A[t]` and not finite.
 - `IsLocalRing.not_isUnibranch_node`: for a field `k` of characteristic not `2`, the local ring of
   `k[x, y]/(y² − x²(x + 1))` at the origin is not unibranch (two branches).
@@ -2414,7 +2414,8 @@ space factors uniquely through `π`; `IsCoarseModuliSpace π`: categorical and a
 `IsUniform` (formation commutes with flat base change) (Stacks, Definition 106.12.1, Lemmas
 106.12.2–106.12.4 (0DUF)). Prove `keel_mori`: an algebraic stack locally of finite presentation over
 `S` with finite inertia has a coarse moduli space `π : X → M`, `π` is proper and quasi-finite, `M`
-is locally of finite presentation over `S`, and formation of `M` commutes with flat base change
+is locally of finite type (hence locally of finite presentation) over `S` when `S` is locally
+Noetherian, and formation of `M` commutes with flat base change
 (Conrad 2005, Theorem 1.1 and the paragraph after it, pp. 1–2; Lemmas 2.1–2.2, Remark 2.3, pp.
 2–3). Prove `finite_quotient_coarse`: for a finite group `G` acting on an affine scheme `Spec A`,
 `Spec A^G` is the coarse space of `[Spec A/G]` (Stacks, Lemmas 106.12.2, 106.12.3). Define
@@ -2805,7 +2806,7 @@ ideal `I`, arbitrary `A`-module `M` and `q : ℕ`, the pinned functor
 `(localCohomology I q).obj M = colim_n Ext_A^q(A/I^n,M)` computes the right-derived
 `I`-power-torsion functor. Construct this natural comparison using an injective resolution and
 exactness of filtered colimits ([Stacks, Lemma 47.8.2, 0954](https://stacks.math.columbia.edu/tag/0954)), then identify derived torsion with
-`RΓ_{V(I)}` (Lemma 47.10.1, [0BJD](https://stacks.math.columbia.edu/tag/0BJD)).
+`RΓ_{V(I)}` (Lemma 47.10.1, [0955](https://stacks.math.columbia.edu/tag/0955)).
 Prove `localCohomology_module_comparison`: for the same Noetherian `A`, `X = Spec A`,
 `Z = V(I)` and `F = M~`, this bridge induces the natural `A`-linear isomorphism
 `H^q_Z(X,F) ≅ (localCohomology I q).obj M` ([Stacks, Lemma 51.2.1, 0A6T](https://stacks.math.columbia.edu/tag/0A6T)).
@@ -2822,7 +2823,7 @@ isomorphism (Stacks, Lemmas 47.10.3, 47.9.7).
 Prove `depth_localCohomology_vanishing`: for `A` Noetherian, `M` finite and `I` an ideal,
 `H^q_I(M) = 0` when `(q : ℕ∞) < depth_I M`; `depth_localCohomology_nonvanishing` asserts
 `H^d_I(M) ≠ 0` only for `d : ℕ` with `depth_I M = d`. The zero module has depth `⊤` and
-all its native local-cohomology groups vanish (Stacks, Lemmas 47.11.1, 47.11.3, 0AVY).
+all its native local-cohomology groups vanish (Stacks, Lemmas 47.11.1 (0AVZ), 47.11.3 (0BUW)).
 *Needs:* §0.17, §2.1, §2.6; Mathlib `localCohomology` in
 `Mathlib/Algebra/Homology/LocalCohomology.lean`; the comparison above connects the native functor to geometric support.
 
@@ -3672,8 +3673,8 @@ comparison with `H¹` are TraceFormula Layer 8.
 Prove `isAffine_or_isProper`: a curve `X` over `k` is either affine and not proper, or proper and
 not affine, and a proper curve is projective (Stacks, Lemmas 0A24, 0A26, 0A27, 0A28). Prove
 `genus_baseChange`: for a proper curve `X` with `H⁰(X, O_X) = k`, the base change `X_K` to any field
-extension has `H⁰(X_K, O) = K` and the same genus; the hypothesis `H⁰ = k` is essential (for `X =
-Spec L` with `L/k` finite the genus is `0` but `H⁰ = L`), and `X_K` need not be reduced or
+extension has `H⁰(X_K, O) = K` and the same genus; the hypothesis `H⁰ = k` is essential (for `X = ℙ¹_L` as a
+`k`-scheme with `L/k` finite of degree `> 1` the genus is `0` but `H⁰ = L`), and `X_K` need not be reduced or
 irreducible when `K/k` is inseparable (Stacks, Definition 0BY7, Lemma 0BY9; Lemma 0CE4; Lemma
 0BY4). *Needs:* §0.7, §2.6; Tau Ceti `Scheme.Modules.Cohomology`; JacobianChallenge Layer B.
 
@@ -3683,8 +3684,9 @@ irreducible when `K/k` is inseparable (Stacks, Definition 0BY7, Lemma 0BY9; Lemm
 - *genus_baseChange_test_inseparable*: for `k = 𝔽_p(t)` and `X` the regular projective model of
   `y² = x^p − t` (`p` odd), `X_{k(t^{1/p})}` is reduced but not normal; the genus is still `(p − 1)/2`, and the
   genus of its normalization drops to `0`.
-- *genus_baseChange_test_constant_field*: for `X = Spec L`, `L/k` finite of degree `> 1`, the genus is
-  `0` but `H⁰ ≠ k`: the hypothesis of the theorem fails and the conclusion `H⁰(X_K) = K` is false.
+- *genus_baseChange_test_constant_field*: for `X = ℙ¹_L` as a `k`-scheme, `L/k` finite of degree `> 1`: `X` is proper of
+  dimension `1` with `H⁰ = L` and genus `0`, and for `K = L` the ring `H⁰(X_L, O) = L ⊗_k L` has
+  dimension `[L : k] > 1` over `L`, so the conclusion `H⁰(X_K) = K` fails without `H⁰ = k`.
 
 *Lean:* `Curve.cohomologyDim`, `Curve.structureModule`, `Curve.eulerChar`, `Curve.genus`,
 `Curve.isAffine_or_isProper` (the dichotomy; projectivity of proper curves is specified here
@@ -4395,8 +4397,8 @@ and coherent higher direct images, before the Picard construction).
 **Checks.**
 - `formal_functions_test_affine`: for `X = Spec A` the theorem reads `M^∧ = lim M/I^n M`.
 - `formal_functions_test_projective_line`: for `ℙ¹_A` and `F = O`, `H⁰ = A` and `A^∧ = lim A/I^n`.
-- `stein_test_blowup`: for the blow-up of a surface at a point, `f_* O = O` and the fibres are
-  connected (`ℙ¹` over the point).
+- `stein_test_blowup`: for the blow-up of a regular surface at a closed point `x`, `f_* O = O` and
+  the fibre over `x` is `ℙ¹_{κ(x)}`, connected.
 - `stein_test_finite`: for a finite morphism the Stein factorisation is `X = Spec_Y f_* O_X → Y`.
 
 ### 4.10 Grothendieck's existence theorem and algebraization
@@ -5581,7 +5583,8 @@ dim H^i(S, ℚ_ℓ)` is a separate comparison owned by the CohomologicalPointCou
 (TraceFormula) and is not part of this target. Define `Chow.NumericallyEquivalent D
 D'`: `D · C = D' · C` for every class `C` (equivalently every integral curve), and `Num S :=
 Pic(S)/≡` with the induced pairing; `Num.free_finiteRank` (a free abelian group of finite rank, the
-Picard number `ρ`; Hartshorne 1977, V.1, Exercise 1.8) is a separate statement which
+Picard number `ρ`; the Néron–Severi theorem, Lang–Néron 1959, as cited in Hartshorne 1977, V, the
+note to Exercise 1.7; Exercise 1.8(b) is the characteristic-`0` argument) is a separate statement which
 `hodge_index` does not use. Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
 equality iff `D ≡ 0`; hence on the real span of any finite set of classes orthogonal to `H` the
 form is negative definite. Prove `hodge_index_signature`, which takes `Num.free_finiteRank` as an
