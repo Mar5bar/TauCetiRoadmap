@@ -136,7 +136,8 @@ theorem exists_baseChange_algEquiv (O : Type*) [NormedCommRing O] [Algebra ℤ_[
 
 /-- Negative control for the topology hypothesis: a norm on `O` for which `p^n • 1` does not tend
 to zero (for instance `‖a‖ = |σ a|_∞` for an abstract embedding `σ : ℚ_p → ℂ`) violates
-`ContinuousSMul ℤ_[p] O`; for such `O` no Dirac-preserving comparison exists. -/
+`ContinuousSMul ℤ_[p] O`; for such `O` the continuous coefficient coordinates used by
+`exists_baseChange_algEquiv` do not exist. -/
 example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
     (h : ¬ Tendsto (fun n : ℕ => ((p : ℤ_[p]) ^ n) • (1 : O)) atTop (𝓝 0)) :
     ¬ ContinuousSMul ℤ_[p] O := sorry

@@ -103,7 +103,7 @@ It leaves to named roadmaps:
   sheaf determinant with the sheafification of `projectiveDeterminant`, naturally in isomorphisms
   and arbitrary ring base change; its L0C dependency reference must point to this contract. §5.1
   imports nothing geometric, and the determinant of a perfect complex is the new work of Layer 5;
-- orders in number fields, their trace duals and the Gorenstein property for those orders, to Tau
+- orders in number fields and the Gorenstein property for those orders, to Tau
   Ceti **GlobalNumberFields**; the character group rings R_Ψ of Layer 6 are orders in products of
   copies of O and may have zero divisors (R_∅ = 0, R_Ψ with Ψ a proper subset of a component), so
   they are never identified with a number-field order, and nothing here depends on that roadmap;
@@ -272,7 +272,7 @@ roadmap layer refers to that layer's stated development.
 | measures | `AbstractMeasure`, written D(X,R): the continuous R-linear dual of C(X,R) for compact X and a normed commutative ring R, with `map`, `dirac`, `toCLMEquiv`, `amiceTransform`, `coeff_amiceTransform`, `amiceTransformEquiv`, `injective_amiceTransform`, `monoidAlgebraHom`, `WeakTopology`, `StrongTopology`, and the Mahler basis `mahler`, `PadicInt.mahlerEquiv`, `PadicInt.hasSum_mahler`; the operator calculus of Layers 0 and 2 is built on this carrier |
 | the measure algebra (`Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, in the pinned Mathlib) | `AbstractMeasure.convolveFunRight` and its five lemmas, the `Mul`, `One`, `Ring`, `Algebra R` and `CommRing` instances on `D(G,R)` with `mul_def`, `mul_apply`, `dirac_mul_dirac`, `one_def`, `one_apply`, `prodMk'`, and `diracHom` with `diracHom_apply`; the right-handed orientation (μ ⋆ ν)(f) = μ(x ↦ ν(y ↦ f(xy))) is the library's |
 | power series and polynomials | `PowerSeries` with `coeff`, `map`, `expand`, `subst`, `derivative`, `exp`, `binomialSeries`, `HasEval`, `aeval`, `aeval_unique`, `WithPiTopology`, `exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and `IsWeierstrassFactorization.unique`; `Polynomial`, `Polynomial.IsDistinguishedAt.algEquivQuotient`, `Polynomial.Monic.free_quotient`, `Polynomial.Monic.finite_quotient`, `MvPowerSeries`; the Mahler derivation, φ, ψ, residue averaging and the cyclotomic polynomials ω_n, ξ_n are defined on these |
-| algebra, p-adics and topology | `MonoidAlgebra` with its Hopf structure and its antipode `HopfAlgebra.antipodeAlgHom`, `LocalizedModule`, `IsFractionRing` (no domain hypothesis), `Submodule.div`, `Module.length`, `PrimeSpectrum`, `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsDiscreteValuationRing`, `Module.FinitePresentation`, `Module.rankAtStalk`, `Matrix.adjugate`, `exteriorPower`, `HasEnoughRootsOfUnity`, `HomologicalComplex`, `ModuleCat`; `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.ker_toZMod`, `PadicInt.norm_le_pow_iff_mem_span_pow`, `PadicComplex`, `ZMod.unitsMap`, `QuotientGroup.quotientKerEquivOfSurjective`, `LocallyConstant`, `WeakDual`, `DenseRange.equalizer`, `Topology.IsClosedEmbedding`, `IsLocalizedModule.isBaseChange` |
+| algebra, p-adics and topology | `MonoidAlgebra` with its Hopf structure and its antipode `HopfAlgebra.antipodeAlgHom`, `LocalizedModule`, `IsFractionRing` (no domain hypothesis), the `Div (Submodule R A)` instance with `Submodule.mem_div_iff_forall_mul_mem`, `Module.length`, `PrimeSpectrum`, `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsDiscreteValuationRing`, `Module.FinitePresentation`, `Module.rankAtStalk`, `Matrix.adjugate`, `exteriorPower`, `HasEnoughRootsOfUnity`, `HomologicalComplex`, `ModuleCat`; `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.ker_toZMod`, `PadicInt.norm_le_pow_iff_mem_span_pow`, `PadicComplex`, `ZMod.unitsMap`, `QuotientGroup.quotientKerEquivOfSurjective`, `LocallyConstant`, `WeakDual`, `DenseRange.equalizer`, `Topology.IsClosedEmbedding`, `IsLocalizedModule.isBaseChange` |
 
 ### From Tau Ceti
 
@@ -289,10 +289,11 @@ roadmap layer refers to that layer's stated development.
 
 `completedGroupAlgebra ℤ_p Γ = lim_U ℤ_p[Γ/U]` over the open normal subgroups, a compact topological
 ℤ_p-algebra with `of`, `proj` (surjective; with separatedness this is the inverse-limit
-description), `map`, `completedGroupAlgebra_mul_comm` for abelian Γ, the procyclic coordinate
+description), `map`, `isMulCommutative_iff` for abelian Γ, the procyclic coordinate
 `powerSeriesCoordinate` : ℤ_p⟦T⟧ ≅ `completedGroupAlgebra ℤ_p Γ` for Γ ≅ ℤ_p (T ↦ γ − 1,
-`powerSeriesCoordinate_X`, `powerSeriesCoordinate_filtration`, its continuity, and the generator
-change T ↦ (1 + T)^u − 1), `powerSeriesEval`, `powerSeries_sub_C_dvd_iff`, the dyadic coordinate
+`powerSeriesCoordinate_X`, `ker_proj_comp_powerSeriesCoordinate`, its continuity, and the generator
+change T ↦ (1 + T)^u − 1), the evaluation `aeval` at `of γ − 1` with `aeval_surjective`,
+`aeval_injective` and `of_sub_algebraMap_dvd_aeval_of_aeval_eq_zero`, the dyadic coordinate
 `dyadicCoordinate`, and `IsCompactModule` with the compact inverse-limit exactness. These stay
 canonical: the carrier, the ℤ_p power-series coordinate, its continuity and the change of generator
 are consumed, never restated. This roadmap adds only what is missing there: the comparison of
@@ -315,8 +316,8 @@ AlgebraicVectorBundles owns the determinant of a finite locally free sheaf and i
 comparisons on schemes; the ring-level foundation both roadmaps need is stated once in §5.1 at the
 level of commutative rings and modules, on Mathlib's `exteriorPower` and Tau Ceti's
 `exteriorPower.map_top_eq_det_smul`, and neither roadmap imports the other. GlobalNumberFields has
-orders in number fields, their trace duals and the Gorenstein property for those orders; the algebra
-shared with it is the generic order/trace-dual lemmas over a Dedekind base, and nothing here depends
+orders in number fields and the Gorenstein property for those orders; the algebra shared with it is
+the generic lemmas on orders over a Dedekind base, and nothing here depends
 on it.
 
 ## How to read the build
@@ -944,8 +945,9 @@ continuous scalar action when p^n·1 does not tend to zero) as an `example`.
 - Negative control for the topology hypothesis: ℤ_p with the norm ‖a‖ = |σ(a)|_∞ for an abstract
   field embedding σ : ℚ_p → ℂ is a free rank-one normed ℤ_p-algebra on which p^n·1 does not tend to
   zero, so the scalar action is not continuous; for μ = Σ_{n≥1} p^n δ_{p^n} and f_m = (pm+1)^{−1}
-  1_{p^m + p^{m+1}ℤ_p} any Dirac-preserving linear map would give E(μ)(f_m) = p^m/(pm+1), unbounded
-  while ‖f_m‖ → 0, so no such equivalence exists without the hypothesis. With it, a finite basis
+  1_{p^m + p^{m+1}ℤ_p} a weakly continuous Dirac-preserving extension would give E(μ)(f_m) =
+  p^m/(pm+1), unbounded while ‖f_m‖ → 0, so the construction of this subsection is unavailable
+  without the hypothesis. With it, a finite basis
   gives a continuous bijection ℤ_p^d → O, a homeomorphism by compactness, which supplies the
   continuous coefficient coordinates of the construction.
 
@@ -2150,7 +2152,8 @@ factor, the ratio formula of `unitCharacterEval`.
 Layer 1 (the convolution algebra of unit measures with Mathlib's `CommRing` instance, `diracHom`,
 `characterIntegralAlgHom`) and Layer 2 (`unitsMeasureAmiceEquiv`, `psiSeries`,
 `unitsHomeomorphIsUnit`); Mathlib `IsFractionRing`, `IsFractionRing.injective`,
-`IsUnit.mul_left_cancel`, `Submodule.div`, `mahler_apply`, `Polynomial.eval_eq_sum_range`,
+`IsUnit.mul_left_cancel`, the `Div (Submodule R A)` instance with
+`Submodule.mem_div_iff_forall_mul_mem`, `mahler_apply`, `Polynomial.eval_eq_sum_range`,
 `descPochhammer_ne_zero_eval_zero`, `ContinuousMonoidHom`, `continuous_algebraMap`,
 `Continuous.eval_const`. No other roadmap.
 
@@ -2569,7 +2572,7 @@ are distinguished polynomials of degree p^n, which is Tau Ceti's
 stated here; ω_n = ∏_{m ≤ n} ξ_m (`cyclotomic_product`), with each ξ_m distinguished over O
 (`xi_isDistinguishedAt`); and the residue field of Λ is k. For O = ℤ_p, prove
 `xi_irreducible_padicInt`: each ξ_m is irreducible, with ξ₀ = T and the positive-index factors
-Eisenstein at p (Mathlib `Polynomial.cyclotomic_prime_pow_comp_X_add_one_isEisensteinAt`,
+Eisenstein at p (Mathlib `cyclotomic_prime_pow_comp_X_add_one_isEisensteinAt`,
 `RingTheory/Polynomial/Eisenstein/IsIntegral.lean`). This irreducibility assertion is restricted to
 ℤ_p. *Lean:* `TauCeti.Iwasawa.height_one_prime_iff`,
 `TauCeti.Iwasawa.exists_pow_mul_distinguished_mul_unit` and
@@ -3123,7 +3126,8 @@ line with the same parity (Knudsen–Mumford, Chapter I, pp. 19–23). The API i
 `projectiveDeterminant_constantRank`. AlgebraicVectorBundles L0C imports this ring-level API; on
 Spec A its sheaf determinant must be canonically the associated invertible sheaf of
 `projectiveDeterminant A P`, with the rank grading, and this comparison must commute with affine
-pullback and determinant maps. The L0C dependency reference names this shared API; neither side
+pullback and determinant maps. AlgebraicVectorBundles L0C is to cite this shared API in its
+dependency reference (a companion edit to that roadmap); neither side
 introduces a second ring-level determinant. *Needs:* Mathlib `exteriorPower`, `Module.Projective`,
 `Module.rankAtStalk`, its local constancy and the clopen/idempotent decomposition of rings; Tau Ceti
 `exteriorPower.map_top_eq_det_smul`. *Lean:* the swap check and the rank-(1,0) check below are
@@ -3145,9 +3149,10 @@ det Q, compatible with composition; a short exact sequence of perfect complexes 
 A → A′; det(P^∨) ≅ (det P)^{−1} with the sign convention of the standing assumptions
 (Knudsen–Mumford, Chapter I, Definition 1, pp. 23–24, and Theorem 1, p. 25, for existence and
 uniqueness up to canonical isomorphism and the trivialization f(0) : det H → 1 of an acyclic
-complex; Stacks, Tag 0FJI, for the two-term determinant and its canonical section, the determinant
-functor on perfect complexes with its short-exact-sequence isomorphisms, compatibility with base
-change and normalization). Its API is `detLine`, `detLine_of_iso`, `detLine_quasiIso` (the canonical
+complex; Stacks, Tag 0FJI, for the two-term determinant and its canonical element δ (the general
+determinant functor with its short-exact-sequence isomorphisms, base change and normalization is
+Knudsen–Mumford, Chapter I, cited above)). Its API is `detLine`, `detLine_of_iso`,
+`detLine_quasiIso` (the canonical
 isomorphism and its transitivity), `detLine_shortExact`, `detLine_baseChange`, `detLine_dual`,
 `detLine_shift` (det(P[1]) = (det P)^{−1} with the same parity; the integer degree is negated) and
 `detLine_acyclic`: an acyclic perfect complex has a canonical trivialization det P ≅ A, for a
