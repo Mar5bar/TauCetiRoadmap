@@ -1034,7 +1034,8 @@ Lemma 10.105.9 (00NM)). *Needs:* §0.17 (for the last theorem only); Mathlib `LT
 - *IsCatenary.test_zero*: the zero ring is catenary (no primes).
 - `IsUniversallyCatenary.test_field`, `test_int`: fields and `ℤ` are universally catenary.
 - `IsUniversallyCatenary.test_dim_one_domain`: every Noetherian domain of dimension at most one is
-  universally catenary (Lemma 10.105.8).
+  universally catenary: it is Cohen–Macaulay, and a Noetherian Cohen–Macaulay ring is universally
+  catenary (Lemma 10.105.9 (00NM)).
 - *IsCatenary.test_nagata*: the local domain `A[x]_{m'}` of §0.22, built from Nagata's local
   domain, is Noetherian and not catenary, so the predicate is not implied by Noetherianity.
 
@@ -1072,15 +1073,25 @@ support impose nothing (Stacks, Definition 10.157.1 (031P)); and `Ring.Satisfies
 regular for every prime of height `≤ n`. API: `satisfiesSerreS_zero`, `mono` (in `n`),
 `isCohenMacaulay_iff_forall_satisfiesSerreS` (from Definitions 10.103.12 (0AAH) and 10.157.1
 (031P), since depth never exceeds the dimension of the support, Lemma 10.72.3 (00LK)),
-`satisfiesSerreS_one_iff` (no embedded primes; Lemma 10.157.2 (031Q)), `satisfiesSerreS_two_iff_hartogs`
-(used by §0.6: `(S_2)` gives depth `≥ 2` at the points of a closed set of codimension `≥ 2`, so
-sections extend across it by Divisors, Lemma 31.5.11 (0E9I); conversely the exact sequence
-`0 → H^0_Z(M) → M → Γ(U, M~) → H^1_Z(M) → 0` of Local Cohomology, Lemma 51.2.2 (0DWR), and depth
-as the first non-vanishing local cohomology, Dualizing Complexes, Lemma 47.11.1 (0AVZ), turn the
-extension property back into depth `≥ 2`), `SatisfiesSerreR.mono`, `isReduced_iff_R0_S1` (Lemma
-10.157.3 (031R)), `SatisfiesSerreS.localization` (immediate from Definition 10.157.1 (031P): the
-localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib `RingTheory.Sequence.IsWeaklyRegular`, `IsRegular`,
-`Module.support`, `Module.supportDim`, `Ideal.height`, `IsRegularLocalRing`, `Ext`.
+`satisfiesSerreS_one_iff` (no embedded primes; Lemma 10.157.2 (031Q)),
+`satisfiesSerreS_two_iff_hartogs` (used by §0.6: for a finite `M` over a Noetherian `R` with
+`Supp M = Spec R` and satisfying `(S_1)`, `M` satisfies `(S_2)` iff for every closed `Z ⊆ Spec R`
+all of whose points have height `≥ 2` the restriction `M → Γ(Spec R ∖ Z, M~)` is bijective; nonzero
+torsion-free modules over a Noetherian domain, the case §0.6 uses, satisfy both hypotheses. The
+support hypothesis excludes `M = R/(x)` over `R = k[x, y, z]`, which is `(S_2)` with depth `1` at
+`(x, y)` because `(x, y)` has height two in `Spec R` but height one in `Supp M = V(x)`, and `(S_1)`
+excludes `R = M = k[x, y]/(x², xy)`, whose embedded prime `(x, y)` has height one and so lies in no
+closed set of codimension `≥ 2`. Forwards, `(S_2)` and `Supp M = Spec R` give depth `≥ 2` at the
+points of `Z`, so sections extend across it by Divisors, Lemma 31.5.11 (0E9I); conversely, for `p`
+of height `≥ 2` take `Z = V(p)`: the exact sequence
+`0 → H^0_Z(M) → M → Γ(Spec R ∖ Z, M~) → H^1_Z(M) → 0` of Local Cohomology, Lemma 51.2.2 (0DWR),
+gives `H^0_Z(M) = H^1_Z(M) = 0`, and localising at `p` and reading depth as the first non-vanishing
+local cohomology, Dualizing Complexes, Lemma 47.11.1 (0AVZ), gives `depth M_p ≥ 2`, while primes of
+height `≤ 1` are covered by `(S_1)`), `SatisfiesSerreR.mono`, `isReduced_iff_R0_S1` (Lemma 10.157.3
+(031R)), `SatisfiesSerreS.localization` (immediate from Definition 10.157.1 (031P): the
+localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
+`RingTheory.Sequence.IsWeaklyRegular`, `IsRegular`, `Module.support`, `Module.supportDim`,
+`Ideal.height`, `IsRegularLocalRing`, `Ext`.
 
 **Checks.**
 - `IsLocalRing.depth.test_residueField`: for a Noetherian local ring `R` of positive dimension,
@@ -2268,8 +2279,8 @@ conventions stay separate from the carrier: proper-diagonal separatedness of alg
 - `Stack.stackification.test_site_generic` (compatibility) — on the site of open subsets of a
   topological space with its canonical topology, the stackification of the constant prestack with
   fibre a fixed category `A` is the stack of locally constant `A`-valued data (descent objects
-  glued from local sections, Stacks Lemma 8.9.1); on the one-point site it is `A` again, and the
-  result is not groupoid-valued when `A` is not (take `A` with a non-invertible arrow).
+  glued from local sections, Stacks, Lemma 8.8.1 (02ZN)); on the one-point site it is `A` again, and
+  the result is not groupoid-valued when `A` is not (take `A` with a non-invertible arrow).
 - `Stack.stackification.test_circle_monodromy` (non-example) — connectedness of the base does not
   give `A` back: on the circle `S¹` with `A = B(C₂)`, the global fibre of the stackification is the
   groupoid of locally constant `C₂`-torsors, which has at least two non-isomorphic objects, the
@@ -3326,7 +3337,8 @@ using CompactSupport Layer 2's common refinements (Stacks, Situation 48.16.1, Le
 (0A9Y)). API: `upperShriek_proper` (`f^! ≅ a_f` for proper `f`), `upperShriek_openImmersion` and
 `upperShriek_etale` (`f^! ≅ f^*` for étale `f`; Stacks, Lemma 48.18.2 (0FWI), with the open
 immersion case Lemma 48.17.1 (0AU0)),
-`upperShriek_flat_baseChange` (for `g` flat, `g'^* f^! ≅ f'^! g^*`; Lemmas 48.18.1, 48.18.4 (0BZX)),
+`upperShriek_flat_baseChange` (for `g` flat, `g'^* f^! ≅ f'^! g^*` on `D⁺_QCoh(O_Y)`; Lemma 48.18.1
+(0E9U)),
 `upperShriek_smooth` (for `f` smooth of relative dimension `d`, `f^! K ≅ f^* K ⊗ Ω^d_{X/Y}[d]`;
 Lemmas 48.17.3, 48.17.11), `upperShriek_lci` (for `f` a local complete intersection,
 `f^! K ≅ Lf^* K ⊗^L f^! O_Y`, using §2.18's **`derivedPullback f`**.
@@ -3514,7 +3526,8 @@ Prove `brauer_regular_injectivity`: for **affine** `X` regular
 integral, `Br(X) → Br(K(X))` is injective, `Br(X)` is torsion, and `Br(X) = Br′(X)` when `X` is
 regular affine of dimension `≤ 2` (Grothendieck, Brauer II, Proposition 1.4, Lemme 1.9, Corollaires 1.8,
 1.10, pp. 291–293). Prove `brauer_kummer_sequence`: for `n` invertible on `X`, `0 → Pic(X)/n →
-H²(X_ét, μ_n) → Br′(X)[n] → 0` (Stacks, Remark 59.28.4 (03PK)). Prove `brauer_henselian_local`: for
+H²(X_ét, μ_n) → Br′(X)[n] → 0` (Stacks, Lemma 59.28.1 (03PL) and the long exact sequence after
+Remark 59.28.2 (03PM)). Prove `brauer_henselian_local`: for
 a henselian local ring `R` with residue field `k`, `Br(R) → Br(k)` is an isomorphism (Grothendieck,
 Brauer I, Théorème 6.1, p. 214); the finite-field case `Br(k) = 0` is Tau Ceti's
 `subsingleton_brauerGroup_of_finite`. Prove `brauer_hochschildSerre_sequence`: for a smooth
@@ -4518,15 +4531,19 @@ Define `IsRegular X`: `X` is locally Noetherian and every stalk is a regular loc
 *IsRegular.of_etale*, *IsRegular.isCohenMacaulay* (§0.18); the stalk statements for smooth schemes
 and for blow-ups of nodes are Tau Ceti's `isRegularRing_iff_isRegularLocalRing_stalk_Spec`,
 `isRegularLocalRing_stalk_of_smooth` and `NodeAlgebra.isRegularLocalRing_stalk_blowup_iff`, cited.
-Prove `resolution_of_curves`: for `Y` integral Noetherian of dimension `≤ 1` whose normalisation is
-finite (Nagata, §0.20), the normalisation `Y^ν → Y` is a regular scheme and a finite modification:
-`Y^ν` is Noetherian and normal of dimension `≤ 1` and birational to `Y` (Stacks, Lemma 33.41.1
-(0C45)), so each of its local rings is a field or a Noetherian normal local domain of dimension one,
-that is a discrete valuation ring and hence regular (Algebra, Lemma 10.119.7 (00PD)); the
-normalisation is finite when `Y` is Nagata (Lemma 29.55.11 (035S)), and for one-dimensional `Y`
-finiteness of the normalisation is equivalent to the existence of a resolution in the sense of
-Definition 54.14.1 (0BGK) (Lemma 54.15.1 (0BI4)). Over a field the same conclusions are Lemma
-33.27.1 (0BXR) for the normalisation and Lemma 33.43.8 (0B8Y) for regular = normal at closed points
+Prove `resolution_of_curves`: for `Y` integral Noetherian of dimension `≤ 1`, let `Y^ν → Y` be the
+normalisation of `Y` in its function field, that is Mathlib's `Scheme.Hom.normalization` of
+`Y.fromSpecStalk (genericPoint Y) : Spec K(Y) → Y`, which over an affine open `Spec A` is `Spec` of
+the integral closure of `A` in `K(Y)` (normalising along `𝟙 Y` returns `Y` itself). If `Y^ν → Y`
+is finite, then `Y^ν` is a regular scheme and `Y^ν → Y` is a finite modification: `Y^ν` is
+Noetherian and normal of dimension `≤ 1` and birational to `Y` (Stacks, Lemma 33.41.1 (0C45)), so
+each of its local rings is a field or a Noetherian normal local domain of dimension one, that is a
+discrete valuation ring and hence regular (Algebra, Lemma 10.119.7 (00PD)). The finiteness of
+`Y^ν → Y` is a hypothesis of the theorem, carrying the Japanese/Nagata input: it holds when `Y` is
+Nagata (§0.20; Lemma 29.55.11 (035S)), and for one-dimensional `Y` it is equivalent to the existence
+of a resolution in the sense of Definition 54.14.1 (0BGK) (Lemma 54.15.1 (0BI4)). Over a field the
+same conclusions are Lemma 33.27.1 (0BXR) for the normalisation and Lemma 33.43.8 (0B8Y) for
+regular = normal at closed points
 of a curve. Prove `serre_normality_criterion`: a Noetherian ring is normal iff it
 satisfies `(R_1)` and `(S_2)` (§0.17; the `(R_1)` half `serre_normality_R₁` and the `(S_2)` half
 `serre_normality_S₂`) (Stacks, Lemma 10.157.4 (031S)). Prove `bertini_smoothness`: for `X ⊆ ℙ^n_k`
@@ -4543,14 +4560,17 @@ projective space is an immersion (in particular a very ample system) (Stacks, Se
   not an immersion, so it is excluded from `bertini_smoothness`.
 - *isRegular_affineSpace*, *isRegular_specInt*, *isRegular_empty*.
 - `not_isRegular_node` (`k[x, y]/(xy)` at the origin), `not_isRegular_dualNumbers`.
-- `resolution_test_cusp`: the normalisation of the cusp is `𝔸¹`, regular.
+- `resolution_test_cusp`: the cusp `Y = Spec k[t², t³]` is integral, Noetherian, of dimension one
+  and not regular; its normalisation in its function field is `Spec k[t] → Y`, which is finite,
+  regular and a modification.
 - `serre_test_cone`: `k[x, y, z]/(xy − z²)` is normal: `(R_1)` and `(S_2)` hold; `k[x, y]/(x², xy)`
   fails `(S_1)`.
 - `bertini_test_quadric`: a general hyperplane section of a smooth quadric surface is a smooth
   conic.
 
-*Lean:* `Formal.IsRegular`, `Formal.resolution_of_curves` (for `Y` whose normalisation is finite
-over `Y`).
+*Lean:* `Formal.IsRegular`, `Formal.resolution_of_curves` (the normalisation of `Y` along
+`Y.fromSpecStalk (genericPoint Y)`, with its finiteness over `Y` as an instance hypothesis), and
+`resolution_test_cusp` as an `example`.
 
 ### 4.14 Hilbert and Quot schemes
 

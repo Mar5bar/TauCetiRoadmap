@@ -764,7 +764,7 @@ instance instHasDerivedCategoryModules (X : Scheme.{u}) : HasDerivedCategory X.M
   HasDerivedCategory.standard _
 
 /-- `D_QCoh(O_X)`: complexes of `O_X`-modules with quasi-coherent cohomology sheaves.
-Stacks, Lemma 36.3.1 (06YZ). -/
+Stacks, Section 36.3 (06YZ). -/
 def DQCoh (X : Scheme.{u}) : Type (u + 1) :=
   ObjectProperty.FullSubcategory (fun K : DerivedCategory X.Modules =>
     ∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent)
@@ -772,7 +772,7 @@ def DQCoh (X : Scheme.{u}) : Type (u + 1) :=
 instance (X : Scheme.{u}) : Category.{u + 1} (DQCoh X) := by
   unfold DQCoh; infer_instance
 
-/-- For `X = Spec A`, `D(A) ≌ D_QCoh(O_X)`. Stacks, Lemmas 36.3.8–36.3.9. -/
+/-- For `X = Spec A`, `D(A) ≌ D_QCoh(O_X)`. Stacks, Lemma 36.3.5 (06Z0). -/
 theorem DQCoh.affineEquiv (A : CommRingCat.{u}) :
     letI := HasDerivedCategory.standard (ModuleCat.{u} A)
     Nonempty (DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A)) := by
@@ -1159,13 +1159,37 @@ class IsRegular (X : Scheme.{u}) : Prop where
   isLocallyNoetherian : IsLocallyNoetherian X
   isRegularLocalRing : ∀ x : X, IsRegularLocalRing (X.presheaf.stalk x)
 
-/-- Resolution of curves by normalization, when the normalization is finite.
+/-- Resolution of curves by normalization: the normalization `Ỹ → Y` of `Y` in its function field
+`Spec K(Y) → Y`, when finite (Nagata), is regular and a modification.
 Stacks, Lemmas 33.41.1 (0C45) and 54.15.1 (0BI4). -/
 theorem resolution_of_curves (Y : Scheme.{u}) [IsIntegral Y] [IsNoetherian Y]
-    (hdim : topologicalKrullDim Y ≤ 1) [IsFinite (Scheme.Hom.fromNormalization (𝟙 Y))] :
-    IsRegular (Scheme.Hom.normalization (𝟙 Y)) ∧
-      IsModification (Scheme.Hom.fromNormalization (𝟙 Y)) := by
+    (hdim : topologicalKrullDim Y ≤ 1)
+    [IsFinite (Y.fromSpecStalk (genericPoint Y)).fromNormalization] :
+    IsRegular (Y.fromSpecStalk (genericPoint Y)).normalization ∧
+      IsModification (Y.fromSpecStalk (genericPoint Y)).fromNormalization := by
   sorry
+
+-- `resolution_test_cusp`: the cusp `Y = Spec k[t², t³]` meets the hypotheses of
+-- `resolution_of_curves` and is not regular; its normalization is `Spec k[t] → Y`, regular and a
+-- modification.
+example (k : Type u) [Field k] :
+    let A := Algebra.adjoin k {(Polynomial.X : Polynomial k) ^ 2, Polynomial.X ^ 3}
+    let Y := Spec (.of A)
+    let ν := Y.fromSpecStalk (genericPoint Y)
+    IsNoetherian Y ∧ topologicalKrullDim Y ≤ 1 ∧ IsFinite ν.fromNormalization ∧ ¬ IsRegular Y ∧
+      (∃ e : ν.normalization ≅ Spec (.of (Polynomial k)),
+        e.hom ≫ Spec.map (CommRingCat.ofHom A.val.toRingHom) = ν.fromNormalization) ∧
+      IsRegular ν.normalization ∧ IsModification ν.fromNormalization := by
+  intro A Y ν
+  have : IsNoetherian Y := by
+    classical
+    have : Algebra.FiniteType k A :=
+      (Subalgebra.fg_iff_finiteType _).mp ⟨{Polynomial.X ^ 2, Polynomial.X ^ 3}, by simp [A]⟩
+    have := Algebra.FiniteType.isNoetherianRing k A
+    infer_instance
+  have hdim : topologicalKrullDim Y ≤ 1 := sorry
+  have : IsFinite ν.fromNormalization := sorry
+  exact ⟨‹_›, hdim, ‹_›, sorry, sorry, resolution_of_curves Y hdim⟩
 
 /-- Strict normal crossings data: finitely many components. de Jong 1996, 2.4. -/
 structure SNCData (X : Scheme.{u}) where
@@ -1369,7 +1393,7 @@ example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (x : 
 attribute [local instance] Classical.propDecidable
 
 /-- Rational equivalence: sums of principal divisors on a locally finite family of integral
-closed subschemes of dimension `k + 1`. Stacks, Definition 42.19.1 (02RV). -/
+closed subschemes of dimension `k + 1`. Stacks, Definition 42.19.1 (02RW). -/
 def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))]
     [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) :
     AddSubgroup (cyclesOfDimension κ X k) where
@@ -1404,7 +1428,7 @@ def cycleClass (X : Scheme.{u}) [X.Over (Spec (.of κ))]
 example : Nonempty (ChowGroup κ (Spec (.of κ)) 0 ≃+ ℤ) := by sorry
 
 /-- Chow groups of a coproduct are the product of the Chow groups, for any small family.
-Stacks, Definition 42.19.1 (02RV). -/
+Stacks, Definition 42.19.1 (02RW). -/
 theorem CH_coprod (I : Type u) (X : I → Scheme.{u})
     [∀ i, (X i).Over (Spec (.of κ))]
     [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] (k : ℤ) :
