@@ -621,9 +621,11 @@ theorem LocallyOfWeaklyFiniteType.isAdic {X Y : TauCeti.AdicSpace.{w}} (f : X �
 theorem LocallyOfFiniteType.locallyOfPlusWeaklyFiniteType {X Y : TauCeti.AdicSpace.{w}}
     (f : X ⟶ Y) (hf : LocallyOfFiniteType f) : LocallyOfPlusWeaklyFiniteType f := sorry
 
-/-- Over an analytic base, finite presentation is finite type (Huber 1996, Definition 1.2.1(v)). -/
+/-- Over an analytic, locally Huber-standard base, finite presentation is finite type (Huber 1996,
+Definition 1.2.1(v)); the standing-class clause is then witnessed on every chart. -/
 theorem locallyOfFinitePresentation_iff_of_isAnalytic {X Y : TauCeti.AdicSpace.{w}}
-    (f : X ⟶ Y) (hY : IsAnalytic Y) : LocallyOfFinitePresentation f ↔ LocallyOfFiniteType f :=
+    (f : X ⟶ Y) (hY : IsAnalytic Y) (hY' : IsLocallyHuberStandard Y) :
+    LocallyOfFinitePresentation f ↔ LocallyOfFiniteType f :=
   sorry
 
 /-- `Spa` of a complete pair of noetherian type is locally noetherian (Huber 1994, §3). -/
