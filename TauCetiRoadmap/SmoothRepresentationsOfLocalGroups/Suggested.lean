@@ -332,8 +332,12 @@ def modulusCharacter [IsTopologicalGroup G] [LocallyCompactSpace L.P] : L.M →*
     ((MeasureTheory.Measure.modularCharacter (G := L.P)).comp
       (Subgroup.inclusion L.M_le)).toHomUnits
 
-/-- The modulus character is smooth. -/
-theorem modulusCharacter_isSmooth [IsTopologicalGroup G] [LocallyCompactSpace L.P] :
+/-- The modulus character is smooth when `G` is locally profinite: a compact open subgroup of `M`
+maps into the compact subgroups of `ℝ_{>0}`, hence into the kernel. Total disconnectedness is
+needed: on the real affine group `{(a, b) : a > 0}` with `M = {(a, 0)}` the modular character
+is `(a, 0) ↦ a`, whose kernel is not open. -/
+theorem modulusCharacter_isSmooth [IsTopologicalGroup G] [T2Space G] [TotallyDisconnectedSpace G]
+    [LocallyCompactSpace L.P] :
     IsSmoothCharacter L.modulusCharacter := sorry
 
 end LeviDecomposition

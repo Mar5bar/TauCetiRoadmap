@@ -1905,11 +1905,19 @@ finite-place and adelic comparison.
 *Lean:* `LeviDecomposition.modulusCharacter` (Mathlib's `MeasureTheory.Measure.modularCharacter`
 of P restricted to M, with values in ℂˣ; by the remark above it is the conjugation modulus of N when
 M is unimodular, as for a Levi subgroup of a reductive group),
-`LeviDecomposition.modulusCharacter_isSmooth`.
+`LeviDecomposition.modulusCharacter_isSmooth` (smoothness holds for G Hausdorff and totally
+disconnected, the locally profinite case: a compact open subgroup of M maps into a compact subgroup
+of ℝ_{>0}, which is trivial, so it lies in the kernel; the lemma carries these hypotheses, since the
+modular character of a general locally compact group need not have open kernel).
 
 **Checks.**
 
-- For GL_2(ℚ_p) and B upper triangular, δ_B(diag(a,d)) = |a/d|_p.
+- For GL_2(ℚ_p) and B upper triangular, δ_B(diag(a,d)) = |a/d|_p, and the smoothness lemma
+  applies, G being locally profinite.
+- Non-example for the smoothness lemma: the real affine group G = {(a, b) : a > 0, b ∈ ℝ} with
+  (a, b)(a′, b′) = (aa′, b + ab′), P = G, M = {(a, 0)}, N = {(1, b)}, is locally compact with a
+  closed Levi decomposition; its left Haar measure is da db/a², so Mathlib's modular character is
+  (a, 0) ↦ a, whose kernel {1} is not open. The lemma's totally-disconnected hypothesis excludes it.
 - For P = G (N = 1), δ_P = 1. For the modular-character form this uses that G is unimodular, as a
   reductive group is.
 - For P = B ⊆ GL_2(ℚ_p), δ_B equals Mathlib's modularCharacter of B (as an ℝ≥0-valued character).
