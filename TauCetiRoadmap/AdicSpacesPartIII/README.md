@@ -250,7 +250,7 @@ analytification functors are README targets there.
 | R3 supplier | Exact file | Contract used |
 |---|---|---|
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `RigidSpace.Affinoid.point`, `RigidSpace.Sp.map`, `AdicSpace.rigidToAdic`; `Huber.TateAlgebra.ofMvPolynomial` (same namespace); `TauCeti.Huber.restrictedMvPowerSeriesCompletion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `Huber.TateAlgebra.ofMvPolynomial`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file); `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | Planned supplier interface: discs, analytic points, polynomial coordinates and induced adic morphisms for the exactness non-example of *glueing-square*, `IsFiniteLocallyFree_closed_point`, `VectorBundle_skyscraper` and `IsFiniteLocallyFree_power_map`. Evaluation at zero is specified on every polynomial. |
-| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `Sp`, `Sp.map`, `IsInner`, `HasInnerAffinoidCover`, `IsProper`; `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `rigidToAdic.proper`, `rigidToAdic.proper_iff` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `IsProper`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | R3 imports the rigid affinoid carriers, generator criterion, and finite inner-cover properness. Part III's `AdicSpace.RelativelyCompact` transports innerness to adic inclusions with commuting base and inclusion maps; its API and Checks belong here. The reverse properness comparison takes `IsDiscreteValuationRing (powerBoundedSubring K)`. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `Sp`, `Sp.map`, `IsInner`, `HasInnerAffinoidCover`, `IsProper`; `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `rigidToAdic.proper`, `rigidToAdic.proper_iff` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; they are specified by Part II README targets) | R3 imports the rigid affinoid carriers, generator criterion, and finite inner-cover properness. Part III's `AdicSpace.RelativelyCompact` transports innerness to adic inclusions with commuting base and inclusion maps; its API and Checks belong here. The reverse properness comparison takes `IsDiscreteValuationRing (powerBoundedSubring K)`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `Affinoid.coeff`, `Flat`, `IsFinite`, `Etale` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Imported affinoid presentations, coefficient maps and morphism predicates used by `proper_directImage_finiteFlat_baseChange` and `proper_directImage_etale_baseChange`. Part III adds the equivalence on coherent cohomology and its pure-tensor equation. |
 | `HomologicalComplex.single`, `HomologicalComplex₂.total`, `HomologicalComplex₂.ιTotalOrZero` | `Mathlib/Algebra/Homology/Single.lean`, `Mathlib/Algebra/Homology/TotalComplex.lean` | The concentrated double complex and the square with four copies of ℤ test the augmentation and actual total differential. |
 | `TrivSqZeroExt.instL1NormedCommRing`, `TrivSqZeroExt.norm_def` | `Mathlib/Analysis/Normed/Algebra/TrivSqZeroExt.lean` | The supplied norm on dual numbers tests the spectral maximum formula on a nonzero nilpotent. |
@@ -7569,8 +7569,9 @@ formal unramifiedness. In general a smooth formal scheme over `W` admits no glob
 lifts exist on each open étale over a torus (TT §2.3, Rem. 2.20, p. 19: no global lift in general,
 and existence and uniqueness on opens étale over the torus). On the torus itself `φ(Σ a_ν T^ν) = Σ
 σ(a_ν) T^{pν}`; on `𝔛 = Spf W⟨T^{±1}, (T − 1)⁻¹⟩` (open in the torus), `φ((T − 1)⁻¹) = (T^p − 1)⁻¹`,
-which lies in `R` because `T^p − 1 ≡ (T − 1)^p mod p` is invertible. For `d = 0`, `R = W(κ')` with
-`κ'/κ` finite separable, and `φ` is the Witt-vector Frobenius of `W(κ')`. Equal characteristic
+which lies in `R` because `T^p − 1 ≡ (T − 1)^p mod p` is invertible. For `d = 0`, `R ≅ ∏ᵢ W(κ'ᵢ)`
+for finitely many finite separable `κ'ᵢ/κ` (a single `W(κ')` when `Spf R` is connected, `R = 0`
+allowed), and `φ` is the product of the Witt-vector Frobenii. Equal characteristic
 is degenerate: if `pR = 0` the `p`-adic topology is discrete, the only Frobenius lift is the
 absolute Frobenius `r ↦ r^p`, and `R` cannot be étale over `(W(κ)/p²)[T^{±1}]` unless `R = 0` (an
 étale algebra over `(W(κ)/p²)[T^{±1}]` is flat over `W(κ)/p²`, and `p = 0` on a flat
@@ -10826,8 +10827,8 @@ precisely, for `X = Spec B` affine, `F = M̃` with `M` a finite `B`-module and a
 `Spa(C, C⁺) ⊆ X^an` over `Spec B` (via `B → C`), `F^an|_{Spa C} ≅ (M ⊗_B C)~` as `𝒪`-modules,
 naturally in `M` (Conrad-RA Ex. 2.2.11, p. 13, analytification of modules preserves coherence in
 the rigid setting, `F ↦ F^an` being an exact functor from `𝒪_X`-modules to `𝒪_{X^an}`-modules;
-Scholze13 §9, the setup before Thm 9.1, p. 53, the analytification functor on coherent modules
-over an affinoid base, there for a proper morphism to `Spec A`).
+Scholze13 §9, Thm 9.1(i)–(ii), p. 53, coherent `𝒪_{X₀}`-modules and their analytifications on
+`X`, there for `X₀` proper over `Spec A`).
 For `X = A¹_K` and `F = 𝒪_X/(T)`, `F^an` restricted to each disc `{|T| ≤ ρ}` is
 `(K⟨T/ρ⟩/(T))~`, the skyscraper `K` at the origin; for `X = Spec K`, `F^an` is the same
 finite-dimensional `K`-vector space on `Spa(K, K°)`. *Needs:* *analytification-of-modules*,
