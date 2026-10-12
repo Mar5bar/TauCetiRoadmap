@@ -1499,12 +1499,16 @@ diagrams `Y : I ⥤ C`, `Z : J ⥤ C`, a pro-morphism `f : Pro.mk Y ⟶ Pro.mk Z
 canonical maps of the chosen Ind presentation. This specifies the Hom comparison on every stage
 representative ([ECD] Proposition 7.10, proof, p. 33). Prove `Pro.homEquiv_naturality`: for natural
 transformations `a : Y′ → Y` and `b : Z → Z′`, precomposition and postcomposition on pro-morphisms
-become the stage map `h ↦ a_i ≫ h ≫ b_j` on the double-limit side. Define `Pro.bounded κ C`, the
-full subcategory of pro-objects admitting a cofiltered presentation with strictly fewer than `κ`
-objects and arrows (count all arrows, not only each Hom set separately). This is `Pro_κ(C)`; the
-definition makes sense for any cardinal, while its cutoff-cardinal applications take
-`IsCutoffCardinal κ`. Prove `Pro.bounded_mk`: every diagram satisfying these two strict bounds
-supplies an object of this subcategory. Cofiltered limits and, when `C` has finite limits, finite
+become the stage map `h ↦ a_i ≫ h ≫ b_j` on the double-limit side. The bounded pro-category is the supplier's: PerfectoidSpaces' `Suggested.lean` already defines
+`HasKappaSmallPresentation κ Z` (a cofiltered presentation of the pro-object `Z` of `(Ind Cᵒᵖ)ᵒᵖ`
+with fewer than `κ` arrows, all arrows counted) and `PerfectoidSpace.ProKappa κ C`, the full
+subcategory `Pro_κ(C)`, with `HasKappaSmallPresentation.of_diagram`. `Pro.bounded κ C`, if the name
+is wanted here, is an abbreviation of `PerfectoidSpace.ProKappa κ C` and `Pro.bounded_mk` is
+`HasKappaSmallPresentation.of_diagram`; no second presentation predicate or bounded pro-category is
+defined. Bounding objects as well as arrows adds nothing: `i ↦ (i, i, 𝟙 i)` injects the objects into
+the total arrow type, so fewer than `κ` arrows (with the universe lift of the supplier's statement)
+already bounds the objects. The definition makes sense for any cardinal, while its cutoff-cardinal
+applications take `IsCutoffCardinal κ`. Cofiltered limits and, when `C` has finite limits, finite
 limits use the existing opposite-category instances listed in the supplier contracts. For a fixed
 small cofiltered index `I`, flattening a diagram `I ⥤ Pro(C)` is its limit, using Mathlib
 `CategoryTheory.Limits.lim`, `limit.π`, `limit.lift` and `limit.isLimit` in
@@ -2518,11 +2522,19 @@ carrier — to the v-site, keeping the sheaf of isomorphism classes apart from t
 
 **Stackification of a category-valued prestack and its universal property, on the v-site.**
 (*general-site-stackification*) Stackification of a prestack on a site `(C, J)`, with its universal
-property and the 2-Yoneda lemma, is SchemeAndStackFoundations §1.18, implemented once for an
-arbitrary site from Mathlib's `DescentData`/`IsPrestack`/`IsStack` carrier ([Stacks stackification]
-Tag 02ZP, Lem. 8.9.1, and §8.8, Tag 02ZM, Lemmas 8.8.1–8.8.3); its groupoid-valued fppf stacks on
-`Scheme.{u}` (`Stacks.stackification` there) and the v-stacks here are two specialisations, and this
-subsection constructs nothing new. It records the contract that the v-site specialisation must
+property and the 2-Yoneda lemma, is SchemeAndStackFoundations §1.18, whose target
+`Stack.stackification J F` is commissioned there for any small site `(C, J)` and any
+category-valued pseudofunctor `F` (not only groupoid-valued, and not assumed a prestack in
+Mathlib's sense), with the unit `Stack.toStackification`, `Stack.isStack_stackification`,
+`Stack.stackificationUniversal` (strong transformations and modifications),
+`Stack.stackification_of_isStack` and `Stack.stackificationDiscreteEquiv`, from Mathlib's
+`DescentData`/`IsPrestack`/`IsStack` carrier ([Stacks stackification] Tag 02ZP, Lem. 8.9.1, and
+§8.8, Tag 02ZM, Lemmas 8.8.1–8.8.3); its groupoid-valued fppf `stackification` on `Scheme.{u}` and
+the v-stacks here are two specialisations, and this subsection constructs nothing new. The names
+`Stack.stackification`, `Stack.toStackification`, `Stack.isStack_stackification`,
+`Stack.stackificationUniversal`, `Stack.stackification_of_isStack` and
+`Stack.stackificationDiscreteEquiv` used below are §1.18's exports evaluated at `(Perfd, v)`,
+`(Perf, v)` or the big pro-étale site, not local declarations. It records the contract that the v-site specialisation must
 satisfy on `(Perfd, v)` and `(Perf, v)` (D2.2) and on the big pro-étale site of D2.1, with the
 suggested names used in its Checks for §1.18's generic construction. Let `C : Type u` have
 `Category.{u} C`, let `J : GrothendieckTopology C`, and let `F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{u, u}`
@@ -2629,11 +2641,13 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 
 **Two-fibre products of stacks and quotients of groupoid objects, on the v-site.**
 (*groupoid-quotients-and-two-fibre-products*) The 2-fibre product of stacks, with its 2-universal
-property, is SchemeAndStackFoundations §1.18, and the quotient stack of a groupoid object, the
-stackification of the objectwise groupoid, is its §1.21; both are implemented once on an arbitrary
-site `(C, J)` ([Stacks stackification] Tag 02ZL and Tags 044Q, 04M9, 044U and 06PB), with
-`Stacks.twoFiberProduct` and `Stacks.quotientStack` there for `Scheme.{u}` with the fppf topology
-and the forms on `(Perf, v)` here as specialisations. They are consumed here and not rebuilt; this
+property, is SchemeAndStackFoundations §1.18 (`Stack.twoFibreProduct`, commissioned there on any
+site), and the quotient stack of a groupoid object in sheaves, the stackification of the objectwise
+groupoid, is its §1.21 (`Stack.quotient J (X, R)`, commissioned there on any site), both
+([Stacks stackification] Tag 02ZL and Tags 044Q, 04M9, 044U and 06PB); `twoFiberProduct` and
+`quotientStack` there for `Scheme.{u}` with the fppf topology and the forms on `(Perf, v)` here are
+their specialisations, and `Stack.twoFibreProduct` and `Stack.quotient` below name §1.18's and
+§1.21's exports at `(Perf, v)`, not local declarations. They are consumed here and not rebuilt; this
 subsection records the contract that the v-site specialisation must satisfy, with the suggested
 names used in its Checks. For maps of stacks `G₁ → G₃` and `G₂ → G₃`, the 2-fibre product sends `X`
 to the groupoid of triples `(a, b, φ)` with `a` in `G₁(X)`, `b` in `G₂(X)` and `φ` an isomorphism of
@@ -4658,12 +4672,14 @@ quasiseparated; for `X` affinoid perfectoid, `X` is quasicompact and quasisepara
 which is what makes the Čech arguments finite. For a map of stacks on such a site,
 quasiseparatedness means that the diagonal is quasicompact and quasiseparated, which for stacks is
 not automatic since the diagonal need not be injective; this convention enters every
-quasiseparatedness statement about stacks in layers D3 to D6. The final object of these categories
-is not quasiseparated (the v-topos of `Perfd` has a non-quasiseparated final object, the standing
+quasiseparatedness statement about stacks in layers D3 to D6. The final object of the *big*
+v-topoi of `Perfd` and `Perf` is not quasiseparated (the standing
 counterexample: take `Y = Z = Spa(𝔽_p((t^{1/p^∞}))^, 𝔽_p[[t^{1/p^∞}]]^)`. Both are quasicompact, but
 their absolute product is the perfectoid punctured open unit disc over `Y` ([ECD] proof of
 Proposition 11.4). The annuli `|ϖ|^n ≤ |t| ≤ |ϖ|^{1/n}`, `n ≥ 1`, cover that disc with no finite
-subcover), so object-level and map-level quasicompactness are kept apart as in the object and
+subcover); for the small site `X_proet` of a qcqs perfectoid `X` the terminal object is represented
+by `id_X` and is qcqs (`X = Spa(C, O_C)` is the control), so the warning is about the big topoi
+only. Object-level and map-level quasicompactness are kept apart as in the object and
 morphism distinction of D0.17: `X` quasiseparated implies `X → ∗` quasiseparated, and when the
 terminal object is quasicompact, `X → ∗` quasicompact implies `X` quasicompact; the object and
 morphism predicates are not interchangeable. [ECD] leaves the proof to the reader; the content is
@@ -4677,8 +4693,11 @@ are affinoid perfectoid).
 
 - `s2_4_affinoid_is_qcqs` (characterisation) — an affinoid perfectoid space is quasicompact and
   quasiseparated as a v-sheaf, and `|X|` is a spectral space.
-- `s2_4_final_object_not_quasiseparated` (non-example) — the terminal sheaf on `Perfd` is not
-  quasiseparated: the two quasicompact perfectoid points of the punctured-disc computation in D2.4
+- `s2_4_small_site_terminal_qcqs` (control) — for `X = Spa(C, O_C)`, the terminal object of the
+  small pro-étale topos `X_proet` is `id_X`, quasicompact and quasiseparated; the big-site warning
+  below does not apply to small sites of qcqs perfectoid spaces.
+- `s2_4_final_object_not_quasiseparated` (non-example) — the terminal sheaf on the big site `Perfd` is
+  not quasiseparated: the two quasicompact perfectoid points of the punctured-disc computation in D2.4
   have non-quasicompact absolute product. This distinguishes object quasiseparatedness from
   quasiseparatedness of the identity map of the terminal object.
 - `s2_4_empty_space` (degenerate case) — `∅` is qcqs, and the empty family covers it, as does any family
@@ -8505,16 +8524,51 @@ cited in D0.19); D0.4; D0.20; D5.8; PerfectoidSpaces layer P4 (residue-field poi
 - `rank_two_point` (computation) — for `Y = Spa(C, C⁺)` with `C⁺` of rank two, `|Y| = {η ⤳ s}`,
   `|Y|_B` is a point, so `|Y|_B̲` is the final v-sheaf `Spd 𝔽_p`, the map `Y → Spd 𝔽_p` is the
   structure map, and it is representable in locally spatial diamonds because `Y` is spatial and
-  `X × Y` is locally spatial for locally spatial `X` (D5.5); for the comparison,
+  the absolute product `X × Y` is locally spatial for locally spatial `X`, by the absolute-product
+  permanence statement *locally-spatial-absolute-product* below (D5.5's `spatial_pullback` needs
+  a locally spatial base and does not apply over the final v-sheaf, which is not a diamond); for
+  the comparison,
   `Γ(|Y|, f^*F) = (f^*F)_s = F_{pt}` because `|Y|` is the only open neighbourhood of `s`, and `Γ` is
   the exact stalk functor at `s`, so `H^i(|Y|, f^*F) = 0 = H^i(pt, F)` for `i > 0`.
 - `spatial_case` (degenerate) — for `Y` spatial, `Y → |Y|_B̲` is representable in locally spatial
-  diamonds because every fibre product with a locally spatial diamond over `|Y|_B̲` is a fibre
-  product of locally spatial diamonds (D5.5).
+  diamonds: for a locally spatial `X → |Y|_B̲`, `X ×_{|Y|_B̲} Y` is the equality locus of the two
+  maps `X × Y ⇉ |Y|_B̲` inside the absolute product `X × Y`, which is locally spatial by
+  *locally-spatial-absolute-product*; that locus is the preimage of the diagonal of the compact
+  Hausdorff `|Y|_B`, a closed subset, under the continuous map `|X × Y| → |Y|_B × |Y|_B`, hence a
+  closed immersion into a locally spatial diamond, hence locally spatial (D5.5's closed-immersion
+  permanence). D5.5's `spatial_pullback` is not invoked, since `|Y|_B̲` is not a diamond.
 - `fibre_is_a_closure` (characterisation) — the fibre `f⁻¹(y)` of `|Y| → |Y|_B` is the closure of
   one rank-one point `ỹ ∈ |Y|`, an irreducible space with that generic point. Constant-sheaf
   acyclicity is the fibre calculation; the comparison additionally uses the proper-base-change and
   continuity inputs specified above.
+
+**Absolute products of locally spatial diamonds and fibre products over underlined compact
+Hausdorff spaces.** (*locally-spatial-absolute-product*) Prove that the absolute product `X × Y`
+(over the final v-sheaf) of two locally spatial diamonds is a locally spatial diamond, and spatial
+when both are spatial ([ECD] §11, proof of Prop. 11.26 and Cor. 11.28, pp. 66–67, applied to the
+product over `Spd 𝔽_p`, which is a diamond but not spatial); and that for a compact Hausdorff space
+`T` and maps `X → T̲`, `Y → T̲` from locally spatial diamonds, `X ×_{T̲} Y` is the closed
+sub-v-sheaf of `X × Y` cut out by the preimage of the diagonal of `T`, hence a locally spatial
+diamond — this is the base-change statement that the representability proof of [ECD] 13.12 uses
+for the map to `|Y|_B̲`, in place of a fibre product with a locally spatial base. *Needs:* D5.5;
+D5.4; D0.9; D3.8.
+
+**Topological proper base change for the Hausdorff quotient.**
+(*hausdorff-quotient-proper-base-change*) For `q : |Y| → |Y|_B` with `Y` quasicompact separated,
+`|Y|` spectral-type valuative (possibly non-Hausdorff, not assumed spatial), `|Y|_B` compact
+Hausdorff and `q` a closed continuous surjection with fibres the closures of single rank-one points
+(`fibre_is_a_closure`), prove for every abelian sheaf `F` on `|Y|` and every `i ≥ 0` the comparison
+`(R^i q_* F)_b ≅ H^i(q^{-1}(b), F|_{q^{-1}(b)})`: the closed neighbourhoods `q^{-1}(V)`, `V ∋ b` open,
+are cofinal among neighbourhoods of the fibre (closedness of `q` and compactness of `|Y|_B`), and
+cohomology commutes with the filtered limit of these closed sets by the closed-neighbourhood
+continuity for spectral-type spaces ([ECD] §13, proof of Prop. 13.13, p. 81; the hypothesis used is
+that `|Y|` is a quasi-compact quasi-separated spectral space and the fibres are closed, so that
+filtered limits of closed subsets with their induced topologies are again spectral and
+cohomology of a constant-ish sheaf passes to the limit, [Stacks] Tag 0A2Z for the
+spectral-space cohomology-and-limits statement). With the fibre acyclicity of `fibre_is_a_closure`
+this gives `R^i q_* q^{-1} F = 0` for `i > 0` and `q_* q^{-1} F = F`, hence the comparison of
+*reduction-to-spatial-and-hausdorff-cohomology*; D0.19's Čech/Leray statements supply the spectral
+sequence only, not this hypothesis verification. *Needs:* D0.4; D0.19; D0.20; D5.14.
 
 `Perf.berkovich_representable` specifies the map to the underlined Berkovich
 space by its value on every test section. It assumes a quasicompact diamond
