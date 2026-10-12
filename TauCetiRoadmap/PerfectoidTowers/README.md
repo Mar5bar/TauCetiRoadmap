@@ -1223,8 +1223,8 @@ be Zariski closed. This does not assert a limit on arbitrary nonreduced adic tes
   [P2](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)'s `PairCat.tensorPair`, including its plus ring.
 - `isAnalyticallySeparated_identity` — the identity morphism is analytically separated.
 
-On perfectoid untilt test spaces, PerfectoidSpaces P7 supplies
-`PerfectoidSpace.VQuotient.vPrecoverage`, which asks that
+On perfectoid untilt test spaces, DiamondsAndVStacks D2.2 and D2.7 supply the v-precoverage
+(PerfectoidSpaces P7 only restricts it to the test spaces), which asks that
 quasicompact opens in the target be covered by finitely many images of quasicompact
 opens in the sources. `vTopology` is the generated topology. Their Checks are
 `vTopology_identity`, `vTopology_empty`, and `vTopology_nonempty`: identity covers,
