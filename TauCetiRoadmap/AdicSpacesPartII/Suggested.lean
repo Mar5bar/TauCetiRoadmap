@@ -654,7 +654,7 @@ theorem IsLocallyHuberStandard.spa (A : Affinoid.{w}) [Huber.IsHuberStandard A.r
 1.2.1). -/
 theorem LocallyOfFinitePresentation.locallyOfFiniteType {X Y : TauCeti.AdicSpace.{w}}
     {f : X ⟶ Y} (hf : LocallyOfFinitePresentation f) : LocallyOfFiniteType f :=
-  fun x ↦ (hf x).imp fun _ hc ↦ ⟨hc.1, hc.2.1⟩
+  fun x ↦ (hf x).imp fun _ hc ↦ ⟨hc.1, hc.2.2.1⟩
 
 /-! ### R0.7 Fibre products
 (*fibre-products-existence*, *fibre-product-points*, *base-change-stability*) -/
