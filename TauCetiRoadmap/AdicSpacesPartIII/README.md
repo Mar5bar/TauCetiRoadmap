@@ -37,15 +37,15 @@ The roadmap owns, layer by layer:
   formal subschemes, completion along a closed subset, coherent formal modules, formal higher direct
   images and formal Serre vanishing, the proper-support forms of Grothendieck's existence theorem,
   and formal GAGA, all on the locally ringed space carrier that R2 and R3 use; and the two
-  comparisons along which F0 reads SchemeAndStackFoundations SF.4, the carrier comparison
+  comparisons along which F0 reads SchemeAndStackFoundations Layer 4, the carrier comparison
   (*formal-scheme-carrier-comparison*) and the comparison of quotient systems with coherent formal
   modules (*pow-quotient-formal-module-comparison*). The theorem on formal functions for proper
   morphisms and Grothendieck's existence theorem for proper schemes, with the algebraization of
-  closed subschemes and morphisms, are SF.4's (§4.9, §4.10); F0 states them as adapters through
+  closed subschemes and morphisms, are SchemeAndStackFoundations' (§4.9, §4.10); F0 states them as adapters through
   these comparisons (see the paragraph after this list). Projective bundles, ample sheaves, Serre finiteness and vanishing,
   Chow's lemma and dévissage over a noetherian base are stated in F0 in the form this roadmap
-  needs; Serre's theorems are SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*) and
-  Chow's lemma is layer SF.4 (*chow-lemma*), both cited there, and the dévissage clause is F0's.
+  needs; Serre's theorems are SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`) and
+  Chow's lemma is Layer 4 (§4.12, `chow_lemma`), both cited there, and the dévissage clause is F0's.
 - R2: algebras topologically of finite presentation, admissible formal schemes over an arbitrary
   complete rank-one valuation ring, generic fibres, specialisation, tubes and rig-points, admissible
   blow-ups and Raynaud's theorem, flattening (Bosch–Lütkebohmert II §§1–4), quasi-finite models and
@@ -60,14 +60,14 @@ The roadmap owns, layer by layer:
   ring with Berkovich's formula for the spectral seminorm is stated in R3; PerfectoidSpaces P1.12
   and DiamondsAndVStacks D5.13 cite it. The trace of an endomorphism of a finite projective module,
   the trace of a finite locally free algebra and the trace-form criterion for étaleness are R3's;
-  PerfectoidSpaces layer P0 (P0.12, P0.15) cites them at the classical basic setup.
+  PerfectoidSpaces layer P0 (P0.12, P0.15) is the almost-ring version of these targets.
 
 AdicSpaces owns the underlying adic-space foundations (valuation spectra, rational subsets, the
 structure presheaf, sheafiness of strongly noetherian and stably uniform Tate rings);
 AdicSpacesPartII owns rings of noetherian type, adic homomorphisms, completed tensor products of
 Huber pairs, the morphism classes of adic spaces, `K`-affinoid algebras, rigid spaces and the
 analytification and rigid–adic functors, which Part III uses by label. Serre's theorems on ample
-sheaves and Chow's lemma are SchemeAndStackFoundations layers SF.2 and SF.4. SF.4 also owns, on its
+sheaves and Chow's lemma are SchemeAndStackFoundations Layers 2 and 4. Its Layer 4 also owns, on its
 tower carrier `Formal.AdicThickeningSystem`, the theorem on formal functions for proper morphisms
 (§4.9, `Scheme.Modules.Cohomology.formalFunctionsIso`) and Grothendieck's existence theorem for
 proper schemes with the algebraization of closed subschemes and morphisms (§4.10,
@@ -139,10 +139,10 @@ waiting for upstream work.
     which later targets, sibling roadmaps and the section headings of `Suggested.lean` refer to it.
 14. **Thickenings as quotients.** The thickening `Xₙ = V(I^{n+1} 𝒪_X)` of a scheme over `Spec A`
     is encoded by the universal quotient `F ⧸ I^{n+1} F` of an `𝒪_X`-module (`IsPowQuotient`);
-    cohomology on `Xₙ` is cohomology on `X` of the quotient. Such quotient systems are SF.4's
+    cohomology on `Xₙ` is cohomology on `X` of the quotient. Such quotient systems are SchemeAndStackFoundations'
     coherent formal modules on `Formal.Scheme.formalCompletion X (I𝒪_X)` pushed forward to `X`
     (*pow-quotient-formal-module-comparison*).
-15. **Towers.** SF.4's `Formal.AdicThickeningSystem` imposes no finiteness on the first-order ideal
+15. **Towers.** SchemeAndStackFoundations' `Formal.AdicThickeningSystem` (§4.7) imposes no finiteness on the first-order ideal
     `ker(O_{X_1} → O_{X_0})`. F0 compares formal schemes only with its full subcategory of towers
     whose first-order ideal is of finite type (*formal-scheme-carrier-comparison*); Part III has no
     tower carrier of its own.
@@ -294,29 +294,32 @@ applied to a sheaf resolution on the rational basis.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations, StableReduction, JacobianChallenge and AlgebraicVectorBundles
 
-SchemeAndStackFoundations SF.0 supplies *coherent-hartogs*,
-*universal-homeomorphism-etale-site*, *flat-proper-fibre-loci* and *pseudo-coherent-module*
-for R2. SF.2 supplies *godement-resolution*, *ample-serre-vanishing*,
-*proper-fibre-dimension-vanishing*, higher direct images and the proper coherent trace.
-SF.4 supplies *deformations-of-smooth-schemes*, *formally-smooth-morphism*,
-*flattening-by-blowup*, *strict-transform*, *modification-domination*,
-*strict-normal-crossings* and Chow's lemma (*chow-lemma*).
-Its `SF.4/formal-spectrum`, `SF.4/formal-scheme`, `SF.4/formal-completion`,
-`SF.4/coherent-formal-modules`, `SF.4/theorem-on-formal-functions`, `SF.4/grothendieck-existence`,
-`SF.4/algebraization-of-subschemes-and-morphisms` and `SF.4/grothendieck-algebraization`
-are on its tower carrier `Formal.AdicThickeningSystem`. SF.4 owns the theorem on formal functions
-for proper morphisms (§4.9) and Grothendieck's existence theorem and the algebraization of closed
+SchemeAndStackFoundations is cited by its section numbers and declaration names. Its Layer 0
+supplies the coherent Hartogs lemma (§0.6), universal homeomorphisms (§0.23), the open fibre loci
+of flat proper morphisms (§0.8) and pseudo-coherent modules (§0.5) for R2; it assigns the
+invariance of the small étale site under universal homeomorphisms to FrobeniusGeometry Layer 6.
+Layer 2 supplies Godement resolutions (§2.5, `godementResolution`), Serre vanishing for ample
+sheaves (§2.6, `ample_serre_vanishing`), vanishing above the fibre dimension of a proper morphism
+(§2.6, `proper_fibreDimension_vanishing`), quasi-coherent higher direct images (§2.6,
+`qcoh_higherDirectImages`) and the duality trace of a proper morphism (§2.19, §2.21, `trace`).
+Layer 4 supplies deformations of smooth schemes (§4.6), formally smooth morphisms (§4.1),
+flattening by blow-up (§4.12, `flattening_by_blowup`), strict transforms (§4.11), the domination
+of modifications (§4.12, `modification_domination`), strict normal crossings divisors (§4.17) and
+Chow's lemma (§4.12, `chow_lemma`). Its formal spectrum and formal schemes (§4.7), formal
+completion and coherent formal modules (§4.8), theorem on formal functions (§4.9), and
+Grothendieck's existence theorem and algebraization (§4.10) are on its tower carrier
+`Formal.AdicThickeningSystem`. Layer 4 owns the theorem on formal functions for proper morphisms (§4.9) and Grothendieck's existence theorem and the algebraization of closed
 subschemes and morphisms for proper schemes (§4.10); the corresponding F0 targets are adapters,
 read through *pow-quotient-formal-module-comparison* on schemes and, where formal schemes appear,
-through *formal-scheme-carrier-comparison*. That comparison transports SF.4's statements to the
+through *formal-scheme-carrier-comparison*. That comparison transports Layer 4's statements to the
 locally ringed carrier used here only for towers whose first-order ideal is of finite type
 (Convention 15); this essential image is the boundary of the transport.
 
 | SchemeAndStackFoundations supplier | Exact file | Contract used |
 |---|---|---|
-| SF.4 §4.7–§4.8: `Formal.AdicThickeningSystem`, `Formal.levelMap`, `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`, `Formal.Scheme.completionFunctor` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | The tower carrier with level-preserving morphisms, completion along an ideal sheaf and coherent formal modules on towers. F0 uses only the towers whose first-order ideal is of finite type (*formal-scheme-carrier-comparison*). |
-| SF.4 §4.9: `Scheme.Modules.Cohomology.formalFunctionsIso`, with its Mittag-Leffler and local versions | `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean` (destination fixed by SF.4) | Owner of the theorem on formal functions for proper morphisms; `formalFunctions` and the scheme-level F0.6 targets are its adapters through *pow-quotient-formal-module-comparison*. |
-| SF.4 §4.10: `Formal.grothendieck_existence` with its full-faithfulness clause, `Formal.quotMap`, `Formal.levelIncl`, `Formal.algebraize_hom` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | Owner of Grothendieck's existence theorem for proper schemes and of the algebraization of closed subschemes and morphisms; `grothendieckExistence`, `grothendieckExistence_hom` and the scheme-level F0.7–F0.8 targets are its adapters. |
+| Layer 4, §4.7–§4.8: `Formal.AdicThickeningSystem`, `Formal.levelMap`, `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`, `Formal.Scheme.completionFunctor` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | The tower carrier with level-preserving morphisms, completion along an ideal sheaf and coherent formal modules on towers. F0 uses only the towers whose first-order ideal is of finite type (*formal-scheme-carrier-comparison*). |
+| Layer 4, §4.9: `Scheme.Modules.Cohomology.formalFunctionsIso`, with its Mittag-Leffler and local versions | `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean` (destination fixed by its §4.9) | Owner of the theorem on formal functions for proper morphisms; `formalFunctions` and the scheme-level F0.6 targets are its adapters through *pow-quotient-formal-module-comparison*. |
+| Layer 4, §4.10: `Formal.grothendieck_existence` with its full-faithfulness clause, `Formal.quotMap`, `Formal.levelIncl`, `Formal.algebraize_hom` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | Owner of Grothendieck's existence theorem for proper schemes and of the algebraization of closed subschemes and morphisms; `grothendieckExistence`, `grothendieckExistence_hom` and the scheme-level F0.7–F0.8 targets are its adapters. |
 
 StableReduction layers 2 and 4 supply coherence of proper higher direct images and ideal
 blow-ups with their affine charts. JacobianChallenge B and C supply affine acyclicity,
@@ -429,7 +432,8 @@ the mathematics; supporting results shared by several targets may occur in that 
 last subsections. This README is definitive. `Suggested.lean` carries the parts of this roadmap
 that are a few lines over the pinned carriers: adic rings, completed localisations and tensor
 products, finite modules as adic systems, the first-order ideal of a square-zero tower, the
-quotient-system forms of SF.4's formal functions and Grothendieck existence on schemes proper over
+quotient-system forms of SchemeAndStackFoundations' formal functions and Grothendieck existence (§4.9,
+§4.10) on schemes proper over
 an adic noetherian ring, algebras topologically of finite presentation, Frobenius lifts,
 fractional valuation bounds, glueing squares and Kiehl's theorem, finite-module acyclicity on
 Laurent covers, uniform Banach rings, the Gel'fand spectrum, projective traces and the affine
@@ -500,14 +504,14 @@ The Fujiwara–Kato locators below use the printed pagination of
 The existence and algebraization locators use
 [EGA III₁, §5, pp. 149–158](https://www.numdam.org/item/PMIHES_1961__11__5_0/).
 
-The scheme-level theorems for proper schemes have one owner, SchemeAndStackFoundations SF.4. Its
+The scheme-level theorems for proper schemes have one owner, SchemeAndStackFoundations Layer 4. Its
 §4.9 (`Scheme.Modules.Cohomology.formalFunctionsIso`) owns *theorem-on-formal-functions*,
 *graded-cohomology-finiteness*, *formal-functions-affine* and *formal-functions-at-point*; its §4.10
 (`Formal.grothendieck_existence` with full faithfulness, `Formal.algebraize_hom`) owns the
 proper-`X` cases of *existence-fully-faithful* and *grothendieck-existence*, and
 *existence-projective-case*, *existence-modification*, *existence-devissage*,
 *closed-subscheme-algebraization* and *formal-morphism-full-faithfulness*. These targets, and the
-Lean `formalFunctions`, `grothendieckExistence`, `grothendieckExistence_hom`, are adapters: SF.4's
+Lean `formalFunctions`, `grothendieckExistence`, `grothendieckExistence_hom`, are adapters: Layer 4's
 statement read through *pow-quotient-formal-module-comparison* and, where formal schemes appear,
 *formal-scheme-carrier-comparison*. F0 owns both comparisons, the formal-scheme-level results
 (coherent formal modules, formal direct images, formal Serre vanishing), the proper-support forms of
@@ -532,8 +536,8 @@ definition if and only if `IsAdic J` holds, if and only if `J` is open and `J^n 
 (EGA I Ch. 0, 7.1.4(i); 7.1.9, p. 62: the adic topology does not depend on the ideal of
 definition), so every statement of this layer may use any ideal of definition. The class
 `IsAdicRing` bundles Mathlib's `IsAdic` (with `isAdic_iff` and `is_ideal_adic_pow`) and
-`IsAdicComplete` (with `IsAdic.isAdicComplete_iff`); SchemeAndStackFoundations layer SF.4 bundles
-the same data as its structure `AlgebraicGeometry.AdicRing`, and the two carry the same rings.
+`IsAdicComplete` (with `IsAdic.isAdicComplete_iff`); SchemeAndStackFoundations Layer 4 bundles
+the same data as its structure `Formal.AdicRing` (§4.7), and the two carry the same rings.
 Three facts about adic rings are library theorems and are used, not restated: `J ≤ (⊥ : Ideal
 A).jacobson` for an ideal of definition `J` of a complete ring, hence `a ∈ A` is a unit iff its
 image in `A ⧸ J` is (Mathlib `IsAdicComplete.le_jacobson_bot`; EGA I Ch. 0, 7.1.10 Proposition,
@@ -690,7 +694,8 @@ identity and composition laws; and `FormalScheme.Spf.completedNeighbourhoodColim
 `toCompletionLoc`, `existsUnique_continuous_ringHom_locTopology`, `toCompletionLocEquivDenomOne`.
 Lean: `AdicRing.CompletedAway` with `CompletedAway.isAdicRing`,
 `CompletedAway.isNoetherianRing_flat` and `CompletedAway.existsUnique_lift`, and the second Check
-below as an example; the other clauses and Checks are specified in this README only.
+below and the discrete clause of the `I = 0` Check as examples; the other clauses and Checks are
+specified in this README only.
 
 **Checks.**
 
@@ -711,9 +716,10 @@ below as an example; the other clauses and Checks are specified in this README o
   exists (it is `ℤ_[p] → 0`); `1 ∉ (Ideal.span {p} ⊔ I).radical = (p)`, and there is no ring
   homomorphism `CompletedAway A p = 0 → CompletedAway A 1 = ℤ_[p]` at all. A restriction map in the
   direction `A_{g} → A_{f}` under the same hypothesis would be false.
-- (degenerate, `I = 0`) — for `A` with the discrete topology,
-  `CompletedAway A f ≃ Localization.Away f` (`AdicCompletion ⊥ M ≅ M`) with the discrete
-  topology, and `CompletedAway A 0 = 0` for every adic `A` (`0` is nilpotent modulo `I`).
+- (degenerate, `I = 0`; Lean example for the discrete clause) — for `A` with the discrete
+  topology, `CompletedAway A f ≃ Localization.Away f` through the completion map, with the discrete
+  topology (the chosen ideal of definition is nilpotent, and `AdicCompletion J M ≅ M` for nilpotent
+  `J`), and `CompletedAway A 0 = 0` for every adic `A` (`0` is nilpotent modulo `I`).
 
 - (non-example) — the image of `k[X]⟦T⟧` in its
   completed localisation at `X` is not dense: reduction modulo `T` misses `X⁻¹`.
@@ -847,9 +853,9 @@ formed in *formal-fibre-product* as the limit of the thickenings instead. *Needs
 `IsAdicComplete.liftRingHom`, `TensorProduct`, `Algebra.TensorProduct.lift`, `IsLinearTopology`.
 Lean: `AdicRing.CompletedTensorProduct` with `CompletedTensorProduct.tensorIdeal`,
 `CompletedTensorProduct.inl`, `CompletedTensorProduct.inr`, `CompletedTensorProduct.isAdicRing`,
-`CompletedTensorProduct.existsUnique_lift` and `CompletedTensorProduct.isNoetherianRing`; the
-quotient, functoriality and restricted-series clauses and the Checks are specified in this README
-only.
+`CompletedTensorProduct.existsUnique_lift` and `CompletedTensorProduct.isNoetherianRing`, with the
+discrete tensor-ideal Check as an example; the quotient, functoriality and restricted-series
+clauses and the other Checks are specified in this README only.
 
 **Checks.**
 
@@ -921,7 +927,7 @@ kernel condition fails and `lim M_n` is not finite. *Needs:* *adic-ring*;
 All completed tensor products below have adic structure maps from the base. The chosen
 factor ideals are used in `tensorIdeal`; their individual exponents are not canonical.
 
-- (tensor ideal, discrete) — for a discrete field `k`, `tensorIdeal k k k = 0`.
+- (tensor ideal, discrete; Lean example) — for a discrete field `k`, `tensorIdeal k k k = 0`.
 - (tensor ideal, radical) — under `ℤ_p ⊗[ℤ_p] ℤ_p ≅ ℤ_p`, the tensor ideal has radical `(p)`.
 - (tensor ideal, zero factor) — when the left factor is zero, the tensor ideal is the unit ideal
   of the zero tensor ring.
@@ -1667,8 +1673,8 @@ a cocone; `X` is locally noetherian (resp. noetherian) when `X_0` is (EGA I Ch. 
 Proposition, pp. 189–190: the limit sheaf gives a formal prescheme whose kernels form a
 fundamental system of ideals of definition; 10.6.4, p. 191, for the adic conclusion `ker(lim O_k → O_n) = 𝒥^{n+1}` without noetherianity, and its final clause for the locally noetherian case). On affine opens: if `X_0 = Spec A_0` then every
 `X_n = Spec A_n` and `X = Spf(lim A_n)`, with `lim A_n` adic of ideal of definition
-`ker(lim A_n → A_0)` (EGA I Ch. 0, 7.2.7). These towers are exactly the objects of SF.4's
-`Formal.AdicThickeningSystem` with `𝒥_1` of finite type: there `𝒥_n` is nilpotent and the
+`ker(lim A_n → A_0)` (EGA I Ch. 0, 7.2.7). These towers are exactly the objects of SchemeAndStackFoundations'
+`Formal.AdicThickeningSystem` (§4.7) with `𝒥_1` of finite type: there `𝒥_n` is nilpotent and the
 condition on consecutive levels gives `ker(O_n → O_m) = 𝒥_n^{m+1}` for all `m < n`. EGA's 10.6.3 without (b)–(c) produces formal
 preschemes that need not be of finite ideal type; those are not formal schemes in the sense of
 `FormalScheme`. Define `FormalScheme.ThickeningSystem` (schemes `X n`, closed immersions
@@ -1833,17 +1839,15 @@ noetherian. *Needs:* *completed-tensor-product-adic*; *spf-morphism-corresponden
 Mathlib `CategoryTheory.Limits.pullback`.
 
 **Comparison with the inductive-system carrier of SchemeAndStackFoundations.**
-(*formal-scheme-carrier-comparison*) SchemeAndStackFoundations layer SF.4 states the formal
-spectrum (`SF.4/formal-spectrum`), formal schemes (`SF.4/formal-scheme`), formal completion
-(`SF.4/formal-completion`), coherent formal modules (`SF.4/coherent-formal-modules`), the theorem
-on formal functions (`SF.4/theorem-on-formal-functions`), Grothendieck's existence theorem
-(`SF.4/grothendieck-existence`) and algebraization
-(`SF.4/algebraization-of-subschemes-and-morphisms`, `SF.4/grothendieck-algebraization`) on its
-tower carrier `Formal.AdicThickeningSystem`, an inductive system of thickenings with
-level-preserving morphisms, with completion `Formal.Scheme.formalCompletion` and coherent formal
-modules `Formal.Scheme.CoherentFormalModule` (SchemeAndStackFoundations' labels, in its `SF.k/slug`
-form), while this layer states them on the locally ringed space carrier that layers R2 and R3 use.
-SF.4's carrier imposes no finiteness on the first-order ideal `ker(O_{X_1} → O_{X_0})`. Let
+(*formal-scheme-carrier-comparison*) SchemeAndStackFoundations Layer 4 states the formal
+spectrum (§4.7), formal schemes (§4.7), formal completion (§4.8), coherent formal modules (§4.8),
+the theorem on formal functions (§4.9), Grothendieck's existence theorem (§4.10) and
+algebraization (§4.10) on its tower carrier `Formal.AdicThickeningSystem`, an inductive system of
+thickenings with level-preserving morphisms, with completion `Formal.Scheme.formalCompletion` and
+coherent formal modules `Formal.Scheme.CoherentFormalModule` (SchemeAndStackFoundations' targets,
+cited by its section numbers and declaration names), while this layer states them on the locally
+ringed space carrier that layers R2 and R3 use.
+Layer 4's carrier imposes no finiteness on the first-order ideal `ker(O_{X_1} → O_{X_0})`. Let
 `𝒮 = 𝒯^ft` be the full subcategory of `Formal.AdicThickeningSystem` on the towers whose
 first-order ideal is of finite type (on affine opens of `X_1`, a finitely generated ideal; it
 squares to zero, so this is finiteness over `O_{X_0}`): the inductive systems `(X_n)_{n≥0}` of
@@ -1870,10 +1874,10 @@ adic `X → S ← Y` marked by `ℒO_X`, `ℒO_Y`, `(X ×_S Y)_n ≅ X_n ×_{S_n
 these fibre products; for arbitrary compatible ideals the two filtrations are cofinal, not
 termwise equal); the formal completion of a locally noetherian scheme along a closed subscheme
 (*formal-completion*: `X̂` corresponds to `(V(𝓘^{n+1}))_n`, which for `𝓘` quasi-coherent of finite
-type is SF.4's `Formal.Scheme.formalCompletion X 𝓘`, the tower of `(X̂_{/V(𝓘)}, 𝓘O)` with
+type is Layer 4's `Formal.Scheme.formalCompletion X 𝓘`, the tower of `(X̂_{/V(𝓘)}, 𝓘O)` with
 first-order ideal `𝓘/𝓘²`); and, on `𝒯^ft_ln`, coherent modules (*coherent-as-inverse-system*:
-`Coh(X)` corresponds to compatible systems `(F_n)` with `F_{n+1} ⊗ O_{X_n} ≅ F_n`, i.e. to SF.4's
-`Formal.Scheme.CoherentFormalModule` of the tower), so that each theorem of layer SF.4 on towers in
+`Coh(X)` corresponds to compatible systems `(F_n)` with `F_{n+1} ⊗ O_{X_n} ≅ F_n`, i.e. to Layer 4's
+`Formal.Scheme.CoherentFormalModule` of the tower), so that each theorem of Layer 4 on towers in
 `𝒯^ft` is the statement of the corresponding target of this layer under the equivalence, and
 conversely. Define `FormalScheme.ThickeningSystem.equiv` (the equivalence
 between `{(X, 𝒥)}` and `𝒮`); prove `FormalScheme.ThickeningSystem.equiv_Spf` (`(Spf A, I^Δ) ↦
@@ -1887,8 +1891,7 @@ from `S`: `(X ×_S Y)_n ≅ X_n ×_{S_n} Y_n`),
 *colimit-of-thickenings*; *thickening-colimit-finite-ideal-type*;
 *morphisms-as-compatible-systems-finite-ideal-type*; *spf-morphism-correspondence*;
 *formal-fibre-product*; *formal-completion*; *coherent-as-inverse-system*;
-SchemeAndStackFoundations layer SF.4 (`SF.4/formal-spectrum`, `SF.4/formal-scheme`,
-`SF.4/formal-completion`, `SF.4/coherent-formal-modules`; `Formal.AdicThickeningSystem`,
+SchemeAndStackFoundations Layer 4 (§4.7, §4.8; `Formal.AdicThickeningSystem`,
 `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`); Mathlib
 `AlgebraicGeometry.IsClosedImmersion`,
 `CategoryTheory.Limits.pullback`, `TrivSqZeroExt.fstHom`. Lean: the two ring-level Checks on the
@@ -2790,7 +2793,7 @@ the limit of module sheaves. `coherentSystem_surjective_iff` detects surjectivit
 
 **Quotient systems as coherent formal modules.** (*pow-quotient-formal-module-comparison*) Let `A`
 be a commutative ring, `X` a scheme over `Spec A`, `J ⊆ A` an ideal and
-`i_n : X_n = V(J^{n+1}O_X) → X` the levels of SchemeAndStackFoundations SF.4's
+`i_n : X_n = V(J^{n+1}O_X) → X` the levels of SchemeAndStackFoundations Layer 4's
 `Formal.Scheme.formalCompletion X (JO_X)`. (i) A morphism `q : F → Q` of `O_X`-modules satisfies
 `IsPowQuotient A J n q` (Convention 14: `q` is killed by every element of `J^{n+1}`, and every
 morphism out of `F` killed by `J^{n+1}` factors uniquely through `q`) iff it is the unit
@@ -2798,24 +2801,24 @@ morphism out of `F` killed by `J^{n+1}` factors uniquely through `q`) iff it is 
 multiplications `a : F → F`, `a ∈ J^{n+1}`, and `i_{n*}` is fully faithful onto the
 quasi-coherent modules killed by `J^{n+1}` (Stacks Tag 01QY, Lem. 29.4.1). (ii) For `X` locally
 noetherian, systems `(Q_n, t_n : Q_{n+1} → Q_n)` of coherent modules with each `t_n` a
-`J^{n+1}`-quotient are, through `Q_n = i_{n*}G_n`, equivalent to SF.4's
+`J^{n+1}`-quotient are, through `Q_n = i_{n*}G_n`, equivalent to Layer 4's
 `Formal.Scheme.CoherentFormalModule`s `(G_n)` on that tower, and compatible quotient maps
 `F → Q_n` from a coherent `F` amount to an isomorphism of `(G_n)` with
 `Formal.Scheme.completionFunctor X (JO_X) F`. (iii) For quasi-coherent `G`,
 `H^i(X, i_{n*}G) ≅ H^i(X_n, G)` naturally and `A`-linearly, `i_n` being affine (Stacks Tag 089W,
 Lem. 30.2.4), compatibly with the transitions; so the cohomology towers built from
 `cohomologyMapBaseLinear` on a quotient system are those of the coherent formal module. By
-(i)–(iii), `formalFunctions` is SF.4 §4.9's `Scheme.Modules.Cohomology.formalFunctionsIso`
-(indices shifted by one), and `grothendieckExistence`, `grothendieckExistence_hom` are SF.4
+(i)–(iii), `formalFunctions` is §4.9's `Scheme.Modules.Cohomology.formalFunctionsIso`
+(indices shifted by one), and `grothendieckExistence`, `grothendieckExistence_hom` are
 §4.10's `Formal.grothendieck_existence` and its full-faithfulness clause for the completion along
 `IO_X`, whose support is the closed fibre. *Needs:* *formal-completion*;
-*coherent-as-inverse-system*; *formal-scheme-carrier-comparison*; SchemeAndStackFoundations SF.4
+*coherent-as-inverse-system*; *formal-scheme-carrier-comparison*; SchemeAndStackFoundations Layer 4,
 §4.7–§4.10 (`Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`,
 `Formal.Scheme.completionFunctor`, `Scheme.Modules.Cohomology.formalFunctionsIso`,
 `Formal.grothendieck_existence`); Tau Ceti `Scheme.Modules.globalSectionsSmul`,
 `Scheme.Modules.baseRingToGlobalSections`, `Scheme.Modules.cohomologyMapBaseLinear`. Lean:
-`IsPowQuotient` with the Checks for `J = 0` and `J = A`; the comparison itself is specified in this
-README only.
+`IsPowQuotient` with the Checks for `J = 0`, `J = A` and uniqueness under `F` as examples; the
+comparison itself is specified in this README only.
 
 **Checks.**
 
@@ -2823,6 +2826,9 @@ README only.
   quotient: `IsPowQuotient A 0 n (𝟙 F)`.
 - (degenerate, unit ideal) — `J = A` gives empty levels, and `F → 0` is the quotient:
   `IsPowQuotient A A n (0 : F → 0)`.
+- (characterisation, uniqueness; Lean example) — two quotients `q : F → G` and `q' : F → G'` for
+  the same `J` and `n` differ by an isomorphism under `F`: there is `e : G ≅ G'` with
+  `q ≫ e.hom = q'`.
 - (computation) — for `X = Spec A` and `F = M~`, the quotient is `Q_n = (M/J^{n+1}M)~`.
 
 
@@ -2846,8 +2852,8 @@ coherent `O_X`-module and `F_n := F/I^{n+1}F`. Prove that for every `p ≥ 0` th
 topology on the left and the limit topology on the right (EGA III₁ Ch. III, 4.1.7 (4.1.7.1);
 Stacks Tag 02OC, Thm 30.20.5). If `A` is `I`-adically complete (Mathlib `IsAdicComplete I A`),
 then `H^p(X, F) ≅ lim_n H^p(X, F_n)` (Stacks Tag 087U, Lem. 30.20.6; EGA III₁ Ch. III, 5.1.2).
-This target is an adapter of SF.4 §4.9 (`Scheme.Modules.Cohomology.formalFunctionsIso`), which
-owns the theorem: it is SF.4's statement read on the quotient systems `F → F_n` through
+This target is an adapter of SchemeAndStackFoundations §4.9
+(`Scheme.Modules.Cohomology.formalFunctionsIso`), which owns the theorem: it is that statement read on the quotient systems `F → F_n` through
 *pow-quotient-formal-module-comparison*. The sheaf form — for `Y` locally noetherian, `f : X → Y` proper, a coherent ideal `𝓘 ⊆ O_Y` and
 `F_n = F/𝓘^{n+1}F`, the completion of `R^p f_*F` along `V(𝓘)` is `lim_n R^p f_*(F_n)` — is part
 of *formal-direct-image-comparison* (EGA III₁ Ch. III, 4.1.5; 4.1.6 Remarques (ii), p. 125:
@@ -2862,7 +2868,7 @@ for `f : X = A²_k ∖ {(0,0)} → A¹_k = Spec k[t]` (projection to the coordin
 `p = 0`, `H^0(X, O_X) = k[x, t]`, whose completion is `k[x]⟦t⟧`, whereas `X ∩ V(t^{n+1})` is the
 thickened punctured line and `lim_n H^0(X, O_X/t^{n+1}) = k[x, x⁻¹]⟦t⟧`. *Needs:*
 *formal-functions-affine*; *mittag-leffler-exactness*; *finite-module-inverse-limit*;
-*adic-ring*; *pow-quotient-formal-module-comparison*; SchemeAndStackFoundations SF.4 §4.9;
+*adic-ring*; *pow-quotient-formal-module-comparison*; SchemeAndStackFoundations §4.9;
 Mathlib `AdicCompletion`, `IsAdicComplete`; Tau Ceti
 `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
 `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`. Lean: `formalFunctions`, the
@@ -2880,7 +2886,7 @@ and a coherent `O_X`-module `F`, `⊕_k H^p(X, I^k F)` is a finite module over t
 (1)); and (ii) if `L` is an ample invertible `O_X`-module (relative to `Spec A`), there is `d_0`
 such that `H^p(X, 𝓕_k ⊗ L^{⊗d}) = 0` for all `p > 0`, all `k ≥ 0` and all `d ≥ d_0` (Stacks
 Tag 0897, Lem. 30.19.3 (2); EGA III₁ Ch. III, 2.4.1 (ii), pp. 107–108, in the projective case).
-This target is an adapter of SF.4 §4.9, which owns it.
+This target is an adapter of SchemeAndStackFoundations §4.9, which owns it.
 Both conclusions are conjuncts of `AlgebraicGeometry.graded_cohomology_finite`.
 The uniform clause applies to the same coherent `G` on the affine base change
 `Y = X ×_Spec(A) Spec(B)` and the same coproduct presentation `p_*G = ⨁_k F_k`
@@ -2888,8 +2894,8 @@ as the finiteness clause; no separate coherence assumption on each `F_k` is need
 ([Stacks, Tag 0897](https://stacks.math.columbia.edu/tag/0897)). The
 finiteness of `H^p(X, F)` for a single coherent `F` on a proper scheme is StableReduction layer 2
 (coherence of `R^p f_*` along proper morphisms of locally noetherian schemes), and the uniform
-vanishing of (ii) for a single `F` is SchemeAndStackFoundations layer
-SF.2 (*ample-serre-vanishing*); the content here is the graded statement, uniform in `k`.
+vanishing of (ii) for a single `F` is SchemeAndStackFoundations Layer 2
+(§2.6, `ample_serre_vanishing`); the content here is the graded statement, uniform in `k`.
 Cohomology is
 `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` with its `A`-module structure
 (`AlgebraicGeometry.Scheme.Modules.cohomologyBaseModule`). For `X = P^r_A` (`r ≥ 1`), `I ⊆ A`
@@ -2899,7 +2905,7 @@ itself. For `X` proper over noetherian `A` an ample `L` makes `X` projective ove
 is Serre vanishing on a projective scheme; properness cannot be dropped from (ii) even though
 ample sheaves exist on non-proper schemes (`O_X` is ample on every quasi-affine `X`). *Needs:*
 *projective-bundles-ample-serre*; StableReduction layer 2; JacobianChallenge layer C;
-SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*); Tau Ceti
+SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); Tau Ceti
 `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
 `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`; Mathlib
 `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.IsProper.isStableUnderBaseChange`,
@@ -2938,7 +2944,7 @@ the inverse system `(H^p(X, F_n))_n` satisfies the Mittag-Leffler condition, and
 `Im(H^p(X, F_k) → H^p(X, F_n)) = Im(H^p(X, F) → H^p(X, F_n))` for all `k ≥ n + c` (EGA III₁
 Ch. III, 4.1.7 Corollaire, p. 125, and 4.1.7.9–4.1.7.21; the footnote to 4.1.7, p. 126,
 attributes this proof and the good-filtration complement to Serre; Stacks Tag 02OB, Lem. 30.20.4
-(2)). This target is an adapter of SF.4 §4.9 (its Mittag-Leffler form), which owns it. The
+(2)). This target is an adapter of SchemeAndStackFoundations §4.9 (its Mittag-Leffler form), which owns it. The
 statement uses the quotient systems of `formalFunctions`: `Q n` is `F_n`, with quotient maps
 `q n : F → Q n` satisfying `IsPowQuotient A I n (q n)` and compatible transitions
 `t n : Q (n+1) → Q n`. Both kernels and ranges are submodules for
@@ -2987,11 +2993,11 @@ a finite `O_{Y,y}`-module, hence `𝔪_y`-adically separated, and that there is 
 isomorphism `((R^p f_*F)_y)^∧ ≅ lim_k H^p(X_k, F ⊗ O_{Y,y}/𝔪_y^{k+1})` (EGA III₁ Ch. III, 4.2,
 p. 129; 4.2.1 Proposition, pp. 129–130); for `p = 0`,
 `((f_*F)_y)^∧ ≅ lim_k H^0(f⁻¹(y), F ⊗ O_{Y,y}/𝔪_y^{k+1})` (EGA III₁ Ch. III, 4.2.4). This target
-is an adapter of SF.4 §4.9 (its local form), which owns it. Two consequences: Zariski's connectedness (EGA III₁ Ch. III, 4.3.1) — if `f_*O_X = O_Y` then
+is an adapter of SchemeAndStackFoundations §4.9 (its local form), which owns it. Two consequences: Zariski's connectedness (EGA III₁ Ch. III, 4.3.1) — if `f_*O_X = O_Y` then
 `(f_*O_X)_y^∧ = Ô_{Y,y}` is local, so `lim_k H^0(X_k, O)` has no nontrivial idempotents and
 `f⁻¹(y)` is connected; and fibre-dimension vanishing (EGA III₁ Ch. III, 4.2.2) — if
 `dim f⁻¹(y) = r` then `H^p(X_k, ·) = 0` for `p > r`, so `R^p f_*F = 0` near `y` for `p > r`,
-which is SchemeAndStackFoundations layer SF.2 (*proper-fibre-dimension-vanishing*) and is used
+which is SchemeAndStackFoundations Layer 2 (§2.6, `proper_fibreDimension_vanishing`) and is used
 as the acceptance check of this target, not restated.
 
 `AlgebraicGeometry.formalFunctions_atPoint` states this completed-stalk isomorphism,
@@ -3028,8 +3034,8 @@ proper and coherent hypotheses, gives a linear equivalence whose underlying map 
 - `cohomologyStalkBaseChange_sections`: degree zero sends a represented germ to the
   pulled-back section, including its coefficient and restriction maps.
 
-*Needs:* *theorem-on-formal-functions*; SchemeAndStackFoundations layer SF.2
-(*proper-fibre-dimension-vanishing*); Mathlib
+*Needs:* *theorem-on-formal-functions*; SchemeAndStackFoundations Layer 2
+(§2.6, `proper_fibreDimension_vanishing`); Mathlib
 `AlgebraicGeometry.IsProper.isStableUnderBaseChange`,
 `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`, `IsLocalRing`.
 
@@ -3042,14 +3048,14 @@ surjective (EGA III₁ Ch. 0, 13.3.1 Proposition (iii), p. 68). Prove that for e
 canonical map `H^i(X, F) → lim_k H^i(X, F_k)` is surjective, and that it is bijective when
 `(H^{i−1}(X, F_k))_k` is Mittag-Leffler (EGA III₁ Ch. 0, 13.3.1 Proposition, p. 68; the general
 case of the proof of 13.3.1 b), p. 68, uses Godement's canonical flasque resolution, which is
-SchemeAndStackFoundations layer SF.2 (*godement-resolution*), and the acyclicity of flasque
+SchemeAndStackFoundations Layer 2 (§2.5, `godementResolution`), and the acyclicity of flasque
 sheaves, the instance in Tau Ceti `AlgebraicGeometry/Cohomology/Flasque.lean` that
 `H^{n+1}(X, F)` is a subsingleton for flasque `F`). Cohomology
 is Mathlib `CategoryTheory.Sheaf.H` of the Zariski site of `X`. For `X` a point, `H^i = 0` for
 `i > 0` and the statement reduces to `H^0(lim F_k) = lim H^0(F_k)`; on a noetherian formal scheme
 `𝔛` with ideal of definition `𝒥` and a coherent `F`, the system `F_k = F/𝒥^{k+1}F` on the affine
 formal basis satisfies (i)–(iii). *Needs:* *mittag-leffler-exactness*; SchemeAndStackFoundations
-layer SF.2 (*godement-resolution*); Mathlib `CategoryTheory.Sheaf.H`, `TopCat.Presheaf.IsFlasque`,
+Layer 2 (§2.5, `godementResolution`); Mathlib `CategoryTheory.Sheaf.H`, `TopCat.Presheaf.IsFlasque`,
 `CategoryTheory.Functor.IsMittagLeffler`; Tau Ceti `TauCeti.AlgebraicGeometry.Cohomology.Flasque`
 (the flasque-acyclicity instance).
 
@@ -3070,8 +3076,8 @@ fixes every product projection. Iterating its cokernel gives
 (*completion-of-morphism*), `F` a coherent `O_X`-module, `F̂` its completion and
 `F_k = F/𝒥^{k+1}F` with `𝒥 = f^*(𝓘)O_X`. Let `R^n f̂_*(F̂)` be the sheaf on `Ŷ` associated with
 `V ↦ H^n(f̂⁻¹(V), F̂)` (cohomology of the underlying abelian sheaves); the algebraic `R^n f_*F` is
-the quasi-coherent higher direct image of SchemeAndStackFoundations layer SF.2
-(*qcoh-higher-direct-images*), coherent by StableReduction layer 2. Prove that `R^n f̂_*(F̂)`
+the quasi-coherent higher direct image of SchemeAndStackFoundations Layer 2
+(§2.6, `qcoh_higherDirectImages`), coherent by StableReduction layer 2. Prove that `R^n f̂_*(F̂)`
 is a coherent `O_Ŷ`-module and the canonical maps `φ_n : (R^n f_*F)^ → R^n f̂_*(F̂)` and
 `ψ_n : R^n f̂_*(F̂) → lim_k R^n f_*(F_k)` are isomorphisms of `O_Ŷ`-modules, with `ψ_n ∘ φ_n` the
 canonical map (EGA III₁ Ch. III, 4.1.5 Théorème, p. 125; by the proof of 4.1.5 and 4.1.8,
@@ -3084,7 +3090,7 @@ open `V` of `Y`, `H^n(X̂ ∩ f⁻¹(V), F̂) ≅ Γ(V ∩ Y′, R^n f̂_*(F̂))
 cohomology of the formal completion `P̂¹` agreeing with that of `P¹`. *Needs:*
 *cohomology-of-mittag-leffler-limit*; *formal-functions-affine*; *theorem-on-formal-functions*;
 *completion-of-morphism*; *completion-of-coherent-sheaf*; *coherent-as-inverse-system*;
-SchemeAndStackFoundations layer SF.2 (*qcoh-higher-direct-images*); StableReduction layer 2;
+SchemeAndStackFoundations Layer 2 (§2.6, `qcoh_higherDirectImages`); StableReduction layer 2;
 Mathlib `CategoryTheory.Sheaf.H`; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
 `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`.
 
@@ -3154,7 +3160,7 @@ completion along `X′ = f⁻¹(V(I))`, and `F`, `G` coherent `O_X`-modules such
 bijection `Hom_{O_X}(F, G) ≅ Hom_{O_X̂}(F̂, Ĝ)` (EGA III₁ Ch. III, 5.1.3 Corollaire, p. 149; 4.5.3
 Corollaire, p. 139: the completed Hom module equals Hom of the completions; Stacks Tag 0883,
 Lem. 30.24.1 for `X` proper; Stacks Tag 0882, Lem. 30.23.5: `lim H^0(X, H/𝓘^nH) = Mor(Ĝ, F̂)`).
-For proper `X` this is SF.4 §4.10's full-faithfulness clause, of which this target is the
+For proper `X` this is SchemeAndStackFoundations §4.10's full-faithfulness clause, of which this target is the
 adapter; the form with proper support for `X` of finite type is owned here. If moreover `f` is
 closed (e.g. `X` proper over `A`), `u` is injective (resp. surjective) iff `û`
 is. For `X = P¹_{ℤ_p}`: `Hom(O(a), O(b)) = H^0(P¹, O(b − a))` and its completion
@@ -3237,7 +3243,7 @@ invertible `O_X`-module `L` (`X` projective over `A`).
 `AlgebraicGeometry.Scheme.Modules.IsAmple L`, states that the specified completion functor
 `completeModule X (closedFibre A I X f)` is an equivalence `Coh(X) ≃ Coh(X̂)`
 (EGA III₁ Ch. III, 5.2.5, p. 153; Stacks Tag 0885, Lem. 30.24.3). This target is an adapter of
-SF.4 §4.10, which owns it.
+SchemeAndStackFoundations §4.10, which owns it.
 On `X = P^r_{ℤ_p}` (`r ≥ 1`), every compatible system of coherent sheaves on `P^r_{ℤ/p^{n+1}}` is
 the reduction of a coherent sheaf on `P^r_{ℤ_p}`; e.g. compatible line bundles are `O(d)` for a
 single `d`. *Needs:* *existence-fully-faithful*; *formal-serre-vanishing*;
@@ -3256,7 +3262,7 @@ compatible system `(G_n)`), `F` a coherent `O_X`-module and `β : π̂^*G ≅ F�
 `FormalScheme.existenceModification` states that there is a morphism `α : G → (π_*F)^`
 in `Coh(Ŷ)` whose kernel and cokernel are annihilated by the same `𝓚^t` for some `t ≥ 1`
 ([Stacks Tag 088B, Lem. 30.25.3](https://stacks.math.columbia.edu/tag/088B);
-EGA III₁ Ch. III, 5.3.4 Lemme, pp. 154–155). This target is an adapter of SF.4 §4.10, a step of
+EGA III₁ Ch. III, 5.3.4 Lemme, pp. 154–155). This target is an adapter of SchemeAndStackFoundations §4.10, a step of
 its proof. The theorem uses `Scheme.IdealSheafData`
 for the quasi-coherent ideals and tests the isomorphism after base change to the open
 complement of `𝓚.support`. It completes the source along `π⁻¹(V(𝓙))`, uses
@@ -3314,7 +3320,7 @@ Assume: (1) completion `Coh(X_e) → Coh((X_e)^_{/V(𝓘_e)})` is an equivalence
 are annihilated by a power of `𝓚`. Prove that `G ≅ F̂` for a coherent `O_X`-module `F` (Stacks
 Tag 088A, Lem. 30.25.2; EGA III₁ Ch. III, 5.3.1 Lemme, p. 154: extensions of algebraizable
 sheaves are algebraizable, EGA's version of this dévissage step; 5.3.2). This target is an
-adapter of SF.4 §4.10, a step of its proof. If `𝓚 = 0` then
+adapter of SchemeAndStackFoundations §4.10, a step of its proof. If `𝓚 = 0` then
 `X_e = X` for every `e` and hypothesis (1) is already the conclusion; if `α` is an isomorphism
 the conclusion holds with `F = H`; the lemma is used when `α` is an isomorphism only away from
 `V(𝓚)`, as produced by *existence-modification*. *Needs:* *bounded-torsion-algebraization*;
@@ -3345,7 +3351,7 @@ Prop. 30.25.4); equivalently, with `X_n = X ×_Y Spec(A/I^{n+1})`, coherent `O_X
 correspond to compatible systems `(F_n)` of coherent `O_{X_n}`-modules with
 `F_{n+1} ⊗ O_{X_n} ≅ F_n`, morphisms to compatible systems of morphisms (EGA III₁ Ch. III,
 5.1.7 Scholie, p. 150; Stacks Tag 088F, Rem. 30.27.2: for `X` proper over `A` the conditions on
-supports can be omitted). The proper case is SF.4 §4.10's `Formal.grothendieck_existence` with
+supports can be omitted). The proper case is SchemeAndStackFoundations §4.10's `Formal.grothendieck_existence` with
 its full-faithfulness clause, of which this target is the adapter; the proper-support form for
 separated `X` of finite type is owned here and reduces to the proper case through
 *existence-proper-support-reduction*. For `X = P^r_{ℤ_p}`: `Coh(P^r_{ℤ_p}) ≃ Coh(P̂^r) ≃` compatible systems
@@ -3360,11 +3366,11 @@ completion is not an equivalence on all coherent sheaves. *Needs:* *existence-fu
 *existence-projective-case*; *existence-modification*; *existence-devissage*;
 *existence-proper-support-reduction*; *coherent-as-inverse-system*; *formal-completion*;
 *closed-formal-subscheme*; *completion-of-coherent-sheaf*; *chow-lemma-devissage*;
-*pow-quotient-formal-module-comparison*; SchemeAndStackFoundations SF.4 §4.10. Lean:
+*pow-quotient-formal-module-comparison*; SchemeAndStackFoundations §4.10. Lean:
 `grothendieckExistence` (every adic system of coherent quotients on the thickenings of a scheme
 proper over an adic noetherian ring is the quotient system of a coherent module) and
 `grothendieckExistence_hom` (compatible morphisms of quotient systems come from a unique morphism),
-the proper case on quotient systems, adapters of SF.4 §4.10 through
+the proper case on quotient systems, adapters of SchemeAndStackFoundations §4.10 through
 *pow-quotient-formal-module-comparison*; the other forms are specified in this README only.
 
 `Existence.properCompletion` restricts the specified `completeModule` functor to
@@ -3390,7 +3396,7 @@ p. 150; Stacks Tags 088E and 088C), carried on quotient systems by the Lean
 (*closed-subscheme-algebraization*) Let `A` be an adic noetherian ring with ideal of definition
 `I` and `f : X → Spec A` separated of finite type. Prove that `Z ↦ Ẑ` is a bijection from closed
 subschemes of `X` proper over `Spec A` to closed formal subschemes of `X̂` proper over `Spf A`
-(EGA III₁ Ch. III, 5.1.8 Corollaire, p. 151). This target is an adapter of SF.4 §4.10, whose
+(EGA III₁ Ch. III, 5.1.8 Corollaire, p. 151). This target is an adapter of SchemeAndStackFoundations §4.10, whose
 algebraization of morphisms contains this lemma. Equivalently (Stacks Tag 0899, Lem. 30.28.1): a
 compatible system of closed subschemes `Z_n ⊆ X_n = X ×_{Spec A} Spec A/I^{n+1}` with
 `Z_{n+1} ∩ X_n = Z_n` and `Z_0` proper over `A/I` comes from a unique closed subscheme `Z ⊆ X`
@@ -3450,7 +3456,7 @@ p. 156). Equivalently, `S`-morphisms `X → Y` correspond to compatible systems 
 Lem. 30.28.3: a unique `g : X → Y` induces a given compatible `(g_n)`). Consequently `X ↦ X̂` is a
 fully faithful functor from schemes proper over `Spec A` to formal schemes proper over `Spf A`
 (EGA III₁ Ch. III, after 5.4.1, p. 157); formal schemes in its essential image are called
-algebraizable. This target is an adapter of SF.4 §4.10's `Formal.algebraize_hom`, read through
+algebraizable. This target is an adapter of SchemeAndStackFoundations §4.10's `Formal.algebraize_hom`, read through
 `Hom_{Spf A}(X̂, Ŷ) = lim_n Hom(X_n, Y_n)` (*morphisms-as-compatible-systems*,
 *formal-scheme-carrier-comparison*). `Aut_S(P¹_{ℤ_p}) = PGL_2(ℤ_p) = lim_n PGL_2(ℤ/p^{n+1}) = Aut(P̂¹)`. Separatedness of
 `Y` enters through the graph argument (the graph of a morphism to `Y` is a closed subscheme of
@@ -3768,8 +3774,8 @@ algebraic proper closed subscheme is the second property in the target above
 ### F0.9 projective geometry over a noetherian base, stated for this roadmap's use
 
 The two results of this subsection are standard projective geometry over a noetherian base. The
-Serre finiteness and vanishing statements are SchemeAndStackFoundations layer SF.2
-(*ample-serre-vanishing*) and Chow's lemma is SchemeAndStackFoundations layer SF.4 (*chow-lemma*);
+Serre finiteness and vanishing statements are SchemeAndStackFoundations Layer 2
+(§2.6, `ample_serre_vanishing`) and Chow's lemma is SchemeAndStackFoundations Layer 4 (§4.12, `chow_lemma`);
 projective bundles and ampleness are also StableReduction layer 2. They are cited here, and the
 remaining clauses (the base-change compatibility of `P(E)`, the eventual bijectivity of `M_n → Γ(X,
 M̃(n))` and the dévissage) are stated as targets because the existence and algebraisation theorems
@@ -3784,12 +3790,12 @@ For `X` proper over `A` with an ample invertible sheaf `L` and a coherent `𝒪_
 facts that some power of `L` is very ample (EGA II 4.6.11), that the `A`-modules `Hⁱ(X, F)` are
 finitely generated (EGA III₁ 3.2.1, finiteness for proper morphisms; Stacks Tag 02O5), and that
 `Hⁱ(X, F ⊗ L^{⊗n}) = 0` for every `i > 0` and all `n ≫ 0` (EGA III₁ 2.2.1, 2.2.2, Serre's
-theorem; Stacks Tag 0B5U) are SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*,
+theorem; Stacks Tag 0B5U) are SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`,
 Stacks Tag 01XO) and are used here with `A` noetherian and `X` proper over `A`, not restated.
 For a graded algebra `S` of finite type over `A` generated in degree
 `1`, `X = Proj S` and a finitely generated graded `S`-module `M`, prove that the maps
 `M_n → Γ(X, M̃(n))` are bijective for `n ≫ 0` (EGA III₁ 2.3.1–2.3.2). *Needs:*
-SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*); StableReduction layer 2; Mathlib
+SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); StableReduction layer 2; Mathlib
 `AlgebraicGeometry.Proj`, `AlgebraicGeometry.IsProper`.
 
 `AlgebraicGeometry.LineQuotient` retains a locally rank-one sheaf and an epimorphism
@@ -3841,7 +3847,7 @@ for a separated morphism of finite type `X → S` with `S` noetherian there is a
 particular proper, surjective) morphism `X′ → X` which is an isomorphism over a dense open of
 `X` and such that `X′ → S` is quasi-projective, projective when `X → S` is proper (EGA II 5.6.1,
 5.6.2; [Stacks, 30.18.1, Tag 0200](https://stacks.math.columbia.edu/tag/0200)) —
-is the SchemeAndStackFoundations layer SF.4 (*chow-lemma*) contract used here.
+is the SchemeAndStackFoundations Layer 4 (§4.12, `chow_lemma`) contract used here.
 `AlgebraicGeometry.chowModification` states it on scheme carriers: finite type is
 `LocallyOfFiniteType f` together with `QuasiCompact f`; the dense open `U` has
 `IsIso (pullback.snd π U.ι)`. The conclusion includes a closed immersion
@@ -3869,8 +3875,8 @@ two terms have `P` then so does the third. Prove that if for every integral clos
 whose stalk at `ξ` is a one-dimensional `κ(ξ)`-vector space, then every coherent `O_X`-module has
 `P`;
 and that if `P` is moreover stable under direct summands, a test module with nonzero stalk at
-`ξ` annihilated by the maximal ideal of `O_{X,ξ}` suffices (EGA III₁ 3.1.2, 3.1.3; Stacks Tag 01YI). *Needs:* SchemeAndStackFoundations layer
-SF.4 (*chow-lemma*); Mathlib `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.IsSeparated`.
+`ξ` annihilated by the maximal ideal of `O_{X,ξ}` suffices (EGA III₁ 3.1.2, 3.1.3; Stacks Tag 01YI). *Needs:* SchemeAndStackFoundations
+Layer 4 (§4.12, `chow_lemma`); Mathlib `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.IsSeparated`.
 
 **Check `coherent_devissage_genericAnnihilation`.** Over `Spec(ℤ/4)`, the structure
 module is projective but its residue field is not. Merely requiring a nonzero generic
@@ -3935,9 +3941,9 @@ Mathlib `AlgebraicGeometry.Scheme`, `LocallyRingedSpace`, `Scheme.IdealSheafData
 `TauCeti.Huber.isHuberRing_of_isAdic`, `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`
 with `cohomologyMapBaseLinear`, `cohomologyδ`, `exact_cohomologyMap_cohomologyδ` and
 `Scheme.Modules.sections_surjective`, and the flasque-acyclicity instance of
-`TauCeti.AlgebraicGeometry.Cohomology.Flasque`; SchemeAndStackFoundations layer SF.2
-(*godement-resolution*, *ample-serre-vanishing*, *proper-fibre-dimension-vanishing*,
-*qcoh-higher-direct-images*) and layer SF.4 (*chow-lemma*; §4.7–§4.8 `Formal.AdicThickeningSystem`,
+`TauCeti.AlgebraicGeometry.Cohomology.Flasque`; SchemeAndStackFoundations Layer 2
+(§2.5, `godementResolution`; §2.6, `ample_serre_vanishing`, `proper_fibreDimension_vanishing`,
+`qcoh_higherDirectImages`) and Layer 4 (§4.12, `chow_lemma`; §4.7–§4.8 `Formal.AdicThickeningSystem`,
 `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`, the tower carrier of
 *formal-scheme-carrier-comparison*; §4.9 `Scheme.Modules.Cohomology.formalFunctionsIso`; §4.10
 `Formal.grothendieck_existence`, `Formal.algebraize_hom`); StableReduction layer 2 and
@@ -4046,8 +4052,8 @@ general complete pair of finite ideal type). *Needs:* *adic-ring* (layer F0);
 `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`,
 `IsTopologicallyFinitePresentation.iff_of_surjective`,
 `IsTopologicallyFinitePresentation.isAdicComplete` and `isAdmissibleAlgebra_iff_flat`, with the
-second Check below (`O_K⟨T⟩/(ϖT)`) as an example; the other clauses are specified in this README
-only.
+second Check below (`O_K⟨T⟩/(ϖT)`) and the `ℤ_p` and `ϖ = 0` Checks for the base as examples; the
+other clauses are specified in this README only.
 
 **Checks.**
 
@@ -4077,8 +4083,8 @@ only.
 
 **Checks for the base and generic-fibre topology.**
 
-- `rankOneBase_test_padic` — `ℤ_p` with `ϖ = p` satisfies the base predicate.
-- `rankOneBase_test_zero` — `ϖ = 0` fails its nonzero condition.
+- `rankOneBase_test_padic` (Lean example) — `ℤ_p` with `ϖ = p` satisfies the base predicate.
+- `rankOneBase_test_zero` (Lean example) — `ϖ = 0` fails its nonzero condition.
 - `rankOneBase_test_unit` — a unit fails its nonunit condition, even over a field.
 - `genericFibre_test_base_nondiscrete` — the generic fibre of `O_K` is nondiscrete.
 - `genericFibre_test_torsion_discrete` — for `O_K/ϖ`, the generic-fibre ring is zero and discrete.
@@ -5198,7 +5204,7 @@ coherent (BL I §1, Lem. 1.4(c)). The scheme-theoretic charts of the blow-up are
 − f_j)` modulo `f_i`-power torsion of (a) is the chart of *submodule-blow-up* (AdicSpacesPartII layer R0) at `C = B
 = A` for the ideal `a`; this target forms the `ϖ`-adic completion of that chart and removes
 `ϖ`-torsion. Strict transforms along blow-ups and modifications of schemes are
-SchemeAndStackFoundations layer SF.4 (*strict-transform*, *modification-domination*); the strict
+SchemeAndStackFoundations Layer 4 (§4.11; §4.12, `modification_domination`); the strict
 transform here is taken on `ϖ`-adic formal schemes, with the `𝒜O_{X'}`-power torsion in place of
 the sections supported on the exceptional locus. In `FormalScheme`, define `admissibleBlowUp` (`X' = Bl_𝒜 X` for a coherent open
 ideal `𝒜`), `admissibleBlowUp.π` (`φ: Bl_𝒜 X → X`), `admissibleBlowUp.chart` (over `Spf A` with `𝒜 =
@@ -5849,8 +5855,8 @@ unit (BL II §1, Lem. 1.4(a) and its proof, p. 405: the proof lifts a Jacobian p
 reduction). The lift is not unique; only its existence after shrinking is claimed. The affine
 one-level lifting is Mathlib's `Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`, and
 the scheme-level lifting of a smooth scheme across a single thickening, with formal smoothness of
-morphisms of schemes, is SchemeAndStackFoundations layer SF.4 (*deformations-of-smooth-schemes*,
-*formally-smooth-morphism*); this target lifts along all the levels `O_K/ϖ^{m+1}` at once, over an
+morphisms of schemes, is SchemeAndStackFoundations Layer 4 (§4.6,
+§4.1); this target lifts along all the levels `O_K/ϖ^{m+1}` at once, over an
 `O_K` that need not be noetherian. For `T = Spf O_K`
 and `Y_0 = V(ξ_2 − ξ_1²) ⊆ A²_{O_K/ϖ}`, `Y = Spf O_K⟨ξ_1, ξ_2⟩/(ξ_2 − ξ_1²) ≅ Spf O_K⟨ξ_1⟩` is
 smooth of relative dimension `1`; in the étale case `r = 0` a standard étale `Y_0 = Spec
@@ -5971,8 +5977,8 @@ containing `T ⊗ k(s')` such that all fibres of `U' → S'` are geometrically i
 The fibre predicates are Mathlib's `AlgebraicGeometry.GeometricallyIntegral` and
 `AlgebraicGeometry.GeometricallyIrreducible`; the lemma itself, like Raynaud–Gruson 1.1.1 and 1.1.2,
 is not in Mathlib, and the nearest scheme-level statement — openness of the geometrically integral
-fibre locus of a flat proper morphism — is SchemeAndStackFoundations layer SF.0
-(*flat-proper-fibre-loci*), which does not give the étale neighbourhood. If all fibres of `T → S`
+fibre locus of a flat proper morphism — is SchemeAndStackFoundations Layer 0
+(§0.8), which does not give the étale neighbourhood. If all fibres of `T → S`
 are geometrically integral (for instance `T = A^n_S`) one can take `S' = S`
 and `U' = T`. Shrinking is needed: over `S = Spec k[u]`, `T = A¹_S ⊔ A¹_{D(u)}` is smooth with
 geometrically integral fibre over `s = (u)` but two-component fibres over `u ≠ 0`; `U' = A¹_S` works
@@ -6260,7 +6266,7 @@ Lem. 2.5(c), p. 409: injectivity, and the reduction of surjectivity to a stateme
 functions on `Spec O_K⟨ζ⟩ ∖ Y_0` extend. The dimension hypothesis is needed: for `Y_0 = V(ϖ)`
 (dimension `1 = m`), `Γ(Spec O_K⟨ζ⟩ ∖ V(ϖ), O) = K⟨ζ⟩ ≠ O_K⟨ζ⟩`. The algebraic Hartogs lemma for
 coherent sheaves on locally noetherian schemes, with the depth-`≥ 2` hypothesis, is
-SchemeAndStackFoundations layer SF.0 (*coherent-hartogs*); this target is the non-noetherian form
+SchemeAndStackFoundations Layer 0 (§0.6); this target is the non-noetherian form
 over a rank-one valuation ring, with the relative fibre dimension of `Y_0` in place of depth.
 *Needs:*
 *nonvanishing-on-fibres-nonzerodivisor-levels*; *smooth-formal-scheme*; *admissible-formal-scheme*;
@@ -7023,8 +7029,8 @@ admissible blow-up `T' → T` such that the strict transform `ℳ'` of `ℳ` on 
 `T`, and `ℳ'` is the strict transform, not the pull-back. This is the classical rigid case only;
 Bosch–Lütkebohmert's noetherian base case uses parallel arguments that are not decomposed here. The
 scheme-theoretic flattening theorem of Raynaud–Gruson (Stacks 0815), with strict transforms and the
-domination of modifications by admissible blow-ups, is SchemeAndStackFoundations layer SF.4
-(*flattening-by-blowup*, *strict-transform*, *modification-domination*); this target is its `ϖ`-adic
+domination of modifications by admissible blow-ups, is SchemeAndStackFoundations Layer 4
+(§4.12, `flattening_by_blowup`; §4.11; §4.12, `modification_domination`); this target is its `ϖ`-adic
 formal version over a non-noetherian `O_K`, with rig-flatness at rig-points in place of flatness
 over a schematically dense open, and it is proved by the lemmas of this subsection rather than
 deduced from the scheme theorem. For
@@ -7060,8 +7066,8 @@ analytification of its generic fibre: Huber's morphism `σ` and the comparison `
 d(Ŷ).** (*formal-completion-and-algebraic-comparison*) (1.9.4) For a scheme `X` and its formal
 completion `X̂` along a closed subscheme defined by an ideal of finite type — the formal scheme of
 the thickening system `(X_n)` of *colimit-of-thickenings* (layer F0), which for locally noetherian
-`X` is *formal-completion* (layer F0) and on the scheme side is SchemeAndStackFoundations layer
-SF.4 (*formal-completion*); no noetherian hypothesis on `X` is made here — assumed of type (S),
+`X` is *formal-completion* (layer F0) and on the scheme side is SchemeAndStackFoundations
+Layer 4 (§4.8); no noetherian hypothesis on `X` is made here — assumed of type (S),
 prove that there is a natural
 morphism of locally ringed spaces `σ_X : d(X̂) → X`, the unique one such that for every open `U ⊆
 X`, with `e = (X̂ → X) ∘ λ`, one has `e⁻¹(U) ⊆ σ⁻¹(U)` and `e* = σ*` on `O_X(U)`. (1.9.5) Let `f : X
@@ -7538,8 +7544,9 @@ Stacks Tag 04DZ, Étale Cohomology, Thm 59.45.2, the version for universal homeo
 `𝔛_{s,red} ⊆ 𝔛_0`; Conrad-MR §3.1, proof of Thm 3.1.6, p. 17, where Conrad uses exactly this
 invariance for formal schemes; TT §2.2, p. 12, the generic-fibre functor on étale formal schemes).
 The scheme-level steps of (a) — invariance of the small étale site under thickenings and universal
-homeomorphisms — are SchemeAndStackFoundations layer SF.0 (*universal-homeomorphism-etale-site*),
-and their ring-level core is Mathlib's `Algebra.FormallyEtale.iff_comp_bijective` with
+homeomorphisms — are FrobeniusGeometry Layer 6, which SchemeAndStackFoundations §0.23 names as the
+consumer of its universal homeomorphisms (`IsUniversalHomeomorphism`); their ring-level core is
+Mathlib's `Algebra.FormallyEtale.iff_comp_bijective` with
 `Algebra.FormallyUnramified.ext`; what this target adds is the passage to the limit over the levels
 `𝔛_m` and part (b). The étale site of the adic space `d(𝔛)` is that of AdicEtaleGeometry layer A1;
 the morphism of topoi `w : d(𝔛)_proét → 𝔛_ét` is built by the consumer from the functor of (b). For
@@ -7551,7 +7558,8 @@ corresponds to `Spec 𝔽_{p²} → Spec 𝔽_p`, and its generic fibre is `Spa(
 *generic-fibre-fibre-products*; *specialisation-map*; *differentials-unramified-smooth-etale* (AdicSpacesPartII layer
 R0); *etale-local-structure* (AdicSpacesPartII layer R0); *colimit-of-thickenings* (layer F0);
 *adic-systems-equivalence-finite-ideal-type* (layer F0); AdicEtaleGeometry layer A1;
-SchemeAndStackFoundations layer SF.0 (*universal-homeomorphism-etale-site*); Mathlib
+SchemeAndStackFoundations Layer 0 (§0.23, `IsUniversalHomeomorphism`); FrobeniusGeometry Layer 6;
+Mathlib
 `AlgebraicGeometry.Etale`, `Algebra.FormallyEtale.iff_comp_bijective`,
 `Algebra.FormallyUnramified.ext`, `Module.Flat`, `ValuationRing`.
 
@@ -7768,7 +7776,8 @@ Conrad-MR §4.1, Thm 4.1.1(1), p. 26, thresholds in the divisible hull of the va
 `TauCeti.FarguesFontaine.IsRadiusLowerBound`; Mathlib `ValuativeRel`. Lean:
 `ValuationSpectrum.fracPowLE`, `ValuationSpectrum.fracPowGE`, `ValuationSpectrum.mem_fracPowLE_iff`
 and `ValuationSpectrum.fracPow_inter_spa`, with the membership for `q = 1/2` (`v(f²) ≤ v(g)`, not
-`v(f) ≤ v(g²)`) as an example; the other lemmas and the Checks are specified in this README only.
+`v(f) ≤ v(g²)`), the `q = 0` bound for `fracPowGE` and the `g = 0` bound for `fracPowLE` as
+examples; the other lemmas and Checks are specified in this README only.
 
 **Checks.**
 
@@ -7783,9 +7792,9 @@ and `ValuationSpectrum.fracPow_inter_spa`, with the membership for `q = 1/2` (`v
   |p|}`.
 - (compatibility, root) — for `L = ℚ_p(√p)` with `c = √p` (`c² = p`): the preimage
   of `fracPowLE T p (1/2)` in `Spa(L⟨T⟩, O_L⟨T⟩)` equals `{v : v(T) ≤ v(c)}`.
-- (degenerate, `q = 0`) — `fracPowLE f g 0 = {v : v(f) ≤ 1}` and `fracPowGE f g 0 = {v
+- (degenerate, `q = 0`; Lean example for `fracPowGE`) — `fracPowLE f g 0 = {v : v(f) ≤ 1}` and `fracPowGE f g 0 = {v
   : v(f) ≥ 1}`.
-- (degenerate, `g = 0`) — for `q > 0`: `fracPowLE f 0 q = {v : v(f) = 0}` (the
+- (degenerate, `g = 0`; Lean example for `fracPowLE`) — for `q > 0`: `fracPowLE f 0 q = {v : v(f) = 0}` (the
   support of `f`) and `fracPowGE f 0 q = Spv A`.
 - (characterisation, direction of `GE`) — for `g` a unit and `q > 0`, every `v ∈ fracPowGE f g
   q` has `v(f) ≠ 0`; in `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` the classical point `T = 1` lies in `fracPowGE T p
@@ -8365,8 +8374,8 @@ presented (coherent means finitely generated with all finitely generated submodu
 presented, not merely finitely presented); `A` is a coherent ring if it is coherent as an
 `A`-module, i.e. every finitely generated ideal is finitely presented. This is the ring case of EGA
 0 §5.3 as recalled in Bosch–Lütkebohmert I §1. Neither predicate is in Mathlib or Tau Ceti (Tau
-Ceti's `FinitelyPresentedSheaf` is finite presentation only), and SchemeAndStackFoundations layer
-SF.0 (*pseudo-coherent-module*) is a different notion — a module with a resolution by finite free
+Ceti's `FinitelyPresentedSheaf` is finite presentation only), and SchemeAndStackFoundations'
+pseudo-coherence (Layer 0, §0.5) is a different notion — a module with a resolution by finite free
 modules up to a given degree. Its finite syzygy conditions are distinct from requiring every
 finite submodule to be finitely presented. Define `Module.IsCoherent` (`M` is finitely generated
 and every finitely generated submodule of `M` is finitely presented) and `IsCoherentRing` (`A` is
@@ -8614,10 +8623,11 @@ comparisons of properness and of analytifications. The Foundations of adic space
 (AdicSpaces), layers 0–5, through this roadmap's layers AdicSpacesPartII R0 and AdicSpacesPartII R1, for affinoid adic spaces,
 rational subsets and sheafiness.
 AdicEtaleGeometry layer A1 for the étale site of the generic fibre; SchemeAndStackFoundations
-layers SF.0 and SF.4 for the scheme-level statements cited at the targets (topological invariance
-of the étale site, algebraic Hartogs, openness of fibre loci, pseudo-coherence, deformations of
+Layers 0 and 4 for the scheme-level statements cited at the targets (universal homeomorphisms,
+algebraic Hartogs, openness of fibre loci, pseudo-coherence, deformations of
 smooth schemes, formal completion, flattening by blow-up, strict transforms and the domination of
-modifications). Mathlib supplies `IsAdicComplete`, `Module.Flat` and
+modifications); FrobeniusGeometry Layer 6 for the topological invariance of the étale site.
+Mathlib supplies `IsAdicComplete`, `Module.Flat` and
 `Module.Flat.iff_rTensor_injective`, `Module.Projective`, `Module.Free`,
 `Module.FinitePresentation`, `Module.free_of_flat_of_isLocalRing`, `Algebra.Smooth`,
 `Algebra.Etale`, `Algebra.IsStandardSmooth`,
@@ -10937,11 +10947,11 @@ proper-GAGA theorem. For `n = 1`,
 |x₁|}`, `W_i = {|x_j| ≤ |x_i|}` the
 standard affinoid charts; for `n = 1`,
 `m ≥ 0`: `H⁰ = K[x₀, x₁]_m` of dimension `m + 1` and `H¹ = 0`. The algebraic side, the
-cohomology of `𝒪(m)` on `Pⁿ_A`, is SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*)
+cohomology of `𝒪(m)` on `Pⁿ_A`, is SchemeAndStackFoundations Layer 2 (§2.6, `projectiveSpace_cohomology`)
 and *projective-bundles-ample-serre* (layer F0); the analytic computation is new. *Needs:*
 *gaga-comparison-map*; *analytification-coherent*; *tate-acyclicity-finite-modules*;
 *analytic-projective-space-proper* (AdicSpacesPartII layer R1); *projective-bundles-ample-serre* (layer F0);
-SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*); `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti `AlgebraicGeometry.Scheme.Modules.Cohomology`.
+SchemeAndStackFoundations Layer 2 (§2.6, `projectiveSpace_cohomology`); `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti `AlgebraicGeometry.Scheme.Modules.Cohomology`.
 
 **Checks for projective bundles and twists.** Each Check carries the indicated name.
 
@@ -11097,7 +11107,7 @@ where `dualTensorHomEquiv : M^∨ ⊗_R M ≅ End_R(M)` (Mathlib, for `M` finite
 `LinearMap.trace R M` agrees with it when `M` is free but is defined to be `0` when `M` has no
 finite basis, so it is not the trace of a finite projective non-free module. The same
 construction `contractLeft ∘ dualTensorHomEquiv⁻¹` in the almost category is PerfectoidSpaces
-layer P0 (P0.12), which cites this target at the classical basic setup. In `LinearMap`,
+layer P0 (P0.12), the almost-ring version of this target. In `LinearMap`,
 define `projectiveTrace` as the `R`-linear map `End_R(M) → R` for `M` finite projective; prove
 that `projectiveTrace (dualTensorHom φ m) = φ m`, equivalently `projectiveTrace ∘ dualTensorHom =
 contractLeft`; `projectiveTrace_eq_trace` (for `M` free finite,
@@ -11152,11 +11162,12 @@ multiplicative set `S ⊆ R`, `Tr_{S⁻¹B/S⁻¹R}` of the image of `b` is the 
 constant degree). The free clauses are Mathlib's: `Algebra.trace`, `_root_.Algebra.trace_prod` (which needs
 `Module.Free` of both factors, so it gives the product formula only for free `B`, `C`) and
 `_root_.Algebra.trace_localization`; the projective case is new. The almost version of this trace and its
-trace form is PerfectoidSpaces layer P0 (P0.12), which cites this target at the classical basic
-setup. *Needs:* *projective-module-trace*; Mathlib `Algebra.trace`, `Algebra.traceForm`,
+trace form is PerfectoidSpaces layer P0 (P0.12), the almost-ring version of this target.
+*Needs:* *projective-module-trace*; Mathlib `Algebra.trace`, `Algebra.traceForm`,
 `Module.Projective`, `_root_.Algebra.trace_prod`, `_root_.Algebra.trace_localization`. Lean:
-`Algebra.projectiveTrace` and `Algebra.projectiveTraceForm`, with the quadratic Check below as an
-example; the other clauses are specified in this README only.
+`Algebra.projectiveTrace` and `Algebra.projectiveTraceForm`, with the quadratic Check below and the
+self and zero-algebra Checks for the form as examples; the other clauses are specified in this
+README only.
 
 **Checks.**
 
@@ -11175,9 +11186,11 @@ example; the other clauses are specified in this README only.
 
 **Checks for `Algebra.projectiveTraceForm`.**
 
+- (self; Lean example) — on `R` over itself the form is multiplication,
+  `projectiveTraceForm R R = LinearMap.mul R R`.
 - (product) — on `R × R`, the form is
   `x₁y₁ + x₂y₂`, with no division by `2`.
-- (zero algebra) — on the zero algebra the form is zero and perfect;
+- (zero algebra; Lean example for the form) — on the zero algebra the form is zero and perfect;
   the zero algebra is étale of rank zero.
 - (characteristic two, a Lean example) — over a field of characteristic `2`, the form on
   `k[x]/(x² − 1)` is not perfect (it vanishes) and the algebra is not étale.
@@ -11219,8 +11232,8 @@ for `k[x]/(x²)`, `x` is in the kernel of the pairing and the algebra is not ét
 the pairing is `(x, y) ↦ xy`, perfect, and for `S = 0` (étale, `Spec 0 = ∅`) it is the bijection
 `0 → 0`. The field case is Mathlib's `_root_.Algebra.traceForm_nondegenerate` and
 `traceForm_nondegenerate_tfae`; the statement over an arbitrary commutative ring is new, and its
-almost version is PerfectoidSpaces layer P0 (P0.15), which cites this target at the classical
-basic setup. *Needs:*
+almost version is PerfectoidSpaces layer P0 (P0.15).
+*Needs:*
 *finite-locally-free-algebra-trace*; *algebra-trace-base-change*; Mathlib `Algebra.Etale`,
 `Algebra.Etale.iff_exists_algEquiv_prod`, `traceForm_nondegenerate`,
 `traceForm_nondegenerate_tfae`. Lean: `Algebra.etale_iff_projectiveTraceForm_bijective` (`S` is
@@ -11250,7 +11263,8 @@ multiplication by the locally constant degree of `π`, the locally constant rank
 degree is Mathlib's
 `Scheme.Hom.finrank` (`AlgebraicGeometry/Morphisms/FlatRank`; Tau Ceti adds only
 `finrank_eq_of_nonempty_iso_over`). This trace is the finite-locally-free specialisation of the
-Grothendieck-duality trace of a proper morphism, SchemeAndStackFoundations layer SF.2 (*trace*);
+Grothendieck-duality trace of a proper morphism, SchemeAndStackFoundations Layer 2 (§2.19, §2.21,
+`trace`);
 it is stated separately because its affine description through `Algebra.projectiveTrace` is what
 the analytic trace *analytic-trace-finite-locally-free* is compared with. In
 `AlgebraicGeometry.Scheme.Hom`, define `finiteTrace` as
@@ -11264,7 +11278,7 @@ isomorphism carries `g*Tr_π` to `Tr_{π'}`), `finiteTrace_comp` (`Tr_{π ∘ π
 locus being empty; by *etale-iff-trace-pairing-perfect*) (Stacks Tag 0BVH, §49.3, the
 scheme-theoretic trace of a finite locally free morphism and its local description). *Needs:*
 *finite-locally-free-algebra-trace*; *algebra-trace-base-change*; *algebra-trace-transitivity*;
-SchemeAndStackFoundations layer SF.2 (*trace*); Mathlib `AlgebraicGeometry.IsFinite`,
+SchemeAndStackFoundations Layer 2 (§2.19, §2.21, `trace`); Mathlib `AlgebraicGeometry.IsFinite`,
 `AlgebraicGeometry.Flat`, `AlgebraicGeometry.LocallyOfFinitePresentation`,
 `AlgebraicGeometry.Scheme.Modules`, `Scheme.Hom.finrank`.
 
@@ -11734,12 +11748,12 @@ properness and finiteness comparisons, analytic affine and projective spaces, an
 differentials) and F0 (Mittag-Leffler systems, the theorem on formal functions, Chow's lemma and
 dévissage) of this roadmap, and the structure sheaf, rational localisations, sheafiness,
 uniformity and the Buzzard–Verberkmoes theorem of the Foundations of adic spaces roadmap
-(AdicSpaces), layers 0.2, 3.1, 3.4, 3.5, 4.1, 4.2, 5 and 5.2; `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; SchemeAndStackFoundations layer SF.2 (*ample-serre-vanishing*, *trace*);
+(AdicSpaces), layers 0.2, 3.1, 3.4, 3.5, 4.1, 4.2, 5 and 5.2; `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`; §2.19, §2.21, `trace`);
 *chow-lemma-devissage* and *projective-bundles-ample-serre* (layer F0: Chow's lemma, dévissage
 and projective bundles over a noetherian base); AdicEtaleGeometry layer A2 and the `p`-adic Hodge
 theory roadmaps consume the étale and pro-étale sheaves of differentials, PerfectoidSpaces supplies
-the sheafiness of perfectoid affinoids and cites the Gel'fand spectrum (P1.12) and the classical
-traces (P0.12, P0.15) of this layer, DiamondsAndVStacks D5.13 cites the Gel'fand spectrum, and
+the sheafiness of perfectoid affinoids and cites the Gel'fand spectrum (P1.12), its layer P0
+(P0.12, P0.15) is the almost-ring version of the traces of this layer, DiamondsAndVStacks D5.13 cites the Gel'fand spectrum, and
 AdicSpacesPartIV layer R5 applies the retraction of the completed tensor product from
 *split-injection-completed-base-change* to sousperfectoid frames. Mathlib and Tau Ceti as listed at each target: in
 particular Mathlib `SheafOfModules` with `IsLocallyFree`, `IsFiniteType`, `IsFinitePresentation`
@@ -11768,7 +11782,7 @@ and `pullback`, `HomologicalComplex₂`, `Module.Flat`, `Module.Projective`,
 F0 applies Part II R0's noetherian completion and finite-module results to formal schemes.
 AdicSpacesPartIV uses formal models, coherent sheaves and differentials for families and
 dagger geometry. AdicEtaleGeometry A2 uses F0 and R2's formal schemes and generic fibres.
-PerfectoidSpaces P1.12 uses R3's Gel'fand spectrum; P0.12 and P0.15 use its classical traces.
+PerfectoidSpaces P1.12 uses R3's Gel'fand spectrum; P0.12 and P0.15 are the almost versions of its classical traces.
 DiamondsAndVStacks D5.13 uses the Gel'fand spectrum, and its formal interfaces use F0's
 formal spectrum and R2's specialization and pre-adic interface.
 The étale-cohomology, Shimura-variety, rigid-cohomology and `p`-adic Hodge theory roadmaps

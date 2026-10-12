@@ -157,6 +157,13 @@ example (f : A) :
     Subsingleton (CompletedAway A f) ↔ IsNilpotent (Ideal.Quotient.mk (IsAdicRing.ideal A) f) :=
   sorry
 
+/-- For discrete `A` the chosen ideal of definition is nilpotent, so `A_{f}` is the localisation
+`A_f`. -/
+example [DiscreteTopology A] (f : A) :
+    Function.Bijective (AdicCompletion.of ((IsAdicRing.ideal A).map
+      (algebraMap A (Localization.Away f))) (Localization.Away f) :
+        Localization.Away f → CompletedAway A f) := sorry
+
 section CompletedTensorProduct
 
 variable (A B C : Type*) [CommRing A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
@@ -167,6 +174,10 @@ variable (A B C : Type*) [CommRing A] [CommRing B] [TopologicalSpace B] [IsTopol
 def CompletedTensorProduct.tensorIdeal : Ideal (B ⊗[A] C) :=
   (IsAdicRing.ideal B).map Algebra.TensorProduct.includeLeftRingHom ⊔
     (IsAdicRing.ideal C).map (Algebra.TensorProduct.includeRight : C →ₐ[A] B ⊗[A] C).toRingHom
+
+/-- Over a discrete field the tensor ideal is `0`. -/
+example (k : Type*) [Field k] [TopologicalSpace k] [IsTopologicalRing k] [DiscreteTopology k]
+    [IsAdicRing k] : CompletedTensorProduct.tensorIdeal k k k = ⊥ := sorry
 
 variable [TopologicalSpace A] [IsTopologicalRing A]
 
@@ -302,6 +313,11 @@ example (n : ℕ) (F : X.Modules) : IsPowQuotient A ⊥ n (𝟙 F) := sorry
 /-- For `J = A` the quotient is `0`. -/
 example (n : ℕ) (F : X.Modules) : IsPowQuotient A ⊤ n (0 : F ⟶ 0) := sorry
 
+/-- The quotient is unique up to isomorphism under `F`. -/
+example (J : Ideal A) (n : ℕ) {F G G' : X.Modules} (q : F ⟶ G) (q' : F ⟶ G')
+    (hq : IsPowQuotient A J n q) (hq' : IsPowQuotient A J n q') :
+    ∃ e : G ≅ G', q ≫ e.hom = q' := sorry
+
 /-- The theorem on formal functions: for `X` proper over a noetherian ring `A`, a coherent
 `𝒪_X`-module `F` and an ideal `J`, `Hⁱ(X, F)` is finite and its `J`-adic completion is the
 module of compatible families in `Hⁱ(Xₙ, F ⧸ J^{n+1} F)`, through the natural maps
@@ -381,6 +397,13 @@ class IsCompleteRankOneBase (O : Type*) [CommRing O] [TopologicalSpace O] (ϖ : 
   not_isUnit : ¬ IsUnit ϖ
   isAdic : IsAdic (Ideal.span {ϖ})
   isAdicComplete : IsAdicComplete (Ideal.span {ϖ}) O
+
+/-- `ℤ_p` with `ϖ = p` is a complete rank-one base. -/
+example (p : ℕ) [Fact p.Prime] : IsCompleteRankOneBase ℤ_[p] (p : ℤ_[p]) := sorry
+
+/-- `ϖ = 0` is excluded. -/
+example {O : Type*} [CommRing O] [TopologicalSpace O] : ¬ IsCompleteRankOneBase O (0 : O) :=
+  sorry
 
 /-- `A` is *topologically of finite presentation* over `O`: a quotient of some `O⟨ξ₁, …, ξₙ⟩` by a
 finitely generated ideal (Bosch–Lütkebohmert I, §1). -/
@@ -479,9 +502,16 @@ of `g` is used. -/
 def fracPowLE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
   {v | v.toValuativeRel.vle (f ^ q.den) (g ^ q.num)}
 
+/-- For `g = 0` and `q > 0` the bound is `v(f) = 0`. -/
+example (f : A) (q : ℚ≥0) (hq : 0 < q) (v : Spv A) :
+    v ∈ fracPowLE f 0 q ↔ v.toValuativeRel.vle (f ^ q.den) 0 := sorry
+
 /-- `{|f| ≥ |g|^q}`: the valuations with `v(g^a) ≤ v(f^b)` for `q = a/b` in lowest terms. -/
 def fracPowGE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
   {v | v.toValuativeRel.vle (g ^ q.num) (f ^ q.den)}
+
+/-- For `q = 0` the bound is `v(f) ≥ 1`. -/
+example (f g : A) (v : Spv A) : v ∈ fracPowGE f g 0 ↔ v.toValuativeRel.vle (g ^ 0) f := sorry
 
 /-- Any representative `q = a/b`, `b > 0`, may be used. -/
 theorem mem_fracPowLE_iff {f g : A} {q : ℚ≥0} {a b : ℕ} (hb : 0 < b) (hq : q = a / b)
@@ -578,7 +608,9 @@ variable (R R₁ R₂ R₁₂ : Type*) [CommRing R] [CommRing R₁] [CommRing R�
   [Algebra R R₁] [Algebra R R₂] [Algebra R₁ R₁₂] [Algebra R₂ R₁₂] [Algebra R R₁₂]
   [IsScalarTower R R₁ R₁₂] [IsScalarTower R R₂ R₁₂]
 
-/-- A *glueing square* of complete Tate rings `R → R₁, R₂ → R₁₂` (KL15, §2.7, Definition 2.7.3):
+/-- A *glueing square* of complete Tate rings `R → R₁, R₂ → R₁₂` (KL15, §2.7, Definition 2.7.3,
+with its condition (c), surjectivity of `M(R₁ ⊕ R₂) → M(R)`, replaced by the consequence used in
+the proof of Proposition 2.7.5):
 continuous maps with `0 → R → R₁ × R₂ → R₁₂ → 0`, `(r₁, r₂) ↦ r₁ − r₂`, strict exact,
 `R₂ → R₁₂` of dense range, and every maximal ideal of `R` the contraction of a prime of
 `R₁ × R₂`. -/
@@ -828,10 +860,20 @@ def projectiveTrace : B →ₗ[R] R :=
 def projectiveTraceForm : LinearMap.BilinForm R B :=
   (Algebra.lmul R B).toLinearMap.compr₂ (projectiveTrace R B)
 
+/-- On `R` over itself the trace form is multiplication. -/
+example (R : Type*) [CommRing R] : projectiveTraceForm R R = LinearMap.mul R R := sorry
+
+/-- On the zero algebra the trace form is zero and perfect. -/
+example (R B : Type*) [CommRing R] [CommRing B] [Algebra R B] [Module.Finite R B]
+    [Module.Projective R B] [Subsingleton B] :
+    projectiveTraceForm R B = 0 ∧ Function.Bijective (projectiveTraceForm R B) := sorry
+
 variable {R B}
 
 /-- Transitivity in a tower `R → B → C` of finite projective algebras:
-`Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}` (Stacks, Tag 02DU, Exercise 111.22.6). -/
+`Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}` (the free case is Mathlib's `Algebra.trace_trace`; the finite
+projective case follows by localising at primes, with the cyclicity of Stacks, Tag 02DU,
+Exercise 111.22.6). -/
 theorem projectiveTrace_trans {C : Type*} [CommRing C] [Algebra B C] [Algebra R C]
     [IsScalarTower R B C] [Module.Finite B C] [Module.Projective B C] :
     ∃ (_ : Module.Finite R C) (_ : Module.Projective R C), ∀ c : C,
