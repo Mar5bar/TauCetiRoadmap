@@ -46,6 +46,40 @@ Definition 8.1.1, p. 156). -/
 theorem spectralSpace_iff_isLocallySpectralSpace (X : Type u) [TopologicalSpace X] :
     SpectralSpace X ↔ IsLocallySpectralSpace X ∧ CompactSpace X ∧ QuasiSeparatedSpace X := sorry
 
+/-- A map is *locally spectral* if it is continuous and, whenever open subspaces `U ⊆ X` and
+`V ⊆ Y` are spectral and `f(U) ⊆ V`, the restriction `U → V` is a spectral map (ECD Definition 2.1,
+p. 10, where this is the notion of a spectral map of locally spectral spaces). Unlike Mathlib's
+global `IsSpectralMap`, it does not ask that preimages of quasicompact opens of `Y` be
+quasicompact. -/
+def IsLocallySpectralMap {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y] (f : X → Y) :
+    Prop :=
+  Continuous f ∧ ∀ (U : Set X) (V : Set Y) (hUV : Set.MapsTo f U V), IsOpen U → IsOpen V →
+    SpectralSpace U → SpectralSpace V → IsSpectralMap (Set.MapsTo.restrict f U V hUV)
+
+/-- Between spectral spaces the local condition is Mathlib's global `IsSpectralMap` (ECD
+Definition 2.1, p. 10). -/
+theorem isLocallySpectralMap_iff_isSpectralMap {X Y : Type u} [TopologicalSpace X]
+    [TopologicalSpace Y] [SpectralSpace X] [SpectralSpace Y] {f : X → Y} :
+    IsLocallySpectralMap f ↔ IsSpectralMap f := sorry
+
+-- Negative control: the agreement needs a spectral source. The inclusion of discrete `ℕ` into its
+-- one-point compactification is locally spectral (the spectral opens of `ℕ` are finite) but not
+-- `IsSpectralMap`, since the preimage of the whole space is `ℕ`.
+example : IsLocallySpectralMap ((↑) : ℕ → OnePoint ℕ) ∧ ¬ IsSpectralMap ((↑) : ℕ → OnePoint ℕ) :=
+  sorry
+
+-- Check: the projection `ℕ × ℕ → ℕ` of discrete spaces is locally spectral and not
+-- `IsSpectralMap`, since the preimage of `{0}` is infinite.
+example : IsLocallySpectralMap (Prod.fst : ℕ × ℕ → ℕ) ∧ ¬ IsSpectralMap (Prod.fst : ℕ × ℕ → ℕ) :=
+  sorry
+
+-- Negative control: `x ↦ (x ≠ ∞)` from the one-point compactification of `ℕ` to the Sierpiński
+-- space is continuous between spectral spaces but not locally spectral, as the preimage of the
+-- quasicompact open `{True}` is `ℕ`. It is the composite of `n ↦ 1/(n+1)`, `∞ ↦ 0` with positivity
+-- `ℝ → Prop`, both locally spectral because `ℝ` has no nonempty spectral open.
+example : Continuous (fun x : OnePoint ℕ ↦ x ≠ OnePoint.infty) ∧
+    ¬ IsLocallySpectralMap (fun x : OnePoint ℕ ↦ x ≠ OnePoint.infty) := sorry
+
 /-- The constructible topology of a spectral space is Hausdorff and totally disconnected (ECD §2,
 paragraph after Theorem 2.2, p. 10); with Mathlib's `compactSpace_withConstructibleTopology` it is
 profinite. -/

@@ -2,13 +2,14 @@
 
 **Summary.** Diamonds let perfectoid covers be used to study spaces that are not themselves
 perfectoid. This roadmap builds their foundations on Tau Ceti's perfectoid spaces: the spectral
-topology, pro-categories, coherent topoi, size bounds and general-site stacks (D0); the totally and
-strictly totally disconnected perfectoid spaces, w-localisation and the universally open strictly
-totally disconnected cover (D1); the pro-étale and v-topologies with descent and acyclicity of `O`
-and `O⁺` (D2); effective descent and the classes of morphisms of v-stacks (D3); diamonds, small
-v-sheaves and small v-stacks with their underlying spaces (D4); spatial diamonds, limits,
-presentations, relative representability and the Berkovich (maximal Hausdorff) quotient (D5); and
-the diamondification `Y ↦ Y^◇` of analytic and integral pre-adic spaces (D6). The end results are
+topology, pro-categories, coherent topoi, size bounds and the v-site forms of stacks and site
+cohomology (D0); the totally and strictly totally disconnected perfectoid spaces, w-localisation and
+the universally open strictly totally disconnected cover (D1); the pro-étale and v-topologies with
+descent and acyclicity of `O` and `O⁺` (D2); effective descent and the classes of morphisms of
+v-stacks (D3); diamonds, small v-sheaves and small v-stacks with their underlying spaces and proper
+maps (D4); spatial v-sheaves and diamonds, limits, presentations, relative representability and the
+Berkovich (maximal Hausdorff) quotient (D5); and the diamondification `Y ↦ Y^◇` of analytic and
+integral pre-adic spaces (D6). The end results are
 the étale-site identification `Y_ét ≃ Y^◇_ét` for an analytic adic space `Y` over `Spa ℤ_p` ([ECD]
 Theorem 1.5), the descent theorem `H⁰_v(X, O) = R`, `H^{>0}_v(X, O) = 0` on affinoid perfectoid
 `X = Spa(R, R⁺)` with the subcanonicity of the v-site ([ECD] Theorem 1.2), and full faithfulness of
@@ -17,48 +18,71 @@ diamonds and the six operations.
 
 | Layer | Construction | Principal outputs |
 | --- | --- | --- |
-| D0 | Spectral topology, size bounds, coherent topoi, stacks | quotient and limit criteria, Hochster, pro-categories, cutoff cardinals, stackification |
+| D0 | Spectral topology, size bounds, coherent topoi, stacks | quotient and limit criteria, locally spectral maps, Hochster, pro-categories, cutoff cardinals, v-site stacks |
 | D1 | Disconnected perfectoid spaces | Fargues' criterion, affinoidness, automatic flatness, w-localisation, the universally open cover |
 | D2 | Pro-étale and v-topologies | v-descent of `O`, subcanonicity, acyclicity, vector bundles |
 | D3 | Effective descent and morphisms of stacks | descent of affinoid, pro-étale and étale objects; étale, quasi-pro-étale, separated maps; torsors |
-| D4 | Diamonds and small v-stacks | quotients, atlases, underlying spaces, geometric-point criteria |
-| D5 | Spatial geometry | permanence, limits, presentations, representability, Berkovich quotient |
-| D6 | Diamondification | `Spd`, the diamond of an analytic adic space, étale sites, integral and rigid comparisons |
+| D4 | Diamonds and small v-stacks | quotients, atlases, underlying spaces, geometric-point criteria, proper maps |
+| D5 | Spatial geometry | spatial v-sheaves, permanence, limits, presentations, representability, Berkovich quotient |
+| D6 | Diamondification | `Spd`, the diamond of an analytic adic space, étale sites, integral smallness and comparisons |
 
 ## Scope and ownership
 
-This roadmap owns, beyond the targets listed layer by layer: locally spectral spaces and the
-spectral calculus not already in Mathlib or Tau Ceti; pro-categories as `(Ind Cᵒᵖ)ᵒᵖ` with spectral
-spaces as pro-objects of finite `T₀` spaces; the qcqs vocabulary and cohomology of algebraic topoi;
-general-site stackification, 2-fibre products and quotient stacks; the pro-étale and v-sites on
-perfectoid spaces; diamonds, spatiality and diamondification. PerfectoidSpaces (imported) owns
-perfectoid Tate rings and spaces (`Perfd`, `Perf` as full subcategories of Tau Ceti's
-`PreAdicSpace`), tilting and untilts (P1–P2), almost purity (P3), immersions and separatedness (P4),
-finite-stage étale descent (P5), `κ`-small spaces, pro-étale morphisms, products with profinite sets
-and bounded pro-objects (P6); its P7.11 uses the same compact-open covering condition as the
-v-precoverage defined here. AdicEtaleGeometry supplies the étale geometry of analytic adic spaces
-(A1) and the perfectoid torsor presentation of a Tate pair (A4); AdicSpacesPartII the Tate norm and
-fixed-field rigid spaces (R0–R1); AdicSpacesPartIII formal schemes and specialisation (F0, R2) and
-the Gel'fand spectrum (R3); PerfectoidTowers the descent of modules and of functions along a
-pro-étale tower over a seminormal base (P9). Scheme-theoretic stacks and the Čech, Leray and
-flasque-vanishing statements on general sites are cited from the Stacks Project; the general
-canonical compactification, derived left completion and integral smallness belong to the étale
-cohomology of diamonds, not here.
+This roadmap owns, beyond the targets listed layer by layer: locally spectral spaces, locally
+spectral maps and the spectral calculus not already in Mathlib or Tau Ceti; pro-categories as
+`(Ind Cᵒᵖ)ᵒᵖ` with spectral spaces as pro-objects of finite `T₀` spaces; the qcqs vocabulary of
+algebraic topoi and the cohomology of their limits; the pro-étale and v-sites on perfectoid spaces
+with v-descent; the morphism classes of v-stacks, including separatedness by a closed-immersion
+diagonal and properness (D3.8, D4.11), and the representability of locally profinite torsors;
+diamonds, spatiality and diamondification, including the smallness of `X^◇` for pre-adic `X`
+(D6.6).
+
+SchemeAndStackFoundations owns the generic site constructions, implemented once on an arbitrary
+site `(C, J)` from Mathlib's `Pseudofunctor.IsStack`, `CategoricalPullback` and `Sheaf.H`, with its
+fppf stacks of schemes and the v-stacks here as two specialisations: stackification, the 2-Yoneda
+lemma and 2-fibre products (§1.18), quotient stacks of groupoids (§1.21), higher direct images and
+the Leray and Čech spectral sequences (§§2.1–2.2), sheaf torsors and their classes `NonabelianH1`
+(§2.3, with geometric torsors in §1.15), and flasque vanishing and filtered-colimit cohomology on
+coherent sites (§2.5). D0.18–D0.19, D0.25–D0.26 and D3.10 are their v-site specialisations and
+state the comparison with the generic carrier; this roadmap builds no second stackification,
+torsor-class or spectral-sequence construction. Separated algebraic stacks there have proper
+diagonal (§1.20), a different condition from the closed-immersion diagonal of D3.8.
+
+PerfectoidSpaces (imported) owns perfectoid Tate rings and spaces (`Perfd`, `Perf` as full
+subcategories of Tau Ceti's `PreAdicSpace`), tilting and untilts (P1–P2), almost purity and étale
+descent of vector bundles (P3, P3.19), immersions and separatedness (P4), finite-stage étale descent
+and cardinal bounds of limits (P5), `κ`-small spaces, pro-étale morphisms, products with profinite
+sets and bounded pro-objects (P6); its P7.11 uses the same compact-open covering condition as the
+v-precoverage defined here. AdicEtaleGeometry supplies the étale and pro-étale geometry of analytic
+adic spaces (A1, with the pro-étale site in A1.12) and the perfectoid torsor presentation of a Tate
+pair (A4); AdicSpacesPartII the Tate norm and fixed-field rigid spaces (R0–R1); AdicSpacesPartIII
+formal schemes and specialisation (F0, R2) and the Gel'fand spectrum (R3). PerfectoidTowers (P8–P9)
+consumes this roadmap and supplies it only P9.1, the basis of affinoid perfectoid objects of the
+pro-étale site of a rigid space, which uses no subsection of this roadmap; its tower descent of
+vector bundles (P9.8) and of functions over a seminormal base (P9.12) applies D2.9 and D6.9 and is
+not an input of any target here. The general canonical compactification and derived left completion
+belong to the étale cohomology of diamonds, not here.
 
 ## Conventions
 
 Fix a prime `p`. `Perfd` is the category of perfectoid spaces and `Perf` its characteristic-`p`
 subcategory; D1–D3 work in `Perfd`, D4–D6 in `Perf`. Perfectoid spaces have sheaf structure
-presheaves: sheafiness is part of PerfectoidSpaces' `isPerfectoidSpace`.
-`|X|` is the underlying space; `x ⤳ y` means `y` is a specialisation of `x`; a generalising subset
-contains all generalisations of its points. "qc", "qs", "qcqs" abbreviate quasicompact and
-quasiseparated. For stacks, quasiseparated maps have qc and qs diagonal, and object quasicompactness
-is distinct from quasicompactness of `X → *`. Étale and quasi-pro-étale maps of stacks include local
-separatedness ([ECD] Convention 10.2). Fibre products of stacks are 2-fibre products. A marked
-untilt `(X♯, ι)` includes `ι : X♯♭ ≅ X`. Size is controlled by cutoff cardinals inside fixed
-universes; "small v-sheaf" means [ECD] Definition 12.1. Cohomology is Mathlib's Ext-based `Sheaf.H`;
-almost vanishing of `O⁺` is never upgraded to vanishing. Each target gives its hypotheses and source
-locator, its discriminating Checks, and the Lean declarations carrying it, if any.
+presheaves: sheafiness is part of PerfectoidSpaces' `isPerfectoidSpace`. `|X|` is the underlying
+space; `x ⤳ y` means `y` is a specialisation of `x`; a generalising subset contains all
+generalisations of its points. "qc", "qs", "qcqs" abbreviate quasicompact and quasiseparated. For
+stacks, quasiseparated maps have qc and qs diagonal, and object quasicompactness is distinct from
+quasicompactness of `X → *`. Étale and quasi-pro-étale maps of stacks include local separatedness
+([ECD] Convention 10.2). Fibre products of stacks are 2-fibre products. A marked untilt `(X♯, ι)`
+includes `ι : X♯♭ ≅ X`. Size is controlled by cutoff cardinals inside fixed universes; "small
+v-sheaf" means [ECD] Definition 12.1, and a v-sheaf is `κ`-small if it receives a surjection from a
+perfectoid space that is `κ`-small in the sense of PerfectoidSpaces `IsKappaSmall`. A continuous map
+of locally spectral spaces is compared through the local condition `IsLocallySpectralMap` of D0.1;
+`IsSpectralMap` always means Mathlib's global condition. Separated maps of v-stacks have
+closed-immersion diagonal (D3.8) and proper maps are qc, separated and universally closed (D4.11);
+neither is the algebraic-stack notion of SchemeAndStackFoundations §1.20. Cohomology is Mathlib's
+Ext-based `Sheaf.H`; almost vanishing of `O⁺` is never upgraded to vanishing. Each target gives its
+hypotheses and source locator, its discriminating Checks, and the Lean declarations carrying it, if
+any.
 
 ## Exact supplier contracts
 
@@ -67,9 +91,9 @@ locator, its discriminating Checks, and the Lean declarations carrying it, if an
 | Spectral spaces and maps | Mathlib `SpectralSpace`, `IsSpectralMap`, `QuasiSeparatedSpace`, `PrespectralSpace`, `GeneralizingMap` | D0–D1 |
 | Constructible topology | Mathlib `constructibleTopology`, `WithConstructibleTopology`, `compactSpace_withConstructibleTopology` | D0 |
 | Pro-constructible sets | Tau Ceti `IsProConstructible`, `IsProConstructible.spectralSpace`, `IsProConstructible.isCompact`, `IsSpectralMap.continuous_constructibleTopology` | D0–D1 |
-| Quotients and components | Mathlib `IsQuotientMap`, `Continuous.isClosedMap`, `Quotient.compactSpace`, `ConnectedComponents.totallyDisconnectedSpace`, `T2Quotient`, `MulAction.orbitRel` | D0, D5 |
+| Quotients and components | Mathlib `IsQuotientMap`, `Topology.IsQuotientMap.of_surjective_continuous`, `Continuous.isClosedMap`, `Quotient.compactSpace`, `ConnectedComponents.totallyDisconnectedSpace`, `T2Quotient`, `MulAction.orbitRel` | D0, D5 |
 | Spectra, pro-objects, presentations | Mathlib `PrimeSpectrum`, `Ind`, `IsCofiltered.cofilteredClosure`, `CompHaus.projectivePresentation`, `Filter.Product` | D0 |
-| Size | Mathlib `Cardinal.IsStrongLimit`, `Cardinal.beth`; PerfectoidSpaces `completion_cardinality_bound`, `IsKappaSmall`, `HasKappaSmallPresentation`, `ProKappa` | D0–D2 |
+| Size | Mathlib `Cardinal.IsStrongLimit`, `Cardinal.beth`; PerfectoidSpaces `completion_cardinality_bound`, `IsKappaSmall`, `IsUniformlyKappaSmall`, `HasKappaSmallPresentation`, `ProKappa` | D0–D2, D5–D6 |
 | Sites and cohomology | Mathlib `Precoverage.toGrothendieck`, `GrothendieckTopology.Subcanonical`, `Presheaf.IsSheaf`, `Sheaf.H`, `constantSheaf`, `TopCat.Presheaf.IsFlasque`; Tau Ceti `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` | D0, D2 |
 | Stacks and representability | Mathlib `Pseudofunctor.DescentData`, `Pseudofunctor.IsStack`, `CategoricalPullback`, `Functor.IsRepresentable`, `MorphismProperty.presheaf` | D0, D3–D5 |
 | Covers and continuous maps | Mathlib `IsCompactOpenCovered`, `AlgebraicGeometry.QuasiCompactCover`, `ContinuousMap.yonedaPresheaf`, `equalizerCondition_yonedaPresheaf` | D2–D3 |
@@ -81,10 +105,11 @@ locator, its discriminating Checks, and the Lean declarations carrying it, if an
 ## How to read the build
 
 D0 is topology, category theory and ordinary sheaf theory and has four independent strands (spectral
-spaces; quotients and limits; topoi and cohomology; size and stacks). D1 builds the disconnected
-covers on which every descent argument of D2–D3 runs; D4 defines diamonds and their spaces; D5
-develops spatial geometry; D6 attaches diamonds to adic spaces. Within a layer the order is
-thematic. The Lean file carries the targets that can be stated against Mathlib, Tau Ceti and
+spaces; quotients and limits; topoi and cohomology; size and stacks); its cohomology and stack
+statements are specialisations of SchemeAndStackFoundations' generic ones. D1 builds the
+disconnected covers on which every descent argument of D2–D3 runs; D4 defines diamonds and their
+spaces; D5 develops spatial geometry; D6 attaches diamonds to adic spaces. Within a layer the order
+is thematic. The Lean file carries the targets that can be stated against Mathlib, Tau Ceti and
 PerfectoidSpaces as they stand; the others depend on carriers (pro-étale morphisms, stacks,
 diamonds, untilts) that are formalisation targets in their own right and are stated here only.
 
@@ -94,22 +119,31 @@ Foundations on existing library carriers: spectral and locally spectral spaces, 
 limits, pro-categories, coherent topoi and their cohomology, cutoff cardinals, and stacks on a
 general site.
 
-### D0.1 Locally spectral spaces and spectral maps
+### D0.1 Locally spectral spaces and locally spectral maps
 
 **Locally spectral spaces.** A space is locally spectral if it has an open cover by spectral
-subspaces; a continuous map `f : X → Y` of locally spectral spaces is spectral if for every spectral
-open `U ⊆ X` mapping into a spectral open `V ⊆ Y` the restriction `U → V` is spectral, all pairs
-`(U, V)` being tested ([ECD] Definition 2.1, p. 10). Prove: a space is spectral iff it is locally
-spectral and qcqs ([KL15] Definition 8.1.1, p. 156); locally spectral spaces have a basis of qc
-opens and are sober; open subspaces are locally spectral; the map condition may be tested on one
-cover, agrees with `IsSpectralMap` between spectral spaces, and is stable under composition. An open
-`U` of a spectral space has spectral inclusion exactly when it is qc. Checks: `Spa(A, A⁺)` with a
-pair of definition is spectral; discrete `ℕ` is locally spectral and not qc, so not spectral; `ℝ` is
-not locally spectral; `ℕ × ℕ → ℕ` is locally spectral but not spectral; the map from the one-point
-compactification of `ℕ` to `ℝ` (`n ↦ 1/(n+1)`, `∞ ↦ 0`) and positivity `ℝ → Prop` both satisfy the
-relative condition, as `ℝ` has no nonempty spectral open, while their composite does not, so
-composition needs a locally spectral middle space. Lean: `IsLocallySpectralSpace`,
-`spectralSpace_iff_isLocallySpectralSpace`.
+subspaces ([ECD] Definition 2.1, p. 10). Prove: a space is spectral iff it is locally spectral and
+qcqs ([KL15] Definition 8.1.1, p. 156); locally spectral spaces have a basis of qc opens and are
+sober; open subspaces are locally spectral. Checks: `Spa(A, A⁺)` with a pair of definition is
+spectral; discrete `ℕ` is locally spectral and not qc, so not spectral; `ℝ` is not locally spectral.
+Lean: `IsLocallySpectralSpace`, `spectralSpace_iff_isLocallySpectralSpace`.
+
+**Locally spectral maps.** A continuous `f : X → Y` is locally spectral if for every pair of
+spectral opens `U ⊆ X`, `V ⊆ Y` with `f(U) ⊆ V` the restriction `U → V` is spectral, all pairs
+`(U, V)` being tested; this is what [ECD] Definition 2.1, p. 10, calls a spectral map of locally
+spectral spaces. It is a local condition and differs from Mathlib's global `IsSpectralMap`
+(preimages of qc opens are qc), which is kept unchanged. Prove: the two agree when `X` and `Y` are
+spectral; between locally spectral spaces the local condition may be tested on one cover and is
+stable under composition. The inclusion of an open `U` of a spectral space is always locally
+spectral, and satisfies `IsSpectralMap` exactly when `U` is qc. Checks: the inclusion of discrete
+`ℕ` into its one-point compactification is locally spectral (the spectral opens of `ℕ` are finite)
+and not `IsSpectralMap` (the preimage of the whole space is `ℕ`), so the agreement needs a spectral
+source even over a spectral target; the projection `ℕ × ℕ → ℕ` of discrete spaces is locally
+spectral and not `IsSpectralMap` (the preimage of `{0}` is infinite); the map from the one-point
+compactification of `ℕ` to `ℝ` (`n ↦ 1/(n+1)`, `∞ ↦ 0`) and positivity `ℝ → Prop` are both locally
+spectral, vacuously, as `ℝ` has no nonempty spectral open, while their composite `x ↦ (x ≠ ∞)` is a
+continuous map of spectral spaces that is not locally spectral, so composition needs a locally
+spectral middle space. Lean: `IsLocallySpectralMap`, `isLocallySpectralMap_iff_isSpectralMap`.
 
 ### D0.2 The constructible topology is profinite
 
@@ -163,10 +197,11 @@ has two clopens while its constructible topology has four. Lean: `t2Space_connec
 ### D0.7 Generalising surjections are quotient maps
 
 **Quotient criterion.** A surjective generalising spectral map of spectral spaces is a quotient map
-([ECD] Lemma 2.5, p. 11); a continuous surjection from a qc space onto a compact Hausdorff space is
-one too ([ECD] Lemma 2.6, Mathlib `Continuous.isClosedMap`). Check: the identity `X_cons → X` of the
-Sierpiński space is a bijective spectral map that is neither generalising nor a quotient map. Lean:
-`isQuotientMap_of_generalizingMap`.
+([ECD] Lemma 2.5, p. 11). The companion statement, that a continuous surjection from a qc space onto
+a compact Hausdorff space is a quotient map ([ECD] Lemma 2.6), is reused from Mathlib as
+`Topology.IsQuotientMap.of_surjective_continuous` (compact source, Hausdorff target) and is not
+restated. Check: the identity `X_cons → X` of the Sierpiński space is a bijective spectral map that
+is neither generalising nor a quotient map. Lean: `isQuotientMap_of_generalizingMap`.
 
 ### D0.8 Quotients by pro-constructible equivalence relations
 
@@ -184,9 +219,10 @@ map has non-qc preimage of the point.
 **Spectral quotient criterion.** For `X` spectral and `R` pro-constructible with generalising
 projections, if `X/R` has a basis of opens with qc preimages, then `X/R` is spectral and `q` is
 spectral and generalising ([ECD] Lemma 2.9, pp. 12–13). In the situation of D0.8 with `R → X` open,
-`X/R` is locally spectral and quasiseparated and `q` is open, spectral and qcqs ([ECD] Lemma 2.10,
-p. 13). Check: for `X` the Stone–Čech compactification of discrete `[0, 1]` and `R = X ×_{[0,1]} X`,
-the quotient `[0, 1]` is not spectral ([ECD] Remark 2.8). Lean: `spectralSpace_quotient`.
+`X/R` is locally spectral and quasiseparated and `q` is open, qcqs and locally spectral in the sense
+of D0.1, hence, being qc, also `IsSpectralMap` ([ECD] Lemma 2.10, p. 13). Check: for `X` the
+Stone–Čech compactification of discrete `[0, 1]` and `R = X ×_{[0,1]} X`, the quotient `[0, 1]` is
+not spectral ([ECD] Remark 2.8). Lean: `spectralSpace_quotient`.
 
 ### D0.10 Cofiltered limits of spectral spaces
 
@@ -266,23 +302,32 @@ terminal v-sheaf on `Perfd` is not qs (D2.4).
 
 ### D0.18 Filtered colimits and cohomology on algebraic topoi
 
-**Cohomology commutes with filtered colimits.** For a qcqs object `X` of an algebraic topos and a
-filtered system of abelian sheaves, `colim_j Hⁱ(X, F_j) → Hⁱ(X, colim_j F_j)` is an isomorphism for
-all `i`, sections commute with filtered colimits for sheaves of sets, and for sheaves of groups so
-do `H⁰` and the torsor classes `H¹` defined through stackification of the classifying prestack
-([ECD] proof of Proposition 8.2, pp. 39–40; [SGA 4 VI] Corollary 5.2, Lemma 5.4). Check: on discrete
-`ℕ` with `F_j = ℤ` on `{0, …, j}`, the degree-zero map is `⊕ ℤ → ∏ ℤ`, not surjective, so
-quasicompactness is needed; `H¹` of the constant `ℤ/2` on the circle has two torsor classes.
+**Cohomology commutes with filtered colimits.** This is the algebraic-topos case of
+SchemeAndStackFoundations §2.5, which owns the theorem that cohomology on a coherent site commutes
+with filtered colimits; nothing is reproved here. Comparison: an algebraic topos (D0.17) is the
+topos of sheaves on the site of its generating qcqs objects with finite covering families, a
+coherent site in the sense of §2.5, so for a qcqs object `X` and a filtered system of abelian
+sheaves the map `colim_j Hⁱ(X, F_j) → Hⁱ(X, colim_j F_j)` is §2.5's isomorphism for all `i`. In the
+same setting sections of sheaves of sets commute with filtered colimits, and for sheaves of groups
+so do `H⁰` and the torsor classes, taken in §2.3's `NonabelianH1` ([ECD] proof of Proposition 8.2,
+pp. 39–40; [SGA 4 VI] Corollary 5.2, Lemma 5.4). Check: on discrete `ℕ` with `F_j = ℤ` on
+`{0, …, j}`, the degree-zero map is `⊕ ℤ → ∏ ℤ`, not surjective, so quasicompactness is needed; `H¹`
+of the constant `ℤ/2` on the circle has two torsor classes.
 
 ### D0.19 Čech-to-derived, Leray and acyclic bases
 
 **Spectral sequences.** The Čech-to-derived spectral sequence of a cover, the Leray spectral
-sequence `H^a(X, R^b f_* F) ⇒ H^{a+b}(Y, F)` of a morphism of topoi `f : Y → X` (the direct image
-preserving injectives because the inverse image is exact), and the comparison of Čech and sheaf
-cohomology on a fibre-product-stable basis of acyclic objects that refines all covers are used on
-the sites of D2 with the hypotheses of [ECD] Proposition 8.5(iii) and the proof of Proposition 8.8,
-pp. 41–43 ([Stacks] Tags 03AV, 0732, 0734). Check: on an algebraic topos the affinoid basis
-satisfies the refinement and fibre-product hypotheses.
+sequence `H^a(X, R^b f_* F) ⇒ H^{a+b}(Y, F)` of a morphism `f : Y → X` and the comparison of Čech
+and sheaf cohomology on a fibre-product-stable basis of acyclic objects that refines all covers are
+SchemeAndStackFoundations §§2.1–2.2 on a general site, consumed here. Comparison: the maps used in
+D2 (`ν : X_proét → X_ét`, the passage from the v-site to the pro-étale site, change of cutoff) are
+morphisms of sites with exact inverse image, so §2.1's higher direct images and §2.2's spectral
+sequences apply to them without change. Owned here is only the verification of the basis hypotheses
+on the algebraic topoi of D2.4: affinoid perfectoid spaces form a fibre-product-stable basis that
+refines every cover, acyclic for `O` and almost acyclic for `O⁺` by D2.5 and D2.8, as used in [ECD]
+Proposition 8.5(iii) and the proof of Proposition 8.8, pp. 41–43 ([Stacks] Tags 03AV, 0732, 0734).
+Check: on an algebraic topos the affinoid basis satisfies the refinement and fibre-product
+hypotheses.
 
 ### D0.20 Flasque constant sheaves
 
@@ -328,23 +373,30 @@ the rest is cardinal arithmetic. Checks: `ℚ` completes to `ℝ` of size `2^{�
 
 ### D0.25 Stackification
 
-**General-site stackification.** For a site `(C, J)` and a pseudofunctor `F : Cᵒᵖ → Cat`, construct
-a stack (Mathlib `Pseudofunctor.IsStack`) with a map from `F` such that composition gives an
-equivalence of categories of maps (strong transformations and modifications) into any stack; a stack
-is its own stackification and a discrete prestack stackifies to the sheafification ([Stacks] Tags
-02ZM, 02ZP). For the trivial-torsor prestack of a group sheaf the result is the stack of torsors,
-whose isomorphism classes form `H¹`, a presheaf whose sheafification is terminal. Checks: the
-discrete two-point prestack keeps two classes; the classifying prestack of a nontrivial `G` keeps
-`G` as automorphisms.
+**Stackification on the v-site.** Stackification of a prestack on a site `(C, J)`, with its
+universal property (composition with the unit is an equivalence of categories of maps, strong
+transformations and modifications, into any stack in Mathlib's `Pseudofunctor.IsStack` sense) and
+the 2-Yoneda lemma, is SchemeAndStackFoundations §1.18, implemented once for an arbitrary site; this
+subsection is its specialisation to `(Perfd, v)` and `(Perf, v)` (D2.2) and constructs nothing new.
+Comparison statements: a v-stack is a `Pseudofunctor.IsStack` for `vTopology`, and §1.18's
+stackification on that site is the v-stackification used in D3–D6; a stack is its own
+stackification and a discrete prestack stackifies to the v-sheafification ([Stacks] Tags 02ZM,
+02ZP); for a v-sheaf of groups the stackification of the trivial-torsor prestack is the stack of
+torsors, whose isomorphism classes are §2.3's `NonabelianH1` for the v-site, a presheaf in the base
+whose sheafification is terminal. Checks: the discrete two-point prestack keeps two classes; the
+classifying prestack of a nontrivial `G` keeps `G` as automorphisms.
 
 ### D0.26 2-fibre products and quotient stacks
 
-**Fibre products and quotients.** Maps of stacks `G₁ → G₃ ← G₂` have a 2-fibre product of triples
-`(a, b, φ)` built from Mathlib's `CategoricalPullback`, again a stack, with the 2-universal
-property. For a groupoid object `(X, R)` in sheaves, the quotient `[X/R]` is the stackification of
-the objectwise groupoid; `R ≃ X ×_{[X/R]} X`, its sheaf of isomorphism classes is the sheafification
-of `X/R`, it is a sheaf iff stabilisers are trivial, and maps `[X/R] → G` are descent data ([Stacks]
-Tags 02ZL, 044O, 04M9, 04Y1; [ECD] Proposition 11.3(ii)–(iii), p. 54). Checks: the strict pullback
+**Fibre products and quotients on the v-site.** The 2-fibre product of maps of stacks
+`G₁ → G₃ ← G₂`, whose objects are triples `(a, b, φ)` built from Mathlib's `CategoricalPullback`,
+with its 2-universal property, is SchemeAndStackFoundations §1.18, and the quotient stack `[X/R]` of
+a groupoid, the stackification of the objectwise groupoid, is its §1.21; both are consumed here on
+the v-site and not rebuilt. Comparison statements: for a groupoid object `(X, R)` in v-sheaves,
+`[X/R]` is §1.21's quotient for `(Perf, v)`, with `R ≃ X ×_{[X/R]} X`; its sheaf of isomorphism
+classes is the v-sheafification of `X/R`, it is a sheaf iff stabilisers are trivial, and maps
+`[X/R] → G` to a v-stack are descent data ([Stacks] Tags 02ZL, 044O, 04M9, 04Y1; [ECD] Proposition
+11.3(ii)–(iii), p. 54). Checks: the strict pullback
 differs for two points of a groupoid with a nontrivial automorphism; a free discrete action gives
 the sheaf quotient; `BG` is not a sheaf; the trivial groupoid gives `X`; the pair groupoid gives the
 image of `X → *`.
@@ -354,14 +406,17 @@ image of `X → *`.
 The Lean examples compute the Sierpiński space `Prop` (open point `True`): its constructible
 topology is discrete, `True ⤳ False`, its inverse topology makes `False` open, it is `Spec ℤ_p` and
 no finite ring's spectrum; discrete `ℕ` is locally spectral and not spectral and has non-sober
-inverse topology; `ℝ` is not locally spectral; `ℤ_p/ℤ` is not Hausdorff; `ℵ₀` and `ℶ_ω` are not
-cutoffs.
+inverse topology; `ℝ` is not locally spectral; the inclusion `ℕ → OnePoint ℕ` and the projection
+`ℕ × ℕ → ℕ` are locally spectral and not `IsSpectralMap`, while `x ↦ (x ≠ ∞)` on `OnePoint ℕ` is
+continuous and not locally spectral; `ℤ_p/ℤ` is not Hausdorff; `ℵ₀` and `ℶ_ω` are not cutoffs.
 
 ### Dependencies
 
-Mathlib and Tau Ceti as in the supplier table; [Stacks] and [SGA 4 VI] for the cohomological and
-stack statements. Within the layer, D0.2 feeds D0.3–D0.6; D0.7 feeds D0.8–D0.10; D0.13 feeds D0.15;
-D0.17 feeds D0.18 and D0.21; D0.25 feeds D0.26.
+Mathlib and Tau Ceti as in the supplier table; SchemeAndStackFoundations §§1.18, 1.21 (D0.25–D0.26),
+§§2.1–2.2 (D0.19), §§2.3, 2.5 (D0.18, D0.25); [SGA 4 VI] for the qcqs vocabulary and limits of
+coherent topoi. Within the layer, D0.2 feeds D0.3–D0.6; D0.7 feeds D0.8–D0.10; D0.13 feeds D0.15;
+D0.17 feeds D0.18 and D0.21; D0.25 feeds D0.26. D0.25–D0.26 are stated on the sites of D2.1–D2.2,
+which do not use them.
 
 ## Layer D1: disconnected perfectoid spaces
 
@@ -475,7 +530,8 @@ profinite; `⊔_ℕ X` is pro-étale and not qc; the empty source.
 when `S → T ×_{π₀ T} π₀ S` is a pro-constructible generalising embedding, and pro-étale when this
 holds on a spectral open cover of a locally spectral `S`; for `X` strictly totally disconnected,
 `Y ↦ |Y|` gives equivalences of affinoid pro-étale (respectively pro-étale) perfectoid spaces over
-`X` with affinoid pro-étale spectral (respectively pro-étale locally spectral) maps to `|X|`,
+`X` with affinoid pro-étale spectral maps of spectral spaces (respectively pro-étale maps from
+locally spectral spaces, locally spectral in the sense of D0.1) to `|X|`,
 preserving `κ`-smallness ([ECD] Definition 7.20, Remark 7.21, Corollary 7.22, p. 38). Checks: the
 identity; over a point the affinoid objects are the profinite sets; over the Sierpiński chain the
 open point qualifies and the closed point does not; discrete `ℕ` over a point is pro-étale and not
@@ -572,10 +628,16 @@ vanishes exactly although `L° ⊗_{K°} L° ⊊ (L°)^ℓ`; the open disc is no
 
 **Vector bundles.** For a perfectoid `X`, finite locally free modules on the analytic, étale, small
 and big pro-étale and v-sites are equivalent by pullback, and on `Spa(R, R⁺)` they are the finite
-projective `R`-modules; for a rigid space the pro-étale and v versions agree ([KL16] Theorem 3.5.8,
-p. 76; [Heuer] §2.1, pp. 5–6), the tower step being PerfectoidTowers P9. Checks: rank zero and
-`X = ∅`; `Hom(Oᵐ, Oⁿ) = M_{n×m}(R)` on both sides; faithfully flat module descent does not apply to
-v-covers.
+projective `R`-modules ([KL16] Theorem 3.5.8, p. 76; [Berkeley] Lemma 17.1.8, pp. 150–151). The
+analytic and étale step, that finite projective `R`-modules are the finite locally free
+`O_{X_ét}`-modules, is PerfectoidSpaces P3.19 and is consumed here, not restated. Owned here are the
+pro-étale step, over the affinoid pro-étale presentations of PerfectoidSpaces P6.9–P6.10, and the
+v step, from v-descent and v-acyclicity of `O` (D2.7–D2.8). For a rigid space `X` over a complete
+extension of `ℚ_p`, the pro-étale and v versions agree ([Heuer] §2.1, pp. 5–6), using only that
+affinoid perfectoid objects form a basis of its pro-étale site (AdicEtaleGeometry A1.12,
+PerfectoidTowers P9.1). No descent along a Galois tower is used: PerfectoidTowers P9.8 is the
+specialisation of this comparison to a tower and is a consumer. Checks: rank zero and `X = ∅`;
+`Hom(Oᵐ, Oⁿ) = M_{n×m}(R)` on both sides; faithfully flat module descent does not apply to v-covers.
 
 ### Examples
 
@@ -585,8 +647,10 @@ presheaf takes global sections.
 
 ### Dependencies
 
-D0.7, D0.17–D0.19, D0.23; D1.6, D1.8; PerfectoidSpaces P0–P6; PerfectoidTowers P9; Mathlib
-`Precoverage`, `GrothendieckTopology.Subcanonical`, `IsCompactOpenCovered`, `PresheafedSpace.Γ`.
+D0.7, D0.17–D0.19, D0.23; D1.6, D1.8; PerfectoidSpaces P0–P6, in D2.9 specifically P3.19 and
+P6.9–P6.10; AdicEtaleGeometry A1.12 and PerfectoidTowers P9.1 (D2.9, rigid case only; P9.1 uses no
+subsection of this roadmap); Mathlib `Precoverage`, `GrothendieckTopology.Subcanonical`,
+`IsCompactOpenCovered`, `PresheafedSpace.Γ`.
 
 ## Layer D3: effective descent and morphisms of stacks
 
@@ -641,11 +705,29 @@ v-covers ([ECD] Corollary 9.11, p. 49). Checks: the identity; for `K⁺` of rank
 pullbacks to strictly totally disconnected perfectoid spaces are representable and pro-étale, étale
 if locally separated with representable étale pullbacks to all perfectoid spaces, finite étale if
 all pullbacks are representable finite étale ([ECD] Definition 10.1, Convention 10.2, pp. 49–50);
-the classes are stable under composition and base change, `f` inherits them from `g` and `f ≫ g`,
-and they agree with the perfectoid notions on representables ([ECD] Propositions 10.3–10.4, p. 50).
-Checks: pro-étale maps of perfectoid spaces are quasi-pro-étale; identities and `∅ → Y`; maps from a
-perfectoid space to a v-sheaf are locally separated; `B G̲ → *` for nontrivial profinite `G` is not
-locally separated.
+the classes are stable under composition and base change, and `f` inherits them from `g` and
+`f ≫ g` ([ECD] Proposition 10.4, p. 50). Checks: identities and `∅ → Y`; maps from a perfectoid
+space to a v-sheaf are locally separated; `B G̲ → *` for nontrivial profinite `G` is not locally
+separated.
+
+For a map `f : X' → X` of perfectoid spaces, viewed as a map of the represented v-sheaves, the three
+classes compare with the perfectoid notions in three different ways, stated as three targets.
+
+**Étale and finite étale on representables.** `f` is étale (respectively finite étale) as a map of
+perfectoid spaces iff the induced map of v-sheaves is étale (respectively finite étale) in the sense
+above, with no hypothesis on `X` ([ECD] Proposition 10.3, first sentence, p. 50).
+
+**Pro-étale implies quasi-pro-étale.** If `f` is pro-étale, the induced map of v-sheaves is
+quasi-pro-étale, for every perfectoid `X`: its pullbacks to strictly totally disconnected spaces are
+pro-étale by base change (PerfectoidSpaces P6.13) and it is locally separated ([ECD] paragraph
+before Proposition 10.3, p. 50). The converse is not asserted in this generality.
+
+**Quasi-pro-étale over a strictly totally disconnected target.** If `X` is strictly totally
+disconnected (D1.4), then `f` is pro-étale iff the induced map is quasi-pro-étale ([ECD] Proposition
+10.3, second sentence, p. 50). The hypothesis on `X` belongs to the statement, as in the
+pro-étale clause of D3.5. Checks: the identity of a strictly totally disconnected `X`; over
+`X = Spa(C, C⁺)`, `X × S → X` for profinite `S` is both; étale maps are pro-étale, hence
+quasi-pro-étale over any `X`.
 
 ### D3.7 Sub-v-sheaves of a totally disconnected space
 
@@ -662,9 +744,12 @@ immersions on totally disconnected ones; `f` is separated if its diagonal is a c
 0-truncated if `Y'(X) → Y(X)` is faithful for all `X` ([ECD] Definition 10.7, Remark 10.8, p. 51).
 Separated is equivalent to 0-truncated, qs and uniqueness of lifts along `Spa(K, O_K) → Spa(K, K⁺)`,
 with a variant for general perfectoid pairs ([ECD] Propositions 10.9–10.10, pp. 51–52); the classes
-compose and base change. Checks: open immersions of perfectoid spaces; some `X/φ^ℤ` is separated and
-not qs; `B G̲` for nontrivial `G` is not 0-truncated; the doubled disc fails the valuative
-criterion.
+compose and base change. This separatedness, by a closed-immersion diagonal, is not the
+separatedness of algebraic stacks in SchemeAndStackFoundations §1.20, which asks for a proper
+diagonal, and the two are not identified. Checks: open immersions of perfectoid spaces; some `X/φ^ℤ`
+is separated and not qs; `B G̲` for nontrivial `G` is not 0-truncated; for finite nontrivial `G` the
+diagonal of `B G̲ → *` is finite étale, so proper, yet not a closed immersion, so `B G̲ → *` is not
+separated here; the doubled disc fails the valuative criterion.
 
 ### D3.9 v-local nature of the morphism classes
 
@@ -677,13 +762,17 @@ v-covers induce quotient maps (D0.7).
 
 **Torsors.** For a space `T`, `T̲(X) = C(|X|, T)` is a v-sheaf ([ECD] §10, before Definition 10.12,
 p. 53). A `G̲`-torsor for locally profinite `G` is a map of v-stacks with a `G̲`-action that is
-v-locally `G̲ × X` ([ECD] Definition 10.12, p. 53); over a perfectoid space it is representable,
-pro-étale, universally open and a v-cover, its pushouts along `G/K` are separated étale, finite
-étale in finite index, and it is their limit ([ECD] Lemma 10.13, pp. 53–54). Checks: the split
-torsor; finite `G` gives Galois covers; over `Spa(C, O_C)` with profinite `G` a torsor is `X × S`;
-for infinite profinite `G` the torsor is not étale; `T̲` fails descent along a map whose underlying
-continuous bijection is not a quotient map, so the quotient property of v-covers (D0.7) is used.
-Lean: `isSheaf_yonedaPresheaf`.
+v-locally `G̲ × X` ([ECD] Definition 10.12, p. 53). The torsor notion and its classes are not
+constructed here: over a v-sheaf `Y`, a `G̲`-torsor is a torsor under the sheaf of groups `G̲` on
+the site `(Perf/Y, v)` in the sense of SchemeAndStackFoundations §2.3, so its isomorphism classes
+form §2.3's `NonabelianH1` of that site, and §1.15's fppf torsors over schemes are the other
+specialisation of the same notion. Owned here are the diamond-specific statements: over a perfectoid
+space a `G̲`-torsor is representable, pro-étale, universally open and a v-cover, its pushouts along
+`G/K` are separated étale, finite étale in finite index, and it is their limit ([ECD] Lemma 10.13,
+pp. 53–54). Checks: the split torsor; finite `G` gives Galois covers; over `Spa(C, O_C)` with
+profinite `G` a torsor is `X × S`; for infinite profinite `G` the torsor is not étale; `T̲` fails
+descent along a map whose underlying continuous bijection is not a quotient map, so the quotient
+property of v-covers (D0.7) is used. Lean: `isSheaf_yonedaPresheaf`.
 
 ### Examples
 
@@ -691,8 +780,9 @@ No Lean examples beyond the sheaf statement: the Checks need the perfectoid morp
 
 ### Dependencies
 
-D0.3, D0.7–D0.9, D0.25–D0.26; D1.1–D1.11; D2.1, D2.2, D2.7; PerfectoidSpaces P0–P6;
-AdicSpacesPartIII R2; Mathlib `ContinuousMap.yonedaPresheaf`, `Pseudofunctor.DescentData`.
+D0.3, D0.7–D0.9, D0.25–D0.26; D1.1–D1.11; D2.1, D2.2, D2.7; PerfectoidSpaces P0–P6, in D3.6
+specifically P6.13; SchemeAndStackFoundations §§1.15, 2.3 (D3.10); AdicSpacesPartIII R2; Mathlib
+`ContinuousMap.yonedaPresheaf`, `Pseudofunctor.DescentData`.
 
 ## Layer D4: diamonds and small v-stacks
 
@@ -776,28 +866,62 @@ is small and `|F/G̲| = |F|/G` ([GLX] Lemma 3.2, first assertion, pp. 16–17). 
 there, `π₀(F/G̲) = π₀(F)/G`, fails for `ℤ` acting on `ℤ_p̲ × Spa(C, O_C)` by translation; D5.16
 gives a corrected form.
 
+### D4.11 Proper maps of v-stacks
+
+**Properness.** A map `f : Y' → Y` of v-stacks is proper if it is qc, separated in the sense of D3.8
+(closed-immersion diagonal) and universally closed: for every small v-sheaf `X → Y` the map
+`|Y' ×_Y X| → |X|` of underlying spaces (D4.8) is closed, which may be tested on strictly totally
+disconnected perfectoid `X` ([ECD] Definition 18.1, p. 101). This is the convention used by D5.10
+and D6.7; it is not the properness of algebraic stacks in SchemeAndStackFoundations §1.20, and
+neither the six operations nor the canonical compactification is needed for it. Prove: closed
+immersions are proper; proper maps compose and base change; `f` is proper iff it is 0-truncated,
+qcqs, and every map `Spa(K, K⁺) → Y` with a lift of its restriction to `Spa(K, O_K)` has a unique
+lift ([ECD] Remark 18.2, Proposition 18.3, p. 101); for a profinite group `G` acting on a small
+v-sheaf `X`, the quotient map `X → X/G̲` is qc and universally closed ([Berkeley] proof of Lemma
+18.1.2, p. 162). Checks: identities and closed immersions are proper; for `K⁺` of rank two the open
+immersion `Spa(K, O_K) → Spa(K, K⁺)` is qc and separated but not proper, its image being the open
+point, which is not closed, and the identity of `Spa(K, K⁺)` has no lift through it, so the
+valuative criterion fails as well; `ℕ̲ × S → S` for discrete `ℕ` and nonempty `S` is separated and
+not qc (D5.10).
+
 ### Examples
 
 None in Lean: diamonds need the pro-étale morphisms of PerfectoidSpaces P6.
 
 ### Dependencies
 
-D0.7, D0.16–D0.17, D0.26; D1.4–D1.5; D2.1–D2.3, D2.7; D3.4–D3.10; PerfectoidSpaces P1–P6.
+D0.7, D0.16–D0.17, D0.26; D1.4–D1.5; D2.1–D2.3, D2.7; D3.4–D3.10 (D3.8 for D4.11); PerfectoidSpaces
+P1–P6.
 
 ## Layer D5: spatial geometry and Hausdorff reduction
 
-Spatial diamonds, permanence, limits and presentations, local structure, relative representability,
-the Berkovich quotient and group quotients.
+Spatial v-sheaves and diamonds, permanence, limits and presentations, local structure, relative
+representability, the Berkovich quotient and group quotients.
 
-### D5.1 Spatial and locally spatial diamonds
+### D5.1 Spatial v-sheaves and spatial diamonds
 
-**Spatiality.** A diamond (or small v-sheaf) is spatial if qcqs and `|Y|` has a basis of images of
-qc open subdiamonds, locally spatial if covered by spatial opens ([ECD] Definitions 11.17, 12.12,
-pp. 61, 72). Then `|Y|` is spectral (locally spectral), qc opens are spatial, maps of locally
-spatial diamonds are spectral and generalising, qc and qs are tested on `|Y|`, generalisations are
-totally ordered, and a perfectoid space is spatial iff qcqs ([ECD] Propositions 11.18–11.19, 12.13).
-Checks: `T̲ × Spa(K, O_K)` for non-profinite `T` is qcqs and not spatial; `∅` and `Spa(C, C⁺)` are
-spatial.
+**Spatial v-sheaves.** A small v-sheaf `Y` (D4.7) is spatial if it is qcqs and `|Y|` (D4.8) has a
+basis of opens `|U|` for qc open subfunctors `U ⊆ Y`; it is locally spatial if it is small and has a
+cover by spatial open subfunctors ([ECD] Definition 12.12, p. 72; [Berkeley] Definition 17.3.1, pp.
+152–153). The definition asks for no diamond structure, and a spatial v-sheaf is not assumed to be a
+diamond; D5.11 is the criterion for that. Prove ([ECD] Propositions 12.13–12.14, p. 72): for `Y`
+spatial (respectively locally spatial), `|Y|` is spectral (respectively locally spectral), qc open
+subfunctors are spatial (respectively open subfunctors are locally spatial), `Y` is qc or qs iff
+`|Y|` is, and for every map `Y' → Y` of locally spatial v-sheaves the map `|Y'| → |Y|` is locally
+spectral (`IsLocallySpectralMap`, D0.1) and generalising, so the generalisations of a point form a
+chain; it is `IsSpectralMap` when `Y'` and `Y` are spatial, by D0.1, and not in general.
+
+**Spatial diamonds.** A diamond is (locally) spatial if it is a (locally) spatial v-sheaf. Prove
+that this agrees with [ECD] Definition 11.17, p. 61, where the basis is formed by qc open
+subdiamonds: open subfunctors of a diamond are diamonds (D4.4), so the two bases coincide. The
+diamond statements of [ECD] Propositions 11.18–11.19, pp. 61–62, are then the cases of the previous
+paragraph, and a perfectoid space is spatial iff qcqs. Checks: `T̲ × Spa(K, O_K)` for non-profinite
+compact Hausdorff `T` is a qcqs diamond and not spatial, as `|Y| = T` is not spectral (D4.6); `∅`
+and `Spa(C, C⁺)` are spatial; for a perfectoid field `K` of characteristic `p`, the quotient of
+`Spa(K, O_K)` by the powers of Frobenius has one point and is not qs, hence not spatial ([Berkeley]
+Example 17.3.3, p. 153); for `f : ⊔_ℕ Spa(C, O_C) → Spa(C, O_C)`, `|f|` is the map from discrete
+`ℕ` to a point, locally spectral and not `IsSpectralMap`, so the local predicate is the right one
+for maps of locally spatial v-sheaves.
 
 ### D5.2 Quasicompact injections and finite étale permanence
 
@@ -808,19 +932,45 @@ spatial source ([ECD] Lemma 11.21, p. 62; Lemma 12.16, p. 73).
 
 ### D5.3 Cofiltered limits and finite-stage étale comparisons
 
-**Limits.** A cofiltered limit of diamonds along qcqs maps is a diamond with `|Y| → lim |Y_i|` a
-continuous bijection, a homeomorphism in the (locally) spatial case, `κ`-small under the cutoff
-hypotheses; for qcqs diamonds, finite étale, qcqs étale and qc separated étale objects over the
-limit come from a finite stage ([ECD] Lemma 11.22, Proposition 11.23, pp. 63–64; Lemma 12.17, pp.
-73–74).
+**Limits.** For a cofiltered system `Y_i` of diamonds (respectively small v-sheaves) with qcqs
+transition maps, `Y = lim Y_i` is a diamond (respectively a small v-sheaf), the maps `Y → Y_i` are
+qcqs, and `|Y| → lim |Y_i|` is a continuous bijection; if all `Y_i` are locally spatial
+(respectively spatial), so is `Y` and the map is a homeomorphism. For qcqs `Y_i`, finite étale, qcqs
+étale and qc separated étale objects over the limit come from a finite stage ([ECD] Lemma 11.22,
+Proposition 11.23, pp. 63–64; Lemma 12.17, pp. 73–74).
+
+**Size of the limit.** Let `κ` be a cutoff cardinal (`IsCutoffCardinal`, D0.23) and call a v-sheaf
+`κ'`-small if it receives a surjection from a perfectoid space satisfying PerfectoidSpaces
+`IsKappaSmall κ'`. Assume (a) the index category has fewer than `κ` arrows, the count of
+PerfectoidSpaces `HasKappaSmallPresentation`; and (b) one cardinal `κ' < κ`, the same for all `i`,
+has every `Y_i` `κ'`-small. Then `Y` is `κ`-small, at the same cutoff `κ` ([ECD] Lemma 11.22, last
+assertion and its proof, p. 63; Lemma 12.17, p. 73). The estimate for the limit of the chosen covers
+is PerfectoidSpaces P5.7 (fewer than `λ < κ` arrows and stages bounded by a strong limit below `κ`
+give a `κ`-small limit), and the cutoff property supplies a strong limit in `[κ', κ)` of cofinality
+above `λ`. Hypothesis (b) is a bound uniform in `i`: PerfectoidSpaces `IsUniformlyKappaSmall` bounds
+one space, and a stagewise `IsKappaSmall κ` for every `i` does not suffice. Checks: over a
+perfectoid field `K` with `#K < κ`, let `J` run through the finite subsets of a set `I` with
+`#I ≥ κ` and put `Y_J = {0,1}^J × Spa(K, O_K)`, a finite disjoint union of copies of `Spa(K, O_K)`,
+with finite étale transitions; (b) holds and (a) fails, and the limit `{0,1}^I × Spa(K, O_K)` has
+`2^{#I} > κ` points, so it is not `κ`-small. For singular `κ` with `cf κ = ω₁`, choose sets `I_α`,
+`α < ω₁`, with `#I_α` cofinal in `κ`, and index by the finite subsets `J` of `ω₁` the stages
+`{0,1}^{⊔_{α ∈ J} I_α} × Spa(K, O_K)`; each stage is `κ`-small and (a) holds, but (b) fails, and the
+limit has `2^κ` points. When the index category has fewer than `cf κ` arrows, (b) follows as soon as
+every `Y_i` receives a surjection from a uniformly `κ`-small perfectoid space
+(`IsUniformlyKappaSmall κ`), for instance a qc `κ`-small one (PerfectoidSpaces P6.2).
 
 ### D5.4 The universally open strictly totally disconnected presentation
 
 **Presentations.** A spatial diamond has a surjective universally open quasi-pro-étale map from a
 strictly totally disconnected perfectoid space that is a limit of composites of qc open immersions
-and finite étale maps (`κ`-small for `κ`-small `Y`); conversely a qcqs diamond with such a map from
-a (locally) spatial diamond is spatial ([ECD] Proposition 11.24, p. 65; Proposition 11.26, Lemma
-11.27, pp. 65–67).
+and finite étale maps; conversely a qcqs diamond with such a map from a (locally) spatial diamond is
+spatial ([ECD] Proposition 11.24, p. 65; Proposition 11.26, Lemma 11.27, pp. 65–67). Size, with the
+conventions of D5.3: for a cutoff `κ` and `Y` `κ`-small, the source can be chosen `κ`-small at the
+same `κ`. The construction is a limit over the finite subsets of a set of fewer than `κ` étale
+covers, counted through descent data along one `κ`-small affinoid perfectoid cover, each receiving
+a surjection from a `κ'`-small affinoid perfectoid space for one `κ' < κ`; so D5.3(a) and (b) hold
+at each of the countably many steps, and the countable iteration stays below `κ` because
+`cf κ > ω` ([ECD] proof of Proposition 11.24, p. 65).
 
 ### D5.5 Quasi-pro-étale and fibre-product permanence
 
@@ -856,24 +1006,59 @@ hypothesis.
 ### D5.10 Profinite products and closed projection
 
 **`P̲ × S`.** For `P` profinite and `S` locally spatial, `P̲ × S` is locally spatial with space
-`P × |S|`, and the projection to `S` is qc, separated and universally closed ([HK] proof of
-Proposition 9.3.4, p. 60). Check: discrete `ℕ` in place of `P` has non-closed projection.
+`P × |S|`, and the projection to `S` is proper in the sense of D4.11, that is qc, separated and
+universally closed ([HK] proof of Proposition 9.3.4, p. 60). Check: discrete `ℕ` in place of `P` has
+non-closed projection.
 
 ### D5.11 The spatial v-sheaf criterion
 
-**Spatial v-sheaves are diamonds.** A spatial v-sheaf `Y` with a quasi-pro-étale map `f : X → Y`
-from a perfectoid space such that `|f|` is surjective is a spatial diamond; `f` need not be a
-v-surjection ([ECD] Theorem 12.18, Remark 12.19, p. 75; Proposition 12.20, Lemma 12.21, pp. 75–76).
+**Recognition of spatial diamonds.** Let `Y` be a spatial v-sheaf in the sense of D5.1, with no
+diamond structure assumed, and suppose that there are a perfectoid space `X` and a quasi-pro-étale
+map `f : X → Y` with `|f| : |X| → |Y|` surjective; equivalently, every point of `|Y|` lies in the
+image of a quasi-pro-étale map `Spa(C, C⁺) → Y` with `C` algebraically closed. Then `Y` is a
+spatial diamond ([ECD] Theorem 12.18, Remark 12.19, p. 75; [Berkeley] Theorem 17.3.9, p. 154). The
+hypothesis is a condition on points: `f` need not be a v-surjection, nor qc, so the qc surjectivity
+criterion of D4.8 ([ECD] Lemma 12.11) does not apply to it, and the conclusion is not built into
+D5.1. Inputs: a spatial
+v-sheaf with such point covers on which every surjective étale map that is a composite of qc open
+immersions and finite étale maps splits is a strictly totally disconnected perfectoid space, and a
+spatial v-sheaf whose connected components are affinoid perfectoid is affinoid perfectoid ([ECD]
+Proposition 12.20, Lemma 12.21, pp. 75–76), with the limits of D5.3. Checks: for a qcqs perfectoid
+`Y` take `f` the identity; the disjoint union of quasi-pro-étale `Spa(C, C⁺) → Y` over all points of
+`|Y|` is a non-qc `f` satisfying the hypothesis.
 
 ### D5.12 Relative representability
 
-**Representable maps.** A map `Y' → Y` of v-stacks is representable in diamonds, respectively in
-(locally) spatial diamonds, if every `Y' ×_Y X` with `X` such an object is such an object; spatial
-means locally spatial and qcqs, all such maps are 0-truncated, the classes are stable under base
-change and descend under the stated surjectivity and qs hypotheses ([ECD] Definitions 13.1, 13.3,
-Propositions 13.2, 13.4, pp. 76–77; Lemma 13.5). A separated map is quasi-pro-étale iff
-representable in locally spatial diamonds with pro-étale geometric fibres ([ECD] Proposition 13.6,
-pp. 78–79).
+**Representable maps.** A map `f : Y' → Y` of v-stacks is representable in diamonds, respectively
+in (locally) spatial diamonds, if every `Y' ×_Y X` with `X` such an object mapping to `Y` is such an
+object ([ECD] Definitions 13.1, 13.3, pp. 76–77). Prove: over a diamond (respectively locally
+spatial diamond) `Y`, `f` is representable in diamonds (respectively locally spatial diamonds) iff
+`Y'` is one; representability in locally spatial diamonds implies representability in diamonds;
+representability in spatial diamonds is representability in locally spatial diamonds together with
+`f` qcqs; all such maps are 0-truncated; the classes are stable under base change ([ECD]
+Propositions 13.2(i)–(ii), 13.4(i)–(iii), pp. 76–77). In the next three targets `Ỹ → Y` is a map of
+v-stacks and `f̃ : Y' ×_Y Ỹ → Ỹ` the base change of `f`.
+
+**Diamond representability descends along pro-étale surjections.** If `Ỹ → Y` is surjective as a
+map of pro-étale stacks, that is for the pro-étale topology, and `f̃` is representable in diamonds,
+then so is `f` ([ECD] Proposition 13.2(iii), p. 77).
+
+**Locally spatial representability descends along pro-étale surjections.** If `Ỹ → Y` is surjective
+as a map of pro-étale stacks, `f` (not only `f̃`) is quasiseparated and `f̃` is representable in
+locally spatial diamonds, then so is `f` ([ECD] Proposition 13.4(iv), p. 77).
+
+**Locally spatial representability descends along v-surjections, given diamonds.** If `Ỹ → Y` is
+only a surjection of v-stacks, `f` is already representable in diamonds and quasiseparated, and `f̃`
+is representable in locally spatial diamonds, then `f` is representable in locally spatial diamonds
+([ECD] Proposition 13.4(v), p. 77, with Lemma 13.5, p. 78). The diamond representability of `f` is a
+hypothesis here: no descent of diamond representability along v-surjections is asserted. Checks: for
+algebraically closed `C ⊊ C'`, `Spa(C', O_{C'}) → Spa(C, O_C)` is a v-surjection that is not
+surjective for the pro-étale topology (a lift over a pro-étale cover `S × Spa(C, O_C)`, `S`
+profinite and nonempty, would give a continuous `C`-embedding `C' → C`), so along it only the third
+form applies; for `Ỹ = Y` all three are trivial.
+
+A separated map is quasi-pro-étale iff representable in locally spatial diamonds with pro-étale
+geometric fibres ([ECD] Proposition 13.6, pp. 78–79).
 
 ### D5.13 The Berkovich spectrum of a complete Tate ring
 
@@ -919,8 +1104,9 @@ the connected orbit space `ℤ_p/ℤ`.
 ### Dependencies
 
 D0.1, D0.3–D0.4, D0.6–D0.7, D0.9–D0.10, D0.14, D0.16–D0.17, D0.20–D0.21, D0.23; D1.4–D1.5,
-D1.9–D1.10; D3.5–D3.10; D4.1–D4.10; AdicSpacesPartII R0; AdicSpacesPartIII R3; Mathlib
-`MulRingSeminorm`, `T2Quotient`, `MulAction.orbitRel`.
+D1.9–D1.10; D3.5–D3.10; D4.1–D4.11; PerfectoidSpaces P5.7, P6.1–P6.2 and P6.10 (D5.3–D5.4);
+AdicSpacesPartII R0; AdicSpacesPartIII R3; Mathlib `MulRingSeminorm`, `T2Quotient`,
+`MulAction.orbitRel`.
 
 ## Layer D6: analytic and integral diamondification
 
@@ -971,27 +1157,60 @@ untilts `S♯` over `ℤ_p` with `S♯ → X` is a v-sheaf; it gives `Spd(A, A�
 over `ℤ_p` and the analytic construction on the analytic locus ([Berkeley] Lemma 18.1.1, p. 161,
 Proposition 18.2.2, p. 162, Proposition 10.3.7, p. 80).
 
+**Smallness of `X^◇`.** For every pre-adic space `X` over `Spa(ℤ_p, ℤ_p)`, `X^◇` is a small v-sheaf
+in the sense of [ECD] Definition 12.1, so `|X^◇|` is the underlying space of D4.8; this is the
+carrier used in D6.7–D6.8, analytic or not. Size bound for affinoid `X = Spa(A, A⁺)`: put
+`μ = (#A + ℵ₀)^{ℵ₀}`. Every map `S → X^◇` from an affinoid perfectoid `S` factors through an
+affinoid perfectoid `S₀` whose untilt has ring of size at most `μ`, namely the tilt of the closed
+perfectoid subring of `O(S♯)` generated by the image of `A` and a pseudouniformiser, with integral
+elements cut out by `O⁺(S♯)` (the closure argument of PerfectoidSpaces P5.6 run on a generating set
+of size `#A + ℵ₀`, with D0.24 for the completion, and the tilting equivalence of PerfectoidSpaces
+P2.12). Consequently the disjoint union of representatives of all isomorphism classes of maps
+`S₀ → X^◇` of this size surjects onto `X^◇`; for a cutoff `κ > #A` there are fewer than `κ` of
+them, each of size bounded independently of the class, so the union is uniformly `κ`-small
+(PerfectoidSpaces `IsUniformlyKappaSmall`, P6.2, P6.4). For general `X` the `U^◇` of an affinoid
+open cover are open subfunctors covering `X^◇` ([Berkeley] proof of Lemma 18.1.1, p. 161).
+[Berkeley] treats `X^◇` as a small v-sheaf (Propositions 18.3.1, 18.4.1, pp. 163, 167) without a
+numbered statement; the factorisation is the argument of [ECD] proof of Proposition 8.2 and the
+remark after it, pp. 39–40. Checks: for `X = Spa(𝔽_p, 𝔽_p)`, `X^◇` is the terminal sheaf `Spd 𝔽_p`
+and is the image of `Spa(𝔽_p((t^{1/p^∞}))^)` alone, every affinoid perfectoid `Spa(R, R⁺)` mapping
+to it by `t ↦ ϖ`; for analytic `X` the statement follows from D6.5 and D4.7, diamonds being small.
+
 ### D6.7 The integral Galois quotient
 
 **`Spd O_C / G̲_K ≅ Spd O_K`.** For `K` complete nonarchimedean with `p` topologically nilpotent and
-`C` a completed algebraic closure, `Spd O_C → Spd O_K` is a proper v-cover with this quotient
-([Berkeley] Lemma 18.1.2, pp. 161–162); on the special fibre `G_K` acts through `Gal(k̄/k)`, so it
-is not a torsor there. Check: `K = C`.
+`C` a completed algebraic closure, `Spd O_C → Spd O_K` is a v-cover with this quotient, and it is
+proper in the sense of D4.11: separated since source and target are, qc and universally closed as a
+quotient map by the profinite group `G_K` ([Berkeley] Lemma 18.1.2 and proof, pp. 161–162); on the
+special fibre `G_K` acts through `Gal(k̄/k)`, so it is not a torsor there. Check: `K = C`.
 
 ### D6.8 Topology of pre-adic diamondification
 
-**`|X^◇| → |X|`.** The point map is a continuous surjection, a homeomorphism for analytic `X` and
-for `Spa(ℤ_p, ℤ_p)`, but not in general: for `X = Spa(𝔽_p[t], 𝔽_p[t])` the locus where `t` is
-topologically nilpotent is open in `X^◇` and not the preimage of a subset of `|X|` ([Berkeley]
+**`|X^◇| → |X|`.** Here `|X^◇|` is the underlying space of the small v-sheaf `X^◇` (D6.6, D4.8),
+with no analyticity assumed. The point map is a continuous surjection, a homeomorphism for analytic
+`X` and for `Spa(ℤ_p, ℤ_p)`, but not in general: for `X = Spa(𝔽_p[t], 𝔽_p[t])` the locus where `t`
+is topologically nilpotent is open in `X^◇` and not the preimage of a subset of `|X|` ([Berkeley]
 Example 18.2.1, Proposition 18.2.2, p. 162).
 
 ### D6.9 Seminormal rigid full faithfulness
 
+**Seminormal structure-sheaf comparison.** For `K/ℚ_p` complete and `X` a seminormal rigid space
+over `K`, the map `O_X → ν_*Ô_X` to the completed structure sheaf of the pro-étale site of `X` is an
+isomorphism; on an affinoid `X` this says that `O_X(X)` maps homeomorphically onto the sections over
+`X^◇` of the sheaf `T ↦ O(T♯)` ([KL16] Theorem 8.2.3, p. 162; [Berkeley] proof of Proposition
+10.2.3, p. 78; [HK] §2.2, p. 15). This foundational comparison is owned here and proved directly
+from [KL16] on the pro-étale site of `X` (AdicEtaleGeometry A1.12, with the basis of affinoid
+perfectoid objects of PerfectoidTowers P9.1); it uses no descent along a Galois tower, and
+PerfectoidTowers P9.12 is its specialisation to a tower and a consumer. Seminormality of a ring and
+of a rigid space, and the seminormalisation as a universal homeomorphism terminal among seminormal
+spaces over `X`, are those of [KL16] Definition 1.4.1, p. 19, and Remark 3.7.3, p. 80. Check: for
+the cusp `K⟨t², t³⟩`, which is not seminormal, `t` is a section of `ν_*Ô` not in `O`, since the
+normalisation `K⟨t⟩` has the same diamond.
+
 **Full faithfulness.** For `K/ℚ_p` complete, `X` seminormal rigid and `Y` rigid over `K`,
-`Hom_K(X, Y) → Hom_{Spd K}(X^◇, Y^◇)` is bijective ([Berkeley] Proposition 10.2.3, p. 78), using the
-seminormalisation (a universal homeomorphism terminal among seminormal spaces over `X`, [KL16]
-Remark 3.7.3, p. 80) and function descent over a seminormal base ([KL16] Theorem 8.2.3, p. 162;
-PerfectoidTowers P9; [HK] §2.2, p. 15). Check: for the cusp `y² = x³` with normalisation
+`Hom_K(X, Y) → Hom_{Spd K}(X^◇, Y^◇)` is bijective ([Berkeley] Proposition 10.2.3, p. 78): for
+affinoid `Y` this is the comparison above, and the general case reduces to it through the
+identification `|X^◇| = |X|` of D6.5. Check: for the cusp `y² = x³` with normalisation
 `t ↦ (t², t³)` the inverse of `X̃^◇ ≅ X^◇` is not induced by a morphism.
 
 ### Examples
@@ -1000,17 +1219,21 @@ None in Lean: marked untilts need the tilting equivalence of PerfectoidSpaces P1
 
 ### Dependencies
 
-D2.7–D2.9; D3.8, D3.10; D4.1–D4.10; D5.1–D5.10; PerfectoidSpaces P0–P5; AdicEtaleGeometry A1, A4;
-AdicSpacesPartII R0–R1; AdicSpacesPartIII F0; PerfectoidTowers P9; Tau Ceti
-`spaCompletionHomeomorph`.
+D0.23–D0.24 (D6.6); D2.7–D2.9; D3.8, D3.10; D4.1–D4.11; D5.1–D5.10; PerfectoidSpaces P0–P5, with
+P2.12, P5.6, P6.2 and P6.4 in D6.6; AdicEtaleGeometry A1 (A1.12 in D6.9), A4; AdicSpacesPartII
+R0–R1; AdicSpacesPartIII F0; PerfectoidTowers P9.1 only (D6.9, the affinoid perfectoid basis; it
+uses no subsection of this roadmap); Tau Ceti `spaCompletionHomeomorph`.
 
 ## Downstream consumers
 
 The étale cohomology of diamonds consumes the whole roadmap and adds the canonical compactification
 and the derived left-completion comparison; the six operations and the diamond descriptions of
-period spaces and Shimura varieties use D4–D6 through it. PerfectoidTowers uses D2–D6 for quotients,
-spatial presentations and torsor descent; AdicEtaleGeometry A4 feeds D6; the Fargues–Fontaine
-diamond roadmap applies D6 to the Fargues–Fontaine curve.
+period spaces and Shimura varieties use D4–D6 through it. PerfectoidTowers is a consumer, by
+subsection: its P8 uses D2, D4, D5 and D6.4 for quotients and spatial presentations, and its P9 uses
+D2.5, D2.9, D3.10 and D6.9, with P9.8 and P9.12 the tower specialisations of D2.9 and of D6.9's
+seminormal comparison; the only edge back is D2.9 and D6.9 using P9.1, which uses nothing here.
+AdicEtaleGeometry A4 feeds D6; the Fargues–Fontaine diamond roadmap applies D6 to the
+Fargues–Fontaine curve.
 
 ## References
 
