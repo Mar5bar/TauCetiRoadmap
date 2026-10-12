@@ -1330,7 +1330,13 @@ Lean: README only.
 `R⁺ → S⁺` an integral ring map. Then there is an initial integral perfectoid ring `S⁺_perfd` under
 `S⁺` (for every integral perfectoid `A`, maps `S⁺_perfd → A` correspond to maps `S⁺ → A`), and the
 `p`-adic completion `S⁺^∧_p` has the same perfectoidization, so `S⁺_perfd` is the universal
-integral perfectoid ring under the `p`-complete integral `R⁺`-algebra `S⁺^∧_p`. Moreover, for
+integral perfectoid ring under the `p`-complete `R⁺`-algebra `S⁺^∧_p` (the integrality
+hypothesis is on `R⁺ → S⁺`; the completion need not remain integral over `R⁺`: for
+`R⁺ = O_{ℂ_p}` and `S⁺ = LC(ℤ_p, O_{ℂ_p})`, integral because a locally constant function has
+finite image and is killed by `∏ (T − a)` over it, the completion `C(ℤ_p, O_{ℂ_p})` contains
+`x ↦ x`, which is not integral over the constants since a monic polynomial over `O_{ℂ_p}` has
+finitely many roots in `ℂ_p`; the factorisation of maps through the completion uses only
+completeness of the target, and no integral-extension instance on `S⁺^∧_p` is inferred). Moreover, for
 `ϖ ∈ R⁺` a pseudouniformizer with compatible roots, `T := (S⁺_perfd)^∧_ϖ[1/ϖ]` is a perfectoid Tate
 ring and, with `T⁺` the integral closure of `(S⁺_perfd)^∧_ϖ` in `T`, `(S⁺[1/ϖ], S⁺) → (T, T⁺)` is
 universal among maps from `(S⁺[1/ϖ], S⁺)` to perfectoid Tate pairs (this Tate-pair universality is
@@ -2052,8 +2058,12 @@ Viewed in
 perfectoid `X`), the pro-object `𝒯 = lim_j X_j` is a pro-étale `G`-torsor, with the nerve
 identities above via `(x, g) ↦ (x, xg)`. For `U ∈ X_proet` (in particular `U ⊆ X` open), `𝒯_U`
 is a pro-étale `G`-torsor over `U` in the slice, affinoid perfectoid when `U` is affinoid and `𝒯`
-is affinoid perfectoid over it, and its completion `U_∞ = U ×_X X_∞` is a pro-étale `G`-tower over
-`U`. The tower of finite étale Galois covers of an affinoid with its completed
+is affinoid perfectoid over it; this base change is a statement in the slice site. The completed
+geometric tower `U_∞ = U ×_X X_∞`, a pro-étale `G`-tower over `U` in the sense of this target, is
+asserted only for bases `U` the target admits — an open `U ⊆ X`, or a locally noetherian analytic
+or perfectoid adic space over `X` with the realisation and affinoid-completion data of the
+previous paragraphs — and not for an arbitrary pro-object `U ∈ X_proet`, which need not be an adic
+space of either kind. The tower of finite étale Galois covers of an affinoid with its completed
 limit pair, the perfectoidness of that limit when the levels are perfectoid-generating, and its
 perfectoid torsor presentation are AdicEtaleGeometry layer A4 (*finite-etale-torsor-tower*,
 *completed-tower-pair*, *perfectoid-cover-presentation*), and the torsor property
@@ -2279,22 +2289,42 @@ with perfect residue field and `L ⊇ L₀` a perfectoid field (as in [BHW] §1.
 perfectoid extension of `ℚ_p^cyc`). Let `Y` be an affinoid adic space over `L₀` that is either a
 smooth rigid space or a perfectoid space, `Γ` a profinite group, `X ∈ Y_proet` an affinoid
 perfectoid pro-étale `Γ`-torsor with `h : X → Y`, and `𝒰` a smooth adic space over `L`. Put
-`X_𝒰 = X ×_{L₀} 𝒰` and `Y_𝒰 = Y ×_{L₀} 𝒰`, sousperfectoid adic spaces: `X ×_{L₀} Spa L` is
-perfectoid ([P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)) and its product with the smooth `𝒰` is given by AdicSpacesPartIV layer R5; the
-product-affinoid rings are the completed tensors `O(W) ⊗̂_{L₀} O(𝒰′)` and
-`O(V) ⊗̂_{L₀} O(𝒰′)`. Then for every affinoid `V ⊆ Y`, with affinoid perfectoid `W = h^{-1}(V)`,
-and every affinoid open `𝒰′ ⊆ 𝒰` (in particular, a chart obtained from a polydisc over
-`L` by a finite composition of rational localisations and finite étale maps):
-`O⁺(W × 𝒰′)^Γ = O⁺(V × 𝒰′)` and `O(W × 𝒰′)^Γ = O(V × 𝒰′)`. The
-`O` equality is `(O(W) ⊗̂_{L₀} O(𝒰′))^Γ = O(W)^Γ ⊗̂_{L₀} O(𝒰′)` by
-*invariants-of-completed-tensor-with-banach-space*, clause (b) (`L₀` is discretely valued, so
-`O(𝒰′)` needs no countability), followed by `O(W)^Γ = O(V)`; the `O⁺` equality follows because
-`W × 𝒰′ → V × 𝒰′` is surjective on points, so a function on `V × 𝒰′` is bounded by `1` iff its
-pullback is. For `𝒰 = Spa L` (one weight) the statement is the base change of the descent to
-`L`, with `L` a Banach `L₀`-space; for `Γ = {1}` it is an identity; for the trivial torsor
-`X = Y × \underline{Γ}`, `O⁺(W × 𝒰′) = C(Γ, O⁺(V × 𝒰′))` and the invariants are the constants.
-These product affinoids are not a basis of `Y_𝒰`; the statement is what the character sheaves
-need, which are sheaves on `Y` of `O_Y ⊗̂ O(𝒰′)`-modules ([BHW] Lemma 3.7, p. 10). Prove that for `Y`
+`X_L := X ×_{L₀} Spa L` and `Y_L := Y ×_{L₀} Spa L`. The geometric statement is made over the
+common perfectoid base field `L`, as in [BHW] Lemma 3.7: `X_L` is perfectoid
+([P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)) — its affinoid rings are the *uniform* completions
+`O(W) ⊗̂^u_{L₀} L` of KL II Cor. 3.3.21, which are not the ordinary Banach completed tensors (see
+the Kummer-field Check below) — `X_L → Y_L` is again an affinoid perfectoid pro-étale
+`Γ`-torsor (base change of the torsor data along `Spa L → Spa L₀`), and `X_𝒰 := X_L ×_L 𝒰`,
+`Y_𝒰 := Y_L ×_L 𝒰` are the sousperfectoid adic spaces of AdicSpacesPartIV R5.5
+(*perfectoid-times-smooth-fibre-product*). That supplier describes affinoid rings on its
+*product charts* only: for affinoid perfectoid `W' = Spa(S, S⁺) ⊆ X_L` and an open `V' ⊆ 𝒰`
+with an étale map `h : V' → 𝔹^n_L`, the piece `W' ×_L V' = Spa(S⟨T⟩) ×_{𝔹^n} V'` with the
+affinoid formula of *sousperfectoid-etale-base-change*; for an arbitrary affinoid open of `𝒰`
+it supplies quasi-compactness and a finite cover by such charts, not an affinoid product or a
+tensor formula, and nothing more is used here. Then for every affinoid `V ⊆ Y_L`, with affinoid
+perfectoid `W = h^{-1}(V)`, and every product chart `V' ⊆ 𝒰` as above:
+`O⁺(W ×_L V')^Γ = O⁺(V ×_L V')` and `O(W ×_L V')^Γ = O(V ×_L V')`. Proof route for the `O`
+equality on a chart: `Γ` acts through `S = O(W)` only; `S⟨T⟩ ≅ S ⊗̂_L L⟨T⟩` with `L⟨T⟩` of
+countable type over `L` (orthonormal basis the monomials), so
+*invariants-of-completed-tensor-with-banach-space* in its countable-type form (P8.7) gives
+`S⟨T⟩^Γ = S^Γ⟨T⟩ = O(V)⟨T⟩`; the étale chart step `L⟨T⟩ → O(V')` is a finite composition of
+rational localisations and finite étale maps, along which invariants commute with the base change
+by *function-descent-along-tower*'s rational step and by flatness of a finite étale map
+(`S⟨T⟩ ⊗_{L⟨T⟩} O(V')` is a finite projective `S⟨T⟩`-module and `(−)^Γ` is additive and
+commutes with finite direct sums and summands). The `O⁺` equality follows because
+`W ×_L V' → V ×_L V'` is surjective on points, so a function on `V ×_L V'` is bounded by `1`
+iff its pullback is. For `𝒰 = Spa L` (one weight) the statement is
+*function-descent-over-perfectoid-base* for the base-changed torsor; for `Γ = {1}` it is an
+identity; for the trivial torsor `X = Y × \underline{Γ}`,
+`O⁺(W ×_L V') = C(Γ, O⁺(V ×_L V'))` and the invariants are the constants. The arithmetic
+branch over `L₀` itself (sections over `Spa L₀`-opens before base change to `L`) is not a target
+here: its rings are uniform base changes, not ordinary completed tensors, and the Banach
+invariants lemma does not apply to them directly. These product charts are not a basis of `Y_𝒰`;
+the equalities on all opens are the intrinsic sheaf statement `(h_{𝒰*}O)^Γ = O`,
+`(h_{𝒰*}O⁺)^Γ = O⁺` of P9.11 (*weight-extension-sheaf-equalizer*), whose sections on an
+arbitrary product open give descent there without that open being affinoid or having a tensor
+model; the chart statement here is its input and is what the character sheaves need, which are
+sheaves on `Y` of `O_Y ⊗̂ O(V')`-modules ([BHW] Lemma 3.7, p. 10). Prove that for `Y`
 affinoid perfectoid and `X → Y` an affinoid perfectoid pro-étale `\underline{Γ}`-torsor,
 `O⁺_X(X)^Γ = O⁺_Y(Y)` and `O_X(X)^Γ = O_Y(Y)` (*function-descent-over-perfectoid-base*) ([BHW]
 Lemma 3.7, p. 10); and the Banach-space form of *quotient-scalar-extension* (P8.7, the case `V ≅ c₀(I, K)`): for a
@@ -2315,9 +2345,9 @@ hypothesis: sheafy affinoids `B,C` embed openly in `Y,𝒰`, the torsor preimage
 `Spa B` is `Spa R` for a perfectoid pair `R`, and the two projections identify
 the selected open with `Spa B ×_{L₀} Spa C`. Its pullback map is injective with
 image the invariant functions and reflects membership in `boundedFunctions`.
-The tensor argument uses only that `O(𝒰′)` is a Banach `L₀`-space, so applies to
-every affinoid open of the smooth weight space ([CHJ] 2.23(2), pp. 19–20).
-It makes no assertion on nonproduct opens over a discretely valued base;
+The tensor argument is made on the product charts of R5.5 over the perfectoid base `L`, with
+`L⟨T⟩` of countable type (P8.7); it is not applied to an ordinary completed tensor over `L₀`.
+It makes no assertion on nonproduct opens;
 the all-opens comparisons in P9.11 have a perfectoid base field.
 
 **Checks.** `function_descent_nonproduct_domain` tests the rational region
@@ -2491,6 +2521,17 @@ AdicSpacesPartIV layer R5.
   a twisted character sheaf can
   vanish, so it is not locally free of rank one without the finite-level trivialisation of
   *finite-level-character-sheaf-comparison*.
+- *weightExtension_kummer_not_uniform* (non-example) — ordinary and uniform completed tensors
+  must not be identified because both factors are perfectoid: let `F` be the completion of
+  `⋃_n ℚ_p(α_n)` with `α_0 = p`, `α_{n+1}^p = α_n`, embedded in `C = ℂ_p`. The projective Banach
+  tensor `B = F ⊗̂_{ℚ_p} C` is not uniform: for `d = p^n`, `t_n = α_n ⊗ α_n^{-1}` has `t_n^d = 1`,
+  the idempotent `e_n = (1/d) ∑_{i<d} t_n^i` is power-bounded, and `‖e_n‖ = p^n` — the
+  constant-coefficient maps `∑ a_i α_m^i ↦ a_0` are contractions (distinct valuations modulo `ℤ`)
+  compatible in `m`, extend to a contraction `λ : F → ℚ_p`, and `λ ⊗̂ id_C` sends `e_n` to `p^{-n}`.
+  So `B°` is unbounded and `B` is not the coordinate ring of `Spa(F) ×_{ℚ_p} Spa C`, which is the
+  uniform completion `F ⊗̂^u_{ℚ_p} C` (KL II Cor. 3.3.21, p. 66). This is the `L₀ = ℚ_p`, `L = C`,
+  `X = Y = Spa(F, F°)`, `Γ = {1}`, `𝒰 = Spa C` instance of the target: the identity torsor
+  descends trivially, but the ordinary tensor is the wrong ring model.
 
 `TorsorDescent.cyclotomic_tower_twisted_invariants` constructs this tower
 on `ProetaleGaloisTower` and its action on `padicCyclotomic p`. It identifies
