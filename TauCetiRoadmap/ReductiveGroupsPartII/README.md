@@ -3587,8 +3587,9 @@ ring with fraction field `K`, `A` a flat `O`-algebra, `𝒳 = Spec A`, `I ⊂ K 
 subscheme of `𝒳` with generic fibre `Y`. If `𝒳` is a group scheme and `Y` a closed subgroup, `I^♮`
 is a Hopf ideal. For an `O`-flat domain `O'`, `Ȳ(O') = Y(K ⊗ O') ∩ 𝒳(O')`, and closure commutes with
 flat base change. The ideal `I^♮` and the ring `A ⧸ I^♮` make sense for any field `K` over any ring
-`O`, but flatness, uniqueness and the Hopf property need `O` a discrete valuation ring with fraction
-field `K`: for `O = ℤ`, `K = ℚ(√2)` and the Hopf ideal `I = (y − √2x)` of the additive group `G_a²`
+`O`. Uniqueness and the Hopf property use that `K` is the fraction field of `O`; flatness uses that
+torsion-free `O`-modules are flat, which holds for a discrete valuation ring (the case stated here)
+and for any valuation or Dedekind ring. For `O = ℤ`, `K = ℚ(√2)` and the Hopf ideal `I = (y − √2x)` of the additive group `G_a²`
 over `K` (the line `y = √2x`), `I^♮ = (y² − 2x²)` is the ideal of the union of that line and its
 conjugate, which is not a subgroup, so `I^♮` is not a Hopf ideal. In `SchematicClosure`, define
 `closureIdeal` as `I^♮ = A ∩ I`, the preimage of `I` in `A`, and `closure` as `A ⧸ I^♮`, the

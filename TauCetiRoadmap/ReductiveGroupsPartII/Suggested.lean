@@ -1080,7 +1080,8 @@ theorem cartan_generalLinear (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : GL (Fin 
         Matrix.diagonal (fun i => (ϖ : K) ^ μ i) * (k₂ : Matrix (Fin n) (Fin n) K) := sorry
 
 /-- The Iwasawa decomposition of `GL_n(K)`: `GL_n(K) = B(K) GL_n(𝒪)` with `B` upper triangular
-(Zhu, §0.5, pp. 6–7). -/
+(Bruhat–Tits I, Prop. (7.3.1)(i), p. 164, `G = U⁺·N·B_{x,D}`; for `GL_n`, `N = T(K)·S_n` with
+`S_n ⊂ GL_n(𝒪)`). -/
 theorem iwasawa_generalLinear (g : GL (Fin n) K) :
     ∃ b : GL (Fin n) K, (b : Matrix (Fin n) (Fin n) K).BlockTriangular id ∧
       ∃ k ∈ integralGL K n, g = b * k := sorry
