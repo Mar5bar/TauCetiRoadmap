@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.RepresentationTheory.CharacterTwist
 import TauCeti.RepresentationTheory.BaseChange
+import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.UpperUnitriangular.Basic
 import TauCeti.NumberTheory.HeckeRing.Associativity
 import TauCeti.Algebra.AlgebraicGroup.FiniteType.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
@@ -340,6 +341,21 @@ theorem modulusCharacter_isSmooth [IsTopologicalGroup G] [T2Space G] [TotallyDis
     [LocallyCompactSpace L.P] :
     IsSmoothCharacter L.modulusCharacter := sorry
 
+-- On the upper Borel subgroup of `GL₂(ℚ_p)` the modulus sends `diag(a, d)` to `|a/d|_p`: it is
+-- `p⁻¹` at `diag(p, 1)` and `p` at `diag(1, p)`.
+example (p : ℕ) [Fact p.Prime] (L : LeviDecomposition (GL (Fin 2) ℚ_[p]))
+    (hP : ∀ g : GL (Fin 2) ℚ_[p], g ∈ L.P ↔ (g : Matrix (Fin 2) (Fin 2) ℚ_[p]).IsUpperTriangular)
+    (hM : ∀ g : GL (Fin 2) ℚ_[p], g ∈ L.M ↔ (g : Matrix (Fin 2) (Fin 2) ℚ_[p]).IsDiag)
+    (hN : L.N = TauCeti.upperUnitriangularGroup (Fin 2) ℚ_[p])
+    (hπ : ∀ g : L.P, ((L.projection g : GL (Fin 2) ℚ_[p]) : Matrix (Fin 2) (Fin 2) ℚ_[p]) =
+      Matrix.diagonal fun i => ((g : GL (Fin 2) ℚ_[p]) : Matrix (Fin 2) (Fin 2) ℚ_[p]) i i)
+    [LocallyCompactSpace L.P] (a d : L.M)
+    (ha : ((a : GL (Fin 2) ℚ_[p]) : Matrix (Fin 2) (Fin 2) ℚ_[p]) =
+      Matrix.diagonal ![(p : ℚ_[p]), 1])
+    (hd : ((d : GL (Fin 2) ℚ_[p]) : Matrix (Fin 2) (Fin 2) ℚ_[p]) =
+      Matrix.diagonal ![1, (p : ℚ_[p])]) :
+    (L.modulusCharacter a : ℂ) = (p : ℂ)⁻¹ ∧ (L.modulusCharacter d : ℂ) = p := sorry
+
 end LeviDecomposition
 
 section Jacquet
@@ -562,7 +578,7 @@ def SpinPolynomial (q T0 T1 T2 : A) : A[X] :=
     C (q ^ 3 * T2 * T0) * X ^ 3 + C (q ^ 6 * T0 ^ 2) * X ^ 4
 
 /-- The reciprocal monic polynomial `X⁴ Q(1/X)` has coefficients `1, −T₂, qT₁ + (q³ + q)T₀,
-−q³T₂T₀, q⁶T₀²` ([Pil], §5.1.5, p. 22). -/
+−q³T₂T₀, q⁶T₀²` ([Pil], §5.1.5, p. 21). -/
 theorem SpinPolynomial.reciprocal (q T0 T1 T2 : A) :
     Polynomial.reflect 4 (SpinPolynomial q T0 T1 T2) =
       X ^ 4 - C T2 * X ^ 3 + C (q * T1 + (q ^ 3 + q) * T0) * X ^ 2 -
@@ -622,7 +638,7 @@ def AbsolutelyIrreducible (ρ : _root_.Representation k G V) : Prop :=
 def IsGeneric (ρ : _root_.Representation k G V) (U : Subgroup G) (ψ : U →* kˣ) : Prop :=
   Nontrivial (WhittakerCoinvariants (ρ.comp U.subtype) ψ)
 
-/-- Essentially AIG ([Hel12], Definition 3.3, pp. 5–6): smooth, with an absolutely irreducible
+/-- Essentially AIG ([Hel12], Definition 3.3, p. 5): smooth, with an absolutely irreducible
 generic socle `S` (an absolutely irreducible subrepresentation containing every irreducible one),
 zero Whittaker coinvariants of `V/S`, and every vector in a finite-length subrepresentation. -/
 def EssentiallyAIG (ρ : _root_.Representation k G V) (U : Subgroup G) (ψ : U →* kˣ) : Prop :=
@@ -651,18 +667,10 @@ end Whittaker
 
 section CoWhittaker
 
-/-- The upper unitriangular subgroup of `GL_n(F)`. -/
-def whittakerUnipotent (n : ℕ) (F : Type*) [Field F] : Subgroup (GL (Fin n) F) where
-  carrier := {g | (∀ i j, j < i → (g : Matrix (Fin n) (Fin n) F) i j = 0) ∧
-    ∀ i, (g : Matrix (Fin n) (Fin n) F) i i = 1}
-  mul_mem' := sorry
-  one_mem' := sorry
-  inv_mem' := sorry
-
-/-- The generic character `u ↦ ψ(u₁₂ + u₂₃ + ⋯ + u_{n−1,n})` of the upper unitriangular subgroup
-attached to an additive character `ψ` of `F`. -/
+/-- The generic character `u ↦ ψ(u₁₂ + u₂₃ + ⋯ + u_{n−1,n})` of Tau Ceti's upper unitriangular
+subgroup of `GL_n(F)`, attached to an additive character `ψ` of `F`. -/
 def genericCharacter (n : ℕ) {F A : Type*} [Field F] [CommRing A]
-    (ψ : Multiplicative F →* Aˣ) : whittakerUnipotent n F →* Aˣ where
+    (ψ : Multiplicative F →* Aˣ) : TauCeti.upperUnitriangularGroup (Fin n) F →* Aˣ where
   toFun u := ψ (Multiplicative.ofAdd (∑ i : Fin n, ∑ j : Fin n,
     if (j : ℕ) = i + 1 then ((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) i j else 0))
   map_one' := sorry
@@ -670,8 +678,25 @@ def genericCharacter (n : ℕ) {F A : Type*} [Field F] [CommRing A]
 
 -- For `n = 1` the generic character is trivial.
 example {F A : Type*} [Field F] [CommRing A] (ψ : Multiplicative F →* Aˣ)
-    (u : whittakerUnipotent 1 F) : genericCharacter 1 ψ u = 1 := by
+    (u : TauCeti.upperUnitriangularGroup (Fin 1) F) : genericCharacter 1 ψ u = 1 := by
   simp [genericCharacter]
+
+-- For `n = 3` the value at `[[1, a, b], [0, 1, c], [0, 0, 1]]` is `ψ(a + c)`, whatever `b` is.
+example {F A : Type*} [Field F] [CommRing A] (ψ : Multiplicative F →* Aˣ) (a b c : F)
+    (u : TauCeti.upperUnitriangularGroup (Fin 3) F)
+    (hu : ((u : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = !![1, a, b; 0, 1, c; 0, 0, 1]) :
+    genericCharacter 3 ψ u = ψ (Multiplicative.ofAdd (a + c)) := by
+  simp [genericCharacter, hu, Fin.sum_univ_succ]
+
+-- For `n = 2` the values at `[[1, x], [0, 1]]` and `[[1, y], [0, 1]]` multiply to the value at
+-- their product `[[1, x + y], [0, 1]]`, computed from the formula and not from `map_mul'`.
+example {F A : Type*} [Field F] [CommRing A] (ψ : Multiplicative F →* Aˣ) (x y : F)
+    (u v : TauCeti.upperUnitriangularGroup (Fin 2) F)
+    (hu : ((u : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![1, x; 0, 1])
+    (hv : ((v : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![1, y; 0, 1]) :
+    genericCharacter 2 ψ (u * v) = genericCharacter 2 ψ u * genericCharacter 2 ψ v := by
+  simp [genericCharacter, hu, hv, Fin.sum_univ_succ, Matrix.mul_apply, ← map_mul, ← ofAdd_add]
+  rw [add_comm]
 
 variable {A G V : Type u} [CommRing A] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [AddCommGroup V] [Module A V]
@@ -703,7 +728,7 @@ theorem CoWhittaker.scalars {F : Type} [Field F] [ValuativeRel F] [TopologicalSp
     [IsNoetherianRing A] [Algebra (WittVector ℓ k) A] (n : ℕ)
     (ψ : Multiplicative F →* (WittVector ℓ k)ˣ) (hψ : IsSmoothCharacter ψ) (hψ1 : ψ ≠ 1)
     {V : Type} [AddCommGroup V] [Module A V] (ρ : _root_.Representation A (GL (Fin n) F) V)
-    (h : CoWhittaker ρ (whittakerUnipotent n F)
+    (h : CoWhittaker ρ (TauCeti.upperUnitriangularGroup (Fin n) F)
       (genericCharacter n ((Units.map (algebraMap (WittVector ℓ k) A).toMonoidHom).comp ψ)))
     (f : ρ.IntertwiningMap ρ) : ∃! a : A, ∀ v, f v = a • v := sorry
 
@@ -721,7 +746,7 @@ structure CrossedCocycle (α : Γ →* MulAut H) where
   cocycle : ∀ γ δ, value (γ * δ) = value γ * α γ (value δ)
 
 /-- Gauge conjugation `(h · c)(γ) = h c(γ) α(γ)(h)⁻¹`, an action of `H` on crossed cocycles
-([DHKM2], §1.2, pp. 4–6). -/
+([DHKM2], §1.2, pp. 4–5 (cocycles and L-homomorphisms); §2.1, p. 11 (twisted conjugation)). -/
 def CrossedCocycle.gauge (α : Γ →* MulAut H) (h : H) (c : CrossedCocycle α) :
     CrossedCocycle α where
   value γ := h * c.value γ * (α γ h)⁻¹

@@ -89,8 +89,8 @@ classifying stack are built by the v-stack and enhanced-sheaf roadmaps on the dg
 SR.6 concerns the integral finite-wild cocycle scheme, invariant quotients and the free-group
 excursion algebra. The geometric Hecke action on Bun_G, its map to the smooth center, and the
 integral finiteness and second-adjointness consequences requiring that action are outside the
-scope of this roadmap ([FS] Theorems IX.0.1 and IX.5.1; [DHKM1] Theorems 1.1–1.2 and
-Corollary 1.3). No geometric action is an input to the remaining SR.6 targets. The arithmetic GL_n double-coset multiplication belongs to
+scope of this roadmap ([FS] Theorem IX.0.1, p. 317, and Proposition IX.5.1, p. 327; [DHKM1]
+Theorems 1.1–1.2 and Corollary 1.3). No geometric action is an input to the remaining SR.6 targets. The arithmetic GL_n double-coset multiplication belongs to
 ModularForms; the geometric Satake equivalence to GeometricSatakeAndFusion, which compares against
 the trace contract of SR.4; two-parahoric unitary operators, the Iwahori and Klingen computations
 for GSp_4 with their Galois applications, the GL_2 newvector theorem and the minimal-lift line of
@@ -120,8 +120,10 @@ induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
 `Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
 for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
 formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
-and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
-`parabolic_adjointDet_eq_radical` in every characteristic (SR.1.4–SR.1.5, SR.2.2, SR.3a.2);
+and its `LocalIntegration.modularCharacter_eq_adjointModulus` in every characteristic
+(SR.1.4–SR.1.5, SR.2.2, SR.3a.2), whose restriction to a parabolic,
+det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity of M, is
+mentioned in ReductiveGroupsPartII's RG2.4 prose without a named target and is derived here;
 the central-coset localisation of Modular forms, layer 2 (SR.4.3); the Iwasawa presentation
 Fr s Fr⁻¹ = s^q of Local fields and ramification, layer 4, with Tau Ceti `IsArithFrobeniusLift`,
 `tameQuotientEquiv`, `wildInertiaSubgroup` (SR.6.1); and Mathlib's Fitting decomposition
@@ -249,9 +251,10 @@ For SR.0: `NonarchimedeanGroup` (open subgroups as a neighbourhood basis, withou
 `IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one` and
 `compact_exists_isClopen_in_isOpen` (the two halves of van Dantzig's theorem), `OpenSubgroup`,
 `Representation`, `Representation.stabilizer`, `Representation.ofMulAction` (the carrier of
-smoothness and the permutation representations used in the checks), `Rep` with `Rep.res`,
-`Rep.quotient` and `Rep.mkQ` in `Mathlib/RepresentationTheory/Rep/Basic.lean` (restriction and
-quotient objects of the ambient category; `Rep.ofQuotient` is instead the representation of G ⧸ S
+smoothness and the permutation representations used in the checks), `Rep` with `Rep.res` in
+`Mathlib/RepresentationTheory/Rep/Res.lean` and `Rep.quotient` and `Rep.mkQ` in
+`Mathlib/RepresentationTheory/Rep/Basic.lean` (restriction and quotient objects of the ambient
+category; `Rep.ofQuotient` is instead the representation of G ⧸ S
 on a module where the normal subgroup S acts trivially, and is not used for quotient objects; the
 two types are distinguished by a test),
 `CategoryTheory.ObjectProperty.FullSubcategory`,
@@ -387,8 +390,8 @@ with Mathlib's discrete `groupCohomology` of the finite torus quotient as carrie
 `cup_one_left` and `cup_gradedComm` to that carrier.
 
 For SR.6: `TauCeti.AffineGroupSchemeCat` (the affine group schemes carrying the cocycle scheme),
-and `IsArithFrobeniusLift`, `tameQuotientEquiv`, `wildInertiaSubgroup` (the Iwasawa presentation
-of the tame quotient, consumed by the finite-wild discretisation).
+and `TauCeti.IsArithFrobeniusLift`, `TauCeti.tameQuotientEquiv`, `TauCeti.wildInertiaSubgroup`
+(the Iwasawa presentation of the tame quotient, consumed by the finite-wild discretisation).
 
 For SR.3a, SR.3 and SR.2a: `TauCeti.FiniteTypeCommHopfAlgCat` in
 `TauCeti/Algebra/AlgebraicGroup/FiniteType/CommHopfAlgCat.lean` and
@@ -398,6 +401,10 @@ For SR.3a, SR.3 and SR.2a: `TauCeti.FiniteTypeCommHopfAlgCat` in
 `TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` with the limit map
 `TauCeti.Cocharacter.limitToLevi` in `TauCeti/Algebra/AlgebraicGroup/Dynamic/LeviDecomposition/Basic.lean`
 (the parabolic P(λ), its Levi subgroup and unipotent radical, and the projection P(λ) → M(λ)).
+
+For SR.5: `TauCeti.upperUnitriangularGroup` in
+`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/UpperUnitriangular/Basic.lean` (the unipotent
+radical U_n of the Borel), with `TauCeti.UpperUnitriangularGroup.ext` and `.map`.
 
 `Representation.ofLinearCharacter` in `TauCeti/RepresentationTheory/LinearCharacter/Basic.lean`
 supplies the character representation over any commutative semiring. In the root namespace
@@ -423,15 +430,17 @@ integral dual group over ℤ with its Galois action through a finite quotient an
 are consumed as imported objects; no second topology, parahoric or dual group is defined here.
 The point topology enters `Suggested.lean` through `PointTopology.instTopologicalSpaceWithConv`,
 `PointTopology.instIsTopologicalGroupLocal` and `PointTopology.instLocallyCompactSpaceLocal` of
-`TauCetiRoadmap/ReductiveGroupsPartII/Suggested.lean`.
+`TauCetiRoadmap/ReductiveGroupsPartII/Suggested.lean`, and through `PointTopology.instT2SpaceLocal`
+and `PointTopology.instTotallyDisconnectedSpaceLocal` of the same file (the hypotheses of
+`LeviDecomposition.modulusCharacter_isSmooth`).
 
 For SR.2.2, RG2.4 owns `LocalIntegration.modularCharacter_eq_adjointModulus`
-(`Suggested.lean`) and `parabolic_adjointDet_eq_radical` (the README target): the local
-Haar modular character is the absolute adjoint determinant, and for a parabolic this is
-the determinant on Lie N. These hold over every nonarchimedean local
-field, including positive characteristic. SR constructs the coefficient-valued modulus
-when the residue characteristic is invertible in A. AdelicAlgebraicGroups §2.2 consumes
-these RG2 results for finite-place and adelic comparisons.
+(`Suggested.lean`): the local Haar modular character is the absolute adjoint determinant. This
+holds over every nonarchimedean local field, including positive characteristic. The restriction
+to a parabolic, det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity
+of M, is mentioned in RG2.4's prose without a named target and is derived here. SR constructs the
+coefficient-valued modulus when the residue characteristic is invertible in A.
+AdelicAlgebraicGroups §2.2 consumes this RG2 result for finite-place and adelic comparisons.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -1112,8 +1121,9 @@ profinite, A a commutative ring, S a discrete G-set with compact open stabiliser
 compact open subgroups. Define the A-module Fun_G(S × S, A) of functions h : S × S → A
 invariant under the diagonal G-action whose support is a finite union of G-orbits, with the matrix
 product (h₁ * h₂)(x, z) = Σ_y h₁(x, y) h₂(y, z) (a finite sum), and its
-left action on the permutation module A[S], h * s = Σ_t h(t, s) t. Prove that when S
-has finitely many G-orbits, Fun_G(S × S, A) ≃ End_G(A[S]) as A-algebras. Define
+left action on the permutation module A[S], h * s = Σ_t h(t, s) t (the display in [TV] §2.10
+writes h(s,t); with the product (2.10.1) that is a right action, and (2.10.2) is unchanged).
+Prove that when S has finitely many G-orbits, Fun_G(S × S, A) ≃ End_G(A[S]) as A-algebras. Define
 H(G, U; A) := Fun_G(G/U × G/U, A), the Hecke algebra of finitely supported
 functions on U\G/U for S = G/U, with basis the double cosets [UgU]. It is defined over every A,
 including F_p for p-adic G: no measure or averaging is used. Through V^U = Hom_G(A[G/U], V), V^U
@@ -1895,12 +1905,13 @@ part of the group data ([Cas95] §1.5 and Lemma 1.5.1, p. 16).
 δ_B^{BH}(diag(a,d)) = |d/a|_F. Thus our δ_B = (δ_B^{BH})⁻¹; the factor
 (δ_B^{BH})^{−1/2} in [BH06] (9.11.1), p. 69, is our δ_B^{1/2}. *Needs:* *a-valued-haar-measure*,
 *smooth-character*; ReductiveGroups layer 7; ReductiveGroupsPartII RG2.4
-`LocalIntegration.modularCharacter_eq_adjointModulus` and
-`parabolic_adjointDet_eq_radical`. SR.2.2 consumes these arbitrary-characteristic local
-results and constructs the coefficient-valued character via the residue exponent when
-the residue characteristic is invertible in A (equivalently, q is a unit). Its merge
-contract includes agreement with that RG2 modulus; square roots are required only for
-the normalised functors. AdelicAlgebraicGroups §2.2 consumes the same RG2 results for
+`LocalIntegration.modularCharacter_eq_adjointModulus`; the restriction to a parabolic,
+det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity of M, is
+mentioned in RG2.4's prose without a named target and is derived here. SR.2.2 consumes this
+arbitrary-characteristic local result and constructs the coefficient-valued character via the
+residue exponent when the residue characteristic is invertible in A (equivalently, q is a unit).
+Its merge contract includes agreement with that RG2 modulus; square roots are required only for
+the normalised functors. AdelicAlgebraicGroups §2.2 consumes the same RG2 result for
 finite-place and adelic comparison.
 *Lean:* `LeviDecomposition.modulusCharacter` (Mathlib's `MeasureTheory.Measure.modularCharacter`
 of P restricted to M, with values in ℂˣ; by the remark above it is the conjugation modulus of N when
@@ -1912,8 +1923,8 @@ modular character of a general locally compact group need not have open kernel).
 
 **Checks.**
 
-- For GL_2(ℚ_p) and B upper triangular, δ_B(diag(a,d)) = |a/d|_p, and the smoothness lemma
-  applies, G being locally profinite.
+- For GL_2(ℚ_p) and B upper triangular, δ_B(diag(a,d)) = |a/d|_p (a Lean `example` at diag(p,1)
+  and diag(1,p)), and the smoothness lemma applies, G being locally profinite.
 - Non-example for the smoothness lemma: the real affine group G = {(a, b) : a > 0, b ∈ ℝ} with
   (a, b)(a′, b′) = (aa′, b + ab′), P = G, M = {(a, 0)}, N = {(1, b)}, is locally compact with a
   closed Levi decomposition; its left Haar measure is da db/a², so Mathlib's modular character is
@@ -2044,7 +2055,7 @@ conjugates wχ (w ∈ W), so its semisimplification is ⊕_{w ∈ W} wχ, and th
 has r_B(π) ≠ 0, that its semisimplified Jacquet module is a sub-sum of ⊕ wχ, that π embeds in
 i_B(wχ) for some w, and that i_B χ has length ≤ |W| ([BZ77] Corollary 2.13(c), p. 449;
 Theorem 2.8, p. 448 (length); [Cas95] Proposition 6.4.1, p. 61 (splitting for regular χ)).
-For GL_2(F), [BH06] 9.3 Theorem, pp. 63–64, gives the unnormalised two-step sequence; conversion using δ_B = (δ_B^{BH})⁻¹ gives the normalized Weyl characters. It is a filtration, not an unconditional splitting. *Needs:* *geometric-lemma*, *first-adjointness*, *central-ext-vanishing*.
+For GL_2(F), [BH06] 9.3 Restriction-Induction Lemma, p. 63, gives the unnormalised two-step sequence; conversion using δ_B = (δ_B^{BH})⁻¹ gives the normalized Weyl characters. It is a filtration, not an unconditional splitting. *Needs:* *geometric-lemma*, *first-adjointness*, *central-ext-vanishing*.
 
 The Weyl-character filtration splits under pairwise distinctness of the Weyl characters; the subquotient statement gives the nonzero Jacquet module, its sub-sum of characters and the principal-series embedding; the length statement gives the Weyl-cardinality bound. The statements use the relative Weyl quotient and explicit representatives, retaining the quasi-split hypothesis.
 
@@ -2278,6 +2289,11 @@ countable-dimension argument ([Ber92] Ch. II §1.3, Theorem 12, p. 37; Theorem 1
 `isAdmissible_of_isIrreducible` (for `TauCeti.reductiveCommHopfAlgProperty F H` and an irreducible
 object of `SmoothRep ℂ (Points H)`); the consequences drawn from admissibility are specified here
 only.
+
+**Checks for `Points`.** `Points (LaurentPolynomial F)` is Fˣ with the subspace topology,
+`Points F` (the trivial Hopf algebra) is the one-point group, and `Points` of the coordinate Hopf
+algebra of GL₂ is homeomorphic to GL (Fin 2) F by ReductiveGroupsPartII's homeomorphism
+`PointTopology.generalLinearPointsHomeomorph` for `TauCeti.GeneralLinear.coordinateHopfAlgebra`.
 
 
 On the rational-point carrier, admissibility, scalar endomorphisms and the central character are stated separately.
@@ -2944,6 +2960,15 @@ is `oppositeDecomposition`, built from `oppositeCocharacter` with the same Levi 
 `instLocallyCompactSpaceParabolic`. Taking the opposite cocharacter twice gives back λ (a Lean
 `example`). The normalised statement i_P ⊣ r_{P̄} and the consequences are specified here only.
 
+**Checks.**
+
+- For the trivial cocharacter (the counit followed by the unit of F[T,T⁻¹]) the decomposition has
+  P = M = 𝐆(F) and N = ⊥, and the second adjunction is id ⊣ id ⊗ 1.
+- For GL₂ and λ with coordinate map X₁₁ ↦ T, X₂₂ ↦ 1, X₁₂, X₂₁ ↦ 0, P(λ) is the upper Borel,
+  N(λ) the upper unipotent group, M(λ) the diagonal torus, and P(λ⁻¹) the lower Borel, so
+  N(λ) ⊓ N(λ⁻¹) = ⊥ while the two decompositions share M (`levi_oppositeCocharacter`).
+- The modulus of the two decompositions at diag(ϖ,1) is q⁻¹ and q.
+
 ### Examples
 
 For GL_2 the unit η_χ identifies the character χ of the torus with the functions in i_B χ
@@ -3129,7 +3154,7 @@ Check: for PGL₂ the condition det(g) = cyclo(γ) holds precisely on the c-grou
 **Checks.** For a torus Σ* = 0, the c-group recovers the L-group. For PGL₂ its c-group
 consists of pairs (g, γ) with det(g) = cyclo(γ); dropping this equation gives the larger
 C-group GL₂ × Γ. Changing a square root of q changes both identifications by Σ*(−1),
-so their composite Satake map is unchanged ([TVpre] §7.8, p. 30; Theorem 7.9, pp. 30–31).
+so their composite Satake map is unchanged ([TVpre] §7.8, pp. 29–30; Theorem 7.9, pp. 30–31).
 
 ### SR.4.3 The general linear group
 
@@ -3158,8 +3183,10 @@ stabilizer Poincaré polynomial v_λ(t). Prove that the universal expression
 cancels to a symmetric Laurent polynomial over ℤ[t], so specialization uses no
 variable-difference inverses; prove this before specializing denominators in coefficient rings.
 Prove that P_λ is invariant under variable permutations, and
-that its total Laurent degree is Σ λ_i ([Les] proof of Lemma 3.2, p. 24,
-displayed Macdonald formula; the universal integrality assertion is a separate algebraic proof obligation). *Needs:* *satake-isomorphism*.
+that its total Laurent degree is Σ λ_i ([Les] proof of Lemma 3.2, p. 24, whose display is the
+equivalent form with the product over pairs λ_i > λ_j and Macdonald's normaliser; the i<j form
+with v_λ(t) used here is [Mac] (III.2.1), and the universal integrality assertion is a
+separate algebraic proof obligation). *Needs:* *satake-isomorphism*.
 
 
 The Laurent ring is the localization of the integer polynomial ring at the product of the coordinate variables. Integrality of the universal rational expression is stated in its fraction field, and the integral polynomial P_λ is characterized by that expression before any specialization.
@@ -3704,8 +3731,11 @@ A-valued ψ a fibre character could become trivial (for instance over A = W(k) �
 condition is not replaced by genericity at minimal
 primes only ([Hel12] Definition 6.1 and Proposition 6.2, p. 12). *Needs:* *essentially-aig*,
 *universal-whittaker*, *schwartz-submodule*; layer SR.0.
-*Lean:* `whittakerUnipotent` (the upper unitriangular subgroup of GL_n(F)), `genericCharacter`
-(u ↦ ψ(u₁₂ + ⋯ + u_{n−1,n}), trivial for n = 1 by a Lean `example`), `CoWhittaker` (relative to
+*Lean:* Tau Ceti's `TauCeti.upperUnitriangularGroup (Fin n) F`, `genericCharacter`
+(u ↦ ψ(u₁₂ + ⋯ + u_{n−1,n}), trivial for n = 1 by a Lean `example`; for n = 2,
+u = [[1,x],[0,1]] has value ψ(x); for n = 3, u = [[1,a,b],[0,1,c],[0,0,1]] has value ψ(a + c),
+independent of b (a Lean `example`); the values at [[1,x],[0,1]] and [[1,y],[0,1]] multiply to
+the value at their product [[1,x+y],[0,1]] (a Lean `example`)), `CoWhittaker` (relative to
 data (U, ψ)), `CoWhittaker.scalars` (for F a p-adic field, k algebraically closed of
 characteristic ℓ ≠ p, A a noetherian W(k)-algebra and ψ as above, every equivariant endomorphism
 of a co-Whittaker family is a unique scalar).
@@ -3955,8 +3985,8 @@ define a crossed cocycle as a map c with c(γδ) = c(γ) α(γ)(c(δ)), and gaug
 gauge conjugation preserves the crossed cocycle relation and is an H-action; and
 that an equivariant homomorphism H → H' maps crossed cocycles to crossed
 cocycles and commutes with gauge conjugation. The associated section γ ↦ (c(γ), γ) is a
-homomorphism into H ⋊ Γ ([DHKM2] §1.2, pp. 4–6; §2.1, p. 10). *Needs:* ReductiveGroupsPartII
-RG2.5.
+homomorphism into H ⋊ Γ ([DHKM2] §1.2, pp. 4–5 (cocycles and L-homomorphisms); §2.1, p. 11
+(twisted conjugation)). *Needs:* ReductiveGroupsPartII RG2.5.
 *Lean:* `CrossedCocycle` (fields `value` and `cocycle`), `CrossedCocycle.gauge` (gauge conjugation
 by h, with the cocycle relation proved); c(1) = 1, the action laws, functoriality and the section
 are specified here only.
@@ -4062,7 +4092,7 @@ order, Ĥ a closed reductive R-subgroup and g ∈ Ĝ(R). Assume Int(g)θ preserv
 Prove that (Ĥg⋊θ)//Ĥ → (Ĝ⋊θ)//Ĝ is a finite R-morphism, where // denotes the affine
 invariant quotient. All inclusions and automorphisms are over Spec R; no arbitrary map of
 underlying point sets is used. No pinning-preservation hypothesis on θ is required
-([DHKM1] Lemma 2.2, p. 5; Lemma 2.1, p. 5).
+([DHKM1] Lemma 2.2, pp. 4–5; Lemma 2.1, p. 5).
 *Needs:* ReductiveGroups layer 7; *wild-strata*.
 
 Finiteness is stated through the induced homomorphism of invariant coordinate algebras. The surjective coordinate Hopf map specifies the closed subgroup, and the pointwise equation for Int(g)θ specifies its action. The pullback is characterized by x ↦ i(x)g over every coefficient algebra.
@@ -4305,6 +4335,7 @@ Locators use the printed page numbers of the following editions.
 - [CT] L. Clozel and J. Thorne, *Level-raising and symmetric power functoriality III*, Duke Mathematical Journal 166 (2017), [author manuscript](https://www.dpmms.cam.ac.uk/~jat58/lrspiii.pdf).
 - [Stacks] *The Stacks project*, [stacks.math.columbia.edu](https://stacks.math.columbia.edu).
 - [Les] S. Leslie, *The endoscopic fundamental lemma for unitary Friedberg–Jacquet periods*, [arXiv:1911.07907v3](https://arxiv.org/pdf/1911.07907v3).
+- [Mac] I. G. Macdonald, *Symmetric functions and Hall polynomials*, second edition, Oxford University Press, 1995 (Chapter III, (2.1) for the Hall–Littlewood normaliser `v_λ(t)`).
 - [LTXZZ] Y. Liu, Y. Tian, L. Xiao, W. Zhang and X. Zhu, *On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives*, Invent. Math. 228 (2022), 107–375, [published](https://par.nsf.gov/servlets/purl/10323568).
 - [Hel12] D. Helm, *Whittaker models and the integral Bernstein center for GL_n*, [arXiv:1210.1789v1](https://arxiv.org/pdf/1210.1789v1).
 - [Ros14] S. Rostami, *The Bernstein presentation for general connected reductive groups*, [arXiv:1312.7374v3](https://arxiv.org/html/1312.7374v3), §§2.5–2.9, 3.2.
