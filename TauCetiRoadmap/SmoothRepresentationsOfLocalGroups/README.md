@@ -3049,8 +3049,10 @@ Checks: for a split torus the fixed lattice is the whole lattice; it is zero for
 that restriction from the Frobenius component Ĥ ⋊ Fr of the dual group to the dual torus
 identifies conjugation-invariant regular functions with W₀-invariant regular functions on the
 relative dual torus, over the fields of TV §7.3 and over integral forms. Closed conjugacy orbits are
-the semisimple unramified parameters. Over a field, restriction is onto ([TV] Lemma 7.3 and proof,
-pp. 207–209); injectivity and the integral forms are this roadmap's. *Needs:*
+the semisimple unramified parameters. Over an algebraically closed field, restriction is bijective: it is onto by
+[TV] Lemma 7.3, and injective by the dominance argument in the proof of part (ii) of the theorem
+of §7.2 ([TV] §7.3, pp. 207–209). Other coefficient fields and the integral forms are this
+roadmap's. *Needs:*
 *torus-character-dictionary*; ReductiveGroups layer 7, ReductiveGroupsPartII RG2.5.
 
 Invariance of a regular function on the Frobenius component is tested over every coefficient algebra. The torus invariants consist of Laurent functions supported on the Frobenius-fixed lattice and invariant under the Frobenius-fixed Weyl group. The restriction isomorphism is pinned along the existing dual-torus inclusion, and closed twisted orbits are characterized by their meeting the dual torus, with closedness expressed by vanishing equations.
@@ -3097,7 +3099,7 @@ character determines a semisimple unramified parameter. Under the convolution ac
 line in the unnormalized Ind_P^G(θ) has character f ↦ θ(S*f), the value of S*f at t_θ, and
 parameter t_θ a₀⁻¹ ⋊ Fr; normalized induction i_P χ = Ind_P^G(χδ_P^{1/2}) has parameter t_χ ⋊ Fr,
 consistently, because t_{χδ_P^{1/2}} = t_χ a₀ for the canonical pseudoroot a₀ = t_{δ_P^{1/2}}
-([TV] §7.6, formulas (7.6.1)–(7.6.3); [TVpre] §7.6, p. 28).
+([TV] §7.5, formulas (7.5.2)–(7.5.5), pp. 210–211; [TVpre] §7.6, formulas (7.6.1)–(7.6.3), p. 28).
 For a classical newform the pair at p is Tau Ceti's
 `HeckeRing.GL2.Newform.satakeParameters`. *Needs:*
 *satake-isomorphism*, *pseudoroot*, *frobenius-component-invariants*; layer SR.2.
@@ -4215,8 +4217,8 @@ that the stable image identifies with the localization M[T⁻¹],
 and that stability passes to the injective-cogenerator dual with the
 adjoint operator. For a decomposed compact open K and a strictly P-positive central element λ,
 use the convolution operator T_λ of 1_{KλK} on V^K; the invertible summand maps canonically to the
-Levi compact-open Jacquet invariants ([DHKM1] §4, definition preceding Lemma 4.5 and Remarks
-4.6–4.7, pp. 13–14; [Hel16] Definition 11.9, p. 58). *Needs:* layer SR.1, layer SR.2.
+Levi compact-open Jacquet invariants ([DHKM1] §4, the definition of K,P-stability preceding Lemma 4.5,
+p. 13, and the observations following Corollary 4.6, pp. 13–14; [Hel16] Definition 11.9, p. 58). *Needs:* layer SR.1, layer SR.2.
 *Lean:* `StableOperator` (some c > 0 and a complement I of ker(T^c), stable under T, on which T is
 bijective); the localization and duality statements are specified here only.
 
