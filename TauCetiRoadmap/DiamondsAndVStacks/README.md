@@ -8544,31 +8544,73 @@ cited in D0.19); D0.4; D0.20; D5.8; PerfectoidSpaces layer P4 (residue-field poi
 
 **Absolute products of locally spatial diamonds and fibre products over underlined compact
 Hausdorff spaces.** (*locally-spatial-absolute-product*) Prove that the absolute product `X × Y`
-(over the final v-sheaf) of two locally spatial diamonds is a locally spatial diamond, and spatial
-when both are spatial ([ECD] §11, proof of Prop. 11.26 and Cor. 11.28, pp. 66–67, applied to the
-product over `Spd 𝔽_p`, which is a diamond but not spatial); and that for a compact Hausdorff space
-`T` and maps `X → T̲`, `Y → T̲` from locally spatial diamonds, `X ×_{T̲} Y` is the closed
-sub-v-sheaf of `X × Y` cut out by the preimage of the diagonal of `T`, hence a locally spatial
-diamond — this is the base-change statement that the representability proof of [ECD] 13.12 uses
-for the map to `|Y|_B̲`, in place of a fibre product with a locally spatial base. *Needs:* D5.5;
-D5.4; D0.9; D3.8.
+(over the terminal v-sheaf `Spd 𝔽_p`, which is *not* a diamond, D5.3) of two locally spatial
+diamonds is a locally spatial diamond: it is the diamond `X × Y` of D5.4 with the atlas built
+from affinoid perfectoid atlases of the factors, locally spatial because a product of two affinoid
+perfectoid spaces is perfectoid and the quasi-pro-étale permanence of D5.5 applies chart by chart
+([ECD] §11, proof of Prop. 11.26, p. 66). It is *not* asserted, and is false, that the absolute
+product of two spatial diamonds is spatial: object-level quasi-compactness of the factors does
+not give quasi-compactness of their product over the non-quasiseparated terminal object (D2.4),
+and the relative statement of D5.5 (`spatial_pullback`, [ECD] Cor. 11.29, p. 67) requires a spatial
+*base*, which the terminal v-sheaf is not. Prove also that for a compact Hausdorff space `T` and
+maps `X → T̲`, `Y → T̲` from locally spatial diamonds, `X ×_{T̲} Y` is the closed sub-v-sheaf of
+`X × Y` cut out by the preimage of the diagonal of `T` under `|X × Y| → T × T`, hence a locally
+spatial diamond by closed-immersion permanence (D5.5) — this needs only local spatiality of the
+absolute product, and it is the base-change statement that the representability proof of [ECD]
+13.12 uses for the map to `|Y|_B̲`; an underlined compact Hausdorff space is never identified with
+a locally spatial diamond. *Needs:* D5.5; D5.4; D5.3; D2.4; D0.9; D3.8.
+
+**Checks.**
+
+- Non-example (spatial factors, non-spatial product): for the one-point affinoid perfectoid
+  `P = Spa(K_0, K_0°)`, `K_0` the completed perfection of `𝔽_p((t))`, a spatial diamond, the
+  absolute product `P × P` is the perfectoid punctured open unit disc over the first factor
+  (parameter `u` the image of the second factor's `t`; [ECD] proof of Prop. 11.4, p. 55; the
+  computation of D2.4 and D4.8), exhausted by the rational annuli
+  `U_n = {|t|^n ≤ |u|, |u|^n ≤ |t|}` with no finite subcover (the `K_0`-point `u = t^{N+1}` lies
+  outside `U_1, …, U_N`), so it is locally spatial but not quasi-compact, hence not spatial.
+- Positive distinction: `P ×_P P ≅ P` is spatial (relative product over a spatial base, D5.5), while
+  `P × P` is not; the product with the empty diamond is empty, hence spatial.
+- The terminal object `Spd 𝔽_p` is a v-sheaf and not a diamond, consistently with D2.4, D4.8 and
+  D5.3's empty-diagram warning.
 
 **Topological proper base change for the Hausdorff quotient.**
-(*hausdorff-quotient-proper-base-change*) For `q : |Y| → |Y|_B` with `Y` quasicompact separated,
-`|Y|` spectral-type valuative (possibly non-Hausdorff, not assumed spatial), `|Y|_B` compact
-Hausdorff and `q` a closed continuous surjection with fibres the closures of single rank-one points
-(`fibre_is_a_closure`), prove for every abelian sheaf `F` on `|Y|` and every `i ≥ 0` the comparison
-`(R^i q_* F)_b ≅ H^i(q^{-1}(b), F|_{q^{-1}(b)})`: the closed neighbourhoods `q^{-1}(V)`, `V ∋ b` open,
-are cofinal among neighbourhoods of the fibre (closedness of `q` and compactness of `|Y|_B`), and
-cohomology commutes with the filtered limit of these closed sets by the closed-neighbourhood
-continuity for spectral-type spaces ([ECD] §13, proof of Prop. 13.13, p. 81; the hypothesis used is
-that `|Y|` is a quasi-compact quasi-separated spectral space and the fibres are closed, so that
-filtered limits of closed subsets with their induced topologies are again spectral and
-cohomology of a constant-ish sheaf passes to the limit, [Stacks] Tag 0A2Z for the
-spectral-space cohomology-and-limits statement). With the fibre acyclicity of `fibre_is_a_closure`
-this gives `R^i q_* q^{-1} F = 0` for `i > 0` and `q_* q^{-1} F = F`, hence the comparison of
+(*hausdorff-quotient-proper-base-change*) Let `Y` be any quasicompact separated diamond, `|Y|` its
+underlying space — quasi-compact, possibly non-Hausdorff and *not assumed spectral* (the interval
+diamond below has `|Y| ≅ [0, 1]`, which is not spectral, D4.6) — `|Y|_B` its maximal Hausdorff
+quotient (compact Hausdorff, D5.14) and `q : |Y| → |Y|_B` the quotient map, a closed continuous
+surjection whose fibres are the closures of single rank-one points (`fibre_is_a_closure`), each
+fibre a spectral space with a unique generic point. Prove, for every abelian sheaf `G` on `|Y|_B`
+and every `i ≥ 0`, the comparison `(R^i q_* q^{-1}G)_b ≅ H^i(q^{-1}(b), q^{-1}G|_{q^{-1}(b)})`
+(this pulled-back-coefficient form is what `Perf.berkovich_derived_fullyFaithful` needs; the same
+statement for an arbitrary abelian sheaf `F` on `|Y|` is asserted only if proved in the same
+generality), by the closed-neighbourhood route: the closed neighbourhoods `K` of `b` in `|Y|_B`
+with `b ∈ int(K)` are cofinal among the neighbourhoods of `b` (compact Hausdorff), their inverse
+images `q^{-1}(K)`, closed since `q` is continuous, are cofinal among the neighbourhoods of the
+fibre `q^{-1}(b)` because `q` is closed, and `q^{-1}(b) = ⋂_K q^{-1}(K)`; the cohomological
+continuity statement to prove is `colim_K H^i(q^{-1}(K), q^{-1}G) ≅ H^i(q^{-1}(b), q^{-1}G)` for
+this cofiltered system of closed subsets of the quasi-compact space `|Y|` (stated and proved here
+for the quotient maps of quasicompact separated diamonds, by the quasi-compactness of `|Y|` and
+the pulled-back coefficients, which are constant along the fibres; no spectrality of `|Y|` is used,
+and the spectral space of the argument is the *fibre*, as in [ECD] §13, proof of Prop. 13.13,
+p. 81). With the fibre acyclicity of `fibre_is_a_closure` this gives `R^i q_* q^{-1} G = 0` for
+`i > 0` and `q_* q^{-1} G = G`, hence the comparison of
 *reduction-to-spatial-and-hausdorff-cohomology*; D0.19's Čech/Leray statements supply the spectral
-sequence only, not this hypothesis verification. *Needs:* D0.4; D0.19; D0.20; D5.14.
+sequence only, and no later diamond proper-base-change theorem is used. *Needs:* D0.4; D0.19;
+D0.20; D4.6; D5.14.
+
+**Checks.**
+
+- Non-spectral source: for `T = [0, 1]` and a characteristic-`p` perfectoid field `C`,
+  `Y = T̲ × Spa(C, O_C)` is a quasicompact separated diamond (D4.6, [ECD] Ex. 11.12) with
+  `|Y| ≅ T` Hausdorff, so `|Y|_B = T`, `q = id_T` and the comparison is the identity; `T` is not
+  spectral (`interval_not_spectral`), so a proof assuming an ambient spectral source would exclude
+  this permitted input.
+- Non-Hausdorff source: for `Y = Spa(C, C⁺)` with `C⁺` of rank two (`rank_two_point`), `|Y| = {η ⤳ s}`
+  is not Hausdorff, `|Y|_B` is a point, the fibre is the whole two-point space with generic point
+  `η`, and the comparison reduces to the stalk at `s`; a proof imposing Hausdorffness on the source
+  would exclude this input. Both Checks reach the stalk comparison, not only the acyclicity of an
+  isolated fibre.
 
 `Perf.berkovich_representable` specifies the map to the underlined Berkovich
 space by its value on every test section. It assumes a quasicompact diamond
