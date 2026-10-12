@@ -3858,7 +3858,7 @@ quaternion norms and compact abelian Fourier limits.
   π⁻¹{[g]}`, `kK′ ↦ [g k]`. Prove that `π [g] = [g]`, that `π` is
   surjective, that the fibre map is surjective for each `g`, and
   that the maps for `K″ ≤ K′ ≤ K` compose; no normality is assumed
-  ([LT], §3.2, (15), p. 11). *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`; Tau Ceti
+  ([LT], §3.2.3, (28), second inequality, p. 16). *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`; Tau Ceti
   `DoubleCoset.quotientMapOfLELeft`.
   *Lean:* none; specified in the README only.
 
@@ -4069,7 +4069,8 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* none; specified in the README only.
 - **Volumes under finite-index level change.** For a connected reductive group `G` over `F` and
   compact open `U′ ⊂ U`, prove
-  `∑_j vol(Γ′_j\G(F_∞)/A_G(ℝ)^0) = [U : U′] ∑_i vol(Γ_i\G(F_∞)/A_G(ℝ)^0)` ([LT], §3.2.3, p. 16).
+  `∑_j vol(Γ′_j\G(F_∞)/A_G(ℝ)^0) = [U : U′] ∑_i vol(Γ_i\G(F_∞)/A_G(ℝ)^0)` (the index factor as in
+  the counting analogue [LT], §3.2.3, (28), p. 16).
   *Needs:* AA.4.5; Mathlib `MeasureTheory.Subgroup.index_mul_measure`; AA.2.4.
   *Lean:* none; specified in the README only.
 - **Integral lifting for reductive abelianization.** (*abelianization-integral-lifts*) For
