@@ -2170,8 +2170,14 @@ conventions stay separate from the carrier: proper-diagonal separatedness of alg
   `test_classifying` (`pt ×_{BG} pt = G`).
 - `Stack.stackification.test_site_generic` (compatibility) — on the site of open subsets of a
   topological space with its canonical topology, the stackification of the constant prestack with
-  fibre a fixed category `A` is the stack of locally constant `A`-valued data; on a connected
-  space it is `A` again, and the result is not groupoid-valued when `A` is not.
+  fibre a fixed category `A` is the stack of locally constant `A`-valued data (descent objects
+  glued from local sections, Stacks Lemma 8.9.1); on the one-point site it is `A` again, and the
+  result is not groupoid-valued when `A` is not (take `A` with a non-invertible arrow).
+- `Stack.stackification.test_circle_monodromy` (non-example) — connectedness of the base does not
+  give `A` back: on the circle `S¹` with `A = B(C₂)`, the global fibre of the stackification is the
+  groupoid of locally constant `C₂`-torsors, which has at least two non-isomorphic objects, the
+  trivial double cover `S¹ ⨿ S¹ → S¹` and the connected cover `z ↦ z²` with deck action
+  `z ↦ −z` (different numbers of components), while `B(C₂)` has one isomorphism class.
 - `Stack.stackification.test_cat_valued` (non-groupoid) — the quasi-coherent pseudofunctor is a
   category-valued fppf stack and is its own stackification; the groupoid-only version does not
   apply to it.
