@@ -3040,8 +3040,9 @@ Checks: for a split torus the fixed lattice is the whole lattice; it is zero for
 **Twisted conjugation on the Frobenius component** (*frobenius-component-invariants*). Prove
 that restriction from the Frobenius component Ĥ ⋊ Fr of the dual group to the dual torus
 identifies conjugation-invariant regular functions with W₀-invariant regular functions on the
-relative dual torus, over the fields and integral forms of TV §7.3. Closed conjugacy orbits are
-the semisimple unramified parameters ([TV] Lemma 7.3 and proof, pp. 207–209). *Needs:*
+relative dual torus, over the fields of TV §7.3 and over integral forms. Closed conjugacy orbits are
+the semisimple unramified parameters. Over a field, restriction is onto ([TV] Lemma 7.3 and proof,
+pp. 207–209); injectivity and the integral forms are this roadmap's. *Needs:*
 *torus-character-dictionary*; ReductiveGroups layer 7, ReductiveGroupsPartII RG2.5.
 
 Invariance of a regular function on the Frobenius component is tested over every coefficient algebra. The torus invariants consist of Laurent functions supported on the Frobenius-fixed lattice and invariant under the Frobenius-fixed Weyl group. The restriction isomorphism is pinned along the existing dual-torus inclusion, and closed twisted orbits are characterized by their meeting the dual torus, with closedness expressed by vanishing equations.
@@ -3087,9 +3088,10 @@ closed coefficient field of characteristic different from p, prove that a spheri
 character determines a semisimple unramified parameter. Under the convolution action, the K-fixed
 line in the unnormalized Ind_P^G(θ) has character f ↦ θ(S*f), the value of S*f at t_θ, and
 parameter t_θ a₀⁻¹ ⋊ Fr; normalized induction i_P χ = Ind_P^G(χδ_P^{1/2}) has parameter t_χ ⋊ Fr,
-consistently, because t_{χδ_P^{1/2}} = t_χ a₀ for the canonical pseudoroot a₀ = t_{δ_P^{1/2}}.
+consistently, because t_{χδ_P^{1/2}} = t_χ a₀ for the canonical pseudoroot a₀ = t_{δ_P^{1/2}}
+([TV] §7.6, formulas (7.6.1)–(7.6.3); [TVpre] §7.6, p. 28).
 For a classical newform the pair at p is Tau Ceti's
-`HeckeRing.GL2.Newform.satakeParameters` ([TV] §7.5, formulas (7.5.2)–(7.5.5), pp. 210–211). *Needs:*
+`HeckeRing.GL2.Newform.satakeParameters`. *Needs:*
 *satake-isomorphism*, *pseudoroot*, *frobenius-component-invariants*; layer SR.2.
 
 Semisimple parameters are dual-torus points modulo Frobenius-twisted conjugacy in the existing dual group, and their classes are identified with characters of the invariant coordinate algebra. The spherical-line statement gives the action of the double-coset operator v ↦ Σ_{xK ⊆ KgK} ρ(x)v on the one-dimensional fixed space of unnormalized induction, by the value at the inducing character of the level-K raw transform of [KgK]; no Haar measure enters, so it holds whenever char k ≠ p. The normalization statement computes the simultaneous half-modulus change in the inducing character and constant term for GL_2(ℚ_p) at the character with values 2 and 3 on the coordinate generators: both sides equal √p(2 + 3), the value of q^{1/2}(X₁ + X₂).
@@ -3747,7 +3749,7 @@ It also owns the classical GL_n correspondence rec, and
 the Breuil–Schneider generic-socle representation BS, defined using its
 segments and the |det|^{−(n−1)/2} normalization of [EH] §4.2, Definition 4.2.1,
 pp. 29–30. Construct descent to characteristic-zero coefficient fields and scalar
-extension, using [EH] Theorem 4.1.6, pp. 26–27, and §4.2. The Weil group and
+extension, using [EH] Proposition 4.1.6, pp. 26–27, and §4.2. The Weil group and
 reciprocity come from ClassFieldTheory layer 9; reciprocity sends a uniformizer
 to arithmetic Frobenius. Transport any geometric-Frobenius source convention by
 inversion. SR.5.1 supplies the segment representations; the classical correspondence
@@ -3756,7 +3758,7 @@ For every parameter define the normalized fibre
 π_norm(ρ) = (BS(ρ∨))~, the smooth dual (*smooth-dual*) of the Breuil–Schneider representation of ρ∨.
 The algebraic Galois dual and the smooth representation dual are separate operations.
 Prove its essentially AIG dual and its supercuspidal support in this normalization
-([EH] Corollary 4.3.3, p. 32; [Hel12] Theorem 7.1, p. 13).
+([EH] Corollary 4.3.3, p. 32; [Hel12] Theorem 7.1(3), p. 13, for the normalization).
 
 A Frobenius-semisimple Weil–Deligne parameter of rank n over a field E is a homomorphism r from
 the Weil group to GL_n(E) with open kernel and semisimple images, and a matrix N with
