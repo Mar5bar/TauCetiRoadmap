@@ -1460,10 +1460,10 @@ tower mapping by finite maps `f_i` to a good tower (with finite transition maps)
   ([HJ] Definition 5.12, pp. 32–33, and Lemma 5.11, p. 32).
   For perfectoid `K`, this holds, for example, when `(X₀)_red` is a finite disjoint union of
   `Spa(L)` with `L/K` finite. In particular, `X₀ = Spa(K[ε]/(ε²))` is a projective level
-  whose diamond is represented by `Spa(K)`: maps from perfectoid tests kill `ε`, since
+  whose diamond is represented by `Spa(K)` ([HJ] Lemma 5.10, p. 32): maps from perfectoid tests kill `ε`, since
   perfectoid rings are reduced ([P1.1](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts)). The preimages of `U₀ = V₀ = X₀` give condition (3).
   The level itself is not perfectoid; its nonzero nilpotent prevents uniformity
-  ([ECD] Definition 3.1, p. 14; [HJ] Lemma 5.10, p. 32).
+  ([ECD] Definition 3.1, p. 14).
 - `goodTower_const_P1_charP_not_tildeLimit` (negative control) — for a complete
   nontrivially normed perfectoid field `K` of characteristic `p`, the single-level
   tower `ℙ¹_K` is good, with represented limit its completed perfection. One can take
