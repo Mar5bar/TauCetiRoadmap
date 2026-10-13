@@ -6,7 +6,7 @@
 
 Own primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions and exponential Ax–Schanuel with its algebraic differential forms.
 
-Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure belongs here.
+Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure belongs here. Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
 
 GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. [IntegralLattices](../IntegralLattices/README.md), Layer 0A and Layer 2, owns integral quadratic lattices and their bounded-norm finiteness; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc estimates here are multivariate variants. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
 
@@ -26,12 +26,12 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 
 **From Tau Ceti.** `TauCeti.GlobalNumberFields.Place` is `HeightOneSpectrum (𝓞 K) ⊕ InfinitePlace K`. `normalizedAbsValue` is ideal-normalized at finite places and |σ(x)|^mult at infinity, without the degree root. `hasFiniteMulSupport_normalizedAbsValue` and `finprod_normalizedAbsValue_eq_one` require x≠0. `normalizedAbsValue_inl_algebraMap` raises base values to local extension degree; the product above v raises them to [L:K], also at infinity. All place-indexed targets use this carrier, with finite places in the left summand and infinite places in the right. `normAbs` takes its degree root.
 
-`TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul` preserves dimension for faithful integral extensions; `ringKrullDim_eq_of_injective_of_isIntegral_mvPolynomial` computes dimension over an injected polynomial algebra; `ringKrullDim_tensorProduct_field_of_finiteType` handles field extension; `ringKrullDim_eq_toNat_trdeg` identifies dimension and transcendence degree for finite type domains. Layer 5 adds the nonzero fibre over k[z].
+`TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul` preserves dimension for faithful integral extensions; `ringKrullDim_eq_of_injective_of_isIntegral_mvPolynomial` computes dimension over an injected polynomial algebra; `ringKrullDim_tensorProduct_field_of_finiteType` handles field extension; `ringKrullDim_eq_toNat_trdeg` identifies dimension and transcendence degree for finite type domains. `TauCeti.height_eq_ringKrullDim_of_isMaximal` gives maximal-ideal height for a finite-type algebra over a field with irreducible spectrum. Mathlib’s `ringKrullDim_quotient_add_one_of_mem_nonZeroDivisors` applies to a nonzerodivisor contained in a prime of maximal height. Layer 5 packages these for the nonzero fibre over k[z].
 
 **From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. IntegralLattices, Layer 0A “integral lattices” and Layer 2 “definite lattices”, supplies the quadratic-lattice carrier and its bounded-norm finiteness; Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; §3.4 builds their several-variable forms.
 
 
-**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima, linear-forms and Hadamard variants needed here are §0.0 targets, with the exact boundary and empty-family conventions specified there.
+**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima, linear-forms and Hermitian Gram variants needed here are §0.0 targets, with the exact boundary and empty-family conventions specified there. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
 
 `Set.unit S K` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the sole S-unit subgroup, for a set S of height-one primes of a Dedekind domain with fraction field K. Its membership condition is v(x)=1 at every v outside S; `Set.unit_valuation_eq_one` and `Set.unitEquivUnitsInteger` identify its elements with units of the S-integer ring. For rational equations take the domain `𝓞 ℚ`, using `Rat.HeightOneSpectrum.primesEquiv` to identify its height-one primes with rational primes. No separate rational S-unit subgroup is defined. The algebraic-number field inside ℂ is `(algebraicClosure ℚ ℂ).toSubfield`. `PowerSeries.expand r hr` with r≠0 and `PowerSeries.expand_apply` supply f(z^r)=subst(X^r,f); `PowerSeries.coeff_expand` supplies the coefficient formula, with zero off exponents divisible by r. This is the sole expansion operator for Mahler systems; no separate coefficient construction is needed. The rational numerator, sign, exponent and height comparisons of §4.1 are adapters on this carrier.
 
@@ -62,7 +62,7 @@ The volume is the same Haar measure used for the covolume. No norm-ball restrict
 
 For d≥1, invertible A∈M_d(ℝ), positive b_i and ∏b_i≥|det A|, prove `minkowski_linear_forms`: some nonzero z∈ℤ^d has |(Az)_i|≤b_i for every i. The inequalities include the boundary; compactness of the parallelepiped is essential at equality. This is a coordinate consequence of the supplied first convex-body theorem. (E19, ch. 2, Cor. 2.6, p. 20.)
 
-For a finite family v_i in a real Euclidean space with an orthonormal coordinate basis of matching dimension, prove `orthonormal_coordinate_hadamard`: the coordinate determinant has modulus at most ∏‖v_i‖₂. For a finite family in a real or complex inner-product space, prove `hermitian_gram_hadamard`: 0≤det Gram(v)≤∏‖v_i‖². Include dependent and empty families, with determinant and product 1 in the empty case. Use the library Gram matrix and Euclidean norms. (E19, ch. 2, Exercise 2.11, p. 31, and its Gram-Schmidt argument; the complex statement follows by the same Hermitian orthogonalization.)
+For a finite family v_i in a real or complex inner-product space, prove `hermitian_gram_hadamard`: det Gram(v)≤∏‖v_i‖². For complex scalars the determinant is real, so the inequality uses its real part. Include dependent and empty families, with determinant and product 1 in the empty case. Use the library Gram matrix and Euclidean norms; its nonnegativity is supplied. (E19, ch. 2, Exercise 2.11, p. 31, and its Gram-Schmidt argument; the complex statement follows by the same Hermitian orthogonalization.)
 
 **Checks.**
 
@@ -211,11 +211,11 @@ For m,n≥1, A∈ℝ^(m×n) and Q>1, obtain y∈ℤⁿ∖{0}, x∈ℤᵐ with �
 
 If m,n≥1 and Ay∈ℤᵐ for integer y only when y=0, infinitely many pairs (y,x), y≠0, satisfy |(Ay)ᵢ−xᵢ|≤‖y‖∞^(−n/m). (E19, ch. 2, Exercise 2.6, p. 22; E19, ch. 2, Corollary 2.7, p. 22.)
 
-For n≥1, α∈ℝⁿ and Q>1, obtain integers x,y with 0<y≤Qⁿ and |xᵢ−αᵢy|≤Q⁻¹. (E19, ch. 1, Thm. 1.4(, p. 3.)
+For n≥1, α∈ℝⁿ and Q>1, obtain integers x,y with 0<y≤Qⁿ and |xᵢ−αᵢy|≤Q⁻¹. (E19, ch. 1, Thm. 1.4(i), p. 3.)
 
-If n≥1 and some αᵢ is irrational, infinitely many primitive tuples (x,y) with y>0 satisfy |αᵢ−xᵢ/y|≤y^(−1−1/n). Primitive means gcd(x₁,…,xₙ,y)=1. (E19, ch. 1, Thm. 1.4(, p. 3; E19, ch. 2, Corollary 2.7(, p. 21.)
+If n≥1 and some αᵢ is irrational, infinitely many primitive tuples (x,y) with y>0 satisfy |αᵢ−xᵢ/y|≤y^(−1−1/n). Primitive means gcd(x₁,…,xₙ,y)=1. (E19, ch. 1, Thm. 1.4(ii), p. 3; E19, ch. 2, Corollary 2.7(i), p. 21.)
 
-If 1,α₁,…,αₙ are ℚ-linearly independent, n≥1, infinitely many integer pairs (x,y), y≠0, satisfy |α·y−x|≤‖y‖∞⁻ⁿ. (E19, ch. 2, Corollary 2.7(, p. 21; E19, ch. 7, Lem. 7.6, p. 142.)
+If 1,α₁,…,αₙ are ℚ-linearly independent, n≥1, infinitely many integer pairs (x,y), y≠0, satisfy |α·y−x|≤‖y‖∞⁻ⁿ. (E19, ch. 2, Corollary 2.7(ii), p. 21; E19, ch. 7, Lem. 7.6, p. 142.)
 
 If yₖ>0, xₖ/yₖ≠α and |xₖ−αyₖ|→0 for integer xₖ,yₖ, then α is irrational. (E19, ch. 1, Lem. 1.9, p. 6.)
 
@@ -248,6 +248,12 @@ Its API includes `linearFormExponent_one_add`: For irrational ξ: w(ξ) + 1=μ(�
 - linearFormExponent ![1/2]=0: dropping the condition 0 < |…| would give ⊤.
 - linearFormExponent of the empty vector=0.
 - linearFormExponent ![liouvilleNumber 10]=⊤, matching irrationalityExponent=⊤.
+
+**Checks for Mahler’s polynomial exponent.**
+
+- mahlerExponent 1 √2=1.
+- mahlerExponent 0 ξ=0: constant integer polynomials give no positive exponent.
+- mahlerExponent 2 √2=1. The exact polynomial X²−2 is excluded by the nonzero-value condition; admitting its integer multiples would give ∞.
 
 Define `simultaneousExponent θ` as the supremum in ℝ≥0∞ of λ with maxⱼ|x₀θⱼ−xⱼ|≤|x₀|⁻λ for infinitely many integer tuples with x₀≠0. Exact approximations are allowed; λₙ(ξ)=λ(ξ,…,ξⁿ). (Bugeaud, §2, Def. 2.2, p. 5.)
 
@@ -286,7 +292,7 @@ Under that last condition, prove w*ₙ(ξ)≤wₙ(ξ). (Bugeaud, §2, Thm. 2.5, 
 
 *Needs:* §0.1.
 
-For irrational ξ and consecutive reduced convergents pₖ/qₖ, pₖ₊₁/qₖ₊₁, prove |ξ−pₖ/qₖ|>1/(qₖ(qₖ+qₖ₊₁)); combine with the native upper bound 1/(qₖqₖ₊₁). (E19, ch. 1, Exercise 1.7(, p. 8; Sondow, §3, p. 5.)
+For irrational ξ and consecutive reduced convergents pₖ/qₖ, pₖ₊₁/qₖ₊₁, prove |ξ−pₖ/qₖ|>1/(qₖ(qₖ+qₖ₊₁)); combine with the native upper bound 1/(qₖqₖ₊₁). (E19, ch. 1, Exercise 1.7(iv)–(v), p. 8; Sondow, §3, p. 5.)
 
 For irrational ξ, prove μ(ξ)=1+limsup log qₖ₊₁/log qₖ=2+limsup log aₖ₊₁/log qₖ. Compute the limsup in ℝ≥0∞; the finitely many terms with qₖ=1 are assigned 0. (Sondow, §3, Thm. 1, p. 5; E19, ch. 1, Exercise 1.7, p. 9.)
 
@@ -412,7 +418,7 @@ For any P,Q over a commutative ring, min(Ind(P),Ind(Q))≤Ind(P+Q). (P22, §3.4.
 
 In a characteristic-zero integral domain with positive weights, Ind(P)≤Ind(DᵈP)+Σⱼdⱼ/rⱼ. (P22, §3.4.7, p. 94, p. 99.)
 
-Injective variable renaming preserves index, with the point and weights pulled back along the injection. (P22, §3.4.6, p. 93.)
+For an injection of finite variable sets, prove the index-renaming adapter: renaming preserves index when the point and weights are pulled back along the injection. (P22, Lem. 2.6.1 and Def. 2.6.2, pp. 68–69, via the Hasse coefficient formula.)
 
 For an integer c≥1 and positive weights, Ind with weights cr equals Ind with weights r divided by c. (P22, §3.4.6, p. 93.)
 
@@ -492,6 +498,7 @@ Its API includes `Polynomial.hasseWronskian_fin_two`: W(a, b)=Mathlib's wronskia
 - W(X, 2X)=0.
 - W(1, X)=1.
 - The classical Wronskian det(derivative^[k] g_l) of (1, X, X^2) is 2, not 1: the normalisation matters.
+- Over 𝔽₂, 1 and X² are linearly independent but their two-column Hasse Wronskian is zero. The nonvanishing criterion needs characteristic zero.
 
 For polynomial families over a characteristic-zero field, linear independence is equivalent to nonvanishing of this Wronskian. (P22, Lem. 3.3.2, Prop. 3.3.3, pp. 86.)
 
@@ -508,9 +515,9 @@ Its API includes `MvPolynomial.genWronskian_eq_zero_of_not_linearIndependent`: L
 
 *Needs:* §1.2.
 
-Over a field, substitution Xⱼ↦t^(Bʲ) preserves linear independence of a finite family if B exceeds every partial degree of every member. (P22, Exercise 3.5(, p. 89.)
+Over a field, substitution Xⱼ↦t^(Bʲ) preserves linear independence of a finite family if B exceeds every partial degree of every member. (P22, Exercise 3.5(a), p. 89.)
 
-The kth ordinary derivative after that substitution is Σ|d|≤k a_(d,k)(t)·φ(Dᵈf), with polynomial a_(d,k) independent of f. (P22, Exercise 3.5(, p. 89.)
+The kth ordinary derivative after that substitution is Σ|d|≤k a_(d,k)(t)·φ(Dᵈf), with polynomial a_(d,k) independent of f. (P22, Exercise 3.5(b), p. 89.)
 
 *Needs:* §1.2.
 
@@ -554,11 +561,11 @@ For an integer P with positive degree bounds rᵢ, Σrᵢ≤2D/L, log|Pμ|≤C�
 
 *Needs:* §1.2.
 
-Suppose Q∈ℤ[X] has partial degrees ≤rᵢ with rᵢ≥1, diagonal index at α∈ℝ ≥t≥0, |βᵢ−α|≤H(βᵢ)⁻κ for β∈ℚⁿ, κ≥0, and rᵢh(βᵢ)≥D′≥0. If Q(β)≠0, then log|Q(β)|≤log maxμ|Qμ|+Σrᵢ(log 2+log max(1,|α|))+2Σlog(rᵢ+1)−κD′t. (P22, §3.5.3, pp. 100-102; P22, Exercise 3.10, p. 104.)
+Suppose Q∈ℤ[X₁,…,Xₙ] has partial degrees ≤rᵢ with rᵢ≥1, diagonal index at α∈ℝ ≥t≥0, |βᵢ−α|≤H(βᵢ)⁻κ for β∈ℚⁿ, κ≥0, and rᵢh(βᵢ)≥D′≥0. If Q(β)≠0, then log|Q(β)|≤log maxμ|Qμ|+Σrᵢ(log 2+log max(1,|α|))+2Σlog(rᵢ+1)−κD′t. (P22, §3.5.3, pp. 100-102; P22, Exercise 3.10, p. 104.)
 
 *Needs:* §1.2.
 
-For Q∈ℤ[X], partial degrees ≤rᵢ and Q(β)≠0 at β∈ℚⁿ, prove log|Q(β)|≥−Σᵢrᵢ log den(βᵢ). (P22, §3.5.3, pp. 99-100.)
+For Q∈ℤ[X₁,…,Xₙ], partial degrees ≤rᵢ and Q(β)≠0 at β∈ℚⁿ, prove log|Q(β)|≥−Σᵢrᵢ log den(βᵢ). (P22, §3.5.3, pp. 99-100.)
 
 Use `Matrix.det_apply`; `Real`: `abs_exp_sub_one_sub_id_le`, `add_one_le_exp`; `isIntegral_leadingCoeff_smul`; `NumberField`: `house`, `finite_setOfPred_mulHeight₁_le`; `Height`: `logHeight₁`, `mulHeight₁`; `Rat.mulHeight₁_eq_max`.
 
@@ -598,6 +605,7 @@ For block-linear substitution Xₕₗ=Σa AₕₗaYₕa over a commutative semir
 
 - Over ℚ, the coefficient of X₀X₁ in (X₀+X₁)² is 2.
 - Over ℚ, the coefficient of X₀ in (X₀+X₁)² is zero.
+- The coefficient for e=k=0 is 1 even for an empty substitution matrix; the empty product has value 1.
 
 For that substitution, D_Yᵏ((D_XⁱF)(AY))=Σe∈E(k) c_(e,k)∏ₕₗbinom(iₕₗ+eₕₗ,iₕₗ)(D_X^(i+e)F)(AY), where E(k) consists of nonnegative e with Σₗeₕₗ=Σa kₕa in each block. (E96, §7, Lem. 26, p. 68, pp. 295–296.)
 
@@ -766,7 +774,7 @@ Its API includes `IsNondegenerateSolution.sum_eq_one`: IsNondegenerateSolution �
 - With one unknown, x=α⁻¹ is the unique solution and it is non-degenerate.
 - For two unknowns, (x, y) is non-degenerate iff αx + βy=1, αx≠0 and βy≠0.
 
-Define `IsNondegenerateHomogeneousSolution` as follows. Define `NondegenerateHomogeneousSolution a x` by Σaᵢxᵢ=0 and nonvanishing of every proper nonempty subsum. Its projective use requires at least two terms and nonzero coefficients and coordinates. (E19, ch. 8, p. 169.)
+Define `IsNondegenerateHomogeneousSolution` as follows. Define `IsNondegenerateHomogeneousSolution a x` by Σaᵢxᵢ=0 and nonvanishing of every proper nonempty subsum. Its projective use requires at least two terms and nonzero coefficients and coordinates. (E19, ch. 8, p. 169.)
 
 Its API includes `IsNondegenerateHomogeneousSolution.sum_eq_zero`: Σ_i α_ix_i=0; `IsNondegenerateHomogeneousSolution.smul`: For λ≠0, IsNondegenerateHomogeneousSolution α x→IsNondegenerateHomogeneousSolution α (λ • x); `isNondegenerateHomogeneousSolution_iff_cons`: For ι=Option κ, α none=−1 and x none=1: IsNondegenerateHomogeneousSolution α x↔IsNondegenerateSolution (α ∘ some) (x ∘ some); `IsNondegenerateHomogeneousSolution.merge`: If x_p=βx_q (p≠q) and x is non-degenerate, then dropping x_p and replacing α_q by α_q + βα_p gives a non-degenerate solution with one unknown fewer (proof of Theorem 8.14); `IsNondegenerateHomogeneousSolution.ne_zero`: Each x_i with α_i≠0 is non-zero when #ι≥2.
 
@@ -774,7 +782,7 @@ Its API includes `IsNondegenerateHomogeneousSolution.sum_eq_zero`: Σ_i α_ix_i=
 
 - Over ℚ, α=(1, 1, −1), x=(1, 1, 2) is non-degenerate.
 - Over ℚ, α=(1, −1, 1, −1), x=(1, 1, 1, 1) solves the equation but the proper subsum 1 − 1 vanishes.
-- With two unknowns every non-zero solution of α_0x_0 + α_1x_1=0 is non-degenerate, and x_0/x_1=−α_1/α_0.
+- With two unknowns and α_0,α_1≠0, every nonzero solution of α_0x_0 + α_1x_1=0 is nondegenerate, both coordinates are nonzero, and x_0/x_1=−α_1/α_0.
 - x=(1, 1/2, 1/2) with α=(−1, 1, 1) is non-degenerate iff (1/2, 1/2) is a non-degenerate solution of y_1 + y_2=1.
 
 For n≥2 and Γ≤ℚ× finitely generated, the homogeneous equation Σi=0..n aᵢxᵢ=0 with aᵢ≠0 and xᵢ∈Γ has its solutions in finitely many proper subspaces of its solution hyperplane. (E19, ch. 8, Lem. 8.15, p. 170.)
@@ -803,11 +811,16 @@ Over an algebraically closed characteristic-zero field, a multiplicative subgrou
 
 *Needs:* §2.3.
 
-For a finitely generated Γ≤K× in characteristic zero, all solutions of a₁x₁+⋯+aₙxₙ=0, n≥2, lie in finitely many proper subspaces of that hyperplane. This follows by grouping minimal vanishing subsums. (E19, ch. 8, Thm. 8.13, p. 168; E19, ch. 8, §8.3, pp. 168–169; ESS02, Abstract.)
+For a finitely generated Γ≤K× in characteristic zero, nonzero coefficients aᵢ and n≥3, all solutions of a₁x₁+⋯+aₙxₙ=0 in Γⁿ lie in finitely many proper subspaces of that hyperplane. This follows by grouping minimal vanishing subsums. (E19, ch. 8, Thm. 8.13, p. 168; E19, ch. 8, §8.3, pp. 168–169; ESS02, Abstract.)
+
+**Checks.**
+
+- For two terms, x₁−x₂=0 has the infinitely many solutions (2^k,2^k), k∈ℤ, in Γ=⟨2⟩. They fill the only nonzero direction of the solution hyperplane; its sole proper subspace is zero. The requirement n≥3 is necessary.
+- If all coefficients vanish, the equation imposes no constraint on Γⁿ. Nonzero coefficients are necessary for the stated covering theorem.
 
 *Needs:* §2.3.
 
-Define `LinearRecurrence.IsNondegenerate` as follows. A linear recurrence with nonzero constant characteristic coefficient is `IsNondegenerateRecurrence` if no quotient of two distinct characteristic roots is a root of unity. Repeated roots are permitted; the simple exponential-sum application below assumes distinct roots. (E19, ch. 8, §8.4, pp. 172–173; E19, ch. 8, p. 172.)
+Define `LinearRecurrence.IsNondegenerate` as follows. A linear recurrence with nonzero constant characteristic coefficient is `LinearRecurrence.IsNondegenerate` if no quotient of two distinct characteristic roots is a root of unity. Repeated roots are permitted; the simple exponential-sum application below assumes distinct roots. (E19, ch. 8, §8.4, pp. 172–173; E19, ch. 8, p. 172.)
 
 Its API includes `LinearRecurrence.IsNondegenerate.root_ne_zero`: E.IsNondegenerate→θ∈E.charPoly.roots→θ≠0; `LinearRecurrence.IsNondegenerate.not_isOfFinOrder_div`: E.IsNondegenerate→θ, θ' distinct roots→¬ IsOfFinOrder (θ / θ'); `LinearRecurrence.isNondegenerate_iff_pow`: E.IsNondegenerate↔constant term non-zero and for distinct roots θ, θ' and every N≥1, θ^N≠θ'^N; `LinearRecurrence.IsNondegenerate.of_dvd`: If E.IsNondegenerate and E'.charPoly∣E.charPoly with E'.charPoly.coeff 0≠0, then E'.IsNondegenerate (passage to the minimal recurrence); `LinearRecurrence.isNondegenerate_of_order_le_one`: A recurrence of order≤1 with non-zero constant term is non-degenerate (at most one root).
 
@@ -830,9 +843,9 @@ Use `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`; `AlgebraicClosure`, `Lin
 
 ### 2.5 Absolute twisted heights and subspace weights
 
-For n≥1 define the absolute `absoluteTwistedHeight L c Q` on ℚ̄ⁿ by ∏w maxᵢ(|Lᵢw(x)|w Q^(−cᵢw)), where Q≥1, the local forms are independent and assume finitely many distinct values, and c has finite support with Σᵢcᵢv=0. Over E/K use cᵢw=d(w|v)cᵢv, d(w|v)=[E_w:K_v]/[E:K]; the value is independent of E. The typed `twistedHeight` is its K-rational restriction using the same normalized places. (EF13, §2.2, p. 9; EF13, §1.1, pp. 2–3.)
+All twisted-height positivity, scaling, shifting and asymptotic contracts below assume Q≥1. For n≥1 define the absolute `absoluteTwistedHeight L c Q` on ℚ̄ⁿ by ∏w maxᵢ(|Lᵢw(x)|w Q^(−cᵢw)), where Q≥1, the local forms are independent and assume finitely many distinct values, and c has finite support with Σᵢcᵢv=0. Over E/K use cᵢw=d(w|v)cᵢv, d(w|v)=[E_w:K_v]/[E:K]; the value is independent of E. The typed `twistedHeight` is its K-rational restriction using the same normalized places. (EF13, §2.2, p. 9; EF13, §1.1, pp. 2–3.)
 
-Its API includes `normAbs`: Degree-normalization adapter: normAbs v x=(TauCeti.GlobalNumberFields.normalizedAbsValue v x)^{1/[K:ℚ]}. GlobalNumberFields’s value includes complex multiplicity, but no field-degree root; its product formula and finite multiplicative support are imported; `twistedHeight`: twistedHeight L c Q x=∏ᶠ v, max_i ‖L v i ⬝ᵥ x‖_v · Q^{−c v i} for x≠0 in K^n, and 0 for x=0; `coordForms`: coordForms K n: the coordinate forms X_1, …, X_n at every place; `deltaL`: deltaL L=Δ_L=∏ᶠ v, ‖det(L_1^{(v)}, …, L_n^{(v)})‖_v (EF (2.11)); `IsTwistedData`: IsTwistedData L c bundles (2.4)–(2.9): n≥2, independence at each place, finitely many distinct forms, finite support of c, Σ_i c_{iv}=0 and Σ_v max_i c_{iv}≤1; `twistedHeight_zero`: twistedHeight L c Q 0=0 (n≥1); `twistedHeight_pos`: Under (2.5)–(2.7), x≠0→0 < twistedHeight L c Q x; `twistedHeight_smul`: Under (2.5)–(2.7), for a∈K^*: twistedHeight L c Q (a • x)=twistedHeight L c Q x (product formula); `twistedHeight_coords_zero`: If L v i=X_i for all v, i and c=0 then twistedHeight L 0 Q x=(Height.mulHeight x)^{1/[K:ℚ]}, the absolute multiplicative height; `twistedHeight_shift`: EF Lemma 7.2(i): under (2.5)–(2.7), if d_{iv}=c_{iv} − θ_v with finitely many θ_v≠0 and Θ=Σ_v θ_v, then twistedHeight L d Q x=Q^Θ · twistedHeight L c Q x; `twistedHeight_comp`: EF Lemma 7.3(i): under (2.5)–(2.7), for an invertible K-linear φ of K^n, twistedHeight (L ∘ φ) c Q x=twistedHeight L c Q (φ x); `twistedHeight_one`: For x≠0: twistedHeight L c 1 x=∏ᶠ v, max_i ‖L v i ⬝ᵥ x‖_v (independent of c).
+Its API includes `normAbs`: Degree-normalization adapter: normAbs v x=(TauCeti.GlobalNumberFields.normalizedAbsValue v x)^{1/[K:ℚ]}. GlobalNumberFields’s value includes complex multiplicity, but no field-degree root; its product formula and finite multiplicative support are imported; `twistedHeight`: twistedHeight L c Q x=∏ᶠ v, max_i ‖L v i ⬝ᵥ x‖_v · Q^{−c v i} for x≠0 in K^n, and 0 for x=0; `coordForms`: coordForms K n: the coordinate forms X_1, …, X_n at every place; `deltaL`: deltaL L=Δ_L=∏ᶠ v, ‖det(L_1^{(v)}, …, L_n^{(v)})‖_v (EF (2.11)); `IsTwistedData`: IsTwistedData L c bundles (2.4)–(2.9): n≥2, independence at each place, finitely many distinct forms, finite support of c, Σ_i c_{iv}=0 and Σ_v max_i c_{iv}≤1; `twistedHeight_zero`: twistedHeight L c Q 0=0 (n≥1); `twistedHeight_pos`: Under (2.5)–(2.7), x≠0→0 < twistedHeight L c Q x; `twistedHeight_smul`: Under (2.5)–(2.7), for a∈K^*: twistedHeight L c Q (a • x)=twistedHeight L c Q x (product formula); `twistedHeight_coords_zero`: If x≠0, L v i=X_i for all v, i and c=0 then twistedHeight L 0 Q x=(Height.mulHeight x)^{1/[K:ℚ]}, the absolute multiplicative height; `twistedHeight_shift`: EF Lemma 7.2(i): under (2.5)–(2.7), if d_{iv}=c_{iv} − θ_v with finitely many θ_v≠0 and Θ=Σ_v θ_v, then twistedHeight L d Q x=Q^Θ · twistedHeight L c Q x; `twistedHeight_comp`: EF Lemma 7.3(i): under (2.5)–(2.7), for an invertible K-linear φ of K^n, twistedHeight (L ∘ φ) c Q x=twistedHeight L c Q (φ x); `twistedHeight_one`: For x≠0: twistedHeight L c 1 x=∏ᶠ v, max_i ‖L v i ⬝ᵥ x‖_v (independent of c).
 
 **Checks.**
 
@@ -841,6 +854,12 @@ Its API includes `normAbs`: Degree-normalization adapter: normAbs v x=(TauCeti.G
 - For Q=1 the twisted height does not depend on c.
 - Over ℚ with L=coordinates and c=0, the twisted height of a primitive x∈ℤ^n (cast to ℚ^n) is max_i |x_i|.
 - Over ℚ with L=coordinates and c=0, twistedHeight of 2 • ![1, 0] equals that of ![1, 0] (= 1): the twisted height is projective, unlike a norm, which would double.
+
+**Checks for the absolute extension.**
+
+- With coordinate forms and zero weights, the algebraic vector (√2,1) has absolute twisted height √2. Computing in ℚ(√2) or ℚ(√2,i) gives the same value; the relative height in ℚ(√2) is 2.
+- The zero algebraic vector has absolute twisted height 0, excluding the native projective-height junk value 1.
+- For forms over ℚ and weights c_∞=(1/2,−1/2), the vector (1,0) has height Q^(−1/2) for Q≥1 after every finite field extension. Local weights must be multiplied by the extension multiplicities.
 
 The coordinate and determinant adapters have the following APIs. `coordForms_apply` identifies the i-th form with X_i, `coordForms_independent` proves independence in every dimension, and `deltaL_coords` gives Δ=1. For locally independent L with finitely many distinct forms, prove `deltaL_pos` and determinant-product invariance under a common invertible K-linear change of coordinates, by the product formula. All these are on the supplier place carrier. (EF13, §2.2, (2.4)–(2.11), pp. 8–9.)
 
@@ -867,12 +886,18 @@ Its API includes `successiveInfimum`: rationalSuccessiveInfimum L c Q i := sInf 
 
 **Checks.**
 
-- Over ℚ with L=coordinates and c=0, every successive infimum equals 1.
+- Over ℚ with L=coordinates and c=0, the successive infima with 1≤i≤n equal 1.
 - rationalSuccessiveInfimum L c Q 0=0 (dimension≥0 holds for every λ≥0).
 - Over ℚ with L=coordinates, c_∞=(1/2, −1/2): λ_1(Q)=Q^{−1/2} (attained at e_1) and λ_2(Q)=Q^{1/2} (attained at e_2).
 - In the preceding two-coordinate example with Q>1, λ₂(Q)≠λ₁(Q). At Q=1 both equal1, so the strict parameter hypothesis is necessary.
 - With c=0, rationalInfimumSpace 0=⊥ and rationalInfimumSpace 1=⊤ (n≥1).
 - With the two-coordinate weights above and Q>1, rationalInfimumSpace 1=span{e₁}; the strict gap excludes e₂.
+
+**Checks for absolute infima and spaces.**
+
+- Unweighted coordinate forms give λ_i=1 for 1≤i≤n even when all algebraic points are admitted. The zeroth infimum is 0.
+- For the preceding rational two-coordinate weights and Q>1, the absolute infima are Q^(−1/2),Q^(1/2); the absolute gap space is the ℚ̄-line spanned by e₁ and descends to the corresponding ℚ-line.
+- At Q=1 those infima coincide and the first absolute infimum space is the whole plane, excluding a rule that always selects a coordinate line.
 
 Define `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x). Let `plucker` list the ordered minors of a basis matrix; `subspaceHeight U` is the height of its nonzero Plücker vector, independent of basis. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
 
@@ -888,6 +913,12 @@ Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w
 - Over ℚ, the span of e_1, …, e_p in ℚ^n has subspaceHeight 1.
 - Over ℚ, subspaceHeight (ℚ ∙ ![2, 2])=√2, not 2√2: the height of a subspace does not depend on the chosen (non-primitive) spanning vector.
 - Over ℚ, the hyperplane {x | ![1, 2, 2] ⬝ᵥ x=0} has subspaceHeight 3=‖(1, 2, 2)‖_2 (by (6.13)).
+
+**Checks for the absolute Euclidean height.**
+
+- absoluteHeight2(√2,1)=√3, whereas the maximum-norm absolute height is √2.
+- absoluteHeight2(0,0)=0 and absoluteHeight2(1,1)=√2.
+- Computing the height of (√2,1) in ℚ(√2) or ℚ(√2,i) gives √3 in both fields. Forgetting the complex multiplicity or the degree root changes the latter computation.
 
 For U define localWeightᵥ(U) as the minimum sum of cᵢv over form subsets restricting to a basis of U*, and w(U)=Σv localWeightᵥ(U). This is supermodular: w(U+W)+w(U∩W)≥w(U)+w(W). Among proper U the maximum w(U)/(n−dim U) has a unique optimizer of smallest dimension, `exceptionalSubspace`; prove `absoluteExceptionalSubspaceDescends` for its absolute counterpart. Semistability means this space is zero, equivalently every proper subspace has weight ≤0. (EF13, §2.4, p. 11; EF13, §15, Lem. 15.1, p. 65; EF13, §15, Lem. 15.2, p. 66.)
 
@@ -919,10 +950,11 @@ Its API includes `twistedFiltration`: twistedFiltration L c : List (Submodule K 
 
 **Checks.**
 
-- With c=0 the filtration is [⊥, ⊤].
+- With c=0 and n≥1 the filtration is [⊥, ⊤]; for n=0 it is the single-term chain [⊥]=[⊤].
 - Over ℚ with L=coordinates, c_∞=(−1, 1): the filtration is [⊥, span{e_2}, ⊤].
 - The filtration has at most n + 1 terms.
 - The filtration need not be a complete flag: with c=0 it has only the two terms ⊥ and ⊤ for every n≥2.
+- For each of these rational coordinate examples, the absolute filtration is the ℚ̄-span of the displayed chain and restriction of its defining equations recovers the same chain after every finite base extension. In dimension zero it has one term; in the balanced two-coordinate case it has three.
 
 Prove `absoluteMinkowskiSecondTheorem`: for n≥2, independent local forms with finitely many values and finite weight support, let α=Σv,i cᵢv and Δ_L=∏v|det(L₁v,…,Lₙv)|v. For Q≥1, the absolute successive minima satisfy n^(−n/2)Δ_L Q^(−α)≤∏λᵢ≤2^(n(n−1)/2)Δ_L Q^(−α). This theorem concerns ℚ̄-minima; it is not the discriminant-free statement for K-rational minima. (EF13, §9, Prop. 9.2, p. 36.)
 
@@ -938,7 +970,7 @@ Use `NumberField`: `InfinitePlace`, `FinitePlace`, `prod_abs_eq_one`; `NumberFie
 
 ### 2.6 Integer grids and hyperplanes
 
-Let m≥2, d_h>0, 0<Θ≤1 and d_h/d_(h+1)≥2m²/Θ. For a nonzero polynomial F homogeneous of degree d_h in each binary block and nonzero algebraic pairs x_h with H₂(x_h)^d_h≥(exp(Σd_h)H₂(coeff F))^((3m²/Θ)^m), a Hasse jet of weight <mΘ is nonzero at x. The K-rational version is `sharp_roth_lemma`; weak≥is the formulation of E96 Lemma 23. (E96, §7, Lem. 23, p. 64; E95, p. 1; E96, §1, p. 2, §7.)
+Let m≥2, d_h>0, 0<Θ≤1 and d_h/d_(h+1)≥2m²/Θ. For a nonzero polynomial F homogeneous of degree d_h in each binary block and nonzero algebraic pairs x_h with H₂(x_h)^d_h≥(exp(Σd_h)H₂(coeff F))^((3m²/Θ)^m), a Hasse jet of weight <mΘ is nonzero at x. The K-rational version is `sharp_roths_lemma`; weak≥is the formulation of E96 Lemma 23. (E96, §7, Lem. 23, p. 64; E95, p. 1; E96, §1, p. 2, §7.)
 
 *Needs:* §2.5.
 
@@ -1154,7 +1186,7 @@ Use `MvPolynomial`: `monomial`, `as_sum`, `coeff_monomial`, `aeval`, `eval₂_mo
 
 ### 2.8 Auxiliary polynomials and quantitative subspaces
 
-Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero independent linear forms in V variables, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). (EF13, §13, Lem. 13.1, p. 50.)
+Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). (EF13, §13, Lem. 13.1, p. 50.)
 
 *Needs:* §2.5.
 
@@ -1201,7 +1233,7 @@ Prove `absoluteSystemIntervalRefinement`: for the same system put m₁=⌊10⁸2
 
 *Needs:* §2.5.
 
-For q≥1 and 1/2≤γ<1 there is a finite set D of nonnegative vectors Γ with ΣΓᵢ=γ such that every nonnegative y with Y=Σyᵢ>0 admits Γ∈D with ΓᵢY≤yᵢ for all i. No cardinality bound is asserted. (ES02, §21, Lem. 21.1, p.97.)
+For q≥1 and 1/2≤γ<1 there is a finite set D of nonnegative vectors Γ with ΣΓᵢ=γ such that every nonnegative y with Y=Σyᵢ>0 admits Γ∈D with ΓᵢY≤yᵢ for all i. No cardinality bound is asserted. (ES02, §21, Lem. 21.1, p. 97.)
 
 Use `Int.Matrix.exists_ne_zero_int_vec_norm_le`; `ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc`; `ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun`; `NumberField`: `prod_abs_eq_one`, `finite_setOfPred_mulHeight₁_le`; `Nat`: `lt_floor_add_one`, `floor_le`.
 
@@ -1233,7 +1265,7 @@ Every finite set of algebraic complex numbers lies in a finite Galois subfield o
 
 A nonzero algebraic integer in a finite Galois subfield L⊂ℂ has a Galois conjugate of absolute value ≥1. (E19, ch. 3, Lem. 3.6, p. 42.)
 
-For a degree-d number field, x≠0, an embedding σ and integer m≥1 with mx integral, 1≤m^d|σ(x)|house(x)^(d−1). (E19, ch. 4, §4.4, Lem. 4.24, p. 79; W00, §3.5.3, Prop. 3.14, pp. 83-84, PDF 103-104.)
+For a degree-d number field, x≠0, an embedding σ and integer m≥1 with mx integral, 1≤m^d|σ(x)|house(x)^(d−1). (E19, ch. 3, Lem. 3.6, p. 42, and Exercise 3.7(i), p. 60, via the field-norm argument.)
 
 Prove transcendence of exp(1) over ℤ, hence over ℚ. (E19, ch. 4, §4.1, Thm. 4.1, p. 64; E19, ch. 4, §4.1, Lem. 4.6, pp. 65-66; Zhao, Basic.lean, theorem transcendental_e.)
 
@@ -1251,7 +1283,7 @@ Its API includes `hermiteIntegral_eq_sumIDeriv`: F_f(z)=e^z(sumIDeriv f)(0)−(s
 
 If C≥0 bounds |f(u)| on |u|≤|z|, then |hermiteIntegral f z|≤|z|exp(|z|)C. (E19, ch. 4, §4.1, Lem. 4.4, p. 65.)
 
-For a finite exponential relation Σδⱼexp γⱼ=0, ΣδⱼhermiteIntegral f γⱼ=−ΣδⱼsumIDeriv(f)(γⱼ). (E19, ch. 4, §4.1, Corollary 4.3, p. 64; E19, ch. 4, §4.2, Lem. 4.12(, p. 71.)
+For a finite exponential relation Σδⱼexp γⱼ=0, ΣδⱼhermiteIntegral f γⱼ=−ΣδⱼsumIDeriv(f)(γⱼ). (E19, ch. 4, §4.1, Corollary 4.3, p. 64; E19, ch. 4, §4.2, Lem. 4.12(i)–(ii), p. 71.)
 
 Use `IsAlgebraic`, `Transcendental`; `Complex`: `exp_nat_mul`, `exp_int_mul`, `exp_log`, `exp_eq_exp_iff_exists_int`, `exp_add`, `norm_exp`; `IsAlgebraic`: `mul`, `of_pow`, `inv_iff`; `IntermediateField.adjoin_rootSet_isSplittingField`; `IsGalois.of_separable_splitting_field`; `minpoly.irreducible`; `NumberField`: `exists_conjugate_one_le_norm`, `norm_norm_le_norm_mul_house_pow`, `house`, `house_nat_mul`; `AlgHom`: `restrictNormal'`, `restrictNormal_commutes`; `Algebra`: `isIntegral_norm`, `norm_ne_zero_iff`; `IsIntegrallyClosed.algebraMap_eq_of_integral`; `LindemannWeierstrass.exp_polynomial_approx`; `intervalIntegral.integral_eq_sub_of_hasDerivAt`; `Polynomial.sumIDeriv_eq_self_add`; `Polynomial`: `exists_eq_pow_rootMultiplicity_mul_and_not_dvd`, `sumIDeriv`; `FloorSemiring.tendsto_pow_div_factorial_atTop`; `Nat.exists_infinite_primes`; `intervalIntegral.norm_integral_le_of_norm_le_const`.
 
@@ -1291,7 +1323,7 @@ Its API includes `natDegree_auxPoly`: γ∈S, l≠0, 1≤p ⇒ natDegree (auxPol
 - auxPoly {0, 1} 1 2 0=X^3 − 2X^2 + X.
 - auxPoly {0} 1 3 0=C (1/2) * X^2: the coefficients are not algebraic integers, so the factor 1/(p−1)! must be tracked (Lemma 4.13(iii) divides by (p−1)!, not by p!).
 
-For x=Σδ_γ[γ] with support S define `auxValue x l p γ`=−Σγ′∈S δ_γ′sumIDeriv(auxPoly S l p γ)(γ′). Its algebraic value lies in L. (E19, ch. 4, §4.2, Thm. 4.11, p. 71; E19, ch. 4, §4.2, Lem. 4.12(, p. 71.)
+For x=Σδ_γ[γ] with support S define `auxValue x l p γ`=−Σγ′∈S δ_γ′sumIDeriv(auxPoly S l p γ)(γ′). Its algebraic value lies in L. (E19, ch. 4, §4.2, Thm. 4.11, p. 71; E19, ch. 4, §4.2, Lem. 4.12(i)–(ii), p. 71.)
 
 Its API includes `coe_auxValue_eq_sum_hermiteIntegral`: Analytic expression when expEval x=0; `auxValue_galConj`: τ (auxValue x l p γ)=auxValue x l p (τ γ) for Galois-fixed x; `isIntegral_auxValue`: integrality; `auxValue_ne_zero`: nonvanishing for large primes p; `norm_auxValue_le`: the bound C c^p/(p−1)!.
 
@@ -1302,11 +1334,11 @@ Its API includes `coe_auxValue_eq_sum_hermiteIntegral`: Analytic expression when
 - auxValue (single 0 1) 2 p 0=−2^p≠−1=auxValue (single 0 1) 1 p 0 for p≥1: M depends on the auxiliary integer l and is not an invariant of x.
 - If expEval L x=0 then (auxValue x l p γ : ℂ)=Σ_{γ'} (x.coeff γ' : ℂ) * hermiteIntegral ((auxPoly S l p γ).map (algebraMap L ℂ)) γ' (Lemma 4.12(i)).
 
-If expEval L x=0, the complex image of auxValue equals Σγ′∈supp x δ_γ′hermiteIntegral(auxPoly S l p γ) γ′, for all l,p,γ. (E19, ch. 4, §4.2, Lem. 4.12(, p. 71.)
+If expEval L x=0, the complex image of auxValue equals Σγ′∈supp x δ_γ′hermiteIntegral(auxPoly S l p γ) γ′, for all l,p,γ. (E19, ch. 4, §4.2, Lem. 4.12(i)–(ii), p. 71.)
 
 *Needs:* §3.1.
 
-If x is fixed by every galConj, then τ(auxValue x l p γ)=auxValue x l p (τγ); for γ∈supp x, τγ is in the same support. (E19, ch. 4, §4.2, Lem. 4.12(, p. 71.)
+If x is fixed by every galConj, then τ(auxValue x l p γ)=auxValue x l p (τγ); for γ∈supp x, τγ is in the same support. (E19, ch. 4, §4.2, Lem. 4.12(i)–(ii), p. 71.)
 
 For a number field L⊂ℂ, γ∈S, l≥1 with lγ′ integral for all γ′∈S, and prime p, put A_γ=l^t∏γ′≠γ(γ−γ′). This is integral and f^(p−1)(γ)=A_γ^p for f=auxPoly S l p γ. All other derivatives f^(j)(γ′), j≤p−1, vanish; for j≥p, f^(j)(γ′)/p is integral. (E19, ch. 4, §4.2, Lem. 4.13, p. 72.)
 
@@ -1324,13 +1356,13 @@ For every injective family of algebraic exponents u, the family exp(uᵢ) is lin
 
 *Needs:* §3.1.
 
-If a is nonzero and algebraic, exp(a) is transcendental. (E19, ch. 4, §4.2, Corollary 4.9(, p. 67; Zhao, Basic.lean, theorem transcendental_exp.)
+If a is nonzero and algebraic, exp(a) is transcendental. (E19, ch. 4, §4.2, Corollary 4.9(i), p. 67; Zhao, Basic.lean, theorem transcendental_exp.)
 
-Prove transcendence of π. (E19, ch. 4, §4.2, Corollary 4.9(, p. 67; Zhao, Basic.lean, theorem transcendental_pi.)
+Prove transcendence of π. (E19, ch. 4, §4.2, Corollary 4.9(ii), p. 67; Zhao, Basic.lean, theorem transcendental_pi.)
 
 If algebraic uᵢ are ℚ-linearly independent, exp(uᵢ) are algebraically independent over ℚ̄. The semiring signature uses the equivalent LinearIndependent ℕ condition. (E19, ch. 4, §4.2, Corollary 4.10, p. 67; Zhao, Basic.lean, theorem algebraicIndependent_exp.)
 
-Every λ∈algebraicLogs with λ≠0 is transcendental. This includes a nonzero logarithm of 1; the principal-logarithm corollary requires Complex.log α≠0. (E19, ch. 4, §4.5, Exercise 4.6(, p. 82; Zhao, Basic.lean, theorem transcendental_log.)
+Every λ∈algebraicLogs with λ≠0 is transcendental. This includes a nonzero logarithm of 1; the principal-logarithm corollary requires Complex.log α≠0. (E19, ch. 4, §4.5, Exercise 4.6(ii), p. 82; Zhao, Basic.lean, theorem transcendental_log.)
 
 *Needs:* §3.1.
 
@@ -1350,11 +1382,11 @@ Under those multiplicity hypotheses, |aᵢ|≤R, R>0, T≥3R and |f(w)|≤M on |
 
 There is c_1 > 0 such that for all integers L≥3 and D_1, D_2≥1 with D_1D_2≥2dL² there are a_{ij}∈𝓞_K (0≤i < D_1, 0≤j < D_2), not all zero, with house(a_{ij})≤exp(c_1(D_1 log L + D_2L)), such that F(z) := Σ_{i,j} a_{ij} z^i e^{jlz} vanishes at z=a + bβ for all a, b∈{1, …, L}. For integers a, b≥0, F(a + bβ) is the image of y_{ab} := Σ_{i,j} a_{ij}(a + bβ)^i α^{aj}γ^{bj}∈K. (E19, ch. 4, §4.4, Lem. 4.22, p. 77.)
 
-Assume β ∉ ℚ. Parameters: M≥1 an integer, L := 2dM², D_1 := (2d)²M³, D_2 := 2dM (so D_1=√(2d)L^{3/2}, D_2=√(2d)L^{1/2}, D_1D_2=2dL²), c := 1 + ⌊√(2d)⌋, and F, a_{ij}, y_{ab} as in Lemma 4.22 for these parameters. There is c_4 such that |F(a + bβ)|≤exp(c_4L^{3/2} log L − L²) for all integers 1≤a, b≤cL. (E19, ch. 4, §4.4, Lem. 4.27(, pp. 80-81.)
+Assume β ∉ ℚ. Parameters: M≥1 an integer, L := 2dM², D_1 := (2d)²M³, D_2 := 2dM (so D_1=√(2d)L^{3/2}, D_2=√(2d)L^{1/2}, D_1D_2=2dL²), c := 1 + ⌊√(2d)⌋, and F, a_{ij}, y_{ab} as in Lemma 4.22 for these parameters. There is c_4 such that |F(a + bβ)|≤exp(c_4L^{3/2} log L − L²) for all integers 1≤a, b≤cL. (E19, ch. 4, §4.4, Lem. 4.27, pp. 80–81.)
 
-Parameters: M≥1 an integer, L := 2dM², D_1 := (2d)²M³, D_2 := 2dM (so D_1=√(2d)L^{3/2}, D_2=√(2d)L^{1/2}, D_1D_2=2dL²), c := 1 + ⌊√(2d)⌋, and F, a_{ij}, y_{ab} as in Lemma 4.22 for these parameters. There is c_5 such that for every field embedding σ : K→ℂ and all integers 1≤a, b≤cL: |σ(y_{ab})|≤exp(c_5L^{3/2} log L); hence house(y_{ab})≤exp(c_5L^{3/2} log L). (E19, ch. 4, §4.4, Lem. 4.27(, p. 80.)
+Parameters: M≥1 an integer, L := 2dM², D_1 := (2d)²M³, D_2 := 2dM (so D_1=√(2d)L^{3/2}, D_2=√(2d)L^{1/2}, D_1D_2=2dL²), c := 1 + ⌊√(2d)⌋, and F, a_{ij}, y_{ab} as in Lemma 4.22 for these parameters. There is c_5 such that for every field embedding σ : K→ℂ and all integers 1≤a, b≤cL: |σ(y_{ab})|≤exp(c_5L^{3/2} log L); hence house(y_{ab})≤exp(c_5L^{3/2} log L). (E19, ch. 4, §4.4, Lem. 4.27(ii), pp. 80–81.)
 
-Parameters: M≥1 an integer, L := 2dM², D_1 := (2d)²M³, D_2 := 2dM (so D_1=√(2d)L^{3/2}, D_2=√(2d)L^{1/2}, D_1D_2=2dL²), c := 1 + ⌊√(2d)⌋, and F, a_{ij}, y_{ab} as in Lemma 4.22 for these parameters. Let m≥1 be an integer with mα, mβ, mγ integral. Then m^{D_1+2cLD_2}·y_{ab} is integral over ℤ for all integers 1≤a, b≤cL, and m^{D_1+2cLD_2}≤exp(c_6L^{3/2}). (E19, ch. 4, §4.4, Lem. 4.27(, pp. 80-81.)
+Parameters: M≥1 an integer, L := 2dM², D_1 := (2d)²M³, D_2 := 2dM (so D_1=√(2d)L^{3/2}, D_2=√(2d)L^{1/2}, D_1D_2=2dL²), c := 1 + ⌊√(2d)⌋, and F, a_{ij}, y_{ab} as in Lemma 4.22 for these parameters. Let m≥1 be an integer with mα, mβ, mγ integral. Then m^{D_1+2cLD_2}·y_{ab} is integral over ℤ for all integers 1≤a, b≤cL, and m^{D_1+2cLD_2}≤exp(c_6L^{3/2}). (E19, ch. 4, §4.4, Lem. 4.27, pp. 80–81.)
 
 Let α, β be real algebraic numbers with α > 0, α≠1 and β ∉ ℚ. Then α^β=e^{β log α} (Real.rpow, log the real logarithm) is transcendental. (E19, ch. 4, §4.4, Thm. 4.21, p. 76; E19, ch. 4, §4.4, Thm. 4.21, p. 82.)
 
@@ -1368,11 +1400,11 @@ Let ρ_1, …, ρ_N∈ℂ be pairwise distinct and c∈ℂ^N, c≠0. Then the en
 
 Let η≠0 be as in Gelfond's auxiliary function: vanishing to order n at 1, …, m (Siegel's lemma over 𝓞_K). Then there are r≥n and t_0∈{1, …, m} with R_η^{(k)}(t)=0 for all k < r and all t∈{1, …, m}, and R_η^{(r)}(t_0)≠0. (KW26, §3, pp. 7-8.)
 
-There is c_2≥1 such that, for n, q, η, r, t_0 as in The first nonvanishing derivative of Gelfond's function at the points 1, …, m, the number ρ := Σ_{a,b} η_{ab}(a + bβ)^r α^{at_0}γ^{bt_0}∈K is nonzero and |ρ|≥c_2^{−r} r^{−(h−1)(r+1)}. (KW26, §3, p. 9; Soundararajan–Petrow, p. 15.)
+There is c_2≥1 such that, for n, q, η, r, t_0 satisfying the preceding auxiliary-function and first-nonvanishing-derivative hypotheses, the number ρ := Σ_{a,b} η_{ab}(a + bβ)^r α^{at_0}γ^{bt_0}∈K is nonzero and |ρ|≥c_2^{−r} r^{−(h−1)(r+1)}. (KW26, §3, p. 9; Soundararajan–Petrow, p. 15.)
 
 *Needs:* §3.1.
 
-There is c_3≥1 such that, for n, q, η, r, t_0 as in The first nonvanishing derivative of Gelfond's function at the points 1, …, m and ρ as in Liouville lower bound for the first nonvanishing derivative: |ρ|=|l|^{−r}|R_η^{(r)}(t_0)|≤c_3^r r^{((3−m)r+1)/2}. (KW26, §3, pp. 9-12; Soundararajan–Petrow, pp. 14-15.)
+There is c_3≥1 such that, for n, q, η, r, t_0 satisfying the preceding auxiliary-function and first-nonvanishing-derivative hypotheses and ρ the preceding algebraic derivative value: |ρ|=|l|^{−r}|R_η^{(r)}(t_0)|≤c_3^r r^{((3−m)r+1)/2}. (KW26, §3, pp. 9-12; Soundararajan–Petrow, pp. 14-15.)
 
 Let λ∈𝓛 with λ≠0 and let β be an algebraic number with β ∉ ℚ. Then e^{βλ} is transcendental. Equivalently (Evertse Theorem 4.16): if α, β are algebraic, α≠0, 1, β ∉ ℚ and log α is ANY solution of e^z=α, then α^β := e^{β log α} is transcendental. (The formulation with λ≠0 also covers α=1 with a nonzero logarithm 2πik.) (E19, ch. 4, §4.3, Thm. 4.16, p. 73; W00, §1.1, p. 3, PDF 23; KW26, §3, p. 13.)
 
@@ -1489,7 +1521,7 @@ For fixed nonzero algebraic α₁,…,α_m, there is effective C′>0 such that 
 
 *Needs:* §3.1; §0.2.
 
-Let n≥1 and K⊆ℂ be a number field of degree D; κ := 1 if K⊆ℝ and κ := 2 otherwise. Let α_1, …, α_n∈K^×, λ_1, …, λ_n NONZERO logarithms of them (λ_j∈𝓛 \ {0}, e^{λ_j}=α_j, arbitrary branches), b_1, …, b_n∈ℤ and Λ := b_1λ_1 + ⋯ + b_nλ_n≠0. Let A_j≥max{D·h(α_j), |λ_j|, 0.16} and B* := max|b_j|. Reorder so A_n=max_j A_j; the source’s weighted parameter B=max{1,max_j |b_j|A_j/A_n} then satisfies B≤B*. Then log|Λ| > −C_1(n)·D²·A_1⋯A_n·log(eD)·log(eB*), where C_1(n)=C_1(n, κ)=min{(1/κ)(en/2)^κ·30^{n+3}·n^{3.5}, 2^{6n+20}}. (Matveev, §1, pp.1217–1218, §2, Corollary2.3, p.1219, §21, p.1266.)
+Let n≥1 and K⊆ℂ be a number field of degree D; κ := 1 if K⊆ℝ and κ := 2 otherwise. Let α_1, …, α_n∈K^×, λ_1, …, λ_n nonzero logarithms of them (λ_j∈𝓛 \ {0}, e^{λ_j}=α_j, arbitrary branches), b_1, …, b_n∈ℤ and Λ := b_1λ_1 + ⋯ + b_nλ_n≠0. Let A_j≥max{D·h(α_j), |λ_j|, 0.16} and B* := max|b_j|. Reorder so A_n=max_j A_j; the source’s weighted parameter B=max{1,max_j |b_j|A_j/A_n} then satisfies B≤B*. Then log|Λ| > −C_1(n)·D²·A_1⋯A_n·log(eD)·log(eB*), where C_1(n)=C_1(n, κ)=min{(1/κ)(en/2)^κ·30^{n+3}·n^{3.5}, 2^{6n+20}}. (Matveev, §1, pp. 1217–1218, §2, Corollary 2.3, p. 1219, §21, p. 1266.)
 
 *Needs:* §3.1.
 
@@ -1509,7 +1541,7 @@ Use `NumberField`: `absLogHeight₁`, `absMulHeight₁`; `Complex`: `norm_log_on
 
 Let n≥2, α_1, …, α_n nonzero algebraic numbers, K := ℚ(α_1, …, α_n) of degree d, p a prime, 𝔭 a prime ideal of 𝓞_K above p with residue degree f_𝔭, and ord_𝔭 the exponent of 𝔭 in a nonzero fractional ideal. Let b∈ℤ^n \ {0} with α_1^{b_1}⋯α_n^{b_n}≠1, and reals h_1, …, h_n with h_j≥max(h(α_j), |log α_j|/(10d), log p) (log α_j with imaginary part in (−π, π], i.e. Complex.log). Then ord_𝔭(α_1^{b_1}⋯α_n^{b_n} − 1) < Φ·log(dB), where B := max(|b_1|, …, |b_n|, 3), h' := max(h_1, …, h_n, 1) and Φ := 22000·(9.5(n + 1)d/√(log p))^{2(n+1)}·(p^{f_𝔭} − 1)·h_1⋯h_n·log(10ndh'). No p-adic logarithm occurs in the statement. (Yu 1994, §0.1, pp. 241-242; Yu 1990, Lem. 1.4, p.23, pp.24–25.)
 
-For prime p, integer a≠0 with p|a when p is odd and 4|a when p=2, and b≥1, |(1+a)^b−1|p=|ab|p≥1/|ab|, equivalently v_p((1+a)^b−1)=v_p(a)+v_p(b). (E19, ch. 5, §5.5, Exercise 5.9(, p. 106.)
+For prime p, integer a≠0 with p|a when p is odd and 4|a when p=2, and b≥1, |(1+a)^b−1|p=|ab|p≥1/|ab|, equivalently v_p((1+a)^b−1)=v_p(a)+v_p(b). (E19, ch. 5, §5.5, Exercise 5.9(i), p. 106.)
 
 For prime p and a∈ℚ× with |a|p=1, some c∈(0,1] gives |a^b−1|p≥c|b|p≥c/|b| for every integer b with a^b≠1. (E19, ch. 5, §5.4, Thm. 5.16, p. 101.)
 
@@ -1557,10 +1589,10 @@ For a finite set S of rational primes, use U_S=Set.unit S′ ℚ, where S′ is 
 **Checks.**
 
 - 12/5∈U_{2,3,5}, with prime-exponent tuple (2,1,−1), and height 12.
-- 7∉U_{2,3}; requiring only that the primes in S occur in num·den would accept it.
+- 7∉U_{2,3}; testing v(x)=1 only at primes in S would accept it, whereas the defining condition tests primes outside S.
 - U_∅={1,−1}; the sign factor cannot be suppressed.
 - The defining valuation condition is exactly Mathlib’s S-unit condition, with v(x)=1 outside S′.
-- For the natural-number list {2,4}, its prime subset is {2}. The element 4 is a unit away from that subset, but treating 4 as an additional prime counts twice and produces 16 in the product. Every product formula here therefore uses a set of primes.
+- The natural-number set {4} has empty prime subset, so 4 is not a unit away from that subset. Allowing 4 as a generator would accept it; the prime-only hypothesis is essential.
 
 For a degree-d number field and unit tuple u of rank r, set c₁(u)=rΣⱼ‖logEmbedding(uⱼ)‖∞. Define `boundedDivisors u α`={γ∈𝓞_K:γ|α and house γ≤exp(c₁(u))|Nα|^(1/d)}. For maximal-rank u and α≠0 it is finite and represents every divisor modulo units. (E19, ch. 5, Corollary 5.11, pp. 93-94.)
 
@@ -1661,7 +1693,7 @@ Let b≠0 be an integer and f∈ℤ[X] of degree N≥2 without multiple zeros. T
 
 *Needs:* §3.6.
 
-There is an effectively computable constant C such that every solution of x^m − y^n=1 in integers x, y, m, n≥2 satisfies x^m, y^n≤C. (E19, ch. 5, Corollary 5.5, p. 88.)
+There is an effectively computable constant C such that every solution of x^m − y^n=1 in integers x, y, m, n≥2 satisfies x^m, y^n≤C. (E19, ch. 5, §5.1, the Tijdeman/Catalan paragraph after Corollary 5.5, pp. 88–89.)
 
 *Needs:* §3.6.
 
@@ -1669,7 +1701,7 @@ Use `padicValInt`.
 
 ### 4.5 Effective S-unit and Thue–Mahler equations
 
-Use §3.7’s lifting-the-exponent identity with p prime, a≠0 and the extra condition 4|a for p=2. This supplies the rational valuation normalization in the S-unit bounds. (E19, ch. 5, Exercise 5.9(, p. 106; E19, ch. 5, Thm. 5.16, p. 101.)
+Use §3.7’s lifting-the-exponent identity with p prime, a≠0 and the extra condition 4|a for p=2. This supplies the rational valuation normalization in the S-unit bounds. (E19, ch. 5, Exercise 5.9(i), p. 106; E19, ch. 5, Thm. 5.16, p. 101.)
 
 *Needs:* §3.7.
 
@@ -1813,13 +1845,19 @@ If T F′=M F with polynomial T,M, every vector of fixed-degree monomials f^e, |
 
 For rational E-coefficients a with f(1)=0, the entire quotient f(z)/(1−z) is E, with coefficients b_n=n!Σk≤n a_k/k!. (B06, Corollary 2.2, pp. 3-4; B08, Corollary 3.4.2, p. 15.)
 
-For an E-function f=eFun a and the G-series g=Σa_nzⁿ, sufficiently large real x satisfies ∫₀∞exp(−xt)f(t)dt=x⁻¹g(x⁻¹). For u=t^mf, its kth derivative has Laplace transform x^k(−d/dx)^m[x⁻¹g(x⁻¹)]−Σj<k x^(k−1−j)u^(j)(0). Define `formalLaplaceOperatorTransfer` using Laurent series to account for this boundary polynomial before transferring the differential equation. (B08, §5.4, p. 25.)
+For an E-function f=eFun a and the G-series g=Σa_nzⁿ, sufficiently large real x satisfies ∫₀∞exp(−xt)f(t)dt=x⁻¹g(x⁻¹). For u=t^mf, its kth derivative has Laplace transform x^k(−d/dx)^m[x⁻¹g(x⁻¹)]−Σj<k x^(k−1−j)u^(j)(0). For a polynomial differential operator L=Σ_{m,k}c_{m,k}t^m∂_t^k, define `formalLaplaceOperatorTransfer L` as Σ_{m,k}c_{m,k}(−∂_x)^m∘M_x^k acting on formal Laurent series at infinity, where M_x denotes multiplication by x. In the native Laurent coordinate X use x=X⁻¹ and ∂_x=−X²∂_X. Its API preserves addition, scalar multiplication and operator composition, and computes the two generators t↦−∂_x and ∂_t↦M_x. The analytic comparison for E-data is ℒ(Lf)=formalLaplaceOperatorTransfer(L)(ℒf)−Σ_{m,k}c_{m,k}(−∂_x)^m[Σ_{j<k}x^(k−1−j)f^(j)(0)], for sufficiently large real x. Thus the initial-value correction is part of the comparison. (B08, §5.4, p. 25, the Laplace-transform computation with the boundary terms retained.)
+
+**Checks for the operator transfer.**
+
+- The zero operator maps to zero, and the identity operator maps to the identity.
+- For f(t)=e^t, g(x)=1/(x−1): ℒ(tf)=−g′=1/(x−1)², while ℒ(f′)=xg−1=g. Omitting the initial value f(0)=1 fails the second identity.
+- The relation ∂_t t−t∂_t=1 maps to M_x(−∂_x)−(−∂_x)M_x=1. Reversing the sign of the transferred multiplication operator gives −1 instead.
 
 Use `IsAlgebraic`, `minpoly`, `IsIntegral`; `Polynomial.aroots`; `MeasureTheory.integral_Ioi_of_hasDerivAt_of_tendsto`.
 
 ### 5.3 Differential systems and Galochkin denominators
 
-Define `SolvesSystem T M F` on polynomial T, a finite square polynomial matrix M and a vector F of formal complex power series by TF_i′=Σ_jM_ijF_j. Its API proves closure under constant linear combinations, the component equations, multiplication of both T and M by a nonzero polynomial, and compatibility with the analytic differential equation wherever the series converge and T does not vanish. Every theorem interpreting this as F′=(M/T)F assumes T≠0. (B08, §2.2, p. 9; §4.4, p. 20.)
+Define `SolvesSystem T M F` on polynomial T, a finite square polynomial matrix M and a vector F of formal complex power series by TF_i′=Σ_jM_ijF_j. Its API proves closure under constant linear combinations of vector solutions for the same T,M, the component equations, multiplication of both T and M by a nonzero polynomial, and compatibility with the analytic differential equation wherever the series converge and T does not vanish. Every theorem interpreting this as F′=(M/T)F assumes T≠0. (B08, §2.2, p. 9; §4.4, p. 20.)
 
 **Checks.**
 
@@ -1853,7 +1891,7 @@ For a ℚ̄(z)-independent G-function solution of y′=Gy and nonzero T with int
 
 *Needs:* §5.4; §5.2.
 
-For a nonzero G-function of minimal order n, its minimal equation Σpᵢg^(i)=0 is regular or regular singular at 0: ord₀(p_n)−ord₀(pᵢ)≤n−i whenever pᵢ≠0. (B08, Thm. 5.1.2, Prop. 5.3.1, pp. 21-24.)
+For a nonzero G-function of minimal order n over ℚ̄(z), a polynomial equation Σpᵢg^(i)=0 over ℚ̄[z] with p_n≠0 at that order is regular or regular singular at 0: ord₀(p_n)−ord₀(pᵢ)≤n−i whenever pᵢ≠0. (B08, Thm. 5.1.2, Prop. 5.3.1, pp. 21-24.)
 
 *Needs:* §5.1.
 
@@ -1861,9 +1899,15 @@ Use `Algebra.natDenominator_dvd_iff`; `NumberField.house.exists_ne_zero_int_vec_
 
 ### 5.4 Specialisation and the Siegel–Shidlovskii method
 
-For a finitely generated characteristic-zero field extension E/C, dim_E Ω_E/C=trdeg_C E, and the differentials of a transcendence basis form an E-basis. (Kirby, §3.3, Thm. 3.8, p. 38.)
+For a finitely generated characteristic-zero field extension E/C, dim_E Ω_E/C=trdeg_C E, and the differentials of a transcendence basis form an E-basis. (Kirby, §3.3, proof of Thm. 3.8, p. 38, the dimension of Ω(E/C).)
 
-For a finite-type domain A over K[z], torsion-free over K[z], and a nonzero fibre A/(z−ξ)A, its Krull dimension is dim A−1. A domain fibre has fraction-field transcendence degree trdeg_K(z) Frac(A), by the supplier dimension contracts. (André, §1, Corollary 1.6.2, p. 6.)
+Prove the fibre-comparison adapter `ringKrullDim_quotient_add_one_eq`: for a field K, a finite-type domain A over K[z], torsion-free over K[z], and ξ∈K with (z−ξ)A≠A, dim(A/(z−ξ)A)+1=dim A. For a domain fibre, its fraction field has transcendence degree dim A−1 over K. Use Mathlib’s `ringKrullDim_quotient_add_one_of_mem_nonZeroDivisors` and Tau Ceti’s `height_eq_ringKrullDim_of_isMaximal`; the new interface packages their hypotheses for this fibre. (Stacks, Tags [00KV](https://stacks.math.columbia.edu/tag/00KV), [00OR](https://stacks.math.columbia.edu/tag/00OR), [00OS](https://stacks.math.columbia.edu/tag/00OS).)
+
+**Checks.**
+
+- For A=K[z], the fibre at ξ is K, of dimension zero, and dim A=1.
+- For A=K[z,z⁻¹], the fibre at zero is zero; the proper-ideal hypothesis excludes it.
+- For A=K with z acting as zero, the fibre at zero is K and its dimension does not drop. This algebra is not torsion-free over K[z].
 
 Let f′=Af over ℂ(z) with functionally independent coordinates, 0<ε<1 and polynomial Q,Pᵢ of degree ≤N, not all zero, satisfying Qf−P=O(z^(N+M)). For sufficiently large N and M>N(1−ε)/n, det(P,(D−A)P,…,(D−A)^(n−1)P)≠0. (B08, §6.2, Thm. 6.2.7, p.29.)
 
@@ -1891,7 +1935,7 @@ For a nonzero E-function with f(ξ)=0, ξ∈ℚ̄×, every local solution of its
 
 For algebraically closed K⊂ℂ and series of K(z)-span dimension m, their polynomial-relation module has a K[z]-basis C₁,…,C_(n−m) whose specializations are linearly independent at every ξ∈K. The typed case K=ℂ and the general `relationBasisSpecialisation` are separate signatures. (B06, Lem. 3.1, p. 6.)
 
-For E-functions solving T f′=M f over ℚ̄[z] and ξ∈ℚ̄ with ξT(ξ)≠0, every ℚ̄-linear relation among fᵢ(ξ) lifts to a polynomial relation Σcᵢ(z)fᵢ(z)=0 with cᵢ(ξ)=λᵢ. Functional independence therefore gives independence of values. (B06, Thm. 3.2, Corollary 1.4, pp. 3.)
+For E-functions solving T f′=M f over ℚ̄[z] and ξ∈ℚ̄ with ξT(ξ)≠0, every ℚ̄-linear relation among fᵢ(ξ) lifts to a polynomial relation Σcᵢ(z)fᵢ(z)=0 with cᵢ(ξ)=λᵢ. Functional independence therefore gives independence of values. (B06, Thm. 3.2, p. 6, and Corollary 1.4, p. 3.)
 
 *Needs:* §5.2.
 
@@ -1899,9 +1943,9 @@ Under those hypotheses, every homogeneous P∈ℚ̄[X] vanishing at f(ξ) lifts 
 
 *Needs:* §5.2.
 
-Under those hypotheses, trdeg_ℚ̄ ℚ̄(f(ξ))=trdeg_ℚ̄(z) ℚ̄(z)(f(z)), equivalently the functional transcendence degree over ℂ(z). (B06, Thm. 1.1, p. 2; André, §1.7, Corollary1.7.1, pp.6–7.)
+Under those hypotheses, trdeg_ℚ̄ ℚ̄(f(ξ))=trdeg_ℚ̄(z) ℚ̄(z)(f(z)), equivalently the functional transcendence degree over ℂ(z). (B06, Thm. 1.1, p. 2; André, §1.7, Corollary 1.7.1, pp. 6–7.)
 
-*Needs:* §5.5.
+*Needs:* §5.1; §5.2.
 
 For an E-function and ξ∈ℚ̄× with f(ξ)=0, the entire quotient f(z)/(z−ξ) is E. (B06, Prop. 4.1, p. 8.)
 
@@ -1921,7 +1965,7 @@ Use `KaehlerDifferential`, `exists_isTranscendenceBasis`, `ringKrullDim`, `exist
 
 ### 5.5 Mahler systems and their values
 
-Define `IsMahlerFunction` as follows. For integer q≥2 define `IsMahler q f` for a series with algebraic coefficients by Σi=0..n pᵢ(z)f(z^(qⁱ))=0 for nonzero polynomial data over ℚ̄. Equivalently f is a coordinate of F(z)=A(z)F(z^q), A∈GL_m(ℚ̄(z)). Use Mathlib’s `PowerSeries.expand r hr` for f(z^r), with hr:r≠0; its `expand_apply` identifies it with formal substitution by X^r. (AF17, §1, equation (1.1), p. 2; AF17, §1, p. 2.)
+Define `IsMahlerFunction` as follows. For integer q≥2 define `IsMahlerFunction q f` for a series with algebraic coefficients by Σi=0..n pᵢ(z)f(z^(qⁱ))=0 for nonzero polynomial data over ℚ̄. Equivalently f is a coordinate of F(z)=A(z)F(z^q), A∈GL_m(ℚ̄(z)). Use Mathlib’s `PowerSeries.expand r hr` for f(z^r), with hr:r≠0; its `expand_apply` identifies it with formal substitution by X^r. (AF17, §1, equation (1.1), p. 2; AF17, §1, p. 2.)
 
 Its API includes `IsMahlerFunction.add`: Sums of q-Mahler functions are q-Mahler; `IsMahlerFunction.mul`: Products of q-Mahler functions are q-Mahler; `IsMahlerFunction.expand`: f(z^q) is q-Mahler if f is; `isMahlerFunction_of_polynomial`: Polynomials with algebraic coefficients are q-Mahler; `isMahlerFunction_iff_system`: f is q-Mahler iff it is the first coordinate of a solution of F(z)=A(z)F(z^q) with A invertible over ℂ(z) (and algebraic entries).
 
@@ -1933,15 +1977,17 @@ Its API includes `IsMahlerFunction.add`: Sums of q-Mahler functions are q-Mahler
 - z is q-Mahler (z^q·z − z·z^q=0 is trivial; use p₀=z^q, p₁=−z).
 - A constant series with transcendental value c is not a Mahler function in this algebraic-coefficient convention, although it solves the one-dimensional identity system A=1. The system equivalence must retain the algebraic coefficients of F and A and q≥2.
 
-Define `IsMahlerRegularPoint` as follows. For q≥2 and A∈GL_n(ℂ(z)), define `IsMahlerRegular q A α` by 0<|α|<1 and absence of poles of entries of both A and A⁻¹ at every α^(q^ℓ), ℓ≥0. Poles use reduced rational denominators. Singularities have no accumulation in the open unit disc. (AF17, §1, p. 2.)
+Define `IsMahlerRegularPoint` as follows. Define `IsMahlerRegularPoint q A α` for a square matrix A over ℂ(z) by q≥2, det A≠0, 0<|α|<1 and absence of poles of entries of both A and A⁻¹ at every α^(q^ℓ), ℓ≥0. Poles use reduced rational denominators. Singularities have no accumulation in the open unit disc. (AF17, §1, p. 2.)
 
-Its API includes `isMahlerRegularPoint_iff`: Unfolding: 0 < |α| < 1 and no α^{q^ℓ} is a zero of the denominator of an entry of A or A⁻¹; `IsMahlerRegularPoint.pow`: α regular implies α^q regular; `isMahlerRegularPoint_of_polynomial`: For polynomial A with unit determinant every α in the punctured disc is regular.
+Its API includes `isMahlerRegularPoint_iff`: Unfolding: q≥2, det A≠0, 0 < |α| < 1 and no α^{q^ℓ} is a zero of the denominator of an entry of A or A⁻¹; `IsMahlerRegularPoint.pow`: α regular implies α^q regular; `isMahlerRegularPoint_of_polynomial`: For q≥2 and polynomial A with unit determinant every α in the punctured disc is regular.
 
 **Checks.**
 
-- For A=[[1, 0], [z, 1]] every 0 < |α| < 1 is regular.
+- For q≥2 and A=[[1, 0], [z, 1]] every 0 < |α| < 1 is regular.
 - For A=(1 − 2z)⁻¹, α=2^{−1/2} is not regular; a definition testing only ℓ=0 would call it regular.
-- For the 0 × 0 system every point of the punctured disc is regular.
+- For q≥2, the 0 × 0 system has determinant 1 and every point of the punctured disc is regular.
+- The scalar zero matrix is not a regular system at 1/2, although all reduced entry denominators of A and its total inverse are 1. Testing denominators alone must not accept a singular matrix.
+- For q=1 the identity matrix at 1/2 fails the q≥2 condition.
 
 For series with algebraic coefficients, algebraic independence over ℂ(z) is equivalent to absence of a nonzero polynomial relation over ℚ̄[z]. Their functional transcendence degrees over ℂ(z) and ℚ̄(z) agree. (B08, Thm. 3.3.1, p. 13.)
 
@@ -1961,11 +2007,11 @@ Use `IsAlgebraic`, `RatFunc`, `AlgebraicIndependent`, `LaurentSeries`; `PowerSer
 
 ### 5.6 Modular values and Ax–Schanuel
 
-For τ in the upper half-plane and q=exp(2πiτ), at least three of q,E₂(τ),E₄(τ),E₆(τ) are algebraically independent over ℚ. Use constant term 1 and coefficients −24σ₁,240σ₃,−504σ₅ respectively. (Waldschmidt, periods, §4, Thm. 17, p. 443.)
+For τ in the upper half-plane and q=exp(2πiτ), at least three of q,E₂(τ),E₄(τ),E₆(τ) are algebraically independent over ℚ. Use constant term 1 and coefficients −24σ₁,240σ₃,−504σ₅ respectively. (Waldschmidt, periods, §3, the unnumbered Nesterenko statement after (18), p. 443.)
 
-At τ=i, E₂(i)=3/π, E₆(i)=0 and q(i)=exp(−2π). (Waldschmidt, periods, §4, Thm. 17, p. 444.)
+At τ=i, E₂(i)=3/π, E₆(i)=0 and q(i)=exp(−2π). (Waldschmidt, periods, §3, specialization following (18), p. 444.)
 
-Prove algebraic independence of π and exp π over ℚ. (Waldschmidt, periods, §4, Thm. 17, p. 443.)
+Prove algebraic independence of π and exp π over ℚ. (Waldschmidt, periods, §3, Thm. 17, p. 443.)
 
 For characteristic-zero fields C⊆F set Ω^r=∧^r_F Ω_F/C. Build `algebraicExteriorDifferential` d of degree +1 with d²=0 and d(ωη)=dω·η+(−1)^rω·dη for homogeneous ω of degree r. Its API gives C-linearity, d(a)=da, d(db)=0 and d(a db)=da∧db. Use the native contraction i_D by D’s Kähler dual, of degree −1. Prove `algebraicCartanDegreeShift`: d raises and i_D lowers degree, and L_D=i_Dd+di_D preserves it. Define `lieDerivativeOneForm D` as the unique C-linear operator with L_D(a db)=D(a)db+a d(Db). Its API proves `lieDerivativeOneForm_smul_D`, `lieDerivativeOneForm_smul` (L_D(aω)=D(a)ω+aL_Dω), and `lieDerivativeOneForm_evaluate`: (L_Dω)(D′)=D(ω(D′))−ω([D,D′]). In particular d(dy/y−dx)=0. (Kirby, §3.3, Lem. 3.2, pp. 30–31.) *Needs:* Mathlib Kähler universality, exterior algebra and derivation bracket.
 

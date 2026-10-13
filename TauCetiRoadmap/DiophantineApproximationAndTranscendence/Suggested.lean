@@ -493,6 +493,10 @@ example : hasseWronskian ![1, _root_.Polynomial.X, _root_.Polynomial.X ^ 2] = (1
 /-- Unit test `Polynomial.hasseWronskian.test_dependent`: W(X, 2X) = 0. -/
 example : hasseWronskian ![_root_.Polynomial.X, 2 * _root_.Polynomial.X] = (0 : ℚ[X]) := sorry
 
+/-- In characteristic two, the independent polynomials 1 and X² have zero Wronskian. -/
+example : LinearIndependent (ZMod 2) ![1, (_root_.Polynomial.X ^ 2 : Polynomial (ZMod 2))] ∧
+    hasseWronskian ![1, (_root_.Polynomial.X ^ 2 : Polynomial (ZMod 2))] = 0 := sorry
+
 /-- The Wronskian criterion (Pottmeyer, Proposition 3.3.3), characteristic zero. -/
 theorem linearIndependent_iff_hasseWronskian_ne_zero {K : Type*} [Field K] [CharZero K] {m : ℕ}
     (g : Fin m → K[X]) : LinearIndependent K g ↔ hasseWronskian g ≠ 0 := sorry
@@ -1049,6 +1053,11 @@ example : IsNondegenerateHomogeneousSolution (K := ℚ) ![1, 1, -1] ![1, 1, 2] :
 example : ¬ IsNondegenerateHomogeneousSolution (K := ℚ) ![1, -1, 1, -1] ![1, 1, 1, 1] := by
   sorry
 
+/-- Two homogeneous unit terms can give infinitely many solutions on their entire
+solution line; a covering by proper subspaces of that line requires at least three terms. -/
+example : {x : Fin 2 → ℚ | (∃ k : ℤ, x = ![(2 : ℚ) ^ k, (2 : ℚ) ^ k]) ∧
+    IsNondegenerateHomogeneousSolution ![1, -1] x}.Infinite := sorry
+
 end Nondegenerate
 
 /-- `Layer 2 nondegenerate solutions have finitely many ratios` (Evertse Theorem 8.14). -/
@@ -1299,7 +1308,7 @@ theorem finite_subspaceHeight_le (B : ℝ) :
   sorry
 
 /-- For a rational subspace, `H_2(T)` is the Euclidean norm of the wedge of a `ℤ`-basis of
-`T ∩ ℤ^n`, i.e. the covolume of that lattice (GeometryOfNumbersAndQuadraticArithmetic Layer 0). -/
+`T ∩ ℤ^n`, i.e. the covolume of that lattice (Evertse–Ferretti §6.1 and Mathlib's lattice carrier). -/
 theorem subspaceHeight_rat_eq_covolume (T : Submodule ℚ (Fin n → ℚ)) (hT : T ≠ ⊥) (p : ℕ)
     (b : Fin p → Fin n → ℤ) (hb : ∀ y : Fin n → ℤ, (fun j ↦ (y j : ℚ)) ∈ T ↔
       ∃ c : Fin p → ℤ, y = ∑ i, c i • b i) (hbi : LinearIndependent ℤ b) :
@@ -1578,8 +1587,8 @@ namespace DiophantineApproximation
 
 open TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation
 
-/-- Layer 2 conditional nonzero block grid jet. The actual nonzero restriction is an
-input, not a replacement for the missing hyperplane-height proof of Lemma 24. -/
+/-- A nonzero block-homogeneous restriction admits a nonzero jet on a bounded
+integer grid, with the displayed weighted-order bound (Evertse Lemma 26). -/
 theorem exists_nonzero_block_grid_jet_of_restriction {K : Type*} [Field K] [CharZero K]
     {m N : ℕ} (hm : 0 < m) (hN : 2 ≤ N)
     (d : Fin m → ℕ) (hd : ∀ h, 0 < d h) (ε : ℝ) (hε : 0 < ε) (hε1 : ε ≤ 1)
@@ -1626,17 +1635,6 @@ theorem nonvanishing_on_hyperplanes {m N : ℕ} (hm : 2 ≤ m) (hN : 2 ≤ N)
 
 end HyperplaneNonvanishing
 end DiophantineApproximation
-
-namespace MvPolynomial
-
-open _root_.MvPolynomial
-open TauCetiRoadmap.DiophantineApproximationAndTranscendence.MvPolynomial
-section BlockHomogenization
-variable {B S R : Type*} [Fintype B] [Fintype S] [DecidableEq B] [DecidableEq S]
-  [CommRing R]
-
-end BlockHomogenization
-end MvPolynomial
 
 /-! ## Layer 3: transcendence and logarithmic forms -/
 
@@ -2142,6 +2140,10 @@ theorem yu {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ) {n : ℕ} (h
     ((Ideal.absNorm v.asIdeal : ℕ) : ℝ) ^ (-(Φ * Real.log (d * B))) <
       v.adicAbv hb1 (∏ j, α j ^ b j - 1) := sorry
 
+/-- For p=2, a=2 and b=2 violate the lifting identity; divisibility by four is needed. -/
+example : padicNorm 2 (((1 + (2 : ℤ)) ^ 2 - 1 : ℤ) : ℚ) ≠
+    padicNorm 2 (((2 : ℤ) * 2 : ℤ) : ℚ) := sorry
+
 /-- Evertse Exercise 5.9(i): lifting the exponent. -/
 theorem padicNorm_one_add_pow_sub_one (p : ℕ) [Fact p.Prime] (a : ℤ) (ha : a ≠ 0)
     (hpa : (Odd p ∧ (p : ℤ) ∣ a) ∨ (p = 2 ∧ 4 ∣ a)) (b : ℕ) (hb : 1 ≤ b) :
@@ -2189,8 +2191,8 @@ theorem mulHeight₁_sUnits_rat (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) (x 
 /-- Unit test `ratSUnits.test_twelve_fifths`: 12/5 ∈ U_{2,3,5}. -/
 example : (Units.mk0 (12 / 5 : ℚ) (by norm_num)) ∈ (Set.unit {v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ) | (Rat.HeightOneSpectrum.primesEquiv v).1 ∈ ({2, 3, 5} : Finset ℕ)} ℚ) := sorry
 
-/-- Unit test `ratSUnits.test_seven`: 7 ∉ U_{2,3}; a definition that only asks the primes of S to
-divide num·den (and forgets the other primes) accepts it. -/
+/-- Unit test `ratSUnits.test_seven`: 7 ∉ U_{2,3}; testing that x is a unit only at primes
+of S would accept it; the defining condition tests primes outside S. -/
 example : (Units.mk0 (7 : ℚ) (by norm_num)) ∉ (Set.unit {v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ) | (Rat.HeightOneSpectrum.primesEquiv v).1 ∈ ({2, 3} : Finset ℕ)} ℚ) := sorry
 
 /-- Evertse, Lemma 5.10, with the explicit constant `rank K * ∑ ‖logEmbedding (u j)‖`. -/
@@ -2387,7 +2389,8 @@ theorem rank_kaehlerDifferential_eq_trdeg (C E : Type*) [Field C] [Field E] [Alg
     [CharZero C] [Algebra.EssFiniteType C E] :
     Module.rank E (Ω[E⁄C]) = Algebra.trdeg C E := sorry
 
-/-- Fibres of a torsion-free finitely generated family over the affine line. -/
+/-- Fibre-comparison adapter for a torsion-free finite-type domain over the affine line:
+Mathlib's quotient dimension theorem and Tau Ceti's maximal-ideal height theorem apply. -/
 theorem ringKrullDim_quotient_add_one_eq (K : Type*) [Field K] (A : Type*) [CommRing A] [IsDomain A]
     [Algebra (Polynomial K) A] [Algebra.FiniteType (Polynomial K) A]
     [Module.IsTorsionFree (Polynomial K) A] (ξ : K)
@@ -2591,6 +2594,7 @@ theorem isEFunction_div_one_sub {a : ℕ → ℂ} (ha : IsEFunction a) (hq : ∀
 theorem minimal_equation_regularSingular_of_isGFunction {a : ℕ → ℂ} (ha : IsGFunction a)
     (hf : IsDFinite ((algebraicClosure ℚ ℂ).toSubfield) (PowerSeries.mk a))
     (p : Fin (dfiniteOrder ((algebraicClosure ℚ ℂ).toSubfield) _ hf + 1) → Polynomial ℂ)
+    (hpk : ∀ i m, IsAlgebraic ℚ ((p i).coeff m))
     (hp : ∑ i, (p i : PowerSeries ℂ) * (⇑(PowerSeries.derivative (R := ℂ)))^[i] (PowerSeries.mk a) = 0)
     (hlast : p (Fin.last _) ≠ 0) (i : Fin (dfiniteOrder ((algebraicClosure ℚ ℂ).toSubfield) _ hf + 1)) (hi : p i ≠ 0) :
     (p (Fin.last _)).natTrailingDegree ≤
@@ -2713,16 +2717,21 @@ example (c : ℂ) (hc : Transcendental ℚ c) :
 example : IsMahlerFunction 2 (PowerSeries.mk fun m => if ∃ k : ℕ, m = 2 ^ k then (1 : ℂ) else 0) :=
   sorry
 
-/-- A point of the punctured unit disc is regular for the Mahler system `f(z) = A(z) f(z^q)` if no
-`α^{q^ℓ}` is a pole of an entry of `A` or of `A⁻¹`. -/
+/-- For q≥2 and an invertible rational matrix A, a point of the punctured unit disc
+is regular if no `α^{q^ℓ}` is a pole of an entry of A or A⁻¹. Invalid q and singular
+matrices fail the predicate. -/
 def IsMahlerRegularPoint {n : ℕ} (q : ℕ) (A : Matrix (Fin n) (Fin n) (RatFunc ℂ)) (α : ℂ) : Prop :=
-  0 < ‖α‖ ∧ ‖α‖ < 1 ∧ ∀ ℓ : ℕ, ∀ i j,
+  2 ≤ q ∧ IsUnit A.det ∧ 0 < ‖α‖ ∧ ‖α‖ < 1 ∧ ∀ ℓ : ℕ, ∀ i j,
     (A i j).denom.eval (α ^ q ^ ℓ) ≠ 0 ∧ (A⁻¹ i j).denom.eval (α ^ q ^ ℓ) ≠ 0
 
 /-- Unit test `IsMahlerRegularPoint.test_fredholm`: For A = [[1, 0], [z, 1]] every 0 < |α| < 1 is
 regular. -/
 example (α : ℂ) (h0 : 0 < ‖α‖) (h1 : ‖α‖ < 1) :
     IsMahlerRegularPoint 2 (!![1, 0; RatFunc.X, 1] : Matrix (Fin 2) (Fin 2) (RatFunc ℂ)) α := sorry
+
+/-- A singular scalar matrix fails regularity even though the reduced denominators
+of it and its total inverse have no zeros. -/
+example : ¬ IsMahlerRegularPoint 2 (0 : Matrix (Fin 1) (Fin 1) (RatFunc ℂ)) (1 / 2 : ℂ) := sorry
 
 /-- Unit test `IsMahlerRegularPoint.test_iterate`: For A = (1 − 2z)⁻¹, α = 2^{−1/2} is not regular;
 a definition testing only ℓ = 0 would call it regular. -/
