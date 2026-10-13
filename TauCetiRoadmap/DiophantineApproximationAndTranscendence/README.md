@@ -4,9 +4,9 @@
 
 ## Scope and ownership
 
-Own successive minima and Minkowski’s second theorem, the field comparisons of relative and absolute heights, absolute tuple heights, Euclidean and Plücker subspace heights with their duality and Northcott properties, the fixed-field Siegel lemma, primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its algebraic differential forms.
+Own the field comparisons of relative and absolute heights, absolute tuple heights, Euclidean and Plücker subspace heights with their duality and Northcott properties, the fixed-field Siegel lemma, primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its algebraic differential forms.
 
-Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure, Kronecker’s theorem and the Mahler/absolute-height dictionary belong here (§§0.2–0.3). Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
+Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure, Kronecker’s theorem and the Mahler/absolute-height dictionary belong here (§§0.2–0.3). Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. GeometryOfNumbersAndQuadraticArithmetic §0.1 supplies the Gram-determinant upper bound for real and complex inner-product spaces and families in arbitrary ambient dimension.
 
 GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. [IntegralLattices](../IntegralLattices/README.md), Layer 0A and Layer 2, owns integral quadratic lattices and their bounded-norm finiteness; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc estimates are supplied by LinearFormsInLogarithms Layers 0–1. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
 
@@ -20,16 +20,21 @@ The model carrier is `SignatureModel.taylorCoeff`.
 
 | Consumer sections | Supplier and exported interface | Work owned here |
 | --- | --- | --- |
+| §0.0 and §2.5 real-lattice minima | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §1.2 / Successive minima: successiveMin, successiveMin_isLeast, exists_successiveMin_witnesses | Package compact convex sets as ConvexBody; retain zero-based Fin d indices and the supplier carrier |
+| §0.0 and §2.5 Minkowski product bounds | GeometryOfNumbersAndQuadraticArithmetic §1.3 / Minkowski’s lower inequality and its sharpness; §1.5 / Minkowski’s upper inequality: minkowski_second_lower, minkowski_second_upper | Transport the canonical Euclidean volume and covolume together |
+| §0.0 linear forms | GeometryOfNumbersAndQuadraticArithmetic §1.4 / Minkowski’s linear forms theorem: minkowski_linear_forms | Consume the non-strict coordinate bounds, including determinant equality |
+| §§0.2–0.3,2.5,2.8 heights and Siegel | This roadmap: absoluteProjectiveTupleHeight, height2, subspaceHeight, kernelLattice_covolume, exists_ne_zero_height2_le | Absolute heights take the degree root; projective zero height is 1, Euclidean vector zero height is 0, and subspace zero height is 1 |
 | §0.0 Gram estimate | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §0.1: hermitian_gram_hadamard | Consumption for complex coefficient estimates |
 | §3.3 qualitative conclusions | [LinearFormsInLogarithms](../LinearFormsInLogarithms/README.md), §6.4: transcendental_exp_mul and GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational | One-variable exponential-polynomial zero estimates and the explicit E19/KW auxiliary constructions as alternative applications of shared estimates |
 | §3.4 | LinearFormsInLogarithms Layers 0–4: mvTaylorCoeff, norm_le_of_mvTaylorCoeff_eq_zero, mvTaylorCoeff_prod_pow_mul_cexp, exists_ne_zero_int_norm_sum_le | Ordinary-derivative adapter and its factorial bridge; coordinate integral, remainder, arithmetic-polynomial and degenerate-case adapters |
 | §3.5 | LinearFormsInLogarithms Layers 5–7: §5.7 SchneiderLang.exists_transcendental_of_linearIndependent, §§6.1–6.2 Schneider–Lang consequences, §7.2 Baker.eq_zero_of_add_sum_mul_eq_zero, §7.3 Baker.transcendental_sum_mul | Branch and basis-coordinate corollaries of these shared statements |
 | §§3.1–3.2,3.6–3.7,4–5 | LinearFormsInLogarithms Layer 8 supplies qualitative p-adic Baker–Brumer only | Full Hermite-method Lindemann–Weierstrass, quantitative Matveev/Yu, effective equations, modular values and arithmetic functions |
 
-Only §0.1 of GeometryOfNumbersAndQuadraticArithmetic is consumed; no later
-homogeneous-dynamics or hermitian K-theory layer is needed. Successive minima and
-Minkowski's second theorem (§0.0), absolute adelic minima, the degree-free
-small-height branch and Nesterenko's arithmetic specialization are targets here.
+GeometryOfNumbersAndQuadraticArithmetic §§0.1,1.2–1.5 supply the real-lattice
+foundation; no later homogeneous-dynamics or hermitian K-theory layer is needed.
+Absolute adelic minima, the degree-free small-height branch and Nesterenko's
+arithmetic specialization are targets here. The saturated number-field
+kernel-lattice covolume identity is owned here as `kernelLattice_covolume` (§2.8).
 
 **Provider import compatibility.** Prove `Baker.mDeriv_eq_factorial_mul_mvTaylorCoeff`
 against the provider import: the analytic consumer imports the Layer 0 coefficient
@@ -50,6 +55,8 @@ occupies a provider namespace. (LinearFormsInLogarithms §0.4.)
 
 Algebraic-number fields have characteristic zero. F_x is the primitive integer minimal polynomial with positive leading coefficient a₀ and degree d; its transcendental junk value is 1. H_naive is its largest coefficient modulus, M its Mahler measure, and house the largest conjugate modulus (junk value 0). Integrality and denominator claims assume algebraicity. Absolute scalar heights are `NumberField.absMulHeight₁`, `absLogHeight₁`; relative heights are `Height.mulHeight`, `mulHeight₁`, `logHeight`, `logHeight₁`. Thus M=H_abs^d and H_K=H_abs^[K:ℚ]. Coefficient heights are projective; constants have logarithmic height zero.
 
+Real-lattice minima use the supplier’s ConvexBody carrier, with zero in its interior and central symmetry for Minkowski’s bounds. The index i : Fin d means the (i+1)-st minimum. The supplier uses canonical Euclidean Haar volume, including volume 1 in dimension zero; transporting to another normed model or Haar measure transports body volume and covolume by the same factor. No second minima carrier is introduced.
+
 Coordinate norms are sup norms. Infinite-place values are |σ_v(x)|^(mult(v)/[K:ℚ]), with mult 1 or 2; finite values are ideal-normalized moduli to power 1/[K:ℚ]. The product on K× is 1. Extension weights multiply by [L_w:K_v]/[L:K]. Absolute twisted heights on ℚ̄ give zero at zero; their Euclidean variant satisfies N^(−1/2)H₂≤H≤H₂ on nonzero N-tuples. `rationalSuccessiveInfimum` and `rationalInfimumSpace` use K-points; their absolute analogues are separate targets.
 
 Divided derivatives use binomial coefficients; ordinary order k contributes k!. Wronskian rows are derivative orders, columns functions, starting at zero; the empty determinant is 1. Weighted index is the infimum of nonzero Taylor-coefficient weights, ∞ at zero. Zero weights use extended nonnegative division; finiteness needs positive weights. Native binary homogenization uses coordinate 0 affine, 1 homogenizing. Logarithms carry chosen branches, principal only when specified. ord_p(p)=1; ramification and residue degree remain separate. E-series use a_n/n!, G-series a_n. Conjectures are hypotheses.
@@ -67,7 +74,7 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 **From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. IntegralLattices, Layer 0A “integral lattices” and Layer 2 “definite lattices”, supplies the quadratic-lattice carrier and its bounded-norm finiteness; Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; LinearFormsInLogarithms Layers 0–2 supplies the several-variable engine used in §3.4.
 
 
-**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima, second convex-body and linear-forms variants needed here are §0.0 targets, and the Hermitian Gram contract consumes GeometryOfNumbersAndQuadraticArithmetic §0.1; the exact boundary and empty-family conventions are specified in §0.0. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
+**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima calculus, both second convex-body bounds and linear forms are supplied by GeometryOfNumbersAndQuadraticArithmetic §§1.2–1.5, and its §0.1 supplies the Hermitian Gram bound; the exact boundary and empty-family conventions are specified in §0.0. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
 
 `Set.unit S K` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the sole S-unit subgroup, for a set S of height-one primes of a Dedekind domain with fraction field K. Its membership condition is v(x)=1 at every v outside S; `Set.unit_valuation_eq_one` and `Set.unitEquivUnitsInteger` identify its elements with units of the S-integer ring. For rational equations take the domain `𝓞 ℚ`, using `Rat.HeightOneSpectrum.primesEquiv` to identify its height-one primes with rational primes. No separate rational S-unit subgroup is defined. The algebraic-number field inside ℂ is `(algebraicClosure ℚ ℂ).toSubfield`. `PowerSeries.expand r hr` with r≠0 and `PowerSeries.expand_apply` supply f(z^r)=subst(X^r,f); `PowerSeries.coeff_expand` supplies the coefficient formula, with zero off exponents divisible by r. This is the sole expansion operator for Mahler systems; no separate coefficient construction is needed. The rational numerator, sign, exponent and height comparisons of §4.1 are adapters on this carrier.
 
@@ -111,7 +118,15 @@ Layer 0 fixes heights and approximation; Layer 1 proves Roth by auxiliary polyno
 
 ### 0.0 Geometric estimates on the library lattice carriers
 
-Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E of dimension d, and a compact convex set B symmetric about zero with zero in its interior. Define `successiveMin Λ B i`, for i : Fin d, as the infimum of t≥0 for which the real span of Λ∩tB has dimension at least i+1. Its intended signature is a real-valued function of the native lattice, the body and the zero-based index. Prove positivity, monotonicity in i, the threshold characterization `successiveMin_isLeast`, and `exists_successiveMin_witnesses`: independent v_i∈Λ with v_i∈λ_i B simultaneously. Scaling B by a>0 divides every minimum by a; invertible real-linear transport of Λ and B preserves them. Since B is bounded, each Λ∩tB is finite by `ZLattice.setFinite_inter`, and compactness gives Λ∩tB=Λ∩λB for t slightly above λ, so every threshold is attained; zero in the interior makes some multiple of B contain a basis of Λ, so all d thresholds are finite, and discreteness makes the first one positive. Choosing each v_i at level λ_i outside the span of the earlier ones gives the witnesses. (E19, ch. 2, §2.3 “Minkowski’s second convex body theorem”, Lem. 2.8, pp. 23–24.)
+Supplied by GeometryOfNumbersAndQuadraticArithmetic §1.2 / Successive minima.
+For a discrete full ℤ-lattice Λ in a d-dimensional real normed space and a
+ConvexBody B with zero in its interior, use its real minima λ_i, i : Fin d.
+The supplier owns the dilation infimum, least gauge threshold, positivity,
+monotonicity, simultaneous attaining real basis, scaling and linear transport.
+A compact convex set with zero in its interior is packaged as this body;
+the span threshold and the supplier's independent-vector threshold agree.
+Central symmetry is imposed where the product theorem needs it.
+(E19, ch. 2, §2.3, Lem. 2.8, pp.23–24; supplier §§1.2.1–1.2.11.)
 
 **Checks.**
 
@@ -120,9 +135,14 @@ Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E o
 - The zero-dimensional space has an empty family of minima and empty product 1.
 - For the unit square scaled by 2, the minima halve; a definition that scales the lattice instead gives the opposite normalization.
 
-Prove `minkowski_second_lower` and `minkowski_second_upper`:
+Supplied by GeometryOfNumbersAndQuadraticArithmetic §1.3 / Minkowski’s lower
+inequality and its sharpness, and §1.5 / Minkowski’s upper inequality:
 2^d covol(Λ)/d! ≤ volume(B)∏_i λ_i ≤ 2^d covol(Λ).
-The volume is the same Haar measure used for the covolume. No norm-ball restriction is imposed. In dimension zero the body is {0}, its volume and covolume are 1, and both bounds are equalities. For the lower bound, B contains the convex hull of the ±v_i/λ_i, whose volume is 2^d/(d!∏λ_i) times that of the parallelepiped spanned by the witnesses v_i; that parallelepiped is a fundamental domain of a sublattice of Λ, so its volume is at least covol(Λ). The upper bound follows E19's proof of Theorem 2.9. (E19, ch. 2, Thm. 2.9, pp. 24–27.)
+Use a discrete full lattice and a centrally symmetric ConvexBody with zero
+in its interior. Body volume and covolume use the same canonical Euclidean
+Haar measure; a common change of Haar normalization preserves both bounds.
+The zero-dimensional body has volume and covolume 1 and the product is empty.
+(E19, ch. 2, Thm. 2.9, pp.24–27; supplier §§1.3.4,1.5.21.)
 
 **Checks.**
 
@@ -130,7 +150,7 @@ The volume is the same Haar measure used for the covolume. No norm-ball restrict
 - For ℤ^d and the cross-polytope Σ|x_i|≤1 the volume is 2^d/d! and every minimum is 1, so the lower bound is an equality.
 - For ℤ² and B=[−4,4]×[−1,1] the minima are 1/4 and 1 and volume(B)∏λ_i=4=2²; replacing ∏λ_i by λ_1² gives 1, below the lower bound 2, so the product of all minima is essential.
 
-For d≥1, invertible A∈M_d(ℝ), positive b_i and ∏b_i≥|det A|, prove `minkowski_linear_forms`: some nonzero z∈ℤ^d has |(Az)_i|≤b_i for every i. The inequalities include the boundary; compactness of the parallelepiped is essential at equality. This is a coordinate consequence of the supplied first convex-body theorem. (E19, ch. 2, Cor. 2.6, p. 20.)
+Supplied by GeometryOfNumbersAndQuadraticArithmetic §1.4 / Minkowski’s linear forms theorem: for d≥1, invertible A∈M_d(ℝ), positive b_i and ∏b_i≥|det A|, some nonzero z∈ℤ^d has |(Az)_i|≤b_i for every i. The inequalities include the determinant-equality boundary. (E19, ch. 2, Cor. 2.6, p.20; supplier §1.4.2.)
 
 For a finite family v_i in a real or complex inner-product space, consume `hermitian_gram_hadamard` from GeometryOfNumbersAndQuadraticArithmetic §0.1: det Gram(v)≤∏‖v_i‖². For complex scalars the determinant is real, so the inequality uses its real part. Include dependent and empty families, with determinant and product 1 in the empty case. Use the library Gram matrix and Euclidean norms; its nonnegativity is supplied. (E19, ch. 2, Exercise 2.11, p. 31, and its Gram-Schmidt argument; the complex statement follows by the same Hermitian orthogonalization.)
 
@@ -140,7 +160,7 @@ For a finite family v_i in a real or complex inner-product space, consume `hermi
 - A repeated vector gives determinant zero, including the complex pair (1,i) in ℂ as a one-dimensional complex space.
 - The real rows (1,0),(1,1) give determinant 1 and product √2; the Gram determinant is 1 and the squared-norm product 2.
 
-*Needs:* Mathlib discrete submodules, `ZLattice.covolume`, `ZLattice.setFinite_inter`, Gram matrices, finite-dimensional spans, Haar measure, and the first convex-body theorem in the supplier contract. These estimates precede §§0.3–0.4 and §2.5.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§0.1,1.2–1.5 on Mathlib’s discrete submodules, ConvexBody, covolume and Gram carriers, and Mathlib’s first convex-body theorem. These estimates precede §§0.3–0.4 and §2.5.
 
 ### 0.1 Primitive polynomials and coefficient height
 
@@ -1270,7 +1290,7 @@ linear factors. The limit r→∞ removes C(K), giving product bound 2|det A|_�
 for infima, with arbitrarily close bases in finite extensions. (Roy–Thunder,
 §§1,3–4, Lemmas 4.5,4.7–4.8, Lemma 5.2 and Proposition 5.3, pp.13–17.)
 *Needs:* GlobalNumberFields's adeles and local extensions, §0.0 successive
-minima and `minkowski_second_upper`, the covolume of the ring-of-integers lattice
+minima and the upper Minkowski bound supplied by GeometryOfNumbersAndQuadraticArithmetic §§1.2,1.5, the covolume of the ring-of-integers lattice
 (`NumberField.mixedEmbedding.covolume_integerLattice`), the §0.2 and §2.5 heights,
 Mathlib symmetric powers, factorization and determinant API. All adelic-height and factor-selection
 extensions in this paragraph are built here.
@@ -1542,7 +1562,28 @@ Use `MvPolynomial`: `monomial`, `as_sum`, `coeff_monomial`, `aeval`, `eval₂_mo
 
 ### 2.8 Auxiliary polynomials and quantitative subspaces
 
-Prove `exists_ne_zero_height2_le`, the fixed-field Siegel lemma. Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). Passing to a maximal independent subfamily only weakens the bound, since every nonzero form has H₂(Lᵢ)≥1. The kernel W then has dimension m≥V−U, and subspaceHeight W≤∏H₂(Lᵢ) by `subspaceHeight_orthogonal` and `subspaceHeight_le_prod`. Apply the first convex-body theorem of the supplier contract to the lattice W∩𝓞_K^V in the real Minkowski space of W, with Euclidean balls of a common radius at the infinite places. Its covolume is (2^(−r₂)|D_K|^(1/2))^m times the relative Euclidean height of W; the case W=K^V is `NumberField.mixedEmbedding.covolume_integerLattice`. The ball volumes give the factor √m≤√V, and an integral x has finite-place factors at most 1. (EF13, §13, Lem. 13.1, p. 50.)
+**Saturated kernel-lattice covolume.** Prove `kernelLattice_covolume` here.
+For a number field K of degree D, r₂ complex places, V≥0 and any K-subspace
+W≤K^V of dimension m, construct Λ_W=W∩𝓞_K^V as a discrete full ℤ-lattice
+in its real mixed-embedding span of dimension Dm. Use one (Re,Im) copy per
+complex place and the Euclidean measure induced from the coordinate embedding.
+Prove covol(Λ_W)=(2^(−r₂)|disc K|^(1/2))^m·subspaceHeight(W)^D.
+The lattice is the full saturated intersection; a finite-index sublattice
+has a larger covolume and does not satisfy this identity. Prove the formula
+from the archimedean Gram minors and the finite-place determinant ideal;
+no freeness of W∩𝓞_K^V over 𝓞_K is assumed. The whole-space case consumes
+`NumberField.mixedEmbedding.covolume_integerLattice`.
+(Schmidt 1967, §3, Theorem 1; Fukshansky, §3, (17), p.6;
+EF13, §6.1, p.27, height normalization.)
+*Needs:* §2.5 heights, native mixed embeddings and ideal norms, and §0.0 Gram bounds.
+
+**Checks.**
+
+- W=K^V gives the V-th power of the ring-of-integers covolume; W=0 gives dimension zero and covolume 1.
+- Over ℚ, W=ℚ·(1,2) has covolume and absolute Euclidean height √5; the sublattice generated by 2(1,2) has covolume 2√5.
+- For K=ℚ(i), W=K·(1,i), subspaceHeight(W)=√2, its relative height is 2, and covol(Λ_W)=2. The complex-place and degree factors are both necessary.
+
+Prove `exists_ne_zero_height2_le`, the fixed-field Siegel lemma. Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). Passing to a maximal independent subfamily only weakens the bound, since every nonzero form has H₂(Lᵢ)≥1. The kernel W then has dimension m≥V−U, and subspaceHeight W≤∏H₂(Lᵢ) by `subspaceHeight_orthogonal` and `subspaceHeight_le_prod`. Apply the first convex-body theorem of the supplier contract to the lattice W∩𝓞_K^V in the real Minkowski space of W, with Euclidean balls of a common radius at the infinite places. Use `kernelLattice_covolume`: its covolume is (2^(−r₂)|D_K|^(1/2))^m·subspaceHeight(W)^D. The ball volumes give the factor √m≤√V, and an integral x has finite-place factors at most 1. (EF13, §13, Lem. 13.1, p. 50.)
 
 **Checks.**
 
@@ -1550,7 +1591,7 @@ Prove `exists_ne_zero_height2_le`, the fixed-field Siegel lemma. Let K have degr
 - Over ℚ the repeated form (1,1,0) with U=2, V=3 is allowed; the bound uses V−U=1 and gives 2√3, while the kernel vector (0,0,1) has height 1.
 - A single nonzero form in one variable has zero kernel, so the hypothesis U<V is necessary.
 
-*Needs:* §2.5 heights, duality and `subspaceHeight_le_prod`; Mathlib's first convex-body theorem and ring-of-integers covolume.
+*Needs:* §2.5 heights, duality and `subspaceHeight_le_prod`; `kernelLattice_covolume` and Mathlib’s first convex-body theorem.
 
 **Compound data for the gap.** Build `absoluteCompoundGapData` from EF13
 (8.1)–(8.9), 1≤k<n and Q satisfying (11.8)–(11.9), using the adapted
@@ -2552,19 +2593,244 @@ Its API includes `isMahlerRegularPoint_iff`: Unfolding: q≥2, det A≠0, 0 < |�
 - The scalar zero matrix is not a regular system at 1/2, although all reduced entry denominators of A and its total inverse are 1. Testing denominators alone must not accept a singular matrix.
 - For q=1 the identity matrix at 1/2 fails the q≥2 condition.
 
-For series with algebraic coefficients, algebraic independence over ℂ(z) is equivalent to absence of a nonzero polynomial relation over ℚ̄[z]. Their functional transcendence degrees over ℂ(z) and ℚ̄(z) agree. (B08, Thm. 3.3.1, p. 13.)
+Every Mahler-system target below has q≥2 and an invertible matrix over ℚ̄(z).
+All analytic targets start with a convergent germ: there is ρ>0 for
+which each coefficient series is summable at every |z|<ρ. The formal predicate
+alone does not stand for an analytic evaluation. Algebraic independence for
+algebraic-coefficient germs over ℂ(z) is equivalent to absence of a nonzero
+relation over ℚ̄[z], and their transcendence degrees over ℂ(z) and ℚ̄(z) agree.
+(B08, Thm.3.3.1, p.13.)
 
-For q≥2, algebraic-coefficient series convergent in |z|<ρ and solving F(z)=A(z)F(z^q) over ℚ̄(z), a regular algebraic α with 0<|α|<min(1,ρ) has trdeg_ℚ̄ ℚ̄(F(α))=trdeg_ℚ̄(z) ℚ̄(z)(F). (AF17, Thm. 1.1, p. 3.)
+**Meromorphic continuation and evaluation.** Construct `mahlerMeromorphic q f`
+from a convergent q-Mahler germ. Given a system F(z)=A(z)F(z^q), set
+A_ℓ(z)=A(z)A(z^q)⋯A(z^(q^(ℓ−1))). On each compact subdisc choose ℓ with
+z^(q^ℓ) inside the initial convergence disc, and continue F by
+A_ℓ(z)F(z^(q^ℓ)) as a meromorphic germ. Prove `mahler_iterate_independent`:
+sufficiently deep iterates give the same germ, including across removable
+singularities of the product. Prove `exists_mahler_meromorphic`, `mahlerMeromorphic_spec` and
+`mahlerMeromorphic_unique`: the result is independent of the system and the
+initial convergence radius, agrees with the Taylor germ, and uses Mathlib's
+MeromorphicNFOn on the unit disc, with removable singularities filled and
+value zero at poles. Values are asserted only under
+AnalyticAt ℂ (mahlerMeromorphic q f) α, equivalently no pole in this normal
+form. Prove `mahlerMeromorphic_eq_tsum` wherever the original Taylor terms
+are summable and |α|<1; use Abel's theorem when α is on the Taylor circle
+of convergence. Summability there excludes a meromorphic pole. Outside that
+summability range the continuation, rather than tsum, defines the value.
+(AF17, §1, p.2, meromorphic-disc convention and (1.2); iterated continuation
+and the analytic identity theorem.) *Needs:* Mathlib meromorphic normal
+forms, analytic power series, identity and Abel theorems; the system equivalence above.
 
-For such a system convergent in the unit disc and regular algebraic α, every homogeneous polynomial relation P(F(α))=0 lifts to Q∈ℚ̄[z][X] of the same X-degree, with Q(z,F(z))=0 and Q(α,X)=P. (AF17, Thm. 1.4, pp. 3-4.)
+**Checks.**
 
-At those points the linear relations among values are exactly evaluations of polynomial functional relations. Rational relation vectors may be evaluated only when their entries are regular at α. Functional independence gives value independence. (AF17, Corollary 1.5, p. 4.)
+- For f(z)=1/(1−2z), q=2 and A(z)=(1−2z²)/(1−2z), the continued value at α=3/4 is −2. Taylor terms are (3/2)^m and are not summable.
+- The same function has a pole at 1/2; its normal-form default value zero is excluded by the evaluation hypothesis.
+- For g(z)=1−2z and A(z)=(1−2z)/(1−2z²), α=1/2 is a nonpole with value 0, but A⁻¹ has a pole there. Nonpole evaluation does not require regularity of this system.
+- For the Fredholm germ, continuation agrees with its Taylor sum throughout |z|<1, and using ℓ or ℓ+1 gives the same value by F(z)=A(z)F(z²).
 
-For a q-Mahler function, algebraic α with 0<|α|<1 at which the function has no pole, and a number field k containing the coefficients and α, its value is transcendental or belongs to k. For several functions, dependence of values over ℚ̄ implies dependence over k. (AF17, Corollary 1.8, p. 5.)
+**Algebraic Mahler rationality.** Prove `algebraic_mahler_rational`: a q-Mahler
+germ algebraic over ℚ̄(z) belongs to ℚ̄(z). The conclusion also holds for
+meromorphic germs at zero satisfying such a relation: multiply by a power
+of z to reduce to a power series. Record the equivalent version over ℂ(z)
+by coefficient-field descent. The polynomial numerator and nonzero
+denominator have algebraic coefficients. This supplies the functional
+transcendence bridge used by the Fredholm example and by function-field
+regularity. (Nishioka, Theorem 5.1.7; AF17, Lemma 2.2, p.10.)
 
-The series Σn≥0 z^(2ⁿ) is not rational: no r≠0 and p in ℂ[z] satisfy rΣz^(2ⁿ)=p in ℂ[[z]]. (AF17, §1, p. 2.)
+**Checks.**
 
-For algebraic α with 0<|α|<1, Σn≥0 α^(2ⁿ) is transcendental. (AF17, §1, p. 2.)
+- Every algebraic-coefficient rational germ satisfies the conclusion, including 1/(1−2z).
+- √(1−z) is algebraic and nonrational, so it cannot satisfy a q-Mahler relation for q≥2.
+- z⁻¹ is covered by the meromorphic-germ version after multiplication by z; a restriction to holomorphic field elements would not suffice for regularity.
+
+**Regularity of the generated function field.** Prove
+`mahler_function_field_regular`: for convergent algebraic-coefficient F solving
+an invertible rational Mahler system, ℚ̄(z) is algebraically closed in
+L=ℚ̄(z)(F). The relative algebraic closure L′ is finite over ℚ̄(z): build
+this finite-generation consequence for a finitely generated characteristic-zero
+field extension. The inverse system makes L stable under z↦z^q. Hence all
+iterates of any element of L′ stay in L′, are linearly dependent over ℚ̄(z),
+and form a meromorphic Mahler germ. Algebraic Mahler rationality puts that
+element in ℚ̄(z). In characteristic zero this gives geometric integrality
+of the finitely generated function algebra. (AF17, Lemma 2.2, p.10.)
+*Needs:* `algebraic_mahler_rational`, finite extension linear algebra, and the
+finite-generation and geometric-integrality comparisons stated here.
+
+**Checks.**
+
+- For rational F the field L is ℚ̄(z), so the relative algebraic closure is the base field.
+- With F=(Fredholm,1), regularity concerns every algebraic element of L, including rational quotients with poles at zero.
+- ℚ̄(z)(√(1−z)) is not regular over ℚ̄(z); its relative algebraic closure has degree two and is excluded by Mahler rationality.
+
+**Nishioka proof inputs: relation matrices and the auxiliary identity.** Build
+`mahler_orbit_relation_matrix` for a convergent algebraic-coefficient system
+and a regular algebraic α. For A_k as above, the polynomials over ℚ̄(z)
+vanishing at (A_k(α),α^(q^k)) for all sufficiently large k form a proper
+radical ideal I. Construct an invertible matrix φ over an algebraic closure
+of ℚ̄(z) annihilating I, using Mathlib's
+MvPolynomial.vanishingIdeal_zeroLocus_eq_radical and the nonvanishing of det A_k(α).
+Build the needed analytic realization of its finitely many algebraic entries
+off their finite branch/pole/zero set, choosing compatible branches along
+sufficiently deep iterates. Prove the orbit-transport identity
+P(φ(z)A_k(z),z^(q^k))=0 for P∈I.
+Then prove `mahler_auxiliary_relation_identity`: for τ∈ℚ̄^n with τF(α)=0,
+choose a sufficiently large k₀ and put ξ=α^(q^k₀) and
+Θ_k(z)=A_k₀(α)φ(ξ)⁻¹φ(z)A_(k−k₀)(z), for k≥k₀.
+The analytic germ τΘ_k₀(z)F(z) at ξ vanishes identically. Its proof constructs
+auxiliary polynomials in the bounded-degree quotient by I, proves the
+linear growth in the z-degree of that quotient's dimension, and combines
+an analytic upper bound, orbit nonvanishing and the §0.3 Liouville lower
+bound. These ideal, algebraic-germ realization, dimension-growth and auxiliary
+estimates are owned here. (AF22, §2, Lemmas 2.2–2.8,2.11–2.13, steps
+(AF),(UB),(NV),(LB), and Appendices A.1–A.2.)
+
+**Checks.**
+
+- For A=1 the orbit matrices are 1 and the relation ideal contains Y−1; φ=1 satisfies its equations.
+- A singular α is excluded: an orbit matrix with zero determinant cannot provide the invertible relation matrix.
+- The Fredholm system [[1,z],[0,1]] has det A_k=1 at every iterate; its functional nonrationality does not replace the auxiliary nonvanishing step.
+
+**Nishioka specialization.** Prove `nishioka` for convergent algebraic-coefficient
+F solving an invertible system over ℚ̄(z) and algebraic α regular for that
+system with |α|<ρ: trdeg_ℚ̄ ℚ̄(F(α))=trdeg_ℚ̄(z) ℚ̄(z)(F).
+Use the preceding auxiliary identity to lift linear value relations to
+algebraic-function relations, then apply it to tensor monomial systems,
+including the constant coordinate 1. Prove `mahler_monomial_dimension_growth`:
+the span of monomials of degree at most d in a finite tuple generating a
+field of transcendence degree t has dimension between c d^t and C d^t
+for all large d, with c,C>0. Build this comparison using a transcendence
+basis and finite module generation after denominator localization; it is
+an explicit monomial-span comparison. Lifting gives the lower
+transcendence-degree bound, invariant under the algebraic extension used
+for φ. The reverse bound uses the finite-type fibre dimension interface
+of §5.4. This proves the Nishioka input without first using the local
+lifting theorem below. (AF17, Thm.1.1, p.3; AF22, §§2–4, Remark 4.2
+and Appendix A.4.)
+
+**Checks.**
+
+- A rational tuple has functional and value transcendence degree zero.
+- A tuple generating a field of transcendence degree t=0 has eventually bounded monomial-span dimension; the degree-one case has linear growth.
+- For (Fredholm,1), functional transcendence gives t=1 and Nishioka gives transcendence of its value; nonrationality alone is insufficient.
+
+**Generic relation-ideal specialization.** Prove `relationIdeal_specialization`:
+for an algebraically closed characteristic-zero field k, a homogeneous prime
+ideal P⊂k(z)[X₀,…,X_n] with geometrically integral quotient, and
+J=P∩k[z,X₀,…,X_n], there is b∈k[z]∖{0} such that b(ξ)≠0 implies
+that ev_ξ(J) is prime and has the same height as P. Include properness
+of the fibre and preservation of homogeneous degree components. Build
+this affine specialization theorem here by spreading geometric integrality
+and generic flatness, then the dimension calculation from §5.4. The pinned
+finite-type dimension theorems and native homogenization/localization supply
+the dimension calculus; they do not supply geometric integrality or the
+prime-fibre specialization. (AF17, Proposition 2.1 and (2.1)–(2.2), pp.8–9;
+Stacks, Tags [0559](https://stacks.math.columbia.edu/tag/0559),
+[0578](https://stacks.math.columbia.edu/tag/0578).)
+
+**Checks.**
+
+- J=(X₁−zX₀) specializes to the prime (X₁−ξX₀) of height one.
+- The homogeneous prime (X₁²−(1+z)X₀²) has a quotient that is not geometrically integral over k(z); its fibres split, so generic primality requires the geometric hypothesis.
+- J=(zX₁−X₀) retains height one even at ξ=0; a rank calculation from just one chosen coefficient matrix cannot substitute for the ideal statement.
+
+**Local lifting and transport to regular points.** Prove
+`mahler_local_relation_lifting` for convergent algebraic-coefficient germs
+with regular generated function field and constant value transcendence
+degree at every sufficiently small nonzero algebraic point. There is ρ′>0
+such that every value relation of total degree d at 0<|β|<ρ′ lifts to a
+functional relation over ℚ̄(z), regular at β, of the same degree d.
+Apply `relationIdeal_specialization` to the homogenized relation ideal;
+Nishioka supplies equal heights of the two prime ideals, so containment
+becomes equality. Prove `mahler_relation_transport`: at a regular α,
+transport the value relation to β=α^(q^ℓ) using A_ℓ(α), lift locally, and
+pull back with A_ℓ(z)⁻¹ and z↦z^(q^ℓ). Substitution by an invertible linear
+matrix preserves X-degree. Clear denominators regular at α and divide
+by their nonzero value at α to recover the original relation exactly.
+(AF17, Proposition 2.1, pp.8–9, and §2 local-to-global argument, pp.7–8.)
+*Needs:* `nishioka`, `mahler_function_field_regular`, and the preceding ideal theorem.
+
+**Checks.**
+
+- For F=(1,z), the value relation X₁−αX₀ lifts to X₁−zX₀ and has degree one.
+- For F=(1,z,z²), X₀X₂−X₁² lifts unchanged with degree two; transport preserves that degree.
+- For g=1−2z at α=1/2 the original scalar matrix has singular inverse, so this transport theorem is inapplicable even though g(α)=0 exists.
+
+**Linear and homogeneous lifting.** Prove `mahler_polynomial_relation_basis`:
+the saturated module of polynomial relation vectors of algebraic-coefficient
+germs has a polynomial basis whose evaluation has full row rank at every
+algebraic point. Saturation follows because the series ring is a domain;
+use the one-variable PID structure and primitive minors. Use the transported
+local theorem and this basis to prove `mahler_linear_relation`, the equality
+of linear value relations and evaluations of polynomial functional relations
+at regular algebraic α. Rational relation vectors are evaluated only where
+all entries are regular. Then prove `mahler_homogeneous_lifting` by applying
+linear lifting to the degree-d monomial system (a symmetric tensor power of A).
+It retains regularity and produces Q∈ℚ̄[z][X] homogeneous of exactly the
+same degree d as P, with Q(z,F(z))=0 and Q(α,X)=P. Initial convergence
+near zero suffices; values outside that disc use the continuation API.
+(AF17, Lemma 3.2, Theorem 3.1, §3, pp.10–16; Thm.1.4 and Cor.1.5, pp.3–4.)
+
+**Checks.**
+
+- For F=(1,z), the relation module has basis (−z,1), with rank one after every evaluation.
+- For F=(1,z,z²), the quadratic relation X₀X₂−X₁² is homogeneous of degree two both before and after lifting.
+- The zero polynomial can be assigned any homogeneous degree; a nonzero degree-zero relation is impossible. Adding the constant coordinate 1 gives the inhomogeneous version without changing regularity.
+
+**Removing system singularities at nonpole values.** Prove
+`mahler_remove_system_poles`: for a convergent system over a number field
+k containing α, with 0<|α|<1 and every coordinate a nonpole at α, embed it
+in a larger system over k(z) whose coefficient matrix has no poles anywhere
+on the forward orbit. Its first coordinates at α are λ_iF_i(α), with
+λ_i∈k×. Build the convergent denominator product, finite jets at its zeros,
+and the shifted-product normalization giving these algebraic multipliers.
+Then prove `mahler_regular_system_extension`: if A already has no poles
+on that orbit, enlarge by finitely many iterated coordinates so that α is
+regular, retaining the original coordinates. These constructions remove
+poles of A and then zeros of its determinant; neither assumes that the
+original A⁻¹ is regular. (AF17, Lemmas 4.1–4.2, pp.16–20.)
+
+**Checks.**
+
+- For 1/(1−2z) at α=3/4, all-nonpole evaluation gives −2 even though the original Taylor series diverges.
+- For g=1−2z at α=1/2 the zero value survives the extension, despite the original inverse-matrix pole.
+- For a polynomial matrix with constant nonzero determinant such as the Fredholm matrix, the original point is already regular and no singularity removal is needed.
+
+**Nonpole value descent.** Prove `mahler_value_transcendental_or_mem_meromorphic`:
+for a convergent q-Mahler germ over a number field k containing algebraic α,
+0<|α|<1 and no pole of the continued function at α, its continued value
+is transcendental or belongs to k. More generally the ℚ̄-linear relation
+space of finitely many such values is the ℚ̄-span of its k-linear relation
+space. Assemble a common system over k and apply the preceding two
+extensions, regular-point lifting and coefficient descent; polynomial
+relation spaces descend to k by linear algebra on their k-coefficients.
+Apply this to (f,1) for the scalar alternative.
+Keep `mahler_value_transcendental_or_mem` as the summable-Taylor corollary,
+using `mahlerMeromorphic_eq_tsum` to identify its value.
+(AF17, Theorem 1.7 and Corollary 1.8, p.5.)
+
+**Checks.**
+
+- The meromorphic value of 1/(1−2z) at 3/4 is −2∈ℚ.
+- The polynomial g=1−2z at 1/2 has value 0∈ℚ and is included without regularity of its original scalar system.
+- A pole such as 1/(1−2z) at 1/2 is excluded; the normal-form zero there is not an arithmetic value.
+
+**Fredholm functional and value transcendence.** Prove `lacunary_not_rational`
+for F(z)=Σ_{n≥0}z^(2^n): no nonzero r and p∈ℂ[z] satisfy rF=p.
+Coefficient comparison across arbitrarily long gaps proves this. The system
+(F,1)^t=[[1,z],[0,1]](F(z²),1)^t gives the Mahler relation.
+Use `algebraic_mahler_rational` to obtain `transcendental_fredholm_function`
+over ℂ(z). The matrix and its inverse are polynomial with determinant one,
+so every point in the punctured disc is regular. `nishioka` then gives
+`transcendental_fredholm`: for algebraic α with 0<|α|<1,
+Σ_{n≥0}α^(2^n) is transcendental. Identify that sum with the convergent
+germ's value by its coefficients. (AF17, §1, p.2, classical example;
+Nishioka, Theorem 5.1.7; AF17, Theorem 1.1, p.3.)
+
+**Checks.**
+
+- The Fredholm matrix [[1,z],[0,1]] and its inverse [[1,−z],[0,1]] have determinant one and no poles.
+- At α=1/2 the value Σ2^(−2^n) is transcendental by the complete chain: nonrational → functionally transcendental → value transcendental.
+- At α=0 the value is zero and the regular-point hypothesis fails; points on |α|=1 are outside the convergence and specialization domain.
 
 Use `IsAlgebraic`, `RatFunc`, `AlgebraicIndependent`, `LaurentSeries`; `PowerSeries.expand`, `PowerSeries.expand_apply`, `PowerSeries.coeff_expand`; `Polynomial.coeToPowerSeries.ringHom`; `RatFunc.denom`; `PowerSeries.coeff_mul`.
 
@@ -2577,13 +2843,21 @@ independent of this chain.
 **Ramanujan equations and coefficient bounds.** Define `modularQSeries` Φ(q)
 =(q,E₂(q),E₄(q),E₆(q)) on |q|<1 by the q-expansions with constant term 1
 and coefficients −24σ₁,240σ₃,−504σ₅. Prove `modularQSeries_eq`, equality with the library
-series under q=exp(2πiτ). Build `ramanujanQEquations`:
+series under q=exp(2πiτ). Consume Mathlib’s
+`Derivative.normalizedDerivOfComplex_E₂`,
+`Derivative.normalizedDerivOfComplex_E₄` and
+`Derivative.normalizedDerivOfComplex_E₆` in
+Mathlib.NumberTheory.ModularForms.RamanujanFormula. Prove `ramanujanQEquations`
+by transporting these identities with the chain rule:
 θE₂=(E₂²−E₄)/12, θE₄=(E₂E₄−E₆)/3,
 θE₆=(E₂E₆−E₄²)/2, θ=q d/dq. Prove integrality and polynomial
 coefficient growth from σ_j(m)≤m^(j+1); derive coefficient bounds for
 q^a E₂^b E₄^c E₆^e with a+b+c+e≤d on each closed disc of radius <1.
-This q-expansion and convolution bridge is owned here; modular transformation
-laws are consumed from Mathlib/ModularForms. (Ramanujan, *On certain
+For q≠0, the derivative of q=exp(2πiτ) gives
+(2πi)⁻¹d/dτ=q d/dq; use analyticity and continuity to extend the transported
+identities to q=0. This q-coordinate and convolution bridge is owned here;
+modular transformation laws and the three differential identities are supplied
+by Mathlib/ModularForms. (Ramanujan, *On certain
 arithmetical functions*, §1 (1.1)–(1.3); Fonseca §1 equations (R), §3.3
 Lemma 3.19 and its proof, pp.1,17.)
 
@@ -2776,6 +3050,10 @@ Heights, auxiliary polynomials, unit equations and effective logarithmic bounds 
 - **Singer**: Michael F. Singer, [Introduction to the Galois Theory of Linear Differential Equations](https://singer.math.ncsu.edu/papers/LMSlectures.pdf), §1.3, pp.10–19 (arXiv:0712.4124).
 - **B08**: Frits Beukers, [E-functions and G-functions (lecture notes, Arizona Winter School 2008)](https://www.math.arizona.edu/~swc/aws/2008/08BeukersNotesDraft.pdf). draft of 26 February 2008.
 - **Fischler–Rivoal**: S. Fischler and T. Rivoal, [On Siegel's problem for E-functions](https://arxiv.org/abs/1910.06817). arXiv:1910.06817v3 (4 June 2020).
+- **Fukshansky**: Lenny Fukshansky, [Siegel’s lemma with additional conditions](https://arxiv.org/abs/math/0409375), arXiv:math/0409375v3, §3, equation (17), p.6.
+- **Schmidt 1967**: W. M. Schmidt, [On heights of algebraic subspaces and diophantine approximations](https://annals.math.princeton.edu/1967/85-3/p04), Annals of Mathematics 85 (1967), 430–472, §3, Theorem 1.
+- **AF22**: Boris Adamczewski and Colin Faverjon, [A new proof of Nishioka’s theorem in Mahler’s method](https://arxiv.org/abs/2210.14528), §§2–4 and Appendix A.
+- **Nishioka**: Kumiko Nishioka, [Mahler Functions and Transcendence](https://doi.org/10.1007/BFb0093672), Lecture Notes in Mathematics 1631 (1996), Theorem 5.1.7.
 - **AF17**: Boris Adamczewski and Colin Faverjon, [Méthode de Mahler : relations linéaires, transcendance et applications aux nombres automatiques](https://arxiv.org/abs/1508.07158). arXiv:1508.07158v2 (28 October 2016).
 - **Kirby**: Jonathan Kirby, [The theory of the exponential differential equations of semiabelian varieties](https://arxiv.org/abs/0708.1352). arXiv:0708.1352v3, text dated 9 November 2021.
 - **BT**: Benjamin Bakker and Jacob Tsimerman, [Lectures on the Ax–Schanuel conjecture](https://benjamin-bakker.github.io/montreal.pdf). Lecture notes.

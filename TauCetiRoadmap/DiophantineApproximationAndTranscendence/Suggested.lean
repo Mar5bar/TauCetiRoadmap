@@ -62,56 +62,6 @@ namespace DiophantineApproximation
 
 open TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation
 
-section Geometry
-
-open MeasureTheory Pointwise
-
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-
-/-- The zero-based `i`-th successive minimum of a lattice with respect to a body: the infimum of
-the `t ≥ 0` for which `Λ ∩ t • B` spans a real subspace of dimension at least `i + 1`. -/
-def successiveMin (Λ : Submodule ℤ E) (B : Set E) (i : Fin (Module.finrank ℝ E)) : ℝ :=
-  sInf {t : ℝ | 0 ≤ t ∧
-    i.val + 1 ≤ Module.finrank ℝ (Submodule.span ℝ ((Λ : Set E) ∩ t • B))}
-
-/-- For a discrete full lattice and a compact convex symmetric body with zero in its interior,
-each successive minimum is the least admissible threshold. -/
-theorem successiveMin_isLeast (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
-    {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B) (hBs : ∀ x ∈ B, -x ∈ B)
-    (hB0 : (0 : E) ∈ interior B) (i : Fin (Module.finrank ℝ E)) :
-    IsLeast {t : ℝ | 0 ≤ t ∧
-      i.val + 1 ≤ Module.finrank ℝ (Submodule.span ℝ ((Λ : Set E) ∩ t • B))}
-      (successiveMin Λ B i) := by sorry
-
-/-- Independent lattice vectors realize all successive minima simultaneously. -/
-theorem exists_successiveMin_witnesses (Λ : Submodule ℤ E) [DiscreteTopology Λ]
-    [IsZLattice ℝ Λ] {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B)
-    (hBs : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : E) ∈ interior B) :
-    ∃ v : Fin (Module.finrank ℝ E) → E, LinearIndependent ℝ v ∧ (∀ i, v i ∈ Λ) ∧
-      ∀ i, v i ∈ successiveMin Λ B i • B := by sorry
-
-variable [MeasurableSpace E] [BorelSpace E]
-
-/-- The lower bound of Minkowski's second theorem, for the Haar measure defining the covolume. -/
-theorem minkowski_second_lower (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
-    (μ : Measure E) [μ.IsAddHaarMeasure] {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B)
-    (hBs : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : E) ∈ interior B) :
-    (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume Λ μ / (Module.finrank ℝ E).factorial ≤
-      (μ B).toReal * ∏ i, successiveMin Λ B i := by sorry
-
-/-- The upper bound of Minkowski's second theorem, for the Haar measure defining the covolume. -/
-theorem minkowski_second_upper (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
-    (μ : Measure E) [μ.IsAddHaarMeasure] {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B)
-    (hBs : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : E) ∈ interior B) :
-    (μ B).toReal * ∏ i, successiveMin Λ B i ≤
-      (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume Λ μ := by sorry
-
-/-- For `ℤ²` and the box `[-2,2] × [-1,1]` the first successive minimum is `1/2`. -/
-example : successiveMin (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2))))
-    (Set.univ.pi ![Set.Icc (-2 : ℝ) 2, Set.Icc (-1 : ℝ) 1]) ⟨0, by simp⟩ = 1 / 2 := by sorry
-
-end Geometry
-
 section Heights
 
 variable {F : Type*} [Field F] [CharZero F]
@@ -3129,10 +3079,9 @@ def IsMahlerRegularPoint {n : ℕ} (q : ℕ) (A : Matrix (Fin n) (Fin n) (RatFun
   2 ≤ q ∧ IsUnit A.det ∧ 0 < ‖α‖ ∧ ‖α‖ < 1 ∧ ∀ ℓ : ℕ, ∀ i j,
     (A i j).denom.eval (α ^ q ^ ℓ) ≠ 0 ∧ (A⁻¹ i j).denom.eval (α ^ q ^ ℓ) ≠ 0
 
-/-- Unit test `IsMahlerRegularPoint.test_fredholm`: For A = [[1, 0], [z, 1]] every 0 < |α| < 1 is
-regular. -/
+/-- The Fredholm system matrix [[1,z],[0,1]] is regular throughout the punctured unit disc. -/
 example (α : ℂ) (h0 : 0 < ‖α‖) (h1 : ‖α‖ < 1) :
-    IsMahlerRegularPoint 2 (!![1, 0; RatFunc.X, 1] : Matrix (Fin 2) (Fin 2) (RatFunc ℂ)) α := sorry
+    IsMahlerRegularPoint 2 (!![1, RatFunc.X; 0, 1] : Matrix (Fin 2) (Fin 2) (RatFunc ℂ)) α := sorry
 
 /-- A singular scalar matrix fails regularity even though the reduced denominators
 of it and its total inverse have no zeros. -/
@@ -3143,7 +3092,71 @@ a definition testing only ℓ = 0 would call it regular. -/
 example : ¬ IsMahlerRegularPoint 2 (!![(1 - 2 * RatFunc.X)⁻¹] : Matrix (Fin 1) (Fin 1) (RatFunc ℂ))
     ((Real.sqrt 2)⁻¹ : ℂ) := sorry
 
-/-- Nishioka's theorem (Mahler's method). -/
+/-- An algebraic Mahler series is a rational function with algebraic coefficients. -/
+theorem algebraic_mahler_rational {q : ℕ} {f : PowerSeries ℂ}
+    (hf : IsMahlerFunction q f) (halg : IsAlgebraic (RatFunc ℂ) (f : ℂ⸨X⸩)) :
+    ∃ p r : Polynomial ℂ, r ≠ 0 ∧
+      (∀ m, IsAlgebraic ℚ (p.coeff m) ∧ IsAlgebraic ℚ (r.coeff m)) ∧
+      (r : PowerSeries ℂ) * f = (p : PowerSeries ℂ) := by sorry
+
+/-- A convergent Mahler germ has a meromorphic continuation in normal form on the unit disc. -/
+theorem exists_mahler_meromorphic {q : ℕ} {f : PowerSeries ℂ}
+    (hf : IsMahlerFunction q f) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ z : ℂ, ‖z‖ < ρ → Summable fun m => coeff m f * z ^ m) :
+    ∃ g : ℂ → ℂ, MeromorphicNFOn g (Metric.ball 0 1) ∧
+      ∀ z : ℂ, ‖z‖ < min ρ 1 → g z = ∑' m, coeff m f * z ^ m := by sorry
+
+open Classical in
+/-- The continuation of a convergent q-Mahler germ, with removable singularities filled
+and the normal-form value zero at poles; invalid data have value zero. -/
+def mahlerMeromorphic (q : ℕ) (f : PowerSeries ℂ) : ℂ → ℂ :=
+  if h : ∃ g : ℂ → ℂ, IsMahlerFunction q f ∧ MeromorphicNFOn g (Metric.ball 0 1) ∧
+      ∃ ρ : ℝ, 0 < ρ ∧
+        (∀ z : ℂ, ‖z‖ < ρ → Summable fun m => coeff m f * z ^ m) ∧
+        ∀ z : ℂ, ‖z‖ < min ρ 1 → g z = ∑' m, coeff m f * z ^ m
+  then h.choose else 0
+
+/-- The chosen continuation is in normal form and agrees with the original convergent germ. -/
+theorem mahlerMeromorphic_spec {q : ℕ} {f : PowerSeries ℂ}
+    (hf : IsMahlerFunction q f) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ z : ℂ, ‖z‖ < ρ → Summable fun m => coeff m f * z ^ m) :
+    MeromorphicNFOn (mahlerMeromorphic q f) (Metric.ball 0 1) ∧
+      ∀ z : ℂ, ‖z‖ < min ρ 1 → mahlerMeromorphic q f z = ∑' m, coeff m f * z ^ m := by sorry
+
+/-- Normal-form continuations of the same Taylor germ agree throughout the unit disc. -/
+theorem mahlerMeromorphic_unique {q : ℕ} {f : PowerSeries ℂ}
+    (hf : IsMahlerFunction q f) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ z : ℂ, ‖z‖ < ρ → Summable fun m => coeff m f * z ^ m)
+    (g : ℂ → ℂ) (hg : MeromorphicNFOn g (Metric.ball 0 1))
+    (hgf : ∀ z : ℂ, ‖z‖ < min ρ 1 → g z = ∑' m, coeff m f * z ^ m) :
+    Set.EqOn g (mahlerMeromorphic q f) (Metric.ball 0 1) := by sorry
+
+/-- A summable Taylor value in the unit disc is a nonpole value of the continuation,
+including on the Taylor convergence circle by Abel's theorem. -/
+theorem mahlerMeromorphic_eq_tsum {q : ℕ} {f : PowerSeries ℂ}
+    (hf : IsMahlerFunction q f) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ z : ℂ, ‖z‖ < ρ → Summable fun m => coeff m f * z ^ m)
+    {α : ℂ} (hα : ‖α‖ < 1) (hsum : Summable fun m => coeff m f * α ^ m) :
+    AnalyticAt ℂ (mahlerMeromorphic q f) α ∧
+      mahlerMeromorphic q f α = ∑' m, coeff m f * α ^ m := by sorry
+
+/-- A rational Mahler germ can have a nonpole value beyond its Taylor convergence disc. -/
+example :
+    mahlerMeromorphic 2 (PowerSeries.mk fun m => (2 : ℂ) ^ m) (3 / 4) = -2 ∧
+      AnalyticAt ℂ (mahlerMeromorphic 2 (PowerSeries.mk fun m => (2 : ℂ) ^ m)) (3 / 4) ∧
+      ¬ Summable (fun m : ℕ => (2 : ℂ) ^ m * (3 / 4 : ℂ) ^ m) := by sorry
+
+/-- A holomorphic zero can be singular for its scalar Mahler system. -/
+example :
+    mahlerMeromorphic 2 ((1 - 2 * Polynomial.X : Polynomial ℂ) : PowerSeries ℂ) (1 / 2) = 0 ∧
+      AnalyticAt ℂ (mahlerMeromorphic 2
+        ((1 - 2 * Polynomial.X : Polynomial ℂ) : PowerSeries ℂ)) (1 / 2) ∧
+      ¬ IsMahlerRegularPoint 2
+        (!![(1 - 2 * RatFunc.X) / (1 - 2 * RatFunc.X ^ 2)] :
+          Matrix (Fin 1) (Fin 1) (RatFunc ℂ)) (1 / 2) := by sorry
+
+/-- Nishioka specialization for a convergent algebraic-coefficient Mahler system at
+an algebraic regular point inside its initial convergence disc. -/
 theorem nishioka {n q : ℕ} (hq : 2 ≤ q) (f : Fin n → PowerSeries ℂ)
     (hf : ∀ i m, IsAlgebraic ℚ (coeff m (f i))) (A : Matrix (Fin n) (Fin n) (RatFunc ℂ))
     (hAalg : ∀ i j m, IsAlgebraic ℚ ((A i j).num.coeff m) ∧
@@ -3156,49 +3169,68 @@ theorem nishioka {n q : ℕ} (hq : 2 ≤ q) (f : Fin n → PowerSeries ℂ)
       Algebra.trdeg (RatFunc ℂ) (IntermediateField.adjoin (RatFunc ℂ)
         (Set.range fun i => ((f i : PowerSeries ℂ) : ℂ⸨X⸩))) := sorry
 
-/-- Philippon, Adamczewski–Faverjon (Theorem 1.4): homogeneous relations lift. -/
+/-- At an algebraic regular point, homogeneous relations of meromorphic Mahler values
+lift to polynomial functional relations of the same degree. -/
 theorem mahler_homogeneous_lifting {n q : ℕ} (hq : 2 ≤ q) (f : Fin n → PowerSeries ℂ)
     (hf : ∀ i m, IsAlgebraic ℚ (coeff m (f i))) (A : Matrix (Fin n) (Fin n) (RatFunc ℂ))
     (hAalg : ∀ i j m, IsAlgebraic ℚ ((A i j).num.coeff m) ∧
       IsAlgebraic ℚ ((A i j).denom.coeff m)) (hA : IsUnit A.det)
     (hsys : (fun i => ((f i : PowerSeries ℂ) : ℂ⸨X⸩)) =
       (A.map (algebraMap (RatFunc ℂ) ℂ⸨X⸩)).mulVec fun i => ((PowerSeries.subst (PowerSeries.X ^ q) (f i) : PowerSeries ℂ) : ℂ⸨X⸩))
-    (hconv : ∀ i (z : ℂ), ‖z‖ < 1 → Summable fun m => coeff m (f i) * z ^ m)
+    (ρ : ℝ) (hρ : 0 < ρ)
+    (hconv : ∀ i (z : ℂ), ‖z‖ < ρ → Summable fun m => coeff m (f i) * z ^ m)
     {α : ℂ} (hα : IsAlgebraic ℚ α) (hreg : IsMahlerRegularPoint q A α)
     (P : MvPolynomial (Fin n) ℂ) (hPalg : ∀ e, IsAlgebraic ℚ (P.coeff e)) {d : ℕ}
     (hPhom : MvPolynomial.IsHomogeneous P d)
-    (hP : MvPolynomial.eval (fun i => ∑' m, coeff m (f i) * α ^ m) P = 0) :
+    (hP : MvPolynomial.eval (fun i => mahlerMeromorphic q (f i) α) P = 0) :
     ∃ Q : MvPolynomial (Fin n) (Polynomial ℂ),
       (∀ e j, IsAlgebraic ℚ ((Q.coeff e).coeff j)) ∧ MvPolynomial.IsHomogeneous Q d ∧
       MvPolynomial.eval₂ Polynomial.coeToPowerSeries.ringHom f Q = 0 ∧
       MvPolynomial.map (Polynomial.evalRingHom α) Q = P := sorry
 
-/-- Adamczewski–Faverjon, Corollary 1.5: linear relations between values lift. -/
+/-- At an algebraic regular point, linear relations of meromorphic Mahler values
+are evaluations of polynomial functional relations. -/
 theorem mahler_linear_relation {n q : ℕ} (hq : 2 ≤ q) (f : Fin n → PowerSeries ℂ)
     (hf : ∀ i m, IsAlgebraic ℚ (coeff m (f i))) (A : Matrix (Fin n) (Fin n) (RatFunc ℂ))
     (hAalg : ∀ i j m, IsAlgebraic ℚ ((A i j).num.coeff m) ∧
       IsAlgebraic ℚ ((A i j).denom.coeff m)) (hA : IsUnit A.det)
     (hsys : (fun i => ((f i : PowerSeries ℂ) : ℂ⸨X⸩)) =
       (A.map (algebraMap (RatFunc ℂ) ℂ⸨X⸩)).mulVec fun i => ((PowerSeries.subst (PowerSeries.X ^ q) (f i) : PowerSeries ℂ) : ℂ⸨X⸩))
-    (hconv : ∀ i (z : ℂ), ‖z‖ < 1 → Summable fun m => coeff m (f i) * z ^ m)
+    (ρ : ℝ) (hρ : 0 < ρ)
+    (hconv : ∀ i (z : ℂ), ‖z‖ < ρ → Summable fun m => coeff m (f i) * z ^ m)
     {α : ℂ} (hα : IsAlgebraic ℚ α) (hreg : IsMahlerRegularPoint q A α) (lam : Fin n → ℂ)
-    (hlam : ∀ i, IsAlgebraic ℚ (lam i)) (hrel : ∑ i, lam i * ∑' m, coeff m (f i) * α ^ m = 0) :
+    (hlam : ∀ i, IsAlgebraic ℚ (lam i)) (hrel : ∑ i, lam i * mahlerMeromorphic q (f i) α = 0) :
     ∃ c : Fin n → Polynomial ℂ, (∀ i j, IsAlgebraic ℚ ((c i).coeff j)) ∧
       ∑ i, (c i : PowerSeries ℂ) * f i = 0 ∧ ∀ i, (c i).eval α = lam i := sorry
 
-/-- Adamczewski–Faverjon, Corollary 1.8: a Mahler value is transcendental or lies in the
-number field of the data. -/
+/-- A summable Taylor value of a Mahler function is transcendental or lies in the
+number field of its coefficients and argument, via nonpole value descent. -/
 theorem mahler_value_transcendental_or_mem {q : ℕ} (hq : 2 ≤ q) {f : PowerSeries ℂ}
     (hf : IsMahlerFunction q f) {α : ℂ} (hα : IsAlgebraic ℚ α) (h0 : 0 < ‖α‖) (h1 : ‖α‖ < 1)
     (hconv : Summable fun m => coeff m f * α ^ m) (K : IntermediateField ℚ ℂ)
     (hK : FiniteDimensional ℚ K) (hαK : α ∈ K) (hfK : ∀ m, coeff m f ∈ K) :
     Transcendental ℚ (∑' m, coeff m f * α ^ m) ∨ (∑' m, coeff m f * α ^ m) ∈ K := sorry
 
+/-- At any nonpole algebraic point of the punctured unit disc, a continued Mahler value
+is transcendental or lies in the number field of the coefficients and argument. -/
+theorem mahler_value_transcendental_or_mem_meromorphic {q : ℕ} {f : PowerSeries ℂ}
+    (hf : IsMahlerFunction q f) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ z : ℂ, ‖z‖ < ρ → Summable fun m => coeff m f * z ^ m)
+    {α : ℂ} (hα : IsAlgebraic ℚ α) (h0 : 0 < ‖α‖) (h1 : ‖α‖ < 1)
+    (hnonpole : AnalyticAt ℂ (mahlerMeromorphic q f) α) (K : IntermediateField ℚ ℂ)
+    (hK : FiniteDimensional ℚ K) (hαK : α ∈ K) (hfK : ∀ m, coeff m f ∈ K) :
+    Transcendental ℚ (mahlerMeromorphic q f α) ∨ mahlerMeromorphic q f α ∈ K := by sorry
+
 /-- The series supported on powers of two is not a rational function. -/
 theorem lacunary_not_rational :
     ¬ ∃ p r : Polynomial ℂ, r ≠ 0 ∧
       (r : PowerSeries ℂ) * PowerSeries.mk (fun m => if ∃ k : ℕ, m = 2 ^ k then (1 : ℂ) else 0) =
         (p : PowerSeries ℂ) := sorry
+
+/-- Algebraic Mahler rationality upgrades Fredholm nonrationality to functional transcendence. -/
+theorem transcendental_fredholm_function :
+    Transcendental (RatFunc ℂ)
+      ((PowerSeries.mk fun m => if ∃ k : ℕ, m = 2 ^ k then (1 : ℂ) else 0) : ℂ⸨X⸩) := by sorry
 
 /-- Mahler (1929): `∑ α^{2ⁿ}` is transcendental for algebraic `0 < |α| < 1`. -/
 theorem transcendental_fredholm {α : ℂ} (hα : IsAlgebraic ℚ α) (h0 : 0 < ‖α‖) (h1 : ‖α‖ < 1) :
@@ -3217,7 +3249,9 @@ theorem modularQSeries_eq (τ : UpperHalfPlane) :
       ![Function.Periodic.qParam 1 τ, EisensteinSeries.E2 τ, ModularForm.E₄ τ, ModularForm.E₆ τ] :=
   by sorry
 
-/-- Ramanujan's differential identities use θ=q d/dq in the unit-disc normalization. -/
+/-- Transport of Mathlib’s `Derivative.normalizedDerivOfComplex_E₂`,
+`Derivative.normalizedDerivOfComplex_E₄` and `Derivative.normalizedDerivOfComplex_E₆`
+through q=exp(2πiτ), with θ=q d/dq and analytic extension at q=0. -/
 theorem ramanujanQEquations {q : ℂ} (hq : ‖q‖ < 1) :
     q * deriv (fun z => modularQSeries z 1) q =
       ((modularQSeries q 1) ^ 2 - modularQSeries q 2) / 12 ∧
@@ -3512,7 +3546,14 @@ mahlerMeasure_le_leadingCoeff_mul_max_one_house_pow,
 mahlerMeasure_le_sqrt_natDegree_add_one_mul_supNorm, mahlerMeasure_le_sqrt_sum_sq_norm_coeff,
 mahlerMeasure_map, mahlerMeasure_ratCast
 
+§2.8:
+kernelLattice_covolume
+
 §5.5:
+mahler_iterate_independent, mahler_function_field_regular, mahler_orbit_relation_matrix,
+mahler_auxiliary_relation_identity, mahler_monomial_dimension_growth, relationIdeal_specialization,
+mahler_local_relation_lifting, mahler_relation_transport, mahler_polynomial_relation_basis,
+mahler_remove_system_poles, mahler_regular_system_extension,
 isMahlerFunction_of_polynomial, isMahlerRegularPoint_iff, isMahlerRegularPoint_of_polynomial
 
 §3.4:
