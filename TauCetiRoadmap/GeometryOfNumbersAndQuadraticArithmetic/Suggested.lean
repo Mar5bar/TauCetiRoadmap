@@ -318,13 +318,31 @@ section MinimaTests
 example (K : ConvexBody ℝ) (hK : (K : Set ℝ) = Set.Icc (-2) 2) :
     successiveMin (Submodule.span ℤ {(1 : ℝ)}) K ⟨0, by simp⟩ = 1/2 := by sorry
 
--- For `ℤ²` and the box `|x₀| ≤ 1/2, |x₁| ≤ 1/3` the minima are `(2, 3)`, in increasing order.
-example (K : ConvexBody (EuclideanSpace ℝ (Fin 2)))
-    (hK : (K : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/2 ∧ |x 1| ≤ 1/3}) :
+-- The README's rectangle `K₂₃` has minima `(2, 3)`, attained along `e₀, e₁`.
+example (K23 : ConvexBody (EuclideanSpace ℝ (Fin 2)))
+    (hK23 : (K23 : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/2 ∧ |x 1| ≤ 1/3}) :
     successiveMin (Submodule.span ℤ
-      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K ⟨0, by simp⟩ = 2 ∧
+      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K23 ⟨0, by simp⟩ = 2 ∧
     successiveMin (Submodule.span ℤ
-      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K ⟨1, by simp⟩ = 3 := by sorry
+      (Set.range (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis)) K23 ⟨1, by simp⟩ = 3 := by sorry
+
+-- Outside `ℝe₀`, `K₂₃` has least lattice gauge `3`, attained by `e₁`.
+example (K23 : ConvexBody (EuclideanSpace ℝ (Fin 2)))
+    (hK23 : (K23 : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/2 ∧ |x 1| ≤ 1/3}) :
+    gauge (K23 : Set (EuclideanSpace ℝ (Fin 2)))
+      (EuclideanSpace.basisFun (Fin 2) ℝ 1) = 3 ∧
+    ∀ z : Fin 2 → ℤ, z 1 ≠ 0 →
+      3 ≤ gauge (K23 : Set (EuclideanSpace ℝ (Fin 2)))
+        (WithLp.toLp 2 (fun i => (z i : ℝ))) := by sorry
+
+-- The axis-swapped `K₃₂` has least lattice gauge `2` outside `ℝe₀`, attained by `e₁`.
+example (K32 : ConvexBody (EuclideanSpace ℝ (Fin 2)))
+    (hK32 : (K32 : Set (EuclideanSpace ℝ (Fin 2))) = {x | |x 0| ≤ 1/3 ∧ |x 1| ≤ 1/2}) :
+    gauge (K32 : Set (EuclideanSpace ℝ (Fin 2)))
+      (EuclideanSpace.basisFun (Fin 2) ℝ 1) = 2 ∧
+    ∀ z : Fin 2 → ℤ, z 1 ≠ 0 →
+      2 ≤ gauge (K32 : Set (EuclideanSpace ℝ (Fin 2)))
+        (WithLp.toLp 2 (fun i => (z i : ℝ))) := by sorry
 
 -- Negative control: without `0 ∈ interior K` positivity fails; the zero body gives `0`.
 example : successiveMin (Submodule.span ℤ {(1 : ℝ)}) (0 : ConvexBody ℝ) ⟨0, by simp⟩ = 0 := by
@@ -1621,6 +1639,11 @@ example : atomInformation 0 = ⊤ ∧ atomInformation (1/2) = ENNReal.ofReal (Re
 example : conditionalLabelEntropy
     (volume.restrict (Set.Ico (0 : ℝ) 1)) id (fun _ => PUnit.unit) = ⊤ := by sorry
 
+-- For the trivial leaf group the point partition has zero leaf entropy under every
+-- measurable automorphism; this identity provides no assertion about total entropy.
+example (μ : Measure X) [IsProbabilityMeasure μ] (s : X ≃ᵐ X) :
+    conditionalLabelEntropy μ s.symm id = 0 := by sorry
+
 end ConditionalLabelEntropy
 
 section SubordinatePartitions
@@ -1628,7 +1651,8 @@ variable {X V Y : Type*} [MeasurableSpace X] [Group V] [TopologicalSpace V]
   [MulAction V X] [MeasurableSpace Y] [StandardBorelSpace Y]
 
 /-- A measurable partition subordinate to `V`-orbits: almost every atom lies in one orbit,
-inside a compact orbit piece, and contains an orbit neighbourhood of its point. -/
+inside a compact orbit piece, and contains an orbit neighbourhood of its point. The parameter
+`V` records the leaf group of this partition. -/
 structure SubordinatePartition (μ : Measure X) (V : Type*) [Group V]
     [TopologicalSpace V] [MulAction V X] (Y : Type*) [MeasurableSpace Y]
     [StandardBorelSpace Y] where
@@ -1712,6 +1736,23 @@ example : volume.real {t : ℝ | t ∈ Set.Ioo (-1) 1 ∧ |t ^ 2| < (1/4 : ℝ)}
     volume.real {t : ℝ | t ∈ Set.Ioo (-1) 1 ∧ |t| < (1/4 : ℝ)} = 1/2 := by sorry
 
 end GoodFunctions
+
+section SingularWedgeTests
+
+-- The lower-left entry of `Ad(g) E₁₂` is `-g₁₀²` for a determinant-one matrix `g`.
+example (α : ℝ) (a b c d : ℤ) (hdet : a * d - b * c = 1) :
+    let g : Matrix (Fin 2) (Fin 2) ℝ :=
+      !![1, 0; α, 1] * (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) ℤ).map
+        (fun z => (z : ℝ))
+    (g * (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) * g.adjugate) 1 0 =
+      -(α * (a : ℝ) + (c : ℝ)) ^ 2 := by sorry
+
+-- An irrational lower-unipotent translate has no integral representative whose wedge is
+-- on the upper-unipotent line, although a constant trajectory has a constant wedge.
+example (α : ℝ) (hα : Irrational α) (a b c d : ℤ) (hdet : a * d - b * c = 1) :
+    -(α * (a : ℝ) + (c : ℝ)) ^ 2 ≠ 0 := by sorry
+
+end SingularWedgeTests
 
 section PrimitiveExteriorCovolumes
 variable {d k : ℕ}
@@ -3045,7 +3086,12 @@ sources are in the README.
   `normalizedSiegelPolynomial`.
 * Layer 4: `diagonal_span_index` and `diagonal_lattice_avoidance` in Henk's proof of
   `lattice_count_lt_successive_minima`; `quotientKoopman_invariants` on a homogeneous quotient;
-  `ternaryHarmonicTheta_cuspidal`, which needs half-integral weight cusp forms.
+  `ternaryHarmonicTheta_cuspidal`, which needs half-integral weight cusp forms;
+  `contracting_subordinate_entropy`, `leaf_entropy_bound_and_equality` and
+  `contracting_leaf_support_reduction` on the homogeneous leaf and Haar-modulus carriers;
+  `singularWedgeUniqueRepresentative`, `polynomialSingularAvoidance`,
+  `unipotentSingularOrbitDetection` and `oneOrbitAverageIdentification` on the homogeneous
+  wedge and singular-stratum carriers.
 * Layer 5: the algorithm `exactLLL`.
 * Layer 6: `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
   `ExactW0`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
