@@ -173,8 +173,8 @@ namespace ComponentGroup
 
 /-- The rational component group of a nonsplit multiplicative elliptic curve over a finite residue
 field is the fixed subgroup of `−1` on the geometric group `ℤ/n`: it has order `2` for even `n` and
-order `1` for odd `n`, never `n` itself (Tate, §6). This is the group-theoretic core of that
-computation. -/
+order `1` for odd `n`, which differs from `n` exactly when `n ≥ 3` (Tate, §6). This is the
+group-theoretic core of that computation. -/
 theorem card_fixedPoints_neg (n : ℕ) (hn : 0 < n) :
     Nat.card {x : ZMod n // -x = x} = if Even n then 2 else 1 := by sorry
 
@@ -440,6 +440,11 @@ end LatticePairing
 monodromy for `ord(p)=1` (Fontaine, Exposé III, §5.2.1, p. 158). -/
 example : (2 : ℚ) * (5 / 2) = 5 ∧ (5 / 2 : ℚ) ≠ 5 := by sorry
 
+/-- The unit `2` is not a cube modulo `7`, hence not a cube in `ℚ₇`; the Tate curve with
+`q = 2·7³` nevertheless has unramified `3`-torsion, because `X³ − 2` has its roots in the
+unramified cubic extension (README 5.1). -/
+example : ∀ x : ZMod 7, x ^ 3 ≠ 2 := by decide
+
 /-! ## Layer 6: interfaces for modularity and finiteness -/
 
 namespace SemistableTrace
@@ -496,7 +501,11 @@ end SemistableTrace
 namespace Interfaces
 
 /-- A `2`-group acting linearly on a nonzero `𝔽₂`-vector space fixes a nonzero vector: the
-group-theoretic step of the residual-point export (Boxer–Calegari–Gee–Pilloni 2025, Lemma 9.1.8). -/
+group-theoretic step of the residual-point export (Boxer–Calegari–Gee–Pilloni 2025, Lemma 9.1.8).
+It is the linear specialisation of Mathlib's
+`IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point` at `p = 2`, for the action of `G`
+on `M` through `ρ`, the fixed point `0` and `Nat.card M = 2 ^ d` with `d > 0`; `IsPGroup.of_card`
+turns the cardinality hypothesis into `IsPGroup 2 G`. -/
 theorem exists_ne_zero_fixed_of_two_group {G : Type*} [Group G] [Finite G]
     (hG : ∃ k : ℕ, Nat.card G = 2 ^ k) {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
     [Module.Finite (ZMod 2) M] [Nontrivial M] (ρ : G →* (M →ₗ[ZMod 2] M)) :

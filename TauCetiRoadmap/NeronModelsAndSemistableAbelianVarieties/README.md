@@ -127,13 +127,16 @@ It leaves to other roadmaps, and consumes from them:
   torsion, isogenies and the Weil pairing), together with A4.1,
   A4.5, A4.3 and A4.2 (integral Tate modules, the minimal
   Barsotti–Tate tower, degree-one de Rham cohomology and its vector-extension comparison),
-  and A4.8 (`polarizedEffectivity` of compatible polarised abelian-scheme thickenings).
+  A4.4 (`exteriorCohomology`), A4.8 (`polarizedEffectivity` of compatible polarised
+  abelian-scheme thickenings) and A6.5 (`poincareReducibility`).
 - **ArithmeticGaloisRepresentations** R01.2 (decomposition and inertia groups, quasi-unipotence,
   the Weil–Deligne carrier, its prime-to-residue construction and local Euler factor), R01.3 (Artin and Swan conductors
   with the monodromy term, residual conductors, the elliptic conductor and Ogg's formula) and
-  R01.6 (Tate modules of abelian varieties, the Weil pairing on Tate modules, the good-reduction
-  Frobenius polynomial, the local Euler factor of an abelian variety and its comparison with
-  Mathlib's `WeierstrassCurve.localPolynomial`).
+  R01.6 (the continuous-representation packaging of the Tate module of an abelian variety, the
+  good-reduction Frobenius polynomial, the local Euler factor of an abelian variety and its
+  comparison with Mathlib's `WeierstrassCurve.localPolynomial`); the underlying Tate module and
+  Weil pairing are those of AbelianSchemesAndArithmeticModuli A4.1 and A3.5, as fixed in the
+  supplier contracts below.
 - **NeronModelsAndSemistableAbelianVarieties Part II**: Ferrand pinching and conductor squares,
   genus-one fibres and their forms, multiple fibres over excellent discrete valuation rings,
   global Weierstrass models and Jacobians of genus-one curves, Picard constancy and fibre
@@ -411,6 +414,23 @@ and A3 supplies isogenies, finite flat quotients, Cartier-dual kernels and Weil 
 Its A4.1, A4.2, A4.3, A4.5 and A4.10 supply integral Tate modules, universal vector
 extensions, degree-one de Rham cohomology, Barsotti–Tate towers and ordinary coordinates,
 with the prime-to-characteristic and henselian/perfect-field restrictions stated there.
+Its A4.4 `exteriorCohomology` supplies `H^n_ét(A, ℤ_ℓ) ≅ Λ^n H¹_ét(A, ℤ_ℓ)` over an
+algebraically closed field, naturally in `A`, for 6.10; its A6.5 `poincareReducibility`
+supplies Poincaré complete reducibility over an arbitrary field, imperfect fields
+included, for 3.10.
+
+Tate modules and Weil pairings have one carrier. For an abelian variety `A` over a field `K`
+and a prime `ℓ ≠ char K`, the Tate module is AbelianSchemesAndArithmeticModuli A4.1's
+`AbelianTate`, whose fibre over `K` is Tau Ceti's `TateModule ℓ (A(K^sep))` with its
+`Gal(K^sep/K)`-action; the Weil pairing is `AbelianTate.dualPairing`, the limit of the A3.5
+pairings `e_{ℓ^r}`; homomorphisms and isogenies act through `AbelianTate.map`.
+ArithmeticGaloisRepresentations R01.6 (§6.1, `TateModule.tateModuleRep`) packages this module
+as a continuous representation, and R01.2–R01.3 attach Weil–Deligne representations and
+conductors to it. Where a statement here uses the torsion, Weil-pairing or isogeny targets of
+R01.6 (§§6.1–6.2), it uses them through a natural isomorphism with the A4.1 carrier that
+respects the transition maps, the Galois action, the Weil pairing and isogenies; equality of
+ranks is not such a comparison. This roadmap adds to that one carrier the Néron filtration
+(3.5–3.6) and the monodromy comparisons (4.3).
 A4.8's `polarizedEffectivity` algebraises compatible polarised abelian schemes over the
 thickenings of a complete Noetherian local ring, with a compatible relatively ample
 line bundle after a finite faithfully flat extension when needed; morphisms algebraise
@@ -418,9 +438,13 @@ uniquely. Section 3.13 constructs the formal abelian quotient and its compatible
 polarisation so this supplier applies.
 ArithmeticGaloisRepresentations R01.2 supplies inertia, quasi-unipotence, Weil–Deligne
 representations and local Euler factors; R01.3 supplies Artin, Swan and residual conductors
-and Ogg's formula, consuming 2.7, 2.9 and StableReduction Layer 5; R01.6 supplies Tate
-modules, the Weil pairing, the good-reduction Frobenius polynomial (consuming 1.9) and
-local Euler factors with the comparison to Mathlib's `localPolynomial`.
+and Ogg's formula, consuming 2.7, 2.9 and StableReduction Layer 5; R01.6 supplies the
+representation packaging of Tate modules, the good-reduction Frobenius polynomial
+(consuming 1.9) and local Euler factors with the comparison to Mathlib's `localPolynomial`.
+The dependence runs target by target, not roadmap by roadmap: R01.1–R01.2 and the
+Tate-module and Weil-pairing targets of R01.6 (§§6.1–6.2) precede Layer 3 here, while the
+R01.3 Ogg formula and the R01.6 good-reduction Frobenius polynomial follow 1.8–1.9, 2.7 and
+2.9 here and are consumed only from Layer 5 on (5.4–5.7 and 6.7, and through 5.6 in 6.10).
 These are mathematical dependency targets. Only the declarations in the Mathlib and
 Tau Ceti contracts above are asserted to exist at the pins; a carrier required from
 another roadmap is specified in this README and is not a Lean import or declaration.
@@ -441,8 +465,12 @@ intersection-matrix description, and the one-node hyperelliptic curves. Layer 5 
 Néron–Ogg–Shafarevich, isogeny invariance of good reduction, the `p`-adic comparison, the
 semistable conductor formula and the local Euler polynomial at bad places. Layer 6 packages the
 interfaces for the consumers. Downstream roadmaps refer to the six layers as R11.1–R11.6. Within a
-layer, subsections are in dependency order; each layer ends with worked examples and the list of
-layers and roadmaps it needs.
+layer, subsections are in dependency order with one exception in Layer 3: the Raynaud
+subsections 3.13–3.14 need only 2.4 and 3.1, and they are built after 3.5 and before 3.6,
+whose finite flat orthogonality uses the dual Raynaud extensions; the `completion` comparison
+of 3.5 is likewise proved after 3.14. The build order of Layer 3 is therefore 3.1–3.5,
+3.13–3.14, then 3.6–3.12. Each layer ends with worked examples and the list of layers and
+roadmaps it needs.
 
 ## Layer 1: Néron models and their uniqueness
 
@@ -747,9 +775,9 @@ affine charts.
 
 - Over `ℤ_p` an elliptic curve with good reduction has as Néron model the smooth proper
   Weierstrass model, which is an abelian scheme (1.8).
-- Over `ℤ[1/N]` the Néron model of an abelian variety with good reduction outside `N` is an
-  abelian scheme, and the Dedekind construction of 1.9 glues it with the local models at the
-  primes dividing `N`.
+- For an abelian variety over `ℚ` with good reduction outside `N`, the Néron model over the
+  open subscheme `Spec ℤ[1/N] ⊂ Spec ℤ` is an abelian scheme, and the Dedekind construction of
+  1.9 glues it with the local models at the primes dividing `N` to the Néron model over `ℤ`.
 - A split torus `𝔾_m` over `ℚ_p` has no finite-type Néron model: its locally-finite-type Néron
   model (ReductiveGroupsPartII RG2.3.2) has special fibre `𝔾_m × ℤ`, which is not quasi-compact.
 
@@ -824,7 +852,8 @@ RG2.3.1 (quotients over a discrete valuation ring and over a field).
 - `tate_test` — for a split Tate curve with `ord(q) = n > 0`, `Φ_E(k^sep) = ℤ/n`.
 - `nonsplit_test` — for `k` finite and `E` with nonsplit multiplicative reduction and geometric
   component group `ℤ/n`, residue Frobenius acts by `−1`, so `Φ_E(k)` has order `1` for odd `n`
-  and `2` for even `n`, not `n`; `ComponentGroup.card_fixedPoints_neg` has the
+  and `2` for even `n`; this differs from `n` exactly when `n ≥ 3`, the two counts agreeing at
+  `n = 1, 2`. `ComponentGroup.card_fixedPoints_neg` has the
   instances `n = 4, 5, 1`, and `n = 0` (where `ℤ/0 = ℤ` has one fixed point while the formula
   would say `2`) as the negative control for the hypothesis `0 < n`.
 
@@ -919,24 +948,38 @@ is only injective. *Needs:* 2.1, 2.2; EllipticCurves Layers 1 and 4; Tau Ceti `k
 
 ### 2.7 The smooth locus of the minimal regular model
 
-Let `R` be strictly henselian with algebraically closed residue field, `E` an elliptic curve
-over `K` and `X` its minimal proper regular model over `R` (StableReduction Layer 5). Prove
-`MinimalRegularSmoothLocus`: the relative smooth locus `X_sm ⊂ X` is the Néron model of `E`
-(Bosch–Lütkebohmert–Raynaud, §1.5, Proposition 1, p. 21). Properness of `X` gives the extension
-of sections, translation by sections and the minimality of `ω` upgrade this to the full mapping
-property; the existence of `X` is imported, and the excellent-DVR existence theorem of 1.7 is not
-needed. *Needs:* 1.1; StableReduction Layer 5 (regular and minimal models of a pointed
-genus-one curve).
+Let `R` be a discrete valuation ring, with no henselian, completeness or residue-field
+hypothesis, `E` an elliptic curve over `K` and `X` its minimal proper regular model over `R`
+(StableReduction Layer 5). Prove `MinimalRegularSmoothLocus`: the relative smooth locus
+`X_sm ⊂ X` is the Néron model of `E` (Bosch–Lütkebohmert–Raynaud, §1.5, Proposition 1, p. 21,
+over a strictly henselian base with algebraically closed residue field; Liu–Tong, Theorem 4.1
+and its proof, pp. 12–13, over an arbitrary Dedekind base). First reduce to a complete `R`:
+formation of `X_sm` commutes with completion (Liu–Tong, Remark 4.5, p. 14), and a smooth
+separated finite-type model whose base change along the faithfully flat `R → R̂` has the
+mapping property has it over `R` (Liu–Tong, Proposition 2.4(1), pp. 3–4); both reductions are
+part of this target. Over the complete, hence excellent, base the Néron model `N` of `E` exists
+by 1.7. Compactify `N` and resolve singularities away from its regular locus to a proper regular
+model containing `N`; the identity of `E` extends from it to `X` by the terminal property of the
+minimal regular model, and a morphism from a smooth scheme to the regular `X` lands in `X_sm`
+(Liu–Tong, Corollary 3.2, p. 8). The resulting map `N → X_sm` is an isomorphism on generic
+fibres, so `X_sm` inherits the mapping property. The residue field is never enlarged, so this
+holds for imperfect residue fields. *Needs:* 1.1, 1.7; StableReduction Layers 4–5 (regular and
+minimal models of a pointed genus-one curve and their terminal property);
+SchemeAndStackFoundations §§4.11–4.13 (modifications and resolution).
 
 **Checks.**
 
 - A component of multiplicity greater than one lies outside `X_sm`.
 - For good reduction `X_sm = X` is the smooth proper model.
 - The generic fibre of `X_sm` is `E`, and the zero section lies in `X_sm`.
+- Over `R = 𝔽_p(s)[[t]]` the statement applies to `R` itself. Its strict henselisation has
+  residue field `𝔽_p(s)^sep`, which does not contain `s^{1/p}`, so a hypothesis of algebraically
+  closed residue field could not be reached by strict henselisation; none is used.
 
 ### 2.8 Geometric component groups by type
 
-Under the hypotheses of 2.7, prove `KodairaComponentGroups`: `Φ_E(k̄)` is `0` for `I₀`, `ℤ/n`
+Let `R` be strictly henselian with algebraically closed residue field, and let `E` and `X` be as
+in 2.7. Prove `KodairaComponentGroups`: `Φ_E(k̄)` is `0` for `I₀`, `ℤ/n`
 for `Iₙ` with `n ≥ 1`, `0` for `II` and `II*`, `ℤ/2` for `III` and `III*`, `ℤ/3` for `IV` and `IV*`, `(ℤ/2)²`
 for `Iₙ*` with `n ≥ 0` even and `ℤ/4` for `Iₙ*` with `n` odd (Tate, §6, component-group row,
 p. 46). The group law on the multiplicity-one components meeting `X_sm` is computed from the
@@ -965,7 +1008,7 @@ Tate's table restricts its discriminant, conductor and `j`-valuation rows away f
 characteristics `2, 3`; the fibre configurations and geometric component groups are not
 subject to that restriction. The algorithm in §§7–8 assumes a complete valuation ring
 and perfect residue field (§7, p. 47); these hold after completion in the algebraically
-closed-residue situation of 2.7. The ramified coefficients and branch tests, rather than
+closed-residue situation of 2.8. The ramified coefficients and branch tests, rather than
 the tame valuation rows, supply the wild discriminant exponents.
 
 **Checks.**
@@ -987,7 +1030,8 @@ the tame valuation rows, supply the wild discriminant exponents.
 ### Dependencies
 
 Layer 1; ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII RG2.3.1 and RG2.3.7; EllipticCurves
-Layers 1 and 4; StableReduction Layers 4–6; Tau Ceti's affine identity components and component
+Layers 1 and 4; StableReduction Layers 4–6; SchemeAndStackFoundations §§4.11–4.13 for the
+resolution step of 2.7; Tau Ceti's affine identity components and component
 groups, character lattices, `kerReduction` and `formalPointAddEquivKerReduction`.
 
 ## Layer 3: semistable reduction and uniformisation
@@ -1037,11 +1081,17 @@ variety.
 
 ### 3.2 Semistability under isogeny
 
-Prove `SemistabilityIsogeny`: for isogenous abelian varieties `A, B` over `K`, `A` is semistable
-over `R` if and only if `B` is; their toric and abelian ranks agree, and the induced map of
-connected special fibres `M_{A,k}⁰ → M_{B,k}⁰` is an isogeny (Conrad, Proposition 4.1 and its
-proof, pp. 8–9). The proof is 2.5 together with the comparison of dimensions of the smooth
-connected special fibres and a quasi-inverse up to multiplication by the degree. No statement
+Prove `SemistabilityIsogeny`: for an isogeny `f : A → B` over `K`, `A` is semistable over `R`
+if and only if `B` is. If these equivalent conditions hold, the induced map
+`M_{A,k}⁰ → M_{B,k}⁰` of connected special fibres is an isogeny of semi-abelian varieties; in
+particular the toric and abelian ranks of `A` and `B` agree (Conrad, Proposition 4.1(1) and its
+proof, pp. 8–9). Choose `g : B → A` and `n ≠ 0` with `g ∘ f = [n]_A` and `f ∘ g = [n]_B`; 2.5
+applied to `f` and to `g` gives the two implications and the special-fibre isogeny. An isogeny
+of semi-abelian varieties maps the maximal torus and the abelian quotient of its source to those
+of its target with finite kernel, so applying this to `f_k⁰` and `g_k⁰` gives equal ranks. The
+degree of `f` is not restricted relative to the residue characteristic: semistable `p`-power
+isogenies are covered. Without semistability the special-fibre map can have
+positive-dimensional kernel, so the second sentence carries the hypothesis. No statement
 about the component groups is made: a generic isogeny of Tate curves changes `ord(q)` and hence
 the order of `Φ`. *Needs:* 2.5, 3.1.
 
@@ -1049,6 +1099,13 @@ the order of `Φ`. *Needs:* 2.5, 3.1.
 
 - Multiplication by a nonzero integer `n` on `A` preserves semistability and both ranks.
   On a positive-dimensional variety `[0]` is not an isogeny.
+- (non-example) For `E/ℚ_p` with additive reduction, the extension of `[p]` acts on
+  `M_k⁰ = 𝔾_a` as multiplication by `p`, which is zero in characteristic `p`; its kernel is
+  positive-dimensional. `E` is not semistable, so the special-fibre conclusion is not asserted
+  for it (Conrad, p. 12).
+- For a split Tate curve over `ℚ_p`, `[p]` restricts to `[p]` on `M_k⁰ = 𝔾_m`, an isogeny with
+  kernel `μ_p` of degree `p`: an isogeny whose degree is divisible by the residue characteristic
+  satisfies the special-fibre conclusion.
 - Isogenous Tate curves with parameters `q` and `q^n` are both semistable with `t = 1`; their
   component groups have orders `ord(q)` and `n·ord(q)`.
 - A statement claiming equal component groups for isogenous semistable varieties is refuted by
@@ -1059,12 +1116,18 @@ the order of `Φ`. *Needs:* 2.5, 3.1.
 Prove `SemistableIdentityBasechange`: for semistable `A` over `K`, a finite extension of discrete
 valuation rings `R → R'` with fraction fields `K'/K`, and `N` the Néron model of `A ×_K K'` over
 `R'`, the canonical map `M⁰ ×_R R' → N⁰` is an isomorphism (Conrad, Theorem 4.4 and its proof,
-pp. 10–16; Corollary 4.5, pp. 11–12). The proof shows that the base-changed semi-abelian identity
-model maps by an open immersion into `N` (Zariski's main theorem, smooth and étale lifting, and
-the density of integral sections, all part of this target), and that its image is exactly `N⁰`
-because it contains the whole connected identity fibre and the whole generic fibre. Neither
-identity model has the full mapping property, so the uniqueness of 1.4 cannot replace this
-argument. The full Néron model `M ×_R R'` is not asserted to be `N`. *Needs:* 2.1, 3.1;
+pp. 10–16; Corollary 4.5, pp. 11–12). The proof first establishes the open-immersion theorem,
+which is part of this target and is also consumed by 3.9: over an arbitrary discrete valuation
+ring, a separated finite-type group scheme `G` whose generic fibre is an abelian variety and
+whose open identity component `G⁰` is a semi-abelian scheme (smooth, with semi-abelian fibres)
+maps to the Néron model of its generic fibre by an open immersion; in particular a
+semi-abelian `G = G⁰` maps isomorphically onto the identity model (Conrad, Theorem 4.4, p. 10). Its proof uses Zariski's main theorem,
+smooth and étale lifting and the density of integral sections. Applied to `G = M⁰ ×_R R'`, the
+image is exactly `N⁰` because it contains the whole connected identity fibre and the whole
+generic fibre. Identity models do not in general have the full Néron mapping property (one with
+`Φ ≠ 0` does not), so the uniqueness theorem of 1.4 cannot prove this base-change comparison
+in general; the open immersion must be established and its image identified with `N⁰`. The full
+Néron model `M ×_R R'` is not asserted to be `N`. *Needs:* 2.1, 3.1;
 Mathlib `Scheme.Hom.exists_isIso_morphismRestrict_toNormalization` for Zariski's
 main theorem; SchemeAndStackFoundations §0.14 for smooth and étale lifting.
 
@@ -1109,22 +1172,26 @@ module of the toric part (Conrad, Lemma 5.4 and the preceding definitions, pp. 1
 `ℓ ≠ char k`, then `T_f` is the submodule of inertia invariants; at `ℓ = char k` this
 identification is not asserted and the finite part is described by the finite flat torsion. The
 printed corank `2g − (2t + a)` in the source is a misprint for `2g − (t + 2a) = t`. *Needs:* 3.1;
-`ArithmeticGaloisRepresentations:R01.6` (Tate modules of abelian varieties with their Galois
-action and isogeny compatibility); `AbelianSchemesAndArithmeticModuli:A3` (finite flat torsion
-subgroup schemes).
+`AbelianSchemesAndArithmeticModuli:A4.1` (the Tate module `AbelianTate` with its Galois action
+and isogeny compatibility, packaged as a representation by `ArithmeticGaloisRepresentations:R01.6`);
+`AbelianSchemesAndArithmeticModuli:A3` (finite flat torsion subgroup schemes).
 
 Also construct `FiniteFlatToricFiltration` over a henselian `R`, for every positive integer
 `m`, **without** requiring `m` invertible in `K`. Let `F_m` be the finite flat part of
-`M⁰[m]` in the henselian quasi-finite decomposition. The lifted toric torsion `P_m` is a
-multiplicative-type finite flat subgroup of `F_m`, of rank `m^t`; `F_m` has rank
-`m^(t+2a)`, and `H_m := F_m/P_m` has rank `m^(2a)`. Its generic fibre is a subgroup
-of `A[m]`, whose quotient `Q_m` extends étale over `R` and has rank `m^t`.
+`M⁰[m]` in the henselian quasi-finite decomposition, of rank `m^(t+2a)`, and let the lifted
+toric torsion `P_m ⊂ F_m` be its multiplicative-type finite flat subgroup of rank `m^t`. Over
+`R` there is an exact sequence `0 → P_m → F_m → H_m → 0` with `H_m := F_m/P_m` of rank
+`m^(2a)`. On generic fibres there are closed subgroup inclusions `P_{m,K} ⊂ F_{m,K} ⊂ A[m]`;
+put `Q_{m,K} := A[m]/F_{m,K}`, of rank `m^t`, so that `0 → F_{m,K} → A[m] → Q_{m,K} → 0` is
+exact. The subgroup of `A[m]` divided out is `F_{m,K}`; `H_m` is a subquotient, and no
+embedding `H_{m,K} → A[m]` is asserted. The finite étale `R`-model `Q_m` of `Q_{m,K}`, the
+Cartier dual of `P_m(A^∨)`, is supplied by `FiniteFlatOrthogonality.quotient_duality` in 3.6.
 Prove `FiniteFlatToricFiltration.toric_inclusion`, `finite_inclusion`, `quotient_exact`,
 `transition` (the multiplication-kernel maps for divisibility of levels), `completion`
-and `special_fibre`. Over the completion, 3.13 identifies `P_m,F_m,H_m` with
-`T_R[m],G[m],B[m]`, and 3.14 identifies `Q_m` with `Y/mY`; over an incomplete
-henselian trait these finite group schemes are defined directly, without claiming a
-Raynaud abelian scheme `B` over `R`.
+and `special_fibre`. The comparison `completion` is proved after 3.13–3.14 and uses them:
+over the completion, 3.13 identifies `P_m,F_m,H_m` with `T_R[m],G[m],B[m]`, and 3.14
+identifies `Q_{m,K}` with `Y/mY`. Over an incomplete henselian trait these finite group
+schemes are defined directly, without claiming a Raynaud abelian scheme `B` over `R`.
 
 Construct the finite part using the quasi-finite torsion kernel of multiplication on
 `M⁰`; its special fibre is finite because the identity fibre is semi-abelian, and flatness
@@ -1152,7 +1219,9 @@ in 4.3; it is separate from the rank-`2g` Tate module of geometric points.
   its generic multiplication kernel is all of `A` and is not finite.
 - In equal characteristic `p`, a split Tate curve has `P_p = F_p = μ_p`, `H_p = 0`
   and `Q_p = ℤ/p`, with total generic rank `p²`. The geometric points of `μ_p`
-  form the trivial group; they do not compute its scheme rank `p`.
+  form the trivial group; they do not compute its scheme rank `p`. Dividing `A[p]` by
+  `H_{p,K} = 0` would leave rank `p²`, whereas the quotient by `F_{p,K} = μ_p` is `ℤ/p` of
+  rank `p`: the two readings differ already in rank.
 - Good supersingular elliptic reduction in characteristic `p` has `F_p = H_p = A[p]`
   of rank `p²`, `P_p = Q_p = 0`, although `A[p](K̄)` is trivial.
 
@@ -1178,9 +1247,16 @@ their geometric point groups. At primes invertible in `K`, inverse limits recove
 uses these partial extensions for all coefficient primes. Its further recovery of the
 whole filtration from the generic BT system alone invokes Tate full faithfulness;
 that extra recovery is not a premise of the finite-level construction here.
-*Needs:* 3.5; `ArithmeticGaloisRepresentations:R01.6` and
-`AbelianSchemesAndArithmeticModuli:A3` for the integral Weil pairing and Cartier duality;
-A4.5 for transitions.
+`quotient_duality` also supplies the finite étale `R`-model `Q_m := D(P_m(A^∨))` of the
+quotient `Q_{m,K}` of 3.5. Both `FiniteFlatOrthogonality` and `Orthogonality`, which is
+recovered from it, consume the dual Raynaud extensions, their torsion sequences and duality
+from 3.13–3.14 (`RaynaudExtension.dual_abelian`, `RaynaudOneMotive.torsion_exact` and
+`RaynaudOneMotive.dual`). Those subsections need only 2.4 and 3.1, so they are built before
+this one, and 3.7–3.12 after it.
+*Needs:* 3.5, 3.13, 3.14; `AbelianSchemesAndArithmeticModuli:A3` and A4.1 for Cartier duality
+and the integral Weil pairing `AbelianTate.dualPairing`, with its Galois packaging in
+`ArithmeticGaloisRepresentations:R01.6`; A4.5 for transitions; SchemeAndStackFoundations §1.1
+(flat descent).
 
 **Checks.**
 
@@ -1213,9 +1289,13 @@ by 3.6. *Needs:* 3.5, 3.6.
 
 ### 3.8 The degree-zero Picard scheme of a semistable curve
 
-Let `R` be a strictly henselian discrete valuation ring with algebraically closed residue
-field, and let `X/R` be proper, flat and regular, with geometrically connected smooth
-generic fibre and geometrically reduced nodal special fibre. Starting from the relative Picard fppf sheaf `Pic_{X/R}` of `AlgebraicModuliForArithmeticGeometry`
+Let `R` be a discrete valuation ring, with no henselian or residue-field hypothesis, and let
+`X/R` be proper, flat and regular, with geometrically connected smooth generic fibre and
+special fibre `X_k` that is geometrically reduced with at worst ordinary double points over
+`k̄`. Raynaud's separatedness theorem and the semi-abelian structure of `Pic⁰` of such a
+curve hold over an arbitrary discrete valuation ring and an arbitrary residue field (Conrad,
+Theorem 7.13 and Proposition 7.14, pp. 34–35), so nothing below enlarges `k`; geometric
+statements about components are made after base change to `k̄`. Starting from the relative Picard fppf sheaf `Pic_{X/R}` of `AlgebraicModuliForArithmeticGeometry`
 (§7.6.1 relative Picard sheaf, §7.3 representability by an algebraic space when
 `𝒪_R ≅ f_*𝒪_X` universally, §§7.6.2 and 7.9 the open subgroup `Pic^τ` and over a field its identity
 component), construct `PicardZero`, written `Pic⁰_{X/R}`: the open subgroup of `Pic_{X/R}` whose
@@ -1237,20 +1317,28 @@ JacobianChallenge Layer D; `AbelianSchemesAndArithmeticModuli:A2`.
 
 - `smooth_test` — for a smooth special fibre `Pic⁰_{X/R}` has no toric part and its special fibre
   is the Jacobian of `X_k`.
-- `irreducible_node_test` — an irreducible rational curve with one node has `Pic⁰ = 𝔾_m`, not `0`.
+- `irreducible_node_test` — an irreducible rational curve with one split node has
+  `Pic⁰ = 𝔾_m`, not `0`; with a node whose two branches are conjugate over a quadratic
+  extension it is the corresponding nonsplit one-dimensional torus, still not `0`.
 - `tree_test` (degenerate) — a nodal tree of rational curves has `Pic⁰ = 0` although each
   component has nontrivial Picard group; the multidegree condition kills everything.
+
 ### 3.9 The Picard identity component is the Néron identity component
 
-Under the curve hypotheses of 3.8, prove `PicardNeronIdentity`: `Pic⁰_{X/R}` is canonically the
-identity open subgroup `N⁰` of the Néron model `N` of `Jac(X_K)`, and `N` itself is the
-degree-zero part of the quotient of `Pic_{X/R}` by the closure of the generic identity section
-(SGA 7 I, Exposé IX, Theorem 12.1(a)–(d), pp. 465–467; 12.1.11, p. 468). Write `P⁰_deg` for the open subgroup of the relative Picard functor with total
-generic degree zero. The quotient `P⁰_deg/E` by the closure of the generic identity
-(the vertical-divisor subgroup) is shown to have the mapping property first (so that 1.4 applies to it and to `N`), and the comparison is then
-restricted to identity components; `Pic⁰_{X/R}` alone has no full mapping property when `Φ ≠ 0`.
+Under the curve hypotheses of 3.8, over an arbitrary discrete valuation ring, prove
+`PicardNeronIdentity`: `Pic⁰_{X/R}` is canonically the identity open subgroup `N⁰` of the Néron
+model `N` of `Jac(X_K)`. By 3.8 it is a separated smooth finite-type `R`-group with
+semi-abelian fibres and generic fibre `Jac(X_K)`, so the open-immersion theorem of 3.3 maps it
+isomorphically onto `N⁰` (Conrad, Theorem 4.4, p. 10, with Theorem 7.13 and Proposition 7.14,
+pp. 34–35); no residue-field hypothesis enters. If moreover `R` is strictly henselian with
+algebraically closed residue field, prove also that `N` itself is the degree-zero part of the
+quotient of `Pic_{X/R}` by the closure of the generic identity section (SGA 7 I, Exposé IX,
+Theorem 12.1(a)–(d), pp. 465–467; 12.1.11, p. 468). Write `P⁰_deg` for the open subgroup of
+the relative Picard functor with total generic degree zero. The quotient `P⁰_deg/E` by the
+closure of the generic identity (the vertical-divisor subgroup) has the mapping property, so
+1.4 applies to it and to `N`; `Pic⁰_{X/R}` alone has no full mapping property when `Φ ≠ 0`.
 Representability of the quotient and separatedness under the reduced-nodal hypothesis are part
-of this target. *Needs:* 1.4, 3.8.
+of this target. *Needs:* 1.4, 3.3, 3.8.
 
 **Checks.**
 
@@ -1270,9 +1358,11 @@ Proposition 4.3, pp. 9–10; §7, pp. 24–35). The proof is independent of the 
 First prove `JacobianIsogenyFactor`: over the infinite field `K`, every positive-dimensional
 abelian variety `A` admits a smooth proper geometrically connected curve `C`, an abelian
 variety `B`, and an isogeny `Jac(C) → A × B`. Construct the quotient by Bertini slicing and
-obtain the isogeny by Poincaré reducibility (Conrad, Proposition 4.3 and proof, pp. 9–10;
+obtain the isogeny from AbelianSchemesAndArithmeticModuli A6.5, `poincareReducibility`, over
+`K` itself (Conrad, Proposition 4.3 and proof, pp. 9–10;
 Milne, *Jacobian Varieties*, Theorem 10.1 and proof, pp. 33–35, for the Bertini quotient). This reduction lemma
-is a target here; JacobianChallenge supplies the Jacobian, not the Bertini quotient.
+is a target here; JacobianChallenge supplies the Jacobian, not the Bertini quotient, and
+Poincaré reducibility is consumed, not reproved.
 The zero-dimensional abelian variety already has good reduction. For positive dimension,
 this lemma expresses `A` as an isogeny factor of the Jacobian of a
 smooth geometrically connected projective curve (Conrad, Proposition 4.3, pp. 9–10). Apply
@@ -1282,10 +1372,12 @@ needed. The semi-abelian Picard identity fibre of 3.8 and its Néron comparison 
 Jacobian semistable. Products and isogeny invariance (3.1–3.2) then give the assertion for `A`.
 Only the curve-reduction existence theorem is consumed here; the later curve–Jacobian criterion,
 which consumes this roadmap, is not an input. The integral closure of an excellent `R` is finite
-and semilocal; check each prime above `R`, and descend the semi-abelian property from the strict
-henselisation. *Needs:* 3.1, 3.2, 3.8, 3.9; StableReduction Layers 4 and 7 (curve existence);
-JacobianChallenge Layers D–F (Jacobians); AbelianSchemesAndArithmeticModuli A3 (isogenies);
-SchemeAndStackFoundations §§0.12–0.14, 0.20–0.21 (henselisation and finiteness of integral closure).
+and semilocal; check each prime above `R`. At each such localisation `R'`, 3.8 and 3.9 apply to
+the regular semistable model over `R'` itself, whatever its residue field, so no strict
+henselisation and no enlargement of the residue field is needed. *Needs:* 3.1, 3.2, 3.8, 3.9;
+StableReduction Layers 4 and 7 (curve existence); JacobianChallenge Layers D–F (Jacobians);
+AbelianSchemesAndArithmeticModuli A3 (isogenies) and A6.5 (`poincareReducibility`);
+SchemeAndStackFoundations §§0.20–0.21 (finiteness of integral closure).
 
 **Checks.**
 
@@ -1294,6 +1386,11 @@ SchemeAndStackFoundations §§0.12–0.14, 0.20–0.21 (henselisation and finite
 - For an elliptic curve with additive reduction and `j ∈ R`, a finite extension gives good
   reduction; the theorem asserts only semistability.
 - For a non-henselian `R` with two primes above it in `K'`, semistability is checked at both.
+- For `R = 𝔽_p(s)[[t]]` the residue field `𝔽_p(s)` is imperfect, and the strict henselisation
+  has residue field `𝔽_p(s)^sep`, which does not contain `s^{1/p}` (Stacks, Lemma 10.155.2,
+  tag 0BSK). The chain still applies: StableReduction Layers 7 and 4 give regular semistable
+  models over each localisation `R'` of the integral closure in `K'`, and 3.8–3.9 are stated over `R'`
+  itself, so no step requires an algebraically closed residue field.
 
 ### 3.11 Grothendieck's monodromy criterion
 
@@ -1448,7 +1545,8 @@ AbelianSchemesAndArithmeticModuli A2–A3 (Poincaré duality and finite flat tor
 Layer 2 for the identity component, the Chevalley decomposition and the toric character lattice;
 `ArithmeticGaloisRepresentations:R01.2` and `R01.6` for quasi-unipotence and Tate modules;
 `AbelianSchemesAndArithmeticModuli:A2–A3` for duals, finite flat torsion and the Weil pairing,
-and A4.8 for polarised formal effectivity;
+A4.1 for the Tate-module carrier, A4.8 for polarised formal effectivity and A6.5 for Poincaré
+reducibility;
 SchemeAndStackFoundations §§0.12–0.14, 0.20–0.21 and §§4.7–4.13 for henselisation,
 excellence and formal geometry; Mathlib's Zariski main theorem; AdicSpacesPartII R0–R1
 and AdicSpacesPartIII F0 and R2.3 for analytic and formal carriers; EllipticCurves Layer 4 for the Tate curve; StableReduction Layers
@@ -1976,11 +2074,16 @@ henselisation, and this descent is stated explicitly in 5.2. *Needs:* 1.8, 3.11,
 - For an elliptic curve with additive reduction and perfect residue field the inertia action
   on `T_ℓ`, `ℓ ≠ char k`, is not unipotent, so
   neither direction of the criterion is vacuous.
-- (non-example) Unramified `A[N]` for one `N` does not imply good reduction: a Tate curve with
-  `q = π^N` over a complete discrete valuation ring with finite residue field and
-  `N ≥ 3` prime to its characteristic has unramified `N`-torsion: the required root
-  `q^{1/N} = π` is in `K` and `μ_N` is unramified. Divisibility of `ord(q)` alone
-  does not guarantee that the unit part has an unramified `N`th root.
+- (non-example) Unramified `A[N]` for one `N` does not imply good reduction. Over a complete
+  discrete valuation ring with finite residue field and `N ≥ 3` prime to its characteristic,
+  write `q = π^m u` with `u ∈ R^×`; the Tate curve `E_q` has unramified `N`-torsion exactly when
+  `N ∣ m`. Indeed `R[X]/(X^N − u)` is finite étale, since `X` is a unit and `N` is invertible,
+  so `u` acquires an `N`th root, and `μ_N` is defined, over a finite unramified extension;
+  conversely an `N`th root of `q` in an unramified extension has integral valuation `m/N`. At `q = π^N` the root
+  `π` already lies in `K`. At `K = ℚ₇`, `N = 3`, `q = 2·7³`, the unit `2` is not a cube modulo
+  `7` (the cubes there are `0, 1, 6`), hence not a cube in `ℚ₇`, yet `X³ − 2` is irreducible and
+  separable modulo `7`, so its root lies in the unramified cubic extension and `E_q[3]` is
+  unramified. No such criterion is asserted when the residue characteristic divides `N`.
 
 ### 5.2 Good reduction is isogeny invariant
 
@@ -2300,8 +2403,8 @@ curve `E` over `K`. Prove `EquationGoodComparison`: Mathlib's `WeierstrassCurve.
 scheme of `W` over `R` (ModularCurves Layer 1 and `AbelianSchemesAndArithmeticModuli:A0.1–A1`) is an
 abelian scheme, if and only if `E` has good reduction in the sense of 1.8; the scheme-level
 property is independent of the chosen minimal model (Bosch–Lütkebohmert–Raynaud, §1.5,
-pp. 20–23). Where the geometric input is stated over a strictly henselian base (2.7), base change
-there and descend. *Needs:* 1.8, 2.7; Mathlib `WeierstrassCurve.HasGoodReduction`,
+pp. 20–23). The smooth-locus comparison 2.7 is stated over an arbitrary discrete valuation
+ring, so it is applied over `R` itself, with no passage to a larger residue field. *Needs:* 1.8, 2.7; Mathlib `WeierstrassCurve.HasGoodReduction`,
 `hasGoodReduction_iff_isElliptic_reduction`; EllipticCurves Layer 4; ModularCurves Layer 1.
 
 **Checks.**
@@ -2335,8 +2438,9 @@ The normalisation sequence of 4.1 supplies this descent argument. Comparing the
 translated tangent polynomial with `nodePolynomial`, using the library’s
 `splits_variableChange_nodePolynomial_map_iff`, proves the splitness equivalence;
 no square-class test is used in characteristic `2`. The minimal-regular smooth-locus
-comparison is descended from strict henselisation (2.7 and 1.10).
-*Needs:* 2.6, 4.1, StableReduction Layer 5;
+comparison 2.7 holds over `R` itself, with the residue field `k` unchanged and possibly
+imperfect, so it applies directly.
+*Needs:* 2.6, 2.7, 4.1, StableReduction Layer 5;
 Mathlib `HasMultiplicativeReduction`, `HasSplitMultiplicativeReduction`; Tau Ceti
 `nodePolynomial`, `splits_variableChange_nodePolynomial_map_iff`; EllipticCurves Layer 4.
 
@@ -2423,10 +2527,14 @@ Weil–Deligne representation over `ℚ̄`, with isomorphism class invariant und
 `Aut(ℚ̄/ℚ)`, whose scalar extensions give all Frobenius-semisimplified local
 realisations. This is the geometric compatibility of Noot 2013 §2.3, p. 254,
 and Fontaine Exposé VIII §§2.4.1–2.4.2, p. 342; it does not assert a chosen
-representation on a `ℚ`-vector space. The inputs are 3.10 and 3.14 for the local
+representation on a `ℚ`-vector space. The identification `H^i = Λ^i H¹` itself, by cup
+product and naturally in `A`, is AbelianSchemesAndArithmeticModuli A4.4, `exteriorCohomology`,
+applied over `F̄`; its naturality makes it `Gal(F̄/F)`-equivariant, and it is consumed, not
+reproved. The inputs are 3.10 and 3.14 for the local
 description at places of bad reduction through the strict `1`-motive, 5.3 at places above `ℓ`,
 and the `ℓ`-independence of 5.6; the coefficient-prime trace comparison and
 Saito's base-change argument are built below. *Needs:* 3.10, 3.14, 5.3, 5.6;
+`AbelianSchemesAndArithmeticModuli:A4.4` (`exteriorCohomology`);
 `ArithmeticGaloisRepresentations:R01.1` (character comparison), `R01.2`.
 
 Build `semistable_trace_comparison` first. Let `K/ℚ_p` be finite with residue field
@@ -2501,7 +2609,8 @@ then applies in characteristic zero (ArithmeticGaloisRepresentations R01.1). Thi
 out the character argument used in BCGP Proposition 2.8.1. Purity then determines the nilpotent
 operator up to isomorphism (BCGP Lemma 2.5.1, p. 189, consumed through R01.2).
 Thus the same geometric parameter and its `Aut(ℚ̄/ℚ)`-invariance work at `p` as well; equality of traces alone
-is not asserted to determine monodromy. Exterior powers give weight `i` and all `H^i`.
+is not asserted to determine monodromy. Exterior powers give weight `i`, and A4.4's
+`H^i = Λ^i H¹` transfers the result to all `H^i`.
 *Additional needs:* AbelianSchemesAndArithmeticModuli A4.2 and
 A4.3 for the degree-one de Rham maps in the displayed construction;
 the Frobenius realisation of the good abelian quotient in 5.3. Include
@@ -2589,8 +2698,13 @@ of `(12)(34)(56)`. Here `S₅(b)` is the standard point stabiliser. Its intersec
 that centraliser has order `8`: fixing one point forces its partner to be fixed, leaving
 two pairs with independent swaps and a permutation of those pairs. In particular it is a
 `2`-group; a `2`-group acting on a nonzero `𝔽₂`-vector space fixes a nonzero vector
-(`Interfaces.exists_ne_zero_fixed_of_two_group`). The choice of `S₅(b)` and the order of the
-intersection are finite-group inputs supplied with the statement. *Needs:* 6.12; Mathlib finite
+(`Interfaces.exists_ne_zero_fixed_of_two_group`). That adapter is the linear specialisation of
+Mathlib's `IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point` at `p = 2`: let `G` act
+on `M` through `ρ`, take the known fixed point `0`, use `Nat.card M = 2^d` with `d > 0`, and
+obtain `IsPGroup 2 G` from the cardinality hypothesis by `IsPGroup.of_card`. No second
+orbit-counting theory is built here. The choice of `S₅(b)` and the order of the
+intersection are finite-group inputs supplied with the statement. *Needs:* 6.12; Mathlib
+`IsPGroup.of_card`, `IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point` and finite
 group theory.
 
 **Checks.**
@@ -2644,7 +2758,7 @@ good) is the `N = 3`, `k = 𝔽₂` instance used by the abelian-surface modular
 All earlier layers; ReductiveGroups Layer 4; EllipticCurves Layers 1 and 4; ModularCurves
 Layer 1; StableReduction Layer 7; SchemeAndStackFoundations §3.8;
 `ArithmeticGaloisRepresentations:R01.2`, `R01.3`, `R01.6`; `AbelianSchemesAndArithmeticModuli:A0.1–A1`,
-`A3`; Mathlib's Weierstrass reduction predicates.
+`A3`, `A4.4`; Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 
 ## Downstream consumers
 
@@ -2691,6 +2805,10 @@ Layer 1; StableReduction Layer 7; SchemeAndStackFoundations §3.8;
 - S. Bosch, W. Lütkebohmert and M. Raynaud, *Néron Models*, Ergebnisse der Mathematik 21,
   Springer, 1990. Chapter 1 (§§1.1–1.5) for Layer 1 and 2.7; §9.4, Theorem 1, p. 259, for 4.13;
   p. 190, Example 8, for the failure of exactness.
+- Q. Liu and J. Tong, *Néron models of algebraic curves*, Trans. Amer. Math. Soc. 368 (2016),
+  7019–7043; [author version of 16 December 2013](https://www.math.u-bordeaux.fr/~jtong/Recherche/Neron.pdf):
+  Proposition 2.4 (pp. 3–4), Corollary 3.2 (p. 8), Theorem 4.1 and its proof (pp. 12–13) and
+  Remark 4.5 (p. 14), for 2.7 over an arbitrary discrete valuation ring.
 - B. Conrad, *Semistable reduction for abelian varieties*, lecture notes, Stanford, 2011
   (35 pages). §§2–7 for Layers 2–5. The corank in the paragraph after Lemma 5.4 (p. 18) reads
   `2g − (2t + a)` and should read `2g − (t + 2a) = t`; the inference at p. 21 from equal rational
