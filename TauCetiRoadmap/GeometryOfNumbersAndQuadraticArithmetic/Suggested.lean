@@ -68,8 +68,18 @@ theorem hermitian_gram_hadamard (v : Fin n → E) :
 end Gram
 
 -- The Gram matrix is conjugate-linear in the first argument: the family `(1, i)` in `ℂ` has Gram
--- matrix `[[1, i], [-i, 1]]` and determinant `0`; transposition without conjugation gives `2`.
+-- matrix `[[1, i], [-i, 1]]` and determinant `0`. The unconjugated matrix `[[1, i], [i, -1]]` also
+-- has determinant `0`, so this family does not test conjugation.
 example : (Matrix.gram ℂ (![1, Complex.I] : Fin 2 → ℂ)).det = 0 := by sorry
+
+-- Conjugation is what makes the Gram determinant nonnegative: the single vector `i` has Gram
+-- determinant `1`, whereas its unconjugated bilinear Gram determinant `i * i` is `-1`.
+example : (Matrix.gram ℂ (![Complex.I] : Fin 1 → ℂ)).det = 1 ∧
+    (Matrix.of fun i j : Fin 1 =>
+      (![Complex.I] : Fin 1 → ℂ) i * (![Complex.I] : Fin 1 → ℂ) j).det = -1 := by
+  constructor
+  · simp [Matrix.det_unique, Matrix.gram_apply]
+  · simp [Matrix.det_unique]
 
 section Orthogonal
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
