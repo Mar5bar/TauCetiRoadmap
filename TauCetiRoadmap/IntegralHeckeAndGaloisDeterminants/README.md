@@ -3796,33 +3796,60 @@ for `σ ∈ I_v`; (V) those for `σ ∈ G_v` together with `ψ(σ) − χ(σ)` i
 **Stabilization of local relation rows.** Prove that adding each locally appearing
 `ρ(σ) − ψ(σ)` as a new generator, with a defining relation and a pivot row, changes the
 presentation but preserves its square relation determinant up to a chosen row/column ordering
-sign; local rows then have one pivot and at most one `y_v` entry ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.3,
-pp.11–12). *Needs:* Five types of Ribet module relations, Tau Ceti
+sign; local rows then have one pivot and at most one `y_v` entry. Include also each chosen
+`ρ(σ_v) − ψ(σ_v)` for `v ∈ P`, adjoining its defining type (I) relation to the minor, so the
+auxiliary top row has a pivot in that generator's column. Use a separate generator slot for
+each selected local occurrence, even if its group element repeats. Write `i(σ)` for that slot
+and use it for all four matrix coordinates and the character difference of the occurrence
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.3,
+pp.11–12; §3.2, local indexing, p.18). *Needs:* Five types of Ribet module relations, Tau Ceti
 `TauCeti.fittingIdeal_eq_minorsIdeal_ker`.
 
+**Checks.**
+
+- Adjoining a generator with defining row `(α, −1)` to the one-row minor `(d)` gives
+  `[[d,0],[α,−1]]`, of determinant `−d`; the ordering sign accounts for the change.
+- Stabilizing the type (V) row `(2,3,ν_σ)` gives defining row `(2,3,−1,0)` and
+  local row `(0,0,1,ν_σ)`, with the new generator column before the `y_v` column.
+- For two occurrences of the same group element with difference matrix `[[1,2],[3,4]]`,
+  the upper-coordinate difference `b_{i(σ,1)}−b_{i(σ,2)}` specializes to `2−2=0`,
+  although it is a nonzero polynomial in the unconstrained formal slots.
+
 **Weighted auxiliary matrix.** For a stabilized square relation matrix `D` and local choices
-`σ_v`, adjoin a block upper-triangular matrix `E` with diagonal `z_v = ξ_v(σ_v) − χ(σ_v)`: with
-`t = |P|` and `D` of size `r + s`, `E` is the `(r + s + t)`-square matrix with the `t × t` diagonal
+`σ_v`, adjoin a block upper-triangular matrix `E_arith` over `T̃` with diagonal
+`z_v = ξ_v(σ_v) − χ(σ_v)`: with
+`t = |P|` and `D` of size `r + s`, `E_arith` is the `(r + s + t)`-square matrix with the `t × t` diagonal
 block `diag(z_{σ_v})`, the coefficients `α_{σ_v, j}` of `ρ(σ_v) − ψ(σ_v) = ∑_j α_{σ_v, j} ρ_j`
-to their right, a zero block below, and `D` in the lower right. Prove
-`det E = (∏_{v ∈ P} z_v) det D` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.4, equation (28), p.12). Write `ρ_j =
+to their right (the pivot vector after stabilization), a zero block below, and `D` in the lower right.
+The original type (IV) entries in the place columns are zero and the type (V) `y_v` entries
+are `ν_σ = ψ(σ) − χ(σ)`. Prove the exact arithmetic identity
+`det E_arith = (∏_{v ∈ P} z_v) det D` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.4, equation (28), p.12). Write `ρ_j =
 ρ(g_j) − ψ(g_j) = [[a_j, b_j],[c_j, d_j]]` for the chosen generators, `x_σ = ξ_v(σ) − ψ(σ)` and
-`a(σ) = ∑_j a_j α_{σ, j}`. The **altered matrix** `E′ ∈ M_{r+s+t}(K)` is obtained from `E` by
+`a(σ) = a_{i(σ)}` after stabilization. The altered arithmetic matrix
+`E′_arith ∈ M_{r+s+t}(K)` is obtained from `E_arith` by
 replacing each diagonal entry `z_{σ_v}` by `x_{σ_v} − a(σ_v)`, leaving rows of types (I) and (III)
 unchanged, replacing in each type (II) row `δ_ijj` by `δ_ijj − a_i − ν_i` and `δ_iji` by
 `δ_iji − d_j`, inserting `ξ_v(σ) − ψ(σ) − a(σ)` into the `v`-column among the first `t` columns of
 each type (IV) row, and replacing the `y_v`-entry `ψ(σ) − χ(σ)` of each type (V) row by
 `ξ_v(σ) − ψ(σ) − a(σ)` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.4, equations (29)–(30) and the list (I)–(V),
-pp.12–13). *Needs:* Stabilization of local relation rows.
+pp.12–13). If `i=j` in a type (II) row, both subtractions apply to its single `i`-entry.
+*Needs:* Stabilization of local relation rows.
 
-**Kernel vector for the altered matrix.** Prove that the altered matrix `E′` just defined has,
+**Checks.**
+
+- With `P = ∅`, `E_arith = D`, so the empty weight is `1`.
+- For `D=(5)`, `z_v=2` and top pivot `1`, `E_arith=[[2,1],[0,5]]` has determinant `10`.
+- For `D=(5)` and `z_v=0`, the arithmetic determinant is zero whatever the top coefficient;
+  the identity uses no division by a local factor.
+
+**Kernel vector for the altered matrix.** Prove that the altered arithmetic matrix `E′_arith` just defined has,
 on each principal artinian local factor `K_i`, a kernel vector with a unit coordinate. If all local
 `D_v` are units, its entries are `−B_v/D_v`, the `b_i` and `−B_w/D_w`; otherwise multiply by a
 maximal power of the principal maximal-ideal generator and normalize the corresponding local `D_v`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.4 and proof, pp.13–14). *Needs:* Weighted auxiliary matrix.
 
 **Vanishing of the altered determinant.** With the source total-fraction-ring hypotheses, prove
-`det E′ = 0` in `K` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.4, pp.13–14). *Needs:* Kernel vector for the altered matrix.
+`det E′_arith = 0` in `K` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.4, pp.13–14). *Needs:* Kernel vector for the altered matrix.
 
 **Trace congruences for difference words.** For a noncommutative polynomial `f(X₁, …, X_r)` with
 zero constant term, prove `tr f(ρ₁, …, ρ_r) ≡ f(−ν₁, …, −ν_r)` modulo `I`, and also
@@ -3839,7 +3866,12 @@ pp.15–16). *Needs:* Character congruence on the group algebra.
 `R₀` trivial; define this integral lower-Borel conjugation
 coaction on `R`, and the evaluation algebra map `π : R → K` determined
 by the relation data, sending all variables to the chosen relation coefficients, differences and
-local diagonal values ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.1, equations (35)–(37), pp.17–18). *Needs:* Five types of Ribet module relations.
+local diagonal values. Use the stabilized occurrence slots of §6.2: `ν_σ` denotes the coefficient
+variable `ν_{i(σ)} ∈ R₀`, with `π(ν_σ)=ψ(σ)−χ(σ)`, and `a_σ,b_σ,c_σ,d_σ` denote the coordinates
+of `Y_{i(σ)}`. For each selected type (IV), type (V), or auxiliary top occurrence, its coefficient
+variable `x_σ` specializes to `ξ_v(σ)−ψ(σ)`. Repeated group elements retain separate formal
+slots with equal specialized values ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.1,
+equations (35)–(37), pp.17–18). *Needs:* Five types of Ribet module relations, Stabilization of local relation rows.
 
 **Checks.**
 
@@ -3860,6 +3892,51 @@ The matching computations are `δ(u)=1⊗u` for a coefficient variable,
 `δ(b)=(z/x)⊗b` for an upper-right entry, and `δ(a+d)=1⊗(a+d)`.
 The evaluation `π` is fixed on every generator,
 subject to the selected upper-right entries being zero.
+
+**Modified formal auxiliary matrices.** Construct `𝔈, 𝔈′ ∈ M_{r+s+t}(R)` for the stabilized
+minor. Lift every type (I) coefficient, including coefficients of defining relations, to its
+row-indexed `ε` variable, and every type (II) coefficient to its row-indexed `δ` variable.
+Keep the fixed local and auxiliary top pivots, and zero entries outside the coefficient
+positions and the place entries specified here. In `𝔈`, put `x_σ+ν_σ` in each auxiliary top diagonal
+entry, each type (IV) place entry, and each type (V) `y_v` entry. Define `𝔈′` by replacing
+these entries by `x_σ−a_σ`, leaving types (I) and (III) unchanged, and subtracting `a_i+ν_i`
+in column `j` and `d_j` in column `i` of a type (II) row indexed by `(i,j)`; both subtractions
+apply if `i=j`. All indices and variables are those of Formal Ribet matrix ring
+([DKSW](https://arxiv.org/pdf/2310.16396v2), §3.1, matrix construction, printed pp.17–18).
+*Needs:* Weighted auxiliary matrix, Formal Ribet matrix ring.
+
+**Checks.**
+
+- At `x_σ=2`, `ν_σ=3`, `a_σ=7`, an auxiliary top row has place entry `5`, a pivot `1`,
+  and altered place entry `−5`.
+- At the same values, a type (IV) row has formal place entry `5` and altered entry `−5`,
+  while its unaltered arithmetic place entry is zero.
+- At the same values, a type (V) row has formal `y_v` entry `5` and altered entry `−5`,
+  while its unaltered arithmetic `y_v` entry is `3`.
+
+**Specialization of the formal auxiliary matrices.** Under the standing hypotheses of Layer IHG.6,
+identify `T̃` with its image in the total fraction ring `K`. Prove that every entry of
+`π(𝔈)−E_arith` lies in `Ĩ ⊆ T̃`, that `π(𝔈′)=E′_arith` in `M_{r+s+t}(K)`, and that
+`π(det 𝔈)−det E_arith ∈ Ĩ`. The top entries specialize exactly because
+`π(x_σ+ν_σ)=ξ_v(σ)−χ(σ)`. On a type (IV) row their difference from zero is
+`ξ_v(σ)−χ(σ) ∈ Ĩ` for `σ ∈ I_v`; on a type (V) row the difference is
+`ξ_v(σ)−ψ(σ) ∈ Ĩ` for `v ∈ Σ`. All other entries specialize exactly.
+Thus `π(𝔈)` and `E_arith` are matrices over `T̃`; reduction modulo `Ĩ` and determinant
+functoriality give the determinant congruence. The altered equality holds in `K`, where
+the matrix coordinates take their values ([DKSW](https://arxiv.org/pdf/2310.16396v2), §3.1,
+equation (38) and the following comparison, printed pp.17–18).
+*Needs:* Modified formal auxiliary matrices, `IntegralRibet.LocalInput`, Mathlib `RingHom.map_det`.
+
+**Checks.**
+
+- In the schematic type (V) block `[[u11,u12,0],[u21,u22,0],[1,0,ν]]`, put
+  `h=u11*u22−u12*u21`. Replacing `ν` by `x+ν` changes its determinant by `x*h`;
+  a specialization with `x∈Ĩ` makes this zero modulo `Ĩ`, without making the two determinants equal.
+- For a type (IV) entry, specialize `x=2`, `ν=3` over `ℤ` with `Ĩ=(5)`.
+  The formal place entry becomes `5`, congruent to the arithmetic zero entry but unequal to it.
+- In the type (V) block take `h=1`, `x=2`, `ν=3`, `a=7` over `ℤ`, `Ĩ=(2)`.
+  The arithmetic determinant is `3`, the unaltered formal determinant specializes to `5`,
+  and both altered matrices have determinant `−5`.
 
 **Formal Ribet relation ideals.** In the formal ring `R` define
 the full four-entry ideal `J` generated by the four entries of each linear relation matrix, each
@@ -4501,9 +4578,26 @@ DKSW Lemma 5.9, p.42, without identifying repeated-index wedges with relations.
 
 ### 6.7 Invariant determinant comparison and extension theorems
 
-**The determinant difference in the formal error ideal.** For the formal versions of `E, E′`,
-prove that their determinant difference `e = det E′ − det E` lies in
-`I_R = (a_i + ν_i, b_i, c_i, d_i)` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.3, p.19). *Needs:* Weighted auxiliary matrix, Formal Ribet matrix ring.
+**The determinant difference in the formal error ideal.** For the modified formal matrices
+`𝔈,𝔈′` of §6.3, prove entrywise that `𝔈′−𝔈` lies in
+`I_R = (a_i + ν_i, b_i, c_i, d_i)`, and hence that `e = det 𝔈′ − det 𝔈 ∈ I_R`.
+The local entry difference is `−(a_σ+ν_σ)` and the product-row differences are
+`−(a_i+ν_i)` and `−d_j`; determinant multilinearity gives the result
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.3, p.19).
+*Needs:* Modified formal auxiliary matrices.
+
+**Checks.**
+
+- Over the free polynomial ring, the schematic type (V) matrices
+  `𝔈=[[u11,u12,0],[u21,u22,0],[1,0,x+ν]]` and
+  `𝔈′=[[u11,u12,0],[u21,u22,0],[1,0,x−a]]` give
+  `e=−(a+ν)*(u11*u22−u12*u21)`, which reduces to zero under `a↦−ν`.
+- With the same altered matrix, the direct lift with last entry `ν` instead gives
+  `(x−a−ν)*(u11*u22−u12*u21)`, reducing to the nonzero polynomial
+  `x*(u11*u22−u12*u21)`. This is a formal polynomial example, independent of arithmetic
+  representation hypotheses.
+- For a product row with `i=j`, the single altered coefficient differs by
+  `−(a_i+ν_i)−d_i`; it still reduces to zero when `a_i↦−ν_i` and `d_i↦0`.
 
 **Pairing determinant terms along a local column.** Let `J′` be an ideal of a commutative ring
 and `M` a square matrix over that ring whose rows are partitioned into nonlocal rows and pairwise
@@ -4536,10 +4630,10 @@ minors are `t B_στ` (Lemma 4.21, equation (55), pp.32–33). *Needs:* Mathlib 
 - The `1 × 1` matrix `(1)` with its row local and `p_v = c` satisfies conditions 1–3, its only
   minor vanishing, and has determinant `1`, so the place column must differ from `c`.
 
-**Unipotent invariance for product rows.** Prove that replacing every product row of `E′` by its
-image under the lower unipotent universal element `τ_t` leaves `det E′` unchanged modulo `J′R[t]`
+**Unipotent invariance for product rows.** Prove that replacing every product row of `𝔈′` by its
+image under the lower unipotent universal element `τ_t` leaves `det 𝔈′` unchanged modulo `J′R[t]`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.20, pp.31–32). Prove first that in
-`E′` the column of a place is zero on every row not attached to that place: the column of `v ∈ P`
+`𝔈′` the column of a place is zero on every row not attached to that place: the column of `v ∈ P`
 among the first `|P|` columns is nonzero only at its diagonal entry and the type (IV) entries at
 `v`, and a `y_v` column is nonzero only on the type (V) rows at `v`. The difference of
 determinants is the sum of the determinants of the matrices in which a nonempty set of product
@@ -4555,7 +4649,7 @@ the same-place minors are `B_στ`. *Needs:* Pairing determinant terms along a l
 Lower-Borel stability of relation ideals.
 
 **Unipotent invariance for one local block.** Prove that changing the local rows for one place `v`
-from `x_σ − a_σ` to `x_σ − a_σ − t b_σ` leaves `det E′` unchanged modulo `J′R[t]`, even when the
+from `x_σ − a_σ` to `x_σ − a_σ − t b_σ` leaves `det 𝔈′` unchanged modulo `J′R[t]`, even when the
 product rows and earlier local blocks have already changed
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.21, pp.32–33). Adding `t b_j` times
 every `ρ_j` column to the `v` column of the changed matrix restores the entries `x_σ − a_σ` on the
@@ -4570,7 +4664,8 @@ at `v′` has already changed. *Needs:* Pairing determinant terms along a local 
 stability of relation ideals.
 
 **Borel invariance of the determinant difference.** Prove that the image of
-`e = det E′ − det E` in `R/J′` is `B`-invariant ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.19, pp.30–33).
+`e = det 𝔈′ − det 𝔈` in `R/J′` is `B`-invariant; `𝔈` itself has only coefficient-ring
+entries and hence has invariant determinant ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.19, pp.30–33).
 *Needs:* Unipotent invariance for product rows, Unipotent invariance for one local block.
 
 **Lifting the invariant error across the full ideal.**
@@ -4582,14 +4677,28 @@ in the image of `H⁰(B, R) = A` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl
 Borel invariance of the determinant difference, Equivariant comparison of the relation complexes, Invariants of the formal Ribet ring.
 
 **Formal determinant comparison.**
-For every stabilized relation minor under the full local Ribet
-input, prove that `det E′ − det E` evaluates into `Ĩ`; since `π(det E′) = 0` in `K` and
-`det E = (∏_{v∈P} (ξ_v(σ_v) − χ(σ_v))) det D`, this gives the weighted relation-minor containment
-in `Ĩ`. The proof writes the determinant difference as an invariant lift plus a full relation: its
-invariant lift belongs to the character-error intersection, and evaluation kills the full relation
-ideal; this is combined with the vanishing of the altered determinant and the weighted auxiliary
-determinant identity ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Proposition 3.3, p.21; §§4.4–4.6). *Needs:* The determinant difference in the formal error ideal, Lifting the invariant error across the full ideal, Invariant intersection with the character error ideal,
-Vanishing of the altered determinant.
+For every stabilized relation minor under the full local Ribet input, prove
+`π(e) ∈ Ĩ` for `e=det 𝔈′−det 𝔈`. Write `e=q+j` with `q∈A`, `j∈J`; since `e∈I_R`,
+the invariant lift satisfies `q∈A∩(I_R+J)`. The invariant character-error intersection gives
+`π(q)∈Ĩ`, and evaluation annihilates `j`. By specialization,
+`π(det 𝔈′)=det E′_arith=0` in `K`, so `π(det 𝔈)∈Ĩ`. Use the congruence
+`π(det 𝔈)−det E_arith∈Ĩ` to obtain `det E_arith∈Ĩ` in `T̃`, and only then use
+`det E_arith=(∏_{v∈P}(ξ_v(σ_v)−χ(σ_v))) det D` to give the weighted relation-minor containment
+([DKSW](https://arxiv.org/pdf/2310.16396v2), Proposition 3.3, printed p.21; §§4.4–4.6).
+*Needs:* The determinant difference in the formal error ideal, Lifting the invariant error across
+the full ideal, Invariant intersection with the character error ideal, Evaluation annihilates
+the formal relation ideal, Specialization of the formal auxiliary matrices,
+Vanishing of the altered determinant, Weighted auxiliary matrix.
+
+**Checks.**
+
+- For the schematic type (V) block with `h=1`, specialize `x=2`, `ν=4`, `a=2` over `ℤ`
+  with `Ĩ=(2)`. The altered determinant is zero, `π(e)=−6∈Ĩ`, and the specialization
+  correction is `6−4=2∈Ĩ`; thus the arithmetic determinant `4` belongs to `Ĩ`.
+- With the same `h,x,ν` but `a=7`, one has `π(e)=−11∉(2)` and altered determinant `−5≠0`;
+  the specialization congruence alone supplies neither premise of the comparison.
+- For the arithmetic block `[[2,1],[0,5]]` over `ℤ`, the final weighted minor is `2*5=10`.
+  If comparison places its determinant in `(2)`, the weight cannot be cancelled: `5∉(2)`.
 
 **Weighted Fitting containment.** Assume
 `Module.Finite T N` for the prescribed local quotient, together with Theorem 2.1’s hypotheses, including `χ ≡ ψ`
@@ -4600,7 +4709,9 @@ modulo `m`, local triangularizations `diag(η_v, ξ_v)`, `ξ_v ≡ ψ` on `Σ`, 
 (∏_{v∈P} (ξ_v(σ_v) − χ(σ_v))) · Fitt₀_T(N) · T̃ ⊆ Ĩ.
 ```
 
-The containment is in `T̃`; the local factors need not belong to `T` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf),
+Apply the comparison to each arithmetic `E_arith` attached to a stabilized presentation minor
+`D`, then use its exact weighted identity and the stabilization ordering sign to cover the
+minors generating `Fitt₀_T(N)`. The containment is in `T̃`; the local factors need not belong to `T` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf),
 Theorem 2.1, equation (12), pp.7–8). Finiteness is a premise of this conditional theorem;
 Finite and continuous Ribet modules supplies it when a finite bound is given. *Needs:* Formal determinant comparison.
 
@@ -4632,12 +4743,13 @@ The proof-plan edges are as follows; each names the result that supplies it.
    product supplies Corollary 4.13; the identity `A = H⁰(B, R)` of Trace and determinant
    invariant subring supplies the formal-ring invariant description (Corollary 4.17).
 6. Invariant lifting → formal determinant comparison:
-   Formal determinant comparison combines that lift with the
-   invariant character-error intersection and evaluation of the relation ideal
+   Formal determinant comparison combines that lift for `e=det 𝔈′−det 𝔈` with the
+   invariant character-error intersection and evaluation of the relation ideal, then uses
+   Specialization of the formal auxiliary matrices and `det E′_arith=0` to obtain `det E_arith∈Ĩ`
    (Proposition 3.3, p.21).
 7. Formal determinant comparison → weighted Fitting containment:
    Weighted Fitting containment applies the comparison to the stabilized
-   relation minors and their weighted auxiliary determinants (Theorem 2.1(12), pp.7–8).
+   relation minors via the exact identity for `E_arith` (Theorem 2.1(12), pp.7–8).
 
 **Ribet extension with all local conditions.** Prove `IntegralRibet.local_ribet`. For a noetherian inclusion `T ⊆ T̃`, `T` local and
 both complete for `m_T`, a proper nonzero `Ĩ ⊆ T̃`, `I = Ĩ ∩ T`, `K = Frac(T̃)` a finite product of

@@ -886,7 +886,10 @@ hypotheses of [DKSW], Theorem 2.1, together with a finite `T`-lattice `Λ ⊆ M�
 difference modules whose induced topology is `m`-adic, the local module `N` is finite, `κ` is
 continuous, `κ(G)` and the `y_v` generate `N`, and
 `(∏_{v ∈ P} (ξ_v(σ_v) − χ(σ_v))) · Fitt₀(N) · T̃ ⊆ Ĩ` ([DKSW], Theorem 2.1, pp. 7–8, and §2.1,
-pp. 8–9). -/
+pp. 8–9). For each stabilized relation minor, §6.3 of the roadmap constructs formal matrices
+`𝔈, 𝔈′` with `π(𝔈) ≡ E_arith` entrywise modulo `Ĩ` and `π(𝔈′) = E′_arith`.
+The formal error comparison and `det E′_arith = 0` give `det E_arith ∈ Ĩ`; its exact weighted
+determinant identity supplies the Fitting containment. -/
 theorem local_ribet {Tilde : Type u} [CommRing Tilde] [Algebra A Tilde] [Algebra Tilde B]
     [IsScalarTower A Tilde B] [IsArtinianRing B] [IsPrincipalIdealRing B]
     [IsLocalization (nonZeroDivisors Tilde) B] [IsLocalRing A] [IsNoetherianRing A]
