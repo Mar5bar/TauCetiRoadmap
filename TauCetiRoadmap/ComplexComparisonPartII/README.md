@@ -75,15 +75,31 @@ nonproper comparison, the curve logarithmic and compact-support complexes with r
 specializations and analytic adapters for shared logarithmic structures and de Rham complexes,
 split log cotangent transitivity, and the proper logarithmic comparison over the standard log point.
 
-The scheme geometry of §§C4.3a–C4.3c owns compactification objects, Nagata existence and
-common refinements for separated finite-type morphisms over qcqs bases, over arbitrary base
-schemes in this range. C6 owns the stratified topology of finite-type complex schemes, topological
-local and constructible coefficients, Riemann existence, and finite/adic Artin comparison.
+The scheme geometry of §§C4.3a–C4.3c has its single owner here: `Compactification`,
+`DenseCompactification`, their category, dense replacement, base change, Nagata existence and
+common refinements for separated finite-type morphisms over qcqs bases. The shared implementation
+namespace is `TauCeti.AlgebraicGeometry`; the Noetherian finite-type case uses these same carriers
+and refinement comparisons. SchemeAndStackFoundations §2.19, ClassicalAdicEtaleCohomology §0.8
+and LefschetzPencilsAndVanishingCycles §F.2 consume this geometry and own their respective
+coherent and étale coefficient constructions and independence theorems.
+
+C6 is the single owner of stratified topology of finite-type complex schemes, topological
+local and constructible coefficient carriers, their sheaf–cochain comparisons, Riemann existence,
+the analytic-to-étale site morphism, and ordinary, compact-support and relative finite Artin
+comparison. These use AlgebraicModuliForArithmeticGeometry §7.10.1's analytic-space carrier
+and analytification functor. InverseGaloisAndArithmeticFundamentalGroups uses the same cover
+equivalence and comparison maps for its puncture, ramification and Hurwitz-space adapters.
 C5.1's constant sheaf–singular comparison retains arbitrary abelian coefficients and its
 non-Hausdorff domain. C6 uses it and constructs the additional local-coefficient and compact-support
-theory. The finite/adic étale coefficient categories and their geometric operations are supplied
-by LefschetzPencilsAndVanishingCycles §§F.0–F.4; C6 uses those categories, while their
-nearby-cycle and inertia applications consume C6's general comparison theorems.
+theory.
+
+C6.6 is the single owner of the topological realization of normalized adic systems, its derived
+inverse limit and rationalization, and integral/rational ordinary and compact-support Artin
+comparison. LefschetzPencilsAndVanishingCycles §§F.0–F.4 owns the finite/adic étale coefficient
+categories and their geometric operations; ClassicalAdicEtaleCohomology §§0.1–0.4 owns generic
+enhancements, derived limits and completion. The dependency order is §§F.0–F.3 → C6.0–C6.5,
+with §F.4 additionally supplying C6.6, followed by the nearby-cycle and inertia application
+in §F.9. C6 does not use that application to construct its comparisons.
 
 **Built in other roadmaps and cited.**
 
@@ -1252,6 +1268,10 @@ p. 121). It says nothing about closed analytic subsets of `Aⁿ`. *Needs:* `anal
 `analyticTwistCohomology`; `projectiveGeometricDictionaries`; `remmertSteinExtension`.
 
 ### C4.3a Scheme compactification objects
+
+The carrier and category here, together with §§C4.3b–C4.3c's existence and refinement API,
+are the shared scheme compactification package in `TauCeti.AlgebraicGeometry`. Coherent and
+étale proper-support functors use this package with their own coefficient categories.
 
 **Scheme compactification objects — `Compactification`, `DenseCompactification`.**
 For a separated finite-type morphism `f : X → S` with `S` qcqs, a `Compactification f`
@@ -2495,9 +2515,12 @@ derivations, monoids and group completions, `circleIntegral`.
 
 Use `complexSchemeAnalytification` from AlgebraicModuliForArithmeticGeometry §7.10.1 on
 finite-type complex schemes, and write `T_X` for its underlying topological space. This layer
-compares finite/adic module coefficients. Its algebraic coefficient and operation suppliers are
-LefschetzPencilsAndVanishingCycles §§F.0–F.4 and ClassicalAdicEtaleCohomology's generic
-enhancement; coherent `O_X`-modules and de Rham complexes retain the comparisons of C0–C5.
+owns the topological coefficient carriers, finite-cover equivalence, comparison-site morphism
+and finite/adic Artin equivalences on that analytic carrier. Its algebraic coefficient and
+operation suppliers are LefschetzPencilsAndVanishingCycles §§F.0–F.4 and
+ClassicalAdicEtaleCohomology's generic enhancement; coherent `O_X`-modules and de Rham complexes
+retain the comparisons of C0–C5. The nearby-cycle and inertia compatibility of
+LefschetzPencilsAndVanishingCycles §F.9 consumes these general equivalences.
 
 ### C6.0 Stratified topology of complex algebraic schemes
 
@@ -2732,6 +2755,11 @@ the stalk proof uses §§C6.3–C6.4 and proper/lower-shriek base change.
   specified path, including a loop with nontrivial monodromy.
 
 ### C6.6 Integral and rational Artin comparison
+
+The topological adic realization and both integral and rational Artin equivalences are owned
+here. The étale normalized-system category and classical/pro-étale realizations are those of
+LefschetzPencilsAndVanishingCycles §F.4, and the generic limit/completion operations are those
+of ClassicalAdicEtaleCohomology §0.3.
 
 **Integral and rational Artin comparison — `adicArtinComparison`.**
 Fix a prime `ℓ`, finite-type `X/ℂ` and a normalized system `K_n ∈ Dᵇ_ctf(X_ét,ℤ/ℓⁿ)`,

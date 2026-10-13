@@ -26,6 +26,16 @@ Chow and the algebraization of morphisms, together with scheme compactification 
 logarithmic structures and regular singular connections (C5), and stratified topology,
 Riemann existence and finite/adic Artin comparison (C6).
 
+C4.3a–C4.3c is the single owner of the shared scheme compactification category, dense
+replacement, Nagata existence and refinement comparisons, with implementation namespace
+`TauCeti.AlgebraicGeometry`. Coherent and étale proper-support constructions consume that
+geometry in their respective coefficient categories. C6 is the single owner of topological
+coefficient carriers, Riemann existence, the comparison-site morphism and finite/adic Artin
+comparison. C6.6 constructs the topological adic realization using
+LefschetzPencilsAndVanishingCycles F.4's étale normalized systems and
+ClassicalAdicEtaleCohomology's generic derived limits/completion. F.0–F.4 supply C6;
+F.9's nearby-cycle and inertia comparison consumes C6.
+
 Most of its carriers are not in Mathlib or Tau Ceti at the pinned commits: complex analytic spaces
 with nilpotents, the analytification functor and proper coherent GAGA are built in the
 roadmap AlgebraicModuliForArithmeticGeometry (Layer 7, §7.10), and algebraic spaces, compact
@@ -236,7 +246,8 @@ section C4
 
 /-! ### C4.3a–C4.3c Scheme compactifications -/
 
-/-- **C4.3a, `Compactification`.** A proper factorization with a quasi-compact open interior.
+/-- **C4.3a, `Compactification`.** The shared scheme compactification carrier for coherent
+and étale consumers: a proper factorization with a quasi-compact open interior.
 Existence is asserted for separated finite-type maps over qcqs bases. -/
 structure Compactification {X S : Scheme.{u}} (f : X ⟶ S) where
   Xbar : Scheme.{u}
@@ -520,7 +531,8 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `relativeArtinComparison` give the canonical ctf exchanges, using
   LefschetzPencilsAndVanishingCycles F.0–F.3 and ClassicalAdicEtaleCohomology's enhancement.
   `adicArtinComparison` uses F.4's normalized étale systems and builds their topological
-  derived-complete realization and rationalization. These analytic, triangulated and enhanced
+  derived-complete realization and rationalization. C6 owns these topological carriers and
+  comparison maps; F.9 consumes them for nearby cycles and inertia. These analytic, triangulated and enhanced
   coefficient carriers are specified in the README; ordinary comparison admits nonseparated
   schemes, compact support requires separatedness, and the relative theorem glues over affine
   base opens. No separate analytification or étale adic category is defined here.
