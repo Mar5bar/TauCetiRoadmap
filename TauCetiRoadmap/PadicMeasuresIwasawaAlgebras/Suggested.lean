@@ -760,6 +760,13 @@ example (p : ℕ) [Fact p.Prime] :
     ∀ n : ℕ, Nat.card (M ⧸ (growthTransition p O 0 n • (⊤ : Submodule (PowerSeries O) M))) =
       p ^ (p ^ n) := sorry
 
+-- §4.7: for `p = 2`, `π² = 2` and residue field `𝔽₂`, the level-one order is `4`.
+example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [Finite (IsLocalRing.ResidueField O)] (π : O) (hπ : Irreducible π)
+    (hπ2 : π ^ 2 = (2 : O)) (hk : Nat.card (IsLocalRing.ResidueField O) = 2) :
+    (1 + π) ^ 2 - 1 = π ^ 2 * (1 + π) ∧ IsUnit (1 + π) ∧
+      Nat.card (O ⧸ Ideal.span {(1 + π) ^ 2 - 1}) = 4 := sorry
+
 /-- §4.7, the Euler quotient at level `k`: if `M` is pseudo-isomorphic to the torsion elementary
 module with vertical exponents `mᵢ` and horizontal factors `F_j^{n_j}`, and `M_{Γ_k} = M/ω_kM` is
 finite, then `M^{Γ_k} = M[ω_k]` is finite and `#M_{Γ_k} / #M^{Γ_k} = q^{μ pᵏ} · #(O/Res(F_M, ω_k))`,
@@ -782,6 +789,10 @@ theorem card_quotient_omega_div_card_torsionBy (p : ℕ) [Fact p.Prime] (O : Typ
 end TauCeti.Iwasawa
 
 /-! ## Layer 5: determinants, specialization and exactness -/
+
+-- §5.1: the rank-one zero map induces the zero determinant map.
+example (A : Type*) [CommRing A] :
+    exteriorPower.map 1 (0 : A →ₗ[A] A) = 0 := sorry
 
 -- The Koszul sign: the swap of the two summands of `A²` acts on `⋀² A²` by `−1`.
 example (A : Type*) [CommRing A] :

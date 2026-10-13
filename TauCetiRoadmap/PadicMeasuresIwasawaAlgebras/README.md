@@ -5,11 +5,11 @@ bounded measures on profinite spaces and their duals, completed group algebras w
 identification of measures on ℤ_p with power series, pseudo-measures and their values at characters
 and on the weight space, Weierstrass preparation, the structure theory of finitely generated Iwasawa
 modules with the invariants μ and λ, characteristic and Fitting ideals and how they behave under
-specialisation and exact sequences. We want it because every p-adic L-function in the programme
-(Kubota–Leopoldt, Katz, Hida families, the Rankin–Selberg and triple-product constructions) is a
-measure or a pseudo-measure, and every main conjecture compares a characteristic ideal with such a
-measure. Fixing the measure algebra and the module theory once lets those later roadmaps state their
-theorems against shared, pinned objects.
+specialisation and exact sequences. It supplies the bounded/ordinary measure and pseudo-measure
+foundation for p-adic L-functions and their characteristic-ideal comparisons;
+LocallyAnalyticDistributions extends this foundation to the distributions used in nonordinary
+constructions. Fixing the measure algebra and the module theory once lets those later roadmaps
+state their theorems against shared, pinned objects.
 
 This roadmap builds the analytic and algebraic language that Iwasawa theory shares with the theory
 of p-adic L-functions: bounded measures on profinite spaces and their duals, completed group
@@ -105,11 +105,13 @@ It leaves to named roadmaps:
 - the determinant of a finite locally free sheaf and its pullback comparisons on schemes, to Tau
   Ceti **AlgebraicVectorBundles**, layer 0C; the ring-level foundation both need (invertible
   modules, the determinant of an arbitrary finite projective module by its clopen rank
-  decomposition, locally constant parity, base change and functoriality) is stated once in §5.1.
-  AlgebraicVectorBundles L0C must import this ring-level determinant API and identify its affine
-  sheaf determinant with the sheafification of `projectiveDeterminant`, naturally in isomorphisms
-  and arbitrary ring base change; AlgebraicVectorBundles L0C is to cite this contract in its dependency reference (a companion edit to that roadmap). §5.1
-  imports nothing geometric, and the determinant of a perfect complex is the new work of Layer 5;
+  decomposition, locally constant parity, equal-rank determinant maps and base change) is stated
+  once in §5.1. AlgebraicVectorBundles L0C supplies the sheaf construction and gluing using that
+  ring-level API: on Spec A its determinant is the associated sheaf of `projectiveDeterminant A P`,
+  compatibly with affine pullback and all equal-rank determinant maps, including noninvertible
+  maps. The graded comparison retains the locally constant rank and its parity; the ordinary
+  invertible-sheaf functor forgets the grading. §5.1 imports nothing geometric, and the determinant
+  of a perfect complex is the new work of Layer 5;
 - orders in number fields and the Gorenstein property for those orders, to Tau
   Ceti **GlobalNumberFields**; the character group rings R_Ψ of Layer 6 are orders in products of
   copies of O and may have zero divisors (R_∅ = 0, R_Ψ with Ψ a proper subset of a component), so
@@ -320,10 +322,15 @@ transposes) and never re-plan it.
 
 ### Shared with TauCetiRoadmap.AlgebraicVectorBundles, layer 0C, and TauCetiRoadmap.GlobalNumberFields
 
-AlgebraicVectorBundles owns the determinant of a finite locally free sheaf and its pullback
-comparisons on schemes; the ring-level foundation both roadmaps need is stated once in §5.1 at the
-level of commutative rings and modules, on Mathlib's `exteriorPower` and Tau Ceti's
-`exteriorPower.map_top_eq_det_smul`, and neither roadmap imports the other. GlobalNumberFields has
+AlgebraicVectorBundles L0C owns the sheaf construction, gluing and pullback comparisons; §5.1
+supplies its ring-level foundation on Mathlib's `exteriorPower` and Tau Ceti's
+`exteriorPower.map_top_eq_det_smul`. On Spec A the associated-sheaf comparison identifies
+`projectiveDeterminantMap` with the exterior-power map for every map between finite projectives
+whose rank functions agree, and commutes with identities, composition and arbitrary affine
+pullback. Rank remains the locally constant integer function of the source; reduction modulo two
+gives the graded line's parity. The ordinary `InvertibleSheaf` target forgets this grading;
+Koszul symmetry is compared in graded lines before forgetting. Both consumers use the same
+ring-level library API, and §5.1 imports no scheme-level construction. GlobalNumberFields has
 orders in number fields and the Gorenstein property for those orders; the algebra shared with it is
 the generic lemmas on orders over a Dedekind base, and nothing here depends
 on it.
@@ -3046,6 +3053,9 @@ equal-characteristic failure as an `example`.
   and #M/ω_nM = #𝔽_{p²}[T]/(T^{p^n}) = p^{2p^n}, which the ℤ_p formula p^{p^n} misses.
 - O = ℤ_p[√p] (e = 2, f = 1), M = O⟦T⟧/(T − √p): ω_n acts on O by (1 + √p)^{p^n} − 1, of ϖ-valuation
   2n + 1 for n ≥ 1 (odd p), so #M/ω_nM = p^{2n+1} = p^{efλn + ν} with λ = 1, ν = 1.
+- For p = 2, ϖ = √2 and n = 1, ω₁ = (1 + ϖ)² − 1 = ϖ²(1 + ϖ), with 1 + ϖ a unit.
+  Thus #M/ω₁M = #O/(ϖ²) = 4, whereas 2^{2·1+1} = 8. This excludes the unrestricted small-index
+  formula; the calculation is an `example` in `Suggested.lean`.
 - The equal-characteristic non-example above, recorded as the `example` after
   `TauCeti.Iwasawa.card_quotient_growthTransition_general` in `Suggested.lean`.
 
@@ -3119,8 +3129,9 @@ number of blocks Λ/(π^a), whereas that of M_cycl is the sum of their exponents
   either direction.
 - The minimal resolution of 𝔽_p = Λ/(p, T) is the Koszul complex with (d₀, d₁, d₂) = (1, 2, 1), over
   every coefficient ring O with k, ϖ in place of 𝔽_p, p.
-- Over O = ℤ_p[√p], M = O⟦T⟧/(T − √p) has #M/ω_nM = p^{2n+1}: the ramification index doubles the
-  λ-term of the growth formula.
+- For odd p and n ≥ 1, over O = ℤ_p[√p], M = O⟦T⟧/(T − √p) has #M/ω_nM = p^{2n+1}:
+  the ramification index doubles the λ-term of the growth formula. For p = 2 and n = 1 the order
+  is 4, as in the negative control of §4.7.
 - For O = k⟦ϖ⟧ the growth formula fails (the equal-characteristic check of §4.7).
 - Over ℤ_p with n ≥ 1, ω_n maps to zero and T^{p^n} survives at the same level n; ω_n survives at
   level n + 1. In characteristic p the level-n kernel is (ω_n) = (T^{p^n}).
@@ -3185,7 +3196,13 @@ into clopens U_r, equivalently A = ∏_r A_r and P = ∏_r P_r with P_r of const
 `projectiveDeterminant` by ∏_r ⋀^r_{A_r} P_r and prove it invertible, independent of the rank
 decomposition and its refinements, functorial in isomorphisms, compatible with direct sums, and
 compatible with every ring base change A → A′ ([Stacks
-0FJ9](https://stacks.math.columbia.edu/tag/0FJ9)). The parity `projectiveDeterminantParity` is the
+0FJ9](https://stacks.math.columbia.edu/tag/0FJ9)). For finite projectives P and Q with
+rank(P_x) = rank(Q_x) at every x ∈ Spec A and any A-linear f : P → Q, define
+`projectiveDeterminantMap f` componentwise by ⋀^r f_r, without an invertibility hypothesis.
+Require `projectiveDeterminantMap_id`, `projectiveDeterminantMap_comp` and
+`projectiveDeterminantMap_baseChange`: identities and composition are preserved, and every ring
+base change carries this map to the determinant map of the base-changed f. For isomorphisms it
+recovers the determinant isomorphism. The parity `projectiveDeterminantParity` is the
 locally constant function x ↦ rank(P_x) mod 2. For constant rank r this specializes to (⋀^r_A P, r
 mod 2); its tensor, exterior-map and base-change formulas use Mathlib `exteriorPower` and Tau Ceti
 `exteriorPower.map_top_eq_det_smul`. Define graded lines (L, ε) using ε : Spec A → ℤ/2 locally
@@ -3196,16 +3213,20 @@ line with the same parity (Knudsen–Mumford, Chapter I, pp. 19–23). The API i
 `projectiveDeterminant_refinement`, `projectiveDeterminant_baseChange` and
 `projectiveDeterminant_constantRank`. AlgebraicVectorBundles L0C imports this ring-level API; on
 Spec A its sheaf determinant must be canonically the associated invertible sheaf of
-`projectiveDeterminant A P`, with the rank grading, and this comparison must commute with affine
-pullback and determinant maps. AlgebraicVectorBundles L0C is to cite this shared API in its
-dependency reference (a companion edit to that roadmap); neither side
-introduces a second ring-level determinant. *Needs:* Mathlib `exteriorPower`, `Module.Projective`,
+`projectiveDeterminant A P`, compatibly with affine pullback and `projectiveDeterminantMap` for
+all equal-rank maps. L0C supplies this comparison and its gluing on schemes. Its fixed-rank functor
+to ordinary invertible sheaves forgets the rank/parity grading; the graded comparison retains the
+rank function and its parity, with Koszul symmetry compared before forgetting. Neither side
+introduces a second ring-level determinant. *Needs:* Mathlib `exteriorPower`, `exteriorPower.map_id`,
+`exteriorPower.map_comp`, `Module.Projective`,
 `Module.rankAtStalk`, its local constancy and the clopen/idempotent decomposition of rings; Tau Ceti
-`exteriorPower.map_top_eq_det_smul`. *Lean:* the swap check and the rank-(1,0) check below are
+`exteriorPower.map_top_eq_det_smul`. *Lean:* the rank-one zero-map, swap and rank-(1,0) checks below are
 `example`s; `projectiveDeterminant` and the graded lines are specified here only.
 
 **Checks.**
 - ⋀^1 A = A, odd parity.
+- The zero map A → A has zero determinant map on ⋀^1 A; it is a morphism of the fixed-rank
+  category even though it is not an isomorphism when A is nonzero.
 - For P = A², the swap (e₁, e₂) ↦ (e₂, e₁) acts on ⋀² A² = A·(e₁ ∧ e₂) by −1.
 - ⋀^0 P = A with even parity, for every P.
 - For A = k × k and P = (1,0)A, the ranks and parity on the two components are (1,0); the
@@ -3242,6 +3263,27 @@ line-module foundation above, Mathlib `exteriorPower`, `HomologicalComplex`, `Mo
   A[a^{−1}] sends 1 to a^{−1} and the canonical section A[a^{−1}] → det(P)[a^{−1}] sends 1 to a; so
   the image of det P in A[a^{−1}] is a^{−1}A, not aA.
 - For a finite projective module P of rank r, det(P[0]) = (⋀^r P, r mod 2).
+
+**Exact-triangle determinant corollary.** For a commutative ring A and a distinguished triangle
+P → Q → R → P[1] of perfect complexes in D(A), supply `detLine_exactTriangle`:
+det_A(Q) ≅ det_A(P) ⊗ det_A(R), with the locally constant parity and Koszul signs above.
+Represent the triangle by a map of bounded finite-projective complexes P → Q and its mapping
+cone, apply `detLine_shortExact` to the degreewise split sequence
+0 → Q → Cone(P → Q) → P[1] → 0, and use `detLine_shift` and `detLine_quasiIso` to transport
+the comparison. Require compatibility with isomorphisms of triangles and arbitrary derived
+base change A → A′. In particular, the mapping fibre F = Cone(Q → R)[−1] has
+det_A(F) ≅ det_A(Q) ⊗ det_A(R)^{−1}. This is a corollary of the determinant functor, not a
+separate construction (Knudsen–Mumford, Chapter I, Definition 1, pp. 23–24, and Theorem 1,
+p. 25, applied to the cone sequence). *Needs:* `detLine_shortExact`, `detLine_shift`,
+`detLine_quasiIso`, `detLine_baseChange`, and Mathlib's mapping cones of cochain complexes.
+The determinant carriers and this corollary are specified here only.
+
+**Checks.**
+- P → P → 0 → P[1] gives the identity comparison with the unit line.
+- P → 0 → P[1] → P[1] gives det(P) ⊗ det(P)^{−1} ≅ A with even parity.
+- The triangle P → P ⊕ R → R → P[1] with zero connecting map recovers the direct-sum comparison.
+- For A in degree 0 and a a non-zero-divisor, Cone(a : A → A) is [A --a--> A] in degrees −1, 0;
+  its rational trivialization sends the determinant lattice to a^{−1}A.
 
 **Rational trivialization and the characteristic divisor.** For Λ = O⟦T⟧ with O a complete discrete
 valuation ring with finite residue field, and a perfect complex P of Λ-modules all of whose
@@ -3755,9 +3797,14 @@ The PID input states
 `Nat.card ((Fin m → D) ⧸ LinearMap.range (Matrix.toLin' A)) = Nat.card (D ⧸ Ideal.span {A.det})`
 for a square matrix A over a principal ideal domain D with A.det ≠ 0; no finite-residue-field or
 completeness hypothesis is needed, and `Nat.card` is 0 for an infinite quotient.
-MassFormula §Layer 2 / The index of an image lattice (an open TauCetiRoadmap pull request by
-0stellensatz) states the DVR special case as `card_quotient_range`, to be reconciled with this
-general PID input via the residue-ring cardinality formula.
+This roadmap supplies the generic PID input in
+`TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` using Mathlib's Smith-normal-form API;
+[MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2,
+"The index of an image lattice", consumes that input. Its `card_quotient_range` derives the DVR
+specialization by identifying `Matrix.toLin'` with `Matrix.mulVecLin` and evaluating
+#(D/(π^k)) = (#k_D)^k when det A is associated to π^k. The Smith-normal-form argument has this
+single generic library home; MassFormula supplies the residue-cardinality specialization and
+the Haar scaling application.
 
 **The order of a quadratically presented module over a finite-index order.** (Dasgupta–Kakde Lemma
 2.4.) Let B be a subring of finite additive index of a finite product B′ = ∏_i D_i of principal
@@ -3982,7 +4029,7 @@ every consumer of minors.
 
 | Downstream consumer | Supplied target | Convention and consumer work |
 |---|---|---|
-| MassFormula §Layer 2 / The index of an image lattice (an open TauCetiRoadmap pull request by 0stellensatz) | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` | Identify `Matrix.toLin'` with `Matrix.mulVecLin` on the same coordinates; associated determinants generate the same ideal. MassFormula evaluates the residue-ring cardinality for a DVR determinant associated to π^k as q^k and supplies the Haar scaling law, retaining `card_quotient_range` as its DVR specialization. |
+| [MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2, The index of an image lattice | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` in `TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` | Identify `Matrix.toLin'` with `Matrix.mulVecLin` on the same coordinates; associated determinants generate the same ideal. Derive `card_quotient_range` from this generic input and the DVR residue-ring cardinality q^k. MassFormula supplies the Haar scaling law. |
 
 ## References
 
