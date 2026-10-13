@@ -17,7 +17,10 @@ Design choices made explicit here:
   README (`DeRham.d`, `DeRham.pullback`); here they appear through the predicates
   `DeRham.IsDeRhamDifferential` and `DeRham.IsFormPullback` that characterize them on elementary
   forms, with existence and uniqueness stated as theorems.
-* Derived statements live in Mathlib's `DerivedCategory (ModuleCat A)`. Derived completeness is the
+* Affine derived statements live in Mathlib's `DerivedCategory (ModuleCat A)`. Global de Rham
+  sheaf objects and finite Hodge quotients live in `DerivedCategory (SheafOfModules R)` for the
+  base coefficient sheaf `R`, with the filtered diagram version of README 5.8; cotangent powers
+  and Hodge graded pieces also have quasi-coherent `O_X`-module structures. Derived completeness is the
   vanishing of all morphisms from shifted localizations; complete flatness of a module is stated with
   Mathlib's `CategoryTheory.Tor`. The cotangent complex, derived completion, derived powers and
   derived de Rham cohomology are constructions specified in the README.
@@ -208,6 +211,15 @@ theorem quotientClassicalCompleteness (A : Type) [CommRing A] (N : Type) [AddCom
     [Module A N] (f g : A) (hN : IsAdicComplete (Ideal.span {f}) N)
     (hreg : IsSMulRegular (N ⧸ LinearMap.range (g • (LinearMap.id : N →ₗ[A] N))) f) :
     IsAdicComplete (Ideal.span {f}) (N ⧸ LinearMap.range (g • (LinearMap.id : N →ₗ[A] N))) := by
+  sorry
+
+/-- The series with coefficients `p^(−n)` admits no common p-power denominator. It separates
+inverting `p` after the limit of `ℤ_p[t]/(t^n)` from inverting it before that limit (README 1.15). -/
+theorem test_bdr_p_inverted_inside (p : ℕ) [Fact p.Prime] :
+    ¬ ∃ (N : ℕ) (g : PowerSeries (PadicInt p)), ∀ n : ℕ,
+      (p : Padic p) ^ N *
+          PowerSeries.coeff n (PowerSeries.mk fun k : ℕ => ((p : Padic p) ^ k)⁻¹) =
+        (↑(PowerSeries.coeff (R := PadicInt p) n g) : Padic p) := by
   sorry
 
 end DerivedDeRham
@@ -435,6 +447,15 @@ theorem IsDeRhamDifferential.zero_degree {f : Forms A B 0 →ₗ[A] Forms A B (0
       KaehlerDifferential.D A B b := by
   sorry
 
+/-- Over a nonzero base, `d(t·1) ≠ t·d(1)` in the polynomial de Rham complex. This gives the
+base-linearity obstruction for the finite Hodge quotient of README 5.8. -/
+theorem IsDeRhamDifferential.polynomial_not_linear (R : Type u) [CommRing R] [Nontrivial R]
+    {f : Forms R (Polynomial R) 0 →ₗ[R] Forms R (Polynomial R) (0 + 1)}
+    (hf : IsDeRhamDifferential R (Polynomial R) 0 f) :
+    f (zeroForm R (Polynomial R) Polynomial.X) ≠
+      (Polynomial.X : Polynomial R) • f (zeroForm R (Polynomial R) 1) := by
+  sorry
+
 -- The differential of a base constant is zero.
 example {f : Forms A B 0 →ₗ[A] Forms A B (0 + 1)} (hf : IsDeRhamDifferential A B 0 f) (a : A) :
     f (zeroForm A B (algebraMap A B a)) = 0 := by
@@ -550,6 +571,20 @@ end DerivedDeRham
 /-! ## Layer 5: Quasisyntomic descent, crystalline applications and geometric control -/
 
 namespace DerivedDeRham
+
+/-- The derived category of sheaves of modules over the base coefficient ring sheaf. Global
+de Rham objects and finite Hodge quotients use this carrier (README 5.8). -/
+abbrev baseLinearSheafDerived {C : Type} [SmallCategory C] {J : GrothendieckTopology C}
+    (R : Sheaf J RingCat.{0}) :=
+  letI := HasDerivedCategory.standard (SheafOfModules.{0} R)
+  DerivedCategory (SheafOfModules.{0} R)
+
+/-- The filtered derived category of module sheaves over the base coefficient ring sheaf,
+with decreasing filtrations indexed by `ℤᵒᵖ` (README 5.8). -/
+abbrev baseLinearFilteredDerived {C : Type} [SmallCategory C] {J : GrothendieckTopology C}
+    (R : Sheaf J RingCat.{0}) :=
+  letI := HasDerivedCategory.standard (ℤᵒᵖ ⥤ SheafOfModules.{0} R)
+  DerivedCategory (ℤᵒᵖ ⥤ SheafOfModules.{0} R)
 
 /-- **`Z_p(1)`**, the compatible systems of p-power roots of unity of a p-adically complete ring
 `O`: the kernel of Mathlib's untilt `PreTilt O p →* O`, written multiplicatively (README 5.11). -/
