@@ -902,8 +902,10 @@ theorem finite_rationalStabilizer [Algebra.FiniteType F H]
       (diagonal F H)) := by
   sorry
 
-/-- Covering maps between neat levels: for `U` neat, `U' ≤ U` open and `K∞ ∩ ker H_G` compact,
-`X_{U'} → X_U` is a covering map whose fibres have `[U : U']` elements ([Milne], §5, p. 58). -/
+/-- Covering maps between neat levels: for `U` neat, `U' ≤ U` open and `K∞` closed with
+`K∞ ∩ ker H_G` compact and every value of `H_G` taken on `K∞` (placed at the archimedean
+component), `X_{U'} → X_U` is a covering map whose fibres have `[U : U']` elements
+([Milne], §5, p. 58). -/
 theorem isCoveringMap_levelMap [Algebra.FiniteType F H] (τ : F →+* ℂ) (n : ℕ)
     (ρ : WithConv (H →ₐ[F] F) →* GL (Fin n) ℂ) (hρ : Neat.IsFaithfulAlgebraicPointHom τ n ρ)
     {U U' : Subgroup (FiniteAdelicPoints F H)} (h : U' ≤ U)
@@ -912,7 +914,9 @@ theorem isCoveringMap_levelMap [Algebra.FiniteType F H] (τ : F →+* ℂ) (n : 
     (Kinf : Subgroup (InfinitePoints F H))
     (hKc : IsClosed (Kinf : Set (InfinitePoints F H)))
     (hK : IsCompact {x : AdelicPoints F H | infiniteProjection F H x ∈ Kinf ∧
-      finiteProjection F H x = 1 ∧ logHeight F H x = 1}) :
+      finiteProjection F H x = 1 ∧ logHeight F H x = 1})
+    (hKH : ∀ y : AdelicPoints F H, ∃ x : AdelicPoints F H, infiniteProjection F H x ∈ Kinf ∧
+      finiteProjection F H x = 1 ∧ logHeight F H x = logHeight F H y) :
     IsCoveringMap (levelMap h Kinf) ∧
       ∀ y, Nat.card (levelMap h Kinf ⁻¹' {y}) = U'.relIndex U := by
   sorry

@@ -3975,17 +3975,43 @@ quaternion norms and compact abelian Fourier limits.
   and neatness makes them trivial; the central rational kernel is trivial in this scope
   ([Milne], §5, p. 58). *Needs:* AA.4.4; AA.4.3.
   *Lean:* none; specified in the README only.
-- **Covering maps between neat levels.** For a connected reductive group `G` over `F`,
-  `U′ ⊂ U` compact open with `U` neat, and `K∞` closed with `K∞ ∩ ker H_G` compact (as in
-  *rational-stabilizer-finite*; for instance `K∞` containing `A_G(ℝ)^0` and compact modulo it), prove
-  that `X_{U′} → X_U` is a finite covering of degree `[U : U′]`, and that if `U′` is normal in `U`,
-  the canonical `U/U′` action is free and transitive on each fibre, so this is a principal
-  `U/U′` covering. The rational stabilizer is trivial in this scope. Equality of `U/U′` with the
-  full deck-transformation group additionally requires the usual connectedness hypotheses (in
-  particular connected total space) ([Milne], §5, p. 58). *Needs:* AA.4.4; AA.4.3; Mathlib
+- **Covering maps between neat levels.** For a connected reductive group `G` over `F` (more
+  generally `G` of finite type), `U′ ⊂ U` compact open with `U` neat, and `K∞ ⊂ G(F_∞)` closed
+  such that `K∞ ∩ ker H_G` is compact and `H_G(K∞) = H_G(G(𝔸))` (every value of `H_G` is taken at
+  an adele with archimedean component in `K∞` and finite component `1`), prove that
+  `X_{U′} → X_U` is a finite covering of degree `[U : U′]`, and that if `U′` is normal in `U`, the
+  canonical `U/U′` action is free and transitive on each fibre, so this is a principal `U/U′`
+  covering. For connected reductive `G` both conditions hold when `K∞` contains `A_G(ℝ)^0` and is
+  compact modulo it (*compact-kernel-split-centre*, *log-height-split-centre-iso*). The second
+  condition gives `G(𝔸) = G(𝔸)^1K∞`, and as `H_G` vanishes on `U`, `K∞U ∩ G(𝔸)^1 =
+  (K∞ ∩ ker H_G)U`; so `G(𝔸)/K∞U` is `G(𝔸)^1/(K∞ ∩ ker H_G)U`, a quotient by a compact subgroup, on
+  which the discrete group `G(F)` acts properly discontinuously. The first condition alone gives
+  finite rational stabilizers (*rational-stabilizer-finite*), which neatness makes trivial, but
+  not properness. Equality of `U/U′` with the full deck-transformation group additionally
+  requires the usual connectedness hypotheses (in particular connected total space) ([Milne], §5,
+  p. 58). *Needs:* AA.4.4; AA.4.3; AA.2.1; Mathlib
   `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`; Tau Ceti
   `IsQuotientCoveringMap.isCoveringMap_of_comp`; Mathlib `ProperlyDiscontinuousSMul`.
   *Lean:* `LevelMaps.isCoveringMap_levelMap` (covering map with fibres of `[U : U′]` elements).
+
+  **Checks.**
+  - For `GL_1/ℚ`, `K∞ = ℝ_{>0} = A_G(ℝ)^0`, `U = 1 + 3ℤ̂` and `U′ = 1 + 9ℤ̂`, the decomposition
+    `𝔸^× = ℚ^× × ℝ_{>0} × ℤ̂^×` makes `X_U` and `X_{U′}` the discrete sets `(ℤ/3)^×` and
+    `(ℤ/9)^×`, and every fibre has `[U : U′] = 3` points.
+  - For `SL_2/ℚ`, `a_G = 0` and the two conditions say that `K∞` is compact. With `K∞ = SO(2)` and
+    `U(N) = ker(SL_2(ℤ̂) → SL_2(ℤ/N))`, the map `X_{U(9)} → X_{U(3)}` is `Γ(9)\ℍ → Γ(3)\ℍ`, of
+    degree `27 = |ker(SL_2(ℤ/9) → SL_2(ℤ/3))|`.
+  - The first condition alone does not suffice. Over `F = ℚ(√2)` let `G = G_m`,
+    `η = 17 + 12√2 = (1 + √2)^4`, `L = log η`, `U` and `U′` the kernels of reduction of
+    `𝒪̂_F^×` modulo `4` and `8` (`U` is neat: its rational points are the powers of `η`), and
+    `K∞ = exp Λ` for the lattice `Λ = ℤ(L, 0) + ℤ(√2L, L)` in `ℝ² = log (F ⊗ ℝ)^×_{>0}`. Then `K∞`
+    is closed, `H_G(K∞) = L(ℤ + (1 + √2)ℤ)` and `K∞ ∩ ker H_G = 1`, but `H_G(K∞) ≠ ℝ`. As
+    `η ∈ U ∖ U′`, the classes of `1` and `(η_∞, 1)` in `X_{U′}` are distinct (a rational element
+    relating them is a unit `γ ∈ U′` with `γ_∞⁻¹η_∞ ∈ K∞ ∩ ker H_G`, so `γ = η`) and have the same
+    image in `X_U`. As `η² ∈ U′`, `t ↦ [(exp t, 1)]` on `ℝ²/Λ` is invariant under translation by
+    `2(L, −L)`; modulo `Λ`, `(L, −L) ≡ √2(L, 0)` lies on the circle `ℝ(L, 0)/ℤ(L, 0)`, on which
+    this translation is an irrational rotation. So the two classes are topologically
+    indistinguishable and `X_{U′} → X_U` is not a covering map.
 - **Fibre mass for full stabilizers.** For `F` a number field, `G` connected reductive over
   `F`, `K∞ ⊂ G(F_∞)` closed, `U′ ⊂ U ⊂ G(𝔸_{F,f})` compact open, and `x = [g] ∈ X_U` with
   `A_x = G(F) ∩ gK∞Ug⁻¹` finite (for example by *rational-stabilizer-finite*), prove for the
@@ -4051,9 +4077,9 @@ quaternion norms and compact abelian Fourier limits.
   `T_g` as the pair of maps `X_U ←p₁ X_{U_g} →p₂ X_U`. Prove that
   `(hecke g).1 (mk x) = mk x` (the first map is the level map), that
   `(hecke g).2 (mk x) = mk (x * g)` (`LevelMaps.hecke_snd`), that
-  `T_g` depends only on `UgU`, and that at neat level the degree of `p₁` is
-  `[U : U_g]`, the degree of the double coset `UgU` (`HeckeCoset.degree_eq_relIndex`) ([Arthur],
-  §2, p. 13). *Needs:* AA.4.4; AA.4.5.
+  `T_g` depends only on `UgU`, and that at neat level, for `K∞` as in *Covering maps between neat
+  levels*, `p₁` is a covering of degree `[U : U_g]`, the degree of the double coset `UgU`
+  (`HeckeCoset.degree_eq_relIndex`) ([Arthur], §2, p. 13). *Needs:* AA.4.4; AA.4.5.
   *Lean:* `LevelMaps.hecke` (the dependence on `UgU` and the degree are specified in the README
   only).
 
