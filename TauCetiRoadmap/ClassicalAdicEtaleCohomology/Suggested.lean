@@ -95,6 +95,10 @@ theorem variation_mul (u v : Module.End R M) :
 example : variation (0 : Module.End R M) = -1 := by
   sorry
 
+/-- Scalar endomorphisms give variation five for the composite of two and three. -/
+example : variation (2 * 3 : Module.End ℤ ℤ) = 5 := by
+  sorry
+
 /-- Noncommuting rank-two monodromies distinguish the order of the product term. -/
 example :
     ((!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 0; 1, 1] - 1) =
@@ -409,6 +413,18 @@ example (Aplus : Subring A) : closedAnnulus Aplus 1 1 1 = spa Aplus := by
 example (Aplus : Subring A) : closedAnnulus Aplus 0 0 1 = ∅ := by
   sorry
 
+/-- The support condition excludes a zero coordinate for all annulus radii. -/
+example (Aplus : Subring A) (a b : A) : closedAnnulus Aplus 0 a b = ∅ := by
+  sorry
+
+/-- A zero outer radius excludes the unit coordinate from a punctured disc. -/
+example (Aplus : Subring A) : puncturedDisc Aplus 1 0 = ∅ := by
+  sorry
+
+/-- The zero coordinate belongs to every disc stage, including zero and nonunit radii. -/
+example (Aplus : Subring A) (b : ℕ → A) : openDisc Aplus 0 b = spa Aplus := by
+  sorry
+
 /-- Equal strict inner and outer radii leave no point. -/
 example (Aplus : Subring A) (T a : A) : strictAnnulus Aplus T a a = ∅ := by
   sorry
@@ -446,6 +462,8 @@ ClassicalDerived.tensorHom, ClassicalDerived.inverseLimits, ClassicalDerived.fun
 ClassicalCoefficients.finitePresentationDescent, ClassicalCoefficients.constructibleDerivedDescent,
 ClassicalCoefficients.constructibleHomContinuity, ClassicalAlgebraic.supportLocalization,
 ClassicalAlgebraic.properSupports, ClassicalAlgebraic.finiteTrace, ClassicalAlgebraic.cycleClasses,
+ClassicalAlgebraic.lciCycleClass (regular closed immersions of locally noetherian schemes,
+positive invertible torsion order, without a purity assertion),
 ClassicalAlgebraic.smoothBoundaryPurity, ClassicalAlgebraic.smoothTrace,
 ClassicalAlgebraic.curveDuality.
 Layer 1: AdicSpace.EtaleSheaf, AdicSpace.ProEtaleSheaf, AdicSpace.EtaleDPlus,
@@ -470,7 +488,11 @@ FormalScheme.StrictLocalisationSystem, FormalScheme.CompletionData,
 FormalScheme.CompletionData.phi, FormalScheme.CompletionData.derivedComparison,
 FormalScheme.MicrobialBase, FormalScheme.IsSemistable, SemistableFormalNearbyCycles,
 FormalNearbySymbol, FormalBKHFiltration, FormalBKHZeroSymbolMaps, FormalBKHPositiveSymbolMaps.
-Layer 5: AlgebraicGeometry.ValuationQuadruple, AlgebraicGeometry.ValuationQuadruple.Hom,
+Layer 5: ClassicalAlgebraic.relativeDuality (exceptional f^! on the left-completed ambient
+etale category, separated finitely presented qcqs schemes and noetherian prime-power coefficients
+invertible on the base), ClassicalAlgebraic.IsUniversallyLocallyAcyclic (strict-local acyclicity
+after every scheme base change on the same perfect-constructible coefficient domain),
+AlgebraicGeometry.ValuationQuadruple, AlgebraicGeometry.ValuationQuadruple.Hom,
 AlgebraicGeometry.ValuationQuadruple.nearbyCycles,
 AlgebraicGeometry.ValuationQuadruple.galoisAction,
 AlgebraicGeometry.ValuationQuadruple.nearbyCyclesBaseChange, Valuation.gaussPoly,
