@@ -502,6 +502,13 @@ example (x : AdelicPoints F (LaurentPolynomial F)) :
 example : normOne F (TauCeti.SpecialLinear.coordinateHopfAlgebra F 2) = ⊤ := by
   sorry
 
+-- Ordinary right translation by a point of nonzero height leaves the norm-one carrier.
+example {x g : AdelicPoints F H} (hx : x ∈ normOne F H)
+    (hg : logHeight F H g ≠ 1) : x * g ∉ normOne F H := by
+  change logHeight F H (x * g) ≠ 1
+  rw [map_mul, (show logHeight F H x = 1 from hx), one_mul]
+  exact hg
+
 end AdelicPoints
 
 /-- The invariant top-form line `ω_G = ∧^d (𝔪_ε/𝔪_ε²)` of a group over a field, `d` the dimension of
@@ -1055,6 +1062,21 @@ example : archimedeanScalar F 2 * archimedeanScalar F 3 = archimedeanScalar F 6 
 example : archimedeanScalar F (-1) ∉ posRealsDiag F := by
   sorry
 
+-- Test GL1.normOne_archimedean_sign: over `ℚ`, the idele `−1` at infinity and `1` at every
+-- finite place is norm one and nonprincipal, so its right translation moves the base class.
+example :
+    TauCeti.MultiplicativeGroup.pointsMulEquiv.symm (archimedeanScalar ℚ (-1)) ∈
+      normOne ℚ (LaurentPolynomial ℚ) ∧
+    archimedeanScalar ℚ (-1) ∉ IdeleGroup.principalSubgroup (𝓞 ℚ) ℚ := by
+  sorry
+
+-- Test GL1.not_normOne_archimedean_two: the positive split-central idele `2` at infinity and
+-- `1` at every finite place has nonzero height and cannot multiply the norm-one carrier.
+example :
+    TauCeti.MultiplicativeGroup.pointsMulEquiv.symm (archimedeanScalar ℚ 2) ∉
+      normOne ℚ (LaurentPolynomial ℚ) := by
+  sorry
+
 /-- `X_Q = F^×\𝔸_F^×/U_Q A_∞^0`, with the quotient topology. -/
 abbrev XQ (Q : Finset (HeightOneSpectrum (𝓞 F))) (p n : ℕ) :=
   IdeleGroup (𝓞 F) F ⧸ (IdeleGroup.principalSubgroup (𝓞 F) F ⊔ levelQ F Q p n ⊔ posRealsDiag F)
@@ -1072,6 +1094,13 @@ namespace AdelicExamples.GL2
 
 open scoped MatrixGroups UpperHalfPlane
 open Matrix
+
+-- Test GL2.full_residual_siegel_wall: with `U = n((−1,1))`, `t = 1` and full residual
+-- window `SO(2)`, the upper-half-plane strip still excludes the identity coset `i`.
+example : UpperHalfPlane.I ∉
+    {z : ℍ | (-1 : ℝ) < z.re ∧ z.re < 1 ∧ (1 : ℝ) < z.im} := by
+  intro h
+  exact (lt_irrefl (1 : ℝ)) h.2.2
 
 /-- The finite adeles of `ℚ`. -/
 abbrev Af := IsDedekindDomain.FiniteAdeleRing ℤ ℚ

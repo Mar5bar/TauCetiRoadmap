@@ -1567,12 +1567,16 @@ restriction of scalars.
   the quotient (*quotient-measure*) of the measure on `G(𝔸)^1` induced via
   *split-centre-decomposition*; and its transport to
   `G(F)A_G(ℝ)^0\G(𝔸_F)` by *quotient-norm-one-comparison*. Prove
-  right `G(𝔸)^1`-invariance,
+  right `G(𝔸)^1`-invariance for ordinary translation `[x]·g := [xg]` with
+  `x,g ∈ G(𝔸)^1`. This action satisfies `([x]·g)·h = [x]·(gh)`; in Lean it is a left action
+  of the opposite group `G(𝔸)^1ᵐᵒᵖ`. A multiplier with `H_G(g) ≠ 0` does not preserve the
+  carrier, since `H_G(xg) = H_G(g)` for norm-one `x`. Prove
   that scaling `dx` by `c` scales the quotient measure by `c`, and the
   normalization: with `λ` the Haar measure on `a_G` giving
   the fundamental domains of the integral lattice `Hom(X*_F(G), ℤ)` mass one, a
   measurable `A ⊆ G(𝔸)^1` meeting each `G(F)`-orbit at most once and a measurable `E ⊆ a_G`
-  satisfy `dx(A · (H_G|_{A_G(ℝ)^0})⁻¹(E)) = vol([A]) · λ(E)` ([Borel], Theorem 5.8, p. 22).
+  satisfy `dx(A · (H_G|_{A_G(ℝ)^0})⁻¹(E)) = vol([A]) · λ(E)` ([Borel], Theorem 5.8, p. 22;
+  [Arthur], §3, p. 16).
   Invariance and linearity in `dx` also hold for `c(G) · vol` with a constant depending only on
   `G`; the normalization fixes the constant. *Needs:* AA.2.1; AA.2.2; AA.2.3; AA.1.5.
   *Lean:* none; specified in the README only.
@@ -1583,6 +1587,11 @@ restriction of scalars.
   - For `GL_1`, the norm-one quotient has finite volume while the split component `ℝ_{>0}` is
     not compact, so `ℚ^×\𝔸^×` has infinite volume.
   - For `GL₁/ℚ`, the normalized idele measure gives the norm-one quotient total mass `1`.
+  - The idele `u_∞ = −1`, `u_p = 1` for every finite prime has norm one and is not principal:
+    a rational element with all finite components `1` must be `1`, whose real component is `1`.
+    Thus `[1]·u ≠ [1]` (`GL1.normOne_archimedean_sign`).
+  - The positive split-central idele `g_∞ = 2`, `g_p = 1` has logarithmic height `log 2 ≠ 0`;
+    ordinary translation by it leaves the norm-one carrier (`GL1.not_normOne_archimedean_two`).
   - The lattice condition fixes the scale of `λ`: doubling `λ` gives a fundamental domain mass
     `2`. Over a quadratic field the positive scalar `t` has
     `H_G(t) = 2 log t`, so `λ` corresponds to `2 dt/t` on `A_{G_m}(ℝ)^0`, not `dt/t`.
@@ -2354,17 +2363,22 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
 
 ### 3.2 Real Siegel coordinates and reduced positive forms
 
-- **Horospherical decomposition for a fixed maximal compact.** Let `G` be connected semisimple
-  over `ℚ`, `G = G(ℝ)^+`, `K ⊂ G` a maximal compact subgroup with Cartan involution `θ`, and `𝐏`
+- **Horospherical decomposition for a fixed maximal compact.** Let `𝐆` be connected semisimple
+  over `ℚ`, `G = 𝐆(ℝ)^+`, `K ⊂ G` a maximal compact subgroup with Cartan involution `θ`, and `𝐏`
   a `ℚ`-parabolic with unipotent radical `𝐍_P` and Levi quotient `𝐋_P`. With `S_P` the split
-  centre of `𝐋_P`, `A_P = S_P(ℝ)^0` and `M_P` the real points of `⋂_{χ∈X*(𝐋_P)} ker χ²`, prove
-  that there is a unique `θ`-stable real Levi lift of `(𝐋_P)_ℝ`, giving `P = N_P A_P M_P` and the
-  diffeomorphism `N_P × A_P × ((M_P ∩ G) K) → G` (`M_P` itself can leave `G(ℝ)^+`: for `PGL_2`
-  it contains `diag(−1, 1)`). Define the horospherical data `N_P, A_P, M_P K`, the
-  homeomorphism `G ≃ₜ N_P × A_P × (M_P K)` for fixed `K` and `𝐏`, and the simple
-  roots. Prove that left multiplication by `p_0 = n_0 a_0 m_0` acts
+  centre of `𝐋_P`, `A_P = S_P(ℝ)^0` and `M_P` the full real points of
+  `⋂_{χ∈X*_ℚ(𝐋_P)} ker χ²`, prove that there is a unique `θ`-stable real Levi lift of
+  `(𝐋_P)_ℝ`. Regard `A_P` and `M_P` as subgroups of `𝐆(ℝ)` through this lift and put
+  `M_P^+ := M_P ∩ G`. Prove `𝐏(ℝ) = N_P A_P M_P`,
+  `𝐏(ℝ) ∩ G = N_P A_P M_P^+` and the diffeomorphism
+  `N_P × A_P × (M_P^+ K) → G`, whose inverse supplies the horospherical coordinates.
+  `M_P^+` is the intersection with the ambient identity component, not the identity component
+  of `M_P`. Define the horospherical data `N_P, A_P, M_P, M_P^+, M_P^+ K`, the
+  homeomorphism `G ≃ₜ N_P × A_P × (M_P^+ K)` for fixed `K` and `𝐏`, and the simple
+  roots. Prove that left multiplication by `p_0 = n_0 a_0 m_0 ∈ 𝐏(ℝ) ∩ G`, with
+  `m_0 ∈ M_P^+`, acts
   by `(n, a, m) ↦ (n_0 · (a_0 m_0) n (a_0 m_0)⁻¹, a_0 a, m_0 m)`, that
-  conjugation by `g ∈ G(ℚ)` carries the decomposition for `(𝐏, K)` to that for
+  conjugation by `g ∈ 𝐆(ℚ)` carries the decomposition for `(𝐏, K)` to that for
   `(g𝐏g⁻¹, gKg⁻¹)`, and that for `K′ = uKu⁻¹` with `u ∈ N_P` and
   the Levi lifts identified by conjugation by `u`, the `A`-coordinate satisfies
   `a_{K′}(g) = a_K(gu)`, equivalently `H_{P,K′}(g) = H_{P,K}(gu)`; it need not equal `a_K(g)`
@@ -2373,7 +2387,12 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
-  - For `SL_2(ℝ)`: `(x, a, ±k) ↦ n(x) diag(√a, 1/√a)(±k)`.
+  - For the upper Borel of `SL₂`, `M_P = M_P^+ = {±I}` although `M_P^0 = {I}`;
+    the residual factor is `SO(2)`, and `(x, a, k) ↦ n(x) diag(√a, 1/√a)k`.
+  - For `P = 𝐆 = PGL₂`, `M_P = PGL₂(ℝ)` whereas `M_P^+ = PGL₂(ℝ)^+`;
+    the class of `diag(−1,1)` belongs only to the full `M_P`.
+  - For `P = 𝐆 = G_m`, the same squared-character construction gives `M_P = {±1}`,
+    `M_P^+ = {1}` and `A_P = ℝ_{>0}`.
   - In `SL₂(ℝ)`, take `u = n(1)`, `k = [[0, −1], [1, 0]] ∈ SO(2)`. The upper-half-plane height of
     `ki` is `1` whereas that of `k(1 + i)` is `1/2`. Thus `a_K(k) = 1` but `a_{uKu⁻¹}(k) = 1/2` under
     the parameter `diag(√a, 1/√a)`.
@@ -2393,8 +2412,8 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   - For the Borel of `SL_3` the root `α_1 + α_2` is positive but not simple; truncating by it
     alone does not give `A_{P,t}`.
 - **Siegel set for a fixed maximal compact.** For a `ℚ`-parabolic `𝐏`, a fixed maximal compact
-  `K ⊂ G = G(ℝ)^+`, `t > 0` and bounded (relatively compact open semialgebraic) `U ⊂ N_P`,
-  `W ⊂ M_P K`, define the Siegel set `𝔖(𝐏, K, U, t, W) ⊂ G`,
+  `K ⊂ G = 𝐆(ℝ)^+`, `t > 0` and bounded (relatively compact open semialgebraic) `U ⊂ N_P`,
+  `W ⊂ M_P^+ K`, define the Siegel set `𝔖(𝐏, K, U, t, W) ⊂ G`,
   `𝔖 = U × A_{P,t} × W ⊂ G` in horospherical coordinates associated to `𝐏` and `K`; for a
   connected compact `M ⊂ K`, a Siegel set of `G/M` associated to `K` is the image of such a set.
   The set carrier itself permits arbitrary `U,W` and
@@ -2409,13 +2428,18 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
-  - For `SL_2` and `K = SO(2)`, the image in `ℍ` is `{x + iy : x ∈ U, y > t}`.
+  - For `SL_2` and `K = SO(2)`, the image in `ℍ` is `{x + iy : x ∈ U, y > t}` when
+    `W = M_P^+ K = K`.
+  - For the upper Borel of `SL₂`, `U = {n(x) : −1 < x < 1}`, `t = 1` and the full residual
+    window `W = K`, the image is `{x + iy : −1 < x < 1, y > 1}`; it excludes `i`
+    (`GL2.full_residual_siegel_wall`) and `2 + 2i`. The full residual window gives right
+    `K`-invariance and retains both restrictions.
   - Siegel sets for different `K` are not interchangeable: for `SL_2`, `P` upper triangular and
     `x ≠ i` in `ℍ`, a Siegel set `B_N B_A K_x` is not contained in finitely many
     `SL_2(ℤ)`-translates of Siegel sets for `K_i` (erratum §1.6.1).
-- **Translating and conjugating Siegel sets.** Prove that for `g ∈ G(ℚ)`, `g𝔖g⁻¹` is a Siegel
+- **Translating and conjugating Siegel sets.** Prove that for `g ∈ 𝐆(ℚ)`, `g𝔖g⁻¹` is a Siegel
   set associated to `g𝐏g⁻¹` and `gKg⁻¹`; for `g ∈ G`, `𝔖g` is contained in a Siegel set for `𝐏` and `g⁻¹Kg`;
-  and for `g ∈ 𝐏(ℝ)`, `g𝔖` is contained in a Siegel set for `𝐏` and `K` (exactly, for the sets `U a A_{>0} W`
+  and for `g ∈ 𝐏(ℝ) ∩ G`, `g𝔖` is contained in a Siegel set for `𝐏` and `K` (exactly, for the sets `U a A_{>0} W`
   of the erratum; for Definition 2.3's `A_{P,t}`, up to containment). Consequently, for
   `γ ∈ 𝐆(ℚ)^+`, `γ𝔖` is contained in a Siegel set associated to `γ𝐏γ⁻¹` and the same `K`
   ([BKT], Lemma 2.4, p. 8; [BKT erratum], Remark 1.1(1), p. 2). *Needs:* AA.3.2.
@@ -2513,12 +2537,13 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   *Needs:* AA.3.2.
   *Lean:* none; specified in the README only.
 
-The real carriers use the identity component of the existing infinite points over `ℚ`.
-The real unipotent subgroup `N` is the unipotent subgroup there. The real groups `A` and `M` are
-the conjugates by `u ∈ N(ℝ)` of the rational Levi's positive split component and real norm-one
-subgroup, and `MK` is their residual product with the fixed `K`. The horospherical data require a
-continuous involutive group automorphism with fixed subgroup `K`, inversion on `A`, preservation
-of `M`, and a coordinate homeomorphism whose inverse is **multiplication**. Its logarithm on `A`
+The connected real carrier `G` is the identity component of the existing infinite points over `ℚ`.
+The real unipotent subgroup `N` lies in `G`. The real groups `A` and `M` are
+conjugates by `u ∈ N(ℝ)` of the rational Levi's positive split component and full real norm-one
+subgroup in the ambient infinite points. Put `M^+ = M ∩ G`; the residual factor is `M^+ K`.
+The horospherical data require a continuous involutive group automorphism with fixed subgroup
+`K`, inversion on `A`, preservation of `M^+`, and a coordinate homeomorphism whose inverse is
+**multiplication**. Its logarithm on `A`
 is pinned on every element of `A` by an equation using the Levi's rational
 characters. The three coordinates have smooth local extensions
 in every faithful rational matrix realization; the inverse is matrix multiplication.
@@ -2536,11 +2561,11 @@ recovered from root coordinates. **Check:** take `G=G_m`:
 
 | Interface | Checks |
 |---|---|
-| The real groups `N`, `A`, `M`, `MK`, the horospherical data, the decomposition and the logarithm | N=A=1 and log=0 at one; N=A=1 on K; a split element retains its A-coordinate |
+| The real groups `N`, `A`, `M`, `M^+`, `M^+ K`, the horospherical data, the decomposition and the logarithm | N=A=1 and log=0 at one; N=A=1 on K; a split element retains its A-coordinate |
 | Fixed compact dependence | the Weyl element sends `i` to height 1 but `1+i` to height 1/2; the change-of-compact formula identifies this with the new compact's coordinate |
 | Simple roots, truncated torus, corner chart | at t=1 the identity is excluded if roots exist, corner tuple=1; in rank zero there are no inequalities and an empty tuple; root value 2 gives corner coordinate 1/2 and membership at t=1 |
-| Siegel sets and their quotient images | empty U gives empty set; the strict wall excludes one; an unrestricted residual window gives the whole connected group; the quotient is the literal image under the quotient map |
-| Translation | no change at one; left N-translation moves exactly the N-window; an unrestricted MK-window absorbs right K-translation |
+| Siegel sets and their quotient images | empty U gives empty set; the strict wall excludes one; for the upper Borel of SL₂ with U=n((−1,1)), t=1 and W=K the image is −1<x<1, y>1, excluding i and 2+2i; the quotient is the literal image under the quotient map |
+| Translation | no change at one; left N-translation moves exactly the N-window; the full M^+ K-window absorbs right K-translation |
 
 The conjugation statements for the decomposition and for Siegel sets compare actual rationally
 conjugate Hopf-ideal parabolics and conjugate compacts. The three coordinates conjugate separately, and the
@@ -3196,16 +3221,18 @@ The equation for `S` also specifies its real algebraic group: base change the
 rational split torus, then conjugate by the real point `u` on every real algebra.
 `logA` takes values in the existing `RealCharacterSpace`. A triple exists with
 a given Cartan compact and a given rational minimal parabolic.
-Its `N` is the actual real unipotent radical, `M⁺=M⁰`, and the window group is `N M⁺`.
+Its `N` is the actual real unipotent radical; the window group is `N M⁰`, where `M⁰` is
+`M`'s own identity component. This differs from `M_P^+ = M_P ∩ 𝐆(ℝ)^+` in AA.3.2:
+for the upper Borel of `SL₂`, `M⁰={I}` while `M_P^+={±I}`.
 [Orr], Lemma 2.1 and §2.B, pp. 6–7.
 
 **Checks.** For `G_m`, `S=G_m(ℝ)` with no simple roots;
 for the trivial group `A=N=1`; with `K=SO₂` the tilted torus is excluded.
-The defining stability equation is checked as well. For `G_m`, `N=M⁺=1` and `NM⁺={1}`; for the
+The defining stability equation is checked as well. For `G_m`, `N=M⁰=1` and `NM⁰={1}`; for the
 trivial group that set is the whole one-point group; for a standard `SL₂` triple,
-`N={[[1,x],[0,1]]}`, `M⁺=1`, and `NM⁺=N`.
+`N={[[1,x],[0,1]]}`, `M⁰=1`, and `NM⁰=N`.
 
-A window of a triple is a compact `Ω⊆NM⁺` together with `t>0`. The two set definitions
+A window of a triple is a compact `Ω⊆NM⁰` together with `t>0`. The two set definitions
 are the cone `{a∈A : exp(logA(a)(α))≥t for all simple α}` and
 the domain `Ω·cone(t)·K`. These use weak inequalities; the comparison with the horospherical
 Siegel sets of AA.3.2 changes thresholds when passing to their strict inequalities. Membership in
@@ -3379,14 +3406,13 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   ordered bases in which every image form is `C`-reduced ([BKT], §4.5, p. 18 (arXiv v2); JAMS p. 933). *Needs:* AA.3.7; AA.3.2; AA.3.6.
   *Lean:* none; specified in the README only.
 
-**Further carrier Checks.** Three discriminating Checks for each auxiliary object; none of these
-Checks has a Lean form.
+**Further carrier Checks.** Discriminating Checks for each auxiliary object.
 
 | Object | Three discriminating Checks |
 |---|---|
 | The splitting `a_{P₁} ≃ a_{P₂} × a_{P₁}^{P₂}` (AA.3.1) | equal parabolics give `(a,0)`; a relative vector gives `(0,a)`; a lifted quotient vector gives `(a,0)` |
 | The infinite diagonal `G(F) → G(F_∞)` (`AdelicPoints.infiniteDiagonal`) | identity; the actual scalar coordinate; distinct rational points stay distinct |
-| The right action on the norm-one quotient | identity multiplier; successive right multipliers occur in their original order; nonzero logarithmic height moves the base coset |
+| Ordinary right translation on the norm-one quotient, by `G(𝔸)^1` as in AA.2.3 | identity multiplier; ([x]·g)·h=[x]·(gh); the idele with u_∞=−1 and u_p=1 for all finite p moves the base class over ℚ; the idele with g_∞=2 and g_p=1 is excluded since xg has nonzero height |
 | Unipotent rational points | identity; `[[1,1],[0,1]]`; exclusion of `diag(2,1/2)` |
 | The `S`-projection and `S`-diagonal (AA.3.4) | identity; unchanged infinite factor; exact value at every retained finite place |
 
@@ -3415,7 +3441,7 @@ These check the logarithm itself, beyond its simple-root evaluations.
 | The split component `A_P` | contains one; finite projection is one; unique positive split-Levi preimage. |
 | The real identity component | one point for the trivial group; negative component of `G_m` excluded; all real SL₂ points included. |
 | Real subgroup points in the ambient real group | identity; exact quotient evaluation; distinct real subgroup points remain distinct. |
-| The real groups `N`, `A`, `M`, `MK` | one-point factors for the trivial group; for `G_m`, `N=M=1`, `A=G⁺`, `MK=K`; at `P=G` without characters, `N=A=1`, `M=G⁺`, `MK=G⁺`; nonempty simple roots force `N≠1`. |
+| The real groups `N`, `A`, `M`, `M^+`, `M^+ K` | one-point factors for the trivial group; for G_m, N=1, M={±1}, M^+=1, A=G⁺ and M^+ K=K; at P=𝐆=PGL₂, N=A=1, M=PGL₂(ℝ), M^+=G and M^+ K=G; for the upper Borel of SL₂, M=M^+={±I} while M⁰=1; nonempty simple roots force N≠1. |
 | `Reduction.levelArithmetic` | the whole level gives all rational points (`Reduction.level_full`); the trivial level gives only one; exact finite diagonal membership at `x = 1` (`Reduction.level_identity`). |
 
 ### Examples
@@ -4587,6 +4613,14 @@ in the same rational representation. ALS retains existence for arbitrary real gr
 - For `SL₂`, the compact twist is `SU(2)` and both fixed subgroups are `SO(2)`.
 - For `G_m`, inversion has compact twist `S¹` and fixed subgroup `{±1}`; the identity
   involution has noncompact twist `ℝ^×` and satisfies neither Cartan presentation.
+
+The generic adelic quotient and Tamagawa-measure interfaces referenced as `TamagawaMeasures`
+in IntegralLattices are supplied here by AA.1–AA.2 and the finite-volume targets of AA.3.4.
+OrthogonalTamagawaAndLatticeMass owns the orthogonal specialization and its mass comparison.
+The finite-image Artin factors, induction and leading-coefficient statements referenced under
+`ArtinRepresentations` in LFunctions are owned by AA.2.4; LFunctions supplies the Hecke analytic
+statements used there. These ownership assignments concern the stated generic-measure and
+finite-image targets, rather than all subjects envisaged under either successor name.
 
 ## References
 
