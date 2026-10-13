@@ -396,6 +396,17 @@ this README only, in the subsection given in the last column.
 | `wl_point` | `definition_toBase_2` | D1.8 |
 | `wl_map_swap` | `definition_map_1` | D1.8 |
 
+### From other open roadmap pull requests
+
+These are supplier targets under their proposed names, rather than declarations at the pins.
+
+| Contract | Supplier and exact label | Retained gap / consumer |
+| --- | --- | --- |
+| S820a | CommRingFactorizationSystems §F1 / Seminormal and absolutely weakly normal rings: `IsSeminormalRing`, `IsSeminormalRing.existsUnique_of_cube_eq_sq` (an open TauCetiRoadmap pull request by JakobScholbach) | Reducedness with existence versus unique square–cube lifting; all-affine-open testing and rigid gluing for D6.9 `Rigid.IsSeminormal`. |
+| S820b — Check input | CommRingFactorizationSystems §F1 / `IsSeminormalRing.of_isIntegrallyClosed` (an open TauCetiRoadmap pull request by JakobScholbach) | Requires `[IsDomain R] [IsIntegrallyClosed R]` on normal domain charts for `rigid_seminormal_normal`; for normal affinoids with several components, decompose into a finite product of normal domains and assemble the supplied lifts componentwise before testing all affine opens. No new unrestricted normal-ring theorem. |
+| S820c — affine construction input | CommRingFactorizationSystems §F4 / `snRing`, `snMap`, `sn_lift`, and the README target `isIso_snMap_of_seminormal` (an open TauCetiRoadmap pull request by JakobScholbach) | Reverse the direction of `Spec` for the ring unit `A → snRing A`; establish finite affinoid realization, restriction compatibility and rigid gluing for D6.9 `Rigid.seminormalization` and `Rigid.seminormalization_id`. The fixed-ring theorem is not in the supplier's Lean prototype. |
+| S820d — outbound comparison | DiamondsAndVStacks §D1.7 / `IsWLocalSpace`, `IsWLocalSpace.isHomeomorph_connectedComponentsMk`; CommRingFactorizationSystems §C5 / `IsWLocalRing`, `PrimeSpectrum.closedPoints` (an open TauCetiRoadmap pull request by JakobScholbach) | D1.1 `openCoversSplit_iff` compares split covers with a unique closed point per component on spectral spaces; specialize to `PrimeSpectrum A` and identify the closed-point loci. C5 can cite this comparison for its ring-facing class; the predicates are not assumed definitionally equal. |
+
 ### From Mathlib
 
 Mathlib supplies the general identities used to compute the Checks:
@@ -3484,6 +3495,11 @@ closed points is closed and its restriction of `ConnectedComponents.mk` is a hom
 `IsWStrictlyLocalPerfectoid.isStrictlyTotallyDisconnected` (a w-strictly local space is strictly
 totally disconnected). *Needs:* D1.1; D1.4; PerfectoidSpaces layer P2 (completed residue fields);
 Mathlib `SpectralSpace`, `IsClosed`.
+
+CommRingFactorizationSystems §C5 / `IsWLocalRing`, `PrimeSpectrum.closedPoints` (an open
+TauCetiRoadmap pull request by JakobScholbach) states the prime-spectrum special case, so reconcile
+the formulations using D1.1 `openCoversSplit_iff` on spectral spaces and then specializing to
+`PrimeSpectrum A`, as in contract S820d.
 
 **Checks.**
 
@@ -9909,7 +9925,8 @@ PerfectoidTowers P9.12 (function descent `O_Y = (h_* O_{X_∞})^G` over a semino
 *function-descent-seminormal-base*) is its specialisation to a tower and a consumer. Seminormality
 of a ring and of a rigid space, and the seminormalisation as a universal homeomorphism terminal
 among seminormal spaces over `X`, are those of [KL16] Definition 1.4.1, p. 19, and Remark 3.7.3, p.
-80. *Needs:* D6.4; D6.5; AdicEtaleGeometry A1.12; PerfectoidTowers P9.1.
+80. *Needs:* D6.4; D6.5; AdicEtaleGeometry A1.12; PerfectoidTowers P9.1;
+CommRingFactorizationSystems §F1 (S820a), through the geometric affine predicate below.
 
 **Checks.**
 
@@ -9942,7 +9959,8 @@ layer R0, and which is not the perfectoid-affinoid Rem. 3.7.7; [HK] §2.2, rigid
 conventions and seminormal full faithfulness, p. 15). *Needs:* D6.4; D6.5; D2.9; the seminormal
 structure-sheaf comparison above (AdicEtaleGeometry A1.12; PerfectoidTowers P9.1, the affinoid
 perfectoid basis); AdicSpacesPartII layer R0 (affinoid algebras and étale morphisms of Huber pairs);
-the seminormalisation construction below ([KL16] Remark 3.7.3).
+the seminormalisation construction below ([KL16] Remark 3.7.3), with the affine inputs of
+CommRingFactorizationSystems §F1 and §F4 (S820a–S820c).
 
 `Rigid.Base p` is a complete Tate field with a continuous embedding of `ℚ_p` and maximal
 plus ring. `Rigid.Space p K` is the full subcategory of Yoneda-adic spaces over this base
@@ -9950,9 +9968,19 @@ covered by spectra of topologically finite type `K`-algebras with their power-bo
 rings. Each chart equation identifies its structural map with the supplied `K`-algebra map.
 This is the adic realization of the fixed-field `TauCetiRoadmap.AdicSpacesPartII.RigidSpace`
 carrier in AdicSpacesPartII §R1.1; §R1.7 specifies the rigid–adic comparison.
-`Rigid.IsReducedSpace` tests reducedness on affine opens. `Rigid.IsSeminormal` adds the
-square-cube criterion: `b³ = c²` has a solution `a² = b`, `a³ = c` on every affine open
-([KL16] Definition 1.4.1, p. 19, and Remark 3.7.3, p. 80).
+`Rigid.IsReducedSpace` tests reducedness on affine opens.
+
+**Affine seminormality predicate.** Provides the seminormal ring predicate tested on the function
+ring of every rigid affine open. Supplied by CommRingFactorizationSystems §F1 / Seminormal and
+absolutely weakly normal rings (`IsSeminormalRing`) (an open TauCetiRoadmap pull request by
+JakobScholbach). F1 uses unique square–cube lifting on arbitrary rings, whereas the reduced affine
+formulation uses existence; the retained affine adapter establishes that these formulations agree
+on reduced affine function rings (S820a).
+
+**`Rigid.IsSeminormal`.** Every affine function ring satisfies the supplied
+`IsSeminormalRing` of CommRingFactorizationSystems §F1. The geometric adapter compares this
+all-affine-opens condition with reducedness and existence of square–cube lifts, and establishes
+restriction compatibility and rigid gluing; reducedness makes such a lift unique.
 
 `Rigid.reduction` and `Rigid.reduction_toBase` satisfy `Rigid.reduction_universal`:
 composition gives unique lifts from reduced rigid spaces. `Rigid.IsFinite` uses finite
@@ -9973,7 +10001,12 @@ the finite universal homeomorphism `X^sn → X`; prove `Rigid.seminormalization_
 seminormal rigid `T`, composition with this map is a bijection `Hom_K(T,X^sn) ≃ Hom_K(T,X)`. Thus it
 is terminal among seminormal rigid spaces over `X`. Prove `Rigid.seminormalization_id` for
 seminormal `X` and compatibility with restriction to affinoid opens. Theorem 3.7.4 of [KL16] proves
-seminormality of perfectoid rings; it is not the adjunction statement.
+seminormality of perfectoid rings; it is not the adjunction statement. The affine algebra input is
+CommRingFactorizationSystems §F4 / `snRing`, `snMap`, `sn_lift`, and the README target
+`isIso_snMap_of_seminormal` (an open TauCetiRoadmap pull request by JakobScholbach), under S820c:
+the ring unit `A → snRing A` reverses direction under `Spec`, and this roadmap establishes the
+finite affinoid realization, compatibility with affine restriction and rigid gluing before
+deducing `Rigid.seminormalization_id`.
 
 **Checks.**
 

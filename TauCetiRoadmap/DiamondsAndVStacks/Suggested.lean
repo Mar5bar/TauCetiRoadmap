@@ -243,7 +243,11 @@ example : OpenCoversSplit ℕ ∧ ¬ CompactSpace ℕ := sorry
 example (X : PreAdicSpace.{u}) [IsEmpty X] : isTotallyDisconnected X := sorry
 
 /-- A *w-local* space (BS15 Definition 2.1.1, p. 6; ECD Definition 7.4, p. 31): a spectral space
-all of whose open covers split and whose closed points form a closed subset. -/
+all of whose open covers split and whose closed points form a closed subset.
+CommRingFactorizationSystems §C5 / `IsWLocalRing` (an open TauCetiRoadmap pull request by
+JakobScholbach) states the prime-spectrum special case; `openCoversSplit_iff` supplies the
+comparison with unique closed points per component before specialization to `PrimeSpectrum A`
+(README contract S820d). -/
 def IsWLocalSpace (X : Type u) [TopologicalSpace X] : Prop :=
   SpectralSpace X ∧ OpenCoversSplit X ∧ IsClosed {x : X | IsClosed ({x} : Set X)}
 
