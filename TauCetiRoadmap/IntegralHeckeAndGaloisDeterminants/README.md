@@ -1955,12 +1955,12 @@ simple-module isomorphism classes and is their finite product of full endomorphi
 [SemisimpleAlgebras, layer 2][semisimplealgebras2], Bound on orthogonal nonzero corners.
 
 **Centers of bounded algebraic semisimple factors.** Under Lemma 2.14 hypotheses over `k` and
-`k^sep`, prove that the division factors are finite over their centers, that their center
-extensions have finite separable part and purely inseparable exponent bounded by the largest
-`p`-power below `n`, and that finite dimension over `k` follows if `k` is perfect, `[k : k^p] < ∞`,
-or `p > n`. Finite dimension over a factor center is kept separate from finite dimension over the
-original field; the separable-center alternatives and the inseparable exponent are established in
-the norm classification ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 2.14, pp.29–30). *Needs:*
+`k^sep`, prove that the division factors are finite over their centers, that each center `k_i` has
+maximal separable subextension `separableClosure k k_i` finite over `k` and satisfies
+`k_i^q ⊆ separableClosure k k_i` for `q` the largest power of the exponential characteristic below
+`n` (so `k_i/k` is finite separable in characteristic zero), and that finite dimension over `k`
+follows if `k` is perfect, `[k : k^p] < ∞`, or `p > n`. Finite dimension over a factor center is
+kept separate from finite dimension over the original field ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 2.14, pp.29–30). *Needs:*
 Finiteness of simple factors, [SemisimpleAlgebras, layer 4][semisimplealgebras4].
 
 **Determinants on split simple factors.** Over algebraically closed `k`, prove that a faithful
@@ -1979,14 +1979,143 @@ the law of `D`.
 *Needs:* Determinants on split simple factors.
 *Lean:* `matrixModule`, `Determinant.exists_semisimple_ofMatrix_eq`.
 
-**Faithful quotients over arbitrary fields.** For any field `k` and positive-dimensional determinant,
-prove that `R/ker D` is a finite product of matrix algebras over division rings finite over their
-centers, with determinant a product of reduced norms and bounded inseparable norm laws. It is
-finite over `k` under the three conditions of bounded-centers, and can fail to be finite over an
-arbitrary imperfect `k` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.16, pp.31–32). *Needs:*
-Semisimple reconstruction of field determinants. The statement records the nonempty product
-decomposition with positive block sizes; the center bounds and norm formulas are the separate
-targets above.
+**The Frobenius law of a finite-exponent extension.** Let `k` be a field of exponential
+characteristic `p` and `L/k` a field extension with maximal separable subextension
+`L_s = separableClosure k L`. The extension has *finite exponent* `(f, q)` if `L_s` is finite over
+`k` of degree `f` and `IsPurelyInseparable.HasExponent L_s L` holds, with
+`q = p ^ IsPurelyInseparable.exponent L_s L`. Thus `q` is the least power of `p` with
+`L^q ⊆ L_s`, `q = 1` exactly when `L = L_s`, and only `q = 1` occurs in characteristic zero; `q`
+is not `[L : L_s]`, which can be larger or infinite. For each commutative `k`-algebra `B` define
+
+```text
+F^q_B : B ⊗_k L → B ⊗_k L_s,    Σ_j b_j ⊗ ℓ_j ↦ Σ_j b_j^q ⊗ ℓ_j^q.
+```
+
+Prove that it is well defined: `(b, ℓ) ↦ b^q ⊗ ℓ^q` is additive in each variable, as `B ⊗_k L`
+has characteristic `p` when `q > 1`, and `k`-balanced, as `λ^q ∈ k` for `λ ∈ k`. Prove that
+followed by the injection `B ⊗_k L_s → B ⊗_k L` it is `x ↦ x^q`, and hence that `F^q` is natural
+in `B`, multiplicative with `F^q(1) = 1` and homogeneous of degree `q`. It is therefore a
+`k`-polynomial law `L → L_s`; its ground map is `IsPurelyInseparable.iterateFrobenius` at the
+exponent. When `L_s = k` it is a faithful `k`-valued determinant of dimension `q` on `L`
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 2.9, p.28, and the construction before
+Theorem 2.16, p.31). *Needs:* Mathlib `PolynomialLaw`, `separableClosure`,
+`IsPurelyInseparable.HasExponent`, `IsPurelyInseparable.exponent`,
+`IsPurelyInseparable.iterateFrobenius`.
+
+**Checks.**
+
+- If `L = L_s`, for instance in characteristic zero or for `ℂ/ℝ`, then `q = 1` and `F^1` is the
+  identity law: the degenerate case, which a construction always raising to the `p`-th power would
+  fail.
+- For `k = 𝔽₂(u, v)` and `L = k(√u, √v)` the exponent is `(1, 2)` and `F²(√u) = u`, a law of
+  degree `2`. Mathlib's `Algebra.norm k` on `L` has degree `[L : k] = 4` and sends `√u` to `u²`,
+  so the field norm is not this law.
+- For `k = 𝔽_p(u₁, u₂, …)` and `L = k(u_i^{1/p} : i ≥ 1)` the exponent is `(1, p)` although
+  `[L : k]` is infinite: `F^p` has degree `p`, whereas `Algebra.norm k` on `L` is identically `1`
+  by `Algebra.norm_eq_one_of_not_module_finite`.
+- Over `B = k[t]`, `F^q(t ⊗ ℓ) = t^q ⊗ ℓ^q`: the coefficients are raised to the `q`-th power too.
+  In the `𝔽₂(u, v)` example, extending the ground map `B`-linearly by `b ⊗ ℓ ↦ b ⊗ ℓ²` is not well
+  defined, since `u ⊗ 1 = 1 ⊗ u` would go to both `u ⊗ 1` and `u² ⊗ 1`.
+
+**Norm determinant of a central simple algebra.** Let `L/k` have finite exponent `(f, q)` and let
+`C` be a central simple `L`-algebra of degree `n`, so `dim_L C = n²`; it is Azumaya over `L` of
+constant rank `n²` ([SemisimpleAlgebras, layer 4][semisimplealgebras4]). Regard its reduced norm
+`Nrd_{C/L}` as a `k`-polynomial law `C → L`, evaluating it at `B ⊗_k L` through
+`B ⊗_k C ≅ (B ⊗_k L) ⊗_L C`, and let `N_{L_s/k} = Determinant.ofMatrix (Algebra.leftMulMatrix b)`
+for a `k`-basis `b` of `L_s`. Define, with `PolynomialLaw.comp`,
+
+```text
+δ_C = N_{L_s/k} ∘ F^q ∘ Nrd_{C/L} : C → k.
+```
+
+Prove that `δ_C` is a `k`-valued determinant of dimension `n f q` on the `k`-algebra `C`,
+independent of `b`, with ground value `Algebra.norm k (Nrd_{C/L}(c)^q)` at `c ∈ C`. Prove also
+that `L ⊗_k k^sep` is a product of `f` fields `L_i`, each separably closed, purely inseparable over
+`k^sep` of exponent `q` and permuted transitively by `Gal(k^sep/k)`, and that the scalar extension
+of `δ_C` to `k^sep` is the product of the `δ_{C ⊗_L L_i}`
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), the construction before Theorem 2.16, p.31, and
+the proof of Lemma 2.17, p.32). *Needs:* The Frobenius law of a finite-exponent extension, Azumaya
+reduced-norm determinant, The determinant of a matrix representation, Scalar extension of
+determinants, Mathlib `PolynomialLaw.comp`, `Algebra.leftMulMatrix`, `Algebra.norm_eq_matrix_det`,
+`Algebra.FormallyEtale.equivPiOfIsSepClosed`.
+
+**Checks.**
+
+- For `C = L = ℂ` over `k = ℝ`, `(n, f, q) = (1, 2, 1)` and `δ_ℂ(a + bi) = a² + b²`: a
+  construction omitting the separable norm would not be `ℝ`-valued.
+- For the Hamilton quaternions over `L = k = ℝ`, `δ_ℍ = Nrd` has dimension `2`, while the
+  determinant of the left regular representation `ℍ → M₄(ℝ)` is `Nrd²`: a construction through
+  the regular representation of `C` over `k` would have the wrong dimension.
+- For `k = 𝔽₂(u, v)`, `L = k(√u, √v)` and `C = M₂(L)`, `δ_C = (det)²` has values in `k` and
+  dimension `n f q = 4`, whereas `Algebra.norm k ∘ det` has dimension `n [L : k] = 8`: the
+  inseparable factor enters through `q = 2`, not through `[L : L_s] = 4`.
+
+**Determinants on central simple algebras over finite-exponent extensions.** For `L/k` of finite
+exponent `(f, q)` and a central simple `L`-algebra `C` of degree `n`, prove that every `k`-valued
+determinant `D` of dimension `d` on the `k`-algebra `C` equals `δ_C^m` as polynomial laws for a
+unique `m ≥ 0`, so that `d = m n f q`. Uniqueness is homogeneity. A determinant is determined by
+its scalar extension along an injective coefficient map, by the determinant coordinate ring, so
+it suffices to work over `k′ = k^sep`, where `δ_C` is the product of the `δ_{C ⊗_L L_i}` and `D`
+is a product of determinants `D_i` on the factors `C ⊗_L L_i`. Each factor is split, by the étale
+matrix splitting of `C` and `Algebra.FormallyEtale.equivPiOfIsSepClosed`. On a factor write
+`K = L_i`, so `C ⊗_L K ≅ M_n(K)`, and extend scalars to `K`: the kernel `I` of
+`K ⊗_{k′} K → K` is generated by elements `x ⊗ 1 − 1 ⊗ x` whose `q`-th powers vanish, so every
+finitely generated `I₀ ⊆ I` is nilpotent and the nilpotent two-sided ideals `M_n(I₀)` lie in the
+kernel. The extended determinant factors through `M_n(K)`, where it is `det^s` with `d_i = ns`:
+for `d_i ≥ 1` it is faithful, `M_n` being simple, so after extension to an algebraic closure
+Determinants on split simple factors and the inner conjugacy of automorphisms of `M_n` apply, and
+the result descends by injectivity. The values `a^s` of `D_i` at `diag(a, 1, …, 1)` lie in `k′`
+for all `a ∈ K`, which forces `q ∣ s`, because an element purely inseparable over `k′` whose
+`u`-th power lies in `k′` with `p ∤ u` lies in `k′`. Hence `D_i = δ_{C ⊗_L K}^{s/q}`, and Galois
+equivariance makes the `f` exponents equal
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 2.17 and its proof, pp.31–32, with Lemma
+2.15, p.30). *Needs:* Norm determinant of a central simple algebra, Determinant coordinate ring,
+Scalar extension of determinants, Determinants on product algebras, Nilpotent ideals vanish under
+field determinants, The induced law on M/Ker(P) is faithful, Restriction of determinants,
+Determinants on split simple factors, SchemeAndStackFoundations §2.22
+`IsAzumaya.exists_etale_matrix_splitting`, Mathlib `Algebra.FormallyEtale.equivPiOfIsSepClosed`,
+Tau Ceti `TauCeti.exists_unit_conj_of_algEquiv`.
+
+**Checks.**
+
+- For `C = L = ℂ` over `k = ℝ`, the `ℝ`-valued determinants on `ℂ` are the powers of the norm,
+  all of even dimension. By One-dimensional determinants are algebra homomorphisms, a
+  dimension-one determinant would be an `ℝ`-algebra map `ℂ → ℝ`, so a classification admitting
+  `z ↦ z` would fail.
+- For the Hamilton quaternions over `ℝ`, the determinant of the left regular representation on
+  `ℝ⁴` is `δ_ℍ²`, with `m = 2`, `n = 2` and `f = q = 1`.
+- For `k = 𝔽₂(u, v)` and `C = L = k(√u, √v)` the determinants are `(F²)^m` of dimension `2m`.
+  The field norm is the case `m = 2`, so a classification by powers of `Algebra.norm k` would miss
+  every odd `m`, beginning with `F²` itself.
+
+**Faithful quotients over arbitrary fields.** For any field `k` and a determinant `D : R → k` of
+dimension `d ≥ 1`, prove that there are finitely many, and at least one, field extensions `k_i/k`
+of finite exponent `(f_i, q_i)` and central simple `k_i`-algebras `S_i` of degree `n_i ≥ 1`, with a
+`k`-algebra isomorphism `R/ker D ≅ ∏_i S_i` under which the induced law of `D` is the product
+`∏_i δ_{S_i}^{m_i}` of polynomial laws, with uniquely determined `m_i ≥ 1` and
+`d = Σ_i m_i n_i f_i q_i`; positivity of the `m_i` is faithfulness. In particular `R/ker D` is
+semisimple, and it is finite over `k` exactly when every `k_i` is, which holds if `k` is perfect,
+if `char k = p > 0` with `[k : k^p] < ∞`, or if `d < p`; over an arbitrary imperfect `k` it can
+fail. The proof checks the hypotheses of Lemma 2.14 with `n = d + 1` for `R/ker D` and its
+separable base change, applies the center bounds, splits `D` along the product and classifies each
+factor ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.16, pp.31–32). *Needs:*
+The induced law on M/Ker(P) is faithful, Faithful determinants are Cayley–Hamilton, Separable
+algebraic base change of the determinant kernel, Field Cayley–Hamilton radical and kernel, Bound on
+orthogonal nonzero corners, Centers of bounded algebraic semisimple factors, Determinants on
+product algebras, Determinants on central simple algebras over finite-exponent extensions.
+
+**Checks.**
+
+- For `k = 𝔽_p(u₁, u₂, …)`, `R = L = k(u_i^{1/p} : i ≥ 1)` and `D = F^p` of dimension `p`, `D` is
+  faithful with one factor `S_1 = k_1 = L` and `(n, f, q, m) = (1, 1, p, 1)`, and `R/ker D = L` is
+  infinite-dimensional over `k`: finite dimension over every field would be false, and a dimension
+  formula with `[k_1 : k]` in place of `f_1 q_1` would be meaningless.
+- For `R = ℂ × ℝ` over `ℝ` and `D(z, x) = |z|² x` of dimension `3` there are two factors, with
+  `(n, f, q, m)` equal to `(1, 2, 1, 1)` and `(1, 1, 1, 1)`: a formula `Σ m_i n_i` without the
+  separable degrees would give `2`.
+- For `R = ℍ` over `ℝ`, the reduced norm and the determinant of the regular representation have
+  the same faithful quotient `ℍ`, with `m = 1` and `m = 2`: the multiplicities are read from the
+  law, not from the algebra.
 
 **Residual determinant properties.** For `D : R → A` with `A` local and residue field `k`, the
 residual determinant is `D̄ : R/mR → k`. It is split when its faithful quotient `(R/mR)/ker(D̄)` is
@@ -4372,19 +4501,69 @@ DKSW Lemma 5.9, p.42, without identifying repeated-index wedges with relations.
 prove that their determinant difference `e = det E′ − det E` lies in
 `I_R = (a_i + ν_i, b_i, c_i, d_i)` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.3, p.19). *Needs:* Weighted auxiliary matrix, Formal Ribet matrix ring.
 
-**Pairing determinant terms along a local column.** Suppose a square matrix has a distinguished
-column whose nonlocal entries lie in `J′`, each local row has entries `b_σ` and `x_σ − a_σ` in
-that column and its unique place column, and same-place `2 × 2` minors lie in `J′`. Prove that its
-determinant belongs to `J′` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.20, equation (54), pp.31–32). *Needs:*
-Formal Ribet relation ideals.
+**Pairing determinant terms along a local column.** Let `J′` be an ideal of a commutative ring
+and `M` a square matrix over that ring whose rows are partitioned into nonlocal rows and pairwise
+disjoint local blocks `L_v`, indexed by places `v`. Fix a distinguished column `c` and, for each
+place, a place column `p_v ≠ c`. Assume:
+
+1. `M_{r,c} ∈ J′` for every nonlocal row `r`;
+2. `M_{r,p_v} ∈ J′` for every place `v` and every row `r ∉ L_v`, for instance because the place
+   column vanishes off its block;
+3. `M_{r,c} M_{r′,p_v} − M_{r,p_v} M_{r′,c} ∈ J′` for every place `v` and rows `r, r′ ∈ L_v`.
+
+Prove `det M ∈ J′`. In the Leibniz expansion, the term of a permutation has a factor in `J′`
+unless the row `w` it sends to `c` lies in a block `L_v` and the row `w′` it sends to `p_v` lies in
+the same block. On the remaining terms, exchanging the values at `w` and `w′` is a sign-reversing
+involution without fixed points, and each pair sums to a minor of condition 3 times a common
+product. The source applies this to local rows with entries `b_σ` and `x_σ − a_σ`, whose minors
+are `B_στ` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.20, equation (54),
+pp.31–32), and to local rows with entries `t b_σ` and `x_σ − a_σ` or `x_σ − a_σ − t b_σ`, whose
+minors are `t B_στ` (Lemma 4.21, equation (55), pp.32–33). *Needs:* Mathlib `Matrix.det_apply`.
+
+**Checks.**
+
+- Over `ℤ` with `J′ = 0`, take `I₂` with distinguished column `1`, row `1` the only local row of a
+  place with place column `2`, and row `2` nonlocal. Conditions 1 and 3 hold, the only minor having
+  `r = r′`, but `M_{2,2} = 1` violates condition 2 and `det I₂ = 1`; over `ℤ[a, b, x]` the matrix
+  `[[b, x − a],[0, 1]]` has determinant `b` in the same way. Without condition 2 the statement is
+  false.
+- Take `I₂` with both rows in one block, distinguished column `1` and place column `2`: conditions
+  1 and 2 are vacuous, the minor of the two rows is `1` and `det I₂ = 1`, so condition 3 is needed.
+- The `1 × 1` matrix `(1)` with its row local and `p_v = c` satisfies conditions 1–3, its only
+  minor vanishing, and has determinant `1`, so the place column must differ from `c`.
 
 **Unipotent invariance for product rows.** Prove that replacing every product row of `E′` by its
-image under the lower unipotent universal element `τ_t` leaves `det E′` unchanged modulo `J′`
-([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.20, pp.31–32). *Needs:* Pairing determinant terms along a local column, Lower-Borel stability of relation ideals.
+image under the lower unipotent universal element `τ_t` leaves `det E′` unchanged modulo `J′R[t]`
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.20, pp.31–32). Prove first that in
+`E′` the column of a place is zero on every row not attached to that place: the column of `v ∈ P`
+among the first `|P|` columns is nonzero only at its diagonal entry and the type (IV) entries at
+`v`, and a `y_v` column is nonzero only on the type (V) rows at `v`. The difference of
+determinants is the sum of the determinants of the matrices in which a nonempty set of product
+rows `w` is replaced by `τ_t(w) − w`, which has `t b_j` in the `ρ_i` column and `−t b_i` in the `ρ_j` column for the index
+`(i, j)` of `w`, and vanishes if `i = j`. Fix one such row with `i ≠ j`, replace it by `t` and `−t`
+in those columns, multiply the `ρ_i` and `ρ_j` entries of every other row by `b_i` and `b_j`, and
+add to the `ρ_i` column the `ρ_j` column and `b_k` times every other `ρ_k` column; the
+determinant is unchanged. The result satisfies the pairing hypotheses with distinguished column
+the new `ρ_i` column, nonlocal rows those of types (I)–(III), whose entries there lie in `J′`,
+local blocks the local rows of each place, with entries `b_σ`, and place columns the columns of
+the places. The operations leave these columns unchanged, so they vanish off their own rows, and
+the same-place minors are `B_στ`. *Needs:* Pairing determinant terms along a local column,
+Lower-Borel stability of relation ideals.
 
-**Unipotent invariance for one local block.** Prove that changing the local rows for one place
-from `x_σ − a_σ` to `x_σ − a_σ − t b_σ` leaves `det E′` unchanged modulo `J′`, even when earlier
-local blocks have already changed ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.21, pp.32–33). *Needs:* Pairing determinant terms along a local column, Lower-Borel stability of relation ideals.
+**Unipotent invariance for one local block.** Prove that changing the local rows for one place `v`
+from `x_σ − a_σ` to `x_σ − a_σ − t b_σ` leaves `det E′` unchanged modulo `J′R[t]`, even when the
+product rows and earlier local blocks have already changed
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.21, pp.32–33). Adding `t b_j` times
+every `ρ_j` column to the `v` column of the changed matrix restores the entries `x_σ − a_σ` on the
+rows at `v`, puts `t b_σ` on the local rows at every other place `v′`, and puts elements of
+`J′R[t]` on the rows of types (I)–(III), by lower-Borel stability. By linearity in the `v` column,
+the difference of the two determinants is the determinant of the matrix whose `v` column is the
+difference of the two `v` columns and whose other columns are unchanged. It satisfies the pairing
+hypotheses with distinguished column the `v` column, nonlocal rows those of types (I)–(III) and
+the rows at `v`, local blocks the rows at the other places `v′`, and their columns as place
+columns, which vanish off those rows. The same-place minors are `t B_στ`, whether or not the block
+at `v′` has already changed. *Needs:* Pairing determinant terms along a local column, Lower-Borel
+stability of relation ideals.
 
 **Borel invariance of the determinant difference.** Prove that the image of
 `e = det E′ − det E` in `R/J′` is `B`-invariant ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 4.19, pp.30–33).
