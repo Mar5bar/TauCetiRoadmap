@@ -50,6 +50,24 @@ namespace TauCetiRoadmap.ArithmeticGaloisRepresentations
 
 universe u u' v v' w w'
 
+namespace LinearMap
+
+/-- Local restatement of AdicSpacesPartIII §R3.8, to be replaced by the import once that roadmap is merged.
+Concrete projective trace carrier for the §7.2 consumer alias; its categorical interpretation is
+supplied by PivotalSpherical Layer 2 (an open TauCetiRoadmap pull request by kim-em). -/
+def projectiveTrace (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N]
+    [Module.Finite R N] [Module.Projective R N] : Module.End R N →ₗ[R] R :=
+  contractLeft R N ∘ₗ (dualTensorHomEquiv R N N).symm.toLinearMap
+
+/-- Local restatement of AdicSpacesPartIII §R3.8, to be replaced by the import once that roadmap is merged.
+Finite-free compatibility used by the §7.2 Check, proved from Mathlib's contraction formula. -/
+theorem projectiveTrace_eq_trace {R : Type*} [CommRing R] {N : Type*} [AddCommGroup N]
+    [Module R N] [Module.Finite R N] [Module.Projective R N] [Module.Free R N] :
+    projectiveTrace R N = _root_.LinearMap.trace R N := by
+  exact (_root_.LinearMap.trace_eq_contract' R N).symm
+
+end LinearMap
+
 /-! ## Layer 1: continuous representations and integral models -/
 
 /-- A continuous representation of `Γ` on the finitely generated projective `A`-module `M` carrying
@@ -2127,14 +2145,15 @@ theorem index_ge_of_ne_top_PSL2 {k : Type*} [Field k] [Finite k]
     Nat.card k + 1 ≤ H.index := by
   sorry
 
-/-- For `q ≥ 4`, `SL₂(F_q)` is perfect and every normal subgroup of `GL₂(F_q)` contains `SL₂(F_q)` or
-is central; the simplicity of `PSL₂(F_q)` is Mathlib's
+/-- For `q ≥ 4`, every normal subgroup of `GL₂(F_q)` contains `SL₂(F_q)` or is central.
+A₁ perfectness is supplied by CFSGBasicProperties §T1–T2 (an open TauCetiRoadmap pull request by
+kim-em), after the proved identification of its root-generated fixed-point carrier with matrix
+`SL₂(F_q)`; `PSL₂` simplicity is Mathlib's
 `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`. -/
 theorem normal_subgroups_GL2 {k : Type*} [Field k] [Finite k] (hq : 4 ≤ Nat.card k) :
-    commutator (Matrix.SpecialLinearGroup (Fin 2) k) = ⊤ ∧
-      ∀ N : Subgroup (GL (Fin 2) k), N.Normal →
-        (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) k →* _).range ≤ N ∨
-          N ≤ Subgroup.center (GL (Fin 2) k) := by
+    ∀ N : Subgroup (GL (Fin 2) k), N.Normal →
+      (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) k →* _).range ≤ N ∨
+        N ≤ Subgroup.center (GL (Fin 2) k) := by
   sorry
 
 /-- For `p ≥ 5`, `a ≥ 2` and a finite `G ≤ GL₂(F̄_p)` containing `g SL₂(F_{p^a}) g⁻¹`, every
@@ -2949,11 +2968,13 @@ variable {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   {M : Type*} [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M]
   [TopologicalSpace M] [IsModuleTopology A M]
 
-/-- The trace `End_A(M) → A` of a finite projective module, by contraction (`φ ⊗ m ↦ φ(m)`);
-Mathlib's `LinearMap.trace` is `0` on a non-free module (§7.2). -/
+/-- Local consumer alias for AdicSpacesPartIII R3.8 `LinearMap.projectiveTrace`, realizing the
+PivotalSpherical Layer 2 duality trace; retained for `adZero`, `tracePairing_perfect` and
+`adZero_to_adQuot`. The standard symmetric duality and tensor-unit/scalar comparison are §7.2
+consumer obligations. -/
 def endTrace (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] : Module.End R N →ₗ[R] R :=
-  contractLeft R N ∘ₗ (dualTensorHomEquiv R N N).symm.toLinearMap
+  LinearMap.projectiveTrace R N
 
 /-- `ad ρ` on `End_A(M)` by conjugation: Mathlib's `Representation.linHom ρ ρ`. -/
 def ad (ρ : ContinuousRep Γ A M) [Module.Finite A (Module.End A M)]
@@ -3007,7 +3028,7 @@ theorem adZero_to_adQuot [Module.Free A M] (hn : 0 < Module.finrank A M) :
 -- trace vanishes; over `F₂` in rank two `1 ∈ ad⁰`.
 example (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Module.Free R N]
     [Module.Finite R N] : endTrace R N = LinearMap.trace R N := by
-  sorry
+  exact LinearMap.projectiveTrace_eq_trace
 
 example (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N] [Module.Finite R N]
     [Module.Projective R N] (h : ¬ Module.Free R N) : LinearMap.trace R N = 0 := by

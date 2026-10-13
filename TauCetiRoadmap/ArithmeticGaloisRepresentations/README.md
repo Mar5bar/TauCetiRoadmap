@@ -453,6 +453,16 @@ dimension bounds. These period subtargets use the earlier local and cohomologica
 | Labelled Sen operators and character-weight criteria | §7.6 below | Owned targets |
 | Logarithm, Lie and minuscule semisimplicity comparison | §7.6 below | Owned targets |
 
+### From other open roadmap pull requests
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Ordinary A₁ perfectness | CFSGBasicProperties §T1–T2 / ordinary and graph-twisted groups, perfectness (an open TauCetiRoadmap pull request by kim-em; no separate declaration name given) | §4.3 `GL2Subgroup.normal_subgroups_GL2`: prove full matrix SL₂/fixed-root carrier equivalence and match `#k ≥ 4`. |
+| Projective-unitary simplicity | CFSGBasicProperties §T1–T2 / `IsSimpleGroup d.Group`, assembled by `CFSGIndex.isSimpleGroup` (an open TauCetiRoadmap pull request by kim-em) | §7.12 verification: unitary/derived-central-quotient comparison, `q = p` versus `p²`, rank, validity and small exceptions. |
+| Grössencharacter continuation and completed equation | LFunctions §Layer 6 / Grossencharacters, `grossencharacterData_hasContinuation`, `grossencharacterData_hasFunctionalEquation`, `Grossencharacter.completed_one_sub`, `Grossencharacter.completed_one_sub_eventuallyEq` (an open TauCetiRoadmap pull request by roed-math) | §2.7 Global inputs: type A₀, primitive conductor, inverse/shift/poles; prove the Tate-local product identification and the needed complex norm-twist extension here. |
+| Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace (`leftTrace`, `rightTrace`, common spherical `trace`) (an open TauCetiRoadmap pull request by kim-em) | §7.2 standard symmetric module duality and tensor-unit/scalar identification. |
+| Concrete projective contraction trace | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | §7.2 `ContinuousRep.endTrace` consumer alias and finite-free Check; retain the real-bodied local restatement of `LinearMap.projectiveTrace` and its Mathlib-based compatibility lemma in `Suggested.lean` until the supplier import replaces them, without assuming finite projective modules are free. |
+
 ## How to read the build
 
 Layer 1 is the carrier and its integral theory and is used by every other layer. Layer 2 adds the
@@ -1452,13 +1462,26 @@ unramified, and `ε(ω ω_s, ψ, dx_ψ) = ω(ϖ^{ν+c}) q^{(1/2−s)(ν+c)} 𝔤
 (Deligne 1973, 3.4, p. 528, and 5.5.3–5.7.1, p. 549). Intended signature of the constant:
 `tateLocalConstant (ω : Kˣ →* ℂˣ) (ψ : AddChar K ℂ) (μ : Measure K) : ℂˣ`.
 
-**Global inputs.** Prove that Hecke `L`-functions of Grössencharacters of number fields satisfy their
-functional equation with the product of Tate's local constants, hence that Artin `L`-functions do, by
-Brauer induction; and the globalisation lemmas: a finite extension of local fields and a character of
-its Weil group are the completions at one place of a global extension and a global character with
-prescribed behaviour at finitely many other places (Deligne 1973, 3.12 (A)–(C), p. 533, and Lemmas
-4.12–4.16, pp. 544–547). *Needs:* `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6
-(Brauer's induction theorem); `TauCetiRoadmap.ClassFieldTheory` layers 7 and 9.
+**Global inputs.** Provides continuation and the completed functional equation for algebraic
+Grössencharacters of type A₀. Supplied by LFunctions §Layer 6 / Grossencharacters
+(`grossencharacterData_hasContinuation`, `grossencharacterData_hasFunctionalEquation`,
+`Grossencharacter.completed_one_sub`, `Grossencharacter.completed_one_sub_eventuallyEq`)
+(an open TauCetiRoadmap pull request by roed-math). Use the primitive conductor, shifted unitary
+completion and inverse-character reflection with the supplier's polar/germ convention; this roadmap
+identifies its root number and conductor factors with the product of Tate local constants,
+including the archimedean factors (Deligne 1973, 3.12 (A)–(C), p. 533).
+
+For the nonalgebraic characters needed in globalisation, extend the supplied equation to complex
+norm twists `χ = χ₀ |·|_𝔸^t`, with `χ₀` of type A₀ and `t ∈ ℂ`, by shifting the completion and
+reflecting against the inverse character, pointwise away from the reflected polar divisors and as
+germs everywhere. Construct the prescribed global characters in this class. Prove the Artin
+functional-equation application by Brauer induction using this equation and the Tate-local product
+identification; and prove the globalisation lemmas: a finite extension of local fields and a
+character of its Weil group are the completions at one place of a global extension and a global
+character with prescribed behaviour at finitely many other places (Deligne 1973, Lemmas 4.12–4.16,
+pp. 544–547). *Needs:* the LFunctions §Layer 6 supplier contract above;
+`TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6 (Brauer's induction theorem);
+`TauCetiRoadmap.ClassFieldTheory` layers 7 and 9.
 
 **Deligne–Langlands local constants.** Define `epsilonWeil V ψ dx ∈ ℂ^×` for complex representations
 of `W_K` with open kernel on inertia: the unique function multiplicative in exact sequences, scaling
@@ -1916,12 +1939,20 @@ normaliser indices `f_i ∈ {1, 2}`) forces `H` to be cyclic, dihedral of order 
 `S_4` or `A_5`; likewise in `PGL₂(k)` for `char k ∤ Ω` (Dickson 1901, §256, pp. 280–282). *Lean:*
 `GL2Subgroup.finite_subgroup_PGL2_of_prime_to_char`.
 
-**Normal subgroups.** Prove that for `k = F_q`, `q ≥ 4`: `SL₂(k)` is perfect; the normal subgroups of
-`GL₂(k)` are central or contain `SL₂(k)`; those of `SL₂(k)` are `1`, `{±1} ∩ SL₂` and `SL₂`; `PSL₂` is
-the only proper nontrivial normal subgroup of `PGL₂` for `q` odd, and `PGL₂ = PSL₂` for `q` even;
+**Normal subgroups.** Provides perfectness of the ordinary finite A₁ root-generated group used in
+the SL₂/GL₂ normal-subgroup argument. Supplied by CFSGBasicProperties §T1–T2 / ordinary and
+graph-twisted groups, perfectness (an open TauCetiRoadmap pull request by kim-em). This roadmap
+proves that the root-generated fixed-point group is the full matrix `SL₂(k)`, transports commutator
+perfectness across that equivalence, and matches the valid A₁ indices with `#k ≥ 4`.
+
+Using the CFSGBasicProperties §T1–T2 supplier contract, prove that for `k = F_q`, `q ≥ 4`: the normal
+subgroups of `GL₂(k)` are central or contain `SL₂(k)`; those of `SL₂(k)` are `1`, `{±1} ∩ SL₂` and
+`SL₂`; `PSL₂` is the only proper nontrivial normal subgroup of `PGL₂` for `q` odd, and `PGL₂ = PSL₂`
+for `q` even;
 `GL₂^ab ≅ k^×` and `PGL₂^ab ≅ k^×/k^{×2}`; and that the fields with `q ≤ 3` need separate statements.
 The simplicity of `PSL₂(k)` is Mathlib's `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`.
-*Needs:* Mathlib `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`; Tau Ceti
+*Needs:* CFSGBasicProperties §T1–T2 as above; Mathlib
+`Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`; Tau Ceti
 `Matrix.SpecialLinearGroup.not_isSolvable_fin_two`. *Lean:* `GL2Subgroup.normal_subgroups_GL2`.
 
 **Automorphisms.** Prove that `Aut PSL₂(F_q) = Aut PGL₂(F_q) = PGL₂(F_q) ⋊ Gal(F_q/F_p)` for `q ≥ 4`;
@@ -2927,10 +2958,17 @@ the base change isomorphism and transitivity (BCGP, §2.2, p. 18). *Needs:* Math
 
 ### 7.2 Adjoint, trace pairing and Schur's lemma
 
-**The adjoint.** For `ρ` of rank `n ≥ 1` define `ContinuousRep.ad ρ` on `End_A(M)` by conjugation
-(Mathlib's `Representation.linHom ρ ρ`),
-`ContinuousRep.endTrace = contractLeft ∘ (dualTensorHomEquiv A M M)⁻¹` (not `LinearMap.trace`, which
-is `0` on a non-free `M`), `ContinuousRep.adZero ρ = ker endTrace` and
+**The adjoint.** Provides the duality trace used to form the trace-zero adjoint and trace pairing.
+Supplied by PivotalSpherical §Layer 2 / Left and right trace and the common spherical `trace`
+(an open TauCetiRoadmap pull request by kim-em). This roadmap proves the comparison using standard
+symmetric duality on finite projective modules and the tensor-unit/scalar identification, with the
+concrete contraction carrier supplied by AdicSpacesPartIII §R3.8 / *projective-module-trace*,
+`LinearMap.projectiveTrace`.
+
+For `ρ` of rank `n ≥ 1` define `ContinuousRep.ad ρ` on `End_A(M)` by conjugation
+(Mathlib's `Representation.linHom ρ ρ`), `ContinuousRep.endTrace` as a local consumer alias for the
+AdicSpacesPartIII §R3.8 projective trace in the supplier contracts,
+`ContinuousRep.adZero ρ = ker endTrace` and
 `ContinuousRep.adQuot ρ = ad ρ / A·1`, both of rank `n² − 1` and kept distinct. Prove that the trace
 pairing is perfect and invariant and `ad⁰ ρ ≅ (ad ρ / A·1)^∨` over every `A`; that `ad⁰ → ad/A·1` has
 kernel `A[n]·1` and cokernel `A/nA`, so it is an isomorphism, with `ad = A·1 ⊕ ad⁰`, exactly when
@@ -2938,7 +2976,8 @@ kernel `A[n]·1` and cokernel `A/nA`, so it is an isomorphism, with `ad = A·1 �
 Its API is `ad ≅ M ⊗ M^∨`, perfectness, the splitting when `n` is invertible, `1 ∈ ad⁰` iff `n = 0` in
 `A`, kernel and cokernel, base change, the `n = 2` isomorphisms, and the Weil–Deligne adjoint
 `WeilDeligneRep.ad (r, N) = (ad r, [N, −])` (CHT, §2.1, p. 7; ACC+, after Def. 6.2.29, p. 1044).
-*Needs:* Mathlib `Representation.linHom`, `dualTensorHomEquiv`; Tau Ceti `ContRepresentation.linHom`.
+*Needs:* PivotalSpherical §Layer 2 and AdicSpacesPartIII §R3.8 as above; Mathlib
+`Representation.linHom`; Tau Ceti `ContRepresentation.linHom`.
 *Lean:* `ContinuousRep.endTrace`, `ContinuousRep.ad`, `ContinuousRep.adZero`, `ContinuousRep.adQuot`,
 `ContinuousRep.tracePairing_perfect`, `ContinuousRep.adZero_to_adQuot`, `WeilDeligneRep.ad`.
 
@@ -3749,7 +3788,16 @@ these conditions (BCGNT, Def. 5.2.1, pp. 50–51; ACC+, Thm 6.1.1(3)–(4), p. 1
 - For `G_ℚ → GL₂(F_7)` onto with cyclotomic determinant, `SL₂(F_7)` is adequate and enormous, and the
   scalar `2 · 1` has `ε̄ = det = 4 ≠ 1`, so (TW3) holds.
 
-**Verification lemmas.** Prove (BCGNT unless stated): for `F/ℚ` Galois and `H/F` finite with Galois
+**Verification lemmas.** Provides projective-unitary simplicity for the valid finite Lie-type
+groups used by the Taylor–Wiles verification. Supplied by CFSGBasicProperties §T1–T2 / ordinary and
+graph-twisted simplicity (`IsSimpleGroup d.Group`, assembled by `CFSGIndex.isSimpleGroup`)
+(an open TauCetiRoadmap pull request by kim-em). This roadmap constructs the fixed-point-to-unitary
+`MulEquiv` and centre/derived-group comparison: for `m ≥ 3`, identify `PSU_m(F_{p²})` with the derived
+central quotient for twisted `A_{m−1}` at `q = p`, translate the supplier's `Valid` hypothesis and
+small exceptions, handle `m = 2` through the ordinary A₁ identification, and split off `m = 1`.
+
+Using this CFSGBasicProperties §T1–T2 supplier contract, prove (BCGNT unless stated): for `F/ℚ`
+Galois and `H/F` finite with Galois
 closure over `ℚ` linearly disjoint over `F` from `F(ζ_p)` times the Galois closure of the field of
 `s̄`, the images over `H` and `H(ζ_p)` equal those over `F` and `F(ζ_p)`, and the conditions hold for
 `s̄|_{G_H}` (Lemma 5.2.2, p. 51); for `n, m ≥ 1`, `F/ℚ` Galois, `r̄_A : G_F → GL₂(F_p)` with
@@ -3758,9 +3806,10 @@ closure over `ℚ` linearly disjoint over `F` from `F(ζ_p)` times the Galois cl
 projective fixed fields linearly disjoint over `F(ζ_p)`, `s̄(G_{F(ζ_p)})` is adequate;
 `det r̄_A = ε̄^{−m}` and multiplier `ε̄^{1−m}` for `r̄_B` put `s̄` in `GU_{mn}(F_{p²})` with
 multiplier `ε̄^{1−mn}`; and `ε̄(G_F) = F_p^×` gives (TW3) (Lemma 5.2.4, pp. 52–53), the proof using
-the simplicity of `PSU_m(F_{p²})` outside its small exceptions and its automorphism group (Steinberg,
-*Lectures on Chevalley groups*, §10, Thm 30), which are part of this target (BCGNT, Lemma 5.2.3, pp.
-51–52); for `E/ℚ` cyclic of degree `m` with `p ∤ m`, linearly disjoint from `F`, `L = EF`,
+the supplied projective-unitary simplicity through the carrier comparison above and the
+automorphism-group theorem, which this target proves (Steinberg, *Lectures on Chevalley groups*,
+§10, Thm 30; BCGNT, Lemma 5.2.3, pp. 51–52); for `E/ℚ` cyclic of degree `m` with `p ∤ m`, linearly
+disjoint from `F`, `L = EF`,
 `ψ : G_L → F_p^×`, `r̄_B = Ind ψ`, `q` split in `F`, unramified for `r̄_B`, with `Frob_q` generating
 `Gal(E/ℚ)`, the eigenvalues of `r̄_B(Frob_v)` (`v | q`) are `λ, ζλ, …, ζ^{m−1}λ` in `F̄_p`, `ζ` a
 primitive `m`-th root of unity (Lemma 5.2.5, pp. 53–54); for `n, m ≥ 1`, `r̄_A` as above,
