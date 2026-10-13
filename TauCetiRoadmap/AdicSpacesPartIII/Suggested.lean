@@ -33,6 +33,14 @@ file states the parts that are a few lines over the pinned carriers:
   finite locally free algebra with affine checks of the pull–identify–trace normalisation, and
   the Gel'fand spectrum of a Banach ring.
 
+The R3.6 Banach targets (*completely-continuous-map*,
+*strictly-completely-continuous-closed-target*, *completely-continuous-finite-cokernel*,
+*restriction-strictly-completely-continuous*, *almost-noetherian-integral-affinoid-modules*)
+are README-only contracts: RigidAnalyticGeometry's Banach prerequisites, items 1, 2, 4 and 5,
+supply the strict predicate and analytic theorems. Part III supplies their lattice/norm,
+integral-presentation and rigid–adic comparisons and the series criterion for that predicate.
+The general-Tate extension (*surjection-small-perturbation*) also remains a README target.
+
 Completeness includes the Hausdorff property.
 -/
 

@@ -86,9 +86,17 @@ RigidAnalyticGeometry, CompactOperators and PadicFunctionalAnalysis, roadmaps of
 contributed to TauCetiRoadmap ahead of this one, own Kiehl's Theorems A and B on quasi-Stein
 spaces, Kiehl's proper mapping theorem with the finiteness, completion and base-change theorems
 for proper coherent cohomology, completed extension of the ground field for affinoid algebras,
-coherence of analytified sheaves and proper GAGA (RigidAnalyticGeometry), completely continuous
-maps (CompactOperators) and closed complements in Banach spaces of countable type
-(PadicFunctionalAnalysis). R3 cites them at the labels of the corresponding targets and reads
+coherence of analytified sheaves and proper GAGA, and the field-affinoid Banach prerequisites:
+strict complete continuity, descent to closed targets, topologically free surjections, Schwartz
+finiteness, relatively compact restriction and integral-affinoid almost noetherianity
+(RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, items 1, 2, 4 and 5).
+Part III owns the lattice/norm comparisons and rigid–adic transport of these results, the series
+criterion for the supplied strict predicate, and the general-Tate small-perturbation extension.
+The Banach prerequisites use CompactOperators and PadicFunctionalAnalysis and the supplier's
+own affinoid theory; they use no Part III theorem. The dependency runs from these prerequisites
+to Part III's adapters and proper-cohomology applications. CompactOperators supplies completely
+continuous maps, and PadicFunctionalAnalysis supplies closed complements in Banach spaces of
+countable type. R3 cites them at the labels of the corresponding targets and reads
 RigidAnalyticGeometry's statements on rigid varieties on adic spaces through Huber's functor `r_K`.
 
 Existing Mathlib and Tau Ceti APIs are used directly; cited roadmap suppliers own the contracts
@@ -474,6 +482,11 @@ open bounded lattice, are such modules for their gauge norms.
 | R3.4 *quasi-stein-direct-image-acyclicity* | RigidAnalyticGeometry, *requested*, **quasiStein_higherDirectImage** | `quasiStein_higherDirectImage` |
 | R3.6 *kiehl-proper-mapping-theorem* | RigidAnalyticGeometry, *requested*, **kiehlProperMapping** | `kiehlProperMapping` |
 | R3.6 *completely-continuous-map*, the non-strict predicate | CompactOperators §0.1.1–0.1.2; *requested*, **Finite rank implies complete continuity** and **Banach modules normed by a lattice** | `IsFiniteRank`, `IsCompletelyContinuous`, `IsFiniteRank.isCompletelyContinuous`; the ideal, sum and closedness properties of §0.1.2 and the lattice norms are README targets there |
+| R3.6 *completely-continuous-map*, the strict predicate; *strictly-completely-continuous-closed-target* | RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 1 | `IsStrictlyCompletelyContinuous`, `IsStrictlyCompletelyContinuous.isCompletelyContinuous`, `IsStrictlyCompletelyContinuous.of_subtype_comp`, `exists_c0_surjective`; Part III compares the supplied unit-ball predicate with its lattices and adds `isStrictlyCompletelyContinuous_tsum`. |
+| R3.6 *completely-continuous-finite-cokernel* | RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 2 | `IsCompletelyContinuous.finite_cokernel_of_surjective`; transport through the lattice/norm comparison. |
+| R3.3 *surjection-small-perturbation*, common Banach `K`-linear case | RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 3 | `exists_surjective_sub_of_opNorm_lt`, `span_eq_top_of_norm_sub_lt`; Part III retains the extension to general complete Tate rings. |
+| R3.6 *restriction-strictly-completely-continuous* | RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 4 | `AffinoidSubdomain.IsRelativelyCompact.isStrictlyCompletelyContinuous`; Part III's `RelativelyCompact_rigid` and finite-module section comparison identify its restriction map. |
+| R3.6 *almost-noetherian-integral-affinoid-modules* | RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 5 | `exists_fg_smul_le_of_presentation`, `isNoetherian_of_presentation_of_discrete`; Part III identifies its integral presentation with the image of a Gauss unit ball. |
 | R3.6 *proper-affinoid-cohomology-finite* | RigidAnalyticGeometry, *requested*, **proper_cohomology_finite** and **proper_cech_closedRange** | `proper_cohomology_finite`, `proper_cech_closedRange` |
 | R3.6 *proper-cohomology-adic-completion* | RigidAnalyticGeometry, *requested*, **proper_formalFunctions**; *requested, II*, Layer 7, **proper_cohomology_principalFiltration** | `proper_formalFunctions`, `proper_cohomology_principalFiltration` with `cohomologyQuotient`, `cohomologyQuotientMap`, `cohomologyQuotientTransition` |
 | R3.6 *proper-cohomology-affinoid-subdomain* | RigidAnalyticGeometry, *requested*, **proper_cohomology_affinoidSubdomain** | `proper_cohomology_affinoidSubdomain` |
@@ -9747,8 +9760,14 @@ exist: the open mapping theorem `Huber.IsTateRing.isOpenMap` and
 `IsTateRing.isOpenMap_linearCombination`,
 the invertibility of `1 − X` for topologically nilpotent entries
 `isUnit_one_sub_of_isTopologicallyNilpotent_entries`, density `eq_top_of_dense_of_module_finite`,
-and Mathlib's bounded lifting `ContinuousLinearMap.exists_preimage_norm_le`; the perturbation
-statement itself is new. *Needs:* Tau Ceti `Huber.IsTateRing.isOpenMap`,
+and Mathlib's bounded lifting `ContinuousLinearMap.exists_preimage_norm_le`; the general-Tate
+perturbation statement is this roadmap's extension. When `B` is a complete
+normed `K`-algebra and `M`, `N` are compatible Banach `K`-spaces through `B`, its two conclusions
+are supplied by RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 3,
+`exists_surjective_sub_of_opNorm_lt` and `span_eq_top_of_norm_sub_lt`. Compare the conclusions
+using equivalent lattice norms; the admissible constants may change. The general-Tate proof
+uses the open mapping theorem and successive corrections in powers of a pseudouniformiser,
+and does not require a `K`-vector-space structure. *Needs:* Tau Ceti `Huber.IsTateRing.isOpenMap`,
 `Huber.IsTateRing.isOpenMap_linearCombination`,
 `TauCeti.Huber.isUnit_one_sub_of_isTopologicallyNilpotent_entries`,
 `TauCeti.Huber.eq_top_of_dense_of_module_finite`; Mathlib `ContinuousLinearMap.exists_preimage_norm_le`.
@@ -10538,34 +10557,38 @@ applies `IsCompletelyContinuous` to the gauge norms `|m| = inf{|a| : a ∈ K, m 
 `M` a Banach module in the supplier's sense by **Banach modules normed by a lattice**, finite rank
 agreeing with finitely generated image because `A` is noetherian.
 
-Kiehl's strict variant is this roadmap's. A continuous `A`-linear map `f : M → N` of Banach
-`A`-modules is strictly completely continuous if there are continuous `A`-linear maps
-`f_i : M → N` with finitely generated image converging to `f` in the operator norm and
-`a ∈ K° ∖ {0}` such that for every `i`, `a·f_i(M₀)` lies in some finitely generated
-`A₀`-submodule of `N₀`, which may depend on `i`;  the scalar `a`, and hence the bound
-`a·f_i(M₀) ⊆ N₀`, is uniform in `i`. In `Huber`, define `IsStrictlyCompletelyContinuous` as Kiehl's
-strict variant (approximants `f_i` with a uniform scalar `a` such that each `a·f_i(M₀)` lies in a
-finitely generated `A₀`-submodule of `N₀` depending on `i`); prove
-`IsStrictlyCompletelyContinuous.isCompletelyContinuous` (strictly completely continuous maps are
-completely continuous) and
-`isStrictlyCompletelyContinuous_tsum` (if `f = Σ vᵢ ⊗ nᵢ` with `(vᵢ)` uniformly bounded
-continuous linear forms and `nᵢ → 0` in `N`, so that `Σ vᵢ(x) nᵢ` converges for every `x` and
-the truncations converge to `f` in the operator norm, then `f` is strictly completely
-continuous; Kiehl's example. The decay `nᵢ → 0` cannot be weakened to boundedness: for
-`M = N = K⟨T⟩`, `vᵢ` the coefficient functionals and `nᵢ = Tⁱ`, the series `Σ vᵢ(x)Tⁱ = x`
-converges for every `x` but is the identity, which is not completely continuous) (Kiehl-E §1,
-Def. 1.1, p. 198, the strict variant with a scalar `a` in the
-valuation ring; Scholze13 §1, Introduction, p. 2, where Scholze's primitive comparison finiteness
-imitates Kiehl's completely-continuous argument). *Needs:* CompactOperators §0.1.2
-(`IsCompletelyContinuous`); Tau Ceti `Huber.IsTateRing`.
+Kiehl's strict variant is supplied by RigidAnalyticGeometry, *Banach prerequisites for the
+Kiehl targets*, item 1, `IsStrictlyCompletelyContinuous` and
+`IsStrictlyCompletelyContinuous.isCompletelyContinuous` (Kiehl-E §1, Def. 1.1, p. 198;
+Bosch 2014, §6.4, Definition 1, p. 134). Its predicate uses the closed unit balls of specified
+norms: one scalar `a ∈ K° ∖ {0}` works for every approximation tolerance, while each finite-rank
+approximant has its own finitely generated `A₀`-submodule of the target ball containing the
+scaled image of the source ball. This is the canonical strict predicate throughout R3.6.
 
-The strict predicate also makes sense for normed modules without completeness: the definition
-uses the displayed uniform estimates and closed unit balls. It explicitly requires finitely
-generated images, so its implication to complete continuity needs no absorption assumption on
-those balls. The series criterion assumes a nontrivially
-normed field `K`, compatible normed `K`-module structures, a noetherian normed `K`-algebra `A`,
-an ultrametric target `N`, and an open subring `A₀`. In that setting decay of `nᵢ` makes the
-truncations converge uniformly on the unit ball.
+Part III supplies the comparison with its lattice formulation. For complete compatible
+ultrametric `K`-algebra and module norms inducing the specified topologies, compare their closed
+unit balls with the chosen open bounded lattices, including the coefficient lattice `A₀`.
+Each pair of lattices contains a nonzero `K°`-scalar multiple of the other. Prove that the
+uniform-scalar approximation condition is unchanged by these replacements: multiply the
+uniform scalar by fixed scalars for the source, target and coefficient comparisons, and
+rescale the finitely many target generators into the new target lattice. Operator-norm
+convergence is unchanged under equivalent norms. The scalar depends on the comparisons but
+not on the approximant; the finite generating set may depend on the approximant. Thus the
+lattice condition is an equivalent characterization of the supplied predicate. *Needs:*
+CompactOperators **Banach modules normed by a lattice**;
+RigidAnalyticGeometry item 1; Tau Ceti `Huber.IsTateRing`.
+
+Prove `isStrictlyCompletelyContinuous_tsum` as an extension of that same predicate: over a
+nontrivially normed nonarchimedean field `K`, a noetherian normed `K`-algebra `A`, compatible
+normed `K`-modules with contractive `A`-actions and an ultrametric target `N`, let
+`vᵢ : M →L[A] A` be uniformly bounded and
+`nᵢ → 0` in `N`. Then `f(x) = Σᵢ vᵢ(x) • nᵢ` is strictly completely continuous. The source
+and target need not be complete if the displayed sums exist and define a continuous map;
+the finite truncations converge in operator norm. The finitely many generators in each
+truncation can be scaled into the target unit ball by one scalar independent of the
+truncation, since the sequence is bounded (Bosch 2014, §6.4, proof of Proposition 2, p. 135).
+Decay cannot be replaced by boundedness: the coefficient functionals and `nᵢ = Tⁱ` on
+`K⟨T⟩` reconstruct the identity pointwise, which is not completely continuous.
 
 **Checks.**
 
@@ -10581,39 +10604,56 @@ truncations converge uniformly on the unit ball.
   completely continuous with `a = 1`. Under the misreading "one finitely generated submodule for
   all `i`" it would not be, since its image is not contained in a finitely generated `K`-subspace.
 
-**Checks for `IsStrictlyCompletelyContinuous`.**
+**Checks for the supplied strict predicate and its lattice comparison.**
 
-- `Huber.IsStrictlyCompletelyContinuous.test_zero`: the zero map is strict for every `A₀`;
+- (zero map): the zero map is strict for every `A₀`;
   take all approximants zero and each finite generating set empty.
-- `Huber.IsStrictlyCompletelyContinuous.test_scalar`: over `A = K` with `A₀ = K°`, the identity
+- (one-dimensional identity): over `A = K` with `A₀ = K°`, the identity
   on `K` is strict; take `a = 1` and the one generator `1`.
-- `Huber.IsStrictlyCompletelyContinuous.test_identity`: the identity on an infinite-dimensional
+- (infinite-dimensional identity): the identity on an infinite-dimensional
   Banach `K`-space is not strict, since it is not completely continuous.
+- (rescaled lattices): replacing `M₀` and `N₀` by `ϖʳM₀` and `ϖˢN₀` for integers `r`, `s`
+  preserves strictness and complete continuity; the uniform scalar and operator-norm error
+  bounds change by fixed factors independent of the approximant.
 
-Prove the Schwartz finiteness theorem over affinoid algebras
+The Schwartz finiteness theorem over affinoid algebras
 (*completely-continuous-finite-cokernel*): if `f : M → N` is a continuous surjective `A`-linear
 map of Banach `A`-modules and `g : M → N` is completely continuous, then `(f + g)(M)` is closed in
 `N` and `N/(f + g)(M)` is a finitely generated `A`-module (Kiehl-E §1, Satz 1.2, p. 198). For
 `M = N = K⟨T⟩`, `f = id` and `g = −h` with `h(T) = ϖT` (strictly completely continuous),
-`(id − h)(Σ aₙTⁿ) = Σ aₙ(1 − ϖⁿ)Tⁿ` has closed image `T·K⟨T⟩` and cokernel `K`. *Needs:*
-*completely-continuous-map* (CompactOperators §0.1.2); *surjection-small-perturbation*; Tau Ceti
-`TauCeti.Huber.isClosed_of_isNoetherian`.
+`(id − h)(Σ aₙTⁿ) = Σ aₙ(1 − ϖⁿ)Tⁿ` has closed image `T·K⟨T⟩` and cokernel `K`. Supplied by
+RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 2, `IsCompletelyContinuous.finite_cokernel_of_surjective`. Read with the compatible complete
+ultrametric norms from *completely-continuous-map*; changing to equivalent lattice norms changes
+neither the image, its closedness nor its algebraic cokernel. *Needs:* that lattice/norm
+comparison and the supplied item 2, whose proof uses the supplier's item 3.
 
-Prove that strict complete continuity descends to a closed submodule for topologically free
+**Checks.** The rescaling example above has cokernel `K`; with `g = 0` the cokernel is zero;
+with `f = id` and `g = −id` on `K⟨T⟩`, the cokernel is infinite-dimensional, and `g` fails
+complete continuity.
+
+Strict complete continuity descends to a closed submodule for topologically free
 sources (*strictly-completely-continuous-closed-target*): let `f : M → N` be `A`-linear, `N ⊆ G` a
 closed submodule of a Banach `A`-module, with compatible ultrametric norms,
 `A₀ = {a : |a| ≤ 1}`, and an `IntegralAffinoidPresentation K A K° A₀`
 as in *almost-noetherian-integral-affinoid-modules*, and suppose `j ∘ f : M → G` is strictly completely
 continuous; if `M` is topologically free (the completed direct sum of copies of `A` with respect
 to `A₀`), then `f : M → N` is strictly completely continuous. Every Banach `A`-module is the image
-of a continuous surjection from a topologically free one
-(a clause of this target, using `c₀(I,A)` for a discrete index set `I`;
-Kiehl-E §1, Satz 1.4, p. 199; Kiehl-E
+of a continuous surjection from a topologically free one, using `c₀(I,A)` for a discrete index
+set `I` (Kiehl-E §1, Satz 1.4, p. 199; Kiehl-E
 §1, remark before Satz 1.4, p. 199, where over discretely valued or spherically complete fields
 closed subspaces are complemented, a hypothesis Satz 1.4 avoids). For `G = K⟨T⟩`, `N = T·K⟨T⟩` and
 `M` topologically free, a strictly completely continuous map into `G` landing in `N` is strictly
-completely continuous into `N`. *Needs:* *completely-continuous-map* (the strict variant);
-*almost-noetherian-integral-affinoid-modules*.
+completely continuous into `N`. Supplied by RigidAnalyticGeometry, *Banach prerequisites for
+the Kiehl targets*, item 1, `IsStrictlyCompletelyContinuous.of_subtype_comp` and
+`exists_c0_surjective`. Identify the source with the supplier's `c₀(I,A)` by its basis and
+supremum norm. The coefficient unit ball must be the image of the Gauss unit ball of the
+chosen presentation; this equality is a hypothesis when applying the supplied closed-target
+theorem. Part III transports it through the lattice/norm comparison and the integral
+presentation comparison below. *Needs:* *completely-continuous-map*;
+*almost-noetherian-integral-affinoid-modules* (presentation comparison); supplier item 1.
+
+**Checks.** For `N = G` the subtype is the identity; for `N = 0` the map and all approximants
+are zero; for `N = T·K⟨T⟩ ⊆ G = K⟨T⟩` the conclusion holds without choosing a complement.
 
 **Relatively compact affinoid subdomains over an affinoid base (Kiehl).**
 (*relatively-compact-affinoid*) Let `V = Spa(B, B°)` be an affinoid adic space over `Spa(A, A°)`
@@ -10716,7 +10756,7 @@ than proves: for general `K`, Kiehl-properness is an explicit hypothesis). For `
 *Needs:* *universally-closed-and-proper-morphism*, *separated-proper-partially-proper* (AdicSpacesPartII layer
 R0); *proper-separated-comparisons* (AdicSpacesPartII layer R1); *relatively-compact-affinoid*.
 
-Prove that restriction along a relatively compact inclusion is strictly completely continuous
+Transport the supplied strict complete continuity of relatively compact restriction
 (*restriction-strictly-completely-continuous*): let `V = Spa(B)` and `U = Spa(C)` be affinoid over
 `Spa(A)` with `U ⋐_A V`, and `F` a coherent sheaf on `V` with `M = F(V)`, `N = F(U) = M ⊗_B C`
 (finite modules with their Banach topologies); then `RelativelyCompact.strictlyCompletelyContinuous` says that for a continuous
@@ -10728,7 +10768,13 @@ presentation of the chosen ring of definition `A₀`, and the scalar-tower
 compatibilities for `A → B → C`. The restriction is fixed by a `C`-linear
 isomorphism `C ⊗_B M ≃ N` and the equation `res(m) = 1 ⊗ m` under that
 isomorphism. It therefore applies to the actual coherent restriction, including
-`M = B` and `N = C`. See Bosch 2014, §6.4, Proposition 2, p. 135, statement 6,
+`M = B` and `N = C`. Supplied by RigidAnalyticGeometry, *Banach prerequisites for the Kiehl
+targets*, item 4, `AffinoidSubdomain.IsRelativelyCompact.isStrictlyCompletelyContinuous`.
+Part III proves `RelativelyCompact.strictlyCompletelyContinuous` by `RelativelyCompact_rigid`,
+the finite-module section comparison and the lattice/norm comparison: identify `B`, `C`, the
+coefficient maps, `q` and the pure-tensor restriction with the supplier's data. The coefficient
+unit ball is assumed to equal the image of the Gauss unit ball of the chosen presentation,
+as required by item 4. See Bosch 2014, §6.4, Proposition 2, p. 135, statement 6,
 pp. 138–139, and the proof of Proposition 7, pp. 140–141. The same holds for finite intersections of such pairs inside an
 `A`-separated space (Kiehl-E §2, before Satz 2.5, p. 204, the rescaling map `h_a` is strictly
 completely continuous, and finite modules over affinoid algebras carry a unique complete
@@ -10737,11 +10783,14 @@ itself is strictly completely continuous. In the rescaled target coordinate `S =
 the rescaling statement characterizes this map by
 `coeffₙ(f(g)) = ϖⁿ coeffₙ(g)` on the pinned restricted-series Tate algebra.
 
-**Check.** `Huber.IsStrictlyCompletelyContinuous.test_small_disc`: for `0 < |ϖ| < 1` that
+**Checks.** (small disc) for `0 < |ϖ| < 1` that
 coefficient map is strictly completely continuous and sends the constant series `1` to `1`;
 thus strict complete continuity does not require every coefficient, including degree zero,
-to be contracted. *Needs:* *relatively-compact-affinoid*;
-*completely-continuous-map* (the strict variant); *strictly-completely-continuous-closed-target*;
+to be contracted; (truncations) the degree-`N` truncation has error at most `|ϖ|^N` and its
+finite `K°`-span grows with `N`, with uniform scalar `1`; (negative control) the identity
+restriction on the unit disc is not completely continuous over `K`, and the disc is not
+relatively compact in itself. *Needs:* *relatively-compact-affinoid*, `RelativelyCompact_rigid`;
+*completely-continuous-map* (lattice/norm comparison); supplier item 4;
 *tate-kiehl-affinoid*.
 
 Finiteness of coherent cohomology over an affinoid base, Kiehl's Satz 2.6
@@ -10846,7 +10895,7 @@ for identity scalar extension using `TensorProduct.lid`;
 `ℚ`-modules whose zero comparison map is not bijective. Thus the pure-tensor
 equation specifies which map must be invertible.
 
-Prove the almost noetherianity of modules over integral affinoid rings, Kiehl's Anhang Satz 5.1
+Almost noetherianity of modules over integral affinoid rings, Kiehl's Anhang Satz 5.1
 (*almost-noetherian-integral-affinoid-modules*): let `K` be a complete nonarchimedean field with
 nontrivial absolute value of rank one and valuation ring `K°`, `A` an affinoid `K`-algebra and
 `A₀ ⊆ A` a `K°`-subalgebra which is a ring of definition of `A` and a quotient of `K°⟨X₁,…,Xₙ⟩`
@@ -10858,17 +10907,30 @@ noetherian) (Kiehl-E §5 (Anhang), Satz 5.1, p. 212, proved by Kiehl for `B₀` 
 `V⟨X₁,…,Xₙ⟩`, the general case reducing to this; Kiehl-E §1, proof of Satz 1.4, p. 200, where the
 lemma is used). For `K = ℂ_p`, `A₀ = 𝒪_{ℂ_p}` and `N = 𝔪` (not finitely generated), for every
 `ε < 1` one may take `N′ = x·𝒪_{ℂ_p}` with `ε < |x| < 1`, since `a·𝔪 ⊆ x𝒪` when `|a| ≤ ε`; for
-`K` discretely valued the lemma is the noetherianity of `K°⟨X₁,…,Xₙ⟩`. *Needs:* Tau Ceti
-`Huber.restrictedMvPowerSeriesCompletion`; Mathlib `IsNoetherianRing`.
+`K` discretely valued the lemma is the noetherianity of `K°⟨X₁,…,Xₙ⟩`. Supplied by
+RigidAnalyticGeometry, *Banach prerequisites for the Kiehl targets*, item 5, `exists_fg_smul_le_of_presentation` and `isNoetherian_of_presentation_of_discrete`.
+Part III supplies the integral-presentation comparison used to apply these results. *Needs:*
+that supplier item 5; Tau Ceti `Huber.restrictedMvPowerSeriesCompletion`; Mathlib `IsNoetherianRing`.
 
 The integral carrier `Huber.IntegralAffinoidPresentation K A V A₀` consists of
 `V = {a ∈ K : |a| ≤ 1}`, a coefficient homomorphism `V → A₀` whose composite into `A`
 is the given scalar map, and a continuous surjection
 `Huber.restrictedMvPowerSeriesCompletion n V → A₀` agreeing with this coefficient map.
 The subring `A₀` is open and bounded in `A`. These are presentation data; almost
-noetherianity is a theorem, not a field of the structure. The declarations
-`IntegralAffinoidPresentation.almost_noetherian` and `.fg_of_discrete` state the two
-conclusions above, with the latter assuming `IsDiscreteValuationRing V`.
+noetherianity is a theorem, not a field of the structure. Part III compares the restricted-series
+carrier with the supplier's Gauss unit ball, preserving coefficients. Inverting `ϖ` extends
+the integral surjection to `K⟨X₁,…,Xₙ⟩ → A`: every restricted series over `K` becomes integral
+after multiplication by a power of `ϖ`, and every element of `A` enters the open ring `A₀`
+after such multiplication. Prove surjectivity and identify the image of the Gauss unit ball
+with the given subring `A₀`, so the supplier's presentation hypotheses hold. The declarations
+`IntegralAffinoidPresentation.almost_noetherian` and `.fg_of_discrete` are adapters applying
+item 5 through this identification, with the latter assuming `IsDiscreteValuationRing V`.
+The identification fixes the actual subring and scalar action, not merely an abstract ring
+isomorphism (Kiehl-E §5, Satz 5.1, p. 212; Bosch 2014, §6.4, proof of Lemma 5, pp. 137–138).
+
+**Checks for the supplied estimates.** For `ℂ_p` the maximal-ideal example above gives the
+finite approximation while the ideal itself is not finitely generated; for `ℚ_p` one obtains
+noetherianity of `ℤ_p⟨X₁,…,Xₙ⟩`; for `N = 0` take `N′ = 0`.
 
 **Checks for the integral carrier.**
 
