@@ -375,6 +375,14 @@ ProfiniteProPGroups layer 3 supplies pro-p groups, for the pro-p property of con
 positive-depth Moy–Prasad subgroups. ClassFieldTheory layer 9 supplies the local Weil group `W_K`
 with its map to `Γ_K`, for the Weil form of the L-group.
 
+### From other open roadmap pull requests
+
+| Object | Supplier | Exact interface consumed | Convention and scope bridge |
+| --- | --- | --- | --- |
+| Integral Chevalley big cell | ChevalleyGroups §C4 / The big cell, Points and Generality (an open TauCetiRoadmap pull request by kim-em) | Open immersion `U⁻ × T × U → G_D` over `ℤ` and its base changes | Identify the chosen Chevalley datum, torus, signs and ordered root coordinates; `Φ_nd = Φ` in the reduced split case. RG2.3.1 supplies the relative non-reduced root-ray product and the conditional DVR closure/extension criteria. |
+| Semisimple Chevalley point centre | ChevalleyGroups §C3 / Centralizer and centre, with §C4 / Points and Generality (an open TauCetiRoadmap pull request by kim-em) | Centre of the field-point group by root-character equations and the character-lattice/root-lattice quotient | Use `E(k) = G_D(k)` from §C4, flip roots and coroots, and identify the datum's character lattice with `X_*(T)`; only the full-weight datum gives `P/Q`. Its all-field theorem supplies the algebraically closed semisimple specialization; RG2.5.2 supplies the general reductive scheme centre, central torus and Galois/coinvariant comparisons. |
+| Finite ordinary Tits input | CFSGBasicProperties §T0 / a reusable simplicity criterion and §T1–T2 / ordinary and graph-twisted groups (an open TauCetiRoadmap pull request by kim-em) | Normal-subgroup theorem, central quotient and finite ordinary root-generated perfectness in the common validity range | Match `H⁺`, `[H,H]`, `G(k)^+` and their centres; check a connected nonempty Coxeter graph, `Z ∩ U = 1` and quotient nontriviality. §T0 assumes perfectness, supplied by §T1–T2 for the finite applications, including their allowed small fields; RG2.4.4 supplies infinite-field geometric perfectness and local Whitehead-group vanishing. |
+
 ## How to read the build
 
 `README.md` specifies the mathematics; `Suggested.lean` gives Lean signatures for the targets that
@@ -1382,6 +1390,8 @@ together in existence form, `RootDatum.exists_weylGroupEquiv`: for finite `Φ` t
 isomorphism `ν : N/T ≃* W(Φ)` with `n U_a n^{-1} = U_{ν(n)a}` for every `n ∈ N` and every root `a`
 ([Bruhat–Tits I], 6.1.1, p. 107; 6.1.2 (3) and (10), pp. 108–109; 6.1.11 (ii), p. 115). *Needs:*
 RootSystems layer 4; Mathlib `RootPairing`.
+ChevalleyGroups §C3 / The Weyl group states the split Chevalley special case, to be reconciled by
+checking (DR1)–(DR6) and identifying its torus and reflection cosets so that `n_α` maps to `s_α`.
 *Lean:* `BruhatTits.RootDatum`, `BruhatTits.RootDatum.IsGenerating`,
 `BruhatTits.RootDatum.weylNormalizer`, `BruhatTits.RootDatum.T_normal_weylNormalizer`,
 `BruhatTits.RootDatum.exists_weylGroupEquiv` (the isomorphism `N/T ≃* W(Φ)` with its conjugation
@@ -1416,6 +1426,8 @@ field `K`, with `Φ` possibly non-reduced, and let `m_a ∈ N(K)` come from the 
 [Bruhat–Tits II], 4.1.19 (ii), pp. 87–88, in the quasi-split case and 5.1.2, p. 146, and
 [Springer], §§3.5 and 3.7, pp. 13–14, where `N(S)(K)/Z(S)(K)` is the relative Weyl group and the
 Bruhat decomposition of `G(K)` gives generation).
+ChevalleyGroups §C4 / Points states the split Chevalley root-plus-torus special case, to be
+reconciled by identifying `Z = T`; its simply connected root-only generation is a separate result.
 *Needs:* *root-datum-in-a-group*; ReductiveGroups layer 7.
 
 In `BruhatTits`, `subgroupPoints I R` is the subgroup of `R`-points cut out by a Hopf ideal `I`, the
@@ -3680,7 +3692,13 @@ arXiv p. 16). In `IntegralModel`, prove `extend_iff` ((2) for strictly henselian
 *Needs:* *smooth-affine-model*.
 *Lean:* `IntegralModel.extend_iff`.
 
-**Big-cell criteria.** (*big-cell-criteria*) Let `O` be a DVR. (1) A morphism `𝒢 → 𝒢'` of
+**Big-cell criteria.** (*big-cell-criteria*) Provides the unconditional integral Chevalley big cell
+and its field specializations. Supplied by ChevalleyGroups §C4 / The big cell and Generality (an
+open TauCetiRoadmap pull request by kim-em). Identify the chosen split Chevalley datum, its torus
+and ordered root parameters before base change from `ℤ`; the relative non-reduced root-ray product
+and conditional DVR closure/extension criteria are specified below.
+
+For relative root data and DVR models, let `O` be a DVR. (1) A morphism `𝒢 → 𝒢'` of
 smooth affine `O`-groups with connected fibres which is an isomorphism generically and an open
 immersion on a fibrewise dense open `U ∋ 1` is an open immersion, and an isomorphism if `𝒢'` has
 connected fibres; maps defined on `U` extend uniquely. (2) The products are indexed by the
@@ -3704,11 +3722,15 @@ product over the nondivisible elements `Ψ_nd` of a quasi-closed `Ψ ⊆ Φ^+`; 
 of Prop. 1.1.4 (arXiv p. 8) and step 1) of the proof of Prop. 1.3.3 (arXiv pp. 17–18)). *Needs:*
 *schematic-closure*; *smooth-affine-model*; RG2.1 *rational-points-root-datum*; ReductiveGroups
 layer 7.
+ChevalleyGroups §C3 / The unipotent radical and Borel subgroup states the split reduced field
+special case of the ordered product isomorphism, to be reconciled by identifying `Φ_nd = Φ` and
+matching the root coordinates and signs.
 *Lean:* none (README-only).
 
 **Checks.**
 
-- `bigCell_gl_n` — for `GL_n` the root system is reduced, `Φ_nd = Φ`, and the generic big cell
+- `bigCell_gl_n` — compatibility of the relative and DVR criteria with the matrix chart: for
+  `GL_n` the root system is reduced, `Φ_nd = Φ`, and the generic big cell
   `U^− × T × U^+` is the open set of matrices whose leading principal minors are nonzero (the `LDU`
   factorization); over `O` its integral points are those with unit leading principal minors.
 - `bigCell_su3` — for `SU_3(K'/K)` of RG2.1 *unitary-rank-one-example*, `Φ_nd^+ = {a}` and
@@ -5765,13 +5787,22 @@ states (2) or (4) in this form. *Needs:* *iwasawa-decomposition*; RG2.3 *reducti
 - `parabolicOfVector_zero` — `P_0 = G(K)` when the datum generates.
 - `parabolicOfVector_ne_iwahori` (non-example) — no parabolic of an isotropic group is a parahoric.
 
-**The Kneser–Tits theorem over a local field.** (*kneser-tits-local*) Let
+**The Kneser–Tits theorem over a local field.** (*kneser-tits-local*) Provides the
+normal-subgroup/central-quotient simplicity and perfectness input in the common finite ordinary
+cases. Supplied by CFSGBasicProperties §T0 / a reusable simplicity criterion and §T1–T2 / ordinary
+and graph-twisted groups (an open TauCetiRoadmap pull request by kim-em). Identify the geometric
+root-generated subgroup with the fixed-point root-generated/derived subgroup and its centre;
+§T0 assumes perfectness, while the infinite-field geometric perfectness and local Kneser–Tits
+targets are specified below.
+
+Let
 `G(K)^+ = ⟨U_a(K) : a ∈ Φ⟩ = ⟨R_u(Q)(K) : Q a K-parabolic⟩`, a normal subgroup of `G(K)`, and let
 `W(K,G) = G(K)/G(K)^+` be the Whitehead group. Assume `G` semisimple, simply connected, absolutely
 almost simple (irreducible absolute root system, coroots spanning `X_*(T)`) and `K`-isotropic
-(`Φ ≠ ∅`). First (Tits), if `#K ≥ 4` then every proper normal subgroup of `G(K)^+` is central in
-`G(K)`, and `G(K)^+` is perfect. Second (Kneser–Tits for local fields), for `K = E` a nonarchimedean
-local field, `G(E)^+ = G(E)`, that is `W(E,G) = 1` (Platonov 1969 for `char E = 0`;
+(`Φ ≠ ∅`). First (geometric Tits), for infinite `K` with `#K ≥ 4`, every proper normal subgroup of
+`G(K)^+` is central in `G(K)`, and `G(K)^+` is perfect. Second (Kneser–Tits for local fields), for
+`K = E` a nonarchimedean
+local field (hence infinite), `G(E)^+ = G(E)`, that is `W(E,G) = 1` (Platonov 1969 for `char E = 0`;
 [Prasad–Raghunathan] in general). Third, consequently `G(E)` has no proper subgroup of finite index:
 a finite-index subgroup contains a normal one, which by the first two statements is central or
 everything, and the centre is finite; this is the input for the elimination of arithmetic
@@ -5779,7 +5810,8 @@ finite-index closures in AdelicAlgebraicGroups AA.4. Fourth, for `G` anisotropic
 `G` not simply connected the second statement fails: `W(E, PGL_2) = E^×/(E^×)²`, and
 `GL_2(E)^+ = SL_2(E)`. In *BruhatTits.Decomposition*, define `plusSubgroup` as `G(K)^+`; prove
 `plusSubgroup_normal` (it is normal), `unipotentRadical_le_plusSubgroup` (the rational points of every
-`R_u(P_v)` lie in it), `tits_simplicity` and `plusSubgroup_commutator` (the first statement),
+`R_u(P_v)` lie in it), `tits_simplicity` and `plusSubgroup_commutator` (the infinite-field first
+statement),
 `kneserTits_local` (the second) and `eq_top_of_finiteIndex` (the third) ([Gille 2009], §1, p. 39
 (definition of `G(k)^+` and `W(k,G)`; Tits' simplicity theorem, citing Tits 1964), §4, p. 52 (standing
 hypotheses: semisimple, simply connected, absolutely almost simple, isotropic) and Fait 4.1, p. 52
@@ -5793,8 +5825,8 @@ ReductiveGroups layer 7.
 **Checks.**
 
 - `plusSubgroup_anisotropic` — the fourth statement, `G(K)^+ = 1` for `G` anisotropic.
-- `plusSubgroup_le_commutator` — `G(K)^+ ⊆ [G(K), G(K)]` for `#K ≥ 4`, under the hypotheses of the
-  first statement.
+- `plusSubgroup_le_commutator` — `G(K)^+ ⊆ [G(K), G(K)]` for infinite `K` with `#K ≥ 4`, under the
+  hypotheses of the first statement.
 - `plusSubgroup_gl2` (non-example) — for `GL_2`, whose coroots do not span the cocharacters,
   `G(K)^+ = SL_2(K) ≠ GL_2(K)`.
 
@@ -6137,6 +6169,17 @@ over `ℤ`), `dualGroup_reductive_fibres` (`Ĝ_k` is connected reductive for eve
 `dualGroup_torus_points` (for a torus, `Ĝ(R) ≃* Hom(X_*(T), R^×)`). *Needs:*
 *dual-based-root-datum*; ReductiveGroups layer 9; Mathlib `CommHopfAlgCat`; Tau Ceti
 `TauCeti.DiagonalizableGroup.pointsMulEquiv`, `TauCeti.AlgHom.mapValue`.
+ChevalleyGroups §C2 / Root subgroups for every root states the semisimple Chevalley special case
+of the closed root-immersion interface, to be reconciled after identifying its constructed datum
+with the flipped datum.
+ChevalleyGroups §C2 / The torus states the semisimple torus-inclusion special case, to be reconciled
+by identifying its numbered weight lattice with `X_*(T)`.
+ChevalleyGroups §C2 / The torus also states the all-root conjugation equation in that special case,
+to be reconciled by matching its root characters with the flipped roots `α^∨` and its root
+coordinates with ours, with the non-simple sign cancelling in conjugation.
+ChevalleyGroups §C4 / Fibres and Generality states the semisimple smoothness and connected-fibre
+special case, to be reconciled through ReductiveGroups layer 9's identification of its construction
+before applying the abstract reductivity conclusions.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -6160,8 +6203,9 @@ over `ℤ`), `dualGroup_reductive_fibres` (`Ĝ_k` is connected reductive for eve
   cocharacter ranks are `0` and `1`; the check shows that `Ĝ(ℚ)` is trivial for the first
   and not for the second, so the dual groups differ although the root index sets are in bijection.
 - `dualGroup_not_self` (non-example) — `Ĝ ≠ G` in general: if `π₁(G) ≅ ℤ/2`, as for `PGL_2` (whose
-  dual is `SL_2`), the centre of `Ĝ(ℂ)` has two elements, while `PGL_2(ℂ)` has trivial centre; so
-  the Chevalley group of `Ψ_0(G)` itself is the wrong group.
+  dual is `SL_2`), the centre of `Ĝ(ℂ)` has two elements, while `PGL_2(ℂ)` has trivial centre, by
+  ChevalleyGroups §C3 / Centralizer and centre with §C4 / Points and the flipped-datum identification;
+  so the Chevalley group of `Ψ_0(G)` itself is the wrong group.
 
 **Pinned automorphisms of the dual group.** (*pinned-automorphisms*) (1) `Aut(Ĝ, pinning) ≅ Aut(Ψ_0(G)^∨, Δ^∨)`:
 this is the automorphism case of the isomorphism theorem for pinned groups of the Reductive groups
@@ -6293,18 +6337,35 @@ modulo the centre ([Buzzard–Gee], §2.1, pp. 4–5). *Needs:* *l-group*; *pinn
 ReductiveGroups layer 9.
 *Lean:* none (README-only).
 
-**Centre of the dual group and π₁.** (*dual-centre-and-fundamental-group*) `Z(Ĝ) ⊂ T̂` is
+**Centre of the dual group and π₁.** (*dual-centre-and-fundamental-group*) Provides the semisimple
+Chevalley point-centre identification by root characters, including the full-weight-lattice
+formula `Hom(P/Q, k^×)`. Supplied by ChevalleyGroups §C3 / Centralizer and centre, with §C4 / Points
+and Generality (an open TauCetiRoadmap pull request by kim-em). Identify the dual datum's character
+lattice modulo its roots with the fundamental-group quotient, using its own lattice for each
+semisimple form; the general reductive scheme-centre, central torus and Galois/coinvariant
+extensions are specified below.
+
+For general reductive dual data, `Z(Ĝ) ⊂ T̂` is
 diagonalizable over `ℤ` with character group `X_*(T)/Q^∨ = π₁(G)`, `Γ_K`-equivariantly; so
-`Z(Ĝ)(R) = Hom(π₁(G), R^×)`, naturally in `R`, and this is the centre of `Ĝ(R)` for `R` algebraically
-closed. For `I ≤ Γ_K` (for instance inertia), `X^*(Z(Ĝ)^I) = π₁(G)_I`, the target of the Kottwitz
-homomorphism. `Z(Ĝ)` is a torus iff `π₁(G)` is torsion-free, that is, iff `G_der` is simply connected,
+`Z(Ĝ)(R) = Hom(π₁(G), R^×)`, naturally in `R`. For `I ≤ Γ_K` (for instance inertia),
+`X^*(Z(Ĝ)^I) = π₁(G)_I`, the target of the Kottwitz homomorphism.
+`Z(Ĝ)` is a torus iff `π₁(G)` is torsion-free, that is, iff `G_der` is simply connected,
 and finite iff `G` is semisimple ([Kaletha], §5.3, proof of Prop. 5.3, p. 33; [Springer], 2.15,
 pp. 10–11: (b) for the character group of the centre, (e) and (f) for a simply connected derived
 group and a connected centre, and the criterion stated after (c) for semisimplicity;
-[Haines–Rapoport], introduction, (1), p. 1). In `LanglandsDual`, prove
-`dualCentreMulEquiv` (for `R` an algebraically closed field, the centre of `Ĝ(R)` is isomorphic to
-`Hom(π₁(G), R^×)`). *Needs:* *langlands-dual-group*; *galois-action-on-dual-group*; RG2.1
-*algebraic-fundamental-group*; Tau Ceti `TauCeti.CommHopfAlgCat.centerGroupScheme`,
+[Haines–Rapoport], introduction, (1), p. 1).
+The general reductive extension `LanglandsDual.dualCentreMulEquiv`, for an algebraically closed
+coefficient field `R`, identifies the centre of `Ĝ(R)` with `Hom(π₁(G), R^×)` as follows: the
+maximal-torus centralizer theorem of ReductiveGroups layer 7 puts a central point in `T̂(R)`;
+`dualRootSubgroup_conj`, injectivity of the root maps and the root-plus-torus generation of RG2.1
+*rational-points-root-datum* identify it with a torus character trivial on every dual root, which
+factors through `X_*(T)/Q^∨`.
+This argument includes the free part of that quotient and hence the central torus; the
+semisimple field-point comparison is supplied by ChevalleyGroups §C3 / Centralizer and centre
+with §C4 / Points and Generality.
+*Needs:* *langlands-dual-group*; *galois-action-on-dual-group*; RG2.1 *rational-points-root-datum* and
+*algebraic-fundamental-group*; ReductiveGroups layers 4 and 7; Tau Ceti
+`TauCeti.CommHopfAlgCat.centerGroupScheme`,
 `TauCeti.DiagonalizableGroup.pointsMulEquiv`.
 *Lean:* none (README-only).
 
