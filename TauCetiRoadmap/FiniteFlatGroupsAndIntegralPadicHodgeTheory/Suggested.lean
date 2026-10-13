@@ -163,8 +163,10 @@ omit [IsDomain R] in
 /-- Schematic closure over a Dedekind domain: a closed subgroup of the generic fibre is the generic
 fibre of a closed flat subgroup, compatibly with the inclusions (Raynaud, §2.1). -/
 theorem schematicClosure_flat [IsDedekindDomain R] (G : FLF R) (H : FLF K)
-    (ι : H ⟶ genericFibre K G) [Mono ι] :
-    ∃ (𝓗 : FLF R) (j : 𝓗 ⟶ G) (e : genericFibre K 𝓗 ≅ H), Mono j ∧
+    (ι : H ⟶ genericFibre K G)
+    (hι : AlgebraicGeometry.IsClosedImmersion ι.hom.hom.hom.hom.left) :
+    ∃ (𝓗 : FLF R) (j : 𝓗 ⟶ G) (e : genericFibre K 𝓗 ≅ H),
+      AlgebraicGeometry.IsClosedImmersion j.hom.hom.hom.hom.left ∧
       e.hom ≫ ι = (FiniteLocallyFreeCommAffineGroupSchemeCat.baseChangeFunctor R K).map j :=
   sorry
 
@@ -383,8 +385,16 @@ theorem qpZp_F_bijective : Function.Bijective (qpZp p k).F := sorry
 convention would swap this test with the previous one. -/
 theorem muPInfty_F_not_surjective : ¬ Function.Surjective (muPInfty p k).F := sorry
 
-/-- Test: `M/FM` has length `dim G`: it is `0` for `ℚ_p/ℤ_p` and `1` for `μ_{p^∞}`. -/
+/-- On the multiplicative module the image of Frobenius is a proper submodule. -/
 theorem muPInfty_imageF_ne_top : imageF p k (muPInfty p k) ≠ ⊤ := sorry
+
+/-- The multiplicative module has a length-one Frobenius cokernel. -/
+theorem muPInfty_length_quotient_imageF :
+    Module.length (WittVector p k) ((muPInfty p k).M ⧸ imageF p k (muPInfty p k)) = 1 := sorry
+
+/-- The étale module has zero Frobenius cokernel. -/
+theorem qpZp_length_quotient_imageF :
+    Module.length (WittVector p k) ((qpZp p k).M ⧸ imageF p k (qpZp p k)) = 0 := sorry
 
 end DieudonneModule
 
@@ -442,6 +452,19 @@ theorem exists_padic_charpoly [PerfectRing k p] {n : Type*} [Fintype n] [Decidab
         (WittVector.frobenius x)) * B⁻¹) :
     ∃ P : Polynomial ℤ_[p], P.Monic ∧ P.natDegree = Fintype.card n ∧
       P.map (padicConstants p k) = T.charpoly := sorry
+
+/-- A Frobenius-fixed one-by-one matrix has the characteristic polynomial of a p-adic scalar. -/
+theorem charpolyDescent_rankOne (t : WittVector p k) (ht : WittVector.frobenius t = t) :
+    ∃ a : ℤ_[p], padicConstants p k a = t ∧
+      Matrix.charpoly (fun _ _ : Fin 1 => t) =
+        (Polynomial.X - Polynomial.C a).map (padicConstants p k) := sorry
+
+/-- Over `F_{p²}` the fixed Witt vectors are precisely the p-adic constants, and Frobenius
+is nontrivial on the whole Witt ring. -/
+theorem wittFrobeniusFixed_Fp2 :
+    (∀ x : WittVector p (GaloisField p 2), WittVector.frobenius x = x ↔
+      x ∈ Set.range (padicConstants p (GaloisField p 2))) ∧
+    ∃ x : WittVector p (GaloisField p 2), WittVector.frobenius x ≠ x := sorry
 
 /-- Test: the empty matrix has characteristic polynomial `1`, which descends as `1`. -/
 example [PerfectRing k p] (T : Matrix (Fin 0) (Fin 0) (WittVector p k)) :
@@ -505,6 +528,25 @@ def FilteredPhiNModule.IsEffective (D : FilteredPhiNModule p k K) : Prop := D.fi
 def FilteredPhiNModule.tH (D : FilteredPhiNModule p k K) : ℤ :=
   ∑ᶠ i : ℤ, i * ((Module.finrank K (D.fil i) : ℤ) - Module.finrank K (D.fil (i + 1)))
 
+/-- The zero filtered `(φ,N)`-module has trivial underlying space and every structure zero. -/
+def FilteredPhiNModule.zero : FilteredPhiNModule p k K where
+  D := PUnit
+  phi := 0
+  phi_smul _ _ := Subsingleton.elim _ _
+  phi_bijective := sorry
+  N := 0
+  N_phi _ := Subsingleton.elim _ _
+  fil _ := ⊥
+  fil_antitone _ _ _ := le_rfl
+  fil_exhaustive := ⟨0, Subsingleton.elim _ _⟩
+  fil_separated := ⟨0, rfl⟩
+
+/-- The zero object's underlying vector space has dimension zero. -/
+example : Module.finrank (FractionRing (WittVector p k))
+    (FilteredPhiNModule.zero (p := p) (k := k) (K := K)).D = 0 := by
+  change Module.finrank (FractionRing (WittVector p k)) PUnit.{u + 1} = 0
+  exact Module.finrank_zero_of_subsingleton
+
 /-- The monodromy is nilpotent: `N φ = p φ N` moves every slope of the isocrystal `(D, φ)` down by
 `1` (Brinon–Conrad, Lemma 8.2.8). -/
 theorem FilteredPhiNModule.nilpotent_N (D : FilteredPhiNModule p k K) : IsNilpotent D.N := sorry
@@ -565,6 +607,28 @@ def FLModule.zero : FLModule p k where
   fil_separated := ⟨0, rfl⟩
   phi _ := 0
   phi_succ _ _ := Subsingleton.elim _ _
+
+/-- The nonzero weight-zero torsion unit has residue-field carrier, Frobenius in degree zero,
+and filtration concentrated in degree zero. -/
+def FLModule.unit : FLModule p k := by
+  letI : Module (WittVector p k) k :=
+    Module.compHom k (WittVector.constantCoeff : WittVector p k →+* k)
+  exact {
+    M := k
+    fil i := if i ≤ 0 then ⊤ else ⊥
+    fil_antitone := sorry
+    fil_exhaustive := ⟨0, by simp⟩
+    fil_separated := ⟨1, by simp⟩
+    phi i := if i = 0 then
+      { toFun := fun x => x.1 ^ p
+        map_add' := sorry
+        map_smul' := sorry }
+      else 0
+    phi_succ := sorry }
+
+/-- The weight-zero unit is nonzero and belongs to `MF_tor^{[0,0]}`. -/
+theorem FLModule.unit_isTorsionIn :
+    Nontrivial (FLModule.unit p k).M ∧ (FLModule.unit p k).IsTorsionIn 0 0 := sorry
 
 /-- Test: the zero module lies in every range. -/
 theorem FLModule.zero_isTorsionIn (a b : ℤ) : (FLModule.zero p k).IsTorsionIn a b := sorry
@@ -716,6 +780,31 @@ theorem SemilinearDescentData.act_mul_apply {Γ S M : Type*} [Group Γ] [CommRin
     (g h : Γ) (m : M) : D.act (g * h) m = D.act g (D.act h m) := by
   rw [D.act_mul]; rfl
 
+/-- The tautological action of ring automorphisms on a ring gives semilinear descent data. -/
+theorem semilinearDescent_ring (S : Type*) [CommRing S] :
+    ∃ D : SemilinearDescentData (S ≃+* S) S S, ∀ g x, D.act g x = g x := sorry
+
+section DescentSign
+
+local instance : MulSemiringAction ℤˣ ℚ where
+  smul _ x := x
+  one_smul _ := rfl
+  mul_smul _ _ _ := rfl
+  smul_zero _ := rfl
+  smul_add _ _ _ := rfl
+  smul_one _ := rfl
+  smul_mul _ _ _ := rfl
+
+/-- With trivial action on the scalars, integer units act on the rational line by their sign. -/
+theorem semilinearDescent_sign :
+    ∃ D : SemilinearDescentData ℤˣ ℚ ℚ, ∀ g x, D.act g x = (g : ℤ) • x := sorry
+
+/-- Multiplication by `2` cannot be the action of an element of order two. -/
+theorem semilinearDescent_not_double :
+    ¬ ∃ D : SemilinearDescentData ℤˣ ℚ ℚ, ∀ x, D.act (-1) x = 2 * x := sorry
+
+end DescentSign
+
 end BreuilKisin
 
 /-! ## Layer R07.5: local residual types -/
@@ -755,8 +844,8 @@ abbrev Label (p : ℕ) := Fin p × Fin (p - 1)
 theorem card_label (p : ℕ) : Fintype.card (Label p) = p * (p - 1) := by
   simp [Label]
 
-/-- Test: `Sym^r F_p²` has dimension `r + 1`, so the weights are told apart by dimension and
-determinant. -/
+/-- The symmetric power `Sym^r F_p²` has dimension `r + 1`. The labels `(r,s)`
+specify `Sym^r ⊗ det^s`; dimension and determinant need not distinguish these weights. -/
 theorem finrank_sym (p : ℕ) [Fact p.Prime] (r : ℕ) :
     Module.finrank (ZMod p) (MvPolynomial.homogeneousSubmodule (Fin 2) (ZMod p) r) = r + 1 := sorry
 
@@ -776,9 +865,11 @@ further instances of the statements above.
   `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`); `TruncatedBT` and
   `btNRecognition`; `FormalLieGroup`, `BarsottiTate.equivFormalLieGroup`, `BarsottiTate.dim`,
   `BarsottiTate.dim_add_dim_cartierDual`, `BarsottiTate.discr_level`,
-  `invariantDifferentialsAndAbsoluteDifferent`; `tateSen`; `BarsottiTate.hodgeTate`;
+  `invariantDifferentialsAndAbsoluteDifferent`; `tateSen`; `BarsottiTate.completedPoints`,
+  `PadicFieldCompletion`; `BarsottiTate.hodgeTate`;
   `BarsottiTate.exists_of_tateModule_summand`, `BarsottiTate.extend_genericFibre`;
-  `isSimple_killed_by_prime`; `Prolongation.sup`, `Prolongation.inf`, with the check
+  `isSimple_killed_by_prime`; `BarsottiTate.quotientFiniteFlatSubgroup`;
+  `Prolongation.sup`, `Prolongation.inf`, with the check
   `Prolongation.two_models_mu_p` over `ℤ_p[ζ_p]`; `BarsottiTate.exists_extension_of_levels`;
   `tameInertiaIso`, `fundamentalCharacter`; `FVectorScheme` and `FVectorScheme.classification`;
   `exists_fVector_composition`; the checks `prolongation_unique_Zp`, `prolongation_unique_boundary`
@@ -796,17 +887,17 @@ further instances of the statements above.
   `dieudonneEquivalenceFinite_etale` on that functor (`dieudonneEquivalenceFinite` above states its
   existence); `dieudonneGaloisDescent`; `dieudonneTangentSpace`; `dieudonnePDivisible`;
   `dieudonneLieAlgebra`; `standardDieudonneModules` in rank two; `alphaPFiltration`;
-  `ellipticDieudonne`; `dieudonneManinClassification` in higher rank; `standardDieudonne`,
+  `ellipticDieudonne`; `dieudonneManinClassification` (integral slope consequences and endomorphism algebras); `standardDieudonne`,
   `slopeSequence`, `aNumber`; `isogenyClassification`; `covariantModule`; `hasseWitt`,
-  `hasseInvariant`, `farguesLF`; `bt1HasseWittDuality`; `btStackSmooth`;
+  `hasseInvariant`, `farguesLF`; `bt1HasseWittDuality`; `btStackSmooth`; `farguesLF_quasiPolarisation`;
   `henselianLiftingPDivisible`; `BarsottiTate.tateSheaf`, `BarsottiTate.universalCover`;
   `universalCoverRigidity`; `deJongDieudonneEquivalence`; `swDieudonneSemiperfect`;
-  `berthelotPerfectValuationRings`.
-* Layer R07.3: `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
+  `wittCovectors`; `berthelotPerfectValuationRings`.
+* Layer R07.3: `generalBasePeriodRings`; `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
   with the checks `FilteredPhiNModule.unit_twist`, `FilteredPhiNModule.not_abelian` and
   `FilteredPhiNModule.N_nonzero`; `FilteredPhiNModule.tN`, `IsWeaklyAdmissible`;
-  `dSt_isWeaklyAdmissible`, `dSt_fullyFaithful`, `IsAdmissible`; the check `FLModule.unit` and
-  `FLModule.isTorsion_iff` (through the divided Frobenius `φ_M` on the colimit `M̃`);
+  `dSt_isWeaklyAdmissible`, `dSt_fullyFaithful`, `IsAdmissible`; `FLModule.isTorsion_iff`
+  (through the divided Frobenius `φ_M` on the colimit `M̃`);
   `mfTorAbelian`; `ringS`; `flFunctor`;
   `flExactFaithful`; `flSimpleObjects`; `flTameInertia`; `flFullFaithfulness`;
   `flEssentialImageSubquotients`; `StronglyDivisibleLattice`; `flLatticeFunctor`;
@@ -832,7 +923,7 @@ further instances of the statements above.
   `savittResidualTypes`; `flResidualWeights`; `crystalline01InertiaTypes`; `peuRamifieH1`,
   `peuRamifieH1Int`; `peuRamifieIntegralLifting`; `SerreWeight`, `compactInduction`,
   `heckeOperatorT`, `endEquivPolynomial`.
-* Layer R07.6: `abelianSchemeTorsionFiniteFlat`; `fontaineLowerIndex`, `fontaineUpper`;
+* Layer R07.6: `abelianSchemeTorsionFiniteFlat` (generic Galois and Tate-module compatibility); `fontaineLowerIndex`, `fontaineUpper`;
   `krasnerEmbeddingCriterion`; `lciLiftingAndRamification`; `fontaineRamificationBound`;
   `illusieObstructionHomomorphisms`; `flatDeformationTangentSpace`; `finiteFlatBaseChangeTwist`;
   `raynaudDetTateModule`; `cyclotomicImageStability`.
