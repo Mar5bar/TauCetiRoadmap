@@ -528,8 +528,8 @@ Mathlib or Tau Ceti.
   `polarizationRepresentatives`, `Polarization.graphBundle` (with `graphBundle_spec`),
   `projectivePresentation`, `nefNormalizedLines`, `AbelianNS` (with `AbelianNS.tensorQ`),
   `ThetaGroup`, `polarizedWeilPairing`, `dualIsogenyCartierKernel`, `Polarization.rosati`,
-  `divisorAmpleCriterion`, `principalQuotient`, `polarizedIsogenyDegree`, `polarizationType` (parts
-  (2) and (3)), `rosatiPositivity`, `rationalNSAmpleCone`, `neronSeveriRank`,
+  `divisorAmpleCriterion`, `principalQuotient`, `symmetricHomRealization`, `polarizedIsogenyDegree`,
+  `polarizationType` (parts (2) and (3)), `rosatiPositivity`, `rationalNSAmpleCone`, `neronSeveriRank`,
   `reducedTraceComparison`, `polarizedAutomorphisms`, `polarizationOrbits`, `realIsometries`,
   `WeakPolarization`, `Morikawa`.
 * **Coherent and intersection-theoretic carriers**: `relativeInvariantForms`,

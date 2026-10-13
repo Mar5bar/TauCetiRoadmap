@@ -30,7 +30,7 @@ Hodge structure.
 | A0 | The carrier and its boundaries | `AbelianScheme`, `fieldAndEllipticBoundary`, `abelianPicardInputs` |
 | A1 | Rigidity and normalized line bundles | `relativeProductsAndDimension`, `relativeRigidity`, `relativeInvariantForms`, `relativeSeesaw`, `relativeCube`, `relativeEllipticEquivalence`, `torsionRestriction` |
 | A2 | Duality, polarizations and ample classes | `raynaudRepresentability`, `AbelianScheme.dual`, `mumfordMap`, `Polarization`, `Polarization.graphBundle`, `ampleCohomologyAndDegree`, `projectivePresentation`, `nefNormalizedLines`, `AbelianNS` |
-| A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, `multiplicationAndDensity`, `AbelianQuotient`, `torsionDivisibility`, `dualIsogenyCartierKernel`, `ThetaGroup`, `polarizedWeilPairing`, `FullLevel`, `Polarization.rosati`, `principalQuotient` |
+| A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, `multiplicationAndDensity`, `AbelianQuotient`, `torsionDivisibility`, `dualIsogenyCartierKernel`, `ThetaGroup`, `polarizedWeilPairing`, `FullLevel`, `Polarization.rosati`, `principalQuotient`, `symmetricHomRealization` |
 | A4 | Realizations and deformations | `AbelianTate`, `AbelianVectorExtension`, `AbelianH1dR`, `exteriorCohomology`, `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `serreTate`, `SerreTate.q`, `oddPrimeLifting`, `dyadicOrdinaryLifting` |
 | A5 | Complex uniformization and families | `AbelianLattice`, `RiemannForm.homological`, `polarizationType`, `appellHumbert`, `polarizedHodgeEquivalence`, `analyticFamilies`, `SiegelFamily` |
 | A6 | Arithmetic Hom and exports | `Hom.deg`, `exists_charpoly`, `homFreeFinite`, `poincareReducibility`, `endQ_isSemisimple`, `charpolyTate`, `rosatiPositivity`, `polarizedAutomorphisms`, `CoefficientHom`, `LocalizedHom`, `AbelianTwist`, `weilRestriction`, `QuadraticAbelianTwist`, `Morikawa`, `AbelianHodgeLine` |
@@ -1222,6 +1222,48 @@ functions `x − x(w_i)` to show `2[w_i − w_j] = 0`, shows distinct pairs give
 *Modularity theorems for abelian surfaces*, §8.1 and equation (8.1.1), p. 180, arXiv v1). Two disjoint pairs pair to
 `+1`; pairs with one common point pair to `−1`. *Needs:* A3.7; JacobianChallenge Layers D and E.
 
+### A3.13 Symmetric homomorphisms are Mumford maps
+
+Prove `symmetricHomRealization`. Let `A` be an abelian variety over an algebraically closed field `k`
+of any characteristic. Every symmetric homomorphism `f : A → A^∨` (`f^∨ ∘ κ_A = f`, A2.3) is `φ_L` for
+a line bundle `L` on `A`, unique up to tensoring with `Pic⁰(A)`. With the kernel statement of A2.10
+this makes `AbelianNS.toSymmetricHom` an isomorphism of groups `NS(A) ≅ Hom(A, A^∨)^{sym}`, before any
+tensoring with `ℚ`. Ampleness of `L` is not asserted, and over a field that is not algebraically
+closed the statement is generally false and not claimed. The proof: the bundle `M = (id, f)^*P`,
+rigidified along zero by the Poincaré rigidifications, has Mumford map `f + f^∨ ∘ κ_A = 2f` by the
+computation of A2.6, which uses only the symmetry of `f`. By A3.6 (2) with `n = 2`, `A[2] ⊆ K(M²)` and
+the commutator of `G(M²)` on `A[2]` is `(x, y) ↦ e_2(x, φ_M(y)) = e_2(x, f(2y)) = 1`, an identity of
+morphisms that does not use étaleness of `A[2]`. So the part of `G(M²)` over `A[2]` is a commutative
+extension of the finite commutative group scheme `A[2]` by `𝔾_m`. Over an algebraically closed field
+every such extension splits: a finite commutative group scheme over `k` has a composition series with
+factors `ℤ/ℓ` (`ℓ` prime), `μ_p` and `α_p` (`p` the characteristic; Dieudonné theory for the `p`-part),
+which reduces the splitting to these factors, whose extensions by `𝔾_m` are classified by
+`k^×/k^{×ℓ}`, `H¹(k, ℤ/p)` and `k/k^p`, all zero. The splitting is a level subgroup over `A[2]`, so
+A3.6 (5), with `A/A[2] ≅ A` through `[2]` (A3.3), descends `M²` to a rigidified `L` with
+`[2]^*L ≅ M²`. Then `4φ_L = [2]^∨ ∘ φ_L ∘ [2] = φ_{M²} = 4f` by A2.3, and `φ_L = f` because
+`Hom(A, A^∨)` is torsion-free (A3.4). Uniqueness is the kernel `Pic⁰(A)` of `L ↦ φ_L` (A2.10). Conrad, *Polarizations*, Lemma 2.3 and its proof, pp. 6–7, states the result,
+refers to Mumford, *Abelian varieties*, §20, Theorem 2, and §23, Theorem 3, and isolates the
+composition series as the step that needs `k` algebraically closed; the splitting of commutative
+extensions by `𝔾_m`, inseparable factors included, is not proved there and is part of this target.
+*Needs:* A2.3, A2.6, A2.10, A3.3, A3.4, A3.5, A3.6.
+
+**Checks.**
+
+- On an elliptic curve `E` over an algebraically closed field, with `λ = φ_{O(0)}`, the symmetric
+  homomorphisms `E → E^∨` are the `[d] ∘ λ`, `d ∈ ℤ`, realized by `O(d·0)`. For every point `P`, `O(P)`
+  also realizes `λ` and differs from `O(0)` by the class `O(P − 0)` of `Pic⁰`, so `L` is unique only
+  modulo `Pic⁰`; `d = −1` is realized by `O(−0)`, which is not ample.
+- On `E × E` with `λ₀ = λ × λ`, the symmetric isomorphism `f(x, y) = (λy, λx)` is `φ_L` for
+  `L = m^*O(0) ⊗ p₁^*O(0)^{-1} ⊗ p₂^*O(0)^{-1}`. The bundle `(id, f)^*P` has Mumford map `2f`, of degree
+  `2⁴ = 16`, not `1`: it does not realize `f`, and `[L]` is half its class in `NS(E × E)`. `L` has
+  degree `2` on the diagonal and `−2` on the antidiagonal, so it is not ample; realization gives no
+  positivity.
+- For a supersingular `E` over an algebraically closed field of characteristic `2` and `f = λ`, the
+  descent runs along `[2]`, whose kernel `E[2]` is connected of rank `4` with no nonzero geometric
+  point, and yields `L` of degree `1` with `[2]^*L ≅ M²`, where `M = (id, λ)^*P` has degree `2`. A
+  splitting of the theta extension only over the geometric points of `E[2]` is a splitting over the
+  trivial group and descends nothing.
+
 ### Examples
 
 On `E` over `ℂ`: `E[3] ≅ (ℤ/3)²`, `e_3` is the standard alternating pairing to `μ₃`, and the full level
@@ -2189,19 +2231,21 @@ nonzero matrix. This is the matrix positivity check for the transpose involution
 ### A6.15 Rational Néron–Severi and the ample cone
 
 Prove `rationalNSAmpleCone`. Over an algebraically closed field, `φ` induces
-`NS(A) ⊗ ℚ ≅ Hom⁰(A, A^∨)^{sym}`, and `θ_λ([L]) = λ^{-1} φ_L` identifies `NS(A)_ℚ` with the Rosati-fixed part
-of `End⁰ A`. This holds in characteristic two: for symmetric `f` the graph bundle of A2.6 has `φ = 2f`, and
-rationalization divides by `2`. Lipnowski–Tsimerman's half-normalization `θ′ = θ/2` is a separately named
-scalar adapter. An integral class is ample iff `θ_λ` of it is positive for the Rosati involution; over
-`ℝ` the ample cone is the product of the cones of positive definite Hermitian matrices in the `ℝ`, `ℂ` and
-`ℍ` factors of `End⁰(A)_ℝ`. The proof: the kernel of `φ` is `Pic⁰`, giving injectivity; the graph bundle
-supplies `2f` for every symmetric `f`, giving rational surjectivity without a characteristic
-restriction; Rosati positivity (A6.14) and the real semisimple `*`-algebra decomposition (A6.8) identify
-positive symmetric elements, which have positive square roots; the component containing `λ` is the ample
-cone by the degree and intersection computation (Conrad, *Polarizations*, Example 2.2 and Lemma 2.3,
-pp. 6–7; Lipnowski–Tsimerman, Lemma 4.6 and Propositions 4.9–4.10, pp. 17–19). For `L` defining `λ`,
-`θ([L]) = 1` and `θ′([L]) = 1/2`; for `E²` with `End E = ℤ` the ample cone is the positive definite
-symmetric real `2 × 2` matrices. *Needs:* A2.6, A2.10, A3.9, A6.8, A6.14.
+`NS(A) ⊗ ℚ ≅ Hom⁰(A, A^∨)^{sym}`, the rationalization of the integral isomorphism
+`NS(A) ≅ Hom(A, A^∨)^{sym}` of A3.13, in every characteristic, and `θ_λ([L]) = λ^{-1} φ_L` identifies
+`NS(A)_ℚ` with the Rosati-fixed part of `End⁰ A`. For symmetric `f` the bundle `(id, f)^*P` has `φ = 2f`;
+dividing its class by `2` after rationalization gives only the rational statement, and the integral
+class with `φ = f` is the one supplied by A3.13. Lipnowski–Tsimerman's half-normalization `θ′ = θ/2` is a
+separately named scalar adapter. An integral class is ample iff `θ_λ` of it is positive for the Rosati
+involution; over `ℝ` the ample cone is the product of the cones of positive definite Hermitian matrices
+in the `ℝ`, `ℂ` and `ℍ` factors of `End⁰(A)_ℝ`. The proof: the integral isomorphism is A3.13, and
+tensoring with `ℚ` gives the first statement; Rosati positivity (A6.14) and the real semisimple
+`*`-algebra decomposition (A6.8) identify positive symmetric elements, which have positive square roots;
+the component containing `λ` is the ample cone by the degree and intersection computation (Conrad,
+*Polarizations*, Example 2.2 and Lemma 2.3, pp. 6–7; Lipnowski–Tsimerman, Lemma 4.6 and
+Propositions 4.9–4.10, pp. 17–19). For `L` defining `λ`, `θ([L]) = 1` and `θ′([L]) = 1/2`; for `E²` with
+`End E = ℤ` the ample cone is the positive definite symmetric real `2 × 2` matrices. *Needs:* A2.10,
+A3.9, A3.13, A6.8, A6.14.
 
 ### A6.16 Finiteness of the Néron–Severi group
 
@@ -2271,11 +2315,17 @@ classes of principally polarized structures on `A` are the orbits of `s ↦ u^�
 with `End E = ℤ` this is the `GL_n(ℤ)`-congruence action on positive definite unimodular integral symmetric
 matrices; for a simple `A` whose endomorphism ring is a maximal order in a CM field the classes are the
 totally positive units of the real suborder modulo norms `u ū`. These examples need the stated
-endomorphism order and an existing `λ₀`. The proof identifies `Hom(A, A^∨)` with `End A` through `λ₀^{-1}`,
-transports positivity (A6.15) and pullback (A6.13); degree one is the unit condition (Lipnowski–Tsimerman,
-Proposition 4.11 and Examples 4.12–4.13, pp. 19–20). On `E²` the identity matrix gives the product
+endomorphism order and an existing `λ₀`. The proof identifies `Hom(A, A^∨)` with `End A` through `λ₀^{-1}`.
+A principal `λ` gives a unit `s`, Rosati-symmetric because `λ` is symmetric, and totally positive by the
+ample-cone criterion of A6.15 applied to an ample line bundle defining `λ`. Conversely, for such an `s`
+the isomorphism `f = λ₀ ∘ s` is symmetric, since `f^∨ ∘ κ_A = λ₀ ∘ s^† = f`; A3.13 gives a line bundle
+`L` with `φ_L = f`, the criterion of A6.15 applied to `θ_{λ₀}([L]) = s` makes `L` ample, so `f` is a
+polarization (A2.5), principal because it is an isomorphism. An isomorphism `u` carries `λ` to
+`u^∨ ∘ λ ∘ u` (A2.3, A6.13), which is `s ↦ u^†su` (Lipnowski–Tsimerman, Proposition 4.11 and
+Examples 4.12–4.13, pp. 19–20). The bundle `(id, f)^*P` has Mumford map `2f`, of degree `2^{2g}`, so for
+`g > 0` it does not realize the principal `f`. On `E²` the identity matrix gives the product
 polarization; `2I` gives the polarization `2λ₀`, of degree `d = 4` with `deg 2λ₀ = 16`, which is
-not principal. *Needs:* A6.13, A6.15, A6.17.
+not principal. *Needs:* A2.3, A2.5, A3.13, A6.13, A6.15, A6.17.
 
 ### A6.20 Full-level descent of homomorphisms
 
