@@ -24,7 +24,7 @@ namespace TauCetiRoadmap.Isoperimetry
 
 /-- A consequence of the perimeter theorem, stated without any boundary regularity. -/
 theorem isoperimetric_frontier {n : ℕ} (hn : 2 ≤ n)
-    (E : Set (EuclideanSpace ℝ (Fin n))) (hE : MeasurableSet E)
+    (E : Set (EuclideanSpace ℝ (Fin n)))
     (hvol : volume E < ⊤) :
     (n : ℝ≥0∞) ^ n * volume (Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1) *
         volume E ^ (n - 1) ≤ (μHE[n - 1] (frontier E)) ^ n :=

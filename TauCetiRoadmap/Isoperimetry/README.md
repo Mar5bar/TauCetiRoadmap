@@ -7,9 +7,8 @@ curve, with equality exactly for circles. Develop the supporting convex and func
 inequalities as reusable mathematics: Prékopa–Leindler, Brunn–Minkowski, symmetrization,
 sharp BV Sobolev, and the periodic curve inequality with its equality analysis.
 
-This is a library specification, not a request to certify or reproduce a particular proof.
-No milestone assumes an external isoperimetric repository as a dependency or a chosen proof
-route. Every milestone is required. Quantitative stability, anisotropic perimeter, and
+Develop the theory independently on canonical Mathlib and Tau Ceti APIs. Every milestone
+is required. Quantitative stability, anisotropic perimeter, and
 isoperimetric inequalities on curved ambient manifolds are outside this roadmap.
 [Suggested.lean](Suggested.lean) illustrates interfaces; this README is definitive.
 
@@ -62,8 +61,12 @@ set equality above is equality a.e. These are different assertions with a requir
   winding-number calculus and Green's genuine planar area identity. It retains ownership
   of curve integration and Green's theorem. I3 below owns the sharp periodic inequalities
   and their equality cases. The area and length bridge uses the existing curve APIs.
-- [ConformalMapping](../ConformalMapping/README.md), L5, supplies Jordan separation and
-  filled-hull topology. Use the implemented `TauCeti.IsJordanCurve` and `TauCeti.filledHull`;
+  The [Green layer 5.6 specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
+  supplies these flat planar targets.
+- [ConformalMapping](../ConformalMapping/README.md), L5, owns the Jordan-separation and
+  filled-hull targets: exactly two complementary components, one bounded and one unbounded,
+  with inside `filledHull C \ C` and frontier `C`. Use the implemented
+  `TauCeti.IsJordanCurve` and `TauCeti.filledHull`;
   no private predicate for a Jordan curve or surrogate for its inside.
 - [PDE](../PDE/README.md), Lane A, owns weak Sobolev spaces, density, domain Poincaré and
   trace theory. This roadmap owns sharp Euclidean BV Sobolev and the periodic sharp
@@ -71,9 +74,10 @@ set equality above is equality a.e. These are different assertions with a requir
   PDE's nonsharp estimates do not depend on this roadmap.
 
 The geometric foundation has no dependency on the sharp inequality. I1–I2 can be developed
-alongside it. I3 uses the existing AC calculus and the Green/length inputs. I4 consumes GMT
-G2–G5, I1, and I2's set symmetrization and convex geometry. I2's BV Pólya–Szegő comparison
-follows I4; I5 consumes I4 and GMT G4; I6 consumes I3–I4, GMT G6, and Jordan topology.
+alongside it. I3's analytic inequalities use the existing AC calculus and the Green/length
+inputs; their identification with actual Jordan area also consumes GMT G6's Jordan index
+theorem. I4 consumes GMT G2–G5, I1, and I2's set symmetrization and convex geometry.
+I5 consumes I2, I4 and GMT G4; I6 consumes I3–I4, GMT G6, and Jordan topology.
 No optimal-transport theorem is an assumed input. Any analytic, geometric, or equality
 lemma needed to complete these milestones and absent from their stated inputs is a target
 here, including the proof machinery enumerated in I2 and I4.
@@ -139,25 +143,31 @@ replace a.e. line section by the centered interval of the same one-dimensional v
 Provide representative independence, measurability, preservation of volume, monotonicity,
 translation conventions, dilation, orthogonal transport, and preservation of convexity.
 Prove perimeter nonincrease for finite-perimeter sets using GMT's slicing/coarea theory,
-including the nonsmooth approximation and limit argument. For every bounded measurable
-positive-volume finite-perimeter set, construct a sequence of unit directions whose
+including the nonsmooth approximation and limit argument. Prove `L¹` contraction for
+indicators under Steiner symmetrization. For every measurable positive finite-volume set,
+construct a sequence of unit directions whose
 successive Steiner symmetrizations converge in `L¹` of their indicators to the centered
-volume-matched ball. Prove the compactness and limit identification used in this
-construction. Single-step equality is not
+volume-matched ball. Prove convergence first for bounded finite-perimeter sets using
+compactness and limit identification, then extend to arbitrary finite-volume sets by
+approximation and contraction, including the control at infinity. Single-step equality is not
 assumed to imply that arbitrary sets are balls.
 
-Define Schwarz rearrangement of nonnegative measurable functions from their distribution
-function. Establish equimeasurability, layer cake, all `Lᵖ` norm comparisons that reduce
+Define Schwarz rearrangement from the distribution function for nonnegative measurable
+functions with `|{f > t}| < ∞` for every `t > 0`. Include the `Lᵖ` classes, `1 ≤ p < ∞`,
+as specializations and make the a.e. representative conventions explicit. Establish
+equimeasurability, layer cake, all `Lᵖ` norm comparisons that reduce
 to equimeasurability, order preservation, `Lᵖ` contraction for `1 ≤ p < ∞`, and the
-Hardy–Littlewood inequality. Prove BV Pólya–Szegő from coarea and the set inequality of I4;
-this particular comparison is sequenced **after I4**, not used as an unexplained input
-to its proof. Supply the corresponding `W¹,¹` comparison through the GMT/PDE bridge.
+Hardy–Littlewood inequality. I5 adds the BV and `W¹,¹` gradient comparisons after I4.
 
-For convex bodies construct surface area from GMT's perimeter and show agreement with
-Hausdorff boundary area. Relate outer parallel volume `(K + r • closedBall 0 1)` to
-surface area by the right derivative at zero. Prove the needed boundary charts and volume
-limit, including degenerate bodies in separate statements. Derive the isoperimetric
-inequality for positive-volume convex bodies from Brunn–Minkowski. Prove the sharp
+For positive-volume convex bodies construct surface area from GMT's perimeter and show
+agreement with Hausdorff boundary area. Relate outer parallel volume
+`(K + r • closedBall 0 1)` to that surface area by the right derivative at zero. Prove the
+needed boundary charts and volume limit. For a lower-dimensional nonempty compact convex
+set, ambient volume and perimeter are zero. Prove separately that the outer-parallel right
+derivative is `2 Hⁿ⁻¹(K)` when its affine dimension is `n−1`, and zero when its affine
+dimension is smaller. In particular it need not equal perimeter or topological boundary
+area for a degenerate body. Derive the isoperimetric inequality for positive-volume convex
+bodies from Brunn–Minkowski. Prove the sharp
 isodiametric inequality `|E| ≤ ω_n (diam E / 2)^n` for measurable bounded sets using their
 closed convex hull and the difference-body argument. The volume-maximizing convex-body
 case has ball rigidity; supply the equality proof. For measurable sets, equality implies
@@ -193,11 +203,16 @@ circle traversed once at constant angular speed with one of the two orientations
 Prove the derivative relation a.e. and solve it using the AC FTC. The mean-zero
 Wirtinger equality alone also permits ellipses, so the area/energy equality needs its
 own argument. Compare this signed integral with DifferentialGeometry 5.6's winding-weighted
-area; for a positively oriented simple curve it is the actual volume of the inside.
+area. Use GMT G6's Jordan index theorem to prove that for a simple curve it is `σ` times
+the actual volume of the inside, where `σ ∈ {−1,1}` is its orientation sign.
 
 For a rectifiable curve use GMT G1's arclength parametrization. Prove the constant-speed
-energy identity and the invariance of trace, length, and signed area under admissible
-parametrization changes. The resulting length inequality uses actual total variation;
+energy identity. Prove invariance of trace, length, and inside under increasing continuous
+onto reparametrizations. Define geometric signed area for a continuous BV parameter via
+DifferentialGeometry's rectifiable line integral and the AC arclength factorization;
+prove independence of the factorization, agreement with the derivative integral for AC
+parameters, and sign reversal under decreasing continuous onto reparametrizations.
+Do not use a derivative integral of the original non-AC parameter. The resulting length inequality uses actual total variation;
 it is not an inequality involving the energy of an arbitrarily supplied parametrization.
 
 ## I4 — Sharp Euclidean perimeter inequality and ball rigidity
@@ -219,10 +234,12 @@ partitions with additive perimeter and build their decomposition, uniqueness, an
 and perimeter summation theory here. Every further object introduced in the rigidity
 proof must receive its basic restriction, invariance, and comparison API.
 
-Give the topological-frontier corollary for every bounded measurable set, and the more
+Give the topological-frontier corollary for every bounded set, and the more
 general finite-volume version, with `Hⁿ⁻¹(frontier E)` on the right. An infinite frontier
 measure makes the extended inequality immediate; the finite case uses GMT G5's boundary
-criterion and `P(E) ≤ Hⁿ⁻¹(frontier E)`. Supply its sharp-constant equality consequences:
+criterion and `P(E) ≤ Hⁿ⁻¹(frontier E)`. In the finite case prove that the frontier is
+Lebesgue-null and hence `E` is `NullMeasurableSet` by comparison with its open interior;
+the corollary therefore requires no separate measurability hypothesis. Supply its sharp-constant equality consequences:
 for positive finite volume and finite frontier measure, equality implies agreement a.e.
 with a ball. Do not assert literal ball equality for arbitrary representatives or a
 converse for every null modification: topological frontier is sensitive to null sets.
@@ -234,6 +251,10 @@ their classical outward normals. The surface-area/perimeter identification is GM
 comparison, not a new definition chosen to make this inequality immediate.
 
 ## I5 — Sharp BV Sobolev and its equality cases
+
+Prove BV Pólya–Szegő from GMT's scalar coarea and I4's set inequality: Schwarz rearrangement
+does not increase total variation. Supply the corresponding `W¹,¹` comparison through
+the GMT/PDE bridge. These comparisons use I4 and are not inputs to its proof.
 
 For `n ≥ 2`, `p = n/(n−1)`, prove on the whole space
 
@@ -278,8 +299,11 @@ balls as strict examples. Check a punctured ball: it has equality for perimeter 
 ball rigidity, while literal ball equality fails. Check a circle traversed twice: its
 trace is a circle, but its parameterized length and winding-weighted area reflect
 multiplicity and it is not a simple-curve equality case. Include a circle parametrized
-by a continuous singular increasing homeomorphism, which tests the full rectifiable
-statement beyond AC parameters. Verify the BV extremizers and smooth near-extremizers.
+by `φ(t) = (t + C(t))/2` on `[0,1]`, where `C` is the Cantor–Lebesgue function constructed
+in GMT's acceptance examples. Prove that `φ` is an increasing homeomorphism which is not
+AC, and that the resulting circle parameter is continuous, simple, rectifiable and not
+AC. This tests the full geometric statement beyond AC parameters. Verify the BV
+extremizers and smooth near-extremizers.
 
 Completion requires the full inequality **and** equality statements, the geometric bridges,
 and the reusable APIs of I1–I5. An outer-neighborhood-volume inequality without the
@@ -295,6 +319,9 @@ and the final declarations must have explicit integrability and finiteness hypot
   measure and boundary theory.
 - [The Brunn–Minkowski exposition by Terence Tao](https://terrytao.wordpress.com/2011/09/16/the-brunn-minkowski-inequality-for-nilpotent-groups/)
   includes the Euclidean Prékopa–Leindler argument.
+- Joel Tropp's [*Lectures on Convex Geometry*](https://tropp.caltech.edu/notes/Tro18-Lectures-Convex-LN.pdf),
+  Lecture 8, supplies the parallel-volume and intrinsic-volume normalization, including
+  lower-dimensional convex bodies.
 - [Freek Wiedijk's isoperimetric entry and HOL Light proof](https://www.cs.ru.nl/~freek/100/hol.html#43)
   provide a classical planar comparison: arbitrary rectifiable simple closed curves and
   geometric circle equality.
@@ -312,8 +339,8 @@ and the final declarations must have explicit integrability and finiteness hypot
   results as existing work; neither its implementation nor any chosen dependencies
   prescribe this roadmap's design or discharge a milestone without its full requirements.
 
-All three are prior work, not required imports, prescribed sources to port, or assumed
-proof strategies. Contributors develop the mathematics properly on the canonical
+Humanfia, Jonathan Ho/LeanPool, and kim-em/isoperimetric are prior work rather than required
+imports or prescribed proof strategies. Contributors develop the mathematics on the canonical
 Mathlib/Tau Ceti APIs and assess every result against the statements above. Reuse of code
 follows the repository's coordination and attribution rules. New definitions must receive
 their full usable basic theory, and all comparisons must agree with the geometric
