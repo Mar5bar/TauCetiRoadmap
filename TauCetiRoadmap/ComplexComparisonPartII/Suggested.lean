@@ -38,9 +38,9 @@ What is recorded here:
   logarithmic differentials of a chart (C5.5), and the residue-strip and monodromy conventions
   (C5.6);
 * end theorems and layer milestones whose carriers exist at the pins: the one-variable Dolbeault
-  lemma, Montel's theorem, the Banach case of Schwartz's finiteness theorem, Nagata
-  compactification, connectedness of punctured Riemann surfaces, the pointwise form of the
-  semipositive wedge inequality and the Fubini–Study normalisation;
+  lemma, Montel's theorem, the Banach case of Schwartz's finiteness theorem, connectedness of
+  punctured Riemann surfaces, the pointwise form of the semipositive wedge inequality and the
+  Fubini–Study normalisation;
 * `example`s fixing every sign and normalisation the README pins with a witness: `∂̄ z̄ = 1`,
   `∮ dz/z = 2πi`, `Δ_Hodge(x₁²) = −2` in `ℝ³`, residue representatives in `0 ≤ Re < 1` and
   monodromy `exp(−2πia)`, `ℕ → ℂ, 1 ↦ 0` for the standard log point, `⟨2, 3⟩ ⊆ ℤ` fine but not
@@ -217,15 +217,6 @@ end C1
 /-! ## Layer C4: Analytic images, Chow algebraization and morphism comparison -/
 
 section C4
-
-/-- **C4.3, `nagataCompactification`** (Conrad, *Deligne's notes on Nagata compactifications*,
-Theorem 4.1). A separated morphism of finite type to a quasi-compact quasi-separated scheme factors
-as an open immersion followed by a proper morphism. Over `Spec ℂ` this is the compactification
-used by `properSupportAlgebraization` and `properSourceMorphismAlgebraicity`. -/
-theorem nagataCompactification {X S : Scheme.{u}} (f : X ⟶ S) [CompactSpace S]
-    [QuasiSeparatedSpace S] [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
-    ∃ (Y : Scheme.{u}) (j : X ⟶ Y) (p : Y ⟶ S), IsOpenImmersion j ∧ IsProper p ∧ j ≫ p = f :=
-  sorry
 
 /-- **C4.5, `puncturedRiemannSurfaceConnected`.** Removing finitely many points from a connected
 Riemann surface leaves a path-connected set. The real dimension two matters: the analogue for a
@@ -494,14 +485,14 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `properDeRhamBetti`, `relativeDeRhamBetti`, `deligneRiemannHilbert`,
   `regularSingularDeRhamComparison`, `properLogGagaMonodromy`.
 * **Algebraic spaces and their derived categories:** `analyticEtaleDescent`,
-  `SpaceCoherentAnalytification`, `DQCohSpace`, `pseudoCoherenceDetection`,
-  `derivedGagaProperSpace`.
+  `SpaceCoherentAnalytification`, `spaceQuasiCoherator` (on AlgebraicModuliForArithmeticGeometry's
+  `spaceDQCoh`), `pseudoCoherenceDetection`, `derivedGagaProperSpace`.
 * **Forms, metrics and currents on complex manifolds** (DifferentialGeometry's forms are not in the
   library at the pins): `localDolbeault` in several variables, `HodgeStar`, `HodgeLaplacian`,
   `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`,
   `HolomorphicDeRham`, `holomorphicPoincare`, `relativePoincare`, `compactEllipticHodge`,
   `HarmonicGreen`, `kaehlerHodgeDecomposition`, `closedCurrentExtension`,
-  `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets,
+  `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
   `chernFubiniStudyIntersection` in general, `dghIntegrationApplication`.
 * **Singular cohomology with coefficients** (AlgebraicTopology, Stage 6): `SmallSingularCochains`,
   `sheafSingularComparison`, `multiplicativePeriodInterface`, `relativeBettiLocalSystem`; and

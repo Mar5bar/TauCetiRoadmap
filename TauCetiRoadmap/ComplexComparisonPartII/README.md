@@ -37,8 +37,8 @@ The layers are C0–C5:
 | C0 | Coherent analytic modules and coherent analytification | `CoherentAnalyticModule`, `coherentOperations`, `CoherentAnalyticIdeal`, `holomorphicBundleDictionary`, `CoherentAnalytification`, `HigherImageComparison`, `fibreDimensionLoci` |
 | C1 | Analytic coherent cohomology | `localDolbeault`, `HodgeStar`, `HodgeLaplacian`, `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`, `cartanTheoremB`, `schwartzFiniteness`, `cartanSerreFiniteness`, `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`, `analyticSerreVanishing` |
 | C2 | Projective and proper consequences of coherent GAGA | `gagaBaseChange`, `projectiveGeometricDictionaries` |
-| C3 | Algebraic spaces: analytic descent and derived GAGA | `analyticEtaleDescent`, `DQCohSpace`, `pseudoCoherenceDetection`, `derivedGagaProperSpace` |
-| C4 | Analytic images, Chow algebraization and morphism comparison | `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `nagataCompactification`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `affineCurveConnectedness` |
+| C3 | Algebraic spaces: analytic descent and derived GAGA | `analyticEtaleDescent`, `spaceQuasiCoherator`, `pseudoCoherenceDetection`, `derivedGagaProperSpace` |
+| C4 | Analytic images, Chow algebraization and morphism comparison | `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `affineCurveConnectedness` |
 | C5 | de Rham–Betti comparison, Hodge theory and logarithmic comparison | `AlgebraicDeRham`, `holomorphicPoincare`, `sheafSingularComparison`, `properDeRhamBetti`, `GaussManin`, `relativeHodgeBundles`, `kaehlerHodgeDecomposition`, `properPureHodge`, `AnalyticCycleIntegration`, `LogStructure`, `logChartCriterion`, `deligneRiemannHilbert`, `regularSingularDeRhamComparison`, `properLogGagaMonodromy` |
 
 ## Scope and ownership
@@ -52,9 +52,9 @@ theory, the Hodge star, the Hodge Laplacian and the Kähler identities, the Cher
 the Bochner–Kodaira identity, Cartan's theorem B, Montel's and Schwartz's theorems, Cartan–Serre finiteness, analytic projective twisting sheaves with their
 cohomology, and Serre's analytic generation, vanishing and twist presentations. The base-change and
 dictionary consequences of projective GAGA. Coherent analytic descent on étale presentations, the
-quasi-coherent derived category of an algebraic space with its quasi-coherator, Hall's
+quasi-coherator of an algebraic space (on AlgebraicModuliForArithmeticGeometry's `spaceDQCoh`), Hall's
 pseudo-coherence detection and derived GAGA for proper algebraic spaces. Remmert's and
-Remmert–Stein's theorems, Chow's theorem with nilpotents, Nagata compactification, algebraization
+Remmert–Stein's theorems, Chow's theorem with nilpotents, algebraization
 with proper support, algebraicity of holomorphic maps from proper sources and of maps with algebraic
 graphs, the morphism interfaces for families, and the affine-curve connectedness comparison. In
 Layer C5: the algebraic and holomorphic de Rham complexes, the holomorphic and relative Poincaré
@@ -102,6 +102,18 @@ log point.
   generation and vanishing (Layer 1); coherent dévissage `coherentDevissage` and
   `devissageViaChow` (Layer 2, §2.3); effective étale descent on algebraic spaces and the
   algebraic Hom/Isom representability for projective families (Layer 3).
+- *Same roadmap, §7.7.* `spaceDQCoh X`, the full subcategory of the derived category of
+  `O_X`-modules on the ringed small étale site of an algebraic space with quasi-coherent cohomology
+  sheaves, and `spacePerfect X`, with `spaceDQCoh.chartRestriction`,
+  `spaceDQCoh.schemeEtaleEquivalence`, `spaceDQCoh.derivedPullback`,
+  `spaceDQCoh.derivedPushforward`, `spaceDQCoh.tensor` and `spaceDQCoh.cohomologyComparison`. C3.2
+  builds the quasi-coherator on this category.
+- *CohomologicalPointCounting/CompactSupport, Layers 0–2.* `Compactification f` and
+  `DenseCompactification f` for a separated finite-type morphism `f` of Noetherian schemes (a
+  quasi-compact open immersion followed by a proper morphism), the Noetherian Nagata compactification
+  theorem that every such `f` has one, and common refinements of two compactifications. C4.3 uses
+  them for separated schemes of finite type over `Spec ℂ`; the étale coefficients of its later
+  layers are not used.
 - *SchemeAndStackFoundations.* Algebraic spaces, their étale sites and descent (Layer 1); site
   cohomology functoriality, higher direct images, Leray and Čech-to-cohomology (§2.1 `Sheaf.H.pullback`,
   §2.1 `Sheaf.higherDirectImage`, §2.2 `leray_spectral_sequence`, §2.2 `cech_to_cohomology`),
@@ -308,7 +320,8 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `closedSubspace`, `openSubspace`, `fibreProduct`, `etaleLocalIso`. §7.10.3:
   `complexSpaceAnalytification`, `completedAnalyticStalkComparison` (`localHom`, `completionIso`,
   `flat`, `coherentPullbackExact`), `properSchemeGagaPushforward`, `properSchemeGagaEquivalence`,
-  `properSpaceComplexGaga`. Layer 9, §9.5: `sncCompactification`, `analyticPolydisc`. Layer 1:
+  `properSpaceComplexGaga`. §7.7: `spaceDQCoh`, `spacePerfect`, `spaceDQCoh.schemeEtaleEquivalence`,
+  `spaceDQCoh.tensor`. Layer 9, §9.5: `sncCompactification`, `analyticPolydisc`. Layer 1:
   algebraic projective twists and relative Serre theorems. Layer 2, §2.3: `coherentDevissage`,
   `devissageViaChow`. Layer 3: effective étale descent on algebraic spaces and Hom/Isom
   representability for projective families. These are consumed exactly as stated there; in
@@ -330,9 +343,10 @@ theorem B, functional analysis gives Cartan–Serre finiteness, and Čech comput
 space give twist cohomology and Serre's analytic generation and vanishing. These are the analytic
 half of Serre's projective comparison, and they feed Chow's theorem in C4. C2 states the projective
 consequences of GAGA that families need (projection and base change, dictionaries for ideals,
-sections and bundles). C3 passes to algebraic spaces: analytic étale descent, the quasi-coherent
-derived category of an algebraic space and Hall's derived GAGA. C4 proves the analytic image
-theorems and uses them, with Nagata compactification, to algebraize analytic subspaces and
+sections and bundles). C3 passes to algebraic spaces: analytic étale descent, the quasi-coherator on
+the quasi-coherent derived category of an algebraic space and Hall's derived GAGA. C4 proves the
+analytic image theorems and uses them, with the Nagata compactification of
+CohomologicalPointCounting/CompactSupport, to algebraize analytic subspaces and
 holomorphic maps out of proper schemes, and compares connectedness of affine curves. C5 is the
 de Rham layer, in seven parts: ordinary proper comparison (C5.1), families (C5.2), geometric Hodge
 theory (C5.3), integration over analytic cycles (C5.4), logarithmic structures (C5.5), regular
@@ -942,9 +956,9 @@ TauCetiRoadmap.JacobianChallenge (Layer C); TauCetiRoadmap.StableReduction (Laye
 The abelian GAGA theorem for proper algebraic spaces is `properSpaceComplexGaga` of
 AlgebraicModuliForArithmeticGeometry §7.10.3, proved by Chow modification and support induction.
 This layer supplies coherent analytification on algebraic spaces through étale descent, the
-quasi-coherent derived category of an algebraic space with its quasi-coherator, and Hall's derived
-GAGA, which upgrades the abelian equivalence to bounded coherent derived categories without a
-projective reduction.
+quasi-coherator on the quasi-coherent derived category `spaceDQCoh` of
+AlgebraicModuliForArithmeticGeometry §7.7, and Hall's derived GAGA, which upgrades the abelian
+equivalence to bounded coherent derived categories without a projective reduction.
 
 ### C3.1 Coherent analytification on algebraic spaces
 
@@ -976,38 +990,53 @@ AlgebraicModuliForArithmeticGeometry Layer 3.
   separated, non-separated algebraic space) the structure sheaf analytifies to the structure sheaf of
   the non-Hausdorff analytic space; the construction does not require separatedness.
 
-### C3.2 The quasi-coherent derived category of an algebraic space
+### C3.2 The quasi-coherator of an algebraic space
 
-Define `DQCohSpace X` for a quasi-compact quasi-separated algebraic space `X`: the full triangulated
-subcategory of the derived category `D(X_ét, O_X)` of `O_X`-modules on the small étale site whose
-cohomology sheaves are quasi-coherent. For schemes it agrees with SchemeAndStackFoundations
-§2.18 `DQCoh`. The inclusion `D_qc(X) ⊆ D(X)` has a right adjoint, the
-quasi-coherator `RQ_X`, and `M → RQ_X M` is an isomorphism for `M ∈ D_qc(X)`. For a morphism of
-ringed topoi `c : 𝔛 → X_ét`, `Rc_{qc,*} = RQ_X ∘ Rc_*` is right adjoint to `Lc^*` restricted to
-`D_qc(X)`, and the projection morphism `M ⊗ᴸ Rc_{qc,*}N → Rc_{qc,*}(Lc^*M ⊗ᴸ N)` is an isomorphism
-for perfect `M` (Hall, §4, the quasi-coherator and Lemma 4.3, pp. 10–11). The API is
-`DQCohSpace.quasiCoherator` (the right adjoint `RQ_X`), `DQCohSpace.quasiCoherator_unit_iso`
-(`M ≅ RQ_X M` on `D_qc`) and `DQCohSpace.projection_perfect` (the projection isomorphism for perfect
-`M`). *Needs:* SchemeAndStackFoundations Layer 1 (algebraic spaces and étale sites) and
-§2.18 `DQCoh`, §2.18 `perfect_generator`; Mathlib `DerivedCategory`.
+The quasi-coherent derived category of an algebraic space `X` is `spaceDQCoh X` of
+AlgebraicModuliForArithmeticGeometry §7.7: the full subcategory of Mathlib's derived category
+`D(X_ét, O_X)` of `O_X`-modules on the ringed small étale site of SchemeAndStackFoundations Layer 1
+whose cohomology sheaves are quasi-coherent, with its perfect objects `spacePerfect X`, its derived
+pullback, pushforward and tensor product, and its comparison `spaceDQCoh.schemeEtaleEquivalence`
+with SchemeAndStackFoundations §2.18 `DQCoh` for schemes. This layer uses that category and its API
+as stated there and adds the quasi-coherator.
+
+Define `spaceQuasiCoherator X` for a quasi-compact quasi-separated algebraic space `X`: the right
+adjoint `RQ_X : D(X_ét, O_X) → spaceDQCoh X` of the inclusion, with `M → RQ_X M` an isomorphism for
+`M` in `spaceDQCoh X`. For a morphism of ringed topoi `c : 𝔛 → X_ét`, `Rc_{qc,*} = RQ_X ∘ Rc_*` is
+right adjoint to `Lc^*` restricted to `spaceDQCoh X`, and the projection morphism
+`M ⊗ᴸ Rc_{qc,*}N → Rc_{qc,*}(Lc^*M ⊗ᴸ N)` is an isomorphism for `M` in `spacePerfect X` (Hall, §4,
+the quasi-coherator and Lemma 4.3, pp. 10–11). The API is `spaceQuasiCoherator.adjunction` (the
+right adjoint `RQ_X`), `spaceQuasiCoherator.unit_iso` (`M ≅ RQ_X M` on `spaceDQCoh X`) and
+`spaceQuasiCoherator.projection_perfect` (the projection isomorphism for perfect `M`). *Needs:*
+AlgebraicModuliForArithmeticGeometry §7.7 `spaceDQCoh`, `spacePerfect`,
+`spaceDQCoh.schemeEtaleEquivalence`, `spaceDQCoh.tensor`; SchemeAndStackFoundations Layer 1
+(algebraic spaces and étale sites) and §2.18 `DQCoh`, §2.18 `perfect_generator`; Mathlib
+`DerivedCategory`.
 
 **Checks.**
 
-- `DQCohSpace.affine`: for `X = Spec A` an affine scheme, `D_qc(X)` is equivalent to `D(A)` through
-  Layer 2's affine equivalence, and `RQ_X` is the identity on it.
-- `DQCohSpace.zero`: for the empty space, `D_qc` is the zero category.
-- `DQCohSpace.extensionByZero`: for a DVR `A` with generic point `η`, the extension by zero of the
-  structure sheaf of `{η}` is an `O_X`-module that is not quasi-coherent, so it is in `D(X)` but not in
-  `D_qc(X)`; a definition taking all of `D(X)` would contain it.
+- `spaceQuasiCoherator.affine`: for `X = Spec A` an affine scheme, `RQ_X K` is the quasi-coherent
+  complex of `RΓ(X_ét, K) ∈ D(A)` (the adjunction of `O_X ⊗ᴸ_A −` with `RΓ(X_ét, −)`), so through
+  `spaceDQCoh.schemeEtaleEquivalence` and Layer 2's affine equivalence `spaceDQCoh X ≃ D(A)` it is
+  the identity on `spaceDQCoh X` (Stacks, Tag 08D9, on the Zariski site).
+- `spaceQuasiCoherator.zero`: for the empty space, `spaceDQCoh X` is the zero category and
+  `RQ_X = 0`.
+- `spaceQuasiCoherator.extensionByZero`: for `X = Spec A`, `A` a DVR with generic point `η`, the
+  extension by zero `j_!O_η` of the structure sheaf of the open point `j : {η} → X` is not
+  quasi-coherent (its global sections vanish, since a nonzero section over `{η}` does not have
+  closed support in `X`, while its restriction to `{η}` is `O_η ≠ 0`), so the counit
+  `RQ_X(j_!O_η) → j_!O_η` is not an isomorphism; a quasi-coherator equal to the identity of
+  `D(X_ét, O_X)` would make it one.
 
 Prove `pseudoCoherenceDetection`. Let `A` be a ring and `X → Spec A` a quasi-compact, separated,
-pseudo-coherent morphism of algebraic spaces. A complex `M ∈ D_qc(X)` is pseudo-coherent (étale
+pseudo-coherent morphism of algebraic spaces. A complex `M` in `spaceDQCoh X` is pseudo-coherent (étale
 locally quasi-isomorphic to a bounded-above complex of finite free modules), respectively
 pseudo-coherent and bounded, as soon as `RHom(P, M) ∈ D(A)` is pseudo-coherent (and bounded) for
-every perfect `P`. Consequently, for `c : 𝔛 → X_ét` such that `RΓ(𝔛, −)` sends bounded
+every `P` in `spacePerfect X`. Consequently, for `c : 𝔛 → X_ét` such that `RΓ(𝔛, −)` sends bounded
 pseudo-coherent complexes to bounded pseudo-coherent `A`-complexes, `Rc_{qc,*}` preserves bounded
 pseudo-coherent complexes (Hall, Theorem 3.8, p. 8, and Proposition 4.1, p. 10). *Needs:*
-`DQCohSpace`; SchemeAndStackFoundations §2.18 `perfect_generator`.
+`spaceQuasiCoherator`; AlgebraicModuliForArithmeticGeometry §7.7 `spaceDQCoh`, `spacePerfect`;
+SchemeAndStackFoundations §2.18 `perfect_generator`.
 
 ### C3.3 Derived GAGA for proper algebraic spaces
 
@@ -1025,7 +1054,7 @@ coherent (and `O_{X^an}` is coherent by Oka's theorem, `ComplexAnalyticSpace.coh
 the residue fields of the closed points form a pseudo-conservative family on both sides (Nakayama on
 top cohomology and the Jacobson property). Full faithfulness and essential surjectivity then follow
 from the adjunction of C3.2 (Hall, Theorem 9.1 and the proof of Theorem A, pp. 20–21; Lemma 5.5,
-p. 12; Examples 7.1–7.2, p. 18, and Lemma 7.4, p. 19, for pseudo-conservative families). *Needs:* `DQCohSpace`;
+p. 12; Examples 7.1–7.2, p. 18, and Lemma 7.4, p. 19, for pseudo-conservative families). *Needs:* `spaceQuasiCoherator`;
 `pseudoCoherenceDetection`; `analyticEtaleDescent`; `cartanSerreFiniteness`;
 AlgebraicModuliForArithmeticGeometry `completedAnalyticStalkComparison`, `properSpaceComplexGaga`.
 
@@ -1042,8 +1071,8 @@ AlgebraicModuliForArithmeticGeometry `completedAnalyticStalkComparison`, `proper
 
 ### Dependencies
 
-C0, C1; AlgebraicModuliForArithmeticGeometry Layer 3 and §7.10.3; SchemeAndStackFoundations Layer 1
-and Layer 2; Mathlib derived categories.
+C0, C1; AlgebraicModuliForArithmeticGeometry Layer 3, §7.7 and §7.10.3; SchemeAndStackFoundations
+Layer 1 and Layer 2; Mathlib derived categories.
 
 <a id="c4"></a>
 
@@ -1093,15 +1122,11 @@ p. 121). It says nothing about closed analytic subsets of `Aⁿ`. *Needs:* `anal
 
 ### C4.3 Compactification and algebraization with proper support
 
-Prove `nagataCompactification`: for a quasi-compact quasi-separated scheme `S` and a separated
-morphism of finite type `f : X → S`, there are a proper `S`-scheme `X̄` and an open immersion
-`X → X̄` over `S`, which may be taken schematically dense (Conrad, *Deligne's notes on Nagata
-compactifications*, J. Ramanujan Math. Soc. 22 (2007), Theorem 4.1, author PDF p. 28, with
-Remark 4.2). Over `S = Spec ℂ` this compactifies every separated scheme of finite type; for
-quasi-projective schemes projective closure already suffices. *Needs:* Mathlib
-`AlgebraicGeometry.IsSeparated`, `LocallyOfFiniteType`, `IsProper`, `IsOpenImmersion`;
-SchemeAndStackFoundations §4.12 (blow-ups and Chow's lemma); AlgebraicModuliForArithmeticGeometry
-Layer 1 (projective closure).
+Compactifications are those of CohomologicalPointCounting/CompactSupport: `Compactification f` and
+`DenseCompactification f` (Layer 0), the Noetherian Nagata compactification theorem (Layer 1) and
+common refinements (Layer 2). Every compactification below is of a separated scheme of finite type
+over the Noetherian base `Spec ℂ`, so the Noetherian theorem applies as stated there; for
+quasi-projective schemes projective closure already suffices.
 
 Prove `properSupportAlgebraization`: let `Y` be a separated scheme of finite type over `ℂ` and `G` a
 coherent analytic module on `Y^an` whose support is compact. Then `G ≅ F^an` for a coherent `O_Y`-module
@@ -1109,13 +1134,15 @@ coherent analytic module on `Y^an` whose support is compact. Then `G ≅ F^an` f
 unique isomorphism compatible with the specified identification, and morphisms between such
 modules algebraize uniquely. In particular a closed analytic subspace of `Y^an` with compact support is `W^an`
 for a unique closed subscheme `W ⊆ Y`, proper over `ℂ`, nilpotents included. The analytic module `O_{Y^an}` itself has noncompact support and is
-not covered. Choose a compactification `Y ⊆ Ȳ`; the support of `G` is closed in `Ȳ^an`, so `G`
-extended by zero is coherent; apply `properSchemeGagaEquivalence` on `Ȳ`; faithfulness puts the
-support of the algebraic module inside `Y`, and full faithfulness makes the result independent of the
-compactification (SGA 1, XII, Theorem 4.4, printed pp. 249–250, applied on `Ȳ`; Serre, *GAGA*,
+not covered. Choose a compactification `Y ⊆ Ȳ` (CompactSupport Layer 1); the support of `G` is closed
+in `Ȳ^an`, so `G` extended by zero is coherent; apply `properSchemeGagaEquivalence` on `Ȳ`;
+faithfulness puts the support of the algebraic module inside `Y`, and full faithfulness, applied on a
+common refinement of two compactifications (CompactSupport Layer 2), makes the result independent of
+the compactification (SGA 1, XII, Theorem 4.4, printed pp. 249–250, applied on `Ȳ`; Serre, *GAGA*,
 n° 19, Proposition 14, printed p. 29, for reduced compact analytic subsets; the reduction to a
 compactification is the argument just given).
-*Needs:* `nagataCompactification`; AlgebraicModuliForArithmeticGeometry
+*Needs:* CohomologicalPointCounting/CompactSupport Layers 0–2 (`Compactification`, Noetherian Nagata
+compactification, common refinements); AlgebraicModuliForArithmeticGeometry
 `properSchemeGagaEquivalence`; `coherentAnalytification_faithful`; AlgebraicModuliForArithmeticGeometry
 `complexSchemeAnalytification.openSubspace`.
 
@@ -1212,8 +1239,8 @@ one-dimensional case, by the route above). *Needs:* `affineCurveCompletionInterf
 ### Dependencies
 
 C0–C2; AlgebraicModuliForArithmeticGeometry §§7.10.1, 7.10.3 and Layers 1–3;
-SchemeAndStackFoundations Layer 1 and §4.12; TauCetiRoadmap.AlgebraicCurves (Layers 6 and 12); Mathlib
-schemes and manifolds.
+SchemeAndStackFoundations Layer 1; CohomologicalPointCounting/CompactSupport (Layers 0–2);
+TauCetiRoadmap.AlgebraicCurves (Layers 6 and 12); Mathlib schemes and manifolds.
 
 <a id="c5"></a>
 
@@ -1233,16 +1260,20 @@ Define `AlgebraicDeRham X` for a smooth scheme `X` over `ℂ` (more generally ov
 characteristic zero): `Ω^p_{X/ℂ} = Λ^p Ω¹_{X/ℂ}` built from Mathlib's Kähler differentials and exterior
 powers on affine opens and glued along localizations, with the `ℂ`-linear differential determined by
 `d(a₀ da₁ ∧ ⋯ ∧ da_p) = da₀ ∧ da₁ ∧ ⋯ ∧ da_p`. It satisfies `d² = 0` and the graded Leibniz rule and is
-not `O_X`-linear. Forgetting the module structures gives a bounded complex of sheaves of `ℂ`-vector
-spaces with finite locally free terms; `H^q_dR(X/ℂ)` is its hypercohomology. The API is
+not `O_X`-linear. Forgetting the module structures gives a complex of sheaves of `ℂ`-vector spaces in
+degrees `p ≥ 0` with finite locally free terms; `H^q_dR(X/ℂ)` is its hypercohomology. Near a point
+`x` the module `Ω¹_{X/ℂ}` is free of rank `dim_x X`, so `Ω^p_{X/ℂ} = 0` for `p > dim X`: the complex
+is bounded when `X` is finite-dimensional, in particular when `X` is of finite type, and finite local
+freeness of each term does not bound it in general. The API is
 `AlgebraicDeRham.d_on_generator` (the displayed formula), `AlgebraicDeRham.d_squared`
-(`d ∘ d = 0`) and `AlgebraicDeRham.pullback` (a morphism of smooth schemes induces pullback of forms
-commuting with `d`) (Grothendieck, *On the de Rham cohomology of algebraic varieties*, Publ. Math.
+(`d ∘ d = 0`), `AlgebraicDeRham.pullback` (a morphism of smooth schemes induces pullback of forms
+commuting with `d`) and `AlgebraicDeRham.bounded` (`Ω^p_{X/ℂ} = 0` for `p > dim X` when `X` is
+finite-dimensional) (Grothendieck, *On the de Rham cohomology of algebraic varieties*, Publ. Math.
 IHÉS 29 (1966), notation (1)–(4), printed pp. 95–96; Deligne, *Équations différentielles à points
 singuliers réguliers*, LNM 163 (1970), I.2.20.3–2.21, printed pp. 13–14). *Needs:* Mathlib `KaehlerDifferential.D`,
 `exteriorPower.ιMulti`; TauCetiRoadmap.AlgebraicVectorBundles (L0C exterior powers of locally free
-sheaves); Mathlib `DerivedCategory` (hypercohomology of a bounded complex of sheaves of `ℂ`-vector
-spaces on the Zariski site, as morphisms from the constant sheaf in the derived category).
+sheaves); Mathlib `DerivedCategory` (hypercohomology of a bounded-below complex of sheaves of
+`ℂ`-vector spaces on the Zariski site, as morphisms from the constant sheaf in the derived category).
 
 **Checks.**
 
@@ -1250,6 +1281,9 @@ spaces on the Zariski site, as morphisms from the constant sheaf in the derived 
 - `AlgebraicDeRham.polynomial`: on `A¹ = Spec ℂ[z]`, `d(zⁿ) = n zⁿ⁻¹ dz`.
 - `AlgebraicDeRham.torus`: on `G_m = Spec ℂ[z, z⁻¹]`, `dz/z` is closed and not exact (it is not
   `d` of any Laurent polynomial), so `H¹_dR(G_m) ≠ 0`; a complex that forgot the units would miss it.
+- `AlgebraicDeRham.disjointUnion`: `X = ⊔_{n ≥ 0} Aⁿ_ℂ` is smooth and locally of finite type over `ℂ`,
+  and `Ω^p_X ≠ 0` for every `p` (restrict to the component `A^p_ℂ`), so its de Rham complex is not
+  bounded; `AlgebraicDeRham.bounded` needs `dim X < ∞`.
 
 Define `HolomorphicDeRham T` for a complex manifold `T`: `Ω^p_T` the coherent sheaf of holomorphic
 `p`-forms (the locally free module of the holomorphic cotangent bundle's `p`-th exterior power, by
@@ -1385,8 +1419,9 @@ compatibility with cup products is `multiplicativePeriodInterface`. *Needs:*
 
 Prove `properDeRhamBetti` (Grothendieck): for a smooth proper scheme `X` over `ℂ` and every `q ≥ 0`
 there is a canonical `ℂ`-linear isomorphism `H^q_dR(X/ℂ) ≅ H^q_sing(X^an, ℂ)`, natural for morphisms of
-smooth proper schemes. It is the composite of `boundedOperatorHyperGaga` for `Ω^•_X` (whose
-analytification is `Ω^•_{X^an}` by local coordinates), `holomorphicPoincare` and
+smooth proper schemes. It is the composite of `boundedOperatorHyperGaga` for `Ω^•_X` (bounded by
+`AlgebraicDeRham.bounded`, since `X` is of finite type; its analytification is `Ω^•_{X^an}` by local
+coordinates), `holomorphicPoincare` and
 `sheafSingularComparison`. Projectivity is not assumed (Grothendieck 1966, Theorem 1′ and the remark
 on complete schemes, printed p. 96); smoothness is, since the ordinary de Rham complex of a singular
 scheme does not compute Betti cohomology in general. *Needs:* `AlgebraicDeRham`; `HolomorphicDeRham`;
@@ -1483,7 +1518,9 @@ Prove `relativeDeRhamBetti`: for a smooth proper morphism `f : X → S` of smoot
 canonical map `(R^q f_*Ω^•_{X/S})^an → R^q f^an_* ℂ ⊗_ℂ O_{S^an}` is an isomorphism of locally free
 holomorphic modules carrying `∇^an` to the connection `d ⊗ 1` whose horizontal sections are
 `R^q f^an_* ℂ`, compatible with base change and with the fibrewise `properDeRhamBetti`. No projectivity
-is assumed. Compare the relative operator complexes by `boundedOperatorHyperGaga`, resolve
+is assumed. Compare the relative operator complexes by `boundedOperatorHyperGaga` over each
+quasi-compact open `V ⊆ S`, over which `Ω^•_{X/S}` is bounded (`f` is quasi-compact and `Ω¹_{X/S}` is
+finite locally free, so its rank on `f⁻¹(V)` is bounded), resolve
 `f^{an,−1}O_{S^an}` by `relativePoincare`, and use `relativeBettiLocalSystem` with the projection
 formula (Deligne 1970, I.2.27–2.29, printed pp. 19–21, and II.7.7, p. 117; Deligne, *Théorème de
 Lefschetz et critères de dégénérescence de suites spectrales*, Publ. Math. IHÉS 35 (1968), Theorem 5.5,
@@ -1623,16 +1660,61 @@ Dimitrov–Gao–Habegger, proof of Proposition 4.2, display (4.3), PDF p. 17). 
 `AnalyticCycleIntegration`;
 Mathlib `Matrix.PosSemidef`.
 
+Prove `lelongPoincareSection`: let `M` be a complex manifold, `(L, h)` a Hermitian holomorphic line
+bundle on `M` with Chern curvature `Θ(L, h)` (`ChernConnection`) and `c₁(L, h) = (i/2π)Θ(L, h)`, and
+`s` a meromorphic section of `L` vanishing identically on no connected component of `M`. Its divisor
+`div s = Σ mⱼZⱼ` runs over the irreducible components `Zⱼ` of the zero and pole sets, `mⱼ` the order
+of vanishing (negative along poles) of the coefficient of `s` in a local frame at a generic point of
+`Zⱼ`. Then `log ‖s‖_h` is locally integrable and, as currents of bidegree `(1,1)`,
+`(i/π)∂∂̄ log ‖s‖_h = [div s] − c₁(L, h)`, with `[div s] = Σ mⱼ[Zⱼ]` (`AnalyticCycleIntegration`).
+The local and the global equation differ. For a local meromorphic coefficient `f` (a function,
+`s = f e` in a holomorphic frame `e` on an open `Ω`, `f` vanishing identically on no component of
+`Ω`) the equation is `(i/π)∂∂̄ log|f| = [div f]`, with no curvature term; for the global section `s`
+the
+curvature term is present, since `log ‖s‖_h = log|f| + log ‖e‖_h` and
+`(i/π)∂∂̄ log ‖e‖_h = −c₁(L, h)` on `Ω` (from `ChernConnection.lineBundleCurvature` with
+`‖e‖²_h = e^{−φ}`). Consequently `[div s]` and `c₁(L, h)` agree on closed forms:
+`Σ mⱼ ∫_{Zⱼ} η = ∫_M c₁(L, h) ∧ η` for every closed compactly supported smooth `(2n − 2)`-form `η`,
+`n = dim_ℂ M`, because the left side of the equation is `d((i/π)∂̄ log ‖s‖_h)`. The function equation is
+proved near a regular point of a component, in coordinates where it is `w₁ = 0` and `f = u w₁^{mⱼ}` with
+`u` invertible (`convergentWeierstrassPreparation`), from the one-variable identity
+`(i/π)∂∂̄ log|z| = [0]` (Cauchy's formula for `1/z`); the difference of the two sides is then a
+closed current of order zero (away from the zero and pole sets both sides vanish) supported in the
+singular locus of the support of the divisor, of dimension `< n − 1`, and it vanishes by the first
+support theorem (a normal current of bidimension `(p,p)` supported in an analytic set of dimension
+`< p` is zero), which is proved with this target (Demailly, III.2.10–2.11, p. 141, for the support
+theorem; III.2.15 and proof, pp. 143–144, for meromorphic functions;
+V.13.1–13.4, p. 271, for sections of Hermitian line bundles, equation (13.2) and Theorem 13.4).
+*Needs:* `AnalyticCycleIntegration`; `ChernConnection`; AlgebraicModuliForArithmeticGeometry
+§7.10.1 `convergentWeierstrassPreparation`; TauCetiRoadmap.DifferentialGeometry (forms, Stokes);
+Mathlib `circleIntegral`.
+
+**Checks.**
+
+- `lelongPoincareSection.projectiveLine`: for `O(1)` on `P¹` with the Fubini–Study metric and the
+  section `z₀`, vanishing simply at one point, the left side integrates to `0` over `P¹` (it is `d` of
+  a current on a compact manifold), `[div z₀]` to `1` and `c₁(O(1), h)` to `1`
+  (`fubiniStudy_integral_eq_one`); the function equation applied to the section would assert `0 = 1`.
+- `lelongPoincareSection.coordinate`: for the trivial bundle on `ℂ` with constant metric, `f = zᵐ`
+  gives `m[0]` and `f = z/(z − 1)` gives `[0] − [1]`; poles count negatively.
+- `lelongPoincareSection.frame`: for a nowhere vanishing holomorphic `e` with `‖e‖²_h = e^{−|z|²}` on
+  `ℂ`, `(i/π)∂∂̄ log ‖e‖_h = −(i/2π) dz ∧ dz̄ = −c₁(L, h)`, and `c₁(L, h)` is positive, matching
+  `ChernConnection.lineBundleCurvature`.
+
 Prove `chernFubiniStudyIntersection`: for a Hermitian holomorphic line bundle `L`, the form
 `(i/2π)Θ(L)` of its Chern connection is closed and its de Rham class is the image of the integral
 first Chern class `c₁(L)`; on `Pʳ` the normalised Fubini–Study form represents `c₁(O(1))` and integrates
 to `1` over a line (in the affine chart, `∫_ℂ π⁻¹(1 + |z|²)⁻² dλ = 1`,
 `fubiniStudy_integral_eq_one`); and for a projective `d`-dimensional algebraic cycle `Z` (with multiplicities) and a
 line bundle `L`, `∫_Z c₁(L, h)ᵈ` equals the algebraic intersection degree `(c₁(L)ᵈ · Z)`, with mixed
-degrees and Segre pullbacks normalised the same way. The Lelong–Poincaré equation `(i/π)∂∂̄ log|s| = [div s]`
-identifies curvature with divisor currents, and induction on dimension cuts by divisors (Demailly,
+degrees and Segre pullbacks normalised the same way. `lelongPoincareSection` identifies the class of
+the curvature form with that of the divisor current — for a global section `s` of `(L, h)` through
+`(i/π)∂∂̄ log ‖s‖_h = [div s] − c₁(L, h)`, not through the function equation
+`(i/π)∂∂̄ log|f| = [div f]`, which holds only for a local coefficient `f` — and induction on dimension
+cuts by divisors (Demailly,
 V.13.2–13.9, pp. 271–273; V.15.8, V.15.10 and V.15.12 and proofs, pp. 279–281). *Needs:*
-`AnalyticCycleIntegration`; `semipositiveWedge`; `ChernConnection`; `multiplicativePeriodInterface`;
+`AnalyticCycleIntegration`; `semipositiveWedge`; `lelongPoincareSection`; `ChernConnection`;
+`multiplicativePeriodInterface`;
 `projectiveChowNonreduced`; SchemeAndStackFoundations Layer 5 (degrees and intersection products);
 AlgebraicModuliForArithmeticGeometry Layer 1.
 
@@ -1862,8 +1944,11 @@ pp. 202–205; Proposition 3.10, p. 203). *Needs:*
 
 Define `LogDeRham`: for a fine log morphism, `Ω^p_log = Λ^p Ω¹_log` with the differential extending the
 universal log derivation by `d(dlog p) = 0` and the graded Leibniz rule; it is a complex of
-`f⁻¹O_Y`-modules (`ℂ`-linear in the complex case), with finite locally free bounded terms when `f` is log
-smooth. For a divisorial structure with SNC boundary it is the classical `Ω^•_X(log D)` generated by the
+`f⁻¹O_Y`-modules (`ℂ`-linear in the complex case), with finite locally free terms when `f` is log
+smooth. It is bounded when moreover `X` is quasi-compact, since the locally constant rank of
+`Ω¹_log` then takes finitely many values; log smoothness alone does not bound it (with trivial log
+structures, `⊔_{n ≥ 0} Aⁿ_ℂ` over `Spec ℂ` is log smooth, see `AlgebraicDeRham.disjointUnion`). For
+a divisorial structure with SNC boundary it is the classical `Ω^•_X(log D)` generated by the
 `dzᵢ/zᵢ` and the remaining `dzⱼ`. The API is `LogDeRham.dlogClosed` (`d(dlog p) = 0`),
 `LogDeRham.d_squared` (`d² = 0`) and `LogDeRham.SNC` (agreement with `Ω^•_X(log D)`) (Kato, §1.9, p. 196,
 and Proposition 3.10, p. 203; the agreement with `Ω^•_X(log D)` follows from the chart formula (1.8),
@@ -2003,14 +2088,43 @@ one; the compact-support identification is the computation just given). *Needs:*
 
 Prove `curveResidueLocalization`: in the setting of `CurveLogComplex`,
 `0 → Ω^•_C → Ω^•_C(log D) → ⊕_{p ∈ D} ℂ_p[−1] → 0` is exact with `Res_p(a dz/z) = a` in a local
-coordinate `z` at `p`. Its hypercohomology sequence is the de Rham localization sequence and maps to
-the Betti localization sequence, the residue map corresponding to `2πi` times the Betti residue along the
-positive loop; the sum of residues of a global logarithmic form is `0`, compatibly with the trace; and
+coordinate `z` at `p`. Its hypercohomology sequence is the de Rham localization sequence. Let `comp`
+be the comparison given by `holomorphicPoincare` (`Ω^•_{C^an} ≃ ℂ`) and `CurveLogComplex`
+(`Ω^•_C(log D)^an ≃ Rj_*ℂ`), and let the Betti residue `res_B : (R¹j_*ℂ)_p → ℂ` be evaluation on the
+positively oriented loop around `p`. The analytified sequence maps to the Betti triangle
+`ℂ_C → Rj_*ℂ → ⊕_{p ∈ D} (R¹j_*ℂ)_p[−1]` by `comp` on the first two terms and, on the third, by the
+map whose composite with `res_B` is `2πi · Res_p`:
+the square
+
+```
+H¹_dR(U)      ──Res──→  ⊕_{p ∈ D} ℂ
+   │ comp                    │ 2πi
+   ↓                         ↓
+H¹(U^an, ℂ)  ──res_B──→  ⊕_{p ∈ D} ℂ
+```
+
+commutes, that is `res_B ∘ comp = 2πi · Res`, equivalently `Res = (2πi)⁻¹ · res_B ∘ comp`, and the
+same factor `2πi` on the residue terms makes the connecting maps into `H²` of the two localization
+sequences correspond under `comp`. The factor is the period `∮ dz/z = 2πi` of
+`HolomorphicDeRham.torusPeriod`; the residue convention and the monodromy `exp(−2πia)` are unchanged.
+The sum of residues of a global logarithmic form is `0`, compatibly with the trace; and
 the pairing between compact-support and ordinary `H¹` induces the nondegenerate pairing on parabolic
 `H¹` with the same normalisations (Deligne 1970, II.3.5–3.7, printed pp. 75–78, for the Poincaré
 residue, and II.6.10, p. 105, for the identification with `Rj_*ℂ`; Grothendieck 1966, Theorem 2,
-printed p. 97). *Needs:* `CurveLogComplex`; `multiplicativePeriodInterface`;
-`boundedOperatorHyperGaga`.
+printed p. 97; the factor `2πi` is the stalk computation at `p`, where `H¹` of the logarithmic complex
+is spanned by `dz/z`). *Needs:* `CurveLogComplex`; `holomorphicPoincare`;
+`multiplicativePeriodInterface`; `boundedOperatorHyperGaga`.
+
+**Checks.**
+
+- `curveResidueLocalization.puncturedDisc`: on a disc around `p` with coordinate `z`, `dz/z` has de
+  Rham residue `1` and Betti residue `∮ dz/z = 2πi`, so `res_B ∘ comp = 2πi · Res`; the reversed
+  statement `Res = 2πi · res_B ∘ comp` would give `1 = (2πi)²`.
+- `curveResidueLocalization.torus`: on `G_m = P¹ ∖ {0, ∞}`, `dz/z` has de Rham residues `(1, −1)` at
+  `(0, ∞)` and positive local-loop periods `(2πi, −2πi)`; the positive loop around `∞` (positive in
+  `w = 1/z`) is the circle `|z| = R` traversed clockwise.
+- `curveResidueLocalization.residueSum`: on `P¹ ∖ {0, 1, ∞}`, `a dz/z + b dz/(z − 1)` has residues `a`,
+  `b`, `−(a + b)` at `0`, `1`, `∞`, which sum to `0`.
 
 Prove `properLogGagaMonodromy`: let `X` be a proper fine log-smooth log scheme over the standard log
 point `0^† = (Spec ℂ, ℕ → ℂ, 1 ↦ 0)`. Analytification compares the hypercohomology of the relative log
@@ -2018,7 +2132,8 @@ de Rham complex `Ω^•_{X/0^†}` with its analytic counterpart in every degree
 sequence of complexes `0 → Ω^•_{X/0^†}[−1] → Ω^•_{X/ℂ} → Ω^•_{X/0^†} → 0` (absolute log differentials
 relative to the trivial base; the first map is `dlog t ∧ −`) together with its connecting endomorphism
 `N` of `H^q(X, Ω^•_{X/0^†})`. The exactness comes from `logDifferentialTransitivitySplit`, the terms are
-coherent with differential-operator differentials, and `boundedOperatorHyperGaga` applies; the sign of
+coherent with differential-operator differentials, the complexes are bounded because `X` is proper,
+hence quasi-compact, and `boundedOperatorHyperGaga` applies; the sign of
 `N` is fixed by the `dlog t ∧ −` map. This is a de Rham statement: no Kato–Nakayama Betti comparison is
 claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and proof, pp. 18–19).
 *Needs:* `LogDeRham`; `logDifferentialTransitivitySplit`; `boundedOperatorHyperGaga`;
@@ -2027,7 +2142,8 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 ### Examples (C5.5–C5.7)
 
 - On `P¹`, `dz/z` has residues `1` at `0` and `−1` at `∞`; on `G_m` the ordinary `H¹` is `ℂ`, its
-  parabolic part is `0`, and the Betti residue differs from the de Rham residue by `2πi`.
+  parabolic part is `0`, and the Betti residue of `comp[dz/z]` at `0` is `2πi` times its de Rham
+  residue.
 - For the trivial connection on `G_m` the lattice generated by `z⁻¹` has residue `−1` and computes the
   same cohomology; the lattice generated by `z` has residue `1`, a positive integer, and can change it.
 - For the identity of the standard log point the relative complex is `ℂ` in degree `0` and `N = 0`;
@@ -2137,8 +2253,6 @@ an instance of the named targets, not a separate theorem.
   Theory*, Johns Hopkins Univ. Press 1989, 191–224.
 - J. Hall, *GAGA theorems*, author's version
   (<https://bpb-ap-se2.wpmucdn.com/blogs.unimelb.edu.au/dist/5/501/files/2021/05/get.pdf>).
-- B. Conrad, *Deligne's notes on Nagata compactifications*, J. Ramanujan Math. Soc. 22 (2007),
-  205–257 (author's version <https://math.stanford.edu/~conrad/papers/nagatafinal.pdf>).
 - Y. Sella, *Comparison of sheaf cohomology and singular cohomology*, arXiv:1602.06674v3.
 - T. tom Dieck, *Differential Manifolds*, author's notes, January 2009
   (<https://www.uni-math.gwdg.de/tammo/GT03.pdf>).
