@@ -1604,6 +1604,10 @@ reference for arbitrary G and A. The general cochain comparison, including acycl
 closed N, remains an explicit proof obligation here. *Needs:* *grothendieck-abelian*, *derived-smooth-category*, *invariants-exact*;
 ProfiniteCohomology layer 7, ProfiniteCohomology layer 10.
 
+ComplexTori §Milestone 4 / Integral connecting class, Step 5 (an open TauCetiRoadmap pull request
+by Paul-Lez) states the special case for real vector spaces and finite cyclic groups, obtained
+from this acyclicity with G = U = C_m, A = ℝ and m > 0.
+
 **Checks.**
 
 - For G = U = ℤ_p and A = F_p, H¹(RΓ(U, F_p)) ≅ F_p and H²(RΓ(U, F_p)) = 0.
@@ -4631,6 +4635,10 @@ and for the minimal-lift line of integral families consume the spherical product
 polynomial and co-Whittaker families of SR.4–SR.5, and the
 families of Galois representations of the modularity-lifting roadmaps are matched against the
 integral local families of SR.5.
+
+| Supplier target | Consumer | Conventions |
+|---|---|---|
+| SR.0d.2 / *derived-invariants*, acyclicity for invertible pro-order | ComplexTori §Milestone 4 / Integral connecting class, Step 5 (an open TauCetiRoadmap pull request by Paul-Lez) consumes vanishing in positive degrees for E in its connecting equivalence. | Use G = U = C_m, A = ℝ and m > 0: the finite group is discrete and compact, every action is smooth, and m is a unit. Regard E as an algebraic ℝ-module with discrete coefficient topology for group cohomology; this does not assert vanishing for continuous cochains with the ordinary real vector-space topology. |
 
 ## References
 
