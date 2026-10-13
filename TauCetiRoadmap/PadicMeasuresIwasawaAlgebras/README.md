@@ -3264,26 +3264,49 @@ line-module foundation above, Mathlib `exteriorPower`, `HomologicalComplex`, `Mo
   the image of det P in A[a^{−1}] is a^{−1}A, not aA.
 - For a finite projective module P of rank r, det(P[0]) = (⋀^r P, r mod 2).
 
-**Exact-triangle determinant corollary.** For a commutative ring A and a distinguished triangle
-P → Q → R → P[1] of perfect complexes in D(A), supply `detLine_exactTriangle`:
-det_A(Q) ≅ det_A(P) ⊗ det_A(R), with the locally constant parity and Koszul signs above.
-Represent the triangle by a map of bounded finite-projective complexes P → Q and its mapping
-cone, apply `detLine_shortExact` to the degreewise split sequence
-0 → Q → Cone(P → Q) → P[1] → 0, and use `detLine_shift` and `detLine_quasiIso` to transport
-the comparison. Require compatibility with isomorphisms of triangles and arbitrary derived
-base change A → A′. In particular, the mapping fibre F = Cone(Q → R)[−1] has
-det_A(F) ≅ det_A(Q) ⊗ det_A(R)^{−1}. This is a corollary of the determinant functor, not a
-separate construction (Knudsen–Mumford, Chapter I, Definition 1, pp. 23–24, and Theorem 1,
-p. 25, applied to the cone sequence). *Needs:* `detLine_shortExact`, `detLine_shift`,
-`detLine_quasiIso`, `detLine_baseChange`, and Mathlib's mapping cones of cochain complexes.
-The determinant carriers and this corollary are specified here only.
+**Determinant of a specified cone presentation.** For a commutative ring A, bounded complexes P
+and Q of finite projective A-modules and a chain map f : P → Q, supply `detLine_cone`:
+det_A(Q) ≅ det_A(P) ⊗ det_A(Cone(f)), with the locally constant parity and Koszul signs above.
+Construct it from `detLine_shortExact` for the degreewise split sequence
+0 → Q → Cone(f) → P[1] → 0 and `detLine_shift`. A comparison with a perfect complex R carries
+a specified quasi-isomorphism e : Cone(f) → R; transport along `detLine_quasiIso e` gives
+det_A(Q) ≅ det_A(P) ⊗ det_A(R). The cone presentation and e are part of the input.
+
+Naturality uses quasi-isomorphisms a : P → P′ and b : Q → Q′ together with a specified chain
+homotopy from b f to f′ a (the zero homotopy for a strictly commuting square). Use the induced
+cone map whose diagonal blocks are a[1] and b and whose off-diagonal block is determined by that
+homotopy;
+it preserves the cone's subcomplex Q and quotient P[1]. For transported comparisons, a
+quasi-isomorphism c : R → R′ must also come with a chain homotopy between c e and e′ times this
+induced cone map. Require naturality for these data and their compositions, and compatibility
+with arbitrary derived base change A → A′, carrying f, the cones, e and all comparison
+homotopies along. Tensoring the finite-projective complexes computes this derived base change.
+For a specified chain map g : Q → R of bounded finite-projective complexes, the same construction
+gives det_A(Cone(g)[−1]) ≅ det_A(Q) ⊗ det_A(R)^{−1}.
+
+This is the cone-sequence corollary of Knudsen–Mumford, Chapter I, Definition 1, pp. 23–24, and
+Theorem 1, p. 25. Ordinary derived-category triangle isomorphisms alone do not provide its
+naturality data (Knudsen–Mumford, p. 44; Muro–Tonks–Witte, §2.6, p. 42).
+*Needs:* `detLine_shortExact`, `detLine_shift`, `detLine_quasiIso`, `detLine_baseChange`,
+Mathlib's `CochainComplex.mappingCone`, `HomologicalComplex.homotopyCofiber.desc` for cone maps
+from specified homotopies, and `CochainComplex.mappingCone.mapHomologicalComplexIso` for base change.
+The determinant carriers and this corollary are specified here only; the scalar obstruction in
+the last check is an `example` in `Suggested.lean` on Mathlib's `DualNumber ℚ`.
 
 **Checks.**
-- P → P → 0 → P[1] gives the identity comparison with the unit line.
-- P → 0 → P[1] → P[1] gives det(P) ⊗ det(P)^{−1} ≅ A with even parity.
-- The triangle P → P ⊕ R → R → P[1] with zero connecting map recovers the direct-sum comparison.
+- For f = id_P, the acyclic cone's canonical trivialization gives the identity comparison.
+- For f : P → 0, Cone(f) = P[1] gives det(P) ⊗ det(P)^{−1} ≅ A with even parity.
+- For the inclusion P → P ⊕ R, the specified projection Cone(f) → R is a quasi-isomorphism
+  and gives the direct-sum comparison.
 - For A in degree 0 and a a non-zero-divisor, Cone(a : A → A) is [A --a--> A] in degrees −1, 0;
   its rational trivialization sends the determinant lattice to a^{−1}A.
+- For A = ℚ[ε]/(ε²), ε ≠ 0, take A[0] --ε--> A[0] --i--> C → A[1] with
+  C = [A --ε--> A] in degrees −1, 0. The maps (id, 1 + ε, id_C, id) form an ordinary
+  triangle automorphism: (1 + ε)ε = ε and i(1 + ε) − i = iε is null-homotopic via the
+  identity A → C^{−1}. Its determinant actions on det(Q) and det(P) ⊗ det(C) are 1 + ε
+  and 1, so no invertible comparison intertwines them. The cone map induced by the strict
+  square (id, 1 + ε) instead has diagonal blocks id and 1 + ε and determinant 1 + ε;
+  substituting id_C loses the required coherent data.
 
 **Rational trivialization and the characteristic divisor.** For Λ = O⟦T⟧ with O a complete discrete
 valuation ring with finite residue field, and a perfect complex P of Λ-modules all of whose
@@ -3801,10 +3824,12 @@ This roadmap supplies the generic PID input in
 `TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` using Mathlib's Smith-normal-form API;
 [MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2,
 "The index of an image lattice", consumes that input. Its `card_quotient_range` derives the DVR
-specialization by identifying `Matrix.toLin'` with `Matrix.mulVecLin` and evaluating
+specialization by rewriting `Matrix.toLin' A` as `Matrix.mulVecLin A` using
+`Matrix.toLin'_apply' A` and evaluating
 #(D/(π^k)) = (#k_D)^k when det A is associated to π^k. The Smith-normal-form argument has this
 single generic library home; MassFormula supplies the residue-cardinality specialization and
-the Haar scaling application.
+the Haar scaling application. *Lean:* the equality of the two matrix linear maps is an `example`
+using Mathlib's `Matrix.toLin'_apply' A`.
 
 **The order of a quadratically presented module over a finite-index order.** (Dasgupta–Kakde Lemma
 2.4.) Let B be a subring of finite additive index of a finite product B′ = ∏_i D_i of principal
@@ -3937,15 +3962,21 @@ side; it does not affect the determinant, and replacing each a_i by −a_i turns
 **Fitting ideals of extensions with a quadratically presented quotient.** (Dasgupta–Kakde Lemma 2.6,
 first assertion.) Let R be a commutative ring and 0 → A → B → C → 0 an exact sequence of R-modules
 with C quadratically presented and A finitely presented. Prove that B is finitely presented and
-Fitt_R(B) = Fitt_R(A)·Fitt_R(C). A finitely presented is needed for Fitt_R(A); then B is finitely
-presented, as an extension of finitely presented modules (`Module.finitePresentation_of_ker`). The
-source states the lemma for an arbitrary commutative ring and an arbitrary module A and leaves this
-implicit (in its applications the modules are finitely generated over noetherian rings) and fixes
-the convention at the start of Appendix B.2 (arXiv v3 PDF p. 93). *Needs:*
+Fitt_R(B) = Fitt_R(A)·Fitt_R(C). Finite generation suffices to define `TauCeti.fittingIdeal`;
+finite presentation of A supplies a finite relation matrix for the block-matrix proof. Then B is
+finitely presented, as an extension of finitely presented modules
+(`Module.finitePresentation_of_ker`). The source states the identity over an arbitrary commutative
+ring; this target retains finite presentation for that proof, with the convention of Appendix B.2
+(arXiv v3 PDF p. 93). *Needs:*
 `TauCeti.QuadraticPresentation`, the Fitting ideal of a quadratic presentation, the relation matrix
 of an extension, the initial Fitting ideal (§4.5). *Lean:* `TauCeti.fittingIdeal_eq_mul_of_exact`,
 with B finitely presented as a hypothesis, which also carries the previous statement for the
 property of being quadratically presented.
+
+**Checks.**
+- For A = 0 and B = C, the formula is Fitt_R(C) = R·Fitt_R(C).
+- A split extension B = A ⊕ R/(a) gives Fitt_R(B) = Fitt_R(A)·(a).
+- The nonsplit sequence 0 → ℤ/p → ℤ/p² → ℤ/p → 0 for a prime p gives (p²) = (p)·(p).
 
 **Fitting ideals of two extensions of a common quotient.** (Dasgupta–Kakde Lemma 2.7.) Let B, B′ be
 quadratically presented R-modules with exact sequences 0 → A → B → C → 0 and 0 → A′ → B′ → C → 0, A
@@ -4029,7 +4060,9 @@ every consumer of minors.
 
 | Downstream consumer | Supplied target | Convention and consumer work |
 |---|---|---|
-| [MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2, The index of an image lattice | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` in `TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` | Identify `Matrix.toLin'` with `Matrix.mulVecLin` on the same coordinates; associated determinants generate the same ideal. Derive `card_quotient_range` from this generic input and the DVR residue-ring cardinality q^k. MassFormula supplies the Haar scaling law. |
+| AlgebraicVectorBundles, Layer 0C | §5.1 `projectiveDeterminant`, `projectiveDeterminantMap` and their base-change API | Supply the associated-sheaf identification on Spec A and its gluing and pullback comparisons. The identification respects all equal-rank maps, identities, composition, the locally constant rank and parity, and arbitrary base change. The ordinary invertible-sheaf functor forgets the grading after comparing Koszul symmetry. |
+| SelmerIwasawaCohomology, §§3.9 and 3.14 | §5.1 `detLine_cone`, `detLine_baseChange` and the rational trivialization | Retain finite-projective cone/fibre presentations of perfect Selmer and local-error complexes and the comparison quasi-isomorphisms and homotopies. Apply multiplicativity to their induced coherent cone maps through specialization. Ordinary triangle isomorphisms over arbitrary, possibly nonreduced coefficient rings do not supply this naturality. |
+| [MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2, The index of an image lattice | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` in `TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` | Use `Matrix.toLin'_apply' A` to identify `Matrix.toLin' A` with `Matrix.mulVecLin A` on the same coordinates; associated determinants generate the same ideal. Derive `card_quotient_range` from this generic input and the DVR residue-ring cardinality q^k. MassFormula supplies the Haar scaling law. |
 
 ## References
 
@@ -4047,6 +4080,9 @@ every consumer of minors.
 - **Knudsen–Mumford** — Finn F. Knudsen and David Mumford. [The projectivity of the moduli space of
   stable curves. I: Preliminaries on "det" and "Div"](https://doi.org/10.7146/math.scand.a-11642).
   Mathematica Scandinavica 39 (1976), 19–55. Page numbers are the printed ones.
+- **Muro–Tonks–Witte** — Fernando Muro, Andrew Tonks and Malte Witte. [On determinant functors and
+  K-theory](https://arxiv.org/pdf/1006.5399v2). arXiv:1006.5399v2; §2.6, p. 42 gives the
+  dual-number triangle automorphism.
 - **Stacks** — The Stacks Project authors. [The Stacks Project](https://stacks.math.columbia.edu),
   Section 15.8, Fitting ideals, [Tag 07Z6](https://stacks.math.columbia.edu/tag/07Z6); [Tag
   0AVB](https://stacks.math.columbia.edu/tag/0AVB), the reflexive intersection criterion; [Tag

@@ -233,8 +233,8 @@ section Frobenius
 
 variable (p : ℕ) [Fact p.Prime] (R : Type*) [NormedCommRing R]
 
-/-- Local restatement of PadicFunctionalAnalysis §3.4, to be replaced by the import once that roadmap is in TauCetiRoadmap.
-The characteristic function of `pℤ_p` from clause 5, used by the unit-support range and division statements. -/
+/-- The characteristic function of `pℤ_p` used by the unit-support range and division statements;
+the local restatement of PadicFunctionalAnalysis §3.4, clause 5. -/
 def pMultiplesIndicator : C(ℤ_[p], R) :=
   fiberIndicator ⟨PadicInt.toZMod, PadicInt.continuous_toZMod⟩ 0
 
@@ -790,6 +790,12 @@ end TauCeti.Iwasawa
 
 /-! ## Layer 5: determinants, specialization and exactness -/
 
+-- §5.1: the scalar obstruction for the ordinary triangle over the dual numbers.
+example :
+    let ε : DualNumber ℚ := DualNumber.eps
+    ε ≠ 0 ∧ ε ^ 2 = 0 ∧ IsUnit (1 + ε) ∧ (1 + ε) * ε = ε ∧
+      ∀ u : (DualNumber ℚ)ˣ, (1 + ε) * (u : DualNumber ℚ) ≠ (u : DualNumber ℚ) := sorry
+
 -- §5.1: the rank-one zero map induces the zero determinant map.
 example (A : Type*) [CommRing A] :
     exteriorPower.map 1 (0 : A →ₗ[A] A) = 0 := sorry
@@ -946,7 +952,8 @@ variable {A B C A' B' : Type*} [AddCommGroup A] [Module R A] [AddCommGroup B] [M
   [AddCommGroup C] [Module R C] [AddCommGroup A'] [Module R A'] [AddCommGroup B'] [Module R B']
 
 /-- §6.6 (Dasgupta–Kakde Lemma 2.6, p. 18): an extension of quadratically presented modules is
-quadratically presented, and `Fitt(B) = Fitt(A) Fitt(C)` when `C` is quadratically presented. -/
+quadratically presented, and `Fitt(B) = Fitt(A) Fitt(C)` when `C` is quadratically presented.
+Finite presentation supplies finite relation matrices; the Fitting carrier needs finite generation. -/
 theorem fittingIdeal_eq_mul_of_exact [Module.FinitePresentation R A]
     [Module.FinitePresentation R B] [Module.FinitePresentation R C] {i : A →ₗ[R] B}
     {q : B →ₗ[R] C} (hi : Function.Injective i) (hq : Function.Surjective q)
@@ -967,6 +974,10 @@ theorem fittingIdeal_mul_comm_of_exact [Module.FinitePresentation R A]
       TauCeti.fittingIdeal R A' 0 * TauCeti.fittingIdeal R B 0 := sorry
 
 end Quadratic
+
+-- §6.3: the generic PID and MassFormula index statements use the same matrix linear map.
+example {D : Type*} [CommRing D] {m : ℕ} (A : Matrix (Fin m) (Fin m) D) :
+    Matrix.toLin' A = Matrix.mulVecLin A := Matrix.toLin'_apply' A
 
 /-- §6.3, finite-index input (Dasgupta–Kakde (27)–(28), pp. 16–17): reduction modulo an ideal `K`
 that is finite as a set (not merely of finite index) preserves the cokernel of a square matrix
