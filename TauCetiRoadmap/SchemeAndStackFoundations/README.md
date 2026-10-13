@@ -4955,12 +4955,70 @@ comparison on the supplier's nodal-family carrier. Prove
 `node_local_structure_dvr_nonzero_of_generic_smooth`: smoothness of the generic fibre
 at this local model implies `a≠0`, hence the finite-thickness alternative. The general
 nodal-family theorem allows persistent nodes, including stable nodal generic fibres
-(de Jong §2.23, pp. 61–62; StableReduction Layer 1). Prove `nodal_family_resolution`: for a nodal family `f : X → S` over an
-excellent regular base `S` with a strict normal crossings divisor `D ⊂ S` such that `f` is smooth over
-`S ∖ D`, and `X` normal, the singularities of `X` are resolved by
-blow-ups in nodes (Tau Ceti's `NodeAlgebra.isRegularLocalRing_stalk_blowup_iff` is the local
-computation), giving a regular `X'` with `X' → S` nodal (de Jong 1996, §3: 3.1, p. 62, Lemma 3.2, p.
-62, 3.3–3.5, pp. 63–64, Proposition 3.6 and proof, pp. 64–65). Prove `generic_projection`: for a pure
+(de Jong §2.23, pp. 61–62; StableReduction Layer 1).
+
+The resolution of the total space is for **split** families and has two owned stages. Throughout,
+`S` is a Noetherian excellent regular scheme, `D = D_1 ∪ ⋯ ∪ D_m ⊂ S` a strict normal crossings
+divisor (§4.17), and `f : X → S` satisfies `DeJong.IsSplitPrestable f` and is smooth over `S ∖ D`.
+Then `Sing(X)` lies in the part of `Sing(f)` over `D`, so it has codimension at least two, and `X`
+is normal, being locally a hypersurface over a regular base (de Jong 1996, 3.1 and 3.4,
+pp. 62–63). Let `x ∈ Sing(X)` lie over `s`, and let `t_1, …, t_r` be local equations at `s` of the
+components of `D` through `s`. By splitness and 2.23, `O^∧_{X,x} ≅ O^∧_{S,s}[[u,v]]/(uv − ε t_1^{n_1} ⋯ t_r^{n_r})`
+with `ε` a unit and `Σ n_i ≥ 2` (3.3, p. 63). Blow-ups commute with completion, so the chart
+computations below are made on `O_{S,s}[u,v]/(uv − ε ∏ t_i^{n_i})`. Tau Ceti's
+`NodeAlgebra.isRegularLocalRing_stalk_blowup_iff` is only the one-parameter instance of the first
+stage: a node `xy = π^{n+2}` over a discrete valuation ring, blown up at the origin. The
+multi-parameter charts, the second stage and the globalization of the centres are owned here.
+
+Prove `nodal_codim_two_reduction` (de Jong 1996, Lemma 3.2, p. 62; proof 3.4, pp. 63–64). There is
+a projective modification `X_1 → X`, a composite of blow-ups and an isomorphism over
+`X ∖ Sing(X)`, such that `X_1 → S` is again split prestable and smooth over `S ∖ D`, and
+`Sing(X_1)` has codimension at least three. A codimension-two irreducible component `T` of
+`Sing(X)` maps finitely and unramifiedly onto some `D_i`, so `T` is regular. Its exponent
+`n_T := n_i ≥ 2` is the same at every point of `T`. Blow up the ideal `(u, v, t_i)` of `T`; write
+`g = ε ∏_{j ≠ i} t_j^{n_j}`. On the chart where `t_i` generates, `u = t_i u'`, `v = t_i v'` and
+`u'v' = t_i^{n_T−2} g`. On the chart where `u` generates, `t_i = u t_i'` and `v = u v'` with
+`v' = u^{n_T−2} t_i'^{n_T} g`, so this chart is `O_S[u, t_i']/(u t_i' − t_i)`, regular with
+exponent one. The `v`-chart is symmetric. The blow-up is again split prestable and smooth over
+`S ∖ D`. Over `T` there is a singular component only when `n_T ≥ 4`, and its exponent is
+`n_T − 2`. Every other component of the singular locus has at most one component above it, of the
+same codimension and, in codimension two, of the same exponent. Induction on the sum of the
+exponents of the finitely many codimension-two components terminates.
+
+Prove `split_nodal_component_resolution` (de Jong 1996, 3.5, p. 64; Proposition 3.6 and proof,
+pp. 64–65). Assume in addition that `Sing(X)` has codimension at least three. Then there is a
+projective modification `X' → X`, a composite of blow-ups and an isomorphism over `X ∖ Sing(X)`,
+with `X'` regular and `X' → S` split prestable and smooth over `S ∖ D`. With `Sing(X)` of
+codimension at least three every exponent is `0` or `1` (an exponent `≥ 2` would put a
+codimension-two component in `Sing(X)`). So at a singular point, after renumbering and absorbing
+the unit, the local ring is `O_{S,s}[u,v]/(uv − t_1 ⋯ t_μ)` with `2 ≤ μ ≤ r` (3.5). The centres are the
+irreducible components `E` of the inverse images `f⁻¹(D_i)`, and splitness globalizes them. At such
+a point, with `D_1 = V(t_1)`, the locus `V(u, v, t_1)` lies in `Sing(f)` and dominates `D_1`.
+Splitness of the fibre over the generic point of `D_1` therefore gives two distinct components of
+`f⁻¹(D_1)` through `x`, with local ideals `(u, t_1)` and `(v, t_1)`. So at a singular point the
+ideal of `E` is `(u, t_i)`, `(v, t_i)` or principal. Where it is principal, in particular at every
+regular point of `X`, blowing up `E` is an isomorphism. The blow-up of `(u, t_1)` has two charts:
+- where `u` generates, `t_1 = u t_1'` and `v = t_1' t_2 ⋯ t_μ`, giving the regular
+  `O_S[u, t_1']/(u t_1' − t_1)`;
+- where `t_1` generates, `u = t_1 u'` and `u'v = t_2 ⋯ t_μ`, so `μ` drops by one.
+
+The blow-up is again split prestable and smooth over `S ∖ D`. Its exceptional locus has codimension
+at least two, so the components of the inverse image of `D` correspond bijectively before and
+after. The blown-up component becomes a Cartier divisor, and Cartier components stay Cartier.
+After each of the finitely many components has been blown up once, all components of the inverse
+image of `D` are Cartier. At a point with `μ ≥ 2`, however, the components with ideals `(u, t_1)`
+and `(v, t_1)` are not Cartier. So `μ = 1` everywhere, and `X'` is regular.
+
+Prove `nodal_family_resolution`: for `S`, `D` and a split prestable `f : X → S` smooth over
+`S ∖ D` as above, there is a projective modification `φ : X' → X` that is an isomorphism over
+`X ∖ Sing(X)`, with `X'` regular and `X' → S` split prestable and smooth over `S ∖ D`. It is the
+composite of the two stages (de Jong 1996, Proposition 3.6, p. 64). Since `Sing(X) ⊆ Sing(f)`,
+`φ` is an isomorphism over the relative smooth locus of `f`. Mutually disjoint sections into that
+locus therefore lift to mutually disjoint sections into the smooth locus of `X' → S` (de Jong 1996,
+6.16, p. 86). Without splitness the component stage has no centre at a singular point
+(`nodal_resolution_nonsplit_stalls`).
+
+Prove `generic_projection`: for a pure
 `d`-dimensional projective `X ⊆ ℙ^N_k` over an infinite field, a general linear projection
 with centre disjoint from `X` gives a finite morphism `π : X → ℙ^d_k`. Projection from a
 point `p ∈ ℙ^d_k` to `ℙ^{d−1}_k`, for `d≥1`, is a rational map. Its composite with `π` is resolved
@@ -5074,6 +5132,44 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
   `(u,v)` to `(εu',v')`; their product is `ε π²`, fixing the direction of the unit change.
 - `node_local_structure_test_dvr`: for `n≥1`, `Spec ℤ_p[x, y]/(xy − p^n)` has complete local ring
   `ℤ_p[[u, v]]/(uv − p^n)` at the node, StableReduction Layer 1's form.
+- `nodal_resolution_point_blowup_rejected`: `X = V(UV − stW²) ⊆ ℙ²_{k[s,t]}` over `S = 𝔸²_k`,
+  with `D = V(st)`, is split prestable and smooth over `S ∖ D`. Its fibres over `D` are two
+  rational lines meeting at `[0:0:1]`. On `W ≠ 0` it is `uv = st`, singular only at
+  `u = v = s = t = 0`. So `Sing(X)` has codimension three and `nodal_codim_two_reduction` changes
+  nothing. Blowing up this point is the wrong centre: its exceptional divisor, the quadric surface
+  `V(uv − st) ⊆ ℙ³_k`, lies over the origin of `S`. The fibre there is two-dimensional, so the
+  result is not prestable.
+- `nodal_resolution_component_blowup`: in the same family `V(U, s)` is a component of `f⁻¹(V(s))`,
+  with local ideal `(u, s)` at the singular point. Its blow-up has two charts, glued along
+  `ab = 1`: `k[u, a, t]`, with `s = ua` and `v = at`, and `k[s, b, v]`, with `u = sb` and
+  `t = bv`. Both are polynomial rings, hence regular. The fibre over the origin of `S` is a chain
+  of three lines: the strict transforms of `U = 0` and `V = 0`, joined by the exceptional line.
+  Its nodes `u = a = 0` and `b = v = 0` have local equations `ua = s` and `bv = t`, each of
+  exponent one in a single parameter. One component blow-up already gives a regular split
+  prestable family, as in `split_nodal_component_resolution`.
+- `nodal_codim_two_two_parameters`: `V(UV − s²tW²) ⊆ ℙ²_{k[s,t]}`, with `D = V(st)`, is split
+  prestable and smooth over `S ∖ D`. On `W ≠ 0`, `uv = s²t` is singular exactly along the line
+  `T = V(u, v, s)`, of codimension two over `D_1 = V(s)`, with exponent `n_T = 2`. Blowing up
+  `(u, v, s)` gives three regular charts: the `s`-chart `u = su'`, `v = sv'`, `u'v' = t`; the
+  `u`-chart `k[u, s', t]`, with `s = us'` and `v = us'²t`; and the symmetric `v`-chart. The family
+  stays split prestable. Over the origin of `S` the exceptional conic `uv = ts²` degenerates to two
+  lines, joined by the node `u'v' = t`. At the generic point of `D_1`, where `t` is a unit,
+  absorbing `t` into `u` gives the supplier's `isRegularLocalRing_stalk_blowup_iff` at `n = 0`.
+  The supplier does not cover the two-parameter chart `u'v' = t`.
+- `nodal_codim_two_exponent_four`: `V(UV − s⁴W²) ⊆ ℙ²_{k[s,t]}`, with `D = V(s)`, has `n_T = 4`
+  along `T = V(u, v, s)`. After one blow-up the `s`-chart is `u'v' = s²`, singular along
+  `V(u', v', s)` with exponent `2`. The `u`-chart is `k[u, s', t]`, with `v = u³s'⁴`. A second
+  blow-up gives a regular family. For `uv = s³` one blow-up suffices, its `s`-chart being
+  `u'v' = s`. This tests the drop of the exponent by two and the termination.
+- `nodal_resolution_nonsplit_stalls`: let `char k ≠ 2`, let `a ∈ k` be a nonsquare, and let
+  `X = V(U² − aV² − stW²) ⊆ ℙ²_{k[s,t]}`, with `D = V(st)`. It is prestable and smooth over
+  `S ∖ D`. Its only singular point is the rational point `U = V = s = t = 0`. It is not split:
+  the branches `U ± √aV` of each singular fibre are conjugate. Over the generic point of `V(s)`
+  the fibre `U² − aV² = 0` is irreducible. So `f⁻¹(V(s))` is irreducible, and at the singular
+  point its ideal is `(s)`, because `U² − aV² ∈ (s)` there; likewise for `V(t)`. Every candidate
+  centre is therefore Cartier at that point, the component stage is an isomorphism, and the point
+  stays singular. Over `k(√a)`, with `u = U + √aV` and `v = U − √aV`, this becomes the split
+  family of `nodal_resolution_component_blowup`.
 
 *Lean:* `Formal.DeJong.node_local_structure_dvr` (on the polynomial model `R[u, v]/(uv − a)`, with
 the coordinate change `u ↦ εu'`, `v ↦ v'`),
@@ -5098,10 +5194,12 @@ before the reduced fibration helper. The descended diagram retains the finite ex
 `k`-structure. The composed map to `X` is an alteration. When `k` is perfect the finite
 extension is separable, and the separate generically étale conclusion is retained.
 
-The boundary construction retains §4.18's vertical part: apply the induction to the altered
-base together with `D₁`, enlarge it by the discriminant, and resolve the nodal total space while
-retaining the disjoint smooth sections. Both its inverse-image boundary and these horizontal
-sections enter the normal-crossings boundary (de Jong, §§4.22–4.28).
+The boundary construction retains §4.18's vertical part. Enlarge `D₁` by the discriminant and
+apply the induction to the altered base together with it. Then pull the split family back along
+the resulting alteration of the base; splitness is stable under base change (de Jong 1996, 2.22,
+p. 61). Resolve its total space by `nodal_family_resolution`, which retains the disjoint smooth
+sections. Both its inverse-image boundary and these horizontal sections enter the
+normal-crossings boundary (de Jong, §§4.22–4.28; the split resolution as in 6.16, pp. 86–87).
 
 **Checks.**
 - `alteration_imperfect_conic_valid`: the same `𝔽₂(s,t)` conic with `Z=∅` satisfies
@@ -5187,9 +5285,11 @@ StableReduction Layers 0, 2–3; Mathlib `IsDiscreteValuationRing`, `IsAdicCompl
 In the curve-family step, apply §4.18 with its fibrewise dimension and smooth-locus hypotheses,
 obtained on the modified source by the relative projection in de Jong §6.13, after the
 finite trait extensions and normalization of §§6.8–6.12. This uses the relative argument,
-not the algebraically closed field helper over the original fraction field. Enlarge `D₁` by the discriminant and apply induction to the base pair;
-carry the inverse image of `D₁` and the disjoint smooth sections through the nodal resolution
-(de Jong, §§6.14–6.16, pp. 85–86). The special-fibre boundary remains part of the resulting pair.
+not the algebraically closed field helper over the original fraction field. Enlarge `D₁` by the discriminant and apply induction to the base pair.
+The pulled-back family is still split (de Jong 1996, 2.22, p. 61). So `nodal_family_resolution`
+applies over the regular base of the strict semistable pair, with its strict normal crossings
+boundary, and carries the inverse image of `D₁` and the disjoint smooth sections through
+(de Jong, §§6.14–6.16, pp. 85–87). The special-fibre boundary remains part of the resulting pair.
 
 **Checks.**
 - `finite_trait_inseparable`: over a perfect field `k` of characteristic `p > 0`,
@@ -5508,8 +5608,8 @@ before any Gysin map exists; only afterwards is it identified with the Gysin map
 (Fulton 1998, Proposition 1.9, Theorem 3.3 (a), and Chapter 6 for the identification). Define the
 external product `Chow.externalProduct : CH_k(X) ⊗ CH_l(Y) → CH_{k+l}(X ×_{Spec κ} Y)` over the fixed field `κ`, with
 `external_product_pushforward` and `_pullback` (Fulton 1998, §1.10). Define `Chow.IsRegularImmersion
-i d`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the
-refined Gysin map `Chow.gysin i f : CH_k(Y') → CH_{k−d}(X')` for such an `i : X → Y` with normal
+i d` for a closed immersion `i`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the
+refined Gysin map `Chow.gysin i f : CH_k(Y') → CH_{k−d}(X')` for such a closed `i : X → Y` with normal
 bundle `N` and any `f : Y' → Y`, `X' := X ×_Y Y'`: specialise to the normal cone `C_{X'} Y' ⊆ f^* N`
 and apply the inverse of `homotopy_invariance` for `f^* N` (Fulton 1998, §6.1; Stacks, Section 42.54
 (0FBI)); `i^* := i^!` for `f = 𝟙`. Hypotheses: `i` regular of constant codimension `d`; no
@@ -5522,7 +5622,43 @@ hypothesis on `f`. API: `pushforward_compat` (`i^! g_* = g'_* i^!` for `g` prope
 §0.2, §0.3, §5.2, §5.3, §5.4; Mathlib `reesAlgebra`, `RingTheory.Sequence.IsRegular`; StableReduction Layer
 4; AlgebraicVectorBundles L2B.
 
+A regular immersion need not be closed. It is an immersion `i : X → Y` that is a closed regular
+immersion into some open `U ⊆ Y`, and the condition does not depend on `U` (Stacks, Definition
+31.22.1 (063J)). The diagonal of a smooth scheme that is not separated, and the graph of a morphism
+to such a scheme, are of this kind (§5.6). Extend `Chow.gysin i f` to such `i` of constant
+codimension `d` as follows.
+- Choose an open `U ⊆ Y` in which `i(X)` is closed, for instance the complement of
+  `closure(i(X)) ∖ i(X)`, and let `i_U : X → U` be the induced closed regular immersion.
+- Put `U' := f⁻¹(U)`, so that `X' = X ×_U U'`, and set
+  `Chow.gysin i f := Chow.gysin i_U (f|_{U'}) ∘ res`. Here `res : CH_k(Y') → CH_k(U')` is flat
+  pullback along the open immersion (§5.2).
+- The normal bundle of `i` is that of `i_U`.
+
+Prove `gysin_open_independent`: two such opens `U_1`, `U_2` give the same map. Indeed `U_1 ∩ U_2`
+is a third such open, `i_{U_j}` base changes to `i_{U_1 ∩ U_2}` along `U_1 ∩ U_2 → U_j`, and
+`pullback_compat` for that open immersion identifies the composites. For `U = Y` the extension is
+the closed construction.
+
+Prove `gysin_immersion_api`: `pushforward_compat`, `pullback_compat`, `commutes_with_c1`,
+`excess_intersection` and `functoriality` hold for regular immersions. Each identity is checked on
+an open of the ambient scheme in which every immersion of the statement is closed. For
+`X → Y → Z`, take `Z` minus `closure(Y) ∖ Y` and `closure(X) ∖ X`. Restriction to an open is flat
+pullback, which commutes with proper pushforward in cartesian squares, with flat pullback and with
+`c_1` (§§5.2–5.3). `gysin_self_intersection` stays a statement about closed immersions, since `i_*`
+needs `i` proper. Source: Stacks, Section 42.59 (0FEZ), whose regular immersions are these
+immersions; Definition 42.59.4 (0FF3); Lemma 42.59.3 (0FF2).
+
 **Checks.**
+- `gysin_open_immersion`: `j : 𝔾_m = A¹ ∖ {0} → A¹` is a regular immersion of codimension zero
+  and is not closed. With `U = 𝔾_m`, `j^!` is restriction `CH_*(A¹) → CH_*(𝔾_m)`, sending `[A¹]`
+  to `[𝔾_m]` and `[0]` to `0`.
+- `gysin_open_independent_double_cover`: take the origin `i : {0} → A¹`, refined along
+  `f : A¹ → A¹`, `z ↦ z²`, so that `X' = Spec k[z]/(z²)`. The opens `U = A¹` and `U = A¹ ∖ {1}`
+  give the same `i^![A¹] = [X'] = 2[pt]` in `CH_0(X')`. In the second case the preimage `U'` omits
+  the roots of `z² = 1`.
+- `gysin_open_functoriality`: for `{1} → 𝔾_m → A¹`, the composite is the closed point and
+  `(j i)^![A¹] = [1]`. Also `i^! j^![A¹] = i^![𝔾_m] = [1]`, an instance of `functoriality` with a
+  factor that is not closed.
 - `cartierIntersection_supported_lift`: adding `i_*β` to a lift leaves the
   intersection unchanged when the Cartier normal line is trivial.
 - `cartierIntersection_empty`: the supported map for the empty divisor is zero.
@@ -5580,18 +5716,35 @@ hypothesis on `f`. API: `pushforward_compat` (`i^! g_* = g'_* i^!` for `g` prope
 
 Define *Chow.intersect*: for `Y` smooth of pure dimension `n` over `k` and `X, X' → Y` locally of
 finite type over `k`, `α · β :=
-δ^!(α × β) ∈ CH_{a+b−n}(X ×_Y X')` for `α ∈ CH_a(X)`, `β ∈ CH_b(X')`, with `δ : Y → Y × Y` the
-diagonal (a regular immersion of codimension `n` because `Y` is smooth) and `×` the external
-product of §5.5; for `X = X' = Y`, `A(Y) = ⊕ CH^p(Y)` is a commutative graded ring with unit `[Y]`
+δ^!(α × β) ∈ CH_{a+b−n}(X ×_Y X')` for `α ∈ CH_a(X)`, `β ∈ CH_b(X')`. Here `δ : Y → Y × Y` is the
+diagonal, a regular immersion of codimension `n` because `Y` is smooth (Stacks, Lemma 37.62.18
+(0FDP)). It is closed exactly when `Y` is separated over `k`, and `δ^!` is the extended Gysin map
+of §5.5 (Stacks, Section 42.60 (0FBR)). `×` is the external
+product of §5.5. For `X = X' = Y`, `A(Y) = ⊕ CH^p(Y)` is a commutative graded ring with unit `[Y]`
 (Fulton 1998, §8.1, Proposition 8.1.1; Stacks, Section 42.62 (0FC0), which defines the product
 `Δ^!(α × β)` for schemes locally of finite type over the smooth `Y`). Hypotheses: `Y` smooth over
-`k`, `X` and `X'` locally of finite type over `k`; without smoothness the diagonal is not regular and the product is undefined. API: `assoc`,
-`comm`, `one`, `pullback_ring_hom` (`f^* : A(Y) → A(X)` is a ring map for `f` between smooth
-varieties; Proposition 8.3 (a)), `projection_formula` (`f_*(f^* x · y) = x · f_* y` for `f` proper;
+`k`, `X` and `X'` locally of finite type over `k`; no separatedness is assumed. Without
+smoothness the diagonal is not regular and the product is undefined.
+
+Define `Chow.graphPullback f : CH_a(Y) → CH_{a+m−n}(X)`, that is `CH^p(Y) → CH^p(X)`, for a
+morphism `f : X → Y` over `k` of smooth `k`-schemes of pure dimensions `m` and `n`.
+- The graph `γ_f : X → X ×_k Y` is a section of the smooth projection to `X`, hence a regular
+  immersion of codimension `n` (Stacks, Lemma 31.23.8 (067R)). It is closed when `Y` is separated
+  over `k`, and in general only an immersion.
+- Put `f^* y := γ_f^!(pr_Y^* y)`. Here `pr_Y : X ×_k Y → Y` is flat of relative dimension `m`,
+  `pr_Y^* y = [X] × y`, and `γ_f^!` is the extended Gysin map of §5.5.
+- This is the Gysin map `γ_f^! ∘ pr_Y^*` of the local complete intersection morphism `f` (Stacks,
+  Definition 42.59.4 (0FF3)). It does not depend on the smooth factorization (Lemma 42.59.3
+  (0FF2)), and for flat `f` it is flat pullback (Lemma 42.59.5 (0FF4)).
+- Fulton 1998, §8.1, builds the refined product through the same graph.
+
+API: `assoc`, `comm`, `one`, `pullback_ring_hom` (`Chow.graphPullback f : A(Y) → A(X)` is a ring
+map; Proposition 8.3 (a)), `projection_formula` (`f_*(f^* x · y) = x · f_* y` for `f` proper;
 Proposition 8.3 (c)), `c1_eq_mul` (`c_1(L) ∩ α = c_1(L) · α`), `proper_intersection` (for `V`, `W`
 meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multiplicities; Proposition 8.2),
-`intersect_gysin` (for `i : X → Y` a regular immersion of smooth varieties, `i^! = i^*`). *Needs:*
-§5.1, §5.2, §5.3, §5.4, §5.5; Mathlib `Smooth`.
+`intersect_gysin` (for a regular immersion `i : X → Y` of smooth `k`-schemes,
+`Chow.graphPullback i = i^*`; Lemma 42.59.3 compares the factorizations `𝟙_Y ∘ i` and
+`pr_Y ∘ γ_i`). *Needs:* §5.1, §5.2, §5.3, §5.4, §5.5; Mathlib `Smooth`.
 
 **Checks.**
 - `test_pn_ring`: `A(ℙ^n) = ℤ[h]/(h^{n+1})` with `deg h^n = 1`.
@@ -5601,6 +5754,29 @@ meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multipliciti
   morphism `f : C → C` with transversal fixed points, `Γ_f · Δ = #Fix(f)` (Fulton, §8.1).
 - `test_cone`: on the cone over a smooth quadric surface, no ring structure on `CH_*` extends the
   intersections of the two rulings integrally (`CH_*` of a non-smooth variety has no product).
+- `diagonal_doubled_origin_not_closed`: let `L` be `A¹_k` glued to itself along `A¹ ∖ {0}`, with
+  origins `0₁` and `0₂`. It is smooth of pure dimension one and not separated. On the chart
+  `A¹ × A¹` of `L × L` given by the two copies, the diagonal is `{(t, t) : t ≠ 0}`, and its
+  closure contains `(0₁, 0₂)`. So `δ_L` is a regular immersion of codimension one that is not
+  closed, and the closed construction of §5.5 does not apply to it. It is closed in
+  `U = L × L ∖ {(0₁, 0₂), (0₂, 0₁)}`, through which `Chow.intersect` on `L` is defined.
+- `diagonal_doubled_origin_unit`: `[0₁] · [L] = [0₁]` in `CH_0({0₁})`. The product cycle
+  `{0₁} × L` passes through `(0₁, 0₂)`, a point of the closure of the diagonal that is not on it.
+  Restriction to `U` removes that point. What remains meets the diagonal transversally at
+  `(0₁, 0₁)`.
+- `diagonal_line_closed`: for the separated `A¹_k` the diagonal `V(x − y) ⊆ A²` is closed. The
+  open `U = A¹ × A¹` is allowed, and the extension is the closed construction of §5.5. Here
+  `[0] · [A¹] = [0]` and `[A¹] · [A¹] = [A¹]`.
+- `graphPullback_flat_projection`: for `pr_1 : ℙ¹ × ℙ¹ → ℙ¹`, `Chow.graphPullback pr_1 [p]` is
+  `[{p} × ℙ¹]`, the flat pullback.
+- `graphPullback_constant`: for the constant map `f : ℙ¹ → ℙ¹` with value `p`, `f^*[p] = 0` in
+  `CH^1(ℙ¹)`, although `f⁻¹(p) = ℙ¹`. The excess normal bundle is `f^*T_pℙ¹`, which is trivial,
+  so `excess_intersection` gives `c_1(O) ∩ [ℙ¹] = 0`. This agrees with `f^*[q] = 0` for `q ≠ p`,
+  since `[p] = [q]`.
+- `graphPullback_nonseparated_target`: for the inclusion `j_1 : A¹ → L` of the first chart, the
+  graph `γ_{j_1} : A¹ → A¹ × L` is not closed: its closure contains `(0, 0₂)`. So
+  `Chow.graphPullback j_1` needs the extended Gysin map. It is restriction to the chart. On
+  cycles it sends `[L]` to `[A¹]`, `[0₁]` to `[0]` and `[0₂]` to `0`.
 
 ### 5.7 Coherent and perfect classes: `K_0`, `G_0` and the K-theoretic pushforward
 
