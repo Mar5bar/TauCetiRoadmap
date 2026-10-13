@@ -783,6 +783,10 @@ determinant is a pseudocharacter) ([Chenevier](https://arxiv.org/pdf/0809.0415v2
 `Function.minimalPeriod`, `LinearMap`.
 *Lean:* `cycleProduct`, `cycleTerm`, `IsPseudocharacter`.
 
+FreeProbability §F8 / Gaussian and Haar random-matrix asymptotic freeness (an open
+TauCetiRoadmap pull request by kim-em) states the special case for normalized complex-matrix
+traces, with the cycle conventions specified in the downstream contract below.
+
 **Checks.**
 
 - `tr` on `M_d(A)` is a `d`-dimensional pseudocharacter: the `S_{d+1}` identity holds for the matrix
@@ -4850,6 +4854,10 @@ classical congruence witnesses and eigenvalue systems in the exact algebraic for
 specifies: a congruence witness of Uniform congruence witnesses for classical systems, an error ideal with a uniform exponent for Determinant from a quantified Hecke comparison, the existence of the residual representation for Maximal ideals of Galois type, and the integral lattice and local triangularisations of Ribet extension with all local conditions. Within the roadmap, Layer IHG.3b consumes IHG.1 and IHG.3a;
 IHG.4 consumes IHG.0 and IHG.3a; IHG.5 consumes IHG.1, IHG.2 and IHG.4; IHG.6 consumes IHG.0 and
 IHG.1.
+
+| Consumer | Supplied interface | Conventions and consumer work |
+|---|---|---|
+| FreeProbability §F8 / Gaussian and Haar random-matrix asymptotic freeness (an open TauCetiRoadmap pull request by kim-em) | §0.2 / Pseudocharacters supplies `cycleProduct` and `cycleTerm`; F8 identifies its permutation-trace functional with `cycleTerm tr_N σ D` for `R = M_N(ℂ)`, `A = ℂ`, `T = tr_N`, `N > 0` and a matrix word `D`. | Here `tr_N(M) = N⁻¹ tr(M)`: one factor per cycle, fixed points included, with word order `i, σi, σ²i, …` starting at the least cycle representative. Cyclicity of `tr_N` handles changing starting points; F8 supplies the explicit permutation inversion/orientation comparison needed by its Wick and Kreweras formulas. Since `tr_N(1) = 1` while ordinary matrix trace has `T(1) = N`, this contract consumes the cycle construction without asserting that normalized trace is a dimension-`N` pseudocharacter. |
 
 ## References
 
