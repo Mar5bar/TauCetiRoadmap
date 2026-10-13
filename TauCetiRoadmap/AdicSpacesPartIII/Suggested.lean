@@ -7,6 +7,7 @@ import TauCeti.RingTheory.Huber.Adic
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
+import TauCeti.Topology.PureDimension
 import TauCetiRoadmap.AdicSpacesPartII.Suggested
 
 /-!
@@ -23,8 +24,9 @@ file states the parts that are a few lines over the pinned carriers:
   Grothendieck's existence theorem of SchemeAndStackFoundations (§4.9, §4.10) in quotient-system
   form, with the thickenings `Xₙ` encoded as universal quotients `F ⧸ I^{n+1} F` of
   `𝒪_X`-modules;
-* R2: algebras topologically of finite presentation over a complete rank-one valuation ring and
-  the fractional valuation bounds behind Hasse domains;
+* R2: algebras topologically of finite presentation over a complete rank-one valuation ring, the
+  comparison of the Krull dimension, reducedness and pure dimension of their generic and special
+  fibres, and the fractional valuation bounds behind Hasse domains;
 * R3: glueing squares and Kiehl's glueing theorem for finite projective modules, descent of
   finite modules along strongly noetherian Laurent covers, acyclicity of finite modules on
   Laurent covers of rings of noetherian type, the trace of a finite projective module and of a
@@ -467,6 +469,57 @@ example {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpac
       weightedRestrictedSubring _ _) : P)
     IsTopologicallyFinitePresentation O (P ⧸ Ideal.span {algebraMap O P ϖ * T}) ∧
       ¬ IsAdmissibleAlgebra ϖ (P ⧸ Ideal.span {algebraMap O P ϖ * T}) := sorry
+
+/-! ### R2.6 Generic and special fibres of algebras topologically of finite presentation
+(*formal-model-fibre-comparison*) -/
+
+section FibreComparison
+
+variable {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpace O]
+  [NonarchimedeanRing O] (ϖ : O) [IsCompleteRankOneBase O ϖ] {A : Type*} [CommRing A]
+  [Algebra O A]
+
+/-- The generic fibre `A[1/ϖ]` of an `O`-algebra topologically of finite presentation has Krull
+dimension at most that of its special fibre `A ⧸ 𝔪A`, without any flatness hypothesis (Conrad,
+*Modular curves and rigid-analytic spaces*, Appendix A.2, proof of Theorem A.2.1(1), p. 39). -/
+theorem IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_le
+    (hA : IsTopologicallyFinitePresentation O A) :
+    ringKrullDim (Localization.Away (algebraMap O A ϖ)) ≤
+      ringKrullDim (A ⧸ (IsLocalRing.maximalIdeal O).map (algebraMap O A)) := sorry
+
+/-- For a flat `O`-algebra topologically of finite presentation, the generic fibre `A[1/ϖ]` and
+the special fibre `A ⧸ 𝔪A` have the same Krull dimension (Conrad, *Modular curves and
+rigid-analytic spaces*, Appendix A.2, proof of Theorem A.2.1(1), equation (A.2.2), pp. 39–40). -/
+theorem IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq [Module.Flat O A]
+    (hA : IsTopologicallyFinitePresentation O A) :
+    ringKrullDim (Localization.Away (algebraMap O A ϖ)) =
+      ringKrullDim (A ⧸ (IsLocalRing.maximalIdeal O).map (algebraMap O A)) := sorry
+
+/-- If a flat `O`-algebra topologically of finite presentation has reduced special fibre
+`A ⧸ 𝔪A` with spectrum of pure dimension `d`, then its generic fibre `A[1/ϖ]` is reduced with
+spectrum of pure dimension `d` (Conrad, *Modular curves and rigid-analytic spaces*, Appendix A.2,
+Lemma A.2.2 and proof of Theorem A.2.1(2), pp. 40–41). -/
+theorem IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre
+    [Module.Flat O A] (hA : IsTopologicallyFinitePresentation O A) {d : ℕ}
+    (hred : IsReduced (A ⧸ (IsLocalRing.maximalIdeal O).map (algebraMap O A)))
+    (hpure : TauCeti.IsPureDimensional d
+      (PrimeSpectrum (A ⧸ (IsLocalRing.maximalIdeal O).map (algebraMap O A)))) :
+    IsReduced (Localization.Away (algebraMap O A ϖ)) ∧
+      TauCeti.IsPureDimensional d (PrimeSpectrum (Localization.Away (algebraMap O A ϖ))) :=
+  sorry
+
+end FibreComparison
+
+/-- `O⟨T⟩ ⧸ (ϖT)` is not flat; its generic fibre `K` has Krull dimension `0` and its special
+fibre `k[T]` has Krull dimension `1`, so the bound `ringKrullDim_genericFibre_le` is strict. -/
+example {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpace O]
+    [NonarchimedeanRing O] (ϖ : O) [IsCompleteRankOneBase O ϖ] :
+    let P := restrictedMvPowerSeriesCompletion 1 O
+    let T : P := ((weightedX (fun _ : Fin 1 ↦ ({1} : Set O)) isWeightFamily_one_weight 0 :
+      weightedRestrictedSubring _ _) : P)
+    let A := P ⧸ Ideal.span {algebraMap O P ϖ * T}
+    ringKrullDim (Localization.Away (algebraMap O A ϖ)) = 0 ∧
+      ringKrullDim (A ⧸ (IsLocalRing.maximalIdeal O).map (algebraMap O A)) = 1 := sorry
 
 end Huber
 

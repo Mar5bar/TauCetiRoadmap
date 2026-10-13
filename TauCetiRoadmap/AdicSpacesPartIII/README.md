@@ -101,7 +101,9 @@ waiting for upstream work.
    `B⁺ ⊗_{A⁺} C⁺`, then completion. They are neither uniform nor sheafy in general; every fibre
    product carries its own existence and sheafiness hypotheses.
 6. **Fibre products** are taken in AdicSpaces' category and exist under Huber's hypotheses (AdicSpacesPartII R0); the
-   map from `|X ×_Z Y|` to the fibre product of the underlying sets is surjective, not injective.
+   map from `|X ×_Z Y|` to the fibre product of the underlying sets is surjective when one of the two maps
+   is adic (Part II *fibre-product-points*, `AdicSpace.exists_pullback_point` with `hg : IsAdic g`), and is
+   not injective in general.
 7. **Formal schemes** (F0) are locally `Spf A` for `A` complete and separated for an adic topology
    with a finitely generated ideal of definition. Admissible formal `O_K`-schemes (R2) are
    topologically finitely presented and `ϖ`-torsion-free, and are not noetherian unless `K` is
@@ -175,7 +177,7 @@ analytification functors are README targets there.
 | `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` | `TauCeti/AlgebraicGeometry/Cohomology/Basic.lean` | Supplied sheaf cohomology on schemes. `FormalScheme.formalSerreVanishing` applies it to the tensor product of the actual pullbacks of the coherent module and line bundle to each formal thickening. |
 | `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_monotone`, `TauCeti.fittingIdeal_quotient_zero`, `TauCeti.fittingIdeal_baseChange`; `AlgebraicGeometry.Scheme.Modules.fittingIdeal` | `TauCeti/RingTheory/FittingIdeal/Basic.lean`, `TauCeti/RingTheory/FittingIdeal/BaseChange.lean`; `TauCeti/AlgebraicGeometry/Modules/FittingIdeal/Basic.lean` | Ring minors and the ordinary scheme construction are supplied. `FormalScheme.fittingIdeal` uses the existing formal module and ideal-sheaf carriers and adds the formal-affine comparison. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential`, `Huber.ContinuousKaehlerDifferential.D`, `AdicSpace.Smooth`, `AdicSpace.Etale`, `AdicSpace.Smooth.relativeDimension` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `AdicSpace.Smooth`, `AdicSpace.Etale`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Planned supplier interface: continuous differential module, universal derivative, and analytic smoothness with its intrinsic relative dimension. `FormalScheme.kaehler` is the formal sheaf of completed differentials; `kaehler_eq_continuousDifferentials` identifies its affine sections with the imported module, preserving the derivative. |
-| `TauCeti.IsPureDimensional` | `TauCeti/Topology/PureDimension.lean` | Pure dimension means the dimension of every irreducible component; empty fibres satisfy this condition in every dimension. Used on formal scheme fibres and spectra of analytic fibre chart rings in `FormalScheme.rigOfFSC_preservesProperties`. |
+| `TauCeti.IsPureDimensional` | `TauCeti/Topology/PureDimension.lean` | Pure dimension means the dimension of every irreducible component; empty fibres satisfy this condition in every dimension. Used on formal scheme fibres and spectra of analytic fibre chart rings in `FormalScheme.rigOfFSC_preservesProperties`, and on the spectra of the special and generic fibres of a topologically finitely presented algebra in `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`. |
 | `AlgebraicGeometry.Scheme.Hom.finrank`, `AlgebraicGeometry.GeometricallyReduced` | `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean`, `Mathlib/AlgebraicGeometry/Geometrically/Reduced.lean` | The finite flat rank includes fibre multiplicities; geometric reducedness is tested after field extensions. Applied to the scheme reduction by the extended target ideal. |
 | `TauCetiRoadmap.ModularCurves.EllipticCurve`, `EllipticCurve.toOver`, `EllipticCurve.ofWeierstrass` | `TauCetiRoadmap/ModularCurves/Suggested.lean` | Imported smooth elliptic curves and their group objects. `EllipticModuli.ofElliptic` adds the translation action; `GeneralisedEllipticCurve` adds polygon fibres. |
 | `AlgebraicGeometry.Scheme.Hom.smoothLocus`, `AlgebraicGeometry.Proj`, `MvPolynomial.homogeneousSubmodule` | `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean`, `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` | Actual smooth open and projective line used for the polygon normalization and compactified j-map. |
@@ -1010,8 +1012,10 @@ continuous homomorphism `φ : B → A` induces a morphism of locally ringed spac
 ringed space (Mathlib `LocallyRingedSpace`); the topology of the rings of sections is not part of
 the data (see *locally-noetherian-formal-scheme*), and for quasi-compact open `U` the ring
 `Γ(U, O)` carries the limit topology of the discrete rings `Γ(U, O_n)`, recorded in
-`Spf.sectionsTopology`. Define `FormalScheme.Spf` (`Spf A : LocallyRingedSpace` for `A` with
-`IsAdicRing A`); prove `FormalScheme.Spf.mem_iff` (`p ∈ Spf A ↔ IsOpen (p : Set A)` for a prime `p` of `A`, and `IsOpen (p : Set A) ↔ I ≤ p` for any ideal of definition `I`),
+`Spf.sectionsTopology`; for an arbitrary open `U` it carries the initial topology for the
+restrictions to the quasi-compact opens contained in `U` (`quotientSectionsTopology` below),
+which is not discrete in general (EGA I Ch. 0, 3.8.1, p. 35). Define `FormalScheme.Spf`
+(`Spf A : LocallyRingedSpace` for `A` with `IsAdicRing A`); prove `FormalScheme.Spf.mem_iff` (`p ∈ Spf A ↔ IsOpen (p : Set A)` for a prime `p` of `A`, and `IsOpen (p : Set A) ↔ I ≤ p` for any ideal of definition `I`),
 `FormalScheme.Spf.homeomorphSpecQuotient` (`Spf A ≃ₜ PrimeSpectrum (A ⧸ I^(n+1))` for every `n` and
 every ideal of definition `I`), `FormalScheme.Spf.globalSectionsIso`
 (`Γ(Spf A, ⊤) ≅ CommRingCat.of A`, a homeomorphism for the limit topology on sections),
@@ -1151,7 +1155,11 @@ A → B}` (EGA I Ch. I, after 10.2.2, p. 183; Stacks Tag 0AHY, §87.2, equation 
 `Spf` is a fully faithful contravariant functor from adic rings of finite ideal type (with
 continuous homomorphisms) to locally ringed spaces, and every morphism of locally ringed spaces
 between formal schemes is continuous on rings of sections (it is a morphism of topologically
-ringed spaces in the sense of EGA I Ch. I, 10.4.5). `Hom(Spf ℤ_p⟦T⟧, Spf ℤ_p⟦S⟧)` is the maximal
+ringed spaces in the sense of EGA I Ch. I, 10.4.5). Here `Γ(U, O_X)` for an arbitrary open `U`
+carries the initial topology for the restrictions to the affine formal opens contained in `U`;
+this is the sheaf topology of EGA I Ch. 0, 3.8.1, p. 35, and on `Spf A` it is
+`quotientSectionsTopology`. Making `Γ(U, O_X)` discrete for a non-quasi-compact `U` would break
+this continuity (Check `Spf_limitTopology_thickenings`). `Hom(Spf ℤ_p⟦T⟧, Spf ℤ_p⟦S⟧)` is the maximal
 ideal `(p, T)` of `ℤ_p⟦T⟧`, via `S ↦` image of `S` (continuity forces the image of `S` to be
 topologically nilpotent); `Hom(Spec F_p, Spf ℤ_p)` is a single point (`p ↦ 0`), whereas
 `Hom(Spec ℚ_p, Spf ℤ_p)` is empty, the ring map `ℤ_p → ℚ_p` not being continuous for the discrete
@@ -1165,7 +1173,18 @@ The sheaf in *formal-spectrum* is specified by `Spf.quotientSheaf`, the pushforw
 `fromSpecQuotient_stalk_surjective` and `fromSpecQuotient_naturality` pin down the coefficient
 map, space, quotient and transition directions. `quotientDiagram` uses the powers
 `J^(n+1)` and `quotientConeIsLimit` identifies its canonical cone with `O_Spf A`.
-`quotientSectionsTopology` is the initial topology for the discrete quotient-section maps;
+`quotientSectionsTopology` is the topology on sections of the limit of the pseudo-discrete
+quotient sheaves. On a quasi-compact open `U` it is the initial topology for the quotient-section
+maps `Γ(U, O) → Γ(U, O_n)` into discrete rings. On an arbitrary open `U` it is the initial
+topology for the restriction maps `Γ(U, O) → Γ(D(f), O)` to the basic opens `D(f) ⊆ U`, each
+carrying its quasi-compact topology. Giving `Γ(U, O_n)` the discrete topology for a
+non-quasi-compact `U` gives a strictly finer topology in general (EGA I Ch. 0, 3.8.1, p. 35, the
+pseudo-discrete sheaf of a sheaf of rings; EGA I Ch. I, 10.1.1–10.1.2, p. 181; Stacks Tag 0AHY,
+§87.2, the pseudo-discrete construction and the example of a discrete ring).
+`quotientSectionsTopology_qc` identifies the two descriptions on quasi-compact opens, where the
+topology is `Spf.sectionsTopology`; `quotientSectionsTopology_restrict` makes every restriction
+map continuous; `quotientSectionsTopology_glue` makes `Γ(U, O) → ∏_i Γ(U_i, O)` a homeomorphism
+onto its image, for the product topology, for every open cover `U = ⋃_i U_i`;
 `quotientSectionsTopology_basic` recovers the completed-localization topology on each basic
 open and `quotientSectionsTopology_independent` removes the choice of ideal.
 
@@ -1197,7 +1216,18 @@ with **every** ideal-of-definition quotient inclusion, including both chosen quo
 - `quotientTransition_identity` — a transition with the same quotient ideal is the identity.
 - `quotientTransition_empty` — transitions of zero-ring quotient sheaves send every section to zero.
 - `quotientTransition_square` — the transition from `J²` to `J` kills the class of each `a ∈ J`.
-- `Spf_limitTopology_discrete` — the zero-ideal inverse-limit topology is discrete on every open.
+- `Spf_limitTopology_discrete` — the zero-ideal inverse-limit topology is discrete on every
+  quasi-compact open.
+- `Spf_limitTopology_disjoint` — for a nonzero field `k`, `A = ∏_{n∈ℕ} k` with the discrete
+  topology and ideal `0`, coordinate idempotents `e_n` and `U = ⋃_n D(e_n)`: the opens `D(e_n)`
+  are pairwise disjoint one-point opens with sections `k`, `U` is not quasi-compact, and
+  `Γ(U, O) ≅ ∏_n k` is a homeomorphism for the product of the discrete topologies, which is not
+  discrete.
+- `Spf_limitTopology_thickenings` — the closed immersions `Spec(k[t]/(t^n)) → Spf k⟦t⟧`
+  (`t`-adic, `n ≥ 1`) glue on the disjoint union `X` of their sources. On global sections they give
+  `k⟦t⟧ → Γ(X, O) ≅ ∏_{n≥1} k[t]/(t^n)`, continuous for the product of the discrete topologies,
+  which is the topology on `Γ(X, O)`. Its kernel `⋂_n (t^n) = 0` is not open, so the same map is
+  not continuous for the discrete topology on the target.
 - `Spf_limitTopology_empty` — empty-open sections have the discrete zero-ring topology.
 - `Spf_limitTopology_padic` — global sections of `Spf ℤ_p` have a nondiscrete limit topology.
 - `Spf_stalk_field` — the global germ map at the unique point of a field spectrum is an isomorphism.
@@ -3965,7 +3995,8 @@ invariance under admissible blow-ups; the specialisation map, tubes of locally c
 special fibre and rig-points; admissible formal blow-ups with their strict transforms, and Raynaud's
 theorem identifying quasi-compact admissible formal schemes localised at admissible blow-ups with
 quasi-compact quasi-separated rigid (equivalently adic) spaces; separatedness and properness of a
-formal model against its generic fibre, flattening by admissible blow-up after Bosch–Lütkebohmert
+formal model against its generic fibre, and the dimension, reducedness and pure dimension of
+their fibres; flattening by admissible blow-up after Bosch–Lütkebohmert
 and Raynaud–Gruson with its proof broken into its lemmas, quasi-finite and bounded-fibre-dimension
 formal models, and Conrad's fibral finiteness criterion and topological invariance of affinoidness;
 formal completions of schemes and the good-reduction locus; smooth formal schemes, Frobenius lifts
@@ -5623,11 +5654,15 @@ its reduced structure) (Huber96 §1.3, Rem. 1.3.18, p. 59: `A` complete of rank 
 locally of finite type over `A`, statements (i)–(iii) quoted from [Hu4, 3.11, 3.13]; Huber96 §1.3,
 Rem. 1.3.19, pp. 59–60, Huber's use of 1.3.18(iii), the formal partial-properness criterion, in the
 rigid–adic comparison; Conrad-MR §3.1, proof of Thm 3.1.6, p. 18, properness of the generic fibre of
-a proper formal model without discreteness). Huber states the remark quoting [Hu4, 3.11, 3.13];
-the rigid-analytic "`f` proper ⇒ `f_rig` proper" without discreteness is Temkin
-[Te, Cor. 4.4 and 4.5, p. 18 of the
-[author version](https://math.huji.ac.il/~temkin/papers/Local_Properties_I.pdf)], and the discretely valued case is Lütkebohmert [L1]; these are cited, not
-re-derived. For instance `P̂¹_{O_K} → Spf O_K` is proper and `P^{1,ad}_K → Spa(K, O_K)` is proper;
+a proper formal model without discreteness). Huber states the remark quoting [Hu4, 3.11, 3.13].
+Clause (ii) is the adic statement, and its forward direction supplies clause (d) of
+*berthelot-rig-functor-preserves-properties*. The rigid-analytic "`f` proper ⇒ `f_rig` proper"
+for Kiehl's properness is a different statement: without discreteness it is Temkin's comparison
+through Berkovich spaces [Te, Cor. 4.4 and 4.5, p. 18 of the
+[author version](https://math.huji.ac.il/~temkin/papers/Local_Properties_I.pdf)], and in the
+discretely valued case it is Lütkebohmert [L1]. This target does not assert Kiehl-properness, and
+*proper-relatively-compact-covers* takes it as a hypothesis for general `K`. For instance
+`P̂¹_{O_K} → Spf O_K` is proper and `P^{1,ad}_K → Spa(K, O_K)` is proper;
 `Spf O_K⟨T⟩ → Spf O_K` is not proper (special fibre `A¹_k`) and the closed unit disc is not proper
 over `Spa(K, O_K)` (it is not partially proper); Mumford's formal model of `G_m` for the Tate curve
 (an infinite chain of `P¹_k`'s in the special fibre, each component proper) has partially proper
@@ -5636,6 +5671,78 @@ generic fibre `G_m^{ad}`, as (iii) predicts. *Needs:* *formal-model-separatednes
 *proper-separated-comparisons*, *rigid-analytic-space* (AdicSpacesPartII layer R1);
 *universally-closed-and-proper-morphism*, *partially-proper-morphism*,
 *separated-proper-partially-proper* (AdicSpacesPartII layer R0); Mathlib `AlgebraicGeometry.IsProper`.
+
+**The fibres of a formal model bound the fibres of its generic fibre (Conrad-MR Theorem A.2.1).**
+(*formal-model-fibre-comparison*) Let `K` be complete of rank one, discreteness not assumed, and
+`m_K` the maximal ideal of `O_K`. For an `O_K`-algebra `A` topologically of finite presentation
+(*topologically-finitely-presented-algebra*), write `A_K = A[1/ϖ] = A ⊗_{O_K} K` for the ring of its
+generic affinoid (*raynaud-generic-fibre*) and `A_k = A/m_K A`, a finitely generated `k`-algebra,
+for its special fibre. Prove: (i) `dim A_K ≤ dim A_k` for Krull dimensions, without flatness;
+(ii) if `A` is `O_K`-flat then `dim A_K = dim A_k`; (iii) if `A` is `O_K`-flat, `A_k` is reduced
+and `Spec A_k` has pure dimension `d`, then `A_K` is reduced and `Spec A_K` has pure dimension
+`d`. For (i), lift a Noether normalisation `k[x_1, …, x_n] → A_k` to `O_K⟨t_1, …, t_n⟩ → A`; this
+lift is finite because its reduction is finite and `A` is `ϖ`-adically complete and separated. For
+(ii), Noether normalisation for affinoid algebras applied to a presentation of `A` gives a finite
+injective map `O_K⟨t_1, …, t_e⟩ → A` with `e = dim A_K`; flatness makes `A → A_K` injective. For
+(iii), every nonzero element of `A_K` has a `K^×`-multiple in `A ∖ m_K A`, because ideals of Tate
+algebras are closed and the residue norm is attained. This makes `A`, hence `A_K`, reduced.
+Flatness makes every minimal prime `p` of `A` meet `O_K` only in `0`, and (ii) applied to the
+quotients `A/p`, together with the same lemma, gives the pure dimension (Conrad-MR Appendix A.2,
+Thm A.2.1, p. 39, statement; proof of Thm A.2.1, pp. 39–41, the finiteness criterion, equation
+(A.2.2) and the pure-dimension argument; Lem. A.2.2, pp. 40–41).
+
+Let `f : X → Y` be a morphism of formal `O_K`-schemes locally of tf presentation, and
+`f_0 : X_0 → Y_0` its reduction modulo `ϖ`. Let `K'/K` be a complete extension of rank-one valued
+fields with residue field `k'`, not necessarily finite over `K`, and `y : Spa(K', O_{K'}) → d(Y)`
+a morphism over `Spa(K, O_K)`. Prove: (iv) `y = d(ỹ)` for a unique morphism
+`ỹ : Spf O_{K'} → Y` over `Spf O_K`. The fibre `X_ỹ = X ×_Y Spf O_{K'}` is locally of tf
+presentation over `O_{K'}`, and `O_{K'}`-flat when `f` is flat. Its generic fibre is
+`d(X_ỹ) ≅ d(X) ×_{d(Y)} Spa(K', O_{K'})` over `Spa(K', O_{K'})`. Its special fibre is
+`f_0⁻¹(s) ⊗_{κ(s)} k'`, where `s ∈ Y_0` is the image of `ỹ`, the specialisation of `y`.
+(v) The analytic fibre `d(X) ×_{d(Y)} Spa(K', O_{K'})` is covered by the charts
+`d(Spf A_i) = Spa(A_{i,K'}, A_{i,K'}°)` for the formal affine opens `Spf A_i` of `X_ỹ`. If every
+fibre of `f_0` has dimension `≤ d`, then `dim A_{i,K'} ≤ d` for every `i`. If `f` is flat and
+every fibre of `f_0` is geometrically reduced of pure dimension `d`, then every `A_{i,K'}` is
+reduced and `Spec A_{i,K'}` has pure dimension `d`. For (iv), `Spa(K', O_{K'})` is a single point,
+so `y` lands in some `d(Spf B) = Spa(B_K, B_K°)`. There `y` is a continuous map of pairs
+`(B_K, B_K°) → (K', O_{K'})` (Huber94 §2, Prop. 2.1(i), p. 522), and its restriction to `B`
+defines `ỹ`; uniqueness holds because `O_{K'}` is `ϖ`-torsion free. The generic fibre of `X_ỹ` is
+*generic-fibre-fibre-products* (b) followed by (a) over `O_{K'}`. Clause (v) is (i) and (iii) over
+`O_{K'}` applied to the `A_i`. Here `Spec A_{i,k'}` is an open subscheme of
+`f_0⁻¹(s) ⊗_{κ(s)} k'`, and the local dimension of a scheme of finite type over a field, hence its
+pure dimension, does not change under field extension (Stacks Tag 00P4). Conrad proves the same
+comparison at points with `K'/K` finite through *rig-point* (Conrad-MR Appendix A.1, Lem. A.1.5,
+p. 38; proof of Thm A.2.1, p. 39). Since (v) allows every complete `K'`, it also covers the field
+extensions needed for geometric reducedness. *Needs:* *topologically-finitely-presented-algebra*;
+*raynaud-generic-fibre*; *generic-fibre-fibre-products*; *generic-fibre-functor-d*;
+*specialisation-map*; *rig-point*; Tau Ceti `TauCeti.IsPureDimensional`; Mathlib `ringKrullDim`,
+`IsReduced`, `Module.Flat`.
+
+The affine clauses (i)–(iii) are `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_le`,
+`IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq` and
+`IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`. They take `A_K` to be
+`Localization.Away (algebraMap O A ϖ)`, the ring of the generic affinoid, and `A_k` to be the
+quotient by the extension of the maximal ideal of `O`. The relative clauses are
+`FormalScheme.genericFibre_pointLift` and `FormalScheme.genericFibre_fibreModel` for (iv), and
+`FormalScheme.genericFibre_fibreDimension` and `FormalScheme.genericFibre_fibreReducedPure` for (v).
+
+**Checks.**
+
+- `formalModelFibre_torsion` (non-example, flatness) — `A = O_K⟨T⟩/(ϖT)` is topologically of
+  finite presentation but not flat. Here `A_k = k[T]` is reduced of pure dimension `1`, while
+  `A_K = K` has dimension `0`. The bound (i) is strict, and (ii) and (iii) fail without flatness.
+- `formalModelFibre_zero` (degenerate) — for `A = 0` both fibres are zero rings of dimension `⊥`
+  with empty spectra, pure of every dimension. A nonzero `A` has `A_k ≠ 0`: `m_K A = A` would
+  give `A = ϖA`, hence `A = 0` by `ϖ`-adic separatedness. A nonzero flat `A` also has `A_K ≠ 0`,
+  so (ii) never compares `⊥` with a natural number.
+- `formalModelFibre_annulus` (computation) — `A = O_K⟨S, T⟩/(ST − ϖ)` is flat. Its special fibre
+  `k[S, T]/(ST)`, two crossing lines, is reduced of pure dimension `1`, and `A_K`, the ring of the
+  annulus `{|ϖ| ≤ |S| ≤ 1}`, is a domain of dimension `1`, as (ii) and (iii) predict.
+- `formalModelFibre_gaussPoint` (point beyond rig-points) — for `Y = Spf O_K⟨T⟩` let `y` be the
+  Gauss point, with `K'` the completion of `K(T)` for the Gauss norm and `k' = k(T)`. Then `ỹ` is
+  the inclusion `O_K⟨T⟩ → O_{K'}` and `s` is the generic point of `A¹_k`. For `f = id_Y` the fibre
+  is `Spa(K', O_{K'})` with special fibre `Spec k(T)`. Here `K'/K` is not finite, so *rig-point*
+  does not supply this lift.
 
 **Flattening by admissible blow-up (Bosch–Lütkebohmert II Theorem 5.2).** (*flattening-by-blow-up*)
 For a morphism `f: X → Y` of quasi-compact admissible formal `O_K`-schemes with `f_rig` flat
@@ -8321,14 +8428,22 @@ Huber-standard; (c) if `f` is finite flat of constant rank `d` so is `f^rig`; (d
 `f^rig`; (e) if `f` is flat (resp. faithfully flat) so is `f^rig`; (f) if all fibres of `f` have
 dimension `≤ d` so do those of `f^rig`; (g) if `f` is flat with geometrically reduced fibres of pure
 dimension `d`, so is `f^rig` (Conrad-MR §3.1, Thm 3.1.6, p. 17, statements (a)–(g); proof of Thm
-3.1.6, p. 18, the imports of the proof). Part (d) without discreteness uses Temkin [Te, Cor. 4.4 and 4.5, p. 18 of the
-[author version](https://math.huji.ac.il/~temkin/papers/Local_Properties_I.pdf)] and (f), (g) use Conrad-MR Theorem A.2.1 (change of base field via Raynaud models); neither is a
-target of this roadmap: (d) is the direction of *formal-rigid-properness-comparison* that is cited
-from Temkin, and Conrad A.2.1 is cited and not re-proved here. For `C = ℤ` and the Tate curve over
-`ℤ[[q^{1/n}]]`, (d) and (e) give a proper flat rigid curve over the open unit disc (Conrad-MR §3.1,
+3.1.6, p. 18, the reduction by base change along `Spf R → Spf C` and by the rescalings `Y_c` to
+Raynaud's generic fibre of formal `R`-models). After that reduction the inputs for (d), (f) and
+(g) are targets of this roadmap. In (d), `f^rig` is proper in the adic sense of
+*universally-closed-and-proper-morphism* (AdicSpacesPartII layer R0). This is the forward direction
+of *formal-rigid-properness-comparison* (ii), applied to the `R`-flat quotients of the base-changed
+models; `d` kills `ϖ`-torsion, so their generic fibres do not change. Conrad's rigid statement
+asserts Kiehl-properness. For non-discrete `|k^×|` that needs Temkin's comparison through Berkovich
+spaces [Te, Cor. 4.4 and 4.5, p. 18 of the
+[author version](https://math.huji.ac.il/~temkin/papers/Local_Properties_I.pdf)], which is not
+asserted here. Clauses (f) and (g) are *formal-model-fibre-comparison* (v) for the base-changed
+models, the statement Conrad uses on p. 18 as Thm A.2.1. For `C = ℤ` and the Tate curve over
+`ℤ[[q^{1/n}]]`, (d) and (e) give a proper flat adic curve over the open unit disc (Conrad-MR §3.1,
 after Thm 3.1.6). *Needs:* *berthelot-type-rig-functor-nonnoetherian-base*; *raynaud-generic-fibre*;
-*raynaud-theorem*; *formal-rigid-properness-comparison*; *smooth-formal-scheme*;
-*formal-etale-site-invariance*; *rigid-analytic-space* (AdicSpacesPartII layer R1).
+*raynaud-theorem*; *formal-rigid-properness-comparison*; *formal-model-fibre-comparison*;
+*smooth-formal-scheme*; *formal-etale-site-invariance*; *rigid-analytic-space* (AdicSpacesPartII
+layer R1); *universally-closed-and-proper-morphism* (AdicSpacesPartII layer R0).
 
 `FormalScheme.rigOfFSC_preservesProperties` has seven conjuncts in the order
 (a)–(g) above. Its field presentation identifies the chart ring with the complete
