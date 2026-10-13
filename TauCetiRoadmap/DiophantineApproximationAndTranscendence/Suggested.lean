@@ -13,46 +13,10 @@ specified, and logarithms carry their branches. The declarations state layer mil
 and the constructions whose mathematical existence is a target.
 -/
 
-/-! Formula carriers for isolated signatures. These definitions have no provider ownership;
-provider import compatibility and the comparisons with provider declarations are README targets. -/
+/-! Formula carrier for isolated signatures. This definition has no provider ownership;
+provider import compatibility and the comparison with the provider declaration are README targets. -/
 
 namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence.SignatureModel
-
-open Classical in
-/-- The relative Arakelov tuple height uses Euclidean infinite-place factors
-and max finite-place factors, with projective value one at zero. -/
-noncomputable def relativeEuclideanTupleHeight {K : Type*} [Field K] [NumberField K]
-    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
-  if x = 0 then 1 else
-    (∏ v : NumberField.InfinitePlace K, (∑ i, ‖v.embedding (x i)‖ ^ 2) ^ ((v.mult : ℝ) / 2)) *
-      ∏ᶠ v : NumberField.FinitePlace K, ⨆ i, v (x i)
-
-open Classical IntermediateField in
-/-- The absolute projective tuple height is computed in its finite coefficient field. -/
-noncomputable def absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K]
-    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
-  if hx : ∀ i, IsIntegral ℚ (x i) then
-    let E := IntermediateField.adjoin ℚ (Set.range x)
-    haveI : FiniteDimensional ℚ E := IntermediateField.finiteDimensional_adjoin
-      (by rintro y ⟨i, rfl⟩; exact hx i)
-    haveI : NumberField E := {}
-    Height.mulHeight (fun i => (⟨x i, IntermediateField.subset_adjoin ℚ _
-      (Set.mem_range_self i)⟩ : E)) ^ (Module.finrank ℚ E : ℝ)⁻¹
-  else 1
-
-/-- The affine tuple logarithmic height appends a coordinate one. -/
-noncomputable def relativeAffineLogHeight {K : Type*} [Field K] [Height.AdmissibleAbsValues K]
-    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
-  Height.logHeight (fun o : Option ι => o.elim 1 x)
-
-open Classical in
-/-- The relative Arakelov height of a coordinate subspace is the height of its minors. -/
-noncomputable def relativeEuclideanSubspaceHeight {K : Type*} [Field K] [NumberField K] {n : ℕ}
-    (U : Submodule K (Fin n → K)) : ℝ :=
-  relativeEuclideanTupleHeight
-    (fun t : {t : Finset (Fin n) // t.card = Module.finrank K U} =>
-      Matrix.det (Matrix.of fun i j =>
-        (Module.finBasis K U i : Fin n → K) (t.1.orderEmbOfFin t.2 j)))
 
 open Classical in
 /-- The analytic coefficient of multi-order α at x, with value zero off analyticity. -/
@@ -79,6 +43,9 @@ namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence
 #check NumberField.isUnit_iff_norm
 #check NumberField.mulHeight_eq
 #check NumberField.prod_abs_eq_one
+#check Polynomial.isPrimitive_iff_forall_gaussNorm_eq_one
+#check Polynomial.gaussNorm_mul
+#check Polynomial.gaussNorm_C
 #check TauCeti.height_eq_ringKrullDim_of_isMaximal
 #check TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul
 
@@ -94,6 +61,56 @@ open scoped ENNReal NNReal Topology
 namespace DiophantineApproximation
 
 open TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation
+
+section Geometry
+
+open MeasureTheory Pointwise
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- The zero-based `i`-th successive minimum of a lattice with respect to a body: the infimum of
+the `t ≥ 0` for which `Λ ∩ t • B` spans a real subspace of dimension at least `i + 1`. -/
+def successiveMin (Λ : Submodule ℤ E) (B : Set E) (i : Fin (Module.finrank ℝ E)) : ℝ :=
+  sInf {t : ℝ | 0 ≤ t ∧
+    i.val + 1 ≤ Module.finrank ℝ (Submodule.span ℝ ((Λ : Set E) ∩ t • B))}
+
+/-- For a discrete full lattice and a compact convex symmetric body with zero in its interior,
+each successive minimum is the least admissible threshold. -/
+theorem successiveMin_isLeast (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
+    {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B) (hBs : ∀ x ∈ B, -x ∈ B)
+    (hB0 : (0 : E) ∈ interior B) (i : Fin (Module.finrank ℝ E)) :
+    IsLeast {t : ℝ | 0 ≤ t ∧
+      i.val + 1 ≤ Module.finrank ℝ (Submodule.span ℝ ((Λ : Set E) ∩ t • B))}
+      (successiveMin Λ B i) := by sorry
+
+/-- Independent lattice vectors realize all successive minima simultaneously. -/
+theorem exists_successiveMin_witnesses (Λ : Submodule ℤ E) [DiscreteTopology Λ]
+    [IsZLattice ℝ Λ] {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B)
+    (hBs : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : E) ∈ interior B) :
+    ∃ v : Fin (Module.finrank ℝ E) → E, LinearIndependent ℝ v ∧ (∀ i, v i ∈ Λ) ∧
+      ∀ i, v i ∈ successiveMin Λ B i • B := by sorry
+
+variable [MeasurableSpace E] [BorelSpace E]
+
+/-- The lower bound of Minkowski's second theorem, for the Haar measure defining the covolume. -/
+theorem minkowski_second_lower (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
+    (μ : Measure E) [μ.IsAddHaarMeasure] {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B)
+    (hBs : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : E) ∈ interior B) :
+    (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume Λ μ / (Module.finrank ℝ E).factorial ≤
+      (μ B).toReal * ∏ i, successiveMin Λ B i := by sorry
+
+/-- The upper bound of Minkowski's second theorem, for the Haar measure defining the covolume. -/
+theorem minkowski_second_upper (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
+    (μ : Measure E) [μ.IsAddHaarMeasure] {B : Set E} (hBc : IsCompact B) (hBv : Convex ℝ B)
+    (hBs : ∀ x ∈ B, -x ∈ B) (hB0 : (0 : E) ∈ interior B) :
+    (μ B).toReal * ∏ i, successiveMin Λ B i ≤
+      (2 : ℝ) ^ Module.finrank ℝ E * ZLattice.covolume Λ μ := by sorry
+
+/-- For `ℤ²` and the box `[-2,2] × [-1,1]` the first successive minimum is `1/2`. -/
+example : successiveMin (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2))))
+    (Set.univ.pi ![Set.Icc (-2 : ℝ) 2, Set.Icc (-1 : ℝ) 1]) ⟨0, by simp⟩ = 1 / 2 := by sorry
+
+end Geometry
 
 section Heights
 
@@ -202,8 +219,75 @@ end Heights
 
 section Comparison
 
+/-- Regrouping a product over the infinite places of `L` along the places of `K` below them:
+the multiplicities above `v` add up to `mult v * [L : K]`. -/
+theorem prod_infinitePlace_comap_pow_mult {K L : Type*} [Field K] [NumberField K] [Field L]
+    [NumberField L] [Algebra K L] {M : Type*} [CommMonoid M] (g : InfinitePlace K → M) :
+    ∏ w : InfinitePlace L, g (w.comap (algebraMap K L)) ^ w.mult =
+      ∏ v : InfinitePlace K, g v ^ (v.mult * Module.finrank K L) := by sorry
+
 -- The restriction of a finite place along `K → L` is Mathlib's
 -- `NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`; it is consumed, not restated.
+
+/-- Under a finite extension of number fields the relative height of a tuple is raised to the
+degree `[L : K]`; the zero tuple has value one in both fields. -/
+theorem mulHeight_algebraMap {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L]
+    [Algebra K L] {ι : Type*} [Finite ι] (x : ι → K) :
+    Height.mulHeight (algebraMap K L ∘ x) = Height.mulHeight x ^ Module.finrank K L := by sorry
+
+/-- Relative heights are invariant under isomorphisms of number fields. -/
+theorem mulHeight_ringEquiv {K K' : Type*} [Field K] [NumberField K] [Field K']
+    [NumberField K'] (e : K ≃+* K') {ι : Type*} [Finite ι] (x : ι → K) :
+    Height.mulHeight (e ∘ x) = Height.mulHeight x := by sorry
+
+/-- Mathlib's absolute height of an element of a number field `K` is the `[K : ℚ]`-th root of
+its relative height in `K`. -/
+theorem absMulHeight₁_eq_rpow {K : Type*} [Field K] [NumberField K] (x : K) :
+    NumberField.absMulHeight₁ x = Height.mulHeight₁ x ^ ((Module.finrank ℚ K : ℝ)⁻¹) := by sorry
+
+/-- The absolute height depends only on the minimal polynomial over `ℚ`, so conjugates and
+images under field embeddings have the same height. -/
+theorem absMulHeight₁_eq_of_minpoly_eq {F F' : Type*} [Field F] [CharZero F] [Field F']
+    [CharZero F'] {x : F} {y : F'} (h : minpoly ℚ x = minpoly ℚ y) :
+    NumberField.absMulHeight₁ x = NumberField.absMulHeight₁ y := by sorry
+
+open Classical IntermediateField in
+/-- The absolute projective height of a finite tuple in a characteristic-zero field: the relative
+height in the number field generated by the coordinates, with its degree root. The zero tuple
+has value one, and a tuple with a transcendental coordinate has junk value one. -/
+def absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K]
+    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
+  if hx : ∀ i, IsIntegral ℚ (x i) then
+    let E := IntermediateField.adjoin ℚ (Set.range x)
+    haveI : FiniteDimensional ℚ E := IntermediateField.finiteDimensional_adjoin
+      (by rintro y ⟨i, rfl⟩; exact hx i)
+    haveI : NumberField E := {}
+    Height.mulHeight (fun i => (⟨x i, IntermediateField.subset_adjoin ℚ _
+      (Set.mem_range_self i)⟩ : E)) ^ (Module.finrank ℚ E : ℝ)⁻¹
+  else 1
+
+/-- Computing the absolute tuple height in any number field containing the coordinates gives
+the degree root of the relative height there. -/
+theorem absoluteProjectiveTupleHeight_eq {K : Type*} [Field K] [NumberField K]
+    {ι : Type*} [Fintype ι] (x : ι → K) :
+    absoluteProjectiveTupleHeight x =
+      Height.mulHeight x ^ ((Module.finrank ℚ K : ℝ)⁻¹) := by sorry
+
+/-- The absolute tuple height is invariant under homomorphisms of characteristic-zero fields. -/
+theorem absoluteProjectiveTupleHeight_comp {K K' : Type*} [Field K] [CharZero K] [Field K']
+    [CharZero K'] (f : K →+* K') {ι : Type*} [Fintype ι] (x : ι → K) :
+    absoluteProjectiveTupleHeight (f ∘ x) = absoluteProjectiveTupleHeight x := by sorry
+
+/-- The absolute scalar height of `x` is the absolute tuple height of the pair `(x, 1)`. -/
+theorem absMulHeight₁_eq_absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K]
+    (x : K) : NumberField.absMulHeight₁ x = absoluteProjectiveTupleHeight ![x, 1] := by sorry
+
+/-- The zero tuple keeps the projective value one. -/
+example : absoluteProjectiveTupleHeight (0 : Fin 2 → ℚ) = 1 := by sorry
+
+/-- The tuple `(1/3, 1/3)` has absolute height one, while appending a coordinate one gives three. -/
+example : absoluteProjectiveTupleHeight (![1 / 3, 1 / 3] : Fin 2 → ℚ) = 1 ∧
+    absoluteProjectiveTupleHeight (![1, 1 / 3, 1 / 3] : Fin 3 → ℚ) = 3 := by sorry
 
 variable {F : Type*} [Field F] [CharZero F]
 
@@ -1116,7 +1200,7 @@ theorem nonempty_specialization {K : Type*} [Field K] [IsAlgClosed K] [CharZero 
 
 /-- The absolute affine logarithmic height of an algebraic tuple is log H(1,x). -/
 def absoluteLogHeightAff {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) : ℝ :=
-  Real.log (SignatureModel.absoluteProjectiveTupleHeight (Fin.cons 1 x))
+  Real.log (absoluteProjectiveTupleHeight (Fin.cons 1 x))
 
 /-- Absolute affine tuple height is nonnegative. -/
 theorem absoluteLogHeightAff_nonneg {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) :
@@ -1135,10 +1219,12 @@ theorem scalarSumHeight_affine {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) :
     absoluteLogHeightAff x ≤ scalarSumHeight x ∧
       scalarSumHeight x ≤ n * absoluteLogHeightAff x := by sorry
 
-/-- Computing the absolute affine adapter over any containing number field gives the same value. -/
+/-- Over any containing number field the absolute affine height is the relative logarithmic
+height of `(1, x)` divided by the degree. -/
 theorem absoluteLogHeightAff_eq {K : Type*} [Field K] [NumberField K] {n : ℕ}
     (f : K →+* AlgebraicClosure ℚ) (x : Fin n → K) :
-    absoluteLogHeightAff (f ∘ x) = SignatureModel.relativeAffineLogHeight x / Module.finrank ℚ K := by sorry
+    absoluteLogHeightAff (f ∘ x) =
+      Height.logHeight (Fin.cons (1 : K) x : Fin (n + 1) → K) / Module.finrank ℚ K := by sorry
 
 /-- Small nondegenerate hyperplane points have a degree-independent count (ESS02 Proposition 11.1). -/
 theorem smallHeightHyperplaneBound {n : ℕ} (hn : 2 ≤ n)
@@ -1160,7 +1246,7 @@ example (k : ℕ) :
     absoluteLogHeightAff
       (![(1 : AlgebraicClosure ℚ) / (2 ^ k + 1), 1 / (2 ^ k + 1)] :
         Fin 2 → AlgebraicClosure ℚ) = Real.log (2 ^ k + 1) ∧
-    SignatureModel.absoluteProjectiveTupleHeight
+    absoluteProjectiveTupleHeight
       (![(1 : AlgebraicClosure ℚ) / (2 ^ k + 1), 1 / (2 ^ k + 1)] :
         Fin 2 → AlgebraicClosure ℚ) = 1 := by sorry
 
@@ -1364,36 +1450,31 @@ example {Q : ℝ} (hQ : 1 < Q) :
     rationalInfimumSpace (coordForms ℚ 2) (cExample (1 / 2)) Q 1 =
       ℚ ∙ (![1, 0] : Fin 2 → ℚ) := by sorry
 
-open Classical in
-/-- The absolute Euclidean height adapter uses the isolated relative Euclidean height formula, with zero at zero. -/
+/-- The absolute Euclidean height `H_2` of a `K`-rational vector: Euclidean norms at the infinite
+places and max norms at the finite places, with degree-normalized exponents. The zero vector has
+value zero. -/
 def height2 {ι : Type*} [Fintype ι] (y : ι → K) : ℝ :=
-  if y = 0 then 0 else SignatureModel.relativeEuclideanTupleHeight y ^
-    ((Module.finrank ℚ K : ℝ)⁻¹)
+  (∏ w : InfinitePlace K,
+      (∑ i, ‖w.embedding (y i)‖ ^ 2) ^ ((w.mult : ℝ) / (2 * Module.finrank ℚ K))) *
+    ∏ᶠ v : FinitePlace K, (⨆ i, v (y i)) ^ ((1 : ℝ) / Module.finrank ℚ K)
 
-/-- On a nonzero tuple, the Euclidean adapter is the degree root of the isolated relative Euclidean height formula. -/
-theorem height2_eq_arakelovMulHeight {ι : Type*} [Fintype ι] {y : ι → K} (hy : y ≠ 0) :
-    height2 y = SignatureModel.relativeEuclideanTupleHeight y ^ (Module.finrank ℚ K : ℝ)⁻¹ := by sorry
-
-/-- The absolute Euclidean adapter is invariant under number-field extension. -/
+/-- The absolute Euclidean height is invariant under number-field extension. -/
 theorem height2_baseExtension {E : Type*} [Field E] [NumberField E]
     {ι : Type*} [Fintype ι] (f : K →+* E) (y : ι → K) :
     height2 (f ∘ y) = height2 y := by sorry
 
-/-- The zero convention differs from the model projective value. -/
-example : height2 (0 : Fin 2 → ℚ) = 0 ∧
-    SignatureModel.relativeEuclideanTupleHeight (0 : Fin 2 → ℚ) = 1 := by sorry
+/-- The zero convention differs from Mathlib's projective value one at the zero tuple. -/
+example : height2 (0 : Fin 2 → ℚ) = 0 ∧ Height.mulHeight (0 : Fin 2 → ℚ) = 1 := by sorry
 
-/-- A degree-two coefficient field has relative Arakelov height three at (√2,1). -/
+/-- In a degree-two field the vector (√2,1) has absolute Euclidean height √3. -/
 example (a : K) (ha : a ^ 2 = 2) (hK : Module.finrank ℚ K = 2) :
-    SignatureModel.relativeEuclideanTupleHeight (![a, 1] : Fin 2 → K) = 3 ∧
-      height2 (![a, 1] : Fin 2 → K) = Real.sqrt 3 := by sorry
+    height2 (![a, 1] : Fin 2 → K) = Real.sqrt 3 := by sorry
 
-/-- Base extension to degree four changes the relative height to nine and preserves the absolute height. -/
+/-- Base extension to a degree-four field keeps the absolute Euclidean height √3. -/
 example {E : Type*} [Field E] [NumberField E] (f : K →+* E)
     (a : K) (ha : a ^ 2 = 2) (hK : Module.finrank ℚ K = 2)
     (hE : Module.finrank ℚ E = 4) :
-    SignatureModel.relativeEuclideanTupleHeight (![f a, 1] : Fin 2 → E) = 9 ∧
-      height2 (![f a, 1] : Fin 2 → E) = Real.sqrt 3 := by sorry
+    height2 (![f a, 1] : Fin 2 → E) = Real.sqrt 3 := by sorry
 
 /-- Plücker coordinates: the `p × p` minors of the matrix with rows `x i`. -/
 def plucker {p : ℕ} (x : Fin p → Fin n → K) : {s : Finset (Fin n) // s.card = p} → K :=
@@ -1411,9 +1492,13 @@ example : height2 (![2, 2] : Fin 2 → ℚ) = √2 := sorry
 /-- Swapping the identity rows reverses the Plücker sign. -/
 example : plucker (!![(0 : ℚ), 1; 1, 0]) ⟨Finset.univ, by simp⟩ = -1 := sorry
 
-/-- The absolute subspace Euclidean height is the degree root of its isolated relative Euclidean height formula. -/
+open Classical in
+/-- The Euclidean projective height `H_2(T)` of a subspace: the Euclidean height of the Plücker
+coordinates of a basis, and one for the zero and whole subspaces. -/
 def subspaceHeight (T : Submodule K (Fin n → K)) : ℝ :=
-  SignatureModel.relativeEuclideanSubspaceHeight T ^ (Module.finrank ℚ K : ℝ)⁻¹
+  if T = ⊥ ∨ T = ⊤ then 1 else
+    height2 (plucker fun i : Fin (Module.finrank K T) ↦
+      ((Module.finBasis K T i : T) : Fin n → K))
 
 /-- The coordinate dot-product perpendicular is the transported dual annihilator. -/
 theorem orthogonalBilin_eq_dualAnnihilator_comap (U : Submodule K (Fin n → K)) :
@@ -1423,24 +1508,29 @@ theorem orthogonalBilin_eq_dualAnnihilator_comap (U : Submodule K (Fin n → K))
 /-- Sup and Euclidean Plücker heights have the dimension-dependent absolute comparison. -/
 theorem subspaceHeight_sup_le {p : ℕ} (x : Fin p → Fin n → K)
     (hx : LinearIndependent K x) :
-    SignatureModel.absoluteProjectiveTupleHeight (plucker x) ≤ subspaceHeight (Submodule.span K (Set.range x)) ∧
+    absoluteProjectiveTupleHeight (plucker x) ≤ subspaceHeight (Submodule.span K (Set.range x)) ∧
       subspaceHeight (Submodule.span K (Set.range x)) ≤
-        Real.sqrt (n.choose p) * SignatureModel.absoluteProjectiveTupleHeight (plucker x) := by sorry
+        Real.sqrt (n.choose p) * absoluteProjectiveTupleHeight (plucker x) := by sorry
 
 /-- EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T ≤ ∏_i height2 (x_i). -/
 theorem subspaceHeight_le_prod {p : ℕ} (x : Fin p → Fin n → K) (hx : LinearIndependent K x) :
     subspaceHeight (Submodule.span K (Set.range x)) ≤ ∏ i, height2 (x i) := by
   sorry
 
-/-- Euclidean height duality transported along the coordinate pairing (EF (6.13)): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
+/-- EF (6.13): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
 theorem subspaceHeight_orthogonal (T : Submodule K (Fin n → K)) :
     subspaceHeight (T.orthogonalBilin (dotProductBilin K K)) = subspaceHeight T := by
   sorry
 
-/-- The degree-root formula for Euclidean height submodularity (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
+/-- Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
 theorem subspaceHeight_inf_mul_sup_le (T₁ T₂ : Submodule K (Fin n → K)) :
     subspaceHeight (T₁ ⊓ T₂) * subspaceHeight (T₁ ⊔ T₂) ≤
       subspaceHeight T₁ * subspaceHeight T₂ := by
+  sorry
+
+/-- Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T ≤ B is finite. -/
+theorem finite_subspaceHeight_le (B : ℝ) :
+    {T : Submodule K (Fin n → K) | subspaceHeight T ≤ B}.Finite := by
   sorry
 
 /-- For a rational subspace, `H_2(T)` is the Euclidean norm of the wedge of a `ℤ`-basis of
@@ -1535,7 +1625,7 @@ example : deltaL (fun v : Place ℚ => match v with
 /-- The absolute height of all maximal minors of a finite collection of forms.
 Ordered injective selections repeat each unordered minor only up to sign. -/
 def formSystemHeight {R : ℕ} (A : Fin R → Fin n → K) : ℝ :=
-  SignatureModel.absoluteProjectiveTupleHeight (fun f : Fin n ↪ Fin R =>
+  absoluteProjectiveTupleHeight (fun f : Fin n ↪ Fin R =>
     Matrix.det (Matrix.of fun i j => A (f i) j))
 
 /-- Enumerating the same collection in another order preserves its determinant-tuple height. -/
@@ -1556,7 +1646,7 @@ theorem deltaL_le_formSystemHeight {R : ℕ} (A : Fin R → Fin n → K)
 theorem formSystemHeight_augmented_le {R : ℕ} (hn : 1 ≤ n)
     (A : Fin R → Fin n → K) :
     formSystemHeight A ≤ (n : ℝ) ^ ((n : ℝ) / 2) *
-      ∏ i, SignatureModel.absoluteProjectiveTupleHeight (Fin.cons 1 (A i)) := by sorry
+      ∏ i, absoluteProjectiveTupleHeight (Fin.cons 1 (A i)) := by sorry
 
 /-- The minor height for X,Y,X+Y is one, while the last Euclidean row height is √2. -/
 example : formSystemHeight (![![1, 0], ![0, 1], ![1, 1]] : Fin 3 → Fin 2 → ℚ) = 1 ∧
@@ -1673,7 +1763,7 @@ theorem exists_compound_auxiliary_polynomial {k N m R : ℕ}
     (hneg : ∀ h, ∑ l, compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l ≤ -δ / n)
     (habs : ∀ h l, |compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l| ≤ n)
     (hInv : ∀ V : Finset (Place K),
-      SignatureModel.absoluteProjectiveTupleHeight
+      absoluteProjectiveTupleHeight
         (fun o : Option (V × Fin N × Fin N) => o.elim 1
           (fun p => ((Matrix.of fun a b =>
             compoundForms (n - k) (L p.1.1) (e a) (e b)) : Matrix (Fin N) (Fin N) K)⁻¹
@@ -1741,7 +1831,7 @@ theorem sharp_roths_lemma {m : ℕ} (hm : 2 ≤ m) (d : Fin m → ℕ) (hd : ∀
           (MvPolynomial.pderiv p).toLinearMap ^ i p).prod F) ≠ 0 := by
   sorry
 
-/-- The fixed-field supplier Siegel bound in absolute height2 normalization (EF13 Lemma 13.1). -/
+/-- The fixed-field Siegel lemma in the absolute Euclidean normalization (EF13 Lemma 13.1). -/
 theorem exists_ne_zero_height2_le {U V : ℕ} (hUV : U < V) (hU : 0 < U)
     (L : Fin U → Fin V → K) (hL : ∀ i, L i ≠ 0) :
     ∃ x : Fin V → K, x ≠ 0 ∧ (∀ i, L i ⬝ᵥ x = 0) ∧
@@ -3288,9 +3378,7 @@ theorem logarithmsConjecture_of_schanuel (h : SchanuelConjecture) :
     LogarithmsAlgebraicIndependenceConjecture := by sorry
 end DiophantineApproximation
 
-/- Supplier contracts use ZLattice.successiveMinimum,
-ZLattice.covolume_le_prod_successiveMinimum_mul_measure,
-ZLattice.prod_successiveMinimum_mul_measure_le and hermitian_gram_hadamard.
+/- The supplier contract of §0.0 uses hermitian_gram_hadamard.
 The construction targets specified with full mathematical hypotheses in the README are:
 adelicSymmetricPowerHeight, absoluteBinarySmallBasis, absoluteAdelicMinima,
 absoluteMinimaRealScales, absoluteCompoundGapData,

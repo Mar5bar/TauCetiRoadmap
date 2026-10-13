@@ -4,57 +4,46 @@
 
 ## Scope and ownership
 
-Own primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its algebraic differential forms.
+Own successive minima and Minkowski’s second theorem, the field comparisons of relative and absolute heights, absolute tuple heights, Euclidean and Plücker subspace heights with their duality and Northcott properties, the fixed-field Siegel lemma, primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its algebraic differential forms.
 
-Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree Northcott, Kronecker and the Mahler/absolute-height dictionary are consumed from ArithmeticHeights Layer 1. Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
+Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure, Kronecker’s theorem and the Mahler/absolute-height dictionary belong here (§§0.2–0.3). Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
 
 GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. [IntegralLattices](../IntegralLattices/README.md), Layer 0A and Layer 2, owns integral quadratic lattices and their bounded-norm finiteness; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc estimates are supplied by LinearFormsInLogarithms Layers 0–1. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
 
 The shared foundations have the following single suppliers. Each dependency is on the
 specified layers, independently of the supplier's later applications. The contracts below
 are consumer interfaces and normalization adapters; they do not request another proof
-of a supplied theorem. `Suggested.lean` gives isolated formulas in its local `SignatureModel` namespace for
-signatures whose providers are separate dependencies. These formulas do not export supplier
+of a supplied theorem. `Suggested.lean` gives an isolated formula in its local `SignatureModel` namespace for
+the signatures whose provider is a separate dependency. This formula does not export supplier
 names or certify provider compatibility. The actual adapters consume the provider objects.
-The model carriers are `SignatureModel.relativeEuclideanTupleHeight`,
-`SignatureModel.absoluteProjectiveTupleHeight`, `SignatureModel.relativeAffineLogHeight`,
-`SignatureModel.relativeEuclideanSubspaceHeight` and `SignatureModel.taylorCoeff`.
+The model carrier is `SignatureModel.taylorCoeff`.
 
 | Consumer sections | Supplier and exported interface | Work owned here |
 | --- | --- | --- |
-| §§0.2–0.3 | [ArithmeticHeights](../ArithmeticHeights/README.md), Layers 0–1: NumberField.absMulHeight, NumberField.arakelovMulHeight, Height.mulHeightAff, Height.logHeightAff, NumberField.absMulHeight₁_pow_natDegree, bounded-degree Northcott and Kronecker | Primitive-positive minpoly, naive height and arbitrary-element house/denominator adapters |
-| §0.0, §§0.4,2.1 | ArithmeticHeights Layer 4: ZLattice.successiveMinimum, ZLattice.covolume_le_prod_successiveMinimum_mul_measure, ZLattice.prod_successiveMinimum_mul_measure_le | Approximation corollaries and the closed-boundary coordinate linear-forms adapter |
-| §0.0 Gram estimate | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §0.1: hermitian_gram_hadamard, extending ArithmeticHeights Layer 3's real Gram bound | Consumption for complex coefficient estimates |
-| §1.3, §2.5 | ArithmeticHeights Layers 2–3: Polynomial.mulHeight, Submodule.pluckerPoint, Submodule.mulHeight, Submodule.arakelovMulHeight, Submodule.mulHeight_comap_piEquiv_dualAnnihilator | Sparse coefficient-log adapter; absolute Euclidean and dot-product adapters; twisted heights and weights |
-| §2.8 fixed-field kernel bound, §4.1 unit dictionary | ArithmeticHeights Layers 5–6: NumberField.exists_linearIndependent_mem_ker_prod_absMulHeight_le, unit-height/regulator and S-unit rank dictionaries | Auxiliary constraints, perturbations, effective equations; absolute geometry in §2.5 |
+| §0.0 Gram estimate | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §0.1: hermitian_gram_hadamard | Consumption for complex coefficient estimates |
 | §3.3 qualitative conclusions | [LinearFormsInLogarithms](../LinearFormsInLogarithms/README.md), §6.4: transcendental_exp_mul and GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational | One-variable exponential-polynomial zero estimates and the explicit E19/KW auxiliary constructions as alternative applications of shared estimates |
 | §3.4 | LinearFormsInLogarithms Layers 0–4: mvTaylorCoeff, norm_le_of_mvTaylorCoeff_eq_zero, mvTaylorCoeff_prod_pow_mul_cexp, exists_ne_zero_int_norm_sum_le | Ordinary-derivative adapter and its factorial bridge; coordinate integral, remainder, arithmetic-polynomial and degenerate-case adapters |
 | §3.5 | LinearFormsInLogarithms Layers 5–7: §5.7 SchneiderLang.exists_transcendental_of_linearIndependent, §§6.1–6.2 Schneider–Lang consequences, §7.2 Baker.eq_zero_of_add_sum_mul_eq_zero, §7.3 Baker.transcendental_sum_mul | Branch and basis-coordinate corollaries of these shared statements |
 | §§3.1–3.2,3.6–3.7,4–5 | LinearFormsInLogarithms Layer 8 supplies qualitative p-adic Baker–Brumer only | Full Hermite-method Lindemann–Weierstrass, quantitative Matveev/Yu, effective equations, modular values and arithmetic functions |
 
-ArithmeticHeights Layer 4 is the real-lattice supplier also used by the geometric
-foundation of GeometryOfNumbersAndQuadraticArithmetic: its zero-based natural index
-is restricted here to `Fin d`. No later homogeneous-dynamics or hermitian K-theory
-layer is needed. Absolute adelic minima, the degree-free small-height branch and
-Nesterenko's arithmetic specialization are targets here.
+Only §0.1 of GeometryOfNumbersAndQuadraticArithmetic is consumed; no later
+homogeneous-dynamics or hermitian K-theory layer is needed. Successive minima and
+Minkowski's second theorem (§0.0), absolute adelic minima, the degree-free
+small-height branch and Nesterenko's arithmetic specialization are targets here.
 
-**Provider import compatibility.** Prove `height2_eq_arakelovMulHeight` and
-`Baker.mDeriv_eq_factorial_mul_mvTaylorCoeff` against joint provider imports. Import ArithmeticHeights.Arakelov, Absolute,
-Affine and Subspace for the corresponding height consumers; the analytic consumer
-imports the Layer 0 coefficient interface of LinearFormsInLogarithms. Its prototype
-is TauCetiRoadmap.LinearFormsInLogarithms.mvTaylorCoeff, generalized in the normed
+**Provider import compatibility.** Prove `Baker.mDeriv_eq_factorial_mul_mvTaylorCoeff`
+against the provider import: the analytic consumer imports the Layer 0 coefficient
+interface of LinearFormsInLogarithms. Its prototype is
+TauCetiRoadmap.LinearFormsInLogarithms.mvTaylorCoeff, generalized in the normed
 field, finite coordinate type and value space; adopt its library export when importing
-that implementation. Prove the height and factorial comparisons using those objects
-and their lemmas in a checkout importing the providers and consumer together. No
-consumer declaration occupies a provider namespace. The zero-height adapter tests
-for the zero tuple before taking the positive degree root. (ArithmeticHeights
-§§0.1,0.4–0.5,3.2; LinearFormsInLogarithms §0.4; EF13 §6.3.)
+that implementation. Prove the factorial comparison using that object and its lemmas
+in a checkout importing the provider and consumer together. No consumer declaration
+occupies a provider namespace. (LinearFormsInLogarithms §0.4.)
 
 **Checks.**
 
 - The joint imports elaborate without duplicate declarations; provider comparison proofs reference imported implementations, with no SignatureModel term.
-- The provider Arakelov formula at (√2,1) in ℚ(√2) gives 3, so the consumer absolute Euclidean height is √3; extension to ℚ(√2,i) gives relative value 9 by arakelovMulHeight_rpow_comp.
-- At zero the provider retains projective value 1 while the consumer height2 adapter gives 0.
+- In one variable, for f=exp at zero and order 3, the ordinary derivative is 1 and the provider coefficient is 1/6; a coefficient without the factorial division would give 1.
 - The provider coefficient of z₀²z₁³ at zero in order (2,3) is 1; its coefficient/derivative API gives ordinary derivative 12. Specialization retains the provider's finite-coordinate and value-space parameters.
 
 ## Conventions
@@ -67,7 +56,7 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 
 ## Exact supplier contracts
 
-**From Mathlib.** `minpoly`, `IsLocalization.integerNormalization`, `Polynomial.primPart`, `supNorm`, `mapMahlerMeasure`, `hasseDeriv` and `MvPolynomial.pderiv` supply polynomial reduction, size and derivatives over their stated coefficient rings. `Finsupp.logHeight` is invariant under nonzero scaling. `NumberField.mulHeight_eq`, `mulHeight₁_eq` use complex multiplicity 2; `absMulHeight₁` defines the absolute scalar height; ArithmeticHeights §§0.3–0.4 supplies its field-comparison interfaces; adopt the matching Mathlib exports by deletion plus import when available. `NumberField.house`, `exists_conjugate_one_le_norm`, `norm_embedding_le_house`, `norm_norm_le_norm_mul_house_pow` bound conjugates in a fixed number field; Layer 0’s versions concern arbitrary algebraic elements and denominators. `finite_setOfPred_mulHeight₁_le` is fixed-field Northcott.
+**From Mathlib.** `minpoly`, `IsLocalization.integerNormalization`, `Polynomial.primPart`, `supNorm`, `mapMahlerMeasure`, `hasseDeriv` and `MvPolynomial.pderiv` supply polynomial reduction, size and derivatives over their stated coefficient rings. `Finsupp.logHeight` is invariant under nonzero scaling. `NumberField.mulHeight_eq`, `mulHeight₁_eq` use complex multiplicity 2; `absMulHeight₁` defines the absolute scalar height; Layer 0 proves its field comparisons. `NumberField.house`, `exists_conjugate_one_le_norm`, `norm_embedding_le_house`, `norm_norm_le_norm_mul_house_pow` bound conjugates in a fixed number field; Layer 0’s versions concern arbitrary algebraic elements and denominators. `finite_setOfPred_mulHeight₁_le` is fixed-field Northcott.
 
 `NumberField.InfinitePlace`, `FinitePlace` and `FinitePlace.equivHeightOneSpectrum` identify embeddings and prime ideals. `NumberField.Units.finrank_modTorsion`, the log embedding, torsion kernel and `exist_unique_eq_mul_prod` give rank r₁+r₂−1 and unit decomposition. `LiouvilleWith`, continued-fraction convergents, `LinearRecurrence.IsSolution`, `charPoly`, power series, derivations and transcendence degree supply the remaining foundations. `LindemannWeierstrass.exp_polynomial_approx` supplies an integer-polynomial exponential approximation estimate. The Hermite integral identity in §3.1 uses the fundamental theorem of calculus. `CliffordAlgebra.contractLeft`, `contractLeft_ι`, `contractLeft_ι_mul`, `contractLeft_algebraMap` and `contractLeft_contractLeft` supply contraction by a dual vector; apply them to `Derivation.liftKaehlerDifferential` on Kähler forms. Native declarations below retain their library hypotheses; names grouped under a namespace use that namespace as prefix.
 
@@ -78,7 +67,7 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 **From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. IntegralLattices, Layer 0A “integral lattices” and Layer 2 “definite lattices”, supplies the quadratic-lattice carrier and its bounded-norm finiteness; Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; LinearFormsInLogarithms Layers 0–2 supplies the several-variable engine used in §3.4.
 
 
-**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima and linear-forms contracts in §0.0 consume ArithmeticHeights Layer 4; the Hermitian Gram contract consumes GeometryOfNumbersAndQuadraticArithmetic §0.1. Their boundary and empty-family conventions are specified there. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
+**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima, second convex-body and linear-forms variants needed here are §0.0 targets, and the Hermitian Gram contract consumes GeometryOfNumbersAndQuadraticArithmetic §0.1; the exact boundary and empty-family conventions are specified in §0.0. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
 
 `Set.unit S K` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the sole S-unit subgroup, for a set S of height-one primes of a Dedekind domain with fraction field K. Its membership condition is v(x)=1 at every v outside S; `Set.unit_valuation_eq_one` and `Set.unitEquivUnitsInteger` identify its elements with units of the S-integer ring. For rational equations take the domain `𝓞 ℚ`, using `Rat.HeightOneSpectrum.primesEquiv` to identify its height-one primes with rational primes. No separate rational S-unit subgroup is defined. The algebraic-number field inside ℂ is `(algebraicClosure ℚ ℂ).toSubfield`. `PowerSeries.expand r hr` with r≠0 and `PowerSeries.expand_apply` supply f(z^r)=subst(X^r,f); `PowerSeries.coeff_expand` supplies the coefficient formula, with zero off exponents divisible by r. This is the sole expansion operator for Mahler systems; no separate coefficient construction is needed. The rational numerator, sign, exponent and height comparisons of §4.1 are adapters on this carrier.
 
@@ -109,17 +98,8 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 | §3.5 / Bertrand–Masser / W00 Theorem 4.5 | LinearFormsInLogarithms §7.1 / Theorem 4.5 (an open TauCetiRoadmap pull request by mkaratarakis); Baker.eq_zero_of_isAlgebraic_sum_mul | Translate algebraicLogs membership to algebraic exponentials and pointwise zero to function equality, specializing the provider’s finite basis index to Fin d. |
 | §3.5 / Baker’s theorem / linearIndependent_cons_one_of_linearIndependent_rat | LinearFormsInLogarithms §7.2 / Baker’s theorem (an open TauCetiRoadmap pull request by mkaratarakis); Baker.eq_zero_of_add_sum_mul_eq_zero | Use the algebraic coefficient field `integralClosure ℚ ℂ`, translate membership to algebraic exponentials, and package coefficient vanishing as Fin.cons independence. |
 | §3.5 / E19 Theorem 4.19 / transcendental_sum_mul_of_linearIndependent | LinearFormsInLogarithms §7.3 / Corollaries (nonzero sum) (an open TauCetiRoadmap pull request by mkaratarakis); Baker.transcendental_sum_mul | Derive nonzero sum from supplied Baker independence and β≠0; rational independence is used for nonvanishing, while the supplier requires only a nonzero sum. |
-| §0.2 / For number fields K⊆L and a commutative-monoid-valued g… | ArithmeticHeights §0.3 / Extension invariance (archimedean local-factor count) (an open TauCetiRoadmap pull request by rwst); NumberField.prod_infinitePlace_pow_mult_eq | The provider export is `NumberField.prod_infinitePlace_pow_mult_eq`; use real multiplicity 1, complex multiplicity 2 and relative extension degree [L:K], without a degree root. |
-| §0.2 / For a finite tuple x… | ArithmeticHeights §0.3 / Extension invariance (an open TauCetiRoadmap pull request by rwst); NumberField.mulHeight_pow_finrank; NumberField.mulHeight₁_pow_finrank | Use the projective value 1 at zero and the relative power [L:K]; scalar height is obtained from the tuple with an appended coordinate 1. |
-| §0.2 / A ring isomorphism of number fields… | ArithmeticHeights §0.4 / The absolute height of a tuple (degree-one isomorphism prerequisite) (an open TauCetiRoadmap pull request by rwst); NumberField.mulHeight_pow_finrank (degree one) | A number-field ring equivalence fixes ℚ; equip the target with its transported algebra structure and use extension degree one. |
-| §0.2 / For x∈K… | ArithmeticHeights §0.3 / Extension invariance (absolute scalar comparison) (an open TauCetiRoadmap pull request by rwst); NumberField.absMulHeight₁_eq | Keep scalar height of (x,1), degree [K:ℚ] and real exponent ([K:ℚ])⁻¹; this is distinct from the Euclidean height2 zero convention. |
-| §0.2 / Equal rational minimal polynomials… | ArithmeticHeights §0.4 / The absolute height of a tuple; §1.2 / Height and Mahler measure (root/scalar invariance) (an open TauCetiRoadmap pull request by rwst); absMulHeight_comp; absMulHeight₁_comp | The provider’s `absMulHeight_comp` tuple theorem and `absMulHeight₁_comp` scalar form require the embedding dictionary; equal minimal polynomials are compared via a common root field, with junk value 1 for transcendental elements. |
-| §0.2 / For a primitive P∈ℤ[X] and a finite place w… | ArithmeticHeights §1.2 / Height and Mahler measure (primitive-polynomial Gauss norm) (an open TauCetiRoadmap pull request by rwst); Mathematical contract; no export name specified | Map integer coefficients into the number field, use ideal-normalized finite-place moduli and radius 1; primitivity implies nonzero polynomial. |
-| §0.2 / If that primitive P splits as a∏b∈s(X−b)… | ArithmeticHeights §1.2 / Height and Mahler measure (finite-place local Mahler computation) (an open TauCetiRoadmap pull request by rwst); Mathematical contract; Polynomial.gaussNorm_mul | Count roots with multiplicity, distinguish the leading coefficient from the monic rational minpoly, and retain only the connection to our primitive-positive `primitiveMinpoly`. |
-| §2.5 / finite_subspaceHeight_le / Northcott for subspaces | ArithmeticHeights §3.7 / Northcott for subspaces (rank-free theorem and Arakelov instance) (an open TauCetiRoadmap pull request by rwst); Submodule.finite_setOf_mulHeight_le; Northcott Submodule.arakelovMulHeight | Our subspaceHeight is the positive [K:ℚ]-degree root of the supplier’s relative Arakelov height; negative thresholds give the empty set and ⊥,⊤ have height 1. |
-| §0.3; §1.3 consumer / Prove binom(k,⌊k/2⌋)√(k+1)≤2ᵏ | ArithmeticHeights §2.3 / Gelfond’s inequality (critical-path central-binomial lemma) (an open TauCetiRoadmap pull request by rwst); Nat.choose_middle_mul_sqrt_le_two_pow | Identify floor(k/2) with natural division and retain n=0; consume the exact square-root statement, not merely choose≤2^n. |
 
-The log 2+√2 log 3 carrier consumer keeps the real-bodied local restatement `Transcendence.transcendental_sum_mul_of_linearIndependent` of LinearFormsInLogarithms §7.3. Its isolated signature takes the §7.2 affine coefficient-vanishing and §7.3 nonzero-sum interfaces as explicit supplier arguments; the joint-import version supplies these from the named exports. No separate Fin.cons independence restatement is needed. The other supplied entries are consumed directly through their section contracts and the retained factorial, membership or degree-root dictionaries.
+The log 2+√2 log 3 carrier consumer keeps the real-bodied local restatement `Transcendence.transcendental_sum_mul_of_linearIndependent` of LinearFormsInLogarithms §7.3. Its isolated signature takes the §7.2 affine coefficient-vanishing and §7.3 nonzero-sum interfaces as explicit supplier arguments; the joint-import version supplies these from the named exports. No separate Fin.cons independence restatement is needed. The other supplied entries are consumed directly through their section contracts and the retained factorial or membership dictionaries.
 
 **Broader consumer targets.** §3.3 retains `Transcendence.transcendental_exp_pi_mul` for all algebraic α outside ℚ·i, using LinearFormsInLogarithms §6.4. §3.5 retains `Baker.schneiderLang_homogeneous` for a rational-span rank hypothesis, extracting an independent subfamily for LinearFormsInLogarithms §6.1. It also retains the independent T₀,T₁ family and first-vanishing construction, using LinearFormsInLogarithms §§2.1–2.3,5.1–5.3 as the shared coefficient, growth and arithmetic engines.
 
@@ -131,7 +111,7 @@ Layer 0 fixes heights and approximation; Layer 1 proves Roth by auxiliary polyno
 
 ### 0.0 Geometric estimates on the library lattice carriers
 
-Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E of dimension d, and a compact convex set B symmetric about zero with zero in its interior. Consume `ZLattice.successiveMinimum Λ B i.val`, for i : Fin d, as the infimum of t≥0 for which the real span of Λ∩tB has dimension at least i+1. Its intended signature is a real-valued function of the native lattice, the body and the zero-based index. Consume positivity, monotonicity in i, the threshold characterization and ZLattice.exists_linearIndependent_mem_smul_successiveMinimum: independent v_i∈Λ with v_i∈λ_i B simultaneously. Scaling B by a>0 divides every minimum by a; invertible real-linear transport of Λ and B preserves them. (E19, ch. 2, §2.3 “Minkowski’s second convex body theorem”, Lem. 2.8, pp. 23–24.)
+Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E of dimension d, and a compact convex set B symmetric about zero with zero in its interior. Define `successiveMin Λ B i`, for i : Fin d, as the infimum of t≥0 for which the real span of Λ∩tB has dimension at least i+1. Its intended signature is a real-valued function of the native lattice, the body and the zero-based index. Prove positivity, monotonicity in i, the threshold characterization `successiveMin_isLeast`, and `exists_successiveMin_witnesses`: independent v_i∈Λ with v_i∈λ_i B simultaneously. Scaling B by a>0 divides every minimum by a; invertible real-linear transport of Λ and B preserves them. Since B is bounded, each Λ∩tB is finite by `ZLattice.setFinite_inter`, and compactness gives Λ∩tB=Λ∩λB for t slightly above λ, so every threshold is attained; zero in the interior makes some multiple of B contain a basis of Λ, so all d thresholds are finite, and discreteness makes the first one positive. Choosing each v_i at level λ_i outside the span of the earlier ones gives the witnesses. (E19, ch. 2, §2.3 “Minkowski’s second convex body theorem”, Lem. 2.8, pp. 23–24.)
 
 **Checks.**
 
@@ -140,9 +120,15 @@ Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E o
 - The zero-dimensional space has an empty family of minima and empty product 1.
 - For the unit square scaled by 2, the minima halve; a definition that scales the lattice instead gives the opposite normalization.
 
-Consume `ZLattice.covolume_le_prod_successiveMinimum_mul_measure` and `ZLattice.prod_successiveMinimum_mul_measure_le` from ArithmeticHeights Layer 4.2:
+Prove `minkowski_second_lower` and `minkowski_second_upper`:
 2^d covol(Λ)/d! ≤ volume(B)∏_i λ_i ≤ 2^d covol(Λ).
-The volume is the same Haar measure used for the covolume. No norm-ball restriction is imposed. In dimension zero the body is {0}, its volume and covolume are 1, and both bounds are equalities. (E19, ch. 2, Thm. 2.9, pp. 24–27.)
+The volume is the same Haar measure used for the covolume. No norm-ball restriction is imposed. In dimension zero the body is {0}, its volume and covolume are 1, and both bounds are equalities. For the lower bound, B contains the convex hull of the ±v_i/λ_i, whose volume is 2^d/(d!∏λ_i) times that of the parallelepiped spanned by the witnesses v_i; that parallelepiped is a fundamental domain of a sublattice of Λ, so its volume is at least covol(Λ). The upper bound follows E19's proof of Theorem 2.9. (E19, ch. 2, Thm. 2.9, pp. 24–27.)
+
+**Checks.**
+
+- For ℤ^d and B=[−1,1]^d the volume is 2^d and every minimum is 1, so the upper bound is an equality.
+- For ℤ^d and the cross-polytope Σ|x_i|≤1 the volume is 2^d/d! and every minimum is 1, so the lower bound is an equality.
+- For ℤ² and B=[−4,4]×[−1,1] the minima are 1/4 and 1 and volume(B)∏λ_i=4=2²; replacing ∏λ_i by λ_1² gives 1, below the lower bound 2, so the product of all minima is essential.
 
 For d≥1, invertible A∈M_d(ℝ), positive b_i and ∏b_i≥|det A|, prove `minkowski_linear_forms`: some nonzero z∈ℤ^d has |(Az)_i|≤b_i for every i. The inequalities include the boundary; compactness of the parallelepiped is essential at equality. This is a coordinate consequence of the supplied first convex-body theorem. (E19, ch. 2, Cor. 2.6, p. 20.)
 
@@ -221,19 +207,86 @@ Its API includes `house_nonneg`: 0≤⌈x⌉; `norm_le_house`: |x|≤⌈x⌉ for
 
 For x in a number field K, identify the field-independent house with maxσ|σ(x)|=NumberField.house x. (E19, ch. 3, p. 52.)
 
-*For number fields K⊆L and a commutative-monoid-valued g…* Provides the multiplicity-weighted infinite-place product under number-field extension. Supplied by ArithmeticHeights §0.3 / Extension invariance (archimedean local-factor count) (an open TauCetiRoadmap pull request by rwst). The provider export is `NumberField.prod_infinitePlace_pow_mult_eq`; use real multiplicity 1, complex multiplicity 2 and relative extension degree [L:K], without a degree root.
+For number fields K⊆L and a commutative-monoid-valued g on InfinitePlace K, prove `prod_infinitePlace_comap_pow_mult`: ∏w g(w|K)ᵐʷ=∏v g(v)^(mᵥ[L:K]). Equivalently Σw|v mʷ=mᵥ[L:K]. Real places have multiplicity 1 and complex places multiplicity 2. Group the places of L by their restriction to K; above v, Mathlib's `NumberField.InfinitePlace.mult_mul_finrank` gives mʷ=mᵥ[L_w:K_v], and `NumberField.InfinitePlace.inertiaDeg_eq_finrank` with `NumberField.InfinitePlace.sum_inertiaDeg_eq_finrank` gives Σw|v [L_w:K_v]=[L:K]. (Wu, §2, Lem. 2.2, p. 3; Yang, p. 4.)
 
-*For a finite tuple x…* Provides the relative tuple and scalar height extension-power law. Supplied by ArithmeticHeights §0.3 / Extension invariance (an open TauCetiRoadmap pull request by rwst). Use the projective value 1 at zero and the relative power [L:K]; scalar height is obtained from the tuple with an appended coordinate 1.
+**Checks.**
 
-*A ring isomorphism of number fields…* Provides preservation of relative tuple and scalar height under number-field isomorphism. Supplied by ArithmeticHeights §0.4 / The absolute height of a tuple (degree-one isomorphism prerequisite) (an open TauCetiRoadmap pull request by rwst). A number-field ring equivalence fixes ℚ; equip the target with its transported algebra structure and use extension degree one.
+- For L=ℚ(i) over ℚ the single complex place has multiplicity 2=1·[L:ℚ].
+- For L=ℚ(2^(1/3)) over ℚ there are one real and one complex place; their multiplicities add to 3=[L:ℚ], whereas the number of places is 2.
+- For L=ℚ(√2) over ℚ two real places lie over the real place, so g(v)=2 gives 4 on both sides.
 
-*For x∈K…* Provides computation of absolute scalar height in any containing number field. Supplied by ArithmeticHeights §0.3 / Extension invariance (absolute scalar comparison) (an open TauCetiRoadmap pull request by rwst). Keep scalar height of (x,1), degree [K:ℚ] and real exponent ([K:ℚ])⁻¹; this is distinct from the Euclidean height2 zero convention.
+*Needs:* Mathlib infinite places, their completions and local degrees.
 
-*Equal rational minimal polynomials…* Provides invariance of absolute scalar height under characteristic-zero embeddings and conjugacy. Supplied by ArithmeticHeights §0.4 / The absolute height of a tuple; §1.2 / Height and Mahler measure (root/scalar invariance) (an open TauCetiRoadmap pull request by rwst). The provider’s `absMulHeight_comp` tuple theorem and `absMulHeight₁_comp` scalar form require the embedding dictionary; equal minimal polynomials are compared via a common root field, with junk value 1 for transcendental elements.
+For a finite tuple x over number fields K⊆L, prove `mulHeight_algebraMap`: Hrel,L(x)=Hrel,K(x)^[L:K], including the zero tuple (both values 1). Apply this to (x,1) for scalar height. Write both heights by `NumberField.mulHeight_eq`. At a place w|v the coordinatewise maximum of the |xᵢ|_w is that of the |xᵢ|_v raised to [L_w:K_v], by `normalizedAbsValue_inl_algebraMap` and `normalizedAbsValue_inr_algebraMap`; the local degrees above v add to [L:K], by `prod_infinitePlace_comap_pow_mult` at infinity and `Ideal.sum_ramification_inertia_eq_finrank` at finite places. (Wu, §2, Lem. 2.5, p. 4; Yang, p. 4.)
 
-*For a primitive P∈ℤ[X] and a finite place w…* Provides the radius-one finite-place Gauss norm of a primitive integer polynomial. Supplied by ArithmeticHeights §1.2 / Height and Mahler measure (primitive-polynomial Gauss norm) (an open TauCetiRoadmap pull request by rwst). Map integer coefficients into the number field, use ideal-normalized finite-place moduli and radius 1; primitivity implies nonzero polynomial.
+**Checks.**
 
-*If that primitive P splits as a∏b∈s(X−b)…* Provides the finite-place local Mahler product for a primitive split polynomial. Supplied by ArithmeticHeights §1.2 / Height and Mahler measure (finite-place local Mahler computation) (an open TauCetiRoadmap pull request by rwst). Count roots with multiplicity, distinguish the leading coefficient from the monic rational minpoly, and retain only the connection to our primitive-positive `primitiveMinpoly`.
+- (2,1) has relative height 2 over ℚ and 4 over ℚ(i); relative height is not invariant under extension.
+- (√2,1) has relative height 2 over ℚ(√2) and 4 over ℚ(√2,i).
+- The zero tuple has value 1 over every field, consistent with 1^[L:K]=1.
+
+*Needs:* `prod_infinitePlace_comap_pow_mult`; the Tau Ceti place-extension interface of the supplier contract.
+
+A ring isomorphism of number fields preserves relative tuple height and scalar height: prove `mulHeight_ringEquiv`. An isomorphism e:K≃K′ fixes ℚ and identifies the infinite and finite places of K′ with those of K, preserving multiplicities and normalized absolute values; equivalently it is the degree-one case of `mulHeight_algebraMap` for the algebra structure transported along e. (Yang, p. 4.)
+
+**Checks.**
+
+- The automorphism √2↦−√2 of ℚ(√2) sends (1+√2,1) to (1−√2,1); both have relative height 1+√2, although |1+√2| and |1−√2| differ at a fixed real embedding.
+- The isomorphism ℚ[X]/(X²−2)≅ℚ(√2) sends (X,1) to (√2,1); both have relative height 2.
+- A rational tuple keeps its height in every isomorphic copy of K, since e fixes ℚ.
+
+*Needs:* `mulHeight_algebraMap`.
+
+For x∈K with K a number field of degree D, prove `absMulHeight₁_eq_rpow`: Habs(x)=Hrel,K(x)^(1/D), identifying the native definition through ℚ(x) with computation in K. Apply `mulHeight_algebraMap` to ℚ(x)⊆K and use [K:ℚ]=[ℚ(x):ℚ][K:ℚ(x)] (`Module.finrank_mul_finrank`). (Wu, §2, Def. 2.7, p. 4; Smyth, §1, p. 323.)
+
+**Checks.**
+
+- For √2 the relative height is 2 in ℚ(√2) and 4 in ℚ(√2,i); both give Habs(√2)=√2, while omitting the degree root gives 2.
+- For x=2/3 in ℚ, Habs(x)=Hrel,ℚ(x)=3; in ℚ(i) the relative height is 9 and the square root is again 3.
+- Habs(0)=1, the height of the pair (0,1).
+
+*Needs:* `mulHeight_algebraMap`.
+
+Equal rational minimal polynomials give equal absolute heights in any characteristic-zero fields: prove `absMulHeight₁_eq_of_minpoly_eq`. Hence absolute height is invariant under field embeddings; transcendental elements have value 1. For algebraic x and y, ℚ(x) and ℚ(y) are both isomorphic to the field obtained by adjoining a root of the common minimal polynomial (`IntermediateField.adjoinRootEquivAdjoin`), and `mulHeight_ringEquiv` compares the heights of the generators. If one element is transcendental its minimal polynomial is 0, so the other is transcendental too and both heights are the junk value. (Yang, p. 4; Smyth, §1, p. 323.)
+
+**Checks.**
+
+- √2∈ℝ and −√2∈ℂ have minimal polynomial X²−2 and the same absolute height √2.
+- π and e are transcendental, have minimal polynomial 0, and both take the junk value 1.
+- 2 and 1/2 have different minimal polynomials but the same absolute height 2; the converse implication fails.
+
+*Needs:* `mulHeight_ringEquiv`, `absMulHeight₁_eq_rpow`.
+
+Define `absoluteProjectiveTupleHeight x` for a finite tuple x in a characteristic-zero field. If every coordinate is algebraic, it is `Height.mulHeight` of x computed in the number field ℚ(x) generated by the coordinates, raised to 1/[ℚ(x):ℚ]; otherwise it is the junk value 1. The zero tuple has value 1, the projective convention of `Height.mulHeight_zero`. Prove `absoluteProjectiveTupleHeight_eq`: for x in a number field K it equals Hrel,K(x)^(1/[K:ℚ]); `absoluteProjectiveTupleHeight_comp`: it is invariant under homomorphisms of characteristic-zero fields; and `absMulHeight₁_eq_absoluteProjectiveTupleHeight`: Habs(x) is the absolute height of (x,1). The first is `mulHeight_algebraMap` for ℚ(x)⊆K with the degree tower; the second holds because a homomorphism maps ℚ(x) isomorphically onto the field generated by the image, so `mulHeight_ringEquiv` applies; the third uses `Height.mulHeight₁_eq_mulHeight` and ℚ(x,1)=ℚ(x). (Wu, §2, Lem. 2.5 and Def. 2.7, p. 4; Yang, p. 4.)
+
+**Checks.**
+
+- (√2,1) has relative height 2 in ℚ(√2) and 4 in ℚ(√2,i); both computations give absolute height √2.
+- (2/3,1) has relative height 3 over ℚ and 9 over ℚ(i); its absolute height 3 is Habs(2/3).
+- (1/3,1/3) has absolute height 1, as (1,1) does, while appending a coordinate 1 gives (1,1/3,1/3) of height 3.
+- The zero tuple has value 1, whereas the Euclidean `height2` of §2.5 is 0 there.
+
+*Needs:* `mulHeight_algebraMap`, `mulHeight_ringEquiv`.
+
+For a primitive P∈ℤ[X] and a finite place w of a number field, the radius-one Gauss norm of the mapped polynomial is 1. Every integer has |·|_w≤1; if w lies over the prime p, primitivity gives a coefficient prime to p, which has |·|_w=1. Over ℚ this is Mathlib's `Polynomial.isPrimitive_iff_forall_gaussNorm_eq_one`. (Smyth, §1, p. 323; Wu, §3, Lem. 3.1, p. 5.)
+
+**Checks.**
+
+- 2X+3 is primitive; at a place over 2 or over 3 one of its coefficients is a unit, so the Gauss norm is 1.
+- 2X+2 is not primitive; at a place over 2 its Gauss norm is |2|_w<1.
+- The constant 1 has Gauss norm 1 at every finite place; the zero polynomial is not primitive and is excluded.
+
+*Needs:* Mathlib's `Polynomial.gaussNorm` and the finite places of the supplier contract.
+
+If that primitive P splits as a∏b∈s(X−b), prove w(a)∏b∈s max(1,w(b))=1 at every finite place. The radius-one Gauss norm is multiplicative at a nonarchimedean place (`Polynomial.gaussNorm_mul`), equals w(a) on the constant a (`Polynomial.gaussNorm_C`) and max(1,w(b)) on X−b; the roots in s are counted with multiplicity. Applied to the primitive-positive `primitiveMinpoly`, whose leading coefficient is a₀ rather than 1, this is the finite-place factor of M(x)=Habs(x)^d. (Wu, §3, Lem. 3.1, p. 5.)
+
+**Checks.**
+
+- For 2X−1, with a=2 and the root 1/2, the place over 2 gives |2|_w·max(1,|1/2|_w)=1.
+- X²−2=(X−√2)(X+√2) over ℚ(√2) has a=1, and |√2|_w<1 at the place over 2, so the product is 1.
+- The monic rational minimal polynomial X−1/2 gives max(1,|1/2|_w)≠1 over 2, so the leading coefficient must be kept; for the primitive (2X−1)²=4(X−1/2)² the double root must be counted twice.
+
+*Needs:* the preceding Gauss-norm statement; §0.1.
 
 For every x in a characteristic-zero field, M(x)=Habs(x)^d and log M(x)=d·habs(x), where d=deg minpoly ℚ x. At transcendental x this reads 1=1⁰. (Smyth, §1, p. 323; Wu, §3, Prop. 3.1, p. 6; Yang, pp. 1-4.)
 
@@ -259,11 +312,25 @@ For d∈ℕ and B∈ℝ, the algebraic α∈ℂ with degree ≤d and H(α)≤B f
 
 *Needs:* §0.1.
 
-For d∈ℕ and B∈ℝ, consume ArithmeticHeights Layer 1.3 bounded-degree Northcott finiteness in ℂ for Habs(α)≤B. The field containing α is allowed to vary. (Wu, §3, Thm. 3.4, p. 6; Yang, p. 1.)
+For d∈ℕ and B∈ℝ, prove `finite_setOf_absMulHeight₁_le`, bounded-degree Northcott finiteness in ℂ for Habs(α)≤B. The field containing α is allowed to vary. For such α of degree e≤d, `mahlerMeasure_eq_absMulHeight₁_pow` gives M(α)=Habs(α)^e≤max(1,B)^d, so `finite_setOf_mahlerMeasure_le` applies. (Wu, §3, Thm. 3.4, p. 6; Yang, p. 1.)
+
+**Checks.**
+
+- Roots of unity of every order have Habs=1, so without the degree bound the set is infinite.
+- For B<1 the set is empty, since Habs≥1.
+- For d=1 and B=1 the set is {−1,0,1}.
 
 *Needs:* §0.2.
 
-*Prove binom(k,⌊k/2⌋)√(k+1)≤2ᵏ* Provides the central-binomial estimate used by the coefficient-product bounds. Supplied by ArithmeticHeights §2.3 / Gelfond’s inequality (critical-path central-binomial lemma) (an open TauCetiRoadmap pull request by rwst). Identify floor(k/2) with natural division and retain n=0; consume the exact square-root statement, not merely choose≤2^n.
+Prove binom(k,⌊k/2⌋)√(k+1)≤2ᵏ for every k∈ℕ, with ⌊k/2⌋ the natural quotient k/2. For even k=2n the ratio of consecutive values of binom(2n,n)√(2n+1)/4ⁿ is √((2n+1)(2n+3))/(2n+2)≤1 by `Nat.succ_mul_centralBinom_succ`, and the value at n=0 is 1. For odd k=2n+1 use binom(2n+1,n)=binom(2n+2,n+1)/2 and √(2n+2)≤√(2n+3). (Wu, §3, Lem. 3.5, p. 7.)
+
+**Checks.**
+
+- k=0 gives 1·1=1, an equality.
+- k=2 gives 2√3≤4, whereas binom(k,⌊k/2⌋)(k+1)≤2ᵏ fails there (6>4); the square root is essential.
+- k=5 gives 10√6≤32, with ⌊5/2⌋=2.
+
+*Needs:* Mathlib's central binomial coefficients.
 
 For complex polynomials f=∏ⱼfⱼ of degree d, coefficient sup norms satisfy ∏ⱼ‖fⱼ‖∞≤2ᵈ‖f‖∞ and ‖f‖∞≤2ᵈ∏ⱼ‖fⱼ‖∞. A zero factor makes both inequalities 0≤0. (Wu, §3, Lem. 3.5, Lem. 3.6, p. 7.)
 
@@ -526,7 +593,7 @@ Use `MvPolynomial`: `pderiv`, `rename`; `Polynomial`: `hasseDeriv`, `toMvPolynom
 
 ### 1.3 Coefficient heights and products
 
-Consume ArithmeticHeights Layer 2 coefficient heights. For K with admissible absolute values the sparse adapter `MvPolynomial.logHeight` as the native Finsupp logarithmic height of the coefficient vector. For a nonzero polynomial over a number field this is Σw|∞ mʷ log maxμ|Pμ|w + Σv finite log maxμ|Pμ|v. It is relative; divide by [K:ℚ] for the absolute normalization. (P22, §3.2, Def. 3.2.1, Lem. 3.2.2, p. 80.)
+For K with admissible absolute values define `MvPolynomial.logHeight` as the native Finsupp logarithmic height of the coefficient vector. For a nonzero polynomial over a number field this is Σw|∞ mʷ log maxμ|Pμ|w + Σv finite log maxμ|Pμ|v. It is relative; divide by [K:ℚ] for the absolute normalization. (P22, §3.2, Def. 3.2.1, Lem. 3.2.2, p. 80.)
 
 Its API includes `MvPolynomial.logHeight_nonneg`: h(P)≥0; `MvPolynomial.logHeight_zero`: h(0)=0; `MvPolynomial.logHeight_C_mul`: h(cP)=h(P) for c≠0 (projectivity; Pottmeyer, Lemma 3.2.2); `MvPolynomial.logHeight_C`: h(c)=0 for a constant; `MvPolynomial.logHeight_rename`: h is invariant under injective renaming of variables; `MvPolynomial.logHeight_eq_of_numberField`: The place-by-place formula over a number field (Mathlib's NumberField.mulHeight_eq).
 
@@ -554,7 +621,7 @@ For nonzero integer P viewed over ℚ, h(P)≤log maxμ|Pμ|, with equality for 
 
 For a,b∈ℕ, binom(a,⌊a/2⌋)binom(b,⌊b/2⌋)≤binom(a+b,⌊(a+b)/2⌋). (P22, Lem. 3.2.8, p. 83.)
 
-Provides the central-binomial estimate used by the coefficient-product bounds. Supplied by ArithmeticHeights §2.3 / Gelfond’s inequality (critical-path central-binomial lemma) (an open TauCetiRoadmap pull request by rwst). Identify floor(k/2) with natural division and retain n=0; consume the exact square-root statement, not merely choose≤2^n.
+Use §0.3’s central-binomial estimate binom(d,⌊d/2⌋)√(d+1)≤2ᵈ. (P22, Lem. 3.2.9, p. 83.)
 
 Complex polynomials satisfy ‖f‖∞‖g‖∞≤2^deg(fg)‖fg‖∞. (P22, Lem. 3.2.10, p. 84.)
 
@@ -887,7 +954,7 @@ Prove `closedFormRecurrence`: for a complex recurrence E with characteristic pol
 
 A finitely generated algebra over an algebraically closed field of characteristic zero admits a specialisation fixing the base field and preserving nonvanishing of any specified finite set of units. This reduces the finite data of a unit equation to algebraic coefficients. (ESS02, §3, Lem. 3.1, pp. 815–816; ESS02, §3, Lem. 3.1.)
 
-Prove `absolutePerturbedUnitEquation` (and its unperturbed restriction `exists_subspaces_unit_equation_algebraic`): let Γ≤(ℚ̄×)^n have finite rank r and n≥2. The y=xz with x∈Γ, h_aff(z)≤n⁻¹exp(−(5n)^(3n))(1+h_aff(x)) and Σyᵢ=1 lie in at most exp((5n)^(3n)(r+1)) proper subspaces. Here h_aff is the absolute affine logarithmic tuple height, log H_proj(1,x). Over a containing number field K it is Height.logHeightAff x/[K:ℚ], equivalently Height.logHeight (Fin.cons 1 x)/[K:ℚ]. ArithmeticHeights §0.5 supplies the affine tuple adapter and §0.4 its absolute field-independent extension; `absoluteLogHeightAff` realizes it on ℚ̄-tuples, and `absoluteLogHeightAff_eq` gives the containing-field formula; `absoluteLogHeightAff_nonneg` gives nonnegativity and `absoluteLogHeightAff_one` gives zero on the tuple of ones. (ESS02, §2, Thm. 2.1, p. 815, with the perturbation budget used in §11 (11.19); EF13, §1.3, p. 4.)
+Prove `absolutePerturbedUnitEquation` (and its unperturbed restriction `exists_subspaces_unit_equation_algebraic`): let Γ≤(ℚ̄×)^n have finite rank r and n≥2. The y=xz with x∈Γ, h_aff(z)≤n⁻¹exp(−(5n)^(3n))(1+h_aff(x)) and Σyᵢ=1 lie in at most exp((5n)^(3n)(r+1)) proper subspaces. Here h_aff is the absolute affine logarithmic tuple height, log H_proj(1,x), with H_proj the absolute tuple height `absoluteProjectiveTupleHeight` of §0.2. Over a containing number field K it is Height.logHeight (Fin.cons 1 x)/[K:ℚ]. `absoluteLogHeightAff` realizes it on ℚ̄-tuples, and `absoluteLogHeightAff_eq` gives the containing-field formula from `absoluteProjectiveTupleHeight_eq` and `absoluteProjectiveTupleHeight_comp`; `absoluteLogHeightAff_nonneg` gives nonnegativity and `absoluteLogHeightAff_one` gives zero on the tuple of ones. (ESS02, §2, Thm. 2.1, p. 815, with the perturbation budget used in §11 (11.19); EF13, §1.3, p. 4.)
 
 **Checks.**
 
@@ -913,8 +980,9 @@ to nonzero evaluations, and induct on intersections with the hyperplane;
 positive-dimensional torus translates force a vanishing subsum and are excluded.
 The quantitative degree/height bookkeeping must give the displayed q₀(n),
 without a degree or discriminant term. This proof branch precedes the unit-equation
-assembly and uses no unit-equation finiteness theorem. *Needs:* ArithmeticHeights
-Layers 0–3,5; §1.2 auxiliary jets; Mathlib polynomial ideals, Nullstellensatz
+assembly and uses no unit-equation finiteness theorem. *Needs:* §0.2 absolute
+tuple heights, §1.3 coefficient heights, §2.5 Euclidean and subspace heights, the
+§2.8 fixed-field Siegel lemma `exists_ne_zero_height2_le`; §1.2 auxiliary jets; Mathlib polynomial ideals, Nullstellensatz
 and dimension; the small-point intersection and torsion-coset estimates just specified.
 
 **Checks.**
@@ -1033,7 +1101,7 @@ Its API includes `normAbs`: Degree-normalization adapter: normAbs v x=(TauCeti.G
 - For forms over ℚ and weights c_∞=(1/2,−1/2), the vector (1,0) has height Q^(−1/2) for Q≥1 after every finite field extension. Local weights must be multiplied by the extension multiplicities.
 
 **Height of the determinant tuple.** Define `formSystemHeight L`=H_L as
-NumberField.absMulHeight of the tuple det(L_j₁,…,L_jₙ), indexed by the
+the §0.2 `absoluteProjectiveTupleHeight` of the tuple det(L_j₁,…,L_jₙ), indexed by the
 n-element Finsets of the finite set of all distinct forms appearing in L.
 Choose an ordering only to compute each determinant. Local independence
 supplies a nonzero coordinate; the tuple is therefore nonzero. Prove
@@ -1046,8 +1114,8 @@ ratios of the determinant coordinates. For the augmented algebraic systems
 of §2.8 prove `formSystemHeight_augmented_le`: H_L is at most n^(n/2) times the product of the absolute augmented row heights. The ≤RD conjugate rows each have augmented height ≤H*, and coordinate rows have height 1, giving H_L≤n^(n/2)(H*)^(DR)
 after the Galois transport. This is a height of all minors, distinct from Δ_L
 and from individual Euclidean form heights. (EF13 (2.11)–(2.12), Lemma 5.1
-and Lemma 11.5, pp.9,23,47.) *Needs:* ArithmeticHeights tuple heights,
-§0.0 Gram bound, determinants and local independence.
+and Lemma 11.5, pp.9,23,47.) *Needs:* §0.2 absolute tuple heights and their
+field independence, §0.0 Gram bound, determinants and local independence.
 
 **Checks.**
 
@@ -1093,9 +1161,9 @@ Its API includes `successiveInfimum`: rationalSuccessiveInfimum L c Q i := sInf 
 - For the preceding rational two-coordinate weights and Q>1, the absolute infima are Q^(−1/2),Q^(1/2); the absolute gap space is the ℚ̄-line spanned by e₁ and descends to the corresponding ℚ-line.
 - At Q=1 those infima coincide and the first absolute infimum space is the whole plane, excluding a rule that always selects a coordinate line.
 
-Use ArithmeticHeights Layers 0 and 3. Define the adapter `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x). Let `plucker` be the coordinate realization of Submodule.pluckerPoint by minors indexed by p-element Finsets; `subspaceHeight U` is Submodule.arakelovMulHeight U raised to 1/[K:ℚ]. Basis independence is supplied. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
+Define `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x), with H the §0.2 `absoluteProjectiveTupleHeight`; this is the comparison max≤ℓ²≤√N·max at each infinite place. Let `plucker` list the minors of a basis matrix indexed by p-element Finsets; `subspaceHeight U` is the height of its nonzero Plücker vector, independent of basis: a change of basis multiplies the Plücker vector by a nonzero determinant, which the product formula removes. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
 
-Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^{mult w/(2[K:ℚ])} times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^{1/[K:ℚ]}, for y : ι→K; `plucker`: plucker x : {s : Finset (Fin n) // s.card=p}→K, the p × p minors of the p × n matrix with rows x_i; `subspaceHeight`: subspaceHeight T := (Submodule.arakelovMulHeight T)^(1/[K:ℚ]); `subspaceHeight_bot`: subspaceHeight ⊥=1; `subspaceHeight_top`: subspaceHeight ⊤=1; `subspaceHeight_span_singleton`: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; `subspaceHeight_le_prod`: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); `subspaceHeight_orthogonal`: EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; `subspaceHeight_inf_mul_sup_le`: Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `subspaceHeight_rat_eq_covolume`: For K=ℚ and a subspace T of ℚ^n, subspaceHeight T equals the covolume of the lattice T ∩ ℤ^n in its real span (§0.0 and the native covolume).
+Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^{mult w/(2[K:ℚ])} times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^{1/[K:ℚ]}, for y : ι→K; `plucker`: plucker x : {s : Finset (Fin n) // s.card=p}→K, the p × p minors of the p × n matrix with rows x_i; `subspaceHeight`: subspaceHeight T := 1 if T=⊥ or T=⊤, else height2 (plucker of the rows of Module.finBasis K T); `subspaceHeight_bot`: subspaceHeight ⊥=1; `subspaceHeight_top`: subspaceHeight ⊤=1; `subspaceHeight_span_singleton`: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; `subspaceHeight_le_prod`: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); `subspaceHeight_orthogonal`: EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; `subspaceHeight_inf_mul_sup_le`: Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; `subspaceHeight_rat_eq_covolume`: For K=ℚ and a subspace T of ℚ^n, subspaceHeight T equals the covolume of the lattice T ∩ ℤ^n in its real span (§0.0 and the native covolume).
 
 **Checks.**
 
@@ -1108,7 +1176,13 @@ Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w
 - Over ℚ, subspaceHeight (ℚ ∙ ![2, 2])=√2, not 2√2: the height of a subspace does not depend on the chosen (non-primitive) spanning vector.
 - Over ℚ, the hyperplane {x | ![1, 2, 2] ⬝ᵥ x=0} has subspaceHeight 3=‖(1, 2, 2)‖_2 (by (6.13)).
 
-*finite_subspaceHeight_le / Northcott for subspaces* Provides finiteness of number-field subspaces of bounded Euclidean Plücker height. Supplied by ArithmeticHeights §3.7 / Northcott for subspaces (rank-free theorem and Arakelov instance) (an open TauCetiRoadmap pull request by rwst). Our subspaceHeight is the positive [K:ℚ]-degree root of the supplier’s relative Arakelov height; negative thresholds give the empty set and ⊥,⊤ have height 1.
+Prove `finite_subspaceHeight_le` from `subspaceHeight_sup_le`: a bound on subspaceHeight T bounds the absolute sup height of its Plücker vector, hence its relative height over K. After scaling a nonzero Plücker coordinate to 1, each other coordinate y satisfies Height.mulHeight₁ y≤Height.mulHeight of the Plücker vector (`Height.mulHeight₁_eq_mulHeight`, `Height.mulHeight_comp_le`), so fixed-field Northcott `NumberField.finite_setOfPred_mulHeight₁_le` leaves finitely many Plücker vectors. A subspace is determined by its Plücker vector up to scaling, and its dimension takes n+1 values.
+
+**Checks for Northcott for subspaces.**
+
+- For B<1 the set is empty, since subspaceHeight T≥1.
+- Over ℚ in ℚ² with B=1 the set is {⊥, ℚ∙e₁, ℚ∙e₂, ⊤}: the line spanned by a primitive integer vector (a,b) has height √(a²+b²).
+- Over ℚ̄ the lines spanned by (1,ζ), ζ a root of unity, all have absolute Euclidean height √2; the field K must be fixed.
 
 **Checks for the absolute Euclidean height.**
 
@@ -1116,24 +1190,32 @@ Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w
 - absoluteHeight2(0,0)=0 and absoluteHeight2(1,1)=√2.
 - Computing the height of (√2,1) in ℚ(√2) or ℚ(√2,i) gives √3 in both fields. Forgetting the complex multiplicity or the degree root changes the latter computation.
 
-**Height and duality compatibility.** Prove `height2_eq_arakelovMulHeight` for
-nonzero x∈K^N: height2 x=(NumberField.arakelovMulHeight x)^(1/[K:ℚ]).
-The zero adapter is 0 whereas the supplier's projective junk value is 1.
-Prove `height2_baseExtension` using the supplier's arakelovMulHeight_rpow_comp.
+**Height and duality compatibility.** Prove `height2_baseExtension`: height2 is unchanged
+under a homomorphism of number fields K→E. As in `mulHeight_algebraMap`, the Euclidean
+factor at a place of E over w is the factor at w raised to the local degree, the local
+degrees above w add to [E:K], and the exponents 1/[E:ℚ] absorb [E:K].
 For a p-dimensional U, prove `subspaceHeight_sup_le` comparing its sup and Euclidean Plücker heights by
-H_sup(U)≤subspaceHeight U≤binom(n,p)^(1/2)H_sup(U), with both absolute.
+H_sup(U)≤subspaceHeight U≤binom(n,p)^(1/2)H_sup(U), with both absolute; H_sup is
+`absoluteProjectiveTupleHeight` of the Plücker vector, and the comparison is
+max≤ℓ²≤√N·max at the infinite places.
 Prove `orthogonalBilin_eq_dualAnnihilator_comap`:
 U.orthogonalBilin(dotProductBilin K K)=U.dualAnnihilator.comap(Module.piEquiv (Fin n) K K).
-The supplied Arakelov duality and submodularity give the corresponding
-subspaceHeight contracts by taking positive degree roots. (ArithmeticHeights
-§§0.1–0.4,3.2,3.5–3.6; EF13 §6.1 (6.11)–(6.13), §6.3.)
+Through it, `subspaceHeight_orthogonal` reduces to the complementary-minor identity: up to
+a common nonzero factor and signs, the Plücker coordinates of U^⊥ are the complementary
+Plücker coordinates of U, so the local Euclidean and max norms agree at every place.
+For `subspaceHeight_inf_mul_sup_le`, extend a basis of U∩W to bases of U and W. At every
+place the Plücker norms satisfy ‖U∩W‖‖U+W‖≤‖U‖‖W‖, by the Koteljanskii inequality for
+Gram determinants at infinite places and its non-archimedean analogue at finite places;
+the product over places gives the inequality of heights. (EF13 §6.1 (6.11)–(6.13), §6.3.)
 
 **Checks.**
 
-- For (√2,1) in ℚ(√2), the relative Arakelov height is 3 and height2=√3; base extension to ℚ(√2,i) gives relative height 9 and the same absolute value.
-- For the zero two-tuple, height2=0 and NumberField.arakelovMulHeight=1; the nonzero bridge does not apply.
+- For (√2,1), height2 is √3 computed in ℚ(√2) and in ℚ(√2,i); the products without degree roots are 3 and 9, so the exponents 1/[E:ℚ] are what make the base-extension statement hold.
+- For the zero two-tuple height2 is 0, while Mathlib's projective `Height.mulHeight` of the zero tuple is 1.
 - The rational line span(1,2) has sup Plücker height 2 and Euclidean height √5; its transported annihilator is span(−2,1) and has Euclidean height √5.
 - Over ℚ(i), span(1,i) is its own dot-product perpendicular. Duality still applies, without claiming a direct-sum decomposition.
+
+*Needs:* `prod_infinitePlace_comap_pow_mult` and the place-extension interface, `absoluteProjectiveTupleHeight`, Mathlib determinants, Gram matrices and dual annihilators.
 
 For U define localWeightᵥ(U) as the minimum sum of cᵢv over form subsets restricting to a basis of U*, and w(U)=Σv localWeightᵥ(U). This is supermodular: w(U+W)+w(U∩W)≥w(U)+w(W). Among proper U the maximum w(U)/(n−dim U) has a unique optimizer of smallest dimension, `exceptionalSubspace`; prove `absoluteExceptionalSubspaceDescends` for its absolute counterpart. Semistability means this space is zero, equivalently every proper subspace has weight ≤0. (EF13, §2.4, p. 11; EF13, §15, Lem. 15.1, p. 65; EF13, §15, Lem. 15.2, p. 66.)
 
@@ -1181,15 +1263,16 @@ Build `absoluteBinarySmallBasis`: for A∈GL₂(𝔄_K), r≥1, there are indepe
 algebraic y₁,y₂, each of coordinate-field degree at most r over K, with
 H_A(y₁)H_A(y₂)≤2(r+1)^(1/r)C(K)^(2/r)|det A|_𝔄.
 Here C(K)=|disc K|^(1/(2[K:ℚ])). Prove the fixed-field
-adelic basis estimate in symmetric dimension r+1 from the shared real
-Minkowski theorem and the ring-of-integers lattice. Factor the binary symmetric
+adelic basis estimate in symmetric dimension r+1 from the §0.0 real
+Minkowski second theorem and the ring-of-integers lattice. Factor the binary symmetric
 forms over ℚ̄, use the local factor-height inequality, and select two independent
 linear factors. The limit r→∞ removes C(K), giving product bound 2|det A|_𝔄
 for infima, with arbitrarily close bases in finite extensions. (Roy–Thunder,
 §§1,3–4, Lemmas 4.5,4.7–4.8, Lemma 5.2 and Proposition 5.3, pp.13–17.)
-*Needs:* GlobalNumberFields's adeles and local extensions, ArithmeticHeights
-Layer 4 and fixed-field lattice/height theory, Mathlib symmetric powers,
-factorization and determinant API. All adelic-height and factor-selection
+*Needs:* GlobalNumberFields's adeles and local extensions, §0.0 successive
+minima and `minkowski_second_upper`, the covolume of the ring-of-integers lattice
+(`NumberField.mixedEmbedding.covolume_integerLattice`), the §0.2 and §2.5 heights,
+Mathlib symmetric powers, factorization and determinant API. All adelic-height and factor-selection
 extensions in this paragraph are built here.
 
 **Checks.**
@@ -1459,9 +1542,15 @@ Use `MvPolynomial`: `monomial`, `as_sum`, `coeff_monomial`, `aeval`, `eval₂_mo
 
 ### 2.8 Auxiliary polynomials and quantitative subspaces
 
-Consume ArithmeticHeights Layer 5 fixed-field Siegel/Bombieri–Vaaler, with the height2 adapter. Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). (EF13, §13, Lem. 13.1, p. 50.)
+Prove `exists_ne_zero_height2_le`, the fixed-field Siegel lemma. Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). Passing to a maximal independent subfamily only weakens the bound, since every nonzero form has H₂(Lᵢ)≥1. The kernel W then has dimension m≥V−U, and subspaceHeight W≤∏H₂(Lᵢ) by `subspaceHeight_orthogonal` and `subspaceHeight_le_prod`. Apply the first convex-body theorem of the supplier contract to the lattice W∩𝓞_K^V in the real Minkowski space of W, with Euclidean balls of a common radius at the infinite places. Its covolume is (2^(−r₂)|D_K|^(1/2))^m times the relative Euclidean height of W; the case W=K^V is `NumberField.mixedEmbedding.covolume_integerLattice`. The ball volumes give the factor √m≤√V, and an integral x has finite-place factors at most 1. (EF13, §13, Lem. 13.1, p. 50.)
 
-*Needs:* §2.5.
+**Checks.**
+
+- Over ℚ with V=2 and the single form (1,2), the kernel is spanned by (−2,1) of height √5, within the bound √2·√5.
+- Over ℚ the repeated form (1,1,0) with U=2, V=3 is allowed; the bound uses V−U=1 and gives 2√3, while the kernel vector (0,0,1) has height 1.
+- A single nonzero form in one variable has zero kernel, so the hypothesis U<V is necessary.
+
+*Needs:* §2.5 heights, duality and `subspaceHeight_le_prod`; Mathlib's first convex-body theorem and ring-of-integers covolume.
 
 **Compound data for the gap.** Build `absoluteCompoundGapData` from EF13
 (8.1)–(8.9), 1≤k<n and Q satisfying (11.8)–(11.9), using the adapted
@@ -1505,8 +1594,8 @@ the coefficient vanishes if
 Define `compoundCoefficientProductNorm` for the same expansion. For every derivative order i, including those outside the vanishing budget,
 ∏_v max_(j∈U(r,i))|d^(v)_(i,j)(F)|_v≤C_K(2^(6n)H_L^(2R^n))^Σr_h;
 if the derivative is zero use coefficient norm zero. Build the weighted
-support-counting inequalities of Lemmas 13.2–13.5, then apply the supplied
-fixed-field Siegel bound to these coefficient constraints. (EF13 §13
+support-counting inequalities of Lemmas 13.2–13.5, then apply the fixed-field
+Siegel lemma `exists_ne_zero_height2_le` to these coefficient constraints. (EF13 §13
 (13.21)–(13.29), Proposition 13.6 and its proof, pp.50–58.)
 *Needs:* §2.5, `absoluteCompoundGapData`, `formSystemHeight`, §1.2 divided
 jets and the fixed-field kernel estimate above.
@@ -2537,10 +2626,10 @@ For all large d, M≥d^4/96; choose c=1/96 and increase the large-d threshold.
 For matrix entries bounded by B≥1, the convolution bound at indices <M=O(d^4)
 gives log B≤C₁d log d: each of at most d Eisenstein factors has coefficient
 O(M^6), and the number of convolution terms is at most (M+1)^d.
-Apply the integer Siegel estimate in `modularSiegelHalfNullity`:
-‖v‖∞≤2(2NB)^{M/(N−M)}, hence
+Apply the §0.3 integer Siegel estimate `exists_ne_zero_int_vec_abs_le_of_house_le`
+over ℚ in `modularSiegelHalfNullity`: it gives ‖v‖∞≤(3NB)^{M/(N−M)}, which is at
+most 2(2NB)^{M/(N−M)} because M/(N−M)≤1, hence
 log‖v‖∞≤log 2+log(2NB)=O(d log d).
-The shared estimate with (3NB)^{M/(N−M)} also has this order.
 The nonzero integral kernel vector gives P_d and `modularZeroEstimate` gives
 its upper order bound.
 Prove `modularValueDerivativeSelection`: for fixed 0<|z|<1 one can choose
@@ -2562,8 +2651,8 @@ These satisfy the hypotheses of Fonseca Theorem 2.8 with r=4,
 yielding trdeg_ℚ ℚ(Φ(z))≥3. (Fonseca §2.2 Theorem 2.8, §3.3 Lemmas
 3.19–3.22, pp.5,17–18; Nesterenko–Philippon Chapter 3 Lemma 3.3;
 Philippon, *Critères pour l'indépendance algébrique*, Theorem 1, pp.5–52.)
-*Needs:* coefficient bounds, `modularZeroEstimate`, ArithmeticHeights
-integer Siegel and polynomial heights, the shared complex interpolation engine.
+*Needs:* coefficient bounds, `modularZeroEstimate`, the §0.3 integer Siegel
+estimate, §1.3 polynomial heights, the shared complex interpolation engine.
 
 **Checks.**
 
