@@ -399,6 +399,18 @@ theorem nonempty_t2Quotient_spa_homeomorph {R : Type u} [CommRing R] [UniformSpa
     CompactSpace (BerkovichSpectrum R ϖ) ∧ T2Space (BerkovichSpectrum R ϖ) ∧
       Nonempty (T2Quotient (spa P.plus) ≃ₜ BerkovichSpectrum R ϖ) := sorry
 
+/-- The quotient of `ℤ_p` by integer translations has multiple points and only empty and full
+opens. Every singleton is dense, and the quotient fails `T₀`. This gives the topological space
+of the Frobenius-twisted dense-orbit diamond in README D5.15, using Mathlib's
+`PadicInt.denseRange_intCast`; the Berkovich colimit is ECD Proposition 13.10, pp. 79–80. -/
+theorem padicInteger_denseOrbitQuotient (p : ℕ) [Fact p.Prime] :
+    Nontrivial (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range) ∧
+      (∀ U : Set (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range),
+        IsOpen U → U = ∅ ∨ U = Set.univ) ∧
+      (∀ x : ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range,
+        closure ({x} : Set (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range)) = Set.univ) ∧
+      ¬ T0Space (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range) := sorry
+
 /-- **Components of a quotient by a compact group** (GLX Lemma 3.2, corrected; the spectral case of
 README §D5.16). For a compact group acting continuously on a spectral space, two points have the
 same component in the orbit space iff one lies in the component of a translate of the other. -/

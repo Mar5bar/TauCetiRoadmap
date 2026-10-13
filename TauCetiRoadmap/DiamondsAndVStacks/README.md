@@ -104,7 +104,7 @@ The roadmap owns, layer by layer:
   closed projection, spatial v-sheaves with enough quasi-pro-étale points, maps representable in
   (locally) spatial diamonds with their three descent statements, the Berkovich spectrum of a
   complete Tate ring and the maximal Hausdorff quotient of `Spa` and of a small v-sheaf, the
-  representable map of a quasicompact separated diamond to its maximal Hausdorff quotient, and
+  representable map of a qcqs separated diamond to its maximal Hausdorff quotient, and
   components of restricted group quotients.
 - D6: `Spd ℤ_p` and `Spd(A, A⁺)` by marked untilts, descent of marked untilts along a v-cover,
   `Spd(A, A⁺)` as a spatial diamond with `|Spd(A, A⁺)| = |Spa(A, A⁺)|`, gluing `Spd` along rational
@@ -7303,7 +7303,7 @@ later inverse-limit localization, which rests on the limit theorem whose proof a
 étale permanence. The layer then turns to relative representability in diamonds and in (locally)
 spatial diamonds, the Berkovich spectrum of a complete Tate ring, built here before it is extended
 to small v-sheaves, the maximal Hausdorff quotient of a small v-sheaf, and the representability of a
-quasicompact separated diamond over its maximal Hausdorff quotient together with the cohomology
+qcqs separated diamond over its maximal Hausdorff quotient together with the cohomology
 comparison; relative representability and Hausdorff reduction use the ordinary sheaf theory of layer
 D0. It closes with the component formula for restricted group quotients.
 
@@ -8134,12 +8134,12 @@ an equivalence with a discrete sheaf fibre cannot retain that endomorphism.
 - `RepresentableInDiamonds_point_site_two_point_fibre` — A two-element fibre over the point fails the predicate; surjectivity alone does not suffice.
 
 **`Perf.Stack.RepresentableInLocallySpatialDiamonds`.** The relative predicate tests base changes
-along locally spatial sheaves. On the one-object site `C = Discrete PUnit`, with `J = ⊥`,
-`proet = ⊤` and `sp` constant at the one-point space, every sheaf is locally spatial: it is
-isomorphic to the constant sheaf on its sections at the unique object, covered by singleton open
-subobjects, each a spatial diamond. The empty sheaf has the empty cover. Consequently, every
-morphism on this site is representable in locally spatial diamonds. The singleton restriction
-applies to diamonds and spatial diamonds on this site. These Checks use the categorical predicates
+along locally spatial diamonds ([ECD] Definition 13.3, p. 76). On the one-object site
+`C = Discrete PUnit`, with `J = ⊥`, `proet = ⊤` and `sp` constant at the one-point space,
+the diamonds, locally spatial diamonds and spatial diamonds are precisely the singleton sheaves.
+A cover by singleton spatial opens supplies no representable quotient atlas for a sheaf with
+two sections, infinitely many sections or no sections. The relative predicate therefore requires
+each fibre over a singleton test to be a singleton. These Checks use the categorical predicates
 of D5.1 and D5.12.
 
 **Checks.**
@@ -8147,10 +8147,9 @@ of D5.1 and D5.12.
 - `Perf_Stack_RepresentableInLocallySpatialDiamonds_bool_negation` — A map of two-point sheaves acting by Boolean negation is representable; each tested fibre has one element.
 - `Perf_Stack_RepresentableInLocallySpatialDiamonds_empty_identity` — The identity of the empty sheaf is representable even though the empty sheaf has no representable atlas on this point site.
 - `Perf_Stack_RepresentableInLocallySpatialDiamonds_bool_fibre` — A map `f : F → G` with
-  `F(*) ≃ Bool` and `G(*) ≃ PUnit` is representable in locally spatial diamonds. For every
-  locally spatial `H` and map `g : H → G`, its pullback is isomorphic to the constant sheaf
-  on `Bool × H(*)`, covered by its singleton open subobjects. In particular, the two-element
-  fibre over the point satisfies the predicate.
+  `F(*) ≃ Bool` and `G(*) ≃ PUnit` fails representability in locally spatial diamonds.
+  Pullback along the identity of the singleton spatial diamond gives `F`, which has no
+  representable diamond atlas. Its singleton spatial open cover does not satisfy diamondhood.
 
 **`Perf.Stack.RepresentableInSpatialDiamonds`.** The relative predicate tests fibres over objects of its designated class. On the one-object point site with the maximal pro-étale class, that class of diamonds consists of singleton sheaves.
 
@@ -8176,20 +8175,20 @@ of D5.1 and D5.12.
 - `StackRepresentableInDiamonds_point_site_empty_identity` — The identity of the empty stack is representable, though its source has no point-site atlas.
 - `StackRepresentableInDiamonds_point_site_two_point_fibre` — A two-point fibre over the point is excluded on the point site, where diamond presentations have singleton quotients.
 
-**`Perf.Stack.StackRepresentableInLocallySpatialDiamonds`.** The stack predicate retains the entire fibre groupoid while testing against the stated class of diamonds.
+**`Perf.Stack.StackRepresentableInLocallySpatialDiamonds`.** The stack predicate retains the entire
+fibre groupoid while testing against locally spatial diamonds ([ECD] Definition 13.3, p. 76).
+On the point site above, that testing class consists of singleton sheaves, as for the sheaf predicate.
 
 **Checks.**
 
 - `Perf_Stack_StackRepresentableInLocallySpatialDiamonds_bool_identity` — The identity of the discrete two-point stack is representable; its fibres over point tests are singletons.
 - `Perf_Stack_StackRepresentableInLocallySpatialDiamonds_empty_identity` — The identity of the empty stack is representable, though its source has no point-site atlas.
 - `Perf_Stack_StackRepresentableInLocallySpatialDiamonds_bool_fibre` — On `C = Discrete PUnit`, with
-  `J = ⊥`, `proet = ⊤` and `sp` constant at the one-point space, every map from the discrete
-  `Bool` stack to the discrete `PUnit` stack is representable in locally spatial diamonds.
-  For each locally spatial test sheaf `X` and map from its discrete stack to the target,
-  the entire 2-fibre product is equivalent to the discrete sheaf on `Bool × X(*)`:
-  the comparison isomorphism in `Discrete PUnit` is unique, and all automorphisms are trivial.
-  The singleton open subobjects cover this sheaf and are spatial diamonds; for empty `X`,
-  the empty cover suffices. Thus the two-point fibre satisfies the locally spatial predicate.
+  `J = ⊥`, `proet = ⊤` and `sp` constant at the one-point space, the map from the discrete
+  `Bool` stack to the discrete `PUnit` stack fails representability in locally spatial diamonds.
+  Its 2-pullback along the identity of the singleton spatial diamond is the discrete Boolean
+  sheaf. Trivial automorphisms make it a sheaf but do not give it a diamond atlas; its two
+  singleton spatial opens do not supply the diamondhood required by D5.1.
 
 **`Perf.Stack.StackRepresentableInSpatialDiamonds`.** The stack predicate retains the entire fibre groupoid while testing against the stated class of diamonds.
 
@@ -8498,12 +8497,14 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 
 ### D5.15 Reduction to spatial diamonds and the Hausdorff cohomology comparison
 
-**A quasicompact separated diamond maps representably to its maximal Hausdorff quotient, and the
-cohomology comparison.** (*reduction-to-spatial-and-hausdorff-cohomology*) Let `Y` be a quasicompact
-separated diamond. Then the map from `Y` to the underlined space of `|Y|_B` is representable in
-locally spatial diamonds; equivalently, a general quasicompact separated diamond differs from a
-locally spatial one only through a map to a compact Hausdorff space, which is what lets every later
-argument assume spatiality after such a map. Moreover, for `f : |Y| → |Y|_B` the pullback `f^*`
+**A qcqs separated diamond maps representably to its maximal Hausdorff quotient, and the
+cohomology comparison.** (*reduction-to-spatial-and-hausdorff-cohomology*) Let `Y` be a quasicompact,
+object-level quasiseparated diamond, separated over the terminal v-sheaf. Object quasiseparatedness
+is the topos condition of D0.17 and is required independently of separatedness in D3.8 ([ECD]
+Remark 10.8, p. 51). Then `|Y|_B` is compact Hausdorff by D5.14, and the map from `Y` to its
+underlined space is representable in locally spatial diamonds; a qcqs separated diamond differs
+from a locally spatial one only through a map to a compact Hausdorff space, which is what lets
+every later argument assume spatiality after such a map. Moreover, for `f : |Y| → |Y|_B` the pullback `f^*`
 induces a fully faithful functor from `D⁺(|Y|_B, ℤ)` to `D⁺(|Y|, ℤ)`, so that
 `H^i(|Y|_B, F) ≅ H^i(|Y|, f^* F)` for every abelian sheaf `F` on `|Y|_B`. This cohomological
 assertion is [ECD] 13.13 and is proved with the ordinary sheaf cohomology of layer D0, not with the
@@ -8513,9 +8514,10 @@ geometry is needed. For the geometric representability, the proof constructs `Ȳ
 extension from the rank-one locus into `Spa(C, C⁺_min)/G`, where `C⁺_min` is the integral closure of
 `𝔽_p + C°°`; existence needs a direct extension lemma, since the separatedness criterion gives
 uniqueness only. For the cohomological assertion, ordinary proper base change and
-closed-neighbourhood continuity are established for arbitrary abelian sheaves and every degree on
-this valuative, possibly non-spatial source; irreducible-fibre acyclicity and the coherent-topos
-limit theorem alone do not provide the comparison, and both inputs precede the reduction theorem
+closed-neighbourhood continuity are established for pullbacks of arbitrary abelian sheaves on
+`|Y|_B` and every degree on this valuative, possibly non-spatial source; irreducible-fibre acyclicity
+and the coherent-topos limit theorem alone do not provide the comparison, and both inputs precede
+the cohomological comparison
 ([ECD] §13, Prop. 13.12 with proof, pp. 80–81, the first half, with the construction of `Ȳ`; [ECD]
 §13, Prop. 13.13 with proof, p. 81, the cohomological comparison). *Needs:* D5.14; D5.12; D5.5;
 D5.4; D3.10; D3.8; SchemeAndStackFoundations §2.2 (`cech_to_cohomology`, `leray_spectral_sequence`,
@@ -8540,9 +8542,28 @@ cited in D0.19); D0.4; D0.20; D5.8; PerfectoidSpaces layer P4 (residue-field poi
   closed immersion into a locally spatial diamond, hence locally spatial (D5.5's closed-immersion
   permanence). D5.5's `spatial_pullback` is not invoked, since `|Y|_B̲` is not a diamond.
 - `fibre_is_a_closure` (characterisation) — the fibre `f⁻¹(y)` of `|Y| → |Y|_B` is the closure of
-  one rank-one point `ỹ ∈ |Y|`, an irreducible space with that generic point. Constant-sheaf
-  acyclicity is the fibre calculation; the comparison additionally uses the proper-base-change and
-  continuity inputs specified above.
+  one rank-one point `ỹ ∈ |Y|` for qcqs separated `Y`, an irreducible space with that generic point.
+  Constant-sheaf acyclicity is the fibre calculation; the comparison additionally uses the
+  proper-base-change and continuity inputs specified above.
+- `frobenius_twisted_dense_orbit_quotient` (non-example for object quasiseparatedness) — let
+  `K₀` be the completed perfection of `𝔽_p((t))`, `P = Spa(K₀, K₀°)`, `S = ℤ_p`, and
+  `X = P × S̲`, affinoid perfectoid by PerfectoidSpaces P6.8. Let the discrete group `ℤ` act
+  by `n · (x, s) = (φⁿ(x), s + n)`, with `φ` absolute Frobenius. The free action has relation
+  `R = ⨿_{n∈ℤ} X` with pro-étale projections, so `Y = X/ℤ̲` is a quasicompact diamond (D4.2).
+  In `P × P`, with pseudouniformizers `t, u`, the annuli
+  `U_N = {|t|^N ≤ |u|, |u|^N ≤ |t|}` cover the product. The graph of `φⁿ` meets `U_N` only
+  when `1/N ≤ pⁿ ≤ N`. The action graphs in `X × X` are therefore locally finite, disjoint
+  closed immersions, using also the closed translation graphs in `S × S`. Thus
+  `R → X × X` is a closed immersion and `Y` is separated by D3.9. It is not object-level
+  quasiseparated, since `X ×_Y X = R` is not quasicompact (D0.17). D5.13 gives `B(X) = S`;
+  Frobenius fixes the Berkovich point of `P`, and D5.14's ordinary topological colimits give
+  `B(Y) = ℤ_p/ℤ`. D4.10 also gives `|Y| = ℤ_p/ℤ`, with the same quotient topology. This
+  quotient has more than one point and is indiscrete: any nonempty closed saturated subset of
+  `ℤ_p` contains a dense integer orbit, so it is all of `ℤ_p`. In particular `B(Y)` fails `T₀`
+  and Hausdorffness, while the fibres of `|Y| → B(Y)` are singletons whose closures are the
+  whole space. `padicInteger_denseOrbitQuotient` states this topological calculation in Lean.
+  This distinguishes D5.14's colimit from the maximal Hausdorff quotient, a point in this example
+  ([ECD] Remark 10.8, p. 51; Propositions 13.10–13.11, pp. 79–80; D4.10).
 
 **Absolute products of locally spatial diamonds and fibre products over underlined compact
 Hausdorff spaces.** (*locally-spatial-absolute-product*) Prove that the absolute product `X × Y`
@@ -8577,13 +8598,16 @@ a locally spatial diamond. *Needs:* D5.5; D5.4; D5.3; D2.4; D0.9; D3.8.
   D5.3's empty-diagram warning.
 
 **Topological proper base change for the Hausdorff quotient.**
-(*hausdorff-quotient-proper-base-change*) Let `Y` be any quasicompact separated diamond, `|Y|` its
+(*hausdorff-quotient-proper-base-change*) Let `Y` be a quasicompact, object-level quasiseparated
+diamond separated over the terminal v-sheaf, `|Y|` its
 underlying space — quasi-compact, possibly non-Hausdorff and *not assumed spectral* (the interval
 diamond below has `|Y| ≅ [0, 1]`, which is not spectral, D4.6) — `|Y|_B` its maximal Hausdorff
-quotient (compact Hausdorff, D5.14) and `q : |Y| → |Y|_B` the quotient map, a closed continuous
-surjection whose fibres are the closures of single rank-one points (`fibre_is_a_closure`), each
-fibre a spectral space with a unique generic point. Prove, for every abelian sheaf `G` on `|Y|_B`
-and every `i ≥ 0`, the comparison `(R^i q_* q^{-1}G)_b ≅ H^i(q^{-1}(b), q^{-1}G|_{q^{-1}(b)})`
+quotient (compact Hausdorff by the qcqs hypothesis, D5.14) and `q : |Y| → |Y|_B` the continuous
+quotient surjection. It is closed because a closed subset of the quasicompact source has
+quasicompact image in the Hausdorff target. Its fibres are the closures of single rank-one points
+(`fibre_is_a_closure`), each a spectral space with a unique generic point. Prove, for every abelian
+sheaf `G` on `|Y|_B` and every `i ≥ 0`, the comparison
+`(R^i q_* q^{-1}G)_b ≅ H^i(q^{-1}(b), q^{-1}G|_{q^{-1}(b)})`
 (this pulled-back-coefficient form is what `Perf.berkovich_derived_fullyFaithful` needs; the same
 statement for an arbitrary abelian sheaf `F` on `|Y|` is asserted only if proved in the same
 generality), by the closed-neighbourhood route: the closed neighbourhoods `K` of `b` in `|Y|_B`
@@ -8592,7 +8616,7 @@ images `q^{-1}(K)`, closed since `q` is continuous, are cofinal among the neighb
 fibre `q^{-1}(b)` because `q` is closed, and `q^{-1}(b) = ⋂_K q^{-1}(K)`; the cohomological
 continuity statement to prove is `colim_K H^i(q^{-1}(K), q^{-1}G) ≅ H^i(q^{-1}(b), q^{-1}G)` for
 this cofiltered system of closed subsets of the quasi-compact space `|Y|` (stated and proved here
-for the quotient maps of quasicompact separated diamonds, by the quasi-compactness of `|Y|` and
+for the quotient maps of qcqs separated diamonds, by the quasi-compactness of `|Y|` and
 the pulled-back coefficients, which are constant along the fibres; no spectrality of `|Y|` is used,
 and the spectral space of the argument is the *fibre*, as in [ECD] §13, proof of Prop. 13.13,
 p. 81). With the fibre acyclicity of `fibre_is_a_closure` this gives `R^i q_* q^{-1} G = 0` for
@@ -8604,8 +8628,11 @@ D0.20; D4.6; D5.14.
 **Checks.**
 
 - Non-spectral source: for `T = [0, 1]` and a characteristic-`p` perfectoid field `C`,
-  `Y = T̲ × Spa(C, O_C)` is a quasicompact separated diamond (D4.6, [ECD] Ex. 11.12) with
-  `|Y| ≅ T` Hausdorff, so `|Y|_B = T`, `q = id_T` and the comparison is the identity; `T` is not
+  `Y = T̲ × Spa(C, O_C)` is a qcqs separated diamond (D4.6, [ECD] Ex. 11.12): a profinite
+  presentation `S → T` has closed profinite relation `S ×_T S`, so the perfectoid atlas and
+  its relation are quasicompact; separatedness follows from the closed diagonals of `T` and
+  `Spa(C, O_C)`. Its underlying space `|Y| ≅ T` is Hausdorff, so `|Y|_B = T`, `q = id_T` and
+  the comparison is the identity; `T` is not
   spectral (`interval_not_spectral`), so a proof assuming an ambient spectral source would exclude
   this permitted input.
 - Non-Hausdorff source: for `Y = Spa(C, C⁺)` with `C⁺` of rank two (`rank_two_point`), `|Y| = {η ⤳ s}`
@@ -8613,10 +8640,15 @@ D0.20; D4.6; D5.14.
   `η`, and the comparison reduces to the stalk at `s`; a proof imposing Hausdorffness on the source
   would exclude this input. Both Checks reach the stalk comparison, not only the acyclicity of an
   isolated fibre.
+- Failure without object quasiseparatedness: `frobenius_twisted_dense_orbit_quotient` has
+  `|Y| = B(Y) = ℤ_p/ℤ`, indiscrete with multiple points. Its quotient fibres are singletons,
+  but every point has the whole space as its closure. Thus compact Hausdorffness and the
+  spectral closure-fibre description require the object quasiseparatedness hypothesis even
+  when `Y` is quasicompact and separated.
 
 `Perf.berkovich_representable` specifies the map to the underlined Berkovich
-space by its value on every test section. It assumes a quasicompact diamond
-separated over the terminal v-sheaf and concludes locally spatial representability
+space by its value on every test section. It assumes a quasicompact, object-level quasiseparated
+diamond separated over the terminal v-sheaf and concludes locally spatial representability
 ([ECD] 13.12, pp. 80–81). With the same geometric hypotheses,
 `Perf.berkovich_derived_fullyFaithful` gives a fully faithful functor on
 `DerivedCategory.Plus`, identified by its localization square with degreewise
@@ -8625,7 +8657,9 @@ in every nonnegative degree for every abelian sheaf. `HasDerivedCategory` and
 `HasExt` specify the universes of the standard categorical constructions
 ([ECD] 13.13, p. 81).
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: `padicInteger_denseOrbitQuotient` gives the topological calculation in
+`frobenius_twisted_dense_orbit_quotient`; the geometric reduction, closure-fibre and cohomology
+statements are specified in the README only.
 
 ### D5.16 Components of restricted group quotients
 
