@@ -708,6 +708,11 @@ here.
   `BorelSerre.stratum_hochschildSerre`, `BorelSerre.boundary_localized_vanishing`, `heckeLocalize`,
   `IsGaloisType`, `IsEisenstein`, `IsEisensteinCG`, `boundary_vanishing_of_eigenvalues`,
   `boundary_isEisenstein_GL`, `ResidualUnitaryGaloisInput`, `boundary_localized_eq_siegel`.
+  In ALS.4.10, `siegel_pullback_boundary_can_survive` localizes the unitary boundary at the
+  Satake pullback of a non-Eisenstein rank-`n` Siegel Levi ideal. The companion check
+  `siegel_pullback_isEisenstein` uses the two rank-`n` summands of the ambient rank-`2n` system:
+  either is a nonzero proper invariant subspace for `n ≥ 1`, even when the summands are isomorphic.
+  At `n = 1` the Levi character is absolutely irreducible and its unitary pullback is reducible.
   In ALS.4.13, `ResidualUnitaryGaloisInput(F,n,O,S)` supplies continuous semisimple rank-`2a`
   representations of `G_{F,S}` for all supported eigensystems of `U(a,a)`, `0 < a < n`, at every
   good level hyperspecial outside the finite conjugation-stable `S ⊃ S_p` containing the places

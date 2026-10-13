@@ -3328,10 +3328,15 @@ the two notions agree.
   (one-dimensional representations are irreducible).
 - `eisenstein_iff_CG_PGL2`: For PGL_2 over imaginary quadratic F, ρ̄_𝔪 reducible ⇔ T_λ − 2 ∈ 𝔪 for
   almost all λ split in a fixed abelian extension (CG18 Definition 5.5).
-- `nonEisenstein_not_vanishing`: Non-Eisenstein in the Hecke sense of a single group does not by
-  itself kill boundary cohomology: for groups whose Levi subgroups carry cuspidal cohomology (e.g.
-  the Siegel parabolic of U(n,n) with Levi Res_{F/F⁺}GL_n), boundary cohomology localized at a
-  non-Eisenstein 𝔪̃ can be nonzero (ACC+ Theorem 2.4.2).
+- `siegel_pullback_boundary_can_survive`: In the setting of [ALS.4.13](#siegel-stratum-localization),
+  boundary cohomology of U(n,n) can survive at 𝔪̃ = S⁻¹(𝔪), the Satake pullback of a non-Eisenstein
+  ideal 𝔪 for the Siegel Levi Res_{F/F⁺}GL_n. The ambient rank-2n system at 𝔪̃ is Eisenstein: it
+  has two rank-n summands. The non-Eisenstein hypothesis is on 𝔪.
+  ([ACC+23, §2.4.1, Theorem 2.4.2 and its proof, pp. 941–945])
+- `siegel_pullback_isEisenstein`: For n ≥ 1, either rank-n summand is a nonzero proper invariant
+  subspace of the rank-2n pullback system, even when the summands are isomorphic. At n = 1 the
+  Levi character is absolutely irreducible, while its unitary pullback is a sum of two characters
+  and has a proper invariant line. ([ACC+23, proof of Theorem 2.4.2, pp. 943–945])
 
 <a id="boundary-eigenvalue-criterion"></a>
 
