@@ -2742,7 +2742,13 @@ end GaloisRep
 
 The arithmetic adapters of §§6.1–6.4 use AbelianSchemesAndArithmeticModuli A4.1's
 `AbelianTate` and its dual pairing from the A3.5 torsion pairings; in dimension one they compare
-with Tau Ceti's `TateModule`, `tateModuleGaloisRepresentation` and `tateModuleWeilPairing`.
+with `TauCeti.TateModule ℓ (W⁄(AlgebraicClosure K)).toAffine.Point` for an elliptic `W` over `K`
+and `ℓ ≠ char K`, carrying `W.tateModuleGaloisRepresentation (K := AlgebraicClosure K) ℓ`.
+Its acting group is Mathlib's `Field.absoluteGaloisGroup K` by definition. The finite étale
+`ℓ^n`-torsion comparisons between `K^sep` and `AlgebraicClosure K` identify this carrier with
+the supplier's separable-closure carrier, compatibly with transitions and
+`TauCeti.absoluteGaloisGroupRestrictEquiv`. This same comparison transports isogeny maps and
+`(W⁄(AlgebraicClosure K)).tateModuleWeilPairing`, including its cyclotomic target (§6.1).
 NeronModelsAndSemistableAbelianVarieties §5.1 supplies Néron–Ogg–Shafarevich for §6.3's potential
 reduction consequences, and its §2.7 supplies the smooth-locus comparison for §6.5's conductor
 comparison. StableReduction Layer 5 supplies the Kodaira configurations. The Tate and pairing
@@ -3226,8 +3232,8 @@ theorem nonempty_iff_similitude (hc : c ∈ Δ) (hc2 : c ^ 2 = 1) (h2 : IsUnit (
 
 /-- The twist `(ρ ⊗ χ, μ')` by a continuous character `χ` of `Δ` is polarised with the same pairing
 and sign, for the multiplier `μ'` with `μ'(σ) = μ(σ) χ(σ) χ(cσc)` on `Δ` and `μ'(c) = μ(c)` if
-`c ∉ Δ`; the tensor product of two polarisations is polarised with the product pairing, sign
-`εε'` and multiplier `μμ'δ` (§7.4, BLGGT 2014, §1.1). -/
+`c ∉ Δ`. In the CM/index-two case, the tensor product of two polarisations is polarised with
+the product pairing, sign `εε'` and multiplier `μμ'δ` (§7.4, BLGGT 2014, §1.1). -/
 theorem exists_twist_tensor (P : PolarizedRep Δ ρ c) (χ : Δ →ₜ* Aˣ) (μ' : Γ →ₜ* Aˣ)
     (hμ : ∀ σ τ : Δ, (τ : Γ) = c * σ * c → μ' σ = P.multiplier σ * χ σ * χ τ)
     (hc : c ∉ Δ → μ' c = P.multiplier c) :
@@ -3256,6 +3262,14 @@ example (P : PolarizedRep Δ ρ c) (c' : Γ) (hc' : c' ^ 2 = 1) :
 -- multiplier with `μ(c) = 1` is impossible.
 example [IsDomain A] (h2 : (2 : A) ≠ 0) [Module.Free A M] (hM : Module.finrank A M = 1)
     (hc : c ∉ Δ) (P : PolarizedRep Δ ρ c) : (P.multiplier c : A) = -1 := by
+  sorry
+
+-- For `Δ = Γ` (totally real), the trivial rank-one representation has multiplier and sign one
+-- and perfect pairing `xy`; the CM sign condition is vacuous.
+example (c : Γ) (hc2 : c ^ 2 = 1) :
+    ∃ P : PolarizedRep (⊤ : Subgroup Γ)
+      (ContinuousRep.trivial : ContinuousRep (⊤ : Subgroup Γ) A A) c,
+      P.multiplier = 1 ∧ P.sign = 1 ∧ ∀ x y : A, P.pairing x y = x * y := by
   sorry
 
 end PolarizedRep
@@ -3440,6 +3454,17 @@ theorem exists_root_mul_finiteOrder {Γ : Type*} [Group Γ] [TopologicalSpace Γ
     ∃ χ₁ χ₀ : Γ →ₜ* (PadicAlgCl ℓ)ˣ,
       (∃ N : ℕ, 0 < N ∧ ∀ g, χ₀ g ^ N = 1) ∧ ∀ g, χ g = χ₁ g ^ m * χ₀ g := by
   sorry
+
+/-! The period target of §7.6 uses SelmerIwasawaCohomology §4.5's `dDeRham` and `IsDeRham`
+on the scalar restriction of a finite-dimensional continuous `E`-representation of `G_K`, for
+finite `K/ℚ_p` and `E/ℚ_p` with `E` containing the embeddings of `K`.
+`GaloisRep.deRhamSupplierEquiv` is the filtered `K ⊗ E`-linear tensor-flip comparison
+from the supplied `(V ⊗ B_dR)^{G_K}` to `(B_dR ⊗ V)^{G_K}`. It preserves the inherited
+`E`-action, canonical comparison maps and every finite coefficient extension and filtration step.
+The supplied de Rham predicate and dimension bound are used on this same carrier; the graded
+`B_HT` realization, labelled weights and Sen operators are §7.6 targets. A filtration jump
+at `i` has labelled weight `-i`, so the cyclotomic character has weight `+1` and filtration
+jump `-1`. These interfaces are specified in the README. -/
 
 /-- Schur's lemma over a local ring: if the reduction of `ρ : Γ → GL_n(A)` is absolutely irreducible
 then `ρ(Γ)` spans `M_n(A)` and its centraliser is the scalars (CHT08, Lemma 2.1.8). -/

@@ -106,8 +106,9 @@ laws, Cayley–Hamilton algebras, Chenevier's reconstruction and the classical R
 (IntegralHeckeAndGaloisDeterminants). AbelianSchemesAndArithmeticModuli A3, A4.1 and A6.10–A6.12 supply abelian-scheme torsion,
 isogenies, intrinsic and polarised Weil pairings, the geometric Tate module and its continuous
 Galois action, and endomorphism polynomials. Layer 6 packages these in `ContinuousRep` and proves
-arithmetic consequences. SelmerIwasawaCohomology §§4.1 and 4.4 supply the period-ring topology,
-Galois actions and invariant rings used in §7.6. The labelled Sen operators, character criteria and
+arithmetic consequences. SelmerIwasawaCohomology §§4.1, 4.4–4.5 supply the period-ring topology,
+Galois actions, invariant rings and shared de Rham realization and predicate used in §7.6.
+The graded Hodge–Tate realization, labelled Sen operators, character criteria and
 Lie-theoretic semisimplicity inputs needed there are owned subtargets of §7.6. Crystalline and
 finite-flat conditions on Tate modules and automorphic `ε`-factors belong to their suppliers.
 NeronModelsAndSemistableAbelianVarieties supplies general Néron models, §2.7
@@ -441,7 +442,11 @@ supply the henselian-pair and henselisation inputs.
 SelmerIwasawaCohomology §4.1 supplies the continuous isometric Galois action on Mathlib's
 `PadicComplex p`, Ax–Sen–Tate, normalized traces, Tate's calculation for `ℂ_p(i)`, and the canonical
 topology and action on `BDeRhamPlus`/`BDeRham`; §4.4 supplies the fixed field `B_dR^{G_K} = K` and
-dimension bounds. These period subtargets use the earlier local and cohomological interfaces;
+dimension bounds; §4.5 supplies `dDeRham`, its filtration, `IsDeRham`, the canonical comparison
+maps and finite `E/ℚ_p` coefficients by scalar restriction. Section 7.6 uses this shared realization
+through `GaloisRep.deRhamSupplierEquiv`, preserving the inherited `E`-action and `K ⊗ E` module,
+filtration, comparison maps and coefficient extension, and converting filtration indices to our
+labelled weights. These period subtargets use the earlier local and cohomological interfaces;
 §7.6 consumes them without a dependency on SelmerIwasawaCohomology's Selmer conditions.
 
 | Input | Interface | Ownership |
@@ -449,7 +454,7 @@ dimension bounds. These period subtargets use the earlier local and cohomologica
 | Completion and period-ring carriers | `PadicComplex`, `BDeRhamPlus`, `BDeRham` | Pinned Mathlib declarations |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
-| Period topology, actions, invariants | SelmerIwasawaCohomology §§4.1, 4.4 | Supplier targets |
+| Period topology, actions, invariants and de Rham realization/predicate | SelmerIwasawaCohomology §§4.1, 4.4–4.5 | Supplier targets; §7.6 adapter |
 | Labelled Sen operators and character-weight criteria | §7.6 below | Owned targets |
 | Logarithm, Lie and minuscule semisimplicity comparison | §7.6 below | Owned targets |
 
@@ -2551,24 +2556,39 @@ AbelianSchemesAndArithmeticModuli A3.3 and A4.1;
   class, as in §1.9.
 
 **The elliptic comparison.** Prove that a Weierstrass curve `W` with `IsElliptic` over `K` defines an
-abelian variety `E_W` of dimension one with `E_W(L) ≅ (W⁄L).Point` naturally in `L/K` (the group law is
-given by morphisms; Silverman, *The Arithmetic of Elliptic Curves*, Ch. III, Thm 3.6); that `T_ℓ(E_W)` is
-isomorphic, as a `ℤ_ℓ[G_K]`-module, to Tau Ceti's `TateModule ℓ W.toAffine.Point` with
-`WeierstrassCurve.tateModuleGaloisRepresentation`; that isogeny point maps correspond to `T_ℓ` of
-homomorphisms; that `WeierstrassCurve.tateModuleWeilPairing` is the pairing of §6.2 for the principal
-polarisation `P ↦ [(O) − (P)]`; and that `TauCeti.det_tateModuleGaloisRepresentation` agrees with §6.2.
+abelian variety `E_W` of dimension one with `E_W(L) ≅ (W⁄L).toAffine.Point` naturally in `L/K`
+(the group law is given by morphisms; Silverman, *The Arithmetic of Elliptic Curves*, Ch. III,
+Thm 3.6); that `T_ℓ(E_W)` is
+isomorphic, as a topological `ℤ_ℓ[G_K]`-module, to Tau Ceti's
+`TateModule ℓ (W⁄(AlgebraicClosure K)).toAffine.Point`, with
+`W.tateModuleGaloisRepresentation (K := AlgebraicClosure K) ℓ`. Identify its acting group
+`AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K` with Mathlib's `Field.absoluteGaloisGroup K` by its
+definition. For every `n`, the inclusion `K^sep → K̄` identifies the `ℓ^n`-torsion point groups:
+the supplied kernels are finite étale because `ℓ ≠ char K` (A3.2), and their geometric points
+are unchanged by this extension (Stacks, Lemma 58.2.2, tag 03QR).
+Prove compatibility with the transition maps and with the Galois restriction
+`TauCeti.absoluteGaloisGroupRestrictEquiv`, giving the comparison with the separable-closure
+carrier of `AbelianTate` in arbitrary characteristic. Through this same comparison, identify
+isogeny point maps with `T_ℓ` of homomorphisms, and
+`(W⁄(AlgebraicClosure K)).tateModuleWeilPairing` with the pairing of §6.2 for the principal
+polarisation `P ↦ [(O) − (P)]`; the cyclotomic target is identified by the same comparison of roots
+of unity. Prove that `TauCeti.det_tateModuleGaloisRepresentation` agrees with §6.2.
 Prove for an isogeny `φ : W₁ → W₂` (Tau Ceti's `Isogeny`) that `T_ℓ[n] = n`,
 `e₂(T_ℓφ x, T_ℓφ y) = deg φ · e₁(x, y)`, and for `W₁ = W₂`, `det T_ℓφ = Isogeny.degree φ` and
 `tr T_ℓφ = 1 + deg φ − deg(1 − φ)` (Milne 2021, Ch. II, §6, Prop. 6.4, p. 71). *Needs:*
 `TauCetiRoadmap.EllipticCurves` layers 1–3; Tau Ceti `Isogeny`, `Isogeny.frobeniusIsogeny`,
 `oneSubFrobeniusIsogeny`, `degree_oneSubFrobeniusIsogeny_eq_pointCount`;
-AbelianSchemesAndArithmeticModuli A4.1 and A6.10–A6.11 for the geometric realization and
-endomorphism trace and determinant.
+AbelianSchemesAndArithmeticModuli A3.2, A4.1 and A6.10–A6.11 for finite étale torsion, the
+geometric realization and endomorphism trace and determinant.
 
 **Checks.**
+- For `y² = x³ − x` over `ℚ` and `ℓ = 5`, this comparison identifies two rank-two geometric
+  modules; `TateModule 5 W.toAffine.Point` uses rational points and is zero, so cannot be its target.
 - `[n]` on an elliptic curve has Tate trace `2n` and determinant `n²`.
 - The Frobenius endomorphism has trace `q + 1 − #E(F_q)` and determinant `q`.
 - The principal-polarization comparison gives target `ℤ_ℓ(1)` with cyclotomic action, not its dual.
+- Over `K = F_p(t)` with `ℓ ≠ p`, every `ℓ^n`-torsion point is already over `K^sep`;
+  passage to `K̄` preserves the Tate module and pairing even though the two fields differ.
 
 **Functoriality of the arithmetic adapter.** Transport `AbelianTate.map` and
 `AbelianTate.baseChange` through the adapter. The supplied product comparison is
@@ -3071,12 +3091,15 @@ Lean, any subgroup), an involution `c` with `c ∉ Δ` if `Δ ≠ Γ`, and `(M, 
 sign `ε ∈ {±1}` (data when `2 = 0`), with `ε = −μ(c)` in `A` when `c ∉ Δ` (the CM sign condition); no
 alternation is imposed. For `F` CM or totally real, `Γ = G_{F⁺}`, `Δ = G_F` (`G_{F⁺} ∖ G_F` restricts
 to Mathlib's `NumberField.IsCMField.complexConj`), and `c = c_v` for a real place of `F⁺`; for `F`
-imaginary, `ε_v = −μ(c_v)`. CHT triples: for any `γ₀ ∉ Δ`, `μ(δ)⟨x, y⟩ = ⟨ρ(δ)x, ρ(γ₀ δ γ₀⁻¹) y⟩` and
+imaginary, `ε_v = −μ(c_v)`. CHT triples: for `Δ` of index two and any `γ₀ ∉ Δ`,
+`μ(δ)⟨x, y⟩ = ⟨ρ(δ)x, ρ(γ₀ δ γ₀⁻¹) y⟩` and
 `⟨x, ρ(γ₀²) y⟩ = −μ(γ₀)⟨y, x⟩`; this is a polarisation when `−μ(c_v)` is a sign (domains, or `2 ∈ A^×`
 with `Spec A` connected; not over `k × k`, where `μ(c_v) = (1, −1)` is possible). Prove: in rank one
-with `⟨x, y⟩ = uxy`, `μ|_{G_F} = r · r^c`, `ε = 1` and `μ(c_v) = −1`, so `(1, δ_{F/F⁺})` is polarised
-and `(1, 1)` is not; for `F` totally real, `2 ∈ A^×` and `Spec A` connected, `ρ` is polarised iff it
-factors through `GSp(M, B)` or `GO(M, B)` with `ν ∘ ρ = μ`, `B(x, y) = ⟨x, ρ(c_v) y⟩`,
+with `⟨x, y⟩ = uxy`, `u ∈ A^×`, `μ|_{G_F} = r · r^c` and `ε = 1` in `A`;
+in the CM/index-two case `c_v ∉ Δ`, this forces `μ(c_v) = −1`, so `(1, δ_{F/F⁺})` is polarised,
+whereas `(1, 1)` is not when `2 ≠ 0` in `A`. For `F` totally real, `2 ∈ A^×` and
+`Spec A` connected, `ρ` is polarised iff it factors through `GSp(M, B)` or `GO(M, B)` with
+`ν ∘ ρ = μ`, `B(x, y) = ⟨x, ρ(c_v) y⟩`,
 `B(y, x) = ε_v μ(c_v) B(x, y)`, alternating iff `μ(c_v) = −ε_v`; and a polarised representation is
 essentially conjugate self-dual, `ρ^c ≅ ρ^∨ ⊗ μ|_Δ` (BLGGT, §2.1, p. 31; CHT, Lemma 2.1.1, p. 7).
 *Needs:* §1.2, §4.1, §7.3. *Lean:* `PolarizedRep`, `PolarizedRep.essConjSelfDual`,
@@ -3085,8 +3108,12 @@ essentially conjugate self-dual, `ρ^c ≅ ρ^∨ ⊗ μ|_Δ` (BLGGT, §2.1, p. 
 **Checks.**
 - In rank one over a domain with `2 ≠ 0` and `c ∉ Δ`, a polarisation forces `μ(c) = −1`. *Lean:* the
   `example` after `isTotallyOdd_iff_multiplier`.
-- In rank one `ρ(σ) ρ(cσc) = μ(σ)`; with `μ(c_v) = 1` and `2 ≠ 0` the character is conjugate self-dual
-  but not polarised.
+- In the CM/index-two case `c_v ∉ Δ`, a rank-one character with
+  `ρ(σ) ρ(c_vσc_v) = μ(σ)`, `μ(c_v) = 1` and `2 ≠ 0` is conjugate self-dual but not polarised.
+- For a totally real field (including a real quadratic field with two real places), `Δ = Γ`,
+  the trivial rank-one representation, multiplier `1`, pairing `xy` and sign `1` are polarised.
+  Transport between real places preserves sign `1`, and the type sign `ε_v μ(c_v)` is `1`.
+  *Lean:* the trivial rank-one `example` after the CM rank-one `example` in `PolarizedRep`.
 - For `F` totally real, `n = 2`, `2 ∈ A^×` with `Spec A` connected, the pairing is `det(x, ρ(c_v) y)` and
   `ε_v = −det ρ(c_v)`.
 
@@ -3097,7 +3124,8 @@ topological case), `γ₀ ∉ Δ` and any ring `R`, prove that `r : Γ → 𝒢_
 correspond to the CHT triples above on `R^n`, by `μ = ν ∘ r`, `⟨x, y⟩ = xᵀ A⁻¹ y`,
 `r(γ₀) = (A, −μ(γ₀)) j`, preserving continuity. Define the maps `⊗ : (𝒢_n × 𝒢_m)⁺ → 𝒢_{nm}`,
 `𝒢_n → GSp_{2n}`, and `G_n × {±1} → 𝒢_n` with `(g, −1) ↦ (g, ν(g))(A_n⁻¹, (−1)^{n+1}) j`, so
-`ν = ν(g) s^n` (giving `r_ψ` for `F` imaginary quadratic). Prove that an absolutely irreducible `r`
+`ν = ν(g) s^n` (giving `r_ψ` for `F` imaginary quadratic). For the same index-two `Δ` and
+`γ₀ ∉ Δ`, prove that an absolutely irreducible `r`
 with `r^{γ₀} ≅ r^∨ ⊗ μ` extends to `𝒢_n(k)` with multiplier `μ` or `μδ` according to `sgn(r, μ)`; that
 CHT induction from `Γ' ⊄ Δ` of finite index is independent of `γ₀`; and that `gl_n^{𝒢_n} = 0` over
 `ℤ[1/2]` (CHT, §2.1, Lemmas 2.1.1–2.1.2, pp. 7–9; BCG, (2.1.2), p. 514; BLGGT, §1.1, p. 13).
@@ -3112,11 +3140,14 @@ CHT induction from `Γ' ⊄ Δ` of finite index is independent of `γ₀`; and t
   with `2a = 0`. Over `ℤ`, where `2 ∉ ℤ^×`, this is `0`; over `ℤ/4` it is `{0, 2 · 1_n} ≠ 0`.
 
 **Signs and places.** Prove: (1) `⟨x, y⟩_{v'} = ⟨x, ρ(c_v c_{v'}) y⟩_v` polarises `(ρ, μ)` at another
-real place `v'` with `ε_{v'} = μ(c_v c_{v'}) ε_v = −μ(c_{v'})` whenever `μ(c_v c_{v'}) ∈ {±1}`
-(domains, or `2 ∈ A^×` with `Spec A` connected; over `k × k` the place can matter); (2)
-`det ρ(c_v σ c_v) det ρ(σ) = μ(σ)^n`, so for `F` totally real `(det ρ)² = μ^n`, and `⟨x, ρ(c_v) y⟩`
+real place `v'` with `ε_{v'} = μ(c_v c_{v'}) ε_v` whenever `μ(c_v c_{v'}) ∈ {±1}`
+(domains, or `2 ∈ A^×` with `Spec A` connected; over `k × k` the place can matter).
+In the CM/index-two case, `c_v, c_{v'} ∉ Δ` and `ε_v = −μ(c_v)`, hence
+`ε_{v'} = −μ(c_{v'})`; for totally real `F`, retain the type sign `ε_v μ(c_v)`;
+(2) `det ρ(c_v σ c_v) det ρ(σ) = μ(σ)^n`, so for `F` totally real `(det ρ)² = μ^n`, and `⟨x, ρ(c_v) y⟩`
 alternating forces `n` even and `det ρ = μ^{n/2}`; (3) an alternating perfect pairing on a free module
-over a nonzero ring forces `n` even; (4) for `k` a field and `ρ` absolutely irreducible with
+over a nonzero ring forces `n` even; (4) for `Δ ≤ Γ` open of index two, an involution `c ∉ Δ`,
+`k` a field and `ρ` absolutely irreducible with
 `ρ^c ≅ ρ^∨ ⊗ μ`, a covariant pairing exists, unique up to `k^×`, with an intrinsic sign `sgn(ρ, μ)`
 for `char k ≠ 2`: `(ρ, μ)` is polarised iff `sgn = 1`, otherwise `(ρ, μδ)` is; the extensions
 `r : Γ → 𝒢_n(k)` of `ρ` (`r|_Δ = (ρ, μ|_Δ)`, all with the same multiplier, `μ` or `μδ`), taken up to
@@ -3201,11 +3232,20 @@ up to isomorphism (§1.2 of that roadmap); (b) for `A` complete local Noetherian
 field and `D̄` absolutely irreducible: a continuous `ρ : Γ → GL_n(A)`, unique up to conjugacy (§1.3
 and §1.7). Prove that for every operation `Φ` of §§7.1–7.2, `det ∘ Φ(ρ)` depends only on `D` (for
 `n ≥ 1`, `det(X − ad ρ(g)) = (X − 1) det(X − g | ad⁰) = (X − 1) det(X − g | ad/A·1)`; `n = 0` gives
-`1`). Prove that in (b), `2 ∈ A^×` and `D^c = D^∨ · μ|_{G_F}` give a polarisation of multiplier `μ` or
+`1`). Prove that in (b), in the CM/index-two case `c_v ∉ G_F`,
+`2 ∈ A^×` and `D^c = D^∨ · μ|_{G_F}` give a polarisation of multiplier `μ` or
 `μδ_{F/F⁺}`, the pairing unique up to `A^×`; for `2 ∉ A^×` a covariant perfect pairing with
 `⟨y, x⟩ = ε⟨x, y⟩`, `ε ∈ μ_2(A)`, gives a CHT triple of multiplier `μη`, `η(c_v) = −εμ(c_v)⁻¹`, and
 `μ_2(A) ⊋ {±1}` is possible. Nothing is asserted for residually reducible `D` (CHT, Lemma 2.1.4, p.
 9). *Needs:* IntegralHeckeAndGaloisDeterminants Layer 1 (§§1.2, 1.3, 1.7).
+
+**Checks.**
+- For a CM field with `2 ∈ A^×`, the trivial rank-one determinant and initial multiplier `1`
+  give a polarisation with multiplier `δ_{F/F⁺}`; multiplier `1` violates the CM sign condition.
+- For a totally real field, the trivial rank-one determinant, multiplier `1` and pairing `xy`
+  already give a polarisation; there is no index-two coset to which the CHT extension applies.
+- In characteristic two the CM trivial rank-one representation with multiplier `1` has the
+  perfect symmetric pairing `xy` and satisfies the CM sign identity `1 = −1`; it is not alternating.
 
 ### 7.5 `GSp₄`-valued representations
 
@@ -3313,25 +3353,42 @@ Prove coefficient-extension invariance for absolute strong irreducibility. Prove
 **Period functors with finite coefficients.** Let `K/ℚ_p` inside `ℂ_p` and `E/ℚ_p` be finite, with `E`
 containing all embeddings of `K`, and `V` a finite-dimensional continuous `E`-representation of
 `G_K`. Consume the topological period rings, actions and fixed fields of SelmerIwasawaCohomology
-§§4.1, 4.4. Set `B_HT = ⨁_{i∈ℤ} ℂ_p(i)` as a graded Galois algebra and define
-`D_HT(V) = (B_HT ⊗_{ℚ_p} V)^{G_K}` and
-`D_dR(V) = (B_dR ⊗_{ℚ_p} V)^{G_K}`, with the filtration induced by `B_dR`.
-The properties Hodge–Tate and de Rham mean that the respective comparison map is an isomorphism;
-equivalently the invariant module is free of rank `dim_E V` over `K ⊗_{ℚ_p} E`.
-Prove the dimension bounds, the comparison with the associated graded and that de Rham implies
-Hodge–Tate. Split `K ⊗ E = ∏_{τ:K→E} E` to define the labelled weight multisets; our weights are
-minus the filtration indices, so `HT_τ(χ_p) = +1`. This converts the negative cyclotomic-weight
-convention of the period supplier. For `ℚ̄_p`-coefficients, first descend by §1.5, enlarge `E` to
-contain the embeddings, and prove that extension of `E` preserves these properties and weight
-multisets, independently of the model (Pat, §§2.2.1–2.2.2, pp. 21–23). *Needs:* §1.5;
-SelmerIwasawaCohomology §§4.1, 4.4.
+§§4.1, 4.4 and its shared realization and predicate of §4.5. Write `D_dR(V)` for the supplied
+`dDeRham(Res_{ℚ_p} V)` and use its `IsDeRham` predicate, filtration and canonical comparison map.
+Prove the named adapter `GaloisRep.deRhamSupplierEquiv`: the tensor flip
+`v ⊗ b ↦ b ⊗ v` identifies the supplied `(V ⊗_{ℚ_p} B_dR)^{G_K}` with
+`(B_dR ⊗_{ℚ_p} V)^{G_K}`, naturally in `ContinuousRep` maps. It is a filtered `K ⊗_{ℚ_p} E`-linear
+isomorphism, with `(k ⊗ e)(b ⊗ v) = kb ⊗ ev`, carrying the supplied comparison map to
+`B_dR ⊗_K D_dR(V) → B_dR ⊗_{ℚ_p} V`, `b' ⊗ (Σ b_i ⊗ v_i) ↦ Σ b'b_i ⊗ v_i`.
+It commutes with every finite coefficient extension `E'/E`, identifying
+`D_dR(V) ⊗_E E'` with `D_dR(V ⊗_E E')` and each filtration step with its scalar extension.
+De Rham admissibility and its dimension bound are inherited from the supplier;
+use the bound to prove that admissibility is equivalent to freeness of rank `dim_E V` over
+`K ⊗_{ℚ_p} E`.
+Set `B_HT = ⨁_{i∈ℤ} ℂ_p(i)` as a graded Galois algebra, define
+`D_HT(V) = (B_HT ⊗_{ℚ_p} V)^{G_K}` and Hodge–Tate by its canonical comparison isomorphism,
+equivalently freeness of the same rank over `K ⊗ E`. Prove its dimension bounds, the natural
+injection `gr D_dR(V) → D_HT(V)` and its being an isomorphism for de Rham `V`, hence de Rham
+implies Hodge–Tate. Split `K ⊗ E = ∏_{τ:K→E} E` to define the labelled weight multisets: a jump
+at filtration index `i` has weight `−i` with multiplicity `dim_E gr^i(e_τ D_dR(V))` in the de Rham
+case, so `HT_τ(χ_p) = +1`. The adapter preserves the supplier's filtration and converts its negative
+cyclotomic-weight convention only at this labelled-weight step. For `ℚ̄_p`-coefficients, first
+descend by §1.5, enlarge `E` to contain the embeddings, and prove that extension of `E` preserves
+these properties and weight multisets, independently of the model
+(Pat, §§2.2.1–2.2.2, pp. 21–23; Brinon–Conrad, §6.1 and §6.3, Proposition 6.3.2, pp. 73–76).
+*Needs:* §§1.1–1.2, 1.5; SelmerIwasawaCohomology §§4.1, 4.4–4.5.
 
 **Checks.**
-- The trivial character has weight `0` and `χ_p` has weight `+1`, whose de Rham filtration
-  jumps at `−1`.
+- On `E(1)`, the adapter sends `e ⊗ t⁻¹` to `t⁻¹ ⊗ e`, preserving the filtration jump `−1`;
+  `χ_p` has weight `+1`. The trivial `E`-character gives a free rank-one `K ⊗ E` module,
+  filtration jump `0` and weight `0` under both tensor orderings.
 - The dual of a Hodge–Tate representation negates every labelled weight.
 - If `K ≠ ℚ_p`, a labelled Lubin–Tate character has weight `1` at one embedding and `0` at the
   others; the filtration need not have constant rank over `K ⊗ E` in each degree.
+- For `V = 0`, both sides of `GaloisRep.deRhamSupplierEquiv` and their filtrations are zero,
+  and the supplied de Rham comparison is an isomorphism of zero modules.
+- Extending `E` to `E'` preserves every labelled filtration jump; the `E'`-action comes from the
+  representation tensor factor, and the adapter commutes with its extension.
 
 **Labelled Sen operators.** For the finite-coefficient inputs above, use the normalized traces
 of SelmerIwasawaCohomology §4.1 to construct the finite-dimensional Sen module over
@@ -3874,7 +3931,8 @@ Layers 1, 2, 4 and 5; Tau Ceti's representation-theoretic powers and tensor indu
 group schemes of forms, Hopf ideals and identity components; `TauCetiRoadmap.ReductiveGroups` layers
 0, 2, 3, 6 and 9; `TauCetiRoadmap.ProfiniteCohomology` layers 2, 10 and 13;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 7; IntegralHeckeAndGaloisDeterminants
-Layer 1; SelmerIwasawaCohomology §§4.1, 4.4 (period topology, actions, invariants);
+Layer 1; SelmerIwasawaCohomology §§4.1, 4.4–4.5 (period topology, actions, invariants and shared
+de Rham realization/predicate);
 GlobalNumberFields Layers 9–10 (Hecke-character infinity types); Mathlib's `groupCohomology`, `Matrix.symplecticGroup`, `skewAdjointMatricesSubmodule`,
 `LinearMap.IsPerfPair`, `Subgroup.goursat`, `Matrix.SL2.commutator_eq_top` and
 `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`.
