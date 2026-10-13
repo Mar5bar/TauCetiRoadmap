@@ -34,9 +34,9 @@ The roadmap owns, layer by layer:
   homomorphisms; Huber's sheafiness theorem for rings
   with a noetherian ring of definition (the Tate-ring case is Tau Ceti's); the completed tensor
   product of Huber pairs with its topology, plus ring and universal property, uniformisation and the
-  uniform completed tensor product, completed tensor products of Banach modules; classical
-  `K`-affinoid algebras (Noether normalisation, residue fields, the supremum seminorm, integrality of
-  `A°`, reductions); adic morphisms, weak and plus weak finite type, finite presentation and
+  uniform completed tensor product, completed tensor products of Banach modules; the carrier of
+  classical `K`-affinoid algebras and rings of definition with reduced reduction; adic
+  morphisms, weak and plus weak finite type, finite presentation and
   their comparisons with AdicSpaces §5.2, locally noetherian and locally Huber-standard adic
   spaces, fibre products, the ideal-sheaf description of closed subspaces using AdicSpaces §5.1,
   and the diagonal; separated, universally closed, proper and partially
@@ -47,10 +47,17 @@ The roadmap owns, layer by layer:
   rings the library's theorem is cited in its text and the target is the non-Tate case; the
   noetherian completion statement is R0's `Huber.IsNoetherianType.completion` and R0 applies it, and
   R0 uses Mathlib's spectral and constructible topologies for its pro-constructible statements.
-- R1: affinoid subdomains, Huber's fibre product of a scheme with an adic space, the analytification
-  functor over `K` and its compatibilities, local rings, constructible sets and connectedness,
-  separatedness and properness of analytifications, the rigid–adic comparison, analytic groups and
-  invariant differentials, the dimension of affinoid domains and the rigid identity principle.
+- R1: Huber's fibre product of a scheme with an adic space, the analytification functor over `K`
+  and its compatibilities, local rings, constructible sets and connectedness, separatedness and
+  properness of analytifications, the universal property and quasi-separated equivalence of the
+  rigid–adic comparison, and analytic groups and invariant differentials.
+
+Classical rigid geometry (the theory of `K`-affinoid algebras, affinoid subdomains, Tate
+acyclicity, rigid-analytic spaces, the rigid analytification, the dimension of affinoid domains,
+the identity principle and Huber's functor with its full faithfulness) is RigidAnalyticGeometry's,
+and the norm of a Tate ring and bases of Banach spaces of countable type are
+PadicFunctionalAnalysis's; these are the roadmaps of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one, and the targets concerned cite them as suppliers.
 
 AdicSpaces owns the underlying adic-space foundations, including the category, open immersions
 and quotient Huber pairs, and it specifies closed immersions (its §5.1) and topological finite
@@ -109,8 +116,9 @@ The R1 comparison of differentials on analytification charts supplies
    map from `|X ×_Z Y|` to the fibre product of the underlying sets is surjective when
    `X → Z` is locally of weakly finite type and `Y → Z` is adic, with the stable-chart
    hypotheses of R0.6. It need not be injective.
-7. **Rigid spaces** are Tate's (R1). `X^an` is the rigid and `X^ad` the adic analytification; they
-   are identified only through Huber's functor `r_K`.
+7. **Rigid spaces** are Tate's, as constructed in RigidAnalyticGeometry §6.4 (cited in R1).
+   `X^an` is the rigid and `X^ad` the adic analytification; they are identified only through
+   Huber's functor `r_K`.
 8. **Names.** Declarations live under `TauCetiRoadmap.AdicSpacesPartII`, in `Huber`, `AdicSpace` and `RigidSpace`.
 9. **Targets.** Each target below is a definition, construction, theorem or comparison, written
    with its hypotheses in the sentence, its source locator in parentheses (short keys are resolved
@@ -146,9 +154,8 @@ The R1 comparison of differentials on analytification charts supplies
 | `TauCeti.Huber.Pair`, `Pair.powerBounded`, `TauCeti.Huber.Pair.powerBounded_plus`; `weightedC`, `weightedX` | `TauCeti/RingTheory/Huber/Pair.lean`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean`; AdicSpaces §§0.4–0.5, 2.1 | The tensor Checks use the supplied Huber pair and restricted-series carrier. `padicDiscSmallPair` specifies a proper ring of integral elements on that carrier; the quadratic Check uses `Pair.powerBounded` on each field. |
 | `Ideal.adicTopology`, `WithIdeal`; `Submodule.fg_span_singleton` | `Mathlib/Topology/Algebra/Nonarchimedean/AdicTopology.lean:91,237`; `Mathlib/RingTheory/Finiteness/Basic.lean:39` | The `(p)`-adic topology on `ℤ`, its additive uniformity, and finite generation of the principal ideal used by `adicCompletion_padicIntegers`. |
 | `TauCeti.Huber.restrictedMvPowerSeriesCompletion`, `TauCeti.Huber.restrictedMvPowerSeriesCompletionEquiv`; `TauCeti.ValuationSpectrum.closedPolydisc` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Complete.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/Basic.lean`; AdicSpaces §§0.5, 2.4 | The Tate-algebra Checks use the supplied restricted-series carrier at weights `{1}`, or its separated completion. The supplied equivalence identifies these carriers over a complete Hausdorff nonarchimedean field; the supplied polydisc is their spectrum with the power-bounded plus ring. In `completedTensor_test_polydisc`, both coordinates are completion images of the supplied `weightedX`. The subdomain spectrum and restriction Checks in R1.1 use this same completion and the polynomial inclusion `Huber.TateAlgebra.ofMvPolynomial`; their disc presentation adds the equation `T ↦ cS` and computes contractions of principal maximal ideals. |
-| `CategoryTheory.Limits.pullback`, `CategoryTheory.Limits.pullback.fst`; `TauCeti.Huber.restrictedMvPowerSeriesCompletion`; `TauCeti.ValuationSpectrum.closedPolydisc` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/HasPullback.lean:96,112`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/Basic.lean`; AdicSpaces §§0.5, 2.4 | R1.7 uses the existing `RigidSpace.hasPullbacks`, `Sp` and `Affinoid.polydisc` to form the relative rigid polydisc as `Sp A ×_{Sp K} Sp K⟨T₁,…,Tₙ⟩`. `RigidSpace.IsSmooth` adds the admissible affinoid étale-chart condition, using these supplied series and categorical carriers. The R1.1 Checks `rigidOpen_test_openDiscUnionOne` and `rigidPullback_test_squareZero` use this same disc algebra on Part II’s `Sp` carrier; the latter uses the supplied categorical first projection. |
+| `CategoryTheory.Limits.pullback`, `CategoryTheory.Limits.pullback.fst`; `TauCeti.Huber.restrictedMvPowerSeriesCompletion`; `TauCeti.ValuationSpectrum.closedPolydisc` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/HasPullback.lean:96,112`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/Basic.lean`; AdicSpaces §§0.5, 2.4 | R1.7 uses `RigidSpace.hasPullbacks` (RigidAnalyticGeometry §6.4.5), `Sp` and `Affinoid.polydisc` to form the relative rigid polydisc as `Sp A ×_{Sp K} Sp K⟨T₁,…,Tₙ⟩`. `RigidSpace.IsSmooth` adds the admissible affinoid étale-chart condition, using these supplied series and categorical carriers. |
 | `TauCeti.Huber.IsUniform`, `TauCeti.Huber.isUniform_iff_isBounded_powerBoundedSubring`, `TauCeti.Huber.IsUniform.isBounded_powerBoundedSubring` | `TauCeti/RingTheory/Huber/Uniform.lean`; AdicSpaces §4.2 | Uniformity uses `IsUniform X`. For a commutative nonarchimedean ring this is equivalent to boundedness of `powerBoundedSubring X`; the supplied equivalence converts between the two statements. Spectral topology, uniformization, uniform completed tensors and reduced affinoids use this predicate on their own carriers. |
-| `TauCeti.Huber.IsUniform.isReduced`, `IsUniform.of_discreteTopology`; `PairOfDefinition.discrete`, `IsHuberRing.of_discreteTopology`; `powerBoundedSubring_eq_top`; `DualNumber`, `DualNumber.eps` | `TauCeti/RingTheory/Huber/Uniform.lean`; `TauCeti/RingTheory/Huber/Basic.lean`; `TauCeti/RingTheory/Huber/PowerBounded.lean`; `Mathlib/Algebra/DualNumber.lean:46,50` | Reducedness follows from uniformity for Hausdorff Tate rings: the theorem requires `IsTateRing`, `IsUniform` and `T0Space`. This supplies the converse to R0.9's statement that reduced `K`-affinoid algebras are uniform; R0.9 states only reduced implies uniform. Discrete dual numbers use the supplied square-zero extension and discrete pair of definition; their power-bounded subring is the whole ring, so they are uniform but not reduced. The section-algebra comparison in `rigidPullback_test_squareZero` uses the same supplied `DualNumber` algebra and `eps`, without a topology on that comparison algebra. |
 | `TauCeti.Huber.powerBoundedSubring` | `TauCeti/RingTheory/Huber/PowerBounded.lean`; AdicSpaces §0.1 | In the quadratic ring-of-definition Check, the image of the supplied power-bounded subring of `ℚ_p⟨T,S⟩` is the integral model `B`; power-boundedness in its quotient uses the same supplied predicate. |
 | `TauCeti.Huber.IsHuberRing`, `TauCeti.Huber.PairOfDefinition` | `TauCeti/RingTheory/Huber/Basic.lean`; `TauCetiRoadmap/AdicSpaces/README.md`, §0.2 | The Huber-ring and pair-of-definition carriers for the open-subring spectrum comparison and for the comparison of algebraically finite type with Huber's definition (*algebraically-finite-type-ring-map*). The latter uses these same pairs on the ambient rings and on the induced topologies of the plus and open subrings; no completeness or noetherian hypothesis is imposed. |
 | `AlgebraicGeometry.Spec.map`, `AlgebraicGeometry.Spec.map_apply`, `AlgebraicGeometry.morphismRestrict` | `Mathlib/AlgebraicGeometry/Scheme.lean:537`; `Mathlib/AlgebraicGeometry/Restrict.lean:569` | The inclusion induces the actual scheme morphism, whose underlying map contracts prime ideals; its restriction has source the inverse-image open subscheme. The open-subring spectrum comparison (*open-subring-spec-isomorphism*) asserts that this restriction is an isomorphism. |
@@ -200,8 +207,6 @@ The R1 comparison of differentials on analytification charts supplies
 |---|---|---|
 | `KaehlerDifferential.subsingleton_of_surjective` | `Mathlib/RingTheory/Kaehler/Basic.lean:275` | A surjective structural map has zero algebraic differentials; the identity of `K` supplies `Ω[K/K] = 0`. R1.8's trivial-group Check instead concerns `continuousDifferentialFibre` at the unit of the analytified group, on the supplied `TauCeti.AdicSpace` carrier (AdicSpaces §5). |
 | `CategoryTheory.Functor.grpObjObj`, `Functor.mapGrp`, `Functor.obj.ι_def`, `Functor.obj.μ_def`, `Functor.obj.η_def`; `CategoryTheory.Hom.one_def`, `Hom.mul_def`, `Hom.inv_def` | `Mathlib/CategoryTheory/Monoidal/Grp.lean:578,599,591`; `Mathlib/CategoryTheory/Monoidal/Mon.lean:842,839`; `Mathlib/CategoryTheory/Monoidal/Cartesian/Mon.lean:236,238`; `Mathlib/CategoryTheory/Monoidal/Cartesian/Grp.lean:69` | R1.8 uses `Functor.obj.ι_def`, `Functor.obj.μ_def` and `Functor.obj.η_def` with `F = AdicSpace.analytificationLftFunctor K` for the inverse, multiplication and unit of the analytified group. Its identity, inverse and composition Checks use the supplied group structure on morphisms into that group. The functor is Part II's mixed-fibre-product analytification into locally finite-type objects over the supplied `TauCeti.AdicSpace` carrier (AdicSpaces §5); its unit and multiplication use the finite-product comparison. |
-| `AlgEquiv.ofBijective` | `Mathlib/Algebra/Algebra/Equiv.lean:576` | Converts the bijective whole-domain coordinate map into an algebra equivalence. `RigidSpace.Sp.sectionsEquiv` composes the supplied inverse with `Affinoid.sectionsSubdomainEquiv`; the affinoid subdomain and sheaf identifications are R1 targets. |
-| `Polynomial.aeval`, `Polynomial.aeval_X`; `AlgebraicGeometry.Spec.map`, `Spec.map_comp`, `Scheme.ΓSpecIso_inv_naturality` | `Mathlib/Algebra/Polynomial/AlgebraMap.lean:259,292`; `Mathlib/AlgebraicGeometry/Scheme.lean:474,483,615` | The affine-line Check uses the supplied polynomial substitution and contravariant scheme map. Naturality of global sections identifies its coordinate pullback; R1 compares this map with its rigid analytification on Part II’s `KScheme` and `RigidSpace` carriers. |
 | `TauCeti.ValuationSpectrum.rationalSubset`, `mem_rationalSubset_iff`, `isIso_toPresentationLimit_top`; `TauCeti.Huber.weightedRestrictedSubring`, `mem_weightedRestrictedSubring` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/RationalSubset/Basic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/GlobalSections.lean`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean`; [AdicSpaces §5.4](../AdicSpaces/README.md#54-examples) | R1.3 uses the supplied rational subsets, affinoid coefficient-to-section map and weighted-series subrings. The chart statement of *analytic-affine-space* identifies their increasing union with affine-space analytification, and its section statement identifies sections with the intersection of these subrings. Rational numerators include `1`, so they generate the unit ideal even in dimension zero. |
 | `TauCeti.PreAdicSpace.isAdic_restrict`, `TauCeti.PreAdicSpace.IsOpenImmersion.isoOfRangeEq` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/OpenImmersion.lean`; AdicSpaces §5.1 | R1.2 uses the supplied open adic subspaces and their comparison by equal images. `schemePullback.isoOpenSubscheme` adds the mixed scheme projection and identifies the inverse image under it. |
 | `TauCeti.AdicSpace`, `TauCeti.PreAdicSpace.IsOpenImmersion`, `IsOpenImmersion.isoOfRangeEq`; `TauCeti.Huber.Pair.quotient`; `TauCeti.ValuationSpectrum.closedPolydisc` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/OpenImmersion.lean`; `TauCeti/RingTheory/Huber/Pair.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/Basic.lean`; AdicSpaces §§2.4, 5.1, 5.3 | R1.3 uses the supplied category, open subspaces, quotient pairs and polydisc. `analytification.chartAffinoid` equips the weighted quotient ring with its complete sheafy presentation; `analytification.affineChart` identifies those charts inside the mixed fibre product. |
@@ -212,7 +217,6 @@ The R1 comparison of differentials on analytification charts supplies
 | `WeierstrassCurve.Affine.invariantDifferential` | `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/InvariantDifferential.lean` | Tau Ceti supplies the algebraic differential `dx/(2y + a₁x + a₃)` in the function-field Kähler module. R1 compares its analytification with the invariant analytic differential. |
 | `TauCeti.Huber.Pair.powerBounded`, `TauCeti.Huber.isPowerBounded_iff_norm_le_one` | `TauCeti/RingTheory/Huber/Pair.lean`; `TauCeti/RingTheory/Huber/Normed.lean`; AdicSpaces §§0.1, 2.1 | The supplied pair has the closed unit ball as its plus ring over a normed field. `chartIndex_test_nonzero_tuple` applies this criterion to the scaled coordinate `ϖ^k ϖ⁻¹`. |
 | `TauCeti.Huber.Pair.Hom`, `TauCeti.Huber.Pair.powerBounded`; `TauCeti.ValuationSpectrum.evalAtHom`, `evalAtHom_mem_powerBoundedSubring` | `TauCeti/RingTheory/Huber/Pair.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/Basic.lean`; [AdicSpaces §2.4](../AdicSpaces/README.md#24-quotients-and-classical-affinoids) | Continuous, plus-preserving pair maps and evaluation on the unit polydisc. The chart-membership Check uses these pair carriers for the completed weighted charts, with the polynomial evaluation equation fixing both constants and the coordinate. |
-| `MaximalSpectrum.asIdeal`, `MaximalSpectrum.toPrimeSpectrum`, `Polynomial.exists_monic_span` | `Mathlib/RingTheory/Spectrum/Maximal/Defs.lean:28`, `Mathlib/RingTheory/Spectrum/Maximal/Basic.lean:44`, `Mathlib/RingTheory/Ideal/MonicSpan.lean:27` | Use the existing maximal ideals, their inclusion into the prime spectrum, and monic principal generators. The affine-line Checks specify the bijection by `p ↦ Ideal.span {p}` and its compatibility with `analytification.toScheme.base`. |
 | `TauCeti.ValuationSpectrum.closedPolydisc`, `gaussPoint`, `supp_gaussPoint`, `gaussPoint_inj`; `TauCeti.Huber.weightedPolynomialHom`; `TauCeti.ValuationSpectrum.residueFieldValuation` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/Basic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/GaussPoint.lean`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/ResidueField/Basic.lean`; AdicSpaces §§2.4, 3.4, 5.1 | R1.2 uses the supplied disc points, Gauss valuations, polynomial inclusion and residue valuation. `analytification.unitDisc` only adds the complete sheafy affinoid presentation; `gauss_rankTwo_generic` identifies the Gauss point and its rank-two refinement under the mixed scheme projection. |
 | `TauCeti.Huber.Pair.powerBounded`; `TauCeti.ValuationSpectrum.spaCompletionHomeomorph`, `spaCompletionHomeomorph_apply` | `TauCeti/RingTheory/Huber/Pair.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Completion/Homeomorph.lean`; AdicSpaces §§2.1, 2.4 | R0 constructs the full power-bounded pair in `ofRigidAffinoid`; R1.7 uses it and the supplied completion comparison. Its disc Checks identify points by restriction along `UniformSpace.Completion.coeRingHom`, using the supplied `closedPolydisc` and `gaussPoint` carriers. |
 | `TauCeti.Huber.PairOfDefinition`, `PairOfDefinition.weighted`, `PairOfDefinition.completion`, `PairOfDefinition.completionIdeal`; `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`; `TauCeti.ValuationSpectrum.residueFieldValuation`, `TauCeti.ValuationSpectrum.continuous_algebraMap_residueFieldValuation`; `NormedField.exists_norm_lt_one` | `TauCeti/RingTheory/Huber/Basic.lean`; `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/PairOfDefinition.lean`; `TauCeti/RingTheory/Huber/Completion.lean`; `TauCeti/RingTheory/Huber/TopologicallyFiniteType.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/ResidueField/Basic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/ResidueField/Valued.lean`; `Mathlib/Analysis/Normed/Field/Basic.lean:238`; AdicSpaces §§0.2–0.4 | `Affinoid.completedResidue` applies the supplied completion construction to the residue valuation ring and the ideal generated by the source ideal of definition. `fieldAffinoid` specifies `(K°, ϖK°)`; `ofRigidAffinoid` maps the supplied completed series ring of definition through its chosen strict presentation and uses the principal scalar ideal. `analytification.unitDisc` uses `weighted` at unit weights directly; `schemePullback.chartAffinoid` and `analytification.chartAffinoid` map the completed weighted defining subring and ideal through the specified quotient map. |
@@ -220,11 +224,7 @@ The R1 comparison of differentials on analytification charts supplies
 | `TauCeti.PreAdicSpace.Hom.residueFieldMap`; `IsLocalRing.ResidueField.map`; `RingHom.Finite`; `RingEquiv.ofBijective`; `topologicalKrullDim` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Hom.lean`; `Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean:95`; `Mathlib/RingTheory/Finiteness/Defs.lean:174`; `Mathlib/Algebra/Ring/Equiv.lean:446`; `Mathlib/Topology/KrullDimension.lean:37`; AdicSpaces §5.1 | The R1.2 point comparison uses the actual structural residue map and the residue map induced by `snd`, finite module extensions, and the supplied topological dimension. |
 | `TauCeti.Huber.Pair.quotient`, `TauCeti.Huber.Pair.quotient_plus` | `TauCeti/RingTheory/Huber/Pair.lean` | The quotient pair and its plus ring as the integral closure of the image. R1's `chartPair` only applies this constructor to the specified polynomial relation ideal. |
 | `TauCeti.Huber.weightMul` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean` | Additive subgroup generated by products of weights with coefficients; R1 uses it for the coefficient condition defining the integral series. |
-| `irreducibleComponents`, `isClosed_of_mem_irreducibleComponents` | `Mathlib/Topology/Irreducible.lean` | Maximal nonempty irreducible subsets and their closedness. R1 applies this notion to its analytic Zariski topology. |
-| `AlgebraicGeometry.Scheme.Hom.normalization`, `Scheme.Hom.fromNormalization` | `Mathlib/AlgebraicGeometry/Normalization.lean` | The relative normalization of a quasi-compact quasi-separated morphism, with an integral morphism to the target and an integral source when the source of the morphism is integral. R1.9 applies it to `Spec K(Z) → Z` for an integral `K`-scheme `Z` locally of finite type; finiteness comes from SchemeAndStackFoundations §0.20. |
-| `Module.Flat.isSMulRegular_of_nonZeroDivisors` | `Mathlib/RingTheory/Flat/TorsionFree.lean` | Multiplication by a nonzerodivisor is injective on a flat module; with flatness of affinoid subdomains this gives `IsCoordinateRing.injective_algebraMap`. |
 | `Ideal.comap_map_eq_self_of_faithfullyFlat` | `Mathlib/RingTheory/Flat/FaithfullyFlat/Algebra.lean` | Along a faithfully flat algebra, contracting an extended ideal returns the ideal; R1.9 uses it to descend normality from completed local rings. |
-| `AlgebraicGeometry.Scheme.IdealSheafData.vanishingIdeal` | `Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean` | Radical ideal sheaf of a closed subset, used for the reduced structure on algebraic components. |
 | `PresheafOfModulesOfCommRing.Monoidal.tensorObj`, `PresheafOfModules.sheafification` | `Mathlib/Algebra/Category/ModuleCat/Presheaf/Monoidal.lean`, `Mathlib/Algebra/Category/ModuleCat/Presheaf/Sheafification.lean` | Sectionwise tensors and module sheafification; `AdicSpace.tensorModules` composes these on locally ringed spaces. |
 | `TauCeti.SheafOfModules.monoidalClosed` | `TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Closed.lean` | Tau Ceti supplies the closed monoidal structure on `SheafOfModules (TauCeti.SheafOfModules.ringCatSheaf R)` for a commutative-ring sheaf `R` on a small site `(C, J)`, assuming `J.HasSheafCompose (forget₂ CommRingCat RingCat)`, `HasWeakSheafify J AddCommGrpCat` and `J.WEqualsLocallyBijective AddCommGrpCat`. |
 | `SheafOfModules.Submodule`, `SheafOfModules.Submodule.ι`, `AlgebraicGeometry.tilde`, `AlgebraicGeometry.tilde.map`, `AlgebraicGeometry.tildeSelf` | `Mathlib/Algebra/Category/ModuleCat/Sheaf/Submodule.lean`, `Mathlib/AlgebraicGeometry/Modules/Tilde.lean` | Ideal inclusions and algebraic associated module sheaves in analytification. |
@@ -234,21 +234,13 @@ The R1 comparison of differentials on analytification charts supplies
 | `SheafOfModules.pullbackComp`, `SheafOfModules.pullbackObjUnitToUnit` and Mathlib's unit map from the structure sheaf to the pushforward of the unit module | `Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackFree.lean` | Composition and the canonical structure-sheaf maps; the analytification statements specialize these maps. |
 | `TauCeti.AdicSpace`, `TauCeti.PreAdicSpace.toRingPresheafedSpaceHom` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Adic.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Hom.lean`; [Foundations of adic spaces](../AdicSpaces/README.md), §5 | Adic carriers and their ringed morphisms underlying R1 module pullback and `AdicSpace.rigidToAdic.analytification_iso`. The comparison uses these supplied section maps and the existing `snd`, `rho`, `sections` and `RigidSpace.analytification.toScheme`. |
 | `SheafOfModules`, `PresheafOfModules.map` | `Mathlib/Algebra/Category/ModuleCat/Sheaf.lean`, `Mathlib/Algebra/Category/ModuleCat/Presheaf.lean` | The actual module sheaf and its restrictions in R1's vector-bundle identity principle. |
-| `Module.Basis`, `IsIntegrallyClosed` | `Mathlib/LinearAlgebra/Basis/Defs.lean`, `Mathlib/RingTheory/IntegralClosure/IntegrallyClosed.lean` | Finite local bases with compatible restrictions, and normality of the rigid stalks together with `IsDomain`. |
-| `AlgebraicGeometry.Scheme.IdealSheafData.subscheme`, `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι` | `Mathlib/AlgebraicGeometry/IdealSheaf/Subscheme.lean` | Closed subscheme and inclusion of an ideal sheaf. `reducedComponentScheme` equips this existing construction with its morphism to `Spec K`. |
+| `IsIntegrallyClosed` | `Mathlib/RingTheory/IntegralClosure/IntegrallyClosed.lean` | Normality of the rigid stalks together with `IsDomain`. |
 | `constructibleTopology`; `Topology.IsConstructible` | Mathlib `Topology/Spectral/ConstructibleTopology.lean`; `Topology/Constructible.lean` | The constructible topology and constructible subsets of the valuation spectrum and its `Spa` subspace; used directly in R1 classical density. |
-| `AlgebraicGeometry.Spec`, `AlgebraicGeometry.Spec.algebraMap`, `AlgebraicGeometry.Scheme.ΓSpecIso`, `AlgebraicGeometry.Scheme.Hom.appLE` | `Mathlib/AlgebraicGeometry/Scheme.lean` | Affine schemes, their structure maps and the actual scheme sections used in the Zariski-to-G-space bridge. |
 | `CommAlgCat.FiniteEtale`, `CommAlgCat.FiniteEtale.of`, `CommAlgCat.FiniteEtale.ofHom` | `Mathlib/RingTheory/Etale/Finite.lean` | The category of finite étale algebras and its algebra morphisms; `Etale.finiteEtaleEquiv` compares it with this file’s finite étale adic spaces, and `Etale.finiteEtaleFunctor` is the inverse functor. |
 | `CategoryTheory.ObjectProperty.FullSubcategory`, `AlgebraicGeometry.LocallyOfFiniteType` | `Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`, `Mathlib/AlgebraicGeometry/Morphisms/FiniteType.lean` | The full category of schemes locally of finite type over `Spec K`. |
 | `CategoryTheory.Limits.PreservesPullback.iso` | `Mathlib/CategoryTheory/Limits/Preserves/Shapes/Pullbacks.lean` | The canonical pullback comparison isomorphism once preservation by rigid analytification is established. |
-| `CategoryTheory.GrothendieckTopology`, `CategoryTheory.Sieve.generate` | `Mathlib/CategoryTheory/Sites/Grothendieck.lean`, `Mathlib/CategoryTheory/Sites/Sieves/Basic.lean` | Sites on the poset of admissible subsets and the covering sieve generated by a family; R1 supplies the strong Tate covering predicate. |
-| `CommAlgCat`, `CommAlgCat.of`, `CommAlgCat.ofHom` | `Mathlib/Algebra/Category/CommAlgCat/Basic.lean` | Sheaves of commutative `K`-algebras and their algebra homomorphisms; the rigid carrier uses this category directly. |
-| `CategoryTheory.GlueData`, `CategoryTheory.GlueData.glued`, `CategoryTheory.GlueData.ι`, `CategoryTheory.GlueData.glue_condition`, `CategoryTheory.Limits.Multicoequalizer.desc`, `CategoryTheory.Limits.Multicoequalizer.π_desc`, `CategoryTheory.Limits.Multicoequalizer.hom_ext` | `Mathlib/CategoryTheory/GlueData.lean`, `Mathlib/CategoryTheory/Limits/Shapes/Multiequalizer.lean` | Cocycle datum, multicoequalizer and its universal maps. R1 proves existence for open rigid gluing and that the pieces embed as an admissible open covering. |
-| `CategoryTheory.Limits.pullback`, `CategoryTheory.Limits.pullback.diagonal` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/HasPullback.lean`, `Mathlib/CategoryTheory/Limits/Shapes/Diagonal.lean` | The pullback and relative diagonal; R1 supplies existence of rigid fibre products and the geometric predicates on their diagonals. |
-| `AlgHom.commutes` | `Mathlib/Algebra/Algebra/Hom.lean:220` | For an `A`-algebra homomorphism, composition with the structural map equals the structural map; this supplies the factorisation identity for the affinoid-subdomain lift. |
 | `TauCeti.Huber.IsWeightFamily.of_exists_isUnit` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Basic.lean` | A unit in each weight set suffices. Apply to `ϖ^k ∈ {ϖ}^k`; the open-ideal case remains a distinct target. |
 | `TauCeti.Huber.restrictedMvPowerSeriesCompletionFinZeroEquiv` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | The completed zero-variable Tate algebra is isomorphic to `Completion A`, hence to `A` for a complete Hausdorff base. |
-| `TauCeti.ValuationSpectrum.laurentCover_exact`, `TauCeti.ValuationSpectrum.laurentCover_surjective`, `TauCeti.ValuationSpectrum.isClosedEmbedding_laurentCover` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Localization/LaurentCover/Basic.lean` (first two); `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Localization/LaurentCover/Topology.lean` (third) | Middle exactness, surjectivity of the difference map, and injectivity of the augmentation for the two-piece Laurent cover of a complete strongly noetherian Tate ring. R1 adds arbitrary affinoid coverings and arbitrary module coefficients, as distinguished from AdicSpaces §4.1. The supplied Laurent difference is first restriction minus second; `RigidSpace.affinoidCechDifferential` uses second minus first in degree zero, so comparison negates the supplied difference. |
 
 `instIsModuleTopology` in `Mathlib/Topology/Algebra/Module/ModuleTopology.lean:146`
 supplies `IsModuleTopology A C` for `moduleTopology A C`; R0's finite-algebra
@@ -257,10 +249,6 @@ construction uses this instance directly.
 supplies algebraic adic completeness for a finitely generated ideal. R0's
 `isAdicComplete_completion_of_isAdic` additionally identifies the uniform completion
 with this completion and uses the extended ideal in the completed ring.
-
-`TauCeti.Huber.isClosed_of_isMaximal` in `TauCeti/RingTheory/Huber/UnitGroup.lean`
-supplies closedness of maximal ideals of complete Huber rings. R0 uses it for affinoid
-algebras; the residue-field finiteness theorem remains a separate target.
 
 `smoothingSeminorm`, `tendsto_smoothingFun_of_map_one_le_one`,
 `isPowMul_smoothingFun` and `smoothingFun_le_self` in
@@ -313,17 +301,79 @@ Layer 2B supplies quotients of elliptic curves by finite subgroup schemes, used 
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-§0.20 supplies *IsNagata.of_finiteType* and `nagata_normalization_finite`: the normalization of
-an integral scheme locally of finite type over a field is finite. §0.21 supplies
-*IsGRing.of_finiteType*, *IsGRing.localization* and `regular_map_completion`: a local ring of
-such a scheme is a G-ring, so its completion map is regular and keeps reducedness and normality.
-R1.9 uses the first in *rigid-analytification-connected* and the second in
+§0.21 supplies *IsGRing.of_finiteType*, *IsGRing.localization* and `regular_map_completion`: a
+local ring of a scheme locally of finite type over a field is a G-ring, so its completion map is
+regular and keeps reducedness and normality. R1.9 uses it in
 *rigid-analytification-normal-reduced*.
+
+### From the student roadmaps
+
+RigidAnalyticGeometry and PadicFunctionalAnalysis are the roadmaps of W. Coram, to be contributed
+to TauCetiRoadmap ahead of this one. RigidAnalyticGeometry's carrier is the `Prop`
+`IsAffinoidAlgebra K A` on a bare `K`-algebra with the topology derived from a presentation; this
+roadmap applies its statements through the carrier bridge of R0.9. Its targets without a section
+number are in its section *Targets requested by the Tau Ceti AdicSpaces roadmaps*, cited below as
+"requested". Declaration names are those of the suppliers' `Suggested.lean`, relative to the
+namespace `TauCetiRoadmap`.
+
+| Target | Supplier and section | Supplier declarations |
+|---|---|---|
+| *tate-ring-norm* | PadicFunctionalAnalysis §0.4.6 | `PadicFunctionalAnalysis.tateGauge`, `PadicFunctionalAnalysis.exists_tateSeminorm`, `PadicFunctionalAnalysis.tateGauge_eq_zero_iff`, `PadicFunctionalAnalysis.tateGauge_equiv`, `PadicFunctionalAnalysis.tateGauge_rpow` |
+| *banach-countable-type-orthogonal-basis* | PadicFunctionalAnalysis §2.4.1–2.4.2 | none |
+| *tate-algebra-gauss-norm-attained* | RigidAnalyticGeometry §0.1.3–0.1.4 | `RigidAnalyticGeometry.supSeminorm_tateAlgebra` |
+| *affinoid-noether-normalisation* | RigidAnalyticGeometry §1.2.1; requested **isClosedEmbedding_of_finite_injective** | `RigidAnalyticGeometry.IsAffinoidAlgebra.exists_finite_injective`, `RigidAnalyticGeometry.isClosedEmbedding_of_finite_injective` |
+| *affinoid-residue-fields-finite* | RigidAnalyticGeometry §1.2.4 | `RigidAnalyticGeometry.IsAffinoidAlgebra.finite_quotient_of_isMaximal` |
+| *affinoid-jacobson* | RigidAnalyticGeometry §1.1.2 | `RigidAnalyticGeometry.IsAffinoidAlgebra.isJacobsonRing` |
+| *tate-algebra-maximal-ideals-polynomial* | RigidAnalyticGeometry §3.1.3 | none |
+| *affinoid-supremum-seminorm* | RigidAnalyticGeometry §2.1.1, §2.1.3; requested **supSeminorm_pow_pos** | `RigidAnalyticGeometry.evalNorm`, `RigidAnalyticGeometry.supSeminorm`, `RigidAnalyticGeometry.supSeminorm_pow`, `RigidAnalyticGeometry.supSeminorm_pow_pos` |
+| *affinoid-maximum-modulus* | RigidAnalyticGeometry §2.2.1 | `RigidAnalyticGeometry.exists_evalNorm_eq_supSeminorm` |
+| *affinoid-power-bounded-iff-sup* | RigidAnalyticGeometry §2.3.1–2.3.2 | `RigidAnalyticGeometry.isBounded_range_pow_iff`, `RigidAnalyticGeometry.isTopologicallyNilpotent_iff` |
+| *reduced-affinoid-supremum-norm* | RigidAnalyticGeometry §2.2.4, §2.3.5, §2.4.1 | `RigidAnalyticGeometry.supSeminorm_eq_zero_iff`, `RigidAnalyticGeometry.exists_norm_le_mul_supSeminorm` |
+| *affinoid-homomorphism-continuous* | RigidAnalyticGeometry §1.3.2 | `RigidAnalyticGeometry.continuous_algHom` |
+| *affinoid-power-bounded-integral* | RigidAnalyticGeometry §2.2.3; requested **powerBounded_integral_over_presentation** | `RigidAnalyticGeometry.powerBounded_integral_over_presentation` |
+| *affinoid-reduction-finite* | RigidAnalyticGeometry, requested **reduction_finite_of_finite** | `RigidAnalyticGeometry.reduction_finite_of_finite` |
+| *affinoid-subdomain* | RigidAnalyticGeometry §1.4.2–1.4.3, §4.1.1–4.1.4, §4.2.1–4.2.2 | `RigidAnalyticGeometry.AffinoidSubdomain`, `RigidAnalyticGeometry.rationalDomain`, `RigidAnalyticGeometry.RationalLocalization`, `RigidAnalyticGeometry.exists_affinoidSubdomain_rationalDomain` |
+| *affinoid-subdomain-flat* | RigidAnalyticGeometry §4.4.3; requested **faithfullyFlat_affinoidCover** | `RigidAnalyticGeometry.faithfullyFlat_affinoidCover` |
+| *gerritzen-grauert* | RigidAnalyticGeometry §4.6.3 | `RigidAnalyticGeometry.gerritzenGrauert` |
+| *affinoid-covering-tate-acyclicity* | RigidAnalyticGeometry §5.3.3–5.3.4, §5.4.1 | `RigidAnalyticGeometry.laurent_exact` (the two-piece Laurent case) |
+| *rigid-local-ring-completion* | RigidAnalyticGeometry §4.4.1–4.4.2 | none |
+| *rigid-analytic-space* | RigidAnalyticGeometry §6.1.1, §6.2.2, §6.4.1, §6.4.3, §6.4.5 | `GTopology` (in the root namespace), `RigidAnalyticGeometry.LocallyGRingedSpace`, `RigidAnalyticGeometry.LocallyGRingedSpace.Sp`, `RigidAnalyticGeometry.LocallyGRingedSpace.IsVariety` |
+| *rigid-analytification* | RigidAnalyticGeometry §8.1.1–8.1.2 | `RigidAnalyticGeometry.LocallyGRingedSpace.analytification`, `RigidAnalyticGeometry.LocallyGRingedSpace.isVariety_analytification` |
+| *analytification-connected* | RigidAnalyticGeometry, requested **analytification_preconnected_iff** | `RigidAnalyticGeometry.LocallyGRingedSpace.analytification_preconnected_iff` |
+| *rigid-adic-comparison-functor*: `r` on affinoids, pasting, topologies and classical points | RigidAnalyticGeometry §8.2.2–8.2.7, §8.3.1–8.3.2 | none |
+| *rigid-adic-quasi-separated-equivalence* (i) | RigidAnalyticGeometry §8.3.2 | none |
+| *proper-separated-comparisons*: the rigid notions | RigidAnalyticGeometry §7.3.2–7.3.4 | `RigidAnalyticGeometry.LocallyGRingedSpace.IsProper` |
+| *affinoid-domain-equidimensional* | RigidAnalyticGeometry §1.2.3; requested **height_eq_ringKrullDim_of_isDomain** | `RigidAnalyticGeometry.height_eq_ringKrullDim_of_isDomain` |
+| *rigid-identity-principle* | RigidAnalyticGeometry, requested **AffinoidSubdomain.injective_of_isDomain**, **identityPrinciple**, **identityPrinciple_locallyFree** | `RigidAnalyticGeometry.AffinoidSubdomain.injective_of_isDomain`, `RigidAnalyticGeometry.LocallyGRingedSpace.identityPrinciple`, `RigidAnalyticGeometry.LocallyGRingedSpace.identityPrinciple_locallyFree` |
+| *max-rational-covering-refinement* | RigidAnalyticGeometry §5.2.2 | none |
+| *rigid-gamma-spec* | RigidAnalyticGeometry §8.1.1 | none |
+| *classical-points-constructible-density*: classical points, rational traces, covering criterion | RigidAnalyticGeometry §8.2.2–8.2.5 | `RigidAnalyticGeometry.classicalValuation`, `RigidAnalyticGeometry.classicalValuation_injective`, `RigidAnalyticGeometry.iUnion_rationalDomain_eq_univ_iff` |
+| *rigid-analytification-normal-reduced* (i) | RigidAnalyticGeometry §8.1.2 | none |
+| *rigid-analytification-connected* | RigidAnalyticGeometry, requested **analytification_preconnected_iff**, **analytification_irreducibleComponents** | `RigidAnalyticGeometry.LocallyGRingedSpace.analytification_preconnected_iff`, `RigidAnalyticGeometry.LocallyGRingedSpace.analytification_irreducibleComponents` |
+
+**Local restatements.** `Suggested.lean` restates no supplied declaration. The README keeps the
+following local names for supplied objects, read through the carrier bridge of R0.9, so that the
+targets using them keep their notation; each is to be replaced by the supplier's name once that
+roadmap is in TauCetiRoadmap.
+
+- `Huber.TateNormDatum A` and `Huber.tateNorm d` (*tate-ring-norm*): PadicFunctionalAnalysis
+  §0.4.6, the gauge at `a = r⁻¹`; used by *spectral-seminorm*, *spectral-topology* and
+  *completed-tensor-banach-module*. Its functoriality `tateNorm_map_le` is stated here.
+- `RigidSpace K` (`Rig_K`), `RigidSpace.Sp`, `RigidSpace.IsAdmissibleOpen`,
+  `RigidSpace.IsAdmissibleCover`, `RigidSpace.hasPullbacks`, `RigidSpace.IsClosedImmersion`,
+  `RigidSpace.IsSeparated`, `RigidSpace.IsQuasiSeparated` and `RigidSpace.IsProper`
+  (*rigid-analytic-space*): RigidAnalyticGeometry §6.1–6.4, §7.2.3, §7.3.2 and §7.3.4.
+- `RigidSpace.analytification` (`X^an`, with `i_X` its `toScheme`) and
+  `RigidSpace.analytificationFunctor` (*rigid-analytification*): RigidAnalyticGeometry §8.1.1–8.1.2.
+- `AdicSpace.rigidToAdic` (`r_K`), `rigidToAdic_Sp` and `rigidToAdic.classicalPointsEquiv`
+  (*rigid-adic-comparison-functor*): RigidAnalyticGeometry §8.2.2 and §8.3.1–8.3.2.
 
 ## How to read the build
 
 R0 develops the ring-level inputs, completed tensor products and adic morphisms;
-R1 develops rigid spaces, analytification and algebraic correspondences. R0 proves the ring-level completion, finite-module and Čech estimates used by its
+R1 develops analytification and algebraic correspondences on the rigid spaces of
+RigidAnalyticGeometry. R0 proves the ring-level completion, finite-module and Čech estimates used by
+its
 noetherian-ring-of-definition sheafiness theorem. F0 in Part III applies these
 results to formal schemes.
 A target's `*Needs:*` clause names its prerequisites. Within a layer the subsections follow
@@ -332,11 +382,10 @@ last subsections.
 
 `Suggested.lean` carries the definitions that are a few lines over Tau Ceti's carriers (noetherian
 type, Huber's standing class, adic homomorphisms, affinoid charts, the morphism classes,
-`K`-affinoid algebras through Tau Ceti's Tate algebras, affinoid subdomains of `Max A`) and the
-headline theorems about them. The completed tensor product, the spectral seminorm and
-uniformization, Banach-module tensor products, continuous differentials, rigid-analytic spaces,
-the analytification functors and analytic groups are README targets, specified in the text
-below. The Lean section headers name the labels each block carries:
+the polynomial inclusion into Tau Ceti's Tate algebras) and the headline theorems about them.
+The completed tensor product, the spectral seminorm and uniformization, Banach-module tensor
+products, continuous differentials, the analytification functor and analytic groups are README
+targets, specified in the text below. The Lean section headers name the labels each block carries:
 
 | Subsection | Lean section | Declarations and Checks |
 |---|---|---|
@@ -344,7 +393,7 @@ below. The Lean section headers name the labels each block carries:
 | R0.1 | Huber's standing class | `Huber.IsHuberStandard`, `IsHuberStandard.isNoetherianType`; the discrete-ring and `ℚ_p` Checks. |
 | R0.1 | adic homomorphisms | `Huber.IsAdicHom` and its basic API, `IsTopologicallyFiniteType.isAdicHom`, the analytic-point characterisation; the Checks `ℤ_p → ℚ_p` (adic) and `ℤ → ℤ_p` (continuous, not adic). |
 | R0.13 | finite morphisms of Huber pairs | `Huber.Pair.Hom.IsFinite` and the enlarged-plus-ring Check. |
-| R0.9 | classical `K`-affinoid algebras | `TateAlgebra.ofMvPolynomial`, `Affinoid.evalNorm`, `Affinoid.supNorm`, and the Noether normalisation, residue-field, Jacobson, maximum-modulus, power-bounded and continuity theorems; the non-reduced supremum-seminorm Check. |
+| R0.9 | the polynomial inclusion into Tate algebras | `TateAlgebra.ofMvPolynomial`. |
 | R0.7 | valuations on tensor products | `ValuationSpectrum.exists_amalgamation`. |
 | R0.6, R0.16 | affinoid-level cores | `LocallyOfPlusWeaklyFiniteType_affinoid`; the lifting tests `Unramified_affinoid`, `Smooth_affinoid`, `Etale_affinoid` with the identity, square-zero quotient and disc Checks. |
 | R0.6 | charts and finiteness classes | `AdicSpace.Affinoid`, `Chart`, `HomChart`, the space predicates (locally noetherian, locally Huber-standard, analytic, stably sheafy charts) and morphism predicates (adic, weak, plus weak and topological finite type, finite presentation), and their comparison theorems. |
@@ -354,7 +403,6 @@ below. The Lean section headers name the labels each block carries:
 | R0.13–R0.14 | finite and quasi-finite morphisms | `IsFinite`, `LocallyQuasiFinite` and their criteria. |
 | R0.16–R0.17 | flat, unramified, smooth and étale morphisms | `Flat`, `Unramified`, `Smooth`, `Etale` and the theorems of the package, the ring-level part of *etale-standing-class-control*, and the disc Checks (`T ↦ T²`, `T ↦ ϖT`, `T ↦ T^p`, the closed and the open disc). |
 | R1.1 | plus rings of affinoid algebras | `Pair.eq_powerBounded_iff_of_isTopologicallyFiniteType`. |
-| R1.1, R1.9 | affinoid subdomains and affinoid domains | `RigidSpace.rationalDomain`, `IsCoordinateRing`, `IsAffinoidSubdomain` and its API, `tate_acyclicity` in degree zero, the height and identity-principle theorems, and their Checks. |
 
 In the text, R0's field and affinoid carriers, differential stalks and cotangent fibres precede
 its geometric targets and Checks. In particular, the toric-chart target *smooth-toric-chart*
@@ -1878,70 +1926,29 @@ of Huber94 Lemma 3.5 already specified above.
 ### R0.4 the spectral seminorm, uniformization and the uniform completed tensor product
 
 **The norm of a Tate ring attached to a ring of definition, a pseudouniformiser and a radius.**
-(*tate-ring-norm*) Let `A` be a Tate ring (Tau Ceti `IsTateRing A`). A *norm datum* `d = (A₀, ϖ, r)`
-on `A` consists of a ring of definition `A₀` (the `ringOfDefinition` of a Tau Ceti
-`PairOfDefinition A`), a pseudouniformiser `ϖ` of `A` lying in `A₀` (Tau Ceti `IsPseudoUniformizer ϖ`:
-a topologically nilpotent unit; `A₀` contains one by Wedhorn §6.2, Prop. 6.14, p. 49, which also
-gives that `ϖⁿA₀` is a neighbourhood basis of `0`) and a real number `r` with `0 < r < 1`. The *norm
-of `A` attached to `d`* is `α_d : A → ℝ≥0`, `α_d(x) := inf{ rⁿ : n ∈ ℤ, ϖ⁻ⁿx ∈ A₀ }` (KL15 §2.4,
-Rem. 2.4.4, p. 39, with `c = r`, `z = ϖ`, `A0 = A₀`; Kedlaya–Liu do not require `z ∈ A0`, and
-without it `α` need not even satisfy the triangle inequality, which is why `ϖ ∈ A₀` is required:
-for `A = ℚ_p × ℚ_p`, `A₀ = {(a, b) ∈ ℤ_p × ℤ_p : a ≡ b mod p²}` and `ϖ = (p, p²) ∉ A₀`, the sets
-`ϖⁿA₀` are not nested, and `α(1) = 1`, `α(ϖ) ≤ r`, while `1 + ϖ = (1 + p, 1 + p²)` lies in
-`ϖ⁻²A₀` and in no `ϖⁿA₀` with `n ≥ −1`, so `α(1 + ϖ) = r⁻² > max(α(1), α(ϖ))`). The
-exponent set is nonempty and downward closed (`ϖ ∈ A₀` gives `ϖⁿA₀ ⊆ ϖⁿ⁻¹A₀`), so `α_d(x) = r^{N(x)}` with
-`N(x) = sup{ n ∈ ℤ : x ∈ ϖⁿA₀ } ∈ ℤ ∪ {+∞}` (`r^{+∞} := 0`). Then `α_d` is a nonarchimedean ring
-seminorm (Mathlib `RingSeminorm A` with `IsNonarchimedean`), `α_d(1) ≤ 1` and `α_d(ϖx) = r·α_d(x)`;
-its closed balls are `{α_d ≤ rⁿ} = ϖⁿA₀` (`n ∈ ℤ`), so it defines the topology of `A`; it vanishes
-exactly on the closure of `{0} = ⋂ₙ ϖⁿA₀`, so it is a norm iff `A` is Hausdorff, and `(A, α_d)` is a
-Banach ring in Kedlaya–Liu's sense iff `A` is moreover complete. Fixed conventions: `ϖ` must lie in
-`A₀`; the function depends on `d`, and only its equivalence class (for fixed `ϖ` and `r`) and the
-topology it defines are canonical (HK §2, Rem. 2.11, p. 5: the norm is a choice attached to data,
-not canonical). In `Huber`, define `TateNormDatum A` as the structure of a norm datum on `A` (a pair
-of definition `P`, a pseudouniformiser `ϖ ∈ P.ringOfDefinition`, and `r ∈ (0, 1)`) and `tateNorm d`
-as the nonarchimedean ring seminorm `α_d : RingSeminorm A`; prove `tateNorm_apply`
-(`α_d(x) = sInf { rⁿ : n ∈ ℤ, ϖ⁻ⁿx ∈ A₀ }`), `isNonarchimedean_tateNorm`
-(`α_d(x + y) ≤ max(α_d(x), α_d(y))`), `tateNorm_one_le` (simp: `α_d(1) ≤ 1`),
-`tateNorm_pseudoUniformizer_mul` (simp: `α_d(ϖ·x) = r·α_d(x)` and `α_d(ϖ⁻¹·x) = r⁻¹·α_d(x)`),
-`tateNorm_le_zpow_iff` (for `n ∈ ℤ`: `α_d(x) ≤ rⁿ ↔ x ∈ ϖⁿ·A₀`), `tateNorm_hasBasis_nhds_zero` (the
-balls `{x : α_d(x) < ε}`, `ε > 0`, form a basis of neighbourhoods of `0` for the topology of `A`),
-`tateNorm_eq_zero_iff` (`α_d(x) = 0 ↔ x ∈ closure {0}`; `α_d` is a norm iff `A` is T2),
-`tateNorm_equiv_of_ringOfDefinition` (for two data differing only in the ring of definition there is
-`k` with `α' ≤ r⁻ᵏ·α` and `α ≤ r⁻ᵏ·α'`), `tateNorm_rpow` (changing `r` to `r'` with the same `A₀`,
-`ϖ`: `α_{d'} = α_d ^ (log r' / log r)`) and `tateNorm_map_le` (for a continuous ring homomorphism
-`φ : A → B` of Tate rings and data `d` on `A`, `d' = (B₀, φ(ϖ), r)` on `B` with `φ(A₀) ⊆ B₀`:
-`α_{d'}(φ x) ≤ α_d(x)`). *Needs:* Tau Ceti `TauCeti.Huber.IsTateRing`,
-`TauCeti.Huber.PairOfDefinition`, `TauCeti.Huber.IsPseudoUniformizer`,
-`TauCeti.Huber.IsPseudoUniformizer.hasBasis_nhds_zero`; Mathlib `RingSeminorm`,
-`IsNonarchimedean`.
+(*tate-ring-norm*) For a Tate ring `A` with a ring of definition `A₀`, a pseudouniformiser `ϖ ∈ A₀`
+and `0 < r < 1`, the gauge `α(x) = inf{rⁿ : n ∈ ℤ, ϖ⁻ⁿx ∈ A₀}` is a nonarchimedean ring seminorm
+defining the topology of `A` and vanishing exactly on the closure of `{0}`; it changes by a bounded
+factor when `A₀` changes and by a real power when `r` changes. Supplied by PadicFunctionalAnalysis
+§0.4.6 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The
+supplier normalises the gauge by a radius `a > 1` with values `a^{−n}` and states the norm for
+Hausdorff `A` and the seminorm without that hypothesis; this roadmap uses the seminorm at `a = r⁻¹`
+and packages its inputs as a *norm datum* `d = (A₀, ϖ, r)`, in `Huber` the structure
+`TateNormDatum A` (a Tau Ceti `PairOfDefinition A`, a pseudouniformiser `ϖ` in its ring of
+definition and `r ∈ (0, 1)`), with `tateNorm d = α_d : RingSeminorm A`. The supplier does not state
+functoriality, which *spectral-seminorm* uses, so this roadmap states `tateNorm_map_le`: for a
+continuous ring homomorphism `φ : A → B` of Tate rings, a datum `d` on `A` and the datum
+`d' = (B₀, φ(ϖ), r)` on `B` with `φ(A₀) ⊆ B₀`, `α_{d'}(φ x) ≤ α_d(x)`.
 Lean: README target.
 
-**Checks.**
+**Check.**
 
-- *Computation.* For `A = ℚ_p` with `A₀ = ℤ_p`, `ϖ = p` and `r = 1/p`,
-  `α_d(x) = |x|_p` for every `x`.
-- *Non-example.* For `A = ℚ_p` with `A₀ = ℤ_p`, `ϖ = p²` and
-  `r = 1/p`: `α_d(p) = 1` and `α_d(p²) = 1/p ≠ α_d(p)²`, so `α_d` is neither multiplicative nor
-  power-multiplicative although `A` is a field; a definition expecting `α_d` to be the absolute value
-  of the field fails this test.
-- *Degenerate.* On the zero ring (a Tate ring with `A₀ = 0` and `ϖ = 0 = 1`)
-  `α_d` is `0`.
-- *Non-example.* For prime `p`,
-  take `A = ℚ_p × ℚ_p`, `A₀ = {(a,b) ∈ ℤ_p × ℤ_p : a ≡ b mod p²}`,
-  `ϖ = (p,p²)` and `0 < r < 1`. Then `ϖ ∉ A₀`; the expression
-  `α(x) = inf {rⁿ : n ∈ ℤ, ϖ⁻ⁿx ∈ A₀}` gives `α(1) = 1`,
-  `α(ϖ) ≤ r` and `α(1 + ϖ) = r⁻² > 1`. It fails the nonarchimedean
-  triangle inequality, so membership of `ϖ` in `A₀` is essential.
-- *Compatibility.* For a Banach algebra `(A, ‖·‖)` over a complete
-  nonarchimedean field `K` with `‖cy‖ = |c|‖y‖` and `‖1‖ = 1`, `A₀` the unit ball, `ϖ ∈ K` with
-  `0 < |ϖ| < 1` and `r = |ϖ|`: `‖x‖ ≤ α_d(x) ≤ r⁻¹‖x‖` for every `x`, and `α_d(x) < r⁻¹‖x‖` for
-  `x ≠ 0`; so `α_d` is equivalent to `‖·‖`.
-- *Characterisation.* For a prime `p`, take `A = ℚ_p⟨T⟩`,
-  `A₀ = ℤ_p⟨T⟩`, `ϖ ∈ ℤ_p` with `0 < |ϖ|_p < 1`, and `r = |ϖ|_p`. For `n ≥ 0`,
-  `α_d(f) ≤ rⁿ` iff every coefficient of `f` lies in `ϖⁿℤ_p`.
+- *Convention.* For `A = ℚ_p` with `A₀ = ℤ_p`, `ϖ = p` and `r = 1/p`, `α_d(x) = |x|_p` for every
+  `x`; this is the supplier's gauge at `a = p`, which fixes `a = r⁻¹`.
 
 **The spectral seminorm of a Tate ring.** (*spectral-seminorm*) Let `A` be a Tate ring with a norm
-datum `d = (A₀, ϖ, r)` and norm `α_d` (*tate-ring-norm*). The *spectral seminorm* of `(A, d)` is
+datum `d = (A₀, ϖ, r)` and norm `α_d` (*tate-ring-norm*, PadicFunctionalAnalysis §0.4.6). The
+*spectral seminorm* of `(A, d)` is
 `|x|_sp := lim_{n→∞} α_d(xⁿ)^{1/n} = inf_{n≥1} α_d(xⁿ)^{1/n}` (KL15 §2.1, Def. 2.1.9, p. 27, the
 smoothing of a submultiplicative seminorm; the limit exists by Fekete's lemma), which is Mathlib's
 `smoothingSeminorm α_d` (defined because `α_d(1) ≤ 1` and `α_d` is nonarchimedean). It is a
@@ -1971,7 +1978,8 @@ topologically nilpotent; the kernel is an ideal containing the nilradical and th
 `spectralSeminorm_map_le` (for continuous `φ : A → B` of Tate rings with a datum `(B₀, φ(ϖ), r)`,
 `φ(A₀) ⊆ B₀`: `|φ x|_sp ≤ |x|_sp`) and `spectralSeminorm_eq_spectralNorm` (for a finite extension
 `L/K` of a complete nonarchimedean field with the unit-ball datum: `|·|_sp = spectralNorm K L`).
-*Needs:* *tate-ring-norm*; *adic-ring-homomorphism*; Mathlib `smoothingSeminorm`,
+*Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4.6); *adic-ring-homomorphism*; Mathlib
+`smoothingSeminorm`,
 `isPowMul_smoothingFun`, `smoothingFun_le_self`, `smoothingFun_le`,
 `tendsto_smoothingFun_of_map_one_le_one`, `IsPowMul`, `IsTopologicallyNilpotent`, `spectralNorm`,
 `spectralNorm_unique`; Tau Ceti `TauCeti.Huber.IsPowerBounded`,
@@ -2024,7 +2032,8 @@ homomorphism `φ : A → B` of Tate rings is continuous as a map `A_sp → B_sp`
 `A → A_sp` is a homeomorphism iff `A°` is bounded, i.e. iff `A` is uniform (HK §2, Rem. 2.11, p. 5;
 the form of uniformity used is condition (d) of KL15 §2.8, Def. 2.8.1(b),(d), p. 59, `A°` bounded,
 whose equivalence with the norm-theoretic forms (a)–(c) holds for the norms `α_d` of
-*tate-ring-norm* (use `Huber.SpectralTop.homeomorph_of_isBounded` below to compare the spectral topology) but not for every norm,
+*tate-ring-norm* (PadicFunctionalAnalysis §0.4.6; use `Huber.SpectralTop.homeomorph_of_isBounded`
+below to compare the spectral topology) but not for every norm,
 contrary to the source (KL16, Appendix A)). In `Huber`, define `SpectralTop A` as the type synonym
 `SpectralTop A := A` with the ring structure of `A` and the topology of `|·|_sp`, with the ring
 equivalence `toSpectralTop : A ≃+* SpectralTop A`; prove `SpectralTop.hasBasis_nhds_zero` (for a
@@ -2041,7 +2050,8 @@ pseudouniformiser `ϖ`, the sets `toSpectralTop '' (ϖⁿ • A°°)` form a bas
 `(SpectralTop A, A⁺)` and the morphism `Pair.Hom (A, A⁺) (SpectralTop A, A⁺)` with underlying map
 `toSpectralTop`), `SpectralTop.map` (a continuous `φ : A →+* B` of Tate rings induces a continuous
 `SpectralTop A →+* SpectralTop B`; `map_id`, `map_comp`) and `SpectralTop.homeomorph_of_isBounded`
-(`IsUniform A ↔ IsHomeomorph toSpectralTop`). *Needs:* *spectral-seminorm*; *tate-ring-norm*; *adic-ring-homomorphism*; Tau Ceti
+(`IsUniform A ↔ IsHomeomorph toSpectralTop`). *Needs:* *spectral-seminorm*; *tate-ring-norm*
+(PadicFunctionalAnalysis §0.4.6); *adic-ring-homomorphism*; Tau Ceti
 `TauCeti.Huber.IsTateRing`, `TauCeti.Huber.PairOfDefinition`,
 `TauCeti.Huber.powerBoundedSubring`, `TauCeti.Huber.IsUniform`,
 `TauCeti.Huber.IsPseudoUniformizer.hasBasis_nhds_zero`,
@@ -2422,7 +2432,8 @@ For Banach modules, the normed formulation is KL15, Definitions 2.1.10 and 2.2.7
 pp. 27 and 31.
 
 (*completed-tensor-banach-module*) Let `A` be a complete Tate ring (Tau Ceti `IsTateRing`, complete
-and Hausdorff) with a norm datum `d = (A₀, ϖ, r)` and norm `α_d` (*tate-ring-norm*); for instance
+and Hausdorff) with a norm datum `d = (A₀, ϖ, r)` and norm `α_d` (*tate-ring-norm*,
+PadicFunctionalAnalysis §0.4.6); for instance
 `A = L` a complete nonarchimedean field with its absolute value. A Banach `A`-module is a complete
 Hausdorff topological `A`-module `V` whose topology is defined by an additive subgroup `V₀` stable
 under `A₀` with `V = ⋃ₙ ϖ⁻ⁿV₀`, the `ϖⁿV₀` forming a basis of neighbourhoods of `0`; equivalently,
@@ -2451,7 +2462,9 @@ images of `A₀`), then `V ⊗̂_A W` is `B ⊗̂_A C` of *completed-tensor-prod
 with a continuous retraction and a continuous section) to a topologically split short exact
 sequence. The field statements of KL15 Lemma 2.2.9 (cross norm, kernels and strictness of `f ⊗̂ X`)
 are stated and proved as *banach-completed-tensor-field-exactness*, from (f) and the existence of
-`t`-orthogonal bases (*banach-countable-type-orthogonal-basis*); the field API below separates injectivity, the kernel image and strictness. (e) Finite
+`t`-orthogonal bases (*banach-countable-type-orthogonal-basis*, PadicFunctionalAnalysis
+§2.4.1–2.4.2); the field API below separates injectivity, the kernel image and strictness. (e)
+Finite
 projective modules: for a
 finite projective `A`-module `P` with its natural topology (a finite Banach module, KL15 §2.2, Lem.
 2.2.12(a), p. 32: direct summands of `Rⁿ`), `P ⊗_A W → P ⊗̂_A W` is an isomorphism. (f) Orthonormal
@@ -2478,7 +2491,8 @@ bounded families. The existence of orthonormal or `t`-orthogonal bases, for inst
 spaces of countable type (Bosch–Güntzer–Remmert 2.7.2/3, cited by HK §7, Rem. 7.8, p. 26, whose
 "countable product" with the supremum norm must be read as the space `c₀` of null sequences, not
 the bounded families), is
-a hypothesis of (f); it is proved in *banach-countable-type-orthogonal-basis*. In `Huber`, define
+a hypothesis of (f); it is *banach-countable-type-orthogonal-basis* (PadicFunctionalAnalysis
+§2.4.1–2.4.2). In `Huber`, define
 `IsBanachModule` as the structure "`V` is a Banach module over the complete Tate ring `A`: a complete
 Hausdorff topological `A`-module with a lattice `V₀` stable under `A₀`, `V = ⋃ ϖ⁻ⁿV₀`, the `ϖⁿV₀` a
 basis of neighbourhoods of `0`", `BanachModule.CompletedTensor` as `V ⊗̂_A W`, the Hausdorff
@@ -2516,7 +2530,8 @@ Banach `A'`-module `A' ⊗̂_A V`, e.g. `M ⊗̂_A A⟨T/s⟩` for a rational lo
 `A → A' → A''`). Further examples: `K⟨T⟩ ⊗̂_K K⟨S⟩ ≅ K⟨T, S⟩` via `Tᵐ ⊗ Sⁿ ↦ TᵐSⁿ` (orthonormal
 bases of monomials), agreeing with the completed tensor product of Huber pairs; and
 `Σ pⁿTⁿSⁿ ∈ ℚ_p⟨T, S⟩` is not in the image of the algebraic tensor product `ℚ_p⟨T⟩ ⊗ ℚ_p⟨S⟩`, since
-the coefficient matrix of an element of that image has finite rank. *Needs:* *tate-ring-norm*;
+the coefficient matrix of an element of that image has finite rank. *Needs:* *tate-ring-norm*
+(PadicFunctionalAnalysis §0.4.6);
 *completed-tensor-product*; Tau Ceti `TauCeti.Huber.IsTateRing`, `TauCeti.Huber.PairOfDefinition`;
 Mathlib `TensorProduct`, `TensorProduct.lift`, `UniformSpace.Completion`,
 `UniformSpace.Completion.extension`, `NormedSpace`, `IsUltrametricDist`,
@@ -3634,296 +3649,103 @@ which `K → A` is strictly topologically of finite type (Tau Ceti
 `K⟨X₁,…,X_n⟩ = restrictedMvPowerSeriesCompletion n K → A`; Wedhorn §5.7, Def. 5.57). `Max A` is the
 set of maximal ideals of `A` (Mathlib `MaximalSpectrum A`).
 
-**Noether normalisation for K-affinoid algebras.** (*affinoid-noether-normalisation*) Let `A ≠ 0` be
-a `K`-affinoid algebra. Prove `Huber.Affinoid.exists_finite_injective_tateAlgebra`: there are `d ≥ 0`
-and an injective continuous homomorphism of `K`-algebras `ι : K⟨T₁,…,T_d⟩ → A` making `A` a finite
-`K⟨T₁,…,T_d⟩`-module. Prove the strictness statement: every finite
-injective `K`-algebra homomorphism `ι : K⟨T₁,…,T_d⟩ → A` is strict, a homeomorphism onto its closed
-image (KL15 §2.5, Lem. 2.5.4, p. 48, including strictness; Conrad-AWS §1.2, Thm 1.2.6(4), p. 6,
-whose Weierstrass-preparation induction, described before Thm 1.1.5, is the proof pattern).
-Continuity is automatic by `Huber.Affinoid.continuous_of_algHom`
-(*affinoid-homomorphism-continuous*), so the strictness theorem has no continuity hypothesis.
-The automatic-continuity theorem depends on Noether normalisation through
-*affinoid-residue-fields-finite* and *affinoid-power-bounded-iff-sup*; continuity of the constructed
-normalisation map follows directly from its presentation and continuous Weierstrass coordinate
-changes. For the annulus
-`A = K⟨X, Y⟩/(XY − 1)`, `T ↦ X + Y` is a finite injection `K⟨T⟩ → A` (`X` is a root of
-`Z² − TZ + 1`), whereas `K⟨X⟩ → A`, `X ↦ X`, is injective but not finite (`X⁻¹` is not integral over
-`K⟨X⟩`); for a finite field extension `L/K` with its unique absolute value, `d = 0` and `ι` is
-`K → L`. The hypothesis `A ≠ 0` cannot be dropped: for `A = 0` every `K⟨T₁,…,T_d⟩ → 0` has kernel
-the unit ideal, so no injective `ι` exists (Lean `[Nontrivial A]`). Continuity of `ι` also follows from
-*affinoid-homomorphism-continuous*. Strictness and closedness of its image follow from
-`LinearMap.isStrictMap_of_module_finite` and `TauCeti.Huber.isClosed_of_isNoetherian`. The statement needs no discreteness of the valuation: it holds for
-`K = ℂ_p` as for `K = ℚ_p` (BGR 6.1.2/2 uses only completeness and nontriviality). *Needs:* Tau
-Ceti `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`,
-`TauCeti.Huber.restrictedMvPowerSeriesCompletion`, `TauCeti.Huber.IsStronglyNoetherian`,
-`TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`, `TauCeti.Huber.isClosed_of_isNoetherian`,
-`TauCeti.Huber.IsTateRing.isModuleTopology`, `LinearMap.isStrictMap_of_module_finite`,
-`TauCeti.Huber.isStrictlyTopologicallyFiniteType_quotientMk_algebraMap`; Mathlib `Module.Finite`,
-`Module.Finite.trans`.
-Lean: `Affinoid.exists_finite_injective_tateAlgebra` (existence); the strictness statement is a
-README target.
+The theory of these algebras is RigidAnalyticGeometry's (the roadmap of W. Coram, to be contributed
+to TauCetiRoadmap ahead of this one). Its carrier is the `Prop` `IsAffinoidAlgebra K A` on a bare
+`K`-algebra, with the topology derived from a presentation, and its normed statements hold for every
+complete `K`-algebra norm. *Carrier bridge.* A `K`-affinoid algebra in the sense above satisfies
+`IsAffinoidAlgebra K A` through a strict presentation, the Tau Ceti Tate algebra
+`restrictedMvPowerSeriesCompletion n K` being identified with the supplier's in AdicSpaces §0.5; its
+topology is the supplier's affinoid topology (RigidAnalyticGeometry §1.3.3); and where a supplied
+statement asks for a norm, this roadmap takes the residue norm of a strict presentation, a complete
+`K`-algebra norm defining that topology (RigidAnalyticGeometry §1.1.1).
+`Huber.TateAlgebra.ofMvPolynomial` is the inclusion `A[X₁,…,X_n] → A⟨X₁,…,X_n⟩` into Tau Ceti's
+completed restricted power series; the disc Checks of R0.16–R0.17 use it.
 
-**Check (degenerate).** For the complete
-nontrivially valued nonarchimedean field `K` of this subsection and every `d ≥ 0`,
-no `K`-algebra map `K⟨T₁,…,T_d⟩ → 0` is injective, including when `d = 0`.
-This tests the nonzero-algebra hypothesis of Noether normalisation on the supplied
-`restrictedMvPowerSeriesCompletion d K` carrier.
+**Noether normalisation for K-affinoid algebras.** (*affinoid-noether-normalisation*) A nonzero
+`K`-affinoid algebra is a finite extension of a Tate algebra `K⟨T₁,…,T_d⟩` embedded into it, and
+every finite injective homomorphism of `K`-affinoid algebras is a homeomorphism onto a closed
+subspace. Supplied by RigidAnalyticGeometry §1.2.1 and *Targets requested by the Tau Ceti AdicSpaces
+roadmaps*, **isClosedEmbedding_of_finite_injective** (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap
+applies it through the carrier bridge above.
 
 **Residue fields of K-affinoid algebras at maximal ideals are finite over K.**
-(*affinoid-residue-fields-finite*) Let `A` be a `K`-affinoid algebra and `m ⊆ A` a maximal ideal.
-Prove `Huber.Affinoid.finiteDimensional_residueField`: the field `A/m` is a finite extension of `K`
-(Wedhorn §5.7, Prop. 5.61, p. 46; KL15 §2.5, Cor. 2.5.5(a), p. 48, derived from Noether
-normalisation). Closedness of `m` is supplied by `TauCeti.Huber.isClosed_of_isMaximal`
-for every complete Huber ring. The absolute value of `K` extends uniquely to a
-power-multiplicative (indeed multiplicative) norm on `A/m` (the spectral norm), and for every
-homomorphism of `K`-algebras `φ : A → B` into a `K`-affinoid algebra `B` and every maximal ideal
-`n ⊆ B` the ideal `φ⁻¹(n)` is maximal, so `φ` induces `Max(φ) : Max B → Max A` (Conrad-AWS §1.2,
-Ex. 1.2.3, p. 5). For `c ∈ K°` not a square in `K`, the maximal ideal `(T² − c)` of `K⟨T⟩` has residue
-field `K(√c)` of degree `2`, not `K`: points of `Max K⟨T⟩` need not be `K`-rational (for `K = ℚ_p`
-take `c = p`, or `c = 3` when `p = 2`); for `c ∈ K°` the maximal ideal `(T − c)` has residue field
-`K`; for `K = ℂ_p` every residue field is `K` itself and the example `(T² − c)` is never maximal.
-For `A = 0` there is no maximal ideal and the statement is vacuous. The word "finite" is essential:
-the quotient of `K⟨T⟩` by the prime ideal `0` is `K⟨T⟩`, of infinite degree over `K`, so the
-statement is about maximal ideals only. *Needs:* *affinoid-noether-normalisation*; Tau Ceti
-`TauCeti.Huber.IsStrictlyTopologicallyFiniteType.isStronglyNoetherian`,
-`TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`, `TauCeti.Huber.isClosed_of_isNoetherian`,
-`TauCeti.Huber.IsStrictlyTopologicallyFiniteType.quotientMk`; Mathlib
-`isField_of_isIntegral_of_isField`, `spectralNorm_unique`, `MaximalSpectrum`.
-Lean: `Affinoid.finiteDimensional_residueField`.
+(*affinoid-residue-fields-finite*) For a maximal ideal `m` of a `K`-affinoid algebra `A` the field
+`A/m` is a finite extension of `K`, so every homomorphism `φ : A → B` of `K`-affinoid algebras
+induces `Max(φ) : Max B → Max A`. Supplied by RigidAnalyticGeometry §1.2.4 (the roadmap of W. Coram,
+to be contributed to TauCetiRoadmap ahead of this one). The supplier's carrier is
+`IsAffinoidAlgebra K A`; this roadmap applies it through the carrier bridge above.
 
-**K-affinoid algebras are Jacobson rings.** (*affinoid-jacobson*) Let `A` be a `K`-affinoid algebra.
-Prove `Huber.Affinoid.isJacobsonRing`: `A` is a Jacobson ring (Mathlib `IsJacobsonRing A`), every
-prime ideal being the intersection of the maximal ideals containing it (Conrad-AWS §1.1, Thm 1.1.5(2),
-p. 4 for Tate algebras; Conrad-AWS §1.2, after Def. 1.2.1, p. 5 for the passage to quotients).
-Consequently the nilradical of `A` is the intersection of all maximal ideals, so `f ∈ A` is nilpotent
-iff `f(x) = 0` for all `x ∈ Max A`, and `f` is a unit iff `f(x) ≠ 0` for all `x ∈ Max A` (Conrad-AWS
-§1.2, after Def. 1.2.1, p. 5). In `K⟨T⟩/(T²)` the class of `T` vanishes at the unique point and is
-nilpotent but nonzero; in `K⟨T⟩` an element with no zero on `Max K⟨T⟩`, such as `1 + ϖT`, is a unit.
-Outside the hypothesis the statement fails: the valuation ring `K°` (not a `K`-affinoid algebra) is
-local with Jacobson radical `K°° ≠ 0` while its nilradical is `0`, so `K°` is not a Jacobson ring.
-*Needs:* Tau Ceti `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`,
-`TauCeti.Huber.restrictedMvPowerSeriesCompletion`; Mathlib `IsJacobsonRing` and its stability under
-surjections, `nilradical`, `MaximalSpectrum`.
-Lean: `Affinoid.isJacobsonRing`.
+**K-affinoid algebras are Jacobson rings.** (*affinoid-jacobson*) A `K`-affinoid algebra is a
+Jacobson ring, so its nilradical is the intersection of its maximal ideals. Supplied by
+RigidAnalyticGeometry §1.1.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of
+this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap applies it through the
+carrier bridge above.
 
 **Maximal ideals of Tate algebras are generated by polynomials.**
-(*tate-algebra-maximal-ideals-polynomial*) Let `n ≥ 0` and `m ⊆ K⟨X₁,…,X_n⟩` a maximal ideal. Prove
-`Huber.TateAlgebra.exists_monic_generators_of_isMaximal`: `m₀ = m ∩ K[X₁,…,X_n]` is a maximal ideal of
-the polynomial ring, `K[X]/m₀ → K⟨X⟩/m` is an isomorphism, and `m = m₀·K⟨X⟩`; more precisely there
-are polynomials `p_i ∈ K[X₁,…,X_i]` monic in `X_i` (`1 ≤ i ≤ n`) with `m = (p₁,…,p_n)`. The sources
-give generation of `m` by polynomials `p_i ∈ K[X₁,…,X_n]` monic in `X_i` (Conrad-IC Appendix A.1,
-proof of Lem. A.1.2(2), p. 32; GK00 §1, proof of Prop. 1.5, printed p. 4, where the statement is
-transferred to the dagger algebras `W_n` used by AdicSpacesPartIV layer F1); the triangular choice
-`p_i ∈ K[X₁,…,X_i]` is made here by induction on `i`, using that `m₀ ∩ K[X₁,…,X_i]` is maximal. For instance
-`m = (X₁ − c₁, …, X_n − c_n)` for `c ∈ (K°)ⁿ`, and for `K = ℚ_p` the maximal ideal `(X² − p)` of
-`ℚ_p⟨X⟩` is generated by a monic polynomial with root of absolute value `|p|^{1/2} ≤ 1`; the
-polynomial `X − c` with `|c| > 1` is a unit in `K⟨X⟩`, so it generates no maximal ideal.
-A one-variable monic generator can be chosen with all roots in the unit disc; an arbitrary
-monic generator need not have this property: `(X(X − ϖ⁻¹)) = (X)` because `X − ϖ⁻¹` is a unit.
-**Checks.**
-Lean: README target.
+(*tate-algebra-maximal-ideals-polynomial*) Every maximal ideal `m` of `K⟨X₁,…,X_n⟩` is generated by
+`n` polynomials, the minimal polynomials of the coordinates of a point after a triangular change of
+generators, so that `m = (m ∩ K[X])·K⟨X⟩`. Supplied by RigidAnalyticGeometry §3.1.3 (the roadmap of
+W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier states it for
+Mathlib's restricted power series, which the carrier bridge above identifies with
+`restrictedMvPowerSeriesCompletion n K`.
 
-- *Negative control.* Over `ℚ_p`,
-  `T − p⁻¹` is a unit and `(T(T − p⁻¹)) = (T)`, despite the root `p⁻¹` lying outside the unit disc.
+**The supremum seminorm of a K-affinoid algebra.** (*affinoid-supremum-seminorm*) For `f` in a
+`K`-affinoid algebra `A`, `|f|_sup = sup_{x ∈ Max A} |f(x)|`, with `|f(x)|` the spectral norm of the
+residue class of `f` in `A/x` and `|f|_sup = 0` on the zero algebra, is a power-multiplicative
+`K`-algebra seminorm bounded by every complete `K`-algebra norm and contracted by homomorphisms.
+Supplied by RigidAnalyticGeometry §2.1.1 and §2.1.3 and *Targets requested by the Tau Ceti
+AdicSpaces roadmaps*, **supSeminorm_pow_pos** (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap
+applies it through the carrier bridge above.
 
-The one-variable case is Tau Ceti's:
-every ideal of `K⟨X⟩` is principal, generated by a monic polynomial
-(`TauCeti.PowerSeries.exists_isMonicOfDegree_span_singleton_eq`,
-`isPrincipalIdealRing_isRestricted_subring`, transported to `restrictedMvPowerSeriesCompletion 1 K`
-by `isPrincipalIdealRing_restrictedMvPowerSeriesCompletion_one`); the content here is `n`
-variables, where the ideal `m` is not principal. *Needs:*
-*affinoid-residue-fields-finite*; *affinoid-power-bounded-iff-sup*; Mathlib `MaximalSpectrum`; Tau
-Ceti `TauCeti.Huber.restrictedMvPowerSeriesCompletion`,
-`TauCeti.PowerSeries.exists_isMonicOfDegree_span_singleton_eq`,
-`TauCeti.isPrincipalIdealRing_isRestricted_subring`,
-`TauCeti.isPrincipalIdealRing_restrictedMvPowerSeriesCompletion_one`.
-
-**The supremum seminorm of a K-affinoid algebra.** (*affinoid-supremum-seminorm*) Let `A` be a
-`K`-affinoid algebra. For `x ∈ Max A` with ideal `m_x` and `f ∈ A`, `|f(x)|` is the absolute value of
-`f mod m_x` in the finite extension `A/m_x` of `K` (*affinoid-residue-fields-finite*), for the unique
-extension of `|·|`. The supremum seminorm of `f ∈ A` is `|f|_sup = sup_{x ∈ Max A} |f(x)|` (and
-`|f|_sup = 0` when `A = 0`). It is finite: `|f|_sup ≤ |f|_π` for the residue norm
-`|f|_π = inf{‖g‖ : π(g) = f}` of every presentation `π : K⟨X⟩ → A` (`‖·‖` the Gauss norm). It is a
-power-multiplicative `K`-algebra seminorm (`|f + g|_sup ≤ max(|f|_sup, |g|_sup)`,
-`|fg|_sup ≤ |f|_sup·|g|_sup`, `|λf|_sup = |λ|·|f|_sup` for `λ ∈ K`, `|fⁿ|_sup = |f|_supⁿ` for `n ≥ 1`), it is
-contracted by every `K`-algebra homomorphism `φ : A → B` of `K`-affinoid algebras
-(`|φ(f)|_sup ≤ |f|_sup`), it is a norm iff `A` is reduced, and on a Tate algebra `K⟨X⟩` it is the
-Gauss norm; its values lie in the divisible hull `√|K^×| = {r > 0 : rⁿ ∈ |K^×| for some n ≥ 1}`
-together with `0` (for `K = ℚ_p` this is `p^ℚ ∪ {0}`, strictly larger than `|ℚ_p| = p^ℤ ∪ {0}`;
-for `K = ℂ_p` it is `|ℂ_p| = p^ℚ ∪ {0}` itself) (Kedlaya06 §2.1, Def. 2.1.7, p. 9, the definition as
-a supremum over `Maxspec A`, which
-Kedlaya calls the spectral seminorm; Kedlaya06 §2.1, properties after Def. 2.1.7, p. 10, for
-norm-iff-reduced, power-multiplicativity, contraction along homomorphisms and agreement with the
-Gauss norm; Conrad-AWS §1.2, after Thm 1.2.6, p. 7, compatibility with the Gauss norm; Conrad-AWS
-§1.1, Exercise 1.1.3(3)–(4), p. 3, agreement with the Gauss norm on Tate algebras, restated over
-`MaxSpec(T_n)` on p. 4). In `Huber.Affinoid`, define `evalNorm` (`|f(x)|` for `x ∈ Max A`) and
-`supNorm : A → ℝ≥0` as
-`|f|_sup = sup_{x ∈ Max A} |f(x)|`; prove the residue-norm bound (`|f|_sup ≤ |f|_π` for the residue
-norm of every presentation `π : K⟨X⟩ → A`), the ultrametric inequality (`|f + g|_sup ≤ max(|f|_sup, |g|_sup)`),
-submultiplicativity (`|fg|_sup ≤ |f|_sup·|g|_sup`), power-multiplicativity (`|fⁿ|_sup = |f|_supⁿ` for `n ≥ 1`),
-the scalar value (`|λ|_sup = |λ|` for `λ ∈ K` when `A ≠ 0`), contraction
-(`|φ(f)|_{sup,B} ≤ |f|_{sup,A}` for every `K`-algebra homomorphism `φ : A → B` of `K`-affinoid
-algebras, with equality for all `f` when `φ` is surjective with kernel consisting of nilpotent
-elements, since then `Max(φ)` is a bijection with the same residue fields; for the surjection `K⟨T⟩
-→ K⟨T⟩/(T − c)` with `c ∈ K°` the inequality is strict at `f = T − c`, with `|T − c|_sup = 1` but
-`|φ(T − c)|_sup = 0`),
-the vanishing criterion (`|f|_sup = 0 ↔ IsNilpotent f`, by *affinoid-jacobson*), the Tate-algebra
-case (on `K⟨X₁,…,X_n⟩` the supremum seminorm is the Gauss norm, and it is attained — the statement of
-*tate-algebra-gauss-norm-attained*), the spectral formula (`|f|_sup = lim_n |fⁿ|_π^{1/n}`
-for every residue norm, i.e. the supremum seminorm is the spectral seminorm of KL15 Def. 2.1.9),
-`exists_supNorm_eq` (the supremum is attained — the statement of *affinoid-maximum-modulus*) and
-`mem_powerBoundedSubring_iff_supNorm_le_one` (the statement of *affinoid-power-bounded-iff-sup*).
-For `A = K⟨T⟩/(T − c)` with `c ∈ K°`, `|f|_sup = |f(c)|`; for `A = K[ε]/(ε²)`, `|ε|_sup = 0` although
-every residue norm of `ε` is positive. *Needs:* *affinoid-residue-fields-finite*;
-*affinoid-jacobson*; *tate-algebra-gauss-norm-attained*; Tau Ceti
-`TauCeti.Huber.IsStrictlyTopologicallyFiniteType`, `TauCeti.Huber.restrictedMvPowerSeriesCompletion`;
-Mathlib `MaximalSpectrum`, `MvPowerSeries.gaussNorm`, `nilradical`, `IsReduced`.
-Lean: `Affinoid.evalNorm`, `Affinoid.supNorm`, `TateAlgebra.ofMvPolynomial`; the `K⟨T⟩/(T²)` Check
-is an `example`.
-
-**Checks.**
-
-- *Non-example.* For `A = K⟨T⟩/(T²)`, `|T|_sup = 0` although `T ≠ 0` and
-  every residue norm of `T` is positive; a definition of `|·|_sup` as a residue norm fails, and
-  `|·|_sup` is not a norm on a non-reduced algebra.
-- *Compatibility.* On `A = K⟨T⟩`, `|Σ a_n Tⁿ|_sup = max_n |a_n|` (the Gauss
-  norm, Mathlib `MvPowerSeries.gaussNorm` with all weights `1`).
-- *Degenerate.* For `A = 0`, `Max A = ∅` and `|·|_sup = 0`; for `A = K`,
-  `|λ|_sup = |λ|` for `λ ∈ K`. The hypothesis `A ≠ 0` of the scalar value cannot be dropped:
-  for `A = 0`, `|1|_sup = 0 ≠ 1 = |1|`.
-- *Negative control.* The restriction `n ≥ 1` in power-multiplicativity is needed:
-  for `A = 0` and `n = 0`, `|f⁰|_sup = |1|_sup = 0` while `|f|_sup⁰ = 1`. For `A ≠ 0` the case
-  `n = 0` holds (`|1|_sup = 1`), so `n ≥ 1` may be replaced by `A ≠ 0`.
-- *Convention.* The Lean definition `Affinoid.supNorm` is an indexed supremum in
-  `ℝ≥0`, which Mathlib evaluates to `0` for a family that is not bounded above; the residue-norm
-  bound (`|f|_sup ≤ |f|_π < ∞`) is what makes the value the genuine supremum for
-  a `K`-affinoid `A`. For `A = K[T]` with the discrete topology (not `K`-affinoid, not Tate) the
-  family `|T(x)|` over `Max K[T]` is unbounded (`T − c` for every `c ∈ K`) and `supNorm K T = 0`
-  is junk.
-- *Computation.* For `A = ℚ_p⟨T⟩/(T² − p)`, `|T|_sup = |p|^{1/2}`, a value
-  outside `|ℚ_p^×|`: the supremum seminorm takes values in `√|K^×| ∪ {0}`, not in `|K|`.
-- *Non-example.* For `K = ℚ_p` and `f = T^p − T ∈ ℚ_p⟨T⟩`:
-  `|f|_sup = ‖f‖ = 1`, attained at a point with residue field `ℚ_{p²}` (the unramified quadratic
-  extension, where the reduction of `T` lies in `𝔽_{p²} ∖ 𝔽_p`), but `|f(c)| ≤ |p|` for every
-  `c ∈ ℤ_p`. A definition taking the supremum over `K`-rational points only (or over `Hom_K(A, K)`)
-  fails (Conrad-AWS §1.1, Exercise 1.1.3(4), p. 3). The Check states both norms,
-  the bound for every `c : ℤ_[p]`, the strict inequality `|p| < 1`, and attainment
-  at a maximal ideal whose residue field has degree two over `ℚ_p`. This includes `p = 2`.
-
-**Maximum modulus principle for K-affinoid algebras.** (*affinoid-maximum-modulus*) Let `A ≠ 0` be a
-`K`-affinoid algebra. Prove `Huber.Affinoid.exists_supNorm_eq`: for every `f ∈ A` there is
-`x ∈ Max A` with `|f(x)| = |f|_sup`; in particular `|f|_sup ∈ √|K^×| ∪ {0}`, the divisible hull
-of the value group together with `0` (Conrad-AWS §1.2, Thm
-1.2.6(5), pp. 6–7; Kedlaya06 §2.1, properties after Def. 2.1.7, p. 10, citing BGR §6.2). For a unit
-`u ∈ A^×`, `min_{x ∈ Max A} |u(x)| = |u⁻¹|_sup⁻¹ > 0` (Conrad-AWS §1.2, Rem. 1.2.7, p. 7, the minimum
-modulus principle). For `A = ℚ_p⟨T⟩/(T² − p)`, `|T|_sup = |p|^{1/2}` is attained at the unique point;
-on `K⟨T⟩` the Gauss norm of `f = Σ a_n Tⁿ` is attained at a point over a finite extension of `K`
-where the reduction of `f/a_{n₀}` (`|a_{n₀}|` maximal) does not vanish. The hypothesis `A ≠ 0` is
-needed only to make `Max A` nonempty: for `A = 0` the supremum `0` is attained at no point. Over
-`K = ℂ_p` the point may be chosen `K`-rational (every residue field is `K`); over `K = ℚ_p` it may
-not (the last Check of *affinoid-supremum-seminorm*). *Needs:*
-*affinoid-supremum-seminorm*; *affinoid-noether-normalisation*; *affinoid-residue-fields-finite*;
-*tate-algebra-gauss-norm-attained*; Mathlib `Ideal.exists_ideal_over_maximal_of_isIntegral`.
-Lean: `Affinoid.exists_supNorm_eq`.
+**Maximum modulus principle for K-affinoid algebras.** (*affinoid-maximum-modulus*) On a nonzero
+`K`-affinoid algebra the supremum seminorm of every element is attained at a point of `Max A`.
+Supplied by RigidAnalyticGeometry §2.2.1 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap
+applies it through the carrier bridge above.
 
 **Power-bounded elements of K-affinoid algebras are those of supremum seminorm at most one.**
-(*affinoid-power-bounded-iff-sup*) Let `A` be a `K`-affinoid algebra and `f ∈ A`. Prove
-`Huber.Affinoid.mem_powerBoundedSubring_iff_supNorm_le_one` and its topologically nilpotent
-analogue: `f` is power-bounded (`f ∈ A°`, Tau Ceti
-`powerBoundedSubring`) iff `|f|_sup ≤ 1`, and `f` is topologically nilpotent iff `|f|_sup < 1`; hence
-`A° = {|f|_sup ≤ 1}` and `A°° = {|f|_sup < 1}` (Conrad-AWS §1.2, discussion after Thm 1.2.6, p. 7,
-for `A°`; Kedlaya06 §2.1, Def. 2.1.8, p. 10, for the topologically nilpotent elements; GK00 §1, proof
-of Prop. 1.6(2), p. 4, uses the criterion, BGR 6.2.3/1, for dagger algebras). In `K⟨T⟩`, `T` is
-power-bounded (Gauss norm `1`) but not topologically nilpotent, and `ϖT` is topologically nilpotent;
-in `K⟨T⟩/(T²)` every multiple `λT` (`λ ∈ K`) has `|λT|_sup = 0` and is power-bounded, so
-`A° = K° ⊕ K·T` is not bounded; in the same algebra `T` is topologically nilpotent (`T² = 0`)
-although `T ≠ 0`, matching `|T|_sup = 0 < 1`. In `ℚ_p⟨T⟩/(T² − p)` the element `T` has
-`|T|_sup = |p|^{1/2} < 1` and is topologically nilpotent although its residue norm for the given
-presentation is `1`: the criterion is read off `|·|_sup`, not off a residue norm. For a normed
-ring whose norm is power-multiplicative the criterion "power-bounded iff norm `≤ 1`" is Tau Ceti
-`isPowerBounded_iff_norm_le_one`; here the norm is the supremum seminorm, which is not the given
-norm of `A` and may fail to be a norm. *Needs:*
-*affinoid-supremum-seminorm*;
-*affinoid-residue-fields-finite*; *affinoid-noether-normalisation*; *affinoid-maximum-modulus*; Tau
-Ceti `TauCeti.Huber.powerBoundedSubring`, `TauCeti.Huber.isPowerBounded_iff_norm_le_one`.
-Lean: `Affinoid.mem_powerBoundedSubring_iff_supNorm_le_one`; the topologically nilpotent analogue
-is a README target.
+(*affinoid-power-bounded-iff-sup*) In a `K`-affinoid algebra `f` is power-bounded iff `|f|_sup ≤ 1`
+and topologically nilpotent iff `|f|_sup < 1`, so `A° = {|f|_sup ≤ 1}` and `A°° = {|f|_sup < 1}`.
+Supplied by RigidAnalyticGeometry §2.3.1–2.3.2 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier measures power-boundedness by boundedness of the
+powers for a complete `K`-algebra norm on its carrier `IsAffinoidAlgebra K A`; for the residue norm
+of the carrier bridge above this is membership in Tau Ceti's `powerBoundedSubring`, which is how
+this roadmap reads it.
 
 **On a reduced K-affinoid algebra the supremum norm defines the topology.**
-(*reduced-affinoid-supremum-norm*) Let `A` be a reduced (Mathlib `IsReduced A`) `K`-affinoid
-algebra. Prove that `|·|_sup` is a norm on `A`
-equivalent to the residue norm `|·|_π` of every presentation `π : K⟨X⟩ → A`, i.e. there is `C > 0`
-with `|f|_sup ≤ |f|_π ≤ C·|f|_sup` for all `f` (KL15 §2.5, Cor. 2.5.6, p. 48, citing BGR 6.2.4/1).
-Consequently `A° = {|f|_sup ≤ 1}` is bounded, i.e. `IsUniform A` (Conrad-Adic §2.1, Ex. 2.3, p. 6).
-For a `K`-affinoid algebra, the uniformity statement is `IsReduced A → IsUniform A`.
-The converse is supplied by `TauCeti.Huber.IsUniform.isReduced` in
-`TauCeti/RingTheory/Huber/Uniform.lean`: a commutative topological ring with
-`[IsTateRing A] [IsUniform A] [T0Space A]` is reduced (Morel, Remark IV.1.1.3, p. 121).
-Morel §II.1.4, Examples, item 9, p. 63 states both directions for affinoid `k`-algebras.
-The affinoid targets are reduced implies uniform and the norm equivalence.
-**Check.** For `A = K[ε]/(ε²)` with the discrete topology, `(A, 0)` is a pair of definition and `A° = A`
-is bounded, but `ε ≠ 0` and `ε² = 0`, so `A` is uniform and not reduced. Thus the converse
-fails for general Huber rings. For `A = K⟨T⟩` the supremum norm is the Gauss norm
-(`C = 1`); for `A = ℚ_p⟨T⟩/(T² − p)` (a field), `|T|_sup = |p|^{1/2}` while the residue norm of the
-given presentation gives `|T|_π = 1`, so the norms are equivalent but not equal; for `A = K[ε]/(ε²)` with its `K`-affinoid topology,
-`A° = K° + K·ε` is not bounded (Conrad-Adic Ex. 2.4). *Needs:* *affinoid-supremum-seminorm*;
-*affinoid-noether-normalisation*; *affinoid-power-bounded-iff-sup*; Mathlib `IsReduced`; Tau Ceti
-`TauCeti.Huber.powerBoundedSubring`, `TauCeti.Huber.IsUniform.isReduced`.
-Lean: README target.
+(*reduced-affinoid-supremum-norm*) On a reduced `K`-affinoid algebra `|·|_sup` is a norm equivalent
+to every complete `K`-algebra norm, in particular to every residue norm, so `A°` is bounded and `A`
+is uniform. Supplied by RigidAnalyticGeometry §2.2.4, §2.3.5 and §2.4.1 (the roadmap of W. Coram, to
+be contributed to TauCetiRoadmap ahead of this one). The supplier's carrier is
+`IsAffinoidAlgebra K A`; this roadmap applies it through the carrier bridge above.
 
-**Homomorphisms of K-affinoid algebras are continuous.** (*affinoid-homomorphism-continuous*) Let
-`A`, `B` be `K`-affinoid algebras and `φ : A → B` a homomorphism of `K`-algebras, with no continuity
-assumed. Prove `Huber.Affinoid.continuous_of_algHom`: `φ` is continuous (Wedhorn §5.7, Prop. 5.60,
-p. 46, citing BGR 6.1.3/1; Conrad-AWS §1.2, Thm 1.2.6(2), p. 6; GK00 §1, proof of Prop. 1.6(2),
-printed pp. 4–5, whose comparison of the two maps modulo powers of maximal ideals is the argument
-used). Consequently the topology of a `K`-affinoid algebra is determined by its `K`-algebra
-structure: the residue norms of any two presentations are equivalent. The identity of `K⟨T⟩` is
-continuous between the residue norms of the presentations `K⟨T⟩` and `K⟨T, S⟩/(S − cT)` (`c ∈ K°`),
-which are equivalent; outside the hypothesis, a discontinuous `K`-linear automorphism of the
-`K`-Banach space `K⟨T⟩` exists (a Hamel-basis construction), but none is multiplicative. *Needs:*
-*affinoid-supremum-seminorm*; *affinoid-power-bounded-iff-sup*; *affinoid-residue-fields-finite*;
-Tau Ceti `TauCeti.Huber.isClosed_of_isNoetherian`, `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`,
-`TauCeti.Huber.IsStrictlyTopologicallyFiniteType.isStronglyNoetherian`,
-`TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`; Mathlib
-`Ideal.iInf_pow_eq_bot_of_isLocalRing`, `LinearMap.continuous_of_finiteDimensional`.
-Lean: `Affinoid.continuous_of_algHom`.
+**Homomorphisms of K-affinoid algebras are continuous.** (*affinoid-homomorphism-continuous*) Every
+`K`-algebra homomorphism between `K`-affinoid algebras is continuous, so the topology of a
+`K`-affinoid algebra is determined by its `K`-algebra structure. Supplied by RigidAnalyticGeometry
+§1.3.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The
+supplier states it for complete `K`-algebra norms on its carrier `IsAffinoidAlgebra K A`; with the
+residue norms of the carrier bridge above it is continuity for the topologies of this roadmap.
 
 **Power-bounded elements are integral over the image of the unit ball of a Tate algebra.**
-(*affinoid-power-bounded-integral*) Let `A` be a `K`-affinoid algebra and `π : K⟨X₁,…,X_n⟩ → A` a
-continuous surjective homomorphism of `K`-algebras (hence open, AdicSpaces layer 0.6). Prove that
-`π(K°⟨X⟩) ⊆ A°` and that `A°` is integral over
-the subring `π(K°⟨X⟩)`; hence `A°` is the integral closure of `π(K°⟨X⟩)` in `A` (Huber94 §4, proof of
-Lem. 4.4, p. 543: the ring asserted to be the integral closure is `A°`, citing BGR
-6.4.3, and Huber then deduces `A⁺ = A°` because `A⁺` is by definition the integral closure of the
-same image for a quotient mapping of affinoid rings; BL I §4, proof of Lem. 4.5, printed p. 309,
-applying BGR 6.3.4/1 to `B = A[f₁,…,f_n]` with `|f_i|_sup ≤ 1`). For `A = K⟨T⟩/(T²)` and `π` the
-quotient map, `π(K°⟨T⟩) = K° ⊕ K°·T` while `A° = K° ⊕ K·T`; every `λT` is integral (a root of `Z²`),
-so the integral closure is needed; for `A = K⟨T⟩` and `π` the identity, `A° = K°⟨T⟩` is already
-integrally closed. No reducedness hypothesis is needed: if `A_red = A/nil(A)` and `f ∈ A°`, then
-`f mod nil(A)` is power-bounded in `A_red` (`Max A_red = Max A`), a monic `P` over `π(K°⟨X⟩)` with
-`P(f) ∈ nil(A)` gives `P(f)^N = 0`, and `P^N` is monic; the dual-numbers example above is the
-non-reduced case. The converse inclusion, integral over `π(K°⟨X⟩)` implies power-bounded, holds
-because `π(K°⟨X⟩)` is bounded and `A°` is integrally closed in `A`. *Needs:*
-*affinoid-noether-normalisation*; *affinoid-power-bounded-iff-sup*; Tau
-Ceti `TauCeti.Huber.powerBoundedSubring`, `TauCeti.Huber.isIntegrallyClosedIn_powerBoundedSubring`,
-`TauCeti.Huber.PairOfDefinition.le_powerBoundedSubring`; Mathlib `integralClosure`,
-`Algebra.IsIntegral`.
-Lean: README target.
+(*affinoid-power-bounded-integral*) For a surjection `π : K⟨X₁,…,X_n⟩ → A` onto a `K`-affinoid
+algebra, `A°` is the integral closure in `A` of `π(K°⟨X⟩)`, with no reducedness hypothesis. Supplied
+by RigidAnalyticGeometry §2.2.3 and *Targets requested by the Tau Ceti AdicSpaces roadmaps*,
+**powerBounded_integral_over_presentation** (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier states it as "`|a|_sup ≤ 1` iff `a` is integral over
+`π(K°⟨X⟩)`" on its carrier `IsAffinoidAlgebra K A`; this roadmap reads `|a|_sup ≤ 1` as membership
+in `powerBoundedSubring` by *affinoid-power-bounded-iff-sup* and applies it through the carrier
+bridge above.
 
 **Finite homomorphisms of K-affinoid algebras induce finite maps of reductions.**
-(*affinoid-reduction-finite*) Let `K̃ = K°/K°°` be the residue field of `K`. For a `K`-affinoid
-algebra `A` put `Ã = A°/A°°` (the reduction, a `K̃`-algebra; `A° = {|f|_sup ≤ 1}` and
-`A°° = {|f|_sup < 1}` by *affinoid-power-bounded-iff-sup*). Prove: if `φ : A → B` is a finite
-homomorphism of `K`-affinoid algebras, then `φ(A°) ⊆ B°`, `φ(A°°) ⊆ B°°` and the induced map
-`φ̃ : Ã → B̃` is finite (KL15 §2.5, Cor. 2.5.7, p. 48, with `κ_A = o_A/m_A` as in KL15 Def. 2.1.7,
-`o_A`, `m_A` being read off the spectral seminorm, which is KL15 Def. 2.1.9; citing BGR 6.3.4/2; Conrad-IC §3, proof of Thm 3.2.1, p. 19, for the finite-type consequence). For a
-Noether normalisation `K⟨T₁,…,T_d⟩ → A` the reduction of `K⟨T⟩` is `K̃[T₁,…,T_d]`, so `Ã` is a finitely
-generated `K̃`-algebra (BGR 6.3.4/3); for the finite map `K⟨T⟩ → K⟨S⟩`, `T ↦ S²`, the reduction
-`K̃[T] → K̃[S]`, `T ↦ S²`, is finite. *Needs:* *affinoid-supremum-seminorm*;
-*affinoid-power-bounded-iff-sup*; *affinoid-noether-normalisation*; Tau Ceti
-`TauCeti.Huber.powerBoundedSubring`; Mathlib `Module.Finite`.
-Lean: README target.
+(*affinoid-reduction-finite*) A finite homomorphism `φ : A → B` of `K`-affinoid algebras maps `A°`
+into `B°` and `A°°` into `B°°`, and the induced map of reductions `A°/A°° → B°/B°°` is finite; in
+particular the reduction of `A` is a finitely generated algebra over the residue field of `K`.
+Supplied by RigidAnalyticGeometry, *Targets requested by the Tau Ceti AdicSpaces roadmaps*,
+**reduction_finite_of_finite** (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead
+of this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap applies it through the
+carrier bridge above.
 
 **A ring of definition with reduced reduction is the ring of power-bounded elements.**
 (*reduced-reduction-ring-of-definition*) Let `A` be a Tate ring, `A₀ ⊆ A` a ring of definition and
@@ -3946,7 +3768,8 @@ reduced (`(p^{1/2})² = p`) although `𝒪_{ℂ_p} = ℂ_p°`. The proof is the 
 `ϖⁿaᵏ ∈ ϖA₀`, and `ϖ` is a unit of `A`; it uses that `ϖ` is a unit, so a topologically nilpotent
 non-unit (such as `p` in the `p`-adic Huber ring `ℤ_p`, which is not Tate; there `A₀ = ℤ_p = A°`
 anyway) is outside the statement. *Needs:*
-*affinoid-power-bounded-iff-sup*; Tau Ceti `TauCeti.Huber.powerBoundedSubring`,
+*affinoid-power-bounded-iff-sup* (RigidAnalyticGeometry §2.3.1); Tau Ceti
+`TauCeti.Huber.powerBoundedSubring`,
 `TauCeti.Huber.PairOfDefinition.le_powerBoundedSubring`, `TauCeti.Huber.PairOfDefinition.adjoin`,
 `TauCeti.Huber.PairOfDefinition.isBounded_ringOfDefinition`,
 `TauCeti.Huber.IsPseudoUniformizer.hasBasis_nhds_zero`; Mathlib `IsReduced`.
@@ -3964,35 +3787,12 @@ in `B`, and `B ⊊ A°`. Thus all hypotheses except reducedness of `A₀/ϖA₀`
 *reduced-reduction-ring-of-definition* hold while its conclusion fails. The Check uses the supplied `PairOfDefinition`
 and `powerBoundedSubring` of AdicSpaces §§0.1–0.2.
 
-*Checks for the polynomial inclusion and the four norm functions:*
+*Checks for the polynomial inclusion:*
 - *Degenerate.* For `n = 0`, every polynomial maps to
   the image of its constant coefficient in `K⟨⟩`.
 - *Computation.* The images of `X₀` and `X₁`
-  in `K⟨X₀,X₁⟩` differ. Together with the outside-root Check, these distinguish
-  the polynomial inclusion, the zero-variable convention and analytic invertibility.
-- *Compatibility.* At the unique maximal point of `K`,
-  evaluation gives `|c|` for every `c ∈ K`.
-- *Non-example.* The nonzero class of `ε` in `K[ε]/ε²`
-  evaluates to zero at every maximal point.
-- *Computation.* At the first-factor point of `K × K`,
-  `(0,1)` has value zero and `(1,0)` has value one; evaluation depends on the point.
-- *Degenerate.* The Gauss norm of `c ∈ K⟨⟩` is `|c|`.
-- *Computation.* The Gauss norm of `X₀ + cX₁` is
-  `max(1, |c|)` for arbitrary `c ∈ K`.
-- *Compatibility.* In `ℚ_p⟨T⟩`, the inverse of
-  `1 − pT` has Gauss norm one, as does its convergent expansion `Σ pⁿTⁿ`.
-  The Check asserts `HasSum (fun n ↦ p^n * T^n) (↑u⁻¹)` for a unit
-  `u = 1 − pT`, as well as Gauss norm one for both `↑u⁻¹` and the `tsum`.
-- *Compatibility.* For the identity presentation of
-  `K⟨X₀,X₁⟩`, the residue norm of `X₀ + cX₁` is `max(1, |c|)`.
-- *Degenerate.* The quotient by the unit ideal has
-  residue norm zero, since zero is a lift.
-- *Non-example.* For the presentation
-  `K⟨T⟩ → K⟨T⟩/(T²)`, the class of `T` has residue norm one and supremum seminorm zero.
-  The residue norm remembers the presentation and is not the supremum seminorm.
-The supremum seminorm is also tested directly by three Checks of *affinoid-supremum-seminorm*:
-agreement with the Gauss norm, failure to detect a nonzero nilpotent and the empty-spectrum
-convention.
+  in `K⟨X₀,X₁⟩` differ. These distinguish the polynomial inclusion and the zero-variable
+  convention.
 
 ### R0.10 separated, universally closed, proper and partially proper morphisms
 
@@ -5320,7 +5120,8 @@ point, its fibres being discs (it fails (b), (c), (d), (e), (f) alike). *Needs:*
 *quasi-finite-morphism*;
 *finite-morphism*;
 *fibre-products-existence*; *fibre-product-points*; *finite-type-morphism-classes*;
-*affinoid-noether-normalisation*; *affinoid-power-bounded-integral*; *fibre-over-point*; Mathlib
+*affinoid-noether-normalisation* (RigidAnalyticGeometry §1.2.1); *affinoid-power-bounded-integral*
+(RigidAnalyticGeometry §2.2.3); *fibre-over-point*; Mathlib
 `exists_finite_inj_algHom_of_fg`.
 Lean: (a) ⇔ (b) `LocallyQuasiFinite.iff_finite_fibres`.
 
@@ -6868,8 +6669,9 @@ Lean: `Smooth.isOpenMap` (`X`, `Y` locally Huber-standard).
 **Complete field and affinoid algebra carriers.** R0 uses `RigidSpace.Affinoid K`
 for a complete Hausdorff strictly affinoid K-algebra, including the zero algebra.
 `RigidSpace.Affinoid.point`, `.empty` and `.polydisc` give K, the zero algebra and
-the completed Tate algebra in n variables. R1 uses these same algebras to construct
-the strong Tate site and rigid spaces (Conrad-AWS, §1.2, Definition 1.2.1, p. 4).
+the completed Tate algebra in n variables. R1 reads the rigid spaces of
+RigidAnalyticGeometry §6.4 on these same algebras through the carrier bridge of R0.9
+(Conrad-AWS, §1.2, Definition 1.2.1, p. 4).
 
 `fieldAffinoid K` uses the given topology and the full power-bounded subring K°.
 Its pair of definition is `(K°, ϖK°)`, where ϖ is selected from Mathlib's
@@ -6887,22 +6689,12 @@ and Remark 6.8, p. 48).
 `ofRigidAffinoid.scalars` is the given K-algebra homomorphism.
 
 **On a Tate algebra the Gauss norm is the maximum of `|f(x)|` over `Max K⟨X⟩`.**
-(*tate-algebra-gauss-norm-attained*) Let `K` be a field complete for a nontrivial nonarchimedean
-absolute value `|·|` of rank one, `n ≥ 0` and `f = Σ a_ν X^ν ∈ K⟨X₁,…,X_n⟩`
-(`restrictedMvPowerSeriesCompletion n K`) with Gauss norm `‖f‖ = max_ν |a_ν|`. Prove
-`Huber.TateAlgebra.exists_evalNorm_eq_gaussNorm`: `|f(y)| ≤ ‖f‖` for every `y ∈ Max K⟨X⟩` (`|f(y)|`
-computed in the finite extension `K⟨X⟩/m_y` with the unique extension of `|·|`), and there is
-`x ∈ Max K⟨X⟩` with `|f(x)| = ‖f‖`; hence the supremum seminorm of `K⟨X⟩`
-(*affinoid-supremum-seminorm*) is the Gauss norm, and it is attained (Conrad-AWS §1.1, Exercise
-1.1.3(3), p. 3, over points of the closed unit ball over the algebraic closure; Conrad-AWS §1.1,
-discussion after Thm 1.1.5, p. 4, for the form over `Max K⟨X⟩`). For `K = ℚ_p` and `f = T^p − T`:
-`‖f‖ = 1`, attained at a root `x` of an unramified quadratic whose reduction lies in `𝔽_{p²} ∖ 𝔽_p`,
-while `|f(c)| ≤ |p|` for all `c ∈ ℤ_p` (Conrad-AWS §1.1, Exercise 1.1.3(4)); for `f = 1 + ϖT` (`ϖ` a
-pseudo-uniformiser), `‖f‖ = 1 = |f(x)|` at every point: `f` is a unit of `K⟨T⟩`. *Needs:*
-*affinoid-residue-fields-finite*; Tau Ceti `TauCeti.Huber.restrictedMvPowerSeriesCompletion`;
-Mathlib `MaximalSpectrum`, `MvPolynomial.funext`, `isField_of_isIntegral_of_isField`,
-`spectralNorm_unique`.
-Lean: README target.
+(*tate-algebra-gauss-norm-attained*) For `f ∈ K⟨X₁,…,X_n⟩`, `|f(y)| ≤ ‖f‖` at every point `y` of
+`Max K⟨X⟩` and equality holds at some point, so the supremum seminorm of a Tate algebra is its Gauss
+norm and is attained. Supplied by RigidAnalyticGeometry §0.1.3–0.1.4 (the roadmap of W. Coram, to be
+contributed to TauCetiRoadmap ahead of this one). The supplier states it for Mathlib's restricted
+power series, which the carrier bridge of R0.9 identifies with
+`restrictedMvPowerSeriesCompletion n K`.
 
 **Adic homomorphisms are bounded and adic for every choice of rings of definition.**
 (*adic-hom-choice-independence*) Let `φ : A → B` be an adic ring homomorphism of Huber rings
@@ -6952,26 +6744,11 @@ spectra are analytic and `φ` is adic. *Needs:* *adic-ring-homomorphism*; Tau Ce
 Lean: `IsAdicHom.spaComap_analytic`, `isAdicHom_of_spaComap_analytic`.
 
 **Banach spaces of countable type have t-orthogonal Schauder bases.**
-(*banach-countable-type-orthogonal-basis*) Let `K` be a field complete for a nontrivial
-nonarchimedean absolute value, `E` a `K`-Banach space of countable type (`E` contains a dense
-`K`-subspace of at most countable dimension) and `0 < t < 1`. Prove
-`Huber.BanachModule.exists_orthogonalBasis_of_countableType`: there is a family `(e_i)_{i∈I}` of
-nonzero vectors, `I = {1, …, n}` or `I = ℕ`, such that every `v ∈ E` is uniquely a convergent sum
-`v = Σ c_i e_i` with `c_i ∈ K` and `c_i e_i → 0`, and
-`t·max_i |c_i|·‖e_i‖ ≤ ‖v‖ ≤ max_i |c_i|·‖e_i‖` (a `t`-orthogonal Schauder basis) (HK §7, Rem. 7.8,
-p. 26, for separable = countable type, citing BGR 2.7.2/3, the "countable product" there being
-`c₀`, and the isomorphism topological with constant `t`; KL15 §2.2, proof of Lem. 2.2.9, p. 31, for
-the same fact used for completed tensor products over a field). After rescaling the `e_i` by elements
-of `K` so that `|ϖ| < ‖e_i‖ ≤ 1` (`ϖ ∈ K`, `0 < |ϖ| < 1`), `v ↦ (c_i)_i` is a topological `K`-linear
-isomorphism `E ≅ c₀(I, K)` (null families with the supremum norm) with
-`t|ϖ|·|c|_sup ≤ ‖v‖ ≤ |c|_sup`. In particular every finite-dimensional normed `K`-space has a
-`t`-orthogonal basis, and any `t`-orthogonal family in it extends, for every `t' < t`, to a
-`t'`-orthogonal basis. `K⟨T⟩` has the orthonormal Schauder basis `(Tⁿ)_{n ≥ 0}`; `ℂ_p` is a
-`ℚ_p`-Banach space of countable type (`ℚ̄_p` is dense and countable-dimensional), so it has a
-`t`-orthogonal Schauder basis over `ℚ_p` for every `t < 1`. *Needs:* Mathlib `NormedSpace`,
-`IsUltrametricDist`, `FiniteDimensional.complete`, `Submodule.closed_of_finiteDimensional`,
-`ZeroAtInftyContinuousMap`.
-Lean: README target.
+(*banach-countable-type-orthogonal-basis*) A Banach space of countable type over a field complete
+for a nontrivial nonarchimedean absolute value has a `t`-orthogonal Schauder basis for every
+`0 < t < 1`, and is therefore topologically isomorphic to `c₀(I, K)` with `I` finite or `ℕ`.
+Supplied by PadicFunctionalAnalysis §2.4.1–2.4.2 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one).
 
 **Completed tensor products over a nonarchimedean field: cross norm, injectivity, kernels and
 strictness (Kedlaya–Liu Lemma 2.2.9).** (*banach-completed-tensor-field-exactness*) Let `K` be a
@@ -6993,7 +6770,9 @@ the proof of KL15 Lemma 2.2.9, not an additional hypothesis. Degenerate instance
 multiplication by `T` on `ℂ_p⟨T⟩`, again injective and strict. PerfectoidSpaces layer P4 (P4.5a)
 cites this statement for the kernels and strictness of completed tensor products over a
 nonarchimedean field. *Needs:* *completed-tensor-banach-module*;
-*banach-countable-type-orthogonal-basis*; Mathlib `NormedSpace`, `TensorProduct`,
+*banach-countable-type-orthogonal-basis* (PadicFunctionalAnalysis §2.4.1–2.4.2); Mathlib
+`NormedSpace`,
+`TensorProduct`,
 `ZeroAtInftyContinuousMap`.
 Lean: README target.
 
@@ -7266,7 +7045,10 @@ noetherianness, 4.2) and layer 5 (the category of adic spaces, 5.1 open and clos
 morphisms locally of finite type, 5.3 gluing, 5.4 the closed and open unit discs, the completed
 residue affinoid fields `κ(x)` and `ι_x : Spa κ(x) → X`, the sheafiness predicates
 `Huber.IsStablySheafyRing` and `Huber.IsSheafyForEveryPresentation`); R0.1–R0.3
-(*adic-completion-noetherian*). Continuous differentials (R0.15) and the lifting definitions
+(*adic-completion-noetherian*). RigidAnalyticGeometry supplies the theory of classical
+`K`-affinoid algebras of R0.9 and PadicFunctionalAnalysis the norm of a Tate ring and bases of
+Banach spaces of countable type (the roadmaps of W. Coram, to be contributed to TauCetiRoadmap
+ahead of this one). Continuous differentials (R0.15) and the lifting definitions
 (R0.16) lead to the local structure theory (R0.17), all under Huber's standing class
 (*huber-standing-class*, R0.1) in its space-level form (*locally-huber-standard*, R0.6). The theorem *affinoid-fibre-product* assumes sheafiness explicitly; this layer
 establishes that hypothesis in the noetherian case. PerfectoidSpaces P2 and AdicSpacesPartIV R5
@@ -7301,10 +7083,10 @@ are downstream applications that establish the hypothesis for their respective i
 
 ## Layer R1: analytification and algebraic correspondences
 
-This layer builds on layer R0. It defines affinoid subdomains of `Max A` for a `K`-affinoid algebra
-`A`, proves the Gerritzen–Grauert theorem and Tate's acyclicity theorem for finite coverings by
-affinoid subdomains, and sets up Tate's rigid-analytic spaces `Rig_K` with their rigid
-analytification `X ↦ X^an`. It then constructs Huber's fibre product `X ×_Y S` of a scheme locally
+This layer builds on layer R0. It takes affinoid subdomains of `Max A` for a `K`-affinoid algebra
+`A`, the Gerritzen–Grauert theorem, Tate's acyclicity theorem, Tate's rigid-analytic spaces
+`Rig_K` and their rigid analytification `X ↦ X^an` from RigidAnalyticGeometry (R1.1). It
+constructs Huber's fibre product `X ×_Y S` of a scheme locally
 of finite type with an adic space covered by stably sheafy affinoid charts (in particular, a
 locally noetherian adic space), specialises it to the adic
 analytification functor `X ↦ X^ad = X ×_{Spec K} Spa(K, K°)` over a complete rank-one field `K`
@@ -7314,17 +7096,19 @@ ideal sheaves, continuous differentials, and étale, smooth and unramified morph
 classical points, constructible sets and connectedness are compared on `X` and `X^ad`;
 separatedness, properness, finiteness, closed immersions, étaleness and smoothness of `f` are shown
 to be detected on `f^ad`. Huber's functor `r_K` from rigid spaces to adic spaces locally of finite
-type over `Spa(K, K°)` is constructed with its universal property, full faithfulness, equivalence on
-quasi-separated objects, equivalence of ringed topoi, the comparison `r_K(X^an) ≅ X^ad`, and the
+type over `Spa(K, K°)`, supplied with its full faithfulness by RigidAnalyticGeometry, is given its
+universal property, equivalence on quasi-separated objects, equivalence of ringed topoi, the
+comparison `r_K(X^an) ≅ X^ad`, and the
 agreement of the rigid and adic notions of separated, partially proper, proper, étale, unramified
 and smooth morphisms. Group schemes, finite locally free group schemes, abelian varieties and
 isogenies are analytified to analytic groups with their quotients and invariant differentials. The
-layer closes with the dimension theory of `K`-affinoid domains, the identity principle on connected
-normal rigid spaces, and the ring-level and point-level lemmas (weight families from open ideals,
-valuation extension in the divisible hull, fibre products of locally ringed spaces, standard rational
-refinements on `Max A`, Conrad's `Γ`–`Spec` lemma, constructible density of classical points,
-flatness of restricted power series over polynomials, topological finite type of affinoid opens over
-a noetherian-type base, and connectedness of the rigid analytification) that the comparisons use.
+layer closes with the ring-level and point-level lemmas (weight families from open ideals, valuation
+extension in the divisible hull, fibre products of locally ringed spaces, constructible density of
+classical points, flatness of restricted power series over polynomials, topological finite type of
+affinoid opens over a noetherian-type base, and reducedness and normality of the rigid
+analytification) that the comparisons use; the dimension of affinoid domains, the identity
+principle, standard rational refinements, Conrad's `Γ`–`Spec` lemma and connectedness of the rigid
+analytification are RigidAnalyticGeometry's.
 
 ### R1.1 affinoid subdomains and rigid-analytic spaces
 
@@ -7336,7 +7120,8 @@ elements `A⁺` of `A` containing the image of `K°`, exactly one makes the morp
 `(K, K°) → (A, A⁺)` topologically of finite type, namely `A⁺ = A°` (Huber94 §4, Lem. 4.4, p. 543;
 Wedhorn §7.7, Def. 7.56, p. 71, where the conclusion `A⁺ = A°` is built into the definition of a
 tft affinoid algebra). The description of `A°` as the integral closure of `g(K°⟨T₁,…,Tₙ⟩)` for a
-continuous open surjection `g : K⟨T₁,…,Tₙ⟩ → A` is *affinoid-power-bounded-integral* (layer R0) and
+continuous open surjection `g : K⟨T₁,…,Tₙ⟩ → A` is *affinoid-power-bounded-integral*
+(RigidAnalyticGeometry §2.2.3) and
 is used here, not restated. The pair `(A, A°)` is Tau Ceti's `Huber.Pair.powerBounded A`, the pair
 with the largest ring of integral elements, which the Foundations of adic spaces roadmap, layer 2.4,
 attaches to every Huber ring; the content of this target is that no smaller `A⁺` makes the
@@ -7345,492 +7130,83 @@ structure morphism topologically of finite type. The ring-level assertion
 quantifies over continuous open quotient ring presentations; the equality `A⁺ = A°` does not
 depend on the choice of the resulting `K`-algebra structure. For `A = K⟨T⟩` one gets `A° = K°⟨T⟩`, the plus
 ring of the closed polydisc of the Foundations of adic spaces roadmap (Tau Ceti
-`TauCeti.ValuationSpectrum.closedPolydisc`). *Needs:* *affinoid-power-bounded-integral* (layer R0);
+`TauCeti.ValuationSpectrum.closedPolydisc`). *Needs:* *affinoid-power-bounded-integral*
+(RigidAnalyticGeometry §2.2.3);
 Tau Ceti `TauCeti.Huber.Pair.powerBounded`, `TauCeti.Huber.powerBoundedSubring`,
 `TauCeti.Huber.IsTopologicallyFiniteType`.
 Lean: `Pair.eq_powerBounded_iff_of_isTopologicallyFiniteType`.
 
-The coordinate ring of an affinoid subdomain is explicit data in the Lean statements:
-`RigidSpace.IsCoordinateRing K U A_U` is asked of an `A`-algebra `A_U` whose two algebra actions
-agree (`IsScalarTower K A A_U`), with compatible additive uniformity, nonarchimedean, complete and
-Hausdorff (Conrad-AWS, Definition 2.2.1), and `RigidSpace.IsAffinoidSubdomain K U` asks for some
-such `A_U`.
+**Affinoid subdomains of the maximal spectrum of a `K`-affinoid algebra.** (*affinoid-subdomain*) A
+subset `U ⊆ Max A` of a `K`-affinoid algebra is an affinoid subdomain when a homomorphism of
+`K`-affinoid algebras `A → A_U` with `Max A_U` landing in `U` is universal for this property; the
+coordinate ring `A_U` is unique up to unique isomorphism, `Max A_U → U` is a bijection, affinoid
+subdomains are stable under transitivity, preimages and finite intersections, with the affinoid
+tensor products as coordinate rings, and for `f₁,…,f_m, g` generating the unit ideal the rational
+subdomain `X(f/g) = {x : |f_j(x)| ≤ |g(x)| for all j}` is an affinoid subdomain with coordinate ring
+`A⟨f/g⟩ = A⟨T⟩/(gT_j − f_j)`, Tau Ceti's completed rational localisation. Supplied by
+RigidAnalyticGeometry §1.4.2–1.4.3, §4.1.1–4.1.4 and §4.2.1–4.2.2 (the roadmap of W. Coram, to be
+contributed to TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`
+and its affinoid subdomain bundles the representing algebra as data; this roadmap applies it through
+the carrier bridge of R0.9.
 
-**Affinoid subdomains of the maximal spectrum of a `K`-affinoid algebra.** (*affinoid-subdomain*)
-Let `K` be a field complete for a nontrivial nonarchimedean absolute value `|·|` of rank one, `A` a
-`K`-affinoid algebra (a commutative `K`-algebra with a complete Hausdorff first-countable ring
-topology for which `K → A` is strictly topologically of finite type, Tau Ceti
-`IsStrictlyTopologicallyFiniteType (algebraMap K A)`: a continuous open surjection of `K`-algebras
-`K⟨X₁,…,X_n⟩ = restrictedMvPowerSeriesCompletion n K → A`; Wedhorn Definition 5.57) and
-`X = Max A`. A subset `U ⊆ X` is an affinoid subdomain if there is a homomorphism of `K`-affinoid
-algebras `i : A → A_U` such that `Max(i) : Max A_U → X` (*affinoid-residue-fields-finite*, layer R0)
-has image in `U` and is universal for this property: for every homomorphism `φ : A → B` into a
-`K`-affinoid algebra with `Max(φ)(Max B) ⊆ U` there is a unique `K`-algebra homomorphism
-`φ_U : A_U → B` with `φ_U ∘ i = φ`. The `A`-algebra `A_U` (the coordinate ring of `U`) is unique up
-to unique `A`-isomorphism; `Max(i)` is a bijection onto `U` inducing isomorphisms of residue fields;
-for affinoid subdomains `V ⊆ U` there is a unique `A`-algebra map `ρ^U_V : A_U → A_V`, with
-`ρ^V_W ∘ ρ^U_V = ρ^U_W`. Rational subdomains `X(f₁,…,f_n/f₀) = {x : |f_j(x)| ≤ |f₀(x)| for all j}`,
-for `f₀,…,f_n ∈ A` without common zero, are affinoid subdomains with coordinate ring
-`A⟨f/f₀⟩ = A⟨T₁,…,T_n⟩/(f₀T_j − f_j)` (Weierstrass domains `f₀ = 1`, Laurent domains as
-intersections) (Conrad-AWS §2.2, Def. 2.2.1, p. 12; KL15 §2.5, Def. 2.5.8, p. 49; Conrad-AWS §2.1,
-Lem. 2.1.8, p. 11, whose proof via power-boundedness is the one used for rational domains). In
-`RigidSpace`, define `IsCoordinateRing K U A_U` as the predicate that the `K`-affinoid `A`-algebra
-`A_U` represents the `K`-affinoid `A`-algebras whose `Max` maps into `U`, and
-`IsAffinoidSubdomain K U` as the predicate on `U ⊆ Max A` that some `A_U` satisfies it, including
-the condition that `A` is `K`-affinoid; the coordinate ring `A_U` is a `K`-affinoid `A`-algebra
-unique up to unique `A`-isomorphism; prove `IsAffinoidSubdomain.lift` (for `φ : A → B` with
-`Max(φ)(Max B) ⊆ U`, the unique `φ_U : A_U → B` with `φ_U ∘ i = φ`, with uniqueness
-`hom_ext`; the factorisation identity is Mathlib
-`AlgHom.commutes`), `IsAffinoidSubdomain.maxSpectrumEquiv` (`Max(i) : Max A_U → U` is a bijection with
-isomorphic residue fields), `IsAffinoidSubdomain.restrict` (for affinoid subdomains `V ⊆ U` the
-restriction `ρ^U_V : A_U → A_V`, with `ρ^U_U = id` and `ρ^V_W ∘ ρ^U_V = ρ^U_W`),
-`IsAffinoidSubdomain.rational` (rational subdomains `X(f/f₀)` are affinoid subdomains with
-coordinate ring `A⟨f/f₀⟩ = A⟨T⟩/(f₀T_j − f_j)`), `IsAffinoidSubdomain.inter` (`U ∩ U'` is an
-affinoid subdomain) with its coordinate ring `A_U ⊗̂_A A_{U'}`; `IsAffinoidSubdomain.preimage`
-(for a map of `K`-affinoid algebras `φ : A → B`, `Max(φ)⁻¹(U)` is an affinoid subdomain of `Max B`)
-with its coordinate ring `A_U ⊗̂_A B`.
-These are continuous algebra/ring equivalences with continuous inverses; the intersection
-comparison sends `a ⊗ b` to the product of the two restrictions, and the inverse-image
-comparison sends `1 ⊗ b` to the structural image of `b` (Conrad-AWS Example 2.4.5, p. 20);
-`IsAffinoidSubdomain.trans` (a subset of `U = Max A_U` is an affinoid subdomain of `Max A_U` iff it
-is an affinoid subdomain of `Max A`), the infinitesimal comparison (for `x ∈ U` with
-maximal ideal `m ⊆ A` and `k ≥ 1`, `A/mᵏ → A_U/mᵏA_U` is an isomorphism; apply the universal
-property of Conrad-AWS Definition 2.2.1, p. 12, to the finite-dimensional `K`-algebra `A/mᵏ`,
-whose maximal spectrum is the single point `m`. It gives `A_U → A/mᵏ`; the resulting maps
-between `A/mᵏ` and `A_U/mᵏA_U` are inverse by the same uniqueness applied to the affinoid
-quotient `A_U/mᵏA_U`. This deduction supplies the infinitesimal comparison used by
-*affinoid-subdomain-flat* and *rigid-local-ring-completion*), `IsCoordinateRing.flat` (`A → A_U`
-is flat; the statement of *affinoid-subdomain-flat*) and the comparison with `Spa` (the
-rational case of *classical-points-constructible-density*(iv): for a rational subdomain,
-`Spa(A_U, A_U°) → Spa(A, A°)` is the rational subset `R(f/f₀)` of the Foundations of adic spaces
-roadmap, Tau Ceti `spaLocalizationHomeomorph`, and `R(f/f₀) ∩ Max A = X(f/f₀)`; stated and proved
-there, named here only; more generally an affinoid subdomain of `Spa(A, A⁺)` meets `Max A` in an
-affinoid subdomain represented by the same map, KL15 Prop. 2.5.14). *Needs:* *affinoid-residue-fields-finite*, *affinoid-jacobson*,
-*affinoid-power-bounded-iff-sup*, *completed-tensor-product* (all layer R0); Tau Ceti
-`TauCeti.Huber.IsStrictlyTopologicallyFiniteType`,
-`TauCeti.Huber.PairOfDefinition.completionLocalization`, `TauCeti.ValuationSpectrum.rationalSubset`,
-`TauCeti.Huber.existsUnique_continuous_ringHom_completion_weightedRestrictedSubring`; Mathlib
-`MaximalSpectrum`.
-Lean: `RigidSpace.rationalDomain`, `IsCoordinateRing`, `IsAffinoidSubdomain`,
-`IsAffinoidSubdomain.rational`, `IsAffinoidSubdomain.inter`; the Check that `X(f₀/f₀)` is all of
-`Max A` is an `example`.
+**Coordinate rings of affinoid subdomains are flat.** (*affinoid-subdomain-flat*) For an affinoid
+subdomain `U ⊆ Max A` the restriction `A → A_U` is flat, and for a finite covering of `Max A` by
+affinoid subdomains `A → ∏_i A_{U_i}` is faithfully flat. Supplied by RigidAnalyticGeometry §4.4.3
+and *Targets requested by the Tau Ceti AdicSpaces roadmaps*, **faithfullyFlat_affinoidCover** (the
+roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier's carrier
+is `IsAffinoidAlgebra K A`; this roadmap applies it through the carrier bridge of R0.9.
 
-**Checks.**
-
-- *Convention.* The intersection comparison sends
-  `a ⊗ b + c ⊗ d` to `ρ_U(a)ρ_V(b) + ρ_U(c)ρ_V(d)` in `A_{U∩V}`.
-- *Computation.* In `Max K⟨T⟩`, `U = {|T| ≤ |c|}` (`0 < |c| ≤ 1`)
-  is a Weierstrass domain with `A_U = K⟨T, S⟩/(T − cS) ≅ K⟨S⟩` and restriction `T ↦ cS`.
-- *Non-example.* The open disc `{|T| < 1} ⊆ Max K⟨T⟩` is open
-  in the canonical topology but is not an affinoid subdomain: by the maximum modulus principle an
-  affinoid subdomain inside it lies in some Weierstrass domain `{|Tⁿ| ≤ |c|}` for a fixed `c` with
-  `0 < |c| < 1` (written with `Tⁿ`, since `|c|^{1/n}` need not be an absolute value of an element
-  of `K`), which misses the classical points with `|T^{n+1}| = |c|`, the roots of `T^{n+1} − c`; a
-  definition by "open subset" fails.
-- *Degenerate.* `U = Max A` is an affinoid subdomain with
-  `A_U = A` (`i = id`), and `U = ∅` with `A_U = 0`.
-- *Compatibility.* For `f₀,…,f_n ∈ A` without common
-  zero, the coordinate ring of `X(f/f₀)` is, as a topological ring under `A`, Tau Ceti's completed rational
-  localisation of `(A, A°)` at `(f₁,…,f_n; f₀)` (`PairOfDefinition.completionLocalization`), and
-  `Max` of it is the set of classical points of the rational subset `R(f/f₀)` of the Foundations of
-  adic spaces roadmap. The comparison satisfies `e(i(a)) = coe(algebraMap A A[f₀⁻¹] a)`
-  for every `a : A`, where `i : A → A_U` is restriction and `coe` is completion.
-  This fixes the image of `T`, distinguishing the discs `|T| ≤ |ϖ|` and
-  `|T − 1| ≤ |ϖ|` even though both coordinate rings are abstractly `K⟨S⟩`
-  (Conrad-AWS, Lemma 2.1.8, pp. 11–12, and Definition 2.2.1, p. 12).
-- *Convention.* The denominator is `f₀`: in
-  `Max K⟨T⟩`, `X(T/ϖ) = {|T| ≤ |ϖ|}` contains the point `T = 0` (`0 ≤ |ϖ|`) and not `T = 1`
-  (`1 ≤ |ϖ|` fails), while `X(ϖ/T) = {|ϖ| ≤ |T|}` contains `T = 1` and not `T = 0` (`|ϖ| ≤ 0`
-  fails); for a pseudouniformizer `ϖ`, the coordinate rings are `K⟨T, S⟩/(ϖS − T)` and
-  `K⟨T, S⟩/(TS − ϖ)` respectively. The companion Checks
-  give continuous `K`-algebra equivalences from these quotients to the respective
-  coordinate rings, with continuous inverses. Both send `T` to its restriction;
-  they send `S` to `ϖ⁻¹T` and `ϖT⁻¹`, respectively, with the restricted `T` exhibited as a
-  unit in the annulus case (Conrad-AWS, Lemma 2.1.8, pp. 11–12).
-- *Non-example.* The isomorphism
-  `A/mᵏ ≅ A_U/mᵏA_U` of the infinitesimal comparison needs `x ∈ U`: for `U = {|T| ≤ |ϖ|} ⊆ Max K⟨T⟩`
-  and `x` the point `T = 1`, `m = (T − 1)` becomes `(ϖS − 1) = A_U` in `A_U = K⟨S⟩` (`|ϖS| < 1`
-  makes `ϖS − 1` a unit), so `A/m = K → A_U/mA_U = 0` is not injective.
-  The Check uses the coordinate ring: it supplies the point
-  outside `U` with ideal `(T − 1)`, identifies its residue algebra with `K`,
-  and states that the extended ideal is the unit ideal and that the canonical
-  `Ideal.quotientMap` is not injective.
-
-- With no numerators the inequality locus is all of
-  `Max A`; it is called a rational subdomain only when the denominator generates the unit ideal.
-- Denominator `0` and numerator `1` give the empty set;
-  together with the denominator Check above this tests `rationalDomain`.
-- The predicate includes the requirement that `A` is
-  `K`-affinoid; it is false when that requirement fails.
-- The lift for the whole domain is
-  an isomorphism to `A`, and the empty-domain lift is an isomorphism to `0`.
-- *Computation.* Let `0 < |c| ≤ 1` and `|a| ≤ |c|`. For the
-  subdomain `U = {|T| ≤ |c|}` of `Max K⟨T⟩`, the Check supplies an equivalence
-  `e : A_U ≃ₐ[K] K⟨S⟩` with `e(i(T)) = cS`. Given the `K⟨T⟩`-algebra structure on `K`
-  evaluating `T` to `a`, its scalar-tower compatibility, the affinoid hypothesis on `K`,
-  and the condition that its maximal spectrum maps into `U`, the lift sends `e⁻¹(S)`
-  to `a/c` and `e⁻¹(S + S²)` to `a/c + (a/c)²`. This computes the normalized coordinate:
-  at `a = 0` its value is `0`, and at `a = c` it is `1`.
-  The presentation and factorisation use Conrad-AWS §2.2, Definition 2.2.1, p. 12,
-  and the Weierstrass universal property in §2.1, Lemma 2.1.8, p. 11.
-- *Computation.* Over the complete nontrivially valued
-  nonarchimedean field `K`, let `0 < |c| ≤ 1`, `|a| ≤ |c|` and
-  `U = {|T| ≤ |c|} ⊆ Max K⟨T⟩`. For any proof `h` that `U` is an affinoid subdomain,
-  obtain a continuous `K`-algebra equivalence `e : A_U ≃ K⟨S⟩` with continuous inverse
-  and `e(i(T)) = cS`. The Check constructs the maximal ideal corresponding to
-  `(S − a/c)`, proves its contraction is `(T − a)`, and computes its image under
-  the bijection `Max A_U ≅ U` as that same ideal. At `a = 0` this is `(S) ↦ (T)`;
-  at `a = c` it is `(S − 1) ↦ (T − c)`. Taking `c = 1` gives the whole-disc case.
-  This follows from the rational-domain presentation and universal property in
-  Conrad-AWS §2.1, Lemma 2.1.8, pp. 11–12, and Definition 2.2.1, pp. 12–13.
-- The maximal spectrum
-  of the empty domain is empty, and that of the whole domain over `A = K` has one point.
-- *Computation.* Under the same field and radius
-  hypotheses, take the whole-disc coordinate ring `A_X` and the coordinate ring `A_U`.
-  A continuous equivalence `e : A_U ≃ K⟨S⟩`, with continuous inverse, identifies their
-  restriction `ρ : A_X → A_U` by
-  `e(ρ(i_X(T − a))) = c(S − a/c)` for every `|a| ≤ |c|`.
-  Contraction of `e⁻¹((S − a/c))` along `ρ` is exactly `(i_X(T − a))`.
-  The Check also states explicitly `e(ρ(i_X(T))) = cS`,
-  `e(ρ(i_X(T − c))) = c(S − 1)`, and `ρ_U^U = id`.
-  For `c = 1` the displayed two-term restriction is `T − a ↦ S − a`.
-  These computations fix the direction and scalar factor of restriction; see
-  Conrad-AWS Definition 2.2.1 and the following restriction maps, pp. 12–13.
-- Restriction to
-  the empty domain is zero, and restriction along `V ⊆ U` preserves every scalar from `A`.
-
-**Coordinate rings of affinoid subdomains are flat.** (*affinoid-subdomain-flat*) Let `K` be a field
-complete for a nontrivial nonarchimedean absolute value of rank one, `A` a `K`-affinoid algebra and
-`U ⊆ Max A` an affinoid subdomain. Prove that `A → A_U` is flat, and that if `U₁,…,U_n` are
-affinoid subdomains covering
-`Max A`, then `A → ∏_i A_{U_i}` is faithfully flat (Conrad-AWS §2.2, discussion after Def. 2.2.1,
-p. 13; KL15 §2.5, Lem. 2.5.17, p. 51, citing BGR 7.3.2/6, and Prop. 2.5.18 for the faithful
-flatness of coverings). For the covering of `Max K⟨T⟩` by `{|T| ≤ |ϖ|}` and `{|T| ≥ |ϖ|}`,
-`K⟨T⟩ → K⟨S⟩ × K⟨T, U⟩/(TU − ϖ)` (`T ↦ (ϖS, T)`) is faithfully flat, while the single affinoid
-subdomain `{|T| ≤ |ϖ|}` gives a flat but not faithfully flat map `K⟨T⟩ → K⟨S⟩` (the point `T = 1`
-is missed). For rational subdomains both statements are Tau Ceti's: `A → A⟨f/f₀⟩` is flat
-(`TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`) and `A → ∏_i A⟨f_i/f_{i,0}⟩` is faithfully flat for
-a rational covering (`TauCeti.ValuationSpectrum.faithfullyFlat_pi_toCompletionLoc`); the target is the case
-of arbitrary affinoid subdomains of `Max A`, reduced to the rational case through
-*gerritzen-grauert* and the transitivity `IsAffinoidSubdomain.trans`. *Needs:*
-*affinoid-subdomain*; *gerritzen-grauert*; Tau Ceti
-`TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`,
-`TauCeti.ValuationSpectrum.faithfullyFlat_pi_toCompletionLoc`; Mathlib `Module.Flat`,
-`Module.FaithfullyFlat`,
-`AdicCompletion`, `IsLocalRing`, `IsNoetherianRing`, `AdicCompletion.flat_of_isNoetherian`,
-`Module.FaithfullyFlat.of_flat_of_isLocalHom`,
-`Module.FaithfullyFlat.lTensor_injective_iff_injective`, `Module.flat_of_isLocalized_maximal`,
-`Module.FaithfullyFlat.iff_flat_and_proper_ideal`.
-Lean: `IsCoordinateRing.flat` (flatness); faithful flatness of coverings is a README target.
-
-**The Gerritzen–Grauert theorem.** (*gerritzen-grauert*) Let `K` be a field complete for a
-nontrivial nonarchimedean absolute value `|·|` of rank one, `A` a `K`-affinoid algebra (as in
-*affinoid-subdomain*) and `U ⊆ Max A` an affinoid subdomain. Then there are finitely many rational
-subdomains `V₁,…,V_n` covering `Max A` — induced by a rational covering of `Spa(A, A°)` — such that
-`U ∩ V_i` is a rational subdomain of `Max A_{V_i}` for every `i`. In particular `U` is a finite union
-of rational subdomains of `Max A`, and affinoid subdomains are open in the canonical topology. Prove
-this, in the covering form (Conrad-AWS §2.2, Thm 2.2.5, p. 14,
-the finite-union form; KL15 §2.5, Thm 2.5.11, p. 49, the covering form stated here, citing BGR
-7.3.5/1 and Temkin; KL15 §2.5, Lem. 2.5.10, p. 49, the refinement step). Every Weierstrass, Laurent or rational domain satisfies the theorem with `n = 1`. The converse implication from a finite union of rational subdomains to an affinoid subdomain fails (KL15 Thm 2.5.11, final sentence):
-the theorem asserts only that affinoid subdomains are finite unions of rational ones. *Needs:*
-*affinoid-subdomain*; *max-rational-covering-refinement*; Tau Ceti
-`TauCeti.ValuationSpectrum.rationalSubset`.
-Lean: `IsAffinoidSubdomain.exists_eq_iUnion_rationalDomain` (the finite-union form); the covering
-form is a README target.
+**The Gerritzen–Grauert theorem.** (*gerritzen-grauert*) For an affinoid subdomain `U ⊆ Max A` there
+is a finite covering of `Max A` by rational subdomains `V_i` with each `U ∩ V_i` a Weierstrass
+domain in `V_i`; in particular `U` is a finite union of rational subdomains. Supplied by
+RigidAnalyticGeometry §4.6.3 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of
+this one). The supplier's covering form, with `U ∩ V_i` Weierstrass and not only rational in `V_i`,
+is stronger than the consumers here need; this roadmap applies it on the supplier's carrier
+`IsAffinoidAlgebra K A` through the carrier bridge of R0.9, reading `{V_i}` as a rational covering
+of `Spa(A, A°)` by RigidAnalyticGeometry §8.2.4–8.2.5.
 
 **Tate's acyclicity theorem for finite coverings by affinoid subdomains.**
-(*affinoid-covering-tate-acyclicity*) Let `K` be a field complete for a nontrivial nonarchimedean
-absolute value `|·|` of rank one, `A` a `K`-affinoid algebra (as in *affinoid-subdomain*), `M` an
-arbitrary `A`-module and `U₁,…,U_n` affinoid subdomains covering `Max A`. Then the augmented Čech
-complex
-
-```text
-0 → M → ∏_i M ⊗_A A_{U_i} → ∏_{i<j} M ⊗_A A_{U_i ∩ U_j} → ⋯
-```
-
-is exact. In particular `U ↦ A_U` is a sheaf for finite coverings of affinoid subdomains by affinoid
-subdomains, with vanishing higher Čech cohomology, and it extends uniquely to a sheaf `O_A` for the
-Tate topology on `Max A`. The degree-zero statement is injectivity
-of the augmentation and its image as the families agreeing on pairwise intersections. The
-higher-degree statement, with the same hypotheses, is exactness at
-every positive Čech degree, for the alternating restriction differential
-`(ds)_{i₀,…,i_{q+1}} = ∑_{j=0}^{q+1} (-1)^j s_{i₀,…,îⱼ,…,i_{q+1}}` restricted to the common
-intersection (Conrad-AWS §2.3,
-Thm 2.3.3, p. 17, and the structure of the proof after it; KL15 §2.5, proof of Thm 2.5.20, p. 52,
-the vanishing of higher Čech cohomology for affinoid coverings, Thm 2.5.20(a), with the BGR
-reference). For the Laurent covering `{|f| ≤ 1}`, `{|f| ≥ 1}` of `Max A` the sequence
-`0 → A → A⟨f⟩ × A⟨f⁻¹⟩ → A⟨f, f⁻¹⟩ → 0` is exact, and for the covering of `Max K⟨T⟩` by
-`{|T| ≤ |ϖ|}` and `{|T| ≥ |ϖ|}` (Conrad-AWS Exercise 2.3.4) a pair of compatible functions glues to
-a unique element of `K⟨T⟩`. For `M = A` and a finite rational covering of `Spa(A, A°)` the
-exactness in every degree is the Foundations of adic spaces roadmap, layer 4.1 (Tate acyclicity for
-strongly noetherian Tate rings); Tau Ceti supplies the full two-piece Laurent sequence through
-`TauCeti.ValuationSpectrum.laurentCover_exact`, `TauCeti.ValuationSpectrum.laurentCover_surjective` and
-`TauCeti.ValuationSpectrum.isClosedEmbedding_laurentCover`, together with the sheaf condition
-`TauCeti.ValuationSpectrum.isSheafFor_laurentSieve`. The target differs in three respects: the
-covering is by arbitrary affinoid subdomains, the space is `Max A` rather than `Spa(A, A°)`, and the
-coefficients are an arbitrary `A`-module `M`; the reduction to the rational case of layer 4.1 goes
-through *gerritzen-grauert* and *max-rational-covering-refinement*, and the passage from `A` to `M`
-through flatness (*affinoid-subdomain-flat*). *Needs:* *affinoid-subdomain*;
-*affinoid-subdomain-flat*; *gerritzen-grauert*; *max-rational-covering-refinement*; Tau Ceti
-`TauCeti.Huber.IsStronglyNoetherian`, `TauCeti.ValuationSpectrum.laurentCover_exact`,
-`TauCeti.ValuationSpectrum.laurentCover_surjective`,
-`TauCeti.ValuationSpectrum.isClosedEmbedding_laurentCover`,
-`TauCeti.ValuationSpectrum.isSheafFor_laurentSieve`; Mathlib
-`Module.Flat`.
-Lean: `tate_acyclicity` (degree zero, `M = A`); the module and higher-degree statements are README
-targets.
-
-The higher-degree statement uses cochains
-`∏_{i : Fin(q+1) → ι} (A_{⋂ₜ U_{i(t)}} ⊗_A M)` and the alternating sum of restriction maps
-obtained by deleting one index; every cocycle in degree `q > 0` is a coboundary.
-Finite intersections of affinoid subdomains supply these coordinate rings, including the whole
-space for the empty intersection. Define `RigidSpace.affinoidCechDifferential hA hU M m s j`
-on these modules by the displayed alternating restriction sum. Its argument `m` counts input
-vertices: the map in degree `q` uses `m = q + 1`. Both maps in the higher-degree statement are
-this same differential.
-
-**Checks.** The sign Check evaluates this differential for a cover indexed by
-`Fin 2`, at `m = 1` and the ordered overlap `j = id`. For any `A`-module `M` and `a ∈ M`,
-write `a` on an intersection for `1 ⊗ a` in its coordinate-ring tensor module.
-The three examples unfold the differential and compute the restrictions:
-
-- `(0,a)` maps to `a`.
-- `(a,a)` maps to zero.
-- `(a,0)` maps to `−a`, distinguishing the
-  opposite sign whenever `a ≠ −a` on the overlap.
-
-Thus `d(s₀,s₁) = s₁|₀₁ − s₀|₀₁`. **Check (three pieces).** It
-applies `affinoidCechDifferential` twice to arbitrary sections on three affinoid
-subdomains and evaluates at their ordered triple intersection, obtaining zero.
-It tests the restriction maps and signs, without assuming a covering or
-identifying the different intersection modules (KL15, Theorem 2.5.20(a), pp. 51–52).
-Tensor factors in the displayed complex and in the degree-zero statement are identified by
-the canonical symmetry `M ⊗_A A_U ≅ A_U ⊗_A M`.
+(*affinoid-covering-tate-acyclicity*) For a finite covering of `Max A` by affinoid subdomains `U_i`
+and any `A`-module `M`, the augmented Čech complex
+`0 → M → ∏_i M ⊗_A A_{U_i} → ∏_{i<j} M ⊗_A A_{U_i ∩ U_j} → ⋯` is exact; in particular `U ↦ A_U` is a
+sheaf for finite affinoid coverings, with vanishing higher Čech cohomology. Supplied by
+RigidAnalyticGeometry §5.3.3–5.3.4 and §5.4.1 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A` and its Čech
+complex is Mathlib's `cechComplexFunctor`; this roadmap applies it through the carrier bridge of
+R0.9.
 
 **Local rings of affinoid spaces at points are noetherian with the algebraic completion.**
-(*rigid-local-ring-completion*) Let `K` be a field complete for a nontrivial nonarchimedean absolute
-value of rank one, `A` a `K`-affinoid algebra, `x ∈ Max A` with maximal ideal `m`, and
-`O_x = colim_{U ∋ x} A_U` the colimit over the affinoid subdomains of `Max A` containing `x` (the
-stalk of `Sp A` at `x`). Prove that `O_x` is a noetherian local ring with maximal ideal `m·O_x`, that
-`A_m → O_x` is faithfully flat, and that `A/mᵏ → O_x/mᵏO_x` is an isomorphism for every `k ≥ 1`;
-hence the completions agree, `Â_m ≅ Ô_x` (Conrad-AWS §2.3, after Exercise 2.3.6, p. 17; KL15 §2.5, proof of Lem. 2.5.12, p. 50, the
-completed-local-ring isomorphism for rational localisations; Stacks Tag 05GH (Algebra,
-Lem. 10.97.5), noetherianity of `Â_m` used for the descent to `O_x`). At the origin of `Max K⟨T⟩`,
-`O_0` is the ring of power series converging on some disc around `0`, strictly between `K[T]_{(T)}`
-and `K⟦T⟧`, with completion `K⟦T⟧` (Conrad-AWS Exercise 2.3.6); for `A = K⟨T⟩/(T²)` at the origin,
-`O_0 = A`, every affinoid subdomain containing the only point being all of `Max A`. That the stalk
-is a local ring is known for the adic structure presheaf at every point of `Spa(A, A°)`
-(Tau Ceti `isLocalRing_stalk_presentationLimitPresheafInCommRingCat`, with the support of the stalk
-valuation `supp_presentationLimitStalkValuation`); the target adds, at classical points, the
-noetherianity of `O_x`, the faithful flatness of `A_m → O_x` and the isomorphism of completions.
-*Needs:* *affinoid-subdomain*; *affinoid-subdomain-flat*; *affinoid-jacobson* (layer R0); Tau Ceti
-`TauCeti.ValuationSpectrum.isLocalRing_stalk_presentationLimitPresheafInCommRingCat`,
-`TauCeti.ValuationSpectrum.supp_presentationLimitStalkValuation`; Mathlib
-`IsLocalRing`, `IsNoetherianRing`, `AdicCompletion`, `Module.FaithfullyFlat`,
-`AdicCompletion.flat_of_isNoetherian`, `Module.FaithfullyFlat.of_flat_of_isLocalHom`,
-`Submodule.IsNoetherian.of_isNoetherian_tensorProduct_of_faithfullyFlat`.
-Lean: README target.
+(*rigid-local-ring-completion*) For `x ∈ Max A` with maximal ideal `m`, the stalk
+`O_x = colim_{U ∋ x} A_U` over the affinoid subdomains containing `x` is a noetherian local ring
+with maximal ideal `m·O_x`, and `A_m → O_x` is injective and induces an isomorphism of `m`-adic
+completions. Supplied by RigidAnalyticGeometry §4.4.1–4.4.2 (the roadmap of W. Coram, to be
+contributed to TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`;
+this roadmap applies it through the carrier bridge of R0.9.
 
-**Rigid-analytic spaces over `K` in the sense of Tate.** (*rigid-analytic-space*) Let
-`K` be a complete rank-one nonarchimedean field. For a `K`-affinoid algebra `A` (a quotient of some
-Tate algebra `K⟨T₁,…,Tₙ⟩`, with its Banach topology), the affinoid space `Sp(A)` is the set `Max A`
-of maximal ideals with the Tate (strong) G-topology: a subset `U ⊆ Max A` is admissible open if it
-has a set-theoretic covering `{U_i}` by affinoid subdomains such that for every homomorphism of
-`K`-affinoid algebras `φ : A → B` with `Max(φ)(Max B) ⊆ U` finitely many `U_i` cover
-`Max(φ)(Max B)`, and a family `{V_j}` of admissible opens is an admissible covering of its union `V`
-if for every `φ : A → B` with `Max(φ)(Max B) ⊆ V` the covering `{Max(φ)⁻¹(V_j)}` of `Max B` has a
-refinement by finitely many affinoid subdomains (Conrad-AWS §2.2, Def. 2.2.6, p. 14, and the
-following paragraph on pp. 14–15: admissible opens and coverings are tested on all maps of
-`K`-affinoid algebras, not only on affinoid subdomains; Conrad-AWS §2.3, Def. 2.3.1,
-p. 16, the Tate topology); together with Tate's structure sheaf `O_A`, `U ↦ A_U` on affinoid
-subdomains (Conrad-AWS §2.3, Thm 2.3.3, p. 17). A rigid-analytic space over `K` is a pair
-`(X, O_X)` of a G-topologised set `X` and a sheaf of `K`-algebras `O_X` with local stalks, admitting
-an admissible covering by open subspaces isomorphic to affinoid spaces `Sp(A_i)`. Morphisms are
-morphisms of locally G-ringed `K`-spaces. `Rig_K` denotes this category (Conrad-AWS §2.4,
-Def. 2.4.1, p. 19; Huber94 §4, p. 541, Huber's category `ℛ_k` of rigid analytic varieties over a
-rank-one field). A morphism `f` is a closed immersion if there is an admissible affinoid covering
-`{U_i}` of the target with each `f⁻¹(U_i)` affinoid and `O(U_i) → O(f⁻¹U_i)` surjective
-(Conrad-AWS §3.1, Ex. 3.1.5, p. 24); `f` is separated if its diagonal is a closed immersion
-(Conrad-AWS Def. 3.1.6), quasi-separated if its diagonal is quasi-compact, and proper (Kiehl) if
-it is separated, quasi-compact and relatively compact over an admissible affinoid covering of the
-target (Conrad-AWS Definition 3.2.3). `K`-affinoid algebras are strongly noetherian Tate rings
-(the Foundations of adic spaces roadmap, layer 0.5), so Tate's acyclicity for finite rational
-coverings is that roadmap's layer 4.1; the extension to finite coverings by affinoid subdomains uses
-the Gerritzen–Grauert theorem (KL15 §2.5, Thm 2.5.11, p. 49). Define `RigidSpace` as the structure of
-rigid-analytic spaces over `K` (locally G-ringed `K`-spaces with an admissible covering by affinoid
-spaces), `RigidSpace.Sp` as the affinoid space `Sp(A)` of a `K`-affinoid algebra `A`,
-`RigidSpace.IsAdmissibleOpen` as the admissible open subsets of a rigid space,
-`RigidSpace.IsAdmissibleCover` as the admissible coverings of an admissible open,
-`RigidSpace.restrict` as the open subspace structure on an admissible open, `RigidSpace.glue` as the
-gluing of rigid spaces along admissible opens satisfying the cocycle condition,
-`RigidSpace.hasPullbacks` as the existence theorem over a complete nontrivially normed
-nonarchimedean field K, and `RigidSpace.pullback` as the fibre product of rigid spaces, from completed tensor products of
-affinoid algebras (Conrad-AWS Example 2.4.5), `RigidSpace.IsClosedImmersion` as the closed
-immersions (an admissible affinoid covering `{U_i}` of the target with `f⁻¹(U_i)` affinoid and
-surjective maps of coordinate rings; used by `IsSeparated`), `RigidSpace.closedSubspace` as the
-closed analytic subspace `V(𝓘)` of a coherent ideal `𝓘 ⊆ O_X`, glued from the `Sp(A/𝓘(Sp A))`
-(every closed immersion is isomorphic to one of these, Conrad-AWS Example 3.1.5),
-`RigidSpace.IsSeparated` (the diagonal is a closed immersion), `RigidSpace.IsQuasiSeparated` (the
-diagonal is quasi-compact) and `RigidSpace.IsProper` (Kiehl-proper: separated, quasi-compact,
-relatively compact over an admissible affinoid covering of the target); prove `RigidSpace.Sp.map`
-(a `K`-algebra map `A → B` gives `Sp(B) → Sp(A)`, with `map_id`, `map_comp`) and
-`RigidSpace.homSpEquiv` (for a rigid space `X`, `Hom(X, Sp A) ≃ Hom_{K-alg}(A, O_X(X))`). *Needs:*
-*affinoid-subdomain*; *gerritzen-grauert*; *affinoid-covering-tate-acyclicity*; Tau Ceti
-`TauCeti.ValuationSpectrum.faithfullyFlat_pi_toCompletionLoc`, `TauCeti.Huber.IsStronglyNoetherian`.
-Lean: README target.
-
-**Checks.**
-
-- *Degenerate.* `Sp(K)` is a one-point rigid space with `O(Sp K) = K`,
-  and `Sp(0)` is empty.
-- *Characterisation.* For `K`-affinoid algebras `A`, `B`, morphisms
-  `Sp(B) → Sp(A)` of rigid spaces correspond to `K`-algebra maps `A → B`.
-- *Non-example.* The set-theoretic cover of the closed unit
-  disc by `{|T| < 1}` and `{|T| = 1}` is not admissible; a definition allowing all set-theoretic
-  covers by admissible opens would make the disc disconnected, contradicting
-  `O(Sp K⟨T⟩) = K⟨T⟩` having no nontrivial idempotents (Conrad-AWS Example 2.2.8).
-- *Computation.* `O(Sp(K⟨T⟩/(T² − T))) = K × K` and `Sp` of it
-  is two points.
-- *Characterisation.* The open unit disc
-  `{|T| < 1} ⊆ Sp K⟨T⟩` is an admissible open, admissibly covered by the Weierstrass domains
-  `{|Tⁿ| ≤ |c|}` (`0 < |c| < 1`, `n ≥ 1`; written with `Tⁿ` since `|c|^{1/n}` need not lie in
-  `|K^×|`); a definition using only finite unions of affinoid subdomains
-  (the weak G-topology) fails this.
-
-The R0 carrier `RigidSpace.Affinoid K` bundles a complete Hausdorff strictly affinoid
-`K`-algebra using `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`. Its `tateTopology` is
-characterised by its membership criterion; `structureSheaf` agrees with the universal
-coordinate rings and their restriction maps through `sectionsSubdomainEquiv` and
-`sectionsSubdomainEquiv_restrict`. `RigidSpace.GSpace` includes locality of admissible opens
-along covering sieves. `LocallyGRingedSpace` specifies stalks by their colimit universal property;
-its morphisms pull back covering families and induce local maps on these stalks. Open immersions
-identify both section rings and the covering families on the image. The affinoid atlas in
-`RigidSpace` is an admissible covering sieve (Conrad-AWS §§2.3–2.4, pp. 17–19).
-
-For every `A : Affinoid K` over the complete nontrivially normed nonarchimedean field `K`,
-`Sp K A` has underlying locally G-ringed space `LocallyGRingedSpace.sp K A` and the
-single identity chart indexed by `PUnit`. `Sp_toLocallyGRingedSpace` is a definitional
-equality, as is its point carrier with `MaximalSpectrum A`. The identification
-`Sp.pointsEquiv` is `Equiv.refl`, as recorded by `Sp.pointsEquiv_eq`
-(Conrad-AWS Definition 2.3.5, p. 17; Definition 2.4.1, p. 19).
-The whole of `Max A` is an affinoid subdomain, and for every coordinate ring `A_U` of it the
-structure map `A → A_U` is bijective by its universal property
-(Conrad-AWS Definition 2.2.1, p. 12). Define `Sp.sectionsEquiv` by composing
-`A.sectionsSubdomainEquiv` on this whole open with the inverse of that structural
-map. `Sp.sectionsEquiv_spec` states this equality for every such `h`
-(Conrad-AWS Theorem 2.3.3 and Definition 2.3.5, p. 17). Thus both identifications
-use the specified maximal ideals and coordinate functions of `A`.
-
-`Sp.map_base` is contraction of maximal ideals and `Sp.map_sections` is the given algebra map.
-`homSpEquiv_apply` fixes the direction of the global-sections correspondence.
-`restrictι_spec` identifies restriction with the admissible open subspace;
-`hasOpenGluing` supplies the multicoequalizer, and `glueι_open_cover` gives the geometric
-open-immersion and covering properties. Compatibility and descent use Mathlib's
-`CategoryTheory.GlueData.glue_condition`, `CategoryTheory.Limits.Multicoequalizer.desc`,
-`Multicoequalizer.π_desc` and `Multicoequalizer.hom_ext`. Fibre products use Mathlib's categorical pullback after
-establishing `HasPullbacks (RigidSpace K)` (Conrad-AWS Example 2.4.5, p. 20).
-`CoherentIdeal` is an ideal subsheaf: membership is local for admissible coverings, section
-ideals on affinoid opens are finitely generated, and restriction between such opens extends the
-ideal. `closedSubspace_spec` specifies a closed immersion with exactly that kernel, including
-its nilpotents (Conrad-AWS §3.1, Example 3.1.5, p. 24).
-
-**Checks for the carrier and its constructions.** Each identifier below is a suggested name for
-the corresponding Check; paired assertions concern the same geometric construction.
-
-| Definitions | Check identifiers and computations |
-|---|---|
-| `Affinoid.maxMap` | `affinoidMaxMap_test_identity`: identity on maximal ideals; `affinoidMaxMap_test_comp`: contraction reverses composition; `affinoidMaxMap_test_empty`: the zero algebra has empty image. |
-| Affinoid admissible opens | `tateOpen_test_empty`: the empty open; `tateOpen_test_whole`: the whole affinoid; `tateOpen_test_openDisc`: the open unit disc is admissible. |
-| Affinoid admissible coverings and `tateTopology` | `tateCover_test_empty`: the empty family covers the empty open; `tateCover_test_finite`: a finite family of affinoid subdomains covers its union admissibly; `tateCover_test_nonadmissible`: the open disc and boundary do not cover the closed disc admissibly; `tateCover_test_openDisc`: the domains `|T|^(n+1) ≤ |c|`, `0 < |c| < 1`, admissibly exhaust the open disc. |
-| `structureSheaf`, `sectionsSubdomainEquiv` | `tateSheaf_test_empty`: sections on the empty open form the zero ring; `tateSheaf_test_whole`: global sections recover `A`; `tateSheaf_test_point`: sections of the point are `K`. |
-| `GSpace`, `LocallyGRingedSpace`, `RigidSpace`, `Sp` | `rigidCarrier_test_point`: one point with stalk `K`; `rigidCarrier_test_empty`: the empty rigid space; `rigidCarrier_test_disc`: the disc's global section algebra is `K⟨T⟩`. |
-| `Sp` | `Sp_point`: the point carrier is definitionally `MaximalSpectrum K`; `Sp_empty`: the empty affinoid's carrier is definitionally the maximal spectrum of the zero ring `PUnit`; `Sp_disc`: the disc's single chart map is the identity of `LocallyGRingedSpace.sp`. |
-| `Sp.pointsEquiv` | `pointsEquiv_point`: each maximal ideal of the field is fixed; `pointsEquiv_empty`: the zero algebra gives no points; `pointsEquiv_disc`: every maximal ideal of `K⟨T⟩` is fixed, including `(T)` and `(T − 1)`. |
-| `Sp.sectionsEquiv` | `sectionsEquiv_point`: the section corresponding to the structural image of `a ∈ K` returns `a`; `sectionsEquiv_empty`: the whole-domain zero section returns zero; `sectionsEquiv_disc`: the sections corresponding through `sectionsSubdomainEquiv` to the structural images of `T` and `T + T²` return exactly those elements, fixing the disc coordinate even in characteristic two. |
-| `IsAdmissibleOpen` | `rigidOpen_test_empty`, `rigidOpen_test_whole`: empty and whole opens; `rigidOpen_test_openDiscUnionOne`: the open unit disc is admissible, but its union with the point `(T − 1)` is not; `rigidOpen_test_affinoid`: for every `A : Affinoid K` and `U : Set (MaximalSpectrum A)`, the inverse image `(Sp.pointsEquiv K A) ⁻¹' U` is admissible in `Sp K A` exactly when `A.IsAdmissibleOpen U` holds. The same specified equivalence is used for every `U`. |
-| `IsAdmissibleCover` | `rigidCover_test_self`: a one-member cover; `rigidCover_test_empty`: the empty cover of the empty open; `rigidCover_test_point`: the empty family cannot cover `Sp K`. |
-| `Sp.map`, `homSpEquiv` | `rigidHomEquiv_test_identity`: the identity pulls a constant back to itself; `rigidHomEquiv_test_empty`: all sections pulled to the empty space are zero; `rigidHom_test_twoTerms`: pullback of `a+b²` is `f(a)+f(b)²`. `rigidHom_test_point` and `rigidHom_test_empty` also compute the structural and empty-source Hom sets. |
-| `restrict`, `restrictι` | `rigidRestrict_test_whole`: the whole-space inclusion is an isomorphism; `rigidRestrict_test_empty`: empty points and zero section ring; `rigidRestrict_test_subdomain`: an affinoid subdomain has its universal coordinate algebra. |
-| `pullback` | `rigidPullback_test_identity`: identity base change of `T ↦ T²` has section algebra `K⟨T⟩`, with the first projection pulling the coordinate to `T` and the second to `T²`; `rigidPullback_test_empty`: base change of the empty space is empty; `rigidPullback_test_bidisc`: two discs over `Sp K` give section algebra `K⟨T₁,T₂⟩`; `rigidPullback_test_squareZero`: the fibre of the non-identity map `T ↦ T²` over `0` has section algebra `DualNumber K`, with the first projection pulling `T` back to the nonzero square-zero element `ε`. |
-| `glue`, `glueι` | `rigidGlue_test_single`: a single-piece gluing is the piece; `rigidGlue_test_empty`: gluing no pieces is empty; `rigidGlue_test_twoPoints`: two points with empty overlap give exactly two points. The last Check requires the specified pieces and overlaps in the gluing datum. |
-| `IsAffinoidOpen`, `IsQuasiCompactOpen` | `rigidAffinoidOpen_test_whole`: an affinoid is affinoid and quasi-compact; `rigidAffinoidOpen_test_empty`: the empty open has both properties; `rigidAffinoidOpen_test_openDisc`: the open unit disc has neither. |
-| `IsClosedImmersion`, `IsSeparated`, `IsQuasiSeparated`, `IsQuasiCompact` | `rigidClasses_test_identity`: all four hold for an identity; `rigidClasses_test_empty`: all four hold for an empty-source map; `rigidClasses_test_closedDisc`: the disc over the point is quasi-compact and separated (hence quasi-separated), but is not a closed immersion. |
-| `LocallyGRingedSpace.IsOpenImmersion` | `rigidOpenImmersion_test_identity`: the whole open; `rigidOpenImmersion_test_empty`: the empty open; `rigidOpenImmersion_test_closedPoint`: a point in the disc is not an open immersion. |
-| `CoherentIdeal` | `rigidIdeal_test_zero`, `rigidIdeal_test_unit`, `rigidIdeal_test_square`: the zero, unit and `(T²)` ideal subsheaves exist. |
-| `CoherentIdeal`, `closedSubspace`, `closedSubspaceι` | `rigidClosedSubspace_test_zero`: the zero ideal gives the whole space; `rigidClosedSubspace_test_unit`: the unit ideal gives the empty space; `rigidClosedSubspace_test_dualNumbers`: the ideal `(T²)` in the disc gives one point with global algebra `K[ε]/(ε²)`, rather than its reduction `K`. |
-
-For complete nontrivially normed nonarchimedean `K`, the Check
-`rigidOpen_test_openDiscUnionOne` uses `Sp.pointsEquiv` to specify the point `1` by
-its maximal ideal `(T − 1)`. Every affinoid subdomain is canonically open
-(Conrad-AWS Theorem 2.2.5, p. 14), so every admissible open is canonically open
-(Definition 2.2.6, p. 14). The union in this Check is not: for `0 < |c| < 1`,
-the points `1 + cⁿ` approach `1` and lie outside it for all `n ≥ 1`.
-The open disc itself is admissible by Example 2.2.8, p. 15.
-Under the same field hypotheses, `rigidPullback_test_squareZero` requires the
-existence of algebra maps with `φ(T) = T²` and `ψ(T) = 0`, and computes their
-rigid fibre product using the completed tensor product of Example 2.4.5, p. 20.
-Its global sections are `K⟨T⟩/(T²) ≃ K[ε]/(ε²)`, with the image of `T` fixed
-as `ε`; the nonzero square-zero assertion holds also in characteristic two.
+**Rigid-analytic spaces over `K` in the sense of Tate.** (*rigid-analytic-space*) Affinoid spaces
+`Sp(A) = Max A` with the strong G-topology and Tate's structure sheaf, and rigid-analytic spaces
+over `K` (locally G-ringed `K`-spaces satisfying `(G0)`–`(G2)` with an admissible covering by
+affinoid spaces) form a category `Rig_K` with open subspaces, gluing along admissible opens and
+fibre products. Supplied by RigidAnalyticGeometry §6.1.1, §6.2.2, §6.4.1, §6.4.3 and §6.4.5 (the
+roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier builds its
+affinoid spaces on `IsAffinoidAlgebra K A`; this roadmap reaches them from its affinoid carrier
+through the carrier bridge of R0.9, and writes `RigidSpace K` (`Rig_K`), `RigidSpace.Sp`,
+`RigidSpace.IsAdmissibleOpen`, `RigidSpace.IsAdmissibleCover` and `RigidSpace.hasPullbacks` for
+these objects and `RigidSpace.IsClosedImmersion`, `RigidSpace.IsSeparated`,
+`RigidSpace.IsQuasiSeparated` and `RigidSpace.IsProper` (Kiehl-proper) for the morphism classes of
+RigidAnalyticGeometry §7.2.3, §7.3.2 and §7.3.4, which R1 uses.
 
 **Rigid analytification `X ↦ X^an` of schemes locally of finite type over `K`.**
-(*rigid-analytification*) Let `K` be complete of rank one. For a `K`-scheme `X` locally of finite
-type there is a rigid-analytic space `X^an` with a morphism of locally G-ringed `K`-spaces
-`i_X : X^an → X` that is final among rigid spaces over `K` with such a morphism: for every rigid
-space `Y` over `K`, composition with `i_X` is a bijection `Hom_{Rig_K}(Y, X^an) → Hom_K(Y, X)`.
-`X ↦ X^an` is a functor; `A^{n,an}` is the union of the closed polydiscs of radius `|c|^{-j}`
-(`0 < |c| < 1`); for affine `X = V(I) ⊆ A^n`, `X^an` is the closed analytic subspace of `A^{n,an}`
-cut out by `I`; `i_X` is a bijection onto the closed points of `X`; for a Zariski-open `U ⊆ X` the
-analytification of the open immersion `U → X` is an isomorphism of `U^an` onto the admissible open
-`i_X⁻¹(U)` of `X^an`; and for morphisms `X → Z`, `Y → Z` of `K`-schemes locally of finite type the
-canonical map `(X ×_Z Y)^an → X^an ×_{Z^an} Y^an` is an isomorphism (Conrad-IC Appendix A.1,
-p. 32, analytification as a representing object; Conrad-AWS §2.4, Ex. 2.4.3, p. 19, rigid affine
-`n`-space; Conrad-AWS §2.4, Ex. 2.4.6, p. 21, analytification as a final object; Conrad-IC
-Appendix A.1, Lem. A.1.2(3) and its proof, p. 32, the fibre-product compatibility, proved by
-reduction to the affine case, universal mapping properties and Lemma A.1.1). In `RigidSpace`,
-define `analytification` as `X ↦ X^an`, `analytification.toScheme` as `i_X : X^an → X` and
-`analytificationFunctor` as the functor (with `map_id`, `map_comp`); prove
-`analytification.homEquiv` (`Hom(Y, X^an) ≃ Hom_K(Y, X)` for rigid `Y`),
-`analytification.bijective_closedPoints` (`i_X` is a bijection onto the closed points of `X`) and
-`analytification.preservesPullbacks` (giving `(X ×_Z Y)^an ≅ X^an ×_{Z^an} Y^an` by Mathlib's
-`CategoryTheory.Limits.PreservesPullback.iso`, proved by reduction to the affine case as in
-Conrad-IC Lem. A.1.2(3); *rigid-analytification-comparison* identifies it with
-the adic isomorphism of *analytification-fibre-products*). The analytification of the
-affine line with doubled origin is not quasi-separated (Conrad-IC Appendix A.1). *Needs:*
-*rigid-analytic-space*; *affinoid-supremum-seminorm*, *affinoid-maximum-modulus*,
-*affinoid-power-bounded-iff-sup* (layer R0); *rigid-gamma-spec*; Mathlib
-`AlgebraicGeometry.LocallyOfFiniteType`, `AlgebraicGeometry.AffineSpace`,
-`AlgebraicGeometry.IsOpenImmersion`, `CategoryTheory.Limits.pullback`.
-Lean: README target.
-
-**Checks.**
-
-- *Degenerate.* `(Spec K)^an = Sp(K)`, and the empty scheme
-  analytifies to the empty rigid space `Sp(0)`.
-- *Computation.* For every `a ∈ A`,
-  there is exactly one map `f : Sp A → (A¹_K)^an` whose composite with
-  `analytification.toScheme` pulls the algebraic coordinate back to `a` under
-  `Sp.sectionsEquiv`. The Check applies the composite's section map to
-  `Scheme.ΓSpecIso.inv T`, including arbitrary elements outside the unit ball
-  (Conrad-IC, Lemma A.1.1 and the construction on pp. 31–32).
-- *Computation.* For complete nontrivially normed
-  nonarchimedean `K`, require an equivalence `e` from the points of `(A¹_K)^an` to monic
-  irreducible polynomials such that `analytification.toScheme.base (e.symm p)` has ideal
-  `Ideal.span {p}`. Thus the correspondence is induced by the structural map to `Spec K[X]`
-  (Conrad-AWS §2.4, Example 2.4.6, p. 21).
-- *Computation.* For every field `K`, the
-  equivalence from `MaximalSpectrum K[X]` to monic irreducibles has inverse `p ↦ (p)`.
-  If `K` is algebraically closed, the equivalence with `K` has inverse `a ↦ (X − a)`.
-  Use Mathlib's maximal spectrum and `Polynomial.exists_monic_span` for the principal
-  generator, with the normalization fixed by monicity.
-- *Non-example.* For the same complete
-  nonarchimedean `K` and every `a ∈ K` with `1 < ‖a‖`, exactly one analytic point maps under
-  `analytification.toScheme.base` to `(X − a)`. The unit disc's coordinate map misses this
-  ideal, so its points cannot satisfy the specified correspondence.
-- *Computation.* Over every field, the
-  ideals `(X − 0)` and `(X − 1)` differ, including in characteristic two; these coordinates
-  specify distinct closed points.
-- *Non-example.* `(A¹_K)^an` is not quasi-compact, so it is not
-  the affinoid `Sp(K⟨T⟩)`.
+(*rigid-analytification*) A `K`-scheme `X` locally of finite type has a rigid analytification
+`i_X : X^an → X`, final among rigid spaces over `K` with a morphism to `X` and functorial in `X`; it
+is a bijection onto the closed points of `X` with the same residue fields, it is compatible with
+open and closed immersions and fibre products, and `O_{X,i_X(x)} → O_{X^an,x}` induces an
+isomorphism of completions. Supplied by RigidAnalyticGeometry §8.1.1–8.1.2 (the roadmap of W. Coram,
+to be contributed to TauCetiRoadmap ahead of this one). The supplier takes Mathlib's schemes locally
+of finite type over `Spec K`, the objects of `RigidSpace.KScheme K` below, and its rigid varieties,
+which this roadmap writes `RigidSpace K` (*rigid-analytic-space*); `RigidSpace.analytification`
+(`X^an`, with `i_X` its `toScheme`) and `RigidSpace.analytificationFunctor` are this roadmap's names
+for the supplied analytification.
 
 `RigidSpace.KScheme K` abbreviates `AdicSpace.SchemeOver (AdicSpace.fieldAffinoid K)`,
 the full subcategory of Mathlib schemes over `Spec K` whose structure map is locally of finite
@@ -7840,56 +7216,12 @@ field parameters include the compatible `TauCeti.Huber.IsHuberRing K` structure.
 morphisms are stable under base change ([Stacks Tag 01T4](https://stacks.math.columbia.edu/tag/01T4)).
 The shared constructor `AdicSpace.analytification.affineScheme K R` uses `Spec` of a
 finitely generated `K`-algebra `R` (Conrad-IC, Appendix A.1, Lemma A.1.1, p. 31).
-The bridge `ofScheme` has all scheme points, all Zariski opens, the scheme section rings
-and the scheme stalks. `schemeGSpace_mem_topology` identifies its covering sieves with
-Zariski coverings; `schemeScalars` gives the scalar action through the structure map;
-`schemeSheaf_restrict` and `ofScheme_germ` pin restrictions and germs. `ofSchemeMap_sections`
-pins pullback to the scheme morphism's own map on sections. Thus the target of `toScheme` is
-the specified scheme as a locally G-ringed space. `homEquiv_apply` identifies the representing
-bijection with composition by `toScheme`, and `toScheme_naturality` fixes the direction of
-the functor's maps. The affine correspondence `homSpecEquiv` uses finitely generated
-`K`-algebras; `homSpecEquiv_apply` identifies it with global pullback (*rigid-gamma-spec*).
-`analytification.affineSpace_exhaustion` gives an admissible cover by the expanding closed
-polydiscs and fixes the pullback of the algebraic coordinate to `c⁻ᵏT_i` on the unit polydisc.
-`analytification.openImmersion` identifies the image with the inverse image of the scheme open.
-`analytification.closedImmersion` preserves closed immersions, and
-`analytification.affineClosedSubspace` identifies the analytification of `Spec(K[T]/I)` with
-the coherent closed subspace defined by the extended ideal `I`; its equation on polynomial
-functions pins the inclusion, and its equations on affinoid opens retain the full ideal.
 
 **Checks for the common scheme category.** `KScheme_carrier` is definitional equality
 with `AdicSpace.SchemeOver (AdicSpace.fieldAffinoid K)`. The shared affine constructor
 has an isomorphic structure map for `K` (`KScheme_field`), empty spectrum for the zero
 algebra (`KScheme_empty`), and a non-isomorphic structure map for `K[T]`
 (`KScheme_line`).
-
-**Checks for the bridge and universal maps.** `rigidSchemeBridge_test_point`,
-`rigidSchemeBridge_test_empty` and `rigidSchemeBridge_test_line` compute the underlying
-scheme and its global algebra as `Spec K`, the empty scheme, and `Spec K[T]`, respectively.
-The section rings are `K`, `0` and `K[T]`. `rigidSchemeMap_test_identity`,
-`rigidSchemeMap_test_comp` and `rigidSchemeMap_test_empty` test the identity, covariant
-composition and the empty image of the bridge map.
-`rigidAnalytificationMap_test_identity` identifies the image of the identity under the functor
-and the representing bijection; `rigidAnalytificationMap_test_empty` computes both Hom sets
-from the empty rigid space as singletons. Over the same complete nontrivially normed
-nonarchimedean field `K`, `rigidAnalytificationMap_test_twoTerms` takes the explicit
-endomorphism `f = Spec(Polynomial.aeval (T + T²))` of `A¹_K`. It compares
-`homEquiv(f^an)` with `toScheme ≫ ofSchemeMap(f)` as in `homEquiv_apply` and
-`toScheme_naturality`, and compares the bridge pullback of the global coordinate with
-`f.app` as in `ofSchemeMap_sections`. Under `Scheme.ΓSpecIso`, `f.appTop` sends `T`
-to `T + T²`; through `homSpecEquiv`, the analytified map sends the target coordinate
-to `t + t²`, where `t` is the source coordinate pulled back by `toScheme`.
-It also retains `φ(a+b²) = φ(a)+φ(b)²` for arbitrary polynomials `a,b`.
-The explicit coordinate substitution fixes the contravariant direction on sections
-(Conrad, [Irreducible Components](https://math.stanford.edu/~conrad/papers/irredpaper.pdf),
-Appendix A.1, Lemma A.1.1, p. 31, and the representing property on p. 32).
-`rigidSchemeSite_test_point` says the empty sieve does not cover `Spec K`;
-`rigidSchemeSite_test_empty` says it covers the empty scheme;
-`rigidSchemeSite_test_line` computes the Zariski covering `D(T) ∪ D(1−T) = A¹`.
-`rigidToScheme_test_point` computes a bijection to `Spec K`;
-`rigidToScheme_test_empty` computes the empty image;
-`rigidToScheme_test_generic` excludes the generic prime `(0)` of `K[T]` from the structural
-map's image.
 
 ### R1.2 Huber's fibre product of a scheme and an adic space
 
@@ -8890,8 +8222,10 @@ power series converging on some disc around `0`, strictly between `K[T]_{(T)}` a
 both complete to `K[[T]]`; for the node `y² = x²(x + 1)` (`char K ≠ 2`) the completed local ring of
 `X^ad` at the origin is `K[[x, y]]/(y² − x²(x+1))`, which is not a domain although `O_{X,0}` is.
 *Needs:* *analytification-points*; *analytification-functor*; *rigid-adic-comparison-functor*;
-*rigid-local-ring-completion*; *classical-points-constructible-density*; *gerritzen-grauert*;
-*tate-algebra-maximal-ideals-polynomial* (layer R0); Mathlib `IsLocalRing.CotangentSpace`,
+*rigid-local-ring-completion* (RigidAnalyticGeometry §4.4.2);
+*classical-points-constructible-density*;
+*gerritzen-grauert* (RigidAnalyticGeometry §4.6.3); *tate-algebra-maximal-ideals-polynomial*
+(RigidAnalyticGeometry §3.1.3); Mathlib `IsLocalRing.CotangentSpace`,
 `AdicCompletion`, `AdicCompletion.flat_of_isNoetherian`, `Algebra.HasGoingDown.of_flat`,
 `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`; Tau Ceti
 `TauCeti.AlgebraicGeometry.ZariskiCotangentSpace`.
@@ -8909,8 +8243,8 @@ closed points). The image of the diagonal of the affine line with doubled origin
 neither is its preimage in the analytification of the self-product — this is how non-separatedness
 is seen on `X^ad`; for `T = G_m ⊆ A¹_K`, `q⁻¹(T) = A^{1,ad} \ {0}` is open and dense but not
 closed. *Needs:* *analytification-points*; *analytification-immersions*;
-*analytification-completed-local-rings*; *affinoid-jacobson*, *affinoid-residue-fields-finite*
-(layer R0).
+*analytification-completed-local-rings*; *affinoid-jacobson* (RigidAnalyticGeometry §1.1.2),
+*affinoid-residue-fields-finite* (RigidAnalyticGeometry §1.2.4).
 Lean: README target.
 
 **A finite locally free surjection of adic spaces locally of finite type over `Spa K` is an
@@ -8936,20 +8270,23 @@ invertible), functions on `G_m^ad` invariant under `μ_n`-translation descend; t
 `Spa(K[T]/(T²)) → Spa K` is locally free, and `Spa K` is its coequaliser (an element `a + bε` with
 `a + bε ⊗ 1 = 1 ⊗ (a + bε)` in `K[ε] ⊗_K K[ε] = K[ε₁, ε₂]` has `b = 0`). *Needs:*
 *finite-morphism*, *fibre-products-existence*, *affinoid-fibre-product*, *finite-morphisms*,
-*fibre-product-points*, *finite-algebra-over-affinoid*, *finite-algebra-tensor-complete*,
-*affinoid-homomorphism-continuous* (all layer R0); *tft-plus-ring-power-bounded*; Mathlib
+*fibre-product-points*, *finite-algebra-over-affinoid*, *finite-algebra-tensor-complete* (all layer
+R0); *affinoid-homomorphism-continuous* (RigidAnalyticGeometry §1.3.2);
+*tft-plus-ring-power-bounded*; Mathlib
 `Module.FaithfullyFlat`.
 Lean: README target.
 
-**`X` is connected iff `X^ad` is connected.** (*analytification-connected*) For a `K`-scheme `X`
-locally of finite type (`K` complete of rank one), `X` is connected iff `X^ad` is connected: this
-is *rigid-analytification-connected* (`X` connected iff `X^an` connected) transported along
-`r_K(X^an) ≅ X^ad` (*rigid-analytification-comparison*), since `r_K` identifies the open and closed
-subsets of `X^an` with those of `r_K(X^an)` (*rigid-adic-topos-equivalence*); the only clause added
-here is that `T ↦ q_X⁻¹(T)` is a bijection from the open and closed subsets of `X` to those of
-`X^ad`, with `A^{1,ad}_K` connected and locally connected (Zavyalov24 Lemma 2.2) although its
-subspace of classical points is totally disconnected. *Needs:* *rigid-analytification-connected*;
-*rigid-analytification-comparison*; *rigid-adic-topos-equivalence*; *analytification-points*.
+**`X` is connected iff `X^ad` is connected.** (*analytification-connected*) A `K`-scheme `X` locally
+of finite type is connected iff its analytification is connected. Supplied by RigidAnalyticGeometry,
+*Targets requested by the Tau Ceti AdicSpaces roadmaps*, **analytification_preconnected_iff** (the
+roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier states it
+for the rigid analytification `X^an`; this roadmap transports it to `X^ad` along `r_K(X^an) ≅ X^ad`
+(*rigid-analytification-comparison*), since `r_K` identifies the open and closed subsets of `X^an`
+with those of `r_K(X^an)` (*rigid-adic-topos-equivalence*), so that `T ↦ q_X⁻¹(T)` is a bijection
+from the open and closed subsets of `X` to those of `X^ad`; `A^{1,ad}_K` is connected and locally
+connected (Zavyalov24 Lemma 2.2) although its subspace of classical points is totally disconnected.
+*Needs:* *rigid-analytification-comparison*; *rigid-adic-topos-equivalence*;
+*analytification-points*.
 Lean: README target.
 
 ### R1.6 separatedness and properness
@@ -9091,53 +8428,48 @@ global section along a rigid morphism with pullback along its image under
 (Huber94 Proposition 4.3).
 
 **Huber's functor `r_K` from rigid-analytic spaces to adic spaces locally of finite type over
-`Spa(K, K°)`.** (*rigid-adic-comparison-functor*) Let `K` be a complete rank-one nonarchimedean
-field and consider rigid-analytic varieties in the sense of *rigid-analytic-space* (Conrad-AWS Def. 2.4.1, p. 19).
-There is a functor `r_K : Rig_K → Adic^{lft}_K` together with, for each rigid space `X`, a morphism
-of ringed sites `ρ_X : (|r_K(X)|, O_{r_K(X)}) → (X, O_X)` over `Sp K = Spa K` such that `r_K(X)`
-is locally of finite type over `Spa(K, K°)`, `ρ_X` is locally coherent, and `(r_K(X), ρ_X)` is
-final: for every adic space `Z` locally of finite type over `Spa(K, K°)` and every locally coherent
-morphism of ringed sites `λ : (|Z|, O_Z) → (X, O_X)` over `Sp K` there is a unique morphism
-`f : Z → r_K(X)` over `Spa K` with `ρ_X ∘ f = λ` (Huber94 §4, Prop. 4.3, p. 541). Moreover
-(Huber96 (1.1.11) and (1.4.1)): (a) `r_K(Sp A) = Spa(A, A°)` and `r_K` of a morphism of affinoids
-is induced by the `K`-algebra map (Huber94 §4, proof of Prop. 4.3, p. 542); (b) `r_K` carries open immersions to open
-embeddings and `r_K(U ∩ V) = r_K(U) ∩ r_K(V)`; (c) a family of admissible opens is an admissible
-covering iff the `r_K(U_i)` cover `r_K(X)` (Conrad-Adic §3, Ex. 3.15, p. 16); (d) the points of `X`
-correspond bijectively to the classical points of `r_K(X)` (points `x` with `k(x)` finite over
-`K`), with `r_K(U) ∩ X = U` for admissible `U`; if `X` is quasi-separated, `U ↦ r_K(U)` is a
-bijection from the quasi-compact admissible opens of `X` onto the quasi-compact opens of `r_K(X)`,
-under which affinoid opens correspond to affinoid opens (Huber96 §1.1, (1.1.11), p. 43); (e) `r_K`
-commutes with fibre products (Huber96 §1.1, (1.1.11), p. 43); (f) a morphism `f` of rigid spaces
-is a closed immersion iff `r_K(f)` is a closed embedding (*closed-adic-subspaces-and-embeddings*,
-layer R0) (Huber96 §1.4, (1.4.1), p. 60); and rational subsets of `Spa(A, A°)` and of `Max A`
-correspond (Huber93 §4, after Cor. 4.3, p. 473). In `AdicSpace`, define `rigidToAdic` as the
-functor `r_K : RigidSpace K ⥤ Adic^lft_K`, defined on affinoids by `Sp A ↦ Spa(A, A°)` and glued
-along admissible opens, `rigidToAdic.rho` as its inverse-image functor on opens,
-`rigidToAdic.sections` as the section isomorphism, and `rigidToAdic.ringedRho` as the
-locally coherent morphism of ringed sites `ρ_X : (|r_K X|, O_{r_K X}) → (X, O_X)`
-over `Sp K`, natural in `X` by `rigidToAdic.rho_naturality`, and `rigidToAdic.lift` as the
-unique morphism `lift λ : Z → r_K X` over `Spa K` with `ρ_X ∘ lift λ = λ` (with `rho_comp_lift`
-and `lift_unique`); prove `rigidToAdic_Sp` (`r_K(Sp A) ≅ Spa(A, A°)` for every `K`-affinoid
-algebra `A`, with underlying space Tau Ceti's `ValuationSpectrum.spa` of the pair
-`Huber.Pair.powerBounded A`; for a `K`-algebra map `φ : A → B`, `r_K(Sp φ)` is `Spa` of the pair
-morphism induced by `φ`), `rigidToAdic.isOpenImmersion_map` (`r_K` carries open immersions of rigid
-spaces to open embeddings, and `r_K(U ∩ V) = r_K(U) ∩ r_K(V)` for admissible opens `U, V ⊆ X`),
-`rigidToAdic_isAdmissibleCover_iff` (a family `(U_i)` of admissible opens of `X` is an admissible
-covering iff the open subspaces `r_K(U_i)` cover `r_K(X)`), `rigidToAdic.classicalPointsEquiv`
-(the points of `X` correspond bijectively to the classical points of `r_K(X)`, and
-`r_K(U) ∩ X = U` for every admissible open `U`), `rigidToAdic.preservesPullbacks` (`r_K` commutes
-with fibre products: `r_K(X ×_S Y) ≅ r_K(X) ×_{r_K S} r_K(Y)`, affinoid-locally
-`Spa(B ⊗̂_A C, (B ⊗̂_A C)°)`, *affinoid-fibre-product*), `rigidToAdic.locallyOfFiniteType` (for
-every rigid space `X` the structure morphism `r_K(X) → Spa(K, K°)` is locally of finite type),
-`rigidToAdic.quasiCompactOpensEquiv` (for quasi-separated `X`, `U ↦ r_K(U)` is an order
-isomorphism from the quasi-compact admissible opens of `X` onto the quasi-compact opens of
-`r_K(X)`, carrying affinoid opens to affinoid opens) and `rigidToAdic.isClosedImmersion_iff` (a
-morphism `f` of rigid spaces is a closed immersion iff `r_K(f)` is a closed embedding of adic
-spaces). `r_K(B¹)` is the adic closed unit disc, whose non-classical points (e.g. the Gauss point)
-are not points of the rigid disc. *Needs:* *rigid-analytic-space*; *tft-plus-ring-power-bounded*;
-*affinoid-fibre-product*, *affinoid-homomorphism-continuous*,
-*closed-adic-subspaces-and-embeddings* (layer R0); *classical-points-constructible-density*;
-*gerritzen-grauert*; Tau Ceti `TauCeti.ValuationSpectrum.spa`, `TauCeti.Huber.Pair.powerBounded`,
+`Spa(K, K°)`.** (*rigid-adic-comparison-functor*) The functor `r` from rigid-analytic spaces over
+`K` to adic spaces over `Spa(K, K°)`, with `r(Sp A) = Spa(A, A°)` carrying its structure presheaf,
+morphisms of affinoids induced by their `K`-algebra maps and the extension to rigid spaces by
+pasting, carries affinoid subdomains to open affinoid subspaces and admissible opens and coverings
+to opens and open coverings, and identifies the points of `X` with the classical points of `r(X)`
+and rational subdomains with the traces of rational subsets. Supplied by RigidAnalyticGeometry
+§8.2.2–8.2.7 and §8.3.1–8.3.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of
+this one). The supplier gives `r` no universal property and states its compatibility with fibre
+products only for affinoids (its §8.3.3); this roadmap writes `AdicSpace.rigidToAdic` (`r_K`) for
+the supplier's `r` regarded in `Adic^{lft}_K`, with `rigidToAdic_Sp` (`r_K(Sp A) ≅ Spa(A, A°)`, with
+underlying space Tau Ceti's `ValuationSpectrum.spa` of the pair `Huber.Pair.powerBounded A`) and
+`rigidToAdic.classicalPointsEquiv` (the points of `X` and the classical points of `r_K(X)`, with
+`r_K(U) ∩ X = U`), and states the following on its side. Let `K` be a complete rank-one
+nonarchimedean field. For each rigid space `X` there is a morphism of ringed sites
+`ρ_X : (|r_K(X)|, O_{r_K(X)}) → (X, O_X)` over `Sp K = Spa K` such that `r_K(X)` is locally of
+finite type over `Spa(K, K°)`, `ρ_X` is locally coherent, and `(r_K(X), ρ_X)` is final: for every
+adic space `Z` locally of finite type over `Spa(K, K°)` and every locally coherent morphism of
+ringed sites `λ : (|Z|, O_Z) → (X, O_X)` over `Sp K` there is a unique morphism `f : Z → r_K(X)`
+over `Spa K` with `ρ_X ∘ f = λ` (Huber94 §4, Prop. 4.3, p. 541). Moreover, if `X` is
+quasi-separated, `U ↦ r_K(U)` is a bijection from the quasi-compact admissible opens of `X` onto the
+quasi-compact opens of `r_K(X)`, under which affinoid opens correspond to affinoid opens (Huber96
+§1.1, (1.1.11), p. 43); `r_K` commutes with fibre products (Huber96 §1.1, (1.1.11), p. 43); and a
+morphism `f` of rigid spaces is a closed immersion iff `r_K(f)` is a closed embedding
+(*closed-adic-subspaces-and-embeddings*, layer R0) (Huber96 §1.4, (1.4.1), p. 60). In `AdicSpace`,
+define `rigidToAdic.rho` as the inverse-image functor of `r_K` on opens, `rigidToAdic.sections` as
+the section isomorphism, `rigidToAdic.ringedRho` as the locally coherent morphism of ringed sites
+`ρ_X` over `Sp K`, natural in `X` by `rigidToAdic.rho_naturality`, and `rigidToAdic.lift` as the
+unique morphism `lift λ : Z → r_K X` over `Spa K` with `ρ_X ∘ lift λ = λ` (with `rho_comp_lift` and
+`lift_unique`); prove `rigidToAdic.preservesPullbacks` (`r_K(X ×_S Y) ≅ r_K(X) ×_{r_K S} r_K(Y)`,
+affinoid-locally `Spa(B ⊗̂_A C, (B ⊗̂_A C)°)`, *affinoid-fibre-product*),
+`rigidToAdic.locallyOfFiniteType` (for every rigid space `X` the structure morphism
+`r_K(X) → Spa(K, K°)` is locally of finite type), `rigidToAdic.quasiCompactOpensEquiv` (for
+quasi-separated `X`, `U ↦ r_K(U)` is an order isomorphism from the quasi-compact admissible opens of
+`X` onto the quasi-compact opens of `r_K(X)`, carrying affinoid opens to affinoid opens) and
+`rigidToAdic.isClosedImmersion_iff` (a morphism `f` of rigid spaces is a closed immersion iff
+`r_K(f)` is a closed embedding of adic spaces). `r_K(B¹)` is the adic closed unit disc, whose
+non-classical points (e.g. the Gauss point) are not points of the rigid disc. *Needs:*
+*rigid-analytic-space* (RigidAnalyticGeometry §6.4); *tft-plus-ring-power-bounded*;
+*affinoid-fibre-product*, *closed-adic-subspaces-and-embeddings* (layer R0);
+*affinoid-homomorphism-continuous* (RigidAnalyticGeometry §1.3.2);
+*classical-points-constructible-density*; *gerritzen-grauert* (RigidAnalyticGeometry §4.6.3); Tau
+Ceti `TauCeti.ValuationSpectrum.spa`, `TauCeti.Huber.Pair.powerBounded`,
 `TauCeti.Huber.Pair.quotient`, `TauCeti.ValuationSpectrum.rationalSubset`.
 Lean: README target.
 
@@ -9145,22 +8477,8 @@ Lean: README target.
 
 - *Degenerate.* `r_K(Sp K) ≅ Spa(K, K°)` has exactly one point.
   Under `rigidToAdic.classicalPointsEquiv`, `ρ` preserves membership in each admissible open;
-  under `Sp.sectionsEquiv` and `rigidToAdic_Sp`, its section map sends every `a ∈ K` to the
-  same coefficient. These equations express the identity of the one-point ringed site.
-- *Non-example.* A point of `r_K(Sp K⟨T⟩)`, transported by
-  `rigidToAdic_Sp` and restricted along the completion map, is the supplied radius-one
-  `ValuationSpectrum.gaussPoint`. Its support is zero and it is outside the image of
-  `rigidToAdic.classicalPointsEquiv`; the rigid maximal spectrum therefore does not exhaust
-  the adic disc (Wedhorn Examples 7.57(2), 7.58, pp. 71–72).
-- *Characterisation.* Fix `c ∈ K` with `0 < |c| < 1`.
-  The admissible rigid opens `U = {|T| < 1}` and `V = {|T| = 1}` cover the rigid disc as sets.
-  Their adic images are respectively `⋃_{n≥0} {|T|^(n+1) ≤ |c|}` and `{|T| = 1}`.
-  A rank-two specialization `x_{<1}` of the supplied Gauss point satisfies
-  `|c(x_{<1})| < |T(x_{<1})|^(n+1)` for every `n ≥ 0`, while `|T(x_{<1})| < 1`.
-  It is in neither image, so `{U,V}` is not admissible. Rank two is expressed as dimension
-  two of its residue valuation ring. Refining the Gauss valuation by the `T`-adic
-  valuation of `K̃(T)` gives this point over any complete nontrivially valued `K`
-  (Wedhorn Example 7.57(5), p. 72; Conrad-AWS Example 2.2.8, p. 15).
+  under `rigidToAdic_Sp`, its section map sends every `a ∈ K` to the same coefficient.
+  These equations express the identity of the one-point ringed site.
 - *Compatibility.* `ofRigidAffinoid K (RigidSpace.Affinoid.polydisc K 1)`
   uses `Huber.Pair.powerBounded`. Its plus ring is also the closure of the power-bounded
   subring of the uncompleted restricted-series ring. The homeomorphism from the underlying
@@ -9209,39 +8527,38 @@ are suggested names for the accompanying Checks.
 | `rigidToAdic.RingedSiteHom` | `rigidToAdic.RingedSiteHom_emptyOpen`: the empty admissible open maps to the empty open; `rigidToAdic.RingedSiteHom_noConstantTop`: for nonempty `Z`, sending every open to the whole space cannot define a morphism of sites; `rigidToAdic.RingedSiteHom_emptySource`: all pulled-back sections on an empty source are zero. |
 | `rigidToAdic.ringedRho` | `rigidToAdic.ringedRho_empty`: the empty open is preserved; `rigidToAdic.ringedRho_sections`: every section map is bijective; `rigidToAdic.ringedRho_affinoid`: a quasi-compact admissible open in an affinoid has compact adic image. |
 | `rigidToAdic.lift` | `rigidToAdic.lift_identity`: lifting the canonical ringed-site morphism gives the identity; `rigidToAdic.lift_empty`: for empty `Z`, the lift equals every morphism `Z → r_K X`; `rigidToAdic.lift_twoTerms`: pullback of the image of `a+b²` is `λ(a)+λ(b)²`, fixing the order of section pullbacks. |
-| `rigidToAdic.classicalPointsEquiv` | `rigidToAdic.classicalPointsEquiv_point`: every point of `r_K(Sp K)` is classical; `rigidToAdic.classicalPointsEquiv_empty`: the empty rigid space has empty classical image; `rigidToAdic.classicalPointsEquiv_disc`: the classical embedding does not cover the adic disc. |
 | `rigidToAdic.quasiCompactOpensEquiv` | `rigidToAdic.quasiCompactOpensEquiv_empty`: the empty open maps to the empty open; `rigidToAdic.quasiCompactOpensEquiv_whole`: the whole affinoid maps to the whole adic affinoid; `rigidToAdic.quasiCompactOpensEquiv_trace`: the inverse sends a compact open to its trace on classical points. These Checks carry `QuasiSeparatedSpace` explicitly. |
 
 **`r_K` is fully faithful, generates the lft adic spaces, restricts to an equivalence on
-quasi-separated objects, and detects affinoids.** (*rigid-adic-quasi-separated-equivalence*) Let
-`K` be complete of rank one. Prove: (i) `r_K : Rig_K → Adic_K` is fully faithful (Huber94
-4.5(ii)). (ii) The smallest saturated full subcategory of adic spaces over `Spa(K, K°)` containing
-the image of `r_K` (closed under open subspaces, open covers and isomorphism) consists of the adic
-spaces locally of finite type over `Spa(K, K°)` (4.5(iii)). (iii) `r_K` restricts to an
-equivalence between quasi-separated rigid-analytic spaces over `K` and quasi-separated adic spaces
-locally of finite type over `Spa(K, K°)` (4.5(iv); Huber96 (1.1.11), also over a rigid base `X`
-and `r_K(X)`); both sides are quasi-separated here. (iv) For a rigid space `X`, `r_K(X)` is
-affinoid iff `X` is affinoid (4.5(v)) (Huber94 §4, Prop. 4.5(ii)–(v) and its proof, p. 543;
-Huber96 §1.1, (1.1.11), pp. 42–43). The adic affine line `A^{1,ad}_K` is quasi-separated and
-locally of finite type, so it is `r_K` of the rigid affine line; the open unit disc
-`⋃_{m≥1} {|T|^m ≤ |ϖ|} ⊆ Spa(K⟨T⟩, K°⟨T⟩)` is not affinoid, matching the rigid open disc not being affinoid.
-The direction is `r_K : Rig_K → Adic^{lft}_K`, rigid to adic; it is fully faithful, and an
-equivalence only on the quasi-separated objects of (iii) — essential surjectivity onto all of
+quasi-separated objects, and detects affinoids.** (*rigid-adic-quasi-separated-equivalence*) (i)
+`r_K : Rig_K → Adic_K` is fully faithful (Huber94 4.5(ii)). Supplied by RigidAnalyticGeometry §8.3.2
+(the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier does
+not characterise the essential image, so this roadmap states (ii)–(iv) (Huber94 4.5(iii)–(v)) on its
+side, for `K` complete of rank one. Prove: (ii) The smallest saturated full subcategory of adic
+spaces over `Spa(K, K°)` containing the image of `r_K` (closed under open subspaces, open covers and
+isomorphism) consists of the adic spaces locally of finite type over `Spa(K, K°)` (4.5(iii)). (iii)
+`r_K` restricts to an equivalence between quasi-separated rigid-analytic spaces over `K` and
+quasi-separated adic spaces locally of finite type over `Spa(K, K°)` (4.5(iv); Huber96 (1.1.11),
+also over a rigid base `X` and `r_K(X)`); both sides are quasi-separated here. (iv) For a rigid
+space `X`, `r_K(X)` is affinoid iff `X` is affinoid (4.5(v)) (Huber94 §4, Prop. 4.5(ii)–(v) and its
+proof, p. 543; Huber96 §1.1, (1.1.11), pp. 42–43). The adic affine line `A^{1,ad}_K` is
+quasi-separated and locally of finite type, so it is `r_K` of the rigid affine line; the open unit
+disc `⋃_{m≥1} {|T|^m ≤ |ϖ|} ⊆ Spa(K⟨T⟩, K°⟨T⟩)` is not affinoid, matching the rigid open disc not
+being affinoid. The direction is `r_K : Rig_K → Adic^{lft}_K`, rigid to adic; it is fully faithful,
+and an equivalence only on the quasi-separated objects of (iii) — essential surjectivity onto all of
 `Adic^{lft}_K` is not claimed, (ii) being the substitute: every adic space locally of finite type
-over `Spa K` has an open cover by spaces `r_K(Sp A) = Spa(A, A°)`. The non-quasi-separated case
-is where the two sides differ: for the rigid space `X` glued from two closed unit discs along the
-admissible open `{|T| < 1}`, `r_K(X)` is glued along `r_K({|T| < 1}) = ⋃_n {|Tⁿ| ≤ |ϖ|}`, which
-does not contain the rank-two point `x_{<1}` below the Gauss point, so `r_K(X)` contains two
-copies of `x_{<1}`, whereas, for algebraically closed `K`, gluing two copies of
-`D = Spa(K⟨T⟩, K°⟨T⟩)` along the open subspace
-`D \ closure{η} = ⋃_{a ∈ K°, m≥1} {|T − a|^m ≤ |ϖ|}` (the union of the adic residue discs,
-where `η` is the Gauss point) gives an adic
-space locally of finite type over `Spa K` that is not `r_K` of any rigid space: the only admissible
-open of `Sp K⟨T⟩` containing every classical point is the whole disc, whose image under `r_K` is
-`D`, not `D \ closure{η}`.
-*Needs:* *rigid-adic-comparison-functor*; *tft-plus-ring-power-bounded*;
-*finite-type-morphism-classes* (layer R0); *affinoid-over-noetherian-base-tft*;
-*rigid-analytic-space*.
+over `Spa K` has an open cover by spaces `r_K(Sp A) = Spa(A, A°)`. The non-quasi-separated case is
+where the two sides differ: for the rigid space `X` glued from two closed unit discs along the
+admissible open `{|T| < 1}`, `r_K(X)` is glued along `r_K({|T| < 1}) = ⋃_n {|Tⁿ| ≤ |ϖ|}`, which does
+not contain the rank-two point `x_{<1}` below the Gauss point, so `r_K(X)` contains two copies of
+`x_{<1}`, whereas, for algebraically closed `K`, gluing two copies of `D = Spa(K⟨T⟩, K°⟨T⟩)` along
+the open subspace `D \ closure{η} = ⋃_{a ∈ K°, m≥1} {|T − a|^m ≤ |ϖ|}` (the union of the adic
+residue discs, where `η` is the Gauss point) gives an adic space locally of finite type over `Spa K`
+that is not `r_K` of any rigid space: the only admissible open of `Sp K⟨T⟩` containing every
+classical point is the whole disc, whose image under `r_K` is `D`, not `D \ closure{η}`. *Needs:*
+*rigid-adic-comparison-functor*; *tft-plus-ring-power-bounded*; *finite-type-morphism-classes*
+(layer R0); *affinoid-over-noetherian-base-tft*; *rigid-analytic-space* (RigidAnalyticGeometry
+§6.4).
 Lean: README target.
 
 **The rigid and adic ringed topoi agree: `ρ_X` induces an equivalence
@@ -9256,8 +8573,9 @@ the closed disc `X = Sp K⟨T⟩`, the sheaf corresponding to the skyscraper she
 `r_K(X)` is nonzero although its stalks at all points of `X` vanish (each classical point has a
 rational neighbourhood avoiding the Gauss point): the rigid topos lacks enough classical points,
 while the adic space, a topological space, has enough points. *Needs:*
-*rigid-adic-comparison-functor*; *classical-points-constructible-density*; *gerritzen-grauert*;
-*rigid-analytic-space*; Mathlib `CategoryTheory.Functor.IsDenseSubsite`,
+*rigid-adic-comparison-functor*; *classical-points-constructible-density*; *gerritzen-grauert*
+(RigidAnalyticGeometry §4.6.3); *rigid-analytic-space* (RigidAnalyticGeometry §6.4); Mathlib
+`CategoryTheory.Functor.IsDenseSubsite`,
 `CategoryTheory.Functor.IsDenseSubsite.sheafEquiv`.
 Lean: README target.
 
@@ -9279,7 +8597,8 @@ Rem. 4.6(i), p. 543, `r_k(X^an) ≅ X ×_{Spec k} Spa(k, k°)` over `Spa(k, k°)
 Rem. 10.1, p. 103). For `X = A¹_K`,
 `r_K((A¹)^an) = A^{1,ad}_K`, the union of the discs `Spa(K⟨ϖ^k T⟩, K°⟨ϖ^k T⟩)`; the classical
 points of `X^ad` are the points of `X^an`, i.e. the closed points of `X` (compatibly with
-*analytification-points*). *Needs:* *rigid-adic-comparison-functor*; *rigid-analytification*;
+*analytification-points*). *Needs:* *rigid-adic-comparison-functor*; *rigid-analytification*
+(RigidAnalyticGeometry §8.1);
 *analytification-functor*; *analytification-universal-property*; *analytification-immersions*;
 *analytification-fibre-products*.
 Lean: README target.
@@ -9291,50 +8610,49 @@ the uniqueness in the mixed fibre-product universal property, and tests the requ
 on individual components of the natural isomorphism.
 
 **Separated, partially proper and proper morphisms of rigid spaces versus their adic counterparts
-(Huber96 1.3.19).** (*proper-separated-comparisons*) Let `f : X → Y` be a morphism of
-rigid-analytic spaces over `K` (`K` complete of rank one). Define
-`RigidSpace.IsPartiallyProper f` as follows. The morphism is separated, and there is an admissible
-affinoid covering `(Y_i)` of `Y` such that each `f⁻¹(Y_i)` has an admissible affinoid covering
-`(U_ij)` with affinoid opens `V_ij ⊆ f⁻¹(Y_i)` containing `U_ij`. For each pair there is a finite
-affinoid generating system `a₁,…,a_r` of `O(V_ij)` over `O(Y_i)` with `|a_l(x)| < 1` for every
-`x ∈ U_ij` and every `l`. This is relative compactness `U_ij ⋐_{Y_i} V_ij` in Huber96
-Remark 1.3.19(i), p. 59. Prove that Kiehl properness of *rigid-analytic-space* is equivalent to quasi-compactness and this condition.
-Prove also:
-(i) `f` is separated iff `r_K(f)` is separated (*separated-morphism*, layer R0). (ii) If `f` is
-partially proper then `r_K(f)` is partially proper (*partially-proper-morphism*); the converse
-holds when `K°` is discretely valued. (iii) If `f` is proper then `r_K(f)` is proper
-(*universally-closed-and-proper-morphism*); the converse holds when `K°` is discretely valued.
-(iv) If `f` is locally quasi-finite, the converses in (ii)–(iii) hold for arbitrary `K` (Huber96
-Lemma 1.5.9, stated and proved here from *partially-proper-quasi-finite-local-finiteness*, Huber's
-Prop. 1.5.6, and *maximal-point-closure-rational*, Lem. 1.5.10, both of layer R0; the finiteness
-criterion *quasi-finite-and-finiteness-criteria*, Huber's 1.5.5, enters only through them). The
-converses of (ii)–(iii) are stated
-only under the hypothesis `K°` discretely valued, which is the hypothesis of the source; the
-proofs of (i) and of the converses are in Huber's habilitation [Hu4, 3.11.21] (Bewertungsspektrum
-und rigide Geometrie, Regensburger Mathematische Schriften 23, 1993) and in the paper of
-Lütkebohmert that Huber96 cites as [L1], both cited through Huber96, which states (i) as an
-equivalence (Huber96 §1.3, Rem. 1.3.19, pp. 59–60, the exact
-discreteness caveat; Huber96 §1.5, Lem. 1.5.9, pp. 73–75, removal of the discreteness assumption
-for locally quasi-finite morphisms; Conrad-AWS §3.2, Ex. 3.2.5, rigid projective space is
-proper). `r_K` of the inclusion of the open unit disc into the closed unit disc is partially
-proper but not proper (not quasi-compact); `r_K(P^{1,an}) → Spa(K, K°)` is proper, `P^{1,an}`
-being proper in Kiehl's sense. *Needs:* *rigid-adic-comparison-functor*; *rigid-analytic-space*;
+(Huber96 1.3.19).** (*proper-separated-comparisons*) Separated morphisms of rigid-analytic spaces,
+relative compactness `U ⋐_Y V` of affinoid opens over an affinoid base (an affinoid generating
+system of `O(V)` over `O(Y)` with `|a_l| < 1` on `U`) and Kiehl-proper morphisms are the rigid
+notions compared here. Supplied by RigidAnalyticGeometry §7.3.2–7.3.4 (the roadmap of W. Coram, to
+be contributed to TauCetiRoadmap ahead of this one). The supplier defines no partial properness, so
+this roadmap defines it from relative compactness and states the comparisons with the adic notions
+on its side. Let `f : X → Y` be a morphism of rigid-analytic spaces over `K` (`K` complete of rank
+one). Define `RigidSpace.IsPartiallyProper f` as follows. The morphism is separated, and there is an
+admissible affinoid covering `(Y_i)` of `Y` such that each `f⁻¹(Y_i)` has an admissible affinoid
+covering `(U_ij)` with affinoid opens `V_ij ⊆ f⁻¹(Y_i)` containing `U_ij` and `U_ij ⋐_{Y_i} V_ij`
+(Huber96 Remark 1.3.19(i), p. 59). Prove that Kiehl properness is equivalent to quasi-compactness
+and this condition. Prove also: (i) `f` is separated iff `r_K(f)` is separated
+(*separated-morphism*, layer R0). (ii) If `f` is partially proper then `r_K(f)` is partially proper
+(*partially-proper-morphism*); the converse holds when `K°` is discretely valued. (iii) If `f` is
+proper then `r_K(f)` is proper (*universally-closed-and-proper-morphism*); the converse holds when
+`K°` is discretely valued. (iv) If `f` is locally quasi-finite, the converses in (ii)–(iii) hold for
+arbitrary `K` (Huber96 Lemma 1.5.9, stated and proved here from
+*partially-proper-quasi-finite-local-finiteness*, Huber's Prop. 1.5.6, and
+*maximal-point-closure-rational*, Lem. 1.5.10, both of layer R0; the finiteness criterion
+*quasi-finite-and-finiteness-criteria*, Huber's 1.5.5, enters only through them). The converses of
+(ii)–(iii) are stated only under the hypothesis `K°` discretely valued, which is the hypothesis of
+the source; the proofs of (i) and of the converses are in Huber's habilitation [Hu4, 3.11.21]
+(Bewertungsspektrum und rigide Geometrie, Regensburger Mathematische Schriften 23, 1993) and in the
+paper of Lütkebohmert that Huber96 cites as [L1], both cited through Huber96, which states (i) as an
+equivalence (Huber96 §1.3, Rem. 1.3.19, pp. 59–60, the exact discreteness caveat; Huber96 §1.5, Lem.
+1.5.9, pp. 73–75, removal of the discreteness assumption for locally quasi-finite morphisms;
+Conrad-AWS §3.2, Ex. 3.2.5, rigid projective space is proper). `r_K` of the inclusion of the open
+unit disc into the closed unit disc is partially proper but not proper (not quasi-compact);
+`r_K(P^{1,an}) → Spa(K, K°)` is proper, `P^{1,an}` being proper in Kiehl's sense. *Needs:*
+*rigid-adic-comparison-functor*; *rigid-analytic-space* (RigidAnalyticGeometry §6.4, §7.3);
 *separated-morphism*, *partially-proper-morphism*, *universally-closed-and-proper-morphism*,
 *separated-proper-partially-proper*, *partially-proper-quasi-finite-local-finiteness*,
-*maximal-point-closure-rational*, *quasi-finite-and-finiteness-criteria*,
-*quasi-finite-morphism* (all layer R0).
+*maximal-point-closure-rational*, *quasi-finite-and-finiteness-criteria*, *quasi-finite-morphism*
+(all layer R0).
 Lean: README target.
 
-`RigidSpace.IsInner φ j` records the affinoid generating presentation and the strict
-inequalities on the smaller open. `HasInnerAffinoidCover f finite` records the full admissible
-covering data; its Boolean argument requires finite coverings upstairs when true.
-`IsPartiallyProper` uses this condition with arbitrary admissible coverings and separatedness;
-`IsProper` uses finite coverings and separatedness. Thus the properness comparison above
-identifies properness with quasi-compact partial properness.
+`HasInnerAffinoidCover f finite` records the admissible covering data with the relative
+compactness of RigidAnalyticGeometry §7.3.3; its Boolean argument requires finite coverings
+upstairs when true. `IsPartiallyProper` uses this condition with arbitrary admissible coverings
+and separatedness, and with finite coverings it is the supplier's Kiehl properness. Thus the
+properness comparison above identifies properness with quasi-compact partial properness.
 
-**Checks.** `rigidInner_test_identity` uses no relative generators for `A → A`;
-`rigidInner_test_empty` tests the empty inner open; `rigidInner_test_disc` says that the whole
-closed unit disc is not inner over the point. For `HasInnerAffinoidCover`, `IsPartiallyProper`
+**Checks.** For `HasInnerAffinoidCover`, `IsPartiallyProper`
 and `IsProper`, `rigidClasses_test_identity` and `rigidClasses_test_empty` give the identity and
 empty-source cases; `rigidClasses_test_closedDisc` gives the negative case of the closed unit
 disc over the point. `rigidPartialProper_test_affineLine` tests partial properness without
@@ -9351,7 +8669,8 @@ composites of étale maps are étale, and étaleness is preserved by arbitrary
 rigid base change (Huber96 Propositions 1.6.7 and 1.7.11).
 Let `K` be a complete rank-one nonarchimedean field (complete for
 a nontrivial nonarchimedean absolute value of rank one) and `f : Y → X` a morphism of rigid
-analytic spaces over `K` (*rigid-analytic-space*), with `r_K(f) : r_K(Y) → r_K(X)` the morphism of
+analytic spaces over `K` (*rigid-analytic-space*, RigidAnalyticGeometry §6.4), with
+`r_K(f) : r_K(Y) → r_K(X)` the morphism of
 adic spaces locally of finite type over `Spa K` given by Huber's functor
 (*rigid-adic-comparison-functor*). Call `f` étale (resp. unramified) in the rigid sense if for
 every point `y` of `Y` the local homomorphism `O_{X,f(y)} → O_{Y,y}` is flat and unramified (resp.
@@ -9401,13 +8720,14 @@ here is not "finite étale"; the projection `𝔹²_K → 𝔹¹_K` is smooth on
 (b) is not a consequence of (a): the closed immersion of the classical point `Sp K → Sp K⟨T⟩`,
 `T ↦ 0`, is unramified on both sides (`Ω^f_{K/K⟨T⟩} = 0 = Ωᶜ`, and `m_0 O_{Sp K} = 0 = m`) but
 étale on neither, `K⟨T⟩ → K` not being flat (`T` is a nonzerodivisor killed by the map).
-*Needs:* *rigid-analytic-space*; *rigid-adic-comparison-functor*;
+*Needs:* *rigid-analytic-space* (RigidAnalyticGeometry §6.4); *rigid-adic-comparison-functor*;
 *differentials-unramified-smooth-etale*, *unramified-morphism*, *smooth-morphism*,
 *etale-local-structure*, *infinitesimal-criteria*, *continuous-differentials*,
-*smooth-local-structure*, *affinoid-jacobson*, *etale-ring-flatness*,
+*smooth-local-structure*, *etale-ring-flatness*,
 *restricted-power-series-smooth*, *etale-smooth-composition*, *etale-smooth-locality*,
 *smooth-differentials-locally-free*, *differential-criterion-morphism* (all layer R0);
-*rigid-local-ring-completion*; *tft-plus-ring-power-bounded*.
+*affinoid-jacobson* (RigidAnalyticGeometry §1.1.2); *rigid-local-ring-completion*
+(RigidAnalyticGeometry §4.4.2); *tft-plus-ring-power-bounded*.
 Lean: README target.
 
 **Checks for `RigidSpace.IsEtale` and `RigidSpace.IsSmooth`.** The following names are
@@ -9484,7 +8804,10 @@ surjective for an isogeny `φ`) and `AdicSpace.analytificationGrp.kernelIso`
 `μ_n^ad = Spa(K[T]/(Tⁿ − 1))` is a finite étale analytic group of rank `n`. *Needs:*
 *analytification-functor*; *scheme-fibre-product-analytification*;
 *analytification-fibre-products*; *analytification-universal-property*; *analytification-finite*;
-*analytification-separated-proper*; *analytification-etale-smooth*; *analytification-connected*;
+*analytification-separated-proper*; *analytification-etale-smooth*; *analytification-connected*
+(RigidAnalyticGeometry,
+*Targets requested by the Tau Ceti AdicSpaces roadmaps*,
+**analytification_preconnected_iff**);
 *analytification-surjective*; *fibre-products-existence* (layer R0); Mathlib
 `CategoryTheory.GrpObj`, `CategoryTheory.Functor.mapGrp`,
 `CategoryTheory.Functor.Monoidal.ofChosenFiniteProducts`,
@@ -9525,7 +8848,9 @@ and the two product projections. The comparison itself is fixed by
 variety `V` and a group object whose underlying `K`-scheme is `V.toOver`, and proves
 `ConnectedSpace` and `IsCommMonObj` for its analytification. Commutativity follows from
 proper geometrically integral group schemes and the product comparison; connectedness
-uses *analytification-connected* (Conrad-IC §2.3, Theorem 2.3.1, pp. 16–17, and Appendix A.1,
+uses *analytification-connected* (RigidAnalyticGeometry, *Targets requested by the Tau Ceti
+AdicSpaces roadmaps*,
+**analytification_preconnected_iff**; Conrad-IC §2.3, Theorem 2.3.1, pp. 16–17, and Appendix A.1,
 proof of Theorem A.1.3, p. 33; Huber94 Proposition 4.5(i)).
 `analytificationGrp.kernelIso` takes an algebraic kernel square and an analytic kernel
 square for the analytified homomorphism. It gives an isomorphism of analytic groups
@@ -9806,82 +9131,22 @@ p. 77, and the sheaf description on p. 78; the group cotangent identification is
 ### R1.9 dimension, identity principle and supporting lemmas
 
 **Every maximal ideal of a `K`-affinoid domain has height equal to its dimension.**
-(*affinoid-domain-equidimensional*) Let `K` be a complete rank-one nonarchimedean field and `A` a
-`K`-affinoid algebra (a quotient of a Tate algebra `T_n(K) = K⟨X_1, …, X_n⟩`;
-*rigid-analytic-space*) which is an integral domain of Krull dimension `d`. Prove that every
-maximal ideal `m` of `A` has height `d` (`Ideal.height m = d`); equivalently `dim A_m = d` for
-every point of `Sp(A)`. In particular every maximal ideal of `T_d(K)` has height `d`, and if
-`T_e(K) → A` is a finite injective `K`-algebra homomorphism then `e = d` (Conrad-IC §2.1,
-Lem. 2.1.5, p. 12, first assertion, and its proof: Noether normalisation, factoriality of `T_n`,
-going up and going down, then the Tate-algebra step at rational points followed by a finite base
-change for the others). For `A = K⟨X, Y⟩/(XY − ϖ)` (the annulus `|ϖ| ≤ |X| ≤ 1`, an integral
-domain of dimension 1) every maximal ideal has height 1; the domain hypothesis cannot be dropped:
-in `A = K⟨X⟩ × K` (a closed disc and a point) the maximal ideals have heights 1 and 0. The
-forms are `RigidSpace.height_eq_ringKrullDim_of_isDomain` (`m.height = ringKrullDim A`) and the
-corresponding statement through a finite injective Noether normalisation; the algebraic template, every maximal ideal of a
-finite-type domain over a field has height the Krull dimension, is Tau Ceti's
-`height_eq_ringKrullDim_of_isMaximal` (hypothesis `Algebra.FiniteType`), proved by the same route,
-and the target replaces finite type by `IsStrictlyTopologicallyFiniteType`, which changes the
-Noether normalisation and the factoriality input (`T_n(K)` for `K[X_1, …, X_n]`) but not the
-going-up and going-down steps; nothing is said about non-domains: for
-`A = K⟨X⟩/(X²)` (nilpotents, `dim A = 0`, one point) the maximal ideal `(X)` has height `0`, and
-the empty affinoid `A = 0` has no maximal ideal and `ringKrullDim 0 = ⊥`. No discreteness of the
-value group enters: Noether normalisation and the dimension of `T_n(K)` hold over every complete
-rank-one `K`, for `K = ℂ_p` (value group `p^ℚ`, residue field `F̄_p`) as for `K = ℚ_p`. *Needs:*
-*rigid-analytic-space*; *affinoid-noether-normalisation*, *affinoid-residue-fields-finite*
-(layer R0); Tau Ceti `TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`,
-`TauCeti.height_eq_ringKrullDim_of_isMaximal`, `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`;
-Mathlib `Ideal.height`, `Ideal.exists_ideal_over_prime_of_isIntegral`, `Algebra.HasGoingDown`,
-`Algebra.HasGoingDown.of_flat`, `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`,
-`Ideal.height_eq_zero_iff`, `Ideal.isMaximal_comap_of_isIntegral_of_isMaximal`,
-`IsIntegrallyClosed`, `Ideal.height_le_spanFinrank`.
-Lean: `RigidSpace.height_eq_ringKrullDim_of_isDomain` (`e = d` is a README target).
+(*affinoid-domain-equidimensional*) In a `K`-affinoid integral domain every maximal ideal has height
+`dim A`, and a finite injective `K`-algebra map `K⟨T₁,…,T_e⟩ → A` has `e = dim A`. Supplied by
+RigidAnalyticGeometry §1.2.3 and *Targets requested by the Tau Ceti AdicSpaces roadmaps*,
+**height_eq_ringKrullDim_of_isDomain** (the roadmap of W. Coram, to be contributed to TauCetiRoadmap
+ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap applies it
+through the carrier bridge of R0.9.
 
-**Identity principle on connected normal rigid spaces.** (*rigid-identity-principle*) Let `K` be a
-complete rank-one nonarchimedean field and `X` a rigid-analytic space over `K`
-(*rigid-analytic-space*) that is connected (every admissible covering `{V, W}` of `X` by disjoint
-admissible opens has `V = ∅` or `W = ∅`; equivalently `O_X(X)` has no idempotents other than `0`
-and `1`) and normal (every local ring `O_{X,x}` is a normal domain; for an affinoid open
-`Sp(A) ⊆ X` this holds at its points iff `A` is a normal ring). An analytic subset of `X` is the
-zero locus `Z = {x ∈ X : 𝓘_x ≠ O_{X,x}}` of a coherent ideal sheaf `𝓘 ⊆ O_X` (on an affinoid open
-`Sp(A)`, `Z ∩ Sp(A) = {m ∈ Max A : I ⊆ m}` for the ideal `I = 𝓘(Sp A)`). Let `U ⊆ X` be a nonempty
-admissible open. Prove: (i) the only analytic subset of `X` containing `U` is `X`; (ii) if
-`X = Z₁ ∪ Z₂` for analytic subsets `Z₁, Z₂`, then `Z₁ = X` or `Z₂ = X`; (iii) if `f ∈ O_X(X)` has
-`f|_U = 0`, then `f = 0`, and more generally a section `s` of a locally free `O_X`-module `ℰ` of
-finite rank with `s|_U = 0` is `0`. Parts (i)–(ii) are Conrad's Lemma 2.1.4 and (iii) is the
-argument in the proof of his Theorem 2.1.2 (Conrad-IC §2.1, Lem. 2.1.4 and its proof, p. 12;
-Conrad-IC §2.1, proof of Thm 2.1.2, p. 10; Conrad-IC Notation, p. 2, the notion of analytic
-subset; Conrad-IC §1.2, p. 7, normality and dimension of rigid local rings are those of the
-affinoid algebra). In the closed unit disc `Sp K⟨T⟩` (connected and normal) an `f ∈ K⟨T⟩`
-vanishing on the open disc `{|T| < 1}` (an admissible open) is `0`, and the only analytic subset
-containing `{|T − 1| ≤ |ϖ|}` is the disc. Normality is needed: `X = Sp K⟨S, T⟩/(ST)` (two discs
-meeting in one point) is connected and not normal; its Laurent domain `{|T| ≥ |ϖ|}` is a nonempty
-admissible open on which `T` is a unit and hence `S = 0`, so the analytic subset `{S = 0} ≠ X`
-contains it and the nonzero function `S` restricts to `0` on it. Connectedness is needed: on
-`X = Sp(K⟨T⟩ × K⟨T⟩)` the idempotent `(1, 0)` vanishes on the second disc and is nonzero.
-Reducedness (implied by normality) is needed on its own: `A = K⟨T, E⟩/(E², ET) = K⟨T⟩ ⊕ K·E` is
-connected (`Max A = Max K⟨T⟩`) and non-reduced, and on the nonempty Laurent domain
-`U = {|T| ≥ |ϖ|}`, where `T` is a unit, `E = E·T·T⁻¹ = 0` in `A_U` although `E ≠ 0`. The affinoid
-core of (iii) is `RigidSpace.IsCoordinateRing.injective_algebraMap`: for a `K`-affinoid
-integral domain `A` (normality not assumed) and a nonempty affinoid subdomain `U`, `A → A_U` is
-injective. No normalisation enters: `A_U` is flat over `A` (*affinoid-subdomain-flat*,
-`IsCoordinateRing.flat`) and nonzero (a point `m ∈ U` gives an `A`-algebra map `A_U → A/m` by the
-universal property), and a flat module over a domain is torsion-free (Mathlib
-`Module.Flat.isSMulRegular_of_nonZeroDivisors`), so `a·1 = 0` in `A_U` forces `a = 0`.
-The global signature `RigidSpace.identityPrinciple` states (i), (ii), and injectivity of
-`O_X(X) → O_X(U)` under the stated connectedness and normal-stalk hypotheses.
-`identityPrinciple_locallyFree` states injectivity of `ℰ(X) → ℰ(U)` for an actual Mathlib
-`SheafOfModules` over the structure sheaf. Finite local freeness is expressed by an
-admissible trivializing cover, a finite basis on each member, and the requirement that
-its restrictions form bases on every smaller admissible open. Rank may vary between
-cover members; rank zero is included. The ring sheaf is identified with `O_X`, so the
-statement does not quantify over unrelated coefficient sheaves.
-*Needs:* *rigid-analytic-space*; *affinoid-domain-equidimensional*; *affinoid-jacobson*
-(layer R0); *rigid-local-ring-completion*; *affinoid-subdomain-flat*; Mathlib `Ideal.height`,
-`Ideal.height_eq_zero_iff`, `IsReduced`, `IsJacobsonRing`, `IsIntegrallyClosed`,
-`Algebra.HasGoingDown.of_flat`, `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`,
-`Module.Flat.isSMulRegular_of_nonZeroDivisors`.
-Lean: affinoid core `IsCoordinateRing.injective_algebraMap`.
+**Identity principle on connected normal rigid spaces.** (*rigid-identity-principle*) On a connected
+normal rigid-analytic space `X` a nonempty admissible open `U` is dense for the analytic Zariski
+topology, `X` is irreducible, and restriction from `X` to `U` is injective on the sections of `O_X`
+and of every finite locally free `O_X`-module; for a `K`-affinoid integral domain, restriction to a
+nonempty affinoid subdomain is injective. Supplied by RigidAnalyticGeometry, *Targets requested by
+the Tau Ceti AdicSpaces roadmaps*, **AffinoidSubdomain.injective_of_isDomain**,
+**identityPrinciple** and **identityPrinciple_locallyFree** (the roadmap of W. Coram, to be
+contributed to TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`;
+this roadmap applies it through the carrier bridge of R0.9.
 
 **If `T` generates an open ideal then every `T^n·U` is a neighbourhood of `0`: Huber's "`M·A`
 open" gives a Tau Ceti weight family.** (*open-ideal-weight-family*) Let `A` be a Huber ring (Tau
@@ -9967,93 +9232,46 @@ gluing of the local lifts, is not in Mathlib and is the content of the target. *
 Lean: README target.
 
 **Finite coverings of `Max A` by rational subdomains are refined by standard rational coverings
-(Huber's product trick on classical points).** (*max-rational-covering-refinement*) Let `K` be a
-field complete for a nontrivial nonarchimedean absolute value of rank one, `A` a `K`-affinoid
-algebra, and `W_j = X(T_j/s_j) = {x ∈ Max A : |t(x)| ≤ |s_j(x)| for all t ∈ T_j}` (`j = 1, …, m`)
-rational subdomains covering `Max A`, where `T_j ⊆ A` is finite, `s_j ∈ T_j` and `T_j` has no
-common zero on `Max A` (each subdomain presented with its denominator among its numerators). Let
-`S` be the finite set of products `t_1⋯t_m` with `t_j ∈ T_j` for all `j` and `t_k = s_k` for at
-least one `k`. Prove that `S` generates the unit ideal of `A`, and that for every
-`f = t_1⋯t_m ∈ S` with `t_k = s_k` the rational subdomain `X(S/f)` is contained in `W_k`.
-Consequently the standard rational covering `{R(S/f)}_{f ∈ S}` of `Spa(A, A⁺)` (any ring of
-integral elements `A⁺`) induces on `Max A` a covering by rational subdomains refining `{W_j}`;
-(KL15 §2.5, Lem. 2.5.10, p. 49, citing
-BGR 8.2.2/2; the product argument used here is Huber94 §2, proof of Lem. 2.6, printed p. 531, the product construction
-after arranging `s_i ∈ T_i`, which works pointwise and so applies to classical points). For
-`Max K⟨T⟩` covered by `W_1 = X({T, ϖ}/ϖ) = {|T| ≤ |ϖ|}` and `W_2 = X({ϖ, T}/T) = {|T| ≥ |ϖ|}`,
-the products with a denominator slot are `ϖ·ϖ`, `ϖ·T` and `T·T`, so `S = {ϖ², ϖT, T²}` generates
-the unit ideal (`ϖ²` is a unit), and `X(S/ϖ²) = {|T| ≤ |ϖ|} ⊆ W_1`, `X(S/T²) = {|T| ≥ |ϖ|} ⊆ W_2`,
-`X(S/ϖT) = {|T| = |ϖ|} ⊆ W_1 ∩ W_2`. The statement is about `Max A` only: it does not assert that
-the `R(T_j/s_j)` cover `Spa(A, A⁺)` (that is KL15 Lemma 2.5.12, deduced from this lemma). The
-product trick for a covering of `Spa(A, A⁺)` by rational subsets is Tau Ceti's
-`exists_span_eq_top_forall_rationalSubset_subset` (the set `S` generates the unit ideal and
-`R(S/f) ⊆ R(T_k/s_k)`); the target is its form for a covering of `Max A` by rational subdomains,
-where the hypothesis is only that the `W_j` cover the classical points, so that "`S` generates the
-unit ideal" has to be read off from the classical points through *affinoid-residue-fields-finite*
-(every maximal ideal of `A` has a classical point).
-*Needs:* *affinoid-residue-fields-finite* (layer R0); Tau Ceti
-`TauCeti.ValuationSpectrum.rationalSubset`,
-`TauCeti.ValuationSpectrum.spa_eq_biUnion_rationalSubset_of_span_eq_top`,
-`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`.
-Lean: README target.
+(Huber's product trick on classical points).** (*max-rational-covering-refinement*) Every finite
+covering of `Max A` by affinoid subdomains, in particular by rational subdomains, is refined by a
+standard rational covering built from the presentation data by Huber's product construction.
+Supplied by RigidAnalyticGeometry §5.2.2 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier's carrier is `IsAffinoidAlgebra K A`; this roadmap
+applies it through the carrier bridge of R0.9.
 
 **Morphisms from a rigid space to a finite-type affine `K`-scheme are `K`-algebra maps on global
-sections (Conrad-IC Lemma A.1.1).** (*rigid-gamma-spec*) Let `K` be complete rank-one, `Y` a
-rigid-analytic space over `K` (*rigid-analytic-space*) and `X` a `K`-scheme locally of finite type.
-A morphism `f : Y → X` is a map of sets such that preimages of Zariski opens are admissible opens
-and preimages of Zariski coverings of Zariski opens are admissible coverings, together with a map
-`f^♯ : O_X → f_*O_Y` of sheaves of `K`-algebras; `Hom_K(Y, X)` is the set of these. Prove that
-every such `f` carries points to closed points and every `f^♯_y : O_{X,f(y)} → O_{Y,y}` is local,
-and that if `X = Spec C` is affine of finite type, then `f ↦ Γ(f^♯) : C → O_Y(Y)` is a bijection
-`Hom_K(Y, Spec C) ≅ Hom_{K-alg}(C, O_Y(Y))`, natural in `Y` and `C`; this is
-`RigidSpace.homSpecEquiv`. The map carrier `LocallyGRingedSpace.RingedHom` requires
-compatibility with germs and coverings but does not require local stalk maps.
-The target proves locality and closed point images, and supplies
-the unique lift to `LocallyGRingedSpace.Hom`, so this bijection applies to the ringed morphisms
-just defined (Conrad-IC Appendix A.1, Lem. A.1.1, p. 31, the bijection, and p. 31,
-the notion of morphism and its automatic locality; Conrad-AWS §2.3, Exercise 2.3.2, p. 16,
-admissibility of preimages of Zariski opens and covers). `Hom_K(Sp A, A^n_K) = Aⁿ` for every
-`K`-affinoid `A` (`C = K[T_1, …, T_n]`); for `Y = Sp K⟨T⟩` and `X = Spec K[T]`, the map `Y → X`
-given by `T ↦ T` sends the point `T = a` (`|a| ≤ 1`, `a ∈ K`) to the closed point `(T − a)`.
-*Needs:* *rigid-analytic-space*; *affinoid-residue-fields-finite* (layer R0); Mathlib
-`AlgebraicGeometry.ΓSpec.locallyRingedSpaceAdjunction`, `AlgebraicGeometry.LocallyOfFiniteType`.
-Lean: README target.
-
-**Checks.** `rigidRingedHom_test_point` computes a bijection to `Spec K` and local stalk
-maps without assuming locality; `rigidRingedHom_test_empty` gives a singleton ringed Hom set
-from the empty rigid space; `rigidRingedHom_test_generic` shows that even a ringed morphism to
-`Spec K[T]` cannot map a rigid point to the generic prime `(0)`.
+sections (Conrad-IC Lemma A.1.1).** (*rigid-gamma-spec*) For a rigid-analytic space `Y` over `K` and
+a finite-type `K`-algebra `C`, morphisms `Y → Spec C` of locally G-ringed spaces correspond
+bijectively to `K`-algebra maps `C → O_Y(Y)`, naturally in `Y` and `C`. Supplied by
+RigidAnalyticGeometry §8.1.1 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of
+this one). The supplier states it on its rigid varieties, which this roadmap writes `RigidSpace K`
+(*rigid-analytic-space*).
 
 **Classical points of `Spa(A, A°)` for a `K`-affinoid algebra: constructible density, and rational
 subsets ↔ rational subdomains of `Max A` (Huber93 §4).** (*classical-points-constructible-density*)
-Let `K` be a field complete for a nontrivial nonarchimedean absolute value of rank one and `A` a
-`K`-affinoid algebra with plus ring `A°` (the statement is not claimed for other rings of integral
-elements); "rational subdomain" has the definition in *affinoid-subdomain* (Conrad-AWS §2.1–2.2, pp. 11–13). For
-`m ∈ Max A` the field `A/m` is finite over `K`, so `|·|` extends uniquely to `A/m`; the composite
-`|·|_m` lies in `Spa(A, A°)`, and `m ↦ |·|_m` is an injection `Max A → Spa(A, A°)` whose image is
-the set of classical points (points `x` with `k(x)` finite over `K`) (Huber93 §4, before Thm 4.1,
-p. 471). Let `L_A = {v ∈ Spv A : v(a) ≤ 1 for a ∈ A°, v(a) < 1 for a ∈ A°°}`. Prove: (i) `L_A` is
-the closure of `Max A` in the constructible topology of `Spv A` (Huber93 §4, Thm 4.1, p. 472;
-Wedhorn §7.7, Ex. 7.58, pp. 72–73); (ii) `Max A` is dense in the constructible topology of
-`Spa(A, A°)` (Huber93 §4, Cor. 4.2, p. 473); (iii) two constructible subsets of `Spa(A, A°)` with
-the same classical points are equal (Huber93 §4, Cor. 4.3, p. 473); (iv) for every rational subset
-`U` of `Spa(A, A°)`, `U ∩ Max A` is a rational subdomain of `Max A`, and `U ↦ U ∩ Max A` is a
-bijection from the rational subsets of `Spa(A, A°)` onto the rational subdomains of `Max A`,
-preserving inclusions and finite intersections, with a finite family of rational subsets covering
-`U` iff their traces cover `U ∩ Max A` (Huber93 §4, after Cor. 4.3, p. 473; Huber93 §4, Rem. 4.7,
-p. 474, the model-theory-free proof via prime filters). For `A = K⟨T⟩` the rational subset
-`{|T| ≤ |ϖ|}` of `Spa(A, A°)` corresponds to the Weierstrass domain `{x ∈ Max A : |T(x)| ≤ |ϖ|}`,
-and the rational subset `{|T| = 1} = {1 ≤ |T|}` to the Laurent domain `{x : |T(x)| ≥ 1}`; the
-Gauss point is not classical, yet every constructible set containing it contains a classical point
-(Corollary 4.2), while by contrast the closed set `{x_{<1}}` (the rank-two point below the Gauss
-point with `|T| < 1`) is pro-constructible but not constructible and contains no classical point.
-The classical embedding is specified by comparisons of
-residue-field norms. `classical_constructible_density` states (i)–(iii) using Mathlib's
-`constructibleTopology` on the actual Tau Ceti valuation spectrum and its `Spa` subspace.
-`classical_rational_trace` identifies rational traces with `RigidSpace.rationalDomain` and
-states detection of finite covering relations (in fact, for constructible subsets).
-*Needs:* *affinoid-residue-fields-finite* (layer R0); *affinoid-subdomain*; *gerritzen-grauert*;
-Tau Ceti `TauCeti.ValuationSpectrum.spa`, `TauCeti.ValuationSpectrum.rationalSubset`,
+For a `K`-affinoid algebra `A`, `m ↦ |·|_m` embeds `Max A` into `Spa(A, A°)` with image the points
+whose residue field is finite over `K`, the trace on `Max A` of the rational subset `R({f, g}/g)` is
+the rational subdomain `X(f/g)`, and a finite family of rational subdomains covers `Max A` iff the
+corresponding rational subsets cover `Spa(A, A°)`. Supplied by RigidAnalyticGeometry §8.2.2–8.2.5
+(the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier does
+not state constructible density, so this roadmap states it on its side, with plus ring `A°` (the
+statement is not claimed for other rings of integral elements). Let
+`L_A = {v ∈ Spv A : v(a) ≤ 1 for a ∈ A°, v(a) < 1 for a ∈ A°°}`. Prove: (i) `L_A` is the closure of
+`Max A` in the constructible topology of `Spv A` (Huber93 §4, Thm 4.1, p. 472; Wedhorn §7.7, Ex.
+7.58, pp. 72–73); (ii) `Max A` is dense in the constructible topology of `Spa(A, A°)` (Huber93 §4,
+Cor. 4.2, p. 473); (iii) two constructible subsets of `Spa(A, A°)` with the same classical points
+are equal (Huber93 §4, Cor. 4.3, p. 473). In particular the supplied correspondence `U ↦ U ∩ Max A`
+from rational subsets to rational subdomains is a bijection preserving inclusions and finite
+intersections, and covering relations among constructible subsets are detected on classical points
+(Huber93 §4, after Cor. 4.3, p. 473; Huber93 §4, Rem. 4.7, p. 474, the model-theory-free proof via
+prime filters). For `A = K⟨T⟩` the Gauss point is not classical, yet every constructible set
+containing it contains a classical point (Corollary 4.2), while by contrast the closed set
+`{x_{<1}}` (the rank-two point below the Gauss point with `|T| < 1`) is pro-constructible but not
+constructible and contains no classical point. The classical embedding is specified by comparisons
+of residue-field norms. `classical_constructible_density` states (i)–(iii) using Mathlib's
+`constructibleTopology` on the actual Tau Ceti valuation spectrum and its `Spa` subspace. *Needs:*
+*affinoid-residue-fields-finite* (RigidAnalyticGeometry §1.2.4); Tau Ceti
+`TauCeti.ValuationSpectrum.spa`, `TauCeti.ValuationSpectrum.rationalSubset`,
 `TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isTateRing`.
 Lean: README target.
 
@@ -10094,155 +9312,44 @@ localisations of one another. *Needs:* *finite-type-morphism-classes* (layer R0)
 Lean: README target.
 
 **Rigid analytification preserves and reflects reducedness and normality.**
-(*rigid-analytification-normal-reduced*) Let `K` be a field complete for a nontrivial
-nonarchimedean absolute value of rank one, `X` a `K`-scheme locally of finite type with rigid
-analytification `i_X : X^an → X` (*rigid-analytification*), `x ∈ X^an` and `x₀ = i_X(x)` the
-corresponding closed point. Prove: (i) the stalk map `O_{X,x₀} → O_{X^an,x}` is a local
-homomorphism of noetherian local rings inducing an isomorphism of completions, hence faithfully
-flat; (ii) `O_{X,x₀}` is reduced (resp. normal) if and only if `O_{X^an,x}` is; (iii) `X` is
-reduced (resp. normal) if and only if every local ring of `X^an` is reduced (resp. a normal
-domain, the normality of *rigid-identity-principle*) (Conrad-IC Appendix A.1, Lem. A.1.2(2),
-p. 32, for (i); Conrad-IC §1.2, p. 7, and Appendix A.1, Thm A.1.3(1), p. 33, for (ii) and (iii)).
-For (i), embed an affine neighbourhood of `x₀` in `A^n_K` and rescale so that `x` lies in a closed
-polydisc `Sp(K⟨T⟩/I)`; maximal ideals of `K⟨T⟩` are generated by polynomials, and with flatness
-of `K[T] → K⟨T⟩` the map `K[T]/I → K⟨T⟩/I` is an isomorphism modulo every power of the maximal
-ideal at `x`; *rigid-local-ring-completion* passes from `K⟨T⟩/I` to the stalk. For (ii),
-reducedness and normality descend along a faithfully flat local map `R → S`: a subring of a
-reduced ring is reduced, and if `S` is normal and `a/b` is integral over `R` then
-`a ∈ bS ∩ R = bR` (Stacks Tag 033G; Mathlib `Ideal.comap_map_eq_self_of_faithfullyFlat`). This
-gives one direction along the map of (i). For the other, `O_{X,x₀}` is a localization of a
-finite-type `K`-algebra, hence a G-ring, so its completion map is regular and keeps reducedness
-and normality; descend from the common completion to `O_{X^an,x}`. For (iii), every point of `X`
-specializes to a closed point, localizations of reduced (resp. normal) rings are reduced (resp.
-normal), and the points of `X^an` are the closed points of `X`
-(`analytification.bijective_closedPoints`). Checks: `A¹_K` is normal, and the stalk of
-`(A¹_K)^an` at `0`, the ring of power series converging near `0`, is a discrete valuation ring;
-`Spec K[ε]/(ε²)` and its analytification `Sp K[ε]/(ε²)` are both non-reduced; for `char K ≠ 2`
-the node `y² = x²(x + 1)` is reduced and not normal on both sides, and being a domain is not
-reflected: `O_{X,0}` is a domain, while `O_{X^an,0}` is not, since there
-`(y − xu)(y + xu) = y² − x²(1 + x) = 0` with both factors nonzero, `u` being the series
-`√(1 + x)` converging near `0`.
-*Needs:* *rigid-analytification*; *rigid-local-ring-completion*;
-*restricted-series-flat-over-polynomials*; *tate-algebra-maximal-ideals-polynomial* (layer R0);
+(*rigid-analytification-normal-reduced*) For a `K`-scheme `X` locally of finite type with rigid
+analytification `i_X : X^an → X`, `x ∈ X^an` and `x₀ = i_X(x)`, (i) the stalk map
+`O_{X,x₀} → O_{X^an,x}` is a local homomorphism of noetherian local rings inducing an isomorphism of
+completions, hence faithfully flat. Supplied by RigidAnalyticGeometry §8.1.2 (the roadmap of W.
+Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier says nothing about
+reducedness and normality, so this roadmap states (ii)–(iii) on its side, for `K` complete for a
+nontrivial nonarchimedean absolute value of rank one and the rigid analytification of
+*rigid-analytification* (RigidAnalyticGeometry §8.1): (ii) `O_{X,x₀}` is reduced (resp. normal) if
+and only if `O_{X^an,x}` is; (iii) `X` is reduced (resp. normal) if and only if every local ring of
+`X^an` is reduced (resp. a normal domain) (Conrad-IC §1.2, p. 7, and Appendix A.1, Thm A.1.3(1), p.
+33). For (ii), reducedness and normality descend along a faithfully flat local map `R → S`: a
+subring of a reduced ring is reduced, and if `S` is normal and `a/b` is integral over `R` then
+`a ∈ bS ∩ R = bR` (Stacks Tag 033G; Mathlib `Ideal.comap_map_eq_self_of_faithfullyFlat`). This gives
+one direction along the map of (i). For the other, `O_{X,x₀}` is a localization of a finite-type
+`K`-algebra, hence a G-ring, so its completion map is regular and keeps reducedness and normality;
+descend from the common completion to `O_{X^an,x}`. For (iii), every point of `X` specializes to a
+closed point, localizations of reduced (resp. normal) rings are reduced (resp. normal), and the
+points of `X^an` are the closed points of `X` (RigidAnalyticGeometry §8.1.2). Checks: `A¹_K` is
+normal, and the stalk of `(A¹_K)^an` at `0`, the ring of power series converging near `0`, is a
+discrete valuation ring; `Spec K[ε]/(ε²)` and its analytification `Sp K[ε]/(ε²)` are both
+non-reduced; for `char K ≠ 2` the node `y² = x²(x + 1)` is reduced and not normal on both sides, and
+being a domain is not reflected: `O_{X,0}` is a domain, while `O_{X^an,0}` is not, since there
+`(y − xu)(y + xu) = y² − x²(1 + x) = 0` with both factors nonzero, `u` being the series `√(1 + x)`
+converging near `0`. *Needs:* *rigid-analytification* (RigidAnalyticGeometry §8.1);
 SchemeAndStackFoundations §0.21 (*IsGRing.of_finiteType*, *IsGRing.localization*,
 `regular_map_completion`); Mathlib `IsReduced`, `IsIntegrallyClosed`, `AdicCompletion`,
 `Module.FaithfullyFlat`, `Ideal.comap_map_eq_self_of_faithfullyFlat`.
 Lean: README target.
 
 **A `K`-scheme locally of finite type is connected iff its rigid analytification is connected.**
-(*rigid-analytification-connected*) Let `K` be a field complete for a nontrivial nonarchimedean
-absolute value of rank one and `X` a `K`-scheme locally of finite type, with no separatedness or
-quasi-compactness assumed, with rigid analytification `i_X : X^an → X` (*rigid-analytification*).
-Prove that `X` is connected if and only if `X^an` is connected (`X^an` has no admissible covering
-by two disjoint nonempty admissible opens). The signature
-`RigidSpace.analytification.connected_iff` uses Mathlib's `PreconnectedSpace` for this
-no-separation convention, which includes the empty scheme. More precisely, the irreducible
-components of `X^an` are the analytifications `Z^an = i_X⁻¹(Z)` of the irreducible components `Z`
-of `X` (Conrad-IC §2.3, Thm 2.3.1, pp. 16–17; Conrad-IC Appendix A.1, proof of Thm A.1.3, p. 33,
-the reduction of the connectedness comparison to Theorem 2.3.1). Conrad reduces Theorem 2.3.1 to
-the normal connected case through a global rigid normalization (Conrad-IC §2.1, Thm 2.1.3,
-p. 11); the route below uses the algebraic normalization instead and forms no rigid
-normalization.
-(a) *Normal case.* If `X` is normal and connected, `X^an` is connected (Conrad-IC §2.3, proof of
-Thm 2.3.1, pp. 16–17). The analytified affine opens form an admissible covering linked by chains,
-so `X` may be taken affine, and then `X^an` is quasi-separated. A quasi-separated rigid space whose
-ground-field extension to the completion `K'` of an algebraic closure of `K` is connected is
-connected (`A → A ⊗̂_K K'` is injective on affinoids), and `X^an ⊗̂_K K' ≅ (X_{K'})^an`
-(Conrad-IC §2.3, p. 17, and Appendix A.1, (3), pp. 32–33). After a finite Galois extension,
-whose group permutes the connected components transitively, `X` may be taken geometrically
-irreducible. Then the normalization of `X_{K'}` is normal, affine and connected, and its
-analytification maps onto `(X_{K'})^an`, a finite surjective map being surjective on analytified
-points (the argument of (b), which does not use (a)); this replaces Conrad's use of his
-Theorem 2.1.3 and leaves `X` normal, affine and connected over an algebraically closed field.
-There Lütkebohmert's theorem that bounded functions on the complement of a nowhere-dense analytic
-subset of a normal rigid space extend (cited by Conrad as [L1], Thm 1.6) passes to a normal
-projective compactification, where GAGA for projective schemes (cited as [Ko], Satz 4.7) makes
-every analytic idempotent algebraic. These two analytic inputs are part of this target.
-Normality of `X^an` is *rigid-analytification-normal-reduced*.
-(b) *Integral case.* If `Z` is integral, its normalization `ν : Z̃ → Z` (Mathlib
-`AlgebraicGeometry.Scheme.Hom.normalization` of `Spec K(Z) → Z`) is finite and surjective with
-`Z̃` normal and integral (Stacks Tag 0BXQ; finiteness is SchemeAndStackFoundations §0.20,
-`nagata_normalization_finite` with *IsNagata.of_finiteType*). By (a) and
-*rigid-analytification-normal-reduced*, `Z̃^an` is connected and normal, so by
-*rigid-identity-principle* (ii) it is not the union of two proper analytic subsets. A finite
-surjective map carries closed points onto closed points, so `ν^an` is surjective
-(`analytification.bijective_closedPoints`), and preimages of analytic subsets are analytic. Hence
-`Z^an` is nonempty and not the union of two proper analytic subsets: it is irreducible for
-`RigidSpace.zariskiTopology`.
-(c) *Components and connectedness.* For the irreducible components `Z_i` of `X`, each `Z_i^an` is
-closed in `X^an` (the analytified closed immersion of `Z_i` with its reduced structure, by the
-affine case of *rigid-analytification*), irreducible by (b), and not contained in `Z_j^an` for
-`j ≠ i`, since a closed point of `Z_i` lies off `Z_j`. The family is locally finite: an affinoid
-open of `X^an` is covered by finitely many `U^an`, `U ⊆ X` affine open, each meeting finitely
-many `Z_i`. The union of a locally finite family of analytic subsets is analytic. So an irreducible
-closed `C ⊆ X^an` meeting an affinoid open that meets only `Z_{i_1}^an, …, Z_{i_n}^an` is the union
-of its traces on `Z_{i_1}^an ∪ … ∪ Z_{i_n}^an` and on the union of the other `Z_j^an`; the second
-trace misses that affinoid, so `C` lies in the first and hence in some `Z_{i_k}^an`. Thus the
-`Z_i^an` are exactly the irreducible components of `X^an`. Each `Z_i^an` is connected, as a
-separation would write it as the union of two proper analytic subsets, and `Z_i^an ∩ Z_j^an` is
-nonempty iff `Z_i ∩ Z_j` is, a nonempty closed subset of `X` having a closed point. If `X` is
-connected, any two components are joined by a chain whose successive members meet, so a
-separation of `X^an` would put every `Z_i^an` on the same side; conversely a separation of `X`
-analytifies to a separation of `X^an`.
-`A¹_K` is connected and `(A¹_K)^an`, the increasing union of closed discs of radius `|c|^{-j}`, is
-connected although no finite set of discs covers it; `Spec(K × K)^an` is two points, disconnected;
-for `char K ≠ 2`, the nodal cubic `y² = x²(x + 1)` is irreducible and its analytification is
-connected (indeed irreducible, by (b) with `ν : A¹ → X`, `t ↦ (t² − 1, t(t² − 1))`), even though
-near the node it has two analytic branches. *Needs:* *rigid-analytification*;
-*rigid-analytic-space*; *rigid-identity-principle*; *rigid-analytification-normal-reduced*;
-*rigid-adic-comparison-functor*; *affinoid-jacobson* (layer R0); SchemeAndStackFoundations §0.20
-(`nagata_normalization_finite`, *IsNagata.of_finiteType*); Mathlib
-`AlgebraicGeometry.Scheme.Hom.normalization`, `irreducibleComponents`.
-Lean: README target.
-
-The analytic Zariski topology `RigidSpace.zariskiTopology` has precisely the supports of
-coherent ideals as closed subsets (`isClosed_zariski_iff`). It agrees with the Zariski
-topology of `Max A` on `Sp A` (`zariskiTopology_affinoid`). Use Mathlib's
-`irreducibleComponents` for this topology to define `RigidSpace.IrreducibleComponent`.
-Conrad-IC §2.2 defines components instead as the images of connected components of a rigid
-normalization and shows that the two notions of irreducibility agree (Lemma 2.2.3 and
-Theorem 2.2.4, pp. 14–15); the comparison of *rigid-analytification-connected* uses only the
-topological definition. The empty space has no component.
-
-`reducedIdeal X Z` is pinned on every admissible open `U`: its sections are the `s ∈ O(U)`
-whose germs lie in the maximal ideals at every `x ∈ U ∩ Z` (`reducedIdeal_sections`).
-`reducedIdeal_support` identifies its support with `Z` and its section ideals as radical.
-`componentSpace X Z` is the corresponding reduced closed analytic space and `componentι`
-its inclusion, with closed image `Z` and reduced section rings (`componentι_spec`).
-On the scheme side, `reducedComponentScheme` and `reducedComponentSchemeι` apply Mathlib's
-vanishing ideal and closed subscheme to `Z` and retain the morphism to `Spec K`.
-
-`analytification.irreducibleComponentsEquiv` gives the component bijection of step (c) of
-*rigid-analytification-connected* for every scheme locally of finite type over `K`;
-`irreducibleComponentsEquiv_support` specifies the image of `Z` as `i_X⁻¹(Z)`. The isomorphism
-`analytification.componentIso` identifies the analytification of the reduced algebraic component
-with `componentSpace`, and `componentIso_hom_ι` identifies its composite with the component
-inclusion with the analytified algebraic inclusion (Conrad-IC Theorem 2.3.1, pp. 16–17). No
-normalization enters here either: the analytified inclusion of the reduced component `Z` is a
-closed immersion with image `i_X⁻¹(Z)` (the affine case of *rigid-analytification*) and reduced
-source (*rigid-analytification-normal-reduced*), and a reduced closed analytic subspace is
-determined by its support, since on an affinoid its ideal is the intersection of the maximal
-ideals at the points of `Z` (*affinoid-jacobson*; `reducedIdeal_sections`).
-
-**Checks for components and reduced inclusions.** `rigidComponents_test_empty` gives no
-component on either side. `rigidComponents_test_point` gives the single component of
-`Spec K`, the whole analytic point, and both inclusions are isomorphisms.
-`rigidComponents_test_crossing` computes two components of `Spec K[x,y]/(xy)` and its
-analytification; the analytic components are affine lines meeting in exactly one point,
-also in characteristic two. `rigidComponents_test_dualNumbers` gives a single reduced
-component for `Spec K[T]/(T²)`; its analytic space is `Sp K`, while neither component
-inclusion is an isomorphism. These test the component carrier, the comparison and the
-reduced component spaces.
-The point Check also makes `componentIso` followed by inclusion an isomorphism; the
-crossing Check computes the intersection of the images of these composites as one
-point. For dual numbers that composite is bijective on points but is not an isomorphism.
-
-**Checks for the topology and reduced ideal.** `rigidZariski_test_point` makes both subsets
-of `Sp K` closed; `rigidZariski_test_empty` computes the sole subset of the empty affinoid;
-`rigidZariski_test_openDisc` says that the open unit disc inside the closed disc is not
-Zariski closed. For `reducedIdeal`, `rigidReducedIdeal_test_empty` gives the unit ideal on
-the empty subset, `rigidReducedIdeal_test_point` gives zero on the whole reduced point,
-and `rigidReducedIdeal_test_dualNumbers` gives `(ε)` in `K[ε]/(ε²)`.
+(*rigid-analytification-connected*) A `K`-scheme `X` locally of finite type is connected iff `X^an`
+is connected, and `Z ↦ i_X⁻¹(Z)` is a bijection from the irreducible components of `X` to the
+analytic irreducible components of `X^an`, identifying each analytified reduced component with the
+corresponding reduced analytic component. Supplied by RigidAnalyticGeometry, *Targets requested by
+the Tau Ceti AdicSpaces roadmaps*, **analytification_preconnected_iff** and
+**analytification_irreducibleComponents** (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier states it on its rigid varieties, which this roadmap
+writes `RigidSpace K` (*rigid-analytic-space*).
 
 ### Examples
 
@@ -10274,13 +9381,6 @@ specialization predicates to the R1 object
 The following Checks give the algebraic computations used in these examples. Unless a row specifies an arbitrary field, K is a complete nontrivially normed ultrametric field with its compatible nonarchimedean ring structure.
 
 - Every power series in zero variables over K is a polynomial.
-- For a K-affinoid algebra A, an affinoid-subdomain presentation of all of Max A and any A-module M, the map m ↦ 1 ⊗ m into A_U ⊗_A M is bijective.
-- Over any field K, Max K has one point, and the zero ring has no maximal ideals.
-- K⟨T⟩/(T² − T) is isomorphic to K × K and has exactly two maximal ideals.
-- K⟨X⟩/(X²) is not a domain; its Krull dimension and the height of its maximal ideal (X) are both zero.
-- The zero ring has no maximal ideals and has Krull dimension ⊥.
-- The maximal ideal K⟨X⟩ × 0 in K⟨X⟩ × K has height zero, whereas the ring has Krull dimension one.
-- In A = K⟨T,E⟩/(E²,ET), E is nonzero and ET = 0. Every homomorphism from A to a commutative ring that makes T a unit kills E.
 - For a pseudouniformiser ϖ and every k, the image of T is a non-zero-divisor in the weighted chart ring K⟨ϖᵏT⟩.
 - Over any nontrivially normed field with 0 < ‖ϖ‖ < 1, the natural numbers m satisfying ‖ϖᵏϖ⁻ᵐ‖ ≤ 1 are exactly those with m ≤ k.
 - Over any field K, the zero K-module is finite and projective but not faithfully flat; there are exactly two K-algebra maps K × K → K.
@@ -10332,8 +9432,9 @@ for multiplication, identity and inverse specify the group structure, with multi
 transported through the product comparison (Huber94 §3, Proposition 3.8, p. 536;
 Wedhorn Remark 8.62, p. 92).
 
-`rigidToAdic` uses the R0 affinoid carriers; it is specified on affinoids by
-`rigidToAdic_Sp` and on affinoid maps by `rigidToAdic_Sp_map`.
+`rigidToAdic` is the functor of RigidAnalyticGeometry §8.3.1–8.3.2 read on the R0 affinoid
+carriers; it is specified on affinoids by `rigidToAdic_Sp` and on affinoid maps by
+`rigidToAdic_Sp_map`.
 `rigidToAdic.rho U` is the range of the image of the rigid open immersion U → X;
 `rigidToAdic.sections` is the natural section comparison along this functor on opens.
 `rigidToAdic.sections_coeff` identifies this comparison on every coefficient of a whole
@@ -10487,8 +9588,10 @@ coverings), layer 5.4 (the closed polydisc). The Tau Ceti roadmap ModularCurves,
 layer 2B, supplies the algebraic quotient of an elliptic curve by a finite locally free subgroup;
 quotients of abelian varieties by finite subgroup schemes enter only as finite locally free
 surjective homomorphisms (Stacks Tag 07S7 for the free action on a projective scheme). The
-SchemeAndStackFoundations roadmap, §§0.20–0.21, supplies finite normalization and the regular
-completion maps of local rings for schemes locally of finite type over a field.
+SchemeAndStackFoundations roadmap, §0.21, supplies the regular completion maps of local rings for
+schemes locally of finite type over a field. RigidAnalyticGeometry supplies affinoid subdomains,
+Tate acyclicity, rigid-analytic spaces, the rigid analytification and Huber's functor with its full
+faithfulness (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 Mathlib supplies `AlgebraicGeometry.Scheme`, `LocallyRingedSpace`,
 `Scheme.forgetToLocallyRingedSpace`,
 `ΓSpec.locallyRingedSpaceAdjunction`, `LocallyOfFiniteType`, `AffineSpace`, `IsOpenImmersion`,
@@ -10511,10 +9614,6 @@ Mathlib supplies `AlgebraicGeometry.Scheme`, `LocallyRingedSpace`,
 `ValuationSpectrum.rationalSubset`, `ValuationSpectrum.closedPolydisc`,
 `ValuationSpectrum.classicalPoint` (the `K`-rational points of the unit polydisc),
 `TauCeti.ValuationSpectrum.faithfullyFlat_pi_toCompletionLoc`,
-`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`,
-`TauCeti.ValuationSpectrum.isSheafFor_laurentSieve`, the stalk lemmas
-`isLocalRing_stalk_presentationLimitPresheafInCommRingCat` and
-`supp_presentationLimitStalkValuation`, `height_eq_ringKrullDim_of_isMaximal`,
 `TauCeti.Huber.PairOfDefinition.exists_forall_mem_idealImage_exists_sum_eq`,
 `TauCeti.Huber.PairOfDefinition.isStrictlyTopologicallyFiniteType_toCompletionLoc`,
 `TauCeti.Huber.PairOfDefinition.isRingOfIntegralElements_integralClosure_adjoin_plus`,

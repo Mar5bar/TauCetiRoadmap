@@ -13,9 +13,10 @@ the category `TauCeti.AdicSpace` are Tau Ceti's. Completeness includes the Hausd
 This file states the ring-level noetherian and adicness conditions, Huber's standing class of
 f-adic rings (Huber 1996, (1.1.1)), the morphism classes of adic spaces (adic, finite type,
 separated, proper, finite, quasi-finite, flat, unramified, smooth, étale) with their main
-theorems, classical `K`-affinoid algebras and affinoid subdomains. The completed tensor product,
-continuous differentials, the spectral seminorm, rigid-analytic spaces and the analytification
-functors are README targets.
+theorems, and the inclusion of polynomials into Tau Ceti's Tate algebras. Classical `K`-affinoid
+algebras, affinoid subdomains and rigid-analytic spaces are the RigidAnalyticGeometry roadmap's
+(README, supplier contracts). The completed tensor product, continuous differentials, the spectral
+seminorm and the analytification functor are README targets.
 -/
 
 set_option autoImplicit false
@@ -266,19 +267,10 @@ example {S S' : Pair A} (hSS' : S.plus < S'.plus) (φ : Pair.Hom S S')
 
 end FiniteHom
 
-/-! ### R0.9 Classical `K`-affinoid algebras
-(*affinoid-supremum-seminorm*, *affinoid-noether-normalisation*, *affinoid-residue-fields-finite*,
-*affinoid-jacobson*, *affinoid-maximum-modulus*, *affinoid-power-bounded-iff-sup*,
-*affinoid-homomorphism-continuous*)
+/-! ### R0.9 The polynomial inclusion into Tate algebras
 
-`K` is a complete nontrivially normed nonarchimedean field. A `K`-affinoid algebra is a complete
-Hausdorff nonarchimedean `K`-algebra `A` with `K → A` strictly topologically of finite type
-(`hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)`); `Max A` is `MaximalSpectrum A`. -/
-
-section Affinoid
-
-open TauCeti.Huber
-
+The theory of classical `K`-affinoid algebras is the RigidAnalyticGeometry roadmap's (README, R0.9);
+the disc Checks of R0.16–R0.17 use this inclusion. -/
 
 /-- The inclusion `A[X₁,…,Xₙ] → A⟨X₁,…,Xₙ⟩` into Tau Ceti's completed restricted power series. -/
 def TateAlgebra.ofMvPolynomial (A : Type*) [CommRing A] [TopologicalSpace A]
@@ -286,72 +278,6 @@ def TateAlgebra.ofMvPolynomial (A : Type*) [CommRing A] [TopologicalSpace A]
     MvPolynomial (Fin n) A →+* restrictedMvPowerSeriesCompletion n A :=
   (UniformSpace.Completion.coeRingHom).comp
     (weightedPolynomialHom (fun _ : Fin n ↦ ({1} : Set A)) isWeightFamily_one_weight)
-
-/-- `|f(x)|` for `x ∈ Max A`: the spectral norm of the residue class of `f` in `A/x`
-(Conrad-AWS, §1.2). -/
-def Affinoid.evalNorm (K : Type*) [NormedField K] {A : Type*} [CommRing A] [Algebra K A]
-    (f : A) (x : MaximalSpectrum A) : NNReal :=
-  haveI := x.isMaximal
-  letI := Ideal.Quotient.field x.asIdeal
-  ⟨spectralNorm K (A ⧸ x.asIdeal) (Ideal.Quotient.mk x.asIdeal f), spectralNorm_nonneg _⟩
-
-variable (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-  [NonarchimedeanRing K]
-
-/-- The supremum seminorm `|f|_sup = sup_{x ∈ Max A} |f(x)|` (`0` on the zero ring)
-(Kedlaya06, Definition 2.1.7; Conrad-AWS, §1.2). -/
-def Affinoid.supNorm {A : Type*} [CommRing A] [Algebra K A] (f : A) : NNReal :=
-  ⨆ x : MaximalSpectrum A, Affinoid.evalNorm K f x
-
-/-- The supremum seminorm is not a norm on a non-reduced affinoid algebra: in `K⟨T⟩/(T²)` the
-residue class of `T` is nonzero with supremum seminorm `0`. -/
-example :
-    let T := TateAlgebra.ofMvPolynomial K 1 (MvPolynomial.X 0)
-    let I : Ideal (restrictedMvPowerSeriesCompletion 1 K) := Ideal.span {T ^ 2}
-    Ideal.Quotient.mk I T ≠ 0 ∧ Affinoid.supNorm K (Ideal.Quotient.mk I T) = 0 := sorry
-
-variable {A : Type u} [CommRing A] [Algebra K A] [UniformSpace A] [IsUniformAddGroup A]
-  [NonarchimedeanRing A] [CompleteSpace A] [T2Space A]
-  {B : Type u} [CommRing B] [Algebra K B] [UniformSpace B] [IsUniformAddGroup B]
-  [NonarchimedeanRing B] [CompleteSpace B] [T2Space B]
-
-/-- Noether normalisation: a nonzero `K`-affinoid algebra is finite over a Tate algebra
-`K⟨T₁,…,T_d⟩` embedded into it (KL15, Lemma 2.5.4; Conrad-AWS, Theorem 1.2.6(4)). -/
-theorem Affinoid.exists_finite_injective_tateAlgebra [Nontrivial A]
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) :
-    ∃ (d : ℕ) (ι : restrictedMvPowerSeriesCompletion d K →ₐ[K] A),
-      Function.Injective ι ∧ ι.Finite := sorry
-
-/-- Residue fields at maximal ideals of a `K`-affinoid algebra are finite over `K`
-(Wedhorn, Proposition 5.61; KL15, Corollary 2.5.5(a)). -/
-theorem Affinoid.finiteDimensional_residueField
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) (m : Ideal A) [m.IsMaximal] :
-    FiniteDimensional K (A ⧸ m) := sorry
-
-/-- `K`-affinoid algebras are Jacobson rings (Conrad-AWS, Theorem 1.1.5(2)). -/
-theorem Affinoid.isJacobsonRing (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) :
-    IsJacobsonRing A := sorry
-
-/-- Maximum modulus principle: on a nonzero `K`-affinoid algebra the supremum seminorm is
-attained at a maximal ideal (Conrad-AWS, Theorem 1.2.6(5)). -/
-theorem Affinoid.exists_supNorm_eq [Nontrivial A]
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) (f : A) :
-    ∃ x : MaximalSpectrum A, Affinoid.evalNorm K f x = Affinoid.supNorm K f := sorry
-
-/-- Power-bounded elements are those of supremum seminorm at most one
-(Conrad-AWS, §1.2; Kedlaya06, Definition 2.1.8). -/
-theorem Affinoid.mem_powerBoundedSubring_iff_supNorm_le_one
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) (f : A) :
-    f ∈ powerBoundedSubring A ↔ Affinoid.supNorm K f ≤ 1 := sorry
-
-/-- `K`-algebra homomorphisms of `K`-affinoid algebras are continuous
-(Wedhorn, Proposition 5.60; Conrad-AWS, Theorem 1.2.6(2)). -/
-theorem Affinoid.continuous_of_algHom
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A))
-    (hB : IsStrictlyTopologicallyFiniteType (algebraMap K B)) (φ : A →ₐ[K] B) :
-    Continuous φ := sorry
-
-end Affinoid
 
 end Huber
 
@@ -1134,149 +1060,6 @@ theorem Pair.eq_powerBounded_iff_of_isTopologicallyFiniteType
       P = Pair.powerBounded A := sorry
 
 end Huber
-
-/-! ### R1.1, R1.9 Affinoid subdomains and affinoid domains
-(*affinoid-subdomain*, *gerritzen-grauert*, *affinoid-subdomain-flat*,
-*affinoid-covering-tate-acyclicity*, *affinoid-domain-equidimensional*,
-*rigid-identity-principle*) -/
-
-namespace RigidSpace
-
-open Huber TauCeti.Huber
-
-
-section AffinoidSubdomain
-
-variable (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-  [NonarchimedeanRing K]
-
-/-- The rational subdomain `X(f₁,…,fₙ/f₀) = {x ∈ Max A : |f_j(x)| ≤ |f₀(x)| for all j}`. -/
-def rationalDomain {A : Type*} [CommRing A] [Algebra K A] {n : ℕ} (f₀ : A)
-    (f : Fin n → A) : Set (MaximalSpectrum A) :=
-  {x | ∀ j, Affinoid.evalNorm K (f j) x ≤ Affinoid.evalNorm K f₀ x}
-
-/-- With `f = f₀` the rational subdomain is everything. -/
-example {A : Type*} [CommRing A] [Algebra K A] (f₀ : A) :
-    rationalDomain K f₀ (fun _ : Fin 1 ↦ f₀) = Set.univ :=
-  Set.eq_univ_of_forall fun _ _ ↦ le_rfl
-
-variable {A : Type u} [CommRing A] [Algebra K A] [UniformSpace A] [IsUniformAddGroup A]
-  [NonarchimedeanRing A] [CompleteSpace A] [T2Space A]
-
-/-- `A → A_U` is a coordinate ring of `U ⊆ Max A`: `A_U` is `K`-affinoid, `Max A_U` maps into
-`U`, and every `K`-affinoid `A`-algebra `B` with `Max B → Max A` landing in `U` receives exactly
-one `A`-algebra map from `A_U` (Conrad-AWS, Definition 2.2.1; KL15, Definition 2.5.8). -/
-def IsCoordinateRing (U : Set (MaximalSpectrum A)) (AU : Type u) [CommRing AU] [Algebra K AU]
-    [Algebra A AU] [IsScalarTower K A AU] [UniformSpace AU] [IsUniformAddGroup AU]
-    [NonarchimedeanRing AU] [CompleteSpace AU] [T2Space AU] : Prop :=
-  IsStrictlyTopologicallyFiniteType (algebraMap K AU) ∧
-    (∀ y : MaximalSpectrum AU, y.asIdeal.comap (algebraMap A AU) ∈ MaximalSpectrum.asIdeal '' U) ∧
-    ∀ (B : Type u) [CommRing B] [Algebra K B] [Algebra A B] [IsScalarTower K A B]
-      [UniformSpace B] [IsUniformAddGroup B] [NonarchimedeanRing B] [CompleteSpace B]
-      [T2Space B], IsStrictlyTopologicallyFiniteType (algebraMap K B) →
-      (∀ y : MaximalSpectrum B, y.asIdeal.comap (algebraMap A B) ∈ MaximalSpectrum.asIdeal '' U) →
-      Nonempty (Unique (AU →ₐ[A] B))
-
-/-- `U ⊆ Max A` is an *affinoid subdomain* of the `K`-affinoid algebra `A` if it has a coordinate
-ring (Conrad-AWS, Definition 2.2.1). -/
-def IsAffinoidSubdomain (U : Set (MaximalSpectrum A)) : Prop :=
-  IsStrictlyTopologicallyFiniteType (algebraMap K A) ∧
-  ∃ (AU : Type u) (_ : CommRing AU) (_ : Algebra K AU) (_ : Algebra A AU)
-    (_ : IsScalarTower K A AU) (_ : UniformSpace AU) (_ : IsUniformAddGroup AU)
-    (_ : NonarchimedeanRing AU) (_ : CompleteSpace AU) (_ : T2Space AU),
-    IsCoordinateRing K U AU
-
-variable {K}
-
-/-- Rational subdomains are affinoid subdomains, with coordinate ring
-`A⟨T₁,…,Tₙ⟩/(f₀Tⱼ − fⱼ)` (Conrad-AWS, §2.2). -/
-theorem IsAffinoidSubdomain.rational (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A))
-    {n : ℕ} (f₀ : A) (f : Fin n → A) (hf : Ideal.span (insert f₀ (Set.range f)) = ⊤) :
-    IsAffinoidSubdomain K (rationalDomain K f₀ f) := sorry
-
-/-- Finite intersections of affinoid subdomains are affinoid subdomains
-(Conrad-AWS, Example 2.4.5). -/
-theorem IsAffinoidSubdomain.inter {U V : Set (MaximalSpectrum A)}
-    (hU : IsAffinoidSubdomain K U) (hV : IsAffinoidSubdomain K V) :
-    IsAffinoidSubdomain K (U ∩ V) := sorry
-
-/-- Gerritzen–Grauert: every affinoid subdomain is a finite union of rational subdomains
-(Conrad-AWS, Theorem 2.2.5; KL15, Theorem 2.5.11). -/
-theorem IsAffinoidSubdomain.exists_eq_iUnion_rationalDomain {U : Set (MaximalSpectrum A)}
-    (hU : IsAffinoidSubdomain K U) :
-    ∃ (m : ℕ) (p : Fin m → ℕ) (g₀ : Fin m → A) (g : (i : Fin m) → Fin (p i) → A),
-      (∀ i, Ideal.span (insert (g₀ i) (Set.range (g i))) = ⊤) ∧
-        U = ⋃ i, rationalDomain K (g₀ i) (g i) := sorry
-
-section CoordinateRing
-
-variable {U : Set (MaximalSpectrum A)} {AU : Type u} [CommRing AU] [Algebra K AU]
-  [Algebra A AU] [IsScalarTower K A AU] [UniformSpace AU] [IsUniformAddGroup AU]
-  [NonarchimedeanRing AU] [CompleteSpace AU] [T2Space AU]
-
-/-- Coordinate rings of affinoid subdomains are flat (KL15, Lemma 2.5.17). -/
-theorem IsCoordinateRing.flat (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A))
-    (hU : IsCoordinateRing K U AU) : Module.Flat A AU := sorry
-
-/-- Identity principle: for a `K`-affinoid integral domain and a nonempty affinoid subdomain,
-restriction to the subdomain is injective (Conrad-IC, Lemma 2.1.4). It follows from flatness:
-`A_U` is a nonzero flat `A`-module (`IsCoordinateRing.flat`), hence torsion-free over the
-domain `A` (`Module.Flat.isSMulRegular_of_nonZeroDivisors`). -/
-theorem IsCoordinateRing.injective_algebraMap [IsDomain A]
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) (hU : IsCoordinateRing K U AU)
-    (hne : U.Nonempty) : Function.Injective (algebraMap A AU) := sorry
-
-end CoordinateRing
-
-/-- Tate's acyclicity theorem in degree zero: for a finite covering of `Max A` by affinoid
-subdomains `Uᵢ` with coordinate rings `A_i` and `A_{ij}` for `Uᵢ ∩ Uⱼ`, the restriction maps
-identify `A` with the families agreeing on overlaps (Conrad-AWS, Theorem 2.3.3; KL15, Theorem
-2.5.20). The
-`A`-algebra maps `r i j`, `r' i j` are the unique restrictions. -/
-theorem tate_acyclicity (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A))
-    {ι : Type} [Fintype ι] (U : ι → Set (MaximalSpectrum A)) (hcov : (⋃ i, U i) = Set.univ)
-    (AU : ι → Type u) [∀ i, CommRing (AU i)] [∀ i, Algebra K (AU i)] [∀ i, Algebra A (AU i)]
-    [∀ i, IsScalarTower K A (AU i)] [∀ i, UniformSpace (AU i)] [∀ i, IsUniformAddGroup (AU i)]
-    [∀ i, NonarchimedeanRing (AU i)] [∀ i, CompleteSpace (AU i)] [∀ i, T2Space (AU i)]
-    (hU : ∀ i, IsCoordinateRing K (U i) (AU i))
-    (AUU : ι → ι → Type u) [∀ i j, CommRing (AUU i j)] [∀ i j, Algebra K (AUU i j)]
-    [∀ i j, Algebra A (AUU i j)] [∀ i j, IsScalarTower K A (AUU i j)]
-    [∀ i j, UniformSpace (AUU i j)] [∀ i j, IsUniformAddGroup (AUU i j)]
-    [∀ i j, NonarchimedeanRing (AUU i j)] [∀ i j, CompleteSpace (AUU i j)]
-    [∀ i j, T2Space (AUU i j)] (hUU : ∀ i j, IsCoordinateRing K (U i ∩ U j) (AUU i j))
-    (r : ∀ i j, AU i →ₐ[A] AUU i j) (r' : ∀ i j, AU j →ₐ[A] AUU i j) :
-    Function.Injective (fun a : A ↦ fun i ↦ algebraMap A (AU i) a) ∧
-      ∀ s : ∀ i, AU i, (∀ i j, r i j (s i) = r' i j (s j)) →
-        ∃ a : A, ∀ i, algebraMap A (AU i) a = s i := sorry
-
-/-- In a `K`-affinoid integral domain every maximal ideal has height `dim A`
-(Conrad-IC, Lemma 2.1.5). -/
-theorem height_eq_ringKrullDim_of_isDomain [IsDomain A]
-    (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) (m : Ideal A) [m.IsMaximal] :
-    (m.height : WithBot ℕ∞) = ringKrullDim A := sorry
-
-variable (K)
-
-/-- `K⟨X⟩ × K` is not a domain: its maximal ideal `K⟨X⟩ × 0` has height `0` while the dimension
-is `1`. -/
-example :
-    (Ideal.prod (⊤ : Ideal (restrictedMvPowerSeriesCompletion 1 K)) (⊥ : Ideal K)).IsMaximal ∧
-      (Ideal.prod (⊤ : Ideal (restrictedMvPowerSeriesCompletion 1 K)) (⊥ : Ideal K)).height = 0 ∧
-      ringKrullDim (restrictedMvPowerSeriesCompletion 1 K × K) = 1 := sorry
-
-/-- `K⟨T, E⟩/(E², ET)` is connected but not a domain, and `E ≠ 0` dies on the Laurent domain
-`{|T| ≥ |ϖ|}`, where `T` is a unit: the domain hypothesis of the identity principle is needed. -/
-example :
-    let T := TateAlgebra.ofMvPolynomial K 2 (MvPolynomial.X 0)
-    let E := TateAlgebra.ofMvPolynomial K 2 (MvPolynomial.X 1)
-    let I : Ideal (restrictedMvPowerSeriesCompletion 2 K) := Ideal.span {E ^ 2, E * T}
-    Ideal.Quotient.mk I E ≠ 0 ∧ Ideal.Quotient.mk I E * Ideal.Quotient.mk I T = 0 ∧
-      ∀ (B : Type) [CommRing B] (φ : restrictedMvPowerSeriesCompletion 2 K ⧸ I →+* B),
-        IsUnit (φ (Ideal.Quotient.mk I T)) → φ (Ideal.Quotient.mk I E) = 0 := sorry
-
-end AffinoidSubdomain
-
-end RigidSpace
 
 end
 
