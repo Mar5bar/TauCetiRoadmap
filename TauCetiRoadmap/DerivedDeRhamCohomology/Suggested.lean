@@ -5,8 +5,7 @@ import TauCeti.RingTheory.Kaehler.MapSemilinear
 # DerivedDeRhamCohomology: representative target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-What is recorded here are definitions and theorem signatures that can already be stated against the
-pinned Mathlib and Tau Ceti, so that contributors and reviewers converge on names and signatures;
+What is recorded here are definitions and theorem signatures against the pinned Mathlib and Tau Ceti;
 discharging all of them finishes neither a layer nor the roadmap. `sorry` is expected in this file:
 these are goals, not results.
 
@@ -22,6 +21,15 @@ Design choices made explicit here:
   vanishing of all morphisms from shifted localizations; complete flatness of a module is stated with
   Mathlib's `CategoryTheory.Tor`. The cotangent complex, derived completion, derived powers and
   derived de Rham cohomology are constructions specified in the README.
+* The K-flat models of README 0.2 cover arbitrary complexes of modules; ArithmeticGaloisDuality
+  §D7.1 / Derived tensor, perfect amplitude and Tor consumes them for bounded perfect complexes.
+  The module derived limit of README 1.1 uses the tower kernels, cokernels and Milnor sequence
+  supplied by ArithmeticGaloisDuality §R02.1.1 / lim and lim¹ of a tower and ArithmeticGaloisDuality
+  §R02.1.1 / The Milnor sequence for towers of complexes. Towers have transitions `K_(n+1) → K_n`
+  for `n : ℕ`; forgetting scalars identifies their additive carriers with the supplier's, and the
+  induced module action is retained.
+  Vanishing of `lim¹` under eventual stabilization of cohomology transition images is supplied by
+  ArithmeticGaloisDuality §R02.1.1 / Mittag-Leffler towers have vanishing lim¹.
 * `Z_p(1)` is the kernel of Mathlib's untilt `PreTilt.untilt`, and `A_inf`, `θ` and `B_dR⁺` are
   Mathlib's `WittVector p (PreTilt O p)`, `WittVector.fontaineTheta` and `BDeRhamPlus`.
 -/
@@ -577,7 +585,10 @@ end DerivedDeRham
 /-
 The constructions of the README are specified there with their intended signatures: the cotangent
 complex `Algebra.CotangentComplex` and its API, derived tensor products and derived powers, derived
-limits and completion (`derivedCompletion`, `completionUnit`, `completionAdjunction`,
+limits (`derivedLimit_surjective`, `derivedLimit_milnor` are the module adapters of
+ArithmeticGaloisDuality §R02.1.1 / The Milnor sequence for towers of complexes; the derived-limit
+functor and `derivedLimit_triangle` are constructed in README 1.1) and completion
+(`derivedCompletion`, `completionUnit`, `completionAdjunction`,
 `completionIdempotent`, `completeNakayama`, `completionComplete`, `completedColimit`), the filtered
 derived category, the ordinary de Rham differential, complex and pullback (`complex_d_apply`,
 `complex_d_nonadjacent`, `complex_X`, `complexMap_apply`, `complexMap_id`, `complexMap_comp`,

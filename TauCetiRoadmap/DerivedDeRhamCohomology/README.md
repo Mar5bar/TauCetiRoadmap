@@ -61,6 +61,9 @@ applications.
 
 It uses, without restating:
 
+- **ArithmeticGaloisDuality** §R02.1.1 / *lim and lim¹ of a tower*, *The six-term sequence of lim
+  and lim¹*, *The Milnor sequence for towers of complexes* and *Mittag-Leffler towers have
+  vanishing lim¹* for the tower calculations underlying the module derived-limit adapter of 1.1.
 - **CrystallineCohomology** for divided powers and their envelopes (Layer CR.0), crystalline sites
   and the PD Poincaré lemma (Layers CR.1–CR.2), the classical de Rham–Witt complex, its Nygaard
   filtration and the classical crystalline comparison (Layer CR.4), log structures (Layer
@@ -139,11 +142,15 @@ negative cohomology of a non-lci quotient.
 
 `dR` denotes the **direct-sum** totalization of the bicomplex of de Rham complexes of a polynomial
 resolution. The decreasing Hodge filtration is `F_H^i`, with `gr_H^i = cofib(F_H^(i+1) → F_H^i)`.
-Hodge completion is the inverse limit of the Hodge quotients and corresponds to product
+Hodge completion is the derived inverse limit of the Hodge quotients and corresponds to product
 totalization. Derived p-completion `Λ_p` is a different reflection, computed by a derived quotient
 tower in its bounded-torsion range. Both completions are specified whenever both occur. Rational
 uncompleted `dR` is the base ring; rational smooth ordinary de Rham cohomology is recovered by Hodge
 completion. Nilpotent-p smooth comparison has its own hypotheses.
+
+Tower limits use the module adapter of 1.1 and the facts supplied by ArithmeticGaloisDuality
+§R02.1.1 / *The Milnor sequence for towers of complexes*, with the indexing and scalar conventions
+of 1.1; their cohomology retains `lim¹` until its vanishing hypothesis is verified.
 
 Filtered objects are diagrams `F^(i+1) → F^i` of complexes indexed by `ℤᵒᵖ`; the filtered derived
 category is `DF(A) = DerivedCategory (ℤᵒᵖ ⥤ ModuleCat A)` (Bhatt, Remark 2.4, p.5, for the
@@ -186,8 +193,8 @@ de Rham namespace, `DerivedDeRham.*` names in the derived namespace, and the cot
   `DerivedCategory.homologyFunctor`, `HasDerivedCategory.standard`, `CochainComplex.of`,
   `HomologicalComplex`, the triangulated structure and t-structure of `DerivedCategory`,
   `CategoryTheory.Abelian.Ext`, and `CategoryTheory.Tor` for module categories. These are the
-  carriers of every derived statement; nothing is assumed about derived tensors or limits beyond
-  what 0.2 and 1.1 construct.
+  carriers of every derived statement; 0.2 constructs the module derived tensor, and 1.1 constructs
+  the module derived limit using the ArithmeticGaloisDuality §R02.1.1 tower contracts below.
 - Simplicial algebra: `CategoryTheory.SimplicialObject`, `CategoryTheory.SimplicialObject.Augmented`,
   `CategoryTheory.SimplicialObject.Augmented.ExtraDegeneracy`,
   `AlgebraicTopology.alternatingFaceMapComplex` and the Dold–Kan correspondence
@@ -236,6 +243,7 @@ proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib
 
 | Supplier | Interface used here |
 |---|---|
+| [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §R02.1.1 / *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for towers of complexes* | `CompactCoefficients.Tower.lim` and `CompactCoefficients.Tower.limOne` are the kernel and cokernel of `Tower.shift` on `ℕ`-indexed abelian-group towers; the six-term sequence is natural for levelwise short exact sequences, and Milnor applies to degreewise-surjective cochain-complex towers. Mittag-Leffler means eventual stabilization of transition images and kills `lim¹`; surjective or finite group towers satisfy it. Section 1.1 retains the induced module action and constructs the module derived-limit functor without using §D7.1. |
 | [CrystallineCohomology](../CrystallineCohomology/README.md) §CR.0.3–§CR.0.5 | The divided power algebra `Γ_A(M)` with its augmentation ideal, the divided power filtration, the canonical divided powers on `(p)` including `p = 2`, compatibility with a base. |
 | CrystallineCohomology §CR.0.6 | Divided power envelopes relative to a PD base with their filtered universal maps, envelopes of regular immersions, flat base change, and completed envelopes; in particular the explicit regular envelopes, tensor discreteness, flatness and reduction of [Bhatt12], Lemmas 3.37–3.38, pp.16–17. |
 | CrystallineCohomology §CR.0.7 | `A_cris(R)` for a p-adically complete ring `R` in which `p` is not a unit, with `θ_cris` and `Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_theta`, `Crystalline.fontaineEnvelope_identify`, `Crystalline.fontaineEnvelope_map`. |
@@ -334,6 +342,11 @@ quasi-isomorphisms ([StacksMA] Definition 15.60.1, Lemmas 15.60.7, 15.60.10, 15.
 Definition 15.60.13 (Tag 064M), computed by `Tot(K• ⊗_R L•)` with `K•` K-flat; and derived extension of
 scalars along `R → R′` as `− ⊗^L_R R′`. For `X = Spec R` this is identified with
 SchemeAndStackFoundations §2.18 `derivedTensor` under `Coherent.DQCoh.affineEquiv`.
+
+This construction covers arbitrary, possibly unbounded complexes over arbitrary commutative rings;
+ArithmeticGaloisDuality §D7.1 / *Derived tensor, perfect amplitude and Tor* consumes these K-flat
+models to compute coefficient change and the Tor spectral sequence for bounded perfect complexes;
+its amplitude and convergence conditions apply to those targets.
 
 *Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`; SchemeAndStackFoundations §2.18
 `derivedTensor`, `Coherent.DQCoh.affineEquiv`.
@@ -1017,31 +1030,55 @@ t-structure. The quasisyntomic condition comes after complete flatness.
 
 ### 1.1 Derived limits of towers
 
-For a ring `A` and an inverse system `(K_n)` of complexes of `A`-modules, define the derived limit
+For a ring `A` and an `ℕ`-indexed inverse system `(K_n)` of complexes of `A`-modules, define
 `Rlim_n K_n ∈ D(A)`, `DerivedDeRham.derivedLimit`, as the termwise inverse limit after replacing the
-system by a termwise surjective one (equivalently the fibre of `1 − shift : ∏ K_n → ∏ K_n`). It depends
-only on the class of the system in `D(Mod(ℕ, A))`, and there is the Milnor exact sequence
-`0 → lim¹ H^(j−1)K_n → H^j(Rlim K_n) → lim H^jK_n → 0`. A map of systems that is a quasi-isomorphism
-in each level induces an isomorphism on derived limits; derived limits of distinguished triangles of
-systems are distinguished.
+system by a levelwise quasi-isomorphic degreewise-surjective one (equivalently the fibre of the map
+`δ : ∏ K_n → ∏ K_n`, `δ(x)_n = x_n − φ_n(x_(n+1))`). It depends only on the class of the system in
+`DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A)`. A map of systems that is a quasi-isomorphism in each level
+induces an isomorphism on derived limits; derived limits of distinguished triangles of systems are
+distinguished. These are the module-category construction and functor laws retained here.
+
+The shift kernels and cokernels are supplied by ArithmeticGaloisDuality §R02.1.1 / *lim and lim¹
+of a tower*, with their connecting maps supplied by ArithmeticGaloisDuality §R02.1.1 / *The six-term
+sequence of lim and lim¹*. The sequence
+`0 → lim¹ H^(j−1)K_n → H^j(Rlim K_n) → lim H^jK_n → 0` is the module adapter of the result supplied
+by ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*, applied to the
+degreewise-surjective replacement. Retain its left term unless the cohomology tower
+`(H^(j−1)K_n)` satisfies the criterion supplied by ArithmeticGaloisDuality §R02.1.1 /
+*Mittag-Leffler towers have vanishing lim¹*; degreewise surjectivity of the complex transitions alone
+does not impose that criterion on cohomology.
+
+Convention: transitions are `K_(n+1) → K_n` for `n : ℕ` (positive indices and filtration tails
+`i ≥ i₀` are reindexed by `n + 1` and `i₀ + n`), Mittag-Leffler means eventual stabilization of
+transition images, and the supplier's cohomological complexes in `AddCommGrpCat` are used in
+`ModuleCat A` with the induced `A`-action on the shift kernels, cokernels and Milnor maps.
 
 [StacksMA], §15.89, Lemmas 15.89.1, 15.89.3–15.89.4, Remark 15.89.10 and Lemmas 15.89.11–15.89.12;
 Tags 091D, 0CQD, 0CQE, 091J, 091K, 091L, pp.238–241.
 
-*Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`, `CochainComplex`.
+*Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`, `CochainComplex`; ArithmeticGaloisDuality
+§R02.1.1 / *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler towers have vanishing
+lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for towers of complexes*.
 
-Prove the following named laws.
+Provide the following module adapters and functor laws.
 
-- `derivedLimit_surjective`: for a termwise surjective system, `Rlim` is the termwise limit.
-- `derivedLimit_milnor`: the Milnor sequence above.
+- `derivedLimit_surjective`: for a degreewise-surjective system, `Rlim` is the termwise limit, as
+  supplied by ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*,
+  retaining the `A`-module structure.
+- `derivedLimit_milnor`: the natural `A`-linear sequence supplied by ArithmeticGaloisDuality
+  §R02.1.1 / *The Milnor sequence for towers of complexes* on a degreewise-surjective replacement,
+  with `lim¹` vanishing under the cohomology Mittag-Leffler hypothesis stated above.
 - `derivedLimit_triangle`: `Rlim` sends levelwise distinguished triangles to distinguished triangles.
 
 **Checks.**
 
 - `test_rlim_constant`: for a constant system `K`, `Rlim K_n ≅ K`.
-- `test_rlim_padic`: for `K_n = ℤ/p^n` with the reductions, `Rlim = ℤ_p` in degree zero.
-- `test_rlim_lim_one`: for `K_n = ℤ` with transition maps multiplication by `p`, `lim = 0` and
-  `lim¹ = ℤ_p/ℤ ≠ 0`, so `H¹(Rlim) ≠ 0`; the underived limit loses it.
+- `test_rlim_padic`: for a prime `p` and `K_n = ℤ/p^n` with the reductions, `Rlim = ℤ_p` in degree zero.
+- `test_rlim_lim_one`: for a prime `p` and `K_n = ℤ` with transition maps multiplication by `p`,
+  `lim = 0` and `lim¹ = ℤ_p/ℤ ≠ 0`, so `H¹(Rlim) ≠ 0`; the underived limit loses it.
+- For a prime `p` and `K_n = [ℤ → ℤ/p^(n+1)]` in degrees `0, 1`, the transitions are degreewise
+  surjective but `H⁰(K_n) = p^(n+1)ℤ` with inclusions is not Mittag-Leffler; the supplied Milnor injection identifies
+  `H¹(Rlim K_n) = ℤ_p/ℤ` even though every `H¹(K_n)` vanishes.
 
 ### 1.2 Derived ideal completeness
 
@@ -1053,7 +1090,8 @@ Let `I = (f₁, …, f_r) ⊂ A` be finitely generated. A complex `M ∈ D(A)` i
 [StacksMA], §15.93, Lemmas 15.93.1–15.93.3, Definition 15.93.4 and Proposition 15.93.5; Tags 091P,
 091Q, 091R, 091S, 091T, pp.261–263.
 
-*Needs:* Mathlib `DerivedCategory`, `Localization.Away`.
+*Needs:* Mathlib `DerivedCategory`, `Localization.Away`; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.derivedCompleteness` (stated in `Suggested.lean` as vanishing of all morphisms
 from the shifted localizations).
@@ -1094,8 +1132,9 @@ DerivedDeRham.completionUnit (A : Type u) [CommRing A] (I : Ideal A) :
 pp.264, 267–268.
 
 *Needs:* Layer 1: Derived ideal completeness; Layer 1: Derived limits of towers;
-IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes); Layer 0: Derived tensor products on module
-derived categories; Mathlib `PadicInt`.
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*;
+IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes); Layer 0: Derived tensor products on
+module derived categories; Mathlib `PadicInt`.
 
 Prove the following named laws.
 
@@ -1121,8 +1160,9 @@ derived Koszul quotients. Replacing them by ordinary `A/I^n` for an arbitrary ri
 
 [StacksMA], Lemma 15.93.18; Tag 0920, pp.266–267.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes, cohomologically reindexed); Layer 1:
-The derived completion reflector; Layer 1: Derived limits of towers.
+*Needs:* IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes, cohomologically reindexed);
+Layer 1: The derived completion reflector; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.koszulCompletionTower`.
 
@@ -1143,7 +1183,8 @@ Without these hypotheses use the Koszul tower.
 Tags 091X, 0923, 09AT, 0G3F, 0921, 0922, 0EET, 0A06, pp.271–277; [Prisms], §1.2 Footnote 5, pp.10–11.
 
 *Needs:* Layer 1: The derived Koszul completion tower; IntegralHeckeAndGaloisDeterminants §6.4; Tau
-Ceti `TauCeti.ArtinRees.exists_controlled_lift`.
+Ceti `TauCeti.ArtinRees.exists_controlled_lift`; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.ordinaryQuotientCompletion`.
 
@@ -1169,7 +1210,8 @@ simplicial rings, not in degree-zero rings.
 [Prisms], §1.2 and Footnote 6, pp.10–11.
 
 *Needs:* Layer 1: The derived completion reflector; Layer 1: The derived Koszul completion tower;
-Layer 0: Simplicial polynomial resolutions; Layer 1: Derived limits of towers.
+Layer 0: Simplicial polynomial resolutions; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.simplicialRingCompletion`.
 
@@ -1256,7 +1298,8 @@ change. These statements concern Čech descent; hyperdescent is not asserted.
 [BMS19], Remark 4.9 and the §3 flat-descent argument, pp.215–218, 223.
 
 *Needs:* Layer 1: The derived completion reflector; Layer 1: Complete flatness and complete faithful
-flatness; Layer 1: Bounded torsion and complete Tor-amplitude; Layer 1: Derived limits of towers.
+flatness; Layer 1: Bounded torsion and complete Tor-amplitude; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.completeFlatDescent`.
 
@@ -1314,8 +1357,9 @@ without the compatible reductions, does not suffice.
 
 [StacksMA], §15.99, Lemmas 15.99.1–15.99.4; Tags 0CQF, 09AV, 0CQG, 09AW, pp.287–288.
 
-*Needs:* Layer 1: Derived limits of towers; Layer 1: Derived ideal completeness; Layer 0: Derived
-tensor products on module derived categories.
+*Needs:* Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence
+for towers of complexes*; Layer 1: Derived ideal completeness; Layer 0: Derived tensor products on
+module derived categories.
 
 Lean: `DerivedDeRham.perfectSystemEffective`.
 
@@ -1379,7 +1423,8 @@ Classical separatedness alone does not imply this completeness.
 [GP], Definition 2.8, Lemma 2.9, Proposition 2.14, Lemma 2.15, pp.6–7; [BMS19], Lemma 5.2,
 pp.233–234.
 
-*Needs:* Layer 1: Filtered derived categories; Layer 1: Derived limits of towers.
+*Needs:* Layer 1: Filtered derived categories; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.filteredCompletion`.
 
@@ -1535,7 +1580,8 @@ inverse limit.
 
 [BMS19], Lemma 3.3 and proof, pp.217–218.
 
-*Needs:* Layer 1: Derived limits of towers; Mathlib `DerivedCategory` t-structures.
+*Needs:* Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence
+for towers of complexes*; Mathlib `DerivedCategory` t-structures.
 
 Lean: `DerivedDeRham.weakPostnikovTowers`.
 
@@ -1545,14 +1591,17 @@ Derived ideal and filtered completion are exact and commute with limits on compl
 their reflector descriptions. A perfect `A`-complex `P` satisfies `P ⊗^L_A Λ_I M ≃ Λ_I(P ⊗^L_A M)`. A
 filtered colimit in the complete category is completed after the raw colimit. For a uniformly
 cohomologically bounded-below cosimplicial diagram, filtered colimits commute with its product
-totalization degreewise; the connectivity bound is necessary. The Milnor exact sequence of 1.1 retains
-the derived-limit term.
+totalization degreewise; the connectivity bound is necessary. The Milnor sequence supplied by
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*, through 1.1's module
+adapter, retains `lim¹`; vanishing under a cohomology Mittag-Leffler hypothesis is supplied by
+ArithmeticGaloisDuality §R02.1.1 / *Mittag-Leffler towers have vanishing lim¹*.
 
 [StacksMA], §§15.93, 15.95 and 15.96, pp.261–277; [BMS19], Example 5.12 and Lemma 3.3, pp.217–218,
 240; [GP], Lemma 2.9 and Proposition 2.14, pp.6–7.
 
-*Needs:* Layer 1: The derived completion reflector; Layer 1: Completion of a filtered object; Layer 1:
-Completed filtered tensor products; Layer 1: Derived limits of towers.
+*Needs:* Layer 1: The derived completion reflector; Layer 1: Completion of a filtered object; Layer
+1: Completed filtered tensor products; Layer 1: Derived limits of towers; ArithmeticGaloisDuality
+§R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.completionExchanges`.
 
@@ -1601,13 +1650,19 @@ Prove the following named laws.
 The zero ideal makes every complex complete, whereas the unit ideal admits only the zero complete
 complex. `ℤ` is p-completely flat but is not p-complete; `F_p` as a `ℤ`-module fails complete flatness
 because `Tor₁` is nonzero. The filtered step in weight one fixes the Rees degree `−1` and the direction
-of multiplication by `t`. The tower `ℤ ←p ℤ ←p ⋯` has zero limit and nonzero `lim¹`.
+of multiplication by `t`. The tower `ℤ ←p ℤ ←p ⋯` has zero limit and nonzero `lim¹`, supplied by
+ArithmeticGaloisDuality §R02.1.1 / *lim and lim¹ of a tower*.
 
 ### Dependencies
 
 Layer 0 (cotangent complexes, derived tensor, Avramov's criterion); IntegralHeckeAndGaloisDeterminants
 §6.4 for Koszul complexes; Tau Ceti Artin–Rees; Mathlib derived categories and adic completion. The
 quasisyntomic condition uses this layer's complete flatness and bounded-torsion criterion.
+The tower kernels, cokernels and connecting maps are supplied by ArithmeticGaloisDuality §R02.1.1 /
+*lim and lim¹ of a tower* and *The six-term sequence of lim and lim¹*; the module adapter of 1.1 uses
+the sequence supplied by ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of
+complexes* and the vanishing criterion supplied by ArithmeticGaloisDuality §R02.1.1 /
+*Mittag-Leffler towers have vanishing lim¹*.
 
 ## Layer 2: Ordinary and derived de Rham cohomology
 
@@ -2112,7 +2167,9 @@ p-completion are different operations.
 [BL22], Appendix E, Construction E.14 and Remark E.15, p.235.
 
 *Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 2: Hodge graded pieces of
-derived de Rham; Layer 1: Completion of a filtered object; Layer 1: Completed filtered tensor products.
+derived de Rham; Layer 1: Completion of a filtered object; Layer 1: Completed filtered tensor
+products; Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence
+for towers of complexes*.
 
 Prove the following named laws.
 
@@ -2150,7 +2207,8 @@ E.4, p.233.
 
 *Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 1: The derived completion
 reflector; Layer 1: When ordinary quotient towers compute completion; Layer 1: Completed filtered
-tensor products.
+tensor products; Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor
+sequence for towers of complexes*.
 
 Prove the following named laws.
 
@@ -2465,14 +2523,18 @@ For `A → B` over `F_p` the increasing exhaustive filtration gives the exact-co
 with `E₁^(i,j) = H^(i+j)(L∧^i L_(B^(1)/A)[−i]) = H^j(L∧^i L_(B^(1)/A))`, abutting conditionally to
 `H^(i+j) dR_(B/A)`. Strong convergence in a given degree holds when only finitely many filtration
 indices contribute there (for example a bounded smooth affine complex); otherwise the complete and
-`lim¹` conditions of 1.1 are stated and checked. Global and completed variants retain their
+`lim¹` conditions of 1.1 are stated and checked using the sequence supplied by
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*, and any use of
+ArithmeticGaloisDuality §R02.1.1 / *Mittag-Leffler towers have vanishing lim¹* verifies the
+Mittag-Leffler condition on the cohomology tower. Global and completed variants retain their
 totalization and convergence hypotheses.
 
 [Bhatt12], Proposition 2.3 and Remark 2.4; Proposition 3.5, pp.5, 7; [GP], Proposition 2.18, pp.7–8.
 
-*Needs:* Layer 3: The conjugate filtration; Layer 3: Derived Cartier graded pieces; Layer 1: Filtered
-derived categories; Layer 1: Valid exchanges of completion and derived operations; Layer 1: Derived
-limits of towers.
+*Needs:* Layer 3: The conjugate filtration; Layer 3: Derived Cartier graded pieces; Layer 1:
+Filtered derived categories; Layer 1: Valid exchanges of completion and derived operations; Layer 1:
+Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of
+complexes*.
 
 Lean: `DerivedDeRham.conjugateSpectralSequence`.
 
@@ -3056,9 +3118,10 @@ sense of the Conventions, not as a strict commutative dg algebra.
 
 [BMS19], Proposition 4.31 and Remark 4.32, pp.230–231.
 
-*Needs:* Layer 5: Compatible-root quasisyntomic covers; Layer 5: Refinement and Čech stability of QRSP
-covers; Layer 1: Filtered derived categories; Layer 1: Completion of a filtered object; Layer 1: Derived
-limits of towers.
+*Needs:* Layer 5: Compatible-root quasisyntomic covers; Layer 5: Refinement and Čech stability of
+QRSP covers; Layer 1: Filtered derived categories; Layer 1: Completion of a filtered object; Layer
+1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of
+complexes*.
 
 **Checks.**
 
@@ -3099,15 +3162,17 @@ Lean: `DerivedDeRham.completedCotangentDescent`.
 
 The functors `A ↦ dR_(A/R)/Fil_H^m` for finite `m`, their p-completions, and the complete Hodge-filtered
 object `dR^hc_(A/R)` satisfy their flat or p-completely flat Čech descent assertions. For Hodge
-completion, `Tot` commutes with the quotient inverse limit because both are limits. Graded
-conservativity is used only in the complete filtered category. There is no assertion that uncompleted
+completion, `Tot` commutes with the derived quotient inverse limit of 1.1 because both are limits.
+Graded conservativity is used only in the complete filtered category. There is no assertion that uncompleted
 derived de Rham commutes with every unbounded totalization.
 
 [BMS19], Example 5.11, p.240; [BL22], Proposition E.16 with proof, pp.235–236.
 
-*Needs:* Layer 5: Descent of completed cotangent powers; Layer 2: Hodge graded pieces of derived de Rham;
-Layer 2: Hodge-completed derived de Rham; Layer 2: p-completed derived de Rham; Layer 1: Completion of a
-filtered object; Layer 1: Valid exchanges of completion and derived operations.
+*Needs:* Layer 5: Descent of completed cotangent powers; Layer 2: Hodge graded pieces of derived de
+Rham; Layer 2: Hodge-completed derived de Rham; Layer 2: p-completed derived de Rham; Layer 1:
+Completion of a filtered object; Layer 1: Valid exchanges of completion and derived operations;
+Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for
+towers of complexes*.
 
 Lean: `DerivedDeRham.filteredDeRhamDescent`.
 
@@ -3143,11 +3208,12 @@ No strictly commutative global model is asserted.
 [StacksCoh] §20.25, Tag 01FP; [StacksSites] §21.33, Lemmas 21.33.2–21.33.3, Tags 0FPJ, 0FPL, 0FPM.
 
 *Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 2: Hodge-completed derived
-de Rham; Layer 2: p-completed derived de Rham; Layer 2: Hodge graded pieces of derived de Rham; Layer 5:
-Descent of Hodge quotients and completion; Layer 0: Localization and filtered colimits of cotangent
-complexes; Layer 0: Derived tensor products on module derived categories; Layer 3: Smooth ordinary and
-completed de Rham comparisons; Mathlib `AlgebraicGeometry.Scheme`; SchemeAndStackFoundations §2.18,
-§4.7.
+de Rham; Layer 2: p-completed derived de Rham; Layer 2: Hodge graded pieces of derived de Rham;
+Layer 5: Descent of Hodge quotients and completion; Layer 0: Localization and filtered colimits of
+cotangent complexes; Layer 0: Derived tensor products on module derived categories; Layer 3: Smooth
+ordinary and completed de Rham comparisons; Mathlib `AlgebraicGeometry.Scheme`;
+SchemeAndStackFoundations §2.18, §4.7; Layer 1: Derived limits of towers; ArithmeticGaloisDuality
+§R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Prove the following named laws.
 
@@ -3220,9 +3286,10 @@ allowed.
 [Bhatt12], Definition 8.1, Lemma 8.3, Theorem 8.4, pp.31–32.
 
 *Needs:* Layer 1: The derived completion reflector; Layer 1: When ordinary quotient towers compute
-completion; Layer 1: Valid exchanges of completion and derived operations; Layer 2: p-completed derived
-de Rham; Layer 2: Derived base change and Künneth; Layer 5: The lci crystalline comparison theorem;
-Layer 1: Derived limits of towers.
+completion; Layer 1: Valid exchanges of completion and derived operations; Layer 2: p-completed
+derived de Rham; Layer 2: Derived base change and Künneth; Layer 5: The lci crystalline comparison
+theorem; Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence
+for towers of complexes*.
 
 Lean: `DerivedDeRham.pAdicCrystallineComparison`.
 
@@ -3316,9 +3383,10 @@ identification is the natural map; it preserves the filtrations and the `G_K` ac
 
 [Bhatt12], Remark 9.17, p.38.
 
-*Needs:* Layer 5: The derived de Rham description of A_cris; Layer 2: Hodge-completed derived de Rham;
-Layer 1: Valid exchanges of completion and derived operations; Mathlib `BDeRhamPlus`, `BDeRham`,
-`fontaineThetaInvertP`.
+*Needs:* Layer 5: The derived de Rham description of A_cris; Layer 2: Hodge-completed derived de
+Rham; Layer 1: Valid exchanges of completion and derived operations; Mathlib `BDeRhamPlus`,
+`BDeRham`, `fontaineThetaInvertP`; Layer 1: Derived limits of towers; ArithmeticGaloisDuality
+§R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.rationalHodgePeriodComparison`.
 
@@ -3472,7 +3540,8 @@ and Proposition 4.1.11 (the statement for a regular sequence in a perfect ring),
 Proposition 8.12, p.273.
 
 *Needs:* CrystallineCohomology §CR.0.6–§CR.0.7; IntegralHeckeAndGaloisDeterminants §6.4 (Koszul
-complexes); Layer 1: Derived limits of towers; Mathlib `WittVector`, `WittVector.teichmuller`.
+complexes); Layer 1: Derived limits of towers; ArithmeticGaloisDuality §R02.1.1 / *The Milnor
+sequence for towers of complexes*; Mathlib `WittVector`, `WittVector.teichmuller`.
 
 Lean: `DerivedDeRham.acrysTeichmullerTorsionFree`.
 
@@ -4158,11 +4227,12 @@ surjections nor every fs log smooth map are included.
 
 [Bhatt12], Theorem 7.22 proof sketch and Proposition 7.8, pp.29, 31.
 
-*Needs:* Layer 6: The corrected logarithmic lci condition; Layer 6: The log crystalline comparison map;
-Layer 6: Integral log smooth Cartier-type comparison; Layer 6: Derived logarithmic Cartier theory;
-Layer 6: Log de Rham base change and Künneth; Layer 4: Regular quotients and classical PD envelopes;
-Layer 5: The lci crystalline comparison theorem; Layer 5: p-adic crystalline comparison by derived
-limits; CrystallineCohomology §CR.5.2–§CR.5.4.
+*Needs:* Layer 6: The corrected logarithmic lci condition; Layer 6: The log crystalline comparison
+map; Layer 6: Integral log smooth Cartier-type comparison; Layer 6: Derived logarithmic Cartier
+theory; Layer 6: Log de Rham base change and Künneth; Layer 4: Regular quotients and classical PD
+envelopes; Layer 5: The lci crystalline comparison theorem; Layer 5: p-adic crystalline comparison
+by derived limits; CrystallineCohomology §CR.5.2–§CR.5.4; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.logLciCrystallineComparison`.
 
@@ -4295,11 +4365,12 @@ exchanges retain their boundedness hypotheses and the prelog homotopy Čech nerv
 [KY], Proposition 2.47, Remark 2.48 and Corollary 2.49, pp.24–26; Corollary 3.10, p.29.
 
 *Needs:* Layer 6: Homological logarithmic flatness; Layer 6: Log quasisyntomic sites and QRSP bases;
-Layer 6: Compatible-root covers of prelog rings; Layer 6: Derived logarithmic Cartier theory; Layer 6:
-Logarithmic derived de Rham; Layer 6: Homotopy pushouts of prelog rings; Layer 0: Exterior powers of a
-triangle and décalage; Layer 5: Descent of completed cotangent powers; Layer 5: Descent of Hodge
-quotients and completion; Layer 5: Descent of p-completed uncompleted de Rham; Layer 1: Valid exchanges
-of completion and derived operations.
+Layer 6: Compatible-root covers of prelog rings; Layer 6: Derived logarithmic Cartier theory; Layer
+6: Logarithmic derived de Rham; Layer 6: Homotopy pushouts of prelog rings; Layer 0: Exterior powers
+of a triangle and décalage; Layer 5: Descent of completed cotangent powers; Layer 5: Descent of
+Hodge quotients and completion; Layer 5: Descent of p-completed uncompleted de Rham; Layer 1: Valid
+exchanges of completion and derived operations; Layer 1: Derived limits of towers;
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes*.
 
 Lean: `DerivedDeRham.logPowerDeRhamDescent`.
 
@@ -4422,7 +4493,10 @@ CrystallineCohomology consumes the derived completion of Layer 1, the ordinary a
 algebras of Layer 2, the smooth Cartier isomorphism of Layer 3 and the regular and lci comparisons of
 Layers 4–5. SchemeAndStackFoundations §4.6 consumes the cotangent complex and its square-zero obstruction
 class (0.25). PerfectoidSpaces §P0.19–§P0.24 consume the cotangent complex of Layer 0 under the names of
-0.1–0.11 and 0.25. Prismatic and `A_inf`-cohomology, p-adic Hodge theory and motivic and K-theoretic
+0.1–0.11 and 0.25. ArithmeticGaloisDuality §D7.1 / *Derived tensor, perfect amplitude and Tor*
+consumes the K-flat models and derived tensor of 0.2; its *Module-derived limits and the explicit
+tower API* identifies 1.1's module Milnor sequence with its own §R02.1.1 tower sequence. Prismatic
+and `A_inf`-cohomology, p-adic Hodge theory and motivic and K-theoretic
 applications use the completed cotangent powers, quasisyntomic descent, the `QRSP` calculations, the period
 identifications and the ordinary differential-symbol API.
 
@@ -4449,8 +4523,10 @@ the source and target assignments of the statement when using the proof.
 
 The integral resolution, power and crystalline arguments respect the author corrections [IllusieI],
 [IllusieII] and [BOErratum]. In particular an arbitrary quotient of differentials need not carry the
-induced exterior differential without stability of its kernel, and a compatible inverse system is
-represented by the projective or surjective model of 1.1.
+induced exterior differential without stability of its kernel, and a compatible inverse system of
+complexes is represented by the degreewise-surjective model of 1.1, using the result supplied by
+ArithmeticGaloisDuality §R02.1.1 / *The Milnor sequence for towers of complexes* with the induced
+module action.
 
 - **AFH94**: Luchezar L. Avramov, Hans-Bjørn Foxby and Bernd Herzog, *Structure of local homomorphisms*.
   J. Algebra 164 (1994), 124–145.
