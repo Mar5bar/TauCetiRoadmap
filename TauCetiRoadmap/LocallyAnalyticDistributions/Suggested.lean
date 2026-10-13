@@ -23,8 +23,8 @@ is Mathlib's bounded `Polynomial.resultant` of the reflected characteristic poly
 The README states, and this file omits because their carriers are not at the pins: the
 nonarchimedean locally convex categories, their left hearts and completed tensor products; the
 spaces `LA_h`, `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
-order-`r` distributions and vector order; the global Amice and Mellin equivalences and the
-character spaces; finite coordinate projections and bounded-family extension on `c₀`; the Fredholm
+order-`r` distributions, vector order and small-order isotropic spaces; the global Amice and
+Mellin equivalences and the geometric character spaces; finite coordinate projections and bounded-family extension on `c₀`; the Fredholm
 determinant of a `(Pr)` module, the Fredholm resolvent, its Hasse derivatives and the Riesz
 projectors; the entire-series subring and its quotients; the Coleman entire spectral transform and
 entire operator evaluation; specialization of distribution families and the universal-character
@@ -222,6 +222,10 @@ example : (Polynomial.X : Polynomial ℚ).derivative.eval 0 = 1 := by simp
 /-- §0.1 check `measureToDist_two_atoms`: `δ_0 − δ_1` has total mass zero but takes `x` to `−1`. -/
 example : (Polynomial.X : Polynomial ℚ).eval 0 - Polynomial.X.eval 1 = -1 := by simp
 
+/-- §0.1 check `LAh_basis_orthonormal`: Colmez's shifted h=0 coordinate gives
+`e_{0,1}(0) = 1`. -/
+example : ((Polynomial.X + 1 : Polynomial ℚ) ^ 1).eval 0 = 1 := by simp
+
 end AnalyticStageTests
 
 /-! ## Layer 2: admissible growth, vector order and uniqueness -/
@@ -303,6 +307,25 @@ example (μ : LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K)
     μ (boxIndicator a m) = ∑ j : Fin p,
       μ (boxIndicator (Function.update a i (a i + (j.val : ℤ_[p]) * (p : ℤ_[p]) ^ m i))
         (Function.update m i (m i + 1))) := by sorry
+
+/-- §2.3 (Equal-radius growth and unique isotropic extension): the equal-depth ball bound
+`‖μ(1_{a+p^mℤ_p^g})‖ ≤ C·p^{rm}`. The extension theorem uses `0 ≤ r < 1`. -/
+def IsotropicGrowth (μ : LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K) (r : ℝ) : Prop :=
+  ∃ C : ℝ, 0 ≤ C ∧ ∀ a m,
+    ‖μ (boxIndicator a (fun _ => m))‖ ≤ C * (p : ℝ) ^ (r * (m : ℝ))
+
+/-- §2.3: increasing the isotropic order preserves the equal-radius bound. -/
+theorem isotropicGrowth_mono (μ : LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K)
+    (r s : ℝ) (hrs : r ≤ s) (hμ : IsotropicGrowth μ r) : IsotropicGrowth μ s := by sorry
+
+/-- §2.3: a sum of equal-radius growth functionals has the same growth order. -/
+theorem isotropicGrowth_add (μ ν : LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K)
+    (r : ℝ) (hμ : IsotropicGrowth μ r) (hν : IsotropicGrowth ν r) :
+    IsotropicGrowth (μ + ν) r := by sorry
+
+/-- §2.3 check `isotropicGrowth_dirac`: point evaluation has every nonnegative isotropic order. -/
+example (a : Fin g → ℤ_[p]) (r : ℝ) (hr : 0 ≤ r) :
+    IsotropicGrowth (LocallyConstant.evalₗ K a) r := by sorry
 
 end Rectangles
 
@@ -550,6 +573,13 @@ include K hNoeth in
 theorem isCompletelyContinuous_comp (f : M →L[A] N) (g : N →L[A] P)
     (h : IsCompletelyContinuous f ∨ IsCompletelyContinuous g) :
     IsCompletelyContinuous (g.comp f) := by sorry
+
+/-- §4.1: over Noetherian `A`, sums preserve approximation by maps with finitely generated
+range. -/
+theorem isCompletelyContinuous_add {A M N : Type*} [NormedCommRing A] [IsNoetherianRing A]
+    [NormedAddCommGroup M] [Module A M] [NormedAddCommGroup N] [Module A N]
+    (f g : M →L[A] N) (hf : IsCompletelyContinuous f) (hg : IsCompletelyContinuous g) :
+    IsCompletelyContinuous (f + g) := by sorry
 
 include hNoeth in
 /-- §4.1: completely continuous maps are the `K`-operator-norm closure of the finite-image maps. -/
@@ -1535,14 +1565,15 @@ def DegreewiseCompletelyContinuous (U : C ⟶ C) : Prop :=
 /-- §4.16: the zero cochain endomorphism is completely continuous in every degree. -/
 theorem degreewiseCompletelyContinuous_zero : DegreewiseCompletelyContinuous C E e 0 := by sorry
 
-/-- §4.16: sums of degreewise completely continuous representatives. -/
-theorem degreewiseCompletelyContinuous_add (U V : C ⟶ C)
+/-- §4.16: over Noetherian `A`, sums of degreewise completely continuous representatives
+remain completely continuous, using finitely generated ranges of the approximants. -/
+theorem degreewiseCompletelyContinuous_add [IsNoetherianRing A] (U V : C ⟶ C)
     (hU : DegreewiseCompletelyContinuous C E e U) (hV : DegreewiseCompletelyContinuous C E e V) :
     DegreewiseCompletelyContinuous C E e (U + V) := by sorry
 
 /-- §4.16 check `complexCompact_finite_free`: every continuous endomorphism of a complex of finite
-modules is degreewise completely continuous. -/
-example (U : C ⟶ C) [∀ i, Module.Finite A (E i)]
+modules over Noetherian `A` is degreewise completely continuous. -/
+example [IsNoetherianRing A] (U : C ⟶ C) [∀ i, Module.Finite A (E i)]
     (hc : ∀ i, Continuous (fun x : E i => e i (U.f i ((e i).symm x)))) :
     DegreewiseCompletelyContinuous C E e U := by sorry
 
