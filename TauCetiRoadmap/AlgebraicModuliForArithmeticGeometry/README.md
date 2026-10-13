@@ -254,17 +254,10 @@ F0.5–F0.7 and R3.7, and ComplexComparisonPartII C0, C1.5–C1.8 and C5.5 (the 
 under scope). Where a statement here needs one of their carriers, the README states it and the Lean
 does not.
 
-### From other open roadmap pull requests
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Ordered maximal-minor coordinates | ArithmeticHeights §3.1 / `exteriorPower.plucker_apply`; §3.3 / `Matrix.plucker_row_eq_det_submatrix` and `Matrix.plucker_row_eq_det_submatrix_orderIso` (an open TauCetiRoadmap pull request by rwst) | §1.3 `pluckerEmbedding.chartCoordinates` identifies the supplied coordinates with the quotient-scheme graph chart, using increasing column indices and the signs of its quotient matrix |
-
 ### Ownership and consumer contracts
 
 | Object | Owner/export | Consumer/convention |
 | --- | --- | --- |
-| Scheme Plücker construction and closed immersion | AlgebraicModuliForArithmeticGeometry §1.3 / `plucker`, `pluckerEmbedding.isClosedImmersion`, `pluckerEmbedding.over`, `pluckerEmbedding.pullback_twist` | ArithmeticHeights §3.1 (an open TauCetiRoadmap pull request by rwst) should cite this section for scheme/family extensions; a rank-d quotient E→Q gives the rank-d subspace Q∨⊂E∨, preserving its existing field-point coordinate and injectivity API |
 | Complex-scheme analytification | AlgebraicModuliForArithmeticGeometry §7.10.1 / `complexSchemeAnalytification`, `.map`, `.mapId`, `.mapComp`, `.openSubspace`, `.closedSubspace`, `.fibreProduct` | CohomologicalPointCounting §The roadmaps / ComplexComparison (an open TauCetiRoadmap pull request by bwangpj) should use the underlying topological space on finite-type complex schemes; the locally finite-type ringed object and nilpotents are retained here, while its local topology, Riemann existence, sheaf/singular cohomology and Artin comparison remain its own targets |
 
 ## How to read the build
@@ -610,26 +603,22 @@ module: `ProjectiveParameterSpaces.grassmannian_zero_subsingleton`,
 - `GrassmannTests.empty`: `Gr_3(O^2)` is empty over a nonempty base; over the empty base every
   Grassmannian is empty.
 
-Define `plucker`. The universal rank-d quotient of E induces an invertible quotient ∧^dE→det Q and hence a closed immersion Gr_d(E)→P(∧^d E). Its pullback of O(1) is det Q and it commutes with arbitrary base change. For finite locally free E, the chart identification uses the ordered-minor supplier below and the image is defined scheme-theoretically by Plücker relations. For finite-type E use its relation-cut presentation to restrict the finite-free embedding.
+Define `plucker`. The universal rank-d quotient of E induces an invertible quotient ∧^dE→det Q and hence a closed immersion Gr_d(E)→P(∧^d E). Its pullback of O(1) is det Q and it commutes with arbitrary base change. For finite locally free E, chart coordinates are signed maximal minors and the image is defined scheme-theoretically by Plücker relations. For finite-type E use its relation-cut presentation to restrict the finite-free embedding.
 
 Here E quasi-coherent finite type; exterior and determinant sheaves are imported from AlgebraicVectorBundles L0C.
 
 ([Ulrich Görtz](https://math.ug/alggeom3-ws2324/pdf/AG3-WS2324-Goertz-20240526.pdf), §5, Theorem 5.10, pp.59–60).
 
-The API gives `pluckerEmbedding.isClosedImmersion`: The exterior-quotient classifying map is a closed immersion; `pluckerEmbedding.pullback_twist`: Pullback O(1)≅det Q, naturally in the quotient; `pluckerEmbedding.over`: The embedding is over S; the exterior and determinant maps commute with pullback.
+The API gives `pluckerEmbedding.isClosedImmersion`: The exterior-quotient classifying map is a closed immersion; `pluckerEmbedding.pullback_twist`: Pullback O(1)≅det Q, naturally in the quotient; `pluckerEmbedding.over`: The embedding is over S; the exterior and determinant maps commute with pullback; `pluckerEmbedding.chartCoordinates`: For a two-row quotient matrix of O⁴, compute the six Plücker coordinates as its ordered 2×2 minors. Over any commutative ring R, on the unit p12 quotient graph chart with matrix ((1,0,a,b),(0,1,c,d)), they are (1,c,d,-a,-b,ad-bc), ordered as p12,p13,p14,p23,p24,p34. The Lean statement computes these six determinants with zero-based increasing column indices; the scheme map is identified with these coordinates.
 
-ArithmeticHeights §3.1 / `Submodule.pluckerPoint`, `Submodule.pluckerPoint_eq_mk` and `Submodule.pluckerPoint_span_range` (an open TauCetiRoadmap pull request by rwst) states the basis-independent field-point special case of `plucker`, reconciled with the quotient convention by dualizing a rank-d quotient E→Q to the rank-d subspace Q∨⊂E∨ over a field. Under the exterior-dual pairing, the determinant quotient ∧^dE→det Q corresponds to the line det(Q∨)⊂∧^d(E∨). Its §3.1 / `Submodule.pluckerPoint_injective` states the fixed-rank field-point special case of `pluckerEmbedding.isClosedImmersion`, reconciled by the same dualization. The scheme construction, closed immersion and arbitrary-base family API belong here; its existing field-point API is preserved, and scheme/family extensions should cite this section.
+For the coordinate formula, trivialize a rank-d quotient Rⁿ→Rᵈ and apply its exterior power to each wedge of standard basis vectors with increasing column indices. Multilinearity and alternation give the determinant of the selected d×d submatrix. A change of quotient basis multiplies every coordinate by the same unit determinant, so the resulting line quotient is independent of that basis. Normalize a unit minor to the identity block to identify the exterior-quotient map with the graph chart; expand the six 2×2 determinants for the displayed matrix. These polynomial identities commute with arbitrary ring maps and hold in every characteristic. This is the quotient form of Görtz §5, Theorem 5.10 and its coordinate proof, p.59.
 
-`pluckerEmbedding.chartCoordinates` provides the ordered maximal-minor coordinates used to identify our Plücker scheme charts. Supplied by ArithmeticHeights §3.1 / `exteriorPower.plucker_apply` and §3.3 / `Matrix.plucker_row_eq_det_submatrix` (an open TauCetiRoadmap pull request by rwst). In each finite-free trivialization, this roadmap applies the supplier's commutative-ring row-family formula, transports its increasing subset indices to p12,p13,p14,p23,p24,p34, and uses the quotient graph-chart convention for the signs.
-
-The `pluckerEmbedding.chartCoordinates` adapter identifies the supplied tuple (1,c,d,−a,−b,ad−bc) for the unit-p12 quotient graph matrix ((1,0,a,b),(0,1,c,d)) with the exterior-quotient classifying morphism. Its docstring is: “Consumer chart identification for the scheme Plücker morphism; ordered minors are supplied by ArithmeticHeights `exteriorPower.plucker_apply` / `Matrix.plucker_row_eq_det_submatrix`, and are not reproved here.”
-
-*Needs:* `coherentGrassmannian`, `ProjectiveBundles.projectiveBundle`, ModularCurves §0G, ArithmeticHeights §§3.1 and 3.3 (ordered maximal-minor coordinates).
+*Needs:* `coherentGrassmannian`, `ProjectiveBundles.projectiveBundle`, ModularCurves §0G, Mathlib `Matrix.det`, Mathlib `Matrix.submatrix` and `Matrix.det_fin_two`.
 
 **Checks.**
 
 - `PluckerTests.rankOne`: For d=1 the Plücker map is Gr_1(E)≅P(E).
-- `PluckerTests.twoPlanesFourSpace`: Applying ArithmeticHeights §§3.1 and 3.3 through the chart adapter, the six coordinates on Gr_2(O⁴) satisfy p12 p34-p13 p24+p14 p23=0; its unit-minor charts recover 2×2 quotient graph matrices.
+- `PluckerTests.twoPlanesFourSpace`: The six minor coordinates on Gr_2(O⁴) satisfy p12 p34-p13 p24+p14 p23=0; its unit-minor charts recover 2×2 quotient graph matrices.
 - `PluckerTests.rankZero`: For d=0, Gr_0(E)=S and ∧⁰E=O, so the map is an isomorphism.
 
 Define `flagBundle`. For finite locally free E of rank n and a strictly increasing list 0≤a₁<…<a_s≤n, represent flags of subbundles F_i⊂E_T of ranks a_i, with every quotient E_T/F_i locally free. It is the closed incidence subscheme of the product over S of Gr_(n-a_i)(E), defined by F_i→E_T/F_j=0 for i<j. It is smooth and Zariski-locally projective, of relative dimension Σ_i(a_i-a_(i-1))(n-a_i), where a₀=0; full flags have dimension n(n-1)/2. The complete flag bundle is the type `(1, 2, …, n−1)`; partial and complete flags are both built here.

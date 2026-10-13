@@ -95,6 +95,18 @@ theorem exists_artinianHilbertPolynomial (A : Type u) [CommRing A] [IsArtinianRi
 
 end ProjectiveParameterSpaces
 
+/-- The ordered maximal minors of the rank-two quotient graph matrix over any commutative ring
+are its Plücker coordinates `(1, c, d, -a, -b, a*d-b*c)`, in the order
+`p12, p13, p14, p23, p24, p34`; the column indices in Lean start at zero.
+The scheme map and its determinant-line identity `pluckerEmbedding.pullback_twist` are
+README §1.3 targets using the projective-bundle and exterior-sheaf carriers. -/
+theorem pluckerEmbedding.chartCoordinates {R : Type u} [CommRing R] (a b c d : R) :
+    let Q : Matrix (Fin 2) (Fin 4) R := !![1, 0, a, b; 0, 1, c, d]
+    ![(Q.submatrix id ![0, 1]).det, (Q.submatrix id ![0, 2]).det,
+      (Q.submatrix id ![0, 3]).det, (Q.submatrix id ![1, 2]).det,
+      (Q.submatrix id ![1, 3]).det, (Q.submatrix id ![2, 3]).det] =
+      (![1, c, d, -a, -b, a * d - b * c] : Fin 6 → R) := sorry
+
 namespace ProjectiveBundles
 
 open AlgebraicGeometry TauCeti.AlgebraicGeometry
