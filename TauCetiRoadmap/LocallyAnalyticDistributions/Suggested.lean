@@ -115,6 +115,14 @@ example (a : ℚ) :
       (1 + PowerSeries.C a * PowerSeries.X +
         PowerSeries.C (a * (a - 1) / 2) * PowerSeries.X ^ 2)).coeff 2 = a - 1 / 2 := by sorry
 
+/-- §1.1 check `amice_transform_dirac_minus_one`: moments `(-1)^n` times the Amice
+factorial weight have supremum one at every analytic stage; the inverse-factorial weights are unbounded. -/
+example (h : ℕ) :
+    sSup (Set.range (fun n : ℕ => ‖(-1 : ℚ_[3]) ^ n‖ *
+      ‖((Nat.factorial (n / 3 ^ h) : ℕ) : ℚ_[3])‖)) = 1 ∧
+    ¬ BddAbove (Set.range (fun n : ℕ => ‖(-1 : ℚ_[3]) ^ n‖ /
+      ‖((Nat.factorial (n / 3 ^ h) : ℕ) : ℚ_[3])‖)) := by sorry
+
 end LocallyAnalytic.SuggestedTest
 
 namespace Mellin
@@ -532,6 +540,13 @@ def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     DiscreteTopology I ∧ ∃ (i : M →L[A] C₀(I, A)) (r : C₀(I, A) →L[A] M),
       r.comp i = ContinuousLinearMap.id A M
 
+/-- §4.1 check `c0_extension_bounded_action`: in the Q₃ product example the basis image has
+norm `1/3`, while its extension takes a unit-norm vector to a vector of norm `1`. -/
+example :
+    let moduleNorm : ℚ_[3] × ℚ_[3] → ℝ := fun z => max ‖z.1 + z.2 / 3‖ ‖z.2‖
+    moduleNorm (1, -3) = 1 / 3 ∧ moduleNorm (1, 0) = 1 ∧
+      ∀ a b : ℚ_[3], moduleNorm (a, -3 * b) ≤ max ‖a‖ ‖b‖ := by sorry
+
 end Section41
 
 /-! ### §4.2 Entire power series -/
@@ -671,27 +686,7 @@ theorem entireMonicQuotient_coeff (Q : Polynomial A) (F : PowerSeries A) (n : �
       (PowerSeries.invOfUnit (Q.reverse : PowerSeries A) 1).coeff k :=
   PowerSeries.coeff_mk _ _
 
-/-- §4.3 (Entireness of the monic quotient). -/
-theorem entireMonicQuotient_entire (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
-    IsEntire (entireMonicQuotient Q F) := by sorry
-
-/-- §4.3 (The native polynomial remainder): `F = Q·S_Q(F) + R` with `deg R < deg Q`. -/
-theorem entireMonicQuotient_division (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
-    let R := PowerSeries.trunc Q.natDegree (F - (Q : PowerSeries A) * entireMonicQuotient Q F)
-    F = (Q : PowerSeries A) * entireMonicQuotient Q F + (R : PowerSeries A) ∧
-      R.degree < (Q.natDegree : WithBot ℕ) := by sorry
-
-/-- §4.3 (Uniqueness of monic entire division). -/
-theorem entire_monic_division_unique (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F G H : PowerSeries A)
-    (hG : IsEntire G) (hH : IsEntire H) (R S : Polynomial A)
-    (hR : R.degree < (Q.natDegree : WithBot ℕ)) (hS : S.degree < (Q.natDegree : WithBot ℕ))
-    (hFG : F = (Q : PowerSeries A) * G + (R : PowerSeries A))
-    (hFH : F = (Q : PowerSeries A) * H + (S : PowerSeries A)) : G = H ∧ R = S := by sorry
-
-/-- §4.3 (Compatibility with native polynomial division). -/
+/-- §4.3: the supplied entire quotient and truncation remainder agree with native polynomial division. -/
 theorem entireMonicQuotient_polynomial (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
     (Q : Polynomial A) (hQ : Q.Monic) (P : Polynomial A) :
     entireMonicQuotient Q (P : PowerSeries A) = ((P /ₘ Q : Polynomial A) : PowerSeries A) ∧
@@ -699,7 +694,7 @@ theorem entireMonicQuotient_polynomial (hA : ∀ x y : A, ‖x + y‖ ≤ max �
       ((P : PowerSeries A) - (Q : PowerSeries A) * entireMonicQuotient Q (P : PowerSeries A)) =
       P %ₘ Q := by sorry
 
-/-- §4.3 (Compatibility with the linear tail quotient). -/
+/-- §4.3: the supplied quotient by `T − a` agrees with the linear-tail realization. -/
 theorem entireMonicQuotient_linear (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
     (a : A) (F : PowerSeries A) (hF : IsEntire F) :
     entireMonicQuotient (Polynomial.X - Polynomial.C a) F = entireLinearQuotient a F := by sorry
@@ -802,7 +797,14 @@ theorem polynomialSpectralResultant_split {ι : Type*} (s : Finset ι) (a : ι �
     polynomialSpectralResultant s.card m B (∏ i ∈ s, (1 - Polynomial.C (a i) * Polynomial.X)) =
       ∏ i ∈ s, (1 - Polynomial.C (B.eval (a i)) * Polynomial.X) := by sorry
 
-/-- §4.10 (Finite spectral mapping for triangular matrices). -/
+/-- §4.10: fixed-rank reflection and the bounded resultant give the supplied characteristic
+spectral mapping formula over every commutative ring. -/
+theorem polynomialSpectralResultant_charpolyRev {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : Matrix ι ι A) (m : ℕ) (B : A[X]) (hm : B.natDegree ≤ m) :
+    polynomialSpectralResultant (Fintype.card ι) m B M.charpolyRev =
+      (Polynomial.aeval M B).charpolyRev := by sorry
+
+/-- §4.10: the fixed-rank resultant comparison specializes to upper triangular matrices. -/
 theorem polynomialSpectralResultant_charpolyRev_of_isUpperTriangular {ι : Type*} [Fintype ι]
     [DecidableEq ι] [LinearOrder ι] {M : Matrix ι ι A} (hM : M.IsUpperTriangular)
     (m : ℕ) (B : A[X]) (hm : B.natDegree ≤ m) :
@@ -1035,6 +1037,15 @@ example : ((AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]) ((2, 3) * (5, 7))) * (3 : ℚ_[3
     ((AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]) ((2, 3) * (5, 7))) * (3 : ℚ_[3]) ^ 2 = 90 := by norm_num
 
 /-! ### §4.16 Banach complexes -/
+
+/-- §4.16: logarithmic valuation `log t / log q` with `0 < q < 1` is at most `h` exactly
+when the nonzero eigenvalue norm `t` is at least `q ^ h`, including equality. -/
+theorem numericalSlope_norm_iff (q t h : ℝ) (hq : 0 < q) (hq1 : q < 1) (ht : 0 < t) :
+    Real.log t / Real.log q ≤ h ↔ q ^ h ≤ t := by sorry
+
+/-- §4.16 check `slope_endpoint`: for `q = |p|`, the eigenvalue `p` lies at slope one. -/
+example (q : ℝ) (hq : 0 < q) (hq1 : q < 1) :
+    Real.log q / Real.log q = 1 ∧ q ^ (1 : ℝ) ≤ q := by sorry
 
 section Complexes
 
