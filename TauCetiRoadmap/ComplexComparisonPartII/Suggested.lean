@@ -33,23 +33,28 @@ What is recorded here:
 * the library declarations the roadmap consumes, pinned by `#check`;
 * light definitions with real bodies that are statable at the pins: the coherent-module category
   over a locally ringed space (C0.1), the Wirtinger operator `∂̄` on `ℂ` and the Cauchy–Green
-  transform (C1.1), Grothendieck's order of a differential operator (C5.1), ordinary algebraic
-  connections (C5.2), chart-level log structures, fine and saturated monoids and the module of
-  logarithmic differentials of a chart (C5.5), and the residue-strip and monodromy conventions
-  (C5.6);
+  transform (C1.1), Grothendieck's order of a differential operator (C5.1),
+  chart maps and the intrinsic saturation adapter (C5.5), and the residue-strip and monodromy
+  conventions (C5.6);
 * end theorems and layer milestones whose carriers exist at the pins: the one-variable Dolbeault
   lemma, Montel's theorem, the Banach case of Schwartz's finiteness theorem, connectedness of
   punctured Riemann surfaces, the pointwise form of the semipositive wedge inequality and the
   Fubini–Study normalisation;
 * `example`s fixing every sign and normalisation the README pins with a witness: `∂̄ z̄ = 1`,
   `∮ dz/z = 2πi`, `Δ_Hodge(x₁²) = −2` in `ℝ³`, residue representatives in `0 ≤ Re < 1` and
-  monodromy `exp(−2πia)`, `ℕ → ℂ, 1 ↦ 0` for the standard log point, `⟨2, 3⟩ ⊆ ℤ` fine but not
-  saturated.
+  monodromy `exp(−2πia)`, `ℕ → ℂ, 1 ↦ 0` for the standard log point, and intrinsic saturation
+  for `⟨2, 3⟩ ⊆ ℤ` and `2ℕ ⊆ ℤ`.
 
 Design choices made explicit: analytification of modules is Mathlib's pullback of sheaves of
 modules, so coherent modules are `SheafOfModules.IsFinitePresentation` over the structure sheaf;
-connections and differential operators are `k`-linear maps with the Leibniz rule or Grothendieck's
-commutator condition, never `A`-linear maps; log structures are monoid homomorphisms into the
+ordinary connections use CrystallineCohomology CR.1's `Crystalline.Connection` carrier,
+with its coefficient-first tensor order; tensor symmetry gives the geometric order `Ω¹ ⊗ E`.
+The Leibniz rule makes the shared additive map `k`-linear. Differential operators are `k`-linear
+maps with Grothendieck's commutator condition. The ordinary algebraic de Rham core is
+DerivedDeRhamCohomology Layer 2's `DeRham.complex` and `DeRham.complexMap`;
+`AlgebraicDeRham` sheafifies that core. Algebraic logarithmic structures and differentials use
+CrystallineCohomology CR.5:log-algebra and CR.5.1's carriers, with `logAnalytification` as the
+analytic transport. The shared log structure maps take values in the
 multiplicative monoid, so non-units (`0` included) are allowed; the Hodge Laplacian is the
 nonnegative operator, the negative of Mathlib's `Δ = div ∘ grad`.
 -/
@@ -274,34 +279,6 @@ example : commutatorWith ℂ (A := ℂ[X]) X
 
 end DifferentialOperators
 
-/-! ### C5.2 Ordinary algebraic connections -/
-
-section Connections
-
-variable (k A M : Type*) [CommRing k] [CommRing A] [Algebra k A]
-  [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M]
-
-/-- **C5.2, `AlgebraicConnection`** on an `A`-module `M`, for a commutative `k`-algebra `A`: a
-`k`-linear map `∇ : M → Ω_{A/k} ⊗_A M` with `∇(a m) = da ⊗ m + a ∇m`. It is not `A`-linear.
-Sheafified on a smooth scheme this is the connection of the README; flatness is the vanishing of
-the curvature `∇²`, which needs the de Rham differential on `Ω²` and is stated in the README. -/
-structure AlgebraicConnection where
-  /-- The connection map. -/
-  toLinearMap : M →ₗ[k] (Ω[A⁄k] ⊗[A] M)
-  /-- The Leibniz rule. -/
-  leibniz : ∀ (a : A) (m : M),
-    toLinearMap (a • m) = (KaehlerDifferential.D k A a) ⊗ₜ[A] m + a • toLinearMap m
-
-/-- `AlgebraicConnection.trivial`: on `A` itself the universal derivation is a connection. -/
-theorem AlgebraicConnection.exists_trivial :
-    ∃ conn : AlgebraicConnection k A A,
-      ∀ a : A, conn.toLinearMap a = (KaehlerDifferential.D k A a) ⊗ₜ[A] (1 : A) := sorry
-
-/-- On a point there are no relative one-forms, so every connection is zero. -/
-example (conn : AlgebraicConnection ℂ ℂ ℂ) (a : ℂ) : conn.toLinearMap a = 0 := sorry
-
-end Connections
-
 /-! ### C5.4 Positivity and the Chern normalisation -/
 
 section Positivity
@@ -332,20 +309,9 @@ end Positivity
 
 section LogCharts
 
-variable {A : Type*} [CommRing A] {P : Type*} [CommMonoid P]
-
-/-- **C5.5, `LogStructure` on a chart.** A prelog structure on a ring `A` is a monoid
-homomorphism `α : P →* A` into the multiplicative monoid (non-units, including `0`, are allowed).
-It is a log structure when `α` restricts to a bijection `α⁻¹(Aˣ) → Aˣ`. -/
-def IsLogStructure (α : P →* A) : Prop :=
-  ∀ u : Aˣ, ∃! p : P, α p = u
-
-/-- `LogStructure.trivial`: the inclusion of the units is a log structure. -/
-example : IsLogStructure (Units.coeHom A) := sorry
-
 /-- **The standard log point** `ℕ → ℂ`, `n ↦ 0ⁿ` (so `1 ↦ 0`): a prelog structure that is not
 a log structure; its logification is `ℂˣ × ℕ`. Restricting prelog targets to units would
-exclude it. -/
+exclude it. This is the chart map for `LogCrystalline.PrelogRing`, not a log-structure carrier. -/
 def standardLogPoint : Multiplicative ℕ →* ℂ :=
   powersHom ℂ 0
 
@@ -353,73 +319,22 @@ def standardLogPoint : Multiplicative ℕ →* ℂ :=
 example : standardLogPoint (Multiplicative.ofAdd 1) = 0 ∧
     standardLogPoint (Multiplicative.ofAdd 0) = 1 := sorry
 
-open Polynomial in
-/-- `LogStructure.rawNChart`: the raw coordinate chart `ℕ → ℂ[z]`, `n ↦ zⁿ`, is not a log
-structure: it misses the units `ℂˣ` of `ℂ[z]`. -/
-example : ¬ IsLogStructure (powersHom ℂ[X] X) := sorry
-
-/-- **C5.5, `FineLogChart`: fine monoids** — cancellative (equivalently, injective into the group
-completion) and finitely generated. Saturation is a separate condition. -/
-def IsFineMonoid (Q : Type*) [AddCommMonoid Q] : Prop :=
-  IsCancelAdd Q ∧ AddMonoid.FG Q
-
 /-- **Saturation** of a submonoid `Q` of an abelian group, measured in the subgroup `Q^gp` that
 `Q` generates (its group completion): an element `x` of `Q^gp` with `n • x ∈ Q` for some `n > 0`
-lies in `Q`. Quantifying over `Q^gp` rather than the ambient group makes the notion intrinsic. -/
+lies in `Q`. This Mathlib adapter agrees with CrystallineCohomology's
+`LogCrystalline.IsSaturatedMonoid` for `Multiplicative Q`; it measures roots in `Q^gp`. -/
 def IsSaturatedSubmonoid {G : Type*} [AddCommGroup G] (Q : AddSubmonoid G) : Prop :=
   (Q.comap (AddSubgroup.closure (Q : Set G)).subtype).NSMulSaturated
 
-/-- `FineLogChart.free`: `ℕʳ` is fine, including `r = 0`. -/
-example (r : ℕ) : IsFineMonoid (Fin r → ℕ) := sorry
-
-/-- `FineLogChart.unsaturated`: the submonoid of `ℤ` generated by `2` and `3` is fine but not
-saturated (`2 • 1 ∈ Q` while `1 ∉ Q`). -/
-example : IsFineMonoid (AddSubmonoid.closure ({2, 3} : Set ℤ)) ∧
-    ¬ IsSaturatedSubmonoid (AddSubmonoid.closure ({2, 3} : Set ℤ)) := sorry
+/-- The submonoid generated by `2` and `3` is not saturated: its group completion contains `1`,
+whose double lies in the submonoid although `1` does not. -/
+example : ¬ IsSaturatedSubmonoid (AddSubmonoid.closure ({2, 3} : Set ℤ)) := sorry
 
 /-- Saturation is intrinsic: `2ℕ ⊆ ℤ` is a copy of `ℕ` and is saturated, although `2 • 1 ∈ 2ℕ`
 and `1 ∉ 2ℕ`; a condition quantifying over all of `ℤ` would wrongly call it unsaturated. -/
 example : IsSaturatedSubmonoid (AddSubmonoid.closure ({2} : Set ℤ)) := sorry
 
-/-- `FineLogChart.noncancellative`: `ℕ ∪ {∞}` with `∞` absorbing is finitely generated but not
-cancellative (`0 + ∞ = 1 + ∞`). -/
-example : ¬ IsCancelAdd (WithTop ℕ) := sorry
-
 end LogCharts
-
-section LogDifferentials
-
-variable (k : Type*) [CommRing k] (B : Type*) [CommRing B] [Algebra k B]
-  {P : Type*} [CommMonoid P]
-
-/-- The relations of the module of logarithmic differentials of a chart `α : P →* B` over `k`,
-relative to a submonoid `Q` of `P` coming from the base: `dα(p) = α(p) dlog p` for `p ∈ P` and
-`dlog q = 0` for `q ∈ Q`. -/
-def logDifferentialRelations (α : P →* B) (Q : Submonoid P) :
-    Submodule B (Ω[B⁄k] × (B ⊗[ℤ] Additive (Algebra.GrothendieckGroup P))) :=
-  Submodule.span B
-    (Set.range (fun p : P =>
-      ((KaehlerDifferential.D k B (α p) : Ω[B⁄k]),
-        -((α p) ⊗ₜ[ℤ] Additive.ofMul (Algebra.GrothendieckGroup.of (M := P) p)))) ∪
-     Set.range (fun q : Q =>
-      ((0 : Ω[B⁄k]), (1 : B) ⊗ₜ[ℤ] Additive.ofMul (Algebra.GrothendieckGroup.of (M := P) (q : P)))))
-
-/-- **C5.5, `LogDifferentials` of a chart.** For a chart `α : P →* B` of a `k`-algebra `B` with
-base submonoid `Q`, `Ω¹_log = (Ω_{B/k} ⊕ (B ⊗ P^gp)) / ⟨dα(p) − α(p) ⊗ p, 1 ⊗ q⟩`; the class of
-`1 ⊗ p` is `dlog p`. -/
-abbrev LogDifferentials (α : P →* B) (Q : Submonoid P) : Type _ :=
-  (Ω[B⁄k] × (B ⊗[ℤ] Additive (Algebra.GrothendieckGroup P))) ⧸
-    logDifferentialRelations k B α Q
-
-/-- `LogDifferentials.logpoint`: for the standard log point over `ℂ` with trivial base,
-`Ω¹_log = ℂ · dlog t` is one-dimensional, although `Ω_{ℂ/ℂ} = 0`. -/
-example : Module.finrank ℂ (LogDifferentials ℂ ℂ standardLogPoint ⊥) = 1 := sorry
-
-/-- `LogDifferentials.relativeLogpoint`: relative to the standard log point itself (`Q = P`) the
-module is `0`; omitting the base relation would leave `ℂ · dlog t`. -/
-example : Module.finrank ℂ (LogDifferentials ℂ ℂ standardLogPoint ⊤) = 0 := sorry
-
-end LogDifferentials
 
 /-! ### C5.6 Residue strips and monodromy -/
 
@@ -473,7 +388,8 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 
 * **Complex analytic spaces and analytification** (AlgebraicModuliForArithmeticGeometry §7.10):
   `CoherentAnalyticModule` on analytic spaces, `coherentOperations`, `CoherentAnalyticIdeal`,
-  `holomorphicBundleDictionary`, `CoherentAnalytification`, `coherentAnalytification_faithful`,
+  `holomorphicBundleDictionary` (model fibre `Fin r → ℂ` at each fixed rank, and gluing on
+  clopen rank strata for locally constant ranks), `CoherentAnalytification`, `coherentAnalytification_faithful`,
   `coherentPullbackOperations`, `HigherImageComparison`, `fibreDimensionLoci`;
   `StronglyOneComplete`, `cartanTheoremB`, `cartanSerreFiniteness`, `projectiveLerayCover`,
   `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`,
@@ -490,7 +406,8 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 * **Forms, metrics and currents on complex manifolds** (DifferentialGeometry's forms are not in the
   library at the pins): `localDolbeault` in several variables, `HodgeStar`, `HodgeLaplacian`,
   `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`,
-  `HolomorphicDeRham`, `holomorphicPoincare`, `relativePoincare`, `compactEllipticHodge`,
+  `HolomorphicDeRham`, `holomorphicPoincare`, `relativePoincare`, `compactEllipticHodge`
+  (operator-dependent shifted coercivity, graph-norm regularity and the original operator's kernel),
   `HarmonicGreen`, `kaehlerHodgeDecomposition`, `closedCurrentExtension`,
   `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
   `chernFubiniStudyIntersection` in general, `dghIntegrationApplication`.
@@ -502,12 +419,23 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 * **Coherent local presentations and sheaf connections:**
   `CoherentAnalyticModule.presentation_iff` and `CoherentAnalyticModule.hom_ext` are the
   analytic coherence and cover-restriction statements of C0.1;
-  `AlgebraicConnection.curvature_iff_square` is the sheaf de Rham statement of C5.2.
+  C5.2 sheafifies `Crystalline.Connection` and uses `Crystalline.Connection.curvature`,
+  `.extend`, `.deRhamComplex`, `.tensor`, `.hom` and `.baseChange` from CrystallineCohomology CR.1.
+  On affines its map takes values in `M ⊗ Ω¹`, and tensor symmetry gives the displayed geometric
+  order `Ω¹ ⊗ M`; extension uses `DeRham.complex`, not a second de Rham differential.
 * **Global de Rham, Hodge and log theory on schemes:** `AlgebraicDeRham`, `GaussManin`,
   `properPureHodge`, `relativeHodgeBundles`, `RegularSingular`, `CanonicalLogExtension`,
   `CurveLogComplex`, `curveResidueLocalization`; the sheaf-level `PrelogStructure`, `LogStructure`,
   `AssociatedLog`, `LogPullback`, `FineLogChart`, `DivisorialLog`, `LogSmooth`, `logChartCriterion`,
-  `LogDeRham`, `logDifferentialTransitivitySplit` (their chart-level forms are above).
+  `LogDeRham`, `logAnalytification`, `logDifferentialTransitivitySplit`. The algebraic prefix
+  uses CrystallineCohomology CR.5:log-algebra.1–.4's `LogCrystalline.PrelogRing`,
+  `LogCrystalline.PrelogRing.IsLog`, `LogCrystalline.LogStructure`,
+  `LogCrystalline.IsFineMonoid`, `LogCrystalline.IsSaturatedMonoid`,
+  `LogCrystalline.IsLogSmooth`, `LogCrystalline.divisorialLog`, and CR.5.1's
+  `LogCrystalline.logDifferentials` and `LogCrystalline.logDeRham`. Their complex-specialized
+  aliases and analytic adapters use the shared quotient's base-monoid relations and first-factor
+  residue convention. `AlgebraicDeRham` restricts on `Spec A` to DerivedDeRhamCohomology Layer 2's
+  `DeRham.complex k A`; restrictions and pullbacks use `DeRham.complexMap` and `DeRham.pullback`.
 -/
 
 end TauCetiRoadmap.ComplexComparisonPartII
