@@ -759,7 +759,8 @@ libraries; the README states each of them in full:
 Layer IG.0: `LatticeScheme`, `AdicLocalSystem`, `IsogenyLocalSystem`, `RationalLocalSystem`,
 `IsNoohiGroup`, `InfiniteGaloisCategory`, `ProetaleFundamentalGroup`, the identification of the
 fundamental groups of a field and of `𝔾_m`, and the comparison with the lisse `ℓ`-adic realization.
-Layer IG.1: the arithmetic exact sequence, proper descent of finite étale covers, invariance under
+Layer IG.1: the arithmetic exact sequence, finite étale covers over a henselian local base, proper
+descent of finite étale covers, invariance under
 algebraically closed base extension, `SchemeInertia`, `TameFundamentalGroup`,
 `PrimeToFundamentalGroup`, `TameTangentialFiber`, the specialization theorems,
 `IsArithmeticRepresentation`, and the homogeneous-space fundamental group.

@@ -63,7 +63,8 @@ The roadmap owns:
   categories and the pro-étale fundamental group (Layer IG.0);
 - the arithmetic exact sequence and its outer action, decomposition and inertia groups of covers of
   normal schemes, tame and prime-to-`p` quotients of fundamental groups of curves, tame tangential
-  fibres, the Frobenius normalisation over finite fields, proper descent of finite étale covers,
+  fibres, the Frobenius normalisation over finite fields, finite étale covers of proper schemes over
+  a henselian local ring, proper descent of finite étale covers,
   invariance under algebraically closed base extension in characteristic zero, specialization for
   proper smooth families and for smooth pairs with a relative normal crossings boundary, arithmetic
   representations, exactness for the universal punctured curve, and
@@ -79,8 +80,9 @@ The roadmap owns:
   and the universal marked extension `U(G, c)` with its kernel, the action of units and the
   cyclotomic twist, lifting invariants and the stable classification of braid orbits (Layer IG.3);
 - proper embedding problems with local prescriptions over number fields, the abelian lifting
-  obstruction, Galois localization and Tate–Shafarevich kernels for finite modules, finite
-  Poitou–Tate, Grunwald–Wang with its exceptional case, Shafarevich's theorem with the Fitting
+  obstruction, Galois localization and Tate–Shafarevich kernels for finite modules, the
+  absolute-Galois-group form of finite Poitou–Tate that embedding problems use, the order-two
+  alternative of Grunwald–Wang, Shafarevich's theorem with the Fitting
   subgroup and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg density for
   supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable and quaternion
   local prescriptions, unramified admissible `Γ`-groups, Property E, arithmetic lifting invariants
@@ -106,7 +108,8 @@ It does not own, and consumes by name:
   (Layers 10–11); proper and smooth base change, local acyclicity and lisse direct images
   (**EtaleBaseChange**, Layers 4–8), compactly supported cohomology (**CompactSupport**), the
   `ℤ_ℓ`- and `ℚ_ℓ`-realizations (**EllAdicRealization**), the Grothendieck–Lefschetz trace formula
-  (**TraceFormula**) and Frobenius (**FrobeniusGeometry**);
+  (**TraceFormula**), and Frobenius with the topological invariance of the small étale site
+  (**FrobeniusGeometry**);
 - the three-point theory of **BelyiMaps**: permutation triples and their enumeration (Layers 0 and
   3), the thrice-punctured sphere (Layer 5), covers and triples (Layer 6), fields of moduli and of
   definition of Belyi pairs (Layer 11), the branch-cycle theorem and peripheral inertia (Layer 12),
@@ -124,17 +127,20 @@ It does not own, and consumes by name:
   and quartics computed in the Tau Ceti library (`X³ − 3X − 1`, `X⁴ − 2`, `Φ₅`); places,
   completions and weak approximation of number fields (**GlobalNumberFields**, Layers 0 and 1);
   local and global class field theory with local Tate duality and the Brauer sequence
-  (**ClassFieldTheory**, Layers 5, 7 and 10–12; that roadmap excludes Grunwald–Wang, which is owned
-  here); Chebotarev density (**Chebotarev**); unramified extensions, Frobenius, ramification and the
-  tame quotient of local Galois groups (**LocalFieldsRamification**, Layers 2–4); curves and their
-  places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes over a field and
-  finite torsors (**ModularCurves**, Layers 0c–0d); affine group schemes, their quotients and
-  semisimple groups (**ReductiveGroups**, Layers 0, 3 and 6); representation groups of finite
-  groups (**RepresentationTheory/InductionRestriction**, Layer 7); fibrations and homotopy groups
-  (**AlgebraicTopology**, Stages 5 and 8); semistable reduction of curves (**StableReduction**,
-  Layer 7);
+  (**ClassFieldTheory**, Layers 5, 7 and 10–12; that roadmap excludes Grunwald–Wang, whose order-two
+  alternative is owned here); Poitou–Tate duality for finite Galois modules over a number field
+  (**ArithmeticGaloisDuality**, §§R02.4.2–R02.4.3, which consumes Layer IG.4.2 in the target-level
+  order displayed there); Chebotarev density (**Chebotarev**); unramified extensions, Frobenius,
+  ramification and the tame quotient of local Galois groups (**LocalFieldsRamification**, Layers
+  2–4); curves and their places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes
+  over a field and finite torsors (**ModularCurves**, Layers 0c–0d); affine group schemes, their
+  quotients and semisimple groups (**ReductiveGroups**, Layers 0, 3 and 6); representation groups of
+  finite groups (**RepresentationTheory/InductionRestriction**, Layer 7); fibrations and homotopy
+  groups (**AlgebraicTopology**, Stages 5 and 8); semistable reduction of curves
+  (**StableReduction**, Layer 7);
 - schemes, descent, stacks, sites, étale and pro-étale cohomology, Brauer groups of schemes, curves,
-  stable pointed curves and the lifting of finite covers (**SchemeAndStackFoundations**, Layers 0–4),
+  stable pointed curves, Popescu desingularization, Grothendieck existence and algebraization
+  (**SchemeAndStackFoundations**, Layers 0–4),
   and the Weil bound for curves over finite fields (its §5.11, `weil_bound`); the smooth trace and
   Poincaré duality in étale cohomology (**EtaleDualityAndPerverseSheaves**, Layer EDC.2); Weil restriction
   and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); the Hasse principle for torsors under
@@ -147,7 +153,8 @@ It does not own, and consumes by name:
   coherent analytic modules, derived GAGA for proper algebraic spaces and the affine-curve
   completion and connectedness comparisons (**ComplexComparisonPartII**, §§C0, C3 and C4.5).
 
-Global class field theory of function fields is in no roadmap this one builds on, so the theorems of
+This roadmap uses global class field theory and global duality only over number fields (ClassFieldTheory
+and the number-field Poitou–Tate theorem of ArithmeticGaloisDuality), so the theorems of
 Layer IG.4 that rest on class field theory are stated over number fields; the definitions of that layer
 cover all global fields, including the rational function fields `𝔽_q(t)` that Layer IG.5 uses. The
 Feit–Thompson theorem is not used: conjugacy of coprime complements is stated under a solvability
@@ -247,7 +254,7 @@ convention transport of Layer IG.6.
 
 ConstructibleEtale Layers 3, 6 and 9; EtaleBaseChange Layers 4–8; CompactSupport Layers 5–9;
 EllAdicRealization Layers 1, 2 and 6–8; ComplexComparison Layers 4, 8, 10 and 11; TraceFormula
-Layers 8 and 11–12; FrobeniusGeometry Layers 4–5. The étale fundamental group of Layer 3 of
+Layers 8 and 11–12; FrobeniusGeometry Layers 4–6. The étale fundamental group of Layer 3 of
 ConstructibleEtale is defined for connected locally Noetherian schemes; Layers IG.0–IG.1 work in that
 range. The finite-cover contract is supplied by CohomologicalPointCounting §The roadmaps /
 ComplexComparison, Riemann existence (an open TauCetiRoadmap pull request by bwangpj);
@@ -281,9 +288,14 @@ successors.
 
 SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, quotients),
 2 (sites, étale and pro-étale cohomology, Brauer groups of schemes), 3 (curves) and 4
-(deformations, stable pointed curves, lifting along proper morphisms, formal schemes and
-algebraization), and §5.11 (`weil_bound`, the Weil bound for smooth proper geometrically integral
-curves over finite fields); EtaleDualityAndPerverseSheaves Layer EDC.2 (smooth trace, relative
+(deformations, stable pointed curves, formal schemes, Grothendieck existence and algebraization,
+§4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
+(`popescu_desingularization`) and §0.21 (G-rings), and §5.11 (`weil_bound`, the Weil bound for
+smooth proper geometrically integral curves over finite fields); ArithmeticGaloisDuality §R02.4.2
+(*Restricted products of local cohomology and Ш^r_S*, with `PoitouTate.sha_eq_absoluteSha`, and
+*P^r_S(K, M) is dual to P^{2−r}_S(K, M^D)*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
+exact sequence*), used only by Layer IG.4.2 *Finite-coefficient Poitou–Tate input*, in the target-level
+order displayed in Layer IG.4.2; EtaleDualityAndPerverseSheaves Layer EDC.2 (smooth trace, relative
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
 norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
 connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
@@ -660,7 +672,8 @@ Over a field that is not separably closed the étale fundamental group remembers
 on the constants. This layer builds the arithmetic exact sequence and its outer action, the
 decomposition and inertia groups of a Galois cover at a point, the tame and prime-to-`p` quotients
 of the fundamental group of a curve with the tangential fibre at a boundary point, the Frobenius
-normalisation over finite fields, proper descent of finite étale covers, invariance under extension
+normalisation over finite fields, finite étale covers of proper schemes over a henselian local ring,
+proper descent of finite étale covers, invariance under extension
 of an algebraically closed base field in characteristic zero, and the specialization theorems of
 Grothendieck for proper smooth families and for smooth pairs with a relative normal crossings
 boundary. It ends with the notion of an arithmetic representation of
@@ -734,6 +747,46 @@ LocalFieldsRamification Layers 2 and 4; FrobeniusGeometry Layer 4; BelyiMaps Lay
   invariant of Layer IG.4.
 - On `μ_n(𝔽̄_q)` with `n | q − 1` arithmetic Frobenius acts trivially, matching `q ≡ 1 (mod n)`.
 
+**Finite étale covers over a henselian local base.** Let `A` be a Noetherian henselian local ring
+with residue field `κ`, `X → Spec A` a proper morphism and `X₀ = X ×_A Spec κ` its closed fibre.
+Restriction `U ↦ U ×_X X₀` is an equivalence from finite étale covers of `X` to finite étale covers
+of `X₀`. Restriction is base change along `X₀ → X`, so it commutes with pullback along every
+`A`-morphism `X′ → X` of proper `A`-schemes; in particular it applies at once to every term `S′`,
+`S′ ×_S S′`, `S′ ×_S S′ ×_S S′` of a proper morphism `S′ → S = Spec A`, compatibly with the
+projections. `X` is connected exactly when `X₀` is, and then `π₁^ét(X₀, x̄) → π₁^ét(X, x̄)` is an
+isomorphism. *Proof sketch.* First let `A` be complete, with maximal ideal `𝔪`, and
+`X_n = X ×_A Spec A/𝔪^{n+1}`. Each `X_n → X_{n+1}` is a thickening, so étale schemes over `X₀` and
+over `X_n` correspond, and a finite étale cover of `X₀` extends uniquely to a compatible system of
+finite étale covers of the `X_n`. Grothendieck's existence theorem algebraizes that system to a
+finite `X`-scheme `U`. `U` is étale at the points of `U₀` by the local flatness criterion, and every
+point of `U` specializes into `U₀` because `U` is proper over `A`, so `U` is étale. Full faithfulness
+follows by applying essential surjectivity to the graph of a morphism of closed fibres, an open and
+closed subscheme of a fibre product. If `A` is a G-ring, Popescu desingularization writes the
+completion `Â` as a filtered colimit of smooth `A`-algebras `A_j`; a cover over `X ×_A Spec Â`
+descends to some `X ×_A Spec A_j`, and lifting the closed point of `Spec A_j` to an `A`-point, by
+smoothness over the henselian `A`, gives a cover of `X` with the same closed fibre. In general `A` is
+the filtered colimit of the henselizations of local rings of finite-type `ℤ`-algebras, which are
+G-rings, `X` descends with its properness to a finite stage, and finite étale covers and their
+morphisms descend to a finite stage too. Sources: [Stacks](https://stacks.math.columbia.edu/tag/0A48),
+Lemma 58.9.1 (0A48), with its proof; [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé IX,
+Theorem 1.10, p. 179 (complete base), and Exposé X, Theorem 2.1, p. 206 (the fundamental-group
+form). *Needs:* ConstructibleEtale Layer 3; FrobeniusGeometry Layer 6 (topological invariance of the
+small étale site); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12
+(henselization), §0.14 (`henselian_smooth_lifting`), §0.15 (`popescu_desingularization`), §0.21
+(G-rings) and §4.10 (`Formal.grothendieck_existence`, `grothendieck_existence_fullyFaithful`).
+
+**Checks.**
+
+- For `X = Spec A` the statement is the henselian property of `A`; for `A = ℤ_p`, the connected
+  finite étale `ℤ_p`-algebras are the rings of integers of the unramified extensions of `ℚ_p`, matched
+  with the finite extensions of `𝔽_p`.
+- Henselian cannot be dropped. `ℤ_(5)[i]` is a domain and is finite étale over `ℤ_(5)` (the
+  discriminant `−4` is a unit at `5`), while its closed fibre `𝔽_5[x]/(x² + 1) ≅ 𝔽_5 × 𝔽_5` is split,
+  since `2² ≡ −1 (mod 5)`; restriction to the closed fibre does not preserve connectedness. Over the
+  henselian `ℤ_5` the root `2` lifts and the algebra splits.
+- Properness cannot be dropped. For `A = ℂ[[t]]`, `X = Spec A[1/t] = Spec ℂ((t))` is of finite type
+  over `A` with empty closed fibre, and `ℂ((t^{1/2}))` is a connected finite étale cover of degree two.
+
 **Proper descent of finite étale covers.** Let `g : S′ → S` be a proper surjective morphism of
 locally Noetherian schemes, `S″ = S′ ×_S S′` and `S‴ = S′ ×_S S′ ×_S S′`. Pullback along `g` is an
 equivalence from finite étale covers of `S` to finite étale covers `E′` of `S′` with a descent
@@ -741,17 +794,37 @@ datum, an isomorphism `pr₁^*E′ ≅ pr₂^*E′` over `S″` satisfying the c
 the morphisms compatible with the data. Full faithfulness uses only that `g` is surjective and
 universally closed; effectivity uses properness. *Proof sketch.* A universally closed surjection is
 universally submersive, so an open and closed subscheme of a cover of `S′` that is stable under the
-descent datum comes from one over `S`, and morphisms descend through their graphs. For effectivity,
-reduce by limits and faithfully flat descent to the spectrum of a complete Noetherian local ring.
-There the finite étale covers of `S`, `S′`, `S″` and `S‴` are those of their closed fibres, by the
-lifting of finite étale covers along proper morphisms, and over the residue field `S′₀ → S₀` is
-faithfully flat and quasi-compact, along which descent is effective. Sources:
-[SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé IX, Theorem 4.12, p. 187;
-[Stacks](https://stacks.math.columbia.edu/tag/0BTL), Lemma 41.20.3 (0BTL), for full faithfulness, and
-[Stacks](https://stacks.math.columbia.edu/tag/0GF0), Lemma 59.104.3 (0GF0), the same descent for all
-étale sheaves. *Needs:* ConstructibleEtale Layer 3; SchemeAndStackFoundations §0.9
-(`finite_presentation_limits`), Layer 1 (faithfully flat descent) and Layer 4 (henselian and formal
-lifting of finite étale covers along proper morphisms).
+descent datum comes from one over `S`, and morphisms descend through their graphs. This argument
+needs no finiteness hypothesis, and every base change of `g` is again universally closed and
+surjective, so full faithfulness holds after any base change of `S`. Effectivity takes three
+reductions and one computation.
+
+1. Effectivity is Zariski local on `S`, the descended covers gluing by full faithfulness on the
+   overlaps.
+2. A datum that is effective over `Spec 𝒪_{S,s}` is effective over an open neighbourhood of `s`: the
+   descended cover and its isomorphism with `E′` are of finite presentation and spread out, and they
+   become compatible with the descent data after shrinking.
+3. Effectivity over `Spec 𝒪_{S,s}` may be tested after the faithfully flat base change to the
+   completion `Spec 𝒪̂_{S,s}`: a cover descended there carries, by full faithfulness over the
+   fibre products of `Spec 𝒪̂_{S,s}` with itself (which are not Noetherian), a faithfully flat
+   descent datum, and faithfully flat descent of finite étale covers finishes.
+4. Let `S = Spec A` with `A` complete Noetherian local and closed point `S₀`. Then `S′`, `S″` and
+   `S‴` are proper over `A`, as base changes and composites of `g`, and restriction to closed fibres
+   is base change along `S₀ → S`, so it commutes with `g^*` and with the projections. By *Finite
+   étale covers over a henselian local base* it is an equivalence on `S`, `S′` and `S″`. The
+   restricted datum on `S′₀ → S₀`, a faithfully flat quasi-compact morphism to the spectrum of a
+   field, is effective by faithfully flat descent, with descended cover `E₀`. Lift `E₀` to a cover
+   `E` of `S`, lift the isomorphism `E₀ ×_{S₀} S′₀ ≅ E′ ×_{S′} S′₀` uniquely to an isomorphism
+   `g^*E ≅ E′`, and check its compatibility with the descent data on the closed fibre of `S″`.
+
+Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé IX, Theorem 4.12, p. 187, with the
+reductions of Corollaries 4.2–4.3, Proposition 4.4 and Corollaries 4.5–4.6, pp. 183–184;
+[Stacks](https://stacks.math.columbia.edu/tag/0BTL), Lemma 41.20.3 (0BTL), for full faithfulness,
+[Stacks](https://stacks.math.columbia.edu/tag/0BTM), Lemma 41.20.4 (0BTM), for the Zariski
+reduction, and [Stacks](https://stacks.math.columbia.edu/tag/0GF0), Lemma 59.104.3 (0GF0), the same
+descent for all étale sheaves. *Needs:* *Finite étale covers over a henselian local base*;
+ConstructibleEtale Layer 3; SchemeAndStackFoundations §0.9 (`finite_presentation_limits`) and §1.1
+(`qcoh_fpqc_descent`).
 
 **Checks.**
 
@@ -781,18 +854,26 @@ invariance theorem. In characteristic zero argue in four steps. (1) Full faithfu
 every finite-type `k`-scheme `Y`: a morphism of finite étale covers is an open and closed subscheme
 of their fibre product projecting isomorphically onto the source, and the connected components of a
 finite-type scheme over an algebraically closed field do not change under extension of that field.
-(2) One transcendental step for a smooth connected affine `Y`: let `K ⊇ k` be algebraically closed
-and `Ω` an algebraic closure of `K(t)`, and compactify `Y_K` to a smooth projective `Ȳ` with strict
-normal crossings boundary `D`. A cover of `Y_Ω` is defined over `Y_K ×_K C` for a smooth affine
-`K`-curve `C` with function field in `Ω`; at a point `c ∈ C(K)` the henselization `R` of `C` at `c`
-is a strictly henselian discrete valuation ring with residue field `K` and geometric generic point
-`Spec Ω`. The constant pair `(Ȳ ×_K R, D ×_K R)` has strict normal crossings relative to `R`; for a
-constant family the specialization map `π₁^ét(Y_Ω) → π₁^ét(Y_K)` is the map induced by base change,
-and tame specialization in residue characteristic zero makes it an isomorphism, so pullback from
-`Y_K` to `Y_Ω` is an equivalence. (3) Smooth connected affine `Y`: a cover of `Y_{k'}` is defined
-over a finitely generated `k`-subalgebra of `k'`, hence over the algebraic closure in `k'` of
-`k(t₁, …, t_d)` for a transcendence basis `t₁, …, t_d` of its fraction field; apply (2) `d` times and
-then (1). (4) General `X`: composing a resolution of `X_red` with `X_red → X` gives a proper
+(2) One transcendental step for a smooth connected affine `Y`: let `K ⊇ k` be algebraically closed,
+`t` transcendental over `K` and `Ω` an algebraic closure of `K(t)`, and compactify `Y_K` to a smooth
+projective `Ȳ` with strict normal crossings boundary `D`. Let `R` be the henselization of `K[t]` at
+`t = 0`, a strictly henselian discrete valuation ring with residue field `K`. Its fraction field is
+algebraic over `K(t)`, so a `K(t)`-embedding into `Ω` makes `Spec Ω` a geometric generic point of
+`Spec R`. The constant pair `(Ȳ ×_K R, D ×_K R)` is smooth and proper over `R` with geometrically
+connected fibres and strict normal crossings relative to `R`. For this constant family the
+specialization map `π₁^ét(Y_Ω) → π₁^ét(Y_K)` is the map induced by base change along
+`Y_Ω → Y_K`, because the closed fibre `Y_K → Y_K ×_K R` is a section of the projection. Tame
+specialization in residue characteristic zero makes it an isomorphism, so pullback from `Y_K` to
+`Y_Ω` is an equivalence, both being connected by (1). (3) Smooth connected affine `Y`: a cover of
+`Y_{k'}` is of finite presentation, so it is the base change of a finite étale cover of
+`Y ×_k Spec B` for a finitely generated `k`-subalgebra `B ⊆ k'`. The fraction field of `B` has a
+finite transcendence basis `t₁, …, t_d` over `k`. Let `K_i` be the algebraic closure of
+`k(t₁, …, t_i)` in `k'`, so `K₀ = k` and `B ⊆ K_d`. Each `K_i` is algebraically closed, `t_i` is
+transcendental over `K_{i−1}`, and `K_i` is an algebraic closure of `K_{i−1}(t_i)`. Applying (2) to
+`K_{i−1} ⊆ K_i` for `i = 1, …, d` shows that the cover's base change to `Y_{K_d}` comes from `Y`,
+so the given cover comes from `Y`, and with the full faithfulness of (1) pullback from `Y` to
+`Y_{k'}` is an equivalence. (4) General `X`: composing a
+resolution of `X_red` with `X_red → X` gives a proper
 surjective `π : X̃ → X` with `X̃` smooth; cover `X̃` by finitely many smooth connected affine opens
 `X̃_i`. A cover of `X_{k'}` restricts to covers of the `X̃_{i,k'}`, which descend by (3); the gluing
 isomorphisms on the overlaps and the descent isomorphism on `X̃ ×_X X̃` descend by (1), and their
@@ -809,8 +890,8 @@ to the smooth affine case, relative normal crossings compactification);
 components. *Needs:* *Proper descent of finite étale covers*, *Tame specialization with a relative
 boundary*; ConstructibleEtale Layer 3; AlgebraicModuliForArithmeticGeometry Layer 9, §9.4
 (`localIsomorphismResolution`) and §9.5 (`sncCompactification`, for smooth quasi-projective
-varieties); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`) and Layer 1 (Zariski
-gluing).
+varieties); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12 (henselization)
+and Layer 1 (Zariski gluing).
 
 **Checks.**
 
@@ -952,12 +1033,11 @@ specialization gives a continuous surjection `π₁^ét(X_{η̄}) → π₁^ét(
 characteristic is `p > 0` it induces an isomorphism of maximal prime-to-`p` quotients; if the residue
 characteristic is zero it is an isomorphism. Restriction of finite covers agrees with
 specialization. No full isomorphism is asserted in mixed or positive residue characteristic.
-*Proof sketch.* Extend finite étale covers of the special fibre over `X` by the henselian lifting of
-finite étale covers along a proper morphism; lift prime-to-`p` covers in the other direction using
+*Proof sketch.* Extend finite étale covers of the special fibre over `X` by *Finite étale covers
+over a henselian local base*; lift prime-to-`p` covers in the other direction using
 smoothness, and identify the fibre functors. Source: [SGA 1](https://arxiv.org/pdf/math/0206203v2),
 Exposé X, Theorem 3.8 and Corollary 3.9, p. 217, with the proof in §§3.6–3.7, pp. 214–216.
-*Needs:* ConstructibleEtale Layer 3; SchemeAndStackFoundations Layer 4 (henselian and formal
-lifting of finite étale covers along proper morphisms).
+*Needs:* *Finite étale covers over a henselian local base*; ConstructibleEtale Layer 3.
 
 **Checks.**
 
@@ -1103,8 +1183,11 @@ ConstructibleEtale Layer 3 supplies the étale fundamental group and paths; Laye
 the tame quotient, and Mathlib the decomposition and inertia groups of primes; AlgebraicCurves Layers
 8 and 12 the decomposition of places and the curve-place dictionary; BelyiMaps Layers
 12–13, ProfiniteArithmetic and PeripheralActions the Tate-module and peripheral conventions.
-SchemeAndStackFoundations Layers 0, 1, 3 and 4 supply limits, descent, stacks, smooth proper curves
-with sections, stable pointed curves and the lifting of covers along proper morphisms;
+SchemeAndStackFoundations Layers 0, 1, 3 and 4 supply limits, henselization, Popescu
+desingularization, descent, stacks, smooth proper curves with sections, stable pointed curves and
+Grothendieck existence, from which *Finite étale covers over a henselian local base* lifts covers
+along proper morphisms; FrobeniusGeometry Layer 6 supplies the topological invariance of the small
+étale site;
 ComplexComparison Layer 8 supplies Riemann existence for complex finite-type schemes, and
 AlgebraicModuliForArithmeticGeometry Layer 9 resolution and normal crossings compactifications. ReductiveGroups
 Layer 6 and ModularCurves Layer 0c supply semisimple groups and finite torsors.
@@ -3005,10 +3088,12 @@ ProfiniteArithmetic Layer 0; the Belyi dictionary for three points is BelyiMaps 
 This layer develops the arithmetic of embedding problems over global fields. It starts from the finite
 embedding problems and their (weak) solutions in ProfiniteProPGroups Layer 5 and adds two things:
 properness, meaning surjective solutions, and prescribed local behaviour. It then builds the
-abelian-kernel obstruction, twisting of solutions, and the finite-coefficient localization kernels `Ш^i`
-with their Poitou–Tate duality, using ClassFieldTheory and ProfiniteCohomology. ClassFieldTheory leaves
-out the Grunwald–Wang theorem, so this layer proves it, together with its exceptional class of order two
-and Wang's cyclic-eight obstruction. The Schmidt–Wingberg proof of Shafarevich's theorem comes next:
+abelian-kernel obstruction, twisting of solutions and the finite-coefficient localization kernels `Ш^i`,
+using ClassFieldTheory and ProfiniteCohomology, and takes their Poitou–Tate duality from
+ArithmeticGaloisDuality. ClassFieldTheory leaves out the Grunwald–Wang theorem; this layer proves its
+alternative (the obstruction group has order one or two) and Wang's cyclic-eight obstruction, and
+ArithmeticGaloisDuality identifies the exceptional case exactly. The Schmidt–Wingberg proof of
+Shafarevich's theorem comes next:
 every finite solvable group is a Galois group over every number field. Its steps are free
 operator-group shrinking, induced and cyclic corrections, the split nilpotent embedding theorem and
 Fitting supplements.
@@ -3123,6 +3208,33 @@ Source: [Merkurjev–Scavia](https://arxiv.org/pdf/2410.12560v1), §1.2 and Prop
 
 ### IG.4.2 Galois localization, Poitou–Tate and Grunwald–Wang
 
+ArithmeticGaloisDuality owns global duality for finite Galois modules and the exact dyadic form of
+Grunwald–Wang. This subsection owns the localization kernels that roadmap starts from, the
+absolute-Galois-group form of Poitou–Tate that embedding problems use, and the order-two alternative
+of Grunwald–Wang. The two roadmaps are ordered target by target, an arrow pointing from a target to
+one that rests on it:
+
+```text
+IG.4.2 Finite Galois localization and Sha kernels
+    → ArithmeticGaloisDuality R02.3.4 Absolute and relative locally trivial groups
+ArithmeticGaloisDuality R02.4.2 Restricted products of local cohomology and Ш^r_S,
+ArithmeticGaloisDuality R02.4.2 P^r_S(K, M) is dual to P^{2−r}_S(K, M^D),
+ArithmeticGaloisDuality R02.4.3 Poitou–Tate duality and the nine-term exact sequence
+    → IG.4.2 Finite-coefficient Poitou–Tate input
+IG.4.2 Finite-coefficient Poitou–Tate input
+    → IG.4.2 Twisting abelian-kernel solutions, IG.4.2 Grunwald–Wang and its exceptional class,
+      and through them the Grunwald and embedding-problem applications of IG.4.3–IG.4.6
+    → ArithmeticGaloisDuality R02.4.6 All-place Sha duality and transfer adjunction
+IG.4.2 Grunwald–Wang and its exceptional class
+    → ArithmeticGaloisDuality R02.4.6 Grunwald–Wang with its exact dyadic obstruction
+```
+
+*Finite Galois localization and Sha kernels* rests on nothing in ArithmeticGaloisDuality. No target
+of this roadmap rests on R02.4.6, and no target of ArithmeticGaloisDuality before R02.4.6 rests on
+an IG.4.2 target other than *Finite Galois localization and Sha kernels*, so the order is acyclic.
+The IG.4.2 objects are README targets only, and neither roadmap's `Suggested.lean` imports the
+other's.
+
 **Finite Galois localization and Sha kernels.** Let `K` be a number field and `A` a finite discrete
 `Γ_K`-module. For `i ≥ 1` and a finite set `S` of places of `K`, define the Tate–Shafarevich kernels
 `Ш^i` and the localization defect:
@@ -3182,19 +3294,35 @@ above the primes dividing `|A|`, and the places where `A` is ramified. For `v �
 
 The maps are the localization maps of *Finite Galois localization and Sha kernels*. Real places enter
 through Tate's modified groups in degree zero and through the ordinary groups in positive degree.
+Statements (1) and (3) are global duality, which ArithmeticGaloisDuality proves; this target restates
+them for `Γ_K` with this roadmap's localization carriers and derives (2), the form the embedding
+problems of this layer use.
 
-*Proof sketch.* Local duality for finite coefficients, together with the exact orthogonality of the
-unramified subgroups, gives the local statements (ClassFieldTheory Layer 5). The global reciprocity
-sequence gives the finite-level exact complex and the duality of its kernels (ClassFieldTheory Layers 10
-and 12). Statement (2) follows by taking the annihilator of the subgroup of classes that vanish at every
-place of `S`.
+*Proof sketch.* Apply ArithmeticGaloisDuality R02.4.3 *Poitou–Tate duality and the nine-term exact
+sequence* with its set of places taken to be all places of `K`, which that theorem allows. Then its
+group `G_S` is `Γ_K`, every order is a unit in `K`, its dual `Hom(M, E_S)` is the Cartier dual, and its
+kernels `Ш^r_S` are the kernels `Ш^r` of *Finite Galois localization and Sha kernels*
+(`PoitouTate.sha_eq_absoluteSha` identifies them with the all-place kernels, which are cut out by the
+same localization maps). Its restricted product `P¹` uses the unramified subgroups at the finite
+places where the module is unramified; that differs from the choice in (1) at finitely many places,
+which does not change a restricted product. Exactness at `P¹`, with the self-duality *P^r_S(K, M) is
+dual to P^{2−r}_S(K, M^D)*, says that the image of `H¹(K, A)` is the exact annihilator of the image of
+`H¹(K, A^D)`, and symmetrically; this is (1). Part (a) for `M = A^D`, with `A^{DD} = A`, is (3). For
+(2), a family over the finite set `S`, extended by zero outside `S`, annihilates the image of
+`H¹(K, A)` exactly when, by (1), it is the localization of a class of `H¹(K, A^D)` that vanishes
+outside `S`, that is, of a class of `Ш¹_S(K, A^D)`; two such classes give the same family exactly when
+they differ by an element of `Ш¹(K, A^D)`. The subscript `S` of this roadmap is the finite set of
+places at which vanishing is not imposed; the `S` of ArithmeticGaloisDuality is the set of allowed
+ramification, here all places.
 
 Sources: [Demarche–Lucchini Arteche–Neftin](https://www.numdam.org/item/10.5802/aif.3104.pdf), §2.6,
 equation 2.3 and Proposition 2.5, pp. 1018–1019, which state the pairing and the finite-`S` quotient and
 refer to the original global duality theorem; [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1),
 Definitions 8–9, p. 10, and Lemma 10 with its proof, p. 11 (arXiv v1).
-*Needs:* *Finite Galois localization and Sha kernels*; ClassFieldTheory Layers 5, 10 and 12;
-ProfiniteCohomology Layers 1 and 7.
+*Needs:* *Finite Galois localization and Sha kernels*; ArithmeticGaloisDuality R02.4.2 *Restricted
+products of local cohomology and Ш^r_S* (`PoitouTate.sha_eq_absoluteSha`) and *P^r_S(K, M) is dual to
+P^{2−r}_S(K, M^D)*, R02.4.3 *Poitou–Tate duality and the nine-term exact sequence*; ClassFieldTheory
+Layer 5; ProfiniteCohomology Layers 1 and 7.
 
 **Checks.**
 
@@ -3269,15 +3397,33 @@ eighth) power. Hence `Ш¹(ℚ, μ₄) = Ш¹(ℚ, μ₈) = 0`, and duality give
 These are statements about the everywhere-local kernels. They do not remove Wang's obstruction to cyclic
 degree-eight prescriptions at a dyadic place (*Wang's cyclic-eight local obstruction*).
 
-*Proof sketch.* Over `ℚ`, argue with valuations and the real place as above. The general alternative,
-with its conditions at the dyadic places, is the Grunwald–Wang theorem cited by the source. The
-degree-two vanishings follow from statement (3) of *Finite-coefficient Poitou–Tate input*.
+*Proof sketch.* `μ_m` is the direct sum of the `μ_{p^r}` over the prime powers `p^r` exactly
+dividing `m`, and `Ш¹_T(K, μ_m)` splits accordingly; fix one `p^r` and put `L = K(μ_{p^r})`. If
+`a ∈ K^×` is a `p^r`-th power in `K_v` for every `v ∉ T`, then every place of `L` not above `T`
+splits completely in the Kummer extension `L(a^{1/p^r})/L`, which is therefore trivial by
+Chebotarev. So `a ∈ L^{×p^r}`, and by inflation–restriction the class of `a` lies in
+`H¹(Gal(L/K), μ_{p^r})`. The cyclotomic character embeds `Gal(L/K)` in `(ℤ/p^r)^×`, and `Gal(L/K)`
+acts on `μ_{p^r}` through it. A computation with cyclic groups, after splitting off `{±1}` when
+`p = 2`, shows that this `H¹` is zero unless `p = 2`, `r ≥ 2` and `−1` lies in the image of
+`Gal(L/K)`, in which case it has order two. Hence `Ш¹_T(K, μ_m)` has order at most two, and it is
+zero when `μ₄ ⊂ K`, since the image then lies in `1 + 4ℤ`. For `r = 2` and `√−1 ∉ K`, the nonzero
+class of `H¹(Gal(L/K), μ₄)` is that of `−4 = (1 + √−1)⁴`; but `−4` is a fourth power in `K_v` only
+when `√−1 ∈ K_v`, which fails at infinitely many places by Chebotarev, so this class is not in
+`Ш¹_T(K, μ₄)` and the exceptional case needs `8 | m`. Over `ℚ`, argue with valuations and the real
+place as above. The degree-two vanishings follow from statement (3) of *Finite-coefficient
+Poitou–Tate input*. ArithmeticGaloisDuality R02.4.6 *Grunwald–Wang with its exact dyadic
+obstruction* refines this alternative to the exact exceptional triples and the generator of the
+exceptional class.
 
-Source: [Harpaz–Wittenberg, *Massey vanishing*](https://arxiv.org/pdf/1904.06512v2), §7, Lemma 7.6 and
+Sources: [Harpaz–Wittenberg, *Massey vanishing*](https://arxiv.org/pdf/1904.06512v2), §7, Lemma 7.6 and
 the argument following it, PDF pp. 28–31. These pages give the computation over `ℚ` and the order-two
-alternative, which they cite to Artin–Tate, *Class Field Theory*, Chapter X, Theorem 1.
+alternative, which they cite to Artin–Tate, *Class Field Theory*, Chapter X, Theorem 1;
+[Conrad, *Lifting global representations with local
+properties*](https://virtualmath1.stanford.edu/~conrad/papers/locchar.pdf), Appendix A, Definition A.1,
+p. 31, whose special case requires `8 | m` and that `−1` is not a square.
 *Needs:* *Finite Galois localization and Sha kernels*, *Finite-coefficient Poitou–Tate input*;
-ClassFieldTheory Layers 10 and 12.
+ClassFieldTheory Layer 5 (Kummer theory); ProfiniteCohomology Layer 5 (inflation–restriction);
+Chebotarev Layer 10.
 
 **Checks.**
 
@@ -4333,9 +4479,12 @@ density of points on smooth varieties, `HasStrictFDerivAt.implicitFunctionOfProd
 From other roadmaps:
 - ProfiniteProPGroups Layers 0, 3, 4 and 5: profinite foundations, Frattini theory, free pro-`p`
   groups, finite embedding problems and the extension dictionary.
-- ProfiniteCohomology Layers 1 and 7: continuous cohomology and Shapiro's lemma.
-- ClassFieldTheory Layers 5, 7, 10 and 12: local duality, local Artin maps, local invariants, the
-  Brauer sequence and global class field theory.
+- ProfiniteCohomology Layers 1, 5 and 7: continuous cohomology, inflation–restriction and Shapiro's
+  lemma.
+- ClassFieldTheory Layers 5, 7, 10 and 12: local duality, Kummer theory, local Artin maps, local
+  invariants, the Brauer sequence and global class field theory.
+- ArithmeticGaloisDuality §R02.4.2 and §R02.4.3: finite Poitou–Tate duality, used only by
+  *Finite-coefficient Poitou–Tate input*, in the target-level order displayed at the start of IG.4.2.
 - LocalFieldsRamification Layers 2–4, AlgebraicCurves Layers 7 and 8, Chebotarev Layer 10,
   ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes) and
   4, AlgebraicModuliForArithmeticGeometry Layer 9 (smooth compactifications), and ReductiveGroupsPartII
@@ -6255,10 +6404,11 @@ and BelyiMaps Layers 12 and 13; from the point-counting roadmaps, ConstructibleE
 The étale path groupoid, tame tangential base points and the arithmetic exact sequence of Layers
 IG.0–IG.1 are the starting point of the anabelian and nonabelian Chabauty roadmap
 (AnabelianGeometryAndNonabelianChabauty) and of arithmetic dynamics (ArithmeticDynamics). The
-finite-module Poitou–Tate and Grunwald–Wang statements of Layer IG.4 are consumed by the roadmap on
-global Galois duality with compact coefficients; the integral thin-set count of Layer IG.2 by the
-sieve roadmaps; the finite Hurwitz cohomology and trace statements of Layer IG.5 by the roadmap on
-weights (DeligneWeightsAndPurity), which also discharges the weight hypothesis of the Hurwitz point
+finite localization kernels, the absolute form of finite Poitou–Tate and the Grunwald–Wang
+alternative of Layer IG.4.2 are consumed by ArithmeticGaloisDuality, which also supplies the
+Poitou–Tate theorem that IG.4.2 restates, in the target-level order displayed there; the integral
+thin-set count of Layer IG.2 by the sieve roadmaps; the finite Hurwitz cohomology and trace
+statements of Layer IG.5 by the roadmap on weights (DeligneWeightsAndPurity), which also discharges the weight hypothesis of the Hurwitz point
 estimate; and the lifting invariants and Hurwitz component counts of Layers
 IG.3–IG.5 by arithmetic statistics (Cohen–Lenstra and nonabelian Cohen–Lenstra heuristics).
 
@@ -6276,6 +6426,8 @@ Freely available sources, with the versions to which the locators refer.
   <https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf>
 - W. Y. Chen, *Nonabelian level structures, Nielsen equivalence, and Markoff triples*,
   arXiv:2011.12940v2 (locators refer to this preprint). <https://arxiv.org/pdf/2011.12940v2>
+- B. Conrad, *Lifting global representations with local properties*, author's preprint (locators
+  refer to this copy). <https://virtualmath1.stanford.edu/~conrad/papers/locchar.pdf>
 - P. Dèbes, *Arithmétique des revêtements de la droite*, author's working text (version of
   16 May 2024). <https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf>
 - P. Deligne, *La conjecture de Weil. II*, Publ. Math. IHÉS 52 (1980), 137–252.
