@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-Own primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions and exponential Ax–Schanuel with its algebraic differential forms.
+Own primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its algebraic differential forms.
 
 Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree Northcott, Kronecker and the Mahler/absolute-height dictionary are consumed from ArithmeticHeights Layer 1. Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
 
@@ -13,8 +13,12 @@ GlobalNumberFields Layer 0 owns places, completions, extension multiplicities an
 The shared foundations have the following single suppliers. Each dependency is on the
 specified layers, independently of the supplier's later applications. The contracts below
 are consumer interfaces and normalization adapters; they do not request another proof
-of a supplied theorem. `Suggested.lean` records the supplied interfaces and the consumer adapters against
-the pinned libraries.
+of a supplied theorem. `Suggested.lean` gives isolated formulas in its local `SignatureModel` namespace for
+signatures whose providers are separate dependencies. These formulas do not export supplier
+names or certify provider compatibility. The actual adapters consume the provider objects.
+The model carriers are `SignatureModel.relativeEuclideanTupleHeight`,
+`SignatureModel.absoluteProjectiveTupleHeight`, `SignatureModel.relativeAffineLogHeight`,
+`SignatureModel.relativeEuclideanSubspaceHeight` and `SignatureModel.taylorCoeff`.
 
 | Consumer sections | Supplier and exported interface | Work owned here |
 | --- | --- | --- |
@@ -24,7 +28,7 @@ the pinned libraries.
 | §1.3, §2.5 | ArithmeticHeights Layers 2–3: Polynomial.mulHeight, Submodule.pluckerPoint, Submodule.mulHeight, Submodule.arakelovMulHeight, Submodule.mulHeight_comap_piEquiv_dualAnnihilator | Sparse coefficient-log adapter; absolute Euclidean and dot-product adapters; twisted heights and weights |
 | §2.8 fixed-field kernel bound, §4.1 unit dictionary | ArithmeticHeights Layers 5–6: NumberField.exists_linearIndependent_mem_ker_prod_absMulHeight_le, unit-height/regulator and S-unit rank dictionaries | Auxiliary constraints, perturbations, effective equations; absolute geometry in §2.5 |
 | §3.3 qualitative conclusions | [LinearFormsInLogarithms](../LinearFormsInLogarithms/README.md), Layer 6: transcendental_exp_mul and GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational | One-variable exponential-polynomial zero estimates and the explicit E19/KW auxiliary constructions as alternative applications of shared estimates |
-| §3.4 | LinearFormsInLogarithms Layers 0–4: TauCeti.mvTaylorCoeff, norm_le_of_mvTaylorCoeff_eq_zero, mvTaylorCoeff_prod_pow_mul_cexp, exists_ne_zero_int_norm_sum_le | Ordinary-derivative adapter and its factorial bridge; the stated stronger W00 interpolation constants are extensions of this engine |
+| §3.4 | LinearFormsInLogarithms Layers 0–4: mvTaylorCoeff, norm_le_of_mvTaylorCoeff_eq_zero, mvTaylorCoeff_prod_pow_mul_cexp, exists_ne_zero_int_norm_sum_le | Ordinary-derivative adapter and its factorial bridge; the stated stronger W00 interpolation constants are extensions of this engine |
 | §3.5 | LinearFormsInLogarithms Layers 5–6: SchneiderLang.exists_transcendental_of_linearIndependent, Baker.eq_zero_of_add_sum_mul_eq_zero, Baker.transcendental_sum_mul | Branch and basis-coordinate corollaries of these shared statements |
 | §§3.1–3.2,3.6–3.7,4–5 | LinearFormsInLogarithms Layer 8 supplies qualitative p-adic Baker–Brumer only | Full Hermite-method Lindemann–Weierstrass, quantitative Matveev/Yu, effective equations, modular values and arithmetic functions |
 
@@ -33,6 +37,25 @@ foundation of GeometryOfNumbersAndQuadraticArithmetic: its zero-based natural in
 is restricted here to `Fin d`. No later homogeneous-dynamics or hermitian K-theory
 layer is needed. Absolute adelic minima, the degree-free small-height branch and
 Nesterenko's arithmetic specialization are targets here.
+
+**Provider import compatibility.** Prove `height2_eq_arakelovMulHeight` and
+`Baker.mDeriv_eq_factorial_mul_mvTaylorCoeff` against joint provider imports. Import ArithmeticHeights.Arakelov, Absolute,
+Affine and Subspace for the corresponding height consumers; the analytic consumer
+imports the Layer 0 coefficient interface of LinearFormsInLogarithms. Its prototype
+is TauCetiRoadmap.LinearFormsInLogarithms.mvTaylorCoeff, generalized in the normed
+field, finite coordinate type and value space; adopt its library export when importing
+that implementation. Prove the height and factorial comparisons using those objects
+and their lemmas in a checkout importing the providers and consumer together. No
+consumer declaration occupies a provider namespace. The zero-height adapter tests
+for the zero tuple before taking the positive degree root. (ArithmeticHeights
+§§0.1,0.4–0.5,3.2; LinearFormsInLogarithms §0.4; EF13 §6.3.)
+
+**Checks.**
+
+- The joint imports elaborate without duplicate declarations; provider comparison proofs reference imported implementations, with no SignatureModel term.
+- The provider Arakelov formula at (√2,1) in ℚ(√2) gives 3, so the consumer absolute Euclidean height is √3; extension to ℚ(√2,i) gives relative value 9 by arakelovMulHeight_rpow_comp.
+- At zero the provider retains projective value 1 while the consumer height2 adapter gives 0.
+- The provider coefficient of z₀²z₁³ at zero in order (2,3) is 1; its coefficient/derivative API gives ordinary derivative 12. Specialization retains the provider's finite-coordinate and value-space parameters.
 
 ## Conventions
 
@@ -1700,7 +1723,7 @@ Its API includes `mDeriv_zero`: D^0 f=f; `mDeriv_add_single`: For entire f: D^{�
 
 **Ordinary and divided analytic derivatives.** Prove `Baker.mDeriv_eq_factorial_mul_mvTaylorCoeff`
 for f analytic at z:
-Baker.mDeriv σ f z=(∏_i σ_i!)·TauCeti.mvTaylorCoeff f z σ.
+Baker.mDeriv σ f z=(∏_i σ_i!)·mvTaylorCoeff f z σ, with the coefficient taken from the provider named in the ownership table.
 Use the analytic coefficient interface from LinearFormsInLogarithms Layer 0,
 then transfer its Cauchy and Cartesian Schwarz estimates by this equality.
 The stronger constants stated below extend the same engine. The qualitative
@@ -2202,23 +2225,134 @@ At every z₀≠0, the minimal equation of an E-function has a full holomorphic 
 
 *Needs:* §5.1.
 
-For a nonzero rational E-function with f(1)=0, every local solution of its minimal equation vanishes at 1, an apparent singularity. (B06, Corollary 2.2, pp. 3-4.)
+**Picard–Vessiot fields and analytic solutions.** This roadmap owns the
+interfaces `picardVessiotAnalyticComparison` and `picardVessiotFixedField` used
+in this subsection. For k=C(z), with C algebraically closed of characteristic
+zero and derivation d/dz, construct a Picard–Vessiot ring for each finite
+system Y′=AY: a simple differential k-algebra generated by a fundamental
+matrix and its inverse determinant. Prove that it is a domain, that its fraction
+field K has constants exactly C, and uniqueness up to differential k-isomorphism.
+Realize its automorphism group as a finite-type reduced affine group using
+[ReductiveGroups](../ReductiveGroups/README.md), Layers 0 and 3: consume
+TauCeti.FiniteTypeCommHopfAlgCat, its identityComponent and componentGroupScheme
+from the connected-group and component-group modules. These provide the group
+carriers, identity-component inclusion and finite component quotient; the
+Picard–Vessiot realization and the restriction theorem below are owned here.
+Its differential automorphism group G is a linear algebraic group acting
+faithfully on the n-dimensional C-solution space. Prove the closed-subgroup/fixed-field
+correspondence, K^G=k, and K^(G⁰) equal to the relative algebraic closure of k
+in K, a finite Galois extension with group G/G⁰. For C=ℂ, realize K inside
+meromorphic germs at an ordinary point using a fundamental analytic solution
+matrix. Analytic transport along paths preserves differential and algebraic relations.
+For finite algebraic subextensions of ℂ(z), path transport realizes every
+Galois conjugate. Prove that scalar minimal orders for algebraic-coefficient
+series agree over ℚ̄(z) and ℂ(z), and that at an algebraic point with a full
+holomorphic solution basis, the convergent ℚ̄[[z−ξ]] solution space extends
+by scalars to the complex analytic-germ space. Coefficient conjugation thus
+transports this space and its evaluation kernel. (Singer, §1.3, Definition
+1.3.2, Proposition 1.3.6, Theorem 1.3.9, Corollary 1.3.10 and the monodromy
+construction preceding Definition 1.3.24, pp.10–14,18–19; B06, Lemma 2.3
+and Theorem 2.5, pp.4–6.) *Needs:* §5.1 scalar equations and analytic local
+solutions; §5.2 coefficient-field comparison; Mathlib fields, derivations,
+matrix groups and algebraic closure; ReductiveGroups Layers 0 and 3. These Picard–Vessiot and analytic path-transport
+constructions are targets here, distinct from Kähler differential rank.
 
-*Needs:* §5.2.
+**Checks.**
 
-For a nonzero E-function with f(ξ)=0, ξ∈ℚ̄×, every local solution of its minimal equation vanishes at ξ, an apparent singularity. (B06, Lem. 2.3, Lem. 2.4, Thm. 2.5, pp. 4-6.)
+- For y′=y over ℂ(z), K=ℂ(z,e^z) has constants ℂ and G=G_m; analytic monodromy is trivial although G is nontrivial.
+- For 2zy′=y, K=ℂ(z,√z), G has order two and G⁰ is trivial; its fixed field is all of K, a finite algebraic extension of the base.
+- For y′=0, adjoining an independent constant would enlarge the constant field and is excluded by the Picard–Vessiot construction.
+- At an ordinary algebraic point, algebraic initial data give algebraic Taylor coefficients; coefficient conjugation preserves the evaluation kernel without acting on arbitrary analytic functions.
 
-*Needs:* §5.2; §5.1.
+**Identity-component orbit spanning.** Prove `eFunction_identityOrbit_span`:
+for a nonzero E-function f and its minimal scalar equation L over ℂ(z) of
+order n, the ℂ-span of G⁰·f in a Picard–Vessiot solution space is the whole
+n-dimensional space. Construct the monic Wronskian equation of order m for
+the orbit span. Its coefficients lie in K^(G⁰). Continue the resulting
+relation along paths realizing all automorphisms of this finite Galois
+extension; f is entire and returns to itself. Averaging these monic relations
+gives an order-m equation over ℂ(z), so minimality forces m=n. Export the
+same spanning statement for a vector E-function solution whose coordinates
+are ℂ(z)-linearly independent, as used in desingularization.
+(B06, Lemma 2.3, pp.4–5, and proof of Theorem 1.5, pp.8–9.)
+*Needs:* `picardVessiotFixedField`, `picardVessiotAnalyticComparison`,
+Wronskians and §5.2 entireness; no division at a general algebraic zero.
+
+**Checks.**
+
+- For exp z the nonzero G_m-orbit spans the one-dimensional solution space.
+- For (z−1)e^z the orbit spans the scalar solution space, and every orbit element vanishes at 1.
+- For the multivalued solution 1+√z, its minimal order is two, but the trivial identity component has a one-dimensional orbit span; entireness cannot be omitted from this descent argument.
+
+**Conjugate composita and vanishing transfer.** Prove
+`picardVessiotConjugateCompositum`: embed the Picard–Vessiot fields of the
+finitely many coefficient-conjugate equations L^σ into a common meromorphic-germ
+field at an ordinary point. Their differential compositum is the Picard–Vessiot
+field of the direct-sum system, with constants ℂ. Restriction embeds its
+algebraic group H into ∏G_σ and is surjective onto each G_σ. Prove
+`identityComponent_projection_surjective`: a surjective morphism of linear
+algebraic groups over an algebraically closed characteristic-zero field maps
+H⁰ onto G_σ⁰. Prove closedness of the algebraic group image using
+constructibility and translations; the finite component quotient makes the
+image of H⁰ a finite-index closed subgroup of G_σ⁰, hence the whole connected
+group. For these reduced groups in characteristic zero, smoothness and
+translation of irreducible components make H⁰ irreducible. Thus a finite
+cover by Zariski-closed subsets contains a subset equal to H⁰.
+
+For f(1)=0, form the nonzero rational-coefficient E-function
+F=∏_σ f^σ using a finite Galois coefficient field and §5.2 Hurwitz products.
+Every H-image of F solves its minimal equation. If all these images vanish
+at 1, define V_σ as the holomorphic local solution space and W_σ as its
+evaluation kernel. The closed sets
+{h∈H⁰ : π_σ(h)f^σ∈W_σ} cover H⁰, so one is all of H⁰.
+Surjectivity and `eFunction_identityOrbit_span` give W_σ=V_σ for one σ;
+the algebraic-coefficient local-space comparison then transports this equality
+to the original equation. This is `eFunction_conjugate_zero_transfer`.
+(B06, Lemma 2.4 and proof of Theorem 2.5, pp.5–6; Singer, §1.3,
+Theorem 1.3.9, pp.13–14.) *Needs:* the preceding Picard–Vessiot,
+analytic path-transport and orbit targets; §5.2 conjugation and Hurwitz multiplication;
+the rational zero theorem below supplies the vanishing of H·F.
+
+**Checks.**
+
+- Two copies of y′=y have diagonal compositum group G_m, not G_m×G_m; both restriction projections are nevertheless surjective.
+- For F=(z−1)e^z and its rational coefficient field there is one factor; the closed evaluation kernel contains its entire orbit.
+- The disconnected group μ₂ is the union of two proper closed points; the finite-cover argument uses the irreducible identity component, not the whole group.
+
+Prove `eFunction_rational_minimal_equation_zero`: for a nonzero E-function
+with rational Taylor coefficients and f(1)=0, every holomorphic local solution
+of its minimal equation vanishes at 1, an apparent singularity. Use the
+rational-coefficient `isEFunction_div_one_sub` of §5.3 and André's holomorphic
+basis theorem above; this rational division proof bounds tails and denominators
+directly. (B06, Corollary 2.2, pp.3–4.)
+
+*Needs:* §5.3 rational division; §5.2; André's theorem above.
+
+Prove `eFunction_minimal_equation_zero`: for a nonzero E-function with
+f(ξ)=0, ξ∈ℚ̄×, every holomorphic local solution of its minimal equation
+vanishes at ξ, an apparent singularity. Scale z by ξ, apply the rational
+zero theorem to the conjugate product, and use `eFunction_conjugate_zero_transfer`.
+(B06, Lemma 2.3, Lemma 2.4, Theorem 2.5, pp.4–6.)
+
+**Checks.**
+
+- For (z−1)e^z, the minimal equation is (z−1)y′−zy=0 and all holomorphic local solutions vanish at 1.
+- The entire function sin(z−1) solves y″+y=0 and vanishes at 1, while cos(z−1) solves the same equation and equals 1 there. Its minimal order over ℂ(z) is two since cot(z−1) has infinitely many poles and cannot be rational; this ordinary analytic example is excluded by the E-function hypotheses.
+- The point ξ=0 is excluded: sin z is an E-function vanishing there but cos z is a solution of its minimal equation with value 1.
+
+*Needs:* the rational zero theorem, the three differential-Galois targets above,
+§5.2 algebraic scaling and conjugation, and André's holomorphic local bases.
 
 For algebraically closed K⊂ℂ and series of K(z)-span dimension m, their polynomial-relation module has a K[z]-basis C₁,…,C_(n−m) whose specializations are linearly independent at every ξ∈K. The typed case K=ℂ and the general `relationBasisSpecialisation` are separate signatures. (B06, Lem. 3.1, p. 6.)
 
 For E-functions solving T f′=M f over ℚ̄[z] and ξ∈ℚ̄ with ξT(ξ)≠0, every ℚ̄-linear relation among fᵢ(ξ) lifts to a polynomial relation Σcᵢ(z)fᵢ(z)=0 with cᵢ(ξ)=λᵢ. Functional independence therefore gives independence of values. (B06, Thm. 3.2, p. 6, and Corollary 1.4, p. 3.)
 
-*Needs:* §5.2.
+*Needs:* `eFunction_minimal_equation_zero`, `relationBasisSpecialisation`,
+§5.1 ordinary-point initial data and polynomial jet interpolation; §5.2.
 
 Under those hypotheses, every homogeneous P∈ℚ̄[X] vanishing at f(ξ) lifts to Q∈ℚ̄[z][X] of the same X-degree, with Q(z,f(z))=0 and Q(ξ,X)=P. Adding f₀=1 gives the nonhomogeneous version. (B06, Thm. 1.2, Thm. 1.3, p. 2.)
 
-*Needs:* §5.2.
+*Needs:* `beukers_linear_relation` and `isEFunction_monomials_solveSystem` of §5.2.
 
 Under those hypotheses, trdeg_ℚ̄ ℚ̄(f(ξ))=trdeg_ℚ̄(z) ℚ̄(z)(f(z)), equivalently the functional transcendence degree over ℂ(z). (B06, Thm. 1.1, p. 2; André, §1.7, Corollary 1.7.1, pp. 6–7.)
 
@@ -2226,9 +2360,31 @@ Under those hypotheses, trdeg_ℚ̄ ℚ̄(f(ξ))=trdeg_ℚ̄(z) ℚ̄(z)(f(z)), 
 
 For an E-function and ξ∈ℚ̄× with f(ξ)=0, the entire quotient f(z)/(z−ξ) is E. (B06, Prop. 4.1, p. 8.)
 
-*Needs:* §5.2.
+*Needs:* `eFunction_minimal_equation_zero`, coefficient conjugation and
+§5.3 rational tail estimates; §5.2. Vanishing for every conjugate at the
+scaled point supplies uniform conjugate bounds for the quotient coefficients.
 
 A functionally independent E-function system over ℚ̄(z) has f=B e, with E-functions e, polynomial B over ℚ̄, det B≠0, and a system for e over ℚ̄[z,1/z]. (B06, Thm. 1.5, p. 3, §4, pp. 8-9.)
+
+*Needs:* `eFunction_identityOrbit_span`, André's holomorphic bases,
+`eFunction_minimal_equation_zero`, `isEFunction_div_linear`, and the
+following gauge adapter. The determinant vanishing order drops at each
+linear-factor division, so the removal terminates.
+
+**Gauge transformation.** Prove `solvesSystem_gauge_transform`: if F=B E,
+F′=A F and B is invertible over ℂ(z), then
+E′=(B⁻¹AB−B⁻¹B′)E. The analytic signature carries differentiability and
+invertibility at its evaluation point. In `beukers_removal_of_singularities`,
+use B over ℚ̄[z] with det B≠0; the transformed matrix has entries in
+ℚ̄[z,1/z]. Its coefficient-field conclusion accompanies the E-function
+and polynomial-factor conclusions. (B06, proof of Theorem 1.5, pp.8–9;
+Mathlib derivative product rule and matrix inverse identities.)
+
+**Checks.**
+
+- For B=z−1 and A=1+1/(z−1), the transformed scalar coefficient is 1 away from 1; it extends to 1 there.
+- For constant B the B′ term is zero and the transformation is conjugation by B.
+- For B=1 both the system and coefficient matrix are unchanged; at det B=0 the pointwise inverse formula is not asserted.
 
 Apply the E-function theorem to distinct algebraic exponents βᵢ: exp βᵢ are ℚ̄-linearly independent. (B08, §3.3, Thm. 3.3.2, p. 13.)
 
@@ -2334,21 +2490,35 @@ orders, ideals and dimension; the invariant-ideal and cycle estimates above.
 `modularAuxiliaryPolynomial`: for all large d there is nonzero integral P_d
 with deg P_d≤d, log coefficient sup norm ≤C d log d and
 c d^4≤ord₀(P_d∘Φ)≤C' d^4, with c>0. Impose vanishing of
-⌊d^4/4!⌋ initial coefficients on binom(d+4,4) unknown coefficients,
-then apply the shared integer Siegel estimate and `modularZeroEstimate`.
+M=⌊N/2⌋ initial coefficients on N=binom(d+4,4) unknown coefficients.
+Then N−M≥N/2 and M/(N−M)≤1, while M≥d^4/48−1.
+For all large d, M≥d^4/96; choose c=1/96 and increase the large-d threshold.
+For matrix entries bounded by B≥1, the convolution bound at indices <M=O(d^4)
+gives log B≤C₁d log d: each of at most d Eisenstein factors has coefficient
+O(M^6), and the number of convolution terms is at most (M+1)^d.
+Apply the integer Siegel estimate in `modularSiegelHalfNullity`:
+‖v‖∞≤2(2NB)^{M/(N−M)}, hence
+log‖v‖∞≤log 2+log(2NB)=O(d log d).
+The shared estimate with (3NB)^{M/(N−M)} also has this order.
+The nonzero integral kernel vector gives P_d and `modularZeroEstimate` gives
+its upper order bound.
 Prove `modularValueDerivativeSelection`: for fixed 0<|z|<1 one can choose
 k_d=O(d log d) with −αm_d≤log|(P_d∘Φ)^(k_d)(z)|≤−βm_d,
 α>β>0 and m_d=ord₀(P_d∘Φ). Its proof uses integral nonzero initial
 coefficients, Schwarz/Cauchy interpolation and the explicit parameter estimates
 of Nesterenko–Philippon Chapter 3 Lemma 3.3. Define the integral operator
 w^[k]=12^k w(w−1)…(w−k+1), prove its coefficients integral and
-Q_d=w^[k_d]P_d has degree O(d log d), log sup norm O(d(log d)^2).
+Q_d=w^[k_d]P_d has degree at most d+k_d=O(d log d). Iterating the
+quadratic vector field adds at most O(k_d log(d+k_d)+k_d log k_d) to the
+logarithmic coefficient bound, giving log sup norm O(d(log d)^2).
 Since Q_d∘Φ=(12q)^k_d (P_d∘Φ)^(k_d), the added term
 k_d log|12z| is O(d log d), of either sign, and is absorbed in positive
 constants in −a d^4≤log|Q_d(Φ(z))|≤−b d^4. Prove
 `modularValueIndependenceCriterion`, the r=4 case of Philippon's
-polynomial-sequence criterion, and select these parameters to give
-trdeg_ℚ ℚ(Φ(z))≥3. (Fonseca §2.2 Theorem 2.8, §3.3 Lemmas
+polynomial-sequence criterion, with degree O(d log d), logarithmic coefficient
+height O(d(log d)^2), and −a d^4≤log|Q_d(Φ(z))|≤−b d^4, a>b>0.
+These satisfy the hypotheses of Fonseca Theorem 2.8 with r=4,
+yielding trdeg_ℚ ℚ(Φ(z))≥3. (Fonseca §2.2 Theorem 2.8, §3.3 Lemmas
 3.19–3.22, pp.5,17–18; Nesterenko–Philippon Chapter 3 Lemma 3.3;
 Philippon, *Critères pour l'indépendance algébrique*, Theorem 1, pp.5–52.)
 *Needs:* coefficient bounds, `modularZeroEstimate`, ArithmeticHeights
@@ -2356,7 +2526,9 @@ integer Siegel and polynomial heights, the shared complex interpolation engine.
 
 **Checks.**
 
-- The number of monomials binom(d+4,4) exceeds ⌊d^4/24⌋, leaving a nonzero kernel vector.
+- With N=binom(d+4,4) and M=⌊N/2⌋, N−M≥N/2 and M/(N−M)≤1; merely M<N does not bound the Siegel exponent.
+- For d=2, N=15 and M=7 give nullity at least 8 and exponent 7/8. For d≥4 the bound M≥d^4/96 holds, including the floor error.
+- The near-square choice M=⌊d^4/24⌋ has M/(N−M) asymptotic to d/10 and yields only O(d² log d) from this coefficient estimate.
 - For k=2, w^[2]=144w(w−1); this is a falling factorial in w, not 144w².
 - At a nonzero z with |12z|>1 the transfer increases the logarithmic absolute value; the O(d log d) error still has lower order than d^4.
 - At τ=i the final theorem, E₂(i)=3/π and E₆(i)=0 yield algebraic independence of π and exp π. The nonzero condition excludes q=0, where Φ(0)=(0,1,1,1) is algebraic.
@@ -2438,7 +2610,7 @@ The E-series for exp z has a_n=1, whereas the same analytic function has G-serie
 
 ### Dependencies
 
-Layers 0 and 3; Mathlib power series, differential modules, algebraic independence and Kähler differentials; Tau Ceti finite type/integral dimension results; AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”.
+Layers 0 and 3; Mathlib power series, differential modules, algebraic independence and Kähler differentials; §5.4 owns Picard–Vessiot fields, differential Galois groups and their analytic comparisons; Tau Ceti finite type/integral dimension results; AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”.
 
 ## Downstream consumers
 
@@ -2471,6 +2643,7 @@ Heights, auxiliary polynomials, unit equations and effective logarithmic bounds 
 - **BEG13**: Attila Bérczes, Jan-Hendrik Evertse and Kálmán Győry, [Effective results for hyper- and superelliptic equations over number fields](https://arxiv.org/abs/1301.7168). arXiv:1301.7168v1 (30 January 2013).
 - **Tzanakis–de Weger**: N. Tzanakis and B. M. M. de Weger, [How to explicitly solve a Thue-Mahler equation](https://www.numdam.org/item/CM_1992__84_3_223_0.pdf). Compositio Mathematica 84 (1992), 223-288.
 - **B06**: F. Beukers, [A refined version of the Siegel-Shidlovskii theorem](https://arxiv.org/abs/math/0405549). arXiv:math/0405549v3 (6 August 2004).
+- **Singer**: Michael F. Singer, [Introduction to the Galois Theory of Linear Differential Equations](https://singer.math.ncsu.edu/papers/LMSlectures.pdf), §1.3, pp.10–19 (arXiv:0712.4124).
 - **B08**: Frits Beukers, [E-functions and G-functions (lecture notes, Arizona Winter School 2008)](https://www.math.arizona.edu/~swc/aws/2008/08BeukersNotesDraft.pdf). draft of 26 February 2008.
 - **Fischler–Rivoal**: S. Fischler and T. Rivoal, [On Siegel's problem for E-functions](https://arxiv.org/abs/1910.06817). arXiv:1910.06817v3 (4 June 2020).
 - **AF17**: Boris Adamczewski and Colin Faverjon, [Méthode de Mahler : relations linéaires, transcendance et applications aux nombres automatiques](https://arxiv.org/abs/1508.07158). arXiv:1508.07158v2 (28 October 2016).

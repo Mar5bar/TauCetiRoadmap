@@ -13,23 +13,23 @@ specified, and logarithms carry their branches. The declarations state layer mil
 and the constructions whose mathematical existence is a target.
 -/
 
-/-! Supplier interfaces for ArithmeticHeights Layers 0 and 3 and
-LinearFormsInLogarithms Layer 0, expressed against the pinned imports. -/
+/-! Formula carriers for isolated signatures. These definitions have no provider ownership;
+provider import compatibility and the comparisons with provider declarations are README targets. -/
 
-namespace NumberField
+namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence.SignatureModel
 
 open Classical in
 /-- The relative Arakelov tuple height uses Euclidean infinite-place factors
 and max finite-place factors, with projective value one at zero. -/
-noncomputable def arakelovMulHeight {K : Type*} [Field K] [NumberField K]
+noncomputable def relativeEuclideanTupleHeight {K : Type*} [Field K] [NumberField K]
     {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
   if x = 0 then 1 else
-    (∏ v : InfinitePlace K, (∑ i, ‖v.embedding (x i)‖ ^ 2) ^ ((v.mult : ℝ) / 2)) *
-      ∏ᶠ v : FinitePlace K, ⨆ i, v (x i)
+    (∏ v : NumberField.InfinitePlace K, (∑ i, ‖v.embedding (x i)‖ ^ 2) ^ ((v.mult : ℝ) / 2)) *
+      ∏ᶠ v : NumberField.FinitePlace K, ⨆ i, v (x i)
 
 open Classical IntermediateField in
 /-- The absolute projective tuple height is computed in its finite coefficient field. -/
-noncomputable def absMulHeight {K : Type*} [Field K] [CharZero K]
+noncomputable def absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K]
     {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
   if hx : ∀ i, IsIntegral ℚ (x i) then
     let E := IntermediateField.adjoin ℚ (Set.range x)
@@ -40,35 +40,23 @@ noncomputable def absMulHeight {K : Type*} [Field K] [CharZero K]
       (Set.mem_range_self i)⟩ : E)) ^ (Module.finrank ℚ E : ℝ)⁻¹
   else 1
 
-end NumberField
-
-namespace Height
-
 /-- The affine tuple logarithmic height appends a coordinate one. -/
-noncomputable def logHeightAff {K : Type*} [Field K] [AdmissibleAbsValues K]
+noncomputable def relativeAffineLogHeight {K : Type*} [Field K] [Height.AdmissibleAbsValues K]
     {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
-  logHeight (fun o : Option ι => o.elim 1 x)
-
-end Height
-
-namespace Submodule
+  Height.logHeight (fun o : Option ι => o.elim 1 x)
 
 open Classical in
 /-- The relative Arakelov height of a coordinate subspace is the height of its minors. -/
-noncomputable def arakelovMulHeight {K : Type*} [Field K] [NumberField K] {n : ℕ}
+noncomputable def relativeEuclideanSubspaceHeight {K : Type*} [Field K] [NumberField K] {n : ℕ}
     (U : Submodule K (Fin n → K)) : ℝ :=
-  NumberField.arakelovMulHeight
+  relativeEuclideanTupleHeight
     (fun t : {t : Finset (Fin n) // t.card = Module.finrank K U} =>
       Matrix.det (Matrix.of fun i j =>
         (Module.finBasis K U i : Fin n → K) (t.1.orderEmbOfFin t.2 j)))
 
-end Submodule
-
-namespace TauCeti
-
 open Classical in
 /-- The analytic coefficient of multi-order α at x, with value zero off analyticity. -/
-noncomputable def mvTaylorCoeff {n : ℕ} (f : (Fin n → ℂ) → ℂ)
+noncomputable def taylorCoeff {n : ℕ} (f : (Fin n → ℂ) → ℂ)
     (x : Fin n → ℂ) (α : Fin n → ℕ) : ℂ :=
   if h : AnalyticAt ℂ f x then
     ∑ g ∈ Finset.univ.filter (fun g : Fin (∑ i, α i) → Fin n =>
@@ -76,7 +64,7 @@ noncomputable def mvTaylorCoeff {n : ℕ} (f : (Fin n → ℂ) → ℂ)
       h.choose (∑ i, α i) (fun j => Pi.single (g j) (1 : ℂ))
   else 0
 
-end TauCeti
+end TauCetiRoadmap.DiophantineApproximationAndTranscendence.SignatureModel
 
 namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence
 
@@ -1155,7 +1143,7 @@ theorem nonempty_specialization {K : Type*} [Field K] [IsAlgClosed K] [CharZero 
 
 /-- The absolute affine logarithmic height of an algebraic tuple is log H(1,x). -/
 def absoluteLogHeightAff {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) : ℝ :=
-  Real.log (NumberField.absMulHeight (Fin.cons 1 x))
+  Real.log (SignatureModel.absoluteProjectiveTupleHeight (Fin.cons 1 x))
 
 /-- Absolute affine tuple height is nonnegative. -/
 theorem absoluteLogHeightAff_nonneg {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) :
@@ -1177,7 +1165,7 @@ theorem scalarSumHeight_affine {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) :
 /-- Computing the absolute affine adapter over any containing number field gives the same value. -/
 theorem absoluteLogHeightAff_eq {K : Type*} [Field K] [NumberField K] {n : ℕ}
     (f : K →+* AlgebraicClosure ℚ) (x : Fin n → K) :
-    absoluteLogHeightAff (f ∘ x) = Height.logHeightAff x / Module.finrank ℚ K := by sorry
+    absoluteLogHeightAff (f ∘ x) = SignatureModel.relativeAffineLogHeight x / Module.finrank ℚ K := by sorry
 
 /-- Small nondegenerate hyperplane points have a degree-independent count (ESS02 Proposition 11.1). -/
 theorem smallHeightHyperplaneBound {n : ℕ} (hn : 2 ≤ n)
@@ -1199,7 +1187,7 @@ example (k : ℕ) :
     absoluteLogHeightAff
       (![(1 : AlgebraicClosure ℚ) / (2 ^ k + 1), 1 / (2 ^ k + 1)] :
         Fin 2 → AlgebraicClosure ℚ) = Real.log (2 ^ k + 1) ∧
-    NumberField.absMulHeight
+    SignatureModel.absoluteProjectiveTupleHeight
       (![(1 : AlgebraicClosure ℚ) / (2 ^ k + 1), 1 / (2 ^ k + 1)] :
         Fin 2 → AlgebraicClosure ℚ) = 1 := by sorry
 
@@ -1404,34 +1392,34 @@ example {Q : ℝ} (hQ : 1 < Q) :
       ℚ ∙ (![1, 0] : Fin 2 → ℚ) := by sorry
 
 open Classical in
-/-- The absolute Euclidean height adapter uses the supplier Arakelov height, with zero at zero. -/
+/-- The absolute Euclidean height adapter uses the isolated relative Euclidean height formula, with zero at zero. -/
 def height2 {ι : Type*} [Fintype ι] (y : ι → K) : ℝ :=
-  if y = 0 then 0 else NumberField.arakelovMulHeight y ^
+  if y = 0 then 0 else SignatureModel.relativeEuclideanTupleHeight y ^
     ((Module.finrank ℚ K : ℝ)⁻¹)
 
-/-- On a nonzero tuple, the Euclidean adapter is the degree root of relative Arakelov height. -/
+/-- On a nonzero tuple, the Euclidean adapter is the degree root of the isolated relative Euclidean height formula. -/
 theorem height2_eq_arakelovMulHeight {ι : Type*} [Fintype ι] {y : ι → K} (hy : y ≠ 0) :
-    height2 y = NumberField.arakelovMulHeight y ^ (Module.finrank ℚ K : ℝ)⁻¹ := by sorry
+    height2 y = SignatureModel.relativeEuclideanTupleHeight y ^ (Module.finrank ℚ K : ℝ)⁻¹ := by sorry
 
 /-- The absolute Euclidean adapter is invariant under number-field extension. -/
 theorem height2_baseExtension {E : Type*} [Field E] [NumberField E]
     {ι : Type*} [Fintype ι] (f : K →+* E) (y : ι → K) :
     height2 (f ∘ y) = height2 y := by sorry
 
-/-- The zero convention differs from the supplier's projective junk value. -/
+/-- The zero convention differs from the model projective value. -/
 example : height2 (0 : Fin 2 → ℚ) = 0 ∧
-    NumberField.arakelovMulHeight (0 : Fin 2 → ℚ) = 1 := by sorry
+    SignatureModel.relativeEuclideanTupleHeight (0 : Fin 2 → ℚ) = 1 := by sorry
 
 /-- A degree-two coefficient field has relative Arakelov height three at (√2,1). -/
 example (a : K) (ha : a ^ 2 = 2) (hK : Module.finrank ℚ K = 2) :
-    NumberField.arakelovMulHeight (![a, 1] : Fin 2 → K) = 3 ∧
+    SignatureModel.relativeEuclideanTupleHeight (![a, 1] : Fin 2 → K) = 3 ∧
       height2 (![a, 1] : Fin 2 → K) = Real.sqrt 3 := by sorry
 
 /-- Base extension to degree four changes the relative height to nine and preserves the absolute height. -/
 example {E : Type*} [Field E] [NumberField E] (f : K →+* E)
     (a : K) (ha : a ^ 2 = 2) (hK : Module.finrank ℚ K = 2)
     (hE : Module.finrank ℚ E = 4) :
-    NumberField.arakelovMulHeight (![f a, 1] : Fin 2 → E) = 9 ∧
+    SignatureModel.relativeEuclideanTupleHeight (![f a, 1] : Fin 2 → E) = 9 ∧
       height2 (![f a, 1] : Fin 2 → E) = Real.sqrt 3 := by sorry
 
 /-- Plücker coordinates: the `p × p` minors of the matrix with rows `x i`. -/
@@ -1450,9 +1438,9 @@ example : height2 (![2, 2] : Fin 2 → ℚ) = √2 := sorry
 /-- Swapping the identity rows reverses the Plücker sign. -/
 example : plucker (!![(0 : ℚ), 1; 1, 0]) ⟨Finset.univ, by simp⟩ = -1 := sorry
 
-/-- The absolute subspace Euclidean height is the degree root of its supplier Arakelov height. -/
+/-- The absolute subspace Euclidean height is the degree root of its isolated relative Euclidean height formula. -/
 def subspaceHeight (T : Submodule K (Fin n → K)) : ℝ :=
-  Submodule.arakelovMulHeight T ^ (Module.finrank ℚ K : ℝ)⁻¹
+  SignatureModel.relativeEuclideanSubspaceHeight T ^ (Module.finrank ℚ K : ℝ)⁻¹
 
 /-- The coordinate dot-product perpendicular is the transported dual annihilator. -/
 theorem orthogonalBilin_eq_dualAnnihilator_comap (U : Submodule K (Fin n → K)) :
@@ -1462,21 +1450,21 @@ theorem orthogonalBilin_eq_dualAnnihilator_comap (U : Submodule K (Fin n → K))
 /-- Sup and Euclidean Plücker heights have the dimension-dependent absolute comparison. -/
 theorem subspaceHeight_sup_le {p : ℕ} (x : Fin p → Fin n → K)
     (hx : LinearIndependent K x) :
-    NumberField.absMulHeight (plucker x) ≤ subspaceHeight (Submodule.span K (Set.range x)) ∧
+    SignatureModel.absoluteProjectiveTupleHeight (plucker x) ≤ subspaceHeight (Submodule.span K (Set.range x)) ∧
       subspaceHeight (Submodule.span K (Set.range x)) ≤
-        Real.sqrt (n.choose p) * NumberField.absMulHeight (plucker x) := by sorry
+        Real.sqrt (n.choose p) * SignatureModel.absoluteProjectiveTupleHeight (plucker x) := by sorry
 
 /-- EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T ≤ ∏_i height2 (x_i). -/
 theorem subspaceHeight_le_prod {p : ℕ} (x : Fin p → Fin n → K) (hx : LinearIndependent K x) :
     subspaceHeight (Submodule.span K (Set.range x)) ≤ ∏ i, height2 (x i) := by
   sorry
 
-/-- The supplier Arakelov duality transported along the coordinate pairing (EF (6.13)): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
+/-- Euclidean height duality transported along the coordinate pairing (EF (6.13)): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
 theorem subspaceHeight_orthogonal (T : Submodule K (Fin n → K)) :
     subspaceHeight (T.orthogonalBilin (dotProductBilin K K)) = subspaceHeight T := by
   sorry
 
-/-- The degree-root adapter for supplier Arakelov submodularity (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
+/-- The degree-root formula for Euclidean height submodularity (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
 theorem subspaceHeight_inf_mul_sup_le (T₁ T₂ : Submodule K (Fin n → K)) :
     subspaceHeight (T₁ ⊓ T₂) * subspaceHeight (T₁ ⊔ T₂) ≤
       subspaceHeight T₁ * subspaceHeight T₂ := by
@@ -1579,7 +1567,7 @@ example : deltaL (fun v : Place ℚ => match v with
 /-- The absolute height of all maximal minors of a finite collection of forms.
 Ordered injective selections repeat each unordered minor only up to sign. -/
 def formSystemHeight {R : ℕ} (A : Fin R → Fin n → K) : ℝ :=
-  NumberField.absMulHeight (fun f : Fin n ↪ Fin R =>
+  SignatureModel.absoluteProjectiveTupleHeight (fun f : Fin n ↪ Fin R =>
     Matrix.det (Matrix.of fun i j => A (f i) j))
 
 /-- Enumerating the same collection in another order preserves its determinant-tuple height. -/
@@ -1600,7 +1588,7 @@ theorem deltaL_le_formSystemHeight {R : ℕ} (A : Fin R → Fin n → K)
 theorem formSystemHeight_augmented_le {R : ℕ} (hn : 1 ≤ n)
     (A : Fin R → Fin n → K) :
     formSystemHeight A ≤ (n : ℝ) ^ ((n : ℝ) / 2) *
-      ∏ i, NumberField.absMulHeight (Fin.cons 1 (A i)) := by sorry
+      ∏ i, SignatureModel.absoluteProjectiveTupleHeight (Fin.cons 1 (A i)) := by sorry
 
 /-- The minor height for X,Y,X+Y is one, while the last Euclidean row height is √2. -/
 example : formSystemHeight (![![1, 0], ![0, 1], ![1, 1]] : Fin 3 → Fin 2 → ℚ) = 1 ∧
@@ -1717,7 +1705,7 @@ theorem exists_compound_auxiliary_polynomial {k N m R : ℕ}
     (hneg : ∀ h, ∑ l, compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l ≤ -δ / n)
     (habs : ∀ h l, |compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l| ≤ n)
     (hInv : ∀ V : Finset (Place K),
-      NumberField.absMulHeight
+      SignatureModel.absoluteProjectiveTupleHeight
         (fun o : Option (V × Fin N × Fin N) => o.elim 1
           (fun p => ((Matrix.of fun a b =>
             compoundForms (n - k) (L p.1.1) (e a) (e b)) : Matrix (Fin N) (Fin N) K)⁻¹
@@ -2267,14 +2255,14 @@ def mDeriv (σ : Fin n → ℕ) (f : (Fin n → ℂ) → ℂ) : (Fin n → ℂ) 
   (List.finRange n).foldr
     (fun i g ↦ (fun (g' : (Fin n → ℂ) → ℂ) (z : Fin n → ℂ) ↦ fderiv ℂ g' z (Pi.single i 1))^[σ i] g) f
 
-/-- An analytic ordinary partial derivative is the factorial product times its shared Taylor coefficient. -/
+/-- An analytic ordinary partial derivative is the factorial product times its isolated Taylor coefficient formula. -/
 theorem mDeriv_eq_factorial_mul_mvTaylorCoeff (σ : Fin n → ℕ)
     (f : (Fin n → ℂ) → ℂ) (z : Fin n → ℂ) (hf : AnalyticAt ℂ f z) :
-    mDeriv σ f z = (∏ i, ((σ i).factorial : ℂ)) * TauCeti.mvTaylorCoeff f z σ := by sorry
+    mDeriv σ f z = (∏ i, ((σ i).factorial : ℂ)) * SignatureModel.taylorCoeff f z σ := by sorry
 
 /-- The mixed order (2,3) has factorial product twelve. -/
 example : mDeriv ![2, 3] (fun z : Fin 2 → ℂ => z 0 ^ 2 * z 1 ^ 3) 0 = 12 ∧
-    TauCeti.mvTaylorCoeff (fun z : Fin 2 → ℂ => z 0 ^ 2 * z 1 ^ 3) 0 ![2, 3] = 1 := by sorry
+    SignatureModel.taylorCoeff (fun z : Fin 2 → ℂ => z 0 ^ 2 * z 1 ^ 3) 0 ![2, 3] = 1 := by sorry
 
 /-- Unit test `Baker.mDeriv_zero_example`: (degenerate) mDeriv 0 f = f. -/
 example (f : (Fin n → ℂ) → ℂ) : mDeriv 0 f = f := by sorry
@@ -2971,6 +2959,47 @@ theorem andre_eFunction_equation {a : ℕ → ℂ} (ha : IsEFunction a) :
         ∑ k : Fin m, (PowerSeries.X ^ (k : ℕ) * (q k : PowerSeries ℂ)) *
           (⇑(PowerSeries.derivative (R := ℂ)))^[k] (ePowerSeries a) = 0) := sorry
 
+/-- Every holomorphic local solution of the minimal equation of a rational E-function
+vanishing at one also vanishes there. -/
+theorem eFunction_rational_minimal_equation_zero {a : ℕ → ℂ} (ha : IsEFunction a)
+    (hq : ∀ m, ∃ q : ℚ, a m = q) (ha0 : ePowerSeries a ≠ 0) (h1 : eFun a 1 = 0)
+    (hf : IsDFinite ⊥ (ePowerSeries a))
+    (p : Fin (dfiniteOrder ⊥ (ePowerSeries a) hf + 1) → Polynomial ℂ)
+    (hpk : ∀ i m, (p i).coeff m ∈ (⊥ : Subfield ℂ))
+    (hlast : p (Fin.last _) ≠ 0)
+    (hp : ∑ i, (p i : PowerSeries ℂ) *
+      (⇑(PowerSeries.derivative (R := ℂ)))^[i] (ePowerSeries a) = 0)
+    (g : ℂ → ℂ) (hg : AnalyticAt ℂ g 1)
+    (hsol : ∀ᶠ z in nhds (1 : ℂ), ∑ i, (p i).eval z * iteratedDeriv i g z = 0) :
+    g 1 = 0 := by sorry
+
+/-- Every holomorphic local solution of an E-function's minimal equation vanishes at
+its nonzero algebraic zero, by the identity-component and conjugate-compositum transfer. -/
+theorem eFunction_minimal_equation_zero {a : ℕ → ℂ} (ha : IsEFunction a)
+    (ha0 : ePowerSeries a ≠ 0) {ξ : ℂ} (hξ : IsAlgebraic ℚ ξ) (hξ0 : ξ ≠ 0)
+    (hzero : eFun a ξ = 0)
+    (p : Fin (dfiniteOrder ((algebraicClosure ℚ ℂ).toSubfield)
+      (ePowerSeries a) ha.isDFinite + 1) → Polynomial ℂ)
+    (hpk : ∀ i m, IsAlgebraic ℚ ((p i).coeff m))
+    (hlast : p (Fin.last _) ≠ 0)
+    (hp : ∑ i, (p i : PowerSeries ℂ) *
+      (⇑(PowerSeries.derivative (R := ℂ)))^[i] (ePowerSeries a) = 0)
+    (g : ℂ → ℂ) (hg : AnalyticAt ℂ g ξ)
+    (hsol : ∀ᶠ z in nhds ξ, ∑ i, (p i).eval z * iteratedDeriv i g z = 0) :
+    g ξ = 0 := by sorry
+
+/-- The analytic equation y″+y=0 has a solution vanishing at one and another nonvanishing there. -/
+example :
+    (∀ z : ℂ, iteratedDeriv 2 (fun w => Complex.sin (w - 1)) z + Complex.sin (z - 1) = 0) ∧
+    Complex.sin ((1 : ℂ) - 1) = 0 ∧
+    (∀ z : ℂ, iteratedDeriv 2 (fun w => Complex.cos (w - 1)) z + Complex.cos (z - 1) = 0) ∧
+    Complex.cos ((1 : ℂ) - 1) = 1 := by sorry
+
+/-- Holomorphic solutions of (z−1)y′−zy=0 vanish at one. -/
+example (g : ℂ → ℂ) (hg : AnalyticAt ℂ g 1)
+    (hsol : ∀ᶠ z in nhds (1 : ℂ), (z - 1) * deriv g z - z * g z = 0) :
+    g 1 = 0 := by sorry
+
 /-- Polynomial functional relations admit a basis retaining full row rank at every complex specialization. -/
 theorem exists_relation_basis_full_rank_specialisation {n : ℕ} (f : Fin n → PowerSeries ℂ) :
     ∃ (r : ℕ) (C : Fin r → Fin n → Polynomial ℂ),
@@ -3012,12 +3041,14 @@ theorem siegel_shidlovskii {n : ℕ} (a : Fin n → ℕ → ℂ) (ha : ∀ i, Is
       Algebra.trdeg (RatFunc ℂ) (IntermediateField.adjoin (RatFunc ℂ)
         (Set.range fun i => ((ePowerSeries (a i) : PowerSeries ℂ) : ℂ⸨X⸩))) := sorry
 
-/-- Dividing an E-function by a linear factor at a nonzero algebraic zero preserves the E-function conditions. -/
+/-- The general minimal-equation zero theorem supplies conjugate vanishing, so division
+by a linear factor at a nonzero algebraic zero preserves the E-function conditions. -/
 theorem isEFunction_div_linear {a : ℕ → ℂ} (ha : IsEFunction a) {ξ : ℂ} (hξ : IsAlgebraic ℚ ξ)
     (hξ0 : ξ ≠ 0) (h : eFun a ξ = 0) :
     ∃ b : ℕ → ℂ, IsEFunction b ∧ ∀ z, eFun a z = (z - ξ) * eFun b z := sorry
 
-/-- Beukers, Theorem 1.5: removal of the nonzero singularities. -/
+/-- Nonzero singularities are removed by polynomial factors over the algebraic numbers;
+the transformed E-function system has coefficients over the same algebraic constant field. -/
 theorem beukers_removal_of_singularities {n : ℕ} (a : Fin n → ℕ → ℂ)
     (ha : ∀ i, IsEFunction (a i)) (T : Polynomial ℂ) (M : Matrix (Fin n) (Fin n) (Polynomial ℂ))
     (hT0 : T ≠ 0) (hT : ∀ j, IsAlgebraic ℚ (T.coeff j))
@@ -3027,8 +3058,28 @@ theorem beukers_removal_of_singularities {n : ℕ} (a : Fin n → ℕ → ℂ)
     ∃ (e : Fin n → ℕ → ℂ) (B : Matrix (Fin n) (Fin n) (Polynomial ℂ)) (k : ℕ)
       (N : Matrix (Fin n) (Fin n) (Polynomial ℂ)),
       (∀ i, IsEFunction (e i)) ∧ B.det ≠ 0 ∧
+      (∀ i j m, IsAlgebraic ℚ ((B i j).coeff m)) ∧
+      (∀ i j m, IsAlgebraic ℚ ((N i j).coeff m)) ∧
       (∀ i, ePowerSeries (a i) = ∑ j, (B i j : PowerSeries ℂ) * ePowerSeries (e j)) ∧
       SolvesSystem (Polynomial.X ^ k) N fun i => ePowerSeries (e i) := sorry
+
+/-- Differentiating F=B E gives the gauge coefficient B⁻¹ A B−B⁻¹ B′. -/
+theorem solvesSystem_gauge_transform {n : ℕ} (F E : ℂ → Fin n → ℂ)
+    (B : ℂ → Matrix (Fin n) (Fin n) ℂ) (A : Matrix (Fin n) (Fin n) ℂ) (ξ : ℂ)
+    (hE : ∀ i, DifferentiableAt ℂ (fun z => E z i) ξ)
+    (hB : ∀ i j, DifferentiableAt ℂ (fun z => B z i j) ξ)
+    (hdet : (B ξ).det ≠ 0) (hF : ∀ᶠ z in nhds ξ, F z = (B z).mulVec (E z))
+    (hsys : (fun i => deriv (fun z => F z i) ξ) = A.mulVec (F ξ)) :
+    (fun i => deriv (fun z => E z i) ξ) =
+      ((B ξ)⁻¹ * A * B ξ - (B ξ)⁻¹ *
+        Matrix.of (fun i j => deriv (fun z => B z i j) ξ)).mulVec (E ξ) := by sorry
+
+/-- Removing the scalar factor z−1 from (z−1)exp z gives coefficient one. -/
+example {z : ℂ} (hz : z ≠ 1) :
+    (z - 1)⁻¹ * (1 + (z - 1)⁻¹) * (z - 1) - (z - 1)⁻¹ * 1 = 1 := by
+  have h : z - 1 ≠ 0 := sub_ne_zero.mpr hz
+  field_simp
+  ring
 
 /-- Galochkin–Chudnovsky: values of G-functions at rationals very close to `0`. -/
 theorem galochkin_chudnovsky {n : ℕ} (a : Fin n → ℕ → ℂ) (ha : ∀ i, IsGFunction (a i))
@@ -3181,7 +3232,27 @@ theorem modularZeroEstimate :
       analyticOrderAt (fun q => MvPolynomial.eval (modularQSeries q) P) 0 ≤
         (⌈C * (P.totalDegree : ℝ) ^ 4⌉₊ : ℕ∞) := by sorry
 
-/-- Integral auxiliary polynomials have controlled coefficients and order comparable to d⁴. -/
+/-- Reserving half the monomial variables bounds the Siegel exponent by one and
+supplies an integral kernel vector with logarithmic coefficient bound log 2+log(2NB). -/
+theorem modularSiegelHalfNullity (d : ℕ) (hd : 1 ≤ d)
+    (A : Matrix (Fin (((d + 4).choose 4) / 2)) (Fin ((d + 4).choose 4)) ℤ)
+    {B : ℝ} (hB : 1 ≤ B) (hA : ∀ i j, |(A i j : ℝ)| ≤ B) :
+    let N := (d + 4).choose 4
+    let M := N / 2
+    0 < M ∧ M < N ∧ (N : ℝ) / 2 ≤ (N - M : ℕ) ∧
+      (M : ℝ) / (N - M : ℕ) ≤ 1 ∧
+      ∃ v : Fin N → ℤ, v ≠ 0 ∧ (∀ i, ∑ j, A i j * v j = 0) ∧
+        (∀ j, |(v j : ℝ)| ≤ 2 * (2 * N * B) ^ ((M : ℝ) / (N - M : ℕ))) ∧
+        Real.log (⨆ j, |(v j : ℝ)|) ≤ Real.log 2 + Real.log (2 * N * B) := by sorry
+
+/-- At degree two, the half-nullity monomial system has fifteen variables and seven equations. -/
+example : (2 + 4).choose 4 = 15 ∧ ((2 + 4).choose 4) / 2 = 7 ∧
+    (7 : ℝ) / (15 - 7) = 7 / 8 := by
+  refine ⟨by decide, by decide, ?_⟩
+  norm_num
+
+/-- Integral auxiliary polynomials from a half-nullity system have controlled coefficients
+and order comparable to d⁴. -/
 theorem modularAuxiliaryPolynomial :
     ∃ c C : ℝ, 0 < c ∧ 0 < C ∧ ∃ d₀ : ℕ, ∀ d : ℕ, d₀ ≤ d → 2 ≤ d →
       ∃ P : MvPolynomial (Fin 4) ℤ, P ≠ 0 ∧ P.totalDegree ≤ d ∧
@@ -3316,6 +3387,10 @@ absoluteMinimaRealScales, absoluteCompoundGapData,
 smallHeightHyperplaneSeparation, finiteRankHeightPacking, unitEquationHeightAssembly,
 finiteRankUnitEquationReduction, ramanujanDProperty,
 modularValueDerivativeSelection and modularValueIndependenceCriterion.
+The differential-Galois construction targets are picardVessiotAnalyticComparison,
+picardVessiotFixedField, eFunction_identityOrbit_span, picardVessiotConjugateCompositum,
+identityComponent_projection_surjective and eFunction_conjugate_zero_transfer.
+Their field, constant, analytic-germ, orbit and compositum hypotheses are specified in §5.4.
 The coefficient product norm in the compound theorem uses the same
 compoundDerivativeCoeff expansion for every order, with value zero for a zero derivative. -/
 
