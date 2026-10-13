@@ -2678,14 +2678,19 @@ d(z,m)² + d(x,y)²/4 ≤ (d(z,x)² + d(z,y)²)/2,    m the midpoint of [x,y],
 ```
 
 holds; the chamber retractions are `1`-Lipschitz. On the enlarged building the metric is the
-Euclidean product of the reduced metric and a Euclidean metric on `V¹`. The scalar product is a
-choice: it is unique only up to a positive factor on each irreducible component of the root system
-and on `V¹` ([Bruhat–Tits II], 4.2.12 and 4.2.16, pp. 92 and 94). In the proposed Lean form the
-metric is the one of a scalar product chosen once for the group `H`: fix its central form and its
-scale on each semisimple component, and transport them to every choice `(D, φ)`. Euclidean
-apartments, invariance, completeness, the CAT(0) inequality, bounded sets and fixed points hold for
-each choice (for `GL_1` the metric is `c·|s − t|` for some `c > 0`), and
-`Building.isometry_equivOfChoices` uses these transported choices for two data of the same group.
+Euclidean product of the reduced metric and a Euclidean metric on `V¹` ([Bruhat–Tits II], 4.2.12
+and 4.2.16, pp. 92 and 94). The scalar product is a parameter of the metric. The `W_0`-invariant
+scalar products on `V` are exactly the orthogonal sums of a positive multiple of the invariant form
+on each irreducible component of the root system and an arbitrary positive definite form on `V¹`
+(derived here: `W_0` fixes `V¹` pointwise and the span of the `v − wv` is the semisimple part), so
+when `dim V¹ > 1` the central form is not determined up to one factor. In the proposed Lean form the
+metric is that of a given invariant scalar product `B`. Euclidean apartments, invariance,
+completeness, the CAT(0) inequality, bounded sets and fixed points hold for every `B` (for `GL_1`
+the metric is `c·|s − t|` for some `c > 0`), and `Building.isometry_equivOfChoices` compares the
+metric of `B` with that of its transport along the identification of two data `(D, φ)` of the same
+group, the same parameter on both sides. A map to the building of another group is isometric only
+for compatible forms: for the toral embeddings of *toral-embedding-into-gl-building* the form on
+`V` is the pullback of the one on the target.
 [Fintzen], §3, p. 12 (before Prop. 3.12), normalizes the scalar product by `|α(x − y)| ≤ d_E(x,y)`
 for the roots `α` over a tame splitting field `E` and takes `d` to be the restriction of `d_E`; that
 uses the valuation of `E` extending the one of `K`, whereas this roadmap normalizes the valuation of
@@ -2705,6 +2710,9 @@ inequality); [Bruhat–Tits I], 2.5.12 and 7.5.1, pp. 45 and 180 (completeness f
   coordinate, for some `c > 0` that depends on the chosen scalar product.
 - `Building.gl1_dist_two_terms` — a uniformizer of `GL_1(E)` moves every point by the same
   distance `d > 0` and its square moves it by `2d`.
+- `Building.central_form_not_scalar` (non-example) — for the split torus `G_m × G_m`, `W_0 = 1`
+  and `V = V¹ = ℝ²`, and the invariant forms `s² + t²` and `s² + 2t²` are not proportional: the
+  central form is a choice of positive definite form, not of one factor.
 
 **The Bruhat–Tits fixed point theorem.** (*bruhat-tits-fixed-point-theorem*) Let `φ` be discrete.
 (1) A group of isometries with a bounded orbit fixes the circumcentre of that orbit, which lies in
@@ -3245,10 +3253,18 @@ identifications, in existence form).
 **Equivariant toral embeddings into the GL building.** (*toral-embedding-into-gl-building*) Let `K`
 be a nonarchimedean local field, `G` a connected reductive `K`-group with maximal split torus `S`,
 and `ρ : G → GL(V)`, `V = K^n`, a faithful representation (a closed immersion). (1) There is a
-`G(K)`-equivariant toral isometric embedding `ι : B(G,K) → B(GL(V),K)` of enlarged buildings
-(Landvogt); toral means that `ι` maps the apartment `A(S)` affinely into the apartment of a maximal
-split torus of `GL(V)` containing `ρ(S)`. It is not unique: it depends on the image of a special
-point ([Kisin–Pappas], §1.2.1, p. 131). In `GLBuilding`, `exists_toralEmbedding` states, for `ρ`
+`G(K)`-equivariant toral embedding `ι : B(G,K) → B(GL(V),K)` of enlarged buildings (Landvogt);
+toral means that `ι` maps the apartment `A(S)` affinely into the apartment of a maximal split torus
+`T'` of `GL(V)` containing `ρ(S)`. It is not unique: it depends on the image of a special point
+([Kisin–Pappas], §1.2.1, p. 131, for Landvogt's toral isometric embedding). Equivariance under
+`S(K)` forces the linear part `dι` of `ι` on `A(S)` to be the map `X_*(S) ⊗ ℝ → X_*(T') ⊗ ℝ`
+induced by `ρ`, which is injective because `ρ` is faithful. For a Weyl-invariant scalar product
+`B_GL` on the apartment of `GL(V)`, `ι` is isometric exactly for the scalar product
+`B_G(v,w) = B_GL(dι(v), dι(w))` on `X_*(S) ⊗ ℝ`, which is positive definite and `W_0`-invariant
+(each `n ∈ N(K)` acts on `ι(A(S))` through the isometry `ρ(n)`); for a scalar product on
+`X_*(S) ⊗ ℝ` fixed independently of `ρ`, the embeddings of two faithful representations need not
+both be isometric (Check `toralEmbedding_metric_mismatch`). This compatibility of the forms is
+derived here. In `GLBuilding`, `exists_toralEmbedding` states, for `ρ`
 given by a surjective map `f` of coordinate Hopf algebras, that an injective `G(K)`-equivariant
 toral map from `B(G,K)` to `SplittableNorm K n` exists: some `h ∈ GL_n(K)` conjugates `ρ(S(K))` into
 the diagonal torus, and `ι` sends the apartment point with displacement `x` to `h · α_{A(x)}`, with
@@ -3270,6 +3286,13 @@ toral embeddings `B(G,K^ur) → B(GL(V),K^ur)` differ by a shift `ι' = t + ι` 
   from the building `ℝ` of `G_m`, so the representation must be algebraic.
 - `toral_identity` — for the identity representation of `GL_n`, the conclusion of
   `exists_toralEmbedding` holds with `ι = buildingEquiv n`, `h = 1` and `A = standardCoordinates n`.
+- `toralEmbedding_metric_mismatch` (non-example) — for `G = G_m` and the faithful
+  `ρ₂(t) = diag(t, t²)`, `ρ₃(t) = diag(t, t³)` into `GL_2`, the weights are distinct, so `T'` is the
+  diagonal torus, and equivariance forces `dι(1) = (1, 2)`, respectively `(1, 3)`.
+  For a Weyl-invariant `B_GL` on `ℝ²` put `c = B_GL((1,1),(1,1))` and `d = B_GL((1,−1),(1,−1))`,
+  the two lines being orthogonal; the squared lengths are `9c/4 + d/4` and `4c + d`, which differ by
+  `7c/4 + 3d/4 > 0`, so no single scalar product on `X_*(G_m) ⊗ ℝ = ℝ` makes both isometric, while
+  each is isometric for its own pullback.
 
 **Kisin–Pappas minuscule building embeddings.** (*minuscule-toral-embedding*) (1) Let `G` be split
 with a reductive model `G_O` and hyperspecial point `x_o` (stabilizer `G_O(O)`), let
@@ -3277,9 +3300,10 @@ with a reductive model `G_O` and hyperspecial point `x_o` (stabilizer `G_O(O)`),
 `a_i : G ↠ G_i` onto a split reductive group (for `K = k((π))`, each `a_i` separable on root
 subgroups), and let `Λ_i ⊂ V_i` be `O`-lattices with `ρ_i(G_O(O^ur)) ⊂ GL(Λ_i ⊗ O^ur)`. Then a
 Galois- and `G(K^ur)`-equivariant toral `ι : B(G,K^ur) → B(GL(V),K^ur)` with
-`ι(x_o) = [(⊕Λ_i) ⊗ O^ur]` exists; if `ρ` is faithful, `ι` is an isometric embedding, it is unique,
-and it restricts to a `G(K)`-equivariant embedding of `B(G,K)` ([Kisin–Pappas], Prop. 1.2.3 and
-Lem. 1.2.5, pp. 132–133). (2) Let `char K = 0`, let `G` be split over a tame Galois extension
+`ι(x_o) = [(⊕Λ_i) ⊗ O^ur]` exists; if `ρ` is faithful, `ι` is an embedding, isometric for the scalar
+product pulled back as in *toral-embedding-into-gl-building*, it is unique, and it restricts to a
+`G(K)`-equivariant embedding of `B(G,K)` ([Kisin–Pappas], Prop. 1.2.3 and Lem. 1.2.5, pp. 132–133).
+(2) Let `char K = 0`, let `G` be split over a tame Galois extension
 `K̃ ⊃ K^ur` with finite inertia group `Gal(K̃/K^ur)`, and let `ρ` be minuscule. The split map for `G_{K̃}` is equivariant for the twisted
 Galois action, and passing to inertia fixed points gives a `G(K^ur)`-equivariant toral map for
 `G`, compatible with Levi factorizations, which is an embedding when `ρ` is faithful
@@ -3659,14 +3683,44 @@ arXiv p. 16). In `IntegralModel`, prove `extend_iff` ((2) for strictly henselian
 **Big-cell criteria.** (*big-cell-criteria*) Let `O` be a DVR. (1) A morphism `𝒢 → 𝒢'` of
 smooth affine `O`-groups with connected fibres which is an isomorphism generically and an open
 immersion on a fibrewise dense open `U ∋ 1` is an open immersion, and an isomorphism if `𝒢'` has
-connected fibres; maps defined on `U` extend uniquely. (2) Let `𝒢` be the closure of `G`,
-given by a schematic root datum, in a smooth affine `O`-group; if `𝒢` is flat and the closures
-`𝒯`, `𝒰_a` of the torus and of the root groups are smooth, then
-`∏_{a<0}𝒰_a × 𝒯 × ∏_{a>0}𝒰_a ↪ 𝒢` is an open dense big cell, `𝒢` is smooth and `𝒢°` is
-affine ([Bruhat–Tits II], 1.2.13–1.2.14, pp. 20–21; [Bruhat–Tits II], 2.2.3–2.2.5, pp. 44–45;
-[Kisin–Pappas], proof of Prop. 1.1.4 (arXiv p. 8) and step 1) of the proof of Prop. 1.3.3
-(arXiv pp. 17–18)). *Needs:* *schematic-closure*; *smooth-affine-model*.
+connected fibres; maps defined on `U` extend uniquely. (2) The products are indexed by the
+nondivisible roots. For the relative root system `Φ = Φ(G,S)`, possibly non-reduced, put
+`Φ_nd := {a ∈ Φ : a/2 ∉ Φ}` and `Φ_nd^± := Φ_nd ∩ Φ^±`; for `a ∈ Φ_nd` the factor is the full
+root group `U_a` of RG2.1 *rational-points-root-datum*, the root group of the ray `ℝ_{>0}a`, which
+contains `U_{2a}` when `2a ∈ Φ`. On the generic fibre the product map
+`∏_{a∈Φ_nd^−}U_a × Z × ∏_{a∈Φ_nd^+}U_a → G`, factors in any fixed order, is an open immersion, and
+`∏_{a∈Φ_nd^+}U_a → U^+` is an isomorphism of varieties ([Bruhat–Tits II], 1.1.2–1.1.3, p. 13, and
+1.1.7 and 1.1.9, p. 14, indexed there by root rays; [Bruhat–Tits I], (6.4.9) (ii), p. 136, for the
+same product on the filtration subgroups `U_f^+` of a valued root datum). The index set is
+neither `Φ`, since by (DR3) `U_{2a} ⊂ U_a` and a product with both an `a`-factor and a `2a`-factor
+sends `u ∈ U_{2a} ∖ 1` in the first and `u^{-1}` in the second (all other entries `1`) to `1`, nor
+the nonmultipliable set `Φ_nm` of the échelonnage, which keeps `U_{2a}` and loses the rest of the
+`a`-direction. Let `𝒢` be the closure of `G`, given by a schematic root datum, in a smooth affine
+`O`-group; if `𝒢` is flat and the closures `𝒯`, `𝒰_a` (`a ∈ Φ_nd`) of the torus and of these root
+groups are smooth, then `∏_{a∈Φ_nd^−}𝒰_a × 𝒯 × ∏_{a∈Φ_nd^+}𝒰_a ↪ 𝒢` is an open dense big cell
+extending the generic one, `𝒢` is smooth and `𝒢°` is affine ([Bruhat–Tits II], 1.2.13–1.2.14,
+pp. 20–21; [Bruhat–Tits II], 2.2.3–2.2.5, pp. 44–45; [Bruhat–Tits II], 4.6.2, p. 114, for the
+product over the nondivisible elements `Ψ_nd` of a quasi-closed `Ψ ⊆ Φ^+`; [Kisin–Pappas], proof
+of Prop. 1.1.4 (arXiv p. 8) and step 1) of the proof of Prop. 1.3.3 (arXiv pp. 17–18)). *Needs:*
+*schematic-closure*; *smooth-affine-model*; RG2.1 *rational-points-root-datum*; ReductiveGroups
+layer 7.
 *Lean:* none (README-only).
+
+**Checks.**
+
+- `bigCell_gl_n` — for `GL_n` the root system is reduced, `Φ_nd = Φ`, and the generic big cell
+  `U^− × T × U^+` is the open set of matrices whose leading principal minors are nonzero (the `LDU`
+  factorization); over `O` its integral points are those with unit leading principal minors.
+- `bigCell_su3` — for `SU_3(K'/K)` of RG2.1 *unitary-rank-one-example*, `Φ_nd^+ = {a}` and
+  `(y, t, x) ↦ ytx` from `U_{−a}(K) × Z(K) × U_a(K)` to `SU_3(K)` is injective: `ytx = y't'x'`
+  gives `y'^{-1}y = t'x'x^{-1}t^{-1} ∈ U_{−a}(K) ∩ Z(K)U_a(K) = {1}` by (DR6), then `t = t'` and
+  `x = x'`; the domain has dimension `3 + 2 + 3 = 8 = dim SU_3`.
+- `bigCell_su3_doubled_factor` (non-example) — indexing by `Φ` adds the factors `U_{±2a}`, of
+  dimension `1`, and the map is no longer injective: for `v ≠ 0` with `v + v̄ = 0`,
+  `x_a(0, v) ∈ U_{2a}` in the `a`-factor and `x_a(0, −v) = x_a(0, v)^{-1}` in the `2a`-factor
+  multiply to `1`; the domain has dimension `10 > 8`.
+- `bigCell_su3_nonmultipliable` (non-example) — indexing by `Φ_nm = {±2a}` gives
+  `U_{−2a} × Z × U_{2a}`, of dimension `4 < 8`, whose image is not open.
 
 **Quotients of group schemes over a DVR.** (*quotients-over-a-dvr*) Let `S` be locally
 noetherian of dimension `dim S ≤ 1`, `𝒢` an lft `S`-group scheme and `ℋ ⊂ 𝒢` a closed `S`-flat
@@ -3813,8 +3867,10 @@ residue field), and let `Ω ⊂ A` be nonempty and bounded. The Bruhat–Tits gr
 smooth affine `O`-model of `G` with `𝒢_Ω(O^sh) = Fix(Ω) ∩ G(K^sh)^1` and `𝒢_Ω(O) = Fix(Ω) ∩ G(K)^1`;
 it depends only on `Ω` as a subset of the building and not on the apartment `A`, and
 `𝒢_{gΩ} = g𝒢_Ωg^{-1}`. Over `K^sh`, where `G` is quasi-split, it is built from the schematic root
-datum: the closures `𝒰_{a,Ω}` with `𝒰_{a,Ω}(O^sh) = U_{a,f_Ω(a)}`, the Néron-type model `𝒵` of `Z`,
-and the open big cell `∏_{a<0}𝒰_{a,Ω} × 𝒵 × ∏_{a>0}𝒰_{a,Ω}`, which generates an open subgroup
+datum: for each nondivisible root `a ∈ Φ_nd` (*big-cell-criteria*), the closure `𝒰_{a,Ω}` of the
+full root group `U_a ⊇ U_{2a}` with `𝒰_{a,Ω}(O^sh) = U_{a,f_Ω(a)}`, the Néron-type model `𝒵` of
+`Z`, and the open big cell `∏_{a∈Φ_nd^−}𝒰_{a,Ω} × 𝒵 × ∏_{a∈Φ_nd^+}𝒰_{a,Ω}` ([Bruhat–Tits II],
+4.6.2, p. 114), which generates an open subgroup
 scheme determined by `f_Ω`; `𝒢_Ω` is the union of its translates by the fixer of `Ω` in
 `N(K^sh) ∩ G(K^sh)^1`. In general it is obtained by étale descent, the construction being
 Galois-stable when `Ω` is. The function `f_Ω`, and with it that open subgroup scheme and the
@@ -3877,7 +3933,8 @@ determine a smooth model, and `𝒢_Ω` is the étale descent of its base change
 **Parahoric group schemes.** (*parahoric-group-scheme*) For `Ω ⊂ A` nonempty and bounded, the
 parahoric group scheme is `𝒢°_Ω := (𝒢_Ω)°`, a smooth affine model with connected special fibre
 and `𝒢°_Ω(O^sh) = P°_Ω`, the connected fixer; its big cell is
-`∏_{a<0}𝒰_{a,Ω} × 𝒵° × ∏_{a>0}𝒰_{a,Ω}`. Since this big cell is determined by `f_Ω`, `𝒢°_Ω`
+`∏_{a∈Φ_nd^−}𝒰_{a,Ω} × 𝒵° × ∏_{a∈Φ_nd^+}𝒰_{a,Ω}`, indexed by the nondivisible roots as in
+*big-cell-criteria*. Since this big cell is determined by `f_Ω`, `𝒢°_Ω`
 depends only on the enclosure `cl(Ω)` ([Bruhat–Tits II], 4.6.27, p. 135); in particular, for a
 facet `F`, `𝒢°_F = 𝒢°_x` for any `x ∈ F` is the parahoric group scheme of `F`, and it depends only
 on the image of `F` in the reduced building.
@@ -3900,7 +3957,8 @@ morphisms of models `𝒢°_x ≅ 𝒢°_y`; the full fixers `𝒢_x`, `𝒢_y` 
 is an isomorphism for every nonempty finite `Ω`, since `κ_G = 1` makes every fixer a parahoric)
 ([Bruhat–Tits II], 4.6.28 and 4.6.32, pp. 135–137; [Bruhat–Tits II], 5.2.6, p. 164;
 [Haines–Rapoport], Prop. 3 and Rem. 4, pp. 1–3; [Kisin–Pappas], §1.1.2, arXiv pp. 6–7). *Needs:*
-*bruhat-tits-group-scheme*; *neron-finite-type-and-connected-models*; *extension-principle*.
+*bruhat-tits-group-scheme*; *big-cell-criteria*; *neron-finite-type-and-connected-models*;
+*extension-principle*.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -4411,12 +4469,15 @@ for every `r`. For other points `G_{gx,r} = gG_{x,r}g^{−1}`, and `G_{y,r+} := 
 `U_{a,x,r}` cut out by the affine roots `α` of gradient `a` with `α(x) ≥ r`: over `K^ur` this is the
 definition above, [Adler], §1.4, p. 9, and for split `G` it is used in [Adler], proof of Prop.
 1.4.3, p. 11; over `K` it follows by taking `Gal(K^ur/K)`-fixed points in the unique product
-decomposition of `G(K^ur)_{x,r}` along the relative roots). These statements need no tameness and no
-condition on `p` ([Moy–Prasad 1996], §2.1, p. 100, works with any connected reductive group over a
-nonarchimedean local field of any characteristic). The sources state them over a nonarchimedean
-local field and its maximal unramified extension; here they are stated over every `K` as above, the
-setting of the unramified descent of [Bruhat–Tits II], 5.1.1, pp. 145–146, which includes `Ĕ`.
-*Needs:* *parahoric-subgroup*; *reductive-quotient-of-special-fibre*; RG2.1
+decomposition of `G(K^ur)_{x,r}` along the relative roots of `A`, with one factor
+`G(K^ur)_{x,r} ∩ U_a(K^ur) = U_{a,x,r}·U_{2a,x,r}` for each nondivisible root `a`, as in
+*big-cell-criteria* and [Bruhat–Tits I], (6.4.9) (i)–(ii), p. 136). These statements need no
+tameness and no condition on `p` ([Moy–Prasad 1996], §2.1, p. 100, works with any connected
+reductive group over a nonarchimedean local field of any characteristic). The sources state them
+over a nonarchimedean local field and its maximal unramified extension; here they are stated over
+every `K` as above, the setting of the unramified descent of [Bruhat–Tits II], 5.1.1, pp. 145–146,
+which includes `Ĕ`.
+*Needs:* *parahoric-subgroup*; *reductive-quotient-of-special-fibre*; *big-cell-criteria*; RG2.1
 *affine-roots-and-filtrations*; RG2.1 *valued-commutator-estimates*; RG2.2 *building*; RG2.2
 *building-apartment-axioms*; RG2.2 *facets-and-special-points*.
 *Lean:* none (README-only).
@@ -4554,15 +4615,63 @@ target here. *Needs:* RG2.2 *twisted-levi-subgroup*; *moy-prasad-filtration*;
   at least `1`, off-diagonal entries at least `2`. These distinguish the mixed carriers
   from either ordinary depth subgroup or lattice.
 
-**The Moy–Prasad isomorphism.** (*moy-prasad-isomorphism*) (a) For `r > 0`, `G_{y,r}/G_{y,r+}` and
-`g_{y,r}/g_{y,r+}` are isomorphic groups; in particular the quotient `G_{y,r}/G_{y,r+}` is abelian
-(`groupLieGradedEquiv`; [Moy–Prasad 1996], §3.3, p. 104; [Moy–Prasad 1994], §3.2, p. 399, and §3.8,
-pp. 400–401). (b) `G_{x,0}/G_{x,0+}` is the group of `κ`-points of the reductive quotient `𝒢̄_x` for
-perfect `κ` (in particular finite or algebraically closed): `Parahoric.parahoricQuotientEquiv` together with the check
+**The Moy–Prasad isomorphism.** (*moy-prasad-isomorphism*) Let `K`, `y`, `A ⊇ S` and `T = Z_G(A)` be
+as in *moy-prasad-filtration*. For every `r > 0` the quotient `G_{y,r}/G_{y,r+}` is abelian, since
+`[G_{y,r}, G_{y,r}] ⊆ G_{y,2r} ⊆ G_{y,r+}` (`commutator_filtration_le`); this needs no hypothesis on
+`T`. For the comparison with the Lie algebra assume that `T` becomes an induced torus (a product of
+Weil restrictions of `G_m`) over a finite tamely ramified extension of `K^ur` ([Fintzen MP],
+Assumption 2.4.2, arXiv v4 p. 11; by Remark 2.4.3, p. 11, this holds when `G` splits over a tamely
+ramified extension of `K`, and when `G` is adjoint or simply connected semisimple). (a0) Torus
+comparison (`torusGradedEquiv`): for `r > 0`, `T(K^ur)_r/T(K^ur)_{r+} ≅ t(K^ur)_r/t(K^ur)_{r+}`.
+Over a finite tame Galois extension `E ⊇ K^ur` over which `T ≅ ∏_i Res_{E_i/E} G_m`, one has
+`T(E)_r = ∏_i(1 + {z ∈ E_i : ω(z) ≥ r})` and `t(E)_r = ∏_i{z ∈ E_i : ω(z) ≥ r}`, and `1 + z ↦ z`
+induces a `Gal(E/K^ur)`-equivariant isomorphism of the graded pieces, because
+`(1+z)(1+z') = 1 + z + z' + zz'` with `ω(zz') ≥ 2r`. The isomorphism over `K^ur` is its restriction
+to fixed points: `Gal(E/K^ur)` is cyclic of order prime to `p` (*steinberg-quasi-split*), so it has
+no cohomology in the pro-`p` groups `T(E)_{r+}` and the `O_E`-modules `t(E)_{r+}`, and
+`T(K^ur)_r = T(K^ur) ∩ T(E)_r` for `r > 0`: an element of the right side is bounded, and its image
+in the component group `T(K^ur)_b/T(K^ur)_0`, the torsion of `X_*(T)_I`, which is killed by
+`[E : K^ur]` because `X_*(T)` is a permutation module for the inertia of `E`, is trivial since
+`T(E)_{0+}` is pro-`p` (the torus comparison and these two facts are derived here). (a) Under the
+same assumption, for `r > 0`, `G_{y,r}/G_{y,r+}` and `g_{y,r}/g_{y,r+}` are isomorphic
+(`groupLieGradedEquiv`; [Fintzen MP], §2.4, p. 11, under Assumption 2.4.2; the construction is
+[Moy–Prasad 1996], §3.3, p. 104, and [Moy–Prasad 1994], §3.2, p. 399, and §3.8, pp. 400–401). Over
+`K^ur`, for `x` in the apartment of `A`, the isomorphism restricts on the image of `T(K^ur)_r` to
+`torusGradedEquiv` and carries the image of each `U_ψ` with `ψ(x) = r` onto the image of `u_ψ`, by
+the map induced by the root-group coordinates of RG2.1 *quasi-split-root-group-coordinates*; it is
+`Gal(K^ur/K)`-equivariant and, for `x ∈ B(G,K)`, carries the image of `G_{x,r}` onto that of
+`g_{x,r}`; this restriction is the isomorphism over `K`. Without the assumption the two quotients
+can have different orders (Check `groupLieGradedEquiv_wild_norm_torus`). (b) `G_{x,0}/G_{x,0+}` is
+the group of `κ`-points of the reductive quotient `𝒢̄_x` for perfect `κ` (in particular finite or
+algebraically closed): `Parahoric.parahoricQuotientEquiv` together with the check
 `filtrationPlus_zero_eq_proUnipotent` ([Moy–Prasad 1996], §3.1–3.2, pp. 102–103, for algebraically
-closed `κ`, and §3.3, p. 104, for finite `κ`). *Needs:* *moy-prasad-lie-lattices*;
-*reductive-quotient-of-special-fibre*; *moy-prasad-filtration*.
+closed `κ`, and §3.3, p. 104, for finite `κ`); (b) needs no hypothesis on `T`. *Needs:*
+*moy-prasad-lie-lattices*; *reductive-quotient-of-special-fibre*; *moy-prasad-filtration*; RG2.1
+*quasi-split-root-group-coordinates*; RG2.1 *steinberg-quasi-split*; RG2.1
+*kottwitz-homomorphism-torus*; RG2.0a *weil-restriction-group-scheme*.
 *Lean:* none (README-only).
+
+**Checks.**
+
+- `groupLieGradedEquiv_split_torus` — for `G_m` and `r = n` a positive integer both quotients are
+  `(1 + m^n)/(1 + m^{n+1}) ≅ m^n/m^{n+1} ≅ κ`, by `1 + z ↦ z`; for `r ∉ ℤ` both are trivial.
+- `torusGradedEquiv_induced_wild` — for `K'/K` finite separable, even wildly ramified, the induced
+  torus `Res_{K'/K} G_m` satisfies the assumption with `E = K^ur`:
+  `T(K)_r = 1 + {z ∈ K' : ω(z) ≥ r}` and `t_r = {z ∈ K' : ω(z) ≥ r}`, all conjugates of `z` having
+  the valuation of `z`. The assumption concerns inducedness, not the ramification of the splitting
+  field.
+- `groupLieGradedEquiv_tame_norm_torus` — for `p` odd, `K' = K(a)` with `a² = ϖ` and `T` the
+  norm-one torus (split, hence induced, over the tame `K'K^ur`): the parahoric is
+  `T(K)_0 = {u/τ(u) : u ∈ O_{K'}^×}`, and for `u = b(1 + γa)` with `b ∈ O^×`, `γ ∈ O`,
+  `u/τ(u) − 1 = 2γa/(1 − γa)` has valuation `1/2 + ω(γ)`; so at depth `1/2` the group quotient is
+  `O/m ≅ κ` in `γ`, and the Lie quotient `Oa/ma ≅ κ`, matched by `t ↦ t − 1`.
+- `groupLieGradedEquiv_wild_norm_torus` (non-example) — `K = ℚ₂`, `K' = K(a)` with `a² = 2`, `T` the
+  norm-one torus, whose building is a point. As above `T(K)_0 = {u/τ(u) : u = b + ca, b ∈ ℤ₂^×,
+  c ∈ ℤ₂}`, and `u/τ(u) − 1 = 2ca/(b − ca)` has valuation `3/2 + ω(c)`; so
+  `G_{y,1/2} = G_{y,1/2+} = T(K)_0` and the group quotient at depth `1/2` is trivial, while
+  `Lie(T) = Ka`, `t_{1/2} = ℤ₂a`, `t_{1/2+} = 2ℤ₂a` and the Lie quotient is `𝔽₂`. Here `T` becomes
+  induced only over extensions containing `K'K^ur`, which are wildly ramified over `K^ur`, so the
+  assumption excludes it.
 
 **Positive-depth subgroups are pro-p and cofinal.** (*positive-depth-filtration-basis*) Let `E` be a
 nonarchimedean local field of residue characteristic `p`, `y ∈ B^e(G,E)` and `r > 0`. (a) `G_{y,r}`
@@ -4570,19 +4679,35 @@ is compact open in the point topology of `G(E)` (`isCompact_isOpen_filtration`, 
 normal in `G_{y,0}` (`filtration_normal`), and pro-`p`: every normal subgroup of finite index has
 `p`-power index (`isProP_filtration`; this is the group-theoretic form of Tau Ceti's
 `TauCeti.IsProP`). Openness is [Moy–Prasad 1996], §3.2, p. 103; compactness follows from
-`G_{y,r} ⊆ G_{y,0}`, a parahoric subgroup; the pro-`p` property follows from the Moy–Prasad
-isomorphism, whose graded pieces are finite-dimensional `κ`-vector spaces, the discreteness of the
-jumps and (b); in a pro-`p` group every finite quotient, open or not, is a `p`-group, because each
-procyclic subgroup is `ℓ`-divisible for every prime `ℓ ≠ p`. (b) The `G_{y,r}`, `r > 0`, form a
+`G_{y,r} ⊆ G_{y,0}`, a parahoric subgroup. The pro-`p` property holds for every `G`, with no
+hypothesis on the torus of *moy-prasad-isomorphism*, and is proved without the Lie algebra:
+`G_{y,r}` is an open subgroup of `G_{y,0+} = P_F^+`, `F` the facet of `y` (Check
+`filtrationPlus_zero_eq_proUnipotent`), and `P_F^+` is pro-`p` by
+*pro-unipotent-radical-and-nested-facets* (1), being an extension of the `κ`-points of the unipotent
+radical of the special fibre of `𝒢°_F`, a finite `p`-group, by the first congruence subgroup of
+`𝒢°_F`, which is pro-`p` by RG2.0 `CongruenceSubgroup.isProP_one`; an open subgroup of a pro-`p`
+group is pro-`p`. In a pro-`p` group every finite quotient, open or not, is a `p`-group, because
+each procyclic subgroup is `ℓ`-divisible for every prime `ℓ ≠ p`. (b) The `G_{y,r}`, `r > 0`, form a
 neighbourhood basis of `1` (`hasBasis_nhds_one_filtration`; [He 2018], §4.2, p. 12, for the
 barycentre of an alcove, where the `I_n := G_{x_C,n}` form a fundamental system of open compact
 subgroups); hence every compact open subgroup contains some `G_{y,r}`, with finite index. (c) For an
 alcove `C` with barycentre `x_C` and `n ≥ 1`, `I_n` is normal in the Iwahori subgroup
 `I = G_{x_C,0}`, decreasing in `n`, and cofinal (the three theorems above). `G_{x,0+} = P_x^+` is
 the check `filtrationPlus_zero_eq_proUnipotent`. *Needs:* *moy-prasad-filtration*;
-*parahoric-subgroup*; *pro-unipotent-radical-and-nested-facets*; *moy-prasad-isomorphism*; RG2.0
+*parahoric-subgroup*; *pro-unipotent-radical-and-nested-facets*; RG2.0
 *integral-points-compact-open*; RG2.0 *congruence-neighbourhood-basis*.
 *Lean:* none (README-only).
+
+**Checks.**
+
+- `isProP_filtration_split_torus` — for `G_m` and `r > 0`, `G_{y,r} = 1 + m^{⌈r⌉}` is pro-`p` by
+  Tau Ceti `TauCeti.isProP_unitFiltration_succ`.
+- `isProP_filtration_zero_nonexample` (non-example) — the hypothesis `r > 0` is needed: for `G_m`,
+  `G_{y,0} = O^×` has the finite quotient `κ^×` of order `q − 1`, not a power of `p` when `q > 2`.
+- `isProP_filtration_wild_norm_torus` — for the norm-one torus of `ℚ₂(a)`, `a² = 2`, of Check
+  `groupLieGradedEquiv_wild_norm_torus`, `G_{y,1/2} = T(ℚ₂)_0` lies in the unit filtration
+  `1 + m_{ℚ₂(a)}^3`, pro-`2` by `TauCeti.isProP_unitFiltration_succ`, so it is pro-`2` although its
+  graded quotients are not those of the Lie algebra.
 
 **Mock exponential.** (*mock-exponential*) Construct Adler's positive-depth generalized
 exponential using tame splitting data. In a split torus, a character basis fixes the map by
@@ -5196,10 +5321,17 @@ Lem. 4.7, p. 14; [Richarz], (1.14) in the proof of Prop. 1.11, p. 123 (arXiv p. 
 *Lean:* none (README-only).
 
 **The Iwahori factorization.** (*iwahori-factorization*) Let `P = MN` be a `K`-parabolic with Levi
-`M ⊇ Z`, `N = ⟨U_a : a ∈ Φ_N⟩` and `N^-` the opposite unipotent group, and let `H` be an Iwahori, a
-pro-unipotent radical `P_F^+` for a facet `F ⊂ A`, or a Moy–Prasad subgroup `G_{x,r}` with `r > 0`.
-First, the multiplication map `(H ∩ N^-) × (H ∩ M) × (H ∩ N) → H` is bijective in every order;
-`H ∩ U_a(K) = U_{a,f_H(a)}`, and `H ∩ N^±` is the product of its root groups in any order. Second,
+`M ⊇ Z`, `N = ⟨U_a : a ∈ Φ_N⟩` and `N^-` the opposite unipotent group, and let `H` be attached to
+the apartment `A = A(S)` of `S ⊆ Z ⊆ M`: the Iwahori subgroup `P°_C` of an alcove `C ⊂ A`, a
+pro-unipotent radical `P_F^+` for a facet `F ⊂ A`, or a Moy–Prasad subgroup `G_{x,r}` with `x ∈ A`
+and `r > 0`. First, the multiplication map `(H ∩ N^-) × (H ∩ M) × (H ∩ N) → H` is bijective in
+every order; `H ∩ U_a(K) = U_{a,f_H(a)}`, and the product map
+`∏_{a ∈ Φ_N ∩ Φ_nd}(H ∩ U_a(K)) → H ∩ N`, one factor for each nondivisible root of `N` as in RG2.3
+*big-cell-criteria*, is bijective in any order, and likewise for `N^-` ([Bruhat–Tits I], (6.4.9)
+(ii), p. 136). The condition on `H` is needed: for `g ∈ G(K)`, `gHg^{-1}` factors with respect to
+the conjugate data `gPg^{-1} = (gMg^{-1})(gNg^{-1})` and `gN^-g^{-1}`, but in general not with
+respect to `P`, `M`, `N` themselves (Check `iwahoriFactorization_conjugate_sl2`); since every alcove
+lies in an apartment `gA`, every Iwahori subgroup is conjugate to one of an alcove of `A`. Second,
 over `L`, `Ĭ_n = ∏_{Φ_aff(Ĭ_n)} U_{a,n-shifted}·T_n` in a fixed order; for `s` simple,
 `Ĭ_n ∩ ṡĬ_nṡ^{-1}` contains the wall root group of `s` at depth `n+1`, whence `Ĭ_n ṡ Ĭ_n/Ĭ_n` is an
 affine space of dimension `ℓ̆(s)` over `κ̄`, whose `σ`-fixed points `I_n ṡ I_n/I_n` number
@@ -5233,7 +5365,8 @@ contributes (Check `index_levi_gl3`). In the proposed Lean statement the contrac
 13–14; [Casselman], §1.4, pp. 13–15 (Prop. 1.4.3, the Iwahori factorization, Prop. 1.4.4) and Lem.
 1.5.1, p. 16; [Bruhat–Tits I], Prop. (6.4.9), p. 136, and Prop. (6.4.48), p. 152, via the valued
 root datum). *Needs:* RG2.3 *moy-prasad-filtration*; RG2.3 *parahoric-subgroup*; RG2.1
-*valued-commutator-estimates*; RG2.3 *pro-unipotent-radical-and-nested-facets*.
+*valued-commutator-estimates*; RG2.3 *pro-unipotent-radical-and-nested-facets*; RG2.3
+*big-cell-criteria*.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -5257,6 +5390,13 @@ root datum). *Needs:* RG2.3 *moy-prasad-filtration*; RG2.3 *parahoric-subgroup*;
 - `conjugation_two_terms` (computation) — for `z = diag(2, 1/2)` and `x = [[1,1],[0,1]]`,
   `zxz^{-1} = [[1,4],[0,1]]` and `z^{-1}xz = [[1,1/4],[0,1]]`; at the 2-adic valuation the first
   contracts and the second expands.
+- `iwahoriFactorization_conjugate_sl2` (non-example) — for `SL_2(E)`, `P = B` upper triangular, `I`
+  the standard Iwahori and `g = [[1,0],[1,1]]`, the Iwahori `H = gIg^{-1}` belongs to an alcove not
+  contained in the standard apartment, and its reduction mod `m` is the Borel subgroup fixing the
+  line through `(1,1)`. So `H ∩ N`, `H ∩ N^-` reduce to `1` and `H ∩ T` into `{±1}`, and every
+  product of the three factors reduces to `±1`, while `gx_+(1)g^{-1} = [[0,1],[−1,2]] ∈ H` reduces
+  to a non-scalar matrix; the factorization with respect to `B` fails for `H` and holds for
+  `gBg^{-1}`.
 
 **Cardinalities of Iwahori double cosets.** (*double-coset-cardinalities*) Let `I` be the Iwahori of a
 `σ`-stable alcove, `Ĭ` and `Ĭ_n` the corresponding groups over `L`, `I_n` (`n ≥ 1`) its Moy–Prasad
@@ -5548,8 +5688,11 @@ and `K = 𝒢(O)` hyperspecial with `𝒢` reductive over `O`, `G(E) = ⊔_{λ �
 double cosets being distinct for distinct `λ`. Fourth, over `E`, infinitude is controlled by the rational translation quotient
 `Z(E)/Z(E)_0` (equivalently its positive free rank, or `S ≠ 1`). Over the completed
 unramified field `L`, the translation quotient is `X_*(T)_I`; these are separate assertions; for `K̂` the double cosets are unions over the finite quotient `K̂/K`,
-indexed by the orbits of `W_0 ⋉ (K̂/K)`. Fifth, at a non-special point `x`, `G(K) ≠ P_xZ(K)P_x`:
-the finite Weyl group `W_x` projects onto a proper subgroup of `W_0`. In *BruhatTits.Decomposition*,
+indexed by the orbits of `W_0 ⋉ (K̂/K)`. Fifth, at a non-special point `x`,
+`G(K) ≠ P°_xZ(K)P°_x` for the parahoric `P°_x = 𝒢°_x(O)`: the finite Weyl group `W_x` of `P°_x`
+projects onto a proper subgroup of `W_0`. For the full fixer `P_x` of RG2.2 *building* this can
+fail, since `P_x` may contain representatives of further Weyl elements (Check
+`cartan_full_fixer_pgl2`). In *BruhatTits.Decomposition*,
 prove `cartan` and `cartan_parahoricWeyl_eq` (`W_x → W_0` is bijective) ([Bruhat–Tits I],
 Prop. (4.4.3), p. 80 (for the full fixer, the "bon sous-groupe borné maximal"); [Haines–Rapoport],
 Prop. 8, p. 4, and Prop. 13, p. 8; [Zhu], Lem. 1.8 (ii), p. 11, for `GL_n` over `W(k)[1/p]`, and
@@ -5560,7 +5703,17 @@ Prop. 1.23, p. 19, the orbit description of `Gr_μ` resting on the Cartan decomp
 
 **Checks.**
 
-- `cartan_not_special` (non-example) — at a non-special point `x`, `P_x Z(K) P_x ≠ G(K)`.
+- `cartan_not_special` (non-example) — at a non-special point `x`, `P°_x Z(K) P°_x ≠ G(K)`; for
+  `GL_2` and `x` the barycentre of the standard alcove, `P°_x = P_x = I` is the Iwahori, and the
+  element `(0 1; 1 0)` lies in the Iwahori–Bruhat cell of the nontrivial finite Weyl element, which
+  meets no `I z I` with `z ∈ Z(K)`.
+- `cartan_full_fixer_pgl2` (non-example) — for `PGL_2` and `x` the edge midpoint, the full fixer
+  is `J = P_x = I ⋊ ⟨τ⟩` with `τ` the class of `(0 1; ϖ 0)`, which lies in the nontrivial coset of
+  `N(K)/Z(K)`; so `N(K) ⊆ Z(K)J` and `G(K) = INI ⊆ JZ(K)J`, although `x` is not special. The
+  assertion holds for `P°_x = I`.
+- `cartan_gl2_vertex` — at the standard vertex of `GL_2`,
+  `GL_2(K) = ⊔_{a ≥ b} GL_2(O) diag(ϖ^a, ϖ^b) GL_2(O)`, the double cosets being distinct, the case
+  `n = 2` of `Decomposition.cartan_generalLinear`.
 
 **The Iwasawa decomposition.** (*iwasawa-decomposition*) Let `x` be special, `K = 𝒢°_x(O)` and
 `K̂ = 𝒢_x(O) = K·(Z(K) ∩ K̂)`, let `P = ZU` be a minimal `K`-parabolic and
@@ -6342,6 +6495,8 @@ Moy–Prasad filtrations, the Iwahori–Weyl combinatorics and the L-group.
   291–306. http://www.numdam.org/item/CM_1992__81_3_291_0.pdf
 - [Fintzen] Jessica Fintzen, *Types for tame p-adic groups*, Ann. of Math. 193 (2021), 303–346;
   arXiv:1810.04198v2. https://arxiv.org/abs/1810.04198
+- [Fintzen MP] Jessica Fintzen, *On the Moy–Prasad filtration*, J. Eur. Math. Soc. 23 (2021),
+  4009–4063; arXiv:1511.00726v4. https://arxiv.org/abs/1511.00726
 - [Garrett] Paul Garrett, *Buildings and Classical Groups*, Chapman & Hall (1997).
   https://www-users.cse.umn.edu/~garrett/m/buildings/book.pdf
 - [Geck–Iancu] Meinolf Geck, Lacrimioara Iancu, *Coxeter groups and automorphisms*,
