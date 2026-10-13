@@ -23,7 +23,8 @@ Design choices made explicit here:
   `Submodule.orthogonalBilin`. Double annihilators are stated for finite `ZMod n`-modules.
 * The algebraic Selmer diagram `SelmerData` takes actual global and local modules and maps; its
   identification with continuous Galois cohomology is a README target.
-* Corank is computed on a given compact dual (`corankFromDual`).
+* ℤ_p-corank is computed on a compact dual (`corankFromDual`); Iwasawa corank is computed on
+  each finite compact component dual (`iwasawaCorankFromComponentDual`).
 * ℂ_p is Mathlib's `PadicComplex`; the Galois action is the continuous extension of the action on
   `PadicAlgCl` (`padicComplexGaloisAction`).
 * Fontaine–Laffaille data are stated over a general ring with an automorphism; archimedean
@@ -926,6 +927,33 @@ example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
 
 end Tests
 
+section IwasawaCorank
+
+variable (Λ Q : Type*) [CommRing Λ] [IsDomain Λ] [Field Q] [Algebra Λ Q]
+    [IsFractionRing Λ Q]
+
+/-- §4.21: the Iwasawa corank of a discrete module on one domain component, computed from its
+finitely generated compact dual `N` by extension to that component's fraction field. -/
+def iwasawaCorankFromComponentDual (N : Type*) [AddCommGroup N] [Module Λ N]
+    [Module.Finite Λ N] : ℕ :=
+  Module.finrank Q (Q ⊗[Λ] N)
+
+/-- §4.21: the compact dual equal to its Iwasawa component has corank one. -/
+theorem iwasawaCorankFromComponentDual_self :
+    iwasawaCorankFromComponentDual Λ Q Λ = 1 := sorry
+
+/-- §4.21: a finitely generated torsion compact dual has Iwasawa corank zero on its component. -/
+theorem iwasawaCorankFromComponentDual_torsion (N : Type*) [AddCommGroup N] [Module Λ N]
+    [Module.Finite Λ N] (hN : ∀ x : N, ∃ a : Λ, a ≠ 0 ∧ a • x = 0) :
+    iwasawaCorankFromComponentDual Λ Q N = 0 := sorry
+
+/-- §4.21: on two split components a dual supported freely on the first has rank tuple `(1, 0)`.
+The zero component is the zero module, rather than a second copy of the free dual. -/
+example : (iwasawaCorankFromComponentDual Λ Q Λ,
+    iwasawaCorankFromComponentDual Λ Q (Fin 0 → Λ)) = (1, 0) := sorry
+
+end IwasawaCorank
+
 section CongruentNumber
 
 variable (p : ℕ) [Fact p.Prime]
@@ -974,14 +1002,20 @@ coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology
 `etaleCohomology_Gm_restrictedRamification`, `etaleGalois_comparison_restrictedRamification`,
 `etaleGalois_comparison_lattice`, `etale_jStar_stalk`, `etale_jStar_degreeOne`,
 `etale_jStar_iwasawa` (§3.15); `GreenbergStructureHypotheses` (§3.18); Tate's normalized traces,
-`tate_almostEtale` and `tate_H1_padicComplex_twist`, the period rings `aCris`, `bCris`, `dCris`,
+`tate_almostEtale`, `tate_cyclotomicBanachH1` and `tate_H1_padicComplex_twist`, the canonical
+CR.0.7 specialization `aCris`, its explicit comparison `aCris_model_equiv`, and `bCris`, `dCris`,
 `dDeRham`, `IsCrystalline`, `IsDeRham` (§§4.1–4.5); `fontaineLaffaille_sum`,
 `fontaineLaffaille_dual`, `IsTorsionCrystalline`, `IsIntegralCrystalline`,
 `crystallineNonsingular` (§§4.6–4.8); `blochKatoCondition`, `blochKatoCondition_T`,
 `blochKatoStructure` (§4.9); `pRamifiedModule`, `unramifiedModule`, `closedGlobalUnitTower`,
 `arithmeticPlusMinus` (§4.16); `PadicLFunctionDatum` and the main-conjecture propositions
-(§§4.21–4.23); `localAnnihilation_uniform` (§4.25); the parity theorems
-`selmerComplex_skewPairing`, `skewSymmetric_filtration_parity`, `selmerParity_family`,
+(§§4.21–4.23), with `iwasawaCorank` the tuple of the component coranks above;
+`localAnnihilation_uniform` (§4.25); `elliptic_dDeRham_tangent`, `elliptic_exponential_kummer`,
+`elliptic_local_comparison_descent` (§4.26); the parity theorems
+`selmerComplex_skewPairing` (the untwisted degree-three O-module adjoint),
+`skewSymmetric_filtration_parity` (O-bilinear, with 2 invertible), `selmerParity_perfectComplex`,
+`selmerFamily_baseChange` (the common strict ordinary local diagram with its localized
+coefficient contract), `selmerParity_family`,
 `selmerParity_quadraticTwist`, `ordinaryModular_selmerParity_family` (§4.28) and
 `casselsTate_pairing`, `selmerParity_twoIsogeny`, `congruentNumber_selmerParity` (§4.29).
 -/

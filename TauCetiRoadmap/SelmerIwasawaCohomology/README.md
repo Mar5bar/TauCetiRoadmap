@@ -70,7 +70,7 @@ Layer 2: the Weil pairing e_N with its compatibility e_N(φP, Q) = e_N(P, φ̂Q)
 
 ### From ArithmeticGaloisDuality
 
-Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-term sequence of lim and lim¹*; *The Milnor sequence for towers of complexes*), §R02.1.2 (*Continuous cochains into an inverse limit*; *Comparison with the canonical carrier for compact coefficients*; *Tate's inverse-limit theorem*; *Continuous sections of coefficient surjections*; *Long exact sequences for continuous cohomology*, including the period coefficients V ⊗ B_cris and V ⊗ B_dR, which have continuous sections by §4.3), §R02.1.3 (*Rationalisation of lattice cohomology*; *The sequence T → V → W and the torsion of H¹(T)*). Layer R02.2: §R02.2.1 (*The spectral sequence of a first-quadrant double complex*; *The Hochschild–Serre spectral sequence*), §R02.2.2 (*The five-term sequence and the transgression*), §R02.2.3 (*Restriction and corestriction descent for finite index*; *Inflation–restriction for compact and rational coefficients*). Layer R02.3: §R02.3.1 (*The Galois group G_{K,S} of the maximal extension unramified outside S*; *Finiteness of H¹(G_{K,S}, M)*; *Localisation maps and the modified local groups*), §R02.3.3 (*The S-idele classes as a quotient of the idele classes*; *The Kummer sequence for S-units*). Layer R02.4: §R02.4.2 (*Unramified classes are exact annihilators*; *Restricted products of local cohomology and Ш^r_S*), §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*), §R02.4.4 (*Finiteness of Galois cohomology with restricted ramification*; *Cohomological dimension of G_{K,S}*; *High-degree cohomology of the S-units*; *Tate's global Euler characteristic formula*). Layer R02.5: §R02.5.1 (*The Greenberg–Wiles formula*). Layer D7: §D7.3 (*Compact Shapiro and projection formulas*, the complete finite-type extension of the discrete Shapiro isomorphism), §D7.4 (*Derived local Tate duality*), §D7.5 (*Continuous cochains with compact support*; *Derived Poitou–Tate duality*; *Duality when p = 2 and K has real places*; *Euler–Poincaré characteristic with compact support*), §D7.6 (*Poitou–Tate for lattices and rational coefficients*; *Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*). These are used with the hypotheses stated there; condition (P) is imposed wherever the derived statements require it.
+Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-term sequence of lim and lim¹*; *The Milnor sequence for towers of complexes*), §R02.1.2 (*Continuous cochains into an inverse limit*; *Comparison with the canonical carrier for compact coefficients*; *Tate's inverse-limit theorem*; *Continuous sections of coefficient surjections*; *Long exact sequences for continuous cohomology*, including the period coefficients V ⊗ B_cris and V ⊗ B_dR, which have continuous sections by §4.3), §R02.1.3 (*Rationalisation of lattice cohomology*; *The sequence T → V → W and the torsion of H¹(T)*). Layer R02.2: §R02.2.1 (*The spectral sequence of a first-quadrant double complex*; *The Hochschild–Serre spectral sequence*), §R02.2.2 (*The five-term sequence and the transgression*), §R02.2.3 (*Restriction and corestriction descent for finite index*; *Inflation–restriction for compact and rational coefficients*). Layer R02.3: §R02.3.1 (*The Galois group G_{K,S} of the maximal extension unramified outside S*; *Finiteness of H¹(G_{K,S}, M)*; *Localisation maps and the modified local groups*), §R02.3.3 (*The S-idele classes as a quotient of the idele classes*; *The Kummer sequence for S-units*). Layer R02.4: §R02.4.2 (*Unramified classes are exact annihilators*; *Restricted products of local cohomology and Ш^r_S*), §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*), §R02.4.4 (*Finiteness of Galois cohomology with restricted ramification*; *Cohomological dimension of G_{K,S}*; *High-degree cohomology of the S-units*; *Tate's global Euler characteristic formula*). Layer R02.5: §R02.5.1 (*The Greenberg–Wiles formula*). Layer D7: §D7.3 (*Admissible compact and cofinite coefficients*; *Continuous cochains in the derived category*; *Cohomological finiteness and perfect amplitude*; *Compact Shapiro and projection formulas*, the complete finite-type extension of the discrete Shapiro isomorphism), §D7.4 (*Derived local Tate duality*), §D7.5 (*Continuous cochains with compact support*; *Derived Poitou–Tate duality*; *Duality after localising the coefficients*; *Duality when p = 2 and K has real places*; *Euler–Poincaré characteristic with compact support*), §D7.6 (*Poitou–Tate for lattices and rational coefficients*; *Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*). These are used with the hypotheses stated there; condition (P) is imposed wherever the derived statements require it.
 
 ### From SchemeAndStackFoundations
 
@@ -79,6 +79,14 @@ Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-t
 ### From PadicMeasuresIwasawaAlgebras
 
 §1.7 (comparison of integral measures with the completed group algebra), §4.1 (pseudo-null modules and pseudo-isomorphism), §4.2 (the structure theorem and its consequences: reflexive modules over a regular local ring of dimension two are free, and a finitely generated Λ-module has projective dimension at most one iff it has no nonzero finite submodule), §4.4 (generator change and Iwasawa invariants), §4.6 (characteristic ideals, their transport along semilinear equivalences, and the isotypic decomposition over Λ(H × ℤ_p)), §5.1 (determinant lines of perfect complexes, their multiplicativity, base change and the trivialization of an acyclic complex), §6.1 (the sharp involution of a finite group ring), §6.3 (quadratic presentations and the initial Fitting ideal).
+
+### From CrystallineCohomology
+
+§CR.0.7 supplies the canonical completed Fontaine envelope A_cris(R), its initial property, functoriality and principal-kernel presentation (`Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_identify`, `Crystalline.fontaineEnvelope_map`). Only this lower-stage contract is used. §4.2 identifies its O_{ℂ_p} specialization with the divided-power-series model and owns B_cris and the representation-theoretic period maps. DerivedDeRhamCohomology Layer 5 uses this same CR.0.7 carrier for its derived de Rham comparison; neither comparison introduces another A_cris API.
+
+### From NeronModelsAndSemistableAbelianVarieties
+
+§3.10 supplies potential semistable reduction; §§3.13–3.14 supply Raynaud uniformization and its full 1-motive. §5.3 supplies `PadicComparison`, `AbelianVariety.deRham` and finite-extension de Rham descent, including the homological Tate-module convention and the filtered realization of the full Raynaud 1-motive. §4.26 uses these geometric results and proves the elliptic tangent/exponential/Kummer compatibility. The minimal B_cris and B_dR constructions and predicates of §§4.1–4.5 are the shared representation-theoretic period interface; the geometric semistable comparison and B_st remain with that supplier.
 
 ### From PerfectoidSpaces
 
@@ -1342,12 +1350,13 @@ H^r(G_{F,S}, M) → H^r(U_ét, M_U),   r ≥ 0,
 
 of the Hochschild–Serre spectral sequence of the pro-Galois covering Ũ = Spec 𝒪_{F_S,S} → U are isomorphisms, natural in M, compatible with connecting maps, with restriction to finite extensions inside F_S and with corestriction. The comparison is for the ordinary cohomology of U in all degrees and needs no modification at real places: when p = 2 and F has real places both sides are nonzero in every degree r ≥ 3, through the real places, and the maps identify them. The Tate-modified real-place terms enter only compact-support cohomology (ArithmeticGaloisDuality §D7.5, *Duality when p = 2 and K has real places*).
 
-Prove this as follows. The Hochschild–Serre spectral sequence of the covering (SchemeAndStackFoundations §2.15, `hochschildSerre_galois_covering`, profinite form) reduces the claim to H^s(Ũ, ℤ/p) = 0 for s ≥ 1, since M_U becomes constant on Ũ and has a composition series with quotients ℤ/p. By `etale_cohomology_limits` (SchemeAndStackFoundations §2.15), H^s(Ũ, ℤ/p) = colim_L H^s(U_L, ℤ/p) over finite L ⊆ F_S, with U_L = Spec 𝒪_{L,S}; enlarging L inside F_S, assume μ_p ⊆ L and L totally imaginary (adjoin μ_p and √−1, both unramified outside S), so ℤ/p ≅ μ_p on U_L. For s = 1 every class is killed by the corresponding cover, which lies in F_S by the cover equivalence above. For s = 2 the Kummer sequence on U_L (SchemeAndStackFoundations §2.11, `fppf_kummer_sequence`, étale since p is invertible) gives 0 → Pic(U_L)/p → H²(U_L, μ_p) → Br(U_L)[p] → 0. The Picard term dies in the colimit because lim_L Pic(𝒪_{L,S}) = 0 over finite L ⊆ F_S (ArithmeticGaloisDuality §R02.3.3, *The S-idele classes as a quotient of the idele classes*, through the principal ideal theorem). By the G_m calculation, Br(U_L)[p] embeds in ⊕_{w∈S_L} Br(L_w)[p], and a class dies over any L′ ⊆ F_S whose local degree at every w ∈ S_L is divisible by p; such L′ is obtained from the Hilbert class field H of L by adjoining p-th roots of generators of the primes in S_L, which become principal in H, and this extension is unramified outside S. For s ≥ 3 the G_m calculation for totally imaginary L and the Kummer sequence give H^s(U_L, μ_p) = 0.
+Prove this as follows. The Hochschild–Serre spectral sequence of the covering (SchemeAndStackFoundations §2.15, `hochschildSerre_galois_covering`, profinite form) reduces the claim to H^s(Ũ, ℤ/p) = 0 for s ≥ 1, since M_U becomes constant on Ũ and has a composition series with quotients ℤ/p. By `etale_cohomology_limits` (SchemeAndStackFoundations §2.15), H^s(Ũ, ℤ/p) = colim_L H^s(U_L, ℤ/p) over finite L ⊆ F_S, with U_L = Spec 𝒪_{L,S}; enlarging L inside F_S, assume μ_p ⊆ L and L totally imaginary: for odd p adjoin μ_p, which already makes L totally imaginary and is unramified outside p; for p = 2 adjoin √−1, whose ramification is dyadic and hence lies in S, so ℤ/p ≅ μ_p on U_L. For s = 1 every class is killed by the corresponding cover, which lies in F_S by the cover equivalence above. For s = 2 the Kummer sequence on U_L (SchemeAndStackFoundations §2.11, `fppf_kummer_sequence`, étale since p is invertible) gives 0 → Pic(U_L)/p → H²(U_L, μ_p) → Br(U_L)[p] → 0. The Picard term dies in the colimit because lim_L Pic(𝒪_{L,S}) = 0 over finite L ⊆ F_S (ArithmeticGaloisDuality §R02.3.3, *The S-idele classes as a quotient of the idele classes*, through the principal ideal theorem). By the G_m calculation, Br(U_L)[p] embeds in ⊕_{w∈S_L} Br(L_w)[p], and a class dies over any L′ ⊆ F_S whose local degree at every w ∈ S_L is divisible by p; such L′ is obtained from the Hilbert class field H of L by adjoining p-th roots of generators of the primes in S_L, which become principal in H, and this extension is unramified outside S. For s ≥ 3 the G_m calculation for totally imaginary L and the Kummer sequence give H^s(U_L, μ_p) = 0.
 
 (Milne, *Arithmetic Duality Theorems*, Chapter II, §2, Proposition 2.9 and its proof, printed pp. 170–172 (PDF pp. 178–180).)
 
 **Checks.**
 
+- F = ℚ, p = 3, S = {3, ∞}: ℚ(μ₃) is an allowed totally imaginary extension, whereas ℚ(i) ramifies at 2 and is not contained in F_S. For p = 2 the extension ℚ(i) is allowed.
 - F = ℚ, p odd, S = {p, ∞}, M = μ_p: in degree one both sides are ℤ[1/p]^×/p ≅ ℤ/p, generated by the class of p; −1 is a p-th power and Pic(ℤ[1/p]) = 0.
 - p = 2, F = ℚ, S = {2, ∞}, M = ℤ/2, r = 3: H³(G_{ℚ,S}, ℤ/2) ≅ Ĥ³(ℝ, ℤ/2) ≅ ℤ/2 (ArithmeticGaloisDuality §R02.4.4, *Cohomological dimension of G_{K,S}*), and H³(Spec ℤ[1/2], ℤ/2) ≅ ℤ/2 as well; truncating either side above degree two is not part of the comparison.
 - Replacing G_{F,S} by G_F fails already in degree one: H¹(G_ℚ, ℤ/p) is infinite (one line for each cyclic degree-p extension of ℚ, ramified anywhere), while H¹(Spec ℤ[1/p], ℤ/p) is finite.
@@ -1540,7 +1549,7 @@ Throughout, ℂ_p is Mathlib's `PadicComplex p`, the completion of `PadicAlgCl p
 - H = G_{ℚ_p}: the fixed points are ℚ_p; ℂ_p has no transcendental Galois invariants.
 - H = Gal(`PadicAlgCl p`/ℚ_p(μ_{p^∞})): the fixed points are the completion of ℚ_p(μ_{p^∞}), which strictly contains ℚ_p(μ_{p^∞}): an infinite-dimensional normed ℚ_p-space of countable dimension is not complete (Baire), so the closure cannot be dropped.
 
-**Tate's normalized traces.** Let K/ℚ_p be finite, K_∞ ⊆ K(μ_{p^∞}) the cyclotomic ℤ_p-extension of K, K_n its n-th layer, Γ_K = Gal(K_∞/K) ≅ ℤ_p (through χ) and γ_n a topological generator of Gal(K_∞/K_n). Prove `tate_normalizedTrace`: the maps R_n = [K_m : K_n]^{−1} Tr_{K_m/K_n} on K_m (independent of m ≥ n) define a K_n-linear, Γ_K-equivariant retraction R_n : K_∞ → K_n that is bounded uniformly in n for n large and extends to K̂_∞; X_n = ker R_n is closed, K̂_∞ = K_n ⊕ X_n, and γ_n − 1 is invertible on X_n with an inverse bounded independently of n. Prove this as follows. Tate's estimates for the different of K_{n+1}/K_n in a ramified ℤ_p-extension (upper numbering and the Herbrand function, TauCetiRoadmap.LocalFieldsRamification Layer 3) give v(Tr_{K_{n+1}/K_n}(x)) ≥ v(x) + 1 − c p^{−n}, which bounds R_n; the invertibility of γ_n − 1 on X_n is the estimate v((γ_n − 1)x) ≤ v(x) + c′ on ker R_n, proved first on K_{n+1} and then by passage to the limit. Also prove `tate_almostEtale`: for every finite extension M/K_∞, the trace Tr_{M/K_∞}(𝒪_M) contains the maximal ideal of 𝒪_{K_∞}. This follows from PerfectoidSpaces §P1.31 (*the completed cyclotomic field*, perfectoid) together with §P3.7 (*finite extensions of perfectoid fields*) and §P3.12 (*the integral closure is almost finite étale*): the completed extension of valuation rings is almost finite étale, so its trace is almost surjective.
+**Tate's normalized traces.** Let K/ℚ_p be finite, K_∞ = K(μ_{p^∞}) the full cyclotomic extension, K_n = K(μ_{p^n}), and Γ_K = Gal(K_∞/K), identified by χ with an open subgroup of ℤ_p^×. Retain its finite torsion subgroup. For n sufficiently large (n ≥ 2 at p = 2), Γ_n = Gal(K_∞/K_n) is torsion-free and procyclic; let γ_n generate it. Prove `tate_normalizedTrace`: the maps R_n = [K_m : K_n]^{−1} Tr_{K_m/K_n} on K_m (independent of m ≥ n) define a K_n-linear, Γ_K-equivariant retraction R_n : K_∞ → K_n that is bounded uniformly in n for n large and extends to K̂_∞; X_n = ker R_n is closed, K̂_∞ = K_n ⊕ X_n, and γ_n − 1 is invertible on X_n with an inverse bounded independently of n. Prove this as follows. Tate's estimates for the different of K_{n+1}/K_n in a ramified ℤ_p-extension (upper numbering and the Herbrand function, TauCetiRoadmap.LocalFieldsRamification Layer 3) give v(Tr_{K_{n+1}/K_n}(x)) ≥ v(x) + 1 − c p^{−n}, which bounds R_n; the invertibility of γ_n − 1 on X_n is the estimate v((γ_n − 1)x) ≤ v(x) + c′ on ker R_n, proved first on K_{n+1} and then by passage to the limit. Also prove `tate_almostEtale`: for every finite extension M/K_∞, the trace Tr_{M/K_∞}(𝒪_M) contains the maximal ideal of 𝒪_{K_∞}. This follows from PerfectoidSpaces §P1.31 (*the completed cyclotomic field*, perfectoid) together with §P3.7 (*finite extensions of perfectoid fields*) and §P3.12 (*the integral closure is almost finite étale*): the completed extension of valuation rings is almost finite étale, so its trace is almost surjective.
 
 (Fontaine–Ouyang, §1.4, Theorem 1.92 (Sen's filtration theorem), Corollary 1.96 (the trace statement), Corollary 1.99, Definition 1.100 and Proposition 1.104, pp. 36–39; Brinon–Conrad, Theorem 13.1.2, p. 199, with Faltings's argument in Exercise 13.7.4, and Lemmas 14.1.3–14.1.4, pp. 237–238; Tate, *p-divisible groups*, Proceedings of a Conference on Local Fields (1967), §3.1.)
 
@@ -1550,12 +1559,13 @@ Throughout, ℂ_p is Mathlib's `PadicComplex p`, the completion of `PadicAlgCl p
 - For the unramified ℤ_p-extension of K the normalized traces are not uniformly bounded: Tr_{K_m/K_n} maps 𝒪_{K_m} onto 𝒪_{K_n}, so R_n has norm p^{m−n} on K_m. Deep ramification is essential.
 - For K = ℚ_p, the unramified ℤ_p-extension K′_∞ in place of K_∞ and M = K′_∞(p^{1/p²}), the Eisenstein polynomial X^{p²} − p gives a different of valuation 3p² − 1 in M, so Tr_{M/K′_∞}(𝒪_M) = p²𝒪_{K′_∞}, which does not contain p: the trace statement fails without deep ramification.
 
-**Tate's calculation of H⁰ and H¹(G_K, ℂ_p(i)).** For K/ℚ_p finite and i ∈ ℤ, with continuous cohomology for the Krull topology on G_K and the norm topology on ℂ_p (Mathlib `continuousCohomology`), prove `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`: H⁰(G_K, ℂ_p(i)) = K for i = 0 and 0 for i ≠ 0; H¹(G_K, ℂ_p(i)) is a one-dimensional K-space spanned by the class of log χ for i = 0, and 0 for i ≠ 0. Prove this as follows. H¹(H_K, ℂ_p(i)) = 0 for H_K = Gal(`PadicAlgCl p`/K_∞), by the trace argument: a continuous cocycle on H_K is a limit of cocycles trivialised on finite extensions M/K_∞, and `tate_almostEtale` supplies α ∈ M with Tr(α) = 1 and bounded denominator, which trivialises them uniformly. Degree-one inflation–restriction for continuous cocycles (proved directly for topological coefficients) and Ax–Sen–Tate identify H¹(G_K, ℂ_p(i)) with H¹(Γ_K, K̂_∞(i)) and H⁰ with K̂_∞(i)^{Γ_K}. On K̂_∞ = K_m ⊕ X_m the operator χ(γ_m)^iγ_m − 1 is invertible on X_m by `tate_normalizedTrace` and acts on K_m by χ(γ_m)^i − 1, which is invertible for i ≠ 0 and zero for i = 0. Hence H⁰(Γ_{K_m}, K̂_∞(i)) and H¹(Γ_{K_m}, K̂_∞(i)) = K̂_∞(i)/(χ(γ_m)^iγ_m − 1) are K_m for i = 0 and 0 otherwise; descend from K_m to K with the vanishing of finite-group cohomology of ℚ-vector spaces, and identify the i = 0 class with log χ = Hom(Γ_K, K) through the procyclic calculation of §2.7.
+**Tate's calculation of H⁰ and H¹(G_K, ℂ_p(i)).** For K/ℚ_p finite and i ∈ ℤ, with continuous cohomology for the Krull topology on G_K and the norm topology on ℂ_p (Mathlib `continuousCohomology`), prove `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`: H⁰(G_K, ℂ_p(i)) = K for i = 0 and 0 for i ≠ 0; H¹(G_K, ℂ_p(i)) is a one-dimensional K-space spanned by the class of log χ for i = 0, and 0 for i ≠ 0. Prove this as follows. H¹(H_K, ℂ_p(i)) = 0 for H_K = Gal(`PadicAlgCl p`/K_∞), by the trace argument: a continuous cocycle on H_K is a limit of cocycles trivialised on finite extensions M/K_∞, and `tate_almostEtale` supplies α ∈ M with Tr(α) = 1 and bounded denominator, which trivialises them uniformly. Degree-one inflation–restriction for continuous cocycles (proved directly for topological coefficients) and Ax–Sen–Tate identify H¹(G_K, ℂ_p(i)) with H¹(Γ_K, K̂_∞(i)) and H⁰ with K̂_∞(i)^{Γ_K}. On K̂_∞ = K_m ⊕ X_m the operator χ(γ_m)^iγ_m − 1 is invertible on X_m by `tate_normalizedTrace` and acts on K_m by χ(γ_m)^i − 1, which is invertible for i ≠ 0 and zero for i = 0. Hence H⁰(Γ_m, K̂_∞(i)) and H¹(Γ_m, K̂_∞(i)) = K̂_∞(i)/(χ(γ_m)^iγ_m − 1) are K_m for i = 0 and 0 otherwise; descend from K_m to K with the vanishing of finite-group cohomology of ℚ-vector spaces, keeping the finite-character action, and identify the i = 0 class with K·log χ. Here the Banach-coefficient calculation is the intermediate theorem `tate_cyclotomicBanachH1`: for fixed i and m sufficiently large, evaluation at γ_m identifies H¹(Γ_m, K̂_∞(i)) with the displayed quotient. Prove it directly on continuous cocycles: if A = χ(γ_m)^iγ_m − 1 is invertible on a summand, subtract the coboundary with value A⁻¹c(γ_m); density of γ_m^ℤ then kills the cocycle. The normalized-trace estimates also give invertibility of A on X_m for fixed i and m large (Brinon–Conrad Lemma 14.1.9). On K_m the action is scalar, invertible for i ≠ 0; for i = 0 continuous additive homomorphisms Γ_m → K_m are determined by their value at γ_m. Descend by Γ_K/Γ_m, including its torsion action. This calculation uses the norm topology and is a separate input from the finite-type procyclic theorem of §2.7.
 
 (Fontaine–Ouyang, §4.3.5, Corollary 4.45 and Proposition 4.46 with its proof, pp. 105–106; Brinon–Conrad, Theorem 2.2.7, p. 15, and Proposition 14.3.3 with Theorem 14.3.4, pp. 253–254; Tate (1967), §3.3, Theorem 2.)
 
 **Checks.**
 
+- K = ℚ₃, i = 1: on the ℤ₃-subextension H_K still acts through the order-two part of χ, so ℂ₃(1)^{H_K} cannot be identified with that completed field with a descended χ. For K_∞ = ℚ₃(μ_{3^∞}), χ|_{H_K} = 1, and the remaining finite Γ_K-character is retained.
 - i = 0, degree zero: H⁰(G_K, ℂ_p) = K, which is Ax–Sen–Tate.
 - i = 1, degree zero: no nonzero x ∈ ℂ_p satisfies g(x) = χ(g)^{−1}x for all g; in particular the period t of B_dR (with g(t) = χ(g)t) does not lie in ℂ_p.
 - i = 0, degree one: log χ is a nonzero class, so the extension of ℂ_p by ℂ_p it defines does not split, while every extension of ℂ_p by ℂ_p(1) splits since H¹(G_K, ℂ_p(1)) = 0. The calculation uses continuous cochains for the norm topology; with the discrete topology on ℂ_p the cohomology groups are different (the ℂ_p-valued homomorphisms of G_K would have to be locally constant).
@@ -1576,30 +1586,31 @@ Prove this as follows. Compare the θ of PerfectoidSpaces §P1.17 with Mathlib `
 
 ### 4.2 Crystalline period ring and its structures
 
-Inside A_inf[1/p], form the subring generated by A_inf and ξ^n/n!, n≥1, for a primitive generator ξ of ker θ. Its separated p-adic completion is A_cris. Define B_cris^+=A_cris[1/p], B_cris=B_cris^+[1/t]. The ring is independent of ξ and the generator of ℤ_p(1); give the Galois action, Frobenius φ extending Witt Frobenius, φ(t)=pt, θ and the injective map B_cris→B_dR. For K with residue field k, K₀=Frac W(k) embeds, φ is σ-semilinear there and commutes with G_K. The induced filtration is the intersection with Fil^i B_dR. This is the minimal period construction owned here; no geometric crystalline comparison theorem is included.
+Inside A_inf[1/p], form the subring generated by A_inf and ξ^n/n!, n≥1, for a primitive generator ξ of ker θ. Prove `aCris_model_equiv`: its separated p-adic completion is canonically isomorphic, as an A_inf-algebra with divided powers, to A_cris(O_{ℂ_p}) of CrystallineCohomology §CR.0.7; write `aCris` for that supplied carrier. Define B_cris^+=A_cris[1/p], B_cris=B_cris^+[1/t]. The ring is independent of ξ and the generator of ℤ_p(1); give the Galois action, Frobenius φ extending Witt Frobenius, φ(t)=pt, θ and the injective map B_cris→B_dR. For K with residue field k, K₀=Frac W(k) embeds, φ is σ-semilinear there and commutes with G_K. The induced filtration is the intersection with Fil^i B_dR. The completed envelope and its universal property belong to CrystallineCohomology §CR.0.7; the explicit-model comparison and B_cris period structures belong here. No geometric crystalline comparison theorem is included in this subsection.
 
-C_p, t, A_inf, θ from §4.1; canonical divided powers on (p). Mathlib already has divided powers and adic completion, but a universal divided-power envelope is not assumed available.
+C_p, t, A_inf, θ from §4.1; canonical divided powers on (p). Use CrystallineCohomology §CR.0.7, including its principal-kernel hypothesis: ξ modulo p is a non-zero-divisor, supplied by the primitive kernel of PerfectoidSpaces §P1.18.
 
-The construction proceeds as follows. Construct the explicit subalgebra generated by divided powers in A_inf[1/p], then use Mathlib adic completion at (p). Prove the universal p-adic PD-thickening property by lifting Teichmüller coordinates and taking the limits of p-power lifts (Fontaine 2.2.2); prove independence of ξ by binomial divided-power identities. Extend Frobenius and Galois action by continuity, compute φ(t)=pt and invert p,t. Expand elements as convergent divided-power series to prove the embedding into B_dR (Fontaine 4.1). The stronger scalar-extension injectivity K⊗K₀ B_cris→B_dR follows by restricting Fontaine Theorem 4.2.4; use that theorem for the crystalline-to-de Rham comparison.
+The construction proceeds as follows. Apply `Crystalline.fontaineEnvelope_identify` to the explicit subalgebra generated by divided powers in A_inf[1/p] and its completion at (p). Transport the supplied initial property and θ; prove independence of ξ by the uniqueness of the envelope comparison. The comparison intertwines the functorial Galois action, Witt Frobenius, the convergent logarithm t = log[ε] and the map to B_dR^+; uniqueness on the dense PD subalgebra and continuity prove these compatibilities. Extend Frobenius and Galois action by continuity, compute φ(t)=pt and invert p,t. Expand elements as convergent divided-power series to prove the embedding into B_dR (Fontaine 4.1). The stronger scalar-extension injectivity K⊗K₀ B_cris→B_dR follows by restricting Fontaine Theorem 4.2.4; use that theorem for the crystalline-to-de Rham comparison.
 
 (Fontaine, Le corps des périodes, Theorem 2.2.1 and proof, pp. 76–77; §§2.3.1–2.3.4, pp. 78–79; §4.1, pp. 83–84; Theorem 4.2.4, p. 86, proof §4.3, pp. 87–89.)
 
 The named operations and identities are:
 
-- `aCris` — Separated p-adic completion of the explicit PD-generated A_inf-subalgebra.
+- `aCris` — The O_{ℂ_p} specialization of the canonical CR.0.7 carrier.
+- `aCris_model_equiv` — Canonical PD A_inf-algebra isomorphism from the completed explicit model, preserving θ, G_K, Frobenius, t and the B_dR^+ map.
 - `bCris` — Invert p and the logarithmic Tate period.
-- `aCris_pdUniversal` — Initial among p-adically complete PD-thickenings of O_Cp with compatible PD on (p).
+- The initial property is `Crystalline.fontaineEnvelope_initial`, transported through `aCris_model_equiv`; there is one shared completed envelope.
 - `bCris_toBDR` — Injective Galois-compatible period map.
 - `bCris_frobenius` — σ-semilinear Frobenius, commuting with G_K and sending t to pt.
 - `bCris_generatorIndependent` — Changing ξ or a primitive Tate generator gives the canonical same ring.
 
 **Checks.**
 
-- The logarithmic period is nonzero and φ(t)=pt, not t.
+- The explicit model comparison fixes A_inf and θ, sends its log[ε] to the same t in the canonical envelope, and intertwines φ(t)=pt and g(t)=χ(g)t. The logarithmic period is nonzero.
 - θ(t)=0 before t is inverted; θ cannot extend as a unital map B_cris→C_p.
 - The period map to B_dR is injective and respects G_K; a free formal PD variable does not satisfy this comparison.
 
-*Needs:* §4.1 (The field ℂ_p, Tate's Galois cohomology of ℂ_p(i), and the de Rham period rings); PerfectoidSpaces §P1.16 (*primitive elements and ideals of degree one*).
+*Needs:* §4.1 (The field ℂ_p, Tate's Galois cohomology of ℂ_p(i), and the de Rham period rings); CrystallineCohomology §CR.0.7; PerfectoidSpaces §§P1.16–P1.18 (A_inf and the primitive kernel).
 
 ### 4.3 Fundamental period sequences with continuous sections
 
@@ -1981,18 +1992,30 @@ RJW write H^1_{L^Gr}(F_∞, W_n) for the group over F = F_∞^+ in steps (3)–(
 
 ### 4.21 The Iwasawa–Greenberg main conjecture (as a proposition)
 
+**Iwasawa corank from the compact dual.** Let p be odd, O the ring of integers of a finite extension of ℚ_p, Γ^+ = Γ₀ × Δ^+ with Γ₀ ≅ ℤ_p and Δ^+ finite abelian of order prime to p, and Λ = O⟦Γ^+⟧. For a discrete p-primary module M with compatible continuous Λ-action, assume its compact contragredient dual X = M^∨ is finitely generated over Λ. Use PadicMeasuresIwasawaAlgebras §4.6 to write Λ = ∏_ω Λ_ω, with Λ_ω = O_ω[[T]] indexed by Galois orbits of Δ^+-characters. Define `iwasawaCorank` as the tuple (rank_{Λ_ω} X_ω)_ω, where `iwasawaCorankFromComponentDual` is dim_{Q_ω}(Q_ω ⊗_{Λ_ω} X_ω) for Q_ω = Frac Λ_ω. Its API includes invariance under compact-dual equivalences, additivity in exact sequences of finite compact duals, `iwasawaCorankFromComponentDual_self` and `iwasawaCorankFromComponentDual_torsion`. The latter uses Λ_ω-torsion, not finite cardinality. Saying corank_Λ M = r means every component has rank r; torsion means all components have rank zero. The finiteness input for the arithmetic group is §3.13 with its finite-generation and local-condition hypotheses (or a specified finite compact dual as datum); §2.11's ℤ_p-corank does not apply to an arbitrary Λ-cofinite module.
+
+Here Frac Λ is the total quotient ring, localization at the non-zero-divisors (`FractionRing`, `IsFractionRing`); it is ∏_ω Q_ω and is not required to be a field. Individual character ranks after a splitting coefficient extension agree with these orbit-component ranks. Prove the API by flat localization on each component and exact Pontryagin duality.
+
+(Rodrigues Jacinto–Williams, §13.5.1, Lemma 13.4 and Definition 13.5, published p. 190, and §13.5.3, Conjecture 13.21, p. 197; PadicMeasuresIwasawaAlgebras §4.6, isotypic and nonsplit orbit decomposition.)
+
+**Checks.**
+
+- For Δ^+ = 1 and X = O[[T]], its discrete dual has Iwasawa corank one, although X is not finitely generated over ℤ_p.
+- For a finitely generated torsion X, every component corank is zero, including X = Λ/(T).
+- For split Δ^+ = C₂ and X = e_+Λ, the ranks are (1,0); no scalar corank one on all components is assigned. At p = 5 the cyclotomic Γ^+ has this finite factor and its total quotient ring has two field factors.
+
 For a p-ordinary G_ℚ-representation V with saturated G_{ℚ_p}-stable filtration, stable global lattice T and A=V/T, explicit archimedean realization and a specified analytic p-adic L-function L_p(V) in Frac Λ(Γ^+), state Greenberg’s proposition: corank_Λ Sel_Gr(F∞^+,A)=r_V; and, if V is critical, its torsion dual has characteristic ideal (L_p(V)). If L_p(V) is only a fraction, equality is an equality of fractional ideals with the integral characteristic ideal, and hence asserts integrality of that ideal. The datum carries the normalization/interpolation hypothesis appropriate to V; no general existence theorem is asserted. Positive corank leads to a determinant/leading-term proposition with a regulator trivialization, not this rank-zero characteristic-ideal equation.
 
 V p-ordinary at p (Greenberg filtration, stable under G_{ℚ_p}); L_p(V) is supplied data.
 
-The construction proceeds as follows. Definitions only: (i) uses the corank (§2.11) and (ii) the characteristic ideal of a finitely generated torsion Λ(Γ^+)-module (PadicMeasuresIwasawaAlgebras §§4.1–4.2, with the isotypic decomposition over Λ(Γ^+)).
+The construction proceeds as follows. Definitions only: (i) uses the componentwise Iwasawa corank just defined, with finitely generated compact dual and (ii) the characteristic ideal of a finitely generated torsion Λ(Γ^+)-module (PadicMeasuresIwasawaAlgebras §§4.1–4.2, with the isotypic decomposition over Λ(Γ^+)).
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, Conjecture 13.21, p. 71 (arXiv v2); published p. 197.)
 
 The named operations and identities are:
 
 - `PadicLFunctionDatum` — An element L_p(V) of Frac Λ(Γ^+), recorded as data with its conjectural interpolation.
-- `GreenbergCorankConjecture` — Proposition (i): corank_{Λ(Γ^+)} H^1_{L^Gr}(F, W) = r_V.
+- `GreenbergCorankConjecture` — Proposition (i): every component of `iwasawaCorank` of H^1_{L^Gr}(F, W) is r_V; finite generation of its compact dual is a hypothesis of the interface.
 - `GreenbergCharIdealConjecture` — Proposition (ii): r_V = r_{V^∨} = 0 → char(H^1_{L^Gr}(F, W)^∨) = (L_p(V)).
 - `GreenbergMainConjecture` — The conjunction of (i) and (ii).
 - `greenbergCharIdealConjecture_of_not_critical` — (ii) holds vacuously when V is not critical.
@@ -2079,11 +2102,24 @@ Prove this as follows. Local Tate duality for V (ArithmeticGaloisDuality Layer R
 
 ### 4.26 Elliptic Bloch–Kato and classical Selmer vanishing
 
+**Elliptic tangent, exponential and descent comparison.** For every finite K/ℚ_p and elliptic curve E/K, with V = V_pE in the homological convention, prove `elliptic_dDeRham_tangent`: V is de Rham and D_dR(V)/Fil⁰ ≃ Lie(E/K), functorially in E and under finite extensions of K. Prove `elliptic_exponential_kummer`: on a sufficiently small open lattice in Lie(E/K), the Bloch–Kato exponential of §4.3 equals the rational Kummer map composed with the formal-group exponential; after rationalizing the p-adic completion of E(K), the logarithm is the inverse tangent identification. Prove D_cris(V)^{φ=1} = 0, so H¹_e(K,V) = H¹_f(K,V). Prove `elliptic_local_comparison_descent`: these maps and equality of Kummer and finite images descend through every finite Galois L/K, including ramified and p-power degree extensions, by restriction/invariants and corestriction/trace over ℚ_p.
+
+Use NeronModelsAndSemistableAbelianVarieties §5.3 (`AbelianVariety.deRham`, `PadicComparison`, finite-extension descent), §§3.10, 3.13–3.14 (potential semistability and full Raynaud 1-motive), and AbelianSchemesAndArithmeticModuli §A4.3 (degree-one de Rham and vector-extension comparison). Match their homological filtered realization with the period functors of §4.5. Over a semistable splitting field, apply the semi-abelian logarithm and period-boundary calculation of Bloch–Kato Example 3.10 to the Raynaud uniformization, including the lattice contribution, to obtain the tangent and exponential diagram of Example 3.11. The φ-fixed crystalline subspace vanishes: the toric part has nonunit Frobenius eigenvalues, the abelian part has no eigenvalue one by the Weil bounds, and the uniformizing lattice contributes through monodromy rather than a φ-fixed vector in ker N. This gives H_e = H_f by the fundamental sequence. Descent uses the supplied de Rham descent and finite-group cohomology of ℚ_p-spaces; averaging is available even for p-power degree, and rationalized Kummer images descend by restriction/corestriction. No good-reduction, unramified-base or small-weight assumption is imposed.
+
+(Bloch–Kato, Examples 3.10–3.11 and diagram (3.11.1), printed pp. 359–361; NeronModelsAndSemistableAbelianVarieties §5.3, Coleman–Iovita comparison and Fontaine finite-extension descent locators.)
+
+**Checks.**
+
+- Good ordinary reduction over ramified K: the formal logarithm identifies the one-dimensional K-tangent quotient; no Fontaine–Laffaille weight bound is used.
+- Good supersingular reduction over ramified K gives the same tangent/Kummer identification without an ordinary filtration.
+- Split multiplicative reduction E_q: retain the Tate extension and uniformizing lattice; D_cris(V)^{φ=1} = 0 although V has a trivial quotient.
+- Potentially semistable additive reduction over ramified K: establish the diagram over a semistable Galois extension and descend, including when p divides its degree.
+
 For E/F and V=V_p E, identify H¹_f(F_v,V) with (lim_m E(F_v)/p^m E(F_v))⊗_ℤpℚ_p under Kummer at every finite place; at v∤p this space is zero, and the propagated finite condition on E[p∞] is zero; finite E[p^m] Kummer conditions can still retain Tamagawa contributions. Globally the rational finite Selmer group is (lim_m Sel_(p^m)(E/F), with multiplication-by-p coefficient transitions)⊗ℤpℚ_p, equivalently T_p Sel_(p∞)(E/F)⊗ℤpℚ_p, and H¹_f(F,V)=0 iff the classical p∞ Selmer group is finite (equivalently its ℤ_p-corank is zero). The Weil pairing gives V*(1)≃V, so its Tate-dual finite Selmer group vanishes under the same hypothesis. No finiteness of the full Tate–Shafarevich group is inferred.
 
-Stable Tate module and the finite-level Kummer/Selmer exact sequences of TauCetiRoadmap.EllipticCurves Layer 7. At p the p-adic comparison for the elliptic Kummer map is part of this target, after the minimal period foundations.
+Stable Tate module and the finite-level Kummer/Selmer exact sequences of TauCetiRoadmap.EllipticCurves Layer 7. At p use `elliptic_dDeRham_tangent`, `elliptic_exponential_kummer` and `elliptic_local_comparison_descent` above, with their geometric suppliers.
 
-Prove this as follows. Import the finite-level elliptic Kummer and Selmer/Sha sequences from TauCetiRoadmap.EllipticCurves Layer 7. Use Bloch–Kato’s abelian-variety Kummer comparison at p and the away-p rational unramified dimension calculation; distinguish rational zero from finite torsion Kummer images. Pass to the Tate-module limit and rationalization; compact Selmer finiteness gives finite rank, so rational zero iff the discrete classical group has corank zero and hence is finite. Apply the Weil pairing for the dual.
+Prove this as follows. Import the finite-level elliptic Kummer and Selmer/Sha sequences from TauCetiRoadmap.EllipticCurves Layer 7. Use the elliptic tangent/exponential comparison and H_e = H_f above at p and the away-p rational unramified dimension calculation; distinguish rational zero from finite torsion Kummer images. Pass to the Tate-module limit and rationalization; compact Selmer finiteness gives finite rank, so rational zero iff the discrete classical group has corank zero and hence is finite. Apply the Weil pairing for the dual.
 
 (Bloch–Kato, Example 3.11, pp. 359–361; Burungale–Tian (arXiv v2), §3.1, preprint pp. 5–6; Skinner (author preprint), §2.2.1, preprint p. 8; Rubin (1999 draft), Chapter I, §6.4 (Abelian varieties), display (9) and Remark 6.6, printed pp. 16–17 (PDF pp. 26–27).)
 
@@ -2094,7 +2130,7 @@ Prove this as follows. Import the finite-level elliptic Kummer and Selmer/Sha se
 - Corank zero implies finiteness of the p-primary Selmer group, not the full Sha group at every prime.
 - The torsion discrete Sel_(p∞) tensor ℚ_p is zero regardless of corank, so it cannot be the rational finite Selmer group.
 
-*Needs:* §2.12 (Passage from finite elliptic Selmer groups to p^∞); §4.9 (The Bloch–Kato local condition on T and W); §2.18 (Selmer groups of T and W as limits); TauCetiRoadmap.EllipticCurves Layer 7.
+*Needs:* §2.12 (Passage from finite elliptic Selmer groups to p^∞); §§4.3–4.5 (period boundary and realizations); §4.9 (The Bloch–Kato local condition on T and W); §2.18 (Selmer groups of T and W as limits); TauCetiRoadmap.EllipticCurves Layer 7; NeronModelsAndSemistableAbelianVarieties §§3.10, 3.13–3.14, 5.3; AbelianSchemesAndArithmeticModuli §A4.3.
 
 ### 4.27 Finite-image adjoint Selmer finiteness with descent errors
 
@@ -2110,47 +2146,98 @@ Prove this as follows. Over L the representation is trivial and its rational fin
 
 ### 4.28 Parity of Selmer ranks in self-dual ordinary families and under quadratic twist
 
-This subsection proves the Selmer-complex half of Nekovář's parity theorem: in a family of self-dual ordinary Galois representations the parity of the Selmer rank is constant, and over a 2-abelian extension it decomposes along characters. Throughout, p is odd, E is a number field, S a finite set of places of E containing those above p∞ and the ramification, and Selmer complexes are those of §2.21 with Greenberg local conditions at the places above p and unramified conditions elsewhere; h¹_f(E, X) denotes the dimension of H¹ of this Selmer complex for a rational coefficient module X. Its comparison with the Bloch–Kato group is §4.12 together with the H⁰ correction of §2.22 (Nekovář Proposition 12.7.13.3(iii)).
+This subsection proves the Selmer-complex half of Nekovář's parity theorem: in a family of self-dual ordinary Galois representations the parity of the Selmer rank is constant, and over a 2-abelian extension it decomposes along characters. Throughout, p is odd, E is a number field and S contains p∞ and the coefficient ramification. At v | p use the strict ordinary complex U_v^+(X) = C_cont(G_v,X_v^+) with its inclusion into C_cont(G_v,X); elsewhere use the unramified complex C_cont(G_v/I_v,X^{I_v}). These specify the mapping fibre of §2.21. The inertia-kernel condition of §2.8 requires its separate correction and is not substituted for this complex. Write h¹_f(E,X) for the dimension of its H¹ for rational X; comparison with Bloch–Kato uses §4.12 and the H⁰ correction of §2.22 (Nekovář Proposition 12.7.13.3(iii)).
 
-**The skew-symmetric generalized Cassels–Tate pairing.** Let O be a discrete valuation ring with fraction field 𝒦 of characteristic zero, X a finite free O-module with continuous G_{E,S}-action, and π : X ⊗_O X → O(1) a G_{E,S}-equivariant skew-symmetric pairing whose adjoint X → X^*(1) is an isomorphism. At v | p let X_v^+ ⊆ X be a G_v-stable O-direct summand equal to its own orthogonal under π, and assume that the local error complexes Err_v of §1.3 attached to these conditions and π are acyclic for every v ∈ S (for v ∤ p this holds when the local complexes C_cont(G_w, X) and C_cont(G_w/I_w, X^{I_w}) are acyclic). Prove `selmerComplex_skewPairing`: the duality morphism RΓ_f(E, X) → RHom_O(RΓ_f(E, X), O)[−3](1) of §1.4 is an isomorphism and induces a nondegenerate skew-symmetric pairing H²_f(E, X)_tors × H²_f(E, X)_tors → 𝒦/O.
-
-Prove this as follows. The hypotheses make each local adjoint a quasi-isomorphism (§1.5 for the Lagrangian Greenberg conditions, the acyclicity hypothesis elsewhere), so §1.4 gives the global duality isomorphism. The pairing on torsion of H² is the Bockstein-type pairing of the abstract Cassels–Tate construction; its kernels are controlled by the cohomology of the error complexes, which vanishes, and the transposition sign c = −1 of π gives skew-symmetry.
-
-(Nekovář, *Selmer complexes*, Proposition 10.2.5, p. 306; Theorem 10.4.4, pp. 321–322; Theorem 6.3.4, pp. 142–143; Proposition 12.7.13.4(iv), pp. 485–486.)
-
-**Checks.**
-
-- If RΓ_f(E, X) has torsion-free cohomology the pairing is on the zero module.
-- Since p is odd and 𝒦 has characteristic zero, skew-symmetric is the same as alternating on the finite-length module H²_{f,tors}; a nondegenerate alternating form forces even length. A symmetric pairing (c = +1 in Proposition 10.2.5) gives no such constraint: x·y on O/ϖ is nondegenerate with odd length.
-- If some Err_v is not acyclic, Theorem 10.4.4 only bounds the kernel and cokernel of the adjoint by H(Err_v); a Tamagawa error at v ∤ p can make the pairing degenerate, so the acyclicity hypothesis cannot be dropped.
-
-**Symplectic filtration of a skew-Hermitian module.** Let O be a discrete valuation ring with uniformizer ϖ and residue field k, and N an O-module of cofinite type with a skew-symmetric bi-additive form N × N → 𝒦/O whose kernel is the maximal divisible submodule N_div. Prove `skewSymmetric_filtration_parity`: the filtration F^j = N[ϖ] ∩ ϖ^{j−1}N of F¹ = N[ϖ] has graded pieces carrying nondegenerate alternating k-bilinear forms, F^∞ = ∩_j F^j = N[ϖ] ∩ N_div, and hence dim_k N[ϖ] ≡ dim_k F^∞ (mod 2).
-
-(Nekovář, Lemma 10.6.5, pp. 326–327, with trivial involution and ε = 1.)
-
-**Checks.**
-
-- N = 𝒦/O with the zero form: N = N_div, F¹ = F^∞ is one-dimensional, and the parity statement holds with no graded pieces.
-- N = (O/ϖ)² with the standard symplectic form: F¹ = N[ϖ] = gr¹ is two-dimensional and F^∞ = 0.
-- N = O/ϖ with a nondegenerate symmetric form has dim N[ϖ] = 1 and F^∞ = 0, so the alternating hypothesis is necessary.
-
-**Parity is constant in a self-dual ordinary family.** Let R be a Noetherian integral domain with fraction field 𝒦_R of characteristic zero, 𝒱 a finite-dimensional 𝒦_R-vector space with continuous G_{E,S}-action, and π : 𝒱 ⊗ 𝒱 → 𝒦_R(1) a nondegenerate G_{E,S}-equivariant skew-symmetric pairing. An arithmetic point is a height-one prime P of R with R_P a discrete valuation ring and residue field k(P) of characteristic zero, together with a G_{E,S}-stable R_P-lattice T(P) ⊆ 𝒱 on which (a scalar multiple of) π restricts to a perfect skew-symmetric pairing into R_P(1), and, at every v | p, a G_v-stable R_P-direct summand T(P)_v^+ equal to its own orthogonal; V_P = T(P)/PT(P) carries the reduced pairing and filtrations. For a quadratic (or trivial) character β of G_{E,S} and two arithmetic points P, P′, assume (A1) H⁰(E, V_P ⊗ β) = 0 = H⁰(E, V_{P′} ⊗ β), and (A2) for every w ∤ p∞ in S the local complexes C_cont(G_w, X ⊗ β) and C_cont(G_w/I_w, (X ⊗ β)^{I_w}) are acyclic for X = T(P), T(P′). Prove `selmerParity_family`:
+**The skew-symmetric generalized Cassels–Tate pairing.** Let O be a DVR with fraction field 𝒦 of characteristic zero and 2 ∈ Oˣ. Coefficients are either finite free continuous O-lattices for O the integers in a finite extension of ℚ_p, or finite-type admissible localized coefficients in ArithmeticGaloisDuality §D7.5, *Duality after localising the coefficients*, arising from a complete Noetherian local ring with finite residue field; cochains in the latter case are filtered colimits over finite-type submodules of that base ring, not cochains for an invented O-adic topology. Let X be finite free over O with a perfect equivariant skew-symmetric pairing π : X ⊗_O X → O(1). Assume its global and local cochain complexes and U_v^+ are perfect, that X_v^+ at p is a stable O-direct summand equal to its orthogonal, and that every local error Err_v of §1.3 is acyclic. Include the orthogonality nullhomotopies and their transposition data from §§1.3–1.5. Prove `selmerComplex_skewPairing`: for C = RΓ_f(E,X), cup product with π followed by the compact-support trace RΓ_c(E,O(1)) → O[−3] gives a pairing C ⊗^L_O C → O[−3] and an isomorphism
 
 ```text
-h¹_f(E, V_P ⊗ β) ≡ dim_{𝒦_R} H¹_f(E, 𝒱 ⊗ β) ≡ h¹_f(E, V_{P′} ⊗ β)   (mod 2).
+C ≃ RHom_O(C,O)[−3].
 ```
 
-Prove this as follows. The exact triangle RΓ_f(T(P) ⊗ β) --ϖ_P--> RΓ_f(T(P) ⊗ β) → RΓ_f(V_P ⊗ β) gives 0 → H¹_f(T(P))/ϖ_P → H¹_f(V_P) → H²_f(T(P))[ϖ_P] → 0, and (A1) makes H¹_f(T(P) ⊗ β) free of rank h¹_f(𝒱 ⊗ β). The first target applies to T(P) ⊗ β by (A2) and the self-orthogonality of T(P)_v^+, so the torsion of H²_f carries a nondegenerate skew-symmetric pairing; the symplectic filtration lemma applied to N = H¹_f(E, T(P) ⊗ β ⊗ 𝒦_{R_P}/R_P), the Pontryagin–Matlis dual of that torsion, gives a filtration of H¹_f(E, V_P ⊗ β) with alternating graded pieces whose last term is the image of H¹_f(T(P) ⊗ β), of dimension h¹_f(𝒱 ⊗ β). The same argument at P′ concludes.
+The coefficient Tate twist has been consumed by the trace. The pairing transposes by the signed swap with coefficient sign c = −1; its Bockstein pairing on H²(C)_tors is O-bilinear, nondegenerate and skew-symmetric, hence alternating since 2 is a unit. No Galois action or extra Tate twist is attached to the final O-module dual. The Iwasawa involution in §3.12 is a separate convention.
 
-(Nekovář, §12.7.12, (12.7.12.1)–(12.7.12.2), p. 482; 12.7.13.1–12.7.13.6, pp. 483–487, in particular Proposition 12.7.13.4 and Corollary 12.7.13.5.)
+Prove this by the error triangle of §1.4, using the strict ordinary adjoints of §1.5, then the abstract Bockstein construction with its transposition homotopies. Perfectness and localized duality are used with their actual coefficient contracts.
+
+(Nekovář, Theorem 6.3.4, pp. 142–143; Proposition 10.2.5, p. 306; Theorem 10.4.4, pp. 321–322; Proposition 12.7.13.4(iv), pp. 485–486.)
 
 **Checks.**
 
-- P = P′: the statement is h¹_f(E, V_P ⊗ β) ≡ h¹_f(E, V_P ⊗ β).
-- A non-quadratic β pairs V ⊗ β with V ⊗ β^{−1}; dimensions of the two agree, but there is no skew-symmetric form on a single module and no parity statement.
-- Without (A1), H⁰(E, V_P ⊗ β) ≠ 0 adds H⁰-terms to the exact triangle, H¹_f(T(P) ⊗ β) need not be free of the generic rank, and the identification of the last filtration step with the generic subspace fails.
+- Torsion-free H²(C) gives a pairing on zero; free H¹(C) can nevertheless be nonzero.
+- A nondegenerate alternating torsion pairing has paired elementary divisors. A symmetric pairing x·y on O/ϖ can have odd length and supplies no parity constraint.
+- Nonacyclic Err_v must remain in the error triangle; a Tamagawa error can make the torsion pairing degenerate.
+- The coefficient target O(1) and degree-three trace give an untwisted O-module dual; inserting another (1) does not describe this adjoint.
 
-**Parity under a 2-abelian extension.** For a finite abelian extension E′/E of exponent two with character group A and V = V_P as above (or any self-dual V satisfying (A1)–(A2) for each α ∈ A), prove `selmerParity_quadraticTwist`: H¹_f(E′, V) ≅ ⊕_{α∈A} H¹_f(E, V ⊗ α), and hence h¹_f(E′, V) = Σ_{α∈A} h¹_f(E, V ⊗ α). For a finite abelian extension of odd degree, the nontrivial characters pair off as α, α^{−1} with h¹_f(E, V ⊗ α) = h¹_f(E, V ⊗ α^{−1}), so h¹_f(E′, V) ≡ h¹_f(E, V) (mod 2). Prove this as follows. Shapiro's lemma for Selmer complexes and the character decomposition of the induced coefficients (§3.6 for the semilocal terms; TauCetiRoadmap.ProfiniteCohomology Layer 7), and the self-dual Euler characteristic formula for the equality of the dimensions for α and α^{−1}.
+**Symplectic filtration of a skew-Hermitian module.** Let O be a DVR with fraction field 𝒦, uniformizer ϖ, residue field k and 2 ∈ Oˣ. Let N be of cofinite type over O with an O-bilinear skew-symmetric form N × N → 𝒦/O whose left and right radicals are N_div, the maximal O-divisible submodule. Equivalently the induced form on the finite-length quotient N/N_div is perfect alternating. Prove `skewSymmetric_filtration_parity`: F^j = N[ϖ] ∩ ϖ^{j−1}N has nondegenerate alternating k-bilinear forms on gr^j F, F^∞ = ∩_j F^j = N[ϖ] ∩ N_div, and dim_k N[ϖ] ≡ dim_k F^∞ (mod 2). Trivial involution is used: b(ax,by) = ab b(x,y). Construct the graded pairing by choosing lifts x,y in N[ϖ^j], multiplying b(x,y) by ϖ^{j−1}, and identifying ϖ^{−1}O/O with k to obtain the form on ϖ^{j−1}x, ϖ^{j−1}y; check independence of lifts and that its radical is F^{j+1}.
+
+(Nekovář, Lemma 10.6.5, pp. 326–327, trivial involution and ε = 1.)
+
+**Checks.**
+
+- N = 𝒦/O with the zero form: N = N_div and F¹ = F^∞ is one-dimensional.
+- N = (O/ϖ)² with the standard symplectic form: gr¹ has dimension two and F^∞ = 0.
+- O the unramified quadratic extension of ℤ₃, k = 𝔽₉, N = k: b(x,y) = j(xy³−x³y), with j : k ≃ (𝒦/O)[3], is biadditive alternating with zero radical but not O-bilinear. Its dimension one violates the parity conclusion, so it is excluded.
+- O/ϖ² has even length but dim_k N[ϖ] = 1; even length alone cannot replace a perfect alternating pairing. A nondegenerate symmetric form on O/ϖ also fails the parity conclusion.
+
+**Algebraic specialization parity.** Let O be a DVR with 2 ∈ Oˣ, fraction field 𝒦 and residue field k. Let C be a perfect cohomological O-complex with a perfect degree-three pairing C ⊗^L C → O[−3], a skew adjoint under the signed transpose and the transposition homotopies of the abstract Cassels–Tate construction. Assume H⁰(C ⊗^L_O k) = 0. Prove `selmerParity_perfectComplex`:
+
+```text
+dim_k H¹(C ⊗^L_O k) ≡ dim_𝒦 H¹(C ⊗_O 𝒦)  (mod 2).
+```
+
+The coefficient triangle gives H¹(C)[ϖ] = 0 and
+0 → H¹(C)/ϖ → H¹(C ⊗^L k) → H²(C)[ϖ] → 0.
+Thus H¹(C) is finite free. The Bockstein form on H²(C)_tors is perfect alternating, so its elementary divisors occur in equal pairs: equivalently apply the filtration theorem to this finite-length module. This makes dim_k H²(C)[ϖ] even and proves the congruence.
+
+Also give the coefficient comparison
+0 → H¹(C) ⊗ (𝒦/O) → H¹(C ⊗^L (𝒦/O)) → H²(C)_tors → 0.
+Its first term is precisely the maximal divisible submodule of the middle term: it is divisible, the quotient has finite length, and any divisible submodule maps to zero in that quotient. The finite quotient is H²(C)_tors, whose pairing can be transported; the full middle term is not the dual of a finite torsion module. When applied arithmetically this triangle uses derived coefficients and the base-change comparison below.
+
+(Nekovář, §§10.1–10.2, pp. 300–307; Lemma 10.6.5, pp. 326–327; Proposition 12.7.13.4 and Corollary 12.7.13.5, pp. 485–487.)
+
+**Checks.**
+
+- C = O in degrees one and two with zero differential, paired by evaluation with the prescribed degree-three skew transpose: H¹ is free of rank one, H² is torsion-free and discrete H¹ is 𝒦/O, although H²_tors = 0.
+- A paired torsion summand (O/ϖ^a)² contributes dimension two to H²[ϖ], for every a ≥ 1; parity uses the number of elementary divisors rather than just their total length.
+- If H⁰(C ⊗^L k) is nonzero, the argument establishing freeness of H¹ no longer applies and the H⁰ correction must be retained.
+
+**Arithmetic realization and common local-condition base change.** Let R be a complete Noetherian normal local domain of characteristic zero, with finite residue field of characteristic p, equipped with the dualizing coefficient contract of ArithmeticGaloisDuality §D7.5. Let 𝒦_R = Frac R and 𝒱 be a finite-dimensional admissible localized 𝒦_R-representation of G_{E,S}, with a fixed nondegenerate equivariant skew pairing π : 𝒱 ⊗ 𝒱 → 𝒦_R(1). Specify once and for all its generic ordinary summands 𝒱_v^+ and generic local-condition diagram, including restriction maps and orthogonality/transposition homotopies. For each height-one P under consideration, O_P = R_P is a DVR with k(P) of characteristic zero; supply an admissible finite-type R-lattice T_R(P) ⊆ 𝒱 and stable finite-type local submodules whose localizations T(P), T(P)_v^+ are finite free and direct summands, respectively. Require T(P) ⊗ 𝒦_R = 𝒱 and T(P)_v^+ ⊗ 𝒦_R = 𝒱_v^+ as subrepresentations with their specified local maps. A scalar multiple of the common generic skew pairing must restrict to a perfect pairing T(P) ⊗ T(P) → O_P(1), with self-orthogonal T(P)_v^+ and the compatible homotopies. For every twist β used below, assume the global, local and strict ordinary cochain models over R are perfect; their localizations are the ind-admissible cochains of ArithmeticGaloisDuality §D7.3, not cochains for the maximal-ideal topology on R_P.
+
+For a quadratic or trivial character β with values in Rˣ, set V_P = T(P)/PT(P). Impose (A1) H⁰(E,V_P ⊗ β) = 0 and (A2): at every w ∤ p∞ in S, both C_cont(G_w,X ⊗ β) and C_cont(G_w/I_w,(X ⊗ β)^{I_w}) are acyclic for X = T(P), V_P, 𝒱. Define C_P as the strict ordinary/unramified mapping fibre. Prove `selmerFamily_baseChange`: C_P is perfect and there are canonical comparisons
+
+```text
+C_P ⊗^L_{O_P} k(P) ≃ RΓ_f(E,V_P ⊗ β),
+C_P ⊗_{O_P} 𝒦_R ≃ RΓ_f(E,𝒱 ⊗ β),
+C_P ⊗^L_{O_P} (𝒦_R/O_P) ≃ RΓ_f(E,T(P) ⊗ β ⊗ (𝒦_R/O_P)).
+```
+
+For the last comparison use the derived-propagated local diagram of the coefficient triangle, not an independently selected H¹ condition. Include the global and every local base-change map, the homotopies commuting with localization and inclusion, and the transported orthogonality/transposition homotopies. At p the exact coefficient sequences for the direct summands give reduction compatibility; localization follows from the ind-admissible cochain comparison of Nekovář §3.7. Away from p (A2) identifies the relevant integral, residual and generic diagrams with zero, so no unproved base change of inertia invariants is used. Construct the divisible-coefficient comparison from O_P → 𝒦_R → 𝒦_R/O_P. Mapping fibres preserve these comparisons. Use §1.5 for the strict ordinary adjoints and (A2) elsewhere, and apply ArithmeticGaloisDuality's localized duality contract and §1.4 to obtain the degree-three skew duality. The injection H⁰(C_P ⊗^L k(P)) ↪ H⁰(E,V_P ⊗ β), together with (A1), supplies the H⁰ hypothesis of the algebraic theorem.
+
+(Nekovář, Propositions 3.4.2–3.4.4, pp. 83–84; §3.7, pp. 93–94; Proposition 5.6.3, p. 130; §§6.7.1–6.7.6, pp. 151–153; Proposition 12.7.13.4(i)–(iv), pp. 485–486.)
+
+**Checks.**
+
+- In a symplectic generic plane, the distinct lines 𝒦_Re₁ and 𝒦_Re₂ are both Lagrangian. Lattices inducing these different lines cannot satisfy the common generic local-condition datum.
+- A nonzero local specialization cone is a failure of the comparison hypothesis; an isomorphism of H¹ images alone cannot replace a quasi-isomorphism of diagrams.
+- For O_P with characteristic-zero residue field, 2 is a unit; its cochains still come from the complete R-coefficient contract, not from treating k(P) as a finite residue field.
+- A strict ordinary complex C(G_v,T(P)_v^+) carries the proven adjoint; replacing it by an inertia-kernel condition requires its additional error comparison.
+
+**Parity is constant in a self-dual ordinary family.** For two points P,P′ of the common arithmetic datum just specified, satisfying all its hypotheses for the same β, prove `selmerParity_family`:
+
+```text
+h¹_f(E,V_P ⊗ β) ≡ dim_{𝒦_R} H¹_f(E,𝒱 ⊗ β) ≡ h¹_f(E,V_{P′} ⊗ β)  (mod 2).
+```
+
+Apply `selmerFamily_baseChange` and `selmerParity_perfectComplex` at each point. The generic complex is common because its local-condition maps and homotopies are common. The finite quotient of the discrete H¹ coefficient comparison, rather than its full module, carries the transported torsion pairing.
+
+(Nekovář, §12.7.12, (12.7.12.1)–(12.7.12.2), pp. 482–483; Proposition 12.7.13.4 and Corollary 12.7.13.5, pp. 485–487.)
+
+**Checks.**
+
+- P = P′ gives the same specialization congruence with the common generic rank.
+- A non-quadratic β pairs a twist with its inverse twist and does not supply a skew form on that single twist.
+- Without (A1), retain the H⁰ terms; the asserted freeness and parity proof do not apply.
+
+**Parity under a 2-abelian extension.** For a finite abelian extension E′/E of exponent two with character group A and V = V_P as above (or any self-dual V with the specified local-condition complexes, their Shapiro compatibility and degree-three duality for each α ∈ A), prove `selmerParity_quadraticTwist`: H¹_f(E′, V) ≅ ⊕_{α∈A} H¹_f(E, V ⊗ α), and hence h¹_f(E′, V) = Σ_{α∈A} h¹_f(E, V ⊗ α). For a finite abelian extension of odd degree, the nontrivial characters pair off as α, α^{−1} with h¹_f(E, V ⊗ α) = h¹_f(E, V ⊗ α^{−1}), so h¹_f(E′, V) ≡ h¹_f(E, V) (mod 2). Prove this as follows. Shapiro's lemma for Selmer complexes and the character decomposition of the induced coefficients (§3.6 for the semilocal terms; TauCetiRoadmap.ProfiniteCohomology Layer 7), and the self-dual Euler characteristic formula for the equality of the dimensions for α and α^{−1}.
 
 (Nekovář, Proposition 12.5.9.2(iv), pp. 450–451; Proposition 7.8.11, p. 187; §12.10.1–12.10.2, pp. 521–522.)
 
@@ -2160,28 +2247,31 @@ Prove this as follows. The exact triangle RΓ_f(T(P) ⊗ β) --ϖ_P--> RΓ_f(T(P
 - E′/E quadratic with character η: h¹_f(E′, V) = h¹_f(E, V) + h¹_f(E, V ⊗ η).
 - E′/E cyclic cubic: h¹_f(E′, V) ≡ h¹_f(E, V) (mod 2), while for a quadratic E′/E the parity can change, by the parity of h¹_f(E, V ⊗ η).
 
-**Ordinary modular forms.** Let f be a cuspidal newform over ℚ of even weight k with trivial nebentypus, λ | p a prime of its coefficient field with p odd, f ordinary at λ, and V = V_λ(f)(k/2) in Nekovář's self-dual convention. Suppose f is the specialisation at an arithmetic point P of a self-dual ordinary family as above (𝒱 the generic Galois representation of the λ-adic Hida family through the p-stabilisation of f, with the twisted self-duality (12.7.12.2)) satisfying (A1)–(A2) at P and at a second arithmetic point P′. Prove `ordinaryModular_selmerParity_family`: for F = ℚ and for every quadratic extension F of ℚ, h¹_f(F, V_P) ≡ h¹_f(F, V_{P′}) (mod 2), where the quadratic case follows from the 2-abelian decomposition applied to the twists by the quadratic character of F. The family, its lattices and the self-duality are data of the statement; this roadmap does not construct Hida families.
+**Ordinary modular forms.** Let f be a cuspidal newform over ℚ of even weight k with trivial nebentypus, λ | p with p odd, f ordinary at λ, and V = V_λ(f)(k/2) in Nekovář's self-dual convention. Suppose V = V_P and P′ is a second arithmetic point of a self-dual ordinary family with P and P′ carrying the common local diagram and coefficient realization above. Prove `ordinaryModular_selmerParity_family`: h¹_f(ℚ,V_P) ≡ h¹_f(ℚ,V_{P′}) (mod 2) when the realization hypotheses, (A1) and (A2) hold for β = 1 at both points. For a specified quadratic extension F/ℚ with character η_F, enlarge S to include its ramification and impose the same realization hypotheses, (A1) and (A2) also for β = η_F at both points. Then h¹_f(F,V_P) ≡ h¹_f(F,V_{P′}) (mod 2). Apply family parity separately to 1 and η_F, then the 2-abelian decomposition. The family and its lattices are data; the theorem applies to every quadratic F for which these two twisted contracts are supplied.
 
-(Nekovář, Proposition 12.7.14.4(iii), pp. 492–493, which is this statement for Hilbert modular forms.)
+(Nekovář, Proposition 12.7.14.4(iii), pp. 492–493, for Hilbert modular forms; Proposition 12.7.13.3 and Corollary 12.7.13.5, pp. 484–487, for the finite-order twists.)
 
 **Checks.**
 
-- If h¹_f(ℚ, V_P) = 1 then h¹_f(ℚ, V_{P′}) is odd at every other arithmetic point of the family.
-- If λ is not ordinary there is no self-orthogonal summand T(P)_v^+ at p, so the hypotheses fail; the statement is not asserted.
-- The statement concerns Selmer dimensions only: it does not relate h¹_f to the order of vanishing of an L-function.
+- Rank one at P forces odd rank at P′ under the β = 1 contract.
+- For quadratic F, untwisted hypotheses alone do not discharge the η_F contract; its ramification must be included in S.
+- Nonordinary f supplies no required ordinary direct summand, so the hypotheses fail.
+- These are Selmer dimensions; no order of vanishing of an L-function is inferred.
 
-*Needs:* §1.3 (Local conditions and derived orthogonal complements); §1.4 (Duality for a global mapping fibre with local conditions); §1.5 (Strict ordinary and inertia ordinary annihilators); §2.21 (Selmer complex as a mapping fibre); §2.22 (The H⁰ correction before the classical Selmer kernel); §3.6 (Semilocal cohomology and descent of local classes); §4.12 (Finite versus ordinary local conditions with explicit exceptional terms); TauCetiRoadmap.ProfiniteCohomology Layer 7.
+*Needs:* §§1.3–1.5 (local-condition diagrams, nullhomotopies and strict ordinary adjoints); §§2.21–2.22 (mapping fibres and H⁰ correction); §3.6 (semilocal Shapiro); §4.12 (finite/ordinary comparison); ArithmeticGaloisDuality §D7.3 (*Admissible compact and cofinite coefficients*; *Continuous cochains in the derived category*; *Cohomological finiteness and perfect amplitude*), §D7.5 (*Duality after localising the coefficients*); TauCetiRoadmap.ProfiniteCohomology Layer 7.
 
 ### 4.29 Two-primary Selmer parity for congruent-number curves
 
 For positive squarefree n let E_n be the elliptic curve y² = x³ − n²x over ℚ (isomorphic to n y² = x³ − x by (X, Y) = (nx, n²y)), with its rational 2-torsion point P = (0, 0) and the 2-isogeny φ : E_n → E′_n = E_n/⟨P⟩, E′_n : Y² = X³ + 4n²X. The endpoint is the parity of the ℤ₂-corank of the 2^∞-Selmer group Sel_{2^∞}(E_n/ℚ) (§2.12), which includes the divisible part of Ш; it is proved here from the Cassels–Tate pairing, the isogeny Selmer formula and an explicit computation of the local Kummer images of φ.
 
-**The Cassels–Tate pairing of an elliptic curve.** For an elliptic curve E over a number field K, prove `casselsTate_pairing`: there is a bilinear pairing Ш(E/K) × Ш(E/K) → ℚ/ℤ whose left and right kernels are the maximal divisible subgroup, and which is alternating; consequently, for every prime ℓ, Ш(E/K)[ℓ^∞]/Ш(E/K)[ℓ^∞]_div ≅ T × T for a finite abelian ℓ-group T, so its order is a square. Prove this as follows. Define the pairing on Ш[ℓ^m] × Ш[ℓ^m] by the Weil-pairing construction: lift to Sel_{ℓ^m} and H¹(K, E[ℓ^{2m}]), take the cup product with the Weil pairing e_{ℓ^m} (TauCetiRoadmap.EllipticCurves Layer 2) into H²(K, μ), and evaluate the sum of local invariants; the kernels are computed from Poitou–Tate (ArithmeticGaloisDuality §R02.4.3) and local duality for elliptic curves (ArithmeticGaloisDuality §D7.6, *Local abelian-variety duality and gerbe evaluation*). Alternation follows from Poonen–Stoll's identity ⟨a, λa + c_λ⟩ = 0 with c_λ = 0, because the principal polarisation λ of E comes from the rational divisor (O).
+**The Cassels–Tate pairing of an elliptic curve.** For an elliptic curve E over a number field K, prove `casselsTate_pairing`: there is a bilinear pairing Ш(E/K) × Ш(E/K) → ℚ/ℤ whose left and right kernels are the maximal divisible subgroup, and which is alternating; consequently, for every prime ℓ, Ш(E/K)[ℓ^∞]/Ш(E/K)[ℓ^∞]_div ≅ T × T for a finite abelian ℓ-group T, so its order is a square. Prove this by the cochain construction of Milne I §6.9. For a,b ∈ Ш[ℓ^m], choose Selmer cocycles α,β with coefficients in E[ℓ^m]. Lift α to a global 1-cochain α₁ with coefficients in E[ℓ^{2m}]; it need not be a cocycle, and dα₁ takes values in the kernel E[ℓ^m]. Choose local Kummer lifts α_{v,1} that are cocycles and map to α_v, using local triviality of a and the point Kummer sequence. A global 2-cochain ε with dε = dα₁ ∪ β corrects the local products; establish its existence by the degree-three vanishing used in Milne §6.9, with the real-place terms retained. With a consistent sign convention, the resulting local 2-cocycles are (α₁,v − α_{v,1}) ∪ β_v − ε_v, using the Weil pairing on the kernel. Prove the differential is zero, sum their local invariants, and prove finite support, independence of all cochains and local trivializations, bilinearity, compatibility as m increases, and functoriality under isogenies. Global changes cancel by reciprocity; local Kummer changes cancel by their dual annihilators. Poitou–Tate and the finite-level Selmer sequences show that the left and right radicals on Ш[ℓ^∞] are exactly its maximal divisible subgroup, not necessarily zero (Milne Theorem 6.13(a)); its quotient is finite by cofinite generation. Alternation follows from Poonen–Stoll's identity ⟨a, λa + c_λ⟩ = 0 with c_λ = 0, because the principal polarisation λ of E comes from the rational divisor (O).
 
-(Milne, *Arithmetic Duality Theorems*, Chapter I, §6, Theorem 6.13(a), printed pp. 82–83 (PDF pp. 90–91), and its Notes; Poonen–Stoll, *The Cassels–Tate pairing on polarized abelian varieties*, Theorem 5, p. 1120, Corollaries 6–7, pp. 1121–1122, and Corollary 9, pp. 1123–1124; Cassels, *Arithmetic on curves of genus 1. IV. Proof of the Hauptvermutung*, J. reine angew. Math. 211 (1962).)
+(Milne, *Arithmetic Duality Theorems*, Chapter I, §6.9, printed pp. 78–79, §6.11 and its correction footnote, printed pp. 81–82, and Theorem 6.13(a), printed pp. 82–83 (PDF pp. 90–91), and its Notes; Poonen–Stoll, *The Cassels–Tate pairing on polarized abelian varieties*, Theorem 5, p. 1120, Corollaries 6–7, pp. 1121–1122, and Corollary 9, pp. 1123–1124; Cassels, *Arithmetic on curves of genus 1. IV. Proof of the Hauptvermutung*, J. reine angew. Math. 211 (1962).)
 
 **Checks.**
 
+- A single global Brauer cup class has Σ_v inv_v(res_v c) = 0 by global reciprocity; prove this naive construction is identically zero. It cannot define a nonzero Cassels–Tate pairing.
+- A coefficient-module surjection E[ℓ^{2m}] → E[ℓ^m] need not be onto on H¹: its H² obstruction is retained as dα₁ and cancelled by ε in the local construction.
 - If Ш(E/K)[ℓ^∞] is divisible (for example zero) the pairing is zero and T = 0.
 - Ш(E/K)[2^∞]/Ш(E/K)[2^∞]_div cannot be ℤ/2, since its order must be a square.
 - For abelian varieties the pairing need not be alternating (Poonen–Stoll exhibit Jacobians with #Ш twice a square); the elliptic statement uses that c_λ = 0 for the polarisation from (O).
