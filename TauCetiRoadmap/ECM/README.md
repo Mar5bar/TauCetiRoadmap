@@ -176,16 +176,16 @@ a proper-factor guarantee.
 
 ### 10. Baby-step/giant-step stage 2
 
-Fix finite bounds `B₁ < B₂`, a positive even stride `D`, and a finite schedule
-covering every prime `q` in `(B₁,B₂]`: either handle `q ∣ D` directly, or produce
-indices `i,j` with `q=iD+j` or `q=iD−j` and `0<j≤D/2`. Construct that schedule
+Fix finite bounds `B₁ < B₂`, a positive even stride `w`, and a finite schedule
+covering every prime `q` in `(B₁,B₂]`: either handle `q ∣ w` directly, or produce
+indices `i,j` with `q=iw+j` or `q=iw−j` and `0<j≤w/2`. Construct that schedule
 and prove coverage; handle signs in integers before interpreting scalar multiples.
-For `Q=[M(B₁)]P`, build baby points `[j]Q` and giant points `[iD]Q` using the
+For `Q=[M(B₁)]P`, build baby points `[j]Q` and giant points `[iw]Q` using the
 proved ladder/recurrences, with the same regularity and exceptional-case accounting.
 
 Prove that if `[q]Q=0` then the pair has equal Kummer coordinates, hence
 `X_i Z_j − X_j Z_i=0`. Prove the converse as the disjunction
-`[iD−j]Q=0 ∨ [iD+j]Q=0`, on valid pairs. Treat infinity explicitly. Multiply
+`[iw−j]Q=0 ∨ [iw+j]Q=0`, on valid pairs. Treat infinity explicitly. Multiply
 these cross differences and the direct-case denominators. Prove detection when
 `addOrderOf P ∣ M(B₁)*q` for a covered prime `q`, with `Q ≠ 0` for a genuine
 stage-2 continuation; stage 1 accounts for `Q=0`. Give the corresponding
