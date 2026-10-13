@@ -143,10 +143,10 @@ and Khare–Wintenberger numerics of Layer R02.6.
   restriction to them with coherent change of embedding (Layer 2, §2.1); the Dickson classification
   of finite projective images (Layer 4, §4.4) and the residual image in characteristic two with
   `H¹(SL₂(F₀), M₂(F)) = 0` (Layer 4, §4.7); Chebotarev density for global function fields
-  (Layer 5, `functionField_chebotarev`); the adjoint, the trace-zero adjoint and the perfect trace
-  pairing over any coefficient ring (Layer 7, §7.2); `H¹(SL₂(F), ad⁰) = 0` for `#F ≠ 5` in odd
-  characteristic (Layer 7, §7.7); Tate's vanishing `H²(G_F, ℚ/ℤ) = 0` for a number field (Layer 7,
-  `tate_h2_qz_eq_zero`).
+  (Layer 5, §5.13 / **Chebotarev for function fields**); the adjoint, the trace-zero adjoint and the
+  perfect trace pairing over any coefficient ring (Layer 7, §7.2); `H¹(SL₂(F), ad⁰) = 0` for `#F ≠ 5` in odd
+  characteristic (Layer 7, §7.7); Tate's vanishing `H²(G_F, ℚ/ℤ) = 0` for a number field
+  (Layer 7, §7.6 / **Projective lifting**).
 - *InverseGaloisAndArithmeticFundamentalGroups* IG.4.2 states, over the absolute Galois group of a
   number field, the finite-coefficient localisation kernels, the consequences of Poitou–Tate duality
   its embedding problems use (exact orthogonality of global `H¹` in the restricted product, the dual
@@ -366,14 +366,19 @@ as inputs; and Galois representations attached to automorphic forms.
   scheme with its Poincaré bundle (over a field, the dual abelian variety).
 - `AlgebraicModuliForArithmeticGeometry` Layer 4: banded gerbes and band-preserving morphisms
   (§4.2) and their classification by `H²` of the band, `gerbeClass` (§4.20).
-- `ArithmeticGaloisRepresentations` Layer 2, §2.1: `decompositionGroup`, `inertiaGroup`,
-  `wildInertiaGroup`, `localEmbeddingMap` and `localRestriction` with its change-of-embedding
-  isomorphisms `localRestrictionIsoOfConj`; Layer 4, §4.4: `GL2Subgroup.dickson_projectiveImage`; Layer 4, §4.7: `GL2Subgroup.sl2_submodules_charTwo`; Layer 5,
-  §5.13: `functionField_chebotarev`; Layer 7, §7.2: `ContinuousRep.ad`, `adZero`, `adQuot`,
-  `ContinuousRep.tracePairing_perfect` (the trace pairing on `ad ρ`) and
-  `tracePairing_matrix_perfect` (on `M_n(A)`);
-  Layer 7, §7.7: `ResidualImage.h1_SL2_adZero_eq_zero`; Layer 7, §7.6:
-  `tate_h2_qz_eq_zero`.
+- Supplied by ArithmeticGaloisRepresentations §2.1 / **Decomposition and inertia groups**:
+  `GaloisRep.decompositionGroup`, `GaloisRep.inertiaGroup` and the wild inertia group;
+  §2.1 / **The local embedding**: `GaloisRep.localEmbeddingMap`;
+  §2.1 / **Local restriction**: `GaloisRep.localRestriction` and its change-of-embedding
+  isomorphisms. Supplied by ArithmeticGaloisRepresentations §4.4 / **Dickson's theorem**:
+  `GL2Subgroup.dickson_projectiveImage`; §4.7 / **Characteristic two**:
+  `GL2Subgroup.sl2_submodules_charTwo` for the invariants and submodules, and the target's
+  `H¹(SL₂(F₀), M₂(F)) = 0`; §5.13 / **Chebotarev for function fields**.
+  Supplied by ArithmeticGaloisRepresentations §7.2 / **The adjoint**: `ContinuousRep.ad`,
+  `ContinuousRep.adZero`, `ContinuousRep.adQuot`, `ContinuousRep.tracePairing_perfect`
+  (the trace pairing on `ad ρ`); §7.2 / **The trace pairing on matrices**:
+  `tracePairing_matrix_perfect` (on `M_n(A)`); §7.7 / **`SL₂` with adjoint coefficients**:
+  `ResidualImage.h1_SL2_adZero_eq_zero`; §7.6 / **Projective lifting** for Tate's vanishing.
 - `InverseGaloisAndArithmeticFundamentalGroups` IG.4.2, as described under *Scope and ownership*.
 
 ## How to read the build
@@ -1598,8 +1603,8 @@ maximal extension unramified outside `S`, Hermite's finiteness theorem and the f
 `(G_S, C_S)` is one, with its reciprocity law and the Kummer sequence for `S`-units. It also states
 the class-field inputs for global function fields that the function-field duality theorems of
 Layer R02.4 need, since ClassFieldTheory treats global fields of characteristic zero only;
-Chebotarev density for global function fields is ArithmeticGaloisRepresentations Layer 5
-(`functionField_chebotarev`) and is cited. Finally
+Chebotarev density for global function fields is supplied by ArithmeticGaloisRepresentations
+§5.13 / **Chebotarev for function fields**. Finally
 it defines the locally trivial groups `Шⁱ`, describes the cyclotomic power kernel, and proves four
 class-field applications: exponent-two ramification fields, quadratic reciprocity for one new
 ramified prime, the antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at
@@ -1761,8 +1766,8 @@ The API:
 - `RestrictedRamification.unramifiedSubgroup_two_eq_bot`: for finite `M` unramified at `v`,
   `H²_un(K_v, M) = 0`, because it is the image of `H²(g_v, M) = 0`.
 - `RestrictedRamification.locMap_eq_restriction`: at finite `v`, `loc_v` is the restriction to the
-  decomposition group along ArithmeticGaloisRepresentations' `localEmbeddingMap` (Layer 2, §2.1),
-  the map underlying its `localRestriction`.
+  decomposition group along ArithmeticGaloisRepresentations' `GaloisRep.localEmbeddingMap`
+  (Layer 2, §2.1), the map underlying its `GaloisRep.localRestriction`.
 
 *Proof sketch.* Two embeddings differ by an element of `G_K`, which conjugates `G_v`; conjugation by
 an element of `G_S` acts trivially on the cohomology of `G_S`, so `loc_v` is independent of the
@@ -1778,9 +1783,11 @@ because `g_v ≅ Ẑ` has cohomological dimension `1` (ProfiniteCohomology Layer
 Layer 2. ([Milne, *Arithmetic Duality Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf),
 Chapter I, §4, statement of the main theorem, p. 55 (PDF p. 63).) *Needs:* *The Galois group G_{K,S}
 of the maximal extension unramified outside S*; ProfiniteCohomology Layers 2, 10 and 11; Tau Ceti
-`TauCeti.ContinuousCohomology.map_eq_id_of_inner`; ArithmeticGaloisRepresentations Layer 2, §2.1
-(`decompositionGroup`, `inertiaGroup`, `wildInertiaGroup`, `localEmbeddingMap`, `localRestriction`
-and `localRestrictionIsoOfConj`); Mathlib `tateCohomology`.
+`TauCeti.ContinuousCohomology.map_eq_id_of_inner`;
+ArithmeticGaloisRepresentations §2.1 / **Decomposition and inertia groups**
+(`GaloisRep.decompositionGroup`, `GaloisRep.inertiaGroup` and wild inertia),
+§2.1 / **The local embedding** (`GaloisRep.localEmbeddingMap`) and §2.1 / **Local restriction**
+(`GaloisRep.localRestriction` and change-of-embedding isomorphisms); Mathlib `tateCohomology`.
 
 **Checks.**
 
@@ -2241,7 +2248,7 @@ Galois localization and Sha kernels*.
   `M^{G_F} ⊆ M^{G_v}`.
 - `Ш¹(F, ℤ/n) = 0` for trivial action (`n` prime to the characteristic): a cyclic extension in
   which every place splits completely is trivial, by Chebotarev (ArithmeticGaloisRepresentations
-  Layer 5, `functionField_chebotarev`, in the function-field case).
+  §5.13 / **Chebotarev for function fields**, in the function-field case).
 
 **Cyclotomic description of the power kernel.** Let `F` be a number field, `p` a prime, `r ≥ 1` and
 `K = F(μ_{pʳ})`; localisation is over every place of `F`, archimedean ones included. Inflation
@@ -2446,7 +2453,7 @@ ClassFieldTheory Layers 7, 12 and 13.
 - TauCetiRoadmap ProfiniteProPGroups: Layer 1.
 - TauCetiRoadmap ProfiniteCohomology: Layers 4, 5, 6, 7, 9, 10, 11.
 - ArithmeticGaloisRepresentations: Layer 2, §2.1 (decomposition, inertia and wild inertia groups;
-  local restriction and change of embedding); Layer 5 (`functionField_chebotarev`).
+  local restriction and change of embedding); §5.13 / **Chebotarev for function fields**.
 - TauCetiRoadmap GlobalNumberFields: Layers 6, 7, 8.
 - TauCetiRoadmap ClassFieldTheory: Layers 2, 6, 7, 10, 11, 12, 13.
 - InverseGaloisAndArithmeticFundamentalGroups: IG.4.2 *Finite Galois localization and Sha kernels*.
@@ -3480,14 +3487,14 @@ base change with avoidance*.
 `char F`). Equivalently, every class in `H²(F, ℤ/n)` (trivial action) dies under some coefficient
 inclusion `ℤ/n → ℤ/N`. This concerns the direct limit of trivial cyclic coefficients, not the
 Brauer group `H²(F, μ_∞)`; and it is a statement about the absolute group `G_F`, not about
-`G_{F,S}`. For a number field the vanishing is ArithmeticGaloisRepresentations Layer 7
-(`tate_h2_qz_eq_zero`) and is cited; this target adds global function fields and the finite form.
+`G_{F,S}`. For a number field the vanishing is supplied by ArithmeticGaloisRepresentations
+§7.6 / **Projective lifting**; this target adds global function fields and the finite form.
 
 *Proof sketch.* The long exact sequence of `0 → ℤ → ℚ → ℚ/ℤ → 0` with trivial action, and the
 vanishing of positive-degree cohomology of `ℚ` (averaging over finite quotients), give
-`H²(G_F, ℚ/ℤ) ≅ H³(G_F, ℤ)`. For a number field this is the cited `tate_h2_qz_eq_zero`
-(equivalently Milne's Corollary 4.17: the odd-degree integral cohomology of `G_F` vanishes). For a
-global function field, Milne's Remark 1.12 gives strict cohomological dimension two away from the
+`H²(G_F, ℚ/ℤ) ≅ H³(G_F, ℤ)`. For a number field this is supplied by ArithmeticGaloisRepresentations
+§7.6 / **Projective lifting** (equivalently Milne's Corollary 4.17: the odd-degree integral
+cohomology of `G_F` vanishes). For a global function field, Milne's Remark 1.12 gives strict cohomological dimension two away from the
 characteristic from the global class formation, so the prime-to-characteristic part of `H³(G_F, ℤ)`
 vanishes. Commutation of cohomology with filtered colimits of finite cyclic trivial coefficients
 gives the finite form: every class in `H²(F, ℤ/n)` dies under some `ℤ/n → ℤ/N`. For `G_{F,S}` the
@@ -3499,7 +3506,7 @@ Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), I, Remark 1.12, p. 24;
 proof, p. 63.) *Needs:* *All-place Sha duality and transfer adjunction*; *Cyclotomic description of
 the power kernel* (Layer R02.3); *Local inputs at places of a global function field* (Layer R02.3);
 *The class formation of a global function field* (Layer R02.3); ProfiniteCohomology Layers 4 and
-11; ArithmeticGaloisRepresentations Layer 7 (`tate_h2_qz_eq_zero`).
+11; ArithmeticGaloisRepresentations §7.6 / **Projective lifting**.
 
 **Checks.**
 
@@ -3547,13 +3554,13 @@ choices.
 
 *Proof sketch.* The root-of-unity hypothesis makes `A^D = Hom(A, μ_e)` a constant finite module. A
 locally trivial class in `H¹(F, A^D)` is then an everywhere-split finite abelian extension, trivial
-by function-field Chebotarev (ArithmeticGaloisRepresentations Layer 5, `functionField_chebotarev`),
+by function-field Chebotarev (ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function fields**),
 so `Ш¹(F, A^D) = 0`; by *All-place Sha duality and transfer
 adjunction*, `Ш²(F, A) = 0`, which is the injectivity. ([Wood, *Nonabelian Cohen–Lenstra
 moments*](https://par.nsf.gov/servlets/purl/10152050), §3, Lemma 3.2 and its proof, published
 p. 389.) *Needs:* *All-place Sha duality and transfer adjunction*; *Local inputs at places of a
 global function field* (Layer R02.3); *The class formation of a global function field* (Layer
-R02.3); ArithmeticGaloisRepresentations Layer 5 (`functionField_chebotarev`).
+R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function fields**.
 
 **Checks.**
 
@@ -3582,8 +3589,8 @@ R02.3); ArithmeticGaloisRepresentations Layer 5 (`functionField_chebotarev`).
 - TauCetiRoadmap RepresentationTheory/InductionRestriction: Layer 6.
 - InverseGaloisAndArithmeticFundamentalGroups: IG.4.2 *Finite-coefficient Poitou–Tate input*; IG.4.2
   *Grunwald–Wang and its exceptional class*.
-- ArithmeticGaloisRepresentations: Layer 5 (`functionField_chebotarev`); Layer 7
-  (`tate_h2_qz_eq_zero`).
+- ArithmeticGaloisRepresentations: §5.13 / **Chebotarev for function fields**;
+  §7.6 / **Projective lifting**.
 - TauCetiRoadmap GlobalNumberFields: Layers 6, 7.
 - TauCetiRoadmap ReductiveGroups: tori and their character lattices.
 - Libraries: Tau Ceti `TauCeti.DiscreteRep`,
@@ -5240,8 +5247,8 @@ Selmer complexes under change of coefficients, using the derived statements of L
 `n`-dimensional `k`-vector space, `ad = End_k(V)` with the conjugation action, and
 `ad⁰ = ker(tr : ad → k)`. The adjoint and trace-zero adjoint representations, the perfect trace
 pairing and `(ad⁰)^∨ ≅ ad/k·Id` over any coefficient ring are ArithmeticGaloisRepresentations Layer
-7, §7.2 (`ContinuousRep.adZero`, `adQuot`, `ContinuousRep.tracePairing_perfect` on `ad ρ` and
-`tracePairing_matrix_perfect` on `M_n(A)`), cited; Tau Ceti's `TauCeti.traceBilinForm` used below is
+7, §7.2 (`ContinuousRep.adZero`, `ContinuousRep.adQuot`, `ContinuousRep.tracePairing_perfect` on
+`ad ρ` and `tracePairing_matrix_perfect` on `M_n(A)`), cited; Tau Ceti's `TauCeti.traceBilinForm` used below is
 the bilinear form of the latter pairing on `Matrix n n k`; this target adds the
 criterion for the restricted pairing on `ad⁰` and the boundary `δ` in continuous cohomology, which
 the fixed-determinant calculations use. The trace pairing `(X, Y) ↦ tr(XY)` on `ad` is perfect and
@@ -5542,8 +5549,8 @@ transgression*, Layer R02.2): the `G_ℚ`-invariants
 irreducibility over `L`. `H¹(Gal(F₀/ℚ), ad⁰ρ̄(1)^{G_{F₀}})` vanishes unless `ℓ` divides
 `#Gal(F₀/ℚ)` and `Gal(ℚ(ζ_ℓ)/ℚ)` is a quotient; by the classification of the projective image
 (ArithmeticGaloisRepresentations Layer 4, §4.4, `GL2Subgroup.dickson_projectiveImage`) this leaves `ℓ = 3` with image `PSL₂(𝔽_{3^r})`, where `H¹(SL₂(𝔽_{3^r}), ad⁰) = 0`
-(ArithmeticGaloisRepresentations Layer 7, §7.7, `ResidualImage.h1_SL2_adZero_eq_zero`, which also records
-that `#F = 5` is a genuine exception). So
+(ArithmeticGaloisRepresentations §7.7 / **`SL₂` with adjoint coefficients**,
+`ResidualImage.h1_SL2_adZero_eq_zero`; the target also records the `#F = 5` exception). So
 `ψ(G_{F_n}) ≠ 0`; some `g ∈ Gal(F_n/ℚ(ζ_{ℓⁿ}))` of order prime to `ℓ` fixes a nonzero element of
 `ψ(G_{F_n})`; lift `g` to `σ₀` and take `σ = τσ₀` with `τ ∈ G_{F_n}` chosen so that
 `ψ(τ) + ψ(σ₀) ∉ (σ₀ − 1) ad⁰ρ̄(1)`, which is possible since
@@ -5727,8 +5734,9 @@ the abelian quotient. ([Khare–Wintenberger, *Serre's modularity conjecture
 5.8–5.10, pp. 48–53.) *Needs:* *Khare–Wintenberger tangent and relation bounds*; *Cyclotomic
 description of the power kernel* (Layer R02.3); *The Kummer sequence for S-units* (Layer R02.3);
 Chebotarev Layer 10; ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and
-§4.7 (`GL2Subgroup.sl2_submodules_charTwo`: for `F₀` of order `2^r`, `r ≥ 2`, `H¹(SL₂(F₀), M₂(F)) = 0` and the
-`SL₂(F₀)`-submodules of `M₂(F)` are `0`, the scalars, `ad⁰` and `M₂(F)`).
+§4.7 / **Characteristic two**: for `F₀` of order `2^r`, `r ≥ 2`, the target provides
+`H¹(SL₂(F₀), M₂(F)) = 0`, and `GL2Subgroup.sl2_submodules_charTwo` provides the invariants and the
+`SL₂(F₀)`-submodules of `M₂(F)`, namely `0`, the scalars, `ad⁰` and `M₂(F)`.
 
 **Checks.**
 

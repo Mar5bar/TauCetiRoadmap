@@ -640,9 +640,9 @@ residue sequence and the cyclotomic power kernel; the localization maps with the
 archimedean groups; the `S`-ideles, `S`-units and `S`-idele classes, `P`-class formations, the
 `S`-class formation, its reciprocity and the `S`-unit Kummer sequence; the global function-field
 class-field inputs (Chebotarev density for global function fields is cited from
-ArithmeticGaloisRepresentations); the one-new-prime Kummer fields, the antiunit class-field rank and
-the absence of `ℤ_p`-extensions unramified at `p`; Ext of discrete modules, Tate's duality for a class
-formation and for the `S`-idele classes, the finite dual `M^D`, archimedean local duality, the
+ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function fields**); the one-new-prime
+Kummer fields, the antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`;
+Ext of discrete modules, Tate's duality for a class formation and for the `S`-idele classes, the finite dual `M^D`, archimedean local duality, the
 exact annihilators of unramified classes, the restricted-product self-duality, Poitou–Tate duality
 and the nine-term sequence, global finiteness, cohomological dimension, `H²` surjectivity,
 high-degree cohomology of the units, the Euler characteristic with real places, the decomposition
