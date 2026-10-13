@@ -228,6 +228,12 @@ theorem absoluteProjectiveTupleHeight_comp {K K' : Type*} [Field K] [CharZero K]
     [CharZero K'] (f : K →+* K') {ι : Type*} [Fintype ι] (x : ι → K) :
     absoluteProjectiveTupleHeight (f ∘ x) = absoluteProjectiveTupleHeight x := by sorry
 
+/-- An algebraic nonzero scalar preserves the absolute tuple height in any characteristic-zero
+field, including its projective zero convention. -/
+theorem absoluteProjectiveTupleHeight_smul {F : Type*} [Field F] [CharZero F]
+    {ι : Type*} [Fintype ι] (x : ι → F) {c : F} (hc : c ≠ 0) (hcalg : IsAlgebraic ℚ c) :
+    absoluteProjectiveTupleHeight (c • x) = absoluteProjectiveTupleHeight x := by sorry
+
 /-- The absolute scalar height of `x` is the absolute tuple height of the pair `(x, 1)`. -/
 theorem absMulHeight₁_eq_absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K]
     (x : K) : NumberField.absMulHeight₁ x = absoluteProjectiveTupleHeight ![x, 1] := by sorry
@@ -259,9 +265,10 @@ theorem finite_setOf_naiveHeight_le (d : ℕ) (B : ℝ) :
       {z : ℂ | IsAlgebraic ℚ z ∧ (minpoly ℚ z).natDegree ≤ d ∧ naiveHeight z ≤ B}.ncard ≤
         d * (2 * ⌊B⌋₊ + 1) ^ (d + 1) := by sorry
 
-/-- Layer 0 northcott absolute height: Northcott over `ℚ̄` for Mathlib's absolute height. -/
-theorem finite_setOf_absMulHeight₁_le (d : ℕ) (B : ℝ) :
-    {z : ℂ | IsAlgebraic ℚ z ∧ (minpoly ℚ z).natDegree ≤ d ∧
+/-- Bounded-degree Northcott for algebraic elements in any characteristic-zero field,
+using Mathlib's absolute scalar height. -/
+theorem finite_setOf_absMulHeight₁_le {F : Type*} [Field F] [CharZero F] (d : ℕ) (B : ℝ) :
+    {z : F | IsAlgebraic ℚ z ∧ (minpoly ℚ z).natDegree ≤ d ∧
       NumberField.absMulHeight₁ z ≤ B}.Finite := by sorry
 
 /-- Layer 0 gelfond inequality: heights of the factors of a product of complex polynomials. -/
@@ -555,6 +562,18 @@ noncomputable def hasseWronskian {m : ℕ} (g : Fin m → R[X]) : R[X] :=
 
 end hasseWronskian
 
+/-- Dependence over an integral domain forces the divided-derivative Wronskian to vanish. -/
+theorem hasseWronskian_eq_zero_of_not_linearIndependent {R : Type*} [CommRing R]
+    [IsDomain R] {m : ℕ} (g : Fin m → R[X]) (hg : ¬ LinearIndependent R g) :
+    hasseWronskian g = 0 := by sorry
+
+/-- A zero divisor gives a dependent singleton with a nonzero Wronskian. -/
+example : ¬ LinearIndependent (ZMod 4)
+      (fun _ : Fin 1 => (_root_.Polynomial.C 2 : Polynomial (ZMod 4))) ∧
+    hasseWronskian (fun _ : Fin 1 => (_root_.Polynomial.C 2 : Polynomial (ZMod 4))) =
+      _root_.Polynomial.C 2 ∧
+    (_root_.Polynomial.C 2 : Polynomial (ZMod 4)) ≠ 0 := by sorry
+
 /-- Unit test `Polynomial.hasseWronskian.test_one_X_X_sq`: W(1, X, X^2) = 1 over ℚ. -/
 example : hasseWronskian ![1, _root_.Polynomial.X, _root_.Polynomial.X ^ 2] = (1 : ℚ[X]) := sorry
 /-- Unit test `Polynomial.hasseWronskian.test_dependent`: W(X, 2X) = 0. -/
@@ -700,6 +719,20 @@ noncomputable def genWronskian {m : ℕ} (D : Fin m → σ →₀ ℕ) (f : Fin 
   Matrix.det (Matrix.of fun k l => TauCetiRoadmap.DiophantineApproximationAndTranscendence.MvPolynomial.hasseDeriv (D k) (f l))
 
 end genWronskian
+
+/-- Dependence over an integral domain makes every generalized Wronskian vanish,
+without a characteristic or row-admissibility assumption. -/
+theorem genWronskian_eq_zero_of_not_linearIndependent {R σ : Type*} [CommRing R]
+    [IsDomain R] {m : ℕ} (D : Fin m → σ →₀ ℕ) (f : Fin m → MvPolynomial σ R)
+    (hf : ¬ LinearIndependent R f) : genWronskian D f = 0 := by sorry
+
+/-- The order-zero generalized Wronskian of a dependent constant can be nonzero over ℤ/4ℤ. -/
+example : ¬ LinearIndependent (ZMod 4)
+      (fun _ : Fin 1 => (_root_.MvPolynomial.C 2 : MvPolynomial (Fin 1) (ZMod 4))) ∧
+    genWronskian (fun _ : Fin 1 => (0 : Fin 1 →₀ ℕ))
+      (fun _ : Fin 1 => (_root_.MvPolynomial.C 2 : MvPolynomial (Fin 1) (ZMod 4))) =
+        _root_.MvPolynomial.C 2 ∧
+    (_root_.MvPolynomial.C 2 : MvPolynomial (Fin 1) (ZMod 4)) ≠ 0 := by sorry
 
 /-- Unit test `MvPolynomial.genWronskian.test_X0_X1`: W_{(0, e_0)}(x_0, x_1) = −x_1. -/
 example : genWronskian ![0, Finsupp.single 0 1] ![_root_.MvPolynomial.X 0, _root_.MvPolynomial.X 1] = -(_root_.MvPolynomial.X 1 : MvPolynomial (Fin 2) ℚ) :=
@@ -1408,6 +1441,27 @@ def height2 {ι : Type*} [Fintype ι] (y : ι → K) : ℝ :=
       (∑ i, ‖w.embedding (y i)‖ ^ 2) ^ ((w.mult : ℝ) / (2 * Module.finrank ℚ K))) *
     ∏ᶠ v : FinitePlace K, (⨆ i, v (y i)) ^ ((1 : ℝ) / Module.finrank ℚ K)
 
+open Classical in
+/-- The relative Euclidean projective height, with the projective value one at zero. -/
+def arakelovMulHeight {ι : Type*} [Fintype ι] (y : ι → K) : ℝ :=
+  if y = 0 then 1 else height2 y ^ Module.finrank ℚ K
+
+open Classical in
+/-- The degree-normalized relative height agrees with the Euclidean height on nonzero tuples;
+its value at zero is one. -/
+theorem arakelovMulHeight_eq_height2 {ι : Type*} [Fintype ι] (y : ι → K) :
+    arakelovMulHeight y ^ ((1 : ℝ) / Module.finrank ℚ K) =
+      if y = 0 then 1 else height2 y := by sorry
+
+/-- The absolute sup and Euclidean heights compare on nonzero finite tuples. -/
+theorem height2_sup_comparison {ι : Type*} [Fintype ι] (y : ι → K) (hy : y ≠ 0) :
+    absoluteProjectiveTupleHeight y ≤ height2 y ∧
+      height2 y ≤ Real.sqrt (Fintype.card ι) * absoluteProjectiveTupleHeight y := by sorry
+
+/-- Multiplication by a nonzero number-field scalar preserves Euclidean height. -/
+theorem height2_smul {ι : Type*} [Fintype ι] (y : ι → K) {c : K} (hc : c ≠ 0) :
+    height2 (c • y) = height2 y := by sorry
+
 /-- The absolute Euclidean height is invariant under number-field extension. -/
 theorem height2_baseExtension {E : Type*} [Field E] [NumberField E]
     {ι : Type*} [Fintype ι] (f : K →+* E) (y : ι → K) :
@@ -1780,6 +1834,11 @@ theorem sharp_roths_lemma {m : ℕ} (hm : 2 ≤ m) (d : Fin m → ℕ) (hd : ∀
         (((Finset.univ : Finset (Fin m × Fin 2)).toList.map fun p ↦
           (MvPolynomial.pderiv p).toLinearMap ^ i p).prod F) ≠ 0 := by
   sorry
+
+/-- Four binary blocks at Θ=1/2 admit degree ratio 64 and demand index below 2;
+the elementary four-block bound at separation 1/64 is larger than 2. -/
+example : (2 * (4 : ℝ) ^ 2 / (1 / 2) = 64) ∧
+    (4 : ℝ) * (1 / 2) = 2 ∧ 2 < 2 * (4 : ℝ) * (1 / 64) ^ ((1 : ℝ) / 8) := by sorry
 
 /-- The fixed-field Siegel lemma in the absolute Euclidean normalization (EF13 Lemma 13.1). -/
 theorem exists_ne_zero_height2_le {U V : ℕ} (hUV : U < V) (hU : 0 < U)
@@ -2383,6 +2442,16 @@ theorem matveev {n : ℕ} (hn : 1 ≤ n) {K : Type*} [Field K] [NumberField K] (
         Real.log (Real.exp 1 * ((Finset.univ.sup fun j ↦ (b j).natAbs : ℕ) : ℝ)) <
       Real.log ‖∑ j, (b j : ℂ) * l j‖ := sorry
 
+/-- A product near one has a nonzero small logarithmic form after a bounded principal-branch
+correction by an even multiple of πi. -/
+theorem logarithm_product_branch_reduction {n : ℕ} (hn : 1 ≤ n) (α : Fin n → ℂ)
+    (hα : ∀ j, α j ≠ 0) (b : Fin n → ℤ) (hne : ∏ j, α j ^ b j ≠ 1)
+    (hsmall : ‖∏ j, α j ^ b j - 1‖ < 1 / 3) :
+    ∃ k : ℤ, Even k ∧ k.natAbs ≤ n * (Finset.univ.sup fun j ↦ (b j).natAbs) ∧
+      0 < ‖(k : ℂ) * Real.pi * Complex.I + ∑ j, (b j : ℂ) * Complex.log (α j)‖ ∧
+      ‖(k : ℂ) * Real.pi * Complex.I + ∑ j, (b j : ℂ) * Complex.log (α j)‖ ≤
+        2 * ‖∏ j, α j ^ b j - 1‖ := by sorry
+
 /-- Evertse Theorem 5.4 (Matveev for rationals), with the factor `2/3` of the derivation. -/
 theorem matveev_rat {m : ℕ} (a : Fin m → ℚ) (ha : ∀ i, a i ≠ 0) (b : Fin m → ℤ)
     (h : ∏ i, (a i : ℝ) ^ b i ≠ 1) :
@@ -2431,6 +2500,16 @@ theorem yu {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ) {n : ℕ} (h
       ((Ideal.absNorm v.asIdeal : ℝ) - 1) * (∏ j, h j) * Real.log (10 * n * d * h')
     ((Ideal.absNorm v.asIdeal : ℕ) : ℝ) ^ (-(Φ * Real.log (d * B))) <
       v.adicAbv hb1 (∏ j, α j ^ b j - 1) := sorry
+
+/-- Yu's generated-field estimate and prime-extension transport give a power-law bound
+for a fixed algebraic tuple at an ideal-normalized place of any containing number field. -/
+theorem yu_fixedField_powerLaw {K : Type*} [Field K] [NumberField K] {n : ℕ}
+    (α : Fin n → K) (hα : ∀ j, α j ≠ 0)
+    (v : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
+    (hb1 : 1 < ((Ideal.absNorm v.asIdeal : ℕ) : NNReal)) :
+    ∃ C : ℝ, 0 < C ∧ ∀ b : Fin n → ℤ, ∏ j, α j ^ b j ≠ 1 →
+      (Real.exp 1 * max 1 ((Finset.univ.sup fun j ↦ (b j).natAbs : ℕ) : ℝ)) ^ (-C) ≤
+        v.adicAbv hb1 (∏ j, α j ^ b j - 1) := by sorry
 
 /-- For p=2, a=2 and b=2 violate the lifting identity; divisibility by four is needed. -/
 example : padicNorm 2 (((1 + (2 : ℤ)) ^ 2 - 1 : ℤ) : ℚ) ≠
@@ -3440,6 +3519,30 @@ Their full signatures use the place-extension, analytic solution-basis and grade
 algebraic differential-form constructions of Layers 2 and 5. -/
 
 /-
+Construction contracts with their mathematical hypotheses, normalization, source locators
+and checks are specified in the README:
+
+§2.5: plucker_reindex, subspaceHeight_reindex; the relative Euclidean logarithm,
+affine scalar height, projective descent and bounded-degree Plücker finiteness.
+
+§2.6: binaryIndexLoci, binaryIntersectionMultiplicity, binaryPersistentComponent,
+binaryProjectionMultidegrees, binaryArithmeticCycleHeight,
+binaryArithmeticIntersectionBound and binaryIndexHeightObstruction.
+These construct the sharp binary estimate before hyperplane and grid nonvanishing.
+
+§2.8: siegelProductBallSlice, siegelBasisExtraction, siegelKernelBasis,
+siegelRelativeKernelBasis and siegelCoefficientConditions.
+
+§3.6: waldschmidtInterpolationData, waldschmidtInterpolationRank,
+waldschmidtDeterminantBounds, waldschmidtParameterChoice, matveevAuxiliaryData,
+matveevArithmeticExtrapolation, matveevMultiplicityEstimate, matveevParameterChoice
+and twoLogInterpolationEstimate.
+
+§3.7: yuLocalEstimates, yuOneFactorBound, yuAuxiliaryConstruction,
+yuQuantitativeExtrapolation, yuKummerDescent, yuParameterChoice and yuValuationAdapter.
+-/
+
+/-
 The complete definition APIs and construction contracts are specified in the README.
 The following proposed names belong to those contracts; they are not declarations
 in this file. Their hypotheses, source locators and checks are in the named subsections.
@@ -3484,10 +3587,10 @@ MvPolynomial.weightedIndex_map, MvPolynomial.weightedIndex_ne_top,
 MvPolynomial.weightedIndex_zero
 
 §1.4:
-MvPolynomial.genWronskian_eq_zero_of_not_linearIndependent, MvPolynomial.genWronskian_fin_one,
+MvPolynomial.genWronskian_fin_one,
 MvPolynomial.genWronskian_fin_zero, MvPolynomial.genWronskian_single_toMvPolynomial,
 MvPolynomial.map_genWronskian, Polynomial.hasseWronskian_comp_perm,
-Polynomial.hasseWronskian_eq_zero_of_not_linearIndependent, Polynomial.hasseWronskian_fin_one,
+Polynomial.hasseWronskian_fin_one,
 Polynomial.hasseWronskian_fin_two, Polynomial.hasseWronskian_fin_zero,
 Polynomial.hasseWronskian_map, Polynomial.prod_factorial_mul_hasseWronskian
 
