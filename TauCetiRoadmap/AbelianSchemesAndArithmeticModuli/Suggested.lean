@@ -477,7 +477,8 @@ example (A : AbelianVariety K) :
 
 end CoefficientHom
 
-/-- **Localized Hom** (README A6.26): for a subring `D ⊆ ℚ`, the coefficient change `D ⊗[ℤ] Hom`. -/
+/-- **Localized Hom** (README A6.26): global arrows `D ⊗[ℤ] Hom` over the field `K`.
+Each arrow has a single denominator invertible in `D`. -/
 abbrev LocalizedHom (D : Subring ℚ) (A B : AbelianVariety K) :=
   D ⊗[ℤ] Additive (A ⟶ B)
 
@@ -487,6 +488,22 @@ example (D : Subring ℚ) (A B : AbelianVariety K) (u : Dˣ) (x : LocalizedHom D
   simp [smul_smul]
 
 end OverField
+
+/-- The localized Yoneda presheaf on all schemes over `S`, valued in `D`-modules.
+Restriction is precomposition followed by coefficient extension (README A6.26). -/
+noncomputable def localizedYoneda {S : Scheme.{u}} (D : Subring ℚ)
+    (A : AbelianScheme S) : (Over S)ᵒᵖ ⥤ ModuleCat.{u} D := by
+  sorry
+
+/-- The value of the localized Yoneda presheaf is the sectionwise tensor product.
+Commutativity of the section group follows from automatic commutativity of `A`
+(README A6.26). -/
+theorem localizedYoneda_obj {S : Scheme.{u}} (D : Subring ℚ)
+    (A : AbelianScheme S) (T : Over S) :
+    letI := A.isCommMonObj
+    Nonempty ((localizedYoneda D A).obj (Opposite.op T) ≃ₗ[D]
+      D ⊗[ℤ] Additive (T ⟶ A.toOver)) := by
+  sorry
 
 section RealRosatiAlgebra
 
@@ -581,6 +598,23 @@ A6.22 specifies `CoefficientHom.scalar_isogeny`, `CoefficientHom.dual_numbers`,
 `CoefficientHom.zero` and `CoefficientHom.not_field_extension`; its examples above
 pin the scalar inverse and the dual-numbers inverse. A6.26 includes
 `LocalizedHom.prime_to_p`.
+
+A6.26's `LocalizedHom.yonedaComparison` identifies global localized homomorphisms over `S`
+with natural `D`-linear transformations between the localized Yoneda presheaves on all `S`-schemes.
+The field `LocalizedHom` signature above specializes those global Hom modules. For the disjoint
+union of copies of `Spec ℂ`, multiplication by `2^n` on component `n` has local inverses but no global
+inverse over `ℤ[1/2]`, because their denominators are unbounded. Its Checks also include integral
+coefficients and finite disjoint unions for `localizedYoneda`.
+
+A6.28 constructs `AbelianTwist` as a module presheaf with pointwise coefficient tensor products
+and invariant equalizers. Representation is a natural `D`-linear isomorphism from
+`localizedYoneda D B` for an abelian scheme `B/S`; uniqueness, trivialization independence,
+base change and contragredient duality use A6.26's global arrows. Its Checks include failure of
+Zariski separation on the infinite disjoint
+union for the trivial torsor over `ℤ[1/2]`: points of exact order `2^n` give a nonzero localized
+section with zero restriction to each component. A6.29's `twistRealizations` applies the realization
+to the representing scheme and global descent arrows. In sheaf-valued realization targets it
+uses the sheaf tensor product and invariant subobject, rather than a sectionwise formula.
 
 A6.15 specifies `rosatiRegularRepresentation`: the scalar-extended Rosati trace gives a real
 inner product, and faithful left multiplication carries Rosati to the operator adjoint. The generic

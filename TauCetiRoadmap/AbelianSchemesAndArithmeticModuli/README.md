@@ -2708,14 +2708,28 @@ A2.6, A2.8, A5.6, A6.7; AlgebraicModuli Layer 2 §2.1, Layer 3 §3.4.
 
 Define `LocalizedHom D` for a localization `ℤ ⊆ D ⊆ ℚ`: the category with the abelian schemes over `S` as
 objects and `Hom_D(A, B) = D ⊗_ℤ Hom_S(A, B)`, with composition extended bilinearly; its invertible arrows are
-the `D`-isogenies. On bases where the Hom modules are finite projective,
-`Aut_D(A)(R) = (End_D(A) ⊗_D R)^×` for commutative `D`-algebras `R`. Integral, prime-to-`p` and rational
+the `D`-isogenies. Each arrow has one global denominator: it is `f/n` for an integral homomorphism
+`f` and an integer `n` invertible in `D`. The coefficient unit functor is
+`Aut_D(A)(R) = (End_D(A) ⊗_D R)^×` for commutative `D`-algebras `R`; when `End_D(A)` is finite
+projective over `D`, it is represented by the determinant open. Integral, prime-to-`p` and rational
 categories are different coefficient choices, and no field extension is performed (Kisin–Pappas,
 §4.4.5, p. 192). The construction tensors the additive Hom category with the flat `D`; over a field the
 Hom lattice is finite free (A6.7) and the determinant open of A6.22 gives the unit functor; in families
 the locally constant finite-projective hypothesis is kept rather than treating jumps of Hom as a vector
 bundle (A6.25). The API is `LocalizedHom.mk`, `LocalizedHom.comp`, `LocalizedHom.unitFunctor` and
 `LocalizedHom.extend` (a further localization extends arrows and inverses).
+
+Define `localizedYoneda D A` on the category of all `S`-schemes, valued in `D`-modules, by
+`A_D(T) = D ⊗_ℤ Hom_S(T, A)` and restriction by precomposition. This is a presheaf; no topology or
+sheafification enters its definition. The suggested signature `localizedYoneda_obj` identifies its
+value with this tensor product. For `D = ℤ` it is the additive Yoneda sheaf, but localization need
+not preserve separation for infinite covers (Stacks, §17.16, tag 01CA, and §6.29, tag 009E).
+Prove `LocalizedHom.yonedaComparison`: the action on these localized Yoneda presheaves
+identifies `Hom_D(A, B)` with their natural `D`-linear transformations. Evaluation at the identity
+of `A` gives a section with one denominator; additivity lets an invertible integer multiple of its
+numerator be a homomorphism. This proves full faithfulness on all `S`-schemes, without sheafification.
+Locally defined fractions give a global arrow only after establishing a common denominator and
+gluing the integral numerators; local invertibility alone gives no such bound.
 Every unit of `D` acts invertibly on a localized Hom module, with its inverse giving
 inverse scalar multiplication; the companion Lean example pins this coefficient action. *Needs:* A6.22, A6.25.
 
@@ -2724,6 +2738,13 @@ inverse scalar multiplication; the companion Lean example pins this coefficient 
 - `LocalizedHom.integral`: `D = ℤ` recovers `Hom_S`.
 - `LocalizedHom.prime_to_p`: for `D = ℤ_(p)` and `g > 0`, `[p]` is not invertible while `[n]` with `p ∤ n` is.
 - `LocalizedHom.rational`: for `D = ℚ`, `[p]` is invertible with inverse `id/p`.
+- For `D = ℤ`, `localizedYoneda` recovers the ordinary section presheaf of `A`.
+- For a finite disjoint union `T = T₁ ⊔ T₂`, the localized section group is
+  `A_D(T₁) × A_D(T₂)`; this finite-product identity does not extend to infinite disjoint unions.
+- For `S = ⨿_{n≥1} Spec ℂ`, `A = E × S` with `End E = ℤ`, and `D = ℤ[1/2]`, the endomorphism
+  restricting to `[2^n]` on component `n` has an inverse on each component but none globally:
+  `End_D(A) = (∏_n ℤ)[1/2]` does not contain `(2^{-n})_n`. Sheafifying the localized relative Hom
+  presheaf admits these local inverses and therefore changes this global category.
 
 ### A6.27 Weak localized polarizations
 
@@ -2744,23 +2765,31 @@ A6.15 make the definition independent of the chosen multiple. The API is `WeakPo
 ### A6.28 Twists by torsors up to localized isogeny
 
 Define `AbelianTwist`: let `Z` be a flat affine group scheme of finite type over `Spec D` with a
-homomorphism of `D`-groups `Z → Aut_D(A)` (A6.26), and `P` a `Z`-torsor over the coefficient base
-`Spec D`, with affine ring `O_P`, trivialized over `Spec D′` for a finite integral torsion-free
-`D`-algebra `D′`. On `S`-schemes `T` let `A_D(T) = Hom_S(T, A) ⊗_ℤ D` be the localized section group, a
-`D`-module. The twist `A^P(T) = (A_D(T) ⊗_D O_P)^Z`, the invariants of the diagonal `Z`-action, is the
-contracted descent object in the localized category; it is represented up to `D`-isogeny by an abelian
-scheme over `S`, independently of the trivialization. The notation describes coefficient descent of an
-additive sheaf, not a tensor product of schemes. Torsors over the geometric base `S`, such as
+homomorphism of `D`-group functors `Z → Aut_D(A)` (A6.26), and `P` a `Z`-torsor over the coefficient
+base `Spec D`, with affine ring `O_P`, trivialized over `Spec D′` for a finite integral torsion-free
+`D`-algebra `D′`. Form the `D`-module presheaf `A_D^P(T) = (A_D(T) ⊗_D O_P)^Z`, taking tensor products
+and the invariant equalizer pointwise for the diagonal coefficient action. Representation up to
+`D`-isogeny means an abelian scheme `B/S` together with a natural `D`-linear isomorphism
+`localizedYoneda D B ≅ A_D^P`. The comparison of A6.26 makes `B` unique up to a global `D`-isogeny;
+write it as `A^P`. These are coefficient-module presheaves on all `S`-schemes. Torsors over the
+geometric base `S`, such as
 `Spec L → Spec K` for a quadratic extension, are not inputs; the quadratic twist is the geometric
 descent of A6.34 (Kisin–Pappas,
-§4.4.5 and Lemma 4.4.6, pp. 192–193). The construction encodes the coefficient equations inside a finite
-power of `A`, clears denominators, and cuts out an abelian isogeny factor by the resulting rational
-idempotent using images and finite quotients; descent of the torsor cocycle gives independence and base
-change. Over a general base an arbitrary connected kernel is not smooth; the representability argument
+§4.4.5 and Lemmas 4.4.3, 4.4.6, pp. 191–193). Coefficient descent expresses the presheaf as an
+idempotent image in a finite power of `A_D`. Use A6.26 to obtain a global idempotent, clear its
+denominators by integers invertible in `D`, and split it in the global category using images and
+finite quotients. Establish the displayed presheaf isomorphism, with its coefficient descent datum.
+Changing the coefficient trivialization gives a natural presheaf isomorphism; full faithfulness
+gives its global arrow and inverse, with their denominator bounds obtained by evaluation at the
+identity. This gives independence of the trivialization. Restriction along `S′ → S` gives
+`(A^P)_{S′} ≅ (A_{S′})^P` with the same natural presheaf isomorphisms. Over a general base an arbitrary
+connected kernel is not smooth; the representability argument
 (Moret-Bailly's finite trivialization of the torsor and the smoothness of the cut-out factor) is cited but
 not carried out in the source and is part of this target. The API is `AbelianTwist.mk`,
-`AbelianTwist.trivial` (a section of `P` identifies the twist with `A`), `AbelianTwist.baseChange` and
-`AbelianTwist.dual` (the dual twist uses the contragredient action). *Needs:* A1.2, A3.3, A6.26;
+`AbelianTwist.trivial` (a section of `P` gives a presheaf isomorphism and hence a global `D`-isogeny
+with `A`), `AbelianTwist.baseChange` and `AbelianTwist.dual` (apply the same presheaf construction to
+`A^∨` with its contragredient action and compare the representing schemes by a global `D`-isogeny).
+*Needs:* A1.2, A3.3, A6.26;
 SchemeAndStackFoundations Layer 1.
 
 **Checks.**
@@ -2775,12 +2804,24 @@ SchemeAndStackFoundations Layer 1.
   `QuadraticAbelianTwist` (A6.34).
 - `AbelianTwist.coefficients`: a torsor of coefficient automorphisms does not change the base field of the
   abelian scheme.
+- For `S = Spec ℂ`, an elliptic curve `E`, `D = ℤ[1/2]`, the trivial group `Z` and `P = Spec D`, take
+  `T = ⨿_{n≥1} Spec ℂ` and points `x_n ∈ E(ℂ)` of exact order `2^n` (A3.2). The section
+  `(x_n)_n/1` is nonzero in `(∏_n E(ℂ))[1/2]`, since no one power of `2` kills every coordinate,
+  but restricts to zero on each component. Thus even the trivial twist presheaf is not Zariski
+  separated on all test schemes. Its associated sheaf has different sections on this `T`.
 
 ### A6.29 Realizations, polarizations and level of twists
 
-Prove `twistRealizations`. An additive `D`-linear realization `F` commuting with finite sums and with the
+Prove `twistRealizations` for the representing abelian schemes and global arrows of A6.28, in the
+category of A6.26. An additive `D`-linear realization `F` commuting with finite sums and with the
 defining idempotent images satisfies `F(A^P) ≅ F(A)^P = (F(A) ⊗_D O_P)^Z`, through the contragredient
-action when `F` is contravariant. Each listed realization has its source, coefficients and target.
+action when `F` is contravariant. In a sheaf-valued target, this tensor product is the tensor product
+of sheaves and the invariants are its equalizer subobject; the formula is an isomorphism in that
+target category, without asserting equality with sectionwise tensor products on every test scheme.
+Use Mathlib's `CategoryTheory.Sheaf.monoidalCategory` for the module-valued sites, establishing its
+sheafification and monoidal-localization hypotheses for each such target.
+Compatibility with trivialization changes, base change and duality uses the global comparisons of
+A6.28. Each listed realization has its source, coefficients and target.
 (a) For a prime `ℓ` invertible on `S` and not inverted in `D`, so that `D ⊆ ℤ_(ℓ)`, the Tate realization
 `T_ℓ` (A4.1) goes covariantly from the `D`-isogeny category of abelian schemes over `S` to lisse
 `ℤ_ℓ`-sheaves on `S`. (b) When every prime inverted in `D` is invertible on `S`, equivalently `S → Spec ℤ`
