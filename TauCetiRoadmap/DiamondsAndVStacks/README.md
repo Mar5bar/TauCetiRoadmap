@@ -276,8 +276,10 @@ the ambient sheaf category. `Geometry.CutoffSheaves` selects sheaves recovered f
 the pullback–restriction counit; this realizes the filtered union of cutoff sheaf categories in
 D2.3, with `Type 2` coefficients throughout. The ambient site is small in universe 2; statements
 excluding essential smallness refer to lower universes, as specified in D2.2. No universe lift
-replaces a cutoff. “Small v-sheaf” still means `Perf.IsSmallVSheaf`: an epimorphic cover by a sheaf
-represented by a perfectoid space ([ECD] Definition 12.1, p. 69). Taking values in `Type 2` alone
+replaces a cutoff. Limits in D5.3 additionally require a presentation whose total arrow type is
+`Small.{0}` in the ring universe of the charts. This condition is independent of a bound below
+`κ : Cardinal.{1}`; the latter alone does not keep a geometric limit charted. “Small v-sheaf”
+still means `Perf.IsSmallVSheaf`: an epimorphic cover by a sheaf represented by a perfectoid space ([ECD] Definition 12.1, p. 69). Taking values in `Type 2` alone
 does not impose this condition. A v-sheaf is `κ`-small if it receives a surjection from a perfectoid
 space that is `κ`-small in the sense of PerfectoidSpaces `IsKappaSmall`.
 
@@ -3957,10 +3959,50 @@ The topological categories are the corresponding full subcategories of
 universes of `Geometry`, affinoid sources have `Small.{0}` underlying sets, while general
 sources have `Small.{1}` underlying sets and an open cover by `Small.{0}` subspaces. These
 are the point-set forms of `Geometry.HasAffinoidCharts`: chart points form `Small.{0}` sets by
-`Geometry.hasAffinoidCharts_iff_small`, and over such a base an affinoid pro-étale source is
-`X ×_{π₀(X)} π₀(Y)`, whose ring of completed locally constant functions is `Small.{0}` when its
-points are. The `TopCat.{2}` lift does not enlarge the geometric objects ([ECD] Corollary 7.22,
-p. 38; Remark 4.3 and Proposition 4.4, pp. 20–21).
+`Geometry.hasAffinoidCharts_iff_small`, and the converse for these pro-étale sources is supplied by
+`Perfectoid.proEtaleInverse_small` below. The canonical map of an affinoid source into
+`|X| ×_{π₀(X)} π₀(S)` identifies it with its pro-constructible generalizing image, which can be a
+proper subset. The inverse equips that image, identified with `S`, with
+`O⁺_S = (g⁻¹O⁺_X)^∧_ϖ` and `O_S = O⁺_S[1/ϖ]`, retaining the point valuations pulled back from
+`X`. It then resizes the resulting pair, rather than replacing the image by the component fibre
+product. The `TopCat.{2}` lift does not enlarge the geometric objects ([ECD] Definition 7.20 and
+Corollary 7.22, p. 38; Remark 4.3 and Proposition 4.4, pp. 20–21).
+
+**Resizing the pro-étale inverse on its image.** For prime `p`, either characteristic selector `c`,
+a strictly totally disconnected `X : Geometry.Spaces p c`, and an affinoid pro-étale spectral map
+`g : S → |X|` with `Small.{0} S`, prove `Perfectoid.proEtaleInverse_small`: the section ring of the
+inverse construction above is `Small.{0}`, its spectrum is charted, and its underlying-space
+comparison is the specified identification with `S` over `|X|`. The resized pair maps to the
+unresized inverse by an isomorphism compatible with sections, point valuations and maps over `X`.
+For locally pro-étale `S` with `Small.{1} S` and an open cover by `Small.{0}` affinoid pro-étale spectral subspaces,
+apply this assertion on the cover and glue the same comparison.
+
+The bound uses D1.3 to make `X` affinoid and `Geometry.hasAffinoidCharts_iff_small` to resize its
+ring. The profinite component space of `S` is `Small.{0}`. Construct `X × π₀(S)` as the limit of
+finite disjoint unions of `X` over its finite clopen partitions; its ring is a completed filtered
+colimit of finite products of the resized ring. There are `Small.{0}` many partitions, so the
+colimit and its `ϖ`-adic completion remain `Small.{0}`. The component-agreement subspace and then
+the image of `S` are pro-constructible generalizing subsets. D1.5 constructs their rings from
+rational localizations and completed colimits indexed by finite sets of inequalities in the
+resized ambient ring. These index sets and localizations are `Small.{0}`; completion is bounded
+by sequences in a dense ring (D0.24), and inversion of `ϖ` uses countably many powers. The
+resulting structure is the completed pullback with its valuations in the proof of [ECD]
+Corollary 7.22. This proves the bound on the actual image ([ECD] Lemma 7.6, pp. 31–32;
+Definition 7.20 and Corollary 7.22 with proof, p. 38; Remark 4.3, p. 20).
+*Needs:* D1.3; D1.5; D0.24; PerfectoidSpaces P2 (rational localization), P5.1–P5.4 (completed
+colimits and spectral limits); `Geometry.hasAffinoidCharts_iff_small`.
+
+**Checks.**
+
+- `proEtaleInverse_small_identity` — For `g = id` the resized inverse is `X`, with the identity on
+  valuations and sections; the component image is the whole fibre product.
+- `proEtaleInverse_small_profinite` — Over `Spa(C, O_C)` with `C : Type` algebraically closed,
+  a profinite `S : Type` gives the lift of `(C⁰(S, C), C⁰(S, O_C))`, with evaluations as valuations.
+- `proEtaleInverse_small_rank_two` — For a small algebraically closed perfectoid field `C` and a
+  rank-two plus ring `C⁺`, apply both restricted equivalences and their resizing comparison to
+  `{η} → |Spa(C, C⁺)|`. The inverse is the generic-point open `Spa(C, O_C)` and its plus ring is
+  `O_C`; the component fibre product is the two-point base. The comparison preserves the
+  generic-point inclusion and does not acquire the closed point.
 
 `Perfectoid.proEtale_cardinal_iff` identifies the restrictions to a cutoff: for a strictly
 totally disconnected affinoid base `R` with `Cardinal.mk R.A < κ`, where `κ` is a cutoff,
@@ -4123,7 +4165,8 @@ layers P1–P3; Mathlib `ULift`, `Shrink`, `Small`.
   `Type → Bool` and `X` the spectrum of the lift of `(C, O_C)`. `PerfectoidSpace.prodProfinite`
   gives `X × S̲` in `Perfd.{1} p`, affinoid pro-étale over `X`, and it is not charted: it is
   quasicompact, so finitely many charts would make its point set `S` `Small.{0}`, contradicting
-  `not_small_type`.
+  `not_small_type`. This is the ambient perfectoid limit excluded by
+  `s5_3_large_index_not_chart_small` in D5.3.
 - `hasAffinoidCharts_pullback_affine` — Over a third chart, the fibre product of two charts is the
   spectrum of the lift of their completed tensor product formed in `Type`.
 - `hasAffinoidCharts_tilt_affine` — The tilt of the spectrum of the lift of `R` is the spectrum of
@@ -7683,7 +7726,10 @@ to prove quasi-pro-étale permanence.
 
 **Cofiltered limits of diamonds and of small v-sheaves, and finite-stage étale comparisons.**
 (*limits-and-finite-stage-comparisons*) Let `(Y_i)` be a cofiltered inverse system of diamonds with
-qcqs transition maps and `Y` its limit. Then `Y` is a diamond, `|Y| → lim |Y_i|` is a continuous
+qcqs transition maps, indexed by a cofiltered category `I` whose total arrow type
+`Arrow I` (equivalently `Σ i j : I, i ⟶ j`) is `Small.{0}`, and `Y` its ambient v-sheaf limit.
+The hypothesis allows reindexing by a category with objects and morphisms in `Type`, even when
+`I` was given in a larger universe. Then `Y` is a diamond, `|Y| → lim |Y_i|` is a continuous
 bijection, and the maps `Y → Y_i` are qcqs; if all `Y_i` are (locally) spatial then so is `Y`, and
 `|Y| → lim |Y_i|` is a homeomorphism. The size of the limit, with explicit bounds on the index
 category and the stages, is the separate target below; it uses the third clause of the cutoff
@@ -7714,11 +7760,13 @@ PerfectoidSpaces layer P5 (finite-stage descent of qcqs étale objects); D0.14.
   having one underlying point. Thus neither the diamond nor the spatial limit assertion extends to
   empty diagrams.
 - `profinite_fibre` (computation) — for `Y_i = S_i̲ × Spa(C, O_C)` along a cofiltered system of
-  finite sets `S_i` with limit `S`, the limit is `S̲ × Spa(C, O_C)` and `|Y| = S = lim S_i`.
+  finite sets `S_i` indexed by `I : Type` with `SmallCategory I`, with limit `S`, the limit is
+  `S̲ × Spa(C, O_C)` and `|Y| = S = lim S_i`.
 
 **Size of the limit.** Let `κ` be a cutoff cardinal (`IsCutoffCardinal`, D0.23) and call a v-sheaf
-`κ'`-small if it receives a surjection from a perfectoid space satisfying PerfectoidSpaces
-`IsKappaSmall κ'`. Assume (a) the index category has fewer than `κ` arrows, the count of
+`κ'`-small if it receives a surjection from a charted perfectoid space satisfying PerfectoidSpaces
+`IsKappaSmall κ'`. In addition to `Small.{0} (Arrow I)` and the qcqs transition hypotheses above,
+assume (a) the index category has fewer than `κ` arrows, the count of
 PerfectoidSpaces `HasKappaSmallPresentation`; and (b) one cardinal `κ' < κ`, the same for all `i`,
 has every `Y_i` `κ'`-small. Then `Y` is `κ`-small, at the same cutoff `κ` ([ECD] Lemma 11.22, last
 assertion and its proof, p. 63; Lemma 12.17, p. 73). The estimate for the limit of the chosen covers
@@ -7731,7 +7779,8 @@ suffice. When the index category has fewer than `cf κ` arrows, (b) follows as s
 receives a surjection from a uniformly `κ`-small perfectoid space (`IsUniformlyKappaSmall κ`), for
 instance a quasicompact `κ`-small one (PerfectoidSpaces P6.2).
 
-**Checks.**
+**Checks.** For the first two cardinal controls take `κ = Cardinal.lift κ₀` for a cutoff
+`κ₀ : Cardinal.{0}`, and all sets and indexing categories in the chart universe `Type`.
 
 - `s5_3_many_finite_stages` (control for (a)) — over a perfectoid field `K` with `#K < κ`, let `J`
   run through the finite subsets of a set `I` with `#I ≥ κ` and put `Y_J = {0,1}^J × Spa(K, O_K)`, a
@@ -7741,14 +7790,65 @@ instance a quasicompact `κ`-small one (PerfectoidSpaces P6.2).
   `α < ω₁`, with `#I_α` cofinal in `κ`, and index by the finite subsets `J` of `ω₁` the stages
   `{0,1}^{⊔_{α ∈ J} I_α} × Spa(K, O_K)`; each stage is `κ`-small and (a) holds, but (b) fails, and
   the limit has `2^κ` points.
+- `s5_3_large_index_not_chart_small` (control for the lower universe) — Let `I = Type`,
+  `P = Spa(C, O_C)` for a small algebraically closed characteristic-`p` perfectoid field, and
+  `Y_J = P × underline(Bool^J)` for finite `J ⊆ I`. Each stage is charted and spatial, with finite
+  étale transitions. A sufficiently large cutoff `κ : Cardinal.{1}` satisfies (a) and (b), but
+  the total arrow type is not `Small.{0}`. The ambient sheaf limit is
+  `F = P × underline(Type → Bool)`. It is not quasicompact on the charted site: the maps
+  `P × A̲ → F` over all closed profinite `Small.{0}` subsets `A` are jointly epimorphic, since
+  an affinoid test has small compact image in the profinite factor. No finite subfamily is
+  epimorphic, since its union is still small and omits a point with a constant section.
+  Thus `F` is not spatial and `F → P` is not qc. Its ambient perfectoid realization is precisely
+  D1.11's `hasAffinoidCharts_proEtale_large_profinite`, which lies outside `Geometry.Spaces`.
+
+**Charted affinoid limits.** For prime `p`, either `c`, a cofiltered diagram of affinoid perfectoid
+spaces in `Perfd.{1} p` with charted stages and `Small.{0} (Arrow I)`, prove
+`Geometry.hasAffinoidCharts_cofilteredLimit`: the supplier's affinoid limit is charted, and its
+resized spectrum represents the limit of the stage representables on `Geometry.Spaces p c`.
+Choose a stage and a pseudouniformizer there, and use its images on the cofiltered tail.
+After resizing the index and stage pairs, the filtered colimit of their integral rings is
+`Small.{0}`; its `ϖ`-adic completion and inversion remain small by the sequence bound of D0.24.
+PerfectoidSpaces P5.1–P5.4 supply the pair, its limit property and its topology; D1.11's carrier
+resizing transports that limit to the charted category. Products used in the proof of D5.3 are
+limits over finite subsets of a `Small.{0}` family, and the ordinal subdiagrams of D0.14 and their
+countable cofinal sequences also have `Small.{0}` total arrow types. Apply this bridge to the
+affinoid covers and relations in [ECD] Lemma 11.22 and Lemma 12.17, rather than transporting
+unrestricted `Perfd.{1}` limits ([ECD] Proposition 6.5, p. 29; Lemma 11.22 with proof,
+pp. 63–64; Lemma 12.17 with proof, pp. 73–74). *Needs:* D0.14; D0.24; D1.11;
+PerfectoidSpaces P5.1–P5.4.
+
+**Checks.**
+
+- `chartedLimit_constant` — A constant diagram on the lift of a small perfectoid pair returns that
+  chart, with the identity section map.
+- `chartedLimit_boolean_Type` — For `I : Type`, the finite products `P × underline(Bool^J)` have
+  charted limit `P × underline(I → Bool)` with the finite-coordinate projections.
+- `chartedLimit_boolean_large` — For `I = Type`, the same construction in `Perfd.{1}` is excluded
+  by the arrow hypothesis and gives the non-charted object of D1.11's large-profinite Check.
+
+**Smallness of finite-subset indices.** Prove `small_finset_arrow_iff`: for `I : Type u`, the
+reverse-inclusion category `(Finset I)ᵒᵖ` has `Small.{0}` total arrow type exactly when
+`Small.{0} I`. Finite subsets and inclusion witnesses preserve smallness, and singleton identity
+arrows inject `I` into that arrow type. This is the lower-universe condition for the product
+construction of [ECD] proof of Proposition 11.24, p. 65; the size notion is Mathlib
+`Small` (`Mathlib/Logic/Small/Defs.lean`).
+
+**Checks.**
+
+- `small_finset_arrow_empty` — The reverse-inclusion category on `Finset Empty` has just one
+  object and one arrow, and is `Small.{0}`.
+- `small_finset_arrow_nat` — Finite subsets of `ℕ` and their inclusion arrows are `Small.{0}`.
+- `small_finset_arrow_type` — Finite subsets of `Type` have a total arrow type that is not
+  `Small.{0}`, by `not_small_type` and the singleton injection.
 
 `Perf.Diamond.cofilteredLimit` and `Perf.VSheaf.cofilteredLimit` use a small
-cofiltered category and qcqs transition maps. Their comparison is the canonical
-`limit.post` map, and their projection maps are `limit.π`; local spatiality makes
+cofiltered category with `Small.{0} (Arrow I)` and qcqs transition maps. Their comparison is
+the canonical `limit.post` map, and their projection maps are `limit.π`; local spatiality makes
 that comparison a homeomorphism, and spatial stages give a spatial limit.
 `Perf.VSheaf.cofilteredLimit_qcqs` gives the qcqs conclusion. The cutoff refinement
-`Perf.VSheaf.cofilteredLimit_small` bounds both the objects and arrows of the index
-category below `κ` and bounds all stage atlases by a single `μ < κ`. An atlas bound
+`Perf.VSheaf.cofilteredLimit_small` carries the same `Small.{0} (Arrow I)` hypothesis, bounds
+both the objects and arrows of the index category below `κ` and bounds all stage atlases by a single `μ < κ`. An atlas bound
 means that its point set and every open affinoid chart's ring have cardinality below
 the bound, as in [ECD] 4.2; it is stated directly on `Geometry.Perf p`.
 
@@ -7758,10 +7858,11 @@ for qcqs bases: objects descend, morphisms descend after refinement, and equalit
 hold after refinement. The morphism class is exactly one of finite étale, qcqs étale,
 or quasicompact separated étale. All isomorphisms are over the base; the morphism
 comparisons also commute with the original finite-stage objects. These statements
-apply to qcqs diamonds and qcqs small v-sheaves ([ECD] 11.22–11.23 and 12.17,
-pp. 63–64, 73–74).
+apply to qcqs diamonds and qcqs small v-sheaves with `Small.{0} (Arrow I)`
+([ECD] 11.22–11.23 and 12.17, pp. 63–64, 73–74).
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: `small_finset_arrow_iff` and its three Checks; the geometric limit statements are specified
+in the README only.
 
 ### D5.4 The universally open strictly totally disconnected presentation
 
@@ -7771,12 +7872,13 @@ composites of quasicompact open immersions and finite étale maps. Let `Y` be a 
 there is a strictly totally disconnected perfectoid space `X` with a surjective and universally open
 quasi-pro-étale map `X → Y` which can be written as a cofiltered inverse limit of maps in `E`; if
 `κ` is a cutoff cardinal and `Y` is `κ`-small, `X` may be taken `κ`-small, at the same `κ`, with the
-conventions of D5.3. The construction is a limit over the finite subsets of a set of fewer than `κ`
-étale covers, counted through descent data along one `κ`-small affinoid perfectoid cover, each
-receiving a surjection from a `κ'`-small affinoid perfectoid space for one `κ' < κ`; so D5.3(a) and
-(b) hold at each of the countably many steps, and the countable iteration stays below `κ` because
-`cf κ > ω` ([ECD] proof of Proposition 11.24, p. 65). Conversely, if `Y` is a qcqs diamond admitting
-a surjective and universally open quasi-pro-étale map from a perfectoid space, then `Y` is spatial;
+conventions of D5.3. At every step `Perf.VSheaf.etalePresentationIndex_small` below supplies a
+`Small.{0}` set of representatives for the relevant surjective étale covers. Its finite-subset
+category satisfies D5.3's lower-universe hypothesis by `small_finset_arrow_iff`; the countable
+iteration has that property too. The descent-data count also gives fewer than `κ` representatives
+and a common atlas bound `κ' < κ` for all finite products, so D5.3(a) and (b) hold. The countable
+iteration stays below `κ` because `cf κ > ω` ([ECD] proof of Proposition 11.24, p. 65). Conversely, if `Y` is a qcqs diamond
+admitting a surjective and universally open quasi-pro-étale map from a perfectoid space, then `Y` is spatial;
 more generally the converse holds with the source a (locally) spatial diamond. The class `E` is not
 the class of all étale maps but exactly the class produced by the local structure theorem (D5.7),
 and this is what makes the cardinality count work. The construction rests on the splitting
@@ -7803,12 +7905,55 @@ D5.1; D5.3; D0.9; D1.9; D1.4; D0.23; D4.4; D3.10; PerfectoidSpaces P5.7, P6.1–
   diamond `Y = T̲ × Spa(K, O_K)` of D5.1 is quasi-pro-étale, surjective and universally open but has
   a non-perfectoid, non-spatial source, so the converse does not apply; the converse with a
   perfectoid source is what forces `|Y|` spectral.
+- `universallyOpenPresentation_chart_small` — The finite-subset index over the small set of
+  covers of a spatial `Y`, and the countable iteration, satisfy `Small.{0}` on total arrows;
+  D5.3's large Boolean-product diagram cannot replace either index.
+
+**Lower-universe presentation indices.** For a spatial v-sheaf `Y` on `Geometry.Perf p`, prove
+`Perf.VSheaf.etalePresentationIndex_small`: the isomorphism classes over `Y` of surjective maps
+in `E` admit a `Small.{0}` representative set. Their finite products over `Y`, and the countable
+iteration of the construction, admit cofiltered presentations with `Small.{0}` total arrow types.
+This applies both to spatial diamonds and to spatial v-sheaves satisfying D5.11's pointwise
+hypothesis; no diamond conclusion is assumed in the latter application.
+
+Use smallness and quasicompactness of `Y` to choose a finite union of charted affinoids surjecting
+onto `Y`, hence a charted affinoid atlas `A → Y`. Quasiseparatedness makes `A ×_Y A` qcqs, and
+D4.7 supplies a finite affinoid atlas `B → A ×_Y A`. Both section rings are `Small.{0}` by D1.11.
+Over `A`, qcqs étale objects have finite descriptions by finite étale algebras, rational opens
+and finite gluing, using D3.5 and the perfectoid local description of étaleness. Algebra
+presentations, rational inequalities and maps between these descriptions are coded by small
+sets of coefficients. Descent isomorphisms are determined after pullback to `B` (D3.5);
+the cocycle and surjectivity conditions select subsets of this small set of codes. Thus the
+representative set is `Small.{0}`. Finite subsets and countable compositions preserve that
+bound. If `Y` is `κ`-small, choose `A` `κ`-small. For the cardinal estimate, descent
+isomorphisms are determined on geometric fibres over the points of `A ×_Y A`, whose point set
+injects into that of `A × A`; qc étale fibres are finite. The coefficient and fibre counts,
+with the strong-limit and completion estimates, bound the representatives below `κ` and bound
+all finite-product atlases by one `κ' < κ`; no `κ`-bound on the chosen relation atlas `B` is
+needed. Repeat the small-set argument on each new spatial stage. `Geometry.hasAffinoidCharts_cofilteredLimit` keeps the perfectoid limits and the final
+reconstruction charted ([ECD] proof of Proposition 11.24, p. 65; Theorem 12.18 and
+Proposition 12.20, pp. 75–76; Remark 12.2 and Proposition 12.3, pp. 69–70).
+*Needs:* D1.11; D3.5; D4.7; D5.2; D5.3; PerfectoidSpaces P6.2.
+
+**Checks.**
+
+- `presentationIndex_point` — For `Spa(C, O_C)` with small algebraically closed `C`, all relevant
+  surjective covers split; their finite descriptions form a small set and the presentation can
+  be the identity.
+- `presentationIndex_field` — For a small perfectoid field `K`, finite extensions and their maps
+  have small coefficient codes; the completed algebraic closure used in the point presentation
+  stays in `Type`.
+- `presentationIndex_large_boolean` — D5.3's sheaf `P × underline(Type → Bool)` is not spatial;
+  its finite-coordinate system cannot satisfy this target's spatial-base hypothesis or its
+  lower-universe conclusion, even at an enlarged cutoff.
 
 `Perf.Diamond.universallyOpenPresentation` places the cofiltered diagram in the
-slice over `Y`, so its limit identifies the presentation map itself. Its stage maps
+slice over `Y`, with `Small.{0}` total arrow type, so its limit identifies the presentation map
+itself. Its stage maps
 belong to Mathlib's `MorphismProperty.multiplicativeClosure` of quasicompact open
 immersions and finite étale maps. `Perf.Diamond.universallyOpenPresentation_small`
-retains the cutoff bound on points and all open affinoid chart rings.
+retains that lower-universe condition as well as the cutoff bound on points and all open
+affinoid chart rings.
 `Perf.Diamond.strictlyDisconnected_of_splitting` tests exactly the surjective maps
 in this class. `Perf.VSheaf.affinoid_of_components` applies to every spatial v-sheaf,
 hence in particular to a spatial diamond; its component is the image-constrained
@@ -7920,7 +8065,9 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 containing `y`. It is spatial; `|Y_y|` is the generalization set of `y` with the induced topology,
 and its map to `Y` is a qc injection. Morphisms whose underlying image is contained in that
 generalization set factor uniquely through `Y_y`. This is a diamond localization, built as the
-spatial inverse limit of qc open neighbourhoods by the limit theorem of D5.3, and not a new
+spatial inverse limit of qc open neighbourhoods by the limit theorem of D5.3: a charted affinoid
+atlas surjecting onto `Y` gives a `Small.{0}` point set for `|Y|`, so its set of qc opens and their
+inclusion arrows is `Small.{0}`. This is not a new
 definition of a local ring nor the topological localization of layer D0. The generalization set of
 `y` is pro-constructible and generalizing but need not be locally closed, so the theorem of D5.9
 does not apply to it; spatiality comes from the limit theorem. Define `Perf.Diamond.localization` as
@@ -8084,12 +8231,14 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 ### D5.10 Profinite products and closed projection
 
 **Profinite products and closed projection.** (*profinite-products-of-locally-spatial-diamonds*) Let
-`P` be a profinite set and `S` a locally spatial diamond. Then `P̲ × S` is locally spatial and
-`|P̲ × S| ≅ P × |S|`. The projection `P̲ × S → S` is qc, separated and universally closed, that is,
+`P : Profinite.{0}` be a profinite set in the chart universe and `S` a locally spatial diamond.
+Then `P̲ × S` is locally spatial and `|P̲ × S| ≅ P × |S|`. The projection `P̲ × S → S` is qc, separated and universally closed, that is,
 proper in the sense of D4.11; hence it sends closed subsets to closed subsets after any locally
 spatial base change. Compactness of `P` is essential for closedness of the projection. The proof in
 [HK] uses `|P̲ × S| = P × |S|` for `P = P V_k(ℚ_p)` and projections from the compact-open subsets
 `K_i`; here the general profinite-product input is proved with the spatial limit theorem of D5.3
+with the `Small.{0}` category of finite clopen partitions of `P`. The large profinite factor in
+`s5_3_large_index_not_chart_small` is excluded from this contract
 ([HK] proof of Prop. 9.3.4, printed p. 60). *Needs:* D5.3; D4.6; D3.8.
 
 **Checks.**
@@ -8139,8 +8288,12 @@ hypothesis all of whose relevant étale covers — the surjective composites of 
 immersions and finite étale maps — split is a strictly totally disconnected perfectoid space, and a
 spatial v-sheaf all of whose connected components are affinoid perfectoid is affinoid perfectoid.
 This theorem is what shows, throughout later work, that concrete functors are diamonds without
-exhibiting an atlas ([ECD] §12, Thm 12.18 and Rem. 12.19 with proof, p. 75, the statement and
-[ECD]'s own emphasis that the hypothesis is only about points; [ECD] §12, Prop. 12.20 and Lem.
+exhibiting an atlas. At each iteration the relevant covers have a `Small.{0}` representative set
+by `Perf.VSheaf.etalePresentationIndex_small` (D5.4), applied to the spatial v-sheaf before it is
+known to be a diamond. Finite-subset indices and the countable iteration therefore meet D5.3's
+`Small.{0}` arrow condition, and `Geometry.hasAffinoidCharts_cofilteredLimit` keeps the
+reconstructed perfectoid space charted ([ECD] §12, Thm 12.18 and Rem. 12.19 with proof, p. 75,
+the statement and [ECD]'s own emphasis that the hypothesis is only about points; [ECD] §12, Prop. 12.20 and Lem.
 12.21, pp. 75–76, the two auxiliary results the proof terminates in). *Needs:* D5.1; D5.4; D5.2;
 D5.3; D4.3; D4.7; D4.8; D3.10; D0.23.
 
@@ -8620,7 +8773,13 @@ the relation is the compact image of the compact Hausdorff relation space. `|X|_
 independent of the choice of `ϖ`. The section `|Y|_B → |Y|` selecting maximal generalizations is a
 section of sets and need not be continuous; [ECD] states this explicitly and it is not strengthened.
 This subsection proves [ECD] Props. 13.10–13.11; the seminorm spectrum and the affinoid
-maximal-Hausdorff theorem are D5.13. Define `Perf.berkovich` as the functor `Y ↦ |Y|_B` from small
+maximal-Hausdorff theorem are D5.13. The classical affine comparison in
+ClassicalAdicEtaleCohomology §3.1 uses the same AdicSpacesPartIII R3.9 Gel'fand spectrum.
+On a strict affinoid over a complete nontrivially rank-one valued `ℤ_p`-field, normalizing its
+seminorms as in D5.13 identifies the classical quotient map with `BerkovichSpectrum.ofSpa`.
+Through D6.4's underlying-space homeomorphism, this is also the affine specialization of
+`Perf.berkovich`; both maps send a valuation to its normalized rank-one generalization.
+Define `Perf.berkovich` as the functor `Y ↦ |Y|_B` from small
 v-sheaves to topological spaces and `Perf.berkovich_section` as the set-theoretic section
 `|Y|_B → |Y|` with `q ∘ s = id`, which need not be continuous and is continuous in the profinite and
 single-point cases; prove `Perf.berkovich_affinoid` (for a complete perfectoid Tate pair `(R, R⁺)`,
@@ -9026,8 +9185,8 @@ Berkovich space; the rank-two point for the cohomology comparison; and, for rest
 `ℤ` acting on `ℤ_p` with dense orbits, `ℤ` acting on its two-point compactification, and the
 profinite positive controls. Further: the quotient of `Spa(K, O_K)` by the powers of Frobenius, one
 point and not quasiseparated; `⊔_ℕ Spa(C, O_C) → Spa(C, O_C)`, locally spectral on spaces and not
-`IsSpectralMap`; the two size controls of D5.3; and `Spa(C', O_{C'}) → Spa(C, O_C)`, a v-surjection
-along which only the third descent statement of D5.12 applies.
+`IsSpectralMap`; the lower-universe and two cardinal controls of D5.3; and
+`Spa(C', O_{C'}) → Spa(C, O_C)`, a v-surjection along which only the third descent statement of D5.12 applies.
 
 In `Suggested.lean` the examples compute the Berkovich spectrum at `ϖ = 0` (empty) and for `ℚ_p` at
 `ϖ = p` (one point), and the connected orbit space `ℤ_p/ℤ` for the noncompact group `ℤ`.
@@ -9278,7 +9437,11 @@ perfectoid completion from AdicEtaleGeometry layer A4, proves the finite-group a
 torsor identifications with the descent theorem of D3.10 and the untilt functors of D6.1, uses the
 completed perfectoid atlas as the diamond presentation, compares its topological quotient with
 `Spa(A, A⁺)`, and establishes spatiality with the universally open presentation of D5.4 and the
-limit comparisons of D5.3. For `(A, A⁺)` perfectoid the statement reduces to [ECD] Lem. 15.2. The
+limit comparisons of D5.3. Here the complete Tate ring is in `Type`; AdicEtaleGeometry A4's
+`FiniteEtaleTorsorTower A` has its directed index in that same universe. Its opposite has
+`Small.{0}` total arrow type, as do the finite-subset and countable iterations used to build it.
+Thus all these uses of D5.3 meet its lower-universe condition, and their completed pairs are
+charted. For `(A, A⁺)` perfectoid the statement reduces to [ECD] Lem. 15.2. The
 identification of the underlying space is the reason the functor preserves all topological
 information, and is what the étale-site comparison of D6.5 uses ([ECD] §15, Lem. 15.3 with proof, p.
 90, for the tower; [ECD] §15, Prop. 15.4 with proof, pp. 90–91, for the statement). *Needs:* Mathlib
@@ -9459,7 +9622,9 @@ locally spatial diamond with `|Y^◇| = |Y|`. Moreover there are equivalences of
 étale site of `Y^◇` and the étale site of `Y`, and between their finite étale sites. Full
 faithfulness and essential surjectivity on the étale categories are proved separately, from the
 perfectoid torsor atlas of D6.3, the local structure of étale maps of D5.7, the finite-stage
-comparisons of D5.3 and the torsor descent of D3.10. The statement about sites is about the
+comparisons of D5.3 and the torsor descent of D3.10. On each affinoid chart the tower index is
+`Small.{0}` by D6.3, so the finite-stage comparisons carry D5.3's required arrow bound.
+The statement about sites is about the
 categories of étale objects, not about the functor `Y ↦ Y^◇` being fully faithful: it is an
 equivalence of étale categories on the already constructed diamond, it is not full faithfulness of
 the diamond functor on all analytic adic spaces, and it is not the derived left-completion

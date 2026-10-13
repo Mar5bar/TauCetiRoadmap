@@ -374,6 +374,22 @@ theorem isSheaf_yonedaPresheaf (T : Type u) [TopologicalSpace T] :
 
 /-! ## Layer D5: spatial geometry and Hausdorff reduction -/
 
+/-- Finite-subset product diagrams have a total arrow type small in the chart universe exactly
+when their generating set is small there (ECD proof of Proposition 11.24, p. 65; README D5.3).
+Singleton identity arrows give the reverse implication. -/
+theorem small_finset_arrow_iff (I : Type u) :
+    Small.{0} (Arrow (Finset I)ᵒᵖ) ↔ Small.{0} I := sorry
+
+-- Check `small_finset_arrow_empty`: the empty generating set gives one object and one arrow.
+example : Small.{0} (Arrow (Finset Empty)ᵒᵖ) := sorry
+
+-- Check `small_finset_arrow_nat`: ordinary finite-coordinate towers meet the chart-universe bound.
+example : Small.{0} (Arrow (Finset ℕ)ᵒᵖ) := sorry
+
+-- Negative control `small_finset_arrow_type`: the large Boolean-product diagram of README D5.3
+-- fails the lower-universe hypothesis, independently of its bound below a cutoff in Cardinal.{1}.
+example : ¬ Small.{0} (Arrow (Finset (Type))ᵒᵖ) := sorry
+
 /-- The normalised *Berkovich spectrum* of a topological ring `R` at `ϖ`: continuous
 nonarchimedean multiplicative seminorms `α` with `α ϖ = 1/2`, with the topology of pointwise
 convergence (ECD Definition 13.7, p. 79; for a Tate ring continuity is boundedness). -/
