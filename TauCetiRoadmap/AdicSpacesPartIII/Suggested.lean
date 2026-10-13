@@ -862,17 +862,19 @@ end GelfandSpectrum
 end Huber
 
 /-! ### R3.8 Traces of finite projective modules and finite locally free algebras
-(*projective-module-trace*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*,
-*algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*) -/
+(*projective-module-trace*, *projective-trace-realization*, *finite-locally-free-algebra-trace*,
+*algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*) -/
 
 namespace LinearMap
 
 variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] [Module.Finite R M]
   [Module.Projective R M]
 
-/-- The trace `End_R(M) → R` of a finite projective module: `contractLeft` composed with the
-inverse of `dualTensorHomEquiv`. Mathlib's `LinearMap.trace` agrees with it on free modules and
-is `0` on modules without a finite basis. -/
+/-- Local restatement of PivotalSpherical §Layer 2, to be replaced by the import once that roadmap is merged.
+PivotalSpherical is an open TauCetiRoadmap pull request by kim-em. The scalar carrier
+`(M →ₗ[R] M) →ₗ[R] R` is retained for `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`
+and scalar-extension consumers. R3.8's finite-projective duality/scalar adapter identifies this
+contraction with the supplied categorical trace by evaluation at `1` on `End_R(R)`. -/
 def projectiveTrace : (M →ₗ[R] M) →ₗ[R] R :=
   contractLeft R M ∘ₗ (dualTensorHomEquiv R M M).symm.toLinearMap
 
@@ -925,8 +927,8 @@ variable {R B}
 
 /-- Transitivity in a tower `R → B → C` of finite projective algebras:
 `Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}` (the free case is Mathlib's `Algebra.trace_trace`; the finite
-projective case follows by localising at primes, with the cyclicity of Stacks, Tag 02DU,
-Exercise 111.22.6). -/
+projective case follows by localising at primes, with cyclicity supplied by PivotalSpherical
+§Layer 2 / `leftTrace_comm` through R3.8's finite-projective module/scalar identification). -/
 theorem projectiveTrace_trans {C : Type*} [CommRing C] [Algebra B C] [Algebra R C]
     [IsScalarTower R B C] [Module.Finite B C] [Module.Projective B C] :
     ∃ (_ : Module.Finite R C) (_ : Module.Projective R C), ∀ c : C,

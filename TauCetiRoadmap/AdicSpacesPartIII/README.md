@@ -283,7 +283,7 @@ analytification functors are README targets there.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.toLocallyRingedSpace`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.ringCatSheaf` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The planned (not yet prototyped) locally ringed space and its underlying ring sheaf; `Modules X` agrees definitionally with `SheafOfModules (TauCeti.SheafOfModules.ringCatSheaf (commRingSheaf X))`. |
 | `SheafOfModules.ihomStalkEquiv`, `SheafOfModules.ihomStalkEquiv_apply` | `TauCeti/Algebra/Category/ModuleCat/Sheaf/InternalHom/FinitePresentation.lean` | The internal-Hom stalk comparison is a linear equivalence when the first argument is finitely presented; the second argument is arbitrary. Its application formula identifies it with the canonical germ comparison. |
 | `PresheafOfModulesOfCommRing.Derivation` | `Mathlib/Algebra/Category/ModuleCat/Differentials/Presheaf.lean` | Compatible derivations for a morphism of ring presheaves, including vanishing on base sections. `AlgebraicGeometry.RelativeDifferentialData` represents these on scheme module sheaves over an arbitrary scheme base. |
-| `dualTensorHomEquiv`, `contractLeft` | `Mathlib/LinearAlgebra/Contraction.lean` | For a finite projective module, identify its dual tensor itself with its endomorphisms and evaluate simple tensors. R3 composes these to define the projective trace. |
+| `dualTensorHomEquiv`, `contractLeft` | `Mathlib/LinearAlgebra/Contraction.lean` | For a finite projective module, identify its dual tensor itself with its endomorphisms and evaluate simple tensors. R3's *projective-trace-realization* identifies their composite with the scalar value of PivotalSpherical §Layer 2's trace. |
 | `_root_.LinearMap.trace_eq_contract` | `Mathlib/LinearAlgebra/Trace.lean` | Identifies the existing trace with contraction for finite free modules; R3's trace also applies to nonfree projective modules. |
 | `AlgebraicGeometry.Scheme.Hom.finrank` | `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean` | The fibre rank used in the germ formula for the scheme trace of `1`. |
 
@@ -291,6 +291,14 @@ analytification functors are README targets there.
 `HomologicalComplex₂.total` in `Mathlib/Algebra/Homology/TotalComplex.lean` and
 `ComplexShape.ε_up_ℤ` in `Mathlib/Algebra/Homology/ComplexShapeSigns.lean` supply the total
 complex and its signs. R3 adds the comparison with exact augmented edges.
+
+### From other open roadmap pull requests
+
+| Contract | Supplier and exact label | Retained gap / consumer |
+| --- | --- | --- |
+| Finite-projective endomorphism trace | [PivotalSpherical](../PivotalSpherical/README.md) §Layer 2 / Left and right trace: `leftTrace`, `rightTrace`; `SphericalCategory`, `trace` (an open TauCetiRoadmap pull request by kim-em) | R3.8 *projective-trace-realization* supplies the rigid symmetric category of finite projective modules, its canonical pivotal and spherical structures, `End_R(R) ≃ R` by evaluation at `1`, and the contraction comparison. The local scalar restatement `LinearMap.projectiveTrace` is retained for `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm` and scalar extension. |
+| Cross-object cyclicity | PivotalSpherical §Layer 2 / Cyclicity of the left trace: `leftTrace_comm` (an open TauCetiRoadmap pull request by kim-em) | Apply the supplier to both finite projective objects through *projective-trace-realization*, translating `f ≫ g` to `g ∘ f`; R3.8 *algebra-trace-transitivity* consumes the scalar law. |
+| Identity trace and rank (outbound) | AdicSpacesPartIII R3.8 / local-rank clause of *projective-trace-realization* | PivotalSpherical §Layer 7 / The quantum dimension is the vector-space dimension: `TauCetiRoadmap.PivotalSpherical.quantumDim_fdRep` (an open TauCetiRoadmap pull request by kim-em) states the field special case after its categorical/scalar identification; R3 retains the arbitrary-ring local-rank theorem and the nonfree rank-function Check. |
 
 ### From Mathlib and Tau Ceti
 
@@ -515,7 +523,7 @@ The section headings of `Suggested.lean` name the target labels they carry:
 | R3.1–R3.2 Rational completions, glueing squares and Kiehl's theorem | *tate-acyclicity-finite-modules*, *noetherian-rod-acyclicity-finite-modules*, *glueing-square*, *glueing-square-finite-projective-descent*, *simple-laurent-glueing-square*, *strongly-noetherian-laurent-gluing* | `Huber.IsRationalCompletion`, `Huber.laurent_exact_of_finite`, `Huber.GlueingSquare`, `Huber.GlueingDatum`, `GlueingDatum.sections`, `GlueingDatum.ofModule`, `GlueingDatum.projective_sections`, `GlueingSquare.of_simpleLaurent`, `GlueingDatum.finite_sections_of_simpleLaurent`. |
 | R3.5 Uniform Banach rings | *uniform-iff-power-bound* | `Huber.isUniform_tfae`. |
 | R3.9 The Gel'fand spectrum of a Banach ring | *gelfand-spectrum-banach-ring* | `Huber.GelfandSpectrum`, its topology, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`. |
-| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *pull-identify-trace* | `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, and the affine Checks of pull–identify–trace. |
+| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace* (supplied by PivotalSpherical §Layer 2), *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *pull-identify-trace* | `LinearMap.projectiveTrace` (local scalar restatement), `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, and the affine Checks of pull–identify–trace; the categorical/scalar comparison is a README target. |
 
 The heading `R3/<label>` of a target names its block when it is formalised; the labels below
 group the declarations of the larger R3 targets:
@@ -11207,8 +11215,27 @@ characteristic, `P¹` over an algebraically closed field being simply connected)
 
 ### R3.8 finite locally free traces and pull–identify–trace
 
-**Trace of endomorphisms of finite projective modules.** (*projective-module-trace*) Let `R` be a
-commutative ring and `M` a finitely generated projective `R`-module. The trace
+**Trace of endomorphisms of finite projective modules.** (*projective-module-trace*) Provides the
+evaluation–coevaluation endomorphism trace used by the finite-projective module realization.
+Supplied by [PivotalSpherical](../PivotalSpherical/README.md) §Layer 2 / Left and right trace
+(`leftTrace`, `rightTrace`); `SphericalCategory` and `trace` (an open TauCetiRoadmap pull request
+by kim-em).
+The supplier returns an endomorphism of the monoidal unit; *projective-trace-realization* chooses
+the canonical symmetric duality on finite projective `R`-modules and identifies `End_R(R)` with
+`R` by evaluation at `1`.
+
+**Cross-object cyclicity.** Provides cyclicity of endomorphism trace across two objects.
+Supplied by PivotalSpherical §Layer 2 / Cyclicity of the left trace (`leftTrace_comm`)
+(an open TauCetiRoadmap pull request by kim-em).
+Lean's `f ≫ g` is `g ∘ f`; *projective-trace-realization* transports the supplier through the
+canonical module/scalar trace identification for both finite projective objects.
+
+**Finite-projective trace realization and scalar extension.** (*projective-trace-realization*)
+Let `R` be a commutative ring and `M` a finitely generated projective `R`-module. Realize finite
+projective `R`-modules as a rigid symmetric monoidal category with the canonical dual
+`M^∨ = Hom_R(M, R)`, evaluation and coevaluation, and induced pivotal and spherical structures.
+Identify its unit endomorphisms `End_R(R)` with `R` by evaluation at `1`, and prove that the
+scalar value of PivotalSpherical §Layer 2's `trace` is the contraction below. The trace
 `tr_M : End_R(M) → R` is the `R`-linear map `tr_M = contractLeft ∘ (dualTensorHomEquiv R M M)⁻¹`,
 where `dualTensorHomEquiv : M^∨ ⊗_R M ≅ End_R(M)` (Mathlib, for `M` finite projective) and
 `contractLeft(φ ⊗ m) = φ(m)`. This is the trace used throughout this layer; Mathlib's
@@ -11216,19 +11243,24 @@ where `dualTensorHomEquiv : M^∨ ⊗_R M ≅ End_R(M)` (Mathlib, for `M` finite
 finite basis, so it is not the trace of a finite projective non-free module. The same
 construction `contractLeft ∘ dualTensorHomEquiv⁻¹` in the almost category is PerfectoidSpaces
 layer P0 (P0.12), the almost-ring version of this target. In `LinearMap`,
-define `projectiveTrace` as the `R`-linear map `End_R(M) → R` for `M` finite projective; prove
-that `projectiveTrace (dualTensorHom φ m) = φ m`, equivalently `projectiveTrace ∘ dualTensorHom =
+retain `projectiveTrace` as the local scalar restatement `End_R(M) →ₗ[R] R` for `M` finite
+projective; prove that `projectiveTrace (dualTensorHom φ m) = φ m`, equivalently `projectiveTrace ∘ dualTensorHom =
 contractLeft`; `projectiveTrace_eq_trace` (for `M` free finite,
 `projectiveTrace R M = LinearMap.trace R M`; in particular it equals `Matrix.trace` of the matrix
-in any basis); that for `f : M → N` and `g : N → M` with `M`, `N` finite projective,
-`tr_M(g ∘ f) = tr_N(f ∘ g)`; `projectiveTrace_baseChange` (for `R → R'`,
+in any basis); `projectiveTrace_baseChange` (for `R → R'`,
 `tr_{R' ⊗ M}(f.baseChange R') = algebraMap R R' (tr_M f)`); that
 `tr_{M × N}(f.prodMap g) = tr_M f + tr_N g`; that `tr_N(e ∘ f ∘ e⁻¹) = tr_M f` for a linear
 equivalence `e : M ≃ N`; that the image of `tr_M(id)` in `R_𝔭` is `Module.rankAtStalk M 𝔭` for
 every prime `𝔭`; and that `tr_M f` is nilpotent when `f` is nilpotent (Stacks Tag 02DU, Exercise 111.22.6, the trace of an endomorphism of a finite locally
 free, equivalently finite projective, module; Stacks Tag 0BVH, §49.3, the sheaf version for
 finite locally free modules; KL15 §1.1, Def. 1.1.2, p. 11, finite projective modules as the
-setting). *Needs:* Mathlib `dualTensorHomEquiv`, `contractLeft`, `LinearMap.trace`,
+setting). PivotalSpherical §Layer 7 / The quantum dimension is the vector-space dimension
+(`quantumDim_fdRep`) (an open TauCetiRoadmap pull request by kim-em) states the field special
+case of the local-rank computation after its categorical/scalar identification, so the two can
+be reconciled through that identification.
+*Needs:* PivotalSpherical §Layer 2 / Left and right trace, `SphericalCategory`, `trace`, and
+Cyclicity of the left trace (`leftTrace_comm`), through the canonical module/scalar identification;
+Mathlib `dualTensorHomEquiv`, `contractLeft`, `LinearMap.trace`,
 `_root_.LinearMap.trace_eq_contract`, `Module.Projective`, `Module.rankAtStalk`. Lean:
 `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace`,
 `LinearMap.projectiveTrace_baseChange`, with the first two Checks below as examples; the other
@@ -11249,7 +11281,8 @@ clauses are specified in this README only.
 **The trace of a finite locally free algebra.** (*finite-locally-free-algebra-trace*) Let `R` be a
 commutative ring and `B` a commutative `R`-algebra which is finitely generated and projective as
 an `R`-module (a finite locally free `R`-algebra). The trace `Tr_{B/R} : B → R` is `b ↦ tr_B(m_b)`,
-the projective-module trace (*projective-module-trace*) of multiplication by `b`. It is
+the scalar realization (*projective-trace-realization*) of PivotalSpherical §Layer 2's trace of
+multiplication by `b`. It is
 `R`-linear, `Tr_{B/R}(1)` is the locally constant degree function (its image in `R_𝔭` is
 `rank_𝔭 B`), and the trace form `(x, y) ↦ Tr_{B/R}(xy)` is symmetric; it carries no normalising
 factor: for `B = R × R` it is the dot product, `Tr((x₁, x₂)(y₁, y₂)) = x₁y₁ + x₂y₂`, and for
@@ -11271,7 +11304,8 @@ constant degree). The free clauses are Mathlib's: `Algebra.trace`, `_root_.Algeb
 `Module.Free` of both factors, so it gives the product formula only for free `B`, `C`) and
 `_root_.Algebra.trace_localization`; the projective case is new. The almost version of this trace and its
 trace form is PerfectoidSpaces layer P0 (P0.12), the almost-ring version of this target.
-*Needs:* *projective-module-trace*; Mathlib `Algebra.trace`, `Algebra.traceForm`,
+*Needs:* PivotalSpherical §Layer 2 / `trace`, through *projective-trace-realization*;
+Mathlib `Algebra.trace`, `Algebra.traceForm`,
 `Module.Projective`, `_root_.Algebra.trace_prod`, `_root_.Algebra.trace_localization`. Lean:
 `Algebra.projectiveTrace` and `Algebra.projectiveTraceForm`, with the quadratic Check below and the
 self and zero-algebra Checks for the form as examples; the other clauses are specified in this
@@ -11311,7 +11345,8 @@ be a homomorphism of commutative rings, `M` a finite projective `R`-module, `f �
 Lem. 49.3.1, base change of the trace used to reduce to fibres). For `R = ℤ → R' = 𝔽_p` and
 `B = ℤ[i]`, `Tr_{𝔽_p[i]/𝔽_p}(1) = 2 mod p`; for `R → R_𝔭` the lemma gives the localisation API
 of the algebra trace. For `M` free and finite the module statement is Mathlib's
-`_root_.LinearMap.trace_baseChange`; the projective case is new. *Needs:* *projective-module-trace*;
+`_root_.LinearMap.trace_baseChange`; the projective case is new. *Needs:* PivotalSpherical
+§Layer 2 / `trace`, through *projective-trace-realization*;
 *finite-locally-free-algebra-trace*; Mathlib `dualTensorHomEquiv`, `contractLeft`,
 `_root_.LinearMap.trace_baseChange`. Lean: the module statement is
 `LinearMap.projectiveTrace_baseChange`; the algebra statement is specified in this README only.
@@ -11321,11 +11356,13 @@ let `R → B → C` be homomorphisms of commutative rings with `B` finite projec
 finite projective over `B`; then `C` is finite projective over `R` and
 `Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}`. More generally, for a finite projective `B`-module `M` and
 `φ ∈ End_B(M)`, `M` is finite projective over `R` and `tr_{M/R}(φ) = Tr_{B/R}(tr_{M/B}(φ))`
-(Stacks Tag 02DU, Exercise 111.22.6, cyclicity of the trace between finite locally free modules,
-the key step). For `ℚ ⊆ ℚ(i) ⊆ ℚ(i, √2)`: `Tr_{ℚ(i,√2)/ℚ}(1) = 4 = Tr_{ℚ(i)/ℚ}(2)`; for `R = k`,
+(PivotalSpherical §Layer 2 / Cyclicity of the left trace, `leftTrace_comm`, transported through
+*projective-trace-realization*, supplies the scalar cyclicity law used in the tower argument).
+For `ℚ ⊆ ℚ(i) ⊆ ℚ(i, √2)`: `Tr_{ℚ(i,√2)/ℚ}(1) = 4 = Tr_{ℚ(i)/ℚ}(2)`; for `R = k`,
 `B = k × k`, `C = k × k[x]/(x²)`: `Tr_{C/k}(1) = 3 = Tr_{B/k}((1, 2))`. For `B` and `C` free the
 statement is Mathlib's `_root_.Algebra.trace_trace` and `_root_.Algebra.trace_comp_trace`; the projective case
-is new. *Needs:* *projective-module-trace*; *finite-locally-free-algebra-trace*; Mathlib
+is new. *Needs:* PivotalSpherical §Layer 2 / `trace`, `leftTrace_comm`, through
+*projective-trace-realization*; *finite-locally-free-algebra-trace*; Mathlib
 `_root_.Algebra.trace_trace`, `_root_.Algebra.trace_comp_trace`, `Module.Projective`. Lean:
 `Algebra.projectiveTrace_trans` (the algebra tower); the module form is specified in this README
 only.
@@ -11533,7 +11570,8 @@ the trace is the sum map on every affinoid chart) (BHW §10.1, Def. 10.2, p.
 §49.3, the trace is the algebra trace over affine, here affinoid, opens; Stacks Tag 03SH, §59.66,
 for finite étale maps the trace is étale-locally the sum over sheets). *Needs:*
 *finite-locally-free-morphism*; *finite-locally-free-algebra-trace*; *algebra-trace-base-change*;
-*projective-module-trace*; *locally-free-sheaf*; Mathlib `LinearMap.trace`.
+PivotalSpherical §Layer 2 / `trace`, through *projective-trace-realization*;
+*locally-free-sheaf*; Mathlib `LinearMap.trace`.
 
 `VectorBundle.trace_matrix` fixes `VectorBundle.trace` on a trivializing open
 by the matrix trace of its section endomorphism. `finiteTraceForm_sections`
