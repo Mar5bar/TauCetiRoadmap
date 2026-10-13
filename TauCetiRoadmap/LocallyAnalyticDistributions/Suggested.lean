@@ -15,21 +15,22 @@ Complete continuity over a normed commutative ring `A` is approximation in opera
 with finitely generated `A`-image, not finite `K`-rank, and is never identified with Mathlib's
 `IsCompactOperator`. Open-disc and entire series are Mathlib power series that are
 `PowerSeries.IsRestricted` at every radius below one, respectively every positive radius; their
-Gauss norms are Mathlib's `PowerSeries.gaussNorm`. The Fredholm series of an operator on `C₀(I, A)`
-is the signed sum of principal minors, with constant coefficient `1`; the finite spectral transform
+Gauss norms are Mathlib's `PowerSeries.gaussNorm`. The finite spectral transform
 is Mathlib's bounded `Polynomial.resultant` of the reflected characteristic polynomial and
 `1 - T B(Y)`.
 
 The README states, and this file omits because their carriers are not at the pins: the
 nonarchimedean locally convex categories, their left hearts and completed tensor products; the
-spaces `LA_h`, `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
-order-`r` distributions, vector order and small-order isotropic spaces; the global Amice and
-Mellin equivalences and the geometric character spaces; finite coordinate projections and bounded-family extension on `c₀`; the Fredholm
-determinant of a `(Pr)` module, the Fredholm resolvent, its Hasse derivatives and the Riesz
-projectors; the entire-series subring and its quotients; the Coleman entire spectral transform and
-entire operator evaluation; specialization of distribution families and the universal-character
-action; characteristic products of complexes, slope decompositions, finite-slope windows and the
-torus slope adapters.
+topologies of `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
+order-`r` distributions, vector order and small-order isotropic spaces; the Mellin equivalences
+and the geometric character spaces; analytic reduction modulo a monic polynomial; the resolvent
+and Riesz-projector lemmas on `(Pr)` modules; specialization of distribution families and the
+universal-character action; characteristic products of complexes, slope decompositions,
+finite-slope windows and the torus slope adapters.
+
+The targets supplied by PadicFunctionalAnalysis and CompactOperators are cited in the README and
+not restated here. Their definitions that the statements below use are local restatements, each
+to be replaced by the import once that roadmap is in TauCetiRoadmap.
 -/
 
 namespace TauCetiRoadmap.LocallyAnalyticDistributions
@@ -41,11 +42,6 @@ open scoped ZeroAtInfty AbstractMeasure
 /-! ## Layer 0: analytic Banach stages, locally analytic functions and their strong duals -/
 
 namespace LocallyAnalytic.SuggestedTest
-
-/-- §0.1 (Amice's theorem on Mahler coefficients): `v_3((3²)!) = (3² − 1)/(3 − 1) = 4`, the
-normalising factor of `C(x, 9)` in `LA₀`. -/
-example : Nat.factorial 9 % 3 ^ 4 = 0 ∧ Nat.factorial 9 % 3 ^ 5 ≠ 0 := by
-  norm_num [Nat.factorial]
 
 /-- §0.1 check `maximum_not_L_points`: `X³ − X` has Gauss norm one on the unit disc but is bounded
 by `1/3` on `ℤ_3`, so the maximum principle uses `ℂ_p`-points, not coefficient-field points. -/
@@ -61,9 +57,10 @@ section Coefficients
 variable {E : Type*} [TopologicalSpace E] [Zero E]
 variable {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
 
-/-- §0.3 and §4.1: the finitely supported element of Mathlib's `C₀(I, E)` with value `a` at `i` and
-zero elsewhere; `c0Single i 1` is the basis vector `e_i` and supplies the chart monomials of the
-analytic stages. -/
+/-- Local restatement of PadicFunctionalAnalysis §2.1.2, to be replaced by the import once that
+roadmap is in TauCetiRoadmap: the coordinate vector `single i a`, the finitely supported element of
+Mathlib's `C₀(I, E)` with value `a` at `i` and zero elsewhere; `c0Single i 1` is the basis vector
+`e_i` and supplies the chart monomials of the analytic stages. -/
 def c0Single (i : I) (a : E) : C₀(I, E) where
   toFun := Pi.single i a
   continuous_toFun := continuous_of_discreteTopology
@@ -77,31 +74,7 @@ def c0Single (i : I) (a : E) : C₀(I, E) where
 theorem c0Single_apply (i j : I) (a : E) : c0Single i a j = if j = i then a else 0 := by
   sorry
 
-/-- §4.1 check `single_selected`. -/
-example {A : Type*} [NormedCommRing A] (i : I) (a : A) : c0Single i a i = a := by
-  simp [c0Single]
-
-/-- §4.1 check `single_norm`: the sup norm detects the coefficient, not the support size. -/
-example {A : Type*} [NormedCommRing A] (i : I) (a : A) : ‖c0Single i a‖ = ‖a‖ := by sorry
-
 end Coefficients
-
-section CoefficientAction
-
-variable {A : Type*} [NormedCommRing A] {I : Type*} [TopologicalSpace I]
-
-/-- §4.1 (Bounded coefficient action on c0): the pointwise `A`-action on `C₀(I, A)` satisfies
-`‖a • x‖ ≤ ‖a‖ * ‖x‖`; Mathlib has no `IsBoundedSMul A C₀(I, A)` instance at the pin. -/
-theorem c0_norm_smul_le (a : A) (x : C₀(I, A)) : ‖a • x‖ ≤ ‖a‖ * ‖x‖ := by sorry
-
-/-- §4.1: consequently the pointwise action is jointly continuous for the sup norm. -/
-theorem c0_continuousSMul : ContinuousSMul A C₀(I, A) := by sorry
-
-/-- §4.1 check `scalar_single`. -/
-example [DiscreteTopology I] [DecidableEq I] (i : I) (a b : A) :
-    a • c0Single i b = c0Single i (a * b) := by sorry
-
-end CoefficientAction
 
 end NonarchimedeanFredholm
 
@@ -218,13 +191,6 @@ example : (((Polynomial.X ^ 2 : Polynomial ℚ).comp (1 + 3 * Polynomial.X)).der
 /-- §1.3 check `multiply_derivative`: `x·dδ_0 = δ_0` under the positive derivative convention,
 witnessed on the constant test function. -/
 example : (Polynomial.X : Polynomial ℚ).derivative.eval 0 = 1 := by simp
-
-/-- §0.1 check `measureToDist_two_atoms`: `δ_0 − δ_1` has total mass zero but takes `x` to `−1`. -/
-example : (Polynomial.X : Polynomial ℚ).eval 0 - Polynomial.X.eval 1 = -1 := by simp
-
-/-- §0.1 check `LAh_basis_orthonormal`: Colmez's shifted h=0 coordinate gives
-`e_{0,1}(0) = 1`. -/
-example : ((Polynomial.X + 1 : Polynomial ℚ) ^ 1).eval 0 = 1 := by simp
 
 end AnalyticStageTests
 
@@ -516,21 +482,26 @@ section CompleteContinuity
 variable {A M N : Type*} [NormedCommRing A]
   [NormedAddCommGroup M] [Module A M] [NormedAddCommGroup N] [Module A N]
 
-/-- §4.1 (Complete continuity in the Banach algebra convention): approximation in operator norm
-by continuous `A`-linear maps whose range is a finitely generated `A`-submodule. On affinoid
-algebras it agrees with AdicSpacesPartIII's predicate of §R3.6 (README §4.1). -/
+/-- Local restatement of CompactOperators §0.1.2, to be replaced by the import once that roadmap
+is in TauCetiRoadmap: approximation in operator norm by continuous `A`-linear maps whose range is a
+finitely generated `A`-submodule. Its approximants there have range in a finitely generated
+submodule (`IsFiniteRank`), the same predicate over Noetherian `A` by `isFiniteRank_iff_range_fg`;
+its identity criterion `isCompletelyContinuous_id_iff` and the row-decay comparison
+`isCompletelyContinuous_iff_isCompactoid` are stated on it, and on affinoid algebras it agrees with
+AdicSpacesPartIII's predicate of §R3.6 (README §4.1). -/
 def IsCompletelyContinuous (f : M →L[A] N) : Prop :=
   ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
     (LinearMap.range g.toLinearMap).FG ∧ ∀ x : M, ‖f x - g x‖ ≤ ε * ‖x‖
 
-/-- §4.1: the image lies in a finitely generated `A`-submodule (finite `A`-image, not finite
-`K`-rank). -/
+/-- Local restatement of CompactOperators §0.1.1 (`IsFiniteRank`), to be replaced by the import
+once that roadmap is in TauCetiRoadmap: the image lies in a finitely generated `A`-submodule (finite
+`A`-image, not finite `K`-rank). -/
 def HasFiniteAImage (f : M →L[A] N) : Prop :=
   ∃ Q : Submodule A N, Q.FG ∧ LinearMap.range f.toLinearMap ≤ Q
 
 end CompleteContinuity
 
-universe u v w
+universe u v
 
 variable {K A : Type u}
 variable [NontriviallyNormedField K] [CompleteSpace K]
@@ -547,69 +518,13 @@ variable [IsScalarTower K A P] [ContinuousSMul A P] [CompleteSpace P]
 section Section41
 
 include hNoeth in
-/-- §4.1 (Finite ambient image versus finitely generated range; Buzzard §2, p. 9). -/
-theorem hasFiniteAImage_iff_range_fg (f : M →L[A] N) :
-    HasFiniteAImage f ↔ (LinearMap.range f.toLinearMap).FG := by sorry
-
-include hNoeth in
-/-- §4.1: over Noetherian `A`, Buzzard's containing-submodule convention gives the same predicate. -/
-theorem isCompletelyContinuous_iff_containing_finite (f : M →L[A] N) :
-    IsCompletelyContinuous f ↔ ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
-      HasFiniteAImage g ∧ ∀ x : M, ‖f x - g x‖ ≤ ε * ‖x‖ := by sorry
-
-include hNoeth in
 /-- §4.1 (Strict norm approximation by finite-image maps), in the `K`-operator norm. -/
 theorem isCompletelyContinuous_iff_norm_approximation (f : M →L[A] N) :
     IsCompletelyContinuous f ↔ ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
       HasFiniteAImage g ∧ ‖(f - g).restrictScalars K‖ < ε := by sorry
 
-include hNoeth in
-/-- §4.1: a continuous map with finite `A`-image is completely continuous. -/
-theorem finiteImage_isCompletelyContinuous (f : M →L[A] N) (hf : HasFiniteAImage f) :
-    IsCompletelyContinuous f := by sorry
-
-include K hNoeth in
-/-- §4.1: composition with a bounded `A`-linear map on either side preserves complete continuity. -/
-theorem isCompletelyContinuous_comp (f : M →L[A] N) (g : N →L[A] P)
-    (h : IsCompletelyContinuous f ∨ IsCompletelyContinuous g) :
-    IsCompletelyContinuous (g.comp f) := by sorry
-
-/-- §4.1: over Noetherian `A`, sums preserve approximation by maps with finitely generated
-range. -/
-theorem isCompletelyContinuous_add {A M N : Type*} [NormedCommRing A] [IsNoetherianRing A]
-    [NormedAddCommGroup M] [Module A M] [NormedAddCommGroup N] [Module A N]
-    (f g : M →L[A] N) (hf : IsCompletelyContinuous f) (hg : IsCompletelyContinuous g) :
-    IsCompletelyContinuous (f + g) := by sorry
-
-include hNoeth in
-/-- §4.1: completely continuous maps are the `K`-operator-norm closure of the finite-image maps. -/
-theorem isClosed_completelyContinuous :
-    {f : M →L[K] N | ∃ g : M →L[A] N, g.restrictScalars K = f ∧ IsCompletelyContinuous g} =
-      closure {f : M →L[K] N | ∃ g : M →L[A] N,
-        g.restrictScalars K = f ∧ HasFiniteAImage g} := by sorry
-
-include K in
-/-- §4.1 (Complete continuity of the identity detects finite generation; Buzzard Proposition 3.2,
-p. 23). -/
-theorem completelyContinuous_id_iff_finite :
-    IsCompletelyContinuous (ContinuousLinearMap.id A M) ↔ Module.Finite A M := by sorry
-
-/-- §4.1 check `identity_on_A`, including when `A` is infinite-dimensional over `K`. -/
-example : IsCompletelyContinuous (ContinuousLinearMap.id A A) := by sorry
-
-include K in
-/-- §4.1 check `identity_on_infinite_c0` (non-example). -/
-example (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖) :
-    ¬ IsCompletelyContinuous (ContinuousLinearMap.id A C₀(ℕ, A)) := by sorry
-
-/-- §4.1 (Orthonormalizable and potentially orthonormalizable modules): a chosen potentially orthonormal chart `M ≃ C₀(I, A)`. -/
-def PotentiallyONable (A : Type u) (M : Type v) [NormedCommRing A]
-    [NormedAddCommGroup M] [Module A M] : Prop :=
-  ∃ (I : Type v) (t : TopologicalSpace I),
-    letI : TopologicalSpace I := t
-    DiscreteTopology I ∧ Nonempty (M ≃L[A] C₀(I, A))
-
-/-- §4.2 (Property (Pr)): `M` is a continuous retract of some `C₀(I, A)`. -/
+/-- Local restatement of PadicFunctionalAnalysis §2.2.3, to be replaced by the import once that
+roadmap is in TauCetiRoadmap: property (Pr), `M` is a continuous retract of some `C₀(I, A)`. -/
 def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     [NormedAddCommGroup M] [Module A M] : Prop :=
   ∃ (I : Type v) (t : TopologicalSpace I),
@@ -617,75 +532,25 @@ def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     DiscreteTopology I ∧ ∃ (i : M →L[A] C₀(I, A)) (r : C₀(I, A) →L[A] M),
       r.comp i = ContinuousLinearMap.id A M
 
-include K in
-/-- §4.1: potential orthonormalizability is orthonormalizability after a two-sided bounded change
-of norm. -/
-theorem potentiallyON_iff_equivalentNorm : PotentiallyONable A M ↔
-    ∃ (I : Type v) (t : TopologicalSpace I),
-      letI : TopologicalSpace I := t
-      DiscreteTopology I ∧ ∃ (e : M ≃ₗ[A] C₀(I, A)) (c C : ℝ),
-        0 < c ∧ 0 < C ∧ ∀ x, c * ‖x‖ ≤ ‖e x‖ ∧ ‖e x‖ ≤ C * ‖x‖ := by sorry
-
-include K in
-/-- §4.1: coordinates in an orthonormal chart reconstruct each element by unconditional
-summation. -/
-theorem orthonormalization_coordinates {I : Type w} [TopologicalSpace I] [DiscreteTopology I]
-    [DecidableEq I] (e : M ≃L[A] C₀(I, A)) (x : M) :
-    x = ∑' i, e x i • e.symm (c0Single i (1 : A)) := by sorry
-
-include K in
-/-- §4.1 (Operator bound from the coordinate vectors; Buzzard §2, pp. 8–9). -/
-theorem c0_operator_norm_le_iff {I : Type w} [TopologicalSpace I] [DiscreteTopology I]
-    [DecidableEq I] (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (f : C₀(I, A) →L[A] C₀(I, A)) (C : ℝ) (hC : 0 ≤ C) :
-    ‖f.restrictScalars K‖ ≤ C ↔ ∀ i, ‖f (c0Single i (1 : A))‖ ≤ C := by sorry
-
-/-- §4.2: potentially orthonormalizable modules have (Pr). -/
-theorem hasPr_of_potentiallyON (h : PotentiallyONable A M) : HasPr A M := by sorry
-
-/-- §4.2: a continuous direct summand of a (Pr) module has (Pr). -/
-theorem hasPr_retract (h : HasPr A N) (i : M →L[A] N) (r : N →L[A] M)
-    (hri : r.comp i = ContinuousLinearMap.id A M) : HasPr A M := by sorry
-
-omit [NormOneClass A] hNontrivialA hCompleteA hNoeth [ContinuousSMul A M] hCompleteM in
-/-- §4.2: (Pr) is a continuous retraction from some `C₀(I, A)`; this is the definition. -/
-theorem hasPr_iff_split_c0 : HasPr A M ↔
-    ∃ (I : Type v) (t : TopologicalSpace I),
-      letI : TopologicalSpace I := t
-      DiscreteTopology I ∧ ∃ (i : M →L[A] C₀(I, A)) (r : C₀(I, A) →L[A] M),
-        r.comp i = ContinuousLinearMap.id A M := Iff.rfl
-
-include K hNoeth in
-/-- §4.2 (Finite (Pr) modules are algebraically projective; Buzzard Lemma 2.11, p. 19). -/
-theorem projective_of_finite_hasPr [Module.Finite A M] (hp : HasPr A M) :
-    Module.Projective A M := by sorry
-
-/-- §4.1 check `potential_not_isometric`: a rescaled line is potentially, not isometrically,
-orthonormalizable. -/
-example (c : ℝ) (hc : 0 < c) (hcvalue : ∀ a : K, ‖a‖ ≠ c)
-    (e : M ≃ₗ[K] K) (he : ∀ x : M, ‖x‖ = c * ‖e x‖) :
-    PotentiallyONable K M ∧ ¬ Nonempty (M ≃ₗᵢ[K] K) := by sorry
-
-/-- §4.2 check `projective_not_free`: `eA` for `A = K × K`, `e = (1, 0)` has (Pr) and is not free. -/
-example : let E := Submodule.span (K × K) ({(1, 0)} : Set (K × K))
-    HasPr (K × K) E ∧ ¬ Module.Free (K × K) E := by sorry
-
-/-- §4.1 check `unbounded_family` (non-example). -/
-example (ρ : K) (hρ : 0 < ‖ρ‖) (hρ' : ‖ρ‖ < 1) :
-    ¬ ∃ f : C₀(ℕ, K) →L[K] K, ∀ n, f (c0Single n (1 : K)) = (ρ⁻¹) ^ n := by sorry
-
 end Section41
 
-/-! ### §4.2 Fredholm determinants in an orthonormal chart -/
+/-! ### §4.2 Entire power series -/
 
 section Entire
 
-/-- §4.2 (Entire power series over A): Mathlib's restrictedness at every positive radius. -/
+/-- Local restatement of CompactOperators §2.1.1 (`PowerSeries.IsEntire`), to be replaced by the
+import once that roadmap is in TauCetiRoadmap: Mathlib's restrictedness at every positive radius.
+The supplier states it over a complete ultrametric ring with `‖1‖ = 1` and proves its division and
+root API on it (`IsEntire.exists_eq_mul_add`, `IsEntire.isEntire_divByMonic`,
+`IsEntire.exists_eq_mul_divByMonic_add`, `IsEntire.evalAt_eq_zero_iff`,
+`IsEntire.isUnit_of_evalAt_eq_zero`). -/
 def IsEntire (f : PowerSeries A) : Prop :=
   ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f
 
-/-- §4.2: evaluation of a power series at `a`, as the total coefficient sum; it is a convergent
-evaluation only for entire series. -/
+/-- Local restatement of CompactOperators §2.1.2 (`PowerSeries.evalAt`, with the arguments
+swapped), to be replaced by the import once that roadmap is in TauCetiRoadmap: evaluation of a
+power series at `a` as the total coefficient sum; it is a convergent evaluation only for entire
+series. -/
 def entireEval (f : PowerSeries A) (a : A) : A := ∑' n : ℕ, f.coeff n * a ^ n
 
 omit [NormOneClass A] hNontrivialA hCompleteA hNoeth in
@@ -694,102 +559,7 @@ positive radius. -/
 theorem isEntire_iff_forall_isRestricted (f : PowerSeries A) :
     IsEntire f ↔ ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f := Iff.rfl
 
-/-- §4.2: `‖F(a)‖ ≤ G_R(F)` for entire `F` and `‖a‖ ≤ R`. -/
-theorem norm_entireEval_le (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (f : PowerSeries A) (hf : IsEntire f) (a : A) (R : ℝ) (hR : 0 < R) (ha : ‖a‖ ≤ R) :
-    ‖entireEval f a‖ ≤ PowerSeries.gaussNorm norm R f := by sorry
-
-/-- §4.2 check `superexponential_coefficients`. -/
-example (ρ : K) (hρ : 0 < ‖ρ‖) (hρ' : ‖ρ‖ < 1) :
-    IsEntire (PowerSeries.mk (fun n : ℕ => ρ ^ (n * n))) := by sorry
-
-/-- §4.2 check `geometric_nonexample`: the geometric series converges on the open disc but is not
-entire. -/
-example : ¬ IsEntire (PowerSeries.mk (fun _ : ℕ => (1 : A))) := by sorry
-
 end Entire
-
-section FredholmON
-
-variable {I : Type w} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
-
-/-- §4.1: the output coordinate `j` of the image of the input basis vector `e_i`. -/
-def operatorEntry (f : C₀(I, A) →L[A] C₀(I, A)) (i j : I) : A :=
-  f (c0Single i (1 : A)) j
-
-/-- §4.1: `r_j(u) = sup_i ‖u_{ij}‖`, the norm of the output column `j`. -/
-def columnSize (f : C₀(I, A) →L[A] C₀(I, A)) (j : I) : ℝ :=
-  sSup (Set.range (fun i : I => ‖operatorEntry f i j‖))
-
-/-- §4.2 (Fredholm determinant in an orthonormal chart; Buzzard, after Proposition 2.4, p. 12):
-`c_n = (−1)ⁿ Σ_{|S| = n} det(u_{ij})_{i,j ∈ S}`. The sum is Mathlib's total `tsum`; it is a
-convergent sum for completely continuous `f`. -/
-def fredholmSeries (f : C₀(I, A) →L[A] C₀(I, A)) : PowerSeries A :=
-  PowerSeries.mk fun n => (-1 : A) ^ n *
-    ∑' S : {S : Finset I // S.card = n}, Matrix.det (fun i j : ↥S.val => operatorEntry f i j)
-
-omit [NormOneClass A] hNontrivialA hCompleteA hNoeth in
-/-- §4.2: the `n`th coefficient is the signed principal-minor sum. -/
-theorem fredholmSeries_coeff (f : C₀(I, A) →L[A] C₀(I, A)) (n : ℕ) :
-    (fredholmSeries f).coeff n = (-1 : A) ^ n *
-      ∑' S : {S : Finset I // S.card = n}, Matrix.det (fun i j : ↥S.val => operatorEntry f i j) :=
-  PowerSeries.coeff_mk _ _
-
-include K in
-/-- §4.2: the constant coefficient is one. -/
-theorem fredholmSeries_constant (f : C₀(I, A) →L[A] C₀(I, A)) :
-    (fredholmSeries f).coeff 0 = 1 := by sorry
-
-include K hNoeth in
-/-- §4.2: the Fredholm series of a completely continuous operator is entire. -/
-theorem fredholmSeries_isEntire (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (f : C₀(I, A) →L[A] C₀(I, A)) (hf : IsCompletelyContinuous f) :
-    IsEntire (fredholmSeries f) := by sorry
-
-include hNoeth in
-/-- §4.2 (Gauss convergence under a common column majorant; Serre Proposition 8, p. 77). -/
-theorem fredholmSeries_gauss_convergence (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (f : ℕ → C₀(I, A) →L[A] C₀(I, A)) (g : C₀(I, A) →L[A] C₀(I, A))
-    (hf : ∀ n, IsCompletelyContinuous (f n)) (hg : IsCompletelyContinuous g)
-    (hfg : Tendsto (fun n => (f n).restrictScalars K) atTop (𝓝 (g.restrictScalars K)))
-    (b : I → ℝ) (hb : Tendsto b cofinite (𝓝 0))
-    (hb0 : ∀ j, 0 ≤ b j) (hbd : ∃ C : ℝ, ∀ j, b j ≤ C)
-    (hfb : ∀ n j, columnSize (f n) j ≤ b j) (hgb : ∀ j, columnSize g j ≤ b j)
-    (R : ℝ) (hR : 0 < R) :
-    Tendsto (fun n => PowerSeries.gaussNorm norm R (fredholmSeries (f n) - fredholmSeries g))
-      atTop (𝓝 0) := by sorry
-
-include K hNoeth in
-/-- §4.2 (Determinant of a finite-coordinate operator; Buzzard Lemma 2.5(b), pp. 12–13): if the
-outputs of `f` are supported in a finite `S`, its Fredholm series is `det(1 − T·u|_S)`. -/
-theorem fredholmSeries_of_finite_support (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (f : C₀(I, A) →L[A] C₀(I, A)) (S : Finset I) (hS : ∀ x j, j ∉ S → f x j = 0) :
-    fredholmSeries f = ((Matrix.det (1 + (Polynomial.X : Polynomial A) •
-      Matrix.map (-(fun i j : ↥S => operatorEntry f i j)) Polynomial.C) : Polynomial A) :
-        PowerSeries A) := by sorry
-
-include K hNoeth in
-/-- §4.2 (Evaluated Fredholm product identity on c0; Serre Corollary 1 to Proposition 7, p. 76):
-`P_{u+v−uv}(1) = P_u(1)·P_v(1)`, with no commutation hypothesis. -/
-theorem fredholmSeries_eval_one_mul (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (f g : C₀(I, A) →L[A] C₀(I, A))
-    (hf : IsCompletelyContinuous f) (hg : IsCompletelyContinuous g) :
-    entireEval (fredholmSeries (f + g - f.comp g)) 1 =
-      entireEval (fredholmSeries f) 1 * entireEval (fredholmSeries g) 1 := by sorry
-
-/-- §4.2 check `zero_operator`: `P_0 = 1`. -/
-example : fredholmSeries (0 : C₀(I, A) →L[A] C₀(I, A)) = 1 := by sorry
-
-/-- §4.2 check `rank_one_scalar`: multiplication by `a` on `A` has `P = 1 − aT`. -/
-example (a : A) (f : C₀(Fin 1, A) →L[A] C₀(Fin 1, A)) (hf : ∀ x, f x = a • x) :
-    fredholmSeries f = 1 - PowerSeries.C a * PowerSeries.X := by sorry
-
-/-- §4.2 check `whole_series_product_nonexample`: evaluated multiplicativity must not be promoted
-to whole-series multiplicativity. -/
-example : (1 - PowerSeries.X : PowerSeries A) ≠ (1 - PowerSeries.X) * (1 - PowerSeries.X) := by
-  sorry
-
-end FredholmON
 
 /-! ### §4.8 Finite generation and projectivity of root kernels -/
 
@@ -801,24 +571,11 @@ theorem riesz_kernel_hasPr (u : M →L[A] M) (a : A) (h : ℕ)
     (F : Submodule A M) (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F)
     (hp : HasPr A M) : HasPr A ((1 - a • u) ^ h).ker := by sorry
 
-include K hNoeth in
-/-- §4.8 (Finite generation of the root kernel; Buzzard Proposition 3.2, pp. 23–24). -/
-theorem riesz_kernel_finite (u : M →L[A] M) (a : A) (h : ℕ)
-    (F : Submodule A M) (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F)
-    (hu : IsCompletelyContinuous u) : Module.Finite A ((1 - a • u) ^ h).ker := by sorry
-
-include K hNoeth in
-/-- §4.8 (Projectivity of the finite root kernel; Buzzard Lemma 2.11 and Proposition 3.2). -/
-theorem riesz_kernel_projective (u : M →L[A] M) (a : A) (h : ℕ)
-    (F : Submodule A M) (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F)
-    (hu : IsCompletelyContinuous u) (hp : HasPr A M) :
-    Module.Projective A ((1 - a • u) ^ h).ker := by sorry
-
 end RootKernels
 
 end NonarchimedeanFredholm
 
-/-! ### §4.3–§4.4 Entire division and resultants -/
+/-! ### §4.3 Entire division by linear and monic factors -/
 
 namespace NonarchimedeanFredholm
 
@@ -862,11 +619,6 @@ theorem entireLinearQuotient_entire (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x�
     (a : A) (f : PowerSeries A) (hf : IsEntire f) : IsEntire (entireLinearQuotient a f) := by
   sorry
 
-/-- §4.3 (Division identity with evaluation as remainder): `F = (T − a)·Q_a(F) + F(a)`. -/
-theorem entire_linear_division (a : A) (f : PowerSeries A) (hf : IsEntire f) :
-    f = (PowerSeries.X - PowerSeries.C a) * entireLinearQuotient a f +
-      PowerSeries.C (entireEval f a) := by sorry
-
 /-- §4.3 (An entire linear product cannot be a nonzero constant): the corrected form of Coleman
 Lemma A3.1, p. 432. -/
 theorem entire_linear_product_constant (a b : A) (f : PowerSeries A) (hf : IsEntire f)
@@ -883,12 +635,6 @@ theorem entireLinearQuotient_polynomial (hA : ∀ x y : A, ‖x + y‖ ≤ max �
     (a : A) (P : Polynomial A) :
     entireLinearQuotient a (P : PowerSeries A) =
       ((P /ₘ (Polynomial.X - Polynomial.C a) : Polynomial A) : PowerSeries A) := by sorry
-
-/-- §4.3 (Roots and linear factors in the entire-series ring). -/
-theorem entire_root_iff_linear_factor (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (a : A) (f : PowerSeries A) (hf : IsEntire f) :
-    entireEval f a = 0 ↔
-      ∃ g : PowerSeries A, IsEntire g ∧ f = (PowerSeries.X - PowerSeries.C a) * g := by sorry
 
 /-- §4.3 check `linear_quotient_quadratic`: `Q_a(T²) = T + a`. -/
 example (a : A) :
@@ -911,8 +657,9 @@ section MonicDivision
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A] [Nontrivial A]
 
-/-- §4.3 (Reciprocal-tail quotient by a monic polynomial): `s_n = Σ_k coeff_{n+d+k}(F)·b_k` with
-`Σ b_k T^k` the inverse of `Q.reverse`. -/
+/-- Local restatement of CompactOperators §2.2.2 (**The explicit quotient by a monic polynomial**,
+`PowerSeries.divByMonic`), to be replaced by the import once that roadmap is in TauCetiRoadmap:
+`s_n = Σ_k coeff_{n+d+k}(F)·b_k` with `Σ b_k T^k` the inverse of `Q.reverse`. -/
 def entireMonicQuotient (Q : Polynomial A) (F : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk fun n => ∑' k : ℕ, F.coeff (n + Q.natDegree + k) *
     (PowerSeries.invOfUnit (Q.reverse : PowerSeries A) 1).coeff k
@@ -923,21 +670,6 @@ theorem entireMonicQuotient_coeff (Q : Polynomial A) (F : PowerSeries A) (n : �
     (entireMonicQuotient Q F).coeff n = ∑' k : ℕ, F.coeff (n + Q.natDegree + k) *
       (PowerSeries.invOfUnit (Q.reverse : PowerSeries A) 1).coeff k :=
   PowerSeries.coeff_mk _ _
-
-/-- §4.3: `S_Q(0) = 0`. -/
-theorem entireMonicQuotient_zero (Q : Polynomial A) :
-    entireMonicQuotient Q 0 = (0 : PowerSeries A) := by sorry
-
-/-- §4.3: `S_Q(F + G) = S_Q(F) + S_Q(G)` for entire `F`, `G` and monic `Q`. -/
-theorem entireMonicQuotient_add (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F G : PowerSeries A) (hF : IsEntire F) (hG : IsEntire G) :
-    entireMonicQuotient Q (F + G) = entireMonicQuotient Q F + entireMonicQuotient Q G := by sorry
-
-/-- §4.3: `S_Q(cF) = c·S_Q(F)` for entire `F` and monic `Q`. -/
-theorem entireMonicQuotient_C_mul (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) (c : A) :
-    entireMonicQuotient Q (PowerSeries.C c * F) = PowerSeries.C c * entireMonicQuotient Q F := by
-  sorry
 
 /-- §4.3 (Entireness of the monic quotient). -/
 theorem entireMonicQuotient_entire (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
@@ -972,91 +704,11 @@ theorem entireMonicQuotient_linear (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x�
     (a : A) (F : PowerSeries A) (hF : IsEntire F) :
     entireMonicQuotient (Polynomial.X - Polynomial.C a) F = entireLinearQuotient a F := by sorry
 
-/-- §4.3 (Division of entire series by a monic polynomial; Coleman Appendix A3, p. 434). -/
-theorem entire_monic_division_existsUnique (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
-    ∃! qr : PowerSeries A × Polynomial A,
-      IsEntire qr.1 ∧ qr.2.degree < (Q.natDegree : WithBot ℕ) ∧
-      F = (Q : PowerSeries A) * qr.1 + (qr.2 : PowerSeries A) := by sorry
-
-/-- §4.3 check `monic_quotient_one`: `S_1(F) = F`. -/
-example (F : PowerSeries A) : entireMonicQuotient 1 F = F := by sorry
-
-/-- §4.3 check `monic_quotient_quadratic`: for `Q = T² + aT + b`, `S_Q(T³) = T − a`. -/
-example (a b : A) :
-    entireMonicQuotient (Polynomial.X ^ 2 + Polynomial.C a * Polynomial.X + Polynomial.C b)
-      (PowerSeries.X ^ 3) = PowerSeries.X - PowerSeries.C a := by sorry
-
-/-- §4.4 (Resultant of a monic polynomial and an entire series; Coleman Lemma A3.7, pp. 434–435):
-`Res(Q, F)` is the norm, in Mathlib's `AdjoinRoot Q`, of the class of the entire-division remainder
-of `F`. -/
-def entireResultant (Q : Polynomial A) (F : PowerSeries A) : A :=
-  Algebra.norm A (AdjoinRoot.mk Q
-    (PowerSeries.trunc Q.natDegree (F - (Q : PowerSeries A) * entireMonicQuotient Q F)))
-
-omit [NormOneClass A] [CompleteSpace A] [Nontrivial A] in
-/-- §4.4: `Res(Q, F)` is the norm, in Mathlib's `AdjoinRoot Q`, of the class of the remainder of
-`F`; equivalently the determinant of multiplication in the power basis indexed by `Fin d`. -/
-theorem entireResultant_norm (Q : Polynomial A) (F : PowerSeries A) :
-    entireResultant Q F = Algebra.norm A (AdjoinRoot.mk Q
-      (PowerSeries.trunc Q.natDegree (F - (Q : PowerSeries A) * entireMonicQuotient Q F))) := rfl
-
-/-- §4.4: `Res(T − a, F) = F(a)`, with no sign. -/
-theorem entireResultant_linear (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖) (a : A)
-    (f : PowerSeries A) (hf : IsEntire f) :
-    entireResultant (Polynomial.X - Polynomial.C a) f = entireEval f a := by sorry
-
-/-- §4.4: the resultant depends only on `F` modulo `Q`. -/
-theorem entireResultant_remainder (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (f g s : PowerSeries A)
-    (hg : IsEntire g) (hs : IsEntire s) (h : f = (Q : PowerSeries A) * s + g) :
-    entireResultant Q f = entireResultant Q g := by sorry
-
-/-- §4.4: `Res(Q, F₁F₂) = Res(Q, F₁)·Res(Q, F₂)`. -/
-theorem entireResultant_mul (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (f g : PowerSeries A) (hf : IsEntire f) (hg : IsEntire g) :
-    entireResultant Q (f * g) = entireResultant Q f * entireResultant Q g := by sorry
-
-/-- §4.4 (Entire resultant agrees with the native polynomial resultant), with exactly this argument
-order and these degree bounds. -/
-theorem entireResultant_polynomial (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q P : Polynomial A) (hQ : Q.Monic) :
-    entireResultant Q (P : PowerSeries A) = Q.resultant P Q.natDegree P.natDegree := by sorry
-
-/-- §4.4 (Bounded polynomial coefficient in the resultant Bezout identity). -/
-theorem entireResultant_bezout (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
-    ∃ G : PowerSeries A, ∃ H : Polynomial A, IsEntire G ∧
-      H.degree < (Q.natDegree : WithBot ℕ) ∧
-      PowerSeries.C (entireResultant Q F) = (Q : PowerSeries A) * G + (H : PowerSeries A) * F := by
-  sorry
-
-/-- §4.4 (Resultant detects analytic coprimality; Coleman Lemma A3.7): `Res(Q, F)` is a unit iff
-`Q` and `F` generate the unit ideal of the entire series. -/
-theorem entireResultant_isUnit_iff (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
-    IsUnit (entireResultant Q F) ↔ ∃ G H : PowerSeries A, IsEntire G ∧ IsEntire H ∧
-      (Q : PowerSeries A) * G + H * F = 1 := by sorry
-
-/-- §4.4 check `constant_divisor`: `Res(1, F) = 1`, including `F = 0`. -/
-example (f : PowerSeries A) : entireResultant 1 f = 1 := by sorry
-
-/-- §4.4 check `linear_evaluation`: `Res(T − a, 1 − bT) = 1 − ba`. -/
-example (a b : A) :
-    entireResultant (Polynomial.X - Polynomial.C a) (1 - PowerSeries.C b * PowerSeries.X) =
-      1 - b * a := by sorry
-
-/-- §4.4 check `resultant_nilpotent_linear`: `Res(T², a + bT) = a²` with no reducedness. -/
-example (a b : A) :
-    entireResultant (Polynomial.X ^ 2)
-      (((Polynomial.C a + Polynomial.C b * Polynomial.X : Polynomial A)) : PowerSeries A) =
-      a ^ 2 := by sorry
-
 end MonicDivision
 
 end NonarchimedeanFredholm
 
-/-! ### §4.5 and §4.7 Hasse derivatives and roots of entire series -/
+/-! ### §4.5 Hasse derivatives of power series -/
 
 namespace NonarchimedeanFredholm
 
@@ -1064,26 +716,12 @@ section HasseFormal
 
 variable {B : Type*} [Semiring B]
 
-/-- §4.5 (Hasse derivatives of formal power series; Buzzard §3, p. 22): coefficient `n` of `Δ_s f`
-is `binom(n + s, s)·coeff_{n+s} f`, with no inverse factorial. -/
+/-- Local restatement of CompactOperators §2.1.3 (**Hasse derivatives over any semiring**,
+`PowerSeries.semiringHasseDeriv`), to be replaced by the import once that roadmap is in
+TauCetiRoadmap: coefficient `n` of `Δ_s f` is `binom(n + s, s)·coeff_{n+s} f`, with no inverse
+factorial. -/
 def hasseSeries (s : ℕ) (f : PowerSeries B) : PowerSeries B :=
   PowerSeries.mk fun n => (n + s).choose s • f.coeff (n + s)
-
-/-- §4.5: coefficient `n` of `Δ_s f` is `binom(n + s, s)·coeff_{n+s} f`. -/
-theorem hasseSeries_coeff (s n : ℕ) (f : PowerSeries B) :
-    (hasseSeries s f).coeff n = (n + s).choose s • f.coeff (n + s) :=
-  PowerSeries.coeff_mk _ _
-
-/-- §4.5: `Δ_0 f = f`. -/
-theorem hasseSeries_zero (f : PowerSeries B) : hasseSeries 0 f = f := by sorry
-
-/-- §4.5: `Δ_s` is additive. -/
-theorem hasseSeries_add (s : ℕ) (f g : PowerSeries B) :
-    hasseSeries s (f + g) = hasseSeries s f + hasseSeries s g := by sorry
-
-/-- §4.5: `Δ_s (b f) = b Δ_s f`, including noncommutative `B`. -/
-theorem hasseSeries_smul (s : ℕ) (b : B) (f : PowerSeries B) :
-    hasseSeries s (b • f) = b • hasseSeries s f := by sorry
 
 /-- §4.5 (Polynomial and series Hasse derivatives agree). -/
 theorem hasseSeries_polynomial (s : ℕ) (p : Polynomial B) :
@@ -1094,38 +732,12 @@ theorem hasseSeries_mul (s : ℕ) (f g : PowerSeries B) :
     hasseSeries s (f * g) = ∑ ij ∈ Finset.HasAntidiagonal.antidiagonal s,
       hasseSeries ij.1 f * hasseSeries ij.2 g := by sorry
 
-/-- §4.5 check `hasse_top_monomial`: `Δ_s(b T^s) = b`, not `s!·b`. -/
-example (s : ℕ) (b : B) : hasseSeries s (PowerSeries.monomial s b) = PowerSeries.C b := by sorry
-
-/-- §4.5 check `hasse_characteristic_two`: over `ℤ/2`, `Δ_2(T²) = 1` although the second ordinary
-derivative of `T²` vanishes. -/
-example : hasseSeries 2 (PowerSeries.monomial 2 (1 : ZMod 2)) = 1 ∧
-    Polynomial.derivative (Polynomial.derivative ((Polynomial.X : Polynomial (ZMod 2)) ^ 2)) = 0 := by
-  sorry
-
 end HasseFormal
 
 /-- §4.5 (Hasse derivatives preserve entireness), over a possibly noncommutative normed ring. -/
 theorem hasseSeries_entire {B : Type*} [NormedRing B] (f : PowerSeries B)
     (hf : ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f) (s : ℕ) (R : ℝ) (hR : 0 < R) :
     PowerSeries.IsRestricted R (hasseSeries s f) := by sorry
-
-section Roots
-
-variable {A : Type*} [NormedCommRing A] [CompleteSpace A]
-
-/-- §4.7 (Roots of an entire series with unit constant are units; Buzzard §3, p. 22): the inverse
-is `−Σ_n f_{n+1} aⁿ`. -/
-theorem entire_root_isUnit (f : PowerSeries A) (hf : IsEntire f)
-    (h0 : f.coeff 0 = 1) (a : A) (ha : entireEval f a = 0) :
-    IsUnit a ∧ a * (-(∑' n : ℕ, f.coeff (n + 1) * a ^ n)) = 1 ∧
-      (-(∑' n : ℕ, f.coeff (n + 1) * a ^ n)) * a = 1 := by sorry
-
-/-- §4.7 check `root_nonunit_constant` (non-example): without the unit constant the claim fails. -/
-example [Nontrivial A] : entireEval (PowerSeries.X : PowerSeries A) 0 = 0 ∧ ¬ IsUnit (0 : A) := by
-  sorry
-
-end Roots
 
 end NonarchimedeanFredholm
 
@@ -1144,25 +756,12 @@ theorem spectralReversal_monic [Nontrivial A] (P : A[X]) (n : ℕ)
     (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) :
     (P.reflect n).Monic ∧ (P.reflect n).natDegree = n := by sorry
 
-/-- §4.9 (The finite polynomial spectral transform; Coleman Appendix A3, pp. 434–436): `D_{n,m}(B, P)`
-is the bounded resultant over `A[T]` of `Q_n = reflect_n P` and `1 − T·B(Y)`. -/
+/-- Local restatement of CompactOperators §3.3.1 (**Coleman's transform at a prescribed rank**,
+`colemanDBounded`), to be replaced by the import once that roadmap is in TauCetiRoadmap:
+`D_{n,m}(B, P)` is the bounded resultant over `A[T]` of `Q_n = reflect_n P` and `1 − T·B(Y)`. -/
 def polynomialSpectralResultant (n m : ℕ) (B P : A[X]) : A[X] :=
   Polynomial.resultant ((P.reflect n).map Polynomial.C)
     (1 - Polynomial.C Polynomial.X * B.map Polynomial.C) n m
-
-/-- §4.9: the value is the bounded resultant over `A[T]` with the two displayed bounds. -/
-theorem polynomialSpectralResultant_def (n m : ℕ) (B P : A[X]) :
-    polynomialSpectralResultant n m B P =
-      Polynomial.resultant ((P.reflect n).map Polynomial.C)
-        (1 - Polynomial.C Polynomial.X * B.map Polynomial.C) n m := rfl
-
-/-- §4.9: for `B = 0` and `m = 0` the value is `1`, for any `P` and `n`. -/
-theorem polynomialSpectralResultant_zero (n : ℕ) (P : A[X]) :
-    polynomialSpectralResultant n 0 0 P = 1 := by sorry
-
-/-- §4.9: for `P = 1` and `n = 0` the value is `1`, for any `B` and `m`. -/
-theorem polynomialSpectralResultant_oneInput (m : ℕ) (B : A[X]) :
-    polynomialSpectralResultant 0 m B 1 = 1 := by sorry
 
 /-- §4.9 (Specializing the spectral parameter). -/
 theorem polynomialSpectralResultant_eval (n m : ℕ) (B P : A[X]) (t : A) :
@@ -1172,11 +771,6 @@ theorem polynomialSpectralResultant_eval (n m : ℕ) (B P : A[X]) (t : A) :
 /-- §4.9 (Normalization of the finite transform). -/
 theorem polynomialSpectralResultant_constantCoeff (n m : ℕ) (B P : A[X]) (hP : P.coeff 0 = 1) :
     (polynomialSpectralResultant n m B P).coeff 0 = 1 := by sorry
-
-/-- §4.9 (Independence of the auxiliary degree bound). -/
-theorem polynomialSpectralResultant_rightBound (n m : ℕ) (B P : A[X])
-    (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) (hm : B.natDegree ≤ m) :
-    polynomialSpectralResultant n m B P = polynomialSpectralResultant n B.natDegree B P := by sorry
 
 /-- §4.9 (A single polynomial eigenvalue). -/
 theorem polynomialSpectralResultant_linear (m : ℕ) (B : A[X]) (a : A) (hm : B.natDegree ≤ m) :
@@ -1189,17 +783,6 @@ theorem polynomialSpectralResultant_mul (n k m : ℕ) (B P Q : A[X])
     (hn : P.natDegree ≤ n) (hk : Q.natDegree ≤ k) (hm : B.natDegree ≤ m) :
     polynomialSpectralResultant (n + k) m B (P * Q) =
       polynomialSpectralResultant n m B P * polynomialSpectralResultant k m B Q := by sorry
-
-/-- §4.9 (The exact zero-root padding factor). -/
-theorem polynomialSpectralResultant_padding (n m : ℕ) (B P : A[X])
-    (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) (hm : B.natDegree ≤ m) :
-    polynomialSpectralResultant (n + 1) m B P =
-      polynomialSpectralResultant n m B P * (1 - Polynomial.C (B.coeff 0) * Polynomial.X) := by sorry
-
-/-- §4.9 (Stability when the operator series vanishes at zero). -/
-theorem polynomialSpectralResultant_stable (n k m : ℕ) (B P : A[X])
-    (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) (hm : B.natDegree ≤ m) (hB : B.coeff 0 = 0) :
-    polynomialSpectralResultant (n + k) m B P = polynomialSpectralResultant n m B P := by sorry
 
 /-- §4.9 (Coefficient maps preserve the finite transform). -/
 theorem polynomialSpectralResultant_map (f : A →+* S) (n m : ℕ) (B P : A[X]) :
@@ -1226,13 +809,6 @@ theorem polynomialSpectralResultant_charpolyRev_of_isUpperTriangular {ι : Type*
     polynomialSpectralResultant (Fintype.card ι) m B M.charpolyRev =
       (Polynomial.aeval M B).charpolyRev := by sorry
 
-/-- §4.10 (Finite characteristic spectral mapping; Coleman Theorem A3.9, finite-operator step,
-pp. 435–436): `D_{|I|,m}(B, P_M) = P_{B(M)}` over any commutative ring, for `deg B ≤ m`. -/
-theorem polynomialSpectralResultant_charpolyRev {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : Matrix ι ι A) (m : ℕ) (B : A[X]) (hm : B.natDegree ≤ m) :
-    polynomialSpectralResultant (Fintype.card ι) m B M.charpolyRev =
-      (Polynomial.aeval M B).charpolyRev := by sorry
-
 /-- §4.11 (Reciprocal resultant with swapped factors; Coleman (9), p. 434). -/
 theorem resultant_reflect_swap (f g : A[X]) (m n : ℕ) :
     Polynomial.resultant (f.reflect m) (g.reflect n) m n = Polynomial.resultant g f n m := by sorry
@@ -1245,24 +821,9 @@ theorem polynomialSpectralResultant_one_sub_reverse_eval
 
 end FiniteSpectral
 
-/-- §4.9 check `nonzero_constant_padding` (non-example): `D_{1,0}(1, 1) = 1 − T` while
-`D_{0,0}(1, 1) = 1`. -/
-example : polynomialSpectralResultant 1 0 (1 : Polynomial ℤ) 1 = 1 - Polynomial.X ∧
-    polynomialSpectralResultant 0 0 (1 : Polynomial ℤ) 1 = 1 := by sorry
-
-/-- §4.9 check `repeated_root`: repeated roots and nonreduced coefficients are retained. -/
-example : polynomialSpectralResultant 2 2 (Polynomial.X + Polynomial.X ^ 2 : Polynomial (ZMod 8))
-    ((1 - Polynomial.C 2 * Polynomial.X) ^ 2) =
-      1 + Polynomial.C 4 * Polynomial.X + Polynomial.C 4 * Polynomial.X ^ 2 := by sorry
-
 /-- §4.10 check `constant_operator` (non-example): the matrix rank, not `deg P_M`, is the bound. -/
 example : polynomialSpectralResultant 2 0 (1 : Polynomial ℤ)
     (0 : Matrix (Fin 2) (Fin 2) ℤ).charpolyRev = (1 - Polynomial.X) ^ 2 := by sorry
-
-/-- §4.10 check `dense_nilpotent`: `B = Y + Y²` and `M = [[2,1],[2,2]]` over `ℤ/8`. -/
-example : polynomialSpectralResultant 2 2 (Polynomial.X + Polynomial.X ^ 2)
-    (!![2, 1; 2, 2] : Matrix (Fin 2) (Fin 2) (ZMod 8)).charpolyRev =
-      1 + Polynomial.C 6 * Polynomial.X ^ 2 := by sorry
 
 /-- §4.11 check `linear_sign`: `D_{1,1}(3T, 1 − 2T)(1) = −5`. -/
 example : (polynomialSpectralResultant 1 1 (Polynomial.C 3 * Polynomial.X)
@@ -1275,22 +836,6 @@ example : (polynomialSpectralResultant 0 2 0 (Polynomial.C 2 : Polynomial ℤ)).
 section EntireResultantLimit
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A] [Nontrivial A]
-
-/-- §4.11 (Entire resultant as a limit of polynomial resultants). -/
-theorem tendsto_resultant_trunc (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F) :
-    Tendsto (fun n : ℕ => Polynomial.resultant Q (PowerSeries.trunc (n + 1) F)
-      Q.natDegree (PowerSeries.trunc (n + 1) F).natDegree)
-      atTop (𝓝 (entireResultant Q F)) := by sorry
-
-/-- §4.11 (The normalized scalar limit in Coleman A3.8; Coleman Lemma A3.8(11), p. 435). -/
-theorem tendsto_spectral_simultaneous_trunc_eval (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (Q : Polynomial A) (hQ : Q.Monic) (F : PowerSeries A) (hF : IsEntire F)
-    (hF0 : F.coeff 0 = 1) :
-    Tendsto (fun n : ℕ => (polynomialSpectralResultant n n
-      (PowerSeries.trunc (n + 1) ((1 - Q.reverse : Polynomial A) : PowerSeries A))
-      (PowerSeries.trunc (n + 1) F)).eval 1)
-      atTop (𝓝 (entireResultant Q F)) := by sorry
 
 /-- §4.11 check `linear_limit`: for `Q = T − a` the scalar limit is the evaluation `F(a)`. -/
 example (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖) (a : A) (F : PowerSeries A) (hF : IsEntire F) :
@@ -1310,11 +855,6 @@ section Gauss
 
 variable {A : Type*} [NormedCommRing A]
 
-/-- §4.12 (Entire truncations converge at every radius). -/
-theorem tendsto_gaussNorm_sub_trunc (F : PowerSeries A) (hF : IsEntire F) (R : ℝ) (hR : 0 < R) :
-    Tendsto (fun N : ℕ => PowerSeries.gaussNorm norm R (F - (PowerSeries.trunc N F : PowerSeries A)))
-      atTop (𝓝 0) := by sorry
-
 /-- §4.12 (Bounded coefficient limits converge in Gauss norms). -/
 theorem tendsto_gaussNorm_of_coeff_tendsto_of_gauss_bounded
     (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
@@ -1323,15 +863,6 @@ theorem tendsto_gaussNorm_of_coeff_tendsto_of_gauss_bounded
     (hbd : ∀ S : ℝ, 0 < S → ∃ C : ℝ, 0 ≤ C ∧ ∀ i, PowerSeries.gaussNorm norm S (F i) ≤ C)
     (R : ℝ) (hR : 0 < R) :
     Tendsto (fun i => PowerSeries.gaussNorm norm R (F i - f)) atTop (𝓝 0) := by sorry
-
-/-- §4.12 (Unique entire limit of Gauss-Cauchy sequences). -/
-theorem existsUnique_entire_gauss_limit [CompleteSpace A]
-    (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (F : ℕ → PowerSeries A) (hF : ∀ i, IsEntire (F i))
-    (hC : ∀ R : ℝ, 0 < R → ∀ ε : ℝ, 0 < ε →
-      ∃ N : ℕ, ∀ i ≥ N, ∀ j ≥ N, PowerSeries.gaussNorm norm R (F i - F j) < ε) :
-    ∃! f : PowerSeries A, IsEntire f ∧ ∀ R : ℝ, 0 < R →
-      Tendsto (fun i => PowerSeries.gaussNorm norm R (F i - f)) atTop (𝓝 0) := by sorry
 
 /-- §4.12 (Uniform evaluation of a Gauss limit) on the closed ball of radius `R`. -/
 theorem tendstoUniformlyOn_entireEval_of_gauss [CompleteSpace A]
@@ -1446,12 +977,6 @@ example (e : A) (he : e ^ 2 = 0) :
       1 - Polynomial.C e * Polynomial.X ^ 2 := by sorry
 
 end FixedCharacteristic
-
-/-- §4.13 check `EntireSpectralTests.nonzero_constant` (non-example): for `B = 1` and `P = 1` the
-rank-`N` truncations `(1 − T)^N` have linear coefficients that are not Cauchy over `ℚ_3`, so
-`B(0) = 0` is essential. -/
-example : ¬ CauchySeq (fun N : ℕ =>
-    (polynomialSpectralResultant N 0 (1 : Polynomial ℚ_[3]) 1).coeff 1) := by sorry
 
 end NonarchimedeanFredholm
 
