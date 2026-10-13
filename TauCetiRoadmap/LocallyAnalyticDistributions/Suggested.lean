@@ -48,6 +48,16 @@ by `1/3` on `ℤ_3`, so the maximum principle uses `ℂ_p`-points, not coefficie
 example : (Polynomial.X ^ 3 - Polynomial.X : Polynomial ℤ_[3]).coeff 3 = 1 ∧
     ∀ x : ℤ_[3], ‖x ^ 3 - x‖ ≤ (1 / 3 : ℝ) := by sorry
 
+/-- §0.1 and §4.15 check `analyticStage_sqrt_two`: in a normed extension of `ℚ_2`, a square
+root of two gives normalized Mahler coefficients of norm `1/2` along `n = 2^k` at level one.
+The level-one coefficients fail to tend to zero, while the level-two coefficients do tend to zero. -/
+example {K : Type*} [NontriviallyNormedField K] [NormedAlgebra ℚ_[2] K]
+    (r : K) (hr : r ^ 2 = 2) :
+    (∀ k : ℕ, 1 ≤ k →
+      ‖r ^ (2 ^ k) / (Nat.factorial (2 ^ (k - 1)) : K)‖ = (1 / 2 : ℝ)) ∧
+    ¬ Tendsto (fun n : ℕ => r ^ n / (Nat.factorial (n / 2) : K)) atTop (𝓝 0) ∧
+    Tendsto (fun n : ℕ => r ^ n / (Nat.factorial (n / 4) : K)) atTop (𝓝 0) := by sorry
+
 end LocallyAnalytic.SuggestedTest
 
 namespace NonarchimedeanFredholm
@@ -122,6 +132,16 @@ example (h : ℕ) :
       ‖((Nat.factorial (n / 3 ^ h) : ℕ) : ℚ_[3])‖)) = 1 ∧
     ¬ BddAbove (Set.range (fun n : ℕ => ‖(-1 : ℚ_[3]) ^ n‖ /
       ‖((Nat.factorial (n / 3 ^ h) : ℕ) : ℚ_[3])‖)) := by sorry
+
+/-- §0.1 and §1.1 check `amice_stage_single_level`: moments `1/n!` have norm-one basis
+values at level zero, unbounded basis values at level one, and a series that fails to converge
+on the whole open unit disc. -/
+example :
+    (∀ n : ℕ, ‖(Nat.factorial n : ℚ_[3])⁻¹‖ * ‖(Nat.factorial n : ℚ_[3])‖ = 1) ∧
+    ¬ BddAbove (Set.range (fun n : ℕ => ‖(Nat.factorial n : ℚ_[3])⁻¹‖ *
+      ‖(Nat.factorial (n / 3) : ℚ_[3])‖)) ∧
+    ¬ (∀ R : ℝ, 0 < R → R < 1 → PowerSeries.IsRestricted R
+      (PowerSeries.mk (fun n : ℕ => (Nat.factorial n : ℚ_[3])⁻¹))) := by sorry
 
 end LocallyAnalytic.SuggestedTest
 
