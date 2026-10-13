@@ -221,12 +221,32 @@ example : X ^ 3 ∈ algebra (X ^ 2 : k[X]) ∧ X ∉ algebra (X ^ 2 : k[X]) := b
 example (h : (2 : k) ≠ 0) (f : k[X]) :
     f ∈ algebra (X ^ 2 - 1) ↔ f.eval 1 = f.eval (-1) := by sorry
 
+/-- The binary nonsplit pinch excludes its normalization parameter. -/
+example : X ∉ algebra (X ^ 2 + X + 1 : (ZMod 2)[X]) := by sorry
+
+/-- The binary split node has one affine rational point and its point at infinity. -/
+example : (curve (1 : ZMod 2) 0).pointCount = 2 := by sorry
+
 /-- The binary nonsplit node has three affine rational points. -/
 example : (curve (1 : ZMod 2) 1).pointCount = 4 := by sorry
 
 /-- A cusp is singular even though its equation has rational solutions. -/
 example : (curve (0 : ZMod 2) 0).Δ = 0 ∧
     (curve (0 : ZMod 2) 0).pointCount = 3 := by sorry
+
+/-- The binary split node, nonsplit node and cusp have the three signed count defects. -/
+example : (curve (1 : ZMod 2) 0).frobeniusTrace = 1 ∧
+    (curve (1 : ZMod 2) 1).frobeniusTrace = -1 ∧
+    (curve (0 : ZMod 2) 0).frobeniusTrace = 0 := by sorry
+
+/-- Two distinct rational conductor roots give the split count in odd characteristic. -/
+example : (curve (0 : ZMod 3) (-1)).pointCount = 3 := by sorry
+
+/-- A quadratic conductor with no rational root gives the nonsplit count defect. -/
+example : (curve (0 : ZMod 3) 1).frobeniusTrace = -1 := by sorry
+
+/-- A repeated conductor root gives count defect zero in characteristic three. -/
+example : (curve (1 : ZMod 3) 1).frobeniusTrace = 0 := by sorry
 
 /-- The rank-two polynomial normal form uses q as the new parameter. -/
 theorem exists_normal_form (a b : k) (h : k[X]) :
@@ -289,6 +309,9 @@ theorem F2Model.count_classifier (W : WeierstrassCurve (ZMod 2)) (hW : W.Δ = 1)
 example : (¬ ∃ x y : ZMod 2, (F2Model 0).toAffine.Equation x y) ∧
     (F2Model 0).pointCount = 1 := by sorry
 
+/-- The middle binary representative has equation y² + y = x³. -/
+example : F2Model 2 = ⟨0, 0, 1, 0, 0⟩ := by sorry
+
 /-- Equal j does not identify the three supersingular binary classes. -/
 example : (F2Model 0).c₄ = 0 ∧ (F2Model 4).c₄ = 0 ∧ F2Model 0 ≠ F2Model 4 := by sorry
 
@@ -337,6 +360,9 @@ theorem reverseWeight_eq_reflect {k : Type u} [CommRing k]
 /-- The two reversals differ above the weight: `reflect` keeps `X ^ 7` at weight six. -/
 example : reverseWeight 6 (X ^ 7 : ℤ[X]) ≠ Polynomial.reflect 6 (X ^ 7 : ℤ[X]) := by sorry
 
+/-- Weight-six reversal drops the entire monomial of degree seven. -/
+example : reverseWeight 6 (X ^ 7 : ℤ[X]) = 0 := by sorry
+
 /-- The global discriminant transforms with weight twelve. -/
 theorem inverseChart_discriminant {k : Type u} [CommRing k] (W : BoundedWeierstrass k) :
     (inverseChart W.toCurve).Δ = reverseWeight 12 W.toCurve.Δ := by sorry
@@ -357,6 +383,9 @@ example {k : Type u} [CommRing k] : reverseWeight 6 (X ^ 6 : k[X]) = 1 := by sor
 /-- The highest-weight coefficient is the constant on the inverse chart. -/
 example {k : Type u} [CommRing k] :
     (inverseChart (⟨X, 0, 0, 0, X ^ 6⟩ : WeierstrassCurve k[X])).a₆ = 1 := by sorry
+
+/-- A constant coefficient of weight one becomes the reciprocal chart coordinate. -/
+example : (inverseChart (⟨1, 0, 0, 0, 0⟩ : WeierstrassCurve ℤ[X])).a₁ = X := by sorry
 
 /-- Weight reversal loses terms above its bound. -/
 example : inverseChart (inverseChart (⟨0, 0, 0, 0, X ^ 7⟩ :
@@ -523,6 +552,10 @@ theorem normalizeA2_bounded (W : BoundedWeierstrass (ZMod 2)) :
 example (W : WeierstrassCurve (ZMod 2)[X]) :
     (normalizeA2 W).a₂ = 0 ∧ normalizeA2 (normalizeA2 W) = normalizeA2 W := by sorry
 
+/-- Normalization fixes every tuple whose second coefficient already vanishes. -/
+example (W : WeierstrassCurve (ZMod 2)[X]) (h : W.a₂ = 0) :
+    normalizeA2 W = W := by sorry
+
 /-- Nonzero a2 changes the other coefficients; dropping it alone is incorrect. -/
 example : normalizeA2 (⟨X, X, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
     ⟨X, 0, X ^ 2, X ^ 2, 0⟩ := by sorry
@@ -591,9 +624,12 @@ ResolvedModelCertificate, FiniteRejectionCertificate and FibrationEquivalence.
 Their full definitions, API, hypotheses and checks remain in the README.
 The additional geometric prerequisites are finiteMap_etaleCover_cofinal (§1.9),
 rationalSurface_commonBlowup, blowup_Picard_intersection and rationalSurface_coherent_vanishing (§4.0),
-smoothProper_ellAdicCohomology, geometricFrobenius_tateTwist, smoothProper_traceFormula,
-projectivePlane_ellAdicCohomology and pointBlowup_ellAdicCohomology (§5.0), followed by
+the supplied projective-bundle and blowup specializations projectivePlane_ellAdicCohomology
+and pointBlowup_ellAdicCohomology (§5.0), followed by
 rationalSurface_cycleClass (§5.2). Their genuine geometric and cohomological carriers are specified there.
+The general cohomology, Frobenius, trace, duality and Gysin constructions come from
+LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10, with the algebraic class and trace
+normalizations of ClassicalAdicEtaleCohomology §§0.9–0.11.
 -/
 
 /-

@@ -215,11 +215,12 @@ comparison is not silently imported from a semistable theorem. ReductiveGroupsPa
 for every smooth geometrically connected finite-type group over a finite field, including an elliptic curve
 and PGL₂.
 
-Layer 5 here constructs the étale-cohomology prerequisites for §5.2 from the small étale sites,
-torsion coefficient sheaves and Kummer sequence of SchemeAndStackFoundations SF.2, §§2.9–2.11.
-Its §5.0 owns finite-dimensional ℓ-adic cohomology, geometric Frobenius and Tate twists, the smooth
-proper trace formula, projective-plane cohomology and the equivariant point-blowup comparison.
-These precede the rational-surface cycle-class comparison and rank-ten point-count criterion.
+LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10 supply finite-coefficient cohomology,
+adic realization, finiteness, duality, purity/Gysin and cycle classes, projective bundles, blowups,
+geometric Frobenius, Tate twists and the trace formula. ClassicalAdicEtaleCohomology §§0.9–0.11
+supplies the algebraic cycle-class, projective-bundle and smooth-trace normalizations. Layer 5 here
+specializes these constructions to P² and equivariant point blowups, preserving their canonical maps,
+then constructs the rational-surface cycle-class comparison and rank-ten point-count criterion.
 
 ## How to read the build
 
@@ -591,8 +592,9 @@ into henselian local pieces; choose lifts on all pieces and descend their maps t
 using finite presentation and limit descent. This precedes `FerrandPushout.pinching_etale_cover`.
 
 ([Temkin–Tyomkin, v3](https://math.huji.ac.il/~temkin/papers/Ferrands_Pushouts.pdf), Lemma 5.1.2,
-p. 14.) *Needs:* SchemeAndStackFoundations SF.1 algebraic spaces and étale descent; SF.0 §§0.9,
-0.12–0.14, limits and strict henselizations.
+p. 14.) *Needs:* SchemeAndStackFoundations SF.1 algebraic spaces and étale descent; SF.0 §0.9
+finite-presentation limit descent and §0.14 finite-algebra decomposition; ModularCurves Layer 4D
+strict henselization, constructed as a filtered limit of pointed étale neighborhoods.
 
 **Checks.**
 
@@ -601,6 +603,10 @@ p. 14.) *Needs:* SchemeAndStackFoundations SF.1 algebraic spaces and étale desc
   to their disjoint union. It need not factor through either component alone.
 - For a finite map with a fiber containing two points, a chart meeting only one of them is not a cover;
   the construction must lift choices over both points before descending the neighborhood.
+
+- For Spec F_(q²)→Spec F_q, ordinary henselization leaves F_q unchanged and the degree-two source
+  connected. Strict henselization has residue F̄_q and splits that source into two points; both lifts
+  are required.
 
 - `FerrandPushout.pinching_etale_cover`: For algebraic spaces over a scheme S, with i:Z→Y closed and g:Z→Z′
   finite, there are indexed affine schemes Zα,Yα,Z′α, étale covers of Y and Z′, and specified cartesian
@@ -2044,13 +2050,19 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- On the empty target open every target section reconstructs to zero in the actual native ring fiber product.
+- For the cusp normalization Spec k[t]→Spec k[t²,t³], on the whole affine target,
+  `conductorSectionsIso` sends t² to (t²,0). Compute the contracted conductor (t²,t³), then transport
+  sections by `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to k[t], k and k[t]/(t²).
+  The actual inclusion and quotient maps give these coordinates.
 
-- Every target section is recovered exactly after forward and inverse reconstruction through the specified
-  actual conductor section-ring isomorphism.
+- For the split node Spec k[t]→Spec(k+(t²−1)k[t]) with char k≠2, on the whole target,
+  `conductorSectionsIso` sends t²−1 to (t²−1,0). Compute the full conductor and transport the
+  actual section maps through `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to k[t], k and
+  k[t]/(t²−1); evaluation at 1 and −1 identifies the last ring with k×k.
 
-- For the identity of Spec(Z/4) the section corresponding to2 reconstructs to a nonzero element with square
-  zero in the actual fiber product. A reduction that loses nilpotents fails this test.
+- For Spec(Z/4×Z/4)→Spec(Z/4) induced by the diagonal, the full conductor is zero.
+  Through `ΓSpecIso` and the closed-subscheme quotient comparisons, `conductorSectionsIso`
+  sends 2 to ((2,2),2) in (Z/4×Z/4)×_(Z/4×Z/4)(Z/4). This is nonzero and square-zero.
 
 - For finite schematically dominant f and affine U, construct the specified native CommRingCat isomorphism
   Γ(P,U)≅B×_D C using the actual source inclusion B→D and conductorChartMap C→D. Here the fiber-product object
@@ -2304,13 +2316,18 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- Every section on every open is recovered exactly through forward and inverse native ring reconstruction.
+- For Spec k[t]→Spec k[t²,t³] and the whole cusp target, `conductorOpenSectionsIso` sends t²
+  to (t²,0). Derive the conductor (t²,t³) and transport the actual source and conductor section
+  maps by `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to k[t], k and k[t]/(t²), as in §1.26.
 
-- For the identity of Spec(Z/4), the global section corresponding to2 becomes a nonzero square-zero element in
-  the all-open native fiber product; replacing rings by their reductions fails this test.
+- For Spec k[t]→Spec(k+(t²−1)k[t]), char k≠2, and the whole split-node target,
+  `conductorOpenSectionsIso` sends t²−1 to (t²−1,0). Derive the conductor, then use `ΓSpecIso`
+  and `IdealSheafData.subschemeObjIso` to identify the source and quotient maps with the inclusion,
+  quotient to k, and quotient k[t]→k[t]/(t²−1), followed by evaluation at the two roots.
 
-- On an affine open, inverse reconstruction of every compatible pair agrees exactly with the preceding affine
-  inverse, retaining both actual section-ring coordinates.
+- For the diagonal Z/4→Z/4×Z/4 and the whole target, `conductorOpenSectionsIso` sends 2 to
+  ((2,2),2). Compute the zero conductor and transport through `ΓSpecIso` and the actual
+  closed-subscheme quotient comparisons; both projections retain the nonzero square-zero section.
 
 - For each arbitrary open U⊂P, construct the native CommRingCat isomorphism Γ(P,U)≅B_U×_(D_U)C_U, where
   B_U,C_U,D_U and both lower arrows are the actual section rings and maps. The fiber product is the native
@@ -2428,13 +2445,18 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- For every open, the actual last map sends the injected pair (1,0) to 1 and (0,1) to −1 in the actual
-  source-conductor section ring.
+- For the cusp normalization Spec k[t]→Spec k[t²,t³], on the whole affine target, the first map
+  of `conductorAdditiveShortComplex` sends t² to (t²,0). Compute the conductor (t²,t³) and use
+  `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to transport the actual sheaf maps to
+  k[t²,t³]→k[t]⊕k→k[t]/(t²), retaining the native biproduct coordinates.
 
-- On the empty target open the actual last map sends every native middle-term section to zero; the native zero
-  section ring is retained.
+- In that cusp complex, the last map sends (t,0) to ε in k[ε]/(ε²), and ε≠0.
+  Construct the quotient isomorphism by t↦ε and identify the actual source-conductor restriction
+  with this quotient map, rather than assuming its coordinate formula.
 
-- For every open and every section a of O_P, the actual last map kills inl(f.app(a))+inr(I.ι.app(a)).
+- For the cusp over Q, the last map sends (0,1) to −1 in Q[ε]/(ε²), which differs from 1.
+  Under the same chart transports, the actual target-conductor map is the constant inclusion;
+  the second biproduct component has its specified negative sign.
 
 - For every affine open and actual target section, a section of the native sheaf biproduct maps to it under
   the actual last morphism.
@@ -3996,11 +4018,11 @@ keep the component vertices fixed while the two geometric nodes are conjugate.
 
 ### 2.9 descent of components under constant numerical Picard
 
-For a smooth proper surface over F_q with H⁰(O)=F_q and constant numerical-Picard local system, prove the
-geometric and residue-field fiber graphs agree, including intersection-length labels. A reducible geometric
-fiber must lie over a rational base point. At a rational point with singular primitive fiber the components
-have rational normalization P¹. Prove uniqueness of negative component classes before descending the
-subschemes; fixed numerical classes alone do not automatically descend divisors.
+For a relatively minimal `GenusOneFibration` over F_q with constant numerical-Picard local system, prove
+the geometric and residue-field fiber graphs agree, including intersection-length labels. A reducible
+geometric fiber must lie over a rational base point. At a rational point with singular primitive fiber,
+every component has normalization P¹ over F_q. Prove uniqueness of negative component classes before
+descending the subschemes; fixed numerical classes alone do not automatically descend divisors.
 
 For distinct vertical components the intersection is nonnegative, while each negative component has negative
 self-intersection. Equality of their numerical classes would give a negative intersection, a contradiction.
@@ -4008,13 +4030,25 @@ Thus a fixed negative component class fixes its unique curve. Apply this to the 
 unique closed subschemes. In a geometrically reducible fiber over a nonrational point, disjoint conjugate
 whole fibers conflict with the component-class uniqueness/connected graph comparison. The exceptional integral
 fiber cases require the normalization/conductor analysis, not this negative-square argument alone (Schröer
-Theorem 2.1, pp. 8–9).
+Theorem 2.1, pp. 8–9). Relative minimality makes the fibers of canonical type, so §2.5 supplies the
+geometrically rational component normalizations in the singular primitive cases. Their genus-zero forms
+over the finite residue field split by §2.16.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Proposition 3.1, pp. 10–11; arXiv v3.)
 
 **Checks.**
 
 - For nonrational a use intersection label (C_i·C_j)/[κ(a):k], not the absolute intersection number.
+
+- Blow up E×P¹ over F₂ at a rational point of a fiber, with E an elliptic curve. The geometric numerical
+  lattice remains constant, generated by fiber, section and exceptional classes, but the singular fiber
+  contains the strict transform of E, whose normalization has genus one. Relative minimality fails.
+
+- In the relatively minimal product E×P¹, the smooth primitive fibers are E, so the singularity hypothesis
+  is necessary for the P¹-normalization assertion.
+
+- A fixed-component nonsplit I₂ has two P¹ normalizations and two conjugate geometric nodes; agreement
+  of component graphs does not make its individual nodes rational.
 
 *Needs:* StableReduction Layer 4 component intersections; §2.1; §2.5; SchemeAndStackFoundations SF.5 intersection/adjunction; AlgebraicModuliForArithmeticGeometry Layer 3 §3.5, effective polarized descent contract; §2.16.
 
@@ -4093,9 +4127,10 @@ components and subtract r−1 distinct rational intersections.
 
 ### 2.14 exclusion of I₀* over F₂
 
-Under constant numerical Picard over F₂, exclude a primitive I₀* fiber. The central rational normalization
-would have four distinct rational attachment points but P¹(F₂) has only three. Count actual marked attachment
-points; numerical valency alone does not prove their rationality.
+For a relatively minimal `GenusOneFibration` over F₂ with constant numerical Picard, exclude a primitive
+I₀* fiber. The central rational normalization would have four distinct rational attachment points but
+P¹(F₂) has only three. Count actual marked attachment points; numerical valency alone does not prove their
+rationality.
 
 The four distinct rational intersections on the central normalized P¹ would require four points. P¹(F₂) has
 only three points.
@@ -6247,10 +6282,11 @@ The construction needs the following maps and laws.
   c=1. Uses §2.41, §2.26.
 
 - `QuadraticPinch.Overlap.finite_away_bijective`: The native localization map induced by A_Q⊂k[X], after
-  inverting the specified XQ in both rings, is bijective. This uses `conductor_localization` (§1.15). k is a
-  field; c,a,b∈k. The chart transition specializes c=1. Uses §2.41, §2.42, §1.2. Apply
-  `conductor_localization` (§1.15) to the actual pinch inclusion and the proved conductor membership of XQ. Do
-  not assume original inclusion surjectivity.
+  inverting the specified XQ in both rings, is bijective. k is a field; c,a,b∈k. The chart transition
+  specializes c=1. Uses §2.41, §2.42, §1.2, §2.26. Apply `AffinePinching.conductor_away_bijective`
+  (§1.2) to the actual arbitrary pinch subring and its subtype inclusion. The membership formula
+  gives XQ·h=Q·(Xh)∈A_Q for every h∈k[X], hence XQ lies in the ambient conductor.
+  No finite-module hypothesis or original inclusion surjectivity is required, including when Q=0.
 
 - `QuadraticPinch.Overlap.finiteEquiv_apply`: The finite overlap equivalence has exactly the native Away.map
   induced by the existing pinch inclusion as its underlying map. k is a field; c,a,b∈k. The chart transition
@@ -6331,6 +6367,9 @@ The construction needs the following maps and laws.
 - For q=X²−1 over the rationals, the underlying finite overlap denominator is X³−X.
 
 - For q=0 over the rationals, the underlying finite overlap denominator is zero.
+
+- At c=a=b=0 over ℚ, A_Q=ℚ and ℚ[t] is not finite as an A_Q-module. Inverting the zero denominator gives
+  zero rings on both sides, and the specified localization map is their unique ring isomorphism.
 
 - For the characteristic-two cusp, the finite overlap equivalence sends its denominator image to the
   polynomial image of X³.
@@ -7636,12 +7675,18 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- In every specified integral factorization, the actual descent agrees with f after precomposition by i.
+- For the cusp a=b=0, factor ν as ν:N→C followed by id_C. The resulting
+  `QuadraticPinch.Global.relativeNormalizationDesc` is exactly r:Rν→C. Prove the evaluation by
+  precomposing with i and cancelling the source isomorphism e:N≅Rν of §2.54.
 
-- In every specified integral factorization, the actual descent is a morphism over C.
+- For the cusp, factor ν as id_N followed by ν. The resulting
+  `QuadraticPinch.Global.relativeNormalizationDesc` is exactly e⁻¹:Rν→N, with the actual
+  inverse comparison, as follows by the same cancellation.
 
-- Any map from Rν to T with the same source triangle equals the specified descent; the comparison is
-  invertible for this particular ν.
+- For the cusp over Q, construct α:N≅N by t↦−t on the finite chart and u↦−u on the reciprocal
+  chart; these maps agree on the overlap and α²=id. With f=α and g=α⁻¹≫ν, the integral
+  factorization has descent e⁻¹≫α. Precompose with i to prove this equality. It sends the point
+  of Rν corresponding under e to t=1 to the normalization point t=−1.
 
 - Use the actual ν and preimage section rings. Preserve the flatness and integrality hypotheses. The affine
   inclusion is not surjective, including the cusp and characteristic-two cases. All absolute normalization,
@@ -9236,65 +9281,23 @@ blowup and geometric lattice extensions are owned in this layer.
 
 ## Layer 5: Frobenius, marked graphs and Picard constancy
 
-### 5.0 étale-cohomology and blowup prerequisites
+### 5.0 projective-plane and point-blowup cohomology comparisons
 
-Construct these inputs before `rationalSurface_cycleClass` and §5.2. Coefficients are Q_ℓ for a prime
-ℓ invertible in the ground field; geometric cohomology is on the base change to an algebraic closure.
-Use SchemeAndStackFoundations SF.2's étale sites, derived sheaf cohomology and Kummer sequence.
+Specialize LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10 before
+`rationalSurface_cycleClass` and §5.2. These sections supply finite-coefficient operations,
+adic realization with derived completion, finiteness, duality, purity/Gysin and cycle classes,
+projective bundles, blowups, geometric Frobenius and the trace formula. Use
+ClassicalAdicEtaleCohomology §§0.9–0.11 for the compatible algebraic class and trace normalizations.
+Coefficients are Q_ℓ for a prime ℓ invertible in the ground field; geometric cohomology is taken
+after algebraic closure. Geometric Frobenius acts by q⁻¹ on Q_ℓ(1), and finite extension uses
+its corresponding power. The two comparisons below retain the supplied pullback, hyperplane,
+exceptional Gysin and Tate-twist maps.
 
-**Smooth proper ℓ-adic cohomology.** Construct `smoothProper_ellAdicCohomology` for smooth proper
-finite-type schemes X over F_q, and their algebraically closed base changes: take the inverse limits
-of cohomology with Z/ℓⁿ coefficients and extend scalars to Q_ℓ. Prove finite dimensionality, functorial
-pullback, continuous Galois action and vanishing outside degrees zero through twice the dimension.
-Construct cup products, Künneth, cycle classes, proper base change and the purity/Gysin maps used below.
-For nonempty geometrically connected X of dimension d, identify H⁰=Q_ℓ and H^(2d)=Q_ℓ(−d), and prove the
-Poincaré duality pairing. These are constructions in étale cohomology, not assumed cohomology axioms.
-
-([Milne, *Lectures on Étale Cohomology*, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf),
-§§16–17, Theorems 19.1–19.2, §§22–24.)
-
-**Checks for `smoothProper_ellAdicCohomology`.**
-
-- Spec F_q has H⁰=Q_ℓ and all positive groups zero.
-- A disjoint union of two rational points has H⁰ of dimension two; connectedness cannot be dropped
-  from the rank-one H⁰ assertion.
-- P¹ has H¹=0 and H²=Q_ℓ(−1); an elliptic curve has H¹ of dimension two.
-
-**Frobenius and twists.** Construct `geometricFrobenius_tateTwist`: the inverse of x↦x^q in
-Gal(F̄_q/F_q) induces geometric Frobenius on cohomology. Construct Q_ℓ(1) from compatible ℓ-power
-roots of unity, with eigenvalue q⁻¹, its integral tensor powers and dual twists. Prove functoriality,
-that extension to F_(q^r) uses the r-th power, and that twisting H^i by (j) multiplies its action
-by q^(−j). Compare the cohomological action with pullback by the q-power Frobenius morphism of X.
-
-([Schröer, v3](https://arxiv.org/pdf/2004.07025v3), §7, pp. 19–20;
-[Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §27, Frobenius construction and
-Proposition 27.3.)
-
-**Checks for `geometricFrobenius_tateTwist`.**
-
-- On Q_ℓ(1) the action is q⁻¹, while its dual Q_ℓ(−1) has action q.
-- On P¹, H² has eigenvalue q and H²(1) has eigenvalue one.
-- Over F_(q²), the action on Q_ℓ(−1) is q², not q.
-
-**Smooth proper trace formula.** Prove `smoothProper_traceFormula`: for smooth proper X/F_q of
-dimension d and every r≥1, #X(F_(q^r))=Σ_(i=0)^(2d)(−1)^i tr(Frob_geom^r|H^i(X̄,Q_ℓ)).
-Construct the diagonal and Frobenius graph cycle classes, use duality and Künneth to calculate their
-intersection, and prove each fixed point has multiplicity one. No smoothness claim is made for a
-singular Weierstrass cubic.
-
-([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), Theorem 25.1, Lemma 27.2,
-Proposition 27.3.)
-
-**Checks for `smoothProper_traceFormula`.**
-
-- Spec F_(q²) over F_q has count zero for r=1 and two for r=2; Frobenius permutes its two H⁰ generators.
-- P¹ has count 1+q^r, fixing the sign and the top-degree eigenvalue.
-- P¹×P¹ has count 1+2q^r+q^(2r), using the two independent middle classes.
-
-**Projective-plane cohomology.** Prove `projectivePlane_ellAdicCohomology`: H^i(P²_F̄q,Q_ℓ) is
+**Projective-plane cohomology.** Specialize the supplied projective-bundle formula as
+`projectivePlane_ellAdicCohomology`: H^i(P²_F̄q,Q_ℓ) is
 Q_ℓ(−j) for i=2j, j=0,1,2, and zero in other degrees. The hyperplane class generates H²(1),
-its square generates H⁴(2), and its cube vanishes. Construct the projective-space computation
-through Gysin and the affine-cell filtration, with its cycle-class and Frobenius compatibility.
+its square generates H⁴(2), and its cube vanishes. Identify these generators with the actual
+line cycle classes, preserving the supplied Frobenius and cycle-class compatibility.
 
 ([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §16 and Theorem 23.2.)
 
@@ -9304,13 +9307,14 @@ through Gysin and the affine-cell filtration, with its cycle-class and Frobenius
 - Two different rational lines have the same H²(1) class and intersection one.
 - H¹=H³=0 but H² has dimension one; replacing all positive cohomology by zero fails.
 
-**Equivariant point-blowup cohomology.** Prove `pointBlowup_ellAdicCohomology`: for a smooth
+**Equivariant point-blowup cohomology.** Specialize the supplied blowup decomposition as
+`pointBlowup_ellAdicCohomology`: for a smooth
 projective surface S over k=F_q or F̄_q, ℓ≠char k, and a finite reduced closed subscheme Z,
 construct H^i(Bl_Z S̄,Q_ℓ)≃H^i(S̄,Q_ℓ)⊕H^(i−2)(Z̄,Q_ℓ)(−1), omitting negative-degree terms.
 Use pullback and the exceptional divisor Gysin maps. Prove Galois equivariance, compatibility with
 cycle classes and point permutations, preservation of H¹,H³, and agreement with the Picard
-decomposition of §4.0. Proper base change, purity and the exceptional P¹ bundle give the comparison;
-each geometric point adds its exceptional class in H²(1).
+decomposition of §4.0. Each geometric point adds its exceptional class in H²(1); the finite
+reduced center is smooth because the ground field is perfect.
 
 ([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §§16–17, Theorem 23.2 and
 the blowup argument in the proof of Lemma 33.2; [Schröer, v3](https://arxiv.org/pdf/2004.07025v3),
@@ -9323,13 +9327,13 @@ proof of Corollary 7.3, p. 21. The twist is fixed by the geometric-Frobenius con
   over F_q and becomes 2q² over F_(q²).
 - With Z empty the comparison is the identity and adds no cohomology or Picard generator.
 
-*Needs:* §4.0; SchemeAndStackFoundations SF.2 §§2.9–2.11 and §2.15, coefficient sheaves,
-Kummer, derived cohomology and field actions; StableReduction Layer 4 blowups. Construct cohomology
-first, then Frobenius and twists, the trace formula, P² and the blowup comparison in the displayed order.
+*Needs:* §4.0; LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10;
+ClassicalAdicEtaleCohomology §§0.9–0.11; StableReduction Layer 4 blowups.
 
 ### 5.1 fiber-count data at rational base points
 
-At each of the three rational base points of a binary rational Jacobian, define n_a to be i for smooth Eᵢ,
+For a relatively minimal rational Jacobian elliptic surface over P¹_F₂, at each of its three rational
+base points define n_a to be i for smooth Eᵢ,
 2r_a for split multiplicative, 2r_a+2 for the fixed-component nonsplit multiplicative alternatives and 2r_a+1
 for additive. This is provisional count data until descent and splitting establish equality with the actual
 fiber count. Constant Picard then gives Σn_a=25.
@@ -9624,9 +9628,9 @@ smooth supersingular E₃ has c₄=0 but Δ=1 and is a negative control for “c
 
 ### Dependencies
 
-Layers 2 and 4; SchemeAndStackFoundations SF.2, §§2.9–2.11 and §2.15; the cohomology, Frobenius,
-trace and blowup constructions of §5.0; native integral-lattice duals and ADE comparisons; the rational
-cycle-class realization constructed in this layer.
+Layers 2 and 4; LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10;
+ClassicalAdicEtaleCohomology §§0.9–0.11; the projective-plane and point-blowup specializations of §5.0;
+native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer.
 
 ## Layer 6: fourteen resolved-model certificates
 
