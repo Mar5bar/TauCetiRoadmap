@@ -52,8 +52,8 @@ relative Proj and its comparison with the finitely generated case, extension of 
 henselization of pairs, the catenary, Cohen–Macaulay, Nagata and excellent packages, perfect schemes
 and perfection, the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
-algebraic stacks, moduli spaces, Galois gerbs, the functoriality of sheaf cohomology on sites, the
-comparison of the topologies of a scheme with the coefficient sheaves `𝔾_a`, `𝔾_m`, `μ_n`, the
+projective quotients by finite groups, algebraic stacks, moduli spaces, Galois gerbs, the
+functoriality of sheaf cohomology on sites, the comparison of the topologies of a scheme with the coefficient sheaves `𝔾_a`, `𝔾_m`, `μ_n`, the
 Nisnevich site, the pro-étale site foundations (replete topoi, w-contractible covers,
 left-completeness), coherent Grothendieck duality in the generality of the Stacks Project, the Brauer
 group of a scheme, abelian-extension boundaries, equivariant sheaf cohomology, the curve and Picard theory that no curve roadmap
@@ -1427,16 +1427,18 @@ rings (Zhu 2017, Proposition A.20 and proof, p. 51). *Needs:* §0.24; Mathlib
 Define `PerfectlySmoothAt f x` for `f : X → Y` of perfect `𝔽_p`-schemes, `x ∈ X`, `d ≥ 0`: there are
 étale `u : U → X` with `x ∈ u(U)`, étale `v : V → Y`, `h : U → V` with `v ∘ h = f ∘ u`, and an étale
 `h' : U → V ×_{𝔽_p} (𝔸^d_{𝔽_p})^perf` whose composite with the projection is `h`;
-`PerfectlySmoothOfRelativeDimension d f` at every point; and `WeaklyPerfectlySmoothOfRelativeDimension d
-f`: `f` is the perfection of a morphism smooth of relative dimension `d` after an étale base change
-(van Hoften 2024, §2.1.2, (2.1.2), p. 8; Definition 2.1.9 and the definition after Lemma 2.1.11,
-pp. 10–11). API: `PerfectlySmoothOfRelativeDimension.perfection` (the perfection of a smooth
-morphism of relative dimension `d` is perfectly smooth of relative dimension `d`), `etale_iff` (`d =
-0` is étale), `comp`, `baseChange`, `weaklyPerfectlySmooth_of_perfectlySmooth`. Prove
-`perfectlySmooth_properties`: perfectly smooth morphisms are pfp, flat and open, their fibres have
-dimension `d`, and a weakly perfectly smooth morphism need not be perfectly smooth (van Hoften 2024,
-Example 2.1.3, p. 8). Define `wittScheme n X` for a perfect `𝔽_p`-scheme `X` and `n ≥ 1`: the scheme
-with underlying space `|X|` and structure sheaf `W_n(O_X)`, with `wittScheme_affine` (`Spec W_n(A)`)
+`PerfectlySmoothOfRelativeDimension d f` at every point (van Hoften 2024, §2.1.2, (2.1.2), p. 8).
+Define `WeaklyPerfectlySmoothAt d f x`: there are an open `U ∋ x` of `X`, a perfect scheme `W`, an
+integer `e ≥ 0` and a surjective `g : W → U` perfectly smooth of relative dimension `e` such that
+`f|_U ∘ g : W → Y` is perfectly smooth of relative dimension `d + e`; and
+`WeaklyPerfectlySmoothOfRelativeDimension d f` at every point (van Hoften 2024, Definition 2.1.9,
+p. 10). API: `PerfectlySmoothOfRelativeDimension.perfection` (the perfection of a smooth
+morphism of relative dimension `d` is perfectly smooth of relative dimension `d`; van Hoften 2024,
+Example 2.1.3, p. 8), `etale_iff` (`d = 0` is étale), `comp`, `baseChange`,
+`weaklyPerfectlySmooth_of_perfectlySmooth` (take `g = 𝟙`, `e = 0`). The converse implication is not
+part of this target. Prove `perfectlySmooth_properties`: perfectly smooth morphisms are pfp, flat
+and open, and their fibres have dimension `d`. Define `wittScheme n X` for a perfect `𝔽_p`-scheme
+`X` and `n ≥ 1`: the scheme with underlying space `|X|` and structure sheaf `W_n(O_X)`, with `wittScheme_affine` (`Spec W_n(A)`)
 and `wittScheme_one` (`W_1 X = X`) (Bhatt–Scholze 2017, Section 4 opening, p. 15). Define
 `Scheme.IsWeaklyNormal X` for a reduced scheme of finite type over a perfect field `k` of
 characteristic `p`: every finite birational universal homeomorphism `Y → X` with `Y` reduced is an
@@ -1467,6 +1469,13 @@ FrobeniusGeometry Layer 1; Mathlib `Etale`, `AffineSpace`, `WittVector`, `IsRedu
   relative dimension `0`.
 - `not_perfectlySmooth_origin`: the closed immersion `Spec 𝔽_p → (𝔸¹)^perf` is not perfectly
   smooth of any dimension (not flat).
+- `weaklyPerfectlySmooth_affineSpace`: the perfected projection `(𝔸²)^perf → (𝔸¹)^perf` is weakly
+  perfectly smooth of relative dimension `1`, witnessed both by `g = 𝟙` with `e = 0` and by the
+  perfected projection `g : (𝔸³)^perf → (𝔸²)^perf` with `e = 1`, the composite being perfectly
+  smooth of relative dimension `2`.
+- `not_weaklyPerfectlySmooth_origin`: `Spec 𝔽_p → (𝔸¹)^perf` is not weakly perfectly smooth of
+  any dimension: for a surjective `g : W → Spec 𝔽_p` the composite `W → (𝔸¹)^perf` would be
+  perfectly smooth, hence open by `perfectlySmooth_properties`, with image the closed point.
 - `wittScheme_point`: `W_n(Spec 𝔽_p) = Spec ℤ/p^n`.
 - `not_isWeaklyNormal_cusp`: `Spec k[t², t³]` is not weakly normal (`t` is a `p`-th root of `t^p`
   in the normalisation when `p = 2, 3`; in general the normalisation is a finite birational
@@ -2171,9 +2180,10 @@ Require also `φ` universally submersive (`|φ ×_X Z|` is a quotient map for ev
 `Z → X`); and the comparison `O_X → (φ_* O_U)^R` is an isomorphism (Stacks, Definition 83.10.1
 (04AE)). The last clause is essential: without it `Spec k[ε]/ε² → Spec k` with the identity
 relation satisfies every topological clause and is not a categorical quotient
-(`test_dual_numbers_not_quotient` below). The geometric-quotient API here consists of this
-predicate and its tests; a categorical criterion, uniqueness theorem for geometric quotients,
-and flat-base-change or torsor construction theorems are outside its scope. In particular,
+(`test_dual_numbers_not_quotient` below). Apart from `finiteGroupQuotient_projective` below, the
+geometric-quotient API here consists of this predicate and its tests; a general categorical
+criterion, uniqueness theorem for geometric quotients, and flat-base-change or torsor construction
+theorems are outside its scope. In particular,
 a geometric quotient is not assumed to be a coequalizer in algebraic spaces. The direct-image sheaf is precomposition of the source structure sheaf by the étale-site
 pullback functor. The invariant
 sheaf is the native categorical equalizer of `pushforwardStructureSheafMap s` and
@@ -2182,7 +2192,24 @@ sheaf is the native categorical equalizer of `pushforwardStructureSheafMap s` an
 Prove `artinBootstrap`: an fppf sheaf `F` with a map `U → F`
 from an algebraic space that is representable by algebraic spaces, flat, locally of finite
 presentation and fppf locally surjective, is an algebraic space (Stacks, Theorem 80.10.1 (04S6),
-Lemmas 80.11.1 (04SK), 80.11.6 (06PG), 80.11.7 (06PH)). *Needs:* §1.7, §1.9, §1.10, §1.14, §1.15.
+Lemmas 80.11.1 (04SK), 80.11.6 (06PG), 80.11.7 (06PH)).
+
+Prove `finiteGroupQuotient_projective`: let `S` be a Noetherian scheme, `f : Y → S` projective, and
+`Γ` a finite group acting on `Y` by `S`-automorphisms; the action need not be free and `|Γ|` need
+not be invertible on `S`. Every `Γ`-orbit of points of `Y` lies in a `Γ`-stable affine open, and the
+affine invariant quotients of these opens (`TauCeti.AffineInvariantQuotient.quotient`) glue to a
+scheme `Y/Γ` with `q : Y → Y/Γ` finite, surjective and `Γ`-invariant, `O_{Y/Γ} = (q_* O_Y)^Γ`, and
+`q` satisfies `IsGeometricQuotient` and `IsCategoricalQuotient` for the action groupoid. For an
+`f`-ample invertible `L` on `Y`, let `M := ⊗_{γ ∈ Γ} γ^* L` with its canonical `Γ`-linearization.
+The invariant algebra `(⊕_{k ≥ 0} f_* M^{⊗k})^Γ` is a finitely generated graded `O_S`-algebra whose
+`N`-th Veronese subalgebra is generated in degree one for some `N > 0`; `Y/Γ` is a closed subscheme
+of its relative `Proj` (§0.3), so `Y/Γ → S` is projective, and the restriction `L_Q` of `O(1)` is an
+ample invertible sheaf with `q^* L_Q ≅ M^{⊗N}` compatibly with the linearizations (Rydh 2013,
+Proposition (3.8), p. 13, Definition (3.17), p. 18, Lemma (4.3) and Theorem (4.4), p. 20,
+Proposition (4.7), case (B′), and its proof, pp. 20–22, Remark (4.9)(4), pp. 22–23; Stacks,
+Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base change on `S` only
+(Stacks, Lemma 15.112.7 (0BRH)). *Needs:* §0.3, §1.7, §1.9, §1.10, §1.14, §1.15; Tau Ceti
+`TauCeti.AffineInvariantQuotient`.
 
 **Checks.**
 - `Quotient.test_finite_affine`: for a finite group `Γ` acting on `Spec A`, `Spec A → Spec A^Γ` is a
@@ -2224,9 +2251,22 @@ Lemmas 80.11.1 (04SK), 80.11.6 (06PG), 80.11.7 (06PH)). *Needs:* §1.7, §1.9, �
 - `invariants_equalizer`: composing the comparison with the equalizer inclusion gives exactly
   `structureSheafMap φ`, the library equalizer-lift equation.
 
+- `finiteGroupQuotient_sign_projectiveLine`: `Γ = ℤ/2` acting on `ℙ¹_ℤ` by `[x : y] ↦ [−x : y]`
+  fixes `0` and `∞`, and `2` is not invertible on `Spec ℤ`. With `L = O(1)`, `M = O(2)` and its
+  invariant sections in degree `k` are the forms in `x², y²` of degree `k`, so `N = 1`, `Y/Γ = ℙ¹_ℤ`,
+  `q[x : y] = [x² : y²]` and `q^* O(1) ≅ M`.
+- `finiteGroupQuotient_not_universal`: in the same example `Γ` acts trivially on the fibre over
+  `𝔽_2`, whose quotient is `ℙ¹_{𝔽_2}` with the identity, while the fibre of `q` is the Frobenius
+  `[x : y] ↦ [x² : y²]`, a universal homeomorphism that is not an isomorphism: formation of `Y/Γ`
+  does not commute with the base change `ℤ → 𝔽_2`.
+- `finiteGroupQuotient_swap_projectivePlane`: over a field `k`, `Γ = ℤ/2` exchanging the factors of
+  `ℙ¹_k × ℙ¹_k` fixes the diagonal pointwise; the quotient is `ℙ²_k`, the space of binary
+  quadratic forms up to scalars, via `(a, b) ↦ ab`, and with `L = O(1, 0)`, `M = O(1, 1)` and
+  `q^* O(1) ≅ M`.
+
 *Lean:* `Groups.IsInvariant`, `Groups.IsCategoricalQuotient`, `Groups.artinBootstrap`. The
-invariant sections, `IsGeometricQuotient` and *IsCategoricalQuotient.unique* are specified in this
-README only.
+invariant sections, `IsGeometricQuotient`, *IsCategoricalQuotient.unique* and
+`finiteGroupQuotient_projective` are specified in this README only.
 
 ### 1.18 Stacks in groupoids, stackification and 2-fibre products
 
@@ -3522,20 +3562,32 @@ Define `StabilizedEquivalence A B`: there are finite locally free `E`, `F` of
 positive rank at every point with `A ⊗ End(E) ≅ B ⊗ End(F)`, with `refl`, `symm`, `trans`; and
 `SchemeBrauerGroup X := Azumaya algebras / ≈`, an abelian group under `⊗` with inverse `A^op`, with
 `SchemeBrauerGroup.mk`, `mk_eq_zero_iff` (`A ≅ End(E)`), `mk_tensor`, `mk_opposite`, `pullback f :
-Br(Y) → Br(X)` (a group homomorphism, functorial), `brauer_affine_iff` (for `X = Spec R` it is
-Mathlib's `BrauerGroup R`), `brauer_field` (for `Spec K`, Mathlib's `BrauerGroup K`). Define
+Br(Y) → Br(X)` (a group homomorphism, functorial), `brauer_affine_iff` (for `X = Spec R` and any
+commutative ring `R`, every class is `mk` of the sheaf of an `R`-algebra `A` with native
+`IsAzumaya R A`, by `azumaya_affine_iff`, and two such classes are equal iff
+`A ⊗_R End_R(P) ≃ₐ[R] B ⊗_R End_R(Q)` for finite projective `R`-modules `P`, `Q` of positive rank
+at every prime), `brauer_field` (for `Spec K`, Mathlib's `BrauerGroup K`). Mathlib's `BrauerGroup`
+is defined over fields only, so `brauer_field` is the only comparison with it; for a ring `R`,
+`Br(R)` below abbreviates `SchemeBrauerGroup (Spec R)`. Define
 `CohomologicalBrauer X := (GmEtale X).H 2`'s torsion subgroup `Br′(X)` with `inclusion`, `mem_iff`,
 `pullback`. For affine `X` and an Azumaya algebra over `Γ(X,O_X)` finite projective as a module,
 `azumayaClass` takes values in `H²(X_ét,𝔾_m)`, with `azumayaClass_tensor` and
 `azumayaClass_torsion` for a constant positive rank `d²` (Grothendieck, Brauer I, §2,
 pp. 204–205; Brauer II, Proposition 1.4). This input describes the affine case; it does not
-supply a construction from an arbitrary sheaf algebra on a non-affine scheme. The non-affine
-`Br(X) → Br′(X)` and its equality theorems are built from
+supply a construction from an arbitrary sheaf algebra on a non-affine scheme. For every scheme
+`X`, the class map `SchemeBrauerGroup.toH2 : Br(X) → H²(X_ét, 𝔾_m)` is built from
 `Azumaya.trivializationGerbeClass`: the gerbe of local splittings, its band by `𝔾_m`,
 descent of splitting isomorphisms, the associated `H²` class, tensor and pullback
 laws, and agreement with `azumayaClass` on affines; this construction is part of this target.
 The classification of such gerbes and the comparison with a nonabelian central-extension
-boundary are outside it.
+boundary are outside it. The image of `toH2` need not be torsion. Prove
+`SchemeBrauerGroup.toCohomologicalBrauer`: if `X` is quasi-compact or connected, `toH2` factors
+through `Br′(X)` as a group homomorphism, compatible with `pullback` along every morphism between
+such schemes. On connected `X` the degree is a constant `d` and the class is killed by `d`
+(Stacks, Lemma 59.62.2 (0A2L)); on quasi-compact `X` the locally constant degree takes finitely
+many values, `X` is the finite disjoint union of the open and closed loci where it is constant, and
+the class is killed by the least common multiple of those degrees (Stacks, Section 59.62 (0A2J),
+the discussion after Lemma 59.62.2). Every comparison of `Br(X)` with `Br′(X)` below is for such `X`.
 Prove `brauer_regular_injectivity`: for **affine** `X` regular
 integral, `Br(X) → Br(K(X))` is injective, `Br(X)` is torsion, and `Br(X) = Br′(X)` when `X` is
 regular affine of dimension `≤ 2` (Grothendieck, Brauer II, Proposition 1.4, Lemme 1.9, Corollaires 1.8,
@@ -3585,6 +3637,18 @@ Hochschild–Serre (Harpaz–Wittenberg 2023, §3, display (3.1), Remark 3.1, pp
   `brauerCohomologyEquiv` is the class in `BrauerGroup K`), `test_class_not_module_class` (`ℍ` and
   `Mat_2(ℝ)` have isomorphic underlying modules and different classes).
 - `brauer_test_integers` (`Br(Spec ℤ) = 0`), `brauer_test_henselian_dvr` (`Br(ℤ_p) = Br(𝔽_p) = 0`).
+- `brauer_affine_test_integers`: over `ℤ`, which is not a field, `brauer_affine_iff` is stated
+  through native `IsAzumaya ℤ`: `Mat_2(ℤ)` is Azumaya with zero class (`P = ℤ²`, `Q = ℤ`), while
+  the Lipschitz order `ℤ⟨i, j⟩` with `i² = j² = −1`, `ij = −ji` is free of rank four and not
+  Azumaya, its fibre at `2` being commutative.
+- `brauer_disjoint_union_nontorsion`: on `X = ⨿_{n ≥ 1} Spec ℚ_p`, the central division algebra of
+  invariant `1/n` on the `n`th component is an Azumaya algebra of unbounded degree. Its class in
+  `H²(X_ét, 𝔾_m) = ∏_n Br(ℚ_p)` has restriction of order `n` to the `n`th component, so no positive
+  integer kills it; `X` is neither quasi-compact nor connected, and `toH2` does not land in
+  `Br′(X)`.
+- `toCohomologicalBrauer_two_components`: on `Spec ℝ ⊔ Spec ℚ_p` with `ℍ` on the first component
+  and the division algebra of invariant `1/3` on the second, the degrees are `2` and `3` and the
+  class is killed by `6` and by no smaller positive integer.
 
 *Lean:* `IsAzumaya.exists_etale_matrix_splitting`,
 `IsAzumaya.etale_matrix_splitting_of_finite_cover`,
@@ -3906,19 +3970,24 @@ JacobianChallenge Layers D–E; ClassFieldTheory Layer 5 (`Br(k)`); Tau Ceti `Ab
 
 ### 3.7 Picard stacks, universal sections, Abel maps and the norm sequence
 
-Define `picardStack X : StackInGroupoids` for a proper curve: objects over `T` are invertible
-sheaves on `X ×_k T`, morphisms isomorphisms (the fibre over `T` is `picardGroupoid (X_T)` of
-§3.4), with `degreeComponent d`, `aut_eq_units` (`Aut(L) = Γ(T, O)^×`), `toPicardSheaf` (to
+Throughout, `X` is a smooth projective geometrically connected curve over `k`, as in §3.6; for a
+`k`-scheme `T`, `X_T := X ×_k T`. Define `picardStack X : StackInGroupoids`: objects over `T` are invertible
+sheaves on `X_T`, morphisms isomorphisms (the fibre over `T` is `picardGroupoid (X_T)` of
+§3.4), with `degreeComponent d`, `aut_eq_units` (`Aut(L) = Γ(T, O_T)^×`, since
+`Γ(X_T, O) = Γ(T, O_T)` by flat base change from `H⁰(X, O_X) = k`), `toPicardSheaf` (to
 JacobianChallenge's `Pic_{X/k}`), `isGerbe` (a `𝔾_m`-gerbe over `Pic_{X/k}`, not in general the
 product `Pic_{X/k} × B𝔾_m`), `universalBundle` (a line bundle on `X × picardStack X`; a universal
 bundle on `X × Pic^d_{X/k}` exists only when the gerbe is split), `split_of_point` (split by a
 rational point), `tensor`, `baseChange` (Yun–Zhang 2017, §3.2.1, p. 16). Define `sectionStack
 X` over `picardStack X`: pairs `(L, s)` with `s ∈ Γ(X_T, L)`, with `forget`, `zeroSection`,
 `eq_of_neg` (the fibre over degree `d < 0` is the zero section), `symmetricPowerEquiv` (in degree
-`d ≥ 0` the open substack `s ≠ 0` is `X^{(d)}`, JacobianChallenge Layer C's symmetric power),
+`d ≥ 0`, the open substack of pairs with `s|_{X_t} ≠ 0` for every `t ∈ T` is `X^{(d)}`,
+JacobianChallenge Layer C's symmetric power: the zero scheme of such an `s` is a relative effective
+Cartier divisor of `X_T/T`, finite locally free of degree `d` over `T`, and conversely; Stacks,
+Lemmas 31.19.9 (062Y) and 44.3.1 (0B9D)),
 `isTotalSpace` (over the degree-`d` Picard stack with `d > 2g − 2` the section stack is the total
-space of the vector bundle `p_* L^{univ}` of rank `d + 1 − g`, and its open substack `s ≠ 0` is
-that bundle minus its zero section, not a projective bundle over the stack; `X^{(d)}` is
+space of the vector bundle `p_* L^{univ}` of rank `d + 1 − g`, and its open substack of fibrewise
+nonzero sections is that bundle minus its zero section, not a projective bundle over the stack; `X^{(d)}` is
 recovered by forgetting the scalar identifications), `add`, `add_symmetricPower` (Yun–Zhang
 2017, §3.2.1, p. 16; proof of Proposition 3.1 (2), p. 18). Prove `abelMaps_highDegree`: the Abel
 map `a_d : X^{(d)} → Pic^d_{X/k}`, sending an effective divisor to its line-bundle class, is
@@ -3942,6 +4011,13 @@ what the stack sequence gives. *Needs:* §1.18, §1.19, §3.4,
 **Checks.**
 - `picardStack_projectiveLine` (`Pic(ℙ¹)` stack: `ℤ × B𝔾_m`), `picardStack_field`, `picardStack_aut`,
   `picardStack_not_scheme` (not representable: nontrivial inertia).
+- `picardStack_aut_not_geometrically_connected`: `ℙ¹_ℂ` as an `ℝ`-scheme is a smooth proper integral
+  curve that is not geometrically connected; over `T = Spec ℝ` the automorphisms of its structure
+  sheaf are `ℂ^×`, not `ℝ^×`, so it is outside `aut_eq_units`.
+- `sectionStack_nodal_cubic`: on a proper nodal cubic over an algebraically closed field the node is
+  a point of `X^{(1)} = X`, but the reduced node is not an effective Cartier divisor (the maximal
+  ideal of its local ring needs two generators), so it is the zero scheme of no section of a line
+  bundle; the nodal cubic is outside `symmetricPowerEquiv`.
 - `sectionStack_negative` (degree `−1`: the zero section only), `sectionStack_projectiveLine`,
   `sectionStack_rank`, `sectionStack_not_bundle` (on an elliptic curve, in degree zero, `h⁰(O)=1`
   and `h⁰(L)=0` for every nontrivial degree-zero `L`; hence it is not a vector bundle).
@@ -4670,11 +4746,24 @@ follows separately from the finite map to the proper stack; Chow's lemma gives a
 projective proper domination, whose map need not be finite. The exported finite
 projective cover is `q_m : N_{g,n}(m) → M̄_{g,n}`, with this projectivity theorem for
 its source. For an arbitrary single `m≥3`, also prove that
-`N_{g,n}(m)[1/m]` is a projective scheme over `ℤ[1/m]`: refine to a level divisible
-by `m` and by two coprime integers at least three, then identify the single-level
-normalization with the finite quotient by the group forgetting the extra basis data.
-A suitable power of the tensor product of the translates of an ample line bundle
-descends to an ample bundle on this quotient (§1.17's finite-group quotients). This retains the single-level
+`N_{g,n}(m)[1/m]` is a projective scheme over `ℤ[1/m]`, as follows. Put `m' = 15m`, a level
+divisible by `m` and by the coprime integers `3` and `5`, and let
+`Γ = ker(GL_{2g}(ℤ/m'ℤ) → GL_{2g}(ℤ/mℤ))`. Changing the basis by `Γ` acts on the level-`m'` cover
+of `M_{g,n}[1/m']`, and by functoriality of relative normalization on `N_{g,n}(m')` over
+`M̄_{g,n}`. Prove
+`level_structure_cover_quotient`: the forgetful map `N_{g,n}(m')[1/m] → N_{g,n}(m)[1/m]`, given
+by the universal property of relative normalization (Stacks, Lemma 29.54.4 (035I)), is
+`Γ`-invariant and induces an isomorphism over `M̄_{g,n}[1/m]` from the quotient
+`N_{g,n}(m')[1/m]/Γ` of §1.17's `finiteGroupQuotient_projective`. Over `M_{g,n}[1/m']` the
+forgetful map of level covers is a `Γ`-torsor, since `Γ` acts simply transitively on the full
+bases of `J[m']` lifting a given basis of `J[m]`, so the induced map from the quotient, finite
+because the forgetful map is, is an isomorphism over that open. The quotient is reduced with that
+open dense in it, and `N_{g,n}(m)[1/m]` is normal, so the map is an isomorphism. Then apply
+`finiteGroupQuotient_projective` over the Noetherian base `Spec ℤ[1/m]` to the projective
+`N_{g,n}(m')[1/m]`: for an ample `L` there, a power of `⊗_{γ ∈ Γ} γ^* L` descends to an ample
+invertible sheaf on `N_{g,n}(m)[1/m]` compatibly with the linearization, and
+`N_{g,n}(m)[1/m]` is projective over `ℤ[1/m]`. The action of `Γ` is not free in general and `|Γ|`
+need not be invertible on `ℤ[1/m]`; neither is assumed. This retains the single-level
 projectivity statement as well as the integral composite-level cover.
 
 Prove `level_structure_cover_pointed` to extend these conclusions to every
@@ -4713,7 +4802,7 @@ required family and the retained Isom-cover gives its identification over all of
 `ψ⁻¹(U)` (de Jong 1996, §4.17, pp. 71–72; §5.13, pp. 80–81;
 Deligne 1985, Lemme 1.6, pp. 132–133).
 The proper closure map is the alteration; no finiteness claim is made for it.
-*Needs:* §0.20–§0.21, §1.18–§1.20, §4.6, §4.16; StableReduction Layers 2–3, 9;
+*Needs:* §0.20–§0.21, §1.17, §1.18–§1.20, §4.6, §4.16; StableReduction Layers 2–3, 9;
 ModularCurves §§3D, 9D; Mathlib `IsStack`, `Functor.IsFibered`,
 `Scheme.Hom.normalization`, `Scheme.Hom.normalizationPullback`.
 
@@ -4743,6 +4832,18 @@ ModularCurves §§3D, 9D; Mathlib `IsStack`, `Functor.IsFibered`,
 - `level_structure_cover_proper_not_finite`: `ℙ¹_k → Spec k` is projective and
   proper but not finite. Proper projective domination alone does not certify the
   finite map required by `level_structure_cover`; that map is `q_15`.
+- `level_structure_cover_quotient_group`: for `m = 4`, `m' = 60` and `g ≥ 1`, the Chinese remainder
+  theorem gives `Γ ≅ GL_{2g}(𝔽_3) × GL_{2g}(𝔽_5)`, of order divisible by `3` and `5`, neither of
+  which is invertible on `ℤ[1/4]`; a descent theorem for groups of invertible order does not apply.
+- `level_structure_cover_quotient_not_free`: in the same case the action is not free over
+  characteristic `3`. Over `M_{g,n}[1/4]` the space `N_{g,n}(4)` is the étale level-`4` cover, so at
+  a generic point of its characteristic-`3` fibre its local ring is a discrete valuation ring with
+  uniformizer `3`. The transported Weil pairing on the level-`3` part of a basis gives a primitive
+  cube root of unity `ζ` among the functions on `N_{g,n}(60)`, and `3 = −ζ²(1 − ζ)²` has even
+  valuation at every point above; the extension is ramified there, and those points have
+  nontrivial inertia in `Γ`.
+- `level_structure_cover_quotient_zero_three`: for `(g, n) = (0, 3)`, `Γ` is trivial, both
+  normalizations are `Spec ℤ[1/m]`, and the identification is the identity.
 - `Mbar_zero_three`: every stable `3`-pointed genus-`0` curve over `S` is `ℙ¹_S` with `0, 1, ∞`;
   `M̄_{0,3} = Spec ℤ`.
 - `Mbar_one_one_aut`: for an elliptic curve `(E, O)` over an algebraically closed field of
