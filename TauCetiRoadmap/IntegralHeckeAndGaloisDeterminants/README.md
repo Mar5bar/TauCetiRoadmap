@@ -35,7 +35,8 @@ homogeneous and multiplicative polynomial laws, Chenevier determinants with thei
 polynomials, kernels and Cayley–Hamilton ideals, the Roby divided-power representing algebras and
 the determinant coordinate ring, the Amitsur formula and the comparison with pseudocharacters,
 continuous determinants, contragredients, finite projective and Azumaya determinants, connected
-reductive pseudocharacters with their invariant-coordinate evaluations, rational cohomology of a
+reductive pseudocharacters with their invariant-coordinate evaluations, the general untwisted
+invariant-word colimit and its representing-ring comparison, rational cohomology of a
 flat affine group scheme, henselian reconstruction, generalized matrix algebras with their
 reducibility ideals and extension modules, coefficient descent, the compatible local compressions
 of Caraiani–Newton, and GL pseudocharacter reconstruction. It also owns
@@ -79,10 +80,13 @@ exact declarations are listed under *Exact supplier contracts*.
   conjugation, to a hyperspecial integral model.
 - **SmoothRepresentationsOfLocalGroups** (SR.4, SR.6) supplies the integral spherical double-coset
   generators, normalised Satake, the `GSp₄` spin polynomial, the integral finite-wild cocycle scheme
-  (SR.6.1) and the excursion algebra (SR.6.3), which is the generic invariant-word colimit, with its
-  twisted excursion applications. The trivial-action comparison of that excursion algebra with the
-  pseudocharacter representing ring, its evaluations, and the GL determinant comparison are proved
-  here; a finite Weil action is retained in the twisted theory.
+  (SR.6.1) and the finite-wild excursion algebra with its twisted applications (SR.6.3).
+  This roadmap owns the arbitrary-base, arbitrary-group untwisted construction in §0.7,
+  *General invariant-word colimit*. Its comparison with SR.6.3 at trivial Weil action identifies
+  their colimit cocones, so this specialization uses one carrier. SR.6 retains the finite-wild
+  finiteness and cocycle-quotient comparison theorems at their stated hypotheses, and the finite
+  Weil action in the twisted theory. The pseudocharacter representing-ring comparison, its
+  evaluations, and the GL determinant comparison are proved here.
 - **ClassFieldTheory** (layer 7) supplies local Artin reciprocity with an explicit Frobenius
   normalisation and its inverse conversion; **Chebotarev** (layer 10) supplies the density of
   conjugacy classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
@@ -111,7 +115,8 @@ which adds the polynomial-law, local-ring or integral clause: the `GSp₄` spin 
 Calegari–Geraghty normalisation, `SpinPolynomial`, `SpinPolynomial.reciprocal`, its
 similitude and `gsp4-galois-comparison` of SmoothRepresentationsOfLocalGroups,
 SR.4, whose *gln-generators* supplies the Satake values `S(T_r) = q^{r(n−r)/2} e_r` substituted
-into `glnPolynomial_satake`; the excursion algebra of SR.6; the henselian and artinian interfaces
+into `glnPolynomial_satake`; the trivial-action finite-wild excursion specialization of SR.6,
+identified with *General invariant-word colimit*; the henselian and artinian interfaces
 `IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
 constant rank (PadicMeasuresIwasawaAlgebras, §5.1); conjugacy
 of algebra isomorphisms over a field (Tau Ceti `exists_unit_conj_of_algEquiv`; SemisimpleAlgebras,
@@ -423,8 +428,12 @@ Satake images `q^{r(n−r)/2} e_r` in the symmetric Laurent ring over `ℤ[q^{±
 which are the substitution `T_i = s^{i(n−i)} e_i` read in `glnPolynomial_satake`. Its general
 construction is applied here to `GLₙ` and to the two specified `GSp₄` representations. SR.6.1 and
 SR.6.3: the integral finite-wild cocycle scheme (*One integral finite-wild cocycle scheme*) and the
-excursion algebra (*Finite-wild excursion algebra*), the library half of the universal reductive
-pseudocharacter ring of Layer IHG.1.
+finite-wild excursion algebra (*Finite-wild excursion algebra*), with the coefficient ring, dual
+group, finite Weil action and wild quotient specified there. The arbitrary commutative-base,
+arbitrary-group untwisted colimit is owned here by §0.7, *General invariant-word colimit*.
+*Untwisted excursion comparison* identifies its cocone with SR.6.3's cocone when those finite-wild
+hypotheses hold and the Weil action is trivial; SR.6.3's twisted construction and arithmetic
+comparison theorems retain their own hypotheses.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -1531,40 +1540,86 @@ uniquely specifies descent for a normal `Δ` contained in the evaluation kernel.
 | `mergeLast` | `(2,3)` gives `(6)` and `(2,3,5)` gives `(2,15)`; for the noncommuting matrix pair of the ordered-products Check of *Compatible invariant-coordinate evaluation*, reversing the final pair changes the tested trace from `5` to `4`. |
 | Newton and cycle signs | For `M=[[2,3],[4,5]]`, `2det(M)=49−53=−4`. The two-permutation sum for the identity trace at `(2,3)` is `6−6=0`; starting the swap cycle at opposite matrix units gives `E₀₀` and `E₁₁`. |
 
-**Untwisted excursion comparison.** SmoothRepresentationsOfLocalGroups owns the excursion
-algebra (SR.6.3, *Finite-wild excursion algebra*): the colimit of the invariant coordinate rings of
-cocycle schemes over finite free-group maps, with every word-substitution relation. It also owns
-the cocycle scheme with its points and its invariant pullbacks along word substitutions (SR.6.1,
-*One integral finite-wild cocycle scheme*) and the finite-Weil-action applications. Here the
-universal ring `B_H^Γ` of *Universal compatible evaluations* represents compatible pseudocharacter
-evaluations, and the comparison below identifies the common trivial-action specialization. No
-identification with a nontrivial twisted Weil action is asserted. The comparison uses the
-supplier's `Type` universe; the intrinsic pseudocharacter API retains its existing universe
-generality. This target is specified in this README only.
+**General invariant-word colimit.** For any commutative ring `O`, a commutative Hopf
+`O`-algebra `C` representing an affine group `H`, and an arbitrary abstract group `Γ`, all in a
+fixed common universe, construct the following diagram in Mathlib's `CommAlgCat O`. No
+flatness, reductivity, finite presentation or topology is required. Its small index category has
+objects `(n,γ)` with `n≥0` and `γ : F_n → Γ`, where `F_n = FreeGroup (Fin n)`. A morphism
+`(n,γ) → (m,δ)` is a group homomorphism `u : F_n → F_m` satisfying `δ ∘ u = γ`; identities and
+composition are those of group homomorphisms. The object algebra is `C_n = O[H^n]^H`, with the
+whole-group scheme invariants of *Invariant coordinate algebras under conjugation*.
 
-For a commutative base `O`, an affine group Hopf algebra `C`, and `n≥0`, the trivial action makes
-the `F_n`-cocycles with values in `H(S)` exactly the homomorphisms `F_n → H(S)`, so the
-coordinate ring of the
-trivial-action cocycle scheme of `F_n` is the `n`-fold tensor power of `C` and its gauge
-invariants are the diagonal-conjugation invariants. Construct the resulting map from the invariant
-coordinate algebra `C_n` to the gauge-invariant coordinate ring of trivial-action
-`F_n`-cocycles, and prove that over every coefficient algebra `S`, evaluation at a cocycle is
-tensor evaluation at its free basis values. For a group `Γ` and the trivial `Γ`-action on `C`,
-construct the isomorphism between the trivial-action excursion algebra of SR.6.3 and `B_H^Γ`; it
-sends the excursion indexed by `(n,γ,f)` to the universal pseudocharacter's `θ_n(f)(γ)`, and it
-identifies every map to a coefficient algebra with its represented pseudocharacter, compatibly with
-coefficient postcomposition.
-These targets apply the free-group cocycle universal property and the colimit property to
-[Quast §3.6–3.7, Proposition 3.19 and Theorem 3.20, pp.19–20](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf) and SR.6.3; no reductivity is needed.
-*Needs:* SmoothRepresentationsOfLocalGroups SR.6.1 (*One integral finite-wild cocycle scheme*, its
-points and invariant pullbacks) and SR.6.3 (*Finite-wild excursion algebra*, its colimit property),
-Universal compatible evaluations.
+Construct every word-substitution pullback `u* : C_n → C_m`: on points over every commutative
+`O`-algebra `S`, substitute the words `u(x_i)` into the `m` basis values in `H(S)`.
+Multiplication, inversion and the empty word use the coproduct, antipode and counit of `C`.
+Prove equivariance for simultaneous conjugation, restriction to scheme invariants, and the identity
+and composition laws. Take the colimit in `CommAlgCat O`, with maps `ι_(n,γ)` obeying
+`ι_(m,δ) ∘ u* = ι_(n,γ)`. For every commutative `O`-algebra `A`, prove that postcomposition with
+these maps bijects algebra maps from the colimit to `A` with families of algebra maps
+`a_(n,γ) : C_n → A` satisfying every such cocone equation. Prove extensionality on these maps,
+generation by their images, and naturality in coefficient postcomposition and group
+homomorphisms `Γ → Γ′`, the latter sending `ι_(n,γ)(f)` to `ι_(n,h ∘ γ)(f)`.
+
+This roadmap owns this general untwisted construction; *Untwisted excursion comparison* supplies
+its specialization to the finite-wild carrier of SmoothRepresentationsOfLocalGroups SR.6.3 and
+its identification with `B_H^Γ`. The construction follows
+[Quast §3.6–3.7, Example 3.14, Proposition 3.19 and the proof of Theorem 3.20,
+pp.18–20](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf), using
+whole-group invariants here; the word maps and colimit argument require no reductivity.
+*Needs:* Invariant coordinate algebras under conjugation, Mathlib `FreeGroup.lift`,
+`CommAlgCat` and its `HasColimits` instance. This target is specified in this README only.
+
+**Checks.**
+
+- For `Γ = 1`, `(0,F_0 → 1)` is terminal in the index category, so the colimit is `O` and every
+  structure map is evaluation at the identity tuple by the counit.
+- For `H = G_m` and every `Γ`, the colimit is `O[Γᵃᵇ]`, using Mathlib
+  `MonoidAlgebra O (Abelianization Γ)`: the `i`th Laurent coordinate at `(n,γ)` maps to the group
+  basis element of the class of `γ(x_i)`. This represents `Γ → Aˣ`. In particular, `O = ℤ` and
+  `Γ = S₃` give `ℤ[C₂]`, including a base outside SR.6.3's `ℤ_ℓ` domain.
+- For `Γ = F_r`, `(r,id)` is terminal, so the colimit is exactly `C_r`, with simultaneous
+  conjugation invariants. For `r = 0` this recovers `O`.
+- For `G_m`, the substitutions `x ↦ x⁻¹`, `x ↦ 1` and `x ↦ xy` take the Laurent coordinate
+  to `t⁻¹`, `1` and `t₁t₂`, respectively. They impose inversion, identity and multiplication,
+  including for nonreduced coefficient algebras.
+
+**Untwisted excursion comparison.** For the commutative base `O` and Hopf input `C` of
+*General invariant-word colimit*, construct the free-group trivial-action cocycle coordinates:
+over every coefficient algebra `S`, trivial-action `F_n`-cocycles are homomorphisms
+`F_n → H(S)`, represented by the `n`-fold tensor power of `C` via their free basis values.
+Gauge invariants are exactly `C_n`, and this coordinate identification commutes with every
+word pullback. Identify the resulting invariant-word colimit with the universal ring `B_H^Γ`
+of *Universal compatible evaluations*. It sends `ι_(n,γ)(f)` to the universal evaluation
+`θ_n(f)(γ(x_1), …, γ(x_n))`, and identifies every map to a coefficient algebra with its
+represented pseudocharacter, naturally in coefficient postcomposition. Prove that the reindexing
+and final-pair multiplication equations imply compatibility with all free-group words, including
+inverses and identity insertion; this supplies the cocone used by the representing equivalence.
+
+Under SR.6.3's actual hypotheses (`O = ℤ_ℓ`, `ℓ ≠ p`, split reductive `H`, and
+`Γ = W_F⁰/P_F^e`) and **trivial** Weil action on `H`, construct an isomorphism from this same
+colimit to SR.6.3's *Finite-wild excursion algebra*, commuting with every structure map.
+The free-group coordinate identification agrees with SR.6.1's cocycle coordinates at that
+specialization. Uniqueness from the colimit property identifies the carriers and all evaluations.
+SR.6's twisted applications, finiteness and excursion-to-cocycle-quotient comparisons keep their
+stated arithmetic hypotheses. The comparison with SR.6 uses its `Type` universe; the intrinsic
+pseudocharacter API retains its existing universe generality. This target is specified in this
+README only.
+
+The general comparison applies the free-group and colimit universal properties to
+[Quast §3.6–3.7, Proposition 3.19 and Theorem 3.20, pp.19–20](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf);
+the finite-wild specialization uses SR.6.3 and
+[Fargues–Scholze, Definition VIII.3.4, p.287](https://arxiv.org/pdf/2102.13459).
+*Needs:* General invariant-word colimit, Universal compatible evaluations; for the finite-wild
+specialization only, SmoothRepresentationsOfLocalGroups SR.6.1 (*One integral finite-wild cocycle
+scheme*, its points and invariant pullbacks) and SR.6.3 (*Finite-wild excursion algebra*, its
+colimit cocone and universal property).
 
 **Checks.** For the map on coordinates, the empty tuple preserves the scalar `7`; one coordinate
 evaluates at the chosen free generator; swapping two coordinates swaps their actual point values.
-For the excursion isomorphism, coefficients preserve `7`, the empty scalar excursion is `1`, and
-the product-word excursion in a two-element tuple maps to the universal singleton evaluation at
-`gh`.
+For the representing-ring isomorphism, coefficients preserve `7`, the empty scalar excursion is
+`1`, and the product-word excursion in a two-element tuple maps to the universal singleton
+evaluation at `gh`. In the finite-wild trivial-action specialization the scalar, singleton and
+product-word structure maps agree with those of SR.6.3 under the comparison isomorphism.
 
 ### Examples
 
@@ -1610,8 +1665,9 @@ polynomial-law carrier `PolynomialLaw` with `PolynomialLaw.id`, `PolynomialLaw.c
 ReductiveGroups layer 9 (the split reductive group schemes and their Hopf algebras) and the
 top exterior power at constant rank from PadicMeasuresIwasawaAlgebras §5.1, with Mathlib `IsAzumaya`
 and SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`, including its
-finite-cover adapter, for the reduced-norm input, and SmoothRepresentationsOfLocalGroups SR.6.1 and
-SR.6.3 for the untwisted excursion comparison.
+finite-cover adapter, for the reduced-norm input. General invariant-word colimit is constructed
+here using Mathlib's commutative-algebra colimits; SmoothRepresentationsOfLocalGroups SR.6.1 and
+SR.6.3 enter only in its finite-wild trivial-action specialization.
 
 ## Layer 3a: Hecke polynomial and multiplier conventions
 
@@ -2603,9 +2659,9 @@ uniqueness already stated in *Semisimple reconstruction of field determinants*
 excursion pseudocharacters, Semisimple reconstruction of field determinants.
 
 **Universal reductive pseudocharacter ring.** For `Γ` and the actual Hopf-coordinate input `H/O`, define
-`B_H^Γ`, the colimit of `O[H^m]^H` over free-group
-maps `F_m → Γ`, using SR.6.3’s generic invariant-word colimit (*Finite-wild excursion algebra*) and
-the trivial-action comparison of *Untwisted excursion comparison* above. Prove
+`B_H^Γ` using *General invariant-word colimit*, owned in §0.7 for arbitrary commutative `O`,
+commutative Hopf-coordinate input and abstract `Γ`, and the representing-ring identification of
+*Untwisted excursion comparison*. Prove
 `Hom_O(B_H^Γ, A) ≃ PC_H^Γ(A)`: `O`-algebra maps `B_H^Γ → A` are exactly `H`-pseudocharacters
 with values in `A`. The algebraic completion at a supplied ideal `m` is Mathlib
 `AdicCompletion m B_H^Γ`; no local wrapper is needed. The representing-ring target
@@ -2613,7 +2669,7 @@ concerns algebraic pseudocharacters. It does not include a continuous deformatio
 comparison or a noetherianity assertion for this completion.
 ([Quast](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf),
 Theorem 3.20, p.20, for the representing ring.) *Needs:* Connected reductive pseudocharacter,
-Mathlib `AdicCompletion`.
+General invariant-word colimit, Untwisted excursion comparison, Mathlib `AdicCompletion`.
 
 **Checks.**
 
@@ -4940,8 +4996,9 @@ Full-entry relation complex).
 Layer IHG.0 (Amitsur's formula for determinants for the character congruence,
 Invariant coordinate algebras under conjugation and Rational cohomology of a flat affine group scheme for the integral Borel cohomology); Layer IHG.1 (Henselian lifting of matrix units for the distinct-character case and Faithful quotients over arbitrary fields for excluding `I = 0`). Tau Ceti `TauCeti.fittingIdeal` with
 `TauCeti.fittingIdeal_eq_minorsIdeal_ker`, and `TauCeti.Comodule`; ProfiniteCohomology layer 2 for
-cocycles, coboundaries and `H¹`. The annihilator bound is an additional relation-minor argument
-in this layer. From Mathlib: `MonoidAlgebra`, `Matrix`, `Submodule`,
+cocycles, coboundaries and `H¹`. PadicMeasuresIwasawaAlgebras §4.5 supplies the general
+annihilator bound `TauCeti.Iwasawa.fittingIdeal_le_annihilator`; the relation-minor argument here
+proves the Ribet-specific weighted containment of §6.7. From Mathlib: `MonoidAlgebra`, `Matrix`, `Submodule`,
 `ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`, `MvPolynomial` and
 `IsLocalization.Away`. SchemeAndStackFoundations §0.20 supplies
 `Ring.IsJapanese.of_complete_local` and `Ring.IsNagata.of_complete_local` for the finite

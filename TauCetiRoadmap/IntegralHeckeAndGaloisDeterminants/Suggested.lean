@@ -18,6 +18,10 @@ Design choices.
 * On a group algebra, coefficient change along `A →+* B` is read on the characteristic polynomials
   of group elements (`Determinant.IsCoefficientChange`); by Amitsur's formula
   (`Determinant.eq_of_charpoly_eq`) these determine the whole polynomial law.
+* The general untwisted invariant-word colimit and its pseudocharacter representing-ring
+  comparison are specified in README §0.7 for arbitrary commutative bases and abstract groups.
+  Its comparison with SR.6.3 identifies the colimit cocones under the finite-wild hypotheses and
+  trivial Weil action.
 * A matrix representation acts on `Kᵈ` through `matrixModule`; simplicity and semisimplicity are
   Mathlib's `IsSimpleModule` and `IsSemisimpleModule`.
 * Fitting ideals are Tau Ceti's `TauCeti.fittingIdeal`; the GSp₄ spin polynomial is
