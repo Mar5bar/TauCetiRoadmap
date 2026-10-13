@@ -1264,6 +1264,30 @@ theorem node_local_structure_dvr_nonzero_of_generic_smooth
     a ≠ 0 := by
   sorry
 
+/-- Substituting `u = sa`, `v = sb` into `uv = s³t` factors its equation by `s²`.
+The residual chart `ab = st` has a singular origin of dimension three and embedding dimension
+four, although the codimension-two component of thickness three has disappeared.
+de Jong 1996, 3.4–3.6, pp. 63–65. -/
+theorem nodal_codim_two_thickness_three_residual (k : Type u) [Field k] [IsAlgClosed k]
+    [CharZero k] :
+    let P := MvPolynomial (Fin 4) k
+    let a : P := MvPolynomial.X 0
+    let b : P := MvPolynomial.X 1
+    let s : P := MvPolynomial.X 2
+    let t : P := MvPolynomial.X 3
+    let I : Ideal P := Ideal.span {a * b - s * t}
+    let A := P ⧸ I
+    let m : Ideal A := Ideal.span
+      (Set.range fun i : Fin 4 => Ideal.Quotient.mk I (MvPolynomial.X i))
+    (s * a) * (s * b) - s ^ 3 * t = s ^ 2 * (a * b - s * t) ∧
+      ∃ hm : m.IsMaximal,
+        letI : m.IsMaximal := hm
+        let L := Localization.AtPrime m
+        ringKrullDim L = 3 ∧
+          Module.finrank (IsLocalRing.ResidueField L) (IsLocalRing.CotangentSpace L) = 4 ∧
+          ¬ IsRegularLocalRing L := by
+  sorry
+
 /-- An integral variety acquires, after a finite field extension, a geometrically integral
 reduced component altering it; no separability is required. de Jong 1996, 4.5, p. 66. -/
 theorem curve_fibration_field_reduction (k : Type u) [Field k] {X : Scheme.{u}}

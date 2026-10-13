@@ -5206,10 +5206,12 @@ a projective modification `X_1 → X`, a composite of blow-ups and an isomorphis
 `u'v' = t_i^{n_T−2} g`. On the chart where `u` generates, `t_i = u t_i'` and `v = u v'` with
 `v' = u^{n_T−2} t_i'^{n_T} g`, so this chart is `O_S[u, t_i']/(u t_i' − t_i)`, regular with
 exponent one. The `v`-chart is symmetric. The blow-up is again split prestable and smooth over
-`S ∖ D`. Over `T` there is a singular component only when `n_T ≥ 4`, and its exponent is
-`n_T − 2`. Every other component of the singular locus has at most one component above it, of the
-same codimension and, in codimension two, of the same exponent. Induction on the sum of the
-exponents of the finitely many codimension-two components terminates.
+`S ∖ D`. A codimension-two singular component dominating `T` remains exactly when `n_T ≥ 4`,
+with exponent `n_T − 2`. Singularities of codimension at least three may remain over proper
+closed subsets of `T`; `split_nodal_component_resolution` resolves them after this stage.
+Every other codimension-two component of the singular locus has at most one codimension-two
+component above it, with the same exponent. Induction on the sum of the exponents of the
+finitely many codimension-two components terminates.
 
 Prove `split_nodal_component_resolution` (de Jong 1996, 3.5, p. 64; Proposition 3.6 and proof,
 pp. 64–65). Assume in addition that `Sing(X)` has codimension at least three. Then there is a
@@ -5382,6 +5384,17 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
   lines, joined by the node `u'v' = t`. At the generic point of `D_1`, where `t` is a unit,
   absorbing `t` into `u` gives the supplier's `isRegularLocalRing_stalk_blowup_iff` at `n = 0`.
   The supplier does not cover the two-parameter chart `u'v' = t`.
+- `nodal_codim_two_thickness_three_residual`: over an algebraically closed field `k` of
+  characteristic zero, `X = V(UV − s³tW²) ⊆ ℙ²_{k[s,t]}`, with `D = V(st)`, is a proper flat
+  split prestable family smooth over `S ∖ D`. On `W ≠ 0`, `uv = s³t` has singular locus
+  `T = V(u, v, s)`, of codimension two and exponent `n_T = 3`. Blowing up `(u, v, s)` gives
+  the `s`-chart `u = sa`, `v = sb`, `ab = st`: substitution factors the original equation as
+  `s²(ab − st)`. The `u`-chart is `k[u, c, t]`, with `s = uc`, `v = u²c³t`; the `v`-chart is
+  symmetric. The only remaining singularity is the origin of `ab = st`, whose local ring has
+  dimension three and embedding dimension four. It lies over the closed point `t = 0` of `T`.
+  Thus no codimension-two singular component remains, but the total space is not regular.
+  The component centre `(a, s)` resolves this point as in `nodal_resolution_component_blowup`,
+  the second stage `split_nodal_component_resolution`.
 - `nodal_codim_two_exponent_four`: `V(UV − s⁴W²) ⊆ ℙ²_{k[s,t]}`, with `D = V(s)`, has `n_T = 4`
   along `T = V(u, v, s)`. After one blow-up the `s`-chart is `u'v' = s²`, singular along
   `V(u', v', s)` with exponent `2`. The `u`-chart is `k[u, s', t]`, with `v = u³s'⁴`. A second
@@ -5400,9 +5413,11 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
 *Lean:* `Formal.DeJong.node_local_structure_dvr` (on the polynomial model `R[u, v]/(uv − a)`, with
 the coordinate change `u ↦ εu'`, `v ↦ v'`),
 `Formal.DeJong.node_local_structure_dvr_nonzero_of_generic_smooth`,
-`Formal.DeJong.curve_fibration_field_reduction`. The other definitions and theorems of this
-subsection, `curve_family_alteration` among them, and the Checks on its conclusion are specified in
-this README only.
+`Formal.DeJong.curve_fibration_field_reduction`,
+`Formal.DeJong.nodal_codim_two_thickness_three_residual` (the substitution identity and the
+dimension-three, embedding-dimension-four local ring of the residual chart). The other
+definitions, theorems and Checks of this subsection, including `curve_family_alteration`, are
+specified in this README only.
 
 ### 4.19 de Jong's alteration theorem over a field
 
