@@ -13,9 +13,9 @@ the roadmap.
 
 Nearby and vanishing cycles, Lefschetz pencils, perverse sheaves, semistable models and the other
 geometric objects of the roadmap have no carriers in the pinned Mathlib and Tau Ceti: they are
-targets of the README, with their intended signatures there, and do not appear here. What remains
-is the linear algebra and commutative algebra that the geometric theorems reduce to, placed in the
-layer of the README to which it belongs.
+targets of the README, with their intended signatures there, and do not appear here. The signatures below
+provide finite-field descent and projective trace algebra, alongside the linear and
+commutative algebra used by the geometric targets, in their corresponding README layers.
 
 Design choices made explicit here:
 * over a field, an ordinary quadratic form is Mathlib's `QuadraticMap.Nondegenerate` on a nonzero
@@ -40,6 +40,82 @@ writes them relative to the suggested home `TauCeti.AlgebraicGeometry`.
 -/
 
 namespace TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
+
+universe u
+
+/-! ## Layer LPV.F: Finite-field descent and projective trace algebra -/
+
+namespace VanishingCycles
+
+/-- Arithmetic Frobenius on an algebraic extension of a finite field, acting on coordinates
+by the cardinality power. README F.10, `frobeniusFixedPoints`. -/
+noncomputable def arithmeticFrobenius (k L : Type u) [Field k] [Fintype k]
+    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
+  FiniteField.frobeniusAlgEquivOfAlgebraic k L
+
+/-- Geometric Frobenius is the inverse field automorphism. README F.10. -/
+noncomputable def geometricFrobenius (k L : Type u) [Field k] [Fintype k]
+    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
+  (arithmeticFrobenius k L).symm
+
+/-- Every Frobenius power acts by the corresponding cardinality power. README F.10. -/
+theorem arithmeticFrobenius_pow_apply (k L : Type u) [Field k] [Fintype k]
+    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] (r : ℕ) (x : L) :
+    (arithmeticFrobenius k L ^ r) x = x ^ (Fintype.card k ^ r) := by
+  sorry
+
+/-- Over an algebraic closure the fixed field of the r-th Frobenius has q^r elements.
+README F.10, `frobeniusFixedPoints`; positivity excludes the infinite zeroth fixed field. -/
+theorem frobeniusFixedField_card (k L : Type u) [Field k] [Fintype k]
+    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
+    (r : ℕ) (hr : 0 < r) :
+    Nat.card {x : L // (arithmeticFrobenius k L ^ r) x = x} = Fintype.card k ^ r := by
+  sorry
+
+open CategoryTheory AlgebraicGeometry
+
+/-- The cardinality of L-valued points over the given structure morphism, total even before
+point finiteness is proved. README F.10. -/
+noncomputable def numberOfRationalPoints (k L : Type u) [Field k] [Field L] [Algebra k L]
+    (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k)) : ℕ :=
+  Nat.card {x : Spec (CommRingCat.of L) ⟶ X //
+    x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))}
+
+/-- Rational points over the fixed subfield are exactly fixed geometric points, without a
+finite-type hypothesis on the scheme. README F.10. -/
+theorem frobeniusFixedPoints (k L : Type u) [Field k] [Fintype k]
+    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
+    (r : ℕ) (hr : 0 < r) (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k)) :
+    let k_r := (arithmeticFrobenius k L ^ r).toAlgHom.equalizer (AlgHom.id k L)
+    Nonempty ({x : Spec (CommRingCat.of k_r) ⟶ X //
+      x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k k_r))} ≃
+      {x : Spec (CommRingCat.of L) ⟶ X //
+        x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
+        Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x}) := by
+  sorry
+
+end VanishingCycles
+
+namespace PerfectComplex
+
+/-- The commutative projective-module trace computed through an explicit finite-free retract.
+README F.10, projective trace algebra. -/
+noncomputable def projectiveTraceOfRetract {R P : Type*} [CommRing R] [AddCommGroup P]
+    [Module R P] {ι : Type*} [Fintype ι]
+    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P) (u : Module.End R P) : R :=
+  LinearMap.trace R (ι → R) (i ∘ₗ u ∘ₗ r)
+
+/-- Two finite-free split retracts compute the same trace of a projective-module endomorphism.
+README F.10, projective trace algebra. -/
+theorem projectiveTrace_independent {R P : Type*} [CommRing R] [AddCommGroup P]
+    [Module R P] {ι κ : Type*} [Fintype ι] [Fintype κ]
+    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
+    (j : P →ₗ[R] (κ → R)) (s : (κ → R) →ₗ[R] P)
+    (hi : r ∘ₗ i = LinearMap.id) (hj : s ∘ₗ j = LinearMap.id) (u : Module.End R P) :
+    projectiveTraceOfRetract i r u = projectiveTraceOfRetract j s u := by
+  sorry
+
+end PerfectComplex
 
 /-! ## Layer LPV.0: Nearby and vanishing cycles over a henselian trait
 
@@ -590,11 +666,19 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
 (7b.1–7b.11). The README names of their API and checks, by namespace:
 
 * `VanishingCycles`: `constructibleEtale`, `fieldSheavesEquiv`, `lisseMonodromyEquiv`,
-  `filteredColimit_cohomology`, `etaleBaseChange`, `etaleCompactSupports`,
-  `nagataCompactification`, `etaleFiniteness`, `genericLocalAcyclicity`, `adicRealization`,
+  `finiteEtaleGaloisCategory`, `etaleTateTwists`, `universalHomeomorphismEtaleEquivalence`,
+  `constructibleDerivedCategory`, `finiteCoefficientCohomology`, `filteredColimit_cohomology`,
+  `etaleBaseChange`, `properBaseChange`, `smoothBaseChange`, `localAcyclicity`,
+  `etaleCompactSupports`, `compactSupportCohomology`, `etaleKunneth`, `etaleKunnethCompactSupport`,
+  `etaleCohomologicalDimension`, `affineArtinVanishing`, `etaleFiniteness`,
+  `lisseDirectImageTransport`, `compactSupportFiniteness`, `genericLocalAcyclicity`,
+  `adicRealization`, `normalizedAdicSystems`, `classicalAdicRealization`,
+  `etaleProetaleAdicComparison`, `adicFiniteness`, `rationalAdicRealization`, `adicFunctoriality`,
   `etaleExceptionalInverseImage`, `etaleVerdierDuality`, `smoothPurity`, `smoothPairGysin`,
   `etaleBlowup`, `etaleWeakLefschetz`, `fieldPerverseTStructure`,
-  `intermediateExtension`, `etaleBettiComparison`, `frobeniusCohomology`, `etaleTraceFormula`,
+  `intermediateExtension`, `etaleGaussBonnet`, `nearbyBettiCompatibility`,
+  `frobeniusCohomology`, `curveEndomorphismTrace`, `etaleTraceFormulaFinite`,
+  `etaleTraceFormula`, `pointCountTrace`,
   `PointwisePure`, `purity_pointwiseReduction`, `FSLogScheme`, `galoisSemistableAlteration`,
   `equivariantLogResolution`, `geometricMonodromy_traitDescent`, `purityOfBranchLocus`,
   `regularLogResolution`, `logSmooth_pointwisePure`,
@@ -622,6 +706,8 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
   `twoComponent_not_sheaf_split`, `variation_left`, `variation_mul`, `variation_ne_sub_one`,
   `variation_of_phi_zero`, `variation_one`, `variation_picardLefschetz`, `variation_right`,
   `variation_unique`, `variation_wellDefined`, `wild_inertia_ne_bot`.
+* `PerfectComplex`: `lefschetzNumber`, `filteredTraceAdditivity` (enhanced perfect-complex
+  traces; the finite-projective retract algebra is prototyped above).
 * `Quadric`: `canonical_iso`, `center_even_char_two`, `center_even_discriminant`,
   `center_even_hyperbolic`, `cusp_not_ordinary`, `doublePoint_char_two`, `isNondegenerate_iff`,
   `isOrdinaryQuadraticPoint_baseChange`, `isOrdinary_iff_nondegenerate_test`,
