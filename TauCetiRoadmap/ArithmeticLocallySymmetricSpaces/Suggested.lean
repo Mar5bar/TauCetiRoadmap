@@ -73,6 +73,18 @@ open scoped HeckeCosetModule Pointwise MatrixGroups
 
 noncomputable section
 
+/-! ## Group-ring coefficients (ALS.F.2) -/
+
+/-- **ALS.F.2, `groupRing_S3_noncomm`.** The integral group ring of `S₃` has two unequal
+products of transposition basis elements, so its perfect left-module interface requires an
+arbitrary unital ring. -/
+theorem groupRing_S3_noncomm :
+    MonoidAlgebra.single (Equiv.swap (0 : Fin 3) 1) (1 : ℤ) *
+        MonoidAlgebra.single (Equiv.swap (1 : Fin 3) 2) (1 : ℤ) ≠
+      MonoidAlgebra.single (Equiv.swap (1 : Fin 3) 2) (1 : ℤ) *
+        MonoidAlgebra.single (Equiv.swap (0 : Fin 3) 1) (1 : ℤ) := by
+  sorry
+
 /-! ## Coefficient lines and smooth reductions (ALS.F.7, ALS.3.10) -/
 
 /-- **ALS.F.7, weight zero.** The coefficient line is finite free over `O`, and the trivial
@@ -654,8 +666,27 @@ commits; they are stated in `README.md` with their exact hypotheses and are not 
 here.
 
 * Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups),
-  `IsPerfect` (perfect complexes), `SheafDerived.pushforward` and its API (derived functors of
-  sheaves on topological spaces), `EquivariantSheaf` (equivariant sheaves for topological groups),
+  `PerfectComplex.IsPerfect` uses the single generic carrier supplied by
+  LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
+  `PerfectComplex.filteredTraceAdditivity` on its commutative domain. ALS.F.2 extends that
+  interface to left modules over arbitrary unital rings, retaining shift/triangle/summand,
+  `PerfectComplex.IsPerfect.baseChange` as `B ⊗^L_A K`,
+  `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left `A`-module, and
+  `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests.
+  `PerfectComplex.IsPerfect.dual` takes values in right modules over a noncommutative ring;
+  tensor/dualizable identities for two left complexes require commutativity. Arithmetic duality
+  uses `RHom_R(−,R)` with the contragredient finite-group action. There is no separate
+  arithmetic perfectness predicate. Bounded constructible/ctf categories on the étale domain
+  are supplied by LefschetzPencilsAndVanishingCycles §F.1 /
+  `VanishingCycles.constructibleDerivedCategory`.
+  `SheafDerived.pushforward` and its API are arithmetic adapters to the topological functors
+  supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 /
+  `artinComparisonCompactSupport` supplies compact-support Artin comparison on separated
+  finite-type complex schemes. `TopologicalCoefficientInput(R)` assumes the ordinary
+  local-system comparison for arbitrary commutative rings/stalk modules, compact support on
+  the relative finite CW models, and functor coherence on all spaces used here outside that
+  finite-coefficient domain, including ALS.F.4. It asserts no perfectness.
+  `EquivariantSheaf` (equivariant sheaves for topological groups),
   `lieCochains` (Chevalley–Eilenberg and relative cochains), `AutomorphicForm` (automorphic forms
   and cusp forms, with `AutomorphicForm.cuspidalSpectrum_discrete` assembling cusp forms as an
   algebraic direct sum of admissible modules), `cohomologicalRepresentation` (algebraic weights,
@@ -676,7 +707,13 @@ here.
 * Equivariant sheaves, their derived functors and supports, and singular cochains with supports:
   `localSystem`, `RΓ`, `RΓc`, `RΓrel`, `RΓ.refinementIndependence`, `RΓ.isoSingular`,
   `RΓ.isoGroupCohomology`, `RΓrel.perfect_of_freeCellModel`, `RΓ.baseChange`, `RΓ.pullback`,
-  `RΓ.translate`. For `RΓ.isoGroupCohomology`, the neat-component-group-cohomology clause is
+  `RΓ.translate`. For `RΓ.isoSingular`, consume ComplexComparisonPartII §C6.1's comparison
+  with the arithmetic slice and whole-inverse endpoint conventions. Its value system is `V_K`;
+  the pinned Hom-of-twisted-chains carrier uses `L = V_K^∨`, `M = R` and finite-projective
+  biduality `Hom_R(V^∨,R) = V`. The arithmetic adapter retains level/translation and Hecke
+  naturality, forget-supports and relative Borel–Serre comparisons. Uses outside the supplier
+  domain carry `TopologicalCoefficientInput(R)`, including arbitrary modules in ALS.1.5.
+  For `RΓ.isoGroupCohomology`, the neat-component-group-cohomology clause is
   supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 Homology, local-coefficient
   cohomology, by kim-em; the arithmetic consumer retains the deck/opposite and slice-action
   adapter, CW-model transport, sheaf/derived comparison over arbitrary commutative rings and
@@ -685,7 +722,9 @@ here.
   §Stage 3, item 13 / CW structures and coverings, free cellular chain clause, by kim-em;
   the arithmetic consumer discharges the Hausdorff CW and quotient-cover hypotheses for the
   full group `G(F) × K` and retains finite basis-orbit counts, boundedness, the relative/coefficient
-  model and derived perfectness. These supplier clauses are README targets, not additional Lean
+  model and derived perfectness over possibly noncommutative `R[K/K′]`, using the shared
+  `PerfectComplex.IsPerfect` interface of ALS.F.2. No abelian hypothesis on the quotient is
+  imposed in ALS.1.6 or ALS.6.1. These supplier clauses are README targets, not additional Lean
   declarations here.
 * The Borel–Serre bordification as a manifold with corners and its strata:
   `BorelSerre.face`, `BorelSerre.bordification`, `BorelSerre.compact_quotient`,
