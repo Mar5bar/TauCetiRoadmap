@@ -243,6 +243,17 @@ Almost everything downstream waits on this, so do it first and do it right.
    and **Rellich–Kondrachov**: `W^{1,p}(Ω) ↪↪ L^p(Ω)` **compact** for bounded `Ω` (via
    Fréchet–Kolmogorov / Arzelà–Ascoli). This is the keystone for Lane D and the
    eigenvalue theory.
+   This lane owns the common Lipschitz-domain predicate for open Euclidean sets: at each
+   frontier point, after an affine isometry, the domain in an open product cylinder is
+   the region above a Lipschitz graph over a hyperplane. Supply restriction to smaller
+   charts, rigid-coordinate transport, and positive dilation; for bounded domains supply
+   a finite chart cover with explicit Lipschitz constants. Use normalized Euclidean
+   Hausdorff measure `μHE[n−1]` on the frontier. GMT G6 consumes this predicate for BV
+   traces and proves its surface-measure comparisons. The chart-integration formulas for
+   Sobolev traces consume GMT G2's area formula, independently of G6's BV trace comparison.
+   `C¹` domains satisfy it by a
+   proved local-graph comparison; cone conditions are separate hypotheses and do not
+   redefine the Lipschitz predicate.
 7. **Hölder spaces `C^{k,α}(Ω)`** as Banach spaces, the target spaces for Schauder.
 
 ### Lane B: harmonic-analysis estimates

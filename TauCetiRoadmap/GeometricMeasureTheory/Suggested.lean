@@ -3,12 +3,13 @@ import Mathlib.MeasureTheory.Function.AbsolutelyContinuous
 import Mathlib.Topology.EMetricSpace.BoundedVariation
 import TauCeti.MeasureTheory.Function.MetricDerivative
 import TauCeti.Analysis.Calculus.MetricVariation
+import TauCeti.Analysis.Calculus.Sard.OutermostStratum
 
 /-!
 # Geometric measure theory: suggested signatures
 
 **This file is not the roadmap and is not exhaustive.** `README.md` is definitive.
-These signatures illustrate G1's use of existing curve and measure APIs. They do not
+These signatures illustrate G1's curve/measure APIs and G4's consumption of smooth Sard. They do not
 discharge the BV, nonlinear area/coarea, perimeter, or boundary-structure milestones.
 Those interfaces must be built against the canonical measure-valued derivative API;
 there are no placeholder predicates for objects not yet constructed.
@@ -17,9 +18,16 @@ there are no placeholder predicates for objects not yet constructed.
 noncomputable section
 
 open MeasureTheory Set
-open scoped ENNReal
+open scoped ENNReal ContDiff
 
 namespace TauCetiRoadmap.GeometricMeasureTheory
+
+/-- G4 consumes smooth scalar Sard from the existing Tau Ceti theorem. -/
+theorem volume_criticalValues_eq_zero {n : ℕ} {f : EuclideanSpace ℝ (Fin n) → ℝ}
+    (hf : ContDiff ℝ ∞ f) :
+    volume (f '' {x | ¬ Function.Surjective (fderiv ℝ f x)}) = 0 := by
+  exact hf.addHaar_image_criticalPoints_eq_zero (ν := volume)
+    (WithTop.coe_le_coe.mpr le_top)
 
 /-- Absolute continuity strengthens the existing C¹ variation–speed comparison. -/
 theorem eVariationOn_eq_lintegral_enorm_deriv

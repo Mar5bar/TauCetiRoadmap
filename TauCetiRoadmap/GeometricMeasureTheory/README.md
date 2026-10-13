@@ -61,7 +61,9 @@ derivative. Its Lane A.5–A.6 owns Sobolev Poincaré, domain traces, extensions
 This roadmap owns BV versions and their agreement with those Sobolev results.
 
 [ConformalMapping](../ConformalMapping/README.md), L5, owns Jordan separation and the
-filled-hull topology. [DifferentialGeometry](../DifferentialGeometry/README.md), 5.6, owns
+filled-hull topology. [DifferentialGeometry](../DifferentialGeometry/README.md), whose
+[Green layer 5.6 targets](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826) specify
+the flat planar extension, owns
 winding numbers, planar curve integrals, and Green's area identity. This roadmap owns metric
 length, arclength, rectifiability, and Hausdorff measure comparisons. The sharp Euclidean
 isoperimetric constants, Brunn–Minkowski, rearrangements, and ball rigidity belong to
@@ -73,7 +75,7 @@ foundation for perimeter structure, not a dependency on that sharp theorem.
 Consume Mathlib's Hausdorff measures, Radon measures, signed and vector measures, total
 variation, Radon–Nikodym and Lebesgue decomposition, Bochner integration, Rademacher and
 change of variables, and the calculus of test functions. Tau Ceti supplies
-`MeasureTheory.metricDerivative`, its a.e. existence and integrable distance bound for
+`TauCeti.metricDerivative`, its a.e. existence and integrable distance bound for
 absolutely continuous curves, the `C¹` variation–speed identity in
 `TauCeti.Analysis.Calculus.MetricVariation`, weak derivatives, and `W1p`. G1 extends these
 curve results; G2–G3 build the remaining measure and derivative bridges.
@@ -81,7 +83,9 @@ curve results; G2–G3 build the remaining measure and derivative bridges.
 Use [`LinearMap.normDet`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/NormDet.html#LinearMap.normDet)
 and its continuous-linear-map version for geometric Jacobians. Mathlib already relates it
 to Gram determinants and the volume of linear images; do not introduce another Jacobian
-for rectangular linear maps. For the coarea Jacobian of a map from dimension `n` to `m ≤ n`,
+for rectangular linear maps. In particular, consume
+`LinearMap.euclideanHausdorffMeasure_image_eq_normDet_mul_volume` for linear images.
+For the coarea Jacobian of a map from dimension `n` to `m ≤ n`,
 use the norm determinant of its adjoint. Prove the chart and tangent-space comparison lemmas
 needed for the nonlinear formulas.
 
@@ -101,9 +105,12 @@ results in Tau Ceti without waiting for them:
 
 ## G1 — Rectifiable curves and arclength
 
-Supply the basic variation and length API for continuous curves: restriction, additivity at
-an intermediate time, reversal, concatenation, monotone reparametrization, lower
-semicontinuity under uniform convergence, and the distance bound. Build cumulative arclength,
+Consume the existing variation API: `eVariationOn.mono`, `Icc_add_Icc`,
+`comp_eq_of_antitoneOn`, `comp_eq_of_monotoneOn`, `lowerSemicontinuous_uniformOn`, and
+`edist_le`, together with Tau Ceti's `eVariationOn_le_liminf_of_eventually_le`. Use the
+`TauCeti.IsCurveJoining`/`Path` comparison in `Topology/MetricSpace/Length.lean` where a
+joining curve is required. Build the curve-specific concatenation and restriction
+comparisons not already expressed by those APIs. Build cumulative arclength,
 prove its continuity and endpoint values, and factor a rectifiable curve through a
 unit-speed Lipschitz curve on its length interval. Handle constant pieces by factorization;
 an inverse of the cumulative arclength function is not available for a general curve.
@@ -127,19 +134,23 @@ curves. Include the multiplicity formula supplied by G2 for nonsimple
 curves, so a twice-traversed circle has twice the variation length and the same trace
 measure. Deduce that rectifiable planar traces have zero two-dimensional volume.
 Make all length identities invariant under increasing continuous onto reparametrizations.
-DifferentialGeometry 5.6.1 consumes this arclength factorization to construct geometric
+DifferentialGeometry's [rectifiable-curve interface](../DifferentialGeometry/README.md#rectifiable-curves-and-geometric-measure-theory)
+consumes this arclength factorization to construct geometric
 line integrals and their orientation/parametrization comparisons. G1 does not use those
 integral comparisons as an input to the metric theory.
 
-The variation, factorization, and upper length bound precede G2. The multiplicity and exact
-Hausdorff-length comparisons consume G2's one-dimensional area formula. Thus G2 must not
-assume those comparisons in its proof.
+The variation, factorization, upper length bound, and exact comparisons for injective arcs
+and simple closed curves are G1 targets independent of G2, using partitions and the
+connected-set diameter bound for the lower comparison. The multiplicity formula for
+nonsimple curves follows G2's one-dimensional area formula. G2 does not assume that
+multiplicity formula in its proof.
 
 ## G2 — Rectifiability, area, and coarea
 
 Build the closure and transport API for countably rectifiable sets: measurable restrictions,
-countable unions, null modifications, Lipschitz images, and isometries. For sets with locally
-finite `Hᵏ` measure prove existence and a.e. uniqueness of approximate tangent `k`-planes,
+countable unions, null modifications, Lipschitz images, and isometries. For countably
+`k`-rectifiable sets with locally finite `Hᵏ` measure prove existence and a.e. uniqueness
+of approximate tangent `k`-planes,
 measurability of the tangent-plane field, and the density theorem. Build tangential
 differentiation for Lipschitz maps on these sets and show independence of charts and null
 modifications. Prove agreement with tangent spaces and surface Jacobians on `C¹` graphs.
@@ -215,8 +226,11 @@ The superlevel sets have locally finite perimeter for a.e. `t`; provide their me
 dependence on `t`, the local measure identity, layer-cake formulas, truncation formulas,
 and the converse characterization. Derive approximation of finite-volume finite-perimeter
 sets by bounded smooth sets with volume convergence and perimeter convergence on the whole
-space. Build cutoff/truncation and regular-level arguments, including Sard in the smooth
-scalar regime used here if the available calculus does not provide it. Do not strengthen
+space. Build cutoff/truncation and regular-level arguments. Consume
+`TauCeti.addHaar_image_criticalPoints_eq_zero` from
+`TauCeti.Analysis.Calculus.Sard.OutermostStratum` in the smooth scalar regime: its finite
+regularity threshold is automatically met by `C∞` functions. Build the regular-level and
+level-set boundary comparisons needed for the approximation from that theorem. Do not strengthen
 this to preservation of equality cases under approximation.
 
 Supply BV Poincaré on balls and the nonsharp relative perimeter estimate
@@ -226,8 +240,9 @@ min(|E ∩ B_r|, |B_r \ E|)^((n−1)/n) ≤ C_n P(E; B_r),    n ≥ 2,
 ```
 
 for locally finite-perimeter sets and `r > 0`, with a positive constant depending only on
-`n`, plus scaling and localization. Build the
-covering and elementary Sobolev estimate needed for this result here, without using the
+`n`, plus scaling and localization. Consume Mathlib's compactly supported `C¹` estimate
+`MeasureTheory.eLpNorm_le_eLpNorm_fderiv_one`; build its BV and local-domain extensions,
+and the covering estimates needed for this result here, without using the
 sharp theorem in Isoperimetry. This is the analytic input for G5's boundary structure.
 
 ## G5 — Finite perimeter and boundary structure
@@ -274,18 +289,30 @@ domains with the classical graph formulas and DifferentialGeometry's Euclidean d
 theorem. This comparison does not require manifold Stokes to construct the flat theory.
 
 For the bounded region `Ω = TauCeti.filledHull C \ C` of a rectifiable Jordan curve,
-prove finite perimeter and `P(Ω) = H¹(C)`. The proof must establish the boundary normal and
+prove finite perimeter and `P(Ω) = H¹(C)`. Explicitly prove the Jordan index theorem for
+its closed simple AC arclength parametrization: for one sign `σ ∈ {−1,1}`, the existing
+winding number equals `σ` on `Ω` and zero on the unbounded complementary component.
+Identify that sign with orientation and prove its reversal and parametrization laws;
+it is a conclusion, not a supplied hypothesis of Green's theorem.
+The proof must establish the boundary normal and
 measure comparison, using Jordan separation, G1–G5 and the AC boundary-integral identity
-of DifferentialGeometry 5.6, with parametrization transport from G1. Identify the signed
-boundary measure with the arclength tangent rotated to the outward normal. This supplies
+of DifferentialGeometry 5.6, with parametrization transport from G1. With `Jv = I*v`
+and arclength unit tangent `τ`, identify the outward normal as `−σ Jτ` a.e. and the
+corresponding signed boundary measure, so clockwise and counterclockwise curves both
+give the same perimeter. This supplies
 the genuine bridge from the measure-theoretic inequality to arbitrary rectifiable Jordan
 curves; `frontier Ω = C` alone gives no equality of perimeter and curve length.
 
 ## Acceptance examples and completion
 
 Compute derivative measures and perimeter for intervals, balls, boxes, and annuli; include
-the endpoint atoms for a one-dimensional step function and a singular continuous BV
-function. Check complement invariance on the exterior of a ball, an infinite-volume
+the endpoint atoms for a one-dimensional step function. Construct the Cantor–Lebesgue
+function `C` on `[0,1]`, extended constantly outside that interval, from the ternary
+Cantor-set/dyadic-value construction, using
+Mathlib's Cantor set. Prove continuity, monotonicity, `C(0)=0`, `C(1)=1`, variation one,
+and `C'=0` a.e.; its derivative measure is a singular continuous probability measure
+supported on the Cantor set. This is the named singular BV example and the input to
+Isoperimetry's non-AC homeomorphism example. Check complement invariance on the exterior of a ball, an infinite-volume
 finite-perimeter set. Check null modification invariance on a punctured ball and on a
 ball with a null dense subset added outside it; topological frontier and perimeter differ.
 Compute the area formula for a graph and the multiplicity of a twice-traversed circle.
