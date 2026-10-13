@@ -26,7 +26,7 @@ The layers are:
 | R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `DoubleComplex.spectralSequence`, `HochschildSerre.spectralSequence`, transgression as a cup product, descent along open subgroups, Laurent residue sequences |
 | R02.3 | Restricted ramification and the `S`-idele class formation | `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
 | R02.4 | Arithmetic duality and local–global obstruction groups | Tate's duality for class formations, Poitou–Tate duality, `cd_p G_S ≤ 2`, global Euler characteristic, function-field Poitou–Tate, finite compact support, all-place `Ш` duality, Grunwald–Wang, character roots, torus duality |
-| D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor and Matlis duality, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality |
+| D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor comparisons and Matlis duality, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality |
 | R02.5 | Selmer duality and dimension formulas | Greenberg–Wiles formula, change of one local condition, Selmer complex comparison, function-field Greenberg–Wiles |
 | D8 | Cohomological fibres for determinant and coefficient change | trace-zero adjoint duality, first-order cocycle comparison, determinant fibres, Selmer coefficient change |
 | R02.6 | Auxiliary primes and patching numerics | Taylor–Wiles local count, dual-Selmer killing, the group theory of Taylor–Wiles primes, odd and dyadic auxiliary primes, archimedean adjoint dimensions |
@@ -36,8 +36,9 @@ R02.1, R02.2, R02.3, R02.4, D7, R02.5, D8, R02.6 (see *How to read the build*).
 
 ## Scope and ownership
 
-**Owned here.** Inverse limits and `lim¹` of towers and the Milnor sequence for towers of
-complexes; continuous cohomology with compact, lattice, rational and torsion coefficients compared
+**Owned here.** Explicit inverse limits and `lim¹` of abelian-group towers, their shift algebra,
+and the Milnor sequence for degreewise-surjective towers of complexes; continuous cohomology with
+compact, lattice, rational and torsion coefficients compared
 with Mathlib's carrier, Tate's inverse-limit theorem, the long exact sequences that need a
 continuous section, rationalisation and the discrete quotient `V/T`; the pointwise `Hom` with its
 splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
@@ -62,9 +63,10 @@ Poitou–Tate and Euler theorems, finite compact support, all-place `Ш` duality
 adjunction, Grunwald–Wang with its dyadic obstruction (ClassFieldTheory expressly leaves it out),
 character roots and their local Brauer obstructions, totally real base change with prescribed
 local behaviour, Tate's vanishing of `H²(G_K, ℚ/ℤ)`, torus duality and function-field central
-obstructions. The derived coefficient algebra the duality theorems need (derived tensor products
-of complexes of modules with perfect amplitude and Tor, Matlis duality, Grothendieck local duality
-for complete local rings, the derived composite spectral sequence, flatness of adic continuous
+obstructions. The derived coefficient algebra the duality theorems need (perfect amplitude,
+Tor and arithmetic coefficient comparisons for the imported module-derived tensor product,
+the comparison of module-derived limits with the explicit tower API, Matlis duality, Grothendieck
+local duality for complete local rings, the derived composite spectral sequence, flatness of adic continuous
 functions, the Hilbert–Samuel Euler function); admissible coefficients, continuous cochains in the
 derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
 local duality, compactly supported cochains with their cup products and Euler characteristic,
@@ -120,10 +122,16 @@ and Khare–Wintenberger numerics of Layer R02.6.
   `localCohomology_colimit_ext_comparison`), the derived tensor product and internal Hom (§2.18
   *Derived categories of quasi-coherent complexes*, `derivedTensor`, `derivedHom`, of which the
   affine case is used, through `DQCoh.affineEquiv`), and the comparison of étale cohomology of a
-  field with Galois cohomology (§2.15, `etale_galois_comparison`). The K-flat models of complexes of
-  modules that compute the derived tensor product in Mathlib's `DerivedCategory` are built here, in
-  *Derived tensor, perfect amplitude and Tor*.
-- *DerivedDeRhamCohomology* Layer 1: the derived completion reflector `DerivedDeRham.derivedCompletion`
+  field with Galois cohomology (§2.15, `etale_galois_comparison`). The module-derived tensor product
+  uses DerivedDeRhamCohomology §0.2's affine comparison with §2.18.
+- *DerivedDeRhamCohomology* §0.2 owns K-flat resolutions, the module-derived tensor product
+  `DerivedDeRham.derivedTensor`, derived extension of scalars, model independence, exactness and
+  the affine comparison `derivedTensor_affine` with SchemeAndStackFoundations §2.18. D7.1 uses
+  this functor for perfect amplitude, Tor and arithmetic coefficient change. Layer 1 §1.1 owns
+  the general module-derived limit `DerivedDeRham.derivedLimit`; its Milnor proof reuses R02.1.1's
+  shift calculation after a degreewise-surjective replacement. D7.1 owns the comparison
+  `CompactCoefficients.moduleDerivedLimit_compare` with that early explicit tower API.
+  Layer 1 also supplies the derived completion reflector `DerivedDeRham.derivedCompletion`
   (§1.3) and the comparison of derived completion with ordinary completion for complexes with
   finitely generated cohomology over a Noetherian ring (§1.5), used by *Grothendieck local duality
   for a complete Noetherian local ring*.
@@ -345,7 +353,12 @@ as inputs; and Galois representations attached to automorphic forms.
   §2.15 (`etale_galois_comparison`: étale cohomology of a field is Galois cohomology); §2.9
   (`Gm`, the multiplicative group as a sheaf on the big site); the big étale site of a scheme is
   Mathlib's `etaleTopology` on schemes over it, as in its conventions.
-- `DerivedDeRhamCohomology` Layer 1: §1.3 *The derived completion reflector*
+- `DerivedDeRhamCohomology` §0.2 *Derived tensor products on module derived categories*:
+  `DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
+  `derivedTensor_triangulated` and `derivedTensor_affine`. Layer 1: §1.1 *Derived limits of towers*
+  (`DerivedDeRham.derivedLimit`, `derivedLimit_surjective`, `derivedLimit_milnor`), using the
+  R02.1.1 shift/Milnor calculation with the same `CompactCoefficients.Tower.lim` and
+  `CompactCoefficients.Tower.limOne` after forgetting scalars; §1.3 *The derived completion reflector*
   (`DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`); §1.5 *When ordinary quotient
   towers compute completion* (for a Noetherian ring, the derived completion of a complex with finitely
   generated cohomology has the adic completions of its cohomology modules as cohomology).
@@ -511,6 +524,11 @@ Project](https://stacks.math.columbia.edu), More on Algebra, Lemma 15.88.10, tag
 Lemma 15.88.9, tag 07KX). *Needs:* *lim and lim¹ of a tower*; *The six-term sequence of lim and
 lim¹*.
 
+This shift calculation supplies the Milnor proof for DerivedDeRhamCohomology §1.1: replace a
+module-complex tower by a degreewise-surjective one, apply this sequence to its underlying abelian
+groups, and retain the module action on every map. The early tower theory uses no D7 targets;
+*Module-derived limits and the explicit tower API* in D7.1 identifies the resulting sequences.
+
 **Checks.**
 
 - The `lim¹` term is genuinely present: for `K_n = [ℤ → ℤ/pⁿ]` in degrees `0, 1` (reduction map,
@@ -518,6 +536,10 @@ lim¹*.
   while `H¹(K_n) = 0` and `H⁰(K_n) = pⁿℤ` with inclusions, a non-Mittag-Leffler tower with
   `lim¹ ≅ ℤ_p/ℤ`. It vanishes when `(H^{p−1}(K_n))` is Mittag-Leffler (*Mittag-Leffler towers have
   vanishing lim¹*).
+- A constant tower with identity transitions has `K = K_0`; the map
+  `Hᵖ(K) → lim Hᵖ(K_n)` is the diagonal identification and its `lim¹` term vanishes.
+- For the complexes `K_n = ℤ/p^{n+1}[0]` with reduction transitions, `K = ℤ_p[0]` and the
+  sequence in degree zero is `0 → 0 → ℤ_p → ℤ_p → 0`; all other degrees vanish.
 
 ### R02.1.2 Continuous cochains into inverse limits
 
@@ -3580,8 +3602,9 @@ R02.3); ArithmeticGaloisRepresentations Layer 5 (`functionField_chebotarev`).
 
 This layer puts continuous cochains with compact and cofinite coefficients into the derived
 category and proves Nekovář's derived local and global duality. It first develops the coefficient
-algebra this needs: the derived tensor product of complexes of modules with its perfect amplitude
-and Tor spectral sequence, Matlis duality over a complete Noetherian local ring, Grothendieck local
+algebra this needs: perfect amplitude and the Tor spectral sequence for the module-derived tensor
+product supplied by DerivedDeRhamCohomology §0.2, the comparison of its §1.1 derived limits with
+the R02.1.1 tower API, Matlis duality over a complete Noetherian local ring, Grothendieck local
 duality for a normalised dualizing complex, the spectral sequence of a composite of derived
 functors, flatness of continuous functions into an adic ring, and the Hilbert–Samuel Euler
 function. It then defines admissible and ind-admissible coefficients, the derived continuous
@@ -3597,7 +3620,9 @@ statements.
 
 **Derived tensor, perfect amplitude and Tor.** Let `R → R′` be a homomorphism of commutative
 rings. The left-derived tensor functor `R′ ⊗^L_R − : D(R) → D(R′)` between Mathlib's derived
-categories of modules is computed by K-flat complexes and preserves distinguished triangles. Call
+categories of modules is the derived extension of scalars supplied by DerivedDeRhamCohomology
+§0.2, using `DerivedDeRham.derivedTensor` and its K-flat models. Use its exactness and its
+`derivedTensor_affine` comparison with SchemeAndStackFoundations §2.18. Call
 `C ∈ D(R)` perfect with amplitude in `[a, b]` if it is represented by a bounded complex of finite
 projective `R`-modules in degrees `[a, b]`; then `R′ ⊗^L_R C` is represented by the degreewise
 tensor product, again in degrees `[a, b]`. For such `C` there is a convergent spectral sequence
@@ -3612,8 +3637,8 @@ is flat over `R`, and not in general. Convergence is asserted for bounded perfec
 arbitrary unbounded tensor products.
 
 *Proof sketch.* The ordinary Tor is Mathlib's `CategoryTheory.Tor`; compare it with the cohomology
-of tensor products with resolutions. Derive the tensor product on complexes through K-flat models in
-Mathlib's `DerivedCategory`, and prove independence of the model and preservation of triangles. For
+of tensor products with resolutions. Use the supplier's model independence,
+`derivedTensor_flatModel` and `derivedTensor_triangulated` on Mathlib's `DerivedCategory`. For
 a bounded complex of finite projective modules the degreewise tensor product computes the derived
 one. Filtering the total complex of a resolution (Mathlib `HomologicalComplex₂.total`) gives
 `E₂^{−i,j} = Tor_i(R′, H^j(C))`; only finitely many `j` occur, so each total degree has a finite
@@ -3622,10 +3647,12 @@ that of Mathlib's integer-indexed spectral objects, restricted to this bounded s
 *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §1.2, pp. 33–40; §2.1, p.
 51; §4.2, pp. 97–100; [Pottharst, *Analytic families of finite-slope Selmer
 groups*](https://msp.org/ant/2013/7-7/ant-v7-n7-p02-p.pdf), §1, Theorem 1.1, Lemma 1.3 and Theorem
-1.4, pp. 1574–1578.) The K-flat models of complexes of modules are built here; the derived tensor
-product of SchemeAndStackFoundations is the comparison target in the affine case. *Needs:*
-SchemeAndStackFoundations Layer 2, §2.18 *Derived categories of quasi-coherent complexes*
-(`derivedTensor`, `derivedHom`, through `DQCoh.affineEquiv`; the affine case `⊗^L_A`); Mathlib
+1.4, pp. 1574–1578; [Stacks Project](https://stacks.math.columbia.edu/tag/064M),
+More on Algebra, Definition 15.60.13, tag 064M, with Lemma 15.60.12, tag 064L.) *Needs:*
+DerivedDeRhamCohomology §0.2 *Derived tensor products on module derived categories*
+(`DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
+`derivedTensor_triangulated`, `derivedTensor_affine`, including its comparison through
+SchemeAndStackFoundations §2.18 `DQCoh.affineEquiv`); Mathlib
 `DerivedCategory`; Mathlib `HomologicalComplex₂.total`; Mathlib `CategoryTheory.Tor`; Mathlib
 `HomotopyCategory.spectralObjectMappingCone`; Mathlib
 `CategoryTheory.Abelian.SpectralObject.spectralSequence`.
@@ -3637,6 +3664,44 @@ SchemeAndStackFoundations Layer 2, §2.18 *Derived categories of quasi-coherent 
 - For `R = ℤ`, `R′ = ℤ/2` and `C = ℤ/2` in degree `0` (perfect, with amplitude `[−1, 0]`),
   `Tor₁^ℤ(ℤ/2, ℤ/2) = ℤ/2` gives `H^{−1}(ℤ/2 ⊗^L_ℤ ℤ/2) = ℤ/2`, which the underived tensor product
   misses.
+
+**Module-derived limits and the explicit tower API.** Let `R` be a commutative ring and `(K_n)`
+an `ℕ`-indexed tower of cochain complexes of `R`-modules, with `R`-linear transitions. Use
+DerivedDeRhamCohomology §1.1's `DerivedDeRham.derivedLimit`, not a separate module-derived limit.
+For each integer `j`, let `A_j : CompactCoefficients.Tower` be the underlying abelian-group tower
+of `H^j(K_n)`. The comparison `CompactCoefficients.moduleDerivedLimit_compare` gives natural
+additive isomorphisms from the underlying groups of the module `lim H^j(K_n)` and
+`lim¹ H^j(K_n)` to `A_j.lim` and `A_j.limOne`, respectively. They commute with maps of towers,
+the six-term connecting map, and every map in `derivedLimit_milnor`, identifying it with
+
+```text
+0 → A_{j−1}.limOne → H^j(derivedLimit K) → A_j.lim → 0.
+```
+
+For degreewise-surjective transitions, `derivedLimit_surjective` identifies the middle term with
+`H^j(lim K_n)` and the whole sequence with R02.1.1's *The Milnor sequence for towers of complexes*.
+The module `lim` and `lim¹` use the kernel and cokernel of the same `R`-linear shift; their
+underlying additive carriers are `Tower.lim` and `Tower.limOne`, with the induced `R`-action.
+
+*Proof sketch.* Forgetting scalars preserves products, kernels, cokernels and the shift map.
+Its kernel/cokernel identifications give the comparison, and naturality of the snake lemma gives
+compatibility with the connecting map. Apply the early Milnor proof to a degreewise-surjective
+replacement from §1.1; its natural long exact sequence identifies all the Milnor maps. ([Stacks
+Project](https://stacks.math.columbia.edu/tag/091D), More on Algebra, Lemmas 15.89.1, 15.89.3–15.89.4,
+tags 091D, 0CQD, 0CQE; Lemmas 15.88.1, 15.88.9–15.88.10, tags 07KW, 07KX, 07KY.) *Needs:*
+R02.1.1 *lim and lim¹ of a tower*, *The six-term sequence of lim and lim¹* and *The Milnor sequence
+for towers of complexes*; DerivedDeRhamCohomology §1.1 `DerivedDeRham.derivedLimit`,
+`derivedLimit_surjective`, `derivedLimit_milnor`.
+
+**Checks.**
+
+- For the constant module tower `M[0]`, the comparison is the diagonal map on `lim`, `lim¹ = 0`,
+  and the Milnor projection in degree zero is the identity of `M`.
+- Over `ℤ`, for `K_n = [ℤ → ℤ/p^{n+1}]` in degrees `0, 1`, the comparison sends the Milnor
+  injection `lim¹ p^{n+1}ℤ → H¹([ℤ → ℤ_p])` to the explicit `ℤ_p/ℤ` identification in R02.1.1.
+- For `K_n = ℤ[0]` with transition multiplication by a prime `p`, the comparison gives
+  `H⁰(derivedLimit K) = 0` and `H¹(derivedLimit K) = (mulTower p).limOne ≅ ℤ_p/ℤ ≠ 0`;
+  this tower has no surjective transitions, so its ordinary limit does not compute its derived limit.
 
 **Matlis duality for arithmetic coefficients.** Let `R` be a complete Noetherian local ring with
 maximal ideal `𝔪` and finite residue field `k`, and fix an injective hull `E_R(k)` of `k`: an
@@ -4882,7 +4947,8 @@ ClassFieldTheory Layer 5.
   `NormalizedDualizing`); §2.7 *Cohomology with supports and local cohomology*; §2.9 (`Gm`); §2.15
   (`etale_galois_comparison`); §2.18 *Derived categories of quasi-coherent complexes*
   (`derivedTensor`, `derivedHom`; the affine case `⊗^L_A`).
-- DerivedDeRhamCohomology: Layer 1, §1.3 *The derived completion reflector*; §1.5 *When ordinary
+- DerivedDeRhamCohomology: §0.2 *Derived tensor products on module derived categories*; Layer 1,
+  §1.1 *Derived limits of towers*; §1.3 *The derived completion reflector*; §1.5 *When ordinary
   quotient towers compute completion*.
 - TauCetiRoadmap ProfiniteCohomology: Layers 4, 7, 10, 12.
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7.

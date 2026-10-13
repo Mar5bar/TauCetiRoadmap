@@ -440,7 +440,8 @@ complex place. -/
 def archFactor (isComplex : Bool) (h0 m : ℕ) : ℚ :=
   (h0 : ℚ) / (if isComplex then (m : ℚ) ^ 2 else m)
 
-/-- At a real place with `M = ℤ/2` the factor is `1`: ordinary invariants, not Tate's `Ĥ⁰ = 0`. -/
+/-- At a real place with trivial action on `M = ℤ/2`, the ordinary invariants have order `2`
+and the archimedean factor is `1`; Tate's `Ĥ⁰` is also `ℤ/2`. -/
 example : archFactor false 2 2 = 1 := by norm_num [archFactor]
 
 /-- At a complex place with `M = ℤ/2` the factor is `1/2`. -/
@@ -627,7 +628,8 @@ end Adjoint
 ## Targets stated only in README.md
 
 The following targets need carriers that the pinned libraries do not have, and are stated only in
-the README: the Milnor sequence and Tate's inverse-limit theorem; rationalisation and the
+the README: the Milnor sequence, the comparison of module-derived limits with the explicit tower
+API, and Tate's inverse-limit theorem; rationalisation and the
 discrete quotient `V/T`; the splitting class and its cup-product formula; the conjugation action,
 evaluation cup product and `H¹` comparison of the continuous `Hom` from a profinite source (its
 discreteness is `discreteTopology_continuousAddMonoidHom` above); continuous factor-set
@@ -646,7 +648,8 @@ and the nine-term sequence, global finiteness, cohomological dimension, `H²` su
 high-degree cohomology of the units, the Euler characteristic with real places, the decomposition
 map, all-place `Ш` duality, Grunwald–Wang with its dyadic obstruction, character roots, Tate's
 vanishing of `H²(G_K, ℚ/ℤ)`, torus duality, the function-field Poitou–Tate theorem and central
-obstructions, and totally real local base change; derived tensor, Matlis duality, the derived
+obstructions, and totally real local base change; perfect amplitude and Tor for the module-derived
+tensor supplied by DerivedDeRhamCohomology §0.2, Matlis duality, the derived
 composite spectral sequence, adic continuous-map flatness, the Hilbert–Samuel Euler function,
 the dualizing complex and local duality for complete local rings, continuous cochains in the
 derived category, the local and global invariant trivialisations, derived local and global
@@ -661,7 +664,8 @@ twists.
 The README names the following definitions and API of those targets, which are therefore not
 declared here.
 
-* `CompactCoefficients`: `homPt_equiv_internalHom`, `sections_nonempty_iff`, `splittingClass`,
+* `CompactCoefficients`: `moduleDerivedLimit_compare`, `homPt_equiv_internalHom`,
+  `sections_nonempty_iff`, `splittingClass`,
   `splittingClass_eq_zero_iff`, `pointwiseHomRepresentation`, `pointwiseHomRepresentation_apply`,
   `continuousHomRepresentation`, `continuousHomCup`, `h1Equiv_continuousHom`, `factorSetClass`,
   `factorSetClass_rescale`, `factorSetClass_eq_extensionClass`, `factorSetClass_eq_zero_iff`.
