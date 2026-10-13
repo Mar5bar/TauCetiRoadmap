@@ -541,6 +541,27 @@ end Approximation
 
 /-! ## Layer 7: space Picard, Artin representability and arithmetic coefficients -/
 
+namespace CoherentModuleChecks
+
+variable (R : Type u) [CommRing R] (t : R)
+
+/-- `CoherentModuleChecks.movingSectionsHom`: maps between the two section modules over `R[x]`
+correspond to multipliers annihilated by the image `t` of the base parameter. -/
+example : Nonempty
+    (((Polynomial R ⧸ Ideal.span {(Polynomial.X : Polynomial R)}) →ₗ[Polynomial R]
+      (Polynomial R ⧸ Ideal.span {Polynomial.X - Polynomial.C t})) ≃
+      {b : R // t * b = 0}) := sorry
+
+/-- `CoherentModuleChecks.movingSectionsIsom`: isomorphisms between the two section modules
+correspond to unit multipliers annihilated by `t`, so they exist exactly over the fibre `t = 0`.
+The parameter ring of this functor is `k[t,z,z⁻¹]/(t)`. -/
+example : Nonempty
+    (((Polynomial R ⧸ Ideal.span {(Polynomial.X : Polynomial R)}) ≃ₗ[Polynomial R]
+      (Polynomial R ⧸ Ideal.span {Polynomial.X - Polynomial.C t})) ≃
+      {b : Rˣ // t * (b : R) = 0}) := sorry
+
+end CoherentModuleChecks
+
 namespace ArtinCriteria
 
 open CategoryTheory.Limits

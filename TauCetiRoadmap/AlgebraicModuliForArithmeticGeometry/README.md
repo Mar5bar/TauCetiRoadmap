@@ -100,8 +100,14 @@ duality (§§2.18–2.21), Picard groupoids, Picard torsors and Picard stacks of
 formal geometry (§§4.2–4.10), generic flatness and Chow's lemma (§4.12), Hilbert and Quot schemes
 and the Hom and Isom schemes of projective flat families (`hilbert_quot_schemes`, §4.14, which owns
 the regularity bound and Grassmannian embedding inside its proof and imports nothing from this
-roadmap), strict normal crossings divisors (§4.17), and Chern classes and the projective bundle of a
-locally free sheaf in the lines convention (§§5.3–5.4). StableReduction supplies relative Proj of a
+roadmap). Its named export `hilbert_quot_schemes`, including the projective representing scheme
+and universal quotient, supplies §1.5's `uniformQuotientRegularity`: that specialization extracts
+a bound from the universal family by relative Serre vanishing and identifies it with
+`ProjectiveBundles.IsCMRegular`. The kernel, extension-field and finite-polynomial clauses are
+consequences proved here; the hyperplane induction remains part of the supplier's Quot construction.
+The same supplier provides strict normal crossings divisors (§4.17), Chern classes and the
+projective bundle of a locally free sheaf in the lines convention (§§5.3–5.4).
+StableReduction supplies relative Proj of a
 finitely generated graded algebra, relative ampleness, coherent cohomology and base change (Layer
 2) and blowups with their affine charts and strict transforms (Layer 4). AlgebraicVectorBundles
 supplies module sheaves, finite locally free sheaves, symmetric and exterior powers and
@@ -122,7 +128,8 @@ analytification (C0), Cartan's theorem B (`cartanTheoremB`, C1.5), Cartan–Serr
 the projective Leray cover and analytic twisting sheaves with their cohomology
 (`projectiveLerayCover`, `AnalyticTwist`, `analyticTwistCohomology`, C1.7), Serre's analytic
 generation, vanishing and twist presentations (`analyticSerreGeneration`, `analyticSerreVanishing`,
-`twistPresentations`, C1.8), and the divisorial log structure and logarithmic de Rham complex
+`twistPresentations`, C1.8), the quasi-coherator on `spaceDQCoh`
+(`spaceQuasiCoherator`, C3.2), and the divisorial log structure and logarithmic de Rham complex
 (`DivisorialLog`, `LogDeRham`, C5.5).
 
 Not in this roadmap: generalized elliptic curves and their level structures belong to
@@ -134,8 +141,11 @@ stages listed above are used here, in the target-level order: §7.10.1 and
 `completedAnalyticStalkComparison` (here) → C0–C1 (ComplexComparisonPartII) →
 `projectiveComplexGaga`, `properSchemeGagaPushforward`, `properSchemeGagaEquivalence` and
 `properSpaceComplexGaga` (here, §7.10.3) → C2–C4 and derived GAGA C3.3 (ComplexComparisonPartII);
+§7.7 `spaceDQCoh`/`spacePerfect` (here) → C3.2 `spaceQuasiCoherator`
+(ComplexComparisonPartII) → `spaceDerivedLimits`/`strongProperSupportExistence` (here);
 and §9.5 (here) → C5.5 `DivisorialLog`, `LogDeRham` (ComplexComparisonPartII) → §9.10 (here).
-Neither C0–C1 nor C5.5 uses a target of this roadmap that consumes them.
+C3.2 uses neither proper GAGA nor `cohStack_algebraic`; neither C0–C1 nor C5.5 uses a target
+of this roadmap that consumes them.
 
 ## Conventions
 
@@ -250,7 +260,7 @@ AnalyticToricGeometry (smooth toric charts). The specific uses:
 
 From roadmaps not yet merged, cited by name and section: SchemeAndStackFoundations (the sections
 listed under scope), ReductiveGroupsPartII RG2.0a.1, AdicSpacesPartII R1.3, AdicSpacesPartIII
-F0.5–F0.7 and R3.7, and ComplexComparisonPartII C0, C1.5–C1.8 and C5.5 (the declarations listed
+F0.5–F0.7 and R3.7, and ComplexComparisonPartII C0, C1.5–C1.8, C3.2 and C5.5 (the declarations listed
 under scope). Where a statement here needs one of their carriers, the README states it and the Lean
 does not.
 
@@ -276,8 +286,11 @@ composition and inverse; the polarized Isom of §7.6.3 builds on it, not the rev
 auxiliary carriers of §§4.9–4.21 (Isom torsors, banded transformations, pullback and Hom sheaves,
 object descent, fibre Hom sheaves and their transport, `CoherentInverse`) are built before the
 theorems of §§4.2–4.3 that cite them. In Layer 7, §7.7 (ringed small étale sites,
-`SpaceInvertibleModule`, `spaceDQCoh`, `spacePerfect`) comes first; then the Artin criteria of
-§7.1, perfect pushforward and rank loci (§7.2) and proper-space formal existence (§7.8); then the
+`SpaceInvertibleModule`, `spaceDQCoh`, `spacePerfect`) comes first, followed by
+ComplexComparisonPartII C3.2's `spaceQuasiCoherator` and §7.7's `spaceDerivedLimits`;
+then the Artin criteria of §7.1, perfect pushforward and rank loci (§7.2),
+`perfectInverseSystemEffectivity` (§7.3) and proper-space formal existence (§7.8); then
+`strongProperSupportExistence`, `coherentModuleHom` and `coherentModuleIsom` (§7.3); then the
 coherent-sheaf and Picard stacks of §7.3 and the Picard components of §§7.6 and 7.9. Complex
 analytification runs §7.10.1 → `completedAnalyticStalkComparison` → ComplexComparisonPartII C0–C1 →
 the GAGA theorems of §7.10.3. In Layer 9, the SNC charts of §9.5 precede ComplexComparisonPartII
@@ -730,15 +743,21 @@ The API gives `ProjectiveBundles.IsCMRegular.monotone`: m-regular implies r-regu
 - `RegularityTests.zero`: The zero sheaf is m-regular for every integer m.
 - `RegularityTests.pointSpace`: on P⁰_k every coherent sheaf is m-regular for every m, since there is no higher cohomology.
 
-Prove `uniformQuotientRegularity`. Fix a field k, a coherent E on Pⁿ_k and a numerical polynomial P. There is an integer m₀ such that every quotient E_K→F on Pⁿ_K with Hilbert polynomial P, over every extension field K/k, has both F and its kernel m₀-regular. The same statement holds for a finite set of polynomials with a common maximum. There is no analogous uniform bound for arbitrary coherent sheaves with fixed P and no fixed quotient ambient E.
+Prove `uniformQuotientRegularity` as the regularity specialization of SchemeAndStackFoundations §4.14's `hilbert_quot_schemes`. Fix a field k, a coherent E on Pⁿ_k and a numerical polynomial P. There is an integer m₀ such that every quotient E_K→F on Pⁿ_K with Hilbert polynomial P, over every extension field K/k, has both F and its kernel m₀-regular in the sense of `ProjectiveBundles.IsCMRegular`. The same statement holds for a finite set of polynomials with a common maximum. There is no analogous uniform bound for arbitrary coherent sheaves with fixed P and no fixed quotient ambient E.
 
 Here Fixed E and P; coherent quotient and kernel; no characteristic-zero hypothesis.
 
-([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, where the auxiliary index is m₂ = m₁ + h¹(J(m₁)) + 1; [Jarod Alper](https://sites.math.washington.edu/~jarod/moduli-versions/moduli-8-19-24.pdf), §1.3, Theorem 1.3.8 proof, pp.57–58, where the bound on h¹ is p·binom(n+t,n) − P_J(t)).
+([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, where the auxiliary index is m₂ = m₁ + h¹(J(m₁)) + 1; §3, Theorem 3.7, pp.16–17, and §5, Theorem 5.1, p.24, for cohomological base change and projective Quot; [Jarod Alper](https://sites.math.washington.edu/~jarod/moduli-versions/moduli-8-19-24.pdf), §1.3, Theorem 1.3.8 proof, pp.57–58, where the bound on h¹ is p·binom(n+t,n) − P_J(t)).
 
-For the proof, choose a fixed surjection O(-b)^p→E using Serre A. For a quotient F, its kernel J inside O(-b)^p has fixed polynomial p P_O(-b)−P; then apply the hyperplane induction of Nitsure Theorem 2.3 to J(b)⊂O^p. For t beyond the restriction bound, all H^i(J(t)) with i≥2 vanish and h¹(J(t)) strictly decreases while nonzero. Bound h¹ by p binomial(n+t,n)−P_J(t), with the minus sign; then use the corrected index m₂=m₁+h¹(J(m₁))+1 to obtain regularity, then the exact sequences for J, F, and the fixed kernel of O(-b)^p→E. Take a maximum for a finite set of polynomials.
+Use the projective k-scheme Q = Quot^P_E and its universal quotient E_Q→U supplied by `hilbert_quot_schemes`; Q is Noetherian and quasi-compact. Both U and its coherent kernel J are Q-flat, since E_Q is Q-flat and U is Q-flat. Apply `relativeSerre` and coherent cohomology and base change to U and J over Q. If all their fibre twists r≥b have vanishing positive cohomology, m₀=b+n makes H^i(F(m₀−i)) and H^i(ker(E_K→F)(m₀−i)) vanish for 1≤i≤n; higher degrees vanish by dimension. This is the defining condition of `ProjectiveBundles.IsCMRegular`. Every extension-field quotient is a K-point of the same Q, so the bound is independent of K. An empty Q imposes no condition; take a maximum for finitely many P. These consequences and the comparison with our regularity predicate are proved here using the supplier's representing scheme and universal family.
 
-*Needs:* `cmRegularity`, `hilbertPolynomial`, `serreGeneration`.
+*Needs:* SchemeAndStackFoundations §4.14 (`hilbert_quot_schemes`, projective Quot and universal quotient), `cmRegularity`, `hilbertPolynomial`, `relativeSerre`, JacobianChallenge Layer C, StableReduction Layer 2.
+
+**Checks.**
+
+- `UniformRegularityChecks.kernel`: for E=O on P¹ and quotient O→O_Z with Z of length d≥1, the kernel O(−d) requires m₀≥d although O_Z is m-regular for every m.
+- `UniformRegularityChecks.extensionField`: for d≥1 every degree-d quotient of O on P¹_K, for every extension K/k, is represented by the same projective k-scheme Quot^d_O and admits the common bound d.
+- `UniformRegularityChecks.finitePolynomials`: for d≥1 and the polynomials {0,d} with E=O on P¹, m₀=d handles both the zero quotient with kernel O and the length-d quotients with kernel O(−d).
 
 Prove `familyRegularity`. For a coherent S-flat F on Pⁿ_S with S Noetherian, there is m₀ such that every geometric fibre F_s is m₀-regular. For m≥m₀, higher direct images vanish, π_*F(m) is finite locally free and commutes with arbitrary base change, evaluation is surjective, and multiplication π_*F(m)⊗π_*O(1)→π_*F(m+1) is surjective. A fixed coherent E on Pⁿ_S and fixed fibre polynomial P give a uniform regularity bound for all coherent quotients of E_s on geometric fibres, also without assuming E is flat.
 
@@ -746,9 +765,9 @@ Here Noetherian base for a global finite bound; flat F for locally free pushforw
 
 ([Nitin Nitsure](https://arxiv.org/pdf/math/0504590), §2, Theorem 2.3 and proof, pp.11–13, where the auxiliary index is m₂ = m₁ + h¹(J(m₁)) + 1; [Alexander Grothendieck](https://www.numdam.org/item/SB_1960-1961__6__249_0.pdf), §2, Theorem 2.1 corrected by the 1962 erratum, exposé p.6 and erratum p.302).
 
-For the proof, on a finite affine base cover, Serre A gives a fixed O(-b)^p surjection onto E. Family Hilbert polynomials are finite; apply the free-subsheaf bounds to the kernels using those finitely many polynomials and take a maximum; then apply this to F and use the coherent cohomology and base change theorem of StableReduction Layer 2: fibrewise higher vanishing yields finite locally free high pushforward and arbitrary base change. Surjectivity of evaluation and multiplication follows fibrewise, then by Nakayama.
+For F, apply `relativeSerre` and coherent cohomology and base change over the quasi-compact Noetherian base, then increase the twist bound by n to obtain fibrewise regularity. For quotients of E_s with polynomial P, apply the same argument to the flat universal quotient on the relative projective Quot^P_E of SchemeAndStackFoundations §4.14; its parameter scheme is Noetherian and quasi-compact even when E is not flat. Its field-fibre specialization is `uniformQuotientRegularity`. Fibrewise higher vanishing gives finite locally free high pushforward and arbitrary base change by StableReduction Layer 2. Surjectivity of evaluation and multiplication follows fibrewise from `cmRegularity`, then by Nakayama.
 
-*Needs:* `uniformQuotientRegularity`, `familyHilbertPolynomials`, `cmRegularity`, `relativeSerre`, JacobianChallenge Layer C, StableReduction Layer 2.
+*Needs:* `uniformQuotientRegularity`, `familyHilbertPolynomials`, `cmRegularity`, `relativeSerre`, SchemeAndStackFoundations §4.14 (`hilbert_quot_schemes`), JacobianChallenge Layer C, StableReduction Layer 2.
 
 ### 1.5a Hilbert functions
 
@@ -7367,10 +7386,6 @@ variable {D : Type*} [Category D]
 
 variable {E : Type*} [Category E]
 
-variable (hComm : ∀ (V : C) (z : F.obj (.mk (op V))),
-
-include hComm
-
 noncomputable def conjugateDescentIso
     (hComm : ∀ (V : C) (z : F.obj (.mk (op V))), ∀ a b : Aut z, a * b = b * a)
     {U : C} (R : Sieve U)
@@ -7408,11 +7423,7 @@ variable {C : Type u} [Category.{v} C]
 
 variable (F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'})
 
-variable (hComm : ∀ (V : C) (z : F.obj (.mk (op V))),
-
 variable (J : GrothendieckTopology C) [F.IsPrestack J]
-
-include hComm
 
 noncomputable def conjugateCoverEquiv
     (hComm : ∀ (V : C) (z : F.obj (.mk (op V))), ∀ a b : Aut z, a * b = b * a)
@@ -8903,21 +8914,67 @@ For the proof, proper support makes F universally pure: an associated point of a
 - `FlatteningChecks.point`: for Y = Spec k[t], X = Y and F = k[t]/(t), F_T = O_T/tO_T is flat exactly when V(t) is open and closed in T, so the universal flattening is Spec k ⊔ (Y ∖ {0}) → Y. It is a bijective monomorphism of finite presentation but not an immersion; neither the closed point nor the open complement alone represents the functor.
 - `FlatteningChecks.baseChange`: in the same example, base change to the closed point Spec k → Y gives the identity of Spec k, as F becomes free of rank one there; formation commutes with base change.
 
+Prove `perfectInverseSystemEffectivity`. Let A=lim A_n for an inverse sequence of rings with surjective transitions A_(n+1)→A_n whose kernels are locally nilpotent. Let M_n be perfect complexes in D(A_n), with maps M_(n+1)→M_n in D(A_(n+1)) inducing the specified isomorphisms M_(n+1)⊗ᴸ_(A_(n+1))A_n→M_n. Then M=R lim M_n, with the terms restricted to D(A), is perfect, and the canonical maps M⊗ᴸ_A A_n→M_n are isomorphisms for all n. Its projections and comparison maps retain the transition maps of the given tower.
+
+Here every M_n is perfect; ordinary tensor compatibility of cohomology modules does not replace derived compatibility. Locally nilpotent transition kernels need not be nilpotent.
+
+([Stacks](https://stacks.math.columbia.edu/tag/0CQG), Lemma 15.99.3, the alternative with every finite-stage complex perfect.)
+
+*Needs:* SchemeAndStackFoundations §2.18 (derived module categories and derived tensor); Mathlib's derived category and ring inverse limits. This is the ring-complex effectivity input to `strongProperSupportExistence`, independent of the quasi-coherator construction.
+
+Construct products in D(A) using exact products of A-modules, and form the derived limit as the homotopy fibre of 1−shift on the product of the restricted complexes. The effectivity theorem identifies this construction with a perfect complex and its specified reductions.
+
+**Checks.**
+
+- `PerfectLimitChecks.constant`: a constant ring and perfect complex with identity transitions are recovered by their derived limit.
+- `PerfectLimitChecks.adic`: for A_n=k[t]/(t^n) and M_n=A_n in degree zero, the limit is k[[t]] in degree zero and its derived reductions recover M_n.
+- `PerfectLimitChecks.locallyNilpotent`: let B=k[x₁,x₂,…]/(x_i² : i≥1) and I=(x₁,x₂,…). I is locally nilpotent but I^r≠0 for every r. The tower A₁=B/I=k, A_n=B for n≥2, with M_n=A_n, satisfies the hypotheses and has limit B; globally nilpotent kernels would exclude it.
+
 Prove `strongProperSupportExistence`. Let (A_n) be an inverse system of rings with surjective transition maps whose kernels are locally nilpotent, A = lim A_n, and X a separated algebraic space of finite presentation over A, with X_n = X ×_A A_n. Let F_n be finitely presented O_{X_n}-modules, flat over A_n with support proper over A_n, with isomorphisms F_n ⊗ O_{X_(n−1)} ≅ F_(n−1). Then there is a finitely presented O_X-module F, flat over A with support proper over A, with F ⊗ O_{X_n} ≅ F_n compatibly with the given isomorphisms.
 
 Here arbitrary rings A_n with locally nilpotent kernels; A need not be Noetherian, local or complete; X separated of finite presentation; proper support at every level.
 
 ([Stacks](https://stacks.math.columbia.edu/tag/0CXB), Theorem 77.12.8, with Situation 77.12.1 (tag 0CX4) and Lemmas 77.12.2–77.12.7 (tags 0CX5–0CXA); [Stacks](https://stacks.math.columbia.edu/tag/0CTJ), Lemma 38.28.8).
 
-For the proof, in order: (1) set K = R lim F_n in the quasi-coherent derived category `spaceDQCoh X`; it is bounded with cohomology in degrees at least zero; (2) for every perfect E on X, `perfect_proper_pushforward` applied on X_n to E|_{X_n} and the flat module F_n with proper support makes RΓ(X_n, F_n ⊗ᴸ E) perfect over A_n with base change along A_(n+1) → A_n, so RΓ(X, K ⊗ᴸ E) and RHom(E, K) are perfect over A with RΓ(X, K ⊗ᴸ E) ⊗ᴸ_A A_n ≅ RΓ(X_n, F_n ⊗ᴸ E); (3) hence K is pseudo-coherent relative to A, and for every quasi-compact étale U → X one has RΓ(U, K) ⊗ᴸ_A A_n ≅ RΓ(U_n, F_n), by writing RΓ(U, −) as a homotopy colimit of RΓ(X, − ⊗ᴸ E_m) for perfect E_m (Stacks, Lemmas 75.25.7 and 75.27.3, and More on Morphisms of Spaces, Lemma 76.51.4); (4) there is an open W ⊂ X containing all points over Spec A_1 on which K is H⁰(K), finitely presented and restricting to every F_n, and after shrinking W its support is proper over A; (5) by `universalFlatteningProperSupport` the universal flattening of H⁰(K)|_W is a monomorphism of finite presentation through which every Spec A_n → Spec A factors, so it is all of Spec A by Lemma 38.28.8 and F = H⁰(K)|_W is flat; (6) its proper support makes the extension by zero to X the required module. The perfect objects in (2) are test complexes E; the modules F_n themselves need not be perfect.
+For the proof, in order: (1) push each F_n forward along the closed immersion X_n→X and form K = RQ_X(R lim F_n in D(O_X)), using ComplexComparisonPartII C3.2's `spaceQuasiCoherator`. By `spaceDerivedLimits` this is the limit in `spaceDQCoh X`, bounded with cohomology in degrees at least zero; the ambient limit is not assumed quasi-coherent. (2) For every perfect E on X, `perfect_proper_pushforward` on X_n gives perfect M_n=RΓ(X_n,F_n⊗ᴸE|_(X_n)) with the derived transition isomorphisms M_(n+1)⊗ᴸ_(A_(n+1))A_n≅M_n. Apply `perfectInverseSystemEffectivity` to obtain a perfect limit and its canonical derived reductions. The perfect-test comparison of `spaceDerivedLimits` identifies this limit with RΓ(X,K⊗ᴸE); applying it to E^∨ identifies RHom_X(E,K) as well. (3) Hence K is pseudo-coherent relative to A, and for every quasi-compact étale U→X one has RΓ(U,K)⊗ᴸ_A A_n≅RΓ(U_n,F_n), by writing RΓ(U,−) as a homotopy colimit of RΓ(X,−⊗ᴸE_m) for perfect E_m (Stacks, Lemmas 75.25.7 and 75.27.3, and More on Morphisms of Spaces, Lemma 76.51.4). (4) There is an open W⊂X containing all points over Spec A_1 on which K is H⁰(K), finitely presented and restricting to every F_n, and after shrinking W its support is proper over A. (5) By `universalFlatteningProperSupport` the universal flattening of H⁰(K)|_W is a monomorphism of finite presentation through which every Spec A_n→Spec A factors, so it is all of Spec A by Lemma 38.28.8 and F=H⁰(K)|_W is flat. (6) Its proper support makes extension by zero to X the required module. The perfect objects in (2) are test complexes E; the modules F_n themselves need not be perfect.
 
-*Needs:* `perfect_proper_pushforward`, `universalFlatteningProperSupport`, `spaceDQCoh`, `spacePerfect`, SchemeAndStackFoundations §2.18, SchemeAndStackFoundations Layer 1.
+*Needs:* `perfect_proper_pushforward`, `perfectInverseSystemEffectivity`, `universalFlatteningProperSupport`, `spaceDerivedLimits`, `spaceDQCoh`, `spacePerfect`, ComplexComparisonPartII C3.2 (`spaceQuasiCoherator`), SchemeAndStackFoundations §2.18, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
 - `StrongExistenceChecks.constant`: for the constant system A_n = A with identity transitions, F = F_1.
 - `StrongExistenceChecks.adic`: for a complete Noetherian local A and A_n = A/m^n, the theorem gives on objects the effectivity of compatible proper-support towers of `properSpaceCompletionEquivalence`; morphisms are not part of this statement.
 - `StrongExistenceChecks.properSupport`: over A = k[[t]] with A_n = k[t]/(t^n) and X = A¹_A, the module O_X/(tx − 1) restricts to zero on every X_n, as does 0; only 0 has proper support, so the output is determined only among modules with proper support.
+
+Prove `coherentModuleHom`. Let f:X→B be a morphism of finite presentation of algebraic spaces, F a finitely presented quasi-coherent O_X-module, and G a finitely presented quasi-coherent O_X-module, flat over B with support proper over B. The functor on schemes over B sending T to Hom_(O_(X_T))(F_T,G_T) is represented by an algebraic space affine and of finite presentation over B. Its API `coherentModuleHom.evaluation` gives the universal module homomorphism on X×_B Hom(F,G); `coherentModuleHom.composition` represents composition whenever the three Hom functors satisfy these hypotheses; `coherentModuleHom.baseChange` identifies Hom(F,G)×_B B′ with Hom(F_(B′),G_(B′)) for every algebraic-space base change B′→B, respecting evaluation and composition. F need not be B-flat or have proper support. The representing space is not asserted flat over B.
+
+Here modules use `spaceQuasicoherentModules` on the ringed small étale site, with pullback defining F_T and G_T. This Hom functor concerns module maps, distinct from Layer 2's Hom schemes of schemes.
+
+([Stacks](https://stacks.math.columbia.edu/tag/08K6), Proposition 99.3.10; Situation 99.3.1, tag 08JT, and Remark 99.3.4 for the base-change functor.)
+
+*Needs:* `spaceQuasicoherentModules`, `spaceFpqcQuasicoherentDescent`, SchemeAndStackFoundations §0.9 (Noetherian approximation and finite-presentation limits), SchemeAndStackFoundations Layer 1 (affine morphisms, étale descent of algebraic spaces). The affine representability construction for module Hom is a target here.
+
+**Checks.**
+
+- `CoherentModuleChecks.movingSectionsHom`: for B=Spec k[t], X=Spec k[t,x], F=O_X/(x) and G=O_X/(x−t), both supports are sections and both modules are B-flat. On a k[t]-algebra R, every map is multiplication by b∈R with tb=0, so Hom(F,G)=Spec k[t,z]/(tz). This is the polynomial-module example in `Suggested.lean`.
+- `CoherentModuleChecks.specialFibre`: in that example f_*Hom_X(F,G)=0 on B, while at t=0 the representing Hom fibre is A¹_k. Its coordinate ring has t-torsion, so it is not B-flat; pulling back the single module f_*Hom_X(F,G) would give the wrong functor.
+- `CoherentModuleChecks.nonflatSource`: for X=B=Spec k[t], F=O_B/(t) and G=O_B, the same space Spec k[t,z]/(tz) represents Hom. The source F is not B-flat and imposes no proper-support condition in the Hom theorem.
+
+Prove `coherentModuleIsom`. Under the hypotheses of `coherentModuleHom`, suppose also that F is B-flat with support proper over B. Represent Isom_(O_(X_T))(F_T,G_T) by the fibre over (id_F,id_G) of
+Hom(F,G)×_B Hom(G,F)→Hom(F,F)×_B Hom(G,G), sending (u,v) to (v∘u,u∘v).
+The identity section is a closed immersion of finite presentation, because both endomorphism spaces are affine and of finite presentation. Thus Isom(F,G) is affine of finite presentation over B. Evaluation, composition, identities and inversion represent the corresponding module operations, and arbitrary base change preserves the construction. The base change of the relative diagonal of Coh_{X/B} by the pair of families (F,G) on T is exactly this Isom space over T.
+
+Here f is of finite presentation, and both F and G are finitely presented, B-flat and have proper support; no algebraicity of Coh is an input to this construction.
+
+([Stacks](https://stacks.math.columbia.edu/tag/08K9), Proposition 99.4.3; [Stacks](https://stacks.math.columbia.edu/tag/08W6), Lemma 99.5.3; [Stacks](https://stacks.math.columbia.edu/tag/0DLY), Lemma 108.4.1.)
+
+*Needs:* `coherentModuleHom` with evaluation, composition and base change; SchemeAndStackFoundations Layer 1 (finite-presentation closed sections and fibre products).
+
+**Checks.**
+
+- `CoherentModuleChecks.movingSectionsIsom`: for the two section modules above, a map is invertible exactly when its multiplier b is a unit and tb=0. Thus Isom(F,G)=Spec k[t,z,z⁻¹]/(t), empty away from t=0 and G_m over t=0. The polynomial-module equivalence in `Suggested.lean` retains the unit condition.
+- `CoherentModuleChecks.line`: for X=B and F=G=O_B, Hom(F,G)=A¹_B and the two-composite identity fibre is G_m,B, the diagonal fibre of the rank-one component of Coh_{B/B}.
+- `CoherentModuleChecks.zero`: Isom(0,0)=B with its unique identity; Isom(0,O_B) is empty over a nonempty base. The rank-zero component of Coh retains this identity arrow.
 
 Prove `cohStack_algebraic`. Let f : X → B be a separated morphism of finite presentation between
 algebraic spaces. The stack Coh_{X/B} over B, whose fibre over T → B is the groupoid of finitely
@@ -8929,9 +8986,9 @@ Here f separated and of finite presentation; B an arbitrary algebraic space; mod
 
 ([Stacks](https://stacks.math.columbia.edu/tag/09DS), Theorem 99.6.1 and proof, tag 09DS; the flat case is Section 99.5, Lemmas 99.5.3–99.5.10, tags 08W6, 08KC, 08KD, 08LQ, 08W8, 08W9; [Stacks](https://stacks.math.columbia.edu/tag/0DLZ), Lemma 108.4.2).
 
-For the proof, in order: (1) by `cohStackFiniteTypeModel` it suffices to treat B = S = Spec Λ with Λ of finite type over ℤ, so S is Noetherian and its local rings are G-rings (SchemeAndStackFoundations §0.21); (2) verify the hypotheses of `artin_stack_criterion` (§7.1): Coh is a stack by fpqc descent of quasi-coherent modules (`spaceFpqcQuasicoherentDescent`), which preserves finite presentation, flatness and properness of support; its diagonal is representable by algebraic spaces through the Isom functors of flat modules with proper support; it is limit preserving because finitely presented flat modules with proper support spread out; it has RS* because flat modules glue along the pushout of a thickening and an affine morphism; and at a finite-type field point its tangent and infinitesimal-automorphism spaces are Ext¹ and Hom of the module, finite dimensional by proper support; (3) effectivity of formal objects over complete Noetherian local rings with finite-type residue field is `properSpaceCompletionEquivalence` (§7.8); (4) openness of versality is `openness_of_versality_strongEffective` (§7.1), whose strong effectiveness hypothesis is `strongProperSupportExistence`. Quasi-separatedness and local finite presentation over B follow from the affine finitely presented diagonal and limit preservation. Openness of versality is not obtained from an obstruction complex of the module: `perfect_proper_pushforward` needs a perfect first argument, and the module k on Spec k[ε]/(ε²) is not perfect.
+For the proof, in order: (1) by `cohStackFiniteTypeModel` it suffices to treat B = S = Spec Λ with Λ of finite type over ℤ, so S is Noetherian and its local rings are G-rings (SchemeAndStackFoundations §0.21); (2) verify the hypotheses of `artin_stack_criterion` (§7.1): Coh is a stack by fpqc descent of quasi-coherent modules (`spaceFpqcQuasicoherentDescent`), which preserves finite presentation, flatness and properness of support; `coherentModuleIsom`, constructed from `coherentModuleHom`, identifies every base change of its relative diagonal and makes that diagonal affine of finite presentation; it is limit preserving because finitely presented flat modules with proper support spread out; it has RS* because flat modules glue along the pushout of a thickening and an affine morphism; and at a finite-type field point its tangent and infinitesimal-automorphism spaces are Ext¹ and Hom of the module, finite dimensional by proper support; (3) effectivity of formal objects over complete Noetherian local rings with finite-type residue field is `properSpaceCompletionEquivalence` (§7.8); (4) openness of versality is `openness_of_versality_strongEffective` (§7.1), whose strong effectiveness hypothesis is `strongProperSupportExistence`. Quasi-separatedness and local finite presentation over B follow from the affine finitely presented diagonal and limit preservation. Openness of versality is not obtained from an obstruction complex of the module: `perfect_proper_pushforward` needs a perfect first argument, and the module k on Spec k[ε]/(ε²) is not perfect.
 
-*Needs:* `cohStackFiniteTypeModel`, `artin_stack_criterion`, `openness_of_versality_strongEffective`, `strongProperSupportExistence`, `properSpaceCompletionEquivalence`, `spaceFpqcQuasicoherentDescent`, SchemeAndStackFoundations §0.21, SchemeAndStackFoundations Layer 1.
+*Needs:* `cohStackFiniteTypeModel`, `coherentModuleHom`, `coherentModuleIsom`, `artin_stack_criterion`, `openness_of_versality_strongEffective`, `strongProperSupportExistence`, `properSpaceCompletionEquivalence`, `spaceFpqcQuasicoherentDescent`, SchemeAndStackFoundations §0.21, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -9368,6 +9425,24 @@ Define `spaceDQCoh X` as the full subcategory of the derived category of O_X-mod
 - `SpaceDerivedChecks.nonflatPullback`: for A=k[ε]/(ε²)→k, derived tensor of the two-term complex A --ε→ A has zero differential after pullback. Ordinary tensor of its cohomology alone misses the extra Tor contribution.
 - `SpaceDerivedChecks.degree`: O_X placed in cohomological degree a restricts to a locally free module in degree a; the lowest-degree base-change export is H^a, including a≠0.
 
+Prove `spaceDerivedLimits` for a quasi-compact quasi-separated algebraic space X, using ComplexComparisonPartII C3.2's `spaceQuasiCoherator` RQ_X, the right adjoint of the inclusion i:spaceDQCoh X→D(O_X). As part of this target construct ambient derived products: take K-injective replacements of complexes of O_X-modules and their degreewise product, and prove the product universal property using the K-injective Hom comparison. For any set-indexed family M_j in spaceDQCoh X, construct its product as RQ_X(∏_j iM_j), with the product universal property. For a countable inverse sequence M_n in this category, construct its derived limit as the homotopy fibre of 1−shift on these products and prove the canonical comparison
+R lim_(spaceDQCoh X) M_n ≅ RQ_X(R lim_(D(O_X)) iM_n).
+These are operations and comparisons induced by the imported right adjoint, on the category of this section; the right adjoint itself is owned by C3.2.
+
+The API `spaceDerivedLimits.products` and `spaceDerivedLimits.comparison` gives these constructions with their projections. `spaceDerivedLimits.boundedness` gives an integer N(X)≥0 such that, if H^i(U,L)=0 outside [a,b] for every affine étale U→X and L∈D(O_X), then H^i(RQ_X L)=0 outside [a,b+N(X)]. In particular, for an inverse sequence of quasi-coherent modules in degree zero, affine étale cohomology of the ambient derived limit vanishes outside [0,1], so its intrinsic derived limit lies in degrees [0,1+N(X)]. This proves the bounded, nonnegative assertion used in `strongProperSupportExistence` for the closed pushforwards of F_n. For X over Spec A and E perfect, `spaceDerivedLimits.perfectTest` identifies RHom_X(E,R lim_(spaceDQCoh X) M_n) with R lim RHom_X(E,M_n) in D(A); the global-sections tensor version follows using E^∨.
+
+([Stacks](https://stacks.math.columbia.edu/tag/079P), Theorem 19.12.6, and [Stacks](https://stacks.math.columbia.edu/tag/07D9), Lemma 19.13.4, for ambient products; [Stacks](https://stacks.math.columbia.edu/tag/0CST), Example 75.19.5; [Stacks](https://stacks.math.columbia.edu/tag/0CSS), Lemma 75.19.4; [Stacks](https://stacks.math.columbia.edu/tag/0CX5), Lemma 77.12.2; [Stacks](https://stacks.math.columbia.edu/tag/0CX6), Lemma 77.12.3, proof.)
+
+For ambient products, verify the Grothendieck hypotheses on the module-sheaf category using exact filtered colimits and generators from sheafified free presheaves on site objects, then construct K-injective replacements. For boundedness, use the affine description of RQ_X and induction through elementary distinguished étale squares, with the finite cohomological dimension of quasi-compact open pushforward. Perfect duality and the right-adjoint property of global sections make perfect-test functors preserve products and hence their homotopy fibres. The comparisons are canonical maps, rather than an identification with the ordinary inverse-limit sheaf.
+
+*Needs:* `spaceDQCoh`, `spacePerfect`, ComplexComparisonPartII C3.2 (`spaceQuasiCoherator.adjunction`, `spaceQuasiCoherator.projection_perfect`), SchemeAndStackFoundations §2.18 (ambient derived category and cones) and Layer 1 (affine étale charts and distinguished squares); Mathlib `CochainComplex.IsKInjective` and `CochainComplex.IsKInjective.Qh_map_bijective`. K-injective replacements and ambient products needed for this construction are included in this target.
+
+**Checks.**
+
+- `SpaceLimitChecks.constant`: a constant sequence of quasi-coherent modules with identity maps has that module as its intrinsic derived limit, in degree zero.
+- `SpaceLimitChecks.empty`: on the empty algebraic space both the ambient and intrinsic derived limits are zero.
+- `SpaceLimitChecks.adicSheaf`: for A=k[[t]], X=Spec A and M_n=O_X/t^n, the ordinary inverse-limit sheaf has sections A on X but zero on D(t), and is not quasi-coherent. The limit in spaceDQCoh X corresponds under D_qc(Spec A)≃D(A) to lim A/t^n=A, so is O_X in degree zero and has sections k((t)) on D(t).
+
 ### 7.8 Proper-space formal existence and Artin charts
 
 Prove `properSpaceCompletionEquivalence`: for a complete Noetherian ring A with ideal of definition I and a separated finite-type algebraic space X/A, completion gives an equivalence between coherent sheaves with proper support and compatible coherent sheaves on X_n=X×Spec(A/I^(n+1)) with proper support. For proper X this includes every coherent sheaf. Morphisms are recovered by the complete inverse limit of Hom, not by choosing unrelated objects at each level. The algebraic-space proof uses Chow's lemma and Noetherian dévissage: a projective modification Y→X is an isomorphism over a dense open; pull the formal sheaf to a projective closure of Y and use scheme formal existence. Its support stays in Y because I is in the Jacobson radical and the formal support is proper. Push the algebraized sheaf to X. The kernel and cokernel of the comparison are supported on a smaller closed subspace, killed by a fixed coherent ideal, and the dévissage induction algebraizes them. Full faithfulness identifies the descended maps and extensions. The induction starts with the zero support. This proves effectivity for spaces from the scheme theorem without assuming the desired space theorem as an input. (Stacks, More on Morphisms of Spaces, Theorem 42.11, tag 08BE, pp. 103–104; Lemmas 42.6 and 42.9, pp. 100–103.)
@@ -9545,7 +9620,7 @@ For the identity family the Picard stack is BG_m while its relative Picard sheaf
 
 ### Dependencies
 
-Layers 3–6; SchemeAndStackFoundations §0.9 (limits and Noetherian approximation), §0.21 (excellence), §1.10 (ringed small étale sites), §2.2 (Leray), §2.11 (Hilbert 90), §2.18 (derived categories) and §4.10 (formal existence); Tau Ceti Cartier duality; StableReduction Layer 2 (coherent cohomology and base change); JacobianChallenge Layers A and D (Picard theory of curves); AdicSpacesPartII R0–R1 and AdicSpacesPartIII R3.7 (affinoid algebras, rigid spaces and proper GAGA); ComplexComparisonPartII C0 and C1.5–C1.8 (coherent analytic modules, Cartan's theorem B, analytic twisting sheaves and Serre's analytic theorems), consumed by §7.10.3 only.
+Layers 3–6; SchemeAndStackFoundations §0.9 (limits and Noetherian approximation), §0.21 (excellence), §1.10 (ringed small étale sites), §2.2 (Leray), §2.11 (Hilbert 90), §2.18 (derived categories) and §4.10 (formal existence); Tau Ceti Cartier duality; StableReduction Layer 2 (coherent cohomology and base change); JacobianChallenge Layers A and D (Picard theory of curves); AdicSpacesPartII R0–R1 and AdicSpacesPartIII R3.7 (affinoid algebras, rigid spaces and proper GAGA); ComplexComparisonPartII C3.2 (`spaceQuasiCoherator`), consumed by `spaceDerivedLimits` and `strongProperSupportExistence`; ComplexComparisonPartII C0 and C1.5–C1.8 (coherent analytic modules, Cartan's theorem B, analytic twisting sheaves and Serre's analytic theorems), consumed by §7.10.3 only.
 
 ## Layer 8: framed deformation and completed local comparisons
 
