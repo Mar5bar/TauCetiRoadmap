@@ -567,8 +567,8 @@ quasi-nilpotence; Filtered logarithmic PD de Rham complexes; Derived p-adic log 
 cohomology; The induced log structure on A_cris.
 
 Layer CR.6: Standard log Witt bases; Integral Hyodo–Kato complexes; Rational Hyodo–Kato complexes;
-Hyodo–Kato Frobenius; Hyodo–Kato monodromy; Normalized logarithms of units; Uniformizer-dependent
-Hyodo–Kato maps; Convergent logarithmic embedding complexes; Proper support on open analytic
+Hyodo–Kato Frobenius; Hyodo–Kato monodromy; Logarithmic de Rham–Witt complexes; Normalized
+logarithms of units; Uniformizer-dependent Hyodo–Kato maps; Convergent logarithmic embedding complexes; Proper support on open analytic
 tubes; Semistable logarithmic Witt models; Witt comparison maps with proper support; Hyodo–Kato
 cohomology of Stein curves; Hyodo–Kato cohomology of semistable curve towers.
 
