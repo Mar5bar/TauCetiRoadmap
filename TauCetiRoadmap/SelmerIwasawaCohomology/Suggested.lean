@@ -1015,7 +1015,8 @@ CR.0.7 specialization `aCris`, its explicit comparison `aCris_model_equiv`, and 
 `selmerComplex_skewPairing` (the untwisted degree-three O-module adjoint),
 `skewSymmetric_filtration_parity` (O-bilinear, with 2 invertible), `selmerParity_perfectComplex`,
 `selmerFamily_baseChange` (the common strict ordinary local diagram with its localized
-coefficient contract), `selmerParity_family`,
-`selmerParity_quadraticTwist`, `ordinaryModular_selmerParity_family` (§4.28) and
+coefficient contract), `selmerParity_family`, `selmerParity_quadraticTwist` (exponent two),
+`selmerParity_oddAbelian` (odd degree, with `H⁰(E′, V) = 0`),
+`ordinaryModular_selmerParity_family` (§4.28) and
 `casselsTate_pairing`, `selmerParity_twoIsogeny`, `congruentNumber_selmerParity` (§4.29).
 -/
