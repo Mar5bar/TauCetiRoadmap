@@ -1387,9 +1387,14 @@ equals j₀(x)), `integralCoefficientMap_continuous` (j is continuous for the in
 topologies) and `integralCoefficientMap_injective` (j is injective). The intermediate results of
 this subsection, proved from here on, are: the three API identities; the norm of ζ − 1 for a
 primitive p-th root of unity ζ (|ζ − 1| = p^{−1/(p−1)} < 1); the topological nilpotence of ζ − 1 in
-O for ζ^p = 1; the uniform tail estimate for the inverse Amice transform (the coefficients of the
-image of a bounded family are uniformly small beyond a bound); the continuity of evaluation of the
-inverse Amice transform; the continuity of psiSeries and of φ ∘ psiSeries for the coefficientwise
+O for ζ^p = 1; the tail estimate for the inverse Amice transform, testwise: for a fixed f ∈
+C(ℤ_p,ℤ_p) with Mahler coefficients a_n(f) (`PadicInt.mahlerEquiv`, which tend to 0) and every N,
+|A⁻¹(F)(f) − Σ_{n<N} a_n(f)·coeff_n(F)| ≤ sup_{n≥N} |a_n(f)| for all F ∈ ℤ_p⟦T⟧ at once, the decay
+coming from f while the coefficients of F are only bounded by 1 (there is no uniform decay over
+bounded series, as A(δ_{−1}) = (1+T)^{−1} has coefficients (−1)^n, nor over the unit ball of test
+functions, as f = `mahler` m has a_n(f) = δ_{nm}); the continuity, for each fixed f, of F ↦
+A⁻¹(F)(f) for the coefficientwise topology, since the finite partial pairings are continuous and
+converge uniformly in F; the continuity of psiSeries and of φ ∘ psiSeries for the coefficientwise
 topologies; the naturality A(δ_a) = (1+T)^a of the Dirac transform under coefficient maps; the
 compatibility of φψ with natural powers (1+T)^n; and the convergence of the root-translation series.
 
@@ -2343,8 +2348,8 @@ and O⟦Γ′ × H⟧ is identified with the product of the O⟦T⟧ over the ch
 Iwasawa coordinate (§4.5) and the isotypic decomposition (§4.6). Modules are finitely generated
 Λ-modules; λ and F are defined through the torsion submodule T_Λ(M) of an arbitrary finitely
 generated module; statements about dimensions after inverting ϖ, exact-sequence additivity, the
-characteristic ideal and the Euler cardinality product assume the modules Λ-torsion, and the last
-assumes the invariant and coinvariant groups at depth n finite.
+characteristic ideal and the Euler quotient assume the modules Λ-torsion, and the last assumes the
+coinvariant group at depth n finite (the invariant group is then finite).
 
 ### 4.1 Pseudo-null modules and pseudo-isomorphism
 
@@ -2535,7 +2540,8 @@ short exact sequences of torsion modules) with `charPoly_mul` (F_N = F_M·F_P),
 (§4.2), the Weierstrass adapter (§4.3). *Lean:* μ, λ and F_M are not declared in `Suggested.lean`;
 the statements there that involve them (`TauCeti.Iwasawa.charIdeal_elementary` on an elementary
 module, and the growth theorems `TauCeti.Iwasawa.card_quotient_growthTransition` and
-`TauCeti.Iwasawa.card_quotient_growthTransition_general` through a pseudo-isomorphism from M onto
+`TauCeti.Iwasawa.card_quotient_growthTransition_general` and the Euler quotient
+`TauCeti.Iwasawa.card_quotient_omega_div_card_torsionBy` through a pseudo-isomorphism from M onto
 one, given as a hypothesis) read μ = Σ m_i, λ = Σ n_j deg F_j and F_M = ∏ F_j^{n_j} off the
 elementary data Λ^r ⊕ ⊕_i Λ/(ϖ^{m_i}) ⊕ ⊕_j Λ/(F_j^{n_j}).
 
@@ -2902,25 +2908,100 @@ with the two negative controls as `example`s.
 
 References: NSW (5.3.11)–(5.3.16), pp. 293–296. First prove the relation between the submodule M_δ
 and the kernels of the cyclotomic elements: M[ω_n] ⊆ M_δ for every n, and M_δ is the increasing
-union of them.
+union of them. For finitely generated M the union stabilizes, M_δ = M[ω_N] for N large, so M_δ is
+finitely generated over Λ/(ω_N) and hence over O.
+
+**`delta_submodule`.** Define M_δ = ⋃_n ker(ω_n : M → M); this is a Λ-submodule. Its API is
+`mem_delta` (x belongs iff ω_n x = 0 for some n), `delta_map` (Λ-linear maps preserve this
+submodule), `delta_submodule_zero`, `delta_submodule_equiv` (a linear equivalence between the stated
+modules transports `delta_submodule` to the corresponding object, over the same ring and chosen
+generator) and `delta_monotone` (a submodule inclusion carries the delta submodule into that of the
+ambient module). *Needs:* the cyclotomic Weierstrass polynomials (§4.3).
+
+**Checks.**
+- M = 0 gives M_δ = 0.
+- For M = Λ the delta submodule is zero.
+- For M = Λ/(T), M_δ = M.
+
+**The cyclotomic cutoff.** Let O be a complete discrete valuation ring of characteristic zero with
+finite residue field, Λ = O⟦T⟧ and M a finitely generated torsion Λ-module. Define the cutoff d(M)
+as the least integer c ≥ −1 for which ω_c M_δ is finite (ω_{−1} = 1); since M_δ is finitely
+generated over O, this says that ω_c carries M_δ into its O-torsion. The cutoff exists: M_δ = M[ω_N]
+for N large, and c = N qualifies. Prove that for every c ≥ −1, ω_c M_δ is finite if and only if
+M/(ω_n/ω_c)M is finite for every n > c, and that both say that no prime factor of a ξ_j with j > c
+divides char_Λ(M). Hence d(M) is the largest j ≥ 0 for which ξ_j and F_M have a common prime factor,
+and −1 when there is none. The proof passes to an elementary module E through a pseudo-isomorphism M
+→ E, which restricts to a pseudo-isomorphism M_δ → E_δ, and computes E_δ block by block: on Λ/(π^a),
+with π a prime factor of some ξ_m and a ≥ 1, the delta submodule is π^{a−1}Λ/(π^a) ≅ Λ/(π), and on
+vertical blocks, on horizontal blocks prime to every ξ_m and on free blocks it is zero. It uses that
+the ξ_j are pairwise coprime, which holds because ω_n is separable in characteristic zero. In the
+indexing of `TauCeti.Iwasawa.growthTransition`, ω_n/ω_c = ν_{n,c+1}, so the cutoff c is the Lean n₀
+= c + 1 and the finiteness for every n > c is the hypothesis `hfin` of the growth theorems below;
+every c ≥ d(M) discharges it. Characteristic zero is needed: over O = 𝔽_p⟦ϖ⟧ one has ξ_j =
+T^{p^{j−1}(p−1)} for j ≥ 1, and for M = Λ/(T) the element ω_0 = T kills M_δ = M while M/(ω_n/ω_0)M =
+M is infinite for every n ≥ 1. (Source: the cutoff d(M) of NSW Proposition 5.3.17, pp. 296–298, for
+O = ℤ_p; the intrinsic definition through ω_c M_δ, the equivalence with the finiteness of the
+transition quotients and the coefficient form are derived here.) *Needs:* `delta_submodule`, the
+structure theorem for Iwasawa modules (§4.2), `IsPseudoIsomorphism` (§4.1), `charPoly` (§4.4), the
+characteristic ideal (§4.6), the cyclotomic Weierstrass polynomials with `cyclotomic_product`
+(§4.3). *Lean:* `TauCeti.Iwasawa.finite_quotient_growthTransition_iff`, with ω_{n₀−1} written as the
+product of the ξ_j = ν_{j,j} over j < n₀ and M_δ as the supremum of the `Submodule.torsionBy` at the
+ω_m = ν_{m,0}, and the equal-characteristic failure as an `example`.
+
+**Checks.**
+- O = ℤ_p and M = Λ/(ξ₁): M_δ = M ≅ ℤ_p[ζ_p] and T acts injectively, so ω_0 M_δ is infinite and
+  d(M) = 1. At c = 0 the transition ξ₁ξ₂⋯ξ_n acts as zero and M/(ω_n/ω_0)M = M ≅ ℤ_p^{p−1} is
+  infinite for every n ≥ 1; at c = 1 the quotient by ξ₂⋯ξ_n has order p^{(p−1)(n−1)}.
+- O = ℤ_p and M = Λ/(T): M_δ = M and M/ω_nM = M are infinite, so d(M) = 0; at c = 0 the transition
+  acts by p^n and M/(ω_n/ω_0)M = ℤ_p/p^n.
+- O = ℤ_p: M = Λ/(T − p) has M_δ = 0, since ω_n acts by (1 + p)^{p^n} − 1 ≠ 0, and M = Λ/(p, T) has
+  M_δ = M finite; so d(M) = −1 for both, and M/ω_nM is finite for every n ≥ 0.
+
+**The cyclotomic growth step.** Let O be a complete discrete valuation ring of characteristic zero
+with uniformizer ϖ, finite residue field k and p = u·ϖ^e (u a unit, e ≥ 1), and F ∈ O[T] a
+distinguished polynomial of degree d, so that Λ/(F) ≅ O[T]/(F) is free of rank d over O (§4.3).
+Prove that there is n₁, depending only on p, d and e, such that for every n ≥ n₁ multiplication by
+ξ_{n+1} on Λ/(F) is p times an O-linear automorphism; so det_O(ξ_{n+1} | Λ/(F)) has ϖ-valuation
+e·d. In Λ/(F) one has T^d ∈ ϖ·Λ/(F), hence (1 + T)^{p^k} ∈ 1 + p·Λ/(F) once p^k ≥ de, and then
+ξ_{n+1} = Σ_{i<p} (1 + T)^{ip^n} lies in p·(1 + p·Λ/(F)) for n ≥ k when p is odd and in
+2·(1 + 2·Λ/(F)) for n ≥ k + 1 when p = 2. Consequently, for c ≥ −1, the determinant
+det_O(ω_n/ω_c | Λ/(F)) = Res(F, ω_n/ω_c) (Mathlib `Polynomial.resultant`, F first) is nonzero for
+every n > c if and only if no ξ_j with j > c shares a prime factor with F; it then has ϖ-valuation
+e·d·n + C for n ≥ n₁, with C depending only on F and c, and #Λ/(F, ω_n/ω_c) = (#k)^{e·d·n + C}.
+Otherwise it vanishes for all n ≥ j and the quotient is infinite. (Source: NSW Lemma 5.3.18, pp.
+296–298, for O = ℤ_p; the factorisation through p times an automorphism and the ramified form are
+derived here.) *Needs:* the cyclotomic Weierstrass polynomials with `cyclotomic_product` and the
+finite free quotients Λ/(F) (§4.3).
+
+**Checks.**
+- F = T: on Λ/(T) = O every ξ_{n+1} acts by ξ_{n+1}(0) = p, so n₁ = 0 serves; an automorphism
+  without the factor p fails this test.
+- O = ℤ_p, p odd and F = ξ₁ (d = p − 1): on Λ/(ξ₁) ≅ ℤ_p[ζ_p] the element ξ_{n+1} acts by
+  Σ_{i<p} ζ^{ip^n} = p for n ≥ 1, while ξ₁ acts by zero. So det(ω_n/ω_0) = 0 for every n ≥ 1,
+  whereas det(ω_n/ω_1) = p^{(p−1)(n−1)} grows by d per step.
+- O = ℤ_p, p odd and F = T − p: ξ_{n+1} acts by ((1 + p)^{p^{n+1}} − 1)/((1 + p)^{p^n} − 1), of
+  valuation 1, for every n ≥ 0, and det(ω_n | Λ/(F)) = (1 + p)^{p^n} − 1 has valuation n + 1.
 
 **Iwasawa's growth formula over ℤ_p.** This statement is for O = ℤ_p, Λ = ℤ_p⟦T⟧, the normalisation
 of NSW and of the Lean statement `TauCeti.Iwasawa.card_quotient_growthTransition`. Let M be a
-finitely generated torsion Λ-module and n₀ ≥ d(M). Prove that #(M/(ω_n/ω_{n₀})M) = p^{μp^n + λn + ν}
-for all sufficiently large n, where μ = μ(M), λ = λ(M) and ν does not depend on n (NSW Proposition
-5.3.17; (5.3.17)–(5.3.18), pp. 296–298). Its separate proof input is the cyclotomic growth step (NSW
-Lemma 5.3.18): for a distinguished polynomial F of degree d and n large, the valuation of ω_n/ω_{n₀}
-on Λ/(F) grows by d at each step. When d(M) = −1, taking n₀ = −1 (ω_{−1} = 1)
-gives #M_{Γ_n} = #M/ω_nM = p^{μp^n + λn + ν}. The exponent p^{μp^n + λn + ν} is specific to ℤ_p:
-over a larger O the residue degree and the ramification index enter (next statement). *Needs:*
-`muInvariant`, `lambdaInvariant` (§4.4), the relation between M_δ and the cyclotomic kernels, the
-cyclotomic Weierstrass polynomials (§4.3), `IsPseudoIsomorphism` (§4.1), the cyclotomic growth step.
-*Lean:* `TauCeti.Iwasawa.card_quotient_growthTransition`, in the form with μ and λ taken from a
+finitely generated torsion Λ-module and c ≥ d(M), the cyclotomic cutoff. Prove that #(M/(ω_n/ω_c)M)
+= p^{μp^n + λn + ν} for all sufficiently large n, where μ = μ(M), λ = λ(M) and ν does not depend on
+n (NSW Proposition 5.3.17; (5.3.17)–(5.3.18), pp. 296–298). The quotients are finite for every n > c
+by the cutoff theorem. Through a pseudo-isomorphism onto an elementary module, a vertical factor
+Λ/(p^m) contributes p^{m·deg(ω_n/ω_c)}, where deg(ω_n/ω_c) is p^n − p^c for c ≥ 0 and p^n for c =
+−1; a horizontal factor Λ/(F) contributes p^{v_p det(ω_n/ω_c | Λ/(F))}, of exponent dn + C for n
+large by the cyclotomic growth step, the determinant being nonzero because c ≥ d(M); and the kernel
+and cokernel of the pseudo-isomorphism change the order by a factor that is constant for n large.
+When d(M) = −1, taking c = −1 gives #M_{Γ_n} = #M/ω_nM = p^{μp^n + λn + ν}. The exponent p^{μp^n +
+λn + ν} is specific to ℤ_p: over a larger O the residue degree and the ramification index enter
+(next statement). *Needs:* `muInvariant`, `lambdaInvariant` (§4.4), the cyclotomic cutoff, the
+cyclotomic growth step, `IsPseudoIsomorphism` (§4.1). *Lean:*
+`TauCeti.Iwasawa.card_quotient_growthTransition`, in the form with μ and λ taken from a
 pseudo-isomorphism hypothesis: M comes with a pseudo-isomorphism onto ⊕_i Λ/(p^{m_i}) ⊕ ⊕_j
 Λ/(F_j^{n_j}), and μ = Σ m_i, λ = Σ n_j deg F_j. Its quotients are taken by the transition
-polynomial ν_{n,n₀} = ω_n/ω_{n₀−1}, `TauCeti.Iwasawa.growthTransition`, so its n₀ is the n₀ + 1 of
-this paragraph (n₀ = −1 here is n₀ = 0 there, giving ω_n), and in place of n₀ ≥ d(M) it assumes that
-M/ν_{n,n₀}M is finite for every n ≥ n₀, a condition that NSW's choice of n₀ satisfies.
+polynomial ν_{n,n₀} = ω_n/ω_{n₀−1}, `TauCeti.Iwasawa.growthTransition`, so its n₀ is c + 1 (c = −1
+is n₀ = 0, giving ω_n), and in place of c ≥ d(M) it assumes that M/ν_{n,n₀}M is finite for every n ≥
+n₀, which `TauCeti.Iwasawa.finite_quotient_growthTransition_iff` derives from c ≥ d(M).
 
 **Checks.**
 - M = Λ/(p): #M/ω_nM = #𝔽_p[T]/(T^{p^n}) = p^{p^n}, μ = 1, λ = 0, ν = 0.
@@ -2935,30 +3016,30 @@ M/ν_{n,n₀}M is finite for every n ≥ n₀, a condition that NSW's choice of 
 **The growth formula over a mixed-characteristic coefficient ring.** Let O be a complete discrete
 valuation ring of characteristic zero with uniformizer ϖ, residue field of cardinality p^f and
 ramification index e, that is p = u·ϖ^e with u a unit and e ≥ 1 (so O is the valuation ring of a
-finite extension of ℚ_p), Λ = O⟦T⟧, M a finitely generated torsion Λ-module with the ϖ-normalised
-μ = μ(M) of §4.4 and λ = λ(M), and n₀ with ω_{n₀−1} carrying M_δ into its coefficient torsion (d(M)
-≤ n₀ − 1). Prove that #(M/(ω_n/ω_{n₀−1})M) = p^{fμp^n + efλn + ν} for all sufficiently large n, with
-ν independent of n. The proof is NSW's with the elementary module Λ^0 ⊕ ⊕ Λ/(ϖ^{m_i}) ⊕ ⊕
-Λ/(F_j^{n_j}): #Λ/(ϖ^m, ω_n) = (p^f)^{m p^n}, and on each horizontal factor Λ/(F) ≅ O^d use
-`growthTransition`, the transition polynomial ν_{n,n₀} = ω_n/ω_{n₀−1}, with n₀ chosen under the
-cyclotomic-control hypothesis. Its determinant has valuation v_ϖ(det(ν_{n,n₀} on O^d)) = e·d·n +
-constant for n large, contributing (p^f)^{edn + c}. The vertical quotient by ν likewise has exponent
-f·m·(p^n − p^{n₀−1}) when n₀ > 0; the subtracted term is absorbed into the constant. Using ω_n on a
-horizontal factor is justified only after excluding its cyclotomic factors (NSW (5.3.17)–(5.3.18),
+finite extension of ℚ_p), Λ = O⟦T⟧, M a finitely generated torsion Λ-module with the ϖ-normalised μ
+= μ(M) of §4.4 and λ = λ(M), and c ≥ d(M), the cyclotomic cutoff. Prove that #(M/(ω_n/ω_c)M) =
+p^{fμp^n + efλn + ν} for all sufficiently large n, with ν independent of n. The proof is NSW's with
+the elementary module Λ^0 ⊕ ⊕ Λ/(ϖ^{m_i}) ⊕ ⊕ Λ/(F_j^{n_j}): #Λ/(ϖ^m, ω_n) = (p^f)^{m p^n}, and on
+each horizontal factor Λ/(F) ≅ O^d the transition ω_n/ω_c has nonzero determinant because c ≥ d(M),
+of ϖ-valuation e·d·n + C for n large by the cyclotomic growth step, contributing (p^f)^{edn + C}.
+The vertical quotient by the transition has exponent f·m·deg(ω_n/ω_c), and the subtracted f·m·p^c
+for c ≥ 0 is absorbed into the constant. On a horizontal factor sharing a prime with some ξ_j, j ≤
+c, the determinant of ω_n itself vanishes; that of the transition does not (NSW (5.3.17)–(5.3.18),
 pp. 296–298, whose argument is written for ℤ_p; the residue-degree and ramification factors are the
 specification stated here). It is registered separately from the ℤ_p statement because the exponents
 differ; it specialises to it for O = ℤ_p (e = f = 1). The hypotheses are O of characteristic zero
-(mixed characteristic) with p = u·ϖ^e, e ≥ 1, and the finiteness/cyclotomic-control hypothesis on n₀
-as in the ℤ_p statement. The equal-characteristic case is excluded, and the formula is false there:
-for O = k⟦ϖ⟧ with #k = p^f and M = O⟦T⟧/(T − ϖ) ≅ O with T acting by ϖ, one has μ = 0, λ = 1, but
-ω_n = (1 + ϖ)^{p^n} − 1 = ϖ^{p^n} in characteristic p, so #M/ω_nM = (p^f)^{p^n}, which grows like
-p^{f p^n} and not like p^{efn + ν}. *Needs:* the ℤ_p growth formula, `muInvariant`,
-`lambdaInvariant` (§4.4), the structure theorem for Iwasawa modules (§4.2), the identity char_Λ(M) =
-(ϖ^μ F_M) (§4.6). *Lean:* `TauCeti.Iwasawa.card_quotient_growthTransition_general`, in the same form
-as the ℤ_p statement (μ and λ taken from a pseudo-isomorphism onto ⊕_i Λ/(ϖ^{m_i}) ⊕ ⊕_j
-Λ/(F_j^{n_j}), quotients by `TauCeti.Iwasawa.growthTransition`, finiteness of M/ν_{n,n₀}M for n ≥ n₀
-in place of the cyclotomic-control hypothesis), with the equal-characteristic failure as an
-`example`.
+(mixed characteristic) with p = u·ϖ^e, e ≥ 1, and c ≥ d(M) as in the ℤ_p statement. The
+equal-characteristic case is excluded, and the formula is false there: for O = k⟦ϖ⟧ with #k = p^f
+and M = O⟦T⟧/(T − ϖ) ≅ O with T acting by ϖ, one has μ = 0, λ = 1, but ω_n = (1 + ϖ)^{p^n} − 1 =
+ϖ^{p^n} in characteristic p, so #M/ω_nM = (p^f)^{p^n}, which grows like p^{f p^n} and not like
+p^{efn + ν}. *Needs:* the ℤ_p growth formula, the cyclotomic cutoff, the cyclotomic growth step,
+`muInvariant`, `lambdaInvariant` (§4.4), the structure theorem for Iwasawa modules (§4.2), the
+identity char_Λ(M) = (ϖ^μ F_M) (§4.6). *Lean:*
+`TauCeti.Iwasawa.card_quotient_growthTransition_general`, in the same form as the ℤ_p statement (μ
+and λ taken from a pseudo-isomorphism onto ⊕_i Λ/(ϖ^{m_i}) ⊕ ⊕_j Λ/(F_j^{n_j}), quotients by
+`TauCeti.Iwasawa.growthTransition` with n₀ = c + 1, finiteness of M/ν_{n,n₀}M for n ≥ n₀ in place of
+c ≥ d(M), discharged by `TauCeti.Iwasawa.finite_quotient_growthTransition_iff`), with the
+equal-characteristic failure as an `example`.
 
 **Checks.**
 - O the unramified quadratic extension of ℤ_p (f = 2, e = 1), M = O⟦T⟧/(p): μ = 1, λ = 0
@@ -2968,20 +3049,39 @@ in place of the cyclotomic-control hypothesis), with the equal-characteristic fa
 - The equal-characteristic non-example above, recorded as the `example` after
   `TauCeti.Iwasawa.card_quotient_growthTransition_general` in `Suggested.lean`.
 
-Then prove the Euler characteristic formula for finite coinvariants: when M^{Γ_n} and M_{Γ_n} are
-both finite, their orders have a quotient determined by the invariants of M.
+**The Euler quotient at finite level.** Let O be a complete discrete valuation ring with uniformizer
+ϖ and finite residue field k of characteristic p, q = #k, Λ = O⟦T⟧, M a finitely generated torsion
+Λ-module with ϖ-normalised μ = μ(M) and horizontal characteristic polynomial F_M (§4.4), and n ≥ 0
+with M_{Γ_n} = M/ω_nM finite. Write the Euler quotient homologically, χ_n(M) = #M_{Γ_n}/#M^{Γ_n},
+where M^{Γ_n} = M[ω_n]. Prove that M[ω_n] is finite, that Res(F_M, ω_n) ≠ 0, and that
 
-**`delta_submodule`.** Define M_δ = ⋃_n ker(ω_n : M → M); this is a Λ-submodule. Its API is
-`mem_delta` (x belongs iff ω_n x = 0 for some n), `delta_map` (Λ-linear maps preserve this
-submodule), `delta_submodule_zero`, `delta_submodule_equiv` (a linear equivalence between the stated
-modules transports `delta_submodule` to the corresponding object, over the same ring and chosen
-generator) and `delta_monotone` (a submodule inclusion carries the delta submodule into that of the
-ambient module). *Needs:* the cyclotomic Weierstrass polynomials (§4.3).
+χ_n(M) = q^{μp^n}·#(O/Res(F_M, ω_n)) = q^{μp^n + v_ϖ(Res(F_M, ω_n))},
+
+where Res(F_M, ω_n) = det_O(ω_n | O[T]/(F_M)) is Mathlib's `Polynomial.resultant` with F_M first and
+v_ϖ(ϖ) = 1; the cohomological quotient #M^{Γ_n}/#M_{Γ_n} is its inverse. This is an identity at
+each finite level, and it depends on F_M, not only on μ and λ. Its bridge to the structure theorem
+consists of three statements about χ_g(N) = #(N/gN)/#N[g], for g ∈ Λ acting on a finitely generated
+torsion N with finite kernel and cokernel: χ_g is multiplicative in short exact sequences (snake
+lemma) and equals 1 on finite modules, so it is invariant under pseudo-isomorphism; a vertical block
+has Λ/(ϖ^m)[ω_n] = 0 and χ_{ω_n}(Λ/(ϖ^m)) = q^{mp^n}; and a horizontal block Λ/(G), G distinguished,
+has trivial g-kernel and χ_g(Λ/(G)) = #(O/det_O(g | Λ/(G))) whenever this determinant is nonzero,
+the determinant being Res(G, g) for a polynomial g. The characteristic of O is unrestricted: in
+characteristic p, ω_n = T^{p^n} and the exponent is μp^n + p^n·v_ϖ(F_M(0)). (Source: NSW
+(5.3.11)–(5.3.16), pp. 293–296, for the invariants and coinvariants of Γ_n over ℤ_p; the resultant
+formula over O is derived here from the structure theorem.) *Needs:* `muInvariant`, `charPoly`
+(§4.4), the structure theorem for Iwasawa modules (§4.2), `IsPseudoIsomorphism` (§4.1), the finite
+free quotients Λ/(G) (§4.3). *Lean:* `TauCeti.Iwasawa.card_quotient_omega_div_card_torsionBy`, with
+μ and F_M read off a pseudo-isomorphism onto ⊕_i Λ/(ϖ^{m_i}) ⊕ ⊕_j Λ/(F_j^{n_j}).
 
 **Checks.**
-- M = 0 gives M_δ = 0.
-- For M = Λ the delta submodule is zero.
-- For M = Λ/(T), M_δ = M.
+- The finite module M = Λ/(ϖ, T) = k: M/ω_nM = M[ω_n] = k, so χ_n(M) = 1, matching μ = 0 and
+  F_M = 1.
+- O = ℤ_p, p odd: M₁ = Λ/(T − p) and M₂ = Λ/(T − p²) both have μ = 0, λ = 1 and M_i[ω_n] = 0, but
+  Res(T − a, ω_n) = (1 + a)^{p^n} − 1 gives χ_n(M₁) = p^{n+1} and χ_n(M₂) = p^{n+2} for every
+  n ≥ 0; a formula in μ and λ alone fails this test.
+- O = 𝔽_p⟦ϖ⟧ and M = Λ/(T − ϖ): Res(T − ϖ, T^{p^n}) = ϖ^{p^n}, so χ_n(M) = p^{p^n}, which is the
+  order found in the equal-characteristic non-example of the growth formula; the Euler quotient
+  holds where the growth formula fails.
 
 **`cyclotomic_primary_submodule`.** On a ℤ_p⟦T⟧-module M set C₀ = 0 and C_{r+1} to the preimage in M
 of δ(M/C_r), and define M_cycl as the supremum of this increasing sequence. For finitely generated
@@ -2997,14 +3097,21 @@ finiteness control of M_δ for finitely generated M, the structure theorem for I
 **Checks.**
 - The zero module has zero cyclotomic-primary submodule.
 - A free rank-one Λ-module has zero cyclotomic-primary submodule.
-- For Λ/(T²), M_cycl is the entire module whereas δ(M) is proper; this distinguishes saturation from
-  a single union of cyclotomic kernels.
+- For M = Λ/(T²), M_cycl = M has local length 2 at (T), whereas M_δ = TΛ/(T²) ≅ Λ/(T) has local
+  length 1, so the two are not pseudo-isomorphic; this distinguishes saturation from a single union
+  of cyclotomic kernels.
 
-The remaining intermediate results of the subsection are that M_δ of a finitely generated torsion
-module is its maximal finite submodule once the cyclotomic factors are set aside, that the
-elementary factors of M_δ are the cyclotomic-primary ones, and that the δ-torsion of M/M_δ is
-ℤ_p-torsion-free (`quotient_delta_torsion_free`); it need not vanish: for M = Λ/(T²), M_δ = TΛ/(T²)
-and M/M_δ = Λ/(T) is all δ-torsion, and ℤ_p-free.
+The remaining intermediate results of the subsection are the following. M_δ of a finitely generated
+torsion module is its maximal finite submodule once the cyclotomic factors are set aside. If M is
+pseudo-isomorphic to an elementary module whose cyclotomic-primary part is ⊕_k Λ/(π_k^{a_k}), with
+each π_k a prime factor of some ξ_m and a_k ≥ 1, then M_δ is pseudo-isomorphic to ⊕_k Λ/(π_k), by
+the block calculation of the cutoff: the delta submodule sees each cyclotomic block only to order
+one. The factors π_k^{a_k}, with their powers, are those of M_cycl (`cyclotomic_primary_submodule`);
+over ℤ_p the π_k are the ξ_m themselves (`xi_irreducible_padicInt`). So M_δ and M_cycl have the same
+height-one support, the cyclotomic primes of M, but at such a prime π the local length of M_δ is the
+number of blocks Λ/(π^a), whereas that of M_cycl is the sum of their exponents a. Finally, the
+δ-torsion of M/M_δ is ℤ_p-torsion-free (`quotient_delta_torsion_free`); it need not vanish: for M =
+Λ/(T²), M_δ = TΛ/(T²) and M/M_δ = Λ/(T) is all δ-torsion, and ℤ_p-free.
 
 ### Examples
 
@@ -3031,7 +3138,8 @@ depend on §6.1 (Layer 6 consumes Layer 4's character idempotents, not the other
 the `PowerSeries` lemma `isUnit_iff_constantCoeff`, `Module.length`,
 `Module.length_eq_add_of_exact`, `LinearMap.charpoly`, `LinearMap.det`, `Algebra.TensorProduct`,
 `Module.FinitePresentation`, `Matrix.det`, `Module.annihilator`, `PowerSeries.X`, `ZMod.castHom`,
-`IsAdicComplete`. Tau Ceti: `completedGroupAlgebra.powerSeriesCoordinate` with
+`IsAdicComplete`, `Polynomial.resultant`, `Submodule.torsionBy`, `Module.IsTorsion`. Tau Ceti:
+`completedGroupAlgebra.powerSeriesCoordinate` with
 `powerSeriesCoordinate_X` and its generator change `powerSeriesCoordinate_padicPow_apply`
 (ProfiniteProPGroups, layer 9), `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one` with
 `natDegree_one_add_X_pow_sub_one`, `TauCeti.fittingIdeal` with `fittingIdeal_eq_minorsIdeal_ker`,

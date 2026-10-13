@@ -690,9 +690,35 @@ theorem growthTransition_constantCoeff (p : ℕ) (O : Type*) [CommRing O] (n₀ 
     (h₀ : 0 < n₀) (hn : n₀ ≤ n + 1) :
     PowerSeries.constantCoeff (growthTransition p O n₀ n) = (p : O) ^ (n + 1 - n₀) := sorry
 
+/-- §4.7, the cyclotomic cutoff: over a coefficient ring of characteristic zero, for a finitely
+generated torsion `M` the quotients by the transitions `ν_{k,n₀} = ω_k/ω_{n₀−1}`, `k ≥ n₀`, are all
+finite exactly when `ω_{n₀−1}` carries `M_δ = ⋃_m M[ω_m]` to a finite submodule. Here
+`ω_{n₀−1} = ∏_{j<n₀} ξ_j` with `ξ_j = ν_{j,j}`, and `ω_m = ν_{m,0}`. The right side holds for every
+`n₀ ≥ d(M) + 1`, so this discharges the finiteness hypothesis of the growth theorems below. -/
+theorem finite_quotient_growthTransition_iff (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O]
+    [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    [Finite (IsLocalRing.ResidueField O)] [CharZero O] (M : Type*) [AddCommGroup M]
+    [Module (PowerSeries O) M] [Module.Finite (PowerSeries O) M]
+    (hM : Module.IsTorsion (PowerSeries O) M) (n₀ : ℕ) :
+    (∀ k, n₀ ≤ k →
+      Finite (M ⧸ (growthTransition p O n₀ k • (⊤ : Submodule (PowerSeries O) M)))) ↔
+      Finite ↥((∏ j ∈ Finset.range n₀, growthTransition p O j j) •
+        (⨆ m, Submodule.torsionBy (PowerSeries O) M (growthTransition p O 0 m) :
+          Submodule (PowerSeries O) M)) := sorry
+
+-- Equal characteristic: over `O = 𝔽_p⟦ϖ⟧` and `M = O⟦T⟧/(T)`, `ω_0 = T` kills `M_δ = M`, yet
+-- `M/ξ₁M = M` is infinite, since `ξ₁ = T^{p−1}`: the cutoff criterion needs characteristic zero.
+example (p : ℕ) [Fact p.Prime] :
+    let O := PowerSeries (ZMod p)
+    let M := PowerSeries O ⧸ Ideal.span {(PowerSeries.X : PowerSeries O)}
+    growthTransition p O 0 0 •
+        (⨆ m, Submodule.torsionBy (PowerSeries O) M (growthTransition p O 0 m)) = ⊥ ∧
+      ¬ Finite (M ⧸ (growthTransition p O 1 1 • (⊤ : Submodule (PowerSeries O) M))) := sorry
+
 /-- §4.7, end theorem over `ℤ_p` (NSW Proposition 5.3.17, pp. 296–298): if `M` is pseudo-isomorphic
 to the torsion elementary module with `μ = Σ mᵢ` and `λ = Σ n_j deg F_j`, and the quotients by
-`ν_{n,n₀}` are finite, then `#(M/ν_{n,n₀}M) = p^{μ pⁿ + λ n + ν}` for all large `n`. -/
+`ν_{n,n₀}` are finite (which `finite_quotient_growthTransition_iff` gives for `n₀ ≥ d(M) + 1`), then
+`#(M/ν_{n,n₀}M) = p^{μ pⁿ + λ n + ν}` for all large `n`. -/
 theorem card_quotient_growthTransition (p : ℕ) [Fact p.Prime] {a b : ℕ} (m : Fin a → ℕ)
     (F : Fin b → ℤ_[p][X]) (n : Fin b → ℕ)
     (hF : ∀ j, (F j).IsDistinguishedAt (IsLocalRing.maximalIdeal ℤ_[p])) (M : Type*)
@@ -707,8 +733,9 @@ theorem card_quotient_growthTransition (p : ℕ) [Fact p.Prime] {a b : ℕ} (m :
   sorry
 
 /-- §4.7 over a mixed-characteristic coefficient ring: with `p = u ϖ^e` and residue field of
-order `p^f`, and the `ϖ`-normalised `μ`, `#(M/ν_{n,n₀}M) = p^{f μ pⁿ + e f λ n + ν}`. It is false
-in equal characteristic (example below). -/
+order `p^f`, and the `ϖ`-normalised `μ`, `#(M/ν_{n,n₀}M) = p^{f μ pⁿ + e f λ n + ν}`, under the
+finiteness of the quotients that `finite_quotient_growthTransition_iff` gives for `n₀ ≥ d(M) + 1`.
+It is false in equal characteristic (example below). -/
 theorem card_quotient_growthTransition_general (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O]
     [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
     [Finite (IsLocalRing.ResidueField O)] (ϖ : O) (hϖ : Irreducible ϖ) (e f : ℕ) (he : 0 < e)
@@ -732,6 +759,25 @@ example (p : ℕ) [Fact p.Prime] :
       Ideal.span {(PowerSeries.X - PowerSeries.C (PowerSeries.X : O) : PowerSeries O)}
     ∀ n : ℕ, Nat.card (M ⧸ (growthTransition p O 0 n • (⊤ : Submodule (PowerSeries O) M))) =
       p ^ (p ^ n) := sorry
+
+/-- §4.7, the Euler quotient at level `k`: if `M` is pseudo-isomorphic to the torsion elementary
+module with vertical exponents `mᵢ` and horizontal factors `F_j^{n_j}`, and `M_{Γ_k} = M/ω_kM` is
+finite, then `M^{Γ_k} = M[ω_k]` is finite and `#M_{Γ_k} / #M^{Γ_k} = q^{μ pᵏ} · #(O/Res(F_M, ω_k))`,
+with `q` the order of the residue field, `μ = Σ mᵢ` and `F_M = ∏ F_j^{n_j}`. -/
+theorem card_quotient_omega_div_card_torsionBy (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O]
+    [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    [Finite (IsLocalRing.ResidueField O)] [CharP (IsLocalRing.ResidueField O) p] (ϖ : O)
+    (hϖ : Irreducible ϖ) {a b : ℕ} (m : Fin a → ℕ) (F : Fin b → O[X]) (n : Fin b → ℕ)
+    (hF : ∀ j, (F j).IsDistinguishedAt (IsLocalRing.maximalIdeal O)) (M : Type*)
+    [AddCommGroup M] [Module (PowerSeries O) M] [Module.Finite (PowerSeries O) M]
+    (g : M →ₗ[PowerSeries O] Elementary O ϖ 0 m F n) (hg : IsPseudoIsomorphism g) (k : ℕ) :
+    let ω : O[X] := (1 + X) ^ p ^ k - 1
+    Finite (M ⧸ ((ω : PowerSeries O) • (⊤ : Submodule (PowerSeries O) M))) →
+      Finite (Submodule.torsionBy (PowerSeries O) M (ω : PowerSeries O)) ∧
+        (Nat.card (M ⧸ ((ω : PowerSeries O) • (⊤ : Submodule (PowerSeries O) M))) : ℚ) /
+            Nat.card (Submodule.torsionBy (PowerSeries O) M (ω : PowerSeries O)) =
+          (Nat.card (IsLocalRing.ResidueField O) : ℚ) ^ ((∑ i, m i) * p ^ k) *
+            Nat.card (O ⧸ Ideal.span {(∏ j, F j ^ n j).resultant ω}) := sorry
 
 end TauCeti.Iwasawa
 
