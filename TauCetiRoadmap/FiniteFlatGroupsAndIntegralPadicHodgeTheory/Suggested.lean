@@ -882,8 +882,9 @@ further instances of the statements above.
   `gluingEquiv`, `mayerVietoris_exact`; `raynaudAbelianEmbedding`; `pCompleteFlatDescent`.
 * Layer R07.2: `canonicalDecomposition`; `multiplicativePartFiltration`;
   `orderPSubgroupTypeDecomposition`; `wittGroup`; `DieudonneRing`; `dieudonneModule` as a named
-  functor, with `dieudonneModule_F`, `dieudonneModule_prod` and the checks
+  functor (finite groups use direct limits along the Witt inclusions), with `dieudonneModule_F`, `dieudonneModule_prod` and the checks
   `dieudonneModule_zmodp`, `dieudonneModule_muP`, `dieudonneModule_alphaP`,
+  `dieudonneModule_transition` (the direct limit along Verschiebung);
   `dieudonneModule_trivial`, `dieudonneModule_not_covariant` and `dieudonneModule_cyclic`; the
   checks `dieudonneEquivalenceFinite_length`, `dieudonneEquivalenceFinite_simple` and
   `dieudonneEquivalenceFinite_etale` on that functor (`dieudonneEquivalenceFinite` above states its
@@ -894,26 +895,34 @@ further instances of the statements above.
   `hasseInvariant`, `farguesLF`; `bt1HasseWittDuality`; `btStackSmooth`; `farguesLF_quasiPolarisation`;
   `henselianLiftingPDivisible`; `BarsottiTate.tateSheaf`, `BarsottiTate.universalCover`;
   `universalCoverRigidity`; `deJongDieudonneEquivalence`; `swDieudonneSemiperfect`;
-  `wittCovectors`; `berthelotPerfectValuationRings`.
+  `wittCovectors`; `BerthelotConstantLength` (finite generation, p-power torsion and
+  constant finite Witt-fibre length); `berthelotPerfectValuationRings`.
 * Layer R07.3: `generalBasePeriodRings`; `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
   with the checks `FilteredPhiNModule.unit_twist`, `FilteredPhiNModule.not_abelian` and
   `FilteredPhiNModule.N_nonzero`; `FilteredPhiNModule.tN`, `IsWeaklyAdmissible`;
   `dSt_isWeaklyAdmissible`, `dSt_fullyFaithful`, `IsAdmissible`; `FLModule.isTorsion_iff`
   (through the divided Frobenius `φ_M` on the colimit `M̃`);
-  `mfTorAbelian`; `ringS`; `flFunctor`;
+  `mfTorAbelian`; `ringS` (including its p-adic completion and the rational ring formed
+  from that completion);
+  `flFunctor`;
   `flExactFaithful`; `flSimpleObjects`; `flTameInertia`; `flFullFaithfulness`;
   `flEssentialImageSubquotients`; `StronglyDivisibleLattice`; `flLatticeFunctor`;
-  `flPeriodComparison`; `flAdmissibility`; `flLatticeCorrespondence`; `flFiniteFlatDictionary`.
+  `flPeriodComparison`; `flAdmissibility` (unshifted on jumps `[0,p−1]`, with Tate
+  twists for translated intervals); `flLatticeCorrespondence`; `flFiniteFlatDictionary`.
 * Layer R07.4: `OE`, `SUr`, `breuilS`; `TorsionKisinModule`; `kummerFieldOfNorms`;
   `etalePhiModulesCohenRing`; `kummerEtalePhiModules`; `kisinEtaleFullFaithfulness`;
   `phiNNablaModules`; `robba`, `robbaBounded`, `robbaInt`, `PhiModule.slope`;
   `kedlayaSlopeFiltration`; `weaklyAdmissibleSlopeZero`; `kisinCrystallineEmbedding`;
   `finiteHeightLattices`; `semistableFiniteHeight`; `crystallineRestrictionFullFaithfulness`;
-  `bkModuleStructure`; `bmsKisinFunctor`; `btTypeEquivalence`; `BreuilModule`; `tateModuleAcris`;
+  `bkModuleStructure`; `bmsKisinFunctor`; `btTypeEquivalence`; `BreuilModule`;
+  `BarsottiTate.isCrystalline` (the full
+  Galois-equivariant rational crystalline comparison); `tateModuleAcris`;
   `crystalline01IsBt`; `kisinPDivisibleClassification`; `finiteFlatClassification`;
   `dyadicClassification`; `finiteFlatRestrictionFullFaithfulness`; `bkIntegralComparisons`;
-  `wachBreuilKisinComparison`; `FilteredPhiNModuleDD`; `potentiallySemistableDescentEquivalence`;
-  `tameTypeWeightTwoFilteredModules`; `descentDataPDivisibleGroups`; `StronglyDivisibleModule`;
+  `wachBreuilKisinComparison`; `FilteredPhiNModuleDD` (the arithmetic Weil action uses the residue-degree multiple
+  of p-Frobenius); `potentiallySemistableDescentEquivalence`;
+  `tameTypeWeightTwoFilteredModules`; `descentDataPDivisibleGroups`; `breuilSyntomicPeriods`; `StronglyDivisibleModule`
+  (finite free, weights `1 ≤ k ≤ p−1`, with canonical monodromy only for `k = 2`);
   `descentDataLatticeClassification`; `StronglyDivisibleRModule`; `BreuilModuleModP`;
   `stronglyDivisibleModulesForCharacters`; `KisinModuleCoeff`; `multiplicativeEtaleDictionary`;
   `breuilModulesWithCoefficients`; `etalePhiModulesWithCoefficients`;

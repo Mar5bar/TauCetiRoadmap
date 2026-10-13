@@ -117,7 +117,7 @@ descent data. The local residual types of R07.5 and the consequences of R07.6.
   is this carrier; the targets of R07.1 that touch the same objects add only what is stated in them
   (homomorphisms as limits, the standard examples, the connected–étale sequence over an arbitrary
   henselian local base, Tate modules). §A3.2 `multiplicationAndDensity` supplies finite locally free
-  A[n] of rank n^{2g}
+  A[n] of rank |n|^{2g} for integers n ≠ 0,
   with arbitrary base change, and §A4.5 `BarsottiTate.ofAbelian` supplies its height-2g tower.
 - CrystallineCohomology §CR.4.7, *Slope decomposition on the existing isocrystal carrier*,
   owns standard cyclic blocks, the full Dieudonné–Manin classification over algebraically closed
@@ -193,8 +193,10 @@ the Colmez–Fontaine theorem from here.
 - **Oort–Tate.** Pairs `(a, b)` satisfy `ab = w_p`, where `w_p` is the Oort–Tate constant (`p` times
   a unit of `Λ_p = ℤ[ζ_{p−1}, 1/(p(p−1))] ∩ ℤ_p`), and `G_{a,b} = Spec R[X]/(X^p − aX)`; Cartier
   duality swaps `a` and `b`.
-- **Dieudonné modules are contravariant** (Demazure, Fontaine, Pink): `M(G) = lim Hom(G, W_n)` (with
-  the finite Witt group schemes `W_n^m` in the local–local case), `F` on `M(G)` comes from `F_G` and
+- **Dieudonné modules are contravariant** (Demazure, Fontaine, Pink):
+  `M(G_rl) = colim_n Hom(G_rl, W_n)` along postcomposition with Verschiebung `v`, and
+  `M(G_ll) = colim_{n,m} Hom(G_ll, W_n^m)` along postcomposition with `v` and `i`
+  (§R07.2.4); the multiplicative part is obtained by Cartier duality, `F` on `M(G)` comes from `F_G` and
   `V` from `V_G`. Then `M(ℚ_p/ℤ_p) = (W(k), F = σ)`, `M(μ_{p^∞}) = (W(k), F = pσ)`, `dim G = dim_k
   M/FM`, and `M_{a,b} = W[F, V]/(F^a − V^b)` has slope `b/(a + b)`: étale groups have slope `0` and
   multiplicative groups slope `1`. The covariant module is `M_cov(G) = M(G^D) ≅ M(G)^t`, with
@@ -353,7 +355,7 @@ laws) with `FormalGroup.IsComm`.
   `BarsottiTate.dual`, `BarsottiTate.baseChange`, `BarsottiTate.ofAbelian` and
   `BarsottiTate.connectedEtale` as described above; Layer A3 (isogenies over a base, quotients by
   finite locally free subgroups, and §A3.2 `multiplicationAndDensity`, including finite locally
-  free A[n] of rank n^{2g} and base change).
+  free A[n] of rank |n|^{2g} for integers n ≠ 0 and base change).
 - **CrystallineCohomology.** §CR.4.7 *Slope decomposition on the existing isocrystal carrier*
   supplies standard cyclic blocks, algebraically closed Dieudonné–Manin classification,
   different-slope Hom vanishing and perfect-field slope descent. §CR.5:log-algebra.4
@@ -567,7 +569,9 @@ quasi-finite R-algebra is A × B with A finite and B ⊗ κ = 0). 𝒢^f is fini
 is a subgroup: 𝒢^f ×_R 𝒢^f is finite over R, and over a henselian base each connected component of a
 finite R-scheme meets the special fibre (condition (10)), so its image under multiplication lies in
 𝒢^f, which is open and closed. The same argument applies to the inverse and the unit section.
-Points: an 𝒪_L-point with L/K finite has 𝒪_L local and finite over R, so it lands in 𝒢^f; conversely
+Points: let 𝒪_L be the unique valuation ring extending R in a finite extension L/K.
+Spec 𝒪_L is connected, and the inverse image of the open-and-closed 𝒢^f contains its
+closed point because 𝒢′ has empty special fibre. Thus every 𝒪_L-point lands in 𝒢^f; conversely
 𝒢^f is finite, hence proper, and the valuative criterion extends K̄-points of 𝒢^f. (Stacks Project,
 Tag 02LO, Lemma 37.41.5: the decomposition; Stacks Project, Tag 04GG, Lemma 10.153.3 (13): the
 henselian case.)
@@ -580,6 +584,11 @@ henselian case.)
   fibre is trivial (the open complement of the nonzero sections of ℤ/pℤ over the closed point), 𝒢^f
   is the unit section.
 - `finitePart_of_finite`: for finite 𝒢, 𝒢^f = 𝒢.
+- `finitePart_nonfinite_normalization`: in characteristic p let f = Σ_{n≥1}t^{n!}
+  be transcendental, K = F_p(t,f^p), and R = (K ∩ F_p⟦t⟧)^h. The immediate
+  purely inseparable extension K^h(f)/K^h has degree p and nonfinite normalization:
+  a finite normalization would be free of rank p over R but have residue length one.
+  Its valuation spectrum is still connected, so the point-extension argument applies.
 - `finitePart_points`: for that group over `ℤ_p`, `𝒢^f(K̄) = 0` while `𝒢(K̄) = ℤ/p`: the nonzero
   generic points do not extend to `𝒪_L`-points, matching the description of `𝒢^f(K̄)`.
 
@@ -2313,13 +2322,14 @@ Mathlib `WittVector.verschiebung`; §R07.1.1.
 ### R07.2.6 The contravariant Dieudonné module of a finite commutative p-group scheme
 
 Construct `dieudonneModule`. Let k be perfect and G a finite commutative group scheme of p-power
-order over k, decomposed as G = G_rl ⊕ G_lr ⊕ G_ll (§R07.2.1). Define M(G_ll) = lim_{n,m} Hom(G_ll,
-W_n^m), M(G_rl) = lim_n Hom(G_rl, W_n), and, for a finite-length W(k)-module N with F, V, N\* =
+order over k, decomposed as G = G_rl ⊕ G_lr ⊕ G_ll (§R07.2.1). Define M(G_ll) = colim_{n,m} Hom(G_ll,
+W_n^m) along postcomposition with v and i, M(G_rl) = colim_n Hom(G_rl, W_n) along
+postcomposition with v, and, for a finite-length W(k)-module N with F, V, N\* =
 Hom_{W(k)}(N, W(k)[1/p]/W(k)) with (Fℓ)(n) = σ(ℓ(Vn)) and (Vℓ)(n) = σ^{−1}(ℓ(Fn)). Then M(G) :=
 M(G_rl) ⊕ M(G_lr\*)\* ⊕ M(G_ll) is a left E-module of finite length, contravariant in G, with F and
 V induced by F_G and V_G.
 
-*Construction.* M(G_ll): the E-action on the direct system W_n^m (§R07.2.4) makes lim Hom(G, W_n^m)
+*Construction.* M(G_ll): the E-action on the direct system W_n^m (§R07.2.4) makes colim_{n,m} Hom(G, W_n^m)
 a left E-module (Pink §23). M(G_rl): the same with the W_n (Pink §27). N ↦ N\* is an
 anti-equivalence on finite-length W(k)-modules with N ≅ N\*\* (Pink Proposition 26.1), and on left
 E-modules (Proposition 26.2); since G_lr\* is reduced–local, M(G_lr\*)\* is defined, and (28.1)
@@ -2342,6 +2352,9 @@ The API:
 - `dieudonneModule_zmodp`: M(ℤ/pℤ) ≅ k with F = σ, V = 0.
 - `dieudonneModule_muP`: M(μ_p) ≅ k with F = 0, V = σ^{−1}.
 - `dieudonneModule_alphaP`: M(α_p) ≅ k with F = V = 0.
+- `dieudonneModule_transition`: over F_p, Hom(ℤ/p,W_n) = p^{n−1}W_n(F_p).
+  Postcomposition with v identifies these one-dimensional groups, giving colim = F_p;
+  Witt truncation gives zero maps and inverse limit zero.
 - `dieudonneModule_trivial`: M(0) = 0.
 - `dieudonneModule_not_covariant`: M is contravariant: the inclusion μ_p ↪ μ_{p²} induces the
   surjection M(μ_{p²}) ↠ M(μ_p), not an injection.
@@ -2357,12 +2370,12 @@ anti-equivalence onto finite-length W(k̄)-modules with such an action; so the f
 group G₀ over k̄ correspond to the Galois-semilinear structures on M(G₀). (iii) Over k̄, a
 finite-length W(k̄)-module N with a bijective σ-linear F satisfies N ≅ W(k̄) ⊗_{ℤ_p} N^{F=1} (Lang).
 
-*Proof sketch.* (i) The functors lim Hom(−, W_n) and lim Hom(−, W_n^m) commute with perfect base
+*Proof sketch.* (i) The functors colim_n Hom(−, W_n) and colim_{n,m} Hom(−, W_n^m) commute with perfect base
 change because W_n(K) = W(K) ⊗_{W(k)} W_n(k) for perfect K/k (Demazure via nLab; Yu Theorem 3 and
 the remark after it). (ii) Finite Galois descent for vector spaces (Pink Theorem 11.2) passes to
 W_n(k′)-modules and to affine group schemes; passing to the limit over finite Galois subextensions
 of k̄/k gives descent for Hopf algebras and for finite-length W(k̄)-modules with continuous
-semilinear action; M(G_{k̄})^{Gal} = lim Hom(G_{k̄}, W_{n,k̄})^{Gal} = lim Hom(G, W_n) = M(G) (Pink,
+semilinear action; M(G_{k̄})^{Gal} = colim_n Hom(G_{k̄}, W_{n,k̄})^{Gal} = colim_n Hom(G, W_n) = M(G) (Pink,
 proof of Theorem 27.1). (iii) Pink Proposition 27.3: choose W(k̄)-bases, write F = φgσφ^{−1} with g
 in the connected group Aut_{W(k̄)}(N) and apply Lang's theorem to write g = h^{−1}σ(h). (Pink 2005,
 §27, proof of Theorem 27.1, p. 71: descent from k̄; Pink 2005, §27, Proposition 27.3, p. 70: part
@@ -2437,7 +2450,8 @@ Proposition 28.4). (Pink 2005, §28, Proposition 28.4, p. 73: the statement and 
 ### R07.2.10 Dieudonné classification of p-divisible groups
 
 Prove `dieudonnePDivisible`. Let k be perfect. For a p-divisible group G = (G_n) of height h over k
-put M(G) = lim_n M(G_n). Then G ↦ M(G) is an anti-equivalence from p-divisible groups over k to
+put M(G) = lim_n M(G_n), with transitions induced contravariantly by the inclusions
+G_n ↪ G_{n+1}. Then G ↦ M(G) is an anti-equivalence from p-divisible groups over k to
 W(k)-free Dieudonné modules of finite rank (free W(k)-modules with σ-linear F, σ^{−1}-linear V, FV =
 VF = p). Moreover M(G_n) ≅ M(G)/p^n M(G), rank_{W(k)} M(G) = h, M is exact and commutes with perfect
 base change, and M(G^D) ≅ M(G)^t := Hom_{W(k)}(M(G), W(k)) with (Ff)(x) = σ(f(Vx)) and (Vf)(x) =
@@ -2501,7 +2515,8 @@ M(ℚ_p/ℤ_p) ⊗ L and M(μ_{p^∞}) ⊗ L are the standard one-dimensional is
 
 Here `L = W(k)[1/p]`.
 
-*Proof sketch.* (i) M(ℤ/p^nℤ) = lim_m Hom(ℤ/p^n, W_m) = W_n(k) with F = σ; take the limit
+*Proof sketch.* (i) M(ℤ/p^nℤ) = colim_m Hom(ℤ/p^n, W_m) = W_n(k) along postcomposition with v,
+with F = σ; take the inverse limit
 (§R07.2.10). (ii) μ_{p^∞} is the Cartier dual of ℚ_p/ℤ_p (§R07.1.7), so M(μ_{p^∞}) = M(ℚ_p/ℤ_p)^t:
 for f the dual basis vector, (Ff)(e) = σ(f(Ve)) = p and (Vf)(e) = σ^{−1}(f(Fe)) = 1. (iii) FV = VF =
 p on the displayed bases; dim M/FM = 1 in both (§R07.2.11). Rationally, F acts on M(ℚ_p/ℤ_p) ⊗ L by
@@ -3103,9 +3118,10 @@ CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation theory); Crys
 
 - `deJong_finite_field`: over a finite field E = F_q: D is the classical Dieudonné module
   (§R07.2.10), and full faithfulness recovers End(G) for G over F_q.
-- `deJong_idempotent`: consequence used by D'Addezio: for A over a finitely generated E, an
-  idempotent of End of the Dieudonné crystal of A[p^∞] comes from End(A[p^∞]) and hence (Tate's
-  conjecture over E) from End(A) ⊗ ℚ_p.
+- `deJong_idempotent`: for A over a field E finitely generated over F_p, an idempotent
+  of End(D(A[p^∞])) comes from End(A[p^∞]) by crystalline full faithfulness.
+- `deJong_zero`: the zero p-divisible group gives the zero crystal, whose only endomorphism
+  and idempotent is zero; the equivalence preserves it.
 
 ### R07.2.28 Scholze–Weinstein: Dieudonné theory over f-semiperfect rings
 
@@ -3184,11 +3200,32 @@ and its period realization.)
 
 ### R07.2.29 Berthelot: Dieudonné theory over perfect valuation rings
 
+**Modules of constant fibre length.** For a perfect integral domain A of characteristic p
+whose localisations are fields or valuation rings, define `BerthelotConstantLength(A,M)` for
+a W(A)-module M: it is finitely generated, killed by a power of p, and the finite lengths
+of M ⊗_{W(A)} W(κ(𝔭)) are equal for every 𝔭 ∈ Spec A. Prove finite presentation,
+vanishing of Tor₁ with W(κ(𝔭)), and compatibility with localization and the dual
+Hom_{W(A)}(M,W(A)[1/p]/W(A)). For nonzero M the projective dimension is one;
+zero is also admitted. This fibre length is distinct from the global Module.length.
+(Berthelot 1980, §3.1, Corollaries 3.1.2–3.1.3 and the following definition, p. 247;
+Proposition 3.1.4, pp. 247–248: duality.)
+
+*Needs:* §R07.2.5; Mathlib `WittVector`, `Module.Finite` and `Module.length`.
+
+**Checks.**
+
+- For A = k a perfect field, the fibre length is the ordinary finite W(k)-module length.
+- For a nonfield perfect valuation ring V, M(μ_p) = V = W(V)/p has fibre length one
+  at every prime but infinite global Module.length: powers of a nonzero nonunit give
+  arbitrarily long chains of W(V)-submodules.
+- Zero has constant fibre length zero; an infinite direct sum of W(A)/p is excluded
+  by finite generation and infinite fibre length.
+
 Prove `berthelotPerfectValuationRings`. Let A be a perfect integral domain of characteristic p whose
 localisations are fields or valuation rings (for instance a perfect valuation ring). With CW the
 Witt covectors and D_A = W(A)[F, V]/(FV − p, VF − p) (semilinear relations), the functor G ↦ M(G) =
 Hom(G, CW) is an anti-equivalence (with quasi-inverse M ↦ G_M) from finite locally free commutative
-p-torsion group schemes over A to left D_A-modules of constant length over W(A), and from
+p-torsion group schemes over A to left D_A-modules satisfying BerthelotConstantLength(A,M), and from
 p-divisible groups over A to left D_A-modules that are locally free of finite rank over Spf W(A);
 M(G) has rank the height of G. In particular the Dieudonné functor over a perfect valuation ring V
 is fully faithful, and a homomorphism of p-divisible groups over Frac V extends to V iff its
@@ -3207,7 +3244,8 @@ anti-equivalences for finite p-torsion groups and p-divisible groups over perfec
 local rings are fields or valuation rings; Caraiani–Scholze 2017, §4.2, proof of Lemma 4.2.16, pp.
 710–711: full faithfulness over perfect valuation rings used to extend homomorphisms.)
 
-*Needs:* §R07.2.28a `wittCovectors`; §R07.2.8; §R07.2.10; §R07.2.5; Mathlib `WittVector`.
+*Needs:* `BerthelotConstantLength` and its finite-presentation/localization API above;
+§R07.2.28a `wittCovectors`; §R07.2.8; §R07.2.10; §R07.2.5; Mathlib `WittVector`.
 
 **Checks.**
 
@@ -3558,7 +3596,7 @@ with θ : W(R)[1/p] → C, and ξ a generator of ker θ. The ring S is W(R)[[x]/
 filtered by Fil^i S = (ker θ)^i ∩ {x ∈ S : Φx ∈ p^i S} for i ≥ 0 (the i-th power of the kernel of θ
 on W(R)[1/p]) and Fil^i S = S for i ≤ 0, with φ^i = p^{−i}Φ on Fil^i S. It is a filtered
 module over W(k), stable under Gal(K̄/K), whose Galois action commutes with Φ and preserves the
-filtration; its p-adic completion Ŝ = lim S/p^n S and S_K = K ⊗ S are the rings used for lattices
+filtration; its p-adic completion Ŝ = lim S/p^n S and S_K = K ⊗_{W(k)} Ŝ are the rings used for lattices
 and for rational representations.
 
 The setting is the Fontaine–Laffaille setting of §R07.3.4. The ring R = lim_{x↦x^p} O_K̄/p, W(R) and
@@ -3572,7 +3610,7 @@ Proposition 2.4). W_K(R) as a filtered module (FL 2.6) and the subring S with it
 preserving Fil^i S (FL 3.1). S̄ := coker(p on S) in \widetilde{MF} and Ŝ = lim S/p^n S.
 (Fontaine–Laffaille 1982, §2.1, p. 559: the ring R; Fontaine–Laffaille 1982, §0.5, p. 550: the role
 of S; Fontaine–Laffaille 1982, §§2.6–2.7, p. 561: the filtration of W_K(R) by the powers of ker θ,
-the ring S and its filtration.)
+the ring S and its filtration; §§7.14–7.17, pp. 593–594: completion and S_K.)
 
 The API:
 
@@ -3625,7 +3663,7 @@ The API:
 
 Prove `flSimpleObjects`. Let k be algebraically closed. For h ≥ 1 and i : ℤ/h → ℤ, M(h; i) is
 k^{ℤ/h} with basis (e_m), Fil^j = ⊕_{i_m ≥ j} k e_m and φ^{i_m}(e_m) = e_{m−1}. It is simple in
-MF_tor iff the period of i is h, and then End(M) ≅ 𝔽_{p^h} via v_a(e_m) = a^{p^{−m}} e_m, with indices
+MF_tor iff the period of i is h, and then End(M) ≅ 𝔽_{p^h} via v_a(e_m) = a^{p^{−m−1}} e_m, with indices
 modulo h. Every simple object
 of MF_tor is killed by p and is represented by M(h; i), uniquely up to cyclic rotation
 of i as an underlying filtered module. If an identification 𝔽_{p^h} ≅ End(M) is fixed,
@@ -3648,7 +3686,7 @@ iff period h, and End = 𝔽_{p^h} (FL Proposition 4.4). (Fontaine–Laffaille 1
 - `flSimpleObjects_period`: M(2; (0, 0)) has period 1, so it is not simple: it is M(1; 0)².
 - `flSimpleObjects_end`: `End M(2; (0, 1)) = F_{p²}`, not `F_p` and not `k`.
 - For h = 3, i = (0,1,2), a ∈ F_{p³} and m modulo 3, both φ^{i_m}v_a(e_m)
-  and v_aφ^{i_m}(e_m) equal a^{p^{1−m}}e_{m−1}. The direction of the basis cycle
+  and v_aφ^{i_m}(e_m) equal a^{p^{−m}}e_{m−1}. The direction of the basis cycle
   is required for this commutation.
 - M(2;(0,1)) and M(2;(1,0)) are isomorphic after exchanging basis vectors. The
   exchange twists the fixed F_{p²}-action by Frobenius, so it does not contradict
@@ -3679,6 +3717,10 @@ character.)
   ω^{p−1} = 1 (FL 0.9): the endpoint collision.
 - `flTameInertia_level_two`: M(2; (1, 0)) gives the fundamental character of level two, χ_2^{1},
   which is not a power of ω on inertia.
+- `flTameInertia_field_action`: for i = (1,0), choose ϖ^{p²−1} = p, a₁ = ϖ and
+  a₀ = ϖ^p, so a₀^p = pa₁ and a₁^p = a₀. Precomposition by v_a acts by a on
+  a₁, giving inertia scalar χ₂. The identification e_m ↦ a^{p^{−m}}e_m instead
+  gives χ₂^p.
 - `flTameInertia_sign`: `U_S(M(1; 1)) = ω`, the Galois module of `μ_p` on inertia; with the opposite
   weight convention it would be `ω^{−1}`.
 
@@ -3842,7 +3884,7 @@ Full faithfulness: from Theorem 6.1 at each level and a limit argument (FL Propo
 
 ### R07.3.15 S_K as a filtered Galois subring of the crystalline period ring
 
-Prove `flPeriodComparison`. For E = ℚ_p, the K-algebra S_K = K ⊗ S with its filtration, Φ and
+Prove `flPeriodComparison`. For E = ℚ_p, the K-algebra S_K = K ⊗_{W(k)} Ŝ with its filtration, Φ and
 G_K-action is identified with a filtered Galois subring of Fontaine's crystalline period ring (the
 ring written B in [F2] §4, a ring of B⁺_cris type); in terms of A_cris, Ŝ ⊆ A_cris with
 Φ compatible and Fil^i S_K = S_K ∩ Fil^i B_dR.
@@ -3852,10 +3894,9 @@ Frobenius, filtration and Galois action are SelmerIwasawaCohomology §§4.1–4.
 predates `A_cris` and states the identification with the ring of Fontaine's [F2] §4.
 
 *Proof sketch.* FL, proof of Theorem 8.4: with a the ideal of R of elements of valuation ≥ p, S_K is
-identified, as a filtered Galois ring, with Fontaine's ring of [F2] §4. Both rings are built from
-W(R) by adjoining divided powers of the generator of ker θ; S is generated by W(R) and the allowed
-divided powers (§R07.3.6), which lie in A_cris, and θ extends compatibly, which gives Ŝ ⊆ A_cris and
-the filtration comparison (SelmerIwasawaCohomology §4.2). (Fontaine–Laffaille 1982, §8.4, proof of
+identified, as a filtered Galois ring, with Fontaine's ring of [F2] §4. The inclusion S → A_cris extends to the p-adic completion Ŝ;
+inverting p gives S_K → B⁺_cris, with θ and Φ compatible. The filtered-ring identification
+of FL §8.4 gives the filtration comparison (SelmerIwasawaCohomology §4.2). (Fontaine–Laffaille 1982, §§7.14–7.17, pp. 593–594: the completed ring; §8.4, proof of
 Theorem 8.4, pp. 595–596: the identification.)
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.3.6; SelmerIwasawaCohomology §4.2 (`aCris`, `bCris`).
@@ -3865,6 +3906,9 @@ Theorem 8.4, pp. 595–596: the identification.)
 - `flPeriodComparison_xi`: ξ = [p̃] − p (p̃ ∈ R with p̃^{(0)} = p) lies in Fil^1 S, since θ(ξ) = 0
   and Φ(ξ) = [p̃]^p − p ∈ pS, matching ξ ∈ Fil^1 B_dR; the element p lies in neither, although
   Φ(p) = p ∈ pS, so the condition on Φ alone does not define the filtration.
+- `flPeriodComparison_positive_period`: the jump-one unit has a nonzero period s ∈ S_K
+  with Φ(s) = ps. In A_inf[1/p] there is no such nonzero s: Frobenius preserves its
+  p-adic order, whereas multiplication by p increases that order by one.
 - `flPeriodComparison_frobenius`: the comparison respects Φ: Φ[x] = [x^p] on both sides, and
   [p̃]^p/p ∈ S lies in A_cris.
 - Over K = Frac W(F_p(t)^perf), the weight-zero unit gives the trivial ℚ_p
@@ -3873,9 +3917,11 @@ Theorem 8.4, pp. 595–596: the identification.)
 ### R07.3.16 Theorem 8.4: weakly admissible modules of filtration length < p are admissible
 
 Prove `flAdmissibility`. Let D be a weakly admissible filtered φ-module over K₀ with Fil^j D = D and
-Fil^{j+p} D = 0 for some j (filtration length < p). Then D is admissible (crystalline), and
-U_{S_K}(D) := ℚ_p ⊗ U_S(M), for any strongly divisible lattice M of D, is naturally the dual of
-V_B(D) = V_cris(D). With Fil^0 D = D, dim_{ℚ_p} U_{S_K}(D) = dim_{K₀} D and D ↪
+Fil^{j+p} D = 0 for some j (filtration length < p). Then D is admissible (crystalline). For an effective D with Fil⁰D = D and Fil^pD = 0,
+put U_{S_K}(D) = Hom_{Fil,Φ}(D,S_K) ≅ ℚ_p ⊗ U_S(M) for a strongly divisible lattice M
+of D. For the translated interval define U(D) = U_{S_K}(D⟨j⟩)(j), applying U_S only
+to lattices of D⟨j⟩. This is naturally V_cris(D)^∨, independent of j and the lattice.
+In the unshifted range, dim_{ℚ_p} U_{S_K}(D) = dim_{K₀} D and D ↪
 Hom_{G_K}(U_{S_K}(D), S_K) (Proposition 7.17). This rational statement is distinct from the torsion
 full faithfulness, whose safe interval is [0, p − 2].
 
@@ -3888,7 +3934,7 @@ Fontaine's period ring in §R07.3.15.
 canonical map D → Hom_{G}(U_{S_K}(D), S_K) is injective by comparing with the torsion levels M_n →
 Hom_G(U_S(M_n), S_n). Theorem 8.4: S_K is a filtered Galois subring of Fontaine's period ring (8.4
 proof), so dim Hom_G(V, S_K) ≥ dim D forces D to be admissible, and U_{S_K}(D) = V_B(D)^∨ naturally.
-Twist to j = 0 using the shift of §R07.3.4; the range 0 ≤ weights ≤ p − 1 is allowed rationally
+For general j use D⟨j⟩ of §R07.3.1 and twist its contravariant realization by j; the range 0 ≤ weights ≤ p − 1 is allowed rationally
 (length < p), unlike the torsion safe interval. (Fontaine–Laffaille 1982, §8.4, Theorem 8.4, p. 595:
 the theorem; Fontaine–Laffaille 1982, §7.17, Proposition 7.17, p. 594: dimension and injectivity.)
 
@@ -3903,6 +3949,9 @@ SelmerIwasawaCohomology §4.5 (`dCris`,
   weight 1.
 - `flAdmissibility_length`: a weakly admissible D with weights {0, p} (length p + 1 > p) is outside
   the theorem; such weights need Breuil–Kisin (R07.4).
+- `flAdmissibility_negative_twist`: D = unit⟨1⟩ has jump −1 and Φ = p^{−1}σ.
+  The unshifted Hom(M,Ŝ) is zero, since f(e) = pΦ(f(e)) forces divisibility by every p^n;
+  U(D) = U_{S_K}(unit)(−1) = ℚ_p(−1).
 - For the zero filtered module, the period realization is zero and all admissibility
   dimension equalities hold, over every allowed perfect residue field.
 
@@ -3985,7 +4034,7 @@ equivalence between Honda systems and MF_tor^{f,2}, the anti-equivalence with fi
 
 ### Examples
 
-- The unit object of weight `j` (`W(k)/p` with its jump in degree `j` and `φ^j = σ`) gives the
+- For `0 ≤ j ≤ p − 1`, the unit object of weight `j` (`W(k)/p` with its jump in degree `j` and `φ^j = σ`) gives the
   character `ω^j` on tame inertia; for `j = 1` and `k = F_p` this is the mod-`p` cyclotomic
   character, the Galois module of `μ_p`.
 - Over `W(k)`, the finite flat group `ℤ/p` corresponds to `k` with its filtration jump in degree `0`
@@ -4099,7 +4148,7 @@ the definitions themselves need neither.
 *Construction.* For 𝔐 in (Mod/𝔖), 1 ⊗ φ is injective: by dévissage reduce to p𝔐 = 0, where 𝔐 is free
 of rank r over 𝔖/p = k⟦u⟧ and det(1 ⊗ φ) divides u^{er}, a non-zero-divisor (Kisin 2009, 1.1.9). In
 Mod^φ_{/𝔖}, 1 ⊗ φ is injective: its source and target are free of the same rank and its cokernel is
-torsion. Kisin 2006 (2.3.2): a finitely generated torsion 𝔖-module has projective dimension 1 iff it
+torsion. Kisin 2006 (2.3.2): a nonzero finitely generated torsion 𝔖-module has projective dimension 1 iff it
 has depth 1 (Auslander–Buchsbaum, 𝔖 regular of dimension 2) iff it has no nonzero section supported
 at the closed point; then the 𝔐[pⁱ]/𝔐[pⁱ⁻¹] are free over 𝔖/p, and 1 ⊗ φ on each has kernel killed
 by E(u), hence is injective. Heights add under ⊗: if E(u)^a and E(u)^b kill the two cokernels, the
@@ -4116,8 +4165,9 @@ The API:
 - `KisinModule.rankOne`: the rank-one module 𝔖e with φ(e) = c·e, for c ∈ 𝔖 of finite E-height, and
   `KisinModule.unit`, the unit object (𝔖, φ) (c = 1).
 - `KisinModule.category`: The category Mod^φ_{/𝔖}, with ⊗ and the full subcategory BT^φ_{/𝔖}.
-- `TorsionKisinModule`: An object of (Mod/𝔖): p-power torsion, projective dimension 1, cokernel of 1
-  ⊗ φ killed by E(u).
+- `TorsionKisinModule`: A finitely generated p-power-torsion 𝔖-module with a finite free
+  resolution of length at most 1, including zero, and Frobenius linearisation cokernel killed
+  by E(u).
 - `TorsionKisinModule.IsMultiplicative`: 1 ⊗ φ is an isomorphism.
 - `TorsionKisinModule.IsEtale`: The image of 1 ⊗ φ is E(u)𝔐.
 
@@ -4288,6 +4338,9 @@ D(𝓜(D)) ≅ D; Kisin 2006, §1.2.15, Theorem (1.2.15), p. 12: the equivalence
 
 - `phiNNabla_unit`: D = K₀ with φ = σ, N = 0 and Fil⁰D_K = D_K, Fil¹ = 0: 𝓜(D) = 𝒪 with φ = φ_𝒪,
   E-height 0.
+- `phiNNabla_negative_twist`: D = K₀ with φ = p^{−1}σ and filtration jump −1
+  is excluded by effectivity (Fil⁰ = 0 ≠ D). Its Tate twist D⟨−1⟩ is the weight-zero
+  unit and lies in the effective category.
 - `phiNNabla_cyclotomic`: D = K₀ with φ = pσ and Fil¹D_K = D_K, Fil² = 0 (the module of ℚ_p(1) under
   Kisin's contravariant convention): coker(1 ⊗ φ) ≅ 𝒪/E(u), E-height exactly 1.
 
@@ -4362,7 +4415,7 @@ Prove `kedlayaSlopeFiltration`. In the setting of §R07.4.7:
 1. (Dieudonné–Manin over the extended Robba ring.) After base change to the extended Robba ring
    `ℛ^alg` (built in the same way from the completed algebraic closure of `k((u))` in place of
    `k((u))`), every `φ`-module is a direct sum of standard modules `M_{c,d}`: `M_{c,d}` is free on
-   `e₁, …, e_d` with `φ(e_i) = e_{i+1}` for `i < d` and `φ(e_d) = p^c e₁`, for coprime `c`, `d > 0`,
+   `e₁, …, e_d` with `φ(e_i) = e_{i+1}` for `i < d` and `φ(e_d) = p^c e₁`, for `c ∈ ℤ`, `d > 0` with `gcd(c,d) = 1`,
    of slope `c/d`.
 2. (Slope filtration.) Every `φ`-module `M` over `ℛ` has a unique filtration `0 = M₀ ⊂ M₁ ⊂ ⋯ ⊂ M_l
    = M` by saturated `φ`-submodules whose successive quotients `M_i/M_{i−1}` are pure of slopes `s₁
@@ -4404,6 +4457,8 @@ The API:
 
 **Checks.**
 
+- `standard_zero_negative`: `M_{0,1}` is the unit with `φ(e) = e`, of slope `0`;
+  `M_{−1,1}` has `φ(e) = p^{−1}e`, of slope `−1`. Both are standard pure modules.
 - `standard_one_two`: `M_{1,2}` (`φ(e₁) = e₂`, `φ(e₂) = p e₁`) has rank `2`, degree `1` and slope
   `1/2`, and it is pure of slope `1/2`: `p^{−1} φ²` fixes `e₁` and `e₂`. A slope read off as the
   least valuation of the entries of the matrix of `φ` would give `0`.
@@ -4418,7 +4473,7 @@ The API:
 Prove `weaklyAdmissibleSlopeZero`. Let D be an effective filtered (φ, N)-module over K and 𝓜(D) its
 (φ, N_∇)-module over 𝒪. Then D is weakly admissible iff 𝓜(D) ⊗_𝒪 ℛ is pure of slope 0 in Kedlaya's
 sense, ℛ being the Robba ring (the germs at the boundary of functions on annuli (r, 1)).
-Consequently (Kisin 2006, 1.3.13) 𝔐 ↦ 𝔐 ⊗_𝔖 𝒪 is an equivalence of Tannakian categories from (φ,
+Consequently (Kisin 2006, 1.3.13) 𝔐 ↦ 𝔐 ⊗_𝔖 𝒪 is an exact tensor equivalence of effective categories from (φ,
 N)-modules over 𝔖 of finite E-height, up to isogeny, to the (φ, N)-modules over 𝒪 of finite E-height
 whose base change to ℛ is pure of slope 0.
 
@@ -4443,6 +4498,8 @@ slope filtration, as quoted by Kisin.)
 
 - `waSlopeZero_rankOne`: the rank-one module 𝓜(K₀e, φ = pσ, Fil¹ = D) (t_N = t_H = 1) is pure of
   slope 0; the same module with Fil⁰ = D, Fil¹ = 0 has t_H = 0 ≠ 1 = t_N and slope 1.
+- `waSlopeZero_dual_boundary`: the height-one object of `ℚ_p(1)` is effective, while its
+  tensor dual has filtration jump `−1` and is outside the effective category.
 - `waSlopeZero_rankTwo`: K = K₀, D = K₀e₁ ⊕ K₀e₂ with φ = diag(σ, pσ): with Fil¹D = K₀(e₁ + e₂) (and
   Fil² = 0) D is weakly admissible, so 𝓜(D) is pure of slope 0; with Fil¹D = K₀e₁ the line K₀e₁ has
   t_H = 1 > 0 = t_N, so 𝓜(D) is not pure of slope 0.
@@ -4548,8 +4605,11 @@ part (2); Kisin 2008, §1.2, p. 4: part (1).)
 - `finiteHeightLattices_unique`: M = (𝒪_ℰ, φ): the lattice u𝔖 is φ-stable, but the image of 1 ⊗ φ on
   it is u^p𝔖 = u^{p−1}·(u𝔖), and 𝔖/u^{p−1} is killed by no power of E(u) (E(0) ≠ 0); only 𝔖 has
   finite E-height, as uniqueness requires.
-- `finiteHeightLattices_cyclotomic`: ℚ_p(1): the G_{K∞}-stable lattices pⁿℤ_p(1) correspond to the
-  lattices pⁿ𝔖e ⊂ ℰe, all of E-height 1.
+- `finiteHeightLattices_zero`: the zero étale module has the unique zero 𝔖-lattice,
+  corresponding to the unique lattice of the zero representation.
+- `finiteHeightLattices_cyclotomic`: ℚ_p(1): the G_{K∞}-stable lattices pⁿℤ_p(1) correspond, reversing
+  inclusions, to p^{−n}𝔖e ⊂ ℰe, all of E-height 1. These embeddings come from the
+  contravariant Hom pairing.
 
 ### R07.4.13 Semistable representations have finite E-height; weakly admissible implies admissible
 
@@ -4778,6 +4838,38 @@ crystal); CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation the
 
 ### R07.4.19 The Tate module of a p-divisible group from its Breuil module and A_cris
 
+**Crystalline comparison for p-divisible groups.** Prove `BarsottiTate.isCrystalline`.
+Let K be complete discretely valued of mixed characteristic (0,p), with perfect residue
+field k, K₀ = W(k)[1/p] and K/K₀ finite totally ramified. For every p-divisible group
+G over O_K, V_p(G) is crystalline, and there is a natural identification
+D_cris(V_p(G)^∨) ≅ D(G_k)(W(k))[1/p]. Construct the G_K-equivariant, Frobenius-compatible
+comparison
+B_cris ⊗_{K₀} D(G_k)(W(k))[1/p] ≅ B_cris ⊗_{ℚ_p} V_p(G)^∨.
+After extension to B_dR it preserves the Hodge filtration coming from
+0 → ω_G → D(G)(O_K) → Lie(G^∨) → 0. Its G_K-action comes from the crystalline
+period evaluation, before the Kisin classification.
+
+*Proof sketch.* Evaluate the contravariant crystal on the G_K-equivariant PD period
+thickenings, using maps from the constant p-divisible group to G over O_K̄. Faltings's
+period pairing becomes perfect after passing to B_cris; crystalline base change identifies
+its special-fibre evaluation with D(G_k)(W(k))[1/p]. The Hodge filtration is the
+filtration induced by evaluation on O_K. Take G_K-invariants in the comparison, then
+use preservation of crystallinity by duals. (Faltings 1999, Theorem 7, as quoted in Kisin 2006, §2.2.4;
+Kisin 2006, §2.2.4, Lemma (2.2.4), p. 26: the period pairing.)
+
+*Needs:* §R07.3.0 `generalBasePeriodRings`; §R07.1.8; §R07.2.10;
+CrystallineCohomology §CR.7.2 (the contravariant crystal, base change and Hodge filtration).
+
+**Checks.**
+
+- For G = ℚ_p/ℤ_p, both rational realizations are the unit, with Frobenius σ and jump zero.
+- For G = μ_{p^∞}, D_cris(V_p(G)^∨) has Frobenius pσ and jump one. Its comparison
+  uses the period t; D_cris(V_p(G)) instead has p^{−1}σ and jump −1.
+- Over O_K with arbitrary perfect k and also at p = 2, the rational comparison has
+  dimension equal to the height. The zero group has zero comparison on both sides.
+
+**Integral Tate-module pairing.**
+
 Prove `tateModuleAcris`. Let G be a p-divisible group over 𝒪_K and regard A_cris as an S-algebra via
 u ↦ [π̃]. There is a canonical G_{K∞}-equivariant injection T_p(G) ↪ Hom_{S,Fil,φ}(𝓜(G), A_cris),
 𝓜(G) = 𝔻(G)(S); it is an isomorphism if p > 2, and its cokernel is killed by p if p = 2. For 𝔐 ∈
@@ -4828,8 +4920,8 @@ The setting is the Kummer frame of §R07.4.1. Conventions: Kisin's contravariant
 BT^φ_{/𝔖} a lattice in its image under (2.2.2). 𝓜 = S ⊗_{φ,𝔖} 𝔐 lies in BT^φ_{/S} (2.2.3) and, up to
 isogeny even when p = 2, is 𝔻(G)(S) for a p-divisible group G (A.6). By (2.2.4), T_p(G) ⊗ ℚ_p ≅
 Hom_{S,Fil,φ}(𝓜, A_cris) ⊗ ℚ_p ≅ Hom_{S,Fil,φ}(D, B⁺_cris) = V as G_{K∞}-representations, using 𝓜 ⊗
-ℚ_p ≅ D ⊗_W S compatibly with φ and filtrations (Breuil, as cited; or from Kisin 2006, 1.2.6). Both
-sides are crystalline G_K-representations, so the G_{K∞}-isomorphism is G_K-equivariant by (2.1.14).
+ℚ_p ≅ D ⊗_W S compatibly with φ and filtrations (Breuil, as cited; or from Kisin 2006, 1.2.6). By §R07.4.19 `BarsottiTate.isCrystalline`, V_p(G) is crystalline. Both
+sides are therefore crystalline G_K-representations, so the G_{K∞}-isomorphism is G_K-equivariant by (2.1.14).
 Potentially crystalline case: apply the theorem over a finite extension L/K over which V becomes
 crystalline. Lattices: full faithfulness is Tate's theorem (§R07.1.22). Given a G_K-stable lattice T
 in V ≅ V_p(G′), scale so that T_p(G′) ⊆ T ⊆ p^{−N}T_p(G′); the image of T/T_p(G′) in
@@ -4839,7 +4931,8 @@ at p = 2 (Raynaud's limit
 theorem). (Kisin 2006, §2.2.6, Corollary (2.2.6), p. 26: the corollary, all p; Kisin 2006,
 Introduction, Theorem (0.3), p. 3: theorem (0.3).)
 
-*Needs:* §R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup`; §R07.4.17; §R07.4.18; §R07.4.19;
+*Needs:* §R07.4.19 `BarsottiTate.isCrystalline`;
+§R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup`; §R07.4.17; §R07.4.18; §R07.4.19;
 §R07.4.14; §R07.1.8; §R07.1.22; §R07.1.20.
 
 **Checks.**
@@ -4875,7 +4968,8 @@ fully faithful functor from (Mod FI/𝔖)_{ℤ_p}, essentially surjective by lif
 deformation. (Kisin 2006, §2.2.7, Theorem (2.2.7), p. 26: the theorem; Kisin 2009, §2.2.22,
 Corollary (2.2.22), p. 29: the p > 2 form of Kisin 2009.)
 
-*Needs:* §R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup`; §R07.4.17; §R07.4.18; §R07.4.19;
+*Needs:* §R07.4.19 `BarsottiTate.isCrystalline`;
+§R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup`; §R07.4.17; §R07.4.18; §R07.4.19;
 §R07.4.12; §R07.4.11; §R07.1.22; §R07.1.7.
 
 **Checks.**
@@ -4994,7 +5088,8 @@ H′)(K̄) its graph, a G_{K∞}-stable subgroup; it suffices that Γ is G_K-sta
 M = 𝒪_ℰ ⊗ 𝔐. By Fontaine's equivalence (§R07.4.5), Γ ⊂ T\*(𝔐) = T\*(M) corresponds to a quotient M ↠
 N of étale φ-modules. Let 𝔑 be the image of 𝔐 in N. 𝔑 ∈ (Mod/𝔖): it is finitely generated, killed by
 a power of p, φ-stable, and has no u-torsion (N is a module over 𝒪_ℰ, in which u is invertible), so
-it has depth 1 and projective dimension 1 (Kisin 2006, 2.3.2); and E(u)𝔑 lies in the image of 1 ⊗ φ
+if nonzero it has depth 1 and projective dimension 1, while zero has a resolution of length 0
+(Kisin 2006, 2.3.2); and E(u)𝔑 lies in the image of 1 ⊗ φ
 because this holds for 𝔐. Moreover 𝒪_ℰ ⊗ 𝔑 = N, since 𝒪_ℰ is flat over 𝔖. 𝔎 = ker(𝔐 ↠ 𝔑) is in
 (Mod/𝔖): if x ∈ 𝔎 and E(u)x = (1 ⊗ φ)(y), the image of y in φ\*𝔑 is killed by the injective map 1 ⊗
 φ (Kisin 2009, 1.1.9), so y ∈ φ\*𝔎 by flatness of φ. Thus 0 → 𝔎 → 𝔐 → 𝔑 → 0 is exact in (Mod/𝔖). By
@@ -5107,8 +5202,11 @@ E-module D of rank n with an F₀-semilinear, E-linear automorphism φ, a nilpot
 with Nφ = pφN, a decreasing exhaustive separated filtration on D_F = F ⊗_{F₀} D, and an
 F₀-semilinear, E-linear action of Gal(F/F′) commuting with φ and N and preserving the filtration. It
 is weakly admissible if the underlying filtered (φ, N)-module over F (forgetting the
-Gal(F/F′)-action) is weakly admissible. The Weil group W_{F′} acts on D in two commuting ways,
-through Gal(F/F′) and by φ^{α(g)} (α(Frob) = 1), which defines a Weil–Deligne representation WD(D);
+Gal(F/F′)-action) is weakly admissible. Let α_{F′} : W_{F′} → ℤ send arithmetic Frobenius to 1 and put
+a(g) = [k_{F′}:F_p]α_{F′}(g). If g_D is the semilinear descent action,
+r(g) = g_D ∘ φ^{−a(g)} is F₀ ⊗ E-linear and defines WD(D), with
+r(g)Nr(g)^{−1} = p^{a(g)}N. Here the Weil norm is |g| = p^{−a(g)}, so the
+monodromy factor is |g|^{−1} in this arithmetic-Frobenius convention;
 for V an E-representation of G_{ℚ_p} semistable over F, WD(V) = WD(D^F_st(V)) and the Galois type
 τ(V) = WD(V)|_{I}, independent of F. Structure: when F ⊆ E, every (F, E, G)-module (an F ⊗_K
 E-module with semilinear G = Gal(F/K)-action) is free and isomorphic to ∐_{σ: F ↪ E} V for an
@@ -5121,7 +5219,9 @@ unramified subfield of F, and the uniformiser p of ℚ_p fixes the embedding B_s
 *Construction.* (F, E, G)-modules are free by Galois descent: M = F ⊗_K M^G and M^G is an E-vector
 space (Savitt, Lemma 2.1). For F ⊆ E, θ : F ⊗_K E ≅ ∐_σ E, f ⊗ e ↦ (σ(f)e)_σ, is an isomorphism of
 (F, E, G)-modules, and M ≅ ∐_σ M_σ with the M_σ identified by the G-action (Lemma 2.2, Proposition
-2.4). WD_σ(h)(m_σ) = h^{−1}·₂ h·₁ m_σ defines a representation of the Weil group on each M_σ, all
+2.4). The p-power Frobenius acts on F₀ by σ; the descent action of g acts on F₀ by
+σ^{a(g)}, so φ^{−a(g)} cancels it. The two actions commute. From Nφ = pφN
+one gets φ^{−a(g)}Nφ^{a(g)} = p^{a(g)}N. Thus r gives a representation on each M_σ, all
 isomorphic (Definition 2.6). Weak admissibility is that of Breuil–Mézard for the underlying module
 (Definition 2.8); the properties of WD(V) (independence of F, ⊗, WD(ε_F) unramified) are from
 Conrad–Diamond–Taylor, App. B.2, as recalled by Savitt. (Savitt 2005, §2.2, Definition 2.7, p. 6:
@@ -5135,13 +5235,16 @@ The API:
   preserving the filtration.
 - `FilteredPhiNModuleDD.IsWeaklyAdmissible`: Weak admissibility of the underlying filtered (φ,
   N)-module.
-- `FilteredPhiNModuleDD.weilDeligne`: WD(D) from the two commuting W_{F′}-actions.
+- `FilteredPhiNModuleDD.weilDeligne`: WD(D) with r(g) = g_D ∘ φ^{−[k_{F′}:F_p]α_{F′}(g)} and its arithmetic norm relation.
 - `galoisType`: τ(V) = WD(V)|_{I}.
 
 *Needs:* §R07.3.1; §R07.3.2.
 
 **Checks.**
 
+- `dst_unramified_quadratic`: F = F′ = E = ℚ_{p²}, D = F₀ ⊗ E and φ = σ ⊗ 1.
+  Arithmetic Frobenius has a(g) = 2, so r(g) = φ^{−2} = 1 is F₀ ⊗ E-linear;
+  φ^{−1} would interchange the two embeddings and fail linearity.
 - `dst_cyclotomic_teichmuller`: For F₁ = ℚ_p(ζ_p): D^{F₁}_{st,k}(ε^i ω̃^j λ_a) = E·e with N = 0,
   φ(e) = p^{k−i−1}a^{−1}e and g·e = ω̃^j(g)e (Savitt, Example 2.13).
 - `trivial_descent`: F′ = F: the Gal(F/F′)-action is trivial and the object is a filtered (φ,
@@ -5267,11 +5370,58 @@ defines a G_{F′}-action on lim G(n)(O_{ℚ̄_p}); the two constructions are in
 
 ### R07.4.31 Strongly divisible modules with tame descent data
 
+**Breuil's syntomic sheaves and completed period rings.** Construct `breuilSyntomicPeriods`.
+Let F/ℚ_p be finite with uniformiser π, residue field k_F and Breuil ring S of §R07.4.1.
+Construct the small p-adic formal syntomic site of O_F, with flat formally finitely
+presented local complete intersection objects and jointly surjective syntomic covers.
+For X in this site put X_n = X ×_{O_F} O_F/p^n. Define O^cris_{n,π} by sheafifying
+the PD envelope of
+W_n(k_F)[u] ⊗_{φ^n,W_n(k_F)} W_n(Γ(X₁,O_{X₁})) → Γ(X_n,O_{X_n}),
+where u maps to π and Witt coordinates map by the lifted Witt evaluation; the divided
+powers extend those on (p). Construct its augmentation kernel J^cris_{n,π}, crystalline
+Frobenius, divided φ₁, reduction maps and multiplication-by-p inclusions. Supply sheaf
+descent and the direct-limit sheaves O^cris_{∞,π}, J^cris_{∞,π} along those inclusions.
+
+Using compatible p-power roots of π, construct
+Â_cris = lim_n O^cris_{n,π}(O_{ℚ̄_p}), equivalently the p-adic completion of
+A_cris[(u−[π̃])^i/i!]. Construct Â_st as the p-adic completion of the PD polynomial
+algebra A_cris[X^i/i!], with φ(1+X) = (1+X)^p and N(X) = 1+X. Its total filtration
+is generated by Fil^a A_cris · X^b/b! with a+b ≥ r in degree r. Supply its G_F-action
+and S-action u ↦ [π̃]/(1+X).
+The embedding Â_cris → Â_st and specialization X ↦ 0 to A_cris preserve filtration
+and Frobenius. Construct the torsion versions A[1/p]/A for these rings, their divided
+φ_{k−1} for 1 ≤ k ≤ p, and the semilinear G_{F′}-actions under Hypotheses 3.5 used
+in T_st. (Savitt 2005, §3.2, pp. 12–13; Breuil 1999b, §2.2.2, as described in Savitt §3.2: the completed period
+rings; Breuil 2000, §2.3: the syntomic sheaves.)
+
+*Needs:* §R07.4.1; §R07.3.0 `generalBasePeriodRings`; CrystallineCohomology Layer CR.0
+(PD envelopes); DerivedDeRhamCohomology §0.4 and §0.20 (lci and syntomic morphisms);
+Tau Ceti `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`
+(`RingTheory/Syntomic/StandardSyntomic.lean`: affine syntomic charts).
+
+**Checks.**
+
+- For n = 1, E(u) lies in J^cris_{1,π}; crystalline φ vanishes on this kernel,
+  while divided φ₁ sends E(u) to the image of the unit c = φ(E(u))/p ∈ S.
+  Thus φ₁ on the reduction is distinct from reduction of φ.
+- The torsion direct system uses multiplication by p; its limit is the p-divisible
+  coefficient sheaf. The hatted period ring uses reduction maps and an inverse limit,
+  and is p-adically complete and p-torsion free.
+- In Â_st, N(u) = −u under u = [π̃]/(1+X), and Nφ = pφN. Specialization X ↦ 0
+  preserves filtration and φ but does not preserve N: N(X) specializes to 1 whereas N(0) = 0.
+
+**Strongly divisible modules and their descent data.**
+
 Construct `StronglyDivisibleModule`. Let R = O_F with ramification e, S = S_R the p-adic completion
-of W(k)[u, u^{ie}/i!], with φ(u) = u^p, N(u) = −u, Fil^{k−1}S and φ_{k−1} = φ/p^{k−1} (k ≤ p), c =
-φ₁(E(u)). Mod^{k−1}_0 (strongly divisible modules of weight k) consists of free S-modules M with
+of W(k)[u, u^{ie}/i!], with φ(u) = u^p, N(u) = −u and c = φ₁(E(u)).
+The ring divisibility φ(Fil^{k−1}S) ⊆ p^{k−1}S defines φ_{k−1} = φ/p^{k−1}
+for 1 ≤ k ≤ p. For the module categories assume 1 ≤ k ≤ p−1. Mod^{k−1}_0
+(strongly divisible modules of weight k) consists of finite free S-modules M with
 Fil^{k−1}M ⊇ (Fil^{k−1}S)M, Fil^{k−1}M ∩ pM = p Fil^{k−1}M, and φ_{k−1} : Fil^{k−1}M → M semilinear
-with φ_{k−1}(Fil^{k−1}M) generating M; Mod^{k−1}_{cris} adds a derivation N with N(M) ⊆ IM. Under
+with φ_{k−1}(Fil^{k−1}M) generating M; Mod^{k−1}_{cris} adds a W(k)-linear derivation N with N(M) ⊆ IM,
+E(u)N(Fil^{k−1}M) ⊆ Fil^{k−1}M and
+φ_{k−1}(E(u)N(x)) = cN(φ_{k−1}(x)) for x ∈ Fil^{k−1}M.
+For general k this N is structure data. Under
 Hypotheses 3.5, Mod_dd adds additive bijections ĝ, g ∈ Gal(F/F′), with ĝ(sx) = ĝ(s)ĝ(x), preserving
 Fil^{k−1} and commuting with φ_{k−1} (and N), and ĝ₁ ∘ ĝ₂ = (g₁g₂)^. Mod^1_{0,dd} (≅ Mod^1_{cris,dd}
 with its canonical N) is the category of strongly divisible modules with tame descent data (of
@@ -5293,8 +5443,8 @@ divisible modules for p ≠ 2 (Th. 4.2.2.9). Base change: for g with g(π) = h_g
 M_π(ᵍG) compatibly with Fil¹, φ₁ and morphisms, and cocycles compose (Savitt, Proposition 3.3, after
 BCDT01 Cor. 5.4.5). A g-semilinear ⟨g⟩ : G → G with [g] a morphism over R is the same as an additive
 ĝ on M_π(G) that is ĝ-semilinear and commutes with Fil¹ and φ₁ (Corollary 3.4); with the cocycle
-condition this is descent data (Corollary 3.6, Definition 3.7). Canonical N: every strongly
-divisible module has a unique N with N(sx) = N(s)x + sN(x), Nφ₁ = φN and N(M) ⊆ IM (Breuil 2000,
+condition this is descent data (Corollary 3.6, Definition 3.7). Canonical N: every finite free strongly
+divisible module of weight two (k = 2, p > 2) has a unique N with N(sx) = N(s)x + sN(x), Nφ₁ = φN and N(M) ⊆ IM (Breuil 2000,
 Prop. 5.1.3(1)); ĝ commutes with φ, since ĝ(E(u)) = E(u) when π^{e(F/F′)} ∈ F′, hence with N by
 uniqueness (Savitt, §3.5). (Savitt 2005, §3.2, p. 14: strongly divisible modules; Savitt 2005, §3.3,
 Definition 3.8, p. 17: the category with descent data; Breuil 2000, Théorème 4.2.2.9, p. 46:
@@ -5302,19 +5452,21 @@ Breuil's classification (p ≠ 2).)
 
 The API:
 
-- `StronglyDivisibleModule`: An object of Mod^{k−1}_0: free S-module with Fil^{k−1}, φ_{k−1}.
+- `StronglyDivisibleModule`: An object of Mod^{k−1}_0 for 1 ≤ k ≤ p−1: finite free S-module
+  with Fil^{k−1}, φ_{k−1}; general-weight Mod^{k−1}_{cris} also carries compatible N.
 - `StronglyDivisibleModule.descentData`: The semilinear bijections ĝ, g ∈ Gal(F/F′), with the
   cocycle condition. Their underlying data on a module over a ring with an action of `Gal(F/F′)`
   by ring automorphisms is the light structure `SemilinearDescentData` (additive bijections with
   `ĝ(s m) = g(s) ĝ(m)`, `ĝ₁ ∘ ĝ₂ = (g₁g₂)^` and `1̂ = id`, with
   `SemilinearDescentData.act_mul_apply`); compatibility with `Fil^{k−1}`, `φ_{k−1}` and `N` is
   imposed on the strongly divisible module.
-- `StronglyDivisibleModule.monodromy`: Breuil's canonical N (Prop. 5.1.3), commuting with the ĝ.
+- `StronglyDivisibleModule.monodromy`: For k = 2 and p > 2, Breuil's unique N
+  (Prop. 5.1.3), commuting with the ĝ, and Mod¹_0 ≃ Mod¹_cris.
 - `StronglyDivisibleModule.ofPDivisible`: G ↦ M_π(G), with descent data transported (Corollary 3.6).
-- `StronglyDivisibleModule.ofPDivisible_antiequiv`: Breuil: an anti-equivalence with p-divisible
-  groups over O_F for p ≠ 2.
+- `StronglyDivisibleModule.ofPDivisible_antiequiv`: For k = 2 and p > 2, an anti-equivalence between
+  finite free strongly divisible modules and finite-height p-divisible groups over O_F.
 
-*Needs:* §R07.4.18; §R07.4.1; §R07.4.30.
+*Needs:* `breuilSyntomicPeriods` above; §R07.4.18; §R07.4.1; §R07.4.30.
 
 **Checks.**
 
@@ -5330,11 +5482,14 @@ The API:
   by the integer unit gives a nontrivial rank-one descent action.
 - `semilinearDescent_not_double`: requiring the order-two element −1 to act on ℚ
   by multiplication by 2 violates the cocycle condition, despite being an additive bijection.
+- The countable direct sum of weight-two unit modules satisfies the filtration and
+  Frobenius relations, but is excluded by finite rank and cannot represent a finite-height
+  p-divisible group. The canonical-monodromy assertion applies only at k = 2.
 - `StronglyDivisibleModule.zero`: The zero module, corresponding to the trivial p-divisible group.
 
 ### R07.4.32 Strongly divisible modules with descent data classify potentially Barsotti–Tate lattices
 
-Prove `descentDataLatticeClassification`. Assume Hypotheses 3.5. (1) If G is a p-divisible group
+Prove `descentDataLatticeClassification`. Assume Hypotheses 3.5, k = 2 and p > 2. (1) If G is a p-divisible group
 over O_F with descent data relative to F′ and M its strongly divisible module with descent data,
 T_p(G) ≅ Hom_{′Mod^1_0}(M, Â_cris) as G_{F′}-lattices, and Â_cris ⊂ Â_st induces Hom_{′Mod^1}(M,
 Â_cris) = Hom_{′Mod^1}(M, Â_st). (2) Every strongly divisible module M with tame descent data is
@@ -5345,7 +5500,7 @@ strongly divisible modules with tame descent data contained in S[1/p] ⊗_{F₀}
 G_{F′}-stable lattices in ρ.
 
 The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31. Breuil's period rings
-`Â_cris ⊂ Â_st` (Breuil 1999, §2.2.2) are used as Savitt describes them; Savitt's "filtered (φ, N,
+`Â_cris ⊂ Â_st` (Breuil 1999b, §2.2.2, as described in Savitt §3.2) are used as Savitt describes them; Savitt's "filtered (φ, N,
 F/F′, ℤ_p)-module" in §3.5 means the module with `ℚ_p`-coefficients.
 
 *Proof sketch.* G(n)(O_{ℚ̄_p}) = Hom_{′Mod^1_0}(M/pⁿM, O^cris_{n,π}(O_{ℚ̄_p})) as G_F-modules
@@ -5362,7 +5517,7 @@ G_{F′}-lattice in ρ, which is Breuil–Mézard's Lemme 3.2.3.1 with G_{F′}-
 3.14, p. 21: Theorem 3.14; Savitt 2005, §3.5, Lemma 3.13 and the paragraph before it, p. 20: the
 descent of the filtered module.)
 
-*Needs:* §R07.4.31; §R07.4.30; §R07.4.28.
+*Needs:* §R07.4.31 `breuilSyntomicPeriods`; §R07.4.31; §R07.4.30; §R07.4.28.
 
 **Checks.**
 
@@ -5373,7 +5528,8 @@ descent of the filtered module.)
 
 ### R07.4.33 Strongly divisible R-modules with tame descent data and the functor T_st
 
-Construct `StronglyDivisibleRModule`. Let R be a complete local noetherian flat O_E-algebra with
+Construct `StronglyDivisibleRModule`. Assume 1 ≤ k ≤ p−1. Let R be a complete local
+noetherian flat O_E-algebra with
 residue field finite over k_E, and S_R = {Σ r_j u^j/⌊j/e⌋! : r_j ∈ W(k_F) ⊗ R, r_j → 0
 m_R-adically}. A strongly divisible R-module with tame descent data is a finitely generated free
 S_R-module M with Fil^{k−1}M ⊇ (Fil^{k−1}S_R)M, Fil^{k−1}M ∩ IM = I Fil^{k−1}M for every ideal I of
@@ -5412,10 +5568,12 @@ The API:
   R′).
 - `StronglyDivisibleRModule.exists_of_lattice`: Proposition 4.13: every O_E-lattice arises.
 
-*Needs:* §R07.4.31; §R07.4.32.
+*Needs:* §R07.4.31 `breuilSyntomicPeriods`; §R07.4.31; §R07.4.32.
 
 **Checks.**
 
+- The coefficient ring has divided φ_{p−1}, but k = p is outside the module
+  classification and T_st freeness/base-change range 1 ≤ k ≤ p−1.
 - `StronglyDivisibleRModule.zp_coefficients`: R = ℤ_p, k = 2: the category is Mod^1_{cris,dd}
   (Example 4.2).
 - `StronglyDivisibleRModule.no_descent_qp`: F = F′ = ℚ_p: these are Breuil–Mézard strongly divisible
@@ -5437,7 +5595,8 @@ descent data and to R/I-actions. If M′ is a Breuil module with descent data wi
 M″ another with T^{F′}_{st,2}(M′) = T^{F′}_{st,2}(M″), there is a nontrivial map M″ → M′: M′ is the
 maximal Breuil module of M″; dually Fil¹M′ = M′ gives the minimal one.
 
-The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31. Breuil 2000, Prop.
+The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31,
+with k = 2 and p > 2. Breuil 2000, Prop.
 2.1.2.2 gives the equivalence T; the compatibility with Dieudonné modules (BCDT01 Th. 5.1.3(3)) and
 Raynaud's maximal prolongation are used in the maximality argument.
 
@@ -5460,7 +5619,7 @@ The API:
 - `BreuilModuleModP.exists_hom_to_maximal`: Lemma 4.14: a nonzero map M″ → M′ to the maximal one
   with the same T_st.
 
-*Needs:* §R07.4.33; §R07.1.24.
+*Needs:* §R07.4.31 `breuilSyntomicPeriods`; §R07.4.33; §R07.1.24.
 
 **Checks.**
 
@@ -6381,15 +6540,15 @@ mod-`p` image over the cyclotomic tower.
 Prove `abelianSchemeTorsionFiniteFlat` as the compatibility of the torsion and tower supplied
 by AbelianSchemesAndArithmeticModuli §A3.2 `multiplicationAndDensity` and §A4.5
 `BarsottiTate.ofAbelian` with this roadmap's generic Galois realization. For an abelian scheme
-A/S of relative dimension g, those suppliers give A[n] finite locally free of rank n^{2g}
-and A[p^∞] of height 2g. If S = Spec R with R a DVR of
+A/S of relative dimension g and an integer n ≠ 0, those suppliers give A[n] finite locally
+free of rank |n|^{2g} and [n] an isogeny; they give A[p^∞] of height 2g. If S = Spec R with R a DVR of
 mixed characteristic (0, p) and fraction field K, the Galois module A_K[p^v](K̄) is the generic
 fibre of the finite flat group scheme A[p^v], and T_p(A_K) = T_p(A[p^∞]). In particular, for an
 elliptic curve E/ℚ with good reduction at p, its minimal Weierstrass model over ℤ_p is an elliptic
 curve (an abelian scheme of relative dimension 1), and E[p^v] is the generic fibre of a finite flat
 ℤ_p-group scheme of order p^{2v}.
 
-Multiplication `[n]` is an isogeny, finite locally free of rank `n^{2g}`
+For an integer `n ≠ 0`, multiplication `[n]` is an isogeny, finite locally free of rank `|n|^{2g}`
 (AbelianSchemesAndArithmeticModuli §A3.2
 `multiplicationAndDensity` and §A4.5 `BarsottiTate.ofAbelian`; for elliptic curves
 TauCetiRoadmap.ModularCurves Layers
@@ -6409,6 +6568,8 @@ abelian scheme.)
 
 **Checks.**
 
+- For a positive-dimensional elliptic scheme, A[0] = A is not finite; the supplier
+  applies to n ≠ 0, including n = −1, whose torsion has rank one.
 - `abelianTorsion_11a1`: E = 11a1 at p = 3: E[3] is the generic fibre of a finite flat ℤ₃-group
   scheme of order 9.
 - `abelianTorsion_bad_reduction`: at a prime of bad reduction the statement is false in general: for
@@ -6493,8 +6654,10 @@ force e_{L/K}·ψ(m) ∈ ℤ, while e_{L/K}ψ(m) = e_{L/K}u_{L/K} − d^{−1} w
 **Checks.**
 
 - `krasnerCriterion_trivial`: L = K: (P_m) holds for every m ≥ 0, and u_{L/K} = 0.
-- `krasnerCriterion_tame`: tame totally ramified L/K of degree m′ (so e_{L/K} = m′): (P_m) holds for
-  m > 1 and fails for m = 1 − 1/m′ (the tame case of the proof of (ii)).
+- `krasnerCriterion_tame_boundary`: for K = ℚ₃ and L = K(ζ₃), e_{L/K} = 2
+  and u_{L/K} = 1, so (P_{1/2}) fails; for L = K, (P₀) holds.
+- `krasnerCriterion_tame`: nontrivial tame totally ramified L/K of degree m′ > 1
+  (so e_{L/K} = m′): (P_m) holds for m > 1 and fails for m = 1 − 1/m′ (the tame case of the proof of (ii)).
 
 ### R07.6.4 Lifting through topologically nilpotent divided powers and the bound on u_{L/K}
 
@@ -6505,8 +6668,9 @@ ideal a^m_{L/K}, the exact criteria use its least nonzero valuation c: divided p
 iff c ≥ e/(p − 1), and topological nilpotence iff c > e/(p − 1). (b) Let B be a finite flat, locally
 complete intersection
 O_K-algebra with a ∈ O_K killing Ω¹_{B/O_K} and Ω¹_{B/O_K} flat over B/a. For S finite flat over O_K
-and I ⊆ S an ideal with topologically nilpotent divided powers, every O_K-homomorphism B → S/aI
-lifts uniquely to B → S with the same reduction to S/I; in particular B → S is determined by its
+and I ⊆ S an ideal with topologically nilpotent divided powers, for every O_K-homomorphism u : B → S/aI
+there is a unique ū : B → S whose composite with S → S/I equals
+B →^{u} S/aI → S/I. The map ū need not reduce to u modulo aI; in particular B → S is determined by its
 reduction to S/I. (c) B_K = K ⊗ B is étale; if L is the smallest subfield of K̄ containing u(B) for
 all O_K-homomorphisms u : B → O_K̄, then L/K is Galois and u_{L/K} ≤ v_K(a) + e/(p − 1); hence
 v_K(𝒟_{L/K}) < v_K(a) + e/(p − 1), and G_K^(u) ⊆ Gal(K̄/L) for u > v_K(a) + e/(p − 1).
@@ -6518,10 +6682,11 @@ The bound v_p(n!) ≤ (n − 1)/(p − 1) gives the criteria in terms of c; taki
 n = p^r gives necessity and detects the equality boundary (Fontaine 1985, 1.6). (b): reduce to B local
 with residue field k; lifts x_j of a basis of m_B/(m_B² + m_K B) make the dx_j a (B/a)-basis of Ω¹;
 B = O_K⟦X₁, …, X_h⟧/(P₁, …, P_h), and a·(∂P_i/∂X_j) = a·(invertible matrix) after dividing by a; a
-Newton iteration through the divided-power filtration I^{[n]} lifts u step by step, uniquely
-(1.7(i)). (c): B_K is étale since Ω¹_{B_K/K} = 0; L is the compositum of the Galois closures of the
+Newton iteration through the divided-power filtration I^{[n]} constructs ū with the
+prescribed reduction modulo I, uniquely (1.7(i)(a), pp. 520–521). (c): B_K is étale since Ω¹_{B_K/K} = 0; L is the compositum of the Galois closures of the
 factors of B_K; for m > v_K(a) + e/(p − 1), a^m_{E/K} ⊆ aI with I topologically nilpotent PD, so (b)
-makes J(L) → J(E) injective, which forces a K-embedding L → E: L/K satisfies (P_m) (1.7(ii)). By
+lifts the reduction modulo I of each approximate point to an E-point; injectivity of
+reduction modulo I on exact O_K̄-valued points makes J(L) → J(E) injective, which forces a K-embedding L → E: L/K satisfies (P_m) (1.7(ii)). By
 Proposition 1.5(ii), u_{L/K} ≤ v_K(a) + e/(p − 1) + 1/n with n = e_{L/K}; if p ∤ n, L/K is tame and
 u_{L/K} = 1 ≤ v_K(a); if p | n, n(p − 1)u_{L/K} and n(p − 1)v_K(a) + ne are integers divisible by p
 within p − 1 of each other, so u_{L/K} ≤ v_K(a) + e/(p − 1). Corollary 1.8 follows from Proposition
@@ -6534,7 +6699,11 @@ Proposition 1.7; Fontaine 1985, §1.8, Corollaire, p. 524: Corollary 1.8.)
 
 - `lciLifting_unit`: a a unit: Ω¹_{B/O_K} = 0, B is étale, L/K is unramified and u_{L/K} = 0.
 - `lciLifting_muP`: B = O_K[X]/(X^p − 1) (the group μ_p) with a = p: L = K(ζ_p), and u_{L/K} ≤ e +
-  e/(p − 1); for K = ℚ_p, u = 1 ≤ 1 + 1/(p − 1).
+  e/(p − 1); for K = ℚ_p and p odd, u = 1 ≤ 1 + 1/(p − 1);
+  for p = 2, L = K and u = 0.
+- `lciLifting_reduction_boundary`: p = 3, B = ℤ₃[X]/(X³−1), a = 3, S = ℤ₃ and
+  I = 3ℤ₃. The map X ↦ 4 mod 9 is an approximate point; its reduction modulo I
+  lifts uniquely to X ↦ 1 in ℤ₃, which is not X ↦ 4 modulo aI = 9ℤ₃.
 - For K = L = ℚ₃ and m = 1/4, a^m = 3ℤ₃ has least valuation c = 1 > 1/2.
   Its divided powers x^n/n! are topologically nilpotent even though m < 1/2.
   In ℚ₃(√3), the ideal generated by √3 has c = 1/2: divided powers exist but
@@ -6779,8 +6948,10 @@ for good reduction at p > 2, by Fontaine's bound against the root discriminant o
 
 - `cyclotomicImage_p3`: p = 3: v_3(𝒟_{ℚ_3(ζ_9)}) = 1 + 1/2 + 0 = 3/2, which already violates
   Fontaine's bound v_3 < 3/2.
-- `cyclotomicImage_mod_p`: the statement is about the mod-p image only; the field of A[p²] always
-  contains ℚ_p(ζ_{p²}) (the Weil pairing puts μ_{p²} in it), so the analogue for ρ_{A,p²} is false.
+- `cyclotomicImage_mod_p`: the statement is about the mod-p image only; for a positive-dimensional
+  abelian variety, the field of A[p²] contains ℚ_p(ζ_{p²}) (the Weil pairing puts μ_{p²} in it), so the analogue for ρ_{A,p²} is false.
+- `cyclotomicImage_dimension_zero`: for A = Spec ℚ, every torsion representation is trivial,
+  its local splitting field is ℚ_p, and both cyclotomic restrictions have trivial image.
 
 ### Examples
 
@@ -6844,6 +7015,9 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **Breuil 1999.** Christophe Breuil, *Une application du corps des normes*, Compositio Math. 117
   (1999).
   <https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/corpsdesnormes.pdf>
+- **Breuil 1999b.** Christophe Breuil, *Représentations semi-stables et modules fortement
+  divisibles*, Invent. Math. 136 (1999), 89–122; §2.2.2 is the completed-period-ring
+  construction described in Savitt 2005, §3.2, pp. 12–13.
 - **Breuil 2000.** Christophe Breuil, *Groupes p-divisibles, groupes finis et modules filtrés*, Ann.
   of Math. 152 (2000), 489–549.
   <https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/p-divisibles.pdf>
@@ -6868,6 +7042,9 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **Demazure 1972.** Michel Demazure, *Lectures on p-divisible groups*, Lecture Notes in Math. 302,
   Springer, 1972, Chapter III.8, as transcribed on the nLab (revision of 9 June 2012).
   <https://ncatlab.org/nlab/show/Demazure,+lectures+on+p-divisible+groups,+III.8,+Dieudonn%C3%A9+modules+(p-divisible+groups)>
+- **Faltings 1999.** Gerd Faltings, *Integral crystalline cohomology over very ramified
+  valuation rings*, J. Amer. Math. Soc. 12 (1999), 117–144.
+  <https://doi.org/10.1090/S0894-0347-99-00273-8>
 - **Fontaine 1985.** Jean-Marc Fontaine, *Il n'y a pas de variété abélienne sur Z*, Invent. Math. 81
   (1985), 515–538. <https://www.imo.universite-paris-saclay.fr/~fontaine/varabZ.pdf>
 - **Fontaine–Laffaille 1982.** Jean-Marc Fontaine and Guy Laffaille, *Construction de
