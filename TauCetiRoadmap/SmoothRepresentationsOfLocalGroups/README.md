@@ -42,7 +42,9 @@ functors and its theorems on top of them. From
 profinite topology on 𝐆(F) and its closed subgroups P(F), M(F), N(F), on which it builds smooth
 representations of these groups; from RG2.1, the maximal split central torus and the valued root
 datum (the relative roots are ReductiveGroups layer 7), on which it builds unramified characters
-and Satake twisting; from RG2.3, the parahoric, Iwahori and pro-p Iwahori subgroups and the
+and Satake twisting; from RG2.2.4, the periodic lattice chains of GL(V), on which it builds the
+hereditary orders of the distinguished cuspidal types of GL_n; from RG2.3, the parahoric, Iwahori
+and pro-p Iwahori subgroups and the
 Moy–Prasad filtration (congruence subgroups are RG2.0 and Iwahori factorisations RG2.4), on which
 it builds positive Hecke algebras, the Iwahori block and uniform admissibility; from RG2.4, the
 Iwasawa, Cartan and Iwahori–Bruhat decompositions, compactness of P\G (hence finiteness of
@@ -100,7 +102,10 @@ here: the Langlands classification is proved from Casselman's criterion and take
 hypothesis the Harish–Chandra tempered-support statement (*harish-chandra-tempered-support*), owned by SR.3.3, giving Harish-Chandra's description of tempered representations as summands of unitary
 inductions of discrete series. The Whittaker-functionals target constructs the functionals and
 twisted quotient, and includes multiplicity one for irreducible complex representations of GL_2(F). Bushnell–Kutzko types beyond
-the Iwahori case are not here.
+the Iwahori case are not here, with one exception that Helm's integral block route needs: for GL_n
+over a p-adic field, SR.5.2 owns the maximal distinguished cuspidal types with their ℓ-modular
+coverage (*distinguished-cuspidal-types*) and the projectives compactly and parabolically induced
+from them (*type-projective-construction*).
 
 The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
 [U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
@@ -119,7 +124,7 @@ here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti
 induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
 `Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
 for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
-formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
+formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
 and its `LocalIntegration.modularCharacter_eq_adjointModulus` in every characteristic
 (SR.1.4–SR.1.5, SR.2.2, SR.3a.2), whose restriction to a parabolic,
 det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity of M, is
@@ -421,10 +426,12 @@ SR.6's `CrossedCocycle` instead has an arbitrary, possibly noncommutative, targe
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
 RG2.0: the locally profinite topology on 𝐆(F) and on P(F), M(F), N(F), and congruence subgroups.
-RG2.1: the maximal split central torus and the valued root datum. RG2.3: parahoric, Iwahori and
+RG2.1: the maximal split central torus and the valued root datum. RG2.2.4: the periodic lattice
+chains of GL(V) and their stabilisers (*gl-building-lattice-chains*), whose endomorphism orders
+are the hereditary orders of the types of SR.5.2. RG2.3: parahoric, Iwahori and
 pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position.
 RG2.4: the Iwasawa, Cartan and Iwahori–Bruhat decompositions, Iwahori factorisations and cell
-products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹,
+products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
 compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic. RG2.5: the pinned
 integral dual group over ℤ with its Galois action through a finite quotient and the L-group. These
 are consumed as imported objects; no second topology, parahoric or dual group is defined here.
@@ -3642,25 +3649,144 @@ and the trivial rank-two module (false). The relative `IsGeneric` predicate hold
 line with U = 1 (a Lean `example`), fails on zero, and fails on the trivial line for any
 nontrivial ψ over a field (a Lean `example`).
 
-**Integral GL_n Bernstein blocks** (*integral-blocks*). For an algebraically closed field k of
-characteristic ℓ different from p, prove that the smooth W(k)[GL_n(F)] category decomposes by
-mod-ℓ inertial supercuspidal support, and that each block center A_{[L,π]} is a reduced,
-ℓ-torsion-free finite-type W(k)-algebra whose k-points classify the exact supercuspidal supports
-of the simple representations in that block. This center specializes the existing abstract
-CatCenter; it is not a new abstract center construction ([Hel16] Definition 4.12, pp. 13–14;
-Theorems 11.8, 12.8–12.9 and Corollary 12.12, pp. 58, 67–69). *Needs:* layer SR.0, layer SR.3.
+**Maximal distinguished cuspidal types** (*distinguished-cuspidal-types*). Let F be a finite
+extension of ℚ_p with residue field 𝔽_q, G = GL_n(F) with n ≥ 1, k an algebraically closed field
+of characteristic ℓ ≠ p, and R either k or a finite extension of Frac W(k). An R-type is a pair
+(K, τ) of a compact open subgroup K of G and a smooth R[K]-module τ that is finitely generated over
+R; its Hecke algebra is H(G, K, τ) = End_{R[G]}(c-Ind_K^G τ). A maximal distinguished cuspidal
+R-type is built, in the sense of Bushnell–Kutzko, from a simple stratum [𝔄, m, 0, β] and a simple
+character θ of it. Here 𝔄 is the hereditary order of endomorphisms preserving every lattice of a
+periodic lattice chain, β generates a field E = F[β] of ramification index e and residue degree f
+whose multiplicative group normalises 𝔄, and 𝔄 meets the centraliser of E in a maximal order of that centraliser
+(in depth zero β = 0, E = F and 𝔄 is a maximal order). Then K = J(β, 𝔄) has a normal pro-p
+subgroup K¹ = J¹(β, 𝔄) with K/K¹ ≅ GL_{n/(ef)}(𝔽_{q^f}), and τ = κ ⊗ σ, where κ is a β-extension of
+the Heisenberg representation of K¹ containing θ and σ is the inflation of an irreducible cuspidal
+R-representation of K/K¹. Cuspidal means that every Jacquet module along a proper parabolic
+vanishes.
+
+Prove the following, Vignéras' ℓ-modular form of the Bushnell–Kutzko theory, as an owned input
+theorem. The G-intertwining of τ is E^×K. The type τ extends to E^×K, and for every extension τ̂
+the algebra H(G, K, τ) is R[T, T⁻¹], with T supported on Kϖ_E K, and c-Ind_{E^×K}^G τ̂ is an
+irreducible cuspidal representation. Every irreducible cuspidal R-representation of G contains a
+maximal distinguished cuspidal R-type. The representations c-Ind_{E^×K}^G τ̂, as τ̂ runs over
+the extensions of τ, are exactly the irreducible cuspidal representations whose restriction to K
+contains τ, and the absolutely irreducible ones among them form a single class under unramified
+twisting. If an irreducible cuspidal representation over a finite extension of Frac W(k) contains
+a maximal distinguished cuspidal type (K, τ̃), it has an integral unramified twist, and τ̃ has a
+lattice whose reduction is a maximal distinguished cuspidal k-type contained in the reduction of
+that twist; every maximal distinguished cuspidal k-type arises in this way. Define the mod-ℓ
+inertial class of a k-type (K, τ). It consists of the simple cuspidal smooth W(k)[G]-modules killed
+by ℓ that contain τ, together with those on which ℓ is invertible whose absolutely simple
+constituents are unramified twists of integral representations whose reduction contains τ
+([Hel16] Definition 4.1, p. 8; the construction on p. 9; Theorem 4.2, pp. 9–10, and Theorem 4.4,
+pp. 10–11, which record Vignéras' results; Definition 4.6, p. 11). *Needs:* *compact-induction*,
+*jacquet-module*, *cuspidal-representations*; ReductiveGroupsPartII RG2.2.4
+(*gl-building-lattice-chains*).
+
+**Checks.**
+
+- For n = 1 every type is (O_F^×, χ) for a character χ of O_F^×. Its intertwining is F^× and
+  H(G, K, τ) = R[T, T⁻¹] with T supported on ϖO_F^×. The cuspidal representations containing it
+  are the characters of F^× that extend χ, and they form one unramified-twist class.
+- In depth zero for n = 2, K = GL_2(O_F), K¹ = 1 + ϖM_2(O_F) and K/K¹ = GL_2(𝔽_q); κ is trivial and
+  σ is an irreducible cuspidal representation of GL_2(𝔽_q). The intertwining is F^×GL_2(O_F).
+- The pair (GL_2(O_F), 1) is not a maximal distinguished cuspidal type, because the trivial
+  representation of GL_2(𝔽_q) is not cuspidal. Consistently, c-Ind_{F^×GL_2(O_F)}^G 1 is not
+  irreducible: Frobenius reciprocity gives a nonzero map onto the one-dimensional trivial
+  representation, while the source is infinite-dimensional.
+
+**Projectives from distinguished cuspidal types** (*type-projective-construction*). Keep the
+setting of *distinguished-cuspidal-types*. Work in the smooth W(k)[G]-category of SR.0 with
+A = W(k), and fix q^{1/2} ∈ W(k)ˣ for normalised induction. Let (K, τ) be a maximal distinguished
+cuspidal k-type with τ = κ ⊗ σ, and let P_σ → σ be a projective envelope of σ among
+W(k)[K/K¹]-modules. Prove the following.
+
+- κ lifts to a smooth W(k)[K]-module κ̃ that is free of finite rank over W(k).
+- κ̃ ⊗ P_σ, with P_σ inflated to K, is a projective envelope of τ among smooth W(k)[K]-modules.
+- P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ) is projective in the smooth W(k)[G]-category and surjects onto
+  c-Ind_K^G τ.
+- Every simple cuspidal smooth W(k)[G]-module in the mod-ℓ inertial class of (K, τ) is a quotient
+  of P_{(K,τ)}.
+
+P_{(K,τ)} is not asserted to be a projective envelope of any simple G-module: it surjects onto
+every member of the class at once.
+
+For the Levi construction, let M = GL_{n₁} × ⋯ × GL_{n_r} be a block-diagonal Levi with standard
+upper parabolic P, and π = π₁ ⊗ ⋯ ⊗ π_r an irreducible cuspidal k-representation of M. Choose
+maximal distinguished cuspidal k-types (K_i, τ_i) whose classes contain the π_i, and set
+P_{(M,π)} = i_P^G(P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}). A simple smooth W(k)[G]-module has mod-ℓ
+inertial cuspidal support (M, π) if either ℓ kills it and its cuspidal support is an unramified
+twist of (M, π), or ℓ is invertible on it and the cuspidal support of each absolutely simple
+constituent is an unramified twist of an integral lift of (M, π). Prove that every such module is
+a quotient of P_{(M,π)}. Let I_{(M,π)} be the smooth Frac W(k)/W(k)-dual of P_{(M,π^∨)}; prove that
+it is injective and that every simple module with mod-ℓ inertial cuspidal support (M, π) embeds
+in it. Projectivity of P_{(M,π)} is not claimed here; it comes from second adjointness inside a
+block and is proved in *integral-blocks* ([Hel16] Lemmas 4.7–4.8 and the construction after them,
+and Proposition 4.9, pp. 11–12; Definition 4.10, p. 13; the definition of P(M,π) and
+Proposition 4.16, p. 14; Definition 11.1, p. 56, and Proposition 11.5, p. 57). *Needs:*
+*distinguished-cuspidal-types*, *compact-induction*, *parabolic-induction*, *smooth-dual*.
+
+**Checks.**
+
+- n = 1, ℓ ∤ q − 1 and the trivial type (O_F^×, 1): P_σ = W(k) and
+  P_{(K,τ)} = W(k)[F^×/O_F^×] ≅ W(k)[T, T⁻¹], with T the class of ϖ. Its simple quotients killed
+  by ℓ are exactly the unramified k-valued characters, so it is not the envelope of any one of
+  them.
+- n = 1, ℓ | q − 1 and the trivial type: P_σ is the group ring over W(k) of the ℓ-Sylow subgroup
+  of 𝔽_q^×, of rank the ℓ-part of q − 1. P_{(K,τ)} is the group ring of F^× modulo 1 + 𝔭_F and the
+  roots of unity of order prime to ℓ. The characters over finite extensions of Frac W(k) through
+  which it factors are exactly those whose restriction to O_F^× factors through 𝔽_q^× with
+  ℓ-power order, which are the characteristic-zero members of the class.
+- n = 2, M the diagonal torus T, π = 1 ⊗ 1 and ℓ ∤ q − 1: P_{(T,π)} = i_B^G(W(k)[T(F)/T(O_F)]).
+  Its specialisation along T_i ↦ a_i ∈ kˣ is the unramified principal series i_B(χ₁ ⊗ χ₂) with
+  χ_i(ϖ) = a_i. The trivial character of G is a quotient, through i_B(ν^{1/2} ⊗ ν^{−1/2}).
+
+**Integral GL_n Bernstein blocks** (*integral-blocks*). For F a finite extension of ℚ_p and an
+algebraically closed field k of characteristic ℓ different from p, prove that the smooth
+W(k)[GL_n(F)] category decomposes by mod-ℓ inertial supercuspidal support, and that each block
+center A_{[L,π]} is a reduced, ℓ-torsion-free finite-type W(k)-algebra whose k-points classify the
+exact supercuspidal supports of the simple representations in that block. This center specializes
+the existing abstract CatCenter; it is not a new abstract center construction ([Hel16] Definition
+4.12, pp. 13–14; Theorems 11.8, 12.8–12.9 and Corollary 12.12, pp. 58, 67–69). The proof uses the
+objects of *type-projective-construction*. The block of (L, π) is the subcategory cut out by the
+injective I_{[L,π]}, the sum of the I_{(M,π′)} over the finitely many mod-ℓ inertial cuspidal
+supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). Second adjointness inside the
+block makes each P_{(M,π′)} projective. Their sum P_{[L,π]} is a faithfully projective object of
+the block, and the centre of its endomorphism ring is A_{[L,π]}. This target owns the structure
+theory of the P_{(K,τ)} that the argument uses: the supercuspidal supports of their
+characteristic-zero constituents ([Hel16] Theorem 9.8, p. 49), which separate the injectives
+I_{(M,π)} by mod-ℓ inertial supercuspidal support (Propositions 11.5–11.6, p. 57), and the
+admissibility of the P_{(M,π)} and their parabolic restrictions (Theorem 10.9, p. 55), with
+second adjointness and the projective generator in Theorem 11.17 and Corollaries 11.18–11.19,
+pp. 61–62. *Needs:* *distinguished-cuspidal-types*,
+*type-projective-construction*; layer SR.0, layer SR.3.
 
 Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact support is distinguished from inertial support, and the normalized induction convention is fixed. The block idempotent is characterized on simple residue-field objects. Separate statements give the category decomposition, the three center properties, and the exact-support classification with its scalar-action equation.
 
 Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and half modulus. Three tests check nonzero, disjoint, and exhaustive block projections.
 
-**Distinguished type projectives and their fibers** (*type-projectives*). For a maximal
-distinguished cuspidal k-type (K, τ), prove that the compactly induced projective envelope
-P_{(K,τ)} has commutative endomorphism ring E_{(K,τ)}, is E-admissible, and has top derivative
-locally free of rank one over E, and that every prime fiber has absolutely irreducible generic
-cosocle and essentially AIG smooth dual ([Hel12] Theorem 4.1, Proposition 4.3, Proposition 4.8 and
-Corollary 4.9, pp. 6–9). *Needs:* *integral-blocks*, *mirabolic-derivatives*, *essentially-aig*;
-layer SR.2.
+**Distinguished type projectives and their fibers** (*type-projectives*). For F a finite extension
+of ℚ_p, k algebraically closed of characteristic ℓ ≠ p, and a maximal distinguished cuspidal
+k-type (K, τ) of *distinguished-cuspidal-types*, let P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ) be the
+projective of *type-projective-construction*. It is the compact induction of a projective
+envelope of τ among smooth W(k)[K]-modules, not an envelope of a simple G-module. Prove that
+P_{(K,τ)} lies in the integral block of the supercuspidal support of the cuspidal
+representations containing (K, τ). Prove also that it has commutative endomorphism ring
+E_{(K,τ)}, is E-admissible, and has top derivative locally free of rank one over E, and that every
+prime fiber has absolutely irreducible generic cosocle and essentially AIG smooth dual ([Hel12]
+Theorem 4.1, Proposition 4.3, Proposition 4.8 and Corollary 4.9, pp. 6–9). *Needs:*
+*distinguished-cuspidal-types*, *type-projective-construction*, *integral-blocks*,
+*mirabolic-derivatives*, *essentially-aig*; layer SR.2.
+
+**Checks.**
+
+- n = 1, ℓ ∤ q − 1 and the trivial type: E = W(k)[T, T⁻¹], and the top derivative is P_{(K,τ)}
+  itself, free of rank one over E. The fiber at a prime is the unramified character sending ϖ to
+  the image of T, which is absolutely irreducible and generic.
+- n = 1 and ℓ | q − 1: E = W(k)[T, T⁻¹][S] for the ℓ-Sylow subgroup S of 𝔽_q^×. It is
+  commutative and reduced, while E ⊗ k is not reduced; every prime fiber is still a character.
+- P_{(K,τ)} ⊕ P_{(K,τ)} has endomorphism ring M_2(E), which is not commutative, and a top
+  derivative of rank two, so these conclusions are specific to P_{(K,τ)}.
 
 **Universal block Whittaker projective** (*universal-whittaker*). Here F is a finite extension
 of ℚ_p, n ≥ 1 (in particular n ≥ 2 is included), G = GL_n(F), and k is algebraically closed
@@ -3686,8 +3812,14 @@ This is the universal generic projective, not a universal arbitrary irreducible
 representation ([Hel12] §3, p. 4, for projectivity; Lemma 3.2, p. 5, for the derivative
 line; Theorem 5.2, p. 10, for the endomorphism ring; Proposition 5.3, pp. 10–11, for
 admissibility and finite generation). These assertions use Helm's p-adic-field hypotheses;
-they do not assert the positive-characteristic-local-field extension. *Needs:*
-*twisted-coinvariants*, *integral-blocks*, *type-projectives*; layer SR.2.
+they do not assert the positive-characteristic-local-field extension. The endomorphism
+identification compares W_{[L,π]} with the induced type projective i_P^G(⊗_i P_{(K_i,τ_i)}) of
+*type-projective-construction*, taken at a maximal cuspidal pair of the block in Helm's order. Its
+top derivative is the tensor product of the rank-one E_{(K_i,τ_i)}-modules of *type-projectives*.
+The comparison uses that the block centre maps injectively to ⊗_i E_{(K_i,τ_i)} with ℓ-saturated
+image ([Hel12] Proposition 5.1, p. 10; in the numbering of [Hel16], Theorems 12.4 and 13.7,
+pp. 65 and 73). *Needs:* *twisted-coinvariants*, *integral-blocks*,
+*type-projective-construction*, *type-projectives*; layer SR.2.
 
 
 A central block is specified by a primitive central idempotent; its actual image on a smooth representation is the block part, and the block centre is Mathlib’s idempotent corner in the categorical centre. W_{[L,π]} is this block part of compact induction of the nondegenerate character. The central actions on the derivative and on W_{[L,π]} are pinned, and centre-admissibility is stated separately.
@@ -3781,6 +3913,35 @@ The diagonal kernel is the intersection of the kernels of the specified speciali
 
 Checks: for zero maps and for the empty family the diagonal kernel is the whole source, while for a separating family it is zero. The diagonal image of zero is zero, it recovers the source when the diagonal kernel vanishes, and the injection into the product is specified on each residue-field coordinate.
 
+**Segments and their two representations** (*segment-representations*). Work over ℂ with
+ν = |det|. A segment Δ = [x, y]_ρ is a unitary irreducible cuspidal representation ρ of GL_d(F),
+with d ≥ 1, together with real endpoints x ≤ y, x ≡ y mod ℤ. It stands for the list
+ρν^x, ρν^{x+1}, …, ρν^y of length y − x + 1; powers that are not unitary are recorded in the
+endpoints, not in ρ. Prove that the normalised product ρν^x × ⋯ × ρν^y has a unique irreducible
+subrepresentation Z(Δ) and a unique irreducible quotient L(Δ), the generalized Steinberg
+representation, and that L(Δ) is generic. Two segments are linked when neither contains the
+other and their union is a segment. Δ precedes Δ′ when they are linked and Δ′ begins at ν times
+a member of Δ. A multisegment m = Δ₁ + ⋯ + Δ_r is unordered, with multiplicities. Prove that the
+standard module π(m) = L(Δ₁) × ⋯ × L(Δ_r), taken in an order in which no Δ_i precedes a later
+Δ_j, is independent of that order up to isomorphism, and that it has a unique irreducible quotient
+L(m); L(m) is also the unique irreducible subrepresentation of the same product taken in
+increasing order of x_i + y_i, the form used in [AKY]. In the notation of [EH], L(Δ) is St_Δ,
+π(m) is π(S) and L(m) is Q(S). Prove also that Z(Δ₁) × ⋯ × Z(Δ_r), ordered by decreasing x_i + y_i, has a unique irreducible
+subrepresentation Z(m). The subrepresentation convention Z and the quotient convention L are kept
+apart: Breuil–Schneider uses L(Δ) and π(m), and *highest-derivative-adapter* uses both ([EH]
+§4.3, p. 30; [AKY] §2.1, p. 7, and the proof of Lemma 2.9, p. 14). *Needs:*
+*parabolic-induction*, *cuspidal-representations*, *mirabolic-derivatives*.
+
+**Checks.**
+
+- A one-term segment [x, x]_ρ has Z = L = ρν^x.
+- For Δ = [−1/2, 1/2]_1 in GL_2, Z(Δ) is the trivial character and L(Δ) is the Steinberg
+  representation. Z(Δ) has zero top derivative, and L(Δ) has a one-dimensional one.
+- For m = [0, 0]_1 + [1, 1]_1 the two segments are linked and [0, 0]_1 precedes [1, 1]_1, so
+  π(m) = ν × 1. Its unique irreducible subrepresentation, ν^{1/2} ⊗ St, is generic and equals
+  Z(m); its unique irreducible quotient L(m) is the character ν^{1/2}. The other order, 1 × ν,
+  exchanges the subrepresentation and the quotient.
+
 **Classical parameters and the generic convention** (*classical-llc-normalization*).
 SR.5.2 owns the Weil–Deligne functor WD, the Frobenius-semisimplified Weil–Deligne
 parameter of a continuous ℓ-adic representation of G_F (ℓ ≠ p), including its
@@ -3792,13 +3953,16 @@ pp. 29–30. Construct descent to characteristic-zero coefficient fields and sca
 extension, using [EH] Proposition 4.1.6, pp. 26–27, and §4.2. The Weil group and
 reciprocity come from ClassFieldTheory layer 9; reciprocity sends a uniformizer
 to arithmetic Frobenius. Transport any geometric-Frobenius source convention by
-inversion. SR.5.1 supplies the segment representations; the classical correspondence
-itself is an owned input theorem here, not a consequence of reconstruction.
+inversion. *segment-representations* supplies the segments, the generalized Steinberg
+representations L(Δ) and the standard modules π(m), in the quotient convention that BS uses; the
+classical correspondence itself is an owned input theorem here, not a consequence of
+reconstruction.
 For every parameter define the normalized fibre
 π_norm(ρ) = (BS(ρ∨))~, the smooth dual (*smooth-dual*) of the Breuil–Schneider representation of ρ∨.
 The algebraic Galois dual and the smooth representation dual are separate operations.
 Prove its essentially AIG dual and its supercuspidal support in this normalization
-([EH] Corollary 4.3.3, p. 32; [Hel12] Theorem 7.1(3), p. 13, for the normalization).
+([EH] Corollary 4.3.3, p. 32; [Hel12] Theorem 7.1(3), p. 13, for the normalization). *Needs:*
+*segment-representations*, *smooth-dual*, *essentially-aig*; ClassFieldTheory, layer 9.
 
 A Frobenius-semisimple Weil–Deligne parameter of rank n over a field E is a homomorphism r from
 the Weil group to GL_n(E) with open kernel and semisimple images, and a matrix N with
@@ -3944,14 +4108,14 @@ highest nonzero normalized derivative is irreducible and is obtained by the corr
 endpoint shortening. Their iterated highest-derivative notation is distinguished from the
 fixed-order D^r functors above. The local-conductor and newvector application is outside this
 roadmap ([AKY] §1.2, p. 3, and §2.3, pp. 8–9;
-Lemma 2.9 and its proof, p. 14, specify endpoint shortening after the Zelevinsky involution). *Needs:* *mirabolic-derivatives*; layer
-SR.3.
+Lemma 2.9 and its proof, p. 14, specify endpoint shortening after the Zelevinsky involution). *Needs:* *segment-representations*,
+*mirabolic-derivatives*; layer SR.3.
 
-A segment records a unitary supercuspidal line and its real endpoints. Segment and multisegment representations use the irreducible-subrepresentation convention, characterized by their ordered normalized inductions. The normalized and parabolic products and the norm character specify those inductions and determinant powers. The normalized derivative uses the existing mirabolic quotient and its determinant normalization. The highest nonzero derivative is identified with the endpoint shortening, and in the iterated form the highest order is recomputed after each shortening.
+Segments, multisegments and their subrepresentation-convention representations Z(Δ) and Z(m) are those of *segment-representations*. The normalized and parabolic products and the norm character specify the inductions and determinant powers. The normalized derivative uses the existing mirabolic quotient and its determinant normalization. The highest nonzero derivative is identified with the endpoint shortening, and in the iterated form the highest order is recomputed after each shortening.
 
 Checks: exponent zero gives the trivial twist; real exponents add under twisting; the norm at a uniformizer is q inverse; a zero inducing factor kills the normalized product; the rank-zero trivial line is a unit for it; the two determinant half powers have opposite signs; the empty parabolic product has rank zero and dimension one; one factor retains its group action; any zero factor makes the ordered product zero; the cuspidal block of a segment cannot have rank zero; a zero representation cannot label a segment; nonunitary powers are recorded in the endpoint, not hidden in the cuspidal label; a one-term segment is its cuspidal twist; ascending [a,a+1] gives the determinant character, distinguishing it from Steinberg; a segment with more than one term has zero top derivative; the empty multisegment is the rank-zero line; one segment recovers the segment representation; the multisegment is unordered, although its defining induction is ordered; shortening keeps the empty multisegment empty; all one-term segments disappear; the lower endpoint stays fixed and the upper endpoint decreases; the normalized derivative of order zero preserves the original action; the full derivative of a character is the rank-zero line; the top derivative of a higher-rank trivial representation vanishes.
 
-The Langlands segment and multisegment representations specify the quotient convention. The Zelevinsky involution sends Z(m) to L(m), and the classification pins this on all irreducibles. The shortening formula is also given after converting a Langlands label to the Z convention.
+The Langlands representations L(Δ) and L(m) are the quotient-convention representations of *segment-representations*. The Zelevinsky involution sends Z(m) to L(m), and the classification pins this on all irreducibles. The shortening formula is also given after converting a Langlands label to the Z convention.
 
 Checks: the Langlands segment representation agrees with Z on cuspidal singletons, gives the generic derivative line, and separates longer segments from Z. Three tests fix the empty, single, and unordered conventions for Langlands multisegments. Three tests of the involution check fixed cuspidals, the square of the involution, and a changed longer segment.
 
@@ -3966,8 +4130,10 @@ the rank-one conditions.
 ### Dependencies
 
 SR.0 (the smooth category, admissibility and the centre), SR.1 (Hecke corners, for the
-distinct-eigenvalue block), SR.2 (induction, Jacquet functors and coinvariants), SR.3 (finite
-length, cuspidal support and the Bernstein centre) and SR.4 (*spherical-parameter*).
+distinct-eigenvalue block), SR.2 (induction, Jacquet functors and coinvariants), SR.3a
+(cuspidality, for the distinguished cuspidal types and segments), SR.3 (finite length, cuspidal
+support and the Bernstein centre) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
+RG2.2.4 (the lattice chains that define the hereditary orders of the types).
 
 ## Layer SR.6: finite-wild parameters, center images and stability
 
