@@ -1125,6 +1125,15 @@ example (k : Type u) [Field k] :
 
 /-! ### §4.11–§4.17 Modifications, alterations, regularity and normal crossings -/
 
+/-- For a finitely generated ideal, vanishing of a module element on every principal open
+of its complement is equivalent to annihilation by one power of the ideal. This gives the
+affine degree-zero support comparison for strict transforms. Stacks, Lemma 47.9.1 (0A6R). -/
+theorem strictTransform_supportComparison_affine (A : Type u) [CommRing A]
+    (I : Ideal A) (hI : I.FG) (M : ModuleCat.{u} A) (m : M) :
+    (∀ a ∈ I, ∃ n : ℕ, a ^ n • m = 0) ↔
+      ∃ n : ℕ, ∀ a ∈ I ^ n, a • m = 0 := by
+  sorry
+
 /-- Proper morphisms that are isomorphisms over a dense open with dense preimage.
 Stacks, Definition 29.52.11 (0AAZ). -/
 class IsModification {S' S : Scheme.{u}} (f : S' ⟶ S) : Prop where

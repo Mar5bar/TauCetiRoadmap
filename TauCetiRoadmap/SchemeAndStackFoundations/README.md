@@ -2492,8 +2492,16 @@ Define `Stacks.QCoh X` for a stack in groupoids: quasi-coherent modules on the r
 `(X_fppf, O_X)`, equivalently compatible families `(F_x ∈ QCoh(T))_{x ∈ X(T)}` with pullback
 isomorphisms satisfying the cocycle condition (Stacks, Definition 96.11.1 (06WG)). API:
 *QCoh.pullback*, *QCoh.presentationEquiv* (for `X = [U/R]`, quasi-coherent modules on `U` with
-descent data; Proposition 96.14.3 (06WT)), *QCoh.pushforward* along quasi-compact quasi-separated
-morphisms, *QCoh.ofSpaceEquiv* (agreement with §1.11 for spaces). *Needs:* §1.1, §1.11, §1.18,
+descent data; Proposition 96.14.3 (06WT)), *QCoh.ofSpaceEquiv* (agreement with §1.11 for spaces).
+For a quasi-compact quasi-separated morphism `f : X → Y` of algebraic stacks, construct
+*QCoh.pushforward* as the quasi-coherent right adjoint to `QCoh.pullback f`, with
+`QCoh.pullbackPushforwardAdjunction` and its natural Hom equivalence. Under `QCoh.ofSpaceEquiv`
+it agrees with the quasi-coherent pushforward for algebraic spaces of §1.11.
+Prove the flat-test comparison: for every flat test morphism `y : T → Y`, evaluation of
+this right adjoint at `y` agrees naturally with the ordinary big-fppf-site direct image.
+The right adjoint is obtained by applying the quasi-coherent replacement to that direct image;
+ordinary big-site direct image need not preserve quasi-coherence (Stacks, Proposition 103.11.1
+(077A), Lemma 103.11.2 (0GQQ), Section 103.11 (070A)). *Needs:* §1.1, §1.11, §1.18,
 §1.21; Mathlib `CoGrothendieck`.
 
 **Checks.**
@@ -2501,6 +2509,14 @@ morphisms, *QCoh.ofSpaceEquiv* (agreement with §1.11 for spaces). *Needs:* §1.
   `QCoh(BG)` is the category of comodules of `O(G)`), `test_pushforward_invariants` (for a finite
   group `G` acting on `Spec A` and `π : [Spec A/G] → Spec A^G`, `π_* O = Ã^G`),
   `test_BG_not_exact` (for `G = ℤ/p` over `𝔽_p`, `π_* : QCoh(BG) → Vect` is not exact).
+
+- `test_qcoh_pushforward_adjunction`: for an affine scheme map, the Hom equivalence becomes
+  extension of scalars adjoint to restriction of scalars.
+- `test_qcoh_pushforward_space`: for `j : 𝔸²_k ∖ {0} → 𝔸²_k`, the space equivalence carries
+  `QCoh.pushforward j O` to `O_{𝔸²_k}`; flat test objects give the same sections as raw direct image.
+- `test_big_pushforward_not_quasicoherent`: the raw big-fppf `j_* O` for this `j` has global
+  sections `k[x,y]`, but evaluates to zero on `Spec k → 𝔸²_k` at the origin. A quasi-coherent
+  sheaf with those global sections would evaluate to `k`, so raw direct image is not quasi-coherent.
 
 ### 1.23 Moduli functors, fine and coarse moduli spaces, Keel–Mori, tame stacks
 
@@ -2881,9 +2897,17 @@ sheaf on a space has vanishing higher Čech cohomology for every open covering a
 `H^n` (Tau Ceti's `Topology.subsingleton_H_succ_of_isFlasque` is the sheaf-cohomology half; Stacks,
 Lemmas 20.12.3–20.12.6 (09SV)). Prove `noetherianSpace_vanishing`: on a Noetherian space of Krull
 dimension `≤ d`, `H^p(X, F) = 0` for every abelian sheaf `F` and `p > d` (Stacks, Proposition 20.20.7
-(02UZ)). Prove `cohomology_filtered_colimits`: on a site with a basis of quasi-compact objects
-(coherent site) cohomology commutes with filtered colimits of abelian sheaves (Stacks, Lemma 21.16.1
-(0737)). *Needs:* §2.1; Mathlib `TopCat.Sheaf`, `IsFlasque`, `NoetherianSpace`,
+(02UZ)). Prove `cohomology_filtered_colimits`: for a site `C`, fix a class `B` of objects and a collection
+`Cov` of coverings such that every
+covering in `Cov` is finite, its target and covering objects lie in `B`, and every nonempty finite
+Čech fibre product exists and lies in `B`. For each `U ∈ B`, coverings of `U` in `Cov` must be
+cofinal among all coverings of `U`. Then for every `U ∈ B`, every `p ≥ 0` and every small filtered
+diagram of abelian sheaves `F_i`, the natural map
+`colim_i H^p(U,F_i) → H^p(U,colim_i F_i)` is an isomorphism, with the colimit on the right taken
+in abelian sheaves (Stacks, Lemma 21.16.1 (0739), Section 21.16 (0737)). A global-cohomology
+specialization requires a terminal object belonging to `B` with these same covering and
+Čech-product conditions; a basis of quasi-compact opens alone does not give this specialization.
+*Needs:* §2.1; Mathlib `TopCat.Sheaf`, `IsFlasque`, `NoetherianSpace`,
 `topologicalKrullDim`, `cohomologyPresheafObjIsoOverH`; Tau Ceti
 `Topology.subsingleton_H_succ_of_isFlasque`.
 
@@ -2896,6 +2920,14 @@ dimension `≤ d`, `H^p(X, F) = 0` for every abelian sheaf `F` and `p > d` (Stac
   the Sierpiński space are flasque but not injective.
 - `noetherianSpace_vanishing_test_curve`: on a curve `H^2 = 0`; `test_sharp`: on `ℙ^d` the bound is
   sharp (`H^d(ℙ^d, O(−d−1)) ≠ 0`).
+- `filtered_colimits_test_affine`: on the Zariski site of an affine scheme, quasi-compact opens
+  with finite open coverings and quasi-compact finite intersections give the comparison in every degree.
+- `filtered_colimits_test_finite_discrete`: global sections on a finite discrete space are a
+  finite product and commute with filtered colimits.
+- `filtered_colimits_test_infinite_discrete`: on `ℕ` with the discrete topology, let `F_E` be the
+  sheaf equal to `ℤ` on a finite subset `E` and zero elsewhere. The filtered colimit over finite
+  subsets is the sheaf equal to `ℤ` at every point. The global degree-zero comparison is
+  `⊕_n ℤ → ∏_n ℤ`, which is not surjective, despite the basis of quasi-compact singleton opens.
 
 *Lean:* `SiteCohomology.noetherianSpace_vanishing` (abelian sheaves on a Noetherian topological
 space of Krull dimension `≤ d`).
@@ -4476,10 +4508,19 @@ deformations form a torsor under `H¹(X, T_X) ⊗ I`, and automorphisms are `H�
 invertible sheaf `L` on `X_A`, the obstruction to deforming `L` lies in `H²(X, O_X) ⊗ I` with
 deformations a torsor under `H¹(X, O_X) ⊗ I` (Stacks, Example 93.9.1 (0DY7), Lemmas 93.9.2–93.9.5
 (0DY8, 0DY9, 0DYA, 0ET5), 93.16.4 (0DZQ), 91.8.1 (0D14), 37.13.7 (0D0N), 37.4.1 (0C6R)). Prove
-`node_versal_deformation`: the deformation functor of the node `k[[u, v]]/(uv)` over `Λ` has hull
-`Λ[[t]]` with universal family `uv = t`, and the deformation functor of a stable nodal curve of genus `g ≥ 2` has hull
-`Λ[[t_1..t_{3g−3}]]` with the nodes' smoothing parameters as `t_1..t_δ` (Deligne–Mumford 1969, §1,
-Proposition (1.5), Theorem (1.6), pp. 81–83). *Needs:* §2.6, §4.1, §4.3, §4.4, §4.5; Mathlib
+`node_versal_deformation` in §4.3's coefficient setting (`Λ` complete Noetherian local with
+residue field `k`): the deformation functor of the split node `k[[u, v]]/(uv)` has hull
+`Λ[[t]]` with versal family `uv = t`. Separately, for a stable nodal curve `C/k` of genus
+`g ≥ 2`, its deformation functor has a formally smooth hull of relative dimension `3g−3`,
+noncanonically `Λ[[t_1..t_{3g−3}]]`. For the additional labelled-coordinate assertion assume
+`k` algebraically closed, let `δ` be the number of geometric nodes of `C`, and choose their
+ordering and split local coordinates. The hull coordinates can then be chosen so that the
+family at the `i`th node is `uv = t_i` and its persistence locus is `t_i = 0`, for `1 ≤ i ≤ δ`
+(Deligne–Mumford 1969, §1, the split-node example and Proposition (1.5), pp. 81–82,
+Theorem (1.6), p. 83). Over a general residue field the individual geometric smoothing
+coordinates are asserted after geometric base change, with their descent action retained;
+the smooth-hull dimension does not require such coordinates to descend. The local `uv = t`
+convention is the rational split-node convention used in §4.18. *Needs:* §2.6, §4.1, §4.3, §4.4, §4.5; Mathlib
 `Algebra.Extension.cotangentComplex` (`NL`), `Ext`; StableReduction Layers 1, 3.
 
 **Checks.**
@@ -4488,6 +4529,14 @@ Proposition (1.5), Theorem (1.6), pp. 81–83). *Needs:* §2.6, §4.1, §4.3, §
 - `smooth_scheme_test_projective_line`: `ℙ¹` is rigid (`H¹(T) = 0`) and unobstructed.
 - `smooth_scheme_test_elliptic`: an elliptic curve has one-dimensional `H¹(T)` and `H²(T) = 0`.
 - `node_test_smoothing`: the fibre of `uv = t` over `t ≠ 0` is smooth.
+- `node_test_labelled_coordinates`: over algebraically closed `k`, a stable curve with `δ`
+  ordered nodes has `δ` individual persistence hyperplanes in its `3g−3`-dimensional hull.
+- `node_test_conjugate_nodes`: a stable real genus-two curve obtained from `ℙ¹_ℂ` by identifying
+  `i` with `2i` and `−i` with `−2i`, with conjugation descent, has one closed node with residue
+  field `ℂ` and two geometric nodes. Its local smoothing tangent space is a `ℂ`-line, hence has
+  real dimension two. After complexification the two parameters are `a+ib` and `a−ib`, exchanged
+  by conjugation. Their combined persistence boundary descends as `a²+b² = 0`; the individual
+  hyperplanes do not descend to real coordinate hyperplanes.
 
 ### 4.7 The formal spectrum and adic thickening systems
 
@@ -4686,11 +4735,22 @@ integral scheme is an isomorphism; Stacks, Lemma 29.55.8 (0AB1)), *IsModificatio
 (§4.16), *IsModification.functionField_equiv* (a modification of integral schemes induces an
 isomorphism of function fields). Define the strict transform
 with its centre explicit: for `f : X → S`, a modification `φ : S' → S` and a **chosen dense open**
-`U ⊆ S` over which `φ` is an isomorphism (`IsModification.Witness φ U`), `strictTransform f φ U :
-(X ×_S S').IdealSheafData` is the ideal sheaf of the scheme-theoretic closure of `X ×_S φ⁻¹(U) =
-f⁻¹(U)` in `X ×_S S'` (Stacks, Definition 31.34.1 (080D)); `strictTransformModule f φ U M` is the
-quotient of `pr^* M` by the sections supported over `S' ∖ φ⁻¹(U)` (the quasi-coherent subsheaf of
-sections killed by a power of the ideal of the exceptional locus). API: `strictTransform_eq_closure`
+`U ⊆ S` over which `φ` is an isomorphism (`IsModification.Witness φ U`), put `Y = X ×_S S'`
+and `V = X ×_S φ⁻¹(U)`. The constructors and their API require that the open immersion
+`j : V → Y` is quasi-compact. This holds if the complement of `U` is defined by a finite-type
+quasi-coherent ideal on `S`, if `Y` is locally Noetherian, or in the blow-up case below.
+Then `strictTransform f φ U : Y.IdealSheafData` is the ideal sheaf of the scheme-theoretic
+closure of `V` in `Y`, and `strictTransformModule f φ U M`, for quasi-coherent `M` on `X`,
+is the quotient of `N = pr_X^* M` by `ker(N → j_* j^* N)`, the sections vanishing on `V`.
+Here `j_*` is scheme-site direct image. Prove **strictTransform_supportComparison**: for
+quasi-compact `j`, this supported subsheaf and its quotient are quasi-coherent, and for `N = O_Y`
+the kernel cuts out the scheme-theoretic closure, whose support is the topological closure of `V`
+(Stacks, Lemmas 26.24.1 (01LC), 29.6.3 (01R8)). If a finite-type quasi-coherent ideal `J` on `Y`
+defines `Y ∖ V`, identify the kernel on every affine open with the elements annihilated by some
+power of `J`. For `J = (a_1,…,a_r)`, vanishing on each `D(a_i)` gives an annihilating power of
+each generator, and finite generation gives one power of `J` annihilating the element
+(Stacks, Lemma 47.9.1 (0A6R), degree zero). This is a degree-zero comparison; §2.7's derived
+comparison retains its Noetherian hypotheses. API under the same quasi-compactness hypotheses: `strictTransform_eq_closure`
 (the support is the closure of the preimage of `U`), `strictTransform_independent_of_witness` (for
 `U ⊆ U'` both witnesses with `f⁻¹(U)` scheme-theoretically dense in `f⁻¹(U')`, the strict transforms
 agree; in particular for `X` reduced and `U`, `U'` both dense in `X` the choice is immaterial, while
@@ -4699,13 +4759,18 @@ for `X` with embedded components it is not: the identity modification of `𝔸¹
 ×_S S'` that is flat over `S'` and agrees with `X ×_S S'` **as closed subschemes** over `φ⁻¹(U)`
 (`Z ×_{S'} φ⁻¹(U) = X ×_S φ⁻¹(U)` scheme-theoretically, not merely on supports) is the strict
 transform; support agreement alone fails for `X = Spec k[ε]/(ε²)` against its reduced point),
-`strictTransform_comp` (transitivity along composites of modifications), `strictTransform_self`
+`strictTransform_comp` (transitivity along composites of modifications, with quasi-compact
+retained-open inclusions at each stage), `strictTransform_self`
 (for integral `S` and `S'`, `strictTransform (𝟙 S) φ U = ⊥`), `strictTransform_eq_blowup` (for `φ` the blow-up of `S` along a
-closed subscheme `C` with `U = S ∖ C` and exceptional ideal `E = C·O_{S'}`, the strict transform of
-`f` is StableReduction Layer 4's strict transform along the blow-up, and `strictTransformModule` is
-the quotient of `pr^* M` by its `E`-power torsion; Stacks, Lemma 31.34.2 (080E)),
+closed subscheme `C` with `U = S ∖ C` a modification witness and exceptional ideal
+`E = C·O_{S'}`, the exceptional effective Cartier divisor makes `E` invertible and its pullback
+to `Y` finite type, so `j` is quasi-compact and the comparison applies. The strict transform of
+`f` is StableReduction Layer 4's strict transform along the blow-up, and `strictTransformModule`
+is the quotient of `pr^* M` by its pulled-back `E`-power torsion (Stacks, Definition 31.34.1
+(080D), Lemma 31.34.2 (080E))),
 `strictTransform_closedImmersion` (for `X → S` a closed immersion, the strict transform is the
-closure of `X ∩ U` in `S'`, the blow-up of `X` along `X ∩ C` in the blow-up case). *Needs:* §0.9;
+closure of `X ∩ U` in `S'`, the blow-up of `X` along `X ∩ C` in the blow-up case). *Needs:* §0.9,
+§2.7 (degree-zero supported sections);
 Mathlib `IsProper`, `IsIntegral`, `Scheme.Birational`, `IdealSheafData`, scheme-theoretic closure;
 StableReduction Layer 4 (blow-ups and their strict transforms).
 
@@ -4728,9 +4793,21 @@ StableReduction Layer 4 (blow-ups and their strict transforms).
   agrees scheme-theoretically; the strict transform is `X`.
 - `strictTransformModule_torsion`: for `M = k[t]/(t)` on `𝔸¹` and the identity modification with
   witness `𝔾_m`, the strict transform of `M` is `0` (it is `t`-power torsion).
+- `strictTransform_supportComparison_finite_generators`: on `Spec k[x,y]` with `J = (x,y)`
+  and `N = k[x,y]/(x²,y³)`, restriction to `D(x) ∪ D(y)` is zero and `J⁴ N = 0`.
+- `strictTransform_supportComparison_empty_complement`: `J = (1)` gives the full open,
+  zero supported kernel and unchanged module; `J = (0)` gives the empty open and the entire kernel.
+- `strictTransformModule_nonfinite_ideal`: let `A = k[x_0,x_1,…]`, `I = (x_0,x_1,…)`,
+  `B = A/(x_j^{j+2} : j ≥ 0)`, `S = Spec A`, `φ = 𝟙_S`, `f = 𝟙_S` and `U = S ∖ V(I)`.
+  The integral base and modification witness conditions hold, but `U → S` is not quasi-compact.
+  The geometric supported subsheaf of `B~` is all of `B~`, so the support-defined sheaf quotient
+  is zero. Its `I`-power torsion is zero: for any nonzero class `b` and any `n`, a fresh variable
+  with `j+2 > n` gives `x_j^n b ≠ 0`. Thus the power-torsion quotient is `B~`, and this witness
+  lies outside the constructors' quasi-compact regime.
 
-*Lean:* `Formal.IsModification`. Its API and the strict transforms are specified in this README
-only.
+*Lean:* `Formal.IsModification`, `Formal.strictTransform_supportComparison_affine` (for a finitely
+generated ideal, elementwise vanishing on its principal opens is equivalent to ideal-power
+annihilation). The sheaf constructors and their remaining API are specified in this README only.
 
 ### 4.12 Generic flatness, flattening, domination and Chow's lemma
 
@@ -4861,8 +4938,9 @@ pointed families `C, C'` over `S`, `Isom_S(C, C')` is a finite unramified `S`-sc
 Deligne–Mumford stack over `Spec ℤ` (§1.19–§1.20), with `M_{g,n}` open dense (Deligne–Mumford 1969,
 §5, Proposition (5.1), Theorem (5.2), pp. 104–105; §1, pp. 76–78). Prove `Mbar_smooth`: `M̄_{g,n} →
 Spec ℤ` is smooth of relative dimension `3g − 3 + n`, the boundary is a normal crossings divisor,
-and the versal deformation of a stable curve is the node-smoothing family of §4.6 (Deligne–Mumford
-1969, Proposition (1.5), p. 81, Theorem (1.6), Corollaries (1.7)–(1.9), p. 83, Theorem (5.2), p.
+and over an algebraically closed residue field the versal deformation has §4.6's labelled
+node-smoothing coordinates; over general fields this description holds geometrically with
+descent data (Deligne–Mumford 1969, Proposition (1.5), p. 81, Theorem (1.6), Corollaries (1.7)–(1.9), p. 83, Theorem (5.2), p.
 104). Prove `level_structure_cover` by the following constructions on the existing stack.
 For the level convention, use Deligne's full ordered bases
 `J[m] ≅ (ℤ/mℤ)^{2g}` over the smooth locus with `m` invertible. The transported
