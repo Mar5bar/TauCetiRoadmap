@@ -80,7 +80,8 @@ comparisons to them and never a second carrier.
   leaves projective bundles and Chern classes to successors; they are Layer 5 here.
 - *Relative Proj of a finitely generated graded quasi-coherent algebra, projective morphisms,
   relative ampleness, the relative dualising sheaf of a proper flat finitely presented Gorenstein
-  curve (contract J-B / SR-2), coherent higher direct images and base change on curves, finite
+  curve (contract J-B / SR-2), the curve-family specialisations of coherent higher direct images and
+  base change (the general proper-coherence API is JacobianChallenge Layer C), finite
   extensions of discrete valuation rings (`TauCeti.FiniteDVRExtension`), models over a discrete
   valuation ring, nodal local models over a discrete valuation ring, prestable, semistable and
   stable families, blow-ups, admissible blow-ups, strict transforms of closed subschemes along
@@ -2638,8 +2639,11 @@ defined on `D⁺_QCoh` for separated morphisms of finite type between Noetherian
 Mathlib's `Field.absoluteGaloisGroup`. Finite-coefficient étale cohomology, base change, compact
 support, the ℓ-adic realization, Frobenius, the Artin comparison and the trace formula are the
 CohomologicalPointCounting family; affine acyclicity, the Čech computation, flat
-base change and Jacobians are JacobianChallenge Layers A–D; proper coherence and the relative
-dualising sheaf of curves are StableReduction Layer 2; Hilbert 90 for fields, Kummer theory and
+base change and Jacobians are JacobianChallenge Layers A–D, and so are general proper coherence and
+coherent higher direct images (its Layer C, in the shared `Cohomology/{Proper,Pushforward}.lean`);
+the relative dualising sheaf of a proper flat finitely presented Gorenstein curve is StableReduction
+Layer 2, which derives the curve-family specialisations of Layer C but owns no second
+proper-pushforward API; Hilbert 90 for fields, Kummer theory and
 continuous cohomology are ProfiniteCohomology Layers 9–10; the field Brauer group as `H²` is
 QuadraticFormInvariants Layer 7. Étale supports, the étale `f^!`, absolute purity and purity for
 the Brauer group are EtaleDualityAndPerverseSheaves; algebraic stacks are Layer 1; Chow groups are
@@ -4608,7 +4612,10 @@ dominated by a common one (Stacks, Lemmas 38.31.3 (081S), 38.31.4 (081T), 38.11.
 (080B)). Prove `chow_lemma`: for `X → S` separated of finite type with `S` Noetherian, there is a
 projective modification `X' → X` such that `X' → S` is quasi-projective (an immersion into `ℙ^n_S`),
 and for `X` proper over `S`, `X'` projective over `S` (Stacks, Lemma 30.18.1 (0200), Remark 30.18.2
-(0201), Lemma 32.12.1 (0202)). *Needs:* §0.9, §4.11; StableReduction Layers 2, 4.
+(0201), Lemma 32.12.1 (0202)). *Needs:* `generic_flatness`, `flattening_by_blowup` and
+`modification_domination`: §0.9, §4.11; StableReduction Layers 2, 4. `chow_lemma`: §0.9 and §4.11
+only; it does not depend on StableReduction, so that JacobianChallenge Layer C's proper coherence
+(which consumes `chow_lemma`) and StableReduction Layer 2 (which consumes Layer C) form no cycle.
 
 **Checks.**
 - `generic_flatness_test_blowup`: the blow-up of `𝔸²` at the origin is flat over `𝔸² ∖ {0}`.
