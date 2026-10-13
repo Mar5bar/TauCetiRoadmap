@@ -77,7 +77,8 @@ The geometric foundation has no dependency on the sharp inequality. I1–I2 can 
 alongside it. I3's analytic inequalities use the existing AC calculus and the Green/length
 inputs; their identification with actual Jordan area also consumes GMT G6's Jordan index
 theorem. I4 consumes GMT G2–G5, I1, and I2's set symmetrization and convex geometry.
-I5 consumes I2, I4 and GMT G4; I6 consumes I3–I4, GMT G6, and Jordan topology.
+I5 consumes I1, I2, I4, GMT G2–G5, and PDE's weak-derivative API; I6 consumes I3–I4,
+GMT G6, and Jordan topology.
 No optimal-transport theorem is an assumed input. Any analytic, geometric, or equality
 lemma needed to complete these milestones and absent from their stated inputs is a target
 here, including the proof machinery enumerated in I2 and I4.
@@ -127,14 +128,18 @@ their sum is not measurable:
 
 Retain nonemptiness even in zero-volume cases; the unweighted inequality is false when
 one summand is empty and the other has positive volume. Supply the weighted Minkowski
-version and the elementary translation/dilation laws,
+version for `0 ≤ θ ≤ 1`,
+`|(1−θ) • A + θ • B|^(1/n) ≥ (1−θ)|A|^(1/n) + θ|B|^(1/n)`
+and the elementary translation/dilation laws,
 monotonicity, continuity for decreasing compact sets and the neighborhood approximation
 needed for passing to measurable sets. Address measurability explicitly: the sum of two
 Lebesgue measurable sets is not an automatically measurable input. Include positive-volume
 **compact convex** equality: for `0 < θ < 1`, equality in the weighted inequality holds
 exactly when `B = c + λ • A` for some translation `c` and `λ > 0`. Prove the convex equality argument and the
 bridge between positive volume and nonempty interior. A measure inequality alone does
-not provide this rigidity theorem.
+not provide this rigidity theorem. Derive the same homothety characterization for equality
+in the unweighted inequality by applying the weighted form at `θ = 1/2` to `2 • A`
+and `2 • B` and using dilation laws.
 
 ## I2 — Symmetrization, rearrangements, and convex geometry
 
@@ -224,14 +229,57 @@ equivalent normalized forms, scaling laws, and explicit formulas for balls. Stat
 with relative perimeter only when their domain terms and hypotheses are separately proved;
 the headline is whole-space Euclidean perimeter.
 
-Prove **rigidity at finite-perimeter regularity**. For every positive finite-volume set,
-equality holds iff it agrees a.e. with a ball. This includes nonsmooth, disconnected,
-and unbounded measurable representatives. Smooth equality plus approximation is not a
-proof of this assertion. Develop the strictness/equality lemmas, symmetrization equality
-analysis, and measure-theoretic connectedness or slicing arguments needed by the proof
-actually used. If indecomposable finite-perimeter sets are introduced, define them using
-partitions with additive perimeter and build their decomposition, uniqueness, and volume
-and perimeter summation theory here. Every further object introduced in the rigidity
+Prove **rigidity at finite-perimeter regularity**. For every positive finite-volume set
+of finite perimeter, equality holds iff it agrees a.e. with a ball. This includes
+nonsmooth, disconnected, and unbounded measurable representatives. Supply the following
+structural targets and their deduction of rigidity:
+
+- For a Lebesgue-measurable `E` with `0 < |E| < ∞` and `P(E) < ∞`, and every unit
+  direction `e`, write `S_e E` for I2's Steiner symmetral. If `P(S_e E) = P(E)`,
+  prove that for almost every `y ∈ e⊥` the section
+  `{t : ℝ | y + t • e ∈ E}` agrees a.e. in one-dimensional Lebesgue measure with a
+  possibly empty interval (an `OrdConnected` subset of `ℝ`). Use `volume` on the
+  orthogonal subspace `e⊥ = (ℝ ∙ e)ᗮ` and prove that `(y,t) ↦ y + t • e` is a
+  measure-preserving linear equivalence from `e⊥ × ℝ`, with its product volume, to the
+  ambient Euclidean space, with `‖y + t • e‖² = ‖y‖² + t²`.
+  Prove the section measurability and Fubini transport from Borel representatives:
+  replacing `E` by a volume-a.e. equal set preserves this conclusion for each fixed
+  direction. The exceptional set of `y` may depend on `e`. Build the finite-perimeter
+  slicing theorem and its reduced-boundary/normal comparison on almost every line from
+  GMT G2–G5. Prove the localized perimeter comparison with Steiner symmetrization,
+  including the equality implication that the set of slices with more than two essential
+  boundary points has zero transverse measure. These are I4 targets; perimeter
+  nonincrease obtained solely by approximation does not supply them.
+- Prove the essential-convexity theorem: if a Lebesgue-measurable set of positive finite
+  volume has the preceding interval-section property in every unit direction, it agrees
+  a.e. with a convex set. Take the set of volume-density-one points as the representative.
+  For any two distinct such points, use the direction of the segment joining them:
+  density at the endpoints makes almost all nearby parallel sections meet `E` near both
+  ends, and the interval property then gives density one along the segment. Prove the
+  quantitative tube estimates needed for this argument; it uses only the exceptional set
+  for that direction. Obtain a compact convex representative `K` with
+  nonempty interior, proving boundedness from convexity and positive finite volume and
+  proving that closure changes it only on a null boundary. Transport volume and perimeter
+  along this a.e. equality using GMT G5.
+- Isoperimetric equality for `E` forces `P(S_e E) = P(E)` for every `e`: combine I2's
+  volume preservation and perimeter nonincrease with the already established inequality
+  for `S_e E`. Thus the structural targets reduce the equality case to `K`. For
+  `B = closedBall 0 1`, prove concavity of `f(t) = |K + t • B|^(1/n)` on `t ≥ 0`
+  from I1, proving the Minkowski-sum identity
+  `(1−θ) • (K + s • B) + θ • (K + t • B) = K + ((1−θ)s + θt) • B`
+  for `0 ≤ θ ≤ 1` and `s,t ≥ 0` using convexity. I2's outer-parallel derivative gives
+  `f'(0+) = P(K) / (n |K|^((n−1)/n))`. Isoperimetric equality makes this derivative
+  `ω_n^(1/n)`. The concave tangent bound and the Brunn–Minkowski lower bound then force
+  `f(t) = f(0) + t ω_n^(1/n)` for every `t ≥ 0`. Apply I1's compact convex equality
+  theorem at `t > 0` to deduce that `K` is a translate and positive dilation of `B`.
+  Use the nullity of the sphere to obtain the stated a.e. equality with an open ball;
+  prove the converse from ball formulas and a.e. invariance.
+
+Smooth equality plus approximation, or convergence of successive symmetrizations to a
+ball without perimeter loss, does not supply these structural conclusions. The necessary
+interval-section equality condition is stated in Cagnetti–Colombo–De Philippis–Maggi,
+§1.2 and Theorem A, cited below. Equality in a single Steiner step does not in general
+imply that `E` is a translate of `S_e E`. Every further object introduced in the rigidity
 proof must receive its basic restriction, invariance, and comparison API.
 
 Give the topological-frontier corollary for every bounded set, and the more
@@ -253,8 +301,82 @@ comparison, not a new definition chosen to make this inequality immediate.
 ## I5 — Sharp BV Sobolev and its equality cases
 
 Prove BV Pólya–Szegő from GMT's scalar coarea and I4's set inequality: Schwarz rearrangement
-does not increase total variation. Supply the corresponding `W¹,¹` comparison through
-the GMT/PDE bridge. These comparisons use I4 and are not inputs to its proof.
+does not increase total variation. For every nonnegative `u ∈ W¹,¹(ℝⁿ)`, `n ≥ 2`, prove
+that its Schwarz rearrangement `u*` has an `L¹` weak gradient `g`, with
+
+```
+D(u*) = g · volume,       ∫ ‖g‖ ≤ ∫ ‖∇u‖.
+```
+
+Supply an approximation argument that excludes singular concentration, with the following
+targets owned by I5:
+
+- For nonnegative integrable Lipschitz functions `h`, prove that `h*` has a Lipschitz
+  representative, using I1's Brunn–Minkowski inequality and the inclusions between
+  neighborhoods of superlevel sets. Identify the a.e. Rademacher gradients with the
+  canonical weak gradients, supplying the required integration-by-parts comparison.
+  Prove the convex-integrand Pólya–Szegő estimate
+  `∫ Φ(‖∇h*‖) ≤ ∫ Φ(‖∇h‖)` for finite-valued convex nondecreasing
+  `Φ : [0,∞) → [0,∞)` with `Φ(0) = 0`, whenever the right side is finite. Supply the
+  distribution-function and critical-level comparisons needed to derive this estimate
+  from GMT G2's Lipschitz coarea, GMT G5's comparison of superlevel perimeter with level
+  surface measure, Jensen's inequality, and I4.
+  Explicitly, for `μ_h(t) = |{h > t}|` and
+  `m_h(t) = ∫_{{h=t} ∩ {∇h≠0}} ‖∇h‖⁻¹ dHⁿ⁻¹`, prove
+  `m_h(t) ≤ −μ_h'(t)` for a.e. `t > 0`, and prove that the critical part of the level
+  surface has zero `Hⁿ⁻¹` measure for a.e. `t`. For `h*`, prove equality
+  `m_h*(t) = −μ_h'(t)` using the nullity of critical values for its one-dimensional
+  Lipschitz radial profile. Prove that `s ↦ s Φ(P/s)` is nonincreasing for `s > 0`
+  and `P ≥ 0`, so Jensen and the level-perimeter inequality combine in the required
+  direction. Treat empty levels and zero denominators separately.
+- For nonnegative `u ∈ W¹,¹`, construct nonnegative smooth Lipschitz approximants
+  `u_j = u * ρ_j` using nonnegative compactly supported smooth probability kernels.
+  Prove convergence in `W¹,¹`, the convolution identity for weak gradients, and Jensen's
+  bound `∫ Φ(‖∇u_j‖) ≤ ∫ Φ(‖∇u‖)`. Use a de la Vallée Poussin integrability lemma
+  to choose such a `Φ` with `Φ(t)/t → ∞` and `∫ Φ(‖∇u‖) < ∞`.
+- Apply the Lipschitz convex-integrand estimate both to this superlinear `Φ` and to
+  `Φ(t) = t`. Prove the resulting uniform-integrability estimate: for every `ε > 0`
+  there is a finite `T > 0` such that
+  `∫_A ‖∇u_j*‖ ≤ T |A| + ε` for every measurable `A` and every `j`.
+  I2's `L¹` contraction gives `u_j* → u*` in `L¹`. GMT G4's local lower semicontinuity
+  therefore gives `|D(u*)|(U) ≤ T |U| + ε` for every open `U`. Use outer regularity of
+  volume to cover volume-null sets by open sets of arbitrarily small volume and deduce
+  `|D(u*)| ≪ volume`. GMT G3's measure-valued derivative and Radon–Nikodym comparison
+  then supply `D(u*) = g · volume`. The identity `|D(u*)| = ‖g‖ · volume` and the
+  global BV comparison prove `∫ ‖g‖ ≤ ∫ ‖∇u‖`. This explicitly excludes singular
+  concentration in the limit.
+
+The convex-integrand estimates and uniform-integrability lemmas are supporting theory
+for the `p = 1` result; a general Orlicz-space development is outside this roadmap. I2's
+equimeasurability supplies `u* ∈ L¹`; GMT G3's BV-to-Sobolev comparison then gives a
+canonical `TauCeti.W1p` element with weak gradient `g`.
+
+Also establish the radial-profile comparison. Pin the representative for `r > 0` by
+`v(r) = sup {t > 0 | ω_n r^n < |{u > t}|}`, with value zero for an empty set and the
+extended nonnegative supremum until finiteness is proved. Superlevel volumes are finite
+for `t > 0` by the `L¹` bound. Prove agreement with I2's Schwarz rearrangement, finiteness
+of `v(r)` for `r > 0`, and absolute continuity of `v` on every compact subinterval of
+`(0,∞)`. Derive this from the established radial `W¹,¹` representative by the weak
+derivative comparison on annuli, including vanishing of tangential gradient components;
+build the radial restriction and composition lemmas against PDE's canonical
+weak-derivative API here. Use monotonicity to transport a.e. agreement with the continuous
+profile to pointwise agreement with the pinned `v`. Establish
+
+```
+n ω_n ∫₀^∞ |v'(r)| r^(n−1) dr ≤ ∫ ‖∇u‖.
+```
+
+Use GMT G2's polar integration to identify
+`g(x) = v'(‖x‖) • (x / ‖x‖)` a.e. away from zero. Prove
+`r^(n−1) v(r) → 0` as `r ↓ 0` from the weighted derivative bound and `n ≥ 2`.
+As corollaries of the established identity `D(u*) = g · volume`, deduce that the
+derivative has no jump part across spheres, no Cantor part over a null set of radii,
+and no contribution at the origin. Extend the norm comparison to real-valued inputs
+by rearranging `|u|` and proving its weak-gradient bound using the canonical
+positive-part/truncation calculus and
+`|u| = u⁺ + (−u)⁺`. A BV bound or strict smooth approximation alone does not exclude
+a singular derivative in the rearranged limit. These comparisons use I4 and are not
+inputs to its proof.
 
 For `n ≥ 2`, `p = n/(n−1)`, prove on the whole space
 
@@ -317,6 +439,15 @@ and the final declarations must have explicit integrability and finiteness hypot
 - Francesco Maggi, [*Sets of Finite Perimeter and Geometric Variational Problems*](https://cvgmt.sns.it/paper/1880/),
   for finite-perimeter isoperimetry and symmetrization. GMT's roadmap owns the underlying
   measure and boundary theory.
+- Cagnetti–Colombo–De Philippis–Maggi,
+  [*Rigidity of equality cases in Steiner's perimeter inequality*](https://arxiv.org/abs/1309.1639),
+  §1.2 and Theorem A, for the necessary interval-section condition used in I4. Translation
+  rigidity for a single symmetrization needs additional hypotheses.
+- Bianchi–Gardner–Gronchi–Kiderlen,
+  [*The Pólya–Szegő inequality for smoothing rearrangements*](https://arxiv.org/abs/2206.09833),
+  Theorem 5.8, Theorem 6.3 and Corollary 6.5, for the Lipschitz convex-integrand estimate,
+  Sobolev membership, and the gradient comparison, including the uniform-integrability
+  argument at the `p = 1` endpoint. I5 requires only Schwarz rearrangement at that endpoint.
 - [The Brunn–Minkowski exposition by Terence Tao](https://terrytao.wordpress.com/2011/09/16/the-brunn-minkowski-inequality-for-nilpotent-groups/)
   includes the Euclidean Prékopa–Leindler argument.
 - Joel Tropp's [*Lectures on Convex Geometry*](https://tropp.caltech.edu/notes/Tro18-Lectures-Convex-LN.pdf),
