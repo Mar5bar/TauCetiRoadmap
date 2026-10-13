@@ -5,8 +5,8 @@ and `p`-divisible groups, and the integral `p`-adic Hodge theory that classifies
 algebra. It starts from Tau Ceti's finite locally free commutative group schemes over an affine base
 with Cartier duality, from ModularCurves' finite locally free group schemes and descent, and from
 the Barsotti–Tate interface of AbelianSchemesAndArithmeticModuli. Layer R07.1 builds the structure
-theory: Frobenius and Verschiebung, étale and multiplicative groups and their rigidity, the general
-theory of `p`-divisible groups (levels, Cartier duality, Tate modules, connected–étale sequences,
+theory: absolute, relative and iterated Frobenius of characteristic-`p` schemes, Verschiebung,
+étale and multiplicative groups and their rigidity, the general theory of `p`-divisible groups (levels, Cartier duality, Tate modules, connected–étale sequences,
 truncations), formal Lie groups and dimension, Tate's Hodge–Tate decomposition and his generic-fibre
 theorem, schematic closures and finite flat models, Raynaud's uniqueness theorem for `e < p − 1`,
 his classification of `F`-vector schemes and his bound on tame inertia, the Oort–Tate classification
@@ -38,7 +38,7 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
-| R07.1 | Finite flat group schemes and `p`-divisible groups | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT`, `FormalLieGroup`, `tateSen`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
+| R07.1 | Scheme Frobenius, finite flat group schemes and `p`-divisible groups | `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius`, `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT`, `FormalLieGroup`, `tateSen`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
 | R07.2 | Dieudonné theory | `canonicalDecomposition`, `DieudonneRing`, `dieudonneEquivalenceFinite`, `dieudonnePDivisible`, `dieudonneManinClassification`, `isogenyClassification`, `hasseInvariant`, `btStackSmooth`, `BarsottiTate.universalCover`, `deJongDieudonneEquivalence` |
 | R07.3 | Filtered modules and Fontaine–Laffaille theory | `FilteredPhiNModule`, `FilteredPhiNModule.IsWeaklyAdmissible`, `dSt_isWeaklyAdmissible`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
 | R07.4 | Breuil–Kisin modules | `KisinModule`, `kummerFieldOfNorms`, `kedlayaSlopeFiltration`, `kisinCrystallineEmbedding`, `semistableFiniteHeight`, `crystalline01IsBt`, `kisinPDivisibleClassification`, `dyadicClassification`, `bmsKisinFunctor`, `descentDataLatticeClassification` |
@@ -47,7 +47,9 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 
 ## Scope and ownership
 
-**Owned here.** Frobenius and Verschiebung of commutative group schemes in characteristic `p`;
+**Owned here.** Intrinsic characteristic `p`, absolute and relative scheme Frobenius, explicit
+twists and coherent iterates over arbitrary characteristic-`p` schemes (§R07.1.0), including
+finite-field `q`-power scheme maps; Frobenius and Verschiebung of commutative group schemes;
 finite étale group schemes as Galois modules; the finite part of a quasi-finite group over a
 henselian base; rigidity of homomorphisms into étale and out of multiplicative groups. The general
 theory of `p`-divisible groups of arbitrary height over arbitrary bases beyond the basic interface
@@ -82,6 +84,11 @@ Breuil's `S`-modules, the classification of `p`-divisible groups and finite flat
 `𝒪_K` (with the dyadic case), Breuil–Kisin modules with torsion and the all-weight Kisin functor,
 integral comparisons with the Dieudonné crystal, Wach modules, coefficients and Savitt's weight-two
 descent data. The local residual types of R07.5 and the consequences of R07.6.
+
+The scheme maps of §R07.1.0 are independent of group structure, étale cohomology and Galois
+actions. SchemeAndStackFoundations owns universal-homeomorphism criteria (§0.23) and perfection
+(§§0.24–0.26); LefschetzPencilsAndVanishingCycles §F.10 owns the Galois and cohomological
+Frobenius conventions and their bridge to scheme pullback.
 
 **Imported from Tau Ceti and its roadmaps, never planned here.**
 
@@ -236,7 +243,9 @@ the Colmez–Fontaine theorem from here.
 - **Universal covers** follow Scholze–Weinstein: `G̃ = lim_p G` on `Nilp_R^op`, and `G̃ = T_p
   G[1/p]` as sheaves.
 - **Carriers at the pins.** `Suggested.lean` states the targets whose carriers exist at the pinned
-  Mathlib and Tau Ceti. Layer R07.1 works over an affine base with `FLF R` (Tau Ceti's finite
+  Mathlib and Tau Ceti. Section R07.1.0 uses `SchemeFrobenius.SchemeCharP` on general schemes,
+  with scheme morphisms and pullbacks for the absolute, relative and iterated constructions.
+  The group part of Layer R07.1 works over an affine base with `FLF R` (Tau Ceti's finite
   locally free commutative group schemes over `Spec R`), its order `rank` (the order over a local
   base), the predicates `IsEtale`, `IsMultiplicative` (étale Cartier dual) and `IsConnectedLocal`
   (local coordinate algebra, which is connectedness over a henselian local base), the generic fibre
@@ -390,17 +399,17 @@ laws) with `FormalGroup.IsComm`.
   Layer IG.0, **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
   Layer SR.2 (smooth and compact induction for `GL₂(F)`), as listed under *Scope and ownership*.
 
-### From other open roadmap pull requests
+### Scheme Frobenius contract
 
-| Supplier | Provides / consumer | Convention gap |
+| Owner | Provides / consumer | Convention |
 | --- | --- | --- |
-| CohomologicalPointCounting §The roadmaps / Frobenius morphisms and finite-field points (FrobeniusGeometry), with §Family-wide conventions / Frobenius (an open TauCetiRoadmap pull request by bwangpj) | Absolute and relative scheme Frobenius, functoriality, products and the base-change square; §R07.1.1 upgrades the scheme map to `frobeniusHom` and keeps `frobeniusTwist` as its group base-change adapter | Our F_X means their relative F_{X/Spec k}; X^{(p)} twists along the p-power map on the base. The contract is used over fields; the flat affine group extension over arbitrary characteristic-p rings, including the symmetric-tensor construction, is built here. |
+| §R07.1.0 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius` | Scheme maps, naturality, products, arbitrary relative base change and iteration; §R07.1.1 upgrades the relative map to `frobeniusHom` | F_X : X → X is absolute; F_{X/S} : X → X^{(p/S)} is relative. The group F_G is relative. The existing group `frobeniusTwist` is the affine group base-change adapter to `schemeFrobeniusTwist`. Verschiebung and the symmetric-tensor construction for flat affine groups are §R07.1.1. |
 
 ## How to read the build
 
 Layer R07.1 is the structure theory of finite flat groups and `p`-divisible groups over general
-bases: it opens with Frobenius and Verschiebung and the étale and multiplicative building blocks,
-develops `p`-divisible groups, formal Lie groups and Tate's theorems (with the Tate–Sen theorem they
+bases: it opens with scheme Frobenius (§R07.1.0), followed by group Frobenius and Verschiebung
+and the étale and multiplicative building blocks, develops `p`-divisible groups, formal Lie groups and Tate's theorems (with the Tate–Sen theorem they
 need), and then works over Dedekind bases: models, Raynaud's theory with the tame characters it is
 written in, Oort–Tate, gluing and descent. Layer R07.2 classifies over perfect fields by Dieudonné
 modules and reaches out to smooth, semiperfect and valuation-ring bases; its last targets use
@@ -419,8 +428,9 @@ of the same or earlier layers and the explicit supplier contracts.
 
 ## Layer R07.1: Finite flat group schemes and `p`-divisible groups
 
-This layer builds the structure theory over general bases. It opens with Frobenius and Verschiebung
-and with the two rigid building blocks, étale groups (Galois modules) and multiplicative groups
+This layer builds scheme Frobenius over arbitrary characteristic-`p` bases, then the structure
+theory of groups over general bases. Group Frobenius and Verschiebung use that scheme API, along
+with the two rigid building blocks, étale groups (Galois modules) and multiplicative groups
 (their Cartier duals). It then develops `p`-divisible groups on the carrier `BarsottiTate` of
 AbelianSchemesAndArithmeticModuli §A4.5: torsion levels, duality, Tate modules, the connected–étale
 sequence over a henselian local base, truncations, formal Lie groups and dimension, and Tate's two
@@ -430,15 +440,141 @@ his theory of `F`-vector schemes (written in the tame characters, which are intr
 Oort–Tate classification, gluing over rings of `S`-integers, Raynaud's embedding into abelian
 schemes and flat descent.
 
+### R07.1.0 Frobenius of characteristic-p schemes
+
+The labels in this section refer to scheme constructions; their representative Lean names lie in
+`SchemeFrobenius`. There is no group, field, reducedness, Noetherian or finiteness assumption on
+the basic constructions. Absolute scheme maps and relative scheme maps have distinct codomains.
+
+**Absolute Frobenius of characteristic-p schemes** (*absoluteFrobenius*).
+For a prime `p`, define `SchemeCharP X p` intrinsically by `CharP` on every local ring of `X`.
+Prove equivalence with the existence of a unique structure map `X → Spec (ZMod p)` and with
+`p = 0` in every open section ring, hence every affine coordinate ring. On a nonempty affine
+open this gives `CharP` of its coordinate ring; the empty open has the zero ring and satisfies
+`p = 0`, without having ring characteristic `p`. Include the empty scheme. Provide restriction
+to opens, isomorphism invariance, products, fibre products and base change of this condition.
+
+Construct `absoluteFrobenius X p`, written F_X : X → X, with identity map on the underlying
+space and `a ↦ a^p` on the structure sheaf. On Spec A it is `Spec.map` of ring Frobenius.
+Prove open restriction, naturality for every morphism of characteristic-`p` schemes, compatibility
+with composition and isomorphisms, and projection identities on products and fibre products
+(over Spec F_p, these are the usual product maps). Package this as a natural transformation
+on the full category of characteristic-`p` schemes. Prove that F_X is integral, radicial
+(universally injective) and a universal homeomorphism. If X is locally of finite type over a
+perfect field of characteristic `p`, prove F_X finite; finiteness is not imposed on general X.
+
+*Source:* Stacks, §33.36 [Frobenii](https://stacks.math.columbia.edu/tag/0CC6),
+Definition 33.36.1, Lemmas 33.36.2–33.36.3 and 33.36.8; its affine finite-generation
+argument gives the finite assertion because Frobenius is invertible on the perfect base field.
+
+*Needs:* Mathlib `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Spec.map`, `CharP`, `frobenius`,
+`PerfectRing`, scheme ringed-space gluing and pullbacks; SchemeAndStackFoundations §0.23
+(universal-homeomorphism criterion), independently of its perfection targets.
+
+**Checks.**
+
+- On Spec A the algebra map is `a ↦ a^p`, including nilpotents; it commutes with localization.
+- On Spec F_{p²} the underlying one-point space is fixed but the ring map is nontrivial.
+- On Spec F_p[ε]/(ε²), F_X pulls ε back to zero, so the map need not be an isomorphism.
+- The empty scheme satisfies the intrinsic condition and has identity Frobenius.
+
+*Lean:* `SchemeCharP`, `schemeCharP_spec_iff`, `schemeCharP_iff_structureMap`,
+`absoluteFrobenius`, `absoluteFrobenius_spec`, `absoluteFrobenius_base`,
+`absoluteFrobenius_naturality`, `absoluteFrobenius_integral`.
+
+**Relative scheme Frobenius and arbitrary base change** (*schemeFrobeniusTwist*, *relativeFrobenius*).
+For every f : X → S between characteristic-`p` schemes, define
+`schemeFrobeniusTwist f p` = X^{(p/S)} = X ×_{S,F_S} S, with projections π₁ to X and π₂ to S.
+The structure map is π₂. Construct `relativeFrobenius f p`, F_{X/S} : X → X^{(p/S)}, uniquely
+characterized by π₁ ∘ F_{X/S} = F_X and π₂ ∘ F_{X/S} = f. Thus F_X factors through the
+relative map. For A → B the coordinate algebra of the twist is B ⊗_{A,F_A} A and the relative
+map on algebras sends b ⊗ a to b^p a.
+
+Give the induced twist functor and naturality square for every map over S, compatibility with
+products over S and transport along isomorphisms of schemes and bases. For every S′ → S,
+construct the canonical isomorphism
+(X ×_S S′)^{(p/S′)} ≅ X^{(p/S)} ×_S S′ and prove that it identifies relative Frobenius with
+its base change. Keep this isomorphism and both projections explicit, with identity and composite
+base-change coherence; no perfectness or flatness of S′ → S is required.
+
+Prove F_{X/S} integral, radicial and a universal homeomorphism for arbitrary f; for étale f
+it is an isomorphism. For smooth f of pure relative dimension d, it is finite locally free of
+rank p^d. For general smooth f, the locally constant relative dimension on X gives rank
+p^{d(x)} at the corresponding point of X^{(p/S)}, via the Frobenius homeomorphism; no constant
+rank on all of S is assumed. Use étale coordinates to reduce the rank assertion to affine
+space. The group `frobeniusTwist` of §R07.1.1 is compared to this scheme twist by forgetting the
+group structure, preserving projections and base-change maps.
+
+*Source:* Stacks, §33.36, Definition 33.36.4 and Lemmas 33.36.5–33.36.8;
+Lemma 41.14.3 ([0EBS](https://stacks.math.columbia.edu/tag/0EBS)) for étale f;
+smooth étale coordinates (Lemma 29.37.21, [054L](https://stacks.math.columbia.edu/tag/054L))
+and the monomial basis with exponents < p give
+finite local freeness and its rank.
+
+*Needs:* The absolute target above; Mathlib scheme pullbacks, `AlgebraicGeometry.Etale`,
+`AlgebraicGeometry.Smooth`, `AlgebraicGeometry.SmoothOfRelativeDimension`, `Module.Free`,
+`Module.Finite`; SchemeAndStackFoundations §0.23. The rank proof uses local étale coordinates,
+without any group-theoretic input.
+
+**Checks.**
+
+- For A¹_S the relative coordinate map is t ↦ t^p and the algebra is free with basis 1,…,t^{p−1}.
+- Relative Frobenius of every étale S-scheme is an isomorphism, even when F_S is not one.
+- Smooth relative dimension d gives rank p^d; A¹_S has rank p, rather than rank one.
+- The disjoint union of A¹_S and A²_S has ranks p and p² on the respective twist components.
+
+*Lean:* `schemeFrobeniusTwist`, `relativeFrobenius`, `relativeFrobenius_fst`,
+`relativeFrobenius_snd`, `relativeFrobenius_unique`, `relativeFrobenius_integral`,
+`relativeFrobenius_etale_isIso`.
+
+**Iterated scheme Frobenius and finite-field q-power maps** (*iteratedSchemeFrobenius*, *qPowerFrobenius*).
+For every characteristic-`p` scheme X and every r ≥ 0 construct `iteratedSchemeFrobenius X p r`
+= F_X^r. For f : X → S define `iteratedSchemeFrobeniusTwist f p r` = X ×_{S,F_S^r} S and
+`iteratedRelativeFrobenius f p r` with projection maps F_X^r and f. Prove canonical coherent
+isomorphisms between successive twists and the twist for the sum of the exponents. Relative
+addition composes the r-fold map with the s-fold map of the r-twist, using these isomorphisms.
+The zeroth twist identifies with X and its relative map with identity; give successor, addition,
+naturality, isomorphism, product and arbitrary relative base-change laws for every exponent.
+On sections the absolute r-fold map is `a ↦ a^{p^r}`; its point map is identity.
+
+For an explicit finite field k of characteristic p and cardinality q = p^a, construct
+`qPowerFrobenius` of every k-scheme as F_X^a and prove it is over k. Its r-fold iterate raises
+sections to q^r powers. Identify the a-fold relative twist with X using F_{Spec k}^a = identity,
+and identify the resulting relative map with the absolute a-fold map. Give identity, successor,
+addition, naturality, products and base-change laws with finite fields and cardinality equalities
+visible. Under an extension k′/k, base change of this k-map is the q-power relative map after
+identifying its twist, not in general the q-power absolute map on X_{k′}; that absolute map also
+acts on k′. A single absolute p-Frobenius need not be over k.
+
+*Source:* Stacks, §33.36, Remark 33.36.11 ([0CCG](https://stacks.math.columbia.edu/tag/0CCG));
+Mathlib `FiniteField.frobenius_pow` for the finite-field identity.
+
+*Needs:* The absolute and relative targets above; Mathlib scheme composition and pullbacks,
+`FiniteField.frobenius_pow`; SchemeAndStackFoundations §5.4 (projective bundles and their
+O(1)) for the line-bundle Check.
+
+**Checks.**
+
+- The zeroth absolute iterate is identity, and the zeroth relative twist is canonically X.
+- Over F_{p²}, the single absolute p-map on Spec k is not a k-map; its square is identity.
+- On positive-dimensional projective space over F_q, q-Frobenius pulls O(1) back to O(q).
+- On Spec F_{q²}, base change of identity on Spec F_q is identity, whereas absolute q-Frobenius
+  is nontrivial on the ring; this tests the relative base-change convention.
+
+*Lean:* `iteratedSchemeFrobenius`, `iteratedSchemeFrobenius_zero`,
+`iteratedSchemeFrobenius_succ`, `iteratedSchemeFrobenius_add`,
+`iteratedSchemeFrobeniusTwist`, `iteratedRelativeFrobenius`,
+`iteratedRelativeFrobenius_fst`, `iteratedRelativeFrobenius_snd`,
+`qPowerFrobenius`, `qPowerFrobenius_eq_iterated`, `qPowerFrobenius_over`.
+
 ### R07.1.1 Relative Frobenius and Verschiebung of commutative group schemes
 
-Provides absolute and relative scheme Frobenius with functoriality, products and base-change
-compatibility for the scheme input used here. Supplied by CohomologicalPointCounting §The roadmaps /
-Frobenius morphisms and finite-field points (FrobeniusGeometry), with §Family-wide conventions /
-Frobenius (an open TauCetiRoadmap pull request by bwangpj). Here F_X : X → X^{(p)} means their
-relative F_{X/Spec k} (their F_X is absolute) and X^{(p)} = X ⊗_{k,σ} k twists along the p-power map
-σ on the base, so the group API uses this relative convention and retains the flat-group extension
-to characteristic-p ring bases.
+Provides absolute and relative scheme Frobenius with naturality, products and arbitrary relative
+base change for the group construction. Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory
+§R07.1.0 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`.
+Here F_G : G → G^{(p)} means F_{G/Spec k}, while F_X : X → X in §R07.1.0 is absolute.
+The twist G^{(p)} = G ⊗_{k,σ} k uses the p-power map σ on the base; the group API retains
+the flat-group extension to characteristic-p ring bases.
 
 Construct `frobeniusHom` and `verschiebungHom`. Let k be a field of characteristic p. For an affine
 commutative group scheme G over k, upgrade the supplied relative scheme Frobenius to a homomorphism
@@ -460,10 +596,9 @@ Over a field `G` is affine commutative, and over a ring `R` of characteristic `p
 commutative; the duality statement needs `G` finite (finite locally free over `R`). For elliptic
 curves this specialises to ModularCurves Layer 7E (PD-3).
 
-*Construction.* Use the scheme naturality and product compatibility supplied by CohomologicalPointCounting
-§The roadmaps / Frobenius morphisms and finite-field points (FrobeniusGeometry) to prove that F_G
-preserves multiplication, identity and inversion, and transport the supplied naturality and
-base-change square to the group API. V_G: project the iterated comultiplication to
+*Construction.* Use §R07.1.0's scheme naturality, product and base-change identities to prove
+that F_G preserves multiplication, identity and inversion, and transport those identities to
+the group API. V_G: project the iterated comultiplication to
 (A^{⊗p})^{S_p}/im(N_{S_p}) and compose with λ_A⁻¹ (Stix (8.3)–(8.5)); functoriality, products and base
 change (Proposition 14.3). For finite G, V_G = (F_{G^\*})^\* under the Cartier duality of Tau Ceti's
 FiniteLocallyFreeCommAffineGroupSchemeCat. V_G ∘ F_G = p and F_G ∘ V_G = p: on algebras, F_A and V_A
@@ -486,8 +621,7 @@ The API:
   finite flat group, the base change along the Frobenius of `k`; at the pins this is a light
   definition through Tau Ceti's `baseChangeFunctor`.
 
-*Needs:* CohomologicalPointCounting §The roadmaps / Frobenius morphisms and finite-field points
-(FrobeniusGeometry), with §Family-wide conventions / Frobenius;
+*Needs:* §R07.1.0 (scheme Frobenius, naturality, products and arbitrary relative base change);
 Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality`; Mathlib `PerfectField`.
 
@@ -2134,9 +2268,11 @@ Tau Ceti `FiniteLocallyFreeCommAffineGroupSchemeCat` with Cartier duality and ba
 constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, 0C, 0D, 0E and 7E;
 TauCetiRoadmap.LocalFieldsRamification Layers 3 and 4; TauCetiRoadmap.ClassFieldTheory Layers 7
 and 11; AbelianSchemesAndArithmeticModuli §A4.5 and Layer A3; DerivedDeRhamCohomology §0.4;
-SchemeAndStackFoundations §4.1; InverseGaloisAndArithmeticFundamentalGroups Layer IG.0;
+SchemeAndStackFoundations §0.23 and §4.1 (and §5.4 for the projective-line-bundle Check);
+InverseGaloisAndArithmeticFundamentalGroups Layer IG.0;
 SelmerIwasawaCohomology §4.1; Mathlib's local rings, discrete valuation rings, power series, Kähler
-differentials and continuous cohomology.
+differentials and continuous cohomology; Mathlib schemes, ringed-space gluing, pullbacks,
+étale and smooth morphisms, ring Frobenius and finite-field Frobenius.
 
 ## Layer R07.2: Dieudonné theory
 
@@ -6968,6 +7104,11 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
 
 ## Downstream consumers
+
+- **SchemeAndStackFoundations** uses absolute scheme Frobenius in §§0.24–0.26 and the iterated
+  finite-field scheme map on curves in §5.11, supplied by §R07.1.0.
+- **LefschetzPencilsAndVanishingCycles** §F.10 uses §R07.1.0's scheme maps and iteration when
+  comparing scheme pullback with Galois and cohomological Frobenius actions.
 
 - **AbelianSchemesAndArithmeticModuliPartII**, **NeronModelsAndSemistableAbelianVarietiesPartII**
   and the abelian-variety roadmaps use the `p`-divisible groups, Tate's theorems and Dieudonné
