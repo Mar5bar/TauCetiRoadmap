@@ -429,6 +429,15 @@ classes), 12 (the dictionary). **From ClassFieldTheory** Layers 5 and 10 and **P
 Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields). **From
 CohomologicalPointCounting**: the edges listed under scope.
 
+### From other open roadmap pull requests
+
+| Supplier | Interface consumed here | Convention and scope bridge |
+| --- | --- | --- |
+| AbundanceStatement §4A / items 2–4 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.9's characteristic-zero divisor/curve degree realization, line-bundle compatibility and vanishing on principal divisors | On smooth projective surfaces over algebraically closed characteristic-zero fields, compare normalized degree with §3.3's Euler degree once. Arbitrary-field local-length and arithmetic formulas remain §5.9 targets. |
+| AbundanceStatement §4B / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. The local restatement `Chow.NumericallyEquivalent` and `Num S` in §5.10 supplies the carrier for `hodge_index` and `hodge_index_signature`; its positive-characteristic extension is built here. |
+| AbundanceStatement §4B / item 2 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero finite generation and real finite-dimensionality | Use the integral group of §4B / item 1. Torsion-freeness and integral freeness require the separate argument in §5.10; positive-characteristic surface finiteness remains a target here. |
+| AbundanceStatement §4D / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero Nakai–Moishezon criterion, including restriction to integral subvarieties | Compare intersection numbers through §4A / items 2–4 and ampleness with StableReduction Layer 2's positive-power very-ample convention. The positive-characteristic surface criterion is built here. |
+
 ## How to read the build
 
 Layer 0 is pure scheme theory and commutative algebra on Mathlib's carriers and is consumed by every
@@ -691,7 +700,10 @@ finite type over a field, `dim_x X = dim O_{X,x} + trdeg κ(x)`), `fiberDimAt` f
 Prove `dimension_theory_finiteType`: for `X` locally of finite type over a field `k` and `x ∈ X`,
 `dim_x X` is the maximum of `trdeg_k κ(ξ)` over generic points of components through `x`,
 `dim O_{X,x} + trdeg_k κ(x) = dim_x X`, and `dim X = dim X_{k'}` for every field extension (Stacks,
-Lemmas 10.116.1 (00P0), 10.116.2 (06RP), 10.116.3 (00P1), 10.116.5 (00P3), 10.116.6 (00P4)). Prove
+Lemmas 10.116.1 (00P0), 10.116.2 (06RP), 10.116.3 (00P1), 10.116.5 (00P3), 10.116.6 (00P4)).
+AbundanceStatement Layer 0 / item 1 (by RoktimMascharak) states the integral finite-type special
+case, including global finite dimension under finite type, so the two can be reconciled.
+Prove
 `geometric_irreducible_components`: for a scheme `X` of finite type over `k` and a field extension
 `k'/k`, the irreducible components of `X_{k'}` map onto those of `X` (Stacks, Lemma 33.8.11 (04KX)),
 bijectively when `k` is separably closed (Lemma 33.8.8 (038H)); the number of irreducible components
@@ -1344,7 +1356,13 @@ hypothesis. API: `isUniversalHomeomorphism_eq` (the `MorphismProperty` form),
 homeomorphisms), `IsUniversalHomeomorphism.surjective`, `.universallyClosed`,
 `.universallyInjective`. Prove `universalHomeomorphism_criteria`: `f` is a universal
 homeomorphism iff it is integral, universally injective and surjective (Stacks, Lemma 29.46.5
-(04DF)). The topological invariance of the small étale site under a universal homeomorphism is
+(04DF)). CommRingFactorizationSystems F2 / `CommRingCat.WeakNormalization.univHomeo`
+(by JakobScholbach) states the affine special case, so the two can be reconciled by reversing
+arrows under `Spec` and comparing field-valued universal injectivity with the scheme property.
+CommRingFactorizationSystems F2 / `CommRingCat.WeakNormalization.univHomeo_of_surjective_of_isNilpotent_ker`
+(by JakobScholbach) states the affine special case of `of_isThickening` for a surjection whose
+kernel is nil elementwise, so the two can be reconciled without assuming a uniform nilpotence exponent.
+The topological invariance of the small étale site under a universal homeomorphism is
 FrobeniusGeometry Layer 6, which consumes this subsection. *Needs:* Mathlib
 `MorphismProperty.universally`, `AlgebraicGeometry.topologically`, `UniversallyClosed`,
 `IsIntegralHom`.
@@ -2673,7 +2691,11 @@ sheafification of `V ↦ H^i(u(V), F)`), `higherDirectImage_δ` (long exact sequ
 `Sheaf.derivedPushforward` (`Rf_* : D⁺(Ab(C)) → D⁺(Ab(D))`) and `derivedPushforward_comp` (`R(g∘f)_* ≅
 Rg_* Rf_*`, pushforward preserves injectives) (Stacks, Lemma 21.7.4 (072W) for the sheafification
 description; for abelian sheaves the morphism of ringed topoi is flat, so `f_*` preserves injectives
-by Lemma 21.14.2 (0730)). *Needs:* Mathlib
+by Lemma 21.14.2 (0730)). CohomologicalPointCounting / The roadmaps / EtaleBaseChange and
+What is missing: build in this family / item 3 (by bwangpj) state the small-étale special case,
+so the two can be reconciled by explicitly comparing ring/module coefficients and its derived
+regime with the bounded-below abelian-sheaf construction here.
+*Needs:* Mathlib
 `Sheaf.H`, `Sheaf.H.map`, `Sheaf.H.equiv₀`, `Functor.sheafPullback`, `sheafPushforwardContinuous`,
 `Functor.rightDerived`, `IsGrothendieckAbelian`, `HasExt`.
 
@@ -2811,8 +2833,13 @@ for all quasi-coherent `F`; on a general base the bound is local on affine opens
 `H^q(ℙ^n_A, O(d))` for every `q`, `d` and ring `A`: `Sym^d` in degree `0`, the dual module in degree
 `n`, zero otherwise (Stacks, Lemmas 30.8.1–30.8.3 (01XS)). Prove `ample_serre_vanishing`: for `X`
 proper over a Noetherian ring and `L` ample, every coherent `F` has `H^q(X, F ⊗ L^n) = 0` for `q > 0`
-and `n ≫ 0` (Stacks, Lemma 30.17.1 (0B5U), in Section 30.17 (01XO)), and `H^q(X, F)` is a finite
-module over the base ring for every `q` (Lemma 30.19.2 (02O6)). Prove
+and `n ≫ 0` (Stacks, Lemma 30.17.1 (0B5U), in Section 30.17 (01XO)).
+AbundanceStatement §4D / item 1 (by RoktimMascharak) states the projective characteristic-zero
+special case of `ample_serre_vanishing`, so the two can be reconciled.
+For the same proper Noetherian-base hypotheses, `H^q(X, F)` is a finite module over the base ring
+for every `q`, supplied by JacobianChallenge `Cohomology/Proper.lean`, with coherent higher direct
+images supplied by `Cohomology/Pushforward.lean`, as in §4.9's supplier contract.
+Prove
 `proper_fibreDimension_vanishing`: for `f : X → Y` proper with `Y` locally Noetherian and fibres of
 dimension `≤ d`, `R^q f_* F = 0` for `q > d` and `F` quasi-coherent: for coherent `F` stalkwise by
 Stacks, Lemma 30.20.9 (02V7); for quasi-coherent `F`, over each affine open of `Y` the scheme `X` is
@@ -3826,7 +3853,15 @@ of locally free sheaves; Lemma 0AYS), `_tensor` (`deg(E ⊗ V) = r deg V + s deg
 (`deg E^∨ = −deg E`), `_twist` (by an effective Cartier divisor `D`: `deg E(D) = deg E + r deg D`),
 `_elementaryModification`, `_baseChange` (invariant under field extension; Lemma 0B59), `_pullback` (`deg f^* E
 = n deg E` for `f` finite of degree `n`; Lemma 0AYZ), `_divisor` (for `E = O(D)` on a regular curve,
-`deg = Σ n_x [κ(x) : k]`; Lemma 0AYY). Prove `vectorBundle_riemann_roch`: for a proper curve `X`
+`deg = Σ n_x [κ(x) : k]`; Lemma 0AYY).
+AbundanceStatement §4A / item 1 (by RoktimMascharak) states the regular projective
+characteristic-zero special case of the rank-one/divisor comparison, so the two can be reconciled.
+AbundanceStatement §4A / item 1 (by RoktimMascharak) states the rank-one special cases of the
+tensor and dual laws and trivial degree, so the two can be reconciled.
+AbundanceStatement §4A / item 2 and §4C / item 3 (by RoktimMascharak) state the regular-projective
+rank-one special case of the pullback law, so the two can be reconciled by matching the positive
+function-field degree to the constant morphism degree `n` and retaining constant rank `r` for `E`.
+Prove `vectorBundle_riemann_roch`: for a proper curve `X`
 over `k` with `H⁰ = k` and `E` locally free of rank `r`, `χ(X, E) = deg E + r(1 − g)`; by the
 definition of the degree this is `χ(X, O_X) = 1 − g` (Stacks, Definition 0AYR), and `H⁰ = k` holds
 for every proper geometrically integral `X` (`cohomologyDim_zero_structureModule`; Stacks, Lemma
@@ -4636,6 +4671,9 @@ Define `IsRegular X`: `X` is locally Noetherian and every stalk is a regular loc
 *IsRegular.of_etale*, *IsRegular.isCohenMacaulay* (§0.18); the stalk statements for smooth schemes
 and for blow-ups of nodes are Tau Ceti's `isRegularRing_iff_isRegularLocalRing_stalk_Spec`,
 `isRegularLocalRing_stalk_of_smooth` and `NodeAlgebra.isRegularLocalRing_stalk_blowup_iff`, cited.
+AbundanceStatement Layer 0 / item 2 (by RoktimMascharak) states the normal-variety special case
+of *regularLocus_eq_smoothLocus*, so the two can be reconciled with the finite-type hypothesis
+over a perfect field explicit in this comparison.
 Prove `resolution_of_curves`: for `Y` integral Noetherian of dimension `≤ 1`, let `Y^ν → Y` be the
 normalisation of `Y` in its function field, that is Mathlib's `Scheme.Hom.normalization` of
 `Y.fromSpecStalk (genericPoint Y) : Spec K(Y) → Y`, which over an affine open `Spec A` is `Spec` of
@@ -4649,9 +4687,15 @@ Nagata (§0.20; Lemma 29.55.11 (035S)), and for one-dimensional `Y` it is equiva
 of a resolution in the sense of Definition 54.14.1 (0BGK) (Lemma 54.15.1 (0BI4)). Over a field the
 same conclusions are Lemma 33.27.1 (0BXR) for the normalisation and Lemma 33.43.8 (0B8Y) for
 regular = normal at closed points
-of a curve. Prove `serre_normality_criterion`: a Noetherian ring is normal iff it
+of a curve. AbundanceStatement §4A / item 2 (by RoktimMascharak) states the projective-curve
+special case, so the two can be reconciled by supplying finiteness of normalization, projectivity
+and smoothness separately from `resolution_of_curves`.
+Prove `serre_normality_criterion`: a Noetherian ring is normal iff it
 satisfies `(R_1)` and `(S_2)` (§0.17; the `(R_1)` half `serre_normality_R₁` and the `(S_2)` half
-`serre_normality_S₂`) (Stacks, Lemma 10.157.4 (031S)). Prove `bertini_smoothness`: for `X ⊆ ℙ^n_k`
+`serre_normality_S₂`) (Stacks, Lemma 10.157.4 (031S)). AbundanceStatement Layer 0 / items 1–2
+(by RoktimMascharak) state the normal-variety special cases of codimension-one regularity and
+DVR stalks, so the two can be reconciled with this general Noetherian-ring criterion.
+Prove `bertini_smoothness`: for `X ⊆ ℙ^n_k`
 smooth over an infinite field `k`, a general hyperplane section `X ∩ H` is smooth, and the same for
 a general member of a generating linear system whose associated morphism to
 projective space is an immersion (in particular a very ample system) (Stacks, Section 33.47 (0FD4), Lemmas 33.47.1
@@ -5355,6 +5399,9 @@ pushforward, Tau Ceti's Weil and Cartier divisors and line-bundle classes, Layer
 Riemann–Roch on curves, Layer 2's coherent duality on surfaces, Layer 0's relative Proj, Layer 4's
 blow-ups and deformation theory, and StableReduction Layer 4's intersection numbers on arithmetic
 surfaces, which the relative pairing specialises to.
+The characteristic-zero degree realization, numerical quotient and finiteness input, and
+Nakai–Moishezon criterion are supplied by AbundanceStatement §§4A–4B and §4D through the exact
+supplier contracts and the comparisons in §§5.9–5.10.
 
 **Conventions of this layer.** The geometric Chow API uses schemes locally of finite
 type over one fixed field `k`, with morphisms over `Spec k`. Properness, separation
@@ -5851,13 +5898,24 @@ quasi-projective; `f` projective; `ℚ`-coefficients. *Needs:* §2.2, §2.6, §4
 
 ### 5.9 Surfaces: the relative intersection pairing and the comparison with arithmetic surfaces
 
+**Surface pairing.** *surface_pairing*
+Provides the characteristic-zero divisor/curve intersection as the degree of the restricted
+line bundle on the normalization.
+Supplied by AbundanceStatement §4A / items 2–4 (an open TauCetiRoadmap pull request by RoktimMascharak).
+The supplier uses integral projective curves over an algebraically closed characteristic-zero
+field and normalized degree; compare that degree with §3.3's Euler degree before using the
+surface pairing, and retain arbitrary-field local-length and arithmetic formulas here.
+
 Define `Chow.intersectionNumber C D := deg(c_1(O(C)) ∩ c_1(O(D)) ∩ [S]) ∈ ℤ` for `S` smooth
 projective over a field `k` and `C`, `D` divisors (through `Pic(S)`, §5.3), and prove
-`surface_pairing`: it is the unique symmetric bilinear form on `Pic(S)` with `C · D = Σ_{P ∈ C ∩ D}
-[κ(P) : k]` for transversal smooth curves; `C · D = deg_C(O(D)|_C)` (§3.3's degree on the curve `C`,
-which carries the residue-degree weights) for `C` integral; and `C · D = Σ_P [κ(P) : k] · length
-O_{S,P}/(f, g)` for curves without common components (Hartshorne 1977, V.1, Theorem 1.1, Proposition
-1.4). Define the **relative intersection pairing** on a regular scheme `S` of dimension two proper
+that it is the unique symmetric bilinear form on `Pic(S)` with `C · D = Σ_{P ∈ C ∩ D}
+[κ(P) : k]` for transversal smooth curves, and `C · D = Σ_P [κ(P) : k] · length
+O_{S,P}/(f, g)` for curves without common components (Hartshorne 1977, V.1, Theorem 1.1).
+For integral `C`, identify `C · D` with §3.3's residue-weighted Euler degree
+`deg_C(O(D)|_C)`: in the algebraically closed characteristic-zero case consume
+AbundanceStatement §4A / items 2–4 through the Euler/normalized-degree bridge above;
+over other fields prove the retained degree comparison (Hartshorne 1977, V.1, Proposition 1.4).
+Define the **relative intersection pairing** on a regular scheme `S` of dimension two proper
 and flat over a base `B` that is a field or a Dedekind scheme: for divisors `C`, `D` with `C ∩ D`
 finite, `relativeIntersection C D := Σ_{P ∈ C ∩ D} [κ(P) : κ(b_P)] · length O_{S,P}/(f_P, g_P)` as a
 function on the closed points `b` of `B`, and prove `relativeIntersection_local_formula`: the local
@@ -5895,21 +5953,60 @@ Serre duality `h²(D) = h⁰(K − D)` from §2.20 (Hartshorne 1977, V.1, Theore
 class of §5.4, an instance of Hirzebruch–Riemann–Roch (§5.8) for `E = O_S` (Fulton 1998, §15.2,
 Example 15.2.2); the identification of `deg c_2(T_S)` with the ℓ-adic Euler characteristic `Σ (−1)^i
 dim H^i(S, ℚ_ℓ)` is a separate comparison owned by the CohomologicalPointCounting family
-(TraceFormula) and is not part of this target. Define `Chow.NumericallyEquivalent D
-D'`: `D · C = D' · C` for every class `C` (equivalently every integral curve), and `Num S :=
-Pic(S)/≡` with the induced pairing; `Num.free_finiteRank` (a free abelian group of finite rank, the
-Picard number `ρ`; the Néron–Severi theorem, Lang–Néron 1959, as cited in Hartshorne 1977, V, the
-note to Exercise 1.7; Exercise 1.8(b) is the characteristic-`0` argument) is a separate statement which
-`hodge_index` does not use. Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
+(TraceFormula) and is not part of this target.
+
+**Numerical equivalence.** *Chow.NumericallyEquivalent* / *Num*
+Provides the characteristic-zero numerical divisor quotient and its real scalar extension.
+Supplied by AbundanceStatement §4B / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak).
+Identify Cartier divisors modulo principal divisors with `Pic(S)` and the integral quotient
+with `Num S` using §5.9's bridge to AbundanceStatement §4A / items 2–4, retaining the local
+carrier needed by Hodge theory and its positive-characteristic extension here.
+
+Local restatement of AbundanceStatement §4B.1, to be replaced by the import once that roadmap is merged:
+`Chow.NumericallyEquivalent D D' := ∀ C, D · C = D' · C` on `Pic(S)` and
+`Num S := Pic(S)/≡`, with its induced pairing, are the local carriers for `hodge_index` and
+`hodge_index_signature`; compare this relation with testing on integral curves and identify
+the quotient and its real scalar extension with the supplier's in characteristic zero.
+In positive characteristic construct the same quotient and descended pairing here.
+
+**Numerical Néron–Severi finiteness.** *Num.free_finiteRank*
+Provides finite generation of the characteristic-zero numerical divisor group and
+finite-dimensionality of its real span.
+Supplied by AbundanceStatement §4B / item 2 (an open TauCetiRoadmap pull request by RoktimMascharak).
+The supplier proves finite generation for projective varieties over algebraically closed
+characteristic-zero fields; torsion-freeness, integral freeness and positive-characteristic
+surface finiteness are separate targets here.
+
+Prove torsion-freeness of `Num S`: if `nD ≡ 0` with `n ≠ 0`, cancel `n` in each integer
+intersection number to obtain `D ≡ 0`.
+Prove finite generation for smooth projective surfaces over algebraically closed fields of
+positive characteristic (the Néron–Severi theorem, Lang–Néron 1959, as cited in Hartshorne 1977,
+V, the note to Exercise 1.7).
+Combine this with torsion-freeness, using AbundanceStatement §4B / item 2 for finite generation
+in characteristic zero, to obtain `Num.free_finiteRank`: `Num S` is free abelian of finite
+rank, the Picard number `ρ`; `hodge_index` does not use this finiteness input.
+
+Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
 equality iff `D ≡ 0`; hence on the real span of any finite set of classes orthogonal to `H` the
 form is negative definite. Prove `hodge_index_signature`, which takes `Num.free_finiteRank` as an
-input: on `Num S ⊗ ℝ` the intersection form has signature `(1, ρ − 1)`. Proof inputs:
+input, assembled from AbundanceStatement §4B / item 2 and torsion-freeness in characteristic zero,
+and from the retained finiteness theorem and torsion-freeness in positive characteristic:
+on `Num S ⊗ ℝ` the intersection form has signature `(1, ρ − 1)`. Proof inputs:
 `surface_riemann_roch` with Serre duality, giving `h⁰(nD) + h⁰(K − nD) ≥ ½ n² D² + O(n)`, and the
 ample-section estimate of Lemma 1.7 controlling the duality term `H⁰(K − nD)`.
 For `D · H = 0`, `(K − nD) · H = K · H` is constant, so growing `n` does not
 justify a vanishing claim (Hartshorne 1977, V.1, Lemma 1.7, Corollary 1.8, Theorem 1.9); the Hodge
-inequality `(D · H)² ≥ D² H²` for `H` ample follows (Exercise 1.9). Prove `nakai_moishezon`
-afterwards and independently: a divisor `D` on `S` is ample iff `D² > 0` and `D · C > 0` for every
+inequality `(D · H)² ≥ D² H²` for `H` ample follows (Exercise 1.9).
+
+**Nakai–Moishezon.** *nakai_moishezon*
+Provides the Nakai–Moishezon ampleness criterion on characteristic-zero smooth projective surfaces.
+Supplied by AbundanceStatement §4D / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak).
+Specialize the supplier's subvariety intersection criterion to `D² > 0` and `D · C > 0`
+using §5.9's intersection bridge and StableReduction Layer 2's ampleness convention,
+retaining the positive-characteristic surface theorem here.
+
+In positive characteristic prove `nakai_moishezon` afterwards and independently:
+a divisor `D` on `S` is ample iff `D² > 0` and `D · C > 0` for every
 integral curve `C ⊆ S` (Hartshorne 1977, V.1, Theorem 1.10; Kleiman 1966), with ampleness
 StableReduction Layer 2's notion ("some power is very ample"); it is not an input to
 `hodge_index`. *Needs:* §2.20, §3.3,
@@ -5919,13 +6016,18 @@ StableReduction Layer 2's notion ("some power is very ample"); it is not an inpu
 - `test_adjunction_plane_curve`: a smooth plane curve of degree `d` has genus `(d − 1)(d − 2)/2`.
 - `test_rr_pone_times_pone`: on `ℙ¹ × ℙ¹`, `χ(O(a, b)) = (a + 1)(b + 1)`.
 - `test_noether_pone_times_pone`: `12 · 1 = 8 + 4`; `test_noether_p2`: `12 · 1 = 9 + 3`.
-- `test_num_p2`: `Num(ℙ²) = ℤ`; `test_num_elliptic_product`: in characteristic zero, `E × E` over `k̄` has Picard number `3`
-  or `4`; in positive characteristic a supersingular product has Picard number `6`, and `Num ≠ Pic`.
-- `test_nakai_pone_times_pone`: `O(a, b)` is ample iff `a, b > 0`.
+- `test_num_p2`: the local quotient on `ℙ²` identifies with `ℤ` and, in characteristic zero,
+  with AbundanceStatement §4B / item 1's integral numerical group; `test_num_elliptic_product`:
+  in characteristic zero, the local quotient of `E × E` over `k̄` agrees with that supplier's
+  quotient of Picard number `3` or `4`; in positive characteristic a supersingular product has
+  Picard number `6`, and `Num ≠ Pic`.
+- `test_nakai_pone_times_pone`: in positive characteristic, `O(a, b)` is ample iff `a, b > 0`,
+  testing the retained surface criterion.
 - `test_hodge_pone_times_pone`: `D = (1, −1)` has `D · H = 0` for `H = (1, 1)` and `D² = −2 < 0`.
 - `test_hodge_numerically_trivial`: a numerically trivial class gives equality `D² = 0` although it
   need not be trivial in `Pic`.
-- `test_nakai_negative_ample`: `−H` for `H` ample has `(−H)² > 0` and fails the curve condition.
+- `test_nakai_negative_ample`: in positive characteristic, `−H` for `H` ample has `(−H)² > 0`
+  and fails the curve condition, testing the retained surface criterion.
 
 - `numerical_inverse`, `numerical_nonzero_pairing`: a numerically trivial class has numerically
   trivial inverse, whereas any nonzero pairing detects failure of numerical triviality
@@ -6020,7 +6122,8 @@ Layer 0: §0.2–§0.3 (relative Spec and Proj). Layer 2: §2.2, §2.6 (spectral
 quasi-coherent cohomology), §2.20 (duality on surfaces). Layer 3: §3.3–§3.4. Layer 4: §4.11
 (modifications), §4.13 (regular schemes). Mathlib and Tau Ceti as listed; AlgebraicVectorBundles
 L0B–L2B; StableReduction Layers 2, 4; JacobianChallenge Layer B; AlgebraicCurves Layer 8;
-FrobeniusGeometry Layer 3.
+FrobeniusGeometry Layer 3; AbundanceStatement §§4A–4B and §4D for the characteristic-zero
+inputs identified in §§5.9–5.10.
 
 ## Downstream consumers
 
@@ -6033,7 +6136,9 @@ AlgebraicModuliForArithmeticGeometry imports torsors and their classes (§1.15),
 NeronModelsAndSemistableAbelianVarieties imports formal functions and algebraization (§§4.9–4.10)
 and the semistable alteration theorem (§4.20). EtaleDualityAndPerverseSheaves imports coherent
 duality (§§2.18–2.21) and the pro-étale foundations. AbelianSchemesAndArithmeticModuli imports Chow
-groups and numerical equivalence (§§5.1–5.10). The Weil-conjectures roadmap imports the Weil bound
+groups (§§5.1–5.8) and numerical equivalence through §5.10's comparison with
+AbundanceStatement §4B / item 1 in characteristic zero and its retained positive-characteristic
+extension. The Weil-conjectures roadmap imports the Weil bound
 (§5.11). IntegralHeckeAndGaloisDeterminants imports `Ring.IsJapanese.of_complete_local` and
 `Ring.IsNagata.of_complete_local` (§0.20) and `IsAzumaya.exists_etale_matrix_splitting` with its
 finite-cover form (§2.22). JacobianChallenge Layer C's Grothendieck Picard construction consumes
