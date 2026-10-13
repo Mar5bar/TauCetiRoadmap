@@ -8,7 +8,7 @@
 
 This roadmap owns:
 
-- the comparison of multiplicative p-adic completion with Mathlib's `AdicCompletion`, the S-unit theorem in the form needed, the p-adic Kummer identification for fields and S-units, and the coefficient-limit hypotheses (Layer 0);
+- the comparison of multiplicative p-adic completion with Mathlib's `AdicCompletion`, the S-unit theorem stated here against Mathlib's `Set.unit` API with cardinality, reindexing, completion and Kummer adapters, the p-adic Kummer identification for fields, and the coefficient-limit hypotheses (Layer 0);
 - perfect pairings, annihilators and derived orthogonal complements of local conditions, and the duality of global mapping fibres with local conditions (Layer 1);
 - compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer complexes as mapping fibres with their H⁰ correction, lattice changes and descent of vanishing (Layer 2);
 - Iwasawa algebras of ℤ_p^d × Δ with their coordinates, involution and twists, Iwasawa cohomology and its Shapiro, descent, control and duality theorems, universal norms, semilocal descent, Iwasawa Selmer complexes with derived specialization, determinant lines, the étale K(π,1) comparison for Spec 𝒪_{F,S} and the j_* convention, local cofreedom, and Greenberg's structure theorems (Layer 3);
@@ -152,23 +152,23 @@ The image is closed but not all of (F^×)^; the quotient (F^×)^/Ê_F involves t
 
 ### 0.3 The S-unit theorem and the completion of S-units
 
-**The S-unit theorem.** For a number field F and a finite set S of places of F containing the archimedean ones, prove `sUnits_rank`: the S-unit group 𝒪_{F,S}^× is finitely generated and its free rank is #S − 1. Identify its torsion subgroup with the roots of unity of F. In Mathlib's notation, with S_f ⊆ `IsDedekindDomain.HeightOneSpectrum (𝓞 F)` the finite places of S, the S-units are `Set.unit S_f F`, and the rank is `NumberField.Units.rank F + S_f.ncard`, which equals #S − 1 because the archimedean places number rank + 1.
+**The S-unit theorem.** This roadmap states the theorem against Mathlib's `Set.unit` API. For a number field K and a finite set S ⊆ `IsDedekindDomain.HeightOneSpectrum (𝓞 K)` of finite places, put U = `Set.unit S K`. Use the pinned finite-generation theorem `Set.unit_fg` and its number-field specialization `Set.unit_fg_of_units` from `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. Prove `Set.unit_moduleFinite`: `Module.Finite ℤ (Additive U)`, and `Set.unit_finrank_numberField`: `Module.finrank ℤ (Additive U) = NumberField.Units.rank K + Nat.card S`. Identify the torsion subgroup with the roots of unity of K. The cardinality adapter `sUnits_finrank_ncard` rewrites this rank with `S.ncard` using Mathlib's `Nat.card_coe_set_eq`; adjoining all archimedean places gives the equivalent rank #S_total − 1.
 
-Prove this as follows. The valuation map 𝒪_{F,S}^× → ℤ^{S_f}, u ↦ (v(u))_{v∈S_f}, has kernel the global units 𝒪_F^× (Mathlib `NumberField.Units`, with Dirichlet's theorem `NumberField.Units.exist_unique_eq_mul_prod` and its rank `NumberField.Units.rank`). Its image has finite index in ℤ^{S_f}: for each v ∈ S_f, the h-th power of the prime 𝔭_v is principal, h the class number (Mathlib `RingOfIntegers.instFintypeClassGroup`), and a generator is an S-unit of valuation h at v and 0 at the other finite places. Hence the image has rank #S_f, and the sequence 0 → 𝒪_F^× → 𝒪_{F,S}^× → image → 0 gives finite generation and rank rank(𝒪_F^×) + #S_f; the torsion subgroup is unchanged because S-units of finite order are units.
+Prove this as follows. The pinned finite-generation theorem and Mathlib's additive-group/module conversion give `Set.unit_moduleFinite`. The valuation map U → ℤ^S, u ↦ (v(u))_{v∈S}, has kernel the global units 𝒪_K^× (Mathlib `NumberField.Units`, with Dirichlet's theorem `NumberField.Units.exist_unique_eq_mul_prod` and its rank `NumberField.Units.rank`). Its image has finite index in ℤ^S: for each v ∈ S, the h-th power of the prime 𝔭_v is principal, h the class number (Mathlib `RingOfIntegers.instFintypeClassGroup`), and a generator is an S-unit of valuation h at v and 0 at the other finite places. Hence the image has rank `Nat.card S`, and the sequence 0 → 𝒪_K^× → U → image → 0 gives the stated rank; the torsion subgroup is unchanged because S-units of finite order are units.
 
 (Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, Theorem 5.11 and its proof, p. 90, where S denotes the finite places only and the rank is r + s + #S − 1.)
 
 **Checks.**
 
-- F = ℚ, S = {∞}: 𝒪_{F,S}^× = {±1}, of rank 0 = #S − 1.
-- F = ℚ(√2), S = {∞₁, ∞₂}: 𝒪_F^× = ±(1 + √2)^ℤ has rank 1 = #S − 1. Counting a single archimedean place would give rank 0, so every archimedean place of S counts; with S also containing the unique prime above 2, generated by √2, the S-units ±(1 + √2)^ℤ (√2)^ℤ have rank 2.
-- F = ℚ(√−5), S = {∞}: the class group has order 2, the units are {±1}, and the S-unit rank is 0; adding the prime 𝔭 = (2, 1 + √−5) to S adds the S-unit 2 with principal ideal (2) = 𝔭² and valuation 2, not a generator of valuation 1, so the valuation image has index 2 and finite index (not surjectivity) is the correct statement.
+- K = ℚ, S = ∅: U = {±1}, of rank 0. Both `Nat.card S` and `S.ncard` are zero, and adjoining ∞ gives #S_total − 1 = 0.
+- K = ℚ(√2), S = ∅: 𝒪_K^× = ±(1 + √2)^ℤ has rank 1. Both archimedean places count in S_total; adding the unique finite prime above 2, generated by √2, gives S-units ±(1 + √2)^ℤ (√2)^ℤ of rank 2 = 1 + `Nat.card S`.
+- K = ℚ(√−5), S = ∅: the class group has order 2, the units are {±1}, and the rank is 0. Taking S = {𝔭}, 𝔭 = (2, 1 + √−5), gives rank 1 with `Nat.card S = S.ncard = 1`; the S-unit 2 has principal ideal (2) = 𝔭² and valuation 2, so the valuation image has index 2 and finite index (not surjectivity) is the correct statement.
 
-*Needs:* Mathlib `Set.unit`, `NumberField.Units.rank`, `NumberField.Units.exist_unique_eq_mul_prod`, `RingOfIntegers.instFintypeClassGroup`.
+*Needs:* Mathlib `Set.unit`, `NumberField.Units.rank`, `NumberField.Units.exist_unique_eq_mul_prod`, `RingOfIntegers.instFintypeClassGroup`, `Nat.card_coe_set_eq`; Tau Ceti `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` (`Set.unit_fg`, `Set.unit_fg_of_units`).
 
-**Fundamental systems of S-units.** For a number field F and a finite set S_f of finite places, put U = `Set.unit S_f F` and r = `NumberField.Units.rank F + S_f.ncard`. Prove `sUnits_exists_fundSystem`: there is a family ε indexed by `Fin r` such that every u ∈ U has a unique pair (ζ, e), with ζ in `CommGroup.torsion U` and e an integer exponent function on `Fin r`, satisfying u = ζ · ∏ᵢ εᵢ^{eᵢ}. Thus the images of ε form a ℤ-basis of U modulo torsion. Prove `sUnits_exists_fundSystem'` with any finite index type I of cardinality r, keeping the same unique-pair statement.
+**Fundamental systems of S-units.** For a number field K and a finite set S of finite places, put U = `Set.unit S K` and r = `NumberField.Units.rank K + Nat.card S`. Prove `Set.exists_unit_fundSystem`: there is ε : `Fin r → U` such that every u ∈ U has a unique integer exponent function e on `Fin r` with u = ζ · ∏ᵢ εᵢ^{eᵢ} for some ζ ∈ `CommGroup.torsion U`. Prove `Set.exists_unit_fundSystem'` in the unique-pair form: for every u there is a unique (ζ, e) in `CommGroup.torsion U × (Fin r → ℤ)` satisfying that equation. Thus the images of ε form a ℤ-basis of U modulo torsion. The finite-type reindexing adapter `sUnits_fundSystem_reindex` gives the same unique-pair decomposition on any finite index type I with `Fintype.card I = r`.
 
-Prove this as follows. Apply `sUnits_rank` and the structure theorem for finitely generated abelian groups to obtain a free quotient by torsion of rank r. Lift a basis of the quotient to U; its coordinates determine the exponents uniquely, and the remaining factor determines ζ uniquely. Reindex along a bijection I ≃ `Fin r` for the second form.
+Prove this as follows. Apply `Set.unit_moduleFinite`, `Set.unit_finrank_numberField` and the structure theorem for finitely generated abelian groups to obtain a free quotient by torsion of rank r. Lift a basis of the quotient to U; its coordinates determine the exponents uniquely, and cancellation determines ζ uniquely. For the adapter, reindex along a bijection I ≃ `Fin r`, transporting both the product and exponent vector.
 
 (Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, the fundamental-system description on p. 85 and Theorem 5.11 on p. 90.)
 
@@ -179,13 +179,13 @@ Prove this as follows. Apply `sUnits_rank` and the structure theorem for finitel
 - For F = ℚ(√−5) and S_f = {𝔭}, 𝔭 = (2, 1 + √−5), the S-unit 2 is a fundamental generator although its 𝔭-valuation is 2. A fundamental system need not map to the standard basis of the entire valuation lattice.
 - Interchanging the two indices in the ℚ example interchanges the exponents without changing ζ; this checks the arbitrary finite-index form.
 
-*Needs:* §0.3 (The S-unit theorem, `sUnits_rank`); Mathlib `CommGroup.torsion`, `AddCommGroup.equiv_free_prod_directSum_zmod`.
+*Needs:* §0.3 (The S-unit theorem, `Set.unit_moduleFinite`, `Set.unit_finrank_numberField`); Mathlib `CommGroup.torsion`, `AddCommGroup.equiv_free_prod_directSum_zmod`.
 
-**Completion of S-units.** For a number field F and a finite set S of places containing the archimedean ones, 𝓞_{F,S}^× is finitely generated, so ℤ_p ⊗ 𝓞_{F,S}^× ≅ (𝓞_{F,S}^×)^, and (𝓞_{F,S}^×)^ → (F^×)^ is injective.
+**Completion of S-units.** This completion adapter applies the S-unit theorem: for a number field F and a finite set S of places containing the archimedean ones, 𝓞_{F,S}^× is finitely generated, so ℤ_p ⊗ 𝓞_{F,S}^× ≅ (𝓞_{F,S}^×)^, and (𝓞_{F,S}^×)^ → (F^×)^ is injective.
 
 S finite, containing the archimedean places.
 
-Prove this as follows. Apply `sUnits_rank` above and the finitely generated tensor/completion comparison of §0.1. An element of F^× whose p^m-th power is an S-unit has valuation zero outside S, so it is an S-unit; apply §0.2.
+Prove this as follows. Apply `Set.unit_moduleFinite` above and the finitely generated tensor/completion comparison of §0.1. An element of F^× whose p^m-th power is an S-unit has valuation zero outside S, so it is an S-unit; apply §0.2.
 
 (Rubin (1999 draft), Chapter I, §6.2, Definition 6.2, printed p. 14 (PDF p. 24).)
 
@@ -195,7 +195,7 @@ Prove this as follows. Apply `sUnits_rank` above and the finitely generated tens
 - For F = ℚ, S = {∞, ℓ} with ℓ a prime and p odd, the completed S-unit group is ℤ_p, generated by ℓ; the sign factor disappears.
 - For the same F and S with p = 2, the completion is (ℤ/2) × ℤ₂. The sign survives and injects into the completion of ℚ^×, so discarding all torsion would give the wrong comparison.
 
-*Needs:* §0.1 (Comparison of the multiplicative completion with Mathlib adic completion); §0.2 (Completion of global units); §0.3 (The S-unit theorem, `sUnits_rank`); Mathlib `Set.unit`.
+*Needs:* §0.1 (Comparison of the multiplicative completion with Mathlib adic completion); §0.2 (Completion of global units); §0.3 (The S-unit theorem, `Set.unit_moduleFinite`); Mathlib `Set.unit`.
 
 ### 0.4 Local completion and algebraic tensor comparison
 
@@ -284,17 +284,17 @@ For K = ℚ the identification holds with the completion, and ℚ^× ⊗ ℤ_p �
 
 ### 0.9 The Kummer identification for S-units
 
-Let F be a number field and S a finite set of places containing those above p and ∞. Then H^1(G_{F,S}, ℤ_p(1)) ≅ ℤ_p ⊗ 𝓞_{F,S}^×, compatibly with restriction to finite extensions inside F_S and with corestriction versus the norm.
+This S-unit Kummer adapter applies the completion comparison of §0.3. Let F be a number field and S a finite set of places containing those above p and ∞. Then H^1(G_{F,S}, ℤ_p(1)) ≅ ℤ_p ⊗ 𝓞_{F,S}^×, compatibly with restriction to finite extensions inside F_S and with corestriction versus the norm.
 
 S ⊇ {v | p∞}, so μ_{p^m} is a G_{F,S}-module and p is an S-unit.
 
-Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; `sUnits_rank` of §0.3 makes the terms 𝓞_{F,S}^×/p^m finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
+Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; `Set.unit_moduleFinite` of §0.3 makes the terms 𝓞_{F,S}^×/p^m finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
 
 (Burungale–Tian (arXiv v2), Footnote 3 to Theorem 2.1, p. 4, and §2.2.3 (arXiv v2); Rubin (1999 draft), Appendix B, §2, Proposition 2.3, printed p. 152 (PDF p. 162).)
 
 This is the finite-level statement behind Burungale–Tian's unit Kummer comparison; the tower limit is §§3.1 and 4.19.
 
-*Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (The S-unit theorem, `sUnits_rank`, and Completion of S-units); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
+*Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (The S-unit theorem, `Set.unit_moduleFinite`, and Completion of S-units); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
 
 ### 0.10 Which inverse-limit hypotheses hold
 
@@ -1399,17 +1399,18 @@ Prove this as follows. The Hochschild–Serre spectral sequence of the covering 
 - Replacing G_{F,S} by G_F fails already in degree one: H¹(G_ℚ, ℤ/p) is infinite (one line for each cyclic degree-p extension of ℚ, ramified anywhere), while H¹(Spec ℤ[1/p], ℤ/p) is finite.
 - p = 2, F = ℚ, S = {2, ∞}, M = 𝔽₂[Gal(ℚ(i)/ℚ)] inflated to G_{ℚ,S}: complex conjugation acts on M as on the regular 𝔽₂[C₂]-module, whose Tate cohomology vanishes, so both sides are zero in every degree r ≥ 3. High-degree nonvanishing depends on M.
 
-**Continuous étale cohomology of lattices.** Let O be the ring of integers of a finite extension E/ℚ_p with uniformizer λ, T a finite free O-module with continuous G_{F,S}-action and T_n = T/λ^nT. Define the continuous étale cohomology H^r_cont(U, T) as Jannsen's H^r(U, (T_{n,U})_n), the derived functors of (F_n) ↦ lim_n Γ(U, F_n) on inverse systems of sheaves. Prove `etaleGalois_comparison_lattice`: the comparison maps give isomorphisms H^r(G_{F,S}, T) ≅ H^r_cont(U, T) for all r ≥ 0 with the continuous-cochain cohomology of ArithmeticGaloisDuality Layer R02.1, compatible with the two Milnor sequences 0 → lim¹ H^{r−1}(−, T_n) → H^r(−, T) → lim H^r(−, T_n) → 0, with the long exact sequences of 0 → T → T → T/λ → 0, and, after inverting p, with the rational comparison for V = T[1/p]. Hypotheses: as above; no finiteness is needed for the comparison itself.
+**Continuous étale cohomology of lattices.** Let O be the ring of integers of a finite extension E/ℚ_p with uniformizer λ, T a finite free O-module with continuous G_{F,S}-action and T_n = T/λ^nT. Define the continuous étale cohomology H^r_cont(U, T) as Jannsen's H^r(U, (T_{n,U})_n), the derived functors of (F_n) ↦ lim_n Γ(U, F_n) on inverse systems of sheaves. Prove `etaleGalois_comparison_lattice`: the comparison maps give isomorphisms H^r(G_{F,S}, T) ≅ H^r_cont(U, T) for all r ≥ 0 with the continuous-cochain cohomology of ArithmeticGaloisDuality Layer R02.1, compatible with the two Milnor sequences 0 → lim¹ H^{r−1}(−, T_n) → H^r(−, T) → lim H^r(−, T_n) → 0, with the long exact sequences of 0 → T → T → T/λ → 0, and, after inverting p, with the rational comparison for V = T[1/p]. For finite S as here, also prove the natural simplification H^r_cont(U, T) ≅ lim_n H^r(U, T_n): the finite-coefficient comparison and ArithmeticGaloisDuality §R02.4.4 make every finite-level group finite, so the systems are Mittag–Leffler and lim¹ vanishes. A short exact sequence of lattices with lattice quotient reduces exactly modulo λ^n; its finite cohomology groups and image systems are Mittag–Leffler, so the ordinary limits also form the long exact sequence. The derived definition applies to general coefficient systems, where this simplification requires its own Mittag–Leffler hypotheses.
 
-Prove this as follows. Jannsen's spectral sequence for the Galois covering Ũ → U, H^a(G_{F,S}, (H^b(Ũ, T_n))_n) ⇒ H^{a+b}(U, (T_n)), has vanishing rows b > 0 by the K(π,1) comparison (each H^b(Ũ, T_n) vanishes). Its bottom row is the continuous cohomology of the inverse system (T_n), which is the continuous-cochain cohomology of T = lim T_n because the transition maps are onto (Jannsen, Theorem 2.2; ArithmeticGaloisDuality §R02.1.2, *Continuous cochains into an inverse limit*, and §R02.1.1, *The Milnor sequence for towers of complexes*). Naturality of the edge maps gives the compatibility with the Milnor sequences.
+Prove this as follows. Jannsen's spectral sequence for the Galois covering Ũ → U, H^a(G_{F,S}, (H^b(Ũ, T_n))_n) ⇒ H^{a+b}(U, (T_n)), has vanishing rows b > 0 by the K(π,1) comparison (each H^b(Ũ, T_n) vanishes). Its bottom row is the continuous cohomology of the inverse system (T_n), which is the continuous-cochain cohomology of T = lim T_n because the transition maps are onto (Jannsen, Theorem 2.2; ArithmeticGaloisDuality §R02.1.2, *Continuous cochains into an inverse limit*, and §R02.1.1, *The Milnor sequence for towers of complexes*). Naturality of the edge maps gives the compatibility with the Milnor sequences. Apply restricted-ramification finiteness (ArithmeticGaloisDuality §R02.4.4) and the finite-coefficient comparison to kill lim¹ in the finite-S case. For the lattice long exact sequence, pass through the finite image systems using exactness of limits of Mittag–Leffler systems (Stacks, tag 0598).
 
-(Jannsen, *Continuous étale cohomology*, §2, (2.1) and Theorem 2.2, p. 215; §3, (3.1)–(3.3), pp. 216–217.)
+(Jannsen, *Continuous étale cohomology*, §2, (2.1), Theorem 2.2 and Remark 2.3, pp. 215–216; §3, (3.1)–(3.3), pp. 216–217; Milne, *Arithmetic Duality Theorems*, Chapter I, Corollary 4.15, p. 62; Stacks, tags 07KW and 0598.)
 
 **Checks.**
 
 - F = ℚ, p odd, S = {p, ∞}, T = ℤ_p(1): H¹_cont(Spec ℤ[1/p], ℤ_p(1)) = lim ℤ[1/p]^×/p^n ≅ ℤ_p, generated by p, on both sides; the lim¹ term vanishes because the finite levels are finite.
 - Rationalising, H¹_cont(Spec ℤ[1/p], ℚ_p(1)) is one-dimensional, matching ArithmeticGaloisDuality §D7.6's check for H¹(G_{ℚ,S}, ℚ_p(1)).
-- The naive inverse limit of étale cohomology is not a cohomological functor: for an exact sequence of lattices the derived-limit groups have long exact sequences, whereas lim H^r(U, T_n) need not; the comparison is with Jannsen's groups.
+- For 0 → T′ → T → T″ → 0 with all three terms lattices and S finite, reduction modulo λ^n is exact and the finite cohomology image systems are Mittag–Leffler. The identifications with ordinary limits carry the derived long exact sequence to a long exact sequence of lim H^r(U, −/λ^n).
+- Outside the lattice-quotient systems, take constant étale sheaves on Spec ℂ in the towers 0 → p^nℤ → ℤ → ℤ/p^n → 0, with inclusions, identity maps and reductions as transitions. The ordinary H⁰ limits give 0 → 0 → ℤ → ℤ_p, which is not onto; every finite-level H¹ is zero. Jannsen's H¹ of the system (p^nℤ) is lim¹ p^nℤ ≅ ℤ_p/ℤ ≠ 0, providing the missing connecting term (ArithmeticGaloisDuality §R02.1.1).
 
 **Stalks of j_* and R^q j_*, and the degree-one Leray sequence.** Let X = Spec 𝒪_F[1/p], Σ a finite set of finite places of F not above p, and j : U = X ∖ Σ → X, so U = Spec 𝒪_{F,S} with S = {v | p∞} ∪ Σ. For a finite p-primary G_{F,S}-module M, prove `etale_jStar_stalk`: at a geometric point over v ∈ Σ, (j_*M_U)_{v̄} ≅ M^{I_v} and (R^q j_*M_U)_{v̄} ≅ H^q(I_v, M), equivariantly for Gal(k(v)^s/k(v)) acting through arithmetic Frobenius, and R^q j_*M_U = 0 for q ≥ 2 because the inertia group I_v (v ∤ p) has p-cohomological dimension one. Prove `etale_jStar_degreeOne`: the Leray spectral sequence of j gives the exact sequence
 
@@ -1425,7 +1426,8 @@ Prove this as follows. Higher direct images are sheafifications of V ↦ H^q(V �
 
 **Checks.**
 
-- M = ℤ/p trivial and v ∈ Σ with q_v ≢ 1 (mod p): H¹(I_v, ℤ/p)^{Fr_v=1} = (ℤ/p(−1))^{Fr_v=1} = 0, so the unramified condition at v is automatic and H¹(X, j_*ℤ/p) = H¹(U, ℤ/p).
+- M = ℤ/p trivial and q_v ≢ 1 (mod p) for every v ∈ Σ: each H¹(I_v, ℤ/p)^{Fr_v=1} = (ℤ/p(−1))^{Fr_v=1} is zero, so all unramified conditions at Σ are automatic and H¹(X, j_*ℤ/p) = H¹(U, ℤ/p).
+- F = ℚ, p = 3, Σ = {2, 7}, M = 𝔽₃, X = Spec ℤ[1/3], U = Spec ℤ[1/42]: the singular term at 2 vanishes, but the cyclic cubic subfield of ℚ(ζ₇) gives a class ramified at 7 in H¹(U, 𝔽₃) outside H¹(X, j_*𝔽₃). Vanishing at one removed place does not give the equality.
 - F = ℚ, Σ = {ℓ} with ℓ ≡ 1 (mod p): the degree-p subfield of ℚ(μ_ℓ) gives a class of H¹(U, ℤ/p) that is ramified at ℓ, so it does not lie in H¹(X, j_*ℤ/p).
 - R¹j_*ℤ/p ≠ 0 at such ℓ, so the degree-two Leray term H¹(X, R¹j_*ℤ/p) can be nonzero; replacing j_* by Rj_* in all degrees would change H².
 
@@ -1435,11 +1437,11 @@ Prove this as follows. Higher direct images are sheafifications of V ↦ H^q(V �
 
 **Checks.**
 
-- For the trivial tower F_n = F the statement reduces to the degree-one Leray identification above.
+- For the trivial tower F_n = ℚ with identity transitions, p = 3, Σ = {7} and T = ℤ₃(1), all decomposition groups are finite, outside the theorem's hypotheses. The Leray injection is ℤ₃ → ℤ₃²: H¹_cont(Spec ℤ[1/3], j_*T) is generated by 3, whereas H¹_cont(Spec ℤ[1/21], T) is generated by 3 and 7. The class of 7 is norm-compatible but ramified at 7, so the unramified subgroup is proper.
 - If the decomposition group of some v ∈ Σ in F_∞/F is finite, a norm-compatible class can be ramified at v, so v must be kept in S and the identification is with the limit of H¹(U_n, T) instead.
-- In degree zero, lim_{cor} H⁰ vanishes on both sides (§3.1), so no comparison of degree-zero limits is needed.
+- In an infinite p-power tower, lim_{cor} H⁰ vanishes on both sides (§3.1). For the trivial tower and the trivial lattice ℤ_p with identity transitions, this limit is ℤ_p; the infinite-tower hypothesis cannot be dropped from degree-zero vanishing either.
 
-*Needs:* §2.9 (Compact and rational Galois Selmer groups); §3.1 (Iwasawa cohomology); §3.5 (Universal norms are unramified away from p); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.1.2 (*Continuous cochains into an inverse limit*); ArithmeticGaloisDuality §R02.3.1 (*The Galois group G_{K,S} of the maximal extension unramified outside S*); ArithmeticGaloisDuality §R02.3.3 (*The S-idele classes as a quotient of the idele classes*); ArithmeticGaloisDuality §R02.4.4 (*Cohomological dimension of G_{K,S}*; *High-degree cohomology of the S-units*); SchemeAndStackFoundations §§1.1, 2.1, 2.2, 2.11, 2.15; TauCetiRoadmap.ClassFieldTheory (global Brauer group); TauCetiRoadmap.LocalFieldsRamification Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 11; Mathlib `Algebra.IsUnramifiedAt`, `Algebra.FormallyEtale`.
+*Needs:* §2.9 (Compact and rational Galois Selmer groups); §3.1 (Iwasawa cohomology); §3.5 (Universal norms are unramified away from p); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*; *Mittag-Leffler towers have vanishing lim¹*; *The six-term sequence of lim and lim¹*); ArithmeticGaloisDuality §R02.1.2 (*Continuous cochains into an inverse limit*); ArithmeticGaloisDuality §R02.3.1 (*The Galois group G_{K,S} of the maximal extension unramified outside S*); ArithmeticGaloisDuality §R02.3.3 (*The S-idele classes as a quotient of the idele classes*); ArithmeticGaloisDuality §R02.4.4 (*Finiteness of Galois cohomology with restricted ramification*; *Cohomological dimension of G_{K,S}*; *High-degree cohomology of the S-units*); SchemeAndStackFoundations §§1.1, 2.1, 2.2, 2.11, 2.15; TauCetiRoadmap.ClassFieldTheory (global Brauer group); TauCetiRoadmap.LocalFieldsRamification Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 11; Mathlib `Algebra.IsUnramifiedAt`, `Algebra.FormallyEtale`.
 
 ### 3.16 Lattice independence, twists and degree-one specialization
 
@@ -2140,7 +2142,8 @@ Prove this as follows. Local Tate duality for V (ArithmeticGaloisDuality Layer R
 **Checks.**
 
 - Σ = ∅ gives m_Σ = 0 and no condition.
-- V = ℚ_p(1), of weight −2: H⁰(F_w, V^*(1)) = H⁰(F_w, ℚ_p) = ℚ_p ≠ 0 at every w ∤ p, so the hypothesis fails, and so does the conclusion: H¹(F_w, ℚ_p(1)) ≅ ℚ_p is spanned by the Kummer class of a uniformizer.
+- V = ℚ_p(1), of weight −2: H⁰(F_w, V^*(1)) = H⁰(F_w, ℚ_p) = ℚ_p ≠ 0 at every w ∤ p, and V is not conjugate Tate self-dual. The Kummer uniformizer spans H¹(F_w, ℚ_p(1)) ≅ ℚ_p, refuting the stronger intermediate vanishing H¹(F_w, V) = 0 without its hypotheses; its classes in H¹(F_w, μ_{p^m}) have order p^m, so all finite-coefficient local cohomology has no uniform annihilator.
+- For the same V and T = ℤ_p(1), H¹_f(F_w, V) = H¹_ur(F_w, V) = 0. The integral finite preimage is the finite p-primary roots-of-unity part of local Kummer cohomology, killed by p^{ord_p(q_w−1)}. Global finite Selmer localizations land there and their reductions remain uniformly killed. The uniformizer lies outside this finite condition and gives no counterexample to the stated finite-Selmer-image conclusion.
 - For an elliptic curve E with good reduction at w ∤ p, V = V_pE is pure of weight −1 and V^*(1) ≅ V by the Weil pairing; H⁰(F_w, V) = 0 because the Frobenius eigenvalues have absolute value q_w^{1/2} ≠ 1, and m_w is governed by the p-part of E(F_w)_tors.
 
 *Needs:* §4.24 (Global finite Selmer reductions and conjugation); §2.14 (Dimensions of unramified classes); §1.2 (Compatibility of the local pairings for T, V, W and W_M); ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*).

@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
 import TauCeti.Geometry.Hodge.Dimension
 import TauCeti.Geometry.Hodge.Dual
 import TauCeti.Geometry.Hodge.Prod
@@ -19,6 +20,9 @@ Design choices made explicit here:
 
 * p-adic completion of an abelian group is Mathlib's `AdicCompletion` at the ideal `(p) ⊆ ℤ`
   (`pCompletion`); no second completion is defined.
+* S-unit rank and fundamental systems use Mathlib's `Set.unit` carrier and `Nat.card S`.
+  Finite generation is supplied by Tau Ceti's `Set.unit_fg` and `Set.unit_fg_of_units`;
+  cardinality conversion and finite-type reindexing are adapters.
 * Perfect pairings are Mathlib's `LinearMap.IsPerfPair`; annihilators are Mathlib's
   `Submodule.orthogonalBilin`. Double annihilators are stated for finite `ZMod n`-modules.
 * The algebraic Selmer diagram `SelmerData` takes actual global and local modules and maps; its
@@ -79,30 +83,51 @@ theorem units_pow_of_pow_eq (F : Type*) [Field F] [NumberField F] (m : ℕ)
 
 end Completion
 
-/-- §0.3, the S-unit theorem: for a finite set `S_f` of finite places, the `S_f`-units
-(Mathlib's `Set.unit`) form a finitely generated group of free rank `rank(𝒪_F^×) + #S_f`. -/
-theorem sUnits_rank (F : Type*) [Field F] [NumberField F]
-    (S_f : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S_f.Finite) :
-    Group.FG (S_f.unit F) ∧
-      Module.finrank ℤ (Additive (S_f.unit F)) = NumberField.Units.rank F + S_f.ncard := sorry
+section SUnits
 
-/-- §0.3: a fundamental system gives each S-unit a unique torsion factor and integer
-exponents, indexed by the free rank. -/
-theorem sUnits_exists_fundSystem (F : Type*) [Field F] [NumberField F]
-    (S_f : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S_f.Finite) :
-    ∃ ε : Fin (NumberField.Units.rank F + S_f.ncard) → S_f.unit F,
-      ∀ u : S_f.unit F, ∃! ζe : CommGroup.torsion (S_f.unit F) ×
-          (Fin (NumberField.Units.rank F + S_f.ncard) → ℤ),
-        u = (ζe.1 : S_f.unit F) * ∏ i, ε i ^ (ζe.2 i) := sorry
+variable {K : Type*} [Field K] [NumberField K]
+    (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
 
-/-- §0.3: a fundamental system can be indexed by any finite type of the required cardinality,
-with unique torsion factors and integer exponents. -/
-theorem sUnits_exists_fundSystem' (F : Type*) [Field F] [NumberField F]
-    (S_f : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S_f.Finite)
-    (I : Type*) [Fintype I] (hI : Fintype.card I = NumberField.Units.rank F + S_f.ncard) :
-    ∃ ε : I → S_f.unit F,
-      ∀ u : S_f.unit F, ∃! ζe : CommGroup.torsion (S_f.unit F) × (I → ℤ),
-        u = (ζe.1 : S_f.unit F) * ∏ i, ε i ^ (ζe.2 i) := sorry
+/-- §0.3: for finite `S`, the S-unit group is a finitely generated `ℤ`-module. -/
+theorem Set.unit_moduleFinite (hS : S.Finite) :
+    Module.Finite ℤ (Additive (S.unit K)) := by
+  have : Finite S := hS.to_subtype
+  exact Module.Finite.iff_addGroup_fg.mpr
+    (GroupFG.iff_add_fg.mp (_root_.Set.unit_fg_of_units S K))
+
+/-- §0.3: the free rank of the S-unit group is the global unit rank plus `Nat.card S`. -/
+theorem Set.unit_finrank_numberField (hS : S.Finite) :
+    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S := sorry
+
+/-- §0.3: a fundamental system indexed by the free rank gives unique integer exponents
+and a torsion factor for every S-unit. -/
+theorem Set.exists_unit_fundSystem (hS : S.Finite) :
+    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
+      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + Nat.card S) → ℤ,
+        ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i := sorry
+
+/-- §0.3: a fundamental system gives each S-unit a unique pair of torsion factor and
+integer exponent vector on `Fin (NumberField.Units.rank K + Nat.card S)`. -/
+theorem Set.exists_unit_fundSystem' (hS : S.Finite) :
+    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
+      ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) ×
+          (Fin (NumberField.Units.rank K + Nat.card S) → ℤ),
+        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
+
+/-- §0.3: the cardinality adapter expresses the canonical S-unit rank using `Set.ncard`. -/
+theorem sUnits_finrank_ncard (hS : S.Finite) :
+    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + S.ncard := by
+  simpa only [Nat.card_coe_set_eq] using Set.unit_finrank_numberField S hS
+
+/-- §0.3: the reindexing adapter gives unique torsion factors and integer exponent vectors
+on any finite type of the required cardinality. -/
+theorem sUnits_fundSystem_reindex (hS : S.Finite) (I : Type*) [Fintype I]
+    (hI : Fintype.card I = NumberField.Units.rank K + Nat.card S) :
+    ∃ ε : I → S.unit K,
+      ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) × (I → ℤ),
+        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
+
+end SUnits
 
 section WeakSemisimplicity
 
@@ -1062,8 +1087,10 @@ coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology
 `iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
 `selmerDeterminant` (§§3.1–3.14); the étale comparison `restrictedRamification_finiteEtale_equiv`,
 `etaleCohomology_Gm_restrictedRamification`, `etaleGalois_comparison_restrictedRamification`,
-`etaleGalois_comparison_lattice`, `etale_jStar_stalk`, `etale_jStar_degreeOne`,
-`etale_jStar_iwasawa` (§3.15); `GreenbergStructureHypotheses` (§3.18); Tate's normalized traces,
+`etaleGalois_comparison_lattice` (including the finite-S ordinary-limit simplification),
+`etale_jStar_stalk`, `etale_jStar_degreeOne` (injection with image unramified at every removed
+place), `etale_jStar_iwasawa` (infinite decomposition groups at every removed place, §3.15);
+`GreenbergStructureHypotheses` (§3.18); Tate's normalized traces,
 `tate_almostEtale`, `tate_cyclotomicBanachH1` and `tate_H1_padicComplex_twist`, the canonical
 CR.0.7 specialization `aCris`, its explicit comparison `aCris_model_equiv`, and `bCris`, `dCris`,
 `dDeRham`, `IsCrystalline`, `IsDeRham` (§§4.1–4.5); `fontaineLaffaille_sum`,
