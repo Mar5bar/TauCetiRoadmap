@@ -108,6 +108,14 @@ def IsSecant (M : Type u) [AddCommGroup M] [Module R M] (rs : List R) : Prop :=
       Module.supportDim R (prefixQuotient M (rs.take (i.val + 1))) <
         Module.supportDim R (prefixQuotient M (rs.take i.val))
 
+/-- Every secant list for a nonzero finite module extends to a secant system of parameters
+with zero-dimensional terminal quotient (Česnavičius, Remark 3.2; Stacks, tag 00KQ). -/
+theorem isSecant_exists_append [IsNoetherianRing R] (M : Type u) [AddCommGroup M]
+    [Module R M] [Module.Finite R M] [Nontrivial M] (rs : List R) (h : IsSecant M rs) :
+    ∃ qs : List R, IsSecant M (rs ++ qs) ∧
+      Module.supportDim R (prefixQuotient M (rs ++ qs)) = 0 := by
+  sorry
+
 /-- Local cohomology at `𝔪` vanishes in every degree below the dimension of the support. For a
 finite module over a Noetherian local ring this is the Cohen–Macaulay condition
 (`Module.IsCohenMacaulay` of SchemeAndStackFoundations); the zero module satisfies it. -/
@@ -176,6 +184,22 @@ theorem schenzel_torsion_bound [IsNoetherianRing R] (M : Type u) [AddCommGroup M
     ∀ a ∈ annihilatorProduct (IsLocalRing.maximalIdeal R) M d, a • x = 0 := by
   sorry
 
+/-- A parameter element of a nonzero finite Cohen–Macaulay module is regular: Schenzel's
+bound for `[x]` has the unit annihilator product (Česnavičius, Remark 3.3). -/
+theorem isSMulRegular_of_isCohenMacaulay [IsNoetherianRing R] (M : Type u) [AddCommGroup M]
+    [Module R M] [Module.Finite R M] [Nontrivial M] (hcm : LowLocalCohomologyVanishes R M)
+    (x : R) (hx : x ∈ IsLocalRing.maximalIdeal R)
+    (hd : Module.supportDim R (prefixQuotient M [x]) + 1 = Module.supportDim R M) :
+    IsSMulRegular M x := by
+  sorry
+
+/-- Every secant list on a finite Cohen–Macaulay module is CM-secant, by parameter regularity
+and the Cohen–Macaulay regular-quotient criterion (Česnavičius, Remarks 3.3–3.4). -/
+theorem IsCMSecant.of_isCohenMacaulay [IsNoetherianRing R] (M : Type u) [AddCommGroup M]
+    [Module R M] [Module.Finite R M] (hcm : LowLocalCohomologyVanishes R M)
+    (rs : List R) (hsec : IsSecant M rs) : IsCMSecant M rs := by
+  sorry
+
 /-- Every CM-secant sequence of a nonzero finite module extends to a CM-secant system of
 parameters (Česnavičius, Remark 3.4). -/
 theorem isCMSecant_exists_append [IsNoetherianRing R] (M : Type u) [AddCommGroup M] [Module R M]
@@ -197,14 +221,13 @@ theorem isCMSecant_iff_pStandard_reverse [IsNoetherianRing R] (M : Type u) [AddC
           (prefixQuotient M (rs.reverse.drop (i.val + 1))) d := by
   sorry
 
-/-- Matlis: if `E` is injective and contains the residue field as an essential submodule (an
-injective hull of the residue field), then `Hom_R(-, E)` preserves annihilators of finite modules
+/-- Matlis: if `E` is injective and the residue field embeds in `E`, then
+`Hom_R(-, E)` preserves annihilators of finite modules
 (Česnavičius, proof of Lemma 3.6(a)). -/
 theorem annihilator_eq_annihilator_linearMap_injectiveHull [IsNoetherianRing R]
     (N : Type u) [AddCommGroup N] [Module R N] [Module.Finite R N]
     (E : ModuleCat.{u} R) [CategoryTheory.Injective E]
-    (e : (R ⧸ IsLocalRing.maximalIdeal R) →ₗ[R] E) (he : Function.Injective e)
-    (hess : ∀ P : Submodule R E, P ≠ ⊥ → P ⊓ LinearMap.range e ≠ ⊥) :
+    (e : (R ⧸ IsLocalRing.maximalIdeal R) →ₗ[R] E) (he : Function.Injective e) :
     Module.annihilator R N = Module.annihilator R (N →ₗ[R] E) := by
   sorry
 
@@ -439,8 +462,8 @@ instance ChartRing.moduleLocalizedModule (I : Ideal R) (a : R) (M : Type u) [Add
   Module.compHom _ (ChartRing.toLocalization I a)
 
 /-- The chart module `M_(a)`: the `R[I/a]`-submodule of `M[1/a]` spanned by the image of `M`
-(Česnavičius, §3.13). It is the value of the module blowing-up on the chart of `a`; it is the
-image of `R[I/a] ⊗_R M`, not that tensor product. -/
+(Česnavičius, §3.13). For `a ∈ I`, it is the value of the module blowing-up on `D₊(a t)`;
+it is the image of `R[I/a] ⊗_R M`, not that tensor product. -/
 def chartModule (I : Ideal R) (a : R) (M : Type u) [AddCommGroup M] [Module R M] :
     Submodule (ChartRing I a) (LocalizedModule (Submonoid.powers a) M) :=
   Submodule.span (ChartRing I a) (Set.range (LocalizedModule.mkLinearMap (Submonoid.powers a) M))
@@ -453,14 +476,14 @@ example : Subsingleton (chartModule (Ideal.span {(2 : ℤ)}) 2 (ZMod 2)) := by
 example (M : Type u) [AddCommGroup M] [Module R M] : chartModule (⊤ : Ideal R) 1 M = ⊤ := by
   sorry
 
-/-- The chart element `a` is regular on `M_(a)`: the module blowing-up has no nonzero sections
-supported on the exceptional divisor (Česnavičius, §3.13). -/
+/-- The chart element `a` is regular on `M_(a)`. For `a ∈ I`, the module blowing-up has no
+nonzero sections supported on the exceptional divisor (Česnavičius, §3.13). -/
 theorem chartModule_isSMulRegular (I : Ideal R) (a : R) (M : Type u) [AddCommGroup M]
     [Module R M] : IsSMulRegular (chartModule I a M) (algebraMap R (ChartRing I a) a) := by
   sorry
 
 /-- A chart scalar kills `M_(a)` exactly when it kills the image of `M` in `M[1/a]`; this is the
-chart form of the support of the module blowing-up. -/
+chart form of the support of the module blowing-up when `a ∈ I`. -/
 theorem mem_annihilator_chartModule_iff (I : Ideal R) (a : R) (M : Type u) [AddCommGroup M]
     [Module R M] (x : ChartRing I a) :
     x ∈ Module.annihilator (ChartRing I a) (chartModule I a M) ↔
@@ -564,7 +587,7 @@ theorem isCMBlowupChartwise_prefixProduct_of_isCMSecant [IsNoetherianRing R] (M 
 end Layer4
 
 /-- A Cohen–Macaulay local ring whose blowing-up at the maximal ideal is not Cohen–Macaulay
-(Heinzer–Johnston–Lantz–Shah, Example 3.6): `k[x³, x⁵y³, x¹⁵y², y⁷]` localized at its maximal
+(Huckaba's example, recorded in Heinzer–Johnston–Lantz–Shah, Example 3.6): `k[x³, x⁵y³, x¹⁵y², y⁷]` localized at its maximal
 ideal of positive-degree elements; on the chart of `x³` the local ring at the origin has depth
 one and dimension two. -/
 theorem exists_isCohenMacaulay_not_isCMBlowupChartwise_maximalIdeal :
@@ -572,14 +595,199 @@ theorem exists_isCohenMacaulay_not_isCMBlowupChartwise_maximalIdeal :
       LowLocalCohomologyVanishes A A ∧ ¬ IsCMBlowupChartwise (IsLocalRing.maximalIdeal A) A := by
   sorry
 
+/-! ## Concrete boundary Checks
+
+The power-series notation below represents the concrete rings in the README Checks. -/
+
+section BoundaryChecks
+
+local notation "S₁" => PowerSeries ℚ
+local notation "S₂" => PowerSeries (PowerSeries ℚ)
+local notation "S₃" => PowerSeries (PowerSeries (PowerSeries ℚ))
+local notation "x₁" => (PowerSeries.X : S₁)
+local notation "x₂" => (PowerSeries.C x₁ : S₂)
+local notation "y₂" => (PowerSeries.X : S₂)
+local notation "x₃" => (PowerSeries.C x₂ : S₃)
+local notation "y₃" => (PowerSeries.C y₂ : S₃)
+local notation "z₃" => (PowerSeries.X : S₃)
+local notation "N₂" => (S₂ ⧸ Ideal.span {x₂ ^ 2, x₂ * y₂})
+local notation "N₃" => (S₃ ⧸ Ideal.span {x₃ ^ 2, x₃ * y₃})
+local notation "C₂" => (S₂ ⧸ Ideal.span {x₂ * y₂})
+
+/-- The empty prefix quotient of `ℤ` retains its nonzero elements. -/
+example : Nontrivial (prefixQuotient ℤ ([] : List ℤ)) := by sorry
+
+/-- The principal DVR computation puts nonvanishing in degree one. -/
+example : Subsingleton ((localCohomology (Ideal.span {x₁}) 0).obj (ModuleCat.of S₁ S₁)) ∧
+    Nontrivial ((localCohomology (Ideal.span {x₁}) 1).obj (ModuleCat.of S₁ S₁)) := by sorry
+
+/-- A residue module is entirely degree-zero torsion and has no degree-one cohomology. -/
+example : Nontrivial ((localCohomology (Ideal.span {x₁}) 0).obj
+      (ModuleCat.of S₁ (S₁ ⧸ Ideal.span {x₁}))) ∧
+    Subsingleton ((localCohomology (Ideal.span {x₁}) 1).obj
+      (ModuleCat.of S₁ (S₁ ⧸ Ideal.span {x₁}))) := by sorry
+
+/-- The two-dimensional regular local ring has its first nonzero local cohomology in degree two. -/
+example : Subsingleton ((localCohomology (Ideal.ofList [x₂,y₂]) 0).obj (ModuleCat.of S₂ S₂)) ∧
+    Subsingleton ((localCohomology (Ideal.ofList [x₂,y₂]) 1).obj (ModuleCat.of S₂ S₂)) ∧
+    Nontrivial ((localCohomology (Ideal.ofList [x₂,y₂]) 2).obj (ModuleCat.of S₂ S₂)) := by sorry
+
+/-- Cutoff one retains `(X²)`, rather than its radical `(X)`. -/
+example : annihilatorProduct (IsLocalRing.maximalIdeal S₁) (S₁ ⧸ Ideal.span {x₁ ^ 2}) 1 =
+      Ideal.span {x₁ ^ 2} ∧
+    annihilatorProduct (IsLocalRing.maximalIdeal S₁) (S₁ ⧸ Ideal.span {x₁ ^ 2}) 1 ≠
+      Ideal.span {x₁} := by sorry
+
+/-- Every cutoff gives the unit annihilator product on a zero module. -/
+example {R : Type u} [CommRing R] (J : Ideal R) (M : Type u) [AddCommGroup M] [Module R M]
+    [Subsingleton M] (d : ℕ) : annihilatorProduct J M d = ⊤ := by sorry
+
+/-- The summands `k` and `R/(y)` give product `(xy,y²)` and intersection `(y)`. -/
+example : let M := (S₂ ⧸ Ideal.ofList [x₂,y₂]) × (S₂ ⧸ Ideal.span {y₂})
+    annihilatorProduct (IsLocalRing.maximalIdeal S₂) M 2 = Ideal.span {x₂*y₂, y₂^2} ∧
+    (Module.annihilator S₂ ((localCohomology (IsLocalRing.maximalIdeal S₂) 0).obj
+        (ModuleCat.of S₂ M)) ⊓
+      Module.annihilator S₂ ((localCohomology (IsLocalRing.maximalIdeal S₂) 1).obj
+        (ModuleCat.of S₂ M))) = Ideal.span {y₂} ∧
+    y₂ ∉ annihilatorProduct (IsLocalRing.maximalIdeal S₂) M 2 := by sorry
+
+/-- Repeating `X` fails the second dimension drop. -/
+example : ¬ IsSecant S₁ [x₁,x₁] := by sorry
+
+/-- A unit entry cannot belong to the maximal ideal. -/
+example {R : Type u} [CommRing R] [IsLocalRing R] (M : Type u) [AddCommGroup M] [Module R M] :
+    ¬ IsSecant M ([1] : List R) := by sorry
+
+/-- The zero module satisfies the low-cohomology condition vacuously. -/
+example {R : Type u} [CommRing R] [IsLocalRing R] (M : Type u) [AddCommGroup M] [Module R M]
+    [Subsingleton M] : LowLocalCohomologyVanishes R M := by sorry
+
+/-- The embedded-point module is CM-secant along `y` although `y` is a zero divisor. -/
+example : IsCMSecant N₂ [y₂] ∧ ¬ IsSMulRegular N₂ y₂ ∧
+    ¬ LowLocalCohomologyVanishes S₂ N₂ := by sorry
+
+/-- Its nonzero `x`-class is killed by `y` and by the annihilator product `𝔪`. -/
+example : let x := Ideal.Quotient.mk (Ideal.span {x₂^2, x₂*y₂}) x₂
+    x ≠ 0 ∧ y₂ • x = 0 ∧
+      annihilatorProduct (IsLocalRing.maximalIdeal S₂) N₂ 1 = IsLocalRing.maximalIdeal S₂ ∧
+      ∀ a ∈ IsLocalRing.maximalIdeal S₂, a • x = 0 := by sorry
+
+/-- Both the empty and the one-entry partial parameter lists complete in dimensions zero and one. -/
+example : IsSecant (S₁ ⧸ Ideal.span {x₁}) ([] : List S₁) ∧
+    Module.supportDim S₁ (prefixQuotient (S₁ ⧸ Ideal.span {x₁}) ([] : List S₁)) = 0 ∧
+    IsSecant S₂ [x₂,y₂] ∧ Module.supportDim S₂ (prefixQuotient S₂ [x₂,y₂]) = 0 := by sorry
+
+/-- The regular parameter list `[x,y]` is CM-secant, with the reversed annihilator memberships. -/
+example : IsCMSecant S₂ [x₂,y₂] ∧
+    y₂ ∈ annihilatorProduct (IsLocalRing.maximalIdeal S₂) (prefixQuotient S₂ [x₂]) 1 ∧
+    x₂ ∈ annihilatorProduct (IsLocalRing.maximalIdeal S₂) S₂ 2 := by sorry
+
+/-- The alternative parameter `x+y` is CM-secant on the embedded-point module. -/
+example : IsCMSecant N₂ [x₂+y₂] ∧
+    Module.supportDim S₂ (prefixQuotient N₂ [x₂+y₂]) = 0 := by sorry
+
+/-- A nonessential residue-field embedding into an injective vector space still preserves
+annihilators. -/
+example : Module.annihilator ℚ (ℚ →ₗ[ℚ] (ℚ × ℚ)) = ⊥ := by sorry
+
+/-- The residue module and its Matlis dual have maximal-ideal annihilator. -/
+example : let E := ((localCohomology (IsLocalRing.maximalIdeal S₁) 1).obj (ModuleCat.of S₁ S₁))
+    Module.annihilator S₁ (S₁ ⧸ Ideal.span {x₁}) = IsLocalRing.maximalIdeal S₁ ∧
+    Module.annihilator S₁ ((S₁ ⧸ Ideal.span {x₁}) →ₗ[S₁] E) = IsLocalRing.maximalIdeal S₁ := by sorry
+
+/-- The dual of a zero module is zero, so its annihilator is the unit ideal. -/
+example {R : Type u} [CommRing R] (M E : Type u) [AddCommGroup M] [Module R M]
+    [Subsingleton M] [AddCommGroup E] [Module R E] :
+    Module.annihilator R M = ⊤ ∧ Module.annihilator R (M →ₗ[R] E) = ⊤ := by sorry
+
+/-- The DVR injective hull `H¹_𝔪(R)` is faithful, as is `Hom_R(R,E)`. -/
+example : let E := ((localCohomology (IsLocalRing.maximalIdeal S₁) 1).obj (ModuleCat.of S₁ S₁))
+    Module.annihilator S₁ E = ⊥ ∧ Module.annihilator S₁ (S₁ →ₗ[S₁] E) = ⊥ := by sorry
+
+/-- The later torsion index detects `R/(u) × R`; the `t`-torsion is zero. -/
+example : let M := (S₂ ⧸ Ideal.span {y₂}) × S₂
+    IsDSequence M [x₂,y₂] ∧ IsSMulRegular M x₂ ∧
+    (∀ z : M, (x₂*y₂) • z = 0 ↔ y₂ • z = 0) ∧
+    ∃ z : M, z ≠ 0 ∧ y₂ • z = 0 ∧ x₂ • z ≠ 0 := by sorry
+
+/-- At exponent zero the colon identity for `[0]` on `ℚ` fails. -/
+example : Submodule.comap ((0 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ))
+    (⊥ : Submodule ℚ ℚ) ≠ (⊥ : Submodule ℚ ℚ) := by sorry
+
+/-- The regular two-variable intersection is `(x²,xy)`. -/
+example : (Ideal.span {x₂} ⊓ Ideal.ofList [x₂,y₂] ^ 2) = Ideal.span {x₂^2,x₂*y₂} := by sorry
+
+/-- The one-dimensional regular parameter satisfies Kawasaki's three conditions. -/
+example : KawasakiConditions S₁ [x₁] := by sorry
+
+/-- Auxiliary division by `y` preserves the conditions of `[x]`. -/
+example : IsSecant (prefixQuotient S₂ [x₂]) [y₂] ∧
+    KawasakiConditions (prefixQuotient S₂ [y₂]) [x₂] := by sorry
+
+/-- Reversal is essential for the CM-secant list `[y,z]` on the embedded-line module. -/
+example : IsCMSecant N₃ [y₃,z₃] ∧ IsDSequence N₃ [z₃,y₃] ∧ ¬ IsDSequence N₃ [y₃,z₃] ∧
+    (Ideal.Quotient.mk (Ideal.span {x₃^2,x₃*y₃}) (x₃*z₃)) ≠ 0 := by sorry
+
+/-- On `R/(x)`, positive powers of `y` are regular while `x` kills the entire quotient. -/
+example (m : ℕ) (hm : 0 < m) : IsSMulRegular (S₂ ⧸ Ideal.span {x₂}) (y₂^m) ∧
+    (∀ z : S₂ ⧸ Ideal.span {x₂},
+      (∀ a ∈ Ideal.ofList [x₂,y₂], a • z = 0) ↔ z = 0) ∧
+    (∀ z : S₂ ⧸ Ideal.span {x₂}, x₂ • z = 0) ∧ Nontrivial (S₂ ⧸ Ideal.span {x₂}) := by sorry
+
+/-- At exponent two, `(x)`-torsion is nonzero but `y` remains regular. -/
+example : IsSMulRegular (S₂ ⧸ Ideal.span {x₂^2}) y₂ ∧
+    ∃ z : S₂ ⧸ Ideal.span {x₂^2}, z ≠ 0 ∧ x₂ • z = 0 := by sorry
+
+/-- The auxiliary parameter `z` remains regular modulo every positive prefix-product power. -/
+example (n : ℕ) (hn : 0 < n) : IsSMulRegular (prefixQuotient S₃ [x₃,y₃]) z₃ ∧
+    IsSMulRegular S₃ z₃ ∧
+    IsSMulRegular (S₃ ⧸ prefixProduct [x₃,y₃] 2 ^ n) z₃ := by sorry
+
+/-- The principal zero-divisor chart kills the nonzero `y`-class. -/
+example : let x := Ideal.Quotient.mk (Ideal.span {x₂*y₂}) x₂
+    let y := Ideal.Quotient.mk (Ideal.span {x₂*y₂}) y₂
+    y ≠ 0 ∧ LocalizedModule.mkLinearMap (Submonoid.powers x) C₂ y = 0 ∧
+      Nontrivial (chartModule (Ideal.span {x}) x C₂) := by sorry
+
+/-- The self-module chart is the chart ring as a module. -/
+example {R : Type u} [CommRing R] (I : Ideal R) (a : R) :
+    Nonempty (chartModule I a R ≃ₗ[ChartRing I a] ChartRing I a) := by sorry
+
+/-- The unit centre retains the embedded point and fails chartwise Cohen–Macaulayness. -/
+example : ¬ IsCMBlowupChartwise (⊤ : Ideal N₂) N₂ := by sorry
+
+/-- The zero and unit Rees algebras over a DVR have dimensions one and two. -/
+example : ringKrullDim (reesAlgebra (⊥ : Ideal S₁)) = 1 ∧
+    ringKrullDim (reesAlgebra (⊤ : Ideal S₁)) = 2 := by sorry
+
+/-- Without quotient regularity the degree-one map has a nonzero source and zero image. -/
+example : let P : Submodule S₁ S₁ := Ideal.span {x₁} • (⊤ : Submodule S₁ S₁)
+    Nontrivial (↥P ⧸ (x₁ • (⊤ : Submodule S₁ ↥P))) ∧
+    Ideal.span {x₁} • (⊤ : Submodule S₁ (S₁ ⧸ Ideal.span {x₁})) = ⊥ := by sorry
+
+/-- The torsion-supported module has empty chart support, strictly below its base support dimension. -/
+example : Module.supportDim (ChartRing (Ideal.span {(2 : ℤ)}) 2)
+      (chartModule (Ideal.span {(2 : ℤ)}) 2 (ZMod 2)) = ⊥ ∧
+    Module.supportDim ℤ (ZMod 2) = 0 := by sorry
+
+/-- The chart relation fails to annihilate local cohomology when its coefficient hypotheses fail. -/
+example : Polynomial.C y₂ * Polynomial.X - Polynomial.C x₂ ∉
+    Module.annihilator (Polynomial S₂)
+      ((localCohomology (Ideal.ofList [Polynomial.C x₂, Polynomial.C y₂]) 1).obj
+        (ModuleCat.of (Polynomial S₂) (PolynomialModule S₂ C₂))) := by sorry
+
+end BoundaryChecks
+
 /-!
 ## Targets stated only in the README
 
 The following targets are stated in `README.md` only: the composite-support spectral sequence
-for local cohomology, its change of rings and filtered-colimit comparison (Layer K0); normalized
+for local cohomology, its Čech, change-of-rings and filtered-colimit comparisons (Layer K0); the
+Matlis and completion inputs and catenarity from dualizing complexes; normalized
 local duality in the form `H^j_𝔪(M) ≅ Hom(Ext^{-j}(M, ω), E)`, the
 duality annihilator identity, the annihilator description of the non-Cohen–Macaulay locus and the
-general defect set (Layer K0); the coefficient maps of Rees modules (Layer K3); the module
+general defect set (Layer K0); the coefficient maps of Rees modules (Layer K3); `HomogeneousLocalizedModule`, `Proj.tildeModule`
+and `Proj.tildeModule.awayIso`; the module
 blowing-up `Bl_I(M)` as a sheaf on the supplied scheme `Proj (reesAlgebra.grade I)`,
 with its chart isomorphisms, functoriality, zero and unit cases, the comparison with the strict
 transform, the product-of-ideals identities for schemes and modules, the support of `Bl_I(M)`,
@@ -591,17 +799,18 @@ The remaining basic APIs are also README targets, rather than auxiliary declarat
   `annihilatorProduct_eq_top_of_subsingleton`, `annihilatorProduct_congr`.
 * K0.3: `prefixQuotient_nil`, `prefixQuotient_append`, `prefixQuotient_perm`, `isSecant_nil`,
   `isSecant_iff_supportDim`, `isSecant_of_isRegular`, `IsSecant.append_iff`, `IsSecant.take_mul`.
+* K0.1: `localCohomology.cechIso`.
 * K0.4: `lowLocalCohomologyVanishes_iff_isCohenMacaulay`, `isCMSecant_iff`,
   `IsCMSecant.mem_maximalIdeal`, `IsCMSecant.supportDim_lt`,
-  `IsCMSecant.isCohenMacaulay_terminal`, `IsCMSecant.mem_annihilatorProduct`,
-  `IsCMSecant.of_isCohenMacaulay`.
+  `IsCMSecant.isCohenMacaulay_terminal`, `IsCMSecant.mem_annihilatorProduct`.
 * K1.1: `isDSequence_nil`, `isDSequence_of_subsingleton`, `isDSequence_singleton_iff`,
   `isDSequence_congr`.
 * K2.1: `prefixProduct_zero`, `prefixProduct_one`, `prefixProduct_take`, `prefixProduct_le`.
 * K2.2: `KawasakiConditions.isDSequence_reverse`, `KawasakiConditions.torsion_eq`,
   `KawasakiConditions.isSMulRegular`, `KawasakiConditions.isDSequence_reverse_self`,
   `kawasakiConditions_nil`, `kawasakiConditions_of_subsingleton`.
-* K2.3: `IsCMSecant.isDSequence_reverse_take`, `IsCMSecant.torsion_prefixProduct`,
+* K2.3: `kawasaki_auxiliary_colon`, `kawasaki_colon_A`, `kawasaki_colon_B`,
+  `kawasaki_colon_C`, `kawasaki_colon_D`, `kawasaki_colon_E`; `IsCMSecant.isDSequence_reverse_take`, `IsCMSecant.torsion_prefixProduct`,
   `IsCMSecant.isSMulRegular_prefixProduct`.
 * K3.1: `single_mem_reesModule_iff`, `reesModule_top`, `mem_reesModule_bot_iff`,
   `reesModule.ext`, `reesModule.map`, `reesModule.coeff_map`, `reesModule.map_id`,
