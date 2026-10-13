@@ -66,7 +66,7 @@ It uses, without restating:
   filtration and the classical crystalline comparison (Layer CR.4), log structures (Layer
   CR.5:log-algebra), and log differentials, exactification, log PD envelopes and the log Poincaré
   lemma (Layer CR.5). The crystalline period ring `A_cris(R)` of a p-adically complete ring is its
-  §CR.0.7. That roadmap uses Layers 1–5 of this one (derived completion, the ordinary and formal
+  §CR.0.7. That roadmap uses Layers 1–3 of this one (derived completion, the ordinary and formal
   de Rham algebras, smooth Cartier, the lci comparison), so the two depend on each other layer by layer
   without a cycle at the level of subsections: 0.16 here uses §CR.0.3, CrystallineCohomology
   §CR.0.6–§CR.0.7 use Layer 1 here, and Layers 4–6 here use §CR.0–§CR.5.
