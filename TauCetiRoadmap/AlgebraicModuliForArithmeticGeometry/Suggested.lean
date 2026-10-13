@@ -346,8 +346,9 @@ theorem BandPreserving.comp
     BandPreserving bF bH (Pseudofunctor.StrongTrans.vcomp η θ) := sorry
 
 /-- A morphism of gerbes preserving a common abelian band is an equivalence on every fibre
-(Stacks, Lemma 8.11.8, tag 0CJY): faithful by the banding, full by Hom-sheaf descent and
-essentially surjective by gluing local preimages. -/
+(Olsson's stacks lectures, notes by Geraschenko, Várilly, Carter, Shiu et al., Lemma 31.3, p. 122):
+faithful by the banding, full by Hom-sheaf descent and essentially surjective by gluing local
+preimages. -/
 theorem band_morphism_equivalence
     (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
     (η : Pseudofunctor.StrongTrans F G) [BandPreserving bF bG η] (U : C) :
@@ -613,8 +614,8 @@ theorem FormalPoint.map_value {G : CommRingCat.{u} ⥤ Type u} (η : F ⟶ G)
     (ξ : FormalPoint F R I) (n : ℕ) :
     (FormalPoint.map F R I η ξ).value n = η.app _ (ξ.value n) := rfl
 
-/-- `FormalPointTests.firstOrderInsufficient`: on `ℚ[ε]` with `I = (ε)`, the points `0` and `ε`
-agree modulo `I` but not modulo `I² = 0`; first-order data does not determine a formal point. -/
+/-- `FormalPointTests.specialFibreInsufficient`: on `ℚ[ε]` with `I = (ε)`, the points `0` and `ε`
+agree modulo `I` but not modulo `I² = 0`; the special fibre does not determine a formal point. -/
 example :
     let J : Ideal (TrivSqZeroExt ℚ ℚ) :=
       RingHom.ker (TrivSqZeroExt.fstHom ℚ ℚ ℚ).toRingHom
@@ -622,6 +623,19 @@ example :
     let y := FormalPoint.ofPoint (forget CommRingCat.{0}) (TrivSqZeroExt ℚ ℚ) J
       (TrivSqZeroExt.inr (1 : ℚ))
     x.value 0 = y.value 0 ∧ x.value 1 ≠ y.value 1 := sorry
+
+/-- `FormalPointTests.firstOrderInsufficient`: on `ℚ[t]/(t³)` with `I = (t)`, the points `0` and
+`t²` agree modulo `I` and modulo `I²` but not modulo `I³ = 0`; the residue together with the
+first-order jet does not determine a formal point. -/
+example :
+    let x := FormalPoint.ofPoint (forget CommRingCat.{0})
+      (AdjoinRoot (Polynomial.X ^ 3 : Polynomial ℚ))
+      (Ideal.span {AdjoinRoot.root (Polynomial.X ^ 3 : Polynomial ℚ)}) 0
+    let y := FormalPoint.ofPoint (forget CommRingCat.{0})
+      (AdjoinRoot (Polynomial.X ^ 3 : Polynomial ℚ))
+      (Ideal.span {AdjoinRoot.root (Polynomial.X ^ 3 : Polynomial ℚ)})
+      (AdjoinRoot.root (Polynomial.X ^ 3 : Polynomial ℚ) ^ 2)
+    x.value 0 = y.value 0 ∧ x.value 1 = y.value 1 ∧ x.value 2 ≠ y.value 2 := sorry
 
 /-- Effectivity of `F` along `I`: every formal point is restricted from a point over `R`. This is
 the set-valued affine form; the groupoid form for formal objects of a stack (README §7.1, with
