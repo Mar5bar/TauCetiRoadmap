@@ -55,7 +55,8 @@ modules on topological spaces, equivariant sheaves for topological groups, absol
 algebra cochains with the invariant-forms comparison, automorphic forms, constant terms and cusp
 forms with the discreteness of the cuspidal spectrum, and algebraic weights, coefficient lattices
 and the cohomological representations at infinity. Cartan involutions of real reductive groups as an
-algebraic-group predicate, the
+algebraic-group predicate, existence over arbitrary real groups, the comparison with
+AdelicAlgebraicGroups’ inverse-adjoint datum on rational groups and restrictions of scalars, and the
 comparison of the real points with the Lie-theoretic Cartan datum, the symmetric space `X^G` with
 the split centre removed, the adelic quotient `X_K` as a topological space with its translations,
 level maps, finite component decomposition, proper discontinuity, neat-level manifold structure and
@@ -84,14 +85,19 @@ characteristic-zero applications. Finite-level descent, the Hochschild–Serre s
 action, descent of the lowest localized degree, and the modular and quaternionic examples.
 
 **Used from Tau Ceti roadmaps.** AdelicAlgebraicGroups supplies the adelic points, the split
-component `A_G` (§2.1), rational parabolics and real Siegel coordinates (§§3.1–3.2), finiteness of
-class numbers, level arithmetic groups, component decompositions, compactness criteria and unipotent
+component `A_G` (§2.1), rational parabolics and real Siegel coordinates (§§3.1–3.2), the algebraic
+inverse-adjoint Cartan datum and its existence for connected reductive rational groups (§3.7),
+finiteness of class numbers, level arithmetic groups, component decompositions, compactness criteria and unipotent
 class number one (§3.4), finiteness of cusps and Siegel sets (§3.6), neat elements and levels
 (§4.3), level quotients, level maps, finiteness of rational stabilizers, the proper arithmetic
 action on level spaces, the covering property and fibre masses (§4.4) and Hecke
 correspondences with their degrees (§4.5), and its worked examples for `GL_1`, `GL_2` over `ℚ` and
 definite quaternion groups (§§5.1–5.3), which the checks below reuse; its level quotient
 `LevelMaps.LevelQuotient` is the carrier that `X_K` specializes, never reconstructed here.
+For rational groups, including `Res_{F/ℚ} G`, Cartan existence is supplied by AA.3.7; ALS.0.1
+compares its datum with the compact-twist predicate and ALS.0.2 adapts it to LieGroups. Adelic
+reduction theory uses its own datum without a dependency on arithmetic cohomology. Its Siegel
+coordinates and the symmetric space use the same involution and fixed compact subgroup.
 RepresentationTheory/LieGroups supplies the closed-subgroup theorem (Layer 2) and, in Layer 9 (the
 Cartan, Iwasawa, and KAK decompositions), the Cartan, Iwasawa and `KAK` decompositions of a real
 reductive group, with its `CartanInvolution` and `IsRealReductive` for an abstract Lie group.
@@ -155,7 +161,8 @@ automorphic representations of `GL_m` and `U(m,m)` over CM fields, and of residu
 attached to torsion classes, uses Shimura varieties and the completed cohomology built on this
 roadmap; such representations enter only as explicit hypotheses (`GaloisInput` in ALS.5b.7, the
 Galois-type conditions in ALS.4.12–4.13 and ALS.5b.8–5b.9). Level systems, completed cohomology,
-derived limits over levels and continuous profinite cohomology are not treated; ALS.6 exports
+derived limits over levels and continuous profinite cohomology are not treated; the coefficient
+limit in ALS.3.10 is at one fixed good level. ALS.6 exports
 finite-level descent and refinement maps only. Shimura varieties, their
 canonical models and their compactifications are not treated.
 
@@ -346,7 +353,9 @@ apply on each transported open boundary stratum, with its own dimension and orie
   (restriction of scalars), §2.1 (the split component `A_G`), §3.1 (algebraic Levi decompositions,
   minimal and standard rational parabolics), §3.2 (horospherical decomposition for a fixed maximal
   compact; simple roots and truncated tori; stated there for connected semisimple groups over `ℚ`,
-  while ALS.2.1 states the reductive form it needs for spaces of type S−Q, after [BS73, §§3.2–3.9]), §3.4
+  while ALS.2.1 states the reductive form it needs for spaces of type S−Q, after [BS73, §§3.2–3.9]),
+  §3.7 (inverse-adjoint algebraic Cartan data and rational existence; ALS.0.1 owns the
+  compact-twist comparison, preserving the datum used by the Siegel coordinates), §3.4
   (`Reduction.finite_classes`, `Reduction.levelArithmetic`, `Reduction.exists_compact_normOne_iff`
   for `G(F)\G(𝔸_F)^1`, "Arithmetic quotients of anisotropic groups are compact" for
   `Γ\(G(F_∞)/A_G(ℝ)^0)`, the component decomposition of a level quotient, unipotent groups have
@@ -711,8 +720,12 @@ character on `A_∞`, is a cusp form if and only if it is bounded, if and only i
 integrable modulo `A_∞`, and then it is rapidly decreasing on `A_∞G(F)\G(𝔸_F)`; (iv) for a unitary
 character `χ` of
 `A_∞`, the cuspidal subspace of `L²(G(F)\G(𝔸_F))_χ` is a Hilbert direct sum of irreducible closed
-invariant subspaces with finite multiplicities, whose smooth `K_∞`-finite vectors are the cusp forms
-with that central character (Gelfand–Piatetski-Shapiro). An irreducible admissible `(𝔤, K_∞) ×
+invariant subspaces with finite multiplicities (Gelfand–Piatetski-Shapiro). In each irreducible
+summand take its archimedean smooth `K_∞`-finite vectors that are fixed by some compact open finite
+level; these form its admissible module and are `Z(𝔤)`-finite. The cusp forms with central character
+`χ` are the algebraic direct sum of those modules, including the multiplicity spaces. Equivalently
+they are the vectors of the cuspidal Hilbert space that are archimedean smooth, `K_∞`-finite,
+`Z(𝔤)`-finite and fixed by some compact open finite level. An irreducible admissible `(𝔤, K_∞) ×
 G(𝔸^∞)`-module is a cuspidal automorphic representation if it is a subquotient of the cusp forms.
 The statement assumes `G` connected reductive over `F`. ([BJ79, §1.6 (2), p. 191]; [BJ79, §1.8, pp.
 191–192]; [BJ79, §4.2 and §4.3 (i), pp. 194–195]; [BJ79, §4.4, p. 196]; [BJ79, §4.6, pp. 196–197];
@@ -741,6 +754,12 @@ SmoothRepresentationsOfLocalGroups SR.0 (smooth representations).
 - For `G = GL_{2,ℚ}`, the adelic lift of a holomorphic cusp form is a cusp form, while the constant
   function `1` is an automorphic form with constant term `1` along the upper Borel, hence not
   cuspidal.
+- For the norm-one group of an indefinite quaternion division algebra over `ℚ`, at neat finite
+  level the arithmetic surface is compact and there are no proper rational parabolics. An infinite
+  sum of right `K_∞`-invariant Laplace eigenfunctions with distinct eigenvalues and nonzero
+  coefficients decreasing fast enough to converge in every smooth seminorm is smooth and in the
+  cuspidal Hilbert space. No nonzero polynomial in the Casimir annihilates it, so it is not
+  `Z(𝔤)`-finite and is not in the algebraic cusp-form module.
 
 <a id="cohomological-representations"></a>
 
@@ -755,7 +774,9 @@ differential the irreducible `L(λ)` of RepresentationTheory/LieHighestWeight. F
 containing the images of all embeddings of `F`, the dominant weights are `(ℤ^n_+)^{Hom(F,E)}`,
 `V_λ = ⊗_τ V_{λ_τ}` and `V_λ^∨ ≅ V_{λ^∨}` with `λ^∨_{τ,i} = −λ_{τ,n+1−i}`, and for `E` `p`-adic
 with ring of integers `O` the coefficient lattice `𝒱_λ = ⊗_τ 𝒱_{λ_τ}` is the tensor product of the
-integral dual Weyl modules, a finite free `O[∏_{v|p} GL_n(O_{F_v})]`-module. (ii) Wigner's lemma: if
+integral dual Weyl modules, a finite free `O`-module equipped with an `O`-linear representation of
+`∏_{v|p} GL_n(O_{F_v})`. Each reduction `𝒱_λ/ϖ^m` is smooth with its discrete coefficient fibre;
+`𝒱_λ` itself need not be smooth as a discrete module. (ii) Wigner's lemma: if
 `W` is a `(𝔤, K_∞)`-module on which `Z(𝔤)` acts by a character and `H^*(𝔤, K_∞; W ⊗ V_λ) ≠ 0`, then
 that character is the infinitesimal character of `V_λ^∨`; hence for fixed `λ` only finitely many
 irreducible admissible `W` have nonzero cohomology. (iii) For `F` imaginary CM and `G = GL_n`, put
@@ -768,7 +789,7 @@ representation `π` of `GL_n(𝔸_F)` whose central character on `A_∞` is inve
 cohomological: some algebraic `ξ` of `Res_{F/ℚ} GL_n` has `H^*(𝔪_G, K_∞°; π_∞|·|^{(n+1)/2} ⊗ ξ) ≠
 0`. The statement assumes the hypotheses of each part. ([ACC+23, §2.2, pp. 917–918]; [HR15, §3.1.2,
 Lemma 3.2, and §3.1.4, pp. 16–17]; [ACC+23, §2.4.9, Theorem 2.4.10 and its proof, pp. 948 and 951];
-[Sch15, §V.4, proof of Corollary V.4.2, p. 102])
+[Sch15, §V.4, proof of Corollary V.4.2, p. 102]; [CN23, §2.1.11, p. 16], for the integral lattices)
 
 The API: `LocallySymmetric.cohomologicalRepresentation` — the `(𝔤, K_∞)`-modules with nonzero
 cohomology against some `V_λ`; `LocallySymmetric.cohomologicalRepresentation.algebraicWeight` —
@@ -790,8 +811,12 @@ Layers 4, 5, 7 and 9.
 - Non-example for (ii): for `(𝔰𝔩_2(ℝ), SO(2))`, `W = ℂ` and `V = Sym² ℂ²`, the infinitesimal
   characters differ and `H^*(𝔤, K; W ⊗ V) = 0`, whereas for `V = ℂ` one gets `ℂ` in degrees `0`
   and `2`.
-- For `n = 1` and `λ = (k)`, `𝒱_λ = O` with `O_{F_v}^×` acting through the `k`-th power of the
-  embeddings.
+- For `n = 1` and `λ = 0`, `𝒱_λ = O` is the rank-one trivial `O`-representation. For a
+  nontrivial compact group, `[g] − [1]` with `g ≠ 1` annihilates it, so it is not free over the
+  compact-group algebra.
+- For `n = 1` and `λ = (k) ≠ 0`, `𝒱_λ = O` has the rank-one character action through the
+  `k`-th powers of the embeddings. Freeness and finiteness are over `O`, separately from that
+  representation. `Suggested.lean` records the trivial and character actions on a finite free line.
 
 ### Examples
 
@@ -831,12 +856,15 @@ connected reductive group G over a number field F we apply this to H = (Res_{F/�
 = G(F_∞) = ∏_{v|∞} G(F_v); a Cartan involution of G(F_∞) is a product of Cartan involutions of the
 factors G_{F_v}. Its fixed group K_θ = G(F_∞)^θ is the associated maximal compact subgroup (see
 [ALS.0.3](#maximal-compact-subgroup)). The statement assumes: H connected linear algebraic group
-over ℝ (reductive for existence); G connected reductive over a number field F. ([Mil17, §1,
+over ℝ (reductive for existence); G connected reductive over a number field F. Rational
+and restriction-of-scalars existence uses AdelicAlgebraicGroups AA.3.7 and the comparison below;
+existence over arbitrary real groups is owned here. ([Mil17, §1,
 definition (9), p. 15]; [Mil17, §1, Theorem 1.16, p. 15]; [Mil17, §1, Example 1.17(a)–(c), p. 15])
 
 The API: `LocallySymmetric.IsCartanInvolution` — The predicate on an involution θ of G_ℝ: the
 twisted real form G^(θ)(ℝ) is compact; `LocallySymmetric.IsCartanInvolution.exists` — Every
-connected reductive group over ℝ has a Cartan involution (Satake; Milne Theorem 1.16);
+connected reductive group over ℝ has a Cartan involution (Satake; Milne Theorem 1.16),
+with the rational case obtained from AA.3.7;
 `LocallySymmetric.IsCartanInvolution.conj` — Any two Cartan involutions θ, θ′ of G differ by ad(g)
 for some g ∈ G(ℝ): θ′ = ad(g) ∘ θ ∘ ad(g)⁻¹; `LocallySymmetric.IsCartanInvolution.transposeInverse`
 — If G ⊂ GL_n is stable under g ↦ gᵗ, then g ↦ (gᵗ)⁻¹ restricts to a Cartan involution of G; for G =
@@ -850,7 +878,8 @@ condition.
 `Suggested.lean` states the `GL_n` case of the fixed-point computation as
 `transposeInverse_fixed_iff_orthogonal`.
 
-*Needs:* Mathlib `Matrix.GeneralLinearGroup`; RepresentationTheory/LieGroups, Layer 9.
+*Needs:* Mathlib `Matrix.GeneralLinearGroup`; RepresentationTheory/LieGroups, Layer 9;
+AdelicAlgebraicGroups AA.3.7 (rational inverse-adjoint data and existence).
 
 **Checks.**
 
@@ -863,6 +892,34 @@ condition.
 - `not_cartanInvolution_id_GL2`: The identity of GL_2 is not a Cartan involution: its twisted form
   is GL_2(ℝ), which is not compact.
 
+**Shared algebraic Cartan comparison — `LocallySymmetric.IsCartanInvolution.iff_inverseAdjoint`.**
+For a connected reductive `ℚ`-group `𝐆` and a specified real algebraic involution `θ` of `𝐆_ℝ`,
+prove that `IsCartanInvolution θ` holds exactly when there are a faithful rational matrix
+representation `ρ` and a positive definite real symmetric form `b` satisfying
+`ρ(θ(g)) = b⁻¹ρ(g⁻¹)ᵀb` on every real coefficient algebra, the datum of AA.3.7. Forward from the
+inverse-adjoint equation, the twisted real points embed as a closed subgroup of `U(b)`, hence are
+compact. Conversely, apply the transpose-stable realization to a faithful rational representation
+base changed to `ℝ`; conjugacy of Cartan involutions transports its positive form to the specified
+`θ`. The comparison preserves `θ` itself and identifies both compact subgroups with the literal
+`Fix(θ)`, including all components. It preserves `A_𝐆`, `A_∞` and `𝔞_G`; `θ` acts by inversion on
+the split central torus. Apply AA.3.7 to `Res_{F/ℚ}G` for number-field existence. The Lie adapter
+ALS.0.2 and the horospherical coordinates of ALS.2.1 consume this same datum.
+([Mil17, §1, Theorem 1.16 and Example 1.17(b)–(c), p. 15]; AdelicAlgebraicGroups AA.3.7)
+
+*Needs:* the predicate and conjugacy API above; AdelicAlgebraicGroups AA.3.7. This bridge is owned
+here; rational inverse-adjoint existence is owned by AA.3.7.
+
+**Checks.**
+
+- For `GL₂`, the rational standard representation and `b = 1` give transpose-inverse on both
+  presentations and the same `O(2)`, including its determinant-negative component; the compact
+  twist is `U(2)`.
+- For the split central `G_m`, `θ(a) = a⁻¹`, the fixed compact is `{±1}`, and the positive real
+  component lies in `exp(𝔭)`; identity has noncompact twist and satisfies neither presentation.
+- For `SL₂` and the upper Borel, the AA.3.7 datum with `b = 1` gives `SO(2)` in both the imported
+  Siegel coordinates and the symmetric-space basepoint. ALS.2.1 uses its `θ`-stable Levi; changing
+  to a conjugate compact requires transporting the whole datum and coordinates together.
+
 <a id="real-points-cartan-datum"></a>
 
 ### ALS.0.2 Real points and the Lie-theoretic Cartan datum
@@ -870,8 +927,9 @@ condition.
 Prove `LocallySymmetric.realPoints_cartanDatum`. Let `G` be connected reductive over a number field
 `F` and `𝐆 = Res_{F/ℚ} G` (AdelicAlgebraicGroups §1.4). Then `G(F_∞) = 𝐆(ℝ) = ∏_{v|∞} G(F_v)` is a
 real Lie group with finitely many connected components whose Lie algebra is `𝔤 = Lie(𝐆) ⊗_ℚ ℝ`
-([ALS.F.1](#real-points-lie-group)). For a Cartan involution `θ` of
-`𝐆_ℝ` in the sense of [ALS.0.1](#cartan-involution), the differential `dθ` is an involution of `𝔤`
+([ALS.F.1](#real-points-lie-group)). For the specified Cartan involution `θ` of
+`𝐆_ℝ`, identified with the AA.3.7 datum by [ALS.0.1](#cartan-involution), the differential `dθ` is
+an involution of `𝔤`
 with eigenspace decomposition `𝔤 = 𝔨 ⊕ 𝔭`, the fixed group `K_θ = G(F_∞)^θ` has Lie algebra `𝔨`, and
 `(G(F_∞), K_θ, θ)` is a real reductive group in the sense of RepresentationTheory/LieGroups, Layer
 9. LieGroups' Cartan decomposition `K_θ × 𝔭 → G(F_∞)`, `(k, X) ↦
@@ -1770,7 +1828,9 @@ Define `LocallySymmetric.BorelSerre.geodesicAction`. Let 𝐆 = Res_{F/ℚ}G and
 subgroup of 𝐆 (equivalently an F-parabolic of G) with unipotent radical N_P and Levi quotient L_P =
 P/N_P. Let S_P be the maximal ℚ-split central torus of the Levi quotient L_P, modulo the image of
 the maximal ℚ-split central torus of 𝐆 (equivalently the split-radical quotient Rd(P)/(R_u(P)·Rd(𝐆))
-in NT16's convention), and A_P = S_P(ℝ)°. For x ∈ X^G let L′_x ⊂ P_ℝ be the unique Levi subgroup
+in NT16's convention), and A_P = S_P(ℝ)°. At the basepoint use the AA.3.7 Cartan datum identified
+in ALS.0.1, with the same fixed compact as the imported Siegel coordinates; transport it by the action of `𝐆(ℝ)` at other points.
+For x ∈ X^G let L′_x ⊂ P_ℝ be the unique Levi subgroup
 stable under the Cartan involution attached to the maximal compact subgroup of Stab(x). The geodesic
 action of A_P on X^G is a • x = a_x·x with a_x ∈ L′_x(ℝ) the lift of a; it is free, commutes with
 P(ℝ) and with the action of P(ℚ). The boundary face is e(P) = A_P\X^G, a space of type S−Q for P,
@@ -2569,7 +2629,8 @@ Prove `LocallySymmetric.heckeAction_discrete_eq_topological`. Let `𝔛̄^top_G 
 over good `K`; it is `G(F)\(X̄^G × G(𝔸^∞))` with `G(𝔸^∞)` carrying its locally profinite topology, a
 compact Hausdorff space with continuous right `G(𝔸^∞)`-action, containing the open interior
 `𝔛^top_G = G(F)\(X^G × G(𝔸^∞))` through `j` and the closed boundary `∂𝔛̄^top_G`. Let `𝔛̄^dis_G =
-G(F)\(X̄^G × G(𝔸^∞)^δ)`, with `π_dis : 𝔛̄^dis_G → 𝔛̄^top_G`. An `R[K_S]`-module `V`, inflated to
+G(F)\(X̄^G × G(𝔸^∞)^δ)`, with `π_dis : 𝔛̄^dis_G → 𝔛̄^top_G`. A smooth `R[K_S]`-module `V`
+with discrete coefficient fibre, inflated to
 `G^S × K_S` and pulled back, gives `G^S × K_S`-equivariant sheaves `V̄` and `j_!V` on `𝔛̄^top_G`
 ([ALS.F.4](#equivariant-sheaves-topological)) and the restriction of `V̄` to the boundary. (i) The
 square of derived functors `D⁺Sh_{G^S×K_S}(𝔛̄^top) → D⁺_sm(G^S × K_S, R) → D⁺(H(G^S, K^S) ⊗ R)`
@@ -2585,8 +2646,10 @@ boundary sheaf, and composed with `RΓ(X̄_K, V̄) ≅ RΓ(X_K, V)` (the homotop
 the same Hecke actions on `RΓ(X_K, V)`, `RΓ_c(X_K, V)` and `RΓ(∂X̄_K, V)`. The noncompact interior
 `𝔛^top_G` is not used as a carrier: on a noncompact space the global sections of an equivariant
 sheaf need not be smooth. The statement assumes: `K` good; `R` commutative; the finite levels used
-in the sheaf and descent comparisons good; compact-open or normality alone is not asserted to
-suffice. ([CN23, §2.1.1, p. 9]; [CN23, §2.1.2, Proposition 2.1.3, pp. 10–11]; [CN23, §2.1.2,
+in the sheaf and descent comparisons good; `V` smooth as a discrete `R[K_S]`-module.
+The discrete arithmetic construction of ALS.1.1–1.2 still applies to arbitrary coefficient modules;
+compactness and good level do not imply smoothness of `V`. ([CN23, §2.1.1, p. 9]; [CN23, §2.1.2,
+Proposition 2.1.3, pp. 10–11]; [CN23, §2.1.2,
 Lemma 2.1.4, p. 11]; [CN23, §2.1.2, Lemma 2.1.5, p. 11])
 
 *Needs:* [ALS.3.3](#derived-hecke-action); [ALS.0.9](#neat-level-manifold);
@@ -2599,11 +2662,46 @@ category); SchemeAndStackFoundations §2.23 (equivariant sheaf cohomology `H^n(X
 **Checks.**
 
 - For V = R both set-ups give the same T_p on H^1 of a modular curve.
-- Smoothness: in the topological set-up, H^i(𝔛̄^top, V̄) and H^i(𝔛̄^top, j_!V) are smooth
-  G^S × K_S-representations, by compactness of 𝔛̄^top.
+- For odd `p`, `K_p = 1 + pℤ_p` acting on `V = ℤ_p` by multiplication has stabilizer `{1}`
+  at `1`, which is not open. This lattice is continuous for the `p`-adic topology but is not a
+  smooth discrete coefficient module. Each `V/p^m` is smooth: `1 + p^mℤ_p` fixes every vector
+  for `m ≥ 1`. `Suggested.lean` records these open-stabilizer tests.
+- Smoothness: for smooth `V` in the topological set-up, H^i(𝔛̄^top, V̄) and H^i(𝔛̄^top, j_!V)
+  are smooth G^S × K_S-representations, by compactness of 𝔛̄^top.
 - Non-example: the interior cannot replace the compactified tower in (i): on the noncompact
   `ℤ_p × ℕ` of [ALS.F.4](#equivariant-sheaves-topological) an equivariant constant sheaf already has
   a global section fixed by no open subgroup.
+
+**Fixed-level integral comparison — `LocallySymmetric.heckeAction_integralLimit`.**
+Let `O` be a complete DVR with uniformizer `ϖ`, `K` one fixed good level, and `V` a finite free
+`O`-module with `O[K_S]`-action such that every `V_m = V/ϖ^m V` is smooth as a discrete module.
+For `?` equal to ordinary, compactly supported or boundary cohomology, let `C^dis_?(K,V)` be the
+arithmetic complex of ALS.1.2 and `C^top_?(K,V_m)` the finite-level topological complex above.
+Prove a natural Hecke-equivariant isomorphism
+`C^dis_?(K,V) ≅ R lim_m C^top_?(K,V_m)` in `D(O)`, using the compatible reduction maps and
+restriction of scalars from `O/ϖ^m`. The transition comparisons must commute with pullback,
+translation, trace and the boundary triangle. Construct the limit on the compatible strict Hecke
+complexes of ALS.3.4, so it carries the same `H(G^S,K^S) ⊗ O`-action as the discrete complex.
+Use ALS.1.6 and ALS.2.4's bounded finite free coefficient models: their reductions have surjective
+transition maps in each degree, so the derived inverse limit is the termwise limit and completeness
+identifies it with the original model. Triangulability is the explicit input of ALS.2.4. There is
+no assertion that the integral limit is an object of the smooth discrete category. The statement
+assumes precisely these coefficient, good-level and finite-model hypotheses.
+([CN23, §2.1.2, after Remark 2.1.10 and footnote 7, p. 14]; [CN23, §5.5, Lemma 5.5.1, pp. 79–80])
+
+*Needs:* the smooth comparison above; ALS.1.6–1.7; ALS.2.4; ALS.3.4 and ALS.3.9 (compatible strict
+Hecke complexes, coefficient change and supports). The fixed-level coefficient-limit comparison
+is a target here.
+
+**Checks.**
+
+- For the weight-one `ℤ_p` line under `1+pℤ_p`, the smooth reductions recover the discrete
+  integral arithmetic complex, although the line itself fails the point-sheaf smoothness test.
+- For a point with trivial coefficient `O`, the tower `O/ϖ^m[0]` has derived limit `O[0]`;
+  surjectivity gives no degree-one inverse-limit term.
+- For constant `O` on a modular curve, the ordinary, supported and boundary finite models recover
+  their integral boundary triangle; the recovered `T_ℓ` for `ℓ ∉ S` is the restriction–translation–trace
+  operator on the integral model.
 
 <a id="derived-hecke-algebra"></a>
 
@@ -3499,9 +3597,17 @@ B(V)[1]. [ALS.5a.2](#verdier-poincare-duality) identifies these terms with
 B(V^∨⊗o)[d−1]→C_c(V^∨⊗o)[d]→C(V^∨⊗o)[d]→B(V^∨⊗o)[d]. This is the inverse rotation of the shifted
 boundary triangle, with the negative rotated connecting arrow prescribed by the
 triangulated-category sign convention. It is Hecke-equivariant after applying the
-inverse-double-coset anti-involution ι on the dual side. For perfect complexes it commutes with
-derived coefficient change and with localization, exchanging 𝔪 and 𝔪^∨; in particular
-D(C_c(V)_𝔪)≅C(V^∨⊗o)_{𝔪^∨}[d]. The statement assumes: K neat; R noetherian. ([NT16, §3.1,
+inverse-double-coset anti-involution ι on the dual side. For perfect coefficient complexes it
+commutes with derived coefficient change `R → R′`,
+with the dual on the base-changed side taken over `R′`. These clauses assume `K` neat, `R`
+noetherian and `V` a bounded complex of finite projective `R`-modules.
+
+For localization assume separately `R = O` a complete DVR and a commutative finite Hecke image
+as in [ALS.4.9](#localization-at-maximal-ideal). Duality carries the projector `e_𝔪` to its
+contravariant dual, corresponding under the Hecke anti-involution `ι` to `e_{𝔪^∨}` on the paired
+complex. Thus `D(C_c(V)_𝔪) ≅ C(V^∨⊗o)_{𝔪^∨}[d]`, with `D = RHom_O(−,O)`; both summands are
+`O`-perfect because they are direct summands of `O`-perfect complexes. The localized dual triangle
+has the same compatibility with reduction `O → O/ϖ^m`. ([NT16, §3.1,
 Proposition 3.7(2), p. 48]; [ACC+23, §2.2.20, p. 932])
 
 *Needs:* [ALS.5a.2](#verdier-poincare-duality); [ALS.5a.4](#hecke-adjoint-duality);
@@ -3513,9 +3619,17 @@ Proposition 3.7(2), p. 48]; [ACC+23, §2.2.20, p. 932])
 - For a modular curve the dual of the boundary sequence H^0 → H^0(∂) → H^1_c is H^1 → H^1(∂) →
   H^2_c.
 - For G anisotropic the triangle degenerates and the statement is ordinary Poincaré duality.
--  Supports: if 𝔪 is not in the support of H^\*_c(X_K, V), then D(C_c(V)_𝔪) = 0 ≅ C(V^∨ ⊗
-  o)_{𝔪^∨}[d],
-  so 𝔪^∨ is not in the support of H^\*(X_K, V^∨ ⊗ o_K).
+- Over a complete DVR, a finite Hecke image `O × O` acting by the two projections on a perfect
+  complex `C₁ ⊕ C₂` localizes to `C₁` and `C₂`; duality gives the corresponding dual summands,
+  with their factors transported by `ι`.
+- Non-example: for `R = T = ℤ`, `C = ℤ[0]` and `𝔪 = (p)`,
+  `H⁰ RHom_ℤ(ℤ_(p),ℤ) = 0` whereas `(H⁰ RHom_ℤ(ℤ,ℤ))_(p) = ℤ_(p)`.
+  The image of `1` under a homomorphism `ℤ_(p) → ℤ` must be divisible by every power of any
+  prime distinct from `p`, so it is zero. Ordinary localization does not preserve duality over
+  the original coefficient ring; `Suggested.lean` records this vanishing of linear maps.
+- Supports, in the complete-DVR finite-image setting: if 𝔪 is not in the support of
+  H^\*_c(X_K, V), then D(C_c(V)_𝔪) = 0 ≅ C(V^∨ ⊗ o)_{𝔪^∨}[d], so 𝔪^∨ is not in the
+  support of H^\*(X_K, V^∨ ⊗ o_K).
 
 <a id="non-neat-duality"></a>
 

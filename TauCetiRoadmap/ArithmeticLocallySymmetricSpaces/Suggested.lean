@@ -73,6 +73,52 @@ open scoped HeckeCosetModule Pointwise MatrixGroups
 
 noncomputable section
 
+/-! ## Coefficient lines and smooth reductions (ALS.F.7, ALS.3.10) -/
+
+/-- **ALS.F.7, weight zero.** The coefficient line is finite free over `O`, and the trivial
+compact-group representation fixes each vector. -/
+example (O G : Type*) [CommRing O] [Group G] :
+    Module.Free O O ∧ Module.Finite O O ∧
+      ∀ (g : G) (v : O), Representation.trivial O G O g v = v := by
+  sorry
+
+/-- **ALS.F.7, rank-one character.** The line is finite free over the coefficient ring and the
+character acts by multiplication; for `GL₁` weights the character is a product of embedding powers. -/
+example (O G : Type*) [CommRing O] [Group G] (χ : G →* Oˣ) :
+    Module.Free O O ∧ Module.Finite O O ∧
+      ∀ (g : G) (v : O), Representation.ofLinearCharacter χ g v = (χ g : O) * v := by
+  sorry
+
+/-- **ALS.F.7, group-ring annihilator.** The element `[g] − [1]` acts as zero on the trivial line;
+for `g ≠ 1` over a nonzero coefficient ring this is a nonzero annihilator. -/
+example (O G : Type*) [CommRing O] [Nontrivial O] [Group G] (g : G) (hg : g ≠ 1) :
+    MonoidAlgebra.single g (1 : O) - MonoidAlgebra.single 1 (1 : O) ≠ 0 ∧
+      (Representation.trivial O G O).asAlgebraHom
+        (MonoidAlgebra.single g 1 - MonoidAlgebra.single 1 1) = 0 := by
+  sorry
+
+/-- **ALS.3.10, weight-one lattice.** For the principal units `1 + pℤ_p`, the stabilizer of `1`
+in the weight-one line is not open, so the lattice is not smooth with a discrete coefficient fibre. -/
+example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (K : Subgroup ℤ_[p]ˣ)
+    (hK : ∀ u : ℤ_[p]ˣ, u ∈ K ↔ PadicInt.toZMod (u : ℤ_[p]) = 1) :
+    ¬ IsOpen {u : K | ((u : ℤ_[p]ˣ) : ℤ_[p]) * 1 = 1} := by
+  sorry
+
+/-- **ALS.3.10, smooth reductions.** Every vector of the weight-one line modulo `p^m` has open
+stabilizer in the principal units, so these reductions are smooth discrete modules. -/
+example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (K : Subgroup ℤ_[p]ˣ)
+    (hK : ∀ u : ℤ_[p]ˣ, u ∈ K ↔ PadicInt.toZMod (u : ℤ_[p]) = 1)
+    (m : ℕ) (hm : 1 ≤ m) (v : ZMod (p ^ m)) :
+    IsOpen {u : K | PadicInt.toZModPow m ((u : ℤ_[p]ˣ) : ℤ_[p]) * v = v} := by
+  sorry
+
+/-- **ALS.5a.5, localization over `ℤ`.** Every integral linear map from `ℤ_(p)` to `ℤ` is zero;
+localization therefore fails to commute with the dual over the original coefficient ring. -/
+example (p : ℕ) [Fact p.Prime] (P : Ideal ℤ) [P.IsPrime]
+    (hP : P = Ideal.span {(p : ℤ)}) (f : Localization.AtPrime P →ₗ[ℤ] ℤ) :
+    f = 0 := by
+  sorry
+
 /-! ## Layer ALS.0: Symmetric spaces, arithmetic quotients and local geometry -/
 
 -- Proper discontinuity, quotient topology and covering maps.
@@ -130,7 +176,8 @@ example (g : GL (Fin 2) ℝ) (hg : (g : Matrix (Fin 2) (Fin 2) ℝ) = !![2, 0; 0
   sorry
 
 /-- **ALS.0.1, `cartanInvolution_GL_transposeInverse`.** The fixed points of the Cartan
-involution `g ↦ (gᵀ)⁻¹` of `GL_n(ℝ)` are the orthogonal group `O(n)`. -/
+involution `g ↦ (gᵀ)⁻¹` of `GL_n(ℝ)` are the orthogonal group `O(n)`. This is the same
+fixed subgroup for the AA.3.7 inverse-adjoint datum with standard representation and identity form. -/
 theorem transposeInverse_fixed_iff_orthogonal {n : ℕ} (g : GL (Fin n) ℝ) :
     ((g⁻¹ : GL (Fin n) ℝ) : Matrix (Fin n) (Fin n) ℝ).transpose = g ↔
       (g : Matrix (Fin n) (Fin n) ℝ) ∈ Matrix.orthogonalGroup (Fin n) ℝ := by
@@ -610,10 +657,14 @@ here.
   `IsPerfect` (perfect complexes), `SheafDerived.pushforward` and its API (derived functors of
   sheaves on topological spaces), `EquivariantSheaf` (equivariant sheaves for topological groups),
   `lieCochains` (Chevalley–Eilenberg and relative cochains), `AutomorphicForm` (automorphic forms
-  and cusp forms), `cohomologicalRepresentation` (algebraic weights, Wigner's lemma and the degree
-  range).
+  and cusp forms, with `AutomorphicForm.cuspidalSpectrum_discrete` assembling cusp forms as an
+  algebraic direct sum of admissible modules), `cohomologicalRepresentation` (algebraic weights,
+  Wigner's lemma and the degree range; its coefficient lattices are finite free over the coefficient
+  ring with a separate compact-group representation).
 * Algebraic groups over number fields, their real points as Lie groups and algebraic Cartan
-  involutions (twisted real forms): `IsCartanInvolution` and its API, `realPoints_cartanDatum`,
+  involutions (twisted real forms): `IsCartanInvolution` and its API, including
+  `IsCartanInvolution.iff_inverseAdjoint` (the AA.3.7 comparison preserving the specified involution,
+  fixed compact and split centre; AA.3.7 supplies rational existence), `realPoints_cartanDatum`,
   `isMaximalCompact_fixedPoints`, `symmetricSpace` and its API, `symmetricSpace.contractible`
   (ALS.0.5 owns the proper-action/discrete-image/finite-kernel theorem; KleinianGroups Layer 1,
   `properlyDiscontinuousSMul_of_discrete`, by t4v1, is its PSL₂(ℂ) special case after the equivariant
@@ -645,7 +696,10 @@ here.
 * Hecke operators on Betti complexes and their strict lifts: `Hecke.invariantsFunctor`,
   `Hecke.derivedInvariants`, `Hecke.heckeRing_prod`, `heckeAction`, `heckeComplex` and its API,
   `heckeAction_eq_correspondence`, `RΓ.trace`, `RΓ.mackey`, `heckeAction_mul`,
-  `heckeAction_compatible`, `heckeAction_discrete_eq_topological`, `derivedHeckeAlgebra` (the
+  `heckeAction_compatible`, `heckeAction_discrete_eq_topological` (smooth discrete coefficients),
+  `heckeAction_integralLimit` (at fixed good level, finite free lattices with smooth reductions,
+  complete DVR coefficients and compatible bounded finite models, with the strict Hecke action),
+  `derivedHeckeAlgebra` (the
   derived Hecke image of IntegralHeckeAndGaloisDeterminants, Layer 2, applied to `RΓ(X_K, V)`),
   `idelicCharacter`, `twistMaximalIdeal`, `twistIso`, `oldformSplitting`.
 * Boundary complexes and localization: `boundaryTriangle`, `Hecke.restrictParabolic`,
@@ -656,7 +710,9 @@ here.
   `boundary_isEisenstein_GL`, `boundary_localized_eq_siegel`.
 * Topological manifolds with boundary carrying orientation local systems and Verdier duality:
   `BorelSerre.manifoldWithBoundary`, `verdierDuality`, `dualityPairing` and its API,
-  `verdierDuality_hecke`, `verdierDuality_triangle`, `verdierDuality_of_invertibleOrder`.
+  `verdierDuality_hecke`, `verdierDuality_triangle` (perfect coefficients; its localization clause
+  uses complete-DVR finite Hecke images and dual idempotent summands),
+  `verdierDuality_of_invertibleOrder`.
 * Flat bundles, automorphic forms and Galois representations: `deRhamIso`, `deRham_pairing`,
   `moderateGrowthIso`, `automorphicComparisonMap`, `FrankeInput`, `automorphicComparison`,
   `cuspidalCohomology` and its API, `cuspidal_contributes_GL`, `GaloisInput.GL`,
