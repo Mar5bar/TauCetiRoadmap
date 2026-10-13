@@ -28,6 +28,13 @@ Design choices made explicit here:
   conjugation equations; band-preserving transformations are a class on strong transformations.
 * Formal points retain every positive power of the ideal; tangent fibres are fibres of the
   dual-number restriction over a fixed point, not all dual-number points.
+* The identity-component API is `picardZeroSheaf` and `picardZeroCriterion` (README §7.9),
+  with the full nonreduced component and arbitrary base change. These algebraic-space carriers
+  are README targets.
+* Complex analytification is `complexSchemeAnalytification` (README §7.10.1) on locally
+  finite-type complex schemes, valued in `ComplexAnalyticSpace`, with the analytic ring sheaf,
+  nilpotents and no global Hausdorff assumption. Its local ringed-space universal property
+  determines the functor and its open, closed and fibre-product comparisons.
 * The relative Picard presheaf is `T ↦ Pic(X_T)` on schemes over the base, before fppf
   sheafification; its values are Tau Ceti's `LineBundleClass`.
 * The order of an ideal at a prime is computed in the localisation, valued in `ℕ∞`; a marked
