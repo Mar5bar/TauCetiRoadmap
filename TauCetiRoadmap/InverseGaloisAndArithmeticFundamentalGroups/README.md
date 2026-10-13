@@ -249,7 +249,19 @@ ConstructibleEtale Layers 3, 6 and 9; EtaleBaseChange Layers 4–8; CompactSuppo
 EllAdicRealization Layers 1, 2 and 6–8; ComplexComparison Layers 4, 8, 10 and 11; TraceFormula
 Layers 8 and 11–12; FrobeniusGeometry Layers 4–5. The étale fundamental group of Layer 3 of
 ConstructibleEtale is defined for connected locally Noetherian schemes; Layers IG.0–IG.1 work in that
-range.
+range. The finite-cover contract is supplied by CohomologicalPointCounting §The roadmaps /
+ComplexComparison, Riemann existence (an open TauCetiRoadmap pull request by bwangpj);
+§IG.3.1 supplies the puncture-extension and cycle-length ramification adapter.
+
+### From other open roadmap pull requests
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| `K(π, 1)` group/topological cohomology | ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomology with local coefficients), an open TauCetiRoadmap pull request by kim-em | §IG.3.1 applies the comparison to the constructed neighbourhood through a CW model and the deck-group/opposite-π₁ convention, with finite trivial coefficients |
+| Finite-coefficient Artin comparison | CohomologicalPointCounting §The roadmaps / ComplexComparison, Artin comparison, and its principal Artin summit, an open TauCetiRoadmap pull request by bwangpj | §IG.3.1 composes the supplied comparisons for finite-type complex `U` and constant finite abelian `A` |
+| Compact-support rational finiteness | CohomologicalPointCounting §Family-level completion criterion / EllAdicRealization, compact-support finite-dimensionality, an open TauCetiRoadmap pull request by bwangpj | §IG.5.5 verifies separated finite type and invertibility of `ℓ`, using the chosen compact-support `ℚ_ℓ` realization |
+| Constant-sheaf point-count trace | CohomologicalPointCounting §The combined endpoint / TraceFormula, constant `ℚ_ℓ`-sheaf formula, an open TauCetiRoadmap pull request by bwangpj | §IG.5.5 specializes to `r = 1`, geometric Frobenius and compact support, and applies the supplied identity in the fixed-degree point estimate |
+| Branched-cover Euler-characteristic count | SurfaceTopology §Layer 5 / Riemann–Hurwitz, topological form (`IsBranchedCover`, `riemannHurwitz`), an open TauCetiRoadmap pull request by mccorvie | §IG.3.3 verifies the compact connected orientable analytic surfaces, local degrees and degree `|G|`, then transports genus using SchemeAndStackFoundations Layer 3 |
 
 ### From the other TauCetiRoadmap roadmaps
 
@@ -2026,21 +2038,35 @@ extension in characteristic zero*; ComplexComparison Layers 4 and 8; ProfinitePr
 **Artin neighbourhoods are `K(π, 1)`.** Let `X` be a smooth complex variety and `x ∈ X`. There is a
 Zariski open neighbourhood `U` of `x` reached by a finite tower of elementary fibrations, each with
 smooth affine curve fibres. For such `U`, the space `U(ℂ)` is a `K(π, 1)`: `π_i(U(ℂ)) = 0` for every
-`i ≥ 2`, while `π₁` may be large. Hence, for every finite abelian group `A` with trivial action and
-every `i`, the natural maps identify `H^i(π₁(U(ℂ)), A)`, `H^i(U(ℂ), A)` and `H^i_ét(U, A)`. The
-neighbourhood and its tower are part of the data; an arbitrary smooth open subset is not asserted to
-be a `K(π, 1)`. Define `ArtinNeighborhood X x` with `ArtinNeighborhood.point`, the chosen point lies
-in the open set; `ArtinNeighborhood.tower`, the tower of elementary fibrations with affine curve
-fibres and finite étale boundaries; `ArtinNeighborhood.aspherical`, the vanishing of higher homotopy
-groups, stated as Tau Ceti's `TauCeti.IsAspherical` for `U(ℂ)`;
-and `ArtinNeighborhood.cohomology`, the three natural comparisons. *Proof sketch.* The
-elementary fibrations are ComplexComparison Layer 10; induct on the length of the tower using the
-long exact homotopy sequence of each fibration, whose fibres are punctured curves with contractible
-universal covers; identify group cohomology with the cohomology of the corresponding local system
-and apply the Artin comparison. Source: [Landesman–Litt](https://arxiv.org/pdf/2205.15352v4), proof
-of Lemma 2.3.3, p. 16, which uses SGA 4, Exposé XI, §4.6. *Needs:* ComplexComparison Layer 10;
-AlgebraicModuliForArithmeticGeometry Layer 7, §7.10.1; SchemeAndStackFoundations Layer 3; AlgebraicTopology Stages 5
-and 8 (fibrations and homotopy groups); Tau Ceti `TauCeti.IsAspherical`.
+`i ≥ 2`, while `π₁` may be large. The neighbourhood and its tower are part of the data; an arbitrary
+smooth open subset is not asserted to be a `K(π, 1)`. Define `ArtinNeighborhood X x` with
+`ArtinNeighborhood.point`, the chosen point lies in the open set; `ArtinNeighborhood.tower`, the
+tower of elementary fibrations with affine curve fibres and finite étale boundaries; and
+`ArtinNeighborhood.aspherical`, the vanishing of higher homotopy groups, stated as Tau Ceti's
+`TauCeti.IsAspherical` for `U(ℂ)`.
+
+Provides the group-to-topological cohomology comparison for the constructed Artin neighbourhood.
+Supplied by ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomology with local
+coefficients) (an open TauCetiRoadmap pull request by kim-em).
+Convention gap: this roadmap transports the chosen fundamental group through a CW model supplied
+by ComplexComparison Layer 4 and the supplier's deck-group/opposite-π₁ convention, then specializes
+the module coefficients to finite abelian `A` with trivial action.
+
+Provides the finite-coefficient topological-to-étale cohomology comparison used in the same
+neighbourhood. Supplied by CohomologicalPointCounting §The roadmaps / ComplexComparison, Artin
+comparison (an open TauCetiRoadmap pull request by bwangpj).
+Convention gap: this roadmap restricts the finite-type complex comparison to `U` with the constant
+finite coefficient sheaf `A` and composes it with the group/topological comparison in the direction
+`H^i(π₁(U(ℂ)), A) → H^i(U(ℂ), A) → H^i_ét(U, A)`.
+
+*Proof sketch.* The elementary fibrations are ComplexComparison Layer 10; induct on the length of
+the tower using the long exact homotopy sequence of each fibration, whose fibres are punctured
+curves with contractible universal covers. Source: [Landesman–Litt](https://arxiv.org/pdf/2205.15352v4),
+proof of Lemma 2.3.3, p. 16, which uses SGA 4, Exposé XI, §4.6 for the neighbourhood construction.
+*Needs:* ComplexComparison Layers 4 and 10; AlgebraicModuliForArithmeticGeometry Layer 7, §7.10.1;
+SchemeAndStackFoundations Layer 3; AlgebraicTopology Stages 5 and 8 (fibrations and homotopy groups);
+Tau Ceti `TauCeti.IsAspherical`; the group/topological and finite-coefficient Artin comparisons in
+*Exact supplier contracts / From other open roadmap pull requests*.
 
 **Checks.**
 
@@ -2048,7 +2074,9 @@ and 8 (fibrations and homotopy groups); Tau Ceti `TauCeti.IsAspherical`.
   over a point, and `𝔾_m(ℂ) ≃ S¹` is a `K(ℤ, 1)`.
 - `ℙ¹` is not a `K(π, 1)` (`π₂ = ℤ`) and is not an Artin neighbourhood; the construction must
   produce an affine open subset, not accept the whole variety.
-- For `U = 𝔾_m`, `H¹(π₁, ℤ/n) = ℤ/n = H¹_ét(𝔾_m, ℤ/n)`, the Kummer classes.
+- For the constructed neighbourhood `U = 𝔾_m`, composing the supplied comparisons identifies
+  `H¹(π₁, ℤ/n) = ℤ/n = H¹_ét(𝔾_m, ℤ/n)`, the Kummer classes, testing the coefficient and
+  fundamental-group transports.
 
 **Topological fundamental groups of curves are dense.** For a smooth connected complex curve `U`,
 possibly punctured, the natural map `π₁^top(U(ℂ)) → π₁^ét(U)` is injective with dense image: by
@@ -2269,34 +2297,39 @@ monoid*.
 **Realizing generating sphere tuples.** Let `G` be finite, `P₁, …, P_r` distinct points of
 `ℙ¹(ℂ)`, and `(g₁, …, g_r)` a generating tuple with product one. There is a connected `G`-Galois cover
 of `ℙ¹_ℂ`, unramified outside the `P_i`, whose positively oriented local monodromy at `P_i` is `g_i`
-(an identity entry marks an unramified point). The ramification index over `P_i` is `ord(g_i)` and
-the genus of the cover satisfies
-
-```text
-2g(Y) − 2 = |G| · (−2 + Σ_i (1 − 1/ord(g_i))).
-```
-
+(an identity entry marks an unramified point). The ramification index over `P_i` is `ord(g_i)`.
 Simultaneous conjugation of the tuple gives isomorphic `G`-covers, and inner Nielsen classes
 correspond to `G`-equivariant isomorphism classes. For `r = 3` this is the Belyi construction of
 BelyiMaps Layers 3 and 5. Define `BranchCover.ofTuple` with `BranchCover.inertia` (the inertia
-group over `P_i` is generated by a conjugate of `g_i` and has order `ord(g_i)`),
-`BranchCover.innerClass` (conjugate tuples give isomorphic `G`-covers) and `BranchCover.genus` (the
-displayed Riemann–Hurwitz formula). *Proof sketch.* The fundamental group of `ℙ¹(ℂ) ∖ {P_i}` is
-generated by loops `γ_i` with `γ₁ ⋯ γ_r = 1`; `γ_i ↦ g_i` defines a surjection to `G` and hence a
-connected Galois topological cover; apply Riemann existence for punctured curves and compute the
-local cycle lengths. Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XII, Theorem 5.1,
-pp. 251–253, and Exposé XIII, Corollary 2.12, p. 290; [Serre, *Topics in Galois
+group over `P_i` is generated by a conjugate of `g_i` and has order `ord(g_i)`) and
+`BranchCover.innerClass` (conjugate tuples give isomorphic `G`-covers).
+
+Provides the genus of the realized connected Galois cover from its branch-cycle orders.
+Supplied by SurfaceTopology §Layer 5 / Riemann–Hurwitz, topological form (`riemannHurwitz`)
+(an open TauCetiRoadmap pull request by mccorvie).
+Convention gap: this roadmap verifies `IsBranchedCover` on the compact connected orientable
+analytic surfaces with degree `d = |G|`, identifies the algebraic curve's genus with its analytic
+surface genus using SchemeAndStackFoundations Layer 3, uses `χ = 2 − 2g`, and regroups each fibre's
+`|G|/e` points with `e = ord(g_i)`.
+
+*Proof sketch.* The fundamental group of `ℙ¹(ℂ) ∖ {P_i}` is generated by loops `γ_i` with
+`γ₁ ⋯ γ_r = 1`; `γ_i ↦ g_i` defines a surjection to `G` and hence a connected Galois topological
+cover; apply Riemann existence for punctured curves and compute the local cycle lengths. Sources:
+[SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XII, Theorem 5.1, pp. 251–253, and Exposé XIII,
+Corollary 2.12, p. 290; [Serre, *Topics in Galois
 Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
-§8.1, pp. 81–83. *Needs:* *Branch tuples and Nielsen classes*, *Riemann existence for punctured
-curves*; Layer IG.1 *Decomposition and inertia groups of a cover*; SchemeAndStackFoundations Layer
-3 (Riemann–Hurwitz); BelyiMaps Layers 3 and 5.
+§8.1, pp. 81–83 (realization and local monodromy). *Needs:* *Branch tuples and Nielsen classes*,
+*Riemann existence for punctured curves*; Layer IG.1 *Decomposition and inertia groups of a cover*;
+SchemeAndStackFoundations Layer 3 (algebraic/analytic genus interface); BelyiMaps Layers 3 and 5;
+the branched-cover count in *Exact supplier contracts / From other open roadmap pull requests*.
 
 **Checks.**
 
-- The tuple `(a, a⁻¹)` with `a` a generator of `C_n` gives `z ↦ z^n`, of genus `0` by the formula.
+- The tuple `(a, a⁻¹)` with `a` a generator of `C_n` gives `z ↦ z^n`; transporting its inertia
+  orders into the supplied SurfaceTopology §Layer 5 formula gives genus `0`.
 - A product-one tuple generating a proper subgroup `H < G` gives a disconnected `G`-torsor
   (induced from an `H`-cover), not a connected `G`-cover.
-- An identity entry has ramification index `1` and contributes `0` to the Riemann–Hurwitz sum.
+- An identity entry has ramification index `1`, so its marked point is unramified.
 
 **Rational rigidity.** Let `K` be a field of characteristic zero, `G` a finite group with trivial
 centre, `P₁, …, P_r ∈ ℙ¹(K)` distinct, and `C₁, …, C_r` nontrivial conjugacy classes of `G` that are
@@ -4937,32 +4970,36 @@ Layer 2.
 
 **Finite Hurwitz cohomology and the trace formula.** Let `Y` be a Hurwitz scheme of this layer
 over `𝔽_q` in the tame range (`q` prime to `|G|`), smooth, separated and of finite type of pure
-dimension `n`; let `ℓ` be a prime not dividing `q`, and `Frob_q` geometric Frobenius. Then the
-groups `H^i_c(Y_{F̄_q}, ℚ_ℓ)` are finite-dimensional and vanish outside `0 ≤ i ≤ 2n`; Poincaré
-duality holds on `Y_{F̄_q}`;
+dimension `n`; let `ℓ` be a prime not dividing `q`, and `Frob_q` geometric Frobenius.
 
-```text
-#Y(𝔽_q) = Σ_i (−1)^i Tr(Frob_q | H^i_c(Y_{F̄_q}, ℚ_ℓ));
-```
+Provides finite-dimensional compactly supported `ℚ_ℓ`-cohomology for the Hurwitz schemes satisfying
+this layer's hypotheses. Supplied by CohomologicalPointCounting §Family-level completion criterion /
+EllAdicRealization, compact-support finite-dimensionality (an open TauCetiRoadmap pull request by
+bwangpj).
+Convention gap: this roadmap verifies that `Y` is separated and finite type and that `ℓ` is
+invertible, and uses the already chosen compact-support `ℚ_ℓ` realization.
 
-and if `Y` is geometrically connected, `H^{2n}_c(Y_{F̄_q}, ℚ_ℓ) ≅ ℚ_ℓ(−n)`, on which `Frob_q` acts by
-`q^n`, so this term contributes `q^n`. Finite-dimensionality is the finiteness of the
-`ℤ_ℓ`-realization; Poincaré duality and the trace map giving the top term are those of
-EtaleDualityAndPerverseSheaves Layer EDC.2; the trace formula is Grothendieck–Lefschetz for the
-constant sheaf, with rational points as the fixed points of Frobenius. Deligne's weight bound, that
-every eigenvalue `α` of `Frob_q` on `H^i_c(Y_{F̄_q}, ℚ_ℓ)` satisfies `|ι(α)| ≤ q^{i/2}` for every
-embedding `ι : Q̄_ℓ → ℂ`, is not part of this target: it is Weil II, Corollaire (3.3.4), for the
-constant sheaf, which is pure of weight zero, it belongs to DeligneWeightsAndPurity, and it enters
+Provides the constant-`ℚ_ℓ` point-count identity for those Hurwitz schemes.
+Supplied by CohomologicalPointCounting §The combined endpoint / TraceFormula, constant `ℚ_ℓ`-sheaf
+formula (an open TauCetiRoadmap pull request by bwangpj).
+Convention gap: this roadmap takes `r = 1` and geometric Frobenius on compactly supported
+geometric-fibre cohomology, with the supplier's Tate-twist normalization.
+
+The consumer verifies these hypotheses from *Arithmetic Hurwitz stacks and schemes* and the
+finite étale map to the smooth configuration scheme. It supplies the degree range
+`0 ≤ i ≤ 2n` using compact-support cohomology in nonnegative degrees (CompactSupport Layer 7) and
+smooth Poincaré duality (EtaleDualityAndPerverseSheaves Layer EDC.2); that same duality and its trace
+map identify, for geometrically connected `Y`, `H^{2n}_c(Y_{F̄_q}, ℚ_ℓ) ≅ ℚ_ℓ(−n)`, with
+`Frob_q` acting by `q^n`. This top term contributes `q^n` in the supplied trace identity.
+Deligne's weight bound, that every eigenvalue `α` of `Frob_q` on `H^i_c(Y_{F̄_q}, ℚ_ℓ)` satisfies
+`|ι(α)| ≤ q^{i/2}` for every embedding `ι : Q̄_ℓ → ℂ`, belongs to DeligneWeightsAndPurity and enters
 this roadmap only as an explicit hypothesis of *Fixed-degree uniform Hurwitz point estimate*.
-Sources: [Wood, *Nonabelian Cohen–Lenstra moments*](https://par.nsf.gov/servlets/purl/10152050),
-proof of Theorem 4.7, published pp. 405–406 (the trace input of the fixed-degree bound);
-[Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Lemma 10.3 and §12, PDF pp. 46–55
-(finite Hurwitz cohomology and its use in component counts); [Deligne, *La conjecture de Weil.
-II*](http://www.numdam.org/item/PMIHES_1980__52__137_0/), Corollaire (3.3.4), p. 206 (the weight
-bound, not proved here). *Needs:* *Coefficient towers and rational Betti dimensions*; CompactSupport
-Layer 7, EllAdicRealization Layer 6, EllAdicRealization Layer 7, EllAdicRealization Layer 8,
-TraceFormula Layer 11, TraceFormula Layer 12, FrobeniusGeometry Layer 4, FrobeniusGeometry Layer 5,
-EtaleDualityAndPerverseSheaves Layer EDC.2, SchemeAndStackFoundations Layer 2.
+Source for that hypothesis: [Deligne, *La conjecture de Weil.
+II*](http://www.numdam.org/item/PMIHES_1980__52__137_0/), Corollaire (3.3.4), p. 206.
+*Needs:* *Arithmetic Hurwitz stacks and schemes*, *Coefficient towers and rational Betti dimensions*;
+CompactSupport Layer 7, FrobeniusGeometry Layers 4–5, EtaleDualityAndPerverseSheaves Layer EDC.2,
+SchemeAndStackFoundations Layer 2; the compact-support rational finiteness and constant-sheaf
+point-count trace in *Exact supplier contracts / From other open roadmap pull requests*.
 
 **Checks.**
 
@@ -4992,15 +5029,17 @@ Frobenius,
 `K_n` is bounded by the sum of the finitely many complex Betti numbers of the Hurwitz spaces with
 `n` branch points, through the coefficient towers and the weight bound. Nothing uniform in `n` is asserted, and no result of the withdrawn
 counting argument of EVW II is used. The proof bounds all compactly supported Betti numbers below
-the top degree by the fixed-degree complex comparison; applies the trace formula with geometric
-Frobenius and the bound `q^{i/2}` for `i ≤ 2n − 1`; and sums the finitely many dimensions into
-`K_n`, which is independent of `q` and of the chosen component
+the top degree by the fixed-degree complex comparison; applies the supplied CohomologicalPointCounting
+§The combined endpoint / TraceFormula identity with geometric Frobenius and the bound `q^{i/2}`
+for `i ≤ 2n − 1`; and sums the finitely many dimensions into `K_n`, which is independent of `q`
+and of the chosen component
 ([Wood, *Nonabelian Cohen–Lenstra moments*](https://par.nsf.gov/servlets/purl/10152050), Theorem 4.7
 and its proof, published pp. 404–406). *Needs:*
 *Finite Hurwitz cohomology and the trace formula*,
 *Coefficient towers and rational Betti dimensions*, *Arithmetic Hurwitz stacks and schemes*,
-*Component bound from finite étale degree*; EllAdicRealization Layer 7, TraceFormula Layer 12,
-FrobeniusGeometry Layer 5; the weight bound as a hypothesis (DeligneWeightsAndPurity).
+*Component bound from finite étale degree*; EllAdicRealization Layer 7, FrobeniusGeometry Layer 5;
+the constant-sheaf point-count trace in *Exact supplier contracts / From other open roadmap pull
+requests*; the weight bound as a hypothesis (DeligneWeightsAndPurity).
 
 **Checks.**
 
