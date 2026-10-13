@@ -3811,16 +3811,22 @@ p. 8). *Needs:* *neron-finite-type-and-connected-models*; *quotients-over-a-dvr*
 `K` be a `ModelField` (henselian for a nontrivial discrete valuation of rank one, with perfect
 residue field), and let `Ω ⊂ A` be nonempty and bounded. The Bruhat–Tits group scheme `𝒢_Ω` is a
 smooth affine `O`-model of `G` with `𝒢_Ω(O^sh) = Fix(Ω) ∩ G(K^sh)^1` and `𝒢_Ω(O) = Fix(Ω) ∩ G(K)^1`;
-it depends only on the enclosure of `Ω` and not on the apartment `A`, and `𝒢_{gΩ} = g𝒢_Ωg^{-1}`. Over
-`K^sh`, where `G` is quasi-split, it is built from the schematic root datum: the closures
-`𝒰_{a,Ω}` with `𝒰_{a,Ω}(O^sh) = U_{a,f_Ω(a)}`, the Néron-type model `𝒵` of `Z`, and the open
-big cell `∏_{a<0}𝒰_{a,Ω} × 𝒵 × ∏_{a>0}𝒰_{a,Ω}`; in general it is obtained by étale descent, the
-construction being Galois-stable when `Ω` is. If `Z` is a torus, its closure in `𝒢_Ω` is `𝒵^ft`.
-The enclosure, conjugation, big-cell and torus-closure statements of this paragraph carry no Lean
-signature. In `BruhatTits`, define `groupSchemeOfBounded D φ Ω hne hb` as `𝒢_Ω`, a
-commutative Hopf `O`-algebra; *Apartment.IsBounded* means that every linear functional of
-displacement is bounded on `Ω`. `GroupScheme.boundedModel` supplies finite type, smoothness and the
-generic-fibre Hopf isomorphism; `GroupScheme.boundedModel_points` gives `𝒢_Ω(O)` as the fixer;
+it depends only on `Ω` as a subset of the building and not on the apartment `A`, and
+`𝒢_{gΩ} = g𝒢_Ωg^{-1}`. Over `K^sh`, where `G` is quasi-split, it is built from the schematic root
+datum: the closures `𝒰_{a,Ω}` with `𝒰_{a,Ω}(O^sh) = U_{a,f_Ω(a)}`, the Néron-type model `𝒵` of `Z`,
+and the open big cell `∏_{a<0}𝒰_{a,Ω} × 𝒵 × ∏_{a>0}𝒰_{a,Ω}`, which generates an open subgroup
+scheme determined by `f_Ω`; `𝒢_Ω` is the union of its translates by the fixer of `Ω` in
+`N(K^sh) ∩ G(K^sh)^1`. In general it is obtained by étale descent, the construction being
+Galois-stable when `Ω` is. The function `f_Ω`, and with it that open subgroup scheme and the
+identity component `𝒢°_Ω` (*parahoric-group-scheme*), depends only on the enclosure `cl(Ω)`; `𝒢_Ω`
+does not, since the fixer of `Ω` in `N(K^sh)` can be larger than that of `cl(Ω)` (Check
+`GroupScheme.pgl2_midpoint_vs_endpoints`) ([Bruhat–Tits II], 4.6.26–4.6.27, p. 135). If `Z` is a
+torus, its closure in `𝒢_Ω` is `𝒵^ft`. The apartment-independence, conjugation, big-cell,
+translate and torus-closure statements of this paragraph carry no Lean signature. In `BruhatTits`,
+define `groupSchemeOfBounded D φ Ω hne hb` as `𝒢_Ω`, a commutative Hopf `O`-algebra;
+*Apartment.IsBounded* means that every linear functional of displacement is bounded on `Ω`.
+`GroupScheme.boundedModel` supplies finite type, smoothness and the generic-fibre Hopf isomorphism;
+`GroupScheme.boundedModel_points` gives `𝒢_Ω(O)` as the fixer;
 `GroupScheme.boundedModel_connected_points` identifies, over a strictly henselian base, its
 connected integral points with `Fix(Ω) ∩ ker κ_G` using the absolute root datum, as in
 [Haines–Rapoport], Proposition 3 and Remarks 4 and 11, pp. 1–3, 7. `groupScheme` and
@@ -3859,15 +3865,22 @@ determine a smooth model, and `𝒢_Ω` is the étale descent of its base change
   their special fibres have two and one geometric components.
 - `GroupScheme.boundedModel_mono` — `Ω ⊆ Ω'` gives a morphism of models `𝒢_{Ω'} → 𝒢_Ω`
   ([Bruhat–Tits II], 4.6.27, p. 135).
-- `GroupScheme.boundedModel_enclosure_gl2` — the point at displacement `(1/2, 0)` and the pair of
-  vertices at displacements `0` and `(1, 0)` of the same `GL_2` alcove have the same enclosure, so
-  they give the same model, the Iwahori group scheme ([Bruhat–Tits II], 4.6.27, p. 135).
+- `GroupScheme.pgl2_midpoint_vs_endpoints` (non-example; no Lean mirror, as for
+  `GroupScheme.pgl2_edge_disconnected`) — for `PGL_2`, the adjacent vertices `v_0 = [O ⊕ O]` and
+  `v_1 = [O ⊕ ϖO]` and the midpoint `m` of the edge `[v_0, v_1]`, the sets `Ω = {m}` and
+  `Ω' = {v_0, v_1}` have the same enclosure, the closed edge, and `G(K)^1 = G(K)` because
+  `π₁(PGL_2) = ℤ/2` is torsion. The class `τ` of `(0 1; ϖ 0)` exchanges `v_0` and `v_1`
+  (`τ² = ϖ·1`) and fixes `m`, so `τ ∈ 𝒢_Ω(O)` and `τ ∉ 𝒢_{Ω'}(O)`, and `𝒢_Ω ≠ 𝒢_{Ω'}`. The
+  identity components agree: `𝒢°_Ω = 𝒢°_{Ω'} = 𝒢_{Ω'}` is the Iwahori group scheme, whose integral
+  points, the Iwahori subgroup, have index `2` in `𝒢_Ω(O)`.
 
 **Parahoric group schemes.** (*parahoric-group-scheme*) For `Ω ⊂ A` nonempty and bounded, the
 parahoric group scheme is `𝒢°_Ω := (𝒢_Ω)°`, a smooth affine model with connected special fibre
 and `𝒢°_Ω(O^sh) = P°_Ω`, the connected fixer; its big cell is
-`∏_{a<0}𝒰_{a,Ω} × 𝒵° × ∏_{a>0}𝒰_{a,Ω}`. For a facet `F`, `𝒢°_F = 𝒢°_x` for any `x ∈ F` is the
-parahoric group scheme of `F`, and it depends only on the image of `F` in the reduced building.
+`∏_{a<0}𝒰_{a,Ω} × 𝒵° × ∏_{a>0}𝒰_{a,Ω}`. Since this big cell is determined by `f_Ω`, `𝒢°_Ω`
+depends only on the enclosure `cl(Ω)` ([Bruhat–Tits II], 4.6.27, p. 135); in particular, for a
+facet `F`, `𝒢°_F = 𝒢°_x` for any `x ∈ F` is the parahoric group scheme of `F`, and it depends only
+on the image of `F` in the reduced building.
 The inclusion `𝒢°_Ω ⊂ 𝒢_Ω` is open and an isomorphism on generic fibres, and it is an equality
 iff `(𝒢_Ω)_κ` is connected. In `BruhatTits`, define `parahoricGroupSchemeOfBounded` as `𝒢°_Ω`, with
 `GroupScheme.boundedParahoricModel` including its generic-fibre identification with `G`, and
@@ -3898,6 +3911,12 @@ is an isomorphism for every nonempty finite `Ω`, since `κ_G = 1` makes every f
 - `GroupScheme.parahoric_ne_groupScheme_pgl2` (non-example; no Lean mirror, as for
   `GroupScheme.pgl2_edge_disconnected`) — for `PGL_2` and the edge barycentre, `𝒢°_x ≠ 𝒢_x`: the
   parahoric is the Iwahori, of index `2` in the fixer.
+- `GroupScheme.parahoric_enclosure_gl2` — the point at displacement `(1/2, 0)` and the pair of
+  vertices at displacements `0` and `(1, 0)` of the same `GL_2` alcove have the same enclosure, the
+  closed alcove, so they give the same parahoric model, the Iwahori group scheme ([Bruhat–Tits II],
+  4.6.27, p. 135). For `GL_2` the full models agree as well, both with the Iwahori subgroup as
+  integral points: an element exchanging the two vertices of the reduced building, such as
+  `(0 1; ϖ 0)`, has determinant of odd valuation and so lies outside `GL_2(K)^1`.
 - `GroupScheme.parahoricGroupSchemeOfBounded_torus` — for a torus every
   `parahoricGroupSchemeOfBounded` is isomorphic to the coordinate Hopf algebra of `𝒯°`.
 
@@ -5163,7 +5182,9 @@ RG2.3 *parahoric-subgroup*; Mathlib `DoubleCoset.Quotient`.
 `w ∈ W̃`, `IṡI·IẇI = IṡẇI` if `ℓ(sw) = ℓ(w) + 1` and `IṡI·IẇI = IṡẇI ⊔ IẇI` if `ℓ(sw) = ℓ(w) − 1`,
 and the same holds on the right. Hence `IẇI = Iṡ_1I⋯Iṡ_kI·Iτ̇I` for a reduced expression
 `w = s_1⋯s_kτ`, and `IẇI·Iẇ'I = Iẇẇ'I` whenever `ℓ(ww') = ℓ(w) + ℓ(w')`. Second, over `E`, with
-`I_n` the Moy–Prasad subgroups (`I_1` the pro-`p` radical) and `g_1 ∈ IṡI`, one has
+`I_n := G_{x_C,n}` the Moy–Prasad subgroups of *positive-depth-filtration-basis* (`I_0 = I`; the
+pro-`p` radical `I^+ = G_{x_C,0+}` contains `I_1`, strictly for `GL_2`, where `x_+(1) ∈ I^+ ∖ I_1`)
+and `g_1 ∈ IṡI`, one has
 `I_n g_1 I_n ⊆ g_1 I_{n−1}`, because `I_n ṡ I_n ⊂ ṡ I_{n−1}` (`ṡ` moves `U_{a,n}` with `ṡ(a) < 0` to
 depth `n−1`). Third, a compact `X ⊂ G(E)` meets only finitely many `IẇI`, and `IẇI·Iẇ'I` is a finite
 union of double cosets `Iu̇I` with `ℓ(u) ≤ ℓ(w) + ℓ(w')`. In *BruhatTits.Decomposition*, prove
@@ -5184,15 +5205,28 @@ over `L`, `Ĭ_n = ∏_{Φ_aff(Ĭ_n)} U_{a,n-shifted}·T_n` in a fixed order; for
 affine space of dimension `ℓ̆(s)` over `κ̄`, whose `σ`-fixed points `I_n ṡ I_n/I_n` number
 `q^{ℓ̆(s)}`. Third, the dominant monoid `Δ_M = {z ∈ Z(E) : ⟨a, v(z)⟩ ≤ 0, a ∈ Φ_N}` is a submonoid; an
 element `z ∈ Δ_M` contracts `H ∩ N` and `z^{-1}` contracts `H ∩ N^-`, so
-`HzH = (H ∩ N^-)z(H ∩ M)(H ∩ N)` and
 
 ```text
-[H : H ∩ zHz^{-1}] = [H ∩ N : z(H ∩ N)z^{-1}] = δ_P(z)^{-1}
+HzH = (H ∩ N)·(H ∩ M)z(H ∩ M)·(H ∩ N^-),
+[H : H ∩ zHz^{-1}] = [H ∩ M : H ∩ M ∩ z(H ∩ M)z^{-1}]·[H ∩ N : z(H ∩ N)z^{-1}],
+[H ∩ N : z(H ∩ N)z^{-1}] = δ_P(z)^{-1};
+```
+
+the index splits because `H` and `zHz^{-1}` both factor as in the first assertion and the product
+map `N × M × N^- → G` is injective, so `H ∩ zHz^{-1}` is the product of its intersections with `N`,
+`M` and `N^-`, and the `N^-` factor has index `1` because `z^{-1}` contracts `H ∩ N^-`. If
+moreover `z(H ∩ M)z^{-1} = H ∩ M`, then
+
+```text
+HzH = (H ∩ N) z (H ∩ M) (H ∩ N^-),       [H : H ∩ zHz^{-1}] = δ_P(z)^{-1}
 ```
 
 (two-term witness: for `SL_2`, `H = I` and `z = diag(ϖ, ϖ^{-1})`, `⟨a, v(z)⟩ = −2 ≤ 0`,
 `z x_+(u) z^{-1} = x_+(ϖ²u)` contracts `I ∩ N = x_+(O)`, `[I : I ∩ zIz^{-1}] = q²` and
-`δ_B(z) = |ϖ²| = q^{−2}`). In the proposed Lean statement the contraction is stated for
+`δ_B(z) = |ϖ²| = q^{−2}`). This hypothesis holds when `z` is central in `M`, in particular when
+`M = Z` is a torus, and for every `z ∈ Z(E)` when `P` is minimal and `H` is an Iwahori, since then
+`H ∩ Z(E) = Z(E)_0` is normal in `N(E)` (*iwahori-weyl-group*); without it the Levi factor
+contributes (Check `index_levi_gl3`). In the proposed Lean statement the contraction is stated for
 `w = z^{-1}`: if every root positive on `v` is nonnegative on the translation `ν(w)`, then
 `w^{-1}(I ∩ U)w ⊆ I ∩ U`. In *BruhatTits.Decomposition*, prove `iwahoriFactorization`,
 `iwahoriFactorization_injective` and *iwahori_unipotent_contract* ([He 2018], proof of Lem. 4.6, pp.
@@ -5210,6 +5244,16 @@ root datum). *Needs:* RG2.3 *moy-prasad-filtration*; RG2.3 *parahoric-subgroup*;
   *iwahori_unipotent_contract* fails for `z`.
 - *iwahori_unipotent_contract_valuation* (computation) — `ϖ^{-2}u` is not integral for a unit `u`
   and `ϖ ≠ 0` with `|ϖ| < 1`; the hypothesis `ϖ ≠ 0` is needed since `0^{-1} = 0` in Lean.
+- `doubleCoset_order_sl2` (non-example) — for `SL_2`, `H = I`, `P = B` and `z = diag(ϖ, ϖ^{-1})`,
+  `x_+(1)z = (ϖ ϖ^{-1}; 0 ϖ^{-1})` lies in `IzI = (I ∩ N)z(I ∩ T)(I ∩ N^-)` but not in the reversed
+  product `(I ∩ N^-)z(I ∩ T)(I ∩ N)`, whose elements `x_-(c)z·diag(u, u^{-1})·x_+(b)` (`c ∈ ϖO`,
+  `u ∈ O^×`, `b ∈ O`) have upper-right entry `ϖub ∈ ϖO`.
+- `index_levi_gl3` (non-example) — for `GL_3`, the standard parabolic of type `(2, 1)` with
+  `M = GL_2 × GL_1`, `H = I` the standard Iwahori and `z = diag(ϖ, 1, 1)`, the radical roots
+  `e_1 − e_3` and `e_2 − e_3` pair with `v(z)` to `−1` and `0`, so `z ∈ Δ_M` and
+  `δ_P(z)^{-1} = q`; but `z(I ∩ M)z^{-1} ≠ I ∩ M` and `[I : I ∩ zIz^{-1}] = q²`, since
+  `I ∩ zIz^{-1}` is cut out in `I` by `g_{12}, g_{13} ∈ ϖO`, and the Levi entry `g_{12}` gives the
+  factor `[I ∩ M : I ∩ M ∩ z(I ∩ M)z^{-1}] = q`.
 - `conjugation_two_terms` (computation) — for `z = diag(2, 1/2)` and `x = [[1,1],[0,1]]`,
   `zxz^{-1} = [[1,4],[0,1]]` and `z^{-1}xz = [[1,1/4],[0,1]]`; at the 2-adic valuation the first
   contracts and the second expands.
@@ -5637,8 +5681,8 @@ for the coefficient-valued modulus under its invertibility assumptions. Square r
 occur only in SR's normalized functors.
 The character calculation follows from [Platonov–Rapinchuk–Rapinchuk], Theorem 3.71, p. 196, and the
 automorphism-modulus calculation on p. 197. [Casselman], §1.5 and Lemma 1.5.1, p. 16, verify the
-determinant convention and the inverse-modulus double-coset volume for contracting elements and a
-compact subgroup with Iwahori factorization.
+determinant convention and the inverse-modulus double-coset volume for contracting elements of the
+centre of the Levi and a compact subgroup with Iwahori factorization (*iwahori-factorization*).
 
 Third (Iwasawa integration formula), let `P = MN` be a minimal parabolic and `K` the stabilizer of a
 special vertex, with Haar measures normalized by `vol(K) = vol(M ∩ K) = vol(N ∩ K) = 1` and `dg` the
