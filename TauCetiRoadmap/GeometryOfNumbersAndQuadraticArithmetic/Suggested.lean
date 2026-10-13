@@ -55,32 +55,6 @@ namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
 /-! ## Layer 0: Lattices, Gram determinants and covolumes -/
 
-section Gram
-variable {𝕜 E : Type*} [RCLike 𝕜] [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] {n : ℕ}
-
-/-- **Gram–Hadamard** (0.1.2): the hermitian Gram determinant is real, nonnegative and bounded by
-the product of the squared norms; the empty family is allowed. -/
-theorem hermitian_gram_hadamard (v : Fin n → E) :
-    (Matrix.gram 𝕜 v).det = (RCLike.re (Matrix.gram 𝕜 v).det : 𝕜) ∧
-    0 ≤ RCLike.re (Matrix.gram 𝕜 v).det ∧
-    RCLike.re (Matrix.gram 𝕜 v).det ≤ ∏ i, ‖v i‖ ^ 2 := by sorry
-
-end Gram
-
--- The Gram matrix is conjugate-linear in the first argument: the family `(1, i)` in `ℂ` has Gram
--- matrix `[[1, i], [-i, 1]]` and determinant `0`. The unconjugated matrix `[[1, i], [i, -1]]` also
--- has determinant `0`, so this family does not test conjugation.
-example : (Matrix.gram ℂ (![1, Complex.I] : Fin 2 → ℂ)).det = 0 := by sorry
-
--- Conjugation is what makes the Gram determinant nonnegative: the single vector `i` has Gram
--- determinant `1`, whereas its unconjugated bilinear Gram determinant `i * i` is `-1`.
-example : (Matrix.gram ℂ (![Complex.I] : Fin 1 → ℂ)).det = 1 ∧
-    (Matrix.of fun i j : Fin 1 =>
-      (![Complex.I] : Fin 1 → ℂ) i * (![Complex.I] : Fin 1 → ℂ) j).det = -1 := by
-  constructor
-  · simp [Matrix.det_unique, Matrix.gram_apply]
-  · simp [Matrix.det_unique]
-
 section Orthogonal
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
 
@@ -119,12 +93,6 @@ theorem covolume_projection
       (Δ.map (Wᗮ.orthogonalProjectionOnto.toLinearMap.restrictScalars ℤ)) =
       ZLattice.covolume Δ / ZLattice.covolume (ZLattice.comap ℝ Δ W.subtype) := by sorry
 
-/-- A full lattice and its inner dual have reciprocal covolumes (0.3.2). -/
-theorem covolume_dual
-    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] :
-    ZLattice.covolume (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) =
-      (ZLattice.covolume L)⁻¹ := by sorry
-
 /-- In a self-dual lattice the primitive intersections with `W` and `Wᗮ` have equal intrinsic
 covolumes (0.3.3). -/
 theorem primitive_orthogonal_covolume
@@ -154,10 +122,6 @@ example : ZLattice.covolume (ZLattice.comap ℝ Z2 (Wdiag).subtype) = Real.sqrt 
 -- Negative control: the ambient inner dual of the zero subgroup of `ℝ` is all of `ℝ`, not a
 -- lattice; a lower-rank lattice must be dualized inside its own span.
 example : LinearMap.BilinForm.dualSubmodule (innerₗ ℝ) (⊥ : Submodule ℤ ℝ) = ⊤ := by sorry
-
--- The inner dual of `2ℤ ⊂ ℝ` is `½ℤ`, of covolume `1/2`.
-example : ZLattice.covolume
-    (LinearMap.BilinForm.dualSubmodule (innerₗ ℝ) (Submodule.span ℤ {(2 : ℝ)})) = 1/2 := by sorry
 
 end OrthogonalTests
 
@@ -206,7 +170,8 @@ variable (L : Submodule ℤ E) [hLdis : DiscreteTopology L] [hLfull : IsZLattice
 
 include hLdis hLfull hK
 
-/-- Every bounded gauge sublevel of a full discrete lattice is finite (1.2.2). -/
+/-- Compact, possibly nonsymmetric extension; the symmetric input is supplied by
+ArithmeticHeights §4.1 (an open TauCetiRoadmap pull request by rwst). -/
 theorem finite_gauge_sublevel (r : ℝ) :
     Set.Finite {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r} := by sorry
 
@@ -217,10 +182,12 @@ theorem successiveMin_isLeast (i : Fin (finrank ℝ E)) :
       finrank ℝ (Submodule.span ℝ {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r})}
       (successiveMin L K i) := by sorry
 
-/-- Every successive minimum of a full lattice is positive (1.2.4). -/
+/-- Compact, possibly nonsymmetric extension; the symmetric input is supplied by
+ArithmeticHeights §4.1 (an open TauCetiRoadmap pull request by rwst). -/
 theorem successiveMin_pos (i : Fin (finrank ℝ E)) : 0 < successiveMin L K i := by sorry
 
-/-- Successive minima increase with the index, allowing repeated values (1.2.5). -/
+/-- Compact, possibly nonsymmetric extension; the symmetric input is supplied by
+ArithmeticHeights §4.1 (an open TauCetiRoadmap pull request by rwst). -/
 theorem successiveMin_monotone : Monotone (successiveMin L K) := by sorry
 
 /-- `λ_i ≤ r` exactly when the lattice vectors in `r K` span `i + 1` dimensions (1.2.6). -/
@@ -1003,13 +970,20 @@ example : orthogonalSkewBasisVolume 3 = 8 * Real.pi ^ 2 ∧ orthogonalMassGaugeS
 
 variable (K : Type*) [Field K] [NumberField K]
 
-/-- The archimedean factor `Γ_ℝ(s)^{r₁} Γ_ℂ(s)^{r₂}`, with Mathlib's `Γ_ℂ`. -/
+/-- Local restatement of LFunctions §0, to be replaced by the import once that roadmap is merged.
+Specialized by §3's `dedekindZetaData` with zero shifts and the real/complex place multiplicities;
+this real-bodied factor is required by the mass-value consumers because the card is unavailable at
+the pins. It becomes an alias of `(dedekindZetaData K).gammaFactor`, with Mathlib's `Gammaℂ`.
+LFunctions is an open TauCetiRoadmap pull request by roed-math. -/
 def dedekindArchimedeanFactor (s : ℂ) : ℂ :=
   Complex.Gammaℝ s ^ NumberField.InfinitePlace.nrRealPlaces K *
     Complex.Gammaℂ s ^ NumberField.InfinitePlace.nrComplexPlaces K
 
-/-- The completed factor `|d_K|^{s/2} Γ_ℝ(s)^{r₁} Γ_ℂ(s)^{r₂}`: on `Re s > 1`, LFunctions'
-`completedDedekindZeta K s` is this factor times `NumberField.dedekindZeta K s`. -/
+/-- Local restatement of LFunctions §0, to be replaced by the import once that roadmap is merged.
+The multiplier in `HasDirichletAgreement.completes`, specialized by §3 to conductor `|d_K|`, is
+required by the mass-value and completed-zeta consumers. There is no separately named supplier
+multiplier export; this is its real-bodied local spelling, not a new construction target.
+LFunctions is an open TauCetiRoadmap pull request by roed-math. -/
 def completedDedekindFactor (s : ℂ) : ℂ :=
   ((|NumberField.discr K| : ℤ) : ℂ) ^ (s / 2) * dedekindArchimedeanFactor K s
 
@@ -1023,7 +997,7 @@ theorem completedDedekindFactor_one :
       ((|NumberField.discr K| : ℤ) : ℂ) ^ (1/2 : ℂ) *
         (1 / (Real.pi : ℂ)) ^ NumberField.InfinitePlace.nrComplexPlaces K := by sorry
 
--- For `ℚ`, the factors at `s = 1, 2, 3` are `1, 1/π, 1/(2π)`.
+-- The mass-value consumers require the `ℚ` constants `1, 1/π, 1/(2π)` at `s = 1, 2, 3`.
 example : dedekindArchimedeanFactor ℚ 2 = 1 / (Real.pi : ℂ) := by sorry
 example : completedDedekindFactor ℚ 3 = 1 / (2 * Real.pi : ℂ) := by sorry
 
@@ -1257,8 +1231,10 @@ end HilbertDynamics
 section KoopmanActions
 variable {G X : Type*} [Group G] [MeasurableSpace X] [MulAction G X]
 
-/-- The Koopman representation `(π(g) f)(x) = f(g⁻¹ x)` on `L²(μ)` of a measure-preserving action,
-assembled from Mathlib's `Lp.compMeasurePreservingₗᵢ`. -/
+/-- Local restatement of IncompressibleFlows §3.3, to be replaced by the import once that roadmap
+is merged, for the scalar-flow pullback input. IncompressibleFlows is an open TauCetiRoadmap pull request by emberian; its §3.3 is Layer 3 item 3. The local L² representation carrier is required by the homogeneous-action consumers;
+its arbitrary-group assembly uses Mathlib's `Lp.compMeasurePreservingₗᵢ`, with defining formula
+`(π(g) f)(x) = f(g⁻¹ x)` almost everywhere. The supplier states forward-time flow pullback. -/
 def quotientKoopman (μ : Measure X)
     (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
     ContRepresentation ℂ G (Lp ℂ 2 μ) where
@@ -1267,12 +1243,6 @@ def quotientKoopman (μ : Measure X)
       (fun x : X => g⁻¹ • x) (hμ g⁻¹)).toContinuousLinearMap
     map_one' := by sorry
     map_mul' := by sorry }
-
-/-- The Koopman operator acts by precomposition with `g⁻¹`, almost everywhere. -/
-theorem quotientKoopman_apply (μ : Measure X)
-    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ)
-    (g : G) (f : Lp ℂ 2 μ) :
-    (quotientKoopman μ hμ g f : X → ℂ) =ᵐ[μ] fun x => f (g⁻¹ • x) := by sorry
 
 /-- The Koopman representation is unitary. -/
 theorem quotientKoopman_unitary (μ : Measure X)
@@ -2579,27 +2549,17 @@ end LLLChecks
 section C2NormMaps
 variable {A : Type*} [AddCommGroup A]
 
-/-- The `C₂` norm `1 + σ`. -/
+/-- Local restatement of ComplexTori §4, to be replaced by the import once that roadmap is merged.
+Local endomorphism spelling `1 + σ` required by the C₂ Tate-complex consumer; under the involution
+hypothesis it is Milestone 4's period-two `cyclicNormHom`. ComplexTori is an open TauCetiRoadmap
+pull request by Paul-Lez. -/
 def c2Norm (σ : A →+ A) : A →+ A := AddMonoidHom.id A + σ
 
-/-- The `C₂` difference `1 - σ`. -/
+/-- Local restatement of ComplexTori §4, to be replaced by the import once that roadmap is merged.
+Local endomorphism spelling `1 - σ` required by the C₂ Tate-complex consumer; under the involution
+hypothesis it is Milestone 4's `oneSubPow` at exponent one. ComplexTori is an open TauCetiRoadmap
+pull request by Paul-Lez. -/
 def c2Difference (σ : A →+ A) : A →+ A := AddMonoidHom.id A - σ
-
-/-- The norm evaluates to `x + σ x`. -/
-theorem c2Norm_apply (σ : A →+ A) (x : A) : c2Norm σ x = x + σ x := rfl
-
-/-- The difference evaluates to `x - σ x`. -/
-theorem c2Difference_apply (σ : A →+ A) (x : A) : c2Difference σ x = x - σ x := rfl
-
-/-- For an involution, norm and difference compose to zero in both orders. -/
-theorem c2_periodic_complex (σ : A →+ A) (hσ : ∀ x, σ (σ x) = x) :
-    (c2Norm σ).comp (c2Difference σ) = 0 ∧ (c2Difference σ).comp (c2Norm σ) = 0 := by sorry
-
--- Trivial action on `ℤ`: norm `2x`, difference `0`; the sign action reverses the two.
-example (x : ℤ) : c2Norm (AddMonoidHom.id ℤ) x = 2 * x ∧
-    c2Difference (AddMonoidHom.id ℤ) x = 0 := by sorry
-example (x : ℤ) : c2Norm (-AddMonoidHom.id ℤ) x = 0 ∧
-    c2Difference (-AddMonoidHom.id ℤ) x = 2 * x := by sorry
 
 end C2NormMaps
 
