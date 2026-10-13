@@ -215,18 +215,26 @@ def isTateAffinoidModel : ObjectProperty PreAdicSpace.{u} := fun X ↦
 abbrev isTateAffinoid : ObjectProperty PreAdicSpace.{u} :=
   isTateAffinoidModel.isoClosure
 
--- Check: a Tate affinoid is affinoid in Tau Ceti's sense.
+-- Check (`isTateAffinoid_le_isAffinoid`): a Tate affinoid is affinoid in Tau Ceti's sense.
 example : isTateAffinoid.{u} ≤ PreAdicSpace.isAffinoid := by
   rintro X ⟨Y, ⟨A, iA, tA, hA, hT, S, P, hP, rfl⟩, ⟨e⟩⟩
   exact ⟨_, ⟨A, iA, tA, hA, hT.toIsHuberRing, S, P, hP, rfl⟩, ⟨e⟩⟩
 
--- Check: `Spa(A, A⁺)` of a Tate–Huber pair is a Tate affinoid.
+-- Check (`isTateAffinoid_spa`): `Spa(A, A⁺)` of a Tate–Huber pair is a Tate affinoid.
 example {A : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsTateRing A]
     (S : Pair A) (P : PairOfDefinition A) (hP : P.ringOfDefinition ≤ S.plus) :
     isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace P S.plus
       S.isRingOfIntegralElements.isPowerBounded_of_mem hP) :=
   ObjectProperty.le_isoClosure _ _ ⟨A, inferInstance, inferInstance, inferInstance, inferInstance,
     S, P, hP, rfl⟩
+
+-- Negative control (`isTateAffinoid_not_padic_integers`): `Spa(ℤ_p, ℤ_p)` is not a Tate affinoid,
+-- since its point with support `(p)` is not analytic. Every ring of integral elements of `ℤ_p` is
+-- `ℤ_p`, so `S` and `P` only present this space.
+example (p : ℕ) [Fact p.Prime] (S : Pair ℤ_[p]) (P : PairOfDefinition ℤ_[p])
+    (hP : P.ringOfDefinition ≤ S.plus) :
+    ¬ isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace P S.plus
+      S.isRingOfIntegralElements.isPowerBounded_of_mem hP) := sorry
 
 /-- **Adic quotients with invertible group order.** Let `X` be an adic space with an action of a
 finite group `G` whose order is invertible in `O_X(X)`, covered by `G`-stable open Tate affinoids
