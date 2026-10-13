@@ -53,7 +53,10 @@ The roadmap owns, layer by layer:
   finiteness criteria, formal completions of schemes and the good-reduction locus, Conrad's category
   `FS_C`, smooth formal schemes, Frobenius lifts and residue discs, fractional valuation bounds,
   section domains and Hasse domains. The Deligne–Rapoport moduli of generalised elliptic curves with
-  its formal group along the identity section is stated in R2 for the same reason.
+  its formal group along the identity section is stated in R2 for the same reason, including the
+  cyclic levels with an auxiliary factor `d ≥ 5` over `ℤ[1/d]` that the Hasse loci need; so are the
+  étale-local classification of rigid-analytic generalised elliptic curves by the analytified moduli
+  and the descent of admissible opens along étale coverings with local quasi-sections.
 - R3: the sheaf of a finite module and its acyclicity, glueing squares and Kiehl's theorem, operations
   on coherent sheaves, coherent ideals and finite algebras, the open polydisc as a quasi-Stein space,
   vector bundles on sheafy Tate affinoids and uniform rings, the sheaf of continuous differentials,
@@ -246,6 +249,7 @@ analytification functors are README targets there.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `AdicSpace.ofRigidAffinoid`, `RigidSpace.Affinoid.polydisc` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | The normalized affine generic fibre and the closed disc use these imported carriers. Part III adds the comparison with its universal `FormalScheme.genericFibre`. |
 | `Valuation.IsMicrobial`; `TauCeti.ValuationSpectrum.spaAnalytic`, `spa_integralClosure`; `SpectralSpace`, `IsSpectralMap` | `TauCeti/RingTheory/Valuation/Microbial.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean`; `Mathlib/Topology/Spectral/Basic.lean`, `Mathlib/Topology/Spectral/Hom.lean` | Microbial valuations, the analytic locus, invariance under integral closure, and spectral spaces/maps are supplied predicates and results. The new statements concern specialization and the formal generic fibre. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace`, `RigidSpace.GSpace.Opens`, `RigidSpace.IsAdmissibleCover`, `AdicSpace.rigidToAdic.rho` (same namespace); RigidAnalyticGeometry §8.2.7, §8.3.1–8.3.2 | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`); RigidAnalyticGeometry README | Rigid spaces, admissible opens and covers, and their adic realization. Hasse opens on formal generic fibres use Part III’s `FormalScheme` and `hasseDomain`; real Hasse values characterize their classical points, not all higher-rank points. The admissible-cover comparison is read on adic spaces through AdicSpacesPartII *rigid-adic-quasi-separated-equivalence*. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.IsEtale`, `RigidSpace.IsEtale.of_isOpenImmersion`, `RigidSpace.IsEtale.baseChange`, `RigidSpace.hasPullbacks`, `RigidSpace.IsAdmissibleOpen`, `RigidSpace.analytification` (same namespace); RigidAnalyticGeometry §7.3.1 | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`); RigidAnalyticGeometry README | Étale morphisms of rigid spaces with their stability under open immersions and base change, fibre squares, admissible opens and rigid analytification, for `RigidSpace.IsEtaleCovering`, `RigidSpace.descendOpen` and `RigidSpace.GeneralisedEllipticCurve`; quasi-compact morphisms of rigid spaces are RigidAnalyticGeometry's, read through the same carrier. |
 | `CategoryTheory.Limits.cokernel`, `CategoryTheory.Limits.cokernel.π`; `TauCeti.SheafOfModules.tensorProduct` | `Mathlib/CategoryTheory/Limits/Shapes/Kernels.lean`; `TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Basic.lean` | R2 Hasse sections live in the sheaf cokernel of multiplication by `p` on the tensor power. Integral frames differ by units, whose valuation is one. No global lift or root of `p` is required for the domain. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `Affinoid.coeff`, `Chart`, `IsAdic`, `LocallyOfFiniteType`, `fieldAffinoid` (in the same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `Affinoid.coeff`, `Chart`, `IsAdic`, `LocallyOfFiniteType`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Shared complete sheafy affinoids, their coefficient maps, and geometric morphism predicates for `toAdicSpace_spf` and the formal–adic comparison. Part III imports these declarations and supplies the formal source and universal centre morphism. `proper_directImage_etale_baseChange` also uses these imported affinoids and charts, together with Part II's `ringCatSheaf`, `ringCatSheafMap` and `pullbackModules`; Part III supplies the cohomology pullback and its canonical tensor comparison. |
 | `TauCeti.PreAdicSpace.toRingPresheafedSpace`, `stalkValuation`, `toRingPresheafedSpaceHom` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Basic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Hom.lean` | The actual ring-sheaf map and stalk valuations underlying `IntegralSpecialisation`; bounded images encode the integral subsheaf with its subspace topology. |
@@ -470,7 +474,8 @@ open bounded lattice, are such modules for their gauge norms.
 | R3.6 *proper-coherent-cohomology-field-extension* | RigidAnalyticGeometry, *requested*, **proper_cohomology_fieldExtension** | `proper_cohomology_fieldExtension` |
 | R3.6 *proper-cohomology-finite-flat-base-change* | RigidAnalyticGeometry, *requested*, **proper_cohomology_finiteFlat** | `proper_cohomology_finiteFlat` |
 | R3.7 *analytification-coherent* | RigidAnalyticGeometry, *requested*, **analytificationModules_exact_coherent** | `analytificationModules_exact_coherent` |
-| R3.7 *proper-gaga* | RigidAnalyticGeometry, *requested*, **analytification_isProper**, **proper_gaga_cohomology** and **proper_gaga_directImage** | `analytification_isProper`, `proper_gaga_cohomology`, `proper_gaga_directImage` |
+| R3.7 *proper-gaga* (a), `X` proper over `Spec A` | RigidAnalyticGeometry, *requested*, **proper_gaga_cohomology** | `proper_gaga_cohomology` |
+| R3.7 *proper-gaga* (b), `f : X → Y` proper | RigidAnalyticGeometry, *requested*, **analytification_isProper** and **proper_gaga_directImage** | `analytification_isProper`, `proper_gaga_directImage` |
 | R3.7 *proper-gaga-coherent-equivalence* | RigidAnalyticGeometry, *requested*, **proper_gaga_equivalence** | `proper_gaga_equivalence` |
 
 ## How to read the build
@@ -8324,20 +8329,36 @@ p^{1/4}u'` from `Spf O_K⟨T, u'⟩/(Tu' − p^{1/4})` to `Spf O_K⟨T, u⟩/(Tu
 
 **Conrad's Hasse-invariant loci S^{>h}, S^{≥h} of a generalized elliptic curve are admissible
 opens.** (*hasse-loci-admissible-opens*) For a generalized elliptic curve `E → S` over a rigid space
-`S` over `k` (`k` complete nonarchimedean of residue characteristic `p`, analytic over `ℚ_p`, `|p| =
+`S` over `k` (`RigidSpace.GeneralisedEllipticCurve S` of *rigid-generalised-elliptic-level-classification*; `k` complete nonarchimedean of residue characteristic `p`, analytic over `ℚ_p`, `|p| =
 p⁻¹`), the Hasse invariant of a fibre `E_s` is `h(E_s) = max(|a|, 1/p) ∈ [1/p, 1]` (Conrad-MR Definition B.3.3: `a` lifts the coefficient of `X^p` in `[p]*(X) mod p` on the formal group of a
 semistable model, after finite extension). Prove that the loci `S^{>h}` (`h ∈ [1/p, 1) ∩ √|k^×|`)
 and `S^{≥h}` (`h ∈ (1/p, 1] ∩ √|k^×|`) of points with `h(E_s) > h` (resp. `≥ h`) are admissible
 opens; that their formation commutes with base change on `S` and, for quasi-separated or
 pseudo-separated `S` (Conrad-MR 4.1.1(2)), with analytic extension of `k`; that `S^{≥h} → S` is
-quasi-compact; and that `{S^{≥h}}_{h ∈ (h_0,1)}` is an admissible cover of `S^{>h_0}`. The reduction
-to the universal case uses the analytified moduli (Conrad-MR Theorem 3.2.3) and fpqc descent of
-admissible opens (Conrad-RA Lemma 4.2.4, pp. 32–33, and Theorem 4.2.7, pp. 34–35 of the
-[author version](https://math.stanford.edu/~conrad/papers/amplepaper.pdf): descent along a
-faithfully flat morphism admitting local fpqc quasi-sections; for an admissible open its
-two inverse images on the fibre square must agree), both cited, not re-derived; `M̂^rig ≅ M^an_k` and `Ê^rig ≅
-E^an_k` use
-properness (*good-reduction-locus*). Local description: on a formal affine `Spf A` of the formal
+quasi-compact; and that `{S^{≥h}}_{h ∈ (h_0,1)}` is an admissible cover of `S^{>h_0}`.
+
+The reduction to the universal case uses two named targets of R2.11. Fix an integer `d ≥ 5` prime
+to `p`. By *rigid-generalised-elliptic-level-classification* (b) there are an admissible affinoid
+covering `{S_i}` of `S` and étale coverings `q_i : S'_i → S_i` over which `E` acquires a cyclic
+level structure of level `N_i = d·n_i` with factor `d`; by (a) of that target,
+`E ×_S S'_i` is the pullback of the analytified universal curve along some
+`c_i : S'_i → M_{i,k}^an`, with group, action and level preserved. Here `M_i` is the base change to
+the valuation ring `R` of `k` of the moduli scheme of
+*compactified-moduli-generalised-elliptic-curves* for this level, proper flat and finitely
+presented over `R` because `p ∤ d`. The Hasse value of a fibre does not change under extension of
+its residue field (Conrad-MR Appendix B.3, p. 49, the formal group commutes with analytic
+extension), so `q_i⁻¹(S_i^{>h}) = c_i⁻¹((M_{i,k}^an)^{>h})`, and likewise for `≥ h`. These
+are admissible opens by the universal case below and, being inverse images of subsets of `S_i`,
+satisfy the hypothesis of *rigid-etale-descent-admissible-opens* (b). Hence `S_i^{>h}` and
+`S_i^{≥h}` are admissible opens by (b), `S_i^{≥h} → S_i` is quasi-compact by (d), and the
+`S_i^{≥h}` with `h ∈ (h_0, 1)` form an admissible covering of `S_i^{>h_0}` by (c), applied to the
+restriction of `q_i` over `S_i^{>h_0}`, an étale covering by (a). Admissibility, quasi-compactness
+over the base and admissible coverings are local on `S` for its admissible topology, which gives
+the statements on `S`. For an analytic extension `k'/k` and quasi-separated or pseudo-separated
+`S`, the two opens compared by `hasseLocus_extendScalars` have the same inverse image in the
+extension of `S'_i`, by `classify_extendScalars` and the universal case, and that extension of
+`q_i` is surjective. `M̂^rig ≅ M^an_k` and `Ê^rig ≅ E^an_k` use properness
+(*good-reduction-locus*). Local description: on a formal affine `Spf A` of the formal
 completion `M̂` of the proper moduli scheme `M` over which `e*Ω̂¹` is trivial, with `Γ_A ≅ Spf
 A[[X]]` the formal group and `a_{Γ_A}` the coefficient of `X^p` in `[p]*(X)`, `S^{>h} ∩ (Spf A)^rig
 = {|a_{Γ_A}| > h}` and `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}| ≥ h}`, independent of the coordinate `X`.
@@ -8363,7 +8384,8 @@ ordinary or potentially toric reduction, and `h(E) < 1` iff potentially supersin
 *fractional-valuation-bound*; *section-valuation-domain*; *hasse-domain*;
 *hasse-domain-transition-maps*; *generic-fibre-fibre-products*; *rigid-analytic-space* (AdicSpacesPartII layer R1);
 *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1); *analytification-functor* (AdicSpacesPartII layer R1);
-*compactified-moduli-generalised-elliptic-curves*.
+*compactified-moduli-generalised-elliptic-curves*; *rigid-generalised-elliptic-level-classification*;
+*rigid-etale-descent-admissible-opens*.
 
 **Formal Hasse-section interface.** For an admissible formal `O`-scheme `𝔛`
 of type (S), with `O` a complete rank-one valuation ring for the `p`-adic topology,
@@ -8408,7 +8430,10 @@ both bases have the `p`-adic topology (same source locators). The strict compari
 includes `ε = 1`, while the non-strict comparison requires `ε < 1`.
 The generalized-curve interface above also requires construction of the
 Hodge line and its Hasse section from the curve, including semistable descent;
-the formal Hasse-section interface takes that integral section as input.
+the formal Hasse-section interface takes that integral section as input. The
+classifying covers and the descent of the opens come from
+*rigid-generalised-elliptic-level-classification* and
+*rigid-etale-descent-admissible-opens*, not from this interface.
 
 **Checks for the formal opens.**
 
@@ -8449,6 +8474,10 @@ the formal Hasse-section interface takes that integral section as input.
 - `hasseLocus_test_fractionalThreshold` (characterisation) — for `h = |c|^{1/n} ∈ √|k^×|` (`c ∈
   k^×`), `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}^n| ≥ |c|}`, independent of the choice of `(c, n)`
   representing `h`.
+- `hasseLocus_test_pGon` (negative control for the reduction) — for `S = Sp ℚ_p` and `E` the
+  standard `p`-gon, the formal group is `𝔾̂_m`, `h(E) = 1` and `S^{≥1} = S`. The reduction reaches
+  `E` only through a cyclic level `dp` with `d ≥ 5` prime to `p` (`exists_levelCover_pGon`); no
+  level prime to `p` meets its `p` components.
 
 **Flatness from flatness modulo powers of an ideal.** (*adic-local-flatness-criterion*) Let `A` be a
 commutative ring, `I ⊆ A` an ideal and `M` an `A`-module, with no noetherian or completeness
@@ -8590,13 +8619,20 @@ This is the module form of finite pseudo-coherence (Stacks, Tag 064N).
 ### R2.11 notions this roadmap states for its own use
 
 The Hasse-invariant loci of *hasse-loci-admissible-opens* use the moduli scheme below. Its
-formal completion carries the formal group in which Conrad's Hasse invariant is read.
+formal completion carries the formal group in which Conrad's Hasse invariant is read. The two
+targets after it supply the rest of the reduction to the universal curve: the classification of
+rigid-analytic generalised elliptic curves, étale-locally, by the analytified moduli
+(*rigid-generalised-elliptic-level-classification*), and descent of admissible opens along the
+étale coverings that classification produces (*rigid-etale-descent-admissible-opens*).
 
 **The compactified moduli of generalised elliptic curves with level structure, and the formal group
 along the identity section.** (*compactified-moduli-generalised-elliptic-curves*) Let `Γ` be
-`Γ(N)` with `N ≥ 3` or `Γ₁(N)` with `N ≥ 5`. Use `GeneralisedEllipticCurve.Level`
-with `full = true` for full level and `full = false` for cyclic level. Over
-`ℤ[1/N]`, the compactified fine moduli scheme `moduli L` carries
+`Γ(N)` with `N ≥ 3`, or `Γ₁(N)` with `N` divisible by an integer `d ≥ 5`.
+`GeneralisedEllipticCurve.Level` records `N`, an auxiliary factor `d ∣ N` and `full`
+(`true` for full level, `false` for cyclic level); full level takes `d = N`. The base
+of `L` is `ℤ[1/d]`. In cyclic level only the primes dividing `d` are inverted, so `N`
+may be divisible by a prime `p` with `p ∤ d`. Over this base, the compactified fine
+moduli scheme `moduli L` carries
 `universalCurve L` and `universalLevel L`. Full level includes all values of the
 Weil pairing; fixing a primitive root selects the corresponding component over
 `ℤ[ζ_N,1/N]`. Smaller levels require stacks; level one has the affine coarse
@@ -8628,21 +8664,42 @@ The definition and classification are those of
 [Conrad-GEC](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 2.1.4
 and the paragraph following it, p. 5; the polygon construction is on pp. 4–5.
 
-`LevelStructure L E` consists of labelled sections from `ℤ/N` or `(ℤ/N)²`.
-On each geometric fibre they inject into the smooth group and meet every
-connected component; in full level they exhaust the N-torsion. Over
-`ℤ[1/N]` these are the usual ample level structures: the component condition
-says that their divisor meets every component of every fibre. This is the
-curve-specific ampleness criterion, not an extra assumption on an arbitrary
-moduli scheme (Conrad-GEC, Definitions 2.4.1–2.4.2, p. 14, and 2.4.7,
+`LevelStructure L E` consists of labelled sections of the smooth group from
+`(ℤ/N)²` in full level and from `ℤ/N` in cyclic level, killed by `N`. In full
+level, over `ℤ[1/N]`, they inject into the smooth group on each geometric fibre,
+exhaust the N-torsion and meet every connected component. In cyclic level the
+section `P` is an ample Drinfeld `ℤ/N`-structure: the relative effective Cartier
+divisor `∑_{j ∈ ℤ/N} [jP]` in `E^sm` is a subgroup scheme and meets every
+irreducible component of every geometric fibre. In residue characteristic `p ∣ N`
+this divisor need not be étale; allowing such structures is what gives an integral
+moduli problem over a `p`-adic base containing curves whose polygon fibres have a
+multiple of `p` sides (Conrad-MR §3.2, p. 19). Where `N` is invertible the
+divisor is étale, and the condition says that `P` has exact order `N` on every
+geometric fibre and that its multiples meet every component. The component
+condition is the curve-specific ampleness criterion, not an extra assumption on an
+arbitrary moduli scheme (Conrad-GEC, Definitions 2.4.1–2.4.2, p. 14, and 2.4.7,
 p. 16). `moduli_classifies` states existence and uniqueness of the classifying
-map for every such family over a `ℤ[1/N]`-scheme, with an isomorphism preserving
+map for every such family over a `ℤ[1/d]`-scheme, with an isomorphism preserving
 the labelled sections. `moduli_isProper` and `moduli_finitePresentation` apply
-to this particular representing scheme. For the latter, the conclusion
+to this particular representing scheme over `ℤ[1/d]`. For the latter, the conclusion
 is local finite presentation together with quasi-compactness and
 quasi-separatedness. Sources: Conrad-GEC, Theorems 3.1.4, p. 19, 3.2.7 and
-3.3.1, p. 26, and 4.2.1(2), pp. 35–36; Deligne–Rapoport IV §3 gives the
+3.3.1, p. 26, and 4.2.1(2), pp. 35–36 (the stack is a scheme over `ℤ[1/d]` for
+every factor `d ∣ N` with `d ≥ 5` in cyclic level); Deligne–Rapoport IV §3 gives the
 historical construction.
+
+For a prime `p ∤ d` and a complete field `k` over `ℚ_p` with valuation ring `R`,
+the base change of `moduli L` to `R` is a proper flat finitely presented
+`R`-scheme with generic fibre the moduli scheme over `k`; it is the integral model
+whose formal completion *hasse-loci-admissible-opens* uses, with `formalGroup`
+applied to the base change of `universalCurve L`
+(Conrad-MR §4.1, proof of Thm 4.1.1, p. 26, the level `Γ₁(N)` with an
+auxiliary factor `d ≥ 5` invertible in `R`). A level prime to `p` does not
+reach curves with a `p`-gon fibre: the component group of a `p`-gon is `ℤ/p`, on
+which multiplication by an `N` prime to `p` is invertible, so every `N`-torsion
+point lies on the identity component and no level structure meets the other components,
+over any extension of the base field (`LevelStructure_pGonPrimeToP`). With `p ∤ d` and
+`N = dp` the mixed range applies (`LevelStructure_pGonMixed`).
 
 `identitySection E` is the identity of the smooth group. `formalGroup E` is
 its completion along the kernel ideal of that section, using
@@ -8687,7 +8744,7 @@ completion of the standard 1-gon over the same base, hence to `𝔾̂_m`
   of the compactified level-`1` problem, which is not itself one of the `M_Γ`: the level-`1` problem is not representable,
   every curve having the automorphism `−1`); the cusps are `j⁻¹(∞)`.
 - `generalisedEllipticModuli_test_tateCurve` (computation) — the Tate curve over `ℤ[[q]]` (with level after adjoining the
-  required roots of unity and a root of q over `ℤ[1/N]`) has formal
+  required roots of unity and a root of q over `ℤ[1/d]`) has formal
   group `𝔾̂_m` along its identity section: `[p](X) = (1 + X)^p − 1`, with coefficient `1` at `X^p`,
   so its Hasse invariant is `1` and its fibres lie in `S^{≥1}` of *hasse-loci-admissible-opens*.
   The Check uses the formal-group isomorphism of `tateCurve n` with the
@@ -8710,9 +8767,9 @@ table are in `GeneralisedEllipticCurve`, except `GroupCurve`, `ofElliptic`,
 | `nGon` | `nGon_one`: the nodal cubic's smooth points are `Kˣ`; `nGon_components`: smooth points are `Kˣ × ℤ/n`; `nGon_twoSingular`: the 2-gon has exactly two singular points, also in characteristic two. |
 | `projectivePoint` | `projectivePoint_scaling`: unit scaling fixes a point; `projectivePoint_zeroInfinity`: zero and infinity differ; `projectivePoint_affine`: `[a:1] = [b:1]` exactly when `a = b`. |
 | `GeneralisedEllipticCurve` | `GeneralisedEllipticCurve_smooth`: imported elliptic curves qualify; `GeneralisedEllipticCurve_polygon`: every positive polygon qualifies; `GeneralisedEllipticCurve_noEmptyFibre`: every base point has a point above it. |
-| `Level` | `Level_fullThree`: full level three is allowed; `Level_cyclicFive`: cyclic level five is allowed; `Level_smallExcluded`: levels below three, and cyclic levels below five, are excluded. |
-| `LevelStructure` | `LevelStructure_torsion`: labelled sections are killed by N; `LevelStructure_trivialExcluded`: a constant identity labelling fails over a geometric point; `LevelStructure_polygonDivides`: the polygon size divides N. |
-| `moduli` | `moduli_fullThree`: full level three is proper; `moduli_cyclicFive`: cyclic level five is locally finitely presented; `moduli_nonemptyComplex`: every allowed moduli scheme has complex points. |
+| `Level` | `Level_fullThree`: full level three is allowed; `Level_cyclicFive`: cyclic level five is allowed; `Level_smallExcluded`: full levels below three, and cyclic levels without a factor at least five, are excluded; `Level_mixed`: for a prime `p ≠ 5`, cyclic level `5p` with factor `5` is allowed and its base `ℤ[1/5]` does not invert `p`. |
+| `LevelStructure` | `LevelStructure_torsion`: labelled sections are killed by N; `LevelStructure_trivialExcluded`: a constant identity labelling fails over a geometric point; `LevelStructure_polygonDivides`: the polygon size divides N; `LevelStructure_pGonPrimeToP`: over every field of characteristic zero, the standard `p`-gon has no cyclic level structure of level prime to `p`; `LevelStructure_pGonMixed`: for `d ≥ 5` prime to `p`, the point `(ζ_d, 1)` of `G_m × ℤ/p` is a cyclic level structure of level `dp` on the standard `p`-gon over `ℚ_p(ζ_d)`. |
+| `moduli` | `moduli_fullThree`: full level three is proper; `moduli_cyclicFive`: cyclic level five is locally finitely presented; `moduli_nonemptyComplex`: every allowed moduli scheme has complex points; `moduli_mixedCharP`: for a prime `p ≠ 5`, the moduli scheme of cyclic level `5p` with factor `5` has a nonempty fibre over `𝔽_p`. |
 | `universalCurve` | `universalCurve_flat`: the curve is flat; `universalCurve_proper`: it is proper; `universalCurve_cusp`: it has a complex polygon fibre. |
 | `universalLevel` | `universalLevel_zero`: the zero label gives the identity; `universalLevel_torsion`: N kills every label; `universalLevel_classifiesIdentity`: identity pullback preserves all labels. |
 | `identitySection` | `identitySection_section`: composition with the structure map is the identity; `identitySection_closed`: it is a closed immersion; `identitySection_smooth`: its image lies in the smooth locus. |
@@ -8721,6 +8778,124 @@ table are in `GeneralisedEllipticCurve`, except `GroupCurve`, `ofElliptic`,
 | `formalGroup.coordinate` | `formalGroup.coordinate_linear`: the parameter T gives `A[[X]]`; `formalGroup.coordinate_unitMultiple`: so does uT for a unit u; `formalGroup.coordinate_squareExcluded`: T² does not generate the conormal line over a field. |
 | `jMap` | `jMap_finite`: finite and surjective; `jMap_zero`: j = 0 occurs; `jMap_infinity`: a cusp occurs. The first is also `generalisedEllipticModuli_test_jLine`; `jMap_values` identifies precisely which fibres are cusps. |
 | `tateCurve` | `tateCurve_specialFibre`: Q = 0 gives the standard n-gon; `tateCurve_genericSmooth`: inverting Q gives a smooth curve; `tateCurve_formalMultiplicative`: the completed group is the completed multiplicative group. The last is also `generalisedEllipticModuli_test_tateCurve`; its coefficient calculation uses this isomorphism. |
+
+**Rigid-analytic generalised elliptic curves acquire level étale-locally and are classified by the
+analytified moduli.** (*rigid-generalised-elliptic-level-classification*) Let `k` be a complete
+nonarchimedean field of characteristic zero with nontrivial absolute value and valuation ring
+`R`. `RigidSpace.GeneralisedEllipticCurve S`, for a rigid space `S` over `k`, is a proper flat
+morphism `E → S` whose fibre at each point `s` is a smooth geometrically connected curve of genus
+one or becomes a standard polygon over a finite extension of `k(s)`, together with a section `e` of
+the smooth locus `E^sm` and a morphism `+ : E^sm ×_S E → E` that restricts to a commutative group
+law on `E^sm` with identity `e` and is an action of `E^sm` on `E` rotating the cycle of components
+of every singular geometric fibre (Conrad-MR Def 2.1.1, pp. 3–4, and Def 2.1.8, p. 6).
+`RigidSpace.GeneralisedEllipticCurve.analytification` sends a generalised elliptic curve over a
+`k`-scheme `𝒮` locally of finite type to one over `𝒮^an` (Conrad-MR Example 2.1.10, p. 6), and
+`RigidSpace.GeneralisedEllipticCurve.baseChange` pulls back along a morphism `T → S`. For cyclic
+`L`, `RigidSpace.GeneralisedEllipticCurve.LevelStructure L E` is a section `P` of `E^sm` killed by
+`N` whose divisor `∑_{j ∈ ℤ/N} [jP]` is a subgroup with `S`-ample inverse ideal sheaf, the analytic
+form of the cyclic `LevelStructure` above; analytification carries algebraic level structures to
+analytic ones (Conrad-MR §3.2, p. 19). Prove:
+
+(a) `RigidSpace.GeneralisedEllipticCurve.classify`: for cyclic `L`, with `M_k` the base change of
+`moduli L` to `k`, every generalised elliptic curve `E → S` with level structure `P` has a unique
+classifying morphism `c : S → M_k^an` and a unique isomorphism of generalised elliptic curves from
+`E` to the pullback along `c` of the analytified universal curve, carrying `+`, `e` and `P` to the
+pulled-back universal structures (`classify_iso`, `classify_unique`). For `g : T → S` the
+composite `c ∘ g` classifies the pullback of `(E, P)` (`classify_baseChange`); for an analytic
+extension `k'/k` and quasi-separated or pseudo-separated `S`, the extended pair is classified by
+the extension of `c` (`classify_extendScalars`) (Conrad-MR Thm 3.2.3, p. 20, uniqueness through
+artinian points and existence locally; Lemma 3.2.2, pp. 19–20, local algebraisation of curves with
+level and the comparison of algebraic and analytic Hom functors).
+
+(b) `RigidSpace.GeneralisedEllipticCurve.exists_levelCover`: for `E → S` and an integer `d ≥ 5`
+there are an admissible affinoid covering `{S_i}` of `S`, integers `n_i ≥ 1`, étale coverings
+`q_i : S'_i → S_i` (`RigidSpace.IsEtaleCovering`, *rigid-etale-descent-admissible-opens*) and
+cyclic level structures of level `d·n_i` with factor `d` on `E ×_S S'_i`. Each `q_i` is the base
+change, along a morphism `S_i → 𝒮_i^an`, of the analytification of an étale surjection of
+`k`-schemes locally of finite type; consequently, for an analytic extension `k'/k` and
+quasi-separated or pseudo-separated `S`, the extension of `q_i` is again surjective. Here `n_i` is
+divisible by the number of sides of every polygon fibre over `S_i`; in characteristic zero the
+scheme of such level structures on the algebraic family is étale over `𝒮_i` and surjective over
+the open locus where every polygon size divides `n_i`, which contains the image of `S_i`
+(Conrad-MR, proof of Thm 4.1.1, p. 26, through Cor 2.2.5, p. 14, local algebraicity with the group
+law, Thms 2.2.3–2.2.4, pp. 11–12, local constancy of the polygon size, and the scheme of level
+structures in the proof of Lemma 3.2.2, pp. 19–20; Conrad-RA Thm 4.2.2, p. 31, for the local
+étale quasi-sections).
+
+When `k` is analytic over `ℚ_p` and `p ∤ d`, `M_k` is the generic fibre of the proper flat finitely
+presented `R`-model of *compactified-moduli-generalised-elliptic-curves*; the factor `n_i` carries
+the polygon sizes, including multiples of `p`, so a level prime to `p` is never required.
+*Needs:* *compactified-moduli-generalised-elliptic-curves*; *rigid-etale-descent-admissible-opens*;
+*rigid-analytic-space*, *rigid-analytification*, *analytification-surjective*,
+*analytification-etale-smooth* (AdicSpacesPartII layer R1).
+
+**Checks.**
+
+- `classify_universal` (degenerate) — the analytified universal pair over `M_k^an` is classified
+  by the identity of `M_k^an`.
+- `exists_levelCover_pGon` (negative control) — for `S = Sp ℚ_p` and `E` the standard `p`-gon, no
+  étale covering gives `E` a level structure of level `N` prime to `p`: the component group `ℤ/p`
+  of every geometric fibre receives only zero from the `N`-torsion. For `d ≥ 5` prime to `p`, the
+  finite étale covering `Sp ℚ_p(ζ_d) → Sp ℚ_p` with the level `(ζ_d, 1)` of level `dp` is a
+  covering as in (b), with `n = p`.
+- `exists_levelCover_smooth` (computation) — for an elliptic curve `E` over `Sp k` and `d ≥ 5`,
+  `n = 1` suffices: for a closed point `P` of exact order `d` in `E`, the finite étale covering
+  `Sp k(P) → Sp k` carries the level `P` of level `d`.
+- `classify_baseChange_point` (compatibility) — for a `k`-point `s` of `S`, the fibre `(E_s, P_s)`
+  is classified by `c(s)`.
+
+**Admissible opens, admissible coverings and quasi-compactness descend along étale coverings with
+local quasi-sections.** (*rigid-etale-descent-admissible-opens*) Let `k` be a complete
+nonarchimedean field with nontrivial absolute value. A morphism `q : S' → S` of rigid spaces over
+`k` is an étale covering, `RigidSpace.IsEtaleCovering q`, if it is étale (`RigidSpace.IsEtale`,
+*rigid-adic-etale-comparison*, AdicSpacesPartII layer R1), surjective on points, and admits local
+étale quasi-sections: there are an admissible covering `{S_i}` of `S` and, for each `i`, a
+quasi-compact étale surjection `U_i → S_i` with an `S_i`-morphism `U_i → q⁻¹(S_i)` (Conrad-RA
+Def 4.2.1, p. 30). Prove:
+
+(a) `RigidSpace.IsEtaleCovering.baseChange`, `RigidSpace.IsEtaleCovering.ofAdmissibleCover` and
+`RigidSpace.IsEtaleCovering.analytification`: étale coverings are stable under base change; the
+coproduct of the members of an admissible affinoid covering maps to the base by an étale
+covering; and the analytification of an étale surjection of `k`-schemes locally of finite type is
+an étale covering (Conrad-RA, p. 31, after Def 4.2.1, and Thm 4.2.2, p. 31).
+
+(b) `RigidSpace.descendOpen`: if `q` is an étale covering and `U' ⊆ S'` an admissible open whose
+inverse images under the two projections `S' ×_S S' ⇉ S'` coincide, then `q(U')` is an admissible
+open `U` of `S` with `q⁻¹(U) = U'` (`descendOpen_preimage`), and `U` is the only admissible open of
+`S` with this inverse image (`descendOpen_unique`) (Conrad-RA Lemma 4.2.4, pp. 32–33).
+
+(c) `RigidSpace.descendOpen_isAdmissibleCover`: if `{U'_j}` is an admissible covering of `S'` by
+admissible opens satisfying the hypothesis of (b), the descended opens form an admissible covering
+of `S` (Conrad-RA Cor 4.2.6, p. 34).
+
+(d) `RigidSpace.IsEtaleCovering.isQuasiCompact_iff`: a morphism `f : X → S` is quasi-compact if and
+only if its base change `X ×_S S' → S'` is (Conrad-RA Thm 4.2.7, pp. 34–36, for this property).
+
+Conrad states (b)–(d) for faithfully flat maps with local fpqc quasi-sections, of which étale
+coverings are a special case (Conrad-RA Def 4.2.1); the étale class is enough here because the
+level covers of *rigid-generalised-elliptic-level-classification* are étale. On quasi-separated
+rigid spaces these statements are read on adic spaces through `r_K`
+(*rigid-adic-quasi-separated-equivalence*, AdicSpacesPartII layer R1). Part II's admissible-cover
+comparison transports a given covering and its finite-locally-free coequaliser descends morphisms
+into a fixed target; neither constructs the descended open of (b).
+*Needs:* *rigid-analytic-space*, *rigid-analytification*, *rigid-adic-etale-comparison*,
+*analytification-etale-smooth*, *analytification-surjective* (AdicSpacesPartII layer R1);
+quasi-compact morphisms of rigid spaces (RigidAnalyticGeometry §7.3.1).
+
+**Checks.**
+
+- `descendOpen_identity` (degenerate) — for `q = id_S` every admissible open satisfies the
+  hypothesis of (b) and descends to itself.
+- `descendOpen_fold` (non-example) — the fold map `Sp k ⊔ Sp k → Sp k` is an étale covering; the
+  first summand has different inverse images under the two projections and is not `q⁻¹(U)` for
+  any admissible open `U`.
+- `descendOpen_needsQuasiSections` (boundary) — the map `{|t| = 1} ⊔ {|t| < 1} → Sp k⟨t⟩` is étale
+  and surjective, and each summand satisfies the hypothesis of (b), but the images do not form an
+  admissible covering of the closed disc; by (c) this map admits no local étale quasi-sections, and
+  that hypothesis cannot be removed from (c).
+- `isQuasiCompact_iff_openDisc` (characterisation) — the inclusion of `{|t| < 1}` into `Sp k⟨t⟩` is
+  not quasi-compact, and neither is its base change along the étale covering
+  `Sp k⟨t⟩ ⊔ Sp k⟨t⟩ → Sp k⟨t⟩`.
 
 ### Examples
 
@@ -8767,7 +8942,8 @@ domain of `Ha = T mod p` on `Spf ℤ_p⟨T⟩` is `{|T²| ≥ |p|}` with model `
 `ε = 1` depends on the lift, Scholze's `X*(ε)` and BHW's `X*(ε)` are instances, and Conrad's
 `S^{≥|p|^ε}` for the universal elliptic curve is the Hasse domain of the Hodge bundle, with the
 `j`-invariant onto the `j`-line, the Tate curve's formal group `𝔾̂_m` and the `n`-gon's smooth
-locus `𝔾_m × ℤ/n` as the checks on the moduli input.
+locus `𝔾_m × ℤ/n` as the checks on the moduli input; the `p`-gon over `ℚ_p` carries no level prime
+to `p` and acquires level `dp` over `ℚ_p(ζ_d)`.
 
 ### Dependencies
 
@@ -8780,7 +8956,7 @@ spaces on which Part II states its unramified, smooth and étale classes), close
 separated, proper, partially proper, finite, flat, smooth and étale morphisms with their continuous
 differentials (*smooth-morphism*, *differentials-unramified-smooth-etale*, *continuous-differentials*)
 and étale-local structure, and the affinoid results (Noether normalisation, Jacobson property, maximum modulus,
-power-bounded elements); from AdicSpacesPartII layer R1 rigid analytic spaces, the rigid–adic comparison functor and
+power-bounded elements); from AdicSpacesPartII layer R1 rigid analytic spaces and their étale morphisms, the rigid–adic comparison functor and
 its quasi-separated equivalence, the analytification functor with its completed local rings,
 constructible closure and scheme fibre products, the completion of rigid local rings and the
 comparisons of properness and of analytifications. The Foundations of adic spaces roadmap
@@ -10779,8 +10955,10 @@ of `X`.
 δ-functorial in `F`. For `f : X → Y` over `Spec A`, the relative comparison map
 `(Rⁱf_*F)^an → Rⁱf^an_*(F^an)` is the adjoint of the sheafified map
 `V ↦ [Hⁱ(f⁻¹V, F) → Hⁱ((f^an)⁻¹V^an, F^an)]`, δ-functorial in `F` and compatible with
-composition in `f`. These maps are isomorphisms for proper `f` and coherent `F` (*proper-gaga*,
-RigidAnalyticGeometry `proper_gaga_cohomology` and `proper_gaga_directImage`) and not in general.
+composition in `f`. For coherent `F`, `c_F` is an isomorphism when `X` is proper over `Spec A`
+(*proper-gaga* (a), RigidAnalyticGeometry `proper_gaga_cohomology`), and the relative map is an
+isomorphism when `f` is proper (*proper-gaga* (b), RigidAnalyticGeometry `proper_gaga_directImage`).
+Properness of `f` alone does not make `c_F` an isomorphism (`proper_gaga_test_identityAffineLine`).
 In `AdicSpace`, define `cohomologyComparison` as
 `c_F : Hⁱ(X, F) →ₗ[A] Hⁱ(X^an, F^an)` and `directImageComparison` as
 `(Rⁱf_*F)^an → Rⁱf^an_*(F^an)`, δ-functorial; prove `cohomologyComparison_naturality`
@@ -10802,7 +10980,7 @@ maps; Conrad-RA Ex. 3.2.6, p. 24, the relative comparison map defined by δ-func
 
 - `AdicSpace.cohomologyComparison_test_affineLine` (non-example) — for `X = A¹_K` and `F = 𝒪`
   the degree-0 comparison `K[T] → 𝒪(A^{1,ad}_K)` is not surjective (the series `Σ ϖ^{n²}Tⁿ` is
-  entire), so the comparison maps are not isomorphisms without properness.
+  entire), so `c_F` is not an isomorphism when `X` is not proper over `Spec A`.
 - `AdicSpace.cohomologyComparison_test_point` (degenerate) — for `X = Spec K` the comparison maps
   are the identity of `H⁰ = F(X)` and `0` in positive degrees.
 - `AdicSpace.cohomologyComparison_test_skyscraper` (computation) — for `X = A¹_K` and
@@ -10820,7 +10998,7 @@ for an algebraic injective resolution and an analytic injective resolution, ever
 chain map lifting the coefficient unit gives the same map on homology after the
 canonical comparison between exact pullback and homology. The natural transformation
 `directImageComparison` is an isomorphism for proper morphisms and coherent
-coefficients by *proper-gaga*.
+coefficients by *proper-gaga* (b); the target `Y` need not be proper over `Spec A`.
 
 **Checks for the relative comparison constructions.**
 
@@ -10957,19 +11135,40 @@ its nonzero class.
 each actual section `a+bt` to its analytic pullback. The formula includes
 characteristic two and nonreduced quadratic covers.
 
-**Proper GAGA: comparison of coherent cohomology (Köpf).** (*proper-gaga*) Provides, for a proper
-morphism `f : X → Y` of schemes locally of finite type over `Spec A` and a coherent `𝒪_X`-module
-`F`, that `f^an` is Kiehl-proper and that the comparison maps `Hⁱ(X, F) → Hⁱ(X^an, F^an)` and
-`(Rⁱf_*F)^an → Rⁱf^an_*(F^an)` of *gaga-comparison-map* are isomorphisms for every `i`. Supplied by
-RigidAnalyticGeometry, section *Targets requested by the Tau Ceti AdicSpaces roadmaps*,
-**analytification_isProper**, **proper_gaga_cohomology** and **proper_gaga_directImage** (the
-roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). RigidAnalyticGeometry
-states it for the rigid relative analytification over `Sp A`; this roadmap reads it on
+**Proper GAGA: comparison of coherent cohomology (Köpf).** (*proper-gaga*) Provides two
+comparisons for a coherent `𝒪_X`-module `F`, under different properness hypotheses.
+(a) Absolute: if `X` is proper over `Spec A`, the maps `Hⁱ(X, F) → Hⁱ(X^an, F^an)` of
+*gaga-comparison-map* are `A`-linear isomorphisms of finite `A`-modules for every `i`.
+(b) Relative: if `f : X → Y` is a proper morphism of schemes locally of finite type over
+`Spec A`, then `f^an` is Kiehl-proper and `(Rⁱf_*F)^an → Rⁱf^an_*(F^an)` is an isomorphism for
+every `i`; `Y` need not be proper over `Spec A`. Clause (a) is clause (b) for `Y = Spec A` under
+`directImageComparison_global`; for a target `Y` that is not proper over `Spec A`, (b) does not
+yield (a) for `X`. Supplied by RigidAnalyticGeometry, section *Targets requested by the Tau Ceti AdicSpaces
+roadmaps*: (a) is **proper_gaga_cohomology**, whose hypothesis is properness of `X → Spec A`, and
+(b) is **analytification_isProper** with **proper_gaga_directImage**, whose hypothesis is
+properness of `f` (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one;
+Conrad-RA Appendix A.1, Remark A.1.1 and (A.1.1), pp. 38–39, the higher-direct-image form for a
+proper map of algebraic `k`-schemes). RigidAnalyticGeometry
+states both for the rigid relative analytification over `Sp A`; this roadmap reads them on
 `X^an = X ×_{Spec A} Spa(A, A°)`, which is `r_K` of the rigid one by
 *rigid-analytification-comparison* and the fibre-product compatibility of
 *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1), and identifies the supplier's
 comparison maps with `cohomologyComparison` and `directImageComparison` by
 `cohomologyComparison_test_rigid`.
+
+**Checks.**
+
+- `proper_gaga_test_identityAffineLine` (boundary) — for `X = Y = A¹_K`, `f = id_X` and `F = 𝒪`,
+  `f` is proper and (b) applies: the relative maps are isomorphisms in every degree
+  (`directImageComparison_identity`). `X` is not proper over `Spec K`, (a) does not apply, and the
+  degree-zero absolute map `K[T] → 𝒪(A^{1,ad}_K)` is not surjective
+  (`cohomologyComparison_test_affineLine`).
+- `proper_gaga_test_relativeProjectiveLine` (relative over a nonproper base) — for the projection
+  `f : P¹_{A¹_K} → A¹_K` and `F = 𝒪(−2)`, (b) identifies `(R¹f_*F)^an` and `R¹f^an_*(F^an)`, both
+  free of rank one; the absolute `H¹` comparison is `K[T] → 𝒪(A^{1,ad}_K)` under these
+  identifications, again not surjective, so (b) does not upgrade to (a) over `A¹_K`.
+- `proper_gaga_test_projectiveLine` (absolute) — for `X = P¹_K` and `F = 𝒪(−2)`, (a) gives
+  `H¹(X, F) ≅ H¹(X^an, F^an) ≅ K`, the computation of `cohomologyComparison_projectiveLine`.
 
 **Proper GAGA: analytification is an equivalence on coherent sheaves.**
 (*proper-gaga-coherent-equivalence*) Provides, for `X` proper over `Spec A`, that `F ↦ F^an` is an
