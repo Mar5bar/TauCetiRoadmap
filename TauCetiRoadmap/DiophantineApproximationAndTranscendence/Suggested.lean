@@ -202,36 +202,8 @@ end Heights
 
 section Comparison
 
-/-- Layer 0 infinite places over: regrouping a product over the infinite places of `L`
-along the places of `K` below them. -/
-theorem prod_infinitePlace_comap_pow_mult {K L : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] {M : Type*} [CommMonoid M] (g : InfinitePlace K → M) :
-    ∏ w : InfinitePlace L, g (w.comap (algebraMap K L)) ^ w.mult =
-      ∏ v : InfinitePlace K, g v ^ (v.mult * Module.finrank K L) := by sorry
-
 -- The restriction of a finite place along `K → L` is Mathlib's
 -- `NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`; it is consumed, not restated.
-
-/-- Layer 0 mul height algebra map: the relative multiplicative height of a tuple is multiplied
-by the degree under a finite extension. -/
-theorem mulHeight_algebraMap {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L]
-    [Algebra K L] {ι : Type*} [Finite ι] (x : ι → K) :
-    Height.mulHeight (algebraMap K L ∘ x) = Height.mulHeight x ^ Module.finrank K L := by sorry
-
-/-- Layer 0 mul height ring equiv: heights are invariant under isomorphisms of number fields. -/
-theorem mulHeight_ringEquiv {K K' : Type*} [Field K] [NumberField K] [Field K']
-    [NumberField K'] (e : K ≃+* K') {ι : Type*} [Finite ι] (x : ι → K) :
-    Height.mulHeight (e ∘ x) = Height.mulHeight x := by sorry
-
-/-- Layer 0 abs mul height eq rpow: Mathlib's absolute height computed in any number field. -/
-theorem absMulHeight₁_eq_rpow {K : Type*} [Field K] [NumberField K] (x : K) :
-    NumberField.absMulHeight₁ x = Height.mulHeight₁ x ^ ((Module.finrank ℚ K : ℝ)⁻¹) := by sorry
-
-/-- Layer 0 abs mul height eq of minpoly eq: the absolute height depends only on the minimal
-polynomial (conjugates and embeddings do not change it). -/
-theorem absMulHeight₁_eq_of_minpoly_eq {F F' : Type*} [Field F] [CharZero F] [Field F']
-    [CharZero F'] {x : F} {y : F'} (h : minpoly ℚ x = minpoly ℚ y) :
-    NumberField.absMulHeight₁ x = NumberField.absMulHeight₁ y := by sorry
 
 variable {F : Type*} [Field F] [CharZero F]
 
@@ -269,7 +241,8 @@ theorem finite_setOf_isIntegral_house_le (d : ℕ) (C : ℝ) :
       {z : ℂ | IsIntegral ℤ z ∧ (minpoly ℚ z).natDegree ≤ d ∧ house z ≤ C}.ncard ≤
         ∑ k ∈ Finset.range (d + 1), k * (2 * ⌊(2 * max C 1) ^ k⌋₊ + 1) ^ k := by sorry
 
-/-- Layer 0 liouville size bound (Evertse, Exercise 3.7(i)). -/
+/-- Minimal-field/primitive-denominator consumer adapter of LinearFormsInLogarithms §§3.1–3.2.
+Use the native denominator and field-independent house, retaining the element degree. -/
 theorem natDenominator_zpow_mul_house_zpow_le_norm {z : ℂ} (hz : IsAlgebraic ℚ z) (h0 : z ≠ 0) :
     (Algebra.natDenominator z : ℝ) ^ (-((minpoly ℚ z).natDegree : ℤ)) *
       house z ^ (1 - ((minpoly ℚ z).natDegree : ℤ)) ≤ ‖z‖ := by sorry
@@ -1470,11 +1443,6 @@ theorem subspaceHeight_inf_mul_sup_le (T₁ T₂ : Submodule K (Fin n → K)) :
       subspaceHeight T₁ * subspaceHeight T₂ := by
   sorry
 
-/-- Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T ≤ B is finite. -/
-theorem finite_subspaceHeight_le (B : ℝ) :
-    {T : Submodule K (Fin n → K) | subspaceHeight T ≤ B}.Finite := by
-  sorry
-
 /-- For a rational subspace, `H_2(T)` is the Euclidean norm of the wedge of a `ℤ`-basis of
 `T ∩ ℤ^n`, i.e. the covolume of that lattice (Evertse–Ferretti §6.1 and Mathlib's lattice carrier). -/
 theorem subspaceHeight_rat_eq_covolume (T : Submodule ℚ (Fin n → ℚ)) (hT : T ≠ ⊥) (p : ℕ)
@@ -1969,6 +1937,9 @@ namespace Transcendence
 def algebraicLogs : Submodule ℚ ℂ :=
   Submodule.span ℚ {l : ℂ | IsAlgebraic ℚ (exp l)}
 
+/-- The retained algebraic-logarithm membership dictionary used at supplier boundaries. -/
+theorem mem_algebraicLogs {l : ℂ} : l ∈ algebraicLogs ↔ IsAlgebraic ℚ (exp l) := by sorry
+
 /-- λ ∈ 𝓛 ↔ ∃ α ≠ 0 algebraic, ∃ k : ℤ, λ = Complex.log α + k·2πi. -/
 theorem mem_algebraicLogs_iff_exists_int {l : ℂ} :
     l ∈ algebraicLogs ↔
@@ -1989,7 +1960,7 @@ example : 2 * (Real.pi : ℂ) * I ∈ algebraicLogs ∧ 2 * (Real.pi : ℂ) * I 
   sorry
 
 /-- Unit test `Transcendence.one_not_mem_algebraicLogs`: (non-example) 1 ∉ algebraicLogs (exp 1 = e
-is transcendental, Layer 3 hermite transcendence of e): 𝓛 is
+is supplied by LinearFormsInLogarithms §6.3 / transcendental_e): 𝓛 is
 not the set of algebraic numbers. -/
 example : (1 : ℂ) ∉ algebraicLogs := sorry
 
@@ -1998,16 +1969,7 @@ theorem exists_isGalois_superset (S : Finset ℂ) (hS : ∀ s ∈ S, IsAlgebraic
     ∃ L : IntermediateField ℚ ℂ, FiniteDimensional ℚ L ∧ IsGalois ℚ L ∧ ∀ s ∈ S, s ∈ L :=
   sorry
 
-/-- The size inequality (fundamental inequality of transcendence). -/
-theorem one_le_pow_mul_norm_mul_house_pow {K : Type*} [Field K] [NumberField K]
-    (σ : K →+* ℂ) {x : K} (hx : x ≠ 0) {m : ℕ} (hm : 0 < m) (hint : IsIntegral ℤ ((m : K) * x)) :
-    1 ≤ (m : ℝ) ^ Module.finrank ℚ K * ‖σ x‖ *
-      NumberField.house x ^ (Module.finrank ℚ K - 1) := sorry
-
 end Transcendence
-
-/-- Hermite's theorem (Evertse Theorem 4.1); source: Zhao’s Lindemann–Weierstrass formalization. -/
-theorem transcendental_e : Transcendental ℤ (exp 1) := sorry
 
 namespace LindemannWeierstrass
 
@@ -2103,16 +2065,9 @@ theorem expEval_ne_zero_of_forall_galConj_eq [FiniteDimensional ℚ L] [IsGalois
 end LindemannWeierstrass
 
 /-- The Lindemann-Weierstrass theorem in Baker's form (Evertse Theorem 4.8); name and signature
-as in Mathlib PR #28013. -/
+in the algebraic-coefficient formulation. -/
 theorem linearIndependent_exp {ι : Type*} (u : ι → integralClosure ℚ ℂ) (u_inj : u.Injective) :
     LinearIndependent (integralClosure ℚ ℂ) fun i ↦ exp (u i) := sorry
-
-/-- Hermite-Lindemann (Evertse Corollary 4.9(i)). -/
-theorem transcendental_exp {a : ℂ} (a0 : a ≠ 0) (ha : IsAlgebraic ℤ a) :
-    Transcendental ℤ (exp a) := sorry
-
-/-- Lindemann (Evertse Corollary 4.9(ii)). -/
-theorem transcendental_pi : Transcendental ℤ Real.pi := sorry
 
 /-- Lindemann-Weierstrass, algebraic independence form (Evertse Corollary 4.10). -/
 theorem algebraicIndependent_exp {ι : Type*} (u : ι → integralClosure ℚ ℂ)
@@ -2120,10 +2075,6 @@ theorem algebraicIndependent_exp {ι : Type*} (u : ι → integralClosure ℚ �
     AlgebraicIndependent (integralClosure ℚ ℂ) fun i ↦ exp (u i) := sorry
 
 namespace Transcendence
-
-/-- Every nonzero logarithm of an algebraic number is transcendental (Evertse Exercise 4.6(ii)). -/
-theorem transcendental_of_mem_algebraicLogs {l : ℂ} (hl : l ∈ algebraicLogs) (h0 : l ≠ 0) :
-    Transcendental ℚ l := sorry
 
 /-- Schanuel's conjecture, as a proposition (never assumed). -/
 def SchanuelConjecture : Prop :=
@@ -2222,11 +2173,6 @@ end GelfondSchneider
 
 namespace Transcendence
 
-/-- The Gelfond-Schneider theorem for any nonzero logarithm (Evertse Theorem 4.16). -/
-theorem transcendental_exp_mul_of_mem_algebraicLogs {l β : ℂ} (hl : l ∈ algebraicLogs)
-    (hl0 : l ≠ 0) (hβ : IsAlgebraic ℚ β) (hβq : ∀ q : ℚ, β ≠ q) :
-    Transcendental ℚ (exp (β * l)) := sorry
-
 /-- `e^{πα}` is transcendental for algebraic `α ∉ ℚ i` (Evertse Corollary 4.17). -/
 theorem transcendental_exp_pi_mul {α : ℂ} (hα : IsAlgebraic ℚ α) (h : ∀ q : ℚ, α ≠ q * I) :
     Transcendental ℚ (exp (Real.pi * α)) := sorry
@@ -2237,12 +2183,6 @@ theorem linearIndependent_integralClosure_of_two (l : Fin 2 → ℂ) (hl : ∀ i
     (hind : LinearIndependent ℚ l) : LinearIndependent (integralClosure ℚ ℂ) l := sorry
 
 end Transcendence
-
-/-- Gelfond-Schneider for `Complex.cpow` (principal branch); name and signature of the
-Karatarakis-Wiedijk formalization. -/
-theorem transcendental_cpow_of_isAlgebraic_of_irrational (α β : ℂ) (hα : IsAlgebraic ℚ α)
-    (hβ : IsAlgebraic ℚ β) (htriv : α ≠ 0 ∧ α ≠ 1) (hirr : ∀ i j : ℤ, β ≠ i / j) :
-    Transcendental ℚ (α ^ β) := sorry
 
 namespace Baker
 
@@ -2278,39 +2218,12 @@ example : mDeriv ![1, 1] (fun z : Fin 2 → ℂ ↦ z 0 ^ 2) = 0 ∧
     ∀ z : Fin 2 → ℂ, iteratedFDeriv ℂ 2 (fun z : Fin 2 → ℂ ↦ z 0 ^ 2) z
       ![Pi.single 0 1, Pi.single 0 1] = 2 := sorry
 
-/-- Schwarz theorem for Cartesian products (Waldschmidt, Proposition 4.7). -/
-theorem norm_le_of_vanishing_cartesian (E : Fin n → Finset ℂ) {S₀ S₁ : ℕ}
-    (hE : ∀ i, (E i).card = S₁) {r R M : ℝ} (hr : 0 < r) (hEr : ∀ i, ∀ ζ ∈ E i, ‖ζ‖ ≤ r)
-    (hR : 18 ^ n * r ≤ R) (f : (Fin n → ℂ) → ℂ) (hf : Differentiable ℂ f)
-    (hvan : ∀ ξ : Fin n → ℂ, (∀ i, ξ i ∈ E i) → ∀ σ : Fin n → ℕ, (∀ i, σ i < S₀) →
-      mDeriv σ f ξ = 0)
-    (hM : ∀ z ∈ closedBall (0 : Fin n → ℂ) R, ‖f z‖ ≤ M) :
-    ∀ z ∈ closedBall (0 : Fin n → ℂ) r, ‖f z‖ ≤ M * (18 ^ n * r / R) ^ (S₀ * S₁) := sorry
-
 /-- Cauchy's inequalities on polydiscs. -/
 theorem norm_mDeriv_le (f : (Fin n → ℂ) → ℂ) (hf : Differentiable ℂ f) {r M : ℝ} (hr : 0 < r)
     (hM : ∀ z ∈ closedBall (0 : Fin n → ℂ) r, ‖f z‖ ≤ M) (σ : Fin n → ℕ) :
     ‖mDeriv σ f 0‖ ≤ (∏ i, ((σ i).factorial : ℝ)) * M / r ^ (∑ i, σ i) ∧
       ∀ ζ : Fin n → ℂ, 1 + ‖ζ‖ ≤ r →
         ‖mDeriv σ f ζ‖ ≤ (∏ i, ((σ i).factorial : ℝ)) * M / (r - ‖ζ‖) ^ (∑ i, σ i) := sorry
-
-/-- An integer combination of entire functions that is small on a polydisc
-(Waldschmidt, Proposition 4.10). -/
-theorem exists_auxiliary_small {L : ℕ} (hn : 1 ≤ n) (N U V R r : ℝ) (hN : 0 < N) (hU : 0 < U)
-    (hV : 0 < V) (hr : 0 < r) (φ : Fin L → (Fin n → ℂ) → ℂ) (hφ : ∀ l, Differentiable ℂ (φ l))
-    (hW : 12 * (n : ℝ) ^ 2 ≤ N + U + V) (hRr : Real.exp 1 ≤ R / r)
-    (hRr' : R / r ≤ Real.exp ((N + U + V) / 6))
-    (hφR : ∃ B : Fin L → ℝ, (∀ l, ∀ z ∈ closedBall (0 : Fin n → ℂ) R, ‖φ l z‖ ≤ B l) ∧
-      ∑ l, B l ≤ Real.exp U)
-    (hmain : (2 * (N + U + V)) ^ (n + 1) ≤ L * N * Real.log (R / r) ^ n) :
-    ∃ p : Fin L → ℤ, p ≠ 0 ∧ (∀ l, |(p l : ℝ)| ≤ Real.exp N) ∧
-      ∀ z ∈ closedBall (0 : Fin n → ℂ) r, ‖∑ l, (p l : ℂ) * φ l z‖ ≤ Real.exp (-V) := sorry
-
-/-- The functions `z^τ e^{(tx)·z}` are linearly independent. -/
-theorem linearIndependent_monomial_exp {d₀ d₁ : ℕ} (hd : d₀ ≤ n) (x : Fin d₁ → Fin n → ℂ)
-    (hx : LinearIndependent ℚ x) :
-    LinearIndependent ℂ (fun (τt : (Fin d₀ → ℕ) × (Fin d₁ → ℕ)) (z : Fin n → ℂ) ↦
-      (∏ h, z (Fin.castLE hd h) ^ τt.1 h) * exp (∑ ν, (∑ i, (τt.2 i : ℂ) * x i ν) * z ν)) := sorry
 
 section SchneiderLang
 
@@ -2319,13 +2232,6 @@ variable {d₀ d₁ : ℕ} (hd₀ : d₀ ≤ n) (x : Fin d₁ → Fin n → ℂ)
 
 end SchneiderLang
 
-/-- The criterion of Schneider-Lang for `ℂ^{d₀} × (ℂ^×)^{d₁}` (Waldschmidt, Corollary 4.2). -/
-theorem schneiderLang_cartesian {d₀ d₁ : ℕ} (hd₀ : d₀ ≤ n) (hn : n < d₀ + d₁)
-    (x : Fin d₁ → Fin n → ℂ) (hxalg : ∀ i ν, IsAlgebraic ℚ (x i ν)) (hx : LinearIndependent ℚ x)
-    (y : Fin n → Fin n → ℂ) (hy : LinearIndependent ℂ y) :
-    ¬ ((∀ (h : Fin d₀) j, IsAlgebraic ℚ (y j (Fin.castLE hd₀ h))) ∧
-        ∀ i j, IsAlgebraic ℚ (exp (∑ ν, x i ν * y j ν))) := sorry
-
 /-- Waldschmidt, Corollary 4.3. -/
 theorem schneiderLang_homogeneous {d ℓ : ℕ} (x : Fin d → Fin n → ℂ)
     (hxalg : ∀ i ν, IsAlgebraic ℚ (x i ν))
@@ -2333,32 +2239,30 @@ theorem schneiderLang_homogeneous {d ℓ : ℕ} (x : Fin d → Fin n → ℂ)
     (y : Fin ℓ → Fin n → ℂ) (hy : Submodule.span ℂ (Set.range y) = ⊤) :
     ∃ i j, (∑ ν, x i ν * y j ν) ∉ Transcendence.algebraicLogs := sorry
 
-/-- Waldschmidt, Corollary 4.4. -/
-theorem schneiderLang_inhomogeneous {d : ℕ} (hd : 0 < d) (x : Fin d → Fin d → ℂ)
-    (hxalg : ∀ i ν, IsAlgebraic ℚ (x i ν)) (hx : LinearIndependent ℚ x) (y : Fin d → Fin d → ℂ)
-    (hy : LinearIndependent ℂ y) (hy₁ : ∀ j, IsAlgebraic ℚ (y j ⟨0, hd⟩)) :
-    ∃ i j, (∑ ν, x i ν * y j ν) ∉ Transcendence.algebraicLogs := sorry
-
-/-- Bertrand-Masser (Waldschmidt, Theorem 4.5). -/
-theorem eq_zero_of_isAlgebraic_sum_basis_mul (K : IntermediateField ℚ ℂ) [FiniteDimensional ℚ K]
-    {d : ℕ} (b : Module.Basis (Fin d) ℚ K) (ℓ : Fin d → ℂ)
-    (hℓ : ∀ i, ℓ i ∈ Transcendence.algebraicLogs) (h : IsAlgebraic ℚ (∑ i, (b i : ℂ) * ℓ i)) :
-    ℓ = 0 := sorry
-
 end Baker
 
 namespace Transcendence
 
-/-- Baker's theorem (Evertse Theorem 5.1, Waldschmidt Theorem 1.6). -/
-theorem linearIndependent_cons_one_of_linearIndependent_rat {m : ℕ} (l : Fin m → ℂ)
-    (hl : ∀ i, l i ∈ algebraicLogs) (hind : LinearIndependent ℚ l) :
-    LinearIndependent (integralClosure ℚ ℂ) (Fin.cons 1 l : Fin (m + 1) → ℂ) := sorry
-
-/-- Evertse Theorem 4.19. -/
-theorem transcendental_sum_mul_of_linearIndependent {m : ℕ} (hm : 0 < m) (l : Fin m → ℂ)
+/-- Local restatement of LinearFormsInLogarithms §7.3, to be replaced by the import once that roadmap is merged.
+Local consumer restatement for the `algebraicLogs` carrier and the retained log 2+√2 log 3
+example. In this isolated signature the named §7.2 affine coefficient-vanishing and §7.3
+nonzero-sum supplier interfaces are explicit arguments; the proof only translates membership
+and obtains nonvanishing from coefficient vanishing, without another endpoint proof. -/
+theorem transcendental_sum_mul_of_linearIndependent {m : ℕ} (_hm : 0 < m) (l : Fin m → ℂ)
     (hl : ∀ i, l i ∈ algebraicLogs) (hind : LinearIndependent ℚ l) (β : Fin m → ℂ)
-    (hβ : ∀ i, IsAlgebraic ℚ (β i)) (hβ0 : β ≠ 0) :
-    Transcendental ℚ (∑ i, β i * l i) := sorry
+    (hβ : ∀ i, IsAlgebraic ℚ (β i)) (hβ0 : β ≠ 0)
+    (hAffine : (∀ i, IsAlgebraic ℚ (exp (l i))) → LinearIndependent ℚ l →
+      ∀ (β₀ : ℂ) (b : Fin m → ℂ), IsAlgebraic ℚ β₀ → (∀ i, IsAlgebraic ℚ (b i)) →
+        β₀ + ∑ i, b i * l i = 0 → β₀ = 0 ∧ ∀ i, b i = 0)
+    (hSum : (∀ i, IsAlgebraic ℚ (exp (l i))) →
+      ∀ b : Fin m → ℂ, (∀ i, IsAlgebraic ℚ (b i)) →
+        ∑ i, b i * l i ≠ 0 → Transcendental ℚ (∑ i, b i * l i)) :
+    Transcendental ℚ (∑ i, β i * l i) := by
+  have hlogs : ∀ i, IsAlgebraic ℚ (exp (l i)) := fun i => mem_algebraicLogs.mp (hl i)
+  apply hSum hlogs β hβ
+  intro hzero
+  have hcoeff := (hAffine hlogs hind 0 β isAlgebraic_zero hβ (by simpa using hzero)).2
+  exact hβ0 (funext hcoeff)
 
 /-- Evertse Corollary 4.20. -/
 theorem transcendental_exp_sum_mul {m : ℕ} (l : Fin m → ℂ) (hl : ∀ i, l i ∈ algebraicLogs)
@@ -2376,6 +2280,12 @@ example : Transcendental ℚ ((Real.log 2 : ℂ) + (Real.sqrt 2 : ℂ) * (Real.l
   simpa using transcendental_sum_mul_of_linearIndependent (by norm_num : 0 < 2)
     (![Real.log 2, Real.log 3] : Fin 2 → ℂ) hlogs hli
     (![1, Real.sqrt 2] : Fin 2 → ℂ) hβ hnβ
+    (by
+      -- Supplied by LinearFormsInLogarithms §7.2 / Baker.eq_zero_of_add_sum_mul_eq_zero.
+      sorry)
+    (by
+      -- Supplied by LinearFormsInLogarithms §7.3 / Baker.transcendental_sum_mul.
+      sorry)
 
 end Transcendence
 
