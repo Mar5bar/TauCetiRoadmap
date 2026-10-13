@@ -20,9 +20,13 @@ Design choices made explicit here:
 
 * p-adic completion of an abelian group is Mathlib's `AdicCompletion` at the ideal `(p) ⊆ ℤ`
   (`pCompletion`); no second completion is defined.
-* S-unit rank and fundamental systems use Mathlib's `Set.unit` carrier and `Nat.card S`.
+* This roadmap owns S-unit rank and fundamental systems against Mathlib's `Set.unit` carrier,
+  with `Nat.card S` and index type `Fin (NumberField.Units.rank K + Nat.card S)`.
   Finite generation is supplied by Tau Ceti's `Set.unit_fg` and `Set.unit_fg_of_units`;
-  cardinality conversion and finite-type reindexing are adapters.
+  its multiplicative `Set.unitValuation`, `Set.unitValuation_ker` and `Set.unitEmptyEquivUnits`
+  supply the valuation map and kernel. Coordinatewise `Multiplicative.toAdd` gives negative
+  orders. Cardinality conversion and finite-type reindexing are adapters; completion and
+  Kummer applications are the adapters of README §§0.3 and 0.9.
 * Perfect pairings are Mathlib's `LinearMap.IsPerfPair`; annihilators are Mathlib's
   `Submodule.orthogonalBilin`. Double annihilators are stated for finite `ZMod n`-modules.
 * The algebraic Selmer diagram `SelmerData` takes actual global and local modules and maps; its
@@ -88,26 +92,31 @@ section SUnits
 variable {K : Type*} [Field K] [NumberField K]
     (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
 
-/-- §0.3: for finite `S`, the S-unit group is a finitely generated `ℤ`-module. -/
+/-- §0.3: the module form of the pinned finite-generation theorem for `S.unit K`,
+for a finite set `S` of finite places of a number field `K`. -/
 theorem Set.unit_moduleFinite (hS : S.Finite) :
     Module.Finite ℤ (Additive (S.unit K)) := by
   have : Finite S := hS.to_subtype
   exact Module.Finite.iff_addGroup_fg.mpr
     (GroupFG.iff_add_fg.mp (_root_.Set.unit_fg_of_units S K))
 
-/-- §0.3: the free rank of the S-unit group is the global unit rank plus `Nat.card S`. -/
+/-- §0.3: for finite `S`, the free rank of Mathlib's `S.unit K` is the global unit rank plus
+`Nat.card S`. The rank argument uses the additive transport of the pinned multiplicative
+`Set.unitValuation` and its kernel, the global units. -/
 theorem Set.unit_finrank_numberField (hS : S.Finite) :
     Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S := sorry
 
-/-- §0.3: a fundamental system indexed by the free rank gives unique integer exponents
-and a torsion factor for every S-unit. -/
+/-- §0.3: for finite `S`, a fundamental system of Mathlib's `S.unit K` indexed by
+`Fin (NumberField.Units.rank K + Nat.card S)` gives unique integer exponents and a torsion factor
+for every S-unit. -/
 theorem Set.exists_unit_fundSystem (hS : S.Finite) :
     ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
       ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + Nat.card S) → ℤ,
         ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i := sorry
 
-/-- §0.3: a fundamental system gives each S-unit a unique pair of torsion factor and
-integer exponent vector on `Fin (NumberField.Units.rank K + Nat.card S)`. -/
+/-- §0.3: for finite `S`, a fundamental system gives each element of Mathlib's `S.unit K` a
+unique pair of torsion factor and integer exponent vector on
+`Fin (NumberField.Units.rank K + Nat.card S)`. -/
 theorem Set.exists_unit_fundSystem' (hS : S.Finite) :
     ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
       ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) ×
