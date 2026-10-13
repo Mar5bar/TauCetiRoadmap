@@ -416,8 +416,10 @@ ideal and Cayley–Hamilton algebras (§1.1), semisimple reconstruction of deter
 algebraically closed fields (§1.2), henselian lifting for absolutely irreducible residual determinants
 (§1.3), the *Classical Ribet lattice* (§1.4), and GL reconstruction (§1.7). ReductiveGroupsPartII
 RG2.2: the action of `Ĝ(E)` on its building and the Bruhat–Tits fixed point theorem for bounded
-subgroups (`Building.exists_fixedPoint_of_bounded`); RG2.3: parahoric group schemes, among them the
-hyperspecial model.
+subgroups (`Building.exists_fixedPoint_of_bounded`); RG2.2.2 and RG2.2.4: the reduced building
+`ReducedBuilding` and *gl-building-lattice-chains*, the description of the building of `GL(V)` by
+lattice chains, whose reduced vertices are the homothety classes of lattices (§1.6);
+RG2.3: parahoric group schemes, among them the hyperspecial model.
 
 ### From `AbelianSchemesAndArithmeticModuli`, `NeronModelsAndSemistableAbelianVarieties` and `SelmerIwasawaCohomology`
 
@@ -664,7 +666,9 @@ Boxer–Calegari–Gee–Pilloni 2025, Lemma 10.2.3, p. 212). *Needs:* Mathlib `
 - `Ind_Γ^Γ U ≅ U`.
 - For the closed subgroup `{0} ⊂ ℤ_ℓ` the module of functions `ℤ_ℓ → K` is not finitely generated,
   so the construction needs `H` open. *Lean:* the `example` after the induction section.
-- `(Ind U)^Γ ≃ U^H` by evaluation at `1`; evaluation at another point would not be equivariant.
+- A `Γ`-invariant `f` in `Ind U` is constant, `f(x) = (x · f)(1) = f(1)`, with value in `U^H` as
+  `f(1) = f(h) = σ(h) f(1)`; so evaluation at any point of `Γ` gives the same map `(Ind U)^Γ ≃ U^H`,
+  and for `U = 1` the invariants of the permutation module on `H\Γ` are the constant functions.
 
 **The topology of the induced module.** Prove that for `Γ` compact and `H` open every function
 `f : Γ → U` with `f(hx) = σ(h) f(x)` is continuous; that on the equivariant elements of `C(Γ, U)`
@@ -739,9 +743,13 @@ Mathlib `IsNonarchimedeanLocalField`, `IsNonarchimedeanLocalField.isCompact_clos
 
 **Integral models.** Define `GaloisLattice.IntegralModel O ρ`: a `Γ`-stable lattice `Λ` of `V`; it is
 free of rank `n`, `(Λ, ρ|_Λ)` is a continuous representation over `O_E` (`toContinuousRep`; the
-`ϖ`-adic topology is the subspace topology), and `E ⊗_{O_E} Λ ≅ V`. Homothety classes of models are
-the `ρ(Γ)`-fixed vertices of the Bruhat–Tits building (ReductiveGroupsPartII, RG2.2; a comparison
-only). Its API is `toContinuousRep`, the generic-fibre isomorphism, the homothety `c Λ`
+`ϖ`-adic topology is the subspace topology), and `E ⊗_{O_E} Λ ≅ V`. For `Γ` compact and `n > 0`,
+homothety classes of models are the `ρ(Γ)`-fixed vertices of the reduced building
+`B_red(GL(V), E)`, the building of `PGL(V)`, whose vertices are the homothety classes `[Λ]`
+(ReductiveGroupsPartII, RG2.2.4 *gl-building-lattice-chains* and RG2.2.2 `ReducedBuilding`, not the
+enlarged `B(GL(V), E)`; a comparison only): if `ρ(g)Λ = c_g Λ` then `n · v(c_g) = v(det ρ(g))`,
+which is `0` because `v ∘ det ∘ ρ` has compact image in `ℤ`, so `c_g ∈ O_E^×` and `Λ` is stable.
+Its API is `toContinuousRep`, the generic-fibre isomorphism, the homothety `c Λ`
 (`c ∈ E^×`) with `(cd)Λ = c(dΛ)` and `1 · Λ = Λ`, the lattice structure (sums and intersections of
 models are models), existence for compact `Γ`, the saturation `W ∩ Λ` in a stable subspace `W` (a
 model of `W`, with `Λ/(W ∩ Λ)` a model of `V/W`), the dual model `Λ^∨ = {λ ∈ V^∨ : λ(Λ) ⊂ O_E}` of
@@ -757,6 +765,10 @@ model of `W`, with `Λ/(W ∩ Λ)` a model of `V/W`), the dual model `Λ^∨ = {
 - `(1 a; 0 1)` on `ℚ_ℓ²` has the non-homothetic models `ℤ_ℓ²` and `ℤ_ℓ e₁ ⊕ ℓℤ_ℓ e₂`, so models are not
   unique up to homothety in general. *Lean:* the second `example`.
 - For `V ≠ 0` the whole of `V` is not a lattice (not finitely generated over `O_E`).
+- For `n = 1` and `ρ` trivial the models `ϖ^m O_E` form one homothety class and `B_red(GL_1, E)` is a
+  point, while the enlarged `B(GL_1, E)` is a line translated by `ϖ` (ReductiveGroupsPartII,
+  `Building.gl1_translation`), so the comparison is with the reduced building; `ℤ` acting on `E` by
+  `ϖ` fixes that point but stabilises no lattice, so compactness is needed.
 
 ### 1.7 Semisimplification and absolute irreducibility
 
@@ -974,7 +986,8 @@ the running example of a representation with two non-homothetic lattices whose r
 
 Mathlib and Tau Ceti as named; `TauCetiRoadmap.LocalFieldsRamification` layers 2 and 4 (through Tau
 Ceti's inertia and Frobenius declarations); ReductiveGroupsPartII, RG2.2 and RG2.3, and
-`TauCetiRoadmap.ReductiveGroups` layer 9, for the `Ĝ`-valued integral model;
+`TauCetiRoadmap.ReductiveGroups` layer 9, for the `Ĝ`-valued integral model, and RG2.2.2 and RG2.2.4
+for the comparison of models with the reduced building;
 IntegralHeckeAndGaloisDeterminants §1.4 for the classical Ribet lattice.
 
 ## Layer 2: decomposition groups, inertia and Weil–Deligne representations
@@ -3019,14 +3032,17 @@ correspond to the CHT triples above on `R^n`, by `μ = ν ∘ r`, `⟨x, y⟩ = 
 `𝒢_n → GSp_{2n}`, and `G_n × {±1} → 𝒢_n` with `(g, −1) ↦ (g, ν(g))(A_n⁻¹, (−1)^{n+1}) j`, so
 `ν = ν(g) s^n` (giving `r_ψ` for `F` imaginary quadratic). Prove that an absolutely irreducible `r`
 with `r^{γ₀} ≅ r^∨ ⊗ μ` extends to `𝒢_n(k)` with multiplier `μ` or `μδ` according to `sgn(r, μ)`; that
-CHT induction from `Γ' ⊄ Δ` of finite index is independent of `γ₀`; and that `gl_n^{𝒢_n} = 0` only
-over `ℤ[1/2]` (CHT, §2.1, Lemmas 2.1.1–2.1.2, pp. 7–9; BCG, (2.1.2), p. 514; BLGGT, §1.1, p. 13).
+CHT induction from `Γ' ⊄ Δ` of finite index is independent of `γ₀`; and that `gl_n^{𝒢_n} = 0` over
+`ℤ[1/2]` (CHT, §2.1, Lemmas 2.1.1–2.1.2, pp. 7–9; BCG, (2.1.2), p. 514; BLGGT, §1.1, p. 13).
 
 **Checks.**
 - `ν(j) = −1`.
 - `n = 1`, `γ₀² = 1`: `((a, μ₀) j)² = (μ₀, μ₀²) = 1` forces `μ₀ = 1`, so `ν(r(γ₀)) = −1` over every `R`.
 - For `Γ = ℤ/2` the triples are the `A` with `Aᵀ = −μA`; there are none for `ℤ/3` (no index-two
   subgroup); over `F₂`, `−1ᵀ = 1` and `gl_n^{𝒢_n} ≠ 0`.
+- Inverting `2` is sufficient, not necessary: invariance under the elementary matrices of `GL_n(R)`
+  forces a scalar `a · 1_n`, which `ad(j)` sends to `−a · 1_n`, so the invariants are the `a · 1_n`
+  with `2a = 0`. Over `ℤ`, where `2 ∉ ℤ^×`, this is `0`; over `ℤ/4` it is `{0, 2 · 1_n} ≠ 0`.
 
 **Signs and places.** Prove: (1) `⟨x, y⟩_{v'} = ⟨x, ρ(c_v c_{v'}) y⟩_v` polarises `(ρ, μ)` at another
 real place `v'` with `ε_{v'} = μ(c_v c_{v'}) ε_v = −μ(c_{v'})` whenever `μ(c_v c_{v'}) ∈ {±1}`
@@ -3035,11 +3051,27 @@ real place `v'` with `ε_{v'} = μ(c_v c_{v'}) ε_v = −μ(c_{v'})` whenever `�
 alternating forces `n` even and `det ρ = μ^{n/2}`; (3) an alternating perfect pairing on a free module
 over a nonzero ring forces `n` even; (4) for `k` a field and `ρ` absolutely irreducible with
 `ρ^c ≅ ρ^∨ ⊗ μ`, a covariant pairing exists, unique up to `k^×`, with an intrinsic sign `sgn(ρ, μ)`
-for `char k ≠ 2`: `(ρ, μ)` is polarised iff `sgn = 1`, otherwise `(ρ, μδ)` is; the extensions to
-`𝒢_n(k)` form a `k^×/k^{×2}`-torsor with multiplier in `{μ, μδ}`; in characteristic `2` it is always
-polarised (`μ(c) = 1 = −1`), not necessarily alternating; (5) an irreducible `ρ : G_K → GL₄(ℚ̄_p)`
-with symplectic similitude characters `ν` and `νψ`, `ψ ≠ 1`, has `ψ` of finite order and is reducible
-over a quadratic subfield of the field of `ψ` (BCGP, Lemma 8.3.1, p. 246).
+for `char k ≠ 2`: `(ρ, μ)` is polarised iff `sgn = 1`, otherwise `(ρ, μδ)` is; the extensions
+`r : Γ → 𝒢_n(k)` of `ρ` (`r|_Δ = (ρ, μ|_Δ)`, all with the same multiplier, `μ` or `μδ`), taken up to
+conjugation by `GL_n(k) × {1}`, form a `k^×/k^{×2}`-torsor, `α ∈ k^×` replacing `r(γ) = (A, m) j`
+by `(αA, m) j` for `γ ∉ Δ`: the elements of `GL_n(k) × {1}` carrying one extension of `ρ` to another
+are the scalars `x` (Schur), acting by `A ↦ x²A`, whereas `(1, y) ∈ 𝒢_n⁰(k)` acts by `A ↦ y⁻¹A`, so
+up to `𝒢_n⁰(k)`-conjugacy there is a single class (CHT, Lemma 2.1.4, pp. 9–10); in characteristic `2`
+it is always polarised (`μ(c) = 1 = −1`), not necessarily alternating; (5) an irreducible
+`ρ : G_K → GL₄(ℚ̄_p)` with symplectic similitude characters `ν` and `νψ`, `ψ ≠ 1`, has `ψ` of finite
+order and is reducible over a quadratic subfield of the field of `ψ` (BCGP, Lemma 8.3.1, p. 246).
+
+**Checks.**
+- `Γ = ℤ/2 = {1, c}`, `Δ = 1`, `n = 1`, `ρ` trivial: the extensions are `r_a(c) = (a, 1) j`, `a ∈ k^×`,
+  with `r_a(c)² = 1` and `ν(r_a(c)) = −1`, and `(x, y) ∈ 𝒢₁⁰(k)` conjugates `r_a` to `r_{x²a/y}`. Over
+  `ℚ₃` the parameters `1` and `2` give different `GL₁(ℚ₃) × {1}`-classes (`2` is not a square in
+  `ℚ₃`) but one `𝒢₁⁰(ℚ₃)`-class, by `(x, y) = (1, 2)`.
+- For `k` algebraically closed, or perfect of characteristic `2`, `k^×/k^{×2} = 1` and the extension
+  is unique up to `GL_n(k) × {1}`-conjugacy; over `ℝ` there are two classes, in rank one the `r_{±1}`
+  of the previous check, whose pairings `⟨x, x⟩ = ±x²` have opposite signs.
+- In rank one an alternating pairing `uxy` has `u = ⟨1, 1⟩ = 0` and is not perfect over a nonzero
+  ring, while over `F₂` the pairing `xy` is perfect and antisymmetric but not alternating: (3) needs
+  alternation, not antisymmetry.
 
 **Operations.** For `F` imaginary CM, `δ = δ_{F/F⁺}` and inputs polarised at the same `c_v`, define
 the dual `(ρ^∨, μ⁻¹, ε)`; the twist `(ρ ⊗ χ, μ · (χ ∘ Ver), ε)` with the same pairing
