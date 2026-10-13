@@ -2771,6 +2771,11 @@ in the standard integral level.
   that for `U′ ≤ U`, `levelArithmetic x U′` has finite
   index in `levelArithmetic x U`; for all `x, x′` and compact open `U, U′` the groups `Γ_{x,U}`
   and `Γ_{x′,U′}` are commensurable (`Reduction.levelArithmetic_commensurable`) ([Milne], Lemma 5.13, p. 57). *Needs:* AA.1.3; AA.1.5; AA.1.2.
+  Discreteness needs only compactness of `U`, as in the Lean signature; the finite-index and
+  commensurability applications here use compact open levels.
+  KleinianGroups §Layer 3 / `isDiscrete_bianchi` (an open TauCetiRoadmap pull request by t4v1)
+  states the imaginary-quadratic Bianchi special case, reconciled with this theorem by the
+  integral-level and finite-centre adapter in **Downstream consumers**.
   *Lean:* in `Reduction`: `levelArithmetic`, `levelArithmetic_discrete`,
   `levelArithmetic_commensurable`.
 
@@ -4483,6 +4488,17 @@ The Calegari–Geraghty `GL_1` computations of AA.5.1 are the base case for the 
 modularity-lifting roadmaps. Within this roadmap, AA.3.4 consumes the real reduction of AA.3.2–3.3;
 AA.3.6 consumes AA.3.4, AA.4.2 consumes its lattices, and AA.4.4–AA.4.5 consume
 the neat levels of AA.4.3.
+
+| Consumer | Supplied target | Consumer bridge |
+|---|---|---|
+| KleinianGroups §Layer 3 / `isDiscrete_bianchi` (an open TauCetiRoadmap pull request by t4v1) | AA.3.4 `Reduction.levelArithmetic_discrete` for the integral `SL₂` level over an imaginary quadratic field | KleinianGroups identifies the integral level and the chosen complex embedding, then passes through the finite centre to its Bianchi subgroup of `PSL₂(ℂ)`. |
+
+For this specialization take `x = 1` and the compact open level `∏_{v finite} SL₂(𝒪_v)`;
+identify its rational preimage with `SL₂(𝒪_F)`. KleinianGroups uses its explicit
+`ι : F →+* ℂ` to identify `F_∞` with `ℂ` and transport the archimedean subgroup topology.
+It derives projective discreteness by passing through the finite centre of `SL₂(ℂ)` to
+its image `bianchi F ι` in `PSL₂(ℂ)`; this adapter consumes AA.3.4 rather than giving a
+second arithmetic-discreteness proof.
 
 ## References
 
