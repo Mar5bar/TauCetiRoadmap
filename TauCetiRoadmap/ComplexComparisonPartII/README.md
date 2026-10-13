@@ -1,7 +1,7 @@
-# Roadmap: complex comparison, part II — coherent analytic sheaves, algebraization and de Rham–Betti comparison
+# Roadmap: complex comparison, part II — coherent, de Rham–Betti and étale comparison
 
-**Summary.** This roadmap compares complex algebraic geometry with complex analytic geometry in
-the directions the finite-coefficient étale–singular comparison does not reach. It builds the
+**Summary.** This roadmap compares complex algebraic geometry with complex analytic geometry and
+classical topology, for coherent, de Rham and étale coefficients. It builds the
 category of coherent analytic modules on the analytic space of a complex scheme and the exact
 analytification functor into it; computes coherent analytic cohomology by analytic means
 (Dolbeault's lemma, the weighted `∂̄`-estimate, Cartan's theorem B on strongly 1-complete spaces,
@@ -16,11 +16,15 @@ Katz–Oda), with Hodge theory (harmonic forms on compact Kähler manifolds, the
 of a proper smooth scheme, Deligne's relative Hodge theorem), with integration over analytic cycles
 and the Chern normalisation, for regular singular connections (Deligne's Riemann–Hilbert equivalence
 and nonproper comparison), and for proper log-smooth schemes over the standard log point (Kato's
-logarithmic structures and the logarithmic monodromy triangle).
+logarithmic structures and the logarithmic monodromy triangle). It also supplies scheme
+compactifications over qcqs bases, their coherent refinement API, stratified topology and finite
+cover comparison for complex schemes, and ordinary, compact-support, relative and integral/rational
+adic Artin comparison for constructible coefficients.
 
-The finite-coefficient étale–singular comparison belongs to
-CohomologicalPointCounting/ComplexComparison, its complex comparison section; coherent GAGA and
-de Rham comparison are the separate subject here. The analytic local algebra (convergent germs,
+Finite-coefficient ordinary and compact-support comparison are supplied by
+ComplexComparisonPartII §§C6.3–C6.4 / `artinComparison`, `artinComparisonCompactSupport`;
+coherent GAGA and de Rham comparison have their own coefficient categories and canonical maps.
+The analytic local algebra (convergent germs,
 Weierstrass preparation and division, Oka coherence), the category of
 complex analytic spaces with nilpotents, analytification of schemes and algebraic spaces, flatness
 of the analytic local rings over the algebraic ones, and proper coherent GAGA itself are built in
@@ -30,7 +34,7 @@ exchange, integration, residue, coefficient change), so that an arithmetic appli
 its own sections, residues, periods and monodromy through those maps rather than through
 unlabelled dimension counts.
 
-The layers are C0–C5:
+The layers are C0–C6:
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
@@ -38,8 +42,9 @@ The layers are C0–C5:
 | C1 | Analytic coherent cohomology | `localDolbeault`, `HodgeStar`, `HodgeLaplacian`, `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`, `cartanTheoremB`, `schwartzFiniteness`, `cartanSerreFiniteness`, `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`, `analyticSerreVanishing` |
 | C2 | Projective and proper consequences of coherent GAGA | `gagaBaseChange`, `projectiveGeometricDictionaries` |
 | C3 | Algebraic spaces: analytic descent and derived GAGA | `analyticEtaleDescent`, `spaceQuasiCoherator`, `pseudoCoherenceDetection`, `derivedGagaProperSpace` |
-| C4 | Analytic images, Chow algebraization and morphism comparison | `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `affineCurveConnectedness` |
+| C4 | Scheme compactification, analytic images, Chow algebraization and morphism comparison | `Compactification`, `DenseCompactification`, `nagataCompactification`, `compactificationCommonRefinement`, `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `affineCurveConnectedness` |
 | C5 | de Rham–Betti comparison, Hodge theory and logarithmic comparison | `AlgebraicDeRham`, `holomorphicPoincare`, `sheafSingularComparison`, `properDeRhamBetti`, `GaussManin`, `relativeHodgeBundles`, `kaehlerHodgeDecomposition`, `properPureHodge`, `AnalyticCycleIntegration`, `LogStructure`, `logChartCriterion`, `deligneRiemannHilbert`, `regularSingularDeRhamComparison`, `properLogGagaMonodromy` |
+| C6 | Stratified topology, Riemann existence and finite/adic Artin comparison | `complexAlgebraicTopology`, `topologicalCoefficientComparison`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison` |
 
 ## Scope and ownership
 
@@ -69,6 +74,16 @@ regular singularities, canonical logarithmic extensions, Deligne's Riemann–Hil
 nonproper comparison, the curve logarithmic and compact-support complexes with residues, and the
 specializations and analytic adapters for shared logarithmic structures and de Rham complexes,
 split log cotangent transitivity, and the proper logarithmic comparison over the standard log point.
+
+The scheme geometry of §§C4.3a–C4.3c owns compactification objects, Nagata existence and
+common refinements for separated finite-type morphisms over qcqs bases, over arbitrary base
+schemes in this range. C6 owns the stratified topology of finite-type complex schemes, topological
+local and constructible coefficients, Riemann existence, and finite/adic Artin comparison.
+C5.1's constant sheaf–singular comparison retains arbitrary abelian coefficients and its
+non-Hausdorff domain. C6 uses it and constructs the additional local-coefficient and compact-support
+theory. The finite/adic étale coefficient categories and their geometric operations are supplied
+by LefschetzPencilsAndVanishingCycles §§F.0–F.4; C6 uses those categories, while their
+nearby-cycle and inertia applications consume C6's general comparison theorems.
 
 **Built in other roadmaps and cited.**
 
@@ -128,12 +143,17 @@ split log cotangent transitivity, and the proper logarithmic comparison over the
   `spaceDQCoh.schemeEtaleEquivalence`, `spaceDQCoh.derivedPullback`,
   `spaceDQCoh.derivedPushforward`, `spaceDQCoh.tensor` and `spaceDQCoh.cohomologyComparison`. C3.2
   builds the quasi-coherator on this category.
-- *CohomologicalPointCounting/CompactSupport, Layers 0–2.* `Compactification f` and
-  `DenseCompactification f` for a separated finite-type morphism `f` of Noetherian schemes (a
-  quasi-compact open immersion followed by a proper morphism), the Noetherian Nagata compactification
-  theorem that every such `f` has one, and common refinements of two compactifications. C4.3 uses
-  them for separated schemes of finite type over `Spec ℂ`; the étale coefficients of its later
-  layers are not used.
+- *LefschetzPencilsAndVanishingCycles, §§F.0–F.3.* Finite étale covers and monodromy,
+  finite/constructible module sheaves, the bounded constructible finite-Tor category, finite
+  cohomology and products, proper/smooth base change, compact supports, finiteness and Künneth.
+  C6.2–C6.5 use these inputs, with their precise coefficient and geometric hypotheses.
+  Its §F.4 supplies normalized adic systems and their classical/pro-étale realizations for C6.6.
+- *ClassicalAdicEtaleCohomology, §§0.1–0.4, 0.7–0.8.* Enhanced module-sheaf categories,
+  canonical derived functors, derived limits/completion, étale support localization and
+  compactification-defined proper supports. These use the geometry of §§C4.3a–C4.3c;
+  coherent proper-support algebraization in C4.3 uses the same geometry with `O_X`-modules.
+- *UniversalCovers.* Fundamental-groupoid transport, covering classification, lifting and deck
+  transformations for C6's finite topological covers and local systems.
 - *SchemeAndStackFoundations.* Algebraic spaces, their étale sites and descent (Layer 1); site
   cohomology functoriality, higher direct images, Leray and Čech-to-cohomology (§2.1 `Sheaf.H.pullback`,
   §2.1 `Sheaf.higherDirectImage`, §2.2 `leray_spectral_sequence`, §2.2 `cech_to_cohomology`),
@@ -199,6 +219,21 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   of C0 and C3 also apply to the non-Hausdorff analytic spaces of the supplier.
 - **Algebraic schemes** are locally of finite type over `ℂ` unless a target names another base;
   algebraic spaces are locally separated and of finite type over `ℂ`.
+- **Compactification geometry** in §§C4.3a–C4.3c is over any qcqs base `S` with `f : X → S`
+  separated and finite type. In Lean, finite type is `LocallyOfFiniteType f` together with
+  `QuasiCompact f`, and qcqs is `CompactSpace S` together with `QuasiSeparatedSpace S`.
+- **Finite and adic coefficients.** C6 uses a finite commutative ring `Λ`, killed by an integer
+  `N ≥ 1`; invertibility is required only by the particular geometric input using it (over `ℂ`
+  it is automatic). `Dᵇ_ctf` means bounded constructible cohomology and finite Tor amplitude,
+  not just constructibility. Adic objects have coherent derived reductions at all levels and
+  uniform cohomological and Tor intervals. Arithmetic fibre transport requires a specified
+  family and an étale path or specialization datum.
+- **Classical topology.** C6 always uses the underlying space of
+  AlgebraicModuliForArithmeticGeometry §7.10.1's `complexSchemeAnalytification`, restricted to
+  finite-type complex schemes. Forgetting the ring sheaf supplies the topological carrier;
+  its nilpotents remain in the analytic object. Global Hausdorff/paracompact and compact-support
+  claims carry separatedness; arbitrary finite-type schemes retain the affine-local topology
+  and ordinary comparison.
 - **Analytification of modules.** For a scheme `X` with `φ_X : X^an → X`, and an `O_X`-module `F`,
   `F^an = O_{X^an} ⊗_{φ_X⁻¹O_X} φ_X⁻¹F`: Mathlib's pullback of sheaves of modules along the
   morphism of ringed spaces `φ_X`. It is never an independently chosen analytic module.
@@ -253,7 +288,9 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `AddSubmonoid.NSMulSaturated` (root saturation in the given ambient additive monoid).
   C5.5 applies the latter to the chart submonoid inside its generated subgroup.
 - Schemes: `AlgebraicGeometry.IsProper`, `IsSeparated`, `LocallyOfFiniteType`, `IsOpenImmersion`
-  (a `MorphismProperty`), `IsLocallyNoetherian`.
+  (a `MorphismProperty`), `IsLocallyNoetherian`; `QuasiCompact`, `CompactSpace`,
+  `QuasiSeparatedSpace`, `IsSchemeTheoreticallyDominant`, `Scheme.Hom.ker`, `Flat`,
+  `CategoryTheory.Over` and scheme pullbacks for compactification geometry.
 - Analysis: `AnalyticAt`, `Filter.Germ.valueRingHom`, `ContDiff`, `fderiv`, the multivariable inverse
   function theorem `ContDiffAt.to_localInverse` (valid at analytic smoothness `ω`), Montel-type
   compactness via Arzelà–Ascoli, `circleIntegral` with
@@ -300,6 +337,10 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 - `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` (compact perturbations of Fredholm
   operators are Fredholm), for Banach spaces. This supplies the finite-kernel case;
   `schwartzFiniteness` treats a surjection with no finite-kernel hypothesis.
+- `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`, `TauCeti.IsSemialgebraicMap` in
+  `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic` and `.Function`: polynomial sign sets,
+  finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 builds
+  compatible triangulations and their topology using these carriers.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -352,6 +393,53 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 - **SchemeAndStackFoundations.** Layer 1 (algebraic spaces, étale sites, effective descent); Layer 2 (the site-cohomology, quasi-coherent cohomology and derived
   quasi-coherent declarations named in *Scope and ownership*); §4.12 (Chow's lemma).
 
+### Finite and adic étale suppliers
+
+- **LefschetzPencilsAndVanishingCycles §F.0.** `VanishingCycles.constructibleEtale`,
+  `VanishingCycles.finiteEtaleGaloisCategory` and `VanishingCycles.etaleTateTwists` supply
+  finite module sheaves, finite covers, étale paths and twists. Constructibility is globally
+  finitely stratified on Noetherian schemes and affine-local on locally Noetherian schemes.
+  Cover classification and pure constructibility impose no coefficient invertibility;
+  twists use SchemeAndStackFoundations §§2.9, 2.11's roots of unity and Kummer with invertible `N`.
+- **Its §F.1.** `VanishingCycles.constructibleDerivedCategory` and
+  `VanishingCycles.finiteCoefficientCohomology` use the common enhanced module-sheaf category
+  and retain the distinction between constructible and ctf complexes, coefficient modules,
+  cups and coherent finite group actions. The underlying abelian `D⁺` cohomology agrees with
+  SchemeAndStackFoundations §§2.1–2.2, which supply the generic site functors and Leray.
+- **Its §F.2.** `VanishingCycles.properBaseChange` covers arbitrary torsion on the proper
+  `D⁺` domain without invertibility; `VanishingCycles.smoothBaseChange` uses invertible
+  torsion in the rotated smooth/qcqs square. `VanishingCycles.localAcyclicity`,
+  `VanishingCycles.etaleKunneth`, `VanishingCycles.etaleCompactSupports`,
+  `VanishingCycles.compactSupportCohomology` and `VanishingCycles.etaleKunnethCompactSupport`
+  supply finite-level exchange, ULA and ordinary/compact products on their stated domains.
+  The lower-shriek construction itself is ClassicalAdicEtaleCohomology §0.8's
+  `ClassicalAlgebraic.properSupports`, using §§C4.3a–C4.3c here.
+- **Its §F.3.** `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`,
+  `VanishingCycles.affineArtinVanishing`, `VanishingCycles.lisseDirectImageTransport`
+  and `VanishingCycles.compactSupportFiniteness`
+  supply geometric bounds, affine Artin vanishing, constructibility and finite/perfect
+  cohomology. For `Rf_!` preservation of ctf use separated finite type between Noetherian
+  schemes and invertible `N`; geometric finiteness is over a separably closed field.
+- **Its §F.4.** `VanishingCycles.normalizedAdicSystems`, `VanishingCycles.classicalAdicRealization`,
+  `VanishingCycles.etaleProetaleAdicComparison`, `VanishingCycles.adicFiniteness`,
+  `VanishingCycles.rationalAdicRealization` and `VanishingCycles.adicFunctoriality` supply
+  coherent uniform ctf towers, derived-complete realization, all reductions and continuous
+  actions. C6.6 applies them over `ℂ`, with compact support for separated schemes, and uses
+  rationalization of this integral object. These foundations do not use its §F.9 comparison
+  application.
+- **ClassicalAdicEtaleCohomology §§0.1–0.4, 0.7–0.8.** `ClassicalDerived.tensorHom`,
+  `ClassicalDerived.functorCoherence`, `ClassicalDerived.inverseLimits`,
+  `ClassicalDerived.derivedCompletion`, `ClassicalAlgebraic.supportLocalization` and
+  `ClassicalAlgebraic.properSupports` give the enhancement, canonical transformations,
+  derived products/limits, reduction conservativity, étale localization and proper supports.
+  Constructibility and geometric isomorphism theorems come from the preceding suppliers.
+- **UniversalCovers** supplies the topological fundamental groupoid and finite-cover
+  classification on locally path-connected, semilocally simply connected spaces, with deck
+  groups and basepoint-change transport. **RealAlgebraicGeometry Layers 3, 6** supply the
+  polynomial-sign, cell decomposition and projection theory; **AlgebraicTopology** supplies
+  simplicial/CW topology and ordinary constant singular coefficients. C6.0 adds triangulation;
+  C6.1 adds local and stratified cochains on these existing foundations.
+
 ## How to read the build
 
 C0 puts coherent sheaf theory on the analytic spaces of AlgebraicModuliForArithmeticGeometry
@@ -365,13 +453,16 @@ half of Serre's projective comparison, and they feed Chow's theorem in C4. C2 st
 consequences of GAGA that families need (projection and base change, dictionaries for ideals,
 sections and bundles). C3 passes to algebraic spaces: analytic étale descent, the quasi-coherator on
 the quasi-coherent derived category of an algebraic space and Hall's derived GAGA. C4 proves the
-analytic image theorems and uses them, with the Nagata compactification of
-CohomologicalPointCounting/CompactSupport, to algebraize analytic subspaces and
+analytic image theorems and uses them, with the compactification objects, Nagata theorem and
+refinements of §§C4.3a–C4.3c, to algebraize analytic subspaces and
 holomorphic maps out of proper schemes, and compares connectedness of affine curves. C5 is the
 de Rham layer, in seven parts: ordinary proper comparison (C5.1), families (C5.2), geometric Hodge
 theory (C5.3), integration over analytic cycles (C5.4), logarithmic structures (C5.5), regular
 singular connections and the Riemann–Hilbert correspondence (C5.6), and curves with the proper
-logarithmic comparison (C5.7). Each layer ends with its examples and its dependencies.
+logarithmic comparison (C5.7). C6 develops stratified topology and topological coefficients,
+Riemann existence, finite-level ordinary/compact-support/relative Artin comparison, then adic
+comparison using the supplied normalized étale systems. C6.0–C6.5 use the finite-level
+foundations independently of adic realization. Each layer ends with its checks and dependencies.
 
 <a id="c0"></a>
 
@@ -1160,13 +1251,122 @@ pp. 19-5–19-7; Demailly, II.8.10,
 p. 121). It says nothing about closed analytic subsets of `Aⁿ`. *Needs:* `analyticSerreGeneration`;
 `analyticTwistCohomology`; `projectiveGeometricDictionaries`; `remmertSteinExtension`.
 
+### C4.3a Scheme compactification objects
+
+**Scheme compactification objects — `Compactification`, `DenseCompactification`.**
+For a separated finite-type morphism `f : X → S` with `S` qcqs, a `Compactification f`
+contains a scheme `Xbar`, a quasi-compact open immersion `j : X → Xbar`, a proper
+`p : Xbar → S`, and `j ≫ p = f`. A morphism `Compactification.Hom C D` is a scheme map
+`h : C.Xbar → D.Xbar` satisfying `C.j ≫ h = D.j` and `h ≫ D.p = C.p`; identities and
+composition give the compactification category. `DenseCompactification f` is its full
+subcategory where `j` is schematically dense, expressed by Mathlib's
+`IsSchemeTheoreticallyDominant j`. For a quasi-compact open immersion this also implies
+topological density. The factorization carrier makes sense for any `f`; the existence
+theorems below use the separated finite-type/qcqs hypotheses.
+
+Supply transport along isomorphisms of the source, base and factorization, products over `S`,
+restriction over base opens, and `Compactification.baseChange` along any `S' → S`.
+`Compactification.denseReplacement` replaces `Xbar` by the schematic closure of `j(X)`,
+with `Compactification.denseReplacementMap` as its canonical map to the original
+compactification. Prove this is functorial and retains
+the original open subscheme, including its nilpotents. Under arbitrary base change supply the
+canonical map from the dense replacement after base change to the base change of the dense
+replacement; it is an isomorphism for flat base change. Density of the pulled-back `j` is
+asserted for flat base change. For arbitrary base change take dense replacement again.
+These comparisons satisfy the identity and composition laws. `Compactification.identity`
+is the dense identity choice when `f` is proper.
+
+*Source:* Stacks, §38.32 (*Compactifications*), §29.7 (*Scheme theoretic closure and density*),
+and §29.6 (*Scheme theoretic image*); the flat density API is also Mathlib's
+`IsSchemeTheoreticallyDominant.of_isPullback`.
+*Needs:* SchemeAndStackFoundations Layer 0 (scheme gluing and schematic images);
+Mathlib `Scheme`, `Over`, pullbacks, `IsOpenImmersion`, `QuasiCompact`, `IsProper` and
+`IsSchemeTheoreticallyDominant` with their isomorphism/composition/base-change APIs.
+
+**Checks.**
+
+- A proper `f` has `Xbar = X`, `j = id`, `p = f` as its identity compactification.
+- `A¹_k ⊂ P¹_k` is a dense compactification with the single boundary point `∞`.
+- For `Spec k[t,ε]/(ε²)` inside `P¹_{k[ε]/(ε²)}`, schematic closure keeps the square-zero
+  structure. Taking the reduced closure would change the open subscheme.
+- `D(t) ⊂ Spec k[t]` is schematically dense, but after base change to `t = 0` its interior
+  is empty inside a point; the dense replacement there is empty.
+
+### C4.3b Nagata compactification over a qcqs base
+
+**Nagata compactification over a qcqs base — `nagataCompactification`.**
+For every qcqs scheme `S` and separated finite-type `f : X → S`, construct a
+`Compactification f`; applying `Compactification.denseReplacement` gives a
+`DenseCompactification f`. The Lean existence theorem states `Nonempty (DenseCompactification f)`.
+No Noetherian, field, finite-presentation or complex-base hypothesis is added to this theorem.
+
+Build the geometric steps of the Noetherian proof: extension and composition of admissible
+blowups over quasi-compact opens, their strict transforms, separation of closures of disjoint
+constructible closed subsets by an admissible blowup, and gluing across a dense common open
+after blowups. Establish enlargement of a compactified dense open and the two-open
+compactifiability step. A finite affine cover with dense total intersection reduces existence
+to affine embeddings and schematic closures in projective space. For a qcqs base, first
+embed `X` as a closed subscheme of a separated finitely presented `X' → S`, descend `X'`
+and separatedness through a Noetherian approximation of `S`, compactify at that stage, and
+pull back. The schematic closure of `X` then supplies the compactification of the original
+finite-type morphism; finite type must not be replaced by finite presentation.
+
+*Source:* Stacks, §38.33, Lemmas 38.33.1–38.33.7 and Theorem 38.33.8
+([0F41](https://stacks.math.columbia.edu/tag/0F41)); the reduction uses Limits,
+Propositions 32.9.6 and 32.5.4, Lemmas 32.10.1 and 32.8.6.
+*Needs:* §C4.3a; SchemeAndStackFoundations §0.9 (limits and approximation), scheme images
+and gluing; StableReduction Layer 4's blowup geometry and SchemeAndStackFoundations §4.11's
+schematic strict transforms. The admissible-blowup extension, disjoint-closure and gluing
+results just specified are targets here, using the existing blowup carriers.
+
+**Checks.**
+
+- A proper morphism admits the identity choice of §C4.3a.
+- `A¹_k → Spec k` admits `A¹_k ⊂ P¹_k` over any field `k`.
+- The open immersion for a nonproper morphism need not be surjective; for the preceding
+  affine line its boundary is nonempty.
+
+### C4.3c Common refinements and coherent comparison
+
+**Common refinements and coherent comparison — `compactificationCommonRefinement`.**
+For separated finite-type `f : X → S` with `S` qcqs and compactifications `C₁`, `C₂`, take
+the schematic closure of `(j₁,j₂)(X)` in `C₁.Xbar ×_S C₂.Xbar`. It is a dense
+compactification with proper projections to both choices fixing `X`. The Lean statement
+supplies a dense `C` and `Compactification.Hom` maps from `C` to `C₁`, `C₂`.
+Prove properness of every compactification morphism (`Compactification.Hom.proper`) and
+finite-diagram refinement.
+The dense full subcategory is nonempty and cofiltered, and two maps out of a dense
+compactification into any fixed compactification agree, since the target is separated over `S`.
+The Lean forms are `denseCompactification_cofiltered` and `denseCompactification_hom_unique`.
+For nondense sources equalize parallel maps after dense replacement; agreement on the interior
+does not itself assert equality on their extra components.
+
+Export the canonical cones and their compatibility with products and base change. Under
+arbitrary base change a refinement remains a refinement; use §C4.3a's dense replacement
+to return to the dense subcategory. Flat base change also preserves the schematic-closure
+construction. Prove the categorical comparison principle: a functor assigning equivalences
+to refinement arrows, with its identity/composition laws, has canonical choice comparisons
+independent of the refining cone, satisfying the identity, inverse, three-choice cocycle and
+base-change laws. Coherent and étale consumers construct their own coefficient functors
+and discharge these hypotheses; the geometry does not identify those functors.
+
+*Source:* Stacks, Lemma 38.32.1, §29.7 (uniqueness on a schematically dense open), and
+§63.9, Lemma 63.9.1 (the coefficient-specific use of coherent refinement comparisons).
+*Needs:* §§C4.3a–C4.3b; schematic images, proper products and separated diagonals;
+Mathlib's category/limit API. No étale base-change theorem is needed to construct the geometry.
+
+**Checks.**
+
+- A refinement of the proper identity choice has its specified comparison map to that choice.
+- Comparisons among three compactifications satisfy `α₂₃ ∘ α₁₂ = α₁₃`.
+- Refining `A¹ ⊂ P¹` leaves the étale consumer's forget-supports map unchanged once that
+  consumer has proved its refinement equivalences.
+
 ### C4.3 Compactification and algebraization with proper support
 
-Compactifications are those of CohomologicalPointCounting/CompactSupport: `Compactification f` and
-`DenseCompactification f` (Layer 0), the Noetherian Nagata compactification theorem (Layer 1) and
-common refinements (Layer 2). Every compactification below is of a separated scheme of finite type
-over the Noetherian base `Spec ℂ`, so the Noetherian theorem applies as stated there; for
-quasi-projective schemes projective closure already suffices.
+Use the compactification objects, Nagata theorem and common refinements of
+§§C4.3a–C4.3c. Every compactification in this coherent application has base `Spec ℂ`;
+for quasi-projective schemes projective closure supplies a choice.
 
 Prove `properSupportAlgebraization`: let `Y` be a separated scheme of finite type over `ℂ` and `G` a
 coherent analytic module on `Y^an` whose support is compact. Then `G ≅ F^an` for a coherent `O_Y`-module
@@ -1174,15 +1374,15 @@ coherent analytic module on `Y^an` whose support is compact. Then `G ≅ F^an` f
 unique isomorphism compatible with the specified identification, and morphisms between such
 modules algebraize uniquely. In particular a closed analytic subspace of `Y^an` with compact support is `W^an`
 for a unique closed subscheme `W ⊆ Y`, proper over `ℂ`, nilpotents included. The analytic module `O_{Y^an}` itself has noncompact support and is
-not covered. Choose a compactification `Y ⊆ Ȳ` (CompactSupport Layer 1); the support of `G` is closed
+not covered. Choose a compactification `Y ⊆ Ȳ` (§C4.3b `nagataCompactification`); the support of `G` is closed
 in `Ȳ^an`, so `G` extended by zero is coherent; apply `properSchemeGagaEquivalence` on `Ȳ`;
 faithfulness puts the support of the algebraic module inside `Y`, and full faithfulness, applied on a
-common refinement of two compactifications (CompactSupport Layer 2), makes the result independent of
+common refinement of two compactifications (§C4.3c `compactificationCommonRefinement`), makes the result independent of
 the compactification (SGA 1, XII, Theorem 4.4, printed pp. 249–250, applied on `Ȳ`; Serre, *GAGA*,
 n° 19, Proposition 14, printed p. 29, for reduced compact analytic subsets; the reduction to a
 compactification is the argument just given).
-*Needs:* CohomologicalPointCounting/CompactSupport Layers 0–2 (`Compactification`, Noetherian Nagata
-compactification, common refinements); AlgebraicModuliForArithmeticGeometry
+*Needs:* §§C4.3a–C4.3c (`Compactification`, `nagataCompactification`,
+`compactificationCommonRefinement`); AlgebraicModuliForArithmeticGeometry
 `properSchemeGagaEquivalence`; `coherentAnalytification_faithful`; AlgebraicModuliForArithmeticGeometry
 `complexSchemeAnalytification.openSubspace`.
 
@@ -1279,7 +1479,9 @@ one-dimensional case, by the route above). *Needs:* `affineCurveCompletionInterf
 ### Dependencies
 
 C0–C2; AlgebraicModuliForArithmeticGeometry §§7.10.1, 7.10.3 and Layers 1–3;
-SchemeAndStackFoundations Layer 1; CohomologicalPointCounting/CompactSupport (Layers 0–2);
+SchemeAndStackFoundations Layer 1 and §0.9; §§C4.3a–C4.3c
+(`Compactification`, `nagataCompactification`, `compactificationCommonRefinement`);
+StableReduction Layer 4 and SchemeAndStackFoundations §4.11 for compactification geometry;
 TauCetiRoadmap.AlgebraicCurves (Layers 6 and 12); Mathlib schemes and manifolds.
 
 <a id="c5"></a>
@@ -1453,8 +1655,8 @@ TauCetiRoadmap.AlgebraicTopology (Stage 6, cochain products); Mathlib `Algebraic
 
 Prove `sheafSingularComparison`: for a space `T` in which every neighbourhood of every point contains a
 smaller neighbourhood whose inclusion is null-homotopic (semilocal contractibility, which is Mathlib's
-`LocallyContractibleSpace`; manifolds satisfy it through coordinate balls, and these are the only
-spaces to which this roadmap applies it), and for every abelian group `A`, the canonical map
+`LocallyContractibleSpace`; manifolds satisfy it through coordinate balls, and C6.0 supplies it
+for finite-type complex schemes), and for every abelian group `A`, the canonical map
 `Sheaf.H(T, A) → H^q_sing(T, A)` is an isomorphism in every degree, natural in `T` and `A`. No
 Hausdorff assumption on `T` and no finiteness assumption on `A` is made. The small cochains are a
 flasque resolution of the constant sheaf (`TauCeti.Topology.subsingleton_H_succ_of_isFlasque` makes
@@ -2289,6 +2491,304 @@ derivations, monoids and group completions, `circleIntegral`.
 
 <a id="c6"></a>
 
+## Layer C6: Stratified topology, Riemann existence and Artin comparison
+
+Use `complexSchemeAnalytification` from AlgebraicModuliForArithmeticGeometry §7.10.1 on
+finite-type complex schemes, and write `T_X` for its underlying topological space. This layer
+compares finite/adic module coefficients. Its algebraic coefficient and operation suppliers are
+LefschetzPencilsAndVanishingCycles §§F.0–F.4 and ClassicalAdicEtaleCohomology's generic
+enhancement; coherent `O_X`-modules and de Rham complexes retain the comparisons of C0–C5.
+
+### C6.0 Stratified topology of complex algebraic schemes
+
+**Stratified topology of complex algebraic schemes — `complexAlgebraicTopology`.**
+For separated finite-type `X/ℂ` and any prescribed finite algebraic stratification, construct
+a finite compatible triangulation of `T_X`: a homeomorphism from a union of open simplices
+in a finite simplicial complex, with each stratum a union of those simplices. In the proper
+case the union is a finite subcomplex, giving a compact finite-polyhedron model of the reduced
+carrier. No smoothness, irreducibility or reducedness is required for the topological theorem.
+Prove that `T_X` is Hausdorff, locally compact, second countable, paracompact, locally
+contractible and locally path-connected, has finite cohomological dimension for finite
+coefficients, and is homotopy equivalent to a finite CW complex. Finite CW type means a
+homotopy equivalence, not compactness of `T_X`.
+
+Use `TauCeti.IsSemialgebraic` and its Boolean, product and polynomial inverse-image API,
+and `TauCeti.IsSemialgebraicOn` for maps. Consume RealAlgebraicGeometry's cell and projection
+theory; build the compatible subdivision and triangulation lemmas needed here, including
+finite-family compatibility, compact specialization and the passage from algebraic affine
+charts in `ℂⁿ = ℝ²ⁿ` to separated schemes by finite gluing. For arbitrary finite-type `X`
+use finite affine covers to prove local compactness, local contractibility and local path
+connectedness, and also second countability and finite cohomological dimension via the
+finite-cover cohomology bound. Hausdorffness, global triangulation and the preceding global
+finiteness package are asserted for separated `X`.
+
+*Source:* Hironaka, *Triangulations of algebraic sets*, Proc. Sympos. Pure Math. 29 (1975),
+165–185; Bochnak–Coste–Roy, *Real Algebraic Geometry*, §9.2, Theorem 9.2.1
+(triangulation compatible with a finite family); SGA 1 XII §§1–3 for analytification's
+local topology and separatedness.
+*Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1; the pinned semialgebraic carriers;
+RealAlgebraicGeometry Layers 3, 6; AlgebraicTopology's simplicial and CW topology. The
+triangulation and gluing results just specified are constructed here.
+
+**Checks.**
+
+- A nodal complex curve is locally contractible at its singular point.
+- `A¹_ℂ` has the homotopy type of a point despite being noncompact.
+- The affine line with doubled origin has the stated local topology and is not Hausdorff.
+
+### C6.1 Local-coefficient and constructible topological cohomology
+
+**Local-coefficient and constructible topological cohomology — `topologicalCoefficientComparison`.**
+For finite commutative `Λ`, build the category of finite `Λ`-local systems as locally
+constant topological module sheaves. On locally path-connected, semilocally simply connected
+spaces identify it with finite-module functors on the fundamental groupoid; use a basepoint
+only for a based representation statement. Supply stalks, pullback, finite limits/colimits,
+extensions, tensor, dual and path-change coherence. Cochains take values at the first vertex;
+the first face's value is transported back along the first edge. Prove the coboundary-square,
+pullback, homotopy, pair, excision, Mayer–Vietoris and tensor-paired cup identities. For
+constant coefficients consume C5.1's `SmallSingularCochains` and `sheafSingularComparison`
+and Tau Ceti's ordinary singular complex and cup product.
+
+On locally contractible paracompact spaces prove the natural derived sheaf/singular
+comparison for these local systems. For a finite triangulation compatible with a finite
+constructible stratification, construct stratified cochains using the sheaf's restriction
+and specialization maps, and prove their derived comparison with sheaf cohomology for
+bounded constructible complexes. These coefficients need not be locally constant across
+strata. Prove compatibility with restriction and finite open-cover descent; the local-system
+resolution and descent also give ordinary comparison on the possibly non-Hausdorff `T_X`
+of a finite-type complex scheme using its finite affine cover.
+
+For locally compact Hausdorff, paracompact, locally contractible spaces define exact
+topological `j_!` along open embeddings, `Rf_!` for locally proper separated continuous
+maps, and `RΓ_c`, with stalks, adjunction, composition, proper agreement, base change and
+localization. On the finitely triangulated constructible domain prove comparison with
+compactly supported stratified cochains, and with compact singular cochains for local
+systems. The complexes are bounded with finite cohomology over `Λ`; they are perfect
+when the coefficient complex has a uniform finite Tor interval at its stalks.
+All maps retain coefficient change, cup/external products and coherent finite group actions.
+
+*Source:* Dimca, *Sheaves in Topology*, §§2.1–2.5, §3.2 and §4.1 (local systems,
+proper supports and constructibility); Sella, Theorem and Lemma 0.1, pp. 2–4, for the
+constant ordinary resolution used in C5.1. The local-system resolution and stratified
+cochain construction are the extensions specified here.
+*Needs:* §C6.0; UniversalCovers' groupoid/cover classification; C5.1; the singular suppliers
+in *Exact supplier contracts*; ClassicalAdicEtaleCohomology §§0.1–0.4 on topological
+module sheaves, including `ClassicalDerived.tensorHom` and `ClassicalDerived.functorCoherence`.
+
+**Checks.**
+
+- A rank-one `𝔽₃`-local system on `ℂ*` with monodromy `−1` is retained as a nonconstant
+  object; its degree-zero global sections are zero.
+- A skyscraper at a closed point uses its point stratum and has no local-system extension
+  across that point as a locally constant sheaf.
+- On a point, `ℤ/2` over `Λ = ℤ/4` has bounded cohomology but is not perfect.
+
+### C6.2 Riemann existence for finite-type complex schemes
+
+**Riemann existence for finite-type complex schemes — `riemannExistence`.**
+For every finite-type `X/ℂ`, analytification induces an equivalence between finite étale
+`X`-schemes and finite topological covering spaces of `T_X`. Include singular, nonreduced,
+disconnected and nonseparated `X`. Construct full faithfulness and essential surjectivity
+by finite-cover analytic algebraization, building extension across compactification
+boundaries, finite analytic algebras, and descent to singular charts as needed for that
+construction. Glue the affine-local equivalences. Use the existing analytification functor
+and UniversalCovers' topological covering API.
+
+The equivalence commutes with pullback, fibre products, disjoint unions and connected
+components, identifies Galois covers and deck groups, and identifies finite lisse
+`Λ`-sheaves with finite topological local systems. For a connected nonempty `X` and a
+chosen complex point identify the étale fundamental group with the profinite completion
+of the topological fundamental group, using the same fibre functor and deck-action
+convention. Unbased and disconnected statements use groupoids; identity and composite
+path changes, tensor operations and coefficient changes commute with this equivalence.
+
+*Source:* SGA 1 XII, Theorem 5.1, with §§2–3 for components and finite/étale analytification.
+*Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1; §§C6.0–C6.1;
+LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
+`VanishingCycles.constructibleEtale`; UniversalCovers; the coherent algebraization tools
+of C0–C4 for the finite-cover analytic algebraization constructed in this target.
+
+**Checks.**
+
+- `z ↦ zⁿ` on `ℂ*`, `n ≥ 1`, gives the cyclic degree-`n` cover and its cyclic deck group.
+- A nilpotent thickening induces the same finite-cover category on both sides.
+- A disconnected finite cover retains its components and their fibrewise cardinalities.
+
+### C6.3 Finite-level Artin comparison for ctf coefficients
+
+**Finite-level Artin comparison for ctf coefficients — `artinComparison`.**
+For every finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_ctf(X_ét,Λ)`, construct
+the site morphism `ε_X : (T_X)_lh → X_ét` by analytifying étale maps as local
+homeomorphisms. The small local-homeomorphism site with jointly surjective covers has
+the same sheaf category as the open-set site of `T_X`; prove and use this equivalence.
+Define `K^an = ε_X^*K`, preserving stalks, finite lissity, constructibility, tensor,
+duals and coefficient maps. The unit gives the canonical comparison
+`RΓ_ét(X,K) → RΓ(T_X,K^an)`; prove it is an equivalence of enhanced derived
+`Λ`-module objects, natural in `X` and `K`. No smoothness, properness or separatedness
+hypothesis is imposed on `X`.
+
+Prove comparison through elementary fibrations. Construct `U ⊂ Ubar → S` with
+`Ubar → S` a smooth projective relative curve with geometrically connected fibres and
+`Ubar ∖ U → S` finite étale with nonempty fibres. For every point of a positive-dimensional
+smooth complex variety of dimension `d`, build a Zariski neighbourhood admitting such a
+fibration over a smooth base of dimension `d−1`: supply the projective embedding,
+normalization, generic projection, shrinking and boundary arguments. Dimension zero
+is the separate point/finite-disjoint-union base case. For finite lisse coefficients
+prove degree-zero/one fibre and higher-direct-image comparison, higher vanishing and
+monodromy agreement. Leray and dimension induction give the smooth lisse comparison.
+Noetherian stratification, finite direct images, localization and induction give the
+constructible case. Use bounded truncations in the ambient constructible derived category,
+then restrict to ctf; arbitrary truncations are not asserted to remain ctf.
+
+Supply ordinary singular corollaries for finite local systems and constant finite abelian
+groups, viewing a finite abelian `A` as a finite `ℤ/n`-module for an annihilator `n`.
+State both comparison directions, and coherent compatibility with cups, ordinary Künneth
+on its supplier domain, twists, derived coefficient reduction and finite group actions.
+
+*Source:* SGA 4 XI §4, especially §4.6 (elementary fibrations), and XVI §4 (comparison);
+Milne, *Lectures on Étale Cohomology*, §21, Theorems 21.1, 21.5, Definition 21.7 and
+Proposition 21.8, pp. 130–134, for the smooth induction.
+*Needs:* §§C6.0–C6.2 and AlgebraicModuliForArithmeticGeometry §7.10.1;
+LefschetzPencilsAndVanishingCycles §§F.0–F.3 (the ctf/cohomology, base-change,
+local-acyclicity, fibre-transport, dimension, finiteness and ordinary Künneth contracts above);
+SchemeAndStackFoundations §§2.1–2.2 (site functors and Leray);
+ClassicalAdicEtaleCohomology §§0.1–0.4 and §0.7 / `ClassicalAlgebraic.supportLocalization`.
+Its localization and finite-open Mayer–Vietoris use étale module coefficients.
+
+**Checks.**
+
+- On `G_m`, `H¹(ℤ/n) = ℤ/n`; with `ζ_n = exp(2πi/n)` the Kummer class of the coordinate
+  evaluates as `1` on the positive loop through the root-of-unity coordinate.
+- A singular finite-type complex scheme is admitted without choosing a manifold structure.
+- On `Spec ℂ` with `ℤ/2` coefficients the comparison is the canonical identity in degree zero.
+
+### C6.4 Compact-support Artin comparison
+
+**Compact-support Artin comparison — `artinComparisonCompactSupport`.**
+For separated finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_ctf(X_ét,Λ)`,
+construct the canonical equivalence
+`RΓ_c,ét(X,K) → RΓ_c(T_X,ε_X^*K)` using §§C4.3a–C4.3c's compactifications,
+proper analytic comparison and the exchange with topological `j_!`. Prove independence
+of compactification by the refinement comparisons and their cocycle. Supply the local-system
+and constant compact singular corollaries via §C6.1. The source and target are the
+compact-support constructions, not the cohomology of coherent modules with proper support.
+
+The equivalence commutes with proper pushforward, open extension by zero, localization
+triangles and their connecting maps, compact-support external products/Künneth, derived
+coefficient change, twists and finite group actions. For complex conjugation use the
+conjugate scheme and the transported coefficient object together with the induced continuous
+homeomorphism; track its action on orientation and root-of-unity coordinates. Arbitrary
+abstract field automorphisms of `ℂ` do not supply continuous maps on the classical topology.
+
+*Source:* SGA 4 XVII §§3–5; SGA 4½, *Théorèmes de finitude*, §§1–2;
+SGA 4 XVI §4's comparison applied to a proper compactification.
+*Needs:* §§C4.3a–C4.3c, §§C6.0–C6.3; AlgebraicModuliForArithmeticGeometry's analytic
+properness API; LefschetzPencilsAndVanishingCycles §§F.2–F.3 /
+`VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`,
+`VanishingCycles.compactSupportFiniteness`, `VanishingCycles.etaleKunnethCompactSupport`;
+ClassicalAdicEtaleCohomology §§0.7–0.8 / `ClassicalAlgebraic.supportLocalization`,
+`ClassicalAlgebraic.properSupports` with §F.2's `VanishingCycles.properBaseChange`.
+
+**Checks.**
+
+- `H⁰_c(A¹,Λ) = 0` on both sides, although ordinary `H⁰` is `Λ`.
+- The localization sequence for `G_m ⊂ A¹` has the same connecting map after comparison.
+- Conjugation on `P¹` reverses its complex orientation; the comparison transports the
+  coefficient/twist coordinate with this action, rather than declaring it trivial.
+
+### C6.5 Proper and lower-shriek relative Artin comparison
+
+**Proper and lower-shriek relative Artin comparison — `relativeArtinComparison`.**
+Let `f : X → Y` be a morphism between finite-type complex schemes, `Λ` finite
+commutative and `K ∈ Dᵇ_ctf(X_ét,Λ)`. If `f` is proper, the canonical exchange
+`ε_Y^* Rf_*K → R(f^an)_* ε_X^*K` is an equivalence. If `f` is separated and finite
+type, prove the lower-shriek exchange
+`ε_Y^* Rf_!K → R(f^an)_! ε_X^*K` is an equivalence. For nonseparated `Y`, construct
+the analytic lower-shriek functor and exchange on Hausdorff affine base opens, where `X`
+is separated over `ℂ`, and prove effective gluing with identity/composition coherence.
+Thus no global Hausdorff hypothesis on `Y` is added to the relative theorem.
+
+Both equivalences identify fibre/stalk comparisons, coefficient maps, cups, twists and
+finite group actions and commute with base-change transformations and composition. On a
+lisse higher-direct-image stratum, intertwine transport along a supplied topological/étale
+path under §C6.2. A path choice is retained; no canonical comparison of unrelated fibres
+is inferred. Proper agreement identifies the two exchanges when `f` is proper.
+
+*Source:* SGA 4 XII, XVI §4 and XVII §§3–5 (proper exchange, comparison and lower shriek);
+the stalk proof uses §§C6.3–C6.4 and proper/lower-shriek base change.
+*Needs:* §§C6.0–C6.4; LefschetzPencilsAndVanishingCycles §§F.2–F.3 /
+`VanishingCycles.properBaseChange`, `VanishingCycles.smoothBaseChange`,
+`VanishingCycles.localAcyclicity`, `VanishingCycles.lisseDirectImageTransport`,
+`VanishingCycles.etaleCompactSupports`, `VanishingCycles.etaleFiniteness`,
+`VanishingCycles.compactSupportFiniteness`; ClassicalAdicEtaleCohomology's
+`ClassicalDerived.functorCoherence`, `ClassicalAlgebraic.supportLocalization` and
+`ClassicalAlgebraic.properSupports`.
+
+**Checks.**
+
+- For proper `f`, the lower-shriek exchange agrees with the ordinary proper exchange.
+- For an open immersion the theorem gives the topological `j_!` exchange.
+- For a smooth proper family, the comparison commutes with the transport along each
+  specified path, including a loop with nontrivial monodromy.
+
+### C6.6 Integral and rational Artin comparison
+
+**Integral and rational Artin comparison — `adicArtinComparison`.**
+Fix a prime `ℓ`, finite-type `X/ℂ` and a normalized system `K_n ∈ Dᵇ_ctf(X_ét,ℤ/ℓⁿ)`,
+`n ≥ 1`, with coherent derived reduction equivalences and uniform cohomological and Tor
+intervals. Use LefschetzPencilsAndVanishingCycles §F.4's unique étale adic category and
+classical/pro-étale realizations. Construct the corresponding topological system
+`ε_X^*K_n`, its derived `ℓ`-complete realization `K_Zℓ^an = Rlim_n ε_X^*K_n`, all
+derived reductions and the rational object `K_Qℓ^an = K_Zℓ^an ⊗ᴸ_Zℓ Qℓ`.
+These topological coefficient objects carry coherent maps and operations, not just a
+sequence of unrelated sheaves.
+
+Prove the canonical integral ordinary equivalence
+`RΓ_ét(X,K_Zℓ) ≃ RΓ(T_X,K_Zℓ^an)`, and the compact-support equivalence for
+separated `X`, then their rationalizations. Establish on the topological side the
+cohomology/derived-limit comparisons and reduction equivalences using §C6.0's finite
+triangulations and the uniform ctf bounds, keeping Milnor `lim¹`. Ordinary comparison
+for possibly nonseparated `X` follows by finite affine-open descent of the separated
+comparisons and their coherent limits. Rationalization commutes with these cohomology
+functors on this bounded constructible domain. Preserve cups, ordinary and compact
+Künneth on their proved domains, reduction at every level, twists, finite group actions
+and lattice comparison when two lattices define the same rational coefficient object.
+
+For the constant system deduce integral and rational singular-cohomology corollaries;
+the `Zℓ` and `Qℓ` coefficients on that side are the derived-limit and scalar-extension
+constructions just given. On the finite CW/triangulated domain compare these with the
+ordinary constant singular coefficient complex. Keep geometric fibre comparisons and
+path-dependent transport separate from Frobenius or any identification of unrelated fibres.
+
+*Source:* Bhatt–Scholze, *The pro-étale topology for schemes*, §§5–6, especially §§6.5,
+6.7–6.8 (normalized realization, continuity and rationalization), combined with
+§§C6.3–C6.5's finite comparisons and §C6.1's finite topological cochain construction.
+*Needs:* §§C6.0–C6.5; LefschetzPencilsAndVanishingCycles §F.4 /
+`VanishingCycles.normalizedAdicSystems`, `VanishingCycles.classicalAdicRealization`,
+`VanishingCycles.etaleProetaleAdicComparison`, `VanishingCycles.adicFiniteness`,
+`VanishingCycles.rationalAdicRealization`, `VanishingCycles.adicFunctoriality`;
+ClassicalAdicEtaleCohomology §0.3 / `ClassicalDerived.inverseLimits`,
+`ClassicalDerived.derivedCompletion`; the finite-level operations of §§F.0–F.3.
+
+**Checks.**
+
+- Every reduction modulo `ℓⁿ` of integral comparison is the finite comparison, and the
+  squares for adjacent derived reductions commute.
+- A torsion integral coefficient object becomes zero after rationalization on both sides.
+- On `P¹`, degree two has rank one and the same Tate/orientation coordinate after comparison.
+
+### Dependencies
+
+AlgebraicModuliForArithmeticGeometry §7.10.1 supplies analytification; C0–C4 supply the
+coherent algebraization used in §C6.2; C5.1 supplies the constant ordinary resolution.
+§§C4.3a–C4.3c supply compactification geometry. C6.0–C6.5 use only the finite-level
+étale foundations of LefschetzPencilsAndVanishingCycles §§F.0–F.3, generic site cohomology
+and Leray from SchemeAndStackFoundations §§2.1–2.2, and the enhancement/support functors
+of ClassicalAdicEtaleCohomology §§0.1–0.4, 0.7–0.8. C6.6 additionally uses §F.4's adic
+realizations and ClassicalAdicEtaleCohomology's generic derived limits/completion. UniversalCovers,
+RealAlgebraicGeometry Layers 3, 6 and AlgebraicTopology supply the specified topology.
+LefschetzPencilsAndVanishingCycles §F.9 consumes C6 for its nearby-cycle/inertia application.
+
 ## Worked examples
 
 These computations cross the layers and fix the normalisations that consumers rely on. Each one is
@@ -2330,6 +2830,16 @@ an instance of the named targets, not a separate theorem.
 
 ## Downstream consumers
 
+| Consumer | Supplied targets and coefficient boundary |
+| --- | --- |
+| LefschetzPencilsAndVanishingCycles §F.2 | §§C4.3a–C4.3c / `Compactification`, `DenseCompactification`, `nagataCompactification`, `compactificationCommonRefinement` supply the general qcqs geometry used with its étale coefficients. |
+| ClassicalAdicEtaleCohomology §0.8 and its valuation-base support constructions | The same compactification objects and refinements give coherent choice comparisons; that roadmap constructs `ClassicalAlgebraic.properSupports` and retains its own finite-presentation/amplitude hypotheses. |
+| SchemeAndStackFoundations §2.19 | §§C4.3a–C4.3c supply only geometry for coherent exceptional inverse image; étale lower shriek has its separate coefficient owner. |
+| LefschetzPencilsAndVanishingCycles §F.9 | §§C6.0–C6.6 / `complexAlgebraicTopology`, `topologicalCoefficientComparison`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison` supply general comparisons; nearby-cycle/inertia compatibility is its application. |
+| InverseGaloisAndArithmeticFundamentalGroups §§IG.3.1, IG.5.5 and its Hurwitz topology | C6 supplies finite covers/local coefficients, ordinary comparison on finite-type complex schemes and compact/rational comparison on separated ones. Its puncture, ramification, opposite-group and chosen-path adapters retain their own conventions. |
+| AlgebraicModuliForArithmeticGeometry §7.10.1 | Its analytic carrier supplies C6; the ensuing local topology, finite-cover and finite/adic comparisons are C6's outputs, distinct from its coherent GAGA. |
+| SchemeAndStackFoundations' finite/adic comparison boundary | §§C6.3–C6.6 supply Artin comparison; its generic site and pro-étale topos foundations remain the inputs to the coefficient owners. |
+
 - **MotivesAndAlgebraicCycles, MC.2** use the algebraic de
   Rham and Betti realizations with `properDeRhamBetti`, `multiplicativePeriodInterface` and
   `chernFubiniStudyIntersection` (functoriality, coefficient change, products, trace, first Chern class
@@ -2368,6 +2878,18 @@ an instance of the named targets, not a separate theorem.
 - A. Grothendieck and M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*, Exposé XII,
   *Géométrie algébrique et géométrie analytique*, revised edition arXiv:math/0206203v2, printed page
   numbers of that edition.
+- M. Artin, A. Grothendieck and J.-L. Verdier, *Théorie des topos et cohomologie étale des
+  schémas (SGA 4)*, Exposés XI, XII, XVI and XVII; P. Deligne, *Cohomologie étale (SGA 4½)*,
+  *Théorèmes de finitude*, §§1–2.
+- J. S. Milne, *Lectures on Étale Cohomology*, version 2.21 (2013), §21
+  (<https://www.jmilne.org/math/CourseNotes/LEC.pdf>).
+- H. Hironaka, *Triangulations of algebraic sets*, Proc. Sympos. Pure Math. 29 (1975), 165–185;
+  J. Bochnak, M. Coste and M.-F. Roy, *Real Algebraic Geometry*, Springer 1998, §9.2.
+- A. Dimca, *Sheaves in Topology*, Springer 2004, §§2.1–2.5, §3.2 and §4.1.
+- B. Bhatt and P. Scholze, *The pro-étale topology for schemes*, Astérisque 369 (2015), 99–201,
+  §§5–6 (<https://arxiv.org/abs/1309.1198>).
+- The Stacks Project, §§29.6–29.7, §§38.32–38.33 and §63.9, with the Limits locators
+  cited in §C4.3b (<https://stacks.math.columbia.edu/>).
 - A. Grothendieck, *On the de Rham cohomology of algebraic varieties*, Publ. Math. IHÉS 29 (1966),
   95–103 (<https://www.numdam.org/article/PMIHES_1966__29__95_0.pdf>).
 - P. Deligne, *Théorème de Lefschetz et critères de dégénérescence de suites spectrales*, Publ. Math.

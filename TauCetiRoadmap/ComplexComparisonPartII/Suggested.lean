@@ -9,6 +9,7 @@ import TauCeti.Analysis.Complex.Conformal.Montel.Basic
 import TauCeti.AlgebraicTopology.Cohomology.Cup
 import TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Equiv
 import TauCeti.Analysis.Fredholm.CompactPerturbation
+import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Function
 
 /-!
 # ComplexComparisonPartII: representative target signatures
@@ -20,8 +21,10 @@ converge on names and signatures; discharging all of them finishes neither a lay
 The roadmap compares complex algebraic and complex analytic geometry: coherent analytic modules and
 coherent analytification (Layer C0), analytic coherent cohomology (C1), the consequences of
 coherent GAGA for projective and proper schemes (C2) and for algebraic spaces (C3), Remmert,
-Chow and the algebraization of morphisms (C4), and the de Rham–Betti comparison with Hodge theory,
-integration over analytic cycles, logarithmic structures and regular singular connections (C5).
+Chow and the algebraization of morphisms, together with scheme compactification over qcqs bases
+(C4), the de Rham–Betti comparison with Hodge theory, integration over analytic cycles,
+logarithmic structures and regular singular connections (C5), and stratified topology,
+Riemann existence and finite/adic Artin comparison (C6).
 
 Most of its carriers are not in Mathlib or Tau Ceti at the pinned commits: complex analytic spaces
 with nilpotents, the analytification functor and proper coherent GAGA are built in the
@@ -39,7 +42,8 @@ What is recorded here:
 * end theorems and layer milestones whose carriers exist at the pins: the one-variable Dolbeault
   lemma, Montel's theorem, the Banach case of Schwartz's finiteness theorem, connectedness of
   punctured Riemann surfaces, the pointwise form of the semipositive wedge inequality and the
-  Fubini–Study normalisation;
+  Fubini–Study normalisation; scheme compactification objects, dense replacement, Nagata
+  existence and common refinements for separated finite-type maps over qcqs bases;
 * `example`s fixing every sign and normalisation the README pins with a witness: `∂̄ z̄ = 1`,
   `∮ dz/z = 2πi`, `Δ_Hodge(x₁²) = −2` in `ℝ³`, residue representatives in `0 ≤ Re < 1` and
   monodromy `exp(−2πia)`, `ℕ → ℂ, 1 ↦ 0` for the standard log point, and intrinsic saturation
@@ -107,6 +111,13 @@ noncomputable section
 #check @ContinuousLinearMap.IsFredholm.add_of_isCompactOperator
 -- Saturation after restriction to the generated group (C5.5).
 #check @AddSubmonoid.NSMulSaturated
+-- Schematic density, with flat base change, for compactification geometry (C4.3a).
+#check @IsSchemeTheoreticallyDominant
+#check @IsSchemeTheoreticallyDominant.of_isPullback
+-- Semialgebraic carriers for the stratified triangulation target (C6.0).
+#check @TauCeti.IsSemialgebraic
+#check @TauCeti.IsSemialgebraicOn
+#check @TauCeti.IsSemialgebraicMap
 
 /-! ## Layer C0: Coherent analytic modules and coherent analytification -/
 
@@ -222,6 +233,92 @@ end C1
 /-! ## Layer C4: Analytic images, Chow algebraization and morphism comparison -/
 
 section C4
+
+/-! ### C4.3a–C4.3c Scheme compactifications -/
+
+/-- **C4.3a, `Compactification`.** A proper factorization with a quasi-compact open interior.
+Existence is asserted for separated finite-type maps over qcqs bases. -/
+structure Compactification {X S : Scheme.{u}} (f : X ⟶ S) where
+  Xbar : Scheme.{u}
+  j : X ⟶ Xbar
+  p : Xbar ⟶ S
+  fac : j ≫ p = f
+  openImmersion : IsOpenImmersion j
+  quasiCompact : QuasiCompact j
+  proper : IsProper p
+
+attribute [instance] Compactification.openImmersion Compactification.quasiCompact
+  Compactification.proper
+
+/-- A compactification morphism is a scheme map over the base fixing the given interior. -/
+structure Compactification.Hom {X S : Scheme.{u}} {f : X ⟶ S}
+    (C D : Compactification f) where
+  hom : C.Xbar ⟶ D.Xbar
+  comm_j : C.j ≫ hom = D.j
+  comm_p : hom ≫ D.p = C.p
+
+/-- Compactification maps compose as their underlying scheme maps. -/
+instance {X S : Scheme.{u}} (f : X ⟶ S) : Category (Compactification f) where
+  Hom C D := Compactification.Hom C D
+  id C := ⟨𝟙 C.Xbar, by simp, by simp⟩
+  comp α β := ⟨α.hom ≫ β.hom,
+    by rw [← Category.assoc, α.comm_j, β.comm_j],
+    by rw [Category.assoc, β.comm_p, α.comm_p]⟩
+  id_comp := sorry
+  comp_id := sorry
+  assoc := sorry
+
+/-- **C4.3a, `DenseCompactification`.** The full subcategory with schematically dense interior,
+using the existing scheme-theoretic dominance property. -/
+abbrev DenseCompactification {X S : Scheme.{u}} (f : X ⟶ S) :=
+  ObjectProperty.FullSubcategory
+    (fun C : Compactification f => IsSchemeTheoreticallyDominant C.j)
+
+/-- A proper map has the identity compactification. -/
+def Compactification.identity {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] :
+    Compactification f := sorry
+
+/-- Pulling back a compactification gives a compactification of the pulled-back map. -/
+def Compactification.baseChange {X S S' : Scheme.{u}} {f : X ⟶ S}
+    (C : Compactification f) (g : S' ⟶ S) :
+    Compactification (Limits.pullback.snd f g) := sorry
+
+/-- Schematic closure of the open interior gives a dense compactification. -/
+def Compactification.denseReplacement {X S : Scheme.{u}} {f : X ⟶ S}
+    (C : Compactification f) : DenseCompactification f := sorry
+
+/-- Dense replacement maps canonically to the original compactification, fixing the interior. -/
+def Compactification.denseReplacementMap {X S : Scheme.{u}} {f : X ⟶ S}
+    (C : Compactification f) : C.denseReplacement.obj ⟶ C := sorry
+
+/-- Every compactification morphism is proper over the fixed base. -/
+theorem Compactification.Hom.proper {X S : Scheme.{u}} {f : X ⟶ S}
+    {C D : Compactification f} (h : C ⟶ D) : IsProper h.hom := sorry
+
+/-- **C4.3b, `nagataCompactification`.** A separated finite-type map over a qcqs scheme
+admits a schematically dense compactification. Finite type carries quasi-compactness. -/
+theorem nagataCompactification {X S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S]
+    (f : X ⟶ S) [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
+    Nonempty (DenseCompactification f) := sorry
+
+/-- **C4.3c, `compactificationCommonRefinement`.** Two compactifications admit a dense
+common refinement with specified maps fixing the same interior. -/
+theorem compactificationCommonRefinement {X S : Scheme.{u}}
+    [CompactSpace S] [QuasiSeparatedSpace S] (f : X ⟶ S)
+    [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f]
+    (C₁ C₂ : Compactification f) :
+    ∃ C : DenseCompactification f, Nonempty (C.obj ⟶ C₁) ∧ Nonempty (C.obj ⟶ C₂) := sorry
+
+/-- Maps from a schematically dense compactification into a fixed compactification are unique. -/
+theorem denseCompactification_hom_unique {X S : Scheme.{u}} {f : X ⟶ S}
+    (C : DenseCompactification f) (D : Compactification f) (h k : C.obj ⟶ D) :
+    h = k := sorry
+
+/-- Dense compactifications form a nonempty cofiltered category on the Nagata domain. -/
+theorem denseCompactification_cofiltered {X S : Scheme.{u}}
+    [CompactSpace S] [QuasiSeparatedSpace S] (f : X ⟶ S)
+    [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
+    IsCofiltered (DenseCompactification f) := sorry
 
 /-- **C4.5, `puncturedRiemannSurfaceConnected`.** Removing finitely many points from a connected
 Riemann surface leaves a path-connected set. The real dimension two matters: the analogue for a
@@ -414,6 +511,19 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 * **Singular cohomology with coefficients** (AlgebraicTopology, Stage 6): `SmallSingularCochains`,
   `sheafSingularComparison`, `multiplicativePeriodInterface`, `relativeBettiLocalSystem`; and
   `ehresmannFibration` (DifferentialGeometry flows, Layer 3).
+* **Stratified topology and finite/adic comparison** (C6): `complexAlgebraicTopology` uses
+  the pinned semialgebraic carriers and builds compatible triangulations on the underlying
+  space of `complexSchemeAnalytification`; `topologicalCoefficientComparison` adds local-system
+  and stratified cochains and locally compact Hausdorff proper supports to C5.1's constant
+  ordinary comparison. `riemannExistence` compares finite-cover categories for all finite-type
+  complex schemes. `artinComparison`, `artinComparisonCompactSupport` and
+  `relativeArtinComparison` give the canonical ctf exchanges, using
+  LefschetzPencilsAndVanishingCycles F.0–F.3 and ClassicalAdicEtaleCohomology's enhancement.
+  `adicArtinComparison` uses F.4's normalized étale systems and builds their topological
+  derived-complete realization and rationalization. These analytic, triangulated and enhanced
+  coefficient carriers are specified in the README; ordinary comparison admits nonseparated
+  schemes, compact support requires separatedness, and the relative theorem glues over affine
+  base opens. No separate analytification or étale adic category is defined here.
 * **Wirtinger derivative API:** `dbar.eq_zero_iff` is the real-differentiable
   characterization in C1.1.
 * **Coherent local presentations and sheaf connections:**
