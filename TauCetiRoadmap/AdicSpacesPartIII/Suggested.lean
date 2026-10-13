@@ -14,8 +14,8 @@ import TauCetiRoadmap.AdicSpacesPartII.Suggested
 # Foundations of adic spaces, Part III: representative target signatures
 
 Formal schemes, coherent formal modules, admissible formal models and their generic fibres,
-Raynaud's theorem, flattening, Hasse domains, coherent sheaves on adic spaces, Kiehl's proper
-mapping theorem, GAGA and the traces of finite locally free morphisms are README targets. This
+Raynaud's theorem, flattening, Hasse domains, coherent sheaves on adic spaces, Kiehl-properness,
+the GAGA comparison maps and the traces of finite locally free morphisms are README targets. This
 file states the parts that are a few lines over the pinned carriers:
 
 * F0: adic rings of finite ideal type, completed localisations and completed tensor products
