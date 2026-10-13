@@ -275,10 +275,12 @@ def innerRelation (r : ℕ) (G : Type*) [Group G] : Setoid (BranchTuple r G) whe
 /-- Inner Nielsen classes: tuples up to simultaneous conjugation in `G`. -/
 def inner (r : ℕ) (G : Type*) [Group G] : Type _ := Quotient (innerRelation r G)
 
-/-- Conjugation by the normaliser of a chosen permutation representation `ρ : G →* S_d`. -/
-def absoluteRelation {r d : ℕ} (ρ : G →* Equiv.Perm (Fin d)) : Setoid (BranchTuple r G) where
-  r t t' := ∃ s ∈ Subgroup.normalizer (ρ.range : Set (Equiv.Perm (Fin d))),
-    ∀ i, ρ (t' i) = s * ρ (t i) * s⁻¹
+/-- Conjugation by the normaliser of a faithful permutation representation, given as an isomorphism
+`e : G ≃* P` onto a subgroup `P ≤ S_d`; a representation that is not faithful cannot be supplied. -/
+def absoluteRelation {r d : ℕ} (P : Subgroup (Equiv.Perm (Fin d))) (e : G ≃* P) :
+    Setoid (BranchTuple r G) where
+  r t t' := ∃ s ∈ Subgroup.normalizer (P : Set (Equiv.Perm (Fin d))),
+    ∀ i, (e (t' i) : Equiv.Perm (Fin d)) = s * e (t i) * s⁻¹
   iseqv := {
     refl := fun t => ⟨1, Subgroup.one_mem _, by simp⟩
     symm := by
@@ -289,13 +291,23 @@ def absoluteRelation {r d : ℕ} (ρ : G →* Equiv.Perm (Fin d)) : Setoid (Bran
       exact ⟨g' * g, Subgroup.mul_mem _ hg' hg,
         fun i => by rw [h' i, h i]; simp [mul_assoc]⟩ }
 
-/-- Absolute Nielsen classes for a specified faithful permutation representation. -/
-def absolute {r d : ℕ} (ρ : G →* Equiv.Perm (Fin d)) : Type _ :=
-  Quotient (absoluteRelation (r := r) ρ)
+/-- Absolute Nielsen classes for a faithful permutation representation `e : G ≃* P ≤ S_d`. -/
+def absolute {r d : ℕ} (P : Subgroup (Equiv.Perm (Fin d))) (e : G ≃* P) : Type _ :=
+  Quotient (absoluteRelation (r := r) P e)
 
 theorem inner_preserves {r : ℕ} (t t' : BranchTuple r G) (h : (innerRelation r G) t t') :
     (BranchTuple.product t = 1 ↔ BranchTuple.product t' = 1) ∧
       (BranchTuple.generated t = ⊤ ↔ BranchTuple.generated t' = ⊤) := sorry
+
+/-- Absolute equivalence preserves product one and generation: through the faithful
+representation, conjugation by an element of the normaliser is an automorphism of `G`. -/
+theorem absolute_preserves {r d : ℕ} (P : Subgroup (Equiv.Perm (Fin d))) (e : G ≃* P)
+    (t t' : BranchTuple r G) (h : (absoluteRelation P e) t t') :
+    (BranchTuple.product t = 1 ↔ BranchTuple.product t' = 1) ∧
+      (BranchTuple.generated t = ⊤ ↔ BranchTuple.generated t' = ⊤) := sorry
+
+-- The trivial representation of `C₂` on one point is not faithful, so it is not an input.
+example (P : Subgroup (Equiv.Perm (Fin 1))) : IsEmpty (Multiplicative (ZMod 2) ≃* P) := sorry
 
 -- In an abelian target inner equivalence is equality; arbitrary target automorphisms are excluded.
 example {G : Type*} [CommGroup G] {r : ℕ} (t t' : BranchTuple r G) :
@@ -307,11 +319,11 @@ example {G : Type*} [CommGroup G] {r : ℕ} (t t' : BranchTuple r G) :
 
 -- The identity representation of S₃ permits conjugation by (0 2) in the absolute quotient.
 example :
-    absoluteRelation (MonoidHom.id (Equiv.Perm (Fin 3)))
+    absoluteRelation (⊤ : Subgroup (Equiv.Perm (Fin 3))) Subgroup.topEquiv.symm
       ![Equiv.swap (0 : Fin 3) 1, Equiv.swap (1 : Fin 3) 2]
       ![Equiv.swap (1 : Fin 3) 2, Equiv.swap (0 : Fin 3) 1] ∧
     (Quotient.mk _ ![Equiv.swap (0 : Fin 3) 1, Equiv.swap (1 : Fin 3) 2] :
-      absolute (MonoidHom.id (Equiv.Perm (Fin 3)))) =
+      absolute (⊤ : Subgroup (Equiv.Perm (Fin 3))) Subgroup.topEquiv.symm) =
       Quotient.mk _ ![Equiv.swap (1 : Fin 3) 2, Equiv.swap (0 : Fin 3) 1] := sorry
 
 end NielsenClass
@@ -370,30 +382,38 @@ end ExteriorEpi
 /-- Exterior epimorphisms `F_r ↠ G` modulo `Inn(G)`. -/
 abbrev ExteriorEpi (r : ℕ) (G : Type*) [Group G] := Quotient (ExteriorEpi.relation r G)
 
-/-- Equality up to an automorphism of the target. -/
+/-- Equality up to an automorphism of the free group and an automorphism of the target: the orbit
+relation of `Aut(F_r) × Aut(G)` acting by `(α, β) · φ = β ∘ φ ∘ α⁻¹`. -/
 def TSystem.relation (r : ℕ) (G : Type*) [Group G] : Setoid (SurjectiveFreeHom r G) where
-  r φ ψ := ∃ α : MulAut G, ∀ x, ψ.val x = α (φ.val x)
+  r φ ψ := ∃ (α : MulAut (FreeGroup (Fin r))) (β : MulAut G), ∀ x, ψ.val x = β (φ.val (α x))
   iseqv := {
-    refl := fun φ => ⟨MulEquiv.refl G, fun _ => rfl⟩
+    refl := fun _ => ⟨MulEquiv.refl _, MulEquiv.refl G, fun _ => rfl⟩
     symm := by
-      rintro φ ψ ⟨α, h⟩
-      exact ⟨α.symm, fun x => by rw [h x]; simp⟩
+      rintro φ ψ ⟨α, β, h⟩
+      exact ⟨α.symm, β.symm, fun x => by rw [h (α.symm x)]; simp⟩
     trans := by
-      rintro φ ψ θ ⟨α, h⟩ ⟨β, h'⟩
-      exact ⟨α.trans β, fun x => by rw [h' x, h x]; rfl⟩ }
+      rintro φ ψ θ ⟨α, β, h⟩ ⟨α', β', h'⟩
+      exact ⟨α'.trans α, β.trans β', fun x => by rw [h' x, h (α' x)]; rfl⟩ }
 
-/-- `T_r`-systems: surjections `F_r ↠ G` modulo `Aut(G)`. -/
+/-- `T_r`-systems: surjections `F_r ↠ G` modulo `Aut(F_r) × Aut(G)`, equivalently the
+`Out(F_r)`-orbits on `Epi(F_r, G)/Aut(G)`. -/
 abbrev TSystem (r : ℕ) (G : Type*) [Group G] := Quotient (TSystem.relation r G)
 
-/-- The quotient of exterior epimorphisms onto `T`-systems. -/
+/-- The quotient of exterior epimorphisms onto `T`-systems, dividing further by `Out(F_r)` and by
+the outer automorphisms of `G`. -/
 def TSystem.quotient (r : ℕ) (G : Type*) [Group G] : ExteriorEpi r G → TSystem r G :=
   Quotient.map' id fun φ ψ h => by
     obtain ⟨g, hg⟩ := h
-    exact ⟨MulAut.conj g, fun x => by simpa [MulAut.conj_apply] using hg x⟩
+    exact ⟨MulEquiv.refl _, MulAut.conj g, fun x => by simpa [MulAut.conj_apply] using hg x⟩
 
--- Forgetting inner equivalence sends the class of a surjection to its automorphism class.
+-- The quotient map sends the class of a surjection to the class of that same surjection.
 example {G : Type*} [Group G] {r : ℕ} (φ : SurjectiveFreeHom r G) :
     TSystem.quotient r G (Quotient.mk _ φ) = Quotient.mk _ φ := rfl
+
+-- For `C₂` and `r = 2` the generating pairs `(g, 1)`, `(1, g)`, `(g, g)` are three exterior
+-- classes, since `C₂` is abelian, but Nielsen moves of `F₂` join them into one `T₂`-system.
+example : Nat.card (ExteriorEpi 2 (Multiplicative (ZMod 2))) = 3 ∧
+    Nat.card (TSystem 2 (Multiplicative (ZMod 2))) = 1 := sorry
 
 -- Inversion in C₅ changes an exterior class but preserves its T-system.
 example (φ ψ : SurjectiveFreeHom 1 (Multiplicative (ZMod 5)))
@@ -737,8 +757,8 @@ theorem inverseGaloisProblem_of_regular :
 Not stated in this file, because the objects they concern are not available at the pinned
 libraries; the README states each of them in full:
 Layer IG.0: `LatticeScheme`, `AdicLocalSystem`, `IsogenyLocalSystem`, `RationalLocalSystem`,
-`IsNoohiGroup`, `InfiniteGaloisCategory`, `ProetaleFundamentalGroup`, and the identification of the
-fundamental groups of a field and of `𝔾_m`.
+`IsNoohiGroup`, `InfiniteGaloisCategory`, `ProetaleFundamentalGroup`, the identification of the
+fundamental groups of a field and of `𝔾_m`, and the comparison with the lisse `ℓ`-adic realization.
 Layer IG.1: the arithmetic exact sequence, `SchemeInertia`, `TameFundamentalGroup`,
 `PrimeToFundamentalGroup`, `TameTangentialFiber`, the specialization theorems,
 `IsArithmeticRepresentation`, and the homogeneous-space fundamental group.
@@ -752,9 +772,12 @@ Layer IG.3: `ArtinNeighborhood`, `BranchCover`, `CoverDescent`, `HurwitzMove.equ
 `ReducedSchur.schurRelations`, `ReducedSchur.reducedMultiplier`, `ReducedSchur.schurRelations_empty`, the
 reduced Schur cover and the marked fibre product, the unit action, and stable classification.
 Layer IG.4: proper embedding problems with local prescriptions, Galois localization kernels,
-finite Poitou–Tate, Grunwald–Wang, free operator shrinking, unramified `Γ`-groups and Property E.
+finite Poitou–Tate, Grunwald–Wang, free operator shrinking, `BrauerManinSet`, Brauer–Manin density
+for supersolvable stabilisers, unramified Brauer classes of finite quotients of `SL_n`, unramified
+`Γ`-groups, Property E and the marked extension count over `𝔽_q(t)`.
 Layer IG.5: topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers, the
-cohomological comparisons, component invariants and patching.
+cohomological comparisons, component invariants, patching of Galois algebras, and the steps of
+Serre, Raynaud and Harbater towards Abhyankar's conjecture.
 Layer IG.6: `FieldRealization.transport`, specialization of realizations, generic-polynomial universality.
 Further API targets specified in the README (IG.2.1–IG.2.3, IG.3.4–IG.3.5):
 `RationalSpecialization.denominatorProduct_C`,
