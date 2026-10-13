@@ -256,8 +256,15 @@ additionally require a structural morphism to `Spa(ℤ_p, ℤ_p)`.
 The size convention is cardinal cutoffs inside fixed ambient Lean universes. In `Suggested.lean` the
 statements of D1–D2 are universe-polymorphic over PerfectoidSpaces' `Perfd.{u} p`, and `κ`-smallness
 is PerfectoidSpaces' `IsKappaSmall`. The suggested carriers of the README-only targets of D1–D6 are
-the following. `Geometry.Affinoid p c` has rings in `Type`; `Geometry.Spaces p c : Type 2` uses
-`ULiftHom.{2}` to put morphisms in `Type 2`. For `κ : Cardinal.{1}`, `Geometry.Perfdκ p false κ` and
+the following. `Geometry.Affinoid p c` has rings in `Type`, the ring universe of
+`AdicEtaleGeometry.CAff`, and enters `PerfectoidSpace.Perfd.{1} p` through the universe lift
+`Geometry.Affinoid.ulift`. `Geometry.HasAffinoidCharts p c` selects the objects of `Perfd.{1} p`
+covered by open subspaces isomorphic to spectra of such lifts, and `Geometry.Spaces p c : Type 2` is
+`ULiftHom.{2}` of this full subcategory. `ULiftHom` lifts morphisms to `Type 2` and leaves the
+objects unchanged, so the size of the objects is fixed by the chart condition: points form a
+`Type 1` set covered by opens with `Small.{0}` points and chart rings, `Type 1`-indexed disjoint
+unions stay inside, and a perfectoid space in `Perfd.{1} p` with an affinoid ring that is not
+`Small.{0}` is excluded (D1.11). For `κ : Cardinal.{1}`, `Geometry.Perfdκ p false κ` and
 `Geometry.Perfdκ p true κ` are the full subcategories defined by `PerfectoidSpace.IsKappaSmall p κ`
 after `Geometry.toPerfectoid`: the underlying points and every open affinoid chart ring have
 cardinality below `κ` ([ECD] Definition 4.2, p. 20). `ULiftHom` changes no cardinal bound on these
@@ -642,7 +649,7 @@ pairs, rational subsets and the adic structure presheaf.
 |---|---|---|
 | Perfectoid disc and Gauss valuation | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.discPair`, `perfectedTateAlgebra`, `perfectedTateAlgebra.rootX`, `gaussPoint` | The disc Checks in D0.4, D1.1, D1.10, D2.1, D2.4, D2.8, D3.2, D3.3 and D3.8 use the supplied ring, plus ring and coordinate valuations on `Geometry.Affinoid`. |
 | Completed cyclotomic field | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.padicCyclotomic`, `isPerfectoidField_padicCyclotomic` | `s1_4_cyclotomic_field_is_not` uses this actual field with its power-bounded plus ring. |
-| Global functions and integral functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSections`, `globalPlus`, `globalPullback`, `globalPullback_chart`; the plus-ring clause of the pullback is this README's `Geometry.globalPullback_plus` (D2.6) | `Geometry.toPerfectoid` retains the underlying Yoneda-adic space; `Geometry.ORing` and `Geometry.OplusRing` assemble these supplied rings into presheaves on the category with lifted Hom types. |
+| Global functions and integral functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSections`, `globalPlus`, `globalPullback`, `globalPullback_chart`; the plus-ring clause of the pullback is this README's `Geometry.globalPullback_plus` (D2.6) | `Geometry.toPerfectoid` retains the underlying perfectoid space; `Geometry.ORing` and `Geometry.OplusRing` assemble these supplied rings into presheaves on the category with lifted Hom types. |
 | Cardinal bounds | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsKappaSmall`, `IsKappaSmall.mono` (PerfectoidSpaces `Suggested.lean`, P6 global cardinal predicates) | `Geometry.Perfdκ` is their full subcategory on `Geometry.Spaces`; no second smallness predicate is introduced. |
 | Affinoid functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSectionsAffinoidEquiv_spec` | The affinoid and cohomological comparisons in D2.7 use the supplied section ring and its chosen plus subring. |
 
@@ -657,11 +664,13 @@ of `Geometry.cutoff_of_omegaOne_colimits`. Mathlib's
 adjunction, cohomology, and bundle predicates. Layer D2 adds their geometric comparison theorems on
 the perfectoid sites.
 
-`Geometry.Affinoid p c` adds only the characteristic selector to `Perfectoid.PairCat p`. Its `A`,
-`P` and `toCAff` projections expose the supplied ring, plus ring and complete Huber pair.
-`Geometry.Spaces p false` is `ULiftHom.{2} (PerfectoidSpace.Perfd p)` and `Geometry.Spaces p true`
-is `ULiftHom.{2} (PerfectoidSpace.Perf p)`. `Geometry.toPerfectoid` forgets characteristic and the
-Hom lift. The following are PerfectoidSpaces suppliers (names relative to
+`Geometry.Affinoid p c` adds only the characteristic selector to `Perfectoid.PairCat p`, with rings
+in `Type`. Its `A`, `P` and `toCAff` projections expose the supplied ring, plus ring and complete
+Huber pair; `Geometry.Affinoid.ulift` transports it to `Perfectoid.PairCat.{1} p`.
+`Geometry.Spaces p c` is `ULiftHom.{2}` of the full subcategory of `PerfectoidSpace.Perfd.{1} p` on
+`Geometry.HasAffinoidCharts p c` (D1.11); for `c = true` its objects lie in
+`PerfectoidSpace.Perf.{1} p`. `Geometry.toPerfectoid` forgets the chart condition, the
+characteristic and the Hom lift. The following are PerfectoidSpaces suppliers (names relative to
 `TauCetiRoadmap.PerfectoidSpaces`); of them `PerfectoidSpace.isPerfectoidSpace`,
 `PerfectoidSpace.Perfd`, `PerfectoidSpace.InCharP`, `PerfectoidSpace.Perf` and
 `PerfectoidSpace.hasPullbacks` are declarations at the pins, and the others are targets there.
@@ -669,9 +678,9 @@ Hom lift. The following are PerfectoidSpaces suppliers (names relative to
 | Geometric input | Exact supplier | Local use |
 |---|---|---|
 | Perfectoid pairs | `Perfectoid.PairCat`, `Perfectoid.tiltFunctor` with `Pair.tilt` and `Pair.tiltHom` (P1.6), `Perfectoid.tilt.charP` (`(p : R♭) = 0` by `CharP.cast_eq_zero`; the tilt of the zero ring is zero) | `Geometry.Affinoid` retains the supplied pair and adds `c = true → (p : R) = 0`; `Geometry.tiltAffinoid` uses its supplied tilt. |
-| Perfectoid categories | `PerfectoidSpace.isPerfectoidSpace`, `PerfectoidSpace.Perfd`, `PerfectoidSpace.InCharP`, `PerfectoidSpace.Perf` | `Geometry.Spaces` lifts their Hom types. The empty space belongs to both characteristic conventions. |
-| Affinoid spectra and maps | `PerfectoidSpace.ofPair`, `PerfectoidSpace.spaFunctor` | `Geometry.affine` and `Geometry.affineMap` apply the characteristic inclusion and Hom lift to these constructions. |
-| Fibre products | `PerfectoidSpace.hasPullbacks` | `Geometry.hasPullbacks false` transports this instance through `ULiftHom.down`; the characteristic-p case restricts to `PerfectoidSpace.Perf`. |
+| Perfectoid categories | `PerfectoidSpace.isPerfectoidSpace`, `PerfectoidSpace.Perfd`, `PerfectoidSpace.InCharP`, `PerfectoidSpace.Perf` | `Geometry.Spaces` is the Hom lift of their full subcategory in universe 1 on `Geometry.HasAffinoidCharts`. The empty space belongs to both characteristic conventions. |
+| Affinoid spectra and maps | `PerfectoidSpace.ofPair`, `PerfectoidSpace.spaFunctor` | `Geometry.affine` and `Geometry.affineMap` apply these constructions to `Geometry.Affinoid.ulift`, followed by the characteristic inclusion and Hom lift. |
+| Fibre products | `PerfectoidSpace.hasPullbacks` | `Geometry.hasAffinoidCharts_pullback` keeps the supplied fibre product of charted objects charted, and `Geometry.hasPullbacks false` transports the instance through `ULiftHom.down`; the characteristic-p case restricts to `PerfectoidSpace.Perf`. |
 | Finite étale and étale maps | `Perfectoid.Pair.IsFiniteEtale`, `PerfectoidSpace.IsFiniteEtale`, `PerfectoidSpace.IsEtale`, `PerfectoidSpace.finiteEtale_spa_iff` (P3, ECD 6.2) | `Geometry.finiteEtalePair_iff` identifies the pair predicate with geometric finite étaleness on the lifted affine carriers. `Geometry.finiteEtalePair` uses the pair predicate, including its module topology and integral closure; `Geometry.etale` pulls back the supplied geometric predicate along `Geometry.toPerfectoid`. |
 | Global tilting | `PerfectoidSpace.tiltFunctor` (codomain `PerfectoidSpace.Perf`, which carries the characteristic-`p` clause), `PerfectoidSpace.tiltSpaIso`, `PerfectoidSpace.tiltSpaIso_naturality` | `Geometry.tilt` lifts the supplied functor with characteristic-p codomain; `Geometry.tiltAffineIso` and `Geometry.tilt_affine_naturality` transport the supplied affine comparison and its naturality. |
 
@@ -703,26 +712,50 @@ specialisations of D6.9 and D2.9 and consume them.
 
 `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.Perfd p` and its characteristic-`p` subcategory
 `Perf p` are full subcategories of Tau Ceti's `PreAdicSpace`; this is the carrier of the D1–D2
-statements of `Suggested.lean`. In the suggested carrier of the README-only targets their
-Hom-universe lifts are `Geometry.Perfd p` and `Geometry.Perf p`, with underlying spaces and charts
-read through AdicEtaleGeometry's Yoneda-adic spaces `AdicEtaleGeometry.YonedaAdicSpace` (a target of
-its §A1.16); `Geometry.exists_wedhornComparison` below compares these Yoneda-adic categories with
-Tau Ceti's pre-adic spaces. `Geometry.space p c` composes their inclusions with
-`YonedaAdicSpace.space` and the topological universe lift; `Geometry.tilt` is the lift of
-`PerfectoidSpace.tiltFunctor p`. Its affine comparison is `Geometry.tiltAffineIso`, with naturality
-`Geometry.tilt_affine_naturality`; its open gluing is stated by `Geometry.tilt_openImm` and
-`Geometry.tilt_affinoidOpen_isColimit`.
+statements of `Suggested.lean`. In the suggested carrier of the README-only targets,
+`Geometry.Perfd p` and `Geometry.Perf p` are the Hom-universe lifts of the full subcategories of
+`Perfd.{1} p` and `Perf.{1} p` on `Geometry.HasAffinoidCharts` (D1.11). `Geometry.space p c` is
+`PreAdicSpace.forgetToTop` applied after `Geometry.toPerfectoid` and the inclusion of `Perfd.{1} p`
+into `PreAdicSpace.{1}`, followed by the topological universe lift to `TopCat.{2}`.
+`Geometry.inclusion` glues the Yoneda spectra of the charts in AdicEtaleGeometry's Yoneda-adic
+spaces `AdicEtaleGeometry.YonedaAdicSpace` (a target of its §A1.16), and
+`Geometry.exists_wedhornComparison` below identifies the result with the perfectoid Yoneda-adic
+spaces; through it `YonedaAdicSpace.space` and `YonedaAdicSpace.space_charts` describe the same
+underlying spaces and charts. `Geometry.tilt` is the lift of `PerfectoidSpace.tiltFunctor p`, which
+preserves the chart condition by `Geometry.hasAffinoidCharts_tilt`. Its affine comparison is
+`Geometry.tiltAffineIso`, with naturality `Geometry.tilt_affine_naturality`; its open gluing is
+stated by `Geometry.tilt_openImm` and `Geometry.tilt_affinoidOpen_isColimit`.
 
-For every prime `p`, `Geometry.exists_wedhornComparison` states the comparison of these perfectoid
-Yoneda-adic categories with `TauCeti.WedhornPreAdicSpace`. For both values of `c` it gives a fully
-faithful functor, a natural isomorphism of underlying-space functors, and equivalence of the
-open-immersion predicates. Thus open restrictions agree through
-`PreAdicSpace.IsOpenImmersion.isoRestrict`. The natural homeomorphism from the compared tilt to the
-compared original space is fixed on every perfectoid affinoid by the inverse of
-`PerfectoidSpace.spaTiltHomeomorph`, using `Geometry.tiltAffineIso` and `Geometry.affinePoint`. This
+For a prime `p` and either value of `c`, send `X : Geometry.Spaces p c` to the colimit in
+`Sheaf CAff.ratTopology (Type 1)` of the Yoneda spectra `YonedaAdicSpace.ofSpaY R.toCAff`, indexed
+by the pairs of `R : Geometry.Affinoid p c` and an open immersion to `X` from the spectrum of the
+lift of `R`, with the maps over `X` induced by pair maps. This index category lies in `Type 1`, and
+the formula is AdicEtaleGeometry's gluing formula for `YonedaAdicSpace.ofAdicSpace` applied to
+charts with rings in `Type`. `Geometry.exists_wedhornComparison` states that each such colimit is a
+Yoneda-adic space whose chart maps are open immersions, so that the construction corestricts to a
+functor to `YonedaAdicSpace`; `Geometry.inclusion p` is its Hom lift to `Geometry.PreAdic` on
+`Geometry.Perfd p`, and its restriction to `Geometry.Perf p` is the case `c = true`. The theorem
+further states that this functor is fully faithful; that its essential image is the full
+subcategory of `YonedaAdicSpace` on the objects covered by open immersions from
+`YonedaAdicSpace.ofSpaY R.toCAff` with `R : Geometry.Affinoid p c`; that it sends the spectrum of
+the lift of `R` to `YonedaAdicSpace.ofSpaY R.toCAff`; that it carries `Geometry.space p c` naturally
+to `YonedaAdicSpace.space` up to the universe lifts; and that it preserves and reflects open
+immersions. A quasi-inverse on this image, followed by the inclusion of `Perfd.{1} p` into
+`TauCeti.WedhornPreAdicSpace` (perfectoid spaces are sheafy with a basis of affinoid opens, so
+`PreAdicSpace.isPreAdic_of_isSheafy` applies), is then the comparison of the perfectoid Yoneda-adic
+category with Wedhorn's pre-adic spaces: a fully faithful functor, with a natural isomorphism of
+underlying-space functors and equivalence of the open-immersion predicates, whose essential image
+is exactly the class of `Geometry.HasAffinoidCharts p c` objects. Essential surjectivity holds
+onto this class only, not onto `Perfd.{1} p`; the one-point spectrum of a perfectoid field in
+`Type 1` that is not `Small.{0}` lies outside it (`wedhornComparison_large_field`, D1.11). Thus open
+restrictions agree through `PreAdicSpace.IsOpenImmersion.isoRestrict`. The natural homeomorphism
+from the compared tilt to the compared original space is fixed on every perfectoid affinoid by the
+inverse of `PerfectoidSpace.spaTiltHomeomorph`, using `Geometry.tiltAffineIso` and
+`Geometry.affinePoint`. This
 combines the sheafy affine description of [Berkeley] Proposition 3.2.2, p. 20, the Yoneda comparison
 of Proposition 3.5.3, p. 24, and perfectoid sheafiness and tilting in [ECD] Theorem 3.18 and
-Definition 3.19, p. 18. The target concerns the perfectoid test categories of D6.6;
+Definition 3.19, p. 18; the size bound on chart points uses [ECD] Proposition 4.4 with proof,
+pp. 20–21. The target concerns the perfectoid test categories of D6.6;
 `Geometry.PreAdic` itself is the lifted Yoneda-adic category, including nonanalytic targets in
 [Berkeley] Lemma 18.1.1. The geometric specialization of D4.5 and D5.1 additionally requires
 field-valued points and the open-subfunctor comparison of [ECD] Proposition 11.13, Definition 11.14
@@ -808,7 +841,7 @@ space of a formal scheme, used in D6.6.
 `CategoryTheory.Limits.HasCoproducts`, `Sigma.ι`, `Sigma.desc` and `coproductUniqueIso_inv` in
 `Mathlib/CategoryTheory/Limits/Shapes/Products.lean` supply the disjoint-union universal property
 and the singleton comparison. `Geometry.hasCoproducts` supplies Type 1 indexed coproducts on this
-file's Yoneda-adic `Geometry.Spaces p c`. PerfectoidSpaces' `sigmaPoints`, with its Checks
+file's charted `Geometry.Spaces p c`. PerfectoidSpaces' `sigmaPoints`, with its Checks
 `sigmaPoints_empty`, `sigmaPoints_singleton` and `sigmaPoints_two_components` (P6.4), concerns
 Type 0 indexed families on `PerfectoidSpace.Perfd p`; the carrier and index universe differ here.
 
@@ -3043,9 +3076,11 @@ spaces. It works with the perfectoid spaces, completed residue fields, affinoid 
 morphisms supplied by PerfectoidSpaces layers P2, P4, P5 and P6. In `Suggested.lean` the topological
 conditions are stated on Tau Ceti's `PreAdicSpace` and the perfectoid statements on
 PerfectoidSpaces' `Perfd p`; for the README-only targets the suggested geometric category is the Hom
-lift of `PerfectoidSpace.Perfd p`, or of `PerfectoidSpace.Perf p` in characteristic `p`; étaleness
-is the pullback of `PerfectoidSpace.IsEtale p` along `Geometry.toPerfectoid`. The cutoff categories
-use `PerfectoidSpace.IsKappaSmall p κ` on these same objects. Total disconnectedness and strict
+lift of the full subcategory of `PerfectoidSpace.Perfd.{1} p`, or of `PerfectoidSpace.Perf.{1} p` in
+characteristic `p`, on the objects covered by `Geometry.Affinoid` charts
+(`Geometry.HasAffinoidCharts`, D1.11); étaleness is the pullback of `PerfectoidSpace.IsEtale p`
+along `Geometry.toPerfectoid`. The cutoff categories use `PerfectoidSpace.IsKappaSmall p κ` on these
+same objects. Total disconnectedness and strict
 total disconnectedness are separate predicates, and universal openness is obtained from a cover
 construction distinct from the w-localization, which is not universally open.
 
@@ -3501,7 +3536,9 @@ and algebraic closedness of
 `UniformSpace.Completion (WithVal (TauCeti.ValuationSpectrum.residueFieldValuation x.val))`
 for every point `x` of every perfectoid affinoid open chart `Geometry.affine p R → X`.
 This is the completed residue field of the valuation at `x`. Quantifying over all charts
-expresses the pointwise condition without choosing a chart or an unrelated field assignment.
+expresses the pointwise condition without choosing a chart or an unrelated field assignment; every
+point lies in such a chart because the objects of `Geometry.Spaces p c` satisfy
+`Geometry.HasAffinoidCharts p c` (D1.11).
 PerfectoidSpaces layer P2 supplies its interpretation as a perfectoid completed residue field
 ([ECD] Definition 7.17, p. 36).
 
@@ -3903,8 +3940,11 @@ The topological categories are the corresponding full subcategories of
 `DisconnectedTopology.AffinoidOver` and `DisconnectedTopology.ProEtaleOver`. At the fixed
 universes of `Geometry`, affinoid sources have `Small.{0}` underlying sets, while general
 sources have `Small.{1}` underlying sets and an open cover by `Small.{0}` subspaces. These
-conditions match `CAff.A : Type` and the underlying `TopCat.{1}` of Yoneda-adic spaces; the
-`TopCat.{2}` lift does not enlarge the geometric objects ([ECD] Corollary 7.22, p. 38).
+are the point-set forms of `Geometry.HasAffinoidCharts`: chart points form `Small.{0}` sets by
+`Geometry.hasAffinoidCharts_iff_small`, and over such a base an affinoid pro-étale source is
+`X ×_{π₀(X)} π₀(Y)`, whose ring of completed locally constant functions is `Small.{0}` when its
+points are. The `TopCat.{2}` lift does not enlarge the geometric objects ([ECD] Corollary 7.22,
+p. 38; Remark 4.3 and Proposition 4.4, pp. 20–21).
 
 `Perfectoid.proEtale_cardinal_iff` identifies the restrictions to a cutoff: for a strictly
 totally disconnected affinoid base `R` with `Cardinal.mk R.A < κ`, where `κ` is a cutoff,
@@ -4004,19 +4044,83 @@ also build the completed pullback of `O⁺` and its point valuations.
   spectral.
 
 **Perfectoid geometric carriers.** `Geometry.Affinoid p c` extends the supplied
-`Perfectoid.PairCat p` by `(p : A) = 0` when `c = true`.
-`Geometry.Spaces`, `Geometry.Perf` and `Geometry.Perfd` lift the Hom types of
-`PerfectoidSpace.Perfd` and its `InCharP` full subcategory `PerfectoidSpace.Perf`.
-`Geometry.space`, `Geometry.affine` and `Geometry.affineMap` retain the supplier's topology,
-spectrum and contravariant pair maps ([ECD] Definitions 3.1 and 3.19).
-For prime `p`, either characteristic selector, and every pair map `f`,
-`Geometry.toPerfectoid_affineMap` identifies the forgotten `Geometry.affineMap p f`
-with `PerfectoidSpace.spaFunctor.map f.op`. Thus both objects and arrows come
-from the supplied perfectoid category.
+`Perfectoid.PairCat p`, with rings in `Type`, by `(p : A) = 0` when `c = true`.
+`Geometry.Affinoid.ulift p c : Geometry.Affinoid p c ⥤ Perfectoid.PairCat.{1} p` replaces the ring
+`A` by `ULift.{1} A`, with the ring, uniform structure and plus ring transported along the
+continuous ring isomorphism `ULift.down` (Mathlib `ULift.uniformSpace`, `ULift.instCompleteSpace`
+and the `IsTopologicalRing (ULift R)` instance), and conjugates pair maps by `ULift.up` and
+`ULift.down`. It is fully faithful, and an object of `PairCat.{1} p` lies in its essential image
+exactly when its ring is `Small.{0}`: the structure then transports to `Shrink.{0}` of the ring.
+`Geometry.HasAffinoidCharts p c` is the property of `X : PerfectoidSpace.Perfd.{1} p` that every
+point has an open neighbourhood `U` for which `X.obj.restrict U.isOpenEmbedding` is isomorphic in
+`PreAdicSpace.{1}` to `PerfectoidSpace.ofPair p` of the lift of some `R : Geometry.Affinoid p c`.
+`Geometry.Spaces p c` is `ULiftHom.{2}` of its full subcategory, `Geometry.Perfd p` and
+`Geometry.Perf p` are the values at `false` and `true`, and `Geometry.toPerfectoid` forgets the
+chart condition and the Hom lift. `Geometry.affine p R` is `PerfectoidSpace.ofPair p` of the lift of
+`R`, charted by its identity, and `Geometry.affineMap` applies `PerfectoidSpace.spaFunctor` to
+lifted pair maps; `Geometry.space` retains the supplier's topology ([ECD] Definitions 3.1 and 3.19,
+p. 18; Definition 4.2 and Proposition 4.4, pp. 20–21). For prime `p`, either characteristic
+selector, and every pair map `f`, `Geometry.toPerfectoid_affineMap` identifies the forgotten
+`Geometry.affineMap p f` with `PerfectoidSpace.spaFunctor.map` of the opposite of the lifted pair
+map. Thus both objects and arrows come from the supplied perfectoid category.
+
+**Closure and resizing of the charted carrier.** For a prime `p`, prove
+`Geometry.hasAffinoidCharts_iff_small`: `X : PerfectoidSpace.Perfd.{1} p` satisfies
+`Geometry.HasAffinoidCharts p false` exactly when the section ring of every affinoid perfectoid open
+of `X` is `Small.{0}`, and the points of every such open then form a `Small.{0}` set. The forward
+direction is the argument of [ECD] Proposition 4.4: an affinoid open is covered by finitely many
+rational subsets of charts, whose rings are completed localizations of `Small.{0}` Tate rings and so
+`Small.{0}` by [ECD] Remark 4.3 and D0.24; its ring embeds into their product, and the points of
+`Spa(A, A⁺)` embed into the binary relations on `A`. Conversely, the section ring of an affinoid
+perfectoid neighbourhood recovers its pair by `PerfectoidSpace.globalSectionsAffinoidEquiv_spec`,
+and a `Small.{0}` pair is a lift. Prove also `Geometry.hasAffinoidCharts_true_iff` (the `true`
+property is `PerfectoidSpace.InCharP` together with the `false` property: sections over every open
+embed into a product of rational localizations of charts), `Geometry.hasAffinoidCharts_restrict`
+(open subspaces of charted objects are charted: rational subsets of a chart form a basis and are
+again charts, by the rational localization of perfectoid pairs in `Type`),
+`Geometry.hasAffinoidCharts_pullback` (the fibre product of `PerfectoidSpace.hasPullbacks` of
+charted objects is charted: it is covered by the spectra of the completed tensor products
+`Perfectoid.PairCat.tensorPair` of charts, whose rings are `Small.{0}`),
+`Geometry.hasAffinoidCharts_tilt` (`X` is charted with `c = false` exactly when its image under
+`PerfectoidSpace.tiltFunctor p` is charted with `c = true`: tilting identifies the affinoid
+perfectoid opens of `X` and `X♭`, `PerfectoidSpace.tiltSpaIso` identifies the tilt of a chart with
+the spectrum of the lift of `Geometry.tiltAffinoid R`, and for a perfectoid Tate ring `A` the set
+`A♭` embeds into `A^ℕ` while `A` is a quotient of a localization of `W(A♭⁺)`; so the untilts of
+charted spaces, including the spaces over a fixed untilt in [ECD] Corollary 3.20, stay in the
+carrier) and `Geometry.hasAffinoidCharts_of_etale` (for either `c`, the source of a morphism of
+`Perfd.{1} p` satisfying `PerfectoidSpace.IsEtale p` with charted target is charted: locally it is
+an open subspace of a finite étale `Spa(S, S⁺)` over a chart, and `S` is a finite module over a
+`Small.{0}` ring). Disjoint unions indexed in `Type 1` are `Geometry.hasCoproducts` below. Pro-étale
+sources are not preserved (`hasAffinoidCharts_proEtale_large_profinite`), so the pro-étale and
+v-sites of D2 are formed on `Geometry.Spaces`, whose fibre products are those of
+`Geometry.hasAffinoidCharts_pullback` ([ECD] Definition 4.2, Remark 4.3 and Proposition 4.4 with
+proof, pp. 20–21; Theorem 3.18, Definition 3.19 and Corollary 3.20, pp. 18–19; Theorem 6.1 and
+Definition 6.2, p. 26; [Sch12] §6, Prop. 6.18 with proof, p. 38). *Needs:* D0.24; PerfectoidSpaces
+layers P1–P3; Mathlib `ULift`, `Shrink`, `Small`.
+
+**Checks.**
+
+- `hasAffinoidCharts_coproduct_large` — The disjoint union, indexed by `Type`, of copies of the
+  spectrum of the lift of an algebraically closed perfectoid field pair `(C, O_C)` with `C : Type`
+  is charted, although its set of points is not `Small.{0}`: the condition is local.
+- `hasAffinoidCharts_proEtale_large_profinite` (non-example) — Let `S` be the profinite space
+  `Type → Bool` and `X` the spectrum of the lift of `(C, O_C)`. `PerfectoidSpace.prodProfinite`
+  gives `X × S̲` in `Perfd.{1} p`, affinoid pro-étale over `X`, and it is not charted: it is
+  quasicompact, so finitely many charts would make its point set `S` `Small.{0}`, contradicting
+  `not_small_type`.
+- `hasAffinoidCharts_pullback_affine` — Over a third chart, the fibre product of two charts is the
+  spectrum of the lift of their completed tensor product formed in `Type`.
+- `hasAffinoidCharts_tilt_affine` — The tilt of the spectrum of the lift of `R` is the spectrum of
+  the lift of `Geometry.tiltAffinoid R`.
+- `hasAffinoidCharts_etale_large_fibre` — For `X` the spectrum of the lift of `(C, O_C)`, the fold
+  map to `X` from the disjoint union of copies of `X` indexed by `Type` is étale, a local
+  isomorphism, with a fibre that is not `Small.{0}`; its source is charted, since the étale clause
+  is local on the source, unlike the pro-étale counterexample.
 
 For a prime `p` and either value of `c`, `Geometry.hasCoproducts` gives
-`HasCoproducts.{1} (Geometry.Spaces p c)`: disjoint unions preserve perfectoid
-charts. `Geometry.space_coproduct` identifies the valuation topology of each
+`HasCoproducts.{1} (Geometry.Spaces p c)`: the disjoint union in `PreAdicSpace.{1}` of a
+`Type 1`-indexed family of charted perfectoid spaces is charted, each summand chart remaining an
+open chart. `Geometry.space_coproduct` identifies the valuation topology of each
 Type 1 indexed coproduct with the topological disjoint union and sends each
 summand point to the specified `Sigma.ι` image ([Berkeley] Definition 3.4.1,
 p. 22; [ECD] Definition 3.19, p. 18). The abstract `coverSplits`, disconnectedness
@@ -4094,6 +4198,30 @@ strictly disconnected case ([ECD] Definition 7.1, Lemma 7.3 and Proposition 7.16
 - `Affinoid_toCAff_zero` — The zero pair remains zero as a complete Huber pair.
 - `Affinoid_toCAff_nonzero` — Forgetting perfectoidness does not collapse a nonzero ring.
 
+**`Geometry.Affinoid.ulift` — Checks.**
+
+- `Affinoid_ulift_down` — `ULift.down` is a continuous ring isomorphism from the lifted ring onto
+  the supplied ring, carrying the lifted plus ring onto the supplied plus ring.
+- `Affinoid_ulift_homs` — Pair maps between two lifts are exactly the conjugates of pair maps by
+  `ULift.up` and `ULift.down`; distinct pair maps have distinct lifts.
+- `Affinoid_ulift_zero` — The zero pair lifts to the zero pair, whose spectrum is empty.
+
+**`Geometry.HasAffinoidCharts` — Checks.**
+
+- `HasAffinoidCharts_affine` — The spectrum of the lift of any `R : Geometry.Affinoid p c` has the
+  property, with the whole space as its chart.
+- `HasAffinoidCharts_empty` — The empty perfectoid space has the property for both selectors; no
+  point needs a chart.
+- `HasAffinoidCharts_large_field` (non-example) — Let `K : Type 1` be a perfectoid field that is not
+  `Small.{0}`, for instance the completed perfection of `k((t))` for `k` the perfect closure of
+  `𝔽_p(X_i : i ∈ Type)`. Then `Spa(K, K°)` is an object of `PerfectoidSpace.Perfd.{1} p` and of
+  `Perf.{1} p` without the property for either selector. It has one point, so a chart around it is
+  the whole space, and `PerfectoidSpace.globalSectionsAffinoidEquiv_spec` would make `K` isomorphic
+  to `ULift.{1}` of a ring in `Type`.
+- `HasAffinoidCharts_cyclotomic_selector` (non-example) — The spectrum of the lift of
+  `Perfectoid.padicCyclotomic` with its power-bounded plus ring has the property for `false` and
+  not for `true`, since `p ≠ 0` in its ring.
+
 **`PerfectoidSpace.IsPerfectoidSpace` and `PerfectoidSpace.InCharP` — Checks.**
 
 - `perfectoid_affine_chart` — A perfectoid affinoid is covered by its identity chart.
@@ -4102,9 +4230,20 @@ strictly disconnected case ([ECD] Definition 7.1, Lemma 7.3 and Proposition 7.16
 
 **`Geometry.Spaces` — Checks.**
 
-- `Spaces_all_characteristics` — The false selector gives exactly the Hom lift of supplied `Perfd`.
-- `Spaces_characteristic_p` — The true selector gives exactly the Hom lift of supplied `Perf`.
+- `Spaces_all_characteristics` — The false selector gives exactly the Hom lift of the full subcategory of supplied `Perfd.{1}` on `Geometry.HasAffinoidCharts p false`.
+- `Spaces_characteristic_p` — The true selector gives exactly the Hom lift of the charted objects of supplied `Perf.{1}`, a full subcategory of the false selector.
 - `Spaces_characteristic_required` — Every object selected by true satisfies the supplied `InCharP` predicate after forgetting the lift.
+
+**`Geometry.exists_wedhornComparison` — Checks.**
+
+- `wedhornComparison_affinoid` — On `Geometry.affine p R` the functor gives
+  `YonedaAdicSpace.ofSpaY R.toCAff`, and its underlying-space isomorphism there pulls valuations
+  back along `ULift.up`, after the universe lifts of `YonedaAdicSpace.space_ofSpaY`.
+- `wedhornComparison_empty` — The empty perfectoid space goes to the initial Yoneda-adic sheaf, the
+  spectrum of the zero pair.
+- `wedhornComparison_large_field` (non-example) — `Spa(K, K°)` of `HasAffinoidCharts_large_field`
+  is a Wedhorn pre-adic space outside the essential image: full faithfulness of the comparison does
+  not reach it.
 
 **`Geometry.space` — Checks.**
 
@@ -4326,14 +4465,14 @@ no second definition of the finite image condition is needed. `Perfd.mem_proEtal
 specifies membership for a given arrow family, so changing its indexing does not change whether
 it covers. Its general topological signatures use a functor to `TopCat`; the specialization to
 perfectoid spaces uses `Geometry.Spaces p c`, `Geometry.space p c` and
-`Geometry.proet p c`. Their perfectoid open affinoid charts are `Geometry.Affinoid`
-inside `AdicEtaleGeometry.CAff`, using PerfectoidSpaces P2. The perfectoid-disc and
+`Geometry.proet p c`. Their perfectoid open affinoid charts are the spectra
+`Geometry.affine p R` of `R : Geometry.Affinoid p c`, with `R.toCAff` in `AdicEtaleGeometry.CAff`;
+by `Geometry.hasAffinoidCharts_restrict` they form a basis of every object. The perfectoid-disc and
 field-extension Checks use these geometric carriers alongside the profinite calculations above.
 For prime `p`, either characteristic convention `c`, and every `X : Geometry.Spaces p c`,
 `Geometry.space_locallySpectral` states that `(Geometry.space p c).obj X` is locally spectral.
-Its open spectral charts come from `YonedaAdicSpace.space_charts` and `space_ofSpaY`
-in AdicEtaleGeometry §A1, together with
-`TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition` in
+Its open spectral charts are these affinoid charts: their spaces are valuation spectra, spectral
+by `TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition` in
 `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Spectral.lean`. Thus the nonempty-space assertion
 in `s2_1_empty_space` applies to the geometric sites; the rational Checks show why it does not
 extend to every underlying-space functor.
@@ -4362,7 +4501,9 @@ extend to every underlying-space functor.
 
 `Geometry.proEtalePrecoverage_isStableUnderBaseChange` and
 `Geometry.proEtaleCover_refineAffinoid` state base change and affinoid refinement
-on `Geometry.Spaces p c`, with prime `p` and either characteristic convention.
+on `Geometry.Spaces p c`, with prime `p` and either characteristic convention; the base change uses
+the fibre products of `Geometry.hasAffinoidCharts_pullback`, and the refining members are charts
+`Geometry.affine p R`.
 `Geometry.proEtaleTopology_small` identifies the covering topology on
 `Geometry.Perfdκ p c κ` with the restricted topology and proves continuity of its
 inclusion, for `IsCutoffCardinal κ` ([ECD] Definition 8.1, p. 39, and Proposition 8.2,
@@ -4370,7 +4511,7 @@ pp. 39–40). These statements use `Geometry.Spaces p c`.
 
 **`Geometry.toPerfectoid` — Checks.**
 
-- `toPerfectoid_affine` — An affinoid is sent to the same Yoneda-adic spectrum.
+- `toPerfectoid_affine` — An affinoid is sent to `PerfectoidSpace.ofPair p` of its lift.
 - `toPerfectoid_identity` — The identity map remains the identity.
 - `toPerfectoid_distinct` — Distinct geometric maps remain distinct after forgetting the lift.
 
@@ -6355,10 +6496,11 @@ They apply on any subcanonical site, and therefore also after specialization to 
 - `quasiProEtale_atlas_exists` — choosing a presentation of a diamond recovers the existence
   of a representable quasi-pro-étale epimorphism.
 
-The carrier is `Geometry.Perf p = Geometry.Spaces p true`, the Hom-universe lift of
-`PerfectoidSpace.Perf p`, selected inside `PerfectoidSpace.Perfd p` by `PerfectoidSpace.InCharP p`.
-Its charts are `Geometry.Affinoid p true` over `AdicEtaleGeometry.CAff`;
-`YonedaAdicSpace.space_ofSpaY` identifies their spaces with lifted valuation spectra. The perfectoid
+The carrier is `Geometry.Perf p = Geometry.Spaces p true`, the Hom-universe lift of the objects of
+`PerfectoidSpace.Perf.{1} p` covered by `Geometry.Affinoid p true` charts
+(`Geometry.HasAffinoidCharts`, D1.11), with `R.toCAff` in `AdicEtaleGeometry.CAff`. Through
+`Geometry.exists_wedhornComparison`, `YonedaAdicSpace.space_ofSpaY` identifies the chart spaces with
+lifted valuation spectra. The perfectoid
 ring condition comes from `PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing`; the site uses
 `Geometry.proet p true` and D2.1–D2.2.
 
@@ -7171,7 +7313,8 @@ field extensions surjective on spectra; plus rings are retained ([ECD] Propositi
 **Geometric point realization.** `Geometry.VSheaf` uses the v-topology of the actual
 perfectoid category; `Geometry.realized` and `Geometry.realizedMap` specialize the
 category-of-elements realization. `Geometry.affinePoint` is its affine valuation-space
-comparison, obtained from `YonedaAdicSpace.space_ofSpaY` by changing universe lifts.
+comparison, obtained from `YonedaAdicSpace.space_ofSpaY` through the underlying-space isomorphism
+of `Geometry.exists_wedhornComparison` by changing universe lifts.
 `Geometry.affinePoint_naturality` describes every pair map. For prime `p`, either
 characteristic convention, and `K : Geometry.FieldPoint p c`,
 `Geometry.affinePoint_closed_point` identifies the valuation at any closed point:
@@ -7313,8 +7456,9 @@ For site-level constructions, use the intrinsic realization `Perf.Diamond.spaceF
 formed from the spaces of test objects and their sections. `Perf.VSheaf.IsOpenImmersion` requires
 monicity and an open subset whose image condition characterizes the sections that lift uniquely.
 Thus neither the sheaf-space functor nor the open-immersion predicate is an independent parameter.
-The geometric instance is `Geometry.Perf p`, the perfectoid open-chart subcategory of the supplied
-Yoneda-adic spaces. `Geometry.vTopology p` uses its actual valuation-space functor. For maps between
+The geometric instance is `Geometry.Perf p`, the charted characteristic-`p` perfectoid spaces,
+which `Geometry.exists_wedhornComparison` identifies with the perfectoid open-chart subcategory of
+the supplied Yoneda-adic spaces. `Geometry.vTopology p` uses its actual valuation-space functor. For maps between
 diamonds, `Perf.Diamond.isOpenImmersion_iff` equates the sectionwise predicate with
 `(Geometry.openImm p true).presheaf f.hom`: each pullback to a perfectoid test object is represented
 by a geometric open immersion. For maps between small v-sheaves,
@@ -9874,7 +10018,8 @@ colimit `(Geometry.tilt p).obj X`. The indexing category retains all maps over `
 so compatibility includes affinoid opens inside overlaps; neither colimit is assumed.
 This specifies the global gluing even for non-affinoid `X` ([ECD] Theorem 3.18 and the
 paragraph after Definition 3.19, p. 18; Corollary 3.20, p. 19).
-`Geometry.inclusion` retains the pre-adic object. `Geometry.PreAdic` uses the supplied
+`Geometry.inclusion` is the chart-gluing functor specified with
+`Geometry.exists_wedhornComparison`. `Geometry.PreAdic` uses the supplied
 Yoneda-adic carrier without a chosen base. `Geometry.analytic` means an open cover
 by Tate affinoids; the maps to `Spa(ℤ_p, ℤ_p)` in the comparison theorems impose the
 base condition separately.
