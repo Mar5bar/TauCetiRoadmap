@@ -20,6 +20,7 @@ then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process)
 
 - [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
 - [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
+- [Algebraic moduli and representability for arithmetic geometry](TauCetiRoadmap/AlgebraicModuliForArithmeticGeometry/README.md)
 - [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
 - [Algebraic vector bundles](TauCetiRoadmap/AlgebraicVectorBundles/README.md)
 - [Analytic toric geometry](TauCetiRoadmap/AnalyticToricGeometry/README.md)

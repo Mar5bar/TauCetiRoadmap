@@ -160,7 +160,7 @@ coefficient half of Hilbert–Serre: the polynomial attached to a series `p/(1�
 `Pseudofunctor.DescentData`, `Pseudofunctor.toDescentData`, `isEquivalence_toDescentData`,
 `DescentData'.descentDataEquivalence`, `Pseudofunctor.sheafHom`, `Pseudofunctor.StrongTrans` with
 its modifications, `CommRingCat.moduleCatExtendScalarsPseudofunctor`,
-`ModuleCat.extendRestrictScalarsAdj`, `ModuleCat.comonadicExtendScalars` (comonadicity of extension
+`ModuleCat.extendRestrictScalarsAdj`, `comonadicExtendScalars` (comonadicity of extension
 of scalars along a faithfully flat map), `Comonad.Coalgebra`, `Comonad.comparison`, and the
 finiteness descents `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat` and
 `Algebra.FinitePresentation.of_finitePresentation_tensorProduct_of_faithfullyFlat`. Sites and
@@ -238,8 +238,8 @@ arithmetic coefficient comparisons, and Layer 8 the formal deformation compariso
 resolution, preservation of the resolved locus and SNC compactification with its analytic charts,
 followed by algebraic vanishing and numerical boundedness. Checks are listed under each definition.
 `Suggested.lean` states the light definitions and the theorems whose carriers exist in Mathlib and
-Tau Ceti; the heavy carriers appear in this README with their intended Lean signatures in the
-subsections marked “a”.
+Tau Ceti; the heavy carriers appear in this README with their intended Lean signatures in
+§§1.1a, 3.3a and 4.24.
 
 ## Layer 1: projective parameter spaces
 
@@ -958,7 +958,7 @@ Define `quasicoherentPseudofunctor`. Restrict the existing scheme-module pullbac
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition35.5.2; [Stacks](https://stacks.math.columbia.edu/tag/01BG), Lemma17.10.4).
+([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition 35.5.2; [Stacks](https://stacks.math.columbia.edu/tag/01BG), Lemma 17.10.4).
 
 The API gives `QCohPseudofunctor.fibre`: The fibre at X is the full subcategory defined by IsQuasicoherent; `QCohPseudofunctor.map`: The arrow map is the restriction of Scheme.Modules.pullback; `QCohPseudofunctor.affine`: The affine comparison through tildeEquiv identifies arrow maps with extendScalars; `QCohPseudofunctor.map_forget`: Forgetting the quasi-coherent property after the restricted pullback is naturally isomorphic to forgetting first and applying the Scheme.Modules.pullback.
 
@@ -975,7 +975,7 @@ Define `moduleDescentCoaction`. For every commutative ring map R→A, tensor-ove
 
 Here Commutative rings R,A in one universe and an arbitrary ring map R→A. Modules and their morphisms are arbitrary; faithful flatness is needed only for the following effective-descent theorem.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023N), Proposition35.3.9, equalizer formula and cocycle calculation).
+([Stacks](https://stacks.math.columbia.edu/tag/023N), Proposition 35.3.9, equalizer formula and cocycle calculation).
 
 The API gives `ModuleDescentCoalgebra.equivalence`: An equivalence preserving the underlying A-module and its maps; `ModuleDescentCoalgebra.coaction`: The coaction sends n to θ(n⊗1); `ModuleDescentCoalgebra.canonical`: The canonical datum on A⊗R M becomes the comparison coalgebra of M.
 
@@ -991,17 +991,17 @@ Prove `affineModuleDescentEquivalence`. For a faithfully flat commutative ring m
 
 Here Commutative rings R,A in one fixed universe, a specified ring map f:R→A with f faithfully flat, and arbitrary R- and A-modules with all module morphisms. No Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023N), Proposition35.3.9(1)–(3)).
+([Stacks](https://stacks.math.columbia.edu/tag/023N), Proposition 35.3.9(1)–(3)).
 
 For the proof, use the comonadicExtendScalars and the canonical comparison; transfer IsEquivalence through the specified descent/coalgebra equivalence; then identify the inverse and its counit by `descentEqualizerModuleCoordinates`, including the right-adjoint uniqueness transport; then keep the unit/counit and every module-map naturality square; faithful flatness is used here, after the arbitrary-map presentation equivalences.
 
-*Needs:* `moduleDescentCoaction`, Mathlib `ModuleCat.comonadicExtendScalars`, `moduleCanonicalComparison`, `descentEqualizerModuleCoordinates`.
+*Needs:* `moduleDescentCoaction`, Mathlib `comonadicExtendScalars`, `moduleCanonicalComparison`, `descentEqualizerModuleCoordinates`.
 
 Prove `affineFpqcQuasicoherentDescent`. For a finite standard fpqc covering {Ui→S} of an affine scheme S, the canonical functor from QCoh(S) to descent data for the cover is an equivalence.
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023S), Lemma35.5.1 and proof).
+([Stacks](https://stacks.math.columbia.edu/tag/023S), Lemma 35.5.1 and proof).
 
 For the proof, replace the finite affine cover by its finite disjoint union, which is affine; its ring is the finite product of the component rings; then identify the resulting ring map as faithfully flat by flatness and joint surjectivity; then use the actual tildeEquiv and its tensor pullback comparisons to transport module descent to sheaves; then compare finite-family and disjoint-union descent data, preserving morphisms and cocycles.
 
@@ -1011,7 +1011,7 @@ Prove `fpqcQuasicoherentDescentFaithful`. For an arbitrary fpqc cover {Ui→S} a
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition35.5.2, faithfulness proof).
+([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition 35.5.2, faithfulness proof).
 
 For the proof, for every s∈S choose u∈Ui over s; then the flat map of local rings O_S,s→O_Ui,u is faithfully flat; then equality after tensoring implies equality on stalk maps; stalkwise equality gives a=b.
 
@@ -1021,7 +1021,7 @@ Prove `fpqcQuasicoherentDescentFull`. For an arbitrary fpqc cover {Ui→S}, ever
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition35.5.2, fullness proof).
+([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition 35.5.2, fullness proof).
 
 For the proof, cover S by affine opens Vj and choose a finite standard affine fpqc refinement of each induced cover; then use affine descent fullness to produce a map on every Vj; then for the finite standard refinements Wj,k→Vj and Wj′,k′→Vj′, use the common fpqc cover {Wj,k×S Wj′,k′→Vj∩Vj′}. The original compatibility is over Ui×S Ui′. Faithfulness proves agreement of the resulting maps on the possibly nonaffine Vj∩Vj′; neither this intersection nor each common-refinement member is assumed affine; then glue sheaf-module maps on the open cover; uniqueness follows from faithfulness.
 
@@ -1031,7 +1031,7 @@ Prove `fpqcQuasicoherentDescentEffective`. Every quasi-coherent module descent d
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition35.5.2, effectivity proof and final omitted verification).
+([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition 35.5.2, effectivity proof and final omitted verification).
 
 For the proof, use finite standard affine refinements over each affine open Vj to obtain local quasi-coherent sheaves Mj; then use fullness to obtain their overlap isomorphisms and faithfulness on triple intersections to establish the cocycle; then glue the sheaf modules on the open cover; quasi-coherence is local by its definition; then for each Ui compare with Mi on the pulled open cover Ui×S Vj; descend the local comparison maps and their inverses by fullness; then check that these comparisons commute with the original datum transitions, using faithfulness on each double overlap. This completes the verification omitted by the source.
 
@@ -1041,7 +1041,7 @@ Prove `fpqcQuasicoherentDescent`. For every scheme S and every fpqc covering {Ui
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition35.5.2).
+([Stacks](https://stacks.math.columbia.edu/tag/023T), Proposition 35.5.2).
 
 For the proof, combine faithfulness, fullness and essential surjectivity of the same canonical functor; then retain the constructed datum comparison as the counit; full faithfulness supplies the unit and equivalence coherence.
 
@@ -1051,7 +1051,7 @@ Prove `finitePresentationModuleDescent`. If S is faithfully flat over a commutat
 
 Here S is a faithfully flat commutative R-algebra; M is an arbitrary R-module; no Noetherian hypothesis.
 
-([Stacks](https://stacks.math.columbia.edu/tag/05B0), Lemma35.7.3, affine case).
+([Stacks](https://stacks.math.columbia.edu/tag/05B0), Lemma 35.7.3, affine case).
 
 For the proof, use the finite-generation descent to choose a finite free surjection R^n→M; then flat scalar extension identifies S⊗R ker with the kernel of S^n→S⊗R M; then finite presentation of S⊗R M makes this extended kernel finite by the kernel criterion; then descend finite generation of the kernel and apply the same criterion over R.
 
@@ -1061,7 +1061,7 @@ Prove `finiteLocallyFreeDescent`. For a quasi-coherent module M and an fpqc cove
 
 Here An fpqc covering and a quasi-coherent module; A finite rank r is specified when rank preservation is asserted.
 
-([Stacks](https://stacks.math.columbia.edu/tag/05B2), Lemma35.7.6 and proof).
+([Stacks](https://stacks.math.columbia.edu/tag/05B2), Lemma 35.7.6 and proof).
 
 For the proof, work on affine standard fpqc refinements, as in the general module-descent proof; then descend finite presentation and flatness, then use the theorem to obtain finite projectivity; then use the finite-projective/local-free comparison; ranks agree after the residue-field extensions at points above every base point; then apply rank 1 to the invertible-sheaf predicate.
 
@@ -1071,7 +1071,7 @@ Define `spaceQuasicoherentModules`. For an algebraic space X, QCoh(X) is the ful
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/03G5), Definition66.29.1 and Lemma66.29.3).
+([Stacks](https://stacks.math.columbia.edu/tag/03G5), Definition 66.29.1 and Lemma 66.29.3).
 
 The API gives `SpaceQCoh.chart`: Restriction to a scheme étale chart is quasi-coherent; `SpaceQCoh.transition`: A chart morphism gives a specified pullback isomorphism with unit/composition coherence; `SpaceQCoh.schemeEquivalence`: For a scheme X the category agrees with the ordinary quasi-coherent category.
 
@@ -1087,7 +1087,7 @@ Prove `spaceFpqcQuasicoherentDescent`. For any fpqc covering {Xi→X} of algebra
 
 Here Schemes and quasi-coherent modules in specified universes; no Noetherian, finite-generation or finite-presentation hypotheses.
 
-([Stacks](https://stacks.math.columbia.edu/tag/04W8), Proposition74.4.1, steps1–7).
+([Stacks](https://stacks.math.columbia.edu/tag/04W8), Proposition 74.4.1, steps1–7).
 
 For the proof, choose scheme étale charts Tij→Xi. The composite family {Tij→X} is an fpqc refinement of {Xi→X}; preserve the pulled original datum and the comparison to its restrictions; then for every scheme U→X in the small étale site, the representable diagonal of X makes U×X Tij a scheme. Apply the scheme descent theorem to the fpqc cover {U×X Tij→U}. Do not apply a theorem about scheme covers directly to U×X Xi before replacing Xi by its scheme charts; then full faithfulness makes the descended modules functorial in the input datum and supplies the comparisons for chart maps; then faithfulness verifies their unit and composition equations; glue them as a sheaf on the ringed étale site; then compare both composites with identity on objects and morphisms by the same chartwise full faithfulness.
 
@@ -1097,7 +1097,7 @@ Define `moduleOverlapDatum`. ModuleOverlapDatum(f) has an S-module N and an S⊗
 
 Here Commutative rings R,S in one fixed universe and an arbitrary ring homomorphism f:R→S; N is an arbitrary S-module. No faithful-flatness, finite-generation or Noetherian assumption.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1 and the paragraph defining φij).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1 and the paragraph defining φij).
 
 The API gives `ModuleOverlapDatum.module`: The underlying object is N:ModuleCat S; `ModuleOverlapDatum.transition`: The S⊗R S-linear overlap isomorphism θ, with the first/second-factor actions fixed above; `ModuleOverlapDatum.cocycle`: The extended maps obey θ12∘θ01=θ02, with the scalar-extension associators inserted; `ModuleOverlapDatum.hom_ext`: Two datum morphisms are equal iff their underlying S-linear maps are equal.
 
@@ -1106,9 +1106,9 @@ The API gives `ModuleOverlapDatum.module`: The underlying object is N:ModuleCat 
 **Checks.**
 
 - `ModuleOverlapTests.identity`: For f=idR, diagonal normalization forces θ to be identity under the tensor unitors.
-- `ModuleOverlapTests.noninvertibleMap`: Multiplication by2 on the canonical datum for Z→Z is a datum morphism but not an isomorphism.
+- `ModuleOverlapTests.noninvertibleMap`: Multiplication by 2 on the canonical datum for Z→Z is a datum morphism but not an isomorphism.
 - `ModuleOverlapTests.infiniteFree`: The canonical datum on S⊗R(⊕n∈ℕ R) is included; no finite presentation is imposed.
-- `ModuleOverlapTests.scalarTwo`: For Q→Q and N=Q, multiplication by2 is an invertible overlap map but fails the cocycle since 4≠2.
+- `ModuleOverlapTests.scalarTwo`: For Q→Q and N=Q, multiplication by 2 is an invertible overlap map but fails the cocycle since 4≠2.
 
 ### 3.2 Tensor overlap and coalgebra comparison
 
@@ -1116,7 +1116,7 @@ Throughout this topic, Commutative rings R,S in one fixed universe and an arbitr
 
 Prove `ModuleDescentBridge.tensor_comonad_coordinates`. Let L=extendScalars f, U=restrictScalars f and G=(extendRestrictScalarsAdj f).toComonad. Source: Stacks, Lemma 35.3.2, displayed σ00, δ21 and δ22.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Lemma35.3.2, displayed σ00, δ21 and δ22).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Lemma 35.3.2, displayed σ00, δ21 and δ22).
 
 For the proof, read the toComonad fields: toFunctor=U⋙L, ε=the adjunction counit, Δ=L applied to the unit at U(N); then evaluate the existing unit and scalar-extension map on a pure tensor to obtain Δ(s⊗n)=s⊗(1⊗n); then evaluate the existing counit to obtain s·n, then unfold the existing Coalgebra.counit, coassoc and Hom.h equations; then use tensor universal properties to extend these formulas to all elements.
 
@@ -1124,7 +1124,7 @@ For the proof, read the toComonad fields: toFunctor=U⋙L, ε=the adjunction cou
 
 Prove `overlapDiagonal`. For a ModuleOverlapDatum(f), let p:N→N be the pullback of θ along multiplication μ:S⊗R S→S, using the two tensor unit identifications. Equivalently p(n)=εN(θ(n⊗1)). Then p=idN. This holds for any f, even if f is not faithfully flat.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Lemma35.3.2, full proof of σ00∘δ11=id).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Lemma 35.3.2, full proof of σ00∘δ11=id).
 
 For the proof, base change of the overlap isomorphism along μ shows that p is an isomorphism; no flatness is used to preserve an isomorphism; then evaluate the cocycle on n⊗1⊗1 and multiply the two S coefficients into the N factor: if θ(n⊗1)=Σai⊗ni and θ(ni⊗1)=Σaij⊗nij, obtain Σai aij nij=Σai ni; then because p is S-linear, the left side is p(p(n)) and the right side is p(n); hence p²=p; then cancel the invertible p to get p=id. The finite sums abbreviate equality of tensor-induced linear maps, not chosen coordinates.
 
@@ -1132,7 +1132,7 @@ For the proof, base change of the overlap isomorphism along μ shows that p is a
 
 Define `overlapToCoalgebra`. For an arbitrary f and overlap datum (N,θ), dθ(n)=θ(n⊗1) is S-linear for the first-factor action and defines an object of the existing Comonad.Coalgebra G. The counit law is overlap diagonal normalization; the coassociativity law is the triple cocycle evaluated at n⊗1⊗1.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1; Lemma35.3.2, δ11 and the cocycle equality).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1; Lemma 35.3.2, δ11 and the cocycle equality).
 
 The API gives `ModuleOverlapDatum.toCoalgebra`: Constructs the coalgebra on the same S-module N; `ModuleOverlapDatum.toCoalgebra_coaction`: The coaction at n is θ(n⊗1); `ModuleOverlapDatum.toCoalgebra_module`: Forgetting the coalgebra returns the datum's underlying ModuleCat S object.
 
@@ -1146,7 +1146,7 @@ The API gives `ModuleOverlapDatum.toCoalgebra`: Constructs the coalgebra on the 
 
 Define `coactionTransitionMaps`. For a coalgebra (N,d), tensor universal properties give two S⊗R S-linear maps θd:N⊗R S→S⊗R N and ψd:S⊗R N→N⊗R S. If d(n)=Σai⊗ni, their formulas are θd(n⊗b)=Σai⊗b ni and ψd(s⊗n)=Σs ni⊗ai. These formulas are induced linear maps, independent of every finite tensor decomposition. The two scalar factors act as in ModuleOverlapDatum.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1 and Lemma35.3.2, tensor-linearity and displayed coaction).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1 and Lemma 35.3.2, tensor-linearity and displayed coaction).
 
 The API gives `ModuleCoaction.transition`: The R-balanced formula produces the overlap map θd; `ModuleCoaction.reverseTransition`: The R-balanced formula produces the reverse map ψd; `ModuleCoaction.transition_tmul`: For d(n)=Σai⊗ni, θd(n⊗b)=Σai⊗b ni; `ModuleCoaction.reverseTransition_tmul`: For d(n)=Σai⊗ni, ψd(s⊗n)=Σs ni⊗ai.
 
@@ -1160,7 +1160,7 @@ The API gives `ModuleCoaction.transition`: The R-balanced formula produces the o
 
 Prove `coactionTransitionInverses`. For a coalgebra (N,d), the maps above satisfy ψd∘θd=id_(N⊗R S) and θd∘ψd=id_(S⊗R N). They are inverse S⊗R S-linear isomorphisms for arbitrary f.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Lemma35.3.2, displayed cocycle equality and multiplication identity).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Lemma 35.3.2, displayed cocycle equality and multiplication identity).
 
 For the proof, write coassociativity as Σai⊗aij⊗nij=Σai⊗1⊗ni whenever d(n)=Σai⊗ni and d(ni)=Σaij⊗nij; then for ψθ at n⊗b, its expansion is Σai nij⊗b aij. Apply the R-trilinear map a⊗c⊗v↦a v⊗b c to coassociativity. The right side becomes Σai ni⊗b=n⊗b by the counit law; then for θψ at s⊗n, its expansion is Σs aij⊗ai nij. Apply the R-trilinear map a⊗c⊗v↦s c⊗a v to the same identity. The right side becomes s⊗Σai ni=s⊗n; then tensor extensionality proves the two map equalities on all elements; the preceding bilinearity checks prove these operations respect balancing. No injectivity of tensoring, field basis or flatness is used.
 
@@ -1168,7 +1168,7 @@ For the proof, write coassociativity as Σai⊗aij⊗nij=Σai⊗1⊗ni whenever 
 
 Prove `coactionTransitionCocycle`. The transition θd of a coalgebra satisfies θ12∘θ01=θ02 on N⊗R S⊗R S, with all three maps extended along their insertion ring maps and compared using tensor associators.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1, p_ij extension maps; Lemma35.3.2 cocycle equality).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1, p_ij extension maps; Lemma 35.3.2 cocycle equality).
 
 For the proof, evaluate the first route on n⊗b⊗c: its value is Σai⊗b aij⊗c nij; then the direct route gives Σai⊗b⊗c ni; then apply the R-trilinear map a⊗t⊗v↦a⊗b t⊗c v to coassociativity to equate these values; then extend by tensor extensionality and conjugate by the specified scalar-extension associators; never replace their pentagon coherence by definitional equality.
 
@@ -1176,7 +1176,7 @@ For the proof, evaluate the first route on n⊗b⊗c: its value is Σai⊗b aij�
 
 Define `coalgebraToOverlap`. Every existing Comonad.Coalgebra G produces a ModuleOverlapDatum(f) on the same S-module by taking θd with inverse ψd and the preceding cocycle proof. Denote it ModuleCoaction.toOverlap. This construction needs no faithful flatness.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1 and Lemma35.3.2).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1 and Lemma 35.3.2).
 
 The API gives `ModuleCoaction.toOverlap`: Packages θd and ψd as a tensor-overlap datum; `ModuleCoaction.toOverlap_module`: Forgetting the overlap datum returns the coalgebra's underlying ModuleCat S object; `ModuleCoaction.toOverlap_transition`: The transition and its inverse are exactly θd and ψd above.
 
@@ -1190,7 +1190,7 @@ The API gives `ModuleCoaction.toOverlap`: Packages θd and ψd as a tensor-overl
 
 Prove `overlapCoactionRoundtrips`. For every overlap datum θ, reconstructing θ from dθ yields the original transition; for every coalgebra d, evaluating θd on n⊗1 yields d(n). These equalities preserve the underlying S-module and all proof fields by proof irrelevance, after the specified tensor identifications.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1, module-linearity; Lemma35.3.2, δ11).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1, module-linearity; Lemma 35.3.2, δ11).
 
 For the proof, s⊗R S-linearity gives θ(n⊗b)=(1⊗b)·θ(n⊗1); this is exactly θdθ(n⊗b); then for d, substitute b=1 in θd(n⊗b) to get d(n), and use tensor extensionality without choosing summands; then equality of structure data plus proof irrelevance compares the equation fields; categorical unit/counit are identities on N, not merely bijections of isomorphism classes.
 
@@ -1198,7 +1198,7 @@ For the proof, s⊗R S-linearity gives θ(n⊗b)=(1⊗b)·θ(n⊗1); this is exa
 
 Prove `overlapCoalgebraMorphisms`. For overlap data (N,θ),(N′,θ′) and an S-linear h:N→N′, the overlap commuting square (idS⊗h)∘θ=θ′∘(h⊗idS) holds iff (idS⊗h)∘dθ=dθ′∘h. Thus datum morphisms are exactly the existing coalgebra morphisms on h, with the same identities and compositions.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1(2), commuting square).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1(2), commuting square).
 
 For the proof, evaluate the overlap square on n⊗1 to obtain the coalgebra equation; then conversely evaluate both sides on n⊗b; S-linearity of h commutes with b acting on ni, so the assumed coaction equation gives the overlap square; then extend by tensor extensionality. The constructions send each h to itself, hence preserve identity and composition, including noninvertible h.
 
@@ -1206,7 +1206,7 @@ For the proof, evaluate the overlap square on n⊗1 to obtain the coalgebra equa
 
 Prove `overlapCoalgebraEquivalence`. For every commutative ring map f:R→S, ModuleOverlapDatum(f) is equivalent as a category over ModuleCat S to the Comonad.Coalgebra ((extendRestrictScalarsAdj f).toComonad). The forward and inverse functors are the two object constructions with the same underlying S-linear morphisms.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition35.3.1; Lemma35.3.2; compare Proposition35.3.9(2), whose proof is omitted).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Definition 35.3.1; Lemma 35.3.2; compare Proposition 35.3.9(2), whose proof is omitted).
 
 For the proof, define the object maps using the two constructions and the arrow maps using the preceding iff; then use the round-trip lemma to build unit and counit with identity underlying module maps; their naturality follows because the maps h are unchanged; then check the triangle identity after forgetting to ModuleCat S, where it is identity composition; datum/coalgebra Hom extensionality reflects equality; then the forgetful compatibility is identity on both objects and arrows, preserving the specified tensor transports.
 
@@ -1214,7 +1214,7 @@ For the proof, define the object maps using the two constructions and the arrow 
 
 Prove `ModuleDescentBridge.overlap_comparison_canonical`. For every f and R-module M, the canonical overlap on N=S⊗R M is sent to the existing (Comonad.comparison (extendRestrictScalarsAdj f)).obj M. Its coaction is L.map(unit.app M), or s⊗m↦s⊗(1⊗m). For an R-linear h:M→M′, the canonical arrow is L.map h, or s⊗m↦s⊗h(m). These identifications are compatible with the existing comparison's forgetful functor, before imposing faithful flatness.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Paragraph after Lemma35.3.2; Lemma35.3.3 (proof omitted)).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Paragraph after Lemma 35.3.2; Lemma 35.3.3 (proof omitted)).
 
 For the proof, substitute the canonical transition into dθ(n)=θ(n⊗1). On n=s⊗m it gives s⊗(1⊗m); then read Comonad.comparison's actual object field: a=L.map(unit.app M); evaluate it using the existing unit and map_tmul formulas to get the same tensor; then its map field is L.map h, agreeing on pure tensors and hence all elements; then package these equalities as a natural identity-on-module comparison; no claim of equivalence with ModuleCat R is made until comonadicExtendScalars is supplied.
 
@@ -1226,7 +1226,7 @@ Define `canonicalOverlapFunctor`. For any f:R→S, scalar extension with its can
 
 Here Commutative rings R,S in one universe, an arbitrary ring map f:R→S, and arbitrary R-modules M,M′. No faithful flatness or finiteness.
 
-([Stacks](https://stacks.math.columbia.edu/tag/023F), Canonical-datum paragraph after Lemma35.3.2; Lemma35.3.3 (proof omitted)).
+([Stacks](https://stacks.math.columbia.edu/tag/023F), Canonical-datum paragraph after Lemma 35.3.2; Lemma 35.3.3 (proof omitted)).
 
 The API gives `ModuleOverlapDatum.canonical`: An R-module M gives N=S⊗R M with θ((s⊗m)⊗t)=s⊗(t⊗m); `ModuleOverlapCanonical.map`: The arrow associated to h is the existing extendScalars f map h, with identity and composition laws; `ModuleOverlapCanonical.forget`: The canonical overlap functor followed by its underlying-module functor agrees with the existing extendScalars f.
 
@@ -1236,7 +1236,7 @@ The API gives `ModuleOverlapDatum.canonical`: An R-module M gives N=S⊗R M with
 
 - `CanonicalOverlapTests.identity`: For f=idR, the canonical transition becomes identity through the unitors.
 - `CanonicalOverlapTests.scalarFactors`: The formula sends (s⊗m)⊗t to s⊗(t⊗m); it does not exchange s and t.
-- `CanonicalOverlapTests.nonfaithful`: For Z→Z/2Z the canonical functor identifies the maps multiplication by2 and0 on Z, so it is not faithful.
+- `CanonicalOverlapTests.nonfaithful`: For Z→Z/2Z the canonical functor identifies the maps multiplication by 2 and 0 on Z, so it is not faithful.
 
 Define `overlapPullbackCoordinates`. Put B=A⊗R A, with i0(a)=a⊗1 and i1(a)=1⊗a. For an A-module N, define B-linear isomorphisms c0:B⊗_(A,i0)N→N⊗R A and c1:B⊗_(A,i1)N→A⊗R N. Their formulas are c0((a⊗b)⊗n)=a n⊗b and c1((a⊗b)⊗n)=a⊗b n; inverses send n⊗b to (1⊗b)⊗n and a⊗n to (a⊗1)⊗n. Retain the two different B-actions and naturality for every A-linear map.
 
@@ -1364,7 +1364,7 @@ Here Commutative rings R,A in the universe, an arbitrary homomorphism f:R→A an
 
 For the proof, the existing equalizer pair is exactly U(d),η_(U N). Evaluate the unit to obtain 1⊗n and use the existing module kernel/submodule comparison for their difference; then the specified coalgebra morphism equation sends equalizing elements to equalizing elements, so the inverse arrow is the restricted module map and agrees with the equalizer universal map; then use the existing comparisonAdjunction_counit_f_aux: the counit is the adjunction transpose of the equalizer inclusion. Evaluate the tensor/restriction adjunction to get a⊗m↦a m; then the coalgebra counit is a coalgebra morphism. Transport it through E and the canonical comparison to obtain an isomorphism of the original descent data when comonadicExtendScalars applies; then the actual comonadicExtendScalars construction invokes the Beck theorem with extendRestrictScalarsAdj f; its structure fields have R=restrictScalars f and adj equal to that specific adjunction, up to the source convert transport. Verify those fields when transcribing it. If the chosen instance introduces another right adjoint, use rightAdjointUniq and its two unit/counit compatibility lemmas: applying L to the comparison and composing each coaction gives the inverse coalgebra transports, with the laws following from those compatibilities. Do not silently substitute an unrelated chosen adjunction.
 
-*Needs:* `moduleCanonicalComparison`, Mathlib `CategoryTheory.Comonad.ComonadicityInternal.comparisonRightAdjointObj`, Mathlib `CategoryTheory.Comonad.ComonadicityInternal.comparisonAdjunction_counit_f_aux`, Mathlib `ModuleCat.kernelIsoKer`, Mathlib `ModuleCat.extendRestrictScalarsAdj_unit_app_apply`, Mathlib `ModuleCat.comonadicExtendScalars`, Mathlib `CategoryTheory.Adjunction.rightAdjointUniq`, Mathlib `CategoryTheory.Adjunction.unit_rightAdjointUniq_hom_app`, Mathlib `CategoryTheory.Adjunction.rightAdjointUniq_hom_app_counit`.
+*Needs:* `moduleCanonicalComparison`, Mathlib `CategoryTheory.Comonad.ComonadicityInternal.comparisonRightAdjointObj`, Mathlib `CategoryTheory.Comonad.ComonadicityInternal.comparisonAdjunction_counit_f_aux`, Mathlib `ModuleCat.kernelIsoKer`, Mathlib `ModuleCat.extendRestrictScalarsAdj_unit_app_apply`, Mathlib `comonadicExtendScalars`, Mathlib `CategoryTheory.Adjunction.rightAdjointUniq`, Mathlib `CategoryTheory.Adjunction.unit_rightAdjointUniq_hom_app`, Mathlib `CategoryTheory.Adjunction.rightAdjointUniq_hom_app_counit`.
 
 The abbreviation `ModuliDescent.P` is `Schemeᵒᵖ ⥤ Type`, at the fixed scheme universe. Its objects, restriction maps and natural transformations are the existing presheaf operations. The relative Hom and restriction checks below compute their identity-source, empty-source and two-point values in this carrier.
 
@@ -1706,7 +1706,7 @@ Define `AbelianBanding`. For an abelian sheaf A on (C,J) and a gerbe F, an A-ban
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Remark31.2, p.122; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Definition2.6(ii), p.515).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Remark 31.2, p.122; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Definition 2.6(ii), p.515).
 
 The API gives `AbelianBanding.autEquiv`: For every U,x there is A(U)≃Aut(x) as groups; `AbelianBanding.pullback`: mapAut of restriction sends b(U,x)(a) to b(V,x|V)(a|V); `AbelianBanding.conjugation`: Conjugation by x≅y sends b(U,x)(a) to b(U,y)(a); `AbelianBanding.ext`: Two bandings are equal if their sectionwise automorphism equivalences agree for every U,x,a.
 
@@ -1723,7 +1723,7 @@ Prove `abelianAutCommute`. For an A-banded gerbe every Aut(x) is commutative; eq
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark31.2, p.122).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark 31.2, p.122).
 
 For the proof, transport commutativity through b; alternatively specialize conjugation compatibility to y=x and arbitrary object automorphisms.
 
@@ -1733,7 +1733,7 @@ Prove `banding_iso_independent`. In any category D, if Aut(x) is commutative and
 
 Here D is a category in fixed object and morphism universes; x,y are its objects, e,e′ are actual isomorphisms x≅y, and a*b=b*a for every a,b in Aut(x); The automorphism-sheaf specialization uses a gerbe with abelian inertia on a specified site, applying the categorical statement after every base restriction. Gerbe, groupoid and site assumptions are not needed for the categorical lemma itself.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, first part).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, first part).
 
 The API gives `GerbeAutTransport.conjugation_independent`: In any category, commutativity of Aut(x) makes conjugation through any two x-to-y isomorphisms equal; `GerbeAutTransport.map_conjugation`: A functor maps conjugation through e to conjugation through its actual mapIso(e); `GerbeAutTransport.map_conjugation_hom`: On hom arrows the preceding functoriality equation is the exact map of e.inv followed by a.hom followed by e.hom.
 
@@ -1745,7 +1745,7 @@ Define `intrinsicAbelianBand`. If every automorphism sheaf of a gerbe is abelian
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8).
 
 The API gives `IntrinsicBand.autIso`: The intrinsic band restricted to U is Aut(x) for every x over U; `IntrinsicBand.pullback`: Restricting the intrinsic band to V gives the intrinsic band of the restricted gerbe; `IntrinsicBand.unique`: Compatible automorphism-sheaf identifications determine the intrinsic band up to unique isomorphism.
 
@@ -1761,7 +1761,7 @@ Define `BandPreserving`. For A-banded gerbes (F,bF),(G,bG), a band-preserving mo
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, p.122; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1, p.515).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, p.122; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1, p.515).
 
 The API gives `BandPreserving.map_band`: The component mapAut commutes with the two chosen band equivalences; `BandPreserving.id`: The identity transformation is band-preserving; `BandPreserving.comp`: Composites of band-preserving transformations preserve the same fixed band; `BandPreserving.modificationGroupoid`: Compatible modifications are morphisms of a groupoid, with componentwise inverse.
 
@@ -1777,7 +1777,7 @@ Define `isomTorsor`. For x,y over U in an A-banded gerbe, the existing sheafHom(
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma31.3 and Remark31.5, pp.122–123).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma 31.3 and Remark 31.5, pp.122–123).
 
 The API gives `Gerbe.isomTorsor`: The Hom sheaf of x,y carries the indicated A|U-torsor structure; `Gerbe.isomTorsor_action`: p·a is postcomposition with b_y(a), also precomposition with b_x(a); `Gerbe.isomTorsor_pullback`: Restriction to V identifies this torsor with Isom(x|V,y|V), respecting the action.
 
@@ -1793,7 +1793,7 @@ Prove `band_morphism_full_faithful`. A band-preserving morphism of A-gerbes indu
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma31.3, full-faithfulness proof, p.122).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma 31.3, full-faithfulness proof, p.122).
 
 For the proof, the induced map on Isom sheaves is A-equivariant; then locally trivialize the source torsor; the map is translation on A and is invertible; then an isomorphism of sheaves is bijective on sections over U, giving fibrewise full faithfulness; then strongTrans naturality defines the map of Hom sheaves. The band-equivariant local anchored maps are isomorphisms of A-torsors; their inverses are anchor independent and glue. Evaluating the inverse sheaf map on U-sections gives full faithfulness; then use the actual StrongTrans transport to compare the correct G(f)(ηUx),G(f)(ηUy) target pullbacks. The covering-sieve equivalence and supplied-global-anchor restriction law are available; arbitrary deeper-slice coherence and sheaf inverse gluing remain explicitly open; then use the deeper-slice coherence to define the Hom-sheaf map. Band injectivity and its covering image sieves give a sheaf isomorphism by the local-bijection theorem. Identity-slice evaluation gives the component Full instance; universeNormalizedGerbe transports its independently sized coefficient version.
 
@@ -1803,7 +1803,7 @@ Prove `band_morphism_essential_surjective`. A band-preserving morphism η:F→G 
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma31.3, essential-surjectivity proof, pp.122–123).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma 31.3, essential-surjectivity proof, pp.122–123).
 
 For the proof, for z∈G(U) locally choose y∈F and an isomorphism η(y)≅z; then full faithfulness uniquely lifts the descent isomorphisms of z to those of y and reflects their cocycle condition; then effective descent in F gives an object over U; morphism descent in G gives its image isomorphism to z; then form the local-image covering sieve, reflect the DescentData equations through full faithfulness, descend the source object, and descend its image isomorphism. The normalized coefficient version transports through universeNormalizedGerbe.
 
@@ -1813,7 +1813,7 @@ Prove `band_morphism_equivalence`. Every band-preserving morphism of A-gerbes is
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma31.3).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma 31.3).
 
 For the proof, the fixed-band Hom-sheaf isomorphism proves actual fibrewise full faithfulness; object descent proves actual essential surjectivity. The CoherentInverse construction of §4.20 assembles the chosen component inverses into a StrongTrans, its unit and counit modifications and both triangle identities. Restriction coherence is obtained by lifting the naturality squares through full faithfulness. The inverse-band equations show that this inverse preserves the band, independently of the chosen comparisons.
 
@@ -1825,7 +1825,7 @@ Define `classifyingAbelianGerbe`. For an abelian sheaf A, specialize the groupoi
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma31.4, p.123; [Stacks](https://stacks.math.columbia.edu/tag/06PD), Lemma78.27.2).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma 31.4, p.123; [Stacks](https://stacks.math.columbia.edu/tag/06PD), Lemma 78.27.2).
 
 The API gives `ClassifyingGerbe.band`: BA carries the canonical A-banding; `ClassifyingGerbe.trivial`: The trivial A-torsor is a global object of BA; `ClassifyingGerbe.autIso`: Aut(P)≅A|U as sheaves, compatible with pullbacks and conjugation.
 
@@ -1841,7 +1841,7 @@ Define `Neutralization`. For a chosen terminal object S of (C,J), a neutralizati
 
 Here the site has a fixed terminal object S; F is an A-banded gerbe.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark31.5, p.123).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark 31.5, p.123).
 
 The API gives `Neutralization.obj`: A neutralization gives an object of F(S); `Neutralization.isNeutral`: For a specified terminal object S, with its terminal-object witness retained, F is neutral iff F(S) is nonempty, equivalently iff its groupoid of neutralizations is nonempty. A section over an arbitrary nonterminal site object asserts only neutrality on its slice; `Neutralization.pullback`: A neutralization restricts to a neutralization on every slice site.
 
@@ -1857,7 +1857,7 @@ Prove `neutralizationEquivalence`. For x∈F(S), the functor y↦Isom(x|U,y) is 
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres; The site has a chosen terminal object S; the neutralization x is an object of F(S).
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark31.5, p.123).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark 31.5, p.123).
 
 For the proof, the Isom construction is pseudonatural and respects the chosen band; then apply the band-morphism-equivalence theorem; then describe the inverse by trivializing the torsor locally and descending x with its torsor transition automorphisms.
 
@@ -1867,7 +1867,7 @@ Prove `neutralSelfEquivalences`. For an A-gerbe with a neutralization x, its gro
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres; The site has a chosen terminal object S; the neutralization x is an object of F(S).
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1, p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition2.14, p.56).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1, p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition 2.14, p.56).
 
 For the proof, conjugate along F≃BA; then evaluate a band-preserving equivalence on the trivial torsor to obtain P; then locally trivialize Q to compare its image with Q⊗P; band preservation makes the comparison independent of the chosen trivialization; then recover modifications by evaluation at the trivial torsor and descent, giving full faithfulness; then use banded-hom/groupoid on the actual fixed-band full subcategory. Its arrows retain all compatible modifications and their genuine component inverses. The torsor comparison functor, its full faithfulness and its coherent inverse are the targets of §§4.12–4.13; invertibility of modifications does not prove that comparison; then use the pointwise action functor, actual modification evaluation, and choice-independent natural local-object transport; still prove restriction coherence and the full torsor-sheaf comparison before this target is discharged; then use the restriction natural transformation, its unit/composition endpoint comparisons and the natural local-object restriction square. These diagrams supply restriction compatibility; still assemble the sheaf-level functor and its required descent and equivalence data; then use the existing Mathlib slice Hom sheaf for the local chosen objects, the actual sheaf functor on modifications, its locally simply transitive band action and restriction comparison. Package these in the supplied torsor groupoid and glue via the earlier choice-independent local-object maps; full faithfulness and coherent inverse/unit/counit remain required; then use the sheaf-level local-object transport, its choice independence, coefficient equivariance and naturality in modifications, and its cocycle law packaged by the actual Core-valued-source functor. Glue these local sheaves and maps after supplying local object covers; the torsor groupoid of SchemeAndStackFoundations §1.15 and the full comparison equivalence are the targets of §4.13; then use the actual slice sheaf base-change comparison, its inverse, modification naturality, coefficient equivariance and local-object transport square. Complete the family unit/composition coherence, actual cover/refinement gluing and the supplied torsor-groupoid comparison before claiming descent or equivalence; then use the self-gerbe Hom-sheaf identity/composition laws, including Over pullback and object comparisons, naturally in modifications. General two-gerbe endpoint transport, covers, refinements and gluing, the torsor comparison, full faithfulness and the coherent inverse with its unit and counit are the targets of §§4.15–4.18; then use the separate two-gerbe endpoint sheaf maps, their natural isomorphism and base-restriction square; the exact diagonal specialization recovers the existing self-gerbe transport. The general F-to-G base-change unit/composition equations, actual covers/refinements, gluing and the complete torsor-groupoid equivalence remain required.
 
@@ -1877,7 +1877,7 @@ Define `changeBand`. For a homomorphism u:A→B and an A-gerbe F, extend each Is
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem31.7, reverse construction, p.126; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem 31.7, reverse construction, p.126; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9).
 
 The API gives `Gerbe.changeBand`: Produces the B-gerbe u_*F and its u-compatible map; `Gerbe.changeBand_lift`: Composition with F→u_*F is an equivalence on groupoids of band-compatible morphisms; `Gerbe.changeBand_comp`: v_*(u_*F)≃(v∘u)_*F coherently, and id_*F≃F.
 
@@ -1893,7 +1893,7 @@ Define `liftingGerbe`. For a short exact sequence 0→A→B→D→0 of abelian s
 
 Here A short exact sequence in the category of abelian sheaves on the specified site; P is a D-torsor, with arrows retained.
 
-([James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2, p.9; [Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark31.8, p.127).
+([James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2, p.9; [Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Remark 31.8, p.127).
 
 The API gives `LiftingGerbe.obj`: A B-torsor Q and an isomorphism Q×B D≅P give an object; `LiftingGerbe.autIso`: Automorphisms of (Q,α) form the sheaf A, through the kernel inclusion; `LiftingGerbe.neutral_iff`: Lift(P) is neutral iff P is the pushforward of a B-torsor; `LiftingGerbe.pullback`: Restriction of Lift(P) is equivalent to the lifting gerbe of the restricted exact sequence and torsor.
 
@@ -1919,7 +1919,7 @@ Define `torsorRepresentativeOfClass`. On the chosen site with terminal object S 
 
 Here A specified site (C,J), with fixed object and morphism universes, a chosen terminal object S and its Limits.IsTerminal witness; all stacks have groupoid fibres; HasSheafify and HasExt for the chosen abelian-sheaf category, with coefficient/site universes compatible with the connecting maps `Sheaf.H.δ`; Enough injectives in the abelian sheaf category, short exactness of cokernels, and the natural comparison of torsors with derived H1 (SchemeAndStackFoundations §2.3).
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem31.7, p.126; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem 31.7, p.126; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9).
 
 The API gives `Gerbe.ofH2`: A derived H2 class produces an A-gerbe through an injective embedding and a lifting torsor; `Gerbe.ofH2_equiv`: Isomorphic representative D-torsors give equivalent A-gerbes; `Gerbe.ofH2_zero`: The zero class produces a gerbe equivalent to BA.
 
@@ -1935,7 +1935,7 @@ Prove `injectiveGerbeNeutral`. On a site with terminal object S and the slice-si
 
 Here the site has a terminal object and the covers and slices stated above; I is injective in the abelian-sheaf category.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma31.6 and Theorem31.7, pp.123–126; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9, (i″)).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Lemma 31.6 and Theorem 31.7, pp.123–126; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9, (i″)).
 
 For the proof, choose local objects on a covering of S; then the I-torsors of isomorphisms on pairwise overlaps are trivial because restriction of I is injective and derived H1 computes torsors; then choose overlap isomorphisms; their failure to satisfy the cocycle is a Čech 2-cocycle valued in I; then čech cohomology of injectives vanishes for this cover, so correct the chosen isomorphisms by a 1-cochain; then effective stack descent gives the global object.
 
@@ -1945,7 +1945,7 @@ Define `classOfGerbe`. On the chosen site with terminal object S and the stated 
 
 Here A fixed arbitrary site (C,J) and its terminal sheaf, with compatible site, stack and coefficient universes after the normalization described in §4.20; groupoid-valued stacks and an actual abelian sheaf A. Enough injectives, Ext and connecting maps are Mathlib's, with the torsor comparison of SchemeAndStackFoundations §2.3. The slice restriction, injective torsor/gerbe neutrality and band-change constructions are proved in §4.20. A terminal object of C is not required.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem31.7, reverse map, p.126).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem 31.7, reverse map, p.126).
 
 The API gives `Gerbe.class`: The class is an element of the derived H2(A); `Gerbe.class_equivalence`: A band-preserving gerbe equivalence leaves the class unchanged; `Gerbe.class_changeNeutralization`: Changing z changes Pz by an I-torsor pushforward, whose δ-image is zero.
 
@@ -1961,7 +1961,7 @@ Prove `classChoiceIndependent`. The derived class of an A-gerbe is independent o
 
 Here A fixed arbitrary site (C,J) and its terminal sheaf, with compatible site, stack and coefficient universes after the normalization described in §4.20; groupoid-valued stacks and an actual abelian sheaf A. Enough injectives, Ext and connecting maps are Mathlib's, with the torsor comparison of SchemeAndStackFoundations §2.3. The slice restriction, injective torsor/gerbe neutrality and band-change constructions are proved in §4.20. A terminal object of C is not required.
 
-([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem31.7, p.126).
+([Martin Olsson (lectures); Anton Geraschenko, Tony Várilly, Ed Carter, Anne Shiu and class contributors (notes)](https://stacky.net/files/written/Stacks/Stacks.pdf), Theorem 31.7, p.126).
 
 For the proof, changing a neutralization translates Pz by an I-torsor pushforward; exactness kills its boundary; then compare two injective embeddings in a common injective embedding and transport quotient torsors; then naturality of the connecting maps identifies the two derived classes.
 
@@ -1971,7 +1971,7 @@ Prove `h2Classification`. For a fixed abelian sheaf A on the chosen site with te
 
 Here A fixed arbitrary site (C,J) and its terminal sheaf, with compatible site, stack and coefficient universes after the normalization described in §4.20; groupoid-valued stacks and an actual abelian sheaf A. Enough injectives, Ext and connecting maps are Mathlib's, with the torsor comparison of SchemeAndStackFoundations §2.3. The slice restriction, injective torsor/gerbe neutrality and band-change constructions are proved in §4.20. A terminal object of C is not required.
 
-([James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9, (i); [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), (2.13.4), Proposition2.14, pp.55–56).
+([James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9, (i); [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), (2.13.4), Proposition 2.14, pp.55–56).
 
 For the proof, compare F with the lifting gerbe of its quotient torsor by a band-preserving map, hence an equivalence; then for a lifted gerbe, identify its quotient torsor and compute the boundary class; then use both identities to descend the maps to equivalence classes and establish bijectivity; then a lift of the trivial torsor supplies a neutralization; conversely a neutralization identifies F with BA.
 
@@ -1981,7 +1981,7 @@ Define `rootGerbe`. For a scheme X, an invertible sheaf L and n>0 invertible on 
 
 Here X is a scheme; n is a positive integer invertible on X; L is an invertible sheaf, with no chosen section.
 
-([Elena Andreini, Yunfeng Jiang and Hsian-Hua Tseng](https://arxiv.org/pdf/0907.2087v2), §2.2 Definition2.2 and Remark2.4, p.5; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.3 p.519).
+([Elena Andreini, Yunfeng Jiang and Hsian-Hua Tseng](https://arxiv.org/pdf/0907.2087v2), §2.2 Definition 2.2 and Remark 2.4, p.5; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.3 p.519).
 
 The API gives `RootGerbe.obj`: A pair (M,φ:M⊗n≅L) gives an object; `RootGerbe.band`: An automorphism is scalar multiplication by a μn section; `RootGerbe.pullback`: RootGerbe_n(L)×X T≃RootGerbe_n(L|T), respecting its band.
 
@@ -1997,7 +1997,7 @@ Prove `rootGerbeClass`. For X, L and n on the small étale site specified below,
 
 Here X is a scheme, L an invertible sheaf on X, and n a positive integer invertible on X; Use the small étale site of X with terminal object X and its terminality witness; the cohomology and injective-neutralization inputs of `h2Classification` apply to this site; The étale Kummer short exact sequence, the equivalence of line bundles with Gm-torsors and the comparison derived-H1(Gm)=Pic(X) (SchemeAndStackFoundations §2.11) retain the band orientation and the δ convention.
 
-([Elena Andreini, Yunfeng Jiang and Hsian-Hua Tseng](https://arxiv.org/pdf/0907.2087v2), Definition2.2, Remark2.4, p.5; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.3 p.519).
+([Elena Andreini, Yunfeng Jiang and Hsian-Hua Tseng](https://arxiv.org/pdf/0907.2087v2), Definition 2.2, Remark 2.4, p.5; [Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.3 p.519).
 
 For the proof, identify the root gerbe with the Kummer lifting gerbe; then use the lifting-gerbe boundary identity from the classification route; check the band orientation and δ sign.
 
@@ -2007,7 +2007,7 @@ Prove `rootO1Nonneutral`. Let k be algebraically closed and n>1 invertible in k.
 
 Here k algebraically closed; n>1 and n invertible in k; The degree API of JacobianChallenge Layer A on P1 includes degree(O(1))=1 and degree(M⊗n)=n·degree(M).
 
-([Elena Andreini, Yunfeng Jiang and Hsian-Hua Tseng](https://arxiv.org/pdf/0907.2087v2), §2.2 Definition2.2; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9, boundary-gerbe neutrality).
+([Elena Andreini, Yunfeng Jiang and Hsian-Hua Tseng](https://arxiv.org/pdf/0907.2087v2), §2.2 Definition 2.2; [James S. Milne](https://jmilne.org/math/Books/ECpup4.pdf), IV §2 p.9, boundary-gerbe neutrality).
 
 For the proof, a global pair (M,φ) would give n·deg(M)=deg(O(1))=1; then degree takes integral values and tensor powers multiply it by n, so n>1 makes this impossible; then the lifting boundary class vanishes exactly when a global nth root exists.
 
@@ -2027,7 +2027,7 @@ Prove `classSitePullback`. For a geometric morphism of the chosen sheaf topoi in
 
 Here Both specified sites have fixed universes and chosen terminal objects with terminality witnesses; their cohomology, torsor-comparison and injective-neutralization inputs satisfy `h2Classification`; The geometric morphism induced by T→S has exact inverse image on abelian sheaves and the derived global-cohomology comparison of SchemeAndStackFoundations §2.1, natural for short exact sequences and connecting maps; The A-banding is fixed on the source gerbe and the target band is its inverse image; all stack fibres are groupoids.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2 Definition2.6(ii), p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition2.14 and (2.13.4)).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2 Definition 2.6(ii), p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition 2.14 and (2.13.4)).
 
 For the proof, transport the band equations through exact inverse image; then pull back the torsor lifting square and identify the resulting lifting gerbe; then use the derived-cohomology base-change naturality supplied by the change-of-site construction.
 
@@ -2039,7 +2039,7 @@ Define `finiteEtaleGerbe`. A finite étale gerbe over k is a fpqc gerbe admittin
 
 Here k is a field; Quotient stacks and algebraic-space diagonals are those of SchemeAndStackFoundations §§1.19–1.21.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), §4 Definition4.1, p.7; [Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), §2 p.133 and Lemma2 p.135).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), §4 Definition 4.1, p.7; [Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), §2 p.133 and Lemma 2 p.135).
 
 The API gives `FiniteEtaleGerbe.presentation`: There is a presentation by a finite étale groupoid R⇒U; `FiniteEtaleGerbe.baseChange`: Any field extension preserves finite étale gerbes; `FiniteEtaleGerbe.autFiniteEtale`: Every object over a field extension has finite étale automorphism group scheme.
 
@@ -2071,7 +2071,7 @@ Prove `limitStackDescent`. The compatible-family construction for a small diagra
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), Following Definition3.5, p.6).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), Following Definition 3.5, p.6).
 
 For the proof, descend every component object through its stack equivalence to descent data; then descend transition isomorphisms by Hom-sheaf descent; their unit and composition equations can be checked locally; then descend compatible morphisms componentwise, retaining the transition commuting squares.
 
@@ -2081,7 +2081,7 @@ Prove `nonemptyAffineLimitGerbe`. For a cofiltered system of affine fpqc gerbes 
 
 Here Small cofiltered system of affine fpqc gerbes over k; A compatible object exists over a nonempty k-scheme X; Inverse limits of affine faithfully flat schemes in this field-gerbe situation are affine faithfully flat.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), Remark3.6 and Proposition3.7, p.6).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), Remark 3.6 and Proposition 3.7, p.6).
 
 For the proof, for two compatible objects, their Isom functor is the inverse limit of the affine finite-stage Isom schemes; then the inverse-limit affines and faithful-flatness input makes this Isom scheme affine faithfully flat, giving local isomorphisms; then choose a point of the nonempty k-scheme X and restrict the compatible object to Spec L for its residue field L. The field extension L/k is faithfully flat. For any affine test scheme with a compatible object, the fibre product with Spec L is the affine faithfully flat Isom limit over its base change to L. Thus Spec L→lim Γ gives the required fpqc chart and local objects; no k-rational object is inferred.
 
@@ -2091,7 +2091,7 @@ Define `profiniteEtaleGerbe`. A profinite étale gerbe over k is a fpqc gerbe wi
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), Definition4.6, p.8; [Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), §2 p.133).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), Definition 4.6, p.8; [Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), §2 p.133).
 
 The API gives `ProfiniteEtaleGerbe.projection`: There is a morphism to each finite stage, with transition 2-isomorphisms; `ProfiniteEtaleGerbe.objectEquiv`: The fibre over T is the groupoid of compatible finite-stage objects and arrows; `ProfiniteEtaleGerbe.cofinal`: A cofinal reindexing of the presentation yields an equivalent compatible-family gerbe; all coherence is transported.
 
@@ -2107,7 +2107,7 @@ Define `locallyFull`. For affine fpqc gerbes Γ,Δ over a field k, a morphism f:
 
 Here Γ and Δ are affine fpqc gerbes over k; f is a morphism of gerbes; no fixed abelian band is assumed.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Definition3.4, Remarks3.5–3.7, p.8).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Definition 3.4, Remarks3.5–3.7, p.8).
 
 The API gives `LocallyFull.autFaithfullyFlat`: Every induced automorphism-group map has faithful flatness; `LocallyFull.classifying_iff`: BG→BH is locally full iff G→H is faithfully flat; `LocallyFull.baseChange`: The property is preserved by every field extension.
 
@@ -2123,7 +2123,7 @@ Prove `locallyFullIsomEpi`. For affine fpqc gerbes over a field, f is locally fu
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.10(1)⇔(2), pp.9–10).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.10(1)⇔(2), pp.9–10).
 
 For the proof, locally trivialize the Isom torsors and reduce their map to the induced automorphism-group map; then for general affine test schemes, take an fpqc cover on which the objects come from one field-extension object; then use faithful flatness iff an affine-group morphism is an fpqc cover.
 
@@ -2133,7 +2133,7 @@ Prove `locallyFullRelative`. A morphism of affine fpqc gerbes is locally full if
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.10(2)⇔(3), Remark3.7).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.10(2)⇔(3), Remark 3.7).
 
 For the proof, objects lift locally because both source and target are gerbes and the source is locally nonempty; then the Isom-epimorphism condition is exactly relative local morphism lifting; then if also faithful, the Isom maps are monomorphisms and epimorphisms, hence isomorphisms; descend the local equivalence.
 
@@ -2143,7 +2143,7 @@ Prove `locallyFullLimit`. Let Γ→lim_iΔi be a morphism of affine fpqc gerbes.
 
 Here A field k and a small nonempty cofiltered index category (or cofiltered poset), so the coordinate-ring diagram is filtered after taking opposites; Both Γ and the compatible limit are already affine fpqc gerbes; The affine-group Hopf-algebra faithful-flatness criterion is supplied.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.11, p.10).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.11, p.10).
 
 For the proof, after choosing an object over a field extension, write the stabilizer H of the limit as lim Hi; then its coordinate Hopf algebra is colim ℓ[Hi]; then each ℓ[Hi]→ℓ[G] is injective by faithful flatness; a filtered colimit element maps to zero only if its finite-stage representative is zero; then the Hopf-algebra criterion for affine group morphisms converts this injection to faithful flatness.
 
@@ -2153,7 +2153,7 @@ Define `zHatGerbe`. Over a field k, let G=lim_m (Z/m!Z)_k as affine group scheme
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), §2 p.133; [Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), §3 Remark3.6, Definition4.6).
+([Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), §2 p.133; [Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1204.1260v5), §3 Remark 3.6, Definition 4.6).
 
 The API gives `ProfiniteIntegersGerbe.finiteProjection`: Each quotient G→Z/m!Z induces BG→B(Z/m!Z); `ProfiniteIntegersGerbe.trivial`: The trivial G-torsor neutralizes BG over k; `ProfiniteIntegersGerbe.aut`: The automorphism group scheme of the trivial object is G.
 
@@ -2169,7 +2169,7 @@ Prove `zHatNotFiniteType`. The affine k-group G=lim_m (Z/m!Z)_k is not of finite
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.1(4)–(6), pp.5–7).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.1(4)–(6), pp.5–7).
 
 For the proof, its coordinate ring is the union of the finite-dimensional rings k^(Z/m!Z), with injective transition maps; then every finite list of algebra generators would lie in one finite stage and therefore generate a finite-dimensional subalgebra; then larger finite stages have arbitrarily many nonzero orthogonal idempotents, which are linearly independent and remain nonzero in the colimit; then this contradicts generation by that finite-dimensional subalgebra.
 
@@ -2179,9 +2179,9 @@ Prove `zHatNotAlgebraicFp`. The fpqc gerbe B(Z_hat)_k is not an algebraic stack 
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.1(3)⇒(5), pp.5–6).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.1(3)⇒(5), pp.5–6).
 
-For the proof, if this affine gerbe were algebraic, BV19 Proposition3.1 would make its automorphism group at the trivial object finite type; then that group is G, contradicting the explicit coordinate-ring computation.
+For the proof, if this affine gerbe were algebraic, BV19 Proposition 3.1 would make its automorphism group at the trivial object finite type; then that group is G, contradicting the explicit coordinate-ring computation.
 
 *Needs:* `zHatNotFiniteType`, SchemeAndStackFoundations Layer 1.
 
@@ -2201,7 +2201,7 @@ Define `selfEquivalenceTorsor`. For a band-preserving self-equivalence η of any
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1, p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition2.14, p.56).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1, p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition 2.14, p.56).
 
 The API gives `GerbeSelfEquivalence.torsor`: Associates a global A-torsor Pη to η; `GerbeSelfEquivalence.torsor_local`: For any local object x, Pη restricts to Isom(x,ηx); `GerbeSelfEquivalence.torsor_map`: A modification induces a torsor isomorphism, with identity and composition laws.
 
@@ -2217,7 +2217,7 @@ Prove `allSelfEquivalences`. For any A-gerbe F, the groupoid of band-preserving 
 
 Here A specified site (C,J), with fixed object and morphism universes; all stacks have groupoid fibres.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1 p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition2.14).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), §2.2.1 p.515; [Lawrence Breen](https://www.numdam.org/item/AST_1994__225__1_0.pdf), Proposition 2.14).
 
 For the proof, on a cover with local objects, use the neutral-gerbe equivalence; then choice-independent transport glues both functors and their unit and counit; then descent of modifications makes the functor fully faithful as a functor of groupoids; then use banded-hom/groupoid on the actual fixed-band full subcategory. Its arrows retain all compatible modifications and their genuine component inverses. The torsor comparison functor, its full faithfulness and its coherent inverse are the targets of §§4.12–4.13; invertibility of modifications does not prove that comparison; then use the pointwise action functor, actual modification evaluation, and choice-independent natural local-object transport; still prove restriction coherence and the full torsor-sheaf comparison before this target is discharged; then use the restriction natural transformation, its unit/composition endpoint comparisons and the natural local-object restriction square. These diagrams supply restriction compatibility; still assemble the sheaf-level functor and its required descent and equivalence data.
 
@@ -2253,7 +2253,7 @@ Define `canonicalAffineFactorization`. For f:Γ→Δ between affine fpqc gerbes 
 
 Here Γ and Δ are affine fpqc gerbes over a field k.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Definition3.8, p.8).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Definition 3.8, p.8).
 
 The API gives `AffineGerbeFactorization.sourceMap`: The first map g is locally full; `AffineGerbeFactorization.targetMap`: The second map h is faithful; `AffineGerbeFactorization.factorIso`: The composite h∘g is identified with f by an invertible modification.
 
@@ -2269,7 +2269,7 @@ Prove `canonicalFactorizationUnique`. Two canonical factorizations of the same f
 
 Here Two canonical factorizations of an affine-gerbe morphism over a field.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.9, uniqueness proof, pp.8–9).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.9, uniqueness proof, pp.8–9).
 
 For the proof, both first maps kill precisely the stabilizer kernel K of f because the second maps are faithful; then local fullness of the first maps identifies each middle-gerbe sheaf Isom_E(gx,gy) with Isom_Γ(x,y)/Kx. Faithfulness of the second maps embeds it in Isom_Δ(fx,fy), and does not make that embedding surjective; then identify both middle gerbes with the quotient presentation and obtain the equivalence with its compatibility modifications.
 
@@ -2279,7 +2279,7 @@ Prove `finiteEtaleImage`. For a profinite étale fpqc gerbe Γ over k and a morp
 
 Here Γ has the fpqc profinite presentation, with the nonemptiness requirement satisfied; Δ is finite étale over k.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.9 with §3 faithfulness criterion, pp.8–9; [Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), Lemma2 proof, p.135).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.9 with §3 faithfulness criterion, pp.8–9; [Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), Lemma 2 proof, p.135).
 
 For the proof, after a splitting field extension, identify the middle stabilizer with the image of a profinite étale group in a finite étale group; then it is a subgroup of a finite constant group after separable splitting, hence finite étale; then descend the finite étale image and its classifying presentation to k; then faithfulness is representability for these finite-type gerbes, by the stabilizer criterion.
 
@@ -2289,7 +2289,7 @@ Prove `locallyFullFinitePresentation`. Every profinite étale fpqc gerbe Γ has 
 
 Here A nonempty profinite étale fpqc gerbe over k; The cofinal pseudodiagram comparison below.
 
-([Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), Lemma2 proof, p.135; [Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.9).
+([Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), Lemma 2 proof, p.135; [Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.9).
 
 For the proof, replace each finite stage of a chosen presentation by the finite étale image of Γ in that stage; then for finitely many stages, take the image into their product to obtain a common refinement; then retain the original compatibility two-morphisms when factoring maps through the images; uniqueness gives the corresponding compatible refinements; then show that compatible objects and arrows for the image stages recover those of the original presentation, using the cofinal comparison for the chosen pseudodiagram; then the locally full source projections are supplied by their canonical factorizations.
 
@@ -2299,7 +2299,7 @@ Prove `relativeProfiniteGerbeFiniteStages`. Let f:Γ→Δ be a locally full map 
 
 Here the synchronized finite-stage construction, cofinal product-image comparison and joint object/arrow/modification descent of §4.23; a scheme C mapping to the resulting limit gerbe Δ.
 
-([Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), Lemma2 and proof, p.135).
+([Giulio Bresciani](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf), Lemma 2 and proof, p.135).
 
 For the proof, refine the two finite systems so each target finite map factors through a source finite stage; replace that stage by its image, retaining the triangle modification; then the composite Γ→D_i is locally full. On stabilizers, its coordinate map factors through that for E_i→D_i; injectivity of the composite gives injectivity of the latter, hence local fullness; then apply the criterion `relativeGerbe`. After a common splitting field extension, the map is a finite étale band gerbe; descend properness and étaleness; then pull back along C→D_i and apply base-change stability; then compare the compatible two-limit with Γ×Δ C, retaining both pseudodiagram and pullback coherence.
 
@@ -2309,7 +2309,7 @@ Define `finiteQuotientPresentation`. For a Deligne–Mumford stack X, a finite q
 
 Here X is Deligne–Mumford, and Y is an algebraic space over its base.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Definition2.1, p.512).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Definition 2.1, p.512).
 
 The API gives `FiniteQuotientPresentation.equivalence`: The specified stack equivalence to the action quotient; `FiniteQuotientPresentation.genericFree`: The Γ action is free on the specified dense open; `FiniteAbelianQuotientPresentation.toFinite`: An abelian presentation forgets to a finite quotient presentation.
 
@@ -2318,14 +2318,14 @@ The API gives `FiniteQuotientPresentation.equivalence`: The specified stack equi
 **Checks.**
 
 - `FiniteQuotientTests.trivial`: An algebraic space has a presentation by the trivial group.
-- `FiniteQuotientTests.sign`: The sign action of Z/2Z on A1 in characteristic different from2 is generically free, though inertia at0 is nontrivial.
+- `FiniteQuotientTests.sign`: The sign action of Z/2Z on A1 in characteristic different from 2 is generically free, though inertia at 0 is nontrivial.
 - `FiniteQuotientTests.trivialAction`: The displayed trivial nontrivial-group action on a nonempty Y is not generically free and does not give a presentation of this prescribed kind.
 
 Prove `commutingQuotientExchange`. If fppf group schemes G1,G2 over S act on the S-scheme N through commuting actions, then [[N/G1]/G2]≃[N/(G1×G2)]≃[[N/G2]/G1] as S-stacks. These are equivalences of groupoids over every test scheme T, natural in T.
 
 Here G1,G2 are fppf S-group schemes; The two actions commute; no interchange is claimed for unrelated noncommuting actions.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Lemma4.7 and proof, p.540).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Lemma 4.7 and proof, p.540).
 
 For the proof, a double-quotient object over T is a G2-torsor P→T and a G2-equivariant G1-torsor Q→P with its map to N; then descend Q along P→T to a G1-torsor P′→T using its G2-equivariant structure; then identify Q≃P×_T P′ and retain the original (G1×G2)-equivariant map from this product to N. A G2-equivariant map to a nontrivial G2-space need not descend to P′→N; then this description is symmetric in G1,G2 and includes isomorphisms, yielding the natural equivalences.
 
@@ -2335,7 +2335,7 @@ Define `torsorTwistSpace`. For a commutative étale S-group scheme Γ, an S-sche
 
 Here Γ is a commutative étale S-group scheme; T is an actual étale Γ-torsor.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Definition4.5, p.539).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Definition 4.5, p.539).
 
 The API gives `TorsorTwist.quotient`: The quotient is an algebraic space with its descended Γ-action; `TorsorTwist.trivial`: A chosen trivialization of T identifies N_T with N equivariantly; `TorsorTwist.mapTorsor`: A Γ-torsor isomorphism T≅T′ induces a Γ-equivariant space isomorphism N_T≅N_T′.
 
@@ -2351,7 +2351,7 @@ Prove `torsorTwistQuotientEquivalence`. Under the torsor-twist hypotheses, [N/Γ
 
 Here the commutative étale Γ and actual torsor of the preceding construction.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Lemma4.6 and proof, p.539).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://link.springer.com/content/pdf/10.1007/s00222-020-00957-8.pdf), Lemma 4.6 and proof, p.539).
 
 For the proof, express the right side as the double quotient of N×S T by the anti-diagonal and residual Γ actions; then exchange the two commuting quotients; then use [T/Γ]≃S and the canonical triviality of the inner action on [N/Γ], with its actual coherence modification; then check the resulting equivalence under change of torsor trivialization.
 
@@ -2371,7 +2371,7 @@ Define `primeToPTwistedInertia`. For a stack X over a perfect field k of charact
 
 Here k is perfect of characteristic p; the mapping stack and the 2-colimit are those of SchemeAndStackFoundations §1.18.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), §2.4 setup and Definition2.9, p.9).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), §2.4 setup and Definition 2.9, p.9).
 
 The API gives `TwistedInertia.project`: The projection forgets the homomorphism and retains its object in X; `TwistedInertia.finiteStage`: Every map Bμn→X with n prime to p supplies an object; `TwistedInertia.fibre`: The fibre at x is the filtered system of Hom(μn,Aut(x)), with conjugation on arrows.
 
@@ -2388,7 +2388,7 @@ Prove `twistedInertiaFiniteField`. For X/Fq with diagonal of finite presentation
 
 Here X is a stack over Fq with diagonal of finite presentation; The mapping-stack/Galois-descent comparison at each finite stage is supplied.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma2.10(a) and proof, pp.9–10).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma 2.10(a) and proof, pp.9–10).
 
 For the proof, describe a finite-stage map over x by a homomorphism μn→Aut(x); then apply Galois descent to these homomorphisms and their conjugating arrows; then the finite-presentation diagonal supplies the finite-stage factorization needed for the colimit comparison; retain this hypothesis; then pass to the prime-to-p system, with continuity recording that a homomorphism has finite image and factors through a finite μn.
 
@@ -2398,7 +2398,7 @@ Prove `twistedInertiaGenerator`. For a chosen profinite generator ξ of μ̂(Fqb
 
 Here the hypotheses of the finite-field case; A choice of profinite generator, explicitly part of the comparison.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma2.10(b) and proof, pp.9–10).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma 2.10(b) and proof, pp.9–10).
 
 For the proof, any geometric point of a finite-type automorphism group scheme descends to a finite field, and its group of rational points is finite; then choose a power φ^r fixing a; then a=a^(q^r), so its order divides q^r−1 and is prime to p; then a prime-to-p finite-order a defines the unique continuous homomorphism from μ̂ sending ξ to a; then the equation gives Frobenius equivariance and the conjugating arrows agree.
 
@@ -2408,7 +2408,7 @@ Prove `twistedInertiaAutomorphisms`. For a rational twisted-inertia object (x,a)
 
 Here A rational object of the finite-field twisted-inertia groupoid.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma2.10(c), equation(10), p.10).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma 2.10(c), equation(10), p.10).
 
 For the proof, an arrow of the pair groupoid is a rational isomorphism of x intertwining the homomorphism; then intertwining its generator value is equivalent to intertwining the whole continuous homomorphism.
 
@@ -2420,7 +2420,7 @@ Define `IntrinsicBandSections`. Define ZF(U) as the subgroup of the product over
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 The API gives `IntrinsicBandSections.val`: A section specifies a unit of CatCenter(F(V)) for every arrow V→U; `IntrinsicBandSections.compatible`: The central family commutes with every pullback functor on every object; `IntrinsicBandSections.ext`: Equality of all component automorphisms implies equality of sections; `IntrinsicBandSections.commGroup`: The subgroup has pointwise group operations and a commutative group structure specified from centrality; `IntrinsicBandSections.mk`: For U, a family z(V,f) of units of CatCenter(F(V)) satisfying the vertical compatibility equation for every f:V→U, g:W→V and x over V determines a section in ZF(U). No topology, gerbe, chosen object or abelian-inertia assumption is needed; `IntrinsicBandSections.val_mk`: For every V and f:V→U, the component of mk(z,hz) is z(V,f); the compatibility witness does not change this component; `IntrinsicBandSections.val_one`: For every f:V→U, the component of the identity section is the identity unit of CatCenter(F(V)); `IntrinsicBandSections.val_mul`: For s,t in ZF(U), val(s t,V,f)=val(s,V,f) val(t,V,f) with the categorical-center multiplication; `IntrinsicBandSections.val_inv`: For s in ZF(U), val(s inverse,V,f)=val(s,V,f) inverse.
 
@@ -2433,13 +2433,13 @@ The API gives `IntrinsicBandSections.val`: A section specifies a unit of CatCent
 - `BandCenterTests.S3`: For B(S3) on a point, sections form the trivial center of S3, rather than all six automorphisms. Thus evaluation onto inertia fails without abelian inertia.
 - `BandLocalityTests.cover`: For a gerbe on an arbitrary site, equality of central-section restrictions on a covering sieve forces equality of the original sections; no terminal object or fibre products are needed.
 - `BandLocalityTests.disconnected`: On the point site, the stack given by a disjoint union of two one-object C3 groupoids is not a gerbe: the objects in different components are not locally isomorphic. Its central-section group is C3×C3 of order9, and evaluation at the first object is projection to C3, not injective. The pair projection proves this coordinate consequence, not a complete point-site fixture.
-- `BandLocalityTests.singleReduction`: In the specified C4→C2→C2 restriction chain, the single reduction C4→C2 sends both0 and2 to0, so it is not injective. A single arbitrary arrow must not be treated as a covering-sieve equality test. The actual ZMod.castHom reduction is used; no topology making that arrow a cover is asserted.
+- `BandLocalityTests.singleReduction`: In the specified C4→C2→C2 restriction chain, the single reduction C4→C2 sends both 0 and 2 to 0, so it is not injective. A single arbitrary arrow must not be treated as a covering-sieve equality test. The actual ZMod.castHom reduction is used; no topology making that arrow a cover is asserted.
 
 Prove `bandCenterExt`. If s,t∈ZF(U) have the same evaluated automorphism at every V→U and every object x over V, then s=t.
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, the hom components determine the natural transformation by existing CatCenter.ext; then units equality follows from equality of their values; product equality is function extensionality; subgroup proof fields are irrelevant.
 
@@ -2449,7 +2449,7 @@ Prove `bandCenterCommute`. For arbitrary F and U, s t=t s in ZF(U). The product 
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, apply componentwise extensionality; then the existing commutativity of the categorical center gives equality of each unit value; no abelian-inertia assumption is needed for central sections themselves.
 
@@ -2459,7 +2459,7 @@ Define `IntrinsicBandSections.restrict`. For f:V→U define r_f:ZF(U)→ZF(V) by
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 The API gives `IntrinsicBandSections.restrict`: The map r_f is reindexing by composition with f; `IntrinsicBandSections.restrict_apply`: (r_f s)(W,a)=s(W,a≫f); `IntrinsicBandSections.restrict_id`: r_id is the identity; `IntrinsicBandSections.restrict_comp`: For g:W→V, r_g∘r_f=r_(g≫f).
 
@@ -2468,14 +2468,14 @@ The API gives `IntrinsicBandSections.restrict`: The map r_f is reindexing by com
 **Checks.**
 
 - `BandRestrictionTests.id`: Restriction along identity fixes the nonzero generator of the C3 point band.
-- `BandRestrictionTests.chain`: For the three-object chain with fibre groups C4→C2→C2 and restrictions reduction mod2 then identity, the generator1 restricts to1 by either the composite or the two successive maps.
-- `BandRestrictionTests.independentFamilies`: Dropping vertical compatibility on this chain permits16 independent tuples instead of4 compatible sections over the top object; this wrong product must be rejected.
+- `BandRestrictionTests.chain`: For the three-object chain with fibre groups C4→C2→C2 and restrictions reduction mod2 then identity, the generator 1 restricts to 1 by either the composite or the two successive maps.
+- `BandRestrictionTests.independentFamilies`: Dropping vertical compatibility on this chain permits16 independent tuples instead of 4 compatible sections over the top object; this wrong product must be rejected.
 
 Prove `bandCenterRestrictId`. For s∈ZF(U), r_id(s)=s.
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, at (V,a,x), the two values agree because a≫id=a; then apply componentwise extensionality.
 
@@ -2485,7 +2485,7 @@ Prove `bandCenterRestrictComp`. For f:V→U, g:W→V and s∈ZF(U), r_g(r_f(s))=
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, at every a:T→W both sides index the same component by (a≫g)≫f=a≫(g≫f); then apply extensionality; the associativity is in the base category, so no strictification of F is used.
 
@@ -2495,7 +2495,7 @@ Define `bandCenterEvaluation`. For a:V→U and x∈F(V), evaluation ev_(a,x):ZF(
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 The API gives `IntrinsicBandSections.eval`: Evaluation at (a,x) is an actual group homomorphism to Aut(x); `IntrinsicBandSections.eval_mul`: Evaluation of a product is the product of evaluated automorphisms; `IntrinsicBandSections.eval_conjugation`: Transport through x≅y commutes with evaluation; `IntrinsicBandSections.eval_restrict`: mapAut F(g) of ev_(a,x)(s) equals ev_(g≫a,F(g)x)(s).
 
@@ -2511,7 +2511,7 @@ Prove `bandCenterSheaf`. If F is a prestack with groupoid fibres, U↦Additive(Z
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, apply the stronger central-section sheaf theorem for prestacks; its exact categorical sheaf predicate needs no groupoid assumption; then the stronger theorem constructs all pulled-cover centre units, proves arbitrary-base compatibility with mapComp transport, assembles actual compatible sections, and proves their exact local restriction and uniqueness; then this proves the specified groupoid-prestack sheaf statement. It does not prove evaluation surjectivity, a chosen-band inverse, or the SF1 slice-glued carrier comparison.
 
@@ -2521,7 +2521,7 @@ Prove `bandCenterEvaluationInjective`. If F is a gerbe and x∈F(U), ev_(id,x):Z
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, equality at x pulls back to the actual object F(a)x for every a:V→U, using evaluation pullback compatibility; then for y over V, use the gerbe's local-isomorphism covering sieve comparing F(a)x with y. On each g in it, pull back the previous equality and conjugate by a local object isomorphism; then the new cover-local evaluation lemma, using the fully faithful descent functor, gives equality at (a,y) globally. It requires no abelian-inertia assumption; then vary (V,a,y) and apply the existing component extensionality. The proof and its trivial-inertia consequence have no admission dependency in the exact Mathlib extraction.
 
@@ -2535,7 +2535,7 @@ Prove `bandCenterEvaluationSurjective`. If F is a gerbe with every Aut(x) commut
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, use the intrinsic-band lifting homomorphism to supply Lₓ(a) as the preimage of each a. Its section compatibility includes arbitrary-base mapComp transport and naturality for every fibre morphism; then the lift-evaluation lemma uses the actual mapId constraint to prove the required evaluation identity. Uniqueness is `IntrinsicBandSections.eval_injective`.
 
@@ -2545,7 +2545,7 @@ Prove `bandCenterEvaluationEquivalence`. For an abelian-inertia gerbe and x over
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, use the proved injectivity and surjectivity of the existing evaluation homomorphism; then its inverse evaluates to the prescribed automorphism by construction; the other round trip follows from injectivity; then the two compatibility diagrams are the preceding evaluation equations, including on every slice object.
 
@@ -2555,7 +2555,7 @@ Define `bandCenterBanding`. For a gerbe F with abelian inertia, the sheaf A_F(U)
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 The API gives `IntrinsicBandSections.sheaf`: The coefficient sheaf has sections Additive(ZF(U)); `IntrinsicBandSections.banding`: The evaluation equivalences define an instance of the specified AbelianBanding data; `IntrinsicBandSections.banding_apply`: At U,x,a the band automorphism is ev_(id,x)(a).
 
@@ -2571,7 +2571,7 @@ Define `bandCenterFromBanding`. Given an A-banding b of a gerbe, define c_b(U):M
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 The API gives `IntrinsicBandSections.fromBanding`: c_b converts an actual band coefficient into a compatible central section; `IntrinsicBandSections.fromBanding_eval`: ev_(f,y)(c_b(U)(a))=b(V,y)(a|V); `IntrinsicBandSections.fromBanding_restrict`: r_f(c_b(U)(a))=c_b(V)(a|V).
 
@@ -2580,14 +2580,14 @@ The API gives `IntrinsicBandSections.fromBanding`: c_b converts an actual band c
 **Checks.**
 
 - `BandComparisonTests.identity`: For the canonical C3 band, c_b sends the labelled generator to the generator section.
-- `BandComparisonTests.inversion`: If the C3 banding is changed by a↦-a, c_b sends1 to2; these two coefficient identifications are distinct. They cannot be quotiented by Aut(C3).
+- `BandComparisonTests.inversion`: If the C3 banding is changed by a↦-a, c_b sends1 to 2; these two coefficient identifications are distinct. They cannot be quotiented by Aut(C3).
 - `BandComparisonTests.trivial`: The zero coefficient on the terminal gerbe gives the unique section homomorphism.
 
 Prove `bandCenterBandUnique`. For every A-banding b of a gerbe, c_b is an isomorphism of abelian sheaves A≅A_F, uniquely characterized by ev_(f,y)(c_b(U)(a))=b(V,y)(a|V) for every U,V,f,y,a. This uniqueness concerns compatible identifications; A may have nontrivial abstract automorphisms.
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, locally choose an object of the gerbe. There c_b is an isomorphism because both coefficient sheaves identify with the same automorphism sheaf by evaluation; then use existing sheaf-locality of isomorphisms from SF1, or glue its locally defined inverse using Hom descent for sheaves. The sheaf condition retains the local inverse on every section; then the characterization fixes every central component; `bandCenterExt` proves uniqueness of the comparison, including its inverse; then changing b by a nonidentity automorphism of A changes c_b by that automorphism; then the new chosen-band coefficient equivalence constructs the local-to-global sectionwise inverse and proves its restriction and arbitrary-local-object recovery laws. Combine with the existing central-section sheaf and componentwise natural-isomorphism packaging; the separately required SF1 descended-slice comparison is not supplied by this coefficient calculation; then the present fixed-band comparison supplies the full sheaf isomorphism. Its forward map is exactly the coefficient transformation, and the all-arrow evaluation characterization determines it uniquely. Apply these leaves to the existing central-section sheaf with its reflexive underlying-presheaf equality; the actual SF1 descended-slice comparison remains separate.
 
@@ -2597,7 +2597,7 @@ Prove `bandCenterGluedComparison`. The slice sheaf over U obtained by gluing loc
 
 Here C is a fixed small category with topology J; F is the existing Cat-valued pseudofunctor. Gerbe and abelian-inertia assumptions are imposed only where stated. All coefficient sheaves use one fixed universe large enough for the indexed family.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, final omitted varying-U step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
 For the proof, on a covering with objects, evaluation identifies A_F with each local Aut sheaf; on overlaps these maps agree by conjugation independence; then full faithfulness of sheaf descent (SchemeAndStackFoundations §1.1, `sheaf_stack`) gives the unique identification with the descended slice sheaf; then for a different object cover or refinement, the two maps agree after a common covering refinement, hence globally; then define the varying-U comparison by going through A_F; identity and composition hold because both composites have the same local evaluation characterization; then use the existing absolute-gluing equivalence of sheaves from SF1, not a second carrier or general descent theorem.
 
@@ -2639,7 +2639,7 @@ Prove `bandCoefficientNaturality`. For U, a in Multiplicative(A(U)) and every fi
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, every fibre arrow is invertible by the gerbe groupoid hypothesis. Apply the band conjugation equation to the existing isomorphism associated with f; then take the hom component of the conjugation equality. Compose on the left with f and cancel f followed by its inverse; the order agrees with the conjugation convention.
 
@@ -2653,7 +2653,7 @@ Define `bandCoefficientCenter`. For every U define the group homomorphism z_b(U)
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 The API gives `IntrinsicBandSections.coefficientCenter`: The group homomorphism z_b into existing central units; `IntrinsicBandSections.coefficientCenter_app`: Its evaluated natural-isomorphism component at x is exactly b(U,x)(a); `IntrinsicBandSections.coefficientCenter_inv`: z_b(U)(a inverse) is z_b(U)(a) inverse.
 
@@ -2661,15 +2661,15 @@ The API gives `IntrinsicBandSections.coefficientCenter`: The group homomorphism 
 
 **Checks.**
 
-- `BandCoefficientTests.generator`: Given x, a and a fixed Aut(x)≃C3 coordinate sending b(U,x)(a) to1, evaluation of z_b(U)(a) has coordinate1.
+- `BandCoefficientTests.generator`: Given x, a and a fixed Aut(x)≃C3 coordinate sending b(U,x)(a) to 1, evaluation of z_b(U)(a) has coordinate1.
 - `BandCoefficientTests.zero`: At every U, the zero additive coefficient maps to the identity central unit.
-- `BandCoefficientTests.inversion`: In the same calibrated C3 coordinate, evaluation of z_b(U)(a inverse) is2. Sending it to1 would erase the inverse.
+- `BandCoefficientTests.inversion`: In the same calibrated C3 coordinate, evaluation of z_b(U)(a inverse) is 2. Sending it to 1 would erase the inverse.
 
 Prove `bandCoefficientCenterEvaluation`. For every U, x and coefficient a, applying the existing unitsEndEquivAut at the identity functor to z_b(U)(a), then evaluating at x, gives precisely b(U,x)(a).
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, unfold the component construction and the existing units/automorphism equivalence; equality of iso hom components is definitional.
 
@@ -2679,7 +2679,7 @@ Prove `bandCoefficientRestriction`. For f:V→U and x over U, applying F(f) to t
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, take hom components of the band pullback equation. Recover both central-unit components with the preceding evaluation formula.
 
@@ -2693,7 +2693,7 @@ Prove `bandCenterFromBandingEvaluation`. For every f:V→U, x over V and a in Mu
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, unfold the compatible-family construction at (V,f). Its component is the coefficient central unit for a restricted to V; then apply the central-unit evaluation lemma to recover the chosen band automorphism.
 
@@ -2703,7 +2703,7 @@ Prove `bandCenterFromBandingRestriction`. For f:V→U and a in Multiplicative(A(
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, compare central components at every W and g:W→V. One side uses the coefficient restriction along g followed by f; the other applies the two coefficient restrictions; then the coefficient presheaf composition law equates these sections. Unit and natural-transformation extensionality conclude equality.
 
@@ -2713,7 +2713,7 @@ Prove `bandCenterFromBandingExt`. For fixed U and coefficient a, any s in ZF(U) 
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, use the evaluation formula to compare the hom components of s with c_b(U)(a) at every family index; then apply the specified section extensionality. No chosen object over U, evaluation injectivity or sheafness is used.
 
@@ -2723,7 +2723,7 @@ Define `bandCenterFromBandingPresheaf`. The maps c_b(U), with the existing addit
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 The API gives `IntrinsicBandSections.fromBandingPresheaf`: The natural transformation from A to the central-section additive presheaf; `IntrinsicBandSections.fromBandingPresheaf_app`: Its component sends a to Additive(c_b(U)(Multiplicative(a))); `IntrinsicBandSections.fromBandingPresheaf_naturality`: The natural-transformation components commute with the coefficient restriction and the actual central-section reindexing map for every f:V→U.
 
@@ -2739,7 +2739,7 @@ Prove `bandCenterFixedBandDistinction`. For two A-bandings b and b′, if their 
 
 Here A fixed small category C with topology J, the existing Cat-valued pseudofunctor F, and a gerbe structure on F; A fixed abelian-group sheaf A and an actual AbelianBanding b with both pullback and conjugation equations; coefficient and family universes are fixed large enough for ZF.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, compatible automorphism-sheaf identifications and omitted varying-base step).
 
 For the proof, if the sections were equal, their evaluations at (identity U,x) would be equal; then use the comparison evaluation formula and the coefficient functor identity law to recover equality of the specified band actions, contradicting the hypothesis.
 
@@ -2789,7 +2789,7 @@ Prove `IntrinsicBandSections.compatible`. For every central section s over U, a:
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice site).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice site).
 
 For the proof, project the defining subgroup membership equation; no descent or gerbe hypothesis is needed.
 
@@ -2829,7 +2829,7 @@ Prove `IntrinsicBandSections.restrict_apply`. For a:V→U, s in ZF(U) and b:W→
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice site).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice site).
 
 For the proof, evaluate the existing reindexing function. Its source and target index arrows are the displayed composites.
 
@@ -2839,7 +2839,7 @@ Prove `IntrinsicBandSections.coverTransition`. Let R be any sieve on U. For each
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice site).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice site).
 
 For the proof, downward closure puts q in R. Regard it as the sieve-category object and construct its two arrows to i,j from the triangle equations; then matching and the promoted restriction-component equation identify both pulled-back evaluations with the component of z_q at identity Y, acting on the respective pulled-back objects; then apply that component's naturality to the actual canonical descent transition. The transition retains the mapComp constraints; its being an arbitrary fibre arrow is enough for central naturality.
 
@@ -2849,7 +2849,7 @@ Define `IntrinsicBandSections.coverIso`. Let R be any sieve on U. For each arrow
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice site).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice site).
 
 The API gives `IntrinsicBandSections.coverIso_hom_apply`: The hom component at i is the hom of ev_(id V_i,F(i)x)(z_i); `IntrinsicBandSections.coverIso_one`: The family of identity sections gives the identity automorphism of the canonical descent datum; `IntrinsicBandSections.coverIso_inv`: The descent automorphism of the pointwise inverse matching family is the inverse of the original descent automorphism.
 
@@ -2867,7 +2867,7 @@ Define `IntrinsicBandSections.coverAut`. Let R be any sieve on U. For each arrow
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice site).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice site).
 
 The API gives `IntrinsicBandSections.coverAut_map_hom`: For each i in the covering sieve, F(i) sends the descended hom to the hom of ev_(id V_i,F(i)x)(z_i); `IntrinsicBandSections.coverAut_unique`: Any automorphism of x with exactly those pullback hom components equals the descended automorphism; `IntrinsicBandSections.coverAut_one`: Descending the identity matching family gives the identity automorphism of x.
 
@@ -2883,7 +2883,7 @@ Prove `IntrinsicBandSections.coverAut_unique`. Let R be any sieve on U. For each
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice site).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 and its proof, with the canonical automorphism identifications; the varying-base step is completed here; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice site).
 
 For the proof, compare the homs after applying toDescentData, using the component formula built into the descended construction; then descent hom extensionality gives equality of mapped homs, and full faithfulness reflects equality. Iso extensionality finishes.
 
@@ -2893,7 +2893,7 @@ Prove `IntrinsicBandSections.coverAut_naturality`. For a covering sieve R on U, 
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice).
 
 For the proof, apply the existing fully faithful toDescentData functor to the two composites and use its map_injective; then use descent hom_ext to reduce to an arbitrary covering arrow i. Functor.map_comp and coverAut_map_hom identify the two composites with the two sides of naturality of the actual central unit z_i at the morphism F(i)(f); then this detects naturality of the hom. NatIso.ofComponents supplies inverse naturality from the existing inverse identities.
 
@@ -2903,7 +2903,7 @@ Prove `IntrinsicBandSections.coverAut_inv`. Under the same covering/prestack and
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice).
 
 For the proof, map the original descended isomorphism along each covering arrow and use Iso.ext with coverAut_map_hom; then take Iso.inv of this equality. Evaluation is an existing monoid homomorphism, so map_inv identifies the required component of the inverse matching family; then invoke coverAut_unique and reverse the equality. Retain the existing reversed categorical multiplication convention.
 
@@ -2913,7 +2913,7 @@ Define `IntrinsicBandSections.coverCenter`. For any covering sieve R on U, prest
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice).
 
 The API gives `IntrinsicBandSections.coverCenter_app_hom`: The hom component at x is exactly coverAut(R,z,x).hom; `IntrinsicBandSections.coverCenter_app_inv`: The inverse component at x is exactly coverAut(R,z,x).inv; `IntrinsicBandSections.coverCenter_map_hom`: For every covering arrow i and x over U, F(i) maps c_R(z).val.app(x) to z_i(V_i,id).val.app(F(i)(x)); `IntrinsicBandSections.coverCenter_one`: The identity matching family gives the identity centre unit; `IntrinsicBandSections.coverCenter_inv`: The centre unit of the pointwise inverse matching family equals the inverse of the original centre unit; `IntrinsicBandSections.coverCenter_unique`: Any centre unit with the prescribed pullback hom components at every x and i equals c_R(z); `IntrinsicBandSections.coverCenter_existing`: For z_i=r_i(s) with s∈ZF(U), c_R(z)=s(U,id), using the exact reindexing triangle identities.
 
@@ -2930,7 +2930,7 @@ Prove `IntrinsicBandSections.coverCenter_unique`. For a covering sieve R of a pr
 
 Here C is a small category with a fixed Grothendieck topology J, and F is the existing Cat-valued pseudofunctor. All indexed families have fixed sufficiently large universes. Additional prestack or covering assumptions are imposed only where stated.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition8.4.1(2), morphism sheaves on the slice).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8 proof and its final omitted varying-base conclusion; [Stacks](https://stacks.math.columbia.edu/tag/026F), Definition 8.4.1(2), morphism sheaves on the slice).
 
 For the proof, apply Units.ext, then the CatCenter.ext over every x; then evaluate a through the unitsEndEquivAut at the identity functor. Its component at x is an actual automorphism with precisely the assumed local hom components; then apply coverAut_unique at x and take Iso.hom to obtain the required equality.
 
@@ -4525,7 +4525,7 @@ Prove `BandPreserving.id`. The identity StrongTrans of F preserves the specified
 
 Here A specified arbitrary site (C,J), Cat-valued pseudofunctors F,G with IsGerbe, one actual abelian sheaf A and actual bandings bF,bG; η is the StrongTrans and preserves the fixed band; Coefficients and fibre Hom types share one universe; arbitrary base/object universes are retained. No resizing, bottom-topology, finite, terminal-object or neutralization assumption is made; An actual source isomorphism is required only by anchored inverse, equivalence and surjectivity constructions. Their local existence does not provide a global anchor.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandPreserving`, Mathlib `CategoryTheory.Pseudofunctor.StrongTrans.id`.
 
@@ -4547,13 +4547,13 @@ Throughout this topic, A specified arbitrary site (C,J), Cat-valued pseudofuncto
 
 Prove `BandPreserving.comp`. The vertical composite of two transformations preserving the same fixed band preserves that band; the component automorphism equation is the composite of the two given equations.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandPreserving`, Mathlib `CategoryTheory.Pseudofunctor.StrongTrans.vcomp`.
 
 Prove `BandedMorphism.map_act`. For the fibre functor ηU, mapIso(actF(p,a))=actG(mapIso(p),a). The coefficient is unchanged, using the band-preservation equation on the actual target automorphism.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandPreserving`, `BandedIsom.act`, Mathlib `CategoryTheory.Functor.mapIso_trans`.
 
@@ -4563,7 +4563,7 @@ Prove `BandedMorphism.map_act`. For the fibre functor ηU, mapIso(actF(p,a))=act
 
 Prove `BandedMorphism.map_difference`. differenceG(mapIso(p),mapIso(q))=differenceF(p,q) for actual p,q:x≅y. Apply map_act to actF(p,differenceF(p,q))=q and then the target difference cancellation law.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandedMorphism.map_act`, `BandedIsom.act_difference`, `BandedIsom.difference_act`.
 
@@ -4573,13 +4573,13 @@ Prove `BandedMorphism.map_difference`. differenceG(mapIso(p),mapIso(q))=differen
 
 Prove `BandedMorphism.mapIso_injective`. For every fibre and pair x,y, the actual mapIso of ηU is injective, including when the source Isom type is empty. Equal images have difference coefficient one; action cancellation recovers equality.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandedMorphism.map_difference`, `BandedIsom.difference_self`, `BandedIsom.act_one`, `BandedIsom.act_difference`.
 
 Prove `BandedMorphism.faithful`. Every component functor ηU is Faithful. All source arrows are invertible by IsGerbe, so equal images of arrows are equal images of their actual asIso isomorphisms and injectivity recovers equality.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandedMorphism.mapIso_injective`, `relativeGerbe`, Mathlib `CategoryTheory.Functor.Faithful`.
 
@@ -4589,7 +4589,7 @@ Prove `BandedMorphism.faithful`. Every component functor ηU is Faithful. All so
 
 Define `BandedMorphism.preimageIso`. Given an actual p:x≅y and target q:ηU(x)≅ηU(y), preimageIso(p,q)=actF(p,differenceG(mapIso(p),q)). The anchor is required data, never inferred from local nonemptiness.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 The API gives `BandedMorphism.map_preimageIso`: mapIso(preimageIso(p,q))=q, by action compatibility and the target difference-action cancellation. This works for every target isomorphism once the actual source anchor is supplied; `BandedMorphism.preimageIso_map`: preimageIso(p,mapIso(q))=q for actual p,q:x≅y, using unchanged difference coefficients and source action cancellation; `BandedMorphism.preimageIso_anchor`: For any actual anchors p,p′ and target q, preimageIso(p,q)=preimageIso(p′,q). Both map to q, and mapIso is injective. No choice of a global anchor is made; `BandedMorphism.preimageIso_act`: preimageIso(p,actG(q,a))=actF(preimageIso(p,q),a), by mapIso injectivity, the inverse law and the forward action equation; `BandedMorphism.preimageIso_id`: For the identity StrongTrans, preimageIso(p,q)=q for every actual source anchor p and actual q, using the identity band-preservation proof and the source inverse law; `BandedMorphism.preimageIso_comp`: For band-preserving η:F→G and θ:G→H, preimageIso for θ∘η at p equals preimageIso for η at p applied to preimageIso for θ at ηU.mapIso(p). Composition uses the actual StrongTrans and functor mapIso, with no surrogate transformation carrier.
 
@@ -4604,19 +4604,19 @@ The API gives `BandedMorphism.map_preimageIso`: mapIso(preimageIso(p,q))=q, by a
 
 Prove `BandedMorphism.map_preimageIso`. mapIso(preimageIso(p,q))=q, by action compatibility and the target difference-action cancellation. This works for every target isomorphism once the actual source anchor is supplied.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandedMorphism.preimageIso`, `BandedMorphism.map_act`, `BandedIsom.act_difference`.
 
 Prove `BandedMorphism.preimageIso_map`. preimageIso(p,mapIso(q))=q for actual p,q:x≅y, using unchanged difference coefficients and source action cancellation.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandedMorphism.preimageIso`, `BandedMorphism.map_difference`, `BandedIsom.act_difference`.
 
 Define `BandedMorphism.isomEquiv`. Given actual p:x≅y, the Equiv from x≅y to ηU(x)≅ηU(y) has forward map exactly ηU.mapIso and inverse exactly preimageIso(p). Both inverse laws are retained as proof data.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 The API gives `BandedMorphism.isomEquiv_apply`: isomEquiv(p)(q)=ηU.mapIso(q), as an equality of actual isomorphisms; `BandedMorphism.isomEquiv_symm_apply`: isomEquiv(p) inverse applied to q equals preimageIso(p,q); `BandedMorphism.isomEquiv_anchor`: The Equiv objects isomEquiv(p) and isomEquiv(p′) are equal, because their forward functions are the same actual fibre functor mapIso.
 
@@ -4630,13 +4630,13 @@ The API gives `BandedMorphism.isomEquiv_apply`: isomEquiv(p)(q)=ηU.mapIso(q), a
 
 Prove `BandedMorphism.hom_surjective_of_anchor`. Given actual p:x≅y, ηU.map:(x→y)→(ηU(x)→ηU(y)) is surjective. A target arrow is invertible by the target IsGerbe; take the hom of preimageIso(p,asIso(q)). This is conditional fullness for that pair, not a global source anchor.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `BandedMorphism.preimageIso`, `BandedMorphism.map_preimageIso`, `relativeGerbe`.
 
 Define `BandedMorphism.autEquiv`. For every source object x, autEquiv(x)=bF(U,x) inverse followed by bG(U,ηU(x)) is a multiplicative equivalence of actual automorphism groups. Its forward function is exactly ηU.mapAut by band preservation.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 The API gives `BandedMorphism.autEquiv_apply`: autEquiv(x)(a)=ηU.mapAut(x)(a) for every actual source automorphism, by its unique coefficient under bF and the stored band equation; `BandedMorphism.autEquiv_band`: autEquiv(x)(bF(U,x)(a))=bG(U,ηU(x))(a). This formula follows from the two band equivalences even before invoking the map-preservation property; `BandedMorphism.autEquiv_symm_band`: autEquiv(x) inverse applied to bG(U,ηU(x))(a) equals bF(U,x)(a).
 
@@ -4652,7 +4652,7 @@ The API gives `BandedMorphism.autEquiv_apply`: autEquiv(x)(a)=ηU.mapAut(x)(a) f
 
 Prove `BandedMorphism.locallyIsomEquiv`. For every x,y over U, there is R∈J(U) such that for every f:V→U in R there is an actual equivalence between Isom(F(f)x,F(f)y) and Isom(ηV(F(f)x),ηV(F(f)y)), whose forward map is ηV.mapIso. The locallyIsomorphic field supplies each actual anchor. Strong naturality identifies the target with G(f)(ηU(x),ηU(y)); the inverse maps glue by anchor independence.
 
-([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1 and Lemma31.3, PDF pp.122–123; authored actual-functor deductions).
+([Martin Olsson (lectures), course note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored actual-functor deductions).
 
 *Needs:* `relativeGerbe`, `BandedMorphism.isomEquiv`.
 
@@ -4872,7 +4872,7 @@ Prove `GerbeMorphismPullback.comparison_comp`. For f:V→U and g:W→V, c_(g∘f
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored comparison_comp deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored comparison_comp deduction).
 
 For the proof, apply the strong-transformation composition coherence to f.op and g.op, convert the Cat-valued 2-isomorphisms to natural isomorphisms, and evaluate at x; then retain all four factors and their direction: ηW(F(gf)x)→ηW(F(g)F(f)x)→G(g)ηV(F(f)x)→G(g)G(f)ηUx→G(gf)ηUx. The first and last maps are the actual pseudofunctor comparisons, not definitional identifications; then use the mapComp′ equality witness for the base composite. Associators in Cat evaluate to the required component identities.
 
@@ -4882,7 +4882,7 @@ Prove `GerbeMorphismPullback.homMap_pullHom`. For every actual local arrow p:F(f
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homMap_pullHom deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homMap_pullHom deduction).
 
 For the proof, replace h by g∘f using the supplied equality, then expand the pullHom formula: source mapComp hom, functorial pullback of p, target mapComp inverse; then expand h_f as c_f(x) inverse, ηV(p), c_f(y) forward. Substitute the two comparison-composite formulas for x and y; then use naturality of c_g at the arbitrary local arrow p and functorial preservation of composition. Cancel adjacent inverse comparison factors. The remaining factors are exactly the target pullHom formula; then the argument works for p that does not lift from U. The earlier supplied-global-arrow restriction lemma is therefore not used as a substitute.
 
@@ -4892,7 +4892,7 @@ Define `GerbeMorphismPullback.homPresheafMap`. Construct a natural transformatio
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap deduction).
 
 The API gives `GerbeMorphismPullback.homPresheafMap_app`: At every T∈C/U, the new Hom-presheaf component sends p to the existing homMap η T.hom x y p; `GerbeMorphismPullback.homPresheafMap_naturality`: For a:T₂→T₁ in C/U and any local section p, applying the source restriction then the Hom-presheaf map equals applying the map then the target restriction; `GerbeMorphismPullback.homPresheafMap_identity`: At the identity slice object, the Hom-presheaf component takes F.presheafHomObjHomEquiv(p) to G.presheafHomObjHomEquiv(ηU.map(p)); `GerbeMorphismPullback.homPresheafMap_injective`: For a fixed-band gerbe morphism, every component of homPresheafMap is injective, with no anchor assumption.
 
@@ -4909,7 +4909,7 @@ Prove `GerbeMorphismPullback.homPresheafMap_app`. At every T∈C/U, the new Hom-
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_app deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_app deduction).
 
 For the proof, unfold only the new natural transformation component. The existing objectwise map and both comparison components remain visible.
 
@@ -4919,7 +4919,7 @@ Prove `GerbeMorphismPullback.homPresheafMap_identity`. At the identity slice obj
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_identity deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_identity deduction).
 
 For the proof, unfold the identity-slice Hom equivalence, which conjugates by the pseudofunctor mapId comparison; then evaluate the strong-transformation identity coherence at both x and y. Substitute it in h_id and cancel the mapId inverse pairs; then this identifies the induced bijection on identity-slice sections with the actual ηU.map, rather than with an unspecified equivalent function.
 
@@ -4929,7 +4929,7 @@ Define `GerbeMorphismPullback.homSheafMap`. For Mathlib prestacks F,G, bundle ho
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap deduction).
 
 The API gives `GerbeMorphismPullback.homSheafMap_hom`: The underlying natural transformation of homSheafMap is exactly homPresheafMap; `GerbeMorphismPullback.homPresheafMap_imageSieve`: For every T∈C/U and target Hom section s over T, the Presheaf.imageSieve of homPresheafMap and s belongs to (J.over U)(T); `GerbeMorphismPullback.homSheafMap_locallySurjective`: The actual homSheafMap is Sheaf.IsLocallySurjective on J.over U; `GerbeMorphismPullback.homSheafMap_locallyInjective`: The actual homSheafMap is Sheaf.IsLocallyInjective on J.over U; `GerbeMorphismPullback.homSheafMap_isIso`: The actual homSheafMap has the IsIso property.
 
@@ -4946,7 +4946,7 @@ Prove `GerbeMorphismPullback.homSheafMap_hom`. The underlying natural transforma
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_hom deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_hom deduction).
 
 For the proof, unfold the new sheaf morphism. This ensures the local image and injectivity calculations apply to the intended map.
 
@@ -4956,7 +4956,7 @@ Prove `GerbeMorphismPullback.homPresheafMap_injective`. For a fixed-band gerbe m
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_injective deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_injective deduction).
 
 For the proof, rewrite the component by homPresheafMap_app, then apply the existing actual homMap_injective theorem. Its proof depends on band-preserving faithfulness, not on the full-faithfulness target.
 
@@ -4966,7 +4966,7 @@ Prove `GerbeMorphismPullback.homPresheafMap_imageSieve`. For every T∈C/U and t
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_imageSieve deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_imageSieve deduction).
 
 For the proof, apply IsGerbe.locallyIsomorphic on T.left to the actual objects F(T.hom)x and F(T.hom)y. It supplies a J-covering sieve R with local source anchors; no global anchor is chosen; then transport a local anchor along the two F.mapComp′ comparisons to an isomorphism F(S.hom)x≅F(S.hom)y for each slice arrow a:S→T above R. The slice identity a.left∘T.hom=S.hom supplies the equality witness; then restrict s by the actual target presheaf map along a. The existing anchored homMap surjectivity at S.hom produces a preimage of this particular restricted section; then thus (Sieve.overEquiv T).symm R is contained in the imageSieve. The overEquiv_symm_mem_over puts that sieve in J.over U; upward closure proves the image sieve covering. No pullback objects or terminal object in C are needed.
 
@@ -4976,7 +4976,7 @@ Prove `GerbeMorphismPullback.homSheafMap_locallySurjective`. The actual homSheaf
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_locallySurjective deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_locallySurjective deduction).
 
 For the proof, use the imageSieve_mem field with the preceding cover theorem, and the definitional underlying presheaf of homSheafMap. This is a local-surjectivity instance, not a global lifting assumption.
 
@@ -4986,7 +4986,7 @@ Prove `GerbeMorphismPullback.homSheafMap_locallyInjective`. The actual homSheafM
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_locallyInjective deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_locallyInjective deduction).
 
 For the proof, apply the implication from componentwise injectivity to local injectivity. The sheaf predicate abbreviates that of the underlying presheaf morphism.
 
@@ -4996,7 +4996,7 @@ Prove `GerbeMorphismPullback.homSheafMap_isIso`. The actual homSheafMap has the 
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_isIso deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafMap_isIso deduction).
 
 For the proof, apply the forward direction of Mathlib Sheaf.isLocallyBijective_iff_isIso in the category of Type-valued sheaves on J.over U; then the proof constructs a compatible local-preimage family using injectivity, glues by the source sheaf condition and identifies its image by target separatedness. Reuse this theorem; generic sheaf gluing is Mathlib’s sheaf condition; then this step needs the naturality already established for arbitrary slice arrows. Local anchored bijections without that naturality would not supply a sheaf morphism to which the theorem applies.
 
@@ -5006,7 +5006,7 @@ Define `GerbeMorphismPullback.homSheafIso`. Construct the isomorphism F.sheafHom
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafIso deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafIso deduction).
 
 The API gives `GerbeMorphismPullback.homSheafIso_hom`: The hom of homSheafIso is homSheafMap exactly; `GerbeMorphismPullback.homSheafIso_inverse_anchor`: At T, whenever an actual source anchor p and target isomorphism q are supplied, the inverse Hom-sheaf component sends q.hom to the hom of the existing preimageIso η T.hom x y bF bG p q; `GerbeMorphismPullback.homSheafIso_inverse_restrict`: The inverse Hom-sheaf component commutes with the restrictions along every arrow of C/U, for every target local section; `GerbeMorphismPullback.fibreHom_bijective`: For every x,y∈F(U), the actual function ηU.map:(x→y)→(ηUx→ηUy) is bijective, without a global anchor hypothesis.
 
@@ -5023,7 +5023,7 @@ Prove `GerbeMorphismPullback.homSheafIso_hom`. The hom of homSheafIso is homShea
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored homSheafIso_hom deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homSheafIso_hom deduction).
 
 For the proof, apply the asIso_hom equality.
 
@@ -5033,7 +5033,7 @@ Prove `GerbeMorphismPullback.fibreHom_bijective`. For every x,y∈F(U), the actu
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored fibreHom_bijective deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored fibreHom_bijective deduction).
 
 For the proof, evaluate the sheaf isomorphism at op(Over.mk(id U)) to get a bijection on identity-slice sections; then compose with F.presheafHomObjHomEquiv and the inverse of the target equivalence. The identity-slice compatibility theorem identifies this composite with ηU.map; then this does not use essential surjectivity or a chosen global source isomorphism. If the source Hom type is empty, the target Hom type is empty too.
 
@@ -5043,7 +5043,7 @@ Prove `BandedMorphism.full`. Every component functor ηU is Full in the Mathlib 
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma31.3 full-faithfulness paragraph, PDF122–123; authored full deduction).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored full deduction).
 
 For the proof, for every pair x,y take the surjectivity half of fibreHom_bijective and supply the Functor.Full.map_surjective field; together with `BandedMorphism.faithful` this gives full faithfulness in fixed universes. The version with independent universes and essential surjectivity are the targets `universeNormalizedGerbe` (§4.21) and `band_morphism_essential_surjective`.
 
@@ -5055,7 +5055,7 @@ Define `GerbeMorphismDescent.componentFullyFaithful`. For each U construct the F
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement componentFullyFaithful).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement componentFullyFaithful).
 
 The API gives `GerbeMorphismDescent.componentFullyFaithful_map_preimage`: Mapping componentFullyFaithful.preimage(p) by ηU gives p for every arrow between actual image objects; `GerbeMorphismDescent.componentFullyFaithful_preimage_map`: The inverse recovers every source arrow from its ηU image; `GerbeMorphismDescent.componentFullyFaithful_map_injective`: Equality of images of any two actual source arrows reflects their equality.
 
@@ -5071,7 +5071,7 @@ Prove `GerbeMorphismDescent.componentFullyFaithful_map_preimage`. Mapping compon
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement componentFullyFaithful_map_preimage).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement componentFullyFaithful_map_preimage).
 
 For the proof, use the named map_preimage projection of the FullyFaithful data. There is no pre-existing source anchor or chosen source isomorphism in this operation.
 
@@ -5081,7 +5081,7 @@ Define `GerbeMorphismDescent.localImageSieve`. For z in G(U), construct the siev
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement localImageSieve).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement localImageSieve).
 
 The API gives `GerbeMorphismDescent.localImageSieve_mem`: Membership f∈Lz is equivalent to existence of x in F(V) and Nonempty(ηV(x)≅G(f)z); `GerbeMorphismDescent.localImageSieve_covering`: For two gerbes on the specified arbitrary site, Lz belongs to J(U); band preservation is not needed for this local existence step; `GerbeMorphismDescent.localImageSieve_identity`: The identity of U belongs to Lz exactly when there is y in F(U) with an actual isomorphism ηU(y)≅z.
 
@@ -5097,7 +5097,7 @@ Prove `GerbeMorphismDescent.localImageSieve_mem`. Membership f∈Lz is equivalen
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement localImageSieve_mem).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement localImageSieve_mem).
 
 For the proof, unfold the presieve component; the sieve adds closure, not a quotient of the witness data.
 
@@ -5107,7 +5107,7 @@ Prove `GerbeMorphismDescent.localImageSieve_covering`. For two gerbes on the spe
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement localImageSieve_covering).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement localImageSieve_covering).
 
 For the proof, choose a covering sieve R from F.locallyNonempty. For each f:V→U in R, choose x in F(V); then apply G.locallyIsomorphic to ηV(x) and G(f)z. Its covering sieve S on V consists of arrows g along which the two target objects become isomorphic; then use c_g(x) and the G.mapComp′ comparison as in downward closure to show S≤Lz.pullback(f). Superset covering makes Lz.pullback(f) cover V; then apply GrothendieckTopology.transitive to R and Lz. Effective descent in F then produces the global object with its specified local comparisons.
 
@@ -5117,7 +5117,7 @@ Define `GerbeMorphismDescent.targetOverlapIso`. For a family f_i:X_i→U, object
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement targetOverlapIso).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement targetOverlapIso).
 
 The API gives `GerbeMorphismDescent.targetOverlapIso_formula`: The target overlap is c_a(x_i), then G(a)(e_i), then the ofObj(z) overlap, then G(b)(e_j) inverse, then c_b(x_j) inverse; `GerbeMorphismDescent.targetOverlapIso_self`: For i=j and a=b the targetOverlapIso is the identity isomorphism; `GerbeMorphismDescent.targetOverlapIso_comp`: For three local indices i,j,k and maps a,b,c over the same q, the i-to-j overlap followed by the j-to-k overlap equals the i-to-k overlap.
 
@@ -5133,7 +5133,7 @@ Prove `GerbeMorphismDescent.targetOverlapIso_formula`. The target overlap is c_a
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement targetOverlapIso_formula).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement targetOverlapIso_formula).
 
 For the proof, evaluate the specified composition; retain both strong comparisons and both local image isomorphisms.
 
@@ -5143,7 +5143,7 @@ Prove `GerbeMorphismDescent.targetOverlapIso_self`. For i=j and a=b the targetOv
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement targetOverlapIso_self).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement targetOverlapIso_self).
 
 For the proof, use the target hom_self law. The outer comparison and image-isomorphism factors cancel with their inverses. Use Iso.ext to retain both directions.
 
@@ -5153,7 +5153,7 @@ Prove `GerbeMorphismDescent.targetOverlapIso_comp`. For three local indices i,j,
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement targetOverlapIso_comp).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement targetOverlapIso_comp).
 
 For the proof, expand the two five-factor composites. Cancel the intermediate j comparison and image isomorphism; then apply the hom_comp equation of the target ofObj(z) datum; conclude equality of isomorphisms by equality of their forward arrows.
 
@@ -5163,7 +5163,7 @@ Define `GerbeMorphismDescent.liftedOverlapIso`. Construct the unique isomorphism
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedOverlapIso).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedOverlapIso).
 
 The API gives `GerbeMorphismDescent.liftedOverlapIso_map`: ηY.mapIso of the lifted overlap equals the specified target overlap as an actual isomorphism; `GerbeMorphismDescent.liftedOverlapIso_self`: The lifted overlap from a local object to itself along the same base arrow is the identity isomorphism; `GerbeMorphismDescent.liftedOverlapIso_comp`: The i-to-j lifted overlap followed by the j-to-k lifted overlap is the i-to-k lifted overlap on every common test object; `GerbeMorphismDescent.liftedOverlapIso_pullHom`: For g:Y′→Y, q′=g≫q and specified ga=g≫a, gb=g≫b, pullHom_F of the lifted overlap equals the lifted overlap at q′,ga,gb, with all base equalities retained.
 
@@ -5179,7 +5179,7 @@ Prove `GerbeMorphismDescent.liftedOverlapIso_map`. ηY.mapIso of the lifted over
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedOverlapIso_map).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedOverlapIso_map).
 
 For the proof, use map_preimage on both forward and inverse components of preimageIso; Iso.ext proves the displayed identity.
 
@@ -5189,7 +5189,7 @@ Prove `GerbeMorphismDescent.liftedOverlapIso_self`. The lifted overlap from a lo
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedOverlapIso_self).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedOverlapIso_self).
 
 For the proof, map both forward arrows by ηY and use the target self-overlap equation. Faithfulness reflects their equality, hence equality of isomorphisms.
 
@@ -5199,7 +5199,7 @@ Prove `GerbeMorphismDescent.liftedOverlapIso_comp`. The i-to-j lifted overlap fo
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedOverlapIso_comp).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedOverlapIso_comp).
 
 For the proof, apply ηY.map to the two forward arrows, use map_comp and the target cocycle, then reflect equality with the fully faithful component.
 
@@ -5209,7 +5209,7 @@ Prove `GerbeMorphismDescent.liftedOverlapIso_pullHom`. For g:Y′→Y, q′=g≫
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedOverlapIso_pullHom).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedOverlapIso_pullHom).
 
 For the proof, write pullHom_F as source mapComp′ hom, F(g) applied to the overlap, then source mapComp′ inv; then map this composite by ηY′. Use naturality of c_g on the actual overlap arrow and the incoming comparison_comp formula on a,g and b,g. Source mapComp′ terms cancel against the strong-comparison terms; then expand the target five-factor overlap. Naturality of G.mapComp′ moves G(g) applied to e_i and e_j to G(ga) and G(gb). The target ofObj(z) pullHom_hom law replaces the central overlap at q by its overlap at q′; then the result is the targetOverlapIso at q′,ga,gb. Use liftedOverlapIso_map there and reflect equality through ηY′. This varying-base step is required in addition to the triple cocycle.
 
@@ -5219,7 +5219,7 @@ Define `GerbeMorphismDescent.liftedDescentData`. Construct an object of the cate
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedDescentData).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedDescentData).
 
 The API gives `GerbeMorphismDescent.liftedDescentData_obj`: The object field of liftedDescentData at i is x_i; `GerbeMorphismDescent.liftedDescentData_hom`: For every common test object and pair of indices, the hom field is the forward arrow of the specified liftedOverlapIso; `GerbeMorphismDescent.liftedDescentData_pullHom`: The actual descent-data hom field commutes with every deeper pullHom, with all base equality witnesses retained.
 
@@ -5235,7 +5235,7 @@ Prove `GerbeMorphismDescent.liftedDescentData_obj`. The object field of liftedDe
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedDescentData_obj).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedDescentData_obj).
 
 For the proof, evaluate the explicit obj field of the constructor; the local source objects are data, not merely nonemptiness proofs.
 
@@ -5245,7 +5245,7 @@ Prove `GerbeMorphismDescent.liftedDescentData_hom`. For every common test object
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement liftedDescentData_hom).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement liftedDescentData_hom).
 
 For the proof, evaluate the explicit hom field, including the supplied base-composition equalities.
 
@@ -5255,7 +5255,7 @@ Define `GerbeMorphismDescent.imageLocalIso`. Given y in F(U) and a descent isomo
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement imageLocalIso).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement imageLocalIso).
 
 The API gives `GerbeMorphismDescent.imageLocalIso_hom`: The forward arrow of imageLocalIso at i is c_(f_i)(y) inverse, followed by η_i.map(r.hom.hom(i)), followed by e_i.hom; `GerbeMorphismDescent.imageLocalIso_comm`: The imageLocalIso components satisfy the exact DescentData.isoMk comm equation between the target ofObj data of ηU y and z on every common test object; `GerbeMorphismDescent.imageLocalIso_inv`: The inverse arrow is e_i inverse, then η_i applied to the inverse gluing component, then the forward strong comparison.
 
@@ -5271,7 +5271,7 @@ Prove `GerbeMorphismDescent.imageLocalIso_hom`. The forward arrow of imageLocalI
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement imageLocalIso_hom).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement imageLocalIso_hom).
 
 For the proof, evaluate the three-factor composition and its actual component of r; the object projection of liftedDescentData is definitionally the specified x_i.
 
@@ -5281,7 +5281,7 @@ Prove `GerbeMorphismDescent.imageLocalIso_comm`. The imageLocalIso components sa
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement imageLocalIso_comm).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement imageLocalIso_comm).
 
 For the proof, expand the local forward formula at i and j and the two target ofObj overlap maps; then use the r.hom.comm equation in F(Y), then ηY.map and strong naturality for a and b. The composite comparison formulas retain the source and target mapComp′ terms for f_i,a and f_j,b; then substitute liftedOverlapIso_map and the five-factor target formula. The e_i,e_j and c_a,c_b factors cancel in the required directions; then what remains is precisely G(a)(p_i) followed by the z overlap equals the ηU y overlap followed by G(b)(p_j). This gives an actual target descent isomorphism, not equality of local isomorphism classes.
 
@@ -5291,7 +5291,7 @@ Define `GerbeMorphismDescent.globalImageIso`. When Sieve.ofArrows(X,f) covers U,
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement globalImageIso).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement globalImageIso).
 
 The API gives `GerbeMorphismDescent.globalImageIso_restrict`: Restricting globalImageIso.hom by G(f_i) gives imageLocalIso.hom at every chart i; `GerbeMorphismDescent.globalImageIso_unique`: Any p:ηU y≅z whose forward restrictions agree with all the imageLocalIso components equals globalImageIso; `GerbeMorphismDescent.globalImageIso_inv_restrict`: Restricting the inverse global image arrow gives the inverse local image arrow at every chart.
 
@@ -5307,7 +5307,7 @@ Prove `GerbeMorphismDescent.global_preimage`. For every U and z in G(U), there e
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement global_preimage).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement global_preimage).
 
 For the proof, take R=Lz and the actual family of arrows f in R.arrows.category. The ofArrows_category theorem identifies its generated sieve with R, so it is covering; then for each f in R choose its source object x_f and its actual image isomorphism e_f, using the membership characterization and classical choice. No global source anchor has been assumed; then build the liftedDescentData. Register F’s IsStack.essSurj_of_sieve instance and take objPreimage of this datum; objObjPreimageIso is the actual r:ofObj_F(y)≅D; then apply globalImageIso using the covering equality. Return the object y and the actual isomorphism witness; then an empty covering index is legitimate: effectivity still supplies a global source object from the empty descent datum. An empty index without a covering hypothesis gives no conclusion.
 
@@ -5317,7 +5317,7 @@ Prove `GerbeMorphismDescent.componentEssSurj`. Every actual component functor η
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement componentEssSurj).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement componentEssSurj).
 
 For the proof, for every z use global_preimage to fill the exact EssSurj.mem_essImage field, which is existence of an object and a Nonempty isomorphism.
 
@@ -5327,7 +5327,7 @@ Prove `GerbeMorphismDescent.componentIsEquivalence`. The actual ηU is a IsEquiv
 
 Here C is an arbitrary category, J its specified Grothendieck topology, and F,G actual Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ with strong transformation η. The gerbe hypothesis supplies stack descent, local nonemptiness and local isomorphism, and groupoid fibres; no terminal object, finite site or pullbacks in C are assumed; For component full-faithfulness, lifted overlaps, source descent, and global essential surjectivity, bF and bG are actual bandings by the same sheaf A and η preserves that band. The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}. The universeNormalizedGerbe comparison in 4.21 transports this normalized case to independently specified coefficient universes; For overlap and image constructions the family f_i, actual local objects x_i and image isomorphisms e_i are inputs. An actual gluing isomorphism r is input only to the local/global image-of-gluing operations. The generated-sieve covering hypothesis is required for the global image operation. The final global-preimage theorem constructs all these inputs from local gerbe existence and stack effectivity.
 
-([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma31.3, PDF122–123; authored descent refinement componentIsEquivalence).
+([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement componentIsEquivalence).
 
 For the proof, extract the Full and Faithful instances from componentFullyFaithful and register componentEssSurj. Supply the three fields of Functor.IsEquivalence; then this is the fibrewise step only. Inverse functors, the coherent inverse strong transformation, and band preservation of the inverse, unit and counit are part of the pseudonatural equivalence target `CoherentInverse.inverse` (§4.12).
 
@@ -5451,7 +5451,7 @@ Define `BandedMorphism.modificationIso`. For a modification m:η⇒θ of strong 
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 The API gives `BandedMorphism.modificationIso_hom`: For every m, M(m).hom=m as a modification, including every component natural transformation; `BandedMorphism.modificationIso_inv_app`: For every actual test object U and source object x, the (U,x) component of M(m).inv equals the inverse of m(U,x); `BandedMorphism.modificationIso_id`: For every η, M(idη) is the identity isomorphism of η; `BandedMorphism.modificationIso_comp`: For composable modifications m and n, M(m≫n)=M(m)≪≫M(n). The inverse thus uses reverse composition.
 
@@ -5467,7 +5467,7 @@ Prove `BandedMorphism.modificationIso_hom`. For every m, M(m).hom=m as a modific
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, use modification and Cat 2-morphism extensionality; the component is the original m by construction.
 
@@ -5477,7 +5477,7 @@ Prove `BandedMorphism.modificationIso_inv_app`. For every actual test object U a
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, evaluate the two iso constructors and the asIso inverse field; their definitions give the displayed inverse.
 
@@ -5487,7 +5487,7 @@ Prove `BandedMorphism.modificationIso_id`. For every η, M(idη) is the identity
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, apply Iso.ext and the forward-arrow equation to the identity modification.
 
@@ -5497,7 +5497,7 @@ Prove `BandedMorphism.modificationIso_comp`. For composable modifications m and 
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, apply Iso.ext and rewrite the three forward arrows with modificationIso_hom.
 
@@ -5507,7 +5507,7 @@ Prove `BandedMorphism.modification_iff`. For m:η⇒θ between F→G and specifi
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, apply `GerbeBandEquivalence.modificationIso_iff` to M(m). The reverse implication uses its inverse.
 
@@ -5517,7 +5517,7 @@ Define `BandedMorphism.HomCategory`. For A-banded gerbes (F,bF),(G,bG), take the
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 The API gives `BandedMorphism.mk`: An actual band-preserving transformation with its specified band property is an object of the fixed-band full subcategory; `BandedMorphism.homMk`: Every actual underlying modification between fixed-band objects packages as an arrow of the full subcategory; `BandedMorphism.forget`: The inclusion functor forgets only the fixed-band object property and retains every modification; `BandedMorphism.forget_fullyFaithful`: The inclusion of the fixed-band full subcategory has the existing fully faithful data of ObjectProperty.fullyFaithfulι; `BandedMorphism.hom_ext`: For m,n:X⇒Y in the fixed-band category, equality of their underlying natural transformations at every U implies m=n; `BandedMorphism.modification_iff`: For m:η⇒θ between F→G and specified bands bF,bG, BandPreserving(bF,bG,η) if and only if BandPreserving(bF,bG,θ). No additional IsIso(m) assumption is required because G is a gerbe.
 
@@ -5533,7 +5533,7 @@ Prove `BandedMorphism.hom_ext`. For m,n:X⇒Y in the fixed-band category, equali
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, apply full-subcategory hom_ext, modification component extensionality and Cat.Hom₂.ext. Every LocallyDiscrete opposite object is a test object U.
 
@@ -5543,7 +5543,7 @@ Define `BandedMorphism.homIso`. For any m:X⇒Y in the fixed-band category, lift
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 The API gives `BandedMorphism.homIso_hom`: For every m:X⇒Y, homIso(m).hom=m in the fixed-band category; `BandedMorphism.homIso_inv_app`: For every m:X⇒Y, U and x, the underlying (U,x) component of homIso(m).inv is the inverse of the component of m; `BandedMorphism.homIso_comp`: For m:X⇒Y and n:Y⇒Z, homIso(m≫n)=homIso(m)≪≫homIso(n).
 
@@ -5559,7 +5559,7 @@ Prove `BandedMorphism.homIso_hom`. For every m:X⇒Y, homIso(m).hom=m in the fix
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, apply full-subcategory hom_ext and modificationIso_hom.
 
@@ -5569,7 +5569,7 @@ Prove `BandedMorphism.hom_isIso`. Every arrow m:X⇒Y of the fixed-band category
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, replace m by the hom of homIso(m), then use the existing IsIso instance for an isomorphism hom.
 
@@ -5579,7 +5579,7 @@ Prove `BandedMorphism.homIso_inv_app`. For every m:X⇒Y, U and x, the underlyin
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, evaluate ObjectProperty.isoMk; its underlying inverse is M(m.hom).inv. Evaluate the component inverse equation.
 
@@ -5589,7 +5589,7 @@ Prove `BandedMorphism.homIso_comp`. For m:X⇒Y and n:Y⇒Z, homIso(m≫n)=homIs
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, compare forward morphisms using Iso.ext and homIso_hom.
 
@@ -5599,7 +5599,7 @@ Define `BandedMorphism.groupoid`. On the fixed-band full subcategory construct M
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 The API gives `BandedMorphism.groupoid_inv`: For every m:X⇒Y, the groupoid inverse is homIso(m).inv; `BandedMorphism.groupoid_comp_inv`: For m:X⇒Y, m≫groupoid.inv(m)=idX as an actual modification; `BandedMorphism.groupoid_inv_comp`: For m:X⇒Y, groupoid.inv(m)≫m=idY as an actual modification.
 
@@ -5615,7 +5615,7 @@ Prove `BandedMorphism.groupoid_inv`. For every m:X⇒Y, the groupoid inverse is 
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, use the right-inverse law of homIso(m) after its forward arrow is identified with m; apply inverse uniqueness.
 
@@ -5625,7 +5625,7 @@ Prove `BandedMorphism.groupoid_comp_inv`. For m:X⇒Y, m≫groupoid.inv(m)=idX a
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, read the Groupoid comp_inv field for the supplied structure.
 
@@ -5635,7 +5635,7 @@ Prove `BandedMorphism.groupoid_inv_comp`. For m:X⇒Y, groupoid.inv(m)≫m=idY a
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors in fixed object and morphism universes; For the modification isomorphism family only G is required to be a gerbe. Fixed-band constructions additionally take IsGerbe F J, a specified sheaf A in independent coefficient universe w and actual bandings bF,bG; No terminal object, global neutralization, constant coefficient sheaf, or equality of coefficient and fibre universes is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remarks31.2/31.5 and Lemma31.3, printed122–123; exact API specializations.).
+([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remarks31.2/31.5 and Lemma 31.3, printed122–123; exact API specializations.).
 
 For the proof, read the Groupoid inv_comp field for the supplied structure.
 
@@ -5645,7 +5645,7 @@ Define `BandedIsom.fibreAction`. Bundle Isom_F(U)(x,y) as the Action (Type v′)
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 The API gives `BandedIsom.fibreAction_apply`: For a in Multiplicative(A(U)) and p:x≅y, the underlying function rho(a) sends p to p followed by b_y(a); `BandedIsom.fibreAction_empty`: If Isom_F(U)(x,y) is empty, the carrier of fibreAction(b,x,y) is empty as well; `BandedIsom.band_commute`: For q:y≅z, b_y(a) followed by q equals q followed by b_z(a); this is the existing band conjugation equation used by the bundled action API.
 
@@ -5661,7 +5661,7 @@ Define `BandedIsom.postcomposeActionIso`. For q:y≅z, postcomposition p ↦ p f
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 The API gives `BandedIsom.postcomposeActionIso_apply`: For q:y≅z and p:x≅y, the forward underlying function of postcomposeActionIso(b,q) is p followed by q; `BandedIsom.postcomposeActionIso_inv_apply`: For q:y≅z and p:x≅z, the inverse underlying function is p followed by q inverse; `BandedIsom.postcomposeActionIso_comp`: Postcomposition by q followed by r equals the composition of postcomposeActionIso(b,q) and postcomposeActionIso(b,r), with the original source object x fixed.
 
@@ -5677,7 +5677,7 @@ Define `BandedMorphism.componentIso`. For a arrow m:X→Y in HomCategory(bF,bG),
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 The API gives `BandedMorphism.componentIso_hom`: The forward arrow of componentIso(m,U,x) is exactly the component of the actual modification m, with no quotient or replacement carrier; `BandedMorphism.componentIso_id`: The component isomorphism of the identity modification at U,x is Iso.refl of X_U(x); `BandedMorphism.componentIso_comp`: componentIso(m followed by n,U,x) equals componentIso(m,U,x) followed by componentIso(n,U,x); `BandedMorphism.componentIso_inv`: The component of the existing homIso(m) inverse is the inverse of componentIso(m,U,x).
 
@@ -5693,7 +5693,7 @@ Prove `BandedMorphism.componentIso_hom`. The forward arrow of componentIso(m,U,x
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, project asIso.hom.
 
@@ -5703,7 +5703,7 @@ Prove `BandedMorphism.componentIso_id`. The component isomorphism of the identit
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, full-subcategory identities, modification identities and natural-transformation identities evaluate to the identity arrow; use Iso.ext.
 
@@ -5713,7 +5713,7 @@ Prove `BandedMorphism.componentIso_comp`. componentIso(m followed by n,U,x) equa
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, vertical modification composition is componentwise composition; use Iso.ext.
 
@@ -5723,7 +5723,7 @@ Define `BandedMorphism.fibreIsomActionFunctor`. For U, x in F(U), and y in G(U),
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 The API gives `BandedMorphism.fibreIsomActionFunctor_obj`: The carrier of the action assigned to X is exactly Isom_G(U)(y,X_U(x)); `BandedMorphism.fibreIsomActionFunctor_map_apply`: On p:y≅X_U(x), the underlying function assigned to m:X→Y sends p to p followed by componentIso(m,U,x); `BandedMorphism.fibreIsomActionFunctor_map_inverse`: The action functor map of homIso(m) inverse is the inverse arrow of postcomposeActionIso(bG,componentIso(m,U,x)).
 
@@ -5739,7 +5739,7 @@ Define `BandedMorphism.selfTransportActionIso`. For X in HomCategory(b,b) and e:
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 The API gives `BandedMorphism.selfTransportActionIso_apply`: The forward underlying function is p ↦ e inverse followed by p followed by X_U(e); `BandedMorphism.selfTransportActionIso_inv_apply`: The inverse underlying function is p ↦ e followed by p followed by X_U(e inverse); `BandedMorphism.selfTransportActionIso_id`: Transport by Iso.refl(x) is the identity isomorphism of the self-morphism action; `BandedMorphism.selfTransportActionIso_comp`: Transport along e:x≅x′ followed by f:x′≅x″ equals transport along e followed by transport along f; `BandedMorphism.selfTransportActionIso_independent`: For X in HomCategory(b,b) and any two actual isomorphisms e,f:x≅x′, selfTransportActionIso(X,e) equals selfTransportActionIso(X,f). No choice of a connecting arrow is retained.
 
@@ -5755,7 +5755,7 @@ Prove `BandedMorphism.selfTransportActionIso_id`. Transport by Iso.refl(x) is th
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, evaluate the identity image and apply action-arrow extensionality.
 
@@ -5765,7 +5765,7 @@ Prove `BandedMorphism.selfTransportActionIso_comp`. Transport along e:x≅x′ f
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, functor.mapIso_trans and associativity give equality of the actual forward functions.
 
@@ -5775,7 +5775,7 @@ Define `BandedMorphism.selfTransportNatIso`. For e:x≅x′, assemble selfTransp
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 The API gives `BandedMorphism.selfTransportNatIso_app`: At X, the natural isomorphism component is exactly selfTransportActionIso(X,e); `BandedMorphism.selfTransportNatIso_independent`: For e,f:x≅x′, the resulting natural isomorphisms of self-morphism action functors are equal; `BandedMorphism.selfTransportNatIso_id`: Natural transport along Iso.refl(x) is the identity natural isomorphism of the action functor; `BandedMorphism.selfTransportNatIso_comp`: Natural transport along e followed by f equals the composition of the natural transports along e and f.
 
@@ -5791,7 +5791,7 @@ Prove `BandedMorphism.selfTransportActionIso_independent`. For X in HomCategory(
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, express f followed by e inverse as the band automorphism b_x(a) using the actual autEquiv inverse; then band preservation identifies X_U(b_x(a)) with b_X_U(x)(a); then band conjugation along p moves the matching automorphism past p; cancel after precomposing f inverse and postcomposing X_U(e).
 
@@ -5801,7 +5801,7 @@ Prove `BandedMorphism.selfTransportNatIso_independent`. For e,f:x≅x′, the re
 
 Here C is a fixed small category with topology J; F,G are Cat-valued pseudofunctors with specified object and fibre-morphism universes; F,G have the actual IsGerbe fields, and bF,bG are specified AbelianBanding data for a sheaf A of abelian groups in independent coefficient universe w. The self case uses F=G and bF=bG=b; The section Isom carriers need not be nonempty. No terminal object, global neutralization, constant coefficient sheaf, inverse strong transformation or equality w=v′ is assumed.
 
-([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition31.1, Remark31.2, Lemma31.3 and Remark31.5, printed122–123; authored action deductions.).
+([Martin Olsson (lectures), Anton Geraschenko and contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1, Remark 31.2, Lemma 31.3 and Remark 31.5, printed122–123; authored action deductions.).
 
 For the proof, apply Iso and natural-transformation extensionality to the equality at every X.
 
@@ -5813,7 +5813,7 @@ Define `BandedIsom.restrictActionHom`. For f:V→U and x,y∈F(U), the map p↦F
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 The API gives `BandedIsom.restrictActionHom_apply`: The underlying function of restrictActionHom(b,f,x,y) sends p:x≅y to the actual mapped isomorphism F(f)(p); `BandedIsom.restrictActionHom_postcompose`: For p:x≅y and q:y≅z, restriction of p followed by q equals the restriction of p followed by the restriction of q; `BandedIsom.restrictActionHom_refl`: Restriction sends the actual identity isomorphism of x to the identity of F(f)x.
 
@@ -5829,7 +5829,7 @@ Define `BandedMorphism.restrictionIso`. For a band-preserving strong transformat
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 The API gives `BandedMorphism.restrictionIso_naturality`: For e:x≅x′, G(f)(X(U)(e)) followed by c(X,f,x′) equals c(X,f,x) followed by X(V)(F(f)(e)); `BandedMorphism.restrictionIso_id`: For f=id_U, c(X,f,x) equals the G.mapId component at X(U)x followed by X(U) applied to the inverse F.mapId component at x. Neither unit comparison is discarded; `BandedMorphism.restrictionIso_comp`: For f:V→U and g:W→V, c(X,g≫f,x) is G.mapComp(f,g) at X(U)x, then G(g)(c(X,f,x)), then c(X,g,F(f)x), then X(W) of the inverse F.mapComp(f,g) at x; `BandedMorphism.restrictionIso_modification`: For a modification m:X→Y, G(f)(componentIso(m,U,x)) followed by c(Y,f,x) equals c(X,f,x) followed by componentIso(m,V,F(f)x).
 
@@ -5845,7 +5845,7 @@ Define `BandedMorphism.fibreIsomRestriction`. For X:F→G, x∈F(U) and y∈G(U)
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 The API gives `BandedMorphism.fibreIsomRestriction_apply`: R(X,f,x,y)(p) is exactly G(f)(p) followed by c(X,f,x), on the original Isom carrier; `BandedMorphism.fibreIsomRestriction_id`: R(X,id_U,x,y)(p) equals the G.mapId component at y followed by p and then X(U) of the inverse F.mapId component at x; `BandedMorphism.fibreIsomRestriction_comp`: R(X,g≫f,x,y)(p) equals the G.mapComp(f,g) component at y, then R(X,g,F(f)x,G(f)y)(R(X,f,x,y)(p)), then X(W) of the inverse F.mapComp(f,g) component at x.
 
@@ -5861,7 +5861,7 @@ Prove `BandedMorphism.fibreIsomRestriction_apply`. R(X,f,x,y)(p) is exactly G(f)
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, unfold the underlying Action.Hom composition.
 
@@ -5871,7 +5871,7 @@ Prove `BandedMorphism.restrictionIso_modification`. For a modification m:X→Y, 
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, evaluate m.naturality(f) at x; then multiply the resulting equality on the left by the inverse X comparison and on the right by the inverse Y comparison; cancel the two actual natural-isomorphism components.
 
@@ -5881,7 +5881,7 @@ Define `BandedMorphism.fibreIsomRestrictionNatTrans`. R(X,f,x,y), as X varies in
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 The API gives `BandedMorphism.fibreIsomRestrictionNatTrans_app`: The component of fibreIsomRestrictionNatTrans(f,x,y) at X is the equivariant map R(X,f,x,y); `BandedMorphism.fibreIsomRestrictionNatTrans_naturality`: For every m:X→Y, first applying the U-fibre action functor to m and then R(Y,f) equals R(X,f) followed by Action.res(A(f)) applied to the V-fibre action functor on m. This is equality of Action.Hom arrows; `BandedMorphism.selfTransportNatIso_restriction`: The natural isomorphism selfTransportNatIso(e), followed by the restriction transformation at x′, equals the restriction transformation at x followed by the right whiskering of selfTransportNatIso(F(f)(e)) with Action.res(A(f)).
 
@@ -5897,7 +5897,7 @@ Prove `BandedMorphism.restrictionIso_naturality`. For e:x≅x′, G(f)(X(U)(e)) 
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, apply the naturality of the inverse of the comparison natural isomorphism to e.hom, then use Iso.ext.
 
@@ -5907,7 +5907,7 @@ Prove `BandedMorphism.restrictionIso_id`. For f=id_U, c(X,f,x) equals the G.mapI
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, evaluate the inverse identity-coherence equation at x and simplify only the Cat associator and unitor components.
 
@@ -5917,7 +5917,7 @@ Prove `BandedMorphism.restrictionIso_comp`. For f:V→U and g:W→V, c(X,g≫f,x
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, evaluate the inverse composition-coherence equation at x; then keep both mapComp factors; remove only Cat associators whose object components are identities.
 
@@ -5927,7 +5927,7 @@ Prove `BandedMorphism.fibreIsomRestriction_id`. R(X,id_U,x,y)(p) equals the G.ma
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, substitute the comparison identity equation into the formula for R; then move the G.mapId component past G(id)(p) using its naturality.
 
@@ -5937,7 +5937,7 @@ Prove `BandedMorphism.fibreIsomRestriction_comp`. R(X,g≫f,x,y)(p) equals the G
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, expand both successive restrictions and distribute the pullback functor over the composite isomorphism; then use the naturality of G.mapComp at p to move its component from X(U)x to y, retaining the F.mapComp endpoint correction.
 
@@ -5947,7 +5947,7 @@ Prove `BandedMorphism.selfTransportActionIso_restriction`. For X:F→F and e:x�
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, evaluate both arrows on p:x≅X(U)x and expand the local-object transport e⁻¹ followed by p followed by X(U)(e); then distribute F(f) over those three factors and use restrictionIso_naturality on the last factor.
 
@@ -5961,7 +5961,7 @@ Prove `BandedMorphism.selfTransportNatIso_restriction`. The natural isomorphism 
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with specified object and fibre-hom universes, and their IsGerbe predicates; Fix a sheaf A of abelian groups in an independent universe w and actual AbelianBanding data bF,bG. For the self case F=G and bF=bG=b; Use f:V→U and, when present, g:W→V; X is an object of the fixed-band HomCategory, and m is an actual modification. The source Isom set may be empty.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition2.6 and §2.2.1, printed514–515; authored deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson31.1–31.5, printed122–123; GWZ20 Definition 2.6 and §2.2.1, printed514–515; authored deductions.).
 
 For the proof, use natural-transformation extensionality on every X and apply the actual equivariant local-object square; then the specified independence of e identifies these squares for any other connecting isomorphism, without choosing one globally.
 
@@ -5975,7 +5975,7 @@ Define `BandedMorphism.fibreHomSheaf`. For x∈F(U), y∈G(U) and a fixed-band s
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomSheaf_locallyNonempty`: For every t:T→U there is a sieve R∈J(T) such that for every g:V→T in R the actual set H_X(g followed by t) is nonempty. This asserts local sections and does not assert a global section of H_X; `BandedMorphism.fibreHomSheaf_obj`: The underlying presheaf of H_X is exactly G.presheafHom(y,X_U(x)); `BandedMorphism.fibreHomSheaf_isSheaf`: H_X satisfies the actual Presheaf.IsSheaf condition for J.over U.
 
@@ -5991,7 +5991,7 @@ Define `BandedMorphism.fibreHomSectionIsoEquiv`. For t:T→U, H_X(t) is equivale
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomSectionIsoEquiv_hom`: The hom of sectionIsoEquiv(p) is exactly p; `BandedMorphism.fibreHomSectionIsoEquiv_symm_apply`: The inverse section/isomorphism conversion sends q to its actual hom arrow; `BandedMorphism.fibreHomSectionIsoEquiv_apply_symm_apply`: Converting q.hom back to an isomorphism recovers q.
 
@@ -6007,7 +6007,7 @@ Define `BandedMorphism.fibreHomSheafMap`. For a Mathlib modification m:X⇒Y, de
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomSheafMap_apply`: H(m)_t(p)=p followed by G(t)(m_U(x)), with p on the original Hom carrier; `BandedMorphism.fibreHomSheafMap_equivariant`: For every t, a and p, H(m)_t(a acting on p)=a acting on H(m)_t(p). The same actual coefficient a is used at the two target objects; `BandedMorphism.fibreHomSheafMap_id`: H(identity X) is the identity sheaf arrow of H_X.
 
@@ -6023,7 +6023,7 @@ Define `BandedMorphism.fibreHomSheafFunctor`. X↦H_X and m↦H(m) form a functo
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomSheafFunctor_obj`: The image of X under fibreHomSheafFunctor is exactly G.sheafHom(J,y,X_U(x)); `BandedMorphism.fibreHomSheafFunctor_map`: The image of m is exactly the constructed sheaf map H(m); `BandedMorphism.fibreHomSheafFunctor_map_comp`: The image of m followed by n is H(m) followed by H(n), in Sheaf arrows.
 
@@ -6039,7 +6039,7 @@ Define `BandedMorphism.fibreHomSheafMapIso`. Every modification m yields a Mathl
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomSheafMapIso_hom`: The hom of fibreHomSheafMapIso(m) is H(m); `BandedMorphism.fibreHomSheafMapIso_inv`: The inverse of fibreHomSheafMapIso(m) is H(homIso(m).inv), an actual sheaf map; `BandedMorphism.fibreHomSheafMapIso_hom_inv_id`: The forward sheaf isomorphism of m followed by its inverse is the identity.
 
@@ -6055,7 +6055,7 @@ Prove `BandedMorphism.fibreHomSheaf_locallyNonempty`. For every t:T→U there is
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 For the proof, apply gerbe local isomorphy to G(t)y and G(t)(X_U(x)) in G(T); then transport each resulting local isomorphism between the twice-pulled objects to a Hom section at g followed by t using the hom and inverse of G.mapComp(t,g).
 
@@ -6065,7 +6065,7 @@ Define `BandedMorphism.fibreHomSectionAction`. At t:T→U construct a Mathlib Ac
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomSectionAction_apply`: The section action sends (a,p) to p followed by bG(a).hom at the pulled-back target object; `BandedMorphism.fibreHomSectionAction_freeTransitive`: For any p,q∈H_X(t) there exists exactly one a∈Multiplicative A(T) with a acting on p equal to q. The assertion is conditional on the two given sections and allows H_X(t) itself to be empty; `BandedMorphism.fibreHomSectionAction_restriction`: For an Over-arrow f:t1→t2 with underlying g:T1→T2, restricting a acting on p∈H_X(t2) equals A(g)(a) acting on the restricted p∈H_X(t1). The restrictions are the pullHom functions, including both flexible composition comparisons.
 
@@ -6082,7 +6082,7 @@ Prove `BandedMorphism.fibreHomSectionAction_freeTransitive`. For any p,q∈H_X(t
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 For the proof, form the actual target automorphism asIso(p) inverse followed by asIso(q), then invert the band multiplicative equivalence; then its hom equation gives the required section; cancel the invertible p and apply band injectivity to prove uniqueness.
 
@@ -6092,7 +6092,7 @@ Prove `BandedMorphism.fibreHomSectionAction_restriction`. For an Over-arrow f:t1
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 For the proof, expand the existing pullHom formula and distribute G(g) over the action composite; then use band pullback for G(g)(bG(a)); commute the resulting band automorphism across the inverse target mapComp' component by band conjugation; then the Over triangle identifies the composite arrow, with its proof retained in mapComp'.
 
@@ -6102,7 +6102,7 @@ Define `BandedMorphism.fibreHomTransportIsoEquiv`. At t:T→U, H_X(t) is equival
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 The API gives `BandedMorphism.fibreHomTransportIsoEquiv_apply`: The transport equivalence sends p to sectionIsoEquiv(p) followed by restrictionIso(X,t,x); `BandedMorphism.fibreHomTransportIsoEquiv_modification`: Converting H(m)_t(p) to the transported Y Isom equals the transported X Isom of p followed by componentIso(m,T,F(t)x). This identifies the sheaf functor maps with the preceding fibre-Isom modification maps; `BandedMorphism.fibreHomTransportIsoEquiv_symm_apply`: The inverse transported comparison sends q to the hom of q followed by the inverse strong restriction comparison.
 
@@ -6118,7 +6118,7 @@ Prove `BandedMorphism.fibreHomTransportIsoEquiv_modification`. Converting H(m)_t
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y are actual objects of HomCategory(bF,bG) and m is a modification; Fix U, x∈F(U), y∈G(U) and, for sections, t:T→U. For a self-equivalence and a neutral object take F=G,bF=bG and y=x. No global gerbe object is assumed outside this fixed local construction.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored deductions using Mathlib Hom sheaves.).
 
 For the proof, apply restrictionIso_modification to t,x and the actual modification m; then take homs, prepend p and use Iso.ext to obtain the claimed equality of actual isomorphisms.
 
@@ -6130,7 +6130,7 @@ Define `BandedMorphism.selfHomSheafTransport`. For a fixed-band self-morphism X 
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 The API gives `BandedMorphism.selfHomSheafTransport_apply`: T_e at t sends p to F(t)(e⁻¹) ≫ p ≫ F(t)(X_U(e)), with the original Hom section carrier retained; `BandedMorphism.selfHomSheafTransport_id`: For every X, T_id_x is the identity morphism of H_x(X); `BandedMorphism.selfHomSheafTransport_comp`: For e:x≅x′ and f:x′≅x″, T_(e followed by f)=T_e followed by T_f as actual sheaf morphisms; `BandedMorphism.selfHomSheafTransport_independent`: For any two isomorphisms e,f:x≅x′, T_e=T_f as actual sheaf morphisms. No isomorphism is chosen globally, and existence of one is not asserted; `BandedMorphism.selfHomSheafTransport_equivariant`: For a∈Multiplicative A(T) and p∈H_x(X)(t), T_e(a acting on p)=a acting on T_e(p). The coefficient universe w is independent of the fibre-hom universe v′, and no section nonemptiness is assumed.
 
@@ -6146,7 +6146,7 @@ Prove `BandedMorphism.selfHomSheafTransport_id`. For every X, T_id_x is the iden
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, use sheaf and natural-transformation extensionality, then functor map_id and category identities.
 
@@ -6156,7 +6156,7 @@ Prove `BandedMorphism.selfHomSheafTransport_comp`. For e:x≅x′ and f:x′≅x
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, expand at each section and use the functors’ map_comp laws and associativity, preserving the order of inverse arrows.
 
@@ -6166,7 +6166,7 @@ Define `BandedMorphism.selfHomSheafTransportIso`. The map T_e is the hom of a sh
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 The API gives `BandedMorphism.selfHomSheafTransportIso_hom`: The hom field of selfHomSheafTransportIso(X,e) is T_e; `BandedMorphism.selfHomSheafTransportIso_inv`: The inv field of selfHomSheafTransportIso(X,e) is T_(e⁻¹); `BandedMorphism.selfHomSheafTransportIso_independent`: For e,f:x≅x′, selfHomSheafTransportIso(X,e)=selfHomSheafTransportIso(X,f).
 
@@ -6182,7 +6182,7 @@ Prove `BandedMorphism.selfHomSheafTransport_transport`. At t:T→U, applying fib
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, take homs of restrictionIso_naturality, prepend F(t)(e⁻¹) and p, and use Iso.ext; then this identifies the new sheaf map with the old fibre transport rather than introducing a second independent transport law.
 
@@ -6192,7 +6192,7 @@ Prove `BandedMorphism.selfHomSheafTransport_independent`. For any two isomorphis
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, at each slice object use injectivity of the transported-Isom equivalence; then apply the previously proved fixed-band fibre-transport independence to the two pulled-back isomorphisms and use the comparison on both sides.
 
@@ -6202,7 +6202,7 @@ Prove `BandedMorphism.selfHomSheafTransport_equivariant`. For a∈Multiplicative
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, apply band conjugation to the pulled-back isomorphism X_U(e); then take homs and prepend F(t)(e⁻¹) and p; associativity yields the equality of actual sections.
 
@@ -6212,7 +6212,7 @@ Define `BandedMorphism.selfHomSheafTransportNatIso`. For e:x≅x′, the sheaf i
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 The API gives `BandedMorphism.selfHomSheafTransportNatIso_app`: The component at X of selfHomSheafTransportNatIso(e) is exactly selfHomSheafTransportIso(X,e); `BandedMorphism.selfHomSheafTransportNatIso_independent`: For any e,f:x≅x′, the two natural isomorphisms of sheaf-valued functors are equal; `BandedMorphism.selfHomSheafTransportNatIso_id`: The natural isomorphism induced by id_x is the identity of the sheaf-valued functor; `BandedMorphism.selfHomSheafTransportNatIso_comp`: The natural isomorphism induced by e followed by f is the composite of the natural isomorphisms induced by e and f.
 
@@ -6228,7 +6228,7 @@ Prove `BandedMorphism.selfHomSheafTransportNatIso_independent`. For any e,f:x≅
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, use Iso.ext and NatTrans.ext; each component is the already choice-independent sheaf map.
 
@@ -6238,7 +6238,7 @@ Prove `BandedMorphism.selfHomSheafTransportNatIso_id`. The natural isomorphism i
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, use isomorphism and natural-transformation extensionality, then the component identity law.
 
@@ -6248,7 +6248,7 @@ Prove `BandedMorphism.selfHomSheafTransportNatIso_comp`. The natural isomorphism
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, use isomorphism and natural-transformation extensionality and the component composition law.
 
@@ -6258,7 +6258,7 @@ Prove `BandedMorphism.selfHomSheafTransportIso_independent`. For e,f:x≅x′, s
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, use Iso.ext and independence of the actual hom sheaf map.
 
@@ -6268,7 +6268,7 @@ Define `BandedMorphism.selfHomSheafObjectFunctor`. For each U, construct the fun
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 The API gives `BandedMorphism.selfHomSheafObjectFunctor_obj`: The value at a core object x is exactly fibreHomSheafFunctor(b,b,U,x.of,x.of); `BandedMorphism.selfHomSheafObjectFunctor_map`: The image of a core arrow e is exactly the hom of selfHomSheafTransportNatIso(e.iso); `BandedMorphism.selfHomSheafObjectFunctor_parallel`: For any parallel core arrows e,f:x→y, selfHomSheafObjectFunctor(U).map(e)=selfHomSheafObjectFunctor(U).map(f). This gives uniqueness of the induced comparison, not faithfulness or global descent.
 
@@ -6284,7 +6284,7 @@ Prove `BandedMorphism.selfHomSheafObjectFunctor_parallel`. For any parallel core
 
 Here Fix a site (C,J), a Cat-valued pseudofunctor F with IsGerbe(F,J), an abelian sheaf A and a fixed banding b; The coefficient universe w is independent of the fibre-hom universe v′. X,Y range over the actual fixed-band HomCategory(b,b); modifications are its morphisms; Fix U and objects x,x′,x″ in F(U) only where supplied. Connecting isomorphisms and slice sections are explicit parameters; neither a global neutral object nor global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; GWZ20 §2.2.1, printed515; authored sheaf-level deductions.).
 
 For the proof, take homs of independence for the two actual isomorphism fields e.iso and f.iso.
 
@@ -6294,7 +6294,7 @@ Define `BandedMorphism.fibreHomBaseChangeIso`. For f:V→U, local objects x∈F(
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 The API gives `BandedMorphism.fibreHomBaseChangeIso_apply`: At t:T→V, the forward map is the Hom-presheaf base-change comparison followed by G(t) of the hom of c(X,f,x); `BandedMorphism.fibreHomBaseChangeIso_inv_apply`: At t:T→V, first postcompose by G(t) of c(X,f,x)⁻¹, then apply the inverse Hom-presheaf base-change comparison. This is the actual inverse map on sections; `BandedMorphism.fibreHomBaseChangeIso_formula`: Let k be the flexible G.mapComp′(f,t,t≫f) natural isomorphism, directed from G(t≫f) to G(t)G(f). The forward section formula is k(y)⁻¹ followed by p, then k(X_U(x)), then G(t)(c(X,f,x)). Neither flexible comparison factor is removed; `BandedMorphism.fibreHomBaseChangeIso_modification`: For any modification m:X→Y, pull back H_U(m) and then apply the Y comparison; this equals applying the X comparison and then H_V(m) at the pulled-back local objects. Equality holds as actual sheaf arrows; `BandedMorphism.fibreHomBaseChangeIso_equivariant`: For a∈Multiplicative A(T) and a supplied section p at t≫f, the forward comparison carries a acting on p to a acting on its image at t. Both section carriers lie over T, so the coefficient is the same actual element of A(T); no coefficient restriction along f is inserted into this comparison; `BandedMorphism.fibreHomBaseChangeIso_inv_equivariant`: The actual inverse section comparison is equivariant for the same coefficient a∈Multiplicative A(T), without a section nonemptiness hypothesis; `BandedMorphism.fibreHomBaseChangeIso_transport`: For arbitrary banded gerbes F,G, fixed-band strong transformation X:F→G, f:V→U, x∈F(U), y∈G(U), t:T→V and a supplied Hom-sheaf section p at t≫f, transporting the compared section to an isomorphism G(t)G(f)y≅X_T(F(t)F(f)x) gives c_G(f,t,y)⁻¹ followed by the transported original section, then X_T(c_F(f,t,x)). Here c_F and c_G are the actual pseudofunctor composition isomorphisms; no endpoint factor is discarded; `BandedMorphism.selfHomBaseChangeIso_transport`: For F=G and bF=bG=b, the preceding actual fibre-isomorphism formula is exactly selfTransportActionIso(X,c_F(f,t,x)) applied to the transported section. The equality is in the actual self-Hom fibre carrier over T; `BandedMorphism.selfHomTransport_over_eq`: For h,k:T→U with h=k, a supplied section at Over.mk(h), and any supplied isomorphism e:F(h)x≅F(k)x, transport after the Hom-sheaf restriction along the actual Over.homMk(𝟙_T):Over.mk(k)→Over.mk(h) equals selfTransportActionIso(X,e) of the original transported section. The connecting isomorphism is arbitrary, not a selected equality proof or strictness axiom; `BandedMorphism.selfHomBaseChangeIso_id`: For a fixed-band self transformation X:F→F and x∈F(U), fibreHomBaseChangeIso(X,𝟙_U,x,x) followed by selfHomSheafTransportIso(X,F.mapId_U(x)) equals the component at H_U(x,x;X) of the overMapPullbackId natural isomorphism. This is equality of actual sheaf isomorphisms, with their real inverse maps; `BandedMorphism.selfHomBaseChangeIso_transport_choice`: In the self-gerbe section comparison, any supplied isomorphism e:F(t≫f)x≅F(t)F(f)x may replace the composition isomorphism in the transported-section formula. This uses the fixed abelian band and actual band preservation; it does not identify the isomorphisms e themselves; `BandedMorphism.selfHomBaseChangeIso_comp`: For f:V→U and g:W→V, start from g⁎f⁎H_U(x,x;X). The component of overMapPullbackComp(g,f), followed by comparison for g≫f and local-object transport along F.mapComp(f,g)(x), equals g⁎ of the comparison for f followed by comparison for g at F(f)x. Equality holds as actual sheaf isomorphisms, retaining the source slice comparison and the target gerbe comparison; `BandedMorphism.fibreHomEndpointBaseChange_square`: For f:V→U, pull back T_X(e,d) by the slice-sheaf functor and then apply fibreHomBaseChangeIso at (x′,y′). This equals the comparison at (x,y), followed by T_X(F(f)e,G(f)d). The equality is of actual sheaf morphisms over V, retaining the Over functor and both strong/pseudofunctor comparison maps; `BandedMorphism.fibreHomBaseChangeIso_id`: For X:F→G in HomCategory(bF,bG), x∈F(U), y∈G(U), compose fibreHomBaseChangeIso(X,𝟙_U,x,y) with endpoint transport along the distinct F.mapId(x) and G.mapId(y). This actual sheaf isomorphism equals the component of overMapPullbackId at H_U(x,y;X). Neither endpoint comparison is suppressed; `BandedMorphism.fibreHomBaseChangeIso_comp`: For f:V→U and g:W→V, start at g⁎f⁎H_U(x,y;X). The overMapPullbackComp(g,f), followed by base comparison along g≫f and endpoint transport along F.mapComp(f,g)(x) and G.mapComp(f,g)(y), equals g⁎ of comparison along f followed by comparison along g at the pair F(f)x,G(f)y. This is equality of actual sheaf isomorphisms; `BandedMorphism.fibreHomBaseChangeIso_id_inv`: The inverse endpoint comparison at F.mapId(x),G.mapId(y), followed by the inverse base-change comparison at 𝟙_U, equals the inverse component of overMapPullbackId. The order of the two actual maps is reversed; `BandedMorphism.fibreHomBaseChangeIso_comp_inv`: The inverse endpoint map at F.mapComp(f,g)(x),G.mapComp(f,g)(y), then inverse comparison along g≫f, then inverse overMapPullbackComp(g,f), equals inverse comparison along g followed by g⁎ of inverse comparison along f.
 
@@ -6321,7 +6321,7 @@ Prove `BandedMorphism.fibreHomBaseChangeIso_apply`. At t:T→V, the forward map 
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 For the proof, evaluate the two actual natural-isomorphism components and retain their composition order.
 
@@ -6331,7 +6331,7 @@ Prove `BandedMorphism.fibreHomBaseChangeIso_formula`. Let k be the flexible G.ma
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 For the proof, expand Mathlib's Hom-presheaf comparison `Pseudofunctor.overMapCompPresheafHomIso` and associate the four factors.
 
@@ -6341,7 +6341,7 @@ Prove `BandedMorphism.fibreHomBaseChangeIso_modification`. For any modification 
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 For the proof, use the flexible comparison naturality on the actual modification component; then pull back the existing strong restriction/modification square and prepend the same source factors.
 
@@ -6351,7 +6351,7 @@ Define `BandedMorphism.fibreHomBaseChangeNatIso`. The comparison sheaf isomorphi
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 The API gives `BandedMorphism.fibreHomBaseChangeNatIso_app`: The component at X of fibreHomBaseChangeNatIso(f,x,y) is exactly fibreHomBaseChangeIso(X,f,x,y); `BandedMorphism.fibreHomBaseChangeNatIso_hom_app`: The forward component at X is exactly the hom of fibreHomBaseChangeIso(X,f,x,y); `BandedMorphism.fibreHomBaseChangeNatIso_inv_app`: The inverse component at X is exactly the inv of fibreHomBaseChangeIso(X,f,x,y); `BandedMorphism.selfHomBaseChangeTransport_square`: For F=G, bF=bG=b and a supplied isomorphism e:x≅x′ over U, pulling back the existing selfHomSheafTransport(X,e) then applying the comparison at x′ equals applying the comparison at x then selfHomSheafTransport(X,F(f)e). This is equality of actual sheaf maps on the slice over V; `BandedMorphism.selfHomBaseChangeNatIso_id`: On the actual category HomCategory(b,b), the identity restriction natural isomorphism followed by local-object transport along F.mapId(x) equals whiskering the overMapPullbackId by the local Hom-sheaf functor and then its right unitor. This retains every fixed-band strong transformation and modification; `BandedMorphism.selfHomBaseChangeNatIso_comp`: The functor associator, whiskered overMapPullbackComp(g,f), comparison for g≫f and target local-object transport compose to the same natural isomorphism as right-whiskering the comparison for f by g⁎ and then comparing along g at F(f)x. All functors have domain HomCategory(b,b); the equality is of natural isomorphisms, not only of their isomorphism classes; `BandedMorphism.fibreHomBaseChangeNatIso_id`: The composite of the general base-change natural isomorphism at 𝟙_U and the endpoint natural isomorphism at F.mapId(x),G.mapId(y) equals left whiskering of overMapPullbackId by H_U(x,y;−), followed by that functor’s right unitor. The domain is the actual HomCategory(bF,bG), with all modifications; `BandedMorphism.fibreHomBaseChangeNatIso_comp`: On HomCategory(bF,bG), retain the functor associator from (H_U⋙f⁎)⋙g⁎, then left-whiskered overMapPullbackComp(g,f), comparison along g≫f and endpoint natural transport along both pseudofunctor composition maps. This equals right whiskering of comparison along f by g⁎ followed by comparison along g at F(f)x,G(f)y.
 
@@ -6371,7 +6371,7 @@ Prove `BandedMorphism.fibreHomBaseChangeIso_equivariant`. For a∈Multiplicative
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 For the proof, apply band conjugation compatibility to the composite of the target flexible comparison and the pulled-back strong restriction comparison; then prepend the inverse source comparison and the supplied section.
 
@@ -6381,7 +6381,7 @@ Prove `BandedMorphism.selfHomBaseChangeTransport_square`. For F=G, bF=bG=b and a
 
 Here Fix a site (C,J), Cat-valued pseudofunctors F,G with IsGerbe predicates and fixed object/fibre-hom universes; Fix an abelian coefficient sheaf A in independent universe w and actual bandings bF,bG. X,Y,Z and their modifications are actual objects and arrows of HomCategory(bF,bG); Fix f:V→U and supplied local objects x∈F(U), y∈G(U). Slice sections and connecting isomorphisms are explicit parameters; no global object, terminal object, neutrality or global sections are assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; authored slice restriction deductions using Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; authored slice restriction deductions using Mathlib.).
 
 For the proof, use the inverse flexible comparison naturality at e⁻¹ and the forward comparison naturality at X_U(e); then pull back the actual strong restriction comparison naturality at e and retain all four comparison factors.
 
@@ -6393,7 +6393,7 @@ Prove `BandedMorphism.fibreHomBaseChangeIso_transport`. For arbitrary banded ger
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, expand the section-to-isomorphism equivalence and the existing sheaf comparison formula; then use the proved composition law for the strong transformation restriction isomorphism and cancel the actual inverse endpoint comparison.
 
@@ -6403,7 +6403,7 @@ Prove `BandedMorphism.selfHomBaseChangeIso_transport`. For F=G and bF=bG=b, the 
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, specialize the two-gerbe transport formula and identify the conjugation action.
 
@@ -6413,7 +6413,7 @@ Prove `BandedMorphism.selfHomTransport_over_eq`. For h,k:T→U with h=k, a suppl
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, eliminate the supplied arrow equality and identify the Over arrow with the actual identity; then use self-transport independence to replace e by the identity; apply the Hom-sheaf functor identity law.
 
@@ -6423,7 +6423,7 @@ Prove `BandedMorphism.selfHomBaseChangeIso_id`. For a fixed-band self transforma
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, apply the injective section-to-fibre-isomorphism equivalence at every slice object; then use the section comparison and local-object transport formulas. Match the Over.mapId restriction with the equal-arrow lemma using the composite of F.mapComp and the pulled-back F.mapId isomorphism.
 
@@ -6433,7 +6433,7 @@ Prove `BandedMorphism.selfHomBaseChangeIso_comp`. For f:V→U and g:W→V, start
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, test equality on actual sections and then through the injective fibre-isomorphism transport; then use the Over.mapComp component, whose underlying map is identity, and the equal-arrow transport lemma for the associativity equality of base arrows; then express both paths as composite self-transport action isomorphisms with the same endpoints. Their equality follows from banded self-transport independence; neither source nor target comparison is erased from the statement.
 
@@ -6443,7 +6443,7 @@ Prove `BandedMorphism.selfHomBaseChangeNatIso_id`. On the actual category HomCat
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, extensionality in the actual modification category reduces to the proved sheaf identity law at each X.
 
@@ -6453,7 +6453,7 @@ Prove `BandedMorphism.selfHomBaseChangeNatIso_comp`. The functor associator, whi
 
 Here Fix a site (C,J), Cat-valued pseudofunctors with IsGerbe predicates and fixed object/fibre-hom universes; the coefficient sheaf A:Sheaf(J,AddCommGrpCat) has independent universe w; Bandings, fixed-band strong transformations and modifications are actual data. The transport formula allows F,G; the identity/composition/choice laws require F=G and the same abelian banding b; Every local object, base arrow, section and connecting isomorphism is an explicit parameter. No terminal object, neutrality, global section, strict pseudofunctor or global nonemptiness is assumed.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark31.5, printed123; identity/composition deductions authored at Mathlib.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Remark 31.5, printed123; identity/composition deductions authored at Mathlib.).
 
 For the proof, apply natural-transformation extensionality, retain the actual functor associator component, and use the proved composition law at X.
 
@@ -6463,7 +6463,7 @@ Define `BandedMorphism.fibreHomEndpointTransport`. For X:F→G in the fixed-band
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 The API gives `BandedMorphism.fibreHomEndpointTransport_apply`: For every supplied section p at t:T→U, T_X(e,d)(p)=G(t)(d⁻¹)≫p≫G(t)(X_U(e)). Source and target endpoints are distinct explicit parameters; neither factor is erased; `BandedMorphism.fibreHomEndpointTransport_id`: T_X(id_x,id_y) is the identity morphism of the sheaf H_U(x,y;X); `BandedMorphism.fibreHomEndpointTransport_comp`: For composable e:x≅x′, e′:x′≅x″ and d:y≅y′, d′:y′≅y″, T_X(e≫e′,d≫d′)=T_X(e,d)≫T_X(e′,d′). The inverse source-endpoint factors compose in the reverse order; `BandedMorphism.fibreHomEndpointTransport_transport`: Under the existing section-to-fibre-Isom equivalence q=asIso(p)≫restrictionIso(X,t,x), transporting T_X(e,d)(p) gives G(t)(d)⁻¹≫q≫X_T(F(t)(e)). This equality retains the strong-transformation restriction comparison; `BandedMorphism.fibreHomEndpointTransport_equivariant`: For every a∈Multiplicative A(T) and supplied section p, T_X(e,d)(a·p)=a·T_X(e,d)(p), using the actual section actions. Both sides are over T and use the same coefficient in A(T); `BandedMorphism.fibreHomEndpointTransport_modification`: For each modification m:X⇒Y, H(m) at (x,y), followed by T_Y(e,d), equals T_X(e,d) followed by H(m) at (x′,y′). The equality is of actual sheaf morphisms, not isomorphism classes; `BandedMorphism.fibreHomEndpointBaseChange_square`: For f:V→U, pull back T_X(e,d) by the slice-sheaf functor and then apply fibreHomBaseChangeIso at (x′,y′). This equals the comparison at (x,y), followed by T_X(F(f)e,G(f)d). The equality is of actual sheaf morphisms over V, retaining the Over functor and both strong/pseudofunctor comparison maps.
 
@@ -6479,7 +6479,7 @@ Prove `BandedMorphism.fibreHomEndpointTransport_id`. T_X(id_x,id_y) is the ident
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 For the proof, use sheaf-map extensionality and the functor identity laws.
 
@@ -6489,7 +6489,7 @@ Prove `BandedMorphism.fibreHomEndpointTransport_comp`. For composable e:x≅x′
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 For the proof, evaluate sections, map both actual composites and associate the five morphism factors.
 
@@ -6499,7 +6499,7 @@ Define `BandedMorphism.fibreHomEndpointTransportIso`. The endpoint sheaf map T_X
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 The API gives `BandedMorphism.fibreHomEndpointTransportIso_hom`: The hom of the endpoint sheaf isomorphism is exactly T_X(e,d); `BandedMorphism.fibreHomEndpointTransportIso_inv`: The inv of the endpoint sheaf isomorphism is exactly T_X(e⁻¹,d⁻¹); `BandedMorphism.fibreHomEndpointTransportIso_self`: For F=G, bF=bG=b, y=x, y′=x′ and d=e, the new endpoint sheaf isomorphism is exactly the existing selfHomSheafTransportIso(X,e), with its actual forward and inverse maps.
 
@@ -6515,7 +6515,7 @@ Prove `BandedMorphism.fibreHomEndpointTransport_modification`. For each modifica
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 For the proof, pull back the actual component modification’s naturality at e and prepend the inverse target endpoint and section.
 
@@ -6525,7 +6525,7 @@ Define `BandedMorphism.fibreHomEndpointTransportNatIso`. Package the endpoint sh
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 The API gives `BandedMorphism.fibreHomEndpointTransportNatIso_app`: The component of fibreHomEndpointTransportNatIso(e,d) at X is exactly fibreHomEndpointTransportIso(X,e,d); `BandedMorphism.fibreHomEndpointTransportNatIso_id`: The endpoint natural isomorphism at (id_x,id_y) is the identity natural isomorphism of the actual Hom-sheaf functor; `BandedMorphism.fibreHomEndpointTransportNatIso_comp`: Transport at the pair of composite endpoint isomorphisms equals the composite of the two endpoint natural isomorphisms, on the actual fixed-band modification category.
 
@@ -6541,7 +6541,7 @@ Prove `BandedMorphism.fibreHomEndpointBaseChange_square`. For f:V→U, pull back
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 For the proof, expand the proved comparison formula at both endpoint pairs; then use inverse and forward flexible composition-comparison naturality, then pull back the strong restriction-isomorphism naturality at e.
 
@@ -6551,7 +6551,7 @@ Prove `BandedMorphism.fibreHomEndpointTransportIso_self`. For F=G, bF=bG=b, y=x,
 
 Here Fix a site (C,J) and Cat-valued pseudofunctors F,G with IsGerbe predicates in fixed object/fibre-hom universes. The abelian coefficient sheaf A has independent universe w; Fix actual bandings bF,bG and X,Y in HomCategory(bF,bG); modifications are actual arrows. Supply U and separate objects x,x′,x″∈F(U), y,y′,y″∈G(U), with the stated endpoint isomorphisms; Sections and base arrows are explicit parameters only when used. No terminal object, global section, neutrality, strict pseudofunctor or nonempty section carrier is assumed. The final self comparison specializes F=G, bF=bG and the diagonal endpoint pair.
 
-([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas31.3–31.4 and Remark31.5, printed122–123; authored exact endpoint deductions.).
+([Martin Olsson and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson Lemmas 31.3–31.4 and Remark 31.5, printed122–123; authored exact endpoint deductions.).
 
 For the proof, compare the actual isomorphism homs; both maps have definitionally identical endpoint factors.
 
@@ -6563,7 +6563,7 @@ Define `GerbeLocalCovers.objectCover`. For any Mathlib Cat-valued pseudofunctor 
 
 Here Use an arbitrary site (C,J), a Cat-valued pseudofunctor F with independent site/object/fibre-hom universes and actual Sieve carriers. Only covering conclusions assume IsGerbe F J; constructors and transport equations need no banding or coefficient sheaf; Local objects and base arrows are explicitly supplied where needed. There is no terminal object, global object, neutrality, finite-cover, fibre-product, strict-pseudofunctor or chosen-cocycle hypothesis.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition8.11.1, Section8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
 
 The API gives `GerbeLocalCovers.objectCover_mem`: Membership of f:V→U in objectCover(F,U) is exactly Nonempty F(V), independently of f; `GerbeLocalCovers.objectCover_pullback`: For every f:V→U, the pullback of objectCover(F,U) is exactly objectCover(F,V), as sieves; `GerbeLocalCovers.objectCover_covering`: If F is a gerbe on (C,J), objectCover(F,U) belongs to J(U). This assertion does not produce an object over U; `GerbeLocalCovers.objectCover_refinement_covering`: For F a gerbe and any covering sieve R on U, R∩objectCover(F,U) is J-covering. Each member has an actual nonempty source fibre; `GerbeLocalCovers.objectCover_identity_empty`: If F(U) is empty, the identity of U is not in objectCover(F,U). Even with IsGerbe F J, the covering conclusion cannot select a global object.
 
@@ -6581,7 +6581,7 @@ Define `GerbeLocalCovers.isomCover`. For x,y∈F(U), construct Mathlib's sieve o
 
 Here Use an arbitrary site (C,J), a Cat-valued pseudofunctor F with independent site/object/fibre-hom universes and actual Sieve carriers. Only covering conclusions assume IsGerbe F J; constructors and transport equations need no banding or coefficient sheaf; Local objects and base arrows are explicitly supplied where needed. There is no terminal object, global object, neutrality, finite-cover, fibre-product, strict-pseudofunctor or chosen-cocycle hypothesis.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition8.11.1, Section8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
 
 The API gives `GerbeLocalCovers.isomCover_mem`: An arrow f:V→U belongs to isomCover(F,x,y) exactly when the actual fibre isomorphism type F(f)x≅F(f)y is nonempty; `GerbeLocalCovers.isomCover_covering`: For a gerbe F and supplied x,y∈F(U), isomCover(F,x,y) is J-covering; a global isomorphism is not assumed; `GerbeLocalCovers.isomCover_symm`: The actual sieves isomCover(F,x,y) and isomCover(F,y,x) are equal; `GerbeLocalCovers.isomCover_refl`: For every actual x∈F(U), isomCover(F,x,x) is the maximal sieve, without a gerbe hypothesis; `GerbeLocalCovers.isomCover_pullback`: For f:V→U, the pullback of isomCover(F,x,y) equals isomCover(F,F(f)x,F(f)y). The two directions transport supplied isomorphisms with both F.mapComp(f,g) endpoint components; F need not be strict; `GerbeLocalCovers.isomCover_refinement_covering`: For a gerbe F, x,y∈F(U) and every covering sieve R on U, R∩isomCover(F,x,y) is covering.
 
@@ -6599,7 +6599,7 @@ Define `GerbeLocalCovers.overlapCover`. For i:T→V, j:T→W and local objects x
 
 Here Use an arbitrary site (C,J), a Cat-valued pseudofunctor F with independent site/object/fibre-hom universes and actual Sieve carriers. Only covering conclusions assume IsGerbe F J; constructors and transport equations need no banding or coefficient sheaf; Local objects and base arrows are explicitly supplied where needed. There is no terminal object, global object, neutrality, finite-cover, fibre-product, strict-pseudofunctor or chosen-cocycle hypothesis.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition8.11.1, Section8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
 
 The API gives `GerbeLocalCovers.overlapCover_mem`: Membership of q:S→T in overlapCover(F,i,j,x,y) is exactly nonemptiness of F(q)F(i)x≅F(q)F(j)y, in the actual fibre F(S); `GerbeLocalCovers.overlapCover_covering`: For a gerbe F, every overlapCover(F,i,j,x,y) is J-covering on T. The supplied local objects may belong to different source fibres; `GerbeLocalCovers.overlapCover_swap`: Swapping i,x with j,y leaves the overlap sieve equal; `GerbeLocalCovers.overlapCover_pullback_covering`: For a gerbe F and every q:S→T, the actual pullback of overlapCover(F,i,j,x,y) is J-covering on S.
 
@@ -6616,7 +6616,7 @@ Prove `GerbeLocalCovers.overlapCover_mem`. Membership of q:S→T in overlapCover
 
 Here Use an arbitrary site (C,J), a Cat-valued pseudofunctor F with independent site/object/fibre-hom universes and actual Sieve carriers. Only covering conclusions assume IsGerbe F J; constructors and transport equations need no banding or coefficient sheaf; Local objects and base arrows are explicitly supplied where needed. There is no terminal object, global object, neutrality, finite-cover, fibre-product, strict-pseudofunctor or chosen-cocycle hypothesis.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition8.11.1, Section8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
 
 For the proof, unfold the canonical isomorphism sieve.
 
@@ -6626,7 +6626,7 @@ Define `GerbeLocalCovers.overlapIso`. For a member q:S→T of overlapCover(F,i,j
 
 Here Use an arbitrary site (C,J), a Cat-valued pseudofunctor F with independent site/object/fibre-hom universes and actual Sieve carriers. Only covering conclusions assume IsGerbe F J; constructors and transport equations need no banding or coefficient sheaf; Local objects and base arrows are explicitly supplied where needed. There is no terminal object, global object, neutrality, finite-cover, fibre-product, strict-pseudofunctor or chosen-cocycle hypothesis.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition8.11.1, Section8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Definition 8.11.1, Section 8.11/tag06NY; exact canonical sieve and composition formulas are authored deductions.).
 
 The API gives `GerbeLocalCovers.overlapIso_hom`: The forward arrow of overlapIso is the hom of the i-side composition comparison, then the chosen iterated isomorphism hom, then the inverse arrow of the j-side comparison; `GerbeLocalCovers.overlapIso_inv`: The inverse arrow of overlapIso is the hom of the j-side comparison, then the inverse of the chosen iterated isomorphism, then the inverse arrow of the i-side comparison. All factors occur in reversed order; `GerbeLocalCovers.overlapIso_hom_inv`: The actual overlapIso hom followed by its inverse equals the identity of F(q≫i)x; `GerbeLocalCovers.overlapIso_inv_hom`: The actual overlapIso inverse followed by its hom equals the identity of F(q≫j)y.
 
@@ -6643,7 +6643,7 @@ Define `BandedMorphism.selfHomChartTransition`. For i:T→U, j:T→V, x∈F(U), 
 
 Here Fix an arbitrary site (C,J), an actual Cat-valued pseudofunctor F with IsGerbe F J, and an actual abelian banding b by A:Sheaf J AddCommGrpCat with independent coefficient universe w; The chart comparison uses fixed-band self-transformations in HomCategory(b,b), with all modifications. Supplied local objects may lie over different bases. No global object, neutrality, terminal object, strict pseudofunctor, or compatibility of independently chosen overlap isomorphisms is assumed; The triple cocycle is an equality on a common supplied refinement with the stated membership evidence. Global sheaf gluing, varying-refinement descent and the torsor equivalence (with the torsors of SchemeAndStackFoundations §1.15) are the targets of §§4.14–4.18.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Section8.11/tag06NY, Definition8.11.1 and Lemma8.11.8 proof; fixed-band Hom-sheaf equations are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Section 8.11/tag06NY, Definition 8.11.1 and Lemma 8.11.8 proof; fixed-band Hom-sheaf equations are authored deductions.).
 
 The API gives `BandedMorphism.selfHomChartTransition_app`: At X∈HomCategory(b,b), the local-chart transition is the actual sheaf isomorphism BC_i(X,x,x), then diagonal selfHomSheafTransportIso(X,e), then BC_j(X,y,y) inverse. The target base-change factor is inverted; `BandedMorphism.selfHomChartTransition_equivariant`: For every R→T, a∈Multiplicative A(R) and actual source section p over the composed R→T→U, the transition applied to a acting on p equals the same a acting on the transported section over R→T→V. The two actions are the existing fibreHomSectionAction; the independent coefficient universe is retained; `BandedMorphism.selfHomChartTransition_independent`: For any two actual isomorphisms e,d:F(i)x≅F(j)y, their chart-transition natural isomorphisms are equal. This does not assert e=d; independence uses the abelian fixed-band diagonal transport theorem; `BandedMorphism.selfHomChartTransition_refl`: For any automorphism e of F(i)x, the chart transition from i,x to itself is the identity natural isomorphism, including when e is nonidentity; `BandedMorphism.selfHomChartTransition_cocycle`: For three charts i:T→U,j:T→V,k:T→W with objects x,y,z, choose arbitrary e:F(i)x≅F(j)y, d:F(j)y≅F(k)z and a:F(i)x≅F(k)z. The transition for e followed by the transition for d equals the transition for a as natural isomorphisms. No equation a=e followed by d is assumed; `BandedMorphism.selfHomChartTransition_symm`: For arbitrary forward e:F(i)x≅F(j)y and backward d:F(j)y≅F(i)x, the inverse natural isomorphism of the transition for e equals the transition for d, without assuming d is the inverse of e; `BandedMorphism.selfHomChartTransition_naturality`: For m:X→Y in the HomCategory(b,b), i⁎H_U(m) followed by the chart transition at Y equals the chart transition at X followed by j⁎H_V(m). These are equal sheaf maps on C/T.
 
@@ -6660,7 +6660,7 @@ Prove `BandedMorphism.selfHomChartTransition_app`. At X∈HomCategory(b,b), the 
 
 Here Fix an arbitrary site (C,J), an actual Cat-valued pseudofunctor F with IsGerbe F J, and an actual abelian banding b by A:Sheaf J AddCommGrpCat with independent coefficient universe w; The chart comparison uses fixed-band self-transformations in HomCategory(b,b), with all modifications. Supplied local objects may lie over different bases. No global object, neutrality, terminal object, strict pseudofunctor, or compatibility of independently chosen overlap isomorphisms is assumed; The triple cocycle is an equality on a common supplied refinement with the stated membership evidence. Global sheaf gluing, varying-refinement descent and the torsor equivalence (with the torsors of SchemeAndStackFoundations §1.15) are the targets of §§4.14–4.18.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Section8.11/tag06NY, Definition8.11.1 and Lemma8.11.8 proof; fixed-band Hom-sheaf equations are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Section 8.11/tag06NY, Definition 8.11.1 and Lemma 8.11.8 proof; fixed-band Hom-sheaf equations are authored deductions.).
 
 For the proof, unfold composition of natural isomorphisms at X; all three component factors remain.
 
@@ -6670,7 +6670,7 @@ Define `BandedMorphism.selfHomOverlapTransition`. For q:S→T belonging to the o
 
 Here Fix an arbitrary site (C,J), an actual Cat-valued pseudofunctor F with IsGerbe F J, and an actual abelian banding b by A:Sheaf J AddCommGrpCat with independent coefficient universe w; The chart comparison uses fixed-band self-transformations in HomCategory(b,b), with all modifications. Supplied local objects may lie over different bases. No global object, neutrality, terminal object, strict pseudofunctor, or compatibility of independently chosen overlap isomorphisms is assumed; The triple cocycle is an equality on a common supplied refinement with the stated membership evidence. Global sheaf gluing, varying-refinement descent and the torsor equivalence (with the torsors of SchemeAndStackFoundations §1.15) are the targets of §§4.14–4.18.
 
-([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Section8.11/tag06NY, Definition8.11.1 and Lemma8.11.8 proof; fixed-band Hom-sheaf equations are authored deductions.).
+([Stacks](https://stacks.math.columbia.edu/tag/06NY), Stacks Section 8.11/tag06NY, Definition 8.11.1 and Lemma 8.11.8 proof; fixed-band Hom-sheaf equations are authored deductions.).
 
 The API gives `BandedMorphism.selfHomOverlapTransition_eq`: The chosen overlap transition equals the chart transition along q followed by i and q followed by j formed with any supplied direct isomorphism between those endpoints. The equality is of complete natural isomorphisms; `BandedMorphism.selfHomOverlapTransition_refl`: For any membership q in the diagonal overlapCover(F,i,i,x,x), the resulting overlap transition is the identity natural isomorphism. Classical choice need not select the identity fibre automorphism; `BandedMorphism.selfHomOverlapTransition_cocycle`: If the same q:S→T belongs to all three actual pairwise overlap covers for i,x; j,y; k,z, the chosen xy transition followed by the chosen yz transition equals the independently chosen xz transition. The full natural-isomorphism equality retains all fixed-band transformations and modifications; `BandedMorphism.selfHomOverlapTransition_symm`: If q belongs to the xy and yx overlap covers, the inverse of the chosen xy overlap transition equals the independently chosen yx overlap transition; `BandedMorphism.selfHomOverlapTransition_common_cover`: For any supplied J-covering sieve D on T, its intersection with the xy, yz and xz overlap covers is J-covering. Every member therefore retains membership in D and supplies all three comparisons needed for the cocycle. No fibre products, finite-cover presentation or global gerbe object is required.
 
@@ -8314,7 +8314,7 @@ Define `affineKernelRigidification`. For f:Γ→Δ between affine fpqc gerbes, t
 
 Here Affine fpqc gerbes over a field; The arbitrary-affine normal quotient and affine fpqc descent of 4.22.
 
-([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition3.9 and proof, pp.8–9).
+([Niels Borne and Angelo Vistoli](https://arxiv.org/pdf/1610.07341v3), Proposition 3.9 and proof, pp.8–9).
 
 The API gives `AffineKernelRigidification.factor`: Produces the displayed canonical factorization of f; `AffineKernelRigidification.homSheaf`: For f≅h∘g and source objects x,y, Isom_E(gx,gy) is the fpqc quotient Isom_Γ(x,y)/Kx, compatibly with composition. It is generally only a subfunctor of Isom_Δ(fx,fy), not equal to that final-target sheaf; `AffineKernelRigidification.neutral`: For BG→BH the construction identifies with B(G/ker f)→BH.
 
@@ -9095,7 +9095,7 @@ Prove `rigidifiedPicardSetoid`. Under universal OT≅fT*OXT, an automorphism of 
 
 Here A scheme S, algebraic spaces X and B over S, and a specified S-morphism f:X→B; Test objects are schemes T→B in a fixed-universe model of Sch/B with the fppf topology; X_T=X×_B T and f_T:X_T→T. Pic uses invertible modules on the small étale ringed sites; For every scheme T→B, the canonical map of sheaves of rings O_T→(f_T)_*O_(X_T) is an isomorphism; the compatible comparison on global units is supplied; A specified S-morphism σ:B→X with f∘σ=id_B and its induced sections σ_T:T→X_T.
 
-([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma99.11.7 and proof).
+([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma 99.11.7 and proof).
 
 For the proof, an invertible-sheaf automorphism is multiplication by a unique global unit on XT; then the rigidification makes its restriction along σ equal1; the global-functions comparison therefore makes the unit1; then for two trivializations, multiply by their ratio pulled back from T to obtain a rigidified isomorphism.
 
@@ -9133,7 +9133,7 @@ Prove `relativePicardKernel`. If OT→fT*OXT is an isomorphism for every scheme 
 
 Here For every scheme T→B, the canonical map of sheaves of rings O_T→(f_T)_*O_(X_T) is an isomorphism; the compatible comparison on global units is supplied.
 
-([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma99.11.3 and proof).
+([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma 99.11.3 and proof).
 
 For the proof, a base line bundle with trivial pullback is trivial by local trivialization and the universal global-functions isomorphism; then a line bundle mapping to zero is fppf-locally trivial after base cover; then its overlap trivializations differ by units on XTij; the global-functions hypothesis identifies these with units on Tij; then their cocycle descends a base line bundle whose pullback is the original line bundle.
 
@@ -9143,7 +9143,7 @@ Define `sectionRigidifiedPicard`. For a section σ:B→X of algebraic spaces, ex
 
 Here A specified S-morphism σ:B→X with f∘σ=id_B and its induced sections σ_T:T→X_T; The universal structure-sheaf isomorphism is required only for the asserted trivial-automorphism conclusion, not for defining the rigidified groupoid.
 
-([Stacks](https://stacks.math.columbia.edu/tag/0D24), Definition before Lemma99.11.5, Lemma99.11.7).
+([Stacks](https://stacks.math.columbia.edu/tag/0D24), Definition before Lemma 99.11.5, Lemma 99.11.7).
 
 The API gives `RigidifiedPicard.lineBundle`: The underlying invertible sheaf on XT; `RigidifiedPicard.trivialization`: The specified isomorphism OT≅σT*L; `RigidifiedPicard.pullback`: For q:T′→T over B, pull back L and α along X_(T′)→X_T and q, using the structure-sheaf unit and σ-square comparison. Identity and composite pullbacks satisfy the specified module-pseudofunctor constraints; `RigidifiedPicard.mk`: An invertible sheaf L on X_T and an isomorphism α:O_T≅σ_T*L construct a rigidified object, without a universal global-functions hypothesis; `RigidifiedPicard.hom`: In the fixed T-fibre an arrow (L,α)→(M,β) is a sheaf isomorphism φ:L≅M satisfying σ_T*(φ)∘α=β. Identity and composition are those of the underlying sheaf isomorphisms; `RigidifiedPicard.hom_ext`: Two rigidified arrows are equal exactly when their underlying sheaf isomorphisms agree; `RigidifiedPicard.trivial`: The structure sheaf O_(X_T), with the canonical pullback unit isomorphism O_T≅σ_T*O_(X_T), is the trivial rigidified object.
 
@@ -9152,7 +9152,7 @@ The API gives `RigidifiedPicard.lineBundle`: The underlying invertible sheaf on 
 **Checks.**
 
 - `RigidifiedPicardTests.identity`: For X=B the unique class is the trivial line bundle with its rigidification.
-- `RigidifiedPicardTests.automorphisms`: An arbitrary scalar automorphism of L is not a rigidified arrow unless it restricts to1 along σ.
+- `RigidifiedPicardTests.automorphisms`: An arbitrary scalar automorphism of L is not a rigidified arrow unless it restricts to 1 along σ.
 - `RigidifiedPicardTests.P1`: For P1 with its section, the classes of O(d) retain all integer degrees; rigidification does not force d=0 on X.
 
 ### 7.6.1a Rigidified representatives
@@ -9161,9 +9161,9 @@ Throughout this topic, A scheme S, algebraic spaces X and B over S, and a specif
 
 Prove `sectionPicardSplit`. If σ:B→X is a section and OT→fT*OXT is an isomorphism for all T→B, then 0→Pic(T)→Pic(XT)→PicX/B(T)→0 is split exact, with retraction σT*. Equivalently PicX/B(T)≅ker σT*, naturally in T.
 
-([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma99.11.4 and proof).
+([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma 99.11.4 and proof).
 
-For the proof, the section gives σT*fT*=id, splitting Pic(XT) into base classes and the kernel; then for locally matching kernel classes choose trivializations along σ and overlap isomorphisms; then on T_ij normalize the overlap map φ_ij by the base unit measured by α_j⁻¹∘σ*φ_ij∘α_i. Pull back the inverse of that unit to scale φ_ij. The inverse on α_j is necessary for this composite to be well typed; then the triple cocycle discrepancy restricts to1; the universal global-functions condition makes it1, so actual invertible-sheaf descent applies; then descend the trivializations as compatible maps and verify their inverses; this supplies a detail the source omits; then the kernel presheaf is thus an fppf sheaf and equals the relative Picard sheaf.
+For the proof, the section gives σT*fT*=id, splitting Pic(XT) into base classes and the kernel; then for locally matching kernel classes choose trivializations along σ and overlap isomorphisms; then on T_ij normalize the overlap map φ_ij by the base unit measured by α_j⁻¹∘σ*φ_ij∘α_i. Pull back the inverse of that unit to scale φ_ij. The inverse on α_j is necessary for this composite to be well typed; then the triple cocycle discrepancy restricts to 1; the universal global-functions condition makes it 1, so actual invertible-sheaf descent applies; then descend the trivializations as compatible maps and verify their inverses; this supplies a detail the source omits; then the kernel presheaf is thus an fppf sheaf and equals the relative Picard sheaf.
 
 *Needs:* `relativePicardKernel`, `sectionRigidifiedPicard`, `rigidifiedPicardSetoid`, `spaceFpqcQuasicoherentDescent`, `finiteLocallyFreeDescent`.
 
@@ -9749,7 +9749,7 @@ The API gives `sncBoundary_empty`: An empty boundary on a smooth scheme is SNC; 
 **Checks.**
 
 - `snc_coordinate_axes`: The two axes of A² are SNC at their intersection.
-- `snc_tangent_curves`: y=0 and y=x² in A² are not SNC at0.
+- `snc_tangent_curves`: y=0 and y=x² in A² are not SNC at 0.
 - `snc_self_intersection`: A single labelled irreducible nodal curve is not a smooth SNC component.
 
 Define `markedIdeal`. A marked ideal on smooth M with boundary E consists of a smooth closed N⊆M simultaneous-SNC with E, a coherent ideal J on N, and a positive integer d. Its cosupport is {a∈N:ord_a(J)≥d}. A weighted presentation on N is a finite family (h_i,µ_i), with positive rational marks and µ_i≤ord_a(h_i) at the distinguished point, together with the remaining labelled boundary. Its cosupport is the simultaneous order inequalities. Pairs with mark 0 impose no constraint and are discarded; zero functions and an empty family are retained with infinite normalized order. Passing to a common integral mark D replaces h_i by h_i^(D/µ_i), with D/µ_i positive integral, and takes their generated ideal with mark D.
@@ -9778,7 +9778,7 @@ The API gives `permissibleCentre_idealPower`: J⊆I_Cᵈ supplies controlled-tra
 
 - `centre_contained_in_boundary`: For E={x=0}, (x²,y²) marked 2 in A², the origin is permissible.
 - `centre_outside_cosupport`: For (x,2), the origin is not permissible.
-- `centre_tangent_to_boundary`: C={y=x²} and H={y=0} in A² fail the simultaneous-coordinate condition at0.
+- `centre_tangent_to_boundary`: C={y=x²} and H={y=0} in A² fail the simultaneous-coordinate condition at 0.
 
 Define `controlledTransform`. For a permissible blowup π:M′→M with new exceptional ideal L=I_Enew, totalTransform(J)=J·O_N′, controlledTransform(J,d)=L^(−d)·totalTransform(J), with mark d unchanged. This notation means the unique ideal J′ with totalTransform(J)=LᵈJ′. StrictTransform(J) is saturation of totalTransform(J) by all powers of L; weakTransform(J) divides by the actual generic order along C. These are different operations. Update the boundary by strict transforms of old components plus the newly born exceptional hypersurface, even when blowing up a Cartier centre makes π an isomorphism.
 
@@ -9865,11 +9865,11 @@ The API gives `coefficientPresentation_cosupport`: On z=0 its cosupport equals t
 
 **Checks.**
 
-- `cusp_coefficient_weights`: For z²+x³ marked 2, the coefficient pairs are(x³,2),(0,1), and the residual ratio without boundary is3/2.
+- `cusp_coefficient_weights`: For z²+x³ marked 2, the coefficient pairs are(x³,2),(0,1), and the residual ratio without boundary is 3/2.
 - `mixed_coefficient_weights`: For z³+x⁴z+y⁵ marked3, the nonzero coefficient pairs are(y⁵,3),(x⁴,2); common mark6 gives(y¹⁰,x¹²).
 - `contact_pure_power`: For zᵈ marked d, all lower coefficients vanish, so the coefficient ideal is zero, not the unit ideal.
 
-Prove `coefficientEquivalence`. Under the maximal-contact hypotheses, the original presentation on N and its coefficient presentation on N₁ are fully test-equivalent, despite differing codimension by1. After every permitted test sequence, the coefficient presentation of the transformed F is the transformed coefficient presentation, with the controlled coefficient formula and pure-pullback exceptional formula. Their data extend regularly on the same suitably shrunk open.
+Prove `coefficientEquivalence`. Under the maximal-contact hypotheses, the original presentation on N and its coefficient presentation on N₁ are fully test-equivalent, despite differing codimension by 1. After every permitted test sequence, the coefficient presentation of the transformed F is the transformed coefficient presentation, with the controlled coefficient formula and pure-pullback exceptional formula. Their data extend regularly on the same suitably shrunk open.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Proposition 4.19, p. 246; proof pp. 252–253; 4.20, p. 246).
 
@@ -9969,8 +9969,8 @@ The API gives `samuelJetIdeal_vanishing`: At a point its vanishing is equivalent
 **Checks.**
 
 - `jet_zero_ideal`: For the zero ideal B_k=0 andI_S,k=0, giving the entire smooth ambient locus.
-- `jet_unit_ideal`: For the unit ideal the quotient jet dimension is0 at every point; the rank bound adds no false singular stratum.
-- `jet_double_origin`: Forf=x² at0 inA¹, k=1 gives Samuel ideal(x) in characteristic zero; a0-jet-only test would miss the order 2 condition.
+- `jet_unit_ideal`: For the unit ideal the quotient jet dimension is 0 at every point; the rank bound adds no false singular stratum.
+- `jet_double_origin`: For f=x² at 0 in A¹, k=1 gives Samuel ideal (x) in characteristic zero; a 0-jet-only test would miss the order 2 condition.
 
 Prove `samuelPresentationIdentity`. Under a Samuel certificate, write f_i=Σ_γc_iγ(W)Z^γ in the essential variables. For k≥max d_i−1, the ideal generated by the equations of N and D_W^βc_iγ with |γ|<d_i and|β|<d_i−|γ| equals I_S,k from the jet matrices, locally at the distinguished point. Consequently the simultaneous coefficient order inequalities cut out the Hilbert–Samuel equality stratum near a. The derivative inequality is strict; derivatives at the mark are not vanishing equations.
 
@@ -10006,7 +10006,7 @@ Prove `hsSemicoherence`. For a coherent closed subscheme X⊆M in the finite-typ
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 9.2, p. 276; Theorem 9.6 and proof, pp. 278–282; Remarks 9.15, pp. 282–283; closed-point convention, p. 213).
 
-For the proof, use regular finite-jet determinantal equations and Noetherian stabilization of closed sets for upper semicontinuity. Vertex-prefix well-foundedness gives local finiteness of diagrams; then choose generic characteristic-zero coordinates making the diagram monotone, and construct essential-variable blocks with the invertible derivative Jacobian; then perform supported elimination by Cramer’s rule on finite jets, localize all denominators, and use the finite-degree theorem to extend the homogeneous support conditions to every degree; then identify coefficient-stratum and determinantal ideals by7.14; shrink to a common neighbourhood and apply the transform theorem.
+For the proof, use regular finite-jet determinantal equations and Noetherian stabilization of closed sets for upper semicontinuity. Vertex-prefix well-foundedness gives local finiteness of diagrams; then choose generic characteristic-zero coordinates making the diagram monotone, and construct essential-variable blocks with the invertible derivative Jacobian; then perform supported elimination by Cramer’s rule on finite jets, localize all denominators, and use the finite-degree theorem to extend the homogeneous support conditions to every degree; then identify coefficient-stratum and determinantal ideals by 7.14; shrink to a common neighbourhood and apply the transform theorem.
 
 *Needs:* `semicoherentPresentation`, `samuelPresentationIdentity`, `samuelTransform`, `finiteDegree`, `hsStabilization`.
 
@@ -10052,7 +10052,7 @@ The API gives `invariantWord_prefix`: Truncation preserves the exact sequence of
 - `word_history_tie`: With the same first and residual entries, the first differing s_r changes the order.
 - `word_terminal_zero_infinity`: A word ending 0 differs from the identical prefix ending ∞; neither may be represented by an arbitrary finite rational.
 
-Define `recursiveInvariant`. Starting with a semicoherent Hilbert–Samuel presentation, adjoin old-boundary equations with mark 1, take a maximal-contact coefficient presentation, remove its common remaining-boundary monomial, and read the next residualν. If ν is0 or∞ stop. Otherwise normalize the residual presentation, select the next old block at the birth of its prefix, adjoin that block’s mark 1 equations and repeat in lower dimension. In arbitrary codimension, if a first presentation has codimension r, ambient dimension n and embedding dimension e=H(1)−1, insert (1,0) exactly e−(n−r)−1 times when n−r<e, then reindex as Remark 9.15 prescribes; for n−r=e retain the first prefix. This normalization makes the output independent of the initial presentation codimension and ambient enlargement.
+Define `recursiveInvariant`. Starting with a semicoherent Hilbert–Samuel presentation, adjoin old-boundary equations with mark 1, take a maximal-contact coefficient presentation, remove its common remaining-boundary monomial, and read the next residualν. If ν is 0 or∞ stop. Otherwise normalize the residual presentation, select the next old block at the birth of its prefix, adjoin that block’s mark 1 equations and repeat in lower dimension. In arbitrary codimension, if a first presentation has codimension r, ambient dimension n and embedding dimension e=H(1)−1, insert (1,0) exactly e−(n−r)−1 times when n−r<e, then reindex as Remark 9.15 prescribes; for n−r=e retain the first prefix. This normalization makes the output independent of the initial presentation codimension and ambient enlargement.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Definitions 6.12–6.15, pp. 258–259; Remark 9.15, pp. 282–283).
 
@@ -10063,8 +10063,8 @@ The API gives `resolutionInvariant_first`: Its first entry is precisely the loca
 **Checks.**
 
 - `invariant_smooth_empty_boundary`: For a smooth closed subvariety with empty boundary the algorithm reaches its smooth Hilbert–Samuel entry with s₁=0 and terminal ∞.
-- `invariant_cusp`: For z²+x³ at0 with empty boundary the hypersurface word is(2,0;3/2,0;∞).
-- `invariant_bm_example`: For x₃²−x₁²x₂³ at0 in year 0, the hypersurface word is(2,0;5/2,0;1,0;∞).
+- `invariant_cusp`: For z²+x³ at 0 with empty boundary the hypersurface word is(2,0;3/2,0;∞).
+- `invariant_bm_example`: For x₃²−x₁²x₂³ at 0 in year 0, the hypersurface word is(2,0;5/2,0;1,0;∞).
 
 Prove `invariantProperties`. The recursive word is independent of permitted local presentations and smooth coordinate isomorphisms preserving the labelled history. On the closed-point spaces of every admissible finite tower it is Zariski upper semicontinuous with locally finitely many values, does not increase over each centre, and every nonincreasing sequence of realized values in bounded dimension stabilizes. Each equality stratum and boundary are simultaneously unions of coordinate subspaces. At terminal ∞ the stratum is smooth; at terminal 0 every irreducible stratum component Z equals S∩⋂_{H⊇Z}H.
 
@@ -10084,8 +10084,8 @@ The API gives `monomialCentre_minimal`: Minimality is equivalent to removing any
 
 **Checks.**
 
-- `monomial_two_axes`: Weights(1/2,1/2) have unique minimal centre{x,y}; the new exceptional weight is0.
-- `monomial_single_axis`: Weight3/2 has minimal one-component centre; its identity blowup changes the weight to1/2.
+- `monomial_two_axes`: Weights(1/2,1/2) have unique minimal centre{x,y}; the new exceptional weight is 0.
+- `monomial_single_axis`: Weight3/2 has minimal one-component centre; its identity blowup changes the weight to 1/2.
 - `monomial_nonminimal`: For weights(1,1), the pair{x,y} is not minimal: either singleton already meets the threshold.
 
 Prove `monomialDecrease`. Blowing up a minimal monomial stratum component gives inv′≤inv; if inv′=inv thenµ′<µ, because the pivot weightΣ_IΩ−1 is less than every removed pivot weight by minimality. Fixed denominators imply only finitely many such equal-word steps. At terminal ∞, blowing up the smooth full invariant stratum strictly lowers the complete word at every point over it. Thus the augmented pair (inv,µ), not bare multiplicity, strictly decreases over the selected centre.
@@ -10106,7 +10106,7 @@ The API gives `maximumCentre_local`: On an invariant-bounded neighbourhood it is
 
 **Checks.**
 
-- `maximum_is_not_multiplicity`: For x₃²−x₁²x₂³ at0 in year 0, the full maximum centre is the origin, although the multiplicity2 locus contains axes.
+- `maximum_is_not_multiplicity`: For x₃²−x₁²x₂³ at 0 in year 0, the full maximum centre is the origin, although the multiplicity2 locus contains axes.
 - `maximum_incomparable_union`: On a disjoint union with two incomparable realized first functions, both maximal extended loci are used; choosing one greatest value is invalid.
 - `maximum_empty_unresolved`: An empty unresolved locus gives no further blowup, rather than a spurious centre.
 
@@ -10146,8 +10146,8 @@ The API gives `resolvedLocus_subsetCriterion`: All boundary-subset intersections
 
 **Checks.**
 
-- `resolved_transverse_axes`: X=M=A² and two distinct coordinate axes are resolved at0.
-- `resolved_tangency`: X={z=xy} and E={z=0} in A³ are not resolved at0; onX the divisorxy has an improper two-branch intersection as one restricted component.
+- `resolved_transverse_axes`: X=M=A² and two distinct coordinate axes are resolved at 0.
+- `resolved_tangency`: X={z=xy} and E={z=0} in A³ are not resolved at 0; onX the divisorxy has an improper two-branch intersection as one restricted component.
 - `resolved_empty_boundary`: Every point of smooth X is resolved with empty E.
 
 Prove `preserveResolvedPoints`. For smooth X⊆M and a labelled ambient SNC boundaryE with distinct incident germs, none containing X locally, a finite sequence of permissible centres contained in Σ* makesX and E simultaneous-SNC everywhere and is an isomorphism at every initially resolved point. Applied after the singularity-removal phase of embedded resolution starting with empty boundary, this gives the refinement of Theorem 12.2: the cleanup also avoids every already resolved point. The stronger preservation concerns the pair, not merely Reg(X); pulling back an arbitrary divisor without cleanup does not establish it.
@@ -10182,7 +10182,7 @@ The API gives `sncCompactification_open`: The prescribedU embeds openly and dens
 - `compactify_two_torus`: G_m² embeds inP¹×P¹ with the four coordinate boundary curves, a strict-SNC divisor.
 - `compactify_preserves_smooth_open`: A smooth open avoiding the boundary ideal is unchanged even if its chosen projective closure is singular elsewhere.
 
-Prove `analyticPolydisc`. For the complex analytification of a smooth finite-type complex variety with a labelled algebraic strict-SNC divisor, every point a has a biholomorphic neighbourhood chart onto a polydiscΔⁿ, sending a to0, in which the boundary components through a are exactly z₁=0,…,z_r=0 and other components miss the neighbourhood. Its intersection with the complement is (Δ*)ʳ×Δ^(n−r). The number r is the number of incident labels and r≤n. This is a local chart result, not an algebraization theorem or a Borel extension theorem.
+Prove `analyticPolydisc`. For the complex analytification of a smooth finite-type complex variety with a labelled algebraic strict-SNC divisor, every point a has a biholomorphic neighbourhood chart onto a polydiscΔⁿ, sending a to 0, in which the boundary components through a are exactly z₁=0,…,z_r=0 and other components miss the neighbourhood. Its intersection with the complement is (Δ*)ʳ×Δ^(n−r). The number r is the number of incident labels and r≤n. This is a local chart result, not an algebraization theorem or a Borel extension theorem.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), §3.1–3.5, pp. 231–233; SNC coordinate convention, p. 213; deduction using the analytic inverse-function theorem).
 

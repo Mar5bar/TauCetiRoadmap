@@ -220,7 +220,7 @@ variable {R A : Type u} [CommRing R] [CommRing A]
 /-- Effective faithfully flat descent of modules: for a faithfully flat ring map `R → A`, the
 canonical functor from `R`-modules to descent data for the singleton family `Spec A → Spec R` is an
 equivalence of categories. Mathlib supplies the comonadicity of extension of scalars
-(`ModuleCat.comonadicExtendScalars`); this is the descent-data form. -/
+(`comonadicExtendScalars`); this is the descent-data form. -/
 theorem faithfullyFlatDescent (f : R →+* A) (hf : f.FaithfullyFlat) :
     (affineModulePullback.toDescentData
       (fun (_ : PUnit) ↦ (CommRingCat.ofHom f).op)).IsEquivalence := sorry
@@ -259,7 +259,7 @@ class IsGerbe (F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'})
 variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}} {J : GrothendieckTopology C}
 
 /-- A pseudonatural transformation over `C` which is an equivalence on every fibre preserves and
-reflects `IsGerbe` (Stacks, Lemma 8.11.2, tag 06NY). -/
+reflects `IsGerbe` (Stacks, Section 8.11, tag 06NY, Lemma 8.11.2). -/
 theorem IsGerbe.equivalence_iff (η : Pseudofunctor.StrongTrans F G)
     (hη : ∀ U : C, (η.app (.mk (op U))).toFunctor.IsEquivalence) :
     IsGerbe F J ↔ IsGerbe G J := sorry
@@ -346,7 +346,7 @@ theorem BandPreserving.comp
     BandPreserving bF bH (Pseudofunctor.StrongTrans.vcomp η θ) := sorry
 
 /-- A morphism of gerbes preserving a common abelian band is an equivalence on every fibre
-(Stacks, Lemma 8.11.8, tag 06NY): faithful by the banding, full by Hom-sheaf descent and
+(Stacks, Lemma 8.11.8, tag 0CJY): faithful by the banding, full by Hom-sheaf descent and
 essentially surjective by gluing local preimages. -/
 theorem band_morphism_equivalence
     (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
