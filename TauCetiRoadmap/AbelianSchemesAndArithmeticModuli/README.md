@@ -159,6 +159,12 @@ Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge l
   Milestone 2: the period-family quotient `(Y × E)/Λ` over a complex manifold `Y`, with its
   holomorphic submersion, zero section, fibre identification, markings and base change. Milestone 3:
   equivariant descent of period families through properly discontinuous actions, with monodromy.
+- *CohomologicalPointCounting.* EtaleBaseChange Layer 6: vanishing of `H^q_et(X, F)` for
+  `q > 2 dim X` and finiteness of the cohomology of proper schemes over a separably closed field, for
+  torsion coefficients invertible there; Layer 9: the external product and the Künneth equivalence
+  over a separably closed field, compatible with cup products. EllAdicRealization Layers 2 and 6:
+  `ℤ_ℓ`-cohomology as the derived limit of the finite levels `ℤ/ℓ^r`, with its finite generation and
+  reductions.
 
 **Not built here.** Moduli stacks of polarized abelian varieties `A_{g,d}`, PEL, Siegel and Hilbert
 modular moduli, their level covers and compactifications (PELModuli, ShimuraVarieties,
@@ -173,7 +179,13 @@ restriction live here. Néron models and semistable reduction (NeronModelsAndSem
 Generic complex-torus quotients, period-lattice families over complex manifolds and their
 equivariant descent (ComplexTori): A5 specializes them to abelian varieties and adds Riemann forms,
 Appell–Humbert, polarizations, the Siegel family and families over analytic bases that are not
-manifolds. Completed Poincaré bundles, Betti maps and integral realizations over finite fields
+manifolds. Generic finite-coefficient étale cohomology of schemes (cohomological dimension,
+finiteness, external products and Künneth) and `ℓ`-adic derived limits (CohomologicalPointCounting
+EtaleBaseChange and EllAdicRealization): A4.4 specializes them to abelian varieties. Weil's trace
+theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity, and the
+Grothendieck–Lefschetz formula (CohomologicalPointCounting TraceFormula), which take the torsion,
+Tate module and trace of an abelian variety from A3.2, A4.1 and A6.10–A6.11. Completed
+Poincaré bundles, Betti maps and integral realizations over finite fields
 (AbelianSchemesAndArithmeticModuliPartII). Faltings's finiteness and isogeny theorems
 (FaltingsFinitenessAndIsogenyTheorems). The Weil estimate for Frobenius (DeligneWeightsAndPurity).
 The Tate conjecture for homomorphisms over finite or number fields is not claimed anywhere below:
@@ -330,6 +342,19 @@ Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeome
   manifold domain with a `T2Space` and `SecondCountableTopology` base and coordinatewise holomorphic
   periods. Families over analytic bases outside that domain are A5.6 here, compared with
   ComplexTori's family on manifold bases.
+- *CohomologicalPointCounting, EtaleBaseChange Layers 6 and 9 and EllAdicRealization Layers 2 and
+  6*: consumed on that family's coefficient convention (a finite ring killed by an integer invertible
+  on the base), here the constant coefficients `ℤ/ℓ^r` on an abelian variety over an algebraically
+  closed field `k` with `ℓ` invertible in `k`, in every characteristic. Layer 6 gives
+  `H^q_et(X, F) = 0` for `q > 2 dim X` with `X` of finite type over a separably closed field, and
+  finiteness for `X` proper; Layer 9 gives the external product and the Künneth equivalence
+  `RΓ(X, K) ⊗^L RΓ(Y, L) ≅ RΓ(X × Y, K ⊠ L)` over a separably closed field with its cup-product
+  compatibility (Stacks, Lemma 59.97.2, tag 0F14, for a proper factor). EllAdicRealization Layer 2
+  identifies `RΓ(X, ℤ_ℓ)` with the derived limit of the `RΓ(X, ℤ/ℓ^r)`, and its Layer 6 gives finite
+  generation and `RΓ(X, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(X, ℤ/ℓ^r)` for `X` separated of finite type over a
+  separably closed field. A4.4 applies the Künneth map of Layer 9 to `A × A` and the addition map; it
+  builds no second external product, limit or Tate module. These suppliers state nothing specific to
+  abelian varieties.
 
 ### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
 
@@ -1040,19 +1065,37 @@ ModularCurves 0B; Tau Ceti `cartierDualBaseChangeIso` over affine bases.
 
 ### A3.6 Theta groups and polarized descent
 
-Define `ThetaGroup L` for a rigidified line bundle `L` on an abelian variety `A`: with
-`K(L) = ker φ_L`, the group functor of pairs `(x, ψ)` with `x ∈ K(L)(T)` and `ψ : t_x^*L_T ≅ L_T`, under
-composition of translated isomorphisms. It is a central extension `1 → 𝔾_m → G(L) → K(L) → 1`. Its
-commutator pairing on `K(L)` is strongly alternating (`e(x, x) = 1`, also in characteristic `2`), and
-perfect when `L` is ample. A finite subgroup scheme `H ⊆ K(L)` together with a splitting of the theta
-extension over `H` (a level subgroup) is exactly the datum for descending `L` along `A → A/H`;
-isotropy alone does not choose the descent (Faltings–Chai I.1.6, p. 4, and the introduction to I.5,
-p. 25; Milne 2022, Theorem 13.3(a), p. 25, for the order `χ(L)²` of `K(L)`). The construction composes translated isomorphisms,
-identifies the scalar kernel through `O_S ≅ π_*O_A` (A1.3), identifies the commutator with the
-biextension of A2.3, and descends invertible sheaves along the `H`-torsor. The API is
-`ThetaGroup.mk`, `ThetaGroup.commutator` (the strongly alternating pairing on `K(L)`),
-`ThetaGroup.descend` (a splitting over `H` gives the descended line bundle on `A/H`) and
-`ThetaGroup.baseChange`. *Needs:* A1.3, A2.3, A3.3.
+Define `ThetaGroup L` for an abelian scheme `π : A → S` and a line bundle `L` on `A` rigidified along
+zero: with `K(L) = ker φ_L`, the kernel of the Mumford map of A2.3 (a closed subgroup scheme),
+`G(L)` is the group functor on `S`-schemes `T` of pairs `(x, ψ)` with `x ∈ K(L)(T)` and
+`ψ : t_x^*L_T ≅ L_T`, under composition of translated isomorphisms. (1) The sequence
+`1 → 𝔾_m → G(L) → K(L) → 1` is a central extension of fppf sheaves of groups over `S`, and `G(L)` is
+represented by the `𝔾_m`-torsor of `L|_{K(L)}`: for `x ∈ K(L)(T)` the rigidification gives
+`t_x^*L_T ≅ L_T ⊗ π_T^*(x^*L_T)`, so lifts of `x` exist Zariski locally on `T`, and the
+automorphisms of `L_T` are `O(A_T)^× = O(T)^×` by the universal functions of A0.3(1). (2) The
+commutator `e_L : K(L) ×_S K(L) → 𝔾_m`, computed on local lifts, is a bimultiplicative morphism of
+`S`-group functors, and `e_L(x, x) = 1` for every point `x` of `K(L)` over every `S`-scheme `T`,
+because a lift commutes with itself: strong alternation is an identity of morphisms, nonreduced
+bases in characteristic `2` included. For `n ≥ 1`, `A[n] ⊆ K(L^n)` and the commutator of `G(L^n)`
+restricted to `A[n]` is `(x, y) ↦ e_n(x, φ_L(y))` with `e_n` of A3.5. (3) If `L` is relatively
+ample, `K(L)` is finite locally free of rank `χ(L_s)²` over `s ∈ S` and `e_L` identifies `K(L)` with
+its Cartier dual. (4) The formation of `G(L)`, of `e_L` and of the descent in
+(5) commutes with arbitrary base change `T → S`. (5) For a finite locally free subgroup `H ⊆ K(L)`,
+splittings `H → G(L)` of the extension over `H` (level subgroups) are exactly the `H`-linearizations
+of `L`, and through fppf descent along the `H`-torsor `q : A → A/H` of A3.3 they correspond to pairs
+of a line bundle `M` on `A/H` rigidified along zero and a rigidified isomorphism `q^*M ≅ L`; isotropy
+of `H` alone does not choose the descent. Over a field this is the classical theta group, and no
+separate field carrier is introduced (Faltings–Chai, the introduction to I.5, p. 25, for the relative
+theta group, its commutator and nondegeneracy, and I.1.6, p. 4, for relatively ample `L`; Milne 2022,
+Theorem 13.3(a), p. 25, for the order `χ(L)²` of `K(L)`). The construction composes translated
+isomorphisms, identifies the scalar kernel through A0.3(1), identifies the commutator with the
+biextension of A2.3 restricted to `K(L) × K(L)` and, on `A[n]`, with the Poincaré pairing of A3.5
+through `φ_{L^n} = φ_L ∘ [n]`, reads perfection off the Cartier-dual kernel of the isogeny `φ_L`
+(A2.5, A3.5), and descends invertible sheaves along the `H`-torsor. The API is `ThetaGroup.mk`,
+`ThetaGroup.commutator` (the strongly alternating pairing on `K(L)` as a morphism over `S`),
+`ThetaGroup.descend` (a splitting over a finite locally free `H` gives the descended rigidified line
+bundle on `A/H` with its pullback identification) and `ThetaGroup.baseChange`. *Needs:* A0.3, A2.3,
+A2.4, A2.5, A3.3, A3.5.
 
 **Checks.**
 
@@ -1063,6 +1106,12 @@ biextension of A2.3, and descends invertible sheaves along the `H`-torsor. The A
   `((a₁, a₂), (b₁, b₂)) ↦ (−1)^{a₁b₁ + a₂b₂}` is skew-symmetric and perfect, but `e(x, x) = −1` for
   `x = (1, 0)`; the commutator pairing of a theta group always has `e(x, x) = 1`, so a definition
   asking only for skew symmetry fails.
+- `ThetaGroup.dual_numbers_char_two`: over `S = Spec k[ε]/(ε²)` with `k` of characteristic `2`, the
+  constant elliptic scheme `E_S` and `L = O(2·0)` rigidified along zero have `K(L) = E_S[2]`, finite
+  locally free of rank `4` and not étale. `μ₂` has no nontrivial points over a reduced
+  characteristic-`2` scheme but contains `1 + ε` over `S`, so checking `e(x, x) = 1` on geometric points,
+  or deriving it from skew symmetry, says nothing here; the commutator gives `e(x, x) = 1` for every
+  point of `E_S[2]` over every `S`-scheme.
 
 ### A3.7 Polarized Weil pairings
 
@@ -1070,11 +1119,12 @@ Prove `polarizedWeilPairing`. For a polarization `λ` and `n ≥ 1` put `e_{λ,n
 `A[n]`. It is alternating, including for even `n`; it is perfect iff `λ` restricts to an isomorphism on
 `A[n]`, equivalently iff `ker λ` has no `n`-primary part on any fibre, in particular when
 `gcd(n, deg λ) = 1`. For an isogeny `f`, `e_{f^∨μf, n}(x, y) = e_{μ,n}(fx, fy)`. The proof works fppf
-locally with an ample representative (A2.6) and its theta commutator (A3.6) for strong alternation,
-descends to `S`, and reads perfection off Cartier duality composed with `λ[n]` prime by prime;
-pullback is naturality of the Poincaré bundle (Faltings–Chai I.1.6–1.8, pp. 4–5). A polarization of
-degree prime to `3` gives a perfect pairing `A[3] × A[3] → μ₃`; a polarization of type `(1, 2)` is not
-perfect on `A[2]`. *Needs:* A2.5, A2.6, A3.5, A3.6.
+locally on `S` with a representative `L` of `λ` (A2.6), for which `e_{λ,n}` is the commutator of the
+relative theta group `G(L^n)` on `A[n]` and so strongly alternating (A3.6 (2)), descends to `S`,
+and reads perfection off Cartier duality composed with `λ[n]` prime by prime; pullback is naturality
+of the Poincaré bundle (Faltings–Chai I.1.6–1.8, pp. 4–5). A polarization of degree prime to `3`
+gives a perfect pairing `A[3] × A[3] → μ₃`; a polarization of type `(1, 2)` is not perfect on
+`A[2]`. *Needs:* A2.5, A2.6, A3.5, A3.6.
 
 ### A3.8 Full level structures
 
@@ -1318,25 +1368,35 @@ Prove `exteriorCohomology`. (1) For every abelian scheme `π : A → S`, the she
 `H^n_dR(A/S)` are finite locally free and commute with arbitrary base change; cup product gives
 `R^iπ_*Ω^j ≅ ∧^i R¹π_*O_A ⊗ ∧^j π_*Ω¹` and `H^n_dR ≅ ∧^n H¹_dR`, compatibly with products and pullbacks;
 the Hodge-to-de Rham spectral sequence degenerates. Exterior means that squares of degree-one classes
-vanish, also in characteristic `2`. (2) For `A` over an algebraically closed field and `ℓ` different
-from the characteristic, `H*_et(A, ℤ_ℓ) ≅ ∧* H¹_et(A, ℤ_ℓ)` with `H¹_et ≅ Hom_{ℤ_ℓ}(T_ℓ A, ℤ_ℓ)`, of ranks
-`C(2g, n)`, and the same holds with `𝔽_ℓ` coefficients; this includes the characteristic-zero mod-`p`
-case. The coherent part uses the Hopf structure from the group law and the universal vector
-extension: universal ranks and filtered exterior compatibility are established before base change.
-The étale part uses the Hopf algebra of the addition map, the Künneth formula and the rank-`2g`
-injection of the Tate module: a bounded connected graded-commutative Hopf algebra generated in degree
-one with degree-one squares zero is exterior, also for `ℓ = 2`, and the integral coefficient sequence
-gives torsion-freeness (Milne 2022, Theorem 15.1, Lemma 15.2 and Remark 15.4, pp. 27–28;
-Farb–Kisin–Wolfson, *Essential dimension via prismatic cohomology*, Corollary 2.3.5, pp. 17–18, and
-Lemma 3.2.2, p. 24, arXiv v2, for the characteristic-zero mod-`p` input; Anschütz–Le Bras,
-Proposition 4.5.1 and its proof, p. 53, for the de Rham statement over a bounded prism, where the
-proof refers to Berthelot–Breen–Messing). The coherent
-statement over an arbitrary base (local freeness, universal base change, degeneration and square-zero
-multiplication in characteristic `2`), and the étale Künneth formula and cohomological dimension of
-proper varieties that (2) uses in positive characteristic, are not proved in the cited sources and
-are part of this target. For `g = 2` the de Rham ranks are `1, 4, 6, 4, 1`; graded skew-symmetry alone
-does not give vanishing of degree-one squares in characteristic `2`. *Needs:* A4.1, A4.2, A4.3;
-AlgebraicModuli Layer 7 (`perfect_proper_pushforward`); ComplexComparisonPartII C5.1.
+vanish, also in characteristic `2`. (2) For `A` of dimension `g` over an algebraically closed field
+`k`, `ℓ` invertible in `k` and every `r ≥ 1`, pushing out the connected `A[ℓ^r](k)`-torsor
+`[ℓ^r] : A → A` gives `Hom(A[ℓ^r](k), ℤ/ℓ^r) ≅ H¹_et(A, ℤ/ℓ^r)`, and cup product gives
+`∧^n H¹_et(A, ℤ/ℓ^r) ≅ H^n_et(A, ℤ/ℓ^r)`, free over `ℤ/ℓ^r` of rank `C(2g, n)`, compatibly with
+reduction from `r + 1` to `r`. In the limit `H*_et(A, ℤ_ℓ) ≅ ∧* H¹_et(A, ℤ_ℓ)` with
+`H¹_et ≅ Hom_{ℤ_ℓ}(T_ℓ A, ℤ_ℓ)`, torsion-free of ranks `C(2g, n)`. The case `r = 1` is the `𝔽_ℓ`
+statement, and in characteristic zero every prime `ℓ` is allowed. The coherent part uses the Hopf
+structure from the group law and the universal vector extension: universal ranks and filtered
+exterior compatibility are established before base change. The étale part is an abelian-specific
+computation on generic inputs consumed in every characteristic from CohomologicalPointCounting:
+vanishing above degree `2g` and finiteness (EtaleBaseChange Layer 6), the Künneth equivalence with
+cup products (EtaleBaseChange Layer 9), whose pullback along the addition map is the coproduct, and
+the passage to `ℤ_ℓ` (EllAdicRealization Layers 2 and 6). Over `𝔽_ℓ` the torsor `[ℓ]` gives
+`dim H¹ ≥ 2g`; a bounded connected graded-commutative Hopf algebra vanishing above degree `2g` has
+`dim H¹ ≤ 2g`, with equality only for the exterior algebra on `H¹`, degree-one squares zero also for
+`ℓ = 2`; the coefficient sequences `0 → ℤ/ℓ → ℤ/ℓ^{r+1} → ℤ/ℓ^r → 0`, whose reductions on `H¹` are
+surjective, then give freeness at every level by induction on `r`, and the limit has surjective
+transitions (Milne 2022, Theorem 15.1, Lemma 15.2 and Remark 15.4, pp. 27–28; Stacks, Lemma
+59.97.2, tag 0F14, for Künneth with a proper factor; Farb–Kisin–Wolfson, *Essential dimension via
+prismatic cohomology*, Corollary 2.3.5, pp. 17–18, and Lemma 3.2.2, p. 24, arXiv v2, for the
+characteristic-zero mod-`p` input; Anschütz–Le Bras, Proposition 4.5.1 and its proof, p. 53, for the
+de Rham statement over a bounded prism, where the proof refers to Berthelot–Breen–Messing). The
+coherent statement over an arbitrary base (local freeness, universal base change, degeneration and
+square-zero multiplication in characteristic `2`) and the finite-level form of (2) for `r ≥ 2` are
+not proved in the cited sources and are part of this target. For `g = 2` the de Rham ranks are
+`1, 4, 6, 4, 1`; graded skew-symmetry alone does not give vanishing of degree-one squares in
+characteristic `2`. *Needs:* A3.2, A4.1, A4.2, A4.3; AlgebraicModuli Layer 7
+(`perfect_proper_pushforward`); ComplexComparisonPartII C5.1; CohomologicalPointCounting
+EtaleBaseChange Layers 6 and 9, EllAdicRealization Layers 2 and 6.
 
 ### A4.5 Barsotti–Tate groups
 
@@ -1566,6 +1626,7 @@ ranks of `H^n_dR` are `1, 4, 6, 4, 1`.
 
 A0–A3; Tau Ceti `TateModule`; StableReduction Layer 1 (relative dualizing bundles); ModularCurves 0B, 7E, 7F; JacobianChallenge Layer D; AlgebraicVectorBundles
 L0B, L2B; AlgebraicModuli Layer 7; SchemeAndStackFoundations Layers 1–4; ComplexComparisonPartII C5.1;
+CohomologicalPointCounting EtaleBaseChange Layers 6 and 9, EllAdicRealization Layers 2 and 6;
 Mathlib `DividedPowers`.
 
 <a id="a5"></a>
@@ -2064,10 +2125,15 @@ Additivity of the trace is that of the matrix trace on `V_ℓ A`. The API is `En
 Prove `charpolyTate`. For `α ∈ End A` and `ℓ` different from the characteristic,
 `P_α(X) = det(X − V_ℓ α | V_ℓ A)`. Hence `Tr α` and `deg α` are the trace and determinant of `α` on `V_ℓ A`,
 and the characteristic polynomial of `V_ℓ α` has integer coefficients independent of `ℓ`; the same holds
-for `α ∈ End⁰ A` with rational coefficients. The identification is the one established in the
-construction of A6.10, exported (Milne 2008, Proposition 10.20, p. 50). For `ℓ = p` the `p`-adic Tate
-module can have rank less than `2g` and the statement fails. For the Frobenius of `E/𝔽_q` and every
-`ℓ ≠ p` the characteristic polynomial on `V_ℓ E` is `X² − aX + q`. *Needs:* A4.1, A6.10.
+for `α ∈ End⁰ A` with rational coefficients. At finite level, for every `r ≥ 1` the characteristic
+polynomial of `α` on the free `ℤ/ℓ^r`-module `A[ℓ^r](K^{sep})` of rank `2g` is `P_α` modulo `ℓ^r`, so
+its trace there is `Tr α` modulo `ℓ^r`, compatibly in `r`. The identification is the one established
+in the construction of A6.10, exported (Milne 2008, Proposition 10.20, p. 50); the finite-level form
+is its reduction through `T_ℓ A / ℓ^r ≅ A[ℓ^r]` (A4.1, `AbelianTate.modPow`). For `ℓ = p` the
+`p`-adic Tate module can have rank less than `2g` and the statement fails. For the Frobenius of
+`E/𝔽_q` and every `ℓ ≠ p` the characteristic polynomial on `V_ℓ E` is `X² − aX + q`, and on `E[ℓ^r]`
+its reduction modulo `ℓ^r`. A single level does not determine the trace: `[1 + ℓ^r]` and `[1]` act
+identically on `E[ℓ^r]`, while their traces are `2 + 2ℓ^r` and `2`. *Needs:* A4.1, A6.10.
 
 ### A6.12 Trace and degree through a subfield
 
@@ -2650,6 +2716,13 @@ semisimplicity and `p`-adic libraries.
   and the Tate module of a Weil restriction (A6.33); **PotentialModularityAndCompatibleSystems** and
   **EllipticCurveModularityPartIIGL2TypeAbelianVarieties** use the finite-level lifting theorems (A4.12–A4.14)
   and the trace and degree through subfields (A6.12).
+- **CohomologicalPointCounting** (TraceFormula, Layer 8) uses prime-to-characteristic torsion
+  (A3.2), the Tate module (A4.1), `H¹_et` of an abelian variety as the dual of its torsion (A4.4) and
+  the trace of an endomorphism with its Tate-module and finite-level comparison (A6.10–A6.11), applied
+  to the Jacobian of a smooth projective curve; it defines no second Tate module or algebraic trace.
+  The curve–Jacobian comparison, the graph–diagonal identity and Weil's curve trace theorem are
+  TraceFormula's. A6.10–A6.11 use degree polynomials, finiteness of Hom and linear algebra on
+  `V_ℓ A`, and no trace formula. A4.4 in turn consumes EtaleBaseChange Layers 6 and 9.
 - **DeligneWeightsAndPurity**, **SmallRamificationAndAbelianVarietyBaseCases** and
   **FaltingsFinitenessAndIsogenyTheorems** use degrees and characteristic polynomials (A6.1, A6.10–A6.11),
   Rosati positivity (A6.14), Frobenius (A6.21) and the finiteness of polarized automorphisms (A6.18).
@@ -2715,4 +2788,4 @@ semisimplicity and `p`-adic libraries.
   author's version, <https://math.mit.edu/~poonen/papers/Qpoints.pdf>.
 - [Stacks] The Stacks Project, <https://stacks.math.columbia.edu>: tags 0BEV (Lemma 33.45.9), 081I
   (Lemma 29.26.16), 0BF6 (Lemma 39.8.4), 047N (Lemma 39.8.2), 05YF (Proposition 97.11.5), 05YC
-  (Lemma 97.11.2), 0D24 (§99.11).
+  (Lemma 97.11.2), 0D24 (§99.11), 0F14 (Lemma 59.97.2).

@@ -536,7 +536,8 @@ Mathlib or Tau Ceti.
   `ampleCohomologyAndDegree`, `ampleIntersectionPositive`, `AbelianHodgeLine`.
 * **Finite flat quotients and level structures**: `AbelianQuotient`, `torsionDivisibility`,
   `FullLevel`, `genusTwoTwoTorsion`, `homDescentFullLevel`.
-* **Étale and `ℓ`-adic realizations**: `AbelianTate`, `homTateInjective`, `charpolyTate`,
+* **Étale and `ℓ`-adic realizations** (with the étale cohomology of the CohomologicalPointCounting
+  roadmaps for `exteriorCohomology`): `AbelianTate`, `homTateInjective`, `charpolyTate`,
   `traceDegreeSubfield`, `frobeniusSemisimple`, `exteriorCohomology`, `weilRestrictionTate`.
 * **De Rham, divided-power and Barsotti–Tate carriers**: `AbelianVectorExtension`, `AbelianH1dR`,
   `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
