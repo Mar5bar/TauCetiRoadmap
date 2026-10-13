@@ -135,7 +135,7 @@ Checked against the pin; re-grep before citing anything in code.
 
 ## What Tau Ceti already has (consume)
 
-The signature files `Suggested.lean` and `SuggestedGreen.lean` import the existing APIs
+The signature file `Suggested.lean` imports the existing APIs
 consumed by these layers; none is rebuilt.
 
 - **Covering-space theory** (universal-covers roadmap): `TauCeti/AlgebraicTopology/UniversalCover/`
@@ -235,7 +235,7 @@ and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
 dependence, and the two hardest items — Banach smooth dependence (3.1) and the smoothing theorem
-for chains (8.3) — gate what follows them. Every layer has a compiled interface in `Suggested.lean` or, for 5.6, `SuggestedGreen.lean`:
+for chains (8.3) — gate what follows them. Every layer has a compiled interface in `Suggested.lean`:
 a real definition wherever the pin allows one (`mpullback`, `flowDomain`/`flowOf`,
 `degreeAtRegularValue`, `mgradient`, `laplaceBeltrami`, …), otherwise a provisional definition whose
 type pins the data (a `sorry` body, never a `Prop`-typed placeholder) with theorems pinning its
@@ -636,9 +636,18 @@ Tau Ceti's stronger `IsPiecewiseC1On`, which requires regularity up to breakpoin
 
 Build their four parameterized edges and signed boundaries, membership formulas, compactness,
 measurability, null boundaries, slicing formulas, and coordinate-swap transport with its
-orientation sign. For invertible affine changes of planar coordinates, prove pullback of
-the 1-form and change of area by the absolute determinant, with the oriented sign carried
-by the boundary and curl. On `V`, assume only that `P` is continuous, `∂y P` exists at every point (the
+orientation sign. Establish affine covariance for real `C¹` one-forms. For an affine
+isomorphism `A` with linear part `L`, prove the pullback formula and
+
+\[
+ \operatorname{curl}(A^*\alpha)=\det(L)\,(\operatorname{curl}\alpha)\circ A,
+\]
+
+together with change of area by the absolute determinant and the corresponding
+boundary-orientation formula. The directional Green identities retain
+their separate slice hypotheses; arbitrary affine mixing is not asserted to preserve them.
+
+On `V`, assume only that `P` is continuous, `∂y P` exists at every point (the
 derivative of `y ↦ P (x+iy)`), this derivative is area-integrable on `V`, and the zero-extended
 fiber-integral function is measurable. Prove
 
@@ -766,7 +775,7 @@ about gauge integrals. The [Jordan-curve discussion](https://leanprover.zulipcha
 likewise favours existing maps and regularity hypotheses over a new smooth-Jordan-curve
 carrier. Build missing compatibility lemmas in Tau Ceti following those APIs; consume
 Mathlib declarations wherever they already express a target.
-[SuggestedGreen.lean](SuggestedGreen.lean) prototypes the AC specialization, one-dimensional
+[Suggested.lean](Suggested.lean) prototypes the AC specialization, one-dimensional
 `GP`/`Henstock` equivalence, gauge FTC, and agreement with the interval integral; the markdown
 specifies the full layer.
 
