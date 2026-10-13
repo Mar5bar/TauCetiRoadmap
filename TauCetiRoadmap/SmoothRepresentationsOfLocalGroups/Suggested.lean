@@ -608,6 +608,55 @@ end Spin
 
 /-! ## Layer SR.5: integral local families for `GL_n` -/
 
+section IntegralInterfaces
+
+/-- Multiplication by `χ(x)⁻¹` identifies induced functions with their `χ`-twist under right
+translation, when `χ` is trivial on the inducing subgroup. Its inverse multiplies by `χ(x)`
+([Cas95], §2.4, p. 26; Tau Ceti's `Representation.charTwist`). -/
+def coindUnramifiedTwistEquiv {A G V : Type*} [CommRing A] [Group G]
+    [AddCommGroup V] [Module A V] (H : Subgroup G)
+    (σ : _root_.Representation A H V) (χ : G →* Aˣ) (hχ : ∀ h : H, χ (h : G) = 1) :
+    _root_.Representation.Equiv (_root_.Representation.coind H.subtype σ)
+      (_root_.Representation.charTwist χ (_root_.Representation.coind H.subtype σ)) where
+  toFun f := ⟨fun x => (↑((χ x)⁻¹) : A) • (f : G → V) x, sorry⟩
+  invFun f := ⟨fun x => (χ x : A) • (f : G → V) x, sorry⟩
+  left_inv := sorry
+  right_inv := sorry
+  map_add' := sorry
+  map_smul' := sorry
+  isIntertwining' := sorry
+
+-- On the valuation quotient of `ℚ₂ˣ`, `χ(2) = 2` distinguishes the two map directions.
+-- At `x = 1/2` and `g = 2`, the indicator of the unit subgroup has `f(xg) = 1`.
+example :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    let f : ℤ → ℚ := fun z => if z = 0 then 1 else 0
+    (χ (Multiplicative.ofAdd (-1)) : ℚ) * f (-1 + 1) = 1 / 2 ∧
+      (χ (Multiplicative.ofAdd 1) : ℚ) *
+        ((χ (Multiplicative.ofAdd (-1 + 1)) : ℚ) * f (-1 + 1)) = 2 ∧
+      (↑((χ (Multiplicative.ofAdd (-1)))⁻¹) : ℚ) * f (-1 + 1) = 2 ∧
+      (χ (Multiplicative.ofAdd 1) : ℚ) *
+        ((↑((χ (Multiplicative.ofAdd (-1 + 1)))⁻¹) : ℚ) * f (-1 + 1)) = 2 := by
+  norm_num [zpowersHom]
+
+/-- A product in the smooth category is the smooth part of the algebraic product with
+coordinatewise action ([DHKM1], Lemma 4.8, p. 14). -/
+def SmoothRep.smoothProduct (A : Type u) [CommRing A] (G : Type u) [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] {J : Type u} (V : J → SmoothRep A G) :
+    SmoothRep A G :=
+  (SmoothRep.smoothPart A G).obj (Limits.piObj fun j => (V j).obj)
+
+/-- Invariants under an open subgroup of a smooth product are the product of the coordinate
+invariants: every fixed tuple is smooth ([DHKM1], following Corollary 4.6, p. 14). -/
+theorem SmoothRep.nonempty_invariants_smoothProduct (A : Type u) [CommRing A] (G : Type u)
+    [Group G] [TopologicalSpace G] [IsTopologicalGroup G] {J : Type u}
+    (V : J → SmoothRep A G) (K : OpenSubgroup G) :
+    Nonempty (((SmoothRep.invariantsFunctor A G K.toSubgroup).obj
+        (SmoothRep.smoothProduct A G V)) ≃ₗ[A]
+      ((j : J) → (SmoothRep.invariantsFunctor A G K.toSubgroup).obj (V j))) := sorry
+
+end IntegralInterfaces
+
 section Whittaker
 
 /-- The Whittaker coinvariants `V_{U,ψ}`: Mathlib's coinvariants of `Representation.charTwist ψ⁻¹ ρ`,
@@ -771,6 +820,16 @@ def StableOperator {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
     (T : Module.End R M) : Prop :=
   ∃ (c : ℕ) (I : Submodule R M), 0 < c ∧ IsCompl (LinearMap.ker (T ^ c)) I ∧
     (∀ x ∈ I, T x ∈ I) ∧ ∀ y ∈ I, ∃! x : I, T x = y
+
+/-- A common positive stability exponent gives a stable coordinatewise product operator
+([DHKM1], the product statement following Corollary 4.6, p. 14). -/
+theorem StableOperator.pi_of_uniform {R J : Type*} [CommRing R] {M : J → Type*}
+    [∀ j, AddCommGroup (M j)] [∀ j, Module R (M j)] (T : ∀ j, Module.End R (M j))
+    (c : ℕ) (hc : 0 < c) (I : ∀ j, Submodule R (M j))
+    (hsplit : ∀ j, IsCompl (LinearMap.ker (T j ^ c)) (I j))
+    (hstable : ∀ j, ∀ x ∈ I j, T j x ∈ I j)
+    (hinvertible : ∀ j, ∀ y ∈ I j, ∃! x : I j, T j x = y) :
+    StableOperator (LinearMap.piMap T) := sorry
 
 -- An automorphism is stable with nilpotent part zero, a nilpotent operator with invertible part
 -- zero.

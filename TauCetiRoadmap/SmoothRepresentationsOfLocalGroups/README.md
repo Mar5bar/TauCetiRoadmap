@@ -3750,7 +3750,12 @@ P_σ → σ be a projective envelope of σ among W(k)[K/K¹]-modules. Prove the 
 - Every simple cuspidal smooth W(k)[G]-module in the mod-ℓ inertial class of (K, τ) is a quotient
   of P_{(K,τ)}, including those on which ℓ is invertible that are not absolutely simple.
 - For a W(k)-algebra B and an unramified character χ of G with values in Bˣ, multiplication of
-  functions by χ is an isomorphism from B ⊗ P_{(K,τ)} to its twist by χ, since χ is trivial on K.
+  functions by χ⁻¹ is an isomorphism from B ⊗ P_{(K,τ)} to its twist by χ, since χ is trivial on K.
+  With right translation (ρ(g)f)(x) = f(xg) and ρ^χ(g) = χ(g)ρ(g), its formula is
+  f(x) ↦ χ(x)⁻¹f(x); its inverse multiplies by χ(x). The formula preserves the K-covariance,
+  support modulo K and smoothness. *Lean:* `coindUnramifiedTwistEquiv` gives this map on the
+  ambient induced functions for any character trivial on the inducing subgroup, using
+  `Representation.charTwist`.
 
 P_{(K,τ)} is not asserted to be a projective envelope of any simple G-module: it surjects onto
 every member of the class at once.
@@ -3759,9 +3764,10 @@ For the Levi construction, let M = GL_{n₁} × ⋯ × GL_{n_r} be a block-diago
 upper parabolic P, and π = π₁ ⊗ ⋯ ⊗ π_r an irreducible cuspidal k-representation of M. Choose
 maximal distinguished cuspidal k-types (K_i, τ_i) whose classes contain the π_i, and set
 P_{(M,π)} = I_P^G(P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}), with the unnormalised induction
-I_P = Ind_P^G ∘ infl. The same multiplication on c-Ind_{K₁×⋯×K_r}^M, applied to the unramified
-character δ_P^{1/2} of M, identifies B ⊗ P_{(M,π)} with the normalised induction
-i_P^G(B ⊗ P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}) for every W(k)-algebra B containing a square root of q,
+I_P = Ind_P^G ∘ infl. On X = B ⊗ (P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}), the map
+X → δ_P^{1/2} ⊗ X on the c-Ind_{K₁×⋯×K_r}^M function model is
+f(m) ↦ δ_P(m)^{−1/2}f(m). Applying I_P to this map identifies B ⊗ P_{(M,π)} with the normalised
+induction i_P^G(B ⊗ P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}) for every W(k)-algebra B containing a square root of q,
 such as W(k)[√q]; this normalised module is [Hel16]'s P(M,π), whose construction assumes ℓ odd so
 that the root lies in W(k) ([Hel16] §3, p. 6). A simple smooth W(k)[G]-module has mod-ℓ
 inertial cuspidal support (M, π) if either ℓ kills it and its cuspidal support is an unramified
@@ -3812,7 +3818,13 @@ Proposition 11.5, p. 57; [DHKM1] proof of Corollary 1.3, p. 15, for the unnormal
   GL_2(ℚ_3) is not defined over W(k). The trivial type of GL_1(ℚ_3) gives
   P = W(k)[ℚ_3^×/(1 + 3ℤ_3)] = W(k)[X, X⁻¹][ε]/(ε² − 1), with X the class of 3 and ε that of −1,
   and P_{(T,1⊗1)} = I_B^G(P ⊗ P) is defined over W(k); over W(k)[√3] multiplication by
-  δ_B^{1/2} identifies it with i_B^G(W(k)[√3] ⊗ P ⊗ P).
+  δ_B^{−1/2} on the Levi functions, followed by I_B, identifies it with
+  i_B^G(W(k)[√3] ⊗ P ⊗ P).
+- F = ℚ_2, ℓ = 3, k = F̄_3 and (K, τ) = (ℤ_2^×, 1). Take the unramified character χ with
+  χ(2) = 2 ∈ W(k)^× and f = 1_K. At g = 2 and x = 1/2, multiplication by χ gives
+  M_χ(ρ(g)f)(x) = 1/2 but ρ^χ(g)(M_χf)(x) = 2. Multiplication by χ⁻¹ gives 2 on both sides.
+  These values differ in W(k); χ² ≠ 1. A Lean `example` makes the same calculation on the
+  valuation quotient ℤ with rational coefficients.
 
 **Integral Bernstein decomposition and second adjointness for GL_n** (*integral-second-adjointness*).
 Keep the setting of *type-projective-construction*: F is a finite extension of ℚ_p with residue
@@ -3836,11 +3848,12 @@ natural in the smooth W(k)[M]-module σ and the smooth W(k)[G]-module Π. Conclu
 - Each P_{(M,π)} of *type-projective-construction*, and each finite direct sum of them, is a
   finitely generated projective object of the smooth W(k)[G]-category.
 
-The proof is Helm's, with I_P and δ_P ⊗ R_{P̄} in place of i_P and r_{P̄}. [DHKM1] makes this
-substitution in Helm's §11 arguments in the proofs of Lemmas 4.5 and 4.10 and of Corollary 1.3,
-pp. 13–15. Helm fixes q^{1/2} ∈ W(k) and so assumes ℓ odd ([Hel16] §3, p. 6), and each twist by
-it in these arguments either cancels or is absorbed into δ_P. This target owns the following four
-steps.
+Use Helm's type and stability arguments with I_P and δ_P ⊗ R_{P̄} in place of i_P and r_{P̄},
+and the smooth-product coresolutions of [DHKM1] Lemma 4.8 and proof of Corollary 1.3, pp. 14–15.
+[DHKM1] makes the unnormalised substitution in Helm's §11 arguments in the proofs of Lemmas 4.5
+and 4.10, pp. 13–15. Helm fixes q^{1/2} ∈ W(k) and so assumes ℓ odd ([Hel16] §3, p. 6), and each
+twist by it in these arguments either cancels or is absorbed into δ_P. This target owns the
+following four steps.
 
 1. *Decomposition.* For a Levi subgroup L and an irreducible supercuspidal k-representation π of
    L, let Rep_{[L,π]} be the full subcategory of smooth W(k)[G]-modules all of whose simple
@@ -3848,16 +3861,30 @@ steps.
    injectives I_{(M,π′)} of *type-projective-construction* over the finitely many mod-ℓ inertial
    cuspidal supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). The supercuspidal
    supports of the characteristic-zero constituents of the P_{(K,τ)} show that every simple
-   subquotient of I_{(M,π′)} has the mod-ℓ inertial supercuspidal support of (M, π′). Hence the
-   smooth W(k)[G]-category is the product of the Rep_{[L,π]}, and every object of Rep_{[L,π]} has
-   a resolution by direct sums of copies of I_{[L,π]}. A module W(k)[G/U] with U pro-p compact
-   open has nonzero components in only finitely many factors. Its component projections are
+   subquotient of I_{(M,π′)} has the mod-ℓ inertial supercuspidal support of (M, π′). Construct the
+   canonical central block projectors and prove that the smooth W(k)[G]-category is the product
+   of the Rep_{[L,π]}. Prove that each projector fixes the smooth product of objects in its block;
+   in particular the block is closed under such products. For a family (V_j), write
+   ∏_j^sm V_j for the smooth vectors of the algebraic product, with coordinatewise action
+   (*smooth-rep-abelian*); *Lean:* `SmoothRep.smoothProduct`.
+
+   Prove that I_{[L,π]} is an injective cogenerator of its block. For Π in the block the
+   evaluation map Π → ∏_{f ∈ Hom_G(Π,I_{[L,π]})}^sm I_{[L,π]}, v ↦ (f(v))_f, is a monomorphism:
+   every nonzero cyclic subrepresentation has a simple quotient, that quotient embeds in
+   I_{[L,π]}, and injectivity extends the map to Π. Each tuple has the open stabiliser of v.
+   Products of injectives are injective by their Hom universal property. Iterating evaluation
+   on the successive cokernels gives a coresolution within the block, with all terms smooth
+   products of copies of I_{[L,π]}.
+
+   A module W(k)[G/U] with U pro-p compact open has nonzero components in only finitely many
+   factors. Its component projections are
    orthogonal central idempotents of E = End_G(W(k)[G/U]). They stay nonzero in
    E ⊗ 𝒦̄ = End_G(𝒦̄[G/U]), because E is ℓ-torsion free. The centre of End_G(𝒦̄[G/U]) is a
    finitely generated 𝒦̄-algebra by *finite-type-corners*, carried to 𝒦̄ as in
-   *distinguished-cuspidal-types*, so it has only finitely many idempotents ([Hel16] Proposition
-   2.4, p. 5; Definition 4.12, pp. 13–14; Theorem 9.8, p. 49; Propositions 11.5–11.6 and
-   Corollary 11.7, pp. 57–58; Theorem 11.8, p. 58).
+   *distinguished-cuspidal-types*, so it has only finitely many idempotents ([Hel16] Definition
+   4.12, pp. 13–14; Theorem 9.8, p. 49; Propositions 11.5–11.6 and Corollary 11.7, pp. 57–58;
+   Theorem 11.8, p. 58, for the block decomposition; [DHKM1] Lemma 4.8 and its evaluation
+   construction, p. 14, for the product coresolution).
 2. *Stability.* Let K be a pro-p compact open subgroup with an Iwahori decomposition
    K = K_Ū K_M K_U and λ a strongly positive central element of M (*iwahori-decomposition*), and
    let T_λ be the convolution operator of 1_{KλK} on Π^K. A smooth Π is (K, P)-stable if
@@ -3868,17 +3895,27 @@ steps.
    - Kernels and cokernels of maps between (K, P)-stable modules, smooth duals of
      (K, P)-stable modules, and direct sums of (K, P)-stable modules with a common c are
      (K, P)-stable.
+   - Smooth products of (K, P)-stable modules with a common c are (K, P)-stable with that c.
+     The coordinate projections give (∏_j^sm V_j)^K ≅ ∏_j V_j^K, since K is open. Thus if
+     V_j^K = ker T_j^c ⊕ V_{j,*} for every j, the product splits as
+     ker((∏_j T_j)^c) ⊕ ∏_j V_{j,*}, with the inverse on the second part taken coordinatewise.
+     The Hecke action agrees with ∏_j T_j. *Lean:* `SmoothRep.nonempty_invariants_smoothProduct`
+     and `StableOperator.pi_of_uniform` carry the open-subgroup and common-exponent hypotheses.
    - Π is (K, P)-stable if Π and Π_U are admissible over a commutative noetherian W(k)-algebra
      acting compatibly.
    - E_{(K,τ)} = End_G(P_{(K,τ)}) is commutative and finite over a finitely generated
      W(k)-subalgebra. P_{(M,π)} and its Jacquet modules along all parabolics are admissible over
      ⊗_i E_{(K_i,τ_i)}.
 
-   So each I_{[L,π]} is (K, P)-stable; by step 1 so is every object of Rep_{[L,π]}, and so is every
-   smooth module, whose K-invariants lie in the finitely many factors met by W(k)[G/K]. The same
+   So each I_{[L,π]} is (K, P)-stable with a constant depending only on K, P, λ and [L,π].
+   Its product coresolution has this common constant, and the kernel of its first differential
+   is Π. Exactness of K-invariants and stability under kernels therefore give stability for every
+   Π in Rep_{[L,π]}. Every smooth module is stable, since its K-invariants lie in the finitely
+   many factors met by W(k)[G/K]; take the maximum of their constants. The same
    holds with P̄ and λ⁻¹ in place of P and λ ([Hel16] Corollary 9.2, p. 44; Theorem 9.4, p. 46;
    Lemma 10.3, p. 53; Theorem 10.7, Corollary 10.8 and Theorem 10.9, p. 55; Definition 11.9,
-   p. 58; Lemmas 11.10–11.13, Corollary 11.14 and Proposition 11.15, pp. 59–60).
+   p. 58; Lemmas 11.10–11.13 and Corollary 11.14, pp. 59–60; [DHKM1] the common-constant
+   product and kernel statements following Corollary 4.6, and Lemma 4.8, p. 14).
 3. *Jacquet duality.* For every smooth Π, R_P(Π^∨) ≅ (R_{P̄}Π)^∨ and R_{P̄}(Π^∨) ≅ (R_PΠ)^∨,
    naturally in Π. The first comes from the perfect pairings between the T_{λ⁻¹}-invertible part
    of Π^K and the T_λ-invertible part of (Π^∨)^K, over a cofinal family of K, and the second is the
@@ -3886,14 +3923,29 @@ steps.
    of δ_P and δ_{P̄} = δ_P⁻¹ cancel; [DHKM1] Lemma 4.10, p. 15).
 4. *Adjunction.* For Π = Π′^∨ the isomorphism is the composite of step 3, the exchange
    Hom(X, Y^∨) ≅ Hom(Y, X^∨) and the duality (I_P σ)^∨ ≅ I_P(δ_P ⊗ σ^∨) of
-   *type-projective-construction*, and *first-adjointness*. It extends to direct sums of copies of
-   the I_{[L,π]}, first for finitely generated σ, and then to every Π through its resolution by
-   such sums ([Hel16] Theorem 11.17 and Corollary 11.18, pp. 61–62; [DHKM1] proof of
-   Corollary 1.3, p. 15).
+   *type-projective-construction*, and *first-adjointness*. Put
+   Q_{[L,π]} = ⊕_{(M,π′)} P_{(M,π′^∨)}, over the finite set in step 1, so
+   I_{[L,π]} = Q_{[L,π]}^∨. Prove the natural restriction isomorphism
+   (⊕_j Q_j)^∨ ≅ ∏_j^sm Q_j^∨. Each term of the product coresolution is therefore itself a
+   smooth dual, so the dual-target comparison applies for every σ. Prove that this comparison
+   is natural for all morphisms between these terms, including maps not presented as duals
+   of maps between the Q_j, by its canonical compact-open-level pairings from step 3.
+
+   For 0 → Π → J⁰ → J¹, both Hom_G(I_P σ, −) and Hom_M(σ, δ_P ⊗ R_{P̄}(−)) identify their
+   value on Π with the kernel of their map on J⁰ → J¹: use left exactness of Hom and exactness
+   of R_{P̄}. The natural comparison on J⁰ and J¹ thus restricts to the comparison on Π,
+   independently of the coresolution and naturally in σ and Π. At each compact-open level only
+   finitely many blocks have invariants, by step 1; hence the smooth product of block components
+   is their direct sum. Evaluation into smooth products of the I_{[L,π]} over all blocks gives
+   a global coresolution whose terms are duals of direct sums of the Q_{[L,π]}, so the same
+   kernel argument applies to every Π. Conclude preservation of smooth
+   products by R_{P̄} from this adjunction ([Hel16] Theorem 11.17 and Corollary 11.18,
+   pp. 61–62, for the dual-target comparison and projectivity; [DHKM1] proof of Corollary 1.3,
+   p. 15, for extension through products of duals).
 
 *Needs:* *distinguished-cuspidal-types*, *type-projective-construction*, *first-adjointness*,
 *jacquet-module*, *jacquet-lemma*, *parabolic-induction*, *modulus-character*,
-*iwahori-decomposition*, *finite-type-corners*.
+*iwahori-decomposition*, *finite-type-corners*, *smooth-rep-abelian*, *averaging-projector*.
 
 **Checks.**
 
@@ -3910,6 +3962,19 @@ steps.
   T₁ = (1 + 3ℤ_3)², is projective over T(ℚ_3), because T₁ is pro-3 and 3 ∈ W(k)^×. So
   P_{(T,1⊗1)} = I_B^G(P ⊗ P) is a finitely generated projective object of the smooth
   W(k)[GL_2(ℚ_3)]-category.
+- F = ℚ_2, n = 1, ℓ = 3, k = F̄_3, A = W(k), 𝒦 = Frac A and D = 𝒦/A. For the trivial type
+  P = A[T, T⁻¹] and I = Hom_A(P, D)^sm. K = ℤ_2^× acts trivially, so I is the full sequence
+  module D^ℤ; 2 acts by shifting. Hence I^G = D consists of constant sequences. For any set J,
+  (⊕_J I)^G = ⊕_J D is 3-power torsion, so no G-map from the trivial A-line to ⊕_J I is
+  injective. This A-line is finitely generated and admissible. The assertion is about I^G;
+  sequences in I can have unbounded denominators.
+- In that same block, a ↦ (a/3^n + A)_{n≥1}, with each coordinate viewed as a constant sequence
+  in I, embeds the trivial A-line in ∏_{n≥1}^sm I. Every tuple is G-fixed, and injectivity
+  follows from ⋂_{n≥1} 3^n A = 0. The image of 1 has infinitely many nonzero coordinates and
+  does not lie in the direct sum.
+- A common exponent is necessary: for M_j = A[t]/(t^j), j ≥ 1, multiplication by t is nilpotent
+  of index j. On ∏_j M_j the coordinatewise operator is not stable. The intersection of all
+  its images is zero, so an invertible summand would be zero, but no power kills the product.
 
 **Integral GL_n Bernstein blocks** (*integral-blocks*). For F a finite extension of ℚ_p and an
 algebraically closed field k of characteristic ℓ different from p, take the decomposition of the
