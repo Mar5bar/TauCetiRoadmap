@@ -337,6 +337,7 @@ for targets specified in this README only.
 | Object | Declaration at the pins | Layers |
 | --- | --- | --- |
 | Spectral spaces and maps | Mathlib `SpectralSpace`, `IsSpectralMap`, `QuasiSeparatedSpace`, `PrespectralSpace`, `GeneralizingMap` | D0–D1 |
+| Sierpiński space | Mathlib `sierpinskiSpace` on `Prop`, open point `True` | D0–D1, D5 |
 | Constructible topology | Mathlib `constructibleTopology`, `WithConstructibleTopology`, `compactSpace_withConstructibleTopology` | D0 |
 | Pro-constructible sets | Tau Ceti `IsProConstructible`, `IsProConstructible.spectralSpace`, `IsProConstructible.isCompact`, `IsSpectralMap.continuous_constructibleTopology` | D0–D1 |
 | Quotients and components | Mathlib `IsQuotientMap`, `Topology.IsQuotientMap.of_surjective_continuous`, `Continuous.isClosedMap`, `Quotient.compactSpace`, `ConnectedComponents.totallyDisconnectedSpace`, `T2Quotient`, `MulAction.orbitRel` | D0, D5 |
@@ -350,7 +351,7 @@ for targets specified in this README only.
 | Flatness and seminorms | Mathlib `RingHom.Flat`, `RingHom.FaithfullyFlat`, `Ideal.quotientMap`, `MulRingSeminorm`, `IsNonarchimedean` | D1, D5 |
 | Perfectoid fields in Checks | PerfectoidSpaces `padicCyclotomic`, `isPerfectoidField_padicCyclotomic`, `isPerfectoidField_of_isAlgClosed` | D1 |
 | Gel'fand spectrum | AdicSpacesPartIII `Huber.GelfandSpectrum` | D5 |
-| Adic étale morphism classes | AdicEtaleGeometry `AdicSpace.IsEtaleLocalDescription`, `AdicSpace.IsFiniteEtale` | D6 |
+| Adic étale morphism classes | AdicEtaleGeometry `AdicSpace.IsEtaleLocalDescription`, `AdicSpace.IsFiniteEtale` (declared in AdicEtaleGeometry's `Suggested.lean`) | D6 |
 
 The geometric predicates of the README-only targets are specialisations of relative predicates on a
 site, as follows; all names in the next two tables are suggested names. In `Suggested.lean`, total
@@ -434,7 +435,7 @@ equivalences, respectively.
 `Mathlib/CategoryTheory/MorphismProperty/Composition.lean` supplies finite composites for D5.4.
 `CategoryTheory.Limits.limit.post` in `Mathlib/CategoryTheory/Limits/HasLimits.lean` supplies the
 canonical realization comparison in D5.3. `TopCat.Sheaf.pullback` in
-`Mathlib/Topology/Sheaves/Functors.lean`, `CategoryTheory.DerivedCategory.Plus.Q` in
+`Mathlib/Topology/Sheaves/Functors.lean`, `DerivedCategory.Plus.Q` in
 `Mathlib/Algebra/Homology/DerivedCategory/Plus.lean`, and `CategoryTheory.Sheaf.H` in
 `Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean` supply the constructions used in D5.15;
 the diamond-specific full faithfulness and cohomology comparison are the additional assertions here.
@@ -576,7 +577,7 @@ in `Mathlib/CategoryTheory/Limits/Cones.lean` supply the affinoid-open cocone of
 | Completed residue-field input | Declaration and file | Contract |
 |---|---|---|
 | Valuation on a residue field | `TauCeti.ValuationSpectrum.residueFieldValuation` in `TauCeti/AlgebraicGeometry/AdicSpace/ResidueField/Basic.lean:96` | Extends a point's valuation from the quotient by its support to its fraction field. D1.7 completes this valued field on each open affinoid chart of `Geometry.Spaces`. |
-| Perfectoid completed residue fields | PerfectoidSpaces layer P2 targets `Perfectoid.CompletedResidue`, `Perfectoid.completedResidue_perfectoid` (completed residue fields) | Supplies the perfectoid interpretation of the same valued-field completion for perfectoid pairs; D1.7 adds the w-strict locality predicate on `Geometry.Spaces`. |
+| Perfectoid completed residue fields | The perfectoid completed residue field statement of PerfectoidSpaces P2.5, *completed-residue-fields*: `Perfectoid.CompletedResidue`; the perfectoidness clause is prose there | Supplies the perfectoid interpretation of the same valued-field completion for perfectoid pairs; D1.7 adds the w-strict locality predicate on `Geometry.Spaces`. |
 
 | Layer D6 input | Declaration and file | Contract |
 |---|---|---|
@@ -641,9 +642,9 @@ pairs, rational subsets and the adic structure presheaf.
 |---|---|---|
 | Perfectoid disc and Gauss valuation | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.discPair`, `perfectedTateAlgebra`, `perfectedTateAlgebra.rootX`, `gaussPoint` | The disc Checks in D0.4, D1.1, D1.10, D2.1, D2.4, D2.8, D3.2, D3.3 and D3.8 use the supplied ring, plus ring and coordinate valuations on `Geometry.Affinoid`. |
 | Completed cyclotomic field | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.padicCyclotomic`, `isPerfectoidField_padicCyclotomic` | `s1_4_cyclotomic_field_is_not` uses this actual field with its power-bounded plus ring. |
-| Global functions and integral functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSections`, `globalPlus`, `globalPullback`, `globalPullback_plus` | `Geometry.toPerfectoid` retains the underlying Yoneda-adic space; `Geometry.ORing` and `Geometry.OplusRing` assemble these supplied rings into presheaves on the category with lifted Hom types. |
+| Global functions and integral functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSections`, `globalPlus`, `globalPullback`, `globalPullback_chart`; the plus-ring clause of the pullback is this README's `Geometry.globalPullback_plus` (D2.6) | `Geometry.toPerfectoid` retains the underlying Yoneda-adic space; `Geometry.ORing` and `Geometry.OplusRing` assemble these supplied rings into presheaves on the category with lifted Hom types. |
 | Cardinal bounds | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsKappaSmall`, `IsKappaSmall.mono` (PerfectoidSpaces `Suggested.lean`, P6 global cardinal predicates) | `Geometry.Perfdκ` is their full subcategory on `Geometry.Spaces`; no second smallness predicate is introduced. |
-| Affinoid functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSectionsAffinoidEquiv`, `globalSectionsAffinoidEquiv_spec` | The affinoid and cohomological comparisons in D2.7 use the supplied section ring and its chosen plus subring. |
+| Affinoid functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSectionsAffinoidEquiv_spec` | The affinoid and cohomological comparisons in D2.7 use the supplied section ring and its chosen plus subring. |
 
 Mathlib's `CategoryTheory.IsCardinalFiltered` in
 `Mathlib/CategoryTheory/Presentable/IsCardinalFiltered.lean` supplies the `ω₁`-filtered hypothesis
@@ -651,7 +652,7 @@ of `Geometry.cutoff_of_omegaOne_colimits`. Mathlib's
 `CategoryTheory.Functor.sheafAdjunctionContinuous` in `Mathlib/CategoryTheory/Sites/Pullback.lean`,
 `CategoryTheory.Sheaf.cohomologyPresheafFunctor` in
 `Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean`, and
-`CategoryTheory.SheafOfModules.IsLocallyFree` and `IsFiniteType` in
+`SheafOfModules.IsLocallyFree` and `SheafOfModules.IsFiniteType` in
 `Mathlib/Algebra/Category/ModuleCat/Sheaf/LocallyFree.lean` and `Generators.lean` supply the
 adjunction, cohomology, and bundle predicates. Layer D2 adds their geometric comparison theorems on
 the perfectoid sites.
@@ -667,12 +668,12 @@ Hom lift. The following are PerfectoidSpaces suppliers (names relative to
 
 | Geometric input | Exact supplier | Local use |
 |---|---|---|
-| Perfectoid pairs | `Perfectoid.PairCat`, `Perfectoid.PairCat.tiltFunctor`, `Perfectoid.PairCat.tilt_p_zero` | `Geometry.Affinoid` retains the supplied pair and adds `c = true → (p : R) = 0`; `Geometry.tiltAffinoid` uses its supplied tilt. |
+| Perfectoid pairs | `Perfectoid.PairCat`, `Perfectoid.tiltFunctor` with `Pair.tilt` and `Pair.tiltHom` (P1.6), `Perfectoid.tilt.charP` (`(p : R♭) = 0` by `CharP.cast_eq_zero`; the tilt of the zero ring is zero) | `Geometry.Affinoid` retains the supplied pair and adds `c = true → (p : R) = 0`; `Geometry.tiltAffinoid` uses its supplied tilt. |
 | Perfectoid categories | `PerfectoidSpace.isPerfectoidSpace`, `PerfectoidSpace.Perfd`, `PerfectoidSpace.InCharP`, `PerfectoidSpace.Perf` | `Geometry.Spaces` lifts their Hom types. The empty space belongs to both characteristic conventions. |
 | Affinoid spectra and maps | `PerfectoidSpace.ofPair`, `PerfectoidSpace.spaFunctor` | `Geometry.affine` and `Geometry.affineMap` apply the characteristic inclusion and Hom lift to these constructions. |
 | Fibre products | `PerfectoidSpace.hasPullbacks` | `Geometry.hasPullbacks false` transports this instance through `ULiftHom.down`; the characteristic-p case restricts to `PerfectoidSpace.Perf`. |
 | Finite étale and étale maps | `Perfectoid.Pair.IsFiniteEtale`, `PerfectoidSpace.IsFiniteEtale`, `PerfectoidSpace.IsEtale`, `PerfectoidSpace.finiteEtale_spa_iff` (P3, ECD 6.2) | `Geometry.finiteEtalePair_iff` identifies the pair predicate with geometric finite étaleness on the lifted affine carriers. `Geometry.finiteEtalePair` uses the pair predicate, including its module topology and integral closure; `Geometry.etale` pulls back the supplied geometric predicate along `Geometry.toPerfectoid`. |
-| Global tilting | `PerfectoidSpace.tiltFunctor`, `PerfectoidSpace.tilt_inCharP`, `PerfectoidSpace.tiltSpaIso`, `PerfectoidSpace.tiltSpaIso_naturality` | `Geometry.tilt` lifts the supplied functor with characteristic-p codomain; `Geometry.tiltAffineIso` and `Geometry.tilt_affine_naturality` transport the supplied affine comparison and its naturality. |
+| Global tilting | `PerfectoidSpace.tiltFunctor` (codomain `PerfectoidSpace.Perf`, which carries the characteristic-`p` clause), `PerfectoidSpace.tiltSpaIso`, `PerfectoidSpace.tiltSpaIso_naturality` | `Geometry.tilt` lifts the supplied functor with characteristic-p codomain; `Geometry.tiltAffineIso` and `Geometry.tilt_affine_naturality` transport the supplied affine comparison and its naturality. |
 
 `PerfectoidSpace.IsTildeLimit_affinoid` supplies the diagram laws, compatible
 limit topology and dense union of function rings in `Geometry.ProEtalePresentation`.
@@ -681,8 +682,8 @@ open-immersion and canonical affinoid-gluing contracts on the lifted categories.
 
 | Layer D6 input | Declaration and file | Contract |
 |---|---|---|
-| Valuation tilting | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.spaTiltHomeomorph` and `coe_spaTiltHomeomorph` (PerfectoidSpaces P2 targets) | Identifies the valuation spectra of a perfectoid pair and its tilt. `Perf.Spd.space` uses its inverse to recover the valuation of the untilt. |
-| Global tilting topology | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.tiltHomeomorph`, `tiltHomeomorph_naturality`, `tiltHomeomorph_spa` (PerfectoidSpaces P2 targets) | `Geometry.tilt_space` states their naturality and affine normalization on this file's `Geometry.Spaces` carrier with lifted Hom types and the supplied `InCharP` condition. |
+| Valuation tilting | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.spaTiltHomeomorph` (PerfectoidSpaces P2 target; its forward map is `spaTilt`) | Identifies the valuation spectra of a perfectoid pair and its tilt. `Perf.Spd.space` uses its inverse to recover the valuation of the untilt. |
+| Global tilting topology | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.tiltHomeomorph` with its naturality clause, and `tiltHomeomorph_spa` (PerfectoidSpaces P2 targets) | `Geometry.tilt_space` states their naturality and affine normalization on this file's `Geometry.Spaces` carrier with lifted Hom types and the supplied `InCharP` condition. |
 
 Layer P0: almost algebra, its ideals and almost descent. Layer P1: tilting, marked untilts and their
 classification by primitive Witt-vector elements. Layer P2: rational-affinoid geometry, completed
@@ -752,7 +753,7 @@ the same subsection, identifies open Tate charts with the valuation analytic loc
 | Layer D6 input | AdicEtaleGeometry target | Contract |
 |---|---|---|
 | Analytic Yoneda-adic sites | `YonedaAdicSpace.smallEtale`, `YonedaAdicSpace.smallFiniteEtale`, `YonedaAdicSpace.smallEtaleTopology`, `YonedaAdicSpace.smallFiniteEtaleTopology` | Full categories of locally open–finite étale–open maps and finite étale maps over the given space; covering families are jointly surjective. D6.5 compares these with the diamond sites. |
-| Analytic Yoneda-adic morphism classes | `YonedaAdicSpace.IsEtaleLocalDescription`, `YonedaAdicSpace.IsFiniteEtale` | Both source and target are analytic; finite étale charts use the entire inverse image and its integral plus ring. These definitions belong to A1; at the pins A1 declares them on Tau Ceti adic spaces as `AdicSpace.IsEtaleLocalDescription` and `AdicSpace.IsFiniteEtale`. |
+| Analytic Yoneda-adic morphism classes | `YonedaAdicSpace.IsEtaleLocalDescription`, `YonedaAdicSpace.IsFiniteEtale` | Both source and target are analytic; finite étale charts use the entire inverse image and its integral plus ring. These definitions belong to A1; AdicEtaleGeometry's `Suggested.lean` declares them on Tau Ceti adic spaces as `AdicSpace.IsEtaleLocalDescription` and `AdicSpace.IsFiniteEtale`. |
 
 For the locally noetherian adic étale site, [Huber96] §2.1, p. 109, takes étale maps to `X`
 and jointly surjective families. Definition 1.6.5, p. 78, requires local finite presentation and
@@ -769,10 +770,10 @@ the Tate norm `tateNorm` of a ring of definition; layer R1 (§R1.1): fixed-field
 AdicSpacesPartIII layer R2: formal schemes, generic fibres and Hasse domains, including flat
 topologically finite type algebras (§R2.1) and the specialisation map (§R2.4); layer R3: the
 Gel'fand spectrum `GelfandSpectrum` of a Banach ring with its compactness, Hausdorffness and
-functoriality (`comap`) and Berkovich's maximum formula for the spectral seminorm
-(*gelfand-spectrum-banach-ring*). SchemeAndStackFoundations specifies the following supplier targets
-in its `README.md`. The table identifies each specification by section and target name;
-`cohomology_filtered_colimits` denotes the coherent-site contract in its §2.5.
+functoriality (the induced map `M(B) → M(A)`) and Berkovich's maximum formula for the spectral
+seminorm (*gelfand-spectrum-banach-ring*). SchemeAndStackFoundations specifies the following
+supplier targets in its `README.md`. The table identifies each specification by section and target
+name; `cohomology_filtered_colimits` denotes the coherent-site contract in its §2.5.
 SchemeAndStackFoundations owns these generic site constructions on an arbitrary site `(C, J)`, and
 D0.18–D0.19, D0.25–D0.26 and D3.10 are their v-site specialisations, stated as comparisons. No
 import from the scheme roadmap is required by the statements of `Suggested.lean`.
@@ -789,7 +790,7 @@ import from the scheme roadmap is required by the statements of `Suggested.lean`
 | Spectrum input | Declaration and supplier | Contract |
 |---|---|---|
 | Tate norm | `TauCetiRoadmap.AdicSpacesPartII.Huber.TateNormDatum`, `Huber.tateNorm` (AdicSpacesPartII R0 targets) | R0 specifies the ring of definition, the pseudouniformizer and the radius. D5.13 uses radius `1/2`. |
-| Bounded spectrum | `TauCetiRoadmap.AdicSpacesPartIII.Huber.GelfandSpectrum`, `Huber.GelfandSpectrum.comap` (AdicSpacesPartIII R3; `Huber.GelfandSpectrum` is declared at the pins and `comap` is a target) | R3 defines the subtype of `MulRingSeminorm R` bounded by a positive constant times the given norm, with pointwise topology. D5.13 identifies its normalized subspace with continuous normalized seminorms when the norm is `tateNorm d`. |
+| Bounded spectrum | `TauCetiRoadmap.AdicSpacesPartIII.Huber.GelfandSpectrum` and the continuous map `M(B) → M(A)` of *gelfand-spectrum-banach-ring* (AdicSpacesPartIII R3.9; `Huber.GelfandSpectrum` is declared at the pins, and the induced map is prose there with no Lean name) | R3 defines the subtype of `MulRingSeminorm R` bounded by a positive constant times the given norm, with pointwise topology. D5.13 identifies its normalized subspace with continuous normalized seminorms when the norm is `tateNorm d`. |
 
 The representable sheaf and its maps are `CategoryTheory.GrothendieckTopology.yoneda`
 (`Mathlib/CategoryTheory/Sites/Canonical.lean`); the geometric assertion retained here is that these
@@ -807,9 +808,9 @@ space of a formal scheme, used in D6.6.
 `CategoryTheory.Limits.HasCoproducts`, `Sigma.ι`, `Sigma.desc` and `coproductUniqueIso_inv` in
 `Mathlib/CategoryTheory/Limits/Shapes/Products.lean` supply the disjoint-union universal property
 and the singleton comparison. `Geometry.hasCoproducts` supplies Type 1 indexed coproducts on this
-file's Yoneda-adic `Geometry.Spaces p c`. `PerfectoidSpace.perfd_hasCoproducts`, `sigmaPoints` and
-`sigmaPoints_ι`, targets of PerfectoidSpaces, concern Type 0 indexed families on
-`PerfectoidSpace.Perfd p`; the carrier and index universe differ here.
+file's Yoneda-adic `Geometry.Spaces p c`. PerfectoidSpaces' `sigmaPoints`, with its Checks
+`sigmaPoints_empty`, `sigmaPoints_singleton` and `sigmaPoints_two_components` (P6.4), concerns
+Type 0 indexed families on `PerfectoidSpace.Perfd p`; the carrier and index universe differ here.
 
 The Layer D0 comparisons also use the following exact suppliers. The bounded pro-category,
 topos-limit presentation and torsor-class functor add the stated geometric conditions and canonical
@@ -914,9 +915,10 @@ the predicate that a topological space admits an open cover by subspaces that ar
 `IsLocallySpectralMap` as the predicate that a continuous map is spectral in the relative sense of
 [ECD] 2.1: for all open `U ⊆ X` and `V ⊆ Y` that are spectral with `f(U) ⊆ V`, the restriction
 `U → V` is `IsSpectralMap`. Prove `spectralSpace_iff_isLocallySpectralSpace` (a space is spectral
-iff it is locally spectral, quasicompact and quasiseparated, [KL15] Definition 8.1.1, p. 156; in
-particular every spectral space is locally spectral); that a locally spectral space has a basis of
-quasicompact opens and is sober and locally quasiseparated (the suggested Lean form states the
+iff it is locally spectral, quasicompact and quasiseparated, [KL15] §8.1, text after Definition
+8.1.1, p. 157; in particular every spectral space is locally spectral); that a locally spectral
+space has a basis of quasicompact opens and is sober and locally quasiseparated (the suggested Lean
+form states the
 basis, quasi-sobriety and T0, which together are sobriety, and local quasiseparatedness is the
 statement that each member of the spectral cover is quasiseparated; the basis, quasi-sobriety and T0
 clauses are assembled from Mathlib's `PrespectralSpace.of_isOpenCover`, `quasiSober_of_open_cover`
@@ -962,16 +964,6 @@ the relative condition). Every perfectoid space is locally spectral, and a qcqs 
   `IsSpectralMap` (the preimage of the whole space is `ℕ`), so the agreement needs a spectral source
   even over a spectral target.
 - `s0_1_locally_spectral_empty_map` — every map from the empty space is spectral in both senses.
-
-**`sierpinskiTopology`.** The open point is `true`; this fixes the specialization convention.
-
-**Checks.**
-
-- `definition_sierpinskiTopology_1` — The open subsets are exactly ∅, {true}, and the whole
-  two-point set.
-- `definition_sierpinskiTopology_2` — The closed singleton {false} has closure {false}.
-- `definition_sierpinskiTopology_3` — The space is not Hausdorff; the discrete two-point alternative
-  fails this control.
 
 **`IsLocallySpectralSpace`.** Local spectrality allows infinitely many disjoint spectral opens.
 
@@ -1267,7 +1259,8 @@ for `f⁻¹(U)` open: `X ∖ U` is the image of the closed set `f⁻¹(X ∖ U)`
 and a generalization of a point of `U` lifts into the open `f⁻¹(U)`, so `X ∖ U` is stable under
 specialization and closed by D0.4. *Needs:* D0.4 and D0.3; Mathlib `GeneralizingMap`,
 `Topology.IsQuotientMap`, `IsCompact.image`, `Continuous.isClosedMap`,
-`Topology.IsClosedMap.isQuotientMap`.
+`Topology.IsClosedMap.isQuotientMap`, and `PrimeSpectrum.isQuotientMap_of_generalizingMap` (the
+`Spec` case, for `comap` of a ring map).
 
 **Checks.**
 
@@ -2159,18 +2152,18 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 topological space and `A` an abelian group. Prove that the constant sheaf `A_X` has sections `A` on
 every nonempty open and the zero group on the empty open, and that all restriction maps are
 surjective, so `A_X` is flasque in the sense of Mathlib's `TopCat.Presheaf.IsFlasque` ([Stacks
-constant sheaves] Lem. 20.20.2, Tag 02UW); the vanishing `Hⁱ(X, A_X) = 0` for `i > 0` then follows
-from Tau Ceti's `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`, the acyclicity of every flasque
-sheaf of abelian groups on a space, and Čech vanishing for flasque sheaves is the not-yet-typed
-supplier target in SchemeAndStackFoundations §2.5 (`flasque_cech_vanishing`); neither is restated:
-the Lean statement `isFlasque_constantSheaf` carries the flasqueness clause, and the vanishing
-clause is only its composite with that Tau Ceti lemma. A spectral space with a generic point is such
-an `X`, which is how the fibres with a generic point in [ECD] 13.13 are handled. Irreducibility is
-used for the value `A` on nonempty opens: every nonempty open of an irreducible space is connected.
-`constantSheaf_sections_of_irreducibleSpace` states the abelian-group isomorphism on each nonempty
-open; `isZero_constantSheaf_empty` states that the empty-open value is zero, for every space. Both
-use Mathlib's constant sheaf and assume its sheafification instance. `isFlasque_constantSheaf` is
-the flasqueness theorem. *Needs:* Mathlib `TopCat.Presheaf.IsFlasque`,
+constant sheaves] proof of Lem. 20.20.2, Tag 02UW); the vanishing `Hⁱ(X, A_X) = 0` for `i > 0`
+then follows from Tau Ceti's `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`, the acyclicity of
+every flasque sheaf of abelian groups on a space, and Čech vanishing for flasque sheaves is the
+not-yet-typed supplier target in SchemeAndStackFoundations §2.5 (`flasque_cech_vanishing`); neither
+is restated: the Lean statement `isFlasque_constantSheaf` carries the flasqueness clause, and the
+vanishing clause is only its composite with that Tau Ceti lemma. A spectral space with a generic
+point is such an `X`, which is how the fibres with a generic point in [ECD] 13.13 are handled.
+Irreducibility is used for the value `A` on nonempty opens: every nonempty open of an irreducible
+space is connected. `constantSheaf_sections_of_irreducibleSpace` states the abelian-group
+isomorphism on each nonempty open; `isZero_constantSheaf_empty` states that the empty-open value is
+zero, for every space. Both use Mathlib's constant sheaf and assume its sheafification instance.
+`isFlasque_constantSheaf` is the flasqueness theorem. *Needs:* Mathlib `TopCat.Presheaf.IsFlasque`,
 `CategoryTheory.Sheaf.cohomologyPresheaf`; Tau Ceti
 `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`.
 
@@ -4811,7 +4804,11 @@ without further comment. *Needs:* D2.5; D2.1.
 
 `Geometry.ORing` and `Geometry.OplusRing` are the supplied global section and plus
 rings, with pullback along geometric maps; their underlying set presheaves are
-`Geometry.O` and `Geometry.Oplus : (Geometry.Spaces p c)ᵒᵖ ⥤ Type 2`.
+`Geometry.O` and `Geometry.Oplus : (Geometry.Spaces p c)ᵒᵖ ⥤ Type 2`. The pullback of plus
+rings is `Geometry.globalPullback_plus` (README only): for a morphism `f : Y ⟶ X` of
+`PerfectoidSpace.Perfd p` and `s ∈ globalPlus X`, `globalPullback f s ∈ globalPlus Y`: at `y ∈ Y`,
+`|(globalPullback f s)(y)| = |s(f(y))| ≤ 1`, because the stalk map of a morphism of pre-adic spaces
+pulls the valuation at `y` back to the valuation at `f(y)`, up to equivalence.
 `Geometry.O_isSheaf_proEtale` and `Geometry.Oplus_isSheaf_proEtale` assert the big
 pro-étale sheaf conditions ([ECD] Corollary 8.6, p. 42).
 
@@ -4885,6 +4882,12 @@ completed-tensor plus-ring almost formula).
   (`R` is reduced and the spectral seminorm is a norm); separatedness of `O` is exactly this.
 - `s2_7_not_sheaf_without_image_condition` (non-example) — for the family `{∅ → X}` with `X ≠ ∅`, which
   is pro-étale and flat but not a covering, the equalizer of `O(∅) ⇉ O(∅ ×_X ∅)` is `0 ≠ O(X)`.
+- `structurePresheaf_empty` (degenerate case) — on a perfectoid space with `IsEmpty X.obj` the value
+  of `structurePresheaf` is a subsingleton ring: the top open of `X` is the empty open, whose
+  sections are terminal by the sheaf condition.
+- `structurePresheaf_map` (computation) — for `f : Y ⟶ X` the map of `structurePresheaf` is the
+  global-sections pullback `O_X(X) → O_Y(Y)` of `f` (by `rfl`), so the presheaf is not constant in
+  `X`.
 
 `Geometry.O_isSheaf_v` and `Geometry.Oplus_isSheaf_v` prove ring-valued v-descent;
 `Geometry.O_isSheaf` and `Geometry.Oplus_isSheaf` give the set-valued statements.
@@ -4899,7 +4902,8 @@ from Mathlib's `PresheafedSpace.Γ`; `isSheaf_structurePresheaf` is its v-sheaf 
 site and degree-zero cohomology are specified in the README only.
 
 Lean: `structurePresheaf`, `isSheaf_structurePresheaf` and `vTopology_subcanonical`, with an example
-computing the value of `structurePresheaf` at `X` as `O_X(X)`. The rest of this subsection is
+computing the value of `structurePresheaf` at `X` as `O_X(X)` and the Checks
+`structurePresheaf_empty` and `structurePresheaf_map` as examples. The rest of this subsection is
 specified in the README only (no Lean declaration).
 
 ### D2.8 Higher v-acyclicity
@@ -6037,7 +6041,7 @@ closed embedded image in the valuation topology ([ECD] Definition 5.6).
 an effective open cover of the source by separated maps. `Geometry.quasiProEtale` tests
 pro-étale representability after strictly totally disconnected base changes, with local
 separatedness included; `Geometry.sheafEtale` tests the geometric étale class on all
-representables ([ECD] Definitions 10.1, 10.2 and 10.7).
+representables ([ECD] Definition 10.1, Convention 10.2 and Definition 10.7).
 
 For every morphism of `Geometry.VSheaf p`, `Geometry.sheafClosed_iff`, `Geometry.separated_iff`,
 `Geometry.locallySeparated_iff`, `Geometry.quasiProEtale_iff` and `Geometry.sheafEtale_iff` are
@@ -6963,7 +6967,7 @@ Lem. 12.11 with proof, p. 72; footnote 2 on p. 71, introducing this result, cred
 discussions of the two notions of surjectivity). Without the quasicompactness hypothesis the
 converse fails: a quasi-pro-étale map from a perfectoid space that is surjective on underlying
 spaces need not be a surjection of v-sheaves, because it need not be quasicompact ([ECD] Rem. 12.19,
-p. 74); this is the required non-example, and the map `⊔_{n ∈ ℤ_p} Spa(C, O_C) → ℤ_p̲ × Spa(C, O_C)`
+p. 75); this is the required non-example, and the map `⊔_{n ∈ ℤ_p} Spa(C, O_C) → ℤ_p̲ × Spa(C, O_C)`
 of D4.4 is an instance: pro-étale, bijective on underlying spaces, not quasicompact, and not a
 surjection of v-sheaves, since every quasicompact open of the source has finite image in `ℤ_p` and
 so no quasicompact open maps onto the quasicompact target, as a v-cover would require. *Needs:*
@@ -7177,7 +7181,7 @@ characteristic convention, and `K : Geometry.FieldPoint p c`,
 surjective maps of field spectra. `Geometry.fieldSetoid` and `Geometry.Points` form the
 resulting quotient. Surjectivity prevents a strict generalization from being identified
 with its specialization; field automorphisms still identify reparametrizations of the same
-geometric point ([ECD] Propositions 11.13–11.14).
+geometric point ([ECD] Proposition 11.13 and Definition 11.14).
 `Perf.Diamond.space_eq_points` fixes the comparison on the closed point of each field
 spectrum. `Geometry.continuousMap_isSheaf` supplies continuous-map descent for the atlas
 quotient comparison ([ECD] Propositions 11.13 and 12.7). In
@@ -8235,8 +8239,8 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 definition `R₀` and `ϖ ∈ R₀` a topologically nilpotent unit of `R`. The Gel'fand spectrum
 `M(R, ‖·‖)` of bounded multiplicative seminorms for the Banach norm `tateNorm d` of `(R₀, ϖ)` with
 radius `d.r = 1/2` (AdicSpacesPartII layer R0), with the topology of pointwise convergence, its
-compactness and Hausdorffness, its contravariant functoriality `comap` along bounded ring maps and
-Berkovich's maximum formula for the spectral seminorm are AdicSpacesPartIII layer R3
+compactness and Hausdorffness, its contravariant functoriality `M(B) → M(A)` along bounded ring
+maps and Berkovich's maximum formula for the spectral seminorm are AdicSpacesPartIII layer R3
 (*gelfand-spectrum-banach-ring*), and none of it is restated; a continuous multiplicative seminorm
 normalized by `|ϖ| = 1/2` is bounded by the corresponding Tate norm. Continuity alone does not imply
 boundedness for a fixed Banach norm: on `ℚ_p`, the continuous powers `|·|_p^s`, `s ≠ 1`, are not
@@ -8265,10 +8269,10 @@ topologically nilpotent unit `ϖ'`, raising each seminorm to the exponent `s = l
 which is defined and positive because `0 < |ϖ'| < 1` (`ϖ'` is a unit, so `|ϖ'| ≠ 0`; it is
 topologically nilpotent and `|·|` is continuous, so `|ϖ'| < 1`), renormalises `|ϖ'|` to `1/2` and is
 a homeomorphism between the two subspaces, so `BerkovichSpectrum R ϖ` is canonically independent of
-`ϖ`; the same rescaling after R3's `comap` makes the normalised spectrum contravariantly functorial
-along continuous ring maps of Tate rings, which is the functoriality that D5.14 extends. For an open
-and integrally closed subring `R⁺ ⊂ R°`, every point of `Spa(R, R⁺)` has a unique rank-one
-generalisation: existence is Tau Ceti's
+`ϖ`; the same rescaling after R3's induced map of Gel'fand spectra makes the normalised spectrum
+contravariantly functorial along continuous ring maps of Tate rings, which is the functoriality that
+D5.14 extends. For an open and integrally closed subring `R⁺ ⊂ R°`, every point of `Spa(R, R⁺)` has
+a unique rank-one generalisation: existence is Tau Ceti's
 `TauCeti.ValuationSpectrum.IsAnalyticPoint.exists_coarsenByUnits_mem_spaAnalytic`, a height-one
 vertical generisation of a continuous analytic point in `Spa(R, R⁺)` for `R⁺` inside the
 power-bounded elements, every point of `Spa` of a Tate ring being analytic
@@ -8293,16 +8297,16 @@ normalised at two topologically nilpotent units, `BerkovichSpectrum.ofSpa` as th
 surjection `Spa(R, R⁺) → BerkovichSpectrum R ϖ` sending a point to its rank-one generalisation and
 `BerkovichSpectrum.toSpa` as the set-theoretic section of `ofSpa` selecting the rank-one point of a
 seminorm; prove that the rank-one generalisation of a point of `Spa(R, R⁺)` exists and is unique,
-that `ofSpa` is natural in `(R, R⁺)` with respect to R3's `comap` followed by `changeNormalization`
-(a map of adic spectra sends the rank-one generalisation to the rank-one generalisation), that
-`ofSpa` is a quotient map, these three README only, and `nonempty_t2Quotient_spa_homeomorph`
-(`BerkovichSpectrum R ϖ` is compact Hausdorff and
+that `ofSpa` is natural in `(R, R⁺)` with respect to R3's induced map of Gel'fand spectra followed
+by `changeNormalization` (a map of adic spectra sends the rank-one generalisation to the rank-one
+generalisation), that `ofSpa` is a quotient map, these three README only, and
+`nonempty_t2Quotient_spa_homeomorph` (`BerkovichSpectrum R ϖ` is compact Hausdorff and
 `T2Quotient (Spa(R, R⁺)) ≃ₜ BerkovichSpectrum R ϖ`, the universal property) ([ECD] §13, Def. 13.7,
 Rem. 13.8 and Prop. 13.9 with proof, p. 79). *Needs:* AdicSpacesPartIII layer R3
-(*gelfand-spectrum-banach-ring*: `GelfandSpectrum`, its compactness and Hausdorffness, `comap`) and
-AdicSpacesPartII layer R0 (`tateNorm`); Mathlib `MulRingSeminorm`, `IsTopologicallyNilpotent`,
-`Valuation.RankOne.hom`, `Continuous.isClosedMap`, `Topology.IsClosedMap.isQuotientMap`,
-`T2Quotient`, `T2Quotient.lift`; Tau Ceti
+(*gelfand-spectrum-banach-ring*: `GelfandSpectrum`, its compactness and Hausdorffness, and the
+induced map `M(B) → M(A)`) and AdicSpacesPartII layer R0 (`tateNorm`); Mathlib `MulRingSeminorm`,
+`IsTopologicallyNilpotent`, `Valuation.RankOne.hom`, `Continuous.isClosedMap`,
+`Topology.IsClosedMap.isQuotientMap`, `T2Quotient`, `T2Quotient.lift`; Tau Ceti
 `TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition`,
 `TauCeti.ValuationSpectrum.IsAnalyticPoint.exists_coarsenByUnits_mem_spaAnalytic`,
 `TauCeti.ValuationSpectrum.isAnalyticPoint_of_isTateRing`.
@@ -8350,12 +8354,10 @@ AdicSpacesPartII layer R0 (`tateNorm`); Mathlib `MulRingSeminorm`, `IsTopologica
   `η_{0,r}`, `r → 1⁻`, have `|T| = r < 1` and converge to `η` in the pointwise topology. So the
   section is not continuous, as [ECD] Prop. 13.9 warns.
 
-- `archimedean_normalization_fails` (non-example) — on `ℝ`, `|·|^{1/2}` normalizes `1/4` to `1/2`,
-  whereas no continuous multiplicative seminorm normalizes `3/4` to `1/2`. On the real field a
-  continuous multiplicative seminorm is `|·|^s` with `0 < s ≤ 1`: multiplicativity and continuity on
-  positive reals give the power, and the two-term inequality at `1 + 1` gives `2^s ≤ 2`. Normalizing
-  `3/4` would require `s = log(1/2)/log(3/4) > 1`, contradicting that inequality. The Tate
-  hypothesis rules out this obstruction; continuity and topological nilpotence alone do not.
+- `archimedean_empty` (non-example) — for every `ϖ`, `BerkovichSpectrum ℝ ϖ` is empty: a continuous
+  nonarchimedean multiplicative seminorm on `ℝ` would satisfy `α(1/n) ≥ 1` for all `n` while
+  `1/n → 0`; the nonarchimedean clause excludes archimedean rings before any normalization question
+  arises.
 
 `BerkovichSpectrum.comap` is the continuous pullback map for a continuous ring homomorphism
 `f : R → S` with `f(ϖ) = ψ`; `comap_apply` fixes its value to `α(f(r))`. For a general map of Tate
@@ -8773,7 +8775,7 @@ The localization and locally closed generalizing-subdiamond comparisons are on t
 same site. Their homeomorphisms commute with the specified inclusion into the base.
 `Perf.Diamond.localization_isLimit` states the universal cone property over every
 quasicompact open neighbourhood and the spatiality of the result ([ECD] Lemma 11.22
-and the proof of Proposition 11.31).
+and the proof of Lemma 11.31).
 
 **`Perf.berkovich` — Checks.**
 
@@ -9818,7 +9820,7 @@ states the reduced nonseminormal obstruction over `Spd K`; the polynomial Check
 `cusp_not_full` computes the missing parameter that violates the square-cube criterion.
 
 **Geometric diamondification contracts.** `Geometry.tiltAffinoid` uses
-`Perfectoid.PairCat.tiltFunctor`; `Geometry.tilt` lifts `PerfectoidSpace.tiltFunctor`. For a prime `p`, `Geometry.tiltAffineIso` and
+`Perfectoid.tiltFunctor` on the pair through `Pair.tilt` and `Pair.tiltHom`; `Geometry.tilt` lifts `PerfectoidSpace.tiltFunctor`. For a prime `p`, `Geometry.tiltAffineIso` and
 `Geometry.tilt_affine_naturality` identify `Geometry.tilt` on affinoids and their maps.
 For prime `p`, `Geometry.tilt_toPerfectoid` identifies the whole composite
 `Geometry.tilt p ⋙ Geometry.toPerfectoid p true` with
