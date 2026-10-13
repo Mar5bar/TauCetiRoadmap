@@ -245,6 +245,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations #779, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
+| Finite-image representation carriers and local polynomials | [ArithmeticGaloisRepresentations, Layers 1–2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c601f10/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md): `ContinuousRep`, `GaloisRep.localEulerFactor`, `WeilDeligneRep.localFactor`, §2.5 | AA.2.4 compares factors for representations defined over a common number field with specified complex and ℓ-adic embeddings. The supplier uses geometric Frobenius and a polynomial; AA uses arithmetic Frobenius and its reciprocal. The comparison uses the dual ℓ-adic representation and `N = 0`, with `ℓ` different from the residue characteristic. |
 | Linear Haar scaling | [MassFormula #226, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
 | Rational tuple heights | [ArithmeticHeights #287, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
 | Finite-order Hecke analysis | [LFunctions #248, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries #286 supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
@@ -281,7 +282,7 @@ All names in this section are part of the dependency contract. Each is cited aga
 
 | Object | Exact supplier and declaration | Use here |
 |---|---|---|
-| Compactness for a definite quaternion algebra | OverconvergentForms §§0.2–0.3: `TauCetiRoadmap.OverconvergentForms.Dfx`, `TauCetiRoadmap.OverconvergentForms.unitsIncl`, `TauCetiRoadmap.OverconvergentForms.globalUnits`, `TauCetiRoadmap.OverconvergentForms.classSet`, `TauCetiRoadmap.OverconvergentForms.finite_classSet`; **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**, **DefiniteQuaternion.finite_stab**: `TauCetiRoadmap.OverconvergentForms.DefiniteQuaternion.finite_stab` | AA.5.3 uses the finite adelic topology and class set, specializes stabilizer finiteness to `F = ℚ`, and conjugates `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. The supplier is the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one. |
+| Compactness for a definite quaternion algebra | [OverconvergentForms §§0.2–0.3 and the stabilizer target](https://github.com/WilliamCoram/PhD/blob/9d948b203d93167c41d8f171a7a4c9ebbf7cd4b5/PhD/TauCeti/Roadmaps/OverconvergentForms/README.md): `TauCetiRoadmap.OverconvergentForms.Dfx`, `TauCetiRoadmap.OverconvergentForms.unitsIncl`, `TauCetiRoadmap.OverconvergentForms.globalUnits`, `TauCetiRoadmap.OverconvergentForms.classSet`, `TauCetiRoadmap.OverconvergentForms.finite_classSet`; **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**, **DefiniteQuaternion.finite_stab**: `TauCetiRoadmap.OverconvergentForms.DefiniteQuaternion.finite_stab` | AA.5.3 requires the TauCetiRoadmap import of this supplier, with the finite-adele module topology and canonical units topology. It specializes stabilizer finiteness to `F = ℚ` and conjugates `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. |
 
 ### From Mathlib
 
@@ -1705,8 +1706,10 @@ restriction of scalars.
   AA → LFunctions #248 → ThetaSeries #286, with GlobalNumberFields and
   ArithmeticDirichletSeries providing the carriers. The analytic hypotheses of
   the nonvanishing of the leading coefficient are precisely that Hecke/reciprocity contract.
-  AA constructs finite-image representations, inertia invariants, induction and their
-  determinant identities. General Artin coefficients need not be completely multiplicative
+  AA constructs the complex Artin factors and their induction and analytic assembly on the
+  finite-image representation carriers of ArithmeticGaloisRepresentations, Layers 1–2.
+  The coefficient and Frobenius comparison below relates its local polynomials to these factors.
+  General Artin coefficients need not be completely multiplicative
   and do not inhabit `UnitaryIdealWeight`.
   Use arithmetic Frobenius throughout; if a reciprocity API uses geometric Frobenius,
   compose its reciprocity map with inversion before forming the Hecke character.
@@ -1753,6 +1756,35 @@ restriction of scalars.
     `splitLeadingCoeff F 1 = dedekindZeta_residue F`;
     `splitLeadingCoeff F 2` is the square of that residue.
     The local rank-two factor and double-pole coefficient both use the exponent `2`.
+
+- **Finite-image comparison with Galois and Weil–Deligne local polynomials.** Let `ρ` be a
+  continuous finite-image Galois representation of a number field `F`, defined on a
+  finite-dimensional vector space over a number field `C`. Fix embeddings `ι∞ : C → ℂ` and
+  `ιℓ : C → Eℓ`, where `Eℓ` is a finite extension of `ℚ_ℓ`. For a finite place `v ∤ ℓ`, let `I_v`
+  be the inertia image and `Φ_v` an arithmetic Frobenius lift. Put
+  `P_v(T) = det_C(1 − Tρ(Φ_v) | V^{I_v})`. Prove that inertia invariants commute with both
+  coefficient extensions and that the complex Artin factor is
+  `L_v(ρ_ℂ,s) = (ι∞(P_v)(q_v^{−s}))⁻¹`. With geometric lift `Φ_v⁻¹`, prove
+  `GaloisRep.localEulerFactor(ρ_ℓ^∨, Φ_v⁻¹) = ιℓ(P_v)` and the same equality for
+  `WeilDeligneRep.localFactor` of `WD(ρ_ℓ^∨)`; finite image gives `N = 0`.
+  The finite inertia order is invertible in the characteristic-zero coefficient fields:
+  averaging identifies dual invariants with the dual of invariants, and the geometric lift
+  on the dual acts as the transpose of the original arithmetic lift. This proves the determinant
+  comparison, without identifying the complex and ℓ-adic coefficient spaces.
+  AA owns this specialization of [Marzec–Neururer], Definition 5.11, p. 62, and
+  ArithmeticGaloisRepresentations §2.5, *Local factors* (Deligne 1973, 3.5.1, p. 528, and
+  8.12, p. 572). *Needs:* the finite-image and local-polynomial supplier contract above;
+  *convergence-factors*.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - Zero inertia invariants give `P_v = 1` and Artin factor one; the rank-one trivial
+    representation gives `P_v = 1 − T` and `(1 − q_v^{−s})⁻¹`.
+  - The quadratic character of `ℚ(i)/ℚ` at 2 has no inertia invariants, so both local
+    polynomials are `1` (take `ℓ ≠ 2`). For `Ind_{ℚ(i)}^ℚ 1` the invariant line instead gives `1 − T`.
+  - For an unramified character with arithmetic eigenvalue a nontrivial cube root `ζ`,
+    `P_v = 1 − ζT`; the geometric lift on the same representation would give `1 − ζ⁻¹T`.
+    Taking the dual with the geometric lift restores `1 − ζT`.
 - **Orders of connected reductive groups over finite fields.** For a connected reductive
   group `H/𝔽_q`, choose a Frobenius-stable Borel pair `(B,T)` over the algebraic closure.
   Put `W = W(H,T)`, `N = #Φ⁺` and let `F*` act on `X*(T)`. Prove
@@ -1921,20 +1953,37 @@ gauge forms and the global discriminant; these are not supplied by the linear la
   layer 4; the exact trace, index and product-formula suppliers above.
   *Lean:* none; specified in the README only.
 
-- **Gauge forms under restriction of scalars.** For `E/F` finite and `ω_E` a gauge form, choose
-  an `F`-basis `β` of `E` and an `E`-basis `e_1, …, e_d` of `Lie(G_E)` with `ω_E(e_1, …, e_d) = 1`,
-  and let `ω_β` be the `F`-top form taking the value `1` on the ordered `F`-basis `(β_j e_i)` of the
-  restricted Lie algebra (for `E = F`, `G = G_a` and `β = (b)` this gives `ω_β = b⁻¹ dx`, matching
-  `j_{β,v} = |b|_v⁻¹` below).
+- **Gauge forms under restriction of scalars.** For a finite extension of number fields `E/F`,
+  a smooth connected affine `E`-group `G_E` of dimension `d ≥ 0` and a gauge form `ω_E`, choose
+  an `F`-basis `β` of `E` and any `E`-basis `e_1, …, e_d` of `Lie(G_E)`. Put
+  `a = ω_E(e_1, …, e_d) ∈ E^×`. Define the invariant `F`-top form `ω_β` by
+  `ω_β((β_j e_i)_{i,j}) = N_{E/F}(a)`, ordering first by `i`, then by `j`.
+  A change of `E`-basis by `M` multiplies `a` by `det_E M` and the restricted basis determinant
+  by `N_{E/F}(det_E M)` (`LinearMap.det_restrictScalars`), so the form is independent of `e`.
+  Scaling `ω_E` by `c ∈ E^×` scales `ω_β` by `N_{E/F}(c)`. In dimension zero the empty basis
+  gives `a = ω_E ∈ E^×` and `ω_β = N_{E/F}(ω_E)` in the degree-zero exterior-power line.
   At `v`, transport `|ω_β|_v` to `G_E(∏_{w|v} E_w)` and prove that it equals
   `j_{β,v}^d ∏_{w|v} |ω_E|_w`, where `j_{β,v}` is defined by
   `(β-coordinates)_* μ_{F_v}^{[E:F]} = j_{β,v} ∏_{w|v} μ_{E_w}`. It depends on `β` and is not an
   unspecified square root of a local discriminant. This is a chartwise deduction
-  from the preceding local Jacobians and [Platonov–Rapinchuk–Rapinchuk],
+  from `|N_{E/F}(a)|_v = ∏_{w|v} |a|_w`, the preceding local Jacobians and [Platonov–Rapinchuk–Rapinchuk],
   Theorem 3.71, p. 196; it does not use a general scalar-restriction assertion
   from [Rosengarten], §1, p. 2. *Needs:* AA.2.4;
-  AA.1.4; GlobalNumberFields, layer 0; AA.2.5.
-  *Lean:* none; specified in the README only.
+  AA.1.4; GlobalNumberFields, layer 0; AA.2.5; Mathlib `LinearMap.det_restrictScalars`.
+  *Lean:* `GaugeForm.trivialGroupEquiv` identifies the degree-zero line with the base field;
+  the general construction is specified in the README only.
+
+  **Checks.**
+  - For the trivial group and `ω_E = 1`, both forms give the one-point group mass one at every
+    place, including the real and 2-adic places of `E = F = ℚ`.
+  - For the trivial group over `E = F = ℚ` and `ω_E = 2`, the restricted form is `2`, with mass
+    `2` at infinity and `1/2` at 2. The scalar Jacobian contributes `j_{β,v}^0 = 1`, and the
+    product formula cancels the gauge scaling globally.
+  - For the trivial group over `ℚ(i)/ℚ`, the gauge `1+i` restricts to the scalar
+    `N_{ℚ(i)/ℚ}(1+i) = 2`. The complex mass is `2`, and the mass at the place above 2 is `1/2`,
+    agreeing with the real and 2-adic masses of the restricted form.
+  - For `E = F`, `G = G_a`, `ω_E = dx` and `β = (b)`, the construction gives `ω_β = b⁻¹ dx`
+    and `j_{β,v} = |b|_v⁻¹`.
 - **Inductivity of the convergence factors.** For a finite separable `E/F` and a finite-image
   complex Galois representation `X` over `E`, prove that the induced representation satisfies
   `L_v(Ind X, s) = ∏_{w|v} L_w(X, s)` at every finite `v`, including ramified `v` with inertia
@@ -3121,7 +3170,7 @@ real points may be disconnected. The objects below are specified in the README o
 
 An algebraic Cartan datum on a group with coordinate algebra `B` specifies a faithful rational
 matrix representation `ρ`, a positive
-real form `b`, and an involution with the equation
+real form `b`, and a real algebraic involution `θ` of `G_ℝ` with the equation
 `ρ(θ(g))=b⁻¹ρ(g⁻¹)ᵀb`. Its compact subgroup is exactly `Fix(θ)` and is maximal
 among compact subgroups. This inverse-adjoint realization imposes algebraic Cartan
 compatibility, in addition to compactness. Such data exist for
@@ -4008,9 +4057,12 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* `LevelMaps.isCoveringMap_levelMap` (covering map with fibres of `[U : U′]` elements).
 
   **Checks.**
-  - For `GL_1/ℚ`, `K∞ = ℝ_{>0} = A_G(ℝ)^0`, `U = 1 + 3ℤ̂` and `U′ = 1 + 9ℤ̂`, the decomposition
+  - For `GL_1/ℚ`, put `U(N) = ker(ℤ̂^× → (ℤ/N)^×) = ℤ̂^× ∩ (1 + Nℤ̂)` for `N ≥ 1`.
+    With `K∞ = ℝ_{>0} = A_G(ℝ)^0`, `U = U(3)` and `U′ = U(9)`, the decomposition
     `𝔸^× = ℚ^× × ℝ_{>0} × ℤ̂^×` makes `X_U` and `X_{U′}` the discrete sets `(ℤ/3)^×` and
-    `(ℤ/9)^×`, and every fibre has `[U : U′] = 3` points.
+    `(ℤ/9)^×` of cardinalities two and six, and every fibre has `[U : U′] = 3` points.
+    The affine set `1 + 3ℤ̂` itself contains an element with zero 2-adic component
+    (take `z₂ = −1/3` and `z_p = 0` for `p ≠ 2` in `1 + 3z`), so it is not a subgroup of ideles.
   - For `SL_2/ℚ`, `a_G = 0` and the two conditions say that `K∞` is compact. With `K∞ = SO(2)` and
     `U(N) = ker(SL_2(ℤ̂) → SL_2(ℤ/N))`, the map `X_{U(9)} → X_{U(3)}` is `Γ(9)\ℍ → Γ(3)\ℍ`, of
     degree `27 = |ker(SL_2(ℤ/9) → SL_2(ℤ/3))|`.
@@ -4434,15 +4486,28 @@ preceding layers; each item is a target with its own locator.
 
 ### 5.3 Definite quaternion groups
 
-- **Compactness for a definite quaternion algebra.** Provides finite-adelic compactness,
-  finite class sets and stabilizers for definite quaternion groups.
-  Supplied by OverconvergentForms §§0.2–0.3 (the roadmap of W. Coram, to be contributed to
-  TauCetiRoadmap ahead of this one), including **DefiniteQuaternion.finite_stab** under
+- **Compactness for a definite quaternion algebra.** For a totally definite quaternion algebra
+  `D` over a totally real number field `F`, the quotient `D^×\(D ⊗_F 𝔸_{F,f})^×` is compact,
+  its double coset set at any open level is finite, and its stabilizer at a compact level is
+  finite modulo central scalars. Over `F = ℚ` the whole stabilizer is finite.
+  Supplied by the TauCetiRoadmap import of
+  [W. Coram's OverconvergentForms](https://github.com/WilliamCoram/PhD/blob/9d948b203d93167c41d8f171a7a4c9ebbf7cd4b5/PhD/TauCeti/Roadmaps/OverconvergentForms/README.md),
+  §§0.2–0.3, including **DefiniteQuaternion.finite_stab** under
   **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**.
-  The supplier treats totally definite algebras over totally real `F`, with stabilizers finite
-  modulo central units; this roadmap specializes to `F = ℚ` for whole-stabilizer finiteness
+  The finite adelic algebra has its module topology and its units have the `Units.embedProduct`
+  topology. The supplier treats totally definite algebras over totally real `F`, with compact
+  level stabilizers finite modulo their intersection with the diagonal `F^×`; this roadmap
+  specializes to `F = ℚ` for whole-stabilizer finiteness
   and conjugates the supplier's `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹`, while full-adelic norm-one
   compactness uses AA.3.4.
+
+  **Checks.**
+  - For Hamilton's algebra over `ℚ`, the reduced norm is a sum of four squares and cannot be
+    `−1`; its rational stabilizer at every compact level is finite.
+  - For `U = ⊤`, the stabilizer is a conjugate of all of `D^×` and contains `ℚ^×`, so it is
+    infinite; this level is not compact.
+  - Over a real quadratic field, the maximal order level contains the infinite central unit
+    group. Its stabilizer modulo central scalars is finite, although its whole stabilizer is not.
 - **Volume comparison under level change for a definite quaternion algebra.** For `D` definite
   over `ℚ` and compact open `U′ ⊂ U ⊂ (D ⊗ 𝔸_f)^×`, with `Γ_x = (D^× ∩ xUx⁻¹)/(ℚ^× ∩ U)` the
   finite stabilizers and `Cl(U) = D^×\(D ⊗ 𝔸_f)^×/U`, prove
@@ -4499,6 +4564,29 @@ identify its rational preimage with `SL₂(𝒪_F)`. KleinianGroups uses its exp
 It derives projective discreteness by passing through the finite centre of `SL₂(ℂ)` to
 its image `bianchi F ι` in `PSL₂(ℂ)`; this adapter consumes AA.3.4 rather than giving a
 second arithmetic-discreteness proof.
+
+**Algebraic Cartan comparison for locally symmetric spaces.**
+[ArithmeticLocallySymmetricSpaces, ALS.0.1–0.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8286a0a/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md)
+owns the following downstream bridge. For a connected reductive `ℚ`-group `G`, an AA.3.7
+inverse-adjoint datum induces `LocallySymmetric.IsCartanInvolution` on `G_ℝ`: its twisted real
+form embeds as a closed subgroup of the unitary group of the realizing positive form.
+Conversely, every real algebraic involution of `G_ℝ` satisfying that predicate admits an AA.3.7
+realization with a faithful rational representation and a positive real form. The compact
+subgroup on both presentations is literally `Fix(θ) ⊂ G(ℝ)`, including all its components.
+For rational groups, AA.3.7 owns existence of the inverse-adjoint datum; ALS obtains its
+number-field existence statement by applying this theorem to `Res_{F/ℚ} G` and the forward
+comparison. The converse uses conjugacy of Cartan involutions and transports the positive form
+in the same rational representation. ALS retains existence for arbitrary real groups.
+[Milne], Theorem 1.16 and Example 1.17(b)–(c), p. 15; [BHC], §§1.6–1.9, pp. 489–492.
+*Needs in ALS:* AA.3.7; the predicate and conjugacy API of ALS.0.1.
+*Lean:* none; specified as a downstream contract in the README only.
+
+**Checks.**
+- For `GL_n`, inverse transpose with the identity form gives the compact twist `U(n)` and
+  the real fixed subgroup `O(n)`, including its two components when `n ≥ 1`.
+- For `SL₂`, the compact twist is `SU(2)` and both fixed subgroups are `SO(2)`.
+- For `G_m`, inversion has compact twist `S¹` and fixed subgroup `{±1}`; the identity
+  involution has noncompact twist `ℝ^×` and satisfies neither Cartan presentation.
 
 ## References
 

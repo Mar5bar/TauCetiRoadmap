@@ -519,9 +519,39 @@ theorem finrank_eq_one [FiniteDimensional k (TauCeti.Bialgebra.CotangentSpace k 
     Module.finrank k (GaugeForm k H) = 1 := by
   sorry
 
+/-- The degree-zero top-form line of the trivial group, identified with the scalar field by
+`exteriorPower.zeroEquiv`. A gauge scalar retains its value on the empty basis. -/
+def trivialGroupEquiv : GaugeForm k k ≃ₗ[k] k := by
+  unfold GaugeForm
+  have h : Module.finrank k (TauCeti.Bialgebra.CotangentSpace k k) = 0 := by sorry
+  rw [h]
+  exact exteriorPower.zeroEquiv k (TauCeti.Bialgebra.CotangentSpace k k)
+
 -- Test GaugeForm.trivial_group: the degree-zero exterior power of the trivial group is `k`.
 example : Nonempty (GaugeForm k k ≃ₗ[k] k) := by
-  sorry
+  exact ⟨trivialGroupEquiv k⟩
+
+-- Test GaugeForm.degree_zero_one: scalar restriction preserves the unit gauge.
+example : let e := trivialGroupEquiv ℚ
+    Algebra.norm ℚ (e (e.symm 1)) = 1 := by
+  simp
+
+-- Test GaugeForm.degree_zero_two: the restricted gauge `2` has real mass `2` and 2-adic mass `1/2`.
+example : let e := trivialGroupEquiv ℚ
+    |(Algebra.norm ℚ (e (e.symm 2)) : ℝ)| = 2 ∧
+      ‖(Algebra.norm ℚ (e (e.symm 2)) : ℚ_[2])‖ = (1 / 2 : ℝ) := by
+  dsimp
+  simp only [LinearEquiv.apply_symm_apply, Algebra.norm_self, MonoidHom.id_apply]
+  constructor
+  · norm_num
+  · convert Padic.norm_p (p := 2) using 1 <;> norm_num
+
+-- Test GaugeForm.degree_zero_norm: restriction uses the field norm of the empty-basis value.
+example (E : Type*) [Field E] [Algebra ℚ E] [FiniteDimensional ℚ E]
+    (a : E) (ha : Algebra.norm ℚ a = 2) :
+    let e := trivialGroupEquiv E
+    Algebra.norm ℚ (e (e.symm a)) = 2 := by
+  simpa using ha
 
 end GaugeForm
 
