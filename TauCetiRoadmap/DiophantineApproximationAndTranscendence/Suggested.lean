@@ -62,6 +62,54 @@ namespace DiophantineApproximation
 
 open TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation
 
+/-- Plücker coordinates on the native finite-subset index: the maximal minors in increasing
+column order, over any commutative ring. -/
+def plucker {R ι : Type*} [CommRing R] [Fintype ι] [LinearOrder ι] {p : ℕ}
+    (x : Fin p → ι → R) : Set.powersetCard ι p → R :=
+  fun s ↦ Matrix.det (Matrix.of fun i j ↦ x i (Set.powersetCard.ofFinEmbEquiv.symm s j))
+
+/-- The maximal minors are the coordinates of the wedge in the standard exterior-power basis. -/
+theorem plucker_eq_exteriorPower_coordinates {R ι : Type*} [CommRing R] [Fintype ι]
+    [LinearOrder ι] {p : ℕ} (x : Fin p → ι → R) :
+    plucker x = fun s ↦ ((Pi.basisFun R ι).exteriorPower p).repr
+      (exteriorPower.ιMulti R p x) s := by sorry
+
+/-- Cauchy–Binet computes a rectangular product determinant from the same Plücker coordinates. -/
+theorem plucker_cauchyBinet {R ι : Type*} [CommRing R] [Fintype ι] [LinearOrder ι] {p : ℕ}
+    (x y : Fin p → ι → R) :
+    (Matrix.of x * (Matrix.of y).transpose).det = ∑ s, plucker x s * plucker y s := by sorry
+
+/-- The basis-independent Plücker point of a subspace, including its empty wedge in rank zero. -/
+def relativePluckerPoint {K ι : Type*} [Field K] [Fintype ι] [LinearOrder ι]
+    (T : Submodule K (ι → K)) :
+    Projectivization K (Set.powersetCard ι (Module.finrank K T) → K) :=
+  Projectivization.mk K (plucker fun i ↦ ((Module.finBasis K T i : T) : ι → K)) (by sorry)
+
+/-- The relative sup height of the native Plücker point over a field with admissible values. -/
+def relativeSubspaceHeight {K ι : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    [Fintype ι] [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
+  Projectivization.mulHeight (relativePluckerPoint T)
+
+/-- A spanning independent family computes the relative subspace height through its minors. -/
+theorem relativeSubspaceHeight_span_range {K ι : Type*} [Field K]
+    [Height.AdmissibleAbsValues K] [Fintype ι] [LinearOrder ι] {p : ℕ}
+    (x : Fin p → ι → K) (hx : LinearIndependent K x) :
+    relativeSubspaceHeight (Submodule.span K (Set.range x)) = Height.mulHeight (plucker x) :=
+  by sorry
+
+/-- Relative sup height is invariant under dual annihilation transported by the standard basis. -/
+theorem relativeSubspaceHeight_dualAnnihilator {K ι : Type*} [Field K]
+    [Height.AdmissibleAbsValues K] [Fintype ι] [LinearOrder ι]
+    (T : Submodule K (ι → K)) :
+    relativeSubspaceHeight (T.dualAnnihilator.comap (Module.piEquiv ι K K).toLinearMap) =
+      relativeSubspaceHeight T := by sorry
+
+/-- The transported dual annihilator is the dot-product perpendicular over any field. -/
+theorem orthogonalBilin_eq_dualAnnihilator_comap {K ι : Type*} [Field K]
+    [Fintype ι] (U : Submodule K (ι → K)) :
+    U.orthogonalBilin (dotProductBilin K K) =
+      U.dualAnnihilator.comap (Module.piEquiv ι K K).toLinearMap := by sorry
+
 section Heights
 
 variable {F : Type*} [Field F] [CharZero F]
@@ -591,8 +639,19 @@ section logHeight
 
 variable {K : Type*} [Field K] [Height.AdmissibleAbsValues K]
 
-/-- The (projective, logarithmic) height of a polynomial: the height of its coefficient vector. -/
-noncomputable def logHeight (p : K[X]) : ℝ := Finsupp.logHeight p.toFinsupp.coeff
+/-- The relative projective height of a polynomial is the native height of its coefficients. -/
+noncomputable def mulHeight (p : K[X]) : ℝ := Finsupp.mulHeight p.coeff
+
+/-- The logarithm of the relative multiplicative coefficient height. -/
+noncomputable def logHeight (p : K[X]) : ℝ := Real.log (mulHeight p)
+
+/-- The logarithmic coefficient height agrees with Mathlib's finitely supported height. -/
+theorem logHeight_eq_finsupp (p : K[X]) : logHeight p = Finsupp.logHeight p.coeff := by sorry
+
+/-- The coefficient height of a product has the convolution bound at every admissible value. -/
+theorem mulHeight_mul_le (f g : K[X]) :
+    mulHeight (f * g) ≤ (min f.natDegree g.natDegree + 1 : ℕ) ^ Height.totalWeight K *
+      mulHeight f * mulHeight g := by sorry
 
 end logHeight
 
@@ -691,9 +750,15 @@ section logHeight
 
 variable {σ K : Type*} [Field K] [Height.AdmissibleAbsValues K]
 
-/-- The (projective, logarithmic) height of a polynomial in several variables: the height of its
-coefficient vector (Pottmeyer, Definition 3.2.1, relative to `K`). -/
-noncomputable def logHeight (P : MvPolynomial σ K) : ℝ := Finsupp.logHeight P.coeff
+/-- The relative projective height of a multivariate polynomial is its coefficient height. -/
+noncomputable def mulHeight (P : MvPolynomial σ K) : ℝ := Finsupp.mulHeight P.coeff
+
+/-- The logarithm of the relative multiplicative coefficient height. -/
+noncomputable def logHeight (P : MvPolynomial σ K) : ℝ := Real.log (mulHeight P)
+
+/-- The logarithmic coefficient height agrees with Mathlib's finitely supported height. -/
+theorem logHeight_eq_finsupp (P : MvPolynomial σ K) :
+    logHeight P = Finsupp.logHeight P.coeff := by sorry
 
 /-- Heights of products in disjoint sets of variables (Pottmeyer, Exercise 3.3). -/
 theorem logHeight_mul_of_disjoint_vars [DecidableEq σ] {P Q : MvPolynomial σ K} (hP : P ≠ 0)
@@ -1348,6 +1413,18 @@ theorem closedFormRecurrence (E : _root_.LinearRecurrence ℂ)
       (∀ θ ∈ E.charPoly.roots, (P θ).degree < (E.charPoly.rootMultiplicity θ : WithBot ℕ)) ∧
       ∀ n : ℕ, u n = ∑ θ ∈ E.charPoly.roots.toFinset, (P θ).eval (n : ℂ) * θ ^ n := sorry
 
+/-- Relative matrix height is the tuple height of the entries, rather than of the maximal minors. -/
+def matrixMulHeight {K m n : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    [Finite m] [Finite n] (A : Matrix m n K) : ℝ :=
+  Height.mulHeight (fun ij : m × n ↦ A ij.1 ij.2)
+
+/-- Multiplying matrices costs the inner dimension at each archimedean value. -/
+theorem matrixMulHeight_mul_le {K m n p : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    [Fintype m] [Fintype n] [Fintype p] [Nonempty n] (A : Matrix m n K)
+    (B : Matrix n p K) :
+    matrixMulHeight (A * B) ≤ (Fintype.card n : ℝ) ^ Height.totalWeight K *
+      matrixMulHeight A * matrixMulHeight B := by sorry
+
 section TwistedHeight
 
 variable {K : Type*} [Field K] [NumberField K]
@@ -1453,6 +1530,17 @@ theorem arakelovMulHeight_eq_height2 {ι : Type*} [Fintype ι] (y : ι → K) :
     arakelovMulHeight y ^ ((1 : ℝ) / Module.finrank ℚ K) =
       if y = 0 then 1 else height2 y := by sorry
 
+/-- Relative sup and Euclidean projective heights compare with the field-degree exponent. -/
+theorem arakelovMulHeight_sup_comparison {ι : Type*} [Fintype ι] [Nonempty ι] (y : ι → K) :
+    Height.mulHeight y ≤ arakelovMulHeight y ∧
+      arakelovMulHeight y ≤ (Fintype.card ι : ℝ) ^ ((Module.finrank ℚ K : ℝ) / 2) *
+        Height.mulHeight y := by sorry
+
+/-- The relative Euclidean height of a subspace uses the same Plücker coordinates as the sup height. -/
+def relativeSubspaceArakelovHeight {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (T : Submodule K (ι → K)) : ℝ :=
+  arakelovMulHeight (plucker fun i ↦ ((Module.finBasis K T i : T) : ι → K))
+
 /-- The absolute sup and Euclidean heights compare on nonzero finite tuples. -/
 theorem height2_sup_comparison {ι : Type*} [Fintype ι] (y : ι → K) (hy : y ≠ 0) :
     absoluteProjectiveTupleHeight y ≤ height2 y ∧
@@ -1480,10 +1568,6 @@ example {E : Type*} [Field E] [NumberField E] (f : K →+* E)
     (hE : Module.finrank ℚ E = 4) :
     height2 (![f a, 1] : Fin 2 → E) = Real.sqrt 3 := by sorry
 
-/-- Plücker coordinates: the `p × p` minors of the matrix with rows `x i`. -/
-def plucker {p : ℕ} (x : Fin p → Fin n → K) : {s : Finset (Fin n) // s.card = p} → K :=
-  fun s ↦ Matrix.det (Matrix.of fun i j ↦ x i (s.1.orderEmbOfFin s.2 j))
-
 /-- The zero vector has Euclidean projective height zero. -/
 example : height2 (0 : Fin 2 → ℚ) = 0 := sorry
 
@@ -1496,51 +1580,54 @@ example : height2 (![2, 2] : Fin 2 → ℚ) = √2 := sorry
 /-- Swapping the identity rows reverses the Plücker sign. -/
 example : plucker (!![(0 : ℚ), 1; 1, 0]) ⟨Finset.univ, by simp⟩ = -1 := sorry
 
-open Classical in
-/-- The Euclidean projective height `H_2(T)` of a subspace: the Euclidean height of the Plücker
-coordinates of a basis, and one for the zero and whole subspaces. -/
-def subspaceHeight (T : Submodule K (Fin n → K)) : ℝ :=
-  if T = ⊥ ∨ T = ⊤ then 1 else
-    height2 (plucker fun i : Fin (Module.finrank K T) ↦
-      ((Module.finBasis K T i : T) : Fin n → K))
+/-- The absolute Euclidean subspace height is the degree root of the relative Plücker height;
+zero and whole subspaces both have height one. -/
+def subspaceHeight {ι : Type*} [Fintype ι] [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
+  relativeSubspaceArakelovHeight T ^ ((Module.finrank ℚ K : ℝ)⁻¹)
 
-/-- The coordinate dot-product perpendicular is the transported dual annihilator. -/
-theorem orthogonalBilin_eq_dualAnnihilator_comap (U : Submodule K (Fin n → K)) :
-    U.orthogonalBilin (dotProductBilin K K) =
-      U.dualAnnihilator.comap (Module.piEquiv (Fin n) K K).toLinearMap := by sorry
+/-- The absolute sup height of the minors is the degree root of the relative subspace height. -/
+theorem relativeSubspaceHeight_eq_absoluteProjectiveTupleHeight {ι : Type*} [Fintype ι]
+    [LinearOrder ι] {p : ℕ} (x : Fin p → ι → K) (hx : LinearIndependent K x) :
+    relativeSubspaceHeight (Submodule.span K (Set.range x)) ^ ((Module.finrank ℚ K : ℝ)⁻¹) =
+      absoluteProjectiveTupleHeight (plucker x) := by sorry
 
-/-- Sup and Euclidean Plücker heights have the dimension-dependent absolute comparison. -/
-theorem subspaceHeight_sup_le {p : ℕ} (x : Fin p → Fin n → K)
+/-- Sup and Euclidean Plücker heights compare on any finite coordinate type. -/
+theorem subspaceHeight_sup_le {ι : Type*} [Fintype ι] [LinearOrder ι] {p : ℕ}
+    (x : Fin p → ι → K)
     (hx : LinearIndependent K x) :
     absoluteProjectiveTupleHeight (plucker x) ≤ subspaceHeight (Submodule.span K (Set.range x)) ∧
       subspaceHeight (Submodule.span K (Set.range x)) ≤
-        Real.sqrt (n.choose p) * absoluteProjectiveTupleHeight (plucker x) := by sorry
+        Real.sqrt ((Fintype.card ι).choose p) * absoluteProjectiveTupleHeight (plucker x) := by sorry
 
 /-- EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T ≤ ∏_i height2 (x_i). -/
-theorem subspaceHeight_le_prod {p : ℕ} (x : Fin p → Fin n → K) (hx : LinearIndependent K x) :
+theorem subspaceHeight_le_prod {ι : Type*} [Fintype ι] [LinearOrder ι] {p : ℕ}
+    (x : Fin p → ι → K) (hx : LinearIndependent K x) :
     subspaceHeight (Submodule.span K (Set.range x)) ≤ ∏ i, height2 (x i) := by
   sorry
 
 /-- EF (6.13): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
-theorem subspaceHeight_orthogonal (T : Submodule K (Fin n → K)) :
+theorem subspaceHeight_orthogonal {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (T : Submodule K (ι → K)) :
     subspaceHeight (T.orthogonalBilin (dotProductBilin K K)) = subspaceHeight T := by
   sorry
 
 /-- Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
-theorem subspaceHeight_inf_mul_sup_le (T₁ T₂ : Submodule K (Fin n → K)) :
+theorem subspaceHeight_inf_mul_sup_le {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (T₁ T₂ : Submodule K (ι → K)) :
     subspaceHeight (T₁ ⊓ T₂) * subspaceHeight (T₁ ⊔ T₂) ≤
       subspaceHeight T₁ * subspaceHeight T₂ := by
   sorry
 
-/-- Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T ≤ B is finite. -/
-theorem finite_subspaceHeight_le (B : ℝ) :
-    {T : Submodule K (Fin n → K) | subspaceHeight T ≤ B}.Finite := by
+/-- Northcott for subspaces of a fixed finite coordinate space over a number field. -/
+theorem finite_subspaceHeight_le {ι : Type*} [Fintype ι] [LinearOrder ι] (B : ℝ) :
+    {T : Submodule K (ι → K) | subspaceHeight T ≤ B}.Finite := by
   sorry
 
 /-- For a rational subspace, `H_2(T)` is the Euclidean norm of the wedge of a `ℤ`-basis of
 `T ∩ ℤ^n`, i.e. the covolume of that lattice (Evertse–Ferretti §6.1 and Mathlib's lattice carrier). -/
-theorem subspaceHeight_rat_eq_covolume (T : Submodule ℚ (Fin n → ℚ)) (hT : T ≠ ⊥) (p : ℕ)
-    (b : Fin p → Fin n → ℤ) (hb : ∀ y : Fin n → ℤ, (fun j ↦ (y j : ℚ)) ∈ T ↔
+theorem subspaceHeight_rat_eq_covolume {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (T : Submodule ℚ (ι → ℚ)) (hT : T ≠ ⊥) (p : ℕ)
+    (b : Fin p → ι → ℤ) (hb : ∀ y : ι → ℤ, (fun j ↦ (y j : ℚ)) ∈ T ↔
       ∃ c : Fin p → ℤ, y = ∑ i, c i • b i) (hbi : LinearIndependent ℤ b) :
     subspaceHeight T =
       Real.sqrt (∑ s, ((plucker fun i j ↦ (b i j : ℚ)) s : ℝ) ^ 2) := by
@@ -3405,12 +3492,20 @@ section AlgebraicCartan
 
 variable {C F : Type*} [Field C] [Field F] [Algebra C F] [CharZero C]
 
-/-- There is a unique C-linear Lie derivative on one-forms satisfying the derivation rule
-on generators a·db (Kirby §3.3, Lemma 3.2). -/
+/-- Provides the unique C-linear Lie derivative on one-forms in the field specialization of
+the supplied ordinary-form Cartan calculus, with its rule on a·db (Kirby §3.3, Lemma 3.2). -/
 theorem exists_lieDerivativeOneForm (D : Derivation C F F) :
     ∃! L : Ω[F⁄C] →ₗ[C] Ω[F⁄C], ∀ a b : F,
       L (a • KaehlerDifferential.D C F b) =
         D a • KaehlerDifferential.D C F b + a • KaehlerDifferential.D C F (D b) := sorry
+
+/- The ordinary differential and its laws are supplied by DerivedDeRhamCohomology
+§§2.1–2.11: DeRham.Forms, DeRham.d, DeRham.d_elementary, DeRham.d_unique,
+DeRham.d_squared and DeRham.d_leibniz. The joint-import target
+lieDerivativeOneForm_eq_cartan uses that imported DeRham.d C F, contraction by
+Derivation.liftKaehlerDifferential D, and exteriorPower.zeroEquiv/oneEquiv.
+It identifies the unique map above with i_D d_1 + d_0 i_D on degree one.
+No local ordinary differential is defined here. -/
 
 end AlgebraicCartan
 
