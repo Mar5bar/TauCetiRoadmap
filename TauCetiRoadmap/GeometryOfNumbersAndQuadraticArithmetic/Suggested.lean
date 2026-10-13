@@ -7,6 +7,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.Scaling
 import TauCeti.LinearAlgebra.IntegralLattice.Orthogonal.Sum
 import TauCeti.NumberTheory.HurwitzClassNumber
 import TauCeti.Algebra.Category.FGModuleCat.Basic
+import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 import TauCeti.CategoryTheory.InvolutiveDual
 import TauCeti.CategoryTheory.Exact.Split
 import TauCeti.CategoryTheory.Exact.Functor
@@ -36,6 +37,8 @@ Design choices made explicit here:
 * the theta series of a positive definite `ℤ`-lattice is stated on Tau Ceti's `IntegralLattice`
   carrier and its coefficients are Tau Ceti's `representationNumber`;
 * the three-square formula is stated against Tau Ceti's `hurwitzClassNumber`;
+* unitarity of a representation is Tau Ceti's `ContRepresentation.IsUnitary`, with strong
+  continuity added as a separate predicate;
 * LLL data is exact, with integer change-of-basis certificates;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
   `Functor.IsInvolutiveDual` with exactness of the duality functor.
@@ -1171,11 +1174,11 @@ def StronglyContinuous (π : ContRepresentation ℂ G H) : Prop :=
 
 /-- A strongly continuous unitary representation is jointly continuous. -/
 theorem stronglyContinuous_joint (π : ContRepresentation ℂ G H)
-    (hs : StronglyContinuous π)
-    (hu : ∀ g v w, inner (𝕜 := ℂ) (π g v) (π g w) = inner (𝕜 := ℂ) v w) :
+    (hs : StronglyContinuous π) (hu : TauCeti.ContRepresentation.IsUnitary π) :
     Continuous (fun x : G × H => π x.1 x.2) := by sorry
 
-/-- Matrix coefficients of a strongly continuous representation are continuous. -/
+/-- Matrix coefficients `g ↦ ⟪π g v, w⟫` of a strongly continuous representation are continuous;
+Tau Ceti's `ContRepresentation.matrixCoeff` asks instead for continuity in the operator norm. -/
 theorem matrixCoeff_continuous (π : ContRepresentation ℂ G H)
     (hs : StronglyContinuous π) (v w : H) :
     Continuous (fun g : G => inner (𝕜 := ℂ) (π g v) w) := by sorry
@@ -1211,8 +1214,7 @@ theorem contractionSubgroup_inv (a : ℕ → G) {u : G} (hu : u ∈ contractionS
 /-- **Mautner phenomenon**: a weak limit of `π(a_j) v` is fixed by the closure of the contraction
 subgroup. -/
 theorem contraction_fixed_weak_limit (π : ContRepresentation ℂ G H)
-    (hs : StronglyContinuous π)
-    (hu : ∀ g v w, inner (𝕜 := ℂ) (π g v) (π g w) = inner (𝕜 := ℂ) v w)
+    (hs : StronglyContinuous π) (hu : TauCeti.ContRepresentation.IsUnitary π)
     (a : ℕ → G) (v v₀ : H)
     (hw : ∀ w : H, Filter.Tendsto (fun j => inner (𝕜 := ℂ) (π (a j) v) w)
       Filter.atTop (nhds (inner (𝕜 := ℂ) v₀ w))) :
@@ -1251,10 +1253,8 @@ theorem quotientKoopman_apply (μ : Measure X)
 
 /-- The Koopman representation is unitary. -/
 theorem quotientKoopman_unitary (μ : Measure X)
-    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ)
-    (g : G) (f k : Lp ℂ 2 μ) :
-    inner (𝕜 := ℂ) (quotientKoopman μ hμ g f) (quotientKoopman μ hμ g k) =
-      inner (𝕜 := ℂ) f k := by sorry
+    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
+    TauCeti.ContRepresentation.IsUnitary (quotientKoopman μ hμ) := by sorry
 
 section FiniteMeasure
 variable (μ : Measure X)

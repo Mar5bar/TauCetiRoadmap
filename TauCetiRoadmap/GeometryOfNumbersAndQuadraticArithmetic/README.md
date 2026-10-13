@@ -48,11 +48,11 @@ Already in Mathlib or Tau Ceti, used without restatement: Blichfeldt's theorem (
 
 ### From Mathlib
 
-`ZLattice.covolume`, `ZLattice.covolume_eq_det_mul_measureReal`, `ZLattice.covolume_div_covolume_eq_relIndex'`, `ZSpan.isAddFundamentalDomain'`, `ZSpan.fundamentalDomain_ae_parallelepiped`, `ZLattice.comap`, `Module.Basis.ofZLatticeBasis`, `Matrix.gram` with `Matrix.gram_eq_conjTranspose_mul`, `Matrix.posSemidef_gram`, `Matrix.det_gram_ne_zero_iff_linearIndependent`, `InnerProductSpace.gramSchmidt`, `InnerProductSpace.gramSchmidtOrthonormalBasis` and `InnerProductSpace.gramSchmidtOrthonormalBasis_det`, `Submodule.exists_smith_normal_form_of_le`, `LinearMap.BilinForm.dualSubmodule`, `LinearMap.BilinForm.dualBasis` and `LinearMap.BilinForm.dualSubmodule_span_of_basis`, `ConvexBody`, `gauge` and the gauge lemmas named in Layer 1, `MeasureTheory.exists_pair_mem_lattice_not_disjoint_vadd` and the two Minkowski theorems, `MeasureTheory.Measure.addHaar_image_linearMap` and `MeasureTheory.Measure.addHaar_preimage_linearMap`, `Convex.addHaar_frontier`, `MeasureTheory.volume_sum_rpow_le`, `Submodule.IsLattice`, `QuadraticMap`, `QuadraticForm`, `LinearMap.IsSymm`, `Quaternion` and `QuaternionAlgebra`, `Subgroup.index` and `Subgroup.relIndex`, `ZMod`, `Nat.card`, `Polynomial` with `Polynomial.derivative`, `Metric.infEDist`, `CategoryTheory.nerve`, `SSet.toTop`, `HomotopyGroup`, `CategoryTheory.MorphismProperty.Localization`, `CategoryTheory.Limits.IsPullback`, biproducts, `FreeAbelianGroup`. The analytic and dynamical layers use `ContRepresentation` and `ContRepresentation.invariants`, `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, `ErgodicSMul`, `ProbabilityTheory.Kernel`, `ProbabilityTheory.condDistrib`, `ProbabilityTheory.poissonMeasure`, `Besicovitch.multiplicity`, `MvPolynomial.pderiv`, `Complex.Gammaℝ`, `Complex.Gammaℂ` and `jacobiSym`. Each is used with its actual hypotheses; in particular `QuadraticMap.associated`, `QuadraticForm.discr` and `QuadraticForm.baseChange` are used only where `2` is invertible.
+`ZLattice.covolume`, `ZLattice.covolume_eq_det_mul_measureReal`, `ZLattice.covolume_div_covolume_eq_relIndex'`, `ZSpan.isAddFundamentalDomain'`, `ZSpan.fundamentalDomain_ae_parallelepiped`, `ZLattice.comap`, `Module.Basis.ofZLatticeBasis`, `Matrix.gram` with `Matrix.gram_eq_conjTranspose_mul`, `Matrix.posSemidef_gram`, `Matrix.det_gram_ne_zero_iff_linearIndependent`, `InnerProductSpace.gramSchmidt`, `InnerProductSpace.gramSchmidtOrthonormalBasis` and `InnerProductSpace.gramSchmidtOrthonormalBasis_det`, `Submodule.exists_smith_normal_form_of_le`, `LinearMap.BilinForm.dualSubmodule`, `LinearMap.BilinForm.dualBasis` and `LinearMap.BilinForm.dualSubmodule_span_of_basis`, `ConvexBody`, `gauge` and the gauge lemmas named in Layer 1, `MeasureTheory.exists_pair_mem_lattice_not_disjoint_vadd` and the two Minkowski theorems, `MeasureTheory.Measure.addHaar_image_linearMap` and `MeasureTheory.Measure.addHaar_preimage_linearMap`, `Convex.addHaar_frontier`, `MeasureTheory.volume_sum_rpow_le`, `Submodule.IsLattice`, `QuadraticMap`, `QuadraticForm`, `LinearMap.IsSymm`, `Quaternion` and `QuaternionAlgebra`, `Subgroup.index` and `Subgroup.relIndex`, `ZMod`, `Nat.card`, `Polynomial` with `Polynomial.derivative`, `Metric.infEDist`, `CategoryTheory.nerve`, `SSet.toTop`, `HomotopyGroup`, `CategoryTheory.MorphismProperty.Localization`, `CategoryTheory.IsPullback`, biproducts, `FreeAbelianGroup`. The analytic and dynamical layers use `ContRepresentation` and `ContRepresentation.invariants`, `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, `ErgodicSMul`, `ProbabilityTheory.Kernel`, `ProbabilityTheory.condDistrib`, `ProbabilityTheory.poissonMeasure`, `Besicovitch.multiplicity`, `MvPolynomial.pderiv`, `Complex.Gammaℝ`, `Complex.Gammaℂ` and `jacobiSym`. Each is used with its actual hypotheses; in particular `QuadraticMap.associated`, `QuadraticForm.discr` and `QuadraticForm.baseChange` are used only where `2` is invertible.
 
 ### From Tau Ceti
 
-`ZLattice.covolume_sq_eq_det_gram`; `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.dualCarrier`, `TauCeti.IntegralLattice.IsPosDef.finite_isometry`, `TauCeti.IntegralLattice.representationNumber` (the number of lattice vectors with `B(x,x) = n`), `TauCeti.IntegralLattice.minimum`, `TauCeti.IntegralLattice.orthogonalSum`, `TauCeti.IntegralLattice.scale` and `TauCeti.IntegralLattice.IsEven`, which carry the theta series of 3.4; `CliffordAlgebra.spinorNorm`, the local spinor-norm images and `TauCeti.QuadraticMap.OrthogonalCompactOpens.adelicSpinorNorm`; `TauCeti.WittRing`, `TauCeti.WittGrothendieckRing`, `QuadraticMap.scharlauTransfer`; `CategoryTheory.Functor.IsInvolutiveDual` and `CategoryTheory.Functor.dualityEquivalence`; `TauCeti.ExactStructure`, `TauCeti.ExactStructure.IsConflationExact`, `TauCeti.ExactStructure.op`, `TauCeti.ExactStructure.split`, `TauCeti.ExactK0`, `TauCeti.ExactK0.of`, `TauCeti.ExactK0.of_conflation`, `TauCeti.ExactK0.map`; the module `TauCeti.NumberTheory.GeometryOfNumbers.LatticePointCount`; `TauCeti.BinaryQuadraticForm` with its `SL(2, ℤ)` action, `TauCeti.BinaryQuadraticForm.posDef`, `TauCeti.IsReducedForm`, `TauCeti.reducedForms`, `TauCeti.hurwitzClassNumber` and `TauCeti.hurwitzClassNumber_eq_finsum`, which identifies `H(D)` with the class count weighted by `2/|Stab|` (used by 4.3); `TauCeti.Probability.fixedSpace` and `TauCeti.Probability.compMeasurePreserving_eq_self_iff` (used by 4.2).
+`ZLattice.covolume_sq_eq_det_gram`; `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.dualCarrier`, `TauCeti.IntegralLattice.IsPosDef.finite_isometry`, `TauCeti.IntegralLattice.representationNumber` (the number of lattice vectors with `B(x,x) = n`), `TauCeti.IntegralLattice.minimum`, `TauCeti.IntegralLattice.orthogonalSum`, `TauCeti.IntegralLattice.scale` and `TauCeti.IntegralLattice.IsEven`, which carry the theta series of 3.4; `CliffordAlgebra.spinorNorm`, the local spinor-norm images and `TauCeti.QuadraticMap.OrthogonalCompactOpens.adelicSpinorNorm`; `TauCeti.WittRing`, `TauCeti.WittGrothendieckRing`, `QuadraticMap.scharlauTransfer`; `CategoryTheory.Functor.IsInvolutiveDual` and `CategoryTheory.Functor.dualityEquivalence`; `TauCeti.ExactStructure`, `TauCeti.ExactStructure.IsConflationExact`, `TauCeti.ExactStructure.op`, `TauCeti.ExactStructure.split`, `TauCeti.ExactK0`, `TauCeti.ExactK0.of`, `TauCeti.ExactK0.of_conflation`, `TauCeti.ExactK0.map`; the module `TauCeti.NumberTheory.GeometryOfNumbers.LatticePointCount`; `TauCeti.BinaryQuadraticForm` with its `SL(2, ℤ)` action, `TauCeti.BinaryQuadraticForm.posDef`, `TauCeti.IsReducedForm`, `TauCeti.reducedForms`, `TauCeti.hurwitzClassNumber` and `TauCeti.hurwitzClassNumber_eq_finsum`, which identifies `H(D)` with the class count weighted by `2/|Stab|` (used by 4.3); `TauCeti.Probability.fixedSpace` and `TauCeti.Probability.compMeasurePreserving_eq_self_iff`, `TauCeti.ContRepresentation.IsUnitary` (inner-product preservation by every operator) and `TauCeti.ContRepresentation.matrixCoeff` (the coefficient of a representation continuous in the operator norm), all used by 4.2; `TauCeti.IsSemialgebraic` (used by 4.1); `TauCeti.cohomologicalDimensionAt` (used by 6.10).
 
 ### From TauCetiRoadmap.QuadraticFormInvariants
 
@@ -84,7 +84,7 @@ Layer 6 (Construction A with its exact index, duality and parity hypotheses), us
 
 ### From RepresentationTheory/LieGroups, LieHighestWeight and CompactGroups
 
-RepresentationTheory/LieGroups Layer 2 supplies closed matrix subgroups and the Lie algebras of `SL_n` and `SO(p,q)`, Layer 4 the correspondence between connected subgroups and Lie subalgebras, and Layer 9 Cartan/KAK, restricted roots and root subgroups for 4.2; their Lie-theoretic carriers do not supply measure rigidity. RepresentationTheory/LieHighestWeight Layer 0 (`sl₂`-modules) and Layer 5 (complete reducibility) are used by 4.2 and 4.3. RepresentationTheory/CompactGroups Layers 1 and 3 define unitarity (`IsUnitary`) and matrix coefficients on finite-dimensional spaces; 4.2 uses the same inner-product-preservation condition as an explicit hypothesis on an arbitrary complete space.
+RepresentationTheory/LieGroups Layer 2 supplies closed matrix subgroups and the Lie algebras of `SL_n` and `SO(p,q)`, Layer 4 the correspondence between connected subgroups and Lie subalgebras, and Layer 9 Cartan/KAK, restricted roots and root subgroups for 4.2; their Lie-theoretic carriers do not supply measure rigidity. RepresentationTheory/LieHighestWeight Layer 0 (`sl₂`-modules) and Layer 5 (complete reducibility) are used by 4.2 and 4.3. RepresentationTheory/CompactGroups Layers 1 and 3 state unitarity and matrix coefficients on finite-dimensional spaces; 4.2 uses Tau Ceti's `TauCeti.ContRepresentation.IsUnitary`, which has no dimension hypothesis.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
@@ -126,6 +126,7 @@ E is normed, not merely seminormed; n may be zero. No linear independence or non
 - The empty Gram determinant and diagonal product both equal 1.
 - Family (1,i) in C has Gram [[1,i],[-i,1]], determinant 0 and diagonal product 1; conjugation is essential.
 - Real vectors (1,0),(1,1) have Gram [[1,1],[1,2]], determinant 1 and diagonal product 2.
+- A single vector has Gram determinant `‖v₀‖²`, the equality case of the bound; in `ℂ²` the vectors `(1,0),(0,i)` have Gram determinant 1 and coordinate determinant of squared norm 1.
 
 Prove `gram_uniform_bound` (0.1.3): if D≥0 and every v_i in v:Fin n→E satisfies ‖v_i‖²≤D, then Re(det Gram(v))≤D^n.
 The bound is on squared norms, not individual coefficients; n=0 is allowed.
@@ -259,7 +260,7 @@ Prove `primitive_orthogonal_covolume` (0.3.3): let Δ be a discrete full self-du
 
 ### Examples
 
-`ℤ(1,1)` in its own line has intrinsic covolume `√2` and Gram determinant `2`, while the ambient plane gives it volume `0`. For `W = ℝ(1,2) ⊂ ℝ²` and `Δ = ℤ²`, the intersections `W ∩ ℤ² = ℤ(1,2)` and `W^⊥ ∩ ℤ² = ℤ(2,−1)` both have covolume `√5`, as 0.3.3 predicts. The lattice `2ℤ ⊕ 3ℤ` has covolume `6` and inner dual `½ℤ ⊕ ⅓ℤ` of covolume `1/6`. The empty family in the zero space has Gram determinant `1` and the zero lattice has covolume `1`.
+The basis `(2,0),(0,3)` spans a lattice of covolume `6` and Gram determinant `36 = 6²`, as Tau Ceti's `ZLattice.covolume_sq_eq_det_gram` predicts; the unimodular shear `(1,0),(1,1)` of the standard basis has covolume and Gram determinant `1`. `ℤ(1,1)` in its own line has intrinsic covolume `√2` and Gram determinant `2`, while the ambient plane gives it volume `0`. For `W = ℝ(1,2) ⊂ ℝ²` and `Δ = ℤ²`, the intersections `W ∩ ℤ² = ℤ(1,2)` and `W^⊥ ∩ ℤ² = ℤ(2,−1)` both have covolume `√5`, as 0.3.3 predicts. The lattice `2ℤ ⊕ 3ℤ` has covolume `6` and inner dual `½ℤ ⊕ ⅓ℤ` of covolume `1/6`. The empty family in the zero space has Gram determinant `1` and the zero lattice has covolume `1`.
 
 ### Dependencies
 
@@ -996,6 +997,7 @@ Its API is `QuaternionicIntegralHermitianLattice.ofOrderStableCarrier` (The actu
 - For a star-stable quaternion order O, H(x,y)=star(x)y on O satisfies the integral pairing condition.
 - Taking reduced trace of H(1,1)=1 gives 2, so reduced-trace metric normalization is a separate comparison.
 - Changing the order changes the integral-isometry problem even when the ambient quaternion algebra is unchanged.
+- On the Lipschitz order of Hamilton's rational quaternions with `h(x,y) = x̄y`, `h(i,i) = 1`, and the Hurwitz element `(1+i+j+k)/2` is not in the lattice: the Hurwitz order is a different, larger star-stable order.
 
 2.8.2. Prove that for a quaternion order over the number ring, standard involution preserves the order.
 (Source: Emery–Kim 2022, §5.1, printed p.10.)
@@ -1153,6 +1155,7 @@ Its API is `normalizedHermitianCount` (Finite count divided by q^{N n(2m−n)}.)
 - For n=0 the normalized count is 1 at every level.
 - For m=n=1 the exponent is N, not 2N.
 - A generic empty representation problem is not treated as a smooth nonempty scheme of the stated dimension.
+- At `N = 0` the normalization is trivial: for `x² = 1` over `ℤ/3` the value is the raw count `2`, and at `N = 1` it is `2/3`.
 
 Construct `hermitianLocalDensity` (3.2.2): In the stated unramified local-field setting, Den(M,L) is the limit of normalized finite-level representation counts. For nonempty generic fibre use its specified dimension and the source existence theorem. For empty generic fibre set Den(M,L)=0; eventual emptiness of the finite-level counts proves agreement with the limit for any fixed exponent. Its finite value and integral-basis independence are part of the construction.
 The unramified analytic density branch allows residue characteristic 2; geometric §3.4 hypotheses are not assumed throughout §3. Haar measures on lattice coordinates assign volume 1 to the integral coordinate lattice before any self-dual Fourier normalization is applied.
@@ -1285,6 +1288,7 @@ Keep two proof branches. `hermitian_siegel_functional_equation_charZero` applies
 - For F=Q, this construction is the original integral quadratic form; rank zero remains rank zero and has determinant 1. For Q(x)=x², its values at 2, −3 and 0 are 4, 9 and 0; for 2x² its value at 3 is 18. These evaluate the trace carrier itself.
 - For F=Q(√5), O_F=Z[ω], ω=(1+√5)/2, and Q(x)=x², the trace form in basis (1,ω) is 2a²+2ab+3b², with rational Gram matrix [[2,1],[1,3]] of determinant 5. Its polar matrix has determinant 20; the factor of 2 in each dimension is retained.
 - Taking just one embedding of Z[ω] into R gives a nondiscrete subgroup; both real embeddings are necessary. A nonprincipal coefficient ideal still has a Z-basis, and the comparison does not assert it has an O_F-basis.
+- The zero form has zero trace form.
 
 **Bounded integral endomorphisms.** Prove `finite_bounded_integral_endomorphisms`: on a finitely generated free Z-module with a positive integral trace form, for C≥0 there are finitely many integral linear endomorphisms T with Q_Z(Tx)≤C²Q_Z(x) for every x. Evaluate on a finite Z-basis and use IntegralLattices 2A for each image; an endomorphism is determined by these images. Prove `trace_scalar_operator_bound`: multiplication by a∈O_F is self-adjoint for the trace metric and satisfies this bound with C=max_σ|σ(a)|, using the real direct-sum comparison. This applies to a fixed finite set of integral algebra generators of O_F, whose bounds depend on F and the chosen generators, not on L.
 (Source: deduction from the trace comparison and IntegralLattices 2A; Schulze-Pillot, Remarks 6.11 and 6.13, pp.77–78, for the intended number-ring scope.)
@@ -1323,6 +1327,7 @@ This variant is over a number ring; its index comparison is a separate target.
 - The rank-one positive unimodular genus has ordinary mass 1/2, not class number 1.
 - For proper rank-one classes the stabilizer is trivial and proper mass is 1.
 - Changing representatives cannot change the stabilizer cardinality.
+- Two classes with stabilizers of order two give mass `1`; the empty class set gives `0` in the total adapter, outside the nonempty hypothesis of `genusMass_pos`.
 
 3.3.4. Let q be totally positive over a totally real number field, G=SO(q), and K_f the integral stabilizer of a fixed lattice in its finite adelic genus. For compatible product Haar measures with convergent product vol(K_f), proper mass equals vol(G(K)\G(A))/(vol(G(K∞))·vol(K_f)). Every double-coset contribution is the reciprocal order of the proper integral stabilizer.
 Use proper SO classes and weights consistently. Local measures, archimedean measure and the convergent product are fixed before numerical evaluation. The numerator is not replaced by 2 until a separate Tamagawa-number theorem is supplied; low-rank tori have separate behavior.
@@ -1415,6 +1420,7 @@ Its API is `MaximalMassLocalType` names the table cases; `maximalMassWittSign` i
 - `⟨1,1⟩` has determinant 1 but signed discriminant −1; the split plane `⟨1,−1⟩` has signed discriminant 1.
 - At odd rank and odd discriminant valuation the signs +1 and −1 select different `II` cases; at even valuation the positive sign has type `zero`.
 - At even rank a ramified nonsquare discriminant has a `III` type for either sign, including residue characteristic 2; its local factor is not 1.
+- `maximalMassWittSign` at rank `5` multiplies `c` by `(−1,−1)`, at rank `2` returns `c`, and at rank `3` multiplies by `(−1,d_Q)`. The selector `maximalMassLocalType` sends odd rank with odd valuation to `IIPlus` or `IIMinus` according to the Witt sign, odd rank with even valuation and positive sign to `zero`, and even rank with ramified nonsquare discriminant and negative sign to `IIIMinus`.
 
 Define `orthogonalLocalVolumeRatio q NH NG orderH orderG` as (q^(−NH)orderH)/(q^(−NG)orderG) in Q. The normalized reductive quotient orders above give λ, and the canonical local stabilizer volume is its reciprocal. Its API is positivity and the self-ratio identity with q>1 and both orders positive; it also respects an isomorphism of either finite reductive quotient. The total arithmetic expression returns zero at orderG=0, outside the group hypotheses. A zero quotient order is never used in a volume theorem. (Source: Gan–Hanke–Yu, §2, equations (2.6)–(2.13), pp.104–105.)
 
@@ -1424,6 +1430,7 @@ Define `orthogonalLocalVolumeRatio q NH NG orderH orderG` as (q^(−NH)orderH)/(
 - For the anisotropic rank-three quotient at q=3, NG=0 and orderG=4; against NH=1 and orderH=24, the ratio is two, so the stabilizer volume is 1/2.
 - The corresponding numerical q=2 ratio with orders 6 and 3 is one. This checks the arithmetic expression; it does not assign an arbitrary dyadic lattice this quotient type.
 - A zero denominator order gives zero in the total Lean adapter and fails the positive-order volume hypotheses. Omitting that guard would produce a false positivity theorem.
+- At `q = 2` with `N_H = N_G = 1`, orders `6, 6` give ratio `1` and orders `6, 12` give `1/2`; with `N_G = 0` and orders `6, 6` the ratio is `1/2` and the stabilizer volume is its reciprocal `2`.
 
 **Smooth maximal orthogonal stabilizers.** For a characteristic-zero complete discretely valued field F with finite residue field k of cardinality q≥2, a nondegenerate quadratic space (V,Q) of rank m≥3, and a maximal integral lattice Λ, construct `smoothMaximalOrthogonalModel`. Its generic fibre is SO(Q); its integral points are exactly the SO(F)-stabilizer of Λ. Construct its special fibre, unipotent radical, and maximal reductive quotient `maximalOrthogonalReductiveQuotient`, retaining the component group. Prove that the standard-representation closure in GL(Λ) gives this smooth model except when the residue characteristic is 2, m is even, and the discriminant extension is ramified. In that case the special fibre has two components, and its identity component is the closure in GL(A²⊕Λ) of the enlarged representation below. These are affine group schemes with their actual coordinate Hopf algebras, not just groups of A-points. Construct their morphisms under unramified scalar extension and the identification of the generic fibre. Smoothness, integral points, reduction surjectivity, component group, and the reductive-quotient table are separate API targets `smoothMaximalOrthogonalModel_smooth`, `_integralPoints`, `_reduction_surjective`, `_components`, and `maximalOrthogonalReductiveQuotient_type`.
 (Source: Gan–Hanke–Yu, Proposition 6.12 and Remarks, p.116; Proposition 6.15, pp.117–118; Tables 3–4, pp.115–116. Use ReductiveGroupsPartII RG2.3.1 and RG2.3.3 for the general smooth affine/parahoric model, special-fibre quotient and schematic closure. The specialization is the lattice-specific closure argument of Gan–Hanke–Yu; Bruhat–Tits II 4.6.2 and 4.6.7, pp.124–127, identify the model, integral points and reduction.)
@@ -1461,7 +1468,7 @@ Its API is `maximalLocalMassFactor` evaluates the rational table; `maximalLocalM
 
 ### 3.4 Theta series and their coefficients
 
-Define `latticeThetaSeries` (3.4.1): for a positive definite integral lattice `L` (the Completed IntegralLattices carrier: a full ℤ-submodule of a rational space with a symmetric rational form `B` that is integral on `L`), define `latticeThetaSeries L τ = Σ_{x ∈ L} exp(π i τ B(x,x))` for `τ` in the upper half-plane, and prove that the sum converges absolutely and locally uniformly, so that it is holomorphic; and that, writing `q = exp(π i τ)`, the coefficient of `q^m` is the representation number `r_L(m) = #{x ∈ L : B(x,x) = m}` (Tau Ceti `IntegralLattice.representationNumber`), which is finite by 1.2.2. Use `latticeThetaSeries_gaussian` to identify the summand with exp(−πt‖e(x)‖²) at τ=it, for the real scalar-extension embedding e with ‖e(x)‖²=B(x,x). The positive Gram form constructs that metric; finite-dimensional norm equivalence bounds all derivatives on compact subsets of Im τ>0 by a polynomial times a Gaussian. For Gaussian summability, disjoint open balls of radius half the first positive lattice minimum give the number of vectors `x∈L` with `‖x‖≤R`≤C(1+R)^d by comparing their union with one ambient ball. Splitting into integer norm shells then dominates each differentiated summand by a polynomial times exp(−c j²), uniformly when Im τ is bounded below by a positive constant. Termwise complex differentiation gives local uniform convergence and holomorphy. This uses the real trace metric, the first minimum and ball volumes from Layers 0–1; it precedes the Gaussian transference API of Layer 4. Integral-norm fibers are finite by the bounded-norm supplier and regrouping the absolutely convergent sum gives the coefficient identity. In rank zero the sole vector is zero. For an even lattice the series is a power series in `exp(2π i τ)` with coefficient `#{x : B(x,x)/2 = m}` at `m`. Modularity of the series is not stated in this roadmap.
+Define `latticeThetaSeries` (3.4.1): for a positive definite integral lattice `L` (the Completed IntegralLattices carrier, Tau Ceti's `TauCeti.IntegralLattice`: a full ℤ-submodule of a rational space with a symmetric rational form `B` that is integral on `L`), define `latticeThetaSeries L τ = Σ_{x ∈ L} exp(π i τ B(x,x))` for `τ` in the upper half-plane, and prove that the sum converges absolutely and locally uniformly, so that it is holomorphic; and that, writing `q = exp(π i τ)`, the coefficient of `q^m` is the representation number `r_L(m) = #{x ∈ L : B(x,x) = m}` (Tau Ceti `IntegralLattice.representationNumber`), which is finite by 1.2.2. Use `latticeThetaSeries_gaussian` to identify the summand with exp(−πt‖e(x)‖²) at τ=it, for the real scalar-extension embedding e with ‖e(x)‖²=B(x,x). The positive Gram form constructs that metric; finite-dimensional norm equivalence bounds all derivatives on compact subsets of Im τ>0 by a polynomial times a Gaussian. For Gaussian summability, disjoint open balls of radius half the first positive lattice minimum give the number of vectors `x∈L` with `‖x‖≤R`≤C(1+R)^d by comparing their union with one ambient ball. Splitting into integer norm shells then dominates each differentiated summand by a polynomial times exp(−c j²), uniformly when Im τ is bounded below by a positive constant. Termwise complex differentiation gives local uniform convergence and holomorphy. This uses the real trace metric, the first minimum and ball volumes from Layers 0–1; it precedes the Gaussian transference API of Layer 4. Integral-norm fibers are finite by the bounded-norm supplier and regrouping the absolutely convergent sum gives the coefficient identity. In rank zero the sole vector is zero. For an even lattice the series is a power series in `exp(2π i τ)` with coefficient `#{x : B(x,x)/2 = m}` at `m`. Modularity of the series is not stated in this roadmap.
 Positive definiteness is essential: for an indefinite or negative definite form the series diverges. An odd lattice has half-norms in `½ℤ`, so the `exp(2π i τ)`-expansion convention applies only to even lattices.
 Its API is `latticeThetaSeries_summable` (convergence: absolute, locally uniform summability on the upper half-plane); `latticeThetaSeries_coeff` (the coefficient of `q^m` is `r_L(m)`); `latticeThetaSeries_directSum` (`Θ_{L ⊥ M} = Θ_L · Θ_M` for Tau Ceti's `IntegralLattice.orthogonalSum`); `latticeThetaSeries_rescale` (`Θ_{L(a)}(τ) = Θ_L(aτ)` for Tau Ceti's rescaled lattice `IntegralLattice.scale a L`, an identity of formal sums for every integer `a`, with both sides in the upper half-plane when `a > 0`); `latticeThetaSeries_coeff_even` (for a lattice that is `IntegralLattice.IsEven`, the expansion in `exp(2π i τ)` with coefficients `r_L(2m)`); `latticeThetaSeries_gaussian` (the value at `τ = it` as a Gaussian sum).
 (Source: Duke 1988, printed p.74; the unweighted analytic specialization is the Gaussian argument just described, using 4.4.5–6 and native integral forms.)
@@ -1598,7 +1605,7 @@ Floor means the greatest integer at most the input. This is Theorem 1.5, not Con
 - For the standard unit square the nine points satisfy 9<2·3·3=18.
 - A rectangle with minima (1,3) has three points and gives 3<2·3·1=6; its product factor 3 is below the first-minimum square factor 9.
 
-Define `SemialgebraicMultiset n m k ell` by a multiplicity function μ:Rⁿ→N, bounded support, μ≤m, and a bounded-format witness for every superlevel {x:j≤μ(x)}, 1≤j≤m. Each witness is a Boolean combination of at most k polynomial sign conditions of degree at most ell. Use RealAlgebraicGeometry's `IsSemialgebraic`, sign formulas, and cylindrical decomposition; this bounded-format record adds quantitative hypotheses, not another semialgebraic-set predicate. The API includes support, superlevel sets, measurability, finite lattice support, restriction, and transport by an invertible real linear map with explicit new format bounds. Define `multisetLatticeCount μ` as Σ_{z∈Zⁿ}μ(z), and `multisetVolume μ` as ∫μ. Their APIs are additivity, decomposition as the finite sum of superlevel counts/volumes, and volume invariance under determinant-one transport. Finiteness and integrability follow from the stated bounds; the total `tsum`/integral formulas are used only after these hypotheses have been discharged.
+Define `SemialgebraicMultiset n m k ell` by a multiplicity function μ:Rⁿ→N, bounded support, μ≤m, and a bounded-format witness for every superlevel {x:j≤μ(x)}, 1≤j≤m. Each witness is a Boolean combination of at most k polynomial sign conditions of degree at most ell. Use Tau Ceti's `TauCeti.IsSemialgebraic` with the sign formulas and cylindrical decomposition of RealAlgebraicGeometry; this bounded-format record adds quantitative hypotheses, not another semialgebraic-set predicate. The API includes support, superlevel sets, measurability, finite lattice support, restriction, and transport by an invertible real linear map with explicit new format bounds. Define `multisetLatticeCount μ` as Σ_{z∈Zⁿ}μ(z), and `multisetVolume μ` as ∫μ. Their APIs are additivity, decomposition as the finite sum of superlevel counts/volumes, and volume invariance under determinant-one transport. Finiteness and integrability follow from the stated bounds; the total `tsum`/integral formulas are used only after these hypotheses have been discharged.
 (Source: Bhargava–Shankar, Proposition 2.5, physical p.14; the explicit superlevel format is the consumer contract for its multiset adaptation.)
 **Checks.**
 
@@ -1620,7 +1627,7 @@ The n=1 projection maximum is empty and uses 1. Sup-level projections lie in sup
 
 ### 4.2 Mixing, ergodicity and unipotent flows
 
-**Strongly continuous Hilbert representations.** Use Mathlib `ContRepresentation ℂ G H`, with H a complete complex inner-product space, and `ContRepresentation.invariants`. Unitarity is the inner-product preservation `⟪π(g)v, π(g)w⟫ = ⟪v, w⟫` of RepresentationTheory/CompactGroups `IsUnitary`; that declaration is stated on finite-dimensional spaces, so the statements here carry the same condition as an explicit hypothesis on an arbitrary complete space. Add `StronglyContinuous`: for every v, g↦π(g)v is continuous. The pinned `ContRepresentation` bundles continuity of each operator, not continuity in g. The matrix coefficient is g ↦ ⟪π(g)v,w⟫, as for RepresentationTheory/CompactGroups `matrixCoeff`. Prove `stronglyContinuous_joint` (unitarity upgrades strong to joint continuity), `matrixCoeff_continuous`, `matrixCoeff_bound` (absolute value at most ‖v‖‖w‖), and `invariants_closed`. No finite-dimensional hypothesis is used. The coefficient order follows Mathlib's conjugate-linear first variable.
+**Strongly continuous Hilbert representations.** Use Mathlib `ContRepresentation ℂ G H`, with H a complete complex inner-product space, and `ContRepresentation.invariants`. Unitarity is Tau Ceti's `TauCeti.ContRepresentation.IsUnitary`, the inner-product preservation `⟪π(g)v, π(g)w⟫ = ⟪v, w⟫`, with no dimension or compactness hypothesis (RepresentationTheory/CompactGroups `IsUnitary` is the same condition on finite-dimensional spaces). Add `StronglyContinuous`: for every v, g↦π(g)v is continuous. The pinned `ContRepresentation` bundles continuity of each operator, not continuity in g. The matrix coefficient is g ↦ ⟪π(g)v,w⟫. Tau Ceti's `TauCeti.ContRepresentation.matrixCoeff` packages it as a continuous function when the action is continuous in the operator norm, which a Koopman representation generally is not; here its continuity comes from strong continuity. Prove `stronglyContinuous_joint` (unitarity upgrades strong to joint continuity), `matrixCoeff_continuous`, `matrixCoeff_bound` (absolute value at most ‖v‖‖w‖), and `invariants_closed`. No finite-dimensional hypothesis is used. The coefficient order follows Mathlib's conjugate-linear first variable.
 (Source: Ciobotaru, *A unified proof of the Howe–Moore property*, Definition 2.2, Lemma 2.4 and Remark 2.3, pp.3–4; RepresentationTheory/CompactGroups Layers 1 and 3 define the same predicate and coefficient on finite-dimensional spaces.)
 **Checks.**
 
@@ -1647,6 +1654,8 @@ The API is `contractionSubgroup_mem`, `contractionSubgroup_inv`, and `oppositeCo
 - Finite measure is required for the integral-kernel construction: on N with counting measure, f(n)=1/(n+1) and g(n)=1_{n=0}−f(n) are in L², both have totalized integral zero because neither is in L¹, but f+g has integral one. This kernel is not a submodule on an arbitrary infinite measure space.
 - On a probability space the constant function 1 has norm one and is removed from `meanZeroL2`. On three points with counting measure and the cycle 0→1→2→0, the observable (0,1,2) transforms to (2,0,1): pullback uses the inverse cycle. On two points with probabilities 1/2,1/2, the observable (1,−1) has mean zero and norm one.
 - On a singleton probability quotient the mean-zero space is zero, and its invariant subspace is zero.
+- Constants are fixed by every Koopman operator, and `π(1)` is the identity.
+- A one-point probability space is ergodic for every action, and the full permutation group of two equiprobable points acts ergodically; the trivial group does not (next check).
 - For the trivial H action on a two-point probability space, (1,−1) is a nonzero mean-zero invariant; the action is not ergodic. Replacing H by a compact subgroup does not prove Moore's conclusion.
 
 **Good functions and exterior covolumes.** On finite-dimensional real normed spaces with a locally finite additive Haar measure, define `GoodOn f C α V`, with C,α>0, to mean that f is continuous on V and, for every ball B with its closure contained in V and every δ>0, vol{x∈B:|f(x)|<δ sup_B|f|}≤Cδ^α vol(B). When sup_B|f|=0 this relative sublevel is empty. This is the division-free equivalent of the source's absolute-threshold bound with its zero-supremum convention. Its API is `GoodOn_abs`, `GoodOn_smul`, `GoodOn_max`, its finite-supremum iteration `GoodOn_sup` (requiring C,α>0 also for an empty family), and `polynomial_good`: a real polynomial of degree at most k≥1 is (2k(k+1)^(1/k),1/k)-good. The proof chooses k+1 separated sublevel points and uses Lagrange interpolation. Define `primitiveExteriorCovolume h Δ b` as the supremum over tuples I:Fin k→Fin d of |det((hb_j)_(I_i))|, for an integral basis b of rank k. Repeated rows contribute zero and the rank-zero value is one. On a nonzero primitive subgroup Δ⊂Z^d as the coordinate sup norm of the exterior product of an integral basis of hΔ, independent of its orientation; it is comparable, not identical, to Euclidean covolume. Its API is `primitiveExteriorCovolume_basisChange`, `primitiveExteriorCovolume_nonneg`, `primitiveExteriorCovolume_continuous`, positivity for invertible h and real-independent basis vectors, the rank-one maximum coordinate norm, and the bound ‖Δ+Zv‖≤d‖Δ‖‖v‖ after saturation.
@@ -1654,9 +1663,11 @@ The API is `contractionSubgroup_mem`, `contractionSubgroup_inv`, and `oppositeCo
 **Checks.**
 
 - The zero polynomial is good by the zero-supremum branch; a nonzero constant has empty sublevels below its absolute value.
+- `max(|t|, 1)`, `max(0, |t|)` and the finite supremum of `|t|` and `1` are `(4,1)`-good on `ℝ`, and the maximum is symmetric in its two arguments.
 - On (−1,1), f(t)=t has sublevel proportion ε for 0<ε≤1, whereas f(t)=t² has proportion √ε. A degree-independent exponent one would fail.
 - For the primitive vector (1,1) exterior sup norm is 1 and Euclidean length is √2; sign reversal leaves the former unchanged. Rank-zero exterior product has norm 1, but is excluded from the nonzero-subgroup poset.
 - A generator (2,0) gives exterior norm 2; diag(2,3) sends (1,1) to exterior norm 3; the zero matrix gives norm 0 in positive rank and fails invertibility.
+- The rank-two basis `(2,0),(0,3)` has exterior covolume `6`.
 
 Define `integralPrimitiveSubgroup Δ` by containment in the integer-coordinate lattice and saturation there: for z∈Z^d and a∈Z\{0}, az∈Δ implies z∈Δ. Its API is the zero/full-coordinate cases, integral-basis existence, rank at most d, and strict rank growth for proper inclusions of primitive subgroups. This is saturation inside Z^d; a nonzero subgroup is never saturated in the ambient real vector space. Define `shortIntegerVectorSet h B ε` as {x∈B: some z∈Z^d\{0} has ‖h(x)z‖_∞<ε}; its API is threshold monotonicity and measurability for continuous h and measurable B. The integer quantifier makes it a countable union.
 **Checks.**
@@ -1709,6 +1720,7 @@ Define `StronglyQuasiregularMap U G` as a rational map φ on a Zariski-open subs
 
 - In SL₂, write u(t)=[[1,t],[0,1]] and g_ε=[[1,0],[ε,1]]. For a≠−1 and ε≠0, u(a/ε)g_εu(−a/(ε(1+a)))=[[1+a,0],[ε,(1+a)⁻¹]]. Its limit is the nonconstant diagonal map with entries 1+a and (1+a)⁻¹; it normalizes U but is not U-valued.
 - At a=0 the limit is 1; at a=1 it is diag(2,1/2). At a=−1 the rational cross-section is undefined, so a globally regular G-valued map is not asserted.
+- `u(2)u(−2) = l(2)l(−2) = 1`. At `a = 1, ε = 1/2` the product is `[[2,0],[1/2,1/2]]`. At `a = −2` the limit is `diag(−1,−1)`, of determinant one; the formal diagonal at `a = −1` is the zero matrix, which is not in `SL₂`.
 - For U={1}, N_G(U)=G and no g_j outside the normalizer exists. A constant limit cannot substitute for the nonconstant rescaling theorem.
 
 **Finite Poisson sampling.** For a measurable space X, a finite measure μ and intensity a≥0, define `finitePoissonConfiguration a μ` on Σ_(n∈N)Xⁿ by mixing the product measures (μ/μ(X))ⁿ with the existing Mathlib `ProbabilityTheory.poissonMeasure (a μ(X))`. At μ(X)=0 all mass is on the empty configuration, so no positive-mass assumption is needed. Define `configurationCount A (n,x)=Σ_(i<n)1_A(x_i)`, counting repetitions. Its API is measurable evaluation on measurable A, count on the universe, monotonicity, and additivity on disjoint sets. The sampling API is probability normalization, `finitePoissonConfiguration_count` (count in A has Poisson parameter aμ(A)), `finitePoissonConfiguration_indep_counts` for disjoint measurable sets, and `finitePoissonConfiguration_campbell`: the expected sum of an integrable real f over the configuration is a∫f dμ. Expand the product integral at each count n; multinomial allocation gives independent Poisson counts, and their first moments give Campbell's identity. All products use the measurable sigma-type carrier, not an unspecified random subset. The greedy covering construction uses precisely these finite-window samples; it requires no construction of a process on the whole noncompact group. (Source: Lindenstrauss, *Pointwise theorems for amenable groups*, author manuscript dated 31 January 2001, proof of Lemma 2.1, pp.7–13; the count law and its convolution are reused from Mathlib `Probability/Distributions/Poisson/Basic`.)
@@ -1742,6 +1754,8 @@ Prove `leaf_entropy_bound_and_equality`: for a closed V⊂W⁻ normalized by s, 
 
 - One atom has entropy zero; a fair binary label has entropy log 2; independent fair binary labels have conditional entropy log 2, while conditioning a label on itself gives zero. The empty zero-measure label gives zero.
 - Iterating a fixed binary label under the identity gives (i,i,i); iterating the two-point flip from 0 gives (0,1,0). Both transformations have entropy zero. A fair two-sided Bernoulli shift has coordinate-label rate and measure entropy log 2; a definition returning zero for every transformation fails this case.
+- The uniform probability on `{0,1}²` with the identity label has entropy `2 log 2`. The length-zero itinerary is the empty function, and the entropy rate and measure entropy of a Dirac probability and of the zero measure are `0`.
+- `atomInformation` is `∞` at `0`, `0` at `1` and `log 2` at `1/2`.
 - A nonatomic uniform probability on [0,1), with the point label conditioned on a constant, has conditional-label entropy ∞. Conditioning the point label on itself has entropy zero. The singleton Dirac probability has zero conditional entropy in either case.
 - For the trivial action on two points, the singleton partition is subordinate and the constant partition is not. For translations of R, the singleton partition fails the neighborhood condition at a Dirac point; the floor label is subordinate at δ_(1/2), with compact orbit pieces and an identity neighborhood. At zero μ all a.e. requirements are vacuous.
 - A periodic s-orbit has entropy zero and need not have Haar conditionals on a positive-dimensional contracting leaf; an inequality is insufficient for invariance. For s=diag(e^t,e^(−t)), t>0, the lower-unipotent modulus is α(s,V)=e^(−2t), hence log α(s⁻¹,V)=2t. Reversing the modulus gives an impossible negative entropy bound.
@@ -1835,6 +1849,7 @@ The orbit measure is on the actual orbit closure, not necessarily all of G/Γ. N
 - The constant polynomial 1 gives coefficient 6 at n=1 and a nonzero constant term. It is excluded from the positive-degree cusp assertion.
 - P=X₀ gives coefficient zero on every shell by v↦−v. P=X₀²−X₁² is harmonic but its coefficients also vanish, by coordinate permutation; harmonicity does not imply a nonzero theta series.
 - P=Σ_i X_i⁴−(3/5)(Σ_i X_i²)² is harmonic of degree four: its two Laplacians are 12Σ_i X_i² and 20Σ_i X_i². Its n=1 coefficient is 12/5, so the coefficient construction must retain the weight.
+- `polynomialLaplacian` sends `1` and `X₀` to `0` and `X₀²` to `2`. For `P = 1` at `τ = i` the theta value has real part greater than `1`: the zero vector contributes `1` and every other term is positive.
 
 **Checks for the weighted Fourier transform.**
 - In dimension one, P(x)=x and t=1 give −iξ exp(−πξ²); using +i reverses the Fourier phase.
@@ -1921,6 +1936,7 @@ Then prove `kronecker_double_identity` in the annulus |q|<|x|,|y|,|z|<1: express
 - `H(3) = 1/3`, `H(4) = 1/2`, `H(12) = 4/3`, `H(16) = 3/2` (Tau Ceti `hurwitzClassNumber_three`, `_four`, `_twelve`, `_sixteen`): the classes of multiples of `x² + xy + y²` and `x² + y²` carry weights `1/3` and `1/2`.
 - `D = −4` has the single primitive class `(1, 0, 1)` with `w = 4`, and `D = −3` the single class `(1, 1, 1)` with `w = 6`.
 - `D = −23` has three primitive classes, represented by `(1, 1, 6)`, `(2, 1, 3)` and `(2, −1, 3)`, with `w = 2`; the last two are equivalent under `GL(2, ℤ)` but not under `SL(2, ℤ)`.
+- `(1,0,1)`, `(1,1,1)` and `(2,−1,3)` take the values `5, 3, 4` at `(1,2), (1,1), (1,1)`. `(2,0,2)` of discriminant `−16` is not primitive; it lies in `posDef 16` and contributes weight `1/2` to `H(16)`. The quarter turn sends `(a,b,c)` to `(c,−b,a)` in the same `SL(2, ℤ)`-orbit.
 
 Prove `three_square_hurwitz`: for every `n ≥ 1`, `r₃(n) = 12(H(4n) − 2H(n))`, with Tau Ceti's Hurwitz class number; for `n ≡ 1, 2 (mod 4)` this reads `r₃(n) = 12H(4n)`, since `H(n) = 0` there (`TauCeti.hurwitzClassNumber_eq_zero_of_mod_four_eq_one_or_two`). The proof counts the wells of topographs. Use the SL₂(Z) generators to identify classes with oriented topographs; the elementary climbing rule makes each positive topograph have a unique well. At a vertex well its outgoing edges satisfy −D=ef+eg+fg. For odd D the three edges are odd with gcd one. For even D divide the even edges by two; their gcd is one and they are not all odd. An edge well has b=0 and −D=4ac. Strictly ordered triples give two orientations; two equal edges give one; the all-equal vertex and equal-sided edge give precisely the unit exceptions, with weights 1/3 and 1/2 as in `TauCeti.hurwitzClassNumber_eq_finsum`. Partition the signed coefficient sum of `gauss_signed_three_square_count` by edge equality and parity to obtain the formula. The residue-square computation gives zero at 7 mod8 and reduction by four when 4|n. Removing common divisors by square-divisor Möbius inversion gives the primitive formulas; for square-free n every vector is primitive. (O'Sullivan, *Topographs for binary quadratic forms and class numbers*, arXiv:2408.14405v3, §§3.3,4.3, Theorems 5.1–5.4 and Lemma 5.5/Theorem 5.6, pp.14–17.)
 *Needs:* `gauss_signed_three_square_count`, Tau Ceti `TauCeti.BinaryQuadraticForm.posDef`, `TauCeti.reducedForms` and `TauCeti.hurwitzClassNumber_eq_finsum`.
@@ -1975,6 +1991,7 @@ Nondegeneracy, indefiniteness, dimension≥3 and irrationality up to scalar are 
 - An integral form has discrete values and is excluded.
 - Positive-definite forms do not have values dense in all R.
 - The n=2 form x²−(3+2√2)y² shows why dimension≥3 is required.
+- `x² + y² − z²` takes every real value, the conclusion of `indefinite_quadratic_surjective`.
 
 4.3.2. Prove As n→∞ through positive square-free integers n not congruent to 7 modulo 8, the normalized counting measure on {v/√n:v∈Z³,‖v‖²=n} converges to normalized rotation-invariant surface measure on S².
 The representation set is nonempty on the stated admissible sequence by `siegel_three_square_lower_bound`. No effective constant is claimed: the representation-number lower bound is ineffective.
@@ -2210,6 +2227,7 @@ Its API is `lllCoefficient` (The Gram–Schmidt inner-product ratio.); `lllCoeff
 - For b=((1,0),(1/2,1)) the coefficient μ₁₀ is 1/2.
 - For an orthogonal family, off-diagonal reduction coefficients vanish.
 - For dependent input b*_j can be zero; the total coefficient does not certify a reduced basis.
+- On the real line `(1, 1/2)` has `μ₁₀ = 1/2`, and `(1,1)` is dependent, hence not reduced.
 
 Define `IsLLLReduced` (5.1.2): An LLL-reduced family at δ=3/4 is linearly independent, has |μ_{ij}|≤1/2 for j<i, and for each adjacent j<i with i=j+1 satisfies ‖b*_i‖²≥(3/4−μ_{ij}²)‖b*_j‖². A basis of the input lattice is required separately by output certificates.
 The equality boundary is accepted; swaps occur for strict failure. The empty family is reduced by vacuity; positive-rank approximation statements assume n≥1.
@@ -2251,14 +2269,21 @@ Its API is `UnimodularBasisCertificate.ofMatrices` (Supply actual integral inver
 
 - The coordinate swap [[0,1],[1,0]] has determinant −1 and is a valid certificate.
 - diag(2,1) is not an integer-invertible basis change.
+- Every family has the identity certificate.
 - A floating matrix approximately inverting U does not inhabit this certificate.
 
 5.2.2. Prove that for t∈R put r=floor(t+1/2). Then -1/2≤t-r<1/2; in particular |t-r|≤1/2. This fixes ties deterministically.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, size reduction in (1.18), printed p.31 (physical p.5); the floor tie choice is the convention here.)
+**Checks.**
+
+- `⌊t + 1/2⌋` sends `3/2` to `2`, `−1/2` to `0` and `−8/5` to `−2`: ties round up.
 
 5.2.3. Prove Replacing b_i by b_i-r b_j, j<i and r∈Z, has integral inverse replacing that column by b_i+r b_j; the two coordinate matrices multiply to the identity.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
 *Needs:* 5.2 `UnimodularBasisCertificate.ofMatrices`.
+**Checks.**
+
+- On `(1,3)` the shear of `b₁` by `r = 3, 0, −1` gives `(1,0), (1,3), (1,4)`.
 
 5.2.4. Prove that for independent b and j<i, subtracting an integral multiple r b_j from b_i preserves every Gram–Schmidt vector.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
@@ -2271,6 +2296,9 @@ Its API is `UnimodularBasisCertificate.ofMatrices` (Supply actual integral inver
 5.2.6. Prove Process j=i-1,...,0 using the nearest-integer shear. Already bounded coefficients with index greater than j stay bounded; the final row i satisfies all |μ_ij|≤1/2.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
 *Needs:* 5.2.2, 5.2.5.
+**Checks.**
+
+- Descending reduction of row 1 of `(1,3)` gives `(1,0)`; a rank-one family is unchanged.
 
 5.2.7. Prove Swapping adjacent columns i,j=i+1 gives an integral involutive coordinate matrix and hence a unimodular certificate.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
@@ -2300,6 +2328,7 @@ Its API is `lllIntegerPotential` (Product of positive integral Gram-prefix deter
 - The standard basis has all prefix determinants and potential equal to 1.
 - A rational metric with denominator 2 needs a fixed rescaling; its original determinants are not asserted to be integers.
 - In ranks 0 and 1 the empty potential is 1, and no adjacent swap exists.
+- The columns `(2,0),(0,1)` have potential `4`.
 
 5.3.2. Prove that for independent b and 0≤k≤n, d_k=det Gram(b_0,...,b_(k-1))=∏_{i<k}||b*_i||²>0, including d_0=1.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.24)–(1.25), printed p.33.)
@@ -2316,6 +2345,9 @@ Its API is `lllIntegerPotential` (Product of positive integral Gram-prefix deter
 5.3.5. Prove that for j=i+1 only d_j changes under the adjacent swap, and its ratio is T/B. Thus D(c)=(T/B)D(b).
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
 *Needs:* 5.2.8, 5.2.9, 5.3.2.
+**Checks.**
+
+- For the rank-one basis `(2)`, `d₁ = 4` and the potential over proper prefixes is `1`. For `(2,0),(0,1)` the potential is `4` and after the swap it is `1`, the factor `T/B = 1/4`.
 
 5.3.6. Prove that if C<(3/4-a²)B then 0<T/B<3/4 and 4D(c)<3D(b). For integral Gram data D is a positive integer, so D(c)<D(b).
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
@@ -2324,6 +2356,9 @@ Its API is `lllIntegerPotential` (Product of positive integral Gram-prefix deter
 5.3.7. Prove At outer index 1≤k≤n, all pairs in the prefix b_0,...,b_(k-1) satisfy size and Lovász inequalities. A swap at k after reducing μ_k,k-1 preserves this invariant at max(1,k-1); a successful descending reduction extends it to k+1.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.16)–(1.21), printed pp.31–33.)
 *Needs:* 5.2.6, 5.2.10.
+**Checks.**
+
+- In rank one the cursor starts and stays at `1`; rank zero has no loop state, since `1 ≤ k ≤ 0` fails.
 
 5.3.8. Prove Outer transitions for n≥2 strictly decrease the lexicographic pair (D,n-k): swaps decrease D; successful passes increase k at fixed D. The finite descending shear loop terminates separately. The rank-zero and rank-one algorithms terminate immediately.
 (Source: Lenstra–Lenstra–Lovász 1982, §1, termination argument (1.23)–(1.25), printed pp.33–34.)
@@ -2493,6 +2528,7 @@ Its API is `ExactCategoryDuality.ofExactFunctor` (An additive conflation-exact s
 - Finite projective R-modules with Hom_R(−,R) form the split exact example; arbitrary finite modules need not have invertible biduality.
 - Over Z the hyperbolic symmetric plane is available without 1/2.
 - Changing η to −η changes the symmetry equation and does not identify symmetric and quadratic refinements at 2.
+- The duality reverses composition, `D((f ≫ g)ᵒᵖ) = D(gᵒᵖ) ≫ D(fᵒᵖ)`, and reverses conflations; `η` is an isomorphism satisfying the triangle identity `D(η_X) η_{DX} = 1`.
 
 Define `SymmetricSpace` (6.2.2): for strong duality (D,η), a symmetric space is (X,φ) with an isomorphism φ:X→DX satisfying D(φ)η_X=φ. A form-preserving map f:X→Y satisfies φ_X=D(f)φ_Y f; an isometry is such a map whose underlying morphism is an isomorphism.
 Nondegeneracy is an isomorphism, not merely a separating form over a ring. Symplectic spaces use the sign-twisted duality; a quadratic refinement is additional data at dyadic coefficients.
@@ -2504,6 +2540,7 @@ Its API is `SymmetricSpace` (Object, pairing isomorphism and typed symmetry equa
 - The rank-one pairing xy on Z is nondegenerate; 2xy is separating but not a pairing isomorphism over Z.
 - The identity map preserves every symmetric space.
 - A noninvertible form-preserving map is not called an isometry.
+- For finite-dimensional `ℚ`-spaces with the linear dual, the dual of `ℚ` is one-dimensional, the form `⟨1⟩` pairs `2` and `3` to `6`, and the empty Gram matrix gives the zero space.
 
 Define `SymmetricIsometry` (6.2.3): Isometry classes are the quotient of nondegenerate symmetric spaces by existence of an actual form-preserving categorical isomorphism.
 Its API is `SymmetricIsometry` (data: A categorical isomorphism satisfying the pairing equation.); `symmetricIsometrySetoid` (Two spaces are related exactly when such an isometry exists.); `SymmetricIsometryClass` (The quotient by that setoid; its generator identifies precisely isometric spaces.).
@@ -2545,6 +2582,7 @@ Its API is `ExactLagrangian.ofConflation` (A conflation L→X→DL with the disp
 - The first summand of the hyperbolic plane is a Lagrangian.
 - 2Z⊂Z is not an admissible summand in the split exact category of projectives.
 - An isotropic subobject of too small a rank is not a Lagrangian.
+- The summand inclusion `ℤ → ℤ ⊕ ℤ` is an admissible inflation of the split exact structure.
 
 Construct `hyperbolicSpace` (6.2.7): for X in an exact category with duality, H(X) has underlying object X⊕DX and pairing matrix [[0,1],[η_X,0]] to DX⊕DDX, with its actual biproduct identifications. The inclusion of X is an admissible Lagrangian.
 No division by 2 is used. The exact category’s split biproduct conflation is imported.
@@ -2628,6 +2666,7 @@ Its API is `ExactGW0` (The presented additive group.); `ExactGW0.of` (The genera
 - A metabolic space with Lagrangian L has the same GW class as H(L).
 - Over a split exact projective category, stable metabolic cancellation yields the usual group completion.
 - Over Z the symmetric and quadratic-refined group presentations are not conflated.
+- `[H(X) ⊥ H(X)] = 2[H(X)]`, and the zero symmetric space has class `0`.
 
 Construct `ExactW0` (6.4.2): W0(E) is the orthogonal-sum monoid of symmetric-space isometry classes modulo metabolic spaces, equipped with its abelian group structure: the negative form supplies the inverse, as proved by symmetric-diagonal-lagrangian.
 The diagonal Lagrangian proof uses the actual perfect pairing and split exactness of its short sequence.
@@ -2640,6 +2679,7 @@ Specialised to finite-dimensional signed hermitian spaces over a nonarchimedean 
 - A hyperbolic plane has zero Witt class.
 - The inverse of [X,φ] is [X,−φ].
 - W=GW is false: over R the hyperbolic plane has nonzero rank in GW but zero Witt class.
+- The zero symmetric space has Witt class `0`.
 
 Construct `grothendieckWittForgetful` (6.4.3): for a small exact category E with strong exact duality, the underlying-object assignment induces the group homomorphism F:GW0(E)->K0(E).
 K₀ is the imported exact Grothendieck group. The duality involution can act nontrivially on K₀; multiplication by two is only a specialization when it acts trivially.
@@ -2749,6 +2789,7 @@ Its API is `grothendieckWittSpace` (The specified pointed homotopy fibre.); `gro
 - The zero symmetric space supplies the distinguished base point; it is not an arbitrary unrecorded form.
 - For the hyperbolic category HE, GW(HE)≃K(E).
 - A four-periodic shifted-duality statement does not imply GW_i≅GW_{i+4}; homotopy degree and duality shift are separate indices.
+- The map of fibres induced by identity maps is the identity.
 
 Define `higherGrothendieckWittGroup` (6.5.12): for i≥0, GW_i(E)=π_i of the pointed Grothendieck–Witt fibre space; in degree zero use its canonical abelian H-space component group, not a shifted-duality index.
 Use actual pointed homotopy groups and orthogonal sum.
@@ -2847,6 +2888,7 @@ Its API is `HermitianConeDiagram` (The full-subcategory object is an actual func
 - Constant diagrams satisfy the conditions with k=0.
 - A diagram whose forward map is multiplication by 2 on a projective Z-module fails inflation.
 - Separate crossing bounds that are unbounded in i do not supply a cone object.
+- The constant diagram on `X` has `X` at every forward and backward position.
 
 6.7.2. Prove that the cone conditions are closed under pointwise conflations, giving the induced exact structure on C0(E,E).
 (Source: Schlichting2010, §9.1, printed p.155.)
@@ -2861,10 +2903,14 @@ Its API is `coneLowerShift` (The lower-row reindexing exact endofunctor.); `cone
 - The zero shift is the identity.
 - Two lower shifts add their indices.
 - A lower and an upper shift commute.
+- The lower shift leaves backward components unchanged and the upper shift leaves forward components unchanged.
 
 6.7.4. Prove Dualizing a cone diagram exchanges its forward and backward rows and interchanges the lower and upper shifts, reversing the comparison maps.
 (Source: Schlichting2010, §9.1, printed p.155.)
 *Needs:* 6.7 `coneLowerShift`, 6.2 `ExactCategoryDuality.ofExactFunctor`.
+**Checks.**
+
+- The forward row of the dual diagram is the dual of the backward row, and the zero extension and the swindle commute with duality up to the canonical isomorphism.
 
 Construct `ConeFraction` (6.7.5): The cone morphisms U→V are the filtered colimit of Hom_C0(U^[i],V[j]); representatives agree after sufficiently increasing both shift indices.
 Its API is `ConeFraction` (A shifted middle map and its two indices.); `ConeFraction.advance` (Increase both shift indices by composing the canonical shift maps.); `ConeFraction.equivalent` (Equality of those specific advanced maps at a common larger shift.); `ConeFraction.comp` (Shift the two representatives to compose; the new indices are their sums.); `ConeFraction.toLocalization` (The universal comparison to categorical localization.).
@@ -2875,6 +2921,7 @@ Its API is `ConeFraction` (A shifted middle map and its two indices.); `ConeFrac
 - Unshifted maps embed faithfully.
 - Every lower and upper comparison map becomes invertible.
 - Constant-diagram morphisms agree with the original E morphisms.
+- Advancing a fraction to its own indices does nothing; advancing it changes its indices to the chosen ones and does not change its arrow in the localization.
 
 6.7.6. Prove that the representative g[j] composed with f^[k] defines associative, representative-independent composition with the shift comparisons as identities.
 (Source: Schlichting2010, Definition 9.1, printed pp.155–156.)
@@ -3197,7 +3244,7 @@ Prove `dgArrowGW_hyperbolic`: send f:A₀→A₁ to (A₀,A₁*) in the hyperbol
 - A two-shift reverses the bidual sign; a four-shift restores it. The coefficient-line equivalences keep πᵢ fixed, rather than comparing πᵢ with πᵢ₊₄.
 - In characteristic two the dg cones and duality signs still make sense, but the 2-invertibility hypothesis of the Bott argument fails. This theorem supplies no comparison there.
 
-**Number-field virtual cohomological dimension.** Use `cd_p` from ProfiniteCohomology Layer 11 and the absolute Galois group of a field; define `virtualTwoCohomologicalDimension K` to be cd₂(G_(K(i))), where i²=−1. This definition includes the case that i already belongs to K. Its API is independence of the chosen root and separable closure, invariance under field isomorphism, and the bound under finite extensions. Prove `numberField_virtual_cd_two_le`: for a number field K, this invariant is at most two. Prove the corresponding bound for a finite field of odd characteristic (at most one); characteristic two is excluded from the later comparison, irrespective of its Galois cohomological dimension. The arithmetic input is `globalHighDegreeRestriction`: for a finite discrete G_K-module A and r≥3, restriction identifies Hʳ(K,A) with the product of Hʳ(K_v,A) over real places. Here positive-degree ordinary and Tate cohomology at a real place agree. Construct the restriction from chosen local embeddings and prove its independence under conjugacy. No real place survives in K(i), so these groups vanish; continuous cohomology commutes with the filtered union of finite submodules of a discrete torsion representation, extending the vanishing to every 2-primary torsion module. This last passage uses ProfiniteCohomology's finite-primary characterization of `cd_p`, rather than checking just the trivial coefficient F₂.
+**Number-field virtual cohomological dimension.** Use `cd_p` from ProfiniteCohomology Layer 11, which is Tau Ceti's `TauCeti.cohomologicalDimensionAt`, and the absolute Galois group of a field; define `virtualTwoCohomologicalDimension K` to be cd₂(G_(K(i))), where i²=−1. This definition includes the case that i already belongs to K. Its API is independence of the chosen root and separable closure, invariance under field isomorphism, and the bound under finite extensions. Prove `numberField_virtual_cd_two_le`: for a number field K, this invariant is at most two. Prove the corresponding bound for a finite field of odd characteristic (at most one); characteristic two is excluded from the later comparison, irrespective of its Galois cohomological dimension. The arithmetic input is `globalHighDegreeRestriction`: for a finite discrete G_K-module A and r≥3, restriction identifies Hʳ(K,A) with the product of Hʳ(K_v,A) over real places. Here positive-degree ordinary and Tate cohomology at a real place agree. Construct the restriction from chosen local embeddings and prove its independence under conjugacy. No real place survives in K(i), so these groups vanish; continuous cohomology commutes with the filtered union of finite submodules of a discrete torsion representation, extending the vanishing to every 2-primary torsion module. This last passage uses ProfiniteCohomology's finite-primary characterization of `cd_p`, rather than checking just the trivial coefficient F₂.
 
 To prove the high-degree restriction, use the exact sequence of units, idèles and idèle classes over the separable closure. Construct `globalIdeleExtDuality`, Extʳ_(G_K)(A,C)=H^(2−r)(K,A)ᵛ for finite A in the degrees r≥1, with the dual coefficient in the units term. ClassFieldTheory Layer 11 supplies the idèle class formation and fundamental class; its Tate theorem, restriction/corestriction compatibility and the continuous Ext limit over finite splitting extensions give this duality. Construct `globalIdeleLocalExt`: the idèle Ext groups are the sums of the local groups in degrees at least two, using Shapiro on the local factors and vanishing of the higher unramified-unit terms. ClassFieldTheory's local duality and the cohomological triviality of unramified units supply these terms; outside finitely many ramified places the restricted-product factors are units. The Ext long exact sequence and the zero negative degrees on the class-formation duality then identify the global groups in degree at least three with their local restrictions. Nonarchimedean local fields have cd₂≤2 by ClassFieldTheory Layer 5; complex places have trivial Galois group. This leaves exactly the real factors in the asserted product.
 (Source: Milne, *Arithmetic Duality Theorems*, second edition, I, Theorem 4.6, pp.52–53, Theorem 4.10(c), pp.56–57, and its proof through Lemmas 4.12–4.13, pp.59–62. For the finite-field Galois group use ProfiniteCohomology Layers 4 and 11, with its computed cd_p of the procyclic group.)
@@ -3266,9 +3313,7 @@ CDH I, §5.3, constructs tensor products of Poincaré categories; §7.5, Proposi
 - Exchanging two degree-one tensor factors gives sign −1; forgetting that symmetry changes the coefficient involution. The class Z[−2] has signature one in Lgs₄(Z); its action shifts the comparison by four. A signature-eight E₈ class gives a different integral action, even though both become units after inverting two.
 - Lgs₀(Z)→Ls₀(Z) is an identity on signature, whereas Lgq₀(Z)→Lgs₀(Z) multiplies signature by eight. For n=0, 6.10.5 gives a (−1)-truncated map, not an unqualified spectrum equivalence.
 
-
 ### 6.11 The integers
-
 
 The integer table needs two arithmetic inputs in addition to 6.10, both targets here. Define `integerKOddPart` as the subgroup of K_n(Z) consisting of elements of finite odd order; retaining this subgroup avoids assuming its cyclicity. Prove `integerKArithmeticInput`: finite generation of K_n(Z), the orders |K_(8k+2)(Z)|=2c_(2k+1) and |K_(8k+6)(Z)|=c_(2k+2), the cyclic groups K_(8k+3)(Z)=Z/(2w_(4k+2)) and K_(8k+7)(Z)=Z/w_(4k+4), and the 2-inverted duality action (−1)^j on K_(2j−1) and K_(2j−2), j≥2. Here c_j and w_(2j) are the positive numerator and denominator of |B_(2j)/(4j)| in lowest terms. This is an arithmetic K-theory input using Quillen–Lichtenbaum, not a consequence of the Q construction. Separately prove `twoLocalGWZHalf`: the positive-degree symmetric and symplectic GW groups of Z[1/2] are the 2-primary groups of Berrick–Karoubi, Theorem B, published p.789. Its proof uses their cartesian orthogonal/symplectic Brauer-lift squares, Theorem A, together with topological Bott periodicity and the ordinary K-theoretic cartesian square. Combine this input with 6.10.4 and the two-inverted fundamental-square splitting; finite generation then recovers the integral groups. The odd K contribution remains its actual group, rather than an assumed cyclic group. (Source: CDH III, §3.2, Theorem 3.2.2, Lemma 3.2.4 and proof, pp.55–57.) Neither `integerKArithmeticInput` nor `twoLocalGWZHalf` follows from 6.1 or the stable-category definitions, and every row below depends on both.
 
