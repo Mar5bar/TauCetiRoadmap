@@ -77,6 +77,15 @@ ellipticity is the case that does earn a named definition: its two-sided bound
 
 ## Getting the statements right
 
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G3–G6, extends this roadmap's
+weak-derivative and `W¹,¹` APIs to distributional BV, finite perimeter, scalar coarea, BV
+compactness, and BV traces. Lane A retains ownership of Sobolev spaces, smooth density,
+Sobolev Poincaré and domain trace/extension theory; GMT proves agreement of its BV versions
+with those canonical constructions. [Isoperimetry](../Isoperimetry/README.md), I3 and I5,
+owns sharp periodic Wirtinger with equality, and the sharp whole-space BV Sobolev inequality
+with its extremizers. Lane A's general embedding and nonsharp estimates are independent
+of those sharp results; no second weak-derivative or trace definition is introduced.
+
 A few cross-cutting rules for the *shape* of a PDE statement: which hypotheses it carries
 and which notion it names. These recur across the lanes below, and getting them right at
 statement time is what keeps the formalized API reusable.

@@ -509,6 +509,28 @@ stronger quantifier order.
   geometric-topology roadmap consumes. *Acceptance:* `∫_{Icc 0 1} df = f 1 − f 0`;
   `|∫_{S¹} dθ| = 2π` for `circleAngularForm`; Green's theorem on the unit square.
 
+### Rectifiable curves and geometric measure theory
+
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2, owns rectifiability,
+arclength, variation–speed identities, and Hausdorff length. Consume those results in
+planar curve calculus rather than building another metric length theory. The flat planar
+Green development in layer 5.6 owns winding numbers, curve integration, and the actual
+area identity; layers 5.3–5.5 retain manifold integration and Stokes.
+
+For continuous BV curves, construct the geometric line integral of a continuous real
+1-form along the trace with its traversal multiplicity, using G1's AC arclength
+factorization. Prove independence of that factorization, invariance under increasing
+continuous onto reparametrizations, and sign reversal under decreasing ones. Prove
+agreement with the existing derivative-based `curveIntegral` when the parameter is AC.
+The original non-AC parameter cannot in general be differentiated to recover the geometric
+line integral. The metric and arclength part of G1 precedes this construction; Green's
+theorem for the AC factorization then supplies its rectifiable-curve area specialization.
+
+GMT G6 owns the finite-perimeter and boundary-normal comparison for rectifiable Jordan
+domains, consuming that AC boundary-integral identity. [Isoperimetry](../Isoperimetry/README.md),
+I3 and I6, owns the sharp curve inequality and circle equality. Neither Green's theorem
+nor the metric length foundations depend on the sharp isoperimetric theorem.
+
 ### Layer 6: the de Rham complex and cohomology
 
 *[Lee, Ch. 17].*
