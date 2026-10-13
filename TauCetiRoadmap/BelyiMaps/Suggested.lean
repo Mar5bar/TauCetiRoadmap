@@ -557,8 +557,9 @@ example (t : PermutationTriple n) :
 
 /-- **Layer 1.6.** The stable part of a passport label, its degree, `nTj` group and three
 partitions, is `TauCeti.PassportLabel`, and its semantics is `TauCeti.PassportSpec.HasLabel`
-through PolynomialGaloisGroups' `TauCeti.TransitiveGroupLabel`. Tau Ceti's reference data stops
-at degree five (`TauCeti.numTransitiveGroups`); degrees six to eleven remain. -/
+through PolynomialGaloisGroups' `TauCeti.TransitiveGroupLabel`. Layer 1.6 covers degrees at
+most five, where Tau Ceti's reference data (`TauCeti.numTransitiveGroups`) stops; degrees six
+and above are outside this roadmap. -/
 example (P : PassportSpec n) (L : PassportLabel n) :
     P.HasLabel L ↔
       TransitiveGroupLabel L.group P.G ∧ P.lam0 = L.lam0 ∧ P.lam1 = L.lam1 ∧

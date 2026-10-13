@@ -61,8 +61,6 @@ of the sphere. Tau Ceti implements most of it, and each implemented milestone ca
 milestones on the Tau Ceti declarations, closing each statement by the theorem that proves it,
 and keeps `sorry` only for targets that remain. What remains is:
 
-- Layer 1.6 in degrees `6` to `11`, including the transitive-group reference data in those
-  degrees, which PolynomialGaloisGroups excludes and which is therefore part of 1.6 here;
 - Layer 3.5's comparison of the degree-at-most-four table with the frozen database records;
 - in Layer 5, the edge cases and the chart description of `D∞*` in 5.1, and the examples, edge
   cases and general pullback of `monodromyHom` in 5.3;
@@ -203,8 +201,9 @@ reference data `TransitiveGroupIndex`, `referenceSubgroup`, `numTransitiveGroups
 label predicate `TransitiveGroupLabel` belong to the PolynomialGaloisGroups roadmap (its
 Layers 0, 6, 7), and are Tau Ceti's `Equiv.Perm.fullCycleType`, `TauCeti.TransitiveGroupIndex`,
 `TauCeti.referenceSubgroup`, `TauCeti.numTransitiveGroups` and `TauCeti.TransitiveGroupLabel`.
-That roadmap classifies transitive groups only through degree `5` and excludes degrees `6`
-to `11`, so Layer 1.6 supplies the reference data it needs in those degrees itself.
+That roadmap classifies transitive groups only through degree `5` and excludes higher
+degrees, so Layer 1.6 interprets labels only through degree `5` as well; degrees `6` and above
+are listed under the explicit scope exclusions.
 Layer 1 here consumes them for LMFDB label semantics and adds no second `nTj` predicate and no
 second cycle-type-with-fixed-points definition. Blocks, primitivity, and transitivity are
 always Mathlib's `MulAction.IsBlock`, `MulAction.IsPreprimitive`, `MulAction.IsPretransitive`,
@@ -539,7 +538,7 @@ the three portfolio suppliers have no local stand-ins here.
 | Consumer | Supplier | Object | Exact name, or local interface signature |
 | --- | --- | --- | --- |
 | 0.5, 1.1 | `PolynomialGaloisGroups` Layer 0 | cycle type with fixed points | `Equiv.Perm.fullCycleType`, computed by `Equiv.Perm.computedCycleType` (`Equiv.Perm.computedCycleType_eq_fullCycleType`) |
-| 1.6, 14.1, 14.5 | `PolynomialGaloisGroups` Layers 6, 7 | transitive reference data and the label predicate, through degree `5` | `TauCeti.numTransitiveGroups`, `TauCeti.TransitiveGroupIndex`, `TauCeti.referenceSubgroup`, `TauCeti.TransitiveGroupLabel`; degrees `6` to `11` are part of Layer 1.6 here |
+| 1.6, 14.1, 14.5 | `PolynomialGaloisGroups` Layers 6, 7 | transitive reference data and the label predicate, through degree `5` | `TauCeti.numTransitiveGroups`, `TauCeti.TransitiveGroupIndex`, `TauCeti.referenceSubgroup`, `TauCeti.TransitiveGroupLabel`; degrees `6` and above are excluded from this roadmap |
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `TauCeti.classSum`, `TauCeti.structureConstant`, `TauCeti.classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `TauCeti.characterTable`, `TauCeti.card_conjClass_mul_sum_characterTable_mul_characterTable_inv` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `TauCeti.centralCharacter`; the character formula for structure constants that the conversion feeds is proved directly as `TauCeti.structureConstant_eq_sum_characterTable` |
@@ -951,7 +950,7 @@ passport row.
 
 #### 1.6 Label semantics at reference degrees
 
-For `n ≤ 11`, interpret the group component of an LMFDB passport label through
+For `n ≤ 5`, interpret the group component of an LMFDB passport label through
 PolynomialGaloisGroups: the passport's reference subgroup satisfies
 `TransitiveGroupLabel j` for the index `j : TransitiveGroupIndex n` displayed as `nTj+1`.
 State the label-semantics predicate for the stable mathematical part of a passport label —
@@ -963,10 +962,9 @@ deliberately not interpreted at this layer (Layer 14.5 records its status).
 *Prerequisites:* Layer 1.1; PolynomialGaloisGroups Layers 6, 7.
 
 *Tau Ceti:* through degree `5`, `TauCeti.PassportLabel` and `TauCeti.PassportSpec.HasLabel` with
-`hasLabel_conjugate_iff`. Degrees `6` to `11` remain. PolynomialGaloisGroups classifies
-transitive groups only through degree `5`, so in those degrees the reference subgroups for each
-`nTj` label, with the proof that they represent the conjugacy classes of transitive subgroups,
-are targets of this milestone.
+`hasLabel_conjugate_iff`. Degrees `6` and above are excluded from this roadmap (see the
+explicit scope exclusions), because PolynomialGaloisGroups classifies transitive groups only
+through degree `5`.
 
 ### Layer 2: dessins as finite bipartite ribbon graphs
 
@@ -4730,7 +4728,9 @@ together with a validity predicate tying each field to this roadmap's mathematic
 
 - `deg`, `lambdas`, `abc`, `g`, `geomtype` to the Layer 0.5–0.7 invariants of the passport
   (Layer 1.5);
-- `group` to Layer 1.6's label semantics through PolynomialGaloisGroups;
+- `group` to Layer 1.6's label semantics through PolynomialGaloisGroups when `deg ≤ 5`; for
+  higher degrees the `group` field is outside scope (14.3) and the predicate places no
+  condition on it;
 - `pass_size` to Layer 3.4;
 - `is_primitive` to Layer 1.4;
 - `primitivization` to a carried block-system certificate (Layer 1.4), not to a derived
@@ -4852,7 +4852,7 @@ The rows that are easy to get wrong, and what they must say:
 
 | field | level | what the certificate must supply |
 | --- | --- | --- |
-| `group` / `nTj` | finite certificate | an **exact parser** for the `nTj` string and a proof that the parsed index's `referenceSubgroup` is conjugate to the passport's monodromy group (Layer 1.6) — not a string comparison |
+| `group` / `nTj` | finite certificate for `deg ≤ 5`; outside scope for `deg ≥ 6` (explicit scope exclusions) | for `deg ≤ 5`, an **exact parser** for the `nTj` string and a proof that the parsed index's `referenceSubgroup` is conjugate to the passport's monodromy group (Layer 1.6) — not a string comparison |
 | `aut_group` | finite certificate **or** carrier only | either parse its generators and prove the generated subgroup equals the triple's centralizer (Layer 0.4), or mark it carrier-only; the roadmap does not accept the name alone as evidence |
 | `curve`, `map` | finite certificate | a parsed algebraic Belyi pair over the stored base field (Layer 9.1) whose invariants match the record; without the parse, carrier-only |
 | `primitivization` | finite certificate | a block system, the quotient triple it induces (Layer 1.4), and a proof that the quotient's passport is the referenced record's — not a label lookup |
@@ -4903,8 +4903,9 @@ which is where the one-representative-per-`S₃`-orbit tabulation is specified.
 #### 14.5 Label semantics
 
 The grammar of passport and map labels, with the mathematical meaning of each component:
-degree, the `nTj` group through Layer 1.6, and the three partitions. Prove that a valid
-record's label components agree with its certified invariants. ⚠ The trailing orbit letter
+degree, the `nTj` group through Layer 1.6 (for degree at most `5`; above that the group
+component is parsed but outside scope), and the three partitions. Prove that a valid record's
+label components agree with its certified invariants. ⚠ The trailing orbit letter
 is an external enumeration of the Galois orbits inside a passport — carrier-only in 14.3's
 classification — and is never derived from the mathematics; the frozen `5T1-5_5_5` passport,
 whose three orbits carry the letters `a`, `b`, `c` in an order fixed by the database and not
@@ -4921,7 +4922,8 @@ admits. ⚠ The database itself is complete only through degree `6` by its own a
 carries a handful of records its maintainers' own consistency script rejects; neither fact
 affects what a certificate asserts, and both are reasons Layer 14 certifies records rather
 than the database. Two of them, `6T6-6_6_3.3-a` and `3T1-3_3_3-a`, are related by `primitivization`, so
-the pair also exercises Layer 1.4.
+the pair also exercises Layer 1.4; the `group` field `6T6` of the first is outside scope and is
+not certified.
 
 Reconcile the frozen degree-`≤ 4` table with Layer 3.5's proved classification: each of the
 thirteen records matches exactly one enumerated isomorphism class, distinct records match
@@ -4955,6 +4957,9 @@ None of the following is part of this roadmap, at any layer, and none is "deferr
   or homomorphy of `u ↦ φ_u`, and local decomposition-group actions
   `Gal(ℚ̄_p/ℚ_p) → Out`;
 - Grothendieck–Teichmüller theory and anabelian reconstruction;
+- LMFDB `nTj` label semantics in degrees `6` and above, and with it Layer 14's certificate for
+  the `group` field in those degrees: it needs the classification of transitive groups in
+  those degrees, which PolynomialGaloisGroups also excludes;
 - the inverse Galois problem beyond the monodromy groups the constructions here realize;
 - formalized counterexamples where Layer 11.6 records a cited structural warning.
 
