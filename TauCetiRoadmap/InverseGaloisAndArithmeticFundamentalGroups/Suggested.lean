@@ -40,6 +40,19 @@ universe u
 
 /-! ## Layer IG.0: Galois algebras, local systems and pro-étale fundamental groups -/
 
+/- The characteristic-zero Tate-module parametrization is `e_ζ : ẑ → T`,
+`a ↦ (ζ_n^a)_n`, and the coordinate map is its inverse `c_ζ : T → ẑ`.
+For a profinite unit `u`, `e_(ζ^u) = e_ζ ∘ [u]` and `c_(ζ^u) = [u⁻¹] ∘ c_ζ`,
+where `[u]` denotes multiplication by `u`. The scheme fundamental-group identification
+is a README target. -/
+
+-- A unit reducing to `2 mod 5` changes the coordinate of `ζ₅` to `3 mod 5`.
+example {M : Type*} [CommMonoid M] {ζ : M} (hζ : IsPrimitiveRoot ζ 5) :
+    (ζ ^ 2) ^ 3 = ζ := by
+  calc
+    (ζ ^ 2) ^ 3 = ζ ^ 6 := (pow_mul ζ 2 3).symm
+    _ = ζ := by rw [show 6 = 5 + 1 from rfl, pow_succ, hζ.pow_eq_one, one_mul]
+
 section GaloisAlgebra
 
 variable (K : Type*) [Field K] (A : Type*) [CommRing A] [Algebra K A]
@@ -80,7 +93,14 @@ theorem isGaloisAlgebra_of_isGalois (K L : Type*) [Field K] [Field L] [Algebra K
 
 The objects of this layer (arithmetic and tame fundamental groups, inertia groups of covers,
 specialization maps) are built on the étale fundamental group of a scheme, which is not available
-at the pinned libraries; they are README targets only. -/
+at the pinned libraries; they are README targets only. For characteristic exponent `p`,
+local tame inertia uses `TauCeti.PrimeToPTateModule p K`, whose indices satisfy
+`n ≠ 0 ∧ Nat.Coprime n p`, equivalently `0 < n ∧ Nat.Coprime n p`.
+Thus `p = 1` includes all positive indices. The relative-boundary specialization target
+carries `Nat.Coprime (Nat.card G) p` for its finite-group cover assertion. -/
+
+-- The degree-two Kummer index is included in characteristic zero.
+example : 0 < (2 : ℕ) ∧ Nat.Coprime 2 1 := by decide
 
 /-! ## Layer IG.2: Hilbert irreducibility and specialization -/
 
