@@ -1183,70 +1183,13 @@ namespace AdelicExamples.DefiniteQuaternion
 
 open scoped Quaternion
 
-/-- The finite adeles of `ℚ`. -/
-abbrev Af := IsDedekindDomain.FiniteAdeleRing ℤ ℚ
-
-variable (a b : ℚ)
-
-/-- `(D ⊗ 𝔸_f)` with the product topology on the four coordinates. -/
-instance : TopologicalSpace ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b] :=
-  TopologicalSpace.induced (QuaternionAlgebra.equivTuple _ _ _) inferInstance
-
-/-- Coefficientwise extension `D → D ⊗ 𝔸_f`. -/
-def coeffMap : ℍ[ℚ, a, b] →+* ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b] where
-  toFun x := ⟨algebraMap ℚ Af x.re, algebraMap ℚ Af x.imI, algebraMap ℚ Af x.imJ,
-    algebraMap ℚ Af x.imK⟩
-  map_one' := by sorry
-  map_mul' := by sorry
-  map_zero' := by sorry
-  map_add' := by sorry
-
-/-- The diagonal `D^× → (D ⊗ 𝔸_f)^×`. -/
-def diag : ℍ[ℚ, a, b]ˣ →* ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ :=
-  Units.map (coeffMap a b).toMonoidHom
-
-/-- `Γ_{x,U} = D^× ∩ xUx⁻¹`. -/
-def stab (U : Subgroup ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ)
-    (x : ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ) : Subgroup ℍ[ℚ, a, b]ˣ :=
-  (U.map (MulAut.conj x).toMonoidHom).comap (diag a b)
-
-variable {a b}
-
-/-- For compact open `U`, the class set `D^×\(D ⊗ 𝔸_f)^×/U` is finite ([Borel], Theorem 5.1,
-p. 19; [Milne], Example 3.4, p. 34, for definite `D`). -/
-theorem finite_classes (U : Subgroup ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ)
-    (hU : IsCompact (U : Set ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ))
-    (hUo : IsOpen (U : Set ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ)) :
-    Finite (DoubleCoset.Quotient
-      ((diag a b).range : Set ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ) U) := by
-  sorry
-
-/-- For definite `D`, every `Γ_{x,U}` with `U` compact is finite ([Milne], Example 3.4, p. 34). -/
-theorem finite_stab (ha : a < 0) (hb : b < 0) (U : Subgroup ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ)
-    (hU : IsCompact (U : Set ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ))
-    (x : ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ) : Finite (stab a b U x) := by
-  sorry
+variable {a b : ℚ}
 
 /-- Hasse–Schilling–Maass over `ℚ`: the reduced norms of `ℍ[ℚ, a, b]^×` are all of `ℚ^×` if the
 algebra splits at `∞` and `ℚ_{>0}` if it is definite ([Khayutin], §2.3, pp. 15–16). -/
 theorem nrd_image (ha : a ≠ 0) (hb : b ≠ 0) (c : ℚ) (hc : c ≠ 0) :
     (∃ x : ℍ[ℚ, a, b], x ≠ 0 ∧ QuaternionAlgebra.normForm _ 0 _ x = c) ↔
       (0 < c ∨ ¬ (a < 0 ∧ b < 0)) := by
-  sorry
-
--- Test DefiniteQuaternion.hamilton_negative_norm: the Hamilton quaternions have no element of
--- reduced norm `−1`.
-example : ¬ ∃ x : ℍ[ℚ, -1, -1], QuaternionAlgebra.normForm _ 0 _ x = -1 := by
-  sorry
-
--- Test DefiniteQuaternion.stab_top: at the full level every stabilizer is all of `D^×`.
-example (x : ℍ[Af, algebraMap ℚ Af a, algebraMap ℚ Af b]ˣ) : stab a b ⊤ x = ⊤ := by
-  sorry
-
--- Test DefiniteQuaternion.normForm_coeffMap_i: in `ℍ[ℚ, −1, −1]` the image of `i` under
--- `coeffMap` has reduced norm `1`.
-example :
-    QuaternionAlgebra.normForm _ 0 _ (coeffMap (-1) (-1) (⟨0, 1, 0, 0⟩ : ℍ[ℚ, -1, -1])) = 1 := by
   sorry
 
 end AdelicExamples.DefiniteQuaternion

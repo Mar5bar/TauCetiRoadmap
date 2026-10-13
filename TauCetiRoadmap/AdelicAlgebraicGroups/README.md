@@ -277,6 +277,12 @@ one, and a single weight of multiplicity two contributes the square.
 All names in this section are part of the dependency contract. Each is cited again in the
 *Needs* clause of the target that consumes it.
 
+### From the student roadmaps
+
+| Object | Exact supplier and declaration | Use here |
+|---|---|---|
+| Compactness for a definite quaternion algebra | OverconvergentForms §§0.2–0.3: `TauCetiRoadmap.OverconvergentForms.Dfx`, `TauCetiRoadmap.OverconvergentForms.unitsIncl`, `TauCetiRoadmap.OverconvergentForms.globalUnits`, `TauCetiRoadmap.OverconvergentForms.classSet`, `TauCetiRoadmap.OverconvergentForms.finite_classSet`; **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**, **DefiniteQuaternion.finite_stab**: `TauCetiRoadmap.OverconvergentForms.DefiniteQuaternion.finite_stab` | AA.5.3 uses the finite adelic topology and class set, specializes stabilizer finiteness to `F = ℚ`, and conjugates `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. The supplier is the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one. |
+
 ### From Mathlib
 
 Restricted products: `RestrictedProduct.topologicalSpace_eq_iSup`,
@@ -4423,21 +4429,15 @@ preceding layers; each item is a target with its own locator.
 
 ### 5.3 Definite quaternion groups
 
-- **Compactness for a definite quaternion algebra.** For a definite quaternion division algebra
-  `D` over `ℚ` with `D ⊗ ℝ ≅ ℍ` (Hamilton) and `G = D^×`, prove that `G(ℚ)\G(𝔸)^1` is compact;
-  that `G(ℚ)\G(𝔸_f)/U` is finite for every compact open `U` (this finiteness holds for every
-  quaternion algebra over `ℚ`, definite or not, by *class-number-finite*); that each
-  `Γ_{x,U} = D^× ∩ xUx⁻¹` is finite; and that `D^×/ℚ^×` is discrete in `(D ⊗ 𝔸_f)^×/𝔸_f^×`
-  ([Milne], §3, Theorem 3.3 and Example 3.4, pp. 33–34). *Needs:* AA.3.4; AA.1.3; Mathlib
-  `QuaternionAlgebra`.
-  *Lean:* in `AdelicExamples.DefiniteQuaternion`: `Af`, the topology on `(D ⊗ 𝔸_f)`, `coeffMap`,
-  `diag`, `stab`, `finite_classes` (for every `ℍ[ℚ, a, b]`, without definiteness), `finite_stab`
-  (for `a, b < 0`).
-
-  **Checks.**
-  - `stab a b ⊤ x = ⊤` for every `x` (Lean example).
-  - `coeffMap a b 1 = 1`.
-  - For `a = b = −1` the unit `i` has `coeffMap` image of reduced norm `1` (Lean example).
+- **Compactness for a definite quaternion algebra.** Provides finite-adelic compactness,
+  finite class sets and stabilizers for definite quaternion groups.
+  Supplied by OverconvergentForms §§0.2–0.3 (the roadmap of W. Coram, to be contributed to
+  TauCetiRoadmap ahead of this one), including **DefiniteQuaternion.finite_stab** under
+  **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**.
+  The supplier treats totally definite algebras over totally real `F`, with stabilizers finite
+  modulo central units; this roadmap specializes to `F = ℚ` for whole-stabilizer finiteness
+  and conjugates the supplier's `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹`, while full-adelic norm-one
+  compactness uses AA.3.4.
 - **Volume comparison under level change for a definite quaternion algebra.** For `D` definite
   over `ℚ` and compact open `U′ ⊂ U ⊂ (D ⊗ 𝔸_f)^×`, with `Γ_x = (D^× ∩ xUx⁻¹)/(ℚ^× ∩ U)` the
   finite stabilizers and `Cl(U) = D^×\(D ⊗ 𝔸_f)^×/U`, prove
@@ -4446,7 +4446,10 @@ preceding layers; each item is a target with its own locator.
   ∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|
   ```
 
-  ([Arthur], §2, p. 12). *Needs:* AA.5.3; AA.4.5; AA.4.4.
+  ([Arthur], §2, p. 12). *Needs:* OverconvergentForms §§0.2–0.3 and
+  **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**,
+  **DefiniteQuaternion.finite_stab**, specialized to `F = ℚ` and conjugated as above;
+  AA.4.5; AA.4.4.
   *Lean:* none; specified in the README only.
 
 ### Examples
@@ -4462,7 +4465,9 @@ of the narrow class group; `diag(1, −1)` distinguishes the raw and folded half
 Layers AA.1–AA.4; Mathlib's idele class group, unit lattice, upper half-plane action, arithmetic
 subgroups, congruence subgroups and quaternion algebras; Tau Ceti's `G_m` and `SL_2` comparison
 lemmas; GlobalNumberFields, layers 4 and 6; AlgebraicTopology, stage 6; FuchsianOrbifolds,
-layers 0, 1, 4 and 5.
+layers 0, 1, 4 and 5; OverconvergentForms §§0.2–0.3 and
+the target **DefiniteQuaternion.finite_stab** under the heading
+“Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap”.
 
 ## Downstream consumers
 
