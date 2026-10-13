@@ -2722,10 +2722,14 @@ end GaloisRep
 
 /-! ## Layer 6: Tate modules of elliptic curves and abelian varieties
 
-The arithmetic adapters of §§6.1–6.4 use the geometric Tate module supplied by
-AbelianSchemesAndArithmeticModuli A4.1; in dimension one they compare with
-Tau Ceti's `TateModule` with `tateModuleGaloisRepresentation`. The linear algebra of the oddness
-comparison is stated here. -/
+The arithmetic adapters of §§6.1–6.4 use AbelianSchemesAndArithmeticModuli A4.1's
+`AbelianTate` and its dual pairing from the A3.5 torsion pairings; in dimension one they compare
+with Tau Ceti's `TateModule`, `tateModuleGaloisRepresentation` and `tateModuleWeilPairing`.
+NeronModelsAndSemistableAbelianVarieties §5.1 supplies Néron–Ogg–Shafarevich for §6.3's potential
+reduction consequences, and its §2.7 supplies the smooth-locus comparison for §6.5's conductor
+comparison. StableReduction Layer 5 supplies the Kodaira configurations. The Tate and pairing
+adapters precede those Néron criteria; the conductor comparison consumes them. The linear algebra
+of the oddness comparison is stated here. -/
 
 namespace Involution
 
