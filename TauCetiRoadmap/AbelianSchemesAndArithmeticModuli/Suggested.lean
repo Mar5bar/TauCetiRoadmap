@@ -536,8 +536,10 @@ Mathlib or Tau Ceti.
   `ampleCohomologyAndDegree`, `ampleIntersectionPositive`, `AbelianHodgeLine`.
 * **Finite flat quotients and level structures**: `AbelianQuotient`, `torsionDivisibility`,
   `FullLevel`, `genusTwoTwoTorsion`, `homDescentFullLevel`.
-* **Étale and `ℓ`-adic realizations** (with the étale cohomology of the CohomologicalPointCounting
-  roadmaps for `exteriorCohomology`): `AbelianTate`, `homTateInjective`, `charpolyTate`,
+* **Étale and `ℓ`-adic realizations** (A4.4 consumes ordinary étale Künneth from
+  CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
+  with §Family-wide conventions / Functoriality and equivariance, an open TauCetiRoadmap pull
+  request by bwangpj): `AbelianTate`, `homTateInjective`, `charpolyTate`,
   `traceDegreeSubfield`, `frobeniusSemisimple`, `exteriorCohomology`, `weilRestrictionTate`.
 * **De Rham, divided-power and Barsotti–Tate carriers**: `AbelianVectorExtension`, `AbelianH1dR`,
   `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
@@ -546,7 +548,10 @@ Mathlib or Tau Ceti.
 * **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
   `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.
-* **Complex analytic carriers**: `AbelianLattice`, `appellHumbert`, `polarizedHodgeEquivalence`,
+* **Complex analytic carriers** (A5.1 consumes lattice torsion from ComplexTori §Milestone 4 /
+  Integral connecting class, Step 6, an open TauCetiRoadmap pull request by Paul-Lez;
+  `AbelianLattice.tate` proves the algebraic transport and transition-map compatibility):
+  `AbelianLattice`, `appellHumbert`, `polarizedHodgeEquivalence`,
   `analyticFamilies`, `realizationConventions`, `SiegelFamily` (beyond the Siegel space above),
   `cmIsotypic`.
 * **Products and boundaries over a base**: `relativeProductsAndDimension` (beyond the

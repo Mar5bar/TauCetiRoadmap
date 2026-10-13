@@ -161,8 +161,9 @@ Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge l
   equivariant descent of period families through properly discontinuous actions, with monodromy.
 - *CohomologicalPointCounting.* EtaleBaseChange Layer 6: vanishing of `H^q_et(X, F)` for
   `q > 2 dim X` and finiteness of the cohomology of proper schemes over a separably closed field, for
-  torsion coefficients invertible there; Layer 9: the external product and the Künneth equivalence
-  over a separably closed field, compatible with cup products. EllAdicRealization Layers 2 and 6:
+  torsion coefficients invertible there; §The roadmaps / Étale base change and finiteness
+  (EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance: ordinary
+  étale Künneth, compatible with cup products, pullbacks and base change. EllAdicRealization Layers 2 and 6:
   `ℤ_ℓ`-cohomology as the derived limit of the finite levels `ℤ/ℓ^r`, with its finite generation and
   reductions.
 
@@ -337,24 +338,34 @@ Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeome
   Layer 2 supplies descent of the scheme, morphisms, sections and group operations
   by relative Proj; the exchange linearization on `N ⊗ [−1]^*N` supplies the line-bundle
   cocycle. No descent of an unpolarized scheme is inferred from this contract.
-- *ComplexTori, Milestones 1–3*: lattice quotients (A5.1, A5.3, A5.5), period families over
+- *ComplexTori, Milestones 1–3 and Milestone 4 / Integral connecting class, Step 6*: lattice
+  quotients (A5.1, A5.3, A5.5), period families over
   complex manifolds (A5.6, A5.8) and their linear equivariant descent (A5.8), on that roadmap's
   manifold domain with a `T2Space` and `SecondCountableTopology` base and coordinatewise holomorphic
   periods. Families over analytic bases outside that domain are A5.6 here, compared with
-  ComplexTori's family on manifold bases.
-- *CohomologicalPointCounting, EtaleBaseChange Layers 6 and 9 and EllAdicRealization Layers 2 and
-  6*: consumed on that family's coefficient convention (a finite ring killed by an integer invertible
+  ComplexTori's family on manifold bases. Milestone 4 Step 6 supplies the lattice-torsion input
+  for A5.1 under the convention contract below.
+- *CohomologicalPointCounting, EtaleBaseChange Layer 6, §The roadmaps / Étale base change and
+  finiteness (EtaleBaseChange), §Family-wide conventions / Functoriality and equivariance,
+  and EllAdicRealization Layers 2 and 6*: consumed on that family's coefficient convention
+  (a finite ring killed by an integer invertible
   on the base), here the constant coefficients `ℤ/ℓ^r` on an abelian variety over an algebraically
   closed field `k` with `ℓ` invertible in `k`, in every characteristic. Layer 6 gives
   `H^q_et(X, F) = 0` for `q > 2 dim X` with `X` of finite type over a separably closed field, and
-  finiteness for `X` proper; Layer 9 gives the external product and the Künneth equivalence
-  `RΓ(X, K) ⊗^L RΓ(Y, L) ≅ RΓ(X × Y, K ⊠ L)` over a separably closed field with its cup-product
-  compatibility (Stacks, Lemma 59.97.2, tag 0F14, for a proper factor). EllAdicRealization Layer 2
+  finiteness for `X` proper; ordinary étale Künneth is supplied by the named family entry and
+  functoriality convention under the contract below. EllAdicRealization Layer 2
   identifies `RΓ(X, ℤ_ℓ)` with the derived limit of the `RΓ(X, ℤ/ℓ^r)`, and its Layer 6 gives finite
   generation and `RΓ(X, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(X, ℤ/ℓ^r)` for `X` separated of finite type over a
-  separably closed field. A4.4 applies the Künneth map of Layer 9 to `A × A` and the addition map; it
+  separably closed field. A4.4 applies that supplied Künneth map to `A × A` and the addition map; it
   builds no second external product, limit or Tate module. These suppliers state nothing specific to
   abelian varieties.
+
+### From other open roadmap pull requests
+
+| Supplier | Provides / consumer | Convention or hypothesis gap |
+|---|---|---|
+| ComplexTori §Milestone 4 / Integral connecting class, Step 6 (an open TauCetiRoadmap pull request by Paul-Lez) | `T[n] ≃+ Λ/nΛ`, used by A5.1's algebraic torsion transport and `AbelianLattice.tate` | For `n > 0`, transport by `[λ] ↦ [λ/n]` to `(1/n)Λ/Λ` and along `V/Λ ≅ A^an`; torsion is the subgroup killed by `n`. A5.1 proves compatibility with the Tate-module transition maps. |
+| CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance (an open TauCetiRoadmap pull request by bwangpj) | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 `exteriorCohomology` | The finite coefficient order must be invertible on the base. A4.4 applies this to `ℤ/ℓ^r` with `ℓ` invertible in `k` and passes through compatible finite levels to `ℤ_ℓ`, using EllAdicRealization; a compact-support formula alone does not supply this input. |
 
 ### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
 
@@ -1416,20 +1427,29 @@ vanish, also in characteristic `2`. (2) For `A` of dimension `g` over an algebra
 `∧^n H¹_et(A, ℤ/ℓ^r) ≅ H^n_et(A, ℤ/ℓ^r)`, free over `ℤ/ℓ^r` of rank `C(2g, n)`, compatibly with
 reduction from `r + 1` to `r`. In the limit `H*_et(A, ℤ_ℓ) ≅ ∧* H¹_et(A, ℤ_ℓ)` with
 `H¹_et ≅ Hom_{ℤ_ℓ}(T_ℓ A, ℤ_ℓ)`, torsion-free of ranks `C(2g, n)`. The case `r = 1` is the `𝔽_ℓ`
-statement, and in characteristic zero every prime `ℓ` is allowed. The coherent part uses the Hopf
-structure from the group law and the universal vector extension: universal ranks and filtered
+statement, and in characteristic zero every prime `ℓ` is allowed.
+
+Provides ordinary étale Künneth, naturally with cup products, pullbacks and base change.
+Supplied by CohomologicalPointCounting §The roadmaps / Étale base change and finiteness
+(EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance (an open
+TauCetiRoadmap pull request by bwangpj). Apply the finite-coefficient theorem with `ℓ` invertible
+on the base, and pass to the stated `ℤ_ℓ` realization through compatible finite levels using
+EllAdicRealization; a compact-support formula alone does not supply this input.
+
+The coherent part uses the Hopf structure from the group law and the universal vector extension:
+universal ranks and filtered
 exterior compatibility are established before base change. The étale part is an abelian-specific
 computation on generic inputs consumed in every characteristic from CohomologicalPointCounting:
-vanishing above degree `2g` and finiteness (EtaleBaseChange Layer 6), the Künneth equivalence with
-cup products (EtaleBaseChange Layer 9), whose pullback along the addition map is the coproduct, and
+vanishing above degree `2g` and finiteness (EtaleBaseChange Layer 6), the ordinary Künneth input
+from the supplier section just cited, whose pullback along the addition map is the coproduct, and
 the passage to `ℤ_ℓ` (EllAdicRealization Layers 2 and 6). Over `𝔽_ℓ` the torsor `[ℓ]` gives
 `dim H¹ ≥ 2g`; a bounded connected graded-commutative Hopf algebra vanishing above degree `2g` has
 `dim H¹ ≤ 2g`, with equality only for the exterior algebra on `H¹`, degree-one squares zero also for
 `ℓ = 2`; the coefficient sequences `0 → ℤ/ℓ → ℤ/ℓ^{r+1} → ℤ/ℓ^r → 0`, whose reductions on `H¹` are
 surjective, then give freeness at every level by induction on `r`, and the limit has surjective
-transitions (Milne 2022, Theorem 15.1, Lemma 15.2 and Remark 15.4, pp. 27–28; Stacks, Lemma
-59.97.2, tag 0F14, for Künneth with a proper factor; Farb–Kisin–Wolfson, *Essential dimension via
-prismatic cohomology*, Corollary 2.3.5, pp. 17–18, and Lemma 3.2.2, p. 24, arXiv v2, for the
+transitions (Milne 2022, Theorem 15.1, Lemma 15.2 and Remark 15.4, pp. 27–28;
+Farb–Kisin–Wolfson, *Essential dimension via prismatic cohomology*, Corollary 2.3.5, pp. 17–18,
+and Lemma 3.2.2, p. 24, arXiv v2, for the
 characteristic-zero mod-`p` input; Anschütz–Le Bras, Proposition 4.5.1 and its proof, p. 53, for the
 de Rham statement over a bounded prism, where the proof refers to Berthelot–Breen–Messing). The
 coherent statement over an arbitrary base (local freeness, universal base change, degeneration and
@@ -1438,7 +1458,8 @@ not proved in the cited sources and are part of this target. For `g = 2` the de 
 `1, 4, 6, 4, 1`; graded skew-symmetry alone does not give vanishing of degree-one squares in
 characteristic `2`. *Needs:* A3.2, A4.1, A4.2, A4.3; AlgebraicModuli Layer 7
 (`perfect_proper_pushforward`); ComplexComparisonPartII C5.1; CohomologicalPointCounting
-EtaleBaseChange Layers 6 and 9, EllAdicRealization Layers 2 and 6.
+EtaleBaseChange Layer 6 and §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
+with §Family-wide conventions / Functoriality and equivariance; EllAdicRealization Layers 2 and 6.
 
 ### A4.5 Barsotti–Tate groups
 
@@ -1668,7 +1689,9 @@ ranks of `H^n_dR` are `1, 4, 6, 4, 1`.
 
 A0–A3; Tau Ceti `TateModule`; StableReduction Layer 1 (relative dualizing bundles); ModularCurves 0B, 7E, 7F; JacobianChallenge Layer D; AlgebraicVectorBundles
 L0B, L2B; AlgebraicModuli Layer 7; SchemeAndStackFoundations Layers 1–4; ComplexComparisonPartII C5.1;
-CohomologicalPointCounting EtaleBaseChange Layers 6 and 9, EllAdicRealization Layers 2 and 6;
+CohomologicalPointCounting EtaleBaseChange Layer 6 and §The roadmaps / Étale base change and
+finiteness (EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance;
+EllAdicRealization Layers 2 and 6;
 Mathlib `DividedPowers`.
 
 <a id="a5"></a>
@@ -1688,7 +1711,7 @@ Define `AbelianLattice A` for an abelian variety `A` over `ℂ`: the tangent spa
 the lattice `Λ = ker(exp : V → A^an)` of rank `2g`, and the analytic isomorphism `V/Λ ≅ A^an`, where
 `A^an` is the analytification of AlgebraicModuli `complexSchemeAnalytification` and `V/Λ` is the
 compact complex Lie group of ComplexTori Milestone 1. `Λ` is identified
-naturally with `H₁(A^an, ℤ)`, and `T_ℓ A` (A4.1) with `Λ ⊗ ℤ_ℓ`; `n`-torsion is `(1/n)Λ/Λ`. A holomorphic
+naturally with `H₁(A^an, ℤ)`, and `T_ℓ A` (A4.1) with `Λ ⊗ ℤ_ℓ`. A holomorphic
 homomorphism `A^an → B^an` is exactly a complex-linear map `V → W` carrying `Λ` into the lattice of `B`,
 and every holomorphic homomorphism is the analytification of a unique homomorphism of abelian varieties
 (ComplexComparisonPartII `familyMorphismInterface`, part (3)). The construction shows that `A^an` is a
@@ -1699,10 +1722,21 @@ homomorphism (connectedness) with discrete cocompact kernel (compactness); Compl
 supplies the induced holomorphic homomorphisms of lattice quotients and the identification of `π₁` and
 `H₁` of `V/Λ` with `Λ`, which are transported along `V/Λ ≅ A^an` (Stanford VIGRE notes *Complex theory of abelian varieties*,
 Theorem 1.8 and §1.2, pp. 2–4). The lattice uses Mathlib's `IsZLattice`; no second notion of lattice or
-manifold is introduced. The API is `AbelianLattice.ofAbelian`, `AbelianLattice.homology`,
+manifold is introduced.
+
+Provides the additive lattice description of the torsion of the uniformizing torus.
+Supplied by ComplexTori §Milestone 4 / Integral connecting class, Step 6 (an open TauCetiRoadmap
+pull request by Paul-Lez). For `n > 0`, this roadmap transports `Λ/nΛ ≃ (1/n)Λ/Λ` by
+`[λ] ↦ [λ/n]`, then along `V/Λ ≅ A^an`; torsion means killed by `n`, not exact order `n`.
+For `n = ℓ^r`, `AbelianLattice.tate` identifies analytic torsion with algebraic complex points
+and proves compatibility with the transition maps `[ℓ]` on torsion and reduction on `Λ/ℓ^rΛ`,
+then passes to the inverse limit to identify `T_ℓ A` with `Λ ⊗ ℤ_ℓ`.
+
+The API is `AbelianLattice.ofAbelian`, `AbelianLattice.homology`,
 `AbelianLattice.map` (differentiate a homomorphism; functorial) and `AbelianLattice.tate`. *Needs:*
 A4.1; Mathlib `IsZLattice`; Tau Ceti `lieExp`, `isLocalDiffeomorphAt_lieExp_zero`; AlgebraicModuli
-§7.10.1; ComplexComparisonPartII C4.4; ComplexTori Milestone 1.
+§7.10.1; ComplexComparisonPartII C4.4; ComplexTori Milestone 1 and §Milestone 4 /
+Integral connecting class, Step 6.
 
 **Checks.**
 
@@ -2772,7 +2806,9 @@ semisimplicity and `p`-adic libraries.
   to the Jacobian of a smooth projective curve; it defines no second Tate module or algebraic trace.
   The curve–Jacobian comparison, the graph–diagonal identity and Weil's curve trace theorem are
   TraceFormula's. A6.10–A6.11 use degree polynomials, finiteness of Hom and linear algebra on
-  `V_ℓ A`, and no trace formula. A4.4 in turn consumes EtaleBaseChange Layers 6 and 9.
+  `V_ℓ A`, and no trace formula. A4.4 in turn consumes EtaleBaseChange Layer 6 and
+  CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
+  with §Family-wide conventions / Functoriality and equivariance.
 - **DeligneWeightsAndPurity**, **SmallRamificationAndAbelianVarietyBaseCases** and
   **FaltingsFinitenessAndIsogenyTheorems** use degrees and characteristic polynomials (A6.1, A6.10–A6.11),
   Rosati positivity (A6.14), Frobenius (A6.21) and the finiteness of polarized automorphisms (A6.18).
