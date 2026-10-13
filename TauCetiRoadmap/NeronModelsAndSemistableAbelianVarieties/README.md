@@ -464,6 +464,19 @@ and the canonical tensor and dual maps and admissibility predicates.
 The target order is SelmerIwasawaCohomology §§4.1–4.5, then 5.3 here, then
 SelmerIwasawaCohomology §4.26's elliptic Bloch–Kato comparison.
 
+### From other open roadmap pull requests
+
+| Target | Supplier and exact section / label | Retained adapter and consumer |
+| --- | --- | --- |
+| §4.2 incidence | GraphConnectivityAndFlows §1.3 / `Assignment`, `excessAt` (an open TauCetiRoadmap pull request by fzaiser) | Endpoint-indexed arrows correspond to actual edge identities; finite assignments and vertex functions correspond to Finsupp coordinates. `DualGraph.boundary` retains the ℤ-linear carrier with the `tgt − src` convention for the integral character lattice and monodromy. |
+| §4.2 signed circulation group | GraphConnectivityAndFlows §8.1 / `signedCirculations`, `sub_mem_signedCirculations_iff` (an open TauCetiRoadmap pull request by fzaiser) | Identify the supplied additive subgroup with the additive group of `DualGraph.cycleLattice`; ℤ satisfies the prototype's `AddCommGroup`, `LinearOrder`, and `IsOrderedAddMonoid` hypotheses. Integral module structure, character-lattice realization and pairings are retained here. |
+| §4.2 cycle count | SurfaceTopology §Layer 10 / Cycle space, cut space, duality, Mac Lane: `Graph.cycleSpace`, `cycleSpace_finrank` (an open TauCetiRoadmap pull request by mccorvie); GraphConnectivityAndFlows §1.1 / Components and their count: `Graph.componentCount` (an open TauCetiRoadmap pull request by fzaiser) | `DualGraph.modTwoCycleSpace` is a local Finsupp carrier for the supplied binary cycle space. Prove `DualGraph.cycleLattice_rank_eq_cycleSpace_finrank` for the same finite multigraph, preserving loops and parallel edges; only the connected nonempty specialization sets the component count to one. |
+| §4.2 incidence, surface specialization | GraphConnectivityAndFlows §1.3 / `excessAt`, through this roadmap's integral boundary adapter; SurfaceTopology §Layer 7 / `GMap2.chainComplex`, `GMap2.CellOrientations`, `boundary₁` (open TauCetiRoadmap pull requests by fzaiser and mccorvie, respectively) | The arbitrary-multigraph adapter supplies incidence for reconciliation with the surface-cell special case after extension of coefficients to `CommRing R`; face boundaries and the surface realization belong to SurfaceTopology. |
+
+Local carrier restatements under these contracts are `DualGraph.boundary`,
+`DualGraph.cycleLattice`, and `DualGraph.modTwoCycleSpace`; their coordinate identifications
+with the suppliers are work in §4.2.
+
 ## How to read the build
 
 The layers are in build order. Layer 1 defines the Néron mapping property and marked models,
@@ -1633,29 +1646,73 @@ JacobianChallenge Layer D; StableReduction Layer 1.
 
 For a finite multigraph `Γ` with vertex set `V`, edge set `E` and source and target maps
 `src, tgt : E → V` (an orientation of StableReduction Layer 1's dual graph, whose `endpoint`
-function gives the two ends of each edge), define `DualGraph.boundary src tgt`, the map
-`ℤ^E → ℤ^V`, `e ↦ tgt(e) − src(e)`, and the cycle lattice
-`DualGraph.cycleLattice src tgt := ker ∂ = H₁(Γ, ℤ)`; StableReduction records only the Betti
-number `b₁`, and the integral lattice with its boundary map is built here. Prove
-`CharactersGraphHomology`: `X^*(T_Γ) ≅ H₁(Γ, ℤ)` canonically, the isomorphism changes by the
+function gives the two ends of each edge), use the following supplier contracts.
+
+**`DualGraph.boundary`.** (*boundary*) Provides signed edge incidence and its additive excess
+calculus. Supplied by GraphConnectivityAndFlows §1.3 / Excess calculus, subnetworks, bounds,
+and residual updates (`Assignment`, `excessAt`) (an open TauCetiRoadmap pull request by fzaiser).
+Set `Q v w := {e : E // src e = v ∧ tgt e = w}`, transport finite assignments to `E →₀ ℤ`
+and vertex functions to `V →₀ ℤ`, and identify incoming-minus-outgoing excess with the retained
+ℤ-linear map `e ↦ tgt(e) − src(e)`, preserving loops and parallel edge identities.
+SurfaceTopology §Layer 7 / `GMap2.chainComplex`, `GMap2.CellOrientations`, `boundary₁`
+(an open TauCetiRoadmap pull request by mccorvie) states the surface-cell special case, so
+reconcile its incidence with this arbitrary-multigraph adapter by extending coefficients to
+its `CommRing R`.
+
+**`DualGraph.cycleLattice`.** (*cycle-lattice*) Provides the additive group of signed assignments
+with zero incidence. Supplied by GraphConnectivityAndFlows §8.1 / Signed circulation algebra
+and assignment shifts (`signedCirculations`, `sub_mem_signedCirculations_iff`)
+(an open TauCetiRoadmap pull request by fzaiser).
+Our carrier is the ℤ-submodule kernel in Finsupp coordinates; specialize the supplied subgroup
+to ℤ, which satisfies its ordered-group prototype hypotheses, and prove the coordinate/additive
+equivalence before using the integral lattice.
+
+**`finrank_cycleLattice`.** (*cycle-rank*) Provides the component-count formula for the number
+of independent cycles of a finite multigraph. Supplied by SurfaceTopology §Layer 10 / Cycle
+space, cut space, duality, Mac Lane (`Graph.cycleSpace`, `cycleSpace_finrank`)
+(an open TauCetiRoadmap pull request by mccorvie).
+The supplier computes F₂ dimension as `#E + #components − #V`; this roadmap proves the
+integral/F₂ coefficient bridge, uses GraphConnectivityAndFlows §1.1 / Components and their
+count to set `#components = 1` for connected nonempty `Γ`, and eliminates natural subtraction
+only after establishing `#V ≤ #E + #components`.
+
+**Integral graph adapter and character lattice.** (*integral-graph-adapter*) Prove the
+endpoint-indexed assignment/Finsupp equivalences in the GraphConnectivityAndFlows §1.3 and
+§8.1 contracts above, including ℤ-linearity, and realize the integral module on the supplied
+circulation group. Identify `DualGraph.modTwoCycleSpace`, the kernel of the same incidence
+reduced modulo two, with SurfaceTopology §Layer 10's binary cycle space through the finite
+function/Finsupp equivalence, using the same actual vertices and edge identities. Prove
+`DualGraph.cycleLattice_rank_eq_cycleSpace_finrank`: the integral cycle-lattice rank equals
+that binary cycle-space dimension, without assuming connectedness. Establish that reduction
+of the integral kernel gives the binary kernel: use a spanning forest to split the incidence
+image and prove its cokernel torsion-free, then base change the kernel to F₂ and compare
+dimensions. This coefficient argument does not supply another combinatorial rank formula.
+For connected nonempty `Γ`, apply that comparison followed by SurfaceTopology §Layer 10's
+component-count formula to obtain `rank H₁ + #V = #E + 1`, agreeing with StableReduction's
+`firstBetti`; two vertices with no edge refute this specialization.
+
+Prove `CharactersGraphHomology`: `X^*(T_Γ) ≅ H₁(Γ, ℤ)` canonically, using the integral carrier
+transported from GraphConnectivityAndFlows §8.1; the isomorphism changes by the
 corresponding sign when an edge is reversed, and it is equivariant for automorphisms of `C` and
 for Galois descent; the dual lattice `Hom(X^*(T_Γ), ℤ)` is `H¹(Γ, ℤ)`, not `H₁` (SGA 7 I,
-Exposé IX, 12.3.7 and 12.3.11–12.3.14, pp. 472–473). Prove `finrank_cycleLattice`: for connected
-`Γ` with nonempty vertex set, `rank H₁ + #V = #E + 1`, agreeing with StableReduction's
-`firstBetti`; two vertices with no edge refute the formula, so connectedness is needed. *Needs:* 2.4, 4.1;
+Exposé IX, 12.3.7 and 12.3.11–12.3.14, pp. 472–473). *Needs:* 2.4, 4.1;
+GraphConnectivityAndFlows §§1.1, 1.3, 8.1 and SurfaceTopology §Layer 10 as contracted above;
 StableReduction Layer 1 (`DualGraph`, `firstBetti`); Mathlib `Finsupp.linearCombination`,
 `LinearMap.ker`.
 
-**Checks.**
+**Checks.** Test the integral graph adapter and its transported rank interface; obtain the
+integral ranks through `DualGraph.cycleLattice_rank_eq_cycleSpace_finrank` followed by
+SurfaceTopology §Layer 10's formula, with component counts from GraphConnectivityAndFlows §1.1.
 
-- A single loop has zero boundary and cycle lattice of rank `1`; for a directed edge
-  `0 → 1`, the boundary of its basis vector is `δ₁ − δ₀`, fixing the direction.
-- Two vertices joined by one edge (a tree) have cycle lattice `0`.
+- A single loop has zero transported boundary and integral and binary rank `1`; for a directed
+  edge `0 → 1`, the transported boundary of its basis vector is `δ₁ − δ₀`, fixing the direction.
+- Two vertices joined by one edge (a tree) have integral and binary rank `0`.
 - Two vertices joined by two parallel edges have cycle lattice of rank `1`; the
-  coefficients `(1, −1)` give boundary zero. A simple graph on the same vertex set
-  would give rank `0`.
-- (non-example) Two vertices and no edge: rank `0`, and `0 + 2 ≠ 0 + 1`; the Betti formula
-  needs connectedness.
+  integral coefficients `(1, −1)` transport to a signed circulation and reduce to the binary
+  cycle `(1, 1)`. A simple graph on the same vertex set would give rank `0`.
+- (non-example) Two vertices and no edge: both ranks are `0`, the supplied component count is
+  `2`, and `0 + 2 ≠ 0 + 1`; connectedness and a nonempty vertex set are required for the
+  component-count-one specialization.
 
 ### 4.3 The integral monodromy pairing
 

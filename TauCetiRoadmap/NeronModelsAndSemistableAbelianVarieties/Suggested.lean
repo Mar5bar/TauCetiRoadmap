@@ -21,6 +21,11 @@ The file makes the following design choices explicit.
 * The lattice-level part of the monodromy theory (the integral pairing, its cokernel and
   cycle lattice of a dual multigraph) is stated over `ℤ` with no geometric carrier, so that the
   arithmetic computations of the roadmap's checks are already meaningful.
+* README §4.2 uses GraphConnectivityAndFlows §§1.3 and 8.1 (an open TauCetiRoadmap pull request
+  by fzaiser) for incidence and signed circulations, and SurfaceTopology Layer 10 (an open
+  TauCetiRoadmap pull request by mccorvie) for the binary cycle-space dimension formula;
+  GraphConnectivityAndFlows §1.1 supplies component counts. Local carriers support the retained
+  integral/F₂ coefficient comparison, character-lattice realization and monodromy pairing.
 * The intersection-matrix comparison of the component group of a Jacobian uses Tau
   Ceti's numerical Picard group `TauCeti.NumericalType.Pic` and its degree map, which are pinned
   and not redefined.
@@ -300,24 +305,50 @@ namespace DualGraph
 
 variable {V E : Type*} [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
 
-/-- The boundary map `ℤ^E → ℤ^V`, `e ↦ target(e) − source(e)`, of a finite multigraph given by its
-source and target maps. Loops and parallel edges are allowed. -/
+/-- Local restatement of GraphConnectivityAndFlows §1.3, to be replaced by the import once that
+roadmap is merged. Its `excessAt` (an open TauCetiRoadmap pull request by fzaiser) is transported
+along `Q v w := {e : E // src e = v ∧ tgt e = w}` and finite function/Finsupp equivalences.
+The ℤ-linear carrier is needed by `cycleLattice`, the character lattice and monodromy;
+incoming-minus-outgoing excess is `tgt − src`, with loops and parallel edges retained.
+README label: boundary. SurfaceTopology Layer 7 states the surface-cell special case. -/
 noncomputable def boundary (src tgt : E → V) : (E →₀ ℤ) →ₗ[ℤ] (V →₀ ℤ) :=
   Finsupp.linearCombination ℤ fun e => Finsupp.single (tgt e) 1 - Finsupp.single (src e) 1
 
-/-- A loop has zero boundary. -/
+/-- A loop has zero transported boundary, testing the endpoint-indexed/Finsupp adapter. -/
 example : boundary (fun _ : Unit => ()) (fun _ : Unit => ()) (Finsupp.single () 1) = 0 := by
   sorry
 
-/-- An oriented edge has boundary `target - source`; reversing this sign fails the test. -/
+/-- The transported incidence has sign `target - source` on a directed edge. -/
 example : boundary (fun _ : Unit => (0 : Fin 2)) (fun _ => 1) (Finsupp.single () 1) =
     Finsupp.single 1 1 - Finsupp.single 0 1 := by sorry
 
-/-- The cycle lattice `H₁(Γ, ℤ) = ker ∂` of a finite multigraph; it is the character lattice of the
-toric part of the generalised Jacobian of a nodal curve with dual graph `Γ`
-(SGA 7 I, Exposé IX, 12.3.7). -/
+/-- Local restatement of GraphConnectivityAndFlows §8.1, to be replaced by the import once that
+roadmap is merged. The additive group is identified with its `signedCirculations Q ℤ`
+(an open TauCetiRoadmap pull request by fzaiser); ℤ satisfies the ordered-group prototype
+hypotheses. This integral-module carrier is needed by `CharactersGraphHomology`, the monodromy
+pairing and the coefficient comparison. README label: cycle-lattice. -/
 noncomputable def cycleLattice (src tgt : E → V) : Submodule ℤ (E →₀ ℤ) :=
   LinearMap.ker (boundary src tgt)
+
+/-- Local restatement of SurfaceTopology §Layer 10, to be replaced by the import once that
+roadmap is merged. Its `Graph.cycleSpace` (an open TauCetiRoadmap pull request by mccorvie)
+is transported to finite Finsupp coordinates on the same multigraph. This carrier is needed
+by the integral/F₂ coefficient comparison; modulo two the incidence is orientation-independent.
+README supplier label: cycle-rank (`finrank_cycleLattice`). -/
+noncomputable def modTwoCycleSpace (src tgt : E → V) : Submodule (ZMod 2) (E →₀ ZMod 2) :=
+  LinearMap.ker (Finsupp.linearCombination (ZMod 2)
+    fun e => Finsupp.single (tgt e) (1 : ZMod 2) - Finsupp.single (src e) (1 : ZMod 2))
+
+/-- Integral/F₂ coefficient comparison retained for the character-lattice rank consumer;
+SurfaceTopology Layer 10 `cycleSpace_finrank` (an open TauCetiRoadmap pull request by mccorvie)
+supplies the component-count combinatorial formula. The finite function/Finsupp adapter
+identifies `modTwoCycleSpace` with the supplied binary cycle space, preserving edge identities;
+the integral incidence cokernel is torsion-free, so base change identifies the kernels.
+README label: integral-graph-adapter. Connectedness is needed only when specializing the
+supplied formula to component count one, not for this coefficient comparison. -/
+theorem cycleLattice_rank_eq_cycleSpace_finrank (src tgt : E → V) :
+    Module.finrank ℤ (cycleLattice src tgt) =
+      Module.finrank (ZMod 2) (modTwoCycleSpace src tgt) := by sorry
 
 /-- The edge-length form `(c, d) ↦ ∑_e ℓ(e) c_e d_e` on `ℤ^E`; with all lengths `1` it is the
 monodromy pairing of the Jacobian of a regular semistable curve (SGA 7 I, Exposé IX, 12.5). -/
@@ -338,13 +369,14 @@ theorem edgeForm_neg_coord (len : E → ℕ) (e₀ : E) (c d : E →₀ ℤ) :
     edgeForm len (c - 2 • Finsupp.single e₀ (c e₀)) (d - 2 • Finsupp.single e₀ (d e₀)) =
       edgeForm len c d := by sorry
 
-/-- A single loop on one vertex has cycle lattice of rank `1`: a loop has zero boundary but
-contributes a cycle. -/
+/-- The coefficient bridge transports the single-loop binary dimension to integral rank one. -/
 example : Module.finrank ℤ (cycleLattice (fun _ : Unit => ()) (fun _ : Unit => ())) = 1 := by
+  rw [cycleLattice_rank_eq_cycleSpace_finrank]
   sorry
 
-/-- Two vertices joined by one edge (a tree) have cycle lattice `0`. -/
+/-- The coefficient bridge transports the two-vertex tree's binary dimension to integral rank zero. -/
 example : Module.finrank ℤ (cycleLattice (fun _ : Unit => (0 : Fin 2)) (fun _ => 1)) = 0 := by
+  rw [cycleLattice_rank_eq_cycleSpace_finrank]
   sorry
 
 /-- A loop of length `5` gives `5` on its unit cycle and `10` on coefficients `1,2`. -/
@@ -355,17 +387,12 @@ example : edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () 
 example : edgeForm (fun _ : Unit => 0) (Finsupp.single () 1) (Finsupp.single () 1) = 0 := by
   sorry
 
-/-- The Betti number: for a connected multigraph with nonempty vertex set the cycle lattice has
-rank `#E − #V + 1`. -/
-theorem finrank_cycleLattice [Nonempty V] (src tgt : E → V)
-    (hconn : ∀ v w : V, Relation.ReflTransGen
-      (fun a b => ∃ e, (src e = a ∧ tgt e = b) ∨ (src e = b ∧ tgt e = a)) v w) :
-    Module.finrank ℤ (cycleLattice src tgt) + Fintype.card V = Fintype.card E + 1 := by sorry
-
 /-- Negative control for connectedness: two vertices and no edge have cycle lattice `0`, and
-`0 + 2 ≠ 0 + 1`. -/
+`0 + 2 ≠ 0 + 1`. Apply the coefficient bridge and the supplied component count two. -/
 example : Module.finrank ℤ (cycleLattice (fun _ : Fin 0 => (0 : Fin 2)) (fun _ => 0)) +
-    Fintype.card (Fin 2) ≠ Fintype.card (Fin 0) + 1 := by sorry
+    Fintype.card (Fin 2) ≠ Fintype.card (Fin 0) + 1 := by
+  rw [cycleLattice_rank_eq_cycleSpace_finrank]
+  sorry
 
 end DualGraph
 
