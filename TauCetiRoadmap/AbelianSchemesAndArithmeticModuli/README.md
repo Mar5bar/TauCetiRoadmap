@@ -121,8 +121,8 @@ Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge l
   (`relativeSerre`, `serreGeneration`) and relative very ampleness (`amplePowersAndFixedTwists`).
   Layer 2, §2.1: Hom and Isom schemes of projective flat families (`homAndIsomSchemes`) through the
   Hilbert functor. Layer 3: fppf descent, relative Hom and Weil restriction along finite locally free
-  maps (`r093WeilRestriction`, `r093RestrictionBaseChange`, `r093RestrictionAlgebraicity`,
-  `r093RelativeHomAlgebraicity`).
+  maps (`ModuliDescent.weilRestriction`, `ModuliDescent.weilRestriction_baseChange`, `ModuliDescent.weilRestriction_algebraicity`,
+  `ModuliDescent.relativeHom_algebraicity`).
   Layer 5, §5.2: level functors and their rigidity (`rigidLevelStructure`). Layer 7: the relative
   Picard sheaf (`relativePicardSheaf`), section rigidification (`sectionRigidifiedPicard`,
   `sectionPicardSplit`), universal functions (`universal_functions`), perfect proper pushforward and
@@ -344,7 +344,7 @@ dimension (for an algebraic-space Picard sheaf through the neutral-component con
 `algebraize_hom` supplies compatible morphisms between given schemes, rather than existence
 of the polarized scheme itself; A4.8 constructs that scheme with its compatible ample system;
 `homAndIsomSchemes` needs a projective flat source and a quasi-projective target over a locally
-Noetherian base; `r093RestrictionAlgebraicity` needs a finite locally free map;
+Noetherian base; `ModuliDescent.weilRestriction_algebraicity` needs a finite locally free map;
 `grothendieck_existence` needs a complete Noetherian adic base, and
 `properSpaceCompletionEquivalence` additionally concerns a separated finite-type space
 and coherent sheaves with proper support; the
@@ -360,7 +360,7 @@ and its universal property. Its §1.6 algebraic-space quotient theorem requires 
 when that cover is representable by algebraic spaces, flat, locally of finite
 presentation and fppf locally surjective. The kernel pair `A ×_S H` proves these
 cover properties for `A → A/H`, using ModularCurves 0E's effective descent of finite
-locally free schemes. AlgebraicModuli §3.5 `r093FiniteQuotientComparison`
+locally free schemes. AlgebraicModuli §3.5 `ModuliDescent.finiteQuotientComparison`
 identifies this quotient with ModularCurves 0C's quotient on its affine or
 invariant-affine-cover domain; that comparison is not a construction of the general
 non-affine quotient.
@@ -998,7 +998,7 @@ of the sheaf coequalizer (Faltings–Chai I.1.7–1.9, pp. 4–7). The API is `A
 `H`), `AbelianQuotient.baseChange` (`(A/H)_T ≅ A_T/H_T`, respecting quotient maps) and
 `AbelianQuotient.kernel_rank` (`ker q = H` and `rk q = rk H`). *Needs:* A2.1, A3.1;
 ModularCurves 0E; SchemeAndStackFoundations Layer 1 §§1.5–1.6 (quotient sheaves), §1.17 (`artinBootstrap`); AlgebraicModuli Layer 3
-(`r093FiniteQuotientComparison`).
+(`ModuliDescent.finiteQuotientComparison`).
 
 **Checks.**
 
@@ -2431,8 +2431,8 @@ transports the filtration and connection, not only the rank. *Needs:* A4.1, A4.3
 
 Prove `weilRestriction`. For a finite locally free morphism `S′ → S` and an `S′`-scheme `X`, the restriction
 of scalars `Res_{S′/S}(X)(T) = Hom_{S′}(T ×_S S′, X)` is an fppf sheaf represented by an algebraic space
-(AlgebraicModuli `r093WeilRestriction`, `r093RestrictionAlgebraicity`), compatible with base change
-(`r093RestrictionBaseChange`). It is a scheme when every finite subset of every fibre of `X → S′` over a
+(AlgebraicModuli `ModuliDescent.weilRestriction`, `ModuliDescent.weilRestriction_algebraicity`), compatible with base change
+(`ModuliDescent.weilRestriction_baseChange`). It is a scheme when every finite subset of every fibre of `X → S′` over a
 point of `S` lies in an affine open; this holds for quasi-projective varieties over fields and, by A2.1(3),
 for abelian schemes over affine bases. Covering `X` by affines whose restrictions do not cover is not
 enough. Over a field, for `L/K` finite, `Res_{L/K}(X)` exists for quasi-projective `X` (Poonen, *Rational
