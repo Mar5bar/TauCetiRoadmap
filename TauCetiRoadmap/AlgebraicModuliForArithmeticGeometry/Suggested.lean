@@ -769,6 +769,21 @@ example : KOCoefficients.mk ℤ ℚ ℤ ((1 / 2 : ℚ) ⊗ₜ[ℤ] (1 : ℤ)) �
 /-- `KOTests.baseField`: for `K = R` every coefficient class is zero. -/
 example (z : KOCoefficients R R M) : z = 0 := sorry
 
+/-- Boundary duality: if `n ≥ 1`, `J^n ⊆ I B` and `c ∈ J^(n−1)`, then for every `A`-linear
+`ℓ : B → A` the functional `b ↦ ℓ (c b)` sends `J` into `I`, so it lies in Mathlib's
+`Submodule.compatibleMaps` and induces `B/J → A/I` by `Submodule.mapQLinear`. -/
+theorem boundaryDual_mulInput {A B : Type u} [CommRing A] [CommRing B] [Algebra A B]
+    (I : Ideal A) (J : Ideal B) (n : ℕ) (hn : 1 ≤ n)
+    (hJ : J ^ n ≤ I.map (algebraMap A B)) (c : B) (hc : c ∈ J ^ (n - 1)) (ℓ : B →ₗ[A] A) :
+    ℓ ∘ₗ LinearMap.mulLeft A c ∈ Submodule.compatibleMaps (J.restrictScalars A) I := sorry
+
+/-- `BoundaryTests.dualNumbers`: on `ℚ[ε]` with `J = (ε)` and `I = 0`, the `ε`-coefficient
+functional sends `ε` to `1`, so it is not compatible with `(J, I)`. -/
+example :
+    TrivSqZeroExt.sndHom ℚ ℚ ∉ Submodule.compatibleMaps
+      ((RingHom.ker (TrivSqZeroExt.fstHom ℚ ℚ ℚ).toRingHom).restrictScalars ℚ) (⊥ : Ideal ℚ) :=
+  sorry
+
 variable {F₀ E₀ L₀ : Type u} [Field F₀] [Field E₀] [Field L₀]
 variable [Algebra F₀ E₀] [Algebra F₀ L₀]
 
@@ -867,7 +882,9 @@ structure MarkedIdeal (R : Type u) [CommRing R] where
 def MarkedIdeal.cosupport (J : MarkedIdeal R) : Set (PrimeSpectrum R) :=
   {p | (J.mark : ℕ∞) ≤ idealOrderAt J.ideal p}
 
-/-- On a ring with regular local rings, `(I, d)` and `(Iᵏ, k d)` have the same cosupport. -/
+/-- On a ring with regular local rings, `(I, d)` and `(Iᵏ, k d)` have the same cosupport. This is
+the affine shadow of the test equivalence `markedIdeal_rescale` of README §9.1, which also asks for
+equal cosupports after every permitted sequence of blowups and is a README target. -/
 theorem MarkedIdeal.cosupport_pow (J : MarkedIdeal R) (k : ℕ) (hk : 0 < k)
     (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
     (MarkedIdeal.mk (J.ideal ^ k) (k * J.mark) (Nat.mul_pos hk J.mark_pos)).cosupport =
