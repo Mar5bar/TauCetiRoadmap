@@ -39,16 +39,21 @@ structure, singular cohomology with supports, and automorphic forms. Statements 
   commutative ring as preimages of Tau Ceti's upper-triangular and upper-unitriangular groups
   (ALS.0.10), the orientation character `sign(N(det))^{m−1}` of `GL_m` over a number field
   (ALS.0.12), the slice representation and the whole-inverse monodromy convention (ALS.1.1), the
-  geodesic action of the diagonal torus on `ℍ` (ALS.2.1), basis elements of the Hecke ring and the
-  operator of a double coset on a representation (ALS.3);
+  geodesic action of the diagonal torus on `ℍ` (ALS.2.1), basis elements of the Hecke ring, the
+  operator of a double coset on a representation and the twist of a Hecke ring by a character
+  (ALS.3);
 * milestones whose carriers exist at the pins: the stabilizer of `i` under `GL(2, ℝ)`, the index
   `p + 1` of the Iwahori subgroup of `GL_2(ℤ_p)`, the group cohomology of `SL_2(ℤ)` in degrees `1`
   and `2`, the Hecke ring of a normal subgroup, the invariance and representative-independence of
-  the double-coset operator on invariants, and the existence of the character twist of a Hecke ring;
-* `example`s fixing the conventions the README pins with a witness: the negative-determinant
-  orientation sign, the order-three element of the pro-`3` Iwahori subgroup, the `2`-adic failure
-  of `±Γ₁`, the strict inclusion `Γ₁ ⊊ Γ_p` at `q = 7`, the noncommuting monodromy test, and the
-  vertical geodesic action against the radial left action of Tau Ceti's `dilation`.
+  the double-coset operator on invariants, and the basis formula of the character twist;
+* `example`s fixing the conventions the README pins with a witness and testing each definition:
+  membership and non-membership in the level subgroups, `Γ₀` against Mathlib's `Gamma0`, the
+  `SL_2(ℤ)` witness of the `2`-adic failure of `±Γ₁`, `Γ₁ ⊊ Γ_p` at `q = 7` against `Γ_3 = Γ₁` at
+  `q = 5`, the negative-determinant orientation sign, the order-three element of the pro-`3`
+  Iwahori subgroup, the noncommuting monodromy test, the vertical geodesic action against the
+  radial left action of Tau Ceti's `dilation`, representatives of double cosets in `S_3`, the
+  Hecke rings of `(ℤ/4, 2ℤ/4)` and `(S_3, ⟨(0 1)⟩)`, `T_p² = T_{p²} + (p + 1)S_p`, and the unit and
+  inverse laws of the twist.
 
 Design choices made explicit: Hecke rings are Mathlib's `HeckeRing` with Tau Ceti's convolution
 ring structure, and a double coset `UgU = ⊔ g_iU` acts on invariants by `Σ g_i·m`, with degree
@@ -119,6 +124,11 @@ example (g : GL (Fin 2) ℝ) (hg : (g : Matrix (Fin 2) (Fin 2) ℝ) = !![2, 0; 0
     g ∉ orthogonalTimesScalars := by
   sorry
 
+/-- The scalar `2` is in `ℝ_{>0}·O(2)`: `(2I)ᵀ(2I) = 4·1`, so the split centre lies in the group. -/
+example (g : GL (Fin 2) ℝ) (hg : (g : Matrix (Fin 2) (Fin 2) ℝ) = !![2, 0; 0, 2]) :
+    g ∈ orthogonalTimesScalars := by
+  sorry
+
 /-- **ALS.0.1, `cartanInvolution_GL_transposeInverse`.** The fixed points of the Cartan
 involution `g ↦ (gᵀ)⁻¹` of `GL_n(ℝ)` are the orthogonal group `O(n)`. -/
 theorem transposeInverse_fixed_iff_orthogonal {n : ℕ} (g : GL (Fin n) ℝ) :
@@ -134,8 +144,8 @@ variable {R : Type*} [CommRing R] {n : Type*} [Fintype n] [LinearOrder n]
 
 /-- **ALS.0.10.** The matrices in `GL_n(R)` that are upper triangular modulo an ideal `I`: the
 preimage of Tau Ceti's `upperTriangularGroup` of `GL_n(R/I)` under reduction modulo `I`. For `I`
-the maximal ideal of a local ring this is the Iwahori subgroup; for `n = 2` and `I = (p^c)` it is
-the `GL_2`-preimage of `Γ₀(p^c)`. -/
+the maximal ideal of the valuation ring of a nonarchimedean local field this is the Iwahori
+subgroup; for `n = 2` and `I = (p^c)` it is the `GL_2`-preimage of `Γ₀(p^c)`. -/
 def upperTriangularMod (I : Ideal R) : Subgroup (GL n R) :=
   (TauCeti.upperTriangularGroup n (R ⧸ I)).comap (GeneralLinearGroup.map (Ideal.Quotient.mk I))
 
@@ -155,15 +165,19 @@ example (I : Ideal R) (g : GL n R) :
       (∀ i j, j < i → (g : Matrix n n R) i j ∈ I) ∧ ∀ i, (g : Matrix n n R) i i - 1 ∈ I := by
   sorry
 
-/-- **ALS.0.10, `LocallySymmetric.iwahori`.** The Iwahori subgroup of `GL_n` over a local ring: the
-group that ReductiveGroupsPartII's `LevelSubgroups.iwahori` describes inside `GL_n(K)`, here inside
-`GL_n(O)` as the case `I = 𝔪` of `upperTriangularMod`. -/
+/-- **ALS.0.10, `LocallySymmetric.iwahori`.** The matrices of `GL_n(R)`, `R` a local ring, that are
+upper triangular modulo the maximal ideal: the case `I = 𝔪` of `upperTriangularMod`. When `R` is the
+valuation ring of a nonarchimedean local field `K` this is the Iwahori subgroup, the group that
+ReductiveGroupsPartII's `LevelSubgroups.iwahori` describes inside `GL_n(K)`. -/
 def iwahori (R : Type*) [CommRing R] [IsLocalRing R] (n : Type*) [Fintype n]
     [LinearOrder n] : Subgroup (GL n R) :=
   upperTriangularMod (IsLocalRing.maximalIdeal R)
 
-/-- **ALS.0.10, `LocallySymmetric.iwahoriOne`.** The pro-`v` Iwahori subgroup,
-ReductiveGroupsPartII's `LevelSubgroups.proPIwahori` inside `GL_n(O)`. -/
+/-- **ALS.0.10, `LocallySymmetric.iwahoriOne`.** The matrices of `GL_n(R)`, `R` a local ring, that
+are unipotent upper triangular modulo the maximal ideal. When `R` is the valuation ring of a
+nonarchimedean local field of residue characteristic `p`, with its valuation topology, this is the
+pro-`p` Iwahori subgroup, ReductiveGroupsPartII's `LevelSubgroups.proPIwahori`; over `R = ℂ` it is
+the upper unipotent group, which is not pro-`p`. -/
 def iwahoriOne (R : Type*) [CommRing R] [IsLocalRing R] (n : Type*) [Fintype n]
     [LinearOrder n] : Subgroup (GL n R) :=
   unipotentMod (IsLocalRing.maximalIdeal R)
@@ -179,8 +193,9 @@ def gamma1Mod (I : Ideal R) : Subgroup (GL (Fin 2) R) where
 
 /-- **ALS.0.10, `LocallySymmetric.gammaP`.** The `GL_2`-preimage of the projective `Γ_p(I)`: upper
 triangular modulo `I` with ratio of diagonal entries of `p`-power order modulo `I`, written without
-division as `d^{p^m} ≡ a^{p^m}`. -/
-def gammaPMod (I : Ideal R) (p : ℕ) : Subgroup (GL (Fin 2) R) where
+division as `d^{p^m} ≡ a^{p^m}`, for a prime `p` (for `p = 0` or `1` the condition would collapse to
+`Γ₀` or `Γ₁`). -/
+def gammaPMod (I : Ideal R) (p : ℕ) [Fact p.Prime] : Subgroup (GL (Fin 2) R) where
   carrier := {g | (g : Matrix (Fin 2) (Fin 2) R) 1 0 ∈ I ∧ ∃ m : ℕ,
     (g : Matrix (Fin 2) (Fin 2) R) 1 1 ^ p ^ m - (g : Matrix (Fin 2) (Fin 2) R) 0 0 ^ p ^ m ∈ I}
   one_mem' := by sorry
@@ -200,16 +215,63 @@ theorem iwahoriOne_relIndex (R : Type*) [CommRing R] [IsLocalRing R]
       (Nat.card (IsLocalRing.ResidueField R) - 1) ^ Fintype.card n := by
   sorry
 
-/-- **`gamma0_eq_congruenceSubgroup`, the `2`-adic clause.** Over `ZMod 8` the scalar `3` lies in
-the projective `Γ₁` although `3 ≠ ±1`: the unqualified `±Γ₁` description fails at `2^c`, `c ≥ 3`. -/
-example (g : GL (Fin 2) (ZMod 8)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 8)) = !![3, 0; 0, 3]) :
-    g ∈ gamma1Mod (⊥ : Ideal (ZMod 8)) ∧ (3 : ZMod 8) ≠ 1 ∧ (3 : ZMod 8) ≠ -1 := by
+/-- Over `ZMod 5` with `I = ⊥`, the upper unipotent `(1, 1; 0, 1)` lies in both level groups. -/
+example (g : GL (Fin 2) (ZMod 5)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![1, 1; 0, 1]) :
+    g ∈ upperTriangularMod (⊥ : Ideal (ZMod 5)) ∧ g ∈ unipotentMod (⊥ : Ideal (ZMod 5)) := by
+  sorry
+
+/-- Over `ZMod 5` with `I = ⊥`, `diag(2, 1)` is upper triangular but not unipotent, and the lower
+unipotent `(1, 0; 1, 1)` is not upper triangular. -/
+example (g h : GL (Fin 2) (ZMod 5)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![2, 0; 0, 1])
+    (hh : (h : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![1, 0; 1, 1]) :
+    g ∈ upperTriangularMod (⊥ : Ideal (ZMod 5)) ∧ g ∉ unipotentMod (⊥ : Ideal (ZMod 5)) ∧
+      h ∉ upperTriangularMod (⊥ : Ideal (ZMod 5)) := by
+  sorry
+
+/-- Modulo the unit ideal every matrix is upper triangular, unipotent and in `Γ₁`. -/
+example : upperTriangularMod (⊤ : Ideal R) = (⊤ : Subgroup (GL n R)) ∧
+    unipotentMod (⊤ : Ideal R) = (⊤ : Subgroup (GL n R)) ∧
+    gamma1Mod (⊤ : Ideal R) = ⊤ := by
+  sorry
+
+/-- At residue field `F_2` every unit is `≡ 1`, so `Iw₁ = Iw` for `ℤ_2`; at residue field `F_3` the
+inclusion `Iw₁ ⊂ Iw` is strict. -/
+example : iwahoriOne ℤ_[2] (Fin 2) = iwahori ℤ_[2] (Fin 2) ∧
+    iwahoriOne ℤ_[3] (Fin 2) < iwahori ℤ_[3] (Fin 2) := by
+  sorry
+
+/-- **`gamma0_eq_congruenceSubgroup`.** Intersecting the `GL_2`-preimage of the projective `Γ₀(N)`
+with `SL_2(ℤ)` gives Mathlib's `CongruenceSubgroup.Gamma0 N`. -/
+example (N : ℕ) :
+    (upperTriangularMod (Ideal.span {(N : ℤ)})).comap Matrix.SpecialLinearGroup.toGL =
+      CongruenceSubgroup.Gamma0 N := by
+  sorry
+
+/-- **`gamma0_eq_congruenceSubgroup`, the `2`-adic clause.** `(3, 1; 8, 3)` has determinant `1`,
+lies in the `GL_2`-preimage of the projective `Γ₁(8)`, and has diagonal entries `≡ 3 ≢ ±1 mod 8`,
+so it is in neither `Γ₁(8)` nor `−Γ₁(8)`: the unqualified `±Γ₁` description fails at `2^c`,
+`c ≥ 3`. -/
+example (g : GL (Fin 2) ℤ) (hg : (g : Matrix (Fin 2) (Fin 2) ℤ) = !![3, 1; 8, 3]) :
+    (g : Matrix (Fin 2) (Fin 2) ℤ).det = 1 ∧ g ∈ gamma1Mod (Ideal.span {(8 : ℤ)}) ∧
+      (g : Matrix (Fin 2) (Fin 2) ℤ) 0 0 - 1 ∉ Ideal.span {(8 : ℤ)} ∧
+      (g : Matrix (Fin 2) (Fin 2) ℤ) 0 0 + 1 ∉ Ideal.span {(8 : ℤ)} := by
   sorry
 
 /-- **`gammaP_ne_gamma1`.** For `p = 3` and `q = 7`, `diag(1, 2)` has diagonal ratio of order `3`,
 so it lies in `Γ_3` but not in `Γ₁`: the inclusion `Γ₁ ⊂ Γ_p` is strict when `p ∣ q − 1`. -/
 example (g : GL (Fin 2) (ZMod 7)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 0; 0, 2]) :
     g ∈ gammaPMod (⊥ : Ideal (ZMod 7)) 3 ∧ g ∉ gamma1Mod (⊥ : Ideal (ZMod 7)) := by
+  sorry
+
+/-- **`gammaP_ne_gamma1`, `p = 2`, `q = 7`.** `diag(1, −1)` has diagonal ratio of order `2`, so it
+lies in `Γ_2` but not in `Γ₁`. -/
+example (g : GL (Fin 2) (ZMod 7)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 0; 0, -1]) :
+    g ∈ gammaPMod (⊥ : Ideal (ZMod 7)) 2 ∧ g ∉ gamma1Mod (⊥ : Ideal (ZMod 7)) := by
+  sorry
+
+/-- **`gammaP_ne_gamma1`, equality.** For `p = 3` and `q = 5`, cubing is bijective on `F_5^×`, so a
+diagonal ratio of `3`-power order is `1` and `Γ_3 = Γ₁`. -/
+example : gammaPMod (⊥ : Ideal (ZMod 5)) 3 = gamma1Mod (⊥ : Ideal (ZMod 5)) := by
   sorry
 
 /-- **ALS.0.11, one pro-`v` factor does not suffice.** `(1, 1; −3, −2)` lies in the pro-`3`
@@ -281,6 +343,11 @@ def sliceRepresentation (ρG : Representation R Γ V) (ρK : Representation R Q 
   toFun γ := ρG γ * ρK (φ γ)
   map_one' := by simp
   map_mul' := by sorry
+
+/-- With the trivial `K_S`-action the slice representation is the `G(F)`-representation itself. -/
+example (ρG : Representation R Γ V) (φ : Γ →* Q) :
+    sliceRepresentation ρG (1 : Representation R Q V) φ (fun _ _ => by simp) = ρG := by
+  sorry
 
 /-- **ALS.1.1, `LocallySymmetric.localSystem.monodromy`.** The monodromy of the associated local
 system: a lifted loop ending at `δ(ℓ)x₀` defines `δ(ℓ) ∈ Γᵐᵒᵖ`, because Tau Ceti's loop product
@@ -427,20 +494,107 @@ example (g : G) (reps : Finset G) (hreps : IsDoubleCosetReps U g reps) (z : ℤ)
       ((ConjAct.toConjAct g • U).relIndex U : ℤ) * z := by
   sorry
 
-/-- **`hecke_one_smul`.** The double coset `U1U = U` acts as the identity on invariants. -/
-example (ρ : Representation ℤ G M) (m : M) (hm : ∀ u ∈ U, ρ u m = m) :
-    doubleCosetOperator ρ {1} m = m := by
+/-- The double coset `U1U = U` is represented by `{1}`. -/
+example : IsDoubleCosetReps U 1 {1} := by
+  sorry
+
+/-- **`hecke_one_smul`.** Any representatives of `U1U/U` act as the identity on `U`-invariants:
+they consist of a single element of `U`. -/
+example (ρ : Representation ℤ G M) (reps : Finset G) (hreps : IsDoubleCosetReps U 1 reps) (m : M)
+    (hm : ∀ u ∈ U, ρ u m = m) :
+    doubleCosetOperator ρ reps m = m := by
+  sorry
+
+/-- **ALS.3.1, two cosets.** For `W = ⟨(0 1)⟩ ⊂ S_3` the double coset `W(0 2)W` has four elements,
+two left cosets: it has a two-element set of representatives, while a single element, or two
+elements of one coset, are not representatives. -/
+example (W : Subgroup (Equiv.Perm (Fin 3))) (hW : W = Subgroup.zpowers (Equiv.swap 0 1)) :
+    (∃ reps : Finset (Equiv.Perm (Fin 3)),
+        IsDoubleCosetReps W (Equiv.swap 0 2) reps ∧ reps.card = 2) ∧
+      ¬ IsDoubleCosetReps W (Equiv.swap 0 2) {Equiv.swap 0 2} ∧
+      ¬ IsDoubleCosetReps W (Equiv.swap 0 2) {Equiv.swap 0 2, Equiv.swap 0 2 * Equiv.swap 0 1} := by
+  sorry
+
+/-- **ALS.3.2, computation.** For `Δ = ℤ/4` and `U = 2ℤ/4`, written multiplicatively, the Hecke
+ring is the group ring `ℤ[ℤ/2] = ℤ[t]/(t² − 1)`. -/
+example (W : Subgroup (Multiplicative (ZMod 4)))
+    (hW : W = Subgroup.zpowers (Multiplicative.ofAdd 2))
+    [IsHeckeTriple (⊤ : Submonoid (Multiplicative (ZMod 4))) W W] :
+    Nonempty (𝕋 (⊤ : Submonoid (Multiplicative (ZMod 4))) W ℤ ≃+*
+      MonoidAlgebra ℤ (Multiplicative (ZMod 2))) := by
+  sorry
+
+/-- **ALS.3.2, non-example.** For `W = ⟨(0 1)⟩ ⊂ S_3` there are two double cosets, so the Hecke ring
+has rank `2`, while the permutation module `ℤ[S_3/W]` has rank `3` and is not a ring. -/
+example (W : Subgroup (Equiv.Perm (Fin 3))) (hW : W = Subgroup.zpowers (Equiv.swap 0 1)) :
+    Module.finrank ℤ (𝕋 (⊤ : Submonoid (Equiv.Perm (Fin 3))) W ℤ) = 2 := by
+  sorry
+
+/-- **ALS.3.8, `T_p² = T_{p²} + (p + 1)S_p`.** In the Hecke ring of `(GL_2(ℚ_p), GL_2(ℤ_p))`, with
+`T_{p²}` the single double coset of `diag(p², 1)` and `S_p` that of `diag(p, p)`. -/
+example (p : ℕ) [Fact p.Prime] (W : Subgroup (GL (Fin 2) ℚ_[p]))
+    (hW : W = (GeneralLinearGroup.map (PadicInt.Coe.ringHom (p := p))).range)
+    [IsHeckeTriple (⊤ : Submonoid (GL (Fin 2) ℚ_[p])) W W] (t t₂ s : GL (Fin 2) ℚ_[p])
+    (ht : (t : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![(p : ℚ_[p]), 0; 0, 1])
+    (ht₂ : (t₂ : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![(p : ℚ_[p]) ^ 2, 0; 0, 1])
+    (hs : (s : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![(p : ℚ_[p]), 0; 0, (p : ℚ_[p])]) :
+    heckeBasis W ℤ t 1 * heckeBasis W ℤ t 1 =
+      heckeBasis W ℤ t₂ 1 + heckeBasis W ℤ s ((p : ℤ) + 1) := by
+  sorry
+
+/-- **ALS.3.8.** On the regular representation of `S_3`, left multiplication by `(0 1)` and by
+`(1 2)` do not commute, so a noncentral Hecke element need not act linearly over the Hecke
+algebra. -/
+example :
+    doubleCosetOperator (Representation.ofMulAction ℤ (Equiv.Perm (Fin 3)) (Equiv.Perm (Fin 3)))
+          {Equiv.swap 0 1} ∘ₗ
+        doubleCosetOperator (Representation.ofMulAction ℤ (Equiv.Perm (Fin 3)) (Equiv.Perm (Fin 3)))
+          {Equiv.swap 1 2} ≠
+      doubleCosetOperator (Representation.ofMulAction ℤ (Equiv.Perm (Fin 3)) (Equiv.Perm (Fin 3)))
+          {Equiv.swap 1 2} ∘ₗ
+        doubleCosetOperator (Representation.ofMulAction ℤ (Equiv.Perm (Fin 3)) (Equiv.Perm (Fin 3)))
+          {Equiv.swap 0 1} := by
   sorry
 
 variable (R : Type*) [CommRing R]
 
-/-- **ALS.3.12, `LocallySymmetric.twistHecke`.** Twisting by a character `χ` trivial on `U`:
-there is a ring automorphism of the Hecke ring sending `r·[UgU]` to `χ(g)⁻¹r·[UgU]`. On
+/-- The value `χ(g)` of a character trivial on `U` at a representative of the double coset `UgU`;
+it does not depend on the representative. -/
+def heckeCosetCharacter (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
+    HeckeCoset (⊤ : Submonoid G) U U → Rˣ :=
+  Quotient.lift (fun g : (⊤ : Submonoid G) => χ g) (by sorry)
+
+/-- **ALS.3.12, `LocallySymmetric.twistHecke`.** Twisting by a character `χ` trivial on `U`: the
+ring automorphism of the Hecke ring multiplying the coefficient of `[UgU]` by `χ(g)⁻¹`. On
 coefficients the matching twist is Tau Ceti's `Representation.charTwist` at `χ⁻¹`. -/
-theorem twistHecke_exists [IsHeckeTriple (⊤ : Submonoid G) U U] (χ : G →* Rˣ)
-    (hχ : ∀ u ∈ U, χ u = 1) :
-    ∃ f : 𝕋 (⊤ : Submonoid G) U R ≃+* 𝕋 (⊤ : Submonoid G) U R,
-      ∀ (g : G) (r : R), f (heckeBasis U R g r) = heckeBasis U R g ((((χ g)⁻¹ : Rˣ) : R) * r) := by
+def twistHecke [IsHeckeTriple (⊤ : Submonoid G) U U] (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
+    𝕋 (⊤ : Submonoid G) U R ≃+* 𝕋 (⊤ : Submonoid G) U R where
+  toFun f := HeckeCosetModule.of ((HeckeCosetModule.of.symm f).sum fun D r =>
+    Finsupp.single D ((((heckeCosetCharacter U R χ hχ D)⁻¹ : Rˣ) : R) * r))
+  invFun f := HeckeCosetModule.of ((HeckeCosetModule.of.symm f).sum fun D r =>
+    Finsupp.single D (((heckeCosetCharacter U R χ hχ D : Rˣ) : R) * r))
+  left_inv := by sorry
+  right_inv := by sorry
+  map_mul' := by sorry
+  map_add' := by sorry
+
+/-- **ALS.3.12, `LocallySymmetric.twistHecke`.** On basis elements the twist is
+`r·[UgU] ↦ χ(g)⁻¹r·[UgU]`; the check `twistHecke_T_GL1` is the case `G = F_v^×`, `U = O_v^×`,
+`g = ϖ_v`. -/
+theorem twistHecke_single [IsHeckeTriple (⊤ : Submonoid G) U U] (χ : G →* Rˣ)
+    (hχ : ∀ u ∈ U, χ u = 1) (g : G) (r : R) :
+    twistHecke U R χ hχ (heckeBasis U R g r) = heckeBasis U R g ((((χ g)⁻¹ : Rˣ) : R) * r) := by
+  sorry
+
+/-- **`twistHecke_trivial`.** Twisting by the trivial character is the identity. -/
+example [IsHeckeTriple (⊤ : Submonoid G) U U] :
+    twistHecke U R 1 (fun _ _ => rfl) = RingEquiv.refl _ := by
+  sorry
+
+/-- **`twistHecke_mul`.** Twisting by `χ` and then by `χ⁻¹` is the identity. -/
+example [IsHeckeTriple (⊤ : Submonoid G) U U] (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
+    (twistHecke U R χ hχ).trans (twistHecke U R χ⁻¹ (fun u hu => by simp [hχ u hu])) =
+      RingEquiv.refl _ := by
   sorry
 
 end Hecke
@@ -452,6 +606,12 @@ The following README targets need carriers that Mathlib and Tau Ceti do not prov
 commits; they are stated in `README.md` with their exact hypotheses and are not Lean declarations
 here.
 
+* Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups),
+  `IsPerfect` (perfect complexes), `SheafDerived.pushforward` and its API (derived functors of
+  sheaves on topological spaces), `EquivariantSheaf` (equivariant sheaves for topological groups),
+  `lieCochains` (Chevalley–Eilenberg and relative cochains), `AutomorphicForm` (automorphic forms
+  and cusp forms), `cohomologicalRepresentation` (algebraic weights, Wigner's lemma and the degree
+  range).
 * Algebraic groups over number fields, their real points as Lie groups and algebraic Cartan
   involutions (twisted real forms): `IsCartanInvolution` and its API, `realPoints_cartanDatum`,
   `isMaximalCompact_fixedPoints`, `symmetricSpace` and its API, `symmetricSpace.contractible`.
@@ -467,13 +627,14 @@ here.
   `BorelSerre.face`, `BorelSerre.bordification`, `BorelSerre.compact_quotient`,
   `BorelSerre.finiteTriangulation`, `BorelSerre.stratum`, `BorelSerre.unipotentLattice_cocompact`,
   `BorelSerre.parabolicArithmeticExtension`, `BorelSerre.stratum_fibration`,
-  `BorelSerre.stratSpectralSequence`, `BorelSerre.mayerVietorisSpectralSequence`.
+  `BorelSerre.stratSpectralSequence`, `BorelSerre.mayerVietorisSpectralSequence`,
+  `BorelSerre.stratumCompactification`.
 * Hecke operators on Betti complexes and their strict lifts: `Hecke.invariantsFunctor`,
   `Hecke.derivedInvariants`, `Hecke.heckeRing_prod`, `heckeAction`, `heckeComplex` and its API,
   `heckeAction_eq_correspondence`, `RΓ.trace`, `RΓ.mackey`, `heckeAction_mul`,
   `heckeAction_compatible`, `heckeAction_discrete_eq_topological`, `derivedHeckeAlgebra` (the
   derived Hecke image of IntegralHeckeAndGaloisDeterminants, Layer 2, applied to `RΓ(X_K, V)`),
-  `twistMaximalIdeal`, `twistIso`, `oldformSplitting`.
+  `idelicCharacter`, `twistMaximalIdeal`, `twistIso`, `oldformSplitting`.
 * Boundary complexes and localization: `boundaryTriangle`, `Hecke.restrictParabolic`,
   `Hecke.integrateUnipotent`, `Hecke.satakeUnnormalized`, `BorelSerre.stratum_hecke_restrict`,
   `nomizu`, `kostant_splittingField`, `BorelSerre.stratum_kostant`,
