@@ -3651,11 +3651,11 @@ nontrivial ψ over a field (a Lean `example`).
 
 **Maximal distinguished cuspidal types** (*distinguished-cuspidal-types*). Let F be a finite
 extension of ℚ_p with residue field 𝔽_q, G = GL_n(F) with n ≥ 1, k an algebraically closed field
-of characteristic ℓ ≠ p, and R either k or a finite extension of Frac W(k). An R-type is a pair
-(K, τ) of a compact open subgroup K of G and a smooth R[K]-module τ that is finitely generated over
-R; its Hecke algebra is H(G, K, τ) = End_{R[G]}(c-Ind_K^G τ). A maximal distinguished cuspidal
-R-type is built, in the sense of Bushnell–Kutzko, from a simple stratum [𝔄, m, 0, β] and a simple
-character θ of it. Here 𝔄 is the hereditary order of endomorphisms preserving every lattice of a
+of characteristic ℓ ≠ p, 𝒦 = Frac W(k) with an algebraic closure 𝒦̄, and R either k or 𝒦̄, so
+that R is algebraically closed. An R-type is a pair (K, τ) of a compact open subgroup K of G and a
+smooth R[K]-module τ that is finitely generated over R; its Hecke algebra is
+H(G, K, τ) = End_{R[G]}(c-Ind_K^G τ). A maximal distinguished cuspidal R-type is built, in the
+sense of Bushnell–Kutzko, from a simple stratum [𝔄, m, 0, β] and a simple character θ of it. Here 𝔄 is the hereditary order of endomorphisms preserving every lattice of a
 periodic lattice chain, β generates a field E = F[β] of ramification index e and residue degree f
 whose multiplicative group normalises 𝔄, and 𝔄 meets the centraliser of E in a maximal order of that centraliser
 (in depth zero β = 0, E = F and 𝔄 is a maximal order). Then K = J(β, 𝔄) has a normal pro-p
@@ -3670,43 +3670,78 @@ the algebra H(G, K, τ) is R[T, T⁻¹], with T supported on Kϖ_E K, and c-Ind_
 irreducible cuspidal representation. Every irreducible cuspidal R-representation of G contains a
 maximal distinguished cuspidal R-type. The representations c-Ind_{E^×K}^G τ̂, as τ̂ runs over
 the extensions of τ, are exactly the irreducible cuspidal representations whose restriction to K
-contains τ, and the absolutely irreducible ones among them form a single class under unramified
-twisting. If an irreducible cuspidal representation over a finite extension of Frac W(k) contains
-a maximal distinguished cuspidal type (K, τ̃), it has an integral unramified twist, and τ̃ has a
-lattice whose reduction is a maximal distinguished cuspidal k-type contained in the reduction of
-that twist; every maximal distinguished cuspidal k-type arises in this way. Define the mod-ℓ
-inertial class of a k-type (K, τ). It consists of the simple cuspidal smooth W(k)[G]-modules killed
-by ℓ that contain τ, together with those on which ℓ is invertible whose absolutely simple
-constituents are unramified twists of integral representations whose reduction contains τ
-([Hel16] Definition 4.1, p. 8; the construction on p. 9; Theorem 4.2, pp. 9–10, and Theorem 4.4,
-pp. 10–11, which record Vignéras' results; Definition 4.6, p. 11). *Needs:* *compact-induction*,
-*jacquet-module*, *cuspidal-representations*; ReductiveGroupsPartII RG2.2.4
-(*gl-building-lattice-chains*).
+contains τ, and they form a single class under twisting by χ ∘ det for unramified characters
+χ : F^× → R^×. A 𝒦̄-representation is integral if it is the scalar extension of a G-stable
+lattice over the ring of integers of a finite extension of 𝒦 in 𝒦̄. If an irreducible cuspidal
+𝒦̄-representation π contains a maximal distinguished cuspidal 𝒦̄-type (K, τ̃), there is an
+unramified χ : F^× → 𝒦̄^× with π ⊗ (χ ∘ det) integral, and τ̃ is realised by a lattice over the
+ring of integers of a finite extension of 𝒦 whose reduction is a maximal distinguished cuspidal
+k-type contained in the reduction of π ⊗ (χ ∘ det); every maximal distinguished cuspidal k-type
+arises in this way. The twist is 𝒦̄-valued: when π is realised over a finite extension 𝒦′ of 𝒦,
+χ can need values outside 𝒦′ (second Check).
+
+Prove also the descent that connects these statements to the characteristic-zero simple objects of
+the W(k)-category. Let Π be a simple smooth W(k)[G]-module on which ℓ is invertible, that is, a
+simple smooth 𝒦[G]-module. Then Π^U is finite-dimensional over 𝒦 for every compact open U, and
+for some finite extension 𝒦′ of 𝒦 in 𝒦̄ the module Π ⊗_𝒦 𝒦′ is a finite direct sum of absolutely
+simple 𝒦′[G]-modules, which Gal(𝒦̄/𝒦) permutes transitively. For the finiteness, H(G, U; ℂ) is
+finite over a finitely generated central subalgebra by *finite-type-corners*; this descends to
+H(G, U; ℚ) and extends to H(G, U; 𝒦), over which Π^U is a simple module when U is pro-p and
+Π^U ≠ 0 (*corner-irreducibles*). Π itself need not be absolutely simple (fourth Check), so the
+theorems above apply to the summands of Π ⊗_𝒦 𝒦′ and not to Π. Define the mod-ℓ inertial class
+of a k-type (K, τ). It consists of the simple cuspidal smooth W(k)[G]-modules killed by ℓ that
+contain τ, together with those Π on which ℓ is invertible whose absolutely simple summands over
+such a 𝒦′ are unramified twists of integral representations whose reduction contains τ ([Hel16]
+Definition 4.1, p. 8; the construction on p. 9; Theorem 4.2, pp. 9–10, and Theorem 4.4, pp.
+10–11, which record Vignéras' results and are used here over the algebraically closed fields k
+and 𝒦̄; Lemma 4.5 and Definition 4.6, p. 11, and the first sentence of the proof of
+Proposition 4.16, p. 14, for the descent). *Needs:* *compact-induction*, *jacquet-module*,
+*cuspidal-representations*, *corner-irreducibles*, *finite-type-corners*; ReductiveGroupsPartII
+RG2.2.4 (*gl-building-lattice-chains*).
 
 **Checks.**
 
 - For n = 1 every type is (O_F^×, χ) for a character χ of O_F^×. Its intertwining is F^× and
   H(G, K, τ) = R[T, T⁻¹] with T supported on ϖO_F^×. The cuspidal representations containing it
-  are the characters of F^× that extend χ, and they form one unramified-twist class.
+  are the characters of F^× that extend χ, and they form one unramified-twist class; over 𝒦,
+  which is not algebraically closed, this exhaustion fails (fourth Check).
 - In depth zero for n = 2, K = GL_2(O_F), K¹ = 1 + ϖM_2(O_F) and K/K¹ = GL_2(𝔽_q); κ is trivial and
   σ is an irreducible cuspidal representation of GL_2(𝔽_q). The intertwining is F^×GL_2(O_F).
+  Here ϖ_E = ϖ is central with determinant ϖ², so twisting by χ ∘ det multiplies its action by
+  χ(ϖ)². If ϖ acts by ℓ on an absolutely irreducible cuspidal 𝒦-representation whose scalar
+  extension contains this type, an integral twist needs χ(ϖ)²ℓ to be a unit, because a stable
+  lattice forces ϖ to act by a unit. Since ℓ has valuation one, no χ(ϖ) ∈ 𝒦 does this, while
+  χ(ϖ) = 1/√ℓ does over 𝒦(√ℓ).
 - The pair (GL_2(O_F), 1) is not a maximal distinguished cuspidal type, because the trivial
   representation of GL_2(𝔽_q) is not cuspidal. Consistently, c-Ind_{F^×GL_2(O_F)}^G 1 is not
   irreducible: Frobenius reciprocity gives a nonzero map onto the one-dimensional trivial
   representation, while the source is infinite-dimensional.
+- F = ℚ_2, n = 1, ℓ = 3, k = F̄_3 and the trivial type (ℤ_2^×, 1). Let V = 𝒦[t]/(t² − 3), with
+  ℤ_2^× acting trivially and 2 acting by t. As 3 has valuation one it is not a square in 𝒦, so V
+  is a field and a simple smooth W(k)[F^×]-module on which ℓ is invertible; it is cuspidal and
+  contains the type. Over End_{𝒦[G]}(c-Ind_K^G 𝒦) = 𝒦[T, T⁻¹], Hom_K(1, V) = V is a simple module
+  of dimension two, with T acting by t or t⁻¹ according to the normalisation of T; it is not a
+  character module 𝒦[T, T⁻¹]/(T − c), so V is not a character and the exhaustion statement
+  applies only to its summands over 𝒦(√3). No twist of V by an unramified 𝒦^×-valued character
+  2 ↦ a has a G-stable W(k)-lattice: the action of 2 has determinant −3a², of odd valuation,
+  while a stable lattice forces a unit determinant. Over 𝒦(√3), V splits as the two characters
+  sending 2 to ±√3, which Galois exchanges; twisting each by 2 ↦ (±√3)⁻¹ gives the trivial
+  character, so V lies in the mod-3 inertial class of the trivial k-type.
 
 **Projectives from distinguished cuspidal types** (*type-projective-construction*). Keep the
 setting of *distinguished-cuspidal-types*. Work in the smooth W(k)[G]-category of SR.0 with
-A = W(k), and fix q^{1/2} ∈ W(k)ˣ for normalised induction. Let (K, τ) be a maximal distinguished
-cuspidal k-type with τ = κ ⊗ σ, and let P_σ → σ be a projective envelope of σ among
-W(k)[K/K¹]-modules. Prove the following.
+A = W(k). No square root of q in W(k) is assumed, and none exists when ℓ = 2 and q ≡ 3 mod 4
+(fourth Check). Let (K, τ) be a maximal distinguished cuspidal k-type with τ = κ ⊗ σ, and let
+P_σ → σ be a projective envelope of σ among W(k)[K/K¹]-modules. Prove the following.
 
 - κ lifts to a smooth W(k)[K]-module κ̃ that is free of finite rank over W(k).
 - κ̃ ⊗ P_σ, with P_σ inflated to K, is a projective envelope of τ among smooth W(k)[K]-modules.
 - P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ) is projective in the smooth W(k)[G]-category and surjects onto
   c-Ind_K^G τ.
 - Every simple cuspidal smooth W(k)[G]-module in the mod-ℓ inertial class of (K, τ) is a quotient
-  of P_{(K,τ)}.
+  of P_{(K,τ)}, including those on which ℓ is invertible that are not absolutely simple.
+- For a W(k)-algebra B and an unramified character χ of G with values in Bˣ, multiplication of
+  functions by χ is an isomorphism from B ⊗ P_{(K,τ)} to its twist by χ, since χ is trivial on K.
 
 P_{(K,τ)} is not asserted to be a projective envelope of any simple G-module: it surjects onto
 every member of the class at once.
@@ -3714,14 +3749,22 @@ every member of the class at once.
 For the Levi construction, let M = GL_{n₁} × ⋯ × GL_{n_r} be a block-diagonal Levi with standard
 upper parabolic P, and π = π₁ ⊗ ⋯ ⊗ π_r an irreducible cuspidal k-representation of M. Choose
 maximal distinguished cuspidal k-types (K_i, τ_i) whose classes contain the π_i, and set
-P_{(M,π)} = i_P^G(P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}). A simple smooth W(k)[G]-module has mod-ℓ
+P_{(M,π)} = I_P^G(P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}), with the unnormalised induction
+I_P = Ind_P^G ∘ infl. The same multiplication on c-Ind_{K₁×⋯×K_r}^M, applied to the unramified
+character δ_P^{1/2} of M, identifies B ⊗ P_{(M,π)} with the normalised induction
+i_P^G(B ⊗ P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}) for every W(k)-algebra B containing a square root of q,
+such as W(k)[√q]; this normalised module is [Hel16]'s P(M,π), whose construction assumes ℓ odd so
+that the root lies in W(k) ([Hel16] §3, p. 6). A simple smooth W(k)[G]-module has mod-ℓ
 inertial cuspidal support (M, π) if either ℓ kills it and its cuspidal support is an unramified
 twist of (M, π), or ℓ is invertible on it and the cuspidal support of each absolutely simple
-constituent is an unramified twist of an integral lift of (M, π). Prove that every such module is
-a quotient of P_{(M,π)}. Let I_{(M,π)} be the smooth Frac W(k)/W(k)-dual of P_{(M,π^∨)}; prove that
-it is injective and that every simple module with mod-ℓ inertial cuspidal support (M, π) embeds
-in it. Projectivity of P_{(M,π)} is not claimed here; it comes from second adjointness inside a
-block and is proved in *integral-blocks* ([Hel16] Lemmas 4.7–4.8 and the construction after them,
+summand over the 𝒦′ of *distinguished-cuspidal-types* is an unramified twist of an integral lift of
+(M, π). Cuspidal supports are taken with I_P; up to unramified twist they agree with those for
+i_P over any field containing a square root of q, because I_P and i_P differ by the unramified
+twist δ_P^{1/2}. Prove that every such module is a quotient of P_{(M,π)}. Let I_{(M,π)} be the
+smooth Frac W(k)/W(k)-dual of P_{(M,π^∨)}; prove that it is injective and that every simple
+module with mod-ℓ inertial cuspidal support (M, π) embeds in it. Projectivity of P_{(M,π)} is not
+claimed here; it comes from unnormalised second adjointness inside a block and is proved in
+*integral-blocks* ([Hel16] Lemmas 4.7–4.8 and the construction after them,
 and Proposition 4.9, pp. 11–12; Definition 4.10, p. 13; the definition of P(M,π) and
 Proposition 4.16, p. 14; Definition 11.1, p. 56, and Proposition 11.5, p. 57). *Needs:*
 *distinguished-cuspidal-types*, *compact-induction*, *parabolic-induction*, *smooth-dual*.
@@ -3736,10 +3779,19 @@ Proposition 4.16, p. 14; Definition 11.1, p. 56, and Proposition 11.5, p. 57). *
   of 𝔽_q^×, of rank the ℓ-part of q − 1. P_{(K,τ)} is the group ring of F^× modulo 1 + 𝔭_F and the
   roots of unity of order prime to ℓ. The characters over finite extensions of Frac W(k) through
   which it factors are exactly those whose restriction to O_F^× factors through 𝔽_q^× with
-  ℓ-power order, which are the characteristic-zero members of the class.
-- n = 2, M the diagonal torus T, π = 1 ⊗ 1 and ℓ ∤ q − 1: P_{(T,π)} = i_B^G(W(k)[T(F)/T(O_F)]).
-  Its specialisation along T_i ↦ a_i ∈ kˣ is the unramified principal series i_B(χ₁ ⊗ χ₂) with
-  χ_i(ϖ) = a_i. The trivial character of G is a quotient, through i_B(ν^{1/2} ⊗ ν^{−1/2}).
+  ℓ-power order, which are the absolutely simple summands of the characteristic-zero members of
+  the class.
+- n = 2, M the diagonal torus T, π = 1 ⊗ 1 and ℓ ∤ q − 1: P_{(T,π)} = I_B^G(W(k)[T(F)/T(O_F)]).
+  Its specialisation along T_i ↦ a_i ∈ kˣ is the unnormalised unramified principal series
+  I_B(χ₁ ⊗ χ₂) with χ_i(ϖ) = a_i. The trivial character of G is a quotient, through
+  I_B(ν ⊗ ν⁻¹) = I_B(δ_B), that is at (a₁, a₂) = (q⁻¹, q); with a square root of q this is
+  i_B(ν^{1/2} ⊗ ν^{−1/2}).
+- F = ℚ_3 and ℓ = 2, so q = 3 and ℓ | q − 1. W(k) contains no square root of 3: a root would
+  reduce to 1 in k, hence be 1 + 2a, and (1 + 2a)² ≡ 1 mod 4 while 3 ≢ 1 mod 4. So i_B^G for
+  GL_2(ℚ_3) is not defined over W(k). The trivial type of GL_1(ℚ_3) gives
+  P = W(k)[ℚ_3^×/(1 + 3ℤ_3)] = W(k)[X, X⁻¹][ε]/(ε² − 1), with X the class of 3 and ε that of −1,
+  and P_{(T,1⊗1)} = I_B^G(P ⊗ P) is defined over W(k); over W(k)[√3] multiplication by
+  δ_B^{1/2} identifies it with i_B^G(W(k)[√3] ⊗ P ⊗ P).
 
 **Integral GL_n Bernstein blocks** (*integral-blocks*). For F a finite extension of ℚ_p and an
 algebraically closed field k of characteristic ℓ different from p, prove that the smooth
@@ -3748,11 +3800,17 @@ center A_{[L,π]} is a reduced, ℓ-torsion-free finite-type W(k)-algebra whose 
 exact supercuspidal supports of the simple representations in that block. This center specializes
 the existing abstract CatCenter; it is not a new abstract center construction ([Hel16] Definition
 4.12, pp. 13–14; Theorems 11.8, 12.8–12.9 and Corollary 12.12, pp. 58, 67–69). The proof uses the
-objects of *type-projective-construction*. The block of (L, π) is the subcategory cut out by the
-injective I_{[L,π]}, the sum of the I_{(M,π′)} over the finitely many mod-ℓ inertial cuspidal
-supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). Second adjointness inside the
-block makes each P_{(M,π′)} projective. Their sum P_{[L,π]} is a faithfully projective object of
-the block, and the centre of its endomorphism ring is A_{[L,π]}. This target owns the structure
+objects of *type-projective-construction*. No square root of q in W(k) is assumed, so ℓ = 2 is
+included: parabolic induction is the unnormalised I_P, and second adjointness is used in its
+unnormalised form, with δ_P ⊗ R_{P̄} as right adjoint of I_P, which involves only integral powers
+of q ([DHKM1] Corollary 1.3, p. 2). Helm writes his arguments for ℓ odd with a fixed
+q^{1/2} ∈ W(k) ([Hel16] §3, p. 6); they are run here with I_P and δ_P ⊗ R_{P̄} in place of i_P
+and r_{P̄}, the substitution [DHKM1] makes in Helm's §11 arguments (the proofs of Lemmas 4.5 and
+4.10, pp. 13–15). The block of (L, π) is the subcategory cut out by the injective I_{[L,π]}, the
+sum of the I_{(M,π′)} over the finitely many mod-ℓ inertial cuspidal supports (M, π′) with mod-ℓ
+inertial supercuspidal support (L, π). Unnormalised second adjointness inside the block makes
+each P_{(M,π′)} projective. Their sum P_{[L,π]} is a faithfully projective object of the block,
+and the centre of its endomorphism ring is A_{[L,π]}. This target owns the structure
 theory of the P_{(K,τ)} that the argument uses: the supercuspidal supports of their
 characteristic-zero constituents ([Hel16] Theorem 9.8, p. 49), which separate the injectives
 I_{(M,π)} by mod-ℓ inertial supercuspidal support (Propositions 11.5–11.6, p. 57), and the
@@ -3761,9 +3819,9 @@ second adjointness and the projective generator in Theorem 11.17 and Corollaries
 pp. 61–62. *Needs:* *distinguished-cuspidal-types*,
 *type-projective-construction*; layer SR.0, layer SR.3.
 
-Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact support is distinguished from inertial support, and the normalized induction convention is fixed. The block idempotent is characterized on simple residue-field objects. Separate statements give the category decomposition, the three center properties, and the exact-support classification with its scalar-action equation.
+Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact support is distinguished from inertial support. Exact supercuspidal supports of k-representations use normalized induction with a fixed square root of q in k, which exists because k is algebraically closed; inertial supports do not depend on that choice, and no square root in W(k) is used. The block idempotent is characterized on simple residue-field objects. Separate statements give the category decomposition, the three center properties, and the exact-support classification with its scalar-action equation.
 
-Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and half modulus. Three tests check nonzero, disjoint, and exhaustive block projections.
+Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and the half modulus over k. Three tests check nonzero, disjoint, and exhaustive block projections. For F = ℚ_3 and ℓ = 2, where W(k) has no square root of 3, P_{(T,1⊗1)} = I_B^G(P ⊗ P) of the fourth Check of *type-projective-construction* is projective in the smooth W(k)[GL_2(ℚ_3)]-category and lies in the block of (T, 1 ⊗ 1).
 
 **Distinguished type projectives and their fibers** (*type-projectives*). For F a finite extension
 of ℚ_p, k algebraically closed of characteristic ℓ ≠ p, and a maximal distinguished cuspidal
@@ -3813,7 +3871,7 @@ representation ([Hel12] §3, p. 4, for projectivity; Lemma 3.2, p. 5, for the de
 line; Theorem 5.2, p. 10, for the endomorphism ring; Proposition 5.3, pp. 10–11, for
 admissibility and finite generation). These assertions use Helm's p-adic-field hypotheses;
 they do not assert the positive-characteristic-local-field extension. The endomorphism
-identification compares W_{[L,π]} with the induced type projective i_P^G(⊗_i P_{(K_i,τ_i)}) of
+identification compares W_{[L,π]} with the induced type projective I_P^G(⊗_i P_{(K_i,τ_i)}) of
 *type-projective-construction*, taken at a maximal cuspidal pair of the block in Helm's order. Its
 top derivative is the tensor product of the rank-one E_{(K_i,τ_i)}-modules of *type-projectives*.
 The comparison uses that the block centre maps injectively to ⊗_i E_{(K_i,τ_i)} with ℓ-saturated
@@ -4130,9 +4188,10 @@ the rank-one conditions.
 ### Dependencies
 
 SR.0 (the smooth category, admissibility and the centre), SR.1 (Hecke corners, for the
-distinct-eigenvalue block), SR.2 (induction, Jacquet functors and coinvariants), SR.3a
-(cuspidality, for the distinguished cuspidal types and segments), SR.3 (finite length, cuspidal
-support and the Bernstein centre) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
+distinct-eigenvalue block and the descent of characteristic-zero simple modules), SR.2
+(induction, Jacquet functors and coinvariants), SR.3a (cuspidality, for the distinguished cuspidal
+types and segments), SR.3 (finite length, cuspidal support, the Bernstein centre and the
+finiteness of Hecke corners over it) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
 RG2.2.4 (the lattice chains that define the hereditary orders of the types).
 
 ## Layer SR.6: finite-wild parameters, center images and stability
