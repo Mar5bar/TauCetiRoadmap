@@ -215,14 +215,11 @@ comparison is not silently imported from a semistable theorem. ReductiveGroupsPa
 for every smooth geometrically connected finite-type group over a finite field, including an elliptic curve
 and PGL₂.
 
-The Grothendieck–Lefschetz trace formula for a smooth proper variety over F_q is supplied by
-TraceFormula Layers 11–12; its Layers 13–14 supply the all-extension zeta and L-function forms.
-FrobeniusGeometry Layers 3–5 and 7 supply iterated Frobenius, rational points as fixed points and
-the arithmetic/geometric convention bridge. EllAdicRealization Layers 7–8 supply finite-dimensional
-Q_ℓ-cohomology, its continuous Frobenius action and Tate twists, for ℓ different from char F_q;
-geometric Frobenius acts on Q_ℓ(1) by q⁻¹. These are the named roadmaps in the
-CohomologicalPointCounting family. This roadmap supplies the rational-surface cycle-class comparison
-and specializes the trace formula to rank ten.
+Layer 5 here constructs the étale-cohomology prerequisites for §5.2 from the small étale sites,
+torsion coefficient sheaves and Kummer sequence of SchemeAndStackFoundations SF.2, §§2.9–2.11.
+Its §5.0 owns finite-dimensional ℓ-adic cohomology, geometric Frobenius and Tate twists, the smooth
+proper trace formula, projective-plane cohomology and the equivariant point-blowup comparison.
+These precede the rational-surface cycle-class comparison and rank-ten point-count criterion.
 
 ## How to read the build
 
@@ -585,16 +582,37 @@ proof p13.)
 
 The construction needs the following maps and laws.
 
+**Finite-map étale-cover cofinality.** Construct `finiteMap_etaleCover_cofinal`: for a finite morphism
+g:Z→Z′ of algebraic spaces over S and any surjective étale covering morphism U→Z, construct a surjective
+étale V→Z′ and a Z-map V×Z′Z→U. A covering family is represented by the disjoint union of its members;
+the factorization is into that entire covering, with affine pieces chosen afterwards. No Noetherian
+or quasi-separated hypothesis is imposed. Over a strict henselization of Z′ the finite source decomposes
+into henselian local pieces; choose lifts on all pieces and descend their maps to an étale neighborhood
+using finite presentation and limit descent. This precedes `FerrandPushout.pinching_etale_cover`.
+
+([Temkin–Tyomkin, v3](https://math.huji.ac.il/~temkin/papers/Ferrands_Pushouts.pdf), Lemma 5.1.2,
+p. 14.) *Needs:* SchemeAndStackFoundations SF.1 algebraic spaces and étale descent; SF.0 §§0.9,
+0.12–0.14, limits and strict henselizations.
+
+**Checks.**
+
+- For g the identity, the supplied covering itself is a refining pullback covering.
+- For Spec(k×k)→Spec k and the covering by its two components, the pullback of the identity cover maps
+  to their disjoint union. It need not factor through either component alone.
+- For a finite map with a fiber containing two points, a chart meeting only one of them is not a cover;
+  the construction must lift choices over both points before descending the neighborhood.
+
 - `FerrandPushout.pinching_etale_cover`: For algebraic spaces over a scheme S, with i:Z→Y closed and g:Z→Z′
   finite, there are indexed affine schemes Zα,Yα,Z′α, étale covers of Y and Z′, and specified cartesian
   identifications Zα=Z×Y Yα=Z×Z′ Z′α. Thus the datum has a componentwise cartesian affine étale covering.
   Neither Noetherian nor quasi-separated hypotheses are required. Uses §1.1, SchemeAndStackFoundations SF.1, scheme/étale-space contracts. Choose an affine étale presentation of Y; its restrictions to Z are affine
-  because i is closed. Apply cofinality of pullbacks of étale coverings along the finite map g (Temkin–Tyomkin 5.1.2,
-  SchemeAndStackFoundations SF.1) to refine an affine étale cover of Z′ so that each pullback Zα factors
-  through one chosen affine Y-chart. Cofinality concerns an entire cover, not an arbitrary chart meeting only
-  one point of a finite fiber. Lift the resulting affine étale Zα→Z×Y Yβ across the closed immersion into the
-  affine Yβ using the étale lifting theorem `etale_lift_along_surjection` of this section (Stacks tag 04D1). Set Yα to this
-  affine lift. Add charts (empty;U,empty) from an affine étale covering of Y∖Z so that the Y-components cover
+  because i is closed. Apply `finiteMap_etaleCover_cofinal` of this section to the finite map g
+  to refine an affine étale cover of Z′ so that each pullback Zα maps to the disjoint union of the
+  chosen affine Y-charts restricted to Z. Cofinality concerns an entire cover, not an arbitrary chart meeting
+  only one point of a finite fiber. Split the affine pullback into its open-and-closed pieces mapping to
+  individual charts; only finitely many pieces are nonempty. Lift each piece across the corresponding closed
+  immersion using `etale_lift_along_surjection` of this section (Stacks tag 04D1), and take their finite
+  disjoint union as the affine Yα, retaining the entire Zα over Z′α. Add charts (empty;U,empty) from an affine étale covering of Y∖Z so that the Y-components cover
   the complement as well as the pinching locus. Keep the overlap isomorphisms, not only the three separate
   covering families.
 
@@ -1019,8 +1037,9 @@ closedness and the section-ring quotient comparisons.
 
 ([Witaszek](https://par.nsf.gov/servlets/purl/10429755), Definition2.27, printed pp674–675; affine conductor
 description and finite-surjective reduced-scheme hypotheses; [Stacks, tag
-0C6L](https://stacks.math.columbia.edu/tag/0C6L), Stacks Lemma10.40.4 full proof and Lemma53.10.5 conductor
-paragraph; [Stacks, tag 0ET0](https://stacks.math.columbia.edu/tag/0ET0), Lemma37.14.1, full.)
+07T8](https://stacks.math.columbia.edu/tag/07T8), Lemma 10.40.4, proof; [Stacks, tag
+0DJB](https://stacks.math.columbia.edu/tag/0DJB), Lemma 53.10.5, conductor paragraph;
+[Stacks, tag 0ET0](https://stacks.math.columbia.edu/tag/0ET0), Lemma 37.14.1.)
 
 Standing hypotheses for the maps and laws below: All ring carriers are commutative rings, including zero rings
 and rings with nilpotents. The actual maps and each finiteness or dominance assumption are exactly those
@@ -3015,6 +3034,13 @@ The construction needs the following maps and laws.
 
 - For an actual algebra morphism h, the cokernel map sends [b+c] to [h(b)+h(c)].
 
+- For a field k of characteristic unequal to two, the swap on the diagonal k-algebra k×k sends
+  [(1,0)] to −[(1,0)], and these are distinct nonzero quotient classes.
+
+- Evaluation k[X]→k at zero sends the nonzero class [X] in k[X]/span_k{1} to zero.
+
+- The inclusion k[X]→k[X,Y] sends [X] to a nonzero class and its cokernel map misses [Y].
+
 - The cokernel map of the actual identity algebra morphism fixes every actual quotient class.
 
 - The cokernel map of g∘h equals the composite of the two actual cokernel maps on every quotient class.
@@ -3782,8 +3808,7 @@ The construction needs the following maps and laws.
 
 - A connected negative-definite exceptional divisor cannot be of fiber type.
 
-*Needs:* SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization in Layer 4
-here; StableReduction Layer 4; StableReduction Layer 6.
+*Needs:* SchemeAndStackFoundations SF.5 intersection/adjunction; StableReduction Layer 4; StableReduction Layer 6.
 
 ### 2.3 geometric Kodaira realization
 
@@ -3800,8 +3825,8 @@ second enum. Use scheme-theoretic intersection lengths over κ(b), and transport
 
 The construction needs the following maps and laws.
 
-- `HasGeometricKodairaFiber.components`: The component counts are n for I_n,n+5 for I_n*,7 for IV*,8 for
-  III*,9 for II*.
+- `HasGeometricKodairaFiber.components`: I₀ has one component; I_n has n components for n≥1;
+  I_n* has n+5, IV* has 7, III* has 8 and II* has 9.
 
 - `HasGeometricKodairaFiber.multiplicative`: A singular multiplicative underlying fiber has symbol I_n with
   n≥1.
@@ -3820,8 +3845,9 @@ The construction needs the following maps and laws.
 
 - I₀ is smooth and is neither singular multiplicative nor additive.
 
-*Needs:* §2.1; §2.2; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization
-in Layer 4 here; EllipticCurves Layer 4.
+- In E×P¹→P¹ every geometric fiber has type I₀ and exactly one irreducible component.
+
+*Needs:* StableReduction Layer 4 component intersections; §2.1; §2.2; SchemeAndStackFoundations SF.5 intersection/adjunction; EllipticCurves Layer 4.
 
 ### 2.4 degenerate genus-one fiber
 
@@ -3868,11 +3894,34 @@ Use the negative semidefiniteness of StableReduction Layer 4 together with its l
 proved here: for a symmetric matrix with nonnegative off-diagonal entries, connected graph and a positive
 vector m with Am=0, the form is negative semidefinite and vanishes exactly on the multiples of m, so every
 proper principal submatrix is negative definite (Stacks, Lemma 55.2.3, tag 0C5X). With adjunction this gives
-rational (−2)-components in the reducible case. Apply the classification of connected affine root systems to the
+rational (−2)-components in the reducible case. Apply `canonicalFiber_affineMatrixClassification` below to the
 intersection form. Classify integral genus1 curves by normalization and the length-one delta invariant; retain
 the incidence distinction between I₂/III and I₃/IV.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §3, equation (1), pp. 9–10; arXiv v3.)
+
+**Affine matrix classification.** Prove `canonicalFiber_affineMatrixClassification` before the Kodaira
+identification: a nonempty finite connected symmetric integral matrix with diagonal −2, nonnegative
+off-diagonal entries and a positive primitive integral null vector is, under simultaneous reindexing,
+the negative Cartan matrix of a valid affine ADE diagram. The same reindexing sends the null vector to
+its marks. Use the native `TauCeti.AffineDynkinType` carrier from ZigzagPreprojective Layer 0, supplied
+by `TauCeti/LinearAlgebra/RootSystem/AffineDynkinType/Basic.lean`; this classification converse is local work.
+Connectedness means that positive off-diagonal entries connect every pair of indices. Primitive means
+the gcd of the positive entries is one. Prove the radical comparison, bound off-diagonal entries by two,
+and enumerate cycles and branched trees; an entry two forces the two-vertex case. Match the primitive
+fiber coefficients with the marks before analyzing incidence schemes separately.
+
+(Kac, *Infinite dimensional Lie algebras*, 3rd edition, Chapter 4, Theorems 4.3 and 4.8,
+Table Aff 1; [Stacks, tag 0C5X](https://stacks.math.columbia.edu/tag/0C5X), Lemma 55.2.3.)
+
+**Checks for `canonicalFiber_affineMatrixClassification`.**
+
+- The matrix [[−2,2],[2,−2]] with null vector (1,1) gives affine A₁, the common matrix of I₂ and III;
+  their incidence schemes still differ.
+- A triangle with diagonal −2 and other entries one has marks (1,1,1), giving affine A₂;
+  it does not distinguish I₃ from IV.
+- The four-leaf star has central mark two and leaf marks one, giving affine D₄ and the I₀* multiplicities.
+- The one-vertex matrix [−2] has no positive null vector and is excluded; smooth I₀ is handled separately.
 
 **Checks.**
 
@@ -3881,8 +3930,7 @@ the incidence distinction between I₂/III and I₃/IV.
 - The conclusion explicitly enumerates all symbols, includes smooth I₀, and uses the full geometric predicate
   rather than an opaque route identifier or just an affine graph.
 
-*Needs:* §2.2; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization
-in Layer 4 here; StableReduction Layer 1; StableReduction Layer 4.
+*Needs:* §2.2; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction; StableReduction Layer 1; StableReduction Layer 4.
 
 ### 2.6 conductor classification with one or two rational components
 
@@ -3968,8 +4016,7 @@ Theorem 2.1, pp. 8–9).
 
 - For nonrational a use intersection label (C_i·C_j)/[κ(a):k], not the absolute intersection number.
 
-*Needs:* §2.1; §2.5; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization
-in Layer 4 here; AlgebraicModuliForArithmeticGeometry Layer 3 §3.5, effective polarized descent contract; §2.16.
+*Needs:* StableReduction Layer 4 component intersections; §2.1; §2.5; SchemeAndStackFoundations SF.5 intersection/adjunction; AlgebraicModuliForArithmeticGeometry Layer 3 §3.5, effective polarized descent contract; §2.16.
 
 ### 2.10 split multiplicative fiber count
 
@@ -4731,7 +4778,7 @@ obligations. Use the actual generic-point stalk isomorphism and its Spec triangl
 comparison δ from normalization in K_C to N, with both universal-property triangles and uniqueness. Establish
 that δ is an isomorphism by genuine affine integral-closure comparisons before identifying N as absolute
 normalization; then still construct P¹/Proj, projectivity, conductor/sheaf and coherent-cohomology inputs. The
-current integral comparison alone supplies none of those remaining conclusions. Use the actual affine section
+relative-normalization comparison alone supplies none of those remaining conclusions. Use the actual affine section
 equivalences in K_C and both restriction laws. Still compare this family with the native normalizationDiagram
 and normalizationObjIso, including the empty-open branch, and identify the resulting scheme comparison with δ
 before claiming absolute normalization or its cohomology sequence. Use the actual native-normalization section
@@ -5079,8 +5126,7 @@ multiplication law uses (tq)²=q³−bq²−aq(tq).
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §3, printed pp9–11, conductor squares and
 Proposition3.2; [Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §3, printed p10 conductor squares and
-Proposition3.2, p11; v3 HTML corresponding conductor paragraphs and full displayed Prop3.1–3.2 proofs freshly
-read.)
+Proposition3.2, p11; v3 HTML corresponding conductor paragraphs and full displayed Prop3.1–3.2 proofs.)
 
 The construction needs the following maps and laws.
 
@@ -5947,6 +5993,12 @@ The construction needs the following maps and laws.
 
 - For every ring homomorphism f:R→S, map(f,Q∞(a,b))=Q∞(f(a),f(b)).
 
+- Over F₂, Q∞(1,0)=1+u.
+
+- Over F₂, Q∞(0,1)=(1+u)² and is not one.
+
+- Over Z/4, Q∞(2,1)=1+2u+u², with nonzero nilpotent linear coefficient two.
+
 - For all a,b over R, the coefficient of Z¹ in L_(a,b) is Q∞.
 
 - For all a,b over R, the coefficient of Z⁰ in L_(a,b) is −u³.
@@ -6425,13 +6477,13 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- The finite chart inclusion for the cusp quadratic has exactly the principal-open image D(tq), not the whole
+- The overlap inclusion j_F:Spec L→Spec A_q for the cusp quadratic has exactly the principal-open image D(tq), not the whole
   finite chart.
 
-- The finite chart inclusion for the nonsplit quadratic has exactly the principal-open image D(tq), not the
+- The overlap inclusion j_F:Spec L→Spec A_q for the nonsplit quadratic has exactly the principal-open image D(tq), not the
   whole finite chart.
 
-- The finite chart inclusion for the split quadratic has exactly the principal-open image D(tq), not the whole
+- The overlap inclusion j_F:Spec L→Spec A_q for the split quadratic has exactly the principal-open image D(tq), not the whole
   finite chart.
 
 - For the characteristic-two cusp, the infinity overlap is D(u).
@@ -6543,9 +6595,9 @@ The construction needs the following maps and laws.
 ### 2.45 glued quadratic normalization charts
 
 Glue Spec k[t] and the same infinity chart through the reciprocal overlap to construct
-`QuadraticPinch.Global.normalizationSource`. Prove it is the actual native P¹ by comparing the open cover
-D(tq) on the finite chart and k[u,1/(1+au+bu²)] on the reciprocal chart. Their union includes infinity and all
-finite points; q's zero divisor is contained in the finite chart.
+`QuadraticPinch.Global.normalizationSource`. Prove it is the actual native P¹ by comparing the finite chart
+Spec k[t] and the reciprocal chart Spec k[u,1/(1+au+bu²)]. Their intersection is D(tq) in the finite chart;
+their union is P¹, and all zeros of q are covered by Spec k[t].
 
 k is a field and a,b∈k; q=t²+at+b. There is no separability, perfectness, characteristic or distinct-root
 assumption. All charts, overlaps, opens and maps use the specified native carriers.
@@ -6600,6 +6652,8 @@ The construction needs the following maps and laws.
 **Checks.**
 
 - Every point of the glued cusp normalization source belongs to its finite or infinity chart.
+
+- For q=t², the cusp preimage t=0 belongs to Spec k[t] and lies outside the overlap D(t³).
 
 - The nonsplit normalization chart inclusions agree after the specified overlap maps.
 
@@ -8428,8 +8482,8 @@ geometric points outside E[d]; derive the contradiction.
 
 - The norm argument covers inseparable maps; do not invoke a separable Hurwitz formula without its hypothesis.
 
-*Needs:* SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts;
-SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization in Layer 4 here;
+*Needs:* StableReduction Layer 4 component intersections; SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts;
+SchemeAndStackFoundations SF.5 intersection/adjunction;
 AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts; EllipticCurves Layer 1.
 
 ### 3.5 regularity in the genus-one equality case
@@ -8655,6 +8709,60 @@ targets here.
 
 ## Layer 4: canonical bundles, Picard lattices and global equations
 
+### 4.0 rational-surface blowup prerequisites
+
+Construct these three inputs for smooth projective surfaces before §§4.1–4.4. They do not require a
+genus-one fibration or K²=0. Use the native blowups and geometric divisor/intersection carriers.
+
+**Common resolution.** Prove `rationalSurface_commonBlowup`: a birational map between smooth projective
+integral surfaces over an algebraically closed field admits a smooth projective common resolution,
+with each projection a finite sequence of blowups at closed points. A geometrically rational surface
+therefore has such a comparison with P² after extending constants to an algebraic closure. Resolve
+the rational map and factor both proper birational projections into point blowups.
+
+([Stacks, tag 0C5H](https://stacks.math.columbia.edu/tag/0C5H), Lemma 54.4.3;
+[Stacks, tag 0C5R](https://stacks.math.columbia.edu/tag/0C5R), Lemma 54.17.1;
+[Stacks, tag 0C5S](https://stacks.math.columbia.edu/tag/0C5S), Lemma 54.17.2.)
+
+**Checks for `rationalSurface_commonBlowup`.**
+
+- The identity map of P² admits the common resolution P² with both blowup sequences empty.
+- The blowup of P² at a point admits itself as common resolution, with projections the blowup and identity.
+- P¹×P¹ has a common point-blowup resolution with P², despite admitting no isomorphism to P².
+
+**Picard and intersection comparison.** Prove `blowup_Picard_intersection`: for the blowup π:S′→S of
+a smooth projective integral surface at a point over algebraically closed k,
+Pic(S′)=π*Pic(S)⊕Z[E], with E²=−1, π*D·E=0, pullback preserving intersections and
+K_S′=π*K_S+E. Identify the kernel of restriction away from E, and compute its normal bundle O_E(−1).
+
+(Hartshorne, *Algebraic Geometry*, Chapter V, Proposition 3.2 and Proposition 3.3.)
+
+**Checks for `blowup_Picard_intersection`.**
+
+- Blowing up P² gives the matrix diag(1,−1) and K²=8.
+- Blowing up again at a point of the first exceptional curve gives its strict transform square −2;
+  the orthogonal basis uses its total pullback instead.
+- Blowing up two distinct points gives disjoint exceptional curves with pairing zero and squares −1.
+
+**Coherent vanishing.** Prove `rationalSurface_coherent_vanishing`: for a smooth projective geometrically
+rational surface over a field k, H⁰(O)=k, H¹(O)=H²(O)=0 and χ(O)=1. For a point blowup over algebraically closed
+constants prove π_*O=O and R^iπ_*O=0 for i>0 using the affine charts and exceptional P¹ cohomology.
+Leray transports coherent cohomology through the common resolution with P²; flat base change descends
+the result to k.
+
+(Hartshorne, *Algebraic Geometry*, Chapter V, Theorem 3.4 and Corollary 3.5;
+[Schröer, v3](https://arxiv.org/pdf/2004.07025v3), proof of Proposition 6.1, p. 18.)
+
+**Checks for `rationalSurface_coherent_vanishing`.**
+
+- P² has H⁰=k and H¹=H²=0, hence χ=1.
+- P¹×P¹ has the same coherent cohomology, so the result does not require a morphism to P².
+- Blowing up P² at a point leaves all these groups unchanged while changing K² from nine to eight.
+
+*Needs:* SchemeAndStackFoundations SF.5 §§5.9–5.10, intersections and adjunction; StableReduction
+Layer 4 blowups; JacobianChallenge Layers A–D and SchemeAndStackFoundations SF.2, coherent cohomology,
+Leray and flat base change. The three inputs are constructed in the displayed order.
+
 ### 4.1 canonical bundle formula
 
 Over an algebraically closed field, let f:S→B be relatively minimal genus one and write R¹f_*O=L⊕T, with L
@@ -8674,7 +8782,8 @@ Theorem2 and proof, pp27–30.)
 - The relative formula becomes absolute after tensoring by f*ω_B.
 
 *Needs:* §2.1; §2.2; SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts;
-StableReduction Layer 2 duality and the relative-cubic target in Layer 4 here; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization in Layer 4 here; StableReduction Layer 4.
+StableReduction Layer 2 relative duality; SchemeAndStackFoundations SF.5 intersection/adjunction;
+StableReduction Layer 4.
 
 ### 4.2 degree of the genus-one Hodge line
 
@@ -8733,8 +8842,8 @@ the section P¹ to get E²=−1.
 
 - The formula remains geometric under descent over the original field; retain the chosen fibration.
 
-*Needs:* §4.1; §4.2; §4.3; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface
-realization in Layer 4 here; StableReduction Layer 2.
+*Needs:* §4.0; §4.1; §4.2; §4.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
+StableReduction Layer 2.
 
 ### 4.5 geometric Picard lattice of a rational elliptic surface
 
@@ -8747,27 +8856,10 @@ J is a smooth projective geometrically rational surface over k with a relatively
 fibration f:J→P¹_k and its zero-section O; geometric lattice assertions are after extension to an algebraic
 closure.
 
-The rational-surface extension has three named inputs developed here: `rationalSurface_commonBlowup`,
-constructing a smooth common resolution of a birational map to P²; `blowup_Picard_intersection`, identifying
-Pic(Bl_p S)=π*Pic(S)⊕Z[E], E²=−1 and π*D·E=0 over algebraically closed k; and
-`rationalSurface_coherent_vanishing`, proving birational invariance of H¹,H²(O) by the blowup pushforward
-sequence. P² has rank one and K²=9; each blowup preserves rank(Pic)+K²=10. Thus K²=0 implies rank ten.
-Unimodularity is preserved at each blowup, and the section witnesses oddness. These are geometric statements
-on smooth surfaces, with the effective divisors and blowups from StableReduction Layer 4; geometrical
-rationality by itself never implies smoothness.
-
-For `rationalSurface_commonBlowup`, the input is a birational map between smooth proper integral projective
-surfaces over an algebraically closed field and the output is a smooth proper common surface with finite
-sequences of blowups at closed points on both sides. The comparison is [Stacks, Lemmas 54.17.1–2, tag
-0C5Q](https://stacks.math.columbia.edu/tag/0C5Q), using resolution of rational maps (Lemma 54.4.3). For
-`blowup_Picard_intersection`, transport each Cartier divisor by pullback, identify the kernel of restriction
-away from the exceptional P¹ with Z[E], and use its normal bundle O(−1) to calculate E² and the cross terms;
-this proves the decomposition and K_Bl=π*K+E. For `rationalSurface_coherent_vanishing`, prove π_*O=O and
-R¹π_*O=0 from the two affine blowup charts and O(d) cohomology on the exceptional P¹, then use Leray at each
-step. The common resolution with P² gives H¹=H²=0 and preserves rank(Pic)+K²=10. Thus no classification of
-minimal rational surfaces is required. Checks: blowing up P² gives rank two and K²=8; each further point
-lowers K² by one and adds one negative generator; the identity common resolution leaves both Picard and
-coherent cohomology unchanged.
+Use `rationalSurface_commonBlowup`, `blowup_Picard_intersection` and
+`rationalSurface_coherent_vanishing` from §4.0. P² has rank one and K²=9; each point blowup preserves
+rank(Pic)+K²=10. Thus §4.4's K²=0 implies rank ten. Each blowup adds an orthogonal generator of square −1,
+so unimodularity and the signature transport through the common resolution. The section witnesses oddness.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), proof of Proposition 6.1, p. 18; proof of Corollary
 7.3, p. 21; proof of Proposition 9.5, p. 27; arXiv v3.)
@@ -8776,8 +8868,8 @@ coherent cohomology unchanged.
 
 - For the nine-blowup model the diagonal Gram matrix is(1,−1,…,−1).
 
-*Needs:* §4.4; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization in
-Layer 4 here; `TauCeti.IntegralLattice`; StableReduction Layer 4.
+*Needs:* §4.0; §4.4; SchemeAndStackFoundations SF.5 intersection/adjunction;
+`TauCeti.IntegralLattice`; StableReduction Layer 4.
 
 ### 4.6 unimodular fiber–section plane
 
@@ -8983,8 +9075,8 @@ closure.
 
 Use §4.11 to construct the rank3 evaluation map and the relative morphism. Compute its
 restriction to each fiber: components of degree0 are contracted; degree3 on the genus-one contraction gives a
-cubic embedding. Use the source Weierstrass contraction/normality theorem to identify the image with the
-minimal cubic.
+cubic embedding. Prove normality and the contraction here using the fiberwise evaluation and the blowup/intersection
+operations; identify the image with the minimal cubic.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Proposition 6.1, p. 18).
 
@@ -8993,7 +9085,7 @@ minimal cubic.
 - A component disjoint from O has degree0 under O_J(3O), obstructing very ampleness on J.
 
 *Needs:* §4.12; §4.11; AlgebraicModuliForArithmeticGeometry Layer 1 §1.1, relative Proj contract;
-StableReduction Layer 2 duality and the relative-cubic target in Layer 4 here; StableReduction Layer 4.
+StableReduction Layer 4.
 
 ### 4.14 global equation and inverse chart
 
@@ -9016,7 +9108,7 @@ equation by s⁶ to obtain all five weights.
 - The transition uses s=1/t; no division of a polynomial in the same coordinate is called the second-chart
   polynomial.
 
-*Needs:* §4.13; §4.12; §4.10; StableReduction Layer 2 duality and the relative-cubic target in Layer 4 here.
+*Needs:* §4.13; §4.12; §4.10; StableReduction Layer 2 relative duality.
 
 ### 4.15 coefficient nondegeneracy on two charts
 
@@ -9078,16 +9170,19 @@ cannot enter the additive argument.
 
 ### 4.17 global regular minimal Jacobian fibration
 
-For a regular proper geometrically integral genus-one curve over the function field of an excellent DVR or a
-regular curve over k, construct its unique relatively minimal regular proper model. In the smooth case apply
-local uniqueness and glue. In the nonsmooth case construct the regular compactification of its twisted
-additive Pic⁰ group, then its local minimal models and their gluing. Extend the generic identity to the
-distinguished Jacobian section. Regularity does not assert geometric smoothness of this model.
+Let K be the function field of an excellent DVR or an excellent regular curve over k, and let C/K be
+regular proper geometrically integral with H⁰(O_C)=K and arithmetic genus one. Construct its unique
+relatively minimal regular proper model X. Separately set E=Pic⁰(C/K). For smooth C this is an elliptic
+curve; for nonsmooth C use the regular compactification of its smooth connected twisted additive group.
+Construct the relatively minimal regular proper Jacobian model J of E, or of that compactification,
+and extend E's identity to the distinguished section of J. A section of X requires a chosen K-point of C.
+Regularity of either model does not assert geometric smoothness.
 
-For smooth generic curves glue the imported unique local positive-genus minimal models along their common
-generic curve. For a regular non-smooth generic genus-one curve, construct its regular compactification and
-relative minimal model with the quasielliptic Jacobian identified from its genuine Picard functor. Extend the
-generic identity to the distinguished section by properness.
+For smooth generic curves glue the imported unique local positive-genus minimal models along their
+specified generic curve. Extend this model construction to regular nonsmooth C, independently of
+the compactification of its Pic⁰. Apply it again to E or its regular compactification, using §4.16
+for the nonsmooth Jacobian. Properness extends E's identity only on this second model. A chosen
+point of C identifies C with its Jacobian compactification and yields the corresponding section of X.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §6, p. 19; §8, pp. 21–22; arXiv v3.)
 
@@ -9095,7 +9190,12 @@ generic identity to the distinguished section by properness.
 
 - Uniqueness here concerns positive arithmetic genus, not arbitrary genus0 minimal models.
 
-*Needs:* §2.1; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts; StableReduction
+- The §3.10 quotient over C[[t]] by a nonzero two-torsion translation and t=s² has a double fiber
+  and no section of X; its Jacobian J has the identity section.
+
+- A chosen point on a smooth C identifies X with the minimal model of its Jacobian, preserving that point.
+
+*Needs:* §2.1; §4.16; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts; StableReduction
 Layer 5.
 
 ### 4.18 tsen and Picard obstruction over algebraically closed constants
@@ -9135,6 +9235,97 @@ AlgebraicModuliForArithmeticGeometry Layers 1 and 7; native IntegralLattices. Th
 blowup and geometric lattice extensions are owned in this layer.
 
 ## Layer 5: Frobenius, marked graphs and Picard constancy
+
+### 5.0 étale-cohomology and blowup prerequisites
+
+Construct these inputs before `rationalSurface_cycleClass` and §5.2. Coefficients are Q_ℓ for a prime
+ℓ invertible in the ground field; geometric cohomology is on the base change to an algebraic closure.
+Use SchemeAndStackFoundations SF.2's étale sites, derived sheaf cohomology and Kummer sequence.
+
+**Smooth proper ℓ-adic cohomology.** Construct `smoothProper_ellAdicCohomology` for smooth proper
+finite-type schemes X over F_q, and their algebraically closed base changes: take the inverse limits
+of cohomology with Z/ℓⁿ coefficients and extend scalars to Q_ℓ. Prove finite dimensionality, functorial
+pullback, continuous Galois action and vanishing outside degrees zero through twice the dimension.
+Construct cup products, Künneth, cycle classes, proper base change and the purity/Gysin maps used below.
+For nonempty geometrically connected X of dimension d, identify H⁰=Q_ℓ and H^(2d)=Q_ℓ(−d), and prove the
+Poincaré duality pairing. These are constructions in étale cohomology, not assumed cohomology axioms.
+
+([Milne, *Lectures on Étale Cohomology*, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf),
+§§16–17, Theorems 19.1–19.2, §§22–24.)
+
+**Checks for `smoothProper_ellAdicCohomology`.**
+
+- Spec F_q has H⁰=Q_ℓ and all positive groups zero.
+- A disjoint union of two rational points has H⁰ of dimension two; connectedness cannot be dropped
+  from the rank-one H⁰ assertion.
+- P¹ has H¹=0 and H²=Q_ℓ(−1); an elliptic curve has H¹ of dimension two.
+
+**Frobenius and twists.** Construct `geometricFrobenius_tateTwist`: the inverse of x↦x^q in
+Gal(F̄_q/F_q) induces geometric Frobenius on cohomology. Construct Q_ℓ(1) from compatible ℓ-power
+roots of unity, with eigenvalue q⁻¹, its integral tensor powers and dual twists. Prove functoriality,
+that extension to F_(q^r) uses the r-th power, and that twisting H^i by (j) multiplies its action
+by q^(−j). Compare the cohomological action with pullback by the q-power Frobenius morphism of X.
+
+([Schröer, v3](https://arxiv.org/pdf/2004.07025v3), §7, pp. 19–20;
+[Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §27, Frobenius construction and
+Proposition 27.3.)
+
+**Checks for `geometricFrobenius_tateTwist`.**
+
+- On Q_ℓ(1) the action is q⁻¹, while its dual Q_ℓ(−1) has action q.
+- On P¹, H² has eigenvalue q and H²(1) has eigenvalue one.
+- Over F_(q²), the action on Q_ℓ(−1) is q², not q.
+
+**Smooth proper trace formula.** Prove `smoothProper_traceFormula`: for smooth proper X/F_q of
+dimension d and every r≥1, #X(F_(q^r))=Σ_(i=0)^(2d)(−1)^i tr(Frob_geom^r|H^i(X̄,Q_ℓ)).
+Construct the diagonal and Frobenius graph cycle classes, use duality and Künneth to calculate their
+intersection, and prove each fixed point has multiplicity one. No smoothness claim is made for a
+singular Weierstrass cubic.
+
+([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), Theorem 25.1, Lemma 27.2,
+Proposition 27.3.)
+
+**Checks for `smoothProper_traceFormula`.**
+
+- Spec F_(q²) over F_q has count zero for r=1 and two for r=2; Frobenius permutes its two H⁰ generators.
+- P¹ has count 1+q^r, fixing the sign and the top-degree eigenvalue.
+- P¹×P¹ has count 1+2q^r+q^(2r), using the two independent middle classes.
+
+**Projective-plane cohomology.** Prove `projectivePlane_ellAdicCohomology`: H^i(P²_F̄q,Q_ℓ) is
+Q_ℓ(−j) for i=2j, j=0,1,2, and zero in other degrees. The hyperplane class generates H²(1),
+its square generates H⁴(2), and its cube vanishes. Construct the projective-space computation
+through Gysin and the affine-cell filtration, with its cycle-class and Frobenius compatibility.
+
+([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §16 and Theorem 23.2.)
+
+**Checks for `projectivePlane_ellAdicCohomology`.**
+
+- The untwisted eigenvalues are 1,q,q², giving #P²(F_q)=1+q+q².
+- Two different rational lines have the same H²(1) class and intersection one.
+- H¹=H³=0 but H² has dimension one; replacing all positive cohomology by zero fails.
+
+**Equivariant point-blowup cohomology.** Prove `pointBlowup_ellAdicCohomology`: for a smooth
+projective surface S over k=F_q or F̄_q, ℓ≠char k, and a finite reduced closed subscheme Z,
+construct H^i(Bl_Z S̄,Q_ℓ)≃H^i(S̄,Q_ℓ)⊕H^(i−2)(Z̄,Q_ℓ)(−1), omitting negative-degree terms.
+Use pullback and the exceptional divisor Gysin maps. Prove Galois equivariance, compatibility with
+cycle classes and point permutations, preservation of H¹,H³, and agreement with the Picard
+decomposition of §4.0. Proper base change, purity and the exceptional P¹ bundle give the comparison;
+each geometric point adds its exceptional class in H²(1).
+
+([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §§16–17, Theorem 23.2 and
+the blowup argument in the proof of Lemma 33.2; [Schröer, v3](https://arxiv.org/pdf/2004.07025v3),
+proof of Corollary 7.3, p. 21. The twist is fixed by the geometric-Frobenius convention above.)
+
+**Checks for `pointBlowup_ellAdicCohomology`.**
+
+- Blowing up a rational point of P² adds one H² class of eigenvalue q and increases its count by q.
+- Blowing up a degree-two point adds two conjugate geometric classes; their Frobenius trace is zero
+  over F_q and becomes 2q² over F_(q²).
+- With Z empty the comparison is the identity and adds no cohomology or Picard generator.
+
+*Needs:* §4.0; SchemeAndStackFoundations SF.2 §§2.9–2.11 and §2.15, coefficient sheaves,
+Kummer, derived cohomology and field actions; StableReduction Layer 4 blowups. Construct cohomology
+first, then Frobenius and twists, the trace formula, P² and the blowup comparison in the displayed order.
 
 ### 5.1 fiber-count data at rational base points
 
@@ -9185,10 +9376,8 @@ hypotheses, and proves `small_fiber_bound : 10+7+7<rationalSurfaceCount(2)`.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §7 Proposition7.1 and proof, pp20–21.)
 
-*Needs:* §4.5; SchemeAndStackFoundations SF.5 intersection/adjunction; rational-surface realization in
-Layer 4 here; Layer 5 rational-surface cycle-class comparison; TraceFormula Layers 11–14 (cohomological
-point-counting family), smooth proper trace formula with geometric Frobenius; AlgebraicModuliForArithmeticGeometry
-Layer 7 §7.3, Raynaud/Picard contracts.
+*Needs:* §4.0; §4.5; §5.0; SchemeAndStackFoundations SF.5 intersection/adjunction;
+AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts.
 
 ### 5.3 geometric fiber root-basis comparison
 
@@ -9349,13 +9538,13 @@ Prove separately the configuration exclusions and reductions needed by the class
 restrict III+I_m with 6≤m≤9 to m=6 or 8; derive the characteristic-two normal-form reductions conventionally
 labeled 2A, 5A, 5D, 7, 13A and 14; and prove the zero-j nonreduced-fiber/bad-place restrictions. For the
 binary family these assertions may instead be consequences of the complete finite certificate in Layer 7.
-Their cited use in Schröer is a guide to the needed assertions, not an independently verified proof from
-William Lang's article. Do not assume them as unproved inputs to that same finite certificate.
+Schröer's uses identify the assertions to prove; the finite route derives them from §7.3 rather than
+assuming them as inputs to its certificate.
 
 Each exclusion and normal-form assertion is a separate statement with its own proof. On the finite route all
 of them are consequences of the rejection certificate of §7.3: the configuration II+E₄+I₉ and the
-configurations III+I_m with m=7 or 9 have no survivor there. William Lang's 2000 article, which Schröer cites
-for them, has not been read for this roadmap, so no statement here rests on it.
+configurations III+I_m with m=7 or 9 have no survivor there. On the finite route, these configuration
+exclusions are consequences of §7.3 and must not be prerequisites of its certificate.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Section 10, pp. 28–32; arXiv v3.)
 
@@ -9435,8 +9624,8 @@ smooth supersingular E₃ has c₄=0 but Δ=1 and is a negative control for “c
 
 ### Dependencies
 
-Layers 2 and 4; TraceFormula Layers 11–14 and FrobeniusGeometry Layers 3–5 and 7 (the CohomologicalPointCounting family) for
-the trace formula and the Frobenius twist; native integral-lattice duals and ADE comparisons; the rational
+Layers 2 and 4; SchemeAndStackFoundations SF.2, §§2.9–2.11 and §2.15; the cohomology, Frobenius,
+trace and blowup constructions of §5.0; native integral-lattice duals and ADE comparisons; the rational
 cycle-class realization constructed in this layer.
 
 ## Layer 6: fourteen resolved-model certificates
@@ -10083,7 +10272,8 @@ and the rational-fiber predicate are finite and their failures are explicit nume
 uniqueness compares marked fiber types, counts, functional j up to all six base maps, then the finite
 transformation witnesses for remaining collisions. These steps define a finite proof-producing computation,
 with a termination bound from the finite coefficient space and the discriminant valuation bounds; no
-classification assertion is built into the definition.
+classification assertion is built into the definition. On the finite route the order is §7.3, then
+§§5.10–5.13. The certificate uses no configuration exclusion from those targets.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5; arXiv v3 pp. 28–32; arXiv v3.)
 
@@ -10097,7 +10287,7 @@ classification assertion is built into the definition.
   and renormalization of a₂; thirteen orbits have 192 normalized members and the III*+E₄+E₄ orbit (model 2)
   has 96. A certificate that finds eleven orbits has dropped the twisted configurations of models 12–14.
 
-*Needs:* §7.1; §7.2; §5.2; §5.1; §5.10; SchemeAndStackFoundations SF.5 intersection/adjunction;
+*Needs:* §7.1; §7.2; §5.2; §5.1; SchemeAndStackFoundations SF.5 intersection/adjunction;
 rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
 
 ### 7.4 completeness of the fourteen-model list
@@ -10279,7 +10469,7 @@ verbatim in the cited article.
 - William E. Lang, *Configurations of singular fibers on rational elliptic surfaces in characteristic two*,
   Communications in Algebra 28 (2000), 5813–5836, DOI 10.1080/00927870008827190. Schröer §10 identifies the
   configuration assertions needed. On the finite route they are proved independently, with witnesses, rather
-  than assumed from an unverified article locator. [Bibliographic
+  than assumed as inputs to the certificate. [Bibliographic
   record](https://doi.org/10.1080/00927870008827190).
 - The Stacks Project: tags linked at the individual targets are the stable locators; displayed theorem numbers
   accompany them where available. [Project](https://stacks.math.columbia.edu/).

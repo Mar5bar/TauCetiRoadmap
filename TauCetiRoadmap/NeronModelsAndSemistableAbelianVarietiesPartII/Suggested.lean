@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
+import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
 
 /-!
 # NeronModelsAndSemistableAbelianVarietiesPartII: representative target signatures
@@ -18,7 +19,7 @@ namespace TauCetiRoadmap.NeronModelsAndSemistableAbelianVarietiesPartII
 open CategoryTheory CategoryTheory.Limits Polynomial
 open scoped Polynomial
 
-universe u v
+universe u v w
 noncomputable section
 
 /-! ## Layer 1: finite pinching and conductors -/
@@ -123,7 +124,71 @@ example :
 
 end AffinePinching
 
+namespace FerrandPushout
+
+/-- An algebra morphism induces a linear map on the quotients by the unit spans. -/
+def conductorCokernelMap {A : Type u} {B : Type v} {D : Type w}
+    [CommRing A] [CommRing B] [CommRing D]
+    [Algebra A B] [Algebra A D] (h : B →ₐ[A] D) :
+    (B ⧸ Submodule.span A ({1} : Set B)) →ₗ[A]
+      D ⧸ Submodule.span A ({1} : Set D) :=
+  Submodule.mapQ _ _ h.toLinearMap (by
+    apply Submodule.span_le.mpr
+    rintro b (rfl : b = 1)
+    change h 1 ∈ Submodule.span A ({1} : Set D)
+    rw [map_one]
+    exact Submodule.subset_span (Set.mem_singleton (1 : D)))
+
+/-- Swapping the factors negates the nonzero diagonal-quotient class outside characteristic two. -/
+example (k : Type*) [Field k] (h : (2 : k) ≠ 0) :
+    let Q := Submodule.span k ({1} : Set (k × k))
+    let c := Q.mkQ (1, 0)
+    c ≠ 0 ∧ conductorCokernelMap ((AlgHom.snd k k k).prod (AlgHom.fst k k k)) c = -c ∧
+      -c ≠ c := by sorry
+
+/-- Evaluation at zero kills the nonconstant polynomial's nonzero quotient class. -/
+example (k : Type*) [Field k] :
+    let Q := Submodule.span k ({1} : Set k[X])
+    Q.mkQ X ≠ 0 ∧ conductorCokernelMap (Polynomial.aeval (0 : k)) (Q.mkQ X) = 0 := by sorry
+
+/-- The polynomial inclusion preserves the X class and misses the independent Y class. -/
+example (k : Type*) [Field k] :
+    let Q := Submodule.span k ({1} : Set k[X])
+    let P := Submodule.span k ({1} : Set (MvPolynomial (Fin 2) k))
+    let h := Polynomial.aeval (MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) k)
+    conductorCokernelMap h (Q.mkQ X) = P.mkQ (MvPolynomial.X 0) ∧
+      P.mkQ (MvPolynomial.X 0) ≠ 0 ∧
+      ¬ ∃ c, conductorCokernelMap h c = P.mkQ (MvPolynomial.X 1) := by sorry
+
+end FerrandPushout
+
 /-! ## Layer 2: genus-one fibers and binary elliptic curves -/
+
+/-- A connected integral fiber matrix with a positive primitive null vector is negative affine ADE,
+and its primitive coefficients are the diagram marks under the same reindexing. -/
+theorem canonicalFiber_affineMatrixClassification {ι : Type*}
+    [Fintype ι] [DecidableEq ι] [Nonempty ι] (M : Matrix ι ι ℤ) (m : ι → ℤ)
+    (hsymm : ∀ i j, M i j = M j i) (hdiag : ∀ i, M i i = -2)
+    (hoff : ∀ i j, i ≠ j → 0 ≤ M i j)
+    (hconn : ∀ i j, Relation.ReflTransGen (fun a b => a ≠ b ∧ 0 < M a b) i j)
+    (hpos : ∀ i, 0 < m i) (hprim : Finset.univ.gcd (fun i => (m i).natAbs) = 1)
+    (hnull : Matrix.mulVec M m = 0) :
+    ∃ t : TauCeti.AffineDynkinType, t.Valid ∧ ∃ e : ι ≃ Fin t.nodes,
+      (∀ i j, M i j = -t.cartanMatrix (e i) (e j)) ∧
+      (∀ i, m i = t.marks (e i)) := by sorry
+
+/-- The two-vertex case retains the double edge in the matrix. -/
+example : (TauCeti.AffineDynkinType.A 1).cartanMatrix = !![2, -2; -2, 2] ∧
+    (TauCeti.AffineDynkinType.A 1).marks = ![1, 1] := by sorry
+
+/-- The triangle has three primitive coefficients equal to one. -/
+example : (TauCeti.AffineDynkinType.A 2).cartanMatrix = !![2, -1, -1; -1, 2, -1; -1, -1, 2] ∧
+    (TauCeti.AffineDynkinType.A 2).marks = ![1, 1, 1] := by sorry
+
+/-- The four-leaf star has one mark two and four marks one. -/
+example : ∃ i : Fin (TauCeti.AffineDynkinType.D 4).nodes,
+    (TauCeti.AffineDynkinType.D 4).marks i = 2 ∧
+      ∀ j, j ≠ i → (TauCeti.AffineDynkinType.D 4).marks j = 1 := by sorry
 
 namespace QuadraticPinch
 
@@ -173,6 +238,25 @@ theorem nonsplit_pointCount {K : Type v} [Field K] [Fintype K] [Algebra (ZMod 2)
     (r : ℕ) (hr : 0 < r) (hcard : Fintype.card K = 2 ^ r) :
     ((curve (1 : ZMod 2) 1).map (algebraMap (ZMod 2) K)).pointCount =
       if Even r then 2 ^ r else 2 ^ r + 2 := by sorry
+
+namespace InfinityChart
+
+/-- The reciprocal monic-quadratic denominator retains both parameters over any commutative ring. -/
+def denominator {R : Type*} [CommRing R] (a b : R) : R[X] := 1 + C a * X + C b * X ^ 2
+
+/-- A nonzero linear parameter changes the binary denominator. -/
+example : denominator (1 : ZMod 2) 0 = 1 + X := by sorry
+
+/-- The binary quadratic parameter gives a nonconstant square. -/
+example : denominator (0 : ZMod 2) 1 = (1 + X) ^ 2 ∧
+    denominator (0 : ZMod 2) 1 ≠ 1 := by sorry
+
+/-- A nonzero nilpotent parameter survives as the linear coefficient. -/
+example : denominator (2 : ZMod 4) 1 = 1 + C 2 * X + X ^ 2 ∧
+    (denominator (2 : ZMod 4) 1).coeff 1 = 2 ∧
+    (2 : ZMod 4) ≠ 0 ∧ (2 : ZMod 4) ^ 2 = 0 := by sorry
+
+end InfinityChart
 
 end QuadraticPinch
 
@@ -278,6 +362,10 @@ example {k : Type u} [CommRing k] :
 example : inverseChart (inverseChart (⟨0, 0, 0, 0, X ^ 7⟩ :
     WeierstrassCurve ℤ[X])) ≠ ⟨0, 0, 0, 0, X ^ 7⟩ := by sorry
 
+/-- The zero tuple stays zero on the reciprocal chart, including in characteristic two. -/
+example : inverseChart (⟨0, 0, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
+    ⟨0, 0, 0, 0, 0⟩ := by sorry
+
 /-- Fiber and zero-section intersections determine an integral unimodular plane. -/
 def fiberSectionGram : Matrix (Fin 2) (Fin 2) ℤ := !![0, 1; 1, -1]
 
@@ -290,6 +378,11 @@ example : fiberSectionGram 1 1 = -1 := by sorry
 /-- The fiber pairs positively with its section. -/
 example : fiberSectionGram 0 1 = 1 ∧ fiberSectionGram 0 0 = 0 := by sorry
 
+/-- The sum of the fiber and section has square one in the odd plane. -/
+example :
+    let v : Fin 2 → ℤ := ![1, 1]
+    (∑ i : Fin 2, ∑ j : Fin 2, v i * fiberSectionGram i j * v j) = 1 := by sorry
+
 /-! ## Layer 5: Frobenius, graphs and Picard constancy -/
 
 /-- The resolved rank-ten surface's maximal point-count expression. -/
@@ -300,6 +393,9 @@ example : rationalSurfaceCount 2 = 25 := by sorry
 
 /-- The formula is only a numerical expression at zero, not a field-size assertion. -/
 example : rationalSurfaceCount 0 = 1 := by sorry
+
+/-- The numerical threshold is forty at three and twelve at one. -/
+example : rationalSurfaceCount 3 = 40 ∧ rationalSurfaceCount 1 = 12 := by sorry
 
 /-- Three small fibers cannot achieve the binary threshold. -/
 theorem small_fiber_bound : 10 + 7 + 7 < rationalSurfaceCount 2 := by sorry
@@ -372,6 +468,12 @@ example (n : ℕ) : coefficientPolynomial (k := ZMod 2) n (fun _ => 0) = 0 := by
 example : coefficientPolynomial 1 (![1, 0] : Fin 2 → ZMod 2) = 1 ∧
     reverseWeight 1 (coefficientPolynomial 1 (![1, 0] : Fin 2 → ZMod 2)) = X := by sorry
 
+/-- A middle weight-two coordinate produces the linear monomial. -/
+example : coefficientPolynomial 2 (![0, 1, 0] : Fin 3 → ZMod 2) = X := by sorry
+
+/-- A weight-zero vector retains its nonzero nilpotent coefficient. -/
+example : coefficientPolynomial 0 (![2] : Fin 1 → ZMod 4) = C 2 := by sorry
+
 /-- The normalized binary coefficient space has a2 zero by construction. -/
 abbrev NormalizedCoefficients :=
   (Fin 2 → ZMod 2) × (Fin 4 → ZMod 2) × (Fin 5 → ZMod 2) × (Fin 7 → ZMod 2)
@@ -392,6 +494,12 @@ example (c : NormalizedCoefficients) : (normalizedEquation c).a₂ = 0 := by sor
 
 /-- The vector count factors as 4 times 16 times 32 times 128. -/
 example : Fintype.card NormalizedCoefficients = 4 * 16 * 32 * 128 := by sorry
+
+/-- The top sixth-coefficient coordinate produces the highest allowed monomial. -/
+example : (normalizedEquation (0, 0, 0, ![0, 0, 0, 0, 0, 0, 1])).a₆ = X ^ 6 := by sorry
+
+/-- Changing the first coordinate alone changes the slope coefficient. -/
+example : (normalizedEquation (![0, 1], 0, 0, 0)).a₁ = X := by sorry
 
 /-- Translate x by a2 in characteristic two; no inverse or division is needed. -/
 def normalizeA2 (W : WeierstrassCurve (ZMod 2)[X]) : WeierstrassCurve (ZMod 2)[X] :=
@@ -419,6 +527,10 @@ example (W : WeierstrassCurve (ZMod 2)[X]) :
 example : normalizeA2 (⟨X, X, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
     ⟨X, 0, X ^ 2, X ^ 2, 0⟩ := by sorry
 
+/-- Normalizing a constant a2 changes a4 even when the other coefficients vanish. -/
+example : normalizeA2 (⟨0, 1, 0, 0, 0⟩ : WeierstrassCurve (ZMod 2)[X]) =
+    ⟨0, 0, 0, 1, 0⟩ := by sorry
+
 /-- Global translation parameters have weights 1,2,3. -/
 abbrev AdmissibleParameters :=
   (Fin 2 → ZMod 2) × (Fin 3 → ZMod 2) × (Fin 4 → ZMod 2)
@@ -438,6 +550,11 @@ example : admissibleChange (0, 0, 0) = 1 := by sorry
 /-- The middle parameter is r, rather than the y-slope s. -/
 example : (admissibleChange (0, (![0, 1, 0] : Fin 3 → ZMod 2), 0)).r = X ∧
     (admissibleChange (0, (![0, 1, 0] : Fin 3 → ZMod 2), 0)).s = 0 := by sorry
+
+/-- The first parameter supplies the y-slope, independently of the x-translation. -/
+example :
+    (admissibleChange ((![0, 1] : Fin 2 → ZMod 2), 0, 0)).s = X ∧
+    (admissibleChange ((![0, 1] : Fin 2 → ZMod 2), 0, 0)).r = 0 := by sorry
 
 /-
 The Layer 3 targets (multiple-fiber isogenies and the local LLR comparison) have no
@@ -467,11 +584,16 @@ FerrandPushout.conductorSectionDifference, FerrandPushout.conductorSheafComparis
 FerrandPushout.conductorOpenSectionsIso, FerrandPushout.conductorAdditiveShortComplex,
 FerrandPushout.conductorSpecDesc, FerrandPushout.conductorGlobalDesc,
 FerrandPushout.conductorSchemeDesc, FerrandPushout.conductorCokernelBaseChange,
-FerrandPushout.conductorCokernelMap, FerrandPushout.conductorCokernelRightBaseChange,
+FerrandPushout.conductorCokernelRightBaseChange,
 FerrandPushout.conductorTargetBaseChangeIso, FerrandPushout.conductorSourceBaseChangeIso,
 FerrandPushout.conductorTargetTowerIso, FerrandPushout.conductorSourceTowerIso,
 ResolvedModelCertificate, FiniteRejectionCertificate and FibrationEquivalence.
 Their full definitions, API, hypotheses and checks remain in the README.
+The additional geometric prerequisites are finiteMap_etaleCover_cofinal (§1.9),
+rationalSurface_commonBlowup, blowup_Picard_intersection and rationalSurface_coherent_vanishing (§4.0),
+smoothProper_ellAdicCohomology, geometricFrobenius_tateTwist, smoothProper_traceFormula,
+projectivePlane_ellAdicCohomology and pointBlowup_ellAdicCohomology (§5.0), followed by
+rationalSurface_cycleClass (§5.2). Their genuine geometric and cohomological carriers are specified there.
 -/
 
 /-
@@ -598,6 +720,132 @@ curve_picardRanks_euler.
 inverseChart_inverseChart.
 §7.1:
 normalizedEquation_injective.
+-/
+
+/-
+Additional FerrandPushout API specified in the README, with the geometric carriers and
+hypotheses of the corresponding Layer 1 targets:
+FerrandPushout.affine_space_hom_injective, FerrandPushout.affine_space_hom_surjective,
+FerrandPushout.conductorAdditiveShortComplex_affine_surjective,
+FerrandPushout.conductorAdditiveShortComplex_epi,
+FerrandPushout.conductorAdditiveShortComplex_exact,
+FerrandPushout.conductorAdditiveShortComplex_f_fst,
+FerrandPushout.conductorAdditiveShortComplex_f_snd,
+FerrandPushout.conductorAdditiveShortComplex_inl_g,
+FerrandPushout.conductorAdditiveShortComplex_inl_g_app,
+FerrandPushout.conductorAdditiveShortComplex_inr_g,
+FerrandPushout.conductorAdditiveShortComplex_inr_g_app,
+FerrandPushout.conductorAdditiveShortComplex_locally_surjective,
+FerrandPushout.conductorAdditiveShortComplex_mono,
+FerrandPushout.conductorAdditiveShortComplex_pair_app,
+FerrandPushout.conductorAdditiveShortComplex_shortExact,
+FerrandPushout.conductorChartMap_ambient_quotient, FerrandPushout.conductorChartMap_comm,
+FerrandPushout.conductorChartMap_coordinates, FerrandPushout.conductorChartMap_quotient,
+FerrandPushout.conductorChartMap_restrict, FerrandPushout.conductorChart_ambient_le,
+FerrandPushout.conductorChart_ideal_image, FerrandPushout.conductorChart_ideal_le,
+FerrandPushout.conductorChart_ideal_map, FerrandPushout.conductorCokernelBaseChange_annihilator,
+FerrandPushout.conductorCokernelBaseChange_natural,
+FerrandPushout.conductorCokernelBaseChange_natural_map,
+FerrandPushout.conductorCokernelBaseChange_scalar_zero,
+FerrandPushout.conductorCokernelBaseChange_symm_tmul,
+FerrandPushout.conductorCokernelBaseChange_tmul, FerrandPushout.conductorCokernelMap_comp,
+FerrandPushout.conductorCokernelMap_id, FerrandPushout.conductorCokernelMap_mk,
+FerrandPushout.conductorCokernelMap_surjective,
+FerrandPushout.conductorCokernelRightBaseChange_annihilator,
+FerrandPushout.conductorCokernelRightBaseChange_scalar_zero,
+FerrandPushout.conductorCokernelRightBaseChange_symm_tmul,
+FerrandPushout.conductorCokernelRightBaseChange_tmul, FerrandPushout.conductorDescApp_closed,
+FerrandPushout.conductorDescApp_compatible, FerrandPushout.conductorDescApp_naturality,
+FerrandPushout.conductorDescApp_source, FerrandPushout.conductorDescApp_unique,
+FerrandPushout.conductorDescBase_closed, FerrandPushout.conductorDescBase_preimage_closed,
+FerrandPushout.conductorDescBase_preimage_source, FerrandPushout.conductorDescBase_source,
+FerrandPushout.conductorDescRingedSpace_closed, FerrandPushout.conductorDescRingedSpace_isLocalHom,
+FerrandPushout.conductorDescRingedSpace_source, FerrandPushout.conductorGlobalDesc_closed,
+FerrandPushout.conductorGlobalDesc_natural, FerrandPushout.conductorGlobalDesc_source,
+FerrandPushout.conductorGlobalDesc_unique, FerrandPushout.conductorIdealSheaf_comap_chart,
+FerrandPushout.conductorIdealSheaf_flat_tower, FerrandPushout.conductorIdealSheaf_ideal,
+FerrandPushout.conductorIdealSheaf_restrict, FerrandPushout.conductorMap_baseChange_inverse_square,
+FerrandPushout.conductorMap_baseChange_square, FerrandPushout.conductorMap_eq_subschemeMap,
+FerrandPushout.conductorMap_isIso_iff_of_zero, FerrandPushout.conductorMap_isIso_of_isIso,
+FerrandPushout.conductorMap_preimage, FerrandPushout.conductorMap_square,
+FerrandPushout.conductorMap_tower_inverse_square, FerrandPushout.conductorMap_tower_square,
+FerrandPushout.conductorMap_unique, FerrandPushout.conductorOpenSectionsIso_affine,
+FerrandPushout.conductorOpenSectionsIso_fst, FerrandPushout.conductorOpenSectionsIso_inv_fst,
+FerrandPushout.conductorOpenSectionsIso_inv_snd, FerrandPushout.conductorOpenSectionsIso_snd,
+FerrandPushout.conductorQuotientMap_comp_mk, FerrandPushout.conductorQuotientMap_mk,
+FerrandPushout.conductorRightAnnihilator_flat, FerrandPushout.conductorRightMap_injective,
+FerrandPushout.conductorSchemeDesc_closed, FerrandPushout.conductorSchemeDesc_natural,
+FerrandPushout.conductorSchemeDesc_source, FerrandPushout.conductorSchemeDesc_unique,
+FerrandPushout.conductorSectionDifference_apply, FerrandPushout.conductorSectionDifference_exact,
+FerrandPushout.conductorSectionDifference_open_exact,
+FerrandPushout.conductorSectionDifference_restrict,
+FerrandPushout.conductorSectionDifference_surjective,
+FerrandPushout.conductorSectionDifference_zero, FerrandPushout.conductorSectionPair_injective,
+FerrandPushout.conductorSectionsIso_fst, FerrandPushout.conductorSectionsIso_inv_fst,
+FerrandPushout.conductorSectionsIso_inv_snd, FerrandPushout.conductorSectionsIso_inv_unique,
+FerrandPushout.conductorSectionsIso_snd, FerrandPushout.conductorSheafChart_app,
+FerrandPushout.conductorSheafComparison_fst, FerrandPushout.conductorSheafComparison_isIso,
+FerrandPushout.conductorSheafComparison_snd, FerrandPushout.conductorSheafInclusion_app,
+FerrandPushout.conductorSourceBaseChangeIso_hom_fst,
+FerrandPushout.conductorSourceBaseChangeIso_hom_snd_inclusion,
+FerrandPushout.conductorSourceBaseChangeIso_inv_inclusion,
+FerrandPushout.conductorSourceBaseChangeIso_isPullback,
+FerrandPushout.conductorSourceBaseChangeIso_tower,
+FerrandPushout.conductorSourceBaseChangeIso_tower_inverse,
+FerrandPushout.conductorSourceBaseChangeIso_tower_snd, FerrandPushout.conductorSourceIdeal_affine,
+FerrandPushout.conductorSourceIdeal_chart, FerrandPushout.conductorSourceIdeal_chart_transport,
+FerrandPushout.conductorSourceIdeal_flat, FerrandPushout.conductorSourceIdeal_mem,
+FerrandPushout.conductorSourceIdeal_restrict, FerrandPushout.conductorSourceIdeal_tower,
+FerrandPushout.conductorSourceObjIso_inclusion, FerrandPushout.conductorSourceObjIso_inv_mk,
+FerrandPushout.conductorSourceObjIso_mk, FerrandPushout.conductorSourcePullbackTowerIso_hom_fst,
+FerrandPushout.conductorSourcePullbackTowerIso_hom_snd,
+FerrandPushout.conductorSourcePullbackTowerIso_inv_fst,
+FerrandPushout.conductorSourcePullbackTowerIso_inv_snd,
+FerrandPushout.conductorSourceTowerIso_hom_inclusion,
+FerrandPushout.conductorSourceTowerIso_inv_inclusion, FerrandPushout.conductorSourceTowerIso_unique,
+FerrandPushout.conductorSpecDesc_closed, FerrandPushout.conductorSpecDesc_comap,
+FerrandPushout.conductorSpecDesc_natural, FerrandPushout.conductorSpecDesc_unique,
+FerrandPushout.conductorSpec_isPushout, FerrandPushout.conductorTargetBaseChangeIso_hom_fst,
+FerrandPushout.conductorTargetBaseChangeIso_hom_snd_inclusion,
+FerrandPushout.conductorTargetBaseChangeIso_inv_inclusion,
+FerrandPushout.conductorTargetBaseChangeIso_isPullback,
+FerrandPushout.conductorTargetBaseChangeIso_nilpotent_section,
+FerrandPushout.conductorTargetBaseChangeIso_nonzero,
+FerrandPushout.conductorTargetBaseChangeIso_tower,
+FerrandPushout.conductorTargetBaseChangeIso_tower_inverse,
+FerrandPushout.conductorTargetBaseChangeIso_tower_snd,
+FerrandPushout.conductorTargetPullbackTowerIso_hom_fst,
+FerrandPushout.conductorTargetPullbackTowerIso_hom_snd,
+FerrandPushout.conductorTargetPullbackTowerIso_inv_fst,
+FerrandPushout.conductorTargetPullbackTowerIso_inv_snd,
+FerrandPushout.conductorTargetTowerIso_hom_inclusion,
+FerrandPushout.conductorTargetTowerIso_inv_inclusion, FerrandPushout.conductorTargetTowerIso_unique,
+FerrandPushout.conductorUnitQuotientSwap_annihilator, FerrandPushout.conductorUnitQuotientSwap_mk,
+FerrandPushout.conductorUnitQuotientSwap_symm_mk, FerrandPushout.conductorUnitSpan_baseChange,
+FerrandPushout.conductorUnitSpan_swap, FerrandPushout.conductor_additive_isPullback,
+FerrandPushout.conductor_affine_fiber_eq, FerrandPushout.conductor_affine_isPullback,
+FerrandPushout.conductor_basicOpen, FerrandPushout.conductor_comap_algEquiv,
+FerrandPushout.conductor_comap_le_iff, FerrandPushout.conductor_comap_postcomp,
+FerrandPushout.conductor_comap_precomp, FerrandPushout.conductor_comap_pushout,
+FerrandPushout.conductor_common_denominator, FerrandPushout.conductor_diagonal_comap_eq_bot,
+FerrandPushout.conductor_diagonal_idealSheaf_eq_bot, FerrandPushout.conductor_diagonal_ideal_top,
+FerrandPushout.conductor_diagonal_isFinite, FerrandPushout.conductor_diagonal_nilpotent_section,
+FerrandPushout.conductor_diagonal_schemeTheoreticallyDominant, FerrandPushout.conductor_fiber_eq,
+FerrandPushout.conductor_flat_chart, FerrandPushout.conductor_fraction_mem_iff_generators,
+FerrandPushout.conductor_global, FerrandPushout.conductor_global_factorsThrough,
+FerrandPushout.conductor_global_topological, FerrandPushout.conductor_localization_away,
+FerrandPushout.conductor_localization_finite_generators,
+FerrandPushout.conductor_localization_recomputed, FerrandPushout.conductor_localized_fraction_image,
+FerrandPushout.conductor_localized_image_criterion,
+FerrandPushout.conductor_localized_mem_iff_images,
+FerrandPushout.conductor_localized_product_criterion, FerrandPushout.conductor_mem_iff_generators,
+FerrandPushout.conductor_nilpotent_section, FerrandPushout.conductor_open_isPullback,
+FerrandPushout.conductor_prime_eq_of_comap_eq, FerrandPushout.conductor_range_conjugate,
+FerrandPushout.conductor_sheaf_isPullback, FerrandPushout.conductor_spec_factorsThrough,
+FerrandPushout.etale_relation, FerrandPushout.exists_algebraicSpace, FerrandPushout.isScheme_iff,
+FerrandPushout.overlap_isScheme, FerrandPushout.pinching_etale_cover,
+FerrandPushout.space_closed_complement, FerrandPushout.space_flat_baseChange,
+FerrandPushout.space_geometric, FerrandPushout.space_isFinite, FerrandPushout.space_isPullback.
 -/
 
 end
