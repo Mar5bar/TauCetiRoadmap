@@ -425,6 +425,12 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   projective limits, completed projective tensor products, strict sequences and extensions of
   Fréchet spaces.
 
+### From other open roadmap pull requests
+
+| Supplier | Provides / consumer | Convention gap |
+|---|---|---|
+| CommRingFactorizationSystems §F1 / Seminormal and absolutely weakly normal rings, §F4 / The generated systems and the reflections, and §F6 / The absolute weak normalization theorem and its seminormal companion (an open TauCetiRoadmap pull request by JakobScholbach) | `IsSeminormalRing`; `CommRingCat.WeakNormalization.snRing`, `snMap`, `sn_lift`; F4 idempotence; F6 `snLeft_eq_univHomeo_residueIso`; consumed by CR.4.6's local `S_R ≅ R^sn` comparison; F4 supplies the abstract cusp seminormalisation | Swap the square/cube variables: their unique-root condition is our reducedness plus existence; use `(snMap R).hom` and its composite with `F_p → R` for the induced `F_p`-algebra structure; F4's typed carrier is in `CommRingCat.{0}`, so instantiate the supplier construction in the universe of `R`; retain residue-field isomorphisms as well as the universal homeomorphism. |
+
 ## How to read the build
 
 Layer CR.0 is commutative algebra: everything is a statement about rings, ideals and Mathlib's
@@ -7773,20 +7779,30 @@ multiplicative quotients*.
 - Outside the regular case γ is not an isomorphism: for R=F_p[ε]/ε², [ε]≠0 in W_rΩ⁰_R=W_r(R) while
   WsatΩ_R=Z_p; for the cusp R=F_p[t²,t³], W_1Ω²_R=Ω²_R≠0 while WsatΩ²_R=0 (BLM Proposition 6.3.1).
 
-**Degree zero of the saturated complex and seminormalisation.** For every commutative F_p-algebra R,
-the unit map e:R→S_R=WsatΩ_R⁰/V WsatΩ_R⁰ exhibits S_R as the seminormalisation of R: S_R is
-seminormal and every ring homomorphism from R to a seminormal ring factors uniquely through e.
-Consequently e is an isomorphism if and only if R is seminormal; a homomorphism R→R′ inducing an
+**Degree zero of the saturated complex and seminormalisation.** Provides the reduced seminormal
+reflection R→R^sn and unique factorisation of ring maps to seminormal rings.
+Supplied by CommRingFactorizationSystems §F1 / Seminormal and absolutely weakly normal rings and
+§F4 / The generated systems and the reflections (an open TauCetiRoadmap pull request by
+JakobScholbach).
+We swap their x³=y², x=a², y=a³ variables to our x²=y³, x=t³, y=t² (their unique-root condition
+is our reducedness plus existence) and transport the induced F_p-algebra structure along
+`(snMap R).hom`, instantiating the supplier construction in R's universe.
+
+*Local comparison.* For every commutative F_p-algebra R, identify
+S_R=WsatΩ_R⁰/V WsatΩ_R⁰ with the supplied `CommRingCat.WeakNormalization.snRing R` by an
+F_p-algebra isomorphism carrying the unit e_R:R→S_R to `(snMap R).hom`.
+Consequently e_R is an isomorphism if and only if R is seminormal; a homomorphism R→R′ inducing an
 isomorphism of seminormalisations induces an isomorphism WsatΩ_R≅WsatΩ_(R′); and the adjunction
 between F_p-algebras and strict Dieudonné algebras restricts to an equivalence between seminormal
 F_p-algebras and those strict Dieudonné algebras A for which WsatΩ_(A⁰/VA⁰)→A is an isomorphism.
 
-*Hypotheses.* p is a prime; R is any commutative F_p-algebra. A ring is seminormal if it is reduced
-and for all x, y with x²=y³ there is t with x=t³ and y=t²; the seminormalisation R→R^sn is the
-universal homomorphism from R to a seminormal ring (Swan).
+*Hypotheses.* p is a prime; R is any commutative F_p-algebra. Use the supplied
+CommRingFactorizationSystems §F1 `IsSeminormalRing`, with the square/cube variables swapped:
+reducedness and, for all x, y with x²=y³, existence of t with x=t³ and y=t².
 
-*Proof sketch.* S_R is seminormal (*Universal saturated de Rham–Witt complex*). If R→R′ induces an
-isomorphism of seminormalisations, then Hom(R′,A⁰/VA⁰)→Hom(R,A⁰/VA⁰) is bijective for every strict
+*Proof sketch.* S_R is seminormal (*Universal saturated de Rham–Witt complex*). Using
+CommRingFactorizationSystems §F4 `sn_lift`, if R→R′ induces an isomorphism of seminormalisations,
+then Hom(R′,A⁰/VA⁰)→Hom(R,A⁰/VA⁰) is bijective for every strict
 A, so WsatΩ_R≅WsatΩ_(R′) (BLM Corollary 6.5.2). Hence one may replace R by R^sn and assume R
 seminormal, in particular reduced. Write Ψ(R)=S_R. Ψ commutes with filtered colimits and Ψ(R)=R for
 R smooth over a perfect F_p-algebra (*Classical and saturated de Rham–Witt comparison* (2); BLM
@@ -7798,16 +7814,24 @@ filtered colimit of smooth F_p-algebras; for R reduced and finitely generated Ψ
 normalisation of R, using that the localisations of the normalisation at height-one primes are
 regular, hence filtered colimits of smooth F_p-algebras. It follows that R→Ψ(R) is integral (BLM
 Corollary 6.6.6, Propositions 6.6.7, 6.6.8, Corollary 6.6.9). For seminormal R the map R→Ψ(R) is
-therefore injective, integral and bijective on k-points for every field k; a seminormal ring has no
-proper extension of this kind [Swan, On seminormality, Lemma 2.6], so R=Ψ(R) (BLM, proof of Theorem
-6.5.3). Swan’s seminormalisation (existence of the universal map to a seminormal ring, Swan, *On
-seminormality*, Theorem 4.1, and the fact that a seminormal ring has no proper integral extension
-bijective on k-points for all fields k, Lemma 2.6) and Popescu’s theorem for discrete valuation
-rings of characteristic p (Bhatt–Lurie–Mathew, Proposition 6.6.8) are part of this target.
+therefore injective and integral, and the bijections on k-points for every field k give both a
+universal homeomorphism and isomorphisms on residue fields. Apply CommRingFactorizationSystems
+§F6 / The absolute weak normalization theorem and its seminormal companion,
+`snLeft_eq_univHomeo_residueIso`, to put this map in `snLeft`; since Ψ(R) is seminormal, §F4's
+reflection identifies it with `snMap R`, whose idempotence gives R=Ψ(R) (BLM, proof of Theorem
+6.5.3). This also gives the local comparison for arbitrary R by the replacement R→R^sn above;
+the restricted Dieudonné equivalence follows from the unit and counit (BLM Remark 6.5.4).
+Popescu's theorem for discrete valuation rings of characteristic p
+(Bhatt–Lurie–Mathew, Proposition 6.6.8) is part of the local comparison target.
 ([Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3),
 arXiv v3, §6.5, Proposition 6.5.1, Corollary 6.5.2, Theorem 6.5.3, Remark 6.5.4, pp.74–75; §6.6
 (Notation 6.6.1 to the proof of Theorem 6.5.3), pp.76–78.) *Needs:* *Universal saturated de
-Rham–Witt complex*; *Classical and saturated de Rham–Witt comparison*.
+Rham–Witt complex*; *Classical and saturated de Rham–Witt comparison*;
+CommRingFactorizationSystems §F1, §F4 and §F6, as specified in *Exact supplier contracts*.
+
+The abstract cusp input for the local Checks is supplied by CommRingFactorizationSystems §F4 /
+The generated systems and the reflections: `snRing(F_p[t²,t³]) ≅ F_p[t]`, identifying its quotient
+presentation `F_p[X,Y]/(Y²−X³)` with `F_p[t²,t³]` by `X ↦ t²`, `Y ↦ t³`.
 
 **Checks.**
 
