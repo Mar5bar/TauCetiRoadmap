@@ -1219,7 +1219,9 @@ theorem IsCoordinateRing.flat (hA : IsStrictlyTopologicallyFiniteType (algebraMa
     (hU : IsCoordinateRing K U AU) : Module.Flat A AU := sorry
 
 /-- Identity principle: for a `K`-affinoid integral domain and a nonempty affinoid subdomain,
-restriction to the subdomain is injective (Conrad-IC, Lemma 2.1.4). -/
+restriction to the subdomain is injective (Conrad-IC, Lemma 2.1.4). It follows from flatness:
+`A_U` is a nonzero flat `A`-module (`IsCoordinateRing.flat`), hence torsion-free over the
+domain `A` (`Module.Flat.isSMulRegular_of_nonZeroDivisors`). -/
 theorem IsCoordinateRing.injective_algebraMap [IsDomain A]
     (hA : IsStrictlyTopologicallyFiniteType (algebraMap K A)) (hU : IsCoordinateRing K U AU)
     (hne : U.Nonempty) : Function.Injective (algebraMap A AU) := sorry
