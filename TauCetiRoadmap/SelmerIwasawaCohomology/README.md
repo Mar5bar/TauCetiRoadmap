@@ -8,7 +8,7 @@
 
 This roadmap owns:
 
-- the comparison of multiplicative p-adic completion with Mathlib's `AdicCompletion`, the S-unit theorem in the form needed, the p-adic Kummer identification for fields and S-units, and the coefficient-limit hypotheses (Layer 0);
+- the comparison of multiplicative p-adic completion with Mathlib's `AdicCompletion`, S-unit completion using ArithmeticHeights §6.5, the p-adic Kummer identification for fields and S-units, and the coefficient-limit hypotheses (Layer 0);
 - perfect pairings, annihilators and derived orthogonal complements of local conditions, and the duality of global mapping fibres with local conditions (Layer 1);
 - compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer complexes as mapping fibres with their H⁰ correction, lattice changes and descent of vanishing (Layer 2);
 - Iwasawa algebras of ℤ_p^d × Δ with their coordinates, involution and twists, Iwasawa cohomology and its Shapiro, descent, control and duality theorems, universal norms, semilocal descent, Iwasawa Selmer complexes with derived specialization, determinant lines, the étale K(π,1) comparison for Spec 𝒪_{F,S} and the j_* convention, local cofreedom, and Greenberg's structure theorems (Layer 3);
@@ -92,9 +92,19 @@ Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-t
 
 §P1.6 (functoriality of tilting), §P1.10 (`isPerfectoidField_padicComplex`), §P1.16 (A_inf = W(R⁺) for a perfect plus ring), §P1.17 (Fontaine's θ is Mathlib's `WittVector.fontaineTheta`), §P1.18 (the primitive kernel of θ), §P1.31 (the completed cyclotomic field is perfectoid), §P3.7 (finite extensions of perfectoid fields), §P3.12 (the integral closure is almost finite étale). They supply the period-ring inputs of §4.1 and the almost-étale trace statement used in Tate's calculation; they do not identify Hodge–Tate weights with archimedean Hodge indices.
 
+### From other open roadmap pull requests
+
+| Contract | Supplier and exact target | Convention / retained consumer |
+| --- | --- | --- |
+| S869a | ArithmeticHeights §6.5 / **The S-unit theorem**, `Set.unit_fg`, `Set.unit_finrank_numberField`, `Set.exists_unit_fundSystem`, `Set.exists_unit_fundSystem'` (an open TauCetiRoadmap pull request by rwst) | Use the same Mathlib `Set.unit`; convert finite-place rank to the all-places convention and `Nat.card` to `Set.ncard`. §§0.3 and 0.9 retain completion, saturation, injection and Kummer. The fundamental system uses `CommGroup.torsion`; these consumers need no identification with roots of unity. |
+| S869b | ZerosOfLFunctions §1.5 / **The gamma factor of a record**, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math) | Require the full finite-product pole theorem on the two shift multisets alone. §4.14 expands multiplicities and specializes at integers, obtaining finite order in `WithTop ℤ` equal to the negative integer count. The real-bodied local carrier `gammaPoleOrder` serves `poleOrderAtOne`, Tate-dual factors and criticality; `gammaPoleOrder_hodge_analytic` transports the supplied theorem for Hodge realizations. |
+| S869c | LFunctions §Layer 0 / **completed L-function data**, `AnalyticLFunctionData.gammaFactor`, `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC` (an open TauCetiRoadmap pull request by roed-math) | Require a factor-only product on two complex-shift multisets agreeing with the record's projection. §4.14 retains the Hodge/Betti recipe and weighted integral-list adapter `hodgeGammaShifts`; the real-bodied local restatement `hodgeGammaFactor` serves `gammaFactor`, `gamma_tate_factor` and Hodge Checks, with `hodgeGammaFactor_eq_shiftProduct` identifying it with the supplier's formula. |
+
+The two Gamma contracts use only the shift multisets: they require neither Dirichlet coefficients, conductor, root number, completed function nor a polar divisor. Hodge factors enter through this factor-only interface, without constructing a full L-function record.
+
 ## How to read the build
 
-Layer 0 establishes completion and coefficient-limit comparisons, including the S-unit theorem and the procyclic criterion used by nonsingular conditions. Layer 1 treats annihilators and the parametric duality of fibres. Layer 2 constructs the Selmer diagrams and applies that duality to arithmetic cochains. Layer 3 fixes the Iwasawa algebras (§3.0), passes to induced Iwasawa coefficients, computes control errors and determinants, compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 first supplies ℂ_p, Tate's calculation and the periods, then the finite conditions, the archimedean criticality and the cyclotomic arithmetic dictionary, and finally the parity theorems (§§4.28–4.29). References within a layer follow this construction order; the parametric duality of Layer 1 is instantiated by the Layer 2 arithmetic fibre.
+Layer 0 establishes completion and coefficient-limit comparisons, using the S-unit theorem supplied by ArithmeticHeights §6.5, and the procyclic criterion used by nonsingular conditions. Layer 1 treats annihilators and the parametric duality of fibres. Layer 2 constructs the Selmer diagrams and applies that duality to arithmetic cochains. Layer 3 fixes the Iwasawa algebras (§3.0), passes to induced Iwasawa coefficients, computes control errors and determinants, compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 first supplies ℂ_p, Tate's calculation and the periods, then the finite conditions, the archimedean criticality and the cyclotomic arithmetic dictionary, and finally the parity theorems (§§4.28–4.29). References within a layer follow this construction order; the parametric duality of Layer 1 is instantiated by the Layer 2 arithmetic fibre.
 
 ## Layer 0: Completions and coefficient limits
 
@@ -143,29 +153,19 @@ The image is closed but not all of (F^×)^; the quotient (F^×)^/Ê_F involves t
 
 ### 0.3 The S-unit theorem and the completion of S-units
 
-**The S-unit theorem.** For a number field F and a finite set S of places of F containing the archimedean ones, prove `sUnits_rank`: the S-unit group 𝒪_{F,S}^× is finitely generated, its torsion subgroup is the group of roots of unity of F, and its free rank is #S − 1. In Mathlib's notation, with S_f ⊆ `IsDedekindDomain.HeightOneSpectrum (𝓞 F)` the finite places of S, the S-units are `Set.unit S_f F`, and the rank is `NumberField.Units.rank F + #S_f`, which equals #S − 1 because the archimedean places number rank + 1.
+**The S-unit theorem.** Provides finite generation and free rank of Mathlib's S-unit group, with its stated fundamental-system interface. Supplied by ArithmeticHeights §6.5 / The S-unit theorem (`Set.unit_fg`, `Set.unit_finrank_numberField`) (an open TauCetiRoadmap pull request by rwst). The supplier's S_f contains finite places only, so here convert `NumberField.Units.rank F + Nat.card S_f` to #(S_f ∪ S_∞) − 1 and use `S_f.ncard = Nat.card S_f` for finite S_f.
 
-Prove this as follows. The valuation map 𝒪_{F,S}^× → ℤ^{S_f}, u ↦ (v(u))_{v∈S_f}, has kernel the global units 𝒪_F^× (Mathlib `NumberField.Units`, with Dirichlet's theorem `NumberField.Units.exist_unique_eq_mul_prod` and its rank `NumberField.Units.rank`). Its image has finite index in ℤ^{S_f}: for each v ∈ S_f, the h-th power of the prime 𝔭_v is principal, h the class number (Mathlib `RingOfIntegers.instFintypeClassGroup`), and a generator is an S-unit of valuation h at v and 0 at the other finite places. Hence the image has rank #S_f, and the sequence 0 → 𝒪_F^× → 𝒪_{F,S}^× → image → 0 gives finite generation and rank rank(𝒪_F^×) + #S_f; the torsion subgroup is unchanged because S-units of finite order are units.
-
-(Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, Theorem 5.11 and its proof, p. 90, where S denotes the finite places only and the rank is r + s + #S − 1.)
-
-**Checks.**
-
-- F = ℚ, S = {∞}: 𝒪_{F,S}^× = {±1}, of rank 0 = #S − 1.
-- F = ℚ(√2), S = {∞₁, ∞₂}: 𝒪_F^× = ±(1 + √2)^ℤ has rank 1 = #S − 1. Counting a single archimedean place would give rank 0, so every archimedean place of S counts; with S also containing 2 = (√2)², the S-units ±(1 + √2)^ℤ (√2)^ℤ have rank 2.
-- F = ℚ(√−5), S = {∞}: the class group has order 2, the units are {±1}, and the S-unit rank is 0; adding the prime 𝔭 = (2, 1 + √−5) to S adds the S-unit 2 = 𝔭² of valuation 2, not a generator of valuation 1, so the valuation image has index 2 and finite index (not surjectivity) is the correct statement.
-
-**Completion of S-units.** For a number field F and a finite set S of places containing the archimedean ones, 𝓞_{F,S}^× is finitely generated, so ℤ_p ⊗ 𝓞_{F,S}^× ≅ (𝓞_{F,S}^×)^, and (𝓞_{F,S}^×)^ → (F^×)^ is injective.
+**Completion of S-units.** For a number field F and a finite set S of places containing the archimedean ones, identify ℤ_p ⊗ 𝓞_{F,S}^× ≅ (𝓞_{F,S}^×)^ and prove (𝓞_{F,S}^×)^ → (F^×)^ is injective.
 
 S finite, containing the archimedean places.
 
-Prove this as follows. Finite generation is the S-unit theorem above. An element of F^× whose p^m-th power is an S-unit has valuation zero outside S, so it is an S-unit; apply §0.2.
+Prove this as follows. Apply `Set.unit_fg` from ArithmeticHeights §6.5 to the finite-place set S_f, then the finitely generated tensor/completion comparison of §0.1. An element of F^× whose p^m-th power is an S-unit has valuation zero outside S, so it is an S-unit; apply §0.2.
 
 (Rubin (1999 draft), Chapter I, §6.2, Definition 6.2, printed p. 14 (PDF p. 24).)
 
 For S = S_∞ this is §0.2.
 
-*Needs:* §0.1 (Comparison of the multiplicative completion with Mathlib adic completion); §0.2 (Completion of global units); Mathlib `Set.unit`, `NumberField.Units.rank`, `NumberField.Units.exist_unique_eq_mul_prod`, `RingOfIntegers.instFintypeClassGroup`.
+*Needs:* §0.1 (Comparison of the multiplicative completion with Mathlib adic completion); §0.2 (Completion of global units); Mathlib `Set.unit`; ArithmeticHeights §6.5 / `Set.unit_fg`, `Set.unit_finrank_numberField` (contract S869a).
 
 ### 0.4 Local completion and algebraic tensor comparison
 
@@ -258,13 +258,13 @@ Let F be a number field and S a finite set of places containing those above p an
 
 S ⊇ {v | p∞}, so μ_{p^m} is a G_{F,S}-module and p is an S-unit.
 
-Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; the terms 𝓞_{F,S}^×/p^m are finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
+Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; `Set.unit_fg` from ArithmeticHeights §6.5 makes the terms 𝓞_{F,S}^×/p^m finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
 
 (Burungale–Tian (arXiv v2), Footnote 3 to Theorem 2.1, p. 4, and §2.2.3 (arXiv v2); Rubin (1999 draft), Appendix B, §2, Proposition 2.3, printed p. 152 (PDF p. 162).)
 
 This is the finite-level statement behind Burungale–Tian's unit Kummer comparison; the tower limit is §§3.1 and 4.19.
 
-*Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (Completion of S-units); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
+*Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (Completion of S-units); ArithmeticHeights §6.5 / `Set.unit_fg`; ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
 
 ### 0.10 Which inverse-limit hypotheses hold
 
@@ -1846,11 +1846,15 @@ The named operations and identities are:
 
 ### 4.14 Gamma factor and its integer pole order
 
-For a real place, each off-diagonal pair (a,b),(b,a), a<b, contributes Γ_ℂ(s−a) raised to h^(a,b), and the diagonal sign ε contributes Γ_ℝ(s+ε−a) raised to h_a^ε. For a complex place each type (a,b) contributes Γ_ℂ(s−min(a,b)) with its multiplicity. Here Γ_ℝ(s)=π^(−s/2)Γ(s/2), Γ_ℂ(s)=2(2π)^−sΓ(s), already Mathlib definitions. Finite support makes the product finite. At an integer m the pole order is the sum of multiplicities of complex factors with m−min(a,b)≤0 and real factors with m+ε−a a nonpositive even integer. Compare this combinatorial order with the meromorphic order of the Gamma factor (`gammaPoleOrder_analytic`, through Mathlib's `meromorphicOrderAt`), using the entire reciprocal Gamma function. Mathlib’s totalized values are zero at Gamma poles, so nonzero value is not the definition of a meromorphic pole.
+**`hodgeGammaFactor`.** Provides the finite product of shifted Mathlib real and complex Gamma factors. Supplied by LFunctions §Layer 0 / completed L-function data (`AnalyticLFunctionData.gammaFactor`) (an open TauCetiRoadmap pull request by roed-math). Our weighted list has integral shifts and multiplicities whereas the supplier has separate complex-shift multisets, so the retained adapter expands multiplicities and casts each shift without changing the `s + shift` sign.
+
+**`gammaPoleOrder_analytic`.** Provides the meromorphic pole orders of finite products of shifted real and complex Gamma factors. Supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math). Here translate weighted integral shifts to complex-shift multisets and specialize at integers, proving that Mathlib's order in `WithTop ℤ` is the negative finite pole count, independently of totalized Gamma values at poles.
+
+**Hodge Gamma recipe and integer adapter.** For a real place, each off-diagonal pair (a,b),(b,a), a<b, contributes a complex shift −a with multiplicity h^(a,b), and the diagonal sign ε contributes a real shift ε−a with multiplicity h_a^ε. For a complex place each type (a,b) contributes a complex shift −min(a,b) with its multiplicity. Finite support makes these lists finite. The integer carrier `gammaPoleOrder` sums multiplicities of complex factors with m+shift≤0 and real factors with m+shift a nonpositive even integer. The Hodge-specific adapter `gammaPoleOrder_hodge_analytic` transports ZerosOfLFunctions §1.5 to these factors and equates `meromorphicOrderAt` to the negative count cast into `WithTop ℤ`; it does not construct another generic Gamma divisor theorem.
 
 ArchimedeanRealization and finite support; diagonal eigenspaces in the real case. Products and pole orders include every archimedean place.
 
-The construction proceeds as follows. Read Hodge numbers and diagonal eigenspace dimensions from the existing carrier; form the finite list of shifted factors using Deligne Table 5.3. Use the poles and zero-free meromorphic Gamma function, or the zeros of its entire reciprocal, to identify the pole order at integers. Prove direct-sum multiplicativity, Tate-dual shift compatibility and the correspondence with Mathlib Gammaℝ/Gammaℂ off the poles.
+The construction proceeds as follows. Read Hodge numbers and diagonal eigenspace dimensions from the existing carrier; form the finite list of shifted factors using Deligne Table 5.3. Expand it into the two shift multisets and identify the local product carrier with LFunctions §Layer 0's factor-only formula. Apply the full product pole theorem of ZerosOfLFunctions §1.5 to the derived multisets; integer shifts give exactly the tests in `gammaPoleOrder`, and the supplied nonvanishing meromorphic germ gives finite order. Prove list-concatenation/multiset transport, Tate-dual shift compatibility and the Hodge-specific order comparison, using the factor-only contracts S869b–S869c.
 
 (Deligne, §5.3 and Table 5.3, p. 329; Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, preprint p. 71.)
 
@@ -1861,11 +1865,12 @@ The named operations and identities are:
 - `hodgeGammaFactors` — Finite multiset of shifted real and complex Gamma factors.
 - `tateDualHodgeGammaFactors` — Compute the dual multiset from the same primal Hodge pieces and Betti signs: for a<b=w−a the dual complex shift is b−1; for a diagonal piece the real shifts are a−1 and a with their original ε=0 and ε=1 multiplicities.
 - `tateDualHodgeGammaFactors_eq` — This computed list agrees up to permutation with the factors of the native Tate-dual Hodge realization equipped with the negative transpose Betti involution.
-- `hodgeGammaFactor` — Product of the existing Mathlib Gamma factors off their pole set.
+- `hodgeGammaShifts` — Expand multiplicities into separate real and complex shift multisets, casting integral shifts to ℂ.
+- `hodgeGammaFactor_eq_shiftProduct` — Identify the local weighted-list carrier with the two-multiset formula supplied by LFunctions §Layer 0, including its totalized values.
 - `gammaPoleOrder` — Weighted integer pole count for the derived multiset.
-- `gammaFactor_sum`, `gammaPoleOrder_sum` — Direct sum multiplies factors and adds pole orders.
+- `gammaFactor_sum`, `gammaPoleOrder_sum` — List-concatenation/multiset-transport adapters for direct sums; generic Gamma products and analytic pole orders come from LFunctions §Layer 0 and ZerosOfLFunctions §1.5.
 - `gamma_tate_factor` — the Tate line ℚ_p(n) gives Γ_ℝ(s − n).
-- `gammaPoleOrder_analytic` — Pole count equals the meromorphic order, using reciprocal Gamma at totalized zeros.
+- `gammaPoleOrder_hodge_analytic` — Apply the supplied analytic order theorem to the real-place factors of an `ArchimedeanRealization`; complex-place and dual factors use the same integer/multiset adapter.
 
 **Checks.**
 
@@ -1874,8 +1879,10 @@ The named operations and identities are:
 - Weight-zero real sign + gives Γ_ℝ(s), sign − gives Γ_ℝ(s+1); their pole orders at 0 differ.
 - A real weight-one structure with h^(0,1)=h^(1,0)=1 gives Γ_ℂ(s), counted once rather than twice; its Tate dual gives the same factor.
 - The dual factors of the zero realization have no positive multiplicities. The dual of the type (0,0), sign + Tate line has Γ_ℝ(s−1) and a pole at one; the dual of the type (2,2), sign + line has Γ_ℝ(s+1) and no pole there.
+- The empty-list adapter yields two empty supplier shift multisets, product 1 and integer count 0. Expanding a real shift −2 of multiplicity two, a complex shift 1 of multiplicity one and a real shift of multiplicity zero preserves the signs, factor kinds and multiplicities.
+- For the weight-zero sign + Tate realization, the local product value at 0 is Mathlib's totalized zero while the integer count is 1; its analytic order is −1 by the Hodge specialization of ZerosOfLFunctions §1.5.
 
-*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier).
+*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor` (factor-only contract S869c); ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause (factor-only contract S869b).
 
 ### 4.15 The Gamma factor, r_V and criticality
 
@@ -1883,7 +1890,7 @@ For explicit archimedean realization data attached to L(V,s), define r_V=gammaPo
 
 A finite-dimensional Hodge realization and its comparison to the chosen L-function convention, together with the compatible Tate-dual realization.
 
-The construction proceeds as follows. Apply Deligne’s Hodge/sign recipe and its proven integer pole count. Apply the Tate-dual transformation to compute the second order. For Tate types, the real factor gives poles at n,n−2,…; evaluate at 1 for n and 1−n to obtain the exact parity table.
+The construction proceeds as follows. Apply §4.14's Hodge/sign recipe to the Gamma product supplied by LFunctions §Layer 0, and transport ZerosOfLFunctions §1.5's analytic order through the integer-count adapter. Apply the Tate-dual transformation to compute the second order. For Tate types, the real factor gives poles at n,n−2,…; evaluate at 1 for n and 1−n to obtain the exact parity table.
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, pp. 71–72 (arXiv v2), with Remark 13.23; published pp. 197–198.)
 
@@ -1906,7 +1913,7 @@ The named operations and identities are:
 
 This is Greenberg's Gamma-factor notion; it agrees with Deligne's criticality for Tate twists (L(ℚ_p(n), 1) = ζ(1 − n) and L(ℚ_p(n)^∨, 1) = ζ(n) both critical).
 
-*Needs:* §4.14 (Gamma factor and its integer pole order); §4.13 (Archimedean realization on the existing Hodge carrier).
+*Needs:* §4.14 (Hodge Gamma recipe and integer adapter); §4.13 (Archimedean realization on the existing Hodge carrier); LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`; ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause.
 
 ### 4.16 Class groups, p-ramified Galois groups and unit towers
 

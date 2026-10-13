@@ -79,13 +79,6 @@ theorem units_pow_of_pow_eq (F : Type*) [Field F] [NumberField F] (m : ℕ)
 
 end Completion
 
-/-- §0.3, the S-unit theorem: for a finite set `S` of finite places, the `S`-units
-(Mathlib's `Set.unit`) form a finitely generated group of free rank `rank(𝒪_F^×) + #S`. -/
-theorem sUnits_rank (F : Type*) [Field F] [NumberField F]
-    (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S.Finite) :
-    Group.FG (S.unit F) ∧
-      Module.finrank ℤ (Additive (S.unit F)) = NumberField.Units.rank F + S.ncard := sorry
-
 section WeakSemisimplicity
 
 variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
@@ -157,10 +150,6 @@ example : Function.Injective (AdicCompletion.of (Ideal.span {(p : ℤ)}) ℤ) �
 example (x : LinearMap.ker ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)) :
     invariantCoinvariantMap (LinearMap.id : ℚ →ₗ[ℚ] ℚ) x =
       (LinearMap.range ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)).mkQ (x : ℚ) := rfl
-
-/-- `ℚ` with no finite place in `S` has `S`-unit rank zero. -/
-example : Module.finrank ℤ (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ))
-    = 0 := sorry
 
 end CompletionChecks
 
@@ -715,33 +704,64 @@ def complexHodgeGammaFactors (H : TauCeti.Hodge.HodgeStructureOn W ω w) :
   exact H.finite_setOf_hodgeNumber_ne_zero.toFinset.toList.map fun a =>
     (.complex (-min a (w - a)), H.hodgeNumber a)
 
-/-- §4.14: product of shifted Mathlib Gamma factors with their multiplicities. -/
+/-- §4.14: expand weighted integral shifts into the separate complex-shift multisets of
+LFunctions §Layer 0 / `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC`
+(an open TauCetiRoadmap pull request by roed-math), without constructing an L-function record. -/
+def hodgeGammaShifts (factors : List (ShiftedGamma × ℕ)) : Multiset ℂ × Multiset ℂ :=
+  factors.foldr (fun f shifts =>
+    match f.1 with
+    | .real a => (Multiset.replicate f.2 (a : ℂ) + shifts.1, shifts.2)
+    | .complex a => (shifts.1, Multiset.replicate f.2 (a : ℂ) + shifts.2)) (0, 0)
+
+/-- Local restatement of LFunctions §Layer 0, to be replaced by the import once that roadmap is
+merged. Its `AnalyticLFunctionData.gammaFactor` (an open TauCetiRoadmap pull request by
+roed-math) supplies the generic product; this real-bodied weighted-integral-list carrier is
+needed by `gammaFactor` (§4.15), `gamma_tate_factor` and Hodge Checks. The shift-multiset
+adapter identifies it with the supplier's factor-only formula, with the same `s + shift` sign. -/
 def hodgeGammaFactor (factors : List (ShiftedGamma × ℕ)) (s : ℂ) : ℂ :=
   (factors.map fun f =>
     (match f.1 with
      | .real a => Complex.Gammaℝ (s + (a : ℂ))
      | .complex a => Complex.Gammaℂ (s + (a : ℂ))) ^ f.2).prod
 
-/-- §4.14: meromorphic pole order at an integer; totalized Gamma values are not used to detect
-poles. -/
+/-- §4.14: the weighted-list/multiset adapter identifies the local carrier with the factor-only
+formula of LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor` (an open TauCetiRoadmap
+pull request by roed-math), including totalized values. No full L-function data are needed. -/
+theorem hodgeGammaFactor_eq_shiftProduct (f : List (ShiftedGamma × ℕ)) (s : ℂ) :
+    hodgeGammaFactor f s =
+      ((hodgeGammaShifts f).1.map fun μ => Complex.Gammaℝ (s + μ)).prod *
+        ((hodgeGammaShifts f).2.map fun ν => Complex.Gammaℂ (s + ν)).prod := sorry
+
+/-- Local restatement of ZerosOfLFunctions §1.5, to be replaced by the import once that roadmap
+is merged. The poles and divisor clause of The gamma factor of a record (an open TauCetiRoadmap
+pull request by roed-math) supplies the analytic interpretation of this real-bodied integer
+pole-count carrier after the shift-multiset adapter. `poleOrderAtOne`, Tate-dual factors and
+criticality need the count; totalized Gamma values are not used to detect poles. -/
 def gammaPoleOrder (factors : List (ShiftedGamma × ℕ)) (m : ℤ) : ℕ :=
   (factors.map fun f =>
     match f.1 with
     | .real a => if m + a ≤ 0 ∧ (m + a) % 2 = 0 then f.2 else 0
     | .complex a => if m + a ≤ 0 then f.2 else 0).sum
 
-/-- §4.14: concatenating factor lists multiplies the Gamma factors. -/
+/-- §4.14: list-concatenation/multiset transport for the local carrier; generic Gamma products
+are supplied by LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor` (an open
+TauCetiRoadmap pull request by roed-math). -/
 theorem gammaFactor_sum (f g : List (ShiftedGamma × ℕ)) (s : ℂ) :
     hodgeGammaFactor (f ++ g) s = hodgeGammaFactor f s * hodgeGammaFactor g s := sorry
 
-/-- §4.14: pole orders add under concatenation of factor lists. -/
+/-- §4.14: concatenation adds the local integer counts; their analytic interpretation is
+supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause
+(an open TauCetiRoadmap pull request by roed-math), through shift-multiset transport. -/
 theorem gammaPoleOrder_sum (f g : List (ShiftedGamma × ℕ)) (m : ℤ) :
     gammaPoleOrder (f ++ g) m = gammaPoleOrder f m + gammaPoleOrder g m := sorry
 
-/-- §4.14: the combinatorial pole order is the meromorphic order of the Gamma factor, read through
-the entire reciprocal Gamma function. -/
-theorem gammaPoleOrder_analytic (f : List (ShiftedGamma × ℕ)) (m : ℤ) :
-    meromorphicOrderAt (hodgeGammaFactor f) (m : ℂ) = -(gammaPoleOrder f m : ℤ) := sorry
+/-- §4.14: the `gammaPoleOrder_analytic` supplier contract is ZerosOfLFunctions §1.5 / The gamma
+factor of a record, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math).
+This Hodge-specific adapter applies its factor-only theorem to `hodgeGammaShifts`, obtains
+finite order, and transports the negative count into Mathlib's `WithTop ℤ`. -/
+theorem gammaPoleOrder_hodge_analytic (A : ArchimedeanRealization W ω w) (m : ℤ) :
+    meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors A)) (m : ℂ) =
+      (-(gammaPoleOrder (hodgeGammaFactors A) m : ℤ) : WithTop ℤ) := sorry
 
 /-- §4.13: Tau Ceti's lattice conjugation on the Tate line. -/
 abbrev standardConjugation : TauCeti.Hodge.Conjugation ℂ :=
@@ -793,11 +813,13 @@ def tateArchimedean (n : ℤ) : ArchimedeanRealization ℂ standardConjugation (
           tateHodge_number n (2 * n - a))
       rw [ha, hb]
 
-/-- §4.14: the L-function Tate convention produces `Γℝ(s - n)`. -/
+/-- §4.14: the Hodge/shift adapter specializes LFunctions §Layer 0's supplied Gamma product to
+the L-function Tate convention `Γℝ(s - n)`. -/
 theorem gamma_tate_factor (n : ℤ) (s : ℂ) :
     hodgeGammaFactor (hodgeGammaFactors (tateArchimedean n)) s = Complex.Gammaℝ (s - n) := sorry
 
-/-- §4.15: the archimedean pole order at `s = 1`. -/
+/-- §4.15: the local Hodge integer count at `s = 1`, interpreted analytically by
+ZerosOfLFunctions §1.5 through `gammaPoleOrder_hodge_analytic`. -/
 def poleOrderAtOne (A : ArchimedeanRealization W ω w) : ℕ :=
   gammaPoleOrder (hodgeGammaFactors A) 1
 
@@ -824,7 +846,8 @@ theorem tateDualHodgeGammaFactors_eq (A : ArchimedeanRealization W ω w)
 def IsGreenbergCritical (A : ArchimedeanRealization W ω w) : Prop :=
   poleOrderAtOne A = 0 ∧ gammaPoleOrder (tateDualHodgeGammaFactors A) 1 = 0
 
-/-- §4.15: the archimedean Gamma factor computed from the carrier. -/
+/-- §4.15: the Hodge realization's factor list evaluated through the local carrier for
+LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`. -/
 def gammaFactor (A : ArchimedeanRealization W ω w) (s : ℂ) : ℂ :=
   hodgeGammaFactor (hodgeGammaFactors A) s
 
@@ -868,9 +891,17 @@ one. -/
 example : IsGreenbergCritical (tateArchimedean 2) ∧ IsGreenbergCritical (tateArchimedean (-1)) ∧
     ¬ IsGreenbergCritical (tateArchimedean 0) ∧ poleOrderAtOne (tateArchimedean 1) = 1 := sorry
 
-/-- §4.14: empty factors give the unit and no pole, even at totalized Gamma poles. -/
-example (s : ℂ) : hodgeGammaFactor [] s = 1 ∧ gammaPoleOrder [] 0 = 0 := by
-  simp [hodgeGammaFactor, gammaPoleOrder]
+/-- §4.14: the empty-list adapter gives two empty supplier shift multisets, unit product and
+zero integer count. -/
+example (s : ℂ) : hodgeGammaShifts [] = (0, 0) ∧
+    hodgeGammaFactor [] s = 1 ∧ gammaPoleOrder [] 0 = 0 := by
+  simp [hodgeGammaShifts, hodgeGammaFactor, gammaPoleOrder]
+
+/-- §4.14: the adapter preserves negative shifts, repeats multiplicities, separates factor
+kinds and discards zero multiplicities before the supplier's factor-only formula is applied. -/
+example : hodgeGammaShifts [(.real (-2), 2), (.complex 1, 1), (.real 4, 0)] =
+    (Multiset.replicate 2 (-2 : ℂ), {1}) := by
+  simp [hodgeGammaShifts]
 
 /-- §4.14: changing the real sign moves the pole at zero; odd negative arguments are not real
 Gamma poles, while complex Gamma has a pole at every nonpositive integer. -/
@@ -878,8 +909,10 @@ example : gammaPoleOrder [(.real 0, 1)] 0 = 1 ∧ gammaPoleOrder [(.real 1, 1)] 
     gammaPoleOrder [(.real 0, 1)] (-1) = 0 ∧ gammaPoleOrder [(.complex 0, 1)] (-1) = 1 := by
   decide
 
-/-- §4.14: the totalized Gamma value at a pole is zero, while the pole order is positive. -/
-example : Complex.Gammaℝ 0 = 0 ∧ gammaPoleOrder [(.real 0, 1)] 0 = 1 := sorry
+/-- §4.14: the Hodge Tate-line adapter has totalized product value zero at a pole but integer
+count one; the analytic interpretation is supplied by ZerosOfLFunctions §1.5. -/
+example : hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0)) 0 = 0 ∧
+    gammaPoleOrder (hodgeGammaFactors (tateArchimedean 0)) 0 = 1 := sorry
 
 /-- §4.14: a conjugate off-diagonal pair is counted once at a real place. -/
 example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
