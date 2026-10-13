@@ -8,11 +8,11 @@ The objects here are sheaves on classical étale and pro-étale sites, including
 
 `TauCetiRoadmap.AdicSpaces`, `AdicSpacesPartII` (layers R0–R1), `AdicSpacesPartIII` (layers F0, R2 and R3) and `AdicSpacesPartIV` (layers R4 and R5) own Huber rings, adic spectra, analytic spaces, formal schemes and generic fibres, analytic morphism classes, analytification and vector bundles. `AdicEtaleGeometry`, layers A1, A2 and A4, owns the analytic étale and pro-étale sites, geometric points, strict localizations, finite étale descent and the analytic smoothness and dimension predicates. Their geometric constructions are supplier interfaces, not additional targets here. The extension to pseudo-adic carriers with non-analytic points needed for henselian comparison is specified in Section 1.2.
 
-`PerfectoidSpaces`, layers P1–P5 and P7, owns perfectoid fields and spaces, tilting, generic analytic tilde-limits, completed-colimit geometry and the perfectoid étale-topos comparison. In particular its P7 generic analytic tilde-limit is used as defined there. Section 1.5 adds the qcqs pseudo-adic support variant and the locally noetherian cohomological comparison; it does not reconstruct the generic analytic predicate or the perfectoid comparison. The perfectoid approximation in Layer 2 is an approximation for henselized generic-locus cohomology, and the approximation in Layer 7 is for geometric-field extension invariance. Neither replaces perfectoid geometric limit theory.
+`PerfectoidSpaces`, layers P1–P5 and P7, owns perfectoid fields and spaces, tilting, analytic Yoneda and perfectoid tilde-limit refinements, completed-colimit geometry and the perfectoid étale-topos comparison. The ordinary tilde-limit predicate and its affinoid and base-change API come from `AdicSpacesPartIV`, R5.7–R5.8; P7 supplies the analytic Yoneda and perfectoid refinements. Section 1.5 adds the qcqs pseudo-adic support variant and the locally noetherian cohomological comparison; it does not reconstruct the generic analytic predicate or the perfectoid comparison. The perfectoid approximation in Layer 2 is an approximation for henselized generic-locus cohomology, and the approximation in Layer 7 is for geometric-field extension invariance. Neither replaces perfectoid geometric limit theory.
 
-`DiamondsAndVStacks`, layer D0, supplies spectral limits, coherent-site cohomology, universes and cardinal cutoffs; its D1 supplies strictly totally disconnected perfectoid bases. `EnhancedDerivedSheaves`, layers E1–E2, supplies enhanced derived categories, derived tensor and internal Hom, replacements and coherent enhancement of derived functors. We prove the analytic hypotheses required to apply those constructions. `SchemeAndStackFoundations`, Layers 0, 2 and 4, supplies the scheme étale site, strict henselization, scheme cohomology and scheme-theoretic finiteness and comparison. `ArithmeticGaloisDuality`, layer R02.2, supplies continuous group cohomology and Hochschild–Serre; it does not supply the arbitrary-value-group Gauss extension used in Layer 5.
+`DiamondsAndVStacks`, layer D0, supplies spectral limits, coherent-site cohomology, universes and cardinal cutoffs; its D1 supplies strictly totally disconnected perfectoid bases. Sections 0.1–0.4 supply enhanced derived categories, derived tensor and internal Hom, replacements and coherent enhancement of derived functors. We prove the analytic hypotheses required to apply those constructions. `SchemeAndStackFoundations`, Layers 0, 2 and 4, supplies the scheme étale site, strict henselization, scheme cohomology and scheme-theoretic finiteness and comparison. `ArithmeticGaloisDuality`, layer R02.2, supplies continuous group cohomology and Hochschild–Serre; it does not supply the arbitrary-value-group Gauss extension used in Layer 5.
 
-The coefficient change and finite-presentation descent contracts of `AdicCoefficientsAndComparisons`, layer L2, and the tensor, support and duality interfaces of `EtaleDualityAndPerverseSheaves`, layers EDC.0–EDC.2, are shared with this roadmap. The trait action, specialization triangle and variation maps of `LefschetzPencilsAndVanishingCycles`, layer LPV.0, are also shared. The logarithmic differential, Cartier and closed/exact differential interfaces used in the semistable filtration come from `CrystallineCohomology`, layer CR.5, Section CR.5.1, and the log de Rham–Witt interfaces from its layer CR.6, Section CR.6.1 (*Log de Rham–Witt model*). We leave integral comparison with crystalline and prismatic cohomology, primitive comparisons and diamond six operations to their own roadmaps.
+Sections 0.5–0.6 construct the coefficient and finite-presentation descent interfaces; Sections 0.7–0.11 construct the algebraic support, trace, cycle-class and duality inputs. The trait action, specialization triangle and variation maps of `LefschetzPencilsAndVanishingCycles`, layer LPV.0, are also shared. The logarithmic differential, Cartier and closed/exact differential interfaces used in the semistable filtration come from `CrystallineCohomology`, layer CR.5, Section CR.5.1, and the log de Rham–Witt interfaces from its layer CR.6, Section CR.6.1 (*Logarithmic de Rham–Witt complexes* and *Log de Rham–Witt model*). We leave integral comparison with crystalline and prismatic cohomology, primitive comparisons and diamond six operations to their own roadmaps.
 
 For Berkovich geometry the affinoid spectrum M(A) is the `Huber.GelfandSpectrum` construction of `AdicSpacesPartIII`, Section R3.9 (`gelfand-spectrum-banach-ring`), specialized to a strict affinoid Banach algebra. We own the additional gluing to Hausdorff strict analytic spaces, the taut adic comparison and its sheaf-theoretic consequences in Section 3.1. The global analytic covering and monodromy results in Layer 3 are likewise classical constructions here. This keeps their foundations independent of tropical geometry, which consumes them (`TropicalAndBerkovichArithmetic`). Existing discrete local-field ramification in `TauCetiRoadmap.LocalFieldsRamification` and `LocalGaloisGroups` remains a supplier only for its stated discrete-field scope; Layer 5 requires valuation rings of arbitrary rank. Existing algebraic vector bundles, differential geometry, integral lattices and profinite arithmetic do not provide the analytic sites, valuation supports or local-system lattice descent considered here.
 
@@ -48,16 +48,182 @@ Use `HenselianRing` for an actual ring and ideal, `IsLocalRing` with `IsLocalRin
 
 The ownership statements above are exact contracts: use only the named layers and only the stated morphism and coefficient scope. In particular the analytic étale owner must supply open/finite-étale local factorization, finite étale algebra–space comparison, base change, enough geometric points of every valuation rank, the strict-local neighborhood system and coherent qcqs étale bases. Formal geometry supplies type-(S) formal schemes, all nilpotent thickenings, adic generic fibres, specialization, formal completion and admissible blow-ups. Scheme foundations supplies the analogous scheme constructions, normalizations and their filtered finite-presentation descent.
 
-The shared coefficient roadmap supplies noetherian approximation and finite-stage descent of finitely presented spaces, relative diagrams, finite compactifications, constructible complexes and their Hom groups. It is not used to assert descent of a merely finite-type scheme over a nonnoetherian valuation ring. The shared algebraic duality roadmap supplies the normalization of the algebraic trace and cycle classes, finite-étale traces, derived support localization, and the constructible finite-Tor-amplitude notion. The determinant lines of bounded finite-projective complexes and their quasi-isomorphism, localization and base-change identifications come from `PadicMeasuresIwasawaAlgebras`, Layer 5. They are used for line-bundle extension in Section 9.3. The trait roadmap supplies the oriented fibre-product topos, nearby-cycle Galois action, vanishing triangle and variation. Section 5.5 uses this trait theory in its prime-to-residue scope; the arbitrary-torsion formal comparison of Section 4.5 is stated separately.
+Sections 0.5–0.6 use SchemeAndStackFoundations §0.9 for noetherian approximation and construct finite-stage descent of finitely presented spaces, relative diagrams, finite compactifications, constructible complexes and their Hom groups. It is not used to assert descent of a merely finite-type scheme over a nonnoetherian valuation ring. Sections 0.7–0.11 supply the normalization of the algebraic trace and cycle classes, finite-étale traces, derived support localization; Section 0.3 defines the finite-Tor-amplitude notion. The determinant lines of bounded finite-projective complexes and their quasi-isomorphism, localization and base-change identifications come from `PadicMeasuresIwasawaAlgebras`, Layer 5. They are used for line-bundle extension in Section 9.3. The trait roadmap supplies the oriented fibre-product topos, nearby-cycle Galois action, vanishing triangle and variation. Section 5.5 uses this trait theory in its prime-to-residue scope; the arbitrary-torsion formal comparison of Section 4.5 is stated separately.
 
-`EnhancedDerivedSheaves` supplies coherent extension of exact inverse image and bounded-below direct images to enhanced derived categories, with derived tensor, internal Hom and colimit-compatible gluing. Applying its unbounded support calculus requires the local amplitude, proper étale exchange, projection and colimit statements in Layer 8. The construction is never invoked to substitute for one of those analytic proofs. The strictly totally disconnected perfectoid-base transfer in Section 10.5 likewise needs its explicit relative support comparison; it is not deduced from diamond cohomology.
+Sections 0.1–0.4 supply coherent extension of exact inverse image and bounded-below direct images to enhanced derived categories, with derived tensor, internal Hom and colimit-compatible gluing. Applying this unbounded support calculus requires the local amplitude, proper étale exchange, projection and colimit statements in Layer 8. The construction is never invoked to substitute for one of those analytic proofs. The strictly totally disconnected perfectoid-base transfer in Section 10.5 likewise needs its explicit relative support comparison; it is not deduced from diamond cohomology.
 
 
 `AdicEtaleGeometry`, Layer A2, supplies spectral dimension, relative dimension on rank-one fibres, relative completed transcendence degree and relative pure dimension. Pure dimension d means dimension d on every nonempty open; relative pure dimension d means that every nonempty fibre is pure of dimension d. Empty fibres impose no surjectivity condition. The geometry supplier includes addition of dimensions for composites of smooth partially proper maps and agreement with Berkovich relative dimension on taut rigid spaces. These interfaces are used for the top-degree Leray trace; no new dimension predicate is defined here. (Huber (1996), Definitions 1.8.1 and 1.8.7; Zavyalov, *Mod-p Poincaré duality*, Definition 5.3.1 and the argument after Lemma A.8 in Theorem 5.3.3, pp. 77–78 and Appendix A.)
 
 ## How to read the build
 
-Layer 1 supplies coefficient sheaves and strict-local calculations. Layer 2 proves henselian comparisons, including the perfectoid approximation needed for them, and Layer 3 uses these to control local lattices and analytic monodromy. Layer 4 constructs formal specialization and semistable symbols. Layers 5 and 6 develop valuation nearby cycles and their invariance and finiteness. Layer 7 proves geometric-field extension invariance. Layer 8 first supplies geometric curve compactifications and constructs proper supports, and Layer 9 normalizes traces and proves duality, keeping the broader trace separate from prime-to-residue duality. Layer 10 computes radial regions and transfers constructibility to smooth families. Layer 11 proves algebraic comparison and the boundary argument that applies curve duality to quasi-compact opens. Each statement records any hypotheses beyond these standing conventions.
+Layer 0 supplies enhanced derived sheaves, finite coefficient descent and the algebraic trace and support inputs on supplier sites. Layer 1 supplies coefficient sheaves and strict-local calculations. Layer 2 proves henselian comparisons, including the perfectoid approximation needed for them, and Layer 3 uses these to control local lattices and analytic monodromy. Layer 4 constructs formal specialization and semistable symbols. Layers 5 and 6 develop valuation nearby cycles and their invariance and finiteness. Layer 7 proves geometric-field extension invariance. Layer 8 first supplies geometric curve compactifications and constructs proper supports, and Layer 9 normalizes traces and proves duality, keeping the broader trace separate from prime-to-residue duality. Layer 10 computes radial regions and transfers constructibility to smooth families. Layer 11 proves algebraic comparison and the boundary argument that applies curve duality to quasi-compact opens. Each statement records any hypotheses beyond these standing conventions.
+
+## Layer 0: Derived sheaves, coefficient descent and algebraic normalization
+
+### 0.1 Enhanced derived sheaf categories
+
+**Enhanced module sheaves.** Provide `ClassicalDerived.enhancedCategory` for an essentially small site C and a sheaf of rings R: the stable derived enhancement of the Grothendieck abelian category Mod(C,R), obtained from complexes by inverting quasi-isomorphisms. Construct it through the dg category of K-injective complexes and its dg nerve, with its homotopy category identified with Mathlib's `DerivedCategory`. Provide shifts, cones, mapping complexes, the standard cohomological t-structure and its D⁺ and Dᵇ subcategories. Prove presentability and compatibility of filtered colimits with cohomology. For a commutative coefficient ring Λ, this specializes to Sh(C,Λ); an arbitrary coefficient ring is allowed for the additive enhancement. Sites and the small skeleton are inputs, not new geometric sites. (Lurie, *Higher Algebra*, §1.3.5, Definition 1.3.5.8 and Propositions 1.3.5.9 and 1.3.5.21; Stacks, Injectives, §19.12.)
+
+**Checks.**
+
+- On the one-object point site, the homotopy category is D(R-Mod).
+- A sheaf concentrated in degree zero has that sheaf as H⁰ and zero other cohomology; its shift obeys the standing cohomological convention.
+- A quasi-isomorphism gives an equivalence of enhanced objects; an acyclic complex gives the zero object.
+
+*Needs:* Mathlib's sheaf, Grothendieck abelian and derived-category APIs; Section 0.2 for K-injectives. The construction of Sections 0.1–0.2 is joint: replacements are constructed in complexes before the localization.
+
+### 0.2 Replacements on ringed sites
+
+**K-injective and K-flat replacements.** Provide `ClassicalDerived.replacements`: on every essentially small ringed site (C,R), every complex has a functorial quasi-isomorphism into a K-injective complex and a quasi-isomorphism from a K-flat complex with flat terms. A bounded-below complex of injectives is K-injective. Define the K-flat condition using acyclicity after tensoring with every acyclic complex, and prove independence of choices and compatibility with restriction to slices. Use Mathlib's `CochainComplex.IsKInjective` wherever available. For tensor products R is commutative; the K-injective assertion also applies to arbitrary sheaves of rings. (Stacks, Theorem 19.12.6 and Cohomology on Sites, §21.17 *Flat resolutions*, Lemma 21.17.11, and §21.19 *Cohomology of unbounded complexes*.)
+
+**Checks.**
+
+- A bounded-below injective resolution computes the same RΓ as the replacement of an unbounded complex restricted to D⁺.
+- A bounded complex of flat sheaves is K-flat and needs no replacement to compute a derived tensor product.
+- An acyclic input has acyclic replacement, so both replacement constructions preserve the zero derived object.
+
+*Needs:* Mathlib's complexes and Grothendieck abelian APIs; the small ringed site. This construction precedes the enhanced category of Section 0.1.
+
+### 0.3 Tensor, internal Hom and derived limits
+
+**Derived tensor and internal Hom.** For a commutative R on C, provide `ClassicalDerived.tensorHom`: K-flat replacement defines ⊗ᴸ_R and K-injective replacement defines Rℋom_R. Construct their tensor–Hom adjunction, unit R, associativity, symmetry and the Koszul sign on shifts, with coherent identifications in the enhancement. Derived tensor preserves colimits in either variable. Define finite Tor amplitude by a fixed interval controlling tensor products with all module sheaves in degree zero; it is a hypothesis when boundedness of tensor or Hom is used. (Stacks, Cohomology on Sites, §§21.17–21.18 and §21.35 *Internal hom in the derived category*; Lurie, *Higher Algebra*, §4.1.3 and §7.1.2.)
+
+**Checks.**
+
+- R⊗ᴸK=K and Rℋom(R,K)=K.
+- Over R=Z, (Z/n)⊗ᴸ(Z/n) has Z/n in degrees −1 and 0 for n>1; ordinary tensor alone misses a cohomology group.
+- Interchanging homogeneous factors of degrees i and j gives (−1)^(ij), including the minus sign for two degree-one factors.
+
+**Derived inverse limits.** Provide `ClassicalDerived.inverseLimits` for small diagrams in the enhanced category, together with derived products and the countable-tower fibre formula Rlim K_i=fib(∏ᴿK_i→∏ᴿK_i), where the arrow is 1 minus transition. For module complexes on a point, give the Milnor exact sequence with lim and lim¹. For sheaves do not replace derived products by underived products without their acyclicity. Prove invariance under initial reindexing and functoriality of the restriction maps used in open exhaustions. (Stacks, Derived Categories, §13.34 *Derived colimits* and More on Algebra, §15.87 *Rlim of abelian groups*; Lurie, *Higher Algebra*, §1.1.4.)
+
+**Checks.**
+
+- A constant identity tower has limit its constant object.
+- The zero tower has zero limit.
+- The surjective tower Z/ℓ^(i+1) on a point has lim¹=0 and inverse limit Z_ℓ in degree zero.
+
+*Needs:* Sections 0.1–0.2; Mathlib's tensor, Hom and limits; finite Tor amplitude is imposed where boundedness is claimed.
+
+### 0.4 Coherent derived functors
+
+**Enhanced functor calculus.** Provide `ClassicalDerived.functorCoherence`: an exact inverse-image functor of module sheaves and its right adjoint induce an enhanced adjunction f*⊣Rf*, compatible with composition and with Mathlib's bounded-below right derived functor. Construct base-change and projection transformations by the unit and counit, prove identity and composition coherence, and enhance exact extension by zero on slices. A transformation is an equivalence only after its geometric hypotheses have been proved. Enhance the analytic proper-support functor only after the amplitude, proper étale exchange, projection and colimit hypotheses of Layer 8 are supplied; this conditional construction is used there, not a prerequisite for its analytic proofs. (Stacks, Cohomology on Sites, §21.19, *Cohomology of unbounded complexes*, and §21.18, *Derived pullback*; Lurie, *Higher Algebra*, §1.3.4.)
+
+**Checks.**
+
+- For the identity site morphism, the enhanced adjunction and exchange map are identities.
+- On D⁺, K-injective direct image agrees with `Functor.rightDerivedFunctorPlus`.
+- Two Cartesian squares give the same exchange transformation as their outer rectangle, without assuming any of the maps is invertible.
+
+*Needs:* Sections 0.1–0.3; the site inverse-image/direct-image adjunction in each application; Layer 8 only for its enhanced proper-support export.
+
+### 0.5 Finite-presentation geometry and coefficient descent
+
+**Finite diagrams with coefficients.** Provide `ClassicalCoefficients.finitePresentationDescent`: for X=lim X_i with X_i qcqs schemes and affine transition maps, finite diagrams of finitely presented X-spaces, their maps, finite covering families and finitely presented coefficient modules descend to a common stage; equalities are detected after enlargement. For geometric descent and noetherian approximation use `SchemeAndStackFoundations`, §0.9, `finite_presentation_limits` and `noetherian_approximation`. For a noetherian coefficient ring Λ, descend constructible Λ-sheaves by a finite constructible stratification, finite étale trivializations on each stratum and the finite gluing diagram. This includes infinite finite-type Λ-modules, not just finite sets. For analytic spaces use finite qcqs étale trivialization and gluing data; the coefficient descent assertion is conditional on a qcqs étale-site 2-colimit with finite covering detection, established in Section 1.5 or supplied by PerfectoidSpaces P7; no arbitrary analytic tilde-limit is asserted to have it. (Stacks, Limits of Schemes, Lemma 32.10.1, tag 01ZM; Étale Cohomology, §§59.51 and 59.73; SGA 4, Exposé VI, §8.)
+
+**Checks.**
+
+- A constant identity system descends the same finite diagram and coefficient sheaf.
+- A finite collection of objects descending separately has a common stage by filteredness.
+- A merely finite-type scheme over a nonnoetherian ring with infinitely generated relations is not covered by the finite-presentation assertion.
+
+*Needs:* `SchemeAndStackFoundations`, §0.9 and §2.15 (`etale_cohomology_limits`); Mathlib's finite presentation and constructibility; a proved site-continuity hypothesis for analytic use.
+
+### 0.6 Constructible complexes and Hom descent
+
+**Constructible derived continuity.** Under Section 0.5's hypotheses with fixed noetherian Λ, provide `ClassicalCoefficients.constructibleDerivedDescent`: every bounded complex with constructible cohomology descends to a bounded constructible complex at a stage. Descend its finite Postnikov diagram, attaching maps and relations together, by constructible sheaf descent and étale cohomology continuity. No assertion descends arbitrary unbounded complexes to one stage. (SGA 4, Exposé VI, §§8.5–8.7; Stacks, Theorem 59.51.3, tag 09YQ, and §59.73; Huber (1996), Proposition 2.4.4 and Corollary 2.4.6, pp. 127–129, for the classical analytic site input.)
+
+**Checks.**
+
+- Degree-zero complexes give constructible sheaf descent.
+- A finite extension class descends with its two end terms after enlargement.
+- A complex in a fixed interval [a,b] descends its finite Postnikov diagram; the theorem supplies no stage for an infinite sequence of independent attaching maps.
+
+**Constructible Hom continuity.** Under the same hypotheses, for descended bounded constructible K_i,L_i, provide `ClassicalCoefficients.constructibleHomContinuity`: the filtered colimit of Hom(K_j,L_j[r]) is Hom(K,L[r]) for each fixed r. A finite set of maps, triangles and equalities descends simultaneously; equalities are detected at a stage. Prove the assertion by induction on cohomological amplitude and sheaf Ext continuity. (SGA 4, Exposé VI, §§8.5–8.7; Stacks, Theorem 59.51.3, tag 09YQ, and §59.73; Huber (1996), Proposition 2.4.4 and Corollary 2.4.6.)
+
+**Checks.**
+
+- For sheaves and r=0, this is descent of constructible sheaf morphisms.
+- An extension class becoming zero on the limit is zero after some enlargement.
+- A finite commutative triangle descends with its equality; infinitely many independently chosen maps have no asserted common stage.
+
+*Needs:* Sections 0.1–0.5; `SchemeAndStackFoundations`, §2.15 for scheme cohomology continuity; the analytic site comparison is established in Section 1.5 before analytic application.
+
+### 0.7 Derived localization with supports
+
+**Algebraic support localization.** Provide `ClassicalAlgebraic.supportLocalization`: for a scheme X, closed subscheme i:Z→X and open complement j:U→X, construct i!, sections supported on Z and the natural triangles i_*i^!K→K→Rj_*j^*K and j_!j^*K→K→i_*i^*K in the enhanced étale derived category. The support depends on the closed set, with nilpotent thickenings identified through topological invariance. Prove compatibility with nested supports, excision and the connecting maps. Use `SchemeAndStackFoundations`, §2.7, for the existing cohomology-with-supports carrier. Analytic support geometry remains Section 1.2. (Stacks, Étale Cohomology, §§59.46 and 59.79; SGA 4, Exposé XVII, §5.)
+
+**Checks.**
+
+- Z=∅ gives the zero support functor and restriction to all of X.
+- Z=X gives the identity support functor and zero open complement.
+- Replacing (p) by (p²) on Spec Z_p leaves the support functor and étale localization triangle unchanged without creating a scheme map in the wrong direction.
+
+*Needs:* Sections 0.1–0.4; `SchemeAndStackFoundations`, §2.7 and scheme étale topological invariance.
+
+### 0.8 Algebraic proper supports and finite traces
+
+**Scheme proper supports.** Provide `ClassicalAlgebraic.properSupports`: for a separated finitely presented morphism of qcqs schemes with a chosen compactification f=p∘j, define R⁺f!=Rp_*j_! on D⁺ of torsion sheaves, and prove independence under common proper refinements, composition and proper base change. For unbounded complexes require finite cohomological amplitude and the colimit hypotheses of Section 0.4. The compactification is input data; finite-presentation compactification diagrams descend by Section 0.5. (SGA 4, Exposé XVII, §§5–6.)
+
+**Checks.**
+
+- A proper morphism uses j=id and gives R⁺f!=R⁺f*.
+- An open immersion with tautological compactification into its target gives exact extension by zero.
+- Refining a compactification properly gives the same functor with the same forget-supports map, not just isomorphic cohomology groups.
+
+**Algebraic finite traces.** Provide `ClassicalAlgebraic.finiteTrace` for finite locally free maps on abelian étale sheaves; for finite étale maps it is the adjunction counit. Its geometric-stalk map sums with the lengths of local Artinian fibre rings, and its composite with the unit is multiplication by rank. Prove naturality, composition, pullback compatibility and the norm description on Kummer classes when n is invertible. (SGA 4, Exposé XVII, §6; Stacks, Étale Cohomology, §59.66, tag 03SH.)
+
+**Checks.**
+
+- A split finite étale degree-r map has trace the sum of r components, including r=0.
+- If ℓ divides r, coefficients Z/ℓ give zero after the diagonal unit; trace does not divide by r.
+- For T↦T² on A¹ in characteristic different from two, trace at zero is twice the value, despite the fibre having one geometric point.
+
+*Needs:* Sections 0.1–0.4 and 0.7; scheme proper base change in its stated torsion scope; the chosen compactification.
+
+### 0.9 Algebraic cycle classes and the projective bundle formula
+
+**Normalized algebraic classes.** For n>0 invertible on a qcqs scheme X, provide `ClassicalAlgebraic.cycleClasses`: the Kummer first Chern class of a line bundle and the localized class cl_Z∈H_Z^(2c)(X,μ_n^⊗c) for a regular immersion Z→X of codimension c between schemes smooth over a common base on which n is invertible. Construct the class by deformation to the normal bundle and prove transverse pullback, composition of regular immersions and Cartier-divisor agreement. Provide the étale projective bundle formula for a rank-r vector bundle, with basis 1,c₁(O(1)),…,c₁(O(1))^(r−1), and normalization by degree-one point classes. No absolute purity for arbitrary singular schemes is included. (SGA 4½, *Cycle*, §§1–2; SGA 4, Exposé XVIII, §§2–3; Kummer sequence: Stacks, tag 03PL.)
+
+**Checks.**
+
+- On P¹ over an algebraically closed field, c₁(O(1)) has trace +1.
+- The divisor T=0 on A¹ has localized class given by the Kummer connecting image of T.
+- A rank-one bundle has projectivization X and only the degree-zero projective-bundle summand.
+
+*Needs:* Sections 0.7–0.8; `SchemeAndStackFoundations`, §2.11 for Hilbert 90 and Kummer, and its projective, normal-bundle and deformation geometry.
+
+### 0.10 Relative purity and normal-crossings restriction
+
+**Smooth-boundary purity.** Provide `ClassicalAlgebraic.smoothBoundaryPurity`: for a closed immersion i:Z→X of codimension c between schemes smooth over a field k and n>0 invertible in k, i!Λ_X≅Λ_Z(−c)[−2c] for Λ=Z/n, with its counit carrying the class of Section 0.9. For j the complement of a strict normal-crossings divisor in smooth X and F finite locally constant on X, give at a strict-local point with r branches the exterior algebra on the local Kummer equations: (R^qj*j*F)_x=F_x⊗Λ∧^q(Λ(−1)^r), naturally in restriction maps. This is relative smooth-boundary purity, not a hypothesis-free assertion of absolute purity. (SGA 4, Exposé XVI, §3 and Exposé XVIII, §3; SGA 4½, *Cycle*, §2; Huber (1996), Theorem 3.9.1 and proof, pp. 232–237, for its analytic comparison use.)
+
+**Checks.**
+
+- No branch gives F_x in degree zero and zero in positive degrees.
+- One branch with F=Λ² gives rank two in both degrees zero and one.
+- Two transverse branches give two degree-one Kummer generators and their degree-two product; a local system only on the complement with nontrivial boundary monodromy is outside this formula.
+
+*Needs:* Sections 0.7–0.9; scheme strict localization, Kummer and smooth coordinates from `SchemeAndStackFoundations`.
+
+### 0.11 Algebraic smooth trace and curve duality
+
+**Algebraic smooth trace.** For a separated smooth finitely presented f:X→S of relative pure dimension d, with a compactification as in Section 0.8, n>0 invertible on S and Λ=Z/n, provide `ClassicalAlgebraic.smoothTrace`: Rf!Λ(d)[2d]→Λ. Normalize by degree-one point classes and prove composition, open restriction, finite flat trace and base-change compatibility. Construct it for curves using the Jacobian, Kummer and effacement, then by elementary smooth charts in dimension d. (SGA 4, Exposé XVIII, §§1–3, especially Theorem 3.2.5; SGA 4½, *Cycle*, §2.)
+
+**Checks.**
+
+- The dimension-zero identity morphism has identity trace.
+- The P¹ trace sends c₁(O(1)) to 1, fixing the sign on open curves by extension by zero.
+- Two disjoint smooth curves have the sum of component traces, which is not a top-degree isomorphism for nonzero coefficients.
+
+**Algebraic curve duality and effacement.** Under the same hypotheses with d=1, provide `ClassicalAlgebraic.curveDuality`: for constructible finite-Tor-amplitude K, the trace pairing identifies Rf*Rℋom(K,Λ(1)[2]) with Rℋom(Rf!K,Λ). Prove the curve effacement and smooth local-acyclicity calculations used in the passage from coordinate charts to local systems. Higher-dimensional trace is supplied above; higher-dimensional scheme duality is outside this target. (SGA 4, Exposé XVIII, §§1–3; SGA 4½, *Cycle*, §2.)
+
+**Checks.**
+
+- For a proper smooth connected curve over an algebraically closed field, the pairing on H⁰ and H² is the normalized degree pairing.
+- For A¹ over such a field, RΓ_cΛ=Λ(−1)[−2] pairs with RΓΛ=Λ.
+- A finite direct sum of finite locally free coefficient sheaves has the direct sum of the duality pairings; finite Tor amplitude is retained.
+
+*Needs:* Sections 0.1–0.10; `SchemeAndStackFoundations`, §§2.11 and 2.16, and `JacobianChallenge`, B, for scheme Picard, Jacobian and Kummer inputs.
 
 ## Layer 1: Sheaves, supports and strict-local cohomology
 
@@ -73,7 +239,7 @@ For X = Spa(K, K⁺) with K a complete nonarchimedean field and K⁺ of rank one
 
 *Needs:* `AdicEtaleGeometry`, layer A1 (`basis-comparison`); `AdicEtaleGeometry`, layer A1 (`etale-site`); `AdicEtaleGeometry`, layer A1 (`strongly-sheafy-huber-pair`); `AdicEtaleGeometry`, layer A1 (`pro-etale-site-corrected`); `AdicEtaleGeometry`, layer A1 (`corrected-covers-pretopology`); `AdicEtaleGeometry`, layer A1 (`proetale-coherence`); `AdicEtaleGeometry`, layer A1 (`profinite-set-objects`); `DiamondsAndVStacks`, layer D0 (`cutoff-cardinal`); `DiamondsAndVStacks`, layer D0 (`completion-cardinality-bound`); Mathlib CategoryTheory.Functor.IsDenseSubsite.sheafEquiv; Mathlib CategoryTheory.Sheaf.isGrothendieckAbelian_of_essentiallySmall; Mathlib SheafOfModules; Mathlib CategoryTheory.IsGrothendieckAbelian.enoughInjectives; Mathlib ModuleCat.
 
-Let X be a locally strongly sheafy analytic adic space with small étale site X_ét (`AdicEtaleGeometry`, layer A1 (`etale-site`)) and Λ a ring. The category of étale sheaves of Λ-modules is Sh(X_ét, Λ) := `Sheaf (AdicSpace.smallEtaleTopology X) (ModuleCat Λ)`; more generally for a sheaf of rings R on X_ét (the constant sheaf Λ_X, the structure sheaf O_{X_ét} of `AdicEtaleGeometry`, layer A1 (`etale-structure-sheaf`), or O⁺_{X_ét}) the category Mod(X_ét, R) := `SheafOfModules R`; for X locally noetherian the same definitions on X_proét (`AdicEtaleGeometry`, layer A1 (`pro-etale-site-corrected`); size handled by Section 1.1). Structure: (i) Sh(X_ét, Λ) is Grothendieck abelian with enough injectives and Sh(X_ét, Λ) ≃ Mod(X_ét, Λ_X); (ii) Γ(U, −): Sh(X_ét, Λ) → Mod_Λ, F ↦ F(U), for U ∈ X_ét, left exact; (iii) the constant sheaf M_X := sheafification of the constant presheaf M (Mathlib `constantSheaf`) with Hom(M_X, F) = Hom_Λ(M, F(X)); for every U ∈ X_ét, M_X(U) is the module of locally constant functions |U| → M; (iv) for a morphism g: X′ → X of locally strongly sheafy analytic adic spaces, g_* (sections (g_*F)(U) = F(U ×_X X′)) with exact left adjoint g^{-1} (`AdicEtaleGeometry`, layer A1 (`etale-site`) (iv)); (v) for u: U → X in X_ét, restriction u^{-1}F = F|_U identified with Mathlib's `overPullback` under U_ét ≃ X_ét/U (`AdicEtaleGeometry`, layer A1 (`slice-site`)); (vi) stalks F_ξ at geometric points ξ: Spa(C, C⁺) → X with C⁺ of any rank (`AdicEtaleGeometry`, layer A1 (`etale-site-and-geometric-points`)) are exact, commute with colimits and jointly detect isomorphisms, monomorphisms, epimorphisms and zero objects (`AdicEtaleGeometry`, layer A1 (`etale-enough-points`)); (vii) change of coefficients along Λ → Λ′ (restriction and extension of scalars); (viii) ν^{-1} and ν_* along ν: X_proét → X_ét (`AdicEtaleGeometry`, layer A1 (`proetale-projection-nu`)). These are the carriers of D0's ordinary generic sheaf interface (`DiamondsAndVStacks`, layer D0) and of E1's module sheaves (`EnhancedDerivedSheaves`, layer E1 (module sheaves and the Grothendieck property)) on the classical analytic étale and pro-étale sites; no second site is constructed.
+Let X be a locally strongly sheafy analytic adic space with small étale site X_ét (`AdicEtaleGeometry`, layer A1 (`etale-site`)) and Λ a ring. The category of étale sheaves of Λ-modules is Sh(X_ét, Λ) := `Sheaf (AdicSpace.smallEtaleTopology X) (ModuleCat Λ)`; more generally for a sheaf of rings R on X_ét (the constant sheaf Λ_X, the structure sheaf O_{X_ét} of `AdicEtaleGeometry`, layer A1 (`etale-structure-sheaf`), or O⁺_{X_ét}) the category Mod(X_ét, R) := `SheafOfModules R`; for X locally noetherian the same definitions on X_proét (`AdicEtaleGeometry`, layer A1 (`pro-etale-site-corrected`); size handled by Section 1.1). Structure: (i) Sh(X_ét, Λ) is Grothendieck abelian with enough injectives and Sh(X_ét, Λ) ≃ Mod(X_ét, Λ_X); (ii) Γ(U, −): Sh(X_ét, Λ) → Mod_Λ, F ↦ F(U), for U ∈ X_ét, left exact; (iii) the constant sheaf M_X := sheafification of the constant presheaf M (Mathlib `constantSheaf`) with Hom(M_X, F) = Hom_Λ(M, F(X)); for every U ∈ X_ét, M_X(U) is the module of locally constant functions |U| → M; (iv) for a morphism g: X′ → X of locally strongly sheafy analytic adic spaces, g_* (sections (g_*F)(U) = F(U ×_X X′)) with exact left adjoint g^{-1} (`AdicEtaleGeometry`, layer A1 (`etale-site`) (iv)); (v) for u: U → X in X_ét, restriction u^{-1}F = F|_U identified with Mathlib's `overPullback` under U_ét ≃ X_ét/U (`AdicEtaleGeometry`, layer A1 (`slice-site`)); (vi) stalks F_ξ at geometric points ξ: Spa(C, C⁺) → X with C⁺ of any rank (`AdicEtaleGeometry`, layer A1 (`etale-site-and-geometric-points`)) are exact, commute with colimits and jointly detect isomorphisms, monomorphisms, epimorphisms and zero objects (`AdicEtaleGeometry`, layer A1 (`etale-enough-points`)); (vii) change of coefficients along Λ → Λ′ (restriction and extension of scalars); (viii) ν^{-1} and ν_* along ν: X_proét → X_ét (`AdicEtaleGeometry`, layer A1 (`proetale-projection-nu`)). These are the carriers of D0's ordinary generic sheaf interface (`DiamondsAndVStacks`, layer D0) and of Section 0.1's module sheaves on the classical analytic étale and pro-étale sites; no second site is constructed.
 
 This uses X locally strongly sheafy analytic (locally noetherian for the pro-étale clause); Coverings are A1's jointly surjective families on all points, including points of higher rank; Λ is any ring; torsion hypotheses on Λ are imposed only by the theorems that need them.
 
@@ -129,9 +295,9 @@ For R = O_{X_ét}, H^n(X_ét, O_{X_ét}) computed in O-modules equals the cohomo
 
 *Needs:* Section 1.1; `AdicEtaleGeometry`, layer A1 (`proetale-topos-enough-points`); `AdicEtaleGeometry`, layer A1 (`etale-enough-points`); `AdicEtaleGeometry`, layer A1 (`etale-site`); `AdicEtaleGeometry`, layer A1 (`proetale-projection-nu`); Mathlib SheafOfModules; Mathlib CategoryTheory.cechComplexFunctor.
 
-Let X be a locally strongly sheafy analytic adic space, Λ a ring (or R a sheaf of rings) and Sh(X_ét, Λ) the Grothendieck abelian category of Section 1.1. Define: (i) D⁺(X_ét, Λ) := `DerivedCategory.Plus (Sh(X_ét, Λ))`, the full subcategory of cohomologically bounded below objects of the ordinary derived category D(X_ét, Λ) = `DerivedCategory (Sh(X_ét, Λ))`; (ii) for U ∈ X_ét, RΓ(U, −) := Γ(U, −).rightDerivedFunctorPlus: D⁺(X_ét, Λ) → D⁺(Mod_Λ) and H^n(U, K) := H^n(RΓ(U, K)); for a sheaf F, H^n(U, F) = R^nΓ(U, −)(F) (Mathlib `Functor.rightDerived`), computed by any injective resolution; (iii) for a morphism g: X′ → X of locally strongly sheafy analytic adic spaces, Rg_* := (g_*).rightDerivedFunctorPlus: D⁺(X′_ét, Λ) → D⁺(X_ét, Λ) and R^q g_* F := H^q(Rg_* F) = (g_*).rightDerived q (F); (iv) for X locally noetherian, D⁺(X_proét, Λ) and Rν_*: D⁺(X_proét, Λ) → D⁺(X_ét, Λ) for ν: X_proét → X_ét (`AdicEtaleGeometry`, layer A1 (`proetale-projection-nu`)), and Rf_proét,* for morphisms of locally noetherian analytic adic spaces; the same for sheaves of R-modules. Normalisations: H^0(U, F) = F(U); H^n(U, F) = H^n(U_ét, F|_U) (Section 1.1); H^n(X, F) ≅ Ext^n(Λ_X, F) in Sh(X_ét, Λ) (Mathlib `Abelian.Ext`), and for Λ = ℤ this is Mathlib's `Sheaf.H F n`; the cohomology of R-modules agrees with that of the underlying abelian sheaves (Section 1.1). These are D0's ordinary derived global sections and direct images (`DiamondsAndVStacks`, layer D0) instantiated on A1's sites; the unbounded enhanced versions are E1's, compared in Section 1.2.
+Let X be a locally strongly sheafy analytic adic space, Λ a ring (or R a sheaf of rings) and Sh(X_ét, Λ) the Grothendieck abelian category of Section 1.1. Define: (i) D⁺(X_ét, Λ) := `DerivedCategory.Plus (Sh(X_ét, Λ))`, the full subcategory of cohomologically bounded below objects of the ordinary derived category D(X_ét, Λ) = `DerivedCategory (Sh(X_ét, Λ))`; (ii) for U ∈ X_ét, RΓ(U, −) := Γ(U, −).rightDerivedFunctorPlus: D⁺(X_ét, Λ) → D⁺(Mod_Λ) and H^n(U, K) := H^n(RΓ(U, K)); for a sheaf F, H^n(U, F) = R^nΓ(U, −)(F) (Mathlib `Functor.rightDerived`), computed by any injective resolution; (iii) for a morphism g: X′ → X of locally strongly sheafy analytic adic spaces, Rg_* := (g_*).rightDerivedFunctorPlus: D⁺(X′_ét, Λ) → D⁺(X_ét, Λ) and R^q g_* F := H^q(Rg_* F) = (g_*).rightDerived q (F); (iv) for X locally noetherian, D⁺(X_proét, Λ) and Rν_*: D⁺(X_proét, Λ) → D⁺(X_ét, Λ) for ν: X_proét → X_ét (`AdicEtaleGeometry`, layer A1 (`proetale-projection-nu`)), and Rf_proét,* for morphisms of locally noetherian analytic adic spaces; the same for sheaves of R-modules. Normalisations: H^0(U, F) = F(U); H^n(U, F) = H^n(U_ét, F|_U) (Section 1.1); H^n(X, F) ≅ Ext^n(Λ_X, F) in Sh(X_ét, Λ) (Mathlib `Abelian.Ext`), and for Λ = ℤ this is Mathlib's `Sheaf.H F n`; the cohomology of R-modules agrees with that of the underlying abelian sheaves (Section 1.1). These are D0's ordinary derived global sections and direct images (`DiamondsAndVStacks`, layer D0) instantiated on A1's sites; the unbounded enhanced versions are supplied by Sections 0.1–0.4, compared in Section 1.2.
 
-This uses X, X′ locally strongly sheafy analytic; locally noetherian for the pro-étale clauses; Only bounded-below complexes are derived with injective resolutions; unbounded complexes use E1's K-injective replacements; No torsion hypothesis on Λ is needed for the definitions.
+This uses X, X′ locally strongly sheafy analytic; locally noetherian for the pro-étale clauses; Only bounded-below complexes are derived with injective resolutions; unbounded complexes use Section 0.2's K-injective replacements; No torsion hypothesis on Λ is needed for the definitions.
 
 (Scholze, Étale cohomology of diamonds, §14, before Proposition 14.10, p. 86; Huber (1996), §3.5, Corollary 3.5.11, p. 206; P. Scholze, p-adic Hodge theory for rigid-analytic varieties, §3, Corollary 3.17 (ii), p. 20.)
 
@@ -227,15 +393,15 @@ For the quasi-compact open j: U = {|T| ≤ |p|} ⊆ X = closed unit disc over �
 
 *Needs:* Section 1.1; Section 1.2; `AdicEtaleGeometry`, layer A1 (`slice-site`); Mathlib CategoryTheory.Functor.sheafPullback; Mathlib CategoryTheory.GrothendieckTopology.overPullback; `AdicSpacesPartIV`, layer R4 (`boundary-complement-restriction`); `AdicEtaleGeometry`, layer A1 (`etale-diagonal`); `AdicEtaleGeometry`, layer A1 (`finite-etale-local-to-global`).
 
-Let X be a locally strongly sheafy analytic adic space and Λ a ring; let D(X_ét, Λ) = `DerivedCategory (Sh(X_ét, Λ))`, D⁺(X_ét, Λ) ⊆ D(X_ét, Λ) the full subcategory of Section 1.1, and 𝒟(X_ét, Λ) the enhanced derived category of E1 (`EnhancedDerivedSheaves`, layer E1 (the enhanced derived category)), whose homotopy category is D(X_ét, Λ). Then: (a) for F, G ∈ Sh(X_ét, Λ) and n ≥ 0, Ext^n(F, G) (Mathlib `Abelian.Ext`) ≅ Hom_{D(X_ét, Λ)}(F, G[n]) ≅ Hom_{D⁺(X_ét, Λ)}(F, G[n]) ≅ π_0 Map_{𝒟(X_ét, Λ)}(F, G[n]); in particular H^n(U, G) ≅ π_0 Map_𝒟(j_{U!}Λ, G[n]) for U ∈ X_ét, with j_{U!}Λ the extension by zero of Section 1.2; (b) a bounded below complex of injective sheaves is K-injective, so for K ∈ D⁺(X_ét, Λ) the value RΓ(U, K) of the D⁺ right derived functor agrees with E1's enhanced RΓ(U, K) computed by K-injective replacement (`EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements)), and likewise Rg_*K and Rν_*K; (c) the comparisons in (a)–(b) are compatible with composition (Yoneda product), with the connecting maps of long exact sequences and with g^{-1}. Consequently every classical statement of Layers 1–11 formulated in D⁺ is a statement about E1's enhanced objects restricted to bounded-below complexes, and conversely.
+Let X be a locally strongly sheafy analytic adic space and Λ a ring; let D(X_ét, Λ) = `DerivedCategory (Sh(X_ét, Λ))`, D⁺(X_ét, Λ) ⊆ D(X_ét, Λ) the full subcategory of Section 1.1, and 𝒟(X_ét, Λ) the enhanced derived category of Section 0.1, whose homotopy category is D(X_ét, Λ). Then: (a) for F, G ∈ Sh(X_ét, Λ) and n ≥ 0, Ext^n(F, G) (Mathlib `Abelian.Ext`) ≅ Hom_{D(X_ét, Λ)}(F, G[n]) ≅ Hom_{D⁺(X_ét, Λ)}(F, G[n]) ≅ π_0 Map_{𝒟(X_ét, Λ)}(F, G[n]); in particular H^n(U, G) ≅ π_0 Map_𝒟(j_{U!}Λ, G[n]) for U ∈ X_ét, with j_{U!}Λ the extension by zero of Section 1.2; (b) a bounded below complex of injective sheaves is K-injective, so for K ∈ D⁺(X_ét, Λ) the value RΓ(U, K) of the D⁺ right derived functor agrees with Section 0.1's enhanced RΓ(U, K) computed by K-injective replacement (Sections 0.1–0.4 (K-injective and K-flat replacements)), and likewise Rg_*K and Rν_*K; (c) the comparisons in (a)–(b) are compatible with composition (Yoneda product), with the connecting maps of long exact sequences and with g^{-1}. Consequently every classical statement of Layers 1–11 formulated in D⁺ is a statement about Section 0.1's enhanced objects restricted to bounded-below complexes, and conversely.
 
-This uses Λ an arbitrary ring; the enhanced category is E1's for the ringed site (X_ét, Λ_X); Only bounded-below complexes are claimed to be computed by injective resolutions.
+This uses Λ an arbitrary ring; the enhanced category is Section 0.1's for the ringed site (X_ét, Λ_X); Only bounded-below complexes are claimed to be computed by injective resolutions.
 
 (Scholze, Étale cohomology of diamonds, §17, proof of Lemma 17.1, p. 96; Scholze, Étale cohomology of diamonds, §14, before Proposition 14.10, p. 86.)
 
 For U = X and G = Λ_X: H^n(X, Λ) ≅ π_0 Map_𝒟(Λ_X, Λ_X[n]). The comparison is required for the passage from Huber's D⁺ statements (Layers 2–9) to ECD's unbounded D_ét on the diamond side.
 
-*Needs:* Section 1.1; Section 1.2; `EnhancedDerivedSheaves`, layer E1 (the enhanced derived category); `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); `EnhancedDerivedSheaves`, layer E1 (module sheaves and the Grothendieck property); Mathlib CategoryTheory.Abelian.Ext; Mathlib DerivedCategory; Mathlib DerivedCategory.Plus; Mathlib CochainComplex.IsKInjective; Mathlib CochainComplex.isKInjective_of_injective; Mathlib CochainComplex.IsKInjective.quasiIso_iff.
+*Needs:* Section 1.1; Section 1.2; Sections 0.1–0.4 (the enhanced derived category); Sections 0.1–0.4 (K-injective and K-flat replacements); Sections 0.1–0.4 (module sheaves and the Grothendieck property); Mathlib CategoryTheory.Abelian.Ext; Mathlib DerivedCategory; Mathlib DerivedCategory.Plus; Mathlib CochainComplex.IsKInjective; Mathlib CochainComplex.isKInjective_of_injective; Mathlib CochainComplex.IsKInjective.quasiIso_iff.
 
 Let X be a locally strongly sheafy analytic adic space, j: U ⊆ X an open subspace with closed complement Z and i: (X, Z)_ét → X_ét (Section 1.2). (a) For a geometric point ξ of X with support x: (j_!G)_ξ = G_ξ if x ∈ U and 0 if x ∈ Z; (i_*H)_ξ = H_ξ if x ∈ Z and 0 if x ∈ U. (b) For F ∈ Sh(X_ét, Λ) the sequence 0 → j_!j^{-1}F → F → i_*i^{-1}F → 0 is exact. (c) For K ∈ D⁺(X_ét, Λ) there are distinguished triangles j_!j^{-1}K → K → i_*i^{-1}K → and i_*Ri^!K → K → Rj_*j^{-1}K →, and a long exact sequence ⋯ → H^n_Z(X, K) → H^n(X, K) → H^n(U, K) → H^{n+1}_Z(X, K) → ⋯, natural in K. (d) For an injective sheaf I, Γ(X, I) → Γ(U, I) is surjective.
 
@@ -340,7 +506,7 @@ Provide `ProEtaleSheaf.completedZp_derivedLimit`, the constant-tower specializat
 - The tower Z/p^r with reduction transitions has no higher derived inverse-limit sheaf. Multiplication-by-p transitions form a different tower and cannot be substituted.
 - For p=2 the exact sequence still uses multiplication by 2^r followed by reduction; rationalization is absent.
 
-*Needs:* the corrected analytic pro-étale site and its qcqs presentations from `AdicEtaleGeometry`, layer A1; the compatible cardinal cutoffs of `DiamondsAndVStacks`, layer D0; the perfectoid bases and finite étale descent of `PerfectoidSpaces`, layers P3, P5 and P7; derived limits from `EnhancedDerivedSheaves`, layers E1–E2.
+*Needs:* the corrected analytic pro-étale site and its qcqs presentations from `AdicEtaleGeometry`, layer A1; the compatible cardinal cutoffs of `DiamondsAndVStacks`, layer D0; the perfectoid bases and finite étale descent of `PerfectoidSpaces`, layers P3, P5 and P7; derived limits from Sections 0.1–0.4.
 
 ### 1.4 Finite local systems, constructibility and twists
 
@@ -461,19 +627,15 @@ For X over Spa(ℂ_p, O_{ℂ_p}), a compatible system of roots of unity gives �
 
 ### 1.5 Limits with pseudo-adic supports
 
-Define a supported tilde-limit for a small cofiltered system of qcqs pseudo-adic spaces (Xᵢ,Sᵢ), with adic transition morphisms, and a compatible cone (X,S)→(Xᵢ,Sᵢ). Require S→lim Sᵢ to be a homeomorphism in the subspace topologies and, at every x∈S, an affinoid ambient neighborhood U such that the union of the images O_Xᵢ(V)→O_X(U), over compatible finite-stage opens V containing the image of U, is dense. This is the support version of the generic analytic tilde-limit supplied by PerfectoidSpaces P7; it can apply to non-analytic ambient spaces. The two requirements are independent. Density in residue fields gives the weaker primed variant and does not replace density of functions. Neither variant asserts a categorical limit in adic spaces.
+Define a supported tilde-limit for a small cofiltered system of qcqs pseudo-adic spaces (Xᵢ,Sᵢ), with adic transition morphisms, and a compatible cone (X,S)→(Xᵢ,Sᵢ). Require S→lim Sᵢ to be a homeomorphism in the subspace topologies and, at every x∈S, an affinoid ambient neighborhood U such that the union of the images O_Xᵢ(V)→O_X(U), over compatible finite-stage opens V containing the image of U, is dense. This is the support version of the ordinary tilde-limit supplied by AdicSpacesPartIV R5.7–R5.8; it can apply to non-analytic ambient spaces. The two requirements are independent. Density in residue fields gives the weaker primed variant and does not replace density of functions. Neither variant asserts a categorical limit in adic spaces.
 
 This uses The supported spaces are qcqs and the transitions adic. In the analytic case the ambient spaces use the analytic supplier; otherwise they satisfy Huber’s standing condition.
 
 (Huber (1996), §2.4, Definition 2.4.2 and Remark 2.4.3, pp. 125–127.)
 
-Provide `AdicSpace.IsTildeLimit`: The predicate X ∼ lim X_i on a compatible family φ from X to a cofiltered system with qcqs transition maps; `AdicSpace.IsTildeLimit.Homeomorph`: Condition (a): |X| → lim |X_i| is a homeomorphism; `AdicSpace.IsTildeLimit.Dense`: Condition (b): local density of ⋃ im(O_{X_i}(V) → O_X(U)) for an affinoid neighbourhood U of each point; `AdicSpace.IsTildeLimit.homeomorph`: The homeomorphism |X| ≃ lim |X_i|.
+Use `AdicSpacesPartIV.AdicSpace.IsTildeLimit` and the ordinary-space API of R5.7–R5.8 (*tilde-limit-base-change*, *tilde-limits-affinoid-criterion*) for topology, local density, affinoid criteria and ordinary base change. PerfectoidSpaces P7 supplies its analytic Yoneda and perfectoid refinements. The ordinary-space assertions below are applications of this supplier predicate.
 
-Provide `AdicSpace.IsTildeLimit.dense`: For x ∈ X, an affinoid U ∋ x with E_U dense in O_X(U); `AdicSpace.IsTildeLimit.mk`: From proofs of (a) and (b); `AdicSpace.IsTildeLimit.ofIso`: Transport along an isomorphism X ≅ X′ commuting with the cones; `AdicSpace.IsTildeLimit.reindex`: Invariance under an initial change of index category.
-
-Provide `AdicSpace.IsTildeLimit.const`: An isomorphism X ≅ X₀ is a tilde-limit of the constant one-object system; `AdicSpace.IsTildeLimit.spectralSpace`: If all X_i are qcqs, |X| is spectral and the φ_i are spectral maps; `AdicSpace.IsTildeLimit.restrictRational`: Restriction to preimages of rational subsets defined at a finite level (the supplier contracts); `AdicSpace.IsTildeLimit.ofCompletedColimit`: The affinoid criterion (Section 1.5).
-
-Provide `PseudoAdicSpace.IsTildeLimit`: Huber's pseudo-adic version for qcqs pseudo-adic spaces; agrees with AdicSpace.IsTildeLimit for (X, |X|); `AdicSpace.IsTildeLimit.of_bijective`: Huber's criterion (Remark 2.4.3 (i), as used by `AdicSpacesPartIV`, layer R5 (`tilde-limit-base-change`)): if all X_i are qcqs, |X| → lim |X_i| is bijective, and every x ∈ X has an affinoid neighbourhood U satisfying (b) together with i ∈ I and an open W ⊆ X_i with x ∈ φ_i^{-1}(W) ⊆ U, then X ∼ lim X_i. Proof: a rational subset of U is unchanged when its defining functions are replaced by close elements of E_U (Huber 1993, Lemma 3.11), so it is the preimage of an open of some X_j lying over W; hence the bijection is open; `AdicSpace.IsTildeLimit.dense_of_affinoidDense`: If the colimit of O(V) over open affinoids V ⊆ X_i through which U → X_i factors has dense image in O_X(U) (Scholze–Weinstein's form), then (b) holds for U; for perfectoid X the converse is `PerfectoidSpaces`, layer P7 (`good-affinoid-perfectoid-basis`).
+Provide `SupportedTildeLimit` for the supported cones defined above, with `SupportedTildeLimit.homeomorph` on supports, `SupportedTildeLimit.dense` on ambient neighborhoods of support points, constructors from these two conditions, transport under cone isomorphisms and initial reindexing, and restriction to inverse images of finite-stage rational opens. Provide `SupportedTildeLimit.fullSupport_iff`: at full support it is equivalent to the R5 predicate. The residue-field-density variant is separate. Huber's bijective-cone criterion (Remark 2.4.3(i)) gives a supported tilde-limit if local function density holds and each support point has an ambient affinoid neighborhood containing the preimage of a finite-stage open neighborhood: rational inequalities can then be approximated at a finite stage, so the support bijection is open.
 
 **Checks.**
 
@@ -486,7 +648,7 @@ Provide `PseudoAdicSpace.IsTildeLimit`: Huber's pseudo-adic version for qcqs pse
 
 Scholze–Weinstein Proposition 2.4.2 / Section 1.5: the completed colimit of a system of affinoid rings with compatible rings and ideals of definition is a tilde-limit. Strict localisations: Spa(C_ξ, C_ξ⁺) ∼ lim V over affinoid étale neighbourhoods of a geometric point ξ (Section 1.5).
 
-*Needs:* `DiamondsAndVStacks`, layer D0 (`cofiltered-limits-of-spectral-spaces`); Section 1.2; Mathlib TopCat.limitCone; Mathlib CategoryTheory.IsCofiltered.
+*Needs:* `AdicSpacesPartIV`, R5.7–R5.8; `PerfectoidSpaces`, P7; `DiamondsAndVStacks`, layer D0 (`cofiltered-limits-of-spectral-spaces`); Section 1.2; Mathlib TopCat.limitCone; Mathlib CategoryTheory.IsCofiltered.
 
 (1) Huber-pair form. Let (A_i, A_i⁺)_{i∈I} be a filtered system of complete Huber pairs with rings of definition and finitely generated ideals of definition as in the supplier contracts, such that each X_i := Spa(A_i, A_i⁺) is an adic space (A_i sheafy), and let (B, B⁺) be a complete Huber pair with compatible adic morphisms (A_i, A_i⁺) → (B, B⁺) such that X := Spa(B, B⁺) is an adic space. Suppose (T) the closure B_0 of the image of colim A_{i,0} is a ring of definition of B with ideal of definition generated by the image of I_i (the topology of B is the colimit topology), (D) colim A_i → B has dense image, and (P) B⁺ is the closure of the image of colim A_i⁺; equivalently, (B, B⁺) is the completed colimit (Â, Â⁺). Then X ∼ lim_i X_i (Section 1.5) with the density condition holding globally for U = X. (2) Tate form (colimit-presented affinoids). Let the A_i be complete Tate rings with a compatible pseudouniformiser ϖ, L⁺ := colim_i A_i⁺, and (C, C⁺) a complete Tate Huber pair with compatible morphisms (A_i, A_i⁺) → (C, C⁺) such that (P2) the induced maps L⁺/ϖ^n L⁺ → C⁺/ϖ^n C⁺ are isomorphisms for all n ≥ 1; call Spa(C, C⁺) colimit-presented by (Spa(A_i, A_i⁺)). Then Spa(C, C⁺) ∼ lim_i Spa(A_i, A_i⁺) with global density, the kernel of colim A_i → C lies in ⋂_n ϖ^n L⁺, and every rational subset of Spa(C, C⁺) is the preimage of one at a finite stage. The completed colimit in the Tate case is colimit-presented. (3) Condition (T), resp. (P2), cannot be replaced by density and a plus-ring condition alone (non-example below).
 
@@ -494,7 +656,7 @@ This uses Complete Huber (resp. Tate) pairs; all Spa's involved are adic spaces 
 
 (Huber (1996), §2.4, Remark 2.4.3(i), pp. 125–126.)
 
-Scholze–Weinstein Proposition 2.4.2: Spa(A, A⁺) ∼ lim Spa(A_i, A_i⁺) for the colimit with its colimit topology. Spa(K⟨T^{1/p^∞}⟩) ∼ lim_n Spa(K⟨T^{1/p^n}⟩) for any complete nonarchimedean K of residue characteristic p (the perfectoid case is PerfectoidSpaces P7). Provides the comparison used by `AdicSpacesPartIV`, layer R5 (affinoid criterion for X_∞ ×_L U ∼ lim X_n ×_L U), with hypothesis (T) or (P2) made explicit: density of colim A_n in A and the plus-ring condition do not suffice.
+Scholze–Weinstein Proposition 2.4.2: Spa(A, A⁺) ∼ lim Spa(A_i, A_i⁺) for the colimit with its colimit topology. Spa(K⟨T^{1/p^∞}⟩) ∼ lim_n Spa(K⟨T^{1/p^n}⟩) for any complete nonarchimedean K of residue characteristic p (the perfectoid case is PerfectoidSpaces P7). Use `AdicSpacesPartIV`, R5.7–R5.8, for the ordinary affinoid criterion and its base change (X_∞ ×_L U ∼ lim X_n ×_L U), with hypothesis (T) or (P2) explicit: density of colim A_n in A and the plus-ring condition do not suffice.
 
 *Needs:* the supplier contracts; Section 1.5; Tau Ceti TauCeti.Huber.PairOfDefinition.completionLocalization; Tau Ceti TauCeti.ValuationSpectrum.spa_integralClosure; Mathlib UniformSpace.Completion.denseRange_coe.
 
@@ -552,9 +714,9 @@ Let f: X → Y be a quasi-compact, quasi-separated morphism of locally strongly 
 
 This uses f quasi-compact, quasi-separated and locally of weakly finite type (so that X ×_Y V and X ×_Y Y(ξ) exist and are qcqs, locally strongly sheafy over qcqs V); ξ a geometric point with C⁺ of any rank; field pairs (C, C⁺) are not replaced by (C, O_C).
 
-(Huber (1996), §2.6, Proposition 2.6.1, p. 138; Huber (1996), §3.8, proof of Lemma 3.8.2, p. 229; P. Scholze, p-adic Hodge theory for rigid-analytic varieties, §5, proof of Corollary 5.11, p. 34; B. Bhatt, D. Hansen, The six functors for Zariski-constructible sheaves in rigid geometry, §3, proof of Proposition 3.15, p. 20; A. J. de Jong, M. van der Put, Étale cohomology of rigid analytic spaces, §3.7, Theorem 3.7.3, p. 38.)
+(Huber (1996), §2.6, Proposition 2.6.1, p. 138; Huber (1996), §3.8, proof of Lemma 3.8.2, p. 229; P. Scholze, p-adic Hodge theory for rigid-analytic varieties, §5, proof of Corollary 5.11, p. 34; B. Bhatt, D. Hansen, The six functors for Zariski-constructible sheaves in rigid geometry, §3, proof of Theorem 3.15, p. 20; A. J. de Jong, M. van der Put, Étale cohomology of rigid analytic spaces, §3.7, Theorem 3.7.3, p. 38.)
 
-Finite étale f: the fibre is a finite disjoint union of copies of Spa(C_ξ, C_ξ⁺), so R^n f_*F = 0 for n > 0 by Section 1.2. Huber Lemma 3.8.2 (via the decomposition): (R^n g′_* f′_! F′)_y = H^n(X′ ×_{Y′} Y′(y), L) = 0 is an application of (a). Bhatt–Hansen, proof of Proposition 3.15: two applications of Huber Example 2.6.2 compute (g^*Rf_*F)_y and (Rf′_*g′^*F)_y at rank-one points y, which is (c).
+Finite étale f: the fibre is a finite disjoint union of copies of Spa(C_ξ, C_ξ⁺), so R^n f_*F = 0 for n > 0 by Section 1.2. Huber Lemma 3.8.2 (via the decomposition): (R^n g′_* f′_! F′)_y = H^n(X′ ×_{Y′} Y′(y), L) = 0 is an application of (a). Bhatt–Hansen, proof of Theorem 3.15: two applications of Huber Example 2.6.2 compute (g^*Rf_*F)_y and (Rf′_*g′^*F)_y at rank-one points y, which is (c).
 
 *Needs:* Section 1.5; Section 1.1; Section 1.2; `AdicEtaleGeometry`, layer A1 (`strict-localisation-analytic`); `AdicEtaleGeometry`, layer A1 (`etale-site-and-geometric-points`); `AdicSpacesPartII`, layer R0 (`fibre-products-existence`).
 
@@ -566,31 +728,23 @@ For a geometric field pair (C,C⁺), let s denote its closed pseudo-adic point. 
 
 ### Dependencies
 
-Use Mathlib’s sheaf, module, Grothendieck abelian and bounded-below derived-category APIs, and the coherent-site contract of `DiamondsAndVStacks`, D0. `AdicEtaleGeometry`, A1 and A4, supplies classical étale/pro-étale geometry, conservative points and finite-stage étale descent. `PerfectoidSpaces`, P7, supplies generic analytic tilde-limits; Section 1.5 proves their pseudo-adic support and sheaf-cohomology refinements. The shared coefficient descent is `AdicCoefficientsAndComparisons`, L2. Localize supports before taking their derived cohomology; the basis and stalk constructions precede continuity.
+Use Mathlib’s sheaf, module, Grothendieck abelian and bounded-below derived-category APIs, and the coherent-site contract of `DiamondsAndVStacks`, D0. `AdicEtaleGeometry`, A1 and A4, supplies classical étale/pro-étale geometry, conservative points and finite-stage étale descent. `AdicSpacesPartIV`, R5.7–R5.8, supplies ordinary tilde-limits, and `PerfectoidSpaces`, P7, supplies the analytic refinements; Section 1.5 proves the pseudo-adic support and sheaf-cohomology comparisons. Sections 0.5–0.6 supply coefficient descent. Localize supports before taking their derived cohomology; the basis and stalk constructions precede continuity.
 
 ## Layer 2: Henselian comparison and perfectoid approximation
 
 ### 2.1 Henselian f-adic rings and rational localization
 
-Let A be a commutative ring and I ⊆ A an ideal. The following are equivalent. (1) Mathlib's `HenselianRing A I`: I ⊆ Jacobson radical of A, and every monic f ∈ A[T] with an a₀ ∈ A such that f(a₀) ∈ I and f′(a₀) is a unit modulo I has a root a with a − a₀ ∈ I. (2) (Stacks Definition 15.11.1) I ⊆ rad(A), and every factorisation f̄ = g₀h₀ modulo I of a monic f ∈ A[T] into monic polynomials generating the unit ideal of (A/I)[T] lifts to a factorisation f = gh into monic polynomials. (3) For every étale A-algebra A′ and every A-algebra map σ: A′ → A/I there is an A-algebra map A′ → A lifting σ. (4) For every finite A-algebra B, reduction B → B/IB is a bijection on idempotents. (5) The same for every integral A-algebra B. (6) (Gabber) I ⊆ rad(A), and every polynomial T^n(T − 1) + a_nT^n + ⋯ + a₁T + a₀ with a₀, …, a_n ∈ I and n ≥ 1 has a root in 1 + I; this root is unique. Lean: `HenselianRing.tfae`, with the named directions `HenselianRing.lift_of_etale`, `HenselianRing.idempotent_bijective_of_finite`, `HenselianRing.of_gabber`.
+Use `SchemeAndStackFoundations`, §0.14, *henselian_pair_characterisations* and *henselian_pair_permanence*, for the simple-root, factorization, étale-section and idempotent criteria and radical invariance of Mathlib's `HenselianRing A I`, for arbitrary commutative A and ideals I. Section 2.1 adds their Huber-ring consequences. For a pair of definition (A₀,J₀), √J₀=A₀∩A°°, so the supplied radical invariance identifies henselianity along these two ideals. (Stacks, tags 09XI and 09XJ.)
 
-This uses A commutative, arbitrary (no noetherian or local hypothesis); In (4) and (5) the bijection is between the idempotents of B and those of B/IB.
+Provide `HenselianRing.of_gabber` and its converse as the additional Gabber polynomial test: a pair (A,I) is henselian exactly when I is in the Jacobson radical and, for every n≥1 and a₀,…,a_n∈I, the monic polynomial Tⁿ(T−1)+a_nTⁿ+⋯+a₀ has a root in 1+I. Under these hypotheses the root is unique. This specialized test is in addition to the supplier's stated characterizations. (Stacks, Lemma 15.11.6, tag 09XI, item (5) and its uniqueness clause.)
 
-(Stacks project, Tag 09XI (Lemma 15.11.6), Section 15.11 Henselian pairs; K. Kedlaya, R. Liu, Relative p-adic Hodge theory: Foundations, §1.2, Remark 1.2.7, p. 14; Kazuhiro Fujiwara, Fumiharu Kato, Foundations of Rigid Geometry I, Chapter 0, §7.3 (a), p. 161.)
+**Checks.**
 
-For a local ring (A, 𝔪) and I = 𝔪, condition (1) is Mathlib's HenselianLocalRing A (through Mathlib's instance HenselianLocalRing → HenselianRing A 𝔪), and Mathlib's HenselianLocalRing.TFAE adds only residue-field forms of (1); the forms (2)–(6), in particular the étale form (3), are not in Mathlib and are supplied by this assertion. Gabber's test detects non-henselian pairs: for (ℤ_(3), 3ℤ_(3)) the polynomial T² − T + 3 = T(T − 1) + 3 has the root (1 + √−11)/2 ≡ 1 mod 3 in ℤ_3 but no root in ℤ_(3) (−11 is not a square in ℚ), so (6) fails, as it must.
+- For I=0 the test polynomial is Tⁿ(T−1), with unique root 1 in 1+I.
+- Over Z_p with I=pZ_p, the test lifts the root 1 for every such polynomial.
+- Over Z_(3) with I=3Z_(3), T²−T+3 has a root congruent to 1 in Z_3 but none in Z_(3), since −11 is not a square in Q; the test fails.
 
-*Needs:* Mathlib HenselianRing; Mathlib HenselianLocalRing.TFAE; Mathlib Algebra.Etale; Mathlib Algebra.IsIntegral; Mathlib Ideal.jacobson.
-
-Let A be a ring and I, J ⊆ A ideals with the same radical (equivalently V(I) = V(J) in Spec A). Then HenselianRing A I ↔ HenselianRing A J. Lean: `HenselianRing.iff_of_radical_eq`.
-
-This uses No hypothesis on A; I and J need not be finitely generated.
-
-(Stacks project, Tag 09XJ (Lemma 15.11.7); Kazuhiro Fujiwara, Fumiharu Kato, Foundations of Rigid Geometry I, Chapter 0, §7.3 (a), p. 161.)
-
-(ℤ_p, pℤ_p) and (ℤ_p, p²ℤ_p) are both henselian. For a ring of definition A₀ of a Huber ring with ideal of definition J₀: (A₀, J₀) is henselian iff (A₀, A₀ ∩ A°°) is, because an element of A₀ is topologically nilpotent iff some power lies in J₀, i.e. √J₀ = A₀ ∩ A°°.
-
-*Needs:* Section 2.1; Mathlib HenselianRing; Mathlib Ideal.radical.
+*Needs:* `SchemeAndStackFoundations`, §0.14; Mathlib HenselianRing, Polynomial and Ideal.jacobson.
 
 Let φ: A → A′ be a ring homomorphism, I ⊆ A and I′ ⊆ A′ ideals such that φ restricts to a bijection I → I′ (so I ≅ I′ as non-unital rings). Then HenselianRing A I ↔ HenselianRing A′ I′. In particular, if R ⊆ R′ are rings and J is an ideal of both R and R′, then (R, J) is henselian iff (R′, J) is. Lean: `HenselianRing.iff_of_bijOn_ideal`.
 
@@ -598,7 +752,7 @@ This uses φ need not be injective or surjective; only its restriction I → I�
 
 (Gabber–Ramero, Almost ring theory, arXiv v3, §5.1, Remark 5.1.9(ii), p. 104; Bhargav Bhatt, Lecture notes for a class on perfectoid spaces, Chapter 7, proof of Lemma 7.2.3(3), p. 58.)
 
-For rings of definition B₀ ⊆ B₀′ of a Tate ring with ϖⁿB₀′ ⊆ B₀, the ideal ϖ^{n+1}B₀′ is common to both, so (B₀, ϖB₀) is henselian iff (B₀′, ϖB₀′) is (with henselian-pair-radical-invariance). (ℤ + pℤ_p⟨T⟩, pℤ_p⟨T⟩) is a henselian pair, because pℤ_p⟨T⟩ is also an ideal of the p-adically complete ring ℤ_p⟨T⟩.
+For rings of definition B₀ ⊆ B₀′ of a Tate ring with ϖⁿB₀′ ⊆ B₀, the ideal ϖ^{n+1}B₀′ is common to both, so (B₀, ϖB₀) is henselian iff (B₀′, ϖB₀′) is (using `SchemeAndStackFoundations`, §0.14, `henselian_pair_permanence`). (ℤ + pℤ_p⟨T⟩, pℤ_p⟨T⟩) is a henselian pair, because pℤ_p⟨T⟩ is also an ideal of the p-adically complete ring ℤ_p⟨T⟩.
 
 *Needs:* Section 2.1; Mathlib HenselianRing; Mathlib Ideal.jacobson.
 
@@ -618,17 +772,21 @@ This uses A an arbitrary Huber ring (the §3.1 convention of Huber's book: arbit
 
 (Huber (1996), §3.1, opening, p. 163; Bhargav Bhatt, Lecture notes for a class on perfectoid spaces, Chapter 7, Lemma 7.2.3(3), p. 57; Roland Huber, Continuous valuations, §1, Proposition 1 (iii), p. 457 (GDZ OCR).)
 
-Tate case: for a Tate ring A with ring of definition A₀ ∋ ϖ, (A₀, ϖA₀) is henselian iff (A°, A°°) is iff (A⁺, A°°) is — the statement of `PerfectoidSpaces`, layer P3 (`henselian-pairs-colimits-and-completions`) (c) and Bhatt Lemma 7.2.3(3). Discrete A: A° = A and A°° is the nilradical, which is locally nilpotent, so every henselian datum is a henselian pair (Stacks Tag 0ALI): discrete rings are henselian.
+Tate case: for a Tate ring A with ring of definition A₀ ∋ ϖ, (A₀,ϖA₀), (A°,A°°) and (A⁺,A°°) have equivalent henselianity. For complete Tate A, use `AdicEtaleGeometry`, A4.5 (`power-bounded-henselian-along-pseudouniformizer`); PerfectoidSpaces P3 cites that supplier. The targets here cover arbitrary f-adic rings. Discrete A: A° = A and A°° is the nilradical, which is locally nilpotent, so every henselian datum is a henselian pair (Stacks Tag 0ALI): discrete rings are henselian.
 
 *Needs:* Section 2.1; Tau Ceti TauCeti.Huber.IsHuberRing; Tau Ceti TauCeti.Huber.PairOfDefinition; Tau Ceti TauCeti.Huber.powerBoundedSubring; Tau Ceti TauCeti.Huber.topologicallyNilpotentIdeal; Mathlib IsTopologicallyNilpotent; Mathlib HenselianRing.
 
-Let A be a Huber ring whose uniform structure is complete and Hausdorff (CompleteSpace A, T2Space A), and let (A₀, J) be a pair of definition (Tau Ceti `Huber.PairOfDefinition`: A₀ open, J ⊆ A₀ finitely generated, subspace topology J-adic). Then A₀ is J-adically complete in the algebraic sense: Mathlib `IsAdicComplete J A₀` (Hausdorff and precomplete for the filtration Jⁿ). Lean: `Huber.PairOfDefinition.isAdicComplete`.
+Let A be a Huber ring whose uniform structure is complete and Hausdorff (CompleteSpace A, T2Space A), and let (A₀, J) be a pair of definition (Tau Ceti `Huber.PairOfDefinition`: A₀ open, J ⊆ A₀ finitely generated, subspace topology J-adic). Then A₀ is J-adically complete in the algebraic sense: Mathlib `IsAdicComplete J A₀` (Hausdorff and precomplete for the filtration Jⁿ). Lean: `Huber.PairOfDefinition.isAdicComplete`, for arbitrary complete Hausdorff f-adic A. Its complete Tate specialization agrees with `AdicEtaleGeometry`, A4.5, `PairOfDefinition.isAdicComplete_of_completeSpace` (`power-bounded-henselian-along-pseudouniformizer`).
 
 This uses Completeness and Hausdorffness refer to the topology of A; J finitely generated.
 
 (T. Wedhorn, Adic spaces, §7.5, proof of Lemma 7.45, p. 67; Bhargav Bhatt, Lecture notes for a class on perfectoid spaces, Chapter 7, Lemma 7.2.3(4), p. 57.)
 
-For A = ℚ_p⟨T⟩ with A₀ = ℤ_p⟨T⟩ and J = pA₀, A₀ is p-adically complete. Completeness of A is needed: for ℚ with the 3-adic topology (A₀ = ℤ_(3), J = 3ℤ_(3)), ℤ_(3) is not 3-adically complete.
+**Checks.**
+
+- For the non-Tate f-adic ring A=Z_p with A₀=A and J=(p), this gives algebraic p-adic completeness.
+- For Q_p⟨T⟩, A₀=Z_p⟨T⟩ and J=pA₀, the result agrees with the A4.5 Tate specialization.
+- For Q with the 3-adic topology, A₀=Z_(3) is not 3-adically complete; completeness of A is necessary.
 
 *Needs:* Tau Ceti TauCeti.Huber.PairOfDefinition; Mathlib IsAdicComplete; Mathlib IsAdic; Mathlib CompleteSpace; Mathlib IsAdic.isAdicComplete_iff; Mathlib IsClosed.completeSpace_coe.
 
@@ -638,9 +796,9 @@ This uses A complete and Hausdorff; no noetherian, Tate or uniformity hypothesis
 
 (Bhargav Bhatt, Lecture notes for a class on perfectoid spaces, Chapter 7, proof of Lemma 7.2.3(5), p. 59; Stacks project, Tag 0ALJ (Lemma 15.11.4); Stacks project, Tag 0FWT (Lemma 15.11.13); K. Kedlaya, R. Liu, Relative p-adic Hodge theory: Foundations, §2.2, before Lemma 2.2.3, p. 28; Roland Huber, Continuous valuations, §1, Proposition 1 (ii)–(iii), p. 457 (GDZ OCR).)
 
-ℤ_p⟨T⟩ = (ℚ_p⟨T⟩)° is henselian along pℤ_p⟨T⟩. Non-uniform instance: A = ℚ_p⟨T⟩[ε]/(ε²) with ring of definition ℤ_p⟨T⟩[ε]; A° = ℤ_p⟨T⟩ ⊕ εℚ_p⟨T⟩ is unbounded and is henselian along A°° = pℤ_p⟨T⟩ ⊕ εℚ_p⟨T⟩. The instance used in `AdicEtaleGeometry`, layer A4: for a complete Tate ring A, (A°, ϖA°) is a henselian pair. Completeness cannot be dropped: ℚ with the 3-adic topology has (ℚ°, ℚ°°) = (ℤ_(3), 3ℤ_(3)), not henselian (X² − 7 has the simple root 1 modulo 3 and no root in ℤ_(3)).
+ℤ_p⟨T⟩ = (ℚ_p⟨T⟩)° is henselian along pℤ_p⟨T⟩. Non-uniform instance: A = ℚ_p⟨T⟩[ε]/(ε²) with ring of definition ℤ_p⟨T⟩[ε]; A° = ℤ_p⟨T⟩ ⊕ εℚ_p⟨T⟩ is unbounded and is henselian along A°° = pℤ_p⟨T⟩ ⊕ εℚ_p⟨T⟩. The complete Tate specialization is supplied by `AdicEtaleGeometry`, A4.5 (`power-bounded-henselian-along-pseudouniformizer`); the f-adic theorem agrees with it. Completeness cannot be dropped: ℚ with the 3-adic topology has (ℚ°, ℚ°°) = (ℤ_(3), 3ℤ_(3)), not henselian (X² − 7 has the simple root 1 modulo 3 and no root in ℤ_(3)).
 
-*Needs:* Section 2.1; `PerfectoidSpaces`, layer P3 (`henselian-pairs-colimits-and-completions`); Mathlib HenselianRing; Tau Ceti TauCeti.Huber.isBounded_subringClosure; Tau Ceti TauCeti.Huber.PairOfDefinition; Tau Ceti TauCeti.Huber.powerBoundedSubring; Tau Ceti TauCeti.Huber.topologicallyNilpotentIdeal; Tau Ceti TauCeti.Huber.IsRingOfIntegralElements; Mathlib IsAdicComplete.
+*Needs:* Section 2.1; `AdicEtaleGeometry`, A4.5 (`power-bounded-henselian-along-pseudouniformizer`); Mathlib HenselianRing; Tau Ceti TauCeti.Huber.isBounded_subringClosure; Tau Ceti TauCeti.Huber.PairOfDefinition; Tau Ceti TauCeti.Huber.powerBoundedSubring; Tau Ceti TauCeti.Huber.topologicallyNilpotentIdeal; Tau Ceti TauCeti.Huber.IsRingOfIntegralElements; Mathlib IsAdicComplete.
 
 A Huber ring A is *henselian* (`Huber.IsHenselian A`) if the pair (A°, A°°) is henselian: `HenselianRing (powerBoundedSubring A) (topologicallyNilpotentIdeal A)`. By henselian-f-adic-ring-independence this holds iff some, equivalently every, henselian datum (B, I) — B ⊆ A° an open subring, I an ideal of B open in A with I ⊆ A°° — is a henselian pair. A Huber pair (A, A⁺) (Tau Ceti `Huber.Pair`) is henselian (`Huber.Pair.IsHenselian`) iff its underlying Huber ring is; the plus ring plays no role, and (A⁺, A°°) is then a henselian pair. Conventions: completeness is not assumed; the topology enters only through A° and A°°; on Tate rings the notion coincides with `Huber.IsTopologicallyHenselian` of `PerfectoidSpaces`, layer P3 (`henselian-pairs-colimits-and-completions`) (c).
 
@@ -860,7 +1018,7 @@ This uses Standing condition on Â; X qcqs in (b); degree ranges as for 3.2.9.
 
 X = Spec A^▷/𝔞 with 𝔞 not finitely generated is the limit of the Spec A^▷/𝔞_μ over finitely generated 𝔞_μ ⊆ 𝔞, and both sides of the comparison for X are colimits of those for the Spec A^▷/𝔞_μ. For U = ⋂_n S(∅|{f_n}/1), the comparison for U is the colimit of the comparisons for the finite intersections.
 
-*Needs:* Section 2.2; Section 2.3; Section 1.5; `AdicCoefficientsAndComparisons`, layer L2; `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`); Section 1.2.
+*Needs:* Section 2.2; Section 2.3; Section 1.5; Sections 0.5–0.6; `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`); Section 1.2.
 
 Let (A, I) be a henselian pair (Mathlib `HenselianRing A I`), X = Spec A, Z = Spec(A/I) with closed immersion i: Z → X, and F an abelian torsion sheaf on the small étale site of X (Mathlib `smallEtaleTopology`). Then for every n ≥ 0 the restriction map H^n(X_et, F) → H^n(Z_et, i^*F) is bijective. No noetherian hypothesis. Equivalently RΓ(X_et, F) → RΓ(Z_et, i^*F) is an isomorphism, and by the hypercohomology spectral sequence the same holds for every K ∈ D⁺(X_et) whose cohomology sheaves are torsion. Lean: `HenselianRing.etaleCohomology_restrict_bijective`.
 
@@ -870,7 +1028,7 @@ This uses (A, I) henselian; F torsion: every local section is, locally on X_et, 
 
 A henselian local ring (A, 𝔪) with residue field k: H^n(Spec A, F) ≅ H^n(Spec k, F|) is Galois cohomology of k. The henselian hypothesis is needed: for A = ℤ_(3), I = 3A and F = ℤ/2, the étale double cover Spec ℤ_(3)[√7] → Spec ℤ_(3) is non-trivial (7 is not a square in ℚ) but split over 𝔽_3 (7 ≡ 1 is a square), so H^1(Spec ℤ_(3), ℤ/2) → H^1(Spec 𝔽_3, ℤ/2) is not injective.
 
-*Needs:* Mathlib HenselianRing; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology; Mathlib CategoryTheory.Sheaf.H; Section 2.1; `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* Mathlib HenselianRing; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology; Mathlib CategoryTheory.Sheaf.H; Section 2.1; `SchemeAndStackFoundations`, Layer 2; Sections 0.5–0.6.
 
 Let A be a ring, J ⊆ A an ideal, K a separably closed field, s: A → K a ring homomorphism with t := Spec(s): Spec K → Spec A, and G an abelian torsion group, viewed as a sheaf on (Spec K)_et. Then H^i((Spec A/J)_et, (t_*G)|_{Spec A/J}) = 0 for every i ≥ 1. Lean: `HenselianRing.etaleCohomology_pushforward_sepClosed_eq_zero`.
 
@@ -880,7 +1038,7 @@ This uses K separably closed; G torsion; A, J arbitrary.
 
 A = K, J = 0: the vanishing of H^i(Spec K, G) for separably closed K. A = ℤ_(p)[T], J = (p), K an algebraic closure of the fraction field: the input that Huber 1993 calls A_i, from which the Zariski–Riemann vanishing follows.
 
-*Needs:* Section 2.3; `SchemeAndStackFoundations`, Layer 0, Sections 0.12–0.13 (`Henselization.algebra`); `AdicCoefficientsAndComparisons`, layer L2; `SchemeAndStackFoundations`, Layer 2; `DiamondsAndVStacks`, layer D0, Section D0.19; Mathlib IsSepClosed.
+*Needs:* Section 2.3; `SchemeAndStackFoundations`, Layer 0, Sections 0.12–0.13 (`Henselization.algebra`); Sections 0.5–0.6; `SchemeAndStackFoundations`, Layer 2; `DiamondsAndVStacks`, layer D0, Section D0.19; Mathlib IsSepClosed.
 
 ### 2.4 Normal models and Zariski–Riemann vanishing
 
@@ -910,7 +1068,7 @@ This uses K separably closed; E, F arbitrary subsets; G torsion (a), ind-finite 
 
 (Roland Huber, Étale cohomology of henselian rings and cohomology of abstract Riemann surfaces of fields, Introduction, Theorem 0.2, p. 703 (GDZ OCR); Roland Huber, Étale cohomology of henselian rings and cohomology of abstract Riemann surfaces of fields, §4, Proposition 4.1, p. 708 (GDZ OCR); Scholze, Étale cohomology of diamonds, §19, before Lemma 19.4, p. 110.)
 
-E = F = ∅: Y = Spv K has the generic point K contained in every non-empty open subset, so constant sheaves are flasque and (a) is immediate. For algebraically closed fields K⊆K′ and a valuation subring V⊆K, the discrete Zariski–Riemann space Spa(K′,V) is obtained by the condition V⊆W for valuation subrings W⊆K′. Its constant torsion sheaves have vanishing higher cohomology by this theorem; this is the field-extension application of Scholze, Lemma 19.4, p. 110. Both fields have the discrete topology in this application, so there is no analytic continuity requirement. The torsion hypothesis excludes the infinite-order coefficient counterexamples of Huber (1993), §4, pp. 475–477.
+E = F = ∅: Y = Spv K has the generic point K contained in every non-empty open subset, so constant sheaves are flasque and (a) is immediate. For algebraically closed fields K⊆K′ and a valuation subring V⊆K, the discrete Zariski–Riemann space Spa(K′,V) is obtained by the condition V⊆W for valuation subrings W⊆K′. Its constant torsion sheaves have vanishing higher cohomology by this theorem; this is the field-extension application of Scholze, Lemma 19.4, p. 110. Both fields have the discrete topology in this application, so there is no analytic continuity requirement. The torsion hypothesis excludes the infinite-order coefficient counterexamples of Huber, *Étale cohomology of henselian rings and cohomology of abstract Riemann surfaces of fields* (1993), §4, Proposition 4.1, p. 708.
 
 *Needs:* Section 2.4; Section 2.3; `DiamondsAndVStacks`, layer D0 (`cofiltered-limits-of-spectral-spaces`); `DiamondsAndVStacks`, layer D0; `SchemeAndStackFoundations`, Layer 2; `DiamondsAndVStacks`, layer D0, Section D0.19; Mathlib ValuationRing; Mathlib IsSepClosed; Mathlib CategoryTheory.Sheaf.H.
 
@@ -1016,7 +1174,7 @@ With R = colim_j R_j^h and a finite étale commutative p-primary group scheme G 
 
 (Kęstutis Česnavičius, Purity for the Brauer group, §4.10, proof of Theorem 4.10, (4.10.5), p. 10; Kęstutis Česnavičius, Purity for the Brauer group, §4.10, proof of Theorem 4.10, p. 10.)
 
-*Needs:* Section 2.6; `AdicCoefficientsAndComparisons`, layer L2; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology.
+*Needs:* Section 2.6; Sections 0.5–0.6; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology.
 
 For each Noetherian p-adic model R_j as above and every abelian torsion sheaf G_j on Spec(R_j[1/p])_ét (for instance the finite étale group scheme to which G descends), pulled back to Spec(R_j^h[1/p]) and to X_j, H^q(Spec(R_j^h[1/p]),G_j) ≅ H^q(Spa(R_j[1/p],R_j),G_j^an) canonically for q≥0. The map is γ^* of Section 2.3 for U = Spa(R_j[1/p], R_j), whose henselization A(U) is R_j^h[1/p] (henselization-along-pro-special-subset, (3.1.13)(i)). The ambient Noetherian hypotheses are checked only at R_j; neither R nor R[1/p] is put into that theorem.
 
@@ -1044,7 +1202,7 @@ For the tilt R^♭, with ϖ^♭ as in Česnavičius 4.9 so that R^♭ = (R^♭[1
 
 For the tilt R^♭ and a chosen pseudouniformizer ϖ^♭, apply the same approximation and henselization argument to finite-type 𝔽_p[ϖ^♭]-models. For finite étale commutative p-primary G^♭ over R^♭[1/ϖ^♭], H^q(Spec(R^♭[1/ϖ^♭]),G^♭) ≅ H^q(Spa(R^♭[1/ϖ^♭],R^♭),G^{♭,an}) for all q≥0. Finite stages are henselized along ϖ^♭ and only then localized.
 
-*Needs:* `AdicCoefficientsAndComparisons`, layer L2; Section 2.6; `PerfectoidSpaces`, layer P1 (`rings-of-integral-elements-under-tilting`).
+*Needs:* Sections 0.5–0.6; Section 2.6; `PerfectoidSpaces`, layer P1 (`rings-of-integral-elements-under-tilting`).
 
 Under the hypotheses of the preceding mixed- and equal-characteristic comparisons, let G^♭ correspond to G under the finite-étale tilting equivalence (`PerfectoidSpaces`, layer P3 (`finite-etale-tilting-equivalence`); Česnavičius (4.9.3), Kedlaya–Liu 3.6.23). Their cohomology groups H^q(Spec(R[1/p]),G) and H^q(Spec(R^♭[1/ϖ^♭]),G^♭) are canonically identified for q≥0 by passing to the two analytic étale sites and their tilting equivalence. This export is the cohomology step used in Česnavičius 4.10; it does not assert Brauer purity or vanishing of all such cohomology.
 
@@ -1078,7 +1236,7 @@ Use Layer 1, Mathlib’s henselian ring/ideal, valuation ring, spectrum and loca
 
 ### 3.1 Taut spaces and strict analytic geometry
 
-A locally spectral space T (`DiamondsAndVStacks`, layer D0 (`locally-spectral-space`)) is taut if it is quasi-separated (the intersection of two quasi-compact open subsets is quasi-compact) and the closure of every quasi-compact open subset of T is quasi-compact; for quasi-separated T this is equivalent to asking that the closure of every quasi-compact subset be quasi-compact. A spectral map g : T' → T of locally spectral spaces is taut if g⁻¹(W) is taut for every taut open subset W ⊆ T. An adic space, or a morphism of adic spaces, is taut if its underlying locally spectral space, or spectral map, is. Examples fixed by the definition: every quasi-compact quasi-separated space is taut; a quasi-separated space admitting a locally finite covering by quasi-compact open subsets is taut; every quasi-compact quasi-separated spectral map is taut; the composite of taut maps is taut. Non-example: the adic space obtained by gluing two copies of the closed unit disc over an analytic field along the complement of the origin is not taut, because that complement is not quasi-compact.
+A locally spectral space T (`DiamondsAndVStacks`, layer D0 (`locally-spectral-space`)) is taut if it is quasi-separated (the intersection of two quasi-compact open subsets is quasi-compact) and the closure of every quasi-compact open subset of T is quasi-compact; for quasi-separated T this is equivalent to asking that the closure of every quasi-compact subset be quasi-compact. A locally spectral map g : T' → T of locally spectral spaces (`DiamondsAndVStacks`, D0.1 `IsLocallySpectralMap`) is taut if g⁻¹(W) is taut for every taut open subset W ⊆ T. An adic space, or a morphism of adic spaces, is taut if its underlying locally spectral space, or locally spectral map, is. Examples fixed by the definition: every quasi-compact quasi-separated space is taut; a quasi-separated space admitting a locally finite covering by quasi-compact open subsets is taut; every quasi-compact quasi-separated spectral map is taut; the composite of taut maps is taut. Non-example: the adic space obtained by gluing two copies of the closed unit disc over an analytic field along the complement of the origin is not taut, because that complement is not quasi-compact.
 
 This uses T locally spectral; quasi-separatedness is part of the definition, never an extra hypothesis; tautness of a morphism quantifies over taut open subsets of the target, not over quasi-compact ones.
 
@@ -1086,7 +1244,7 @@ This uses T locally spectral; quasi-separatedness is part of the definition, nev
 
 Provide `AdicSpace.IsTaut`: The predicate on a locally spectral space T: Mathlib's `QuasiSeparatedSpace T`, and every quasi-compact open subset has quasi-compact closure; `AdicSpace.IsTaut.isCompact_closure`: If T is taut and A ⊆ T is quasi-compact then closure(A) is quasi-compact; `AdicSpace.IsTaut.of_compactSpace`: A quasi-compact quasi-separated locally spectral space is taut; `AdicSpace.IsTaut.of_locallyFinite`: A quasi-separated space with a locally finite covering by quasi-compact open subsets is taut.
 
-Provide `AdicSpace.IsTaut.isOpen_subset`: A partially proper open subset of a taut adic space over an analytic field is taut (Kedlaya–Liu 8.2.12(c)); `AdicSpace.IsTautMap`: The predicate on a spectral map g : T' → T: g⁻¹(W) is taut for every taut open W ⊆ T; `AdicSpace.IsTautMap.of_qcqs`: Quasi-compact quasi-separated spectral maps are taut; `AdicSpace.IsTautMap.comp`: The composite of taut maps is taut; the identity is taut.
+Provide `AdicSpace.IsTaut.isOpen_subset`: A partially proper open subset of a taut adic space over an analytic field is taut (Kedlaya–Liu 8.2.12(c)); `AdicSpace.IsTautMap`: The predicate on a locally spectral map g : T' → T: g⁻¹(W) is taut for every taut open W ⊆ T; `AdicSpace.IsTautMap.of_qcqs`: Quasi-compact quasi-separated spectral maps are taut; `AdicSpace.IsTautMap.comp`: The composite of taut maps is taut; the identity is taut.
 
 Provide `AdicSpace.IsTaut.of_isTautMap`: If g : T' → T is taut and T is taut then T' is taut; `AdicSpace.IsTaut.of_partiallyProper`: If f : X → Y is partially proper and Y is a quasi-compact quasi-separated analytic adic space then X is taut (`AdicSpacesPartII`, layer R0 (`partially-proper-closure-quasi-compact`)); `AdicSpace.IsTautMap.of_partiallyProper`: A partially proper morphism of analytic adic spaces is taut (Hub96 Lemma 5.1.4, restated in Zavyalov PD Remark A.4).
 
@@ -1097,10 +1255,11 @@ Provide `AdicSpace.IsTaut.of_isTautMap`: If g : T' → T is taut and T is taut t
 - The gluing of two closed unit discs along the complement of the origin is not taut (it is not quasi-separated).
 - For a quasi-separated locally spectral T: IsTaut T ↔ ∀ A ⊆ T, IsCompact A → IsCompact (closure A).
 - Every quasi-compact quasi-separated spectral map (in particular the identity) is taut.
+- The open unit disc D→Spa(C,O_C) is partially proper, taut and locally spectral. It is not globally `IsSpectralMap`: the preimage of the compact open base is the non-quasi-compact disc.
 
 The closed unit disc Spa(K⟨T⟩, K°⟨T⟩) and every affinoid adic space are taut. The analytic affine line A^{1,ad}_K (`AdicSpacesPartII`, layer R1 (`analytic-affine-space`)) is taut: the annuli {|ϖ|^{-k} ≤ |T| ≤ |ϖ|^{-k-1}} and the unit disc form a locally finite quasi-compact open cover. The doubled disc of Kedlaya–Liu Remark 8.1.11 is not taut.
 
-*Needs:* `DiamondsAndVStacks`, layer D0 (`locally-spectral-space`); `AdicSpacesPartII`, layer R0 (`partially-proper-closure-quasi-compact`); Mathlib QuasiSeparatedSpace; Mathlib IsCompact; Mathlib closure; Mathlib IsSpectralMap.
+*Needs:* `DiamondsAndVStacks`, layer D0 (`locally-spectral-space`); `AdicSpacesPartII`, layer R0 (`partially-proper-closure-quasi-compact`); Mathlib QuasiSeparatedSpace; Mathlib IsCompact; Mathlib closure; `DiamondsAndVStacks`, D0.1 `IsLocallySpectralMap`; Mathlib IsSpectralMap for the quasi-compact cases.
 
 Starting with the affinoid spectra M(A) of the affinoid-spectrum supplier, define `StrictAnalyticSpace K` by strict affinoid atlases and compatible analytic-domain identifications on intersections, with refinement equivalence; require the resulting topological space to be Hausdorff. Morphisms are locally analytic maps compatible with domain refinements. Define quasi-étale and quasi-smooth morphisms by their local affinoid presentations, and étale and smooth morphisms by the respective additional absence of relative boundary. Prove that gluing the affinoid correspondence M(A)↔Spa(A,A°) gives an equivalence with taut adic spaces locally of finite type over Spa(K,O_K). Write u for the Berkovich realization and s₀ for its inverse. The underlying space of u(X) is X_max with the maximal Hausdorff quotient topology. A partially proper adic map realizes as a boundaryless map; a proper map realizes as a proper map. Adic étale and smooth maps realize as quasi-étale and quasi-smooth maps; partial properness upgrades these to étale and smooth maps.
 
@@ -1489,7 +1648,7 @@ The algebraic group π₁^alg(X,x) is profinite. Every continuous homomorphism �
 
 (de Jong (1995), Theorem 2.10(iii)–(iv), pp. 95–96; Remark 2.11(i), p. 96; de Jong (1995), Remark 2.11(i), p. 96.)
 
-*Needs:* Section 3.6; `AdicEtaleGeometry`, layer A1 (`finite-etale-galois-category`); `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1 (`ContinuousRep`).
+*Needs:* Section 3.6; `AdicEtaleGeometry`, layer A1 (`finite-etale-galois-category`); `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1 (`ContinuousRep`) for the carrier and Section 1.6 (`exists_stable_lattice_iff`) for the monodromy subgroup with E=Q_p; `GaloisLattice.IntegralModel.nonempty` applies only to compact acting groups.
 
 The category of topological analytic covering spaces of a k-analytic X is equivalent to the category of topological covering spaces of |X|. A topological covering T→|X| defines the étale sheaf U↦Hom_|X|(|U|,T); étale-local covering representability equips T with its unique analytic covering structure. Thus π₁^top depends only on (|X|,x), as required by the Tate-curve monodromy example.
 
@@ -1550,7 +1709,7 @@ For connected analytic X and a finite-dimensional continuous ℚ_p-local system 
 
 (de Jong (1995), Proof of Corollary 4.4, p. 105; K. Kedlaya, R. Liu, Relative p-adic Hodge theory: Foundations, Remark 1.4.4, p. 21.)
 
-*Needs:* Section 3.7; Section 3.6; `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1 (`ContinuousRep`).
+*Needs:* Section 3.7; Section 3.6; `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1 (`ContinuousRep`) for the carrier and Section 1.6 (`exists_stable_lattice_iff`) for the monodromy subgroup with E=Q_p; `GaloisLattice.IntegralModel.nonempty` applies only to compact acting groups.
 
 Let E_q be a Tate elliptic curve over an algebraically closed complete nonarchimedean field of characteristic zero, with 0<|q|<1. The topological covering G_m^an→E_q has deck group q^ℤ≅ℤ. Compose π₁^an(E_q,x)→π₁^top(E_q,x)≅ℤ, which is surjective because its image is dense (de Jong Theorem 2.10(iv)) in the discrete deck group ℤ, with a↦p^a∈ℚ_p×. The resulting rank-one rational local system has local integral lattices but no global integral lattice: p^ℤ is noncompact and multiplication by p cannot stabilize a nonzero finite-free ℤ_p-lattice of rank one. This is a discriminating example for rational stackification. The reduced-affinoid failure of rational Spec–Spa equivalence is the separate assertion of KL Remark 8.4.8, not a claim that E_q is affinoid.
 
@@ -1558,7 +1717,7 @@ Let E_q be a Tate elliptic curve over an algebraically closed complete nonarchim
 
 The noncompact system still has the local lattices of Proposition 8.4.6. On a geometric point every continuous Galois representation has a stable integral lattice.
 
-*Needs:* Section 3.7; Section 3.6; `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1 (`ContinuousRep`); the analytic Tate quotient of Section 3.7.
+*Needs:* Section 3.7; Section 3.6; `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1 (`ContinuousRep`) for the carrier and Section 1.6 (`exists_stable_lattice_iff`) for the monodromy subgroup with E=Q_p; `GaloisLattice.IntegralModel.nonempty` applies only to compact acting groups; the analytic Tate quotient of Section 3.7.
 
 For an adic Banach ring (A,A⁺), the natural tensor functor ℚ_p-Loc(Spec A)→QpLocalSystem(Spã(A,A⁺)) is fully faithful. It need not be essentially surjective, even for reduced affinoid algebras over an analytic field; an explicit case is the rank-one system glued by p on the smooth connected strictly affinoid subspace of a Tate curve in KL Example 8.5.17. When A is normal noetherian (KL Remark 8.4.8 infers normality from integrality of A, which does not suffice; normality is assumed here), source objects admit a global ℤ_p-lattice by KL Remark 1.4.9, whereas the analytic category can contain continuous representations of de Jong’s non-profinite analytic fundamental group with noncompact image. The latter are outside the source image.
 
@@ -1580,7 +1739,7 @@ The annular gluing of Section 3.7 yields an analytic quotient G_m^an/q^Z with 0<
 
 ### Dependencies
 
-Use Layers 1–2, `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, for the affinoid Berkovich spectrum and analytic geometry, and `AdicEtaleGeometry`, A1, A2 and A4, for the étale and pro-étale sites. The continuous rational representations and finite-presentation coefficient descent are `AdicCoefficientsAndComparisons`, L2; finite Galois representations are the lower-tier coefficient contract of `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1. The algebraic Tate curve and its point uniformization are `TauCetiRoadmap.EllipticCurves`, Layer 4. Section 3.7 adds its analytic quotient and skeleton. Overconvergence, bounded lattice moduli and covering-space monodromy are established here before the trace and duality arguments of Layers 8–9 use them.
+Use Layers 1–2, `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, for the affinoid Berkovich spectrum and analytic geometry, and `AdicEtaleGeometry`, A1, A2 and A4, for the étale and pro-étale sites. Layer 3 supplies continuous rational local-system representations; Sections 0.5–0.6 supply finite-presentation coefficient descent; finite Galois representations are the lower-tier coefficient contract of `ArithmeticGaloisRepresentations`, Layer 1, Section 1.1. The algebraic Tate curve and its point uniformization are `TauCetiRoadmap.EllipticCurves`, Layer 4. Section 3.7 adds its analytic quotient and skeleton. Overconvergence, bounded lattice moduli and covering-space monodromy are established here before the trace and duality arguments of Layers 8–9 use them.
 
 ## Layer 4: Formal specialization and semistable nearby cycles
 
@@ -1825,7 +1984,7 @@ This uses X of type (S); E any ring; K bounded below; The same statements hold f
 
 For X = Spf O_K with K complete discretely valued and ℓ ≠ p: (R^1λ_*Z/ℓ)_{s̄} = H^1(I_K, Z/ℓ) ≅ Z/ℓ(−1) and (R^nλ_*Z/ℓ)_{s̄} = 0 for n ≥ 2 (construction stalk-formula-constant-coefficients-3-5-10).
 
-*Needs:* Section 4.1; Section 1.1; `DiamondsAndVStacks`, layer D0, Section D0.19; `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`); `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); Mathlib CategoryTheory.GrothendieckTopology.Point; Mathlib CategoryTheory.Functor.rightDerivedFunctorPlus; Mathlib CategoryTheory.GrothendieckTopology.Point.presheafFiber; Section 4.2; Mathlib AlgebraicGeometry.Scheme.pointSmallEtale.
+*Needs:* Section 4.1; Section 1.1; `DiamondsAndVStacks`, layer D0, Section D0.19; `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`); Sections 0.1–0.4 (K-injective and K-flat replacements); Mathlib CategoryTheory.GrothendieckTopology.Point; Mathlib CategoryTheory.Functor.rightDerivedFunctorPlus; Mathlib CategoryTheory.GrothendieckTopology.Point.presheafFiber; Section 4.2; Mathlib AlgebraicGeometry.Scheme.pointSmallEtale.
 
 ### 4.3 Formal strict localization and tube cohomology
 
@@ -1974,7 +2133,7 @@ Provide `FormalScheme.CompletionData.derivedComparison_H0`: H⁰ of (*) on a she
 
 For X = Spec O_K (O_K a henselian discretely valued ring with completion O_K^) and 𝓘 = (ϖ): on a sheaf given by a continuous Gal(K^sep/K)-module M, ψ is M^{I_K} → M^{I_{K^}}, an isomorphism because Gal(K^^sep/K^) ≅ Gal(K^sep/K) for henselian K.
 
-*Needs:* Section 4.4; `AdicSpacesPartIII`, layer R2 (`formal-completion-and-algebraic-comparison`); Section 4.1; Section 1.1; `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); Mathlib CategoryTheory.Functor.rightDerivedFunctorPlus; Mathlib CategoryTheory.Functor.sheafPushforwardContinuous; Mathlib CategoryTheory.Functor.sheafAdjunctionContinuous.
+*Needs:* Section 4.4; `AdicSpacesPartIII`, layer R2 (`formal-completion-and-algebraic-comparison`); Section 4.1; Section 1.1; Sections 0.1–0.4 (K-injective and K-flat replacements); Mathlib CategoryTheory.Functor.rightDerivedFunctorPlus; Mathlib CategoryTheory.Functor.sheafPushforwardContinuous; Mathlib CategoryTheory.Functor.sheafAdjunctionContinuous.
 
 Let (X, 𝓘) be completion data with X = Spec A affine, J = 𝓘(X), and Z = Spec B affine étale over X, Z^h = Spec B^h for the henselisation (B^h, J^h) of the pair (B, JB), and Z^ = Spf B^ (J-adic completion). The composite d(Z^) → Spec B^ − V(JB^) → Spec B^h − V(JB^h) = U ×_X Z^h induces, for every torsion sheaf K on U_et, isomorphisms H^n(U ×_X Z^h, K) ≅ H^n(d(Z^), a^*K), n ≥ 0. Case (α): d(Z^) = Spa(B, B)_a with B carrying the JB-adic topology, and the statement is Theorem 3.2.10 for the pro-special subset Spa(B, B) and the scheme Spec B − V(JB). Case (β) (J = sA): d(Z^) = Spa(B(1/s), C) with C the integral closure of B in B(1/s), U ×_X Z^h is the spectrum of the henselisation of the affinoid ring (B(1/s), C) along Spa(B(1/s), C), and the statement is Theorem 3.2.9.
 
@@ -2081,11 +2240,17 @@ X proper and smooth over A, K = Z/ℓ (ℓ ≠ p): RΨ_η(Z/ℓ) = Z/ℓ, and Ȳ
 
 *Needs:* Section 4.5; Section 4.4; Section 4.2; `AdicSpacesPartIII`, layer R2 (`raynaud-generic-fibre`); `AdicSpacesPartIII`, layer R2 (`generic-fibre-fibre-products`); `AdicSpacesPartIV`, layer R4 (`etale-site-and-rigid-comparison`); `AdicSpacesPartII`, layer R1 (`rigid-adic-comparison-functor`).
 
-Let (X, 𝓘) and (X′, 𝓘′) be completion data (construction completion-comparison-data-3-5-12), with Y = V(𝓘), U = X − Y, Y′ = V(𝓘′), U′ = X′ − Y′, and let g: X → X′ be a morphism of schemes with g⁻¹(Y′) = Y as sets (equivalently √(𝓘′O_X) = √𝓘). Then g restricts to g_U: U → U′ and g_Y: Y → Y′, the completion ĝ: X^ → X′^ is adic, and d(ĝ): d(X^) → d(X′^) satisfies a′ ∘ d(ĝ) ≅ g_U ∘ a and b′ ∘ d(ĝ) ≅ g_Y ∘ b as morphisms of sites. For every ring E and K′ ∈ D⁺(U′_et, E), the square formed by the canonical base-change morphisms g_Y^* i′^* R⁺j′_* K′ → i^* R⁺j_* g_U^* K′ and g_Y^* R⁺b′_* a′^* K′ → R⁺b_* d(ĝ)^* a′^* K′ ≅ R⁺b_* a^* g_U^* K′ and the comparison maps (*) of construction completion-comparison-map-3-5-13-i for (X, 𝓘) and (X′, 𝓘′) commutes, naturally in K′ and compatibly with composition of such morphisms g. The base-change morphisms are not asserted to be isomorphisms; torsion is not needed for the commutativity. The same holds after restricting to supports L ⊆ Y, L′ ⊆ Y′ with g_Y(L) ⊆ L′ (construction tube-cohomology-3-5-15), in particular for the microbial bases of construction valuation-ring-base-3-5-16. The hypothesis g⁻¹(Y′) = Y is needed: if only g(Y) ⊆ Y′, g need not map U into U′ and ĝ need not be adic, so neither g_U nor d(ĝ) exists.
+Let (X, 𝓘) and (X′, 𝓘′) be completion data (construction completion-comparison-data-3-5-12), with Y = V(𝓘), U = X − Y, Y′ = V(𝓘′), U′ = X′ − Y′, and let g: X → X′ be a morphism of schemes with g⁻¹(Y′) = Y as sets (equivalently √(𝓘′O_X) = √𝓘) and 𝓘′O_X ⊆ 𝓘. Then g restricts to g_U: U → U′ and g_Y: Y → Y′, the completion ĝ: X^ → X′^ is adic, and d(ĝ): d(X^) → d(X′^) satisfies a′ ∘ d(ĝ) ≅ g_U ∘ a and b′ ∘ d(ĝ) ≅ g_Y ∘ b as morphisms of sites. For every ring E and K′ ∈ D⁺(U′_et, E), the square formed by the canonical base-change morphisms g_Y^* i′^* R⁺j′_* K′ → i^* R⁺j_* g_U^* K′ and g_Y^* R⁺b′_* a′^* K′ → R⁺b_* d(ĝ)^* a′^* K′ ≅ R⁺b_* a^* g_U^* K′ and the comparison maps (*) of construction completion-comparison-map-3-5-13-i for (X, 𝓘) and (X′, 𝓘′) commutes, naturally in K′ and compatibly with composition of such morphisms g. The base-change morphisms are not asserted to be isomorphisms; torsion is not needed for the commutativity. The same holds after restricting to supports L ⊆ Y, L′ ⊆ Y′ with g_Y(L) ⊆ L′ (construction tube-cohomology-3-5-15), in particular for the microbial bases of construction valuation-ring-base-3-5-16. The hypothesis g⁻¹(Y′) = Y is needed: if only g(Y) ⊆ Y′, g need not map U into U′ and ĝ need not be adic, so neither g_U nor d(ĝ) exists.
 
-This uses g: X → X′ with g⁻¹(Y′) = Y set-theoretically; (X, 𝓘) and (X′, 𝓘′) each satisfy (α) or (β) of (3.5.12); E any ring; K′ bounded below.
+This uses g: X → X′ with g⁻¹(Y′) = Y set-theoretically and 𝓘′O_X ⊆ 𝓘 for the unreduced closed-fibre map; (X, 𝓘) and (X′, 𝓘′) each satisfy (α) or (β) of (3.5.12); E any ring; K′ bounded below.
 
 (Huber (1996), §3.5, Theorem 3.5.13, p. 208.)
+
+**Checks.**
+
+- For the identity completion datum, the square is the identity comparison square.
+- Two morphisms satisfying ideal containment and radical equality give the comparison square for their composite.
+- On Spec Z_p with g=id, 𝓘=(p²) and 𝓘′=(p), radical equality holds but containment fails: Spec(Z/p²) has no map over Spec Z_p to Spec(Z/p).
 
 The square uses canonical base-change maps even when those maps are not invertible. The actual comparison map is preserved; an abstract group isomorphism is insufficient.
 
@@ -2167,7 +2332,7 @@ Put (𝔛₂,M₂)=(𝔛,M) modulo p². The mod-p nearby-cycle symbols used in C
 
 The algebraic input to the formal filtration is `semistable_algebraic_symbol_generation`: let R be a henselian DVR with perfect residue field of characteristic p>0 and fraction field of characteristic zero, and let X be essentially of finite type over R, regular with reduced strict normal-crossings special fibre and smooth generic fibre. For i:X_s→X and j:X_η→X, the q-fold Kummer symbol from units on the generic locus generates i*R^qj*Z/p^r(q) as an étale sheaf, for q≥0 and r≥1. Its mod-p unit filtration has the graded differential descriptions and ramification cutoff used below. Preserve the uniformizer, the log structure from the special fibre and the distinction between ordinary differential forms, exact forms B^q and closed forms Z^q. These are algebraic nearby cycles, before completing X. (Hyodo, *A note on p-adic étale cohomology in the semi-stable reduction case*, Theorem 1.6(1)–(3), p. 547, Corollary 1.7, p. 548; Bloch–Kato, *p-adic étale cohomology*, §1, pp. 109–123.)
 
-For the proof start with the smooth case of Bloch–Kato. The log Cartier and log de Rham–Witt restriction sequences of `CrystallineCohomology`, layer CR.5, Section CR.5.1, and layer CR.6, Section CR.6.1, give the symbol-to-differential map and its kernels (Hyodo, §2.4–2.6, pp. 552–554). Induct on the number of intersecting components and on relative dimension. Blow up the crossing locus; the two node charts compare the log differential Čech complexes. The projective-line calculation makes the augmentation-ideal action nilpotent on the discrepancy supported at the crossing, forcing that discrepancy to vanish. This gives generation and the successive kernel formulas, rather than assuming generation as part of the filtration's definition. Coefficient reduction and the exact Kummer sequences extend generation from mod p to p-power coefficients. (Hyodo, §3, pp. 554–557.) Formal local algebraization and the comparison of Section 4.4 then transport these computations to the stated formal scope below. The formal mod-p computation does not assert the same graded formulas for every p^r coefficient.
+For the proof start with the smooth case of Bloch–Kato. The log Cartier and log de Rham–Witt restriction sequences of `CrystallineCohomology`, layer CR.5, Section CR.5.1, and layer CR.6, Section CR.6.1 (*Logarithmic de Rham–Witt complexes* and *Log de Rham–Witt model*), give the symbol-to-differential map and its kernels (Hyodo, §2.4–2.6, pp. 552–554). Induct on the number of intersecting components and on relative dimension. Blow up the crossing locus; the two node charts compare the log differential Čech complexes. The projective-line calculation makes the augmentation-ideal action nilpotent on the discrepancy supported at the crossing, forcing that discrepancy to vanish. This gives generation and the successive kernel formulas, rather than assuming generation as part of the filtration's definition. Coefficient reduction and the exact Kummer sequences extend generation from mod p to p-power coefficients. (Hyodo, §3, pp. 554–557.) Formal local algebraization and the comparison of Section 4.4 then transport these computations to the stated formal scope below. The formal mod-p computation does not assert the same graded formulas for every p^r coefficient.
 
 Define `Semistable.filtrationCutoff p e = ceil(pe/(p−1))`, the natural ceiling of the rational number pe/(p−1); in the application p is prime and e>0 is the absolute ramification index, and it is the first integral level where the filtration is zero. The formula is defined on all natural inputs; primality and e>0 enter only its cohomological application.
 
@@ -2347,13 +2512,13 @@ For the p-torsion semistable filtration with absolute ramification index e, the 
 
 ### Dependencies
 
-Use Layers 1–3 and the type-(S) formal scheme, thickening, completion, blow-up and generic-fibre interfaces of `AdicSpacesPartIII`, layers F0 and R2. `SchemeAndStackFoundations`, Layers 0 and 2, supplies scheme henselian and étale comparisons. Trait nearby and vanishing cycles and the nodal prime-to-residue calculation are `LefschetzPencilsAndVanishingCycles`, LPV.0 and LPV.2, in this bundle. `CrystallineCohomology`, layer CR.5, Section CR.5.1, supplies logarithmic differentials, Cartier, closed and exact forms, and its layer CR.6, Section CR.6.1, the log de Rham–Witt model; the p-torsion symbol filtration and its ramification-index cutoff are this layer’s additional targets. The nondiscrete O_C curve models used in Layer 8 belong to Section 8.2.2.
+Use Layers 1–3 and the type-(S) formal scheme, thickening, completion, blow-up and generic-fibre interfaces of `AdicSpacesPartIII`, layers F0 and R2. `SchemeAndStackFoundations`, Layers 0 and 2, supplies scheme henselian and étale comparisons. Trait nearby and vanishing cycles and the nodal prime-to-residue calculation are `LefschetzPencilsAndVanishingCycles`, LPV.0 and LPV.2, in this bundle. `CrystallineCohomology`, layer CR.5, Section CR.5.1, supplies logarithmic differentials, Cartier, closed and exact forms, and its layer CR.6, Section CR.6.1 (*Logarithmic de Rham–Witt complexes* and *Log de Rham–Witt model*), the log de Rham–Witt complexes and restriction sequences; the p-torsion symbol filtration and its ramification-index cutoff are this layer’s additional targets. The nondiscrete O_C curve models used in Layer 8 belong to Section 8.2, `SemistableFormalCurveModel` and its compatible-model theorem.
 
 ## Layer 5: Nearby cycles over valuation rings
 
 ### 5.1 Valuation quadruples and strict localization
 
-A valuation-base quadruple (X, S, η, s) consists of: a valuation ring V (an integral domain whose ideals are totally ordered by inclusion; Mathlib ValuationRing) with fraction field K and S = Spec V; two points η, s ∈ S with η a generization of s, i.e. 𝔭_η ⊆ 𝔭_s for the corresponding primes (s lies in the closure of {η}); and a scheme X with a morphism f: X -> S; subject to the condition that the local ring O_{S,s} = V_{𝔭_s} is strictly henselian (henselian local, Mathlib HenselianLocalRing, with separably closed residue field k(s), Mathlib IsSepClosed). The case η = s is allowed. Pinned notation: p_s is the characteristic exponent of k(s); k(η) = Frac(V/𝔭_η), the residue field of the valuation ring O_{S,η} = V_{𝔭_η}; X_s := X ×_S Spec k(s) is the fibre (Mathlib AlgebraicGeometry.Scheme.Hom.fiber) with its canonical morphism i: X_s -> X; X_η := X ×_S Spec k(η). The quadruple is of finite type (resp. of finite presentation) if f is locally of finite type (resp. locally of finite presentation). The points of S lying between η and s are the primes 𝔭 with 𝔭_η ⊆ 𝔭 ⊆ 𝔭_s; they form a chain. Nothing is assumed about the rank of V or about discreteness of its value group, and V need not be noetherian.
+A valuation-base quadruple (X, S, η, s) consists of: a valuation ring V (an integral domain whose ideals are totally ordered by inclusion; Mathlib ValuationRing) with fraction field K and S = Spec V; two points η, s ∈ S with η a generization of s, i.e. 𝔭_η ⊆ 𝔭_s for the corresponding primes (s lies in the closure of {η}); and a scheme X with a morphism f: X -> S; subject to the condition that the local ring O_{S,s} = V_{𝔭_s} is strictly henselian (henselian local, Mathlib HenselianLocalRing, with separably closed residue field k(s), Mathlib IsSepClosed). The case η = s is allowed. Pinned notation: p_s is the characteristic exponent of k(s); k(η) = Frac(V/𝔭_η), the residue field of the valuation ring O_{S,η} = V_{𝔭_η}; X_s := X ×_S Spec k(s) is the fibre (Mathlib AlgebraicGeometry.Scheme.Hom.fiber) with its canonical morphism i: X_s -> X; X_η := X ×_S Spec k(η). The quadruple is locally of finite type (resp. locally of finite presentation) if f is. Finite type means quasi-compact and locally of finite type; finite presentation means quasi-compact, quasi-separated and locally of finite presentation. The points of S lying between η and s are the primes 𝔭 with 𝔭_η ⊆ 𝔭 ⊆ 𝔭_s; they form a chain. Nothing is assumed about the rank of V or about discreteness of its value group, and V need not be noetherian.
 
 This uses V is an arbitrary valuation ring: any rank, any value group; V is not assumed noetherian, complete or of finite rank; O_{S,s} strictly henselian is a condition on the pair (V, s) only; O_{S,η} is then a localization of O_{S,s} and in general has a residue field k(η) that is not separably closed; η = s is allowed; η need not be the generic point of S and s need not be the closed point of S.
 
@@ -2433,7 +2598,7 @@ Provide `AlgebraicGeometry.ValuationQuadruple.nearbyCycles_restrictScalars`: For
 
 For X = S, any quadruple and any Λ: RΨ_L(Λ) = Λ in degree 0 with trivial Galois action, because the Milnor tube S_(s̄) ×_S S(η̄) = S(η̄) is strictly local. For V a strictly henselian discrete valuation ring with uniformizer π, η generic, n ≥ 1 prime to p_s, X = Spec V[t]/(t^n − π): X_s is one point and R^0Ψ_L(Λ) = Λ^{Hom_K(K(π^{1/n}), L)} ≅ Λ^n, R^qΨ_L(Λ) = 0 for q > 0.
 
-*Needs:* Section 5.1; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology; Mathlib AlgebraicGeometry.Scheme.isGrothendieckAbelian_sheaf_smallEtaleTopology; Mathlib DerivedCategory; Mathlib HasDerivedCategory; Mathlib DerivedCategory.Plus; Mathlib CategoryTheory.Functor.totalRightDerived; `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2; `LefschetzPencilsAndVanishingCycles`, layer LPV.0, Section 0.5.
+*Needs:* Section 5.1; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology; Mathlib AlgebraicGeometry.Scheme.isGrothendieckAbelian_sheaf_smallEtaleTopology; Mathlib DerivedCategory; Mathlib HasDerivedCategory; Mathlib DerivedCategory.Plus; Mathlib CategoryTheory.Functor.totalRightDerived; Sections 0.1–0.4 (K-injective and K-flat replacements); `SchemeAndStackFoundations`, Layer 2; Sections 0.5–0.6; `LefschetzPencilsAndVanishingCycles`, layer LPV.0, Section 0.5.
 
 In the situation of Section 5.2 put G_η := Gal(L/k(η)) with its Krull topology. Each σ ∈ G_η extends uniquely to an automorphism σ̃ of S(η̄) over S inducing σ on L (Section 5.1 (c)), hence to an automorphism σ̃_X := X ×_S σ̃ of X_η̃ over X, with j ∘ σ̃_X = j. Transport of structure along σ̃_X^{-1} gives isomorphisms j^*F ≅ (σ̃_X)_* j^*F and hence automorphisms ρ_F(σ) of Rj_* j^* F and of RΨ_L(F), natural in F ∈ D^+(X_et, Λ), with ρ(στ) = ρ(σ) ρ(τ) and ρ(1) = id (a left action). The action is continuous: for every q, every quasi-compact étale U -> X_s and every section a ∈ R^qΨ_L(F)(U) the stabilizer of a in G_η is open; equivalently each stalk (R^qΨ_L F)_x̄ = H^q(X_(x̄) ×_S S(η̄), F) is a discrete G_η-module, because S(η̄) is the limit of the spectra of the local finite étale O^h_{S,η}-algebras whose residue fields are the finite separable subextensions of L/k(η) and cohomology commutes with this limit. The specialization map sp: i^*F -> RΨ_L(F) is G_η-invariant. If k(η) is separably closed (in particular if η = s) then G_η = 1. If V is strictly henselian at s and η is the generic point, G_η = Gal(L/K) is the inertia group of K.
 
@@ -2454,7 +2619,7 @@ Provide `AlgebraicGeometry.ValuationQuadruple.isDiscrete_stalk_cohomology`: Each
 
 For V a strictly henselian DVR, π a uniformizer, n prime to p_s and X = Spec V[t]/(t^n − π): G_η = Gal(L/K) acts on R^0Ψ_L(Λ) ≅ Λ^{Hom_K(K(π^{1/n}), L)} by permuting the n embeddings through the quotient Gal(K(π^{1/n})/K) ≅ μ_n, i.e. through the tame character.
 
-*Needs:* Section 5.2; Section 5.1; `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); `AdicCoefficientsAndComparisons`, layer L2; `SchemeAndStackFoundations`, Layer 2; Mathlib continuousSMul_iff_stabilizer_isOpen; Tau Ceti TauCeti.IsSmoothDiscrete.
+*Needs:* Section 5.2; Section 5.1; Sections 0.1–0.4 (K-injective and K-flat replacements); Sections 0.5–0.6; `SchemeAndStackFoundations`, Layer 2; Mathlib continuousSMul_iff_stabilizer_isOpen; Tau Ceti TauCeti.IsSmoothDiscrete.
 
 Let (X, S, η, s) be a quadruple, L a separable closure of k(η), F ∈ D^+(X_et, Λ), and x̄ a geometric point of X_s (with image x ∈ X_s). Let X_(x̄) = Spec O^sh_{X,x̄} be the strict localization of X at x̄. Then X_(x̄) -> S factors through S_(s) = Spec O_{S,s} (which is strictly henselian), X_(x̄) ×_S S(η̄) = X_(x̄) ×_{S_(s)} S(η̄) is an affine scheme (the Milnor tube at (x̄, η̄)), and there is a natural isomorphism (RΨ_L F)_x̄ ≅ RΓ(X_(x̄) ×_S S(η̄), F), in particular (R^qΨ_L F)_x̄ ≅ H^q(X_(x̄) ×_S S(η̄), F), compatible with the Galois actions (σ acting through X_(x̄) ×_S σ̃) and with the base-change maps (nearby-cycles-base-change-map (e)). It is the stalk at the point (x̄, η̄ ⤳ s̄) of Deligne's nearby-cycle complex on the vanishing topos X ×←_S S. No finiteness assumption on f.
 
@@ -2464,7 +2629,7 @@ This uses j: X_η̃ -> X is affine, hence quasi-compact and quasi-separated; thi
 
 For X = S: X_(x̄) = S_(s) and the Milnor tube is S(η̄), a strictly local scheme, so (RΨ_L Λ)_s̄ = Λ in degree 0. For η = s: the Milnor tube is X_(x̄) itself and (RΨ_L F)_x̄ = F_x̄.
 
-*Needs:* Section 5.2; Mathlib AlgebraicGeometry.Scheme.pointSmallEtale; Mathlib CategoryTheory.GrothendieckTopology.Point.sheafFiber; Mathlib AlgebraicGeometry.Scheme.isConservativeFamilyOfPoints_pointSmallEtale'; `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* Section 5.2; Mathlib AlgebraicGeometry.Scheme.pointSmallEtale; Mathlib CategoryTheory.GrothendieckTopology.Point.sheafFiber; Mathlib AlgebraicGeometry.Scheme.isConservativeFamilyOfPoints_pointSmallEtale'; `SchemeAndStackFoundations`, Layer 2; Sections 0.5–0.6.
 
 Let φ = (g, h, ι): (X', S', η', s', L') -> (X, S, η, s, L) be a morphism of quadruples (Section 5.1), h̃: S'(η̄') -> S(η̄) its map of strict localizations, g̃ := g ×_h h̃: X'_η̃' -> X_η̃ and g_s: X'_{s'} -> X_s. For F ∈ D^+(X_et, Λ) the base-change map c_φ(F): g_s^* RΨ_L(F) -> RΨ_{L'}(g^* F) is the composite g_s^* i^* Rj_* j^*F ≅ i'^* g^* Rj_* j^*F -> i'^* Rj'_* g̃^* j^*F ≅ i'^* Rj'_* j'^* g^*F, where the middle arrow is i'^* applied to the base-change morphism g^* Rj_* -> Rj'_* g̃^*, adjoint to j'^* g^* Rj_* ≅ g̃^* j^* Rj_* -> g̃^* (counit of j^* ⊣ Rj_*), and the outer isomorphisms are the equalities i ∘ g_s = g ∘ i' and j ∘ g̃ = g ∘ j'. Properties: (a) naturality in F; (b) equivariance: c_φ ∘ g_s^* ρ_F(φ_#(σ')) = ρ'_{g^*F}(σ') ∘ c_φ for σ' ∈ Gal(L'/k(η')) (Section 5.2); (c) c_id = id and c_{φ ∘ ψ} = c_ψ ∘ ψ_s^* c_φ; (d) compatibility with specialization: c_φ ∘ g_s^* sp = sp' (under i'^* g^* ≅ g_s^* i^*); (e) on stalks at a geometric point x̄' of X'_{s'} with image x̄ it is the restriction map RΓ(X_(x̄) ×_S S(η̄), F) -> RΓ(X'_(x̄') ×_{S'} S'(η̄'), g^*F) along X'_(x̄') ×_{S'} S'(η̄') -> X_(x̄) ×_S S(η̄). When c_φ is an isomorphism is the content of Section 5.4; for non-Cartesian φ it is in general not an isomorphism.
 
@@ -2485,7 +2650,7 @@ Provide `AlgebraicGeometry.ValuationQuadruple.nearbyCyclesBaseChange_specializat
 
 For the localization morphism (X ×_S Spec O_{S,s}, Spec O_{S,s}, η, s) -> (X, S, η, s) (Cartesian, dominant) c_φ is an isomorphism (nearby-cycles-equivariant-transport (b)).
 
-*Needs:* Section 5.1; Section 5.2; `SchemeAndStackFoundations`, Layer 2; `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements).
+*Needs:* Section 5.1; Section 5.2; `SchemeAndStackFoundations`, Layer 2; Sections 0.1–0.4 (K-injective and K-flat replacements).
 
 Let (X, S, η, s) be a quadruple. (a) For separable closures L_1, L_2 of k(η) and a k(η)-isomorphism τ: L_1 -> L_2, the morphism of quadruples φ_τ := (id_X, id_S, τ): (X, S, η, s, L_2) -> (X, S, η, s, L_1) has an isomorphism as base-change map, c_τ: RΨ_{L_1}(F) ≅ RΨ_{L_2}(F), natural in F ∈ D^+(X_et, Λ), with c_τ ∘ ρ_1(σ) = ρ_2(τ σ τ^{-1}) ∘ c_τ for σ ∈ Gal(L_1/k(η)); for σ_0 ∈ Gal(L_1/k(η)), c_{τ ∘ σ_0} = c_τ ∘ ρ_1(σ_0). Thus the pair (RΨ_L(F), ρ) is independent of L up to an isomorphism that is unique modulo the Galois action. (b) Localization: for S_(s) := Spec O_{S,s} and X_(s) := X ×_S S_(s), the Cartesian dominant morphism (X_(s), S_(s), η, s, L) -> (X, S, η, s, L) has an isomorphism as base-change map RΨ_L(F) ≅ RΨ_L(F|X_(s)) (the special fibres coincide), compatible with Galois actions; so every statement about RΨ_L may be proved after replacing S by the spectrum of the strictly henselian valuation ring O_{S,s}, in which s is the closed point.
 
@@ -2495,7 +2660,7 @@ This uses No finiteness or torsion hypothesis.
 
 For a strictly henselian discrete valuation ring with η generic, any two choices of L give Gal(L/K)-equivariantly isomorphic RΨ_L(F), the isomorphism being unique up to the action of Gal(L/K).
 
-*Needs:* Section 5.2; Section 5.1; `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* Section 5.2; Section 5.1; Sections 0.5–0.6.
 
 Let (X, S, η, s) be a quadruple and Λ a ring. (a) Étale locality: for an étale morphism u: U -> X, with (U, S, η, s) the induced quadruple, the base-change map of the morphism (u, id_S, id_L) is an isomorphism u_s^* RΨ_L(F) ≅ RΨ_L(u^* F) for all F ∈ D^+(X_et, Λ), compatible with Galois actions. (b) Proper push-forward: if Λ is a torsion ring and h: X -> Y is a proper S-morphism (so (Y, S, η, s) is a quadruple), there is a natural G_η-equivariant isomorphism RΨ_L^Y(Rh_* F) ≅ Rh_{s*} RΨ_L^X(F) for F ∈ D^+(X_et, Λ). (c) Projective reduction: let X be affine of finite type over S, z: X -> A^N_S a closed immersion and w: A^N_S -> P^N_S the standard open immersion, e := w ∘ z. For F ∈ D^+(X_et, Λ) with Λ torsion, RΨ_L^X(F) ≅ z_s^* w_s^* RΨ_L^{P^N}(w_! z_* F) (the restriction to X_s of the nearby cycles of the extension by zero), compatibly with Galois actions and with the base-change maps of Cartesian morphisms of quadruples. Consequently, for a class of pairs (X, F) stable under these operations, constructibility of the R^qΨ_L and bijectivity of the base-change maps for (P^N_S, G) with G ∈ D^+(P^N_{S,et}, Λ) imply the same for (X, F); and every quadruple of finite type is covered by affine opens of finite type to which (a) applies.
 
@@ -2505,7 +2670,7 @@ This uses (b) and (c) need Λ torsion (proper base change). (a) holds for every 
 
 For V a strictly henselian DVR and h: X' = Spec V[t]/(t^n − π) -> X = S finite (hence proper), (b) gives RΨ_L(h_* Λ) ≅ h_{s*} RΨ_L(Λ) ≅ Λ^n, consistent with the Kummer computation of Section 5.2.
 
-*Needs:* Section 5.2; Mathlib AlgebraicGeometry.IsProper; Mathlib AlgebraicGeometry.IsClosedImmersion; Mathlib AlgebraicGeometry.IsOpenImmersion; Mathlib AlgebraicGeometry.LocallyOfFiniteType; `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* Section 5.2; Mathlib AlgebraicGeometry.IsProper; Mathlib AlgebraicGeometry.IsClosedImmersion; Mathlib AlgebraicGeometry.IsOpenImmersion; Mathlib AlgebraicGeometry.LocallyOfFiniteType; `SchemeAndStackFoundations`, Layer 2; Sections 0.5–0.6.
 
 Let (X, S, η, s) be a quadruple with S = Spec V, K = Frac V, K'/K a purely inseparable algebraic extension, V' the integral closure of V in K' and S' = Spec V'. Then: (i) V' is a valuation ring, the unique extension of V to K' (the valuation extends uniquely); (ii) h: S' -> S is integral, universally injective and surjective (a universal homeomorphism), so there are unique η', s' ∈ S' over η, s, η' ⤳ s', and O_{S',s'} is strictly henselian (its residue field is purely inseparable over the separably closed k(s)); (iii) with L' := the separable closure of k(η') in an algebraic closure containing L, restriction Gal(L'/k(η')) -> Gal(L/k(η)) is an isomorphism, ι: L -> L' the inclusion, and the Cartesian dominant morphism φ: (X', S', η', s', L') -> (X, S, η, s, L), X' = X ×_S S', has maps g: X' -> X, g_s: X'_{s'} -> X_s, g̃: X'_η̃' -> X_η̃ that are universal homeomorphisms; (iv) the base-change map c_φ(F): g_s^* RΨ_L(F) -> RΨ_{L'}(g^* F) is an isomorphism for every F ∈ D^+(X_et, Λ) and every ring Λ, equivariant along the isomorphism of Galois groups, and g^*, g_s^* are equivalences of étale sites. Consequently, in positive characteristic RΨ_L may be computed after replacing V by its integral closure in the perfect closure of K.
 
@@ -2537,19 +2702,23 @@ This uses f locally of finite type; n invertible in k(s) (hence in O_{S,s} and i
 
 X = S: both sides are Λ in degree 0 (S(η̄) and η̄ are strictly local). η the generic point: S(η̄) = η̄ and the map is the identity. V strictly henselian of rank 2 with primes 0 ⊊ 𝔭 ⊊ 𝔪 and η = 𝔭 (the higher-rank regression case): the theorem identifies RΨ_L, formed with the tube over the strictly henselian rank-one valuation ring (V_𝔭)^sh, with cohomology of the fibres over the point η̄.
 
-*Needs:* Section 5.2; `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* Section 5.2; `SchemeAndStackFoundations`, Layer 2; Sections 0.5–0.6.
 
 ### 5.3 Amplitude, tame quotients and Gauss extensions
 
-Let (X, S, η, s) be a quadruple with f of finite type, N := dim X_η (the dimension of the fibre over η; RΨ_L = 0 if X_η = ∅), and n ≥ 1 invertible in k(s). Then R^qΨ_L(F) = 0 for every q > 2N and every sheaf F of ℤ/n-modules on X_et (and every sheaf of Λ-modules for a ring Λ with nΛ = 0); consequently RΨ_L maps D^b(X_et, Λ) to D^b(X_{s,et}, Λ), sending D^{[a,b]} into D^{[a, b+2N]}.
+Let (X, S, η, s) be a quadruple with f locally of finite type and N := dim X_η finite (RΨ_L = 0 if X_η = ∅), and n ≥ 1 invertible in k(s). Then R^qΨ_L(F) = 0 for every q > 2N and every sheaf F of ℤ/n-modules on X_et (and every sheaf of Λ-modules for a ring Λ with nΛ = 0); consequently RΨ_L maps D^b(X_et, Λ) to D^b(X_{s,et}, Λ), sending D^{[a,b]} into D^{[a, b+2N]}.
 
-This uses n invertible in k(s): the proof goes through the tube-versus-fibre comparison, which is only asserted for prime-to-p_s torsion.
+This uses the finite global bound N and n invertible in k(s): the proof goes through the prime-to-p_s tube-versus-fibre comparison. Without a finite global dimension bound, boundedness holds locally on finite-dimensional charts.
 
 (Luc Illusie, Vanishing cycles over general bases after P. Deligne, O. Gabber, G. Laumon and F. Orgogozo, §4.1(d), p. 8; Fabrice Orgogozo, Modifications et cycles proches sur une base générale (arXiv title: Modifications et cycles évanescents sur une base de dimension supérieure à un), Théorème 1.1, p. 2; Fabrice Orgogozo, Modifications et cycles proches sur une base générale (arXiv title: Modifications et cycles évanescents sur une base de dimension supérieure à un), Démonstration du théorème 5.1, p. 14.)
 
-For X = A^1_S, N = 1 and R^qΨ_L(ℤ/n) = 0 for q ≥ 3; in fact for X smooth over a strictly henselian DVR, RΨ_L(ℤ/n) = ℤ/n in degree 0 (LPV.0, local acyclicity of smooth morphisms).
+**Checks.**
 
-*Needs:* Section 5.2; `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2.
+- For X=A¹_S, N=1 gives vanishing for q≥3; over a strictly henselian DVR smoothness gives constant nearby cycles in degree zero.
+- For η=s, the functor is exact restriction i*, within the asserted range.
+- Over a strictly henselian trait with uniformizer π and ℓ invertible, take the disjoint union over d≥1 of the d-fold products of xy=π. At the deepest node R^dΨ(Z/ℓ)=Z/ℓ(−d). This locally finite-type X has infinite generic dimension and globally unbounded nearby cycles.
+
+*Needs:* Section 5.2; `SchemeAndStackFoundations`, Layer 2; Sections 0.5–0.6.
 
 Let K be a field with a henselian valuation ring V whose residue field κ is separably closed, p the characteristic exponent of κ, Γ the value group, K^s a separable closure and G_K = Gal(K^s/K) (which equals the inertia group, Mathlib ValuationSubring.inertiaSubgroup of the unique extension of V to K^s, by Gabber–Ramero (6.2.10)). Let K^t ⊆ K^s be the maximal tame extension, the union of the finite Galois extensions E/K in K^s with [E : K] prime to p. Then: (i) there is a natural isomorphism of profinite groups Gal(K^t/K) ≅ Hom_ℤ(Γ ⊗_ℤ ℤ_(p)/Γ, μ_(p)), where ℤ_(p) is ℤ localized at p (denominators prime to p) and μ_(p) is the group of roots of unity of order prime to p in K; in particular Gal(K^t/K) is abelian and its supernatural order is prime to p; (ii) for every finite Galois E/K in K^s the map Gal(E/K) -> Hom_ℤ(Γ_E/Γ, μ(κ)), σ ↦ (γ ↦ σ(x)/x mod 𝔪_E for |x| = γ), is surjective with kernel a p-group, and E ∩ K^t is the fixed field of that kernel; (iii) hence P := Gal(K^s/K^t) is a closed normal pro-p subgroup of G_K of index prime to p, i.e. the unique p-Sylow subgroup of G_K (the wild inertia subgroup). For p = 1 (κ of characteristic 0), P = 1 and G_K ≅ Hom(Γ ⊗ ℚ/Γ, μ). This is the valuation-theoretic pro-p Sylow/tame comparison in the form used by this stage.
 
@@ -2635,7 +2804,7 @@ The proof descends finitely presented geometry and bounded constructible coeffic
 
 For a valuation base, the chosen modification has a section by the valuative criterion, so pullback along that section proves universal nearby-cycle base change without modifying the valuation scheme. Approximation and filtered coefficient colimits extend the finite-presentation constructible statement to the precise valuation coefficient scope below. The locally finite-type tube theorem is proved independently by the henselian/tube argument; it is not obtained by dropping finite presentation from this modification theorem.
 
-*Needs:* scheme étale sites, strict localizations, normalizations, proper base change and cohomological descent from `SchemeAndStackFoundations`, Layer 2; alterations, flattening, stable pointed-curve extension and Stein factorization from `SchemeAndStackFoundations`, Layer 4, and `TauCetiRoadmap.StableReduction`; finite-presentation and constructible coefficient descent from `AdicCoefficientsAndComparisons`, layer L2; coherent-site and derived operations from `DiamondsAndVStacks`, layer D0, and `EnhancedDerivedSheaves`, layers E1–E2.
+*Needs:* scheme étale sites, strict localizations, normalizations, proper base change and cohomological descent from `SchemeAndStackFoundations`, Layer 2; alterations, flattening, stable pointed-curve extension and Stein factorization from `SchemeAndStackFoundations`, Layer 4, and `TauCetiRoadmap.StableReduction`; finite-presentation and constructible coefficient descent from Sections 0.5–0.6; coherent-site and derived operations from `DiamondsAndVStacks`, layer D0, and Sections 0.1–0.4.
 
 Let φ = (g, h, ι): (X', S', η', s', L') -> (X, S, η, s, L) be a Cartesian and dominant morphism of quadruples (Section 5.1): X' = X ×_S S', and the local homomorphism O_{S,s} -> O_{S',s'} of valuation rings is injective. Assume f: X -> S locally of finite type and let n ≥ 1 be invertible in k(s) (equivalently prime to the residue characteristic exponent p_s). Then for every ring Λ with nΛ = 0 and every F ∈ D^+(X_et, Λ), the base-change map c_φ(F): g_s^* RΨ_L(F) -> RΨ_{L'}(g^* F) of Section 5.2 is an isomorphism, equivariant along φ_#: Gal(L'/k(η')) -> Gal(L/k(η)). In particular, for every torsion abelian sheaf F on X_et whose local sections are killed by integers prime to p_s, g_s^* R^qΨ_L(F) ≅ R^qΨ_{L'}(g^* F) for all q. No constructibility or finiteness of F is assumed. Nothing is asserted for torsion divisible by p_s, for non-Cartesian φ, or for non-dominant h.
 
@@ -2655,7 +2824,7 @@ This uses X affine of finite presentation (the general case follows by locality,
 
 B = 𝔽_ℓ[t] (ℓ ≠ p_s), X = S, F = B: RΨ_L(B) = B, a constructible B-module although not a finite abelian group.
 
-*Needs:* Section 5.2; Section 5.3; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product); `SchemeAndStackFoundations`, Layer 2.
+*Needs:* Section 5.2; Section 5.3; Sections 0.1–0.4 (presentability and the derived tensor product); `SchemeAndStackFoundations`, Layer 2.
 
 Let (X, S, η, s) be a quadruple with f: X -> S locally of finite type, B a noetherian ring with nB = 0 for an integer n invertible in k(s), and F a constructible sheaf of B-modules on X_et (each quasi-compact open of X has a finite partition into constructible locally closed subschemes on each of which F is locally constant with finitely generated stalks). Then for every q the sheaf R^qΨ_L(F) on X_{s,et} is a constructible sheaf of B-modules (X_s is locally of finite type over the field k(s)), R^qΨ_L(F) = 0 for q > 2 dim X_η, and for X quasi-compact RΨ_L(F) ∈ D^b_c(X_{s,et}, B); the action of Gal(L/k(η)) on each R^qΨ_L(F) is continuous. Nothing is asserted when p_s divides n, and the statement is not deduced from the trait case by writing V as a limit of discrete valuation rings.
 
@@ -2703,7 +2872,7 @@ This uses Finite presentation and bounded constructible ℤ/n input are retained
 
 For b=a, both sides restrict to the same geometric stalk. If b is a generic geometric point of a valuation spectrum, T_(b)=b and the restriction is already the identity. At an intermediate prime of a rank-two valuation ring the comparison has nontrivial content; do not identify the schemes T_(b) and b. A uniform bound on all fibre dimensions is used here; Proposition 2.3 is not cited as a bound in terms of the generic fibre alone.
 
-*Needs:* `LefschetzPencilsAndVanishingCycles`, layer LPV.0; `SchemeAndStackFoundations`, Layer 4; `SchemeAndStackFoundations`, Layer 2; Section 5.4; Section 5.2; `AdicCoefficientsAndComparisons`, layer L2 (`noetherian-approximation`); `AdicCoefficientsAndComparisons`, layer L2 (`fp-relative-diagram-descent`); `AdicCoefficientsAndComparisons`, layer L2 (`etale-cohomology-continuity`); `AdicCoefficientsAndComparisons`, layer L2 (`constructible-derived-continuity`); `AdicCoefficientsAndComparisons`, layer L2 (`constructible-Hom-continuity`); `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* `LefschetzPencilsAndVanishingCycles`, layer LPV.0; `SchemeAndStackFoundations`, Layer 4; `SchemeAndStackFoundations`, Layer 2; Section 5.4; Section 5.2; `SchemeAndStackFoundations`, §0.9 (`noetherian_approximation`); Section 0.5 (`ClassicalCoefficients.finitePresentationDescent`); `SchemeAndStackFoundations`, §2.15 (`etale_cohomology_limits`); Section 0.6 (`ClassicalCoefficients.constructibleDerivedDescent`); Section 0.6 (`ClassicalCoefficients.constructibleHomContinuity`); Sections 0.5–0.6.
 
 Let V be any valuation ring, n≥1 invertible in V, B a noetherian ring with nB=0 and f:X→Spec V of finite presentation. For F∈D_c(X_et,B)∩D⁺(X_et,B), the general oriented-product RΨ_f F has constructible B-module cohomology: each stalk is finitely generated over B and, for each cohomology sheaf, there are finite constructible locally closed partitions of X and Spec V on whose oriented products it is locally constant. In particular its (s,η)-shred is constructible on X_s. If F is bounded, RΨ_f F is bounded constructible, using the uniform all-fibre cohomological-dimension bound. This declaration does not identify finite type with finite presentation.
 
@@ -2713,7 +2882,7 @@ This uses Noetherian B can be infinite, e.g. 𝔽_ℓ[t]; finite B-modules do no
 
 For B=𝔽_ℓ[t], f=id, and F=B, the output stalk is B, which is constructible over B and is infinite as an abelian group. For η=s the shred is i*F, with its inherited constructibility. For a semistable curve, the smooth locus and the finite nodal locus must both be treated; local constancy on the smooth locus alone does not prove constructibility. For a locally finite-type morphism which is not finitely presented, use the tube constructibility theorem of Huber 4.2.5 in Section 5.4. The general oriented finite-presentation theorem itself retains finite presentation.
 
-*Needs:* Section 5.4; `LefschetzPencilsAndVanishingCycles`, layer LPV.0; `SchemeAndStackFoundations`, Layer 2; `SchemeAndStackFoundations`, Layer 4; `EtaleDualityAndPerverseSheaves`, layer EDC.0; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (the coefficient and support notation of the étale derived category); `EtaleDualityAndPerverseSheaves`, layer EDC.0 (bounded constructible and finite-Tor-amplitude complexes).
+*Needs:* Section 5.4; `LefschetzPencilsAndVanishingCycles`, layer LPV.0; `SchemeAndStackFoundations`, Layer 2; `SchemeAndStackFoundations`, Layer 4; Sections 0.7–0.11; Sections 0.7–0.11 (the coefficient and support notation of the étale derived category); Sections 0.7–0.11 (bounded constructible and finite-Tor-amplitude complexes).
 
 ### 5.5 Trait action and variation
 
@@ -2769,7 +2938,7 @@ This uses A strictly henselian discrete valuation ring; X → S locally of finit
 - For X proper and smooth over A and K = Z/ℓ (ℓ ≠ p), the composite with LPV.0 2.1.8.3 is an I-equivariant isomorphism H^q(X_η̄, Z/ℓ) ≅ H^q(Ȳ, Z/ℓ) with trivial I-action (RΦ = 0 by SGA 7 XIII 2.1.5), both equal to H^q(X_s, Z/ℓ).
 - Replacing RΨ_η by LPV.0's RΦ is false: for X = A^1_A, K' = Z/ℓ, H^0(Ȳ, Z/ℓ) = Z/ℓ while H^0(X_s, RΦ(K')) = 0.
 
-X = S: R^+Γ(Spa(k̄^, Ā^), c^*K) = K_η̄ = RΨ_η(K)_s with the Galois action on both sides. X = A^1_A, K = Z/ℓ with ℓ ≠ p: Ȳ is the closed unit disc over k̄^ and RΨ_η(Z/ℓ) = Z/ℓ (SGA 7 XIII 2.1.5), so H^0(Ȳ, Z/ℓ) = Z/ℓ, H^q(Ȳ, Z/ℓ) = 0 for q > 0, with trivial I-action (Berkovich 1994, Corollary 5.4, gives the same for smooth formal schemes). X proper over A: Ȳ is the analytification of X_η ⊗_k k̄^, and composing with LPV.0's proper specialization isomorphism R^+Γ(X_η̄, K) ≅ R^+Γ(X_s̄, RΨ_η K) (`LefschetzPencilsAndVanishingCycles`, layer LPV.0, Section 0.6, 2.1.8.3) gives an I-equivariant isomorphism R^+Γ(X_η̄, K) ≅ R^+Γ(Ȳ, c^*K). The agreement with the proper algebraic comparison is proved by comparing their common adjunction map, using Section 8.2. LPV.2: for X proper and flat of odd relative dimension n = 2m + 1 over A whose only non-smooth point x of X_s is an ordinary quadratic point with b(x) a uniformizer, the Picard–Lefschetz formula σ(a) = a + (−1)^{m+1} ε_{b(x)}(σ)(a·δ_x)δ_x of `LefschetzPencilsAndVanishingCycles`, layer LPV.2, Section 2.8 (SGA 7 XV 3.3.6), with δ_x, the pairing and the twists as there, holds on H^n(Ȳ, Λ) through the previous item; use the specified generator δ_x, its Tate twists and pairing, and the coefficient and ordinary-quadratic-point hypotheses of LPV.2.
+X = S: R^+Γ(Spa(k̄^, Ā^), c^*K) = K_η̄ = RΨ_η(K)_s with the Galois action on both sides. X = A^1_A, K = Z/ℓ with ℓ ≠ p: Ȳ is the closed unit disc over k̄^ and RΨ_η(Z/ℓ) = Z/ℓ (SGA 7 XIII 2.1.5), so H^0(Ȳ, Z/ℓ) = Z/ℓ, H^q(Ȳ, Z/ℓ) = 0 for q > 0, with trivial I-action (Berkovich 1994, Corollary 5.4, gives the same for smooth formal schemes). X proper over A: Ȳ is the analytification of X_η ⊗_k k̄^, and composing with LPV.0's proper specialization isomorphism R^+Γ(X_η̄, K) ≅ R^+Γ(X_s̄, RΨ_η K) (`LefschetzPencilsAndVanishingCycles`, layer LPV.0, Section 0.6, 2.1.8.3) gives an I-equivariant isomorphism R^+Γ(X_η̄, K) ≅ R^+Γ(Ȳ, c^*K). The agreement with the proper algebraic comparison is the target of Section 8.2 after that comparison is constructed. LPV.2: for X proper and flat of odd relative dimension n = 2m + 1 over A whose only non-smooth point x of X_s is an ordinary quadratic point with b(x) a uniformizer, the Picard–Lefschetz formula σ(a) = a + (−1)^{m+1} ε_{b(x)}(σ)(a·δ_x)δ_x of `LefschetzPencilsAndVanishingCycles`, layer LPV.2, Section 2.8 (SGA 7 XV 3.3.6), with δ_x, the pairing and the twists as there, holds on H^n(Ȳ, Λ) through the previous item; use the specified generator δ_x, its Tate twists and pairing, and the coefficient and ordinary-quadratic-point hypotheses of LPV.2.
 
 *Needs:* Section 5.5; Section 4.5; `LefschetzPencilsAndVanishingCycles`, layer LPV.0, Section 0.5; `LefschetzPencilsAndVanishingCycles`, layer LPV.0, Section 0.6; `LefschetzPencilsAndVanishingCycles`, layer LPV.2, Section 2.8; `AdicSpacesPartIII`, layer R2 (`formal-completion-and-algebraic-comparison`).
 
@@ -2842,7 +3011,7 @@ Provide `aicGenericExtension_perfectConstructible`: The underlying total-scheme 
 
 The output is perfect-constructible on the total X, not just constructible after restricting to X_s. For a field V=K algebraically closed, restriction and Rj* identify with identity on the perfect-constructible category. ULA objects are recovered by the canonical unit; a complex supported only on the closed fibre cannot be ULA unless it is zero. For Λ=ℤ/ℓ² the constructible constant ℤ/ℓ complex need not be perfect; it is not an admissible generic input merely because its stalks are finite.
 
-*Needs:* Section 5.3; Section 5.2; `SchemeAndStackFoundations`, Layer 2; `SchemeAndStackFoundations`, Layer 4; `EtaleDualityAndPerverseSheaves`, layer EDC.0; `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); `AdicCoefficientsAndComparisons`, layer L2 (`fp-compactification`); `AdicCoefficientsAndComparisons`, layer L2 (`etale-cohomology-continuity`); `AdicCoefficientsAndComparisons`, layer L2 (`constructible-derived-continuity`); `AdicCoefficientsAndComparisons`, layer L2 (`constructible-Hom-continuity`); Mathlib CategoryTheory.Equivalence; Mathlib DerivedCategory; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (the coefficient and support notation of the étale derived category); `EtaleDualityAndPerverseSheaves`, layer EDC.0 (bounded constructible and finite-Tor-amplitude complexes).
+*Needs:* Section 5.3; Section 5.2; `SchemeAndStackFoundations`, Layer 2; `SchemeAndStackFoundations`, Layer 4; Sections 0.7–0.11; Sections 0.1–0.4 (K-injective and K-flat replacements); Sections 0.5–0.6 (`fp-compactification`); `SchemeAndStackFoundations`, §2.15 (`etale_cohomology_limits`); Section 0.6 (`ClassicalCoefficients.constructibleDerivedDescent`); Section 0.6 (`ClassicalCoefficients.constructibleHomContinuity`); Mathlib CategoryTheory.Equivalence; Mathlib DerivedCategory; Sections 0.7–0.11 (the coefficient and support notation of the étale derived category); Sections 0.7–0.11 (bounded constructible and finite-Tor-amplitude complexes).
 
 Under the exact hypotheses of aic-generic-extension-equivalence, composing its inverse with the inclusion of ULA objects into D⁺(X,Λ) is canonically naturally isomorphic to Rj* composed with the inclusion of perfect-constructible generic objects.
 
@@ -2892,7 +3061,7 @@ This uses Use perfect-constructible generic F, the prime-power coefficient hypot
 
 For X=Spec V the formula is derived Λ-module duality of a perfect complex. The comparison preserves shifts and the supplier’s Tate-twist convention. Finite stalks without finite Tor-amplitude do not satisfy the input convention.
 
-*Needs:* Section 5.6; `SchemeAndStackFoundations`, Layer 2; `EtaleDualityAndPerverseSheaves`, layer EDC.1; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (derived tensor and internal RHom).
+*Needs:* Section 5.6; `SchemeAndStackFoundations`, Layer 2; Sections 0.7–0.11; Sections 0.7–0.11 (derived tensor and internal RHom).
 
 Let X,Y be separated finitely presented over the same AIC valuation V, with the same coefficient hypotheses, and let F,G be perfect-constructible on X_K,Y_K. On (X×_V Y), the canonical exterior-product map Rj_X*F ⊠^L_Λ Rj_Y*G→Rj_(X×Y)*(F⊠^L_Λ G) is an isomorphism. All exterior products use the imported derived tensor and the two scheme projections, and the product remains separated finitely presented.
 
@@ -2902,7 +3071,7 @@ This uses Perfect-constructible factors; derived tensor is used even when coeffi
 
 One factor Spec V with generic coefficient unit gives the unit constraint. If either generic factor is zero, both sides vanish. With Λ=ℤ/ℓ² use derived tensor; replacing it by degreewise ordinary tensor can change the complex.
 
-*Needs:* Section 5.6; `SchemeAndStackFoundations`, Layer 2; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (derived tensor and internal RHom).
+*Needs:* Section 5.6; `SchemeAndStackFoundations`, Layer 2; Sections 0.7–0.11 (derived tensor and internal RHom).
 
 For an AIC valuation V and separated finitely presented X/V, take the inherited quadruple with η the generic point and s the closed point. Then κ(η)=K is algebraically closed, its chosen separable closure can be identified with K, and S_(η̄)=Spec K. For a total-scheme perfect-constructible F, the inherited RΨ_L(F)=i*Rj*j*F identifies canonically with i* applied to the underlying total object of the generic-extension inverse evaluated on j*F. This comparison preserves the specialization unit, canonical base-change maps whenever their diagrams are defined, and the inherited (now trivial) Galois action. It reconciles the stronger Rj*/ULA theorem with special-fibre constructibility without identifying the two assertions.
 
@@ -2912,7 +3081,7 @@ This uses η is generic for this comparison; an intermediate η uses the separat
 
 For X=Spec V and F=Λ_X both constructions give Λ on the closed point and specialization fixes 1. For V an algebraically closed field, η=s and this becomes identity restriction. An AIC valuation of rank greater than one is allowed; its generic inclusion is not relabelled as an open immersion. An arbitrary absolute integral closure need not be a valuation ring; the valuation-ring comparison uses exactly the AIC valuation hypothesis.
 
-*Needs:* Section 5.6; Section 5.4; Section 5.2; Section 5.1; `SchemeAndStackFoundations`, Layer 2; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (the coefficient and support notation of the étale derived category); `EtaleDualityAndPerverseSheaves`, layer EDC.0.
+*Needs:* Section 5.6; Section 5.4; Section 5.2; Section 5.1; `SchemeAndStackFoundations`, Layer 2; Sections 0.7–0.11 (the coefficient and support notation of the étale derived category); Sections 0.7–0.11.
 
 ### Examples
 
@@ -3064,7 +3233,7 @@ This uses A a strictly henselian valuation ring with separably closed fraction f
 
 Degenerate: f proper, X̄ = X, ∂_s = ∅, and (b) reduces to proper-nearby-cycle-cohomology. Boundary example (nondiscrete rank one): A = O_C, X = Spec C ⊆ X̄ = S. Then X_s = ∅, RΓ_c(X_η, Λ) = Λ, ∂_s = {s} and RΨ_S(Λ)_s = Λ: the triangle is 0 → Λ → Λ →. Higher-rank plus ring: A = C^+ of rank two with X = Spec O_C ⊆ S: X_η = Spec C, X_s = ∅, and RΓ_c(Spec C, Λ) = Λ is carried entirely by the boundary point s. Trait analogue: over the normalisation of a strictly henselian discrete valuation ring in an algebraic closure of its fraction field, the map of (b) is the map RΓ_c(X_s̄, RΨ_η K) → RΓ_c(X_η̄, K) of SGA 7 XIII 2.1.8.4 (`LefschetzPencilsAndVanishingCycles`, layer LPV.0).
 
-*Needs:* Section 6.2; Section 5.2; `AdicCoefficientsAndComparisons`, layer L2; `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation.
+*Needs:* Section 6.2; Section 5.2; Sections 0.5–0.6; `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation.
 
 Let A be a strictly henselian valuation ring with separably closed fraction field K, S = Spec A, f: X → S of finite type with fibres of dimension ≤ N. Let Λ be a noetherian ring with mΛ = 0 for an integer m invertible in A, and F ∈ D^b_c((X_η)_et, Λ) with cohomology sheaves in degrees [a, b]. Then: (i) RΨF ∈ D^b_c((X_s)_et, Λ), with R^nΨF = 0 for n ∉ [a, b + 2N]; (ii) for every closed subscheme L ⊆ X_s proper over k(s) (for instance L = X_s when f is proper), each H^n(L, RΨF|_L) is a finitely generated Λ-module and vanishes for all but finitely many n; (iii) for every locally closed subscheme L ⊆ X_s, each H^n_c(L, RΨF|_L) is finitely generated; (iv) if f is proper, H^n(X_η, F) ≅ H^n(X_s, RΨF) is finitely generated, and if f is separated of finite presentation, H^n_c(X_η, F) is finitely generated.
 
@@ -3079,7 +3248,7 @@ This uses A a strictly henselian valuation ring with separably closed fraction f
 
 Nondiscrete rank one: A = O_C, X = E an elliptic curve over O_C with good reduction, F = Z/ℓ^n with ℓ ≠ p: H^1(E_s, RΨF) ≅ H^1(E_C, Z/ℓ^n) ≅ (Z/ℓ^n)^2. Higher-rank plus ring: A = C^+ of rank two, X = P^1: the groups of (iv) are Λ, 0, Λ(−1). η = s: A = K a field, RΨF = F and (ii)–(iii) are the finiteness theorems over K.
 
-*Needs:* Section 5.4; Section 5.2; Section 6.2; `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFiniteType; Mathlib AlgebraicGeometry.IsProper; Section 5.3; `AdicCoefficientsAndComparisons`, layer L2.
+*Needs:* Section 5.4; Section 5.2; Section 6.2; `SchemeAndStackFoundations`, Layer 2; Mathlib AlgebraicGeometry.LocallyOfFiniteType; Mathlib AlgebraicGeometry.IsProper; Section 5.3; Sections 0.5–0.6.
 
 Let A be a strictly henselian microbial valuation ring with separably closed fraction field K and its valuation topology, a ∈ p_A a nonzero element of its height-one prime, S = Spec A, f: X → S locally of finite type, X^ the a-adic completion of X (of type (S) by Section 4.5 3.5.16), X_0 = X ×_S V(p_A), T ⊆ d(X^) the preimage of the closed point of d(Spf A) = Spa(K, A), Z = (d(X^), T) and c: Z → X_η the natural morphism. Let Λ be a torsion ring and F ∈ D^+((X_η)_et, Λ). (i) The isomorphism κ_X: RΓ(Z, c^*F) ≅ RΓ(X_s, i^*Rj_*F) of 3.5.16 has target RΓ(X_s, RΨF), RΨ the nearby-cycle functor of Section 5.2 (X_η ⊆ X is open and the strict localisation at η is η). (ii) For every closed subset L of X_0 contained in X_s, the sheaf-level isomorphism of 3.5.13 restricted to L gives κ_{X,L}: RΓ(d(X^, L), c_L^*F) ≅ RΓ(L, RΨF|_L), with κ_{X,X_s} = κ_X, compatible with restriction to closed L' ⊆ L and with extension by zero from open L' ⊆ L (3.5.11). (iii) Let φ: A → B be a continuous surjective map of valuation spectra to a ring B of the same kind (fraction field L), X_B = X ×_S Spec B. The morphism d(X_B^) → d(X^) maps the tube Z_B over the closed point of Spa(L, B) into Z, and pullback of tube cohomology RΓ(Z, c^*F) → RΓ(Z_B, c_B^*F_B) corresponds under κ_X and κ_{X_B} to the invariance map inv_φ(F). (iv) For A = O_C complete of rank one (necessarily nondiscrete, its fraction field C being separably closed), T = d(X^) and κ_X is RΓ(X_s, −) applied to the isomorphism i^*Rj_*F ≅ Rb_*a^*F of 3.5.13, with b: d(X^)_et → X^_et ≅ (X_s)_et and a: d(X^)_et → (X_η)_et: the algebraic nearby cycles are the analytic nearby cycles of the completion.
 
@@ -3091,15 +3260,21 @@ Nondiscrete rank one: A = O_C, X = A^1_{O_C}, Λ killed by an integer prime to p
 
 *Needs:* Section 4.5; Section 4.4; Section 4.3; Section 4.2; Section 6.1; Section 6.2; Section 5.2; Section 5.1; Section 1.1; Section 1.2.
 
-Let C_3 ⊆ C_1 be a continuous extension of complete algebraically closed nonarchimedean fields with open and bounded valuation subrings C_3^+ ⊆ C_1^+ such that Spa(C_1, C_1^+) → Spa(C_3, C_3^+) is surjective (equivalently C_1^+ ∩ C_3 = C_3^+). Let X be a C_3^+-scheme of finite presentation, or of finite type when Spec C_3^+ is noetherian, X_1 = X ⊗_{C_3^+} C_1^+, and for i ∈ {1, 3} let Z_i ⊆ d(X_i^) be the tube over the closed point of Spa(C_i, C_i^+) with c_i: Z_i → (X_i)_{C_i} (Section 4.5 3.5.16). Let n be an integer prime to the residue characteristic p of C_3, Λ a ring with nΛ = 0, F ∈ D^+((X_{C_3})_et, Λ) and F_1 its pullback. Then pullback RΓ(Z_3, c_3^*F) → RΓ(Z_1, c_1^*F_1) is an isomorphism. In particular, for a Zariski-open V ⊆ X_{C_3} and an abelian group M killed by n, H^i(Z_3, c_3^*j_{V!}M) ≅ H^i(Z_1, c_1^*j_{V!}M) for all i. This is the algebraizable, extension-by-zero case of the input [Hub96, Theorem 4.1.1(c)] used in ECD Lemma 16.3; Layer 7 passes from it to affinoids topologically of finite type over C_3, to perfectoid limits and to quasi-compact adic open subsets.
+Let C_3 ⊆ C_1 be a continuous extension of complete algebraically closed nonarchimedean fields with open and bounded valuation subrings C_3^+ ⊆ C_1^+ such that Spa(C_1, C_1^+) → Spa(C_3, C_3^+) is surjective (equivalently C_1^+ ∩ C_3 = C_3^+). Let X be a C_3^+-scheme of finite presentation, or of finite type when Spec C_3^+ is noetherian, X_1 = X ⊗_{C_3^+} C_1^+, and for i ∈ {1, 3} let Z_i ⊆ d(X_i^) be the tube over the closed point of Spa(C_i, C_i^+) with c_i: Z_i → (X_i)_{C_i} (Section 4.5 3.5.16). Let n>0 be an integer that is a unit in C_3^+ (hence in C_1^+), Λ a ring with nΛ = 0, F ∈ D^+((X_{C_3})_et, Λ) and F_1 its pullback. Then pullback RΓ(Z_3, c_3^*F) → RΓ(Z_1, c_1^*F_1) is an isomorphism. In particular, for a Zariski-open V ⊆ X_{C_3} and an abelian group M killed by n, H^i(Z_3, c_3^*j_{V!}M) ≅ H^i(Z_1, c_1^*j_{V!}M) for all i. This is the algebraizable, extension-by-zero case of the input [Hub96, Theorem 4.1.1(c)] used in ECD Lemma 16.3; Layer 7 passes from it to affinoids topologically of finite type over C_3, to perfectoid limits and to quasi-compact adic open subsets.
 
-This uses C_3 ⊆ C_1 complete algebraically closed nonarchimedean fields, continuous extension; C_i^+ ⊆ C_i open and bounded valuation subrings with C_3^+ ⊆ C_1^+ and Spa(C_1, C_1^+) → Spa(C_3, C_3^+) surjective; X of finite presentation over C_3^+ (or of finite type with Spec C_3^+ noetherian); n prime to the residue characteristic, nΛ = 0, F ∈ D^+((X_{C_3})_et, Λ).
+This uses C_3 ⊆ C_1 complete algebraically closed nonarchimedean fields, continuous extension; C_i^+ ⊆ C_i open and bounded valuation subrings with C_3^+ ⊆ C_1^+ and Spa(C_1, C_1^+) → Spa(C_3, C_3^+) surjective; X of finite presentation over C_3^+ (or of finite type with Spec C_3^+ noetherian); n>0 a unit in C_3^+, nΛ = 0, F ∈ D^+((X_{C_3})_et, Λ).
 
-(Scholze, Étale cohomology of diamonds, Lemma 16.3, p. 93 (arXiv v4); Scholze, Étale cohomology of diamonds, proof of Lemma 16.3, p. 93 (arXiv v4); Vladimir G. Berkovich, Vanishing cycles for formal schemes, §4, before Theorem 4.9, printed p. 551 (GDZ OCR); Hiroki Kato, Étale cohomology of algebraizable rigid analytic varieties via nearby cycles over general bases, §1.2, p. 3 (arXiv 2011.09880v2).)
+(Huber (1996), Theorem 4.1.1(c), p. 238, with char⁺ computed from the plus-ring residue fields; Scholze, Étale cohomology of diamonds, Lemma 16.3, p. 93 (arXiv v4), for the perfectoid residue-characteristic-p specialization; Scholze, Étale cohomology of diamonds, proof of Lemma 16.3, p. 93 (arXiv v4); Vladimir G. Berkovich, Vanishing cycles for formal schemes, §4, before Theorem 4.9, printed p. 551 (GDZ OCR); Hiroki Kato, Étale cohomology of algebraizable rigid analytic varieties via nearby cycles over general bases, §1.2, p. 3 (arXiv 2011.09880v2).)
 
 Nondiscrete rank one: C_3 = C_p (completed algebraic closure of Q_p) ⊆ C_1 a larger complete algebraically closed field, C_i^+ = O_{C_i}, X = G_{m,O_{C_3}}, F = Z/ℓ: the tubes are the unit circles {|x| = 1} and H^1 ≅ Z/ℓ(−1) on both sides. Higher-rank plus ring: C_3^+ ⊊ O_{C_3} of rank two and C_1^+ = the valuation ring of C_1 with C_1^+ ∩ C_3 = C_3^+: the conclusion holds; for C_1^+ = O_{C_1} ⊋ C_3^+ the surjectivity hypothesis fails and nothing is asserted; the conclusion of ECD Lemma 16.3 fails for that map with X_2 = X_3 and U_2 the rank-one point, which is why the lemma assumes surjectivity. Degenerate: C_1 = C_3, C_1^+ = C_3^+: the map is the identity.
 
 *Needs:* Section 6.1; Section 6.2; Section 4.5; Section 1.2.
+
+**Checks.**
+
+- For the identity field-pair extension the comparison is the identity.
+- In perfectoid residue characteristic p>0, n is a plus-ring unit precisely when n is prime to p.
+- If the rank-one residue characteristic is zero and C_3^+ has a secondary residue characteristic ℓ, n=ℓ is prime to the rank-one exponent 1 but is not a plus-ring unit; this invariance assertion does not apply.
 
 ### 6.3 Total cohomology and adjunction descent
 
@@ -3111,7 +3286,7 @@ This uses V and W are valuation domains, with no rank, completeness, discretenes
 
 Identity valuation map: β_id is the identity, including on nonzero constant coefficients. Rank zero: V and W algebraically closed fields gives the classical invariance of Stacks 0F0B. Nondiscrete rank one: V = O_C and W = O_D for an isometric extension of algebraically closed valued fields, with ℓ invertible in O_C; arbitrary qcqs X and bounded-below E are allowed. Higher rank: any local injective extension of rank-two absolutely integrally closed valuation rings has the same conclusion; neither completion nor rank-one replacement enters the statement. Non-surjective exclusion: for a nonfield rank-one such V, V → Frac V is flat but not faithfully flat. For E = i*Λ supported at the closed point, RΓ(Spec V,E) = Λ in degree zero while its generic pullback is zero.
 
-*Needs:* Section 6.1; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (the coefficient and support notation of the étale derived category); `SchemeAndStackFoundations`, Layer 2; Layer 5; `AdicCoefficientsAndComparisons`, layer L2 (`etale-cohomology-continuity`); Mathlib ValuationRing; Mathlib Module.FaithfullyFlat; Mathlib IsAlgClosed; Mathlib FractionRing; Mathlib DerivedCategory.Plus; Mathlib HasDerivedCategory.standard.
+*Needs:* Section 6.1; Sections 0.7–0.11 (the coefficient and support notation of the étale derived category); `SchemeAndStackFoundations`, Layer 2; Layer 5; `SchemeAndStackFoundations`, §2.15 (`etale_cohomology_limits`); Mathlib ValuationRing; Mathlib Module.FaithfullyFlat; Mathlib IsAlgClosed; Mathlib FractionRing; Mathlib DerivedCategory.Plus; Mathlib HasDerivedCategory.standard.
 
 Let A,A′,q,X,p be as above, and let F be an abelian torsion sheaf on X_ét with torsion orders prime to the residue characteristics occurring on X′. For a closed constructible Z ⊆ S such that Z′ = q⁻¹Z is a proper subset of S′, set T = f⁻¹Z and T′ = p⁻¹T, with open complements r and r′. For every n ≥ 0 the canonical map p*Rⁿr_*r*F → Rⁿr′_*r′*p*F is an isomorphism. Equivalently the canonical sheaf-local support map p*𝓗ⁿ_T(X,F) → 𝓗ⁿ_T′(X′,p*F) is an isomorphism. These are sheaves on X′, not global support groups. The derived local-support exchange is an isomorphism on F[0].
 
@@ -3121,7 +3296,7 @@ This uses A and A′ are valuation domains with separably closed fraction fields
 
 For Z = ∅ both local-support complexes are zero and the open-restriction comparison is the identity. For identity q the comparison is the canonical identity on local cohomology. For a rank-two base choose a compact open complement with more than one point; the proof uses its closed point and must not replace it by the generic point. A localization map of valuation rings is allowed when the pulled-back boundary remains proper; no surjectivity condition is inserted.
 
-*Needs:* `EtaleDualityAndPerverseSheaves`, layer EDC.0 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Section 5.2; Layer 5.
+*Needs:* Sections 0.7–0.11 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Section 5.2; Layer 5.
 
 With A,A′,q,X,p,F as in local-cohomology-valuation-base-change, take any proper closed constructible Z′ ⊊ S′, and let η′ be the closed point of S′∖Z′. Assume q(z′) = q(η′) for every z′ ∈ Z′. If T′ = f′⁻¹Z′, then 𝓗ⁿ_T′(X′,p*F) = 0 for every n ≥ 0. Equivalently the local-support complex on p*F[0] is zero, or the canonical p*F → Rr′_*r′*p*F is an isomorphism. Global support cohomology also vanishes by the support spectral sequence.
 
@@ -3131,7 +3306,7 @@ This uses A and A′ are valuation domains with separably closed fraction fields
 
 A rank-one valuation A′ with separably closed fraction field over a separably closed base field A satisfies the collapse condition for its closed point. The result applies to sheaves pulled back from an A-scheme. Z′ = ∅ gives the zero support complex. For identity q and a nonempty proper boundary, the collapse hypothesis fails; no vanishing is asserted for an arbitrary special-fibre sheaf.
 
-*Needs:* `EtaleDualityAndPerverseSheaves`, layer EDC.0 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Section 5.2; Layer 5.
+*Needs:* Sections 0.7–0.11 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Section 5.2; Layer 5.
 
 Let A,A′ have separably closed fraction fields and q:Spec A′→Spec A be surjective. For any A-scheme X and abelian torsion sheaf F on X_ét whose torsion is prime to char(X), the canonical cohomology pullback Hⁿ(X,F) → Hⁿ(X ×_A A′,p*F) is an isomorphism for every n ≥ 0. Equivalently β_p(F[0]) is an isomorphism in D⁺(ℤ). There is no uniform exponent, ℓ-primary, finite-type, qcqs or constructibility requirement.
 
@@ -3141,7 +3316,7 @@ This uses A and A′ are valuation domains with separably closed fraction fields
 
 Identity q induces the identity on Hⁿ. Rank-zero valuations recover prime-to-characteristic separably closed field invariance. An unbounded direct sum of sheaves killed by varying invertible integers is admitted as a torsion sheaf; it is not an arbitrary unbounded derived complex. For a non-surjective generic localization, a nonzero special-fibre skyscraper loses its global sections; surjectivity cannot be dropped.
 
-*Needs:* Section 6.1; Section 6.3; `SchemeAndStackFoundations`, Layer 2; `AdicCoefficientsAndComparisons`, layer L2 (`etale-cohomology-continuity`); Mathlib AlgebraicGeometry.Scheme.pointSmallEtale; Mathlib CategoryTheory.GrothendieckTopology.Point.sheafFiber; Mathlib DerivedCategory.Plus.singleFunctor.
+*Needs:* Section 6.1; Section 6.3; `SchemeAndStackFoundations`, Layer 2; `SchemeAndStackFoundations`, §2.15 (`etale_cohomology_limits`); Mathlib AlgebraicGeometry.Scheme.pointSmallEtale; Mathlib CategoryTheory.GrothendieckTopology.Point.sheafFiber; Mathlib DerivedCategory.Plus.singleFunctor.
 
 Under torsion-sheaf-total-cohomology-valuation-invariance, the canonical adjunction F → p_*p*F is an isomorphism and Rⁿp_*p*F = 0 for all n > 0. Thus the specific derived adjunction unit F[0] → Rp_*p*F[0] is an isomorphism, natural in F and compatible with composition of surjective valuation changes. The statement is about the pulled-back sheaf p*F; it does not make p an equivalence on all sheaves on X′.
 
@@ -3163,7 +3338,7 @@ Retains the identity, field, nondiscrete rank-one and higher-rank cases of the p
 
 *Needs:* Section 6.3; Section 6.1; Section 5.2; `SchemeAndStackFoundations`, Layer 2; Mathlib IsSepClosed.
 
-Let V → W, Λ, X and E satisfy total-cohomology-separably-closed-valuation-invariance. Let Z be a closed subset of X whose open complement U is quasi-compact (therefore qcqs). Write Z_W = g⁻¹(Z). The canonical pullback with closed supports β_g,Z(E): RΓ_Z(X,E) → RΓ_Z_W(X_W,g*E) is an isomorphism in D⁺(Λ), and H^q_Z(X,E) → H^q_Z_W(X_W,g*E) is an isomorphism in the same degree q for every integer q. This map is the closed-support functoriality map in the natural localization triangle. It commutes with forgetting supports, restriction to U and the connecting morphisms. Closed support is imported from EDC.0; it is neither cohomology of Z nor compactly supported cohomology of X.
+Let V → W, Λ, X and E satisfy total-cohomology-separably-closed-valuation-invariance. Let Z be a closed subset of X whose open complement U is quasi-compact (therefore qcqs). Write Z_W = g⁻¹(Z). The canonical pullback with closed supports β_g,Z(E): RΓ_Z(X,E) → RΓ_Z_W(X_W,g*E) is an isomorphism in D⁺(Λ), and H^q_Z(X,E) → H^q_Z_W(X_W,g*E) is an isomorphism in the same degree q for every integer q. This map is the closed-support functoriality map in the natural localization triangle. It commutes with forgetting supports, restriction to U and the connecting morphisms. Closed support is imported from Section 0.7; it is neither cohomology of Z nor compactly supported cohomology of X.
 
 This uses V and W are valuation domains, with no rank, completeness, discreteness or microbial hypothesis; φ: V → W is faithfully flat; equivalently in this valuation setting it is injective and local, and Spec W → Spec V is surjective; ℓ is prime, n > 0, Λ is a commutative ring with ℓⁿΛ = 0, and ℓ is a unit of V (therefore also of W); X is qcqs over Spec V; E belongs to D⁺(X_ét, Λ); Both fraction fields are separably closed; Z ⊆ X is closed and X∖Z is quasi-compact; no finite-boundary hypothesis is substituted for this explicit condition.
 
@@ -3171,7 +3346,7 @@ This uses V and W are valuation domains, with no rank, completeness, discretenes
 
 Z = X reduces to total cohomology invariance; Z = ∅ yields the zero object. For a rank-one valuation V with closed point s and nonzero Λ supported by E = i_*Λ, H⁰_s(Spec V,E) = Λ. It stays Λ after faithfully flat valuation extension; this distinguishes supported cohomology from deleting the special fibre. For a microbial valuation, take Z = f⁻¹(V(p_V)); the complement is X_η, and the support triangle agrees with the inherited special-locus-support-triangle. In rank two this Z need not be the closed fibre. The claim is in degree q on both sides. The separate proper comparison H^q_Z(X,E) = H^{q−1}(X_s,RΦE) uses the inherited proper-nearby-cycle-cohomology theorem and must keep its shift.
 
-*Needs:* Section 6.3; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Section 6.2.
+*Needs:* Section 6.3; Sections 0.7–0.11 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Section 6.2.
 
 Let V → W be faithfully flat valuation rings with separably closed fraction fields K,L; let ℓ be invertible in V, ℓⁿΛ = 0, and f: X → Spec V proper. For X_W, write g_η: (X_W)_η′ → X_η and g_s: (X_W)_s′ → X_s. Let j,j′ be the generic-fibre maps and i,i′ the closed-fibre maps. Put RΨF = i*Rj*F. For F ∈ D⁺((X_η)_ét,Λ), let α_X(F): RΓ(X_η,F) → RΓ(X_s,RΨF) be the canonical proper comparison, and inv_φ(F) the inherited nearby invariance map (cohomology pullback along g_s followed by cohomology of the nearby base-change transformation). Then α_X(F) followed by inv_φ(F) equals β_gη(F) followed by α_X_W(g_η*F). Both α maps and β_gη are isomorphisms, so this identifies inv_φ with geometric-generic cohomology pullback. The comparison can also be computed through β_g(Rj*F) followed by RΓ of g*Rj*F → Rj′*g_η*F; total invariance alone must not omit that exchange transformation. If V,W are microbial with valuation topologies, the ring map is continuous, and the completions and tubes satisfy the imported formal-adic-compatibility hypotheses, the same equality transports through κ_X and κ_X_W to the canonical tube pullback square.
 
@@ -3193,7 +3368,7 @@ This uses A is a valuation domain with separably closed fraction field; S = Spec
 
 For finite-rank A one may take A₀=A and the identity model. The coefficient sheaf and Z must descend together with X; descending only defining equations is insufficient. In rank greater than one no discrete or rank-one approximation is asserted. The conclusion is an actual Cartesian model over A; the corrected orientation of the p. 246 displayed base change is retained.
 
-*Needs:* `SchemeAndStackFoundations`, Layer 2; Tau Ceti TauCetiRoadmap/AdicSpaces#layer-1-valuation-spectra-and-continuous-valuations; `AdicCoefficientsAndComparisons`, layer L2 (`etale-cohomology-continuity`); Section 6.1; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation; Mathlib ringKrullDim.
+*Needs:* `SchemeAndStackFoundations`, Layer 2; Tau Ceti TauCetiRoadmap/AdicSpaces#layer-1-valuation-spectra-and-continuous-valuations; `SchemeAndStackFoundations`, §2.15 (`etale_cohomology_limits`); Section 6.1; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation; Mathlib ringKrullDim.
 
 Let A,B,F satisfy the finiteness conventions, f:X→S be locally of finite type, and Z⊆S closed constructible. Put T=f⁻¹Z and j:X∖T→X. If either f is locally of finite presentation or Z has finitely many points, then Rⁿj_*j*F and, equivalently, 𝓗ⁿ_T(X,F) are constructible B-module sheaves for every n≥0. The finite boundary is Z in the base spectrum. Neither properness nor quasi-compactness of X is required.
 
@@ -3203,7 +3378,7 @@ This uses A is a valuation domain with separably closed fraction field; S = Spec
 
 Z=∅ yields R⁰j_*j*F=F and higher terms zero; all local-support sheaves vanish. Z=S yields Rⁿj_*j*F=0 and local support F in degree zero. If A has finite rank then every Z is finite, so the locally-finite-type branch applies without finite presentation. For infinite-rank A with finite Z, locally finite type suffices. For an infinite Z, retain local finite presentation; no finite-type-only claim is made.
 
-*Needs:* Section 6.4; Section 6.3; Section 5.4; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Mathlib Topology.IsConstructible; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation.
+*Needs:* Section 6.4; Section 6.3; Section 5.4; Sections 0.7–0.11 (cohomology with supports as the localization fibre); `SchemeAndStackFoundations`, Layer 2; Mathlib Topology.IsConstructible; Mathlib AlgebraicGeometry.LocallyOfFinitePresentation.
 
 Let A,B,F satisfy the finiteness conventions and let f:X→Spec A be of finite type. If either f is of finite presentation or dim A<∞, then Hⁿ(X_ét,F) is a finitely generated B-module for every n≥0. This is ordinary global cohomology, with no properness or separatedness hypothesis in the finite-dimensional branch. No uniform vanishing range or finite cardinality is claimed.
 
@@ -3213,17 +3388,17 @@ This uses A is a valuation domain with separably closed fraction field; S = Spec
 
 A separably closed field A reduces the theorem to the scheme supplier’s classical finiteness result. For finite-rank A, any finite-type X in the stated coefficient range is admitted, including nonproper X. For infinite-rank A, retain finite presentation; no finite-type-only theorem is asserted. Finitely generated over a noetherian torsion ring B can be an infinite set when B is infinite. The conclusion must remain Module.Finite, not Finite. For X=P¹_A and constant B, H⁰ is B and H² is B(−1); this checks ordinary global cohomology and the standard twist, not compact support.
 
-*Needs:* Section 6.4; Section 6.3; `SchemeAndStackFoundations`, Layer 2; `EtaleDualityAndPerverseSheaves`, layer EDC.0 (cohomology with supports as the localization fibre); Mathlib Module.Finite; Mathlib ringKrullDim.
+*Needs:* Section 6.4; Section 6.3; `SchemeAndStackFoundations`, Layer 2; Sections 0.7–0.11 (cohomology with supports as the localization fibre); Mathlib Module.Finite; Mathlib ringKrullDim.
 
 ### Examples
 
-A homomorphism V→W of valuation domains is surjective on prime spectra precisely when it is injective and local. The identity of a field satisfies this rank-zero case. For a rank-two valuation ring C⁺ inside an algebraically closed analytic field C, inclusion C⁺→O_C is injective but can fail locality: an element infinitesimal in the secondary valuation becomes a unit of O_C. Its spectrum map loses the closed secondary prime. The surjective-valuation invariance theorem therefore cannot be applied to this inclusion merely from its injectivity. (Stacks, More on Algebra, Lemmas 15.14.5 and 15.14.7, tags 0DCQ and 0DCS.)
+A homomorphism V→W of valuation domains is surjective on prime spectra precisely when it is injective and local. The identity of a field satisfies this rank-zero case. For a rank-two valuation ring C⁺ inside an algebraically closed analytic field C, inclusion C⁺→O_C is injective but can fail locality: an element infinitesimal in the secondary valuation becomes a unit of O_C. Its spectrum map loses the closed secondary prime. The surjective-valuation invariance theorem therefore cannot be applied to this inclusion merely from its injectivity. (Stacks, More on Algebra, Lemma 15.22.10, tag 0539, for torsion-free flatness; Mathlib `Module.FaithfullyFlat.of_flat_of_isLocalHom` and `PrimeSpectrum.comap_surjective_of_faithfullyFlat`; see Section 6.1.)
 
 For an open complement j:U→X of a closed Z, the supported triangle RΓ(X,j!Λ)→RΓ(X,Λ)→RΓ(Z,Λ) fixes the two maps and connecting morphism. If X is proper, its first term is RΓ_c(U,Λ); for X=A¹ over an algebraically closed field and Z=∅, ordinary RΓ(X,Λ)=Λ is distinct from RΓ_c(X,Λ)=Λ(−1)[−2] for prime-to-characteristic Λ. In the proper setting where Z is a finite set, the last complex is a finite product of its closed-point complexes. For a single geometric closed point its constant-coefficient group is Λ in degree zero. This finite-boundary calculation supplies the supported exports of this layer. (Stacks, Étale Cohomology, §59.79, tags 09XP and 0A45; Huber (1996), §2.3, Proposition 2.3.10, pp. 122–124.)
 
 ### Dependencies
 
-Use Layers 1, 4 and 5; Mathlib’s `PrimeSpectrum.comap`, `IsLocalHom` and valuation-domain notions; `SchemeAndStackFoundations`, Layers 0 and 2, for spectrum criteria, étale invariance and support localization; and `AdicCoefficientsAndComparisons`, L2, for constructible finite-stage descent. The supported formal export uses the full λ⁻¹L of Layer 4. Invariance for total nearby cohomology uses surjectivity on spectra and a noetherian finite-generation coefficient ring; finite cardinality of that ring is not imposed unless a theorem explicitly requires finite coefficients.
+Use Layers 1, 4 and 5; Mathlib’s `PrimeSpectrum.comap`, `IsLocalHom` and valuation-domain notions; `SchemeAndStackFoundations`, Layers 0 and 2, for spectrum criteria, étale invariance and support localization; and Sections 0.5–0.6, for constructible finite-stage descent. The supported formal export uses the full λ⁻¹L of Layer 4. Invariance for total nearby cohomology uses surjectivity on spectra and a noetherian finite-generation coefficient ring; finite cardinality of that ring is not imposed unless a theorem explicitly requires finite coefficients.
 
 ## Layer 7: Geometric field extensions and connectedness
 
@@ -3275,15 +3450,21 @@ Y = S, F = j_!M for the open {η} ⊊ S (C⁺ of rank two): H⁰(S, j_!M) = (j_!
 
 *Needs:* Section 7.1; `AdicEtaleGeometry`, layer A1 (`geometric-point-etale-split`); `AdicEtaleGeometry`, layer A1 (`etale-site-and-geometric-points`); `AdicEtaleGeometry`, layer A1 (`etale-diagonal`); `AdicEtaleGeometry`, layer A1 (`etale-site`); `AdicEtaleGeometry`, layer A1 (`etale-morphism`); Section 1.1; Section 1.3; Section 1.2; Mathlib CategoryTheory.GrothendieckTopology.Point.
 
-Let ι: (C, C⁺) → (C', C'⁺) be a surjective extension of geometric field pairs (Section 7.1), S = Spa(C, C⁺), S' = Spa(C', C'⁺), p ≥ 1 the characteristic exponent of the residue field of O_C (the residue characteristic, or 1 if it is 0), n ≥ 1 an integer prime to p and M a ℤ/nℤ-module. Let (R, R⁺) be a complete Huber pair with a morphism of pairs (C, C⁺) → (R, R⁺) such that R is topologically of finite type over C (a C-affinoid algebra) and R⁺ ⊆ R° is any open integrally closed subring containing the image of C⁺; put Y := Spa(R, R⁺) (an affinoid adic space over S, noetherian, of weakly finite type over S) and Y' := Y ×_S S' = Spa(R ⊗̂_C C', (R ⊗̂_C C')⁺), the completed tensor product with plus ring the closure of the integral closure of the image of R⁺ ⊗_{C⁺} C'⁺ (R ⊗̂_C C' is topologically of finite type over C'), with projection g_Y: Y' → Y. Let U ⊆ Y be a quasicompact open subset, j: U → Y, U' := g_Y⁻¹(U) (quasicompact open) and j': U' → Y'. Then for every i ≥ 0 the pullback map g_Y^*: Hⁱ(Y_ét, j_!M) → Hⁱ(Y'_ét, g_Y^*j_!M) = Hⁱ(Y'_ét, j'_!M) is bijective. The case U = Y is the invariance of Hⁱ(Y_ét, M); for U = ∅ both sides vanish. The theorem is not asserted when p divides n, nor for non-surjective ι (Section 7.1, acceptance).
+Let ι: (C, C⁺) → (C', C'⁺) be a surjective extension of geometric field pairs (Section 7.1), S = Spa(C, C⁺), S' = Spa(C', C'⁺), p ≥ 1 the characteristic exponent of the residue field of O_C (the residue characteristic, or 1 if it is 0), n≥1 an integer that is a unit in C⁺ (hence in C'⁺) and M a ℤ/nℤ-module. Let (R, R⁺) be a complete Huber pair with a morphism of pairs (C, C⁺) → (R, R⁺) such that R is topologically of finite type over C (a C-affinoid algebra) and R⁺ ⊆ R° is any open integrally closed subring containing the image of C⁺; put Y := Spa(R, R⁺) (an affinoid adic space over S, noetherian, of weakly finite type over S) and Y' := Y ×_S S' = Spa(R ⊗̂_C C', (R ⊗̂_C C')⁺), the completed tensor product with plus ring the closure of the integral closure of the image of R⁺ ⊗_{C⁺} C'⁺ (R ⊗̂_C C' is topologically of finite type over C'), with projection g_Y: Y' → Y. Let U ⊆ Y be a quasicompact open subset, j: U → Y, U' := g_Y⁻¹(U) (quasicompact open) and j': U' → Y'. Then for every i ≥ 0 the pullback map g_Y^*: Hⁱ(Y_ét, j_!M) → Hⁱ(Y'_ét, g_Y^*j_!M) = Hⁱ(Y'_ét, j'_!M) is bijective. The case U = Y is the invariance of Hⁱ(Y_ét, M); for U = ∅ both sides vanish. The theorem is not asserted when n is not a unit in C⁺, nor for non-surjective ι (Section 7.1, acceptance).
 
-This uses ι surjective, i.e. ι⁻¹(C'⁺) = C⁺ (Section 7.1); n prime to the residue characteristic exponent p; M any ℤ/nℤ-module (not necessarily finite); R a C-affinoid algebra (quotient of some C⟨T₁, …, T_m⟩); R⁺ any ring of integral elements containing the image of C⁺, so that Y → S is of weakly finite type (higher-rank plus rings allowed). If C⁺ = O_C and the morphism of pairs is required to be topologically of finite type, then R⁺ = R° (`AdicSpacesPartII`, layer R1 (`tft-plus-ring-power-bounded`)); the theorem does not need that requirement; U quasicompact open in Y, not necessarily rational; no hypothesis on the ranks of C⁺, C'⁺.
+This uses ι surjective, i.e. ι⁻¹(C'⁺) = C⁺ (Section 7.1); n a unit in C⁺; M any ℤ/nℤ-module (not necessarily finite); R a C-affinoid algebra (quotient of some C⟨T₁, …, T_m⟩); R⁺ any ring of integral elements containing the image of C⁺, so that Y → S is of weakly finite type (higher-rank plus rings allowed). If C⁺ = O_C and the morphism of pairs is required to be topologically of finite type, then R⁺ = R° (`AdicSpacesPartII`, layer R1 (`tft-plus-ring-power-bounded`)); the theorem does not need that requirement; U quasicompact open in Y, not necessarily rational; no hypothesis on the ranks of C⁺, C'⁺.
 
-(Scholze, Étale cohomology of diamonds, §16, proof of Lemma 16.3, p. 93; Scholze, Étale cohomology of diamonds, §16, Lemma 16.3, p. 93; Scholze, Étale cohomology of diamonds, §16, Remark 16.2, p. 92; D. Hansen, Vanishing and comparison theorems in rigid analytic geometry, §3, proof of Proposition 3.2, p. 11; Berkovich (1993), §7.6, Theorem 7.6.1, p. 150; Berkovich (1993), §7.6, proof of Theorem 7.6.1, p. 151.)
+(Huber (1996), Theorem 4.1.1(c), p. 238, using char⁺; Scholze, Étale cohomology of diamonds, §16, proof of Lemma 16.3, p. 93, for the perfectoid specialization; Scholze, Étale cohomology of diamonds, §16, Lemma 16.3, p. 93; Scholze, Étale cohomology of diamonds, §16, Remark 16.2, p. 92; D. Hansen, Vanishing and comparison theorems in rigid analytic geometry, §3, proof of Proposition 3.2, p. 11; Berkovich (1993), §7.6, Theorem 7.6.1, p. 150; Berkovich (1993), §7.6, proof of Theorem 7.6.1, p. 151.)
 
 Y = S (R = C, R⁺ = C⁺): for U = S both sides are M in degree 0 and 0 in positive degrees; for a quasicompact open U ⊊ S both sides vanish in all degrees (Section 7.1 (i), s ∉ U, and s' ∉ U' by surjectivity). This is ECD Lemma 16.3 for X₂ = X₃. ECD's instance: C, C' of characteristic p, R topologically of finite type over C with any R⁺, U any quasicompact open (the proof of ECD Lemma 16.3, after reduction to X₂ = Spa(R_perf, R⁺_perf)). Surjectivity cannot be dropped: for C⁺ of rank two, ι = id: (C, C⁺) → (C, O_C), Y = S and U = {η}, the left side is H⁰(S, j_!M) = 0 and the right side is H⁰(Spa(C, O_C), M) = M.
 
 *Needs:* Section 7.1; Section 1.2; Section 1.5; Section 1.1; Section 6.2; Section 6.1; Section 4.4; Section 4.5; Section 4.3; Section 2.5; Layer 5; `AdicSpacesPartII`, layer R0 (`completed-tensor-product`); `AdicSpacesPartII`, layer R0 (`affinoid-fibre-product`); `AdicSpacesPartII`, layer R0 (`completed-tensor-noetherian-stability`); `AdicSpacesPartIII`, layer R2 (`formal-schemes-of-type-S`); `AdicSpacesPartII`, layer R1 (`tft-plus-ring-power-bounded`); Tau Ceti TauCeti.Huber.IsTopologicallyFiniteType.
+
+**Checks.**
+
+- For Y=S and U=S, the map is the identity of M in degree zero and both positive-degree groups vanish.
+- For U=∅, the two complexes are zero.
+- A higher-rank C⁺ with rank-one residue exponent 1 and secondary residue characteristic ℓ excludes n=ℓ. Rank-one coprimality alone does not meet Huber's char⁺ hypothesis.
 
 ### 7.2 Perfectoid finite-type approximations
 
@@ -3465,6 +3646,16 @@ For R = Spa(C, O_C) and S = Spec C this compares proper pushforward of algebraic
 
 *Needs:* `AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`); `AdicSpacesPartII`, layer R1 (`analytification-separated-proper`); Section 2.3; Section 2.5; Section 1.5; Section 1.1; `SchemeAndStackFoundations`, Layer 2.
 
+Prove `proper_trait_comparison_agreement`: for a proper locally finite-type scheme X over a strictly henselian DVR and prime-to-residue torsion K∈D⁺((X_η)_ét), the equivariant trait comparison of Section 5.5, composed with LPV.0's proper specialization map, equals the proper algebraic comparison just constructed. Identify both maps through the same adjunction transformation before taking global sections. Preserve the inertia action and the coefficient maps. (Huber (1996), Theorem 3.7.2 and proof, pp. 226–227; Corollary 3.5.17 and proof, p. 210.)
+
+**Checks.**
+
+- For X=Spec A, both comparisons are the identity on the geometric generic stalk of K with its inertia action.
+- For proper smooth X and constant prime-to-residue coefficients, the common comparison is the smooth specialization isomorphism with trivial inertia.
+- A nontrivial inertia module on the generic point retains its action under both maps; equality is equivariant equality of transformations, not equality of dimensions.
+
+*Needs:* the preceding proper comparison; Section 5.5; `LefschetzPencilsAndVanishingCycles`, LPV.0 §0.6.
+
 For a commutative triangle of k-schemes U→^j X→^g Y with g proper, h=g∘j:U→Y an open immersion, j an open immersion and j(U)=g⁻¹(h(U)), every abelian sheaf F on U^rig_ét has a canonical isomorphism h^rig_!F→Rg^rig_* j^rig_!F. No constructibility, invertibility or finite-stalk condition on F is added. The equality of opens ensures g is an isomorphism above h(U), so the comparison is the identity there.
 
 This uses Schemes are locally of finite type over a complete nonarchimedean field. Require g proper, j and h open immersions and j(U)=g⁻¹(h(U)); F is an arbitrary abelian étale sheaf on U^rig.
@@ -3624,7 +3815,7 @@ For the open unit disc f : D → Spa(C, O_C), f_!Λ = 0 while f_*Λ = Λ. For P�
 
 *Needs:* `AdicSpacesPartII`, layer R0 (`partially-proper-morphism`); Section 3.1; Section 8.1; Section 1.2; Section 1.1; `AdicEtaleGeometry`, layer A1 (`etale-site-and-geometric-points`); `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`); `AdicSpacesPartII`, layer R0 (`locally-noetherian-adic-space`); Section 1.5.
 
-Let f : X → Y be compactifiable (Section 8.1), f = f̄ ∘ j its universal compactification (Section 8.2) and Λ a ring. The proper-support direct image is R⁺f_! := R⁺f̄_! ∘ j_! : D⁺(X_ét, Λ) → D⁺(Y_ét, Λ), where j_! is extension by zero along the open embedding j (exact; Section 1.2) and R⁺f̄_! is the derived functor of sections with proper support for the partially proper f̄ (Section 8.3). Its cohomology sheaves are R^q f_!K, and for Y = Spa(C, C⁺) the groups H^q_c(X, K) := H^q(Y, R⁺f_!K) = (R^q f_!K)(Y) are the compactly supported cohomology groups (global sections over Spa(C, C⁺) is exact). There is a natural forget-supports transformation R⁺f_! → R⁺f_*, an isomorphism when f is proper. When f is quasi-compact, R⁺f_! ≅ Rf̄_* ∘ j_! with f̄ proper (Section 8.2). When nΛ = 0 with n invertible in O_Y⁺ and f is locally of finite type of finite relative dimension, R⁺f_! has finite cohomological dimension (Section 8.4) and extends uniquely to a triangulated functor Rf_! : D(X_ét, Λ) → D(Y_ét, Λ) commuting with direct sums, computed on K-injective replacements (`EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements)).
+Let f : X → Y be compactifiable (Section 8.1), f = f̄ ∘ j its universal compactification (Section 8.2) and Λ a ring. The proper-support direct image is R⁺f_! := R⁺f̄_! ∘ j_! : D⁺(X_ét, Λ) → D⁺(Y_ét, Λ), where j_! is extension by zero along the open embedding j (exact; Section 1.2) and R⁺f̄_! is the derived functor of sections with proper support for the partially proper f̄ (Section 8.3). Its cohomology sheaves are R^q f_!K, and for Y = Spa(C, C⁺) the groups H^q_c(X, K) := H^q(Y, R⁺f_!K) = (R^q f_!K)(Y) are the compactly supported cohomology groups (global sections over Spa(C, C⁺) is exact). There is a natural forget-supports transformation R⁺f_! → R⁺f_*, an isomorphism when f is proper. When f is quasi-compact, R⁺f_! ≅ Rf̄_* ∘ j_! with f̄ proper (Section 8.2). When nΛ = 0 with n invertible in O_Y⁺ and f is locally of finite type of finite relative dimension, R⁺f_! has finite cohomological dimension (Section 8.4) and extends uniquely to a triangulated functor Rf_! : D(X_ét, Λ) → D(Y_ét, Λ) commuting with direct sums, computed on K-injective replacements (Sections 0.1–0.4 (K-injective and K-flat replacements)).
 
 This uses f compactifiable between locally noetherian analytic adic spaces; Λ any ring for the definition on D⁺; the unbounded extension, base change and duality statements require nΛ = 0 with n invertible in O_Y⁺; H^q_c is always relative to the base; for the absolute case the base is Spa(C, C⁺) and C⁺ is part of the data.
 
@@ -3646,7 +3837,7 @@ Provide `AdicSpace.lowerShriek.map_comp`: Composition isomorphisms R(g ∘ f)_! 
 
 For the closed unit disc f : B → Spa(C, O_C) and n invertible in O_C: R²f_!μ_n ≅ ℤ/n and R^q f_!μ_n = 0 for q ≠ 2, while Rf_*μ_n = μ_n in degree 0 (Section 9.2). For an open immersion j with taut source, R⁺j_! = j_! (Section 8.3).
 
-*Needs:* Section 8.1; Section 8.2; Section 8.3; Section 1.2; Section 1.1; `EnhancedDerivedSheaves`, layer E1 (K-injective and K-flat replacements); `EnhancedDerivedSheaves`, layer E1 (the enhanced derived category); Mathlib DerivedCategory.
+*Needs:* Section 8.1; Section 8.2; Section 8.3; Section 1.2; Section 1.1; Sections 0.1–0.4 (K-injective and K-flat replacements); Sections 0.1–0.4 (the enhanced derived category); Mathlib DerivedCategory.
 
 Let A be a ring henselian along an ideal I (Mathlib HenselianRing), π : 𝒫 → Spec A a proper morphism of finite presentation, and K ∈ D⁺(𝒫_ét) with torsion cohomology sheaves. Then restriction RΓ(𝒫, K) → RΓ(𝒫 ⊗_A A/I, K|) is an isomorphism. Applied twice with the notation C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n, and ϖ ∈ C⁺ a pseudo-uniformiser: (i) C⁺ is ϖ-adically complete, hence henselian along ϖC⁺ (Section 2.1), so RΓ(𝒫, K) ≅ RΓ(𝒫_0, K|) for 𝒫_0 = 𝒫 ⊗ C⁺/ϖ; (ii) C⁺/C°° is a valuation ring of the algebraically closed residue field of C, hence strictly henselian local with algebraically closed residue field k_s, and RΓ(𝒫_0, K) ≅ RΓ(𝒫_s, K|) for the fibre 𝒫_s over the closed point.
 
@@ -3658,11 +3849,17 @@ This uses π proper and finitely presented; torsion coefficients; A henselian al
 
 *Needs:* Section 2.1; `SchemeAndStackFoundations`, Layer 2; `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`); Mathlib HenselianRing; Mathlib ValuationRing; Section 2.3.
 
-Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n; ϖ ∈ C⁺ a pseudo-uniformiser. Let 𝒫 be a proper flat finitely presented C⁺-scheme with special fibre 𝒫_0 = 𝒫 ⊗ C⁺/ϖ, P := 𝒫_C ×_{Spec C} S (Huber's fibre product), which equals the generic fibre d(𝒫̂) of the ϖ-adic completion (a formal scheme of type (S)), and λ : P_ét → (𝒫_0)_ét the specialisation morphism of sites; similarly λ_S : S_ét → Spec(C⁺/ϖ)_ét, an equivalence of topoi (both are the topos of the chain of valuation rings between C⁺ and O_C, since étale maps to either side split locally). For an open subscheme 𝒰 ⊆ 𝒫_0 let U := λ⁻¹(𝒰) ⊆ P (an open subspace, quasi-compact if 𝒰 is), f_U : U → S and π_𝒰 : 𝒰 → Spec(C⁺/ϖ). Then for every K ∈ D⁺(U_ét, Λ) with Λ torsion there is a natural isomorphism λ_{S*} R f_{P*}(j_{U!} K) ≅ Rπ_{𝒰!} Rλ_{U*} K, where j_U : U ⊆ P is the open inclusion and f_P : P → S the proper structure map (for quasi-compact U the left side is the proper-support direct image of U → S, see Section 9.2), compatible with open immersions 𝒰' ⊆ 𝒰 (extension by zero on both sides), with restriction to open subsets of S (localisation of C⁺) and with the trace-type maps induced by finite flat maps of models. If moreover 𝒫 is smooth over C⁺ along 𝒰 and K = L|_U for a locally constant constructible L on 𝒫_C with torsion invertible in C⁺, then Rλ_{U*}K ≅ L_0 (the corresponding locally constant sheaf on 𝒰), so λ_{S*} R f_{P*}(j_{U!} L) ≅ Rπ_{𝒰!} L_0: compactly supported cohomology of the tube is compactly supported cohomology of the special fibre.
+Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n; ϖ ∈ C⁺ a pseudo-uniformiser. Let 𝒫 be a proper flat finitely presented C⁺-scheme with special fibre 𝒫_0 = 𝒫 ⊗ C⁺/ϖ, P := 𝒫_C ×_{Spec C} S (Huber's fibre product), which equals the generic fibre d(𝒫̂) of the ϖ-adic completion (a formal scheme of type (S)), and λ : P_ét → (𝒫_0)_ét the specialisation morphism of sites; similarly λ_S : S_ét → Spec(C⁺/ϖ)_ét, an equivalence of topoi (both are the topos of the chain of valuation rings between C⁺ and O_C, since étale maps to either side split locally). For an open subscheme 𝒰 ⊆ 𝒫_0 let U := λ⁻¹(𝒰) ⊆ P (an open subspace, quasi-compact if 𝒰 is), f_U : U → S and π_𝒰 : 𝒰 → Spec(C⁺/ϖ). Then for every K ∈ D⁺(U_ét, Λ) with Λ torsion there is a natural isomorphism λ_{S*} R f_{P*}(j_{U!} K) ≅ Rπ_{𝒰!} Rλ_{U*} K, where j_U : U ⊆ P is the open inclusion and f_P : P → S the proper structure map (for quasi-compact U the left side is the proper-support direct image of U → S, see Section 9.2), compatible with open immersions 𝒰' ⊆ 𝒰 (extension by zero on both sides), with restriction to open subsets of S (localisation of C⁺) and with the trace-type maps induced by finite flat maps of models. If moreover 𝒫 is smooth over C⁺ along 𝒰 and 𝓛 is a locally constant constructible sheaf on the model 𝒫 with torsion invertible in C⁺, put K = 𝓛|_U and L_0 = 𝓛|_𝒰. Then Rλ_{U*}K ≅ L_0, so λ_{S*} R f_{P*}(j_{U!} K) ≅ Rπ_{𝒰!} L_0: compactly supported cohomology of the tube is compactly supported cohomology of the special fibre.
 
-This uses 𝒫 proper flat of finite presentation over C⁺; C⁺ of arbitrary rank (the ϖ-adic completion is of type (S) because 𝒫̂[1/ϖ] is strongly noetherian); Λ torsion; the smooth clause needs torsion invertible in C⁺; U is the open tube of an open of the special fibre; tubes of closed or locally closed subsets are pseudo-adic and are treated through Layer 4, not here.
+This uses 𝒫 proper flat of finite presentation over C⁺; C⁺ of arbitrary rank (the ϖ-adic completion is of type (S) because 𝒫̂[1/ϖ] is strongly noetherian); Λ torsion; the smooth clause needs a locally constant constructible model extension 𝓛 and torsion invertible in C⁺; U is the open tube of an open of the special fibre; tubes of closed or locally closed subsets are pseudo-adic and are treated through Layer 4, not here.
 
 (Huber (1996), §3.5, Corollary 3.5.11, p. 206; Huber (1996), §3.5, (3.5.12), p. 207; Huber (1996), §3.5, Theorem 3.5.13, p. 208; Vladimir G. Berkovich, Vanishing cycles for formal schemes, Introduction, p. 540.)
+
+**Checks.**
+
+- Constant model coefficients have constant smooth nearby cycles in degree zero.
+- A rank-r locally constant model sheaf has rank-r nearby cycles on the smooth locus.
+- Over ℂ₃, the good supersingular model y²=x³−x has generic local system [3]_*Z/2 of rank nine. Its nearby cycles are [3]_{s*}Z/2=Z/2, since [3]_s is radicial. This generic local system has no locally constant model extension of rank nine.
 
 𝒫 = P¹_{C⁺}, 𝒰 = A¹ ⊆ P¹_0: U = B_S is the relative closed ball and λ_{S*}Rf_{P¹*}(j_!Λ) ≅ Rπ_{A¹!}Λ = Λ(−1)[−2] (Section 9.2). 𝒰 = 𝒫_0: U = P and the statement is RΓ(P, K) ≅ RΓ(𝒫_0, Rλ_*K), Hub96 Corollary 3.5.14. 𝒰 = A¹ ∖ {0}: U is the annulus {|T| = 1} over S, with H¹_c and H²_c those of G_{m,k_s}.
 
@@ -3738,7 +3935,7 @@ This uses A uniform d for the displayed 2d estimate; finite bounds may vary betw
 
 For finite maps d=0 and higher direct images vanish. For a non-quasi-compact base do not claim one global d from local finiteness alone.
 
-*Needs:* Section 8.2; Section 1.5; `EnhancedDerivedSheaves`, layer E1 (the enhanced derived category); `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 8.2; Section 1.5; Sections 0.1–0.4 (the enhanced derived category); Sections 0.1–0.4 (presentability and the derived tensor product).
 
 Let f : X → Y be a proper morphism of locally noetherian analytic adic spaces, g : Y' → Y any morphism of locally noetherian analytic adic spaces with base change f' : X' = X ×_Y Y' → Y', g' : X' → X, and Λ a ring with nΛ = 0 for an integer n ≥ 1 invertible in O_Y⁺. The base change transformation g^* Rf_* → Rf'_* g'^* is an isomorphism of functors D⁺(X_ét, Λ) → D⁺(Y'_ét, Λ), and on D(X_ét, Λ) when Rf_* has finite cohomological dimension.
 
@@ -3788,7 +3985,7 @@ This uses f compactifiable of finite relative dimension (so Rf_! is defined on u
 
 For f : B_S → S the ball and G = Λ' a Λ-module viewed as a constant sheaf: Rf_!(Λ) ⊗ Λ' = Rf_!(Λ'), so H²_c(B_S, Λ') = H²_c(B_S, Λ) ⊗ Λ'. Tate twists: Rf_!(K(m)) ≅ (Rf_!K)(m) (Section 1.4).
 
-*Needs:* Section 8.3; Section 8.4; Section 1.2; Section 1.4; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 8.3; Section 8.4; Section 1.2; Section 1.4; Sections 0.1–0.4 (presentability and the derived tensor product).
 
 Let S=Spa(C,C⁺), where C is complete algebraically closed nonarchimedean and C⁺ is an open bounded valuation subring; write s for its unique closed point. Let f:X→S be proper, with X locally noetherian, and let F be an étale Z/n-module sheaf, n>0. If F restricts to zero on the pseudo-adic fibre (X,f⁻¹(s)), then RΓ(X,F)=0. The same vanishing holds for K∈D⁺ with all cohomology sheaves restricting to zero. This includes extension by zero from f⁻¹(S∖{s}) and does not require n to be a unit in C⁺.
 
@@ -3808,17 +4005,17 @@ This uses f is proper; j is étale, with no invertibility hypothesis on n.
 
 Identity j yields the identity transformation. A finite étale split cover gives the sum of the proper pushforwards on its components. This does not strengthen arbitrary proper base change to residue-p coefficients.
 
-*Needs:* Section 8.4; `AdicSpacesPartII`, layer R0 (`etale-local-open-finite-etale-factorisation`); Section 1.2; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 8.4; `AdicSpacesPartII`, layer R0 (`etale-local-open-finite-etale-factorisation`); Section 1.2; Sections 0.1–0.4 (presentability and the derived tensor product).
 
 For a proper +weakly finite type f:X→Y of locally noetherian analytic adic spaces and any F∈D(X_ét,Z/n), G∈D(Y_ét,Z/n), n>0, the canonical morphism Rf_*F ⊗ᴸ G → Rf_*(F⊗ᴸ f*G) is an equivalence. It is natural in both complexes and compatible with the proper–étale exchange transformation.
 
-This uses Unbounded derived tensor and the ordinary/enhanced comparison come from E1.
+This uses Unbounded derived tensor and the ordinary/enhanced comparison come from Sections 0.1–0.3.
 
 (Bogdan Zavyalov, Some foundational results in adic geometry, Lemma 9.2 and Proposition 9.3(2), pp. 25–27.)
 
 G=Z/n gives the unit comparison. For finite split f this becomes the finite-sum tensor identity. The proof must not call Lemma 9.1(3) for arbitrary residue-p base change.
 
-*Needs:* Section 8.4; Section 1.2; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 8.4; Section 1.2; Sections 0.1–0.4 (presentability and the derived tensor product).
 
 ### 8.5 Localization, descent and enhanced functors
 
@@ -3840,7 +4037,7 @@ This uses Only the proper/étale gluing fragment is used; no right adjoint Rf^! 
 
 For étale f the comparison preserves the summation counit, not just the underlying functor. An exhaustion has the same result after passage to a cofinal family of quasi-compact opens. Do not infer this general comparison for arbitrary Λ from the Z/n statement.
 
-*Needs:* Section 8.4; Section 8.3; `EnhancedDerivedSheaves`, layer E1; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 8.4; Section 8.3; Sections 0.1–0.4; Sections 0.1–0.4 (presentability and the derived tensor product).
 
 Let Λ=Z/n, n>0 invertible in O_Y, and let f:X→Y and g:Y→Z be separated taut locally finite type maps of locally noetherian analytic adic spaces, with n invertible in O_Z when composing. For the inherited classical bounded-below support functors there are natural, unital and associative comparisons R⁺(g∘f)!≅R⁺g!R⁺f!, compatible with the proper and exact étale cases, forget-supports maps and Tate twists. Open/pseudo-adic-closed localization holds in this coefficient range. Taut open-cover support descent, including infinite covers by quasi-compact opens, gives the support Čech spectral sequence used to glue top-degree traces. These comparisons are coherent with the canonical weak base-change transformations; this statement does not assert that arbitrary base-change transformations are isomorphisms.
 
@@ -3850,7 +4047,7 @@ This uses Only D⁺ support calculus is asserted. Constant complexes and their s
 
 A mixed-characteristic n=p affine chart must not invoke an O⁺-restricted support-composition theorem. The support Čech abutment uses Λ_X; the open-ring calculus does not imply residue-p base-change isomorphisms.
 
-*Needs:* Section 8.3; Section 8.2; Section 8.4; the supplier contracts; Section 1.2; Layers 1 and 3; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 8.3; Section 8.2; Section 8.4; the supplier contracts; Section 1.2; Layers 1 and 3; Sections 0.1–0.4.
 
 ### 8.6 Flat quasi-finite traces
 
@@ -3878,13 +4075,17 @@ For the Kummer map φ : {|T| = 1} → {|T| = 1}, T ↦ T^m with p ∤ m, over Sp
 
 *Needs:* `AdicSpacesPartII`, layer R0 (`flat-morphism`); `AdicSpacesPartII`, layer R0 (`quasi-finite-morphism`); `AdicSpacesPartII`, layer R0 (`quasi-finite-and-finiteness-criteria`); `AdicSpacesPartII`, layer R0 (`separated-morphism`); Section 3.1; Section 8.4; `AdicSpacesPartIII`, layer R3 (`finite-locally-free-morphism`); `AdicSpacesPartIII`, layer R3 (`analytic-trace-finite-locally-free`); `AdicSpacesPartII`, layer R0 (`etale-local-open-finite-etale-factorisation`); Section 1.2; `AdicEtaleGeometry`, layer A1 (`etale-enough-points`); `AdicSpacesPartII`, layer R0 (`partially-proper-quasi-finite-local-finiteness`).
 
-Let C be algebraically closed complete nonarchimedean with residue characteristic p, n prime to p, T a coordinate on P¹_C over Spa(C, O_C), a ∈ C and r ∈ |C^×|. (i) A function g on the circle A = {|T − a| = r} (an affinoid adic space) is a unit iff g = c(T − a)^m(1 + h) with c ∈ C^×, m ∈ ℤ and sup|h| < 1 on A; m =: deg_D(g) for the open disc D = {|T − a| < r}, and deg_{D'}(g) = −m for the complementary open disc D' ∋ ∞. (ii) For a finite flat φ : A → A' of circles with φ(D) = D', deg_{D'}(N_φ g) = deg_D(g). (iii) Let E = {|T − a| ≤ r} be the closed disc, Z = E ∖ D its closed pseudo-adic complement (the supplier contracts; Z has the same rank-one points as A), and γ_D : O(A)^× → ℤ/n the composite of the Kummer map O(A)^× → H¹(A, μ_n) ≅ H¹((E, Z), μ_n), the connecting map H¹((E, Z), μ_n) → H²(E, j_!μ_n) = H²_c(D, μ_n) of the recollement triangle j_!μ_n → μ_n → i_{Z*}μ_n on E, extension by zero to H²(P¹, μ_n) and the degree isomorphism H²(P¹, μ_n) ≅ ℤ/n. (The three sheaves of the triangle are overconvergent, so Section 3.2 (c) identifies this sequence with Berkovich's sequence for D ⊆ E ⊇ A, and H²(E, j_!μ_n) = H²_c(D, μ_n) because no point of D specialises to a point outside D.) Then γ_D(g) = −deg_D(g) mod n. (iv) For an open annulus B = D₁ ∩ D₂ in P¹ with boundary circles A₁, A₂, closed annulus A = B ∪ A₁ ∪ A₂, let γ_B : O(A₁)^× × O(A₂)^× → ℤ/n be the composite of the Kummer maps to H¹(A₁ ⊔ A₂, μ_n), the connecting map to H²_c(B, μ_n) of the triangle for B ⊆ A ⊇ A₁ ⊔ A₂, extension by zero to H²(P¹, μ_n) and the degree (Berkovich's γ_B, p. 115); then for (g₁, g₂) ∈ O(A₁)^× × O(A₂)^×, γ_B(g₁, g₂) = −deg_{D₁}(g₁) − deg_{D₂}(g₂) mod n.
+Let C be algebraically closed complete nonarchimedean with residue characteristic p, n prime to p, T a coordinate on P¹_C over Spa(C, O_C), a ∈ C and r ∈ |C^×|. (i) A function g on the circle A = {|T − a| = r} (an affinoid adic space) is a unit iff g = c(T − a)^m(1 + h) with c ∈ C^×, m ∈ ℤ and sup|h| < 1 on A; m =: deg_D(g) for the open disc D = {|T − a| < r}, and deg_{D_opposite}(g) = −m for the complementary open disc D_opposite ∋ ∞. (ii) Let φ:A_source→A_target be a finite flat analytic map of coordinate circles. Write φ*(T_target−a_target)=c(T_source−a_source)^k(1+h), with k≠0 and sup|h|<1. For a complementary disc D_source of A_source, define D_target to be the complementary disc of A_target of the same type (containing ∞ or not) when k>0, and of the opposite type when k<0. This is the oriented-disc convention; it does not evaluate φ outside its domain. Then deg_{D_target}(N_φ g)=deg_{D_source}(g). If φ extends to an analytic map Φ on the adjoining closed disc, the selected D_target agrees with its image disc. Section 3.2 transfers this Berkovich convention to the adic support sequence. (iii) Let E = {|T − a| ≤ r} be the closed disc, Z = E ∖ D its closed pseudo-adic complement (the supplier contracts; Z has the same rank-one points as A), and γ_D : O(A)^× → ℤ/n the composite of the Kummer map O(A)^× → H¹(A, μ_n) ≅ H¹((E, Z), μ_n), the connecting map H¹((E, Z), μ_n) → H²(E, j_!μ_n) = H²_c(D, μ_n) of the recollement triangle j_!μ_n → μ_n → i_{Z*}μ_n on E, extension by zero to H²(P¹, μ_n) and the degree isomorphism H²(P¹, μ_n) ≅ ℤ/n. (The three sheaves of the triangle are overconvergent, so Section 3.2 (c) identifies this sequence with Berkovich's sequence for D ⊆ E ⊇ A, and H²(E, j_!μ_n) = H²_c(D, μ_n) because no point of D specialises to a point outside D.) Then γ_D(g) = −deg_D(g) mod n. (iv) For an open annulus B = D₁ ∩ D₂ in P¹ with boundary circles A₁, A₂, closed annulus A = B ∪ A₁ ∪ A₂, let γ_B : O(A₁)^× × O(A₂)^× → ℤ/n be the composite of the Kummer maps to H¹(A₁ ⊔ A₂, μ_n), the connecting map to H²_c(B, μ_n) of the triangle for B ⊆ A ⊇ A₁ ⊔ A₂, extension by zero to H²(P¹, μ_n) and the degree (Berkovich's γ_B, p. 115); then for (g₁, g₂) ∈ O(A₁)^× × O(A₂)^×, γ_B(g₁, g₂) = −deg_{D₁}(g₁) − deg_{D₂}(g₂) mod n.
 
 This uses C⁺ = O_C: the computation lives on rank-one points; the plus-ring case reduces to it by generic-point determination (Section 9.2); n prime to the residue characteristic (Berkovich Remark 6.2.10 shows the p-part fails).
 
 (Berkovich (1993), Lemma 6.2.2, p. 112; Berkovich (1993), Lemma 6.2.5 and the definition of γ_D, p. 114; Berkovich (1993), Lemma 6.2.5, p. 114; Berkovich (1993), Lemma 6.2.4, p. 113.)
 
-g = T − a: deg_D(g) = 1 and γ_D(g) = −1. g = (T − a)^n: γ_D(g) = 0 in ℤ/n, consistent with the Kummer class of an n-th power being trivial.
+**Checks.**
+
+- For g=T−a, deg_D(g)=1 and γ_D(g)=−1; for g=(T−a)ⁿ the Kummer class and γ_D vanish modulo n.
+- On the unit circle, φ(T)=T² selects the interior target disc for the interior source disc; N_φ(T)=−T_target has degree one, equal to the source degree of T.
+- For φ(T)=T⁻¹ the interior source disc selects the exterior target disc. N_φ(T)=T_target⁻¹ has exterior degree one, again equal to the source degree. No disc extension is required.
 
 *Needs:* Section 8.5; Section 3.2; Section 8.3; the supplier contracts; Section 1.4.
 
@@ -3896,7 +4097,7 @@ For a finite étale split degree-r map ⊔_(a=1)^rX→X, direct image is the r-f
 
 ### Dependencies
 
-Use Layers 1–7 and `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, for separated morphisms, formal models, admissible modifications and analytification. `SchemeAndStackFoundations`, Layers 0 and 2 and Section 4.15, supplies noetherian descent, proper scheme comparison, infinitesimal deformation and stable pointed-curve moduli; `SchemeAndStackFoundations`, Layer 4, Section 4.14, supplies Hilbert and Quot constructions. The algebraic curve and Serre duality inputs are `TauCetiRoadmap.AlgebraicCurves`, Layer 12, and `JacobianChallenge`, B. The additional DVR approximation, reduced-fibre model and O_C-semistable curve compactification are stated in Section 8.2 with distinct scopes. `EnhancedDerivedSheaves`, E1–E2, supplies derived enhancements only after the analytic exchange, amplitude and projection properties have been proved here. Shared étale traces and algebraic supports are `EtaleDualityAndPerverseSheaves`, EDC.0–EDC.2.
+Use Layers 1–7 and `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, for separated morphisms, formal models, admissible modifications and analytification. `SchemeAndStackFoundations`, Layers 0 and 2 and Section 4.15, supplies noetherian descent, proper scheme comparison, infinitesimal deformation and stable pointed-curve moduli; `SchemeAndStackFoundations`, Layer 4, Section 4.14, supplies Hilbert and Quot constructions. The algebraic curve and Serre duality inputs are `TauCetiRoadmap.AlgebraicCurves`, Layer 12, and `JacobianChallenge`, B. The additional DVR approximation, reduced-fibre model and O_C-semistable curve compactification are stated in Section 8.2 with distinct scopes. Sections 0.1–0.4, supplies derived enhancements only after the analytic exchange, amplitude and projection properties have been proved here. Shared étale traces and algebraic supports are Sections 0.7–0.11.
 
 ## Layer 9: Berkovich comparison, traces and duality
 
@@ -3928,9 +4129,13 @@ Prove `aic_valuation_finite_conditions_transfer`: an embedding of algebraically 
 
 Deduce `aic_valuation_section_lift`: for a valuation ring V with algebraically closed fraction field, every residue-field-valued section of a flat finitely generated V-algebra B lifts to a V-valued section. Flatness gives a generic prime specializing to the chosen closed point. Dominate that localization by a valuation ring in an algebraic closure of its fraction field, then transfer the finite equations, integrality inequalities and prescribed strict residue congruences to V. Although the relation ideal of B over V can be infinitely generated, its generic relation ideal is finitely generated over the fraction field; flatness then retains every original relation. If V is a field this is the identity lift. (Huber, proof of Lemma 7.2.3, pp. 370–371.)
 
-For an analytic geometric field pair S=Spa(C,C⁺), prove `indconstructible_nonempty_has_rational_section`: if X→S is a prepseudo-adic morphism with ambient map locally of finite type and nonempty ind-constructible support inside the inverse image of |S|, then X(S) is nonempty. Reduce to a finite constructible system |e_i|<1 on a topologically finite-type affinoid chart. Lift the chosen special-fibre point first through the residual higher-rank valuation using the preceding section theorem, then through the rank-one analytic reduction map using the classical-point lifting through the specialisation map of `AdicSpacesPartIII`, layer R2 (`specialisation-map`, property (iii)). The resulting C-point is bounded by the full C⁺ and respects every strict inequality, so it gives a section over the whole field pair. The ind-constructible hypothesis cannot be replaced by an arbitrary subset containing a nonclassical point. (Huber, Lemma 7.2.3 and proof, pp. 368, 370–372.)
+Let S_s=(Spa(C,C⁺),{s}) be the analytic geometric point supported at the closed point s. Prove `indconstructible_nonempty_has_rational_section`: for a prepseudo-adic morphism X→S_s whose ambient map is locally of finite type and whose support is nonempty and ind-constructible in the inverse image of {s}, X(S_s) is nonempty. Reduce to finite constructible inequalities on a topologically finite-type affinoid chart. Lift the selected special-fibre point through the residual valuation using the preceding section theorem, then through rank-one analytic reduction using `AdicSpacesPartIII`, R2 (*specialisation-map*, property (iii)). The result respects the indicated support. Over full S=Spa(C,C⁺), this applies to the nonempty closed-point pseudo-adic fibre; a section S→X must be supplied separately. The resulting point classes lie on that fibre. (Huber (1996), §7.2, Lemma 7.2.3 and proof, pp. 368, 370–372; the geometric-point convention is fixed on p. 366.)
 
-A zero-dimensional rational point gives the identity section. A nonempty rational open in a curve has such a section, even when C⁺ has higher rank. A singleton nonclassical Gauss point need not have a C-rational section and is outside the ind-constructible hypothesis. The point classes in the trace below therefore have full field-pair support; they are not merely points of the maximal Hausdorff quotient.
+**Checks.**
+
+- The identity of S_s is an S_s-rational section.
+- For rank-two C⁺, the rational open Spa(C,O_C)⊂Spa(C,C⁺) is nonempty but its closed-point fibre is empty and it has no section over full S.
+- A nonempty ind-constructible closed-point fibre in a locally finite-type curve admits an S_s-rational point; a singleton nonclassical Gauss point need not and is outside the ind-constructible hypothesis.
 
 *Needs:* Mathlib's polynomial, algebraic-closure and valuation-extension carriers; Layers 1–2 and 7; `AdicSpacesPartIII`, layer R2 (`specialisation-map`), for the specialisation map and its classical point lifting.
 
@@ -3958,19 +4163,19 @@ For S = Spa(C, C⁺), B_S → S and P¹_S → S are smooth adic curves; P¹_S �
 
 *Needs:* `AdicSpacesPartII`, layer R0 (`smooth-morphism`); `AdicSpacesPartII`, layer R0 (`separated-morphism`); Section 3.1; Section 8.1; `AdicEtaleGeometry`, layer A2 (`dimension-of-adic-spaces`); `AdicEtaleGeometry`, layer A2 (`smooth-pure-relative-dimension`); `AdicEtaleGeometry`, layer A2 (`relative-closed-polydisc`); `AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`); `AdicSpacesPartII`, layer R0 (`finite-type-morphism-classes`); `AdicSpacesPartII`, layer R0 (`etale-smooth-composition`).
 
-Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let f : B_S → S be the relative closed unit ball (`AdicEtaleGeometry`, layer A2 (`relative-closed-polydisc`)). Then R^q f_!Λ = 0 for q ≠ 2 and R²f_!μ_n ≅ ℤ/n is a constant sheaf on S: its specialisation maps along the chain |S| are isomorphisms. The isomorphism is the formal-model transfer (Section 8.3, with 𝒫 = P¹_{C⁺} and 𝒰 = A¹) of the scheme trace Tr_{A¹} : R²π_!μ_n → ℤ/n of the affine line over C⁺/ϖ (`EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity). It is compatible (i) with restriction to every open U = Spa(C, C⁺_U) ⊆ S (C⁺ ⊆ C⁺_U ⊆ O_C), (ii) with base change along every morphism Spa(C', C'⁺) → Spa(C, C⁺) of algebraically closed affinoid fields (B_S pulls back to B_{S'}), and (iii) with the inclusion B_S ⊆ P¹_S: extension by zero R²f_!μ_n → R²(f_{P¹})_*μ_n is an isomorphism onto H²(P¹_S, μ_n) ≅ ℤ/n, the degree normalisation. For C⁺ = O_C this is the case of Hub96 Theorem 7.2.2 and Proposition 5.5.8 restated in ECD's proof of Theorem 24.1: Rf_{C!}F_ℓ(1) → F_ℓ[−2] with R^i f_{C!} = 0 for i > 2.
+Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let f : B_S → S be the relative closed unit ball (`AdicEtaleGeometry`, layer A2 (`relative-closed-polydisc`)). Then R^q f_!Λ = 0 for q ≠ 2 and R²f_!μ_n ≅ ℤ/n is a constant sheaf on S: its specialisation maps along the chain |S| are isomorphisms. The isomorphism is the formal-model transfer (Section 8.3, with 𝒫 = P¹_{C⁺} and 𝒰 = A¹) of the scheme trace Tr_{A¹} : R²π_!μ_n → ℤ/n of the affine line over C⁺/ϖ (Sections 0.7–0.11). It is compatible (i) with restriction to every open U = Spa(C, C⁺_U) ⊆ S (C⁺ ⊆ C⁺_U ⊆ O_C), (ii) with base change along every morphism Spa(C', C'⁺) → Spa(C, C⁺) of algebraically closed affinoid fields (B_S pulls back to B_{S'}), and (iii) with the inclusion B_S ⊆ P¹_S: extension by zero R²f_!μ_n → R²(f_{P¹})_*μ_n is an isomorphism onto H²(P¹_S, μ_n) ≅ ℤ/n, the degree normalisation. For C⁺ = O_C this is the case of Hub96 Theorem 7.2.2 and Proposition 5.5.8 restated in ECD's proof of Theorem 24.1: Rf_{C!}F_ℓ(1) → F_ℓ[−2] with R^i f_{C!} = 0 for i > 2.
 
-This uses C algebraically closed, C⁺ arbitrary open bounded valuation subring; n prime to the residue characteristic p.
+This uses C algebraically closed, C⁺ arbitrary open bounded valuation subring; n>0 a unit in C⁺.
 
 (Scholze, Étale cohomology of diamonds, proof of Theorem 24.1, p. 152; Scholze, Étale cohomology of diamonds, §1, p. 9; Huber (1996), §3.5, (3.5.12), p. 207.)
 
 C⁺ = O_C, n = ℓ: R²f_{C!}F_ℓ(1) ≅ F_ℓ and R^i f_{C!}F_ℓ(1) = 0 for i ≠ 2, the input of ECD's condition (iv). For C⁺ of rank two, the stalk of R²f_!μ_n at the closed point s is H²_c(B_S/S, μ_n) ≅ ℤ/n and the specialisation to η is an isomorphism.
 
-*Needs:* `AdicEtaleGeometry`, layer A2 (`relative-closed-polydisc`); `AdicSpacesPartIII`, layer R2 (`generic-fibre-functor-d`); Section 8.3; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace for smooth curves); `SchemeAndStackFoundations`, Layer 2; Section 9.2.
+*Needs:* `AdicEtaleGeometry`, layer A2 (`relative-closed-polydisc`); `AdicSpacesPartIII`, layer R2 (`generic-fibre-functor-d`); Section 8.3; Sections 0.7–0.11 (the trace for smooth curves); `SchemeAndStackFoundations`, Layer 2; Section 9.2.
 
 Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let W be a separated scheme of finite type over C of dimension ≤ 1, W^ad := W ×_{Spec C} S (`AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`)) with its structure map f^ad : W^ad → S, and F a constructible sheaf of ℤ/n-modules on W with analytification F^ad (pullback along the morphism of sites W^ad_ét → W_ét). Then there is a canonical isomorphism RΓ_c(W, F) ≅ RΓ(S, Rf^ad_!F^ad), compatible with the maps induced by open immersions and finite flat morphisms of curves and with restriction to the generic point Spa(C, O_C); for W proper, RΓ(W, F) ≅ RΓ(W^ad, F^ad).
 
-This uses dim W ≤ 1 (the case needed for traces of curves); the general proper comparison is Hub96 Theorem 3.7.2, owned by Sections 8.2 and 11.1–11.3; n prime to p; C⁺ arbitrary.
+This uses dim W ≤ 1 (the case needed for traces of curves); the general proper comparison is Hub96 Theorem 3.7.2, owned by Sections 8.2 and 11.1–11.3; n>0 a unit in C⁺; C⁺ arbitrary.
 
 (Berkovich (1993), Theorem 7.1.1, p. 128; Huber (1996), §3.7, Theorem 3.7.2, p. 226; Huber (1996), §3.5, Theorem 3.5.13, p. 208.)
 
@@ -3978,9 +4183,9 @@ W = P¹_C, F = μ_n: H²(P¹_S, μ_n) ≅ H²(P¹_C, μ_n) ≅ ℤ/n. W = G_{m,C
 
 *Needs:* `AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`); Section 8.3; `AdicSpacesPartIII`, layer R2 (`formal-completion-and-algebraic-comparison`); Section 4.4; `SchemeAndStackFoundations`, Layer 2; Section 2.5.
 
-Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. To every smooth adic curve f : X → S (Section 9.2) is attached a trace Tr_f : R²f_!μ_n → ℤ/n of sheaves on S, equivalently (S being strictly local) a homomorphism Tr_X : H²_c(X/S, μ_n) → ℤ/n, and, by the projection formula and R^q f_! = 0 for q > 2, a map Tr_f : Rf_!(f^*K(1))[2] → K for K ∈ D(S_ét, ℤ/n). The traces are uniquely determined by: (a) for every flat, separated, locally quasi-finite S-morphism φ : Y → X of smooth adic curves, Tr_Y = Tr_X ∘ Tr_φ, with Tr_φ the flat quasi-finite trace (Section 8.6); (b) Tr_{P¹_S} is the degree: H²(P¹_S, μ_n) ≅ H²(P¹_C, μ_n) ≅ Pic(P¹)/n → ℤ/n (Section 9.2); (c) generic-point determination: Hom_S(R²f_!μ_n, ℤ/n) ≅ Hom(H²_c(X_η, μ_n), ℤ/n) by restriction to the generic point η = Spa(C, O_C), and Tr_f corresponds to Tr_{X_η}. For C⁺ = O_C the traces are surjective for nonempty X; they are compatible with base change of S and with restriction to opens of S (Section 9.2), with finite étale maps and restrictions to open subspaces (Section 9.2), with the algebraic trace (Section 9.2), and are isomorphisms for connected X in the cases of Section 9.2. This is Hub96 Theorem 7.2.2 for curves over Spa(C, C⁺), in the form restated by ECD for the ball.
+Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. To every smooth adic curve f : X → S (Section 9.2) is attached a trace Tr_f : R²f_!μ_n → ℤ/n of sheaves on S, equivalently (S being strictly local) a homomorphism Tr_X : H²_c(X/S, μ_n) → ℤ/n, and, by the projection formula and R^q f_! = 0 for q > 2, a map Tr_f : Rf_!(f^*K(1))[2] → K for K ∈ D(S_ét, ℤ/n). The traces are uniquely determined by: (a) for every flat, separated, locally quasi-finite S-morphism φ : Y → X of smooth adic curves, Tr_Y = Tr_X ∘ Tr_φ, with Tr_φ the flat quasi-finite trace (Section 8.6); (b) Tr_{P¹_S} is the degree: H²(P¹_S, μ_n) ≅ H²(P¹_C, μ_n) ≅ Pic(P¹)/n → ℤ/n (Section 9.2); (c) generic-point determination: Hom_S(R²f_!μ_n, ℤ/n) ≅ Hom(H²_c(X_η, μ_n), ℤ/n) by restriction to the generic point η = Spa(C, O_C), and Tr_f corresponds to Tr_{X_η}. For C⁺ = O_C the traces are surjective for nonempty X; they are compatible with base change of S and with restriction to opens of S (Section 9.2), with finite étale maps and restrictions to open subspaces (Section 9.2), with the algebraic trace (Section 9.2), and are isomorphisms for connected X in the cases of Section 9.2. Hub96 Theorem 7.2.2 applies to geometric-point fibres (singleton support); the full-field-pair trace uses the generic-point determination and relative-ball comparison stated here.
 
-This uses S = Spa(C, C⁺) with C algebraically closed; quasi-compact open subsets U ⊆ S are again of this form (U = Spa(C, C⁺_U)) and are allowed as bases; a non-quasi-compact open of the chain |S| (which exists for some C⁺ of infinite rank) is not of this form; n prime to the residue characteristic p of C; no trace is asserted on p-torsion (Berkovich Remark 6.2.10).
+This uses S = Spa(C, C⁺) with C algebraically closed; quasi-compact open subsets U ⊆ S are again of this form (U = Spa(C, C⁺_U)) and are allowed as bases; a non-quasi-compact open of the chain |S| (which exists for some C⁺ of infinite rank) is not of this form; n>0 a unit in C⁺; no trace is asserted on p-torsion (Berkovich Remark 6.2.10).
 
 (Berkovich (1993), Theorem 6.2.1, p. 112; Scholze, Étale cohomology of diamonds, proof of Theorem 24.1, p. 152; Scholze, Étale cohomology of diamonds, §1, p. 9.)
 
@@ -4001,11 +4206,11 @@ Provide `AdicSpace.curveTrace_isIso`: Isomorphism for connected X in the cases o
 
 For the relative ball B_S → S, Tr is the isomorphism R²f_!μ_n ≅ ℤ/n of Section 9.2; for C⁺ = O_C this is ECD's trace map Rf_{C!}F_ℓ(1) → F_ℓ[−2]. For the Kummer covering φ : {|T| = 1} → {|T| = 1}, T ↦ T^m (p ∤ m), Tr ∘ φ^* = m·Tr on H²_c. For P¹_S, Tr(c₁(O(1))) = 1.
 
-*Needs:* Section 9.2; Section 8.6; Section 3.2; Section 8.5; Section 8.3; Section 8.4; `AdicEtaleGeometry`, layer A1 (`geometric-point-etale-split`); `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace for smooth curves); Section 1.4.
+*Needs:* Section 9.2; Section 8.6; Section 3.2; Section 8.5; Section 8.3; Section 8.4; `AdicEtaleGeometry`, layer A1 (`geometric-point-etale-split`); Sections 0.7–0.11 (the trace for smooth curves); Section 1.4.
 
 Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let X → S be a smooth adic curve. (i) For a finite étale S-morphism φ : Y → X of degree d, Tr_Y = Tr_X ∘ Tr_φ on H²_c(Y/S, μ_n) and Tr_Y ∘ φ^* = d · Tr_X on H²_c(X/S, μ_n). (ii) For an open subspace U ⊆ X with taut source, Tr_U = Tr_X ∘ ι_! where ι_! : H²_c(U/S, μ_n) → H²_c(X/S, μ_n) is extension by zero; in particular the traces of X and of its quasi-compact open subspaces are compatible under the quasi-compact exhaustion. (iii) For a separated étale V → X that is quasi-compact, Tr_V = Tr_X ∘ Tr_{V/X}.
 
-This uses n prime to p; φ finite étale, U open with taut source, V → X separated étale quasi-compact.
+This uses n>0 a unit in C⁺; φ finite étale, U open with taut source, V → X separated étale quasi-compact.
 
 (Berkovich (1993), Theorem 6.2.1(a), p. 112; Berkovich (1993), Theorem 5.4.1(d), p. 107.)
 
@@ -4013,9 +4218,9 @@ For the open unit disc D ⊆ B, Tr_D = Tr_B ∘ ι_! and ι_! : H²_c(D, μ_n) �
 
 *Needs:* Section 9.2; Section 8.6; Section 8.3.
 
-Let g : S' = Spa(C', C'⁺) → S = Spa(C, C⁺) be a morphism of algebraically closed affinoid fields (C' ⊇ C complete algebraically closed, C'⁺ ∩ C ⊇ C⁺ or more generally any morphism of adic spaces), n prime to the residue characteristic, f : X → S a quasi-compact smooth adic curve and f' : X' = X ×_S S' → S'. Then under the base change isomorphism g^*R²f_!μ_n ≅ R²f'_!μ_n (Section 8.4) one has g^*(Tr_f) = Tr_{f'}. In particular: (i) for an open U = Spa(C, C⁺_U) ⊆ S the trace of X_U → U is the restriction of Tr_f; (ii) for the morphism Spa(C', C'⁺) → Spa(C, O_C) given by an extension C ⊆ C' with O_C ⊆ C'⁺ (the situation of ECD's condition (iv)), Tr_{X'} is the pullback of Tr_{X_C}. These are the relative and valued-plus-ring compatibilities used in ECD's proof of Theorem 24.1.
+Let g : S' = Spa(C', C'⁺) → S = Spa(C, C⁺) be a morphism of algebraically closed affinoid fields (C' ⊇ C complete algebraically closed, C'⁺ ∩ C ⊇ C⁺ or more generally any morphism of adic spaces), n>0 a unit in C⁺, f : X → S a quasi-compact smooth adic curve and f' : X' = X ×_S S' → S'. Then under the base change isomorphism g^*R²f_!μ_n ≅ R²f'_!μ_n (Section 8.4) one has g^*(Tr_f) = Tr_{f'}. In particular: (i) for an open U = Spa(C, C⁺_U) ⊆ S the trace of X_U → U is the restriction of Tr_f; (ii) for the morphism Spa(C', C'⁺) → Spa(C, O_C) given by an extension C ⊆ C' with O_C ⊆ C'⁺ (the situation of ECD's condition (iv)), Tr_{X'} is the pullback of Tr_{X_C}. These are the relative and valued-plus-ring compatibilities used in ECD's proof of Theorem 24.1.
 
-This uses f quasi-compact (so base change applies); n prime to p.
+This uses f quasi-compact (so base change applies); n>0 a unit in C⁺.
 
 (Berkovich (1993), Theorem 6.2.1, p. 112; Scholze, Étale cohomology of diamonds, proof of Theorem 24.1, p. 152.)
 
@@ -4025,23 +4230,23 @@ For the relative ball, g^*(Tr_{B_S}) = Tr_{B_{S'}}, both being the formal-model 
 
 Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let f : X → S be a smooth adic curve with X nonempty. If C⁺ = O_C, then Tr_X : H²_c(X/S, μ_n) → ℤ/n is surjective, and it is an isomorphism when X is connected. If C⁺ is arbitrary, X_η is connected and R²f_!μ_n is a constant sheaf on S (its specialisation maps along |S| are isomorphisms), Tr_f : R²f_!μ_n → ℤ/n is an isomorphism; this holds for every tube λ⁻¹(𝒰) of an open 𝒰 of the special fibre of a smooth proper C⁺-model — in particular for the relative ball, the circle {|T| = 1} and P¹_S (Section 8.3) — and, by quasi-compact exhaustion by relative balls of radius in |C^×|, for the open discs over S; annuli of positive width are not such tubes and their constancy is not proved here.
 
-This uses n prime to p; plus-ring case: constancy of R²f_!μ_n is a hypothesis, verified for tubes of smooth models.
+This uses n>0 a unit in C⁺; plus-ring case: constancy of R²f_!μ_n is a hypothesis, verified for tubes of smooth models.
 
 (Berkovich (1993), Theorem 6.2.1, last sentence, p. 112; Scholze, Étale cohomology of diamonds, §1, p. 9.)
 
 The open unit disc and the relative ball: Tr is an isomorphism for every C⁺. For n > 1, X = D ⊔ D (two discs) has H²_c = (ℤ/n)² and Tr is the sum map, surjective, not injective. For n = 1 both modules are zero and the map is an isomorphism.
 
-*Needs:* Section 9.2; Section 3.2; Section 8.3; `AdicSpacesPartIII`, layer R2 (`residue-disc`); Section 8.5; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace for smooth curves).
+*Needs:* Section 9.2; Section 3.2; Section 8.3; `AdicSpacesPartIII`, layer R2 (`residue-disc`); Section 8.5; Sections 0.7–0.11 (the trace for smooth curves).
 
-Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let W be a smooth separated curve over C, W^ad = W ×_{Spec C} S, and Tr^alg_W : H²_c(W, μ_n) → ℤ/n the scheme trace (`EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity, which also supplies the trace of proper W). Then Tr_{W^ad} ∘ c = Tr^alg_W, where c : H²_c(W, μ_n) ≅ H²_c(W^ad/S, μ_n) is the comparison isomorphism of Section 9.2. For W = P¹ this is the normalisation (b) of Section 9.2.
+Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let W be a smooth separated curve over C, W^ad = W ×_{Spec C} S, and Tr^alg_W : H²_c(W, μ_n) → ℤ/n the scheme trace (Sections 0.7–0.11, which also supplies the trace of proper W). Then Tr_{W^ad} ∘ c = Tr^alg_W, where c : H²_c(W, μ_n) ≅ H²_c(W^ad/S, μ_n) is the comparison isomorphism of Section 9.2. For W = P¹ this is the normalisation (b) of Section 9.2.
 
-This uses W smooth separated over C; n prime to p.
+This uses W smooth separated over C; n>0 a unit in C⁺.
 
 (Berkovich (1993), Corollary 6.2.9, p. 118.)
 
 W = G_m: both traces send the class of the generator of H²_c(G_m, μ_n) ≅ ℤ/n to 1. W proper of genus g: Tr_{W^ad} is the degree map on Pic(W)/n under H²(W^ad, μ_n) ≅ H²(W, μ_n).
 
-*Needs:* Section 9.2; Section 8.6; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace for smooth curves); `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the finite flat trace in relative dimension zero).
+*Needs:* Section 9.2; Section 8.6; Sections 0.7–0.11 (the trace for smooth curves); Sections 0.7–0.11 (the finite flat trace in relative dimension zero).
 
 Let f : Y → X be a quasi-compact smooth morphism of locally noetherian analytic adic spaces such that for every geometric point ξ = Spa(C, C⁺) → X the fibre Y ×_X Spa(C, C⁺) is nonempty and connected and, when C⁺ ≠ O_C, also every fibre of f over a point of the chain |Spa(C, C⁺)| (for X of rank one, the only case used by Section 9.6, this is the first condition). Then for every étale sheaf of sets F on X the unit F → f_*f^*F is an isomorphism; in particular (f^*F)(Y) = F(X).
 
@@ -4063,7 +4268,7 @@ This uses The dimension-zero condition is on the base-change morphism, not on f;
 
 At residue-p coefficients the transformation remains a map for arbitrary pullbacks; LRZ Example 6.3.3 gives failures of invertibility. A completed algebraic-closure stalk map has the stated zero transcendence dimension; an arbitrary extension of algebraically closed fields need not.
 
-*Needs:* Section 8.3; Section 8.4; Section 1.2; `AdicEtaleGeometry`, layer A2; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 8.3; Section 8.4; Section 1.2; `AdicEtaleGeometry`, layer A2; Sections 0.1–0.4.
 
 For a locally noetherian analytic adic space X, n>0 invertible in O_X, and a line bundle L, define c₁(L)∈H²(X_ét,μ_n) as the Kummer connecting image of its class in Pic(X)≅H¹(X_ét,G_m). It is additive under tensor product, commutes with analytic pullback, and agrees with the scheme first Chern class under relative analytification. This is a cohomological construction in Layers 8–9; the line bundles themselves and their pullbacks are supplied by R3.
 
@@ -4081,7 +4286,7 @@ Provide `AnalyticFirstChernClass.kummer`: c₁(L)=δ_Kummer([L]) in H²(X,μ_n);
 
 The line-bundle class lies in H¹(G_m), correcting the degree slip in Remark 3.1.10.
 
-*Needs:* `AdicSpacesPartIII`, layer R3; Section 1.4; Layers 1 and 3; `EnhancedDerivedSheaves`, layer E1; `EtaleDualityAndPerverseSheaves`, layer EDC.2; `AdicSpacesPartIII`, layer R3 (`locally-free-sheaf`).
+*Needs:* `AdicSpacesPartIII`, layer R3; Section 1.4; Layers 1 and 3; Sections 0.1–0.4; Sections 0.7–0.11; `AdicSpacesPartIII`, layer R3 (`locally-free-sheaf`).
 
 For Y locally noetherian analytic and n>0 invertible in O_Y, write Λ=Z/n and π̄:P¹,an_Y→Y. The unit and c₁(O(1)) give an equivalence Λ_Y ⊕ Λ_Y(−1)[−2]→Rπ̄_*Λ. In particular c₁(O(1)) induces Λ_Y≅R²π̄_*Λ(1). These identifications commute with the canonical base-change transformations.
 
@@ -4091,7 +4296,7 @@ This uses This special projective-bundle formula suffices for affine trace norma
 
 R⁰π̄_*Λ=Λ and R²π̄_*Λ(1)=Λ, with all other positive degrees zero. The generator is c₁(O(1)); changing it by a sign would change the trace normalization.
 
-*Needs:* Section 9.3; Section 9.2; `AdicSpacesPartIII`, layer R3; Layers 1 and 3; `EtaleDualityAndPerverseSheaves`, layer EDC.2.
+*Needs:* Section 9.3; Section 9.2; `AdicSpacesPartIII`, layer R3; Layers 1 and 3; Sections 0.7–0.11.
 
 Construct the analytic localized cycle class `AnalyticLCICycleClass i` for an lci Zariski-closed immersion i:Z→X of pure codimension c in a locally noetherian analytic adic space, with n>0 a unit in O_X and Λ=Z/n. It has type H^{2c}_Z(X,Λ(c)), or equivalently a morphism i_*Λ_Z→Λ_X(c)[2c]. For a divisor use the localized Kummer Chern class. For higher codimension blow up along Z: the exceptional divisor has projective normal bundle, and the projective-bundle formula together with localization gives the unique monic relation for its negative divisor class; the constant term defines the class on X. Obtain the projective-bundle formula here from proper algebraic comparison and the algebraic formula, including all twists and coefficient changes. This defines a class for n a unit in O; it does not assert an absolute purity isomorphism for every such n. (Li–Reinecke–Zavyalov, §3.2, Constructions 3.2.3–3.2.4 and Proposition 3.2.5, pp. 24–25; §3.3, Definition 3.3.2 and Variant 3.3.3, p. 25.)
 
@@ -4104,7 +4309,7 @@ Provide `AnalyticLCICycleClass.cartier`, agreement with the localized first Cher
 - An empty intersection of normally crossing coordinate divisors has zero class with empty support; its product cannot be treated as a nonzero global orientation.
 - On P¹ the degree-one point class maps to c₁(O(1)), and the trace is +1. Reduction from Z/4 to Z/2 preserves this value.
 
-*Needs:* Section 1.2 localization, Section 8.2 proper algebraic comparison, the preceding Kummer Chern classes, and the analytic lci, normal bundle, blow-up and projective bundle geometry of `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3. The algebraic cycle classes and projective-bundle formula are the contracts of `EtaleDualityAndPerverseSheaves`, layers EDC.2–EDC.3.
+*Needs:* Section 1.2 localization, Section 8.2 proper algebraic comparison, the preceding Kummer Chern classes, and the analytic lci, normal bundle, blow-up and projective bundle geometry of `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3. The algebraic cycle classes and projective-bundle formula are the contracts of Sections 0.7–0.11.
 
 Let X=Spa(A,A°) be a nonempty smooth affinoid curve over a complete algebraically closed nonarchimedean field C, and let j:X→Xᶜ be the universal compactification over Spa(C,O_C). Its boundary I is finite and discrete, consisting of rank-two closed points, with at least one point on every connected component. For x∈I set K_x=k(x)ʰ, or its completion after henselization, and use the corresponding henselian valuation pair. The boundary étale topos is the finite product of the topoi (Spec K_x)_ét. For n>0 invertible in C, H⁰({x},μ_n)=μ_n(C), H¹({x},μ_n)=K_x×/(K_x×)ⁿ, and Hⁱ({x},μ_n)=0 for i≥2. These identifications carry finite-flat cohomological trace on H¹ to the field norm.
 
@@ -4203,13 +4408,13 @@ The pointed-model interface extends `SemistableFormalCurveModel` from Section 8.
 
 Let X be a smooth affinoid curve over Spa(C,O_C), n invertible in C, and j:X→X̄ an open immersion into the analytification of a smooth proper algebraic C-curve. Let t_alg be the scheme curve trace transported by proper algebraic–analytic comparison. Then t_X = t_alg∘H²_c(tr_j(1)):H²_c(X,μ_n)→Z/n. Consequently affinoid-curve boundary traces commute with étale maps wherever their source and target are smooth affinoid curves. For n invertible in O_C this identifies t_X with the inherited classical curve trace.
 
-This uses Scheme traces and their open and finite-flat compatibilities are supplied by EtaleDualityAndPerverseSheaves, layer EDC.2.
+This uses Scheme traces and their open and finite-flat compatibilities are supplied by Sections 0.8–0.11.
 
 (Shizhang Li, Emanuel Reinecke and Bogdan Zavyalov, Relative Poincaré duality in nonarchimedean geometry, Theorem 5.4.2 and Corollary 5.4.3, p. 53; Theorem 5.6.13 and final proof, pp. 65–66.)
 
 Comparison is with the scheme cohomological trace, including its Tate twist. Different embeddings in proper curves give the same boundary trace. For the closed disc, the class of a classical point a is ∂[(T−a)⁻¹]. The minus sign comes from the anticommuting square of Kummer and supported localization boundary maps. Secondary degree gives trace +1 on this inverse, which fixes the comparison scalar to 1. For a pointed proper semistable formal O_C-curve, enlarging the finite set of deleted special-fibre points does not alter the comparison on the original boundary summands. After the enlarged set meets every component, prescribed finite flat normalization to the projective line reduces comparison to the disc. For an arbitrary affinoid inclusion in a proper curve, a compatible formal model and the disjoint complementary formal open reduce to this pointed case.
 
-*Needs:* Section 9.3; Section 9.2; Section 8.6; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace for smooth curves); `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the finite flat trace in relative dimension zero); `AdicSpacesPartIII`, layer R2.
+*Needs:* Section 9.3; Section 9.2; Section 8.6; Sections 0.7–0.11 (the trace for smooth curves); Sections 0.7–0.11 (the finite flat trace in relative dimension zero); `AdicSpacesPartIII`, layer R2.
 
 ### 9.4 Relative top degree and affine normalization
 
@@ -4237,7 +4442,7 @@ This uses Smoothness implies dim.tr f=d; the needed transcendence-dimension geom
 
 For d=0 this agrees with exact étale f!. For a residue-p disc, the top cohomology need not have rank one despite vanishing above degree two.
 
-*Needs:* Section 8.3; `AdicEtaleGeometry`, layer A2 (`smooth-pure-relative-dimension`); `AdicEtaleGeometry`, layer A2; `EnhancedDerivedSheaves`, layer E1 (the enhanced derived category).
+*Needs:* Section 8.3; `AdicEtaleGeometry`, layer A2 (`smooth-pure-relative-dimension`); `AdicEtaleGeometry`, layer A2; Sections 0.1–0.4 (the enhanced derived category).
 
 For f as in smooth-constant-support-top-degree and a cover X=⋃_i U_i by taut open immersions, write f_i=f|U_i and f_ii′=f|U_i∩U_i′. The alternating sum of the two extension-by-zero maps gives an exact sequence ⊕_{i,i′}R²ᵈf_ii′!Λ(d)→⊕_i R²ᵈf_i!Λ(d)→R²ᵈf!Λ(d)→0. Consequently trace maps Rf_i!Λ(d)[2d]→Λ that agree on overlaps descend to one unique trace on X. The result allows infinite covers.
 
@@ -4247,7 +4452,7 @@ This uses All restricted maps remain separated, taut, smooth and equidimensional
 
 One-member covers give the original trace. For a disjoint union the descended trace is the sum. The overlap arrow has the difference of its two faces; an unsigned sum would give the wrong quotient.
 
-*Needs:* Section 9.4; Section 8.5; Layers 1 and 3; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 9.4; Section 8.5; Layers 1 and 3; Sections 0.1–0.4 (presentability and the derived tensor product).
 
 Let Y be locally noetherian analytic, n>0 invertible in O_Y, and Λ=Z/n. The trace for π:A¹,an_Y→Y is the composite Rπ!Λ(1)[2]→Rπ̄_*Λ(1)[2]→R²π̄_*Λ(1)≅Λ, where π̄:P¹,an_Y→Y and the last map is the inverse of the first-Chern-class projective-bundle isomorphism. Define the trace for Aᵈ,an_Y by successive projections and the support composition comparison, with twists and shifts added. For d=0 it is the identity. This trace is independent of a permutation of the affine coordinates and commutes with base-change transformations.
 
@@ -4268,7 +4473,7 @@ Provide `AffineSpaceTrace.algebraic`: Over Spa(C,O_C) it agrees with the scheme 
 
 Every base-change square commutes with its canonical support transformation; this need not be invertible.
 
-*Needs:* Section 9.4; Section 9.3; Section 8.5; `AdicSpacesPartIII`, layer R3; Layers 2, 4–6; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace in smooth relative dimension d through elementary charts); Layers 1 and 3.
+*Needs:* Section 9.4; Section 9.3; Section 8.5; `AdicSpacesPartIII`, layer R3; Layers 2, 4–6; Sections 0.7–0.11 (the trace in smooth relative dimension d through elementary charts); Layers 1 and 3.
 
 ### 9.5 Smooth traces and coordinate independence
 
@@ -4276,7 +4481,7 @@ For a separated smooth strict Berkovich f:Y→X of pure dimension d with an éta
 
 (Berkovich (1993), Lemma 7.2.2 and proof, pp. 132–133; Berkovich (1993), proof of Theorem 7.2.1, p. 132.)
 
-*Needs:* `AdicSpacesPartII`, layer R1; Section 9.2; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the trace in smooth relative dimension d through elementary charts); `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the finite flat trace).
+*Needs:* `AdicSpacesPartII`, layer R1; Section 9.2; Sections 0.7–0.11 (the trace in smooth relative dimension d through elementary charts); Sections 0.7–0.11 (the finite flat trace).
 
 For separated smooth u(f):u(X)→u(Y) of pure relative dimension d (Berkovich's smooth morphisms are boundaryless; separatedness is a hypothesis of Theorem 7.2.1 that must come from the separatedness of the partially proper f, since Zavyalov's Lemma A.8 and Corollary A.11 do not state it), import Berkovich 1993 Theorem 7.2.1’s trace R^{2d}u(f)_!Λ(d)→Λ, with geometric-fibre/base-change compatibility, top-degree composition, dimension-zero étale counit and surjectivity for nonempty fibres. Work with n invertible in K so the Tate twist is defined; in mixed characteristic p, n=p^r is allowed here. The prime-to-residue hypothesis is imposed on Poincaré duality, not on this trace interface.
 
@@ -4393,7 +4598,7 @@ Provide `GeneralSmoothTrace.etale`: For étale f the trace is the usual exact f!
 
 The result includes Spa(C,C⁺) for arbitrary open bounded valuation subrings. Residue-p coefficients on a nonproper disc do not satisfy full classical Poincaré duality merely because this trace exists.
 
-*Needs:* Section 9.4; Section 9.5; Section 9.3; `AdicSpacesPartII`, layer R0; Section 1.2; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 9.4; Section 9.5; Section 9.3; `AdicSpacesPartII`, layer R0; Section 1.2; Sections 0.1–0.4.
 
 ### 9.6 Effacement and duality at every valuation rank
 
@@ -4415,7 +4620,7 @@ This uses The arbitrary-rank assertion uses Huber’s separated qc local neighbo
 
 For Y an open disc and y its centre, g = id works: H¹_c(D, μ_n) = 0.
 
-*Needs:* Section 3.2; Section 8.5; Section 9.2; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the curve duality and effacement calculation of SGA 4 XVIII §1); `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (the effacement and local-acyclicity argument of SGA 4 XVIII §§1–2); `AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`).
+*Needs:* Section 3.2; Section 8.5; Section 9.2; Sections 0.7–0.11 (the curve duality and effacement calculation of SGA 4 XVIII §1); Sections 0.7–0.11 (the effacement and local-acyclicity argument of SGA 4 XVIII §§1–2); `AdicSpacesPartII`, layer R1 (`scheme-fibre-product-analytification`).
 
 Let f:X→S be smooth of pure relative dimension d between quasi-separated analytic pseudo-adic spaces, ξ a geometric point of X, and n>0 prime to char⁺(S). Find étale separated quasi-compact maps V→S, U→X and W→U, with U=X×_S V, a lift of ξ into W, and λ:W→V the composite through φ:U→V, such that the trace R²ᵈλ!Λ→Λ(−d) is an isomorphism and the map Rᵖλ!Λ→Rᵖφ!Λ is zero for every p≠2d. Moreover the derived map Rλ!Λ→Rφ!Λ factors through Λ(−d)[−2d] by the trace. Retain this as a statement in D+ with the indicated trace factorization, not only as a degree-one effacement statement. It includes every rank of C⁺ at a geometric field-pair base and every d≥0.
 
@@ -4423,7 +4628,7 @@ This uses Λ=Z/n and n is prime to every residue characteristic of O⁺ on S. Th
 
 (Huber (1996), §7.4, Theorem 7.4.2, pp. 382–383; Lemmas 7.4.3–7.4.4, pp. 383–385.)
 
-*Needs:* Section 9.2; Section 9.4; Section 9.3; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 9.2; Section 9.4; Section 9.3; Sections 0.1–0.4.
 
 Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let f : Y → S be a smooth adic curve. For G ∈ D⁻(Y_ét, ℤ/n) and F ∈ D⁺(S_ét, ℤ/n) the duality morphism Rf_* RHom(G, f^*F(1)[2]) → RHom(Rf_!G, F), obtained from the canonical map Rf_* RHom(G, G') → RHom(Rf_!G, Rf_!G') (for G' bounded below, via injective resolutions) with G' = f^*F(1)[2] and the trace Rf_!(f^*F(1))[2] → F (Section 9.2), is an isomorphism in D(S_ét, ℤ/n). Equivalently, for all q ∈ ℤ, Hom_{D(Y_ét, ℤ/n)}(G, f^*F(1)[2+q]) ≅ Hom_{D(S_ét, ℤ/n)}(Rf_!G, F[q]) (morphisms in Mathlib's DerivedCategory; for sheaves G and F these are the groups of Mathlib's Abelian.Ext). The statement uses no right adjoint of Rf_!: consumers that construct Rf^! (DiamondSixOperations S4–S5) deduce from it, by the Yoneda lemma, that the transformation f^*(1)[2] → Rf^! adjoint to the trace is an isomorphism.
 
@@ -4459,7 +4664,7 @@ This uses Use the higher-rank curve duality of this section, proved from Huber T
 
 Include a test object whose support meets the complement of X_U; the theorem must still be stated for it. For U=S this is ordinary unbounded curve duality with constant coefficients. For U empty both target coefficients vanish and both derived mapping complexes are zero.
 
-*Needs:* Section 9.6; Section 8.5; Section 8.4; `EnhancedDerivedSheaves`, layer E1 (the enhanced derived category); `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product).
+*Needs:* Section 9.6; Section 8.5; Section 8.4; Sections 0.1–0.4 (the enhanced derived category); Sections 0.1–0.4 (presentability and the derived tensor product).
 
 Notation: C an algebraically closed field complete for a nontrivial nonarchimedean absolute value, with residue characteristic exponent p ≥ 1; C⁺ ⊆ C an open and bounded valuation subring of arbitrary rank; S = Spa(C, C⁺), with closed point s and generic point η = Spa(C, O_C); n ≥ 1 an integer invertible in C⁺ (hence prime to p); μ_n the étale sheaf of n-th roots of unity and Λ(1) = Λ ⊗ μ_n. Let f : X → S be a smooth adic curve that is quasi-compact or proper over S, and F a locally constant constructible sheaf of ℤ/n-modules on X. Then H^q(X, F) is finite for all q and vanishes for q > 2; if C⁺ = O_C then H^q_c(X/S, F) is finite for all q and vanishes outside [0, 2]. For affinoid X, H^q(X, F) = 0 for q ≥ 2. For arbitrary C⁺, H^q(X, F) ≅ H^q(X_η, F|_{X_η}).
 
@@ -4479,7 +4684,7 @@ This numerical pairing uses C⁺=O_C; over the full higher-rank base use the rel
 
 X proper of genus g, F = ℤ/n: H¹(X, ℤ/n) × H¹(X, μ_n) → ℤ/n is perfect, groups (ℤ/n)^{2g}. X = D the open disc: H²_c(D, ℤ/n) = ℤ/n(−1) is dual to H⁰(D, μ_n) = μ_n, and H^q_c(D) = 0 for q ≠ 2 matches H^q(D, μ_n) = 0 for q ≠ 0.
 
-*Needs:* Section 9.6; Section 9.2; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity (curve duality from the Jacobian and Kummer inputs); Section 1.4.
+*Needs:* Section 9.6; Section 9.2; Sections 0.7–0.11 (curve duality from the Jacobian and Kummer inputs); Section 1.4.
 
 Let S=Spa(C,O_C), ℓ invertible in O_C, Λ=F_ℓ, and f:X→S a quasi-compact separated taut smooth curve. For a finite-rank Λ-local system L, the trace pairing Hⁱ_c(X/S,L)×H²⁻ⁱ(X,L∨(1))→Λ is perfect, and both groups are finite-dimensional; they vanish outside degrees 0 through 2. Equivalently RΓ_c(X/S,L) and RΓ(X,L∨(1))[2] are finite complexes dual to each other. The pairing is the rank-one specialization of the relative derived duality above. Non-quasi-compact curves are not included in the finite-dimensionality assertion.
 
@@ -4489,7 +4694,7 @@ Here Λ is a field, so finite local systems are locally finite free and the ordi
 
 For a rank-two base S with open generic point η, let X be the closed disc over η, viewed over S, and take Λ≠0. Then Rf!Λ=j!Λ(−1)[−2], hence RΓ(S,Rf!Λ)=0, while H⁰(X,Λ)=Λ. This excludes the numerical pairing over the full higher-rank base; the relative duality with RHom_S(j!Λ,Λ) still holds. For a connected proper curve this specializes to the usual degree-reversed perfect pairing. An infinite disjoint union of discs is excluded from this finite-dimensional conclusion. Residue-p coefficients on nonproper discs are excluded by ℓ invertible in C⁺.
 
-*Needs:* Section 9.6; Layers 1 and 3; `EnhancedDerivedSheaves`, layer E1 (presentability and the derived tensor product); Section 1.2.
+*Needs:* Section 9.6; Layers 1 and 3; Sections 0.1–0.4 (presentability and the derived tensor product); Section 1.2.
 
 ### 9.7 Proper pairings and integral traces
 
@@ -4531,11 +4736,11 @@ On P¹ the comparison sends c₁(O(1)) to +1. On a split disjoint union of two c
 
 *Needs:* Section 9.5; Section 9.7; Section 9.2; Section 9.6; Section 9.1.
 
-For smooth proper taut rigid f:X→Y of pure relative dimension d, n invertible in O_K and a finite locally free ℤ/n-sheaf F on Y, the normalized trace induces Rf_*f^*F ≅ RHom_Y(Rf_*ℤ/n,F(−d)[−2d]). This is the proper adic transport of Berkovich 7.4.1; both direct images are proper-support images and F’s finite local freeness allows internal Hom to be transported through θ. Generic derived tensor/Hom coherence is imported from D0/E1.
+For smooth proper taut rigid f:X→Y of pure relative dimension d, n invertible in O_K and a finite locally free ℤ/n-sheaf F on Y, the normalized trace induces Rf_*f^*F ≅ RHom_Y(Rf_*ℤ/n,F(−d)[−2d]). This is the proper adic transport of Berkovich 7.4.1; both direct images are proper-support images and F’s finite local freeness allows internal Hom to be transported through θ. Generic derived tensor/Hom coherence is imported from D0 and Sections 0.1–0.4.
 
 (Berkovich (1993), Theorem 7.4.1 and proof, p. 143; Berkovich (1993), §7.4, first sentence, p. 143.)
 
-*Needs:* Section 9.7; Section 9.1; Section 3.2; Section 9.5; `DiamondsAndVStacks`, layer D0; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 9.7; Section 9.1; Section 3.2; Section 9.5; `DiamondsAndVStacks`, layer D0; Sections 0.1–0.4.
 
 For smooth proper rigid X/K of pure dimension d, ℓ invertible in O_K and a finite locally constant 𝔽_ℓ-sheaf L on X_C, let L∨=Hom(L,𝔽_ℓ). The trace and evaluation cup product give perfect pairings H^i(X_C,L)⊗H^{2d−i}(X_C,L∨(d))→𝔽_ℓ for all i. If L descends to X, the pairing is G_K-equivariant. This generalizes the constant-coefficient target using Berkovich 7.4.3; local freeness over the field ensures the dual is the actual finite local system.
 
@@ -4549,7 +4754,7 @@ Let f:X→Y be smooth proper taut rigid of pure relative dimension d, ℓ invert
 
 For d=0 and a split finite étale map, the formula identifies the dual of a finite direct sum with the sum of the duals. In relative dimension one it pairs degrees 0 with 2 and degree 1 with itself, with twist −1. A general constructible sheaf cannot replace the locally constant sheaf in this Ext calculation.
 
-*Needs:* Section 9.7; Section 9.1; `DiamondsAndVStacks`, layer D0; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 9.7; Section 9.1; `DiamondsAndVStacks`, layer D0; Sections 0.1–0.4.
 
 Let f:𝔛→𝔜 be smooth proper of constant relative dimension d between smooth formal O_K-schemes, with K complete of mixed characteristic (0,p), and write f_η for the analytic generic-fibre map. Construct `IntegralSmoothProperTrace` on the pro-étale site as the degree-zero map of the derived trace Rf_{η,*}Ẑ_p(d)[2d]→Ẑ_p. Start with the coherent finite-level traces, identify Rf_{η,*}Ẑ_p(d) with Rlim_r ν*Rf_{η,ét,*}Z/p^r(d), and take their derived inverse limit. Taking H⁰ gives t_f:R^{2d}f_{η,*}Ẑ_p(d)→Ẑ_p. Equivalently this is the canonical top-degree edge map to lim_r ν*R^{2d}f_{η,ét,*}Z/p^r(d), followed by the limit traces; the edge map need not be declared an isomorphism in a family. Prove compatibility with finite-level projections and derived coefficient reduction, composition and the finite étale counit in dimension zero. If every geometric fibre is nonempty, prove t_f is an epimorphism using compatible local cycle classes, rather than inverse limits of unrelated surjections. For the Guo–Reinecke application restrict K further to a complete discretely valued field with perfect residue field.
 
@@ -4570,7 +4775,7 @@ Provide `IntegralSmoothProperTrace.surjective`: For nonempty geometric fibres th
 
 The finite étale–pro-étale exchange is Section 1.3. The lisse-tower derived-limit theorem there identifies Rlim_r ν*Z/p^r(d) with Ẑ_p(d); applying Rf* gives the relative derived-limit identification needed for the construction. At finite level the amplitude bound in Section 8.4 gives the canonical derived trace from the top-cohomology trace, compatibly with coefficient reduction. The coherent derived inverse limit therefore defines the integral trace. Its projections recover every finite-level trace, and its derived quotient recovers the finite-level complexes and maps. No relative ordinary-cohomology inverse-limit isomorphism, or quotient formula for the top cohomology sheaf, is used. For epimorphy, prove `IntegralSmoothProperTrace.localSectionClasses`: a smooth proper surjection admits local quasi-sections on an étale cover of the base. Choose a finite separable closed point of each smooth fibre, use an étale coordinate presentation and the implicit-function lifting property to spread it after étale localization, and include the full valued-field pair in that localization. For the stated formal scope, equivalently choose a separable closed point of the smooth special fibre, lift its finite étale residue extension over a formal étale neighborhood, and use formal smoothness and henselian lifting to obtain the section; its generic fibre retains all specializations. The section is lci of codimension d, and its compatible analytic cycle classes define maps ν*Z/p^r→ν*Rf_{η,ét,*}Z/p^r(d)[2d]. Smooth trace composed with that class is the identity, so derived inverse limit gives a local section of the integral trace. Thus every local Z_p-section lifts compatibly. The normalization of a section is Li–Reinecke–Zavyalov Lemma 6.2.2, pp. 74–75, or Lemma 6.4.5, p. 83. If the finite-level absolute cohomology groups are finite, their inverse systems satisfy Mittag–Leffler, so the Milnor sequence identifies H^q(X,Ẑ_p) with lim_r H^q(X,Z/p^r). This conditional strengthening is not needed to construct the relative trace. Zavyalov Lemma 5.5.1, pp. 81–82, applies it in the proper smooth absolute setting after the requisite finiteness theorem.
 
-*Needs:* Section 1.3; Section 8.4; Section 9.5; `EnhancedDerivedSheaves`, layer E2.
+*Needs:* Section 1.3; Section 8.4; Section 9.5; Sections 0.1–0.4.
 
 The integral trace family of integral-smooth-proper-trace supplies a collection tr^et of Ẑ_p-linear maps R^{2n}f_{η,*}Ẑ_p(n) → Ẑ_p satisfying Guo–Reinecke 7.16(a)–(c) (K complete discretely valued with perfect residue field), and agrees with the classical family specified in Remark 7.17 after finite-level reduction. The downstream prismatic theorem may consume these hypotheses to construct its own Frobenius-equivariant trace; no prismatic pairing or mod-p analytic duality is asserted by this export.
 
@@ -4588,13 +4793,13 @@ For a finite set of r geometric points, the dimension-zero duality pairing on Λ
 
 ### Dependencies
 
-Use Layers 1–8. The overconvergent comparison and all-rank geometric fibres precede curve trace. Sections 9.2–9.3 build the field-pair lifting, boundary Kummer, reciprocity, localized cycle classes and algebraic normalization needed for smooth trace; Sections 9.4–9.5 then prove coordinate-independent trace, and Sections 9.6–9.7 prove prime-to-residue duality and integral proper traces. `EtaleDualityAndPerverseSheaves`, EDC.2–EDC.3, supplies scheme traces and cycle classes; `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, supplies lci and projective geometry; `PadicMeasuresIwasawaAlgebras`, Layer 5, supplies determinant lines for integral line-bundle extension. `EnhancedDerivedSheaves`, E1–E2, supplies internal Hom and derived inverse limits. Boundary residues with O_C as plus ring are not substituted for arbitrary-rank fibres.
+Use Layers 1–8. The overconvergent comparison and all-rank geometric fibres precede curve trace. Sections 9.2–9.3 build the field-pair lifting, boundary Kummer, reciprocity, localized cycle classes and algebraic normalization needed for smooth trace; Sections 9.4–9.5 then prove coordinate-independent trace, and Sections 9.6–9.7 prove prime-to-residue duality and integral proper traces. Sections 0.7–0.11, supplies scheme traces and cycle classes; `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, supplies lci and projective geometry; `PadicMeasuresIwasawaAlgebras`, Layer 5, supplies determinant lines for integral line-bundle extension. Sections 0.1–0.4, supplies internal Hom and derived inverse limits. Boundary residues with O_C as plus ring are not substituted for arbitrary-rank fibres.
 
 ## Layer 10: Radial cohomology and smooth families
 
 ### 10.1 Closed radial regions
 
-For a commutative ring A with a topology, a subring A⁺, a coordinate T ∈ A and a radius representative b ∈ A, closedDisc(A⁺,T,b) is the set of points v of the pinned Spa(A,A⁺) (continuous valuations with v ≤ 1 on A⁺) such that T ≤ᵥ b. For a unit b it is the pinned rational subset R({T}/b), hence relatively open in Spa(A,A⁺), and it is unchanged when T and b are multiplied by the same unit. For A = C⟨T⟩ over a complete nontrivially valued field C and b = ϖ_b ∈ C^× it is the underlying set of the closed disc of radius |ϖ_b| (Ito's B(ε), Berkovich's E(0,r) on rank-one points), an affinoid open subspace supplied by AdicEtaleGeometry A2. The valuative comparison is taken at every rank: a weak inequality gives an open subset of the adic space, whereas a strict inequality gives a closed constructible subset (Ito, p. 37), so the words closed and open of radial terminology are not adic-topological.
+For a commutative ring A with a topology, a subring A⁺, a coordinate T ∈ A and a radius representative b ∈ A, closedDisc(A⁺,T,b) is the set of points v of the pinned Spa(A,A⁺) (continuous valuations with v ≤ 1 on A⁺) such that T ≤ᵥ b. For a unit b it is the pinned rational subset R({T}/b), hence relatively open in Spa(A,A⁺), and it is unchanged when T and b are multiplied by the same unit. For A = C⟨T⟩ over a complete nontrivially valued field C and b = ϖ_b ∈ C^× with |ϖ_b|≤1 it is the underlying set of the closed disc of radius |ϖ_b| (Ito's B(ε), Berkovich's E(0,r) on rank-one points), an affinoid open subspace supplied by AdicEtaleGeometry A2. For arbitrary radii choose the ambient disc Spa(C⟨T/c⟩) with c∈C^× and |c|≥|ϖ_b|. The valuative comparison is taken at every rank: a weak inequality gives an open subset of the adic space, whereas a strict inequality gives a closed constructible subset (Ito, p. 37), so the words closed and open of radial terminology are not adic-topological.
 
 This uses A commutative ring with a topology and an explicit plus subring A⁺ for the set-level construction (the pinned spa asks for nothing more); sheafiness, completeness and the Huber hypotheses belong to AdicSpacesPartII R0; For analytic discs and annuli: C complete nontrivially valued, radius representatives a, b ∈ C^× with |a| ≤ |b|.
 
@@ -4608,6 +4813,7 @@ Provide `Radial.closedDisc_mono`: If b ≤ᵥ b′ at every point of Spa(A,A⁺)
 
 - For v∈Spa(A,A⁺) and unit b, v∈closedDisc(A⁺,0,b).
 - closedDisc(A⁺,T,1) equals rationalSubset(A⁺,{T},1).
+- In C⟨T⟩, radius |ϖ|⁻¹>1 still cuts out only the unit disc; C⟨T/c⟩ with c=ϖ⁻¹ includes the classical point T=ϖ⁻¹.
 - For the pinned classicalPoint at a power-bounded tuple c over a complete Hausdorff nonarchimedean ring K with base point x ∈ Spa(K,K°), and a constant radius b ∈ K: the classical point lies in closedDisc(K⟨T⟩°, T_i, b) if and only if c_i ≤ᵥ b at x (pinned classicalPoint_vle and evaluation of T_i and of constants). For b = 1 both sides always hold, so the radius is kept general.
 
 On a rank-two valuation with T strictly inside the radius but equivalent to it at rank one (Ito's η(b)), the weak locus contains the point; compare the closed unit disc with the pinned closedPolydisc set.
@@ -4632,7 +4838,7 @@ A valuation with T in its support is excluded whatever the outer radius; the coo
 
 *Needs:* Section 10.1.
 
-closedAnnulus(A⁺,T,a,b) is the set of v ∈ Spa(A,A⁺) with a ≤ᵥ T ≤ᵥ b and T outside the support of v. For all a, b it equals R({T}/b) ∩ R({a}/T) for the pinned rational subsets: no unit hypothesis is needed, because T outside the support and T ≤ᵥ b put b outside the support. Over a complete nontrivially valued field C, with a = ϖ_a, b = ϖ_b ∈ C^× and |ϖ_a| ≤ |ϖ_b|, it is the affinoid annulus with coordinate ring C⟨T, ϖ_a/T, T/ϖ_b⟩ (Ito's B(a,b), Berkovich's A(r,R) on rank-one points); equal radii give the circle and are allowed. Ito calls B(a,b) an open annulus because it is an open subspace; the name closedAnnulus follows the classical convention r ≤ |T| ≤ R.
+closedAnnulus(A⁺,T,a,b) is the set of v ∈ Spa(A,A⁺) with a ≤ᵥ T ≤ᵥ b and T outside the support of v. For all a, b it equals R({T}/b) ∩ R({a}/T) for the pinned rational subsets: no unit hypothesis is needed, because T outside the support and T ≤ᵥ b put b outside the support. Over a complete nontrivially valued field C, with a = ϖ_a, b = ϖ_b ∈ C^× and |ϖ_a| ≤ |ϖ_b|, in an ambient disc Spa(C⟨T/c⟩) with |c|≥|ϖ_b| it is the affinoid annulus with coordinate ring C⟨U,V⟩/(UV−ϖ_a/ϖ_b), where U=T/ϖ_b and V=ϖ_a/T (Ito's B(a,b), Berkovich's A(r,R) on rank-one points); equal radii give the circle and are allowed. Ito calls B(a,b) an open annulus because it is an open subspace; the name closedAnnulus follows the classical convention r ≤ |T| ≤ R.
 
 This uses A commutative ring with a topology and an explicit plus subring A⁺ for the set-level construction (the pinned spa asks for nothing more); sheafiness, completeness and the Huber hypotheses belong to AdicSpacesPartII R0; For analytic discs and annuli: C complete nontrivially valued, radius representatives a, b ∈ C^× with |a| ≤ |b|.
 
@@ -4646,6 +4852,7 @@ Provide `Radial.puncturedDisc_eq_iUnion_closedAnnulus`: For a topologically nilp
 
 - closedAnnulus(A⁺,0,a,b) is empty.
 - closedAnnulus(A⁺,1,1,1)=Spa(A,A⁺).
+- The annulus with a=1, b=ϖ⁻¹ and |ϖ|<1 contains T=ϖ⁻¹ in C⟨T/b⟩; the same inequalities in C⟨T⟩ exclude this point.
 - For all a, b the locus equals the intersection rationalSubset(A⁺,{T},b) ∩ rationalSubset(A⁺,{a},T) of the two pinned rational subsets.
 
 Equal radius representatives give the weak circle, not the empty set; the coordinate 0 gives the empty set.
@@ -4672,7 +4879,7 @@ Equal radii give the empty set; a valuation with T equivalent to an endpoint is 
 
 *Needs:* Section 10.1; Mathlib ValuativeRel.vlt.
 
-Given families of radius representatives a_j, b_j (j ∈ ℕ), openAnnulus(A⁺,T,a,b) = ⋃_j closedAnnulus(A⁺,T,a_j,b_j). Over a complete nontrivially valued field C, with 0 < r < |a_j| ≤ |b_j| < R, the |a_j| decreasing to r and the |b_j| increasing to R, the union is the analytic open annulus r < |T| < R: an open subspace of the disc, the union of an increasing chain of closed annuli (Ito, p. 38), and the adic space of Berkovich's B(r,R). It depends on the families only up to mutual cofinality. It is not the strict valuative locus {a <ᵥ T <ᵥ b} at the endpoints: by Ito's Example A.1 the rank-two points η(R) and η(r)′ satisfy the strict inequalities, their rank-one generalisations lie on the boundary circles, and they belong to no closed annulus of strictly smaller size, hence not to the union.
+Given families of radius representatives a_j, b_j (j ∈ ℕ), openAnnulus(A⁺,T,a,b) = ⋃_j closedAnnulus(A⁺,T,a_j,b_j). Over a complete nontrivially valued field C, with 0 < r < |a_j| ≤ |b_j| < R, the |a_j| decreasing to r and the |b_j| increasing to R, in an ambient disc Spa(C⟨T/c⟩) with |c|≥R, the union is the analytic open annulus r < |T| < R: an open subspace of that disc, the union of an increasing chain of closed annuli (Ito, p. 38), and the adic space of Berkovich's B(r,R). It depends on the families only up to mutual cofinality. It is not the strict valuative locus {a <ᵥ T <ᵥ b} at the endpoints: by Ito's Example A.1 the rank-two points η(R) and η(r)′ satisfy the strict inequalities, their rank-one generalisations lie on the boundary circles, and they belong to no closed annulus of strictly smaller size, hence not to the union.
 
 This uses Set-level construction: A commutative topological ring, plus subring A⁺ and explicit radius representatives indexed by ℕ; Analytic interpretation: C complete nontrivially valued, the nested strict radii in |C×| converge to the asserted endpoints; A2 supplies the corresponding open immersion.
 
@@ -4690,7 +4897,7 @@ The rank-two points η(R) and η(r)′ of Ito's Appendix A.1 satisfy the strict 
 
 *Needs:* Section 10.1; `AdicEtaleGeometry`, layer A2 (`relative-closed-polydisc`); Section 9.2.
 
-For a family of radius representatives b_j (j ∈ ℕ), openDisc(A⁺,T,b) = ⋃_j closedDisc(A⁺,T,b_j). Over a complete nontrivially valued field C with |b_j| < R increasing to R, the union is the analytic open disc of radius R, an open subspace of the affine line and the adic space of Berkovich's open disc D(0,R); it depends on the family only up to mutual cofinality. The strict valuative locus {T <ᵥ b} with |b| = R is a different subset: it is closed and constructible (Ito, p. 37), and it contains the rank-two point η(R), which lies in no closed disc of smaller radius.
+For a family of radius representatives b_j (j ∈ ℕ), openDisc(A⁺,T,b) = ⋃_j closedDisc(A⁺,T,b_j). Over a complete nontrivially valued field C with |b_j| < R increasing to R, in an ambient disc Spa(C⟨T/c⟩) with |c|≥R, the union is the analytic open disc of radius R, an open subspace of the affine line and the adic space of Berkovich's open disc D(0,R); it depends on the family only up to mutual cofinality. The strict valuative locus {T <ᵥ b} with |b| = R is a different subset: it is closed and constructible (Ito, p. 37), and it contains the rank-two point η(R), which lies in no closed disc of smaller radius.
 
 This uses Set-level construction: A commutative topological ring, plus subring A⁺ and explicit radius representatives indexed by ℕ; Analytic interpretation: C complete nontrivially valued, the nested strict radii in |C×| converge to the asserted endpoints; A2 supplies the corresponding open immersion.
 
@@ -4761,7 +4968,7 @@ This uses C algebraically closed, complete for a nontrivial nonarchimedean absol
 
 For Λ = F_ℓ, ℓ ≠ p, the dimensions are (1, 0, 0, …); for ℓ = p in mixed characteristic H¹ of the closed disc is infinite (Berkovich, Remark 6.4.2).
 
-*Needs:* Section 10.1; Section 10.2; Section 10.3; Section 9.6; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 10.1; Section 10.2; Section 10.3; Section 9.6; Sections 0.1–0.4.
 
 With the same C and Λ, for a closed disc D over Spa(C, O_C): H^q_c(D, Λ) = 0 for q ≠ 2 and H²_c(D, Λ) = Λ(−1); the trace identifies H²_c(D, μ_n) with ℤ/n. The same holds for the analytic open disc, and extension by zero from a closed subdisc is an isomorphism on H²_c. Here H_c is Huber's proper-support cohomology: for the closed disc it is not the cohomology of a compact Hausdorff space (in particular H⁰_c(D, Λ) = 0), and it differs from Berkovich's compact-support cohomology of the compact disc.
 
@@ -4781,7 +4988,7 @@ This uses C algebraically closed, complete for a nontrivial nonarchimedean absol
 
 For F_ℓ the dimensions are (1, 1, 0, …); a primitive root of unity only untwists the generator; the circle r = R has the same cohomology.
 
-*Needs:* Section 10.1; Section 10.2; Section 10.3; Section 9.6; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 10.1; Section 10.2; Section 10.3; Section 9.6; Sections 0.1–0.4.
 
 For a closed annulus A over Spa(C, O_C) and Λ = ℤ/n prime to the residue characteristic: H¹_c(A, Λ) = Λ, H²_c(A, Λ) = Λ(−1), and H^q_c(A, Λ) = 0 otherwise, for Huber's proper-support cohomology. The same holds for the analytic open annulus, and extension by zero from a closed subannulus is an isomorphism in every degree. The identifications are those of Layers 8–9 trace and duality pairing.
 
@@ -4811,7 +5018,7 @@ This uses C algebraically closed, complete for a nontrivial nonarchimedean absol
 
 Adding the origin kills ordinary H¹ and H¹_c; for F_ℓ the dimensions are (1, 1, 0) and (0, 1, 1) with compact support.
 
-*Needs:* Section 10.1; Section 10.4; Section 8.5; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 10.1; Section 10.4; Section 8.5; Sections 0.1–0.4.
 
 In Layers 8–9 localization triangle for the closed origin {0}⊂D, with D a geometric disc and prime-to-residue Λ, the canonical boundary H⁰_c({0},Λ)=Λ→H¹_c(D∖{0},Λ)=Λ is an isomorphism. The disc proper-support groups vanish in degrees zero and one, so exactness determines this map.
 
@@ -4851,7 +5058,7 @@ At a geometric point of E, strictly localize both Z and the base. The scheme nea
 
 To obtain the theorem below, a field-base map permits algebraically finite-type smooth charts to descend to a finite-type model over a complete DVR. The local projective curve compactification, Weierstrass approximation and reduced-fibre model of Section 8.2 give projective reduced curve models. On the smooth special-fibre locus, the formal comparison and supported proper-image theorem give constructibility in all degrees; on its finite singular locus only degree one remains and is the theorem above. Constructible coefficients reduce to constants by locally closed extension by zero and finite étale trivializations. Higher relative dimension factors locally into smaller-dimensional smooth maps; the Leray and finite-cover spectral sequences, with the 2d amplitude bound, finish the induction. These reductions retain finitely generated modules over a noetherian coefficient ring; the ring need not have finite cardinality. (Huber, §6.3(I)–(V), pp. 334–339; Theorem 6.2.2, p. 329.)
 
-*Needs:* Layers 1–2, 4 and 7–8; Section 8.2's DVR local compactification and reduced-fibre theorem; `SchemeAndStackFoundations`, Layers 2 and 4, for scheme finiteness, strict localization, normalization and noetherian stratification; `AdicCoefficientsAndComparisons`, layer L2, for simultaneous finite-presentation descent of the geometry and coefficients.
+*Needs:* Layers 1–2, 4 and 7–8; Section 8.2's DVR local compactification and reduced-fibre theorem; `SchemeAndStackFoundations`, Layers 2 and 4, for scheme finiteness, strict localization, normalization and noetherian stratification; Sections 0.5–0.6, for simultaneous finite-presentation descent of the geometry and coefficients.
 
 Let f:X→Y be a smooth separated quasi-compact morphism of analytic pseudo-adic spaces and suppose Y admits a morphism to Spa(K,O_K) for a complete nonarchimedean field K. For a noetherian coefficient ring B killed by n>0 prime to char⁺(Y), every constructible B-sheaf F on X has constructible Rᑫf!F for every q≥0. The field-base map is part of this statement. The smooth proper specialization gives finite locally constant direct images of finite locally constant sheaves. A transfer to bases with no field-base map is a separate comparison theorem of Section 10.5.
 
@@ -4865,7 +5072,7 @@ For f=id and B=F_ℓ[t], the output constant stalk B is finitely generated over 
 
 Let C be an algebraically closed complete nonarchimedean field, Y_I a quasi-compact quasi-separated adic space of topologically finite type over Spa(C, O_C), f_I: B_{Y_I} → Y_I the relative closed unit ball, n invertible in O_C and F_I a Huber-constructible sheaf of ℤ/n-modules on B_{Y_I}. Let g: Y → Y_I be a morphism of adic spaces from a strictly totally disconnected perfectoid space Y. Then for every q ≥ 0 the sheaf g^*R^q f_{I!}F_I on Y_ét = |Y| admits a finite partition of |Y| into constructible locally closed subsets on each of which it is constant with value a finitely generated ℤ/n-module; that is, it is constructible in the sense of ECD Definition 20.1 (i). This is the classical input of condition (ii) in ECD's proof of Theorem 24.1. There Y is strictly totally disconnected of characteristic p; it maps to Spa(K, O_K) for K the completion of F_p((ϖ^{1/p^∞})) and, having no nonsplit finite étale covers, to Spa(C, O_C) for C the completed algebraic closure of K. The approximation Y ~ lim_I Y_I of Section 7.2 over the geometric pair (C, O_C) therefore has bases of topologically finite type over an algebraically closed field, and the form of Hub96 6.2.2 over a non-closed base field, which the wording of ECD's proof uses with K, is not needed. The statement concerns the pulled-back sheaf only; its identification with a direct image over Y is perfectoid-support-image-comparison.
 
-This uses C algebraically closed complete; Y_I quasi-compact quasi-separated of topologically finite type over Spa(C, O_C); F_I Huber-constructible; n invertible in O_C; Y strictly totally disconnected perfectoid (`DiamondsAndVStacks`, layer D1 (`strictly-totally-disconnected`)), so that étale sheaves on Y are sheaves on |Y|; Finite-stage constructible coefficient descent uses Section 1.4–1.5 and AdicCoefficientsAndComparisons, layer L2; all rational strata, finite étale trivializations and gluing maps descend together.
+This uses C algebraically closed complete; Y_I quasi-compact quasi-separated of topologically finite type over Spa(C, O_C); F_I Huber-constructible; n invertible in O_C; Y strictly totally disconnected perfectoid (`DiamondsAndVStacks`, layer D1 (`strictly-totally-disconnected`)), so that étale sheaves on Y are sheaves on |Y|; Finite-stage constructible coefficient descent uses Section 1.4–1.5 and Sections 0.5–0.6; all rational strata, finite étale trivializations and gluing maps descend together.
 
 (Peter Scholze, Étale cohomology of diamonds, proof of Theorem 24.1, condition (ii), p. 152; Peter Scholze, Étale cohomology of diamonds, proof of Theorem 24.1, condition (iv), p. 152.)
 
@@ -4883,11 +5090,11 @@ Construct the exchange morphism by adjunction and exact pullback of j!. At a geo
 
 *Needs:* Section 10.5; Section 8.2; Section 8.3; Section 1.2; Section 1.5; Section 7.2; Layers 8–9.
 
-Let ι: (C, C⁺) → (C′, C′⁺) be a surjective extension of geometric field pairs, that is ι⁻¹(C′⁺) = C⁺, let p be the residue characteristic exponent, n prime to p and M a ℤ/n-module. Let Y be a closed disc or a closed annulus over S = Spa(C, C⁺) with radius representatives in C^×, j: U → Y a quasi-compact open, and Y′, U′ their base changes to S′ = Spa(C′, C′⁺); Y′ is the disc or annulus with the same radius representatives over S′. Then pullback H^i(Y, j_!M) → H^i(Y′, j′_!M) is bijective for every i. This is Section 7.1 applied to radial affinoids, the classical form of ECD Theorem 19.5 (iii) for them. The inclusion of the generic point Spa(C, O_C) → Spa(C, C⁺) is induced by the identity of C, which is not a surjective extension when C⁺ ≠ O_C; the comparison with the maximal plus ring is annulus-geometric-plus-ring.
+Let ι: (C, C⁺) → (C′, C′⁺) be a surjective extension of geometric field pairs, that is ι⁻¹(C′⁺) = C⁺, let n>0 be a unit in C⁺ (hence in C′⁺) and M a ℤ/n-module. Let Y be a closed disc or a closed annulus over S = Spa(C, C⁺) with radius representatives in C^×, j: U → Y a quasi-compact open, and Y′, U′ their base changes to S′ = Spa(C′, C′⁺); Y′ is the disc or annulus with the same radius representatives over S′. Then pullback H^i(Y, j_!M) → H^i(Y′, j′_!M) is bijective for every i. This is Section 7.1 applied to radial affinoids; ECD Theorem 19.5 (iii) gives its perfectoid specialization. The inclusion of the generic point Spa(C, O_C) → Spa(C, C⁺) is induced by the identity of C, which is not a surjective extension when C⁺ ≠ O_C; the comparison with the maximal plus ring is annulus-geometric-plus-ring.
 
-This uses C, C′ algebraically closed complete; ι surjective, i.e. ι⁻¹(C′⁺) = C⁺ (Section 7.1); no hypothesis on the ranks of the plus rings; n prime to the residue characteristic exponent; M any ℤ/n-module.
+This uses C, C′ algebraically closed complete; ι surjective, i.e. ι⁻¹(C′⁺) = C⁺ (Section 7.1); no hypothesis on the ranks of the plus rings; n>0 a unit in C⁺; M any ℤ/n-module.
 
-(Peter Scholze, Étale cohomology of diamonds, Theorem 19.5 (iii), p. 111; Peter Scholze, Étale cohomology of diamonds, proof of Theorem 19.5 (ii), p. 112.)
+(Huber (1996), Theorem 4.1.1(c), p. 238, for arbitrary-plus-ring invariance; Peter Scholze, Étale cohomology of diamonds, Theorem 19.5 (iii), p. 111, and proof of Theorem 19.5 (ii), p. 112, for the perfectoid specialization.)
 
 For U = Y this is invariance of H^i(Y, M); for C⁺ ≠ O_C the map Spa(C, O_C) → Spa(C, C⁺) is not surjective and the statement does not apply to it.
 
@@ -4901,7 +5108,7 @@ For the cover T=S^e, pullback sends δ_ℓ(T) to e·δ_ℓ(S). Adjoining an ℓ-
 
 ### Dependencies
 
-Use Layers 1–9, `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, and `AdicEtaleGeometry`, A1 and A2, for rational radial loci and their smooth geometry. `PerfectoidSpaces`, P7, and Section 1.5 supply completed-colimit continuity. Ordinary exhaustion uses `EnhancedDerivedSheaves`, E1, for derived inverse limits; proper-support exhaustion uses Section 8.3. Smooth-family constructibility uses the curve factorization and compactification of Section 8.2, the supported tube finiteness theorem of Section 10.5 and coefficient descent from `AdicCoefficientsAndComparisons`, L2. For strictly totally disconnected perfectoid bases use the explicit classical relative-support comparison in Section 10.5, with the base supplied by `DiamondsAndVStacks`, D1.
+Use Layers 1–9, `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, and `AdicEtaleGeometry`, A1 and A2, for rational radial loci and their smooth geometry. `PerfectoidSpaces`, P7, and Section 1.5 supply completed-colimit continuity. Ordinary exhaustion uses Sections 0.1–0.4, for derived inverse limits; proper-support exhaustion uses Section 8.3. Smooth-family constructibility uses the curve factorization and compactification of Section 8.2, the supported tube finiteness theorem of Section 10.5 and coefficient descent from Sections 0.5–0.6. For strictly totally disconnected perfectoid bases use the explicit classical relative-support comparison in Section 10.5, with the base supplied by `DiamondsAndVStacks`, D1.
 
 ## Layer 11: Analytification, compactification and boundary duality
 
@@ -4911,9 +5118,9 @@ Prove the relative purity theorem `smooth_closed_immersion_purity`: let Y→X→
 
 The codimension-one calculation uses P¹ and proper algebraic comparison. For prime-to-residue coefficients the punctured affine-line calculation follows from henselian comparison. For the second scope, exhaust A¹ by closed discs and prove a uniform radius-ratio estimate, depending on the finite coefficient exponent, under which restriction from a larger disc to a prescribed smaller disc is zero on H¹. Analytic unit expansions and binomial roots supply this estimate. A cofinal subexhaustion using those ratios kills the H¹ inverse-limit obstruction, and the degree-at-least-two disc calculation supplies the remaining vanishing. Lemma 3.9.3, pp. 236–237, transports this calculation over general pseudo-adic bases. Smooth coordinate charts and successive support localization give the codimension-c result. This proves purity in the locally constant characteristic-zero scope without assuming p-torsion smooth duality for arbitrary analytic sheaves.
 
-Deduce `normal_crossings_open_comparison` for the complement j of a strict normal-crossings divisor D in a smooth finite-type k-scheme, where k is complete nonarchimedean, n>0 is prime to char(k), and F is a finite locally constant Z/n-sheaf on the ambient smooth scheme, restricted to the complement. For constant coefficients, at a strict-local point where r branches meet, the cohomology of the punctured neighborhood is the exterior algebra on the r Kummer classes of its local equations, with degree-one generators carrying twist −1 in the untwisted coefficient description. For F the calculation is its stalk tensored with that exterior algebra: Hᵠ is F_x⊗Λ ∧ᵠ(Λ(−1)^r). A local system given only on the complement, with nontrivial boundary monodromy, is outside this calculation. Both algebraic and analytic restriction maps use the same equations and cup products, so analytification identifies Rj_* locally. Iterating the purity calculation, with its stated characteristic-zero or prime-to-residue scope, proves the claim at every geometric point. For the coefficient unit, one branch gives one degree-one generator and two transverse branches give two generators and their degree-two product. With no branch, the result is F_x in degree zero; for F=Λ² and one branch, both degrees zero and one have rank two, excluding an exterior-algebra formula that forgets F. This is the regular-boundary input for the nonproper comparison below. (Huber, proof route (a) of Theorem 3.8.1, pp. 227–229; Theorem 3.9.1 and proof, pp. 232–237; the algebraic normal-crossings calculation is `EtaleDualityAndPerverseSheaves`, layer EDC.2.)
+Deduce `normal_crossings_open_comparison` for the complement j of a strict normal-crossings divisor D in a smooth finite-type k-scheme, where k is complete nonarchimedean, n>0 is prime to char(k), and F is a finite locally constant Z/n-sheaf on the ambient smooth scheme, restricted to the complement. For constant coefficients, at a strict-local point where r branches meet, the cohomology of the punctured neighborhood is the exterior algebra on the r Kummer classes of its local equations, with degree-one generators carrying twist −1 in the untwisted coefficient description. For F the calculation is its stalk tensored with that exterior algebra: Hᵠ is F_x⊗Λ ∧ᵠ(Λ(−1)^r). A local system given only on the complement, with nontrivial boundary monodromy, is outside this calculation. Both algebraic and analytic restriction maps use the same equations and cup products, so analytification identifies Rj_* locally. Iterating the purity calculation, with its stated characteristic-zero or prime-to-residue scope, proves the claim at every geometric point. For the coefficient unit, one branch gives one degree-one generator and two transverse branches give two generators and their degree-two product. With no branch, the result is F_x in degree zero; for F=Λ² and one branch, both degrees zero and one have rank two, excluding an exterior-algebra formula that forgets F. This is the regular-boundary input for the nonproper comparison below. (Huber, proof route (a) of Theorem 3.8.1, pp. 227–229; Theorem 3.9.1 and proof, pp. 232–237; the algebraic normal-crossings calculation is Sections 0.7–0.11.)
 
-*Needs:* Layers 1–2, Section 8.2 proper algebraic comparison, Layer 9's prime-to-residue smooth trace and duality, and analytic smooth coordinate charts from `AdicEtaleGeometry`, layer A2; the algebraic purity, divisor and normal-crossings interfaces from `EtaleDualityAndPerverseSheaves`, layer EDC.2. In characteristic zero, `AlgebraicModuliForArithmeticGeometry`, Layer 9, Section 9.7 (`relativeEmbeddedResolution`), supplies the resolution with a regular normal-crossings boundary used in the comparison proof.
+*Needs:* Layers 1–2, Section 8.2 proper algebraic comparison, Layer 9's prime-to-residue smooth trace and duality, and analytic smooth coordinate charts from `AdicEtaleGeometry`, layer A2; the algebraic purity, divisor and normal-crossings interfaces from Sections 0.7–0.11. In characteristic zero, `AlgebraicModuliForArithmeticGeometry`, Layer 9, Section 9.7 (`relativeEmbeddedResolution`), supplies the resolution with a regular normal-crossings boundary used in the comparison proof.
 
 For a finite-type morphism f:X→Y of schemes locally of finite type over a complete nonarchimedean field k, n>0 prime to char(k), and a constructible Z/n-sheaf F on X, the natural map φ_Y*Rᑫf*F→Rᑫf^rig*φ_X*F is an isomorphism for all q≥0. Here φ* is inverse image under analytification. In characteristic zero there is no residue-characteristic restriction on n. The proof reduces by algebraic compactification and proper comparison to a regular boundary. In characteristic zero use the locally constant purity case of Section 11.1; in positive characteristic use the prime-to-residue smooth duality and support comparison of Layer 9 in every relative dimension.
 
@@ -4923,7 +5130,7 @@ This uses Require f of finite type and F constructible. The order n is positive 
 
 For f proper this is the comparison above, without needing constructibility. For a characteristic-zero field with residue characteristic p it applies to a constructible Z/p-sheaf; this does not enlarge the prime-to-O⁺ duality statement. For k of characteristic p the coefficient Z/p is excluded.
 
-*Needs:* Section 8.2; `AdicSpacesPartII`, layer R1 (`analytification-functor`); `AdicSpacesPartIV`, layer R4 (`analytification-etale-site`); Section 1.1; Layers 8–9; `SchemeAndStackFoundations`, Layer 2; `EtaleDualityAndPerverseSheaves`, layer EDC.2, stage EDC.2:trace-purity.
+*Needs:* Section 8.2; `AdicSpacesPartII`, layer R1 (`analytification-functor`); `AdicSpacesPartIV`, layer R4 (`analytification-etale-site`); Section 1.1; Layers 8–9; `SchemeAndStackFoundations`, Layer 2; Sections 0.7–0.11.
 
 Let f:(X,Σ)→(S,T) be a morphism of qcqs pseudo-adic spaces with ambient S=Spa(k,k⁺), where k is separably closed and complete. Assume f is locally algebraically of finite type and Σ is a locally closed locally constructible subset of f⁻¹(T) in the ambient X. If B is noetherian and killed by n>0 prime to char⁺(S,T), and F is a constructible B-sheaf, then Hᑫ((X,Σ),F) is finitely generated over B for every q. The smooth full-support specialization follows from the locally algebraically finite-type presentation of smooth maps. For B=F_ℓ and ℓ prime to char⁺(S,T), the groups are finite-dimensional.
 
@@ -5013,7 +5220,7 @@ This uses All hypotheses of radius stabilization; actual exhaustion of analytic 
 
 Test m=2 to detect the missing relative duality input; maintain canonical coefficient and coordinate functoriality.
 
-*Needs:* Section 11.1; Section 11.2; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 11.1; Section 11.2; Sections 0.1–0.4.
 
 ### 11.3 Frontier contributions and compactification duality
 
@@ -5025,7 +5232,7 @@ This uses C algebraically closed complete with plus ring O_C; X quasi-compact se
 
 For U = X the frontier is empty and α_X is an isomorphism; for a closed annulus in the closed disc the frontier is {η(a), η(b)′}.
 
-*Needs:* Section 1.2; Section 9.2; `EnhancedDerivedSheaves`, layer E1; Section 8.2.
+*Needs:* Section 1.2; Section 9.2; Sections 0.1–0.4; Section 8.2.
 
 In the situation of curve-boundary-contributions, let V ⊆ X be a quasi-compact open and i: V → X′ an open immersion into a proper smooth rigid curve over C. Write U_V = U ∩ V, j′: U_V → X′ and α_{X′}: j′_!M → RHom(Rj′_*F_ℓ, M). Then i^*cone(α_{X′}) = cone(α_X)|_V, the frontier of U_V in X′ is finite and discrete, and for every frontier point b of U in X that lies in V, with V a neighbourhood of b on which U_V = U ∩ V, the contribution of b to RΓ(X, cone(α_X)) is a direct summand of RΓ(X′, cone(α_{X′})), by an explicit inclusion and projection. Consequently, if every frontier point of U has such a neighbourhood (the local form (L) of the compactification export) and RΓ(X′,α_{X′}) is an isomorphism for every proper smooth curve X′ and quasi-compact open, then RΓ(X,α_X) is an isomorphism. For V = X this is the statement in ECD's proof of Theorem 25.1.
 
@@ -5045,7 +5252,7 @@ This uses C is algebraically closed and complete, with plus ring O_C; ℓ is inv
 
 For U=X′ this is the proper curve duality pairing. For the closed unit disc inside P¹ it gives a global equivalence; this does not imply that the map α of sheaves is an isomorphism at its frontier points.
 
-*Needs:* Section 11.3; Section 8.2; Section 9.6; Section 9.2; `EnhancedDerivedSheaves`, layer E1.
+*Needs:* Section 11.3; Section 8.2; Section 9.6; Section 9.2; Sections 0.1–0.4.
 
 ### Examples
 
@@ -5055,11 +5262,11 @@ For the identity open immersion U=X in a qc separated smooth curve, the frontier
 
 ### Dependencies
 
-Use Layers 1–10, the analytification and algebraic lci geometry of `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, and scheme comparison from `SchemeAndStackFoundations`, Layer 2. Relative purity and normal-crossing complement cohomology in Section 11.1 supply the nonproper algebraic comparison in its precise coefficient scopes. Characteristic-zero resolution is `AlgebraicModuliForArithmeticGeometry`, Layer 9, Section 9.7 (`relativeEmbeddedResolution`). Section 8.2 supplies compatible O_C-models and the finite rank-two frontier; Section 9.6 supplies smooth curve duality. Section 11.2 uses the actual restriction maps and `EnhancedDerivedSheaves`, E1, for derived inverse limits. Section 11.3 proves the global compactification pairing from local frontier contributions.
+Use Layers 1–10, the analytification and algebraic lci geometry of `AdicSpacesPartII`, layers R0–R1, and `AdicSpacesPartIII`, layers R2–R3, and scheme comparison from `SchemeAndStackFoundations`, Layer 2. Relative purity and normal-crossing complement cohomology in Section 11.1 supply the nonproper algebraic comparison in its precise coefficient scopes. Characteristic-zero resolution is `AlgebraicModuliForArithmeticGeometry`, Layer 9, Section 9.7 (`relativeEmbeddedResolution`). Section 8.2 supplies compatible O_C-models and the finite rank-two frontier; Section 9.6 supplies smooth curve duality. Section 11.2 uses the actual restriction maps and Sections 0.1–0.4, for derived inverse limits. Section 11.3 proves the global compactification pairing from local frontier contributions.
 
 ## Downstream consumers
 
-`DiamondsAndVStacks` uses supported classical étale topoi and their continuity. `DiamondSixOperations` uses valuation comparison, arbitrary-rank proper supports, smooth-family constructibility, the finite-ball calculation and curve boundary duality. `AdicCoefficientsAndComparisons` uses the preadic local-system categories, actual base-change transformations, finite coefficient traces and the separately scoped integral trace. The classical comparisons are supplied as natural transformations, with their coefficient and support conditions, so that those roadmaps can identify the resulting functors rather than compare numerical cohomology groups.
+`DiamondsAndVStacks` uses supported classical étale topoi and their continuity. `DiamondSixOperations` uses valuation comparison, arbitrary-rank proper supports, smooth-family constructibility, the finite-ball calculation and curve boundary duality. Coefficient-comparison consumers use the preadic local-system categories, actual base-change transformations, finite coefficient traces and the separately scoped integral trace. The classical comparisons are supplied as natural transformations, with their coefficient and support conditions, so that those roadmaps can identify the resulting functors rather than compare numerical cohomology groups.
 
 `GeneralBasesFourierAndCorrespondences` uses valuation nearby cycles and the AIC generic-extension equivalence. A normalization of a general coherent base in a geometric generic field still needs its own descent from valuation tests; the valuation theorem is not a statement over every such normalization. `TropicalAndBerkovichArithmetic` uses the strict analytic carrier, the taut adic comparison, analytic coverings and the Tate quotient constructed here. Crystalline, prismatic and arithmetic applications use the semistable nearby-cycle symbol and differential filtration with the ramification index retained.
 

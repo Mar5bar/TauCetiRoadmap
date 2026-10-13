@@ -67,6 +67,10 @@ example : filtrationCutoff 3 1 = 2 := by
 example : filtrationCutoff 2 3 = 6 := by
   sorry
 
+/-- At `p=3, e=2` the integral threshold is three. -/
+example : filtrationCutoff 3 2 = 3 := by
+  sorry
+
 end Semistable
 
 /-! ## Layer 5: Nearby cycles over valuation rings -/
@@ -421,10 +425,29 @@ example (Aplus : Subring A) (a b : ℕ → A) : openAnnulus Aplus 0 a b = ∅ :=
 example (Aplus : Subring A) : openDisc Aplus 1 (fun _ ↦ 0) = ∅ := by
   sorry
 
+/-- A zero coordinate is excluded from every strict annulus. -/
+example (Aplus : Subring A) (a b : A) : strictAnnulus Aplus 0 a b = ∅ := by
+  sorry
+
+/-- Constant unit annulus data includes every point of the spectrum. -/
+example (Aplus : Subring A) : openAnnulus Aplus 1 (fun _ ↦ 1) (fun _ ↦ 1) = spa Aplus := by
+  sorry
+
+/-- Constant unit disc data includes every point of the spectrum. -/
+example (Aplus : Subring A) : openDisc Aplus 1 (fun _ ↦ 1) = spa Aplus := by
+  sorry
+
 end Radial
 
 /-
 Further definitions specified in README.md, by layer, with no carriers at the pins:
+Layer 0: ClassicalDerived.enhancedCategory, ClassicalDerived.replacements,
+ClassicalDerived.tensorHom, ClassicalDerived.inverseLimits, ClassicalDerived.functorCoherence,
+ClassicalCoefficients.finitePresentationDescent, ClassicalCoefficients.constructibleDerivedDescent,
+ClassicalCoefficients.constructibleHomContinuity, ClassicalAlgebraic.supportLocalization,
+ClassicalAlgebraic.properSupports, ClassicalAlgebraic.finiteTrace, ClassicalAlgebraic.cycleClasses,
+ClassicalAlgebraic.smoothBoundaryPurity, ClassicalAlgebraic.smoothTrace,
+ClassicalAlgebraic.curveDuality.
 Layer 1: AdicSpace.EtaleSheaf, AdicSpace.ProEtaleSheaf, AdicSpace.EtaleDPlus,
 AdicSpace.RGamma, AdicSpace.Rpushforward, AdicSpace.PseudoAdic, AdicSpace.PseudoAdicSite,
 AdicSpace.EtaleSheaf.extendByZero, locallyClosedExtensionByZero, Support,
@@ -435,7 +458,7 @@ Layer 2: Huber.IsHenselian, Huber.Henselization, Huber.Pair.rationalHenselizatio
 Huber.specialSubset, Huber.IsSpecialSubset, Huber.IsProSpecialSubset, Huber.Triple,
 Huber.Pair.proSpecialHenselization, AdicSpace.PseudoAdic.schemeFibreProduct,
 AdicSpace.henselianComparison, PerfectoidHuberApproximation.
-Layer 3: AdicSpace.IsTaut, StrictAnalyticSpace, StrictAnalyticEtaleSite,
+Layer 3: AdicSpace.IsTaut, AdicSpace.IsTautMap (on D0.1 locally spectral maps), StrictAnalyticSpace, StrictAnalyticEtaleSite,
 AdicBerkovichToposMorphism, OverconvergentEtaleSheaf, PreadicSpace.ZpLocalSystem,
 PreadicSpace.IsogenyZpLocalSystem, PreadicSpace.QpLocalSystem, PreadicSpace.BoundedLattice,
 AdicSpace.AnalyticEtaleCover, AdicSpace.AnalyticCoverFiber,
@@ -458,7 +481,7 @@ Layer 6: AdicSpace.ValuationBase.invarianceMap.
 Layer 7: AdicSpace.GeometricFieldPair, AdicSpace.FiniteTypeApprox.
 Layer 8: AdicSpace.IsCompactifiable, AdicSpace.compactification,
 RelativelyCompactRigidOpen, SCompactifiableFormalCurve, LocallySCompactifiableFormalCurve,
-SemistableFormalCurveModel, FormalCurve.compactification_data,
+SemistableFormalCurveModel, proper_trait_comparison_agreement, FormalCurve.compactification_data,
 FormalCurve.local_compactification_at, AdicSpace.properSupportSections,
 AdicSpace.RProperSupportSections, AdicSpace.lowerShriek, AdicSpace.lowerShriekUnbounded,
 AdicSpace.compactCohomology, AdicSpace.quasiFiniteTrace.
