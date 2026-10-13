@@ -412,7 +412,8 @@ theorem endQ_isSemisimple (A : AbelianVariety K) :
   sorry
 
 /-- **The characteristic polynomial** of an endomorphism: the unique monic integral polynomial of
-degree `2g` whose value at every integer `r` is `deg(α − r)` (README A6.10). -/
+degree `2g` whose value at every integer `r` is `deg(α − r)`. This algebraic construction uses
+degree polynomials, finite-rank Hom and Tate-module linear algebra (README A6.10). -/
 theorem exists_charpoly (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : WithBot ℕ∞))
     (α : AbelianVariety.End A) :
     ∃! P : ℤ[X], P.Monic ∧ P.natDegree = 2 * g ∧
@@ -592,6 +593,21 @@ intertwiners.
 The README states each of these with its hypotheses; most need carriers that are not in the pinned
 Mathlib or Tau Ceti.
 
+A3.6 defines `isSkewSymmetricPairing`, `isDiagonallyAlternatingPairing` and
+`isStronglyAlternatingPairing` on the shared group and pairing carriers. The third requires an
+fpqc-local central extension by `𝔾_m` with the prescribed commutator; the diagonal identity alone
+is the second predicate. It provides `stronglyAlternatingPairing_diagonal`,
+`diagonallyAlternatingPairing_skew`, `stronglyAlternatingPairing_restrict` and
+`stronglyAlternatingPairing_baseChange`. `ThetaGroup.stronglyAlternating` exports `G(L)` as the
+witness, `ThetaGroup.restrict` pulls back that extension, and `ThetaGroup.baseChange` preserves
+the witness. The lifts are `ψ : t_x^*L → L`, with product `ψ ∘ t_x^*χ`, scalar action `cψ`, and
+commutator `ũṽũ⁻¹ṽ⁻¹`. Evaluation at zero identifies the torsor with inverse frames
+`Isom(x^*L, O_T)`; inversion to usual frames changes the scalar action to `c⁻¹`.
+`ThetaGroup.alpha_two` separates diagonal from strong alternation, and
+`ThetaGroup.elliptic_level_three` tests the commutator normalization. A3.7 provides
+`polarizedWeilPairing.stronglyAlternating` using the restricted theta extension after a local
+choice of representative, with restriction and arbitrary-base-change compatibility.
+
 * **Relative Picard objects** (AlgebraicModuli Layer 7 carriers): `abelianPicardInputs`,
   `relativeSeesaw`, `relativeCube`, `torsionRestriction`, `raynaudRepresentability`,
   `AbelianScheme.dual`, `normalizedPoincare`, `mumfordMap`, `Polarization`,
@@ -606,11 +622,14 @@ Mathlib or Tau Ceti.
   `ampleCohomologyAndDegree`, `ampleIntersectionPositive`, `AbelianHodgeLine`.
 * **Finite flat quotients and level structures**: `AbelianQuotient`, `torsionDivisibility`,
   `FullLevel`, `genusTwoTwoTorsion`, `homDescentFullLevel`.
-* **Étale and `ℓ`-adic realizations** (A4.4 consumes ordinary étale Künneth from
+* **Abelian torsion, Tate modules and algebraic trace** (A3.2, A4.1, A6.10–A6.11): `AbelianTate`,
+  `homTateInjective`, `charpolyTate`, `traceDegreeSubfield`. Their constructions use the shared
+  torsion and Tate carriers, degree polynomials, finite-rank Hom and linear algebra. The
+  characteristic-polynomial signature above supplies the algebraic degree characterization.
+* **Étale and `ℓ`-adic cohomology** (A4.4 consumes ordinary étale Künneth from
   CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
   with §Family-wide conventions / Functoriality and equivariance, an open TauCetiRoadmap pull
-  request by bwangpj): `AbelianTate`, `homTateInjective`, `charpolyTate`,
-  `traceDegreeSubfield`, `frobeniusSemisimple`, `exteriorCohomology`, `weilRestrictionTate`.
+  request by bwangpj): `frobeniusSemisimple`, `exteriorCohomology`, `weilRestrictionTate`.
 * **De Rham, divided-power and Barsotti–Tate carriers**: `AbelianVectorExtension`, `AbelianH1dR`,
   `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
   `SerreTate.q`, `ordinaryFrobeniusWeighted`, `oddPrimeLifting`, `dyadicOrdinaryLifting`,

@@ -67,6 +67,13 @@ categories, weak polarizations, torsor twists and their realizations, Weil restr
 schemes and its Tate module, quadratic twists, curve-generated subvarieties, the
 Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge line bundle.
 
+The abelian-specific prime-to-characteristic torsion (A3.2), integral Tate module (A4.1),
+algebraic characteristic polynomial and trace, and their Tate-module and finite-level comparisons
+(A6.10–A6.11) are constructed here on the shared carriers. Their proof order is multiplication and
+finite-flat torsion, then the Tate module, then degree polynomials, finite-rank Hom and linear
+algebra. These targets use no cohomological trace formula. The abelian cohomology computation
+(A4.4) is a separate specialization of the generic cohomological supplier contracts below.
+
 **Built in Tau Ceti and cited.**
 
 - *The Tau Ceti library.* `TauCeti.AlgebraicGeometry.AbelianVariety K` (a proper geometrically
@@ -1086,18 +1093,46 @@ ModularCurves 0B; Tau Ceti `cartierDualBaseChangeIso` over affine bases.
 
 ### A3.6 Theta groups and polarized descent
 
+For a commutative group object `G` over `S` and a bimultiplicative morphism
+`e : G ×_S G → 𝔾_m`, distinguish three predicates:
+
+- `isSkewSymmetricPairing`: `e(y, x) = e(x, y)^{-1}` as morphisms.
+- `isDiagonallyAlternatingPairing`: `e ∘ Δ_G = 1` as morphisms, equivalently `e(x, x) = 1`
+  over every `S`-scheme.
+- `isStronglyAlternatingPairing`: fpqc locally on `S` there exists a central extension of
+  sheaves of groups `1 → 𝔾_m → G̃ → G → 1` whose commutator is `e`. Exactness is sheaf
+  exactness, so lifts of sections of `G` exist locally on each test scheme.
+
+These predicates use the shared `Grp (Over S)` and sheaf carriers; for finite locally free
+groups they apply to ModularCurves 2E's `GroupSchemePairing`, without another finite-flat-group
+carrier. Prove `stronglyAlternatingPairing_diagonal` and `diagonallyAlternatingPairing_skew`:
+strong alternation implies diagonal alternation, which implies skew symmetry by expanding
+`e(x + y, x + y)`. Neither converse holds in general. Prove
+`stronglyAlternatingPairing_restrict` for pullback along any homomorphism of commutative groups
+and `stronglyAlternatingPairing_baseChange` for arbitrary base change, carrying the central
+extension witness through each operation (Boxer–Calegari–Gee–Pilloni, Remark 10.3.2 and
+(10.3.3), p. 215, arXiv v1; the implications and compatibility are the commutator identities
+and pullbacks of central extensions).
+
 Define `ThetaGroup L` for an abelian scheme `π : A → S` and a line bundle `L` on `A` rigidified along
 zero: with `K(L) = ker φ_L`, the kernel of the Mumford map of A2.3 (a closed subgroup scheme),
 `G(L)` is the group functor on `S`-schemes `T` of pairs `(x, ψ)` with `x ∈ K(L)(T)` and
-`ψ : t_x^*L_T ≅ L_T`, under composition of translated isomorphisms. (1) The sequence
+`ψ : t_x^*L_T ≅ L_T`. Multiplication is
+`(x, ψ)(y, χ) = (x + y, ψ ∘ t_x^*χ)`, with `t_x^*t_y^*L_T = t_{x+y}^*L_T`; the scalar
+inclusion is `c ↦ (0, c·id)` and `c` acts by `ψ ↦ cψ`. Evaluation at zero and the rigidification
+identify the fibre over `x` with `Isom(x^*L_T, O_T)`. Thus its torsor is the inverse-frame
+torsor of `L|_{K(L)}`, or the usual frame torsor of `L^{-1}|_{K(L)}`; usual frames
+`Isom(O_T, x^*L_T)` obtained by inversion carry the scalar action `c^{-1}`.
+(1) The sequence
 `1 → 𝔾_m → G(L) → K(L) → 1` is a central extension of fppf sheaves of groups over `S`, and `G(L)` is
-represented by the `𝔾_m`-torsor of `L|_{K(L)}`: for `x ∈ K(L)(T)` the rigidification gives
+represented by that inverse-frame torsor: for `x ∈ K(L)(T)` the rigidification gives
 `t_x^*L_T ≅ L_T ⊗ π_T^*(x^*L_T)`, so lifts of `x` exist Zariski locally on `T`, and the
 automorphisms of `L_T` are `O(A_T)^× = O(T)^×` by the universal functions of A0.3(1). (2) The
-commutator `e_L : K(L) ×_S K(L) → 𝔾_m`, computed on local lifts, is a bimultiplicative morphism of
-`S`-group functors, and `e_L(x, x) = 1` for every point `x` of `K(L)` over every `S`-scheme `T`,
-because a lift commutes with itself: strong alternation is an identity of morphisms, nonreduced
-bases in characteristic `2` included. For `n ≥ 1`, `A[n] ⊆ K(L^n)` and the commutator of `G(L^n)`
+commutator `e_L : K(L) ×_S K(L) → 𝔾_m`, computed as `ũṽũ^{-1}ṽ^{-1}` on local lifts, is a
+bimultiplicative morphism of `S`-group functors. The extension `G(L)` itself witnesses
+`isStronglyAlternatingPairing e_L`; its diagonal identity follows because a lift commutes with
+itself, over every test scheme, nonreduced characteristic-two bases included.
+For `n ≥ 1`, `A[n] ⊆ K(L^n)` and the commutator of `G(L^n)`
 restricted to `A[n]` is `(x, y) ↦ e_n(x, φ_L(y))` with `e_n` of A3.5. (3) If `L` is relatively
 ample, `K(L)` is finite locally free of rank `χ(L_s)²` over `s ∈ S` and `e_L` identifies `K(L)` with
 its Cartier dual. (4) The formation of `G(L)`, of `e_L` and of the descent in
@@ -1113,10 +1148,15 @@ isomorphisms, identifies the scalar kernel through A0.3(1), identifies the commu
 biextension of A2.3 restricted to `K(L) × K(L)` and, on `A[n]`, with the Poincaré pairing of A3.5
 through `φ_{L^n} = φ_L ∘ [n]`, reads perfection off the Cartier-dual kernel of the isogeny `φ_L`
 (A2.5, A3.5), and descends invertible sheaves along the `H`-torsor. The API is `ThetaGroup.mk`,
-`ThetaGroup.commutator` (the strongly alternating pairing on `K(L)` as a morphism over `S`),
+`ThetaGroup.commutator` (the bimultiplicative pairing on `K(L)` as a morphism over `S`),
+`ThetaGroup.stronglyAlternating` (the extension `G(L)` witnesses strong alternation),
+`ThetaGroup.restrict` (pullback of the extension along a subgroup inclusion, with the restricted
+commutator),
 `ThetaGroup.descend` (a splitting over a finite locally free `H` gives the descended rigidified line
-bundle on `A/H` with its pullback identification) and `ThetaGroup.baseChange`. *Needs:* A0.3, A2.3,
-A2.4, A2.5, A3.3, A3.5.
+bundle on `A/H` with its pullback identification) and `ThetaGroup.baseChange` (an isomorphism of
+central extensions preserving the scalar inclusion, commutator and witness). *Needs:* A0.3, A2.3,
+A2.4, A2.5, A3.3, A3.5; ModularCurves 2E (the shared finite-flat pairing carrier);
+SchemeAndStackFoundations Layer 1 (sheaves and torsors).
 
 **Checks.**
 
@@ -1127,25 +1167,48 @@ A2.4, A2.5, A3.3, A3.5.
   `((a₁, a₂), (b₁, b₂)) ↦ (−1)^{a₁b₁ + a₂b₂}` is skew-symmetric and perfect, but `e(x, x) = −1` for
   `x = (1, 0)`; the commutator pairing of a theta group always has `e(x, x) = 1`, so a definition
   asking only for skew symmetry fails.
+- `ThetaGroup.alpha_two`: on `α₂/𝔽₂`, `e(x, y) = 1 + xy` is Cartier-perfect and diagonally
+  alternating on every test algebra, since `x² = 0`, but is not strongly alternating. On an
+  affine characteristic-two base a `𝔾_m`-torsor over `α₂` trivialized at zero is trivial, since
+  invertible modules are unchanged by an affine nilpotent thickening. A normalized extension
+  cocycle is therefore `1 + axy`, which is symmetric and has trivial commutator. The same
+  calculation after any fpqc base extension rules out a witness for the nontrivial `1 + xy`.
+- `ThetaGroup.elliptic_level_three`: for `E` over an algebraically closed field of characteristic
+  prime to `3`, let `L = O(0)`, `λ = φ_L`, and choose `P, Q ∈ E[3]` with
+  `e_3(P, λQ) = ζ₃` a primitive cube root. With the stated multiplication and scalar inclusion,
+  the commutator of lifts in `G(L³)` is `ζ₃`, whereas reversing the commutator gives `ζ₃^{-1} ≠ ζ₃`.
+  Evaluation at zero gives inverse frames, with scalar action `c`, compatibly with base change.
 - `ThetaGroup.dual_numbers_char_two`: over `S = Spec k[ε]/(ε²)` with `k` of characteristic `2`, the
   constant elliptic scheme `E_S` and `L = O(2·0)` rigidified along zero have `K(L) = E_S[2]`, finite
   locally free of rank `4` and not étale. `μ₂` has no nontrivial points over a reduced
   characteristic-`2` scheme but contains `1 + ε` over `S`, so checking `e(x, x) = 1` on geometric points,
-  or deriving it from skew symmetry, says nothing here; the commutator gives `e(x, x) = 1` for every
-  point of `E_S[2]` over every `S`-scheme.
+  or deriving it from skew symmetry, says nothing here. The base-changed theta extension supplies
+  the strong-alternation witness and its diagonal identity over every `S`-scheme.
 
 ### A3.7 Polarized Weil pairings
 
 Prove `polarizedWeilPairing`. For a polarization `λ` and `n ≥ 1` put `e_{λ,n}(x, y) = e_n(x, λ y)` on
-`A[n]`. It is alternating, including for even `n`; it is perfect iff `λ` restricts to an isomorphism on
+`A[n]`. It is strongly alternating, hence diagonally alternating, including for even `n`;
+it is perfect iff `λ` restricts to an isomorphism on
 `A[n]`, equivalently iff `ker λ` has no `n`-primary part on any fibre, in particular when
 `gcd(n, deg λ) = 1`. For an isogeny `f`, `e_{f^∨μf, n}(x, y) = e_{μ,n}(fx, fy)`. The proof works fppf
-locally on `S` with a representative `L` of `λ` (A2.6), for which `e_{λ,n}` is the commutator of the
-relative theta group `G(L^n)` on `A[n]` and so strongly alternating (A3.6 (2)), descends to `S`,
-and reads perfection off Cartier duality composed with `λ[n]` prime by prime; pullback is naturality
-of the Poincaré bundle (Faltings–Chai I.1.6–1.8, pp. 4–5). A polarization of degree prime to `3`
-gives a perfect pairing `A[3] × A[3] → μ₃`; a polarization of type `(1, 2)` is not perfect on
-`A[2]`. *Needs:* A2.5, A2.6, A3.5, A3.6.
+locally on `S` with a representative `L` of `λ` (A2.6), for which the extension `G(L^n)` restricted
+to `A[n]` has commutator `e_{λ,n}`. This local extension is retained as the fpqc-local witness
+of strong alternation; its diagonal identity and the pairing descend to `S`, without requiring a
+global representative or a global extension. Export `polarizedWeilPairing.stronglyAlternating`
+with restriction and arbitrary-base-change compatibility. The proof reads perfection off
+Cartier duality composed with `λ[n]` prime by prime; pullback is naturality
+of the Poincaré bundle (Faltings–Chai I.1.6–1.8, pp. 4–5; Boxer–Calegari–Gee–Pilloni,
+Remark 10.3.2, p. 215). *Needs:* A2.5, A2.6, A3.5, A3.6.
+
+**Checks.**
+
+- A polarization of degree prime to `3` gives a perfect pairing `A[3] × A[3] → μ₃`.
+- A polarization of type `(1, 2)` is not perfect on `A[2]`, although its restricted theta
+  extension still witnesses strong alternation locally.
+- For a principal polarization of a supersingular elliptic curve in characteristic `2`,
+  `E[2]` is connected of rank `4`; a local representative supplies the central extension witness,
+  and a check on geometric points alone cannot supply it.
 
 ### A3.8 Full level structures
 
@@ -2918,13 +2981,12 @@ semisimplicity and `p`-adic libraries.
   and the Tate module of a Weil restriction (A6.33); **PotentialModularityAndCompatibleSystems** and
   **EllipticCurveModularityPartIIGL2TypeAbelianVarieties** use the finite-level lifting theorems (A4.12–A4.14)
   and the trace and degree through subfields (A6.12).
-- **CohomologicalPointCounting** (TraceFormula, Layer 8) uses prime-to-characteristic torsion
-  (A3.2), the Tate module (A4.1), `H¹_et` of an abelian variety as the dual of its torsion (A4.4) and
-  the trace of an endomorphism with its Tate-module and finite-level comparison (A6.10–A6.11), applied
-  to the Jacobian of a smooth projective curve; it defines no second Tate module or algebraic trace.
-  The curve–Jacobian comparison, the graph–diagonal identity and Weil's curve trace theorem are
-  TraceFormula's. A6.10–A6.11 use degree polynomials, finiteness of Hom and linear algebra on
-  `V_ℓ A`, and no trace formula. A4.4 in turn consumes EtaleBaseChange Layer 6 and
+- **Curve point-counting consumers** take the prime-to-characteristic torsion (A3.2), the Tate
+  module (A4.1) and the algebraic trace with its Tate-module and finite-level comparison
+  (A6.10–A6.11) from this roadmap, applied to a Jacobian. These abelian inputs are proved here
+  from degree polynomials, finite-rank Hom and linear algebra on `V_ℓ A`, independently of
+  cohomological trace formulas. Their order precedes any consuming curve trace theorem.
+  A4.4 in turn consumes EtaleBaseChange Layer 6 and
   CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
   with §Family-wide conventions / Functoriality and equivariance.
 - **DeligneWeightsAndPurity**, **SmallRamificationAndAbelianVarietyBaseCases** and
