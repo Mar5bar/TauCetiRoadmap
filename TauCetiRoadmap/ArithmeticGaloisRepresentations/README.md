@@ -457,7 +457,6 @@ dimension bounds. These period subtargets use the earlier local and cohomologica
 
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
-| Ordinary A₁ perfectness | CFSGBasicProperties §T1–T2 / ordinary and graph-twisted groups, perfectness (an open TauCetiRoadmap pull request by kim-em; no separate declaration name given) | §4.3 `GL2Subgroup.normal_subgroups_GL2`: prove full matrix SL₂/fixed-root carrier equivalence and match `#k ≥ 4`. |
 | Projective-unitary simplicity | CFSGBasicProperties §T1–T2 / `IsSimpleGroup d.Group`, assembled by `CFSGIndex.isSimpleGroup` (an open TauCetiRoadmap pull request by kim-em) | §7.12 verification: unitary/derived-central-quotient comparison, `q = p` versus `p²`, rank, validity and small exceptions. |
 | Grössencharacter continuation and completed equation | LFunctions §Layer 6 / Grossencharacters, `grossencharacterData_hasContinuation`, `grossencharacterData_hasFunctionalEquation`, `Grossencharacter.completed_one_sub`, `Grossencharacter.completed_one_sub_eventuallyEq` (an open TauCetiRoadmap pull request by roed-math) | §2.7 Global inputs: type A₀, primitive conductor, inverse/shift/poles; prove the Tate-local product identification and the needed complex norm-twist extension here. |
 | Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace (`leftTrace`, `rightTrace`, common spherical `trace`) (an open TauCetiRoadmap pull request by kim-em) | §7.2 standard symmetric module duality and tensor-unit/scalar identification. |
@@ -1589,13 +1588,15 @@ a nonnegative rational number, the last sum for any finite Galois `L/K` with
 `G_K^u ↠ Gal(L/K)^u` onto `upperRamificationGroup`, the values at `0` and `0+`, the equality of the
 three expressions for every admissible `L`, `Sw = 0` iff `ρ(P_K) = 1`, dependence only on `ρ|_{P_K}` up
 to isomorphism, invariance under extension of coefficients, `Sw ≤ highestBreak · dim V` with equality
-iff there is one break, and agreement of the lower groups of completions with Tau Ceti's
+iff there is at most one break, and agreement of the lower groups of completions with Tau Ceti's
 `Place.ramificationGroup` of `TauCetiRoadmap.AlgebraicCurves` layer 8 for function fields (Ulmer, §4,
 (4.1), pp. 3–4). *Needs:* Mathlib `Representation.invariants`, `PerfectField`;
 `TauCetiRoadmap.LocalFieldsRamification` layers 3–4; the targets above.
 
 **Checks.**
 - Any `V` with `ρ(P_K) = 1` has `Sw = 0` and `V = V(0)`.
+- For `V = 0`, the break set is empty, `highestBreak = Sw = 0` and equality holds in
+  `Sw ≤ highestBreak · dim V`.
 - Over `ℚ_2`, the character of `ℚ_2(√−1)` has one break `1` and `Sw = 1`; that of `ℚ_2(√2)` has break
   `2` and `Sw = 2`.
 - The character `χ_8` of `ℚ_2(√2)` read on `ℚ_2(ζ_8)`: `|G_0| = 4`, `G_1, G_2, G_3` of orders `4, 2, 2`,
@@ -1725,7 +1726,8 @@ and `a(V) ≥ a(V^ss)` (same page, (2.1)); `Sw(V^∨) = Sw(V)` and `a(V^∨) = a
 image (same locator); twisting by an unramified character changes neither `a` nor `Sw`, while twisting
 by a tamely ramified character leaves `Sw` and the positive breaks unchanged but can change the tame
 term (same locator); if a character `χ` has a positive break `u(χ)` exceeding every break of `V`, then
-`V ⊗ χ` has the single break `u(χ)`, `Sw(V ⊗ χ) = u(χ) dim V` and `a(V ⊗ χ) = a(χ) dim V` (Ulmer, §10,
+all breaks of `V ⊗ χ` lie in `{u(χ)}`, with equality of break sets when `V ≠ 0`,
+`Sw(V ⊗ χ) = u(χ) dim V` and `a(V ⊗ χ) = a(χ) dim V` (Ulmer, §10,
 Prop. 1, p. 8); finite unramified extensions of `K`, and passage to the completion of `K^ur`,
 preserve `a` and `Sw` (Serre 1970, §2.1, p. 7); for `L/K` finite tame of ramification index `e` the
 positive breaks are multiplied by `e` and `Sw_L(V|_{G_L}) = e · Sw_K(V)` (same locator); and extension
@@ -1739,6 +1741,8 @@ tensor products, twists, semisimplification); Mathlib `Representation.dual`, `Re
   semisimplification `a = 0`: the Artin conductor is only superadditive.
 - A tame ramified character `χ` has `a(χ) = 1` and `a(χ ⊗ χ⁻¹) = 0`: tame twists change the tame term.
 - `a(V^∨) = a(V)` for the Kummer representation of a Tate parameter (both `1`).
+- For `V = 0` and a character `χ` with positive break, `V ⊗ χ = 0` still has no breaks and both
+  conductor formulas give `0`.
 
 ### 3.5 Induction and the conductor–discriminant formula
 
@@ -1939,21 +1943,25 @@ normaliser indices `f_i ∈ {1, 2}`) forces `H` to be cyclic, dihedral of order 
 `S_4` or `A_5`; likewise in `PGL₂(k)` for `char k ∤ Ω` (Dickson 1901, §256, pp. 280–282). *Lean:*
 `GL2Subgroup.finite_subgroup_PGL2_of_prime_to_char`.
 
-**Normal subgroups.** Provides perfectness of the ordinary finite A₁ root-generated group used in
-the SL₂/GL₂ normal-subgroup argument. Supplied by CFSGBasicProperties §T1–T2 / ordinary and
-graph-twisted groups, perfectness (an open TauCetiRoadmap pull request by kim-em). This roadmap
-proves that the root-generated fixed-point group is the full matrix `SL₂(k)`, transports commutator
-perfectness across that equivalence, and matches the valid A₁ indices with `#k ≥ 4`.
-
-Using the CFSGBasicProperties §T1–T2 supplier contract, prove that for `k = F_q`, `q ≥ 4`: the normal
+**Normal subgroups.** Use Mathlib's `Matrix.SL2.commutator_eq_top` for perfectness of matrix
+`SL₂(k)`: for `#k ≥ 4`, choose `a ∉ {0, 1, −1}`, so `a ≠ 0` and `a² ≠ 1`. Use
+`Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'` with the same witness for simplicity of
+`PSL₂(k)` (Mathlib, `LinearAlgebra/Matrix/SpecialLinearGroup.lean`, §SL2, and
+`LinearAlgebra/Projectivization/PSL/PSL2.lean`). Prove that for `k = F_q`, `q ≥ 4`: the normal
 subgroups of `GL₂(k)` are central or contain `SL₂(k)`; those of `SL₂(k)` are `1`, `{±1} ∩ SL₂` and
 `SL₂`; `PSL₂` is the only proper nontrivial normal subgroup of `PGL₂` for `q` odd, and `PGL₂ = PSL₂`
 for `q` even;
 `GL₂^ab ≅ k^×` and `PGL₂^ab ≅ k^×/k^{×2}`; and that the fields with `q ≤ 3` need separate statements.
-The simplicity of `PSL₂(k)` is Mathlib's `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`.
-*Needs:* CFSGBasicProperties §T1–T2 as above; Mathlib
+*Needs:* Mathlib `Matrix.SL2.commutator_eq_top`,
 `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`; Tau Ceti
 `Matrix.SpecialLinearGroup.not_isSolvable_fin_two`. *Lean:* `GL2Subgroup.normal_subgroups_GL2`.
+
+**Checks.**
+- For `q = 4`, a generator of `F_4^×` has order `3` and supplies the perfectness witness;
+  `GL₂(F_4)^ab ≅ F_4^×` and `PGL₂(F_4)^ab = 1`.
+- For `q = 5`, the centre of `SL₂(F_5)` is `{±1}` and `PGL₂(F_5)^ab ≅ ℤ/2`.
+- `SL₂(F_2) ≅ S_3` is not perfect; in `GL₂(F_3)` the quaternion subgroup `Q_8` is normal,
+  noncentral and does not contain `SL₂(F_3)`, so the cardinality hypothesis is necessary.
 
 **Automorphisms.** Prove that `Aut PSL₂(F_q) = Aut PGL₂(F_q) = PGL₂(F_q) ⋊ Gal(F_q/F_p)` for `q ≥ 4`;
 that for `q = p ≥ 5` every automorphism of `PGL₂(F_p)` is inner, while conjugation by an element of
@@ -2044,9 +2052,10 @@ eigencharacters (`ρ` induced from the stabiliser of an eigenline) or scalar (`c
 subgroup of an intermediate field, and `GaloisRep.IsBadDihedral p ρ̄` for a continuous
 `ρ̄ : G_F → GL₂(k)`, `k` finite of characteristic `p` or `k̄`: `ρ̄` absolutely irreducible and
 `ρ̄|_{G_{F'}}` not. Its API is `F' = ℚ(√p*)` for `F = ℚ`, `p* = (−1)^{(p−1)/2} p`; the same notion
-with `F(ζ_p)` in place of `F'`; invariance under twists and coefficient extension; inertia at `p` with
-projective image of order `≤ 2` (exactly `2` for `F = ℚ`); and the fact that a bad dihedral `ρ̄` is
-induced from `G_{F'}` (DP, Def. 1.12, p. 7). *Lean:* `GaloisRep.cyclotomicSubfield`,
+with `F(ζ_p)` in place of `F'`; invariance under twists and coefficient extension; for `F = ℚ`,
+inertia at `p` with projective image of order `2`; and the fact that a bad dihedral `ρ̄` is
+induced from `G_{F'}` (DP, Def. 1.12, p. 7, and Lemma 1.14, pp. 8–9). *Lean:*
+`GaloisRep.cyclotomicSubfield`,
 `GaloisRep.cyclotomicSquareSubfield`, `GaloisRep.resFixingSubgroup`,
 `GaloisRep.cyclotomicSquareSubfield_rat`, `GaloisRep.IsBadDihedral`,
 `GaloisRep.IsBadDihedral.isInduced`.
@@ -2059,6 +2068,14 @@ induced from `G_{F'}` (DP, Def. 1.12, p. 7). *Lean:* `GaloisRep.cyclotomicSubfie
 - For `F = ℚ(√5)` and `p = 5`, `F(√p*) = F` but `F' = F(ζ_5)`, so adjoining `√p*` is the wrong
   definition; if `[F(ζ_p) : F]` is odd nothing is bad dihedral. *Lean:* both `example`s after
   `image_le_normalizer_cartan_of_res_cyclotomic`.
+- For `p = 3`, `F = ℚ(√2, √3)` and `F' = F(ζ_3) = F(i)`, the completion at `v | 3` is
+  `F_v = ℚ_3(√2, √3)`, whose unramified quadratic subfield contains `i`; hence `F'/F` splits at
+  `v`. Here `√3` is a uniformizer, so `X⁸ − √3` is Eisenstein and gives a totally tamely ramified
+  extension of degree `8`. Since `ζ_8 = (1 + i)/√2 ∈ F'`, the extension `L = F'(α)`, with
+  `α⁸ = √3` and `α` positive real, has group
+  `Gal(L/F) = ⟨r, c | r⁸ = c² = 1, crc = r⁻¹⟩`, with inertia `⟨r⟩` at `v`. For `z ∈ F_9^×`
+  of order `8`, `ρ̄(r) = diag(z, z⁻¹)` and `ρ̄(c) = (0 1; 1 0)` give an odd bad dihedral
+  representation whose projective inertia has order `4`: the eigenvalue ratio `z²` has order `4`.
 
 **The bad dihedral criterion.** Prove that for `L/F` finite cyclic Galois, `F'` the fixed field of the
 squares of `Gal(L/F)`, `k` algebraically closed and `ρ : G_F → GL₂(k)` with open kernel, `ρ|_{G_{F'}}`
@@ -2067,7 +2084,7 @@ absolute irreducibility on `G_{F'}`, `G_{F(ζ_p)}` and `G_{F(ζ_{p^m})}` are equ
 `ρ̄` has `ρ̄ ⊗ k̄ ≅ Ind_{G_{F'}} χ` with `χ ≠ χ^σ`, dihedral projective image of order `2n`, `p ∤ n`,
 and `|ρ̄(G_F)|` prime to `p`; for `F = ℚ`, `π(ρ̄(I_p))` has order `2`, so writing
 `(ρ̄|_{I_p}) ⊗ k̄ ≅ ψ₁ ⊕ ψ₂` (§2.3), `ψ₁/ψ₂ = ω^a` with `(p − 1) | 2a` in level `1`, and `ψ₁ = ω_2^b`,
-`ψ₂ = ω_2^{pb}` with `(p + 1) | 2b` in level `2` (DP, Lemmas 1.13–1.14, p. 8). *Needs:* §2.3
+`ψ₂ = ω_2^{pb}` with `(p + 1) | 2b` in level `2` (DP, Lemmas 1.13–1.14, pp. 8–9). *Needs:* §2.3
 (fundamental characters). *Lean:* `GaloisRep.isAbsolutelyIrreducible_res_cyclotomic_iff`.
 
 ### 4.7 Restriction and large image
@@ -2910,14 +2927,19 @@ read through the transversal-dependent monomial homomorphism `Γ → H^m ⋊ S_m
 universal in the cycle polynomials for `V` free; and that for transversals `t` and `t' = tu`
 (`u_x ∈ H`), `T_{t,t'} = ⨂_x ρ(u_x)⁻¹` intertwines, with `T_{t,t} = id` and
 `T_{t',t''} T_{t,t'} = T_{t,t''}` (any group, `H` of finite index; continuous for `H` open). The Asai
-representation: for `K/F` quadratic, `As(ρ) = ⊗-Ind_{G_K}^{G_F} ρ`; `As(ρ) ⊗ η_{K/F}` is the other
-extension of `ρ ⊗ ρ^σ` (the only other one for `A` a field and `ρ ⊗ ρ^σ` absolutely irreducible); its
+representation: for `K/F` quadratic, `As(ρ) = ⊗-Ind_{G_K}^{G_F} ρ`; its quadratic twist
+`As(ρ) ⊗ η_{K/F}` also extends `ρ ⊗ ρ^σ`. For `A` a field and this restriction absolutely
+irreducible, prove that extension classes up to `A`-linear isomorphism form a torsor under
+`Hom(G_F/G_K, A^×)`: there are exactly two classes, represented by `As(ρ)` and its quadratic twist,
+when `char A ≠ 2`, and one class when `char A = 2`, where `η_{K/F} = 1`. The construction and
+polynomial formulas hold over every commutative coefficient ring; its
 roots are `α_i α'_j` at `g ∈ G_K` and `∏_i (X − β_i) ∏_{i<j} (X² − β_i β_j)` at `g ∉ G_K`, `β` the
 roots of `ρ(g²)`. Its API is the transversal isomorphisms, the rank, pure tensors, restriction to a
 normal subgroup, the trace formula, transitivity, base change and the characteristic polynomials (CG,
 §4, proof of Ex. 4.11, p. 819; BCGP, §7.5.16, p. 202). *Needs:* Tau Ceti
 `Subgroup.tensorInducedRepresentation`; `TauCetiRoadmap.ProfiniteCohomology` layer 13; Mathlib
-`MonoidHom.transfer`. *Lean:* `ContinuousRep.tensorInd`, `ContinuousRep.tensorInd_indep_rank`,
+`MonoidHom.transfer`; §1.7 (absolute irreducibility and scalar endomorphisms). *Lean:*
+`ContinuousRep.tensorInd`, `ContinuousRep.tensorInd_indep_rank`,
 `ContinuousRep.charpoly_asai`.
 
 **Checks.**
@@ -2926,6 +2948,9 @@ normal subgroup, the trace formula, transitivity, base change and the characteri
 - `ℤ/2` on `A²` trivially, `2 ≠ 0`: tensor induction has trace `2` at the generator, induction `0`.
 - In rank two the Asai polynomial at `g ∉ H` is `(X² − aX + b)(X² − b)` for
   `det(X − ρ(g²)) = X² − aX + b`.
+- For any quadratic `K/F` and the trivial rank-one `ρ` over `F_2`, `ρ ⊗ ρ^σ` is absolutely
+  irreducible and `As(ρ) = As(ρ) ⊗ η_{K/F} = 1`. Its rank-one extension is unique since
+  `F_2^× = {1}`. *Lean:* the characteristic-two `example` after the rank-one transfer `example`.
 - A non-open index-two subgroup of `∏_ℕ C₂` gives discontinuous tensor induction of the trivial
   rank-two `ℚ₃`-representation: the two cosets act by identity and flip. Finite index alone
   does not provide continuity.
@@ -3134,8 +3159,10 @@ are characters of `Γ` prescribed on `Δ` and at `c`, which exist for index two 
 - With multiplier `μμ'` instead of `μμ'δ` and `2 ≠ 0`, the tensor product violates the sign condition.
 
 **Oddness and balance.** Define `PolarizedRep.IsTotallyOdd`: `ε_v := μ(c_{v₀} c_v) ε_{v₀} = 1` in `A`
-at every real `v` of `F⁺` (`μ(c_{v₀}c_v)² = 1` is automatic over a reduced ring with `2 = 0`, not over
-`F₂[t]/t²`, where `(1 + t)² = 1 ≠ 1 + t`); for `F` imaginary this is `μ(c_v) = −1` for all `v`. Define
+at every real `v` of `F⁺`. For every commutative `A`, the involution identities give
+`μ(c_{v₀}c_v)² = μ(c_{v₀})² μ(c_v)² = 1`. The unsquared identity `μ(c_{v₀}c_v) = 1` is automatic
+over a reduced ring with `2 = 0`, but need not hold over `F₂[t]/t²`, where `(1 + t)² = 1 ≠ 1 + t`;
+for `F` imaginary total oddness is `μ(c_v) = −1` for all `v`. Define
 oddness of a similitude-valued `r`: for `r : G_{F⁺} → 𝒢_n(A)` with `r⁻¹(𝒢_n⁰) = G_F`, or
 `GSp_{2m}`-valued, odd iff `ν(r(c_v)) = −1`; `GO_n`-valued: `+1` (both say `ε_v = 1` for
 `B = ⟨·, ρ(c_v)·⟩`). A character of a totally real field is totally odd if `μ(c_v) = −1` (§4.1,
@@ -3153,7 +3180,9 @@ in characteristic `0` or for `ℓ > n + 1` (`n` even), `ℓ > n` (`n` odd); that
 - The trivial representation of a plane over a field of characteristic `3` has `tr ρ(c) = 2 = −1` and
   is not balanced (`a = 2`, `b = 0`): the bound `ℓ > n + 1` is sharp. *Lean:* the `example` after
   `isBalancedAt_iff_trace`.
-- Over a reduced ring with `2 = 0` totally odd is automatic; over `F₂[t]/t²` it is not.
+- Over a reduced ring with `2 = 0` totally odd is automatic; the unit `1 + t` over `F₂[t]/t²`
+  squares to `1` but is not `1`, so total oddness need not be automatic there. The squared multiplier
+  identity holds in both cases. *Lean:* the `example` after `isTotallyOdd_iff_multiplier`.
 
 **Symmetric powers of a symplectic plane.** Prove that for a field `F` with `2, d! ∈ F^×`,
 `n = d + 1`, `V = F²` with an alternating perfect `h` and `r` with multiplier `det r`, the form
@@ -3797,7 +3826,8 @@ graph-twisted simplicity (`IsSimpleGroup d.Group`, assembled by `CFSGIndex.isSim
 (an open TauCetiRoadmap pull request by kim-em). This roadmap constructs the fixed-point-to-unitary
 `MulEquiv` and centre/derived-group comparison: for `m ≥ 3`, identify `PSU_m(F_{p²})` with the derived
 central quotient for twisted `A_{m−1}` at `q = p`, translate the supplier's `Valid` hypothesis and
-small exceptions, handle `m = 2` through the ordinary A₁ identification, and split off `m = 1`.
+small exceptions, handle `m = 2` through the matrix comparison `PSU₂(F_{p²}) ≅ PSL₂(F_p)` and
+Mathlib's `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`, and split off `m = 1`.
 
 Using this CFSGBasicProperties §T1–T2 supplier contract, prove (BCGNT unless stated): for `F/ℚ`
 Galois and `H/F` finite with Galois
@@ -3822,6 +3852,13 @@ when `det r̄_A = ε̄^{−m}`, `det r̄_B = ε̄^{−m(m−1)/2}` and `ε̄(G_L
 and under the hypotheses of the enormous symmetric powers of §7.10 with `l` unramified in `F'/ℚ`,
 `ζ_l` is not in the field of `ad Sym^m r̄` times `F'`, so `Sym^m r̄|_{G_{F'}}` satisfies the enormous
 conditions (ACC+, proof of Lemma 7.1.6(1), p. 1090). *Needs:* §§7.9–7.10; §4.7.
+
+**Checks.**
+- For `m = 1`, `SU₁(F_{p²}) = PSU₁(F_{p²}) = 1`, so the verification uses the rank-one case.
+- For `m = 2` and `p ≥ 5`, the comparison with `PSL₂(F_p)` gives simplicity from Mathlib;
+  `p = 2, 3` instead gives `S_3, A_4`, which are not simple.
+- For `m ≥ 3`, the unitary comparison uses the twisted group at `q = p`, with coefficients
+  in `F_{p²}`. The bound `p > 2mn + 1` excludes the nonsimple `PSU₃(F_4)` case (`m = 3`, `p = 2`).
 
 ### Examples
 

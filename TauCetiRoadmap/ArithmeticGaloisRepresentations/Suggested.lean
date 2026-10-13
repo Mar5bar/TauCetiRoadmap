@@ -2146,10 +2146,9 @@ theorem index_ge_of_ne_top_PSL2 {k : Type*} [Field k] [Finite k]
   sorry
 
 /-- For `q ≥ 4`, every normal subgroup of `GL₂(F_q)` contains `SL₂(F_q)` or is central.
-A₁ perfectness is supplied by CFSGBasicProperties §T1–T2 (an open TauCetiRoadmap pull request by
-kim-em), after the proved identification of its root-generated fixed-point carrier with matrix
-`SL₂(F_q)`; `PSL₂` simplicity is Mathlib's
-`Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`. -/
+Mathlib's `Matrix.SL2.commutator_eq_top` provides matrix `SL₂` perfectness, and
+`Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'` provides `PSL₂` simplicity, using an
+element outside `{0, 1, −1}` in `F_q` (§4.3). -/
 theorem normal_subgroups_GL2 {k : Type*} [Field k] [Finite k] (hq : 4 ≤ Nat.card k) :
     ∀ N : Subgroup (GL (Fin 2) k), N.Normal →
       (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) k →* _).range ≤ N ∨
@@ -2891,7 +2890,8 @@ theorem tensorInd_indep_rank (s s' : H.LeftTransversal) (ρ : ContinuousRep H A 
   sorry
 
 /-- The Asai case: for `[Γ : H] = 2`, `g ∉ H` and `det(X − ρ(g²)) = ∏ (X − βᵢ)`,
-`det(X − As(ρ)(g)) = ∏ᵢ (X − βᵢ) · ∏_{i<j} (X² − βᵢβⱼ)` (CG20, §4, proof of Ex. 4.11). -/
+`det(X − As(ρ)(g)) = ∏ᵢ (X − βᵢ) · ∏_{i<j} (X² − βᵢβⱼ)` over any commutative coefficient ring,
+including characteristic two (CG20, §4, proof of Ex. 4.11). -/
 theorem charpoly_asai [Module.Free A V] [Module.Free A (⨂[A] _ : Γ ⧸ H, V)] (h2 : H.index = 2)
     (s : H.LeftTransversal) (ρ : ContinuousRep H A V) (g : Γ) (hg : g ∉ H) (hg2 : g ^ 2 ∈ H)
     {n : ℕ} (β : Fin n → A) (hβ : ρ.charpoly ⟨g ^ 2, hg2⟩ = ∏ i, (X - C (β i))) :
@@ -2909,6 +2909,26 @@ example (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
     (g : Γ) (x : ⨂[A] _ : Γ ⧸ H, A) :
     tensorInd H hH s (ofCharacter ψ) g x = ((MonoidHom.transfer ψ.toMonoidHom g : Aˣ) : A) • x := by
   sorry
+
+-- Over `F₂`, every rank-one character is trivial, so twisting the rank-one Asai representation
+-- by the quadratic character gives the same extension.
+example [TopologicalSpace (ZMod 2)] [IsTopologicalRing (ZMod 2)]
+    (ψ η : Γ →ₜ* (ZMod 2)ˣ) :
+    ψ = 1 ∧ η = 1 ∧ ofCharacter (ψ * η) = ofCharacter ψ := by
+  have hu : ∀ u : (ZMod 2)ˣ, u = 1 := by decide
+  have hψ : ψ = 1 := by
+    apply ContinuousMonoidHom.ext
+    intro g
+    exact hu (ψ g)
+  have hη : η = 1 := by
+    apply ContinuousMonoidHom.ext
+    intro g
+    exact hu (η g)
+  have hmul : ψ * η = ψ := by
+    apply ContinuousMonoidHom.ext
+    intro g
+    rw [hu ((ψ * η) g), hu (ψ g)]
+  exact ⟨hψ, hη, congrArg ofCharacter hmul⟩
 
 end TensorInduction
 
@@ -3223,6 +3243,14 @@ def IsTotallyOdd (P : PolarizedRep Δ ρ c) (C : Set Γ) : Prop :=
 theorem isTotallyOdd_iff_multiplier (P : PolarizedRep Δ ρ c) (hc : c ∉ Δ) (C : Set Γ) :
     P.IsTotallyOdd C ↔ ∀ c' ∈ C, (P.multiplier c' : A) = -1 := by
   sorry
+
+-- A multiplier on a product of involutions squares to one over every commutative coefficient ring.
+example (P : PolarizedRep Δ ρ c) (c' : Γ) (hc' : c' ^ 2 = 1) :
+    P.multiplier (c * c') ^ 2 = 1 := by
+  calc
+    P.multiplier (c * c') ^ 2 = P.multiplier c ^ 2 * P.multiplier c' ^ 2 := by
+      rw [map_mul, mul_pow]
+    _ = 1 := by simp only [← map_pow, P.sq_c, hc', map_one, mul_one]
 
 -- In rank one over a domain with `2 ≠ 0` and `c ∉ Δ`, a polarisation forces `μ(c) = −1`; a
 -- multiplier with `μ(c) = 1` is impossible.
