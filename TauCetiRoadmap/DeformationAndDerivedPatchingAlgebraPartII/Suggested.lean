@@ -490,8 +490,21 @@ theorem mem_annihilator_chartModule_iff (I : Ideal R) (a : R) (M : Type u) [AddC
       ∀ m : M, x • LocalizedModule.mkLinearMap (Submonoid.powers a) M m = 0 := by
   sorry
 
+/-- In an injective finite-type extension of Noetherian domains, prime height plus residue
+transcendence degree is bounded by the base height plus generic transcendence degree
+(Stacks, Lemma 10.113.1, tag 02IJ). -/
+theorem finiteType_height_le (A B : Type u) [CommRing A] [CommRing B] [IsDomain A]
+    [IsDomain B] [IsNoetherianRing A] [Algebra A B] [Algebra.FiniteType A B]
+    (hinj : Function.Injective (algebraMap A B)) (p : Ideal A) [p.IsPrime]
+    (q : Ideal B) [q.IsPrime] (hover : p = q.comap (algebraMap A B)) :
+    letI : Algebra p.ResidueField q.ResidueField :=
+      (Ideal.ResidueField.map p q (algebraMap A B) hover).toAlgebra
+    q.height + ((Algebra.trdeg p.ResidueField q.ResidueField).toNat : ℕ∞) ≤
+      p.height + ((Algebra.trdeg A B).toNat : ℕ∞) := by
+  sorry
+
 /-- The Rees algebra of an ideal of a Noetherian ring has dimension at most `dim R + 1`
-(Stacks, Lemma 10.113.1, tag 02IJ, on each minimal-prime quotient). -/
+(using `finiteType_height_le` on each minimal-prime quotient). -/
 theorem ringKrullDim_reesAlgebra_le [IsNoetherianRing R] (I : Ideal R) :
     ringKrullDim (reesAlgebra I) ≤ ringKrullDim R + 1 := by
   sorry
@@ -613,6 +626,11 @@ local notation "z₃" => (PowerSeries.X : S₃)
 local notation "N₂" => (S₂ ⧸ Ideal.span {x₂ ^ 2, x₂ * y₂})
 local notation "N₃" => (S₃ ⧸ Ideal.span {x₃ ^ 2, x₃ * y₃})
 local notation "C₂" => (S₂ ⧸ Ideal.span {x₂ * y₂})
+local notation "S₄" => PowerSeries (PowerSeries (PowerSeries (PowerSeries ℚ)))
+local notation "x₄" => (PowerSeries.C x₃ : S₄)
+local notation "y₄" => (PowerSeries.C y₃ : S₄)
+local notation "z₄" => (PowerSeries.C z₃ : S₄)
+local notation "w₄" => (PowerSeries.X : S₄)
 
 /-- The empty prefix quotient of `ℤ` retains its nonzero elements. -/
 example : Nontrivial (prefixQuotient ℤ ([] : List ℤ)) := by sorry
@@ -776,6 +794,317 @@ example : Polynomial.C y₂ * Polynomial.X - Polynomial.C x₂ ∉
       ((localCohomology (Ideal.ofList [Polynomial.C x₂, Polynomial.C y₂]) 1).obj
         (ModuleCat.of (Polynomial S₂) (PolynomialModule S₂ C₂))) := by sorry
 
+/-- Unit support has zero cohomology; zero support retains the module only in degree zero. -/
+example : (∀ j, Subsingleton ((localCohomology (⊤ : Ideal ℤ) j).obj (ModuleCat.of ℤ ℤ))) ∧
+    Nontrivial ((localCohomology (⊥ : Ideal ℤ) 0).obj (ModuleCat.of ℤ ℤ)) ∧
+    (∀ j, 0 < j → Subsingleton ((localCohomology (⊥ : Ideal ℤ) j).obj
+      (ModuleCat.of ℤ ℤ))) := by sorry
+
+/-- Two successive principal supports recover nonzero degree-two cohomology. -/
+example : Nontrivial ((localCohomology (Ideal.span {y₂}) 1).obj
+    ((localCohomology (Ideal.span {x₂}) 1).obj (ModuleCat.of S₂ S₂))) := by sorry
+
+/-- The DVR cohomology is torsion of unbounded exponent, with no higher supported cohomology. -/
+example : let T := ((localCohomology (Ideal.span {x₁}) 1).obj (ModuleCat.of S₁ S₁))
+    Nontrivial ((localCohomology (Ideal.span {x₁}) 0).obj T) ∧
+    (∀ j, 0 < j → Subsingleton ((localCohomology (Ideal.span {x₁}) j).obj T)) ∧
+    (∀ n : ℕ, ∃ z : T, x₁^(n+1) • z = 0 ∧ x₁^n • z ≠ 0) := by sorry
+
+/-- A polynomial variable gives a nonzero outer-degree-one contribution. -/
+example : Nontrivial ((localCohomology (Ideal.span {(Polynomial.X : Polynomial S₁)}) 1).obj
+    ((localCohomology (Ideal.span {Polynomial.C x₁}) 1).obj
+      (ModuleCat.of (Polynomial S₁) (Polynomial S₁)))) := by sorry
+
+/-- Quotient change of rings retains degree-one cohomology killed by the quotient relation. -/
+example : let H := ((localCohomology (Ideal.ofList [x₂,y₂]) 1).obj
+      (ModuleCat.of S₂ (S₂ ⧸ Ideal.span {y₂})))
+    Nontrivial H ∧ y₂ ∈ Module.annihilator S₂ H := by sorry
+
+/-- Inverting the support generator removes all supported cohomology. -/
+example : ∀ j, Subsingleton ((localCohomology (Ideal.span {x₁}) j).obj
+    (ModuleCat.of S₁ (Localization.Away x₁))) := by sorry
+
+/-- The canonical colimit map of a constant filtered diagram preserves DVR cohomology. -/
+example : let H := ((localCohomology (Ideal.span {x₁}) 1).obj (ModuleCat.of S₁ S₁))
+    Function.Bijective (CategoryTheory.Limits.colimit.ι
+      ((CategoryTheory.Functor.const ℕ).obj H) 0) := by sorry
+
+/-- Both parameters are regular, and their square quotient is zero-dimensional with no low cohomology. -/
+example : IsSMulRegular S₁ x₁ ∧ IsSMulRegular S₁ (x₁^2) ∧
+    Module.supportDim S₁ (S₁ ⧸ Ideal.span {x₁^2}) = 0 ∧
+    LowLocalCohomologyVanishes S₁ (S₁ ⧸ Ideal.span {x₁^2}) := by sorry
+
+/-- Field biduality uses the evaluation map on the two-dimensional vector space. -/
+example : Function.Bijective (Module.Dual.eval ℚ (ℚ × ℚ)) := by sorry
+
+/-- Multiplying the correct residue-module annihilator by itself gives the wrong ideal. -/
+example : let E := ((localCohomology (IsLocalRing.maximalIdeal S₁) 1).obj (ModuleCat.of S₁ S₁))
+    Module.annihilator S₁ ((S₁ ⧸ Ideal.span {x₁}) →ₗ[S₁] E) ≠
+      Ideal.span {x₁^2} := by sorry
+
+/-- A zero ring attains the zero-ideal Rees bound, with both dimensions bottom. -/
+example : ringKrullDim (reesAlgebra (⊥ : Ideal (ZMod 1))) = ⊥ ∧
+    ringKrullDim (reesAlgebra (⊥ : Ideal (ZMod 1))) = ringKrullDim (ZMod 1) + 1 := by sorry
+
+/-- The maximal ideal has nonzero degree-one cohomology annihilated by both parameters. -/
+example : let M := ↥(IsLocalRing.maximalIdeal S₂)
+    let H := ((localCohomology (Ideal.ofList [x₂,y₂]) 1).obj (ModuleCat.of S₂ M))
+    IsCMSecant M [x₂,y₂] ∧ Nontrivial H ∧
+    x₂ ∈ Module.annihilator S₂ H ∧ y₂ ∈ Module.annihilator S₂ H ∧
+    (1 : S₂) ∉ Module.annihilator S₂ H := by sorry
+
+/-- Both chart relations kill the nonzero polynomial extension of that cohomology. -/
+example : let M := ↥(IsLocalRing.maximalIdeal S₂)
+    let H := ((localCohomology (Ideal.ofList [Polynomial.C x₂, Polynomial.C y₂]) 1).obj
+      (ModuleCat.of (Polynomial S₂) (PolynomialModule S₂ M)))
+    Nontrivial H ∧
+    Polynomial.C y₂ * Polynomial.X - Polynomial.C x₂ ∈ Module.annihilator (Polynomial S₂) H ∧
+    Polynomial.C x₂ * Polynomial.X - Polynomial.C y₂ ∈ Module.annihilator (Polynomial S₂) H ∧
+    (1 : Polynomial S₂) ∉ Module.annihilator (Polynomial S₂) H := by sorry
+
+/-- The residue summand supplies nonzero torsion in both versions of the torsion identity. -/
+example (m : ℕ) (hm : 0 < m) :
+    let M := (S₂ ⧸ Ideal.ofList [x₂,y₂]) × S₂
+    let Q := prefixQuotient M [x₂]
+    IsCMSecant M [x₂,y₂] ∧
+    (∀ z : Q, y₂^m • z = 0 ↔ ∀ a ∈ Ideal.ofList [x₂,y₂], a • z = 0) ∧
+    (∃ z : Q, z ≠ 0 ∧ y₂^m • z = 0) := by sorry
+
+/-- The first chart is nonzero while its second principal chart and the product chart vanish. -/
+example : let I := Ideal.ofList [x₂,y₂]
+    let J := Ideal.span {x₂}
+    let M := S₂ ⧸ J
+    let B := ChartRing I y₂
+    let c := algebraMap S₂ B x₂
+    Nontrivial (chartModule I y₂ M) ∧
+    Subsingleton (chartModule (J.map (algebraMap S₂ B)) c (chartModule I y₂ M)) ∧
+    Subsingleton (chartModule (I*J) (y₂*x₂) M) := by sorry
+
+/-- The regular principal and two-parameter centres give Cohen–Macaulay charts. -/
+example : IsCMBlowupChartwise (Ideal.span {x₁}) S₁ ∧
+    IsCMBlowupChartwise (prefixProduct [x₂,y₂] 2) S₂ := by sorry
+
+/-- The principal centre removes the embedded point of the non-Cohen–Macaulay base. -/
+example : let y := Ideal.Quotient.mk (Ideal.span {x₂^2,x₂*y₂}) y₂
+    IsCMBlowupChartwise (Ideal.span {y}) N₂ := by sorry
+
+/-- The auxiliary colon evaluates identically for the product and the last parameter. -/
+example : Submodule.comap ((x₂*x₂) • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂}) = Ideal.span {y₂} ∧ Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂}) = Ideal.span {y₂} := by sorry
+
+/-- The auxiliary colon evaluates identically for the product and the last parameter. -/
+example : Submodule.comap ((x₂*x₂) • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (⊥) = ⊥ ∧ Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (⊥) = ⊥ := by sorry
+
+/-- The auxiliary colon evaluates identically for the product and the last parameter. -/
+example : Submodule.comap ((y₃*y₃) • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃}) = Ideal.span {x₃, z₃} ∧ Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃}) = Ideal.span {x₃, z₃} := by sorry
+
+/-- Estimate A evaluates the colon intersection at the stated positive exponent. -/
+example : (Submodule.comap (x₁ • (LinearMap.id : S₁ →ₗ[S₁] S₁)) (⊥) ⊓ Ideal.span {x₁}) = ⊥ := by sorry
+
+/-- Estimate A evaluates the colon intersection at the stated positive exponent. -/
+example : (Submodule.comap (y₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {x₂}) ⊓ Ideal.span {x₂, y₂}) = Ideal.span {x₂} := by sorry
+
+/-- Estimate A evaluates the colon intersection at the stated positive exponent. -/
+example : (Submodule.comap (y₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {x₂}) ⊓ Ideal.span {x₂, y₂} ^ 2) = Ideal.span {x₂^2, x₂*y₂} := by sorry
+
+/-- Estimate B retains multiplication by the tail parameter. -/
+example : Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^2}) = Ideal.span {y₂^2} ∧ (y₂ • Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^1}) ⊔ Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (⊥)) = Ideal.span {y₂^2} := by sorry
+
+/-- Estimate B retains multiplication by the tail parameter. -/
+example : Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^3}) = Ideal.span {y₂^3} ∧ (y₂ • Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^2}) ⊔ Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (⊥)) = Ideal.span {y₂^3} := by sorry
+
+/-- Estimate B retains the nonzero auxiliary-prefix contribution. -/
+example : Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃^2}) = Ideal.span {x₃, z₃^2} ∧ (z₃ • Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃}) ⊔ Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃})) = Ideal.span {x₃, z₃^2} := by sorry
+
+/-- Estimate C evaluates the colon and its bounding submodule. -/
+example : Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂}) = Ideal.span {y₂} ∧ (Ideal.span {y₂} : Submodule S₂ S₂) ≤ ⊤ := by sorry
+
+/-- Estimate C evaluates the colon and its bounding submodule. -/
+example : Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^2}) = Ideal.span {y₂^2} ∧ (Ideal.span {y₂^2} : Submodule S₂ S₂) ≤ Ideal.span {y₂} := by sorry
+
+/-- Estimate C evaluates the colon and its bounding submodule. -/
+example : Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃^2}) = Ideal.span {x₃, z₃^2} ∧ (Ideal.span {x₃, z₃^2} : Submodule S₃ S₃) ≤ Ideal.span {x₃, z₃} := by sorry
+
+/-- Estimate D evaluates both sides of the inclusion. -/
+example : (Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^1}) ⊓ Ideal.span {y₂}) = Ideal.span {y₂^1} ∧ (y₂ • Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (⊤)) = Ideal.span {y₂^1} := by sorry
+
+/-- Estimate D evaluates both sides of the inclusion. -/
+example : (Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^2}) ⊓ Ideal.span {y₂}) = Ideal.span {y₂^2} ∧ (y₂ • Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂})) = Ideal.span {y₂^2} := by sorry
+
+/-- Estimate D distinguishes its smaller left side from the auxiliary-prefix right side. -/
+example : (Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃^2}) ⊓ Ideal.span {z₃}) = Ideal.span {x₃*z₃, z₃^2} ∧ (z₃ • Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃}) ⊔ Ideal.span {x₃}) = Ideal.span {x₃, z₃^2} ∧ (Ideal.span {x₃*z₃, z₃^2} : Submodule S₃ S₃) ≤ Ideal.span {x₃, z₃^2} := by sorry
+
+/-- Estimate E evaluates both colons without losing the auxiliary prefix. -/
+example : Submodule.comap ((x₂*x₂) • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂}) = Ideal.span {y₂} ∧ Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂}) = Ideal.span {y₂} := by sorry
+
+/-- Estimate E evaluates both colons without losing the auxiliary prefix. -/
+example : Submodule.comap ((x₂*x₂) • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^2}) = Ideal.span {y₂^2} ∧ Submodule.comap (x₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {y₂^2}) = Ideal.span {y₂^2} := by sorry
+
+/-- Estimate E evaluates both colons without losing the auxiliary prefix. -/
+example : Submodule.comap ((y₃*y₃) • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃}) = Ideal.span {x₃, z₃} ∧ Submodule.comap (y₃ • (LinearMap.id : S₃ →ₗ[S₃] S₃)) (Ideal.span {x₃, z₃}) = Ideal.span {x₃, z₃} := by sorry
+
+/-- The positive-exponent Goto–Yamagishi colon intersection has the evaluated value. -/
+example : (Submodule.comap ((0 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (⊥) ⊓ (⊥ : Submodule ℚ ℚ)) = (⊥ : Submodule ℚ ℚ) := by sorry
+
+/-- The positive-exponent Goto–Yamagishi colon intersection has the evaluated value. -/
+example : (Submodule.comap (y₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {x₂}) ⊓ (Ideal.span {x₂, y₂} : Submodule S₂ S₂)) = (Ideal.span {x₂} : Submodule S₂ S₂) := by sorry
+
+/-- The positive-exponent Goto–Yamagishi colon intersection has the evaluated value. -/
+example : (Submodule.comap (y₂ • (LinearMap.id : S₂ →ₗ[S₂] S₂)) (Ideal.span {x₂}) ⊓ (Ideal.span {x₂, y₂} ^ 2 : Submodule S₂ S₂)) = (Ideal.span {x₂^2, x₂*y₂} : Submodule S₂ S₂) := by sorry
+
+/-- The degree-one intersection retains the first parameter ideal. -/
+example : (Ideal.span {x₂} ⊓ Ideal.span {x₂, y₂}) = Ideal.span {x₂} := by sorry
+
+/-- Both regular two-generator polynomial presentations have a regular denominator. -/
+example : let Ky : Ideal (Polynomial S₂) := Ideal.span {Polynomial.C y₂ * Polynomial.X - Polynomial.C x₂}
+    let Kx : Ideal (Polynomial S₂) := Ideal.span {Polynomial.C x₂ * Polynomial.X - Polynomial.C y₂}
+    let Qy := Polynomial S₂ ⧸ Ky
+    let Qx := Polynomial S₂ ⧸ Kx
+    IsSMulRegular Qy (Ideal.Quotient.mk Ky (Polynomial.C y₂)) ∧
+    IsSMulRegular Qx (Ideal.Quotient.mk Kx (Polynomial.C x₂)) := by sorry
+
+/-- The reducible-base presentation has nonzero denominator torsion removed by localization. -/
+example : letI : CommRing C₂ := inferInstance
+    let x : C₂ := Ideal.Quotient.mk (Ideal.span {x₂*y₂}) x₂
+    let y : C₂ := Ideal.Quotient.mk (Ideal.span {x₂*y₂}) y₂
+    let K : Ideal (Polynomial C₂) := Ideal.span {Polynomial.C x * Polynomial.X - Polynomial.C y}
+    letI : K.IsTwoSided := by infer_instance
+    let Q := Polynomial C₂ ⧸ K
+    letI : CommRing Q := Ideal.Quotient.commRing K
+    let t := Ideal.Quotient.mk K Polynomial.X
+    let a := Ideal.Quotient.mk K (Polynomial.C x)
+    let b := Ideal.Quotient.mk K (Polynomial.C y)
+    t ≠ 0 ∧ a^2 * t = 0 ∧
+    algebraMap Q (Localization.Away a) t = 0 ∧
+    algebraMap Q (Localization.Away a) b = 0 := by sorry
+
+/-- At the regular two-parameter chart origin, depth is exactly two. -/
+example : let K : Ideal (Polynomial S₂) := Ideal.span {Polynomial.C x₂ * Polynomial.X - Polynomial.C y₂}
+    let Q := Polynomial S₂ ⧸ K
+    letI : CommRing Q := inferInstanceAs (CommRing (Polynomial S₂ ⧸ K))
+    let a := Ideal.Quotient.mk K (Polynomial.C x₂)
+    let b := Ideal.Quotient.mk K (Polynomial.C y₂)
+    let t := Ideal.Quotient.mk K Polynomial.X
+    let n := Ideal.ofList [a,b,t]
+    letI : n.IsPrime := by sorry
+    let L := Localization.AtPrime n
+    let m := n.map (algebraMap Q L)
+    Subsingleton ((localCohomology m 0).obj (ModuleCat.of L L)) ∧
+    Subsingleton ((localCohomology m 1).obj (ModuleCat.of L L)) ∧
+    Nontrivial ((localCohomology m 2).obj (ModuleCat.of L L)) := by sorry
+
+/-- The intermediate regular chart has zero degree-one cohomology and no maximal-ideal torsion
+in its degree-two cohomology. -/
+example : let K : Ideal (Polynomial S₃) := Ideal.span {Polynomial.C x₃ * Polynomial.X - Polynomial.C y₃}
+    let Q := Polynomial S₃ ⧸ K
+    letI : CommRing Q := inferInstanceAs (CommRing (Polynomial S₃ ⧸ K))
+    let a := Ideal.Quotient.mk K (Polynomial.C x₃)
+    let b := Ideal.Quotient.mk K (Polynomial.C y₃)
+    let c := Ideal.Quotient.mk K (Polynomial.C z₃)
+    let t := Ideal.Quotient.mk K Polynomial.X
+    let n := Ideal.ofList [a,b,c,t]
+    letI : n.IsPrime := by sorry
+    let L := Localization.AtPrime n
+    let J := (Ideal.ofList [a,c]).map (algebraMap Q L)
+    let m := n.map (algebraMap Q L)
+    let H := ((localCohomology J 2).obj (ModuleCat.of L L))
+    Subsingleton ((localCohomology J 1).obj (ModuleCat.of L L)) ∧
+    Subsingleton ((localCohomology m 0).obj H) := by sorry
+
+/-- The intermediate regular chart has zero degree-one cohomology and no maximal-ideal torsion
+in its degree-two cohomology. -/
+example : let K : Ideal (Polynomial S₄) := Ideal.span {Polynomial.C x₄ * Polynomial.X - Polynomial.C y₄}
+    let Q := Polynomial S₄ ⧸ K
+    letI : CommRing Q := inferInstanceAs (CommRing (Polynomial S₄ ⧸ K))
+    let a := Ideal.Quotient.mk K (Polynomial.C x₄)
+    let b := Ideal.Quotient.mk K (Polynomial.C y₄)
+    let c := Ideal.Quotient.mk K (Polynomial.C z₄)
+    let t := Ideal.Quotient.mk K Polynomial.X
+    let n := Ideal.ofList [a,b,c,t,Ideal.Quotient.mk K (Polynomial.C w₄)]
+    letI : n.IsPrime := by sorry
+    let L := Localization.AtPrime n
+    let J := (Ideal.ofList [a,c]).map (algebraMap Q L)
+    let m := n.map (algebraMap Q L)
+    let H := ((localCohomology J 2).obj (ModuleCat.of L L))
+    Subsingleton ((localCohomology J 1).obj (ModuleCat.of L L)) ∧
+    Subsingleton ((localCohomology m 0).obj H) := by sorry
+
+/-- Removing the embedded plane gives a three-dimensional chart whose next outer degree is
+nonzero. The smooth coordinates `x₃,y₃,z₃` represent `y,z,w` after removing the original `x`. -/
+example : let M := S₄ ⧸ Ideal.span {x₄^2,x₄*y₄}
+    let K : Ideal (Polynomial S₃) := Ideal.span {Polynomial.C x₃ * Polynomial.X - Polynomial.C y₃}
+    let Q := Polynomial S₃ ⧸ K
+    letI : CommRing Q := inferInstanceAs (CommRing (Polynomial S₃ ⧸ K))
+    let a := Ideal.Quotient.mk K (Polynomial.C x₃)
+    let b := Ideal.Quotient.mk K (Polynomial.C y₃)
+    let c := Ideal.Quotient.mk K (Polynomial.C z₃)
+    let t := Ideal.Quotient.mk K Polynomial.X
+    let n := Ideal.ofList [a,b,c,t]
+    letI : n.IsPrime := by sorry
+    let L := Localization.AtPrime n
+    let J := (Ideal.ofList [a,c]).map (algebraMap Q L)
+    let m := n.map (algebraMap Q L)
+    let H := ((localCohomology J 2).obj (ModuleCat.of L L))
+    IsCMSecant M [y₄,z₄,w₄] ∧
+    Subsingleton ((localCohomology J 1).obj (ModuleCat.of L L)) ∧
+    IsSMulRegular H (algebraMap Q L t) ∧
+    Subsingleton ((localCohomology m 0).obj H) ∧
+    Nontrivial ((localCohomology m 1).obj H) := by sorry
+
+/-- The original monomials satisfy the two equations giving the finite free presentation. -/
+example : let x := (MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) ℚ)
+    let y := (MvPolynomial.X (1 : Fin 2) : MvPolynomial (Fin 2) ℚ)
+    let u := x^3
+    let v := x^5*y^3
+    let w := x^15*y^2
+    let z := y^7
+    v^3 = w*z ∧ w^7 = u^35*z^2 := by sorry
+
+/-- The chart monomials satisfy both integrality equations and the zero-divisor equation. -/
+example : let x := (MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) ℚ)
+    let y := (MvPolynomial.X (1 : Fin 2) : MvPolynomial (Fin 2) ℚ)
+    let a := x^3
+    let b := x^5*y^3
+    let c := x^14*y^2
+    let d := x^4*y^7
+    b^21 = a^23*d^9 ∧ c^21 = a^90*d^6 ∧ d*c^2 = a*b^3*c := by sorry
+
+/-- The exponent lattice is full, and the parameter lattice has relative index twenty-one. -/
+example : let H := AddSubgroup.closure ({(3,0),(5,3),(15,2),(0,7)} : Set (ℤ × ℤ))
+    let P := AddSubgroup.closure ({(3,0),(0,7)} : Set (ℤ × ℤ))
+    H = ⊤ ∧ H.index = 1 ∧ P.relIndex H = 21 := by sorry
+
+/-- The good parameter-product centre on the concrete localized monomial algebra is
+Cohen–Macaulay. -/
+example : let x := (MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) ℚ)
+    let y := (MvPolynomial.X (1 : Fin 2) : MvPolynomial (Fin 2) ℚ)
+    let G := ({x^3,x^5*y^3,x^15*y^2,y^7} : Set (MvPolynomial (Fin 2) ℚ))
+    let A₀ := Algebra.adjoin ℚ G
+    let u : A₀ := ⟨x^3, by apply Algebra.subset_adjoin; simp [G]⟩
+    let v : A₀ := ⟨x^5*y^3, by apply Algebra.subset_adjoin; simp [G]⟩
+    let w : A₀ := ⟨x^15*y^2, by apply Algebra.subset_adjoin; simp [G]⟩
+    let z : A₀ := ⟨y^7, by apply Algebra.subset_adjoin; simp [G]⟩
+    let n := Ideal.ofList [u,v,w,z]
+    letI : n.IsPrime := by sorry
+    let A := Localization.AtPrime n
+    let u' := algebraMap A₀ A u
+    let z' := algebraMap A₀ A z
+    IsCMBlowupChartwise (prefixProduct [u',z'] 2) A := by sorry
+
+/-- Over a field, the closed and generic primes of the polynomial line have heights one and zero. -/
+example : (Ideal.span {(Polynomial.X : Polynomial ℚ)}).height = 1 ∧
+    (⊥ : Ideal (Polynomial ℚ)).height = 0 ∧ Algebra.trdeg ℚ (Polynomial ℚ) = 1 := by sorry
+
+/-- The origin of the affine plane has height two over its height-one contraction. -/
+example : (Ideal.span {(Polynomial.X : Polynomial (Polynomial ℚ)),
+      Polynomial.C (Polynomial.X : Polynomial ℚ)}).height = 2 ∧
+    (Ideal.span {(Polynomial.X : Polynomial ℚ)}).height = 1 ∧
+    Algebra.trdeg (Polynomial ℚ) (Polynomial (Polynomial ℚ)) = 1 := by sorry
+
+/-- At the generic point of the polynomial line, the residue-field term is one. -/
+example : let q : Ideal (Polynomial ℚ) := ⊥
+    letI : q.IsPrime := by infer_instance
+    q.height = 0 ∧ Algebra.trdeg ℚ q.ResidueField = 1 := by sorry
+
 end BoundaryChecks
 
 /-!
@@ -784,7 +1113,8 @@ end BoundaryChecks
 The following targets are stated in `README.md` only: the composite-support spectral sequence
 for local cohomology, its Čech, change-of-rings and filtered-colimit comparisons (Layer K0); the
 Matlis and completion inputs and catenarity from dualizing complexes; normalized
-local duality in the form `H^j_𝔪(M) ≅ Hom(Ext^{-j}(M, ω), E)`, the
+local duality, including its completed Ext comparison and normalization/torsion-adjunction
+steps, in the form `H^j_𝔪(M) ≅ Hom(Ext^{-j}(M, ω), E)`, the
 duality annihilator identity, the annihilator description of the non-Cohen–Macaulay locus and the
 general defect set (Layer K0); the coefficient maps of Rees modules (Layer K3); `HomogeneousLocalizedModule`, `Proj.tildeModule`
 and `Proj.tildeModule.awayIso`; the module

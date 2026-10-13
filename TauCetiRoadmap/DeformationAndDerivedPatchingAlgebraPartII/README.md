@@ -257,6 +257,19 @@ are not imported as Lean carriers.
   `localDuality` and Matlis evaluation over complete rings. D7.1's Matlis target covers complete
   rings with finite residue fields; K0.7 supplies the arbitrary-residue-field extension.
 
+- **IntegralHeckeAndGaloisDeterminants, §6.4**, **Koszul complex of a finite sequence**:
+  `koszulComplex φ`, its alternating-deletion differential, maps, tensor formula and homotopies.
+  K0.5 uses `φ(e_i)=z_i` on the finite free module and tensors with `M`.
+- **DGFloer, Layer 1, item 3**, **The spectral sequence of a filtered complex**:
+  the spectral sequence of a bounded-below exhaustive filtered chain complex over a ring,
+  strong convergence, the induced filtration on homology and naturality. K0.5 uses finite
+  filtrations of the bounded Čech–Koszul complex, with cohomological reindexing.
+- **SchemeAndStackFoundations, §2.18**: `derivedTensor` and `derivedHom` on module derived
+  categories. Together with §2.7's derived torsion these supply K0.7's evaluation argument.
+- **DerivedDeRhamCohomology, §§1.3 and 1.5**: `DerivedDeRham.derivedCompletion` is
+  `RHom(C_I,−)` for a finite generating list of `I`; over a Noetherian ring its cohomology
+  on complexes with finite cohomology is ordinary adic completion (Stacks 0A06). Used in K0.7.
+
 
 ## How to read the build
 
@@ -611,16 +624,19 @@ secant sequence for a Cohen–Macaulay module is regular. `Suggested.lean` decla
 *Hypotheses.* `R` Noetherian local, `M` finite and nonzero with `d = dim Supp M ∈ ℕ`, the list
 nonempty and secant (so its entries lie in `𝔪`).
 
-*Proof sketch.* As part of this target construct the finite Koszul complex of a list, with
-one copy of `M` for each increasing subset of indices and the alternating differential that
-removes an index and multiplies by its entry (Stacks, §15.29, tag 0621). For a full system of
-`d` parameters `z`, each Koszul homology module has finite length: it is finite, supported in
+*Proof sketch.* Use IntegralHeckeAndGaloisDeterminants §6.4, **Koszul complex of a finite sequence**,
+`koszulComplex φ` with `φ(e_i)=z_i`, tensor it with `M`, and use its alternating-deletion
+differential (Stacks, §15.29, tag 0621). The Čech–Koszul annihilator argument belongs here.
+For a full system of `d` parameters `z`, each Koszul homology module has finite length: it is finite, supported in
 `Supp M ∩ V(z) = {𝔪}`, and killed by `(z)` by the elementary Koszul homotopies. Apply the
 extended Čech complex at `𝔪` to the cochain Koszul complex in degrees `0,…,d`. Taking Koszul
 cohomology first collapses to that complex's cohomology, since finite-length modules have
 only degree-zero local cohomology. Taking Čech cohomology first gives
-`E₂^{p,q} = H^p(K•(z; H^q_𝔪(M)))`. The resulting finite filtration of
-`H^{d-1}(K•(z;M)) = H₁(K•(z;M))` has factors indexed by `0 ≤ q < d`, each killed by
+`E₂^{p,q} = H^p(K•(z; H^q_𝔪(M)))`. Filter the bounded Čech–Koszul total complex by either
+coordinate; each filtration is finite in every degree. The cohomology of the associated graded
+complexes gives the first pages, and taking the other differential gives the displayed second
+page. DGFloer Layer 1, item 3 supplies convergence and the filtration on total cohomology.
+The resulting finite filtration of `H^{d-1}(K•(z;M)) = H₁(K•(z;M))` has factors indexed by `0 ≤ q < d`, each killed by
 `Ann H^q_𝔪(M)`. Multiplying these annihilators therefore kills `H₁`.
 
 For the partial list `r₁,…,rₛ`, extend it to parameters with `q₁,…,q_{d-s}` (K0.3).
@@ -633,8 +649,10 @@ no added entries the boundary already gives zero. Replace `rₛ` by `rₛⁿ` to
 positive-power statement, using `IsSecant.pow` without changing `a(M)`.
 (Česnavičius, Remark 3.3, p. 10; Kawasaki 1996, Lemma 2.4, p. 42; the double-complex argument
 uses Stacks §15.29, tag 0621, and Lemma 47.9.1, tag 0A6R.) *Needs:* K0.1–K0.3, including
-secant parameter completion; Mathlib's double complexes, finite-filtration spectral sequences,
-and `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. This proof requires no dualizing complex.
+secant parameter completion; IntegralHeckeAndGaloisDeterminants §6.4 (finite Koszul complex);
+Mathlib's double complexes and `SpectralObject`; DGFloer Layer 1, item 3, **The spectral sequence
+of a filtered complex** (convergence and total-cohomology filtration);
+`Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. This proof requires no dualizing complex.
 
 The CM API is built after this bound:
 
@@ -736,8 +754,16 @@ Matlis evaluation; this target owns its noncomplete finite-module extension. For
 H^j_𝔪(M) ≅ Hom_R(Ext^{-j}_R(M, ω), E).
 ```
 
-*Proof sketch.* Stacks' local duality gives `Ext^{-j}_R(M, ω)^∧ ≅ Hom_R(H^j_𝔪(M), E)` with `^∧` the
-`𝔪`-adic completion. Put `N = Ext^{-j}_R(M, ω)`, a finite module. Local cohomology is
+*Proof sketch.* First prove the completed comparison
+`Ext^{-j}_R(M,ω)^∧ ≅ Hom_R(H^j_𝔪(M),E)`. The evaluation/Čech argument of
+ArithmeticGaloisDuality D7.1 applies before its completeness-removal step: prove
+`RΓ_𝔪(ω) ≅ E[0]` from normalization and finite-length duality, and the torsion adjunction
+from the extended Čech complex. Using `RHom(C_𝔪,−)=Λ_𝔪`, evaluation then yields
+`Λ_𝔪 RHom_R(M,ω) ≅ RHom_R(RΓ_𝔪(M),E[0])` (Stacks 0A84). These normalization
+and torsion-adjunction steps are parts of this target over the noncomplete ring.
+DerivedDeRhamCohomology §1.3 `DerivedDeRham.derivedCompletion` and §1.5 identify its cohomology
+with ordinary completion of finite cohomology over a Noetherian ring (Stacks 0A06, 0AAK).
+Here `^∧` denotes `𝔪`-adic completion. Put `N = Ext^{-j}_R(M, ω)`, a finite module. Local cohomology is
 `𝔪`-power torsion; the finite completed dual above implies it is Artinian (Stacks, Remark
 47.7.9). The injective hull `E` and `H^j_𝔪(M)` have their canonical `R̂`-actions; on these power-torsion modules an
 `R`-linear map is automatically `R̂`-linear. Apply `Hom_{R̂}(-, E)` to this isomorphism and Matlis
@@ -749,7 +775,9 @@ quotes. (Stacks, Theorem 47.18.3, tag 0A84, and
 Lemma 47.18.4, tag 0AAK; Section 47.7, tag 08Z1, for the injective hull and Matlis duality;
 Česnavičius, proof of Lemma 3.6(a), p. 11.) *Needs:* SchemeAndStackFoundations §2.21
 (`NormalizedDualizing`); the Matlis and completion target above; ArithmeticGaloisDuality D7.1
-`localDuality`; Mathlib `CategoryTheory.Injective`.
+`localDuality`; SchemeAndStackFoundations §2.7 (derived torsion and the Čech comparison) and
+§2.18 (`derivedTensor`, `derivedHom`); DerivedDeRhamCohomology §§1.3 and 1.5
+(derived completion and finite-cohomology completion); Mathlib `CategoryTheory.Injective`.
 
 **Checks.**
 
@@ -888,8 +916,9 @@ SchemeAndStackFoundations §2.7 (depth), §2.21 (localization shifts); the caten
 
 ### Dependencies
 
-Mathlib; SchemeAndStackFoundations §§0.16–0.18, §2.7 and §2.21;
-AdicSpacesPartII (algebraic Čech complex); ArithmeticGaloisDuality D7.1.
+Mathlib; SchemeAndStackFoundations §§0.16–0.18, §2.7, §2.18 and §2.21;
+AdicSpacesPartII (algebraic Čech complex); IntegralHeckeAndGaloisDeterminants §6.4;
+DGFloer Layer 1, item 3; ArithmeticGaloisDuality D7.1; DerivedDeRhamCohomology §§1.3 and 1.5.
 
 ## Layer K1: Huneke d-sequences and the Goto–Yamagishi identities
 
@@ -1057,7 +1086,9 @@ p. 15, where the `i`-th factor is the `i`-th prefix ideal.) *Needs:* Mathlib `Id
   is regular on `M'/(r₁, …, rₛ)M'`, it is regular on `M'` and on `M'/I_sⁿM'` for every `n > 0`.
 
 Every auxiliary list is quantified, including the empty one. `Suggested.lean` declares
-`KawasakiConditions`.
+`KawasakiConditions`. (Česnavičius, Proposition 3.11(i)–(iii), pp. 12–13, with the corrected
+last auxiliary element in (iii).) *Needs:* K0.3 `IsSecant` and `prefixQuotient`;
+K1.1 `IsDSequence`; K2.1 `prefixProduct`; Mathlib `IsSMulRegular`.
 
 The API:
 
@@ -1206,6 +1237,8 @@ remove the residual term. Retain all positive-exponent hypotheses when removing 
 Dimension-zero systems and empty original prefixes are handled separately from this
 positive-dimensional induction.
 
+For `s=1` this clause imposes no torsion condition; `M/I₀ⁿM=0` for `n>0`.
+
 **The torsion identity.** For `s ≥ 2`, `M' = M/(r'₁, …, r'_{s'})M` and all `m, n > 0`, the `rₛᵐ`-torsion
 and the `(r₁, …, rₛ)`-torsion of `M'/I_{s-1}ⁿM'` coincide. (README name
 `IsCMSecant.torsion_prefixProduct`.)
@@ -1236,8 +1269,8 @@ pp. 12–13.) *Needs:* the reversed-prefix target; `kawasaki_colon_A`, `kawasaki
   `(x,y)`-torsion of `R/(x)` are zero, while its `(x)`-torsion is the entire nonzero quotient.
 - For the same ring and `n=2`, the first two torsion submodules of `R/(x²)` are zero,
   while its `(x)`-torsion is `(x)/(x²) ≠ 0`.
-- For `R=M=k⟦x⟧` and `rs=[x]`, this clause imposes no torsion condition (`s=1`),
-  although `R/I₀ⁿR=0` for every `n>0`.
+- For `R=k⟦x,y⟧`, `M=k⊕R`, `rs=[x,y]` and `n=1`, both torsion submodules of
+  `M/xM = k⊕R/(x)` are the nonzero `k⊕0` for every `m>0`; the list is CM-secant.
 
 **Regularity of the last auxiliary element.** If `s' ≥ 1`, `M' = M/(r'₁, …, r'_{s'-1})M` and the last
 auxiliary element `r'_{s'}` is regular on `M'/(r₁, …, rₛ)M'`, then `r'_{s'}` is regular on `M'` and on
@@ -1595,6 +1628,8 @@ SchemeAndStackFoundations §0.3 (`relativeProj_affine_iso`, `relativeProj_eq_sta
 - For `R=k⟦x,y⟧/(xy)`, `I=(x)` and `J=(y)`, the product is zero and the blow-up is empty;
   on the first blow-up `Spec k⟦x⟧`, the pulled-back `J` is also zero.
 
+For `I=R` the product identity specializes to `Bl_J(M)=Bl_J(M)`.
+
 **Product of ideals, modules.** Let `I,J` be finitely generated ideals of `R`, `a ∈ I`, `c ∈ J`
 and `M` any `R`-module. Under the preceding chart-ring identification,
 `chartModule (I*J) (a*c) M` is the chart module at the image of `c` of the `R[I/a]`-module
@@ -1607,7 +1642,9 @@ gives exactly the same span as the product chart. (Česnavičius, §3.13, (3.13.
 
 **Checks.**
 
-- `I = R`: the identity is `Bl_J(M) = Bl_J(M)`.
+- For `R=k⟦x,y⟧`, `I=(x,y)`, `J=(x)`, `a=y`, `c=x` and `M=R/(x)`,
+  the first `y`-chart is nonzero; its chart at `x` and the product chart at `xy` are zero,
+  since inverting `x` kills `M`.
 - For `I = (a)` with `a` regular on `R` and on `M`, `Bl_{(a)J}(M) = Bl_J(M)`: blowing up an invertible
   ideal does nothing. If `r₁` is only `M`-regular, `Bl_{I₁}(M)` is the sheaf of `M` on
   `Spec R/R⟨r₁^∞⟩`; its pushforward to `Spec R` is `tilde M`. Identifying the blow-up scheme itself
@@ -1639,23 +1676,53 @@ K3.3; Mathlib `Module.support`, `PrimeSpectrum.zeroLocus`,
 - For `R=k⟦x,y⟧`, `I=(x,y)` and `M=R/(y)`, on the `x`-chart the support is `V(y/x)`;
   the map to `k((x))` kills exactly the chart ideal `(y/x)`.
 
+**Finite-type height inequality.** For an injective finite-type extension of Noetherian
+domains `A⊂B` and a prime `q` of `B` over `p` of `A`, prove `finiteType_height_le`:
+
+```text
+ht(q) + trdeg_{κ(p)} κ(q) ≤ ht(p) + trdeg_{Frac(A)} Frac(B).
+```
+
+No catenarity hypothesis is required. `Suggested.lean` uses `Algebra.trdeg A B` for the
+fraction-field transcendence degree and the algebra structure on residue fields induced by
+`Ideal.ResidueField.map`; the finite transcendence degrees are converted to naturals.
+(Stacks, Lemma 10.113.1, tag 02IJ.) *Needs:* Mathlib prime height, transcendence bases,
+fraction and residue fields, finite-type algebras.
+
+*Proof sketch.* Build the height estimate by induction on a finite list of algebra generators,
+using additivity of transcendence degree in towers. For a one-generator polynomial extension,
+localize at `p` and `q`; prove the flat local dimension formula by lifting prime chains and
+counting the fibre dimension (Stacks 00ON). The fibre is a localization of `κ(p)[t]`, with
+dimension zero or one according as the residue transcendence degree is one or zero.
+For a one-generator domain quotient with a nonzero kernel, the localized polynomial domain
+has a nonzero prime kernel; every prime chain in the quotient extends by its zero prime
+below that kernel, reducing the height by at least one. These estimates, including the
+flat local dimension formula used here, are built within this target.
+
+**Checks.**
+
+- For `A=k`, `B=k[t]`, `q=(t)`, the inequality is `1+0 ≤ 0+1`, with equality.
+- For `A=k[x]`, `B=A[t]`, `q=(x,t)`, it is `2+0 ≤ 1+1`, with equality.
+- For `A=k`, `B=k[t]`, `q=0`, it is `0+1 ≤ 0+1`; the residue-field term is nonzero.
+
 **The dimension of a Rees algebra.** For a Noetherian ring `A` and an ideal `J`,
 `dim A[Jt] ≤ dim A + 1` (extended Krull dimension; automatic when `dim A = ∞`). No equality is
 claimed; for `J = 0` the Rees algebra is `A`. `Suggested.lean` declares `ringKrullDim_reesAlgebra_le`.
 
 *Proof sketch.* `A[Jt]` is of finite type over `A` (`reesAlgebra.fg`). For a domain `A`, `A[Jt] ⊆ A[t]` is a
-domain of transcendence degree at most one over `A`, and the dimension formula bounds the height of
+domain of transcendence degree at most one over `A`, and `finiteType_height_le` bounds the height of
 every prime `𝔮` of `A[Jt]` by `ht(𝔮 ∩ A) + 1 ≤ dim A + 1`, with no universal catenarity needed for the
 inequality. In general, the kernels of `A[Jt] → (A/𝔭)[J(A/𝔭)t]` over the finitely many minimal primes
 `𝔭` are primes whose intersection is the nilradical (nilpotence is coefficientwise in `A[t]`), so every
 chain of primes of `A[Jt]` lies over one domain quotient. (Stacks, Lemma 10.113.1, tag 02IJ.)
-*Needs:* Mathlib `reesAlgebra`, `reesAlgebra.fg`, `ringKrullDim`.
+*Needs:* `finiteType_height_le`; Mathlib `reesAlgebra`, `reesAlgebra.fg`, `ringKrullDim`.
 
 **Checks.**
 
 - `J = A`: `A[At] = A[t]` has dimension `dim A + 1` for Noetherian `A`
   (`Polynomial.ringKrullDim_of_isNoetherianRing`), so the bound is attained.
-- `J = 0`: `A[0t] = A`, strictly below the bound when `dim A` is finite.
+- `J=0`: `A[0t]=A`; the inequality is strict when `A≠0` and `dim A∈ℕ`.
+  For the zero ring both sides are `⊥`, so equality holds.
 - For `A=k⟦x⟧` and `J=(x)`, `A[Jt]≅A[T]` has dimension two; a proper ideal can attain
   the bound too.
 
@@ -1836,12 +1903,16 @@ proof, (3.14.12)–(3.14.13), pp. 16–17.) *Needs:* K0.1, K1.1, K2.2–K2.3, K3
 
 **Checks.**
 
-- For `R=M=k⟦x,y⟧`, `rs=[x,y]`, the intermediate `(x)`-chart is the base and
-  `H¹_{(x,y)}(R)=0`, so both coefficients kill it.
+- For `R=k⟦x,y⟧`, `M=(x,y)⊂R` and `rs=[x,y]`, the list is CM-secant:
+  `H¹_𝔪(M)≅k`, `a(M)=𝔪`, the `y`-torsion of `M/xM` is `k·[x]`, and the terminal
+  quotient is `k²`. The intermediate `(x)`-chart module is `M`, so its nonzero
+  `H¹_{(x,y)}≅k` is killed by `x,y`, while `1` does not kill it.
 - For `R=M=k⟦x,y,z⟧`, `rs=[x,y]`, the intermediate `(x)`-chart is again the base;
   `H¹_{(x,y)}(R)=0`, despite the positive-dimensional terminal quotient.
 - For `R=M=k⟦x,y,z⟧/(x²,xy)` and `[y,z]`, the intermediate `(y)`-chart removes `(x)`
   and is `k⟦y,z⟧`, with `H¹_{(y,z)}=0`.
+
+For `s=2` the range `j<s−2` is empty; the first case with content is `s=3`.
 
 **The vanishing claim.** Assume in addition the two inputs of the outer induction: `depth M' ≥ s − 1`, and
 `depth M'_{(m)} ≥ s − 1` for every `m > 0`, where `M'_{(m)}` is the stalk at `x'` of `Bl_{I_{s-1}}(M/rₛᵐM)`. Then
@@ -1864,12 +1935,18 @@ SchemeAndStackFoundations §2.7 (depth and local cohomology).
 
 **Checks.**
 
-- For `s = 2` the range `j < 0` is empty and the claim is vacuous: the first case with content is `s = 3`.
+- For `R=M=k⟦x,y,z,w⟧/(x²,xy)` and `rs=[y,z,w]`, the first stage removes `(x)`.
+  The intermediate `y`-chart is `k⟦y,z,w⟧[z/y]` localized at `(y,z,w,z/y)`.
+  Here `(r_i,r_s)=(y,w)`, `H¹_{(y,w)}=0`, and `z/y` is regular on `H²_{(y,w)}`,
+  giving zero maximal-ideal torsion; `H¹_𝔪′(H²_{(y,w)})≠0` tests the cutoff.
 - For `R=M=k⟦x,y,z⟧`, `rs=[x,y,z]`, on the intermediate chart `R[y/x]` at
   `(x,y,z,y/x)`, `s=3` and `(r_i,r_s)=(x,z)`, `H¹_{(x,z)}=0` and
   `H⁰_{𝔪'}(H²_{(x,z)})=0`: the remaining parameter `y/x` is regular on the latter module.
 - For `k⟦x,y,z,w⟧` and `[x,y,z]` on the same `x`-chart at its origin, the same
   `H⁰_{𝔪'}` vanishing holds, with the additional free parameter `w`.
+
+The printed relation `aT−b` also acts by zero under both coefficient hypotheses;
+`bT−a` is the map of the exact sequence.
 
 **The relation kills `H¹`.** Over a Noetherian ring `R'`, if `a` and `b` kill `H^1_{(a,b)}(N)`, then
 `b T − a` kills `H^1_{(a,b)}(N[T])` over `R'[T]`. In the chart this is applied with `(a, b) = (r_a, r_b)`; the
@@ -1883,8 +1960,8 @@ Theorem 3.14, (3.14.8) and (3.14.10), p. 16, with the relation `r_bT − r_a`.) 
 
 **Checks.**
 
-- The printed relation `aT − b` also acts by zero (both coefficients do), but it is not the map of the
-  exact sequence; the statement names `bT − a`.
+- For `R=k⟦x,y⟧` and `N=(x,y)`, `H¹_𝔪(N)≅k≠0`; on its polynomial
+  extension both `yT−x` and `xT−y` act by zero, whereas `1` does not.
 - Without the hypotheses the conclusion fails: for `N = k⟦x, y⟧/(xy)` and `(a, b) = (x, y)`,
   `H^1_{(x,y)}(N)` maps onto `k((y))/k⟦y⟧` (from `N ⊆ k⟦x⟧ × k⟦y⟧` with cokernel `k`), on which `x` acts by `0`
   and `y` does not; there `yT − x` sends the class of `y⁻² ⊗ 1` to `y⁻¹ ⊗ T ≠ 0`, so `yT − x` does not kill
