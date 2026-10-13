@@ -73,9 +73,9 @@ regular + connected ⇒ irreducible). A chosen `k`-rational point `x₀`. The Ja
 
 Scheme-theoretic Weil/Cartier **divisors** and the divisor ↔ line-bundle dictionary; the
 **degree** map and **Pic⁰**; **coherent-sheaf cohomology** with **finiteness, Serre
-duality, Riemann–Roch** over `k`; the **relative** theory, i.e. proper-flat pushforward,
-**cohomology and base change / semicontinuity / Grauert**, relative effective Cartier
-divisors; the **Picard functor**, its **rigidification** (Poincaré bundle) and
+duality, Riemann–Roch** over `k`; the **relative** theory, i.e. coherent higher direct images
+under proper morphisms, **cohomology and base change / semicontinuity / Grauert**, relative
+effective Cartier divisors; the **Picard functor**, its **rigidification** (Poincaré bundle) and
 **representability**, and `Pic⁰` with its **properness/projectivity**; **abelian varieties**
 (dimension, tangent space, dual, polarizations, the theorem of the cube/square); the
 **Abel–Jacobi** morphism, universal property, and base change. The fppf-sheaf /
@@ -109,15 +109,64 @@ milestones in `Suggested.lean` (with `sorry`).
 
 ### Layer C, relative coherent cohomology and base change
 The part that the classical "Sym^g" story quietly relies on, so it comes *before* Picard.
-- Proper-flat-finitely-presented pushforward of coherent sheaves; **flat base change**;
-  **cohomology and base change / semicontinuity** (Grauert), and, if following
-  Grothendieck's Picard-scheme proof, the theorem on formal functions. That theorem is
-  consumed here, not proved here: its general form is owned by SchemeAndStackFoundations
-  §4.9, exported as `Scheme.Modules.Cohomology.formalFunctionsIso` in
-  `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`. The proper coherent
-  cohomology finiteness and coherent higher-direct-image results above are its inputs, and
-  the Picard construction of Layer D is its consumer; this layer builds no second completion
-  or formal-functions API.
+- **Coherent higher direct images under proper morphisms.** For every proper morphism
+  `f : X → S` with `S` locally Noetherian and every coherent `F` on `X`, construct
+  `R^q f_* F` and prove it coherent for all `q ≥ 0`, with no flatness of `f` or of `F` over
+  `S` (Stacks 02O5). Over `S = Spec A`, prove `H^q(X, F)` a finite `A`-module (02O6), with
+  the canonical `A`-linear identification `H^q(X, F) ≅ Γ(S, R^q f_* F)` (01XK); Layer B's
+  finite-dimensionality is the case `A = k`. The proof treats projective `f` first, from the
+  Čech computation of `H^q(ℙⁿ_A, 𝒪(m))`, and reduces the proper case to it by Chow's lemma
+  (SchemeAndStackFoundations §4.12, `chow_lemma`) and Noetherian induction. Finiteness over a
+  Noetherian affine base lives in `TauCeti/AlgebraicGeometry/Cohomology/Proper.lean`,
+  coherence of `R^q f_* F` in `Cohomology/Pushforward.lean`. **Checks:**
+  - `A = k⟦t⟧`, the finite morphism `i : Spec(A/(t)) → Spec A` and `F = 𝒪`: `i` is proper
+    and not flat, `i_* 𝒪 = (A/(t))~` is coherent and killed by `t`, `R^q i_* 𝒪 = 0` for
+    `q ≥ 1`, and `H⁰ = k` is a finite `A`-module that is not `A`-flat. This lies inside the
+    hypotheses of §4.9, whose isomorphism for `I = (t)` reads `k ≅ lim_n k`.
+  - `A = k⟦t⟧`, `f : ℙ¹_A → Spec A` (proper and flat) and `F = 𝒪/(t)`, the pushforward of
+    `𝒪_{ℙ¹_k}` from the special fibre: `F` is not `A`-flat, `H⁰(ℙ¹_A, F) = k`,
+    `H¹(ℙ¹_A, F) = 0` and `f_* F = (A/(t))~`.
+  - `A` Noetherian, `f : ℙ¹_A → Spec A` and `F = 𝒪(n)`: `H⁰` is free of rank `max(n + 1, 0)`
+    and `H¹` free of rank `max(−n − 1, 0)` (Hartshorne III.5.1).
+  - Properness is used: for `𝔸¹_k → Spec k`, `H⁰(𝔸¹_k, 𝒪) = k[t]` is not finite over `k`.
+- **Flat base change, semicontinuity, cohomology and base change**, each with its own
+  hypotheses. **Flat base change**: for `f : X → S` quasi-compact and quasi-separated, `F`
+  quasi-coherent on `X` and `g : S' → S` flat, with `f' : X' → S'` and `g' : X' → X` the
+  base change, the map `g^* R^q f_* F → R^q f'_* (g'^* F)` is an isomorphism; over
+  `S = Spec A`, `S' = Spec B` it reads `H^q(X, F) ⊗_A B ≅ H^q(X_B, F_B)` (Stacks 02KH).
+  The rest is for `f : X → S` proper with `S` locally Noetherian and `F` coherent and flat
+  over `S`, the hypotheses of StableReduction's contract J-C; Layer D's case is `f` proper,
+  flat and finitely presented with `F` locally free. Over affine `S = Spec A`, there is a
+  bounded complex `K` of finite projective `A`-modules with `H^q(X_B, F_B) ≅ H^q(K ⊗_A B)`
+  functorially in `A`-algebras `B` (Mumford, *Abelian Varieties*, §5; Stacks 0B91).
+  **Semicontinuity**: `s ↦ dim_{κ(s)} H^q(X_s, F_s)` is upper semicontinuous (Stacks 0BDN)
+  and `s ↦ χ(X_s, F_s)` is locally constant. **Cohomology and base change**: if
+  `φ^q(s) : R^q f_* F ⊗ κ(s) → H^q(X_s, F_s)` is surjective it is an isomorphism, and then
+  `φ^{q−1}(s)` is surjective if and only if `R^q f_* F` is locally free near `s`;
+  **Grauert**: if `S` is reduced and `s ↦ dim_{κ(s)} H^q(X_s, F_s)` is locally constant, then
+  `R^q f_* F` is locally free and every `φ^q(s)` is an isomorphism (Hartshorne
+  III.12.8–12.11 for projective `f`; Mumford, *Abelian Varieties*, §5). In relative
+  dimension one, `H¹(X_s, F_s) = 0` for every `s ∈ S` makes `f_* F` locally free, with
+  formation commuting with every base change. These live in
+  `TauCeti/AlgebraicGeometry/Cohomology/{BaseChange,Semicontinuity}.lean`. **Checks:**
+  - For a field extension `K/k`, `X` proper over `k` and `F` coherent,
+    `H^q(X_K, F_K) ≅ H^q(X, F) ⊗_k K`; in particular the genus does not change under
+    extension of `k`, which Layer F's base-change compatibility uses.
+  - `A` Noetherian, `f : ℙ¹_A → Spec A` and `F = 𝒪(n)`: every `φ^q(s)` is an isomorphism,
+    and `R⁰ f_* 𝒪(n)`, `R¹ f_* 𝒪(n)` are free of ranks `max(n + 1, 0)`, `max(−n − 1, 0)`.
+  - `S = 𝔸¹_k = Spec k[t]`, `f : ℙ²_S → S`, `Z ⊂ ℙ²_S` the union of the sections `[1:0:0]`,
+    `[0:1:0]`, `[1:1:t]`, and `F = 𝓘_Z ⊗ 𝒪(1)` (flat over `S` because `𝒪_Z` is):
+    `h⁰(ℙ²_{κ(s)}, F_s)` is `1` at `t = 0`, where the three points are collinear, and `0`
+    elsewhere, while `χ(ℙ²_{κ(s)}, F_s) = 0` for every `s`; `f_* F = 0`, so `φ⁰` at `t = 0` is
+    the non-surjective map `0 → k`.
+- The theorem on formal functions, which Grothendieck's Picard-scheme proof uses, is consumed
+  here, not proved here: its general form is owned by SchemeAndStackFoundations §4.9,
+  exported as `Scheme.Modules.Cohomology.formalFunctionsIso` in
+  `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`. The input §4.9 consumes is the
+  first item of this layer, at its stated generality: §4.9's coefficients `F/I^n F`, and
+  `⊕_n I^n F` over the Rees algebra `⊕_n I^n` (Stacks 0897), need not be flat over their
+  base. The Picard construction of Layer D is its consumer; this layer builds no second
+  completion or formal-functions API.
 - **Relative effective Cartier divisors** and **symmetric powers** `Symᵈ X` (smooth
   projective for a smooth curve): the geometric input to the Abel maps.
 
