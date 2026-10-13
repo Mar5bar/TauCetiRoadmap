@@ -1,8 +1,8 @@
 # Roadmap: geometry of numbers, quadratic forms and homogeneous arithmetic
 
-**Summary.** This roadmap develops the geometry of numbers and the arithmetic of integral quadratic and hermitian lattices: covolumes and the calculus of successive minima over the minima and Minkowski's second theorem of ArithmeticHeights; integral lattices over Dedekind domains with their local invariants, genera and spinor genera; hermitian representation densities, Siegel polynomials and the mass of a genus; lattice-point counts, transference, star bodies and Siegel's mean value theorem; the homogeneous-dynamics theorems behind Margulis's theorem on values of indefinite forms and Duke's equidistribution of lattice points on spheres; a certified LLL reduction; and Schlichting's hermitian K-theory of exact categories, through the hermitian delooping theorem to the Grothendieck–Witt groups of the integers. We want it because these are the quantitative tools that the arithmetic of quadratic forms, arithmetic statistics, Diophantine approximation and effective number theory draw on: counting and reducing lattices, computing local and global masses, controlling the values of quadratic forms at integer points, and the hermitian invariants that classify forms over rings of integers.
+**Summary.** This roadmap develops the geometry of numbers and the arithmetic of integral quadratic and hermitian lattices: covolumes, successive minima and both halves of Minkowski's second theorem; integral lattices over Dedekind domains with their local invariants, genera and spinor genera; hermitian representation densities, Siegel polynomials and the mass of a genus; lattice-point counts, transference, star bodies and Siegel's mean value theorem; the homogeneous-dynamics theorems behind Margulis's theorem on values of indefinite forms and Duke's equidistribution of lattice points on spheres; a certified LLL reduction; and Schlichting's hermitian K-theory of exact categories, through the hermitian delooping theorem to the Grothendieck–Witt groups of the integers. We want it because these are the quantitative tools that the arithmetic of quadratic forms, arithmetic statistics, Diophantine approximation and effective number theory draw on: counting and reducing lattices, computing local and global masses, controlling the values of quadratic forms at integer points, and the hermitian invariants that classify forms over rings of integers.
 
-This roadmap builds the geometry of numbers and the arithmetic of quadratic and hermitian lattices on top of Mathlib's `ZLattice`, Minkowski's first theorem and the number-field embeddings, and on top of Tau Ceti's integral lattices over `ℤ`, its exact categories and its spinor norms. From covolumes and Gram determinants it goes to the calculus of successive minima, whose definition and both halves of Minkowski's second theorem come from ArithmeticHeights, and to the sharpness of both halves; from there to integral quadratic lattices over a Dedekind domain with their localisations, genera and spinor genera, to the local theory (invariant factors, dyadic normal forms, hermitian and quaternionic variants), to representation densities, Siegel polynomials and the mass of a genus; then to lattice-point counting, the homogeneous-dynamics theorems behind Margulis's and Duke's results, star bodies and transference; to a certified LLL reduction; and finally to Schlichting's hermitian K-theory of exact categories with its applications to Dedekind rings and to the integers. The end theorems are the Cho–Yamauchi density formula and the mass identity for a definite genus, Henk's lattice-point bound, Margulis's theorem on values of indefinite forms, Duke's equidistribution of lattice points on spheres, the LLL approximation factor with an exact certificate, and the hermitian delooping theorem with the integral Grothendieck–Witt tables.
+This roadmap builds the geometry of numbers and the arithmetic of quadratic and hermitian lattices on top of Mathlib's `ZLattice`, Minkowski's first theorem and the number-field embeddings, and on top of Tau Ceti's integral lattices over `ℤ`, its exact categories and its spinor norms. From covolumes and Gram determinants it goes to successive minima and both sharp halves of Minkowski's second theorem; from there to integral quadratic lattices over a Dedekind domain with their localisations, genera and spinor genera, to the local theory (invariant factors, dyadic normal forms, hermitian and quaternionic variants), to representation densities, Siegel polynomials and the mass of a genus; then to lattice-point counting, the homogeneous-dynamics theorems behind Margulis's and Duke's results, star bodies and transference; to a certified LLL reduction; and finally to Schlichting's hermitian K-theory of exact categories with its applications to Dedekind rings and to the integers. The end theorems are Minkowski's second theorem in both directions, the Cho–Yamauchi density formula and the mass identity for a definite genus, Henk's lattice-point bound, Margulis's theorem on values of indefinite forms, Duke's equidistribution of lattice points on spheres, the LLL approximation factor with an exact certificate, and the hermitian delooping theorem with the integral Grothendieck–Witt tables.
 
 The construction has seven layers, in order.
 
@@ -20,9 +20,9 @@ Layers 0 and 1 are the geometry of numbers proper and are consumed by Layers 3, 
 
 ## Scope and ownership
 
-This roadmap owns: the orthonormal-coordinate and finite-span transports of ArithmeticHeights’ Hadamard inequalities, and the projection and primitive-intersection covolume calculus using ThetaSeries’ reciprocal inner-dual covolume; the `Fin d`-indexed successive minima of a convex body with respect to a lattice, read off ArithmeticHeights' `ZLattice.successiveMinimum`, with their gauge-threshold calculus, monotonicity and transport laws, the sharpness of both halves of Minkowski's second theorem, the real-flag transport of ArithmeticHeights’ integral minimum flag and the comparison with Tau Ceti's squared-norm minima; Minkowski's linear forms theorem; integral quadratic lattices over a Dedekind domain with localisation, descent, genus and proper spinor genus over a number field; invariant factors over a discrete valuation ring and Voight's atomic normal forms; integral hermitian lattices over a quadratic extension, quaternionic hermitian lattices over a quaternion order, and signed hermitian forms over a local field of odd residue characteristic; hermitian representation counts, local densities, Siegel polynomials and the Cho–Yamauchi formula; finite stabilizers and class sets over number rings, the mass of a genus, the adelic mass identity and the mass formula for maximal lattices; the theta series of a positive definite lattice on Tau Ceti's integral-lattice carrier, as the specialisation of ThetaSeries' theta series through its real model; Henk's lattice-point bounds and Davenport's estimate; Howe–Moore, ergodicity, Dani–Margulis, Ratner's three theorems, Margulis's theorem on quadratic values and Duke's theorem with their analytic inputs; packing and covering radii, Gaussian lattice sums as values of ThetaSeries' coset theta series, and the Gaussian transference estimates; star bodies, critical determinants, critical lattices and Mahler's criterion; Siegel's mean value theorem; certified LLL reduction; and the hermitian K-theory of exact categories from dualities to the nonconnective spectrum, with the ordinary K-theoretic and homotopical inputs it needs.
+This roadmap owns: the covolume calculus of discrete full lattices in real inner-product spaces beyond what Mathlib and Tau Ceti state (Hadamard, projections, primitive intersections), using ThetaSeries’ reciprocal inner-dual covolume; the `Fin d`-indexed successive minima of a convex body with respect to a lattice, with their gauge-threshold calculus, attainment, monotonicity and transport laws, both halves of Minkowski's second theorem with their sharpness, the integral minimum flag and the comparison with Tau Ceti's squared-norm minima; Minkowski's linear forms theorem; integral quadratic lattices over a Dedekind domain with localisation, descent, genus and proper spinor genus over a number field; invariant factors over a discrete valuation ring and Voight's atomic normal forms; integral hermitian lattices over a quadratic extension, quaternionic hermitian lattices over a quaternion order, and signed hermitian forms over a local field of odd residue characteristic; hermitian representation counts, local densities, Siegel polynomials and the Cho–Yamauchi formula; finite stabilizers and class sets over number rings, the mass of a genus, the adelic mass identity and the mass formula for maximal lattices; the theta series of a positive definite lattice on Tau Ceti's integral-lattice carrier, as the specialisation of ThetaSeries' theta series through its real model; Henk's lattice-point bounds and Davenport's estimate; Howe–Moore, ergodicity, Dani–Margulis, Ratner's three theorems, Margulis's theorem on quadratic values and Duke's theorem with their analytic inputs; packing and covering radii, Gaussian lattice sums as values of ThetaSeries' coset theta series, and the Gaussian transference estimates; star bodies, critical determinants, critical lattices and Mahler's criterion; Siegel's mean value theorem; certified LLL reduction; and the hermitian K-theory of exact categories from dualities to the nonconnective spectrum, with the ordinary K-theoretic and homotopical inputs it needs.
 
-It leaves to other roadmaps, and cites: the field theory of quadratic forms (QuadraticFormInvariants Layers 1–6 and 9: hyperbolic planes and Witt cancellation, quaternion algebras, discriminants, the Witt ring, the Brauer-valued invariants, classification over a local field, the Scharlau transfer); isotropy and isometry over number fields (GlobalQuadraticForms Layers 5 and 6); integral lattices over `ℤ` and `ℤ_p` with their duals, discriminant groups, overlattices, Jordan splittings, genera over `ℤ`, Minkowski reduction and class-number finiteness over `ℤ`, the local automorphism density over `ℤ_p` and the masses over `ℤ` (Completed IntegralLattices Layers 1, 2 and 4; IntegralLattices milestones 2A–2G, 3A–3F, 4A–4C and 7A–7C); the spinor norm over a field with `2` invertible, its local tables and its adelic form over `ℚ` (OrthogonalSpinGroups Layers 1–3); the Pin and Spin groups and the double cover (RepresentationTheory/SpinRepresentations Layer 2); matrix Lie groups and the closed-subgroup theorem (RepresentationTheory/LieGroups Layer 2); finite adelic points, quotient and Tamagawa measures, reduction theory and the finite volume of arithmetic quotients (AdelicAlgebraicGroups AA.1, AA.2 and AA.3); exact structures and conflation-exact functors (GrothendieckEulerForms Layer 0, Tau Ceti `ExactStructure`) and exact Grothendieck groups (GrothendieckEulerForms Layer 2, Tau Ceti `ExactK0`); the proper classes of primitive positive definite binary quadratic forms, their correspondence with ideal classes of imaginary quadratic orders and the unit groups of those orders (IntegralLattices Layer B, milestones B2, B4 and B5); Construction A (Completed AlgebraicCodingTheory Layer 6); the successive minimum `ZLattice.successiveMinimum` of a lattice with respect to a convex body, its positivity, attainment and homogeneity for symmetric bodies, and both halves of Minkowski's second theorem (ArithmeticHeights Layers 4.1–4.2); Poisson summation on a full lattice with the Gaussian Fourier transform, the real model of a positive definite `TauCeti.IntegralLattice`, and the theta and coset theta series of a lattice with their convergence, holomorphy, expansions, orthogonal sums and rescaling (ThetaSeries Layers 1, 2C, 2D, 2G and 3); the Dedekind Gamma product and completion multiplier, and the continued and completed Dedekind zeta functions with their functional equation (LFunctions Layers 0 and 3); Poisson random measures with their independent counts and Campbell's formula (PointProcesses Layers 2 and 4); the arithmetic duality of number fields, through the high-degree restriction isomorphism and the cohomological dimension of `G_{K,S}` at all places (ArithmeticGaloisDuality R02.3.1 and R02.4.1–R02.4.4); the real Bott chain of the stable compact classical groups with its loop equivalences and homotopy table (HomotopySpheres Stage 4B); and local coefficient systems with twisted singular homology, the Serre spectral sequence and Whitehead's theorem (AlgebraicTopology Stages 2, 5 and 8). General theta modularity, strong approximation for spin groups and the Smith–Minkowski–Siegel formula for arbitrary genera are not part of this roadmap. The harmonic ternary theta specialization and the numerical orthogonal Tamagawa input needed below are constructed here.
+It leaves to other roadmaps, and cites: the field theory of quadratic forms (QuadraticFormInvariants Layers 1–6 and 9: hyperbolic planes and Witt cancellation, quaternion algebras, discriminants, the Witt ring, the Brauer-valued invariants, classification over a local field, the Scharlau transfer); isotropy and isometry over number fields (GlobalQuadraticForms Layers 5 and 6); integral lattices over `ℤ` and `ℤ_p` with their duals, discriminant groups, overlattices, Jordan splittings, genera over `ℤ`, Minkowski reduction and class-number finiteness over `ℤ`, the local automorphism density over `ℤ_p` and the masses over `ℤ` (Completed IntegralLattices Layers 1, 2 and 4; IntegralLattices milestones 2A–2G, 3A–3F, 4A–4C and 7A–7C); the spinor norm over a field with `2` invertible, its local tables and its adelic form over `ℚ` (OrthogonalSpinGroups Layers 1–3); the Pin and Spin groups and the double cover (RepresentationTheory/SpinRepresentations Layer 2); matrix Lie groups and the closed-subgroup theorem (RepresentationTheory/LieGroups Layer 2); finite adelic points, quotient and Tamagawa measures, reduction theory and the finite volume of arithmetic quotients (AdelicAlgebraicGroups AA.1, AA.2 and AA.3); exact structures and conflation-exact functors (GrothendieckEulerForms Layer 0, Tau Ceti `ExactStructure`) and exact Grothendieck groups (GrothendieckEulerForms Layer 2, Tau Ceti `ExactK0`); the proper classes of primitive positive definite binary quadratic forms, their correspondence with ideal classes of imaginary quadratic orders and the unit groups of those orders (IntegralLattices Layer B, milestones B2, B4 and B5); Construction A (Completed AlgebraicCodingTheory Layer 6); Poisson summation on a full lattice with the Gaussian Fourier transform, the real model of a positive definite `TauCeti.IntegralLattice`, and the theta and coset theta series of a lattice with their convergence, holomorphy, expansions, orthogonal sums and rescaling (ThetaSeries Layers 1, 2C, 2D, 2G and 3); the Dedekind Gamma product and completion multiplier, and the continued and completed Dedekind zeta functions with their functional equation (LFunctions Layers 0 and 3); Poisson random measures with their independent counts and Campbell's formula (PointProcesses Layers 2 and 4); the arithmetic duality of number fields, through the high-degree restriction isomorphism and the cohomological dimension of `G_{K,S}` at all places (ArithmeticGaloisDuality R02.3.1 and R02.4.1–R02.4.4); the real Bott chain of the stable compact classical groups with its loop equivalences and homotopy table (HomotopySpheres Stage 4B); and local coefficient systems with twisted singular homology, the Serre spectral sequence and Whitehead's theorem (AlgebraicTopology Stages 2, 5 and 8). General theta modularity, strong approximation for spin groups and the Smith–Minkowski–Siegel formula for arbitrary genera are not part of this roadmap. The harmonic ternary theta specialization and the numerical orthogonal Tamagawa input needed below are constructed here.
 
 Already in Mathlib or Tau Ceti, used without restatement: Blichfeldt's theorem (`MeasureTheory.exists_pair_mem_lattice_not_disjoint_vadd`), Minkowski's first theorem in its strict and compact forms (`exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`, `…_le_measure`), the covolume of an ideal lattice under the mixed embedding (`NumberField.mixedEmbedding.covolume_idealLattice`, `covolume_integerLattice`), the bounded ideal-class representatives (`NumberField.exists_ideal_in_class_of_norm_le`) and the unit rank (`NumberField.Units.finrank_modTorsion`); the squared covolume as a Gram determinant (`ZLattice.covolume_sq_eq_det_gram`, Tau Ceti) and the Gram determinant of the image of an orthonormal basis as a squared normal determinant (`LinearMap.normDet_sq_eq_det_gram`, Mathlib, of which the family form `det Gram(v) = ‖det_b v‖²` is the case `U = EuclideanSpace 𝕜 (Fin n)`); the dual lattice (`LinearMap.BilinForm.dualSubmodule`); the spinor norm `θ(τ_{v₁}⋯τ_{v_r}) = [Q v₁ ⋯ Q v_r]` (Tau Ceti `CliffordAlgebra.spinorNorm`) and its finite adelic form over `ℚ` (`TauCeti.QuadraticMap.OrthogonalCompactOpens.adelicSpinorNorm`); the finiteness of isometries into a positive definite `ℤ`-lattice (`IntegralLattice.IsPosDef.finite_isometry`) and representation numbers (`IntegralLattice.representationNumber`); the Witt and Witt–Grothendieck rings of a field (`WittRing`, `WittGrothendieckRing`); involutive dualities on a category (`Functor.IsInvolutiveDual`, `Functor.dualityEquivalence`); lattice-point counts with an error term for Lipschitz boundaries (`TauCeti.NumberTheory.GeometryOfNumbers.LatticePointCount`), which Layer 4 does not reprove; exact categories with their conflations, exact functors and `K₀` (the `TauCeti.CategoryTheory.Exact.*` modules and `TauCeti.ExactK0`); binary quadratic forms with their `SL(2, ℤ)` action, reduced forms and the Hurwitz class number (`TauCeti.BinaryQuadraticForm`, `TauCeti.BinaryQuadraticForm.posDef`, `TauCeti.reducedForms`, `TauCeti.hurwitzClassNumber`); orthogonal sums, rescaling and evenness of integral lattices (`TauCeti.IntegralLattice.orthogonalSum`, `TauCeti.IntegralLattice.scale`, `TauCeti.IntegralLattice.IsEven`); and the fixed space of a measure-preserving map on `Lᵖ` (`TauCeti.Probability.fixedSpace`, `TauCeti.Probability.compMeasurePreserving_eq_self_iff`). Where a target here is a variant of one of these, its entry says in one clause how it differs.
 
@@ -98,10 +98,6 @@ ReductiveGroups Layer 9 supplies the explicit pinned Chevalley–Demazure group 
 
 RealAlgebraicGeometry Layers 2–6 (sign determination, semialgebraic descriptions and cylindrical decomposition) are used by the Davenport estimate of 4.1 and its finite-component theorem by 4.2. ClassFieldTheory Layer 5 (local cohomological dimension and duality), Layer 11 (the global class formation) and its Hilbert 90 are used by 3.3; 6.10 receives local and global duality over number fields only through ArithmeticGaloisDuality. ProfiniteCohomology Layers 4 and 11 (the finite-quotient description and cohomological dimension `cd_p`) are used by 6.10.
 
-### From TauCetiRoadmap.ArithmeticHeights
-
-Layer 4.1 supplies `ZLattice.successiveMinimum L B i`, for `i : ℕ` and any set `B`, the infimum of the `t > 0` for which `t • B` contains `i + 1` linearly independent points of `L`; it takes the value `sInf ∅ = 0` at every `i ≥ finrank ℝ E`. With it come `ZLattice.successiveMinimum_pos`, `ZLattice.successiveMinimum_le_of_le` (monotone below the dimension), `ZLattice.successiveMinimum_smul`, the attainment `ZLattice.exists_linearIndependent_gauge_eq_successiveMinimum`, its body form `ZLattice.exists_linearIndependent_mem_smul_successiveMinimum` (the only statement that needs `B` closed) and the strict flag `ZLattice.mem_span_of_gauge_lt_successiveMinimum`, stated for a convex, centrally symmetric `B` with nonempty interior, bounded wherever positivity or attainment is asserted. Layer 4.2 supplies both halves of Minkowski's second theorem, `ZLattice.covolume_le_prod_successiveMinimum_mul_measure` and `ZLattice.prod_successiveMinimum_mul_measure_le`, for such `B` and an additive Haar `volume`, with the product over `Finset.range (finrank ℝ E)`. Layer 1 reads these on `Fin d` and on `ConvexBody`, which is compact, so boundedness and closedness hold; the gauge-threshold laws for bodies that need not be symmetric, the prescribed minima, the real-flag adapters of §4.2’s integral flag, the comparison with Tau Ceti's squared-norm minima, and the counting and transference applications of Layer 4 are built here. The §3.4 matrix Hadamard and §4.2 adapted-basis results are consumed through the contracts below. Heights, Siegel's lemma and Bombieri–Vaaler belong to ArithmeticHeights.
-
 ### From TauCetiRoadmap.ThetaSeries
 
 Layer 1 supplies `poissonSummation` for a full lattice in a finite-dimensional real inner-product space with the canonical volume and Mathlib's Fourier transform `𝓕 f y = ∫ f x e(−⟪x, y⟫)`, so that the dual-side character is `e(+⟪v, m⟫)`, together with `summable_poisson_left`, `summable_poisson_right`, the even-function form `poissonSummation_of_even`, the dual `dual L = LinearMap.BilinForm.dualSubmodule (innerₗ E) L`, the Schwartz Gaussian `gaussian τ`, `x ↦ exp(π i τ ‖x‖²)`, and its transform `fourier_gaussian`. Layer 2C supplies reciprocal covolumes for the inner dual, transported to real spans by §0.3.2. Layer 2D supplies the real model `realModel M` of a positive definite `TauCeti.IntegralLattice`, with `‖x‖² = B(x, x)`, and 2G its shells and representation numbers, identified with Tau Ceti's. Layer 3 supplies `thetaSeries L τ = Σ_{v ∈ L} exp(π i τ ‖v‖²)` and `thetaCoset L γ τ` on the upper half-plane, `summable_thetaSeries`, holomorphy, the expansion `hasSum_thetaSeries` in `exp(2π i τ)` for an even lattice and the 3C expansion in `exp(π i τ)` for an integral one, `thetaSeries_orthSum` and `thetaSeries_scale`. The exponent is `π i τ ‖v‖² = π i τ B(x, x)`, not `2π i τ q(x)`: an odd integral lattice has half-norms in `½ℤ`, and only an even lattice has an expansion in integral powers of `exp(2π i τ)`. 3.4 and 4.4 specialise this material; half-integral weight, the harmonic ternary theta series, Duke's application and the Gaussian transference estimates are built here.
@@ -130,13 +126,6 @@ The rows specify the inputs and local consumer carriers used in this folder.
 
 | Supplier | Supplied object/result | Consumer | Convention or hypothesis gap |
 | --- | --- | --- | --- |
-| ArithmeticHeights §3.4 / fully split Hadamard inequality (rwst) | Coordinate determinant bound | §0.1.1 / `orthonormal_coordinate_hadamard` | Transpose rows to columns, take the nonnegative square root and transport by an orthonormal basis, including empty/dependent families. |
-| ArithmeticHeights §3.4 / `Matrix.det_mul_transpose_self_le_prod`, `Matrix.sum_sq_norm_plucker_row_le_prod` (rwst) | Real/complex matrix Gram bound | §0.1.2 / `hermitian_gram_hadamard`, §0.1.3 | Restrict to the finite span; Cauchy–Binet identifies the conjugate-first Gram determinant with the Plücker sum, and Mathlib supplies reality/nonnegativity. |
-| ArithmeticHeights §4.2 / **Cassels’ Lemma 2**, `ZLattice.exists_basis_adapted` (rwst) | Full prefix adaptation | §0.2.8 / `exists_integral_basis_same_flag` | Independent family to real extension and `Basis.flag`; the prescribed-vector extension remains §0.2.7. |
-| ArithmeticHeights §4.2 / `ZLattice.exists_basis_mem_span_int_of_gauge_lt`, with §4.1 / `ZLattice.mem_span_of_gauge_lt_successiveMinimum` (rwst) | Integral strict-minimum prefix containment | §1.2.13 / `exists_integral_minimum_flag`, §4.1.12 | Integer-prefix containment implies real `Basis.flag` containment; keep central symmetry, zero interior and zero-based valid indices. |
-| ArithmeticHeights §4.1 / **Compactness is two hypotheses** (rwst) | Symmetric bounded-body gauge-slice finiteness | §1.2.2 / `finite_gauge_sublevel` | No standalone supplier Lean name is specified; the compact nonsymmetric extension is proved here. |
-| ArithmeticHeights §4.1 / `ZLattice.successiveMinimum_pos` (rwst) | Positive valid symmetric minima | §1.2.4 / `successiveMin_pos` | Bounded symmetric sets to compact `ConvexBody` and `Fin d`; the nonsymmetric extension remains here. |
-| ArithmeticHeights §4.1 / `ZLattice.successiveMinimum_le_of_le` (rwst) | Valid-index symmetric monotonicity | §1.2.5 / `successiveMin_monotone` | The supplier requires i≤j and j<d, rather than monotonicity on all naturals; retain the compact nonsymmetric extension. |
 | ThetaSeries §2C / **Covolume, determinant, index**, `ThetaSeries.covolume_dual` (seewoo5) | Reciprocal inner-dual covolumes | §0.3.2 / `covolume_dual`, §0.3.3 and dual consumers | Canonical intrinsic volume and real-span transport, including rank zero; LFunctions §1 / `covolume_dualIdealLattice` already uses this supplier through its volume-preserving Euclidean/mixed equivalence. |
 | ComplexTori Milestone 4 / **Torus-level affine algebra**, `cyclicNormHom`, `oneSubPow`, `oneSubToNormKer` (Paul-Lez) | Period-two norm/difference and zero composites | §6.1a Eilenberg–MacLane Tate computation; local restatements `c2Norm`, `c2Difference` | An involutive endomorphism is its own-inverse additive equivalence; difference is 1−σ and both composites vanish. The coherent spectral transfer is constructed here. |
 | LFunctions §0 / `AnalyticLFunctionData.gammaFactor`, §3 / `dedekindZetaData` (roed-math) | Dedekind archimedean product | §3.3 mass consumers; local restatement `dedekindArchimedeanFactor` | Zero shifts with r₁ real/r₂ complex factors and Mathlib’s factor two in `Gammaℂ`; the unavailable card is represented by a real-bodied factor, becoming an alias on import. |
@@ -149,7 +138,7 @@ The rows specify the inputs and local consumer carriers used in this folder.
 | Supplier | Supplied object/result | Consumer | Convention or hypothesis gap |
 | --- | --- | --- | --- |
 | GeometryOfNumbersAndQuadraticArithmetic §4.2 / `configurationMeasure`, `configurationMeasure_apply`, `measurable_configurationMeasure` | Underlying finite Dirac tuple sum and Giry measurability | PointProcesses Layer 0 / `PointMeasure.ofTuple` (mccorvie) | A fixed-n slice of the sigma carrier coerces to `Measure S`; repetitions retain multiplicity, and natural counts cast to ENNReal/extended naturals. PointProcesses supplies local finiteness, integer-valuedness and its vague/evaluation Borel comparison. |
-| GeometryOfNumbersAndQuadraticArithmetic §0.1.2 / ambient Gram transport of ArithmeticHeights §3.4 | Finite PSD Gram bound | RandomMatrices Milestone 8 / **Point processes and Gaussian local statistics** (kim-em) | Realize each finite kernel matrix as a Gram matrix. RandomMatrices retains the Fredholm domination and point-process convergence argument; the ordered-field matrix theorem is ArithmeticHeights’ input. |
+| GeometryOfNumbersAndQuadraticArithmetic §0.1.2 / `hermitian_gram_hadamard` | Finite PSD Gram bound | RandomMatrices Milestone 8 / **Point processes and Gaussian local statistics** (kim-em) | Realize each finite kernel matrix as a Gram matrix. RandomMatrices retains the Fredholm domination and point-process convergence argument. |
 | GeometryOfNumbersAndQuadraticArithmetic §6.1a / `Spectrum`, `spectrumHomotopyGroup` | General prespectrum stable homotopy colimit | HomotopySpheres §3A.3 / `stableStemDiagram`, `stableStem`, `stableStemι`, `stableStemIsColimit` (Paul-Lez) | Compare compactly generated topological spheres with pointed Kan spheres, identify suspension structure maps and begin where i+j≥0, then compare cofinal tails. |
 | GeometryOfNumbersAndQuadraticArithmetic §6.8a / `PoincareObject`, `quadraticPoincareStructure`, `genuinePoincareStructure` | Degree-zero genuine quadratic form, isometry, sum and Lagrangian API | HomotopySpheres §7B.1–3 / `EvenWallForm`, `EvenWallForm.Isometry`, `EvenWallForm.Lagrangian`, `OddWallFormation` (Paul-Lez) | Finite free integral forms with parity-dependent Wall refinements, retaining coefficient involution and whole-module quadratic functions. The two displayed Lagrangians, surgery-generated relation, realization and obstruction quotient belong to HomotopySpheres; its odd quotient is not identified with `FormationGroup`. |
 | GeometryOfNumbersAndQuadraticArithmetic §4.3 / `fourier_harmonic_gaussian` | Homogeneous harmonic Gaussian coordinate factors | LFunctions §6 / **Hecke’s lemma**, `Grossencharacter.mixedFourier_harmonicFactor_mul_archGaussian` (roed-math) | Phase (−i)^ℓ, scale t^(−ℓ−n/2), Gaussian exp(−πt‖x‖²). LFunctions supplies complex linearity for holomorphic/conjugate monomials, placewise scaling, tensor products, `harmonicExponent`, `harmonicDegree`, character signs and mixed Fourier transport with √2 complex-coordinate normalization. |
@@ -157,24 +146,42 @@ The rows specify the inputs and local consumer carriers used in this folder.
 
 ## How to read the build
 
-Layer 0 transports ArithmeticHeights’ Hadamard and adapted-flag results and ThetaSeries’ reciprocal dual covolume, and proves the projection and primitive-intersection identities and the adapted bases behind them. Layer 1 reads the successive minima and Minkowski's second theorem off ArithmeticHeights, proves their calculus and sharpness, and proves Minkowski's linear forms theorem. Layer 2 sets up integral quadratic and hermitian lattices over Dedekind domains with their local theory and their genera, and the comparisons that connect them to the field theory and to the `ℤ`-lattices of Tau Ceti. Layer 3 counts: finite-field representation numbers, local densities and Siegel polynomials, stabilizers, classes, mass, theta coefficients. Layer 4 is the analytic and dynamical side: lattice-point bounds, the homogeneous-dynamics theorems and their two arithmetic applications, transference, star bodies and critical lattices, Siegel's mean value theorem, lattices from codes. Layer 5 is the certified LLL algorithm. Layer 6 is hermitian K-theory of exact categories, beginning with the ordinary K-theoretic inputs it needs. Within Layer 2, build 2.2 and 2.7 before the field comparisons and the dual-quotient invariants. Within Layer 3, build the primitive/saturation counts and the 3.2.5 finite weights before the 3.2.4 polynomial, then the spherical Fourier comparison before its functional equation. The 3.4 theta series is ThetaSeries' theta series read through its real model and does not depend on Layer 4. Within Layer 6, build 6.1a–b and 6.8a before their derived consumers, 6.6a filtering quotients before the cone suspension, and 6.10.6 multiplicative suppliers before the 6.10.4 stable comparison; the degree-zero presentations and formation comparison feed the topological comparisons. Each target's `*Needs:*` line names its inputs by subsection number or supplier, and every definition ends with its checks; for the definitions stated in `Suggested.lean`, the discriminating checks reappear there as `example`s.
+Layer 0 gives the Gram-determinant and Hadamard bounds, consumes ThetaSeries’ reciprocal dual covolume, and proves the projection and primitive-intersection identities and the adapted bases behind them. Layer 1 defines successive minima, proves their calculus and both sharp halves of Minkowski's second theorem, and proves Minkowski's linear forms theorem. Layer 2 sets up integral quadratic and hermitian lattices over Dedekind domains with their local theory and their genera, and the comparisons that connect them to the field theory and to the `ℤ`-lattices of Tau Ceti. Layer 3 counts: finite-field representation numbers, local densities and Siegel polynomials, stabilizers, classes, mass, theta coefficients. Layer 4 is the analytic and dynamical side: lattice-point bounds, the homogeneous-dynamics theorems and their two arithmetic applications, transference, star bodies and critical lattices, Siegel's mean value theorem, lattices from codes. Layer 5 is the certified LLL algorithm. Layer 6 is hermitian K-theory of exact categories, beginning with the ordinary K-theoretic inputs it needs. Within Layer 2, build 2.2 and 2.7 before the field comparisons and the dual-quotient invariants. Within Layer 3, build the primitive/saturation counts and the 3.2.5 finite weights before the 3.2.4 polynomial, then the spherical Fourier comparison before its functional equation. The 3.4 theta series is ThetaSeries' theta series read through its real model and does not depend on Layer 4. Within Layer 6, build 6.1a–b and 6.8a before their derived consumers, 6.6a filtering quotients before the cone suspension, and 6.10.6 multiplicative suppliers before the 6.10.4 stable comparison; the degree-zero presentations and formation comparison feed the topological comparisons. Each target's `*Needs:*` line names its inputs by subsection number or supplier, and every definition ends with its checks; for the definitions stated in `Suggested.lean`, the discriminating checks reappear there as `example`s.
 ## Layer 0: Lattices, Gram determinants and covolumes
 
-This layer is the calculus of covolumes of discrete full ℤ-submodules of a real inner-product space `E`. Everything is stated intrinsically: a lattice of lower rank is first moved into its real span, which carries the inherited inner product and its own Lebesgue measure, and every volume is the canonical Euclidean volume of the space in which it is taken, with volume one in dimension zero. The layer transports ArithmeticHeights §3.4’s matrix Hadamard inequalities to the ambient Gram interface needed by Couveignes’ counting argument and consumes ThetaSeries §2C’s reciprocal inner-dual covolume; it establishes the covolume of an orthogonal projection and the equality of the covolumes of the two primitive intersections `Δ ∩ W` and `Δ ∩ W^⊥` of a self-dual lattice. The adapted-basis lemmas of 0.2 are the integral linear algebra these identities need (Smith normal form for a saturated sublattice, the projected basis, biorthogonal families) and are reusable on their own.
+This layer is the calculus of covolumes of discrete full ℤ-submodules of a real inner-product space `E`. Everything is stated intrinsically: a lattice of lower rank is first moved into its real span, which carries the inherited inner product and its own Lebesgue measure, and every volume is the canonical Euclidean volume of the space in which it is taken, with volume one in dimension zero. The layer proves the Gram–Hadamard inequality in the hermitian generality needed by Couveignes’ counting argument and consumes ThetaSeries §2C’s reciprocal inner-dual covolume; it establishes the covolume of an orthogonal projection and the equality of the covolumes of the two primitive intersections `Δ ∩ W` and `Δ ∩ W^⊥` of a self-dual lattice. The adapted-basis lemmas of 0.2 are the integral linear algebra these identities need (Smith normal form for a saturated sublattice, the projected basis, biorthogonal families) and are reusable on their own.
 
 ### 0.1 Gram determinants and the Hadamard inequality
 
-**Orthonormal coordinate Hadamard.** *`orthonormal_coordinate_hadamard` (0.1.1).* Provides the Hadamard determinant bound in an orthonormal coordinate basis. Supplied by ArithmeticHeights §3.4 / fully split Hadamard inequality (an open TauCetiRoadmap pull request by rwst).
-The supplier uses finite matrix rows and squared ℓ² norms; this roadmap transposes the coordinate matrix, takes the nonnegative square root and transports through the orthonormal basis, retaining the empty and dependent cases.
+Prove `orthonormal_coordinate_hadamard` (0.1.1): for an orthonormal basis b:Fin n→E over an RCLike field and any v:Fin n→E, ‖det_b(v)‖≤∏i ‖v_i‖.
+b is a full orthonormal basis; n=0 and dependent families are allowed.
+For every family, dependent or not, Mathlib's Gram–Schmidt orthonormal basis e of v has det_e(v)=∏i⟪e_i,v_i⟫, and each factor has norm at most ‖v_i‖; det_b and det_e differ by the determinant of an orthonormal change of basis, which has norm one.
+(Source: Couveignes2020, §3, printed p.494 (physical PDF p.8), Gram/covolume calculation.)
+*Needs:* Mathlib `InnerProductSpace.gramSchmidtOrthonormalBasis`, `InnerProductSpace.gramSchmidtOrthonormalBasis_det`, `norm_inner_le_norm`, `Orientation.abs_volumeForm_apply_le`, Mathlib `LinearMap.normDet_sq_eq_det_gram`.
+**Checks.**
 
-**Hermitian Gram–Hadamard.** *`hermitian_gram_hadamard` (0.1.2).* Provides the real, nonnegative Gram determinant bound for finite RCLike families in an arbitrary ambient normed inner-product space. Supplied by ArithmeticHeights §3.4 / `Matrix.det_mul_transpose_self_le_prod` and `Matrix.sum_sq_norm_plucker_row_le_prod` (an open TauCetiRoadmap pull request by rwst).
-The supplier is a finite-matrix statement; this roadmap restricts the family to its finite real or complex span, identifies the row/Plücker expression with the conjugate-first Gram determinant using Cauchy–Binet, and uses Mathlib Gram reality and positivity for the additional clauses, without assuming independence or positive dimension.
-RandomMatrices Milestone 8 / **Point processes and Gaussian local statistics** (an open TauCetiRoadmap pull request by kim-em) states the PSD-kernel special case, so the two can be reconciled by realizing each finite kernel matrix as a Gram matrix and applying this adapter; its Fredholm domination and convergence argument stays with RandomMatrices.
+- Orthogonal real columns (2,0),(0,3) attain determinant norm 6 and product norm 6.
+- Columns (1,0),(1,1) have determinant norm 1 and product norm √2; equality fails.
+- Duplicate nonzero columns have determinant 0 and positive product norms.
+
+Prove `hermitian_gram_hadamard` (0.1.2): for any v:Fin n→E in a normed RCLike inner-product space, det Gram(v) is the scalar image of its real part, and 0≤Re(det Gram(v))≤∏i ‖v_i‖². The ambient space need not be finite-dimensional.
+E is normed, not merely seminormed; n may be zero. No linear independence or nonsingularity assumption.
+Reality and nonnegativity are positive semidefiniteness of the Gram matrix. For the bound, a dependent family has Gram determinant zero; an independent one is a basis of its n-dimensional span, where the Gram entries are unchanged, and for an orthonormal basis b of that span det Gram(v)=‖det_b(v)‖², which 0.1.1 bounds.
+RandomMatrices Milestone 8 / **Point processes and Gaussian local statistics** (an open TauCetiRoadmap pull request by kim-em) states the PSD-kernel special case, so the two can be reconciled by realizing each finite kernel matrix as a Gram matrix and applying this theorem; its Fredholm domination and convergence argument stays with RandomMatrices.
+(Source: Couveignes2020, §3, printed p.494 (physical PDF p.8), Gram/covolume calculation.)
+*Needs:* Mathlib `Matrix.det_gram_ne_zero_iff_linearIndependent`, `Matrix.posSemidef_gram`, `finrank_span_eq_card`, Mathlib `LinearMap.normDet_sq_eq_det_gram`, 0.1 `orthonormal_coordinate_hadamard`.
+**Checks.**
+
+- The empty Gram determinant and diagonal product both equal 1.
+- Family (1,i) in C has Gram [[1,i],[-i,1]], determinant 0 and diagonal product 1. The unconjugated matrix [[1,i],[i,−1]] also has determinant 0, so this family does not test conjugation.
+- The single vector i in C has Gram determinant 1, whereas its unconjugated bilinear Gram determinant i·i=−1 is negative: conjugation is what makes the determinant nonnegative.
+- Real vectors (1,0),(1,1) have Gram [[1,1],[1,2]], determinant 1 and diagonal product 2.
+- A single vector has Gram determinant `‖v₀‖²`, the equality case of the bound; in `ℂ²` the vectors `(1,0),(0,i)` have Gram determinant 1 and coordinate determinant of squared norm 1.
 
 Prove `gram_uniform_bound` (0.1.3): if D≥0 and every v_i in v:Fin n→E satisfies ‖v_i‖²≤D, then Re(det Gram(v))≤D^n.
 The bound is on squared norms, not individual coefficients; n=0 is allowed.
 (Source: Couveignes2020, §3, printed p.494 (physical PDF p.8), Gram/covolume calculation.)
-*Needs:* the ArithmeticHeights §3.4 supplier and finite-span transport in §0.1.2 / `hermitian_gram_hadamard`.
+*Needs:* 0.1 `hermitian_gram_hadamard`.
 **Checks.**
 
 - n=0,D=0 gives 1≤0^0=1.
@@ -257,8 +264,16 @@ L∩W means the lattice comap along W→E. The input c is a basis of this satura
 - The columns (1,1),(0,−1) have determinant −1, so orientation reversal is allowed.
 - Every matrix with first column (2,0) has even determinant, hence cannot be an integral basis of Z².
 
-**Adapted integral basis flag.** *`exists_integral_basis_same_flag` (0.2.8).* Provides an integral lattice basis with the same real prefix flag as the given integral-valued real basis. Supplied by ArithmeticHeights §4.2 / **Cassels’ Lemma 2**, `ZLattice.exists_basis_adapted` (an open TauCetiRoadmap pull request by rwst).
-The supplier takes an independent family; this roadmap feeds it the family underlying `Basis (Fin d) ℝ E` and expresses its prefix-span equalities using the real extension and `Basis.flag`, without asserting equality of vectors or integral spans.
+Prove `exists_integral_basis_same_flag` (0.2.8): for a real basis w:Fin d→E with w_i∈L, there is an integral basis b:Fin d→L whose real extension has exactly the same basis flags as w at every k=0,…,d.
+Equality concerns real prefix spans, not equality of the vectors or their integral spans. The w_i need not be an integral basis.
+Induct on k. The intersection of L with the real span of w_0,…,w_(k−1) is a full lattice in that span; 0.2.7, applied inside the span of the first k+1 vectors, extends an integral basis of the k-th intersection by one vector to an integral basis of the (k+1)-st.
+(Source: Henk2002, p.3, prefix-span equality and (2.1).)
+*Needs:* Mathlib `Module.Basis.flag`, `Module.Basis.span`, `Module.Basis.ofZLatticeBasis`, `ZLattice.comap_discreteTopology`, `ZLattice.rank`, `Module.finrank_eq_card_basis`, 0.2 `saturated_adapted_basis_of_basis`.
+**Checks.**
+
+- The columns (1,1),(1,−1) have determinant −2: an independent integral-valued real basis is not necessarily an integral basis.
+- For the standard real basis of R³, x lies in flag 2 exactly when x_2=0.
+- For w=((2,0),(0,1)) in Z², every admissible b has b_0=±(1,0): the first vector is the primitive generator of L∩R·w_0, not w_0 itself.
 
 ### 0.3 Covolumes of projections, duals and primitive intersections
 
@@ -296,11 +311,11 @@ The basis `(2,0),(0,3)` spans a lattice of covolume `6` and Gram determinant `36
 
 ### Dependencies
 
-ArithmeticHeights §§3.4,4.2 and ThetaSeries §2C, through the transports above; Mathlib `ZLattice.covolume` and `covolume_eq_det_mul_measureReal`, `Matrix.gram`, `InnerProductSpace.gramSchmidtOrthonormalBasis`, `Submodule.exists_smith_normal_form_of_le`, `LinearMap.BilinForm.dualSubmodule` and the orthogonal-projection API.
+ThetaSeries §2C, through the transport of 0.3.2; Mathlib `ZLattice.covolume` and `covolume_eq_det_mul_measureReal`, `Matrix.gram`, `InnerProductSpace.gramSchmidtOrthonormalBasis`, `Submodule.exists_smith_normal_form_of_le`, `LinearMap.BilinForm.dualSubmodule` and the orthogonal-projection API.
 
 ## Layer 1: Convex bodies, successive minima and Minkowski’s theorems
 
-This layer works with the successive minima `λ_i(L, K)` of a convex body `K` with `0` in its interior with respect to a discrete full lattice `L`, as real numbers indexed by `Fin d` with `d = dim E`. The minimum itself, its attainment by one independent family for a symmetric body, and both halves of Minkowski’s second theorem are ArithmeticHeights Layers 4.1–4.2 (`ZLattice.successiveMinimum` with its API); this layer reads them on `Fin d` and proves what that supplier does not state: the gauge-threshold calculus of the minima for bodies that need not be symmetric, their monotonicity in the body and the lattice and their transport along linear equivalences, the sharpness of both halves of the second theorem on boxes and weighted cross-polytopes, the integral minimum flag used by Henk’s count in 4.1, the comparison with Tau Ceti’s squared-norm minima, Minkowski’s linear forms theorem with its boundary convention, and the elementary ordered-product and ball-volume bounds that the counting arguments of Layer 4 use. The minima are taken on the carriers `IsZLattice` and `ConvexBody`; the symmetric hypothesis is imposed only where the statement or its supplier needs it.
+This layer defines the successive minima `λ_i(L, K)` of a convex body `K` with `0` in its interior with respect to a discrete full lattice `L`, as real numbers indexed by `Fin d` with `d = dim E`, and proves their gauge-threshold calculus and their attainment by one independent family for bodies that need not be symmetric, their monotonicity in the body and the lattice and their transport along linear equivalences, both halves of Minkowski’s second theorem in their sharp form, with equality on weighted cross-polytopes and boxes, the integral minimum flag used by Henk’s count in 4.1, the comparison with Tau Ceti’s squared-norm minima, Minkowski’s linear forms theorem with its boundary convention, and the elementary ordered-product and ball-volume bounds that the counting arguments of Layer 4 use. The lower inequality is the weighted cross-polytope argument; the upper inequality follows Henk’s short proof through volumes of unions of translates of `½K` along a flag of coordinate boxes (1.5). The minima are defined on the carriers `IsZLattice` and `ConvexBody`; the symmetric hypothesis is imposed only where the statement needs it.
 
 ### 1.1 Elementary product and volume bounds
 
@@ -352,14 +367,14 @@ Intrinsic volume on E; for a proper subspace of R^M instantiate E with the subsp
 
 ### 1.2 Successive minima
 
-The symmetric finiteness, positivity and valid-index monotonicity inputs are ArithmeticHeights §4.1; the compact nonsymmetric extensions and gauge-threshold calculus below use Evertse2023, §2.3, Lemma 2.8, printed pp.23–24 (physical pp.13–14).
+Evertse2023, §2.3, Lemma 2.8, printed pp.23–24 (physical pp.13–14) supplies `successiveMin_def`, `finite_gauge_sublevel`, `successiveMin_isLeast`, `successiveMin_pos`, `successiveMin_monotone`, `successiveMin_le_iff`, `exists_min_gauge_outside`, `exists_greedy_gauge_family`, `exists_successiveMin_witnesses`, `successiveMin_smul_body`.
 
 *Standing hypotheses.* E is a finite-dimensional real normed vector space; L is a discrete full Z-submodule (the IsZLattice carrier). K is an ConvexBody E with 0 in its interior. No replacement gauge or lattice carrier is introduced. Write d=finrank_R E. An index i:Fin d means the source’s (i.val+1)-st minimum. There is no minimum to evaluate when d=0. Symmetry is assumed only in statements that need it.
 
-Define `successiveMin` (1.2.1): for a Z-submodule L of a finite-dimensional real normed space E, K:ConvexBody E and i:Fin d, λ_i(L,K) is ArithmeticHeights’ `ZLattice.successiveMinimum L K i.val`: the real infimum of the t>0 such that the dilate t·K contains i.val+1 real-linearly independent vectors of L. The supplier is indexed by ℕ and takes the value `sInf ∅ = 0` at every index ≥ d; the `Fin d` index excludes those indices, and no second infimum is introduced. Its geometric laws require L discrete and full and 0∈interior K; central symmetry is needed for attainment by one family and for Minkowski’s product inequalities.
-Its API is `successiveMin_def` (λ_i unfolds to the dilation infimum of `ZLattice.successiveMinimum`.); `successiveMin_isLeast` (For every i:Fin d, λ_i(L,K) is the least element of A_i={r≥0 : dim span_R{x∈L : gauge K x≤r}≥i.val+1}; no symmetry is needed.); `successiveMin_pos` (For every i:Fin d, 0<λ_i(L,K).); `successiveMin_monotone` (The function i↦λ_i(L,K), on Fin d, is monotone.); `successiveMin_le_iff` (For r≥0, λ_i(L,K)≤r if and only if i.val+1≤dim_R span_R((L:Set E)∩r·(K:Set E)).); `exists_successiveMin_witnesses` (For centrally symmetric K there exists a real basis b indexed by Fin d such that b_i∈L, gauge K b_i=λ_i(L,K), and every x∈L of gauge<λ_i lies in span_R{b_j:j<i}. In particular b_i∈λ_iK and all minimum bounds are attained by one independent family.); `successiveMin_antitone_body` (If K⊆K' and both bodies contain zero in their interior, then λ_i(L,K')≤λ_i(L,K) for every i.); `successiveMin_monotone_lattice` (If L≤M are discrete full lattices in the same E, then λ_i(M,K)≤λ_i(L,K).); `successiveMin_smul_body` (For c>0, λ_i(L,cK)=λ_i(L,K)/c; this is ArithmeticHeights’ `ZLattice.successiveMinimum_smul` on `Fin d`.); `successiveMin_linearEquiv` (Let e:E≃_R F, L'=e(L) as integral submodules, and K'=e(K) as convex bodies. For valid indices i,j with i.val=j.val, λ_j(L',K')=λ_i(L,K). Finite-dimensional normed real E,F and the discrete/full/interior hypotheses are understood. The equivalence need not be orthogonal or unimodular.); `successiveMin_first_le_iff` (If d>0 and r≥0, λ_0(L,K)≤r if and only if there exists x∈L with x≠0 and x∈rK.); `successiveMin_box` (Let b be a real basis of E indexed by Fin d, L=span_Z(range b), and a:Fin d→R positive and nondecreasing. If K is the convex body {x:∀j, a_j|b.repr(x)_j|≤1}, then λ_i(L,K)=a_i for every i.); `successiveMin_crosspolytope` (With b,L and positive nondecreasing a as for rectangular-body-minima, let K={x:Σ_j a_j|b.repr(x)_j|≤1}. Then λ_i(L,K)=a_i. Together with weighted-crosspolytope-volume, this attains equality in minkowski-second-lower.).
-For a closed body with zero in its interior and t>0, x∈t·K exactly when gauge K x≤t, and only the zero vector has gauge zero; this identifies the dilation infimum with the least gauge threshold of `successiveMin_isLeast`, which is how the gauge calculus below is read off the supplier’s definition. The comparison with Tau Ceti’s natural-number squared-norm minima of an integral lattice is 1.2.14.
-*Needs:* ArithmeticHeights 4.1 `ZLattice.successiveMinimum`, Mathlib `ConvexBody`, `gauge`, `gauge_le_one_iff_mem_closure`, `finrank_span_eq_card`, `gauge_closedBall`.
+Define `successiveMin` (1.2.1): for a Z-submodule L of a finite-dimensional real normed space E, K:ConvexBody E and i:Fin d, define λ_i(L,K) as the real infimum of the t>0 such that the dilate t·K contains i.val+1 real-linearly independent vectors of L. This is a real-valued function on carriers; the `Fin d` index excludes every index ≥ d, at which no such t exists and the infimum would be the junk value `sInf ∅ = 0`. Its geometric laws require L discrete and full and 0∈interior K; central symmetry is needed for Minkowski’s product inequalities.
+Its API is `successiveMin_def` (λ_i unfolds to the dilation infimum specified in the definition.); `successiveMin_isLeast` (For every i:Fin d, λ_i(L,K) is the least element of A_i={r≥0 : dim span_R{x∈L : gauge K x≤r}≥i.val+1}; no symmetry is needed.); `successiveMin_pos` (For every i:Fin d, 0<λ_i(L,K).); `successiveMin_monotone` (The function i↦λ_i(L,K), on Fin d, is monotone.); `successiveMin_le_iff` (For r≥0, λ_i(L,K)≤r if and only if i.val+1≤dim_R span_R((L:Set E)∩r·(K:Set E)).); `exists_successiveMin_witnesses` (There exists a real basis b indexed by Fin d such that b_i∈L, gauge K b_i=λ_i(L,K), and every x∈L of gauge<λ_i lies in span_R{b_j:j<i}. In particular b_i∈λ_iK and all minimum bounds are attained by one independent family.); `successiveMin_antitone_body` (If K⊆K' and both bodies contain zero in their interior, then λ_i(L,K')≤λ_i(L,K) for every i.); `successiveMin_monotone_lattice` (If L≤M are discrete full lattices in the same E, then λ_i(M,K)≤λ_i(L,K).); `successiveMin_smul_body` (For c>0, λ_i(L,cK)=λ_i(L,K)/c. The scalar action on ConvexBody is the one.); `successiveMin_linearEquiv` (Let e:E≃_R F, L'=e(L) as integral submodules, and K'=e(K) as convex bodies. For valid indices i,j with i.val=j.val, λ_j(L',K')=λ_i(L,K). Finite-dimensional normed real E,F and the discrete/full/interior hypotheses are understood. The equivalence need not be orthogonal or unimodular.); `successiveMin_first_le_iff` (If d>0 and r≥0, λ_0(L,K)≤r if and only if there exists x∈L with x≠0 and x∈rK.); `successiveMin_box` (Let b be a real basis of E indexed by Fin d, L=span_Z(range b), and a:Fin d→R positive and nondecreasing. If K is the convex body {x:∀j, a_j|b.repr(x)_j|≤1}, then λ_i(L,K)=a_i for every i.); `successiveMin_crosspolytope` (With b,L and positive nondecreasing a as for rectangular-body-minima, let K={x:Σ_j a_j|b.repr(x)_j|≤1}. Then λ_i(L,K)=a_i. Together with weighted-crosspolytope-volume, this attains equality in minkowski-second-lower.).
+For a closed body with zero in its interior and t>0, x∈t·K exactly when gauge K x≤t, and only the zero vector has gauge zero; this identifies the dilation infimum with the least gauge threshold of `successiveMin_isLeast`, which is how the gauge calculus below is read off the definition. The comparison with Tau Ceti’s natural-number squared-norm minima of an integral lattice is 1.2.14.
+*Needs:* Mathlib `ConvexBody`, `gauge`, `gauge_le_one_iff_mem_closure`, `finrank_span_eq_card`, `gauge_closedBall`.
 **Checks.**
 
 - For L=Z⊂R and K=[−2,2], λ_0(L,K)=1/2.
@@ -371,13 +386,14 @@ For a closed body with zero in its interior and t>0, x∈t·K exactly when gauge
 - In Z and K=[−1,1], the attained minimum 1 has nonzero boundary witnesses; the strict sublevel {x∈Z : gauge K x<1} is {0}.
 - For a lattice that is not full (`ℤ(1,0)` in `ℝ²`) the minima beyond the rank are the junk value `0` of `sInf ∅`; this is why every law of 1.2 assumes `IsZLattice ℝ L`.
 
-**Finite gauge slices.** *`finite_gauge_sublevel` (1.2.2).* Provides finiteness of bounded gauge slices of a discrete lattice for symmetric bounded convex bodies. Supplied by ArithmeticHeights §4.1 / **Compactness is two hypotheses** (an open TauCetiRoadmap pull request by rwst).
-Our `ConvexBody` is compact and may be nonsymmetric, whereas the supplier permits nonclosed symmetric bodies; this roadmap proves the additional compact nonsymmetric extension: for every real R, the set {x∈L : gauge K x≤R} is finite.
+Prove `finite_gauge_sublevel` (1.2.2): for every real R, the set {x∈L : gauge K x≤R} is finite. K need not be symmetric.
+For R<0 the set is empty. For R≥0 it lies in the compact dilate R·K, because the closed bounded body K has gauge K x≤R exactly when x∈R·K, the case R=0 leaving only x=0; a discrete lattice meets a bounded set in finitely many points.
 *Needs:* Mathlib `gauge_nonneg`, `gauge_eq_zero`, `gauge_smul_of_nonneg`, `gauge_le_one_iff_mem_closure`, `ConvexBody.isClosed`, `ConvexBody.isCompact`, `ZSpan.setFinite_inter`, `Module.Basis.ofZLatticeBasis`, `Module.Basis.ofZLatticeBasis_span`, `absorbent_nhds_zero`, `IsCompact.isVonNBounded`.
 **Checks.**
 
 - Negative bound gives the empty set.
 - Bound zero gives precisely the zero lattice vector.
+- For Z² and the unit square, bound 2 gives 25 points.
 - For Z and the nonsymmetric body [−1/10,1], bound 2 gives exactly the three points 0,1,2.
 
 Prove `successiveMin_isLeast` (1.2.3): for every i:Fin d, λ_i(L,K) is the least element of A_i={r≥0 : dim span_R{x∈L : gauge K x≤r}≥i.val+1}.
@@ -388,19 +404,23 @@ The rank r↦dim span_R{x∈L : gauge K x≤r} is a nondecreasing step function 
 - A_i contains its endpoint; replacing ≤ by < in the membership assertion is false.
 - For the rectangle 2,3 the rank jumps from zero to one at 2 and from one to two at 3.
 
-**Positive successive minima.** *`successiveMin_pos` (1.2.4).* Provides positivity of every valid successive minimum for a symmetric bounded convex body. Supplied by ArithmeticHeights §4.1 / `ZLattice.successiveMinimum_pos` (an open TauCetiRoadmap pull request by rwst).
-Read the natural index on `Fin d` and the set body on `ConvexBody`; this roadmap proves the additional nonsymmetric gauge-threshold extension, with the same conclusion 0<λ_i(L,K) for every i:Fin d.
+Prove `successiveMin_pos` (1.2.4): for every i:Fin d, 0<λ_i(L,K). K need not be symmetric.
+By 1.2.3 λ_i is a member of A_i; the rank at the threshold 0 is that of the span of the zero vector, which is below i.val+1, so λ_i≠0.
 *Needs:* 1.2 `successiveMin_isLeast`, 1.2 `finite_gauge_sublevel`.
 **Checks.**
 
-- For (1/2)Z and the nonsymmetric body [−1/10,1], the minimum is 1/2: positivity does not imply a lower bound of 1.
+- For (1/2)Z and the unit interval the minimum is 1/2: positivity does not imply a lower bound of 1.
+- For (1/2)Z and the nonsymmetric body [−1/10,1], the minimum is again 1/2, attained by 1/2 and not by −1/2, whose gauge is 5.
+- For the subgroup Z+Z√2 of R, which is not discrete, the dilation infimum for [−1,1] is 0: discreteness of L is load-bearing.
 
-**Monotone successive minima.** *`successiveMin_monotone` (1.2.5).* Provides monotonicity of successive minima on valid indices for symmetric convex bodies. Supplied by ArithmeticHeights §4.1 / `ZLattice.successiveMinimum_le_of_le` (an open TauCetiRoadmap pull request by rwst).
-The supplier carries i≤j and j<d; this roadmap’s `Fin d` spelling excludes the zero junk values above dimension and retains the compact nonsymmetric extension, proving that i↦λ_i(L,K) is monotone.
+Prove `successiveMin_monotone` (1.2.5): the function i↦λ_i(L,K), on Fin d, is monotone. K need not be symmetric.
+For i≤j the threshold set A_j of 1.2.3 is contained in A_i, so its least element is at least that of A_i.
 *Needs:* 1.2 `successiveMin_isLeast`.
 **Checks.**
 
-- For Z² and the nonsymmetric rectangle [−1/10,1]², both minima are 1; strict monotonicity is false.
+- The unit cube has a constant sequence of minima; strict monotonicity is false.
+- For Z² and the nonsymmetric rectangle [−1/10,1]², both minima are 1.
+- The order is that of the index, not of the coordinates: for Z² and K=[−1/3,1/3]×[−1/2,1/2] the minima are (2,3), with λ_0 attained by e_1 and λ_1 by e_0.
 
 Prove `successiveMin_le_iff` (1.2.6): for r≥0, λ_i(L,K)≤r if and only if i.val+1≤dim_R span_R((L:Set E)∩r·(K:Set E)).
 *Needs:* Mathlib `gauge_eq_zero`, `gauge_smul_of_nonneg`, `gauge_le_one_iff_mem_closure`, `Submodule.finrank_mono`, `absorbent_nhds_zero`, `ConvexBody.isCompact`, `IsCompact.isVonNBounded`, 1.2 `successiveMin_isLeast`.
@@ -409,11 +429,15 @@ Prove `successiveMin_le_iff` (1.2.6): for r≥0, λ_i(L,K)≤r if and only if i.
 - At r=0 the right side is false for every valid index.
 - At r=λ_i the threshold holds.
 
-Prove `exists_successiveMin_witnesses` (1.2.7): for K centrally symmetric there exists a real basis b indexed by Fin d such that b_i∈L, gauge K b_i=λ_i(L,K), and every x∈L of gauge<λ_i lies in span_R{b_j:j<i}. In particular b_i∈λ_iK and all minimum bounds are attained by one independent family.
-This is ArithmeticHeights’ attainment read on `Fin d`: `ZLattice.exists_linearIndependent_gauge_eq_successiveMinimum` gives d independent lattice vectors realizing every minimum in gauge form, `ZLattice.exists_linearIndependent_mem_smul_successiveMinimum` places them in the closed dilates, and `ZLattice.mem_span_of_gauge_lt_successiveMinimum` is the strict flag. A family of d independent vectors is a real basis; the greedy construction belongs to the supplier.
-*Needs:* ArithmeticHeights 4.1 `ZLattice.exists_linearIndependent_gauge_eq_successiveMinimum`, `ZLattice.exists_linearIndependent_mem_smul_successiveMinimum`, `ZLattice.mem_span_of_gauge_lt_successiveMinimum`, Mathlib `basisOfLinearIndependentOfCardEqFinrank'`, 1.2 `successiveMin_def`.
+Prove `exists_successiveMin_witnesses` (1.2.7): there exists a real basis b indexed by Fin d such that b_i∈L, gauge K b_i=λ_i(L,K), and every x∈L of gauge<λ_i lies in span_R{b_j:j<i}. In particular b_i∈λ_iK and all minimum bounds are attained by one independent family. K need not be symmetric.
+The family is chosen greedily, in two steps. First prove `exists_min_gauge_outside`: if W<E is a proper real subspace, there is v∈L∖W with gauge K v≤gauge K x for every x∈L∖W; in particular the selected gauge is positive. A full lattice is not contained in W, and by 1.2.2 the minimum is taken over finitely many gauge values. Then prove `exists_greedy_gauge_family`: there is a real-linearly-independent family v:Fin d→L such that a_i=gauge K v_i is positive and nondecreasing, and every x∈L with gauge K x<a_i lies in span_R{v_j:j<i}; v_i is the vector of the first step for W the span of v_0,…,v_(i−1), appended with `linearIndependent_finSnoc`. The family has d members and thus is a real basis; no integral-basis claim is made. For r<a_i every lattice vector of gauge at most r lies in a span of dimension i, and for r≥a_i the vectors v_0,…,v_i qualify, so by 1.2.3 a_i=λ_i. Since K is closed and λ_i>0, gauge K b_i=λ_i gives b_i∈λ_iK.
+*Needs:* Mathlib `IsZLattice`, `Set.exists_min_image`, `gauge_pos`, `absorbent_nhds_zero`, `ConvexBody.isCompact`, `IsCompact.isVonNBounded`, `linearIndependent_finSnoc`, `finrank_span_eq_card`, `basisOfLinearIndependentOfCardEqFinrank'`, `gauge_le_one_iff_mem_closure`, `gauge_smul_of_nonneg`, 1.2 `finite_gauge_sublevel`, 1.2 `successiveMin_isLeast`, 1.2 `successiveMin_pos`.
 **Checks.**
 
+- For Z², the rectangle with minima 2,3, and W=Re_0, the least outside gauge is 3.
+- W=top is excluded because the complement is empty.
+- Repeated minima are allowed: the unit square has both values 1.
+- Strict inequality in the flag is essential: e_0 has gauge equal to the first minimum and does not lie in the zero prefix.
 - The unit-square diagonal pair has determinant −2 and attains both minima, so attainment alone does not certify an integral basis.
 - The zero-dimensional family is an empty real basis and has no minimum value to evaluate.
 - For the nonsymmetric body [−1/10,1] and L=Z the minimum 1 is attained by 1 but not by −1, whose gauge is 10; outside the symmetric case a witness family is not closed under negation.
@@ -433,7 +457,8 @@ Prove `successiveMin_monotone_lattice` (1.2.9): if L≤M are discrete full latti
 - 2Z⊂Z gives minima 2 and 1 for the unit interval.
 
 Prove `successiveMin_smul_body` (1.2.10): for c>0, λ_i(L,cK)=λ_i(L,K)/c. The scalar action on ConvexBody is the one.
-*Needs:* ArithmeticHeights 4.1 `ZLattice.successiveMinimum_smul`, Mathlib `ConvexBody.coe_smul`, 1.2 `successiveMin_def`.
+Since gauge_(cK)=c⁻¹·gauge_K, the threshold set A_i of 1.2.3 for cK is c⁻¹ times the one for K.
+*Needs:* Mathlib `gauge_smul_left_of_nonneg`, `ConvexBody.coe_smul`, 1.2 `successiveMin_isLeast`.
 **Checks.**
 
 - Scaling the unit interval by 3 changes its minimum from 1 to 1/3.
@@ -453,8 +478,16 @@ Prove `successiveMin_first_le_iff` (1.2.12): if d>0 and r≥0, λ_0(L,K)≤r if 
 
 - For Z and the unit interval, r=1 has witnesses ±1, while every 0≤r<1 has none.
 
-**Integral strict-minimum flag.** *`exists_integral_minimum_flag` (1.2.13).* Provides an integral basis whose prefixes contain every strict successive-minimum gauge sublevel. Supplied by ArithmeticHeights §4.2 / **Cassels’ Lemma 2**, `ZLattice.exists_basis_mem_span_int_of_gauge_lt`, using §4.1 / `ZLattice.mem_span_of_gauge_lt_successiveMinimum` (an open TauCetiRoadmap pull request by rwst).
-The supplier’s integer-prefix containment implies this roadmap’s real `Basis.flag` containment after scalar extension, with zero-based `Fin d` indices and the same centrally symmetric body with zero in its interior; no bounds on the individual gauges of the integral basis vectors are asserted.
+Prove `exists_integral_minimum_flag` (1.2.13): there is an integral basis b:Fin d→L such that x∈L and gauge_K(x)<λ_i imply x belongs to the real flag of b at i, the span of its first i vectors.
+E is a finite-dimensional real normed inner-product space, L a discrete full Z-submodule, and d=dim_R E. Reuse IsZLattice, Basis and Basis.flag. The minimum index i:Fin d is zero-based; dimension zero has no index. K is a ConvexBody with zero in its interior. Write λ_i=successiveMin L K i. Symmetry is imposed only on the final counting theorem. No bound on the individual gauges of b_i is claimed; only the attained real basis's flag is preserved.
+Apply 0.2.8 to the real basis of 1.2.7: the integral basis it returns has the same real flags, and those contain the strict sublevels.
+(Source: Henk2002, pp.3–4, (2.1)–(2.3).)
+*Needs:* Mathlib `Module.Basis.flag`, 1.2 `exists_successiveMin_witnesses`, 0.2 `exists_integral_basis_same_flag`.
+**Checks.**
+
+- The nonzero constant vector in R² does not belong to flag zero; equality at the first minimum is not a strict sublevel.
+- The empty standard basis of R⁰ has flag zero equal to the entire zero space.
+- For Z² and the rectangle with minima 2,3, the lattice vectors of gauge below λ_1=3 are 0 and ±e_0, so b_0=±e_0; the integral basis ((1,1),(0,1)) fails, because its first flag does not contain e_0.
 
 Prove `TauCeti.IntegralLattice.successiveMinimum_eq_sq_successiveMin` (1.2.14): let L be a positive definite Tau Ceti `TauCeti.IntegralLattice` and e:L→E its real model with ‖e(x)‖²=B(x,x), so that e(L) is a discrete full lattice in E (ThetaSeries 2D `realModel`). For i:Fin(finrank_Z L), transported to Fin(dim_R E) along finrank_Z L=dim_R E, Tau Ceti’s squared-norm minimum `L.successiveMinimum i`, a natural number, equals λ_i(e(L), closedBall(0,1))².
 Tau Ceti’s minima count Z-independence in L and real minima count R-independence in E; the two agree because e(L) is full. The squared-norm minima live in `TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima`, a module newer than the Tau Ceti revision `Suggested.lean` is checked against, so this comparison is stated here only.
@@ -478,10 +511,29 @@ E has the canonical inner-product volume; o is orthonormal and b is a basis, not
 - With the standard basis and a=(2,3), the planar diamond has area 1/3.
 - Replacing the basis by (2e_0,3e_1), with a=(1,1), gives area 12.
 
-Prove `minkowski_second_lower` (1.3.2): for a discrete full lattice L in a finite-dimensional real inner-product space E and a symmetric convex body K with zero in its interior, (2^d/d!)·covolume(L)≤(∏_{i:Fin d}λ_i(L,K))·volume.real(K). Here d=finrank_R E and volume is intrinsic canonical Euclidean volume. The formula holds also for d=0.
-E is a finite-dimensional real inner-product space with Borel structure and canonical volume. L is a discrete full integral submodule. K is compact convex, centrally symmetric about zero, and has zero in its interior. A lower-rank lattice is first considered as a full lattice in its real span with that span’s own volume. No ambient-volume inequality for a measure-zero subspace is claimed. This is ArithmeticHeights’ `ZLattice.covolume_le_prod_successiveMinimum_mul_measure` for the canonical volume, read through `successiveMin_def`, with the product over `Finset.range d` rewritten over `Fin d` and `(volume K).toReal` as `volume.real K`; the cross-polytope argument belongs to the supplier.
-(Source: Evertse2023, §2.3, Theorem 2.9, printed p.24; ArithmeticHeights Layer 4.2.)
-*Needs:* ArithmeticHeights 4.2 `ZLattice.covolume_le_prod_successiveMinimum_mul_measure`, Mathlib `Fin.prod_univ_eq_prod_range`, `ConvexBody.isCompact`, `volume_euclideanSpace_eq_dirac`, 1.2 `successiveMin_def`.
+Prove `weighted_crosspolytope_subset` (1.3.2): let K be symmetric about zero with zero in its interior. For a real basis b and positive a_i, if b_i∈a_iK for every i, then {x:Σ_i a_i|b.repr(x)_i|≤1}⊆K.
+K:ConvexBody E, 0∈interior K and x∈K implies −x∈K. b is a finite real basis. All a_i are positive. The containment is independent of any lattice or volume normalization.
+(Source: Evertse2023, §2.3, Lemma 2.10 and lower-bound proof, printed pp.26–27 (physical pp.16–17).)
+*Needs:* Mathlib `gauge_le_of_mem`, `gauge_sum_le`, `gauge_neg`, `gauge_smul_of_nonneg`, `gauge_le_one_iff_mem_closure`, `absorbent_nhds_zero`.
+**Checks.**
+
+- The diamond with vertices ±e_0,±e_1 is contained in the unit square.
+- Without symmetry, containing b_i/a_i does not imply containing its negative.
+
+Prove `covolume_le_abs_basis_det` (1.3.3): In a finite-dimensional real inner-product space with canonical volume, let L be a discrete full lattice, o an orthonormal basis and b a real basis with every b_i∈L. Then covolume(L)≤|det_o(b)|.
+Both bases have the full ambient rank, including rank zero. L is discrete and full. The measure is intrinsic canonical Euclidean volume.
+(Source: Evertse2023, §2.3, lower-bound proof, printed p.27 (physical p.17).)
+*Needs:* Mathlib `ZLattice.covolume_div_covolume_eq_relIndex'`, `ZLattice.covolume_eq_det_mul_measureReal`, `ZLattice.covolume_pos`, `ZSpan.fundamentalDomain_ae_parallelepiped`, `OrthonormalBasis.volume_parallelepiped`, `instIsZLatticeRealSpan`, `Module.Basis.restrictScalars`.
+**Checks.**
+
+- The diagonal and antidiagonal vectors in Z² have absolute determinant 2≥1.
+- For 2Ze_0⊕3Ze_1 the basis determinant and covolume are both 6.
+
+Prove `minkowski_second_lower` (1.3.4): for a discrete full lattice L in a finite-dimensional real inner-product space E and a symmetric convex body K with zero in its interior, (2^d/d!)·covolume(L)≤(∏_{i:Fin d}λ_i(L,K))·volume.real(K). Here d=finrank_R E and volume is intrinsic canonical Euclidean volume. The formula holds also for d=0.
+E is a finite-dimensional real inner-product space with Borel structure and canonical volume. L is a discrete full integral submodule. K is compact convex, centrally symmetric about zero, and has zero in its interior. A lower-rank lattice is first considered as a full lattice in its real span with that span’s own volume. No ambient-volume inequality for a measure-zero subspace is claimed.
+Take the attaining basis b of 1.2.7, so that b_i∈λ_iK. By 1.3.2 the cross-polytope with weights λ_i lies in K, 1.3.1 gives its volume (2^d/d!)·|det_o(b)|/∏_iλ_i, and 1.3.3 bounds covolume(L) by |det_o(b)|.
+(Source: Evertse2023, §2.3, Theorem 2.9 and its complete lower-bound proof, printed pp.24,26–27.)
+*Needs:* Mathlib `ConvexBody.isCompact`, `volume_euclideanSpace_eq_dirac`, 1.2 `exists_successiveMin_witnesses`, 1.2 `successiveMin_pos`, 1.3 `weighted_crosspolytope_volume`, 1.3 `weighted_crosspolytope_subset`, 1.3 `covolume_le_abs_basis_det`.
 **Checks.**
 
 - For Z² and the unit diamond, product 1 times area 2 equals 2²/2!.
@@ -489,7 +541,7 @@ E is a finite-dimensional real inner-product space with Borel structure and cano
 - For 2Z and [−3,3], minimum 2/3 times length 6 equals 4=(2/1!)·2.
 - For dimension zero both sides are 1.
 
-Prove `successiveMin_box` (1.3.3): let b be a real basis of E indexed by Fin d, L=span_Z(range b), and a:Fin d→R positive and nondecreasing. If K is the convex body {x:∀j, a_j|b.repr(x)_j|≤1}, then λ_i(L,K)=a_i for every i.
+Prove `successiveMin_box` (1.3.5): let b be a real basis of E indexed by Fin d, L=span_Z(range b), and a:Fin d→R positive and nondecreasing. If K is the convex body {x:∀j, a_j|b.repr(x)_j|≤1}, then λ_i(L,K)=a_i for every i.
 b:Basis (Fin d) R E where d=finrank_R E. L is exactly its integral span. All a_i>0 and a is monotone. The stated set is the carrier of K.
 (Source: Evertse2023, §2.3, Example 2, printed pp.25–26 (physical pp.15–16).)
 *Needs:* Mathlib `finrank_span_eq_card`, `Submodule.finrank_mono`, 1.2 `successiveMin_le_iff`, 1.2 `successiveMin_pos`.
@@ -498,7 +550,7 @@ b:Basis (Fin d) R E where d=finrank_R E. L is exactly its integral span. All a_i
 - a=(2,3) gives minima 2,3.
 - a=(1,1,4) gives a repeated first value; the two shortest lattice vectors may be opposites and still fail to be independent.
 
-Prove `successiveMin_crosspolytope` (1.3.4): With b,L and positive nondecreasing a as for rectangular-body-minima, let K={x:Σ_j a_j|b.repr(x)_j|≤1}. Then λ_i(L,K)=a_i. Together with weighted-crosspolytope-volume, this attains equality in minkowski-second-lower.
+Prove `successiveMin_crosspolytope` (1.3.6): With b,L and positive nondecreasing a as for rectangular-body-minima, let K={x:Σ_j a_j|b.repr(x)_j|≤1}. Then λ_i(L,K)=a_i. Together with weighted-crosspolytope-volume, this attains equality in minkowski-second-lower.
 b:Basis (Fin d) R E where d=finrank_R E. L is exactly its integral span. All a_i>0 and a is monotone. The weighted l1 set is the carrier of K.
 (Source: Evertse2023, §2.3, Example 3 and Exercise 2.9, printed p.26 (physical p.16).)
 *Needs:* Mathlib `finrank_span_eq_card`, `Submodule.finrank_mono`, `ZLattice.covolume_eq_det_mul_measureReal`, 1.2 `successiveMin_le_iff`, 1.2 `successiveMin_pos`, 1.3 `weighted_crosspolytope_volume`.
@@ -531,10 +583,193 @@ n≥1, A:Matrix(Fin n,Fin n,R), det A≠0, all a_i>0, and ∏a_i≥|det A|. No r
 
 ### 1.5 Minkowski’s upper inequality
 
-Prove `minkowski_second_upper` (1.5.1): for a discrete full Z-lattice L in a finite-dimensional real inner-product space E and a centrally symmetric convex body K with 0 in its interior, (∏_{i:Fin d}λ_i(L,K))·volume.real(K)≤2^d·covolume(L), where d=dim_R E and λ_i is the zero-based successive minimum of 1.2. The formula includes d=0.
-E carries its Borel structure and canonical intrinsic Euclidean volume. L uses Submodule Z E, DiscreteTopology and IsZLattice. K uses ConvexBody. Lower-rank lattices are first regarded as full lattices in their real spans, with intrinsic measure. No ambient-volume conclusion for a lower-dimensional body is substituted. This is ArithmeticHeights’ `ZLattice.prod_successiveMinimum_mul_measure_le` for the canonical volume, read through `successiveMin_def`; the supplier needs a bounded convex symmetric body with nonempty interior, which a symmetric `ConvexBody` with zero in its interior is; the proof belongs to the supplier.
-(Source: Henk2002, p.2, Theorem 1.3; ArithmeticHeights Layer 4.2.)
-*Needs:* ArithmeticHeights 4.2 `ZLattice.prod_successiveMinimum_mul_measure_le`, Mathlib `Fin.prod_univ_eq_prod_range`, `ConvexBody.isCompact`, `IsCompact.measure_lt_top`, 1.2 `successiveMin_def`.
+For 1.5.11, 1.5.12, 1.5.13, 1.5.14, 1.5.15, 1.5.16, 1.5.20: These are sets, finite unions and scalar images, not new box or lattice carrier types. For d,q∈N, write M_q={z∈Z^d:−q≤z_j≤q for every j}, a finite interval in the function lattice. Write c(z)=(z_j:R)_j, U_q(S)=⋃_{z∈M_q}(c(z)+S), and M_q^k={z∈M_q:z_j=0 when k≤j<d}. Write U_q^k(S) for the same union restricted to M_q^k. Indices are zero-based. A cutoff k∈{0,…,d} retains the first k coordinates; the transverse dimension is d−k. Empty-coordinate products and volumes use the zero-dimensional convention.
+For 1.5.2, 1.5.3, 1.5.4, 1.5.5, 1.5.6, 1.5.7: E and F are finite-dimensional real normed vector spaces with their Borel measurable structures; μ and ν are additive Haar measures on E and F. Use their product measure μ×ν. The spaces may have dimension zero. For a finite indexing type I and v:I→E, write U_v(K)=⋃_{i∈I}{(v_i+x,y):(x,y)∈K}. Write f₁,r(x,y)=(rx,y), f₂,r(x,y)=(x,ry). These are ordinary finite unions and linear maps, not new constructors or carrier types.
+
+Prove `finite_interior_disjoint_translate_volume` (1.5.1): let K⊆E be compact and convex, and v:I→E a finite family. If v_i+int(K) and v_j+int(K) are disjoint whenever i≠j, then μ(⋃_i(v_i+K))=|I|·μ(K). Equality is in the nonnegative extended reals.
+E is finite-dimensional real normed with Borel structure; μ is an additive Haar measure. No symmetry, origin condition or positive-dimensional interior of K is required. The index type may be empty. Repeated translation vectors are not silently deduplicated; the stated interior-disjointness hypothesis controls when the cardinal factor is valid.
+(Source: Henk2002, p.5 (3.2), and p.6 the two volume factorizations after (3.4).)
+*Needs:* Mathlib `Convex.addHaar_frontier`, `Convex.translate`, `Homeomorph.image_interior`, `IsCompact.image`, `IsCompact.isClosed`, `IsClosed.measurableSet`, `MeasureTheory.measure_iUnion₀`, `MeasureTheory.measure_preimage_mul_right`.
+**Checks.**
+
+- The closed intervals [0,1] and [1,2] have union of real volume 2 despite sharing an endpoint.
+- Two copies of [0,1] have union volume 1, not 2; their interiors are not disjoint.
+
+Prove `finite_translate_section` (1.5.2): for every K⊆E×F, y∈F and finite v:I→E, {x:(x,y)∈U_v(K)}=⋃_i(v_i+{x:(x,y)∈K}).
+
+(Source: Henk2002, p.6, the section inclusion between (3.6) and the successive integrations.)
+**Checks.**
+
+- The union of translates of [0,1] indexed by Fin 0 is the empty real set.
+
+Prove `convex_section_enlargement` (1.5.3): if K⊆E×F is convex and r≥1, then for every y∈F there exists t∈E such that {x:(x,y)∈U_v(K)}⊆t+{x:(x,y)∈U_v(f₁,r(K))}.
+
+(Source: Henk2002, p.6, pointwise t(x) inclusion immediately after (3.6).)
+*Needs:* Mathlib `Convex.add_smul_sub_mem`, 1.5 `finite_translate_section`.
+**Checks.**
+
+- [2,3]⊆[4,6]−2, using a=2 and r=2.
+- [2,3] is not a subset of its dilation [4,6] about zero; the translation cannot be omitted.
+- There is no real t with {0,1,3}⊆{0,2,6}+t; arbitrary nonconvex sections do not satisfy the containment.
+
+Prove `section_union_volume_mono` (1.5.4): for convex K⊆E×F, r≥1 and every y∈F, μ{x:(x,y)∈U_v(K)}≤μ{x:(x,y)∈U_v(f₁,r(K))}.
+
+(Source: Henk2002, p.6, the inequality between section-volume integrals.)
+*Needs:* Mathlib `MeasureTheory.measure_preimage_mul_right`, 1.5 `convex_section_enlargement`.
+**Checks.**
+
+- At r=1, f₁,r(K)=K for every subset of ℝ×ℝ, so every section inequality is equality.
+
+Prove `partial_dilation_union_volume` (1.5.5): for compact convex K⊆E×F, finite v:I→E and r≥1, (μ×ν)(U_v(K))≤(μ×ν)(U_v(f₁,r(K))).
+
+(Source: Henk2002, p.6 (3.6) and the three-line successive-integration argument ending on p.7.)
+*Needs:* Mathlib `IsCompact.image`, `isCompact_iUnion`, `IsCompact.isClosed`, `IsClosed.measurableSet`, `measurable_measure_prodMk_right`, `MeasureTheory.Measure.prod_apply_symm`, `MeasureTheory.lintegral_mono`, 1.5 `section_union_volume_mono`.
+**Checks.**
+
+- At r=1 both measurable unions are the same, so the product-volume comparison is equality.
+- For an empty index type both sides are zero, including when either factor has dimension zero.
+- The integration uses only the two measurable section-volume functions; no measurable choice of the pointwise center is permitted as an unstated premise.
+
+Prove `complementary_dilation_union` (1.5.6): for any real r, any K⊆E×F and finite v:I→E, U_v(rK)=f₂,r(U_v(f₁,r(K))).
+
+(Source: Henk2002, p.6, identity M_q^i+K_{i+1}=f₂(M_q^i+f₁(K_i)).)
+**Checks.**
+
+- On ℝ×ℝ, f₁,2(3,5)=(6,5).
+- On ℝ×ℝ, f₂,2(3,5)=(3,10); it must leave the translation coordinate unchanged.
+
+Prove `transverse_union_volume` (1.5.7): for compact convex K⊆E×F, finite v:I→E and r≥1, r^(dim F)·(μ×ν)(U_v(K))≤(μ×ν)(U_v(rK)), interpreting the scalar factor by the nonnegative extended-real inclusion.
+
+(Source: Henk2002, p.6 (3.5), using the partial maps and (3.6).)
+*Needs:* Mathlib `MeasureTheory.Measure.addHaar_image_linearMap`, `LinearMap.det_prodMap`, `LinearMap.det_smul`, `MeasureTheory.Measure.prod.instIsHaarMeasure`, 1.5 `partial_dilation_union_volume`, 1.5 `complementary_dilation_union`.
+**Checks.**
+
+- For F=EuclideanSpace ℝ (Fin 0), the factor 2^(dim F) is 1, not 2 or zero.
+
+Prove `gauge_linearEquiv` (1.5.8): for real modules E,F, a linear equivalence e:E≃_R F, K⊆E and x∈E, gauge_{e(K)}(e(x))=gauge_K(x). No convexity, boundedness, symmetry or nonempty-interior hypothesis is needed.
+E,F are real modules with additive commutative group structure. Both the set and the evaluation point are transformed; this is a comparison for the gauge, not another gauge definition.
+(Source: direct deduction from Mathlib `gauge_def'`; Henk p.5, §3, uses the accompanying reduction to a standard lattice.)
+*Needs:* Mathlib `gauge_def'`.
+**Checks.**
+
+- For K=[−1,1], transforming K and x=1 by multiplication by 2 gives gauge_[−2,2](2)=1.
+- Keeping K=[−1,1] while replacing x=1 by x=2 gives gauge 2, not 1.
+
+Prove `convex_cluster_intersection_null` (1.5.9): for finite families A:I→Set(E), B:J→Set(E) of convex sets, if int(A_i) and int(B_j) are disjoint for every i,j, then μ((⋃_i A_i)∩(⋃_j B_j))=0.
+E is finite-dimensional real normed, with Borel structure and an additive Haar measure μ. The families may be empty; the individual convex sets need not be closed or bounded. The unions need not be convex.
+(Source: Henk2002, p.6, the volume factorizations immediately after (3.4).)
+*Needs:* Mathlib `mem_frontier_iff_notMem_interior`, `Convex.addHaar_frontier`, `MeasureTheory.measure_iUnion_null_iff`, `MeasureTheory.measure_union_null`, `MeasureTheory.measure_mono_null`.
+**Checks.**
+
+- ([0,2]∪[1,3])∩([3,5]∪[4,6]) has real volume zero.
+- [0,2]∩[1,3] has volume one: dropping cross-interior disjointness is false.
+
+Prove `clustered_translate_volume` (1.5.10): for compact convex K⊆E, finite u:I→E and v:J→E, suppose int(u_i+v_j+K) and int(u_i′+v_j′+K) are disjoint whenever j≠j′, for all i,i′. Then μ(⋃_j⋃_i(u_i+v_j+K))=|J|·μ(⋃_i(u_i+K)).
+E is finite-dimensional real normed and Borel; μ is additive Haar measure. Both index types may be empty. Within each row j, the sets may overlap and the labels i may repeat.
+(Source: Henk2002, p.6, the two factorizations following (3.4).)
+*Needs:* Mathlib `Convex.translate`, `Homeomorph.image_interior`, `IsCompact.image`, `isCompact_iUnion`, `IsCompact.isClosed`, `IsClosed.measurableSet`, `MeasureTheory.measure_iUnion₀`, `MeasureTheory.measure_preimage_mul_right`, 1.5 `convex_cluster_intersection_null`.
+**Checks.**
+
+- The union of [0,2],[1,3],[3,5],[4,6] has volume 6=2·3, not 4·2=8.
+- Repeating [0,1] within a row does not double that row's volume; two touching translated rows still have total volume 2.
+
+Prove `strict_flag_translate_separation` (1.5.11): let K⊆R^d be a symmetric convex body with 0 in its interior, t>0 and 0≤k≤d. Suppose every z∈Z^d with gauge_K(c(z))<t has z_j=0 for j≥k. If x,y∈Z^d differ in some coordinate j≥k, then c(x)+int((t/2)K) and c(y)+int((t/2)K) are disjoint.
+The flag condition is strict. No assertion about gauge=t points is made. A minimum vector need not be a basis vector, and no equality between a real and integral basis is assumed.
+(Source: Henk2002, pp.5–6, (3.2) and (3.4), using the strict flag from (2.3).)
+*Needs:* Mathlib `interior_subset_gauge_lt_one`, `gauge_smul_left_of_nonneg`, `gauge_add_le`, `gauge_neg`, `absorbent_nhds_zero`.
+**Checks.**
+
+- The open intervals (−1/2,1/2) and (1/2,3/2) are disjoint, even though the corresponding closed intervals touch.
+- Replacing the half-body by the whole unit interval makes translates centered at 0 and 1 overlap on (0,1).
+
+Prove `lattice_box_row_volume` (1.5.12): for compact convex S⊆R^d, q∈N and k≤d, assume c(x)+int(S) and c(y)+int(S) are disjoint for all x,y∈M_q whose tails (coordinates j≥k) differ. Then volume(U_q(S))=(2q+1)^(d−k)·volume(U_q^k(S)).
+Lebesgue volume is the product volume on R^d. The statement is in the nonnegative extended reals, with the natural cardinal factor cast into that space.
+(Source: Henk2002, p.6, the two displayed volume factorizations after (3.4).)
+*Needs:* Mathlib `Equiv.piEquivPiSubtypeProd`, `Pi.card_Icc`, `Int.card_Icc`, 1.5 `clustered_translate_volume`.
+**Checks.**
+
+- For q=1,k=1,d=2 and S=[−1,1]×[−1/2,1/2], the prefix union has area 4 and the full union area 12=3·4; summing nine individual areas would incorrectly give 18.
+- M_0 consists only of zero in every dimension, so every row-volume factor at q=0 is one.
+
+Prove `coordinate_transverse_union_volume` (1.5.13): for k≤d, compact convex S⊆R^d, a finite family v:I→R^d with (v_i)_j=0 whenever j≥k, and r≥1, r^(d−k)·volume(⋃_i(v_i+S))≤volume(⋃_i(v_i+rS)).
+No symmetry or origin condition is required for S. The family may be empty or have repeated labels. This is the product-space inequality expressed in coordinate space, not a new geometric carrier.
+(Source: Henk2002, p.6, (3.5) and the coordinate maps f₁,f₂.)
+*Needs:* Mathlib `Equiv.piEquivPiSubtypeProd`, `Homeomorph.piEquivPiSubtypeProd`, `MeasureTheory.volume_preserving_piEquivPiSubtypeProd`, `Module.finrank_fintype_fun_eq_card`, 1.5 `transverse_union_volume`.
+**Checks.**
+
+- For d=3,k=1,r=2 the multiplier is 4, not the ambient factor 8.
+- For k=d the multiplier is r^0=1; for k=0 it is r^d.
+
+Prove `flag_box_volume_ratio` (1.5.14): for K⊆R^d a symmetric convex body with 0 in its interior, 0<s≤t, q∈N and k≤d, assume gauge_K(c(z))<t implies z_j=0 for all j≥k. Then (t/s)^(d−k)·volume.real(U_q((s/2)K))≤volume.real(U_q((t/2)K)).
+K is the compact nonempty ConvexBody; compactness is used to convert finite union measures to real volume.
+(Source: Henk2002, pp.5–6, (3.3)–(3.5).)
+*Needs:* Mathlib `IsCompact.measure_lt_top`, `isCompact_iUnion`, `IsCompact.image`, 1.5 `strict_flag_translate_separation`, 1.5 `lattice_box_row_volume`, 1.5 `coordinate_transverse_union_volume`.
+**Checks.**
+
+- If s=t>0, the ratio inequality is equality, including every q and cutoff.
+- For q=1, K=[−1,1]×[−1/3,1/3], s=1,t=3,k=1, the smaller and larger union areas are 3 and 15. The required factor gives 9≤15; the incorrect ambient exponent gives 27≤15, which is false.
+
+Prove `first_box_volume` (1.5.15): for K⊆R^d a symmetric convex body with 0 in its interior and s>0, suppose gauge_K(c(z))<s for an integer vector z implies z=0. Then for every q∈N, volume.real(U_q((s/2)K))=(2q+1)^d·(s/2)^d·volume.real(K).
+K is the compact nonempty ConvexBody; compactness is used to convert finite union measures to real volume.
+(Source: Henk2002, p.5, (3.2).)
+*Needs:* Mathlib `Pi.card_Icc`, `Int.card_Icc`, `MeasureTheory.Measure.addHaar_smul_of_nonneg`, `IsCompact.measure_lt_top`, 1.5 `strict_flag_translate_separation`, 1.5 `finite_interior_disjoint_translate_volume`.
+**Checks.**
+
+- For q=1 and K=[−1,1]^2 with s=1, the union area is 9=3²·(1/2)²·4.
+- For q=1, K=[−2,2]×[−1,1] and s=1/2, the union area is 9/2=3²·(1/4)²·8.
+
+Prove `outer_lattice_box_volume` (1.5.16): for any compact S⊆R^d there is R≥0 such that, for every q∈N, volume.real(U_q(S))≤(2q+2R)^d.
+S need not be convex, symmetric or nonempty. R depends on S and d but is chosen once, independently of q.
+(Source: Henk2002, p.5, (3.1).)
+*Needs:* Mathlib `IsCompact.isBounded`, `isBounded_iff_forall_norm_le'`, `MeasureTheory.measureReal_mono`, `Real.volume_Icc_pi`.
+**Checks.**
+
+- For q=1 and R=3/2 in dimension two, the enclosing area is (2+3)²=25, bounding the anisotropic row example of area 15.
+- In dimension zero the right side is one, including q=R=0; the empty union's volume is zero.
+
+Prove `weighted_ratio_product` (1.5.17): for n∈N and positive a:Fin(n+1)→R, a_0^(n+1)·∏_{i:Fin n}(a_{i+1}/a_i)^(n−i)=∏_{j:Fin(n+1)}a_j.
+All a_j are strictly positive, so every denominator is nonzero. No monotonicity is needed for this algebraic identity. With n=0 the ratio product is empty and both sides are a_0.
+(Source: Henk2002, p.7, the final product expansion.)
+*Needs:* Mathlib `Fin.prod_univ_succ`.
+**Checks.**
+
+- For a=(2,3,5), 2³·(3/2)²·(5/3)=30=2·3·5.
+- For a=(2,2,5), the repeated ratio is one and the identity gives 20.
+- For n=0, the empty ratio product gives a_0^1=a_0.
+
+Prove `weighted_volume_chain` (1.5.18): for positive a:Fin(n+1)→R, nonnegative V:Fin(n+1)→R and B≥0, assume a_0^(n+1)B≤V_0 and (a_{i+1}/a_i)^(n−i)V_i≤V_{i+1} for every i:Fin n. Then (∏_j a_j)B≤V_n.
+All sequence entries and endpoints use Fin(n+1). The recurrence has exactly n inequalities, so for n=0 the conclusion is the initial inequality.
+(Source: Henk2002, p.7, the chain of inequalities after (3.6).)
+*Needs:* 1.5 `weighted_ratio_product`.
+**Checks.**
+
+- For a=(2,3,5), B=1 and V=(8,18,30), the two recurrence steps are equalities and the endpoint is 30.
+- With B=0 and V identically zero the conclusion holds; a proof that divides by a volume would be invalid.
+
+Prove `large_box_comparison_limit` (1.5.19): for d∈N and real R,B, if (2q+1)^d B≤(2q+2R)^d for every q∈N, then B≤1.
+The scalar statement does not require R≥0 or B≥0; the geometric application supplies both. The denominator 2q+1 is always strictly positive. Dimension zero is allowed.
+(Source: Henk2002, p.7, the last display and its conclusion for all q.)
+*Needs:* Mathlib `tendsto_add_mul_div_add_mul_atTop_nhds`, `le_of_tendsto'`.
+**Checks.**
+
+- For R=1/2 the ratio (2q+2R)/(2q+1) is identically one.
+- For d=0 both powers are one even when the numerator vanishes.
+
+Prove `coordinate_flag_upper` (1.5.20): let K be a symmetric convex body in R^d with 0 in its interior, and let a:Fin d→R be positive and nondecreasing. Suppose for every i and z∈Z^d, gauge_K(c(z))<a_i implies z_j=0 for all j≥i. Then (∏_i a_i)·volume.real(K)≤2^d.
+The a_i are threshold data satisfying the explicit flag condition; the statement does not define a new successive-minimum invariant. The conclusion includes d=0.
+(Source: Henk2002, §3, pp.5–7, (3.1)–(3.6) and final display.)
+*Needs:* Mathlib `MeasureTheory.Measure.volume_pi_eq_dirac`, `ConvexBody.isCompact`, 1.5 `flag_box_volume_ratio`, 1.5 `first_box_volume`, 1.5 `weighted_volume_chain`, 1.5 `outer_lattice_box_volume`, 1.5 `large_box_comparison_limit`.
+**Checks.**
+
+- For Z² and K=[−3,3]×[−1,1], thresholds (1/3,1) give product-volume 4, exactly 2².
+- For the unit diamond and thresholds (1,1), product-volume is 2<4.
+- For d=0 the product-volume and the bound are both one.
+
+Prove `minkowski_second_upper` (1.5.21): for a discrete full Z-lattice L in a finite-dimensional real inner-product space E and a centrally symmetric convex body K with 0 in its interior, (∏_{i:Fin d}λ_i(L,K))·volume.real(K)≤2^d·covolume(L), where d=dim_R E and λ_i is the zero-based successive minimum of 1.2. The formula includes d=0.
+E carries its Borel structure and canonical intrinsic Euclidean volume. L uses Submodule Z E, DiscreteTopology and IsZLattice. K uses ConvexBody. Lower-rank lattices are first regarded as full lattices in their real spans, with intrinsic measure. No ambient-volume conclusion for a lower-dimensional body is substituted.
+Let b be the integral basis of 1.2.13 and transport by its coordinate isomorphism E≃R^d, which sends L to Z^d and K to a symmetric convex body of volume volume(K)/covolume(L) with the same gauge values (1.5.8). There the strict flag condition of 1.5.20 holds with a_i=λ_i, which are positive and nondecreasing by 1.2.4 and 1.2.5, and 1.5.20 gives the bound.
+(Source: Henk2002, p.2 Theorem 1.3 and complete §3 proof, pp.5–7.)
+*Needs:* Mathlib `Module.Basis.ofZLatticeBasis_repr_apply`, `Module.Basis.mem_flag_iff_repr_eq_zero`, `Module.Basis.equivFun`, `Convex.linear_image`, `Homeomorph.image_interior`, `IsCompact.image`, `IsCompact.isClosed`, `IsClosed.measurableSet`, `ZLattice.volume_image_eq_volume_div_covolume'`, `ZLattice.covolume_pos`, `IsCompact.measure_lt_top`, 1.2 `exists_integral_minimum_flag`, 1.5 `gauge_linearEquiv`, 1.2 `successiveMin_pos`, 1.2 `successiveMin_monotone`, 1.5 `coordinate_flag_upper`.
 **Checks.**
 
 - For L=2Z and K=[−3,3], minimum 2/3 times length 6 is 4=2·covolume(L); omitting covolume would assert 4≤2.
@@ -547,7 +782,7 @@ For `L = ℤ^d` and the cube `K = [−1,1]^d` every minimum is `1` and the produ
 
 ### Dependencies
 
-Layer 0 (Gram determinants and covolumes); ArithmeticHeights Layers 4.1–4.2 (`ZLattice.successiveMinimum`, its attainment and both halves of Minkowski’s second theorem); ThetaSeries 2D (the real model of 1.2.14); Mathlib `ConvexBody`, `gauge` and its calculus, `MeasureTheory.exists_pair_mem_lattice_not_disjoint_vadd`, `ZSpan.isAddFundamentalDomain`, `Module.Basis.flag`, the Haar-measure image lemmas.
+Layer 0 (Gram determinants and covolumes); ThetaSeries 2D (the real model of 1.2.14); Mathlib `ConvexBody`, `gauge` and its calculus, `MeasureTheory.exists_pair_mem_lattice_not_disjoint_vadd`, `ZSpan.isAddFundamentalDomain`, `ZLattice.volume_image_eq_volume_div_covolume`, `Module.Basis.flag`, the Haar-measure image lemmas.
 
 ## Layer 2: Integral quadratic and hermitian lattices
 
@@ -1328,7 +1563,7 @@ This layer has four independent branches. Lattice-point counting (4.1) proves He
 
 ### 4.1 Lattice-point counting
 
-For 4.1.11, 4.1.12: E is a finite-dimensional real normed inner-product space, L a discrete full Z-submodule, and d=dim_R E. Reuse IsZLattice, Basis and Basis.flag. The minimum index i:Fin d is zero-based; dimension zero has no index. K is a ConvexBody with zero in its interior. Write λ_i=successiveMin L K i. Symmetry is imposed only on the final counting theorem and on the minimum flag 1.2.13 it uses; 4.1.11 takes the flag as a hypothesis.
+For 4.1.11, 4.1.12: E is a finite-dimensional real normed inner-product space, L a discrete full Z-submodule, and d=dim_R E. Reuse IsZLattice, Basis and Basis.flag. The minimum index i:Fin d is zero-based; dimension zero has no index. K is a ConvexBody with zero in its interior. Write λ_i=successiveMin L K i. Symmetry is imposed only on the final counting theorem.
 
 Prove `ncard_le_index_mul` (4.1.1): for an additive commutative group G, finite-index subgroup N, sets S,T⊆G with T finite, suppose x,y∈S and x−y∈N imply x−y∈T. Then S is bounded in cardinality by |S|≤[G:N]·|T|, with both cardinalities the natural cardinal. No finiteness assumption on S is needed: the proof injects it into a finite set.
 N has finite index; T is finite. No topology, convexity, lattice, or prior finiteness of S is required.
@@ -1433,7 +1668,7 @@ The exact flag hypothesis is the conclusion of integral-minimum-flag. Symmetry i
 Prove `lattice_count_lt_successive_minima` (4.1.12): for d≥2 and centrally symmetric K, |L∩K|<2^(d−1)∏_{i<d}(floor(2/λ_i)+1). The count includes the origin and all boundary points.
 Floor means the greatest integer at most the input. This is Theorem 1.5, not Conjecture 1.4.
 (Source: Henk2002, pp.3–5, Theorem 1.5 and (2.1)–(2.5).)
-*Needs:* Mathlib `Nat.floor_mono`, `Nat.lt_floor_add_one`, `Subgroup.relIndex`, ArithmeticHeights §4.2 as read in §1.2.13 / `exists_integral_minimum_flag`, 1.2 `successiveMin_pos`, 1.2 `successiveMin_monotone`, 4.1 `exists_divisible_rounding`, 4.1 `divisible_rounding_product`, 4.1 `diagonal_span_index`, 4.1 `diagonal_lattice_avoidance`, 4.1 `henk_sublattice_count`.
+*Needs:* Mathlib `Nat.floor_mono`, `Nat.lt_floor_add_one`, `Subgroup.relIndex`, 1.2 `exists_integral_minimum_flag`, 1.2 `successiveMin_pos`, 1.2 `successiveMin_monotone`, 4.1 `exists_divisible_rounding`, 4.1 `divisible_rounding_product`, 4.1 `diagonal_span_index`, 4.1 `diagonal_lattice_avoidance`, 4.1 `henk_sublattice_count`.
 **Checks.**
 
 - For the standard unit square the nine points satisfy 9<2·3·3=18.

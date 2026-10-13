@@ -24,15 +24,15 @@ marks goals, not results. Every target whose carrier is not available at the pin
 quadratic map of a lattice, local densities, genera, the Q-constructions, the hermitian cone,
 Grothendieck–Witt groups and spaces, stable and Poincaré categories, the certified LLL algorithm
 itself, the dynamical incidence carriers, and the comparisons with declarations of the
-ArithmeticHeights, ThetaSeries, LFunctions and PointProcesses roadmaps) is stated in the README
-with its intended signature and does not appear here.
+ThetaSeries, LFunctions and PointProcesses roadmaps) is stated in the README with its intended
+signature and does not appear here.
 
 Design choices made explicit here:
 
 * lattices are Mathlib's `IsZLattice` submodules and covolumes are `ZLattice.covolume`;
 * successive minima are real numbers indexed by `Fin (finrank ℝ E)` on a `ConvexBody` with `0` in
-  its interior, read off ArithmeticHeights' dilation infimum `ZLattice.successiveMinimum`, which
-  also supplies their attainment and Minkowski's second theorem;
+  its interior, defined as the infimum of the dilations of the body that contain enough
+  independent lattice vectors;
 * integral quadratic lattices over a Dedekind domain are `Submodule.IsLattice` submodules with a
   quadratic form whose values on the lattice are integral, and no stored basis;
 * hermitian pairings are conjugate-linear in the first argument;
@@ -54,6 +54,32 @@ open MeasureTheory Module
 namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
 /-! ## Layer 0: Lattices, Gram determinants and covolumes -/
+
+section Gram
+variable {𝕜 E : Type*} [RCLike 𝕜] [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] {n : ℕ}
+
+/-- **Gram–Hadamard** (0.1.2): the hermitian Gram determinant is real, nonnegative and bounded by
+the product of the squared norms; the empty family is allowed. -/
+theorem hermitian_gram_hadamard (v : Fin n → E) :
+    (Matrix.gram 𝕜 v).det = (RCLike.re (Matrix.gram 𝕜 v).det : 𝕜) ∧
+    0 ≤ RCLike.re (Matrix.gram 𝕜 v).det ∧
+    RCLike.re (Matrix.gram 𝕜 v).det ≤ ∏ i, ‖v i‖ ^ 2 := by sorry
+
+end Gram
+
+-- The Gram matrix is conjugate-linear in the first argument: the family `(1, i)` in `ℂ` has Gram
+-- matrix `[[1, i], [-i, 1]]` and determinant `0`. The unconjugated matrix `[[1, i], [i, -1]]` also
+-- has determinant `0`, so this family does not test conjugation.
+example : (Matrix.gram ℂ (![1, Complex.I] : Fin 2 → ℂ)).det = 0 := by sorry
+
+-- Conjugation is what makes the Gram determinant nonnegative: the single vector `i` has Gram
+-- determinant `1`, whereas its unconjugated bilinear Gram determinant `i * i` is `-1`.
+example : (Matrix.gram ℂ (![Complex.I] : Fin 1 → ℂ)).det = 1 ∧
+    (Matrix.of fun i j : Fin 1 =>
+      (![Complex.I] : Fin 1 → ℂ) i * (![Complex.I] : Fin 1 → ℂ) j).det = -1 := by
+  constructor
+  · simp [Matrix.det_unique, Matrix.gram_apply]
+  · simp [Matrix.det_unique]
 
 section Orthogonal
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
@@ -150,11 +176,9 @@ end ElementaryBounds
 section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
-/-- The `i`-th successive minimum `λ_i(L, K)`, `i : Fin d` zero-based (1.2.1): ArithmeticHeights'
-`ZLattice.successiveMinimum L K i`, the infimum of the `t > 0` for which `t • K` contains `i + 1`
-real-linearly independent lattice vectors, read on the valid indices. That definition is not
-available at the pins, so its body is written out here. Its geometric laws need `L` discrete and
-full and `0 ∈ interior K`. -/
+/-- The `i`-th successive minimum `λ_i(L, K)`, `i : Fin d` zero-based (1.2.1): the infimum of the
+`t > 0` for which `t • K` contains `i + 1` real-linearly independent lattice vectors. Its geometric
+laws need `L` discrete and full and `0 ∈ interior K`. -/
 def successiveMin (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) : ℝ :=
   sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
     (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v}
@@ -170,8 +194,7 @@ variable (L : Submodule ℤ E) [hLdis : DiscreteTopology L] [hLfull : IsZLattice
 
 include hLdis hLfull hK
 
-/-- Compact, possibly nonsymmetric extension; the symmetric input is supplied by
-ArithmeticHeights §4.1 (an open TauCetiRoadmap pull request by rwst). -/
+/-- Every bounded gauge sublevel of a full discrete lattice is finite (1.2.2). -/
 theorem finite_gauge_sublevel (r : ℝ) :
     Set.Finite {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r} := by sorry
 
@@ -182,12 +205,10 @@ theorem successiveMin_isLeast (i : Fin (finrank ℝ E)) :
       finrank ℝ (Submodule.span ℝ {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r})}
       (successiveMin L K i) := by sorry
 
-/-- Compact, possibly nonsymmetric extension; the symmetric input is supplied by
-ArithmeticHeights §4.1 (an open TauCetiRoadmap pull request by rwst). -/
+/-- Every successive minimum of a full lattice is positive (1.2.4). -/
 theorem successiveMin_pos (i : Fin (finrank ℝ E)) : 0 < successiveMin L K i := by sorry
 
-/-- Compact, possibly nonsymmetric extension; the symmetric input is supplied by
-ArithmeticHeights §4.1 (an open TauCetiRoadmap pull request by rwst). -/
+/-- Successive minima increase with the index, allowing repeated values (1.2.5). -/
 theorem successiveMin_monotone : Monotone (successiveMin L K) := by sorry
 
 /-- `λ_i ≤ r` exactly when the lattice vectors in `r K` span `i + 1` dimensions (1.2.6). -/
@@ -195,11 +216,11 @@ theorem successiveMin_le_iff (i : Fin (finrank ℝ E)) (r : ℝ) (hr : 0 ≤ r) 
     successiveMin L K i ≤ r ↔ i.val + 1 ≤
       finrank ℝ (Submodule.span ℝ ((L : Set E) ∩ r • (K : Set E))) := by sorry
 
-/-- For a centrally symmetric body, one real basis of lattice vectors attains all successive
-minima, with the strict-sublevel flags (1.2.7); it need not be an integral basis. This is
-ArithmeticHeights' attainment `ZLattice.exists_linearIndependent_gauge_eq_successiveMinimum` with
-its strict flag `ZLattice.mem_span_of_gauge_lt_successiveMinimum`, read on `Fin d`. -/
-theorem exists_successiveMin_witnesses (hsym : ∀ x ∈ K, -x ∈ K) :
+/-- One real basis of lattice vectors attains all successive minima, with the strict-sublevel
+flags (1.2.7); it need not be an integral basis, and `K` need not be symmetric. The greedy
+construction behind it extends independent families one vector at a time through Mathlib's
+`linearIndependent_finSnoc`. -/
+theorem exists_successiveMin_witnesses :
     ∃ b : Basis (Fin (finrank ℝ E)) ℝ E,
       (∀ i, b i ∈ L) ∧
       (∀ i, gauge (K : Set E) (b i) = successiveMin L K i) ∧
@@ -217,8 +238,7 @@ theorem successiveMin_monotone_lattice (M : Submodule ℤ E)
     [DiscreteTopology M] [IsZLattice ℝ M] (hLM : L ≤ M)
     (i : Fin (finrank ℝ E)) : successiveMin M K i ≤ successiveMin L K i := by sorry
 
-/-- `λ_i(L, cK) = λ_i(L, K)/c` for `c > 0` (1.2.10), ArithmeticHeights'
-`ZLattice.successiveMinimum_smul` on `Fin d`. -/
+/-- `λ_i(L, cK) = λ_i(L, K)/c` for `c > 0` (1.2.10). -/
 theorem successiveMin_smul_body (c : ℝ) (hc : 0 < c) (i : Fin (finrank ℝ E)) :
     successiveMin L (c • K) i = successiveMin L K i / c := by sorry
 
@@ -243,17 +263,16 @@ section MinkowskiSecond
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
-/-- **Minkowski's second theorem, lower half** (1.3.2):
-`(2^d/d!) covol L ≤ (∏ λ_i) vol K` for a symmetric convex body with `0` in its interior;
-ArithmeticHeights' `ZLattice.covolume_le_prod_successiveMinimum_mul_measure` on `Fin d`. -/
+/-- **Minkowski's second theorem, lower half** (1.3.4):
+`(2^d/d!) covol L ≤ (∏ λ_i) vol K` for a symmetric convex body with `0` in its interior. -/
 theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
     [IsZLattice ℝ L] (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
     (hsym : ∀ x ∈ K, -x ∈ K) :
     ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L ≤
       (∏ i : Fin (finrank ℝ E), successiveMin L K i) * volume.real (K : Set E) := by sorry
 
-/-- **Minkowski's second theorem, upper half** (1.5.1): `(∏ λ_i) vol K ≤ 2^d covol L`;
-ArithmeticHeights' `ZLattice.prod_successiveMinimum_mul_measure_le` on `Fin d`. -/
+/-- **Minkowski's second theorem, upper half** (1.5.21, Henk's proof):
+`(∏ λ_i) vol K ≤ 2^d covol L`. -/
 theorem minkowski_second_upper
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
@@ -270,14 +289,14 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 
 include ha ham
 
-/-- A weighted coordinate box has successive minima its increasing weights (1.3.3): the upper
+/-- A weighted coordinate box has successive minima its increasing weights (1.3.5): the upper
 bound of Minkowski's second theorem is attained. -/
 theorem successiveMin_box
     (hK : (K : Set E) = {x : E | ∀ j, a j * |b.repr x j| ≤ 1})
     (i : Fin (finrank ℝ E)) :
     successiveMin (Submodule.span ℤ (Set.range b)) K i = a i := by sorry
 
-/-- A weighted cross-polytope has successive minima its increasing weights (1.3.4): the lower
+/-- A weighted cross-polytope has successive minima its increasing weights (1.3.6): the lower
 bound of Minkowski's second theorem is attained. -/
 theorem successiveMin_crosspolytope
     (hK : (K : Set E) = {x : E | ∑ j, a j * |b.repr x j| ≤ 1})
