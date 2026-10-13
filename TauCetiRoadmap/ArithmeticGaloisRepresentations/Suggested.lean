@@ -910,15 +910,17 @@ variable {Γ : Type u} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   [TopologicalSpace (IsLocalRing.ResidueField O)] [DiscreteTopology (IsLocalRing.ResidueField O)]
 
 /-- The reduction `ρ̄_Λ := Λ/𝔪Λ = k ⊗_O Λ`, a continuous representation over the discrete residue
-field (§1.9). -/
-def reduction (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
+field, with continuous scalar multiplication through the residue map (§1.9). -/
+def reduction [IsTopologicalRing O] [ContinuousSMul O (IsLocalRing.ResidueField O)]
+    (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
     [TopologicalSpace (IsLocalRing.ResidueField O ⊗[O] Λ.lattice)]
     [IsModuleTopology (IsLocalRing.ResidueField O) (IsLocalRing.ResidueField O ⊗[O] Λ.lattice)] :
     ContinuousRep Γ (IsLocalRing.ResidueField O) (IsLocalRing.ResidueField O ⊗[O] Λ.lattice) :=
   ⟨Representation.baseChange (IsLocalRing.ResidueField O) Λ.toContinuousRep.toRepresentation,
     sorry⟩
 
-variable (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
+variable [IsTopologicalRing O] [ContinuousSMul O (IsLocalRing.ResidueField O)]
+  (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
   [TopologicalSpace (IsLocalRing.ResidueField O ⊗[O] Λ.lattice)]
   [IsModuleTopology (IsLocalRing.ResidueField O) (IsLocalRing.ResidueField O ⊗[O] Λ.lattice)]
 
@@ -966,6 +968,7 @@ end GaloisLattice.IntegralModel
 -- (non-split versus trivial): the reduction depends on the lattice.
 example (ℓ : ℕ) [Fact ℓ.Prime] [TopologicalSpace (IsLocalRing.ResidueField ℤ_[ℓ])]
     [DiscreteTopology (IsLocalRing.ResidueField ℤ_[ℓ])]
+    [ContinuousSMul ℤ_[ℓ] (IsLocalRing.ResidueField ℤ_[ℓ])]
     (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
     (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
       !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
@@ -1467,7 +1470,7 @@ end GaloisRep
 /-- A Weil–Deligne representation over a field `Ω`: a representation `r` of the Weil group `W`
 (degree map `deg`, an arithmetic Frobenius lift of degree `1`) trivial on an open subgroup, and a
 nilpotent `N` with `r(w) ∘ N = q^{deg w} • (N ∘ r(w))` (Deligne 1973, (8.4.1)). -/
-structure WeilDeligneRep (W : Type u) [Group W] [TopologicalSpace W]
+structure WeilDeligneRep (W : Type u) [Group W] [TopologicalSpace W] [IsTopologicalGroup W]
     (deg : W →* Multiplicative ℤ) (q : ℕ) (Ω : Type v) [Field Ω]
     (V : Type w) [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V] where
   /-- The Weil group representation. -/
@@ -1485,7 +1488,7 @@ namespace WeilDeligneRep
 
 section Basic
 
-variable {W : Type*} [Group W] [TopologicalSpace W] {deg : W →* Multiplicative ℤ} {q : ℕ}
+variable {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
   {Ω : Type*} [Field Ω]
   {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
   {V' : Type*} [AddCommGroup V'] [Module Ω V'] [FiniteDimensional Ω V']
@@ -1554,8 +1557,8 @@ def omega (hq : (q : Ω) ≠ 0) : W →* Ωˣ :=
   (zpowersHom Ωˣ (Units.mk0 (q : Ω) hq)).comp deg
 
 /-- The special representation `Sp(n)`: basis `e_0, …, e_{n−1}`, `r(w) e_i = ω(w)^i e_i`,
-`N e_i = e_{i+1}`, `N e_{n−1} = 0`. -/
-def special (n : ℕ) (hq : (q : Ω) ≠ 0) : WeilDeligneRep W deg q Ω (Fin n → Ω) where
+`N e_i = e_{i+1}`, `N e_{n−1} = 0`; the degree kernel is open. -/
+def special (hdeg : IsOpen (deg.ker : Set W)) (n : ℕ) (hq : (q : Ω) ≠ 0) : WeilDeligneRep W deg q Ω (Fin n → Ω) where
   r := { toFun := fun w => Matrix.toLin'
             (Matrix.diagonal fun i : Fin n => ((omega deg hq w : Ωˣ) : Ω) ^ (i : ℕ))
          map_one' := sorry
@@ -1582,18 +1585,18 @@ theorem nonempty_iso_smulMonodromy [CharZero Ω] (hq : 1 < q) (D : WeilDeligneRe
   sorry
 
 /-- `Sp(2)^∨ ≅ Sp(2) ⊗ ω⁻¹`, and `det Sp(2) = ω`. -/
-theorem nonempty_iso_dual_special_two (hq : (q : Ω) ≠ 0) (h) :
-    Nonempty (Iso (dual (special (W := W) (deg := deg) 2 hq))
-      (twist (special 2 hq) (omega deg hq)⁻¹ h)) ∧
-    ∀ w, LinearMap.det ((special (W := W) (deg := deg) 2 hq).r w) = omega deg hq w := by
+theorem nonempty_iso_dual_special_two (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : Ω) ≠ 0) (h) :
+    Nonempty (Iso (dual (special (W := W) (deg := deg) hdeg 2 hq))
+      (twist (special hdeg 2 hq) (omega deg hq)⁻¹ h)) ∧
+    ∀ w, LinearMap.det ((special (W := W) (deg := deg) hdeg 2 hq).r w) = omega deg hq w := by
   sorry
 
 -- `Sp(2)` obeys the arithmetic relation `r(Φ) N r(Φ)⁻¹ = q N`; the geometric copy (`ω ⊕ 1` with
 -- `N e₀ = e₁`) obeys `q⁻¹ N` instead, so the two differ once `q² ≠ 1`.
-example (hq : (q : Ω) ≠ 0) (hq1 : (q : Ω) ^ 2 ≠ 1) (Φ : W) (hΦ : deg Φ = Multiplicative.ofAdd 1) :
-    (special (W := W) (deg := deg) 2 hq).r Φ ∘ₗ (special (W := W) (deg := deg) 2 hq).N ∘ₗ
-        (special (W := W) (deg := deg) 2 hq).r Φ⁻¹ =
-      (q : Ω) • (special (W := W) (deg := deg) 2 hq).N ∧
+example (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : Ω) ≠ 0) (hq1 : (q : Ω) ^ 2 ≠ 1) (Φ : W) (hΦ : deg Φ = Multiplicative.ofAdd 1) :
+    (special (W := W) (deg := deg) hdeg 2 hq).r Φ ∘ₗ (special (W := W) (deg := deg) hdeg 2 hq).N ∘ₗ
+        (special (W := W) (deg := deg) hdeg 2 hq).r Φ⁻¹ =
+      (q : Ω) • (special (W := W) (deg := deg) hdeg 2 hq).N ∧
     Matrix.toLin' (Matrix.diagonal ![((omega deg hq Φ : Ωˣ) : Ω), 1]) ∘ₗ
         Matrix.toLin' !![(0 : Ω), 0; 1, 0] ≠
       (q : Ω) • (Matrix.toLin' !![(0 : Ω), 0; 1, 0] ∘ₗ
@@ -1606,7 +1609,7 @@ def IsFrobeniusSemisimple (D : WeilDeligneRep W deg q Ω V) : Prop :=
 
 -- `Sp(n)` is Frobenius-semisimple; an unramified Jordan block `r(F) = (1 1; 0 1)` with `N = 0` is
 -- not.
-example (n : ℕ) (hq : (q : Ω) ≠ 0) : IsFrobeniusSemisimple (special (W := W) (deg := deg) n hq) := by
+example (hdeg : IsOpen (deg.ker : Set W)) (n : ℕ) (hq : (q : Ω) ≠ 0) : IsFrobeniusSemisimple (special (W := W) (deg := deg) hdeg n hq) := by
   sorry
 
 example (D : WeilDeligneRep W deg q Ω (Fin 2 → Ω)) (F : W)
@@ -1620,7 +1623,7 @@ end Basic
 
 section LocalFactor
 
-variable {W : Type*} [Group W] [TopologicalSpace W] {deg : W →* Multiplicative ℤ} {q : ℕ}
+variable {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
   {Ω : Type*} [Field Ω]
   {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
   {V' : Type*} [AddCommGroup V'] [Module Ω V'] [FiniteDimensional Ω V']
@@ -1650,12 +1653,12 @@ theorem localFactor_indep (D : WeilDeligneRep W deg q Ω V) (D' : WeilDeligneRep
 -- `L(ω, X) = 1 − q⁻¹X`, `L(Sp(2), X) = 1 − q⁻¹X` (not `det(1 − X r(F))` on all of `V`, and not the
 -- value `1 − qX` given by an arithmetic Frobenius), `L(Sp(2)^∨, X) = 1 − X`, and `L` is not
 -- multiplicative on the extension `Sp(2)` of `1` by `ω`.
-example (hq : (q : Ω) ≠ 0) (hq1 : (q : Ω) ≠ 1) (h h₁) (F : W)
+example (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : Ω) ≠ 0) (hq1 : (q : Ω) ≠ 1) (h h₁) (F : W)
     (hF : deg F = Multiplicative.ofAdd (-1)) :
     localFactor (ofCharacter (deg := deg) (q := q) (omega deg hq) h) F = 1 - C (q : Ω)⁻¹ * X ∧
-      localFactor (special (W := W) (deg := deg) 2 hq) F = 1 - C (q : Ω)⁻¹ * X ∧
-      localFactor (dual (special (W := W) (deg := deg) 2 hq)) F = 1 - X ∧
-      localFactor (special (W := W) (deg := deg) 2 hq) F ≠
+      localFactor (special (W := W) (deg := deg) hdeg 2 hq) F = 1 - C (q : Ω)⁻¹ * X ∧
+      localFactor (dual (special (W := W) (deg := deg) hdeg 2 hq)) F = 1 - X ∧
+      localFactor (special (W := W) (deg := deg) hdeg 2 hq) F ≠
         localFactor (ofCharacter (deg := deg) (q := q) (omega deg hq) h) F *
           localFactor (ofCharacter (deg := deg) (q := q) 1 h₁) F := by
   sorry
@@ -1734,7 +1737,7 @@ def IsPureEnd (q : ℕ) (w : ℤ) (φ N : Module.End k V) : Prop :=
     IsWeilNumber q (w + a) α
 
 /-- Purity of a Weil–Deligne representation, read at a geometric Frobenius lift `F`. -/
-def IsPure {W : Type*} [Group W] [TopologicalSpace W] {deg : W →* Multiplicative ℤ} {q : ℕ}
+def IsPure {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
     (D : WeilDeligneRep W deg q k V) (w : ℤ) (F : W) : Prop :=
   IsPureEnd q w (D.r F) D.N
 
@@ -1753,9 +1756,9 @@ theorem isPureEnd_of_graded (q : ℕ) (hq : 2 ≤ q) (w : ℤ) (φ N : Module.En
   sorry
 
 -- `Sp(2)` is pure of weight `−1`; `ω ⊕ 1` with `N = 0` is pure of no weight once `q ≥ 2`.
-example {W : Type*} [Group W] [TopologicalSpace W] {deg : W →* Multiplicative ℤ} {q : ℕ}
-    (hq : (q : ℚ) ≠ 0) (hq1 : 1 < q) (h h₁) (F : W) (hF : deg F = Multiplicative.ofAdd (-1)) (w : ℤ) :
-    IsPure (special (W := W) (deg := deg) 2 hq) (-1) F ∧
+example {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
+    (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : ℚ) ≠ 0) (hq1 : 1 < q) (h h₁) (F : W) (hF : deg F = Multiplicative.ofAdd (-1)) (w : ℤ) :
+    IsPure (special (W := W) (deg := deg) hdeg 2 hq) (-1) F ∧
       ¬ IsPure (prod (ofCharacter (deg := deg) (q := q) (1 : W →* ℚˣ) h₁)
         (ofCharacter (deg := deg) (q := q) (omega deg hq) h)) w F := by
   sorry
@@ -1768,7 +1771,7 @@ namespace GaloisRep
 
 /-- The local Euler factor `L(ρ, X) = det(1 − X ρ(F) | V^{ρ(I)})` of a continuous representation of
 the Weil group, `I = ker deg`, for a geometric Frobenius lift `F`. -/
-def localEulerFactor {W : Type*} [Group W] [TopologicalSpace W] (deg : W →* Multiplicative ℤ)
+def localEulerFactor {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] (deg : W →* Multiplicative ℤ)
     {E : Type*} [Field E] [TopologicalSpace E]
     {V : Type*} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
     [TopologicalSpace V] [IsModuleTopology E V] (ρ : ContinuousRep W E V) (F : W) :
@@ -1778,7 +1781,7 @@ def localEulerFactor {W : Type*} [Group W] [TopologicalSpace W] (deg : W →* Mu
 
 /-- At an unramified place the Euler factor is `det(1 − X ρ(F))`, the reversed characteristic
 polynomial of the geometric Frobenius, equivalently of the arithmetic Frobenius on the dual. -/
-theorem localEulerFactor_unramified {W : Type*} [Group W] [TopologicalSpace W]
+theorem localEulerFactor_unramified {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W]
     (deg : W →* Multiplicative ℤ) {E : Type*} [Field E] [TopologicalSpace E]
     {V : Type*} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
     [TopologicalSpace V] [IsModuleTopology E V] (ρ : ContinuousRep W E V) (F : W)
@@ -2719,7 +2722,8 @@ end GaloisRep
 
 /-! ## Layer 6: Tate modules of elliptic curves and abelian varieties
 
-The Tate modules of abelian varieties are README targets (§§6.1–6.4); the elliptic Tate module is
+The arithmetic adapters of §§6.1–6.4 use the geometric Tate module supplied by
+AbelianSchemesAndArithmeticModuli A4.1; in dimension one they compare with
 Tau Ceti's `TateModule` with `tateModuleGaloisRepresentation`. The linear algebra of the oddness
 comparison is stated here. -/
 
@@ -2845,21 +2849,21 @@ variable {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
 /-- The tensor induction `⊗-Ind_H^Γ ρ` on `⨂_{Γ/H} V` for a transversal `s`, through Tau Ceti's
 `Subgroup.tensorInducedRepresentation`, given the finiteness, projectivity and module topology of
 the carrier (`H` open of finite index) (§7.1). -/
-def tensorInd (H : Subgroup Γ) (s : H.LeftTransversal) (ρ : ContinuousRep H A V)
+def tensorInd (H : Subgroup Γ) [H.FiniteIndex] (hH : IsOpen (H : Set Γ)) (s : H.LeftTransversal) (ρ : ContinuousRep H A V)
     [Module.Finite A (⨂[A] _ : Γ ⧸ H, V)] [Module.Projective A (⨂[A] _ : Γ ⧸ H, V)]
     [TopologicalSpace (⨂[A] _ : Γ ⧸ H, V)] [IsModuleTopology A (⨂[A] _ : Γ ⧸ H, V)] :
     ContinuousRep Γ A (⨂[A] _ : Γ ⧸ H, V) :=
   ⟨H.tensorInducedRepresentation s ρ.toRepresentation, sorry⟩
 
-variable (H : Subgroup Γ) [Module.Finite A (⨂[A] _ : Γ ⧸ H, V)]
+variable (H : Subgroup Γ) [H.FiniteIndex] (hH : IsOpen (H : Set Γ)) [Module.Finite A (⨂[A] _ : Γ ⧸ H, V)]
   [Module.Projective A (⨂[A] _ : Γ ⧸ H, V)] [TopologicalSpace (⨂[A] _ : Γ ⧸ H, V)]
   [IsModuleTopology A (⨂[A] _ : Γ ⧸ H, V)]
 
 /-- Tensor induction does not depend on the transversal, up to the isomorphism `⨂ ρ(u_x)⁻¹`
 (BCGP 2021, §7.5.16); for `H` of finite index and `V` free its rank is `(rank V)^{[Γ : H]}`. -/
 theorem tensorInd_indep_rank (s s' : H.LeftTransversal) (ρ : ContinuousRep H A V) :
-    Nonempty ((tensorInd H s ρ).Iso (tensorInd H s' ρ)) ∧
-      ([H.FiniteIndex] → [Module.Free A V] → [Nontrivial A] →
+    Nonempty ((tensorInd H hH s ρ).Iso (tensorInd H hH s' ρ)) ∧
+      ([Module.Free A V] → [Nontrivial A] →
         Module.finrank A (⨂[A] _ : Γ ⧸ H, V) = Module.finrank A V ^ H.index) := by
   sorry
 
@@ -2868,7 +2872,7 @@ theorem tensorInd_indep_rank (s s' : H.LeftTransversal) (ρ : ContinuousRep H A 
 theorem charpoly_asai [Module.Free A V] [Module.Free A (⨂[A] _ : Γ ⧸ H, V)] (h2 : H.index = 2)
     (s : H.LeftTransversal) (ρ : ContinuousRep H A V) (g : Γ) (hg : g ∉ H) (hg2 : g ^ 2 ∈ H)
     {n : ℕ} (β : Fin n → A) (hβ : ρ.charpoly ⟨g ^ 2, hg2⟩ = ∏ i, (X - C (β i))) :
-    (tensorInd H s ρ).charpoly g =
+    (tensorInd H hH s ρ).charpoly g =
       (∏ i, (X - C (β i))) *
         ∏ p ∈ (Finset.univ : Finset (Fin n × Fin n)).filter (fun p => p.1 < p.2),
           (X ^ 2 - C (β p.1 * β p.2)) := by
@@ -2876,11 +2880,11 @@ theorem charpoly_asai [Module.Free A V] [Module.Free A (⨂[A] _ : Γ ⧸ H, V)]
 
 -- In rank one tensor induction is the transfer: `⊗-Ind ψ = ψ ∘ Ver`; for index two and `g ∉ H` the
 -- rank-two Asai polynomial is `(X² − aX + b)(X² − b)`.
-example [H.FiniteIndex] (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
+example (s : H.LeftTransversal) (ψ : H →ₜ* Aˣ)
     [Module.Finite A (⨂[A] _ : Γ ⧸ H, A)] [Module.Projective A (⨂[A] _ : Γ ⧸ H, A)]
     [TopologicalSpace (⨂[A] _ : Γ ⧸ H, A)] [IsModuleTopology A (⨂[A] _ : Γ ⧸ H, A)]
     (g : Γ) (x : ⨂[A] _ : Γ ⧸ H, A) :
-    tensorInd H s (ofCharacter ψ) g x = ((MonoidHom.transfer ψ.toMonoidHom g : Aˣ) : A) • x := by
+    tensorInd H hH s (ofCharacter ψ) g x = ((MonoidHom.transfer ψ.toMonoidHom g : Aˣ) : A) • x := by
   sorry
 
 end TensorInduction
@@ -3015,7 +3019,7 @@ end Adjoint
 end ContinuousRep
 
 /-- `ad(r, N) = (ad r, [N, −])` on `End(V)`, a Weil–Deligne representation (§7.2). -/
-def WeilDeligneRep.ad {W : Type*} [Group W] [TopologicalSpace W] {deg : W →* Multiplicative ℤ}
+def WeilDeligneRep.ad {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ}
     {q : ℕ} {Ω : Type*} [Field Ω] {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
     (D : WeilDeligneRep W deg q Ω V) : WeilDeligneRep W deg q Ω (Module.End Ω V) where
   r := Representation.linHom D.r D.r
@@ -3082,8 +3086,9 @@ theorem mem_iff (J : Matrix n n R) (p : GL n R × Rˣ) (m : ℕ) (g : GL (Fin m 
           (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) R)ᵀ = (ν : R) • Matrix.J (Fin m) R) ∧
     ((g, ν) ∈ GSp m R → (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) R).det = (ν : R) ^ m) ∧
     ([Invertible (2 : R)] → IsUnit J.det →
-      IsCompl (skewAdjointMatricesSubmodule J ⊓ lie J)
-        (Submodule.span R {(1 : Matrix n n R)}) ∧ skewAdjointMatricesSubmodule J ≤ lie J) := by
+      Disjoint (skewAdjointMatricesSubmodule J) (Submodule.span R {(1 : Matrix n n R)}) ∧
+        skewAdjointMatricesSubmodule J ⊔ Submodule.span R {(1 : Matrix n n R)} = lie J ∧
+        skewAdjointMatricesSubmodule J ≤ lie J) := by
   sorry
 
 -- `GSp₂ = GL₂` with `ν = det`; `Sp_{2m}` is Mathlib's `Matrix.symplecticGroup`; over `F₂` the
@@ -3096,6 +3101,16 @@ example (g : GL (Fin 1 ⊕ Fin 1) R) (ν : Rˣ) (m : ℕ) (h : GL (Fin m ⊕ Fin
 
 example : (1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2)) ∈
     skewAdjointMatricesSubmodule (-Matrix.J (Fin 2) (ZMod 2)) := by
+  sorry
+
+-- In rank four the two summands span `gsp₄`, a proper subspace of all matrices.
+example :
+    Disjoint (skewAdjointMatricesSubmodule (-Matrix.J (Fin 2) ℚ))
+      (Submodule.span ℚ {(1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℚ)}) ∧
+    skewAdjointMatricesSubmodule (-Matrix.J (Fin 2) ℚ) ⊔
+      Submodule.span ℚ {(1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℚ)} =
+        lie (-Matrix.J (Fin 2) ℚ) ∧
+    lie (-Matrix.J (Fin 2) ℚ) ≠ ⊤ := by
   sorry
 
 /-- The Gram matrix `J₄ = (0, 1₂; −1₂, 0)` of `GSp₄`. -/
@@ -3376,7 +3391,7 @@ theorem exists_root_mul_finiteOrder {Γ : Type*} [Group Γ] [TopologicalSpace Γ
 /-- Schur's lemma over a local ring: if the reduction of `ρ : Γ → GL_n(A)` is absolutely irreducible
 then `ρ(Γ)` spans `M_n(A)` and its centraliser is the scalars (CHT08, Lemma 2.1.8). -/
 theorem span_eq_top_and_centralizer_of_residually_absIrred {A : Type*} [CommRing A]
-    [IsLocalRing A] {Γ : Type*} [Group Γ] {n : Type*} [Fintype n] [DecidableEq n]
+    [IsLocalRing A] {Γ : Type*} [Group Γ] {n : Type*} [Fintype n] [DecidableEq n] [Nonempty n]
     (ρ : Γ →* GL n A)
     (hirr : Submodule.span (IsLocalRing.ResidueField A)
       (Set.range fun g : Γ => (ρ g : Matrix n n A).map (IsLocalRing.residue A)) = ⊤) :
@@ -3433,29 +3448,30 @@ def AdZeroTraceCondition (H : Subgroup (GL n k)) : Prop :=
         (matrixRep (Matrix.GeneralLinearGroup.map (algebraMap k (AlgebraicClosure k))) g) e α ∧
       ∃ w ∈ W, LinearMap.trace _ _ (e * w) ≠ 0
 
-/-- `H` is weakly adequate: its semisimple elements span `M_n(k)`. -/
+/-- In positive rank, `H` is weakly adequate: its semisimple elements span `M_n(k)`. -/
 def IsWeaklyAdequate (H : Subgroup (GL n k)) : Prop :=
-  Submodule.span k {X : Matrix n n k | ∃ g ∈ H, (minpoly k (g : Matrix n n k)).Separable ∧
+  Nonempty n ∧ Submodule.span k {X : Matrix n n k | ∃ g ∈ H, (minpoly k (g : Matrix n n k)).Separable ∧
     X = (g : Matrix n n k)} = ⊤
 
-/-- `H` is adequate (Thorne 2012, Def. 2.3): `H¹(H, k) = 0`, `H⁰(H, ad⁰) = H¹(H, ad⁰) = 0`, and the
+/-- In positive rank, `H` is adequate (Thorne 2012, Def. 2.3): `H¹(H, k) = 0`, `H⁰(H, ad⁰) = H¹(H, ad⁰) = 0`, and the
 trace condition (A3) (§7.9). -/
 def IsAdequate (H : Subgroup (GL n k)) : Prop :=
-  Subsingleton (groupCohomology (Rep.of (Representation.trivial k H k)) 1) ∧
+  Nonempty n ∧ Subsingleton (groupCohomology (Rep.of (Representation.trivial k H k)) 1) ∧
   Subsingleton (groupCohomology (Rep.of (X := LinearMap.ker (LinearMap.trace k (n → k))) (adZeroRep H.subtype)) 0) ∧
   Subsingleton (groupCohomology (Rep.of (X := LinearMap.ker (LinearMap.trace k (n → k))) (adZeroRep H.subtype)) 1) ∧
   AdZeroTraceCondition H
 
-/-- `H` is GHT-adequate (Thorne 2017, Def. 2.20): `H¹(H, k) = 0`, `H¹(H, ad₀) = 0` and weak
+/-- In positive rank, `H` is GHT-adequate (Thorne 2017, Def. 2.20): `H¹(H, k) = 0`, `H¹(H, ad₀) = 0` and weak
 adequacy. -/
 def IsGHTAdequate (H : Subgroup (GL n k)) : Prop :=
-  Subsingleton (groupCohomology (Rep.of (Representation.trivial k H k)) 1) ∧
+  Nonempty n ∧ Subsingleton (groupCohomology (Rep.of (Representation.trivial k H k)) 1) ∧
   Subsingleton (groupCohomology (Rep.of (X := Module.End k (n → k) ⧸ Submodule.span k {(1 : Module.End k (n → k))})
     (adQuotRep H.subtype)) 1) ∧ IsWeaklyAdequate H
 
-/-- (A3) ⇔ weakly adequate; adequate forces `p ∤ n` and absolute irreducibility; if `p ∤ n`,
+/-- For finite `H` in positive rank and positive characteristic, (A3) ⇔ weakly adequate; adequate forces `p ∤ n` and absolute irreducibility; if `p ∤ n`,
 adequate ⇔ GHT-adequate (GHTT appendix, Lemma 1; Thorne 2017). -/
-theorem isAdequate_iff (H : Subgroup (GL n k)) :
+theorem isAdequate_iff [Nonempty n] (H : Subgroup (GL n k)) [Finite H]
+    (hp : (ringChar k).Prime) :
     (AdZeroTraceCondition H ↔ IsWeaklyAdequate H) ∧
       (IsAdequate H → ¬ ringChar k ∣ Fintype.card n ∧
         Submodule.span k ((fun g : GL n k => (g : Matrix n n k)) '' (H : Set (GL n k))) = ⊤) ∧
@@ -3464,7 +3480,7 @@ theorem isAdequate_iff (H : Subgroup (GL n k)) :
 
 /-- An absolutely irreducible finite `H ⊆ GL_n(k)` is adequate if `p ∤ #H` or `p ≥ 2(n + 1)`
 (BLGG13, Rem. A.1.2; GHTT, Thm 9). -/
-theorem isAdequate_of_coprime_or_large (H : Subgroup (GL n k)) [Finite H] (hp : (ringChar k).Prime)
+theorem isAdequate_of_coprime_or_large [Nonempty n] (H : Subgroup (GL n k)) [Finite H] (hp : (ringChar k).Prime)
     (hirr : Submodule.span k ((fun g : GL n k => (g : Matrix n n k)) '' (H : Set (GL n k))) = ⊤)
     (h : ¬ ringChar k ∣ Nat.card H ∨ 2 * (Fintype.card n + 1) ≤ ringChar k) : IsAdequate H := by
   sorry
@@ -3475,6 +3491,12 @@ example [Fact (Nat.Prime 5)] :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod 5) →* GL (Fin 2) (ZMod 5)).range ∧
     ¬ IsAdequate (⊥ : Subgroup (GL (Fin 2) (ZMod 5))) := by
   sorry
+
+-- The zero-dimensional subgroup satisfies the raw trace/cohomology conditions but has no
+-- nonzero carrier, so it satisfies none of the adequacy predicates.
+example (H : Subgroup (GL (Fin 0) k)) :
+    ¬ IsWeaklyAdequate H ∧ ¬ IsAdequate H ∧ ¬ IsGHTAdequate H := by
+  simp [IsWeaklyAdequate, IsAdequate, IsGHTAdequate]
 
 /-- Restriction on `H¹` is injective for a subgroup of index invertible in `k`; in particular
 `H¹(G, A) = 0` for `#G ∈ kˣ` (BLGG13, Rem. A.1.2). -/
@@ -3502,11 +3524,11 @@ theorem h1_SL2_adZero_eq_zero (F : Type) [Field F] [Fintype F] (hp : ringChar F 
 /-- `h` is regular semisimple: its characteristic polynomial is separable. -/
 def IsRegularSemisimple (h : GL n k) : Prop := (Matrix.charpoly (h : Matrix n n k)).Separable
 
-/-- `H ≤ GL_n(k)` is enormous (Allen et al. 2023, Def. 6.2.29): absolutely irreducible, no
+/-- In positive rank, `H ≤ GL_n(k)` is enormous (Allen et al. 2023, Def. 6.2.29): absolutely irreducible, no
 nontrivial `p`-power quotient, `H⁰(H, ad⁰) = H¹(H, ad⁰) = 0`, and every simple `k[H]`-submodule of
 `ad⁰` has a nonzero vector fixed by a regular semisimple `h ∈ H` (§7.10). -/
 def IsEnormous (H : Subgroup (GL n k)) : Prop :=
-  Submodule.span k ((fun g : GL n k => (g : Matrix n n k)) '' (H : Set (GL n k))) = ⊤ ∧
+  Nonempty n ∧ Submodule.span k ((fun g : GL n k => (g : Matrix n n k)) '' (H : Set (GL n k))) = ⊤ ∧
   (∀ (N : Subgroup H) [N.Normal], IsPGroup (ringChar k) (H ⧸ N) → N = ⊤) ∧
   Subsingleton (groupCohomology (Rep.of (X := LinearMap.ker (LinearMap.trace k (n → k))) (adZeroRep H.subtype)) 0) ∧
   Subsingleton (groupCohomology (Rep.of (X := LinearMap.ker (LinearMap.trace k (n → k))) (adZeroRep H.subtype)) 1) ∧
@@ -3534,12 +3556,12 @@ example [Fact (Nat.Prime 7)] [Fact (Nat.Prime 5)] [Fact (Nat.Prime 3)] :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) →* GL (Fin 2) (ZMod 3)).range := by
   sorry
 
-/-- The characteristic-zero enormity of Newton–Thorne 2023, Def. 2.23: every simple
+/-- In positive rank, the characteristic-zero enormity of Newton–Thorne 2023, Def. 2.23: every simple
 `E[H]`-submodule of `M_n(E)` has `tr(e_{h,α} V) ≠ 0` for some `h ∈ H` with `n` distinct eigenvalues
 in `E`; such `H` acts absolutely irreducibly (Lemma 2.25). -/
 def IsEnormousCharZero {O : Type*} [CommRing O] {E : Type*} [Field E] [Algebra O E]
     (H : Subgroup (GL n O)) : Prop :=
-  ∀ W : Submodule E (Module.End E (n → E)),
+  Nonempty n ∧ ∀ W : Submodule E (Module.End E (n → E)),
     IsSimpleStable (adRep ((Matrix.GeneralLinearGroup.map (algebraMap O E)).comp H.subtype)) W →
     ∃ h ∈ H, (∃ s : Multiset E, s.Nodup ∧
         Matrix.charpoly ((h : Matrix n n O).map (algebraMap O E)) = (s.map fun a => X - C a).prod) ∧
@@ -3575,7 +3597,7 @@ theorem tw3_iff_zeta_not_mem {F : Type} [Field F] [CharZero F] (hk : (ringChar k
   sorry
 
 -- In rank one the conditions hold iff `ζ_p ∉ F`.
-example {F : Type} [Field F] [NumberField F] (hk : (ringChar k).Prime)
+example {F : Type} [Field F] [NumberField F] [Finite k] (hk : (ringChar k).Prime)
     (s : Field.absoluteGaloisGroup F →* GL (Fin 1) k) :
     TaylorWilesImageConditions s ↔ ∀ ζ : F, ¬ IsPrimitiveRoot ζ (ringChar k) := by
   sorry
