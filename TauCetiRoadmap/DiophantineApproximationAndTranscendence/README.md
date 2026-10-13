@@ -18,7 +18,9 @@ elements in any characteristic-zero ambient field. Relative heights are primary
 over a fixed field; absolute heights are their degree roots. The Euclidean vector
 zero extension and the projective zero convention have explicit comparison
 maps. Siegel's interfaces include bases and restriction through a finite field
-extension. The foundation uses one native Plücker point and its dual annihilator;
+extension; their counting and selection core is stated for arbitrary field towers,
+without number-field or characteristic-zero hypotheses (§2.8). The foundation
+uses one native Plücker point and its dual annihilator;
 the dot-product perpendicular and the absolute Euclidean subspace height are
 consumer adapters on that theory. Real minima and Gram bounds are supplied by
 GeometryOfNumbersAndQuadraticArithmetic; number-field kernel lattices and their
@@ -45,7 +47,7 @@ The model carrier is `SignatureModel.taylorCoeff`.
 | §§1–5 scalar and tuple heights | This roadmap §0.2 / Mahler measure, house and absolute height: absoluteProjectiveTupleHeight, mulHeight_algebraMap, absMulHeight₁_eq_rpow; §0.3 / Finiteness and size estimates: finite_setOf_absMulHeight₁_le | Native relative Height carriers; absolute degree root; Mahler measure retains the leading coefficient; bounded-degree Northcott |
 | §§1–5 coefficient and matrix heights | This roadmap §1.3 / Coefficient heights and products: Polynomial.mulHeight/logHeight, MvPolynomial.mulHeight/logHeight, matrixMulHeight, matrixMulHeight_mul_le | AdmissibleAbsValues generality; coefficients/entries have relative projective height; a linear form uses its coefficient tuple, a row space uses maximal minors |
 | §§2,4–5 Euclidean and subspace heights | This roadmap §2.5 / Relative Euclidean projective normalization and Native Plücker heights: arakelovMulHeight, relativePluckerPoint, relativeSubspaceHeight, relativeSubspaceArakelovHeight | height2 and subspaceHeight are absolute Euclidean adapters; vector zero height 0, projective zero height 1, zero-subspace height 1; dot-product perpendicular is transported dual annihilation |
-| §§1–5 Siegel estimates | This roadmap §0.3 / integer Siegel estimate and §2.8 / Saturated kernel lattices; Kernel bases of bounded height; Relative-field Siegel and coefficient conditions: kernelLattice_covolume, exists_ne_zero_height2_le, siegelKernelBasis, siegelRelativeKernelBasis | One owner for number-field extraction, kernel covolume, discriminant constants and basis bounds; real-lattice inputs come from §0.0’s supplier |
+| §§1–5 Siegel estimates | This roadmap §0.3 / integer Siegel estimate and §2.8 / Saturated kernel lattices; Extraction through field towers; Kernel bases of bounded height; Relative-field Siegel and coefficient conditions: kernelLattice_covolume, linearIndependent_card_le_finrank_mul, exists_linearIndependent_comp_of_lt_finrank_span, exists_linearIndependent_comp_finrank_mul, exists_ne_zero_height2_le, siegelKernelBasis, siegelRelativeKernelBasis | One owner for arbitrary-tower extraction, number-field kernel covolume, discriminant constants and basis bounds; real-lattice inputs come from §0.0’s supplier |
 | §5.6 algebraic Cartan calculus | [DerivedDeRhamCohomology](../DerivedDeRhamCohomology/README.md) §§2.1–2.11 / Ordinary differential symbols; The ordinary de Rham differential; Differential of an elementary form; Uniqueness; Square-zero; Graded Leibniz: DeRham.Forms, DeRham.d, DeRham.d_elementary, DeRham.d_unique, DeRham.d_squared, DeRham.d_leibniz | Specialize base A=C and algebra B=F, retaining C-linearity; contraction, Cartan degree transport, Lie derivative, closed logarithmic forms and Ax’s dependence argument belong here |
 | §0.0 Gram estimate | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §0.1: hermitian_gram_hadamard | Consumption for complex coefficient estimates |
 | §3.3 qualitative conclusions | [LinearFormsInLogarithms](../LinearFormsInLogarithms/README.md), §6.4: transcendental_exp_mul and GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational | One-variable exponential-polynomial zero estimates and the explicit E19/KW auxiliary constructions as alternative applications of shared estimates |
@@ -1836,13 +1838,45 @@ Prove `exists_ne_zero_height2_le`, the fixed-field Siegel lemma. Let K have degr
 
 *Needs:* §2.5 heights, duality and `subspaceHeight_le_prod`; `kernelLattice_covolume` and Mathlib’s first convex-body theorem.
 
+**Extraction through field towers.** Prove `linearIndependent_card_le_finrank_mul`:
+let K and E be field extensions of F, with K/F finite of degree D, V a
+K-vector space and W an E-vector space, with compatible F-actions on both. For an F-linear map
+f:V→W and any finite family u:ι→V with f∘u E-linearly independent,
+#ι≤D dim_K(span_K u). Neither V nor W needs finite dimension. An F-basis
+of span_K u has D dim_K(span_K u) members, and its images generate an
+E-space containing f∘u.
+Prove `exists_linearIndependent_comp_of_lt_finrank_span` over any field K:
+for u:Fin n→V and m:Fin k→ℕ, assume
+j<dim_K(span_K{u_i:i≤m_j}) for every j:Fin k. Then there is
+s:Fin k→Fin n with u∘s K-linearly independent and s_j≤m_j. The bounds m_j
+need not be monotone; at stage j their prefix span contains a vector outside
+the span of the j vectors already chosen.
+Combine these as `exists_linearIndependent_comp_finrank_mul`: if
+u:Fin(Dk)→V has E-independent images under f, select k K-independent
+members with s_j≤Dj, using zero-based indices. Specializing F=ℚ, E=ℝ and
+f to the mixed embedding gives the selection used by `siegelBasisExtraction`.
+(Ralf Stephan, [LinearIndependentRestrictScalars.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/LinearAlgebra/LinearIndependentRestrictScalars.lean),
+the counting theorem, bounded-index selection theorem and degree-times-rank
+corollary; BG06 §§2.9.10–2.9.18 for the number-field application.)
+
+**Checks.**
+
+- For K=ℚ(i), the mixed images of (1,0),(i,0),(0,1),(0,i) are real-linearly independent, but the first pair is K-dependent. The counting bound for that pair is 2≤2·1; omitting D would give the false inequality 2≤1. A K-independent pair can be selected with indices 0 and 2, within 0 and D.
+- Over K=𝔽₄ and F=E=𝔽₂, an F-coordinate map K→F² sends an F-basis (1,α) to independent images. The same counting bound is 2≤2·1, so characteristic zero is unnecessary.
+- For u=(e₁,e₂,e₃) and m=(2,1,2), every prefix has dimension greater than its stage. The selection s=(2,0,1) respects these nonmonotone bounds and remains independent.
+- For k=0 the selected family and its bounds are empty; for the empty counting family both sides are zero.
+
+*Needs:* Mathlib scalar towers, finite spans, `Module.finrank_mul_finrank`,
+`Submodule.finrank_mono` and finite-family linear independence.
+
 **Slices and extraction for the basis form of Siegel.** Prove `siegelProductBallSlice`:
 for a k-dimensional subspace of ℝ^V, its central slice of [−1,1]^V has
 intrinsic volume ≥2^k; for a k-dimensional complex subspace of ℂ^V, its slice
 of the unit polydisc has real volume ≥π^k. Construct the product-of-balls
 slicing argument, including the log-concave integral inequality used to obtain
 the lower bounds; this specialized slicing work is owned here.
-Prove `siegelBasisExtraction`: in the Dk-dimensional mixed-embedding span of
+Apply `exists_linearIndependent_comp_finrank_mul` to prove
+`siegelBasisExtraction`: in the Dk-dimensional mixed-embedding span of
 a K-subspace W, a simultaneous real minimum family in W∩𝓞_K^V contains a
 K-independent k-tuple whose j-th vector can be chosen among its first
 D(j−1)+1 members. A K-span of j−1 vectors has real dimension D(j−1).
@@ -3163,11 +3197,11 @@ the rational zero theorem below supplies the vanishing of H·F.
 Prove `eFunction_rational_minimal_equation_zero`: for a nonzero E-function
 with rational Taylor coefficients and f(1)=0, every holomorphic local solution
 of its minimal equation vanishes at 1, an apparent singularity. Use the
-rational-coefficient `isEFunction_div_one_sub` of §5.3 and André's holomorphic
+rational-coefficient `isEFunction_div_one_sub` of §5.2 and André's holomorphic
 basis theorem above; this rational division proof bounds tails and denominators
 directly. (B06, Corollary 2.2, pp.3–4.)
 
-*Needs:* §5.3 rational division; §5.2; André's theorem above.
+*Needs:* §5.2 rational division; André's theorem above.
 
 Prove `eFunction_minimal_equation_zero`: for a nonzero E-function with
 f(ξ)=0, ξ∈ℚ̄×, every holomorphic local solution of its minimal equation
@@ -3730,6 +3764,25 @@ Layers 0 and 3; Mathlib power series, differential modules, algebraic independen
 ## Downstream consumers
 
 Heights, auxiliary polynomials, unit equations and effective logarithmic bounds feed arithmetic geometry, integral-point calculations and computational number theory. The recurrence closed form of §2.4 and its zero-set bounds supply the exponential-polynomial interface for arithmetic recurrence applications. Specialisation and Ax–Schanuel supply arithmetic differential equations and functional-transcendence applications; the conditional independence conclusions always pass their conjecture hypothesis to consumers.
+
+## Implementation sources
+
+The mathematical contracts above specify the library. Ralf Stephan's CC0
+proofs in [rwst/lean-code](https://github.com/rwst/lean-code/tree/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib)
+provide source material for the following implementations. Adaptations retain
+source attribution and use the Mathlib carriers in the supplier contracts.
+
+| Source at commit 2eadabb | Target and consumer map | Normalization and generality |
+| --- | --- | --- |
+| [NumberTheory/HeightExtension.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/NumberTheory/HeightExtension.lean), NumberField.mulHeight_ratCast | Rational base-field case of §0.2 `mulHeight_algebraMap`; §§1.3,2.5,2.8 consume the general extension contract | Relative heights raise to the extension degree; absolute heights take the total-degree root; zero projective height is 1. General K⊆L uses the place-extension contract. |
+| [NumberTheory/HeightTuple.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/NumberTheory/HeightTuple.lean), Height.mulHeight_sum_comp_le and Matrix.mulHeight_mul_le | §1.3 `matrixMulHeight_mul_le` and finite-tuple coefficient estimates; auxiliary-polynomial consumers use §1.3 | Arbitrary admissible fields and finite index types; the archimedean constant has exponent totalWeight(K). Values use affine augmentation when required. Matrix entries and row-space Plücker coordinates remain separate. |
+| [LinearAlgebra/LinearIndependentRestrictScalars.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/LinearAlgebra/LinearIndependentRestrictScalars.lean), its three extraction theorems | §2.8 `linearIndependent_card_le_finrank_mul`, `exists_linearIndependent_comp_of_lt_finrank_span` and `exists_linearIndependent_comp_finrank_mul`; `siegelBasisExtraction` feeds `siegelKernelBasis` and `siegelRelativeKernelBasis` | Arbitrary field towers, finite K/F and compatible scalar actions; selection preserves original vectors and the zero-based bound s_j≤[K:F]j. |
+
+The real-minima and Gram–Hadamard inputs to these consumers are the
+GeometryOfNumbersAndQuadraticArithmetic §§0.1,1.2–1.5 supplier contracts.
+The Euclidean zero extension, relative Arakelov normalization, degree-root
+adapter, native Plücker point and transported dual annihilator are all §2.5
+interfaces of this foundation.
 
 ## References
 

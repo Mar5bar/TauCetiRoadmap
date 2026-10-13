@@ -11,6 +11,12 @@ exhaustive. Primitive polynomials have positive leading coefficient, heights
 retain their relative or absolute normalization, derivatives are divided when
 specified, and logarithms carry their branches. The declarations state layer milestones; the README also specifies the full APIs
 and the constructions whose mathematical existence is a target.
+
+The height and Siegel foundation is owned by README §§0.2–0.3,1.3,2.5,2.8.
+Relative heights use Mathlib's Height carriers; Euclidean and absolute heights
+are their stated normalization adapters. The real minima, Minkowski product
+bounds and Gram bounds are supplied by GeometryOfNumbersAndQuadraticArithmetic
+§§0.1,1.2–1.5. The scalar-restriction core below applies to arbitrary field towers.
 -/
 
 /-! Formula carrier for isolated signatures. This definition has no provider ownership;
@@ -1418,9 +1424,10 @@ def matrixMulHeight {K m n : Type*} [Field K] [Height.AdmissibleAbsValues K]
     [Finite m] [Finite n] (A : Matrix m n K) : ℝ :=
   Height.mulHeight (fun ij : m × n ↦ A ij.1 ij.2)
 
-/-- Multiplying matrices costs the inner dimension at each archimedean value. -/
+/-- Over any admissible field, multiplying matrices with finite outer indices costs the
+inner dimension at each archimedean value. -/
 theorem matrixMulHeight_mul_le {K m n p : Type*} [Field K] [Height.AdmissibleAbsValues K]
-    [Fintype m] [Fintype n] [Fintype p] [Nonempty n] (A : Matrix m n K)
+    [Finite m] [Fintype n] [Finite p] [Nonempty n] (A : Matrix m n K)
     (B : Matrix n p K) :
     matrixMulHeight (A * B) ≤ (Fintype.card n : ℝ) ^ Height.totalWeight K *
       matrixMulHeight A * matrixMulHeight B := by sorry
@@ -2017,6 +2024,38 @@ theorem exists_subspace_interval_refinement [NeZero n] (hn : 2 ≤ n) (S : Finse
   sorry
 
 end TwistedHeight
+
+section ScalarRestrictionExtraction
+
+/-- Prefix spans of sufficient dimension provide an independent subfamily whose indices
+satisfy the prescribed bounds, without requiring those bounds to be monotone. -/
+theorem exists_linearIndependent_comp_of_lt_finrank_span {K V : Type*} [Field K]
+    [AddCommGroup V] [Module K V] {n k : ℕ} (u : Fin n → V) (m : Fin k → ℕ)
+    (hm : ∀ j : Fin k, j.val < Module.finrank K
+      (Submodule.span K (u '' {i : Fin n | i.val ≤ m j}))) :
+    ∃ s : Fin k → Fin n, LinearIndependent K (u ∘ s) ∧
+      ∀ j : Fin k, (s j).val ≤ m j := by sorry
+
+variable {F K E V W : Type*} [Field F] [Field K] [Field E]
+  [Algebra F K] [Algebra F E] [FiniteDimensional F K]
+  [AddCommGroup V] [Module F V] [Module K V] [IsScalarTower F K V]
+  [AddCommGroup W] [Module F W] [Module E W] [IsScalarTower F E W]
+
+/-- Independent images under a base-field-linear map bound the size of a finite family
+by the extension degree times the dimension of its span over the larger field. -/
+theorem linearIndependent_card_le_finrank_mul (f : V →ₗ[F] W)
+    {ι : Type*} [Finite ι] {u : ι → V} (h : LinearIndependent E (f ∘ u)) :
+    Nat.card ι ≤ Module.finrank F K *
+      Module.finrank K (Submodule.span K (Set.range u)) := by sorry
+
+/-- From degree times k vectors with independent images, select k independent original
+vectors over the extension field, with zero-based index bound degree times j. -/
+theorem exists_linearIndependent_comp_finrank_mul (f : V →ₗ[F] W) {k : ℕ}
+    {u : Fin (Module.finrank F K * k) → V} (h : LinearIndependent E (f ∘ u)) :
+    ∃ s : Fin k → Fin (Module.finrank F K * k), LinearIndependent K (u ∘ s) ∧
+      ∀ j : Fin k, (s j).val ≤ Module.finrank F K * j.val := by sorry
+
+end ScalarRestrictionExtraction
 
 end DiophantineApproximation
 
@@ -3075,8 +3114,8 @@ theorem andre_eFunction_equation {a : ℕ → ℂ} (ha : IsEFunction a) :
         ∑ k : Fin m, (PowerSeries.X ^ (k : ℕ) * (q k : PowerSeries ℂ)) *
           (⇑(PowerSeries.derivative (R := ℂ)))^[k] (ePowerSeries a) = 0) := sorry
 
-/-- Every holomorphic local solution of the minimal equation of a rational E-function
-vanishing at one also vanishes there. -/
+/-- Rational E-function division by 1−z and holomorphic local bases imply that every local
+solution of the minimal equation of a nonzero rational E-function vanishing at one vanishes there. -/
 theorem eFunction_rational_minimal_equation_zero {a : ℕ → ℂ} (ha : IsEFunction a)
     (hq : ∀ m, ∃ q : ℚ, a m = q) (ha0 : ePowerSeries a ≠ 0) (h1 : eFun a 1 = 0)
     (hf : IsDFinite ⊥ (ePowerSeries a))
