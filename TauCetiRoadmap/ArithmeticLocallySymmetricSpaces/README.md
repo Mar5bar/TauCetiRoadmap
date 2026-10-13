@@ -160,7 +160,11 @@ characteristic-zero Galois representations attached to cuspidal
 automorphic representations of `GL_m` and `U(m,m)` over CM fields, and of residual representations
 attached to torsion classes, uses Shimura varieties and the completed cohomology built on this
 roadmap; such representations enter only as explicit hypotheses (`GaloisInput` in ALS.5b.7, the
-Galois-type conditions in ALS.4.12–4.13 and ALS.5b.8–5b.9). Level systems, completed cohomology,
+general linear Galois-type conditions in ALS.4.12–4.13 and ALS.5b.8–5b.9, and
+`ResidualUnitaryGaloisInput` for the smaller unitary factors in ALS.4.13). The latter is a
+residual-cohomology contract, separate from the characteristic-zero cuspidal `GaloisInput`;
+IntegralHeckeAndGaloisDeterminants supplies its predicate, not the arithmetic existence theorem.
+Level systems, completed cohomology,
 derived limits over levels and continuous profinite cohomology are not treated; the coefficient
 limit in ALS.3.10 is at one fixed good level. ALS.6 exports
 finite-level descent and refinement maps only. Shimura varieties, their
@@ -444,7 +448,12 @@ apply on each transported open boundary stratum, with its own dimension and orie
 - `GaloisInput` (ALS.5b.7): characteristic-zero Galois representations attached to the cuspidal
   automorphic representations of the Levi factors, with unramified local–global compatibility.
 - Residual Galois type (`Spherical.IsGaloisType`) of the relevant Hecke complexes, in ALS.4.12,
-  ALS.4.13 and ALS.5b.8–5b.9, as in the sources.
+  ALS.4.13 and ALS.5b.8–5b.9, as in the sources. ALS.4.13 also assumes
+  [`ResidualUnitaryGaloisInput`](#residual-unitary-galois-input): rank-`2a` residual representations
+  for the cohomological eigensystems of every smaller `U(a,a)`, `0 < a < n`, at good levels with
+  all finite smooth coefficients, including dual orientation twists and finite residue-field
+  extensions. Its existence is an arithmetic input from [ACC+23, Theorem 2.3.8, pp. 939–940,
+  and proof of Theorem 2.4.2, pp. 942–945], not a consequence of determinant reconstruction.
 - Triangulability (ALS.2.4, ALS.2.10): at neat `K`, the compact smooth manifolds with boundary
   obtained by rounding corners ([ALS.5a.1](#corner-boundary-bridge)) from `X̄_K` and from the
   compactified transported parabolic spaces `Ȳ^P_{L_g}` of
@@ -1951,8 +1960,10 @@ quotients of anisotropic groups are compact).
   boundary circle per cusp.
 - For G F-anisotropic modulo centre, X_K is already compact.
 - For G = GL_{1,F} with F real quadratic the derived group is trivial and everything comes from the
-  centre: (Res_{F/ℚ}G_m)/A_𝐆 has no ℚ-rational character (complex conjugation acts on its
-  characters by −1), so X_K is a finite union of circles, compact with empty boundary.
+  centre: (Res_{F/ℚ}G_m)/A_𝐆 has character lattice ℤ·(1,−1). The nonidentity element of
+  Gal(F/ℚ) exchanges the two coordinates and acts by −1, so there is no ℚ-rational character;
+  complex conjugation fixes both real embeddings. Thus X_K is a finite union of circles,
+  compact with empty boundary.
 
 <a id="borel-serre-finite-triangulation"></a>
 
@@ -3401,31 +3412,94 @@ p. 55]; [CGH20, §3.1, proof of Theorem 3.2, pp. 5–6]; [CG18, §5.3.1 and Lemm
 
 ### ALS.4.13 Localized boundary cohomology of U(n, n) is the Siegel stratum
 
+<a id="residual-unitary-galois-input"></a>
+
+**Residual-unitary Galois-type contract — `LocallySymmetric.ResidualUnitaryGaloisInput`.**
+For a CM field `F` with maximal totally real subfield `F⁺`, `n ≥ 1`, a complete coefficient DVR
+`O` with finite residue field of characteristic `p`, and a finite conjugation-stable set
+`S ⊃ S_p` containing the places ramified over `F⁺`, define the following input. For every
+`0 < a < n`, every good level `L ⊂ U(a,a)(𝔸^∞_{F⁺})` hyperspecial outside `S`, every finite
+extension `k` of the residue field of `O`, and every finite-dimensional smooth discrete
+`k[L_S]`-module `B`, each maximal ideal `η` of `T̃^S_a ⊗_O k` in the Hecke support of
+`H^*(X^{U(a,a)}_L, B)` has finite residue field `k_η` and a continuous semisimple representation
+`ρ̄_η : G_{F,S} → GL_{2a}(k_η)` satisfying
+
+```text
+det(X − ρ̄_η(Frob_v)) = P̃_{a,v}(X) mod η,
+P̃_{a,v}(X) = Σ_{j=0}^{2a} (−1)^j q_v^{j(j−1)/2} T̃_{v,j} X^{2a−j},  T̃_{v,0} = 1,
+```
+
+for every `v ∉ S`. Here `T̃_{v,j}` are the unitary spherical operators of ACC+23 §2.2.5,
+defined through unramified base change, including at inert places; `Frob_v` is geometric.
+Use `Spherical.IsGaloisType` with rank `2a` and these polynomials. The quantifiers include all
+transported factor levels, their good refinements inside `S`, every finite local-coefficient
+subquotient arising in the stratum spectral sequences, and `B^∨ ⊗ o_L`. They also include the
+finite coefficient-field extensions needed to split the product Levi eigensystems. The contract
+is stable under restricting the rank and level families and supplies a realizing representation
+for each supported eigensystem. Its all-finite-coefficients form is an explicit hypothesis:
+the source obtains the needed instances by shrinking level to trivialize finite coefficients
+and preserving Hecke support by Hochschild–Serre. The Shimura-variety existence theorem is not a
+target here. ([ACC+23, §2.2.5, (2.2.7), p. 922]; [ACC+23, Theorem 2.3.8 and its proof,
+pp. 939–940]; [ACC+23, proof of Theorem 2.4.2, pp. 942–945])
+
+*Needs:* [ALS.3.11](#derived-hecke-algebra); [ALS.4.10](#eisenstein-maximal-ideal);
+IntegralHeckeAndGaloisDeterminants, Layer 3b (`Spherical.IsGaloisType`, applied to the specified
+unitary polynomial system). Arithmetic existence is assumed by this contract.
+
+**Checks.**
+
+- At `a = 1` the polynomial is `X² − T̃_{v,1}X + q_v T̃_{v,2}` and the supplied representation
+  has dimension two; rank-one general linear Galois type cannot supply it.
+- A finite stratum coefficient module `B`, its dual orientation twist, and their scalar extensions
+  to a finite residue field all lie in the contract, even when `B` has nontrivial level action.
+  Trivial-coefficient Galois type at a single fixed level does not meet these quantifiers.
+- For `n = 1` there is no positive `a < n`, so the input is vacuous; for `n = 2` it includes
+  precisely the smaller unitary group `U(1,1)` at every specified level and coefficient system.
+
 Prove `LocallySymmetric.boundary_localized_eq_siegel`. Let F be CM with maximal totally real
-subfield F⁺, G̃ the quasi-split unitary group U(n, n) over F⁺ with Siegel parabolic P = G ⋉ U, G =
+subfield F⁺, n ≥ 1, O as in `ResidualUnitaryGaloisInput`, and G̃ the quasi-split unitary group
+U(n, n) over F⁺ with Siegel parabolic P = G ⋉ U, G =
 Res_{F/F⁺}GL_n, K̃ good and decomposed with respect to P, K = K̃ ∩ G(A^∞_{F⁺}), S = S^c. Let 𝔪 ⊂
 T^S(K, λ) be non-Eisenstein and 𝔪̃ = S^\*(𝔪) ⊂ T̃^S. Then for every λ̃ ∈ (ℤ^{2n}_+)^{Hom(F⁺,E)} there
 is a natural T̃^S-equivariant isomorphism RΓ(X̃^P_{K̃}, Ṽ_λ̃)_𝔪̃ ≅ RΓ(∂X̃_{K̃}, Ṽ_λ̃)_𝔪̃ in D(O):
-after localization only the Siegel stratum contributes. The proof runs the boundary gluing of
-[ALS.4.8](#boundary-gluing-convergence) over the non-Siegel strata, whose Levi factors contain a
-product of at least two general linear factors or a smaller unitary group; at 𝔪̃ their contributions
-vanish because the residual representations attached to their Hecke eigensystems are reducible in a
-way the non-Eisenstein 𝔪 excludes. That uses residual Galois representations for the general linear
-Levi factors, which enter as a hypothesis exactly as in [ALS.4.12](#gln-boundary-eisenstein). The
+after localization only the Siegel stratum contributes. A proper standard Levi is
+`∏_i Res_{F/F⁺}GL_{n_i} × U(n−s,n−s)`, with `Σ_i n_i = s`, `1 ≤ s ≤ n`; the unitary factor is
+absent when `s = n`. The general linear Galois-type input supplies the rank-`n_i` representations
+and `ResidualUnitaryGaloisInput` supplies the rank-`2(n−s)` representation. After a common finite
+residue-field extension, the unnormalized Satake polynomial comparison assembles them with the
+conjugate dual general linear factors and the prescribed cyclotomic twists; the middle unitary
+factor is twisted by `ε^{−s}`. For a non-Siegel Levi every `n_i < n`, so this semisimple
+representation has a nonzero constituent of dimension less than `n`. It cannot realize the
+polynomials at `𝔪̃`, whose Siegel pullback has two absolutely irreducible rank-`n` constituents.
+Apply this exclusion also to the dual coefficients at the inverse Hecke ideal, use stratum
+duality, and run [ALS.4.8](#boundary-gluing-convergence) to kill the compact-support non-Siegel
+terms. Applying the same exclusion to the boundary of the Siegel stratum's closure identifies its
+compactly supported and ordinary localized complexes, giving the displayed isomorphism. The
 statement assumes: F CM; K̃ good and decomposed with respect to P; 𝔪 non-Eisenstein (of Galois type
-with ρ̄_𝔪 absolutely irreducible); for every m ≤ n and every good level, the Hecke complexes of
-Res_{F/F⁺}GL_m with the relevant finite coefficients, and with their duals twisted by the
-orientation system, are of S-Galois type (`Spherical.IsGaloisType`). ([ACC+23, §2.4.1, Theorem
-2.4.2, pp. 941–942]; [ACC+23, §2.4.1, proof of Theorem 2.4.2, p. 942])
+with ρ̄_𝔪 absolutely irreducible); S finite with S ⊃ S_p, S = S^c, containing the places ramified
+over F⁺, and K̃ hyperspecial outside S; for every 1 ≤ m ≤ n and every good general linear factor
+level hyperspecial outside S, the Hecke complexes of Res_{F/F⁺}GL_m with all finite smooth
+coefficients over finite extensions of the residue field, including their dual orientation twists,
+are of S-Galois type (`Spherical.IsGaloisType`); and `ResidualUnitaryGaloisInput(F,n,O,S)`.
+([ACC+23, §2.4.1, Theorem 2.4.2, pp. 941–942]; [ACC+23, Theorem 2.3.8, pp. 939–940];
+[ACC+23, §2.4.1, complete proof of Theorem 2.4.2, pp. 942–945])
 
 *Needs:* [ALS.4.8](#boundary-gluing-convergence); [ALS.4.12](#gln-boundary-eisenstein);
 [ALS.4.10](#eisenstein-maximal-ideal); [ALS.4.2](#parabolic-hecke-maps);
 [ALS.2.5](#boundary-stratification); [ALS.5a.2](#verdier-poincare-duality);
-[ALS.5a.4](#hecke-adjoint-duality).
+[ALS.5a.4](#hecke-adjoint-duality);
+[`ResidualUnitaryGaloisInput`](#residual-unitary-galois-input) (the assumed residual-unitary
+existence contract for all smaller unitary factors and the finite coefficients used above).
 
 **Checks.**
 
 - n = 1: G̃ = U(1,1), the Siegel parabolic is the Borel and the boundary is its stratum.
+- For `U(2,2)`, the non-Siegel maximal parabolic has Levi `Res_{F/F⁺}GL₁ × U(1,1)`.
+  General linear Galois type supplies the rank-one factor;
+  `ResidualUnitaryGaloisInput(F,2,O,S)` supplies the middle rank-two factor from the `U(1,1)`
+  eigensystem. The Satake twists and conjugate dual give dimensions `1 + 2 + 1`, incompatible
+  with the two irreducible rank-two constituents at `𝔪̃`; both ordinary and dual-coefficient
+  exclusions apply. General linear inputs alone leave the middle factor unassigned.
 - The hypothesis on 𝔪 cannot be dropped: an Eisenstein 𝔪 receives contributions from the Borel
   stratum.
 
@@ -4156,7 +4230,9 @@ representations; `FrankeInput(Res_{F⁺/ℚ} G̃, K̃, Ṽ_{ιλ̃})`; `GaloisIn
 
 *Needs:* [ALS.5b.4](#automorphic-comparison); [ALS.5b.5](#cuspidal-cohomology);
 [ALS.5b.7](#characteristic-zero-galois-comparisons);
-[ALS.4.6](#boundary-stratum-cohomology-formula); [ALS.4.13](#siegel-stratum-localization);
+[ALS.4.6](#boundary-stratum-cohomology-formula); [ALS.4.13](#siegel-stratum-localization)
+(Levi decomposition and Satake-polynomial comparison only; the characteristic-zero argument uses
+`GaloisInput`, independently of `ResidualUnitaryGaloisInput`);
 [ALS.4.10](#eisenstein-maximal-ideal); [ALS.F.7](#cohomological-representations) (Wigner's lemma).
 
 **Checks.**

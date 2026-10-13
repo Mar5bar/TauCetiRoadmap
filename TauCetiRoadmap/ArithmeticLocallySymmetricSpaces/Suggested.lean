@@ -707,7 +707,19 @@ here.
   `nomizu`, `kostant_splittingField`, `BorelSerre.stratum_kostant`,
   `BorelSerre.stratum_hochschildSerre`, `BorelSerre.boundary_localized_vanishing`, `heckeLocalize`,
   `IsGaloisType`, `IsEisenstein`, `IsEisensteinCG`, `boundary_vanishing_of_eigenvalues`,
-  `boundary_isEisenstein_GL`, `boundary_localized_eq_siegel`.
+  `boundary_isEisenstein_GL`, `ResidualUnitaryGaloisInput`, `boundary_localized_eq_siegel`.
+  In ALS.4.13, `ResidualUnitaryGaloisInput(F,n,O,S)` supplies continuous semisimple rank-`2a`
+  representations of `G_{F,S}` for all supported eigensystems of `U(a,a)`, `0 < a < n`, at every
+  good level hyperspecial outside the finite conjugation-stable `S ⊃ S_p` containing the places
+  ramified over `F⁺`. It includes all finite smooth coefficients over finite residue-field
+  extensions, their local-coefficient subquotients and dual orientation twists, and good level
+  refinements inside `S`. Frobenius is geometric and its characteristic polynomial is the
+  unitary polynomial with coefficients `(−1)^j q_v^{j(j−1)/2} T̃_{v,j}` in degree `2a−j`.
+  The boundary theorem assumes this input alongside rank-`m` general linear Galois type for
+  `1 ≤ m ≤ n` with the same level and finite-coefficient coverage, and a non-Eisenstein Siegel
+  ideal. For `U(2,2)` the contract supplies the middle rank-two representation for the Levi
+  `Res GL₁ × U(1,1)`; the Satake comparison gives dimensions `1 + 2 + 1`. Arithmetic existence
+  is a residual-cohomology hypothesis, separate from the characteristic-zero `GaloisInput`.
 * Topological manifolds with boundary carrying orientation local systems and Verdier duality:
   `BorelSerre.manifoldWithBoundary`, `verdierDuality`, `dualityPairing` and its API,
   `verdierDuality_hecke`, `verdierDuality_triangle` (perfect coefficients; its localization clause
