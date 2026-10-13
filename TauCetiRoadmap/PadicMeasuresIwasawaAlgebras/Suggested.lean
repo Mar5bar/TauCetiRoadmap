@@ -634,6 +634,15 @@ theorem charIdeal_eq_of_pseudoIso {N : Type*} [AddCommGroup N] [Module A N] [Mod
     (hM : Module.IsTorsion A M) :
     charIdeal A M = charIdeal A N ∧ (charIdeal A M = ⊤ ↔ IsPseudoNull A M) := sorry
 
+attribute [local instance] RingHomInvPair.of_ringEquiv RingHomInvPair.of_ringEquiv_symm
+
+/-- §4.6: a semilinear equivalence transports the characteristic ideal by inverse image under
+its scalar automorphism, through the comparison of height-one localizations and their lengths. -/
+theorem charIdeal_comap_of_semilinearEquiv {N : Type*} [AddCommGroup N] [Module A N]
+    [Module.Finite A M] [Module.Finite A N] (σ : A ≃+* A)
+    (e : N ≃ₛₗ[(σ : A →+* A)] M) (hN : Module.IsTorsion A N) (hM : Module.IsTorsion A M) :
+    charIdeal A N = Ideal.comap (σ : A →+* A) (charIdeal A M) := sorry
+
 end CharacteristicIdeal
 
 /-- §4.6 (NSW (5.3.9)): on an elementary torsion module, `char = (ϖ^{Σ mᵢ} ∏ F_j^{n_j})`; so

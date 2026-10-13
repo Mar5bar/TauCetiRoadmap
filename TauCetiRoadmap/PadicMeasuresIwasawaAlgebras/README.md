@@ -1081,7 +1081,8 @@ is the Amice transform; φ is substitution by b and ψ = psiSeries its left inve
 restriction to pZ; H = inverseMahler; b_a = binomialSeries(a) − 1, S_a(F) = `PowerSeries.subst`
 (b_a, F), d_a : x ↦ ax; E = E_R = unitRestriction, r = r_R the intrinsic unit restriction D(Z,R) →
 D(U,R), j_R the pushforward along `Units.val` (r_R j_R = id, j_R r_R = E_R); I_R is the extension
-`extendIntegralCoefficients` of §2.5; χ is the characteristic function of pZ, m_p(x) = px;
+`extendIntegralCoefficients` of §2.5, defined for complete ultrametric R; χ is the characteristic
+function of pZ, m_p(x) = px;
 C_{(n,a)} = ρ_n⁻¹{a}, χ_{(n,a)} its characteristic function, P_{(n,a)} = restrictResidue, π_n the
 finite projection of ρ_n. Measure norms are operator norms through `toCLMEquiv`, for field
 coefficients only, so D(Z,Z) receives no norm instance; additive convolution on Z and multiplicative
@@ -1429,12 +1430,20 @@ nonvanishing.
 References: RJW Theorem 3.25 and its proof, pp. 124–125. Built on Mathlib's `AbstractMeasure` lemmas
 `injective_amiceTransform` and `coeff_amiceTransform`, and `PadicInt.mahlerEquiv`.
 
-First prove that for a bounded coefficient sequence c and a continuous test f the series Σ_n
-a_n(f)c_n is summable, because the Mahler coefficients a_n(f) tend to zero
-(`PadicInt.hasSum_mahler`).
+The pairing, inverse transform, integral coefficient extension and every statement using these
+constructions assume R is a complete ultrametric normed commutative ℤ_p-algebra with bounded scalar
+action: `[NormedCommRing R] [Algebra ℤ_[p] R] [IsBoundedSMul ℤ_[p] R] [IsUltrametricDist R]
+[CompleteSpace R]`. Their field-valued consumers assume the same completeness and ultrametricity
+for K. The forward coefficient constructions below carry their weaker hypotheses explicitly.
 
-**The bounded Mahler pairing.** For c in BoundedContinuousFunction(ℕ,R), define the R-linear map I_c
-: C(ℤ_p,R) → R by I_c(f) = Σ_n a_n(f)c_n. The space of test functions and the coefficient sequence
+First prove that for a bounded coefficient sequence c and a continuous test f the series Σ_n
+a_n(f)c_n is summable: the Mahler coefficients tend to zero, boundedness of c makes the products
+tend to zero, and completeness and ultrametricity give summability. The Mahler expansion and its
+coefficient norm estimate are supplied by `PadicInt.hasSum_mahler` and `PadicInt.mahlerEquiv`.
+
+**The bounded Mahler pairing.** For R in the complete ultrametric scope above and c in
+BoundedContinuousFunction(ℕ,R), define the R-linear map I_c : C(ℤ_p,R) → R by I_c(f) = Σ_n
+a_n(f)c_n. The space of test functions and the coefficient sequence
 are library objects. Its API is `boundedMahlerPairing_apply` (I_c(f) = Σ_n a_n(f)c_n),
 `boundedMahlerPairing_add`, `boundedMahlerPairing_smul` (I_c(rf) = r I_c(f) for r in R),
 `boundedMahlerPairing_bound` (|I_c(f)| ≤ ‖c‖‖f‖) and `boundedMahlerPairing_integral` (for R = ℤ_p
@@ -1447,9 +1456,14 @@ bound |I_c(f)| ≤ ‖c‖‖f‖ is the intermediate result the inverse transfo
   so I_c(x ↦ x) = 1 and I_c(1) = 0.
 - For an integral formal series F and its bounded coefficient sequence, I_c(f) =
   AbstractMeasure.invTransform(F)(f).
+- Completeness alone does not give the norm bound: on R = ℚ_p[C₂], with g² = 1 and the coefficient
+  sum norm ‖a + bg‖ = |a|_p + |b|_p, take c₀ = 1, c₁ = g and c_n = 0 for n ≥ 2. For
+  f = 1_{pℤ_p}, a₀(f) = 1 and a₁(f) = −1, so I_c(f) = 1 − g has norm 2 although ‖c‖ = ‖f‖ = 1.
+  This complete submultiplicatively normed ℤ_p-algebra fails ultrametricity.
 
-**The bounded-coefficient inverse Amice transform.** Define `boundedInvTransform` as the R-linear
-map from BoundedContinuousFunction(ℕ,R) to the measure type D(ℤ_p,R), sending c to the continuous
+**The bounded-coefficient inverse Amice transform.** For R in the complete ultrametric scope above,
+define `boundedInvTransform` as the R-linear map from BoundedContinuousFunction(ℕ,R) to the measure
+type D(ℤ_p,R), sending c to the continuous
 functional f ↦ I_c(f). Its value is a measure, not a new carrier of formal power series. Its API is
 `boundedInvTransform_apply` (boundedInvTransform(c)(f) = I_c(f)), `boundedInvTransform_mahler`,
 `amiceTransform_boundedInvTransform` (its Amice transform equals `PowerSeries.mk`(c)),
@@ -1466,15 +1480,21 @@ coefficients are bounded by |1_R|). *Needs:* `boundedMahlerPairing`, its bound, 
   transform is T.
 - For R = ℤ_p, coefficients of an integral formal series give exactly the invTransform, by the Amice
   injectivity.
+- Without completeness, R = ℚ_p[S] with the Gauss norm and c_n = S^n has no inverse measure.
+  The tests f_N(x) = Σ_{n≤N} p^n binom(x,n) converge uniformly through the constant-polynomial
+  inclusion to an R-valued continuous f. An inverse measure would send f_N to Σ_{n≤N} p^n S^n.
+  For any polynomial P, choosing j > deg P leaves the Gauss distance from these images to P at
+  least |p|_p^j for every N ≥ j. Their limit in the completion is 1/(1 − pS), outside R.
 
-**The bounded image coefficient sequence.** For an integral measure μ, define
+**The bounded image coefficient sequence.** For R a normed commutative ℤ_p-algebra with bounded
+scalar action, without completeness or ultrametricity assumptions, and an integral measure μ, define
 `integralAmiceCoefficients`(μ) as the bounded sequence n ↦ algebraMap(coeff_n(A_μ)) in R, with the
 uniform bound |1_R|. Its API is `integralAmiceCoefficients_apply` (the n-th value is
 algebraMap(coeff_n(A_μ))), `integralAmiceCoefficients_norm` (the supremum norm is at most |1_R|),
 `integralAmiceCoefficients_zero`, `integralAmiceCoefficients_add` (the coefficient sequence is
 additive in μ), `integralAmiceCoefficients_smul` (multiplication of μ by a in ℤ_p multiplies the
 sequence by algebraMap(a)) and `integralAmiceCoefficients_self` (for R = ℤ_p this is the original
-Amice coefficient sequence). *Needs:* the bound on the image of an integral coefficient sequence.
+Amice coefficient sequence). *Needs:* bounded scalar action and the bound |a| ≤ 1 for a ∈ ℤ_p.
 
 **Checks.**
 - For δ_0 the zeroth coefficient is 1 and the first coefficient is 0, including over ℚ_3.
@@ -1483,8 +1503,9 @@ Amice coefficient sequence). *Needs:* the bound on the image of an integral coef
 - For R = ℤ_p, the n-th coefficient is exactly coeff_n(A_μ), using the standard identity algebra
   structure.
 
-**Extension of integral measures on ℤ_p.** Define `extendIntegralCoefficients`(μ) in D(ℤ_p,R) as
-boundedInvTransform(integralAmiceCoefficients(μ)). Its Amice transform is the coefficient image of
+**Extension of integral measures on ℤ_p.** For R in the complete ultrametric scope above, define
+`extendIntegralCoefficients`(μ) in D(ℤ_p,R) as boundedInvTransform(integralAmiceCoefficients(μ)).
+Its Amice transform is the coefficient image of
 A_μ, and its value on the R-valued image of an integral test f is algebraMap(μ(f)); this extends
 coefficients of the measure on ℤ_p. Its API is `extendIntegralCoefficients_apply` (evaluation on f
 is Σ_n a_n(f) algebraMap(coeff_n(A_μ))), `amiceTransform_extendIntegralCoefficients` (the Amice
@@ -1504,7 +1525,8 @@ bound of the pairing, `integralAmiceCoefficients`.
 - Over ℤ_p this extension equals the original measure, with no alternate carrier.
 
 **Bounded Amice coefficient sequence.** For a nontrivially normed field K with a ℤ_p-algebra
-structure and bounded scalar action (`Algebra ℤ_[p] K`, `IsBoundedSMul ℤ_[p] K`), define
+structure and bounded scalar action (`Algebra ℤ_[p] K`, `IsBoundedSMul ℤ_[p] K`), without
+completeness or ultrametricity assumptions, define
 `boundedAmiceCoefficients : D(ℤ_p,K) →ₗ[K] BoundedContinuousFunction(ℕ,K)` by μ ↦ (n ↦
 coeff_n(A_μ)); the sequence has its supremum norm (RJW Definitions 3.5, 3.8, 3.23; Theorem 3.21 and
 proof of Theorem 3.25; Remark 3.28(1),(3), p. 119, 123–126). Its API is
@@ -1513,8 +1535,9 @@ proof of Theorem 3.25; Remark 3.28(1),(3), p. 119, 123–126). Its API is
 `boundedAmiceCoefficients_smul` (the bounded coefficient sequence of aμ is a times the bounded
 coefficient sequence of μ, for a ∈ K) and `boundedAmiceCoefficients_norm_le` (the supremum norm of
 boundedAmiceCoefficients(μ) is at most the continuous-dual operator norm of μ). *Needs:* the
-coefficient bound of a field-valued measure. Prove along the way that boundedInvTransform does not
-increase the norm (‖boundedInvTransform(c)‖ ≤ ‖c‖) and that it is a retraction of the coefficient
+coefficient bound of a field-valued measure. When K is also complete and ultrametric, prove that
+boundedInvTransform does not increase the norm (‖boundedInvTransform(c)‖ ≤ ‖c‖) and that it is a
+retraction of the coefficient
 map: boundedAmiceCoefficients(boundedInvTransform(c)) = c.
 
 **Checks.**
@@ -1535,11 +1558,17 @@ every μ, ‖boundedAmiceCoefficients(μ)‖ = ‖toCLMEquiv(μ)‖). *Needs:* `
 retraction identity, the Amice identity of boundedInvTransform and its norm bound. *Lean:* the norm
 identity ‖toCLMEquiv(μ)‖ = sup_n ‖coeff_n(A_μ)‖ is `AbstractMeasure.norm_toCLMEquiv_eq_iSup_coeff`.
 
-**The bounded-series range of Amice.** Prove that for F ∈ K⟦T⟧ there exists a measure μ with A_μ = F
-if and only if there is C ≥ 0 such that ‖coeff_n(F)‖ ≤ C for every n (RJW Definitions 3.5, 3.8,
+**The bounded-series range of Amice.** For K in the complete ultrametric field scope above, prove
+that for F ∈ K⟦T⟧ there exists a measure μ with A_μ = F if and only if there is C ≥ 0 such that
+‖coeff_n(F)‖ ≤ C for every n (RJW Definitions 3.5, 3.8,
 3.23; Theorem 3.21 and proof of Theorem 3.25; Remark 3.28(1),(3), p. 119, 123–126). *Needs:* the
 coefficient bound of a field-valued measure, the Amice identity of boundedInvTransform. *Lean:*
 `AbstractMeasure.mem_range_amiceTransform_iff`.
+
+**Checks.**
+- Over ℚ_p, F = 1 is the transform of δ₀.
+- Over ℚ_p, F = p⁻¹ is the transform of p⁻¹δ₀, so integral coefficients are not required.
+- Over ℚ_p, F = Σ_n p⁻ⁿ T^n has unbounded coefficients and is outside the Amice range.
 
 Prove next that the rational extension E = extendIntegralCoefficients : D(ℤ_p,ℤ_p) → D(ℤ_p,ℚ_p) is
 injective and that ‖toCLMEquiv(E μ)‖ ≤ 1.
@@ -1706,8 +1735,8 @@ References: RJW Definition 3.5 and Definitions 3.7–3.8, p. 119; §3.5.2–5, R
 3.32 and Remark 3.33, pp. 126–129. Built on Mathlib's `AbstractMeasure` lemma `map_apply`,
 `LocallyConstant.charFn` and `LocallyConstant.coe_charFn`.
 
-First prove that the integral extension I_R commutes with the unit projector: I_R(E_Z μ) = E_R(I_R
-μ).
+For R a complete ultrametric normed commutative ℤ_p-algebra with bounded scalar action, first prove
+that the integral extension I_R commutes with the unit projector: I_R(E_Z μ) = E_R(I_R μ).
 
 **Integral coefficient extension on the unit domain.** For R a complete normed commutative
 ultrametric ℤ_p-algebra with bounded scalar action and μ ∈ D(U,Z), define I_{U,R}(μ) = r_R(I_R(j_Z
@@ -2646,15 +2675,30 @@ generator). *Needs:* the structure theorem for Iwasawa modules (§4.2).
 of T on the finite-dimensional space M ⊗_O Frac O. *Needs:* `charPoly`, the Weierstrass adapter
 (§4.3).
 
-**`invariants_generator_indep`.** Prove that r, μ and λ do not depend on γ: a change of generator γ
-↦ γ^u, u ∈ ℤ_pˣ, is the ℤ_p-algebra automorphism σ of Λ with σ(T) = (1 + T)^u − 1 (Tau Ceti's
-generator change), and the module for the new generator is M with scalars restricted along σ; for
-every σ-semilinear equivalence N ≃ M the two modules have the same μ, λ and Λ-rank, while F_{M,γ}
-itself changes (the generator-dependence non-example of the invariants above). *Needs:*
-`muInvariant`, `lambdaInvariant`, the transport of the characteristic ideal along a ring
-automorphism (§4.6), Tau Ceti's generator change
-`completedGroupAlgebra.powerSeriesCoordinate_padicPow_apply` (the coordinate of γ^u for a unit u is
-(1 + T)^u).
+**`invariants_generator_indep`.** For finitely generated modules over Λ = O⟦T⟧ in the stated
+coefficient-DVR scope, prove that r, μ and λ do not depend on γ. For γ ↦ γ^u, u ∈ ℤ_pˣ, extend the
+ℤ_p-coordinate substitution coefficientwise to the O-algebra automorphism σ_u with
+σ_u(T) = (1 + T)^u − 1 and inverse σ_{u⁻¹}; it fixes O and commutes with the coefficient map
+ℤ_p⟦T⟧ → O⟦T⟧. The module for the new generator has scalars restricted along σ_u. For every
+σ_u-semilinear equivalence N ≃ M, transport the torsion submodules and compare ranks over the
+fraction fields. Apply generic characteristic-ideal transport (§4.6) to the torsion submodules:
+σ_u fixes the vertical prime (ϖ), so its local length μ is preserved. For a horizontal generator F,
+reduction of σ_u(F) modulo ϖ is composition with a series of order one, since its linear
+coefficient is the unit image of u. Its order, hence its horizontal Weierstrass degree λ, is
+preserved. Thus μ(N) = μ(M), λ(N) = λ(M) and rank_Λ(N) = rank_Λ(M), although the distinguished
+polynomial can change (NSW (5.3.9), Remark 1, p. 292; the coefficient-extension and local-length
+argument is derived here). *Needs:* `muInvariant`, `lambdaInvariant`, `charPoly`, the Weierstrass
+adapter (§4.3), the coefficient-compatible coordinate (§4.5),
+`charIdeal_comap_of_semilinearEquiv` (§4.6) and the formula char_Λ = (ϖ^μ F_M) there, Tau Ceti
+`completedGroupAlgebra.powerSeriesCoordinate_padicPow_apply`. Generic transport in §4.6 precedes
+this consumer.
+
+**Checks.**
+- u = 1 gives the identity substitution and preserves the polynomial as well as r, μ and λ.
+- For O = ℤ_p, u = −1 and M = Λ/(T − p), the twisted module has distinguished polynomial
+  T + p/(1 + p), since σ_{−1}(T) = −T/(1 + T). Both have r = μ = 0 and λ = 1, including at p = 2.
+- For M = Λ ⊕ Λ/(ϖ) ⊕ Λ/(T²), every unit u preserves r = 1, μ = 1 and λ = 2; the free summand
+  contributes rank only and the vertical factor contributes μ only.
 
 ### 4.5 The Iwasawa coordinate and the initial Fitting ideal
 
@@ -2777,8 +2821,10 @@ pseudo-isomorphism), `charIdeal_quotient_span`, the pseudo-null criterion (char_
 pseudo-null), the identity char_Λ(M) = (ϖ^μ F_{M,γ}) on Λ = O⟦T⟧ (below), the transport along a ring
 automorphism σ of A (for a σ-semilinear equivalence N ≃ M, char(N) = σ^{−1}(char(M)); below), base
 change (below) and restriction of scalars (below). *Needs:* `IsPseudoNull`, `IsPseudoIsomorphism`
-(§4.1), the torsion splitting over a normal domain (§4.2), `muInvariant` and `charPoly` (§4.4),
-`TauCeti.fittingIdeal` (§4.5). *Lean:* `TauCeti.Iwasawa.charIdeal`,
+(§4.1), the torsion splitting over a normal domain (§4.2), `charDivisor` below,
+`TauCeti.fittingIdeal` (§4.5). The construction and generic automorphism transport use no
+Iwasawa invariants; the formula over Λ below consumes `muInvariant` and `charPoly` (§4.4). *Lean:*
+`TauCeti.Iwasawa.charIdeal`,
 `TauCeti.Iwasawa.charIdeal_quotient_span`, `TauCeti.Iwasawa.charIdeal_mul_of_exact` and
 `TauCeti.Iwasawa.charIdeal_eq_of_pseudoIso` (which also carries the pseudo-null criterion), with the
 second and third checks as `example`s.
@@ -2831,14 +2877,41 @@ generator).
 - For Λ = ℤ_p⟦T⟧, div(Λ/(T²)) has coefficient 2 at (T), zero elsewhere.
 - For Λ = ℤ_p⟦T⟧, div(Λ/(p, T)) = 0 even though the module is nonzero.
 
-**The characteristic ideal over O⟦T⟧ is (ϖ^μ F_M).** Prove that on Λ = O⟦T⟧, char_Λ(M) = (ϖ^μ
-F_{M,γ}). *Needs:* `charIdeal`. *Lean:* on an elementary torsion module, char = (ϖ^{Σ m_i} ∏
+**The characteristic ideal over O⟦T⟧ is (ϖ^μ F_M).** For a finitely generated torsion module M over
+Λ = O⟦T⟧ in the stated coefficient-DVR scope, prove char_Λ(M) = (ϖ^μ F_{M,γ})
+(RJW Definition 13.3, p. 190; NSW (5.3.9), pp. 292–293). *Needs:* `charIdeal`, `muInvariant`,
+`charPoly` (§4.4). *Lean:* on an elementary torsion module, char = (ϖ^{Σ m_i} ∏
 F_j^{n_j}) is `TauCeti.Iwasawa.charIdeal_elementary`.
 
-**Transport of the characteristic ideal along a ring automorphism.** Prove that for a ring
-automorphism σ of A and a σ-semilinear equivalence N ≃ M of finite torsion modules, char_A(N) =
-σ^{−1}(char_A(M)); applied to the generator change of Λ it gives the transport of the characteristic
-ideal under γ ↦ γ^u. *Needs:* `charIdeal`, `invariants_generator_indep` (§4.4).
+**Checks.**
+- M = Λ/(ϖ) has μ = 1 and F_M = 1, giving characteristic ideal (ϖ).
+- M = Λ/(T²) has μ = 0 and F_M = T², giving characteristic ideal (T²).
+- M = Λ/(ϖ,T) has μ = λ = 0 and F_M = 1, giving characteristic ideal Λ.
+
+**Transport of the characteristic ideal along a ring automorphism.** For a noetherian normal UFD A,
+a ring automorphism σ of A and a σ-semilinear equivalence e : N ≃ M of finitely generated torsion
+A-modules, prove `charIdeal_comap_of_semilinearEquiv`:
+char_A(N) = Ideal.comap σ (char_A(M)). This target supplies the localization comparison: for each
+prime 𝔭, σ induces A_𝔭 ≃ A_{σ(𝔭)}, and e induces the semilinear equivalence
+N_𝔭 ≃ M_{σ(𝔭)} sending n/s to e(n)/σ(s). Prove well-definedness and the inverse formula from e⁻¹
+and σ⁻¹, and preservation of local length via the induced order isomorphism of submodule lattices.
+The prime correspondence preserves height; therefore
+charDivisor(N)(𝔭) = charDivisor(M)(σ(𝔭)) at every height-one prime. Transporting the finite product
+of prime powers gives the ideal formula. This is the generic local-length argument from the
+definition of `charDivisor`; over Λ it agrees with RJW Definition 13.3, p. 190, and NSW (5.3.9),
+pp. 292–293. *Needs:* `charDivisor`, `charIdeal`, Mathlib `IsLocalization.ringEquivOfRingEquiv`,
+`LocalizedModule`, `Submodule.orderIsoMapComap`, `Module.length_eq_height` and `RingEquiv.height_map`.
+Its generator-change specialization is an input to `invariants_generator_indep` (§4.4). *Lean:*
+`TauCeti.Iwasawa.charIdeal_comap_of_semilinearEquiv`.
+
+**Checks.**
+- σ = id recovers equality of characteristic ideals under an A-linear equivalence, and the local
+  comparison is the ordinary localized equivalence.
+- For A = ℚ[X,Y] and σ(X) = X + Y, σ(Y) = Y, the induced semilinear equivalence
+  A/(X²) ≃ A/((X + Y)²) compares length 2 at (X) with length 2 at (X + Y); the formula gives
+  (X²) = σ⁻¹(((X + Y)²)), fixing the direction of transport.
+- With the same A and σ, A/(X,Y) has zero length at every height-one prime before and after
+  transport, so its characteristic ideal remains A despite the module being nonzero.
 
 **Base change of the characteristic ideal.** Prove that for a finite free extension O → O′ of
 complete discrete valuation rings with finite residue fields (ramified or not) and a finite torsion
