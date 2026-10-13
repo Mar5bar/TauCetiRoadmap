@@ -23,19 +23,22 @@ names and signatures; discharging all of them finishes neither a layer nor the r
 marks goals, not results. Every target whose carrier is not available at the pins (the integral
 quadratic map of a lattice, local densities, genera, the Q-constructions, the hermitian cone,
 Grothendieck–Witt groups and spaces, stable and Poincaré categories, the certified LLL algorithm
-itself, and the dynamical incidence carriers) is stated in the README with its intended signature
-and does not appear here.
+itself, the dynamical incidence carriers, and the comparisons with declarations of the
+ArithmeticHeights, ThetaSeries, LFunctions and PointProcesses roadmaps) is stated in the README
+with its intended signature and does not appear here.
 
 Design choices made explicit here:
 
 * lattices are Mathlib's `IsZLattice` submodules and covolumes are `ZLattice.covolume`;
 * successive minima are real numbers indexed by `Fin (finrank ℝ E)` on a `ConvexBody` with `0` in
-  its interior, defined as an infimum of gauge thresholds;
+  its interior, read off ArithmeticHeights' dilation infimum `ZLattice.successiveMinimum`, which
+  also supplies their attainment and Minkowski's second theorem;
 * integral quadratic lattices over a Dedekind domain are `Submodule.IsLattice` submodules with a
   quadratic form whose values on the lattice are integral, and no stored basis;
 * hermitian pairings are conjugate-linear in the first argument;
 * the theta series of a positive definite `ℤ`-lattice is stated on Tau Ceti's `IntegralLattice`
-  carrier and its coefficients are Tau Ceti's `representationNumber`;
+  carrier as the specialisation of ThetaSeries' theta series, and its coefficients are Tau Ceti's
+  `representationNumber`;
 * the three-square formula is stated against Tau Ceti's `hurwitzClassNumber`;
 * unitarity of a representation is Tau Ceti's `ContRepresentation.IsUnitary`, with strong
   continuity added as a separate predicate;
@@ -173,17 +176,19 @@ end ElementaryBounds
 section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
-/-- The `i`-th successive minimum `λ_i(L, K)`, `i : Fin d` zero-based: the infimum of the
-nonnegative gauge thresholds `r` at which the lattice vectors of gauge at most `r` span at least
-`i + 1` dimensions (1.2.1). Its geometric laws need `L` discrete and full and `0 ∈ interior K`. -/
+/-- The `i`-th successive minimum `λ_i(L, K)`, `i : Fin d` zero-based (1.2.1): ArithmeticHeights'
+`ZLattice.successiveMinimum L K i`, the infimum of the `t > 0` for which `t • K` contains `i + 1`
+real-linearly independent lattice vectors, read on the valid indices. That definition is not
+available at the pins, so its body is written out here. Its geometric laws need `L` discrete and
+full and `0 ∈ interior K`. -/
 def successiveMin (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) : ℝ :=
-  sInf {r : ℝ | 0 ≤ r ∧ i.val + 1 ≤
-    finrank ℝ (Submodule.span ℝ {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r})}
+  sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
+    (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v}
 
-/-- The defining infimum of `successiveMin`. -/
+/-- The defining dilation infimum of `successiveMin`. -/
 theorem successiveMin_def (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) :
-    successiveMin L K i = sInf {r : ℝ | 0 ≤ r ∧ i.val + 1 ≤
-      finrank ℝ (Submodule.span ℝ {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r})} := rfl
+    successiveMin L K i = sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
+      (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v} := rfl
 
 variable [FiniteDimensional ℝ E]
 variable (L : Submodule ℤ E) [hLdis : DiscreteTopology L] [hLfull : IsZLattice ℝ L]
@@ -195,27 +200,29 @@ include hLdis hLfull hK
 theorem finite_gauge_sublevel (r : ℝ) :
     Set.Finite {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r} := by sorry
 
-/-- The successive-minimum infimum is attained (1.2.5). -/
+/-- The successive minimum is the least gauge threshold at which the lattice vectors of gauge at
+most the threshold span `i + 1` dimensions (1.2.3); no symmetry of `K` is needed. -/
 theorem successiveMin_isLeast (i : Fin (finrank ℝ E)) :
     IsLeast {r : ℝ | 0 ≤ r ∧ i.val + 1 ≤
       finrank ℝ (Submodule.span ℝ {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r})}
       (successiveMin L K i) := by sorry
 
-/-- Every successive minimum of a full lattice is positive (1.2.6). -/
+/-- Every successive minimum of a full lattice is positive (1.2.4). -/
 theorem successiveMin_pos (i : Fin (finrank ℝ E)) : 0 < successiveMin L K i := by sorry
 
-/-- Successive minima increase with the index, allowing repeated values (1.2.7). -/
+/-- Successive minima increase with the index, allowing repeated values (1.2.5). -/
 theorem successiveMin_monotone : Monotone (successiveMin L K) := by sorry
 
-/-- `λ_i ≤ r` exactly when the lattice vectors in `r K` span `i + 1` dimensions (1.2.8). -/
+/-- `λ_i ≤ r` exactly when the lattice vectors in `r K` span `i + 1` dimensions (1.2.6). -/
 theorem successiveMin_le_iff (i : Fin (finrank ℝ E)) (r : ℝ) (hr : 0 ≤ r) :
     successiveMin L K i ≤ r ↔ i.val + 1 ≤
       finrank ℝ (Submodule.span ℝ ((L : Set E) ∩ r • (K : Set E))) := by sorry
 
-/-- One real basis of lattice vectors attains all successive minima, with the strict-sublevel
-flags (1.2.9); it need not be an integral basis. The greedy construction of 1.2.4 behind it extends
-independent families one vector at a time through Mathlib's `linearIndependent_finSnoc`. -/
-theorem exists_successiveMin_witnesses :
+/-- For a centrally symmetric body, one real basis of lattice vectors attains all successive
+minima, with the strict-sublevel flags (1.2.7); it need not be an integral basis. This is
+ArithmeticHeights' attainment `ZLattice.exists_linearIndependent_gauge_eq_successiveMinimum` with
+its strict flag `ZLattice.mem_span_of_gauge_lt_successiveMinimum`, read on `Fin d`. -/
+theorem exists_successiveMin_witnesses (hsym : ∀ x ∈ K, -x ∈ K) :
     ∃ b : Basis (Fin (finrank ℝ E)) ℝ E,
       (∀ i, b i ∈ L) ∧
       (∀ i, gauge (K : Set E) (b i) = successiveMin L K i) ∧
@@ -223,21 +230,22 @@ theorem exists_successiveMin_witnesses :
       ∀ i, ∀ x : L, gauge (K : Set E) x < successiveMin L K i →
         (x : E) ∈ Submodule.span ℝ {y : E | ∃ j, j < i ∧ b j = y} := by sorry
 
-/-- Enlarging the body decreases every successive minimum (1.2.10). -/
+/-- Enlarging the body decreases every successive minimum (1.2.8). -/
 theorem successiveMin_antitone_body (K' : ConvexBody E)
     (hK' : (0 : E) ∈ interior (K' : Set E)) (hKK' : K ≤ K')
     (i : Fin (finrank ℝ E)) : successiveMin L K' i ≤ successiveMin L K i := by sorry
 
-/-- Passing to a full superlattice decreases every successive minimum (1.2.11). -/
+/-- Passing to a full superlattice decreases every successive minimum (1.2.9). -/
 theorem successiveMin_monotone_lattice (M : Submodule ℤ E)
     [DiscreteTopology M] [IsZLattice ℝ M] (hLM : L ≤ M)
     (i : Fin (finrank ℝ E)) : successiveMin M K i ≤ successiveMin L K i := by sorry
 
-/-- `λ_i(L, cK) = λ_i(L, K)/c` for `c > 0` (1.2.12). -/
+/-- `λ_i(L, cK) = λ_i(L, K)/c` for `c > 0` (1.2.10), ArithmeticHeights'
+`ZLattice.successiveMinimum_smul` on `Fin d`. -/
 theorem successiveMin_smul_body (c : ℝ) (hc : 0 < c) (i : Fin (finrank ℝ E)) :
     successiveMin L (c • K) i = successiveMin L K i / c := by sorry
 
-/-- Transporting lattice and body by the same linear equivalence preserves the minima (1.2.13). -/
+/-- Transporting lattice and body by the same linear equivalence preserves the minima (1.2.11). -/
 theorem successiveMin_linearEquiv
     {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
     (e : E ≃ₗ[ℝ] F) (L' : Submodule ℤ F) [DiscreteTopology L'] [IsZLattice ℝ L']
@@ -247,7 +255,7 @@ theorem successiveMin_linearEquiv
     (i : Fin (finrank ℝ E)) (j : Fin (finrank ℝ F)) (hij : i.val = j.val) :
     successiveMin L' K' j = successiveMin L K i := by sorry
 
-/-- `λ_0 ≤ r` exactly when `r K` contains a nonzero lattice vector (1.2.14). -/
+/-- `λ_0 ≤ r` exactly when `r K` contains a nonzero lattice vector (1.2.12). -/
 theorem successiveMin_first_le_iff (hd : 0 < finrank ℝ E) (r : ℝ) (hr : 0 ≤ r) :
     successiveMin L K ⟨0, hd⟩ ≤ r ↔
       ∃ x : E, x ∈ L ∧ x ≠ 0 ∧ x ∈ r • (K : Set E) := by sorry
@@ -258,16 +266,17 @@ section MinkowskiSecond
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
-/-- **Minkowski's second theorem, lower half** (1.3.4):
-`(2^d/d!) covol L ≤ (∏ λ_i) vol K` for a symmetric convex body with `0` in its interior. -/
+/-- **Minkowski's second theorem, lower half** (1.3.2):
+`(2^d/d!) covol L ≤ (∏ λ_i) vol K` for a symmetric convex body with `0` in its interior;
+ArithmeticHeights' `ZLattice.covolume_le_prod_successiveMinimum_mul_measure` on `Fin d`. -/
 theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
     [IsZLattice ℝ L] (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
     (hsym : ∀ x ∈ K, -x ∈ K) :
     ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L ≤
       (∏ i : Fin (finrank ℝ E), successiveMin L K i) * volume.real (K : Set E) := by sorry
 
-/-- **Minkowski's second theorem, upper half** (1.5.21, Henk's proof):
-`(∏ λ_i) vol K ≤ 2^d covol L`. -/
+/-- **Minkowski's second theorem, upper half** (1.5.1): `(∏ λ_i) vol K ≤ 2^d covol L`;
+ArithmeticHeights' `ZLattice.prod_successiveMinimum_mul_measure_le` on `Fin d`. -/
 theorem minkowski_second_upper
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
@@ -284,14 +293,14 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 
 include ha ham
 
-/-- A weighted coordinate box has successive minima its increasing weights (1.3.5): the upper
+/-- A weighted coordinate box has successive minima its increasing weights (1.3.3): the upper
 bound of Minkowski's second theorem is attained. -/
 theorem successiveMin_box
     (hK : (K : Set E) = {x : E | ∀ j, a j * |b.repr x j| ≤ 1})
     (i : Fin (finrank ℝ E)) :
     successiveMin (Submodule.span ℤ (Set.range b)) K i = a i := by sorry
 
-/-- A weighted cross-polytope has successive minima its increasing weights (1.3.6): the lower
+/-- A weighted cross-polytope has successive minima its increasing weights (1.3.4): the lower
 bound of Minkowski's second theorem is attained. -/
 theorem successiveMin_crosspolytope
     (hK : (K : Set E) = {x : E | ∑ j, a j * |b.repr x j| ≤ 1})
@@ -989,7 +998,8 @@ def dedekindArchimedeanFactor (s : ℂ) : ℂ :=
   Complex.Gammaℝ s ^ NumberField.InfinitePlace.nrRealPlaces K *
     Complex.Gammaℂ s ^ NumberField.InfinitePlace.nrComplexPlaces K
 
-/-- The completed factor `|d_K|^{s/2} Γ_ℝ(s)^{r₁} Γ_ℂ(s)^{r₂}`. -/
+/-- The completed factor `|d_K|^{s/2} Γ_ℝ(s)^{r₁} Γ_ℂ(s)^{r₂}`: on `Re s > 1`, LFunctions'
+`completedDedekindZeta K s` is this factor times `NumberField.dedekindZeta K s`. -/
 def completedDedekindFactor (s : ℂ) : ℂ :=
   ((|NumberField.discr K| : ℤ) : ℂ) ^ (s / 2) * dedekindArchimedeanFactor K s
 
@@ -1030,17 +1040,20 @@ end PinnedGaugeChecks
 section IntegralTheta
 variable {V : Type*} [AddCommGroup V] [Module ℚ V]
 
-/-- The theta series `Σ_{x ∈ L} exp(π i τ B(x,x))` of an integral lattice (3.4.1). -/
+/-- The theta series `Σ_{x ∈ L} exp(π i τ B(x,x))` of an integral lattice (3.4.1): ThetaSeries'
+`thetaSeries` of the real model `realModel L`, on Tau Ceti's carrier. -/
 def latticeThetaSeries (L : TauCeti.IntegralLattice V) (τ : ℂ) : ℂ :=
   ∑' x : L, Complex.exp ((Real.pi : ℂ) * Complex.I * τ * (L.integralForm x x : ℂ))
 
-/-- For a positive definite lattice the series is absolutely summable on the upper half-plane. -/
+/-- For a positive definite lattice the series is absolutely summable on the upper half-plane:
+ThetaSeries' `summable_thetaSeries` through the real model. -/
 theorem latticeThetaSeries_summable [FiniteDimensional ℚ V]
     (L : TauCeti.IntegralLattice V) (hL : L.IsPosDef) (τ : ℂ) (hτ : 0 < τ.im) :
     Summable (fun x : L => Complex.exp
       ((Real.pi : ℂ) * Complex.I * τ * (L.integralForm x x : ℂ))) := by sorry
 
-/-- The coefficient of `exp(π i τ m)` is Tau Ceti's representation number `r_L(m)`. -/
+/-- The coefficient of `exp(π i τ m)` is Tau Ceti's representation number `r_L(m)`: ThetaSeries'
+expansion of an integral lattice through the real model. -/
 theorem latticeThetaSeries_coeff [FiniteDimensional ℚ V]
     (L : TauCeti.IntegralLattice V) (hL : L.IsPosDef) (τ : ℂ) (hτ : 0 < τ.im) :
     latticeThetaSeries L τ = ∑' m : ℕ,
@@ -1055,14 +1068,14 @@ theorem latticeThetaSeries_gaussian
       ∑' x : L, (Real.exp (-Real.pi * t * ‖e x‖ ^ 2) : ℂ) := by sorry
 
 /-- For an even lattice the series is a power series in `exp(2π i τ)` whose coefficients are the
-representation numbers `r_L(2m)`. -/
+representation numbers `r_L(2m)`: ThetaSeries' `hasSum_thetaSeries` through the real model. -/
 theorem latticeThetaSeries_coeff_even [FiniteDimensional ℚ V]
     (L : TauCeti.IntegralLattice V) (hL : L.IsPosDef) (hE : L.IsEven) (τ : ℂ) (hτ : 0 < τ.im) :
     latticeThetaSeries L τ = ∑' m : ℕ,
       (L.representationNumber (2 * m) : ℂ) *
         Complex.exp (2 * (Real.pi : ℂ) * Complex.I * τ * m) := by sorry
 
-/-- `Θ_{L ⊥ M} = Θ_L Θ_M` for Tau Ceti's orthogonal sum. -/
+/-- `Θ_{L ⊥ M} = Θ_L Θ_M` for Tau Ceti's orthogonal sum: ThetaSeries' `thetaSeries_orthSum`. -/
 theorem latticeThetaSeries_directSum {W : Type*} [AddCommGroup W] [Module ℚ W]
     [FiniteDimensional ℚ V] [FiniteDimensional ℚ W]
     (L : TauCeti.IntegralLattice V) (M : TauCeti.IntegralLattice W)
@@ -1393,12 +1406,27 @@ def configurationCount (s : Set X) (c : Σ n : ℕ, Fin n → X) : ℕ := by
   classical
   exact ∑ i : Fin c.1, if c.2 i ∈ s then 1 else 0
 
+/-- The point measure `Σ_{i < n} δ_{x_i}` of a configuration; a repeated point keeps its
+multiplicity. -/
+def configurationMeasure (c : Σ n : ℕ, Fin n → X) : Measure X :=
+  ∑ i : Fin c.1, Measure.dirac (c.2 i)
+
+/-- On a measurable set the point measure of a configuration is its count. -/
+theorem configurationMeasure_apply (c : Σ n : ℕ, Fin n → X) {s : Set X} (hs : MeasurableSet s) :
+    configurationMeasure c s = configurationCount s c := by sorry
+
+/-- The point measure depends measurably on the configuration; its image of
+`finitePoissonConfiguration a μ` is PointProcesses' `poissonLaw (a • μ)`. -/
+theorem measurable_configurationMeasure :
+    Measurable (configurationMeasure : (Σ n : ℕ, Fin n → X) → Measure X) := by sorry
+
 /-- The configuration law is a probability measure. -/
 theorem finitePoissonConfiguration_probability (intensity : NNReal) (μ : Measure X)
     [IsFiniteMeasure μ] : IsProbabilityMeasure (finitePoissonConfiguration intensity μ) := by
   sorry
 
-/-- The count in `s` is Poisson with parameter `a μ(s)`. -/
+/-- The count in `s` is Poisson with parameter `a μ(s)`, PointProcesses' count law read through
+`configurationMeasure_apply`. -/
 theorem finitePoissonConfiguration_count (intensity : NNReal) (μ : Measure X)
     [IsFiniteMeasure μ] (s : Set X) (hs : MeasurableSet s) :
     (finitePoissonConfiguration intensity μ).map (configurationCount s) =
@@ -1411,7 +1439,8 @@ theorem finitePoissonConfiguration_indep_counts (intensity : NNReal) (μ : Measu
     IndepFun (configurationCount s) (configurationCount t)
       (finitePoissonConfiguration intensity μ) := by sorry
 
-/-- **Campbell's identity**: the expected sum of `f` over the configuration is `a ∫ f dμ`. -/
+/-- **Campbell's identity**: the expected sum of `f` over the configuration is `a ∫ f dμ`,
+PointProcesses' Campbell formula read through `configurationMeasure`. -/
 theorem finitePoissonConfiguration_campbell (intensity : NNReal) (μ : Measure X)
     [IsFiniteMeasure μ] (f : X → ℝ) (hf : Integrable f μ) :
     ∫ c, (∑ i : Fin c.1, f (c.2 i)) ∂finitePoissonConfiguration intensity μ =
@@ -1420,6 +1449,9 @@ theorem finitePoissonConfiguration_campbell (intensity : NNReal) (μ : Measure X
 -- A repeated point is counted twice: `(0, 1, 0)` has count `2` in `{0}`.
 example : configurationCount ({0} : Set (Fin 2))
     (⟨3, ![0, 1, 0]⟩ : Σ n : ℕ, Fin n → Fin 2) = 2 := by sorry
+
+-- The point measure of `(0, 1, 0)` puts mass `2` on `0`.
+example : configurationMeasure (⟨3, ![0, 1, 0]⟩ : Σ n : ℕ, Fin n → Fin 2) {0} = 2 := by sorry
 
 -- On a singleton with `μ = δ` and intensity `1` the total count is Poisson of parameter `1`.
 example : (finitePoissonConfiguration 1 (Measure.dirac PUnit.unit)).map
@@ -1958,8 +1990,12 @@ theorem jacobiProduct_inversion (a q : ℂ) (ha : a ≠ 0) (hq : ‖q‖ < 1) :
 example (q : ℂ) : qPochhammer 1 q = 0 := by sorry
 example (a : ℂ) : qPochhammer a 0 = 1 - a := by sorry
 
--- `J(q; q) = 0` for `|q| < 1`: the factor is `P(q/a)`, not `P(a/q)`.
-example (q : ℂ) (hq : ‖q‖ < 1) : jacobiProduct q q = 0 := by sorry
+-- `J(q; q) = 0` for `0 < |q| < 1`: the factor is `P(q/a)`, not `P(a/q)`.
+example (q : ℂ) (hq0 : q ≠ 0) (hq : ‖q‖ < 1) : jacobiProduct q q = 0 := by sorry
+
+-- At `q = 0` the factor `P(q/q; q)` is `P(0; 0) = 1` because `0/0 = 0`, so `J(0; 0) = 1`.
+example : jacobiProduct (0 : ℂ) 0 = 1 := by
+  simp [jacobiProduct, qPochhammer]
 
 -- At `(q, x, y, z) = (1/2, 1/3, 2/3, 3/4)` the summand at `(-1, -1)` is `-3`.
 example : kroneckerSummand (1/2) (1/3) (2/3) (3/4) (-1) (-1) = -3 := by
@@ -2161,7 +2197,8 @@ end CriticalDeterminants
 section GaussianSums
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 
-/-- The Gaussian lattice sum `ρ_s(L + u) = Σ_{x ∈ L} exp(-π ‖x + u‖²/s²)` (4.4.4). -/
+/-- The Gaussian lattice sum `ρ_s(L + u) = Σ_{x ∈ L} exp(-π ‖x + u‖²/s²)` (4.4.4), the value of
+ThetaSeries' coset theta series `thetaCoset L u` at `i/s²`. -/
 def latticeGaussianSum [FiniteDimensional ℝ E] (L : Submodule ℤ E) (s : ℝ) (u : E) : ℝ :=
   ∑' x : L, Real.exp (-Real.pi * ‖(x : E) + u‖ ^ 2 / s ^ 2)
 
@@ -2182,14 +2219,16 @@ theorem latticeGaussianSum_scale (L : Submodule ℤ E) [DiscreteTopology L] [IsZ
     latticeGaussianSum (L.map (a • LinearMap.id : E →ₗ[ℤ] E)) (a * s) (a • u) =
       latticeGaussianSum L s u := by sorry
 
-/-- Every positive-scale shifted Gaussian is summable on a full lattice (4.4.5). -/
+/-- Every positive-scale shifted Gaussian is summable on a full lattice (4.4.5): ThetaSeries'
+`summable_poisson_left` for the Schwartz Gaussian `gaussian (i/s²)`. -/
 theorem gaussian_lattice_summable (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (s : ℝ) (hs : 0 < s) (u : E) :
     Summable (fun x : L => Real.exp (-Real.pi * ‖(x : E) + u‖ ^ 2 / s ^ 2)) := by sorry
 
 variable [MeasurableSpace E] [BorelSpace E]
 
-/-- **Poisson summation for the Gaussian** (4.4.6), with the integral inner dual. -/
+/-- **Poisson summation for the Gaussian** (4.4.6), with the integral inner dual: ThetaSeries'
+`poissonSummation` for `gaussian (i/s²)` with its transform `fourier_gaussian`. -/
 theorem gaussian_lattice_poisson (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (s : ℝ) (hs : 0 < s) (u : E) :
     (latticeGaussianSum L s u : ℂ) = ((ZLattice.covolume L)⁻¹ * s ^ (finrank ℝ E) : ℝ) *
