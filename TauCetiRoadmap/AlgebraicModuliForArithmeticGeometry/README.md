@@ -269,7 +269,7 @@ does not.
 
 | Object | Owner/export | Consumer/convention |
 | --- | --- | --- |
-| Complex-scheme analytification | AlgebraicModuliForArithmeticGeometry §7.10.1 / `ComplexAnalyticSpace`, `complexSchemeAnalytification` and its ringed-space, functoriality, open/closed/fibre-product and morphism-comparison API | ComplexComparisonPartII C0–C1 and C2–C5, and AbelianSchemesAndArithmeticModuli, use this locally finite-type, nilpotent-sensitive construction |
+| Complex-scheme analytification | AlgebraicModuliForArithmeticGeometry §7.10.1 / `ComplexAnalyticSpace`, `complexSchemeAnalytification` and its ringed-space, functoriality, open/closed/fibre-product and morphism-comparison API | ComplexComparisonPartII C0–C1 and C2–C6, and AbelianSchemesAndArithmeticModuli, use this locally finite-type, nilpotent-sensitive construction |
 
 ## How to read the build
 
@@ -9511,7 +9511,39 @@ The API `complexSchemeAnalytification.complexPoints` identifies the underlying t
 
 The API `complexSchemeAnalytification.etaleLocalIso` turns an étale morphism into a local biholomorphism, by the analytic inverse theorem on a standard étale presentation and gluing. The API `complexSchemeAnalytification.smooth` identifies analytification of a smooth morphism locally with a projection from a product with an open polydisc; for a smooth complex scheme this gives its complex manifold charts. The API `complexSchemeAnalytification.separatedHausdorff` proves that separated X has Hausdorff X^an, by the closed diagonal and the product comparison. The API `complexSchemeAnalytification.finite` and `complexSchemeAnalytification.proper` carries finite and proper morphisms, respectively, to finite and proper analytic morphisms; proper includes relative separatedness, and the schemes need only be locally of finite type over C. Finite and proper algebraic morphisms are of finite type, as required for this comparison. These are properties of the same functor and ring sheaf. (SGA 1 XII, Propositions 3.1–3.2, retyped pp. 244–247, original pp. 321–325.)
 
-This roadmap owns the analytic local models, their category and the scheme analytification functor; ComplexComparisonPartII consumes them. CohomologicalPointCounting/ComplexComparison also states the finite-type underlying-space special case, obtained here by restricting the domain and forgetting the analytic ring sheaf.
+Supplied by AlgebraicModuliForArithmeticGeometry §7.10.1 / `complexSchemeAnalytification`:
+this roadmap is the sole owner of the analytic local models, their category and the scheme
+analytification functor. On finite-type complex schemes, forgetting the analytic ring sheaf gives
+the classical topological carrier; the locally finite-type ringed construction retains nilpotents
+and admits singular and nonseparated schemes.
+
+ComplexComparisonPartII consumes this construction and owns the following topology and comparison
+contracts on its underlying carrier:
+
+- Supplied by ComplexComparisonPartII §C6.0 / `complexAlgebraicTopology`.
+  Local topology applies to every finite-type complex scheme, while global triangulation,
+  Hausdorffness and finite CW type require separatedness.
+- Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`.
+  Ordinary finite-module local-system comparison uses locally contractible paracompact spaces
+  or finite affine descent on a finite-type complex scheme, constructible comparison uses a
+  finite compatible triangulation, and compact support uses locally compact Hausdorff,
+  paracompact, locally contractible spaces, with uniform finite stalkwise Tor amplitude for
+  perfectness.
+- Supplied by ComplexComparisonPartII §C6.2 / `riemannExistence`.
+  The finite étale/topological cover equivalence applies to all finite-type complex schemes,
+  including singular, nonreduced and nonseparated ones, with the same fibre and deck-action
+  conventions.
+- Supplied by ComplexComparisonPartII §C6.3 / `artinComparison`.
+  Ordinary comparison uses finite commutative coefficients and bounded constructible complexes
+  of finite Tor amplitude on any finite-type complex scheme, without a separatedness assumption.
+- Supplied by ComplexComparisonPartII §C6.4 / `artinComparisonCompactSupport`.
+  Compact-support comparison uses the same finite-coefficient, finite-Tor domain on separated
+  finite-type complex schemes.
+- Supplied by ComplexComparisonPartII §C6.5 / `relativeArtinComparison`.
+  For finite commutative coefficients and bounded constructible complexes of finite Tor amplitude
+  on finite-type complex schemes, direct-image exchange requires a proper map and lower-shriek
+  exchange a separated finite-type map; over a nonseparated base the latter glues from Hausdorff
+  affine base opens.
 
 **Checks.**
 
