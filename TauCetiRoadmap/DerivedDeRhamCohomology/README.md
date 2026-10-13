@@ -24,14 +24,23 @@ the appendices of Bhatt–Lurie's *Absolute prismatic cohomology* [BL22], Koshik
 derived completion, and Lurie's *Spectral Algebraic Geometry* §25.2 [SAG] for derived power
 functors.
 
-Every derived object of this roadmap has an explicit strict model: a simplicial polynomial
-resolution, the alternating face complex of a simplicial module, the direct-sum or product
-totalization of a bicomplex, a diagram of complexes indexed by `ℤᵒᵖ`, or an inverse limit of a tower
-of complexes. Statements are made in Mathlib's `DerivedCategory` of the relevant abelian category,
-and multiplicative structure is the strict commutative differential graded algebra structure of the
-model. The [suggested Lean file](Suggested.lean) records the ordinary differential-symbol
-presentation, derived completeness, module-level complete flatness, p-bases and the other statements
-that can be written against the pinned Mathlib and Tau Ceti; every construction is specified here.
+Every derived object of this roadmap has an explicit strict model: a simplicial polynomial resolution,
+the alternating face complex of a simplicial module, the direct-sum or product totalization of a
+bicomplex, a diagram of complexes indexed by `ℤᵒᵖ`, or an inverse limit of a tower of complexes.
+Statements are made in Mathlib's `DerivedCategory` of the relevant abelian category. Affine
+multiplicative structure is the strict commutative differential graded algebra structure of the model
+(the shuffle product of 2.22). Global objects (Čech totalizations over schemes, formal schemes and
+quasisyntomic sites, and crystalline cohomology) carry cup products instead: maps `K ⊗^L_A K → K` in
+`D(A)`, with filtered versions in `DF(A)`, that are associative, unital and graded-commutative in the
+derived category. This is the form of the ringed-site cup product ([StacksSites] §21.33, Lemmas
+21.33.2–21.33.3; Tags 0FPJ, 0FPL, 0FPM) used by CrystallineCohomology *Crystalline cup products*
+(`Crystalline.crysCup_unit`, `Crystalline.crysCup_assoc`, `Crystalline.crysCup_graded_comm`). The
+Alexander–Whitney product on the totalization of a cosimplicial commutative dg algebra is not strictly
+commutative, so no strict global dg algebra is asserted; 5.8 states the adapter from the affine models
+to the cup-product target. The [suggested Lean file](Suggested.lean) records the ordinary
+differential-symbol presentation, derived completeness, module-level complete flatness, p-bases and the
+other statements that can be written against the pinned Mathlib and Tau Ceti; every construction is
+specified here.
 
 ## Scope and ownership
 
@@ -70,8 +79,9 @@ It uses, without restating:
 - **IntegralHeckeAndGaloisDeterminants** for the Koszul complex of a finite sequence with its tensor
   formula and regular-sequence resolution (§6.4) and for the homogeneous pieces `Γ^d` of Mathlib's
   divided power algebra with their base change (§0.4).
-- **JacobianChallenge** Layer C for proper flat finitely presented pushforward with cohomology and
-  base change.
+- **AlgebraicModuliForArithmeticGeometry** §7.2 (`perfect_proper_pushforward`) for perfectness and
+  arbitrary base change of proper finitely presented pushforward of target-flat finitely presented
+  modules, the owner also used by CrystallineCohomology.
 - Mathlib and Tau Ceti for the carriers listed under *Exact supplier contracts*.
 
 Boundaries with neighbouring roadmaps:
@@ -113,14 +123,19 @@ Thus the shifted conormal of a regular quotient produces divided powers in degre
 shifts cancel.
 
 `D(A)` is Mathlib's `DerivedCategory (ModuleCat A)` with its standard `HasDerivedCategory`
-instance. `M ⊗^L_A N` is the derived tensor product of 0.2, computed by the termwise tensor product
-of a bounded-above complex of flat modules with any representative. Every cotangent and de Rham model
-of this roadmap is a bounded-above complex of free modules, so the derived tensors that occur are
-computed termwise on these models. General algebra pushouts are derived and are modelled by
-simplicial polynomial resolutions: `B ⊗^L_A C` is the simplicial commutative ring `P• ⊗_A C` for a
-simplicial polynomial resolution `P• → B`. An ordinary tensor computes it only under Tor
-independence. The naive two-term cotangent complex is a truncation and cannot detect all negative
-cohomology of a non-lci quotient.
+instance. `M ⊗^L_A N` is the derived tensor product of 0.2, computed by the termwise tensor product of a
+K-flat representative with any representative. Cotangent models (0.4) are bounded-above complexes of
+free modules, hence K-flat. De Rham models are in general unbounded above: for `F_p[x_1, x_2, …]` over
+`F_p` the cohomology is nonzero in every degree `≥ 0`. Their K-flatness is proved separately: the
+polynomial de Rham complex in finitely many variables is a bounded complex of free modules, arbitrary
+polynomial algebras are filtered colimits of these (2.20), and realizations of K-flat columns are K-flat
+(0.2, 2.22). Termwise flatness of an unbounded complex is never used in place of K-flatness. Completed
+models (Hodge and p-completions, product totalizations) are not asserted to be K-flat; a completed
+tensor is the completion of the derived tensor of uncompleted models. General algebra pushouts are
+derived and are modelled by simplicial polynomial resolutions: `B ⊗^L_A C` is the simplicial commutative
+ring `P• ⊗_A C` for a simplicial polynomial resolution `P• → B`. An ordinary tensor computes it only
+under Tor independence. The naive two-term cotangent complex is a truncation and cannot detect all
+negative cohomology of a non-lci quotient.
 
 `dR` denotes the **direct-sum** totalization of the bicomplex of de Rham complexes of a polynomial
 resolution. The decreasing Hodge filtration is `F_H^i`, with `gr_H^i = cofib(F_H^(i+1) → F_H^i)`.
@@ -236,7 +251,7 @@ proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib
 | SchemeAndStackFoundations §4.7 | `Formal.AdicRing`, `Formal.AdicThickeningSystem` and `Spf A` as the system `Spec(A/I^(n+1))`, with morphisms of adic rings. |
 | [IntegralHeckeAndGaloisDeterminants](../IntegralHeckeAndGaloisDeterminants/README.md) §6.4 | The Koszul complex `K(x)` of a finite sequence (exterior-algebra terms, `d₁(v) = Σ x_i v_i`, `H₀ = A/(x)`), its tensor formula `K(x,y) ≅ K(x) ⊗ K(y)`, functoriality, and the regular-sequence resolution. Here it is reindexed from homological degree `n` to cohomological degree `−n`: for the empty sequence it is `A`, for `(p)` over `ℤ` it resolves `F_p`, and for `(0)` it has `A` in degrees `−1` and `0`. |
 | IntegralHeckeAndGaloisDeterminants §0.4 | The homogeneous piece `Γ^d_A(M)` of Mathlib's `DividedPowerAlgebra`, its functoriality and arbitrary base change, and `Γ^d ≅ TSym^d` for free modules. |
-| [JacobianChallenge](../JacobianChallenge/README.md) Layer C | Proper flat finitely presented pushforward of coherent sheaves with flat base change and cohomology and base change. 5.23 uses it in the derived form of [StacksPerfect] Lemma 36.30.4 (Tag 0B91)(2): for `f : X → S` proper of finite presentation and `G` of finite presentation and flat over `S`, `Rf_*G` is perfect and commutes with arbitrary base change. |
+| [AlgebraicModuliForArithmeticGeometry](../AlgebraicModuliForArithmeticGeometry/README.md) §7.2 | `perfect_proper_pushforward`: for a finitely presented morphism `f : X → Y` of algebraic spaces, `E` perfect on `X` and a bounded complex `G•` of finitely presented `O_X`-modules, termwise flat over `Y` with support proper over `Y`, `Rf_*(E ⊗^L G•)` is perfect and its formation commutes with every base change `Y′ → Y`, with no Noetherian hypothesis on `Y`. 5.23 uses the case `E = O_X`, `G• = Ω^i_(X_n/A_n)` of a proper smooth scheme over `A_n`, which is [StacksPerfect] Lemma 36.30.4(2) (Tag 0B91). |
 
 ## How to read the build
 
@@ -310,14 +325,15 @@ Prove the following named laws.
 
 ### 0.2 Derived tensor products on module derived categories
 
-For a ring `R`, every complex of `R`-modules admits a K-flat resolution, a bounded-above complex of
-flat modules is K-flat, and the termwise tensor product with a K-flat complex sends
-quasi-isomorphisms to quasi-isomorphisms ([StacksMA] Definition 15.60.1, Lemmas 15.60.7, 15.60.10,
-15.60.12; Tags 06XZ, 064K, 06Y4, 064L, pp.144–147). Define `DerivedDeRham.derivedTensor R :
-D(R) ⥤ D(R) ⥤ D(R)` as the derived tensor product of [StacksMA] Definition 15.60.13 (Tag 064M),
-computed by `Tot(K• ⊗_R L•)` with `K•` K-flat; and derived extension of scalars along `R → R′` as
-`− ⊗^L_R R′`. For `X = Spec R` this is identified with SchemeAndStackFoundations §2.18 `derivedTensor`
-under `Coherent.DQCoh.affineEquiv`.
+For a ring `R`, every complex of `R`-modules admits a K-flat resolution, a bounded-above complex of flat
+modules is K-flat, and the termwise tensor product with a K-flat complex sends quasi-isomorphisms to
+quasi-isomorphisms ([StacksMA] Definition 15.60.1, Lemmas 15.60.7, 15.60.10, 15.60.12; Tags 06XZ, 064K,
+06Y4, 064L, pp.144–147). K-flat complexes are closed under shifts and cones and under filtered colimits
+([StacksMA] Lemmas 15.60.5 and 15.60.8, Tags 06Y2, 06Y3). Define
+`DerivedDeRham.derivedTensor R : D(R) ⥤ D(R) ⥤ D(R)` as the derived tensor product of [StacksMA]
+Definition 15.60.13 (Tag 064M), computed by `Tot(K• ⊗_R L•)` with `K•` K-flat; and derived extension of
+scalars along `R → R′` as `− ⊗^L_R R′`. For `X = Spec R` this is identified with
+SchemeAndStackFoundations §2.18 `derivedTensor` under `Coherent.DQCoh.affineEquiv`.
 
 *Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`; SchemeAndStackFoundations §2.18
 `derivedTensor`, `Coherent.DQCoh.affineEquiv`.
@@ -329,6 +345,11 @@ Prove the following named laws.
 - `derivedTensor_triangulated`: the bifunctor is exact in each variable, symmetric
   monoidal with unit `R[0]`.
 - `derivedTensor_affine`: agreement with `derivedTensor` on `Spec R`.
+- `derivedTensor_kFlatColimit`: a filtered colimit of K-flat complexes is K-flat, and a shift or cone of
+  K-flat complexes is K-flat.
+- `derivedTensor_kFlatRealization`: the direct-sum totalization of a bicomplex whose columns sit in
+  nonpositive simplicial degrees and are K-flat is K-flat. It is the colimit of the totalizations of
+  its first `n` columns, each an iterated cone of shifted columns.
 
 **Checks.**
 
@@ -337,6 +358,10 @@ Prove the following named laws.
   model `[ℤ →p ℤ]`; the underived tensor product loses `H^−1`.
 - `test_derived_tensor_flat_discrete`: for a flat module `M` and any module `N`, `M ⊗^L N` is
   concentrated in degree zero.
+- `test_derived_tensor_unbounded_flat`: over `ℤ/4` the acyclic complex `⋯ → ℤ/4 --2→ ℤ/4 --2→ ℤ/4 → ⋯`
+  of free modules is not K-flat. Its termwise tensor with `F₂` has zero differentials and cohomology
+  `F₂` in every degree, while its derived tensor with `F₂` is zero. Termwise flatness of an unbounded
+  complex does not compute `⊗^L`.
 
 ### 0.3 Derived functors of non-additive functors
 
@@ -542,7 +567,11 @@ levelwise, and its diagonal complex `L^Δ`, with the spectral sequence
 `(−r, r−1)`. For a polynomial resolution `S• → S` and `R• = S• ×_S R`, and more generally for maps of
 simplicial rings resolving `R → S`, `L_(S/R) ≃ L^Δ`. For the derived pushout `P• ⊗_A A′` of a polynomial
 resolution `P• → B` along `A → A′`, its cotangent complex over `A′` is the diagonal model of
-`Ω_(P•/A) ⊗_A A′`.
+`Ω_(P•/A) ⊗_A A′`. The diagonal model is a simplicial `S•`-module with levelwise free terms. Its derived
+statements are made in `D(A)`, after realization, for a ring `A` mapping to `R•` as a constant
+simplicial ring, and, when `S• → S` is a weak equivalence onto a discrete ring, in `D(S)` through the
+levelwise base change `L^Δ ⊗_(S•) S`. No derived category of modules over a nondiscrete simplicial ring
+is constructed here; over such a ring only the levelwise module structure of the model is asserted.
 
 [GR], Proposition 8.1.7 and its proof, pp.220–221; [Illusie-Ch2], Chapter II, 1.2.6.2 (as used in
 [GR] loc. cit.); [BMS19], §2, pp.212–216.
@@ -925,17 +954,20 @@ Lean: `DerivedDeRham.fFiniteCotangent`.
 ### 0.25 Cotangent obstruction theory for square-zero lifts
 
 Let `A′ → A` be a square-zero extension with ideal `J` and let `B` be an `A`-algebra and `N` a
-`B`-module with an `A`-linear `c : J → N`. There is a canonical obstruction in `Ext²_B(L_(B/A), N)` to
-a square-zero `A′`-algebra extension `B′ → B` with kernel identified with `N` and inducing `c`; if one
+`B`-module with an `A`-linear `c : J → N`. There is a canonical obstruction in `Ext²_B(L_(B/A), N)` to a
+square-zero `A′`-algebra extension `B′ → B` with kernel identified with `N` and inducing `c`; if one
 exists, the isomorphism classes form a torsor under `Ext¹` and automorphisms are `Ext⁰` ([StacksCt]
-Lemma 16.1, Tag 08SP, p.31). For `B` flat over `A` and `N = J ⊗_A B`, a solution `B′` is flat over
-`A′` with `B′ ⊗_(A′) A ≃ B`, because `B′/JB′ = B` is flat over `A` and the identification of the
-kernel with `J ⊗_(A′) B′` is the vanishing of `Tor₁^(A′)(A, B′)`, so the nilpotent flatness criterion
-applies ([StacksAlg] Lemma 10.99.8, Tag 051C, pp.233–234). For a square-zero extension `T′ → T` of
-`A`-algebras with kernel `J` and an `A`-map `f : B → T`, the obstruction to lifting `f` to `T′` lies in
-`Ext¹_B(L_(B/A), J)` and lifts form a torsor under `Ext⁰` ([StacksDefos] Lemma 2.1, Tag 08S5, p.2,
-with `H⁰L = Ω`). For smooth `B/A`, finite projectivity of `L` in degree zero gives existence and
-uniqueness up to the stated automorphisms.
+Lemma 16.1, Tag 08SP, p.31). This holds for every `A`-linear `c`. The flat specialization requires the
+canonical map: let `B` be flat over `A`, `N = J ⊗_A B` and `c(j) = j ⊗ 1`. Then a solution `B′` is flat
+over `A′` with `B′ ⊗_(A′) A ≃ B`. Indeed `JB′` is the `B`-submodule of `N` generated by `c(J)`, which is
+all of `N`, so `B′/JB′ = B` is flat over `A`. Moreover `J ⊗_(A′) B′ = J ⊗_A B → JB′ = N` is the
+identity, so `Tor₁^(A′)(A, B′) = 0` and the nilpotent flatness criterion applies ([StacksAlg] Lemma
+10.99.8, Tag 051C, pp.233–234). The argument uses only that the map `J ⊗_A B → N` induced by `c` is an
+isomorphism; an abstract isomorphism of the kernel with `J ⊗_A B` does not give the Tor vanishing
+(`test_deformation_zero_map`). For a square-zero extension `T′ → T` of `A`-algebras with kernel `J` and
+an `A`-map `f : B → T`, the obstruction to lifting `f` to `T′` lies in `Ext¹_B(L_(B/A), J)` and lifts
+form a torsor under `Ext⁰` ([StacksDefos] Lemma 2.1, Tag 08S5, p.2, with `H⁰L = Ω`). For smooth `B/A`,
+finite projectivity of `L` in degree zero gives existence and uniqueness up to the stated automorphisms.
 
 [StacksCt], §16, Lemma 16.1 (Tag 08SP), and its ringed-space version §21, Lemma 21.1 (Tag 08UZ),
 pp.31–32, 37–38; [StacksAlg] Lemma 10.99.8 (Tag 051C).
@@ -943,7 +975,9 @@ pp.31–32, 37–38; [StacksAlg] Lemma 10.99.8 (Tag 051C).
 *Needs:* Layer 0: The cotangent universal property; Layer 0: The cotangent transitivity triangle;
 Layer 0: The smooth cotangent computation; Mathlib `Module.Flat`.
 
-Lean: `Algebra.CotangentComplex.flatDeformation`, `Algebra.CotangentComplex.liftMorphism`.
+Lean: `Algebra.CotangentComplex.extensionObstruction` (arbitrary `c`),
+`Algebra.CotangentComplex.flatDeformation` (flat `B`, `N = J ⊗_A B`, canonical `c`),
+`Algebra.CotangentComplex.liftMorphism`.
 
 **Checks.**
 
@@ -954,6 +988,10 @@ Lean: `Algebra.CotangentComplex.flatDeformation`, `Algebra.CotangentComplex.lift
 - `test_deformation_ideal`: the lift's kernel must be `J ⊗_A B`; for `A′ = ℤ/4 → A = ℤ/2` and
   `B = F₂[t]`, the lift `ℤ/4[t]` has kernel `2ℤ/4[t] ≅ F₂[t]`, while the extension of `B` by the
   unrelated module `0` is not a lift.
+- `test_deformation_zero_map`: for `A′ = ℤ/4`, `A = B = F₂`, `J = N = F₂` and `c = 0`, the ring
+  `B′ = F₂[ε]/ε²`, a `ℤ/4`-algebra through `F₂`, solves the arbitrary-`c` problem: its kernel is `F₂ε ≅ N`
+  and it induces `c = 0`. But `2B′ = 0`, so `JB′ = 0`, `B′/JB′ = B′ ≠ B` and `B′` is not flat over `ℤ/4`.
+  `flatDeformation` needs the canonical `c`.
 
 ### Examples
 
@@ -1365,9 +1403,11 @@ Prove the following named laws.
 For a filtered object `F`, define its Rees graded `A[t]`-module with `deg(t) = 1` by degree `−i` term
 `F^i` and `t`-action the transition `F^i → F^(i−1)`. This yields a symmetric monoidal equivalence
 `DF(A) ≃ D_gr(A[t])` with the derived category of graded `A[t]`-modules. Derived quotient by `t` has
-degree `−i` term `gr^i F`, and inversion of `t` recovers the underlying object after forgetting weights.
-Filtered completeness corresponds to derived `t`-completeness in the graded category; it is not
-completeness of the ungraded direct sum.
+degree `−i` term `gr^i F`. The underlying object `colim_(i→−∞) F^i` is the degree-zero component of the
+graded localization at `t`, equivalently the specialization `t = 1` (`t − 1` acts injectively on every
+graded module, so this specialization is underived). Inverting `t` and forgetting the grading gives a
+Laurent-graded module instead. Filtered completeness corresponds to derived `t`-completeness in the
+graded category; it is not completeness of the ungraded direct sum.
 
 [FGauges], §2.2.1, Proposition 2.2.6 and inverse, Remark 2.2.7, pp.13–17.
 
@@ -1382,6 +1422,9 @@ Lean: `DerivedDeRham.reesDescription`.
   degree `−i`.
 - `test_rees_quotient`: setting `t = 1` gives the underlying `A`; derived `t = 0` gives `gr`,
   including a Tor term when `t` is not regular on the Rees module.
+- `test_rees_underlying_not_laurent`: for the step filtration of `A`, the graded localization of `A[t]`
+  at `t` is `A[t, t⁻¹]`, whose degree-zero component is the underlying `A`; the ungraded module
+  `A[t, t⁻¹]` is not `A`.
 - `test_rees_not_ideal_rees_algebra`: the filtration `F^i = M` for `i ≤ 0` of an arbitrary module `M`
   has Rees module `M[t]`, which is not the Rees algebra of any ideal when `M` is not an ideal of `A`.
 
@@ -1900,15 +1943,18 @@ For an ordinary base square `A → A′`, `B′ = B ⊗_A A′`, the ordinary di
 satisfies `Ω•_(B/A) ⊗_A A′ ≃ Ω•_(B′/A′)`, with its ordinary tensor and Hodge filtration; in each degree
 this is the linear equivalence `A′ ⊗_A Ωⁿ_(B/A) ≃ Ωⁿ_(B′/A′)` stated in `Suggested.lean`. For polynomial
 `A`-algebras `B, C`, `Ω•_(B ⊗_A C/A) ≃ Ω•_(B/A) ⊗_A Ω•_(C/A)`, including the signed differential and
-degree-sum filtration. In the polynomial case these complexes are termwise flat, so the derived tensor
-computes the same object. The ordinary formula does not justify replacing a derived algebra pushout by
+degree-sum filtration. In the polynomial case these complexes are K-flat: in finitely many variables
+`Ω•` is a bounded complex of free `A`-modules, and in general it is the filtered colimit of these over
+finite sets of variables, K-flat by `derivedTensor_kFlatColimit` (0.2). So the derived tensor computes the
+same object. Termwise flatness alone would not suffice, since with infinitely many variables these
+complexes are unbounded above. The ordinary formula does not justify replacing a derived algebra pushout by
 an ordinary pushout outside Tor independence.
 
 [Bhatt12], Proposition 2.7 proof, p.6.
 
 *Needs:* Layer 2: The ordinary algebraic de Rham complex; Layer 2: The functorial map of ordinary
 de Rham complexes; Layer 2: The graded Leibniz identity; Layer 2: Pullback of ordinary differential
-forms; Mathlib `KaehlerDifferential.D`.
+forms; Layer 0: Derived tensor products on module derived categories; Mathlib `KaehlerDifferential.D`.
 
 Lean: `DerivedDeRham.ordinaryBaseChangeKunneth` (degreewise linear part in `Suggested.lean`).
 
@@ -1976,7 +2022,9 @@ pp.5–6; [StacksCt], Remark 5.5 and Lemmas 5.6–5.7, Tags 08QI, 08QJ, 08QK, pp
 (the generalized Eilenberg–Zilber theorem), pp.211–219.
 
 *Needs:* Layer 2: The ordinary algebraic de Rham complex; Layer 2: The functorial map of ordinary
-de Rham complexes; Layer 0: Simplicial polynomial resolutions; Layer 1: Filtered derived categories.
+de Rham complexes; Layer 2: Ordinary polynomial base change and Künneth; Layer 0: Simplicial polynomial
+resolutions; Layer 0: Derived tensor products on module derived categories; Layer 1: Filtered derived
+categories.
 
 Prove the following named laws.
 
@@ -1987,6 +2035,9 @@ Prove the following named laws.
   resolutions over `B`.
 - `hodgeFiltration`: `Fil_H^i` is the realization of the subcomplex of polynomial forms of degrees at
   least `i`, with decreasing transition maps and multiplication `Fil_H^i ⊗ Fil_H^j → Fil_H^(i+j)`.
+- `kFlatModel`: `dR_(B/A)`, each `Fil_H^i`, each quotient `|Ω^(<i)_(P•/A)|` and each `|Ω^i_(P•/A)|` are
+  K-flat complexes of `A`-modules. Their columns are K-flat by 2.20, and realization preserves K-flatness
+  (`derivedTensor_kFlatRealization`, 0.2). Derived tensors of these objects are computed termwise.
 
 **Checks.**
 
@@ -1995,6 +2046,12 @@ Prove the following named laws.
   `B` in degree zero.
 - `test_rational_laurent_boundary`: for `ℚ → ℚ[t, t⁻¹]`, uncompleted `dR` is `ℚ`, whereas ordinary
   degree-one de Rham cohomology is `ℚ·dt/t`. The unrestricted uncompleted smooth comparison fails.
+- `test_derham_unbounded_above`: for `B = F_p[x_1, x_2, …]` over `F_p` the constant resolution gives
+  `dR_(B/F_p) = Ω•_(B/F_p)`, and `H^i ≠ 0` for every `i ≥ 0`: the closed form
+  `x_1^(p−1) ⋯ x_i^(p−1) dx_1 ∧ ⋯ ∧ dx_i` is not exact, since `x^(p−1) dx ∉ d(F_p[x])` (`d(x^n) =
+  n x^(n−1) dx` vanishes for `n = p`) and the polynomial Künneth formula of 2.20 applies. So `dR` has
+  no bounded-above representative, and its K-flatness comes from the colimit over finitely many
+  variables.
 
 ### 2.23 Derived base change and Künneth
 
@@ -2156,14 +2213,16 @@ Prove the following named laws.
 For `A → B → C` construct the base-forms filtration on `dR_(C/A)`, whose weight-`i` graded term is
 `dR_(C/B) ⊗^L_B L∧^i_B L_(B/A)[−i]`. Its boundary maps encode the Gauss–Manin connection; it does not
 canonically split. Separately, for composable `F_p`-algebras, [Bhatt12] Proposition 3.22 gives an
-increasing relative conjugate filtration with `gr_n = dR_(B/A) ⊗^L_(B^(1)) Frob_A^*(Res^C_B(L∧^n_C
-L_(C/B)[−n]))`, where `Frob_A^*` is extension along the base-change map `B → B^(1)`, `b ↦ b ⊗ 1`. This
-uses the Frobenius-descent connection. Finite Hodge quotients and specified completions retain the
-extension data; no de Rham-with-coefficients theory beyond this filtration is asserted. The relative
-cotangent exterior power is formed over `C`; only afterwards is it regarded as a `B`-module for this
-Frobenius base change. The filtration is built levelwise on a polynomial resolution `P•` of `B` and a
-termwise polynomial `P•`-algebra resolution `Q•` of `C` (the proof of [Bhatt12] Proposition 3.22),
-with the classical Katz transitivity for smooth maps.
+increasing relative conjugate filtration. It is built levelwise on a polynomial resolution `P•` of `B`
+and a termwise polynomial `P•`-algebra resolution `Q•` of `C` (the proof of [Bhatt12] Proposition 3.22),
+with the classical Katz transitivity for smooth maps. Its `gr_n` is, in `D(A)`, the realization of the
+levelwise complexes `Ω•_(P_k/A) ⊗_(P_k^(1)) Frob_A^*(∧^n Ω¹_(Q_k/P_k)[−n])`, with
+`P_k^(1) = P_k ⊗_(A, Frob_A) A` and `Frob_A^*` the extension along `P_k → P_k^(1)`, `x ↦ x ⊗ 1`. This
+uses the Frobenius-descent connection. When `B^(1)` is discrete (3.3) the graded piece is
+`dR_(B/A) ⊗^L_(B^(1)) Frob_A^*(Res^C_B(L∧^n_C L_(C/B)[−n]))`, with `Frob_A^*` the extension along
+`B → B^(1)`, `b ↦ b ⊗ 1`. Finite Hodge quotients and specified completions retain the extension data; no
+de Rham-with-coefficients theory beyond this filtration is asserted. The relative cotangent exterior
+power is formed over `C`; only afterwards is it regarded as a `B`-module for this Frobenius base change.
 
 [Bhatt12], Proposition 3.22 and Remark 3.23, pp.11–12; [BL22], Appendix E, Construction E.2,
 pp.232–233.
@@ -2254,12 +2313,12 @@ Lean: `DeRham.d_frobenius_smul` (stated in `Suggested.lean` for maps satisfying
 
 Construct `Fil_i^conj dR_(B/A) = |τ^(≤i) Ω•_(P•/A)|` for `i ≥ 0`, `DerivedDeRham.conjugateFiltration`,
 with `Fil_−1 = 0`, natural increasing maps, and `colim_i Fil_i^conj ≃ dR_(B/A)`. Its graded piece is
-`|H^i(Ω•_(P•/A))|[−i]`. The filtration is multiplicative and, over `F_p`, linear over `B^(1)` via
-Cartier; an exhaustive direct-sum realization is not a completed or global convergence assertion. Here
-`P• → B` is any polynomial resolution; independence of the resolution is 0.1 applied to the functors
-`P ↦ τ^(≤i) Ω•_(P/A)`. As an increasing filtration it is an object of `DF(A)` after the reindexing
-`i ↦ −i`. Spectral-sequence applications keep the bounded-below increasing filtration and the further
-convergence hypotheses stated below.
+`|H^i(Ω•_(P•/A))|[−i]`. The filtration is multiplicative and, over `F_p`, each stage is levelwise a
+module over the simplicial ring `P•^(1)` of 3.3; an exhaustive direct-sum realization is not a completed
+or global convergence assertion. Here `P• → B` is any polynomial resolution; independence of the
+resolution is 0.1 applied to the functors `P ↦ τ^(≤i) Ω•_(P/A)`. As an increasing filtration it is an
+object of `DF(A)` after the reindexing `i ↦ −i`. Spectral-sequence applications keep the bounded-below
+increasing filtration and the further convergence hypotheses stated below.
 
 [Bhatt12], Proposition 2.3, proof and Remark 2.4, p.5.
 
@@ -2285,11 +2344,18 @@ Prove the following named laws.
 ### 3.3 The derived Frobenius twist
 
 For `A → B` of `F_p`-algebras define `B^(1) = B ⊗^L_(A, Frob_A) A`, `DerivedDeRham.frobeniusTwist`, the
-simplicial commutative ring `P• ⊗_(A, Frob_A) A` for a polynomial resolution, together with the relative
-Frobenius `B^(1) → B`. The derived de Rham complex and its conjugate filtration are naturally
-`B^(1)`-linear at the level of models. The ordinary Frobenius twist computes this pushout when
-`Tor_i^A(B, Frob_*A) = 0` for every `i > 0`. Without Tor independence the twist retains its higher
-homotopy.
+simplicial commutative ring `P•^(1) = P• ⊗_(A, Frob_A) A` for a polynomial resolution, together with the
+relative Frobenius `B^(1) → B`. On the model, `|Ω•_(P•/A)|` and its conjugate stages are levelwise
+modules over `P•^(1)`, acting through relative Frobenius (3.1). The ordinary Frobenius twist computes this
+pushout when `Tor_i^A(B, Frob_*A) = 0` for every `i > 0`. Without Tor independence the twist retains its
+higher homotopy.
+
+No derived category of modules over the nondiscrete simplicial ring `B^(1)` is constructed (0.9).
+The derived statements of this layer are therefore `A`-linear, in `D(A)`, together with the levelwise
+`P•^(1)`-linearity of their strict models. When `B^(1)` is discrete, `P•^(1) → B^(1)` is a polynomial
+resolution of `B^(1)` over `A`, and the same statements hold `B^(1)`-linearly in `D(B^(1))` through the
+levelwise base change to `B^(1)`. Downstream uses of `B^(1)`-linearity in a derived category are limited
+to this discrete case.
 
 [Bhatt12], Notation 3.1 and following paragraph, p.6; [Bhatt12], Proposition 3.5 statement, p.7.
 
@@ -2346,10 +2412,13 @@ Lean: `DerivedDeRham.polynomialCartier`.
 
 ### 3.5 Derived Cartier graded pieces
 
-For every map `A → B` of `F_p`-algebras, `gr^conj_i dR_(B/A) ≃ L∧^i L_(B^(1)/A)[−i]`, naturally, where
-`L_(B^(1)/A)` is the cotangent complex of the simplicial ring map `A → B^(1)` (0.9); as complexes of
-`A`-modules this is `(L∧^i_B L_(B/A))[−i] ⊗^L_(A, Frob_A) A` by base change (0.10, 0.14). The exterior
-power and Frobenius twist are derived.
+For every map `A → B` of `F_p`-algebras, `gr^conj_i dR_(B/A) ≃ L∧^i L_(B^(1)/A)[−i]` naturally in
+`D(A)`. Here `L∧^i L_(B^(1)/A)` denotes the realization in `D(A)` of the levelwise exterior powers
+`∧^i_(P•^(1)) Ω¹_(P•^(1)/A)` of the diagonal model (0.9) of the cotangent complex of `A → P•^(1)`. By base
+change (0.10, 0.14) it is `(L∧^i_B L_(B/A)) ⊗^L_(A, Frob_A) A`. The levelwise Cartier isomorphisms
+`H^i(Ω•_(P_n/A)) ≅ Ω^i_(P_n^(1)/A)` (3.4) are `P_n^(1)`-linear. When `B^(1)` is discrete (3.3) the
+identification holds in `D(B^(1))`, with the derived exterior power over `B^(1)` of `L_(B^(1)/A)`. The
+exterior power and Frobenius twist are derived.
 
 [Bhatt12], Proposition 3.5 and proof, p.7.
 
@@ -2365,6 +2434,9 @@ Lean: `DerivedDeRham.conjugateGradedCartier`.
 - `test_cartier_graded_line`: for a polynomial line, `gr_1^conj = Ω¹_(B^(1)/A)[−1]`.
 - `test_cartier_graded_shifted_conormal`: for `L = N[1]` with `N` flat, `L∧^i L[−i] = Γ^i N` in degree
   zero; shifting only one side of the Cartier map gives the wrong degree.
+- `test_cartier_graded_nondiscrete_twist`: for `A = F_p[ε]/ε²` and `B = F_p`, `gr_0^conj = B^(1)` as an
+  object of `D(A)` has `H^−1 ≅ Tor₁^A(F_p, Frob_*A) ≠ 0` (3.3). The `A`-linear formula keeps this term;
+  replacing `B^(1)` by `π₀B^(1)` would lose it.
 
 ### 3.6 The classical smooth Cartier isomorphism
 
@@ -2453,10 +2525,12 @@ whole filtration, with the dependence on those choices retained.
 
 ### 3.9 The first conjugate extension and W₂ lifting
 
-For `A → B` over `F_p`, the extension `B^(1) → Fil₁^conj dR_(B/A) → L_(B^(1)/A)[−1]` determines an `Ext²`
-obstruction class. Given a compatible `W₂` lift of `A`, this is the obstruction to a compatible `W₂` lift
-of the Frobenius-twisted `B` as in [Bhatt12] Proposition 3.15. The first conjugate extension need not
-split; a canonical isomorphism of graded pieces does not supply a canonical splitting.
+For `A → B` over `F_p`, the extension `B^(1) → Fil₁^conj dR_(B/A) → L_(B^(1)/A)[−1]` in `D(A)` has a
+boundary map `ob₁ : L_(B^(1)/A)[−1] → B^(1)[1]`. When `B^(1)` is discrete (3.3) the triangle lies in
+`D(B^(1))` and `ob₁` is a class in `Ext²_(B^(1))(L_(B^(1)/A), B^(1))`. Given a compatible `W₂` lift of `A`,
+it is then the obstruction (0.25) to a compatible `W₂` lift of the Frobenius-twisted `B`, as in
+[Bhatt12] Proposition 3.15. The first conjugate extension need not split; a canonical isomorphism of
+graded pieces does not supply a canonical splitting.
 
 [Bhatt12], Proposition 3.15 and Remark 3.16, pp.9–10.
 
@@ -2475,8 +2549,10 @@ Lean: `DerivedDeRham.cartierExtensionObstruction`.
 ### 3.10 A splitting from compatible Frobenius lifts
 
 If a map `A → B` of `F_p`-algebras has compatible flat `ℤ/p²` lifts and compatible lifts of the absolute
-Frobenius on both rings, these choices produce a multiplicative, `B^(1)`-linear splitting
-`dR_(B/A) ≃ ⊕_(i≥0) L∧^i L_(B^(1)/A)[−i]` of the conjugate filtration. The chain-level splitting
+Frobenius on both rings, these choices produce a multiplicative splitting
+`dR_(B/A) ≃ ⊕_(i≥0) L∧^i L_(B^(1)/A)[−i]` of the conjugate filtration in `D(A)`. On the model it is given
+by levelwise `P•^(1)`-linear maps of dg algebras, and it is `B^(1)`-linear in `D(B^(1))` when `B^(1)` is
+discrete (3.3). The chain-level splitting
 depends on the lift data; the cohomological Cartier map is canonical. Liftability and Frobenius
 compatibility are retained.
 
@@ -2616,11 +2692,15 @@ filtration. The global lci and period applications follow scheme descent in Laye
 
 For a ring map `A → B` of `ℤ/p^n`-algebras, `n ≥ 1`, construct
 `Comp_(B/A) : dR_(B/A) → RΓ_crys((B/A)_crys, O_crys)`, `DerivedDeRham.crystallineComparisonMap`, as a
-natural map of Hodge-filtered dg algebras, where the target is CrystallineCohomology §CR.2.1's
-crystalline cohomology for the canonical divided powers on `p` with its PD filtration. On a
-polynomial resolution `P• → B`, map `Ω•_(P•/A)` into `Ω•_(P•/A) ⊗_(P•) D_(P•)(ker(P• → B))` and use the
-PD Poincaré lemma (CrystallineCohomology §CR.2.2) to identify the target. The target is classical
-crystalline cohomology of `B`. The intended Lean signature is
+natural map in `DF(A)`, where the target is CrystallineCohomology §CR.2.1's crystalline cohomology for the
+canonical divided powers on `p` with its PD filtration. On a polynomial resolution `P• → B`, the map
+`Ω•_(P•/A) → Ω•_(P•/A) ⊗_(P•) D_(P•)(ker(P• → B))` is a map of strict Hodge-filtered dg algebras into the
+envelope model. The PD Poincaré lemma (CrystallineCohomology §CR.2.2) identifies the realization of that
+model with the target in `DF(A)`. The target is classical crystalline cohomology of `B`, whose products
+are the cup products of CrystallineCohomology *Crystalline cup products*. `Comp` is multiplicative in the
+sense of the Conventions: it intertwines the shuffle product of 2.22 with these cup products in `D(A)`
+(`crystallineComparisonCup`). It is not asserted to be a map of strict dg algebras into a strict model
+of the global target. The intended Lean signature is
 
 ```lean
 DerivedDeRham.crystallineComparisonMap (p n : ℕ) [Fact p.Prime] (hn : 0 < n)
@@ -2641,8 +2721,15 @@ Prove the following named laws.
 - `crystallineComparisonHodge`: the map carries the Hodge filtration to the crystalline PD filtration.
 - `crystallineComparisonSmooth`: for a smooth map of flat `ℤ/p^n`-algebras this is the PD Poincaré
   equivalence.
-- `crystallineComparisonSheaf`: affine comparison maps glue over the common scheme site and preserve cup
-  products.
+- `crystallineComparisonCup`: `Comp ∘ ∪_dR = ∪_crys ∘ (Comp ⊗^L Comp)` in `D(A)`, with `∪_crys` the cup
+  product of CrystallineCohomology *Crystalline cup products*. Proof route: on the envelope model the map
+  is a map of strict dg algebras. In each simplicial degree the identification of the envelope de Rham
+  complex with crystalline cohomology (CrystallineCohomology *Crystalline cohomology from an embedding*)
+  carries its wedge product to the cup product, as in the proof of *Crystalline cup products* and in
+  `Crystalline.crysCup_deRham` for smooth lifts. The shuffle product on the realization is then compared
+  with the cup product degreewise.
+- `crystallineComparisonSheaf`: affine comparison maps glue over the common scheme site and preserve the
+  cup products of 5.8 and of CrystallineCohomology in `D(A)`.
 
 **Checks.**
 
@@ -2962,7 +3049,10 @@ the cover up to canonical quasi-isomorphism by common refinement (5.4), satisfie
 `QSyn`, and restriction and unfolding are inverse up to quasi-isomorphism between descent-satisfying
 functors on `QSyn` and on `QRSPerfd`. The same applies to the relative and big-slice sites. For complete
 filtered targets, evaluation and graded pieces commute with unfolding; the underlying object commutes
-for nonnegative filtrations that are constant below zero.
+for nonnegative filtrations that are constant below zero. When `F` takes values in strict commutative dg
+algebras, `Tot(F(S•))` carries the Alexander–Whitney product. It is associative and unital but
+graded-commutative only in the derived category, so the unfolding is multiplicative in the cup-product
+sense of the Conventions, not as a strict commutative dg algebra.
 
 [BMS19], Proposition 4.31 and Remark 4.32, pp.230–231.
 
@@ -3043,12 +3133,21 @@ Hodge/p-completions. Global de Rham cohomology is an `A`-linear complex with cup
 differential is not `O_X`-linear, although Hodge graded pieces are `O_X`-modules. Affine descent is
 applied to each finite Hodge quotient before taking the Hodge-completed limit.
 
-[BL22], Appendix B, Construction B.7 and Remark B.8; Appendix E, Proposition E.16, pp.226, 235–236.
+Multiplicative structure is passed from the strict affine models to the cup-product target of the
+Conventions by the adapter laws `schemeDeRhamRealization` and `schemeDeRhamCup` below. The Čech
+totalization of the cosimplicial affine dg algebras is given the Alexander–Whitney product ([StacksCoh]
+§20.25, Tag 01FP), which is associative and unital on the nose and graded-commutative only in `D(A)`.
+No strictly commutative global model is asserted.
+
+[BL22], Appendix B, Construction B.7 and Remark B.8; Appendix E, Proposition E.16, pp.226, 235–236;
+[StacksCoh] §20.25, Tag 01FP; [StacksSites] §21.33, Lemmas 21.33.2–21.33.3, Tags 0FPJ, 0FPL, 0FPM.
 
 *Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 2: Hodge-completed derived
 de Rham; Layer 2: p-completed derived de Rham; Layer 2: Hodge graded pieces of derived de Rham; Layer 5:
 Descent of Hodge quotients and completion; Layer 0: Localization and filtered colimits of cotangent
-complexes; Mathlib `AlgebraicGeometry.Scheme`; SchemeAndStackFoundations §2.18, §4.7.
+complexes; Layer 0: Derived tensor products on module derived categories; Layer 3: Smooth ordinary and
+completed de Rham comparisons; Mathlib `AlgebraicGeometry.Scheme`; SchemeAndStackFoundations §2.18,
+§4.7.
 
 Prove the following named laws.
 
@@ -3056,6 +3155,17 @@ Prove the following named laws.
 - `schemeDeRhamGraded`: for Hodge-completed global de Rham, `gr_H^i ≃ RΓ(X, L∧^i L_(X/A))[−i]`.
 - `schemeDeRhamPullback`: a morphism over `A` induces pullback preserving cup products and the Hodge
   filtration.
+- `schemeDeRhamRealization`: passing from strict filtered models to `DF(A)` sends filtered
+  quasi-isomorphisms to isomorphisms. It sends termwise tensor products of the K-flat models of 2.22 to
+  `⊗^L_A`. It sends the Čech totalization over a finite affine cover to `RΓ(X, −)` of the corresponding
+  quasi-coherent object (SchemeAndStackFoundations §2.18), independently of the cover up to canonical
+  isomorphism under refinement. Each finite Hodge quotient is preserved.
+- `schemeDeRhamCup`: the Alexander–Whitney product on the Čech totalization gives cup products
+  `Fil_H^i ⊗^L_A Fil_H^j → Fil_H^(i+j)` in `DF(A)`. They are associative, unital and graded-commutative
+  in `D(A)`, compatible with refinement, pullback and the finite Hodge quotients, and on `X = Spec B` they
+  are the shuffle product of 2.22. For smooth `X`, under the Hodge-completed comparison of 3.13, they
+  agree with the ringed-site cup product ([StacksSites] Tag 0FPJ) on `RΓ(X, Ω^•_(X/A))` followed by the
+  wedge product.
 - `formalDeRhamLimit`: the p-completed formal object is the derived inverse limit of its finite
   reductions under the stated descent and bounded-torsion hypotheses.
 
@@ -3075,9 +3185,11 @@ Prove the following named laws.
 ### 5.9 The lci crystalline comparison theorem
 
 For `n ≥ 1` and an lci morphism `f : X → S` of flat `ℤ/p^n`-schemes (finite presentation and local
-regular immersion convention), the natural `Comp_f` is an equivalence of Hodge-filtered dg algebras and
-is compatible with base change in its Tor-independent crystalline range, products and Frobenius. This is
-[Bhatt12] Theorem 3.27; singular and nonflat cases are outside its isomorphism assertion.
+regular immersion convention), the natural `Comp_f` is an isomorphism of Hodge-filtered objects of the
+filtered derived category (in `DF(A)` when `S = Spec A`). It is compatible with the cup products of 5.8
+and CrystallineCohomology *Crystalline cup products* (`crystallineComparisonCup`), with base change in
+its Tor-independent crystalline range, and with Frobenius. This is [Bhatt12] Theorem 3.27; singular and
+nonflat cases are outside its isomorphism assertion.
 
 [Bhatt12], Theorem 3.27, Lemmas 3.39 and 3.44–3.45, proof pp.18–19.
 
@@ -3165,12 +3277,19 @@ equivalence preserves Frobenius and the `G_K` action. Proof route: `L̂_(A_inf/W
 Proposition 9.3(2)), so `Λ_p dR_(O_C/W) ≃ Λ_p dR_(O_C/A_inf)`; `O_C = A_inf/(ξ)` is a regular quotient, so
 the p-adic crystalline comparison (5.10) and the regular PD envelope (4.3) give the completed envelope
 `D̂_(A_inf)(ker θ)`, which is `A_cris(O_C)` by `Crystalline.fontaineEnvelope_identify`. The integral
-perfectoid generalization keeps the principal `θ`-kernel and relatively perfect mod-p input.
+perfectoid generalization keeps the principal `θ`-kernel, the relatively perfect mod-p input and
+p-torsion-freeness of the ring, which 5.10 needs ([Bhatt12] Remarks 9.6 and 9.10 take p-adically complete
+flat `O_C`-algebras). A perfect `F_p`-algebra `R` is integral perfectoid with `θ`-kernel `(p)`, and there
+the description fails. Separately, `A_cris(R) = W(R) = LWΩ_R` for such `R` (CrystallineCohomology §CR.0.7
+with the divided powers of `p`, and 4.5); this is a statement about the PD envelope relative to `(p)` and
+derived de Rham–Witt theory, not about `Λ_p dR_(R/W(k))`.
 
-[Bhatt12], Proposition 9.3(2)–(5), Definition 9.7, Proposition 9.9, Remark 9.10, pp.34–35.
+[Bhatt12], Proposition 9.3(2)–(5), Remark 9.6, Definition 9.7, Proposition 9.9, Remark 9.10, pp.34–35;
+Corollary 8.6, p.32.
 
 *Needs:* Layer 5: The period setup; Layer 5: p-adic crystalline comparison by derived limits; Layer 4:
-Regular quotients and classical PD envelopes; Layer 4: Frobenius on nilpotent-p derived de Rham; Layer 0:
+Regular quotients and classical PD envelopes; Layer 4: Frobenius on nilpotent-p derived de Rham; Layer 4:
+Derived de Rham–Witt with Nygaard filtration; Layer 4: The torsion boundary for F_p over Z_p; Layer 0:
 Regular quotients and two-term models; Layer 0: The cotangent transitivity triangle; Layer 2:
 p-completed derived de Rham; CrystallineCohomology §CR.0.7.
 
@@ -3178,8 +3297,10 @@ Lean: `DerivedDeRham.acrisDerivedDescription`.
 
 **Checks.**
 
-- `test_acris_perfect`: for a perfect `F_p`-algebra `R` in place of `O_C`, `A_cris(R) = W(R)` and the
-  derived description gives `Λ_p dR_(R/W(k)) = W(R)`.
+- `test_acris_perfect`: for `R = k = F_p` in place of `O_C`, `A_cris(F_p) = ℤ_p`, but
+  `Λ_p dR_(F_p/ℤ_p)` is `ℤ_p` plus the nonzero completed torsion summand of 4.6. The derived description
+  does not extend to perfect `F_p`-algebras, which are not p-torsion-free; 5.10 does not apply because
+  `F_p ⊗^L_ℤ ℤ/p^n` is not a flat `ℤ/p^n`-algebra.
 - `test_acris_theta`: the composite `A_inf → Λ_p dR_(O_C/W) → O_C` (the Hodge quotient) is `θ`.
 - `test_acris_not_zp`: `ℤ_p` alone cannot replace `O_C`: `ℤ_p` is not integral perfectoid and
   `Λ_p dR_(ℤ_p/ℤ_p) = ℤ_p` has no divided powers of a generator of `ker θ`.
@@ -3335,18 +3456,23 @@ Let `P` be a perfect `F_p`-algebra and `R = P/(x_i)_(i∈I)` the quotient by ele
 lifts `[x_i]` form, together with `p`, a regular sequence in `W(P)` for every finite subset of `I` (for
 example `P = S♭[X_i^(1/p^∞)]` with `X_i ↦ X_i`). Then `A_crys(R)`, the p-completed PD envelope of
 `W(P) → R` (CrystallineCohomology §CR.0.6–§CR.0.7), is p-torsion-free, and `R` has a PD thickening by it.
-Proof: reduce to finitely many variables by filtered colimits; the PD envelope of a regular sequence is
-`W(P)⟨T_i⟩/(T_i − [x_i])` (envelopes of regular immersions, CrystallineCohomology §CR.0.6), and the
-divisibility argument of [SW13] for one variable (`p a_n = X b_n − n T b_(n−1)`, inductively `b_n ∈ pW`)
-shows that its p-completion is p-torsion-free; tensor products over `W(P)` of these flat pieces keep
-this property.
+Proof: reduce to finitely many variables `x_1, …, x_n` by filtered colimits, which preserve
+p-torsion-freeness. The images `x_i` of `[x_i]` in `W(P)/p = P` form a regular sequence, so the envelope
+relative to `(W(P), (p), γ)` is `D = W(P)⟨T_i⟩/(T_i − [x_i])` (envelopes of regular immersions (0),
+CrystallineCohomology §CR.0.6). Let `K` be the Koszul complex of the `T_i − [x_i]` on the free
+`W(P)`-module `W(P)⟨T_i⟩`, so `H₀(K) = D`. Then `K/p` is the Koszul complex of the `T_i − x_i` on
+`P⟨T_i⟩`. Each `x_i` is a nonzerodivisor on `P`, so this is a regular sequence (CR.0.6 (1)(d)), and
+`H₁(K/p) = 0`. The sequence `H₁(K/p) → H₀(K) --p→ H₀(K)` then shows that `D` is p-torsion-free, and so is
+its p-completion. No flatness over `W(P)` is used, and none holds: the pieces `W(P)⟨T⟩/(T − [x])` are
+not `W(P)`-flat (`test_acrys_tf_not_witt_flat`). For one variable [SW13] gives a direct divisibility
+argument (`p a_n = X b_n − n T b_(n−1)`, inductively `b_n ∈ pW`).
 
-[SW13], proof of Lemma 4.1.8, pp.32–33 (the case `F_p[X^(1/p^∞)]/(X)`, reduced to it by tensor
-decomposition), with Remark 4.1.10 and Proposition 4.1.11, p.33; [BMS19], proof of Proposition 8.12,
-p.273.
+[SW13], proof of Lemma 4.1.8, pp.32–33 (the one-variable case `F_p[X^(1/p^∞)]/(X)`), with Remark 4.1.10
+and Proposition 4.1.11 (the statement for a regular sequence in a perfect ring), p.33; [BMS19], proof of
+Proposition 8.12, p.273.
 
-*Needs:* CrystallineCohomology §CR.0.6–§CR.0.7; Layer 1: Derived limits of towers; Mathlib `WittVector`,
-`WittVector.teichmuller`.
+*Needs:* CrystallineCohomology §CR.0.6–§CR.0.7; IntegralHeckeAndGaloisDeterminants §6.4 (Koszul
+complexes); Layer 1: Derived limits of towers; Mathlib `WittVector`, `WittVector.teichmuller`.
 
 Lean: `DerivedDeRham.acrysTeichmullerTorsionFree`.
 
@@ -3357,6 +3483,10 @@ Lean: `DerivedDeRham.acrysTeichmullerTorsionFree`.
   `W(R♭)[[X]^n/n!]` inside `W(R♭)[1/p]`, p-torsion-free.
 - `test_acrys_tf_two_variables`: for `R = F_p[X^(1/p^∞), Y^(1/p^∞)]/(X, Y)`, `A_crys(R)` is the completed
   tensor product over `ℤ_p` of two one-variable copies, and is p-torsion-free.
+- `test_acrys_tf_not_witt_flat`: for `P = F_p[x^(1/p^∞)]` and the envelope `D` of `W(P) → P/(x)`,
+  `[x]^p = p! γ_p([x])`, so the nonzero element `x^p ∈ P` acts by zero on `D/p`. `D/p ≠ 0`, since it maps
+  onto `P/(x)`, and `P` is a domain, so `D/p` is not `P`-flat and `D` is not `W(P)`-flat. p-torsion-freeness
+  is a `ℤ_p`-flatness statement and cannot be derived from flatness over `W(P)`.
 
 ### 5.20 Quasiregular semiperfect derived de Rham and PD envelopes
 
@@ -3405,8 +3535,12 @@ Lean: `DerivedDeRham.acrysStructure`.
 **Checks.**
 
 - `test_acrys_structure_fp`: for `S = F_p`, `A_crys = ℤ_p`, `φ = id` and `N^(≥i) = p^i ℤ_p`.
-- `test_acrys_structure_divided_frobenius`: the whole divided Frobenius is surjective modulo `p` while
-  the graded map is the stated injection.
+- `test_acrys_structure_divided_frobenius`: on `N^(≥i+1)` one has `φ_i = p φ_(i+1)`, so `φ_i mod p` on
+  `N^(≥i)` factors through `gr_N^i`. Its image, on the level `N^(≥i)` as on `gr_N^i`, is exactly
+  `Fil_i^conj(A_crys/p)`; surjectivity holds onto this image only.
+- `test_acrys_structure_not_surjective`: for the nonperfect `S = F_p[t^(1/p^∞)]/(t)`, `I/I²` is free of
+  rank one over `S`, so `gr_(i+1)^conj(A_crys/p) ≅ Γ^(i+1)_S(I/I²) ≠ 0` (5.20). Hence `Fil_i^conj` is a
+  proper submodule of `A_crys/p` and `φ_i mod p` is not surjective onto `A_crys/p`.
 - `test_acrys_structure_p_two`: at `p = 2`, completion at the PD ideal `(2)` of `ℤ₂` with its divided
   powers is not the Nygaard completion; `γ_(2^a)(2)` has valuation 1 for all `a`.
 
@@ -3453,12 +3587,14 @@ theorem 1.13 for compatible systems of perfect complexes.
 Let `A` be p-complete with bounded p-torsion and `X` a proper p-completely smooth formal `A`-scheme of
 finite presentation, with compatible proper smooth ordinary reductions `X_n/A_n` of bounded relative
 dimension `d`. Then the p-completed continuous de Rham global object is a perfect derived p-complete
-`A`-complex. Each `RΓ(X_n, Ω^i_(X_n/A_n))` is perfect and commutes with base change by JacobianChallenge
-Layer C in the form of [StacksPerfect] Lemma 36.30.4(2) (Tag 0B91), its Hodge quotient is a finite
-extension of these pieces, and `Ω^i = 0` for `i > d`; the compatible perfect complexes over `A/p^n` assemble
-into a perfect p-complete complex by 1.13. No degeneration or finite-projective individual `H^j` is
-asserted. The same finite-filtration argument applies to an ordinary proper smooth finite-presentation
-`A`-scheme with its smooth ordinary or Hodge-completed comparison in the appropriate characteristic.
+`A`-complex. Each `RΓ(X_n, Ω^i_(X_n/A_n))` is perfect and commutes with arbitrary base change by
+AlgebraicModuliForArithmeticGeometry §7.2 `perfect_proper_pushforward` (`Ω^i_(X_n/A_n)` is finite
+locally free on `X_n`, hence finitely presented and flat over `A_n`; [StacksPerfect] Lemma 36.30.4(2),
+Tag 0B91). Its Hodge quotient is a finite extension of these pieces, and `Ω^i = 0` for `i > d`; the
+compatible perfect complexes over `A/p^n` assemble into a perfect p-complete complex by 1.13. No
+degeneration or finite-projective individual `H^j` is asserted. The same finite-filtration argument
+applies to an ordinary proper smooth finite-presentation `A`-scheme with its smooth ordinary or
+Hodge-completed comparison in the appropriate characteristic.
 
 [StacksPerfect], §36.30, Lemmas 36.30.1 and 36.30.4 with proof; Tags 0A1H, 0B91, pp.73–74; [StacksMA]
 Lemma 15.99.4, Tag 09AW, p.288.
@@ -3466,9 +3602,9 @@ Lemma 15.99.4, Tag 09AW, p.288.
 *Needs:* Layer 2: The de Rham algebra of a completely smooth formal algebra; Layer 3: Smooth ordinary and
 completed de Rham comparisons; Layer 5: Derived de Rham on schemes and formal schemes; Layer 5: Relative
 Tor-amplitude estimates; Layer 5: Descent of Hodge quotients and completion; Layer 1: Valid exchanges of
-completion and derived operations; Layer 1: Effectivity of compatible perfect systems; JacobianChallenge
-Layer C; SchemeAndStackFoundations §2.18, §4.7; Mathlib `AlgebraicGeometry.IsProper`,
-`AlgebraicGeometry.Smooth`.
+completion and derived operations; Layer 1: Effectivity of compatible perfect systems;
+AlgebraicModuliForArithmeticGeometry §7.2; SchemeAndStackFoundations §2.18, §4.7; Mathlib
+`AlgebraicGeometry.IsProper`, `AlgebraicGeometry.Smooth`.
 
 Lean: `DerivedDeRham.properSmoothCohomologicalControl`.
 
@@ -3483,18 +3619,18 @@ Lean: `DerivedDeRham.properSmoothCohomologicalControl`.
 ### 5.24 Completed base change and cup products
 
 Under the hypotheses of 5.23, a bounded-torsion p-complete base map `A → A′` gives a natural equivalence
-`RΓ_dR(X/A) ⊗̂^L_A A′ ≃ RΓ_dR(X ⊗̂_A A′/A′)`, compatibly with Hodge filtrations and cup products. All
-completed tensors and reductions are derived; the finite-level base change is [StacksPerfect] Lemma
-36.30.4 and the passage to the limit is 1.13. For general `QSyn` algebras the affine base-change/Künneth
-and descent products are available, but neither proper global perfectness nor a finite-projective
-cohomology conclusion follows.
+`RΓ_dR(X/A) ⊗̂^L_A A′ ≃ RΓ_dR(X ⊗̂_A A′/A′)`, compatibly with Hodge filtrations and the cup products of
+5.8 (`schemeDeRhamCup`). All completed tensors and reductions are derived; the finite-level base change
+is [StacksPerfect] Lemma 36.30.4 and the passage to the limit is 1.13. For general `QSyn` algebras the
+affine base-change/Künneth and descent products are available, but neither proper global perfectness nor
+a finite-projective cohomology conclusion follows.
 
 [StacksPerfect], Tag 0A1G, Lemma 36.30.1 and Remark 36.30.2, pp.73–74; [StacksMA] Lemma 15.99.4.
 
 *Needs:* Layer 5: Proper smooth de Rham perfectness; Layer 5: Descent of Hodge quotients and completion;
 Layer 2: Derived base change and Künneth; Layer 5: Derived de Rham on schemes and formal schemes; Layer 1:
 Completed filtered tensor products; Layer 1: Valid exchanges of completion and derived operations; Layer
-1: Effectivity of compatible perfect systems; JacobianChallenge Layer C.
+1: Effectivity of compatible perfect systems; AlgebraicModuliForArithmeticGeometry §7.2.
 
 Lean: `DerivedDeRham.completedBaseChangeCupProducts`.
 
@@ -3590,7 +3726,8 @@ Layers 0–4 supply cotangent powers, complete flatness, de Rham, Cartier, PD fi
 PerfectoidSpaces supplies integral perfectoid rings, perfectoid fields and the principal `θ`-kernel;
 CrystallineCohomology supplies PD envelopes, `A_cris`, crystalline cohomology and de Rham–Witt complexes;
 SchemeAndStackFoundations supplies formal spectra, quasi-coherent derived categories and Néron–Popescu
-desingularization; JacobianChallenge Layer C supplies proper flat base change; Mathlib supplies
+desingularization; AlgebraicModuliForArithmeticGeometry §7.2 supplies perfectness and arbitrary base
+change of proper pushforward; Mathlib supplies
 `WittVector`, `PreTilt`, `WittVector.fontaineTheta`, `BDeRhamPlus`, `BDeRham` and étale sites.
 
 ## Layer 6: Logarithmic cotangent and de Rham theory
@@ -3658,8 +3795,13 @@ categories; Layer 1: Completion of simplicial commutative algebras.
 
 - `test_prelog_pushout_trivial_monoids`: for trivial monoids it is the derived tensor product of rings.
 - `test_prelog_pushout_monoid`: for `ℕ ← ℕ → ℕ` with both maps multiplication by 2 (`x ↦ x²` on monoid
-  algebras), the homotopy pushout of monoids has `π₀ = (ℕ ⊕ ℕ)/((2,0) ∼ (0,2))`, whose group completion
-  has the 2-torsion element `(1, −1)`; the output need not be integral.
+  algebras), the homotopy pushout of monoids has `π₀ = ⟨a, b | 2a = 2b⟩`. It is integral: `na + mb ↦
+  (n + m, m mod 2)` embeds it into `ℤ ⊕ ℤ/2`. Its group completion has the 2-torsion element `a − b`, which
+  does not lie in `π₀` although `2(a − b) = 0` does, so `π₀` is neither saturated nor has torsion-free
+  group completion.
+- `test_prelog_pushout_nonintegral`: for `ℕ ← ℕ² → ℕ` with maps `(i, j) ↦ i + j` and `(i, j) ↦ i + 2j`,
+  `π₀ = ⟨a, b | a = b, a = 2b⟩ = {0, e}` with `e = 2e ≠ 0`. It is not integral, since `e + e = e + 0`
+  while `e ≠ 0`. The homotopy pushout of integral monoids need not be integral.
 - `test_prelog_pushout_completion`: p-completing `(ℤ[ℕ], ℕ)` gives `(ℤ_p⟨x⟩, ℕ)`; the monoid is not
   completed.
 
@@ -3853,10 +3995,11 @@ Lean: `DerivedDeRham.logDeRhamBaseChange`.
 
 For a map `(A, M) → (B, N)` of prelog `F_p`-algebras, define the Frobenius of the base by `p` on `M` and
 Frobenius on `A` and form the homotopy prelog pushout `(B, N)^(1)`. The relative Frobenius maps it to
-`(B, N)`. The increasing conjugate filtration of `dR_log` is linear over its twisted underlying ring and
-`gr_i^conj ≃ L∧^i L_log((B, N)^(1)/(A, M))[−i]`. On free ordinary coordinates `y`, inverse Cartier sends
-`dy` to `[y^(p−1) dy]`; on free log coordinates `x` it sends `d log x` to `[d log x]`. All twists are derived
-unless the ring and monoid flatness criteria are proved.
+`(B, N)`. The increasing conjugate filtration of `dR_log` is levelwise linear over the twisted free
+prelog resolution, and `gr_i^conj ≃ L∧^i L_log((B, N)^(1)/(A, M))[−i]` in `D(A)`, with the conventions
+of 3.3 and 3.5. On free ordinary coordinates `y`, inverse Cartier sends `dy` to `[y^(p−1) dy]`; on free
+log coordinates `x` it sends `d log x` to `[d log x]`. All twists are derived unless the ring and monoid
+flatness criteria are proved.
 
 [Bhatt12], Notation 7.1, Lemma 7.2, Theorem 7.3 and Proposition 7.4, pp.27–28; [KY], Notation 2.15 and
 Construction 2.6, pp.13, 16.
@@ -3933,8 +4076,9 @@ For a prelog `ℤ/p^n`-map `f : (A, M) → (B, N)`, use the standard free prelog
 every surjection `P_i → (B, N)`, first exactify it, then form the strict PD envelope compatible with `p`
 (CrystallineCohomology §CR.5.2). The natural map `Ω•_log(P•/(A, M)) → Ω•_log(P•/(A, M)) ⊗ D_log(P• → (B, N))`
 yields `Comp_log : dR_log(f) → RΓ(f_log-crys, O_crys)`, `DerivedDeRham.logCrystallineComparisonMap`, via the
-log PD Poincaré lemma (CrystallineCohomology §CR.5.4). It is natural, multiplicative and respects Hodge/PD
-filtrations. Exactification is performed before the PD envelope.
+log PD Poincaré lemma (CrystallineCohomology §CR.5.4). It is a natural map in `DF(A)`, respects Hodge/PD
+filtrations, and is multiplicative in the sense of 4.1: a map of strict dg algebras into the envelope
+model, compatible with cup products in `D(A)`. Exactification is performed before the PD envelope.
 
 [Bhatt12], Proposition 7.18 and proof, p.30.
 
@@ -4001,7 +4145,8 @@ Prove the following named laws.
 
 ### 6.14 The corrected log crystalline comparison theorem
 
-For a corrected G-lci prelog `ℤ/p^n`-map, `Comp_log` is an equivalence of Hodge-filtered dg algebras. For
+For a corrected G-lci prelog `ℤ/p^n`-map, `Comp_log` is an isomorphism in `DF(A)` compatible with cup
+products (6.12). For
 an ind-corrected G-lci map the same holds, because `dR_log` commutes with filtered colimits (6.1) and so
 does the target model of 6.12 (exactification, strict PD envelopes and log differentials are left
 adjoints or are computed termwise on the free resolution). The compatible p-adic version uses derived
@@ -4348,6 +4493,8 @@ represented by the projective or surjective model of 1.1.
   merged), head 5888c0081ba867ede5c60d3060f2d674d932b53c, file `DeRham/Basic.lean`.
 - **SAG**: Jacob Lurie, *Spectral Algebraic Geometry*. Version of February 2018, §25.2.
 - **StacksAlg**: The Stacks Project Authors, *Commutative Algebra* (Chapter 10).
+- **StacksCoh**: The Stacks Project Authors, *Cohomology of Sheaves* (Chapter 20), §20.25 *Čech
+  cohomology of complexes*.
 - **StacksCt**: The Stacks Project Authors, *The Cotangent Complex* (Chapter 92).
 - **StacksDefos**: The Stacks Project Authors, *Deformation Theory* (Chapter 91).
 - **StacksDR**: The Stacks Project Authors, *The de Rham complex*, Section 10.132.
@@ -4356,6 +4503,7 @@ represented by the projective or surjective model of 1.1.
 - **StacksMA**: The Stacks Project Authors, *More on Algebra* (Chapter 15).
 - **StacksPerfect**: The Stacks Project Authors, *Derived Categories of Schemes* (Chapter 36), §36.30.
 - **StacksSimp**: The Stacks Project Authors, *Simplicial Methods* (Chapter 14).
+- **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21), §21.33 *Cup product*.
 - **StacksSmoothing**: The Stacks Project Authors, *Smoothing Ring Maps* (Chapter 16).
 - **SW13**: Peter Scholze and Jared Weinstein, *Moduli of p-divisible groups*. Camb. J. Math. 1 (2013),
   145–237; arXiv:1211.6357v2.
@@ -4389,6 +4537,7 @@ represented by the projective or surjective model of 1.1.
 [BOErratum]: https://math.berkeley.edu/~ogus/preprints/BO_B2_Erratumre.pdf
 [Riou]: https://github.com/leanprover-community/mathlib4/pull/18551
 [StacksAlg]: https://stacks.math.columbia.edu/download/algebra.pdf
+[StacksCoh]: https://stacks.math.columbia.edu/tag/01FP
 [StacksCt]: https://stacks.math.columbia.edu/download/cotangent.pdf
 [StacksDefos]: https://stacks.math.columbia.edu/download/defos.pdf
 [StacksDR]: https://stacks.math.columbia.edu/tag/0FKF
@@ -4397,4 +4546,5 @@ represented by the projective or surjective model of 1.1.
 [StacksMA]: https://stacks.math.columbia.edu/download/more-algebra.pdf
 [StacksPerfect]: https://stacks.math.columbia.edu/download/perfect.pdf
 [StacksSimp]: https://stacks.math.columbia.edu/download/simplicial.pdf
+[StacksSites]: https://stacks.math.columbia.edu/tag/0FPJ
 [StacksSmoothing]: https://stacks.math.columbia.edu/tag/07GB
