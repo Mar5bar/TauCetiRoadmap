@@ -8,7 +8,7 @@
 
 This roadmap owns:
 
-- the comparison of multiplicative p-adic completion with Mathlib's `AdicCompletion`, S-unit completion using ArithmeticHeights §6.5, the p-adic Kummer identification for fields and S-units, and the coefficient-limit hypotheses (Layer 0);
+- the comparison of multiplicative p-adic completion with Mathlib's `AdicCompletion`, the S-unit theorem in the form needed, the p-adic Kummer identification for fields and S-units, and the coefficient-limit hypotheses (Layer 0);
 - perfect pairings, annihilators and derived orthogonal complements of local conditions, and the duality of global mapping fibres with local conditions (Layer 1);
 - compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer complexes as mapping fibres with their H⁰ correction, lattice changes and descent of vanishing (Layer 2);
 - Iwasawa algebras of ℤ_p^d × Δ with their coordinates, involution and twists, Iwasawa cohomology and its Shapiro, descent, control and duality theorems, universal norms, semilocal descent, Iwasawa Selmer complexes with derived specialization, determinant lines, the étale K(π,1) comparison for Spec 𝒪_{F,S} and the j_* convention, local cofreedom, and Greenberg's structure theorems (Layer 3);
@@ -96,7 +96,6 @@ Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-t
 
 | Contract | Supplier and exact target | Convention / retained consumer |
 | --- | --- | --- |
-| S869a | ArithmeticHeights §6.5 / **The S-unit theorem**, `Set.unit_fg`, `Set.unit_finrank_numberField`, `Set.exists_unit_fundSystem`, `Set.exists_unit_fundSystem'` (an open TauCetiRoadmap pull request by rwst) | Use the same Mathlib `Set.unit`; convert finite-place rank to the all-places convention and `Nat.card` to `Set.ncard`. §§0.3 and 0.9 retain completion, saturation, injection and Kummer. The fundamental system uses `CommGroup.torsion`; these consumers need no identification with roots of unity. |
 | S869b | ZerosOfLFunctions §1.5 / **The gamma factor of a record**, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math) | Require the full finite-product pole theorem on the two shift multisets alone. §4.14 expands multiplicities and specializes at integers, obtaining finite order in `WithTop ℤ` equal to the negative integer count. The real-bodied local carrier `gammaPoleOrder` serves `poleOrderAtOne`, Tate-dual factors and criticality; `gammaPoleOrder_hodge_analytic` transports the supplied theorem for Hodge realizations. |
 | S869c | LFunctions §Layer 0 / **completed L-function data**, `AnalyticLFunctionData.gammaFactor`, `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC` (an open TauCetiRoadmap pull request by roed-math) | Require a factor-only product on two complex-shift multisets agreeing with the record's projection. §4.14 retains the Hodge/Betti recipe and weighted integral-list adapter `hodgeGammaShifts`; the real-bodied local restatement `hodgeGammaFactor` serves `gammaFactor`, `gamma_tate_factor` and Hodge Checks, with `hodgeGammaFactor_eq_shiftProduct` identifying it with the supplier's formula. |
 
@@ -104,7 +103,7 @@ The two Gamma contracts use only the shift multisets: they require neither Diric
 
 ## How to read the build
 
-Layer 0 establishes completion and coefficient-limit comparisons, using the S-unit theorem supplied by ArithmeticHeights §6.5, and the procyclic criterion used by nonsingular conditions. Layer 1 treats annihilators and the parametric duality of fibres. Layer 2 constructs the Selmer diagrams and applies that duality to arithmetic cochains. Layer 3 fixes the Iwasawa algebras (§3.0), passes to induced Iwasawa coefficients, computes control errors and determinants, compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 first supplies ℂ_p, Tate's calculation and the periods, then the finite conditions, the archimedean criticality and the cyclotomic arithmetic dictionary, and finally the parity theorems (§§4.28–4.29). References within a layer follow this construction order; the parametric duality of Layer 1 is instantiated by the Layer 2 arithmetic fibre.
+Layer 0 establishes completion and coefficient-limit comparisons, including the S-unit theorem and the procyclic criterion used by nonsingular conditions. Layer 1 treats annihilators and the parametric duality of fibres. Layer 2 constructs the Selmer diagrams and applies that duality to arithmetic cochains. Layer 3 fixes the Iwasawa algebras (§3.0), passes to induced Iwasawa coefficients, computes control errors and determinants, compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 first supplies ℂ_p, Tate's calculation and the periods, then the finite conditions, the archimedean criticality and the cyclotomic arithmetic dictionary, and finally the parity theorems (§§4.28–4.29). References within a layer follow this construction order; the parametric duality of Layer 1 is instantiated by the Layer 2 arithmetic fibre.
 
 ## Layer 0: Completions and coefficient limits
 
@@ -153,19 +152,50 @@ The image is closed but not all of (F^×)^; the quotient (F^×)^/Ê_F involves t
 
 ### 0.3 The S-unit theorem and the completion of S-units
 
-**The S-unit theorem.** Provides finite generation and free rank of Mathlib's S-unit group, with its stated fundamental-system interface. Supplied by ArithmeticHeights §6.5 / The S-unit theorem (`Set.unit_fg`, `Set.unit_finrank_numberField`) (an open TauCetiRoadmap pull request by rwst). The supplier's S_f contains finite places only, so here convert `NumberField.Units.rank F + Nat.card S_f` to #(S_f ∪ S_∞) − 1 and use `S_f.ncard = Nat.card S_f` for finite S_f.
+**The S-unit theorem.** For a number field F and a finite set S of places of F containing the archimedean ones, prove `sUnits_rank`: the S-unit group 𝒪_{F,S}^× is finitely generated and its free rank is #S − 1. Identify its torsion subgroup with the roots of unity of F. In Mathlib's notation, with S_f ⊆ `IsDedekindDomain.HeightOneSpectrum (𝓞 F)` the finite places of S, the S-units are `Set.unit S_f F`, and the rank is `NumberField.Units.rank F + S_f.ncard`, which equals #S − 1 because the archimedean places number rank + 1.
 
-**Completion of S-units.** For a number field F and a finite set S of places containing the archimedean ones, identify ℤ_p ⊗ 𝓞_{F,S}^× ≅ (𝓞_{F,S}^×)^ and prove (𝓞_{F,S}^×)^ → (F^×)^ is injective.
+Prove this as follows. The valuation map 𝒪_{F,S}^× → ℤ^{S_f}, u ↦ (v(u))_{v∈S_f}, has kernel the global units 𝒪_F^× (Mathlib `NumberField.Units`, with Dirichlet's theorem `NumberField.Units.exist_unique_eq_mul_prod` and its rank `NumberField.Units.rank`). Its image has finite index in ℤ^{S_f}: for each v ∈ S_f, the h-th power of the prime 𝔭_v is principal, h the class number (Mathlib `RingOfIntegers.instFintypeClassGroup`), and a generator is an S-unit of valuation h at v and 0 at the other finite places. Hence the image has rank #S_f, and the sequence 0 → 𝒪_F^× → 𝒪_{F,S}^× → image → 0 gives finite generation and rank rank(𝒪_F^×) + #S_f; the torsion subgroup is unchanged because S-units of finite order are units.
+
+(Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, Theorem 5.11 and its proof, p. 90, where S denotes the finite places only and the rank is r + s + #S − 1.)
+
+**Checks.**
+
+- F = ℚ, S = {∞}: 𝒪_{F,S}^× = {±1}, of rank 0 = #S − 1.
+- F = ℚ(√2), S = {∞₁, ∞₂}: 𝒪_F^× = ±(1 + √2)^ℤ has rank 1 = #S − 1. Counting a single archimedean place would give rank 0, so every archimedean place of S counts; with S also containing the unique prime above 2, generated by √2, the S-units ±(1 + √2)^ℤ (√2)^ℤ have rank 2.
+- F = ℚ(√−5), S = {∞}: the class group has order 2, the units are {±1}, and the S-unit rank is 0; adding the prime 𝔭 = (2, 1 + √−5) to S adds the S-unit 2 with principal ideal (2) = 𝔭² and valuation 2, not a generator of valuation 1, so the valuation image has index 2 and finite index (not surjectivity) is the correct statement.
+
+*Needs:* Mathlib `Set.unit`, `NumberField.Units.rank`, `NumberField.Units.exist_unique_eq_mul_prod`, `RingOfIntegers.instFintypeClassGroup`.
+
+**Fundamental systems of S-units.** For a number field F and a finite set S_f of finite places, put U = `Set.unit S_f F` and r = `NumberField.Units.rank F + S_f.ncard`. Prove `sUnits_exists_fundSystem`: there is a family ε indexed by `Fin r` such that every u ∈ U has a unique pair (ζ, e), with ζ in `CommGroup.torsion U` and e an integer exponent function on `Fin r`, satisfying u = ζ · ∏ᵢ εᵢ^{eᵢ}. Thus the images of ε form a ℤ-basis of U modulo torsion. Prove `sUnits_exists_fundSystem'` with any finite index type I of cardinality r, keeping the same unique-pair statement.
+
+Prove this as follows. Apply `sUnits_rank` and the structure theorem for finitely generated abelian groups to obtain a free quotient by torsion of rank r. Lift a basis of the quotient to U; its coordinates determine the exponents uniquely, and the remaining factor determines ζ uniquely. Reindex along a bijection I ≃ `Fin r` for the second form.
+
+(Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, the fundamental-system description on p. 85 and Theorem 5.11 on p. 90.)
+
+**Checks.**
+
+- For F = ℚ and S_f empty, r = 0, the product is empty and every S-unit is its unique torsion factor ±1.
+- For F = ℚ and S_f = {(2), (3)}, the family (2, 3) gives the unique decomposition ±2ᵃ3ᵇ with a, b ∈ ℤ; the family (4, 3) misses 2 and cannot be a fundamental system.
+- For F = ℚ(√−5) and S_f = {𝔭}, 𝔭 = (2, 1 + √−5), the S-unit 2 is a fundamental generator although its 𝔭-valuation is 2. A fundamental system need not map to the standard basis of the entire valuation lattice.
+- Interchanging the two indices in the ℚ example interchanges the exponents without changing ζ; this checks the arbitrary finite-index form.
+
+*Needs:* §0.3 (The S-unit theorem, `sUnits_rank`); Mathlib `CommGroup.torsion`, `AddCommGroup.equiv_free_prod_directSum_zmod`.
+
+**Completion of S-units.** For a number field F and a finite set S of places containing the archimedean ones, 𝓞_{F,S}^× is finitely generated, so ℤ_p ⊗ 𝓞_{F,S}^× ≅ (𝓞_{F,S}^×)^, and (𝓞_{F,S}^×)^ → (F^×)^ is injective.
 
 S finite, containing the archimedean places.
 
-Prove this as follows. Apply `Set.unit_fg` from ArithmeticHeights §6.5 to the finite-place set S_f, then the finitely generated tensor/completion comparison of §0.1. An element of F^× whose p^m-th power is an S-unit has valuation zero outside S, so it is an S-unit; apply §0.2.
+Prove this as follows. Apply `sUnits_rank` above and the finitely generated tensor/completion comparison of §0.1. An element of F^× whose p^m-th power is an S-unit has valuation zero outside S, so it is an S-unit; apply §0.2.
 
 (Rubin (1999 draft), Chapter I, §6.2, Definition 6.2, printed p. 14 (PDF p. 24).)
 
-For S = S_∞ this is §0.2.
+**Checks.**
 
-*Needs:* §0.1 (Comparison of the multiplicative completion with Mathlib adic completion); §0.2 (Completion of global units); Mathlib `Set.unit`; ArithmeticHeights §6.5 / `Set.unit_fg`, `Set.unit_finrank_numberField` (contract S869a).
+- For S = S_∞ the comparison and injection are those of §0.2.
+- For F = ℚ, S = {∞, ℓ} with ℓ a prime and p odd, the completed S-unit group is ℤ_p, generated by ℓ; the sign factor disappears.
+- For the same F and S with p = 2, the completion is (ℤ/2) × ℤ₂. The sign survives and injects into the completion of ℚ^×, so discarding all torsion would give the wrong comparison.
+
+*Needs:* §0.1 (Comparison of the multiplicative completion with Mathlib adic completion); §0.2 (Completion of global units); §0.3 (The S-unit theorem, `sUnits_rank`); Mathlib `Set.unit`.
 
 ### 0.4 Local completion and algebraic tensor comparison
 
@@ -258,13 +288,13 @@ Let F be a number field and S a finite set of places containing those above p an
 
 S ⊇ {v | p∞}, so μ_{p^m} is a G_{F,S}-module and p is an S-unit.
 
-Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; `Set.unit_fg` from ArithmeticHeights §6.5 makes the terms 𝓞_{F,S}^×/p^m finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
+Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; `sUnits_rank` of §0.3 makes the terms 𝓞_{F,S}^×/p^m finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
 
 (Burungale–Tian (arXiv v2), Footnote 3 to Theorem 2.1, p. 4, and §2.2.3 (arXiv v2); Rubin (1999 draft), Appendix B, §2, Proposition 2.3, printed p. 152 (PDF p. 162).)
 
 This is the finite-level statement behind Burungale–Tian's unit Kummer comparison; the tower limit is §§3.1 and 4.19.
 
-*Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (Completion of S-units); ArithmeticHeights §6.5 / `Set.unit_fg`; ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
+*Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (The S-unit theorem, `sUnits_rank`, and Completion of S-units); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
 
 ### 0.10 Which inverse-limit hypotheses hold
 

@@ -79,6 +79,31 @@ theorem units_pow_of_pow_eq (F : Type*) [Field F] [NumberField F] (m : ℕ)
 
 end Completion
 
+/-- §0.3, the S-unit theorem: for a finite set `S_f` of finite places, the `S_f`-units
+(Mathlib's `Set.unit`) form a finitely generated group of free rank `rank(𝒪_F^×) + #S_f`. -/
+theorem sUnits_rank (F : Type*) [Field F] [NumberField F]
+    (S_f : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S_f.Finite) :
+    Group.FG (S_f.unit F) ∧
+      Module.finrank ℤ (Additive (S_f.unit F)) = NumberField.Units.rank F + S_f.ncard := sorry
+
+/-- §0.3: a fundamental system gives each S-unit a unique torsion factor and integer
+exponents, indexed by the free rank. -/
+theorem sUnits_exists_fundSystem (F : Type*) [Field F] [NumberField F]
+    (S_f : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S_f.Finite) :
+    ∃ ε : Fin (NumberField.Units.rank F + S_f.ncard) → S_f.unit F,
+      ∀ u : S_f.unit F, ∃! ζe : CommGroup.torsion (S_f.unit F) ×
+          (Fin (NumberField.Units.rank F + S_f.ncard) → ℤ),
+        u = (ζe.1 : S_f.unit F) * ∏ i, ε i ^ (ζe.2 i) := sorry
+
+/-- §0.3: a fundamental system can be indexed by any finite type of the required cardinality,
+with unique torsion factors and integer exponents. -/
+theorem sUnits_exists_fundSystem' (F : Type*) [Field F] [NumberField F]
+    (S_f : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) (hS : S_f.Finite)
+    (I : Type*) [Fintype I] (hI : Fintype.card I = NumberField.Units.rank F + S_f.ncard) :
+    ∃ ε : I → S_f.unit F,
+      ∀ u : S_f.unit F, ∃! ζe : CommGroup.torsion (S_f.unit F) × (I → ℤ),
+        u = (ζe.1 : S_f.unit F) * ∏ i, ε i ^ (ζe.2 i) := sorry
+
 section WeakSemisimplicity
 
 variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
@@ -150,6 +175,10 @@ example : Function.Injective (AdicCompletion.of (Ideal.span {(p : ℤ)}) ℤ) �
 example (x : LinearMap.ker ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)) :
     invariantCoinvariantMap (LinearMap.id : ℚ →ₗ[ℚ] ℚ) x =
       (LinearMap.range ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)).mkQ (x : ℚ) := rfl
+
+/-- `ℚ` with no finite place in `S_f` has S-unit rank zero. -/
+example : Module.finrank ℤ (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ))
+    = 0 := sorry
 
 end CompletionChecks
 
