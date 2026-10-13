@@ -1500,12 +1500,27 @@ def K0 (X : Scheme.{u}) : Type (u + 1) :=
 
 instance (X : Scheme.{u}) : AddCommGroup (K0 X) := by unfold K0; infer_instance
 
+/-- The determinant of a virtual finite locally free sheaf, valued in the additive form of
+Tau Ceti's group of line-bundle classes. A line-bundle generator maps to its own class.
+Fulton 1998, §15.1. -/
+def K0.det (X : Scheme.{u}) : K0 X →+ Additive (TauCeti.AlgebraicGeometry.LineBundleClass X) := by
+  sorry
+
 /-- The natural map `K_0(X) → G_0(X)`, `[E] ↦ [E]`, on a Noetherian scheme. -/
 def K0.toG0 (X : Scheme.{u}) [IsNoetherian X] : K0 X →+ G0 X :=
   QuotientAddGroup.lift _
     ((QuotientAddGroup.mk' _).comp
       (FreeAbelianGroup.map (fun E => (⟨E.1, by sorry⟩ : {F : X.Modules // F.IsFinitePresentation}))))
     (by sorry)
+
+/-- A kernel class with nontrivial determinant detects failure of injectivity of `K_0 → G_0`.
+Fulton 1998, §15.1. -/
+theorem K0.toG0_not_injective_of_det (X : Scheme.{u}) [IsNoetherian X]
+    (a : K0 X) (himage : K0.toG0 X a = 0) (hdet : K0.det X a ≠ 0) :
+    ¬ Function.Injective (K0.toG0 X) := by
+  intro hinj
+  have ha : a = 0 := hinj (by simpa using himage)
+  exact hdet (by simp [ha])
 
 /-- On a regular Noetherian scheme with the resolution property, `K_0 → G_0` is bijective.
 Stacks, Lemma 36.37.4; Fulton 1998, §15.1. -/

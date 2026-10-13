@@ -434,7 +434,7 @@ CohomologicalPointCounting**: the edges listed under scope.
 | Supplier | Interface consumed here | Convention and scope bridge |
 | --- | --- | --- |
 | AbundanceStatement §4A / items 2–4 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.9's characteristic-zero divisor/curve degree realization, line-bundle compatibility and vanishing on principal divisors | On smooth projective surfaces over algebraically closed characteristic-zero fields, compare normalized degree with §3.3's Euler degree once. Arbitrary-field local-length and arithmetic formulas remain §5.9 targets. |
-| AbundanceStatement §4B / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. The local restatement `Chow.NumericallyEquivalent` and `Num S` in §5.10 supplies the carrier for `hodge_index` and `hodge_index_signature`; its positive-characteristic extension is built here. |
+| AbundanceStatement §4B / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. §5.10 owns the single, characteristic-independent carrier `Chow.NumericallyEquivalent` / `Num S`; *numericalQuotient_abundanceComparison* identifies its characteristic-zero specialization and scalar extensions with the supplier's quotients. Both Hodge targets use this carrier in every characteristic. |
 | AbundanceStatement §4B / item 2 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero finite generation and real finite-dimensionality | Use the integral group of §4B / item 1. Torsion-freeness and integral freeness require the separate argument in §5.10; positive-characteristic surface finiteness remains a target here. |
 | AbundanceStatement §4D / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero Nakai–Moishezon criterion, including restriction to integral subvarieties | Compare intersection numbers through §4A / items 2–4 and ampleness with StableReduction Layer 2's positive-power very-ample convention. The positive-characteristic surface criterion is built here. |
 
@@ -702,7 +702,9 @@ Prove `dimension_theory_finiteType`: for `X` locally of finite type over a field
 `dim O_{X,x} + trdeg_k κ(x) = dim_x X`, and `dim X = dim X_{k'}` for every field extension (Stacks,
 Lemmas 10.116.1 (00P0), 10.116.2 (06RP), 10.116.3 (00P1), 10.116.5 (00P3), 10.116.6 (00P4)).
 AbundanceStatement Layer 0 / item 1 (by RoktimMascharak) states the integral finite-type special
-case, including global finite dimension under finite type, so the two can be reconciled.
+case, including global finite dimension under finite type. This subsection owns the general
+locally finite-type dimension theorem; *dimensionTheory_abundanceSpecialization* identifies its
+integral finite-type specialization with that supplier's dimension and function-field conventions.
 Prove
 `geometric_irreducible_components`: for a scheme `X` of finite type over `k` and a field extension
 `k'/k`, the irreducible components of `X_{k'}` map onto those of `X` (Stacks, Lemma 33.8.11 (04KX)),
@@ -1067,7 +1069,9 @@ the lengths `r` of sequences `f_1, …, f_r ∈ I` that are weakly `M`-regular (
 non-zero-divisor on `M/(f_1, …, f_{i−1})M`), and `IsLocalRing.depth M := depth m M` for a local ring
 (Stacks, Definition 10.72.1 (00LI) for finite `M`, with the description by such sequences in Lemma
 10.72.2 (0AUI); regular sequences are Definition 10.68.1 (00LF)); `depth 0 = ⊤`. API: `IsLocalRing.depth_eq_top_iff` (`M = 0`
-exactly, for `M` finite over Noetherian `R`), `depth_le_supportDim` (`depth M ≤ dim Supp M`),
+exactly, for `M` finite over a Noetherian local `R`), `depth_le_supportDim` (for a **nonzero**
+finite module `M` over a **Noetherian local** ring, `depth M ≤ dim Supp M`, with depth embedded
+in `WithBot ℕ∞`; Stacks, Lemma 10.72.3 (00LK)),
 `depth_eq_zero_iff` (`m ∈ Ass M`), `depth_eq_iff_ext` (`depth M = inf { i : Ext^i(κ, M) ≠ 0 }`),
 `depth_quotSMulTop` (a regular element drops depth by one), `depth_localization_le`,
 `depth_of_flat_baseChange`, `depth_eq_iff_koszul`. Define `Module.IsCohenMacaulay M` for a finite
@@ -1079,10 +1083,14 @@ Lemma 10.103.11 (0AAG)). API: `isCohenMacaulay_iff_of_isLocalRing`, `localizatio
 (0AAG)), `isCohenMacaulay_iff_forall_isMaximal` (Definition 10.103.12 (0AAH) with Lemma 10.103.11
 (0AAG)), `isCohenMacaulay_quotSMulTop_iff` (for `x ∈ m` a non-zero-divisor on `M`, `M` is
 Cohen–Macaulay iff `M/xM` is; Lemma 10.103.5 (0C6G)), `Ring.IsCohenMacaulay.of_isRegularRing`,
-`IsCohenMacaulay.polynomial` (Lemma 10.103.13 (0AAI)), `IsCohenMacaulay.unmixed` (all associated
-primes have the same dimension; Lemma 10.103.7 (0BUS)), `IsCohenMacaulay.height_add_dim`
-(`height p + dim R/p = dim R`; Lemma 10.103.10 (0AAF); every maximal chain of primes then has length
-`dim R`, Lemma 10.103.9 (0AAE)), `IsCohenMacaulay.of_regularSequence` (for an `M`-regular sequence
+`IsCohenMacaulay.polynomial` (Lemma 10.103.13 (0AAI)), `IsCohenMacaulay.unmixed` (for a finite
+Cohen–Macaulay module `M` over a **Noetherian local** ring `R` and `p ∈ Ass M`,
+`dim(R/p) = dim Supp M`, and `p` is minimal in the support; Lemma 10.103.7 (0BUS)),
+`IsCohenMacaulay.height_add_dim` (for a **Noetherian local Cohen–Macaulay** ring `R` and a prime
+`p`, `height p + dim(R/p) = dim R`; Lemma 10.103.10 (0AAF)). For the same local-ring hypotheses,
+every maximal prime chain has length `dim R` (Lemma 10.103.9 (0AAE)). For a general Noetherian
+Cohen–Macaulay ring apply these results in its localizations; they impose no common global
+dimension on its components. API also includes `IsCohenMacaulay.of_regularSequence` (for an `M`-regular sequence
 `f_1, …, f_r` in `m`, `M` is Cohen–Macaulay when `M/(f_1, …, f_r)M` is; Lemma 10.103.5 (0C6G)
 applied `r` times). Define
 `Module.SatisfiesSerreS n M` for a finite module over a Noetherian ring: for every prime `p`,
@@ -1090,7 +1098,8 @@ applied `r` times). Define
 support impose nothing (Stacks, Definition 10.157.1 (031P)); and `Ring.SatisfiesSerreR n R`: `R_p` is
 regular for every prime of height `≤ n`. API: `satisfiesSerreS_zero`, `mono` (in `n`),
 `isCohenMacaulay_iff_forall_satisfiesSerreS` (from Definitions 10.103.12 (0AAH) and 10.157.1
-(031P), since depth never exceeds the dimension of the support, Lemma 10.72.3 (00LK)),
+(031P), using the depth bound for nonzero localizations (Lemma 10.72.3 (00LK)) and treating
+zero localizations by the separate zero-module convention),
 `satisfiesSerreS_one_iff` (no embedded primes; Lemma 10.157.2 (031Q)),
 `satisfiesSerreS_two_iff_hartogs` (used by §0.6: for a finite `M` over a Noetherian `R` with
 `Supp M = Spec R` and satisfying `(S_1)`, `M` satisfies `(S_2)` iff for every closed `Z ⊆ Spec R`
@@ -1115,7 +1124,15 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
 - `IsLocalRing.depth.test_residueField`: for a Noetherian local ring `R` of positive dimension,
   `depth κ = 0`.
 - `IsLocalRing.depth.test_zero`: the zero module has depth `⊤`; a definition built on "regular
-  sequences of maximal length" rather than the supremum would give `0`.
+  sequences of maximal length" rather than the supremum would give `0`. Its support dimension is
+  `⊥`, so it is excluded from `depth_le_supportDim`.
+- `cohenMacaulay_product_dimensions`: `R = k × k[t]` is regular and globally Cohen–Macaulay,
+  but its associated minimal primes have quotient dimensions `0` and `1`. For
+  `p = 0 × k[t]`, `height p + dim(R/p) = 0 < dim R = 1`; the two components have maximal chains
+  of lengths `0` and `1`. Thus the local dimension conclusions do not hold globally.
+- `cohenMacaulay_regular_local_dimensions`: in `R = k[x,y]_(x,y)`, depth is `2`, the only
+  associated prime is `(0)`, `height(x) + dim(R/(x)) = 1 + 1 = 2`, and every maximal prime chain
+  has length `2`.
 - `IsLocalRing.depth.test_dvr`: a discrete valuation ring has depth `1` over itself.
 - `Ring.IsCohenMacaulay.test_field`: every field is Cohen–Macaulay.
 - `Module.IsCohenMacaulay.test_zero`: the zero module is Cohen–Macaulay over every Noetherian local
@@ -1357,11 +1374,12 @@ homeomorphisms), `IsUniversalHomeomorphism.surjective`, `.universallyClosed`,
 `.universallyInjective`. Prove `universalHomeomorphism_criteria`: `f` is a universal
 homeomorphism iff it is integral, universally injective and surjective (Stacks, Lemma 29.46.5
 (04DF)). CommRingFactorizationSystems F2 / `CommRingCat.WeakNormalization.univHomeo`
-(by JakobScholbach) states the affine special case, so the two can be reconciled by reversing
-arrows under `Spec` and comparing field-valued universal injectivity with the scheme property.
+(by JakobScholbach) supplies the affine criterion. This subsection owns the scheme criterion and
+*universalHomeomorphism_affineComparison*: reverse arrows under `Spec` and identify field-valued
+universal injectivity with the scheme property. The same comparison transports
 CommRingFactorizationSystems F2 / `CommRingCat.WeakNormalization.univHomeo_of_surjective_of_isNilpotent_ker`
-(by JakobScholbach) states the affine special case of `of_isThickening` for a surjection whose
-kernel is nil elementwise, so the two can be reconciled without assuming a uniform nilpotence exponent.
+to the affine case of `of_isThickening` for a surjection with elementwise nil kernel; no uniform
+nilpotence exponent is required. Nonaffine gluing and the scheme-level API are owned here.
 The topological invariance of the small étale site under a universal homeomorphism is
 FrobeniusGeometry Layer 6, which consumes this subsection. *Needs:* Mathlib
 `MorphismProperty.universally`, `AlgebraicGeometry.topologically`, `UniversallyClosed`,
@@ -1413,10 +1431,15 @@ The equivalence of small étale sites is Theorem 3.7. *Needs:* §0.23; Frobenius
 ### 0.25 Perfectly finitely presented and perfectly proper morphisms
 
 Define `RingHom.PerfectlyFinitePresentation g` for `g : B → A` between perfect `𝔽_p`-algebras: there
-is a finitely presented `B`-algebra `A_0` with `(A_0)^perf ≅ A` over `B`; and
-`PerfectlyFinitelyPresented f` for `f : X → Y` between quasi-compact quasi-separated perfect schemes:
-affine-locally on `Y` and then on `X`, the ring maps are pfp (Bhatt–Scholze 2017, Definition 3.10
-and Proposition 3.11 (last sentence), p. 12). API: `PerfectlyFinitelyPresented.perfection` (the
+is a finitely presented `B`-algebra `A_0` with `(A_0)^perf ≅ A` over `B`.
+Define `LocallyPerfectlyFinitelyPresented f` on arbitrary perfect schemes: affine-locally on
+`Y` and then on `X`, the ring maps are pfp. Define `PerfectlyFinitelyPresented f` to require this
+local property and quasi-compact quasi-separated `X,Y`. On this qcqs category it is exactly
+Bhatt–Scholze 2017, Definition 3.10 and Proposition 3.11 (last sentence and footnote 6), p. 12.
+The local property is stable under composition and base change and holds for étale maps and
+open immersions; prove its equivalence with the global predicate when `X,Y` are qcqs.
+Every global pfp API result below carries that qcqs scope, including the source and target of
+base changes. API: `PerfectlyFinitelyPresented.perfection` (the
 perfection of a finitely presented morphism is pfp), `.comp`, `.of_etale`, `.baseChange`,
 `.of_isOpenImmersion`. Prove `pfp_characterisations`: pfp is local on source and target, stable
 under composition and base change, and every pfp morphism of affine perfect schemes is a cofiltered
@@ -1455,8 +1478,14 @@ p. 10). API: `PerfectlySmoothOfRelativeDimension.perfection` (the perfection of 
 morphism of relative dimension `d` is perfectly smooth of relative dimension `d`; van Hoften 2024,
 Example 2.1.3, p. 8), `etale_iff` (`d = 0` is étale), `comp`, `baseChange`,
 `weaklyPerfectlySmooth_of_perfectlySmooth` (take `g = 𝟙`, `e = 0`). The converse implication is not
-part of this target. Prove `perfectlySmooth_properties`: perfectly smooth morphisms are pfp, flat
-and open, and their fibres have dimension `d`. Define `wittScheme n X` for a perfect `𝔽_p`-scheme
+part of this target. Prove `perfectlySmooth_properties`: on arbitrary perfect schemes, perfectly
+smooth morphisms are locally perfectly finitely presented, flat and open. For
+`PerfectlySmoothOfRelativeDimension d f`, all fibres are pure of dimension `d` (the empty fibre
+satisfies this vacuously, as in Tau Ceti's `IsPureDimensional`); every nonempty fibre has dimension
+`d`. If **both `X,Y` are quasi-compact quasi-separated**, the local finiteness conclusion gives
+`PerfectlyFinitelyPresented f` of §0.25. These conclusions use the étale local charts above,
+§0.24's preservation results and §0.25's local/global comparison, without deducing
+quasi-compactness from smoothness. Define `wittScheme n X` for a perfect `𝔽_p`-scheme
 `X` and `n ≥ 1`: the scheme with underlying space `|X|` and structure sheaf `W_n(O_X)`, with `wittScheme_affine` (`Spec W_n(A)`)
 and `wittScheme_one` (`W_1 X = X`) (Bhatt–Scholze 2017, Section 4 opening, p. 15). Define
 `Scheme.IsWeaklyNormal X` for a reduced scheme of finite type over a perfect field `k` of
@@ -1484,6 +1513,15 @@ FrobeniusGeometry Layer 1; Mathlib `Etale`, `AffineSpace`, `WittVector`, `IsRedu
   in `weaklyNormal_model` distinguish these choices.
 - `perfectlySmooth_affineSpace`: `(𝔸²)^perf → (𝔸¹)^perf`, the perfection of a coordinate
   projection, is perfectly smooth of relative dimension `1`.
+- `perfectlySmooth_infinite_coproduct`: `⨿_(n ∈ ℕ) Spec 𝔽_p → Spec 𝔽_p` is étale and perfectly
+  smooth of relative dimension zero, locally pfp, flat and open. Its source is not quasi-compact,
+  so it is not globally pfp and has no finitely presented model; perfection preserves topology.
+- `perfectlySmooth_finite_coproduct`: for a finite set `I`, the fold map
+  `⨿_(i ∈ I) Spec 𝔽_p → Spec 𝔽_p` is perfectly smooth of dimension zero and globally pfp,
+  with itself as model.
+- `perfectlySmooth_empty_fibre`: the inclusion of one component in
+  `Spec 𝔽_p ⊔ Spec 𝔽_p` is perfectly smooth of dimension zero and globally pfp. Its fibre over
+  the other component is empty, of dimension `⊥`, and is pure of dimension zero vacuously.
 - `perfectlySmooth_id`: identities and étale morphisms of perfect schemes are perfectly smooth of
   relative dimension `0`.
 - `not_perfectlySmooth_origin`: the closed immersion `Spec 𝔽_p → (𝔸¹)^perf` is not perfectly
@@ -2575,7 +2613,8 @@ the inclusion, and a homeomorphism `N × U ≅ q⁻¹(U)`, `(n, u) ↦ i(n) s(u)
 inside an algebraic closure and `Γ = Gal(k'/k)`, a linear algebraic group `H/k'` and a topological
 extension `1 → H(k') → E → Γ → 1` with discrete kernel, together with the algebraicity condition:
 conjugation by an element of `E` over `σ ∈ Γ` is induced by a `σ`-semilinear algebraic automorphism
-of `H` (§1.24), witnessed on a splitting chart whose induced semilinear action on
+of `H` (§1.24). These chosen automorphisms form an action of `E`, restricting to algebraic inner
+conjugation on kernel elements, witnessed on a splitting chart whose induced semilinear action on
 `O(H)` has open stabilizers of individual algebra elements. Descent on every such
 chart uses `ContinuousSemilinearAction`, with Hopf compatibility; a bare topological extension is not a gerb (Kisin
 2017, §3.1.1–3.1.2, pp. 34–36), with `.kernel`, `.local_chart` (every gerb has a local splitting
@@ -2584,16 +2623,42 @@ through §1.24), `neutral H` for `H = H₀ ⊗_k k'` (the neutral gerb `H(k') �
 with its continuous standard coordinate action), `.base_extension` (preserving open
 coordinate stabilizers). Define
 `GaloisGerbMorphism E E'`: a continuous homomorphism over `𝟙_Γ` together with an algebraic
-`k'`-group homomorphism `H → H'` whose map on points agrees with the extension map on the kernel,
-with `identity`, `comp`, `kernel_points`; `GerbConjugacy f_1 f_2`: there is `h ∈ H'(k')` with
-`Int(i'(h)) ∘ f_1 = f_2`, with `refl`, `symm`, `trans` (conjugators are retained as data, never
-quotiented before an application asks). Define `conjugatorScheme f_1 f_2` (the scheme `Isom(f_1,
-f_2)` of §1.24) and `ProGerb`: a compatible projective system of gerbs with continuous extension
-transitions and algebraic kernel transitions, with `.stage`, `.transition`, `.stagewise_conjugate`,
-and pro-morphisms; all chartwise Hopf descent retains the open-stabilizer condition.
-Prove `conjugator_representability`: for morphisms `f_1, f_2 : E → E'` of Galois
-gerbs, `Isom(f_1, f_2)` and `I_f` are represented by closed subschemes of `H'` and are forms of
-centralisers (Kisin 2017, §3.1.1 and Lemma 3.1.2, pp. 35–36). Prove `splitting_field_extension`: for
+`k'`-group homomorphism `H → H'` whose map on points agrees with the extension map on the kernel
+and which intertwines the algebraic semilinear conjugation actions of `e` and `f(e)` for every
+`e ∈ E`. This scheme-level compatibility defines the maps on extended kernels over arbitrary
+algebras, with `identity`, `comp`, `kernel_points`; `GerbConjugacy f_1 f_2`: there is `h ∈ H'(k')` with
+`Int(i'(h)) ∘ f_1 = f_2` as gerb morphisms, including equality of their algebraic kernel maps,
+with `refl`, `symm`, `trans` (conjugators are retained as data, never
+quotiented before an application asks).
+
+For a commutative `k`-algebra `R`, set `A_R = k' ⊗_k R`. Construct the extension `E_R` by
+pushing out its kernel along `H(k') → H(A_R)`: in `(H(A_R) ⋊ E)/N`, `E` acts by its algebraic
+semilinear conjugation with `σ` acting on `k'` and trivially on `R`, and `N` is the normal
+subgroup generated by `(i_R(a)⁻¹, i(a))` for `a ∈ H(k')`. Prove that this is an extension of `Γ`
+by `H(A_R)`, functorial in `R`, with the induced maps `(f_i)_R : E_R → E'_R` and agreement at
+`R = k`. This pushout and its morphisms are targets of this subsection (Kisin 2017, §3.1.1, p. 35).
+Define `conjugatorScheme f_1 f_2` to be the affine **`k`-scheme** `Isom(f_1,f_2)` representing
+`R ↦ {h ∈ H'(A_R) | Int(h) ∘ (f_1)_R = (f_2)_R}`. Each extended morphism includes its
+scalar-extended algebraic kernel map; equality in this formula includes that component, not only
+equality of the abstract point-group maps. Prove that its `k`-points are exactly the witnesses in `GerbConjugacy f_1 f_2`.
+
+This subsection owns `conjugator_representability` and its descent/comparison bridges; §1.24
+supplies generic continuous semilinear descent. First construct the closed affine `k'`-transporter
+`T = {h ∈ H' | Int(h) ∘ f_1^alg = f_2^alg}`, with equality of algebraic group morphisms, on every
+`k'`-algebra. For a lift `e ∈ E` of `σ`, define the descent action on `T` by
+`h ↦ f_2(e) h f_1(e)⁻¹`, interpreting multiplication in the extended target gerb. Prove algebraic
+`σ`-semilinearity, independence of the lift (using the transporter equation), the action laws,
+and open stabilizers of coordinate-algebra elements (using a common open splitting chart and
+continuity of the morphisms). Apply §1.24 to descend `T`; prove the functor-of-points formula above
+and the base-change isomorphism `Isom(f_1,f_2) ×_k k' ≅ T`, natural in the maps and scalar
+extensions (Kisin 2017, §3.1.1 and the descent construction in Lemma 3.1.2(1), pp. 35–36).
+For `f_1 = f_2 = f`, descend multiplication and inversion: `I_f` is an affine `k`-group and
+`I_f ×_k k' ≅ Cent_{H'}(f^alg(H))`. For distinct maps the transporter may be empty; when it is
+fppf-locally nonempty, prove that it is an `(I_{f_2}, I_{f_1})`-bitorsor, with left and right
+multiplication, rather than assigning it a group structure. Define `ProGerb`: a compatible
+projective system of gerbs with continuous extension transitions and algebraic kernel transitions,
+with `.stage`, `.transition`, `.stagewise_conjugate`, and pro-morphisms; all chartwise Hopf descent
+retains the open-stabilizer condition. Prove `splitting_field_extension`: for
 `k'' ⊇ k'` Galois over `k`, a `k'/k`-gerb induces a `k''/k`-gerb by pulling back along `Gal(k''/k) →
 Gal(k'/k)` and extending the kernel, compatibly with morphisms and conjugacy (Kisin 2017, §3.1.2).
 *Needs:* §1.24; Mathlib `GroupExtension`, `Topology.IsEmbedding`, `IsQuotientMap`, `Homeomorph`,
@@ -2614,11 +2679,20 @@ Gal(k'/k)` and extending the kernel, compatibly with morphisms and conjugacy (Ki
   conjugation on the kernel is not a morphism over `𝟙_Γ`).
 - `GerbConjugacy.test_identity`, `test_trivial_kernel` (conjugacy is equality), `test_not_any_lift`
   (an element projecting nontrivially to `Γ` is not a conjugator).
+- `conjugator_neutral_real_points`: for `E = ℂˣ ⋊ Gal(ℂ/ℝ)` and `f = id`, commuting with the
+  conjugation lift requires `h/overline(h) = 1`. Thus `I_f(ℝ) = ℝˣ` and `I_f = 𝔾_{m,ℝ}`;
+  `ℝˣ` is Zariski dense in `𝔾_m(ℂ)` and is not its closed complex conjugator subscheme.
+- `conjugator_neutral_baseChange`: the same example has
+  `I_f ×_ℝ ℂ = 𝔾_{m,ℂ} = Cent_{𝔾_{m,ℂ}}(𝔾_{m,ℂ})`, with complex points `ℂˣ`.
+- `conjugator_trivial_extension`: for `k' = k` algebraically closed, the pushout is ordinary
+  kernel scalar extension and `Isom(f_1,f_2)` is the algebraic transporter.
+- `conjugator_empty_transporter`: over algebraically closed characteristic-zero `k`, the identity
+  and square maps of `𝔾_m` are not conjugate; their transporter is empty and is not a group.
 - `ProGerb.test_constant` (a constant system recovers the gerb), `test_kottwitz` (the Kottwitz
   protorus has character group `ℚ`, the direct limit of integral character lattices
   of its finite-dimensional torus stages), `test_wrong_global_conjugacy`
-  (stagewise nonempty conjugator sets do not give a global conjugacy: the compactness argument is a
-  theorem of §1.24's representability, not a definition).
+  (stagewise nonempty conjugator sets alone do not give compatible witnesses: the inverse-limit
+  argument must use the transition maps and additional compactness hypotheses).
 
 ### Examples
 
@@ -2629,7 +2703,7 @@ dual numbers over a point separate geometric from topological quotients (§1.17)
 
 ### Dependencies
 
-Layer 0: §0.12–§0.14 (henselian pairs, in §1.24's conjugator representability), §0.21 (excellence,
+Layer 0: §0.12–§0.14 (henselian pairs), §0.21 (excellence,
 in §1.23's Keel–Mori). Layer 2: §2.3 (the torsor-class carrier) and §2.11 (Hilbert 90) are used by
 §1.15 and §1.16 only; §2.3 depends on nothing in Layer 1, so the graph is acyclic. Mathlib and Tau
 Ceti as listed; ModularCurves 0B–0E and 9D; StableReduction Layer 2.
@@ -2692,9 +2766,12 @@ sheafification of `V ↦ H^i(u(V), F)`), `higherDirectImage_δ` (long exact sequ
 Rg_* Rf_*`, pushforward preserves injectives) (Stacks, Lemma 21.7.4 (072W) for the sheafification
 description; for abelian sheaves the morphism of ringed topoi is flat, so `f_*` preserves injectives
 by Lemma 21.14.2 (0730)). CohomologicalPointCounting / The roadmaps / EtaleBaseChange and
-What is missing: build in this family / item 3 (by bwangpj) state the small-étale special case,
-so the two can be reconciled by explicitly comparing ring/module coefficients and its derived
-regime with the bounded-below abelian-sheaf construction here.
+What is missing: build in this family / item 3 (by bwangpj) consume the small-étale specialization
+of the general site construction owned here. Here prove *higherDirectImage_etaleComparison*:
+in the common bounded-below regime, identify the supplier's underlying abelian derived
+pushforward and cohomology with restriction of this construction to small étale sites, naturally
+in morphisms and coefficient-forgetting maps. Coefficient-specific extensions outside that
+regime remain with CohomologicalPointCounting.
 *Needs:* Mathlib
 `Sheaf.H`, `Sheaf.H.map`, `Sheaf.H.equiv₀`, `Functor.sheafPullback`, `sheafPushforwardContinuous`,
 `Functor.rightDerived`, `IsGrothendieckAbelian`, `HasExt`.
@@ -2835,7 +2912,9 @@ for all quasi-coherent `F`; on a general base the bound is local on affine opens
 proper over a Noetherian ring and `L` ample, every coherent `F` has `H^q(X, F ⊗ L^n) = 0` for `q > 0`
 and `n ≫ 0` (Stacks, Lemma 30.17.1 (0B5U), in Section 30.17 (01XO)).
 AbundanceStatement §4D / item 1 (by RoktimMascharak) states the projective characteristic-zero
-special case of `ample_serre_vanishing`, so the two can be reconciled.
+special case of `ample_serre_vanishing`. This subsection owns the general proper-Noetherian-base
+theorem; *serreVanishing_abundanceSpecialization* identifies its projective characteristic-zero
+specialization with the supplier's line-bundle powers and cohomology conventions.
 For the same proper Noetherian-base hypotheses, `H^q(X, F)` is a finite module over the base ring
 for every `q`, supplied by JacobianChallenge `Cohomology/Proper.lean`, with coherent higher direct
 images supplied by `Cohomology/Pushforward.lean`, as in §4.9's supplier contract.
@@ -3206,13 +3285,33 @@ without importing their finite-type big-site classification. Prove
 for `q > d` and every abelian Nisnevich sheaf (Morel–Voevodsky 1999, §3.1, Proposition 1.8, pp.
 98–99). Prove `nisnevich_cech_comparison`: on a Noetherian scheme of finite dimension, Čech
 cohomology for Nisnevich coverings computes `H^q(X_Nis, F)` (Morel–Voevodsky 1999, §3.1,
-Proposition 1.9, Example 1.10, p. 99). Prove `brownGersten_vanishing`: a presheaf of spectra (or
-of complexes) on `Sm/S` satisfying the Brown–Gersten property (sending elementary distinguished
-squares to homotopy pullbacks) that is Nisnevich-locally contractible is contractible on every
-Noetherian finite-dimensional `X` (Morel–Voevodsky 1999, §3.1, Definitions 1.12–1.13, Proposition
-1.16, Lemmas 1.17–1.18, pp. 100–102). *Needs:* §0.13, §2.5, §2.12, §2.13.
+Proposition 1.9, Example 1.10, p. 99). Prove `brownGersten_vanishing` in the complex model:
+let `S` be Noetherian of finite Krull dimension and let `F` be a presheaf of cochain complexes of
+abelian groups on `Sm/S` (smooth schemes of finite type over `S`). Its Brown–Gersten property
+means **both** `F(∅) ≃ 0` and that every elementary distinguished square of §2.13 is sent to a
+homotopy pullback square in the derived category. Define Nisnevich-local acyclicity by
+`a_Nis H^n(F) = 0` for every integer `n`, where cohomology is taken objectwise and then sheafified.
+If `F` has this reduced/excisive property and is Nisnevich-locally acyclic, then `F(X) ≃ 0` for
+every Noetherian finite-dimensional object `X`: all its cohomology groups vanish. Here `≃` means
+a derived isomorphism, or quasi-isomorphism to zero, and does not supply a contracting homotopy
+on an arbitrary representative (Morel–Voevodsky 1999, §3.1, Definitions 1.12–1.13, Proposition
+1.16, Lemmas 1.17–1.18, pp. 100–102; Voevodsky, arXiv:0805.4578, Definition 3.3, Theorem 3.2
+and Lemma 3.5, with the stable/complex version obtained by applying the bounded cd-structure
+argument to cohomology and its connecting maps). *Needs:* §0.13, §2.5, §2.12, §2.13.
 
 **Checks.**
+- `brownGersten_empty`: the zero complex presheaf is reduced and excisive, locally acyclic,
+  and acyclic on every object, including `∅`.
+- `brownGersten_square_only_counterexample`: on `Sm/k`, choose a nonzero abelian group `A` and
+  the constant presheaf `P(U) = A[0]`, including `P(∅) = A[0]`. With a functorial injective
+  resolution set `C(U) = RΓ_Nis(U, a_Nis P)` and `F(U) = Cone(P(U) → C(U))`. Both `P` and `C`
+  satisfy square-excision, hence so does `F` in the stable derived category. The cohomology
+  sheaves of `F` vanish, but `F(∅) ≃ A[1]` and
+  `F(Spec k ⊔ Spec k) ≃ Cone(A → A ⊕ A) ≃ A[0]` via the diagonal map. Square-excision alone
+  does not imply the conclusion, even at nonempty objects.
+- `brownGersten_reduced_sections`: derived Nisnevich sections of an abelian sheaf send `∅`
+  to zero and distinguished squares to homotopy pullbacks; if the sheaf is zero, the theorem
+  gives acyclicity on every object.
 - `test_nisnevich_field_vanishing`: for a field `k`, `H^q((Spec k)_Nis, F) = 0` for `q > 0`.
 - `test_nisnevich_real_field_contrast`: on `Spec ℝ`, positive-degree Nisnevich
   cohomology vanishes, whereas `H²_ét(𝔾_m) = Br(ℝ) ≅ ℤ/2`, detected by the
@@ -3855,12 +3954,13 @@ of locally free sheaves; Lemma 0AYS), `_tensor` (`deg(E ⊗ V) = r deg V + s deg
 = n deg E` for `f` finite of degree `n`; Lemma 0AYZ), `_divisor` (for `E = O(D)` on a regular curve,
 `deg = Σ n_x [κ(x) : k]`; Lemma 0AYY).
 AbundanceStatement §4A / item 1 (by RoktimMascharak) states the regular projective
-characteristic-zero special case of the rank-one/divisor comparison, so the two can be reconciled.
-AbundanceStatement §4A / item 1 (by RoktimMascharak) states the rank-one special cases of the
-tensor and dual laws and trivial degree, so the two can be reconciled.
-AbundanceStatement §4A / item 2 and §4C / item 3 (by RoktimMascharak) state the regular-projective
-rank-one special case of the pullback law, so the two can be reconciled by matching the positive
-function-field degree to the constant morphism degree `n` and retaining constant rank `r` for `E`.
+characteristic-zero special case of the rank-one/divisor comparison, and its item 1 includes
+rank-one tensor, dual and trivial-degree laws. This subsection owns the arbitrary-field
+vector-bundle statements; *vectorBundleDegree_abundanceComparison* identifies the regular
+projective characteristic-zero rank-one specialization with the supplier's degree and divisor
+conventions. It also identifies the rank-one pullback law of §4A / item 2 and §4C / item 3,
+matching the positive function-field degree to the constant morphism degree `n`. The general
+pullback theorem here retains constant rank `r` for `E`.
 Prove `vectorBundle_riemann_roch`: for a proper curve `X`
 over `k` with `H⁰ = k` and `E` locally free of rank `r`, `χ(X, E) = deg E + r(1 − g)`; by the
 definition of the degree this is `χ(X, O_X) = 1 − g` (Stacks, Definition 0AYR), and `H⁰ = k` holds
@@ -4672,8 +4772,9 @@ Define `IsRegular X`: `X` is locally Noetherian and every stalk is a regular loc
 and for blow-ups of nodes are Tau Ceti's `isRegularRing_iff_isRegularLocalRing_stalk_Spec`,
 `isRegularLocalRing_stalk_of_smooth` and `NodeAlgebra.isRegularLocalRing_stalk_blowup_iff`, cited.
 AbundanceStatement Layer 0 / item 2 (by RoktimMascharak) states the normal-variety special case
-of *regularLocus_eq_smoothLocus*, so the two can be reconciled with the finite-type hypothesis
-over a perfect field explicit in this comparison.
+of *regularLocus_eq_smoothLocus*. This subsection owns the general finite-type perfect-field
+statement; *regularLocus_abundanceSpecialization* identifies its restriction to the supplier's
+normal varieties with the same open smooth locus.
 Prove `resolution_of_curves`: for `Y` integral Noetherian of dimension `≤ 1`, let `Y^ν → Y` be the
 normalisation of `Y` in its function field, that is Mathlib's `Scheme.Hom.normalization` of
 `Y.fromSpecStalk (genericPoint Y) : Spec K(Y) → Y`, which over an affine open `Spec A` is `Spec` of
@@ -4688,13 +4789,16 @@ of a resolution in the sense of Definition 54.14.1 (0BGK) (Lemma 54.15.1 (0BI4))
 same conclusions are Lemma 33.27.1 (0BXR) for the normalisation and Lemma 33.43.8 (0B8Y) for
 regular = normal at closed points
 of a curve. AbundanceStatement §4A / item 2 (by RoktimMascharak) states the projective-curve
-special case, so the two can be reconciled by supplying finiteness of normalization, projectivity
-and smoothness separately from `resolution_of_curves`.
+special case. Here *curveResolution_abundanceSpecialization* identifies that finite normalization
+with `resolution_of_curves`; the supplier provides projectivity and characteristic-zero
+smoothness, while the general finite-normalization regularity theorem is owned here.
 Prove `serre_normality_criterion`: a Noetherian ring is normal iff it
 satisfies `(R_1)` and `(S_2)` (§0.17; the `(R_1)` half `serre_normality_R₁` and the `(S_2)` half
 `serre_normality_S₂`) (Stacks, Lemma 10.157.4 (031S)). AbundanceStatement Layer 0 / items 1–2
 (by RoktimMascharak) state the normal-variety special cases of codimension-one regularity and
-DVR stalks, so the two can be reconciled with this general Noetherian-ring criterion.
+DVR stalks. This subsection owns the general Noetherian-ring criterion;
+*serreNormality_abundanceSpecialization* recovers those codimension-one regularity and DVR
+consequences for normal varieties, retaining the supplier's field and finite-type scope.
 Prove `bertini_smoothness`: for `X ⊆ ℙ^n_k`
 smooth over an infinite field `k`, a general hyperplane section `X ∩ H` is smooth, and the same for
 a general member of a generating linear system whose associated morphism to
@@ -5527,9 +5631,15 @@ CH_{k+n}(X)` (Fulton 1998, Theorem 1.7 and Proposition 1.7; Stacks, Sections 42.
 two pushforwards are `g_*` and `g'_*`, each shifting dimension as stated
 (`flatPullback_properPushforward`). Prove `localization_exact`: for `Y ⊆ X` closed with complement
 `U`, `CH_k(Y) → CH_k(X) → CH_k(U) → 0` is exact (Fulton 1998, Proposition 1.8; Stacks, Section 42.19
-(02RV)). Prove `chow_affine_bundle`: for a vector bundle `E → X` of rank `r` (AlgebraicVectorBundles
-L2B), `p^* : CH_k(X) → CH_{k+r}(E)` is surjective, and bijective (Fulton 1998, Proposition 1.9,
-Theorem 3.3 (a)). *Needs:* §5.1; Mathlib `AlgebraicCycle.map`, `IsProper`, `Flat`,
+(02RV)). This subsection owns `chow_affine_bundle`: for the total space `p : E → X` of a finite
+locally free sheaf of constant rank `r` (AlgebraicVectorBundles L2B; *Chow.totalSpace*, *Chow.HasRank*),
+`p^* : CH_k(X) → CH_{k+r}(E)` is an isomorphism. Construct surjectivity here by localization and
+the affine case (Fulton 1998, Proposition 1.9); construct injectivity using the projective
+completion `ℙ(E ⊕ 1)` and §5.4's projective bundle theorem (Theorem 3.3(a); Stacks,
+Lemma 42.36.3 (02TY), with the dual convention of this layer). This construction
+precedes and uses no Gysin map. §5.5 consumes this isomorphism and identifies its inverse with
+zero-section Gysin. *Needs:* §5.1 and, for injectivity, §5.4 (which uses only the pushforward,
+flat-pullback and localization targets here); Mathlib `AlgebraicCycle.map`, `IsProper`, `Flat`,
 `Scheme.Hom.residueDegree`; AlgebraicVectorBundles L2B.
 
 **Checks.**
@@ -5647,12 +5757,11 @@ quotient homomorphism, with `specialization_cycleClass` and
 Prove `specialization_eq_cartier_lift` for every lift of the open flat pullback,
 `specialization_pushforward` for proper maps of closed pairs, and
 `specializationCycle_locallyFinite` for locally finite input supports. No pullback along `M → Y`
-is used: that morphism need not be flat. Use the locally finite rational equivalence of §5.1 throughout. Prove `homotopy_invariance`: for the total space `p : E → X` (*Chow.totalSpace*) of a finite
-locally free sheaf of rank `r` (*Chow.HasRank*), `p^* : CH_k(X) → CH_{k+r}(E)` is bijective;
-surjectivity by the localisation sequence and the affine case, injectivity through the projective
-completion `ℙ(E ⊕ 1)` and the projective bundle theorem of §5.4, so the inverse is constructed
-before any Gysin map exists; only afterwards is it identified with the Gysin map of the zero section
-(Fulton 1998, Proposition 1.9, Theorem 3.3 (a), and Chapter 6 for the identification). Define the
+is used: that morphism need not be flat. Use the locally finite rational equivalence of §5.1
+throughout. Here `homotopy_invariance` is an alias for §5.2's `chow_affine_bundle`, on the same
+*Chow.totalSpace* and *Chow.HasRank* carriers; its inverse is supplied before Gysin is defined.
+After constructing Gysin, prove *zeroSection_gysin_eq_homotopy_inverse*: for the zero section of
+a constant-rank vector bundle, its Gysin map is this inverse (Fulton 1998, Chapter 6). Define the
 external product `Chow.externalProduct : CH_k(X) ⊗ CH_l(Y) → CH_{k+l}(X ×_{Spec κ} Y)` over the fixed field `κ`, with
 `external_product_pushforward` and `_pullback` (Fulton 1998, §1.10). Define `Chow.IsRegularImmersion
 i d` for a closed immersion `i`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the
@@ -5831,7 +5940,8 @@ Define `Chow.K0 X`: the Grothendieck group of finite locally free sheaves on `X`
 group on them modulo short exact sequences), a commutative ring under `⊗` with `[O_X] = 1`, and
 `Chow.G0 X`: the Grothendieck group of finitely presented (on a Noetherian `X`, coherent)
 sheaves, a `K0 X`-module. API: *K0.pullback* (`f^* : K_0(Y) → K_0(X)`, a ring map), *K0.rank*,
-*K0.det*, `K0.toG0` (the natural map `[E] ↦ [E]` on a Noetherian `X`), *G0.additivity* (short
+*K0.det* (the determinant homomorphism to the additive form of `Pic(X)`, using Tau Ceti's
+`LineBundleClass X`, taking a line-bundle generator to its isomorphism class), `K0.toG0` (the natural map `[E] ↦ [E]` on a Noetherian `X`), *G0.additivity* (short
 exact sequences), *Chow.kPushforward* (`f_! [F] := Σ (−1)^i [R^i f_* F]` for `f` proper with
 Noetherian target, well defined by additivity and the finiteness of `R^i f_*` (§2.6), with
 `(g f)_! = g_! f_!` by the Leray spectral sequence (§2.2); the higher direct images are coherent,
@@ -5846,7 +5956,9 @@ coherent sheaf has a finite resolution by finite locally free sheaves (Stacks, L
 between smooth quasi-projective varieties, `f_! : K_0(X) → K_0(Y)` is defined by transport, and for
 `E` locally free `f_! [E] = Σ (−1)^i [R^i f_* E]` lands in `K_0(Y)` through that isomorphism, not in
 the locally free sheaves themselves (SGA 6, Exposé 0, Appendice; Fulton 1998, §15.1, Example
-15.1.8). Define `chernCharacter : K_0(X) → A(X)_ℚ` for `X` smooth (a ring map, by the splitting
+15.1.8). Prove `K0.toG0_not_injective_of_det`: for Noetherian `X`, a class `a ∈ K_0(X)` with
+`K0.toG0(a) = 0` and nontrivial determinant proves this map is not injective (the determinant
+homomorphism of Fulton 1998, §15.1). Define `chernCharacter : K_0(X) → A(X)_ℚ` for `X` smooth (a ring map, by the splitting
 principle, §5.4) and `chernClass_coherent` for coherent sheaves on smooth quasi-projective `X` as
 `c(F) := c(Σ (−1)^i [E_i])` for a locally free resolution, independent of the resolution by
 `K0.toG0_bijective` (Fulton 1998, §15.1, Example 15.1.5). *Needs:* §2.2, §2.6, §4.13, §5.4;
@@ -5855,8 +5967,25 @@ AlgebraicVectorBundles L0B; JacobianChallenge Layer B; StableReduction Layer 2.
 **Checks.**
 - `test_K0_point`: `K_0(Spec k) = ℤ` by rank; `test_K0_pone`: `K_0(ℙ¹) = ℤ²` with basis `[O]`,
   `[O(−1)]`.
-- `test_G0_nodal`: for the nodal cubic `C` (not regular), `K_0(C) → G_0(C)` is not an isomorphism
-  (the skyscraper at the node has no finite locally free resolution).
+- `test_G0_nodal`: take the split irreducible cubic `C : y²z = x²(x + z)` over `ℂ`, with node
+  `q`, normalization `ν : ℙ¹ → C` and the two points over `q`. For `λ ∈ ℂˣ`, `λ ≠ 1`, glue the
+  fibres of `O_{ℙ¹}` at those points by `λ` to obtain `L_λ`. It is nontrivial: automorphisms of
+  `O_{ℙ¹}` are constant scalars and cannot change `λ` (Stacks, Lemma 53.15.5 (0C1M)). The
+  normalization sequences
+  `0 → O_C → ν_*O_{ℙ¹} → k(q) → 0` and
+  `0 → L_λ → ν_*O_{ℙ¹} → k(q) → 0` give `[L_λ] = [O_C]` in `G_0(C)`. In `K_0(C)` the
+  difference has determinant `L_λ ≠ O_C`; it is a nonzero kernel class, so `K0.toG0` is not
+  injective and not an isomorphism.
+- `test_G0_nodal_skyscraper_image`: for `a` over `q` and `b` over a smooth point `p`,
+  `[k(a)] = [k(b)]` in `G_0(ℙ¹)` by the rational-point divisor sequences. Finite pushforward
+  gives `[k(q)] = [k(p)] = [O_C] − [O_C(−p)]` in `G_0(C)`, so the node's skyscraper class is
+  in the image of `K0.toG0`.
+- `test_G0_nodal_nonperfect`: the completed local ring at the node is `ℂ[[u,v]]/(uv)`.
+  Its residue field has a minimal free resolution starting with `(u v)` and continuing with
+  alternating `diag(v,u)` and `diag(u,v)`. This infinite minimal tail precludes finite projective
+  dimension, in agreement with Stacks, Proposition 10.110.5 (00OC). Faithfully flat completion
+  thus rules out a finite locally free resolution of the skyscraper on `C`, despite the
+  preceding class equality.
 - `test_K0_G0_skyscraper`: on a smooth curve the skyscraper at a point is `[O] − [O(−P)]` in
   `K_0`, and its Chern character does not depend on the resolution.
 - `test_pushforward_pone`: for `f : ℙ¹ → Spec k`, `f_! [O(n)] = n + 1` in `K_0(Spec k) = ℤ`.
@@ -5870,7 +5999,8 @@ AlgebraicVectorBundles L0B; JacobianChallenge Layer B; StableReduction Layer 2.
   `resolutionProperty_of_quasiProjective`).
 
 *Lean:* `Chow.HasResolutionProperty`, `Chow.G0`, `Chow.K0` (as additive groups), `Chow.K0.toG0`
-(defined by `[E] ↦ [E]`), `Chow.K0.toG0_bijective` (for `X` Noetherian with regular local rings
+(defined by `[E] ↦ [E]`), `Chow.K0.det`, `Chow.K0.toG0_not_injective_of_det`,
+`Chow.K0.toG0_bijective` (for `X` Noetherian with regular local rings
 and the resolution property), with `resolutionProperty_affine`, `resolutionProperty_empty` and
 `resolutionProperty_quasiProjective` as `example`s.
 
@@ -5956,18 +6086,21 @@ dim H^i(S, ℚ_ℓ)` is a separate comparison owned by the CohomologicalPointCou
 (TraceFormula) and is not part of this target.
 
 **Numerical equivalence.** *Chow.NumericallyEquivalent* / *Num*
-Provides the characteristic-zero numerical divisor quotient and its real scalar extension.
-Supplied by AbundanceStatement §4B / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak).
-Identify Cartier divisors modulo principal divisors with `Pic(S)` and the integral quotient
-with `Num S` using §5.9's bridge to AbundanceStatement §4A / items 2–4, retaining the local
-carrier needed by Hodge theory and its positive-characteristic extension here.
+Provides one numerical divisor quotient and its induced pairing for smooth projective surfaces
+`S` over algebraically closed fields of any characteristic (Fulton 1998, §19.1).
+This subsection owns `Chow.NumericallyEquivalent D D' := ∀ C, D · C = D' · C` on `Pic(S)` and
+`Num S := Pic(S)/≡`, with the descended pairing. Testing on all divisor classes agrees with
+testing on integral curves, since on a smooth surface these curves are Cartier divisors and
+generate the divisor group. The definitions do not depend on characteristic, and both
+`hodge_index` and `hodge_index_signature` use this single carrier.
 
-Local restatement of AbundanceStatement §4B.1, to be replaced by the import once that roadmap is merged:
-`Chow.NumericallyEquivalent D D' := ∀ C, D · C = D' · C` on `Pic(S)` and
-`Num S := Pic(S)/≡`, with its induced pairing, are the local carriers for `hodge_index` and
-`hodge_index_signature`; compare this relation with testing on integral curves and identify
-the quotient and its real scalar extension with the supplier's in characteristic zero.
-In positive characteristic construct the same quotient and descended pairing here.
+AbundanceStatement §4B / item 1 supplies the characteristic-zero Cartier quotient and its
+integral, rational and real comparisons. Here prove *numericalQuotient_abundanceComparison*:
+identify Cartier divisors modulo principal divisors with `Pic(S)` and compare numerical
+relations through §5.9's bridge to AbundanceStatement §4A / items 2–4; the induced isomorphism
+from `Num S` to the supplier's integral quotient commutes with the pairing and rational/real
+scalar extension (AbundanceStatement §4B / item 1; Fulton 1998, §19.1). The characteristic-zero
+import is transported along this comparison; it does not define a second surface quotient.
 
 **Numerical Néron–Severi finiteness.** *Num.free_finiteRank*
 Provides finite generation of the characteristic-zero numerical divisor group and
@@ -6016,9 +6149,9 @@ StableReduction Layer 2's notion ("some power is very ample"); it is not an inpu
 - `test_adjunction_plane_curve`: a smooth plane curve of degree `d` has genus `(d − 1)(d − 2)/2`.
 - `test_rr_pone_times_pone`: on `ℙ¹ × ℙ¹`, `χ(O(a, b)) = (a + 1)(b + 1)`.
 - `test_noether_pone_times_pone`: `12 · 1 = 8 + 4`; `test_noether_p2`: `12 · 1 = 9 + 3`.
-- `test_num_p2`: the local quotient on `ℙ²` identifies with `ℤ` and, in characteristic zero,
+- `test_num_p2`: the single quotient on `ℙ²` identifies with `ℤ` and, in characteristic zero,
   with AbundanceStatement §4B / item 1's integral numerical group; `test_num_elliptic_product`:
-  in characteristic zero, the local quotient of `E × E` over `k̄` agrees with that supplier's
+  in characteristic zero, the same quotient of `E × E` over `k̄` agrees with that supplier's
   quotient of Picard number `3` or `4`; in positive characteristic a supersingular product has
   Picard number `6`, and `Num ≠ Pic`.
 - `test_nakai_pone_times_pone`: in positive characteristic, `O(a, b)` is ample iff `a, b > 0`,
@@ -6029,6 +6162,9 @@ StableReduction Layer 2's notion ("some power is very ample"); it is not an inpu
 - `test_nakai_negative_ample`: in positive characteristic, `−H` for `H` ample has `(−H)² > 0`
   and fails the curve condition, testing the retained surface criterion.
 
+- `numericalQuotient_scalarExtensions`: in characteristic zero, on `ℙ¹ × ℙ¹` the comparison
+  identifies the fibre-class basis and the intersection matrix `[[0,1],[1,0]]` over `ℤ`, `ℚ`
+  and `ℝ`, testing both scalar-extension squares and preservation of the pairing.
 - `numerical_inverse`, `numerical_nonzero_pairing`: a numerically trivial class has numerically
   trivial inverse, whereas any nonzero pairing detects failure of numerical triviality
   (Fulton, §19.1). Together with `test_num_principal` these test `NumericallyEquivalent`.
