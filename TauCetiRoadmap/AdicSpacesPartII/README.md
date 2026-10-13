@@ -4847,9 +4847,18 @@ morphism of Huber pairs; prove the affinoid case (`Spa` of a finite morphism of 
 Huber pairs is finite), the global form (for `V = Spa(A, A⁺) ⊆ Y` open with `A`
 strongly noetherian Tate, `f⁻¹(V)` is affinoid and finite over `V`, Zavyalov-Q B.2.18),
 `IsFinite.quasiCompact` (finite morphisms are quasi-compact), `IsFinite.comp` (composites of finite
-morphisms are finite), `IsFinite.baseChange` (finite morphisms are stable under base change, with
-affinoid formula `(B ⊗_A C, integral closure)` where `B ⊗_A C` is complete, by
-*finite-algebra-tensor-complete* (ii) with *affinoid-fibre-product*; Huber 1.4.5(i)),
+morphisms are finite), `IsFinite.baseChange` (for a cartesian square `W = X ×_Y Z` with `f`
+finite and `Z` covered by open affinoids with complete stably sheafy rings, the square of
+*fibre-products-existence* (a) (`f` is locally of finite type), the projection `W → Z` is finite;
+Huber 1.4.5(i). Affinoid
+formula: if `V = Spa(A, A⁺) ⊆ Y` with `f⁻¹(V) = Spa(B, B⁺)`, and `Spa(C, C⁺) ⊆ Z` maps into `V`
+through an adic `A → C`, its preimage in `W` is `Spa(B ⊗̂_A C)`, the completed pair of
+*completed-tensor-product* with its specified plus ring (*affinoid-fibre-product*). For `A` and
+`C` complete Tate, `B ⊗̂_A C` is the quotient of `B ⊗_A C` by the closure of `0`
+(*finite-algebra-tensor-complete* (i)), and it is `B ⊗_A C` itself, with the integral closure of
+the image of `C⁺ ⊗ B⁺`, when `A` and `C` are noetherian or `B` is a finite projective `A`-module
+(*finite-algebra-tensor-complete* (ii)); otherwise `B ⊗_A C` need not be Hausdorff, as in the
+`C(ℤ_p, ℚ_p)` Check of *finite-algebra-tensor-complete*),
 `IsFinite.of_isClosedImmersion` (closed embeddings are finite, *closed-embedding-finite*),
 `IsFinite.isProper` (finite morphisms to analytic adic spaces covered by stably sheafy
 affinoids, for instance locally noetherian ones, are proper, *finite-morphisms*),
@@ -4865,7 +4874,9 @@ embeddings are finite (*closed-embedding-finite*); finite morphisms to analytic 
 stably sheafy
 affinoid cover are proper
 (*finite-morphisms*). The rigid-analytic definition (Conrad-AWS §3.1, Def. 3.1.6) is compared through
-the rigid–adic comparison functor of layer R1. *Needs:* *finite-huber-pair-hom*.
+the rigid–adic comparison functor of layer R1. *Needs:* *finite-huber-pair-hom*;
+*fibre-products-existence*; *affinoid-fibre-product*; *completed-tensor-product*;
+*finite-algebra-tensor-complete*.
 Lean: `AdicSpace.IsFinite`.
 
 **Checks.**
@@ -4907,10 +4918,19 @@ integral elements, so `(C, C⁺)` is a complete Huber pair; (iii) `ψ` is a fini
 pairs (*finite-huber-pair-hom*); (iv) universal property: for every complete Huber pair `(D, D⁺)`
 with a morphism `χ : (A, A⁺) → (D, D⁺)`, morphisms of Huber pairs `(C, C⁺) → (D, D⁺)` under
 `(A, A⁺)` are exactly the `A`-algebra maps `C → D`; (v) if `A` is strongly noetherian Tate, so is
-`C`; (vi) `Spa(C, C⁺) → Spa(A, A⁺)` is a finite morphism of adic spaces, and for `A` strongly
-noetherian Tate every finite morphism `X → Spa(A, A⁺)` is isomorphic over `Spa(A, A⁺)` to one of
-this form, with `C = O_X(X)` (Zavyalov-Q Appendix B.2, Thm B.2.18, p. 47) (Huber96 §1.4, (1.4.2),
-p. 61, the construction itself, stated by Huber under his standing noetherian assumption (1.1.1)).
+`C`; (vi) if `A` is of noetherian type (*noetherian-type-huber-ring*: a noetherian ring of
+definition, or strongly noetherian Tate), then so is `C`, by (iii), `IsFinite.isTopologicallyFiniteType`
+and `IsNoetherianType.of_isTopologicallyFiniteType` (*topologically-finite-type-noetherian-type*), so
+`A` and `C` are stably sheafy by `IsNoetherianType.isStablySheafy`
+(*noetherian-type-stably-sheafy*), `Spa(A, A⁺)` and `Spa(C, C⁺)` are adic spaces, and
+`Spa(C, C⁺) → Spa(A, A⁺)` is a finite morphism of adic spaces (the affinoid case of
+*finite-morphism*); for `A` strongly noetherian Tate every finite morphism `X → Spa(A, A⁺)` is
+isomorphic over `Spa(A, A⁺)` to one of this form, with `C = O_X(X)` (Zavyalov-Q Appendix B.2, Thm
+B.2.18, p. 47) (Huber96 §1.4, (1.4.2), p. 61, the construction itself, stated by Huber under his
+standing noetherian assumption (1.1.1)). For a complete noetherian Tate ring that is not strongly
+noetherian, (i)–(iv) hold and (vi) asserts nothing: completeness of finite modules does not make
+`Spa(A, A⁺)` an adic space, and a noetherian Tate ring need not be strongly noetherian
+(Kedlaya-CM §11.1, Ex. 11.1.4: `A⟨T⟩` can fail to be noetherian for noetherian `A`).
 Convention: the noetherian hypothesis is part of the construction; for a non-noetherian complete
 Tate ring `A` a finite `A`-algebra `C = A/J` with `J` not closed has a non-Hausdorff natural
 topology, so no complete Huber pair structure exists on `C` itself (Zavyalov-Q Appendix B.3, Rem.
@@ -4929,13 +4949,15 @@ finite `A`-algebras induces a morphism of Huber pairs; `map_id` and
 `Pair.finiteAlgebra.map_comp`, the equality for two composable A-algebra maps
 between finite algebras with their natural topologies under the same noetherian
 hypothesis on the complete base A),
-`finiteAlgebra_quotient` (for a closed ideal `J` of `A`, `finiteAlgebra (A ⧸ J) = Pair.quotient J`)
-and the description of finite spaces over affinoids (every finite `X → Spa(A, A⁺)`, `A` strongly noetherian
+`finiteAlgebra_quotient` (for a closed ideal `J` of `A`, `finiteAlgebra (A ⧸ J) = Pair.quotient J`),
+the finite morphism of (vi) (for `A` of noetherian type, `Spa (finiteAlgebra C) → Spa(A, A⁺)` is a
+finite morphism of adic spaces) and the description of finite spaces over affinoids (every finite `X → Spa(A, A⁺)`, `A` strongly noetherian
 Tate, is `Spa (finiteAlgebra O_X(X))` over `Spa(A, A⁺)`, Zavyalov-Q B.2.18). `C = A` gives back
 `(A, A⁺)`; `C = K⟨T⟩[U]/(U² − T)` over `A = K⟨T⟩` gives `(K⟨U⟩, K°⟨U⟩)` in every characteristic;
 PerfectoidTowers layer P8 takes "`A` finite over `A^G`" to produce the affinoid structure on `A`
 from that of `A^G`. *Needs:* *finite-huber-pair-hom*; *finite-morphism*;
-*noetherian-rod-module-complete*; *topologically-finite-type-noetherian-type*; Tau Ceti
+*noetherian-rod-module-complete*; *noetherian-type-huber-ring*;
+*topologically-finite-type-noetherian-type*; *noetherian-type-stably-sheafy*; Tau Ceti
 `TauCeti.Huber.Pair`, `TauCeti.Huber.IsTateRing.t2Space_moduleTopology`,
 `TauCeti.completeSpace_moduleTopology`, `TauCeti.Huber.isClosed_of_isNoetherian`,
 `TauCeti.Huber.IsTateRing.isModuleTopology`,
@@ -4957,6 +4979,11 @@ printed p. 61).
 - *Degenerate.* For `C = A` (`ψ = id`), `Huber.Pair.finiteAlgebra`
   returns `(A, A⁺)`: the natural topology of `A` over itself is its own topology and `A⁺` is
   integrally closed in `A`.
+- *Degenerate.* For `A` of noetherian type and `C = A`, clause (vi) passes through
+  `TauCeti.AdicSpace`: `IsNoetherianType.isStablySheafy` makes `Spa(A, A⁺)` an adic space,
+  `Spa (finiteAlgebra A)` is that adic space, and the morphism of (vi) is its identity, which is
+  finite. For `A` only complete noetherian Tate, the same instance of (vi) would already assert
+  that `Spa(A, A⁺)` is an adic space; this is why (vi) requires noetherian type.
 - *Computation.* For a prime `p`, take `A = ℚ_p⟨T⟩`,
   `A⁺ = ℤ_p⟨T⟩` and `C = A[U]/(U² − T)` with its natural finite-module topology.
   The pair `(C, C⁺)` is isomorphic to `(ℚ_p⟨U⟩, ℤ_p⟨U⟩)` with `T ↦ U²`.
@@ -5106,12 +5133,18 @@ proof of Huber 1.5.5 (to make residue fields purely inseparable) is an instance 
 *finite-morphisms*; Mathlib `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`.
 Lean: README target.
 
-**Base change of a finite algebra over a complete Tate ring needs no completion.**
+**Base change of a finite algebra over a complete Tate ring needs no completion when the rings
+are noetherian or the algebra is finite projective.**
 (*finite-algebra-tensor-complete*) Let `ψ : (A, A⁺) → (B, B⁺)` be a finite morphism of complete Tate
 Huber pairs (*finite-huber-pair-hom*) and `φ : A → C` a continuous homomorphism to a complete Tate
 ring `C`. Give `B ⊗_A C` the tensor-product topology (the topology of *completed-tensor-product*
 before completion). Prove: (i) this is the natural `C`-module topology of the finite `C`-module
-`B ⊗_A C` (Mathlib `moduleTopology`) (Zavyalov-Q Appendix B.3, Lem. B.3.5, p. 48); (ii) if `A` and
+`B ⊗_A C` (Mathlib `moduleTopology`) (Zavyalov-Q Appendix B.3, Lem. B.3.5, p. 48); hence the
+completed tensor product `B ⊗̂_A C` is the quotient of `B ⊗_A C` by the closure of `0`, a finite
+`C`-algebra with its natural topology (a finite module over the complete first-countable ring `C`
+is a quotient of `Cⁿ` with the quotient topology, and `Cⁿ` modulo a closed submodule is complete and
+Hausdorff), while `B ⊗_A C` itself need not be Hausdorff (Zavyalov-Q Appendix B.3, Rem. B.3.3 and
+the paragraph before Lem. B.3.5, p. 48; the first Check below); (ii) if `A` and
 `C` are noetherian, or if `B` is a finite projective `A`-module, then `B ⊗_A C` is complete and
 Hausdorff, so the canonical map `B ⊗_A C → B ⊗̂_A C` to the completed tensor product is an
 isomorphism of topological rings, and `(C, C⁺) → (B ⊗_A C, integral closure of the image of C⁺ ⊗ B⁺)`
@@ -5139,6 +5172,21 @@ Ceti `TauCeti.completeSpace_moduleTopology`, `TauCeti.Huber.IsTateRing.t2Space_m
 Mathlib `moduleTopology`, `IsModuleTopology.isOpenQuotientMap_of_surjective`,
 `Module.Projective.tensorProduct`, `Module.Finite.base_change`.
 Lean: README target.
+
+**Checks.** For a prime `p` let `A = ℚ_p⟨T⟩`, `A⁺ = ℤ_p⟨T⟩` and `B = A/(T) = ℚ_p`, so that
+`(A, A⁺) → (ℚ_p, ℤ_p)` is finite.
+
+- *Non-example.* Let `D = C(ℤ_p, ℚ_p)` with the supremum norm, `D⁺ = C(ℤ_p, ℤ_p)`, and `A → D`
+  the continuous map `T ↦ h`, `h(x) = x`. Then `B ⊗_A D = D/hD`, and `hD` is not closed: for
+  `u(x) = p^{⌊v_p(x)/2⌋}` (`u(0) = 0`) the truncations `u_N = u·1_{ℤ_p ∖ p^N ℤ_p}` lie in `hD` and
+  converge uniformly to `u`, while `|u(pⁿ)/pⁿ| = p^{n − ⌊n/2⌋}` is unbounded, so `u ∉ hD`. The
+  closure of `hD` is the kernel of evaluation at `0`, so `B ⊗_A D` is not Hausdorff and
+  `B ⊗̂_A D = ℚ_p` through evaluation at `0`. Neither hypothesis of (ii) holds: `D` has infinitely
+  many idempotents, so it is not noetherian, and `B` is a torsion `A`-module, so it is not projective.
+- *Computation.* With the noetherian `C = ℚ_p⟨U⟩` and `T ↦ U²`, `B ⊗_A C = ℚ_p[U]/(U²)` is
+  finite-dimensional, hence complete, as (ii) predicts.
+- *Computation.* With the free `A`-algebra `B' = A[S]/(S² − T)` in place of `B`, `B' ⊗_A D = D ⊕ D·S`
+  is complete over the non-noetherian `D` of the non-example, by the finite projective case of (ii).
 
 The finite-algebra maps have characteristic equations
 `Pair.finiteAlgebra.algebraHom_toRingHom`, `homEquiv_apply` and `map_toRingHom`:
@@ -8044,9 +8092,12 @@ Proposition 3.8, p. 537. *Needs:* *affine-chart-analytification*;
   single affinoid `Spa(K⟨T⟩, K°⟨T⟩)` with its evident maps does not satisfy the universal property:
   the morphism `Spa(K,K°)_ → Spec K[T]` given by `T ↦ ϖ^{-1}` does not factor through it. Hence a
   definition taking only the unit-polydisc chart is wrong.
-- *Compatibility.* For `C` finite over `B` and `S = Spa(A, A⁺)`,
-  `Spec C ×_{Spec B} S` is the affinoid `Spa(C ⊗_B A, integral closure of the image of A⁺)` with
-  the finite-module topology, as constructed in *finite-algebra-over-affinoid* (layer R0).
+- *Compatibility.* For `C` finite over `B` and `S = Spa(A, A⁺)` with `A` complete and of
+  noetherian type (*noetherian-type-huber-ring*), `Spec C ×_{Spec B} S` is the affinoid
+  `Spa(C ⊗_B A, integral closure of the image of A⁺)` with the finite-module topology, as
+  constructed in *finite-algebra-over-affinoid* (layer R0); its clause (vi) makes this an adic space
+  finite over `S`. Noetherian type is the hypothesis under which that construction supplies both
+  the complete pair and its adic spectrum.
 
 **Checks for `schemePullback.chartAffinoid`.**
 `schemePullback.chartAffinoid_basis_image` fixes the quotient image of the completed
@@ -8475,7 +8526,8 @@ charts. The affinoid-base target `AdicSpace.analytification.finite` assumes
 `hA : HasStablySheafyCharts A.spa`, `hN : IsLocallyNoetherian A.spa`, and
 `AlgebraicGeometry.IsFinite f.hom.left` for `f` in `SchemeOver A`.
 Prove that for every
-open affinoid `V = Spa(A, A⁺) ⊆ S` mapping into an affine open `Spec B ⊆ Y` with
+open affinoid `V = Spa(A, A⁺) ⊆ S` with `A` of noetherian type (such `V` cover `S`, which is
+locally noetherian), mapping into an affine open `Spec B ⊆ Y` with
 `f⁻¹(Spec B) = Spec C` (`C` finite over `B`), the preimage of `V` in `X ×_Y S` is the affinoid
 `Spa(C ⊗_B A, (C ⊗_B A)⁺)`, where `C ⊗_B A` carries its natural topology as a finite `A`-module and
 `(C ⊗_B A)⁺` is the integral closure of the image of `A⁺`; hence `p : X ×_Y S → S` is finite in the
@@ -10454,3 +10506,4 @@ DiamondsAndVStacks uses the Tate-ring norm and affinoid algebras.
 - [Hu4] Roland Huber, *Bewertungsspektrum und rigide Geometrie*, Regensburger Mathematische Schriften 23, 1993 (Huber96's reference [Hu4]; cited through Huber96; not available online).
 - [HuKn] Roland Huber, Manfred Knebusch, *On valuation spectra*, Contemp. Math. 155 (1994) 167–206 (Huber96's reference [HK]; the key `[HK]` of this README is Hansen–Kedlaya).
 - [L1] Werner Lütkebohmert, *Formal-algebraic and rigid-analytic geometry*, Math. Ann. 286 (1990) 341–371 (cited through Conrad-MR and Huber96 as [L1]).
+- [Kedlaya-CM] Kiran S. Kedlaya, *Notes on condensed mathematics*, online notes, §11 *Huber rings and solid rings*. https://kskedlaya.org/condensed/sec_huber_rings.html
