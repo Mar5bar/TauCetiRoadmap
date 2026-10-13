@@ -1916,8 +1916,10 @@ gauge forms and the global discriminant; these are not supplied by the linear la
   *Lean:* none; specified in the README only.
 
 - **Gauge forms under restriction of scalars.** For `E/F` finite and `ω_E` a gauge form, choose
-  an `F`-basis `β` of `E` and an `E`-basis of the cotangent space dual to `ω_E`, and let `ω_β`
-  be the `F`-top form dual to the ordered `F`-basis `β_j e_i` of the restricted cotangent space.
+  an `F`-basis `β` of `E` and an `E`-basis `e_1, …, e_d` of `Lie(G_E)` with `ω_E(e_1, …, e_d) = 1`,
+  and let `ω_β` be the `F`-top form taking the value `1` on the ordered `F`-basis `(β_j e_i)` of the
+  restricted Lie algebra (for `E = F`, `G = G_a` and `β = (b)` this gives `ω_β = b⁻¹ dx`, matching
+  `j_{β,v} = |b|_v⁻¹` below).
   At `v`, transport `|ω_β|_v` to `G_E(∏_{w|v} E_w)` and prove that it equals
   `j_{β,v}^d ∏_{w|v} |ω_E|_w`, where `j_{β,v}` is defined by
   `(β-coordinates)_* μ_{F_v}^{[E:F]} = j_{β,v} ∏_{w|v} μ_{E_w}`. It depends on `β` and is not an
