@@ -3751,6 +3751,14 @@ with the hypotheses stated above. *Lean:* the second and third inputs are
 K of finite index does not suffice (B = ℤ, K = (2), A = (4) give cokernels of orders 4 and 2); the
 first and fourth inputs are specified here only.
 
+The PID input states
+`Nat.card ((Fin m → D) ⧸ LinearMap.range (Matrix.toLin' A)) = Nat.card (D ⧸ Ideal.span {A.det})`
+for a square matrix A over a principal ideal domain D with A.det ≠ 0; no finite-residue-field or
+completeness hypothesis is needed, and `Nat.card` is 0 for an infinite quotient.
+MassFormula §Layer 2 / The index of an image lattice (an open TauCetiRoadmap pull request by
+0stellensatz) states the DVR special case as `card_quotient_range`, to be reconciled with this
+general PID input via the residue-ring cardinality formula.
+
 **The order of a quadratically presented module over a finite-index order.** (Dasgupta–Kakde Lemma
 2.4.) Let B be a subring of finite additive index of a finite product B′ = ∏_i D_i of principal
 ideal domains, each possibly a field, finite or infinite, of any characteristic (for instance B is a
@@ -3971,6 +3979,10 @@ every consumer of minors.
 - Tau Ceti StableReduction, layer 1, consumes `TauCeti.fittingIdeal` with the identities of §4.5;
   Tau Ceti AlgebraicVectorBundles, layer 0C, consumes the line-module foundation of §5.1 at the
   level of rings.
+
+| Downstream consumer | Supplied target | Convention and consumer work |
+|---|---|---|
+| MassFormula §Layer 2 / The index of an image lattice (an open TauCetiRoadmap pull request by 0stellensatz) | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` | Identify `Matrix.toLin'` with `Matrix.mulVecLin` on the same coordinates; associated determinants generate the same ideal. MassFormula evaluates the residue-ring cardinality for a DVR determinant associated to π^k as q^k and supplies the Haar scaling law, retaining `card_quotient_range` as its DVR specialization. |
 
 ## References
 
