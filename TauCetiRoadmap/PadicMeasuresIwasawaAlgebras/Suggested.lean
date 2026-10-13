@@ -233,38 +233,15 @@ section Frobenius
 
 variable (p : ℕ) [Fact p.Prime] (R : Type*) [NormedCommRing R]
 
-/-- Multiplication by `p` on `ℤ_p`. -/
-def mulPrime : C(ℤ_[p], ℤ_[p]) := ⟨fun x => (p : ℤ_[p]) * x, continuous_const.mul continuous_id⟩
-
-/-- §2.2: Frobenius `φ`, the pushforward along `x ↦ p x`. -/
-def phiMeasure : D(ℤ_[p], R) →ₗ[R] D(ℤ_[p], R) := map (mulPrime p)
-
-/-- The characteristic function `χ` of `pℤ_p`, the fibre of `ℤ_p → 𝔽_p` over `0`. -/
+/-- Local restatement of PadicFunctionalAnalysis §3.4, to be replaced by the import once that roadmap is in TauCetiRoadmap.
+The characteristic function of `pℤ_p` from clause 5, used by the unit-support range and division statements. -/
 def pMultiplesIndicator : C(ℤ_[p], R) :=
   fiberIndicator ⟨PadicInt.toZMod, PadicInt.continuous_toZMod⟩ 0
 
-/-- §2.2 (RJW §3.5.5, p. 128; equations (3-7)–(3-8)): `ψ` exists and is unique: the linear
-endomorphism with `ψ ∘ φ = id` and `φ ∘ ψ = ` restriction to `pℤ_p` (weighting by `χ`). -/
-theorem existsUnique_psiMeasure :
-    ∃! ψ : D(ℤ_[p], R) →ₗ[R] D(ℤ_[p], R),
-      (∀ μ, ψ (phiMeasure p R μ) = μ) ∧
-        ∀ μ, phiMeasure p R (ψ μ) = weight (pMultiplesIndicator p R) μ := sorry
-
--- `ψ δ₆ = δ₂` with no factor `1/3`, and `ψ δ₁ = 0` where pushforward by `y ↦ y/p` gives `δ₀`.
-example (ψ : D(ℤ_[3], ℤ_[3]) →ₗ[ℤ_[3]] D(ℤ_[3], ℤ_[3]))
-    (h₁ : ∀ μ, ψ (phiMeasure 3 ℤ_[3] μ) = μ)
-    (h₂ : ∀ μ, phiMeasure 3 ℤ_[3] (ψ μ) = weight (pMultiplesIndicator 3 ℤ_[3]) μ) :
-    ψ (dirac ℤ_[3] 6) = dirac ℤ_[3] 2 ∧ ψ (dirac ℤ_[3] 1) = 0 := sorry
-
-/-- §2.2 (RJW §3.5.5, p. 128): `A(φ μ) = A(μ)((1 + T)^p − 1)`. -/
-theorem amiceTransform_phiMeasure (μ : D(ℤ_[p], ℤ_[p])) :
-    (phiMeasure p ℤ_[p] μ).amiceTransform =
-      PowerSeries.subst ((1 + PowerSeries.X) ^ p - 1 : PowerSeries ℤ_[p])
-        μ.amiceTransform := sorry
-
 /-- §2.6 (RJW Corollary 3.32, p. 129): pushforward along `ℤ_pˣ → ℤ_p` identifies measures on the
 units with the measures supported on the units, those killed by restriction to `pℤ_p` (that is,
-those annihilating every test function vanishing on `ℤ_pˣ`; equivalently `ψ μ = 0`). -/
+those annihilating every test function vanishing on `ℤ_pˣ`; equivalently `ψ μ = 0` by
+PadicFunctionalAnalysis §3.4, clause 5). -/
 theorem map_unitsVal_injective_and_range :
     Function.Injective (map (R := R) (E := R) ⟨((↑) : ℤ_[p]ˣ → ℤ_[p]), Units.continuous_val⟩) ∧
       Set.range (map (R := R) (E := R) ⟨((↑) : ℤ_[p]ˣ → ℤ_[p]), Units.continuous_val⟩) =
@@ -276,12 +253,6 @@ theorem existsUnique_unitSupported_div_id (μ : D(ℤ_[p], ℤ_[p]))
     ∃! ν : D(ℤ_[p], ℤ_[p]), weight (pMultiplesIndicator p ℤ_[p]) ν = 0 ∧
       weight (ContinuousMap.id ℤ_[p]) ν = μ := sorry
 
-/-- §2.11 (RJW §3.5.5, p. 128): dilation by `a` is the binomial substitution
-`T ↦ (1 + T)^a − 1` on Amice transforms. -/
-theorem amiceTransform_map_mul (a : ℤ_[p]) (μ : D(ℤ_[p], ℤ_[p])) :
-    (map ⟨fun x : ℤ_[p] => a * x, continuous_const.mul continuous_id⟩ μ).amiceTransform =
-      PowerSeries.subst (PowerSeries.binomialSeries ℤ_[p] a - 1) μ.amiceTransform := sorry
-
 end Frobenius
 
 /-- §2.4 (RJW Lemma 4.7, p. 137): the finite-root partial-fraction identity behind
@@ -289,30 +260,6 @@ root-of-unity averaging. -/
 theorem sum_inv_root_mul_sub_one {K : Type*} [Field K] [CharZero K] {p : ℕ} {ζ y : K}
     (hζ : IsPrimitiveRoot ζ p) (hy : y ^ p ≠ 1) :
     ∑ i ∈ Finset.range p, 1 / (ζ ^ i * y - 1) = (p : K) / (y ^ p - 1) := sorry
-
-section BoundedAmice
-
-variable {p : ℕ} [Fact p.Prime] {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K]
-  [CompleteSpace K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K]
-
-/-- §2.5 (RJW Theorem 3.25, pp. 124–125): the Amice transform is an isometry from the dual norm
-to the supremum of the coefficients. -/
-theorem norm_toCLMEquiv_eq_iSup_coeff (μ : D(ℤ_[p], K)) :
-    ‖toCLMEquiv μ‖ = ⨆ n, ‖μ.amiceTransform.coeff n‖ := sorry
-
-/-- §2.5 (RJW Theorem 3.25): the Amice transforms of `K`-valued measures are exactly the power
-series with bounded coefficients. -/
-theorem mem_range_amiceTransform_iff (F : K⟦X⟧) :
-    (∃ μ : D(ℤ_[p], K), μ.amiceTransform = F) ↔ ∃ C : ℝ, ∀ n, ‖F.coeff n‖ ≤ C := sorry
-
-end BoundedAmice
-
-/-- §2.5 (RJW Theorem 3.25 and Remark 3.28): the integral measures are the rational dual unit
-ball: a `ℚ_p`-valued measure comes from a `ℤ_p`-valued one iff its operator norm is at most one. -/
-theorem exists_integral_iff_norm_le_one (p : ℕ) [Fact p.Prime] (ν : D(ℤ_[p], ℚ_[p])) :
-    (∃ μ : D(ℤ_[p], ℤ_[p]), ∀ f : C(ℤ_[p], ℤ_[p]),
-      ν ((⟨((↑) : ℤ_[p] → ℚ_[p]), continuous_subtype_val⟩ : C(ℤ_[p], ℚ_[p])).comp f) = μ f) ↔
-      ‖toCLMEquiv ν‖ ≤ 1 := sorry
 
 /-- §2.7 (RJW Example 3.10, p. 120): `δ_{p^n} → δ₀` weakly but not in operator norm. -/
 theorem tendsto_dirac_prime_pow_weak_not_strong (p : ℕ) [Fact p.Prime] :
@@ -420,77 +367,6 @@ theorem no_totalMass_fraction_extension (p : ℕ) [Fact p.Prime] :
     ¬ ∃ F : FractionRing D(ℤ_[p]ˣ, ℤ_[p]) →+* ℤ_[p],
       ∀ μ : D(ℤ_[p]ˣ, ℤ_[p]), F (algebraMap _ _ μ) = μ 1 := sorry
 
-/-! ## Layer 3a: rigid character and weight spaces -/
-
-namespace UniversalCharacter
-
-open PowerSeries
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- §3a.1, adic case (RJW Proposition 3.16, Theorem 3.25): for a topologically nilpotent `z` in a
-complete Hausdorff linearly topologized `ℤ_p`-algebra, `a ↦ aeval_z((1 + T)^a)` is a continuous
-character of `ℤ_p` with value `1 + z` at `1`. -/
-theorem exists_character_of_hasEval {S : Type*} [CommRing S] [UniformSpace S]
-    [IsUniformAddGroup S] [IsTopologicalRing S] [IsLinearTopology S S] [CompleteSpace S]
-    [T2Space S] [Algebra ℤ_[p] S] [ContinuousSMul ℤ_[p] S] {z : S} (hz : HasEval z) :
-    ∃ χ : Multiplicative ℤ_[p] →* Sˣ, Continuous (fun a => (χ a : S)) ∧
-      ∀ a : ℤ_[p], (χ (Multiplicative.ofAdd a) : S) =
-        aeval (R := ℤ_[p]) hz (binomialSeries ℤ_[p] a) := sorry
-
-/-- §3a.1, adic case, converse: every continuous character with `χ(1) − 1` topologically nilpotent
-is the evaluation of the universal character `a ↦ (1 + T)^a` at `χ(1) − 1`. -/
-theorem eq_aeval_binomialSeries {S : Type*} [CommRing S] [UniformSpace S]
-    [IsUniformAddGroup S] [IsTopologicalRing S] [IsLinearTopology S S] [CompleteSpace S]
-    [T2Space S] [Algebra ℤ_[p] S] [ContinuousSMul ℤ_[p] S] (χ : Multiplicative ℤ_[p] →* Sˣ)
-    (hχ : Continuous fun a => (χ a : S))
-    (hz : HasEval ((χ (Multiplicative.ofAdd (1 : ℤ_[p])) : S) - 1)) (a : ℤ_[p]) :
-    (χ (Multiplicative.ofAdd a) : S) = aeval (R := ℤ_[p]) hz (binomialSeries ℤ_[p] a) := sorry
-
-/-- §3a.1, normed case (stated separately: the topology of a Banach algebra is not linear): for
-`‖z‖ < 1` there is a unique continuous character with value `1 + z` at `1`, and it is the sum
-`Σ_n binom(a, n) z^n`. -/
-theorem existsUnique_character_of_norm_lt_one {A : Type*} [NormedCommRing A]
-    [NormedAlgebra ℚ_[p] A] [CompleteSpace A] {z : A} (hz : ‖z‖ < 1) :
-    ∃! χ : Multiplicative ℤ_[p] →* Aˣ, Continuous (fun a => (χ a : A)) ∧
-      (χ (Multiplicative.ofAdd 1) : A) = 1 + z ∧
-      ∀ a : ℤ_[p], HasSum (fun n : ℕ => ((Ring.choose a n : ℤ_[p]) : ℚ_[p]) • z ^ n)
-        (χ (Multiplicative.ofAdd a) : A) := sorry
-
--- `κ(−1) = (1 + T)⁻¹ = Σ (−T)^k`, not `1 − T`.
-example : binomialSeries ℤ_[p] (-1 : ℤ_[p]) = PowerSeries.mk (fun k => (-1) ^ k) ∧
-    binomialSeries ℤ_[p] (-1 : ℤ_[p]) ≠ 1 - X := sorry
-
--- `p − 1` is not topologically nilpotent in `ℚ_p`; `p` is, but `ℚ_p` is not linearly topologized.
-example : ¬ HasEval ((p : ℚ_[p]) - 1) ∧ HasEval (p : ℚ_[p]) ∧ ¬ IsLinearTopology ℚ_[p] ℚ_[p] :=
-  sorry
-
-/-- Negative control for the small-norm restriction: in the dual numbers `ℚ_p[ε]`, `a ↦ 1 + aε` is
-a continuous character with `χ(1) − 1 = ε` of coefficient-maximum norm `1`. -/
-example : (∃ χ : ContinuousMonoidHom (Multiplicative ℤ_[p]) (TrivSqZeroExt ℚ_[p] ℚ_[p]),
-      ∀ a : ℤ_[p], χ (Multiplicative.ofAdd a) = 1 + TrivSqZeroExt.inr (a : ℚ_[p])) ∧
-    max ‖(TrivSqZeroExt.inr 1 : TrivSqZeroExt ℚ_[p] ℚ_[p]).fst‖
-      ‖(TrivSqZeroExt.inr 1 : TrivSqZeroExt ℚ_[p] ℚ_[p]).snd‖ = 1 := sorry
-
-/-! Twist conventions for characters of `ℤ_pˣ`: `x ↦ x^k` and `x ↦ x^{k'}` have the same torsion
-restriction iff `k ≡ k'` modulo the order of the torsion subgroup, `p − 1` for odd `p`, `2` for
-`p = 2`. -/
-
-example (hp : p ≠ 2) (k k' : ℤ) :
-    (∀ u : ℤ_[p]ˣ, IsOfFinOrder u →
-      ((u : ℤ_[p]) : ℚ_[p]) ^ k = ((u : ℤ_[p]) : ℚ_[p]) ^ k') ↔
-      Int.ModEq (p - 1 : ℕ) k k' := sorry
-
-example (k k' : ℤ) :
-    (∀ u : ℤ_[2]ˣ, IsOfFinOrder u →
-      ((u : ℤ_[2]) : ℚ_[2]) ^ k = ((u : ℤ_[2]) : ℚ_[2]) ^ k') ↔ Int.ModEq 2 k k' := sorry
-
--- At `p = 2` the modulus `p − 1 = 1` is wrong: `x` and `x²` differ at `−1`.
-example : Int.ModEq 1 1 2 ∧ IsOfFinOrder (-1 : ℤ_[2]ˣ) ∧
-    (-1 : ℚ_[2]) ^ (1 : ℤ) ≠ (-1 : ℚ_[2]) ^ (2 : ℤ) := sorry
-
-end UniversalCharacter
-
 /-! ## Layer 4: Weierstrass theory and module structure -/
 
 namespace TauCeti.Iwasawa
@@ -544,16 +420,9 @@ variable (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
 theorem powerSeries_isRegularLocalRing :
     IsRegularLocalRing (PowerSeries O) ∧ ringKrullDim (PowerSeries O) = 2 := sorry
 
-/-- §4.3 (NSW (5.3.4)): every nonzero `f ∈ O⟦T⟧` is `ϖ^μ · F · u` with `F` distinguished and `u` a
-unit; after dividing by `ϖ^μ` this is Mathlib's `PowerSeries.exists_isWeierstrassFactorization`. -/
-theorem exists_pow_mul_distinguished_mul_unit (ϖ : O) (hϖ : Irreducible ϖ)
-    (f : PowerSeries O) (hf : f ≠ 0) :
-    ∃ (μ : ℕ) (F : O[X]) (u : (PowerSeries O)ˣ),
-      F.IsDistinguishedAt (IsLocalRing.maximalIdeal O) ∧
-        f = PowerSeries.C (ϖ ^ μ) * (F : PowerSeries O) * u := sorry
-
 /-- §4.3 (NSW (5.3.6)): the height-one primes of `O⟦T⟧` are `(ϖ)` and `(F)`, `F` irreducible
-distinguished. -/
+distinguished. Uses preparation from NewtonPolygons §6.3, clause 3, based on Mathlib
+`PowerSeries.exists_isWeierstrassFactorization`. -/
 theorem height_one_prime_iff (ϖ : O) (hϖ : Irreducible ϖ) (P : PrimeSpectrum (PowerSeries O)) :
     P.asIdeal.height = 1 ↔ P.asIdeal = Ideal.span {PowerSeries.C ϖ} ∨
       ∃ F : O[X], F.IsDistinguishedAt (IsLocalRing.maximalIdeal O) ∧ Irreducible F ∧
@@ -596,11 +465,6 @@ end CoefficientDVR
 theorem xi_irreducible_padicInt (p : ℕ) [Fact p.Prime] (n : ℕ) :
     Irreducible (if n = 0 then (X : ℤ_[p][X])
       else ∑ i ∈ Finset.range p, (1 + X) ^ (i * p ^ (n - 1))) := sorry
-
--- Over `ℤ₂[i]`, `ξ₂ = T² + 2T + 2 = (T − (i − 1))(T − (−i − 1))` splits: irreducibility of `ξ_n` is
--- special to `ℤ_p`.
-example (O : Type*) [CommRing O] (i : O) (hi : i ^ 2 = -1) :
-    (X ^ 2 + 2 * X + 2 : O[X]) = (X - C (i - 1)) * (X - C (-i - 1)) := sorry
 
 section CharacteristicIdeal
 
@@ -813,20 +677,6 @@ example (p : ℕ) [Fact p.Prime] (n : ℕ) (hn : 0 < n) :
     let A := MonoidAlgebra Oₛ (Multiplicative (ZMod (p ^ n)))
     ∀ f : PowerSeries Oₛ →ₐ[Oₛ] A, f (PowerSeries.C PowerSeries.X) ≠
       algebraMap Oₛ A PowerSeries.X + (MonoidAlgebra.single (Multiplicative.ofAdd 1) 1 - 1) := sorry
-
-/-- §4.5 (RJW Proposition 3.16 and Theorem 3.25): in the power-series coordinate the comparison
-of §1.7 is the Amice transform: `μ ↦ powerSeriesCoordinate(A(μ))` is a `ℤ_p`-algebra isomorphism
-`D(ℤ_p, ℤ_p) ≅ ℤ_p⟦ℤ_p⟧` sending `δ_a` to `[a]`. -/
-theorem exists_algEquiv_eq_powerSeriesCoordinate_amiceTransform (p : ℕ) [Fact p.Prime] :
-    ∃ e : D(Multiplicative ℤ_[p], ℤ_[p]) ≃ₐ[ℤ_[p]]
-        TauCeti.completedGroupAlgebra ℤ_[p] (Multiplicative ℤ_[p]),
-      (∀ x, e (AbstractMeasure.dirac ℤ_[p] x) =
-        TauCeti.completedGroupAlgebra.of ℤ_[p] (Multiplicative ℤ_[p]) x) ∧
-      ∀ μ, e μ = TauCeti.completedGroupAlgebra.powerSeriesCoordinate
-        (TauCeti.isProP_multiplicative_padicInt p)
-        (TauCeti.topologicallyGenerates_ofAdd_one_padicInt p)
-        (AbstractMeasure.arrowCongrLeft
-          (Homeomorph.refl ℤ_[p] : Multiplicative ℤ_[p] ≃ₜ ℤ_[p]) μ).amiceTransform := sorry
 
 /-- §4.7: the transition polynomial `ν_{n,n₀} = ω_n / ω_{n₀ − 1} = ∏_{n₀ ≤ j ≤ n} ξ_j`, written
 without division (`ω_{−1} = 1`, so `n₀ = 0` gives `ω_n`). -/

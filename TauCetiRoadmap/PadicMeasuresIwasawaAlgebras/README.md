@@ -24,8 +24,9 @@ continues the Tau Ceti roadmap ProfiniteProPGroups, whose layer 9 builds the com
 `TauCeti.completedGroupAlgebra ℤ_p Γ` with its power-series coordinate; everything here is stated on
 that carrier and on Mathlib's `AbstractMeasure`, `PowerSeries` and localization carriers. Its end
 theorems are the comparison of integral measures with the completed group algebra (§1.7) and its
-reading in the power-series coordinate (§4.5), the Mahler–Amice calculus with ψφ = 1 and φψ the
-restriction to pℤ_p (§2.2), the evaluation of pseudo-measures at characters and its continuity
+reading in the power-series coordinate (§4.5), the Mahler–Amice calculus using ψφ = 1 and φψ the
+restriction to pℤ_p from PadicFunctionalAnalysis §3.4, clause 5 (§2.2), the evaluation of
+pseudo-measures at characters and its continuity
 (§3.3, §3a.1), the structure theorem for Iwasawa modules with the growth formula over any
 mixed-characteristic coefficient ring (§4.2, §4.7), the rational trivialization of the determinant
 of a perfect complex by the alternating product of characteristic ideals (§5.1), and the
@@ -40,7 +41,7 @@ note is specified here only. The names written inside a target (definitions, API
 intermediate results) are the proposed names for the library; a declaration of `Suggested.lean` is
 cited as such, in a *Lean:* note or with an explicit mention of the file. New declarations live in
 the namespaces of `Suggested.lean` (`AbstractMeasure`, `PowerSeries`, `Iwasawa`,
-`UniversalCharacter`, `TauCeti.Iwasawa`, `TauCeti`, `Matrix`) or under `TauCeti.` in the library;
+`TauCeti.Iwasawa`, `TauCeti`, `Matrix`) or under `TauCeti.` in the library;
 the namespaces named in each subsection are the proposed ones. Every definition comes with the API
 it needs and with checks that a plausible wrong definition fails; every theorem carries its exact
 hypotheses, its source, and the earlier statements or library declarations it rests on. Nothing here
@@ -52,16 +53,17 @@ The roadmap owns:
 
 - bounded measures on compact spaces and their operator calculus: clopen restriction, extension by
   zero, the weak and strong topologies, the Dirac measures (Layer 0), the Mahler–Amice dictionary on
-  ℤ_p with weighting, translation, dilation, φ, ψ, root-of-unity averaging, residue projections, the
-  bounded Amice norm, the rational integral lattice and the Cartier operators (Layer 2);
+  ℤ_p with weighting, translation, root-of-unity averaging, residue projections, the unit-domain
+  comparisons and the Cartier operators, using PadicFunctionalAnalysis §3.4 for the bounded
+  Mahler dual, dilation, φ, ψ, the bounded Amice norm and the rational integral lattice (Layer 2);
 - finite coefficients and joint coordinates of measures, the finite measure algebras, the finite
   quotients and coordinates of ℤ_pˣ, and the comparison of integral measures on a profinite group
   with `TauCeti.completedGroupAlgebra ℤ_p Γ`, with coefficient extension (Layer 1);
 - pseudo-measures on a commutative completed group algebra, admissible evaluation at characters, the
   characters of ℤ_pˣ and their integrals, and the evaluation at varying characters (Layer 3),
-  together with the character space of ℤ_pˣ as a set of points with its bounded and meromorphic
-  functions and the universal character (Layer 3a);
-- Weierstrass theory of O⟦T⟧ on Mathlib's factorization, pseudo-null modules and
+  together with meromorphic functions on the character space of ℤ_pˣ supplied by
+  PadicFunctionalAnalysis §§5.1–5.3 (Layer 3a);
+- ring theory of O⟦T⟧ using NewtonPolygons §6.3, clause 3 for preparation, pseudo-null modules and
   pseudo-isomorphisms, the structure theorem for finitely generated Λ-modules, the invariants μ and
   λ, the Iwasawa coordinate over O, characteristic divisors and ideals with their base change and
   change of generator, isotypic decompositions and Galois-orbit components, the cyclotomic
@@ -87,6 +89,11 @@ subjects consume the statements here through the interfaces named in each layer.
 
 It leaves to named roadmaps:
 
+- the bounded Mahler dual and integral unit-ball identification, dilation and Frobenius/psi
+  calculus, characters and their universal property, bounded measure functions and the agreement
+  of the integral Amice and completed-group-algebra coordinates, to **PadicFunctionalAnalysis**
+  §§3.4 and 5.1–5.3; uniformizer-power Weierstrass preparation to **NewtonPolygons** §6.3, clause 3;
+  these are roadmaps of W. Coram, to be contributed to TauCetiRoadmap ahead of this one;
 - the completed group algebra itself, its inverse-limit topology, the ℤ_p power-series coordinate
   for a procyclic pro-p group, the continuity of that coordinate and the change of generator, to Tau
   Ceti **ProfiniteProPGroups**, layer 9 (section "The completed group algebra of the orientation
@@ -166,7 +173,7 @@ Already stated or built elsewhere, and therefore cited rather than stated here:
   `Polynomial.IsDistinguishedAt.algEquivQuotient` with `Polynomial.Monic.free_quotient` and
   `Polynomial.Monic.finite_quotient`. Weierstrass preparation in the unit-reduction case: Mathlib
   `PowerSeries.exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and
-  `IsWeierstrassFactorization.unique`; the ϖ^μ form of §4.3 reduces to it after dividing by ϖ^μ.
+  `IsWeierstrassFactorization.unique`; the ϖ^μ form is supplied by NewtonPolygons §6.3, clause 3.
 
 ## Conventions
 
@@ -255,7 +262,8 @@ n` (§1.3), π_n(μ) = π_{red_n}(μ) is the finite projection of §1.1 and π_{
 modulo p^r (the joint projection of §1.1). Products of coordinates carry the product topology,
 p-adic on ℤ_p and discrete on each ZMod(p^r). M = D(U, ℤ_p). A topology on a measure carrier is
 never an instance: where one is used it is named, `AbstractMeasure.WeakTopology` or
-`AbstractMeasure.StrongTopology`. ψ on integral measures is the operator `psiMeasure` of §2.2,
+`AbstractMeasure.StrongTopology`. ψ on integral measures is supplied by PadicFunctionalAnalysis
+§3.4, clause 5,
 transported to power series through the Amice transform.
 
 ## Exact supplier contracts
@@ -320,6 +328,43 @@ orders in number fields and the Gorenstein property for those orders; the algebr
 the generic lemmas on orders over a Dedekind base, and nothing here depends
 on it.
 
+### From the student roadmaps
+
+PadicFunctionalAnalysis and NewtonPolygons are roadmaps of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one. Section references use the numbered README heading followed by its
+clause. The labels below lie under **Targets requested by the Tau Ceti PadicMeasuresIwasawaAlgebras,
+LocallyAnalyticDistributions and AdicSpaces roadmaps** in PadicFunctionalAnalysis and **Targets
+requested by the Tau Ceti PadicMeasuresIwasawaAlgebras roadmap** in NewtonPolygons. Student Lean
+declarations have namespaces `TauCetiRoadmap.PadicFunctionalAnalysis` and
+`TauCetiRoadmap.NewtonPolygons`, respectively. Their measures are Mathlib's `AbstractMeasure`;
+PadicFunctionalAnalysis's native Amice series agrees coefficientwise with
+`AbstractMeasure.amiceTransform` by the Mahler-term definition.
+
+| Use here | Student roadmap and section | Student declarations and comparison with this roadmap's notation |
+|---|---|---|
+| §2.5 bounded Mahler pairing | PadicFunctionalAnalysis §3.4, clause 1 | Mahler dual pairing; no separate Lean declaration; the norm-one coefficient hypothesis is handled at the R-valued inverse transform |
+| §2.5 bounded Amice isometry | PadicFunctionalAnalysis §3.4, clause 1; label **§3.4.1, §3.4.4 — amiceTransform, norm_toCLMEquiv_eq_iSup_coeff, mem_range_amiceTransform_iff** | `TauCetiRoadmap.PadicFunctionalAnalysis.norm_toCLMEquiv_eq_iSup_coeff`; student `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform` is the same series as `AbstractMeasure.amiceTransform` |
+| §2.5 bounded-series range | PadicFunctionalAnalysis §3.4, clauses 1 and 4; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.mem_range_amiceTransform_iff`; bounded coefficients on the native `PowerSeries` carrier |
+| §2.5 rational dual unit ball | PadicFunctionalAnalysis §3.4, clause 4; label **§3.4.4 — existsUnique_integral_iff_norm_le_one** | `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_integral_iff_norm_le_one`; unique integral preimage by agreement on integral tests |
+| §2.2 Frobenius on bounded measures | PadicFunctionalAnalysis §3.4, clause 5; label **§3.4.5 — phiMeasure, pMultiplesIndicator, weightMeasure, existsUnique_psiMeasure, amiceTransform_phiMeasure** | `TauCetiRoadmap.PadicFunctionalAnalysis.phiMeasure`; pushforward φ on the same measure carrier |
+| §2.2 left inverse of Frobenius | PadicFunctionalAnalysis §3.4, clause 5; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure`; ψ on the same measure carrier |
+| §2.2 left inverse identity | PadicFunctionalAnalysis §3.4, clause 5; same label | First identity in `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure` |
+| §2.2 Frobenius after its left inverse | PadicFunctionalAnalysis §3.4, clause 5; same label | Second identity in `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_psiMeasure`, with `TauCetiRoadmap.PadicFunctionalAnalysis.pMultiplesIndicator` and `TauCetiRoadmap.PadicFunctionalAnalysis.weightMeasure`; weighting here is `AbstractMeasure.weight` and the indicator has the local restatement below |
+| §2.2 Frobenius and Amice | PadicFunctionalAnalysis §3.4, clause 5; same label | `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform_phiMeasure` |
+| §2.2 Amice unit projector | PadicFunctionalAnalysis §3.4, clause 5; same label | Unit projector from `TauCetiRoadmap.PadicFunctionalAnalysis.amiceTransform_phiMeasure` and the two psi identities; no separate Lean declaration |
+| §2.11 dilation transform | PadicFunctionalAnalysis §3.4, clause 5 | General multiplication pushforward and binomial substitution; no separately named Lean theorem |
+| §3a.1 continuous unit characters | PadicFunctionalAnalysis §5.1, clause 1, and §5.2, clause 1 | `TauCetiRoadmap.PadicFunctionalAnalysis.WeightSpace` is W(A); torsion/principal splitting includes p = 2 |
+| §3a.1 principal characters and open discs | PadicFunctionalAnalysis §5.2, clause 2 | `TauCetiRoadmap.PadicFunctionalAnalysis.nonempty_weightSpace_equiv`, with coordinate `TauCetiRoadmap.PadicFunctionalAnalysis.TCoord`; specialize to C_p |
+| §3a.1 universal character | PadicFunctionalAnalysis §5.3, clauses 1 and 3; label **§5.3.1, §5.3.3 — exists_character_of_hasEval, eq_aeval_binomialSeries, existsUnique_character_of_norm_lt_one** | `TauCetiRoadmap.PadicFunctionalAnalysis.exists_character_of_hasEval`, `TauCetiRoadmap.PadicFunctionalAnalysis.eq_aeval_binomialSeries`, `TauCetiRoadmap.PadicFunctionalAnalysis.existsUnique_character_of_norm_lt_one`; restrict the unit character to its principal ℤ_p factor, retaining ultrametricity in the normed case |
+| §4.5 Amice/completed coordinate comparison | PadicFunctionalAnalysis §5.3, clause 4, second sentence, and §3.4, clause 4 | No separately named Lean declaration; transport a ↦ γ^a with T = [γ] − 1 |
+| §3a.1 bounded measure functions | PadicFunctionalAnalysis §5.3, clause 5; label **§5.3.5 — extendIntegralMeasure, weightTest, measureFun, measureFun_norm_le, measureFun_injective** | `TauCetiRoadmap.PadicFunctionalAnalysis.extendIntegralMeasure`, `TauCetiRoadmap.PadicFunctionalAnalysis.weightTest`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun_norm_le`, `TauCetiRoadmap.PadicFunctionalAnalysis.measureFun_injective`; these are F_μ and its bounds/injectivity, with O coefficients supplied by §1.7 |
+| §4.3 uniformizer-power preparation | NewtonPolygons §6.3, clause 3; label **exists_pow_mul_distinguished_mul_unit** | `TauCetiRoadmap.NewtonPolygons.exists_pow_mul_distinguished_mul_unit`; identify the abstract complete DVR O with the valuation ring of its complete valued fraction field, and commute the unit and polynomial factors |
+
+Local restatements in `Suggested.lean`:
+
+- `AbstractMeasure.pMultiplesIndicator`: local restatement of PadicFunctionalAnalysis §3.4,
+  clause 5, used by the retained unit-support range and division statements (§§2.3 and 2.6).
+
 ## How to read the build
 
 The layers are built in the order Layer 0 → 1 → 2 → 3 → 3a → 4 → 5 → 6, and each `### k.n`
@@ -329,10 +374,12 @@ delivers the operators on D(X,R) for a compact X: clopen restriction and extensi
 strong topologies and the Dirac measures. Layer 1 delivers the finite coordinates of measures, the
 finite measure algebras, the coordinates of ℤ_pˣ, and the comparison D(Γ, ℤ_p) ≅
 `completedGroupAlgebra ℤ_p Γ` with its coefficient extensions. Layer 2 delivers the Mahler–Amice
-calculus on ℤ_p: moments, φ and ψ, root-of-unity averaging, the bounded Amice norm, the unit domain,
+calculus on ℤ_p: moments, root-of-unity averaging, the unit domain, and the supplied φ, ψ and
+bounded Amice norm,
 the Cartier operators and the residue projections. Layer 3 delivers pseudo-measures and their
 admissible evaluation at characters, and Layer 3a the character space of ℤ_pˣ with its bounded and
-meromorphic functions and the universal character. Layer 4 delivers the Weierstrass theory of O⟦T⟧,
+meromorphic functions using PadicFunctionalAnalysis §§5.1–5.3. Layer 4 uses NewtonPolygons §6.3 for
+preparation and delivers the ring theory of O⟦T⟧,
 the structure theorem for Iwasawa modules, the Iwasawa coordinate over O, the characteristic ideals
 and the growth formulas. Layer 5 delivers determinant lines of perfect complexes with their rational
 trivialization and specialization, and topological Nakayama. Layer 6 delivers the coefficient-order
@@ -477,7 +524,8 @@ measure and of a Dirac difference. *Lean:* `AbstractMeasure.not_isCompact_measur
 
 Finally prove the scaling lemma for rational-valued tests: every f ∈ C(X,ℚ_p) becomes ℤ_p-valued
 after multiplication by a suitable power p^n, and the integral of f against a measure is p^{−n}
-times the integral of p^n f; this is the input of the rational unit-ball description of §2.5.
+times the integral of p^n f; this is compatible with the rational unit-ball description of
+PadicFunctionalAnalysis §3.4, clause 4.
 
 ### 0.3 Local constancy of reduction
 
@@ -864,8 +912,8 @@ open normal, and the tower presents the same limit cofinally, which is how the c
 a countable product is stated. This subsection is the measure side only: the carrier, its topology,
 its ℤ_p power-series coordinate for Γ ≅ ℤ_p, the continuity of that coordinate and the change of
 generator are Tau Ceti's and are consumed as such; the compatibility of the comparison below with
-the coordinate is stated in §4.5, after the coordinate, so that it is never an input of the
-comparison.
+the coordinate is supplied by PadicFunctionalAnalysis §5.3, clause 4, as cited in §4.5; it is never
+an input of the comparison.
 
 References: RJW Proposition 3.16 and its proof, pp. 121–122, which builds the inverse directly from
 a compatible family (its values on the cosets of each level form an additive function on the open
@@ -970,7 +1018,7 @@ isometric algebra map into K with `IsBoundedSMul ℤ_p K`, prove
 `extendCoefficients_eq_extendIntegralCoefficients` on measures on ℤ_p. For O finite free over ℤ_p
 with its valuation norm, prove `extendCoefficients_baseChange_tmul`: the extension of a base-changed
 tensor a ⊗ μ is j(a) times the extension of μ along ℤ_p → K; prove this comparison on tensors, hence
-on all measures, and recover the Amice comparison of §2.5.
+on all measures, and recover the Amice comparison of PadicFunctionalAnalysis §3.4, clause 4.
 
 For a commutative profinite group G and a continuous K-valued character χ, define
 `extendedCharacterRingHom`, f_χ : D(G,O) →+* K, by f_χ(μ) = ι_j(μ)(χ), using
@@ -983,7 +1031,8 @@ when χ(g) ≠ 1; `extendedPseudoCharacterEval_independent`; `extendedPseudoChar
 `extendedPseudoCharacterEval_smul`; and `extendedPseudoCharacterEval_eq_evalAt`, identifying this
 scalar evaluation with §3.1. Only χ(g) − 1 is inverted, in K. This construction does not require a
 regular Dirac difference or construct a map of entire pseudomeasure spaces. The extension need not
-exhaust D(X,K); §2.5 identifies the image for ℤ_p → ℚ_p with the unit ball. (RJW Remark 3.28(1)–(2),
+exhaust D(X,K); PadicFunctionalAnalysis §3.4, clause 4 identifies the image for ℤ_p → ℚ_p with the
+unit ball. (RJW Remark 3.28(1)–(2),
 p. 125, and Proposition 3.16, pp. 121–122, for the valuation-ring class; the extension and its
 compatibilities are the specification here.) *Needs:* `finiteProjection` and `finiteProjection_ext`
 (§1.1), `toCompletedGroupAlgebra`, `completedGroupAlgebraBaseChange`, `restrictClopen` (§0.1),
@@ -1051,7 +1100,8 @@ with `proj`, `of`, `mk`, `lift`, `ext` (ProfiniteProPGroups, layer 9). The found
 constructions of this layer (finite coordinates, the comparison with the completed group algebra,
 the finite-free base change and the unit-ball coefficient extension) take no input from §3.1; the
 scalar pseudo-measure evaluation that closes §1.7 is a downstream compatibility statement consuming
-§3.1's `evalAt` and `numerator`, and the Amice-side statements of §2.5 and §4.5 are consumers of
+§3.1's `evalAt` and `numerator`, and the Amice-side constructions here and the
+PadicFunctionalAnalysis §3.4 and §5.3 comparisons are consumers of
 this layer, not inputs.
 
 ## Layer 2: Mahler–Amice theory for bounded measures
@@ -1180,8 +1230,8 @@ First prove that pZ is clopen in Z, so that its characteristic function χ is co
 q(y) = 0 for y ∈ U (the units, the complement of pZ). So q is the inverse of multiplication by p on
 pZ and vanishes on U; it is continuous because pZ and U are complementary clopens. Its API is
 `divideByP_mul` (q(px) = x for every x ∈ Z), `mul_divideByP` (for y ∈ pZ, p·q(y) = y) and
-`divideByP_of_not_dvd` (for y ∈ U, that is p ∤ y, q(y) = 0); the first two are the intermediate
-results the ψ-identities below use. *Needs:* the clopenness of pZ.
+`divideByP_of_not_dvd` (for y ∈ U, that is p ∤ y, q(y) = 0); the first two connect this division map
+to ψ supplied by PadicFunctionalAnalysis §3.4, clause 5. *Needs:* the clopenness of pZ.
 
 **Checks.**
 - q(0) = 0 over ℤ₃.
@@ -1203,38 +1253,21 @@ that P is `AbstractMeasure.weight` of it.
 - Pδ₁ = 0 over ℤ₃.
 - Pδ₃ = δ₃ over ℤ₃; restriction does not rescale the atom.
 
-**Frobenius on bounded measures.** Define `phiMeasure` = `AbstractMeasure.map` m_p as an R-linear
-endomorphism of D(Z,R), denoted φ. Its API is the identification of φ with the pushforward along
-m_p, the evaluation formula φμ(f) = μ(f ∘ m_p), the Dirac value φδ_a = δ_{pa} and the injectivity of
-φ (the proof is supplied by the left-inverse identity below). *Lean:* `AbstractMeasure.phiMeasure`,
-the pushforward along `AbstractMeasure.mulPrime`.
+**Frobenius on bounded measures.** Provides the linear pushforward φ along multiplication by p.
+Supplied by PadicFunctionalAnalysis §3.4, clause 5 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one).
 
-**Checks.**
-- φ(0) = 0 over ℤ₃.
-- φδ₂ = δ₆ over ℤ₃.
-- φμ(1) = μ(1) over ℤ₃; rejects an extra factor p.
+**The left inverse of Frobenius.** Provides the linear operator ψ obtained by restriction to pℤ_p
+and division by p. Supplied by PadicFunctionalAnalysis §3.4, clause 5 (the roadmap of W. Coram, to
+be contributed to TauCetiRoadmap ahead of this one).
 
-**The left inverse of Frobenius.** Define `psiMeasure` = (`AbstractMeasure.map` q) ∘
-`restrictMultiples` as an R-linear endomorphism of D(Z,R), denoted ψ. Its API is
-`psiMeasure_eq_map_restrict` (ψ = (map q) ∘ P, as linear maps), `psiMeasure_apply` (ψμ(f) = μ(χ(f ∘
-q)), the evaluation formula), `psiMeasure_dirac`, `psiMeasure_phiMeasure` (ψφμ = μ) and the
-companion identity φψμ = Pμ. *Needs:* `divideByP`, `restrictMultiples` and its evaluation formula.
+**The left inverse identity.** Provides the identity ψφ = id on bounded measures. Supplied by
+PadicFunctionalAnalysis §3.4, clause 5 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap
+ahead of this one).
 
-**Checks.**
-- ψδ₀ = δ₀ over ℤ₃.
-- ψδ₆ = δ₂ over ℤ₃; no scalar 1/3 occurs.
-- ψδ₁ = 0 over ℤ₃; bare pushforward by q would give δ₀.
-
-**The left inverse identity.** Prove ψ(φμ) = μ for every μ ∈ D(Z,R). *Needs:* the evaluation
-formulas of ψ and φ, `divideByP_mul`.
-
-**Frobenius after its left inverse.** Prove φ(ψμ) = Pμ for every μ ∈ D(Z,R). *Needs:* the evaluation
-formulas of φ and ψ, `mul_divideByP`, the evaluation formula of P. The two identities characterise
-ψ: it is the unique R-linear endomorphism ψ′ of D(Z,R) with ψ′(φμ) = μ and φ(ψ′μ) = Pμ for every μ.
-*Lean:* `AbstractMeasure.existsUnique_psiMeasure` states ψ in this form, as the unique R-linear
-endomorphism with ψφ = id and φψ = P (P being weighting by `AbstractMeasure.pMultiplesIndicator`);
-the checks ψδ₆ = δ₂ and ψδ₁ = 0 of the definition above are an `example` for every such
-endomorphism.
+**Frobenius after its left inverse.** Provides φψ = restriction to pℤ_p and the uniqueness
+characterized by the two projector identities. Supplied by PadicFunctionalAnalysis §3.4, clause 5
+(the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
 **Restriction to units.** Define `unitRestriction` = id − P as an R-linear endomorphism of D(Z,R),
 denoted E. Its test-function multiplier is 1 − χ, the characteristic function of Zˣ. Its API is
@@ -1242,7 +1275,8 @@ denoted E. Its test-function multiplier is 1 − χ, the characteristic function
 the evaluation formula), `unitRestriction_dirac`, `unitRestriction_idem` (E² = E),
 `unitRestriction_eq_self_iff` (Eμ = μ iff μ(χf) = 0 for every f) and
 `unitRestriction_eq_self_iff_psi_eq_zero` (Eμ = μ iff ψμ = 0). *Needs:* `restrictMultiples` and its
-evaluation formula, the multiplicativity of `weight`, the two identities φψ = P and ψφ = id.
+evaluation formula, the multiplicativity of `weight`, the two identities φψ = P and ψφ = id from
+PadicFunctionalAnalysis §3.4, clause 5.
 
 **Checks.**
 - Eδ₁ = δ₁ over ℤ₃.
@@ -1256,23 +1290,18 @@ not annihilate the functions vanishing outside U: δ₁ is supported on U, and 1
 with δ₁(1_U) = 1. *Needs:* `unitRestriction`, the evaluation formula of P.
 
 **Unit support and the kernel of psi.** Prove that Eμ = μ iff ψμ = 0 (RJW Corollary 3.32, p. 129;
-equations (3-7)–(3-8), p. 128). *Needs:* `unitRestriction`, `psiMeasure`, φψ = P.
+equations (3-7)–(3-8), p. 128; PadicFunctionalAnalysis §3.4, clause 5). *Needs:* `unitRestriction`
+and ψ with φψ = P from PadicFunctionalAnalysis §3.4, clause 5.
 
-Then prove the Mahler Frobenius identity (`mahler_mul_prime`): the Mahler function mahler_n composed
-with m_p has the finite Mahler expansion mahler_n ∘ m_p = Σ_{k ≤ n} coeff_n(b^k)·mahler_k with b =
-Y^p − 1, read off from (1+T)^{px} = (1 + b)^x = Σ_k binom(x,k) b^k by taking the coefficient of T^n;
-at p = 2, n = 1 it says binom(2x,1) = 2·binom(x,1), the T-coefficient of b = 2T + T² (an expansion
-in the coefficients of (Y^p)^n = (1+T)^{pn} would give 1 + 2x + binom(x,2) instead). This is the
-identity behind the next statement.
-
-**Frobenius and the Amice transform.** Prove A(φμ) = `PowerSeries.subst` b (Aμ) for integral
-Z-valued μ. *Needs:* the evaluation formula of φ, the Mahler Frobenius identity. *Lean:*
-`AbstractMeasure.amiceTransform_phiMeasure`.
+**Frobenius and the Amice transform.** Provides the identification of Frobenius pushforward with
+substitution by (1 + T)^p − 1. Supplied by PadicFunctionalAnalysis §3.4, clause 5 (the roadmap of W.
+Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
 **Psi on integral power series.** Define `psiSeries` = A ∘ ψ ∘ A⁻¹ : B →ₗ[Z] B. This is a linear
 operator, not a ring homomorphism. Its API is `psiSeries_eq_transport` (psiSeries = A ∘ ψ ∘ A⁻¹ as
 linear maps), `psiSeries_amiceTransform` (psiSeries(Aμ) = A(ψμ)), `psiSeries_phi` (psiSeries(subst b
-F) = F), `psiSeries_one` and `psiSeries_one_add_X`. *Needs:* `psiMeasure`.
+F) = F), `psiSeries_one` and `psiSeries_one_add_X`. *Needs:* ψ from PadicFunctionalAnalysis §3.4,
+clause 5.
 
 **Checks.**
 - psiSeries((1+T)³) = 1 + T for p = 3, since (1+T)³ = Aδ₃ and ψδ₃ = δ₁.
@@ -1282,11 +1311,12 @@ F) = F), `psiSeries_one` and `psiSeries_one_add_X`. *Needs:* `psiMeasure`.
 **Psi and the Amice transform.** Prove psiSeries(Aμ) = A(ψμ). *Needs:* `psiSeries`.
 
 **The power-series left inverse.** Prove psiSeries(`PowerSeries.subst` b F) = F for every F ∈ B.
-*Needs:* A(φμ) = subst b (Aμ), the intertwining psiSeries(Aμ) = A(ψμ), ψφ = id.
+*Needs:* A(φμ) = subst b (Aμ) and ψφ = id from PadicFunctionalAnalysis §3.4, clause 5, and the
+intertwining psiSeries(Aμ) = A(ψμ).
 
-**The Amice unit projector.** Prove A(Eμ) = Aμ − `PowerSeries.subst` b (psiSeries(Aμ)). *Needs:*
-`unitRestriction`, φψ = P, A(φμ) = subst b (Aμ), the intertwining identity. Record also the value of
-ψ on a Dirac measure, ψδ_a = δ_{a/p} for a ∈ pZ and 0 otherwise, which §2.6 uses.
+**The Amice unit projector.** Provides the Amice expression for restriction to the units through the
+Frobenius and psi operators. Supplied by PadicFunctionalAnalysis §3.4, clause 5 (the roadmap of W.
+Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
 ### 2.3 Inverting multiplication by x on the units
 
@@ -1316,9 +1346,10 @@ inverse, `weight` and its evaluation formula.
 ν ∈ D with ψν = 0 and Wν = μ, and that its value is Jμ. Prove along the way that J commutes with
 dilation by a unit up to the factor a⁻¹: J(map d_a μ) = a⁻¹·map d_a (Jμ), which §2.11 uses. *Needs:*
 the support statement and the two composition identities of J, the kernel description Eμ = μ iff
-ψμ = 0 (§2.2). *Lean:* `AbstractMeasure.existsUnique_unitSupported_div_id`, with unit support
+ψμ = 0 (PadicFunctionalAnalysis §3.4, clause 5). *Lean:*
+`AbstractMeasure.existsUnique_unitSupported_div_id`, with unit support
 written as Pμ = 0 (weighting by `AbstractMeasure.pMultiplesIndicator` kills μ), which is equivalent
-to ψμ = 0 by §2.2.
+to ψμ = 0 by PadicFunctionalAnalysis §3.4, clause 5.
 
 **Inverse Mahler derivative on unit support.** Define H = `inverseMahler p : Z⟦T⟧ →ₗ[Z] Z⟦T⟧` by H =
 A ∘ J ∘ A⁻¹, using the integral Amice linear equivalence A. Then H(Aμ) = A(Jμ), and ψSeries(HF) = 0
@@ -1436,42 +1467,30 @@ action: `[NormedCommRing R] [Algebra ℤ_[p] R] [IsBoundedSMul ℤ_[p] R] [IsUlt
 [CompleteSpace R]`. Their field-valued consumers assume the same completeness and ultrametricity
 for K. The forward coefficient constructions below carry their weaker hypotheses explicitly.
 
-First prove that for a bounded coefficient sequence c and a continuous test f the series Σ_n
-a_n(f)c_n is summable: the Mahler coefficients tend to zero, boundedness of c makes the products
-tend to zero, and completeness and ultrametricity give summability. The Mahler expansion and its
-coefficient norm estimate are supplied by `PadicInt.hasSum_mahler` and `PadicInt.mahlerEquiv`.
+The Mahler expansion and its coefficient norm estimate are supplied by
+`PadicInt.hasSum_mahler` and `PadicInt.mahlerEquiv`.
 
-**The bounded Mahler pairing.** For R in the complete ultrametric scope above and c in
-BoundedContinuousFunction(ℕ,R), define the R-linear map I_c : C(ℤ_p,R) → R by I_c(f) = Σ_n
-a_n(f)c_n. The space of test functions and the coefficient sequence
-are library objects. Its API is `boundedMahlerPairing_apply` (I_c(f) = Σ_n a_n(f)c_n),
-`boundedMahlerPairing_add`, `boundedMahlerPairing_smul` (I_c(rf) = r I_c(f) for r in R),
-`boundedMahlerPairing_bound` (|I_c(f)| ≤ ‖c‖‖f‖) and `boundedMahlerPairing_integral` (for R = ℤ_p
-and c_n = coeff_n(F), I_c(f) equals invTransform(F)(f)). *Needs:* the summability. The
-bound |I_c(f)| ≤ ‖c‖‖f‖ is the intermediate result the inverse transform below rests on.
-
-**Checks.**
-- Over ℚ_3, the constant sequence c_n = 1/3 gives I_c(1) = 1/3.
-- Over ℤ_3, the sequence c with c_1 = 1 and c_n = 0 otherwise gives I_c(f) = a_1(f) = f(1) − f(0),
-  so I_c(x ↦ x) = 1 and I_c(1) = 0.
-- For an integral formal series F and its bounded coefficient sequence, I_c(f) =
-  AbstractMeasure.invTransform(F)(f).
-- Completeness alone does not give the norm bound: on R = ℚ_p[C₂], with g² = 1 and the coefficient
-  sum norm ‖a + bg‖ = |a|_p + |b|_p, take c₀ = 1, c₁ = g and c_n = 0 for n ≥ 2. For
-  f = 1_{pℤ_p}, a₀(f) = 1 and a₁(f) = −1, so I_c(f) = 1 − g has norm 2 although ‖c‖ = ‖f‖ = 1.
-  This complete submultiplicatively normed ℤ_p-algebra fails ultrametricity.
+**The bounded Mahler pairing.** Provides the continuous Mahler pairing of a bounded coefficient
+sequence with a test function. Supplied by PadicFunctionalAnalysis §3.4, clause 1 (the roadmap of W.
+Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier assumes a norm-one
+complete ultrametric coefficient ring; the R-valued inverse transform here retains its stated
+bounded scalar action and uses the Mahler coefficient estimate with ultrametric summation, without
+requiring ‖1_R‖ = 1.
 
 **The bounded-coefficient inverse Amice transform.** For R in the complete ultrametric scope above,
 define `boundedInvTransform` as the R-linear map from BoundedContinuousFunction(ℕ,R) to the measure
 type D(ℤ_p,R), sending c to the continuous
-functional f ↦ I_c(f). Its value is a measure, not a new carrier of formal power series. Its API is
-`boundedInvTransform_apply` (boundedInvTransform(c)(f) = I_c(f)), `boundedInvTransform_mahler`,
+functional f ↦ Σ_n a_n(f)c_n. Its value is a measure, not a new carrier of formal power series. Its
+API is
+`boundedInvTransform_apply` (boundedInvTransform(c)(f) = Σ_n a_n(f)c_n), `boundedInvTransform_mahler`,
 `amiceTransform_boundedInvTransform` (its Amice transform equals `PowerSeries.mk`(c)),
 `boundedInvTransform_unique` (a measure with that Amice transform is boundedInvTransform(c)),
 `boundedInvTransform_zero` and `boundedInvTransform_add` (the inverse preserves addition of bounded
 coefficient sequences). The intermediate results are the value on Mahler functions, the Amice
 identity, the uniqueness, and the bound on the image of an integral coefficient sequence (its
-coefficients are bounded by |1_R|). *Needs:* `boundedMahlerPairing`, its bound, the summability.
+coefficients are bounded by |1_R|). *Needs:* the Mahler pairing of PadicFunctionalAnalysis §3.4,
+clause 1; for the general R scope here, the Mahler coefficient estimate and complete ultrametric
+summation give the required bound.
 
 **Checks.**
 - Over ℚ_3 the constant bounded sequence 1/3 gives value 1/3 on the constant function 1; nonintegral
@@ -1546,46 +1565,22 @@ map: boundedAmiceCoefficients(boundedInvTransform(c)) = c.
 - For δ₋₁ over ℚ_2, bounded coefficient n is (−1)^n, so the sequence has supremum norm 1 and is not
   eventually zero.
 
-**Bounded Amice isometry.** For K a complete nontrivially normed ultrametric field with a
-ℤ_p-algebra structure and bounded scalar action, construct the canonical K-linear isometric
-equivalence `boundedAmiceEquiv : (C(ℤ_p,K) →L[K] K) ≃ₗᵢ[K] BoundedContinuousFunction(ℕ,K)`: forward,
-transport the dual through the inverse of `toCLMEquiv` and take its Amice coefficients; inverse,
-take `toCLMEquiv` of boundedInvTransform (RJW Definitions 3.5, 3.8, 3.23; Theorem 3.21 and proof of
-Theorem 3.25; Remark 3.28(1),(3), p. 119, 123–126). Its API is `boundedAmiceEquiv_apply`
-(boundedAmiceEquiv(toCLMEquiv(μ)) = boundedAmiceCoefficients(μ)), `boundedAmiceEquiv_symm_apply`
-(the inverse sends c to toCLMEquiv(boundedInvTransform(c))) and `boundedAmiceCoefficients_norm` (for
-every μ, ‖boundedAmiceCoefficients(μ)‖ = ‖toCLMEquiv(μ)‖). *Needs:* `boundedAmiceCoefficients`, the
-retraction identity, the Amice identity of boundedInvTransform and its norm bound. *Lean:* the norm
-identity ‖toCLMEquiv(μ)‖ = sup_n ‖coeff_n(A_μ)‖ is `AbstractMeasure.norm_toCLMEquiv_eq_iSup_coeff`.
+**Bounded Amice isometry.** Provides the isometric identification of the field-valued continuous
+dual with bounded Mahler coefficient sequences. Supplied by PadicFunctionalAnalysis §3.4, clause 1
+(the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
-**The bounded-series range of Amice.** For K in the complete ultrametric field scope above, prove
-that for F ∈ K⟦T⟧ there exists a measure μ with A_μ = F if and only if there is C ≥ 0 such that
-‖coeff_n(F)‖ ≤ C for every n (RJW Definitions 3.5, 3.8,
-3.23; Theorem 3.21 and proof of Theorem 3.25; Remark 3.28(1),(3), p. 119, 123–126). *Needs:* the
-coefficient bound of a field-valued measure, the Amice identity of boundedInvTransform. *Lean:*
-`AbstractMeasure.mem_range_amiceTransform_iff`.
+**The bounded-series range of Amice.** Provides the characterization of field-valued Amice
+transforms by bounded coefficients. Supplied by PadicFunctionalAnalysis §3.4, clauses 1 and 4 (the
+roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
-**Checks.**
-- Over ℚ_p, F = 1 is the transform of δ₀.
-- Over ℚ_p, F = p⁻¹ is the transform of p⁻¹δ₀, so integral coefficients are not required.
-- Over ℚ_p, F = Σ_n p⁻ⁿ T^n has unbounded coefficients and is outside the Amice range.
-
-Prove next that the rational extension E = extendIntegralCoefficients : D(ℤ_p,ℤ_p) → D(ℤ_p,ℚ_p) is
-injective and that ‖toCLMEquiv(E μ)‖ ≤ 1.
-
-**Integral measures are the rational dual unit ball.** Prove that for ν ∈ D(ℤ_p,ℚ_p) there is a
-unique μ ∈ D(ℤ_p,ℤ_p) with extendIntegralCoefficients(μ) = ν if and only if ‖toCLMEquiv(ν)‖ ≤ 1 (RJW
-Definitions 3.5, 3.8, 3.23; Theorem 3.21 and proof of Theorem 3.25; Remark 3.28(1),(3), p. 119,
-123–126). *Needs:* the norm bound and the injectivity of the rational extension,
-`integralAmiceCoefficients`, the coefficient bound of a field-valued measure, the Amice identity of
-the extension. Prove along the way that this image, the unit ball, is weakly closed. *Lean:*
-`AbstractMeasure.exists_integral_iff_norm_le_one`, stated as the existence of an integral μ whose
-values on integral tests are those of ν; uniqueness is the injectivity of the extension.
+**Integral measures are the rational dual unit ball.** Provides the unique integral preimage of a
+rational measure of dual norm at most one. Supplied by PadicFunctionalAnalysis §3.4, clause 4 (the
+roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
 **Rational measures admit an integral power scaling.** Prove that for every ν ∈ D(ℤ_p,ℚ_p) there are
 n ≥ 0 and μ ∈ D(ℤ_p,ℤ_p) such that ν = p^{−n}·extendIntegralCoefficients(μ) (RJW Definitions 3.5,
 3.8, 3.23; Theorem 3.21 and proof of Theorem 3.25; Remark 3.28(1),(3), p. 119, 123–126). *Needs:*
-the unit-ball description.
+the unit-ball description of PadicFunctionalAnalysis §3.4, clause 4.
 
 ### 2.6 Measures on the units inside measures on ℤ_p
 
@@ -1629,16 +1624,17 @@ h, the clopen unit locus, the projector identity of `zeroExtendClopen` (§0.1), 
 formula of `unitRestriction` (§2.2).
 
 **Unit-group measures as the kernel of psi.** Define `AbstractMeasure.unitsMeasureEquivKerPsi p R :
-D(U,R) ≃ₗ[R] ker(psiMeasure p R)`, with forward value j_U ν and inverse r_U on the ambient value of
+D(U,R) ≃ₗ[R] ker(ψ)`, with forward value j_U ν and inverse r_U on the ambient value of
 a kernel element. Its API is `unitsMeasureEquivKerPsi_apply` (the underlying ambient measure is j_U
 ν), `unitsMeasureEquivKerPsi_symm_apply` (the inverse is restrictUnits applied to the ambient
 value), the inherited `LinearEquiv.injective` (unit-group measures are equal if their ambient
 pushforwards are equal) and the inherited `LinearEquiv.apply_symm_apply` (both round trips are the
 identities by the inherited linear equivalence). The intermediate results are the evaluation of a
 kernel element through j_U and the inverse formula through r_U. *Needs:* the section identity r_U
-j_U = id, the projector identity j_U r_U = E, and Eμ = μ iff ψμ = 0 (§2.2). *Lean:*
+j_U = id, the projector identity j_U r_U = E, and Eμ = μ iff ψμ = 0 (PadicFunctionalAnalysis §3.4,
+clause 5). *Lean:*
 `AbstractMeasure.map_unitsVal_injective_and_range`: j_U is injective with range the measures μ with
-Pμ = 0, which is ker ψ by §2.2.
+Pμ = 0, which is ker ψ by PadicFunctionalAnalysis §3.4, clause 5.
 
 **Checks.**
 - At p = 3, ambient δ₁ − δ₂ lies in ker ψ, as ψδ₁ = ψδ₂ = 0, and the inverse sends it to intrinsic
@@ -1656,7 +1652,8 @@ inherited `LinearEquiv.injective` (two integral unit-group measures agree if the
 transforms agree) and the inherited `LinearEquiv.apply_symm_apply` (the kernel hypothesis makes the
 two inverse identities hold, by the inherited linear equivalence). *Needs:*
 `unitsMeasureEquivKerPsi` with its evaluation and inverse formulas, the intertwining psiSeries(Aμ) =
-A(ψμ) (§2.2), the naturality A(δ_a) = (1+T)^a (§2.4).
+A(ψμ) (§2.2), the supplied Amice unit projector (PadicFunctionalAnalysis §3.4, clause 5), the
+naturality A(δ_a) = (1+T)^a (§2.4).
 
 **Checks.**
 - At p = 3, the series for intrinsic δ₂ is (1+T)², while (1+T)³ = Aδ₃ is not in ker(psiSeries) since
@@ -1673,7 +1670,8 @@ and Remark 3.33, p. 129. Built on Mathlib `LinearEquiv.isHomeomorph_iff`,
 First prove that the intrinsic unit restriction r_U is continuous for the weak topologies.
 
 **Weak topology on the unit-measure kernel.** Prove that `unitsMeasureEquivKerPsi p R` is a
-homeomorphism from D(U,R) with its weak topology to the kernel of psiMeasure with the induced
+homeomorphism from D(U,R) with its weak topology to the kernel of the ψ supplied by
+PadicFunctionalAnalysis §3.4, clause 5, with the induced
 ambient weak topology. *Needs:* `unitsMeasureEquivKerPsi` with its evaluation and inverse formulas,
 the weak continuity of r_U, the weak continuity of pushforward (§0.2).
 
@@ -1696,7 +1694,8 @@ field-valued measure.
 **Strong topology on the unit-measure kernel.** For p any prime, U = ℤ_pˣ, K a nontrivially normed
 field, the topologies on both ambient measure carriers `StrongTopology` and the kernel carrying the
 induced subtype topology, prove that `unitsMeasureEquivKerPsi p K` is a homeomorphism from strongly
-topologized D(U,K) to the psiMeasure kernel with its induced ambient strong topology. *Needs:*
+topologized D(U,K) to the kernel of the ψ supplied by PadicFunctionalAnalysis §3.4, clause 5, with
+its induced ambient strong topology. *Needs:*
 `unitsMeasureEquivKerPsi` with its evaluation and inverse formulas, `restrictUnits`, the operator
 norm of the unit inclusion, the operator-norm bounds of clopen restriction and of pushforward
 (§0.2).
@@ -1725,9 +1724,11 @@ the bounded scalar action, with the unit ball meaning ‖toCLMEquiv(ν)‖ ≤ 1
 subspace topology, prove `isClosedEmbedding_extendIntegralCoefficients_weak`: the coefficient
 extension E : D(ℤ_p,ℤ_p) → D(ℤ_p,ℚ_p) is a closed embedding for the weak topologies; thus the
 integral weak topology agrees with the weak subspace topology on the rational unit ball identified
-in §2.5 (RJW Definitions 3.5 and 3.8, p. 119; Theorem 3.25 including proof, pp. 124–125; Remark
+by PadicFunctionalAnalysis §3.4, clause 4 (RJW Definitions 3.5 and 3.8, p. 119; Theorem 3.25
+including proof, pp. 124–125; Remark
 3.28(1),(3), pp. 125–126). *Needs:* the weak compactness of integral measures, the weak continuity
-of the extension, the injectivity of the rational extension and the unit-ball description (§2.5).
+of the extension, the injectivity of the rational extension and the unit-ball description
+(PadicFunctionalAnalysis §3.4, clause 4).
 
 ### 2.8 Integral coefficient extension on the unit domain
 
@@ -1760,7 +1761,8 @@ section identity (§2.6).
 
 **Integral unit measures form the rational unit ball.** Prove that for ν ∈ D(U,ℚ_p) there is a
 unique μ ∈ D(U,Z) with I_{U,ℚ_p} μ = ν if and only if the operator norm of ν is at most one.
-*Needs:* the injectivity and the norm bound of I_{U,ℚ_p}, the unit-ball description on ℤ_p (§2.5),
+*Needs:* the injectivity and the norm bound of I_{U,ℚ_p}, the unit-ball description on ℤ_p
+(PadicFunctionalAnalysis §3.4, clause 4),
 the operator norm of the unit inclusion (§2.7), the compatibility of the extension with restriction,
 the section identity of r_U, `integralAmiceCoefficients` (§2.5). Prove along the way that this unit
 ball is weakly closed.
@@ -1854,19 +1856,16 @@ References: RJW Section 3.5.5, p. 128; Proposition 12.5, pp. 179–180. Built on
 `AbstractMeasure.amiceTransformEquiv` and the `PowerSeries` lemmas `binomialSeries_constantCoeff`
 and `coeff_subst'`.
 
-First prove the naturality of the Mahler basis under dilation (mahler_n ∘ d_a is the composite of
-the Mahler expansion of x ↦ binom(ax, n)) and the dilation identity for Mahler functions.
+**Amice transform of dilation pushforward.** Provides the identification of pushforward by x ↦ ax
+with binomial substitution on integral Amice transforms. Supplied by PadicFunctionalAnalysis §3.4,
+clause 5 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
-**Amice transform of dilation pushforward.** Prove that for every a in Z and integral measure μ in
-D(Z,Z), A(map(d_a, μ)) = S_a(A(μ)); the side condition that the substitution S_a is defined, b_a =
-binomialSeries(a) − 1 having zero constant coefficient, is Tau Ceti's
-`hasSubst_binomialSeries_sub_one`. *Needs:* the Mahler dilation identity, Tau Ceti
-`hasSubst_binomialSeries_sub_one`. Prove along the way that unit restriction commutes with dilation
-by a unit, and that dilation by a unit preserves the kernel of ψ. *Lean:*
-`AbstractMeasure.amiceTransform_map_mul`.
+For the inverse Mahler covariance here, prove that dilation by a unit commutes with unit restriction
+and preserves the kernel of ψ, using the support criterion of §2.6.
 
 **Inverse Mahler covariance under binomial substitution.** Prove that for a unit a in Z and every F
-in B, inverseMahler(S_a(F)) = a⁻¹·S_a(inverseMahler(F)). *Needs:* the Amice dilation identity, the
+in B, inverseMahler(S_a(F)) = a⁻¹·S_a(inverseMahler(F)). *Needs:* the Amice dilation identity of
+PadicFunctionalAnalysis §3.4, clause 5, the
 dilation covariance of J (§2.3), H(Aμ) = A(Jμ) (§2.3). Prove along the way that the coefficients of
 S_a(F) depend continuously on a.
 
@@ -1936,7 +1935,8 @@ lemmas of §0.2, the finite projections of §1.1). Mathlib: `AbstractMeasure` wi
 `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`; `LocallyConstant.charFn`,
 `LocallyConstant.coe_charFn`; `IsClopen.preimage`; `PadicInt.ker_toZModPow`,
 `PadicInt.not_isUnit_iff`; `Ring.inverse_non_unit`; `PadicComplex.norm_extends'`, `Valued.integer`;
-`LinearEquiv.isHomeomorph_iff`. No other roadmap.
+`LinearEquiv.isHomeomorph_iff`. PadicFunctionalAnalysis §3.4, clauses 1, 4 and 5 supplies the bounded dual, integral unit ball,
+and multiplication pushforwards with Frobenius/psi identities.
 
 ## Layer 3: pseudo-measures and evaluation
 
@@ -2193,8 +2193,10 @@ form a parameter space on which measures become bounded analytic functions and p
 become meromorphic functions with at most a simple pole at the trivial character. This layer fixes
 that space and its functions at the level of points and bounded functions, on the carriers of Layers
 1–3; it comes after Layer 3 because every function it defines is a scalar evaluation of §3.1 through
-f_χ(μ) = ι_j(μ)(χ) from §1.7. Nothing rigid-analytic is built: the consumers build the rigid
-structure on the universal property of the universal character below.
+f_χ(μ) = ι_j(μ)(χ) from §1.7. The character space and its bounded functions are supplied by
+PadicFunctionalAnalysis §§5.1–5.3; this layer builds the pseudo-measure functions on that space.
+Nothing rigid-analytic is built: the consumers build the rigid structure on the supplied universal
+property.
 
 ### 3a.1 The character space of ℤ_pˣ and its functions
 
@@ -2210,78 +2212,32 @@ an O-valued measure is never a norm on D(ℤ_pˣ, O) (Layers 0 and 2 install non
 appears below it means the operator norm of ι_j(μ) through `toCLMEquiv` on the field-valued carrier,
 and ‖ι_j(μ)‖ ≤ 1 for every μ ∈ D(ℤ_pˣ, O) because j is an isometry into the closed unit ball.
 
-References: RJW Remark 3.47, p. 135, which treats odd p (the decomposition at p = 2 is stated here
-without a source in this register); Remark 8.3(2) on O⁺(W) and Q(W), pp. 160–161.
+References: RJW Remark 3.47, p. 135, which treats odd p; PadicFunctionalAnalysis §5.1, clause 1
+for the decomposition at p = 2; RJW Remark 8.3(2) on O⁺(W) and Q(W), pp. 160–161.
 
-**Continuous characters of the units.** Define W(A) = Hom_cts(ℤ_pˣ, Aˣ) for a complete normed
-commutative ℚ_p-algebra A, with its restriction maps to the torsion part and to the principal units,
-and the decomposition of its points W(A) ≅ Hom(μ_{p−1}, Aˣ) × Hom_cts(1 + pℤ_p, Aˣ) for odd p, and
-W(A) ≅ Hom({±1}, Aˣ) × Hom_cts(1 + 4ℤ_2, Aˣ) for p = 2. The decomposition is the decomposition of
-the group ℤ_pˣ as a direct product; it is a bijection of sets of characters for every A, including
-p = 2, and says nothing about the integral measure algebra: for odd p the idempotents of
-`charIdempotent` (§4.6) split D(ℤ_pˣ, O) = O⟦ℤ_pˣ⟧ into p − 1 copies of O⟦1 + pℤ_p⟧ ≅ O⟦T⟧ (#μ_{p−1}
-is a unit of O), whereas for p = 2 the ring ℤ_2[{±1}] is local and D(ℤ_2ˣ, ℤ_2) ≅ ℤ_2[{±1}]⟦T⟧ does
-not split; the two torsion components of W(A) at p = 2 are split only after inverting 2, that is on
-the generic fibre, where (1 ± [−1])/2 are idempotents. The product decomposition of the group itself
-is Tau Ceti's: `TauCeti.padicIntUnitsEquivProd` gives ℤ_pˣ ≅ μ_{p−1} × (1 + pℤ_p) for odd p, while
-for p = 2 the library has only the subgroup `TauCeti.unitsPlusMinus` and the decomposition {±1} ×
-(1 + 4ℤ_2) is stated here. Its API is `W.restrictTorsion`, `W.restrictPrincipal`, `W.equivProd` (the
-displayed decomposition of points), `W.eval` (evaluation of a character at a unit) and `W.map`
-(functoriality in A along continuous algebra maps). *Needs:* `PadicInt.unitsToZModPow` (§1.3), Tau
-Ceti `TauCeti.padicIntUnitsEquivProd` (p odd) and `TauCeti.unitsPlusMinus` (p = 2), Mathlib
-`PadicComplex`, `ContinuousMonoidHom`. *Lean:* the second check is three `example`s in namespace
-`UniversalCharacter`; W(A) and its API are specified here only.
+**Continuous characters of the units.** Provides W(A), its torsion and principal restrictions, and
+the product decomposition of continuous characters, including the 1 + 4ℤ₂ factor at p = 2. Supplied
+by PadicFunctionalAnalysis §5.1, clause 1, and §5.2, clause 1 (the roadmap of W. Coram, to be
+contributed to TauCetiRoadmap ahead of this one). The supplier allows ultrametric ℤ_p-algebra
+coefficients; this roadmap specializes to complete ultrametric normed commutative ℚ_p-algebras A,
+and uses the integral versus generic splitting of §4.6 when p divides the torsion order.
 
-**Checks.**
-- For A = C_p and p odd, the p − 1 characters of μ_{p−1} index the fibres of `W.restrictTorsion`.
-- The character x ↦ x^k lies in W(ℚ_p) for every integer k, and x^k and x^{k′} have the same torsion
-  restriction exactly when k ≡ k′ modulo p − 1 for odd p, or modulo 2 for p = 2: the modulus is the
-  order of the torsion subgroup of ℤ_pˣ (two `example`s in `UniversalCharacter`). At p = 2, the
-  exponents 1 and 2 are congruent modulo 1, but their characters take the distinct values −1 and 1
-  at −1 (a third `example` there).
-- For p odd and A = ℚ_p, the Teichmüller character ω(x) = lim x^{p^n} has trivial principal
-  restriction and torsion restriction the inclusion μ_{p−1} ⊂ ℚ_pˣ, so `W.equivProd`(ω) = (incl, 1)
-  although ω ≠ 1.
-- At p = 2, A = ℚ_2: the sign character sgn, the projection ℤ_2ˣ = {±1} × (1 + 4ℤ_2) → {±1} ⊂ ℚ_2ˣ,
-  so sgn(−1) = −1 and sgn = 1 on 1 + 4ℤ_2, has `W.equivProd`(sgn) = (sgn|_{±1}, 1), and the element
-  e = (1 − [−1])/2 of ℚ_2[{±1}] is not in ℤ_2[{±1}], so the splitting of the two components is
-  generic and not integral.
+**Characters of the principal units and the open unit disc.** Provides the parametrization of
+principal characters by the open unit disc and the torsion-indexed discs of W(C_p). Supplied by
+PadicFunctionalAnalysis §5.2, clause 2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap
+ahead of this one). This roadmap takes the supplier’s complete field K to be C_p and uses its
+change-of-generator formula (§5.2, clause 5) for the chosen principal generator.
 
-**Characters of the principal units and the open unit disc.** For A = C_p and u a topological
-generator of 1 + pℤ_p (of 1 + 4ℤ_2 for p = 2), prove that evaluation at u identifies Hom_cts(1 +
-pℤ_p, Aˣ) with {z ∈ A : |z − 1| < 1}, so that W(C_p) is a disjoint union of p − 1 (two, for p = 2)
-copies of the open unit disc, indexed by the characters of the torsion part; the inverse sends z to
-the character u^a ↦ z^a extended by continuity, which requires |z − 1| < 1 (RJW Remark 3.47, p.
-135). That a topological generator exists, and that the closure of its powers is the whole principal
-unit group, is Tau Ceti's `exists_topologicalClosure_zpowers_eq_unitsPrincipal`. *Needs:* W and its
-decomposition, the unit p + 1 and its positive powers (§3.2), Tau Ceti
-`exists_topologicalClosure_zpowers_eq_unitsPrincipal`, Mathlib `PadicInt.hasSum_mahler`.
+**Measures as bounded functions on the character space.** Provides the specialization function F_μ
+on W(C_p), its multiplicativity, the bound by the extended dual norm and one, and injectivity.
+Supplied by PadicFunctionalAnalysis §5.3, clause 5 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one). The supplier’s Lean form has ℤ_p coefficients; this roadmap
+obtains O-valued functions by the finite free coefficient comparison of §1.7 and the isometric
+extension O → C_p, with the bound from §1.7 and injectivity tested in each coefficient coordinate on
+rational-valued classical characters, using Mahler density after extension by zero.
 
-**Measures as bounded functions on the character space.** For a measure μ ∈ D(ℤ_pˣ, O), define F_μ :
-W(C_p) → C_p by F_μ(χ) = ι_j(μ)(χ), the value of the extended measure on the C_p-valued test
-function χ; the integral of a C_p-valued character against an O-valued measure is ι_j(μ)(χ) with ι_j
-the extension map of §1.7, not an assertion that every C_p-valued measure is an extended integral
-one. Prove that |F_μ(χ)| ≤ ‖ι_j(μ)‖ ≤ 1, F_{μ⋆ν} = F_μ·F_ν for the multiplicative convolution (ι_j
-is a ring homomorphism and χ is multiplicative: `extendCoefficients_mul` and
-`characterIntegralAlgHom` of §1.6 over C_p), F_{δ_a}(χ) = χ(a), and μ ↦ F_μ is injective (the
-characters span a dense subspace of C(ℤ_pˣ, C_p), and ι_j is injective); on each disc of the
-previous statement, F_μ is the evaluation of the Amice transform of the corresponding residue
-component, so it is a bounded analytic function of the disc coordinate (RJW Remark 3.47, p. 135;
-Remark 8.3(2), pp. 160–161). Its API is `W.measureFun`, `W.measureFun_conv`, `W.measureFun_dirac`,
-`W.measureFun_injective`, `W.measureFun_norm_le` (|F_μ(χ)| ≤ ‖ι_j(μ)‖) and
-`W.measureFun_eq_amice_eval` (the identification with the Amice transform on each disc). *Needs:* W
-and its decomposition, the disc description of the principal characters, `extendCoefficients`
-(§1.7), the naturality of the Amice transform on Dirac measures and the Amice unit projector (§2.2),
-`unitCharacterEval` (§3.3).
-
-**Checks.**
-- F_{δ_a}(x ↦ x^k) = a^k, so F_{δ_1} = 1 and F_{δ_a ⋆ δ_b}(x ↦ x^k) = (ab)^k = F_{δ_a}(x ↦
-  x^k)·F_{δ_b}(x ↦ x^k), while F_{δ_a + δ_b}(x ↦ x) = a + b, which distinguishes the convolution
-  rule from the sum.
-- For a ≠ b in ℤ_pˣ, F_{δ_a − δ_b} vanishes at the trivial character but takes the value a − b ≠ 0
-  at x ↦ x, so a measure of total mass zero need not have F_μ = 0.
-- The bound |F_μ(χ)| ≤ ‖ι_j(μ)‖ is attained by μ = δ_a: ‖ι_j(δ_a)‖ = 1 and |χ(a)| = 1 for every χ ∈
-  W(C_p), since χ(a)^{(p−1)p^n} → 1.
+The O-coefficient comparison identifies each principal-disc function with the corresponding Amice
+evaluation, using PadicFunctionalAnalysis §3.4 and §5.3, clause 5.
 
 **Pseudo-measures as functions with at most a simple pole at the trivial character.** For a
 pseudo-measure λ on ℤ_pˣ with O-coefficients (`pseudomeasures` of §3.1: ([g] − 1)λ is a measure for
@@ -2304,7 +2260,8 @@ which holds since C_p is a field and χ(g) ≠ 1) are discharged separately, as 
 (RJW Remark 3.47, p. 135; Remark 8.3(2), pp. 160–161). Its API is `W.pseudoMeasureFun`,
 `W.pseudoMeasureFun_eq` (F_λ(χ) = F_{([g]−1)λ}(χ)/(χ(g) − 1) for every g with χ(g) ≠ 1),
 `W.pseudoMeasureFun_integral` (F_λ = F_μ when λ = μ) and `W.pseudoMeasureFun_smul` (F_{μ⋆λ} =
-F_μ·F_λ). *Needs:* `W.measureFun`, `pseudomeasures`, `numerator`, `numerator_cross`, `evalAt` and
+F_μ·F_λ). *Needs:* the measure function of PadicFunctionalAnalysis §5.3, clause 5, with the
+O-coefficient comparison above; `pseudomeasures`, `numerator`, `numerator_cross`, `evalAt` and
 the independence of the clearing factor (§3.1).
 
 **Checks.**
@@ -2324,88 +2281,31 @@ the independence of the clearing factor (§3.1).
   formula with g = −1 gives F_{([−1]−1)λ}(χ)/(−2) = 0, a finite value, where the formula with g = 5
   is 0/0, and on the trivial-sign component F_λ(χ) = 2/(χ(5) − 1), a simple pole.
 
-**The universal character and the generic fibre.** For Γ = ℤ_p (written additively, with
-generator 1) and Λ = ℤ_p⟦T⟧ ≅ `completedGroupAlgebra ℤ_p Γ` through `powerSeriesCoordinate`, define
-the universal character `universalCharacter : Multiplicative ℤ_p →* Λˣ`, κ : Γ → Λˣ, a ↦ (1 + T)^a =
-`binomialSeries` ℤ_p a (`PowerSeries.binomialSeries`, the series with coefficients binom(a, n), a
-unit with inverse (1 + T)^{−a}), so that κ(n) = (1 + T)^n for n ∈ ℕ and κ(1) = 1 + T. Prove the
-universal property in the adic case: for a commutative ring S that is a complete Hausdorff
-topological ℤ_p-algebra with a linear topology (`IsLinearTopology S S`, `CompleteSpace S`, `T2Space
-S`; for instance O with its 𝔪-adic topology, or O⟦T⟧) and a topologically nilpotent z ∈ S
-(`PowerSeries.HasEval z`), `PowerSeries.aeval` z is the unique continuous ℤ_p-algebra map Λ → S with
-T ↦ z, and the composite of κ with it is the continuous character a ↦ (1 + z)^a; conversely, a
-character χ : Γ → Sˣ, continuous for the topology of Sˣ, with χ(1) − 1 topologically nilpotent, is
-the composite of κ with `aeval` (χ(1) − 1): χ(a) = `aeval` (χ(1) − 1) (κ a) for every a. Prove the
-normed case: for a complete normed commutative ℚ_p-algebra A with bounded scalar action (whose
-topology is not linear, so `aeval` does not apply) and z ∈ A with ‖z‖ < 1, the evaluation Λ → A, F ↦
-Σ_n coeff_n(F) z^n, converges (`HasSum`, as in `rootTranslation` of §2.4), is a continuous
-ℤ_p-algebra map, the unique one with T ↦ z, and the composite of κ with it is a ↦ (1 + z)^a; every
-continuous χ : Γ → Aˣ with ‖χ(1) − 1‖ < 1 arises this way, uniquely. Extension to G = H × ℤ_p^d, H
-finite abelian: the universal character G → (O⟦T_1, ⋯, T_d⟧[H])ˣ sends (h, a) to [h]·∏_i (1 +
-T_i)^{a_i}; a continuous character of G into Aˣ is a character of H times a d-tuple of characters of
-ℤ_p. For C_p-valued points all principal characters correspond to the open polydisc, with
-coordinates z_i = χ(e_i) − 1 and ‖z_i‖ < 1. For a general complete normed commutative ℚ_p-algebra A,
-this assertion is restricted to the subfamily satisfying ‖χ(e_i) − 1‖ < 1 for every i; only that
-subfamily is parametrized by the norm polydisc on the component indexed by the restriction to H; the
-comparison with the torsion components of W(A) is coordinatewise, with the integral/generic
-distinction of the first statement of this subsection when p divides #H. Hypotheses: adic case, S a
-complete Hausdorff linearly topologized commutative ring with a continuous ℤ_p-action and z
-topologically nilpotent; normed case, A a complete normed commutative ℚ_p-algebra with bounded
-scalar action and ‖z‖ < 1, which implies topological nilpotency, the converse failing in general
-(the condition is on the norm, not on the spectral radius). The two cases are stated separately;
-neither is a special case of the other (RJW Proposition 3.16, pp. 121–122, and Theorem 3.25, p. 124,
-which give the identification of measures with Λ and with ℤ_p⟦T⟧ that the universal property
-restates). Its API is `universalCharacter` (Multiplicative ℤ_p →* Λˣ, a ↦ binomialSeries ℤ_p a),
-`universalCharacter_apply_coe`, `universalCharacter_natCast` (κ(n) = (1 + T)^n),
-`universalCharacter_one` (κ(1) = 1 + T), `characterOfHasEval` (for z topologically nilpotent in S,
-the character a ↦ aeval z (κ a)), `characterOfHasEval_eq` (a continuous character χ with χ(1) − 1
-topologically nilpotent equals characterOfHasEval (χ(1) − 1)), `continuous_characterOfHasEval`,
-`aeval_unique` (the continuous ℤ_p-algebra map with T ↦ z is unique; Mathlib's `PowerSeries` lemma
-of that name) and `characterOfNorm` (the normed-case character for ‖z‖ < 1 with its `HasSum`
-description). *Needs:* `toCompletedGroupAlgebra` (§1.7), the naturality of the Amice transform on
-Dirac measures and the bounded-series range of the Amice transform (§2.2, §2.5), Tau Ceti
-`completedGroupAlgebra.of`, Tau Ceti `completedGroupAlgebra.powerSeriesCoordinate`, Mathlib
-`PowerSeries.binomialSeries`, `PowerSeries.HasEval`, `PowerSeries.aeval` with `aeval_unique`.
-*Lean:* the adic case is `UniversalCharacter.exists_character_of_hasEval` with its converse
-`UniversalCharacter.eq_aeval_binomialSeries`, the normed case
-`UniversalCharacter.existsUnique_character_of_norm_lt_one`; the κ(−1) check, the checks on p − 1 and
-on T ↦ p, and the dual-number negative control are recorded as `example`s.
-
-**Checks.**
-- κ(n) = (1 + T)^n for n ∈ ℕ, whose coefficient of T is n, and κ(−1) = (1 + T)^{−1} = Σ_k (−T)^k,
-  not 1 − T.
-- Negative control: in A = ℚ_p[ε]/(ε²) with coefficient maximum norm, χ(a) = 1 + aε
-  (`dualNumberCharacter`) is continuous, has inverse 1 − aε, and ‖χ(1) − 1‖ = 1. Evaluation still
-  exists as F ↦ coeff₀(F) + coeff₁(F)ε. This character is outside the small-norm subfamily; it
-  refutes an all-Banach-characters norm-disc assertion, while the separate adic `characterOfHasEval`
-  theorem retains its stated hypotheses.
-- The trivial character corresponds to z = 0, `aeval` 0 being the augmentation Λ → ℤ_p (constant
-  coefficient), and the character 1 ↦ 1 + p into S = ℤ_p corresponds to z = p, under which κ(n) ↦
-  (1 + p)^n.
-- No continuous ℤ_p-algebra map Λ → ℚ_p sends T to p − 1, since T^k → 0 in Λ while (p − 1)^k does
-  not tend to 0 in ℚ_p, so p − 1 is not topologically nilpotent and ‖p − 1‖ = 1; accordingly n ↦ p^n
-  is not the restriction to ℕ of a continuous character of ℤ_p, and the hypothesis on χ(1) − 1 is
-  not redundant.
-- The map Λ → ℚ_p, T ↦ p, exists in the normed case (‖p‖ < 1) but not through `aeval`, since the
-  topology of ℚ_p is not linear.
+**The universal character and the generic fibre.** Provides the universal character with its adic
+and small-norm specialization properties and binomial formulas. Supplied by PadicFunctionalAnalysis
+§5.3, clauses 1 and 3 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this
+one). The supplier uses Γ = ℤ_pˣ; this roadmap restricts to the principal factor, transports along a
+↦ γ^a to Γ = ℤ_p, and applies the result coordinatewise for H × ℤ_p^d; the normed case assumes A
+ultrametric and ‖χ(e_i) − 1‖ < 1 for every i, while the adic case retains a complete Hausdorff
+linear topology and topologically nilpotent coordinates.
 
 ### Examples
 
-- At p = 2 the sign character has `W.equivProd`(sgn) = (sgn|_{±1}, 1), and (1 − [−1])/2 ∉ ℤ_2[{±1}]:
-  the two components of W(ℚ_2) split only generically.
 - For λ = e_1/([u] − 1), u = 1 + p, p odd, F_λ has a simple pole at the trivial character on the
   trivial-torsion component and vanishes at every nontrivial Teichmüller character, while 1/([u]
   − 1) itself is not a pseudo-measure on ℤ_pˣ; at p = 2 the pseudo-measure (1 + [−1])/([5] − 1)
   needs the clearing element g = −1 at the sign character, where g = 5 gives 0/0.
-- κ(−1) = (1 + T)^{−1} = Σ_k (−T)^k, and T ↦ p − 1 extends to no continuous ℤ_p-algebra map Λ → ℚ_p.
 
 ### Dependencies
 
 Layers 1–3: `PadicInt.unitsToZModPow`, `extendCoefficients`, `completedGroupAlgebraBaseChange`,
 `toCompletedGroupAlgebra` (Layer 1); the Amice transform on Dirac measures, the Amice unit
-projector, the bounded-series range, `rootTranslation` (Layer 2); `pseudomeasures`, `numerator`,
+projector and bounded-series range (PadicFunctionalAnalysis §3.4, clauses 1, 4 and 5),
+`rootTranslation` (Layer 2); `pseudomeasures`, `numerator`,
 `numerator_cross`, `evalAt`, `unitCharacterEval`, the unit p + 1 and its powers (Layer 3);
-`charIdempotent` of §4.6 is cited only to explain which splittings are integral. Tau Ceti
+PadicFunctionalAnalysis §§5.1–5.3 supplies the character space, its discs, universal character and
+bounded measure functions. `charIdempotent` of §4.6 is cited only to explain which splittings are
+integral. Tau Ceti
 `completedGroupAlgebra.of` and `completedGroupAlgebra.powerSeriesCoordinate` (ProfiniteProPGroups,
 layer 9), `TauCeti.padicIntUnitsEquivProd`, `TauCeti.unitsPlusMinus`,
 `exists_topologicalClosure_zpowers_eq_unitsPrincipal`, `not_isOfFinOrder_of_mem_unitsPrincipal`,
@@ -2588,11 +2488,8 @@ factor (NSW (5.3.1)–(5.3.4), pp. 289–290). NSW allows any complete noetheria
 residue field; Mathlib needs `IsAdicComplete (maximalIdeal O) O`.
 
 Then prove the remaining ring theory of Λ: the height-one primes are (ϖ) and the (F) for F
-irreducible distinguished; every nonzero power series factors as a unit times a power ϖ^μ times a
-distinguished polynomial, which reduces to Mathlib's unit-reduction case
-`PowerSeries.exists_isWeierstrassFactorization` (with `weierstrassDistinguished`, `weierstrassUnit`
-and the uniqueness `IsWeierstrassFactorization.unique`) after dividing by ϖ^μ, μ the smallest
-ϖ-valuation of a coefficient; the quotient Λ/(F) ≅ O[X]/(F) by a distinguished F is free of rank deg
+irreducible distinguished, using the preparation supplied by NewtonPolygons §6.3, clause 3; the
+quotient Λ/(F) ≅ O[X]/(F) by a distinguished F is free of rank deg
 F, by Mathlib's `Polynomial.IsDistinguishedAt.algEquivQuotient` with
 `Polynomial.Monic.free_quotient` and `Polynomial.Monic.finite_quotient`; the cyclotomic series ω_n
 are distinguished polynomials of degree p^n, which is Tau Ceti's
@@ -2603,13 +2500,20 @@ stated here; ω_n = ∏_{m ≤ n} ξ_m (`cyclotomic_product`), with each ξ_m di
 `xi_irreducible_padicInt`: each ξ_m is irreducible, with ξ₀ = T and the positive-index factors
 Eisenstein at p (Mathlib `cyclotomic_prime_pow_comp_X_add_one_isEisensteinAt`,
 `RingTheory/Polynomial/Eisenstein/IsIntegral.lean`). This irreducibility assertion is restricted to
-ℤ_p. *Lean:* `TauCeti.Iwasawa.height_one_prime_iff`,
-`TauCeti.Iwasawa.exists_pow_mul_distinguished_mul_unit` and
-`TauCeti.Iwasawa.xi_irreducible_padicInt`, with the check below as an `example`.
+ℤ_p. *Lean:* `TauCeti.Iwasawa.height_one_prime_iff` and
+`TauCeti.Iwasawa.xi_irreducible_padicInt`.
 
-**Checks.**
-- For p = 2 and O = ℤ₂[i], i² = −1, the distinguished factor ξ₂ = T² + 2T + 2 equals (T − (i − 1))(T
-  − (−i − 1)) and is reducible; both factors are monic of degree one.
+**Weierstrass preparation with a uniformizer power.** Provides the factorization of a nonzero series
+into a uniformizer power, a distinguished polynomial and a unit. Supplied by NewtonPolygons §6.3,
+clause 3 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The
+supplier works on the valuation ring of a complete discretely valued field; this roadmap equips
+Frac(O) with the uniformizer valuation norm, proves completeness from the maximal-ideal-adic
+completeness of O, identifies O with its valuation ring, and transports the factorization, commuting
+the unit and polynomial factors.
+
+The reducibility check over ℤ₂[i] is supplied under “Targets requested by the Tau Ceti
+PadicMeasuresIwasawaAlgebras roadmap”, **Check** following **exists_pow_mul_distinguished_mul_unit**
+in NewtonPolygons.
 
 ### 4.4 The invariants μ and λ, projectors and components
 
@@ -2754,27 +2658,12 @@ first two assertions of the third check and the negative control as `example`s.
   and level-zero map, but sends C(S) to S + ([1] − 1) at positive levels. It fails
   `levelCoordinate_C` and cannot be an O-algebra map.
 
-**The measure comparison in the power-series coordinate.** For Γ = ℤ_p with generator 1, prove that
-the composite of the comparison D(ℤ_p, ℤ_p) → `completedGroupAlgebra ℤ_p ℤ_p` of §1.7
-(`toCompletedGroupAlgebra`) with the inverse of Tau Ceti's `powerSeriesCoordinate` : ℤ_p⟦T⟧ ≅
-`completedGroupAlgebra ℤ_p ℤ_p` (T ↦ [1] − 1) is the Amice transform of Layer 2: δ_a ↦ (1 + T)^a on
-both sides (the naturality of the Amice transform on Dirac measures, §2.4, and
-`powerSeriesCoordinate_X`), both are continuous ℤ_p-algebra maps for the weak topology and the
-coefficientwise topology (the weak homeomorphism of the integral Amice transform, §2.7, and Tau
-Ceti's continuity of the coordinate), and the Dirac measures span a weakly dense subspace; at level
-n the composite with `levelCoordinate` is the finite projection π_{ρ_n} of `finiteProjectionAlgHom`
-(§1.2) (RJW Proposition 3.16 and Theorem 3.25, pp. 121–125). This is a consequence of the two
-earlier constructions and is stated here, after both, so that neither is defined through it.
-*Needs:* `iwasawaCoordinate`, `toCompletedGroupAlgebra` (§1.7), `finiteProjectionAlgHom` (§1.2), the
-Dirac naturality of the Amice transform (§2.4), the integral Amice weak homeomorphism (§2.7), Tau
-Ceti `completedGroupAlgebra.powerSeriesCoordinate`, `powerSeriesCoordinate_X`. *Lean:*
-`TauCeti.Iwasawa.exists_algEquiv_eq_powerSeriesCoordinate_amiceTransform`.
-
-**Checks.**
-- δ_1 ↦ 1 + T.
-- δ_0 ↦ 1.
-- δ_{−1} ↦ (1 + T)^{−1}, whose coefficient of T is −1 (a comparison through T ↦ [1] instead of [1] −
-  1 would send δ_1 to T and fail δ_0 ↦ 1).
+**The measure comparison in the power-series coordinate.** Provides the equality of the
+completed-group-algebra power-series coordinate and the integral Amice transform. Supplied by
+PadicFunctionalAnalysis §5.3, clause 4, second sentence, and §3.4, clause 4 (the roadmap of W.
+Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplier uses the principal
+factor 1 + qℤ_p; this roadmap transports it along a ↦ γ^a, so that its additive generator 1 gives T
+= [1] − 1.
 
 **The initial Fitting ideal.** For a commutative ring R and a finite R-module M (Tau Ceti needs only
 `Module.Finite`, not finite presentation), Fitt⁰_R(M) is Tau Ceti's `TauCeti.fittingIdeal R M 0`
@@ -3132,7 +3021,8 @@ and M/M_δ = Λ/(T) is all δ-torsion, and ℤ_p-free.
 
 ### Dependencies
 
-Layer 1 (§1.2, §1.7) and Layer 2 (§2.4, §2.7) for the measure comparison in the coordinate; the
+PadicFunctionalAnalysis §5.3, clause 4, and §3.4, clause 4 for the measure comparison in the
+coordinate; NewtonPolygons §6.3, clause 3 for preparation; the
 Galois-orbit decomposition of §4.6 evaluates through Mathlib's `MonoidAlgebra.lift` and does not
 depend on §6.1 (Layer 6 consumes Layer 4's character idempotents, not the other way round). Mathlib:
 `Module.Dual`, `LocalizedModule`, `Module.IsReflexive`, `Module.IsReflexive.to_isTorsionFree`,
