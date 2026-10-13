@@ -398,7 +398,9 @@ theorem qpZp_length_quotient_imageF :
 
 end DieudonneModule
 
-/-- The Frobenius twist `G^{(p)} = G ×_{k, Frob} k`. -/
+/-- The Frobenius twist `G^{(p)} = G ×_{k, Frob} k`: the group base-change adapter of R07.1.1,
+using the relative convention of CohomologicalPointCounting §Family-wide conventions / Frobenius
+(an open TauCetiRoadmap pull request by bwangpj). -/
 def frobeniusTwist (G : FLF k) : FLF k :=
   letI : Algebra k k := (frobenius k p).toAlgebra
   (FiniteLocallyFreeCommAffineGroupSchemeCat.baseChangeFunctor k k).obj G

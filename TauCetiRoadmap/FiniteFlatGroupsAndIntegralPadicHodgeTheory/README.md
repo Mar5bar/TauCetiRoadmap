@@ -388,6 +388,12 @@ laws) with `FormalGroup.IsComm`.
   Layer IG.0, **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
   Layer SR.2 (smooth and compact induction for `GL₂(F)`), as listed under *Scope and ownership*.
 
+### From other open roadmap pull requests
+
+| Supplier | Provides / consumer | Convention gap |
+| --- | --- | --- |
+| CohomologicalPointCounting §The roadmaps / Frobenius morphisms and finite-field points (FrobeniusGeometry), with §Family-wide conventions / Frobenius (an open TauCetiRoadmap pull request by bwangpj) | Absolute and relative scheme Frobenius, functoriality, products and the base-change square; §R07.1.1 upgrades the scheme map to `frobeniusHom` and keeps `frobeniusTwist` as its group base-change adapter | Our F_X means their relative F_{X/Spec k}; X^{(p)} twists along the p-power map on the base. The contract is used over fields; the flat affine group extension over arbitrary characteristic-p rings, including the symmetric-tensor construction, is built here. |
+
 ## How to read the build
 
 Layer R07.1 is the structure theory of finite flat groups and `p`-divisible groups over general
@@ -424,11 +430,18 @@ schemes and flat descent.
 
 ### R07.1.1 Relative Frobenius and Verschiebung of commutative group schemes
 
-Construct `frobeniusHom` and `verschiebungHom`. Let k be a field of characteristic p. For a k-scheme
-X put X^{(p)} = X ⊗_{k,σ} k; the relative Frobenius F_X : X → X^{(p)} is induced by the absolute
-Frobenius and is functorial in X, compatible with products and with base extension. For an affine
-commutative group scheme G over k, F_G : G → G^{(p)} is a homomorphism, and the Verschiebung V_G :
-G^{(p)} → G is the homomorphism whose algebra map is obtained from iterated comultiplication
+Provides absolute and relative scheme Frobenius with functoriality, products and base-change
+compatibility for the scheme input used here. Supplied by CohomologicalPointCounting §The roadmaps /
+Frobenius morphisms and finite-field points (FrobeniusGeometry), with §Family-wide conventions /
+Frobenius (an open TauCetiRoadmap pull request by bwangpj). Here F_X : X → X^{(p)} means their
+relative F_{X/Spec k} (their F_X is absolute) and X^{(p)} = X ⊗_{k,σ} k twists along the p-power map
+σ on the base, so the group API uses this relative convention and retains the flat-group extension
+to characteristic-p ring bases.
+
+Construct `frobeniusHom` and `verschiebungHom`. Let k be a field of characteristic p. For an affine
+commutative group scheme G over k, upgrade the supplied relative scheme Frobenius to a homomorphism
+F_G : G → G^{(p)}. The Verschiebung V_G : G^{(p)} → G is the homomorphism whose algebra map is
+obtained from iterated comultiplication
 A → (A^{⊗p})^{S_p}, projection modulo the symmetrization norm image, and the inverse of
 λ_A : A ⊗_{k,σ} k ≅ (A^{⊗p})^{S_p}/im(N_{S_p}); it is functorial, compatible with products and base
 extension, and for finite G it
@@ -445,8 +458,10 @@ Over a field `G` is affine commutative, and over a ring `R` of characteristic `p
 commutative; the duality statement needs `G` finite (finite locally free over `R`). For elliptic
 curves this specialises to ModularCurves Layer 7E (PD-3).
 
-*Construction.* F_X: the absolute Frobenius σ_X is functorial and compatible with products; factor
-it through X^{(p)} (Pink Proposition 14.1). V_G: project the iterated comultiplication to
+*Construction.* Use the scheme naturality and product compatibility supplied by CohomologicalPointCounting
+§The roadmaps / Frobenius morphisms and finite-field points (FrobeniusGeometry) to prove that F_G
+preserves multiplication, identity and inversion, and transport the supplied naturality and
+base-change square to the group API. V_G: project the iterated comultiplication to
 (A^{⊗p})^{S_p}/im(N_{S_p}) and compose with λ_A⁻¹ (Stix (8.3)–(8.5)); functoriality, products and base
 change (Proposition 14.3). For finite G, V_G = (F_{G^\*})^\* under the Cartier duality of Tau Ceti's
 FiniteLocallyFreeCommAffineGroupSchemeCat. V_G ∘ F_G = p and F_G ∘ V_G = p: on algebras, F_A and V_A
@@ -469,7 +484,9 @@ The API:
   finite flat group, the base change along the Frobenius of `k`; at the pins this is a light
   definition through Tau Ceti's `baseChangeFunctor`.
 
-*Needs:* Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Tau Ceti
+*Needs:* CohomologicalPointCounting §The roadmaps / Frobenius morphisms and finite-field points
+(FrobeniusGeometry), with §Family-wide conventions / Frobenius;
+Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality`; Mathlib `PerfectField`.
 
 **Checks.**
