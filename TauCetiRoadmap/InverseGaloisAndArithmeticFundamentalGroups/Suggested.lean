@@ -776,8 +776,9 @@ finite Poitou–Tate, Grunwald–Wang, free operator shrinking, `BrauerManinSet`
 for supersolvable stabilisers, unramified Brauer classes of finite quotients of `SL_n`, unramified
 `Γ`-groups, Property E and the marked extension count over `𝔽_q(t)`.
 Layer IG.5: topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers, the
-cohomological comparisons, component invariants, patching of Galois algebras, and the steps of
-Serre, Raynaud and Harbater towards Abhyankar's conjecture.
+cohomological comparisons, component invariants, patching of Galois algebras and of covers with a
+fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine curves, and
+the steps of Serre, Raynaud and Harbater towards Abhyankar's conjecture.
 Layer IG.6: `FieldRealization.transport`, specialization of realizations, generic-polynomial universality.
 Further API targets specified in the README (IG.2.1–IG.2.3, IG.3.4–IG.3.5):
 `RationalSpecialization.denominatorProduct_C`,

@@ -87,9 +87,10 @@ The roadmap owns:
 - configuration spaces, topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers,
   the cohomological comparisons and point estimates for Hurwitz spaces, component invariants,
   hyperelliptic quotient families, versal families, field patching over complete discrete
-  valuation rings with the patching of Galois algebras with prescribed local pieces, and Abhyankar's
-  conjecture for affine curves through Serre's solvable step, Raynaud's theorem for the affine line
-  and Harbater's theorem for the punctured line (Layer IG.5);
+  valuation rings with the patching of Galois algebras with prescribed local pieces and of covers
+  with a fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine
+  curves, and Abhyankar's conjecture for affine curves through Serre's solvable step, Raynaud's
+  theorem for the affine line and Harbater's theorem for the punctured line (Layer IG.5);
 - realization certificates, their specialization, worked realizations, the transport of the
   BelyiMaps conventions, the inverse Galois problem and generic polynomials (Layer IG.6).
 
@@ -116,7 +117,7 @@ It does not own, and consumes by name:
   obstruction (**ProfiniteProPGroups**, Layers 0, 3, 4 and 5; in Tau Ceti
   `TauCeti.FiniteEmbeddingProblem` and, for any abelian kernel,
   `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`), and continuous
-  cohomology (**ProfiniteCohomology**, Layers 1, 5 and 7);
+  cohomology (**ProfiniteCohomology**, Layers 1, 5, 7 and 10);
 - the `Sₙ` polynomials over `ℚ` (**PolynomialGaloisGroups**, Layer 9, with its Layers 2 and 3 for the
   Galois–permutation dictionary and the discriminant), and the Galois groups of the small cubics
   and quartics computed in the Tau Ceti library (`X³ − 3X − 1`, `X⁴ − 2`, `Φ₅`); places,
@@ -135,7 +136,10 @@ It does not own, and consumes by name:
   stable pointed curves and the lifting of finite covers (**SchemeAndStackFoundations**, Layers 0–4),
   and the Weil bound for curves over finite fields (its §5.11, `weil_bound`); the smooth trace and
   Poincaré duality in étale cohomology (**EtaleDualityAndPerverseSheaves**, Layer EDC.2); Weil restriction
-  and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); resolution and normal crossings
+  and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); the Hasse principle for torsors under
+  semisimple simply connected groups and their weak approximation (**AdelicAlgebraicGroups**, Layer
+  4, §4.1); Swan conductors of local Galois representations and the upper numbering on open
+  subgroups (**ArithmeticGaloisRepresentations**, Layer 3); resolution and normal crossings
   compactification (**AlgebraicModuliForArithmeticGeometry**, Layer 9), and complex analytic spaces,
   scheme and algebraic-space analytification and proper coherent GAGA (Layer 7, §7.10); derived categories of
   sheaves, derived limits and replete topoi (**EnhancedDerivedSheaves**, Layers E1–E2); complex
@@ -206,6 +210,7 @@ discharges it (Weil II, Corollaire (3.3.4)).
 | Galois groups of polynomials acting on roots | `Polynomial.Gal.galActionHom`, `Polynomial.Gal.galActionHom_injective` | IG.6 |
 | Singular homology | `AlgebraicTopology.singularChainComplexFunctor`, `AlgebraicTopology.singularHomologyFunctor` | IG.3, IG.5 |
 | Monoid algebras | `MonoidAlgebra` | IG.4 |
+| Implicit function theorem over a complete nontrivially normed field | `HasStrictFDerivAt.implicitFunctionOfProdDomain` | IG.4 |
 
 The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G ℤ)`;
 its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
@@ -241,7 +246,7 @@ convention transport of Layer IG.6.
 
 ConstructibleEtale Layers 3, 6 and 9; EtaleBaseChange Layers 4–8; CompactSupport Layers 5–9;
 EllAdicRealization Layers 1, 2 and 6–8; ComplexComparison Layers 4, 8, 10 and 11; TraceFormula
-Layers 11–12; FrobeniusGeometry Layers 4–5. The étale fundamental group of Layer 3 of
+Layers 8 and 11–12; FrobeniusGeometry Layers 4–5. The étale fundamental group of Layer 3 of
 ConstructibleEtale is defined for connected locally Noetherian schemes; Layers IG.0–IG.1 work in that
 range.
 
@@ -249,8 +254,8 @@ range.
 
 ProfiniteArithmetic Layer 0 (the ring `ẑ` and its units) and Layer 2 (continuous outer
 automorphisms); PeripheralActions (peripheral powers); ProfiniteProPGroups Layers 0, 3, 4 and 5;
-ProfiniteCohomology Layers 1, 5 and 7; PolynomialGaloisGroups Layers 2, 3 and 9; GlobalNumberFields
-Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Chebotarev (Layer 10); LocalFieldsRamification
+ProfiniteCohomology Layers 1, 5, 7 and 10 (corestriction); PolynomialGaloisGroups Layers 2, 3 and 9;
+GlobalNumberFields Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Chebotarev (Layer 10); LocalFieldsRamification
 Layers 2, 3 and 4; AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
 ReductiveGroups Layers 0, 3 and 6; RepresentationTheory/InductionRestriction Layer 7, whose Schur
 multiplier is `H²(G, k^×)` over an algebraically closed field, so the comparison with `H₂(G, ℤ)` used
@@ -267,7 +272,11 @@ SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, 
 algebraization), and §5.11 (`weil_bound`, the Weil bound for smooth proper geometrically integral
 curves over finite fields); EtaleDualityAndPerverseSheaves Layer EDC.2 (smooth trace, relative
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
-norm tori); AlgebraicModuliForArithmeticGeometry Layer 7, §7.10.1 (`ComplexAnalyticSpace` and
+norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
+connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
+ArithmeticGaloisRepresentations Layer 3, §3.1 (Swan conductors with finite coefficients over a
+perfect residue field, and the upper numbering on open subgroups);
+AlgebraicModuliForArithmeticGeometry Layer 7, §7.10.1 (`ComplexAnalyticSpace` and
 `complexSchemeAnalytification`), §7.10.3 (`complexSpaceAnalytification`, proper coherent GAGA),
 and Layer 9, §9.5 (resolution and normal crossings compactification); EnhancedDerivedSheaves Layers E1 (derived categories of sheaves, derived inverse
 limits) and E2 (replete topoi, hypercover descent); ComplexComparisonPartII §C3.3 (`derivedGagaProperSpace`, for proper algebraic spaces) and §C4.5
@@ -2754,36 +2763,45 @@ invariant*, *Extracting an element of a single class*.
 - For `G = C₂` and `c = {nontrivial}`, braid orbits of tuples of length `n` are single points and
   `U = ℤ` has one element of degree `n`, so the bijection holds for all `n ≥ 1`.
 
-**Tate-twisted arithmetic lifting invariants.** Let `G` be finite and `c` a union of rational classes,
-over a base field whose characteristic does not divide `|G|`. For a tame marked `G`-cover of the
-punctured line, the lifting invariant of its topological branch tuple, computed with a chosen
-topological generator of the prime-to-`p` roots of unity, becomes independent of that choice as an
+**Tate-twisted arithmetic lifting invariants.** Let `G` be finite and `c` a union of rational classes
+that generates `G`, over a base field whose characteristic does not divide `|G|`. For a tame marked
+`G`-cover of the punctured line, the lifting invariant of its topological branch tuple, computed with
+a chosen topological generator of the prime-to-`p` roots of unity, becomes independent of that choice as an
 element of the twist `U(G, c)⟨−1⟩`, and the Galois action on covers corresponds to the discrete action
 of units through the cyclotomic character: by *The cyclotomic twist of a set*, `σ` acts on evaluated
 invariants by the unit `χ(σ)⁻¹`.
 
 In the narrower setting of Wood's Cohen–Lenstra application (a surjection `ε : G ↠ C₂` whose
 involutions outside `ker ε` form a single class `c`), let `p ∤ |G|`, let `B ⊂ 𝔸¹(𝔽̄_p)` be finite,
-`S = B ∪ {∞}`, and `φ : π₁^t(ℙ¹_{𝔽̄_p} − S) → G` tame, with inertia in `c ∪ {1}`, ramified at every
-point of `B` and possibly at `∞`. Choose generators `δ_1, …, δ_k` of tame inertia at the points of `B`
-and `δ_∞` at `∞` with `δ_1 ⋯ δ_k δ_∞ = 1` in the free prime-to-`p` tame group. Fix a reduced
+`S = B ∪ {∞}`, and `φ : π₁^t(ℙ¹_{𝔽̄_p} − S) → G` tame, not necessarily surjective, with inertia in
+`c ∪ {1}`, ramified at every point of `B` and possibly at `∞`. The full tame group `π₁^t` is not free
+pro-prime-to-`p`; its maximal prime-to-`p` quotient `π₁^{(p′)}` is, on generators `δ_1, …, δ_k` of tame
+inertia at the points of `B`, chosen so that `δ_∞ = (δ_1 ⋯ δ_k)⁻¹` generates tame inertia at `∞`. As
+`p ∤ |G|`, `φ` factors through `π₁^{(p′)}`, and all inertia generators are read there. Fix a reduced
 Schur cover `S_c` with kernel `A = M(G, c)` and its class-compatible marking `x ↦ [x]`, extended by
 `[1] = 1`, and for `f ∈ S_c` over `c ∪ {1}` let
 `z(f)` be the conjugate of `f` lying over a fixed `c₀ ∈ c`, or `f` itself if `f` lies over `1`. Put
 `J_S = [φ(δ_1)] ⋯ [φ(δ_k)] ∈ S_c` and let `N_fin ∈ ℤ^D` be the class multiplicity vector of the
 finite branch points. Then:
 
-1. `J_S` maps to `δ(N_fin)` in `G^{ab}`, and under the marked isomorphism
-   `U(G, c) ≅ S_c ×_{G^{ab}} ℤ^D` the pair `(J_S, N_fin)` is the lifting invariant of the finite branch
-   tuple; its degree is `N_fin`, not the number `m` of geometric branch points.
-2. For every tame lift `φ̂` of `φ` to `S_c` (one exists, the tame group being free pro-prime-to-`p`),
-   the central element `C(φ) = ∏_{s ∈ S} z(φ̂(δ_s)) ∈ A` does not depend on `φ̂`, and in `S_c`
+1. `J_S` maps to `δ(N_fin)` in `G^{ab}`. If moreover `c` generates `G` (`Subgroup.closure c = ⊤`),
+   then under the marked isomorphism `U(G, c) ≅ S_c ×_{G^{ab}} ℤ^D` the pair `(J_S, N_fin)` is the
+   lifting invariant of the finite branch tuple; its degree is `N_fin`, not the number `m` of
+   geometric branch points.
+2. Tame lifts `φ̂` of `φ` to `S_c` exist: `|S_c| = |M(G, c)| · |G|` is prime to `p` because the
+   multiplier is killed by `|G|`, so send each free generator `δ_i` of `π₁^{(p′)}` to a lift of
+   `φ(δ_i)` and compose with `π₁^t → π₁^{(p′)}`. For every such lift the central element
+   `C(φ) = ∏_{s ∈ S} z(φ̂(δ_s)) ∈ A` does not depend on `φ̂`, and in `S_c`
    `J_S = [c₀]^m · C(φ)⁻¹ · [φ(δ_∞)]⁻¹`, where `m` counts the geometric branch points, `∞` included
-   when it is ramified.
-3. In `U(G, c)` the same identity reads `(J_S, N_fin) = [c₀]_U^m · ι(C(φ))⁻¹ · [φ(δ_∞)]_U⁻¹`, with `ι`
-   the degree-zero inclusion of `A` into the kernel `K(G, c)` and `[1]_U = 1`. The correction at a
-   ramified `∞` is the universal marked lift, which removes one degree; the raw element
-   `φ(δ_∞) ∈ G` cannot be used, since `U(G, c) → G` has no group-theoretic section in general.
+   when it is ramified. No generation hypothesis is needed here.
+3. If `c` generates `G`, then in `U(G, c)` the same identity reads
+   `(J_S, N_fin) = [c₀]_U^m · ι(C(φ))⁻¹ · [φ(δ_∞)]_U⁻¹`, with `ι` the degree-zero inclusion of `A` into
+   the kernel `K(G, c)` and `[1]_U = 1`. The correction at a ramified `∞` is the universal marked
+   lift, which removes one degree; the raw element `φ(δ_∞) ∈ G` cannot be used, since `U(G, c) → G`
+   has no group-theoretic section in general.
+
+Generation in (1) and (3) is a hypothesis on the class set `c`, not on `φ`: the branch tuple of `φ`
+need not generate `G`.
 
 These identities are algebraic and hold over `𝔽̄_p` for every such `φ`. Wood's Theorem 3.13
 identifies `C(φ)⁻¹`, for a suitable norm-compatible root of unity `u`, with her arithmetic invariant
@@ -2794,8 +2812,9 @@ number fields only, and its function-field analogue is outside this roadmap (end
 is therefore not a target here, and no statement of this roadmap uses it. *Proof sketch.* Use the
 common prime-to-`p` peripheral Tate module and compare the chosen generators at every finite branch
 place; the twist makes the product independent of the Tate generator. For (1), `J_S` is a product of
-marked lifts of the finite branch tuple, so its abelianized image is `δ(N_fin)`, and the marked
-isomorphism sends `[x]_U` to `([x], e_{[x]})`. For (2), each `φ̂(δ_s)⁻¹[φ(δ_s)]` is central and equals
+marked lifts of the finite branch tuple, so its abelianized image is `δ(N_fin)`; when `c` generates
+`G`, *The marked fibre product and the computation of `U(G, c)`* supplies the marked isomorphism,
+which sends `[x]_U` to `([x], e_{[x]})`. For (2), each `φ̂(δ_s)⁻¹[φ(δ_s)]` is central and equals
 `z(φ̂(δ_s))⁻¹[c₀]`, or `z(φ̂(δ_s))⁻¹` when `φ(δ_s) = 1`; multiply over `s ∈ S` and use
 `δ_1 ⋯ δ_k δ_∞ = 1`. Two lifts differ by a homomorphism to the central `A`, whose product over the
 `δ_s` is trivial. For (3), apply the marked isomorphism to each factor. Sources: [Wood, *An algebraic
@@ -2820,6 +2839,13 @@ fundamental quotients*, Layer IG.1 *Tame tangential fibres at a boundary point*,
   `y² = t(t − 1)`, unramified at `∞`, the correction is trivial and the degree is two.
 - `U(C₂, {σ}) ≅ ℤ → C₂` is reduction modulo `2` and has no homomorphic section, so an element of `G`
   has no canonical image in `U(G, c)`.
+- Generation of `G` by `c` is needed in (1) and (3). Let `N = C₇ ⋊ C₃ = ⟨r, s | r⁷ = s³ = 1,
+  s r s⁻¹ = r²⟩` and `G = C₂ × N`, with `ε` the first projection. As `N` has odd order, the involutions
+  outside `ker ε` form the single central class `c = {a}`, `a` the generator of the `C₂` factor, which
+  generates only `C₂`. Then `U(G, c) ≅ ℤ`, while `M(G) = 0` gives `S_c = G` and
+  `G ×_{G^{ab}} ℤ` contains `(r, 0)`, since `r ∈ [N, N]`: it has a subgroup of order seven and is not
+  `ℤ`. A double Kummer cover in characteristic `5`, composed with `C₂ → G`, satisfies the other
+  hypotheses, and (2) holds for it.
 
 ### Examples
 
@@ -3532,22 +3558,45 @@ connected linear `k`-group whose geometric stabiliser `H` is finite and supersol
 an outer action of `Γ_k`: there is a chain `1 = H_0 ⊂ H_1 ⊂ ⋯ ⊂ H_m = H` of normal subgroups of `H`,
 each stable under the outer action, with cyclic quotients `H_i/H_{i−1}`. Then `X(k)` is dense in
 `X(𝔸_k)^{Br}`. With the trivial outer action, nilpotent and dihedral groups are supersolvable. The
-theorem gives density in the Brauer–Manin set, not weak approximation. *Proof sketch.* Induction on
-`|H|`: the case `H = 1` is weak approximation for a semisimple simply connected group. For the last
-cyclic quotient, a universal torsor of the compactification contains an open set fibred over a
-quasi-trivial torus in homogeneous spaces whose stabiliser is the preceding term of the chain; apply
-the fibration method on that torus, with Harari's formal lemma, and the inductive hypothesis to the
-fibres. Source: [Harpaz–Wittenberg, *Zéro-cycles sur les espaces
-homogènes*](https://arxiv.org/pdf/1802.09605v2), Théorème B, PDF p. 3, which is Théorème 6.6, with
-Définition 6.4, Exemple 6.5 and the proof of Théorème 6.6 through §6.1, PDF pp. 21–25. *Needs:* *The
-Brauer–Manin set*, *Approximation and nonabelian localization*; ReductiveGroups Layers 0 and 3,
+theorem gives density in the Brauer–Manin set, not weak approximation. *Proof sketch.* The statement
+is birationally invariant among smooth proper varieties (part of this target; Harpaz–Wittenberg cite
+Colliot-Thélène–Pál–Skorobogatov, Proposition 6.1(iii)), so take `X` to be a smooth compactification
+of `V`, with `V` a dense open subset. If `X(𝔸_k)^{Br}` is empty there is nothing to prove; otherwise
+induct on `|H|`.
+
+- *Trivial stabiliser.* For `H = 1`, `V` is a torsor under the group `G`, not necessarily `G` itself.
+  For every place `v`, `V(k_v)` is dense in `X(k_v)` for the analytic topology, by the implicit
+  function theorem on the smooth `X` over the complete field `k_v` (Mathlib
+  `HasStrictFDerivAt.implicitFunctionOfProdDomain`; this local density is part of this target). As
+  `X(k_v) ≠ ∅`, `V` has points at every real place, so it is trivial by the Hasse principle for
+  torsors under semisimple simply connected groups (Kneser, Harder, Chernousov). Hence `V(k) ≠ ∅`,
+  `V ≅ G`, and weak approximation for `G`, with the same local density, makes `X(k)` dense in
+  `X(𝔸_k) = ∏_v X(k_v)`, which contains the Brauer–Manin set.
+- *Inductive step.* For the last cyclic quotient, a torsor of `X` under a torus, which exists because
+  the Brauer–Manin set is nonempty, contains an open set fibred over a quasi-trivial torus in
+  homogeneous spaces of `G` whose stabiliser is the preceding term of the chain. Apply the fibration
+  method on that torus, with Harari's formal lemma, and the inductive hypothesis to the fibres.
+
+Source: [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes*](https://arxiv.org/pdf/1802.09605v2),
+Théorème B, PDF p. 3, which is Théorème 6.6, with Définition 6.4, Exemple 6.5 and the proof of
+Théorème 6.6 through §6.1, PDF pp. 21–25. The trivial-stabiliser case is in the proof of Théorème 6.1,
+PDF p. 21, citing Kneser, Harder and Chernousov through Platonov–Rapinchuk, Theorems 6.6 and 7.8. The
+passage between `V` and `X` by the implicit function theorem is the remark after Lemme 6.3, PDF p. 22.
+*Needs:* *The Brauer–Manin set*, *Approximation and nonabelian localization*; AdelicAlgebraicGroups
+Layer 4, §4.1 (*Hasse kernel and injectivity*, and *Weak approximation*,
+`Approximation.hasWeakApproximation_of_simplyConnected`); ReductiveGroups Layers 0 and 3,
 ReductiveGroupsPartII Layer RG2.0a (quasi-trivial tori), AlgebraicModuliForArithmeticGeometry Layer 9
-(smooth compactifications), SchemeAndStackFoundations Layers 1 and 2.
+(smooth compactifications), SchemeAndStackFoundations Layers 1 and 2; Mathlib
+`HasStrictFDerivAt.implicitFunctionOfProdDomain`.
 
 **Checks.**
 
-- For `H = 1`, `X` is birational to the simply connected group itself and the statement is weak
-  approximation for it, the Brauer–Manin condition being vacuous on `Br X = Br k`.
+- For `H = 1` the space `V` is a torsor, which may have no rational point. For the Hamilton
+  quaternions `D = (−1, −1)_ℚ`, `G = SL₁(D)` and `V = {x ∈ D : Nrd(x) = −1}`, given by
+  `x₀² + x₁² + x₂² + x₃² = −1`, the smooth compactification `x₀² + x₁² + x₂² + x₃² + w² = 0` in `ℙ⁴` has
+  no real point. So `X(𝔸_ℚ)` is empty and the theorem holds vacuously, while `X` is not birational to
+  `G`, which has the real point `1`. When `X(𝔸_k)` is nonempty the Hasse principle gives `V ≅ G`, and
+  the statement is weak approximation for `G`.
 - `A₄` is solvable but not supersolvable (it has no normal subgroup of order two or three), so
   `SL_n/A₄` is outside the theorem.
 - For `H = C₈` over `ℚ` the theorem applies, while `SL_n/C₈` fails approximation at `{2}` (*Wang's
@@ -4147,7 +4196,8 @@ This layer uses the following earlier layers of this roadmap:
 
 From Mathlib it uses `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
 `SemidirectProduct`, `Subgroup.exists_right_complement'_of_coprime`,
-`NumberField.finrank_eq_one_of_unramified` and `IsGalois.normalAutEquivQuotient`.
+`NumberField.finrank_eq_one_of_unramified`, `IsGalois.normalAutEquivQuotient` and, for local
+density of points on smooth varieties, `HasStrictFDerivAt.implicitFunctionOfProdDomain`.
 
 From other roadmaps:
 - ProfiniteProPGroups Layers 0, 3, 4 and 5: profinite foundations, Frattini theory, free pro-`p`
@@ -4159,6 +4209,8 @@ From other roadmaps:
   ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes) and
   4, AlgebraicModuliForArithmeticGeometry Layer 9 (smooth compactifications), and ReductiveGroupsPartII
   Layer RG2.0a.
+- AdelicAlgebraicGroups Layer 4, §4.1: the Hasse principle for torsors under semisimple simply
+  connected groups and their weak approximation.
 - From Tau Ceti, the finite embedding problems and their
   obstruction class `TauCeti.FiniteEmbeddingProblem.obstruction`.
 
@@ -5268,34 +5320,125 @@ SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations Layer 3.
   covers.
 
 **Patching Galois algebras with prescribed local pieces.** Let `T` be a complete discrete valuation
-ring with uniformizer `t` and fraction field `K`, `X̂` a smooth connected projective `T`-curve with
-closed fibre `X` and function field `F`, `P₁, …, P_r` distinct closed points of `X`, `F_i` the patch
-field at `P_i`, `F_{r+1}` the patch field of `X ∖ {P₁, …, P_r}` and `F₀` the overlap field at the
-generic point of `X` (Harbater–Hartmann's Notation 4.3 and Theorem 4.13). Let `G` be a finite group,
-`H_i ≤ G` subgroups and `E_i/F_i` `H_i`-Galois field extensions whose base change to `F₀` is split,
-with a chosen splitting. Then the induced algebras `Ind_{H_i}^G E_i`, together with the split algebra
-`Ind_1^G F_{r+1}`, patch to a `G`-Galois `F`-algebra `A` inducing each of them, and `K` is
-algebraically closed in `A`. If `H₁, …, H_r` generate `G`, then `A` is a field, Galois over `F` with
-group `G`. On the normalization of `X̂` in `A`, the completed local behaviour at the points over `P_i`
-is that of `E_i`, the cover is étale at every point of the closed fibre other than the `P_i`, and so
-every branch point of its generic fibre specializes to one of the `P_i`. *Proof sketch.* Patch the
-induced algebras with Theorem 7.1(v) in the multi-patch form of Theorem 4.13; the field `E` inside `A`
-lying over the identity copy of `F₀` has a Galois group containing every `H_i`, so it is all of `G`
-and `A = E`; `K` is algebraically closed in `F₀` and hence in `A`. Local behaviour is read on each
-patch from the corresponding induced algebra; at a closed point other than the `P_i` the completion
-factors through the split patch, so the closed branch locus meets the closed fibre only in the `P_i`.
-Source: [Harbater–Hartmann](https://arxiv.org/pdf/0710.1392v1), Theorem 4.13, p. 13; Theorem 7.1(v),
-p. 22; §7.2, the induced algebras and Theorem 7.3 with its proof, pp. 24–26, and Remark 7.4(a), p. 26
-(other smooth curves). *Needs:* *Field patching for curves over a complete DVR*, Layer IG.0 *Finite
-Galois algebras and torsors*; SchemeAndStackFoundations Layers 1 and 3.
+ring with uniformizer `t`, fraction field `K` and residue field `k`, `X̂` a smooth connected projective
+`T`-curve with closed fibre `X` and function field `F`, `P₁, …, P_r` distinct closed points of `X`,
+`F_i` the patch field at `P_i`, `F_{r+1}` the patch field of `X ∖ {P₁, …, P_r}` and `F₀` the overlap
+field at the generic point of `X` (Harbater–Hartmann's Notation 4.3 and Theorem 4.13). Let `G` be a
+finite group, `H_i ≤ G` subgroups and `E_i/F_i` `H_i`-Galois field extensions whose base change to
+`F₀` is split, with a chosen splitting. Then:
+
+1. *Algebra patching.* The induced algebras `Ind_{H_i}^G E_i`, together with the split algebra
+   `Ind_1^G F_{r+1}`, patch to a `G`-Galois `F`-algebra `A` inducing each of them, and `A ⊗_F F₀` is
+   split. So `A ≅ Ind_J^G E` for a subgroup `J ≤ G` and a `J`-Galois field extension `E/F`, and `E`
+   has an `F`-embedding into `F₀`.
+2. *Field criterion.* The factor `E` can be chosen with `J` containing every `H_i`; so if
+   `H₁, …, H_r` generate `G`, then `A = E` is a field, Galois over `F` with group `G`.
+3. *Constants.* If moreover `X` is geometrically connected over `k`, that is `H⁰(X, 𝒪_X) = k`, then
+   `K` is algebraically closed in `F₀`, hence in every factor field `E` of `A`, and in `A` itself
+   when the `H_i` generate `G`. For disconnected `A` the statement concerns the factor fields only:
+   a nontrivial idempotent of `A` is algebraic over `K` and does not lie in `K`.
+4. *Closed-fibre ramification.* On the normalization of `X̂` in `A`, the completed local behaviour at
+   the points over `P_i` is that of `E_i`, the cover is étale at every point of the closed fibre other
+   than the `P_i`, and so every branch point of its generic fibre specializes to one of the `P_i`.
+   This does not fix the branch locus of the generic fibre; *Patching covers with a fixed branch
+   divisor* does.
+
+*Proof sketch.* (1) Patch the induced algebras with Theorem 7.1(v) in the multi-patch form of
+Theorem 4.13. Over `F₀` every piece becomes `Ind_1^G F₀`, so `A ⊗_F F₀` is split and each factor
+field of `A` embeds in `F₀`. (2) The factor `E` lying over the identity copy of `F₀` contains, after
+base change to `F_i`, the identity copy of `E_i`, so its stabiliser contains `H_i`. (3) An element of
+`F₀` algebraic over `K` generates a finite extension `K'` of the complete field `K`; the
+uniformizer `t` of `F₀` stays a uniformizer of `K'`, and the residue field of `K'` is a finite
+extension of `k` inside `k(X)`, hence equal to `k`; so `[K' : K] = ef = 1`. (4) Local behaviour is
+read on each patch from the corresponding induced algebra; at a closed point other than the `P_i`
+the completion factors through the split patch, so the branch locus meets the closed fibre only in
+the `P_i`, and every closed point of the generic fibre specializes into the closed fibre because `X̂`
+is proper over `T`. Source: [Harbater–Hartmann](https://arxiv.org/pdf/0710.1392v1), Theorem 4.13,
+p. 13; Theorem 7.1(v), p. 22; §7.2, the induced algebras and Theorem 7.3 with its proof, pp. 24–26
+(there `X̂ = ℙ¹_T`, whose closed fibre is geometrically connected), and Remark 7.4(a), p. 26 (other
+smooth curves). *Needs:* *Field patching for curves over a complete DVR*, Layer IG.0 *Finite Galois
+algebras and torsors*; SchemeAndStackFoundations Layers 1 and 3.
 
 **Checks.**
 
-- If every `H_i` is trivial, `A` is the split algebra `Ind_1^G F`, disconnected for `G ≠ 1`.
+- If every `H_i` is trivial, `A` is the split algebra `Ind_1^G F`, disconnected for `G ≠ 1`. For
+  `X̂ = ℙ¹_T` and `G = C₂`, `A = F × F` and the idempotent `(1, 0)` solves `e² − e = 0` without lying
+  in `K`: only the factor `F` is regular over `K`.
+- Geometric connectedness of `X` is needed in (3): for `T = ℝ[[t]]` and `X̂ = ℙ¹_{ℂ[[t]]}`, viewed as a
+  `T`-curve, `X̂` is smooth, connected and projective with connected closed fibre `ℙ¹_ℂ`, but
+  `H⁰(X, 𝒪_X) = ℂ`; for `G = 1` the algebra `A = F = ℂ((t))(x)` is a field containing `ℂ((t))`, which is
+  algebraic over `K = ℝ((t))`.
 - Generation is needed: if the `H_i` generate a proper subgroup `J`, then `A ≅ Ind_J^G E` for a
   `J`-Galois field `E`, which is not a field.
 - For `G = C₂ × C₂`, two patches with `H₁ = C₂ × 1` and `H₂ = 1 × C₂` glue to a `C₂ × C₂`-Galois field
   extension of `F`, although no single patch carries the whole group.
+
+**Patching covers with a fixed branch divisor.** Let `T` be a complete discrete valuation ring with
+uniformizer `t`, fraction field `K` and residue field `k`, and `X̂` a normal connected projective
+`T`-curve with reduced closed fibre `X` and function field `F`, admitting a finite morphism to a
+smooth projective `T`-curve. Let `S` be a nonempty finite set of closed points of `X` containing the
+singular points of `X`. For an irreducible component `U` of `X ∖ S` let `R̂_U` be the `t`-adic
+completion of the ring of rational functions regular along `U`; for `P ∈ S` let `R̂_P` be the complete
+local ring of `X̂` at `P`; for a branch `℘` of `X` at `P`, a height-one prime of `R̂_P` containing `t`,
+let `R̂_℘` be the complete local ring of `R̂_P` at `℘`; write `F_U`, `F_P`, `F_℘` for the fraction fields
+(Harbater–Hartmann, §6). Fix a finite group `G` and a closed subscheme `B̂ ⊂ X̂` finite over `T`, the
+fixed horizontal branch divisor. A patching problem of `G`-covers étale off `B̂` consists of normal
+`G`-Galois covers `Ŷ_U → Spec R̂_U` and `Ŷ_P → Spec R̂_P` (finite, with `G`-Galois algebras `A_U` over
+`F_U` and `A_P` over `F_P`), each étale over the points of `Spec R̂_U[t⁻¹]`, respectively
+`Spec R̂_P[t⁻¹]`, outside `B̂`, together with, for every branch `℘` at `P` lying on `U`, a
+`G`-equivariant isomorphism of `F_℘`-algebras `A_U ⊗ F_℘ ≅ A_P ⊗ F_℘`. These isomorphisms are
+arbitrary: they need not come from splittings. Then:
+
+1. there is a normal `G`-Galois cover `Y → X̂`, unique up to unique isomorphism, with `G`-isomorphisms
+   `Y ×_{X̂} Spec R̂_U ≅ Ŷ_U` and `Y ×_{X̂} Spec R̂_P ≅ Ŷ_P` inducing the given isomorphisms over every
+   `F_℘`;
+2. `Y_K → X̂_K` is étale over `X̂_K ∖ B̂_K`;
+3. if a factor field of every `A_U` and every `A_P` can be chosen so that the chosen factors are
+   matched by the given isomorphisms over every branch, and the stabilisers in `G` of the chosen
+   factors generate `G`, then `Y` is connected;
+4. if moreover `k` is algebraically closed and `Y → X̂` is étale over the generic point of some
+   component of `X`, then `K` is algebraically closed in the function field of `Y`, so `Y_K` is
+   geometrically connected over `K`.
+
+*Proof sketch.* (1) The complete-local patching of finite-dimensional vector spaces, Theorems
+5.7–5.9 of Harbater–Hartmann for smooth `X̂` and Theorem 6.1 for normal `X̂`, is part of this target;
+with Theorem 7.1(v) it patches the `A_U` and `A_P` to a `G`-Galois `F`-algebra `A`, their inverse
+limit. Let `Y` be the normalization of `X̂` in `A`. The maps from `Spec R̂_U` and `Spec R̂_P` to `X̂` are
+flat with geometrically regular fibres because `X̂` is excellent, so normalization commutes with them
+and gives the identifications. (2) A closed point of `X̂_K ∖ B̂_K` specializes to a closed point `Q` of
+`X`. If `Q = P ∈ S`, the map `Spec R̂_P → Spec 𝒪_{X̂,Q}` is faithfully flat; if `Q` lies on a component
+`U`, so is `Spec R̂_U → Spec R_U`, since `t` lies in the Jacobson radical of `R_U`, and `𝒪_{X̂,Q}` is a
+localization of `R_U`. In both cases étaleness off `B̂` over the points where `t` is invertible
+descends from the piece. (3) The factor of `A`
+cut out by the chosen factors is stable under each of their stabilisers. (4) Let `K'` be the
+algebraic closure of `K` in the function field of `Y` and `T'` the integral closure of `T` in it, so
+`T' ⊆ H⁰(Y, 𝒪_Y)`. As `k` is algebraically closed, `T'` is totally ramified of degree `[K' : K]` over
+`T`, so `t` is a unit times the `[K' : K]`-th power of a function on `Y`, and the closed fibre of `Y`
+is nonreduced along every component when `K' ≠ K`; it is reduced over a generic point of `X` where
+`Y → X̂` is étale. Sources: [Harbater–Hartmann](https://arxiv.org/pdf/0710.1392v1), Theorems 5.7–5.9
+and Proposition 5.11, pp. 15–17; Theorem 6.1, pp. 18–19; Theorem 7.1(v), p. 22;
+[Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), §3.3, sketches of Theorems 3.8
+and 3.13 and of the general case, PDF pp. 11–13 (the patching steps that consume this contract);
+[EGA IV₂](https://www.numdam.org/item/PMIHES_1965__24__5_0/), Corollaire (6.14.5) (normalization and
+normal base change) and Scholie (7.8.3)(v), pp. 214–215 (completions of excellent rings). *Needs:*
+*Field patching for curves over a complete DVR*, Layer IG.0 *Finite Galois algebras and torsors*;
+SchemeAndStackFoundations Layers 0, 1 and 3 (excellence, normalization, faithfully flat descent of
+étaleness, curves).
+
+**Checks.**
+
+- Support on the closed fibre does not fix the generic branch locus. For `T = k[[t]]`, `k`
+  algebraically closed of characteristic `p`, the Artin–Schreier cover `y^p − y = 1/(tx − 1)` of
+  `ℙ¹_K` is étale over a neighbourhood of the closed affine line, since `tx − 1` reduces to `−1`
+  there, so all its generic branch points specialize to `∞`; but it is ramified at `x = t⁻¹`, where
+  the right side has a simple pole. With `B̂` the section `∞_T` the hypothesis fails on the patch at
+  `∞`, where the cover is ramified along the section `{x = t⁻¹}`, which is not `∞_T`.
+- If every piece is the split cover `⨿_{g∈G}` of its patch, glued by the identity, then `Y` is
+  `⨿_{g∈G} X̂`, which is disconnected for `G ≠ 1`: the generation hypothesis of (3) fails, every
+  stabiliser being trivial.
+- The étaleness hypothesis of (4) is needed: for `2` invertible in `k` and `T' = T[s]/(s² − t)`, the
+  cover `ℙ¹_{T'} → ℙ¹_T` is a connected `C₂`-cover étale over all of `ℙ¹_K` (so `B̂ = ∅`), but its
+  function field contains `K(√t)`; its closed fibre is nonreduced, so it is étale over no point of `X`.
 
 **Specialization of covers from `k((t))` to `k`.** Let `k` be an algebraically closed field,
 `K = k((t))`, `U` a smooth connected affine `k`-curve and `Y → U_K` a finite étale `G`-Galois cover
@@ -5321,23 +5464,104 @@ and spreading out).
   characteristic `p` specializes at `t = a ≠ 0` to the connected cover `y^p − y = ax`, and at `t = 0`
   to the split one.
 
+**Euler characteristic of `ℓ`-torsion local systems on affine curves.** Let `k` be an algebraically
+closed field of characteristic `p > 0`, `ℓ ≠ p` a prime, `U` a smooth connected affine `k`-curve with
+smooth compactification `C` of genus `g`, and `C ∖ U = {x₁, …, x_s}`, `s ≥ 1`. Let `M` be an
+`n`-dimensional `𝔽_ℓ`-vector space with a continuous action of `π₁^ét(U)` and `M̃` the corresponding
+locally constant sheaf (ConstructibleEtale Layer 3). Then `H^q(U, M̃) = 0` for `q ≥ 2`,
+`H^q(U, M̃) = H^q(π₁^ét(U), M)` for `q = 0, 1`, both finite-dimensional, and
+
+```text
+dim H⁰(π₁^ét(U), M) − dim H¹(π₁^ét(U), M) = n · (2 − 2g − s) − Σ_{i=1}^{s} Sw_{x_i}(M),
+```
+
+where `Sw_{x_i}(M)` is the Swan conductor (ArithmeticGaloisRepresentations Layer 3, discrete
+coefficients `𝔽_ℓ`) of `M` as a representation of the absolute Galois group of the completion of
+`k(C)` at `x_i`, acting through a decomposition group. In particular, on `U = 𝔸¹_k` a representation
+with `M^{π₁} = 0` has `dim H¹(π₁^ét(𝔸¹_k), M) = Sw_∞(M) − n`. *Proof sketch.* Degree two vanishes by
+affine Artin vanishing, and in degrees zero and one the cohomology of a locally constant sheaf is
+given by invariants and by classes of torsors, hence by group cohomology of `π₁^ét(U)`. For the
+formula, trivialise `M` on a connected Galois cover `V → U` with group `Q` and smooth compactification
+`D → C`. Since `Q` acts freely on `V`, `RΓ_c(V, 𝔽_ℓ)` is a perfect complex of `𝔽_ℓ[Q]`-modules, and
+`χ_c(U, M̃)` is obtained by pairing its class with `M`. That class is determined by its Brauer
+character, which the Hurwitz formula on `D` evaluates at `1` and the Lefschetz fixed-point formula on
+`D` evaluates at the other `ℓ`-regular elements; their fixed points lie over the `x_i`, with
+multiplicities read from the lower ramification filtration. Comparing characters, the class is
+`χ_c(U)` times the free module minus the modules induced from the Swan modules of the decomposition
+groups at the `x_i`. The Swan module of a finite inertia group is the projective `ℤ_ℓ`-module whose
+character is the Artin character minus the augmentation character (Swan's theorem), and its pairing
+with `M` is `Sw_x(M)`. Finally `χ_c = χ` for locally constant sheaves on a smooth curve: the two
+differ by the cohomology of the punctured henselian neighbourhoods of the `x_i`, which is that of
+their inertia groups; as wild inertia is pro-`p` and the tame quotient is procyclic, degrees zero and
+one are the kernel and cokernel of one endomorphism of a finite-dimensional space, of equal
+dimension. The Brauer-character and Swan-module inputs are part of this target. Sources:
+[Raynaud, *Caractéristique d'Euler–Poincaré d'un faisceau et cohomologie des variétés
+abéliennes*](http://www.numdam.org/item/SB_1964-1966__9__129_0/),
+Séminaire Bourbaki exp. 286, n° 1 with Proposition 1 (the Swan module), pp. 130–131; n° 3, Théorème
+1 and formula (2 ter), its form for the fundamental group, p. 133; n° 4, the proof, pp. 133–136;
+[Stacks, Lemma 59.69.3 (03RR)](https://stacks.math.columbia.edu/tag/03RR) (constant coefficients) and
+[Theorem 59.83.11 (03RT)](https://stacks.math.columbia.edu/tag/03RT) (vanishing in degree two).
+*Needs:* ArithmeticGaloisRepresentations Layer 3 (Swan conductors); LocalFieldsRamification Layer 3
+(lower ramification groups); ConstructibleEtale Layer 3; EtaleBaseChange Layer 6 (affine Artin
+vanishing); CompactSupport Layers 5–7; TraceFormula Layer 8 (fixed points of curve endomorphisms);
+SchemeAndStackFoundations Layer 3 (curves and the Hurwitz formula).
+
+**Checks.**
+
+- For `M = 𝔽_ℓ` with trivial action every Swan conductor vanishes and the formula gives
+  `dim H¹ = 2g + s − 1`, the rank in Stacks 03RR; for `U = 𝔸¹_k` it gives `H¹ = 0`.
+- In characteristic two with `ℓ = 3`, the sign character `L` of the Artin–Schreier cover `y² − y = x`
+  of `𝔸¹_k` has one break, `1`, at `∞`, so `dim H¹(𝔸¹_k, L) = 1 − 1 = 0`, matching `H¹(𝔸¹_y, 𝔽₃) = 0`
+  for the source line. Its pullback along `x = z³` has Swan conductor `3` and `dim H¹ = 2`, matching
+  the cover `y² − y = z³`: its completion `Y²W + YW² = Z³` is smooth of genus one with one point at
+  infinity, so its `H¹` with `𝔽₃` coefficients has dimension `2`.
+- For `m ∣ ℓ − 1` with `p ∤ m`, a nontrivial `𝔽_ℓ^×`-valued character of the Kummer quotient
+  `π₁^ét(𝔾_{m,k}) → μ_m` is tame at `0` and `∞`, so the right side is `2 − 2 = 0`; indeed `H⁰` and
+  `H¹` of a nontrivial character of the procyclic prime-to-`p` quotient both vanish.
+
 **Serre's solvable step on the affine line.** Let `k` be algebraically closed of characteristic
 `p > 0` and write `π_A(U)` for the set of finite groups that are Galois groups of connected finite
 étale covers of `U`. Let `1 → H → G → G/H → 1` be exact with `H` solvable and `G` quasi-`p`. If
 `G/H ∈ π_A(𝔸¹_k)` then `G ∈ π_A(𝔸¹_k)`. In particular every solvable quasi-`p` group, and every
 `p`-group, lies in `π_A(𝔸¹_k)`. *Proof sketch.* Reduce by induction to `H` elementary abelian of
-exponent a prime `ℓ`, with irreducible action of `G/H`. The group `π₁^ét(𝔸¹_k)` has cohomological
-dimension at most one: `H²(𝔸¹_k, ℤ/p) = 0` by the Artin–Schreier sequence, and for `ℓ ≠ p`,
-`H²(𝔸¹_k, μ_ℓ) = 0` by the Kummer sequence, divisibility of the Picard group of an affine curve and
-Tsen's theorem; so the given surjection onto `G/H` lifts to `G`. A lift is surjective if the
-extension does not split. In the split case, a surjective lift exists once the inclusion
-`H¹(G/H, H) ⊂ H¹(π₁^ét(𝔸¹_k), H)` is strict: for `ℓ = p` the right side is infinite, and for `ℓ ≠ p`
-pulling the `G/H`-cover back along `z ↦ z^m`, `p ∤ m`, multiplies its dimension by `m`. Source:
-[Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Theorem 3.6 and its sketch and
-Corollary 3.7, PDF pp. 10–11 (Serre's theorem). *Needs:* Layer IG.1 *Tame and prime-to-p fundamental
-quotients*; ConstructibleEtale Layer 3; ProfiniteCohomology Layers 1 and 5; ProfiniteProPGroups
-Layer 5 (lifting along embedding problems); SchemeAndStackFoundations Layers 2 and 3 (Artin–Schreier
-and Kummer sequences, Tsen, Picard groups of curves).
+exponent a prime `ℓ`, with irreducible action of `Q = G/H`, and fix a surjection
+`φ : π₁^ét(𝔸¹_k) → Q`. The obstruction to lifting `φ` to `G` lies in `H²(π₁^ét(𝔸¹_k), H)`, `H` acting
+through `φ` (`TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`). This group
+vanishes, as does `H²(π₁^ét(𝔸¹_k), M)` for every finite `ℓ`-primary module `M`, constant or not:
+trivialise `M` on a connected Galois cover `V → 𝔸¹_k` with group `Q_M` and put `V' = V/Q_ℓ` for an
+`ℓ`-Sylow subgroup `Q_ℓ` of `Q_M`. Restriction to the open subgroup `π₁^ét(V')` is injective on `H²`,
+its index being prime to `ℓ` (corestriction). Over `π₁^ét(V')` the module is a successive extension of
+copies of `ℤ/ℓ` with trivial action, since `Q_ℓ` fixes a nonzero vector of every nonzero `ℓ`-primary
+module. Finally `H²(π₁^ét(V'), ℤ/ℓ)` embeds in `H²(V', ℤ/ℓ)` by the Hochschild–Serre sequence of the
+pro-universal cover, and this vanishes on the smooth affine curve `V'` (Artin–Schreier for `ℓ = p`;
+Kummer, `ℓ`-divisibility of `Pic(V')` and Tsen for `ℓ ≠ p`). A lift is surjective if the extension
+does not split. In the split case, a surjective lift exists once the inflation
+`H¹(Q, H) ⊂ H¹(π₁^ét(𝔸¹_k), H)` along `φ` is strict. For `ℓ = p` the right side is infinite. For
+`ℓ ≠ p` the action of `Q` on `H` is nontrivial, since otherwise `G = H × Q` would have the quotient
+`H` of order prime to `p`; by irreducibility `H^Q = 0`, and *Euler characteristic of `ℓ`-torsion
+local systems on affine curves* gives `d(φ) := dim H¹(π₁^ét(𝔸¹_k), H) = Sw_∞(H) − dim H`. Pull `φ`
+back along `z ↦ z^m`, `p ∤ m`. The result `φ_m` is still surjective, because the Kummer cover is
+totally ramified over `0`, where the `Q`-cover is étale. The base change at `∞` is tame of
+ramification index `m`, which multiplies the Swan conductor by `m` (the upper numbering on open
+subgroups of ArithmeticGaloisRepresentations Layer 3), so
+
+```text
+d(φ_m) = m · d(φ) + (m − 1) · dim H.
+```
+
+For `m > 1` this exceeds `d(φ) ≥ dim H¹(Q, H)`, so the inflation along `φ_m` is strict. The growth
+is not multiplicative: the rank term `(m − 1) · dim H` is part of it, and all of it when `d(φ) = 0`.
+Sources: [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Theorem 3.6 and its
+sketch and Corollary 3.7, PDF pp. 10–11 (Serre's theorem), whose sketch prints the growth as
+`d′ = md`, which the last Check below contradicts;
+[Stacks, Lemma 59.63.1 (0A3K)](https://stacks.math.columbia.edu/tag/0A3K) and
+[Lemma 59.69.3 (03RR)](https://stacks.math.columbia.edu/tag/03RR) (degree-two vanishing on affine
+curves). *Needs:* *Euler characteristic of `ℓ`-torsion local systems on affine curves*; Layer IG.1
+*Tame and prime-to-p fundamental quotients*; ConstructibleEtale Layer 3; ArithmeticGaloisRepresentations
+Layer 3 (Swan conductors under tame base change); ProfiniteCohomology Layers 1, 5 and 10
+(inflation–restriction, corestriction); ProfiniteProPGroups Layer 5 (lifting along embedding
+problems); SchemeAndStackFoundations Layers 2 and 3 (Artin–Schreier and Kummer sequences,
+Hochschild–Serre for Galois coverings, Tsen, Picard groups of curves).
 
 **Checks.**
 
@@ -5346,6 +5570,11 @@ and Kummer sequences, Tsen, Picard groups of curves).
   `π₁^ét(𝔸¹_k)`, whose maximal prime-to-`p` quotient is trivial.
 - For `G = (ℤ/p)²` over `G/H = ℤ/p`, the lift through a splitting is not surjective; the infinitude
   of `H¹(π₁^ét(𝔸¹_k), ℤ/p)` supplies a surjective one.
+- The growth is not `d(φ_m) = m · d(φ)`. In characteristic two take `ℓ = 3`, `G = S₃`, `H = A₃ ≅ 𝔽₃`
+  and `Q = C₂` acting on `H` by the sign, with `φ` the Artin–Schreier cover `y² − y = x`. Then
+  `d(φ) = 0 = dim H¹(C₂, 𝔽₃)`, so the inflation along `φ` is not strict. For `m = 3` the pullback is
+  `y² − y = z³`, an elliptic curve minus one point, and `d(φ₃) = 2 = 3 · 0 + 2 · 1`, not `3 · 0`; the
+  strict inclusion then realizes `S₃` over `𝔸¹_k` in characteristic two.
 
 **Raynaud's theorem for the affine line.** Let `k` be algebraically closed of characteristic `p > 0`.
 Every quasi-`p` group lies in `π_A(𝔸¹_k)`. *Proof sketch.* Induction on `|G|`. If `G` has a nontrivial
@@ -5353,9 +5582,16 @@ normal `p`-subgroup `H`, then `G/H` is quasi-`p` and smaller, and *Serre's solva
 line* applies. Otherwise fix a Sylow `p`-subgroup `S` and let `G(S)` be the subgroup generated by the
 proper quasi-`p` subgroups whose Sylow subgroups lie in `S`. If `G(S) = G`, realize these subgroups by
 induction, make their inertia at `∞` a `p`-group inside `S` by pulling back along `z ↦ z^m` with
-`p ∤ m` (Abhyankar's lemma), patch them over `K = k((t))` along the common inertia at `∞`
-(*Patching Galois algebras with prescribed local pieces*, in place of Raynaud's rigid patching), and
-specialize (*Specialization of covers from `k((t))` to `k`*). If `G(S) ≠ G`, take a `G`-cover of
+`p ∤ m` (Abhyankar's lemma), and patch them over `K = k((t))` along their common inertia at `∞` with
+*Patching covers with a fixed branch divisor* (in place of Raynaud's rigid patching), on a model of
+`ℙ¹_K` whose fixed branch divisor is the section `∞_T`. The pieces are the thickenings of the realized
+covers, induced to `G`, and a piece with inertia `S` at the patch through `∞_T`, with boundary
+isomorphisms identifying their local extensions at `∞`; every piece is étale over the generic-fibre
+points of its patch off `∞_T`. Constructing these pieces and isomorphisms is part of this target. By
+that contract the patched `G`-cover of `ℙ¹_K` is étale over `𝔸¹_K`, connected because the realized
+subgroups generate `G`, and geometrically connected because a thickened piece is étale over the
+generic point of the closed fibre; specialize it (*Specialization of covers from `k((t))` to `k`*).
+If `G(S) ≠ G`, take a `G`-cover of
 `ℙ¹` over an algebraic closure of `Frac W(k)` branched at `r + 1` points with `p`-power branching
 indices and pairwise noncongruent branch points (Riemann existence in characteristic zero), descend
 it to a finite extension, pass to its `G`-equivariant stable model, and find a tail component `ℙ¹_k`
@@ -5363,8 +5599,8 @@ of the special fibre over which the cover is a `G`-cover branched at one point o
 stable model of the cover and the analysis of its tails are part of this target. Source:
 [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Theorems 3.8 and 3.11 with
 their sketches and Remarks 3.9–3.12, PDF pp. 11–12 (Raynaud's theorem). *Needs:* *Serre's solvable
-step on the affine line*, *Patching Galois algebras with prescribed local pieces*, *Specialization of
-covers from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-p fundamental quotients* (Abhyankar's
+step on the affine line*, *Patching covers with a fixed branch divisor*, *Specialization of covers
+from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-p fundamental quotients* (Abhyankar's
 lemma), Layer IG.1 *Invariance under algebraically closed base extension in characteristic zero*,
 Layer IG.3 *Realizing generating sphere tuples*; StableReduction Layer 7 (semistable reduction of
 curves); SchemeAndStackFoundations Layers 1, 3 and 4.
@@ -5389,13 +5625,20 @@ and extending by a strengthening of *Serre's solvable step on the affine line* w
 completed-local behaviour at finitely many `K`-points (part of this target). By *Raynaud's theorem for
 the affine line*, Abhyankar's lemma and deformation of covers, build a `p(G)`-cover of `𝔸¹_k` with
 inertia `P` at `∞`, and take its completion at a point over `∞`. Patch the two along that local
-extension with *Patching Galois algebras with prescribed local pieces*; the result is connected
-because `p(G)` and `P ⋊ C` generate `G`, and tame over `0`. Specialize with *Specialization of covers
-from `k((t))` to `k`*. Source: [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1),
-Theorem 3.13 with its sketch and Remark 3.14, PDF pp. 12–13 (Harbater's theorem). *Needs:* *Raynaud's
-theorem for the affine line*, *Serre's solvable step on the affine line*, *Patching Galois algebras
-with prescribed local pieces*, *Specialization of covers from `k((t))` to `k`*; Layer IG.1 *Tame and
-prime-to-p fundamental quotients*; SchemeAndStackFoundations Layer 4 (deformations of covers).
+extension with *Patching covers with a fixed branch divisor* on `ℙ¹_T`, `T = k[[t]]`, whose fixed
+branch divisor is the pair of sections `0_T` and `∞_T`. The pieces are the `P ⋊ C`-cover and the
+thickened `p(G)`-cover, both induced to `G`, with the boundary isomorphism identifying the completion
+of the latter at `∞` with the local extension of the former at the chosen `K`-point; every piece is
+étale over the generic-fibre points of its patch off `0_T` and `∞_T`. The choice of patches and of
+this isomorphism is part of this target. By that contract the patched `G`-cover is étale over
+`𝔸¹_K − {0}`, tame over `0`, connected because `p(G)` and `P ⋊ C` generate `G`, and geometrically
+connected because the thickened piece is étale over the generic point of the closed fibre. Specialize
+with *Specialization of covers from `k((t))` to `k`*. Source:
+[Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Theorem 3.13 with its sketch and
+Remark 3.14, PDF pp. 12–13 (Harbater's theorem). *Needs:* *Raynaud's theorem for the affine line*,
+*Serre's solvable step on the affine line*, *Patching covers with a fixed branch divisor*,
+*Specialization of covers from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-p fundamental
+quotients*; SchemeAndStackFoundations Layer 4 (deformations of covers).
 
 **Checks.**
 
@@ -5419,15 +5662,20 @@ completion of a free group on `2g + r − 1` generators. For sufficiency, reduce
 tame cover `f` of `U = C − D` (SGA 1, Exposé XIII, Corollary 2.12). Let `C₀` be the cyclic inertia
 group of `f` at a ramification point `ξ` over `D`, and `H = ⟨p(G), C₀⟩`, reduced to a semidirect
 product. *Harbater's theorem for the punctured line* gives an `H`-cover of `𝔸¹_K − {0}`, `K = k((t))`,
-tamely ramified over `0` with inertia `C₀`. Patch the constant thickening of `f` with it at `ξ`
-(*Patching Galois algebras with prescribed local pieces*) so that the tame ramification at `0` cancels
-that of `f` at `ξ`, leaving `r` branch points; the result is a connected `G`-cover of `U_K`, since `H`
-and `Ḡ` generate `G`. Specialize with *Specialization of covers from `k((t))` to `k`*. The group-theoretic
-reductions and the matching of inertia at `ξ` are part of this target. Sources:
+tamely ramified over `0` with inertia `C₀`. Patch the constant thickening of `f` with it at `ξ` with
+*Patching covers with a fixed branch divisor* on `C_T`, `T = k[[t]]`, whose fixed branch divisor is
+the union of the constant sections through the points of `D`, so that the tame ramification at `0`
+cancels that of `f` at `ξ`, leaving `r` branch points: the boundary isomorphism at the image of `ξ`
+identifies the inertia extensions, and every piece is étale over the generic-fibre points of its
+patch off those sections. By that contract the result is a `G`-cover of `C_K` étale over `U_K`,
+connected since `H` and `Ḡ` generate `G`, and geometrically connected since the thickening of `f` is
+étale over the generic point of the closed fibre. Specialize with *Specialization of covers from
+`k((t))` to `k`*. The group-theoretic reductions, the matching of inertia at `ξ`, the choice of patches
+and the boundary isomorphism are part of this target. Sources:
 [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Conjecture 3.2 (now a theorem),
 p. 8, and §3.3, the sketch of the general case, PDF p. 13; [SGA 1](https://arxiv.org/pdf/math/0206203v2),
 Exposé XIII, Corollary 2.12, p. 290. *Needs:* *Harbater's theorem for the punctured line*, *Raynaud's
-theorem for the affine line*, *Patching Galois algebras with prescribed local pieces*,
+theorem for the affine line*, *Patching covers with a fixed branch divisor*,
 *Specialization of covers from `k((t))` to `k`*, *Field patching for curves over a complete DVR*,
 Layer IG.1 *Tame and prime-to-p fundamental quotients*; ConstructibleEtale Layer 3.
 
@@ -5487,10 +5735,13 @@ curves, stable pointed curves, deformations), AlgebraicModuliForArithmeticGeomet
 ComplexComparisonPartII §C3.3 for proper algebraic-space GAGA, EnhancedDerivedSheaves Layer E1 for
 derived inverse limits and the Mittag–Leffler criterion, EtaleDualityAndPerverseSheaves Layer EDC.2
 for Poincaré duality and the trace map, StableReduction Layer 7 for semistable reduction of curves,
-and ProfiniteCohomology Layers 1 and 5 with ProfiniteProPGroups Layer 5 for the solvable step of
-Abhyankar's conjecture. From the point-counting roadmaps it uses ConstructibleEtale Layer 3,
-EtaleBaseChange Layers 4, 5, 7 and 8, CompactSupport Layers 5–7, EllAdicRealization Layers 1, 2, 6,
-7 and 8, ComplexComparison Layers 8, 10 and 11, TraceFormula Layers 11 and 12, and FrobeniusGeometry
+and ProfiniteCohomology Layers 1, 5 and 10 with ProfiniteProPGroups Layer 5, Tau Ceti's
+`TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` and
+ArithmeticGaloisRepresentations Layer 3 (Swan conductors) for the solvable step of Abhyankar's
+conjecture, with LocalFieldsRamification Layer 3 for the Euler characteristic of local systems on
+curves. From the point-counting roadmaps it uses ConstructibleEtale Layer 3,
+EtaleBaseChange Layers 4–8, CompactSupport Layers 5–7, EllAdicRealization Layers 1, 2, 6,
+7 and 8, ComplexComparison Layers 8, 10 and 11, TraceFormula Layers 8, 11 and 12, and FrobeniusGeometry
 Layers 4 and 5; and BelyiMaps Layers 12 and 13 for tame inertia and peripheral conventions. Deligne's
 weight bound is not used as a theorem: it is an explicit hypothesis of
 *Fixed-degree uniform Hurwitz point estimate*, discharged by DeligneWeightsAndPurity.
@@ -5895,6 +6146,8 @@ Freely available sources, with the versions to which the locators refer.
 - C. Demarche, G. Lucchini Arteche and D. Neftin, *The Grunwald problem and approximation
   properties for homogeneous spaces*, Ann. Inst. Fourier 67 (2017), 1009–1033.
   <https://www.numdam.org/item/10.5802/aif.3104.pdf>
+- A. Grothendieck, *Éléments de géométrie algébrique IV, seconde partie*, Publ. Math. IHÉS 24
+  (1965). <https://www.numdam.org/item/PMIHES_1965__24__5_0/>
 - A. Grothendieck, *Éléments de géométrie algébrique IV, troisième partie*, Publ. Math. IHÉS 28
   (1966). <https://www.numdam.org/item/PMIHES_1966__28__5_0/>
 - J. Ellenberg, A. Venkatesh and C. Westerland, *Homological stability for Hurwitz spaces and the
@@ -5940,6 +6193,9 @@ Freely available sources, with the versions to which the locators refer.
   arXiv:2410.12560v1. <https://arxiv.org/pdf/2410.12560v1>
 - B. Poonen, *Rational points on varieties*, Graduate Studies in Math. 186, Amer. Math. Soc., 2017;
   author's online version (printed page numbers). <https://math.mit.edu/~poonen/papers/Qpoints.pdf>
+- M. Raynaud, *Caractéristique d'Euler–Poincaré d'un faisceau et cohomologie des variétés
+  abéliennes*, Séminaire Bourbaki, exp. 286 (1965), 129–147.
+  <http://www.numdam.org/item/SB_1964-1966__9__129_0/>
 - M. Romagny and S. Wewers, *Hurwitz spaces*, in *Groupes de Galois arithmétiques et
   différentiels*, Sémin. Congr. 13 (2006), 313–341.
   <https://imag.umontpellier.fr/~romagny/articles/hurwitz_spaces.pdf>
@@ -5953,6 +6209,7 @@ Freely available sources, with the versions to which the locators refer.
   <https://beranger-seguin.fr/assets/pdf/articles/fielddef.pdf>
 - J.-P. Serre, *Topics in Galois Theory*, second edition, A K Peters, 2008.
   <https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf>
+- The Stacks project authors, *The Stacks project*, cited by tag. <https://stacks.math.columbia.edu>
 - S. Wewers, *Field of moduli and field of definition of Galois covers*, arXiv:math/0108003v1.
   <https://arxiv.org/pdf/math/0108003v1>
 - M. M. Wood, *Nonabelian Cohen–Lenstra moments*, Duke Math. J. 168 (2019), 377–427.
@@ -5964,8 +6221,12 @@ Cited through the sources above, for statements those sources use: M. P. Anderso
 properties of profinite completion functors*, Topology 13 (1974) (through Landesman–Litt); E. Artin
 and J. Tate, *Class Field Theory*, Chapter X, Theorem 1, and S. Wang, *A counter-example to
 Grunwald's theorem*, Ann. of Math. 49 (1948) (through Harpaz–Wittenberg); C. Demarche, *Groupe de
-Brauer non ramifié d'espaces homogènes à stabilisateurs finis*, Math. Ann. 346 (2010) (through
-Harpaz–Wittenberg); M. J. Dunwoody, *Nielsen transformations* (1970), and S. Garion, *Connectivity of
+Brauer non ramifié d'espaces homogènes à stabilisateurs finis*, Math. Ann. 346 (2010),
+J.-L. Colliot-Thélène, A. Pál and A. N. Skorobogatov, *Pathologies of the Brauer–Manin obstruction*,
+Math. Z. 282 (2016), Proposition 6.1(iii), and V. Platonov and A. Rapinchuk, *Algebraic groups and
+number theory*, Academic Press, 1994, Theorems 6.6 and 7.8 (through Harpaz–Wittenberg); R. G. Swan,
+*Induced representations and projective modules*, Ann. of Math. 71 (1960) (through Raynaud);
+M. J. Dunwoody, *Nielsen transformations* (1970), and S. Garion, *Connectivity of
 the product replacement algorithm graph of PSL(2, q)*, J. Group Theory 11 (2008) (through Chen);
 T. Ekedahl's effective Hilbert irreducibility theorem (through Breuil–Conrad–Diamond–Taylor);
 M. Fried and M. Jarden, *Field Arithmetic*, third edition, Springer, 2008 (through Schmidt–Stix);
