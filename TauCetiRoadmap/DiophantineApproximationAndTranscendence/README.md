@@ -6,9 +6,33 @@
 
 Own primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions and exponential Ax–Schanuel with its algebraic differential forms.
 
-Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure belongs here. Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
+Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree Northcott, Kronecker and the Mahler/absolute-height dictionary are consumed from ArithmeticHeights Layer 1. Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. The Gram-determinant upper bound in §0.0 also covers complex inner-product spaces and families in an ambient space of arbitrary dimension.
 
-GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. [IntegralLattices](../IntegralLattices/README.md), Layer 0A and Layer 2, owns integral quadratic lattices and their bounded-norm finiteness; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc estimates here are multivariate variants. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
+GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. [IntegralLattices](../IntegralLattices/README.md), Layer 0A and Layer 2, owns integral quadratic lattices and their bounded-norm finiteness; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc estimates are supplied by LinearFormsInLogarithms Layers 0–1. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
+
+The shared foundations have the following single suppliers. Each dependency is on the
+specified layers, independently of the supplier's later applications. The contracts below
+are consumer interfaces and normalization adapters; they do not request another proof
+of a supplied theorem. `Suggested.lean` records the supplied interfaces and the consumer adapters against
+the pinned libraries.
+
+| Consumer sections | Supplier and exported interface | Work owned here |
+| --- | --- | --- |
+| §§0.2–0.3 | [ArithmeticHeights](../ArithmeticHeights/README.md), Layers 0–1: NumberField.absMulHeight, NumberField.arakelovMulHeight, Height.mulHeightAff, Height.logHeightAff, NumberField.absMulHeight₁_pow_natDegree, bounded-degree Northcott and Kronecker | Primitive-positive minpoly, naive height and arbitrary-element house/denominator adapters |
+| §0.0, §§0.4,2.1 | ArithmeticHeights Layer 4: ZLattice.successiveMinimum, ZLattice.covolume_le_prod_successiveMinimum_mul_measure, ZLattice.prod_successiveMinimum_mul_measure_le | Approximation corollaries and the closed-boundary coordinate linear-forms adapter |
+| §0.0 Gram estimate | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §0.1: hermitian_gram_hadamard, extending ArithmeticHeights Layer 3's real Gram bound | Consumption for complex coefficient estimates |
+| §1.3, §2.5 | ArithmeticHeights Layers 2–3: Polynomial.mulHeight, Submodule.pluckerPoint, Submodule.mulHeight, Submodule.arakelovMulHeight, Submodule.mulHeight_comap_piEquiv_dualAnnihilator | Sparse coefficient-log adapter; absolute Euclidean and dot-product adapters; twisted heights and weights |
+| §2.8 fixed-field kernel bound, §4.1 unit dictionary | ArithmeticHeights Layers 5–6: NumberField.exists_linearIndependent_mem_ker_prod_absMulHeight_le, unit-height/regulator and S-unit rank dictionaries | Auxiliary constraints, perturbations, effective equations; absolute geometry in §2.5 |
+| §3.3 qualitative conclusions | [LinearFormsInLogarithms](../LinearFormsInLogarithms/README.md), Layer 6: transcendental_exp_mul and GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational | One-variable exponential-polynomial zero estimates and the explicit E19/KW auxiliary constructions as alternative applications of shared estimates |
+| §3.4 | LinearFormsInLogarithms Layers 0–4: TauCeti.mvTaylorCoeff, norm_le_of_mvTaylorCoeff_eq_zero, mvTaylorCoeff_prod_pow_mul_cexp, exists_ne_zero_int_norm_sum_le | Ordinary-derivative adapter and its factorial bridge; the stated stronger W00 interpolation constants are extensions of this engine |
+| §3.5 | LinearFormsInLogarithms Layers 5–6: SchneiderLang.exists_transcendental_of_linearIndependent, Baker.eq_zero_of_add_sum_mul_eq_zero, Baker.transcendental_sum_mul | Branch and basis-coordinate corollaries of these shared statements |
+| §§3.1–3.2,3.6–3.7,4–5 | LinearFormsInLogarithms Layer 8 supplies qualitative p-adic Baker–Brumer only | Full Hermite-method Lindemann–Weierstrass, quantitative Matveev/Yu, effective equations, modular values and arithmetic functions |
+
+ArithmeticHeights Layer 4 is the real-lattice supplier also used by the geometric
+foundation of GeometryOfNumbersAndQuadraticArithmetic: its zero-based natural index
+is restricted here to `Fin d`. No later homogeneous-dynamics or hermitian K-theory
+layer is needed. Absolute adelic minima, the degree-free small-height branch and
+Nesterenko's arithmetic specialization are targets here.
 
 ## Conventions
 
@@ -28,10 +52,10 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 
 `TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul` preserves dimension for faithful integral extensions; `ringKrullDim_eq_of_injective_of_isIntegral_mvPolynomial` computes dimension over an injected polynomial algebra; `ringKrullDim_tensorProduct_field_of_finiteType` handles field extension; `ringKrullDim_eq_toNat_trdeg` identifies dimension and transcendence degree for finite type domains. `TauCeti.height_eq_ringKrullDim_of_isMaximal` gives maximal-ideal height for a finite-type algebra over a field with irreducible spectrum. Mathlib’s `ringKrullDim_quotient_add_one_of_mem_nonZeroDivisors` applies to a nonzerodivisor contained in a prime of maximal height. Layer 5 packages these for the nonzero fibre over k[z].
 
-**From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. IntegralLattices, Layer 0A “integral lattices” and Layer 2 “definite lattices”, supplies the quadratic-lattice carrier and its bounded-norm finiteness; Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; §3.4 builds their several-variable forms.
+**From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. IntegralLattices, Layer 0A “integral lattices” and Layer 2 “definite lattices”, supplies the quadratic-lattice carrier and its bounded-norm finiteness; Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; LinearFormsInLogarithms Layers 0–2 supplies the several-variable engine used in §3.4.
 
 
-**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima, linear-forms and Hermitian Gram variants needed here are §0.0 targets, with the exact boundary and empty-family conventions specified there. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
+**Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima and linear-forms contracts in §0.0 consume ArithmeticHeights Layer 4; the Hermitian Gram contract consumes GeometryOfNumbersAndQuadraticArithmetic §0.1. Their boundary and empty-family conventions are specified there. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
 
 `Set.unit S K` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the sole S-unit subgroup, for a set S of height-one primes of a Dedekind domain with fraction field K. Its membership condition is v(x)=1 at every v outside S; `Set.unit_valuation_eq_one` and `Set.unitEquivUnitsInteger` identify its elements with units of the S-integer ring. For rational equations take the domain `𝓞 ℚ`, using `Rat.HeightOneSpectrum.primesEquiv` to identify its height-one primes with rational primes. No separate rational S-unit subgroup is defined. The algebraic-number field inside ℂ is `(algebraicClosure ℚ ℂ).toSubfield`. `PowerSeries.expand r hr` with r≠0 and `PowerSeries.expand_apply` supply f(z^r)=subst(X^r,f); `PowerSeries.coeff_expand` supplies the coefficient formula, with zero off exponents divisible by r. This is the sole expansion operator for Mahler systems; no separate coefficient construction is needed. The rational numerator, sign, exponent and height comparisons of §4.1 are adapters on this carrier.
 
@@ -47,7 +71,7 @@ Layer 0 fixes heights and approximation; Layer 1 proves Roth by auxiliary polyno
 
 ### 0.0 Geometric estimates on the library lattice carriers
 
-Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E of dimension d, and a compact convex set B symmetric about zero with zero in its interior. Define `successiveMin Λ B i`, for i : Fin d, as the infimum of t≥0 for which the real span of Λ∩tB has dimension at least i+1. Its intended signature is a real-valued function of the native lattice, the body and the zero-based index. Prove positivity, monotonicity in i, the threshold characterization `successiveMin_isLeast`, and `exists_successiveMin_witnesses`: independent v_i∈Λ with v_i∈λ_i B simultaneously. Scaling B by a>0 divides every minimum by a; invertible real-linear transport of Λ and B preserves them. (E19, ch. 2, §2.3 “Minkowski’s second convex body theorem”, Lem. 2.8, pp. 23–24.)
+Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E of dimension d, and a compact convex set B symmetric about zero with zero in its interior. Consume `ZLattice.successiveMinimum Λ B i.val`, for i : Fin d, as the infimum of t≥0 for which the real span of Λ∩tB has dimension at least i+1. Its intended signature is a real-valued function of the native lattice, the body and the zero-based index. Consume positivity, monotonicity in i, the threshold characterization and ZLattice.exists_linearIndependent_mem_smul_successiveMinimum: independent v_i∈Λ with v_i∈λ_i B simultaneously. Scaling B by a>0 divides every minimum by a; invertible real-linear transport of Λ and B preserves them. (E19, ch. 2, §2.3 “Minkowski’s second convex body theorem”, Lem. 2.8, pp. 23–24.)
 
 **Checks.**
 
@@ -56,13 +80,13 @@ Use a discrete full ℤ-lattice Λ in a finite-dimensional real normed space E o
 - The zero-dimensional space has an empty family of minima and empty product 1.
 - For the unit square scaled by 2, the minima halve; a definition that scales the lattice instead gives the opposite normalization.
 
-Prove `minkowski_second_lower` and `minkowski_second_upper`:
+Consume `ZLattice.covolume_le_prod_successiveMinimum_mul_measure` and `ZLattice.prod_successiveMinimum_mul_measure_le` from ArithmeticHeights Layer 4.2:
 2^d covol(Λ)/d! ≤ volume(B)∏_i λ_i ≤ 2^d covol(Λ).
 The volume is the same Haar measure used for the covolume. No norm-ball restriction is imposed. In dimension zero the body is {0}, its volume and covolume are 1, and both bounds are equalities. (E19, ch. 2, Thm. 2.9, pp. 24–27.)
 
 For d≥1, invertible A∈M_d(ℝ), positive b_i and ∏b_i≥|det A|, prove `minkowski_linear_forms`: some nonzero z∈ℤ^d has |(Az)_i|≤b_i for every i. The inequalities include the boundary; compactness of the parallelepiped is essential at equality. This is a coordinate consequence of the supplied first convex-body theorem. (E19, ch. 2, Cor. 2.6, p. 20.)
 
-For a finite family v_i in a real or complex inner-product space, prove `hermitian_gram_hadamard`: det Gram(v)≤∏‖v_i‖². For complex scalars the determinant is real, so the inequality uses its real part. Include dependent and empty families, with determinant and product 1 in the empty case. Use the library Gram matrix and Euclidean norms; its nonnegativity is supplied. (E19, ch. 2, Exercise 2.11, p. 31, and its Gram-Schmidt argument; the complex statement follows by the same Hermitian orthogonalization.)
+For a finite family v_i in a real or complex inner-product space, consume `hermitian_gram_hadamard` from GeometryOfNumbersAndQuadraticArithmetic §0.1: det Gram(v)≤∏‖v_i‖². For complex scalars the determinant is real, so the inequality uses its real part. Include dependent and empty families, with determinant and product 1 in the empty case. Use the library Gram matrix and Euclidean norms; its nonnegativity is supplied. (E19, ch. 2, Exercise 2.11, p. 31, and its Gram-Schmidt argument; the complex statement follows by the same Hermitian orthogonalization.)
 
 **Checks.**
 
@@ -167,7 +191,7 @@ Combine these bounds to obtain 2⁻ᵈH(x)≤Habs(x)^d≤√(d+1)H(x). On ℚ th
 
 *Needs:* §0.1.
 
-Use `Polynomial`: `mapMahlerMeasure`, `mahlerMeasure`, `mahlerMeasure_eq_leadingCoeff_mul_prod_roots`, `pow_eq_one_of_mahlerMeasure_eq_one`, `finite_mahlerMeasure_le`, `card_roots'`, `gaussNorm`, `IsPrimitive`, `gaussNorm_mul`, `gaussNorm_C`, `SplittingField`, `supNorm_le_choose_natDegree_div_two_mul_mahlerMeasure`, `mahlerMeasure_le_sqrt_natDegree_add_one_mul_supNorm`, `mahlerMeasure_le_sqrt_sum_sq_norm_coeff`; `NumberField`: `house`, `NumberField.house_eq_sup'`, `exists_conjugate_one_le_norm`, `house_mul_le`, `house_add_le`, `mulHeight_eq`, `instAdmissibleAbsValues`, `absMulHeight₁`, `prod_abs_eq_one`, `mulHeight₁_eq`; `NumberField.Embeddings`: `range_eval_eq_rootSet_minpoly`, `pow_eq_one_of_norm_eq_one`, `card`; `NumberField.InfinitePlace`: `mult_mul_finrank`, `inertiaDeg_eq_finrank`, `sum_inertiaDeg_eq_finrank`, `comap_apply`, `card_filter_mk_eq`; `Height`: `mulHeight`, `mulHeight₁_eq_mulHeight`, `mulHeight₁`; `NumberField.FinitePlace`: `equivHeightOneSpectrum_symm_apply_algebraMap`, `add_le`; `Ideal.sum_ramification_inertia_eq_finrank`; `NumberField.RingOfIntegers.rank`; `Module.finrank_mul_finrank`; `IntermediateField.adjoinRootEquivAdjoin`; `IntermediateField.adjoin.finrank`; `NumberField.HeightOneSpectrum.adicAbv_intCast_le_one`; `Finset.gcd_eq_sum_mul`; `Rat.iSup_finitePlace_apply_eq_one_of_gcd_eq_one`; `Polynomial.SplittingField.splits`; `Polynomial.Splits.roots_map_of_injective`; `Nat.choose_le_two_pow`.
+Use `Polynomial`: `mapMahlerMeasure`, `mahlerMeasure`, `mahlerMeasure_eq_leadingCoeff_mul_prod_roots`, `pow_eq_one_of_mahlerMeasure_eq_one`, `finite_mahlerMeasure_le`, `card_roots'`, `gaussNorm`, `IsPrimitive`, `gaussNorm_mul`, `gaussNorm_C`, `SplittingField`, `supNorm_le_choose_natDegree_div_two_mul_mahlerMeasure`, `mahlerMeasure_le_sqrt_natDegree_add_one_mul_supNorm`, `mahlerMeasure_le_sqrt_sum_sq_norm_coeff`; `NumberField`: `house`, NumberField.house_eq_sup', `exists_conjugate_one_le_norm`, `house_mul_le`, `house_add_le`, `mulHeight_eq`, `instAdmissibleAbsValues`, `absMulHeight₁`, `prod_abs_eq_one`, `mulHeight₁_eq`; `NumberField.Embeddings`: `range_eval_eq_rootSet_minpoly`, `pow_eq_one_of_norm_eq_one`, `card`; `NumberField.InfinitePlace`: `mult_mul_finrank`, `inertiaDeg_eq_finrank`, `sum_inertiaDeg_eq_finrank`, `comap_apply`, `card_filter_mk_eq`; `Height`: `mulHeight`, `mulHeight₁_eq_mulHeight`, `mulHeight₁`; `NumberField.FinitePlace`: `equivHeightOneSpectrum_symm_apply_algebraMap`, `add_le`; `Ideal.sum_ramification_inertia_eq_finrank`; `NumberField.RingOfIntegers.rank`; `Module.finrank_mul_finrank`; `IntermediateField.adjoinRootEquivAdjoin`; `IntermediateField.adjoin.finrank`; `NumberField.HeightOneSpectrum.adicAbv_intCast_le_one`; `Finset.gcd_eq_sum_mul`; `Rat.iSup_finitePlace_apply_eq_one_of_gcd_eq_one`; `Polynomial.SplittingField.splits`; `Polynomial.Splits.roots_map_of_injective`; `Nat.choose_le_two_pow`.
 
 ### 0.3 Finiteness and size estimates
 
@@ -175,7 +199,7 @@ For d∈ℕ and B∈ℝ, the algebraic α∈ℂ with degree ≤d and H(α)≤B f
 
 *Needs:* §0.1.
 
-For d∈ℕ and B∈ℝ, prove bounded-degree Northcott finiteness in ℂ for Habs(α)≤B. The field containing α is allowed to vary. (Wu, §3, Thm. 3.4, p. 6; Yang, p. 1.)
+For d∈ℕ and B∈ℝ, consume ArithmeticHeights Layer 1.3 bounded-degree Northcott finiteness in ℂ for Habs(α)≤B. The field containing α is allowed to vary. (Wu, §3, Thm. 3.4, p. 6; Yang, p. 1.)
 
 *Needs:* §0.2.
 
@@ -201,7 +225,7 @@ An algebraic integer whose real and imaginary coordinates under every embedding 
 
 For K of degree d, N>dM>0, A≥1 and a∈(𝓞 K)^(M×N) with every coefficient house ≤A, obtain a nonzero rational integer vector x in its kernel with ‖x‖∞≤(3NA)^(dM/(N−dM)). The unknowns are in ℤ. (E19, ch. 3, Thm. 3.20, p. 52; E19, ch. 3, Thm. 3.20, p. 53; E19, ch. 6, §6.2, p. 116.)
 
-Use `Polynomial`: `card_roots'`, `supNorm`, `supNorm_le_choose_natDegree_div_two_mul_mahlerMeasure`, `mahlerMeasure_mul`, `mahlerMeasure_le_sqrt_natDegree_add_one_mul_supNorm`; `Nat`: `succ_mul_centralBinom_succ`, `choose_le_two_pow`; `NumberField.Embeddings.coeff_bdd_of_norm_le`; `NumberField`: `exists_conjugate_one_le_norm`, `norm_norm_le_norm_mul_house_pow`, `house`, `mixedEmbedding`, `NumberField.house_eq_sup'`; `Algebra`: `natDenominator`, `natDenominator_dvd_iff`, `isIntegral_norm`, `norm_ne_zero_iff`; `IntermediateField.adjoin.finrank`; `isIntegral_algHom_iff`; `Finset.exists_ne_map_eq_of_card_lt_of_maps_to`.
+Use `Polynomial`: `card_roots'`, `supNorm`, `supNorm_le_choose_natDegree_div_two_mul_mahlerMeasure`, `mahlerMeasure_mul`, `mahlerMeasure_le_sqrt_natDegree_add_one_mul_supNorm`; `Nat`: `succ_mul_centralBinom_succ`, `choose_le_two_pow`; `NumberField.Embeddings.coeff_bdd_of_norm_le`; `NumberField`: `exists_conjugate_one_le_norm`, `norm_norm_le_norm_mul_house_pow`, `house`, `mixedEmbedding`, NumberField.house_eq_sup'; `Algebra`: `natDenominator`, `natDenominator_dvd_iff`, `isIntegral_norm`, `norm_ne_zero_iff`; `IntermediateField.adjoin.finrank`; `isIntegral_algHom_iff`; `Finset.exists_ne_map_eq_of_card_lt_of_maps_to`.
 
 ### 0.4 Dirichlet and Kronecker approximation
 
@@ -442,7 +466,7 @@ Use `MvPolynomial`: `pderiv`, `rename`; `Polynomial`: `hasseDeriv`, `toMvPolynom
 
 ### 1.3 Coefficient heights and products
 
-For K with admissible absolute values define `MvPolynomial.logHeight` as the native Finsupp logarithmic height of the coefficient vector. For a nonzero polynomial over a number field this is Σw|∞ mʷ log maxμ|Pμ|w + Σv finite log maxμ|Pμ|v. It is relative; divide by [K:ℚ] for the absolute normalization. (P22, §3.2, Def. 3.2.1, Lem. 3.2.2, p. 80.)
+Consume ArithmeticHeights Layer 2 coefficient heights. For K with admissible absolute values the sparse adapter `MvPolynomial.logHeight` as the native Finsupp logarithmic height of the coefficient vector. For a nonzero polynomial over a number field this is Σw|∞ mʷ log maxμ|Pμ|w + Σv finite log maxμ|Pμ|v. It is relative; divide by [K:ℚ] for the absolute normalization. (P22, §3.2, Def. 3.2.1, Lem. 3.2.2, p. 80.)
 
 Its API includes `MvPolynomial.logHeight_nonneg`: h(P)≥0; `MvPolynomial.logHeight_zero`: h(0)=0; `MvPolynomial.logHeight_C_mul`: h(cP)=h(P) for c≠0 (projectivity; Pottmeyer, Lemma 3.2.2); `MvPolynomial.logHeight_C`: h(c)=0 for a constant; `MvPolynomial.logHeight_rename`: h is invariant under injective renaming of variables; `MvPolynomial.logHeight_eq_of_numberField`: The place-by-place formula over a number field (Mathlib's NumberField.mulHeight_eq).
 
@@ -803,13 +827,100 @@ Prove `closedFormRecurrence`: for a complex recurrence E with characteristic pol
 
 A finitely generated algebra over an algebraically closed field of characteristic zero admits a specialisation fixing the base field and preserving nonvanishing of any specified finite set of units. This reduces the finite data of a unit equation to algebraic coefficients. (ESS02, §3, Lem. 3.1, pp. 815–816; ESS02, §3, Lem. 3.1.)
 
-Prove `absolutePerturbedUnitEquation`: let Γ≤(ℚ̄×)^n have finite rank r and n≥2. The y=xz with x∈Γ, h(z)≤n⁻¹exp(−(4n)^(3n))(1+h(x)) and Σyᵢ=1 lie in at most exp((5n)^(3n)(r+1)) proper subspaces. Height is absolute logarithmic height. (ESS02, §2, Thm. 2.1, p. 815; EF13, §1.3, p. 4.)
+Prove `absolutePerturbedUnitEquation` (and its unperturbed restriction `exists_subspaces_unit_equation_algebraic`): let Γ≤(ℚ̄×)^n have finite rank r and n≥2. The y=xz with x∈Γ, h_aff(z)≤n⁻¹exp(−(5n)^(3n))(1+h_aff(x)) and Σyᵢ=1 lie in at most exp((5n)^(3n)(r+1)) proper subspaces. Here h_aff is the absolute affine logarithmic tuple height, log H_proj(1,x). Over a containing number field K it is Height.logHeightAff x/[K:ℚ], equivalently Height.logHeight (Fin.cons 1 x)/[K:ℚ]. ArithmeticHeights §0.5 supplies the affine tuple adapter and §0.4 its absolute field-independent extension; `absoluteLogHeightAff` realizes it on ℚ̄-tuples, and `absoluteLogHeightAff_eq` gives the containing-field formula; `absoluteLogHeightAff_nonneg` gives nonnegativity and `absoluteLogHeightAff_one` gives zero on the tuple of ones. (ESS02, §2, Thm. 2.1, p. 815, with the perturbation budget used in §11 (11.19); EF13, §1.3, p. 4.)
 
-*Needs:* §2.8.
+**Checks.**
+
+- z=(1,…,1) has h_aff=0 and recovers the unperturbed interface.
+- For rational t≠0, h_aff(t,t)=h_abs(t), so h_aff(1/3,1/3)=log 3 although the projective tuple height is zero.
+- In Γ=⟨(2,1)⟩ take x_k=(2^k,1), z_k=(1/(2^k+1),1/(2^k+1)), k≥0. Then y_k=x_k z_k has sum 1 and ratio 2^k. Its perturbation has h_aff(z_k)=log(2^k+1), violating the stated budget; a projective height would wrongly accept this infinite family of distinct directions.
+
+*Needs:* §2.8 for large solutions; the following small-height foundation and rank packing for small solutions.
+
+**Small-height hyperplane foundation.** Build `scalarSumHeight x`=Σ_i h_abs(x_i)
+on (ℚ̄×)^n and `scalarSumHeight_affine`: h_aff(x)≤h_s(x)≤n h_aff(x),
+h_s(x^−1)=h_s(x) and h_s(xz)≤h_s(x)+h_s(z). For n≥2 and b_i≠0,
+prove `smallHeightHyperplaneBound`: b·w=1 has at most q₀(n)=exp((4n)^(3n))
+nondegenerate algebraic solutions with h_s(w)<q₀(n)^−1. Degrees and b's
+height are unrestricted. (ESS02 §7 (7.4)–(7.7), §11 Proposition 11.1;
+Schmidt, *Heights of points on subvarieties of G_m^n*, Theorem 4, pp.157–187.)
+The Schmidt small-point argument, including its auxiliary-polynomial construction,
+height bounds for intersections and torsion-coset separation, is a target here:
+`smallHeightHyperplaneSeparation` constructs a finite set of at most q₀(n)
+points containing this small nondegenerate locus. Use the coefficient-height
+and Siegel APIs to construct separating polynomials, apply the product formula
+to nonzero evaluations, and induct on intersections with the hyperplane;
+positive-dimensional torus translates force a vanishing subsum and are excluded.
+The quantitative degree/height bookkeeping must give the displayed q₀(n),
+without a degree or discriminant term. This proof branch precedes the unit-equation
+assembly and uses no unit-equation finiteness theorem. *Needs:* ArithmeticHeights
+Layers 0–3,5; §1.2 auxiliary jets; Mathlib polynomial ideals, Nullstellensatz
+and dimension; the small-point intersection and torsion-coset estimates just specified.
+
+**Checks.**
+
+- For n=1, b₁w₁=1 has the unique solution b₁^−1; the induction starts there.
+- For (2,1/2), h_s=h_aff=2 log 2; for (2,2), h_s=2 log 2, h_aff=log 2 and the projective logarithmic height is zero. These fix both comparisons without identifying the heights.
+- Roots of unity have scalar height zero at arbitrarily large degrees; Northcott with a degree bound cannot supply this theorem.
+- Degenerate solutions such as (t,−t,1) to w₁+w₂+w₃=1 are excluded by the vanishing subsum, regardless of height.
+
+**Rank packing and the two height regimes.** Prove `finiteRankHeightPacking`:
+for a finitely generated rank-r group, the logarithms of a basis modulo torsion
+give the norm ψ(u)=h_s(a^u) on ℝ^r; torsion contributes zero.
+For C>0, δ₀>0, every δ₀-separated set in {ψ≤C} has cardinality at most
+(1+2C/δ₀)^r. Disjoint ψ-balls of radius δ₀/2 and their volumes prove this;
+positivity uses the fixed-field torsion kernel and lattice discreteness, with
+no quantitative lower-height constant in the cardinal bound. Put C=4n²log n
+and δ₀=1/(2q₀). Obtain at most (16n³q₀)^r centers b and, for every
+x with h_aff(x)≤4n log n, a center with h_s(xb^−1)<1/(2q₀).
+For the perturbation budget above, h_s(z)≤exp(−(5n)^(3n))(1+4n log n)<1/(2q₀),
+so h_s(yb^−1)<q₀^−1. Apply the small-height foundation to the equation
+Σ b_i w_i=1. Nondegenerate small solutions number at most q₀(16n³q₀)^r;
+degenerate ones lie in at most 2^n subsum hyperplanes. (ESS02 §§7–8,
+Lemma 11.2 and Corollary 11.3, pp.824–835.)
+
+Build `unitEquationHeightAssembly`: for h_aff(x)>4n log n use the
+special-point packing of ESS02 §8, the local log pattern and centered
+weights of §9, then the absolute parametric theorem in §2.8. Prove the
+large-solution cover bound 2^(2(n+9)^2)(8n²+2n)^(n+4+r) (ESS02 Corollary
+10.2). Add it to 2^n+q₀(16n³q₀)^r and verify the sum is less than
+exp((5n)^(3n)(r+1)). No S-unit enlargement occurs. (ESS02 §§8–12.)
+*Needs:* `smallHeightHyperplaneBound`, `finiteRankHeightPacking`, §2.8.
+
+**Checks.**
+
+- For r=0 there is one center and at most q₀ nondegenerate small solutions, regardless of the torsion group's size.
+- In rank one the separated-point bound is 1+2C/δ₀, the interval-length packing bound.
+- The small-solution test includes h_aff(x)=4n log n; the large branch uses strict greater-than.
+- exp(−(4n)^(3n))(1+4n log n) is larger than q₀^−1, so it cannot satisfy the small-error inequality used here; the specified budget with 5n does.
+
+**Finite-data reduction and induction.** Build `finiteRankUnitEquationReduction`:
+any finite solution set and its witnesses x,z are contained in one number
+field and the subgroup generated by its finitely many x has rank ≤r.
+Prove that the uniform finite-set cover gives a cover of the whole set:
+if no t proper subspaces cover it, successive span/cover induction produces
+a finite witness with that same failure. No fixed field or finite generating
+set for the original group is assumed. (ESS02 §6, Lemma 6.1.)
+For the nondegenerate count, translate by a to a coset, adjoin its translating
+point (rank ≤r+1), apply the cover with z=1 and induct on n by eliminating
+a coordinate using each extra linear relation. Divide into nonvanishing blocks
+before invoking the lower-dimensional induction, retaining ranks of their
+images. The §4 inequalities give exp((6n)^(3n)(r+1)). For general
+characteristic-zero fields specialize finite sets, adjoining inverses of
+coordinate differences and all nonzero subsums to preserve distinctness and
+nondegeneracy. (ESS02 §§3–4, Lemmas 3.1–3.2 and proof of Theorem 1.1.)
+*Needs:* `unitEquationHeightAssembly`, §2.3 nondegeneracy, Mathlib
+Nullstellensatz and subgroup rank under homomorphisms.
+
+**Checks.**
+
+- A finite subset of a finite-rank group of radicals of 2 is handled inside its own finitely generated subgroup; the full group need not be finitely generated.
+- At n=1 the coefficient equation has at most one solution, independently of r.
+- Specialization must preserve x_i−x'_i for a distinguishing coordinate of each pair; preserving only individual nonzero coordinates does not preserve distinct solutions.
 
 Over an algebraically closed characteristic-zero field, a multiplicative subgroup Γ≤(K×)^n of finite rank r has at most exp((6n)^(3n)(r+1)) nondegenerate solutions of Σaᵢxᵢ=1 with aᵢ≠0. (ESS02, Thm. 1.1, p. 808; ESS02, §3, Lem. 3.2.)
 
-*Needs:* §2.3.
+*Needs:* §2.4 small/large height assembly, finite-data reduction and induction below.
 
 For a finitely generated Γ≤K× in characteristic zero, nonzero coefficients aᵢ and n≥3, all solutions of a₁x₁+⋯+aₙxₙ=0 in Γⁿ lie in finitely many proper subspaces of that hyperplane. This follows by grouping minimal vanishing subsums. (E19, ch. 8, Thm. 8.13, p. 168; E19, ch. 8, §8.3, pp. 168–169; ESS02, Abstract.)
 
@@ -861,6 +972,29 @@ Its API includes `normAbs`: Degree-normalization adapter: normAbs v x=(TauCeti.G
 - The zero algebraic vector has absolute twisted height 0, excluding the native projective-height junk value 1.
 - For forms over ℚ and weights c_∞=(1/2,−1/2), the vector (1,0) has height Q^(−1/2) for Q≥1 after every finite field extension. Local weights must be multiplied by the extension multiplicities.
 
+**Height of the determinant tuple.** Define `formSystemHeight L`=H_L as
+NumberField.absMulHeight of the tuple det(L_j₁,…,L_jₙ), indexed by the
+n-element Finsets of the finite set of all distinct forms appearing in L.
+Choose an ordering only to compute each determinant. Local independence
+supplies a nonzero coordinate; the tuple is therefore nonzero. Prove
+`formSystemHeight_reindex`, field-extension invariance, `one_le_formSystemHeight`: 1≤H_L,
+`deltaL_le_formSystemHeight`, and the compound inverse-matrix bound
+H_aff^*(Â₁^−1,…,Â_s^−1)≤H_L^(R^n) under EF13 (8.1)–(8.9), including
+the coordinate system at the distinguished place. Here H_aff^* appends 1 to
+the whole coefficient tuple. Cramer's rule expresses those coefficients as
+ratios of the determinant coordinates. For the augmented algebraic systems
+of §2.8 prove `formSystemHeight_augmented_le`: H_L is at most n^(n/2) times the product of the absolute augmented row heights. The ≤RD conjugate rows each have augmented height ≤H*, and coordinate rows have height 1, giving H_L≤n^(n/2)(H*)^(DR)
+after the Galois transport. This is a height of all minors, distinct from Δ_L
+and from individual Euclidean form heights. (EF13 (2.11)–(2.12), Lemma 5.1
+and Lemma 11.5, pp.9,23,47.) *Needs:* ArithmeticHeights tuple heights,
+§0.0 Gram bound, determinants and local independence.
+
+**Checks.**
+
+- For the rational forms X,Y,X+Y, the three two-by-two minors are 1,1,−1, so H_L=1; the largest Euclidean row height is √2.
+- Permuting these forms changes signs and enumeration but keeps H_L=1. Computing in ℚ(i) also gives 1.
+- For this collection §2.8's C₂=(2H_L)^(m₂^(2m₂)) is 2^(m₂^(2m₂)), while its inverse-compound coefficient bound is 1.
+
 The coordinate and determinant adapters have the following APIs. `coordForms_apply` identifies the i-th form with X_i, `coordForms_independent` proves independence in every dimension, and `deltaL_coords` gives Δ=1. For locally independent L with finitely many distinct forms, prove `deltaL_pos` and determinant-product invariance under a common invertible K-linear change of coordinates, by the product formula. All these are on the supplier place carrier. (EF13, §2.2, (2.4)–(2.11), pp. 8–9.)
 
 **Checks for coordinate forms and determinant product.**
@@ -899,9 +1033,9 @@ Its API includes `successiveInfimum`: rationalSuccessiveInfimum L c Q i := sInf 
 - For the preceding rational two-coordinate weights and Q>1, the absolute infima are Q^(−1/2),Q^(1/2); the absolute gap space is the ℚ̄-line spanned by e₁ and descends to the corresponding ℚ-line.
 - At Q=1 those infima coincide and the first absolute infimum space is the whole plane, excluding a rule that always selects a coordinate line.
 
-Define `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x). Let `plucker` list the ordered minors of a basis matrix; `subspaceHeight U` is the height of its nonzero Plücker vector, independent of basis. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
+Use ArithmeticHeights Layers 0 and 3. Define the adapter `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x). Let `plucker` be the coordinate realization of Submodule.pluckerPoint by minors indexed by p-element Finsets; `subspaceHeight U` is Submodule.arakelovMulHeight U raised to 1/[K:ℚ]. Basis independence is supplied. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
 
-Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^{mult w/(2[K:ℚ])} times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^{1/[K:ℚ]}, for y : ι→K; `plucker`: plucker x : {s : Finset (Fin n) // s.card=p}→K, the p × p minors of the p × n matrix with rows x_i; `subspaceHeight`: subspaceHeight T := 1 if T=⊥ or T=⊤, else height2 (plucker of the rows of Module.finBasis K T); `subspaceHeight_bot`: subspaceHeight ⊥=1; `subspaceHeight_top`: subspaceHeight ⊤=1; `subspaceHeight_span_singleton`: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; `subspaceHeight_le_prod`: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); `subspaceHeight_orthogonal`: EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; `subspaceHeight_inf_mul_sup_le`: Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; `subspaceHeight_rat_eq_covolume`: For K=ℚ and a subspace T of ℚ^n, subspaceHeight T equals the covolume of the lattice T ∩ ℤ^n in its real span (§0.0 and the native covolume).
+Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^{mult w/(2[K:ℚ])} times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^{1/[K:ℚ]}, for y : ι→K; `plucker`: plucker x : {s : Finset (Fin n) // s.card=p}→K, the p × p minors of the p × n matrix with rows x_i; `subspaceHeight`: subspaceHeight T := (Submodule.arakelovMulHeight T)^(1/[K:ℚ]); `subspaceHeight_bot`: subspaceHeight ⊥=1; `subspaceHeight_top`: subspaceHeight ⊤=1; `subspaceHeight_span_singleton`: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; `subspaceHeight_le_prod`: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); `subspaceHeight_orthogonal`: EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; `subspaceHeight_inf_mul_sup_le`: Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; `subspaceHeight_rat_eq_covolume`: For K=ℚ and a subspace T of ℚ^n, subspaceHeight T equals the covolume of the lattice T ∩ ℤ^n in its real span (§0.0 and the native covolume).
 
 **Checks.**
 
@@ -919,6 +1053,25 @@ Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w
 - absoluteHeight2(√2,1)=√3, whereas the maximum-norm absolute height is √2.
 - absoluteHeight2(0,0)=0 and absoluteHeight2(1,1)=√2.
 - Computing the height of (√2,1) in ℚ(√2) or ℚ(√2,i) gives √3 in both fields. Forgetting the complex multiplicity or the degree root changes the latter computation.
+
+**Height and duality compatibility.** Prove `height2_eq_arakelovMulHeight` for
+nonzero x∈K^N: height2 x=(NumberField.arakelovMulHeight x)^(1/[K:ℚ]).
+The zero adapter is 0 whereas the supplier's projective junk value is 1.
+Prove `height2_baseExtension` using the supplier's arakelovMulHeight_rpow_comp.
+For a p-dimensional U, prove `subspaceHeight_sup_le` comparing its sup and Euclidean Plücker heights by
+H_sup(U)≤subspaceHeight U≤binom(n,p)^(1/2)H_sup(U), with both absolute.
+Prove `orthogonalBilin_eq_dualAnnihilator_comap`:
+U.orthogonalBilin(dotProductBilin K K)=U.dualAnnihilator.comap(Module.piEquiv (Fin n) K K).
+The supplied Arakelov duality and submodularity give the corresponding
+subspaceHeight contracts by taking positive degree roots. (ArithmeticHeights
+§§0.1–0.4,3.2,3.5–3.6; EF13 §6.1 (6.11)–(6.13), §6.3.)
+
+**Checks.**
+
+- For (√2,1) in ℚ(√2), the relative Arakelov height is 3 and height2=√3; base extension to ℚ(√2,i) gives relative height 9 and the same absolute value.
+- For the zero two-tuple, height2=0 and NumberField.arakelovMulHeight=1; the nonzero bridge does not apply.
+- The rational line span(1,2) has sup Plücker height 2 and Euclidean height √5; its transported annihilator is span(−2,1) and has Euclidean height √5.
+- Over ℚ(i), span(1,i) is its own dot-product perpendicular. Duality still applies, without claiming a direct-sum decomposition.
 
 For U define localWeightᵥ(U) as the minimum sum of cᵢv over form subsets restricting to a basis of U*, and w(U)=Σv localWeightᵥ(U). This is supermodular: w(U+W)+w(U∩W)≥w(U)+w(W). Among proper U the maximum w(U)/(n−dim U) has a unique optimizer of smallest dimension, `exceptionalSubspace`; prove `absoluteExceptionalSubspaceDescends` for its absolute counterpart. Semistability means this space is zero, equivalently every proper subspace has weight ≤0. (EF13, §2.4, p. 11; EF13, §15, Lem. 15.1, p. 65; EF13, §15, Lem. 15.2, p. 66.)
 
@@ -956,9 +1109,67 @@ Its API includes `twistedFiltration`: twistedFiltration L c : List (Submodule K 
 - The filtration need not be a complete flag: with c=0 it has only the two terms ⊥ and ⊤ for every n≥2.
 - For each of these rational coordinate examples, the absolute filtration is the ℚ̄-span of the displayed chain and restriction of its defining equations recovers the same chain after every finite base extension. In dimension zero it has one term; in the balanced two-coordinate case it has three.
 
+**Adelic symmetric powers and absolute small vectors.** Build `adelicSymmetricPowerHeight`
+for A∈GL_n(𝔄_K), using Euclidean norms at infinity and max norms at finite places,
+normalized by [K:ℚ]. Require A to be integral invertible at almost every finite
+place. Its subspace height uses the induced exterior power. The restricted
+infinite product, extension invariance and local isometric reduction are part of
+this target. For symmetric degree r, prove det(Sym^r A)=(det A)^binom(r+n−1,n).
+Build `absoluteBinarySmallBasis`: for A∈GL₂(𝔄_K), r≥1, there are independent
+algebraic y₁,y₂, each of coordinate-field degree at most r over K, with
+H_A(y₁)H_A(y₂)≤2(r+1)^(1/r)C(K)^(2/r)|det A|_𝔄.
+Here C(K)=|disc K|^(1/(2[K:ℚ])). Prove the fixed-field
+adelic basis estimate in symmetric dimension r+1 from the shared real
+Minkowski theorem and the ring-of-integers lattice. Factor the binary symmetric
+forms over ℚ̄, use the local factor-height inequality, and select two independent
+linear factors. The limit r→∞ removes C(K), giving product bound 2|det A|_𝔄
+for infima, with arbitrarily close bases in finite extensions. (Roy–Thunder,
+§§1,3–4, Lemmas 4.5,4.7–4.8, Lemma 5.2 and Proposition 5.3, pp.13–17.)
+*Needs:* GlobalNumberFields's adeles and local extensions, ArithmeticHeights
+Layer 4 and fixed-field lattice/height theory, Mathlib symmetric powers,
+factorization and determinant API. All adelic-height and factor-selection
+extensions in this paragraph are built here.
+
+**Checks.**
+
+- Sym^r of a diagonal two-by-two matrix has determinant (ab)^(r(r+1)/2).
+- The factorization of X²−2Y² needs ℚ(√2); degree at most r refers to each selected factor's field, not a degree bound for their common compositum.
+- For fixed K, (r+1)^(1/r)C(K)^(2/r) tends to 1, even when disc K≠1. Enlarging K in the fixed-field estimate alone does not give this limit.
+
+**Absolute adelic minima and real-scale approximation.** Prove `absoluteAdelicMinima`:
+for n≥2 and A as above, the ℚ̄-infima μ_i of H_A satisfy
+|det A|_𝔄≤∏μ_i≤2^(n(n−1)/2)|det A|_𝔄. Prove the dual-height identity
+H_A(U)=|det A|_𝔄 H_(A^−t)(U^⊥), reduce the first-minimum estimate by
+induction to `absoluteBinarySmallBasis`, and modify one local norm along an
+adapted flag to normalize all infima before multiplying. For every η>0 a
+common finite extension contains independent x_i with H_A(x_i)≤(1+η)μ_i;
+attainment at η=0 is not asserted. (Roy–Thunder, Theorem 1.1, Proposition 6.2
+and Theorem 6.3, pp.17–20; ES02 §7 Proposition 7.1.)
+
+Extend to independent local form systems with finitely many values and positive
+real scales A_iv=1 outside finitely many places by `absoluteMinimaRealScales`.
+Write D_A=∏_v |det L_v|_v/∏_i A_iv. Approximate each A_iv by the modulus
+of a rational power of a nonunit local element; adjoin finitely many roots and
+transport scales by local extension degrees. Let the multiplicative error tend
+to 1. Replace Euclidean norms by sup norms, using H_sup≤H₂≤√n H_sup;
+the product bounds become n^(−n/2)D_A≤∏λ_i≤2^(n(n−1)/2)D_A.
+For form systems not coordinate outside a finite set, first factor out the local
+max-norm of x: at almost every place every distinct coefficient matrix and its
+inverse are integral, so this norm is independent of the selected matrix.
+This makes the same finite adelic construction apply. Put A_iv=Q^c_iv to
+obtain D_A=Δ_L Q^(−Σc_iv) and the next theorem, with no discriminant factor.
+(ES02 §7 Corollary 7.2 and proof; EF13 §9 Proposition 9.2.)
+
+**Checks.**
+
+- Identity adelic data have D_A=1 and every infimum 1.
+- Rational coordinate forms with c_∞=(1/2,−1/2) have product of infima 1 for every Q≥1, including irrational real Q.
+- The approximating basis lives in a finite extension depending on η; neither an attained minimum nor a fixed field containing all approximants is required.
+- A single local scale 2 changes D_A by 1/2; scaling a form globally by a rational nonzero number leaves its determinant product unchanged.
+
 Prove `absoluteMinkowskiSecondTheorem`: for n≥2, independent local forms with finitely many values and finite weight support, let α=Σv,i cᵢv and Δ_L=∏v|det(L₁v,…,Lₙv)|v. For Q≥1, the absolute successive minima satisfy n^(−n/2)Δ_L Q^(−α)≤∏λᵢ≤2^(n(n−1)/2)Δ_L Q^(−α). This theorem concerns ℚ̄-minima; it is not the discriminant-free statement for K-rational minima. (EF13, §9, Prop. 9.2, p. 36.)
 
-*Needs:* §0.0 successive minima and linear forms.
+*Needs:* `absoluteAdelicMinima` and `absoluteMinimaRealScales` above. The absolute Davenport basis, gap spaces, filtration asymptotics and §2.8 compound construction consume this bound.
 
 Prove `absoluteGapPrinciple`: assume n≥2, local independence, ≤R distinct forms with R≥n, finite weights, Σᵢcᵢv=0 and Σv maxᵢcᵢv≤1. For 0<δ≤1 and A≥n^(1/δ), a single proper K-defined subspace contains all x with twisted height ≤Δ_L^(1/n)Q⁻δ throughout A≤Q<A^(1+δ/2). (EF13, §4, Prop. 4.2, p. 16; EF13, §4, Prop. 4.2, p. 18.)
 
@@ -1186,13 +1397,63 @@ Use `MvPolynomial`: `monomial`, `as_sum`, `coeff_monomial`, `aeval`, `eval₂_mo
 
 ### 2.8 Auxiliary polynomials and quantitative subspaces
 
-Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). (EF13, §13, Lem. 13.1, p. 50.)
+Consume ArithmeticHeights Layer 5 fixed-field Siegel/Bombieri–Vaaler, with the height2 adapter. Let K have degree D and discriminant D_K. For U<V, U>0 and U nonzero linear forms in V variables, without a row-independence assumption, there is a nonzero kernel vector x with H₂(x)≤√V |D_K|^(1/(2D))(∏H₂(Lᵢ))^(1/(V−U)). (EF13, §13, Lem. 13.1, p. 50.)
 
 *Needs:* §2.5.
 
-Assume EF13 (8.1)–(8.9), fix 1≤k<n, N=binom(n,k), 0<ε≤1, m≥2nε⁻²log(4R/ε), positive r_h and Q_h satisfying (11.8)–(11.9). A nonzero block-homogeneous F of degrees r_h in N-variable blocks has H₂(F)≤C_K(2^(3n)H_L^(R^n))^Σr_h. For every Hasse order j of weight ≤2mε, its coefficient in the exterior-form coordinates vanishes when Σh,l ĉ_lvj_hl/r_h>4mnε maxᵢcᵢv off v₀, or when Σh,l ĉ_l,v₀(Q_h)j_hl/r_h>−mδ/(nN)+4mnε at v₀. Each such derivative has product coefficient max-norm ≤C_K(2^(6n)H_L^(2R^n))^Σr_h. Here C_K=|D_K|^(1/(2[K:ℚ])) and ĉ_l is the sum of the k original weights in its exterior index. (EF13, §13, Prop. 13.6, p. 56; EF13, §13, Lem. 13.2, p. 50.)
+**Compound data for the gap.** Build `absoluteCompoundGapData` from EF13
+(8.1)–(8.9), 1≤k<n and Q satisfying (11.8)–(11.9), using the adapted
+basis of §2.5. Put p=n−k and N=binom(n,p). Index by lexicographically
+ordered p-element subsets I_l and define `compoundForms` as the p-fold
+exterior forms, `compoundWeights` ĉ_lv=Σ_(i∈I_l)c_iv, `compoundVectors`
+ĥ_l=∧_(i∈I_l)h_i and `compoundInfimaProducts` ν_l=∏_(i∈I_l)λ_i.
+The adapted permutation π induces the permutation π̂ by I_(π̂(l))=π(I_l).
+These constructions commute with finite field extension. Define the
+special-place `compoundSpecialWeights` by
+ĉ_l,v₀(Q)=log(3^(n³)ν_(π̂⁻¹(l)))/log Q if π̂⁻¹(l)≠N, and
+log(3^(n³)ν_(N−1))/log Q otherwise. Above v₀ multiply by d(w|v₀).
+Here ν_l is lexicographically indexed, not sorted by size; ν_N and ν_(N−1)
+are the largest and second largest products. Prove the evaluation bounds
+|Ĺ_l,w(ĥ_j)|_w≤Q^ĉ_lw off v₀ and ≤Q^ĉ_lw(Q) above v₀ for j<N.
+Prove Σ_l ĉ_lv=0 off v₀, max_l|ĉ_lv|≤(n−1)max_i c_iv,
+Σ_(v≠v₀)max_l|ĉ_lv|≤n−1, Σ_l ĉ_l,v₀(Q)≤−δ/n and
+max_l|ĉ_l,v₀(Q)|≤n. (EF13 §11 (11.10)–(11.22), Lemmas 11.3–11.5,
+pp.44–47.) *Needs:* §2.5 absolute minima, adapted basis and exterior minors.
 
-*Needs:* §2.5.
+**Checks.**
+
+- For n=3,k=1 and λ=(Q^(−1),Q^(1/2),Q^(1/2)), the two-fold products are (Q^(−1/2),Q^(−1/2),Q), with ν_(N−1)/ν_N=Q^(−3/2)=λ_k/λ_(k+1). One-fold products have last-two ratio 1.
+- At v₀ the original weights vanish, but the special weights are logarithms of the modified products and need not vanish.
+- The product Q^(Σ_l ĉ_l,v₀(Q))=3^(n³N)(∏λ_i)^binom(n−1,p−1)λ_k/λ_(k+1) is ≤Q^(−δ/n) under the stated threshold and gap hypotheses. For that numerical example and identity permutation, the modified sum is 81 log 3/log Q−3/2, hence ≤−1/3 for Q≥3^81. These examples test algebraic transport alone, without asserting semistability.
+
+**Auxiliary polynomial in compound coordinates.** Prove
+`exists_compound_auxiliary_polynomial` under EF13 (8.1)–(8.9), 1≤k<n,
+N=binom(n,n−k), 0<ε≤1, m≥2nε⁻²log(4R/ε), positive integral r_h and
+Q_h satisfying (11.8)–(11.9). There exists a specially constructed F≠0,
+block-homogeneous of degrees r_h, with
+H₂(coeff F)≤C_K(2^(3n)H_L^(R^n))^Σr_h,
+C_K=|disc K|^(1/(2[K:ℚ])). For derivative order i expand
+D^i F=Σ_(j∈U(r,i)) d^(v)_(i,j)(F) ∏_(h,l) Ĺ_l,v(X_h)^j_hl,
+where `residualBlockExponents` U(r,i)={j≥0 : ∀h, Σ_l(i_hl+j_hl)=r_h}.
+Define `compoundDerivativeCoeff` d^(v)_(i,j)(F) by this unique expansion.
+For every i with Σ_(h,l)i_hl/r_h≤2mε and independently every j∈U(r,i),
+the coefficient vanishes if
+Σ_(h,l)ĉ_lv j_hl/r_h>4mnε max_a c_av off v₀, or if
+Σ_(h,l)ĉ_l,v₀(Q_h)j_hl/r_h>−mδ/(nN)+4mnε at v₀.
+Define `compoundCoefficientProductNorm` for the same expansion. For every derivative order i, including those outside the vanishing budget,
+∏_v max_(j∈U(r,i))|d^(v)_(i,j)(F)|_v≤C_K(2^(6n)H_L^(2R^n))^Σr_h;
+if the derivative is zero use coefficient norm zero. Build the weighted
+support-counting inequalities of Lemmas 13.2–13.5, then apply the supplied
+fixed-field Siegel bound to these coefficient constraints. (EF13 §13
+(13.21)–(13.29), Proposition 13.6 and its proof, pp.50–58.)
+*Needs:* §2.5, `absoluteCompoundGapData`, `formSystemHeight`, §1.2 divided
+jets and the fixed-field kernel estimate above.
+
+**Checks.**
+
+- D^1(X³)=3X²: i=1, j=2 and i+j=3. The derivative budget tests 1; a support-weight test uses 2.
+- At i=0 the residual degree is r_h, and a bad nonconstant monomial of F already has coefficient zero. For the unrestricted polynomial X³ in identity form coordinates, d_(0,3)=1, so imposing a bad-support inequality must reject that polynomial.
+- If an order exceeds a block degree, U(r,i) is empty and D^i F=0; no nonzero residual coefficient is invented.
 
 Assume n≥2, ≤R independent distinct local forms with R≥n, finite weights, local sum zero, Σv maxᵢcᵢv≤1, 0<δ≤1, semistability and a finite coordinate place v₀ of zero weights. Put m₂=⌊61n⁶2^(2n)δ⁻²log(22n²2^nR/δ)⌋, ω₂=m₂^(5/2), C₂=(2H_L)^(m₂^(2m₂)). There are C₂≤Q₁<⋯<Q_m₂ such that every Q≥1 admitting a nonzero point of twisted height ≤Q⁻δ lies in [1,C₂)∪⋃h[Q_h,Q_h^ω₂). `absoluteIntervalSemistable` has these constants; its K-rational version gives an existential threshold. (EF13, §8, Thm. 8.1, p. 34; EF13, §8, p. 34.)
 
@@ -1420,7 +1681,7 @@ If λ_1, λ_2∈𝓛 are linearly independent over ℚ, they are linearly indepe
 
 *Needs:* §3.1.
 
-Use `exists_deriv_eq_zero`, `sub_smul_dslope`, `analyticOrderAt_mul`, `natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero`, `iteratedDeriv_cexp_const_mul`, `linearIndependent_monoidHom`, `analyticOrderAt_eq_top`, `analyticOrderAt_eq_nat_iff_iteratedDeriv_eq_zero`, `iteratedDeriv_mul`; `Polynomial`: `card_roots'`, `natDegree_derivative_lt`; `Real`: `exp_ne_zero`, `rpow_def_of_pos`; `Complex`: `differentiableOn_dslope`, `norm_le_of_forall_mem_frontier_norm_le`, `exp_nat_mul`, `exp_add`, `norm_exp`, `cpow_def_of_ne_zero`, `exp_log`, `exp_pi_mul_I`; `NumberField.house.exists_ne_zero_int_vec_house_le`; `Algebra.IsAlgebraic.exists_integral_multiples`; `NumberField`: `house_mul_le`, `house_add_le`, `house_pow_le`, `norm_embedding_le_house`, `NumberField.house_eq_sup'`; `IsIntegral`: `mul`, `add`; `AnalyticOnNhd.eqOn_zero_of_preconnected_of_frequently_eq_zero`; `Differentiable.analyticAt`.
+Use `exists_deriv_eq_zero`, `sub_smul_dslope`, `analyticOrderAt_mul`, `natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero`, `iteratedDeriv_cexp_const_mul`, `linearIndependent_monoidHom`, `analyticOrderAt_eq_top`, `analyticOrderAt_eq_nat_iff_iteratedDeriv_eq_zero`, `iteratedDeriv_mul`; `Polynomial`: `card_roots'`, `natDegree_derivative_lt`; `Real`: `exp_ne_zero`, `rpow_def_of_pos`; `Complex`: `differentiableOn_dslope`, `norm_le_of_forall_mem_frontier_norm_le`, `exp_nat_mul`, `exp_add`, `norm_exp`, `cpow_def_of_ne_zero`, `exp_log`, `exp_pi_mul_I`; `NumberField.house.exists_ne_zero_int_vec_house_le`; `Algebra.IsAlgebraic.exists_integral_multiples`; `NumberField`: `house_mul_le`, `house_add_le`, `house_pow_le`, `norm_embedding_le_house`, NumberField.house_eq_sup'; `IsIntegral`: `mul`, `add`; `AnalyticOnNhd.eqOn_zero_of_preconnected_of_frequently_eq_zero`; `Differentiable.analyticAt`.
 
 ### 3.4 Several-variable differential calculus
 
@@ -1436,6 +1697,22 @@ Its API includes `mDeriv_zero`: D^0 f=f; `mDeriv_add_single`: For entire f: D^{�
 - For f(z)=z_0 z_1 on ℂ^2: mDeriv (Pi.single 0 1) f=fun z ↦ z 1.
 - For n=1 and entire g : ℂ→ℂ: mDeriv (fun _ ↦ k) (fun z ↦ g (z 0))=fun z ↦ iteratedDeriv k g (z 0).
 - For f(z)=z_0^2 on ℂ^2, mDeriv ![1, 1] f=0 while iteratedFDeriv ℂ 2 f z ![e_0, e_0]=2: D^σ is a mixed partial of multi-order σ, not the total derivative of order ‖σ‖ along one direction.
+
+**Ordinary and divided analytic derivatives.** Prove `Baker.mDeriv_eq_factorial_mul_mvTaylorCoeff`
+for f analytic at z:
+Baker.mDeriv σ f z=(∏_i σ_i!)·TauCeti.mvTaylorCoeff f z σ.
+Use the analytic coefficient interface from LinearFormsInLogarithms Layer 0,
+then transfer its Cauchy and Cartesian Schwarz estimates by this equality.
+The stronger constants stated below extend the same engine. The qualitative
+Schneider–Lang and Baker proof packages in §3.5 consume the supplier's
+Layers 5–6; their ordinary-derivative presentations use this bridge.
+(W00 §4.3, pp.122–126; LinearFormsInLogarithms §§0.4,1.2,1.6,5.7,7.1.)
+
+**Checks.**
+
+- For f(z)=z₀²z₁³, σ=(2,3) at zero, the Taylor coefficient is 1 and the ordinary derivative is 2!3!=12.
+- At σ=0 the bridge gives f(z), with factorial product 1.
+- For the logarithms log 2,log 3, rational independence follows from unique prime factorization; the supplied qualitative Baker theorem makes log 2+√2 log 3 transcendental. The algebraic coefficient and independence hypotheses are both used.
 
 Let f : ℂ^n→ℂ be entire, k∈{1, …, n} and ζ∈ℂ. Put f_0(z) := f(z with z_k replaced by ζ) and g(z) := ∫_0^1 (∂_k f)(z with z_k replaced by ζ + t(z_k − ζ)) dt. Then g is entire and f=f_0 + (z_k − ζ)·g. If 0≤|ζ|≤r < R then |f_0|_R≤|f|_R and |g|_R≤2|f|_R/(R − r). If f is a polynomial of degree≤e in some variable z_j, so are f_0 and g, and for j=k, g has degree≤e − 1 in z_k. (W00, §4.3, Lem. 4.8, p. 125, PDF 145.)
 
@@ -1467,7 +1744,7 @@ Use `iteratedDeriv_mul`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`; `Comp
 
 ### 3.5 Schneider–Lang and Baker independence
 
-For the Schneider–Lang construction fix n≥1, 0≤d₀≤n<d=d₀+d₁, ℚ-independent x₁,…,x_d₁∈ℚ̄ⁿ, a complex basis y₁,…,yₙ and a number field K containing all x-coordinates, the y_hj for h≤d₀, and exp(xᵢ·yⱼ). With T₀,T₁≥2 let L=(T₀+1)^d₀(T₁+1)^d₁ and enumerate φ=z^τexp((tx)·z) with 0≤τ_h≤T₀, τ_h=0 for h>d₀ and 0≤tᵢ≤T₁. Write sy=Σsⱼyⱼ. All positive constants are chosen from these fixed data before the parameters; upper-bound constants may be enlarged to 1, but c₃,c₄,c₅ may be below 1. Use the norms of §3.4.
+Consume LinearFormsInLogarithms Layers 5–6 for the Schneider–Lang construction and qualitative Baker conclusions. Its ordinary-derivative presentation fixes n≥1, 0≤d₀≤n<d=d₀+d₁, ℚ-independent x₁,…,x_d₁∈ℚ̄ⁿ, a complex basis y₁,…,yₙ and a number field K containing all x-coordinates, the y_hj for h≤d₀, and exp(xᵢ·yⱼ). With T₀,T₁≥2 let L=(T₀+1)^d₀(T₁+1)^d₁ and enumerate φ=z^τexp((tx)·z) with 0≤τ_h≤T₀, τ_h=0 for h>d₀ and 0≤tᵢ≤T₁. Write sy=Σsⱼyⱼ. All positive constants are chosen from these fixed data before the parameters; upper-bound constants may be enlarged to 1, but c₃,c₄,c₅ may be below 1. Use the norms of §3.4.
 
 There is c_1≥1 such that: if F=Σ_λ p_λφ_λ with p_λ∈ℤ, max|p_λ|≤e^N (N > 0), σ∈ℕ^n, s∈ℕ^n with |s| < S_1, and D^σF(sy)≠0, then log|D^σF(sy)|≥−c_1(N + ‖σ‖ log T_1 + T_0 log(S_1 + ‖σ‖) + T_1S_1). (W00, §4.6, p. 137, PDF 157.)
 
@@ -1521,7 +1798,7 @@ For fixed nonzero algebraic α₁,…,α_m, there is effective C′>0 such that 
 
 *Needs:* §3.1; §0.2.
 
-Let n≥1 and K⊆ℂ be a number field of degree D; κ := 1 if K⊆ℝ and κ := 2 otherwise. Let α_1, …, α_n∈K^×, λ_1, …, λ_n nonzero logarithms of them (λ_j∈𝓛 \ {0}, e^{λ_j}=α_j, arbitrary branches), b_1, …, b_n∈ℤ and Λ := b_1λ_1 + ⋯ + b_nλ_n≠0. Let A_j≥max{D·h(α_j), |λ_j|, 0.16} and B* := max|b_j|. Reorder so A_n=max_j A_j; the source’s weighted parameter B=max{1,max_j |b_j|A_j/A_n} then satisfies B≤B*. Then log|Λ| > −C_1(n)·D²·A_1⋯A_n·log(eD)·log(eB*), where C_1(n)=C_1(n, κ)=min{(1/κ)(en/2)^κ·30^{n+3}·n^{3.5}, 2^{6n+20}}. (Matveev, §1, pp. 1217–1218, §2, Corollary 2.3, p. 1219, §21, p. 1266; the same statement, with `B` in place of `B*`, is BMS06, §9.1, Theorem 9.4.)
+Let n≥1 and K⊆ℂ be a number field of degree D; κ := 1 if K⊆ℝ and κ := 2 otherwise. Let α_1, …, α_n∈K^×, λ_1, …, λ_n nonzero logarithms of them (λ_j∈𝓛 \ {0}, e^{λ_j}=α_j, arbitrary branches), b_1, …, b_n∈ℤ and Λ := b_1λ_1 + ⋯ + b_nλ_n≠0. Let A_j≥max{D·h(α_j), |λ_j|, 0.16} and B* := max|b_j|. Reorder so A_n=max_j A_j; the source’s weighted parameter B=max{1,max_j |b_j|A_j/A_n} then satisfies B≤B*. Then log|Λ| > −C_1(n)·D²·A_1⋯A_n·log(eD)·log(eB*), where C_1(n)=C_1(n, κ)=min{(1/κ)(en/2)^κ·30^{n+3}·n^{3.5}, 2^{6n+20}}. (Matveev, §1, pp. 1217–1218, §2, Corollary 2.3, p. 1219, §21, p. 1266. BMS06, §9.1, Theorem 9.4 supplies the multiplicative consequence below, with different constants.)
 
 *Needs:* §3.1.
 
@@ -1625,7 +1902,7 @@ For α≠0 and any unit tuple u, boundedDivisors u α is finite. (E19, ch. 5, Co
 
 For α≠0, maximal-rank u and β|α, write β=εγ with ε a unit and γ∈boundedDivisors u α. (E19, ch. 5, Corollary 5.11, p. 93.)
 
-Use `padicValRat`; `padicValRat`: `mul`, `inv`; `Nat`: `factoredNumbers`, `prod_factorization_pow_eq_self`; `Set.unit`; `Rat.HeightOneSpectrum.primesEquiv`; `Rat.mulHeight₁_eq_max`; `NumberField`: `house`, `one_le_house_of_isIntegral`, `norm_embedding_le_house`, `norm_norm_le_norm_mul_house_pow`, `NumberField.house_eq_sup'`; `NumberField.Units`: `logEmbedding`, `rank`, `norm`, `basisOfIsMaxRank`, `basisOfIsMaxRank_apply`, `sum_mult_mul_log`; `Real.log_le_sub_one_of_pos`; `minpoly.algHom_eq`; `RingHom.toRatAlgHom`; `Algebra.norm_eq_prod_embeddings`; `NumberField.Embeddings`: `card`, `finite_of_norm_le`, `coeff_bdd_of_norm_le`; `NumberField.Units.dirichletUnitTheorem`: `logEmbedding_eq_zero_iff`, `logEmbedding_component`; `NumberField.InfinitePlace`: `norm_embedding_eq`, `prod_eq_abs_norm`, `sum_mult_eq`, `mult`; `Module.Basis.equivFunL`; `ContinuousLinearMap.le_opNorm`; `ZSpan`: `norm_fract_le`, `fract_apply`, `floor`.
+Use `padicValRat`; `padicValRat`: `mul`, `inv`; `Nat`: `factoredNumbers`, `prod_factorization_pow_eq_self`; `Set.unit`; `Rat.HeightOneSpectrum.primesEquiv`; `Rat.mulHeight₁_eq_max`; `NumberField`: `house`, `one_le_house_of_isIntegral`, `norm_embedding_le_house`, `norm_norm_le_norm_mul_house_pow`, NumberField.house_eq_sup'; `NumberField.Units`: `logEmbedding`, `rank`, `norm`, `basisOfIsMaxRank`, `basisOfIsMaxRank_apply`, `sum_mult_mul_log`; `Real.log_le_sub_one_of_pos`; `minpoly.algHom_eq`; `RingHom.toRatAlgHom`; `Algebra.norm_eq_prod_embeddings`; `NumberField.Embeddings`: `card`, `finite_of_norm_le`, `coeff_bdd_of_norm_le`; `NumberField.Units.dirichletUnitTheorem`: `logEmbedding_eq_zero_iff`, `logEmbedding_component`; `NumberField.InfinitePlace`: `norm_embedding_eq`, `prod_eq_abs_norm`, `sum_mult_eq`, `mult`; `Module.Basis.equivFunL`; `ContinuousLinearMap.le_opNorm`; `ZSpan`: `norm_fract_le`, `fract_apply`, `floor`.
 
 ### 4.2 Exponential equations and gaps
 
@@ -2007,7 +2284,84 @@ Use `IsAlgebraic`, `RatFunc`, `AlgebraicIndependent`, `LaurentSeries`; `PowerSer
 
 ### 5.6 Modular values and Ax–Schanuel
 
-For τ in the upper half-plane and q=exp(2πiτ), at least three of q,E₂(τ),E₄(τ),E₆(τ) are algebraically independent over ℚ. Use constant term 1 and coefficients −24σ₁,240σ₃,−504σ₅ respectively. (Waldschmidt, periods, §3, the unnumbered Nesterenko statement after (18), p. 443.)
+The arithmetic modular-values branch uses the following chain, built here on
+Mathlib's normalized Eisenstein series. The functional Ax–Schanuel branch is
+independent of this chain.
+
+**Ramanujan equations and coefficient bounds.** Define `modularQSeries` Φ(q)
+=(q,E₂(q),E₄(q),E₆(q)) on |q|<1 by the q-expansions with constant term 1
+and coefficients −24σ₁,240σ₃,−504σ₅. Prove `modularQSeries_eq`, equality with the library
+series under q=exp(2πiτ). Build `ramanujanQEquations`:
+θE₂=(E₂²−E₄)/12, θE₄=(E₂E₄−E₆)/3,
+θE₆=(E₂E₆−E₄²)/2, θ=q d/dq. Prove integrality and polynomial
+coefficient growth from σ_j(m)≤m^(j+1); derive coefficient bounds for
+q^a E₂^b E₄^c E₆^e with a+b+c+e≤d on each closed disc of radius <1.
+This q-expansion and convolution bridge is owned here; modular transformation
+laws are consumed from Mathlib/ModularForms. (Ramanujan, *On certain
+arithmetical functions*, §1 (1.1)–(1.3); Fonseca §1 equations (R), §3.3
+Lemma 3.19 and its proof, pp.1,17.)
+
+**Checks.**
+
+- The first coefficients are E₂=1−24q+…, E₄=1+240q+…, E₆=1−504q+….
+- Each Ramanujan equation has zero constant term; the first equation has coefficient −24 at q, including its denominator 12.
+- The derivative with respect to τ is 2πi θ, so an equation using d/dτ without this factor is excluded.
+
+**D-property and the modular zero estimate.** Build `ramanujanDProperty` for
+w=x₀∂₀+(x₁²−x₂)∂₁/12+(x₁x₂−x₃)∂₂/3+(x₁x₃−x₂²)∂₃/2
+and Φ. Prove the functional algebraic independence via Mahler's j-equation,
+then classify w-invariant irreducible subvarieties through (0,1,1,1): each
+proper one lies in x₀=0 or x₂³−x₃²=0. Polynomial ideal stability and
+Bézout/dimension arguments are targets here, using Mathlib ideals and the
+finite-type dimension supplier; no arithmetic specialization follows merely
+from functional independence. Define the D-property as a uniform bound c
+on the order along Φ of a nonzero polynomial vanishing on each invariant
+proper irreducible subvariety. Build the cycle-intersection proof of the
+zero lemma, then `modularZeroEstimate`: there is C>0 such that every
+nonzero P∈ℂ[x₀,…,x₃] has ord₀(P∘Φ)≤C(deg P)^4. Nonzero constants
+have order 0. (Fonseca §3.1 Theorem 3.9, §3.2 Proposition 3.13,
+Theorem 3.17 and Corollary 3.18, pp.10–16; Nesterenko–Philippon,
+Chapter 3, §§2–3.) *Needs:* `ramanujanQEquations`, Mathlib analytic
+orders, ideals and dimension; the invariant-ideal and cycle estimates above.
+
+**Checks.**
+
+- x₀∘Φ=q has order 1.
+- (x₂³−x₃²)∘Φ=1728q+… has order 1, giving the D-property test on the discriminant locus.
+- A nonzero constant has degree and order 0, while P=0 is excluded because its order is infinite.
+
+**Controlled auxiliary polynomials and independence.** Prove
+`modularAuxiliaryPolynomial`: for all large d there is nonzero integral P_d
+with deg P_d≤d, log coefficient sup norm ≤C d log d and
+c d^4≤ord₀(P_d∘Φ)≤C' d^4, with c>0. Impose vanishing of
+⌊d^4/4!⌋ initial coefficients on binom(d+4,4) unknown coefficients,
+then apply the shared integer Siegel estimate and `modularZeroEstimate`.
+Prove `modularValueDerivativeSelection`: for fixed 0<|z|<1 one can choose
+k_d=O(d log d) with −αm_d≤log|(P_d∘Φ)^(k_d)(z)|≤−βm_d,
+α>β>0 and m_d=ord₀(P_d∘Φ). Its proof uses integral nonzero initial
+coefficients, Schwarz/Cauchy interpolation and the explicit parameter estimates
+of Nesterenko–Philippon Chapter 3 Lemma 3.3. Define the integral operator
+w^[k]=12^k w(w−1)…(w−k+1), prove its coefficients integral and
+Q_d=w^[k_d]P_d has degree O(d log d), log sup norm O(d(log d)^2).
+Since Q_d∘Φ=(12q)^k_d (P_d∘Φ)^(k_d), the added term
+k_d log|12z| is O(d log d), of either sign, and is absorbed in positive
+constants in −a d^4≤log|Q_d(Φ(z))|≤−b d^4. Prove
+`modularValueIndependenceCriterion`, the r=4 case of Philippon's
+polynomial-sequence criterion, and select these parameters to give
+trdeg_ℚ ℚ(Φ(z))≥3. (Fonseca §2.2 Theorem 2.8, §3.3 Lemmas
+3.19–3.22, pp.5,17–18; Nesterenko–Philippon Chapter 3 Lemma 3.3;
+Philippon, *Critères pour l'indépendance algébrique*, Theorem 1, pp.5–52.)
+*Needs:* coefficient bounds, `modularZeroEstimate`, ArithmeticHeights
+integer Siegel and polynomial heights, the shared complex interpolation engine.
+
+**Checks.**
+
+- The number of monomials binom(d+4,4) exceeds ⌊d^4/24⌋, leaving a nonzero kernel vector.
+- For k=2, w^[2]=144w(w−1); this is a falling factorial in w, not 144w².
+- At a nonzero z with |12z|>1 the transfer increases the logarithmic absolute value; the O(d log d) error still has lower order than d^4.
+- At τ=i the final theorem, E₂(i)=3/π and E₆(i)=0 yield algebraic independence of π and exp π. The nonzero condition excludes q=0, where Φ(0)=(0,1,1,1) is algebraic.
+
+For τ in the upper half-plane and q=exp(2πiτ), at least three of q,E₂(τ),E₄(τ),E₆(τ) are algebraically independent over ℚ. Use constant term 1 and coefficients −24σ₁,240σ₃,−504σ₅ respectively. *Needs:* the preceding modular-values chain. (Waldschmidt, periods, §3, the unnumbered Nesterenko statement after (18), p. 443.)
 
 At τ=i, E₂(i)=3/π, E₆(i)=0 and q(i)=exp(−2π). (Waldschmidt, periods, §3, specialization following (18), p. 444.)
 
@@ -2124,3 +2478,9 @@ Heights, auxiliary polynomials, unit equations and effective logarithmic bounds 
 - **BT**: Benjamin Bakker and Jacob Tsimerman, [Lectures on the Ax–Schanuel conjecture](https://benjamin-bakker.github.io/montreal.pdf). Lecture notes.
 - **Waldschmidt, periods**: Michel Waldschmidt, [Transcendence of periods: the state of the art](https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/TranscendencePeriods.pdf). Pure and Applied Mathematics Quarterly 2 (2006), no. 2, 435-463.
 - **André**: Yves André, [Solution algebras of differential equations and quasi-homogeneous varieties: a new differential Galois correspondence](https://arxiv.org/abs/1107.1179). arXiv:1107.1179v2 (14 July 2012).
+
+- **Roy–Thunder**: D. Roy and J. L. Thunder, [An absolute Siegel's Lemma](https://gdz.sub.uni-goettingen.de/id/PPN243919689_0476), J. reine angew. Math. 476 (1996), 1–26, §§1–6.
+- **Schmidt small points**: W. M. Schmidt, [Heights of points on subvarieties of G_m^n](https://doi.org/10.1017/CBO9780511662003.008), Number Theory, London Math. Soc. Lecture Note Ser. 235 (1996), 157–188, Theorem 4.
+- **Fonseca**: T. J. Fonseca, [A geometric introduction to transcendence questions on values of modular forms](https://arxiv.org/abs/2011.14401), §§2.2,3.1–3.3.
+- **Nesterenko–Philippon**: Y. V. Nesterenko and P. Philippon (eds.), *Introduction to algebraic independence theory*, Lecture Notes in Mathematics 1752 (2001), Chapter 3, §§2–3 and Lemma 3.3.
+- **Philippon**: P. Philippon, [Critères pour l'indépendance algébrique](https://www.numdam.org/item/PMIHES_1986__64__5_0/), Publications Mathématiques de l'IHÉS 64 (1986), 5–52, Theorem 1.

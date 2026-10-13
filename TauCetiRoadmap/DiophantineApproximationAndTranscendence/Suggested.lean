@@ -13,6 +13,71 @@ specified, and logarithms carry their branches. The declarations state layer mil
 and the constructions whose mathematical existence is a target.
 -/
 
+/-! Supplier interfaces for ArithmeticHeights Layers 0 and 3 and
+LinearFormsInLogarithms Layer 0, expressed against the pinned imports. -/
+
+namespace NumberField
+
+open Classical in
+/-- The relative Arakelov tuple height uses Euclidean infinite-place factors
+and max finite-place factors, with projective value one at zero. -/
+noncomputable def arakelovMulHeight {K : Type*} [Field K] [NumberField K]
+    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
+  if x = 0 then 1 else
+    (∏ v : InfinitePlace K, (∑ i, ‖v.embedding (x i)‖ ^ 2) ^ ((v.mult : ℝ) / 2)) *
+      ∏ᶠ v : FinitePlace K, ⨆ i, v (x i)
+
+open Classical IntermediateField in
+/-- The absolute projective tuple height is computed in its finite coefficient field. -/
+noncomputable def absMulHeight {K : Type*} [Field K] [CharZero K]
+    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
+  if hx : ∀ i, IsIntegral ℚ (x i) then
+    let E := IntermediateField.adjoin ℚ (Set.range x)
+    haveI : FiniteDimensional ℚ E := IntermediateField.finiteDimensional_adjoin
+      (by rintro y ⟨i, rfl⟩; exact hx i)
+    haveI : NumberField E := {}
+    Height.mulHeight (fun i => (⟨x i, IntermediateField.subset_adjoin ℚ _
+      (Set.mem_range_self i)⟩ : E)) ^ (Module.finrank ℚ E : ℝ)⁻¹
+  else 1
+
+end NumberField
+
+namespace Height
+
+/-- The affine tuple logarithmic height appends a coordinate one. -/
+noncomputable def logHeightAff {K : Type*} [Field K] [AdmissibleAbsValues K]
+    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
+  logHeight (fun o : Option ι => o.elim 1 x)
+
+end Height
+
+namespace Submodule
+
+open Classical in
+/-- The relative Arakelov height of a coordinate subspace is the height of its minors. -/
+noncomputable def arakelovMulHeight {K : Type*} [Field K] [NumberField K] {n : ℕ}
+    (U : Submodule K (Fin n → K)) : ℝ :=
+  NumberField.arakelovMulHeight
+    (fun t : {t : Finset (Fin n) // t.card = Module.finrank K U} =>
+      Matrix.det (Matrix.of fun i j =>
+        (Module.finBasis K U i : Fin n → K) (t.1.orderEmbOfFin t.2 j)))
+
+end Submodule
+
+namespace TauCeti
+
+open Classical in
+/-- The analytic coefficient of multi-order α at x, with value zero off analyticity. -/
+noncomputable def mvTaylorCoeff {n : ℕ} (f : (Fin n → ℂ) → ℂ)
+    (x : Fin n → ℂ) (α : Fin n → ℕ) : ℂ :=
+  if h : AnalyticAt ℂ f x then
+    ∑ g ∈ Finset.univ.filter (fun g : Fin (∑ i, α i) → Fin n =>
+      ∀ i, (Finset.univ.filter fun j => g j = i).card = α i),
+      h.choose (∑ i, α i) (fun j => Pi.single (g j) (1 : ℂ))
+  else 0
+
+end TauCeti
+
 namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence
 
 #check TauCeti.GlobalNumberFields.Place
@@ -21,6 +86,13 @@ namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence
 #check Set.unit
 #check Submodule.orthogonalBilin
 #check TauCeti.ringKrullDim_eq_toNat_trdeg
+#check NumberField.finite_setOfPred_mulHeight₁_le
+#check NumberField.house_eq_sup'
+#check NumberField.isUnit_iff_norm
+#check NumberField.mulHeight_eq
+#check NumberField.prod_abs_eq_one
+#check TauCeti.height_eq_ringKrullDim_of_isMaximal
+#check TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul
 
 noncomputable section
 
@@ -1081,9 +1153,73 @@ theorem nonempty_specialization {K : Type*} [Field K] [IsAlgClosed K] [CharZero 
       AlgebraicClosure ℚ) := by
   sorry
 
-/-- `Layer 2 unit equation subspace bound algebraic` (Evertse–Schlickewei–Schmidt Theorem 2.1),
-in the case `z = (1, …, 1)` used downstream (the height condition on `z` needs absolute heights
-of tuples in `Q̄`, which Mathlib does not yet provide). -/
+/-- The absolute affine logarithmic height of an algebraic tuple is log H(1,x). -/
+def absoluteLogHeightAff {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) : ℝ :=
+  Real.log (NumberField.absMulHeight (Fin.cons 1 x))
+
+/-- Absolute affine tuple height is nonnegative. -/
+theorem absoluteLogHeightAff_nonneg {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) :
+    0 ≤ absoluteLogHeightAff x := by sorry
+
+/-- A tuple of ones has absolute affine logarithmic height zero. -/
+theorem absoluteLogHeightAff_one (n : ℕ) :
+    absoluteLogHeightAff (fun _ : Fin n => (1 : AlgebraicClosure ℚ)) = 0 := by sorry
+
+/-- The scalar-sum height adds the absolute logarithmic heights of the coordinates. -/
+def scalarSumHeight {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) : ℝ :=
+  ∑ i, NumberField.absLogHeight₁ (x i)
+
+/-- Affine tuple height and scalar-sum height differ by at most the dimension factor. -/
+theorem scalarSumHeight_affine {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) :
+    absoluteLogHeightAff x ≤ scalarSumHeight x ∧
+      scalarSumHeight x ≤ n * absoluteLogHeightAff x := by sorry
+
+/-- Computing the absolute affine adapter over any containing number field gives the same value. -/
+theorem absoluteLogHeightAff_eq {K : Type*} [Field K] [NumberField K] {n : ℕ}
+    (f : K →+* AlgebraicClosure ℚ) (x : Fin n → K) :
+    absoluteLogHeightAff (f ∘ x) = Height.logHeightAff x / Module.finrank ℚ K := by sorry
+
+/-- Small nondegenerate hyperplane points have a degree-independent count (ESS02 Proposition 11.1). -/
+theorem smallHeightHyperplaneBound {n : ℕ} (hn : 2 ≤ n)
+    (b : Fin n → (AlgebraicClosure ℚ)ˣ) (M : Finset (Fin n → (AlgebraicClosure ℚ)ˣ))
+    (hM : ∀ w ∈ M,
+      IsNondegenerateSolution (fun i => (b i : AlgebraicClosure ℚ))
+        (fun i => (w i : AlgebraicClosure ℚ)) ∧
+      scalarSumHeight (fun i => (w i : AlgebraicClosure ℚ)) <
+        Real.exp (-((4 * n : ℝ) ^ (3 * n)))) :
+    (M.card : ℝ) ≤ Real.exp ((4 * n : ℝ) ^ (3 * n)) := by sorry
+
+/-- The affine height of a repeated rational scalar is its absolute scalar height. -/
+example (t : ℚ) :
+    absoluteLogHeightAff (![t, t] : Fin 2 → AlgebraicClosure ℚ) =
+      NumberField.absLogHeight₁ t := by sorry
+
+/-- Rational diagonal perturbations have positive affine height despite projective height one. -/
+example (k : ℕ) :
+    absoluteLogHeightAff
+      (![(1 : AlgebraicClosure ℚ) / (2 ^ k + 1), 1 / (2 ^ k + 1)] :
+        Fin 2 → AlgebraicClosure ℚ) = Real.log (2 ^ k + 1) ∧
+    NumberField.absMulHeight
+      (![(1 : AlgebraicClosure ℚ) / (2 ^ k + 1), 1 / (2 ^ k + 1)] :
+        Fin 2 → AlgebraicClosure ℚ) = 1 := by sorry
+
+/-- Perturbed finite-rank unit solutions admit a uniform proper-subspace cover,
+using affine heights and the small-error budget of ESS02 equation (11.19). -/
+theorem absolutePerturbedUnitEquation {n : ℕ} (hn : 2 ≤ n)
+    (Γ : Subgroup (Fin n → (AlgebraicClosure ℚ)ˣ)) (r : ℕ)
+    (hΓ : Module.rank ℤ (Additive Γ) ≤ r) :
+    ∃ T : Finset (Submodule (AlgebraicClosure ℚ) (Fin n → AlgebraicClosure ℚ)),
+      (T.card : ℝ) ≤ Real.exp ((5 * n : ℝ) ^ (3 * n) * (r + 1)) ∧
+      (∀ V ∈ T, V ≠ ⊤) ∧
+      ∀ x ∈ Γ, ∀ z : Fin n → (AlgebraicClosure ℚ)ˣ,
+        absoluteLogHeightAff (fun i => (z i : AlgebraicClosure ℚ)) ≤
+          (n : ℝ)⁻¹ * Real.exp (-((5 * n : ℝ) ^ (3 * n))) *
+            (1 + absoluteLogHeightAff (fun i => (x i : AlgebraicClosure ℚ))) →
+        (∑ i, (x i : AlgebraicClosure ℚ) * (z i : AlgebraicClosure ℚ)) = 1 →
+        ∃ V ∈ T, (fun i => (x i : AlgebraicClosure ℚ) * (z i : AlgebraicClosure ℚ)) ∈ V :=
+  by sorry
+
+/-- The unperturbed restriction of the uniform finite-rank proper-subspace cover. -/
 theorem exists_subspaces_unit_equation_algebraic {n : ℕ} (hn : 2 ≤ n)
     (Γ : Subgroup (Fin n → (AlgebraicClosure ℚ)ˣ)) (r : ℕ)
     (hΓ : Module.rank ℤ (Additive Γ) ≤ r) :
@@ -1091,7 +1227,17 @@ theorem exists_subspaces_unit_equation_algebraic {n : ℕ} (hn : 2 ≤ n)
       (T.card : ℝ) ≤ Real.exp ((5 * n : ℝ) ^ (3 * n) * (r + 1)) ∧ (∀ V ∈ T, V ≠ ⊤) ∧
       ∀ x ∈ Γ, ∑ i, ((x i : (AlgebraicClosure ℚ)ˣ) : AlgebraicClosure ℚ) = 1 →
         ∃ V ∈ T, (fun i ↦ ((x i : (AlgebraicClosure ℚ)ˣ) : AlgebraicClosure ℚ)) ∈ V := by
-  sorry
+  obtain ⟨T, hcard, hproper, hT⟩ := absolutePerturbedUnitEquation hn Γ r hΓ
+  refine ⟨T, hcard, hproper, ?_⟩
+  intro x hx hsum
+  have hz : absoluteLogHeightAff (fun _ : Fin n => (1 : AlgebraicClosure ℚ)) ≤
+      (n : ℝ)⁻¹ * Real.exp (-((5 * n : ℝ) ^ (3 * n))) *
+        (1 + absoluteLogHeightAff (fun i => (x i : AlgebraicClosure ℚ))) := by
+    rw [absoluteLogHeightAff_one]
+    have hh := absoluteLogHeightAff_nonneg (fun i => (x i : AlgebraicClosure ℚ))
+    positivity
+  simpa only [Units.val_one, mul_one] using
+    hT x hx (fun _ => 1) hz (by simpa only [Units.val_one, mul_one] using hsum)
 
 /-- `Layer 2 uniform bound nondegenerate solutions` (Evertse–Schlickewei–Schmidt Theorem 1.1). -/
 theorem card_nondegenerate_solutions_le {K : Type*} [Field K] [CharZero K] {n : ℕ}
@@ -1257,11 +1403,36 @@ example {Q : ℝ} (hQ : 1 < Q) :
     rationalInfimumSpace (coordForms ℚ 2) (cExample (1 / 2)) Q 1 =
       ℚ ∙ (![1, 0] : Fin 2 → ℚ) := by sorry
 
-/-- The Euclidean projective height `H_2` of a K-rational vector. -/
+open Classical in
+/-- The absolute Euclidean height adapter uses the supplier Arakelov height, with zero at zero. -/
 def height2 {ι : Type*} [Fintype ι] (y : ι → K) : ℝ :=
-  (∏ w : InfinitePlace K,
-      (∑ i, ‖w.embedding (y i)‖ ^ 2) ^ ((w.mult : ℝ) / (2 * Module.finrank ℚ K))) *
-    ∏ᶠ v : FinitePlace K, (⨆ i, v (y i)) ^ ((1 : ℝ) / Module.finrank ℚ K)
+  if y = 0 then 0 else NumberField.arakelovMulHeight y ^
+    ((Module.finrank ℚ K : ℝ)⁻¹)
+
+/-- On a nonzero tuple, the Euclidean adapter is the degree root of relative Arakelov height. -/
+theorem height2_eq_arakelovMulHeight {ι : Type*} [Fintype ι] {y : ι → K} (hy : y ≠ 0) :
+    height2 y = NumberField.arakelovMulHeight y ^ (Module.finrank ℚ K : ℝ)⁻¹ := by sorry
+
+/-- The absolute Euclidean adapter is invariant under number-field extension. -/
+theorem height2_baseExtension {E : Type*} [Field E] [NumberField E]
+    {ι : Type*} [Fintype ι] (f : K →+* E) (y : ι → K) :
+    height2 (f ∘ y) = height2 y := by sorry
+
+/-- The zero convention differs from the supplier's projective junk value. -/
+example : height2 (0 : Fin 2 → ℚ) = 0 ∧
+    NumberField.arakelovMulHeight (0 : Fin 2 → ℚ) = 1 := by sorry
+
+/-- A degree-two coefficient field has relative Arakelov height three at (√2,1). -/
+example (a : K) (ha : a ^ 2 = 2) (hK : Module.finrank ℚ K = 2) :
+    NumberField.arakelovMulHeight (![a, 1] : Fin 2 → K) = 3 ∧
+      height2 (![a, 1] : Fin 2 → K) = Real.sqrt 3 := by sorry
+
+/-- Base extension to degree four changes the relative height to nine and preserves the absolute height. -/
+example {E : Type*} [Field E] [NumberField E] (f : K →+* E)
+    (a : K) (ha : a ^ 2 = 2) (hK : Module.finrank ℚ K = 2)
+    (hE : Module.finrank ℚ E = 4) :
+    NumberField.arakelovMulHeight (![f a, 1] : Fin 2 → E) = 9 ∧
+      height2 (![f a, 1] : Fin 2 → E) = Real.sqrt 3 := by sorry
 
 /-- Plücker coordinates: the `p × p` minors of the matrix with rows `x i`. -/
 def plucker {p : ℕ} (x : Fin p → Fin n → K) : {s : Finset (Fin n) // s.card = p} → K :=
@@ -1279,24 +1450,33 @@ example : height2 (![2, 2] : Fin 2 → ℚ) = √2 := sorry
 /-- Swapping the identity rows reverses the Plücker sign. -/
 example : plucker (!![(0 : ℚ), 1; 1, 0]) ⟨Finset.univ, by simp⟩ = -1 := sorry
 
-open Classical in
-/-- The Euclidean projective height `H_2(T)` of a subspace. -/
+/-- The absolute subspace Euclidean height is the degree root of its supplier Arakelov height. -/
 def subspaceHeight (T : Submodule K (Fin n → K)) : ℝ :=
-  if T = ⊥ ∨ T = ⊤ then 1 else
-    height2 (plucker fun i : Fin (Module.finrank K T) ↦
-      ((Module.finBasis K T i : T) : Fin n → K))
+  Submodule.arakelovMulHeight T ^ (Module.finrank ℚ K : ℝ)⁻¹
+
+/-- The coordinate dot-product perpendicular is the transported dual annihilator. -/
+theorem orthogonalBilin_eq_dualAnnihilator_comap (U : Submodule K (Fin n → K)) :
+    U.orthogonalBilin (dotProductBilin K K) =
+      U.dualAnnihilator.comap (Module.piEquiv (Fin n) K K).toLinearMap := by sorry
+
+/-- Sup and Euclidean Plücker heights have the dimension-dependent absolute comparison. -/
+theorem subspaceHeight_sup_le {p : ℕ} (x : Fin p → Fin n → K)
+    (hx : LinearIndependent K x) :
+    NumberField.absMulHeight (plucker x) ≤ subspaceHeight (Submodule.span K (Set.range x)) ∧
+      subspaceHeight (Submodule.span K (Set.range x)) ≤
+        Real.sqrt (n.choose p) * NumberField.absMulHeight (plucker x) := by sorry
 
 /-- EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T ≤ ∏_i height2 (x_i). -/
 theorem subspaceHeight_le_prod {p : ℕ} (x : Fin p → Fin n → K) (hx : LinearIndependent K x) :
     subspaceHeight (Submodule.span K (Set.range x)) ≤ ∏ i, height2 (x i) := by
   sorry
 
-/-- EF (6.13): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
+/-- The supplier Arakelov duality transported along the coordinate pairing (EF (6.13)): subspaceHeight T^⊥ = subspaceHeight T, where T^⊥ = {y | ∀ x ∈ T, y ⬝ᵥ x = 0}. -/
 theorem subspaceHeight_orthogonal (T : Submodule K (Fin n → K)) :
     subspaceHeight (T.orthogonalBilin (dotProductBilin K K)) = subspaceHeight T := by
   sorry
 
-/-- Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
+/-- The degree-root adapter for supplier Arakelov submodularity (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂) ≤ subspaceHeight T₁ · subspaceHeight T₂. -/
 theorem subspaceHeight_inf_mul_sup_le (T₁ T₂ : Submodule K (Fin n → K)) :
     subspaceHeight (T₁ ⊓ T₂) * subspaceHeight (T₁ ⊔ T₂) ≤
       subspaceHeight T₁ * subspaceHeight T₂ := by
@@ -1396,6 +1576,111 @@ example : deltaL (fun v : Place ℚ => match v with
     | .inr _ => (![![2, 0], ![0, 1]] : Fin 2 → Fin 2 → ℚ)
     | .inl _ => coordForms ℚ 2 v) = 2 := by sorry
 
+/-- The absolute height of all maximal minors of a finite collection of forms.
+Ordered injective selections repeat each unordered minor only up to sign. -/
+def formSystemHeight {R : ℕ} (A : Fin R → Fin n → K) : ℝ :=
+  NumberField.absMulHeight (fun f : Fin n ↪ Fin R =>
+    Matrix.det (Matrix.of fun i j => A (f i) j))
+
+/-- Enumerating the same collection in another order preserves its determinant-tuple height. -/
+theorem formSystemHeight_reindex {R : ℕ} (A : Fin R → Fin n → K)
+    (e : Equiv.Perm (Fin R)) : formSystemHeight (A ∘ e) = formSystemHeight A := by sorry
+
+/-- A nonzero maximal minor makes the determinant tuple nonzero and its height at least one. -/
+theorem one_le_formSystemHeight {R : ℕ} (A : Fin R → Fin n → K)
+    (hA : ∃ f : Fin n ↪ Fin R, Matrix.det (Matrix.of fun i j => A (f i) j) ≠ 0) :
+    1 ≤ formSystemHeight A := by sorry
+
+/-- The product of local selected determinants is bounded by the height of the full minor tuple. -/
+theorem deltaL_le_formSystemHeight {R : ℕ} (A : Fin R → Fin n → K)
+    (L : Place K → Fin n → Fin n → K) (hL : ∀ v, LinearIndependent K (L v))
+    (hA : ∀ v i, L v i ∈ Set.range A) : deltaL L ≤ formSystemHeight A := by sorry
+
+/-- Hadamard bounds the height of all minors by the product of augmented row heights. -/
+theorem formSystemHeight_augmented_le {R : ℕ} (hn : 1 ≤ n)
+    (A : Fin R → Fin n → K) :
+    formSystemHeight A ≤ (n : ℝ) ^ ((n : ℝ) / 2) *
+      ∏ i, NumberField.absMulHeight (Fin.cons 1 (A i)) := by sorry
+
+/-- The minor height for X,Y,X+Y is one, while the last Euclidean row height is √2. -/
+example : formSystemHeight (![![1, 0], ![0, 1], ![1, 1]] : Fin 3 → Fin 2 → ℚ) = 1 ∧
+    height2 (![1, 1] : Fin 2 → ℚ) = Real.sqrt 2 := by sorry
+
+/-- Inserting H_L=1 into the semistable interval threshold gives the corresponding power of two. -/
+example (m₂ : ℕ) :
+    (2 * formSystemHeight (![![1, 0], ![0, 1], ![1, 1]] : Fin 3 → Fin 2 → ℚ)) ^
+      (m₂ ^ (2 * m₂)) = (2 : ℝ) ^ (m₂ ^ (2 * m₂)) := by sorry
+
+/-- Compound forms have coefficients given by minors of exterior degree p. -/
+def compoundForms (p : ℕ) (L : Fin n → Fin n → K) :
+    {s : Finset (Fin n) // s.card = p} → {s : Finset (Fin n) // s.card = p} → K :=
+  fun a b => Matrix.det (Matrix.of fun i j =>
+    L (a.1.orderEmbOfFin a.2 i) (b.1.orderEmbOfFin b.2 j))
+
+/-- Compound weights sum over the same exterior index as the compound form. -/
+def compoundWeights (p : ℕ) (c : Fin n → ℝ) :
+    {s : Finset (Fin n) // s.card = p} → ℝ := fun s => ∑ i ∈ s.1, c i
+
+/-- The coordinates of a wedge of basis vectors are the corresponding minors. -/
+def compoundVectors (p : ℕ) (h : Fin n → Fin n → K) := compoundForms p h
+
+/-- Each compound infimum product uses the same lexicographic exterior index. -/
+def compoundInfimaProducts (p : ℕ) (lambdas : Fin n → ℝ) :
+    {s : Finset (Fin n) // s.card = p} → ℝ := fun s => ∏ i ∈ s.1, lambdas i
+
+/-- The distinguished-place weights replace the largest product by the second largest. -/
+def compoundSpecialWeights {N : ℕ} (hN : 2 ≤ N) (ν : Fin N → ℝ)
+    (π : Equiv.Perm (Fin N)) (Q : ℝ) (l : Fin N) : ℝ :=
+  Real.log ((3 : ℝ) ^ (n ^ 3) *
+    (if (π.symm l).val + 1 = N then ν ⟨N - 2, by omega⟩ else ν (π.symm l))) / Real.log Q
+
+/-- A residual exponent has the block degree remaining after a specified derivative order. -/
+def residualBlockExponents {m N : ℕ} (r : Fin m → ℕ) (i : Fin m × Fin N →₀ ℕ) :
+    Set (Fin m × Fin N →₀ ℕ) := {j | ∀ h, ∑ l, (i (h, l) + j (h, l)) = r h}
+
+/-- The coefficient after differentiating in the original coordinates and expanding in compound forms. -/
+def compoundDerivativeCoeff {m N : ℕ} (A : Place K → Matrix (Fin N) (Fin N) K)
+    (F : MvPolynomial (Fin m × Fin N) K) (v : Place K)
+    (i j : Fin m × Fin N →₀ ℕ) : K :=
+  (MvPolynomial.eval₂ MvPolynomial.C
+    (fun p => ∑ l, MvPolynomial.C ((A v)⁻¹ p.2 l) * MvPolynomial.X (p.1, l))
+    (MvPolynomial.hasseDeriv i F)).coeff j
+
+open Classical in
+/-- The absolute product of coefficient max norms uses the compound expansion,
+with value zero when the derivative is zero. -/
+def compoundCoefficientProductNorm {m N : ℕ}
+    (A : Place K → Matrix (Fin N) (Fin N) K) (r : Fin m → ℕ)
+    (F : MvPolynomial (Fin m × Fin N) K) (i : Fin m × Fin N →₀ ℕ) : ℝ :=
+  if MvPolynomial.hasseDeriv i F = 0 then 0 else
+    ∏ᶠ v, ⨆ j ∈ residualBlockExponents r i,
+      normAbs v (compoundDerivativeCoeff A F v i j)
+
+/-- Derivative order one and residual exponent two are distinct for X³. -/
+example : MvPolynomial.hasseDeriv (Finsupp.single () 1)
+    ((MvPolynomial.X () : MvPolynomial Unit ℚ) ^ 3) = 3 * MvPolynomial.X () ^ 2 := by sorry
+
+/-- At derivative order zero residual exponents still carry the full, possibly nonzero block degree. -/
+example : Finsupp.single (0, 0) 3 ∈
+    residualBlockExponents (![3] : Fin 1 → ℕ) (0 : Fin 1 × Fin 1 →₀ ℕ) := by sorry
+
+/-- A nonconstant coefficient survives at derivative order zero before the auxiliary constraints are imposed. -/
+example (v : Place ℚ) :
+    compoundDerivativeCoeff (fun _ : Place ℚ => (1 : Matrix (Fin 1) (Fin 1) ℚ))
+      ((MvPolynomial.X (0, 0) : MvPolynomial (Fin 1 × Fin 1) ℚ) ^ 3)
+      v 0 (Finsupp.single (0, 0) 3) = 1 := by sorry
+
+/-- The modified special-place weights have a negative sum in the three-coordinate gap regression. -/
+example {Q : ℝ} (hQ : (3 : ℝ) ^ 81 ≤ Q) :
+    (∑ i : Fin 3, compoundSpecialWeights (n := 3) (by norm_num : 2 ≤ 3)
+      ![Q ^ (-(1 / 2 : ℝ)), Q ^ (-(1 / 2 : ℝ)), Q] 1 Q i) ≤ -(1 / 3 : ℝ) := by sorry
+
+/-- The two-fold exterior products preserve the last gap for n=3,k=1. -/
+example {Q : ℝ} (hQ : 1 < Q) :
+    (Q ^ (-(1 / 2 : ℝ))) / Q = Q ^ (-(3 / 2 : ℝ)) ∧
+    Q ^ (-(1 : ℝ)) / Q ^ ((1 / 2 : ℝ)) = Q ^ (-(3 / 2 : ℝ)) ∧
+    Q ^ ((1 / 2 : ℝ)) / Q ^ ((1 / 2 : ℝ)) = 1 := by sorry
+
 /-- The conditions (2.4)–(2.9) on `(L, c)`. -/
 structure IsTwistedData (L : Place K → Fin n → Fin n → K) (c : Place K → Fin n → ℝ) : Prop where
   two_le : 2 ≤ n
@@ -1410,6 +1695,55 @@ example : IsTwistedData (coordForms ℚ 2) 0 := by sorry
 
 /-- Locally balanced weights of size two fail the global maximum-weight bound. -/
 example : ¬ IsTwistedData (coordForms ℚ 2) (cExample 2) := by sorry
+
+open Classical in
+/-- A constructed nonzero block polynomial has controlled height and independently indexed
+vanishing coefficients. The special weights and inverse-height bounds are outputs of the
+compound gap construction and determinant-height bridge (EF13 Proposition 13.6). -/
+theorem exists_compound_auxiliary_polynomial {k N m R : ℕ}
+    (hk : 1 ≤ k) (hkn : k < n) (hN : 2 ≤ N) (hNm : N = n.choose (n - k))
+    (e : Fin N ≃ {s : Finset (Fin n) // s.card = n - k})
+    (L : Place K → Fin n → Fin n → K) (c : Place K → Fin n → ℝ)
+    (hLc : IsTwistedData L c) (A₀ : Fin R → Fin n → K)
+    (hA₀ : Set.range A₀ = Set.range fun p : Place K × Fin n => L p.1 p.2)
+    (v₀ : Place K) (hv₀ : ∃ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K), v₀ = .inl v)
+    (hcoord : L v₀ = fun i => Pi.single i 1) (hc₀ : c v₀ = 0)
+    (δ ε : ℝ) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (hε : 0 < ε) (hε1 : ε ≤ 1)
+    (hm : 2 * n * ε ^ (-2 : ℝ) * Real.log (4 * R / ε) ≤ m)
+    (r : Fin m → ℕ) (hr : ∀ h, 0 < r h)
+    (Q : Fin m → ℝ) (hQ : ∀ h, 1 < Q h)
+    (ν : Fin m → Fin N → ℝ) (π : Fin m → Equiv.Perm (Fin N))
+    (hν : ∀ h l, 0 < ν h l)
+    (hneg : ∀ h, ∑ l, compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l ≤ -δ / n)
+    (habs : ∀ h l, |compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l| ≤ n)
+    (hInv : ∀ V : Finset (Place K),
+      NumberField.absMulHeight
+        (fun o : Option (V × Fin N × Fin N) => o.elim 1
+          (fun p => ((Matrix.of fun a b =>
+            compoundForms (n - k) (L p.1.1) (e a) (e b)) : Matrix (Fin N) (Fin N) K)⁻¹
+              p.2.1 p.2.2)) ≤ formSystemHeight A₀ ^ (R ^ n)) :
+    ∃ F : MvPolynomial (Fin m × Fin N) K, F ≠ 0 ∧
+      (∀ u ∈ F.support, ∀ h, ∑ l, u (h, l) = r h) ∧
+      height2 (fun u : F.support => F.coeff u) ≤
+        |(NumberField.discr K : ℝ)| ^ ((1 : ℝ) / (2 * Module.finrank ℚ K)) *
+          ((2 : ℝ) ^ (3 * n) * formSystemHeight A₀ ^ (R ^ n)) ^ (∑ h, r h) ∧
+      (∀ i : Fin m × Fin N →₀ ℕ,
+        (∑ h, (∑ l, (i (h, l) : ℝ)) / r h) ≤ 2 * m * ε →
+        ∀ j ∈ residualBlockExponents r i, ∀ v : Place K,
+          ((v ≠ v₀ ∧
+            (∑ h, (∑ l, compoundWeights (n - k) (c v) (e l) * j (h, l)) / r h) >
+              4 * m * n * ε * (⨆ a, c v a)) ∨
+           (v = v₀ ∧
+            (∑ h, (∑ l, compoundSpecialWeights (n := n) hN (ν h) (π h) (Q h) l *
+              j (h, l)) / r h) > -m * δ / (n * N) + 4 * m * n * ε)) →
+          compoundDerivativeCoeff
+            (fun v => Matrix.of fun a b => compoundForms (n - k) (L v) (e a) (e b))
+            F v i j = 0) ∧
+      ∀ i : Fin m × Fin N →₀ ℕ,
+        compoundCoefficientProductNorm
+          (fun v => Matrix.of fun a b => compoundForms (n - k) (L v) (e a) (e b)) r F i ≤
+          |(NumberField.discr K : ℝ)| ^ ((1 : ℝ) / (2 * Module.finrank ℚ K)) *
+            ((2 : ℝ) ^ (6 * n) * formSystemHeight A₀ ^ (2 * R ^ n)) ^ (∑ h, r h) := by sorry
 
 /-- `Layer 2 twisted height gap principle` (Evertse–Ferretti Proposition 4.2), `K`-rational. -/
 theorem exists_subspace_gap_principle (L : Place K → Fin n → Fin n → K)
@@ -1451,7 +1785,7 @@ theorem sharp_roths_lemma {m : ℕ} (hm : 2 ≤ m) (d : Fin m → ℕ) (hd : ∀
           (MvPolynomial.pderiv p).toLinearMap ^ i p).prod F) ≠ 0 := by
   sorry
 
-/-- `Layer 2 bombieri vaaler siegel theorem` (Evertse–Ferretti Lemma 13.1). -/
+/-- The fixed-field supplier Siegel bound in absolute height2 normalization (EF13 Lemma 13.1). -/
 theorem exists_ne_zero_height2_le {U V : ℕ} (hUV : U < V) (hU : 0 < U)
     (L : Fin U → Fin V → K) (hL : ∀ i, L i ≠ 0) :
     ∃ x : Fin V → K, x ≠ 0 ∧ (∀ i, L i ⬝ᵥ x = 0) ∧
@@ -1933,6 +2267,15 @@ def mDeriv (σ : Fin n → ℕ) (f : (Fin n → ℂ) → ℂ) : (Fin n → ℂ) 
   (List.finRange n).foldr
     (fun i g ↦ (fun (g' : (Fin n → ℂ) → ℂ) (z : Fin n → ℂ) ↦ fderiv ℂ g' z (Pi.single i 1))^[σ i] g) f
 
+/-- An analytic ordinary partial derivative is the factorial product times its shared Taylor coefficient. -/
+theorem mDeriv_eq_factorial_mul_mvTaylorCoeff (σ : Fin n → ℕ)
+    (f : (Fin n → ℂ) → ℂ) (z : Fin n → ℂ) (hf : AnalyticAt ℂ f z) :
+    mDeriv σ f z = (∏ i, ((σ i).factorial : ℂ)) * TauCeti.mvTaylorCoeff f z σ := by sorry
+
+/-- The mixed order (2,3) has factorial product twelve. -/
+example : mDeriv ![2, 3] (fun z : Fin 2 → ℂ => z 0 ^ 2 * z 1 ^ 3) 0 = 12 ∧
+    TauCeti.mvTaylorCoeff (fun z : Fin 2 → ℂ => z 0 ^ 2 * z 1 ^ 3) 0 ![2, 3] = 1 := by sorry
+
 /-- Unit test `Baker.mDeriv_zero_example`: (degenerate) mDeriv 0 f = f. -/
 example (f : (Fin n → ℂ) → ℂ) : mDeriv 0 f = f := by sorry
 
@@ -2034,6 +2377,17 @@ theorem transcendental_exp_sum_mul {m : ℕ} (l : Fin m → ℂ) (hl : ∀ i, l 
     (hmul : ∀ k : Fin m → ℤ, ∏ i, exp (l i) ^ k i = 1 → k = 0) (β : Fin m → ℂ)
     (hβ : ∀ i, IsAlgebraic ℚ (β i)) (hβq : ¬ ∀ i, ∃ q : ℚ, β i = q) :
     Transcendental ℚ (exp (∑ i, β i * l i)) := sorry
+
+/-- The shared qualitative Baker interface makes log 2+√2 log 3 transcendental. -/
+example : Transcendental ℚ ((Real.log 2 : ℂ) + (Real.sqrt 2 : ℂ) * (Real.log 3 : ℂ)) := by
+  have hlogs : ∀ i : Fin 2,
+      (![Real.log 2, Real.log 3] : Fin 2 → ℂ) i ∈ algebraicLogs := by sorry
+  have hli : LinearIndependent ℚ (![Real.log 2, Real.log 3] : Fin 2 → ℂ) := by sorry
+  have hβ : ∀ i : Fin 2, IsAlgebraic ℚ ((![1, Real.sqrt 2] : Fin 2 → ℂ) i) := by sorry
+  have hnβ : (![1, Real.sqrt 2] : Fin 2 → ℂ) ≠ 0 := by sorry
+  simpa using transcendental_sum_mul_of_linearIndependent (by norm_num : 0 < 2)
+    (![Real.log 2, Real.log 3] : Fin 2 → ℂ) hlogs hli
+    (![1, Real.sqrt 2] : Fin 2 → ℂ) hβ hnβ
 
 end Transcendence
 
@@ -2799,6 +3153,54 @@ theorem lacunary_not_rational :
 theorem transcendental_fredholm {α : ℂ} (hα : IsAlgebraic ℚ α) (h0 : 0 < ‖α‖) (h1 : ‖α‖ < 1) :
     Transcendental ℚ (∑' n : ℕ, α ^ 2 ^ n) := sorry
 
+/-- The normalized q-expansions of q,E₂,E₄,E₆ on the unit disc. -/
+def modularQSeries (q : ℂ) : Fin 4 → ℂ :=
+  ![q,
+    1 - 24 * ∑' m : ℕ, ((∑ d ∈ m.divisors, d : ℕ) : ℂ) * q ^ m,
+    1 + 240 * ∑' m : ℕ, ((∑ d ∈ m.divisors, d ^ 3 : ℕ) : ℂ) * q ^ m,
+    1 - 504 * ∑' m : ℕ, ((∑ d ∈ m.divisors, d ^ 5 : ℕ) : ℂ) * q ^ m]
+
+/-- The q-expansion interface agrees with the library normalization on the upper half-plane. -/
+theorem modularQSeries_eq (τ : UpperHalfPlane) :
+    modularQSeries (Function.Periodic.qParam 1 τ) =
+      ![Function.Periodic.qParam 1 τ, EisensteinSeries.E2 τ, ModularForm.E₄ τ, ModularForm.E₆ τ] :=
+  by sorry
+
+/-- Ramanujan's differential identities use θ=q d/dq in the unit-disc normalization. -/
+theorem ramanujanQEquations {q : ℂ} (hq : ‖q‖ < 1) :
+    q * deriv (fun z => modularQSeries z 1) q =
+      ((modularQSeries q 1) ^ 2 - modularQSeries q 2) / 12 ∧
+    q * deriv (fun z => modularQSeries z 2) q =
+      (modularQSeries q 1 * modularQSeries q 2 - modularQSeries q 3) / 3 ∧
+    q * deriv (fun z => modularQSeries z 3) q =
+      (modularQSeries q 1 * modularQSeries q 3 - (modularQSeries q 2) ^ 2) / 2 := by sorry
+
+/-- A nonzero polynomial along the Ramanujan curve has order bounded by a fourth power of degree. -/
+theorem modularZeroEstimate :
+    ∃ C : ℝ, 0 < C ∧ ∀ P : MvPolynomial (Fin 4) ℂ, P ≠ 0 →
+      analyticOrderAt (fun q => MvPolynomial.eval (modularQSeries q) P) 0 ≤
+        (⌈C * (P.totalDegree : ℝ) ^ 4⌉₊ : ℕ∞) := by sorry
+
+/-- Integral auxiliary polynomials have controlled coefficients and order comparable to d⁴. -/
+theorem modularAuxiliaryPolynomial :
+    ∃ c C : ℝ, 0 < c ∧ 0 < C ∧ ∃ d₀ : ℕ, ∀ d : ℕ, d₀ ≤ d → 2 ≤ d →
+      ∃ P : MvPolynomial (Fin 4) ℤ, P ≠ 0 ∧ P.totalDegree ≤ d ∧
+        Real.log (⨆ u ∈ P.support, |(P.coeff u : ℝ)|) ≤ C * d * Real.log d ∧
+        (⌈c * (d : ℝ) ^ 4⌉₊ : ℕ∞) ≤
+          analyticOrderAt (fun q => MvPolynomial.eval₂ (Int.castRingHom ℂ) (modularQSeries q) P) 0 ∧
+        analyticOrderAt (fun q => MvPolynomial.eval₂ (Int.castRingHom ℂ) (modularQSeries q) P) 0 ≤
+          (⌈C * (d : ℝ) ^ 4⌉₊ : ℕ∞) := by sorry
+
+/-- The order of the coordinate polynomial q is one. -/
+example : analyticOrderAt
+    (fun q => MvPolynomial.eval (modularQSeries q) (MvPolynomial.X (0 : Fin 4))) 0 = 1 := by sorry
+
+/-- The integral falling-factorial operator of order two is 144w(w−1), not 144w². -/
+example (w : MvPolynomial (Fin 4) ℚ →ₗ[ℚ] MvPolynomial (Fin 4) ℚ)
+    (P : MvPolynomial (Fin 4) ℚ) :
+    (144 : ℚ) • (w ((w - (LinearMap.id : MvPolynomial (Fin 4) ℚ →ₗ[ℚ] MvPolynomial (Fin 4) ℚ)) P)) =
+      (144 : ℚ) • (w (w P) - w P) := by sorry
+
 /-- Nesterenko (1996): for `q = e^{2πiτ}`, three of `q, E₂(τ), E₄(τ), E₆(τ)` are algebraically
 independent. -/
 theorem nesterenko (τ : UpperHalfPlane) :
@@ -2904,6 +3306,18 @@ theorem algebraicIndependent_e_pi_of_schanuel (h : SchanuelConjecture) :
 theorem logarithmsConjecture_of_schanuel (h : SchanuelConjecture) :
     LogarithmsAlgebraicIndependenceConjecture := by sorry
 end DiophantineApproximation
+
+/- Supplier contracts use ZLattice.successiveMinimum,
+ZLattice.covolume_le_prod_successiveMinimum_mul_measure,
+ZLattice.prod_successiveMinimum_mul_measure_le and hermitian_gram_hadamard.
+The construction targets specified with full mathematical hypotheses in the README are:
+adelicSymmetricPowerHeight, absoluteBinarySmallBasis, absoluteAdelicMinima,
+absoluteMinimaRealScales, absoluteCompoundGapData,
+smallHeightHyperplaneSeparation, finiteRankHeightPacking, unitEquationHeightAssembly,
+finiteRankUnitEquationReduction, ramanujanDProperty,
+modularValueDerivativeSelection and modularValueIndependenceCriterion.
+The coefficient product norm in the compound theorem uses the same
+compoundDerivativeCoeff expansion for every order, with value zero for a zero derivative. -/
 
 /- The README also specifies absoluteTwistedHeight, absoluteHeight2,
 absoluteSuccessiveInfimum, absoluteInfimumSpace, absoluteTwistedFiltration,
