@@ -40,7 +40,8 @@ R02.1, R02.2, R02.3, R02.4, D7, R02.5, D8, R02.6 (see *How to read the build*).
 complexes; continuous cohomology with compact, lattice, rational and torsion coefficients compared
 with Mathlib's carrier, Tate's inverse-limit theorem, the long exact sequences that need a
 continuous section, rationalisation and the discrete quotient `V/T`; the pointwise `Hom` with its
-splitting torsor and connecting-map cup formula; topologies on factor-set extensions and the
+splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
+with its evaluation cup product; topologies on factor-set extensions and the
 continuous Schreier classification; unbalanced cochain products. The spectral sequence of a
 first-quadrant double complex and the Hochschild–Serre spectral sequence of a closed normal
 subgroup with its edge maps, multiplicativity, transgression, degeneration, finite-index descent
@@ -68,7 +69,8 @@ functions, the Hilbert–Samuel Euler function); admissible coefficients, contin
 derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
 local duality, compactly supported cochains with their cup products and Euler characteristic,
 derived Poitou–Tate duality including the dyadic case with real places, lattice and rational
-Poitou–Tate sequences, local duality for abelian varieties and isogenies. The Greenberg–Wiles
+Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field, local
+duality for abelian varieties and isogenies. The Greenberg–Wiles
 formula and its function-field form, the Selmer comparisons of Layer R02.5; trace-zero adjoint
 duality, first-order cocycles, determinant fibres and Selmer coefficient change; the Taylor–Wiles
 and Khare–Wintenberger numerics of Layer R02.6.
@@ -107,8 +109,10 @@ and Khare–Wintenberger numerics of Layer R02.6.
 **Further roadmaps this roadmap builds on.**
 
 - *SelmerIwasawaCohomology*. Its Layers 1 and 2 own local conditions, Selmer structures, dual Selmer
-  structures and the Selmer complex as a mapping fibre; Layers R02.5 and D8 prove the duality and
-  dimension statements about them. In the other direction SelmerIwasawaCohomology uses `lim¹`
+  structures and the Selmer complex as a mapping fibre, and its Layer 1, §§1.3–1.4, owns the
+  derived orthogonality of local conditions and the duality of a global mapping fibre with local
+  conditions; Layers R02.5 and D8 prove the dimension statements about them and use that duality
+  with its hypotheses. In the other direction SelmerIwasawaCohomology uses `lim¹`
   (R02.1), `G_{K,S}` and the localisation maps (R02.3) and Poitou–Tate duality (R02.4) from here.
 - *SchemeAndStackFoundations* Layer 2: dualising complexes over Noetherian rings and the normalised
   local dualising complex (§2.21 *Dualising complexes*, `DualizingComplex`, `NormalizedDualizing`),
@@ -119,6 +123,10 @@ and Khare–Wintenberger numerics of Layer R02.6.
   field with Galois cohomology (§2.15, `etale_galois_comparison`). The K-flat models of complexes of
   modules that compute the derived tensor product in Mathlib's `DerivedCategory` are built here, in
   *Derived tensor, perfect amplitude and Tor*.
+- *DerivedDeRhamCohomology* Layer 1: the derived completion reflector `DerivedDeRham.derivedCompletion`
+  (§1.3) and the comparison of derived completion with ordinary completion for complexes with
+  finitely generated cohomology over a Noetherian ring (§1.5), used by *Grothendieck local duality
+  for a complete Noetherian local ring*.
 - *AbelianSchemesAndArithmeticModuli* Layer A2: the dual abelian scheme with its Poincaré bundle
   (`AbelianScheme.dual`, §A2.2), and *AlgebraicModuliForArithmeticGeometry* Layer 4: banded gerbes
   and their classification by `H²` of the band (`gerbeClass`, §4.20, derived classification on
@@ -322,7 +330,9 @@ as inputs; and Galois representations attached to automorphic forms.
 
 ### From SelmerIwasawaCohomology and other roadmaps
 
-- `SelmerIwasawaCohomology` Layer 1, §1.1 *Perfect pairings and dual local conditions*; Layer 2,
+- `SelmerIwasawaCohomology` Layer 1, §1.1 *Perfect pairings and dual local conditions*, §1.3
+  *Local conditions and derived orthogonal complements* (`localDualError`, `derivedComplement_iff`),
+  §1.4 *Duality for a global mapping fibre with local conditions*; Layer 2,
   §2.7 *The unramified condition*, §2.9 *Compact and rational Galois Selmer groups*, §2.13 *Dual
   Selmer structures*, §2.3 *Change of local conditions*, §2.19 *Poitou–Tate for Selmer groups*,
   §2.21 *Selmer complex as a mapping fibre*, §2.2 *Compact and rational Selmer kernel*, §2.22 *The
@@ -332,7 +342,13 @@ as inputs; and Galois representations attached to automorphic forms.
   `RHom_A(κ, ω) ≅ κ[0]`); §2.7 *Cohomology with supports and local cohomology*
   (`localCohomology_colimit_ext_comparison`, `localCohomology_module_comparison`); §2.18 *Derived
   categories of quasi-coherent complexes* (`derivedTensor`, `derivedHom`, `DQCoh.affineEquiv`);
-  §2.15 (`etale_galois_comparison`: étale cohomology of a field is Galois cohomology).
+  §2.15 (`etale_galois_comparison`: étale cohomology of a field is Galois cohomology); §2.9
+  (`Gm`, the multiplicative group as a sheaf on the big site); the big étale site of a scheme is
+  Mathlib's `etaleTopology` on schemes over it, as in its conventions.
+- `DerivedDeRhamCohomology` Layer 1: §1.3 *The derived completion reflector*
+  (`DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`); §1.5 *When ordinary quotient
+  towers compute completion* (for a Noetherian ring, the derived completion of a complex with finitely
+  generated cohomology has the adic completions of its cohomology modules as cohomology).
 - `AbelianSchemesAndArithmeticModuli` Layer A2, §A2.2: `AbelianScheme.dual`, the dual abelian
   scheme with its Poincaré bundle (over a field, the dual abelian variety).
 - `AlgebraicModuliForArithmeticGeometry` Layer 4: banded gerbes and band-preserving morphisms
@@ -342,7 +358,9 @@ as inputs; and Galois representations attached to automorphic forms.
   isomorphisms `localRestrictionIsoOfConj`; Layer 4, §4.4: `dickson_classification` and
   `projective_image_of_absolutelyIrreducible`; Layer 4, §4.7: `charTwo_residual_image`; Layer 5,
   §5.13: `functionField_chebotarev`; Layer 7, §7.2: `ContinuousRep.ad`, `adZero`, `adQuot`,
-  `traceBilinForm_isPerfPair`; Layer 7, §7.7: `ResidualImage.h1_SL2_adZero`; Layer 7, §7.6:
+  `ContinuousRep.tracePairing_perfect` (the trace pairing on `ad ρ`) and
+  `tracePairing_matrix_perfect` (on `M_n(A)`);
+  Layer 7, §7.7: `ResidualImage.h1_SL2_adZero`; Layer 7, §7.6:
   `tate_h2_qz_eq_zero`.
 - `InverseGaloisAndArithmeticFundamentalGroups` IG.4.2, as described under *Scope and ownership*.
 
@@ -851,6 +869,72 @@ cup product with the torsor class*.
   `H¹(ℤ/2, 𝔽₂)`; `B` has no equivariant splitting, and `∂ : C^Γ = 𝔽₂ → H¹(Γ, A) = 𝔽₂` is an
   isomorphism, matching `B^Γ = A`.
 
+**Continuous Hom from a profinite source.** Let `Γ` be profinite, `P` a profinite abelian group with
+a jointly continuous `Γ`-action and `A` a discrete `Γ`-module with jointly continuous action. Write
+`Hom_cts(P, A)` for Mathlib's `ContinuousAddMonoidHom P A` (`P →ₜ+ A`) with its compact-open
+topology. This topology is discrete. The conjugation action `(g·f)(x) = g·f(g⁻¹x)` sends continuous
+homomorphisms to continuous homomorphisms and makes `Hom_cts(P, A)` a discrete `Γ`-module with
+jointly continuous action, and `Hom_cts(P, A)` is the union, over the `Γ`-stable open subgroups
+`W ⊆ P`, of the groups `Hom(P/W, A)` of the finite quotients. Evaluation `P × Hom_cts(P, A) → A` is
+jointly continuous (Mathlib's `ContinuousEval` instance on `ContinuousAddMonoidHom`) and
+equivariant, so the cup product of inhomogeneous cochains formed with it,
+
+```text
+Cⁱ_cts(Γ, P) × Cʲ_cts(Γ, Hom_cts(P, A)) → C^{i+j}_cts(Γ, A),
+```
+
+takes continuous cochains to continuous cochains, satisfies `d(a ∪ b) = da ∪ b + (−1)ⁱ a ∪ db`, and
+induces `Hⁱ(Γ, P) × Hʲ(Γ, Hom_cts(P, A)) → H^{i+j}(Γ, A)` on Mathlib's `continuousCohomology`, the
+compact coefficient `P` entering through *Comparison with the canonical carrier for compact
+coefficients*. If `G` is profinite, `H` a closed normal subgroup acting trivially on `A`, and
+`H^ab = H/H′` (`H′` the closure of the commutator subgroup) carries the conjugation action of
+`G/H`, then `H¹(H, A) ≅ Hom_cts(H^ab, A)` as discrete `G/H`-modules, compatibly with
+`H¹(H, A) = colim_U H¹(H/(H ∩ U), A)` over the open normal subgroups `U` of `G`. For infinite `P`
+neither the algebraic `Hom(P, A)` nor the topology of pointwise convergence can replace
+`Hom_cts(P, A)` with its compact-open topology (Checks).
+
+The API:
+
+- `CompactCoefficients.discreteTopology_continuousAddMonoidHom`: for compact `P` and discrete `A`,
+  the compact-open topology on `P →ₜ+ A` is discrete.
+- `CompactCoefficients.continuousHomRepresentation`: the conjugation action on `Hom_cts(P, A)`, a
+  discrete module with jointly continuous action.
+- `CompactCoefficients.continuousHomCup`: the cup product formed with the evaluation pairing.
+- `CompactCoefficients.h1Equiv_continuousHom`: `H¹(H, A) ≅ Hom_cts(H^ab, A)` as `G/H`-modules for
+  `H` acting trivially on `A`.
+
+*Proof sketch.* A continuous map from the compact space `P` to the discrete `A` has open and closed
+fibres, hence finitely many values, and the finitely many compact-open conditions "the fibre over
+`a` maps to `a`" isolate it. By compactness of `Γ` every open subgroup of `P` contains a `Γ`-stable
+one; a continuous homomorphism factors through such a finite quotient and takes finitely many
+values, so its stabiliser is open. Continuity of the product cochains is joint continuity of
+evaluation composed with continuous cochains; the Leibniz rule is the computation of
+ProfiniteCohomology Layer 12 with this pairing. With trivial action the continuous `1`-cocycles on
+`H` are the continuous homomorphisms `H → A`, which factor through `H^ab`; the conjugation action of
+`G/H` on `H¹(H, A)` is the conjugation action on `Hom_cts(H^ab, A)`, and the finite levels are
+compared by inflation (ProfiniteCohomology Layer 4). ([Milne, *Arithmetic Duality
+Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Notations and Conventions, p. vii (PDF
+p. 7): the continuous dual of a profinite abelian group is a discrete torsion group;
+[Neukirch–Schmidt–Wingberg, *Cohomology of Number
+Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter II, §4, Theorem
+2.4.4, printed p. 114 (PDF p. 131), which uses `H¹(H, A) = Hom(H^ab, A)` with continuous
+homomorphisms; Mathlib `Topology/Algebra/Group/CompactOpen.lean` for the compact-open topology on
+`ContinuousAddMonoidHom`.) *Needs:* *Comparison with the canonical carrier for compact
+coefficients*; *Pointwise Hom of discrete modules*; ProfiniteCohomology Layers 4 and 12; Mathlib
+`ContinuousAddMonoidHom`.
+
+**Checks.**
+
+- For finite `P`, `Hom_cts(P, A)` is `Hom_pt(P, A)` with its discrete topology, and the cup product
+  is the discrete one of *Finitely generated C: the discrete case*.
+- For `P = ∏_ℕ 𝔽₂` and `A = 𝔽₂` with trivial actions, `Hom_cts(P, A) = ⊕_ℕ 𝔽₂` consists of the
+  linear forms that depend on finitely many coordinates, while the algebraic `Hom(P, 𝔽₂)`, the full
+  linear dual of an infinite-dimensional space, is strictly larger.
+- In the same example the topology of pointwise convergence on `Hom_cts(P, A)` is not discrete: a
+  basic neighbourhood of `0` imposes finitely many conditions `f(x₁) = ⋯ = f(x_k) = 0` and so contains
+  an infinite-dimensional subspace of `⊕_ℕ 𝔽₂`.
+- For `G = H = ℤ_p` and `A = ℤ/p`, `H¹(ℤ_p, ℤ/p) = Hom_cts(ℤ_p, ℤ/p) ≅ ℤ/p`.
+
 ### R02.1.5 Completed tensor products, continuous extensions and unbalanced products
 
 **Completed tensor products and finite reductions.** Let `R` be a complete Noetherian local ring
@@ -1027,7 +1111,7 @@ compact coefficients*; ProfiniteCohomology Layer 12; Mathlib `tateCohomology`.
 - Libraries: Mathlib `CategoryTheory.Functor.IsMittagLeffler`, Mathlib `continuous_pi_iff`,
   Mathlib `continuousCohomology`, Tau Ceti `TauCeti.exists_continuous_section`, Tau Ceti
   `TauCeti.homAction`, Mathlib `AdicCompletion`, Tau Ceti `TauCeti.FactorSet`, Tau Ceti
-  `TauCeti.FactorSet.Extension`, Mathlib `tateCohomology`.
+  `TauCeti.FactorSet.Extension`, Mathlib `tateCohomology`, Mathlib `ContinuousAddMonoidHom`.
 
 ## Layer R02.2: The Hochschild–Serre spectral sequence, transgression and residue maps
 
@@ -1261,16 +1345,19 @@ Theorem 2.4.3, printed p. 113 (PDF p. 130)). *Needs:* *The Hochschild–Serre sp
 **d₂ as cup product with the extension class.** Let `G` be profinite, `H` an open normal subgroup
 acting trivially on the discrete `G`-module `A`, `H′` the closure of the commutator subgroup of `H`,
 `H^ab = H/H′`, and `u ∈ H²(G/H, H^ab)` the class of `1 → H^ab → G/H′ → G/H → 1`. Under
-`H¹(H, A) = Hom(H^ab, A)`, for `p > 0` the differential
+`H¹(H, A) = Hom_cts(H^ab, A)` (*Continuous Hom from a profinite source*, Layer R02.1), for `p > 0`
+the differential
 
 ```text
 d₂^{p−1,1} : H^{p−1}(G/H, H¹(H, A)) → H^{p+1}(G/H, A)
 ```
 
-is `x ↦ −u ∪ x`, the cup product formed with evaluation `H^ab × Hom(H^ab, A) → A`; in particular
-`tg(x) = −u ∪ x`. The same holds for a closed normal subgroup `H` acting trivially on `A`, with `u`
-the class in continuous cohomology `H²_cts(G/H, H^ab)` with the profinite coefficient module
-`H^ab`.
+is `x ↦ −u ∪ x`, the cup product formed with evaluation `H^ab × Hom_cts(H^ab, A) → A`; in
+particular `tg(x) = −u ∪ x`. The same holds for a closed normal subgroup `H` acting trivially on
+`A`, with `u` the class in continuous cohomology `H²_cts(G/H, H^ab)` with the profinite coefficient
+module `H^ab`, and with the cup product of *Continuous Hom from a profinite source*: continuous
+cochains paired through the jointly continuous evaluation into the discrete module
+`Hom_cts(H^ab, A)`, which carries its compact-open topology, not the pointwise one.
 
 *Proof sketch.* For finite `G`: the projection `H → H^ab` is a `G/H`-invariant class `ε`, and
 `tg(ε) = −u` by a cochain computation with a section `s` of `G → G/H`. Moreover `d₂^{p,1} = δ ∘ δ`
@@ -1279,14 +1366,15 @@ products with `ε` commute with both connecting maps, so `d₂(z) = δδ(ε ∪ 
 `G`: pass to the finite quotients `G/W` for open normal `W ⊆ H`, using the compatibility of cup
 products with inflation and `H¹(H, A) = colim_W H¹(H/W, A)` (ProfiniteCohomology Layers 4 and 12).
 Closed `H`: the same argument with `u` in the cohomology with compact coefficients of Layer R02.1
+and the mixed cup product of *Continuous Hom from a profinite source*
 ([Neukirch–Schmidt–Wingberg, *Cohomology of Number
 Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter II, §4,
 Theorem 2.4.4, printed p. 114 (PDF p. 131)). Harpaz–Wittenberg's formula
 `d₂^{1,1}[β] = [β ∪ f]` is this identity for their extension, up to sign. *Needs:* *The
 Hochschild–Serre spectral sequence*; *The five-term sequence and the transgression*; *Comparison
-with the canonical carrier for compact coefficients* (Layer R02.1); *Pointwise Hom of discrete
-modules* (Layer R02.1); *Continuous Schreier classification and automorphisms* (Layer R02.1);
-ProfiniteCohomology Layers 4 and 12.
+with the canonical carrier for compact coefficients* (Layer R02.1); *Continuous Hom from a
+profinite source* (Layer R02.1); *Continuous Schreier classification and automorphisms* (Layer
+R02.1); ProfiniteCohomology Layers 4 and 12.
 
 **Checks.**
 
@@ -1294,6 +1382,11 @@ ProfiniteCohomology Layers 4 and 12.
   `tg(id_H) = −u ≠ 0`, as in `z4_nondegenerate`.
 - For a direct product `G = Q × H` the extension `1 → H^ab → Q × H^ab → Q → 1` splits, so `u = 0`
   and every `d₂^{p−1,1}` vanishes.
+- A closed, non-open `H`: for `G` the group of unipotent upper triangular `3 × 3` matrices
+  over `ℤ_p`, `H ≅ ℤ_p` its centre and `A = ℤ/p`, `G/H ≅ ℤ_p²` and `u ∈ H²_cts(ℤ_p², ℤ_p)` is the
+  Heisenberg class; `tg` sends the reduction `H^ab = ℤ_p → ℤ/p` in `Hom_cts(H^ab, ℤ/p) ≅ ℤ/p` to
+  `−ū`, the reduction of `−u`, which is nonzero because the extension of `ℤ_p²` by `H/pH` is not
+  abelian. This matches `H ⊆ [G, G]`, which makes restriction `H¹(G, ℤ/p) → H¹(H, ℤ/p)` zero.
 
 ### R02.2.3 Descent along open subgroups, norms and compact coefficients
 
@@ -3582,23 +3675,42 @@ Noetherian local ring of dimension `d`, `E = E_R(k)` an injective hull of the re
 `D = Hom_R(−, E)` the Matlis dual and `ω` a normalised dualizing complex of `R`
 (SchemeAndStackFoundations Layer 2, §2.21 *Dualising complexes*, `NormalizedDualizing R ω`:
 `RHom_R(k, ω) ≅ k[0]`). Prove `localDuality`: for every `K ∈ D^b_{fg}(R)` there is a natural
-isomorphism `RHom_R(K, ω) ≅ D(RΓ_𝔪(K))` in `D(R)`, so that `Extⁱ_R(K, ω) ≅ D(H^{−i}_𝔪(K))`, and in
-particular `H^i_𝔪(ω) = E` for `i = 0` and `0` otherwise with the normalisation
-`RHom_R(k, ω) ≅ k[0]`. The duality diagram of Layer D7 uses Nekovář's normalisation `ω• = ω[−d]`,
-for which `H^i_𝔪(ω•) = E` exactly when `i = d`. The isomorphism is compatible with the biduality
+isomorphism `RHom_R(K, ω) ≅ D(RΓ_𝔪(K))` in `D(R)`, so that `Extⁱ_R(K, ω) ≅ D(H^{−i}_𝔪(K))`. Its
+first step, `RΓ_𝔪(ω) ≅ E[0]` (that is, `H^i_𝔪(ω) = E` for `i = 0` and `0` otherwise), is part of
+the target: it is proved from the colimit description of local cohomology and is not a restatement
+of the normalisation `RHom_R(k, ω) ≅ k[0]`. The duality diagram of Layer D7 uses Nekovář's
+normalisation `ω• = ω[−d]`, for which `H^i_𝔪(ω•) = E` exactly when `i = d`. The isomorphism is
+compatible with the biduality
 maps `K → RHom(RHom(K, ω), ω)` and `M → D(D(M))`, and it is the comparison
 `𝒟 = RHom_R(−, ω•) ≅ D ∘ Φ`, with `Φ = RΓ_𝔪(−)[d]`, that the derived local and global duality
 theorems use (Stacks Project, Dualizing Complexes, Theorem 47.18.3, Tag 0A84, and §47.16–47.17 for
 normalised dualizing complexes over local rings; Nekovář, *Selmer complexes*, §§2.5–2.8, pp. 54–61).
-*Proof sketch.* For `K = R` both sides compute `ω` (its local cohomology is `E` in one degree by the
-normalisation); both sides are triangulated functors converting bounded complexes of finite modules
-into bounded complexes, so the comparison map, built from the evaluation
-`RΓ_𝔪(K) ⊗ RHom(K, ω) → RΓ_𝔪(ω) → E`, is an isomorphism on all of `D^b_{fg}(R)`; completeness of `R`
-makes Matlis duality an anti-equivalence between finite and Artinian modules, which removes the
-derived completion in the general statement. *Needs:* SchemeAndStackFoundations Layer 2 (§2.21
+
+*Proof sketch.* The case `K = R` does not suffice: triangles, shifts and summands generated by `R`
+give only `Perf(R)`, a proper subcategory of `D^b_{fg}(R)` when `R` is not regular (Check). Three
+steps are used instead. (1) `RΓ_𝔪(ω) ≅ E[0]`: by `localCohomology_colimit_ext_comparison`,
+`RΓ_𝔪(ω)` is the homotopy colimit of the `RHom_R(R/𝔪ⁿ, ω)`; induction on length from the
+normalisation gives isomorphisms `RHom_R(N, ω) ≅ Hom_R(N, E)[0]` functorial in modules `N` of finite
+length, and `E` is the union of its submodules `E[𝔪ⁿ]` (Stacks, Lemmas 47.16.4 and 47.18.1, Tags 0A7Q
+and 0A82). (2) For every `K ∈ D(R)`, `RΓ_𝔪(K) ≅ C ⊗^L_R K` for the extended Čech complex `C` of a
+finite set of generators of `𝔪`, and `RΓ_𝔪` is right adjoint to the inclusion of the complexes with
+`𝔪`-power torsion cohomology (Stacks, Lemmas 47.9.1 and 47.10.1, Tags 0A6R and 0955). Hence
+`RHom_R(RΓ_𝔪(K), E[0]) ≅ RHom_R(RΓ_𝔪(K), RΓ_𝔪(ω)) ≅ RHom_R(RΓ_𝔪(K), ω) ≅ RHom_R(K, RHom_R(C, ω))`,
+and `RHom_R(C, −)` is the derived completion `Λ_𝔪` (`DerivedDeRham.derivedCompletion`), so
+`D(RΓ_𝔪(K)) ≅ RHom_R(K, Λ_𝔪 ω)`; this is the comparison with derived completion of Stacks
+Theorem 47.18.3 (Tag 0A84, with More on Algebra, Lemma 15.93.13, Tag 0A6E). (3) The completion is
+removed because `R` is complete: the cohomology modules of `ω` are finite, so `Λ_𝔪 ω` has as
+cohomology their `𝔪`-adic completions (DerivedDeRhamCohomology §1.5; Stacks, More on Algebra, Lemma 15.96.4, Tag 0A06), which
+are the modules themselves over the complete ring `R` (Stacks, Algebra, Lemma 10.97.1, Tag 00MA);
+thus the unit `ω → Λ_𝔪 ω` is an isomorphism and `RHom_R(K, ω) ≅ D(RΓ_𝔪(K))`. The isomorphism is the
+adjoint of the evaluation `RΓ_𝔪(K) ⊗^L_R RHom_R(K, ω) → RΓ_𝔪(ω) ≅ E[0]`; restricting to
+`K ∈ D^b_{fg}(R)` gives the statement, and the biduality compatibility follows from Matlis biduality
+for the finite and Artinian cohomology modules. *Needs:* SchemeAndStackFoundations Layer 2 (§2.21
 *Dualising complexes*: `DualizingComplex`, `NormalizedDualizing`; §2.7 *Cohomology with supports and
 local cohomology*: `localCohomology_colimit_ext_comparison`; §2.18: `derivedTensor` and `derivedHom`
-of modules); *Matlis duality for arithmetic coefficients*; Mathlib `localCohomology`.
+of modules); DerivedDeRhamCohomology Layer 1 (§1.3 *The derived completion reflector*:
+`DerivedDeRham.derivedCompletion`; §1.5 *When ordinary quotient towers compute completion*);
+*Matlis duality for arithmetic coefficients*; Mathlib `localCohomology`.
 
 **Checks.**
 
@@ -3609,6 +3721,10 @@ of modules); *Matlis duality for arithmetic coefficients*; Mathlib `localCohomol
   degree.
 - For `K = ℤ/p` over `ℤ_p`: `Ext¹(ℤ/p, ℤ_p) = ℤ/p`, matching `D(H⁰_𝔪(ℤ/p)) = D(ℤ/p) = ℤ/p`; a
   formula that used ordinary `Hom` would give `0`.
+- A non-perfect `K`: for `R = k[ε]/(ε²)` (`d = 0`; `R` is self-injective, so `ω = R` and `E = R`)
+  and `K = k`, which has infinite projective dimension and is not in the thick subcategory generated
+  by `R`, `Extⁱ_R(k, R)` is the socle `εR ≅ k` for `i = 0` and `0` for `i > 0`, matching
+  `D(H⁰_𝔪(k)) = Hom_R(k, R) = k`; the statement for `K = R` alone does not reach this `K`.
 
 **Derived composite spectral sequence.** Let `F : 𝒜 → ℬ` and `H : ℬ → 𝒞` be additive left-exact
 functors between abelian categories, where `𝒜` and `ℬ` have enough injectives, and suppose that `F`
@@ -3974,9 +4090,10 @@ and for a bounded complex `T` of admissible modules that is perfect over `R` wit
 `[a, b]`, `RΓ_cts(G, T)` is perfect over `R` with amplitude in `[a, b + e]`. Perfectness is a
 statement about `R`-modules, not projectivity over `R[G]`; both (F) and the bound on `cd_p(G)` are
 used. For a finite extension `K_v` of `ℚ_ℓ` (any `ℓ`), `G_v` satisfies both with `e = 2`; for a
-number field `K` and `S` containing the places above `p` and `∞`, `G_{K,S}` satisfies them with
-`e = 2` under (P) (`p` odd or `K` without real places). When `p = 2` and `K` has a real place,
-`cd_2(G_{K,S}) = ∞` and the bound fails (Check).
+number field `K` and a finite set `S` of places containing the places above `p` and `∞`, `G_{K,S}`
+satisfies them with `e = 2` under (P) (`p` odd or `K` without real places). Finiteness of `S` is
+needed for (F) and the bound on `cd_p` alone does not give it (Check). When `p = 2` and `K` has a
+real place, `cd_2(G_{K,S}) = ∞` and the bound fails (Check).
 
 *Proof sketch.* Reduce finite-type coefficients modulo `𝔪ⁿ` and use finite-length cohomology and
 the Mittag-Leffler condition. Use Matlis duality for cofinite-type coefficients. Surjectivity in the
@@ -3997,6 +4114,10 @@ for arithmetic coefficients*.
 - For a perfect `T` concentrated in degree `0` the interval is `[0, e]`.
 - For `p = 2`, `K = ℚ` and `S = {2, ∞}`, `Hⁱ(G_{ℚ,S}, 𝔽₂) ≅ Hⁱ(ℝ, 𝔽₂) = 𝔽₂` for every `i ≥ 3`, so
   `RΓ_cts(G_{ℚ,S}, ℤ₂)` is not perfect.
+- `S` must be finite: for `p` odd, `K = ℚ(μ_p)` and `S` the set of all places, (P) holds and
+  `cd_p(G_{K,S}) = cd_p(G_K) = 2`, but `H¹(G_K, μ_p) = K^×/K^{×p}` is infinite (the valuations at
+  primes above infinitely many rational primes give independent classes), so (F) fails for the finite
+  module `μ_p`.
 
 **Compact Shapiro and projection formulas.** Let `G` be a profinite group, `H` an open subgroup, `R`
 as above and `T` a finitely generated `R`-module with continuous `H`-action. Since `G/H` is finite,
@@ -4591,51 +4712,120 @@ complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§5.2, 5.4, 
 *Needs:* *Poitou–Tate duality and the nine-term exact sequence* (Layer R02.4); *The Milnor sequence
 for towers of complexes* (Layer R02.1); *Tate's inverse-limit theorem* (Layer R02.1);
 *Rationalisation of lattice cohomology* (Layer R02.1); *The sequence T → V → W and the torsion of
-H¹(T)* (Layer R02.1); *Duality when p = 2 and K has real places*.
+H¹(T)* (Layer R02.1); *Duality when p = 2 and K has real places*; *Adic continuous-map flatness*.
 
 **Checks.**
 
 - For `F = ℚ`, `S = {p, ∞}`, `p` odd and `T = ℤ_p(1)`: `H¹(G_{ℚ,S}, ℤ_p(1)) = lim ℤ[1/p]^×/pⁿ ≅ ℤ_p`,
   generated by `p`, and `H¹(G_{ℚ,S}, ℚ_p(1))` is one-dimensional; the `lim¹` term vanishes.
-- Modulo `pⁿ` the sequence is the finite nine-term sequence for `T/pⁿT`.
+- Reduction modulo `pⁿ` is derived, not termwise. Degreewise `C_cts(G, T)/pⁿ = C_cts(G, T/pⁿT)`
+  for `G = G_{F,S}` and each `G_v` (*Adic continuous-map flatness*), and the cochain complexes are
+  `p`-torsion-free, so `RΓ(T) ⊗^L ℤ/pⁿ ≃ RΓ(T/pⁿT)` for the global, local and compactly supported
+  complexes, compatibly with the localisation triangle. On cohomology this gives
+  `0 → Hⁱ(T)/pⁿ → Hⁱ(T/pⁿT) → Hⁱ⁺¹(T)[pⁿ] → 0` in each term, and the lattice sequence does not reduce
+  termwise to the finite one: for `p` odd, `F = ℚ(μ_p)` and `T = ℤ_p(1)`, `H⁰(G_{F,S}, T) = 0` while
+  `H⁰(G_{F,S}, T/pT) = μ_p`, the difference being `H¹(G_{F,S}, T)[p] ≅ μ_p`.
 - For `p = 2` and `F = ℚ`, `Ĥⁱ(ℝ, V) = 0` for the `ℚ₂`-vector space `V`, so the rational sequence
   has no real-place correction.
 
+**Abelian-variety Ext on the big étale site.** Let `F` be a field of characteristic `0` with
+separable closure `F^s` and absolute Galois group `G_F`, and let `(Sch/F)_ét` be the big étale site
+of `Spec F`: Mathlib's `etaleTopology` on schemes over `Spec F`, as in the conventions of
+SchemeAndStackFoundations. An abelian variety `A`, its dual `A∨` (AbelianSchemesAndArithmeticModuli
+§A2.2) and `G_m` (SchemeAndStackFoundations §2.9, `Gm`) are abelian sheaves on this site through
+their functors of points, and `Extⁱ_F(−, −)` is Mathlib's `CategoryTheory.Abelian.Ext` in the
+category of abelian sheaves on `(Sch/F)_ét`, which has enough injectives. The small étale site of
+`Spec F` does not do: its abelian sheaves are the discrete `G_F`-modules and lose the geometry of
+`A` (Check). Then:
+
+- over `F^s`, `Hom(A, G_m) = 0`; `Ext¹_{F^s}(A, G_m) ≅ A∨(F^s)` (Barsotti–Weil: an extension
+  `0 → G_m → E → A → 0` goes to the class in `Pic⁰(A_{F^s})` of the `G_m`-torsor `E → A`); and
+  `Ext^q_{F^s}(A, G_m) = 0` for `2 ≤ q ≤ 4`;
+- restriction to the small étale site is exact and preserves injectives, so
+  `Hʳ((Sch/F)_ét, B) ≅ Hʳ(G_F, B(F^s))` for every commutative group scheme `B` of finite type over
+  `F`, through `etale_galois_comparison`;
+- the edge maps of the spectral sequence `Hᵖ(G_F, Ext^q_{F^s}(A, G_m)) ⇒ Ext^{p+q}_F(A, G_m)` give
+  isomorphisms `Hʳ(G_F, A∨(F^s)) ≅ Ext^{r+1}_F(A, G_m)` for `0 ≤ r ≤ 3`, functorial in `A`;
+- restriction to the small site followed by `etale_galois_comparison` sends `A` and `G_m` to the
+  discrete modules `A(F^s)` and `F^{s×}` and carries the Yoneda composition
+  `Ext^{r+1}_F(A, G_m) × Hʲ((Sch/F)_ét, A) → H^{r+j+1}((Sch/F)_ét, G_m)` to the composition of
+  `Ext^{r+1}_{G_F}(A(F^s), F^{s×})` with Galois cohomology.
+
+*Proof sketch.* A morphism from the proper connected `A` to the affine `G_m` is constant. The
+Barsotti–Weil formula identifies extensions by `G_m` with `G_m`-torsors that are primitive for the
+group law, that is with `Pic⁰`; the vanishing of `Ext²`, `Ext³` and `Ext⁴` over `F^s` is Breen's,
+valid when `6` is invertible, which characteristic `0` gives. Restriction to the small site is
+exact and preserves injectives (Stacks, Étale Cohomology, Lemma 59.99.1, Tag 0758), so it computes
+cohomology and is compatible with Yoneda products. Derive `Hom_F(A, −) = (Hom_{F^s}(A, −))^{G_F}`
+with *Derived composite spectral sequence* to obtain the spectral sequence, which degenerates in the
+stated range. In characteristic `0` every commutative algebraic group is smooth, so the functor of
+points from commutative algebraic groups to these sheaves is exact and carries the `Ext` groups,
+the isomorphisms of Milne's Lemma I.3.1 and his pairing (I, Proposition 0.16) to those here.
+([Milne, *Arithmetic Duality Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), I, §0,
+Propositions 0.16–0.17, pp. 11–12; I, §3, Barsotti–Weil formula and Lemma 3.1, pp. 40–41; II, §5, Remark
+5.7(b), printed p. 203 (PDF p. 211), for Breen's vanishing and `Ext^r_{U_Et}(A, G_m) = H^{r−1}(U, A^t)`
+for `r ≤ 4`; [Stacks Project](https://stacks.math.columbia.edu/tag/0757), Étale Cohomology, §59.99,
+Lemma 59.99.1, Tag 0758; [Groechenig–Wyss–Ziegler, *Mirror symmetry for moduli spaces of Higgs
+bundles via p-adic integration*](https://arxiv.org/pdf/1707.06417), §3.2, Lemma 3.8 and Remark 3.11,
+author pp. 17–18.) *Needs:* AbelianSchemesAndArithmeticModuli Layer A2, §A2.2 (`AbelianScheme.dual`,
+the Poincaré bundle); SchemeAndStackFoundations Layer 2, §2.9 (`Gm`) and §2.15
+(`etale_galois_comparison`); *Derived composite spectral sequence*; Mathlib `etaleTopology`;
+Mathlib `CategoryTheory.Abelian.Ext`; Mathlib `hasExt_of_enoughInjectives`.
+
+**Checks.**
+
+- The small site gives the wrong answer: for `F` algebraically closed, abelian sheaves on the small
+  étale site of `Spec F` are abelian groups, and `Ext¹_Ab(A(F), F^×) = 0` because `F^×` is
+  divisible, hence injective; on the big site `Ext¹_F(A, G_m) ≅ A∨(F) ≠ 0` for `A ≠ 0`.
+- `Hom_F(A, G_m) = 0`, so the identification starts in degree `1`: `Ext¹_F(A, G_m) ≅ A∨(F)`.
+- For an elliptic curve `E` over `F^s`, with `E∨ ≅ E`, the extension attached to `P ∈ E(F^s)` is
+  the `G_m`-torsor of the line bundle `O_E((P) − (O))`, which is trivial exactly when `P = O`; and
+  `Ext²_{F^s}(E, G_m) = H¹(F^s, E∨) = 0`.
+
 **Local abelian-variety duality and gerbe evaluation.** Let `F` be a finite extension of `ℚ_ℓ` for a
 rational prime `ℓ`, `A` an abelian variety over `F` and `A∨` its dual
-(AbelianSchemesAndArithmeticModuli Layer A2, `AbelianScheme.dual`). There are canonical
-identifications `H^r(F, A∨) ≅ Ext^{r+1}_ét(A, G_m)` for `r ≥ 0`, where Ext is taken in étale
-sheaves, not in abelian groups of points. Yoneda evaluation and the local invariant give perfect
-pairings `H^r(F, A) × H^{1−r}(F, A∨) → ℚ/ℤ` for `r = 0, 1`, continuous for the `ℓ`-adic topology on
-`A(F)` and the discrete topology on `H¹`: `A(F)` is profinite, `H¹(F, A)` is torsion and of cofinite
-type, and `H^r(F, A) = 0` for `r ≥ 2`. A torsor `t ∈ H¹(F, A∨)` corresponds to an `Ext²` gerbe
-`α_t`, and its character on `A(F)` is `a ↦ inv(a*α_t)`. Hence a nonzero torsor gives a nontrivial
-character, whose integral against Haar measure is zero.
+(AbelianSchemesAndArithmeticModuli Layer A2, `AbelianScheme.dual`). `Ext` is taken in abelian
+sheaves on the big étale site `(Sch/F)_ét`, and the identifications
+`H^r(F, A∨) ≅ Ext^{r+1}_F(A, G_m)` for `0 ≤ r ≤ 3` are those of *Abelian-variety Ext on the big
+étale site*. Yoneda composition `Ext^{r+1}_F(A, G_m) × H^{1−r}(F, A) → H²(F, G_m) = Br(F)` and the
+local invariant give perfect pairings `H^r(F, A) × H^{1−r}(F, A∨) → ℚ/ℤ` for `r = 0, 1`,
+continuous for the `ℓ`-adic topology on `A(F)` and the discrete topology on `H¹`: `A(F)` is
+profinite, `H¹(F, A)` is torsion and of cofinite type, and `H^r(F, A) = 0` for `r ≥ 2`. A torsor
+`t ∈ H¹(F, A∨)` gives `α_t ∈ Ext²_F(A, G_m)`; forgetting its group structure, `α_t` is a
+`G_m`-gerbe on `A`, whose class in `H²((Sch/A)_ét, G_m)` (AlgebraicModuliForArithmeticGeometry
+§4.20, `gerbeClass`) is the composite of `α_t` with the canonical map `ℤ[A] → A` from the free
+abelian sheaf on the sheaf represented by `A`. The exported compatibility is the rational-point
+square: for `a ∈ A(F)`, the pullback `a*α_t ∈ Br(F)` of the gerbe along `a : Spec F → A` is the
+Yoneda composite of `α_t` with `a : ℤ → A`, so `inv(a*α_t)` is the value at `(a, t)` of the pairing
+for `r = 0`. Hence the character of `t` on `A(F)` is `a ↦ inv(a*α_t)`, a nonzero torsor gives a
+nontrivial character, and its integral against Haar measure is zero.
 
-*Proof sketch.* Over `F^s`, `Hom(A, G_m) = 0`, the Barsotti–Weil formula identifies
-`Ext¹_{F^s}(A, G_m)` with `A∨(F^s)`, and the higher sheaf `Ext` groups vanish (Milne, *Arithmetic
-Duality Theorems*, I, §3, p. 40, quoting Serre, *Groupes algébriques et corps de classes*, VII); the
-spectral sequence `Hᵖ(F, Ext^q_{F^s}(A, G_m)) ⇒ Ext^{p+q}_F(A, G_m)` then gives
-`Hʳ(F, A∨) ≅ Ext^{r+1}_F(A, G_m)` (Milne, I, Lemma 3.1). The Yoneda pairing
-`Ext^{r+1}_F(A, G_m) × H^{1−r}(F, A) → H²(F, G_m) = Br(F)` followed by the local invariant gives
-local duality for abelian varieties with its evaluation normalisation (Milne, I, Theorem 3.2 and
-Corollary 3.4). Pull the gerbe back along a rational point and compare the Yoneda product with the
-cup product. Translation invariance of Haar measure kills the integral of a nontrivial continuous
+*Proof sketch.* The identifications and the comparison of Yoneda composition with Galois
+cohomology are *Abelian-variety Ext on the big étale site*. Under them the pairing is Milne's, and
+local duality for abelian varieties with its evaluation normalisation is Milne, I, Theorem 3.2 and
+Corollary 3.4. For the square: pullback of a class in `H²((Sch/A)_ét, G_m)` along `a` is
+precomposition with the map `ℤ = ℤ[Spec F] → ℤ[A]` induced by `a`, whose composite with
+`ℤ[A] → A` is `a : ℤ → A`; the gerbe classification commutes with this pullback (§4.20, change of
+site). Translation invariance of Haar measure kills the integral of a nontrivial continuous
 character. ([Groechenig–Wyss–Ziegler, *Mirror symmetry for moduli spaces of Higgs bundles via p-adic
 integration*](https://arxiv.org/pdf/1707.06417), §3.2, Lemma 3.8, Theorem 3.10 and Remark 3.11,
 author pp. 17–18; [Groechenig–Wyss–Ziegler, *Geometric stabilisation via p-adic
 integration*](https://arxiv.org/pdf/1810.06739v2), §6.5, opening Tate-duality and torsor-character
 discussion, author p. 42; [Milne, *Arithmetic Duality
 Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), I, Lemma 3.1, p. 40; Theorem 3.2, p. 41;
-Corollary 3.4, p. 43.) *Needs:* *Derived tensor, perfect amplitude and Tor*; *Matlis duality for
-arithmetic coefficients*; *Derived local Tate duality*; ClassFieldTheory Layer 5;
-AbelianSchemesAndArithmeticModuli Layer A2, §A2.2 (`AbelianScheme.dual`);
-AlgebraicModuliForArithmeticGeometry Layer 4, §4.20 (`gerbeClass`, the classification of banded
-gerbes by `H²`); SchemeAndStackFoundations Layer 2, §2.15 (`etale_galois_comparison`: étale
-cohomology of a field is Galois cohomology).
+Corollary 3.4, p. 43.) *Needs:* *Abelian-variety Ext on the big étale site*; *Derived tensor,
+perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients*; *Derived local Tate
+duality*; ClassFieldTheory Layer 5; AbelianSchemesAndArithmeticModuli Layer A2, §A2.2
+(`AbelianScheme.dual`); AlgebraicModuliForArithmeticGeometry Layer 4, §4.20 (`gerbeClass`, the
+classification of banded gerbes by `H²`); SchemeAndStackFoundations Layer 2, §2.15
+(`etale_galois_comparison`: étale cohomology of a field is Galois cohomology).
 
 **Checks.**
 
+- The square needs `α_t` to come from `Ext²`: the class in `H²((Sch/A)_ét, G_m)` pulled back from a
+  nonzero `b ∈ Br(F)` along the structure map has `a*β = b` for every `a ∈ A(F)`, a constant and
+  not additive function, whereas `a ↦ a*α_t`, the Yoneda composite with `a`, is additive and
+  vanishes at the origin.
 - For the zero torsor the character is trivial and its integral is the volume of `A(F)`.
 - For `t ≠ 0` the character is nonzero, so its integral is `0`, not the volume.
 - For an elliptic curve `E/ℚ_ℓ`, `E(ℚ_ℓ) ≅ ℤ_ℓ × (finite)` is profinite and
@@ -4690,9 +4880,11 @@ ClassFieldTheory Layer 5.
 
 - Earlier layers of this roadmap: R02.1, R02.2, R02.3, R02.4.
 - SchemeAndStackFoundations: Layer 2, §2.21 *Dualising complexes* (`DualizingComplex`,
-  `NormalizedDualizing`); §2.7 *Cohomology with supports and local cohomology*; §2.15
+  `NormalizedDualizing`); §2.7 *Cohomology with supports and local cohomology*; §2.9 (`Gm`); §2.15
   (`etale_galois_comparison`); §2.18 *Derived categories of quasi-coherent complexes*
   (`derivedTensor`, `derivedHom`; the affine case `⊗^L_A`).
+- DerivedDeRhamCohomology: Layer 1, §1.3 *The derived completion reflector*; §1.5 *When ordinary
+  quotient towers compute completion*.
 - TauCetiRoadmap ProfiniteCohomology: Layers 4, 7, 10, 12.
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7.
 - AbelianSchemesAndArithmeticModuli: Layer A2, §A2.2 (the dual abelian scheme).
@@ -4704,7 +4896,8 @@ ClassFieldTheory Layer 5.
   `Module.length`, Mathlib `ringKrullDim`, Mathlib `Polynomial.hilbertPoly`, Mathlib
   `Ideal.exists_pow_inf_eq_pow_smul`, Mathlib `groupCohomology`, Mathlib `localCohomology`, Mathlib
   `TopRep`, Tau Ceti `TauCeti.DiscreteRep`, Mathlib `Subrepresentation`, Mathlib
-  `Subrepresentation.toRepresentation`.
+  `Subrepresentation.toRepresentation`, Mathlib `etaleTopology`, Mathlib
+  `CategoryTheory.Abelian.Ext`.
 
 ## Layer R02.5: Selmer duality and dimension formulas
 
@@ -4832,7 +5025,9 @@ coker( H⁰(G_S, T) ⊕ ⊕_{v∈S} H⁰(U_v⁺) → ⊕_{v∈S} H⁰(G_v, T) ),
 ```
 
 so it is an isomorphism exactly when this map on `H⁰` is surjective (SelmerIwasawaCohomology Layer
-2, §2.22 *The H⁰ correction before the classical Selmer kernel*). Applied to the coefficients of a
+2, §2.22 *The H⁰ correction before the classical Selmer kernel*, which owns the general statement;
+this target is its specialisation to the localisation maps of Layer R02.3, not a second
+construction). Applied to the coefficients of a
 first-order deformation problem, the same sequence compares the tangent space computed by the Selmer
 complex with the classical Selmer group, with the same `H⁰` correction.
 
@@ -4980,7 +5175,9 @@ Selmer complexes under change of coefficients, using the derived statements of L
 `n`-dimensional `k`-vector space, `ad = End_k(V)` with the conjugation action, and
 `ad⁰ = ker(tr : ad → k)`. The adjoint and trace-zero adjoint representations, the perfect trace
 pairing and `(ad⁰)^∨ ≅ ad/k·Id` over any coefficient ring are ArithmeticGaloisRepresentations Layer
-7, §7.2 (`ContinuousRep.adZero`, `adQuot`, `traceBilinForm_isPerfPair`), cited; this target adds the
+7, §7.2 (`ContinuousRep.adZero`, `adQuot`, `ContinuousRep.tracePairing_perfect` on `ad ρ` and
+`tracePairing_matrix_perfect` on `M_n(A)`), cited; Tau Ceti's `TauCeti.traceBilinForm` used below is
+the bilinear form of the latter pairing on `Matrix n n k`; this target adds the
 criterion for the restricted pairing on `ad⁰` and the boundary `δ` in continuous cohomology, which
 the fixed-determinant calculations use. The trace pairing `(X, Y) ↦ tr(XY)` on `ad` is perfect and
 invariant under conjugation, and `tr` is surjective (`tr(E₁₁) = 1`), whether or not `n` is
@@ -5073,24 +5270,43 @@ of SelmerIwasawaCohomology Layer 2. When the local conditions are maps of comple
 kernel the cokernel of `H⁰(G_{F,S}, ad ρ) ⊕ ⊕_v H⁰(U_v⁺) → ⊕_v H⁰(G_v, ad ρ)` (*Selmer complex H¹
 with its H⁰ correction*, Layer R02.5); the two agree exactly when this `H⁰` map is surjective, and
 no equality is asserted without that hypothesis. Framed versions keep cocycles instead of classes
-and so add the corresponding local and global `H⁰(ad ρ)` terms. For any morphism into `H²` of the
-same Selmer complex (an obstruction map), *Derived Poitou–Tate duality* (Layer D7) identifies the
-dual of that `H²`. The determinant and trace-zero variants come from the trace sequence, as in
-*Determinant tangent fibres*.
+and so add the corresponding local and global `H⁰(ad ρ)` terms. The `H¹` comparison uses nothing
+more. The subspaces `L_v`, and the `H⁰` and `H¹` of the `U_v⁺`, do not determine `H²` of the Selmer
+complex (Check), so no duality for that `H²` (the target of an obstruction map) is asserted from
+them. Its dual is described by SelmerIwasawaCohomology Layer 1, §1.4 *Duality for a global mapping
+fibre with local conditions*, under that theorem's hypotheses: `S` contains the places above
+`p = char k` and the archimedean places; (P) holds, or the modified real-place complexes of *Duality
+when p = 2 and K has real places* (Layer D7) are used; and dual local conditions
+`U_v^{⊥+} → C(G_v, ad ρ(1))` are given for the trace-pairing dual `(ad ρ)^∨(1) ≅ ad ρ(1)`, together
+with chosen nullhomotopies of the local cup products (§1.3 *Local conditions and derived orthogonal
+complements*). It gives a morphism from the Selmer complex of `(ad ρ, U⁺)` to the shift by `[−3]` of
+the `k`-dual of the Selmer complex of `(ad ρ(1), U^{⊥+})`, whose cone is `⊕_{v∈S} Err_v`
+(`localDualError`). When every `Err_v` is acyclic (`derivedComplement_iff`), `H²` of the first is
+`k`-dual to `H¹` of the second; otherwise the error terms are part of the statement. The
+determinant and trace-zero variants come from the trace sequence, as in *Determinant tangent
+fibres*.
 
 *Proof sketch.* Write a first-order lift as `(1 + εc)ρ` by *First-order Galois cocycle comparison*.
 The commutative restriction square identifies the global tangent space subject to the local
 conditions with the kernel. Apply the long exact sequence of the fibre, keeping the framing and `H⁰`
-corrections. For an obstruction map, compare its target through derived global and local duality.
+corrections. For `H²`, apply SelmerIwasawaCohomology Layer 1, §1.4 to the given dual local
+conditions and nullhomotopies, and take cohomology of its error triangle.
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, pp.
 135–137; [Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1–4.2, pp. 39–45.) *Needs:*
 *First-order Galois cocycle comparison*; *Selmer complex H¹ with its H⁰ correction* (Layer R02.5);
-*Derived Poitou–Tate duality* (Layer D7); SelmerIwasawaCohomology Layer 2, §2.2 *Compact and
-rational Selmer kernel*; SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as a mapping fibre*.
+*Duality when p = 2 and K has real places* (Layer D7); SelmerIwasawaCohomology Layer 1, §1.3
+*Local conditions and derived orthogonal complements*; SelmerIwasawaCohomology Layer 1, §1.4
+*Duality for a global mapping fibre with local conditions*; SelmerIwasawaCohomology Layer 2, §2.2
+*Compact and rational Selmer kernel*; SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as a
+mapping fibre*.
 
 **Checks.**
 
+- The classical data do not determine `H²`: replacing one `U_v⁺` by `U_v⁺ ⊕ k[−2]`, the new summand
+  mapping to zero, changes neither `H⁰(U_v⁺)`, `H¹(U_v⁺)`, `L_v` nor the tangent space, but adds the
+  summand `k[−2]` to the mapping fibre and so a summand `k` to its `H²`; it also changes `Err_v`, so
+  a dual condition complementary to `U_v⁺` is not complementary to the new one.
 - Every `L_v = H¹(G_v, ad ρ)` gives the relaxed group `H¹(G_{F,S}, ad ρ)`; every `L_v = 0` gives the
   strict group `Ш¹_S(F, ad ρ)`, the kernel of localisation.
 - `F = ℚ`, `S = {p, ∞}` with `p` odd, `n = 1`, `ρ` trivial, `k = 𝔽_p`, relaxed conditions: the
@@ -5191,7 +5407,8 @@ Layer 2, §2.21 *Selmer complex as a mapping fibre*.
 - Earlier layers of this roadmap: R02.1, D7, R02.5.
 - TauCetiRoadmap ProfiniteCohomology: Layers 5 and 10.
 - SelmerIwasawaCohomology: Layer 2, §2.21 *Selmer complex as a mapping fibre*; Layer 2, §2.2
-  *Compact and rational Selmer kernel*.
+  *Compact and rational Selmer kernel*; Layer 1, §1.3 *Local conditions and derived orthogonal
+  complements*; Layer 1, §1.4 *Duality for a global mapping fibre with local conditions*.
 - ArithmeticGaloisRepresentations: Layer 7, §7.2 (adjoint and trace-zero adjoint, trace pairing).
 - Libraries: Mathlib `groupCohomology`, Mathlib `DualNumber`, Mathlib `Matrix.det_one_add_smul`,
   Tau Ceti `TauCeti.traceBilinForm`.
@@ -5210,29 +5427,41 @@ the characteristic is assumed different from `2`.
 
 **Local cohomology at a Taylor–Wiles prime.** Let `ℓ` be odd, `k` a finite field of characteristic
 `ℓ`, `ρ̄ : G_ℚ → GL₂(k)` continuous, and `q ≡ 1 (mod ℓ)` a prime at which `ρ̄` is unramified and
-`ρ̄(Frob_q)` has distinct `k`-rational eigenvalues. Write `Hⁱ(F_q, −)` for the cohomology of
+`ρ̄(Frob_q)` has distinct eigenvalues in an algebraic closure `k̄` of `k`, that is, `ρ̄(Frob_q)` is
+regular semisimple; the eigenvalues need not lie in `k`. Write `Hⁱ(F_q, −)` for the cohomology of
 `Gal(ℚ_q^ur/ℚ_q)` (unramified classes). Then
 
 ```text
 H⁰(F_q, ad⁰ρ̄) = H⁰(F_q, ad⁰ρ̄(1)) = k,   H¹(F_q, ad⁰ρ̄) = H¹(F_q, ad⁰ρ̄(1)) = k.
 ```
 
-*Proof sketch.* `Frob_q` acts semisimply on `ad⁰ρ̄` with eigenvalues `x, 1, x^{−1}`, where `x ≠ 1`
-is the ratio of the eigenvalues of `ρ̄(Frob_q)`; since `q ≡ 1 (mod ℓ)`, the twist `(1)` does not
-change them. For the procyclic group `Gal(ℚ_q^ur/ℚ_q)`, `H⁰` and `H¹` of a finite module `N` are the
-kernel and cokernel of `Frob − 1` on `N` (SelmerIwasawaCohomology Layer 2, §2.7 *The unramified
-condition*), both one-dimensional here. ([Darmon–Diamond–Taylor, *Fermat's Last
+This is the hypothesis that *The group-theoretic input to Taylor–Wiles primes* produces. The
+splitting of a deformation at `q` into two characters (DDT, Lemma 2.44) needs the eigenvalues in
+`k`, which a finite extension of `k` provides (DDT, proof of Theorem 3.42, p. 100); that splitting
+is not part of this target.
+
+*Proof sketch.* Over `k̄`, `Frob_q` acts semisimply on `ad⁰ρ̄ ⊗_k k̄` with eigenvalues `x, 1, x^{−1}`,
+where `x ≠ 1` is the ratio of the eigenvalues of `ρ̄(Frob_q)`; since `q ≡ 1 (mod ℓ)`, the twist `(1)`
+does not change them. For the procyclic group `Gal(ℚ_q^ur/ℚ_q)`, `H⁰` and `H¹` of a finite module
+`N` are the kernel and cokernel of `Frob − 1` on `N` (SelmerIwasawaCohomology Layer 2, §2.7 *The
+unramified condition*). Their `k`-dimensions are unchanged by extending scalars to `k̄`, so both are
+one-dimensional. Over `k` itself, `H⁰(F_q, ad⁰ρ̄)` is the trace-zero part of the centraliser
+`k[ρ̄(Frob_q)]`, a two-dimensional algebra (`k × k` or a quadratic field) on which the trace is onto
+because `tr(1) = 2 ≠ 0`. ([Darmon–Diamond–Taylor, *Fermat's Last
 Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §2.8, Lemma
-2.46, p. 81 (author PDF, revised 9 September 2007).) *Needs:* SelmerIwasawaCohomology Layer 2, §2.7
-*The unramified condition*.
+2.46 and its proof, with `x ∈ k̄`, p. 81 (author PDF, revised 9 September 2007).) *Needs:*
+SelmerIwasawaCohomology Layer 2, §2.7 *The unramified condition*.
 
 **Checks.**
 
-- The twist matters only through `q mod ℓ`: if `q ≢ 1 (mod ℓ)` and `q ∉ {x, x^{−1}}` in `k`, then
+- The twist matters only through `q mod ℓ`: if `q ≢ 1 (mod ℓ)` and `q ∉ {x, x^{−1}}` in `k̄`, then
   `Frob_q` has eigenvalues `qx, q, qx^{−1}` on `ad⁰ρ̄(1)`, none equal to `1`, so
   `H⁰(F_q, ad⁰ρ̄(1)) = 0` while `H⁰(F_q, ad⁰ρ̄) = k`.
 - The distinct-eigenvalue hypothesis is needed: if `ρ̄(Frob_q)` is scalar, `Frob_q` acts trivially
   on `ad⁰ρ̄` and `H⁰(F_q, ad⁰ρ̄)` has dimension `3`.
+- Rationality of the eigenvalues is not needed: for `k = 𝔽₇` and `ρ̄(Frob_q) = [[0, −1], [1, 0]]`,
+  the eigenvalues `±√−1` do not lie in `𝔽₇`, the centraliser is `𝔽₇[ρ̄(Frob_q)] ≅ 𝔽₄₉`, and its
+  trace-zero part is the line spanned by `ρ̄(Frob_q)`, so `H⁰(F_q, ad⁰ρ̄) = H¹(F_q, ad⁰ρ̄) = k`.
 
 **The group-theoretic input to Taylor–Wiles primes.** Let `ℓ` be odd, `ρ̄ : G_ℚ → GL₂(k)` with
 `ρ̄|_{G_L}` absolutely irreducible for `L = ℚ(√((−1)^{(ℓ−1)/2} ℓ))`, and for `m ≥ 0` let `F_m` be the
@@ -5378,21 +5607,37 @@ unramified `H¹` is one-dimensional. The local fixed-determinant framed generato
 primes and the cyclotomic residual*; the source notes that this dual-Selmer argument can fail for
 `p = 2`.
 
-*Proof sketch.* Prove the vanishing of `H¹` of the cyclotomic finite quotient by *The group-theoretic
-input to Taylor–Wiles primes* and the Dickson classification. For each nonzero dual class choose a
-Frobenius with nonzero evaluation and distinct eigenvalues, then apply Chebotarev. Choose enough
-independent localisation functionals to kill the finite-dimensional dual Selmer group (*The
-conditional dual-Selmer killing calculation*). Apply local finite duality and the local Euler
-characteristic for the full and unramified counts. ([Khare–Wintenberger, *Serre's modularity
-conjecture (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §5.3–5.4, Lemma 5.2(1),
-Lemmas 5.3–5.4 and Proposition 5.5, pp. 47–48.) *Needs:* *The group-theoretic input to Taylor–Wiles
-primes*; *The conditional dual-Selmer killing calculation*; *Khare–Wintenberger tangent and relation
-bounds*; Chebotarev Layer 10; ClassFieldTheory Layer 5.
+*Proof sketch.* The targets over `ℚ` earlier in this layer are the case `F = ℚ` and are not
+invoked for general `F`; their arguments are run over `F`. Prove KW Lemma 5.2(1), the vanishing of
+`H¹(Gal(KF_m/F), (ad⁰ρ)*(1))` for `K` the field cut out by `ad⁰ρ` and `F_m = F(ζ_{p^m})`, by the
+inflation–restriction and Dickson argument of *The group-theoretic input to Taylor–Wiles primes*
+over `F`: since `F` is unramified above `p`, `Gal(F(ζ_p)/F) ≅ (ℤ/p)^×`, and absolute irreducibility
+on `G_{F(μ_p)}` gives it on every `G_{F(ζ_{p^m})}`. For each nonzero dual class choose a Frobenius
+with nonzero evaluation and distinct eigenvalues, then apply Chebotarev over `F`. Choose enough
+independent localisation functionals to kill the finite-dimensional dual Selmer group, as in *The
+conditional dual-Selmer killing calculation* with `ℚ` replaced by `F` (KW Lemma 5.3). At `q ∈ Q_n`,
+`Nq ≡ 1 (mod p)` and distinct eigenvalues give `h⁰(ad⁰ρ) = h⁰((ad⁰ρ)*(1)) = 1` by the computation of
+*Local cohomology at a Taylor–Wiles prime*; apply local finite duality and the local Euler
+characteristic for the full and unramified counts (KW Lemma 5.4). ([Khare–Wintenberger, *Serre's
+modularity conjecture (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §5.3–5.4,
+Lemma 5.2(1) and its proof, which runs DDT's argument over `F`, Lemmas 5.3–5.4 and Proposition 5.5,
+pp. 47–48.) *Needs:* *The five-term sequence and the transgression* (Layer R02.2); *Changing one
+local condition* (Layer R02.5); ArithmeticGaloisRepresentations Layer 4, §4.4 and Layer 7, §7.7;
+SelmerIwasawaCohomology Layer 2, §2.7 *The unramified condition* and §2.19 *Poitou–Tate for Selmer
+groups*; *Khare–Wintenberger tangent and relation bounds*; Chebotarev Layer 10; ClassFieldTheory
+Layer 5.
 
 **Checks.**
 
 - At `q ∈ Q_n` the local Euler characteristic (zero for `q ∤ p`) gives
   `h¹(F_q, ad⁰) = h⁰(ad⁰) + h⁰(ad⁰(1)) = 1 + 1 = 2`, while the unramified `H¹` has dimension `1`.
+- For `p` odd the trace pairing on `ad⁰ρ` is perfect (*Trace-zero adjoint duality without division
+  by n*), so `(ad⁰ρ)*(1) ≅ ad⁰ρ(1)` and the dual Selmer group is that of `ad⁰ρ(1)`.
+- The construction fails for `p = 2`: there `(ad⁰)*(1) ≅ ad/k·1`, whose only irreducible
+  submodule is `ad⁰/k·1`, and an element `σ` with distinct eigenvalues `α ≠ β` acts on it with
+  eigenvalues `α/β` and `β/α`, neither equal to `1`, so `(σ − 1)` is onto that submodule and the
+  choice `ψ(σ) ∉ (σ − 1)M` of the argument is impossible there (KW II, remark after Lemma 5.3,
+  pp. 47–48).
 
 **Dyadic auxiliary primes and the cyclotomic residual.** Let `F` be totally real, `k` a finite field
 of characteristic `2`, `ρ : G_F → GL₂(k)` with nonsolvable projective image, `S` a finite set of
@@ -5431,18 +5676,27 @@ Chebotarev Layer 10; ArithmeticGaloisRepresentations Layer 4, §4.4 (`dickson_cl
   abelian quotient.
 
 **Finite-order determinant twists.** Let `F` be totally real, `v` a finite place of `F`, and `ψ, ψ′`
-continuous `p`-adic characters of `G_F` as in KW II Lemma 7.10: they have the same reduction, agree
-on open subgroups of the local units at the places above `p`, and have equal restrictions to the
-units at `v`. Then `ψ′/ψ` has finite `p`-power order and is totally even. After a finite extension
-of the coefficient field and a passage to a totally real cyclic (hence soluble) extension `F′/F`,
-split at `v` and linearly disjoint from a given finite extension of `F`, there is a character `ζ` of
-finite `p`-power order, unramified at `v`, with `ζ² ψ|_{G_{F′}} = ψ′|_{G_{F′}}`. For `p` odd one can
+continuous `p`-adic characters of `G_F`, with values in `O^×` for the ring of integers `O` of a
+finite extension of `ℚ_p`, such that: they have the same reduction; through class field theory they
+agree on open subgroups of the local units at the places above `p` and have equal restrictions to
+the units at `v`; and `ψ(c) = ψ′(c)` for every complex conjugation `c ∈ G_F`. KW II Lemma 7.10 is
+stated for characters of `F^×\(𝔸^∞_F)^×`, which are trivial on the archimedean idele components;
+the parity condition is what this becomes for Galois characters. For `p` odd it follows from equal
+reductions, since `(ψ′/ψ)(c)` is a square root of `1` in `1 + 𝔪_O`; for `p = 2` it is independent of
+the other conditions (Check). Then `ψ′/ψ` has finite `p`-power order and is totally even. After a
+finite extension of the coefficient field and a passage to a totally real cyclic (hence soluble)
+extension `F′/F`, split at `v` and linearly disjoint from a given finite extension of `F`, there is
+a character `ζ` of finite `p`-power order, unramified at `v`, with `ζ² ψ|_{G_{F′}} = ψ′|_{G_{F′}}`.
+For `p` odd one can
 take `F′ = F`; for `p = 2` the extension `F′` comes from the Grunwald–Wang construction, with an
 auxiliary place that preserves disjointness. Only `ψ′/ψ` and `ζ` have finite order; `ψ` itself need
 not.
 
-*Proof sketch.* The local agreement and class field theory kill the contribution of the infinite
-part of the units; equal reductions force `p`-power order. For `p` odd, multiplication by two is
+*Proof sketch.* Through the Artin map, `ψ′/ψ` is trivial on the archimedean idele components (the
+parity condition), on an open subgroup of the units above `p`, and, being continuous into the
+pro-`p` group `1 + 𝔪_O` (equal reductions), on an open subgroup of the units away from `p`; so it
+factors through a ray class group, and its finite order is a power of `p` because its values lie in
+`1 + 𝔪_O`. For `p` odd, multiplication by two is
 invertible on characters of `p`-power order. For `p = 2`, choose the cyclic totally real extension
 with prescribed local splitting and an auxiliary Frobenius condition, then take a square root and
 adjust it to be unramified at `v`. ([Khare–Wintenberger, *Serre's modularity conjecture
@@ -5457,6 +5711,11 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   in the same group of roots of unity.
 - For `p = 2`, a square root of a character of order `2^m` has order `2^{m+1}`, so its values need
   `μ_{2^{m+1}}`; this is why the coefficient field may have to be extended.
+- The parity condition is needed for `p = 2`: take `F = ℚ`, `ψ = 1`, `ψ′` the quadratic character
+  of `ℚ(i)/ℚ` and `v = 3`. Both reduce to `1`, `ψ′` is trivial on the units `1 + 4ℤ₂`, and both are
+  unramified at `3`, but `(ψ′/ψ)(c) = −1`. After any totally real base change `F′` a complex
+  conjugation `c′` of `F′` still has `ψ′(c′) = −1`, while `ζ(c′)² = ζ(c′²) = 1` for every character
+  `ζ`, so `ζ²ψ = ψ′` has no solution: this input is excluded.
 
 ### Examples
 
@@ -5464,7 +5723,8 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   `h⁰(ad⁰) = a² + b² − 1 = 1`; for `ρ̄(c) = 1` (`a = 2`, `b = 0`) it is `3`; an odd `ρ̄` is in the
   first case.
 - For `q ≡ 1 (mod ℓ)` and `ρ̄(Frob_q)` with distinct eigenvalues, `H¹(F_q, ad⁰) ≅ k`, spanned by the
-  unramified class in the diagonal direction.
+  unramified class of a nonzero trace-zero element commuting with `ρ̄(Frob_q)` (the diagonal
+  direction when the eigenvalues lie in `k`).
 
 ### Dependencies
 

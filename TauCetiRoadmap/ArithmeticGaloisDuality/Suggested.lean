@@ -24,7 +24,9 @@ Design choices made explicit here:
   `(a_n) ↦ (a_n - φ_n(a_{n+1}))`; the Mittag-Leffler condition is Mathlib's
   `CategoryTheory.Functor.IsMittagLeffler` on the underlying functor `ℕᵒᵖ ⥤ Type`.
 * The pointwise `Hom` of discrete modules carries the topology induced from the product `A^C`,
-  never the discrete topology: for infinitely generated `C` the two differ.
+  never the discrete topology: for infinitely generated `C` the two differ. Continuous
+  homomorphisms from a profinite source are Mathlib's `ContinuousAddMonoidHom` with the
+  compact-open topology, which is discrete for a discrete target, not the pointwise one.
 * `S` is a set of finite places (height-one primes of the ring of integers); the archimedean places
   are always allowed to ramify. `G_{K,S}` is the Galois group of the compositum, inside a fixed
   field `Ω`, of the finite subextensions unramified outside `S`. Unramifiedness at a finite place
@@ -232,6 +234,18 @@ theorem sections_sub_mem_ker (κ : B →+ C) (s t : Sections κ) (c : C) :
 example : Subsingleton (Sections (AddMonoidHom.id C)) := sorry
 
 end SplittingTorsor
+
+section ContinuousHom
+
+/-- **Continuous homomorphisms from a compact source to a discrete target form a discrete group**:
+Mathlib's compact-open topology on `P →ₜ+ A` is discrete when `P` is compact and `A` is discrete,
+since each continuous map takes finitely many values on clopen fibres. This is the topology of the
+coefficient module `Hom_cts(H^ab, A)` in the transgression formula, not the pointwise one. -/
+theorem discreteTopology_continuousAddMonoidHom (P A : Type*) [AddMonoid P] [TopologicalSpace P]
+    [CompactSpace P] [AddMonoid A] [TopologicalSpace A] [DiscreteTopology A] :
+    DiscreteTopology (P →ₜ+ A) := sorry
+
+end ContinuousHom
 
 end CompactCoefficients
 
@@ -614,7 +628,9 @@ end Adjoint
 
 The following targets need carriers that the pinned libraries do not have, and are stated only in
 the README: the Milnor sequence and Tate's inverse-limit theorem; rationalisation and the
-discrete quotient `V/T`; the splitting class and its cup-product formula; continuous factor-set
+discrete quotient `V/T`; the splitting class and its cup-product formula; the conjugation action,
+evaluation cup product and `H¹` comparison of the continuous `Hom` from a profinite source (its
+discreteness is `discreteTopology_continuousAddMonoidHom` above); continuous factor-set
 extensions and the continuous Schreier classification; unbalanced cochain products; the
 first-quadrant and Hochschild–Serre spectral sequences, the transgression and its cup-product
 formula, finite-index descent, the compact Hochschild–Serre and five-term sequences; the Laurent
@@ -635,7 +651,8 @@ composite spectral sequence, adic continuous-map flatness, the Hilbert–Samuel 
 the dualizing complex and local duality for complete local rings, continuous cochains in the
 derived category, the local and global invariant trivialisations, derived local and global
 duality, compactly supported cup products and Euler characteristics, the lattice and rational
-Poitou–Tate sequences, abelian-variety local duality and the isogeny sequence; the Selmer
+Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field,
+abelian-variety local duality and the isogeny sequence; the Selmer
 comparisons and the Greenberg–Wiles formula; the Selmer tangent comparison and derived coefficient
 change; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
 Khare–Wintenberger relation bounds, odd and dyadic Taylor–Wiles primes and finite-order determinant
@@ -646,8 +663,8 @@ declared here.
 
 * `CompactCoefficients`: `homPt_equiv_internalHom`, `sections_nonempty_iff`, `splittingClass`,
   `splittingClass_eq_zero_iff`, `pointwiseHomRepresentation`, `pointwiseHomRepresentation_apply`,
-  `factorSetClass`, `factorSetClass_rescale`, `factorSetClass_eq_extensionClass`,
-  `factorSetClass_eq_zero_iff`.
+  `continuousHomRepresentation`, `continuousHomCup`, `h1Equiv_continuousHom`, `factorSetClass`,
+  `factorSetClass_rescale`, `factorSetClass_eq_extensionClass`, `factorSetClass_eq_zero_iff`.
 * `DoubleComplex`: `spectralSequence`, `e2Iso`, `abutmentFiltration`, `eInftyIsoGr`,
   `page_eq_eInfty`, `edgeBottom`, `edgeLeft`, `fiveTerm_exact`, `exact_of_rows_vanish`,
   `totalCohomology_of_exact_rows`, `spectralSequence_map`.
