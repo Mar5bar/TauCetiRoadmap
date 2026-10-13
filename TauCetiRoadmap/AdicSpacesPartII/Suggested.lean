@@ -653,6 +653,17 @@ def IsLocallyClosedImmersion {T X : TauCeti.AdicSpace.{w}} (f : T ⟶ X) : Prop 
 example {T X : TauCeti.AdicSpace.{w}} (f : T ⟶ X) (a b : T.obj)
     (hne : a ≠ b) (heq : f.hom.base a = f.hom.base b) : ¬ IsLocallyClosedImmersion f := sorry
 
+/-- The discrete square-zero extension `A = 𝔽_p ⊕ ⊕_ℕ 𝔽_p` is in Huber's standing class, but the
+kernel of its projection to `𝔽_p` is not a finitely generated ideal. On the one-point space
+`Spa(A, A)` this kernel is the only stalk of the admissible kernel sheaf of the closed immersion of
+`Spa(𝔽_p, 𝔽_p)`, which is therefore not coherent. -/
+example (p : ℕ) [Fact p.Prime] :
+    letI : TopologicalSpace (TrivSqZeroExt (ZMod p) (ℕ →₀ ZMod p)) := ⊥
+    haveI : DiscreteTopology (TrivSqZeroExt (ZMod p) (ℕ →₀ ZMod p)) := ⟨rfl⟩
+    ∃ _ : IsHuberRing (TrivSqZeroExt (ZMod p) (ℕ →₀ ZMod p)),
+      Huber.IsHuberStandard (TrivSqZeroExt (ZMod p) (ℕ →₀ ZMod p)) ∧
+        ¬ (RingHom.ker (TrivSqZeroExt.fstHom (ZMod p) (ZMod p) (ℕ →₀ ZMod p))).FG := sorry
+
 /-- The diagonal of a morphism locally of weakly finite type is a locally closed immersion
 (Zavyalov-Q, Lemma B.7.3). -/
 theorem diagonal_locallyClosed {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) [HasPullback f f]

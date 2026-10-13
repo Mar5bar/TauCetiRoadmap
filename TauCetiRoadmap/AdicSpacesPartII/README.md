@@ -3493,8 +3493,13 @@ locally closed embeddings. `Suggested.lean` states `AdicSpace.IsClosedImmersion`
 carriers, as the supplier contract of AdicSpaces §5.1 rather than an R0 target. R0 uses that
 predicate in the ideal-sheaf comparison. On a locally noetherian `X`
 every ideal of an affinoid ring of noetherian type is closed and `A/J` is of noetherian type, hence
-sheafy (*noetherian-type-ideals-closed*, *noetherian-type-stably-sheafy*); the identification of
-admissible ideals with coherent ideals is in AdicSpacesPartIII layer R3. The affinoid model is
+sheafy (*noetherian-type-ideals-closed*, *noetherian-type-stably-sheafy*). On a locally noetherian
+analytic `X` (charts `Spa(A, A⁺)` with `A` complete strongly noetherian Tate, the convention of
+*locally-noetherian-adic-space*) the admissible ideals are exactly the coherent ideals: closed adic
+subspaces correspond to coherent ideals there (AdicSpacesPartIII layer R3,
+*coherent-ideal-closed-subspace*). On a general locally noetherian, or locally Huber-standard, `X`
+only the admissible-ideal description is asserted; the kernel of a closed embedding need not be of
+finite type, hence need not be coherent (the square-zero Check below). The affinoid model is
 AdicSpaces layer 5.1 and Tau Ceti's `Huber.Pair.quotient` with
 `TauCeti.Huber.Pair.Hom.isClosedEmbedding_spaComap_quotientHom` (the
 unbundled form on `ValuationSpectrum` is `isClosedEmbedding_spaComap_quotientMk`); AdicSpaces
@@ -3536,8 +3541,8 @@ the rigid-analytic bijection between closed immersions and ideal sheaves). *Need
 `Huber.Pair.Hom.range_spaComap_quotientHom`; *noetherian-type-ideals-closed*;
 *noetherian-type-stably-sheafy*; *completed-tensor-restricted-power-series*.
 Lean: `IsClosedImmersion` (the AdicSpaces §5.1 contract), `IsLocallyClosedImmersion`; the Check that
-a map identifying two points is not locally closed is an `example`; the ideal-sheaf construction
-is a README target.
+a map identifying two points is not locally closed and the ring-level part of the square-zero
+Check are `example`s; the ideal-sheaf construction is a README target.
 
 The theorem `closedSubspace.kernel_ι` identifies the kernel on every open with `𝓘`;
 `closedSubspace.stalk_quotient` identifies the stalk of `V(𝓘)` with `O_{X,x}/𝓘_x`, with the
@@ -3573,6 +3578,20 @@ Huber96 §1.2, proof of Prop. 1.2.2, pp. 47–49).
   (supremum norm) and the non-closed ideal `J` of functions vanishing near `0`, `Spa(A/J)` and
   `Spa(A/J̄)` have the same underlying space but `A/J` is not Hausdorff; `J·O` is not admissible,
   and `J̄ = {f : f(0) = 0}` defines the corresponding closed subspace.
+- *Non-example (coherence needs analytic charts).* Let `A = 𝔽_p ⊕ M` be the discrete
+  square-zero extension with `M = ⊕_ℕ 𝔽_p` (Mathlib `TrivSqZeroExt`), with `A⁺ = A`. It is in
+  Huber's standing class (discrete) and of noetherian type (ring of definition `𝔽_p`, ideal `0`),
+  so `X = Spa(A, A)` is locally noetherian and locally Huber-standard. It is one point: every
+  valuation kills the nilpotent ideal `M` and is trivial on the finite field `𝔽_p`. A rational
+  subset with denominator outside `M` is `X` with ring `A` (the denominator is a unit), and one
+  with denominator in `M` is empty, so `A` is sheafy. The projection `A → 𝔽_p` is a continuous
+  open surjection with kernel `M` and quotient pair `(𝔽_p, 𝔽_p)`, so its kernel sheaf `𝓘` is
+  admissible and `Spa(𝔽_p, 𝔽_p) → X` is a closed embedding. The only stalk of `𝓘` is `M`, an
+  infinite-dimensional `𝔽_p`-vector space on which `A` acts through `𝔽_p`, so it is not a finitely
+  generated `A`-module; `𝓘` is not of finite type and so not coherent (Stacks Tag 01BV (Modules,
+  Def. 17.12.1)). For the finite square-zero extension `𝔽_p[ε]/(ε²)` the kernel `𝔽_p·ε` is
+  finitely generated over a noetherian ring and its kernel sheaf is coherent, as is `T·O_X` on the
+  disc of the *Computation* above.
 - *Compatibility.* For a complete Hausdorff sheafy Huber pair
   `(A, A⁺)` and a closed ideal `J` with `A/J` sheafy, `closedSubspace.affinoidIso` identifies
   `V(𝓘_J)` over `Spa(A, A⁺)` with the spectrum of Tau Ceti's quotient pair. The inclusion on
