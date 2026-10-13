@@ -90,9 +90,12 @@ enhancement of the derived smooth category and its comparison with étale sheave
 classifying stack are built by the v-stack and enhanced-sheaf roadmaps on the dg model of SR.0d.
 SR.6 concerns the integral finite-wild cocycle scheme, invariant quotients and the free-group
 excursion algebra. The geometric Hecke action on Bun_G, its map to the smooth center, and the
-integral finiteness and second-adjointness consequences requiring that action are outside the
+integral finiteness and second-adjointness consequences requiring that action for a general
+reductive group over ℤ[1/p]-algebras are outside the
 scope of this roadmap ([FS] Theorem IX.0.1, p. 317, and Proposition IX.5.1, p. 327; [DHKM1]
-Theorems 1.1–1.2 and Corollary 1.3). No geometric action is an input to the remaining SR.6 targets. The arithmetic GL_n double-coset multiplication belongs to
+Theorems 1.1–1.2 and Corollary 1.3). For GL_n over W(k) the integral second adjointness that
+SR.5.2 uses is owned there (*integral-second-adjointness*), by Helm's route through the types and
+projectives of SR.5.2, which uses no geometric action. No geometric action is an input to the remaining SR.6 targets. The arithmetic GL_n double-coset multiplication belongs to
 ModularForms; the geometric Satake equivalence to GeometricSatakeAndFusion, which compares against
 the trace contract of SR.4; two-parahoric unitary operators, the Iwahori and Klingen computations
 for GSp_4 with their Galois applications, the GL_2 newvector theorem and the minimal-lift line of
@@ -104,8 +107,9 @@ inductions of discrete series. The Whittaker-functionals target constructs the f
 twisted quotient, and includes multiplicity one for irreducible complex representations of GL_2(F). Bushnell–Kutzko types beyond
 the Iwahori case are not here, with one exception that Helm's integral block route needs: for GL_n
 over a p-adic field, SR.5.2 owns the maximal distinguished cuspidal types with their ℓ-modular
-coverage (*distinguished-cuspidal-types*) and the projectives compactly and parabolically induced
-from them (*type-projective-construction*).
+coverage (*distinguished-cuspidal-types*), the projectives compactly and parabolically induced
+from them (*type-projective-construction*), and the integral Bernstein decomposition and second
+adjointness that these projectives give (*integral-second-adjointness*).
 
 The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
 [U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
@@ -177,8 +181,9 @@ convolution algebra. The convolution algebra acts on the left, f·v = ∫ f(g) �
 μ(U) = 1 the characteristic function 1_{UgU} acts on V^U by v ↦ Σ_{xU ⊆ UgU} ρ(x)v, which is the
 right action of [Ug⁻¹U], not of [UgU]. The basis element [UgU] of SR.1.2 and Tau Ceti's
 `HeckeCoset.heckeSum` act by the right action; the operator of a double coset KaK on V^K in
-SR.2.3, SR.2a, SR.4.2 and SR.6.5 (Jacquet's lemma on invariants, Borel–Casselman, stabilisation,
-spherical characters, stable operators) is the convolution operator of 1_{KaK}. The double coset
+SR.2.3, SR.2a, SR.4.2, SR.5.2 and SR.6.5 (Jacquet's lemma on invariants, Borel–Casselman,
+stabilisation, spherical characters, integral stability, stable operators) is the convolution
+operator of 1_{KaK}. The double coset
 [UgU] has degree #(UgU/U). The integral Iwahori quadratic
 relation is (T_s + 1)(T_s − q_s) = 0, and the integral presentation uses the positive braid monoid.
 
@@ -3760,14 +3765,26 @@ twist of (M, π), or ℓ is invertible on it and the cuspidal support of each ab
 summand over the 𝒦′ of *distinguished-cuspidal-types* is an unramified twist of an integral lift of
 (M, π). Cuspidal supports are taken with I_P; up to unramified twist they agree with those for
 i_P over any field containing a square root of q, because I_P and i_P differ by the unramified
-twist δ_P^{1/2}. Prove that every such module is a quotient of P_{(M,π)}. Let I_{(M,π)} be the
-smooth Frac W(k)/W(k)-dual of P_{(M,π^∨)}; prove that it is injective and that every simple
-module with mod-ℓ inertial cuspidal support (M, π) embeds in it. Projectivity of P_{(M,π)} is not
-claimed here; it comes from unnormalised second adjointness inside a block and is proved in
-*integral-blocks* ([Hel16] Lemmas 4.7–4.8 and the construction after them,
+twist δ_P^{1/2}. Prove that every such module is a quotient of P_{(M,π)}.
+
+For a smooth W(k)[G]-module Π let Π^∨ be its smooth 𝒦/W(k)-dual, the smooth vectors of
+Hom_{W(k)}(Π, 𝒦/W(k)). Both Hom_G(Π, Π′^∨) and Hom_G(Π′, Π^∨) are the G-invariant pairings
+Π × Π′ → 𝒦/W(k), so the dual of a projective object is injective. Integration over P\G is a
+G-invariant functional on I_P(δ_P); normalised to be 1 on the function supported on PU₀ for a
+pro-p compact open U₀, it takes values in ℤ[1/p], since comparing two pro-p levels only
+introduces indices that are powers of p. The pairing (f, f′) ↦ ∫_{P\G} ⟨f, f′⟩ then gives
+(I_P X)^∨ ≅ I_P(δ_P ⊗ X^∨), naturally in the smooth W(k)[M]-module X. Let
+I_{(M,π)} = P_{(M,π^∨)}^∨, built from the types (K_i, τ_i^∨). Prove that it is injective and that
+every simple module with mod-ℓ inertial cuspidal support (M, π) embeds in it. For injectivity,
+I_{(M,π)} ≅ I_P(δ_P ⊗ X^∨), where X = P_{(K₁,τ₁^∨)} ⊗ ⋯ ⊗ P_{(K_r,τ_r^∨)} is projective over M,
+so X^∨ is injective, and I_P preserves injectives because it is right adjoint to the Jacquet
+functor R_P, which is exact. Projectivity of P_{(M,π)} is not claimed here; it is a consequence of
+*integral-second-adjointness* ([Hel16] Lemmas 4.7–4.8 and the construction after them,
 and Proposition 4.9, pp. 11–12; Definition 4.10, p. 13; the definition of P(M,π) and
-Proposition 4.16, p. 14; Definition 11.1, p. 56, and Proposition 11.5, p. 57). *Needs:*
-*distinguished-cuspidal-types*, *compact-induction*, *parabolic-induction*, *smooth-dual*.
+Proposition 4.16, p. 14; Definition 11.1, Lemmas 11.2 and 11.4 and Corollary 11.3, p. 56, and
+Proposition 11.5, p. 57; [DHKM1] proof of Corollary 1.3, p. 15, for the unnormalised duality).
+*Needs:* *distinguished-cuspidal-types*, *compact-induction*, *parabolic-induction*,
+*smooth-dual*, *integration*, *modulus-character*, *first-adjointness*, *jacquet-lemma*.
 
 **Checks.**
 
@@ -3793,35 +3810,124 @@ Proposition 4.16, p. 14; Definition 11.1, p. 56, and Proposition 11.5, p. 57). *
   and P_{(T,1⊗1)} = I_B^G(P ⊗ P) is defined over W(k); over W(k)[√3] multiplication by
   δ_B^{1/2} identifies it with i_B^G(W(k)[√3] ⊗ P ⊗ P).
 
+**Integral Bernstein decomposition and second adjointness for GL_n** (*integral-second-adjointness*).
+Keep the setting of *type-projective-construction*: F is a finite extension of ℚ_p with residue
+field 𝔽_q, G = GL_n(F) with n ≥ 1, k is algebraically closed of characteristic ℓ ≠ p, and the
+coefficients are W(k), with no square root of q assumed, so ℓ = 2 is included. Let
+M = GL_{n₁} × ⋯ × GL_{n_r} be a block-diagonal Levi subgroup, P = MU the standard upper parabolic
+and P̄ = MŪ the opposite lower one. Let I_P = Ind_P^G ∘ infl be the unnormalised parabolic
+induction, R_{P̄}Π = Π_Ū the unnormalised Jacquet functor along P̄, and δ_P : M → W(k)^× the
+modulus of P, whose values lie in q^ℤ and are units of W(k) because p ≠ ℓ. Prove that
+I_P : SmoothRep W(k) M ⥤ SmoothRep W(k) G is left adjoint to δ_P ⊗ R_{P̄}, with isomorphisms
+
+  Hom_G(I_P σ, Π) ≅ Hom_M(σ, δ_P ⊗ R_{P̄} Π)
+
+natural in the smooth W(k)[M]-module σ and the smooth W(k)[G]-module Π. Conclude the following.
+
+- R_{P̄} commutes with arbitrary products.
+- I_P carries projective objects to projective objects, because R_{P̄} is exact (*jacquet-lemma*).
+- I_P carries finitely generated projective objects to finitely generated ones, because R_{P̄}
+  commutes with direct sums and a projective object is finitely generated exactly when Hom out of
+  it commutes with direct sums.
+- Each P_{(M,π)} of *type-projective-construction*, and each finite direct sum of them, is a
+  finitely generated projective object of the smooth W(k)[G]-category.
+
+The proof is Helm's, with I_P and δ_P ⊗ R_{P̄} in place of i_P and r_{P̄}. [DHKM1] makes this
+substitution in Helm's §11 arguments in the proofs of Lemmas 4.5 and 4.10 and of Corollary 1.3,
+pp. 13–15. Helm fixes q^{1/2} ∈ W(k) and so assumes ℓ odd ([Hel16] §3, p. 6), and each twist by
+it in these arguments either cancels or is absorbed into δ_P. This target owns the following four
+steps.
+
+1. *Decomposition.* For a Levi subgroup L and an irreducible supercuspidal k-representation π of
+   L, let Rep_{[L,π]} be the full subcategory of smooth W(k)[G]-modules all of whose simple
+   subquotients have mod-ℓ inertial supercuspidal support (L, π). Let I_{[L,π]} be the sum of the
+   injectives I_{(M,π′)} of *type-projective-construction* over the finitely many mod-ℓ inertial
+   cuspidal supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). The supercuspidal
+   supports of the characteristic-zero constituents of the P_{(K,τ)} show that every simple
+   subquotient of I_{(M,π′)} has the mod-ℓ inertial supercuspidal support of (M, π′). Hence the
+   smooth W(k)[G]-category is the product of the Rep_{[L,π]}, and every object of Rep_{[L,π]} has
+   a resolution by direct sums of copies of I_{[L,π]}. A module W(k)[G/U] with U pro-p compact
+   open has nonzero components in only finitely many factors. Its component projections are
+   orthogonal central idempotents of E = End_G(W(k)[G/U]). They stay nonzero in
+   E ⊗ 𝒦̄ = End_G(𝒦̄[G/U]), because E is ℓ-torsion free. The centre of End_G(𝒦̄[G/U]) is a
+   finitely generated 𝒦̄-algebra by *finite-type-corners*, carried to 𝒦̄ as in
+   *distinguished-cuspidal-types*, so it has only finitely many idempotents ([Hel16] Proposition
+   2.4, p. 5; Definition 4.12, pp. 13–14; Theorem 9.8, p. 49; Propositions 11.5–11.6 and
+   Corollary 11.7, pp. 57–58; Theorem 11.8, p. 58).
+2. *Stability.* Let K be a pro-p compact open subgroup with an Iwahori decomposition
+   K = K_Ū K_M K_U and λ a strongly positive central element of M (*iwahori-decomposition*), and
+   let T_λ be the convolution operator of 1_{KλK} on Π^K. A smooth Π is (K, P)-stable if
+   Π^K = ker T_λ^c ⊕ Π^K_* for some c ≥ 1, with T_λ invertible on Π^K_*. Prove the following.
+   - For every smooth Π, the projection Π^K → (Π_U)^{K_M} identifies its target with
+     Π^K ⊗_{W(k)[T_λ]} W(k)[T_λ^{±1}]. So for (K, P)-stable Π it is surjective with kernel
+     ker T_λ^c, and the splitting does not depend on λ.
+   - Kernels and cokernels of maps between (K, P)-stable modules, smooth duals of
+     (K, P)-stable modules, and direct sums of (K, P)-stable modules with a common c are
+     (K, P)-stable.
+   - Π is (K, P)-stable if Π and Π_U are admissible over a commutative noetherian W(k)-algebra
+     acting compatibly.
+   - E_{(K,τ)} = End_G(P_{(K,τ)}) is commutative and finite over a finitely generated
+     W(k)-subalgebra. P_{(M,π)} and its Jacquet modules along all parabolics are admissible over
+     ⊗_i E_{(K_i,τ_i)}.
+
+   So each I_{[L,π]} is (K, P)-stable; by step 1 so is every object of Rep_{[L,π]}, and so is every
+   smooth module, whose K-invariants lie in the finitely many factors met by W(k)[G/K]. The same
+   holds with P̄ and λ⁻¹ in place of P and λ ([Hel16] Corollary 9.2, p. 44; Theorem 9.4, p. 46;
+   Lemma 10.3, p. 53; Theorem 10.7, Corollary 10.8 and Theorem 10.9, p. 55; Definition 11.9,
+   p. 58; Lemmas 11.10–11.13, Corollary 11.14 and Proposition 11.15, pp. 59–60).
+3. *Jacquet duality.* For every smooth Π, R_P(Π^∨) ≅ (R_{P̄}Π)^∨ and R_{P̄}(Π^∨) ≅ (R_PΠ)^∨,
+   naturally in Π. The first comes from the perfect pairings between the T_{λ⁻¹}-invertible part
+   of Π^K and the T_λ-invertible part of (Π^∨)^K, over a cofinal family of K, and the second is the
+   same with P and P̄ exchanged ([Hel16] Proposition 11.16, pp. 60–61, whose twists by square roots
+   of δ_P and δ_{P̄} = δ_P⁻¹ cancel; [DHKM1] Lemma 4.10, p. 15).
+4. *Adjunction.* For Π = Π′^∨ the isomorphism is the composite of step 3, the exchange
+   Hom(X, Y^∨) ≅ Hom(Y, X^∨) and the duality (I_P σ)^∨ ≅ I_P(δ_P ⊗ σ^∨) of
+   *type-projective-construction*, and *first-adjointness*. It extends to direct sums of copies of
+   the I_{[L,π]}, first for finitely generated σ, and then to every Π through its resolution by
+   such sums ([Hel16] Theorem 11.17 and Corollary 11.18, pp. 61–62; [DHKM1] proof of
+   Corollary 1.3, p. 15).
+
+*Needs:* *distinguished-cuspidal-types*, *type-projective-construction*, *first-adjointness*,
+*jacquet-module*, *jacquet-lemma*, *parabolic-induction*, *modulus-character*,
+*iwahori-decomposition*, *finite-type-corners*.
+
+**Checks.**
+
+- P = G, so r = 1, M = G and U = Ū = 1: δ_G = 1, I_G and R_G are identity functors, and the
+  adjunction is id ⊣ id. Here P_{(G,π)} = P_{(K,τ)} is projective already by
+  *type-projective-construction*.
+- n = 2, P = B and Π the trivial character: Hom_G(I_B χ, 1) ≅ Hom_T(χ, δ_B) for every smooth
+  character χ : T → W(k)^×. For χ = δ_B this is W(k), spanned by integration over B\G. For χ = 1
+  it is 0, because δ_B(diag(ϖ, 1)) = q⁻¹ ≠ 1 in the domain W(k), whereas
+  Hom_T(1, R_{B̄}1) = W(k). So the twist by δ_B cannot be dropped.
+- F = ℚ_3 and ℓ = 2, as in the fourth Check of *type-projective-construction*. W(k) has no
+  square root of 3, so i_B and r_{B̄} are not defined over W(k). But δ_B takes values in
+  3^ℤ ⊂ W(k)^×, so I_B ⊣ δ_B ⊗ R_{B̄} is stated over W(k). P ⊗ P = W(k)[T(ℚ_3)/T₁], with
+  T₁ = (1 + 3ℤ_3)², is projective over T(ℚ_3), because T₁ is pro-3 and 3 ∈ W(k)^×. So
+  P_{(T,1⊗1)} = I_B^G(P ⊗ P) is a finitely generated projective object of the smooth
+  W(k)[GL_2(ℚ_3)]-category.
+
 **Integral GL_n Bernstein blocks** (*integral-blocks*). For F a finite extension of ℚ_p and an
-algebraically closed field k of characteristic ℓ different from p, prove that the smooth
-W(k)[GL_n(F)] category decomposes by mod-ℓ inertial supercuspidal support, and that each block
-center A_{[L,π]} is a reduced, ℓ-torsion-free finite-type W(k)-algebra whose k-points classify the
-exact supercuspidal supports of the simple representations in that block. This center specializes
-the existing abstract CatCenter; it is not a new abstract center construction ([Hel16] Definition
-4.12, pp. 13–14; Theorems 11.8, 12.8–12.9 and Corollary 12.12, pp. 58, 67–69). The proof uses the
-objects of *type-projective-construction*. No square root of q in W(k) is assumed, so ℓ = 2 is
-included: parabolic induction is the unnormalised I_P, and second adjointness is used in its
-unnormalised form, with δ_P ⊗ R_{P̄} as right adjoint of I_P, which involves only integral powers
-of q ([DHKM1] Corollary 1.3, p. 2). Helm writes his arguments for ℓ odd with a fixed
-q^{1/2} ∈ W(k) ([Hel16] §3, p. 6); they are run here with I_P and δ_P ⊗ R_{P̄} in place of i_P
-and r_{P̄}, the substitution [DHKM1] makes in Helm's §11 arguments (the proofs of Lemmas 4.5 and
-4.10, pp. 13–15). The block of (L, π) is the subcategory cut out by the injective I_{[L,π]}, the
-sum of the I_{(M,π′)} over the finitely many mod-ℓ inertial cuspidal supports (M, π′) with mod-ℓ
-inertial supercuspidal support (L, π). Unnormalised second adjointness inside the block makes
-each P_{(M,π′)} projective. Their sum P_{[L,π]} is a faithfully projective object of the block,
-and the centre of its endomorphism ring is A_{[L,π]}. This target owns the structure
-theory of the P_{(K,τ)} that the argument uses: the supercuspidal supports of their
-characteristic-zero constituents ([Hel16] Theorem 9.8, p. 49), which separate the injectives
-I_{(M,π)} by mod-ℓ inertial supercuspidal support (Propositions 11.5–11.6, p. 57), and the
-admissibility of the P_{(M,π)} and their parabolic restrictions (Theorem 10.9, p. 55), with
-second adjointness and the projective generator in Theorem 11.17 and Corollaries 11.18–11.19,
-pp. 61–62. *Needs:* *distinguished-cuspidal-types*,
-*type-projective-construction*; layer SR.0, layer SR.3.
+algebraically closed field k of characteristic ℓ different from p, take the decomposition of the
+smooth W(k)[GL_n(F)] category by mod-ℓ inertial supercuspidal support given by
+*integral-second-adjointness*. Prove that each block center A_{[L,π]} is a reduced,
+ℓ-torsion-free finite-type W(k)-algebra whose k-points classify the exact supercuspidal supports
+of the simple representations in that block. This center specializes the existing abstract
+CatCenter; it is not a new abstract center construction ([Hel16] Definition 4.12, pp. 13–14;
+Theorems 11.8, 12.8–12.9 and Corollary 12.12, pp. 58, 67–69). No square root of q in W(k) is
+assumed, so ℓ = 2 is included, and second adjointness enters only through
+*integral-second-adjointness*. Let P_{[L,π]} be the sum of the P_{(M,π′)} over the finitely many
+mod-ℓ inertial cuspidal supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). It is
+a finitely generated projective object by *integral-second-adjointness*, and it lies in the
+block of (L, π). By *type-projective-construction* every simple object of the block is a quotient
+of it. So P_{[L,π]} is a faithfully projective object of the block, and the centre of its
+endomorphism ring is A_{[L,π]} ([Hel16] Corollaries 11.18–11.19, pp. 61–62). *Needs:*
+*distinguished-cuspidal-types*, *type-projective-construction*, *integral-second-adjointness*;
+layer SR.0, layer SR.3.
 
-Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact support is distinguished from inertial support. Exact supercuspidal supports of k-representations use normalized induction with a fixed square root of q in k, which exists because k is algebraically closed; inertial supports do not depend on that choice, and no square root in W(k) is used. The block idempotent is characterized on simple residue-field objects. Separate statements give the category decomposition, the three center properties, and the exact-support classification with its scalar-action equation.
+Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact support is distinguished from inertial support. Exact supercuspidal supports of k-representations use normalized induction with a fixed square root of q in k, which exists because k is algebraically closed; inertial supports do not depend on that choice, and no square root in W(k) is used. The block idempotent is characterized on simple residue-field objects. Separate statements give the block idempotents of the decomposition, the three center properties, and the exact-support classification with its scalar-action equation.
 
-Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and the half modulus over k. Three tests check nonzero, disjoint, and exhaustive block projections. For F = ℚ_3 and ℓ = 2, where W(k) has no square root of 3, P_{(T,1⊗1)} = I_B^G(P ⊗ P) of the fourth Check of *type-projective-construction* is projective in the smooth W(k)[GL_2(ℚ_3)]-category and lies in the block of (T, 1 ⊗ 1).
+Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and the half modulus over k. Three tests check nonzero, disjoint, and exhaustive block projections. For F = ℚ_3 and ℓ = 2, where W(k) has no square root of 3, P_{(T,1⊗1)} = I_B^G(P ⊗ P) of the fourth Check of *type-projective-construction*, which is projective by the third Check of *integral-second-adjointness*, lies in the block of (T, 1 ⊗ 1).
 
 **Distinguished type projectives and their fibers** (*type-projectives*). For F a finite extension
 of ℚ_p, k algebraically closed of characteristic ℓ ≠ p, and a maximal distinguished cuspidal
@@ -4188,8 +4294,9 @@ the rank-one conditions.
 ### Dependencies
 
 SR.0 (the smooth category, admissibility and the centre), SR.1 (Hecke corners, for the
-distinct-eigenvalue block and the descent of characteristic-zero simple modules), SR.2
-(induction, Jacquet functors and coinvariants), SR.3a (cuspidality, for the distinguished cuspidal
+distinct-eigenvalue block and the descent of characteristic-zero simple modules, and Iwahori
+decompositions, for the stability in *integral-second-adjointness*), SR.2 (induction, Jacquet
+functors, first adjointness and coinvariants), SR.3a (cuspidality, for the distinguished cuspidal
 types and segments), SR.3 (finite length, cuspidal support, the Bernstein centre and the
 finiteness of Hecke corners over it) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
 RG2.2.4 (the lattice chains that define the hereditary orders of the types).
