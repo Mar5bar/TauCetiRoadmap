@@ -355,12 +355,11 @@ as inputs; and Galois representations attached to automorphic forms.
   (§4.2) and their classification by `H²` of the band, `gerbeClass` (§4.20).
 - `ArithmeticGaloisRepresentations` Layer 2, §2.1: `decompositionGroup`, `inertiaGroup`,
   `wildInertiaGroup`, `localEmbeddingMap` and `localRestriction` with its change-of-embedding
-  isomorphisms `localRestrictionIsoOfConj`; Layer 4, §4.4: `dickson_classification` and
-  `projective_image_of_absolutelyIrreducible`; Layer 4, §4.7: `charTwo_residual_image`; Layer 5,
+  isomorphisms `localRestrictionIsoOfConj`; Layer 4, §4.4: `GL2Subgroup.dickson_projectiveImage`; Layer 4, §4.7: `GL2Subgroup.sl2_submodules_charTwo`; Layer 5,
   §5.13: `functionField_chebotarev`; Layer 7, §7.2: `ContinuousRep.ad`, `adZero`, `adQuot`,
   `ContinuousRep.tracePairing_perfect` (the trace pairing on `ad ρ`) and
   `tracePairing_matrix_perfect` (on `M_n(A)`);
-  Layer 7, §7.7: `ResidualImage.h1_SL2_adZero`; Layer 7, §7.6:
+  Layer 7, §7.7: `ResidualImage.h1_SL2_adZero_eq_zero`; Layer 7, §7.6:
   `tate_h2_qz_eq_zero`.
 - `InverseGaloisAndArithmeticFundamentalGroups` IG.4.2, as described under *Scope and ownership*.
 
@@ -5476,8 +5475,8 @@ transgression*, Layer R02.2): the `G_ℚ`-invariants
 `H¹(Gal(F_n/F₀), ad⁰ρ̄(1))^{G_ℚ} ≅ Hom(Gal(F_n/F₁), ad⁰ρ̄(1)^{G_ℚ})` vanish by absolute
 irreducibility over `L`. `H¹(Gal(F₀/ℚ), ad⁰ρ̄(1)^{G_{F₀}})` vanishes unless `ℓ` divides
 `#Gal(F₀/ℚ)` and `Gal(ℚ(ζ_ℓ)/ℚ)` is a quotient; by the classification of the projective image
-(ArithmeticGaloisRepresentations Layer 4, §4.4, `dickson_classification`) this leaves `ℓ = 3` with image `PSL₂(𝔽_{3^r})`, where `H¹(SL₂(𝔽_{3^r}), ad⁰) = 0`
-(ArithmeticGaloisRepresentations Layer 7, §7.7, `ResidualImage.h1_SL2_adZero`, which also records
+(ArithmeticGaloisRepresentations Layer 4, §4.4, `GL2Subgroup.dickson_projectiveImage`) this leaves `ℓ = 3` with image `PSL₂(𝔽_{3^r})`, where `H¹(SL₂(𝔽_{3^r}), ad⁰) = 0`
+(ArithmeticGaloisRepresentations Layer 7, §7.7, `ResidualImage.h1_SL2_adZero_eq_zero`, which also records
 that `#F = 5` is a genuine exception). So
 `ψ(G_{F_n}) ≠ 0`; some `g ∈ Gal(F_n/ℚ(ζ_{ℓⁿ}))` of order prime to `ℓ` fixes a nonzero element of
 `ψ(G_{F_n})`; lift `g` to `σ₀` and take `σ = τσ₀` with `τ ∈ G_{F_n}` chosen so that
@@ -5488,10 +5487,9 @@ Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper
 of Theorem 2.49, p. 83 (author PDF, revised 9 September 2007); [Darmon–Diamond–Taylor, *Fermat's
 Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §2.8,
 end of the proof of Theorem 2.49, p. 84 (author PDF, revised 9 September 2007).) *Needs:*
-ArithmeticGaloisRepresentations Layer 7, §7.7 (`ResidualImage.h1_SL2_adZero`); *The five-term
+ArithmeticGaloisRepresentations Layer 7, §7.7 (`ResidualImage.h1_SL2_adZero_eq_zero`); *The five-term
 sequence and the transgression* (Layer R02.2);
-ArithmeticGaloisRepresentations Layer 4, §4.4 (`dickson_classification`,
-`projective_image_of_absolutelyIrreducible`).
+ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`).
 
 **Checks.**
 
@@ -5662,8 +5660,8 @@ the abelian quotient. ([Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §5.5, Proposition 5.6, Lemmas
 5.8–5.10, pp. 48–53.) *Needs:* *Khare–Wintenberger tangent and relation bounds*; *Cyclotomic
 description of the power kernel* (Layer R02.3); *The Kummer sequence for S-units* (Layer R02.3);
-Chebotarev Layer 10; ArithmeticGaloisRepresentations Layer 4, §4.4 (`dickson_classification`) and
-§4.7 (`charTwo_residual_image`: for `F₀` of order `2^r`, `r ≥ 2`, `H¹(SL₂(F₀), M₂(F)) = 0` and the
+Chebotarev Layer 10; ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and
+§4.7 (`GL2Subgroup.sl2_submodules_charTwo`: for `F₀` of order `2^r`, `r ≥ 2`, `H¹(SL₂(F₀), M₂(F)) = 0` and the
 `SL₂(F₀)`-submodules of `M₂(F)` are `0`, the scalars, `ad⁰` and `M₂(F)`).
 
 **Checks.**
@@ -5731,9 +5729,8 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
 - Earlier layers of this roadmap: R02.2, R02.3, R02.4, R02.5, D8.
 - SelmerIwasawaCohomology: Layer 2, §2.7 *The unramified condition*; Layer 2, §2.19 *Poitou–Tate for
   Selmer groups*.
-- ArithmeticGaloisRepresentations: Layer 4, §4.4 (`dickson_classification`,
-  `projective_image_of_absolutelyIrreducible`) and §4.7 (`charTwo_residual_image`); Layer 7, §7.7
-  (`ResidualImage.h1_SL2_adZero`).
+- ArithmeticGaloisRepresentations: Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and §4.7 (`GL2Subgroup.sl2_submodules_charTwo`); Layer 7, §7.7
+  (`ResidualImage.h1_SL2_adZero_eq_zero`).
 - TauCetiRoadmap Chebotarev: Layer 10.
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7, 12.
 - Libraries: Mathlib `groupCohomology`.
