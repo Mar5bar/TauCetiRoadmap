@@ -614,7 +614,10 @@ here.
   range).
 * Algebraic groups over number fields, their real points as Lie groups and algebraic Cartan
   involutions (twisted real forms): `IsCartanInvolution` and its API, `realPoints_cartanDatum`,
-  `isMaximalCompact_fixedPoints`, `symmetricSpace` and its API, `symmetricSpace.contractible`.
+  `isMaximalCompact_fixedPoints`, `symmetricSpace` and its API, `symmetricSpace.contractible`
+  (ALS.0.5 owns the proper-action/discrete-image/finite-kernel theorem; KleinianGroups Layer 1,
+  `properlyDiscontinuousSMul_of_discrete`, by t4v1, is its PSL₂(ℂ) special case after the equivariant
+  H³ identification and trivial-split-centre verification).
 * Adelic level quotients (AdelicAlgebraicGroups §4.4) and neat levels (§4.3): `X` and its API,
   `X.componentDecomposition`, `X.properlyDiscontinuous`, `X.manifold_of_neat`, `taylorWilesLevel`,
   `isNeat_of_two_proUnipotent`, `orientationSystem`, `nonorientable_neat_PGL2`.
@@ -622,7 +625,17 @@ here.
 * Equivariant sheaves, their derived functors and supports, and singular cochains with supports:
   `localSystem`, `RΓ`, `RΓc`, `RΓrel`, `RΓ.refinementIndependence`, `RΓ.isoSingular`,
   `RΓ.isoGroupCohomology`, `RΓrel.perfect_of_freeCellModel`, `RΓ.baseChange`, `RΓ.pullback`,
-  `RΓ.translate`.
+  `RΓ.translate`. For `RΓ.isoGroupCohomology`, the neat-component-group-cohomology clause is
+  supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 Homology, local-coefficient
+  cohomology, by kim-em; the arithmetic consumer retains the deck/opposite and slice-action
+  adapter, CW-model transport, sheaf/derived comparison over arbitrary commutative rings and
+  arbitrary coefficient modules, finite component assembly and non-neat stabilizer descent.
+  For `RΓrel.perfect_of_freeCellModel`, cellular-freeness is supplied by ClassifyingSpaces
+  §Stage 3, item 13 / CW structures and coverings, free cellular chain clause, by kim-em;
+  the arithmetic consumer discharges the Hausdorff CW and quotient-cover hypotheses for the
+  full group `G(F) × K` and retains finite basis-orbit counts, boundedness, the relative/coefficient
+  model and derived perfectness. These supplier clauses are README targets, not additional Lean
+  declarations here.
 * The Borel–Serre bordification as a manifold with corners and its strata:
   `BorelSerre.face`, `BorelSerre.bordification`, `BorelSerre.compact_quotient`,
   `BorelSerre.finiteTriangulation`, `BorelSerre.stratum`, `BorelSerre.unipotentLattice_cocompact`,

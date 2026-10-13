@@ -420,6 +420,14 @@ apply on each transported open boundary stratum, with its own dimension and orie
   `H^n(X, F)^Γ`), `coinducedSections_acyclic` (`Γ(X,−)^Γ = Γ(Γ,−) ∘ Γ(X,−)` on injectives), and
   `equivariantCohomologyWithSupport` for a closed `Γ`-stable subset with its localisation sequence.
 
+### From other open roadmap pull requests
+
+| Contract | Supplier and exact section / label | Convention or hypothesis gap and arithmetic consumer |
+| --- | --- | --- |
+| [Cellular freeness](#cellular-freeness) | ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause (an open TauCetiRoadmap pull request by kim-em) | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
+| [Neat-component group cohomology](#neat-component-group-cohomology) | ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause (an open TauCetiRoadmap pull request by kim-em) | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
+| Proper action (outbound) | This roadmap [ALS.0.5](#symmetric-space-contractible) / proper-action and discrete-image/finite-kernel clause of `LocallySymmetric.symmetricSpace.contractible` | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` (an open TauCetiRoadmap pull request by t4v1), is the PSL₂(ℂ) special case after an equivariant identification of its H³ model with PSL₂(ℂ)/PSU(2) and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
+
 ### Inputs taken as hypotheses
 
 - `FrankeInput` (ALS.5b.4): Franke's comparison and the Franke–Schwermer description of the
@@ -983,6 +991,11 @@ A_∞ is finite. Discreteness of Γ in G(F_∞) and Γ ∩ A_∞ = 1 alone do no
 discreteness. The statement assumes: For the subgroup consequence: the image of Γ in G(F_∞)/A_∞ is
 discrete and Γ ∩ A_∞ is finite. ([NT16, §3.1, after Definition 3.1, p. 40]; [ACC+23, §2.1.1, p.
 910]; [BS73, §2.4, pp. 444–447])
+
+KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete`
+(an open TauCetiRoadmap pull request by t4v1), states the PSL₂(ℂ) special case, which is reconciled
+with this theorem through an equivariant identification of H³ with PSL₂(ℂ)/PSU(2) and its trivial
+split centre.
 
 *Needs:* [ALS.0.4](#symmetric-space); [ALS.0.3](#maximal-compact-subgroup);
 [ALS.0.2](#real-points-cartan-datum); [ALS.F.1](#real-points-lie-group);
@@ -1567,8 +1580,8 @@ R[G(F) × K_S]-module V there is a natural isomorphism RΓ(X_K, V) ≅ ⊕_{i=1}
 G(F)
 ∩ g_iKg_i⁻¹ acting on V by γ ↦ ρ_{G(F)}(γ)ρ_{K_S}((g_i⁻¹γg_i)_S), as the slice representation of
 [ALS.1.1](#arithmetic-local-system) and RΓ(Γ_i, −) group cohomology (Mathlib's groupCohomology in
-each degree). At neat level each Γ_i\X^G is a K(Γ_i, 1) and this is the comparison of the sheaf
-cohomology of the local system with group cohomology. In particular H^\*(X_K, V) is the orbifold
+each degree). At neat level apply the [supplied neat-component comparison](#neat-component-group-cohomology)
+to each arithmetic component and assemble the finite sum. In particular H^\*(X_K, V) is the orbifold
 cohomology of X_K, and differs from the cohomology of the coarse quotient by terms killed by the
 orders of the stabilizers: if every stabilizer order is invertible in R, H^\*(X_K, V) ≅ H^\*(Γ\X^G,
 (π_\*V)^stabilizer). When stabilizer orders are invertible, the invariant pushforward to the coarse
@@ -1577,11 +1590,34 @@ condition such as trivial stabilizer action on the fibres. The statement assumes
 K_S]-module. ([ACC+23, §2.1.2, proof of Lemma 2.1.7, p. 912]; [CG18, §5.2, arithmetic
 quotients, pp. 55–56])
 
+<a id="neat-component-group-cohomology"></a>
+
+**Neat-component group cohomology.** (*neat-component-group-cohomology*)
+
+Provides the comparison between local-coefficient cohomology of a K(Γ,1) and discrete group
+cohomology. Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**,
+local-coefficient cohomology clause (an open TauCetiRoadmap pull request by kim-em).
+ClassifyingSpaces identifies the deck group with the opposite fundamental group; this roadmap's
+adapter uses the arithmetic slice representation with its compatible left action and the
+sheaf-to-cochain comparison of [ALS.1.4](#sheaf-singular-comparison) to reach the complex in D(R).
+
+For neat components, discharge the Hausdorff CW and covering-space hypotheses using
+[ALS.0.9](#neat-level-manifold) and GeometricTopology's **The smoothing-and-triangulation
+comparison**, item 1 (**Smooth implies PL**), transporting the slice local system to the resulting
+CW model. For arbitrary V extend the sheafified singular-cochain resolution argument of ALS.1.4
+using cochains with values directly in V; the dual-coefficient realization of ALS.1.4 applies when
+V is finite projective. Transport the supplier's chain-level comparison to D(R), retaining
+naturality, the finite component sum and equivariant descent at non-neat level with the stabilizer
+corrections above.
+
 `Suggested.lean` states the level-one computations `groupCohomology_SL2Z_one` and
 `groupCohomology_SL2Z_two`.
 
 *Needs:* [ALS.1.2](#betti-complexes); [ALS.0.7](#component-decomposition);
-[ALS.0.5](#symmetric-space-contractible); Mathlib `groupCohomology`; Mathlib `Rep`.
+[ALS.0.5](#symmetric-space-contractible); [ALS.0.9](#neat-level-manifold);
+[ALS.1.4](#sheaf-singular-comparison); ClassifyingSpaces §Stage 4, items 16–18
+([neat-component group cohomology](#neat-component-group-cohomology)); GeometricTopology,
+**The smoothing-and-triangulation comparison**, item 1; Mathlib `groupCohomology`; Mathlib `Rep`.
 
 **Checks.**
 
@@ -1597,19 +1633,36 @@ quotients, pp. 55–56])
 ### ALS.1.6 Bounded finite projective models from a finite equivariant cell structure
 
 Prove `LocallySymmetric.RΓrel.perfect_of_freeCellModel`. Suppose the Borel–Serre closure of X^G ×
-G(A^∞)^δ has a G(F) × K-invariant cell structure with finitely many cell orbits and trivial cell
-stabilizers for the full group G(F) × K, as at good neat K. For K′ open normal in K, its cellular
-chains C_• are bounded finite free ℤ[G(F) × K]-modules. For finite projective R-coefficients V,
+G(A^∞)^δ has a G(F) × K-invariant Hausdorff CW structure with boundary a subcomplex, finitely many
+cell orbits and trivial cell stabilizers for the full group G(F) × K, and that the orbit map for
+this discrete full-group action is a quotient covering map, as at good neat K. For K′ open normal
+in K, take the cellular chains C_• from [the supplied cellular freeness](#cellular-freeness), count
+the quotient-cell basis elements and bound their degrees in [0,d_G], obtaining bounded finite free
+ℤ[G(F) × K]-modules. For finite projective R-coefficients V,
 RΓ_{K/K′}(X_{K′}, V) is computed by Hom_{ℤ[G(F)×K′]}(C_•, V), a bounded finite projective
 R[K/K′]-complex. Hence it is perfect over R[K/K′]; for K′ = K, RΓ(X_K, V) is perfect over R with
 amplitude in [0,d_G]. The analogous relative cell model computes RΓ_c. Freeness only for G(F) × K′
 does not imply perfectness over R[K/K′] when K has stabilizers. The statement assumes: Finite G(F) ×
-K-invariant cell structure, free for the full group G(F) × K; good neat K supplies the arithmetic
-case.; K′ open normal in K (so K/K′ is finite).; V finite projective over R. ([ACC+23, §2.1.2, Lemma
+K-invariant Hausdorff CW structure with boundary a subcomplex, free for the full group G(F) × K,
+and its quotient-cover property; good neat K supplies the arithmetic case; K′ open normal in K
+(so K/K′ is finite); V finite projective over R. ([ACC+23, §2.1.2, Lemma
 2.1.7, p. 912]; [ACC+23, §2.1.2, proof of Lemma 2.1.7, p. 912])
 
+<a id="cellular-freeness"></a>
+
+**Cellular freeness.** (*cellular-freeness*)
+
+Provides free cellular chain modules over the integral group ring when the quotient-cover action
+permutes cells freely. Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and
+coverings**, free cellular chain clause (an open TauCetiRoadmap pull request by kim-em).
+This roadmap uses the action of the full group G(F) × K, discharges the supplier's Hausdorff CW
+and quotient-cover hypotheses, transports the chosen quotient-cell lifts to left group-ring
+modules, and separately proves finite orbit counts, boundedness and the relative/coefficient
+model.
+
 *Needs:* [ALS.1.2](#betti-complexes); [ALS.1.4](#sheaf-singular-comparison); AlgebraicTopology,
-Stage 4; [ALS.F.2](#perfect-complexes); Mathlib `Module.Projective`.
+Stage 4; ClassifyingSpaces §Stage 3, item 13 ([cellular freeness](#cellular-freeness));
+[ALS.F.2](#perfect-complexes); Mathlib `Module.Projective`.
 
 **Checks.**
 
