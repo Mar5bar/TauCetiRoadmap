@@ -15,6 +15,9 @@ neighbourhoods, perfectoidisation of integral extensions, and the affine forms o
 The pro-étale site, completed structure sheaves, pro-étale Galois towers, good towers, analytic
 separation and the diamond comparisons are formalisation targets in their own right and are
 specified in the README only.
+P9.5 consumes the general continuous cochain model and homogeneous comparison of
+ArithmeticGaloisDuality R02.1.2. Its explicit joint-continuity hypothesis is illustrated below;
+the integral and rational tower Čech comparisons use their lattice and Tate topologies.
 -/
 
 noncomputable section
@@ -355,6 +358,36 @@ theorem integral_extension_of_perfectoid_pair {R S : Type u} [CommRing R] [Unifo
 end Perfectoidization
 
 /-! ## Layer P9: continuous torsor descent with coefficients -/
+
+/-! ### Continuous coefficients
+
+The shared cochain model in ArithmeticGaloisDuality R02.1.2 requires joint continuity of the
+representation action. These examples give the continuity of its first two differential formulas
+and the discrete regular-representation counterexample. The completed tower-section actions use
+the lattice-preservation argument of P9.5 with their integral and rational topologies.
+-/
+
+-- Check: continuousInhomogeneousCochains_zero.
+example {V G : Type*} [CommRing V] [TopologicalSpace V] [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] (ρ : TopRep V G)
+    (hρ : Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)) (a : ρ.V) :
+    Continuous (fun g : G ↦ ρ.ρ g a - a) :=
+  (hρ.comp (continuous_id.prodMk continuous_const)).sub continuous_const
+
+-- Check: continuousInhomogeneousCochains_one; multiplication has its written order.
+example {V G : Type*} [CommRing V] [TopologicalSpace V] [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] (ρ : TopRep V G)
+    (hρ : Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)) (b : C(G, ρ.V)) :
+    Continuous (fun z : G × G ↦ ρ.ρ z.1 (b z.2) - b (z.1 * z.2) + b z.1) :=
+  ((hρ.comp (continuous_fst.prodMk (b.continuous.comp continuous_snd))).sub
+    (b.continuous.comp (continuous_fst.mul continuous_snd))).add
+      (b.continuous.comp continuous_fst)
+
+-- Check: cech_operators_without_joint_continuity; this is d⁰(e₀) for the translation action.
+example :
+    letI : TopologicalSpace (PadicInt 2 →₀ ℤ) := ⊥
+    ¬ Continuous (fun h : PadicInt 2 ↦
+      Finsupp.single h (1 : ℤ) - Finsupp.single 0 (1 : ℤ)) := sorry
 
 /-! ### Twisted invariants -/
 
