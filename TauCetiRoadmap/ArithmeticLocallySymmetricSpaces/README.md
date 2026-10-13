@@ -772,13 +772,13 @@ is the p-primary subgroup of k_v^×.
 
 The Iwahori and pro-`v` Iwahori subgroups are ReductiveGroupsPartII's `LevelSubgroups.iwahori` and
 `LevelSubgroups.proPIwahori`, stated there inside `GL_n(F_v)` (the examples of Layer RG2.3,
-`classical-level-subgroups`) with the index check `iwahori_relIndex_two`. Here they are the same groups inside `GL_n(O_v)`, as the cases `I = 𝔪_v` of
-the congruence subgroups modulo an arbitrary ideal `I` that the `Γ_0(v^c)`, `Γ_1(v^c)` and
-`Γ_p(v^c)` levels need. `Suggested.lean` states these over any commutative ring, the first two as
-the preimages under reduction modulo `I` of Tau Ceti's `TauCeti.upperTriangularGroup` and
-`TauCeti.upperUnitriangularGroup`, as `upperTriangularMod`, `unipotentMod`, `iwahori`, `iwahoriOne`,
-`gamma1Mod` and `gammaPMod`, with
-`iwahori_index_GL2` (the `ℤ_p` case of ReductiveGroupsPartII's check) and `iwahoriOne_relIndex`.
+`classical-level-subgroups`) with the index check `iwahori_relIndex_two`. Here they are the same
+groups inside `GL_n(O_v)`, as the cases `I = 𝔪_v` of the congruence subgroups modulo an arbitrary
+ideal `I` that the `Γ_0(v^c)`, `Γ_1(v^c)` and `Γ_p(v^c)` levels need. `Suggested.lean` states these
+over any commutative ring, the first two as the preimages under reduction modulo `I` of Tau Ceti's
+`TauCeti.upperTriangularGroup` and `TauCeti.upperUnitriangularGroup`, as `upperTriangularMod`,
+`unipotentMod`, `iwahori`, `iwahoriOne`, `gamma1Mod` and `gammaPMod`, with `iwahori_index_GL2` (the
+`ℤ_p` case of ReductiveGroupsPartII's check) and `iwahoriOne_relIndex`.
 
 *Needs:* [ALS.0.6](#locally-symmetric-space); ReductiveGroupsPartII RG2.3.3 (parahoric and Iwahori
 subgroups), RG2.3.5 (lattice-chain stabilizers) and the examples of Layer RG2.3
@@ -836,7 +836,7 @@ equivalently ε(g) = sign det(Ad(g) | 𝔭/𝔞_G) computed after moving g into 
 decomposition (ε is trivial on the identity component and ε(k) = sign det(Ad(k)|𝔭) for k ∈ K_∞).
 Then o_K = (X^G × G(A^∞)/K × ℤ(ε))/G(F) with G(F) acting on ℤ(ε) through ε, a rank-one local system
 of ℤ-modules on the orbifold X_K; at neat level it is the orientation local system of the manifold
-X_K of Tau Ceti's AlgebraicTopology stage 6. For G = Res_{F/ℚ}GL_m, ε(γ) = sign(N_{F/ℚ} det γ)^{m−1}
+X_K of AlgebraicTopology, Stage 6. For G = Res_{F/ℚ}GL_m, ε(γ) = sign(N_{F/ℚ} det γ)^{m−1}
 for γ ∈ GL_m(F). The statement assumes: K compact open (orbifold local system); neat K for the
 manifold statement. ([NT16, §3.1, after Definition 3.1, p. 40]; [NT16, §3.1, p. 41])
 
@@ -846,8 +846,8 @@ descended from ℤ(ε); `LocallySymmetric.orientationSystem.monodromy` — On Γ
 action is ε|Γ_i. Fix the endpoint convention of localSystem.monodromy: a lifted loop ends at δ(ℓ)x₀,
 and its Tau Ceti monodromy is ε(δ(ℓ)⁻¹)=ε(δ(ℓ)); `LocallySymmetric.orientationSystem.pullback` —
 π_{K′,K}^\* o_K ≅ o_{K′} and r_g^\* o_K ≅ o_{gKg⁻¹}; `LocallySymmetric.orientationSystem.eq_manifold`
-— At neat level o_K is isomorphic to the orientation local system of the manifold X_K from Tau
-Ceti's AlgebraicTopology stage 6; `LocallySymmetric.orientationCharacter_GL` — For G =
+— At neat level o_K is isomorphic to the orientation local system of the manifold X_K from
+AlgebraicTopology, Stage 6; `LocallySymmetric.orientationCharacter_GL` — For G =
 Res_{F/ℚ}GL_m, ε(γ) = sign(N_{F/ℚ}(det γ))^{m−1}.
 
 `Suggested.lean` defines the character on rational points as `glOrientationSign`.
@@ -1098,7 +1098,7 @@ covers and transfer).
 Prove `LocallySymmetric.RΓ.isoSingular`. For neat K and V finite projective, there are natural
 isomorphisms in D(R) RΓ(X_K, V_K) ≅ C^•(X_K; V_K) and RΓ_c(X_K, V_K) ≅ C^•_c(X_K; V_K) := colim_C
 C^•(X_K, X_K ∖ C; V_K) (C compact), where C^• are the singular cochains with local coefficients of
-Tau Ceti's AlgebraicTopology stages 2 and 6; they are compatible with pullback along level maps and
+AlgebraicTopology, Stages 2 and 6; they are compatible with pullback along level maps and
 translations, with the forget-supports map, and, on X̄_K (ALS.2), with the relative cochains of the
 pair (X̄_K, ∂X̄_K). Equivalently, RΓ(X_K, V_K) ≅ Hom_{ℤ[Γ_i]}(C_•(X^G), V) on the component Γ_i\X^G,
 with Γ_i acting through the slice representation. The proof extends Sella's constant-coefficient
@@ -2691,7 +2691,7 @@ smooth structure agrees away from corners of depth ≥2. Proposition 4.2 supplie
 collar of the full boundary; choices alter the smoothing, not the underlying pair (X̄_K,∂X̄_K). Its
 interior is X_K and its boundary is a closed topological (d_G−1)-manifold. The orientation system
 extends from the interior and restricts to the boundary orientation system via the outward-normal
-convention, with a fixed sign if the inward normal is used instead. Thus AlgebraicTopology stage 6
+convention, with a fixed sign if the inward normal is used instead. Thus AlgebraicTopology, Stage 6,
 Poincaré–Lefschetz duality applies. Naturality of pair cohomology, orientation sheaves and
 finite-cover transfers uses the original topological pair; it does not require a functorial
 smoothing choice. The statement assumes: K neat. ([ACC+23, §2.1.1, p. 910]; [NT16, §3.1, Proposition

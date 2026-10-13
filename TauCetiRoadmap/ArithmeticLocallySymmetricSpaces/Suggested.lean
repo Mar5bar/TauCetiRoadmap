@@ -162,8 +162,8 @@ def iwahori (R : Type*) [CommRing R] [IsLocalRing R] (n : Type*) [Fintype n]
     [LinearOrder n] : Subgroup (GL n R) :=
   upperTriangularMod (IsLocalRing.maximalIdeal R)
 
-/-- **ALS.0.10, `LocallySymmetric.iwahoriOne`.** The pro-`v` Iwahori subgroup, ReductiveGroupsPartII's
-`LevelSubgroups.proPIwahori` inside `GL_n(O)`. -/
+/-- **ALS.0.10, `LocallySymmetric.iwahoriOne`.** The pro-`v` Iwahori subgroup,
+ReductiveGroupsPartII's `LevelSubgroups.proPIwahori` inside `GL_n(O)`. -/
 def iwahoriOne (R : Type*) [CommRing R] [IsLocalRing R] (n : Type*) [Fintype n]
     [LinearOrder n] : Subgroup (GL n R) :=
   unipotentMod (IsLocalRing.maximalIdeal R)
@@ -194,8 +194,8 @@ theorem iwahori_index_GL2 (p : ℕ) [Fact p.Prime] : (iwahori ℤ_[p] (Fin 2)).i
 
 /-- **ALS.0.10, `LocallySymmetric.iwahori.index`.** `[Iw : Iw₁] = (q − 1)^n` for a residue field
 with `q` elements. -/
-theorem iwahoriOne_relIndex (R : Type*) [CommRing R] [IsLocalRing R] [Finite (IsLocalRing.ResidueField R)]
-    (n : Type*) [Fintype n] [LinearOrder n] :
+theorem iwahoriOne_relIndex (R : Type*) [CommRing R] [IsLocalRing R]
+    [Finite (IsLocalRing.ResidueField R)] (n : Type*) [Fintype n] [LinearOrder n] :
     (iwahoriOne R n).relIndex (iwahori R n) =
       (Nat.card (IsLocalRing.ResidueField R) - 1) ^ Fintype.card n := by
   sorry
