@@ -210,7 +210,8 @@ theorem successiveMin_le_iff (i : Fin (finrank ℝ E)) (r : ℝ) (hr : 0 ≤ r) 
       finrank ℝ (Submodule.span ℝ ((L : Set E) ∩ r • (K : Set E))) := by sorry
 
 /-- One real basis of lattice vectors attains all successive minima, with the strict-sublevel
-flags (1.2.9); it need not be an integral basis. -/
+flags (1.2.9); it need not be an integral basis. The greedy construction of 1.2.4 behind it extends
+independent families one vector at a time through Mathlib's `linearIndependent_finSnoc`. -/
 theorem exists_successiveMin_witnesses :
     ∃ b : Basis (Fin (finrank ℝ E)) ℝ E,
       (∀ i, b i ∈ L) ∧
@@ -3000,3 +3001,24 @@ example : Nat.card (residueDualizingModule (Ideal.span ({3} : Set ℤ)) ℤ) = 3
 end ResidueDualityCoefficient
 
 end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+/-!
+## Targets on these carriers stated only in `README.md`
+
+The following README targets extend declarations of this file but need carriers that are not
+available at the pins, or are steps of a proof rather than milestones; their signatures and
+sources are in the README.
+
+* Layer 2: `IntegralQuadraticLattice.quadraticMap`, `IntegralQuadraticLattice.localize` with
+  `IntegralQuadraticLattice.localize_mem_iff` and `IntegralQuadraticLattice.localize_map`,
+  `IntegralHermitianLattice.map`, `HermitianLatticeInvariants.ofDualQuotient`,
+  `signedHermitianAdjoint`, `signedHermitianTwist`, `signedHermitianTransfer`.
+* Layer 3: `maximalMassLocalType_basisChange`, `hermitianLocalDensity`,
+  `normalizedSiegelPolynomial`.
+* Layer 4: `diagonal_span_index` and `diagonal_lattice_avoidance` in Henk's proof of
+  `lattice_count_lt_successive_minima`; `quotientKoopman_invariants` on a homogeneous quotient;
+  `ternaryHarmonicTheta_cuspidal`, which needs half-integral weight cusp forms.
+* Layer 5: the algorithm `exactLLL`.
+* Layer 6: `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
+  `ExactW0`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
+-/
