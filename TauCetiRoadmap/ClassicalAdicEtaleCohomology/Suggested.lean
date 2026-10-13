@@ -459,9 +459,17 @@ end Radial
 Further definitions specified in README.md, by layer, with no carriers at the pins:
 Layer 0: ClassicalDerived.enhancedCategory, ClassicalDerived.replacements,
 ClassicalDerived.tensorHom, ClassicalDerived.inverseLimits, ClassicalDerived.functorCoherence,
+ClassicalDerived.derivedCompletion (derived Z-module completion, reduction recovery and
+conservativity; perfect tensor interchange, completed tensor for general complete inputs),
+ClassicalDerived.functorCoherence.coefficientComparison (underlying abelian D+ comparison and
+coherent coefficient/exchange transformations, with equivalences only under proved hypotheses),
 ClassicalCoefficients.finitePresentationDescent, ClassicalCoefficients.constructibleDerivedDescent,
 ClassicalCoefficients.constructibleHomContinuity, ClassicalAlgebraic.supportLocalization,
+ClassicalAlgebraic.supportLocalization.mayerVietoris (finite-open localization and coherent
+group, coefficient and tensor transformations on scheme etale module complexes),
 ClassicalAlgebraic.properSupports, ClassicalAlgebraic.finiteTrace, ClassicalAlgebraic.cycleClasses,
+ClassicalAlgebraic.properSupports.derivedComparison (R(f!) -> Rp_*j_! on D+ torsion complexes;
+the comparison is generally noninvertible, with proper/open identity specializations),
 ClassicalAlgebraic.lciCycleClass (regular closed immersions of locally noetherian schemes,
 positive invertible torsion order, without a purity assertion),
 ClassicalAlgebraic.smoothBoundaryPurity, ClassicalAlgebraic.smoothTrace,
