@@ -176,13 +176,18 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   Milestone 2: the period-family quotient `(Y × E)/Λ` over a complex manifold `Y`, with its
   holomorphic submersion, zero section, fibre identification, markings and base change. Milestone 3:
   equivariant descent of period families through properly discontinuous actions, with monodromy.
-- *CohomologicalPointCounting.* EtaleBaseChange Layer 6: vanishing of `H^q_et(X, F)` for
-  `q > 2 dim X` and finiteness of the cohomology of proper schemes over a separably closed field, for
-  torsion coefficients invertible there; §The roadmaps / Étale base change and finiteness
-  (EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance: ordinary
-  étale Künneth, compatible with cup products, pullbacks and base change. EllAdicRealization Layers 2 and 6:
-  `ℤ_ℓ`-cohomology as the derived limit of the finite levels `ℤ/ℓ^r`, with its finite generation and
-  reductions.
+- *LefschetzPencilsAndVanishingCycles.* Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+  `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
+  A4.4 uses the geometric bound `q > 2g` and proper finiteness for an abelian variety of
+  dimension `g` over algebraically closed `k`, with finite coefficients `ℤ/ℓ^r` and `ℓ`
+  invertible in `k`. Supplied by LefschetzPencilsAndVanishingCycles §F.2 /
+  `VanishingCycles.etaleKunneth`.
+  The ordinary derived Künneth map for finite-type schemes over separably closed `k` and
+  bounded constructible finite-Tor coefficient complexes retains cup products, pullbacks,
+  base change and reductions. Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+  `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
+  The constant coefficient tower has coherent derived reductions and uniform cohomological
+  and Tor bounds, giving the derived finite-level limit, finite generation and integral reductions.
 
 **Not built here.** Moduli stacks of polarized abelian varieties `A_{g,d}`, PEL, Siegel and Hilbert
 modular moduli, their level covers and compactifications (PELModuli, ShimuraVarieties,
@@ -197,12 +202,23 @@ restriction live here. Néron models and semistable reduction (NeronModelsAndSem
 Generic complex-torus quotients, period-lattice families over complex manifolds and their
 equivariant descent (ComplexTori): A5 specializes them to abelian varieties and adds Riemann forms,
 Appell–Humbert, polarizations, the Siegel family and families over analytic bases that are not
-manifolds. Generic finite-coefficient étale cohomology of schemes (cohomological dimension,
-finiteness, external products and Künneth) and `ℓ`-adic derived limits (CohomologicalPointCounting
-EtaleBaseChange and EllAdicRealization): A4.4 specializes them to abelian varieties. Weil's trace
-theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity, and the
-Grothendieck–Lefschetz formula (CohomologicalPointCounting TraceFormula), which take the torsion,
-Tate module and trace of an abelian variety from A3.2, A4.1 and A6.10–A6.11. Completed
+manifolds. Generic finite-coefficient étale cohomology of schemes and integral adic realization:
+Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
+`VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
+`VanishingCycles.adicFiniteness`.
+A4.4 specializes these geometric statements to proper abelian varieties over algebraically
+closed `k`, with `ℓ` invertible and the whole normalized tower `ℤ/ℓ^r`.
+Weil's trace theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity,
+and the Grothendieck–Lefschetz formula: Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
+`VanishingCycles.curveEndomorphismTrace`, `VanishingCycles.etaleTraceFormulaFinite`,
+`VanishingCycles.etaleTraceFormula`.
+The curve theorem uses smooth proper geometrically connected curves and invertible `ℓ`;
+the finite-field formulas apply to separated finite-type schemes with descended bounded constructible finite-Tor finite
+coefficients of order prime to the characteristic or rational `ℓ`-adic coefficients with invertible `ℓ`; they use compact
+support and geometric Frobenius at every positive power, with perfect finite-level traces and rational cohomology traces.
+Their abelian torsion, Tate-module and algebraic-trace inputs are owned here in A3.2, A4.1
+and A6.10–A6.11. Completed
 Poincaré bundles, Betti maps and integral realizations over finite fields
 (AbelianSchemesAndArithmeticModuliPartII). Faltings's finiteness and isogeny theorems
 (FaltingsFinitenessAndIsogenyTheorems). The Weil estimate for Frobenius (DeligneWeightsAndPurity).
@@ -362,27 +378,48 @@ Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeome
   periods. Families over analytic bases outside that domain are A5.6 here, compared with
   ComplexTori's family on manifold bases. Milestone 4 Step 6 supplies the lattice-torsion input
   for A5.1 under the convention contract below.
-- *CohomologicalPointCounting, EtaleBaseChange Layer 6, §The roadmaps / Étale base change and
-  finiteness (EtaleBaseChange), §Family-wide conventions / Functoriality and equivariance,
-  and EllAdicRealization Layers 2 and 6*: consumed on that family's coefficient convention
-  (a finite ring killed by an integer invertible
-  on the base), here the constant coefficients `ℤ/ℓ^r` on an abelian variety over an algebraically
-  closed field `k` with `ℓ` invertible in `k`, in every characteristic. Layer 6 gives
-  `H^q_et(X, F) = 0` for `q > 2 dim X` with `X` of finite type over a separably closed field, and
-  finiteness for `X` proper; ordinary étale Künneth is supplied by the named family entry and
-  functoriality convention under the contract below. EllAdicRealization Layer 2
-  identifies `RΓ(X, ℤ_ℓ)` with the derived limit of the `RΓ(X, ℤ/ℓ^r)`, and its Layer 6 gives finite
-  generation and `RΓ(X, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(X, ℤ/ℓ^r)` for `X` separated of finite type over a
-  separably closed field. A4.4 applies that supplied Künneth map to `A × A` and the addition map; it
-  builds no second external product, limit or Tate module. These suppliers state nothing specific to
-  abelian varieties.
 
 ### From other open roadmap pull requests
 
 | Supplier | Provides / consumer | Convention or hypothesis gap |
 |---|---|---|
 | ComplexTori §Milestone 4 / Integral connecting class, Step 6 (an open TauCetiRoadmap pull request by Paul-Lez) | `T[n] ≃+ Λ/nΛ`, used by A5.1's algebraic torsion transport and `AbelianLattice.tate` | For `n > 0`, transport by `[λ] ↦ [λ/n]` to `(1/n)Λ/Λ` and along `V/Λ ≅ A^an`; torsion is the subgroup killed by `n`. A5.1 proves compatibility with the Tate-module transition maps. |
-| CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance (an open TauCetiRoadmap pull request by bwangpj) | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 `exteriorCohomology` | The finite coefficient order must be invertible on the base. A4.4 applies this to `ℤ/ℓ^r` with `ℓ` invertible in `k` and passes through compatible finite levels to `ℤ_ℓ`, using EllAdicRealization; a compact-support formula alone does not supply this input. |
+
+### From LefschetzPencilsAndVanishingCycles
+
+Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
+For finite-type `X` over separably closed `k`, torsion invertible in `k` gives
+`H^q_et(X, F) = 0` for `q > 2 dim X`, and proper `X` with finite constructible coefficients
+has finite cohomology; A4.4 uses `X = A` over algebraically closed `k`, `dim A = g` and
+`Λ = ℤ/ℓ^r` with `ℓ` invertible in `k`.
+
+Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth`.
+The finite-type, separably closed-field theorem applies to bounded constructible finite-Tor
+`Λ`-complexes with invertible annihilator, including the constant `ℤ/ℓ^r`-sheaves on `A`;
+A4.4 applies its ordinary external product to `A × A` and pulls back along addition.
+
+Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.normalizedAdicSystems`,
+`VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
+On the normalized constant tower over proper `A/k`, uniform cohomological and Tor bounds
+and finite-level finiteness give `RΓ(A, ℤ_ℓ) ≅ Rlim_r RΓ(A, ℤ/ℓ^r)`, finite generation and
+`RΓ(A, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(A, ℤ/ℓ^r)` for every `r ≥ 1`, with the Milnor sequence
+retained until the Mittag–Leffler condition is verified.
+Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.adicFunctoriality`.
+The cup, pullback and Künneth comparisons pass through the normalized systems with
+their uniform bounds, and a Galois action requires coefficient descent data.
+Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+`VanishingCycles.etaleProetaleAdicComparison`.
+For locally Noetherian `A` the constant classical realization compares by derived pushforward
+with Mathlib's pro-étale coefficient sheaf and cohomology, compatibly with every reduction.
+Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.rationalAdicRealization`.
+On separated finite-type schemes over separably closed `k` with invertible `ℓ`, the same normalized
+realization rationalizes by derived tensor with `ℚ_ℓ`, with finite-dimensional cohomology.
+The exterior structure and freeness of abelian cohomology are A4.4 here.
+
+| Supplier | Provides / consumer | Convention or hypothesis gap |
+|---|---|---|
+| Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth` | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 `exteriorCohomology` | A4.4 uses constant bounded constructible finite-Tor `ℤ/ℓ^r`-coefficients on proper `A` over algebraically closed `k`, with `ℓ` invertible, and passes to `ℤ_ℓ` by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness` through all compatible finite levels; a compact-support formula alone does not supply this input. |
 
 ### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
 
@@ -1502,20 +1539,25 @@ reduction from `r + 1` to `r`. In the limit `H*_et(A, ℤ_ℓ) ≅ ∧* H¹_et(A
 `H¹_et ≅ Hom_{ℤ_ℓ}(T_ℓ A, ℤ_ℓ)`, torsion-free of ranks `C(2g, n)`. The case `r = 1` is the `𝔽_ℓ`
 statement, and in characteristic zero every prime `ℓ` is allowed.
 
-Provides ordinary étale Künneth, naturally with cup products, pullbacks and base change.
-Supplied by CohomologicalPointCounting §The roadmaps / Étale base change and finiteness
-(EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance (an open
-TauCetiRoadmap pull request by bwangpj). Apply the finite-coefficient theorem with `ℓ` invertible
-on the base, and pass to the stated `ℤ_ℓ` realization through compatible finite levels using
-EllAdicRealization; a compact-support formula alone does not supply this input.
+Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth`.
+Apply ordinary derived étale Künneth over algebraically closed `k` to the constant finite-Tor
+coefficients `ℤ/ℓ^r`, with `ℓ` invertible, retaining cup-product, pullback, base-change and
+coefficient-reduction compatibility. Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+`VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
+The normalized constant tower on proper `A` satisfies uniform bounds and finite-level
+finiteness, giving the derived integral limit and reductions at every level; a compact-support
+formula alone does not supply the ordinary Künneth input.
 
 The coherent part uses the Hopf structure from the group law and the universal vector extension:
 universal ranks and filtered
 exterior compatibility are established before base change. The étale part is an abelian-specific
-computation on generic inputs consumed in every characteristic from CohomologicalPointCounting:
-vanishing above degree `2g` and finiteness (EtaleBaseChange Layer 6), the ordinary Künneth input
-from the supplier section just cited, whose pullback along the addition map is the coproduct, and
-the passage to `ℤ_ℓ` (EllAdicRealization Layers 2 and 6). Over `𝔽_ℓ` the torsor `[ℓ]` gives
+computation on geometric inputs in every characteristic: Supplied by
+LefschetzPencilsAndVanishingCycles §F.3 / `VanishingCycles.etaleCohomologicalDimension`,
+`VanishingCycles.etaleFiniteness`.
+These give vanishing above degree `2g` and finite cohomology on proper `A/k` for invertible
+`ℓ`, while the ordinary Künneth and integral-realization contracts just cited supply the
+addition-map coproduct and the derived finite-level limit with reductions.
+Over `𝔽_ℓ` the torsor `[ℓ]` gives
 `dim H¹ ≥ 2g`; a bounded connected graded-commutative Hopf algebra vanishing above degree `2g` has
 `dim H¹ ≤ 2g`, with equality only for the exterior algebra on `H¹`, degree-one squares zero also for
 `ℓ = 2`; the coefficient sequences `0 → ℤ/ℓ → ℤ/ℓ^{r+1} → ℤ/ℓ^r → 0`, whose reductions on `H¹` are
@@ -1530,9 +1572,13 @@ square-zero multiplication in characteristic `2`) and the finite-level form of (
 not proved in the cited sources and are part of this target. For `g = 2` the de Rham ranks are
 `1, 4, 6, 4, 1`; graded skew-symmetry alone does not give vanishing of degree-one squares in
 characteristic `2`. *Needs:* A3.2, A4.1, A4.2, A4.3; AlgebraicModuli Layer 7
-(`perfect_proper_pushforward`); ComplexComparisonPartII C5.1; CohomologicalPointCounting
-EtaleBaseChange Layer 6 and §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
-with §Family-wide conventions / Functoriality and equivariance; EllAdicRealization Layers 2 and 6.
+(`perfect_proper_pushforward`); ComplexComparisonPartII C5.1;
+Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
+`VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
+`VanishingCycles.adicFiniteness`.
+The étale inputs use proper `A` over algebraically closed `k`, invertible `ℓ` and the whole
+constant tower with coherent derived reductions and uniform bounds.
 
 ### A4.5 Barsotti–Tate groups
 
@@ -1762,10 +1808,12 @@ ranks of `H^n_dR` are `1, 4, 6, 4, 1`.
 
 A0–A3; Tau Ceti `TateModule`; StableReduction Layer 1 (relative dualizing bundles); ModularCurves 0B, 7E, 7F; JacobianChallenge Layer D; AlgebraicVectorBundles
 L0B, L2B; AlgebraicModuli Layer 7; SchemeAndStackFoundations Layers 1–4; ComplexComparisonPartII C5.1;
-CohomologicalPointCounting EtaleBaseChange Layer 6 and §The roadmaps / Étale base change and
-finiteness (EtaleBaseChange), with §Family-wide conventions / Functoriality and equivariance;
-EllAdicRealization Layers 2 and 6;
-Mathlib `DividedPowers`.
+Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+`VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
+`VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
+`VanishingCycles.adicFiniteness`; Mathlib `DividedPowers`.
+A4.4 uses these geometric contracts on proper `A` over algebraically closed `k`, with
+invertible `ℓ` and normalized constant coefficients at all finite levels.
 
 <a id="a5"></a>
 
@@ -2981,14 +3029,21 @@ semisimplicity and `p`-adic libraries.
   and the Tate module of a Weil restriction (A6.33); **PotentialModularityAndCompatibleSystems** and
   **EllipticCurveModularityPartIIGL2TypeAbelianVarieties** use the finite-level lifting theorems (A4.12–A4.14)
   and the trace and degree through subfields (A6.12).
-- **Curve point-counting consumers** take the prime-to-characteristic torsion (A3.2), the Tate
-  module (A4.1) and the algebraic trace with its Tate-module and finite-level comparison
-  (A6.10–A6.11) from this roadmap, applied to a Jacobian. These abelian inputs are proved here
-  from degree polynomials, finite-rank Hom and linear algebra on `V_ℓ A`, independently of
-  cohomological trace formulas. Their order precedes any consuming curve trace theorem.
-  A4.4 in turn consumes EtaleBaseChange Layer 6 and
-  CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
-  with §Family-wide conventions / Functoriality and equivariance.
+- **LefschetzPencilsAndVanishingCycles** §F.10 / `VanishingCycles.curveEndomorphismTrace`
+  consumes the abelian torsion, Tate-module and algebraic-trace inputs owned here.
+  Supplied by AbelianSchemesAndArithmeticModuli §A3.2 / `multiplicationAndDensity`.
+  Supplied by AbelianSchemesAndArithmeticModuli §A4.1 / `AbelianTate`.
+  Supplied by AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 / `End.trace`, `charpolyTate`.
+  These inputs apply to Jacobians with invertible `ℓ` at every finite coefficient level;
+  the curve `H¹`–Jacobian comparison and graph–diagonal formula belong to
+  `VanishingCycles.curveEndomorphismTrace`. A6.10–A6.11 use degree polynomials, finite-rank
+  Hom and linear algebra on `V_ℓ A`, independently of cohomological trace formulas.
+  A4.4's geometric foundations: Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+  `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
+  `VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
+  `VanishingCycles.adicFiniteness`.
+  They apply to proper abelian varieties over algebraically closed `k` with invertible `ℓ`
+  and the normalized constant tower; the finite curve trace theorem does not require A4.4.
 - **DeligneWeightsAndPurity**, **SmallRamificationAndAbelianVarietyBaseCases** and
   **FaltingsFinitenessAndIsogenyTheorems** use degrees and characteristic polynomials (A6.1, A6.10–A6.11),
   Rosati positivity (A6.14), Frobenius (A6.21) and the finiteness of polarized automorphisms (A6.18).

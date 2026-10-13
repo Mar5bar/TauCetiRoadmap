@@ -626,10 +626,18 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   `homTateInjective`, `charpolyTate`, `traceDegreeSubfield`. Their constructions use the shared
   torsion and Tate carriers, degree polynomials, finite-rank Hom and linear algebra. The
   characteristic-polynomial signature above supplies the algebraic degree characterization.
-* **Étale and `ℓ`-adic cohomology** (A4.4 consumes ordinary étale Künneth from
-  CohomologicalPointCounting §The roadmaps / Étale base change and finiteness (EtaleBaseChange),
-  with §Family-wide conventions / Functoriality and equivariance, an open TauCetiRoadmap pull
-  request by bwangpj): `frobeniusSemisimple`, `exteriorCohomology`, `weilRestrictionTate`.
+* **Étale and `ℓ`-adic cohomology**: `frobeniusSemisimple`, `exteriorCohomology`,
+  `weilRestrictionTate`. A4.4's ordinary finite-coefficient Künneth: Supplied by
+  LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth`.
+  Use constant `ℤ/ℓ^r`-coefficients on proper A over algebraically closed k with ℓ invertible,
+  retaining cup products, pullbacks, base change and every coefficient reduction.
+  Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+  `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
+  This geometric domain gives the bound 2g and finite cohomology at each level.
+  Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+  `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
+  The normalized constant tower has uniform cohomological and Tor bounds, so the integral
+  realization is compared with the derived finite-level limit and all derived reductions.
 * **De Rham, divided-power and Barsotti–Tate carriers**: `AbelianVectorExtension`, `AbelianH1dR`,
   `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
   `SerreTate.q`, `ordinaryFrobeniusWeighted`, `oddPrimeLifting`, `dyadicOrdinaryLifting`,
