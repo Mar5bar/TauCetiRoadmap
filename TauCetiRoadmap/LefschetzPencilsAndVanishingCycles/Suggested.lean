@@ -254,6 +254,13 @@ example : localTransvection (Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ)) (
     ![1, 0] = ![0, 1] := by
   sorry
 
+/-- The coordinate-swap reflection fixes exactly the diagonal line.
+README `fixedSpace_reflection`. -/
+example : LinearMap.ker
+    (localTransvection (Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ)) (-1) ![1, -1] - 1) =
+    Submodule.span ℚ {![1, 1]} := by
+  sorry
+
 /-- Reflections in an `A₂` pair of roots of square two with pairing `-1`: the composite has trace
 `-1 = dim E - 4 + (δ, δ')²`, the identity used in README 5.10 (Weil II, p. 230, prints the
 constant `2` in place of `4`, which would give `1` here). -/
@@ -298,6 +305,19 @@ theorem exists_vanishingForm (B : LinearMap.BilinForm K V) (hB : B.IsRefl) (E : 
 def stdSymplectic4 : LinearMap.BilinForm ℚ (Fin 4 → ℚ) :=
   Matrix.toBilin' !![0, 1, 0, 0; -1, 0, 0, 0; 0, 0, 0, 1; 0, 0, -1, 0]
 
+/-- The radical is the line of `e₂` inside the three-dimensional subspace.
+README `vanishingQuotient_radical`. -/
+example : let E : Submodule ℚ (Fin 4 → ℚ) :=
+      Submodule.span ℚ {Pi.single 0 1, Pi.single 1 1, Pi.single 2 1}
+    vanishingRadical stdSymplectic4 E =
+      (Submodule.span ℚ {Pi.single 2 1}).comap E.subtype := by
+  sorry
+
+/-- The zero vanishing subspace has zero-dimensional radical quotient.
+README `vanishingQuotient_zero`. -/
+example : Module.finrank ℚ (vanishingQuotient stdSymplectic4 ⊥) = 0 := by
+  sorry
+
 /-- README check `vanishingQuotient_radical`: `E = span(e₀, e₁, e₂)` has radical `ℚ e₂` and a
 two-dimensional radical quotient. -/
 example : Module.finrank ℚ (vanishingQuotient stdSymplectic4
@@ -335,6 +355,13 @@ example : Matrix.det (!![(0 : ℚ), 1, 0, 0; -1, 0, 0, 0;
 
 /-- The standard four-dimensional symplectic form is nondegenerate. README 4.4. -/
 example : stdSymplectic4.Nondegenerate := by
+  sorry
+
+/-- The hyperbolic plane is nondegenerate and has a nonzero isotropic vector.
+README 5.10. -/
+example : (Matrix.toBilin' !![(0 : ℚ), 1; 1, 0]).Nondegenerate ∧
+    Matrix.toBilin' !![(0 : ℚ), 1; 1, 0] ![1, 0] ![1, 0] = 0 ∧
+    (![1, 0] : Fin 2 → ℚ) ≠ 0 := by
   sorry
 
 /-! ## Layer LPV.5: Conjugacy, monodromy and the open image theorem -/
@@ -563,13 +590,14 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
 (7b.1–7b.11). The README names of their API and checks, by namespace:
 
 * `VanishingCycles`: `constructibleEtale`, `fieldSheavesEquiv`, `lisseMonodromyEquiv`,
-  `enhancedDerivedSheaves`, `filteredColimit_cohomology`, `etaleBaseChange`, `etaleCompactSupports`,
+  `filteredColimit_cohomology`, `etaleBaseChange`, `etaleCompactSupports`,
   `nagataCompactification`, `etaleFiniteness`, `genericLocalAcyclicity`, `adicRealization`,
   `etaleExceptionalInverseImage`, `etaleVerdierDuality`, `smoothPurity`, `smoothPairGysin`,
-  `etaleProjectiveBundle`, `etaleBlowup`, `etaleWeakLefschetz`, `fieldPerverseTStructure`,
+  `etaleBlowup`, `etaleWeakLefschetz`, `fieldPerverseTStructure`,
   `intermediateExtension`, `etaleBettiComparison`, `frobeniusCohomology`, `etaleTraceFormula`,
   `PointwisePure`, `purity_pointwiseReduction`, `FSLogScheme`, `galoisSemistableAlteration`,
-  `equivariantLogResolution`, `regularLogResolution`, `logSmooth_pointwisePure`,
+  `equivariantLogResolution`, `geometricMonodromy_traitDescent`, `purityOfBranchLocus`,
+  `regularLogResolution`, `logSmooth_pointwisePure`,
   `pointwisePure_descent`, `RPhi_eq_zero_iff_locallyAcyclic`, `RPhi_node`, `RPhi_smooth`, `RPsi_stalk`,
   `RPsi_trait`, `equivSheavesOnTrait_constant`, `equivSheavesOnTrait_degenerate`,
   `equivSheavesOnTrait_jPushforward`, `filtrationFrobenius_mk`, `filtrationRepresentation_mk`,
@@ -618,7 +646,8 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
   `weightSpectralSequence_abutment`, `weightSpectralSequence_e1`, `weightSpectralSequence_e2`,
   `weightSpectralSequence_reindex`, `weight_ss_curve_test`, `weight_ss_nonproper_test`,
   `weight_ss_smooth_test`.
-* `InvariantCycles`: `arithmeticLocalMonodromy`, `genericHyperplaneRestriction`,
+* `InvariantCycles`: `arithmeticLocalMonodromy`, `bettiLocalizationWangCross`,
+  `hyperplaneIncidence`, `genericHyperplaneRestriction`,
   `invariantSpecialization_coe`, `invariantSpecialization_natural`,
   `invariantSpecialization_range`, `invariantSpecialization_unique`, `invariant_sp_identity_test`,
   `invariant_sp_unipotent_test`, `invariant_sp_zero_test`.

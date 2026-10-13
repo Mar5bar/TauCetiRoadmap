@@ -41,7 +41,8 @@ It uses, and does not redevelop:
 
 - the site, pullback, derived direct image, supports and pro-étale foundations of
   SchemeAndStackFoundations §§2.1–2.2, 2.5, 2.7, 2.9–2.11, 2.15 and 2.17. The additional étale,
-  duality, perverse and enhanced-derived prerequisites used here are owned targets of Layer LPV.F;
+  duality and perverse prerequisites used here are targets of Layer LPV.F, which specializes
+  ClassicalAdicEtaleCohomology §§0.1–0.4 and extends its algebraic APIs of §§0.7–0.11;
 - the logarithm of a unipotent automorphism, Grothendieck's monodromy theorem for local fields, and the monodromy
   filtration of a nilpotent endomorphism of a finite-dimensional vector space with its tensor and dual rules from
   ArithmeticGaloisRepresentations Layer 2 (§§2.4, 2.6); function-field Chebotarev from its Layer 5 (§5.13);
@@ -184,23 +185,34 @@ It leaves to other roadmaps:
   Clebsch–Gordan), RootSystems Layer 5 (the Cartan–Killing classification, whose simply laced types are A, D and E).
 - **Completed IntegralLattices** Layer 1 and **Completed HodgeStructures** layer L2 (mixed Hodge structures and
   strictness).
-- **ClassicalAdicEtaleCohomology** Layer 4 (§4.4 formal completion and Huber's comparison `i^*Rj_* ≅ Rb_*a^*` for
+- **ClassicalAdicEtaleCohomology** §§0.1–0.4 (`ClassicalDerived.enhancedCategory`,
+  `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`,
+  `ClassicalDerived.functorCoherence`) on scheme étale sites; §§0.7–0.11
+  (`ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`,
+  `ClassicalAlgebraic.finiteTrace`, `ClassicalAlgebraic.cycleClasses`,
+  `ClassicalAlgebraic.smoothBoundaryPurity`, `ClassicalAlgebraic.smoothTrace`,
+  `ClassicalAlgebraic.curveDuality`) on their stated coefficient and morphism domains;
+  Layer 4 (§4.4 formal completion and Huber's comparison `i^*Rj_* ≅ Rb_*a^*` for
   torsion coefficients; §4.5 the trait comparison, the inertia-equivariant identification of formal nearby cycles
   with `RΨ` of 0.5).
 - **AlgebraicModuliForArithmeticGeometry** Layer 1 (§1.1 projective bundles, §1.3 Grassmannians, §1.4 relative very
   ampleness and the classifying map `ProjectiveBundles.IsRelativelyVeryAmple.completeMap`, from which 3.4 builds
-  the Veronese embeddings) and Layer 6 (Artin approximation).
+  the Veronese embeddings), Layer 6 (Artin approximation), and §7.6.1
+  (`relativePicardSheaf`, `RelativePicard.baseLineBundle`, relative Picard sheaves over arbitrary bases).
 - **InverseGaloisAndArithmeticFundamentalGroups** Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
   §IG.1.3 tame specialization).
 - **ArithmeticGaloisRepresentations** Layer 2 (§2.3 tame characters of local fields, §2.4 unipotent logarithm and
   Grothendieck's monodromy theorem for local fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
   Layer 5 (§5.13 Chebotarev for function fields of curves over finite fields).
 - **ArithmeticGaloisDuality** Layers R02.1 (continuous cochains, inverse limits, lattices) and R02.2 (Hochschild–Serre).
-- **NeronModelsAndSemistableAbelianVarieties** Layer 1 (§1.7 smoothening), Layer 3 (§§3.8–3.9 Picard schemes of
+- **NeronModelsAndSemistableAbelianVarieties** Layer 3 (§§3.8–3.9 Picard schemes of
   semistable curves) and Layer 4 (§§4.1–4.4 normalization sequence, characters as graph cycles, the integral monodromy
   pairing and its graph formula).
 - **AbelianSchemesAndArithmeticModuli** Layer A4 (§A4.1 Tate modules and their duality pairing).
-- **ComplexComparisonPartII** Layer C5 (Betti and de Rham–Betti comparison for analytic families).
+- **ComplexComparisonPartII** Layers C1–C5 for F.9's algebraic Betti comparison; §C5.2
+  (`relativeBettiLocalSystem`) for the smooth punctured analytic family.
+- **TauCetiRoadmap AlgebraicTopology** Stage 5 item 2 (mapping-torus Wang sequence) and Stage 6
+  item 4 (Poincaré–Lefschetz duality), adapted to cohomology and singular-fibre supports in 7b.6.
 
 ## How to read the build
 
@@ -252,16 +264,17 @@ in F.4. (SGA 1 V §§4–7; SGA 4 VIII §2; Stacks 03PL.) *Needs:* SchemeAndStac
 
 ### F.1 Derived sheaves and coherent diagrams
 
-**Construction.** Build `VanishingCycles.enhancedDerivedSheaves Y Λ` as the stable localization
-of complexes of étale Λ-sheaves at quasi-isomorphisms, with homotopy-coherent cones, shifts,
-coherent diagrams, derived limits and colimits and Kan-extension adjunctions. Its homotopy
-category identifies with Mathlib's `DerivedCategory`. Build the bounded constructible and
-finite-Tor subcategories, truncation, localization triangles and generic lissity of cohomology.
-Prove `VanishingCycles.filteredColimit_cohomology`: filtered colimits are exact on sheaves and
-commute with cohomology and geometric stalks; derived inverse limits retain their `lim¹` terms.
+**Construction.** Specialize `ClassicalDerived.enhancedCategory` and its replacements,
+tensor–Hom, limits and coherent functors to scheme étale Λ-sheaves. Use its cones, shifts,
+coherent diagrams and filtered-colimit cohomology API, with homotopy category Mathlib's
+`DerivedCategory`. Build here the bounded constructible and finite-Tor subcategories,
+truncation and generic lissity of cohomology. Prove the geometric specialization
+`VanishingCycles.filteredColimit_cohomology`: exact filtered colimits of étale sheaves commute
+with cohomology and geometric stalks; retain the supplier's derived inverse limits and `lim¹`.
+Use `ClassicalAlgebraic.supportLocalization` for open–closed triangles.
 (SGA 4 VI §5, VII §5; Bhatt–Scholze, *The pro-étale topology for schemes*, §§3, 5–6.)
-*Needs:* F.0; SchemeAndStackFoundations §§2.5, 2.7, 2.17; Mathlib `DerivedCategory`, complexes,
-localizations and limits. The construction is on sheaves of modules, not quasi-coherent sheaves.
+*Needs:* F.0; ClassicalAdicEtaleCohomology §§0.1–0.4, 0.7; SchemeAndStackFoundations
+§§2.5, 2.7, 2.17. These supplier targets require site foundations, independently of nearby cycles.
 
 **Checks.**
 
@@ -274,13 +287,16 @@ localizations and limits. The construction is on sheaves of modules, not quasi-c
 ### F.2 Base change and compact supports
 
 **Theorem.** Build `VanishingCycles.etaleBaseChange` and `VanishingCycles.etaleCompactSupports`:
-for separated finite-type morphisms, construct `Rf_*`, `Rf_!`, composition and projection
-formulas, the base-change transformations and Leray, and localization for open–closed pairs.
+for separated finite-type morphisms, use `ClassicalDerived.functorCoherence`,
+`ClassicalAlgebraic.properSupports` and `ClassicalAlgebraic.supportLocalization` on their D⁺
+torsion domains. Extend this API here to the bounded constructible operations, composition,
+projection formulas, base-change transformations and Leray used below.
 Prove proper base change and smooth base change for torsion coefficients invertible on the base;
-prove arbitrary base change for `Rf_!`. Define local acyclicity by strict-local specialization
+supply proper base change before invoking `ClassicalAlgebraic.properSupports`.
+Prove arbitrary base change for `Rf_!`. Define local acyclicity by strict-local specialization
 maps and prove smooth local acyclicity for locally constant coefficients. (SGA 4 XII 5.1,
 XVI 1.1–2.2, XVII §§3–5.) *Needs:* F.0–F.1; SchemeAndStackFoundations §§2.1–2.2, 2.7;
-the following compactification target.
+ClassicalAdicEtaleCohomology §§0.4, 0.7–0.8; the following compactification target.
 Build `VanishingCycles.nagataCompactification`: over a qcqs base, every separated finite-type
 scheme admits an open immersion into a proper scheme, with common refinements of any two
 compactifications (Stacks 0F41). This supplies the compactification-independent `Rf_!` of F.2.
@@ -295,9 +311,13 @@ compactifications (Stacks 0F41). This supplies the compactification-independent 
 ### F.3 Finiteness, Artin vanishing and generic acyclicity
 
 **Theorem.** Prove `VanishingCycles.etaleFiniteness`: constructible direct images on finite-type
-field schemes, finite cohomological amplitude, affine Artin vanishing
-`H^a(U,F)=0` for `a>dim Supp F`, and lissity and path transport for smooth proper direct images
-of locally constant coefficients. Prove `VanishingCycles.genericLocalAcyclicity`: for a
+field schemes, finite geometric cohomological amplitude, and lissity and path transport for
+smooth proper direct images of locally constant coefficients. Artin vanishing is geometric:
+for `U` affine of finite type over a separably closed field,
+`H^a(U,F)=0` for `a>dim Supp F`. Over a general field apply this on `U_k̄`; arithmetic
+cohomological amplitude additionally requires finite ℓ-cohomological dimension of the field
+for ℓ-primary coefficients, for every coefficient prime in the general finite case.
+Prove `VanishingCycles.genericLocalAcyclicity`: for a
 finite-type morphism `f:Y→B` over a field and bounded constructible `K` with coefficients
 invertible on `B`, there is a dense open of each integral parameter base `B` on which `(f,K)`
 is universally locally acyclic, with the corresponding base-change compatibility.
@@ -307,10 +327,12 @@ domains. (SGA 4 XIV §3; SGA 4½, [Th. finitude] §§1–2; Weil II, proof of 6.
 
 **Checks.**
 
-- On an affine smooth curve a lisse sheaf has no cohomology above degree one.
-- On `ℙ¹`, `H²(ℙ¹,Λ)=Λ(−1)`; affineness cannot be omitted from Artin vanishing.
+- On an affine smooth curve over a separably closed field a lisse sheaf has no cohomology above degree one.
+- On `ℙ¹` over a separably closed field, `H²(ℙ¹,Λ)=Λ(−1)`; affineness cannot be omitted from Artin vanishing.
 - For the finite map `x↦x²` with characteristic not two, constant coefficients are locally
   acyclic over `𝔾_m`, but not over zero; the dense open need not be the whole parameter space.
+- `Spec 𝔽_q` has `H¹(ℤ/ℓ)=ℤ/ℓ` for `ℓ≠char 𝔽_q`, although its dimension is zero.
+- `Spec ℝ` with `ℤ/2` has nonzero cohomology in every nonnegative degree; arithmetic amplitude is not uniformly finite.
 
 ### F.4 Adic realization and derived completion
 
@@ -343,7 +365,9 @@ in 0.10 and 6.1: construct the trait dualizing complex by its dimension-one Kumm
 then finite-type exceptional pullback and local biduality. Retain finite-Tor hypotheses; this
 construction precedes absolute purity. Adic duality is the realization of F.4.
 (SGA 4 XVIII §3; SGA 4½ [Th. finitude] §4; ILO XVII §§0–2.)
-*Needs:* F.1–F.4; SchemeAndStackFoundations §0.21.
+*Needs:* F.1–F.4; ClassicalAdicEtaleCohomology §§0.7–0.11 (support localization,
+finite trace, smooth trace and curve duality on their stated torsion domains);
+SchemeAndStackFoundations §0.21. Higher-dimensional duality and trait dualizing complexes are built here.
 
 **Checks.**
 
@@ -354,13 +378,15 @@ construction precedes absolute purity. Adic duality is the realization of F.4.
 ### F.6 Smooth purity, Gysin maps and cycle classes
 
 **Theorem.** Prove `VanishingCycles.smoothPurity`: for smooth `f` of relative dimension `d`,
-`f^!Λ≅Λ(d)[2d]`, with trace and Poincaré duality. Construct
-`VanishingCycles.smoothPairGysin` for regular immersions of smooth field schemes, with cycle
-classes, composition, transverse pullback, projection and self-intersection formulas. Construct
-Chern classes and the Gysin morphism for smoothable local complete intersection morphisms
+`f^!Λ≅Λ(d)[2d]`, using the normalized `ClassicalAlgebraic.smoothTrace` and extending
+`ClassicalAlgebraic.curveDuality` to higher-dimensional Poincaré duality. Use
+`ClassicalAlgebraic.cycleClasses` and `ClassicalAlgebraic.smoothBoundaryPurity` for smooth
+field pairs with invertible finite coefficients. Extend them as `VanishingCycles.smoothPairGysin`
+with projection and self-intersection formulas and the adic realizations of F.4. Construct
+the additional Gysin morphism for smoothable local complete intersection morphisms
 between regular schemes with ample bundles; its being an isomorphism for general regular
 pairs is the theorem of 0.10. (SGA 4 XVIII 3.2; SGA 5 VII; ILO XVI §§1–2.)
-*Needs:* F.2, F.5; SchemeAndStackFoundations Layer 5 (Chow and Chern classes).
+*Needs:* F.2, F.4–F.5; ClassicalAdicEtaleCohomology §§0.9–0.11; SchemeAndStackFoundations Layer 5 (Chow and Chern classes).
 
 **Checks.**
 
@@ -370,14 +396,14 @@ pairs is the theorem of 0.10. (SGA 4 XVIII 3.2; SGA 5 VII; ILO XVI §§1–2.)
 
 ### F.7 Projective bundles, blow-ups and weak Lefschetz
 
-**Theorem.** Prove `VanishingCycles.etaleProjectiveBundle`,
-`VanishingCycles.etaleBlowup` and `VanishingCycles.etaleWeakLefschetz`: the projective-bundle
-cohomology decomposition with hyperplane generators; the blow-up decomposition along a smooth
+**Theorem.** Use the projective-bundle formula of `ClassicalAlgebraic.cycleClasses` with
+its hyperplane generators, and realize it adically by F.4. Prove `VanishingCycles.etaleBlowup`
+and `VanishingCycles.etaleWeakLefschetz`: the blow-up decomposition along a smooth
 centre with exceptional Gysin maps and their inverse signs; and weak Lefschetz for a smooth
 ample hyperplane section of a smooth projective variety (isomorphism below the middle degree,
 injection at the middle). These are rational or invertible finite-coefficient statements,
 with adic versions from F.4. (SGA 5 VII; SGA 4 XIV §3; SGA 7 XVIII §§2–5.)
-*Needs:* F.3, F.6; AlgebraicModuliForArithmeticGeometry §1.1;
+*Needs:* F.3–F.4, F.6; ClassicalAdicEtaleCohomology §0.9; AlgebraicModuliForArithmeticGeometry §1.1;
 StableReduction Layer 4 (Rees-algebra blow-ups).
 
 **Checks.**
@@ -400,7 +426,8 @@ Illusie 1994 §4.) *Needs:* F.1–F.6.
 
 **Checks.**
 
-- On a smooth curve `Λ[1]` is perverse, whereas `Λ` is not.
+- On a nonempty smooth curve with `Λ≠0`, `Λ[1]` is perverse, whereas `Λ` is not.
+- On the empty scheme, or with the zero coefficient ring, both shifts are the zero perverse object.
 - A skyscraper at a closed point is perverse with no shift.
 - On a point the integral torsion sheaf `ℤ_ℓ/ℓ` has dual in the `p⁺` heart, not the `p` heart.
 
@@ -724,7 +751,9 @@ type; torsion coefficients invertible on the trait; bounded-below complexes.
 
 *Proof sketch.* Construct the exchange maps from adjunction units and the geometric fibre square;
 apply smooth or proper base change (F.2–F.3), keeping
-the comparison map in the other cases. Dominant trait change is XIII 2.1.7.5. Apply `RΓ` and proper
+the comparison map in the other cases. XIII 2.1.7.5 constructs dominant trait exchange;
+its isomorphy on this finite-type domain is SGA 4½ [Th. finitude], recalled by
+Illusie 2006 §1.1(b), p. 2. Apply `RΓ` and proper
 base change to the triangle; naturality gives inertia equivariance. (SGA 7 II, Exposé XIII,
 2.1.7.1–2.1.7.5, pp. 20–21; 1.3.9, p. 16; 2.1.8.9, p. 22.) *Needs:* 0.3, 0.5;
 F.1–F.2, F.5 (exceptional inverse image);
@@ -769,7 +798,8 @@ adic systems the statement applies at each finite level before derived completio
 tensor product is not substituted for the derived one.
 
 *Proof sketch.* The universal coefficient comparison is XIII 2.1.13 with derived tensor and its Tor
-terms; change of traits is XIII 2.1.7.5 with the restriction map on inertia; check that the
+terms; XIII 2.1.7.5 constructs trait exchange with restriction on inertia, and
+SGA 4½ [Th. finitude] proves isomorphy for finite-type schemes (Illusie 2006 §1.1(b), p. 2); check that the
 unit/counit construction of specialization and the enhanced cone commute with both comparisons.
 (SGA 7 II, Exposé XIII, 2.1.7.5, p. 21, and 2.1.13, pp. 25–26.) *Needs:* 0.1 (tame character under
 ramified extension), 0.6 and the constructibility theorem; F.1–F.2;
@@ -884,13 +914,18 @@ as cited there.) *Needs:* SchemeAndStackFoundations §§0.21, 4.19–4.20; the l
 - In a tame cyclic trait extension `π=u^e`, the generic Galois action sends `u` to `ζu`
   and extends to the regular model; the base extension and action are retained as data.
 
-**Theorem (equivariant log resolution).** For a noetherian quasi-excellent separated log
-regular fs scheme with a tame action of a finite group `H`, construct
+**Theorem (equivariant log resolution).** For a noetherian quasi-excellent separated
+log-regular fs scheme `X` with a tame generically free action of a finite group `H`, construct
 `VanishingCycles.equivariantLogResolution`: a projective birational `H`-equivariant log
-modification with very tame action, preserving log smoothness over a base where `H` acts
-trivially; its quotient is log regular and, in the log-smooth situation, log smooth.
-(ILO VIII Theorem 1.1; VI §3; XVI §3.7.) *Needs:* log charts, quotients and tame actions above;
-SchemeAndStackFoundations §§0.21, 1.1 and StableReduction Layer 4 (blow-ups).
+modification with log-regular source and very tame action (ILO VIII Theorem 1.1).
+For the relative version assume `X→B` is an equivariant log-smooth map of log-regular pairs
+between noetherian quasi-excellent separated log-regular fs schemes, `H` acts trivially on
+`B`, and tamely and generically freely on `X`. The modification is log smooth over `B`;
+when the action is admissible its quotient scheme exists and is log smooth over `B`
+(ILO X Theorem 1.1; VI §3). Admissibility means that every orbit lies in an affine open.
+*Needs:* log charts, quotients, tame and generically free actions above;
+SchemeAndStackFoundations §§0.21, 1.1; StableReduction Layer 4 (blow-ups).
+The relative construction uses these hypotheses on both `X` and `B`.
 
 **Checks.**
 
@@ -961,8 +996,14 @@ their boundary signs.
 *Proof sketch.* Riou's proof of Gabber's theorem: construct the Gysin morphism from Chern classes;
 reduce to `Λ = ℤ/ℓ` and to pointwise purity of regular local schemes; by Fujiwara's reduction pass to a
 regular integral scheme, quasi-projective and flat over a strictly henselian trait of mixed
-characteristic; apply the Galois semistable alteration, take an ℓ-Sylow subgroup, apply equivariant log
-resolution to obtain a very tame action and a log-smooth quotient, and resolve that quotient
+characteristic, using the completion reduction to an excellent trait. Apply the Galois
+semistable alteration and take an ℓ-Sylow subgroup `H⊂G`. Put `T=S′/H`: the extension
+`S′→T` is tame, hence log étale for the canonical trait charts. Thus `X′` is log smooth
+over `T`, on which `H` acts trivially. The regular semistable `X′` and the trait `T`
+are noetherian quasi-excellent separated log-regular fs schemes; `H` is tame because ℓ
+is invertible and generically free by the generic Galois cover. Quasi-projectivity over
+the affine trait makes its action admissible, as it does after the projective modification.
+Apply ILO X 1.1 to obtain a very tame action and log-smooth quotient, and resolve that quotient
 by a regular log blow-up. Regular log-smooth pointwise purity and prime-to-ℓ descent then
 conclude, using the named prerequisites above. For a
 strict normal crossings divisor `D = ΣD_i` in a regular `X` with complement `j`, purity gives
@@ -1030,21 +1071,55 @@ inertia, to be roots of unity. (Illusie 1994, Théorème 1.2, pp. 11–12.) *Nee
 - For the two-dimensional Tate-curve representation over a local field, inertia is already unipotent and nontrivial.
 - Over a strictly henselian equal-characteristic-zero trait, the character of `ℤ_ℓ` sending `1` to `1+ℓ²` is not quasi-unipotent; the roots-of-unity hypothesis fails.
 
+**Construction (smooth-stage trait descent).** Build
+`VanishingCycles.geometricMonodromy_traitDescent`. For henselian DVRs `R₀→R` with a common
+uniformizer `π` and separable residue and fraction-field extensions, express `R` as a filtered
+colimit of henselian essentially smooth finite-type `R₀`-algebras `B_i`, using
+SchemeAndStackFoundations §0.15 and henselizing its smooth stages; descend finite
+presentation data over `R[1/π]` to a common `B_i[1/π]`. For a separated finite-type `K`-scheme
+and a fixed degree of ordinary or compactly supported geometric cohomology, descend its
+finite-rank cohomology local system to a punctured smooth stage, with its integral lattice,
+its geometric-stalk identification and its inertia-action comparison. First pass to a trait
+extension making the lattice modulo ℓ constant. In mixed characteristic include passage to
+completion and perfect residue field, preserving geometric cohomology and a finite-index
+inertia image. Choose the smaller trait with residue field finitely generated over the prime
+field or purely inseparable over such a field, as in SGA 7 I 0.5.2–0.5.3. The latter case is
+needed in mixed characteristic.
+The divisor `π=0` on the smooth stage is regular. Prove the regular-divisor arithmetic variant:
+for a henselian regular local scheme with this regular divisor, finite wild image and a
+residue field satisfying the roots-of-unity hypothesis of the arithmetic theorem imply
+quasi-unipotence of its local inertia (SGA 7 I 1.4). Construct the diagram comparing trait
+inertia with divisor inertia, identifying tame characters; its pullback recovers the original
+cohomology representation. (SGA 7 I 0.5.1–0.5.3, 1.3–1.4; BLR §3.1 Theorem 3 and §3.6
+Lemma 5; Illusie 1994 §1.4, p. 12.) *Needs:* 0.1, F.0–F.4;
+SchemeAndStackFoundations §§0.9, 0.12–0.15, 0.21 (finite-presentation limits, henselization,
+Néron–Popescu approximation and completion); the arithmetic theorem above. Separability
+of both field extensions makes `R₀→R` regular; prove the trait and regular-divisor inertia
+comparisons here.
+
+**Checks.**
+
+- For `R₀=R`, the identity smooth stage descends the same family and inertia action.
+- For `xy=π`, a stage containing `π` retains the nodal equation and its nonzero unipotent cohomology action.
+- For a mixed-characteristic complete DVR with perfect residue field, the smaller residue
+  field can be the perfect closure of a finitely generated field; it need not itself be finitely generated.
+- The character `1↦1+ℓ²` over a strictly henselian characteristic-zero trait is not an
+  instance of this construction: there is no asserted geometric cohomology local system producing it.
+
 **Theorem (geometric local monodromy theorem).** For `X` separated of finite type over `K`, inertia acts
 quasi-unipotently on `H^n(X_{K^sep}, ℚ_ℓ)` and on `H^n_c(X_{K^sep}, ℚ_ℓ)`, for every residue field `k`.
 After a finite extension of `K` the action of inertia is unipotent and factors through the tame
 character `t_ℓ` of 0.1. An arbitrary continuous representation of the inertia group of a field with
 algebraically closed residue field is not quasi-unipotent, and the theorem says nothing about it.
 
-*Proof sketch.* The cohomology groups are finite-dimensional (F.2–F.3 for compact supports, and the finiteness theorem of 0.7 for ordinary cohomology). Grothendieck
-deduces the geometric theorem from a variant of the arithmetic one by a limit argument that uses
-Néron's smoothening process (NeronModelsAndSemistableAbelianVarieties Layer 1, §1.7) to descend the
-family to a henselian trait whose residue field is finitely generated over the prime field, where the
-arithmetic theorem applies. On an open subgroup where `ρ` is unipotent the wild inertia acts through a
-finite group of unipotent elements, hence trivially in characteristic zero, so the action factors
-through `t_ℓ`. (Illusie 1994, Théorème 1.2 and 1.3–1.4, pp. 11–12.) *Needs:* 0.1, 0.7, 0.8;
-ArithmeticGaloisRepresentations Layer 2, §2.4; NeronModelsAndSemistableAbelianVarieties Layer 1, §1.7;
-F.2–F.3.
+*Proof sketch.* Ordinary and compactly supported geometric cohomology are finite-dimensional
+by F.3. Apply `geometricMonodromy_traitDescent` and the regular-divisor arithmetic variant
+to the descended local system, then pull back its quasi-unipotent inertia action through the
+comparison diagram. On an open subgroup with unipotent action the finite wild image is trivial
+in characteristic zero, so the action factors through `t_ℓ`.
+(Illusie 1994, Théorème 1.4, pp. 11–12.) *Needs:* 0.1, 0.8, F.0–F.4;
+`VanishingCycles.geometricMonodromy_traitDescent`; the arithmetic theorem and its
+regular-divisor variant above; ArithmeticGaloisRepresentations §2.4.
 
 **Checks.**
 
@@ -1277,7 +1352,29 @@ p. 17; Illusie 1994, 1.5, pp. 12–13.) *Needs:* 0.4, 0.8, 1.2.
 
 ### 1.8 Tame restriction along a normal crossings divisor
 
-**Theorem.** Let `X` be regular, `D = ∪_a D_a` a strict normal crossings divisor, and `F` a lisse
+**Theorem (purity of branch locus).** Prove `VanishingCycles.purityOfBranchLocus`:
+for `f:X→Y` between locally noetherian schemes, `x∈X`, `y=f(x)`, assume `O_{X,x}` normal,
+`O_{Y,y}` regular, `f` quasi-finite at `x`, equal local dimensions at least one, and
+unramifiedness at every codimension-one generalization of `x`. Then `f` is étale at `x`.
+Use this to prove the normal-crossings Abhyankar statement: on a regular strictly local
+scheme with strict normal crossings boundary and separable finite covers tame at its
+codimension-one boundary points, a prime-to-residue-characteristic Kummer cover kills the
+ramification and the normalized pullback is étale. Establish the compatible Kummer tower
+and its tame fundamental group; its maximal pro-ℓ quotient at a point with `r` branches is
+`ℤ_ℓ(1)^r`, for ℓ invertible there. (Stacks 0BMB; SGA 1 XIII Proposition 5.2 and Corollary 5.3.)
+*Needs:* SchemeAndStackFoundations §§0.8, 0.21 (regularity, normalization and quasi-finite maps);
+F.0 (Kummer theory). Prove branch purity and the crossing argument here.
+
+**Checks.**
+
+- A finite étale cover satisfies the criterion at every point of positive local dimension.
+- For `x=u^e`, `y=v^f` with `e,f` prime to the residue characteristic, the coordinate
+  crossing has two independent tame Kummer factors, giving `ℤ_ℓ(1)^2`.
+- `V(xy)⊂𝔸²` is not a regular divisor at the origin; the single-regular-divisor statement
+  of Stacks 0EYG does not give this crossing case.
+- For `x=u^p` in characteristic `p`, ramification in codimension one violates the criterion.
+
+**Theorem.** Let `X` be regular locally noetherian, `D = ∪_a D_a` a strict normal crossings divisor, and `F` a lisse
 `ℚ_ℓ`-sheaf on `X − D` whose local monodromy along each `D_a` is tame and unipotent after a specified
 Kummer cover. Then the tame unipotent local inertia defines commuting twisted residues `N_a` on the
 tame restriction of `F` to each stratum `D_J = ∩_{a∈J} D_a`. The restriction is built from a compatible
@@ -1287,11 +1384,11 @@ bundle. Relative monodromy filtrations along a stratum are unique when they exis
 existence under mixedness hypotheses is a statement about weights and is not part of this theorem.
 
 *Proof sketch.* Abhyankar's lemma and the Kummer tame covers along `D` give the compatible restriction
-system; the tame inertia of a strict normal crossings point is `∏_a ℤ_ℓ(1)`, abelian, so the logarithms
+system; the maximal pro-ℓ quotient of tame local inertia at a strict normal crossings
+point is `∏_a ℤ_ℓ(1)`, abelian, so the logarithms
 `N_a` of the unipotent factors commute; uniqueness of relative filtrations is 1.5. (Weil II, 1.7.8–1.7.10,
-pp. 172–174.) *Needs:* 1.2, 1.5; Stacks Project, Lemma 0EYG (Abhyankar's lemma; the structure `∏_a ℤ_ℓ(1)` of the
-pro-`ℓ` tame local monodromy at a strict normal crossings point is derived from it as part of this theorem);
-InverseGaloisAndArithmeticFundamentalGroups Layer IG.1, §IG.1.2 (tame quotients).
+pp. 172–174.) *Needs:* 1.2, 1.5; `VanishingCycles.purityOfBranchLocus` and the
+normal-crossings Abhyankar/Kummer construction above (SGA 1 XIII 5.3).
 
 **Checks.**
 
@@ -1420,9 +1517,9 @@ p. 212.) *Needs:* 1.1, 1.2; 0.8 (the nearby-cycle stalks it is applied to); F.1�
 
 Layer LPV.0; ArithmeticGaloisRepresentations Layer 2 (§2.4 logarithm and Grothendieck's monodromy
 theorem for local fields; §2.6 the vector-space monodromy filtration with its tensor and dual rules);
-NeronModelsAndSemistableAbelianVarieties Layer 1, §1.7 (smoothening); InverseGaloisAndArithmeticFundamentalGroups
-Layer IG.1; F.1–F.2, F.6; F.1;
-F.0 (Tate twists); Stacks Project, Lemma 0EYG;
+`VanishingCycles.geometricMonodromy_traitDescent` (1.1);
+`VanishingCycles.purityOfBranchLocus` (1.8); InverseGaloisAndArithmeticFundamentalGroups Layer IG.1; F.1–F.2, F.6; F.1;
+F.0 (Tate twists); Stacks Project 0BMB; SGA 1 XIII 5.3;
 TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0; Mathlib (`IsSl2Triple`, abelian categories);
 Tau Ceti (`LinearMap.GeneralLinearGroup.IsUnipotent`).
 
@@ -1559,12 +1656,14 @@ which need not be represented by a global `O(1)`. Define
 - `Quadric.canonical_iso`: Over an algebraically closed field, ω_X ≅ O_X(−n) for the hyperplane bundle of a smooth n-dimensional quadric.
 
 *Proof sketch.* Over an algebraically closed field compute `Ω^n ≅ O(−n)`, `Pic` and the vanishing of
-`H^i(O)` and `H^1(O(1))`. Over `S`, `Pic_{X/S}` is étale locally constant, so étale locally for `n > 0` there
+`H^i(O)` and `H^1(O(1))`. Use `relativePicardSheaf` and
+`RelativePicard.baseLineBundle` over general bases; prove here that the quadric family has
+étale-locally constant `Pic_{X/S}` (SGA 7 XII 2.4–2.6), so étale locally for `n > 0` there
 is a positive hyperplane bundle `L` with `p_*L` locally free of rank `n + 2` and `X ⊂ P(p_*L)` the quadric
 of an ordinary form, unique up to a unit; `P(p_*L)` does not depend on `L` and descends to `P(X)`. (SGA 7
 II, Exposé XII, 2.1, p. 9; Définition 2.4 and 2.4–2.6, pp. 10–12.) *Needs:* 2.1;
-AlgebraicModuliForArithmeticGeometry Layer 1, §1.1; SchemeAndStackFoundations Layers 0 and 3
-(§§3.4 and 3.7, Picard functors).
+AlgebraicModuliForArithmeticGeometry §1.1 and §7.6.1 (`relativePicardSheaf`,
+`RelativePicard.baseLineBundle`); SchemeAndStackFoundations Layer 0.
 
 **Checks.**
 
@@ -2622,7 +2721,8 @@ regular divisor); AlgebraicModuliForArithmeticGeometry Layer 1, §1.3 (Grassmann
 **Checks.**
 
 - `bertini_conic`: over `ℂ`, for `X` a smooth conic in `P²` the dual is a conic, `π_1(P̌² − X̌) = ℤ/2`, and a general line
-  `D` meets `X̌` in two points with `π_1(D − S) = ℤ` mapping onto `ℤ/2`.
+  `D` meets `X̌` in two points; over `ℂ`, `π_1^ét(D − S) = ℤ̂` maps onto `ℤ/2`
+  (the analytic fundamental group is `ℤ` before profinite completion).
 - `bertini_needs_generality`: a line contained in `X̌`, or tangent to `X̌` at a smooth point, does not meet the
   hypotheses, and the restriction of the double cover of the conic example to a tangent line is not
   irreducible.
@@ -2834,7 +2934,8 @@ AdelicAlgebraicGroups Layer 4, §4.2.
 **Checks.**
 
 - For the conic pencil the one-dimensional orthogonal image is finite of order two.
-- An isotropic or degenerate E does not satisfy the theorem’s nondegeneracy hypothesis.
+- The hyperbolic plane with matrix `[[0,1],[1,0]]` is isotropic and nondegenerate
+  (determinant `−1`), so satisfies the form hypothesis; a space with nonzero radical fails it.
 
 - For the zero space, its orthogonal group and monodromy image are trivial, hence both finite and open.
 
@@ -2872,7 +2973,9 @@ RepresentationTheory/RootSystems Layer 5.
 
 **Lemma (gcd lemma).** Let `X_0` be smooth projective absolutely irreducible of dimension `n + 1` over `𝔽_q` with a
 Lefschetz pencil defined over `𝔽_q` (sufficiently general when `p = 2` and `n` is even), `S` its singular set and `E(X_t)` the
-vanishing part of `H^n(X_t)`; for `n` even assume, as in 5.10, that the vanishing space is nondegenerate. Let `P(T) = ∏(1 − γ_i T)` and `Q(T) = ∏(1 − δ_j T)` with all `γ_i, δ_j ≠ 0`. If for every
+vanishing part of `H^n(X_t)`. Assume that `E(X_t)` is nondegenerate in both parities;
+in the geometric setting this is the hard-Lefschetz input of Weil II 4.3.9, retained as
+an explicit hypothesis. Let `P(T) = ∏(1 − γ_i T)` and `Q(T) = ∏(1 − δ_j T)` with all `γ_i, δ_j ≠ 0`. If for every
 `t ∈ (P¹ − S)(𝔽_{q^k})`, `k ≥ 1`, with `F` the Frobenius of `X_t` relative to `𝔽_{q^k}`,
 `∏(1 − γ_i^k T)` divides `∏(1 − δ_j^k T) · det(1 − FT, E(X_t))`, then `P` divides `Q`. *Proof sketch.* Induct on `deg P`; for
 `P = 1 − γT` with `γ` different from every `δ_j`, choose `N` such that `γ^k ≠ δ_j^k` for `k ≡ 1 mod N`; Chebotarev density
@@ -2881,7 +2984,8 @@ hypothesis into: `γ^{deg g}` is an eigenvalue of `g` for every `g` with `deg g 
 elements of a coset `gM` of the geometric monodromy group have no common eigenvalue, by the description of the
 Zariski closure of `M` as a symplectic group (5.8), an orthogonal group (5.10) or a Weyl group of type A, D or E
 (the finite case of 5.10), using `±Id` and Coxeter elements. (Weil II, Lemme 4.5.2 and its proof, Lemme 4.5.4, pp. 231–233.)
-*Needs:* 5.3, 5.8, 5.10; ArithmeticGaloisRepresentations Layer 5, §5.13.
+*Needs:* nondegeneracy of `E(X_t)` in both parities, as above; 5.3, 5.8, 5.10;
+ArithmeticGaloisRepresentations Layer 5, §5.13.
 
 Combined with the Frobenius-equivariant decomposition `H^n(X_t) = H^n(X) ⊕ E(X_t)` (Weil II, 4.3.9, a consequence of the
 hard Lefschetz theorem, used here as a hypothesis), the lemma gives Weil II, Théorème 4.5.1: `det(1 − FT, H^n(X))` is
@@ -2892,6 +2996,8 @@ group (Weil II, 4.3.10, p. 226), so the rational statements of this layer are no
 
 **Checks.**
 
+- A nonzero radical is fixed by geometric monodromy (5.3). If Frobenius has eigenvalue
+  `γ` on it, `P=1−γT`, `Q=1` satisfies the divisibility premise; the coset argument requires nondegeneracy.
 - `gcd_lemma_degree_zero`: for `P = 1` the conclusion is trivial; for `Q = P` the hypothesis holds and so does the
   conclusion.
 - `no_common_eigenvalue_symplectic`: `Id` and `−Id` in `Sp(V)` have no common eigenvalue, so a coset of a group whose
@@ -2967,8 +3073,9 @@ perverse t-structures over a field and gluing along a recollement).
 
 **Checks.**
 
-- For `X` smooth over `S` of relative dimension `d`, `Λ_X[d + 1]` is perverse, while `Λ_X[d]` is not: its generic restriction
+- For `X` smooth over `S` of relative dimension `d` with nonempty generic fibre and `Λ≠0`, `Λ_X[d + 1]` is perverse, while `Λ_X[d]` is not: its generic restriction
   `Λ_{X_η}[d]` is perverse on `X_η`, hence not in `ᵖD^{≤−1}(X_η)`. Gluing the unshifted t-structure of `X_η` would accept `Λ_X[d]`.
+- For `X=∅→S`, both shifts are zero and perverse; a nonempty generic fibre is essential to distinguish them.
 - For `X = S` strictly henselian, `Λ_S[1]` and `K = Rj_*Λ_η[1]` are perverse, and `i^*K[−1] = Λ ⊕ Λ(−1)[−1]` has perverse
   cohomology in degrees `0` and `1`.
 - The point `πx = 1` of `𝔸¹_S` is closed in `𝔸¹_S` and its closure misses the special fibre, so `δ(x) = 0 + 1 = 1`, the same
@@ -3470,7 +3577,11 @@ Mathlib `CategoryTheory.Abelian.SpectralObject`, `CategoryTheory.CohomologicalSp
 
 - `Semistable.weight_ss_smooth_test`: With one smooth component, E₁^{0,q}=H^q(Y,ℚℓ), and E₁^{p,q}=0 for p≠0.
 - `Semistable.weight_ss_curve_test`: For relative dimension 1, E₁^{−1,2} = H⁰(nodes, ℚ_ℓ)(−1), E₁^{0,1} = ⊕H¹(components, ℚ_ℓ), E₁^{1,0} = H⁰(nodes, ℚ_ℓ); d₁ also includes components → nodes and nodes → H²(components).
-- `Semistable.weight_ss_nonproper_test`: For the local model uv = π the construction abuts to H*(Ȳ, RΨ), not to the cohomology of the generic fibre; with the column bound [−d, d], the page 2d + 2 is stable.
+- `Semistable.weight_ss_nonproper_test`: Take `X=𝔸¹_S` minus the closed special-fibre
+  origin. This smooth strictly semistable family has `X_s=𝔾_m`, `X_η=𝔸¹` and
+  `RΨℚ_ℓ=ℚ_ℓ` on the geometric special fibre. Nearby `H¹` is `ℚ_ℓ(−1)`, whereas
+  geometric generic-fibre `H¹=0`; properness is needed for the alternative abutment.
+  For relative dimension one the page-four bound still applies.
 - A smooth model has only p=0 terms.
 - For curves the page carries the normalization restriction and node Gysin maps of 7a.2.
 - Nonproperness does not erase the spectral sequence but changes the justified abutment.
@@ -3701,8 +3812,37 @@ pp. 213–214.) *Needs:* 7b.1, 7b.3, 7b.4, the spectral separation lemma.
 
 ### 7b.6 The complex local invariant-cycle theorem
 
+**Construction (Betti localization–Wang cross).** Build
+`InvariantCycles.bettiLocalizationWangCross` for a proper analytic map `f:X→D` with `X`
+a smooth complex manifold, smooth over `D*`, and a closed projective factorization
+`X⊂ℙ^N(ℂ)×D`. After shrinking the disc about zero, construct the central-fibre retraction
+and the compatible cohomology identification `H^i(X,ℚ)≅H^i(X₀,ℚ)` by analytic
+stratification and Thom isotopy. Construct localization with supports in the possibly
+singular `X₀`, and its maps `H^i(X,ℚ)→H^i(X−X₀,ℚ)→H^{i+1}_{X₀}(X,ℚ)`.
+Use the mapping torus of positive punctured-disc monodromy `T` to construct the cohomological
+Wang sequence, including the surjection `H^i(X−X₀,ℚ)→ker(T−1)` on `H^i(X_t,ℚ)`.
+Build Poincaré–Lefschetz duality with these supports via regular neighborhoods, excision
+and the orientation of the smooth total space; no manifold structure on `X₀` is assumed.
+Prove compatibility of localization, retraction and Wang maps, so their composite is Betti
+specialization. Include independence under further disc shrinking.
+(SGA 7 XIV 1.3.5–1.3.6, Thom isotopy and specialization; Weil II 3.6.4, p. 215.)
+*Needs:* AlgebraicTopology Stage 5 item 2 and Stage 6 item 4, with the cohomological and
+support adaptations built here; ComplexComparisonPartII §C5.2 only for the smooth
+punctured-family local system. Build analytic retraction, singular-fibre support duality
+and the comparison maps here.
+
+**Checks.**
+
+- For `Y×D` the retraction is projection to `Y`, and Wang evaluation is onto `H^i(Y,ℚ)`.
+- For a nodal elliptic degeneration the central fibre is singular; the retraction and
+  support localization are defined, and Wang evaluation lands on the rank-one invariant part of `H¹`.
+- For monodromy `T=[[1,1],[0,1]]`, Wang evaluation has image `ker(T−1)=ℚe₀`,
+  rather than all of `ℚ²`.
+- A sufficiently small disc and any further smaller disc give the same specialization maps.
+
 **Theorem (conditional form).** Let `D ⊂ ℂ` be the unit disc and `f : X → D` proper with `X` a smooth complex manifold, `f` smooth over
-`D* = D − {0}`, and `X ⊂ P^N(ℂ) × D` a closed analytic subspace whose projection is `f`. For `t ∈ D*` the Betti analogue of the cross
+`D* = D − {0}`, and `X ⊂ P^N(ℂ) × D` a closed analytic subspace whose projection is `f`. After the disc shrinking of
+`bettiLocalizationWangCross`, for `t ∈ D*` the Betti analogue of the cross
 of 7b.4 (localization, topological Wang sequence over the punctured disc, Poincaré–Lefschetz duality) has centre
 `H^i(X − X_0, ℚ)`, lower term `H^i(X_0, ℚ)`, upper term `H^{i+1}_{X_0}(X, ℚ)` and right term `H^i(X_t, ℚ)^{π_1(D*, t)}`. If this cross underlies
 a cross of mixed Hodge structures (Tau Ceti's `TauCeti.Hodge.MixedHodgeStructure`) in which the right term has weights at most `i` and the
@@ -3712,8 +3852,8 @@ this roadmap does not construct. *Proof sketch.* The weight filtration is strict
 (Completed HodgeStructures, layer L2, mixed Hodge structures and strictness), so `W_i` is exact on the
 cross and the separation argument of 7b.5 applies. (Weil II, 3.6.4, p. 215.) *Needs:* the spectral separation lemma
 of 7b.5 in its mixed-Hodge form; Completed HodgeStructures, layer L2 (mixed Hodge structures, strictness); Tau Ceti
-`TauCeti.Hodge.MixedHodgeStructure`; ComplexComparisonPartII Layer C5 (Betti cohomology of the analytic family and the localization
-maps).
+`TauCeti.Hodge.MixedHodgeStructure`; `InvariantCycles.bettiLocalizationWangCross` above;
+ComplexComparisonPartII §C5.2 for the punctured-family local system.
 
 **Checks.**
 
@@ -3723,6 +3863,39 @@ maps).
 - For a projective nodal elliptic degeneration over the disc, the invariant part of smooth-fibre `H¹` is a line and the special nodal cubic maps onto it.
 
 ### 7b.7 Arithmetic models of complexes
+
+Throughout 7b.7–7b.11 use `X⊂ℙ^N_k` with `N≥1`; a projective embedding into `ℙ⁰`
+can be composed with `ℙ⁰⊂ℙ¹`. The general-incidence construction below supplies the
+pencils in these sections for arbitrary projective `X`.
+
+**Construction (hyperplane incidence for projective schemes).** Build
+`InvariantCycles.hyperplaneIncidence` for every closed immersion `X⊂ℙ^N_k`, `N≥1`, over an
+algebraically closed field, with no smoothness or reducedness assumption on `X`.
+Let `Z={(x,H):x∈H}⊂X×(ℙ^N_k)∨`, with projections `q:Z→X` and `f:Z→(ℙ^N_k)∨`.
+Construct the rank-`N` kernel bundle `E` of evaluation of linear forms at `x`.
+Hyperplanes through `x` are lines in `E_x`, so `Z=ℙ(E^∨)` in the quotient convention
+of AlgebraicModuliForArithmeticGeometry §1.1. Prove `q` smooth projective of relative dimension `N−1` and `f`
+projective, compatibly with base change. For a line `D` define `X̃_D=Z×_{(ℙ^N)∨}D`,
+`i_D:X̃_D→Z` and `f̃:X̃_D→D`; its fibres are the scheme-theoretic hyperplane sections.
+Supply this incidence diagram throughout 7b.7–7b.11. When the two axis equations form a
+regular sequence along their common zero locus, prove `X̃_D≅Bl_{A∩X}X` by the Rees-algebra
+presentation; an empty axis gives `X̃_D≅X`. A sufficiently general pair over the infinite
+field `k` avoids the successive associated points, giving this regular-sequence condition
+where the axis is nonempty, even for singular `X`. This identification supplies the axis
+comparison used in 7b.10. It specializes to 3.3 for smooth `X` with transverse axis.
+(Weil II 6.2.10, diagram (6.2.10.1), p. 249; projective bundles and the Rees presentation.)
+*Needs:* AlgebraicModuliForArithmeticGeometry §1.1; SchemeAndStackFoundations Layers 0–1
+(associated points, scheme-theoretic intersections, kernel bundles); StableReduction Layer 4
+(Rees-algebra blow-ups). Prove the incidence and axis comparisons here on the stated domain.
+
+**Checks.**
+
+- For a singular plane nodal cubic, `q:Z→X` is a smooth `ℙ¹`-bundle although `Z` is singular.
+- For `X=Spec k⊂ℙ¹`, `Z` is its unique containing hyperplane and `q` is the identity;
+  a general parameter has empty fibre.
+- For a smooth surface and transverse axis, the line incidence is the blow-up of 3.3.
+- For `X=V(x₀)⊂ℙ²` and axis equations `x₀,x₁`, the first equation is zero on `X`
+  and the axis is a point; the regular-sequence hypothesis fails, but the incidence family exists.
 
 **Theorem (generic noncharacteristic hyperplane restriction).** Prove
 `InvariantCycles.genericHyperplaneRestriction`: for `X⊂ℙ^N_k` projective over an algebraically
@@ -3736,7 +3909,7 @@ and shifts cancel. Empty sections contribute zero objects. *Proof sketch.* Apply
 universal incidence morphism and both `K` and `DK`; use smooth purity for its projection to `X`,
 then locally acyclic base change and duality for hyperplane and line restrictions. (SGA 4½
 [Th. finitude], generic acyclicity; Weil II, proofs of 6.2.11–6.2.12, p. 250.)
-*Needs:* F.1–F.6, 3.2; AlgebraicModuliForArithmeticGeometry §1.1.
+*Needs:* F.1–F.6; `InvariantCycles.hyperplaneIncidence` above.
 
 **Checks.**
 
@@ -3797,15 +3970,15 @@ point, keeping the section).
 
 **Lemma (models along a general incidence pencil).** Let `X ⊂ P` be projective, `K` with a model at the geometric generic point,
 and `X ← Z ← X̃` the incidence diagram (`q : Z → X` the smooth incidence projection, `i : X̃ → Z` the restriction to a sufficiently
-general line `D`, 3.2–3.3). Then, after shrinking the arithmetic base, the model spreads along the incidence diagram and gives
+general line `D`, `hyperplaneIncidence`). Then, after shrinking the arithmetic base, the model spreads along the incidence diagram and gives
 a trait model of `i^*q^*K` at every point of `D`, and `D(i^*q^*K) ≅ i^*q^*DK` in Deligne's normalization of the incidence pullback,
-the relative-dimension shifts cancelling (`q` smooth, `i` generic-locally-acyclic for `K`). For a general smooth hyperplane `Y`,
+the relative-dimension shifts cancelling (`q` smooth, `i` generic-locally-acyclic for `K`). For a sufficiently general hyperplane section `Y`,
 `D(K|_Y) = DK|_Y(−1)[−2]`. Arbitrary closed immersions are not covered. When `K_0` is pure, the directional weight
 estimates and this duality identity make the pulled-back model pure (Weil II, proof of 6.2.12); that conclusion belongs
 to the theory of weights. *Proof sketch.* Spread the incidence diagram, the line and its section along the model;
 apply `genericHyperplaneRestriction` and the shifted Verdier duality exchanges for smooth and generic-locally-acyclic
 pullback. (Weil II, proof of 6.2.12, p. 250; the duality comparison in the proof of 6.2.11.) *Needs:* the two definitions
-above, `genericHyperplaneRestriction`, 3.2, 3.3; F.1–F.2, F.5 (biduality, exchange with pullback).
+above, `genericHyperplaneRestriction`, `hyperplaneIncidence`; F.1–F.2, F.5 (biduality, exchange with pullback).
 
 **Checks.**
 
@@ -3872,7 +4045,7 @@ general line `D` and `u ∈ V = D ∩ U`, the images of `π_1(V, u)` and `π_1(U
 relevant `j`, and so do their invariant subspaces. This is an equality of images, not an isomorphism of fundamental groups.
 *Proof sketch.* Choose `U` by generic lissity (F.1–F.2); apply the Bertini theorem 5.1 to the finitely many lisse sheaves
 `R^j f_*q^*K` on `U`; compare images and invariants with the same base points and paths. (Weil II, 6.2.10, formulas
-(6.2.10.1)–(6.2.10.2), p. 249.) *Needs:* 3.2, 5.1; F.1–F.2; Mathlib
+(6.2.10.1)–(6.2.10.2), p. 249.) *Needs:* `hyperplaneIncidence` (7b.7), 5.1; F.1–F.2; Mathlib
 `Representation.invariants`.
 
 **Checks.**
@@ -3883,7 +4056,7 @@ relevant `j`, and so do their invariant subspaces. This is an equality of images
 
 **Lemma (local detection of the extension obstruction).** For `L ∈ D^+_c(P¹)` whose negative cohomology sheaves have finite
 support, lisse outside a finite set `B`, and a point `t ∈ P¹`, the map `H^1(P¹ mod t, L) → ∏_{b∈B} H^1(P¹_{(b)} mod η_b, L)` is injective
-(Weil II, Proposition 4.3.6). For the general pencil of `K` (the blow-up `X̃` of 3.3 with `f : X̃ → D`, pulled back from 7b.7), the
+(Weil II, Proposition 4.3.6). For the general pencil of `K` (the line incidence `X̃_D` of 7b.7 with `f̃:X̃_D→D`), the
 obstruction to extending a class from a fibre `Y_u` to `X` is a relative class on `P¹` built from the cone of the comparison
 between pushforward and the axis, whose negative cohomology sheaves have finite support under the support bounds of 7b.9;
 so the obstruction vanishes when all its local obstructions vanish. *Proof sketch.* Truncate `L` to `H^0` and `H^1` of a sheaf
@@ -3893,7 +4066,8 @@ subgroup classifies the finite étale covers of `P¹ − B` that are unramified 
 finite étale covers of `P¹_k`, and these are trivial (`π_1(P¹_k) = 1`, 4.1; InverseGaloisAndArithmeticFundamentalGroups
 Layer IG.1, §IG.1.2, for the tame quotients); apply this to the relative cone, using the support bounds
 for the finite-support condition. The orthogonal decomposition of Weil II 4.3.9, which uses hard Lefschetz, is not used.
-(Weil II, Proposition 4.3.6 and §§4.3.7–4.3.8, pp. 224–226; proof of 6.2.11.) *Needs:* 3.3, 7b.9;
+(Weil II, Proposition 4.3.6 and §§4.3.7–4.3.8, pp. 224–226; proof of 6.2.11.) *Needs:* `hyperplaneIncidence` (7b.7), including its
+regular-sequence axis comparison for a sufficiently general line; 7b.9;
 F.1–F.2; InverseGaloisAndArithmeticFundamentalGroups Layer IG.1.
 
 **Checks.**
@@ -3906,8 +4080,9 @@ F.1–F.2; InverseGaloisAndArithmeticFundamentalGroups Layer IG.1.
 every `u ∈ D` the image of `H^n(X, K)` in `H^n(Y_u, K)` equals the image of `H^0(D, R^n f̃_*(i^*q^*K))`. No degeneration of Leray spectral
 sequences, splitting into fixed and vanishing parts, or hard Lefschetz is used. *Proof sketch.* Restriction from `X` gives a
 global section of the pencil direct image; conversely a global section extends locally by definition, so its local
-obstructions vanish, and the obstruction lemma gives an ambient lift; weak Lefschetz on the general fibres and axis places
-the obstruction in the finite-support range. (Weil II, Proposition 6.2.11(ii) and its proof; 4.3.7–4.3.8.) *Needs:* 3.3, the
+obstructions vanish, and the obstruction lemma gives an ambient lift; the general-incidence axis comparison of 7b.7
+and weak Lefschetz on the general fibres and axis place
+the obstruction in the finite-support range. (Weil II, Proposition 6.2.11(ii) and its proof; 4.3.7–4.3.8.) *Needs:* `hyperplaneIncidence` (7b.7), the
 obstruction lemma, 7b.9.
 
 **Checks.**
@@ -3974,8 +4149,12 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
   Adv. Stud. Pure Math. 36 (2002), 153–183; Corollary 6.1.5, as used in ILO XVI §3.7.
 - [Vidal 2004b] I. Vidal, *Théorie de Brauer et conducteur de Swan*, J. Algebraic Geom. 13
   (2004), 349–391; Proposition 4.4.1, as used in ILO XVI §3.7.
+- [SGA 7 I] A. Grothendieck et al., *Groupes de monodromie en géométrie algébrique (SGA 7 I)*,
+  Lecture Notes in Math. 288, Springer, 1972; Exposé I §§0.5, 1.3–1.4.
+- [BLR] S. Bosch, W. Lütkebohmert, M. Raynaud, *Néron Models*, Ergebnisse der Mathematik
+  21, Springer, 1990; §3.1 Theorem 3, §3.6 Lemma 5.
 - [SGA 7 II] P. Deligne, N. Katz, *Groupes de monodromie en géométrie algébrique (SGA 7 II)*, Lecture Notes in Math. 340,
-  Springer, 1973; Exposés XII, XIII, XV (Deligne), XVII, XVIII (Katz). Scan:
+  Springer, 1973; Exposés XII, XIII, XIV, XV (Deligne), XVII, XVIII (Katz). Scan:
   https://publications.ias.edu/sites/default/files/Number12.pdf
 - [Weil I] P. Deligne, La conjecture de Weil. I, *Publ. Math. IHÉS* 43 (1974), 273–307.
   https://www.numdam.org/article/PMIHES_1974__43__273_0.pdf
