@@ -565,10 +565,29 @@ the geometric `ComponentGroup`, `Chevalley`, `ToricCharacter`,
 `RigidUniformisation`, `RaynaudOneMotive`, `PicardZero`,
 `IntegralMonodromyPairing`, `ComponentPairing`, `RegularPicardNeronQuotient`,
 `BgwNodalPinch`, `BgwGeneralizedJacobian`, `BgwOddFactorTorsors`, `StableFamilyPicard`,
-`B_cris`, `B_st`, `D_cris`, `D_st`, `D_dR`, the crystalline, semistable and de Rham predicates,
-the `PeriodRealization` API, `D_pst`, `PadicWeilDeligneRealization`,
+`B_st`, `D_st`, the semistable predicate, the `PeriodRealization` API on the shared
+period functors, `D_pst`, `PadicWeilDeligneRealization`,
 `AbelianVariety.deRham`, and `SemistableOrdinaryAdapter`.
 Their geometric Checks are likewise in README.md.
+
+`SemistableIdentityBasechange` in README 3.3 provides identity-model base change and
+the open-immersion helper for a smooth separated finite-type group scheme over a DVR,
+with a generic-fibre marking and semi-abelian open identity component. Both the
+base-changed Néron identity model and `PicardZero` satisfy whole-group smoothness;
+no residue-field restriction is imposed.
+
+SelmerIwasawaCohomology 4.1–4.5 supplies `B_cris`, `D_cris`, `D_dR` and their
+crystalline and de Rham predicates: these denote its `bCris`, `dCris`, `dDeRham`,
+`IsCrystalline` and `IsDeRham`. README 5.3 extends that core by `B_st` and `D_st`,
+retaining the logarithm branch, `N = e * N_p` and the `K₀` versus `K` scalar fields.
+`PeriodRealization` supplies functoriality, `dim_le` (using the supplied crystalline
+and de Rham bounds), tensor/dual compatibility on the admissible subcategories and
+finite-extension de Rham descent for those same carriers. Its weights are filtration
+indices, so `ℚ_p(1)` has weight `-1`; R01.7's numeric labels have the opposite sign.
+`PadicComparison` uses these supplied predicates and identifies their `D_dR(V_p(A))`
+with the dual degree-one de Rham cohomology and its dual Hodge filtration, naturally
+under finite extensions. The elliptic Bloch–Kato diagram of the supplier's 4.26 uses
+that same `dDeRham(V_p(E))/Fil⁰`.
 
 The construction `NeronModel.extend` and its API (`extend_restrict`, `extend_unique`,
 `extend_map`, `extend_identity`, `extend_precomp`, `extend_proof_irrel`, `extend_to_model`,

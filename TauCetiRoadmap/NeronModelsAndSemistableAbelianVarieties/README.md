@@ -137,6 +137,10 @@ It leaves to other roadmaps, and consumes from them:
   comparison with Mathlib's `WeierstrassCurve.localPolynomial`); the underlying Tate module and
   Weil pairing are those of AbelianSchemesAndArithmeticModuli A4.1 and A3.5, as fixed in the
   supplier contracts below.
+- **SelmerIwasawaCohomology**, §§4.1–4.5: the shared `ℂ_p`, `B_dR` and `B_cris`
+  period structures, fixed fields and dimension bounds, and the crystalline and de Rham
+  realization carriers and predicates. Section 5.3 extends these with semistable periods
+  and the abelian-variety comparison; §4.26 of that roadmap consumes this comparison.
 - **NeronModelsAndSemistableAbelianVarieties Part II**: Ferrand pinching and conductor squares,
   genus-one fibres and their forms, multiple fibres over excellent discrete valuation rings,
   global Weierstrass models and Jacobians of genus-one curves, Picard constancy and fibre
@@ -448,6 +452,17 @@ R01.3 Ogg formula and the R01.6 good-reduction Frobenius polynomial follow 1.8�
 These are mathematical dependency targets. Only the declarations in the Mathlib and
 Tau Ceti contracts above are asserted to exist at the pins; a carrier required from
 another roadmap is specified in this README and is not a Lean import or declaration.
+
+SelmerIwasawaCohomology §§4.1–4.5 supplies the shared period core: the Galois action on
+Mathlib's `PadicComplex` and `BDeRham`, `bCris` with its Frobenius and embedding in `B_dR`,
+the invariant fields and dimension bounds, and `dCris`, `dDeRham`, `IsCrystalline` and
+`IsDeRham` with their canonical comparison maps. Here `B_cris`, `D_cris` and `D_dR`
+denote those supplied carriers. Section 5.3 constructs `B_st`, `D_st` and `D_pst` from
+this core; its additional functor API acts on these same tensor-invariant modules,
+preserving Galois actions, Frobenius, filtration, the `K₀` and `K` scalar fields,
+and the canonical tensor and dual maps and admissibility predicates.
+The target order is SelmerIwasawaCohomology §§4.1–4.5, then 5.3 here, then
+SelmerIwasawaCohomology §4.26's elliptic Bloch–Kato comparison.
 
 ## How to read the build
 
@@ -1118,8 +1133,9 @@ valuation rings `R → R'` with fraction fields `K'/K`, and `N` the Néron model
 `R'`, the canonical map `M⁰ ×_R R' → N⁰` is an isomorphism (Conrad, Theorem 4.4 and its proof,
 pp. 10–16; Corollary 4.5, pp. 11–12). The proof first establishes the open-immersion theorem,
 which is part of this target and is also consumed by 3.9: over an arbitrary discrete valuation
-ring, a separated finite-type group scheme `G` whose generic fibre is an abelian variety and
-whose open identity component `G⁰` is a semi-abelian scheme (smooth, with semi-abelian fibres)
+ring, a smooth separated finite-type group scheme `G` with its generic-fibre marking
+by an abelian variety and with a semi-abelian open identity component `G⁰`
+(smooth, with semi-abelian fibres)
 maps to the Néron model of its generic fibre by an open immersion; in particular a
 semi-abelian `G = G⁰` maps isomorphically onto the identity model (Conrad, Theorem 4.4, p. 10). Its proof uses Zariski's main theorem,
 smooth and étale lifting and the density of integral sections. Applied to `G = M⁰ ×_R R'`, the
@@ -1140,6 +1156,16 @@ main theorem; SchemeAndStackFoundations §0.14 for smooth and étale lifting.
 - (non-example) For an elliptic curve with additive reduction that acquires good reduction over
   `K'`, the identity fibres are `𝔾_a` and an elliptic curve; the map of identity models is not an
   isomorphism, so the semistability hypothesis cannot be dropped.
+- (non-example) With uniformiser `π`, the finite group scheme
+  `H = Spec R[e]/(e²-e, πe) = Spec R ⊔ Spec k` has trivial generic fibre and
+  `H⁰ = Spec R`, but is not flat: the nonzero class `e` is killed by `π`.
+  It is the subgroup of the constant `(ℤ/2)_R` with only the special fibre of the
+  nonidentity component; `Δ(e) = e⊗1 + 1⊗e - 2e⊗e` preserves the relation `πe = 0`.
+  Neither `H` nor `𝒜 ×_R H` for a positive-dimensional abelian scheme `𝒜/R`
+  is smooth, and neither can be open in its Néron model.
+- Both `M⁰ ×_R R'` and `Pic⁰_{X/R}` under 3.8's hypotheses are smooth separated
+  finite-type group schemes with semi-abelian fibres. They satisfy the helper's
+  hypotheses over the actual discrete valuation rings, with arbitrary residue fields.
 
 ### 3.4 Ramified base change of a Tate curve
 
@@ -1222,8 +1248,16 @@ in 4.3; it is separate from the rank-`2g` Tate module of geometric points.
   form the trivial group; they do not compute its scheme rank `p`. Dividing `A[p]` by
   `H_{p,K} = 0` would leave rank `p²`, whereas the quotient by `F_{p,K} = μ_p` is `ℤ/p` of
   rank `p`: the two readings differ already in rank.
-- Good supersingular elliptic reduction in characteristic `p` has `F_p = H_p = A[p]`
-  of rank `p²`, `P_p = Q_p = 0`, although `A[p](K̄)` is trivial.
+- For an abelian-scheme model `𝒜/R` with supersingular elliptic special fibre in
+  characteristic `p`, `F_p = H_p = 𝒜[p]` has rank `p²` and `P_p = Q_p = 0`,
+  although `𝒜_k[p](k̄)` is trivial.
+- Over `R = 𝔽₂[[t]]`, the elliptic scheme `y² + txy + y = x³` has unit
+  discriminant `1+t³` and supersingular special fibre `y²+y=x³`, whose inverse
+  sends `(x,y)` to `(x,y+1)`, so it has no nonidentity geometric two-torsion.
+  In the generic algebraic closure choose `u²=t`; the point `(u⁻²,u⁻³)` lies on
+  the curve and is fixed by `(x,y) ↦ (x,y+tx+1)`, so is nonzero two-torsion.
+  The generic and special geometric-point counts differ while both torsion
+  group schemes have rank `4`.
 
 ### 3.6 Weil orthogonality
 
@@ -2112,21 +2146,35 @@ branch of the `p`-adic logarithm extending the usual logarithm on units to fix t
 operator using `ord(π) = 1`, consistently with 4.3. If `e = ord(p)` and `N_p` is the
 operator for the valuation with value `1` on `p`, then `N = e·N_p` (Fontaine,
 Exposé III, §5.2.1, p. 158); the scalar is nonzero because `K/ℚ_p` is finite.
-Define Fontaine's period rings
-`B_cris ⊂ B_st`, with their Frobenius `φ`, monodromy `N` and comparison to the supplied
-`B_dR` (Fontaine, *Le corps des périodes p-adiques*, Astérisque 223 (1994),
-§§1–3 and §4.2, pp. 59–101), the functors `D_cris`, `D_st`, `D_dR` on
-continuous `ℚ_p`-representations of `Gal(K̄/K)`, and the predicates crystalline, semistable and
-de Rham (dimension over `K₀` for `D_cris` and `D_st`, over `K` for `D_dR`, equal to the
-`ℚ_p`-dimension of the representation). The functors, dimensions and relation
-`D_cris(V) = ker(N : D_st(V) → D_st(V))` use Fontaine, *Représentations p-adiques
-semi-stables*, Astérisque 223 (1994), §3.1 and §§5.1.1–5.1.7, pp. 136–137 and 155–157. Prove
+Consume `B_cris`, `B_dR`, `D_cris`, `D_dR` and the crystalline and de Rham predicates
+from SelmerIwasawaCohomology §§4.1–4.5, using its `bCris`, `dCris`, `dDeRham`,
+`IsCrystalline` and `IsDeRham` without a second construction. Define `B_st` as
+Fontaine's logarithmic extension of that `B_cris`, with the extending Galois action
+and Frobenius `φ`, monodromy `N` and branch-dependent embedding in that `B_dR`
+(Fontaine, *Le corps des périodes p-adiques*, Astérisque 223 (1994),
+§§3.1–3.2 and §4.2, pp. 79–86). For finite-dimensional continuous
+`ℚ_p`-representations `V` of `Gal(K̄/K)`, define
+`D_st(V) = (B_st ⊗_{ℚ_p} V)^{G_K}` over `K₀` and the semistable predicate by
+`dim_{K₀} D_st(V) = dim_{ℚ_p} V`, equivalently that the canonical period comparison
+map is an isomorphism. Prove `B_st^{G_K} = K₀`, the semistable dimension bound and
+`D_cris(V) = ker(N : D_st(V) → D_st(V))`, with the supplied Frobenius and
+filtration; for semistable `V` the canonical map
+`K ⊗_{K₀} D_st(V) → D_dR(V)` is a filtered isomorphism (Fontaine,
+*Représentations p-adiques semi-stables*, Astérisque 223 (1994),
+§§5.1.1–5.1.7, pp. 155–157). Prove
 `PeriodRealization.map_id`, `map_comp`, `zero`, `trivial`, `dim_le`,
 `crystalline_implies_semistable`, `semistable_implies_deRham` and
 `potentially_deRham_iff_deRham`; the last is descent through a finite extension
-(Fontaine, §3.9(ii), p. 143). On the admissible subcategories prove
+(Fontaine, §3.9(ii), p. 143). This API acts on the supplied `D_cris` and `D_dR`
+and the new `D_st`; the crystalline and de Rham cases of `dim_le` are the supplied
+§4.4 bounds. On the admissible subcategories prove
 `PeriodRealization.tensor` and `dual` (Fontaine, Theorem 3.8, p. 142, and the theorem
-after §5.1.7, p. 158). In particular potential semistability from 3.10 gives
+after §5.1.7, p. 158), using the canonical tensor-invariant maps and preserving
+Frobenius and filtration, and monodromy for `D_st`. The filtration-index weight
+convention is SelmerIwasawaCohomology's: `ℚ_p(1)` has weight `−1` and filtration
+jump `−1`. ArithmeticGaloisRepresentations R01.7 uses the opposite numeric labels,
+so its weight is the negative of this weight (`+1` on `ℚ_p(1)`); dualising negates
+either label. In particular potential semistability from 3.10 gives
 `AbelianVariety.deRham` for every `A`. Then
 prove `PadicComparison`: if `A` has good reduction then `V_p(A)` is crystalline, and if `A` has
 semistable reduction then `V_p(A)` is semistable, with `D_st(V_p(A))` the filtered `(φ, N)` realisation of the full Raynaud `1`-motive
@@ -2144,8 +2192,13 @@ the period-ring scalar field, as for an unramified extension);
 Boxer–Calegari–Gee–Pilloni 2021, Proposition 2.8.1, pp. 194–195, uses the associated
 Weil–Deligne systems rather than stating this period-ring comparison). The convention for
 the dual: `V_p(A)` is the homological Tate module and `H¹_ét(A_{K̄}, ℚ_p)` its dual, so
-`D_cris(H¹)` is the dual Dieudonné module with the opposite Hodge weights. *Needs:* 1.8, 1.10, 3.1,
-3.10, 3.13, 3.14; Mathlib `BDeRham`, `WittVector.fontaineTheta`.
+`D_cris(H¹)` is the dual Dieudonné module with the opposite Hodge weights.
+The resulting de Rham comparison identifies the supplied `D_dR(V_p(A))` with
+`H¹_dR(A/K)^*`, with the dual Hodge filtration of AbelianSchemesAndArithmeticModuli
+A4.3, naturally in `A` and under finite extensions. Finite-extension descent and
+the crystalline comparison use the same supplied comparison maps and predicates.
+*Needs:* 1.8, 1.10, 3.1, 3.10, 3.13, 3.14;
+SelmerIwasawaCohomology §§4.1–4.5; AbelianSchemesAndArithmeticModuli A4.3.
 
 Also define `PadicWeilDeligneRealization` on potentially semistable representations
 of `G_K`. Its input is `D_pst(V)` over `P₀ = Frac W(k̄)`, obtained as the union of the
@@ -2199,6 +2252,11 @@ without discarding the integral normalisation of 4.3.
   and the same relation holds. The zero-monodromy case gives both entries `0`.
 - At the residue prime the inertia invariants of `V_p(A)` are not the finite part of 3.5; the
   crystalline predicate, not unramifiedness, detects good reduction.
+- For an elliptic curve `E/K`, the period term in SelmerIwasawaCohomology §4.26's
+  de Rham/exponential/Kummer diagram is this same `dDeRham(V_p(E))/Fil⁰`.
+  Its identification with `Lie(E/K)` uses the dual Hodge filtration transported by
+  `PadicComparison`, including for a Tate curve and after ramified descent.
+  The diagram requires no equivalence between separate period carriers or predicates.
 
 ### 5.4 The conductor interface
 
@@ -2298,7 +2356,8 @@ under the hypothesis; by the perfect pairing of 4.6 one may use `#Φ_A(k̄)` in 
 ### Dependencies
 
 Layers 1, 3 and 4; `ArithmeticGaloisRepresentations:R01.2`, `R01.3`, `R01.6`;
-`AbelianSchemesAndArithmeticModuli:A3`; EllipticCurves Layer 4; Mathlib `BDeRham` for 5.3.
+`AbelianSchemesAndArithmeticModuli:A3`, `A4.3`; EllipticCurves Layer 4;
+SelmerIwasawaCohomology §§4.1–4.5 for 5.3.
 
 ## Layer 6: interfaces for modularity and finiteness
 
@@ -2791,6 +2850,9 @@ Layer 1; StableReduction Layer 7; SchemeAndStackFoundations §3.8;
   abelian-scheme model 1.8 and the group law 1.5 for the good-reduction Frobenius polynomial.
 - **PadicHodgeTheory** R06.6: the semistable reduction predicate 3.1, which that roadmap uses to
   state its semistable comparison.
+- **SelmerIwasawaCohomology** §4.26: `AbelianVariety.deRham`, `PadicComparison` and
+  finite-extension descent from 5.3, and the Raynaud uniformisation of 3.13–3.14,
+  for its elliptic tangent, exponential and Kummer comparison on the shared `D_dR`.
 - **StableReduction** Layer 7 (the curve–Jacobian criterion): local existence 1.7, the
   semistable predicate 3.1 and the Picard–Néron comparison 3.9.
 - **NeronModelsAndSemistableAbelianVarieties Part II** and **JacobianChallenge Part II**: the
