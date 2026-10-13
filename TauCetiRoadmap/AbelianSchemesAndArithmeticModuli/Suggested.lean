@@ -18,7 +18,8 @@ The file records the light definitions of the roadmap with real bodies, and the 
 carriers exist in the pinned Mathlib and Tau Ceti: the relative carrier `AbelianScheme`, isogenies
 and multiplication maps over a base, the degree of a homomorphism of abelian varieties over a field,
 simple abelian varieties, the finiteness, semisimplicity and characteristic-polynomial theorems,
-coefficient Hom spaces, the alternating elementary-divisor theorem and the Siegel space. Statements
+coefficient Hom spaces, the real positive-involution normal form and internal square roots,
+the alternating elementary-divisor theorem and the Siegel space. Statements
 whose carriers are not yet in the libraries (the dual abelian scheme, polarizations, Tate modules of
 abelian schemes, de Rham realizations, Barsotti–Tate groups, the complex uniformization, Weil
 restriction) are specified in the README and listed at the end.
@@ -39,7 +40,7 @@ Design choices made explicit here:
 -/
 
 open CategoryTheory Limits MonoidalCategory AlgebraicGeometry MonObj Polynomial
-open scoped TensorProduct TauCeti.AlgebraicGeometry.AbelianVariety.Hom
+open scoped TensorProduct Quaternion TauCeti.AlgebraicGeometry.AbelianVariety.Hom
 
 namespace TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
@@ -486,6 +487,67 @@ example (D : Subring ℚ) (A B : AbelianVariety K) (u : Dˣ) (x : LocalizedHom D
 
 end OverField
 
+section RealRosatiAlgebra
+
+open scoped ComplexOrder
+
+variable {E : Type*} [Ring E] [Algebra ℝ E] [StarRing E] [StarModule ℝ E]
+
+/-- Self-adjointness and strict positivity of the trace quadratic form `x ↦ t (s * x * star x)`.
+For a cyclic, involution-invariant trace strictly positive on `x * star x`, this expresses positive
+definite left multiplication for the trace inner product (README A6.15). -/
+def IsRosatiPositive (t : E →ₗ[ℝ] ℝ) (s : E) : Prop :=
+  IsSelfAdjoint s ∧ ∀ x : E, x ≠ 0 → 0 < t (s * x * star x)
+
+/-- A positive self-adjoint unit has a unique positive self-adjoint square root inside the real
+algebra. The root is invertible, is a real polynomial in the original element, and preserves
+its commutant. The trace is cyclic, involution-invariant and strictly positive on `x * star x`
+(README A6.15). -/
+theorem rosatiPositiveSquareRoot [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
+    (hcyclic : ∀ x y : E, t (x * y) = t (y * x))
+    (hstar : ∀ x : E, t (star x) = t x)
+    (hpos : ∀ x : E, x ≠ 0 → 0 < t (x * star x))
+    (s : E) (hs : IsRosatiPositive t s) (hsUnit : IsUnit s) :
+    ∃ r : E, IsRosatiPositive t r ∧ r * r = s ∧ IsUnit r ∧
+      (∃ p : ℝ[X], aeval s p = r) ∧
+      (∀ c : E, Commute c s → Commute c r) ∧
+      ∀ r' : E, IsRosatiPositive t r' → r' * r' = s → r' = r := by
+  sorry
+
+/-- A finite-dimensional real algebra with a cyclic, involution-invariant trace strictly positive
+on `x * star x` has real, complex and quaternionic matrix factors carrying the standard adjoints.
+Intrinsic strict positivity agrees with positive definiteness in every factor (README A6.15).
+Quaternionic definiteness uses the real part of the Hermitian quadratic form. -/
+theorem realRosatiDecomposition [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
+    (hcyclic : ∀ x y : E, t (x * y) = t (y * x))
+    (hstar : ∀ x : E, t (star x) = t x)
+    (hpos : ∀ x : E, x ≠ 0 → 0 < t (x * star x)) :
+    ∃ (nR nC nH : ℕ) (dR : Fin nR → ℕ) (dC : Fin nC → ℕ) (dH : Fin nH → ℕ),
+      (∀ i, 0 < dR i) ∧ (∀ i, 0 < dC i) ∧ (∀ i, 0 < dH i) ∧
+      ∃ e : E ≃ₐ[ℝ]
+          ((∀ i : Fin nR, Matrix (Fin (dR i)) (Fin (dR i)) ℝ) ×
+            (∀ i : Fin nC, Matrix (Fin (dC i)) (Fin (dC i)) ℂ) ×
+            (∀ i : Fin nH, Matrix (Fin (dH i)) (Fin (dH i)) ℍ[ℝ])),
+        (∀ x : E, e (star x) = star (e x)) ∧
+        ∀ s : E, IsRosatiPositive t s ↔
+          (∀ i, ((e s).1 i).PosDef) ∧
+          (∀ i, ((e s).2.1 i).PosDef) ∧
+          (∀ i, ((e s).2.2 i).IsHermitian ∧
+            ∀ v : Fin (dH i) → ℍ[ℝ], v ≠ 0 →
+              0 < (∑ j, ∑ k, star (v j) * ((e s).2.2 i) j k * v k).re) := by
+  sorry
+
+end RealRosatiAlgebra
+
+/-- Check: the adjoint defined by `J = diag(1, -1)` on a semisimple matrix algebra fails trace
+positivity at the matrix unit `e₁₂` (README A6.15). -/
+example :
+    let J : Matrix (Fin 2) (Fin 2) ℝ := !![1, 0; 0, -1]
+    let x : Matrix (Fin 2) (Fin 2) ℝ := !![0, 1; 0, 0]
+    Matrix.trace (J * x.transpose * J * x) = -1 := by
+  norm_num [Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.vecMul, dotProduct,
+    Fin.sum_univ_two, Matrix.transpose_apply]
+
 /-! Library declarations this roadmap builds on. -/
 
 #check @AlgebraicGeometry.Scheme.Hom.finrank
@@ -518,6 +580,14 @@ A6.22 specifies `CoefficientHom.scalar_isogeny`, `CoefficientHom.dual_numbers`,
 `CoefficientHom.zero` and `CoefficientHom.not_field_extension`; its examples above
 pin the scalar inverse and the dual-numbers inverse. A6.26 includes
 `LocalizedHom.prime_to_p`.
+
+A6.15 specifies `rosatiRegularRepresentation`: the scalar-extended Rosati trace gives a real
+inner product, and faithful left multiplication carries Rosati to the operator adjoint. The generic
+normal-form and internal-square-root signatures above use its cyclic, involution-invariant trace
+and strict positivity hypotheses. A6.24 specifies `CoefficientHom.polarizedAdjoint`, reversing
+composition and extending real-linearly between polarized coefficient Hom spaces. Its `realIsometries`
+target uses the internal root and adjoint-compatible algebra actions to retain endomorphism
+intertwiners.
 
 The README states each of these with its hypotheses; most need carriers that are not in the pinned
 Mathlib or Tau Ceti.

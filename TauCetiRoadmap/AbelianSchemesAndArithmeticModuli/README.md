@@ -117,6 +117,16 @@ Matsusaka–Morikawa endomorphism, the CM isotypic decomposition and the Hodge l
 
 **Built in other roadmaps and cited.**
 
+- *RepresentationTheory/SemisimpleAlgebras.* Layers 4–5: Skolem–Noether; Layer 6,
+  *Real base field*: finite-dimensional central real division algebras are `ℝ` or `ℍ[ℝ]`.
+  Together with Mathlib's algebraically closed Wedderburn theorem over `ℂ`, these supply the
+  division-algebra factors in A6.15. The positive-involution normal form and its Rosati adapter
+  are A6.15 here.
+- *OperatorTheory/PolarDecomposition, Part A.* PD-A11–PD-A19: finite self-adjoint spectral
+  calculus on finite-dimensional real Hilbert spaces, including commutant preservation;
+  PD-A20–PD-A28: positive square roots, their invertibility and uniqueness. A6.15 constructs the
+  Rosati inner product and regular representation, and proves that the operator square root is
+  left multiplication by an element of the real coefficient algebra.
 - *AlgebraicModuliForArithmeticGeometry.* Layer 1: relative Serre generation and vanishing
   (`relativeSerre`, `serreGeneration`) and relative very ampleness (`amplePowersAndFixedTwists`).
   Layer 2, §2.1: Hom and Isom schemes of projective flat families (`homAndIsomSchemes`) through the
@@ -2264,22 +2274,103 @@ nonzero matrix. This is the matrix positivity check for the transpose involution
 
 ### A6.15 Rational Néron–Severi and the ample cone
 
+**The Rosati operator adapter and internal square roots.** Prove `rosatiRegularRepresentation`:
+for a polarized abelian variety over any field, extend `†` and the geometric trace to
+`E = ℝ ⊗_ℚ End⁰(A)`. The trace `t : E → ℝ` is linear, satisfies `t(xy) = t(yx)` and
+`t(x^†) = t(x)`, and gives the positive definite inner product `⟨x,y⟩ = t(x y^†)` by A6.14.
+Left multiplication `s ↦ L_s` is a faithful real-algebra representation on this finite-dimensional
+real Hilbert space, with `L_{s^†} = L_s^*`. Use the norm induced by this inner product for the operator
+adapter. Define `IsRosatiPositive t s` intrinsically by `s^† = s` and
+`t(s x x^†) > 0` for every `x ≠ 0`; thus `L_s` is positive definite.
+For a positive self-adjoint unit `s`, prove `rosatiPositiveSquareRoot`: there is a unique
+positive self-adjoint `r ∈ E` with `r² = s`; it is a unit, belongs to `ℝ[s]`, and commutes with every
+element of `E` commuting with `s`, as does `r^{-1}`. These statements also apply to any finite-dimensional
+real algebra with a real-linear involution and a cyclic, involution-invariant linear trace satisfying
+`t(x x^†) > 0` for `x ≠ 0`.
+
+The square root is supplied by OperatorTheory/PolarDecomposition PD-A20–PD-A28 on `L_s`.
+Interpolate `√z` on the finite real spectrum of `L_s` by `p ∈ ℝ[X]`, using PD-A11–PD-A19; the
+operator root is `p(L_s) = L_{p(s)}`, so `r = p(s)` lies in `E`. Faithfulness transfers its square,
+positivity and uniqueness; invertibility follows from the positive spectrum, and polynomial
+evaluation gives commutant compatibility. The same argument with `1/√z` gives the inverse in
+`ℝ[s]`. This construction precedes the matrix normal form (Voight, *Quaternion algebras*, v0.9.15,
+§8.4.8, p. 117, for the regular-representation positivity convention).
+*Needs:* A3.9, A6.7, A6.11, A6.14; OperatorTheory/PolarDecomposition PD-A11–PD-A28.
+
+**Checks.**
+
+- In `M_n(ℝ)` with transpose and matrix trace, the inner product is the sum of entrywise products,
+  and the internal square root agrees with the positive symmetric matrix square root.
+- For `s = diag(2, 3)`, the root is `diag(√2, √3)` in `M₂(ℝ)`; an internal real square root need
+  not lie in `M₂(ℚ)`.
+- Every matrix commuting with `s = diag(4, 4, 9)` commutes with its root `diag(2, 2, 3)` and its
+  inverse, including all matrices on the repeated-eigenvalue block.
+- `diag(1, 0)` is self-adjoint and nonnegative but fails strict positivity and the unit hypothesis.
+  For the dimension-zero abelian variety, `E = 0`, positivity is vacuous and its unique element
+  is its own square root and a unit.
+
+**The real Rosati normal form and positivity comparison.** Prove `realRosatiDecomposition`:
+for `E` and `t` as above, construct a real-algebra isomorphism
+`E ≅ ∏ M_{r_i}(ℝ) × ∏ M_{c_j}(ℂ) × ∏ M_{h_k}(ℍ[ℝ])` that sends `†` to transpose on the real
+factors and conjugate transpose on the complex and quaternionic factors. The index sets are finite
+and block sizes positive; the zero algebra has no blocks. More generally, finite dimension,
+real-linearity of the involution, the cyclic and involution-invariant trace identities, and
+`t(x x^†) > 0` for nonzero `x` are the hypotheses of this normal-form theorem.
+Under this isomorphism, `IsRosatiPositive t s` is equivalent to positive definiteness of every
+self-adjoint matrix factor. On quaternionic columns, positive definiteness means
+`Re(∑_{i,j} v_i^* s_{ij} v_j) > 0` for `v ≠ 0`, together with conjugate-transpose symmetry.
+In noncommutative applications, “totally positive” means this condition in every factor.
+
+The positive-involution normal form is proved here, using RepresentationTheory/SemisimpleAlgebras
+Layers 4–6 for Skolem–Noether and real central division algebras, and Mathlib
+`IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed` for complex central factors. The faithful regular
+representation carries `†` to the operator adjoint, so its regular trace is positive on `x x^†`;
+positivity forces semisimplicity and prevents the involution from exchanging simple factors.
+Their centres are `ℝ` or `ℂ`. On each matrix factor the positive involution is adjoint to a definite
+Hermitian form; rescale its defining form to be positive and conjugate by its internal positive
+square root to obtain the standard adjoint. In that normal form, the original `t` is a positive
+multiple of the real matrix trace on each factor. This gives the intrinsic positivity comparison
+without identifying geometric trace with reduced trace (Voight, §8.4.5–§8.4.9, pp. 116–118;
+Lipnowski–Tsimerman, §4.3.2 and Proposition 4.10, pp. 19–20, for the resulting cones).
+*Needs:* the operator adapter and square-root target above; RepresentationTheory/SemisimpleAlgebras
+Layers 4–6; Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`.
+
+**Checks.**
+
+- Transpose on `M_n(ℝ)` already has the specified normal form; the positive elements are the
+  positive definite symmetric matrices.
+- Conjugate transpose on complex and quaternionic factors gives the positive definite Hermitian
+  cones. On `ℍ[ℝ]` itself, the self-adjoint elements are real scalars and positivity means `s > 0`.
+- For `J = diag(1, −1)` on `M₂(ℝ)`, the involution `x^† = J^{-1} xᵀ J` has
+  `trace(e₁₂^† e₁₂) = −1`; it fails the positivity hypothesis despite semisimplicity.
+- Swapping the factors of `ℝ × ℝ` sends `e = (1, 0)` to `(0, 1)`, so `t(e e^†) = 0` for every
+  linear trace and violates strict positivity.
+
+**The geometric ample cone.**
+
 Prove `rationalNSAmpleCone`. Over an algebraically closed field, `φ` induces
 `NS(A) ⊗ ℚ ≅ Hom⁰(A, A^∨)^{sym}`, the rationalization of the integral isomorphism
 `NS(A) ≅ Hom(A, A^∨)^{sym}` of A3.13, in every characteristic, and `θ_λ([L]) = λ^{-1} φ_L` identifies
 `NS(A)_ℚ` with the Rosati-fixed part of `End⁰ A`. For symmetric `f` the bundle `(id, f)^*P` has `φ = 2f`;
 dividing its class by `2` after rationalization gives only the rational statement, and the integral
 class with `φ = f` is the one supplied by A3.13. Lipnowski–Tsimerman's half-normalization `θ′ = θ/2` is a
-separately named scalar adapter. An integral class is ample iff `θ_λ` of it is positive for the Rosati
-involution; over `ℝ` the ample cone is the product of the cones of positive definite Hermitian matrices
-in the `ℝ`, `ℂ` and `ℍ` factors of `End⁰(A)_ℝ`. The proof: the integral isomorphism is A3.13, and
-tensoring with `ℚ` gives the first statement; Rosati positivity (A6.14) and the real semisimple
-`*`-algebra decomposition (A6.8) identify positive symmetric elements, which have positive square roots;
+separately named scalar adapter. An integral class is ample iff `IsRosatiPositive t (θ_λ([L]))`;
+over `ℝ` the ample cone is the product of the positive definite Hermitian matrix cones under
+`realRosatiDecomposition`. The proof: the integral isomorphism is A3.13, and
+tensoring with `ℚ` gives the first statement; the intrinsic positivity comparison and internal
+square roots above identify the positive symmetric cone;
 the component containing `λ` is the ample cone by the degree and intersection computation (Conrad,
 *Polarizations*, Example 2.2 and Lemma 2.3, pp. 6–7; Lipnowski–Tsimerman, Lemma 4.6 and
-Propositions 4.9–4.10, pp. 17–19). For `L` defining `λ`, `θ([L]) = 1` and `θ′([L]) = 1/2`; for `E²` with
-`End E = ℤ` the ample cone is the positive definite symmetric real `2 × 2` matrices. *Needs:* A2.10,
-A3.9, A3.13, A6.8, A6.14.
+Propositions 4.9–4.10, pp. 17–20). *Needs:* A2.10, A3.9, A3.13, A6.14;
+`realRosatiDecomposition`, `rosatiPositiveSquareRoot`.
+
+**Checks.**
+
+- For `L` defining `λ`, `θ([L]) = 1` and the half-normalization gives `θ′([L]) = 1/2`.
+- For `E²` with `End E = ℤ` and product polarization, the real ample cone is the positive definite
+  symmetric `2 × 2` matrices.
+- In positive dimension `−[L]` maps to `−1`, which fails intrinsic positivity; the inverse of an
+  ample line bundle is not ample.
 
 ### A6.16 Finiteness of the Néron–Severi group
 
@@ -2435,14 +2526,41 @@ simple multiplicities differ. The API is `CoefficientIsog.open`, `CoefficientIso
 ### A6.24 Real isometries and polarized torsors
 
 Prove `realIsometries`. For a polarization, `{u ∈ (End⁰(A)_ℝ)^× : u^†u = 1}` is compact, and so is the group
-of positive similitudes modulo `ℝ^×`. A nonempty coefficient isogeny torsor respecting two polarizations
-up to positive scalars is trivial over `ℝ`: given an isogeny `f`, replace it by `f (f^†f)^{-1/2}`. Extra
-endomorphisms are allowed only when the square root commutes with them, which compatible positive
-involutions ensure. The proof uses the faithful orthogonal action given by the positive Rosati form
-(A6.14) and positive square roots in the real semisimple `*`-algebra (A6.15) (Kisin–Madapusi Pera–Shin,
-§2.1.3, pp. 20–21, and proof of Lemma 2.3.13, p. 35). For `Eⁿ` without CM one recovers `O(n)` and positive
-symmetric square roots; real triviality does not give a rational polarization-preserving isogeny.
-*Needs:* A6.14, A6.15, A6.23.
+of positive similitudes modulo `ℝ^×`. Define `CoefficientHom.polarizedAdjoint` for polarized
+`(A, λ_A)` and `(B, λ_B)` by `f^† = λ_A^{-1} f^∨ λ_B`, extended real-linearly to the coefficient
+Hom spaces of A6.22. It reverses composition and is involutive. For every two-sided invertible
+`f ∈ CoefficientHom A B ℝ`, the element `s = f^†f` is a positive self-adjoint unit in
+`E_A = ℝ ⊗_ℚ End⁰(A)`. For a rational isogeny this is the ample-cone criterion of A6.15 applied
+to its pulled-back polarization; write a real coefficient isomorphism as that rational isogeny
+composed with a unit of `E_A`, and use invariance of intrinsic positivity under `s ↦ a^†sa`.
+Let `r ∈ E_A` be the root supplied by `rosatiPositiveSquareRoot`. Then `u = f r^{-1}` lies in
+`CoefficientHom A B ℝ`, is invertible, and satisfies `u^†u = 1`, equivalently
+`u^∨ λ_B u = λ_A`. Thus the coefficient isometry torsor has a real point whenever the underlying
+coefficient isogeny locus is nonempty; the same holds for positive similitudes.
+
+For additional endomorphisms, let `C` be a `ℚ`-algebra with involution and let the `ℚ`-algebra maps
+`ι_A : C → End⁰(A)` and `ι_B : C → End⁰(B)` respect the polarized adjoints:
+`ι_A(c^*) = ι_A(c)^†` and likewise for `B`.
+Start with an invertible coefficient arrow satisfying `f ι_A(c) = ι_B(c) f` for every `c`.
+Taking adjoints with `c^*` gives `ι_A(c) f^† = f^† ι_B(c)`, so `s` commutes with `ι_A(c)`;
+the internal root and its inverse commute with the action, and `u` still intertwines it.
+Consequently the isometry torsor with these actions is trivial over `ℝ` whenever the underlying
+intertwining isogeny locus is nonempty. Compactness uses the closed faithful orthogonal action
+of `rosatiRegularRepresentation`; positive similitudes are rescaled by the square root of their
+positive multiplier (Kisin–Madapusi Pera–Shin, §2.1.3, pp. 20–21, and proof of Lemma 2.3.13,
+p. 35). *Needs:* A3.9, A6.15 (`rosatiRegularRepresentation`, `rosatiPositiveSquareRoot`), A6.22, A6.23.
+
+**Checks.**
+
+- For `Eⁿ` with `End E = ℤ` and product polarization, the isometry group is `O(n)` and the correction
+  is the usual positive symmetric inverse square root of `fᵀf`.
+- For `A = B = E`, `λ_B = 2λ_A` and `f = 1`, the real correction is `u = 1/√2`; it satisfies the
+  isometry equation and has no rational counterpart when `End⁰ E = ℚ`.
+- For `s = diag(4, 4, 9)`, every additional endomorphism supported on the first two coordinates
+  commutes with `r^{-1} = diag(1/2, 1/2, 1/3)`, so the correction retains that action.
+- With transpose adjoints and actions of `M₂(ℚ)`, `f = diag(2, 1)` intertwines `ι_A(e₁₂) = e₁₂` with
+  `ι_B(e₁₂) = 2e₁₂`, but `fᵀf = diag(4, 1)` does not commute with `e₁₂`. Such actions fail
+  adjoint compatibility, and the square-root correction need not intertwine them.
 
 ### A6.25 Relative Hom and normal-base extension
 
@@ -2854,6 +2972,8 @@ semisimplicity and `p`-adic libraries.
   Bogomolov conjecture*, arXiv:1801.05762v3.
 - [Caro–Pasten] J. Caro and H. Pasten, *A Chabauty–Coleman bound for surfaces*, arXiv:2102.01055v2.
 - [Lipnowski–Tsimerman] M. Lipnowski and J. Tsimerman, *How large is A_g(𝔽_q)?*, arXiv:1511.02212v1.
+- [Voight] J. Voight, *Quaternion algebras*, v0.9.15, §8.4, pp. 116–118,
+  <https://jvoight.github.io/quat/quat-book-v0.9.15.pdf>.
 - [Kisin–Pappas] M. Kisin and G. Pappas, *Integral models of Shimura varieties with parahoric level
   structure*, Publ. Math. IHÉS 128 (2018), 121–218.
 - [Kisin] M. Kisin, *Mod p points on Shimura varieties of abelian type*, J. Amer. Math. Soc. 30 (2017),
