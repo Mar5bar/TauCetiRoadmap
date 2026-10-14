@@ -132,6 +132,47 @@ example {X S : Scheme.{u}} {f : X ⟶ S} (C : Compactification f) :
   change IsClosedImmersion C.j.imageι
   infer_instance
 
+/-- The standard affine-line chart in the projective line has exactly one boundary point. -/
+example (k : Type u) [Field k] :
+    let A := Spec (CommRingCat.of (Polynomial k))
+    let f : A ⟶ Spec (CommRingCat.of k) :=
+      Spec.map (CommRingCat.ofHom (Polynomial.C : k →+* Polynomial k))
+    let grading := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    letI : GradedAlgebra grading := MvPolynomial.gradedAlgebra
+    ∃ C : DenseCompactification f, ∃ e : C.obj.Xbar ≅ Proj grading,
+      Set.range (C.obj.j ≫ e.hom) =
+        (Proj.basicOpen grading (MvPolynomial.X (0 : Fin 2)) : Set (Proj grading)) ∧
+      ∃! x : Proj grading, x ∉ Set.range (C.obj.j ≫ e.hom) := by
+  sorry
+
+/-- Schematic closure of the affine line over dual numbers retains its nonzero square-zero section. -/
+example (k : Type u) [Field k]
+    (C : Compactification
+      (Spec.map (CommRingCat.ofHom
+        (Polynomial.C : DualNumber k →+* Polynomial (DualNumber k))))) :
+    ∃ e : Γ(C.denseReplacement.obj.Xbar, ⊤), e ≠ 0 ∧ e ^ 2 = 0 ∧
+      (Scheme.ΓSpecIso (CommRingCat.of (Polynomial (DualNumber k)))).hom
+        (C.denseReplacement.obj.j.appTop e) = Polynomial.C (DualNumber.eps : DualNumber k) := by
+  sorry
+
+/-- The dense open D(t) becomes empty at t=0; its new dense replacement is empty inside a point. -/
+example (k : Type u) [Field k] :
+    let A := Spec (CommRingCat.of (Polynomial k))
+    let U : A.Opens := PrimeSpectrum.basicOpen (Polynomial.X : Polynomial k)
+    let C : Compactification U.ι :=
+      { Xbar := A
+        j := U.ι
+        p := 𝟙 A
+        fac := by simp
+        openImmersion := by infer_instance
+        quasiCompact := by sorry
+        proper := by infer_instance }
+    let g : Spec (CommRingCat.of k) ⟶ A :=
+      Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))
+    IsSchemeTheoreticallyDominant C.j ∧ Nonempty (C.baseChange g).Xbar ∧
+      IsEmpty (Limits.pullback (C := Scheme) U.ι g) ∧ IsEmpty (C.baseChange g).denseReplacement.obj.Xbar := by
+  sorry
+
 /-- Every compactification morphism is proper over the fixed base. -/
 theorem Compactification.Hom.proper {X S : Scheme.{u}} {f : X ⟶ S}
     {C D : Compactification f} (h : C ⟶ D) : IsProper h.hom := sorry
@@ -224,6 +265,12 @@ def ofCharacter [IsTopologicalRing A] (χ : Γ →ₜ* Aˣ) : ContinuousRep Γ A
       map_mul' := sorry }
   continuous_action := sorry
 
+/-- The continuous trivial character gives the identity operator at every group element. -/
+example [IsTopologicalRing A] (g : Γ) :
+    (ofCharacter (1 : Γ →ₜ* Aˣ)).toRepresentation g = LinearMap.id := by
+  change ((1 : Γ →ₜ* Aˣ) g : A) • (LinearMap.id : A →ₗ[A] A) = LinearMap.id
+  simp
+
 end Basic
 
 section BaseChange
@@ -241,7 +288,23 @@ def baseChange (ρ : ContinuousRep Γ A M)
     ContinuousRep Γ B (B ⊗[A] M) :=
   ⟨Representation.baseChange B ρ.toRepresentation, sorry⟩
 
+/-- A nontrivial rank-one character acts after scalar extension by its image in the new ring. -/
+example (χ : Γ →ₜ* Aˣ) (_hχ : χ ≠ 1)
+    (B : Type v') [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [Algebra A B]
+    [ContinuousSMul A B] [TopologicalSpace (B ⊗[A] A)] [IsModuleTopology B (B ⊗[A] A)]
+    (g : Γ) (b : B) (a : A) :
+    ((ofCharacter χ).baseChange B).toRepresentation g (b ⊗ₜ[A] a) =
+      (algebraMap A B (χ g : A)) • (b ⊗ₜ[A] a) := by
+  sorry
+
 end BaseChange
+
+/-- Multiplication by p-adic units on the discrete field has continuous operators and a discontinuous action. -/
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    letI : TopologicalSpace ℚ_[ℓ] := ⊥
+    (∀ g : ℤ_[ℓ]ˣ, Continuous fun x : ℚ_[ℓ] => ((g : ℤ_[ℓ]) : ℚ_[ℓ]) * x) ∧
+      ¬ Continuous (fun p : ℤ_[ℓ]ˣ × ℚ_[ℓ] => ((p.1 : ℤ_[ℓ]) : ℚ_[ℓ]) * p.2) := by
+  sorry
 
 open ValuativeRel in
 /-- A subgroup of `GL_n(E)` stabilises an `O_E`-lattice iff its closure is compact (DDT, §2.1). -/
@@ -339,7 +402,7 @@ theorem exists_pow_le (Λ Λ' : IntegralModel O ρ) :
 example [Subsingleton V] (Λ : IntegralModel O ρ) : Λ.lattice = ⊥ := by
   sorry
 
--- `(1 a; 0 1)` on `ℚ_ℓ²` has the non-homothetic stable lattices `ℤ_ℓ²` and `ℤ_ℓ e₁ ⊕ ℓℤ_ℓ e₂`.
+/-- The additive group of p-adic integers has two non-homothetic stable unipotent lattices. -/
 example (ℓ : ℕ) [Fact ℓ.Prime]
     (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
     (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
@@ -350,11 +413,14 @@ example (ℓ : ℕ) [Fact ℓ.Prime]
     ∀ c : ℚ_[ℓ]ˣ, (IntegralModel.smul c Λ₁).lattice ≠ Λ₂.lattice := by
   sorry
 
--- The integral models of `ℚ_ℓ(χ)` are the `ℓ^k ℤ_ℓ`, with `k` unique.
-example (F : Type) [Field F] (ℓ : ℕ) [Fact ℓ.Prime]
-    (ψ : Field.absoluteGaloisGroup F →ₜ* ℚ_[ℓ]ˣ)
-    (Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ)) :
-    ∃! k : ℤ, Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k} := by
+/-- For a unit-valued character every uniformizer-power lattice is stable, and these are all models. -/
+example (Γ : Type u) [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
+    (ℓ : ℕ) [Fact ℓ.Prime] (χ : Γ →ₜ* ℤ_[ℓ]ˣ) (ψ : Γ →ₜ* ℚ_[ℓ]ˣ)
+    (_hψ : ∀ g, (ψ g : ℚ_[ℓ]) = ((χ g : ℤ_[ℓ]) : ℚ_[ℓ])) :
+    (∀ Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ),
+      ∃! k : ℤ, Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k}) ∧
+    (∀ k : ℤ, ∃ Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ),
+      Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k}) := by
   sorry
 
 end GaloisLattice.IntegralModel
@@ -462,17 +528,26 @@ example (k L : Type u) [Field k] [Fintype k]
 
 end VanishingCycles
 
-/-! ## F.10.3 Projective-module trace algebra -/
+/-! ## F.10.3 Split-retract comparison with the supplied projective trace -/
 
 namespace PerfectComplex
 
-/-- The commutative projective-module trace computed through a finite-free retract with its splitting equation.
-README F.10.3, projective trace algebra. -/
+/-- The finite-free split-retract expression for comparison with AdicSpacesPartIII §R3.8's projective trace.
+README F.10.3. -/
 noncomputable def projectiveTraceOfRetract {R P : Type*} [CommRing R] [AddCommGroup P]
     [Module R P] {ι : Type*} [Fintype ι]
     (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
     (_hi : r ∘ₗ i = LinearMap.id) (u : Module.End R P) : R :=
   LinearMap.trace R (ι → R) (i ∘ₗ u ∘ₗ r)
+
+/-- The split-retract expression equals the contraction formula for the supplied projective trace. -/
+theorem projectiveTraceOfRetract_eq_contract {R P : Type*} [CommRing R] [AddCommGroup P]
+    [Module R P] [Module.Finite R P] [Module.Projective R P] {ι : Type*} [Fintype ι]
+    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
+    (hi : r ∘ₗ i = LinearMap.id) (u : Module.End R P) :
+    projectiveTraceOfRetract i r hi u =
+      contractLeft R P ((dualTensorHomEquiv R P P).symm u) := by
+  sorry
 
 /-- Two finite-free split retracts compute the same trace of a projective-module endomorphism.
 README F.10.3, projective trace algebra. -/
@@ -527,8 +602,15 @@ They require the shared sheaf and enhancement carriers; this list declares no pl
 
 DerivedModuleAlgebra §§0.2, 1.1–1.5 and 1.T.1 supply module tensor, towers, ML/Milnor
 and completion comparisons, with bounded power-torsion for principal quotient-tower completion.
-F.0.4 scheme maps: absoluteFrobenius, schemeFrobeniusTwist, relativeFrobenius,
-iteratedSchemeFrobenius, qPowerFrobenius on characteristic-p schemes with specified twists.
+SchemeAndStackFoundations §0.29 supplies SchemeFrobenius.absoluteFrobenius,
+SchemeFrobenius.schemeFrobeniusTwist, SchemeFrobenius.relativeFrobenius,
+SchemeFrobenius.iteratedSchemeFrobenius and SchemeFrobenius.qPowerFrobenius.
+Its §0.23a supplies universalHomeomorphismEtaleEquivalence on sites;
+VanishingCycles.universalHomeomorphismEtaleEquivalence is the sheaf/cohomology transport.
+AdicSpacesPartIII §R3.8 supplies LinearMap.projectiveTrace, LinearMap.projectiveTrace_eq_trace,
+LinearMap.projectiveTrace_baseChange and LinearMap.projectiveTrace_cyclic.
+DGAInfinity Layer 5 supplies the perfect/compact equivalence for the one-object DG category R.
+PadicMeasuresIwasawaAlgebras §5.1 supplies projectiveDeterminant and projectiveDeterminantMap.
 
 F.0.1–F.0.4 and F.1:
 VanishingCycles.constructibleEtale, VanishingCycles.finiteEtaleGaloisCategory,
@@ -582,11 +664,16 @@ rational sheaves belong to it on geometrically unibranch schemes.
 
 F.5–F.8: VanishingCycles.etaleExceptionalInverseImage, VanishingCycles.etaleVerdierDuality,
 VanishingCycles.smoothPurity, VanishingCycles.smoothPairGysin, VanishingCycles.etaleGaussBonnet,
-VanishingCycles.etaleBlowup, VanishingCycles.etaleWeakLefschetz,
+VanishingCycles.etaleBlowup for a smooth separated finite-type k-scheme and a smooth closed
+k-subscheme of pure codimension c ≥ 1, with summands indexed by 1 ≤ i < c and shifts/twists
+(−i)[−2i], for ordinary and compact-support cohomology. VanishingCycles.etaleWeakLefschetz,
 VanishingCycles.fieldPerverseTStructure, VanishingCycles.intermediateExtension, for finite-type
 schemes over a field with invertible finite coefficients or ℓ-adic coefficients ℓ ≠ char(k).
 Geometric projective-space cohomology uses a separably closed ground field; over arbitrary
-fields the projective-bundle decomposition is relative to RΓ(k).
+fields the projective-bundle decomposition is relative to RΓ(k). Affine perverse vanishing
+is geometric: for finite/rational coefficients, H^i = 0 for i > 0 and H_c^i = 0 for i < 0.
+For integral p objects the ordinary upper bound is 0; for p⁺ objects it is 1 with torsion H¹.
+Both integral hearts have H_c^i = 0 for i < 0, and p⁺ objects have torsion-free H_c⁰.
 
 F.10.2/F.10.2b: VanishingCycles.frobeniusCohomology carries coefficient descent data, first
 at finite level, then through normalized realization. F.10.3: PerfectComplex.lefschetzNumber,
