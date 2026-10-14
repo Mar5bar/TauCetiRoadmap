@@ -3,7 +3,6 @@ import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Comap
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.RationalSubset.Basic
 
-set_option autoImplicit false
 
 /-!
 # Classical analytic étale cohomology: target signatures
