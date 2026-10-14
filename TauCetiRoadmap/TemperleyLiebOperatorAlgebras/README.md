@@ -89,6 +89,10 @@ remain defined there.
   and V6 tracial L². V13 supplies general CP maps. The
   construction here supplies their specific input states and trace Hilbert
   spaces. It asserts no factor classification or index theorem.
+- [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md)
+  supplies the elementary C*-category, dagger tensor and unitary-duality
+  interfaces instantiated by A6, independently of normal bimodules and
+  planar/module reconstruction.
 - Ordinary cellular forms, their simple heads, their Gram-polynomial
   specialization, and their algebraic semisimplicity criterion belong to
   TemperleyLieb Layer5. Here compare those bilinear forms with Hermitian
@@ -376,9 +380,10 @@ Prove independence of the envelope realization and agreement of
 End(n) with Q_n.
 
 Instantiate the native dagger and C*-category interfaces of
-[CategoricalOperatorAlgebras CA1a](../CategoricalOperatorAlgebras/README.md),
-using only its finite linking/Hom axioms, independent of its bimodule
-and realization milestones. This is a concrete normed dagger category:
+[CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md),
+using its finite linking/Hom, tensor and unitary-duality axioms,
+independent of its bimodule and realization milestones.
+This is a concrete normed dagger tensor category:
 prove its C*-category
 axioms explicitly, including bounded composition,
 `‖f†f‖=‖f‖²`, positivity in each endomorphism algebra and completeness
