@@ -842,13 +842,34 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   hypotheses. Smooth simplices are closed under the simplicial operators, so the smooth chains
   may be implemented as the chains of a sub-simplicial set of `TopCat.toSSet.obj M`, as Tau Ceti's
   small chains are.
+  Construct pushforward `SmoothSimplex.map` and `smoothChainMap` under smooth
+  maps by pointwise composition, with identity/composition, face/boundary and
+  generator formulas. The inclusion sends `single σ a` to coefficient a on
+  the native singular simplex represented by
+  `σ∘fullSimplexEquivStdSimplex.symm`; prove its smooth-map naturality square.
+  Identify smooth simplices of each open submanifold with those ambient
+  smooth simplices whose images lie in that open, respecting all these maps.
 - **8.4 Simplices, Stokes for chains, the de Rham map.** The full-dimensional `fullSimplex` bridged
   to Mathlib's barycentric `Convexity.StdSimplex`, faces `simplexFace`, `SmoothSimplex.integral` and
   `chainIntegral` (vector-valued forms in complete spaces); Stokes for the simplex
   (`SmoothSimplex.integral_mextDeriv`, independent of 5.5) and for chains [Lee, Thm. 18.12];
   `deRhamHom` into `realSingularCohomology`, under 8.3's smoothing hypotheses, natural and
   compatible with connecting maps [Lee, Prop. 18.13]. Naturality carries those hypotheses on
-  both source and target.
+  both source and target. Construct `smoothSingularCochains` by the native
+  `linearYonedaObj` dual of smooth chains, and `smoothCochainRestriction` by
+  dualizing `smoothToSingular`. This restriction is natural under smooth maps
+  and a quasi-isomorphism under 8.3's hypotheses. Construct `smoothIntegration`
+  from the de Rham complex, with evaluation on a chain exactly `chainIntegral`.
+  Characterize `deRhamHom` by
+  `H(smoothCochainRestriction)∘deRhamHom=H(smoothIntegration)`;
+  invertibility of the restriction fixes the comparison uniquely.
+  Prove `chainIntegral_map`: evaluation on a smooth pushforward chain equals
+  evaluation of the pulled-back form. Derive the strict naturality square for
+  `smoothIntegration` from this equation, including open-submanifold inclusions.
+  Its top edge is `deRhamComplexMap`, with components `mpullbackₗ`;
+  its bottom edge dualizes `smoothChainMap` by the native `linearYonedaFunctor`.
+  Prove identity/composition, component equations and agreement of
+  `H(deRhamComplexMap)` with the existing `deRhamCohomology.map`.
 - **8.5 The de Rham theorem.** `deRhamEquiv` for T2 σ-compact finite-dimensional `M`
   [Lee, Thm. 18.14], by the reusable **Mayer–Vietoris induction principle**
   `mayerVietoris_induction` — ⚠ whose hypotheses include countable disjoint unions, because

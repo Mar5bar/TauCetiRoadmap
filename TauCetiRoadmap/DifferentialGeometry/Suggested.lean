@@ -2197,9 +2197,25 @@ abbrev deRhamCohomology (k : ℕ) : Type _ :=
   ((deRhamComplex I M).homology k)
 
 variable (I M) in
+/-- A closed form as the native cycle with that actual underlying form. -/
+noncomputable def deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
+    (deRhamComplex I M).cycles k :=
+  (deRhamComplex I M).moduleCatCyclesMk η.1 (k + 1)
+    (by apply (ComplexShape.up ℕ).next_eq'; rfl) (by sorry)
+
+theorem iCycles_deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
+    (deRhamComplex I M).iCycles k (deRhamClosedFormCycle I M k η) = η.1 := by
+  unfold deRhamClosedFormCycle
+  exact HomologicalComplex.iCycles_moduleCatCyclesMk _ _ _ _ _ _
+
+variable (I M) in
 /-- The class of a closed form. -/
 noncomputable def deRhamCohomology.mk (k : ℕ) : ↥(closedForms I M k) →ₗ[ℝ] deRhamCohomology I M k :=
   sorry
+
+theorem deRhamCohomology.mk_apply (k : ℕ) (η : ↥(closedForms I M k)) :
+    deRhamCohomology.mk I M k η =
+      (deRhamComplex I M).homologyπ k (deRhamClosedFormCycle I M k η) := sorry
 
 theorem deRhamCohomology.mk_surjective (k : ℕ) : Function.Surjective (deRhamCohomology.mk I M k) :=
   sorry
@@ -2545,6 +2561,15 @@ def SmoothSimplex (p : ℕ) : Type _ :=
 noncomputable def SmoothSimplex.toContinuousMap (σ : SmoothSimplex I M p) : C(fullSimplex p, M) :=
   ⟨σ.1, sorry⟩
 
+open scoped Simplicial
+
+/-- The actual singular simplex, using the native barycentric-simplex equivalence. -/
+noncomputable def SmoothSimplex.toSingular (σ : SmoothSimplex I M p) :
+    TopCat.toSSet.obj (TopCat.of M) _⦋p⦌ :=
+  ((TopCat.of M).toSSetObjEquiv _).symm
+    (σ.toContinuousMap.comp ⟨(fullSimplexEquivStdSimplex p).symm,
+      (fullSimplexEquivStdSimplex p).symm.continuous⟩)
+
 /-- The `i`-th face of a smooth simplex. -/
 noncomputable def SmoothSimplex.face (σ : SmoothSimplex I M (p + 1)) (i : Fin (p + 2)) :
     SmoothSimplex I M p :=
@@ -2573,6 +2598,44 @@ charted space. The inverse up to chain homotopy requires the hypotheses on `smoo
 noncomputable def smoothToSingular :
     smoothSingularChainComplex I M ⟶ realSingularChains (TopCat.of M) :=
   sorry
+
+theorem smoothToSingular_f_single (σ : SmoothSimplex I M p) (a : ℝ) :
+    (smoothToSingular I M).f p (Finsupp.single σ a) =
+      ((TopCat.toSSet.obj (TopCat.of M)).ιChainComplex
+        (R := ModuleCat.of ℝ ℝ) σ.toSingular).hom a := sorry
+
+section SmoothChainMaps
+variable {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+  {M' : Type} [TopologicalSpace M'] [ChartedSpace H' M']
+  {f : M → M'}
+
+/-- Pushforward is pointwise composition, with local smooth extendability. -/
+noncomputable def SmoothSimplex.map (hf : ContMDiff I I' ∞ f)
+    (σ : SmoothSimplex I M p) : SmoothSimplex I' M' p :=
+  ⟨f ∘ σ.1, sorry⟩
+
+noncomputable def smoothChainMap (hf : ContMDiff I I' ∞ f) :
+    smoothSingularChainComplex I M ⟶ smoothSingularChainComplex I' M' := sorry
+
+theorem smoothChainMap_f_single (hf : ContMDiff I I' ∞ f)
+    (σ : SmoothSimplex I M p) (a : ℝ) :
+    (smoothChainMap hf).f p (Finsupp.single σ a) =
+      Finsupp.single (σ.map hf) a := sorry
+
+theorem smoothToSingular_naturality (hf : ContMDiff I I' ∞ f) :
+    smoothChainMap hf ≫ smoothToSingular I' M' =
+      smoothToSingular I M ≫ SSet.chainComplexMap
+        (TopCat.toSSet.map (TopCat.ofHom ⟨f, hf.continuous⟩)) (ModuleCat.of ℝ ℝ) := sorry
+
+noncomputable def deRhamComplexMap [IsManifold I ∞ M] [IsManifold I' ∞ M']
+    (hf : ContMDiff I I' ∞ f) : deRhamComplex I' M' ⟶ deRhamComplex I M := sorry
+
+theorem deRhamComplexMap_f_apply [IsManifold I ∞ M] [IsManifold I' ∞ M']
+    (hf : ContMDiff I I' ∞ f) (k : ℕ) (η : SmoothForm I' M' ℝ k) :
+    (deRhamComplexMap hf).f k η = mpullbackₗ hf k η := sorry
+
+end SmoothChainMaps
 
 variable (I M) in
 /-- **Layer 8.3, the smoothing theorem as data** [Lee, Thm. 18.7]. Relative Whitney approximation
@@ -2641,7 +2704,50 @@ theorem chainIntegral_smoothBoundary [IsManifold I 1 M] [CompleteSpace F]
     chainIntegral (smoothBoundary I M p c) φ = chainIntegral c (mextDeriv φ) :=
   sorry
 
+theorem chainIntegral_map [IsManifold I ∞ M]
+    {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [TopologicalSpace H']
+    {I' : ModelWithCorners ℝ E' H'} {M' : Type} [TopologicalSpace M']
+    [ChartedSpace H' M'] [IsManifold I' ∞ M'] {f : M → M'}
+    (hf : ContMDiff I I' ∞ f) (c : SmoothSimplex I M p →₀ ℝ)
+    (η : SmoothForm I' M' ℝ p) :
+    chainIntegral ((smoothChainMap hf).f p c) (η : RoughForm I' M' ℝ p) =
+      chainIntegral c (mpullbackₗ hf p η : RoughForm I M ℝ p) := sorry
+
 variable [IsManifold I 1 M] [IsManifold I ∞ M]
+
+variable (I M) in
+/-- **Layer 8.4.** Smooth cochains use the same native linear dual as continuous cochains. -/
+noncomputable abbrev smoothSingularCochains : CochainComplex (ModuleCat.{0} ℝ) ℕ :=
+  (smoothSingularChainComplex I M).linearYonedaObj ℝ (ModuleCat.of ℝ ℝ)
+
+variable (I M) in
+/-- Restriction of continuous cochains along the actual smooth-chain inclusion. -/
+noncomputable def smoothCochainRestriction :
+    realSingularCochains (TopCat.of M) ⟶ smoothSingularCochains I M :=
+  (TauCeti.ChainComplex.linearYonedaFunctor ℝ (ModuleCat.of ℝ ℝ)).map
+    (smoothToSingular I M).op
+
+variable (I M) in
+/-- **Layer 8.4.** Integration as a cochain map; Stokes supplies its chain-map equation. -/
+noncomputable def smoothIntegration :
+    deRhamComplex I M ⟶ smoothSingularCochains I M := sorry
+
+theorem smoothIntegration_f_apply (k : ℕ) (η : SmoothForm I M ℝ k)
+    (c : SmoothSimplex I M k →₀ ℝ) :
+    (((smoothIntegration I M).f k η).hom c) = chainIntegral c η := sorry
+
+theorem smoothIntegration_naturality
+    {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [TopologicalSpace H']
+    {I' : ModelWithCorners ℝ E' H'} {M' : Type} [TopologicalSpace M']
+    [ChartedSpace H' M'] [IsManifold I' 1 M'] [IsManifold I' ∞ M'] {f : M → M'}
+    (hf : ContMDiff I I' ∞ f) :
+    deRhamComplexMap hf ≫ smoothIntegration I M =
+      smoothIntegration I' M' ≫
+        (TauCeti.ChainComplex.linearYonedaFunctor ℝ (ModuleCat.of ℝ ℝ)).map
+          (smoothChainMap hf).op := sorry
+
+theorem smoothCochainRestriction_quasiIso [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] : QuasiIso (smoothCochainRestriction I M) := sorry
 
 variable (I M) in
 /-- **Layer 8.4, the de Rham homomorphism** `I : H^k_dR(M) → H^k(M; ℝ)`, into Tau Ceti's singular
@@ -2650,6 +2756,14 @@ needed to transfer from smooth to continuous chains; natural in `M` (`deRhamHom_
 noncomputable def deRhamHom [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E] (k : ℕ) :
     deRhamCohomology I M k →ₗ[ℝ] realSingularCohomology (TopCat.of M) k :=
   sorry
+
+/-- The continuous comparison is the inverse of smooth-cochain restriction after integration.
+Together with its quasi-isomorphism this pins the map uniquely, including its scale and sign. -/
+theorem deRhamHom_comparison [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E]
+    (k : ℕ) (x : deRhamCohomology I M k) :
+    HomologicalComplex.homologyMap (smoothCochainRestriction I M) k
+      (deRhamHom I M k x) =
+    HomologicalComplex.homologyMap (smoothIntegration I M) k x := sorry
 
 theorem deRhamHom_naturality [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E]
     {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
