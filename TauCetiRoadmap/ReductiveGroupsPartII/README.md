@@ -422,15 +422,23 @@ vertices, Moy–Prasad filtrations, Lang's theorem and level subgroups. RG2.4 gi
 group, the Iwahori–Bruhat, Cartan and Iwasawa decompositions, double cosets, indices, admissible
 sets and unimodularity. RG2.5 gives the dual based root datum, the Langlands dual group over `ℤ`,
 its Galois action, the L-group and its functoriality. Each *Needs:* line identifies mathematical
-inputs by name or supplier layer. Within this order, RG2.0a supplies smooth fixed schemes;
+inputs by name or supplier layer. Within RG2.0a.2, build formal smoothness, smoothness and
+closed-immersion preservation first, then *weil-restriction-separable-splitting*, then
+`ringKrullDim_res` and the inseparable dimension comparison. RG2.0a supplies smooth fixed schemes;
 RG2.3.2 supplies their connected Néron comparison. RG2.1.1 supplies the rational torus;
 RG2.1.3 supplies its compatible valuation and RG2.1.4 its fixed apartment. In constructing
 RG2.1.3, build *unramified-descent-of-valuation* from the quasi-split datum before the
 general *valued-root-datum-existence* conclusion. RG2.2.3 supplies field fixed groups and
 building actions; build the unramified instances of RG2.3.1–RG2.3.3 and their fixed models
 before the model-based proof of tame building descent. The remaining RG2.3 constructions
-then consume tame descent. In RG2.3.7, *smooth-model-reduction* precedes
-*positive-depth-intersection-presentation*.
+then consume tame descent. In RG2.3.7, *smooth-model-reduction* and
+*finite-level-jet-realizations* precede *positive-depth-intersection-presentation*;
+build the ordinary RG2.4 *iwahori-bruhat-decomposition* over `L` before that intersection
+target. For RG2.4's local adjoint-modulus theorem, build AdelicAlgebraicGroups AA.2.4
+*smooth-group-analytic-charts* from RG2.0 in characteristic zero, and RG2.0
+*equal-characteristic-smooth-group-analytic-charts* in positive characteristic, before
+`LocalIntegration.modularCharacter_eq_adjointModulus`. The AA chart target uses RG2.0
+and cotangent duality, without using this modulus theorem.
 
 ## Layer RG2.0: topologies on rational points
 
@@ -627,6 +635,48 @@ an open subgroup of `G'(E)`, and compact open subgroups of `G(E)` map to compact
 `G'(E)`. *Needs:* *scheme-point-topology-functoriality*; *points-topological-group*.
 *Lean:* none (README-only).
 
+**Analytic charts and Haar Jacobians in positive characteristic.**
+(*equal-characteristic-smooth-group-analytic-charts*) Let `E` be a nonarchimedean local
+field of characteristic `p > 0`, with residue field of order `q`, and let `G = Spec H`
+be a smooth affine finite-type `E`-group of dimension `d`. Construct analytic charts
+on `G(E)` from smooth local parameters and the nonarchimedean inverse function theorem,
+inducing the evaluation topology; multiplication and inversion are analytic. Identify
+the tangent space at `1` with the `E`-linear dual of
+`TauCeti.Bialgebra.CotangentSpace E H`, so that differentiating a coordinate `h` evaluates
+a tangent vector on its cotangent class. Use `Derivation.cotangentLinearEquiv` for this
+identification. The local-parameter construction is the one underlying [Conrad], §4,
+p. 11, for fields complete for a nontrivial absolute value; construct its analytic
+and tangent comparison here.
+
+Normalize additive Haar measure by `μ(O_E) = 1` and its product `μ_d` by
+`μ_d(O_E^d) = 1`. Prove the linear pushforward formula
+`A_*μ_d = |det A|_E⁻¹ μ_d` for `A ∈ GL_d(E)`, with
+`|·|_E = TauCeti.normalizedAbsoluteValue E`, and analytic change of variables
+`μ_d(f(B)) = ∫_B |det Df(x)|_E dμ_d(x)` for an analytic isomorphism of open
+chart domains and a Borel subset `B` of its source. Derive the linear formula by
+elementary matrices and the indices of powers of the maximal ideal; derive the
+analytic formula by shrinking to balls on which the invertible derivative has
+constant absolute determinant and the inverse function theorem identifies their
+images with the corresponding linear images. These Haar-Jacobian deductions are
+part of this target. They provide the positive-characteristic counterpart of
+AdelicAlgebraicGroups AA.2.4 *smooth-group-analytic-charts* for RG2.4.
+*Needs:* *affine-point-topology-embedding*; *points-topological-group*;
+*smooth-morphism-open-map*; ReductiveGroups layer 2; Tau Ceti
+`Derivation.cotangentLinearEquiv`; Mathlib additive Haar measure and
+`HasStrictFDerivAt.toOpenPartialHomeomorph`.
+*Lean:* none (README-only).
+
+**Checks.**
+
+- `equalCharacteristicCharts_additive` — for `G_a(𝔽_q((t)))` the standard coordinate has
+  derivative `1`; multiplication by `t` sends additive Haar measure to `qμ`, while
+  the image of `O_E` has measure `q⁻¹`.
+- `equalCharacteristicCharts_multiplicative` — on `G_m` the coordinate `T` at `1` has
+  derivative dual to `T−1`; inversion has derivative `−1` there and Jacobian absolute
+  value `1`, including in characteristic two.
+- `equalCharacteristicCharts_dimension_zero` — the trivial group has chart `E^0`, a
+  singleton with measure `1`; the empty determinant is `1` in both Jacobian formulas.
+
 ### RG2.0.3 integral points and congruence subgroups
 
 **Integral points of an affine model are compact open.** (*integral-points-compact-open*) Let
@@ -664,8 +714,9 @@ p. 3; the determinant criterion is Mathlib's `Matrix.isUnit_iff_isUnit_det`). *N
   `g` is the image of some `M ∈ M_n(O)` with `det M ∈ O^×`.
 - `diag_uniformizer_not_integral` (non-example; Lean example, proved) — `diag(ϖ, 1) ∈ M_2(O)` has
   nonzero determinant but is not a point of `GL_2` over `O`, since `ϖ ∉ O^×`.
-- *generalLinearPointsHomeomorph_isOpenEmbedding* (Lean example) — over `E`, where inversion on `E^×` is
-  continuous, `x ↦ generalLinearPointsHomeomorph n x ∈ M_n(E)` is an open embedding: the units
+- *generalLinearPointsHomeomorph_isOpenEmbedding* (Lean example) — over a nonarchimedean local
+  field `E`, where inversion on `E^×` is continuous,
+  `x ↦ generalLinearPointsHomeomorph n x ∈ M_n(E)` is an open embedding: the units
   topology of `GL_n(E)` is the subspace topology of the open subset `GL_n(E) = {det ≠ 0}` of
   `M_n(E)`.
 - *generalLinearPointsHomeomorph_adeles_not_embedding* (non-example) — the target carries the units
@@ -1078,6 +1129,8 @@ Separability is needed: for `k'/k` purely inseparable of degree `p`, say `k' = k
 (`res_not_flat`) ([Bruhat–Tits II], 1.5.8–1.5.9, p. 28; the dimension formula and the inseparable
 non-example are derived here). *Needs:* *weil-restriction-representing-algebra*;
 *weil-restriction-finiteness*; Mathlib `Algebra.FormallySmooth`, `Algebra.Smooth`, `ringKrullDim`.
+*Needs (dimension):* *weil-restriction-separable-splitting*, built after the smoothness
+and closed-immersion clauses and before `ringKrullDim_res` and the inseparable comparison.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -3264,13 +3317,18 @@ ReductiveGroups layer 7.
 
 - `maximalTorus` — every maximal `K`-torus of a reductive `G` is a twisted Levi.
 - `whole_group` — `G` is a twisted Levi of itself.
-- `elliptic_not_levi` (non-example) — for `E'/E` quadratic, `E'^× ⊂ GL_2(E)` is a twisted Levi but a
-  Levi of no `E`-parabolic.
+- `elliptic_not_levi` (non-example) — for `E'/E` finite separable quadratic,
+  `E'^× ⊂ GL_2(E)` is a twisted Levi but a Levi of no `E`-parabolic.
 - `tame_isTwistedLevi` — a tame twisted Levi subgroup is a twisted Levi subgroup.
 - `levi_isTame` — a `K`-Levi subgroup is tame (`K' = K`, `e = 1`).
-- `wild_not_tame` (non-example) — for residue characteristic `2` and `E'/E` ramified quadratic,
+- `wild_not_tame` (non-example) — for residue characteristic `2` and `E'/E` ramified separable quadratic,
   `E'^× ⊂ GL_2(E)` is a twisted Levi that is not tame: every extension splitting it contains `E'`,
   so its ramification index is even.
+- `inseparable_not_twistedLevi` (non-example) — for `E = 𝔽₂((t))` and
+  `E' = E(√t)`, the multiplication representation still embeds `Res_{E'/E} G_m`
+  as a closed subgroup of `GL_2`. Over an algebraic closure its algebra is
+  `Ω[ε]/(ε²)`, whose units `a(1+bε)` form `G_m × G_a`. It is not reductive,
+  so cannot become a Levi subgroup.
 
 ### RG2.2.4 classical groups, the tree and examples
 
@@ -3333,7 +3391,7 @@ identifications, in existence form).
 - `omega_two_terms` (Lean example, proved) — `ω(0) = ∞`, `ω(ϖ) = 1` and `ω(ϖ²) = 2` for a
   uniformizer `ϖ`.
 - *norm_chain_standard_ball* — the chain of the standard norm contains `O^n`.
-- *norm_chain_zero_rank* — the zero-dimensional vector space has no graded periodic lattice chain.
+- *norm_chain_zero_rank* (Lean example) — the zero-dimensional vector space has no graded periodic lattice chain.
 - *norm_chain_grading_two_terms* — for the one-dimensional standard norm, `ϖO` and `ϖ²O`
   have grades `1` and `2`.
 - `scalar_shift_two_terms` — `ϖ·1` lowers every norm by `1` and `ϖ²·1` by `2`.
@@ -3364,6 +3422,7 @@ identifications, in existence form).
 - `zero_module_grading` (non-example) — the zero module has exactly one norm (the constant `∞`) but
   no graded periodic chain, since its only lattice is fixed by a uniformizer and a grading would
   satisfy `c = c + 1`; so `normEquivChain` needs `n ≠ 0`.
+  Its chain obstruction is the Lean example *norm_chain_zero_rank*.
 - `not_grading` (non-example) — `c(ϖΛ) = c(Λ) + 2` is not a grading (a different normalization) and
   defines no point of `B(GL(V),K)`.
 - `scalar_not_stabilizer` (non-example) — `ϖ·1` maps every lattice into itself but fixes no norm
@@ -3487,8 +3546,10 @@ nonarchimedean local field and `D` a central division algebra of index `d` over 
 extended to `D` (so `ω(ϖ_D) = 1/d`; [Platonov–Rapinchuk–Rapinchuk], §1.4.2,
 pp. 31–32, for this local-field normalization), and let `V = D^m` as a right `D`-vector space. The enlarged
 building `B(GL_D(V))` is identified equivariantly with the splittable `D`-norms on `V` (those with
-`α(xt) = α(x) + ω(t)`) and with the graded periodic right `O_D`-chains (with
-`c(Λt) = c(Λ) + ω(t)`, so `c(Λϖ_D) = c(Λ) + 1/d`); the stabilizer scheme of a point is the unit
+`α(xt) = α(x) + ω(t)`) for every `m ≥ 0`. For `m > 0` these also correspond to the
+graded periodic right `O_D`-chains (with `c(Λt) = c(Λ) + ω(t)`, so
+`c(Λϖ_D) = c(Λ) + 1/d`). For `m = 0` the building and norm space are singletons,
+and no graded periodic chain exists. For `m > 0` the stabilizer scheme of a point is the unit
 group of the associated order, the closure of `GL_D(V)` in `∏_j GL(Λ_j)` over `O`
 ([Bruhat–Tits 1984], 1.1–1.8, pp. 262–267, 2.11, p. 283, and 3.2–3.6, pp. 286–288). For an
 unramified extension `L/K` of degree `d`, which splits `D`, `B(GL_m(D),K)` is the
@@ -3504,6 +3565,9 @@ restriction `Res_{K/ℚ_p} GL_m(D)` has the same building (see *weil-restriction
 - `divisionBuilding_split` — for `D = K`, `d = 1`, this is the usual `GL_m` norm model.
 - `divisionBuilding_quaternion_local` — a quaternion division algebra over `ℚ₃` has
   uniformizer value `1/2`, and multiplication by it shifts a chain's grade by `1/2`.
+- *divisionBuilding_zero_rank* (Lean example for `D = K`) — at `m = 0` there is one
+  splittable norm and a one-point building, but the only lattice is fixed by `ϖ_D`.
+  A grading would satisfy `c(0) = c(0) + 1/d`, so no graded periodic chain exists.
 - `divisionBuilding_nonlocal_index` (non-example) — with the `t`-adic valuation on
   `K = ℚ₃((t))` and `D = D₀ ⊗ K` for quaternion division `D₀/ℚ₃`, leading coefficients
   show that `D` is division of index `2` but its value group is `ℤ`; its uniformizer `t`
@@ -4622,15 +4686,34 @@ the order of `Z_{G^der}` is prime to `p`, the parahoric of `G^ad` is the identit
 fixer of `x` is the stabilizer of a `Γ`-stable `Õ`-lattice `Λ̃ ⊂ V_{K̃}` with `Λ̃^∨ = π̃^aΛ̃`; after
 adjoining `√π̃` and passing to the (still tame) Galois closure one rescales to `Λ̃^∨ = Λ̃`, and the
 model is `GO^+(Λ̃,h)` ([Kisin–Pappas–Zhou], proof of Thm 6.2.3, arXiv v3 p. 71). (b) For `D` a
-quaternion division algebra over `K` with its main involution, any nondegenerate quaternionic
-hermitian form `S` on `T_0 ≅ D^s` has a `D`-basis in which `S = Σ d̄_i d′_i` ([Kisin–Pappas–Zhou],
+quaternion division algebra over `K` with its main involution, assume in (b) and (c) that
+`K` is a finite extension of `ℚ_p`, `p > 2`, as in [Kisin–Pappas–Zhou], §6.2.2,
+arXiv v3 pp. 69–70. Prove that its reduced norm is surjective onto `K^×`
+([Platonov–Rapinchuk–Rapinchuk], §1.4.3, p. 33); diagonalization has coefficients in
+`K^×`, which can therefore be absorbed by rescaling the basis. Thus any nondegenerate
+quaternionic hermitian form `S` on `T_0 ≅ D^s` has a `D`-basis in which
+`S = Σ d̄_i d′_i` ([Kisin–Pappas–Zhou],
 §6.2.2 (b), p. 70). (c) The representation `σ_{T_0}` is a sum of basic symplectic representations by
 (b), and so is `σ_{V_0}` ([Kisin–Pappas–Zhou], §6.2.2 (a), pp. 69–70). The rescaling step of (a) is
-`KisinPappas.hyperspecial_orthogonal_selfDual`: for a bilinear form `h` on `Kⁿ` and an
+`KisinPappas.hyperspecial_orthogonal_selfDual`, independently over any discretely valued
+field `K`: for a bilinear form `h` on `Kⁿ` and an
 `O`-submodule `Λ ⊆ Kⁿ` (for instance a lattice) with `Λ^∨ := {v : h(v, Λ) ⊆ O} = cΛ`, and `s² = c`
 with `s ≠ 0`, `(sΛ)^∨ = sΛ`. *Needs:* *reductive-model*; *hyperspecial-vertices*;
 *tame-hyperspecial-realization*; *lattice-chain-stabilizer-schemes*.
 *Lean:* none (README-only).
+
+**Checks.**
+
+- `quaternionicHermitian_local_rank_one` — over `K = ℚ₅`, if `S(x,y) = a x̄y` with
+  `a ∈ K^×`, choose `b ∈ D^×` with `Nrd(b) = a⁻¹`; the basis vector `b` has norm `1`.
+- `quaternionicHermitian_nonlocal` (non-example) — let `κ = 𝔽₅(s,u)^perf`,
+  `D₀ = (s,u)_κ`, `K = κ((t))` and `D = D₀((t))`. The generic quaternion algebra
+  remains division after perfection, a union of odd-degree extensions. A nonzero
+  element of `D` has reduced norm of even `t`-adic valuation. Thus the rank-one form
+  `S(x,y) = t x̄y` cannot become the identity form, although `K` is a `ModelField`.
+- `orthogonalRescaling_square_root` — if `Λ^∨ = cΛ` and `s² = c`, `s ≠ 0`, then
+  `(sΛ)^∨ = s⁻¹Λ^∨ = sΛ`, independently of the quaternionic normalization and the
+  local-field hypothesis in (b)–(c).
 
 ### RG2.3.6 Moy–Prasad filtrations
 
@@ -5064,6 +5147,49 @@ RG2.0 *smooth-model-congruence-quotients*.
 - `reduction_nonsmooth_square` (non-example) — the point `1` of `x² = 3` over `𝔽₂`
   does not lift to `ℤ₂`: an odd square is `1` modulo `4`, whereas `3` is not.
 
+**Finite-level jet and Greenberg realizations.** (*finite-level-jet-realizations*) Let
+`E` be a nonarchimedean local field with residue field `κ = 𝔽_q`, let `L = Ĕ`,
+and let `𝒳` be an affine finite-type `O_E`-scheme. For `i ≥ 1`, construct an affine
+finite-type `κ`-scheme `jetScheme 𝒳 i` with natural point identifications
+`(jetScheme 𝒳 i)(R) ≅ 𝒳(O_i(R))` for perfect `κ`-algebras `R`.
+In equal characteristic fix `O_E ≅ κ[[π]]` and put `O_i(R) = R[π]/(π^i)`;
+construct the equations by substituting the `i` coefficients of each coordinate
+and equating coefficients modulo `π^i`, equivalently by affine Weil restriction
+along the finite free map `κ → κ[π]/(π^i)`. In mixed characteristic put
+`O_i(R) = W(R) ⊗_{W(κ)} (O_E/π^i)`, with the fixed inclusion `W(κ) → O_E`.
+Use the unperfected Greenberg schemes of [Zhu], §1.1.1, arXiv v3 p. 7:
+representability, finite type and the inverse-limit description precede their
+perfections in that statement. Use truncated Witt coordinates for the ordinary
+mixed-characteristic models; the displayed Witt-quotient point formula is imposed
+on perfect `R`, for which `W(R)/p^h = W_h(R)` ([Zhu], §0.5, p. 6).
+The equal-characteristic construction is derived
+here from *weil-restriction-representing-algebra*.
+
+Construct the truncation morphisms, functoriality in `𝒳` and their composition laws.
+For an affine group model these are group schemes and homomorphisms, using the
+represented multiplication, inverse and identity maps. Prove
+`𝒳(O_L) ≅ lim_i (jetScheme 𝒳 i)(κ̄)` on compatible points, using
+`O_L ≅ lim_i O_i(κ̄)`, including existence and uniqueness of the lifted point.
+The construction descends to `κ`; arithmetic Frobenius on `O_L` corresponds to
+the coordinatewise `q`-Frobenius on these geometric points. Smoothness and
+connectedness of the intersection groups are the separate deduction in
+*positive-depth-intersection-presentation*.
+*Needs:* RG2.0 *completed-maximal-unramified-extension*; RG2.0a
+*weil-restriction-representing-algebra*; *smooth-model-reduction*; Mathlib Witt vectors
+and inverse limits; ReductiveGroups layer 0.
+*Lean:* none (README-only).
+
+**Checks.**
+
+- `jets_equal_characteristic_additive` — for `𝒳 = G_a` over `𝔽_q[[π]]`, the `i`-th
+  jet scheme is `𝔸^i_κ`; truncation drops the last coefficient, and the inverse
+  limit of geometric points is `κ̄[[π]]`.
+- `jets_unramified_mixed_additive` — for `O_E = W(κ)` and `𝒳 = G_a`, the `i`-th
+  Greenberg group is the length-`i` Witt group, with underlying scheme `𝔸^i_κ`;
+  its geometric-point inverse limit is `W(κ̄)`, with the Witt addition law.
+- `jets_trivial_group` — the trivial group model has singleton jet groups at every
+  level and a singleton inverse limit; each transition and Frobenius is the identity.
+
 **Connected finite-level presentation of an intersection.**
 (*positive-depth-intersection-presentation*) Fix a local field `E`, `L=Ĕ`, its actual
 arithmetic Frobenius `σ`, a `σ`-stable alcove `C`, `n≥1`, and `g∈G(E)`.
@@ -5075,12 +5201,42 @@ The point identification must be proved using the positive-depth root filtration
 and completeness of `O_L`, including both injectivity and surjectivity; an abstract
 pro-`p` structure does not give this presentation. This is the exact hypothesis of
 the concrete lifting endpoint below and of the positive-level parts of
-*double-coset-cardinalities*, for every intersection used there. Finite-level construction and connectedness
-are separate geometric inputs, not consequences attributed to the parahoric
-intersection argument of [Haines–Rapoport], Remark 9, p. 5.
+*double-coset-cardinalities*, for every intersection used there. Construct its
+finite-level groups using *finite-level-jet-realizations* ([Zhu], §1.1.1, arXiv
+v3 p. 7, in mixed characteristic, and the explicit truncated coefficient equations
+in equal characteristic). Use the ordinary *iwahori-bruhat-decomposition* over `L`
+to write `g = h₁ẇh₂` with `h₁,h₂ ∈ Ĭ`. Normality of `Ĭ_n` in `Ĭ` identifies the
+intersection with the `h₁`-conjugate of `Ĭ_n ∩ ẇĬ_nẇ⁻¹`. For this latter group,
+use ordered positive-depth root-ray and torus coordinates, taking the stronger
+of the two thresholds on each factor and retaining separate rounded cutoffs for
+`a` and `2a`. Construct cofinal truncations compatible with multiplication and
+inverse, and prove smoothness and geometric connectedness. Transport the
+coordinate equations by conjugation, choose Frobenius-stable truncations and
+descend their group laws to `κ`; prove that the transition homomorphisms and
+point isomorphism intertwine arithmetic Frobenius with `q`-Frobenius. This
+descent and these intersection properties are deductions to be proved here.
+Zhu's general jet representability does not assert them, and
+[Haines–Rapoport], Remark 9, p. 5, treats parahoric intersections.
 *Needs:* *moy-prasad-filtration*; *positive-depth-filtration-basis*;
-*unramified-base-change-of-parahorics*; *smooth-model-reduction*.
+*unramified-base-change-of-parahorics*; *smooth-model-reduction*;
+*finite-level-jet-realizations*; RG2.4 *iwahori-bruhat-decomposition*;
+RG2.3 *big-cell-criteria*.
 *Lean:* none (README-only).
+
+**Checks.**
+
+- `intersection_split_torus` — for `G_m`, `n ≥ 1` and every `g`, the intersection
+  is `1 + π^n O_L`. For `i > n`, its truncation has underlying scheme
+  `𝔸^{i−n}_κ`, with multiplication inherited from the truncated ring; truncation
+  and `q`-Frobenius give the required inverse system.
+- `intersection_GL2_shifted` — for `E = 𝔽_q((π))`, the `GL_2` alcove barycentre
+  `(0,−1/2)`, `n = 1` and `g = diag(π,1)`, elements of `J` have diagonal entries
+  in `1+πO_L` and both off-diagonal entries in `π²O_L`. Modulo `π³` and `π⁴` the
+  underlying schemes are respectively `𝔸^6_κ` and `𝔸^10_κ`, smooth and
+  geometrically connected, and truncation commutes with Frobenius.
+- `intersection_disconnected_boundary` (non-example) — the constant group `ℤ/2`
+  over `𝔽₂` has a pro-`2` geometric-point group but trivial Lang map. A pro-`p`
+  presentation alone cannot replace the geometric connectedness of the `J_i`.
 
 **Frobenius-fixed coset lifting at positive level.** (*frobenius-fixed-coset-lifting*)
 Under *positive-depth-intersection-presentation*, with `I_n=Ĭ_n^σ`, prove
@@ -6070,9 +6226,14 @@ character. For a parabolic, use SmoothRepresentationsOfLocalGroups SR.2.2,
 *modulus-character*, for `det(Ad(p)|Lie P) = det(Ad(p)|Lie N)` and its comparison
 with the coefficient-valued modulus. RG2 supplies
 `LocalIntegration.modularCharacter_eq_adjointModulus`.
-The proof uses local analytic coordinates, the inverse determinant for pushforward
-of additive Haar measure, and the semidirect-product integration formula; smooth
-charts over local fields work in either characteristic. RG2 owns this local theorem;
+In characteristic zero the proof uses AdelicAlgebraicGroups AA.2.4
+*smooth-group-analytic-charts*, including its cotangent identification and Haar
+change of variables, built from RG2.0 before this theorem. In positive characteristic
+it uses RG2.0 *equal-characteristic-smooth-group-analytic-charts*, including the
+normalized additive Haar-Jacobian formula. These give local analytic coordinates
+and inverse-determinant scaling for pushforward of additive Haar measure. Combine
+them with translations to compute the local Haar modular character, and use the
+semidirect-product integration formula for the parabolic calculation. RG2 owns this local theorem;
 AA consumes it for finite-place and adelic-product comparisons, and SR consumes it
 for the coefficient-valued modulus under its invertibility assumptions. Square roots
 occur only in SR's normalized functors.
@@ -6092,7 +6253,9 @@ Haar measure of `G(E)` with `vol(K) = 1`. Then for `f` locally constant with com
 ([Cartier], §4.1, formulas (3), (4) and (9), p. 145). This statement is not formalized in the
 Lean file. *Needs:* *iwasawa-decomposition*; Mathlib `MeasureTheory.Measure.haar`,
 `MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.Measure.IsMulRightInvariant`,
-`MeasureTheory.Measure.modularCharacter`; RG2.0 *points-topological-group*.
+`MeasureTheory.Measure.modularCharacter`; RG2.0 *points-topological-group*;
+AdelicAlgebraicGroups AA.2.4 *smooth-group-analytic-charts* (characteristic zero);
+RG2.0 *equal-characteristic-smooth-group-analytic-charts* (positive characteristic).
 *Lean:* `Decomposition.modularCharacter_eq_one`, `LocalIntegration.adjointModulus`,
 `LocalIntegration.modularCharacter_eq_adjointModulus`.
 

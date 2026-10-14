@@ -181,8 +181,12 @@ def generalLinearPointsHomeomorph [IsTopologicalRing R] (n : ℕ) :
   continuous_invFun := sorry
 
 -- Test PointTopology.generalLinearPointsHomeomorph_isOpenEmbedding
-example [IsTopologicalRing R] (n : ℕ) : Topology.IsOpenEmbedding
-    (generalLinearPointsHomeomorph (k := k) (R := R) n) := by sorry
+example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] (n : ℕ) :
+    Topology.IsOpenEmbedding
+      (fun x : WithConv (TauCeti.GeneralLinear.coordinateHopfAlgebra E n →ₐ[E] E) =>
+        ((generalLinearPointsHomeomorph (k := E) (R := E) n x) :
+          Matrix (Fin n) (Fin n) E)) := by sorry
 
 -- Test PointTopology.generalLinear_integral_iff_det
 example (n : ℕ) (M : Matrix (Fin n) (Fin n) R) : IsUnit M ↔ IsUnit M.det :=
@@ -968,6 +972,15 @@ structure GradedLatticeChain (K : Type u) [Field K] [ValuativeRel K] [Topologica
     (grading (Submodule.span 𝒪[K] ((t : K) • (Λ : Set (Fin n → K)))) : WithTop ℝ) =
       grading Λ + ω K t
 
+-- Test GLBuilding.norm_chain_zero_rank
+example : IsEmpty (GradedLatticeChain K 0) := by sorry
+
+-- Test GLBuilding.divisionBuilding_zero_rank
+/- For the split division algebra `D = K`, rank zero has a unique splittable norm and no
+graded periodic chain. -/
+example : Nonempty (SplittableNorm K 0) ∧ Subsingleton (SplittableNorm K 0) ∧
+    IsEmpty (GradedLatticeChain K 0) := by sorry
+
 /-- Splittable norms correspond to graded periodic lattice chains: `α` goes to its closed balls
 `{α ≥ r}`, each graded by the least value of `α` on it (Bruhat–Tits, Bull. SMF 112 (1984), 1.8,
 p. 267). -/
@@ -1535,8 +1548,9 @@ def adjointModulus (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
     (LinearEquiv.det ((Derivation.adjointAction (R := E) (H := H)
       (CommAlgCat.of E E) g).toLinearEquiv) : E) : ℝ≥0)
 
-/-- For a smooth affine group over a nonarchimedean local field, the modular character is the
-absolute adjoint determinant (Cartier, Corvallis Part 1, §4.1, pp. 144–145). -/
+/-- For a smooth affine group of finite type over a nonarchimedean local field, the analytic
+tangent and Haar-Jacobian comparison identifies the modular character with the absolute
+adjoint determinant, in either characteristic. -/
 theorem modularCharacter_eq_adjointModulus (E : Type u) [Field E] [ValuativeRel E]
     [TopologicalSpace E] [IsNonarchimedeanLocalField E]
     (H : Type u) [CommRing H] [HopfAlgebra E H] [Algebra.FiniteType E H]
