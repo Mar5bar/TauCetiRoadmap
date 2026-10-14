@@ -67,6 +67,14 @@ example (B : 𝒞) :
     Nonempty (ihom ((𝟭 𝒞).obj B) ≅ 𝟭 𝒞 ⋙ ihom B ⋙ 𝟭 𝒞) :=
   formalVerdierDuality (Adjunction.id) (Adjunction.id) B (Iso.refl _)
 
+/-- For `ℤ → ℤ/5`, coinduction of `ℤ` is zero. -/
+example : Subsingleton (Module.Dual ℤ (ZMod 5)) := by
+  sorry
+
+/-- Extension of scalars along the same map sends `ℤ` to a nonzero module. -/
+example : Nontrivial (TensorProduct ℤ (ZMod 5) ℤ) := by
+  sorry
+
 end Formal
 
 namespace ExceptionalBaseChange
@@ -171,6 +179,19 @@ example (h : IsUnit (Fintype.card (Fin 2) : ZMod 5)) :
     normalizedTrace (ZMod 5) (Fin 2) h (Pi.single 0 1) = 3 := by
   sorry
 
+/-- The plain two-point trace sends a basis vector to one. -/
+example : finiteTrace (ZMod 5) (Fin 2) (Pi.single 0 1) = 1 := by
+  sorry
+
+/-- The two-point unit is the diagonal, before any trace normalisation. -/
+example : finiteUnit (ZMod 5) (Fin 2) 1 = fun _ => 1 := by
+  sorry
+
+/-- On a one-point fibre the normalised trace returns the input scalar. -/
+example (h : IsUnit (Fintype.card (Fin 1) : Λ)) (a : Λ) :
+    normalizedTrace Λ (Fin 1) h (fun _ => a) = a := by
+  sorry
+
 end FiniteModel
 
 /-! ## Layer S4: Cohomologically smooth morphisms -/
@@ -204,6 +225,21 @@ example : Nonempty ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-1)).ob
 example : Nonempty ((unitComplex (ZMod 1))⟦(0 : ℤ)⟧ ≅ (unitComplex (ZMod 1))⟦(1 : ℤ)⟧) := by
   sorry
 
+/-- The unshifted integral unit has degree-zero cohomology `ℤ`. -/
+example : Nonempty ((DerivedCategory.homologyFunctor (ModuleCat ℤ) 0).obj
+    (unitComplex ℤ) ≅ ModuleCat.of ℤ ℤ) := by
+  sorry
+
+/-- The unshifted integral unit has no degree-one cohomology. -/
+example : IsZero ((DerivedCategory.homologyFunctor (ModuleCat ℤ) 1).obj
+    (unitComplex ℤ)) := by
+  sorry
+
+/-- The positive shift has zero degree-zero cohomology. -/
+example : IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) 0).obj
+    ((unitComplex Λ)⟦(1 : ℤ)⟧)) := by
+  sorry
+
 end PointCoefficients
 
 namespace ProfiniteSets
@@ -234,6 +270,17 @@ example (ℓ r : ℕ) [Fact ℓ.Prime] [Fact r.Prime] :
 example (S : Profinite.{u}) : Subsingleton (LocallyConstant S (ZMod 1)) := by
   refine ⟨fun f g => LocallyConstant.ext fun _ => ?_⟩
   exact Subsingleton.elim _ _
+
+/-- On a finite discrete space every function is locally constant. -/
+example (I : Type*) [Fintype I] [TopologicalSpace I] [DiscreteTopology I]
+    (Λ : Type*) [CommRing Λ] :
+    Nonempty (LocallyConstant I Λ ≃ₗ[Λ] (I → Λ)) := by
+  sorry
+
+/-- A one-point space gives the coefficient module itself. -/
+example (I : Type*) [Unique I] [TopologicalSpace I] (Λ : Type*) [CommRing Λ] :
+    Nonempty (LocallyConstant I Λ ≃ₗ[Λ] Λ) := by
+  sorry
 
 end ProfiniteSets
 
@@ -272,6 +319,24 @@ example (ℓ : ℕ) [hℓ : Fact ℓ.Prime] :
     (Supernatural.primePower_apply_self (⟨ℓ, hℓ.out⟩ : Nat.Primes) ⊤).symm.trans
       (h.symm.trans hzero)
 
+/-- Every quotient of the trivial group has order one, a unit even in the zero ring. -/
+example (K : Type*) [Group K] [Subsingleton K] (U : Subgroup K)
+    (Λ : Type*) [CommRing Λ] :
+    Nat.card (K ⧸ U) = 1 ∧ IsUnit ((Nat.card (K ⧸ U) : ℕ) : Λ) := by
+  sorry
+
+/-- The orders of quotients of a finite cyclic group prime to `ℓ` are units in
+an `ℓ`-power-torsion ring. -/
+example (m ℓ : ℕ) [NeZero m] [Fact ℓ.Prime] (hm : ¬ ℓ ∣ m)
+    (Λ : Type*) [CommRing Λ] {n : ℕ} (hΛ : (ℓ : Λ) ^ n = 0)
+    (U : Subgroup (Multiplicative (ZMod m))) :
+    IsUnit ((Nat.card (Multiplicative (ZMod m) ⧸ U) : ℕ) : Λ) := by
+  sorry
+
+/-- The order of the two-element cyclic group has inverse three in `𝔽₅`. -/
+example : (Nat.card (Multiplicative (ZMod 2)) : ZMod 5) * 3 = 1 := by
+  sorry
+
 end Haar
 
 /-! ## Layer S6: Biduality, finiteness and conservativity over a geometric point -/
@@ -292,6 +357,12 @@ theorem isZero_of_isZero_stalk_closedPoints {X : TopCat.{u}} [JacobsonSpace X]
 no closed point, and the extension by zero from that point is a nonzero sheaf whose stalk at
 the closed point vanishes. -/
 example : ¬ JacobsonSpace Prop := by
+  sorry
+
+/-- On a finite discrete space, vanishing at every stalk forces a module sheaf to vanish. -/
+example (X : Type u) [Fintype X] [TopologicalSpace X] [DiscreteTopology X]
+    (Λ : Type u) [CommRing Λ] (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of X))
+    (hF : ∀ x : X, IsZero (F.presheaf.stalk x)) : IsZero F := by
   sorry
 
 end ClosedPoints
@@ -322,6 +393,32 @@ example : ∀ w ∈ (⊤ : ValuationSubring k), ∃ c : k, w - algebraMap k k c 
     (⊤ : ValuationSubring k).nonunits := by
   sorry
 
+/-- The valuation ring of `k(t)` at `t = 0` contains the constants, has uniformiser `t`
+and residue field `k`, and is minimal among valuation subrings containing `k`. -/
+example : ∃ V : ValuationSubring (RatFunc k),
+    (∀ c : k, RatFunc.C c ∈ V) ∧ RatFunc.X ∈ V.nonunits ∧
+    Nonempty (IsLocalRing.ResidueField V ≃+* k) ∧
+    ∀ W : ValuationSubring (RatFunc k),
+      (∀ c : k, RatFunc.C c ∈ W) → W ≤ V → W = V := by
+  sorry
+
+/-- The trivial valuation of `k(t)` has residue field `k(t)`, whose parameter is not
+represented by a constant. -/
+example : Nonempty (IsLocalRing.ResidueField (⊤ : ValuationSubring (RatFunc k)) ≃+*
+    RatFunc k) ∧ ¬ ∃ c : k, RatFunc.X = RatFunc.C c := by
+  sorry
+
+/-- The real quadratic point has residue field `ℂ` and is minimal over `ℝ`, despite
+its residue field being strictly larger than the constants. -/
+example : ∃ V : ValuationSubring (RatFunc ℝ),
+    (∀ c : ℝ, RatFunc.C c ∈ V) ∧
+    (RatFunc.X ^ 2 + 1 : RatFunc ℝ) ∈ V.nonunits ∧
+    Nonempty (IsLocalRing.ResidueField V ≃+* ℂ) ∧
+    (¬ ∀ w ∈ V, ∃ c : ℝ, w - RatFunc.C c ∈ V.nonunits) ∧
+    ∀ W : ValuationSubring (RatFunc ℝ),
+      (∀ c : ℝ, RatFunc.C c ∈ W) → W ≤ V → W = V := by
+  sorry
+
 end ZariskiRiemann
 
 /-!
@@ -334,9 +431,9 @@ IsCompactifiable.of_isSeparated_of_isEtale, IsCompactifiable.of_comp, IsLocallyS
 IsCompactifiable.of_comp_of_isLocallySplit, IsEligible, IsSpatialEligible, IsEligible.of_comp.
 Layer S1: fibreDimension_le_dimTrg, dimTrg_canonicalCompactification, lowerShriekQC,
 lowerShriekQC_factorisation, properDimTrgZero_equiv_compHaus, qcqsDiamond_cohomology_continuous,
-properDimTrgZero_topological_equiv, lowerShriekQC_cd_le_three_mul,
-lowerShriekQC_cd_le_two_mul_of_spatial, lowerShriekQC_baseChange, lowerShriekQC_comp,
-lowerShriekQC_eq_etaleLowerShriek, lowerShriekQC_projection, lowerShriekQC_preservesCoproducts.
+properDimTrgZero_topological_equiv, lowerShriekQC_cd_le_two_mul_of_spatial,
+lowerShriekQC_cd_le_three_mul, lowerShriekQC_baseChange, lowerShriekQC_comp,
+lowerShriekQC_eq_etaleLowerShriek, lowerShriekQC_preservesCoproducts, lowerShriekQC_projection.
 Layer S2: exists_hypercover_strictlyTotallyDisconnected, hypercover_commonRefinement,
 properSupportSubcategory, lowerShriekLocSpatial, lowerShriekLocSpatial_colim,
 lowerShriekLocSpatial_preservesColimits, lowerShriekLocSpatial_baseChange,
