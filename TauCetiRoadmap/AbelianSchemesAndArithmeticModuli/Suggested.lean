@@ -811,13 +811,13 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   characteristic-polynomial signature above supplies the algebraic degree characterization.
 * **Étale and `ℓ`-adic cohomology**: `frobeniusSemisimple`, `exteriorCohomology`,
   `weilRestrictionTate`. A4.4's ordinary finite-coefficient Künneth: Supplied by
-  LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth`.
+  EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`.
   Use constant `ℤ/ℓ^r`-coefficients on proper A over algebraically closed k with ℓ invertible,
   retaining cup products, pullbacks, base change and every coefficient reduction.
-  Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+  Supplied by EtaleCohomologyFoundations §F.3 /
   `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
   This geometric domain gives the bound 2g and finite cohomology at each level.
-  Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+  Supplied by EtaleCohomologyFoundations §F.4 /
   `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
   The normalized constant tower has uniform cohomological and Tor bounds, so the integral
   realization is compared with the derived finite-level limit and all derived reductions.
@@ -825,6 +825,12 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
   `SerreTate.q`, `ordinaryFrobeniusWeighted`, `oddPrimeLifting`, `dyadicOrdinaryLifting`,
   `genusTwoJacobianLifting`, `polarizedFormalAlgebraization`, `genusTwoFormalEffectivity`.
+* **Crystalline Dieudonné theory** (A4.CR.7.2): the contravariant crystalline Dieudonné
+  crystal of a Barsotti–Tate group, Dieudonné variance and Tate twists, and Grothendieck–Messing
+  deformation theory. The APIs `LogCrystalline.dieudonneEvaluation.evaluate`,
+  `LogCrystalline.dieudonneEvaluation.contravariant` and `LogCrystalline.dieudonneEvaluation.fv`
+  use the namespace `TauCetiRoadmap.CrystallineCohomology`; their crystalline-site and
+  finite-locally-free coefficient carriers are supplied by CrystallineCohomology CR.1 and CR.7.1.
 * **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
   `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.

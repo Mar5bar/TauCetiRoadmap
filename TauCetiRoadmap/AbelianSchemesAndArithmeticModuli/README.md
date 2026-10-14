@@ -8,8 +8,9 @@ rigidity, the cube theorem and the seesaw principle in families. It constructs t
 scheme, polarizations and the canonical doubled graph bundle, and quotients by finite locally free
 subgroups, with Cartier-dual kernels and Weil pairings. It builds the degree-one realizations: the
 prime-to-characteristic Tate module, the universal vector extension and first de Rham cohomology,
-Barsotti–Tate groups and the degree-one divided-power realization. It proves the deformation
-theorems of Serre–Tate and Grothendieck–Messing, with ordinary Serre–Tate coordinates and the
+Barsotti–Tate groups, their contravariant crystalline Dieudonné crystals and Tate twists,
+and the degree-one divided-power realization. It proves the deformation theorems of Serre–Tate and
+Grothendieck–Messing, with ordinary Serre–Tate coordinates and the
 finite-level lifting statements used for abelian surfaces. Over ℂ it supplies the lattice
 uniformization, the Hermitian and homological structure of Riemann forms, the Appell–Humbert theorem, the polarized Hodge equivalence and the
 Siegel universal family. Over a field it proves the arithmetic of Hom: degrees,
@@ -31,7 +32,7 @@ Hodge structure.
 | A1 | Rigidity and normalized line bundles | `relativeProductsAndDimension`, `relativeRigidity`, `relativeInvariantForms`, `relativeSeesaw`, `relativeCube`, `relativeEllipticEquivalence`, `torsionRestriction` |
 | A2 | Duality, polarizations and ample classes | `raynaudRepresentability`, `AbelianScheme.dual`, `mumfordMap`, `Polarization`, `Polarization.graphBundle`, `ampleCohomologyAndDegree`, `projectivePresentation`, `nefNormalizedLines`, `AbelianNS` |
 | A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, `multiplicationAndDensity`, `AbelianQuotient`, `torsionDivisibility`, `dualIsogenyCartierKernel`, `ThetaGroup`, `polarizedWeilPairing`, `FullLevel`, `Polarization.rosati`, `principalQuotient`, `symmetricHomRealization` |
-| A4 | Realizations and deformations | `AbelianTate`, `AbelianVectorExtension`, `AbelianH1dR`, `exteriorCohomology`, `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `serreTate`, `SerreTate.q`, `oddPrimeLifting`, `dyadicOrdinaryLifting` |
+| A4 | Realizations and deformations | `AbelianTate`, `AbelianVectorExtension`, `AbelianH1dR`, `exteriorCohomology`, `BarsottiTate`, `AbelianPD`, `LogCrystalline.dieudonneEvaluation.evaluate`, `grothendieckMessing`, `serreTate`, `SerreTate.q`, `oddPrimeLifting`, `dyadicOrdinaryLifting` |
 | A5 | Complex uniformization and families | `AbelianLattice`, `RiemannForm.homological`, `polarizationType`, `appellHumbert`, `polarizedHodgeEquivalence`, `analyticFamilies`, `SiegelFamily` |
 | A6 | Arithmetic Hom and exports | `Hom.deg`, `exists_charpoly`, `homFreeFinite`, `poincareReducibility`, `endQ_isSemisimple`, `charpolyTate`, `rosatiPositivity`, `polarizedAutomorphisms`, `CoefficientHom`, `LocalizedHom`, `AbelianTwist`, `weilRestriction`, `QuadraticAbelianTwist`, `Morikawa`, `AbelianHodgeLine` |
 
@@ -53,8 +54,11 @@ descent; polarized Weil pairings; full level structures; the Rosati involution; 
 divisor criterion; principal quotients; the genus-two 2-torsion model. The integral
 prime-to-characteristic Tate module; the universal vector extension; relative `H¹_dR` with its Hodge
 sequence and Gauss–Manin connection; the exterior structure of all cohomology; Barsotti–Tate groups
-of arbitrary height over arbitrary bases; the degree-one divided-power realization; Grothendieck–
-Messing and Serre–Tate for abelian schemes with structures; ordinary Serre–Tate coordinates and the
+of arbitrary height over arbitrary bases; their contravariant crystalline Dieudonné crystals,
+Frobenius and Verschiebung, Cartier duality with Tate twist −1, and Grothendieck–Messing deformation
+theory over locally PD-nilpotent thickenings; the degree-one divided-power realization;
+Grothendieck–Messing and Serre–Tate for abelian schemes with structures; ordinary Serre–Tate
+coordinates and the
 weighted polarization equations; polarized effectivity; the odd-prime and dyadic finite-level lifting
 theorems and the genus-two Jacobian comparison. Over ℂ: lattice uniformization, the Hermitian, principal and homological structure of Riemann forms,
 polarization types, Appell–Humbert and algebraicity, the polarized Hodge equivalence, analytic
@@ -149,8 +153,7 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   `ModuliDescent.relativeHom_algebraicity`).
   Layer 5, §5.2: level functors and their rigidity (`rigidLevelStructure`). Layer 7: the relative
   Picard sheaf (`relativePicardSheaf`), section rigidification (`sectionRigidifiedPicard`,
-  `sectionPicardSplit`), universal functions (`universal_functions`), perfect proper pushforward and
-  base change (`perfect_proper_pushforward`), algebraicity of the Picard sheaf
+  `sectionPicardSplit`), universal functions (`universal_functions`), algebraicity of the Picard sheaf
   (`relative_picard_algebraicSpace`), the identity component (`picardZeroSheaf`,
   `picardZeroCriterion`), proper-space formal existence (`properSpaceCompletionEquivalence`),
   complex analytification and proper coherent GAGA (`complexSchemeAnalytification`,
@@ -169,6 +172,13 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   Hirzebruch–Riemann–Roch (§5.8, `grothendieck_riemann_roch`). The effectivity of polarized
   formal abelian schemes and genus-two curves is A4.8 and A4.14 here; quadratic projective
   descent uses StableReduction Layer 2's étale polarized-scheme descent contract.
+- *CrystallineCohomology.* Layer CR.1 supplies the base-compatible big fppf crystalline site,
+  its module-sheaf category and quasi-coherent and finite locally free crystals. CR.7.1 supplies coefficient
+  evaluation, pullback, tensor and dual, and the twist convention φ_{D(r)}=p^{−r}φ_D,
+  Fil^i(D(r))=Fil^{i+r}D. The Barsotti–Tate Dieudonné crystal and its deformation theory
+  are A4.CR.7.2 here.
+- *EnhancedDerivedSheaves.* E1.9 supplies perfect proper pushforward and base change
+  (`perfect_proper_pushforward`) for the relative coherent-cohomology arguments.
 - *ComplexComparisonPartII.* C3.3 derived GAGA for proper algebraic spaces
   (`derivedGagaProperSpace`); C4.2 Chow's theorem with nilpotents (`projectiveChowNonreduced`);
   C4.4 algebraicity of holomorphic maps from proper schemes (`properSourceMorphismAlgebraicity`)
@@ -177,15 +187,15 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   `properDeRhamBetti`); C5.2 Betti local systems and the Gauss–Manin comparison
   (`relativeBettiLocalSystem`, `GaussManin`, `relativeDeRhamBetti`); C5.4 the Chern normalization
   `c₁ = [(i/2π)Θ]` with the complex orientation (`chernFubiniStudyIntersection`).
-- *LefschetzPencilsAndVanishingCycles.* Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+- *EtaleCohomologyFoundations.* Supplied by EtaleCohomologyFoundations §F.3 /
   `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
   A4.4 uses the geometric bound `q > 2g` and proper finiteness for an abelian variety of
   dimension `g` over algebraically closed `k`, with finite coefficients `ℤ/ℓ^r` and `ℓ`
-  invertible in `k`. Supplied by LefschetzPencilsAndVanishingCycles §F.2 /
+  invertible in `k`. Supplied by EtaleCohomologyFoundations §F.2 /
   `VanishingCycles.etaleKunneth`.
   The ordinary derived Künneth map for finite-type schemes over separably closed `k` and
   bounded constructible finite-Tor coefficient complexes retains cup products, pullbacks,
-  base change and reductions. Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+  base change and reductions. Supplied by EtaleCohomologyFoundations §F.4 /
   `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
   The constant coefficient tower has coherent derived reductions and uniform cohomological
   and Tor bounds, giving the derived finite-level limit, finite generation and integral reductions.
@@ -194,24 +204,25 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
 modular moduli, their level covers and compactifications (PELModuli, ShimuraVarieties,
 ShimuraCompactifications): the Hodge line bundle and the twisting operation are exported to them
 by descent, and no moduli stack is constructed here. The general classification of finite flat
-group schemes and `p`-divisible groups, Dieudonné theory and the crystalline site
-(FiniteFlatGroupsAndIntegralPadicHodgeTheory, CrystallineCohomology): only the minimal
-Barsotti–Tate interface and the degree-one divided-power evaluation of an abelian scheme live
-here. General Galois representations and their local properties (ArithmeticGaloisRepresentations):
+group schemes and `p`-divisible groups belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory;
+the crystalline site and general crystalline coefficient calculus belong to CrystallineCohomology.
+The Barsotti–Tate interface, contravariant Dieudonné crystal, its variance and twists, and
+Grothendieck–Messing deformation theory are A4.5–A4.7 and A4.CR.7.2 here.
+General Galois representations and their local properties (ArithmeticGaloisRepresentations):
 only the Tate local system of an abelian scheme and the finite-index induction comparison for Weil
 restriction live here. Néron models and semistable reduction (NeronModelsAndSemistableAbelianVarieties).
 ComplexTori owns generic lattice quotients, manifold period families and equivariant lattice maps.
 A5 specializes these to abelian varieties, with Riemann forms, Appell–Humbert, polarizations and
 the Siegel family. This supplier is used only in A5 and its consumers; A0–A4 are independent of it.
 Generic finite-coefficient étale cohomology of schemes and integral adic realization:
-Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+Supplied by EtaleCohomologyFoundations §F.3 /
 `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
 `VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
 `VanishingCycles.adicFiniteness`.
 A4.4 specializes these geometric statements to proper abelian varieties over algebraically
 closed `k`, with `ℓ` invertible and the whole normalized tower `ℤ/ℓ^r`.
 Weil's trace theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity,
-and the Grothendieck–Lefschetz formula: Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
+and the Grothendieck–Lefschetz formula are applications in LefschetzPencilsAndVanishingCycles §F.10 /
 `VanishingCycles.curveEndomorphismTrace`, `VanishingCycles.etaleTraceFormulaFinite`,
 `VanishingCycles.etaleTraceFormula`.
 The curve theorem uses smooth proper geometrically connected curves and invertible `ℓ`;
@@ -273,7 +284,9 @@ the Hom statements here are faithfulness and saturation.
   lattice is `ℤ^g + Ωℤ^g` in the column convention, and `Sp_{2g}(ℤ)` acts by
   `Ω ↦ (AΩ + B)(CΩ + D)^{-1}`.
 - **Lean.** Declarations live in `TauCetiRoadmap.AbelianSchemesAndArithmeticModuli`; names below are
-  relative to it. `Suggested.lean` contains the light definitions with real bodies and the theorems
+  relative to it, except the crystalline-site and `LogCrystalline.dieudonneEvaluation` APIs
+  of A4.CR.7.2, which use `TauCetiRoadmap.CrystallineCohomology`. `Suggested.lean` contains the
+  light definitions with real bodies and the theorems
   whose carriers exist at the pinned Mathlib and Tau Ceti; the remaining targets are specified in this
   README and listed at the end of that file.
 
@@ -378,41 +391,49 @@ Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeome
   by relative Proj; the exchange linearization on `N ⊗ [−1]^*N` supplies the line-bundle
   cocycle. No descent of an unpolarized scheme is inferred from this contract.
 
-### From LefschetzPencilsAndVanishingCycles
+### From EtaleCohomologyFoundations
 
-Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+Supplied by EtaleCohomologyFoundations §F.3 /
 `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
 For finite-type `X` over separably closed `k`, torsion invertible in `k` gives
 `H^q_et(X, F) = 0` for `q > 2 dim X`, and proper `X` with finite constructible coefficients
 has finite cohomology; A4.4 uses `X = A` over algebraically closed `k`, `dim A = g` and
 `Λ = ℤ/ℓ^r` with `ℓ` invertible in `k`.
 
-Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth`.
+Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`.
 The finite-type, separably closed-field theorem applies to bounded constructible finite-Tor
 `Λ`-complexes with invertible annihilator, including the constant `ℤ/ℓ^r`-sheaves on `A`;
 A4.4 applies its ordinary external product to `A × A` and pulls back along addition.
 
-Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.normalizedAdicSystems`,
+Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`,
 `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
 On the normalized constant tower over proper `A/k`, uniform cohomological and Tor bounds
 and finite-level finiteness give `RΓ(A, ℤ_ℓ) ≅ Rlim_r RΓ(A, ℤ/ℓ^r)`, finite generation and
 `RΓ(A, ℤ_ℓ) ⊗^L ℤ/ℓ^r ≅ RΓ(A, ℤ/ℓ^r)` for every `r ≥ 1`, with the Milnor sequence
 retained until the Mittag–Leffler condition is verified.
-Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.adicFunctoriality`.
+Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.adicFunctoriality`.
 The cup, pullback and Künneth comparisons pass through the normalized systems with
 their uniform bounds, and a Galois action requires coefficient descent data.
-Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+Supplied by EtaleCohomologyFoundations §F.4 /
 `VanishingCycles.etaleProetaleAdicComparison`.
 For locally Noetherian `A` the constant classical realization compares by derived pushforward
 with Mathlib's pro-étale coefficient sheaf and cohomology, compatibly with every reduction.
-Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.rationalAdicRealization`.
+Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization`.
 On separated finite-type schemes over separably closed `k` with invertible `ℓ`, the same normalized
 realization rationalizes by derived tensor with `ℚ_ℓ`, with finite-dimensional cohomology.
 The exterior structure and freeness of abelian cohomology are A4.4 here.
 
 | Supplier | Provides / consumer | Convention or hypothesis gap |
 |---|---|---|
-| Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth` | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 `exteriorCohomology` | A4.4 uses constant bounded constructible finite-Tor `ℤ/ℓ^r`-coefficients on proper `A` over algebraically closed `k`, with `ℓ` invertible, and passes to `ℤ_ℓ` by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness` through all compatible finite levels; a compact-support formula alone does not supply this input. |
+| Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth` | Ordinary finite-coefficient étale Künneth with cup-product, pullback and base-change compatibility, used by A4.4 `exteriorCohomology` | A4.4 uses constant bounded constructible finite-Tor `ℤ/ℓ^r`-coefficients on proper `A` over algebraically closed `k`, with `ℓ` invertible, and passes to `ℤ_ℓ` by EtaleCohomologyFoundations §F.4 / `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness` through all compatible finite levels; a compact-support formula alone does not supply this input. |
+
+### From CrystallineCohomology and EnhancedDerivedSheaves
+
+| Supplier | Provides / consumer | Convention or hypothesis |
+|---|---|---|
+| CrystallineCohomology Layer CR.1 | Base-compatible big fppf crystalline site and quasi-coherent and finite locally free crystals, used by A4.CR.7.2 | p is prime and locally nilpotent on the source; evaluations are module sheaves on the PD ambient scheme. |
+| CrystallineCohomology §CR.7.1 | Finite projective coefficient evaluation, pullback, tensor and dual; filtered Frobenius coefficient and twist calculus, used by A4.CR.7.2 | Twist r scales Frobenius by p^(−r) and shifts Fil^i to Fil^(i+r); completed Witt evaluation retains every finite-level reduction. |
+| EnhancedDerivedSheaves E1.9 / `perfect_proper_pushforward` | Perfect proper pushforward and base change, used by A1.4, A2.4, A4.2 and A4.4 | For finitely presented f, E is perfect and G• is bounded, termwise finitely presented and target-flat, with each support proper over the target; Rf_*E is perfect when f is proper, flat and finitely presented. No Noetherian base hypothesis is added. |
 
 ### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
 
@@ -682,7 +703,7 @@ base change on reduced bases, and the full rigidified Picard class in general
 (Xie–Yuan, proof of Lemma 4.1, p. 20; Conrad–Feng, Theorem 3.1.1 and Exercise 3.1.4, pp. 25–26). A
 nonzero infinitesimal point of `A^∨` over `K[ε]` is trivial on the geometric fibre but is not the
 trivial Picard section; on a product `X × S`, `π^*M` is recovered from `M` by `e^*`. *Needs:* A0.3;
-AlgebraicModuli Layer 1 and Layer 7 §7.2 (`perfect_proper_pushforward`).
+AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
 
 ### A1.5 The theorem of the cube and multiplication pullbacks
 
@@ -871,7 +892,7 @@ and `χ(P) = (−1)^g`, and by Künneth after the shear `(x, y) ↦ (x, x + y)`;
 on `E²` with the product of degrees `1` and `2`, `h⁰ = 2`, the top self-intersection is `4`, and
 `deg φ_L = 4`: `φ_L` is a polarization of degree `d = 2` in the sense of A2.5. *Needs:* A1.3,
 A2.3; SchemeAndStackFoundations Layer 5 §5.8 (`grothendieck_riemann_roch`), §5.3 (`Chow.c1`);
-AlgebraicModuli Layers 1 and 7 (`perfect_proper_pushforward`).
+AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
 
 ### A2.5 Polarizations
 
@@ -1471,9 +1492,10 @@ Nilpotent-base Serre–Tate and divided-power Grothendieck–Messing are kept ap
 equivalences of categories including morphisms and extra structure. Formal deformations over a
 complete local ring become algebraic only through the separate effectivity theorem. Ordinary
 Serre–Tate parameters describe every dimension, with integral symmetry at `p = 2` and weighted
-equations for nonprincipal polarizations. The general classification of `p`-divisible groups and
-the crystalline site belong to other roadmaps; only the degree-one interfaces of an abelian scheme
-are built here.
+equations for nonprincipal polarizations. CrystallineCohomology CR.1 and CR.7.1 supply the
+crystalline site and coefficient calculus. A4.CR.7.2 constructs the contravariant Dieudonné crystal
+of an arbitrary Barsotti–Tate group, its twists and its Grothendieck–Messing lifting equivalence; the general
+classification of `p`-divisible groups belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory.
 
 ### A4.1 The integral Tate module
 
@@ -1534,7 +1556,7 @@ vector extensions, with kernel maps `V(u)` for `O_S`-linear `u`),
 `AbelianVectorExtension.baseChange`, `AbelianVectorExtension.invariantForms`
 (`ω_{E(A)} ≅ H¹_dR(A/S)` with the Hodge sequence) and `AbelianVectorExtension.ext` (maps of extensions
 are determined by their maps on vector kernels and on `A`). *Needs:* A1.3, A2.2;
-AlgebraicVectorBundles L0B, L2B; AlgebraicModuli Layer 7 (`perfect_proper_pushforward`);
+AlgebraicVectorBundles L0B, L2B; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`);
 SchemeAndStackFoundations Layer 1, Layer 2 §2.6 (`qcoh_higherDirectImages`).
 
 **Checks.**
@@ -1608,10 +1630,10 @@ reduction from `r + 1` to `r`. In the limit `H*_et(A, ℤ_ℓ) ≅ ∧* H¹_et(A
 `H¹_et ≅ Hom_{ℤ_ℓ}(T_ℓ A, ℤ_ℓ)`, torsion-free of ranks `C(2g, n)`. The case `r = 1` is the `𝔽_ℓ`
 statement, and in characteristic zero every prime `ℓ` is allowed.
 
-Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleKunneth`.
+Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`.
 Apply ordinary derived étale Künneth over algebraically closed `k` to the constant finite-Tor
 coefficients `ℤ/ℓ^r`, with `ℓ` invertible, retaining cup-product, pullback, base-change and
-coefficient-reduction compatibility. Supplied by LefschetzPencilsAndVanishingCycles §F.4 /
+coefficient-reduction compatibility. Supplied by EtaleCohomologyFoundations §F.4 /
 `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`.
 The normalized constant tower on proper `A` satisfies uniform bounds and finite-level
 finiteness, giving the derived integral limit and reductions at every level; a compact-support
@@ -1621,7 +1643,7 @@ The coherent part uses the Hopf structure from the group law and the universal v
 universal ranks and filtered
 exterior compatibility are established before base change. The étale part is an abelian-specific
 computation on geometric inputs in every characteristic: Supplied by
-LefschetzPencilsAndVanishingCycles §F.3 / `VanishingCycles.etaleCohomologicalDimension`,
+EtaleCohomologyFoundations §F.3 / `VanishingCycles.etaleCohomologicalDimension`,
 `VanishingCycles.etaleFiniteness`.
 These give vanishing above degree `2g` and finite cohomology on proper `A/k` for invertible
 `ℓ`, while the ordinary Künneth and integral-realization contracts just cited supply the
@@ -1640,9 +1662,9 @@ coherent statement over an arbitrary base (local freeness, universal base change
 square-zero multiplication in characteristic `2`) and the finite-level form of (2) for `r ≥ 2` are
 not proved in the cited sources and are part of this target. For `g = 2` the de Rham ranks are
 `1, 4, 6, 4, 1`; graded skew-symmetry alone does not give vanishing of degree-one squares in
-characteristic `2`. *Needs:* A3.2, A4.1, A4.2, A4.3; AlgebraicModuli Layer 7
+characteristic `2`. *Needs:* A3.2, A4.1, A4.2, A4.3; EnhancedDerivedSheaves E1.9
 (`perfect_proper_pushforward`); ComplexComparisonPartII C5.1;
-Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+Supplied by EtaleCohomologyFoundations §F.3 /
 `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
 `VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
 `VanishingCycles.adicFiniteness`.
@@ -1687,7 +1709,7 @@ the canonical divided powers of `pW_n(k)` are nilpotent, so the evaluations at `
 compatible system whose limit `D(A₀)_{W(k)}` is a free `W(k)`-module of rank `2g`, contravariant in
 `A₀` (`AbelianPD.witt`). At `p = 2` the canonical divided powers of `2W_n(k)`, `n ≥ 2`, are not locally
 nilpotent, so these thickenings lie outside the domain and this interface supplies no
-`W(k)`-realization. The crystalline Dieudonné crystal `D(A₀[p^∞])` of CrystallineCohomology CR.7.2,
+`W(k)`-realization. The crystalline Dieudonné crystal `D(A₀[p^∞])` of A4.CR.7.2,
 defined on all divided-power thickenings and compared there with this evaluation on the locally
 nilpotent ones, supplies the `W(k)`-module for every `p`. No general crystalline site or Dieudonné equivalence is asserted
 (Faltings–Chai I.3, pp. 14–15, the Grothendieck–Messing discussion, which requires local nilpotence of
@@ -1728,6 +1750,140 @@ the same criterion applied to `λ₀`, and the categorical proof is part of this
 Unpolarized lifts have tangent rank `g²` and principally polarized ones `g(g + 1)/2`; for `g = 1` the
 filtration lifts inside a rank-two module and extra endomorphisms impose equations. *Needs:* A2.5,
 A4.2, A4.6.
+
+### A4.CR.7.2 Crystalline Dieudonné theory
+
+**The crystalline Dieudonné crystal of a Barsotti–Tate group.** Let p be a prime, S a scheme
+on which p is locally nilpotent, and G a Barsotti–Tate (p-divisible) group over S (A4.5). Its
+contravariant crystalline Dieudonné crystal is D(G) = 𝓔xt¹(G, O_{S/ℤ_p}) on the big crystalline site
+of S over (ℤ_p, (p), γ), using the base-compatible fppf site
+`Crystalline.CrisCompatibleFppfSite` of *Small and big crystalline sites*
+(CrystallineCohomology Layer CR.1), and with G_crys(U,T)=G(U). In characteristic p this is
+CRIS_fppf(S/ℤ_p). Construct D, contravariant in G and
+compatible with base change S′ → S; prove that D(G) is a crystal of finite locally free modules of
+rank the height of G. When S has characteristic p, its relative Frobenius and
+Verschiebung induce F : σ*D(G) → D(G) and V : D(G) → σ*D(G) with FV = VF = p;
+here σ is the absolute Frobenius of S. On a general p-nilpotent base use
+D(G) and its Hodge filtration without presupposing an absolute Frobenius of S. Its evaluation
+D(G)_T on a PD thickening T of an open of S is a finite locally free O_T-module, with horizontal
+F and V in the characteristic-p case and base-change isomorphisms for morphisms of thickenings.
+A homomorphism G → H induces D(H) → D(G). For
+an abelian scheme A/S, D(A[p^∞]) is identified with the realization of
+A4.6 on its stated locally PD-nilpotent thickenings, with the first de Rham cohomology of any
+abelian-scheme lift on those thickenings.
+
+The API:
+
+- `LogCrystalline.dieudonneEvaluation.evaluate`: D(G)_T is a finite locally free O_T-module.
+- `LogCrystalline.dieudonneEvaluation.contravariant`: A map G→H gives a map D(H)_T→D(G)_T.
+- `LogCrystalline.dieudonneEvaluation.fv`: The linearizations satisfy FV=p and VF=p on their
+  respective domains.
+
+*Proof sketch.* Construct D(G) as internal 𝓔xt¹ in the big fppf crystalline topos
+(CrystallineCohomology Layer CR.1), and restrict the resulting crystal to the small Zariski
+or étale site; local freeness of rank h is Berthelot–Breen–Messing 3.3.10, proved by reducing to truncated Barsotti–Tate
+groups and the exact sequences 0 → G[pⁿ] → G → G → 0. Apply the general coefficient evaluation maps
+of CrystallineCohomology §CR.7.1 (*Finite projective crystalline coefficients*) and transport F
+and V through the PD pullback isomorphisms. Check FV and VF on the appropriately Frobenius-twisted modules, and compare with A4.6
+for abelian schemes through the universal vector extension. ([de Jong, *Crystalline Dieudonné module
+theory via formal and rigid geometry*](https://www.numdam.org/article/PMIHES_1995__82__5_0.pdf),
+Definition 2.3.2 and construction 2.3.3, pp.21–22; Berthelot–Breen–Messing, *Théorie de Dieudonné
+cristalline II*, Lecture Notes in Math. 930 (1982), 3.3.6 and 3.3.10 as cited in de Jong §2.3.3;
+[Panny–Robert–Sferlazza, *Hensel-lifting black-box algorithms and fast trace computation
+for elliptic-curve endomorphisms*](https://www.math.u-bordeaux.fr/~damienrobert/pro/publications/articles/lifting_traces.pdf),
+Appendix B, printed pp.35–36 in the 28 September 2026 author version: the Ext
+construction over a p-nilpotent base, citing BBM Theorem 3.3.3; the Hodge
+sequence, citing BBM Corollary 3.3.5; and the abelian realization, citing BBM
+Theorem 2.5.6 and Proposition 3.3.7. The fppf topology is explicit in
+[Madapusi–Mondal, *Perfect F-gauges and finite flat group schemes*](https://www.keerthimadapusi.com/assets/preprints/fflat.pdf), Remark 4.3.3, pp.13–14.)
+*Needs:* CrystallineCohomology §CR.7.1 (*Finite projective crystalline coefficients*;
+*Filtered Frobenius coefficients on semistable models*); A4.5 (*Barsotti–Tate groups*);
+A4.6 (*The degree-one divided-power realization*); CrystallineCohomology Layer CR.1
+(*Quasi-coherent and finite locally free crystals*).
+
+**Checks.**
+
+- `constant`: D(Q_p/Z_p) over W(k) has rank one and F=σ.
+- `multiplicative`: D(μ_{p∞}) over W(k) has rank one and F=pσ.
+- `variance`: For G→H the induced crystal map runs from D(H) to D(G), not from D(G) to D(H).
+- Evaluation over W(k) for perfect k gives the classical contravariant Dieudonné module: W(k)-free
+  of rank h with σ-linear F and σ⁻¹-linear V, FV = VF = p.
+
+**Dieudonné variance and Tate twists.** Over a perfect field k of characteristic p, the
+evaluated contravariant crystal takes the following values: D(Q_p/Z_p)=W(k)e with Fe=e, Ve=pe (semilinearity understood), and
+D(μ_{p∞})=W(k)e with Fe=pe, Ve=e. Rationally the latter is K₀(−1) under φ_{D(r)}=p^{−r}φ_D, while
+the constant group gives K₀(0). Cartier duality agrees with D(G∨)≅D(G)∨(−1). Verify the horizontal
+evaluation maps and variance, not only the slopes.
+
+*Proof sketch.* Evaluate *The crystalline Dieudonné crystal of a Barsotti–Tate group* at the Witt PD
+thickening W(k) → k and compute it for ℚ_p/ℤ_p (F bijective) and μ_{p^∞} (V bijective). Check
+Frobenius/Verschiebung and the contravariant group-map direction. Apply Cartier duality and the
+declared twist convention to identify the rank-one rational modules. ([de Jong, *Crystalline
+Dieudonné module theory via formal and rigid
+geometry*](https://www.numdam.org/article/PMIHES_1995__82__5_0.pdf), §2.3.2–2.3.3, pp.21–22,
+contravariant crystal convention;
+[Scholze–Weinstein, *Berkeley lectures on p-adic geometry*](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf),
+Lecture 12, printed p.99, footnote 1 in the March 2020 version: their covariant
+normalization is the naive dual of the contravariant one. Dualizing its
+Frobenius σ for Q_p/Z_p and p⁻¹σ for μ_{p∞} gives exactly σ and pσ here.
+[Illusie, *Grothendieck and the theory of crystals*](https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf),
+§2.2, pp.3–5, fixes contravariance, FV=VF=p and Cartier duality.)
+*Needs:* A4.CR.7.2 (*The crystalline Dieudonné crystal of a Barsotti–Tate group*);
+CrystallineCohomology §CR.7.1 (*Filtered Frobenius coefficients on semistable models*).
+
+**Checks.**
+
+- For the constant group ℚ_p/ℤ_p, the Witt evaluation has F=σ and V=pσ⁻¹, and its
+  rationalization has slope 0 and twist 0.
+- For μ_{p^∞}, the Witt evaluation has F=pσ and V=σ⁻¹, hence slope 1. The twist
+  convention makes its rational Dieudonné module K₀(−1), with its filtration jump in degree 1.
+- Cartier duality exchanges these two groups and identifies D(G∨) with D(G)∨(−1);
+  double duality returns the original evaluation and cancels the two dual twist factors.
+- A group homomorphism G→H induces the horizontal evaluation map D(H)→D(G),
+  compatibly with F, V and every Witt-level reduction.
+
+**Grothendieck–Messing deformation theory.** Let S₀ → S be a PD thickening on which p is locally
+nilpotent and whose divided powers are locally nilpotent, and G₀ a Barsotti–Tate group over S₀. A
+lift G/S of G₀ determines a locally direct summand Hodge filtration ω_G ⊂ D(G₀)_S lifting the
+contravariant exact sequence 0 → ω_{G₀} → D(G₀)_{S₀} → Lie(G₀^∨) → 0. Grothendieck–Messing: G ↦ (ω_G
+⊂ D(G₀)_S) is an equivalence between lifts of G₀ to S and lifts of the Hodge filtration to locally
+direct summands of D(G₀)_S; a homomorphism of Barsotti–Tate groups over S₀ lifts exactly when its
+evaluation preserves the lifted filtrations. For abelian schemes this specialises to
+A4.7 under the identification of *The crystalline Dieudonné
+crystal of a Barsotti–Tate group*.
+
+*Proof sketch.* Construct the Hodge filtration from the universal vector extension of G and identify
+the dual of its Lie algebra with the contravariant D(G₀)_S;
+Lie E(G) itself is the covariant realization. Dualize the universal-extension
+exact sequence to obtain 0→ω_G→D(G₀)_S→Lie(G∨)→0. For an abelian scheme
+this agrees with Lie E(A)=H¹_dR(A/S)∨ (Illusie §4.2(iv), pp.16–17). Prove the deformation theorem by the exponential on the
+nilpotent divided power ideal: lifts of G₀ correspond to lifts of the universal extension, and these
+to filtrations (Messing, Chapter V). Transport the evaluation and Hodge inclusion through the
+crystalline coefficients, and verify base change and duality compatibility of the inclusion and
+quotient maps. ([de Jong, *Crystalline Dieudonné module theory via formal and rigid
+geometry*](https://www.numdam.org/article/PMIHES_1995__82__5_0.pdf), §3.1, pp.28–32; Proposition
+3.2.1 and proof, pp.32–34, using the Messing deformation theorem; Messing, *The crystals associated
+to Barsotti–Tate groups*, Lecture Notes in Math. 264 (1972), Chapter V, Theorem 1.6,
+as stated with the admissibility condition of Definition V.1.4 in
+Panny–Robert–Sferlazza, Appendix B, p.35, and used in de Jong's proof;
+Illusie, *Grothendieck and the theory of crystals*, §4.2(v), pp.17–18,
+for the p-nilpotent base and locally nilpotent divided-power hypotheses.)
+*Needs:* A4.CR.7.2 (*The crystalline Dieudonné crystal of a Barsotti–Tate group*);
+A4.7 (*Grothendieck–Messing for abelian schemes*).
+
+**Checks.**
+
+- For the constant group ℚ_p/ℤ_p the Hodge submodule is zero, so there is a unique
+  filtration lift and a unique lift up to unique isomorphism.
+- For μ_{p^∞} the Hodge submodule is the full rank-one evaluation; the lifted group
+  has the full evaluation as its Hodge submodule, compatibly with Cartier duality.
+- For an ordinary elliptic special fibre the rank-two evaluation has a rank-one Hodge
+  summand. Over a square-zero PD extension, its summand lifts have one tangent parameter,
+  agreeing with A4.7, and a homomorphism lifts exactly when its contravariant map preserves it.
+- Pullback along a compatible locally PD-nilpotent thickening transports the lift,
+  Hodge inclusion and quotient together; the filtration equivalence commutes with this pullback.
+- The canonical divided powers on (2)⊂ℤ/4ℤ are not locally nilpotent (A4.6's dyadic
+  Check), so a square-zero ideal alone does not meet the deformation theorem's hypotheses.
 
 ### A4.8 Effectivity of polarized formal lifts
 
@@ -1876,8 +2032,9 @@ ranks of `H^n_dR` are `1, 4, 6, 4, 1`.
 ### Dependencies
 
 A0–A3; Tau Ceti `TateModule`; StableReduction Layer 2 (relative Gorenstein-curve duality and dualizing bundles); ModularCurves 0B, 7E, 7F; JacobianChallenge Layer D; AlgebraicVectorBundles
-L0B, L2B; AlgebraicModuli Layer 7; SchemeAndStackFoundations Layers 1–4; ComplexComparisonPartII C5.1;
-Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+L0B, L2B; AlgebraicModuli Layer 7; EnhancedDerivedSheaves E1.9;
+CrystallineCohomology CR.1, CR.7.1; SchemeAndStackFoundations Layers 1–4; ComplexComparisonPartII C5.1;
+Supplied by EtaleCohomologyFoundations §F.3 /
 `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
 `VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
 `VanishingCycles.adicFiniteness`; Mathlib `DividedPowers`.
@@ -3182,7 +3339,8 @@ semisimplicity and `p`-adic libraries.
   coefficient Hom, localized isogeny categories, weak polarizations and torsor twists (A6.22–A6.29) and the
   Hodge line bundle (A6.38).
 - **FiniteFlatGroupsAndIntegralPadicHodgeTheory** and **CrystallineCohomology** import the Barsotti–Tate
-  interface (A4.5) and the degree-one divided-power realization (A4.6); **IgusaVarietiesAndTorsionConcentration**
+  interface (A4.5), the degree-one divided-power realization (A4.6), and the contravariant
+  Dieudonné crystal, variance, twists and Grothendieck–Messing equivalence (A4.CR.7.2); **IgusaVarietiesAndTorsionConcentration**
   and **HodgeTateAndCanonicalSubgroups** use the ordinary Serre–Tate coordinates and the canonical
   Frobenius (A4.10–A4.11).
 - **ArithmeticGaloisRepresentations** uses the Tate local system (A4.1), the realization conventions (A5.7)
@@ -3198,7 +3356,7 @@ semisimplicity and `p`-adic libraries.
   the curve `H¹`–Jacobian comparison and graph–diagonal formula belong to
   `VanishingCycles.curveEndomorphismTrace`. A6.10–A6.11 use degree polynomials, finite-rank
   Hom and linear algebra on `V_ℓ A`, independently of cohomological trace formulas.
-  A4.4's geometric foundations: Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
+  A4.4's geometric foundations: Supplied by EtaleCohomologyFoundations §F.3 /
   `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
   `VanishingCycles.etaleKunneth`; §F.4 / `VanishingCycles.classicalAdicRealization`,
   `VanishingCycles.adicFiniteness`.
