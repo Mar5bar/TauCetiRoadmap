@@ -2074,6 +2074,12 @@ theorem primitiveExteriorCovolume_pos
     (hind : LinearIndependent ℝ (fun i => (b i : Fin d → ℝ))) :
     0 < primitiveExteriorCovolume h Δ b := by sorry
 
+/-- A rank-one exterior covolume is the sup norm of the transformed integral generator. -/
+theorem primitiveExteriorCovolume_rank_one
+    (h : Matrix (Fin d) (Fin d) ℝ) (Δ : Submodule ℤ (Fin d → ℝ))
+    (b : Basis (Fin 1) ℤ Δ) :
+    primitiveExteriorCovolume h Δ b = ‖h.mulVec (b 0 : Fin d → ℝ)‖ := by sorry
+
 -- The primitive vector `(1, 1)` has exterior sup norm `1`, not its Euclidean length `√2`.
 example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
     (hb : (b 0 : Fin 2 → ℝ) = ![1, 1]) : primitiveExteriorCovolume 1 Δ b = 1 := by sorry
@@ -2099,6 +2105,77 @@ def integralPrimitiveSubgroup {d : ℕ} (Δ : Submodule ℤ (Fin d → ℝ)) : P
   ∀ (z : Fin d → ℤ) (a : ℤ), a ≠ 0 →
     (fun i => ((a * z i : ℤ) : ℝ)) ∈ Δ → (fun i => (z i : ℝ)) ∈ Δ
 
+/-- An integer vector lies in the real span of a primitive integral subgroup exactly when
+it lies in that subgroup. -/
+theorem integralPrimitiveSubgroup.mem_realSpan_iff {d : ℕ}
+    (Δ : Submodule ℤ (Fin d → ℝ)) (hΔ : integralPrimitiveSubgroup Δ) (v : Fin d → ℤ) :
+    (fun i => (v i : ℝ)) ∈ Submodule.span ℝ (Δ : Set (Fin d → ℝ)) ↔
+      (fun i => (v i : ℝ)) ∈ Δ := by sorry
+
+/-- The integer-coordinate intersection of the real span of `Δ` and `v`; for integral `Δ`
+this is the saturation of `Δ + ℤv` inside the integer-coordinate lattice. -/
+def primitiveSpanExtension {d : ℕ} (Δ : Submodule ℤ (Fin d → ℝ))
+    (v : Fin d → ℤ) : Submodule ℤ (Fin d → ℝ) :=
+  (Submodule.span ℝ ((Δ : Set (Fin d → ℝ)) ∪ {fun i => (v i : ℝ)})).restrictScalars ℤ ⊓
+    Submodule.span ℤ (Set.range fun z : Fin d → ℤ => (fun i => (z i : ℝ)))
+
+/-- Adjoining an integer vector outside the real span gives a primitive saturation of rank
+`k + 1` whose transformed exterior covolume is bounded by the wedge estimate. -/
+theorem primitiveExteriorCovolume_sat_extension_le {d k : ℕ} (hd : 0 < d)
+    (h : Matrix (Fin d) (Fin d) ℝ) (hh : h.det ≠ 0)
+    (Δ : Submodule ℤ (Fin d → ℝ)) (hΔ : integralPrimitiveSubgroup Δ)
+    (b : Basis (Fin k) ℤ Δ) (v : Fin d → ℤ)
+    (hv : (fun i => (v i : ℝ)) ∉ Submodule.span ℝ (Δ : Set (Fin d → ℝ))) :
+    integralPrimitiveSubgroup (primitiveSpanExtension Δ v) ∧
+      ∃ c : Basis (Fin (k + 1)) ℤ (primitiveSpanExtension Δ v),
+        primitiveExteriorCovolume h (primitiveSpanExtension Δ v) c ≤
+          (d : ℝ) * primitiveExteriorCovolume h Δ b *
+            ‖h.mulVec (fun i => (v i : ℝ))‖ := by sorry
+
+/-- Saturating a nonzero integer vector's span cannot increase its transformed sup norm;
+this is the rank-zero starting case of the exterior extension estimate. -/
+theorem primitiveExteriorCovolume_sat_extension_zero_le {d : ℕ} (hd : 0 < d)
+    (h : Matrix (Fin d) (Fin d) ℝ) (hh : h.det ≠ 0)
+    (v : Fin d → ℤ) (hv : v ≠ 0)
+    (c : Basis (Fin 1) ℤ (primitiveSpanExtension ⊥ v)) :
+    primitiveExteriorCovolume h (primitiveSpanExtension ⊥ v) c ≤
+      ‖h.mulVec (fun i => (v i : ℝ))‖ := by sorry
+
+-- A dependent vector leaves the subgroup unchanged and violates the unqualified bound.
+example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
+    (hb : (b 0 : Fin 2 → ℝ) = ![1, 0]) :
+    let h : Matrix (Fin 2) (Fin 2) ℝ := Matrix.diagonal ![1/10, 10]
+    primitiveSpanExtension Δ (![1, 0] : Fin 2 → ℤ) = Δ ∧
+      primitiveExteriorCovolume h Δ b = 1/10 ∧
+      ¬ primitiveExteriorCovolume h Δ b ≤
+        2 * primitiveExteriorCovolume h Δ b * ‖h.mulVec ![1, 0]‖ := by sorry
+
+-- The independent extension has exterior covolume one and satisfies `1 ≤ 2`.
+example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
+    (hb : (b 0 : Fin 2 → ℝ) = ![1, 0])
+    (c : Basis (Fin 2) ℤ (primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ)))
+    (hc₀ : (c 0 : Fin 2 → ℝ) = ![1, 0]) (hc₁ : (c 1 : Fin 2 → ℝ) = ![0, 1]) :
+    let h : Matrix (Fin 2) (Fin 2) ℝ := Matrix.diagonal ![1/10, 10]
+    (![0, 1] : Fin 2 → ℝ) ∉ Submodule.span ℝ (Δ : Set (Fin 2 → ℝ)) ∧
+      primitiveExteriorCovolume h (primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ)) c = 1 ∧
+      primitiveExteriorCovolume h (primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ)) c ≤
+        2 * primitiveExteriorCovolume h Δ b * ‖h.mulVec ![0, 1]‖ := by sorry
+
+-- Saturating `ℤe₁ + ℤ(2e₂)` divides its exterior covolume by the index two.
+example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
+    (hb : (b 0 : Fin 2 → ℝ) = ![1, 0]) :
+    primitiveSpanExtension Δ (![0, 2] : Fin 2 → ℤ) =
+      primitiveSpanExtension Δ (![0, 1] : Fin 2 → ℤ) ∧
+    (Δ ⊔ Submodule.span ℤ ({(![0, 2] : Fin 2 → ℝ)} : Set (Fin 2 → ℝ))).toAddSubgroup.relIndex
+      (primitiveSpanExtension Δ (![0, 2] : Fin 2 → ℤ)).toAddSubgroup = 2 := by sorry
+
+-- The zero starting term uses the rank-one norm, without an upper bound by `ρ` on `ν_h(0)`.
+example (c : Basis (Fin 1) ℤ (primitiveSpanExtension ⊥ (![1, 0] : Fin 2 → ℤ)))
+    (hc : (c 0 : Fin 2 → ℝ) = ![1, 0]) :
+    let h : Matrix (Fin 2) (Fin 2) ℝ := Matrix.diagonal ![1/10, 10]
+    primitiveExteriorCovolume h (primitiveSpanExtension ⊥ (![1, 0] : Fin 2 → ℤ)) c =
+      ‖h.mulVec ![1, 0]‖ ∧ ‖h.mulVec ![1, 0]‖ = 1/10 := by sorry
+
 /-- The parameters at which `h(x) ℤ^d` has a nonzero vector of sup norm below `ε`. -/
 def shortIntegerVectorSet {s d : ℕ} (h : (Fin s → ℝ) → Matrix (Fin d) (Fin d) ℝ)
     (B : Set (Fin s → ℝ)) (ε : ℝ) : Set (Fin s → ℝ) :=
@@ -2116,7 +2193,9 @@ theorem shortIntegerVectorSet_measurable {s d : ℕ}
     (B : Set (Fin s → ℝ)) (hB : MeasurableSet B) (ε : ℝ) :
     MeasurableSet (shortIntegerVectorSet h B ε) := by sorry
 
-/-- **Kleinbock–Margulis quantitative nondivergence** (Theorem 5.2). -/
+/-- **Kleinbock–Margulis quantitative nondivergence** (Theorem 5.2): the good-function
+covering bound controls short integer vectors through rank-increasing primitive extensions,
+with the rank-one norm bound for the zero starting term. -/
 theorem quantitative_nondivergence {s d : ℕ} (hd : 0 < d)
     (h : (Fin s → ℝ) → Matrix (Fin d) (Fin d) ℝ)
     (x₀ : Fin s → ℝ) (r C α ρ ε : ℝ) (hr : 0 < r) (hC : 0 < C) (hα : 0 < α)
