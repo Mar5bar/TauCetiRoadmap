@@ -171,6 +171,14 @@ example (r : R) :
       algebraMap R (DividedPowerAlgebra R M)
         (augmentation R M (algebraMap R (DividedPowerAlgebra R M) r)) = 0 := sorry
 
+-- For the zero module every element has zero positive-degree remainder.
+example (z : DividedPowerAlgebra R (Fin 0 → R)) :
+    z - algebraMap R (DividedPowerAlgebra R (Fin 0 → R))
+      (augmentation R (Fin 0 → R) z) = 0 := sorry
+
+-- The zero module has zero augmentation ideal.
+example : augmentationIdeal R (Fin 0 → R) = ⊥ := sorry
+
 -- The mixed remainder is a multiple of a positive divided-power generator.
 example (m m' : M) :
     let z := (3 : DividedPowerAlgebra R M) +
@@ -194,6 +202,25 @@ example :
     augmentation ℤ ℤ z = 2 ∧ z - 2 = 2 * DividedPowerAlgebra.dp ℤ 1 (1 : ℤ) ∧
       z - 2 ∈ (Ideal.span {(2 : ℤ)}).map (algebraMap ℤ (DividedPowerAlgebra ℤ ℤ)) *
         augmentationIdeal ℤ ℤ := sorry
+
+-- Extending the zero ideal gives zero on both sides of the intersection equality.
+example :
+    let J := (⊥ : Ideal R).map (algebraMap R (DividedPowerAlgebra R M))
+    J ⊓ augmentationIdeal R M = ⊥ ∧ J * augmentationIdeal R M = ⊥ := sorry
+
+-- Extending the unit ideal gives the augmentation ideal on both sides.
+example :
+    let J := (⊤ : Ideal R).map (algebraMap R (DividedPowerAlgebra R M))
+    J ⊓ augmentationIdeal R M = augmentationIdeal R M ∧
+      J * augmentationIdeal R M = augmentationIdeal R M := sorry
+
+-- The scalar `2` is excluded from the intersection, while its degree-one multiple lies in it.
+example :
+    let J := (Ideal.span {(2 : ℤ)}).map (algebraMap ℤ (DividedPowerAlgebra ℤ ℤ))
+    (2 : DividedPowerAlgebra ℤ ℤ) ∈ J ∧
+      (2 : DividedPowerAlgebra ℤ ℤ) ∉ augmentationIdeal ℤ ℤ ∧
+      2 * DividedPowerAlgebra.dp ℤ 1 (1 : ℤ) ∈ J ⊓ augmentationIdeal ℤ ℤ ∧
+      2 * DividedPowerAlgebra.dp ℤ 1 (1 : ℤ) ∈ J * augmentationIdeal ℤ ℤ := sorry
 
 end Augmentation
 
@@ -240,6 +267,15 @@ theorem flatModuleFilteredFree (R : Type uFlat) [CommRing R] (M : Type uFlat) [A
   sorry
 
 end DerivedDeRham
+
+/-! ## Non-additive functors: 0.3 -/
+
+-- Algebraic biduality identifies the double-dual functor with the identity in finite rank.
+example (n : ℕ) :
+    Function.Bijective (Module.Dual.eval (ZMod 2) (Fin n → ZMod 2)) := sorry
+
+-- At countably infinite rank the evaluation map into the algebraic double dual is not onto.
+example : ¬ Function.Surjective (Module.Dual.eval (ZMod 2) (ℕ →₀ ZMod 2)) := sorry
 
 /-! ## Towers, lim and lim¹: 1.T.1 -/
 
@@ -443,6 +479,13 @@ example (p : ℕ) [Fact p.Prime] :
 /-- Check `limOne_mul_p`: the cokernel is nonzero. -/
 example (p : ℕ) (hp : p.Prime) : Nontrivial (mulTower p).limOne := sorry
 
+-- Multiplication by `p` on `ℤ_p` models the inclusions `pⁿℤ_p`: vanishing `lim¹` need not imply ML.
+example (p : ℕ) [Fact p.Prime] :
+    let A : Tower.{0} := {
+      obj := fun _ => ℤ_[p]
+      map := fun _ => p • AddMonoidHom.id ℤ_[p] }
+    ¬ A.IsMittagLeffler ∧ Subsingleton A.limOne := sorry
+
 -- The identity fixes a nonzero class of `lim¹(ℤ ←3 ℤ ←3 ⋯)`.
 example : ∃ c : (mulTower 3).limOne,
     c ≠ 0 ∧ (Tower.Hom.id (mulTower 3)).limOneMap c = c := sorry
@@ -614,6 +657,9 @@ DerivedDeRham.flatModuleFilteredFree.
 
 0.3:
 leftDerivedNonadditive, leftDerivedNonadditive_additive, leftDerivedNonadditive_projective.
+The sifted-colimit extension characterization requires F to be the filtered-colimit extension
+of its restriction to finite projectives; the simplicial construction also applies to arbitrary
+functors on all projectives, including the algebraic double-dual functor.
 
 0.4:
 Algebra.CotangentComplex, termIso, face_tmul, resolutionRings, resolutionRingMap,

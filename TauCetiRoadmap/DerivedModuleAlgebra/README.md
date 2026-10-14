@@ -692,9 +692,11 @@ simplicial resolutions are homotopy equivalent and `F` preserves simplicial homo
 well-defined functor `D^(≤0)(R) → D^(≤0)(R′)` ([DoldPuppe] §4, 4.1–4.6, pp.227–229, with 1.15 for
 homotopies and §3 for the Dold–Kan correspondence; [StacksSimp] Remark 14.26.4). If `F` is additive,
 `LF` is the classical left derived functor ([DoldPuppe] 4.7, p.228). If `F` commutes with filtered
-colimits of projective modules, so does `LF`. In the ∞-categorical language of [SAG] Proposition
-25.2.1.2 and Corollary 25.2.1.3, pp.1698–1699, `LF` is the sifted-colimit extension of `F` from finite
-free modules; the strict model above is the one used in this roadmap.
+colimits of projective modules, so does `LF`. When `F` is obtained from its restriction to finite
+projective modules by filtered colimits, `LF` is the sifted-colimit extension of its values on finite
+free modules. [SAG] Proposition 25.2.1.2 and Corollary 25.2.1.3, pp.1698–1699, give this
+∞-categorical formulation for ring-module pairs; the strict model above uses simplicial modules.
+An arbitrary functor on all projective modules need not have this colimit property.
 
 *Needs:* §0.1 (Simplicial polynomial resolutions); §0.2.1 (Flat modules as filtered colimits of finite free modules) (for the finite-projective extension); Mathlib `AlgebraicTopology.DoldKan`,
 `AlgebraicTopology.alternatingFaceMapComplex`, `DerivedCategory`.
@@ -719,6 +721,10 @@ Prove the following named laws.
 - `test_nonadditive_infinite_rank`: for `V = ⊕_(n∈ℕ) F₂` in degree zero, no finite projective
   `P₀` can surject onto `V`. Its constant simplicial resolution is projective of infinite rank;
   functors initially defined on finite projectives use their filtered-colimit extension on it.
+  The algebraic double-dual functor `F(W) = W**` agrees naturally with the identity on finite free
+  `F₂`-modules, but `LF(V) = V**[0]` and the evaluation map `V → V**` is not surjective. Thus this
+  `F` differs from the filtered-colimit extension of its finite free values, whose derived functor
+  is the identity.
 
 ### 0.4 The full cotangent complex
 
@@ -753,7 +759,7 @@ Prove the following named laws.
 - `Algebra.CotangentComplex.resolutionIso`: every polynomial resolution gives the differential model,
   naturally and coherently in comparison maps.
 - `Algebra.CotangentComplex.homologyZeroIso`: `H⁰L_(B/A) ≃ KaehlerDifferential A B`, preserving the
-  universal derivation ([StacksCt] Lemma 4.5, Tag 08QF, p.6).
+  universal derivation ([StacksCt] Lemma 92.4.5, Tag 08QF).
 
 **Checks.**
 
@@ -778,7 +784,7 @@ target map `b`. The law `Algebra.CotangentComplex.arrowModelMap_tmul` sends
 `t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where `a_P` is the induced map of resolution rings.
 These are names for the existing full model, with no truncation.
 
-[StacksCt], Lemmas 3.4 and 4.5–4.7, Tags 08S9, 08QF–08QH, pp.4, 6–8;
+[StacksCt], Lemma 3.4, Tag 08S9, p.4; Lemmas 92.4.5–92.4.7, Tags 08QF–08QH;
 The downstream consumer PerfectoidSpaces §P0.19 uses this precise model contract.
 
 **Checks.**
@@ -863,7 +869,7 @@ for an arbitrary quotient. `τ_(≥−2)L_(B/A)` is the Lichtenbaum–Schlessing
 `[Rel/TrivRel → F ⊗_P B → Ω_(P/A) ⊗_P B]` of a free presentation `F → J` with relation module `Rel`
 and Koszul relations `TrivRel` ([StacksCt] Lemma 13.3, Tag 09CG, p.26).
 
-[StacksCt], Lemmas 4.5, 11.2 and 11.3; Tags 08QF, 08RA, 08RB, pp.5, 21–22.
+[StacksCt], Lemma 92.4.5, Tag 08QF; Lemmas 11.2 and 11.3, Tags 08RA, 08RB, pp.21–22.
 
 *Needs:* §0.4 (The full cotangent complex); Mathlib `Algebra.Extension.cotangentComplex`,
 `Algebra.Extension.toKaehler`, `Algebra.Extension.exact_cotangentComplex_toKaehler`,
@@ -886,7 +892,8 @@ For `A → B` and a `B`-module `M`, there are natural bijections
 precisely the split extensions to zero, and `Hom_(D(B))(L_(B/A), M[−n]) = 0` for `n > 0`. They are
 natural in `M` and compatible with commutative squares. The first uses `H⁰L = Ω`; the second the
 identification of the naive cotangent complex with `τ_(≥−1)L` and `Exal = Ext¹(NL, M)`
-([StacksCt] Lemmas 4.5 and 11.3, Tags 08QF, 08RB, pp.6, 22; [StacksDefos] Lemma 2.3, Tag 0GPT, p.3;
+([StacksCt] Lemma 92.4.5, Tag 08QF, and Lemma 11.3, Tag 08RB, p.22;
+[StacksDefos] Lemma 2.3, Tag 0GPT, p.3;
 for the derivation-space form, [Bhatt12] Remark 6.6 and equivalence (6), p.25, with trivial
 monoids).
 
