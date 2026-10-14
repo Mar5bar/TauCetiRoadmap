@@ -29,7 +29,7 @@ Hodge structure.
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | A0 | The carrier and its boundaries | `AbelianScheme`, `fieldAndEllipticBoundary`, `abelianPicardInputs` |
-| A1 | Rigidity and normalized line bundles | `relativeProductsAndDimension`, `relativeRigidity`, `relativeInvariantForms`, `relativeSeesaw`, `relativeCube`, `relativeEllipticEquivalence`, `torsionRestriction` |
+| A1 | Rigidity, normalized line bundles and relative extension | `relativeProductsAndDimension`, `relativeRigidity`, `relativeInvariantForms`, `relativeSeesaw`, `relativeCube`, `relativeEllipticEquivalence`, `torsionRestriction`, `weilExtension` |
 | A2 | Duality, polarizations and ample classes | `raynaudRepresentability`, `AbelianScheme.dual`, `mumfordMap`, `Polarization`, `Polarization.graphBundle`, `ampleCohomologyAndDegree`, `projectivePresentation`, `nefNormalizedLines`, `AbelianNS` |
 | A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, `multiplicationAndDensity`, `AbelianQuotient`, `torsionDivisibility`, `dualIsogenyCartierKernel`, `ThetaGroup`, `polarizedWeilPairing`, `FullLevel`, `Polarization.rosati`, `principalQuotient`, `symmetricHomRealization` |
 | A4 | Realizations and deformations | `AbelianTate`, `AbelianVectorExtension`, `AbelianH1dR`, `exteriorCohomology`, `BarsottiTate`, `AbelianPD`, `LogCrystalline.dieudonneEvaluation.evaluate`, `grothendieckMessing`, `serreTate`, `SerreTate.q`, `oddPrimeLifting`, `dyadicOrdinaryLifting` |
@@ -42,7 +42,8 @@ Hodge structure.
 carrier and with the elliptic curves of ModularCurves. Products, base change and relative
 dimension; rigidity over nonreduced bases and automatic commutativity; invariant differentials;
 the relative seesaw, cube and multiplication-pullback formulas for rigidified line bundles; the
-relative elliptic equivalence; torsion restrictions of rigidified line bundles. Raynaud's theorem
+relative elliptic equivalence; torsion restrictions of rigidified line bundles; extension from
+the generic fibre of every smooth test scheme over a connected Dedekind base. Raynaud's theorem
 that abelian algebraic spaces are schemes; the dual abelian scheme with its Poincaré bundle;
 the Mumford map and its biextension identities; polarizations, their local ample
 representatives and the canonical graph bundle with its cubic embedding; ample cohomology,
@@ -203,8 +204,13 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
 **Not built here.** Moduli stacks of polarized abelian varieties `A_{g,d}`, PEL, Siegel and Hilbert
 modular moduli, their level covers and compactifications (PELModuli, ShimuraVarieties,
 ShimuraCompactifications): the Hodge line bundle and the twisting operation are exported to them
-by descent, and no moduli stack is constructed here. The general classification of finite flat
-group schemes and `p`-divisible groups belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory;
+by descent, and no moduli stack is constructed here. The characteristic-zero Siegel moduli problem
+is specified in [ShimuraVarieties §5.0](../ShimuraVarieties/README.md#50-rational-polarized-siegel-moduli),
+and its arithmetic minimal compactification in
+[§§8.17–8.19](../ShimuraVarieties/README.md#817-arithmetic-codimension-one-partial-compactification);
+arithmetic toroidal compactifications belong to ShimuraCompactifications. The general
+classification of finite flat group schemes and `p`-divisible groups belongs to
+FiniteFlatGroupsAndIntegralPadicHodgeTheory;
 the crystalline site and general crystalline coefficient calculus belong to CrystallineCohomology.
 The Barsotti–Tate interface, contravariant Dieudonné crystal, its variance and twists, and
 Grothendieck–Messing deformation theory are A4.5–A4.7 and A4.CR.7.2 here.
@@ -231,8 +237,9 @@ coefficients of order prime to the characteristic or rational `ℓ`-adic coeffic
 support and geometric Frobenius at every positive power, with perfect finite-level traces and rational cohomology traces.
 Their abelian torsion, Tate-module and algebraic-trace inputs are owned here in A3.2, A4.1
 and A6.10–A6.11. Completed
-Poincaré bundles, Betti maps and integral realizations over finite fields
-(AbelianSchemesAndArithmeticModuliPartII). Faltings's finiteness and isogeny theorems
+Poincaré bundles, Betti maps and integral realizations over finite fields form the scope outline
+for a separate roadmap, AbelianSchemesAndArithmeticModuliPartII; that outline supplies no inputs
+to this roadmap. Faltings's finiteness and isogeny theorems
 (FaltingsFinitenessAndIsogenyTheorems). The Weil estimate for Frobenius (DeligneWeightsAndPurity).
 The Tate conjecture for homomorphisms over finite or number fields is not claimed anywhere below:
 the Hom statements here are faithfulness and saturation.
@@ -751,6 +758,50 @@ bound avoids dividing by two in `Pic` (Xie–Yuan, Lemma 4.1(2) and its proof, p
 reduced-points argument is used on `μ_p` or `α_p`. Here `A[n]` is the scheme-theoretic kernel of
 `[n]` (Tau Ceti's kernel of a group-scheme homomorphism); the statement does not need its finite
 flatness, which is A3.2. *Needs:* A1.5; Tau Ceti `GroupScheme/Kernel`.
+
+### A1.8 Weil extension over a connected Dedekind base
+
+**Relative Weil extension** (`weilExtension`). Let `S` be a connected Dedekind scheme: integral,
+locally Noetherian, normal and of dimension at most one, equivalently with every nonempty affine
+open the spectrum of a Dedekind domain. Write `j : η = Spec K → S` for its generic point. For an
+abelian scheme `A/S` and any smooth `S`-scheme `X`, restriction
+`Hom_S(X, A) → Hom_η(X_η, A_η)` is bijective. Thus every `u_η : X_η → A_η` has a unique extension
+`u : X → A`, with `u|_η = u_η`; extending the restriction of an existing morphism returns that
+morphism. The source need not be proper, separated or quasi-compact. Extension commutes with
+precomposition by morphisms of smooth test schemes, restriction to base opens and localization
+at points of `S`. When `X` is an abelian scheme and `u_η` a homomorphism, its extension preserves
+zero and addition by uniqueness on `S` and `X ×_S X`.
+
+*Proof sketch.* Work locally on `S` and `X`. Smoothness over the regular Dedekind base makes `X`
+and its fibre square regular. Properness of `A` extends the generic map over the DVR at each
+codimension-one point of `X` outside `X_η`; finite presentation spreads each such extension to a
+neighbourhood. These neighbourhoods give a rational map on an `S`-dense open (dense in every
+fibre), containing all points of codimension at most one. Establish the relative Weil argument
+for this map: on `X ×_S X` take the rational difference `u(x) − u(y)`. Hartogs extension into an
+affine neighbourhood of zero, together with the local equations of the smooth diagonal, shows
+that its domain contains the diagonal. Its intersection with `X ×_S dom(u)` then projects smoothly
+and surjectively onto `X`; the difference map and the second projection recover `u` on that cover.
+Fpqc descent of morphisms gives the extension on `X`. This is the relative diagonal argument of
+Bosch–Lütkebohmert–Raynaud, §4.4, Theorem 1 and Lemma 2, pp. 109–110, specialized in §1.2,
+Proposition 8 and its proof, p. 15. Separatedness of `A` and schematic density of the generic fibre
+of the flat source give uniqueness (affine-locally, Tau Ceti's `ext_of_genericFiberι_eq`), so these
+local extensions glue over arbitrary connected Dedekind schemes. This construction uses only the
+early carrier, smooth local geometry, properness, Hartogs and descent; relative Hom
+representability is A6.25. *Needs:* A0.1, A1.1; SchemeAndStackFoundations §§0.6, 0.8–0.9;
+Mathlib `Over.pullback`, the valuative criterion and subcanonicity of the fpqc topology;
+Tau Ceti `isRegularLocalRing_stalk_of_smooth` and `AlgebraicGeometry/Fibers/SchematicDensity`.
+
+**Checks.**
+
+- For the smooth nonproper source `X = A ×_S 𝔸¹_S`, the generic projection to `A_η` extends
+  uniquely to the projection to `A`.
+- Restricting the extension of any `u_η` gives exactly `u_η`; extending the restriction of
+  `u : X → A` gives `u`, and two extensions with the same generic restriction coincide.
+- Over a DVR of residue characteristic `p`, take the source to be `A` and the generic map to be
+  `[p]`. Its unique extension is `[p]` on the whole abelian scheme, including a nonreduced
+  special-fibre kernel; no étaleness of `[p]` is required.
+- If `S` is the spectrum of a field, `η = S` and restriction is the identity for every smooth
+  test source, including the empty scheme.
 
 ### Examples
 
@@ -1752,6 +1803,12 @@ filtration lifts inside a rank-two module and extra endomorphisms impose equatio
 A4.2, A4.6.
 
 ### A4.CR.7.2 Crystalline Dieudonné theory
+
+FiniteFlatGroupsAndIntegralPadicHodgeTheory consumes the three targets in this section: the
+crystalline Dieudonné crystal, its variance and Tate twists, and Grothendieck–Messing deformation
+theory. Their public namespace is `TauCetiRoadmap.CrystallineCohomology`; their mathematical owner
+is this section. The consumer's Dieudonné–Manin decomposition and relative crystalline direct
+images remain separate constructions of CrystallineCohomology §§CR.4.7 and CR.7.3, respectively.
 
 **The crystalline Dieudonné crystal of a Barsotti–Tate group.** Let p be a prime, S a scheme
 on which p is locally nilpotent, and G a Barsotti–Tate (p-divisible) group over S (A4.5). Its
@@ -2948,10 +3005,10 @@ disjoint union, over the Hilbert polynomials `Φ` of graphs with respect to `M`,
 pieces `Hom^Φ`, each finite and unramified over `S`. It is not necessarily of finite type globally.
 (4) Over a smooth connected complex algebraic base of finite type, a homomorphism of one fibre that is
 a Hodge morphism invariant under monodromy extends uniquely to the family. For the DVR case of (2),
-use NeronModelsAndSemistableAbelianVarieties §1.8, `AbelianSchemeModel`, whose inputs are its §1.4
-and this roadmap's A0–A1. Its mapping property extends a generic homomorphism from the smooth
-source; uniqueness makes the extension a homomorphism. The passage to a normal locally Noetherian
-base uses the graph argument of Faltings–Chai I.2.7, proof (a), pp. 10–11, locally on affine opens.
+apply A1.8 (`weilExtension`) to the smooth source and the abelian-scheme target; uniqueness on the
+base and the source's fibre square makes the extension a homomorphism. The passage to a normal
+locally Noetherian base uses the graph argument of Faltings–Chai I.2.7, proof (a), pp. 10–11,
+locally on affine opens.
 For (3), A0.3(4) applies on affine opens of `S`, homomorphisms are cut out by the group-law equations,
 and rigidity (A1.2) gives unramifiedness; each `Hom^Φ` is quasi-projective, and over a discrete
 valuation ring mapping to `S` a homomorphism of generic fibres extends with a flat graph of the same
@@ -2965,8 +3022,7 @@ contains infinitely many `[n]`, with graphs of distinct Hilbert polynomials, so 
 fail; for elliptic curves `E`, `E′` over a field with no homomorphism between them over an algebraic
 closure, the Hom functor is the zero group, represented by the base, and is finite. A jump of the
 endomorphism ring of a special fibre does not lift every special homomorphism. *Needs:* A0.3, A1.2,
-A2.6, A2.8, A5.6, A6.7; AlgebraicModuli Layer 2 §2.1, Layer 3 §3.4;
-NeronModelsAndSemistableAbelianVarieties §1.8 (`AbelianSchemeModel`).
+A1.8, A2.6, A2.8, A5.6, A6.7; AlgebraicModuli Layer 2 §2.1, Layer 3 §3.4.
 
 **Checks.**
 
@@ -3328,17 +3384,12 @@ semisimplicity and `p`-adic libraries.
 
 ## Downstream consumers
 
-- **AbelianSchemesAndArithmeticModuliPartII** uses the carrier and group laws (A0–A1), the dual, the
-  Poincaré bundle, polarizations and the Rosati involution (A2–A3), the universal vector extension and
-  `H¹_dR` (A4.2–A4.3; its universal vector extension of `A^∨` is A4.2 applied to the dual), the Tate systems
-  (A4.1), complex uniformization (A5) and finite-rank Hom, characteristic polynomials, semisimple
-  endomorphism algebras and complete reducibility (A6).
 - **PELModuli**, **ShimuraVarieties**, **ShimuraCompactifications**, **HilbertModularVarietiesAndShimuraCurves**,
   **AutomorphicBundles** and **AlgebraicModularFormsAndSerreWeights** use polarizations and their graph
   bundles (A2.5–A2.6), full level structures and level rigidity (A3.8, A6.18), the Siegel family (A5.8),
   coefficient Hom, localized isogeny categories, weak polarizations and torsor twists (A6.22–A6.29) and the
   Hodge line bundle (A6.38).
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory** and **CrystallineCohomology** import the Barsotti–Tate
+- **FiniteFlatGroupsAndIntegralPadicHodgeTheory** imports the Barsotti–Tate
   interface (A4.5), the degree-one divided-power realization (A4.6), and the contravariant
   Dieudonné crystal, variance, twists and Grothendieck–Messing equivalence (A4.CR.7.2); **IgusaVarietiesAndTorsionConcentration**
   and **HodgeTateAndCanonicalSubgroups** use the ordinary Serre–Tate coordinates and the canonical
@@ -3370,11 +3421,14 @@ semisimplicity and `p`-adic libraries.
   subvarieties and the Matsusaka–Morikawa endomorphism (A6.35–A6.36); **MordellLawrenceVenkatesh**,
   **GrossZagierAndArithmeticHeights** and the height consumers use projective presentations and nef
   normalized line bundles (A2.8–A2.9); **ComplexMultiplicationAndExplicitReciprocity** uses the CM isotypic
-  decomposition (A6.37); **NeronModelsAndSemistableAbelianVarieties** uses relative Hom and its extension
-  over normal bases (A6.25).
+  decomposition (A6.37); **NeronModelsAndSemistableAbelianVarieties** §1.8 uses the relative Weil
+  extension theorem (A1.8) to identify an abelian scheme over a connected Dedekind base with its
+  marked Néron model. Its further relative Hom applications use A6.25.
 
 ## References
 
+- [Bosch–Lütkebohmert–Raynaud] S. Bosch, W. Lütkebohmert and M. Raynaud, *Néron Models*,
+  Ergebnisse der Mathematik (3) 21, Springer, 1990. Printed pages.
 - [Faltings–Chai] G. Faltings and C.-L. Chai, *Degeneration of Abelian Varieties*, Ergebnisse der
   Mathematik (3) 22, Springer, 1990. Printed pages.
 - [Milne 2008] J. S. Milne, *Abelian Varieties*, course notes, version 2.00, 2008,

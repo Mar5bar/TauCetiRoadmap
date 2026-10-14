@@ -174,6 +174,40 @@ theorem isIso_zeroSection_of_relDim_zero (A : AbelianScheme S)
     [SmoothOfRelativeDimension 0 A.toOver.hom] : IsIso A.zeroSection := by
   sorry
 
+/-- Restriction to the generic fibre is bijective for maps from any smooth test scheme into an
+abelian scheme over a connected Dedekind base. The Dedekind condition is imposed on every nonempty
+affine open; no properness, separation or quasi-compactness of the source is required
+(README A1.8). -/
+theorem weilExtension [IsIntegral S]
+    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
+    (A : AbelianScheme S) (X : Over S) [Smooth X.hom] :
+    Function.Bijective (fun f : X ⟶ A.toOver =>
+      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by
+  sorry
+
+/-- Check: the extension of a generic-fibre map is unique and restricts to that map
+(README A1.8). -/
+example [IsIntegral S]
+    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
+    (A : AbelianScheme S) (X : Over S) [Smooth X.hom]
+    (uη : (Over.pullback (S.fromSpecStalk (genericPoint S))).obj X ⟶
+      (A.baseChange (S.fromSpecStalk (genericPoint S))).toOver) :
+    ∃! f : X ⟶ A.toOver,
+      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f = uη := by
+  obtain ⟨f, hf⟩ := (weilExtension hS A X).surjective uη
+  exact ⟨f, hf, fun g hg => (weilExtension hS A X).injective (hg.trans hf.symm)⟩
+
+/-- Check: extension between abelian sources preserves the group law whenever its generic
+restriction does (README A1.8). -/
+example [IsIntegral S]
+    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
+    (A B : AbelianScheme S)
+    (uη : (A.baseChange (S.fromSpecStalk (genericPoint S))).toOver ⟶
+      (B.baseChange (S.fromSpecStalk (genericPoint S))).toOver) [IsMonHom uη] :
+    ∃! f : A.toOver ⟶ B.toOver, IsMonHom f ∧
+      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f = uη := by
+  sorry
+
 /-! ## Layer A3: Isogenies, finite-flat quotients, torsion and pairings -/
 
 /-- Multiplication by `n` on an abelian scheme, `[n] = 𝟙 ^ n` in the group of endomorphisms of the
@@ -831,6 +865,9 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   `LogCrystalline.dieudonneEvaluation.contravariant` and `LogCrystalline.dieudonneEvaluation.fv`
   use the namespace `TauCetiRoadmap.CrystallineCohomology`; their crystalline-site and
   finite-locally-free coefficient carriers are supplied by CrystallineCohomology CR.1 and CR.7.1.
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory consumes the Dieudonné crystal, variance and twists,
+  and Grothendieck–Messing equivalence from A4.CR.7.2; its slope decomposition and relative
+  crystalline direct images use CrystallineCohomology CR.4.7 and CR.7.3, respectively.
 * **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
   `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.
