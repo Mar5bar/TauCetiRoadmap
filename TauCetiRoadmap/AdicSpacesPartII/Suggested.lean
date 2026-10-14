@@ -10,6 +10,9 @@ import TauCeti.RingTheory.Huber.Completion
 /-!
 # Foundations of adic spaces, Part II: representative target signatures
 
+These signatures are suggested forms, not an exhaustive checklist. README.md is the definitive
+specification.
+
 Huber rings, Huber pairs, pairs of definition, restricted power series, the adic spectrum and
 the category `TauCeti.AdicSpace` are Tau Ceti's. Completeness includes the Hausdorff property.
 This file states the ring-level noetherian and adicness conditions, Huber's standing class of
@@ -19,6 +22,50 @@ theorems, and the inclusion of polynomials into Tau Ceti's Tate algebras. Classi
 algebras, affinoid subdomains and rigid-analytic spaces are the RigidAnalyticGeometry roadmap's
 (README, supplier contracts). The completed tensor product, continuous differentials, the spectral
 seminorm and the analytification functor are README targets.
+-/
+
+/-!
+The README also specifies interfaces on its completed-tensor, norm, continuous-differential,
+rigid and analytification carriers. The names below identify those README contracts without executable prototypes; they require
+the carrier constructions specified in the README.
+
+R0.1–R0.2: `Huber.IsNoetherianType.completeSpace_quotient`,
+`Huber.PairOfDefinition.isStrictMap_of_isNoetherianRing`,
+`Huber.PairOfDefinition.completeSpace_isClosed_of_isNoetherianRing` and
+`Huber.PairOfDefinition.isOpen_isAdicComplete_of_isNoetherianRing` provide quotient completeness,
+strict finite-module maps, complete finite modules with closed submodules, and open complete
+finite lattices, respectively, with the complete Hausdorff and noetherian-ring-of-definition
+hypotheses specified there.
+
+R0.3: `Huber.isTopologicalRing_tensorTopology`, `Huber.completedTensor_adicRing`,
+`Huber.Pair.completedTensor.tmul_tmul` and `Huber.Pair.completedTensorRationalEquiv_preimage`
+provide the tensor ring topology, adic-ring completion comparison, elementary-tensor formula,
+and rational preimages under the two adic structure maps.
+R0.4 and R0.9: `Huber.tateNorm_apply`, `Huber.tateNorm_pseudoUniformizer_mul`,
+`Huber.tateNorm_hasBasis_nhds_zero` and `Huber.Affinoid.powerBoundedSubring_eq_integralClosure`
+are the supplied gauge and affinoid carrier bridges, with the supplier ownership in the README.
+
+R0.7 and R0.11: `AdicSpace.affinoid_isPullback`, `AdicSpace.fibreProduct_weighted_exhaustion`
+provide the sheafy tensor pullback and the weighted chart exhaustion over a stably sheafy base.
+R0.13–R0.17: `Huber.Pair.Hom.IsFinite.isModuleTopology_tensorTopology`,
+`Huber.Pair.Hom.IsFinite.bijective_completedTensor_tmul`,
+`Huber.ContinuousKaehlerDifferential.restrictedMvPowerSeriesBasis_apply`,
+`AdicSpace.Unramified.iff_closed_etale_factorisation`, `AdicSpace.Smooth.differentials_projective`,
+`AdicSpace.smooth_iff_split_differentials` and `AdicSpace.Smooth.exists_etale_polydisc`
+provide the finite Tate tensor comparisons, differential basis and local structure contracts,
+with the noetherian or projective alternative and the standing-class hypotheses in the README.
+
+R1: `AdicSpace.analytification.constructible_closure`,
+`AdicSpace.analyticAffineSpace_globalSections_series`,
+`AdicSpace.analyticAffineSpace_globalSections_ne_polynomial`,
+`AdicSpace.analytification_proj_proper`, `AdicSpace.analytification.finite_iff`,
+`AdicSpace.analytification.closedImmersion_iff`, `AdicSpace.analytification.separated_iff`,
+`AdicSpace.rigidToAdic.separated_iff` and
+`RigidSpace.isProper_iff_quasiCompact_and_isPartiallyProper` provide the closure, section-ring,
+projective properness and morphism comparison contracts under their stated base hypotheses.
+`RigidSpace.stalk_completion_equiv`, `RigidSpace.Sp_toLocallyGRingedSpace`,
+`RigidSpace.Sp.sectionsEquiv`, `RigidSpace.Sp.map_sections`, `RigidSpace.IsInner` and
+`RigidSpace.IsQuasiCompact` are bridges to the supplied rigid carriers and constructions.
 -/
 
 set_option autoImplicit false
@@ -134,6 +181,15 @@ section NoetherianTypeComplete
 variable {A : Type*} [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
   [IsHuberRing A]
 
+/-- The uniform completion of a noetherian adic ring is noetherian, via algebraic completion. -/
+theorem isNoetherianRing_completion_of_isAdic [IsNoetherianRing A]
+    (I : Ideal A) (hI : IsAdic I) (hfg : I.FG) : IsNoetherianRing (Completion A) := sorry
+
+/-- A noetherian ring of definition remains noetherian after Huber completion. -/
+theorem PairOfDefinition.isNoetherianRing_completion (P : PairOfDefinition A)
+    [IsNoetherianRing P.ringOfDefinition] :
+    IsNoetherianRing P.completion.ringOfDefinition := sorry
+
 /-- The Hausdorff completion of a Huber ring of noetherian type is of noetherian type
 (EGA I, Ch. 0, (7.3.1); Wedhorn, proof of Proposition 6.35). -/
 theorem IsNoetherianType.completion [IsNoetherianType A] :
@@ -207,6 +263,10 @@ theorem IsAdicHom.id [IsHuberRing A] : IsAdicHom (RingHom.id A) := sorry
 theorem IsAdicHom.of_isTateRing [IsTateRing A] [IsHuberRing B] {φ : A →+* B}
     (hφ : Continuous φ) : IsAdicHom φ ∧ IsTateRing B := sorry
 
+/-- An adic map from a discrete Huber ring has discrete target, and the converse holds. -/
+theorem IsAdicHom.of_discrete_iff [IsHuberRing A] [IsHuberRing B] [DiscreteTopology A]
+    (φ : A →+* B) : IsAdicHom φ ↔ DiscreteTopology B := sorry
+
 end AdicHom
 
 /-- A homomorphism topologically of finite type into a complete Hausdorff Huber ring is adic
@@ -243,6 +303,13 @@ theorem isAdicHom_of_spaComap_analytic [CommRing B] [UniformSpace B] [IsUniformA
     (hφ : ∀ x : spa T.plus, IsAnalyticPoint x.val → IsAnalyticPoint (φ.spaComap x).val) :
     IsAdicHom φ.toRingHom := sorry
 
+/-- Adic base change preserves finite open weight families. -/
+theorem IsAdicHom.isWeightFamily_image [CommRing B] [TopologicalSpace B]
+    [IsTopologicalRing B] [IsHuberRing B] {S : Pair A} {T : Pair B}
+    (φ : Pair.Hom S T) [IsAdicHom φ.toRingHom] {n : ℕ} (M : Fin n → Set A)
+    (hM : IsWeightFamily M) (hfin : ∀ i, (M i).Finite) :
+    IsWeightFamily (fun i ↦ φ.toRingHom '' M i) ∧ ∀ i, (φ.toRingHom '' M i).Finite := sorry
+
 end AnalyticPoints
 
 /-! ### R0.13 Finite morphisms of Huber pairs (*finite-huber-pair-hom*) -/
@@ -267,6 +334,30 @@ integral over the integrally closed `A⁺`. -/
 example {S S' : Pair A} (hSS' : S.plus < S'.plus) (φ : Pair.Hom S S')
     (hφ : φ.toRingHom = RingHom.id A) : ¬ Pair.Hom.IsFinite φ := sorry
 
+/-- The identity of a complete Hausdorff Huber pair is finite. -/
+example {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R]
+    [IsTopologicalRing R] [IsHuberRing R] [CompleteSpace R] [T2Space R] (S : Pair R) :
+    Pair.Hom.IsFinite (Pair.Hom.id S) := sorry
+
+/-- A morphism from a complete Hausdorff Huber pair to the zero pair is finite. -/
+example {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R]
+    [IsTopologicalRing R] [IsHuberRing R] [CompleteSpace R] [T2Space R]
+    [Subsingleton B] (S : Pair R) (Z : Pair B) (φ : Pair.Hom S Z) : Pair.Hom.IsFinite φ := sorry
+
+/-- The finite map to a zero pair has full kernel and loses injectivity on a nonzero source. -/
+example {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R]
+    [IsTopologicalRing R] [IsHuberRing R] [CompleteSpace R] [T2Space R] [Nontrivial R]
+    [Subsingleton B] (S : Pair R) (Z : Pair B) (φ : Pair.Hom S Z) :
+    Pair.Hom.IsFinite φ ∧ RingHom.ker φ.toRingHom = ⊤ ∧
+      ¬ Function.Injective φ.toRingHom := sorry
+
+/-- The diagonal of the complete p-adic field pair is finite and omits `(1,0)`. -/
+example (p : ℕ) [Fact p.Prime] [IsHuberRing (ℚ_[p] × ℚ_[p])]
+    (φ : Pair.Hom (Pair.powerBounded ℚ_[p]) (Pair.powerBounded (ℚ_[p] × ℚ_[p])))
+    (hφ : ∀ a, φ.toRingHom a = (a,a)) :
+    Pair.Hom.IsFinite φ ∧ φ.toRingHom.Finite ∧
+      (1,0) ∉ Set.range φ.toRingHom := sorry
+
 end FiniteHom
 
 /-! ### R0.9 The polynomial inclusion into Tate algebras
@@ -274,12 +365,45 @@ end FiniteHom
 The theory of classical `K`-affinoid algebras is the RigidAnalyticGeometry roadmap's (README, R0.9);
 the disc Checks of R0.16–R0.17 use this inclusion. -/
 
-/-- The inclusion `A[X₁,…,Xₙ] → A⟨X₁,…,Xₙ⟩` into Tau Ceti's completed restricted power series. -/
+/-- The canonical polynomial homomorphism into the separated completion of the restricted
+power-series ring; it is injective when `A` is Hausdorff. -/
 def TateAlgebra.ofMvPolynomial (A : Type*) [CommRing A] [TopologicalSpace A]
     [NonarchimedeanRing A] (n : ℕ) :
     MvPolynomial (Fin n) A →+* restrictedMvPowerSeriesCompletion n A :=
   (UniformSpace.Completion.coeRingHom).comp
     (weightedPolynomialHom (fun _ : Fin n ↦ ({1} : Set A)) isWeightFamily_one_weight)
+
+/-- Over a Hausdorff coefficient ring the canonical completed polynomial map is injective. -/
+theorem TateAlgebra.ofMvPolynomial_injective (A : Type*) [CommRing A] [TopologicalSpace A]
+    [NonarchimedeanRing A] [T2Space A] (n : ℕ) :
+    Function.Injective (TateAlgebra.ofMvPolynomial A n) := sorry
+
+/-- With no variables, the polynomial map is the completion image of its constant coefficient. -/
+example (K : Type*) [CommRing K] [TopologicalSpace K] [NonarchimedeanRing K]
+    (q : MvPolynomial (Fin 0) K) :
+    letI := IsTopologicalAddGroup.rightUniformSpace K
+    letI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
+    restrictedMvPowerSeriesCompletionFinZeroEquiv (TateAlgebra.ofMvPolynomial K 0 q) =
+      UniformSpace.Completion.coeRingHom (MvPolynomial.constantCoeff q) := sorry
+
+/-- Distinct polynomial coordinates stay distinct in the completed bidisc. -/
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    [NonarchimedeanRing K] :
+    TateAlgebra.ofMvPolynomial K 2 (MvPolynomial.X 0) ≠
+      TateAlgebra.ofMvPolynomial K 2 (MvPolynomial.X 1) := sorry
+
+/-- The completed polynomial map preserves the nonzero difference of the two coordinate powers. -/
+example (p : ℕ) [Fact p.Prime] :
+    TateAlgebra.ofMvPolynomial ℚ_[p] 2 (MvPolynomial.X 0 ^ 2 - MvPolynomial.X 1 ^ 3) ≠ 0 ∧
+    TateAlgebra.ofMvPolynomial ℚ_[p] 2 (MvPolynomial.X 0 ^ 2 - MvPolynomial.X 1 ^ 3) =
+      TateAlgebra.ofMvPolynomial ℚ_[p] 2 (MvPolynomial.X 0) ^ 2 -
+        TateAlgebra.ofMvPolynomial ℚ_[p] 2 (MvPolynomial.X 1) ^ 3 := sorry
+
+/-- Indiscrete coefficients can collapse under the separated polynomial completion. -/
+example :
+    letI : TopologicalSpace ℤ := ⊤
+    haveI : NonarchimedeanRing ℤ := sorry
+    TateAlgebra.ofMvPolynomial ℤ 0 0 = TateAlgebra.ofMvPolynomial ℤ 0 1 := sorry
 
 end Huber
 
@@ -460,6 +584,27 @@ def Affinoid.IsInducedBy {A B : Affinoid.{w}} (g : B.spa ⟶ A.spa)
   ∀ a : A.ring, (TauCeti.PreAdicSpace.toRingPresheafedSpaceHom g.hom.toHom).c.app (op ⊤)
     (A.coeff a) = B.coeff (φ.toRingHom a)
 
+/-- A complete sheafy affinoid has precisely its coefficient ring as global sections. -/
+example (A : Affinoid.{w}) : Function.Bijective A.coeff := sorry
+
+/-- The zero coefficient ring gives an empty spectrum and singleton global sections. -/
+example (A : Affinoid.{w}) [Subsingleton A.ring] :
+    IsEmpty A.spa.obj ∧ Subsingleton (A.spa.obj.toRingPresheafedSpace.presheaf.obj (op ⊤)) := sorry
+
+/-- The identity pair map induces the identity morphism of the affinoid. -/
+example (A : Affinoid.{w}) : Affinoid.IsInducedBy (𝟙 A.spa) (Pair.Hom.id A.pair) := sorry
+
+/-- Composition of affinoid morphisms composes their coefficient homomorphisms. -/
+example (A B C : Affinoid.{w}) (φ : Pair.Hom A.pair B.pair) (ψ : Pair.Hom B.pair C.pair)
+    (f : B.spa ⟶ A.spa) (g : C.spa ⟶ B.spa)
+    (hf : Affinoid.IsInducedBy f φ) (hg : Affinoid.IsInducedBy g ψ) :
+    Affinoid.IsInducedBy (g ≫ f) (ψ.comp φ) := sorry
+
+/-- Equal affinoid morphisms have equal induced coefficient homomorphisms. -/
+example (A B : Affinoid.{w}) (φ ψ : Pair.Hom A.pair B.pair) (f : B.spa ⟶ A.spa)
+    (hφ : Affinoid.IsInducedBy f φ) (hψ : Affinoid.IsInducedBy f ψ) :
+    φ.toRingHom = ψ.toRingHom := sorry
+
 /-- An affinoid chart: an open immersion of an affinoid adic space. -/
 structure Chart (X : TauCeti.AdicSpace.{w}) where
   /-- The affinoid presentation. -/
@@ -483,10 +628,17 @@ structure HomChart {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) where
   commutes : source.ι ≫ f = map ≫ target.ι
 
 /-- `X` is *locally noetherian* if it is covered by charts of noetherian type
-(Zavyalov24, Definition 5.1; Huber 1994, Proposition 3.7). -/
+(this roadmap's noetherian-type chart convention; Wedhorn, Corollary 8.35(a)–(b),
+for the underlying class and its stable sheafiness). -/
 def IsLocallyNoetherian (X : TauCeti.AdicSpace.{w}) : Prop :=
   ∀ x : X.obj, ∃ c : Chart X, x ∈ Set.range c.ι.hom.base ∧
     Huber.IsNoetherianType c.affinoid.ring
+
+/-- Noetherian-type affinoid charts form a neighbourhood basis on a locally noetherian space. -/
+theorem IsLocallyNoetherian.affinoid_basis (X : TauCeti.AdicSpace.{w})
+    (hX : IsLocallyNoetherian X) (U : Opens X.obj) (x : X.obj) (hx : x ∈ U) :
+    ∃ c : Chart X, x ∈ Set.range c.ι.hom.base ∧
+      Set.range c.ι.hom.base ⊆ (U : Set X.obj) ∧ Huber.IsNoetherianType c.affinoid.ring := sorry
 
 /-- `X` is *locally Huber-standard* if it is covered by charts whose coordinate rings lie in
 Huber's standing class `Huber.IsHuberStandard` (Huber 1996, (1.1.1)). -/
@@ -564,6 +716,14 @@ example (S : TauCeti.AdicSpace.{w}) (h : LocallyOfFinitePresentation (𝟙 S)) :
   refine ⟨c.target, ⟨c.map.hom.base t, ?_⟩, hstd⟩
   have hc := congrArg (fun φ => φ.hom.base t) c.commutes
   simpa using hc.symm
+
+/-- Cancellation of local finite presentation on locally Huber-standard spaces
+(Huber 1996, Proposition 1.6.7(iii); scheme analogue: Stacks, Tag 02FV). -/
+theorem LocallyOfFinitePresentation.of_comp {X Y Z : TauCeti.AdicSpace.{w}}
+    (f : X ⟶ Y) (g : Y ⟶ Z) (hX : IsLocallyHuberStandard X)
+    (hY : IsLocallyHuberStandard Y) (hZ : IsLocallyHuberStandard Z)
+    (hfg : LocallyOfFinitePresentation (f ≫ g)) (hg : LocallyOfFiniteType g) :
+    LocallyOfFinitePresentation f := sorry
 
 /-- `X` is covered by charts with stably sheafy coordinate rings. -/
 def HasStablySheafyCharts (X : TauCeti.AdicSpace.{w}) : Prop :=
@@ -802,6 +962,19 @@ example (X : TauCeti.AdicSpace.{w}) (U : Opens X.obj) :
   simp only [ValuationRing.basicOpen, Set.mem_ofPred_eq, Set.mem_preimage, map_zero,
     zero_mem, exists_prop, and_true, SetLike.mem_coe]
 
+/-- A section over the empty open defines the empty subbasic set. -/
+example (X : TauCeti.AdicSpace.{w})
+    (h : X.obj.toRingPresheafedSpace.presheaf.obj (op ⊥)) :
+    ValuationRing.basicOpen X ⊥ h = ∅ := sorry
+
+/-- A section valued greater than one everywhere belongs to no refining valuation ring. -/
+example (X : TauCeti.AdicSpace.{w}) (U : Opens X.obj)
+    (h : X.obj.toRingPresheafedSpace.presheaf.obj (op U))
+    (hh : ∀ (x : X.obj) (hx : x ∈ U),
+      1 < (X.obj.valuation x).valuation (IsLocalRing.residue _
+        (X.obj.toRingPresheafedSpace.presheaf.germ U x hx h))) :
+    ValuationRing.basicOpen X U h = ∅ := sorry
+
 /-- `(x, V)` has *centre* `y ∈ Y` under `f` if `f(x)` specialises to `y` and `V` dominates the
 valuation ring of `v_y` (Huber 1996, Definition 1.3.5). -/
 def ValuationRing.IsCentre {X Y : TauCeti.AdicSpace.{w}} (r : ValuationRing X)
@@ -813,6 +986,15 @@ def ValuationRing.IsCentre {X Y : TauCeti.AdicSpace.{w}} (r : ValuationRing X)
         (IsLocalRing.residue _).comp ((f.hom.stalkMap r.pt).hom.comp
           (Y.obj.toRingPresheafedSpace.presheaf.stalkSpecializes h).hom) ∧
       r.ring.comap i = (Y.obj.valuation y).valuation.valuationSubring
+
+/-- The affinoid criterion for a unique valuation centre (Huber 1996, Lemma 1.3.6). -/
+theorem ValuationRing_affinoid (X : TauCeti.AdicSpace.{w}) (hX : IsAnalytic X)
+    (r : ValuationRing X) (B : Affinoid.{w}) [IsTateRing B.ring] (f : X ⟶ B.spa) :
+    (∃! y : B.spa.obj, r.IsCentre f y) ↔
+      ∀ b : B.ring, b ∈ B.pair.plus →
+        IsLocalRing.residue _ ((f.hom.stalkMap r.pt).hom
+          (B.spa.obj.toRingPresheafedSpace.presheaf.germ ⊤ (f.hom.base r.pt)
+            (by exact Set.mem_univ _) (B.coeff b))) ∈ r.ring := sorry
 
 /-- The space of valuation rings of a quasi-compact quasi-separated analytic adic space is
 spectral (Huber 1996, Lemma 1.3.12). -/
@@ -885,11 +1067,30 @@ theorem LocallyQuasiFinite.iff_finite_fibres {X Y : TauCeti.AdicSpace.{w}} (f : 
 def Flat {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   ∀ x : X.obj, (f.hom.stalkMap x).hom.Flat
 
+/-- Stalkwise flatness supplies flatness of each stalk homomorphism. -/
+theorem Flat.flat_stalkMap {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (hf : Flat f)
+    (x : X.obj) : (f.hom.stalkMap x).hom.Flat := hf x
+
+/-- For strongly noetherian Tate affinoids, stalkwise flatness gives flatness on coefficients
+(Zavyalov-Q, Lemma B.4.3). -/
+theorem Flat.flat_appTop_of_isStronglyNoetherian (A B : Affinoid.{w})
+    [IsTateRing A.ring] [IsStronglyNoetherian A.ring]
+    [IsTateRing B.ring] [IsStronglyNoetherian B.ring]
+    (φ : Pair.Hom A.pair B.pair) (f : B.spa ⟶ A.spa)
+    (hg : Affinoid.IsInducedBy f φ) (hf : Flat f) : φ.toRingHom.Flat := sorry
+
 /-- `f` is *unramified*: locally of finite type with chart-local unique lifting
 (Huber 1996, Definition 1.6.5). -/
 def Unramified {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
   LocallyOfFiniteType f ∧ ∀ x : X.obj, ∃ c : HomChart f,
     x ∈ Set.range c.source.ι.hom.base ∧ Unramified_affinoid.{w, w, w} c.ringHom
+
+/-- For locally finite-type morphisms of locally Huber-standard spaces, unramifiedness
+is equivalent to an open diagonal (Huber 1996, Proposition 1.6.8). -/
+theorem Unramified.iff_openImmersion_diagonal {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
+    [HasPullback f f] (hX : IsLocallyHuberStandard X) (hY : IsLocallyHuberStandard Y)
+    (hf : LocallyOfFiniteType f) :
+    Unramified f ↔ TauCeti.PreAdicSpace.IsOpenImmersion (pullback.diagonal f).hom := sorry
 
 /-- `f` is *smooth*: locally of finite presentation with chart-local lifting
 (Huber 1996, Definition 1.6.5). -/
@@ -995,6 +1196,66 @@ example (p : ℕ) [Fact p.Prime] :
     ∃ (E : Subring (ℕ → ZMod p)) (ε : E →+* ZMod p),
       (E : Set (ℕ → ZMod p)) = {a | ∃ N, ∀ n ≥ N, a n = a N} ∧
         (∀ a : E, ∃ N, ∀ n ≥ N, (a : ℕ → ZMod p) n = ε a) ∧ ¬ (RingHom.ker ε).FG := sorry
+/-! The identity, open-immersion and empty-space Checks use the geometric carriers above. -/
+
+/-- The identity on a space with stable charts has the stated finiteness and closure properties. -/
+example (X : TauCeti.AdicSpace.{w}) (hX : HasStablySheafyCharts X) :
+    IsAdic (𝟙 X) ∧ LocallyOfWeaklyFiniteType (𝟙 X) ∧
+      LocallyOfPlusWeaklyFiniteType (𝟙 X) ∧ LocallyOfFiniteType (𝟙 X) ∧
+      Unramified (𝟙 X) ∧ LocallyQuasiFinite (𝟙 X) ∧ QuasiCompact (𝟙 X) ∧
+      IsClosedImmersion (𝟙 X) ∧ IsSeparated (𝟙 X) ∧ UniversallyClosed (𝟙 X) ∧
+      UniversallySpecializing (𝟙 X) ∧ IsProper (𝟙 X) := sorry
+
+/-- Local Huber-standardness supplies finite presentation, smoothness and étaleness of identities. -/
+example (X : TauCeti.AdicSpace.{w}) (hX : IsLocallyHuberStandard X) :
+    LocallyOfFinitePresentation (𝟙 X) ∧ Smooth (𝟙 X) ∧ Etale (𝟙 X) := sorry
+
+/-- Without local Huber-standardness the identity fails both smoothness and étaleness. -/
+example (X : TauCeti.AdicSpace.{w}) (hX : ¬ IsLocallyHuberStandard X) :
+    ¬ Smooth (𝟙 X) ∧ ¬ Etale (𝟙 X) := sorry
+
+/-- An open immersion on a space with stable charts has the stated local finiteness properties. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
+    [TauCeti.PreAdicSpace.IsOpenImmersion f.hom] (hX : HasStablySheafyCharts X) :
+    IsAdic f ∧ LocallyOfWeaklyFiniteType f ∧ LocallyOfPlusWeaklyFiniteType f ∧
+      LocallyOfFiniteType f ∧ Unramified f ∧ LocallyQuasiFinite f ∧ IsSeparated f := sorry
+
+/-- An open immersion into a locally Huber-standard space is finitely presented, smooth and étale. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
+    [TauCeti.PreAdicSpace.IsOpenImmersion f.hom] (hY : IsLocallyHuberStandard Y) :
+    LocallyOfFinitePresentation f ∧ Smooth f ∧ Etale f := sorry
+
+/-- An empty space satisfies all three chart conditions. -/
+example (X : TauCeti.AdicSpace.{w}) [IsEmpty X.obj] :
+    IsLocallyNoetherian X ∧ IsAnalytic X ∧ HasStablySheafyCharts X := sorry
+
+/-- A complete strongly noetherian Tate affinoid satisfies the three chart conditions. -/
+example (A : Affinoid.{w}) [IsTateRing A.ring] [IsStronglyNoetherian A.ring] :
+    IsLocallyNoetherian A.spa ∧ IsAnalytic A.spa ∧ HasStablySheafyCharts A.spa := sorry
+
+/-- A nonzero discrete noetherian affinoid is locally noetherian and stable, and is not analytic. -/
+example (A : Affinoid.{w}) [DiscreteTopology A.ring] [IsNoetherianRing A.ring]
+    [Nontrivial A.ring] :
+    IsLocallyNoetherian A.spa ∧ HasStablySheafyCharts A.spa ∧ ¬ IsAnalytic A.spa := sorry
+
+/-- A map from a nonzero Tate spectrum into a discrete spectrum is not adic. -/
+example (A B : Affinoid.{w}) [DiscreteTopology A.ring] [IsTateRing B.ring]
+    [Nontrivial B.ring] (φ : Pair.Hom A.pair B.pair) (f : B.spa ⟶ A.spa)
+    (hf : Affinoid.IsInducedBy f φ) : ¬ IsAdic f := sorry
+
+/-- Empty-source maps have the stated closure properties over a target with stable charts. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) [IsEmpty X.obj]
+    (hY : HasStablySheafyCharts Y) :
+    IsClosedImmersion f ∧ IsProper f ∧ QuasiCompact f ∧ UniversallyClosed f ∧
+      UniversallySpecializing f ∧ IsSeparated f ∧ LocallyQuasiFinite f := sorry
+
+/-- Flat identities have flat maps at every stalk. -/
+example (X : TauCeti.AdicSpace.{w}) : Flat (𝟙 X) := sorry
+
+/-- Finite-presentation cancellation through an identity fixes its original morphism. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (hX : IsLocallyHuberStandard X)
+    (hY : IsLocallyHuberStandard Y) (hf : LocallyOfFinitePresentation (f ≫ 𝟙 Y)) :
+    LocallyOfFinitePresentation f := sorry
 
 section DiscMorphisms
 
