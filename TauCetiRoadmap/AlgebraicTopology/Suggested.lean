@@ -2145,4 +2145,152 @@ theorem cubicalSphereQuotient_referenceClass (n : ℕ) [NeZero n] :
   rw [basedCubeSpherePairMap_positive, basedSphereReferenceGenerator_positive] at h
   exact h
 
+/-! ### Stage 2.7: finite-dimensional Brouwer fixed point -/
+
+/-- Native disk inclusion cannot have a continuous retraction, including n=0. -/
+theorem noRetraction_diskBoundary (n : ℕ) :
+    ¬ ∃ r : TopCat.disk.{u} n ⟶ TopCat.diskBoundary.{u} n,
+      TopCat.diskBoundaryInclusion n ≫ r = 𝟙 (TopCat.diskBoundary.{u} n) := by
+  sorry
+
+theorem brouwerFixedPoint_topCatDisk (n : ℕ)
+    (f : TopCat.disk.{u} n ⟶ TopCat.disk.{u} n) :
+    ∃ x : TopCat.disk.{u} n, Function.IsFixedPt f x := by
+  sorry
+
+section BrouwerFixedPoint
+variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E]
+
+/-- Explicit coordinate choice pins the radial map to the actual lifted native disk. -/
+noncomputable def normedUnitBallTopCatDiskHomeomorph {k : ℕ}
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) :
+    Metric.closedBall (0 : E) 1 ≃ₜ TopCat.disk.{u} k := by
+  sorry
+
+theorem normedUnitBallTopCatDiskHomeomorph_apply {k : ℕ}
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k))
+    (x : Metric.closedBall (0 : E) 1) :
+    ((normedUnitBallTopCatDiskHomeomorph e x).down : EuclideanSpace ℝ (Fin k)) =
+      (‖(x : E)‖ / ‖e x‖) • e x := by
+  sorry
+
+theorem normedUnitBallTopCatDiskHomeomorph_symm_apply {k : ℕ}
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) (y : TopCat.disk.{u} k) :
+    ((normedUnitBallTopCatDiskHomeomorph e).symm y : E) =
+      (‖(y.down : EuclideanSpace ℝ (Fin k))‖ / ‖e.symm y.down‖) • e.symm y.down := by
+  sorry
+
+theorem normedUnitBallTopCatDiskHomeomorph_zero {k : ℕ}
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) :
+    normedUnitBallTopCatDiskHomeomorph e (⟨0, by simp⟩ : Metric.closedBall (0 : E) 1) =
+      ULift.up ⟨0, by simp⟩ := by
+  sorry
+
+theorem normedUnitBallTopCatDiskHomeomorph_norm {k : ℕ}
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k))
+    (x : Metric.closedBall (0 : E) 1) :
+    ‖((normedUnitBallTopCatDiskHomeomorph e x).down : EuclideanSpace ℝ (Fin k))‖ =
+      ‖(x : E)‖ := by
+  sorry
+
+/-- Finite-dimensional Brouwer on the actual compact convex subtype. -/
+theorem brouwerFixedPoint_compactConvex (C : Set E) (hne : C.Nonempty)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C) (f : ContinuousMap C C) :
+    ∃ x : C, Function.IsFixedPt f x := by
+  sorry
+
+/-- The operator-theory adapter requires continuity only on C. -/
+theorem brouwerFixedPoint_compactConvex_continuousOn (C : Set E) (hne : C.Nonempty)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C) (f : E → E)
+    (hf : ContinuousOn f C) (hmaps : Set.MapsTo f C C) :
+    ∃ x ∈ C, Function.IsFixedPt f x := by
+  sorry
+
+/-- The radius-zero ball is retained; a negative-radius ball would be empty. -/
+theorem brouwerFixedPoint_closedBall (a : E) (r : ℝ) (hr : 0 ≤ r)
+    (f : ContinuousMap (Metric.closedBall a r) (Metric.closedBall a r)) :
+    ∃ x : Metric.closedBall a r, Function.IsFixedPt f x := by
+  sorry
+
+/-- Exact continuous-function adapter to Mathlib PR36770's closed-ball hypothesis. -/
+theorem brouwerFixedPoint_unitClosedBall_continuous
+    (f : Metric.closedBall (0 : E) 1 → Metric.closedBall (0 : E) 1)
+    (hf : Continuous f) : ∃ x, Function.IsFixedPt f x := by
+  sorry
+
+/-- Radial transport takes place in the affine direction, including lower-dimensional C. -/
+noncomputable def compactConvexRadialReach (C : Set E) (c : E)
+    (u : (affineSpan ℝ C).direction) : ℝ :=
+  sSup (fun t : ℝ => 0 ≤ t ∧ c + t • (u : E) ∈ C)
+
+theorem compactConvexRadialReach_pos (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C)
+    (u : (affineSpan ℝ C).direction) (hu : ‖u‖ = 1) :
+    0 < compactConvexRadialReach C c u := by
+  sorry
+
+theorem compactConvexRadialReach_mem (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C)
+    (u : (affineSpan ℝ C).direction) (hu : ‖u‖ = 1) :
+    c + compactConvexRadialReach C c u • (u : E) ∈ C := by
+  sorry
+
+theorem continuousOn_compactConvexRadialReach (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C) :
+    ContinuousOn (compactConvexRadialReach C c)
+      (Metric.sphere (0 : (affineSpan ℝ C).direction) 1) := by
+  sorry
+
+noncomputable def compactConvexClosedBallHomeomorph (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C) :
+    Metric.closedBall (0 : (affineSpan ℝ C).direction) 1 ≃ₜ C := by
+  sorry
+
+/-- Unit direction and radial parameter fix the homeomorphism, rather than a choice. -/
+theorem compactConvexClosedBallHomeomorph_ray (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C)
+    (u : (affineSpan ℝ C).direction) (hu : ‖u‖ = 1)
+    (t : ℝ) (ht : t ∈ Set.Icc (0 : ℝ) 1)
+    (htu : t • u ∈ Metric.closedBall (0 : (affineSpan ℝ C).direction) 1) :
+    (compactConvexClosedBallHomeomorph C hcompact hconvex c hc ⟨t • u, htu⟩ : E) =
+      c + (t * compactConvexRadialReach C c u) • (u : E) := by
+  sorry
+
+/-- The chosen radial map preserves the center. -/
+theorem compactConvexClosedBallHomeomorph_zero (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C) :
+    (compactConvexClosedBallHomeomorph C hcompact hconvex c hc
+      (⟨0, by simp⟩ : Metric.closedBall (0 : (affineSpan ℝ C).direction) 1) : E) = c := by
+  sorry
+
+theorem compactConvexClosedBallHomeomorph_boundary (C : Set E)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (c : E) (hc : c ∈ intrinsicInterior ℝ C)
+    (v : Metric.closedBall (0 : (affineSpan ℝ C).direction) 1) :
+    (compactConvexClosedBallHomeomorph C hcompact hconvex c hc v : E) ∈
+      intrinsicFrontier ℝ C ↔ ‖(v : (affineSpan ℝ C).direction)‖ = 1 := by
+  sorry
+
+end BrouwerFixedPoint
+
+section FiniteSpanBrouwer
+
+variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+/-- Finite convex-hull approximations may live in an infinite-dimensional ambient space. -/
+theorem brouwerFixedPoint_compactConvex_finiteSpan (C : Set E) (hne : C.Nonempty)
+    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
+    (V : Submodule ℝ E) [FiniteDimensional ℝ V] (hCV : C ⊆ (V : Set E))
+    (f : ContinuousMap C C) : ∃ x : C, Function.IsFixedPt f x := by
+  sorry
+
+end FiniteSpanBrouwer
+
 end TauCetiRoadmap.AlgebraicTopology

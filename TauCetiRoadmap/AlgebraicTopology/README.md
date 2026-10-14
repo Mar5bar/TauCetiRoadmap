@@ -331,6 +331,79 @@ the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based coro
    homotopy, including relative homotopies. This uses the existing groupoid object and does
    not depend on Stage 1's van Kampen theorem.
 
+7. Own the single generic no-retraction and finite-dimensional Brouwer
+   theorem. DifferentialGeometry 10.5 consumes it and supplies its degree
+   proof comparison. Own the fixed-point theorem for every nonempty compact
+   convex subset C of a real finite-dimensional normed space E:
+   `brouwerFixedPoint_compactConvex` states that each continuous self-map of
+   the actual subtype C has a fixed point. The function-level adapter
+   `brouwerFixedPoint_compactConvex_continuousOn` takes ContinuousOn f C and
+   MapsTo f C C. No full-dimensional or nonempty ambient-interior hypothesis
+   is imposed. Give closed-ball (including radius0), simplex, singleton,
+   transport along affine homeomorphisms and homeomorphic-domain
+   specializations, with native
+   Function.IsFixedPt and the compact fixed-point locus obtained from the
+   native `isClosed_fixedPoints` in Mathlib/Dynamics/FixedPoints/Topology.
+   First prove `noRetraction_diskBoundary` using the already-proved native
+   `TauCeti.reducedSingularHomologyTopCatSphereIso`,
+   `TauCeti.TopCat.contractibleSpace_disk` and
+   `TauCeti.isZero_reducedSingularHomologyFunctor_of_contractibleSpace`.
+   These native sphere/vanishing prerequisites precede this theorem;
+   its proof does not consume Stage3's later Mayer–Vietoris computation.
+   Apply reduced H_(n−1) with integral coefficients to the retraction
+   equation: for n≥1 the identity of ℤ would factor through the zero
+   module. The empty boundary at dimension0 is treated directly.
+   A fixed-point-free disk map gives its continuous
+   retraction along the ray from f(x) through x; pin that construction and
+   its boundary identity, and derive `brouwerFixedPoint_topCatDisk`.
+   For general C work inside affineSpan ℝ C, choose a point of the native
+   intrinsicInterior, and construct `compactConvexClosedBallHomeomorph`
+   from its direction-space unit ball by the continuous positive radial
+   reach `compactConvexRadialReach C c u =
+   sSup {t : ℝ | 0≤t ∧ c+t•u∈C}` for unit direction vectors u.
+   Prove this reach is finite, positive, attained and continuous on the
+   direction-space unit sphere, and that the radial homeomorphism takes
+   t•u to c+(t*reach(u))•u for 0≤t≤1. Prove its comparison with the
+   inverse of Mathlib's native `gauge` on
+   {v:(affineSpan ℝ C).direction | c+(v:E)∈C}; use its existing convex-gauge
+   continuity and homogeneity API. Prove the boundary/intrinsicFrontier comparison;
+   dimension0 is a singleton. Own `normedUnitBallTopCatDiskHomeomorph`:
+   for a finite-dimensional real normed E of rankk, its unit closed ball
+   is homeomorphic to the actual lifted TopCat.disk k. Take as data a continuous
+   linear equivalence e:E≃L[ℝ]EuclideanSpace ℝ (Fin k) and use
+   x↦(||x||/||e(x)||)e(x), with value0 at0, followed by the native ULift
+   homeomorphism. Pin `_apply`, `_symm_apply`, `_zero` and `_norm`;
+   prove the inverse radial formula, center and norm equality;
+   the latter identifies boundaries. Compose this with the direction-space
+   homeomorphism to apply the native-disk theorem to general C.
+   Export `brouwerFixedPoint_compactConvex_finiteSpan` when C lies in a
+   specified finite-dimensional submodule V of an arbitrary real normed
+   ambient space: restrict its subtype and map to V, apply the theorem there,
+   and transport the fixed point back. Finite convex hulls use the span of
+   their finitely many vertices. This uses existing sphere/disk APIs
+   independently of manifold duality. Analytic
+   Schauder compact-map approximation and Lomonosov's operator theorem are
+   owned by BanachAlgebras A8 and consume this finite-dimensional theorem.
+   Follow the native fixed-point vocabulary and compare the compact-convex
+   statement with [the Lean community Brouwer interface](https://lean-lang.org/eval/problems/brouwer_fixed_point/).
+   The [Zulip homology/Sperner discussion](https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Brouwer%27s.20fixed.20point.20theorem.3F.html)
+   records the compatible homology proof direction;
+   [QICLean's compact-convex development](https://sirui-lu.com/QICLean/docs/QICLean/Topology/CompactConvexFixedPoint.html)
+   supplies a comparison source for its function-level API and metric-projection
+   proof. Use the direction-space radial construction here, and compare the
+   resulting fixed-point statement without duplicating native closed-locus lemmas.
+   Compare [Brendan Murphy's homological Brouwer development](https://github.com/Shamrock-Frost/BrouwerFixedPoint)
+   on the native chain/homology carriers here, retaining its convex-body
+   transport proof as migration material rather than another homology API.
+   Follow Mathlib [#36770](https://github.com/leanprover-community/mathlib4/pull/36770)'s
+   `BrouwerFixedPoint E` closed-unit-ball hypothesis. The exact adapter
+   `brouwerFixedPoint_unitClosedBall_continuous` takes
+   f:closedBall(0:E)1→closedBall(0:E)1 and Continuous f and yields
+   ∃x,Function.IsFixedPt f x. Prove it from the continuous-map theorem;
+   for real inner-product E it supplies that PR's class field, with no
+   assumption of a Brouwer instance. Adopt the upstream class interface
+   when it lands.
+
 The source spine is Eilenberg--Steenrod, *Foundations of Algebraic Topology*, Chapters I--III,
 and Hatcher, Sections 2.1--2.2 and 3.H.  The Lean proof should pass through short exact sequences
 of chain complexes and Mathlib's homology functor, rather than reconstructing an elementwise
