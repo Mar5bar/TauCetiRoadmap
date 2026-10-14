@@ -74,8 +74,7 @@ sheaves of banded morphisms; rigidification, level structures, finite correspond
 closures and normalizations of Deligne–Mumford stacks; the Artin approximation property; formal
 points, Artin's criteria, module obstruction theories, openness of versality from strong formal
 effectiveness, perfect-complex rank loci on algebraic spaces, universal flattening of
-modules with proper support, effectivity of inverse systems of perfect ring complexes with locally
-nilpotent transition kernels, Picard stacks as groupoid-valued carriers, Picard sheafification,
+modules with proper support, Picard stacks as groupoid-valued carriers, Picard sheafification,
 section rigidification and infinitesimal lifting, general group-space components, analytification
 and proper coherent GAGA for algebraic spaces over complete nonarchimedean fields, boundary duality and `K/O` coefficients; framed deformation groupoids,
 formal objects of algebraic stacks and their algebraization; and characteristic-zero resolution,
@@ -121,7 +120,9 @@ Weil restriction over an affine base (RG2.0a.1). AdicSpacesPartII supplies the a
 functor over a nonarchimedean field (R1.3), and AdicSpacesPartIII supplies formal geometry,
 Grothendieck's existence theorem with dévissage (F0.5–F0.7) and proper GAGA for rigid spaces
 (R3.7). EnhancedDerivedSheaves supplies perfect pushforward with proper support and arbitrary derived
-base change (§E1.9, `perfect_proper_pushforward`). CrystallineCohomology supplies divisorial log
+base change (§E1.9, `perfect_proper_pushforward`). DerivedModuleAlgebra supplies effectivity of
+compatible perfect ring-complex systems (§1.E.1, `perfectInverseSystemEffectivity`) and Matlis
+duality with completion for arbitrary residue fields (§1.M.2). CrystallineCohomology supplies divisorial log
 structures (§CR.5:log-algebra.4, `LogCrystalline.divisorialLog`) and algebraic logarithmic
 differentials and de Rham complexes (§CR.5.1, `LogCrystalline.logDifferentials`,
 `LogCrystalline.logDeRham`).
@@ -245,9 +246,15 @@ The specific uses:
   Corollary 4.3, pp. 7–10).
 
 Additional supplier contracts are ReductiveGroupsPartII RG2.0a.1, AdicSpacesPartII R1.3,
-AdicSpacesPartIII F0.5–F0.7 and R3.7, EnhancedDerivedSheaves §E1.9, and
+AdicSpacesPartIII F0.5–F0.7 and R3.7, DerivedModuleAlgebra §§1.E.1/1.M.2,
+EnhancedDerivedSheaves §E1.9, and
 CrystallineCohomology §§CR.5:log-algebra.4/CR.5.1, as specified under scope. Where a statement
 here needs one of their carriers, the README states it and the Lean does not.
+
+| Object | Supplier/export | Contract |
+| --- | --- | --- |
+| Compatible perfect ring-complex systems | DerivedModuleAlgebra §1.E.1 / `perfectInverseSystemEffectivity` | Derived-limit effectivity for surjective inverse ring systems with locally nilpotent transition kernels |
+| Matlis duality and completion | DerivedModuleAlgebra §1.M.2 / *Matlis duality and completion inputs* | §7.5 uses the arbitrary-residue-field duality in `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` and `ko_cohomology_cofinite` |
 
 ### Ownership and consumer contracts
 
@@ -275,7 +282,8 @@ object descent, fibre Hom sheaves and their transport, `CoherentInverse`) are bu
 theorems of §§4.2–4.3 that cite them. In Layer 7, §7.7 (ringed small étale sites,
 `SpaceInvertibleModule`, `spaceDQCoh`, `spacePerfect`) comes first, followed by the Artin criteria
 of §7.1 and the rank loci of §7.2, using EnhancedDerivedSheaves §E1.9 for perfect pushforwards.
-The independent inputs `perfectInverseSystemEffectivity`, `cohStackFiniteTypeModel`,
+DerivedModuleAlgebra §1.E.1 supplies `perfectInverseSystemEffectivity`.
+The independent inputs `cohStackFiniteTypeModel`,
 `universalFlatteningProperSupport`, `coherentModuleHom`, `coherentModuleIsom` and Picard stack
 carriers are in §7.3; proper-space formal existence is in §7.8. Picard sheafification and
 rigidification use §§7.6.1/7.7. Nonarchimedean local models and quotients (§7.10.2) supply the
@@ -9042,21 +9050,8 @@ For the proof, proper support makes F universally pure: an associated point of a
 - `FlatteningChecks.point`: for Y = Spec k[t], X = Y and F = k[t]/(t), F_T = O_T/tO_T is flat exactly when V(t) is open and closed in T, so the universal flattening is Spec k ⊔ (Y ∖ {0}) → Y. It is a bijective monomorphism of finite presentation but not an immersion; neither the closed point nor the open complement alone represents the functor.
 - `FlatteningChecks.baseChange`: in the same example, base change to the closed point Spec k → Y gives the identity of Spec k, as F becomes free of rank one there; formation commutes with base change.
 
-Prove `perfectInverseSystemEffectivity`. Let A=lim A_n for an inverse sequence of rings with surjective transitions A_(n+1)→A_n whose kernels are locally nilpotent. Let M_n be perfect complexes in D(A_n), with maps M_(n+1)→M_n in D(A_(n+1)) inducing the specified isomorphisms M_(n+1)⊗ᴸ_(A_(n+1))A_n→M_n. Then M=R lim M_n, with the terms restricted to D(A), is perfect, and the canonical maps M⊗ᴸ_A A_n→M_n are isomorphisms for all n. Its projections and comparison maps retain the transition maps of the given tower.
-
-Here every M_n is perfect; ordinary tensor compatibility of cohomology modules does not replace derived compatibility. Locally nilpotent transition kernels need not be nilpotent.
-
-([Stacks](https://stacks.math.columbia.edu/tag/0CQG), Lemma 15.99.3, the alternative with every finite-stage complex perfect.)
-
-*Needs:* SchemeAndStackFoundations §2.18 (derived module categories and derived tensor); Mathlib's derived category and ring inverse limits. This is a ring-complex effectivity statement independent of a sheaf quasi-coherator construction.
-
-Construct products in D(A) using exact products of A-modules, and form the derived limit as the homotopy fibre of 1−shift on the product of the restricted complexes. The effectivity theorem identifies this construction with a perfect complex and its specified reductions.
-
-**Checks.**
-
-- `PerfectLimitChecks.constant`: a constant ring and perfect complex with identity transitions are recovered by their derived limit.
-- `PerfectLimitChecks.adic`: for A_n=k[t]/(t^n) and M_n=A_n in degree zero, the limit is k[[t]] in degree zero and its derived reductions recover M_n.
-- `PerfectLimitChecks.locallyNilpotent`: let B=k[x₁,x₂,…]/(x_i² : i≥1) and I=(x₁,x₂,…). I is locally nilpotent but I^r≠0 for every r. The tower A₁=B/I=k, A_n=B for n≥2, with M_n=A_n, satisfies the hypotheses and has limit B; globally nilpotent kernels would exclude it.
+Compatible perfect ring-complex systems use DerivedModuleAlgebra §1.E.1
+(`perfectInverseSystemEffectivity`).
 
 Prove `coherentModuleHom`. Let f:X→B be a morphism of finite presentation of algebraic spaces, F a finitely presented quasi-coherent O_X-module, and G a finitely presented quasi-coherent O_X-module, flat over B with support proper over B. The functor on schemes over B sending T to Hom_(O_(X_T))(F_T,G_T) is represented by an algebraic space affine and of finite presentation over B. Its API `coherentModuleHom.evaluation` gives the universal module homomorphism on X×_B Hom(F,G); `coherentModuleHom.composition` represents composition whenever the three Hom functors satisfy these hypotheses; `coherentModuleHom.baseChange` identifies Hom(F,G)×_B B′ with Hom(F_(B′),G_(B′)) for every algebraic-space base change B′→B, respecting evaluation and composition. F need not be B-flat or have proper support. The representing space is not asserted flat over B.
 
@@ -9292,7 +9287,7 @@ Prove `ArithmeticCoefficients.dvrTorsionCofiniteCriterion`. Let O be a complete 
 
 Identify K/O with the injective hull of k: divisibility gives injectivity over the DVR, and every nonzero submodule meets its π-torsion. Embed the socle M[π] in the socle of (K/O)^r, extend by injectivity, and use essentiality of the socle in a power-torsion module to prove the extension injective. Exact Matlis duality and D(K/O)=O for complete O give the asserted finite quotient. (Stacks, Lemma 47.7.2, [tag 08Z3](https://stacks.math.columbia.edu/tag/08Z3), and §47.7, [tag 08Z1](https://stacks.math.columbia.edu/tag/08Z1), especially Remark 47.7.9.)
 
-*Needs:* DeformationAndDerivedPatchingAlgebraPartII K0.7 (*Matlis duality and completion inputs*, arbitrary residue field).
+*Needs:* DerivedModuleAlgebra §1.M.2 (*Matlis duality and completion inputs*, arbitrary residue field).
 
 **Checks.**
 
@@ -9308,7 +9303,7 @@ Here Use proper finiteness, curve cohomological dimension, filtered-colimit comp
 
 For the proof, apply cohomology to 0→L_k→L_{K/O}→π L_{K/O}→0; then the curve vanishing H²(X_k,L_k)=0 gives surjectivity of multiplication by π on H¹; then proper finite-dimensional special-fibre cohomology bounds the π-torsion. Filtered-colimit compatibility applied to L_{K/O}=colim_n L/π^nL makes both cohomology groups π-power torsion; apply `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` to each. Coherent duality supplies the geometric pairings, separately from this module-duality criterion.
 
-*Needs:* `ArithmeticCoefficients.KOCoefficients`, JacobianChallenge Layer C, StableReduction Layer 2, SchemeAndStackFoundations §2.2, SchemeAndStackFoundations Layer 2, `ArithmeticCoefficients.dvrTorsionCofiniteCriterion`, DeformationAndDerivedPatchingAlgebraPartII K0.7 (*Matlis duality and completion inputs*).
+*Needs:* `ArithmeticCoefficients.KOCoefficients`, JacobianChallenge Layer C, StableReduction Layer 2, SchemeAndStackFoundations §2.2, SchemeAndStackFoundations Layer 2, `ArithmeticCoefficients.dvrTorsionCofiniteCriterion`, DerivedModuleAlgebra §1.M.2 (*Matlis duality and completion inputs*).
 
 Prove `rigidifiedPicardSetoid`. Under universal OT≅fT*OXT, an automorphism of (L,α) is identity. Any two choices of α for the same L give isomorphic rigidified objects, because their ratio is a base unit.
 
@@ -9847,7 +9842,7 @@ The API gives `ParameterFormalExports.classify`: For a supplied θ and test T, i
 
 Prove `arithmeticFormalComparison_transfer`. Given a supplied algebraic moduli stack M of the required elliptic/abelian objects, an equivalence between its framed fibre and the arithmetic deformation groupoid transports the completed-atlas presentation, infinitesimal stabilizers, tangent comparison and complete-local effectivity to that problem. If the formal object is effective and versal, the G-ring and limit-preservation inputs give a finite-type versal family via effectiveVersal_algebraization. A rigidifying level yields a represented local functor only after the supplied level theorem removes the required automorphisms. Coarse moduli alone does not supply this equivalence.
 
-Here the arithmetic definition, the deformation theory and the algebraicity of the elliptic and abelian moduli stacks are hypotheses, supplied by ModularCurvesPartII and AbelianSchemesAndArithmeticModuli; no abelian or elliptic deformation theorem is proved here; for an Artin proof use `artin_stack_criterion` (§7.1) with each of its hypotheses verified; effectivity must be independently proved, for example by Grothendieck's existence theorem (SchemeAndStackFoundations §4.10) in its proper setting; For coherent families on an already fixed proper scheme use Grothendieck's existence theorem (SchemeAndStackFoundations §4.10); arbitrary varying formal schemes need a separate effectivity/algebraization theorem.
+Here the arithmetic definition, the deformation theory and the algebraicity of the elliptic and abelian moduli stacks are hypotheses; no abelian or elliptic deformation theorem is proved here; for an Artin proof use `artin_stack_criterion` (§7.1) with each of its hypotheses verified; effectivity must be independently proved, for example by Grothendieck's existence theorem (SchemeAndStackFoundations §4.10) in its proper setting; For coherent families on an already fixed proper scheme use Grothendieck's existence theorem (SchemeAndStackFoundations §4.10); arbitrary varying formal schemes need a separate effectivity/algebraization theorem.
 
 ([Stacks](https://stacks.math.columbia.edu/download/artin.pdf), Lemma 98.9.5, pp. 12–14; Lemma 98.12.7, pp. 20–21; Proposition 98.16.1 and Lemma 98.17.1, pp. 26–27).
 
