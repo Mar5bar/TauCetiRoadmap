@@ -148,6 +148,12 @@ example : Nat.totient 5 / 2 * Nat.totient (15 / 5) = 4 := by decide
 /-- At d=4,N=4 there is one component, rather than two marked unit labels. -/
 example : Nat.totient 4 / 2 * Nat.totient (4 / 4) = 1 := by decide
 
+/-- At the cusp σ=S⁻¹ and τ=2i, the transformed period is i/2 and the fibre
+multiplier is −i/2, as in README §4.8. -/
+example : -1 / (2 * Complex.I) = Complex.I / 2 ∧
+    1 / (2 * Complex.I) = -Complex.I / 2 := by
+  sorry
+
 /-! ## Layer 9: algebraic correspondences and quotient curves -/
 
 /-- Arithmetic degree of a prime degeneracy leg at positive level.
@@ -233,6 +239,12 @@ example :
   decide
 
 
+
+/-- At level thirteen the root-change labels 3 and 9 are distinct inverse units of
+order three; reversing Fricke pullbacks inverts this diamond (README §14.7). -/
+example : (3 : ZMod 13) * 9 = 1 ∧ (3 : ZMod 13) ^ 3 = 1 ∧
+    (9 : ZMod 13) ^ 3 = 1 ∧ (3 : ZMod 13) ≠ 9 := by
+  decide
 
 /-! ## Layer 11: explicit semistable split-Cartan models -/
 
@@ -464,6 +476,26 @@ example : Finsupp.single (0 : Fin 2) (1 : ℤ) - Finsupp.single 1 1 ∈
     supersingularDegreeZero (Fin 2) ∧
     Finsupp.single (0 : Fin 2) (1 : ℤ) ∉ supersingularDegreeZero (Fin 2) := by sorry
 
+/-- Two supersingular edges give a degree-zero lattice of rank one. -/
+example : Module.finrank ℤ (supersingularDegreeZero (Fin 2)) = 1 := by
+  sorry
+
+/-- Distinct supersingular labels give a nonzero difference in the free lattice. -/
+example {S : Type*} (s t : S) (h : s ≠ t) :
+    Finsupp.single s (1 : ℤ) - Finsupp.single t 1 ≠ 0 := by
+  sorry
+
+/-- The level-eleven elliptic model has four affine points over 𝔽₂; its point at
+infinity gives five points and Frobenius trace −2 (README §17.2). -/
+example : ((Finset.univ : Finset (ZMod 2 × ZMod 2)).filter
+    (fun P => P.2 ^ 2 + P.2 = P.1 ^ 3 - P.1 ^ 2 - 10 * P.1 - 20)).card = 4 := by
+  decide
+
+/-- The same model has four affine points over 𝔽₃, giving Frobenius trace −1. -/
+example : ((Finset.univ : Finset (ZMod 3 × ZMod 3)).filter
+    (fun P => P.2 ^ 2 + P.2 = P.1 ^ 3 - P.1 ^ 2 - 10 * P.1 - 20)).card = 4 := by
+  decide
+
 section Minus
 variable {O M : Type*} [CommRing O] [AddCommGroup M] [Module O M]
 
@@ -567,6 +599,8 @@ The additional interfaces specified in the README are:
   tameInertiaIdeal_cotangent for the local invariant ring and its finite module.
 * §1.4a: latticeSigma, latticeQuasiPeriod, latticeSigma_quasiPeriod and
   latticeQuasiPeriod_legendre on the native period lattice.
+* §2.6: generalizedContraction_noetherianApproximation for arbitrary-base contraction,
+  with the finitely presented curve and positive Cartier divisor hypotheses.
 * §2.11: generalizedTorsionDecontraction for the smooth-locus-preserving polygon lift.
 * §2.10a: generalizedTorsionTransport before generalized generator ranks and level maps.
 * §7.1a (R12.5): kodairaSpencer_normalization on the fine curve with its universal family.
