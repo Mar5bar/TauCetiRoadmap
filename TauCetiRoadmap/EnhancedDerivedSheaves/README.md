@@ -137,9 +137,21 @@ The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti 
 
 ### From other roadmaps
 
-- `DiamondsAndVStacks`, Layer D0: D0.17 quasicompact and quasiseparated objects and morphisms of a topos, and algebraic topoi; D0.18 filtered colimits of abelian sheaves and their cohomology on the qcqs objects of an algebraic topos.
+These are section-level mathematical suppliers. The Lean imports in [Suggested.lean](Suggested.lean) are `Mathlib` and `TauCetiRoadmap.SchemeAndStackFoundations.Suggested`; the contracts below name specification targets, not additional imports or declarations already available at the library pins.
+
+| Supplier sections | Supplied contract | Consumers here |
+| --- | --- | --- |
+| `DiamondsAndVStacks` D0.17–D0.18 | Quasicompact and quasiseparated objects and morphisms of a topos, algebraic topoi, and filtered-colimit cohomology on their qcqs objects | E2.5–E2.6 |
+| `ClassicalAdicEtaleCohomology` §§0.1–0.4 | Ringed-site enhancement, K-injective and K-flat replacements, tensor–Hom, coherent derived limits and exact functor calculus; §0.3 also supplies ℓ-adic module completion over ℤ | E1 and E3 comparisons, E2:towers, E5:abstract tensor comparison, E4 specialization |
+| `DerivedDeRhamCohomology` §0.2, §§0.4–0.17, §§1.1–1.5 | Module K-flat tensor models, ordinary cotangent and power functors with their functorial laws, module derived limits, completeness, Koszul completion towers and regular-quotient models | E1.2, E2:towers, E4, E5:cotangent-export |
+| `IntegralHeckeAndGaloisDeterminants` §6.4 | Linear-functional Koszul complexes, maps, signed tensor formulas, multiplication null-homotopies and finite weakly regular resolutions | E1.5–E1.6 and E4 |
+| `PerfectoidSpaces` P0.1–P0.2, P0.5–P0.15, P7.16 | Basic and compatible-root setups, almost modules and algebras, almost projectivity and finite étale algebra; regularity of finite-variable power-series rings over fields | E1.6–E1.7 |
+
+PerfectoidSpaces is also a supplier of DiamondsAndVStacks; its algebra contracts in this table are direct inputs here.
 
 ## How to read the build
+
+Specification merge or bundle order follows these section contracts. The ordinary Koszul, K-flat, cotangent, power and module-completion models are built in their supplier sections; E0's generic quasicategorical foundations are built independently. These inputs and ClassicalAdicEtaleCohomology §§0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and DiamondsAndVStacks D0.17–D0.18 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; reciprocal section references do not require a whole-roadmap ordering.
 
 The layer labels are identifiers that other roadmaps cite; the build order differs from their numbering. E0 builds quasicategorical foundations, Yoneda and presheaf presentations. E1 compares the supplied sheaf enhancement with the dg nerve and supplies the additional commutative algebra. E3 builds Kan extensions, adjoints and localizations. The additive part of E2:towers then builds derived limits and pro-zero theory; E5:abstract supplies the monoidal carriers before the multiplicative part of E2:towers. E5:presentability and E5:descent use these constructions. Build E5:spectra-comparison before E5:animation.4, whose animated module comparisons use it. E2 then uses descendability and animation for perfect h-descent; E4 extends module completion to replete topoi. E5:cotangent-export and the final compatibility comparisons use these earlier layers.
 
@@ -564,7 +576,7 @@ Mathlib (simplicial sets, quasicategories, Kan complexes, the homotopy bicategor
 
 ## Layer E1: Unbounded derived sheaves and presentability
 
-This layer gives explicit quasicategorical comparisons for the enhanced derived category, replacements, tensor–Hom and exact functor coherence supplied by ClassicalAdicEtaleCohomology §§0.1–0.4. It adds general derived ringed pullback, coefficient change and the action of perfect complexes, cochain realization of the Koszul complex supplied by IntegralHeckeAndGaloisDeterminants §6.4, and the commutative algebra and perfect-scheme comparisons needed for h-descent. A small ringed site has a sheaf of rings O and uses Mathlib's `SheafOfModules O` and its Grothendieck abelian instance. Additive comparisons allow noncommutative O; tensor and commutative algebra statements assume O commutative.
+This layer gives explicit quasicategorical comparisons for the enhanced derived category, replacements, tensor–Hom and exact functor coherence supplied by ClassicalAdicEtaleCohomology §§0.1–0.4. It adds general derived ringed pullback, coefficient change and the action of finite-cell coefficients, cochain realization of the Koszul complex supplied by IntegralHeckeAndGaloisDeterminants §6.4, and the commutative algebra and perfect-scheme comparisons needed for h-descent. A small ringed site has a sheaf of rings O and uses Mathlib's `SheafOfModules O` and its Grothendieck abelian instance. Additive comparisons allow noncommutative O; tensor and commutative algebra statements assume O commutative.
 
 ### E1.1 Complexes of module sheaves as a dg category
 
@@ -678,7 +690,7 @@ Provide `enhancedPullback`, `enhancedPushforward`, `enhancedPullPush_mapEquiv`, 
 
 *Needs:* ClassicalAdicEtaleCohomology §0.2 (K-flat replacement); ClassicalAdicEtaleCohomology §0.2 (K-injective replacement); `derivedTensor`; `coherentFun`; Mathlib `SheafOfModules`, `SheafOfModules.pushforward`, `SheafOfModules.pullback`.
 
-**Change of coefficients and the action of perfect complexes** (`enhancedCoeffChange`). For a map of sheaves of commutative rings R → S on one topos, derived extension of scalars − ⊗ᴸ_R S is left adjoint to restriction of scalars, with coherent identities and composites. The D∞(R)-action on its module categories restricts to Perf(R), the smallest stable idempotent-complete subcategory containing R. For an exact functor with coherent R-linear structure, compatibility with the Perf(R)-action follows from finite sums, cones, shifts and retracts. (Liu–Zheng Lemma 3.2.8, pp. 87–88.)
+**Change of coefficients and the action of finite-cell coefficients** (`enhancedCoeffChange`). For a map of sheaves of commutative rings R → S on one topos, derived extension of scalars − ⊗ᴸ_R S is left adjoint to restriction of scalars, with coherent identities and composites. The D∞(R)-action on its module categories restricts to thick(R), the finite-cell coefficient subcategory: the smallest stable idempotent-complete subcategory containing R. For an exact functor with coherent R-linear structure, compatibility with this action follows from finite sums, cones, shifts and retracts. Locally perfect sheaves are instead locally represented by bounded complexes of finite locally free modules; they need not belong to thick(R), and coefficient-linearity alone does not imply compatibility with their action. For an ordinary commutative ring A, Perf(A) denotes the ordinary-ring perfect complexes acting externally by constant coefficients, as in E4.5. (Liu–Zheng Lemma 3.2.8, pp. 87–88; Stacks, Cohomology on Sites, Definition 21.47.1, tag 08G5, in §21.47, tag 08G4.)
 
 Provide `enhancedCoeffChange`, `enhancedCoeffChange_comp` ((K ⊗ᴸ_R S) ⊗ᴸ_S T ≃ K ⊗ᴸ_R T coherently), `enhancedCoeffChange_ordinary` (restriction agrees with Mathlib's `SheafOfModules.restrictScalars` in degree zero) and `perfectAction_exactFunctor`.
 
@@ -687,6 +699,8 @@ Provide `enhancedCoeffChange`, `enhancedCoeffChange_comp` ((K ⊗ᴸ_R S) ⊗ᴸ
 - Changing coefficients along the identity R → R is the identity.
 - R^r[0] ⊗ᴸ_R S ≃ S^r[0].
 - Tensoring with R[1] is the suspension, and an exact R-linear functor commutes with it.
+- In the topos of C₂-sets with constant coefficients ℚ, the sign representation P is locally free of rank one, trivialized by C₂ → 1, and P ⊗ P ≃ ℚ. Under ℚ[C₂] ≃ ℚ × ℚ, thick(ℚ_triv) lies in the trivial-character factor, so P is locally perfect but lies outside it.
+- The endofunctor F taking C₂-invariants with trivial action on its output is exact and ℚ-linear, but F(ℚ_triv ⊗ P) = 0 while F(ℚ_triv) ⊗ P ≃ P. Thus its finite-cell coefficient compatibility does not extend to all locally perfect sheaves.
 
 *Needs:* `enhancedPullback`; `derivedTensor`; `IsStable`; Mathlib `SheafOfModules.restrictScalars`.
 
@@ -2598,7 +2612,7 @@ Provide `reconstructionUnit`, `reconstructionCounit` and `coefficientSystemRecon
 
 *Needs:* `coefficientReduction`; `reconstructCoefficientSystem`; `reconstruction_unit`; `reconstruction_counit`; `completedCoefficientRing`; `ringedSystemComparison`; `presentable_limit_restricted`; Mathlib `RingTheory.Sequence.IsRegular`.
 
-**Perfect coefficient change for exact functors** (`perfectCoefficientChange`). Let C, D be stable R-linear ∞-categories with compatible actions of Perf(R), and F : C → D an exact functor with coherent R-linear structure. For every perfect R-complex P and K ∈ C there is a natural equivalence F(K ⊗_R P) ≃ F(K) ⊗_R P; in particular for P = R/I^n under the regular-sequence hypothesis. Comparing with a separately defined functor at finite level also needs an identification of that functor with this scalar extension; exactness of a right adjoint alone is not enough. (ECD Remark 26.3, p. 162.)
+**Perfect coefficient change for exact functors** (`perfectCoefficientChange`). For an ordinary commutative ring R, let C, D be stable R-linear ∞-categories with compatible external actions of the ordinary-ring category Perf(R), and F : C → D an exact functor with coherent R-linear structure. For every perfect R-complex P and K ∈ C there is a natural equivalence F(K ⊗_R P) ≃ F(K) ⊗_R P; in particular for P = R/I^n under the regular-sequence hypothesis. Comparing with a separately defined functor at finite level also needs an identification of that functor with this scalar extension; exactness of a right adjoint alone is not enough. (ECD Remark 26.3, p. 162.)
 
 **Checks.**
 
