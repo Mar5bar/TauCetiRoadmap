@@ -58,7 +58,7 @@ global invertibility of analytic transforms.
   [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) supplies GNS,
   operator topologies, bicommutants, normal representations and spatial
   Hilbert tensors; V6 supplies tracial L², V8 supplies group algebras,
-  V10–V11 supplies Tomita theory, and V13 supplies the CP/operator-system
+  V10–V11 supplies Tomita theory, and V13a supplies the CP/operator-system
   foundations. F4 defines C*-conditional expectations; the normal finite
   tracial expectations come from
   [NoncommutativeIntegration I4](../NoncommutativeIntegration/README.md).
@@ -96,6 +96,33 @@ subordination, non-Gaussian Wigner ensembles, almost-sure random-matrix
 convergence, and strong convergence of random-matrix operator norms are
 outside this roadmap. [Suggested.lean](Suggested.lean) gives representative
 interfaces; this README is the specification.
+
+## Shared foundations and matrix comparisons
+
+Consume the existing [RandomMatrices roadmap, PR #397](https://github.com/TauCetiProject/TauCetiRoadmap/pull/397),
+whose finite combinatorial prerequisite and Milestones 1,3,5,6 already
+specify the common scalar/matrix foundations. The overlapping targets
+below refine those same reusable interfaces, with the generality and
+conventions specified here; implement each common construction once.
+They are milestone dependencies, not a dependency on its later local-law,
+large-deviation or stochastic developments. Build any missing supplier
+targets in Tau Ceti without waiting for that PR.
+
+| Common interface | Supplier and comparison required here |
+| --- | --- |
+| Finite noncrossing partitions and permutation combinatorics | RandomMatrices' independent finite prerequisite; F2 pins its native `Finpartition`/`IncidenceAlgebra` realization, cyclic order and complete cumulant-use API. Keep this below every analytic matrix limit. |
+| Scalar moment-to-weak convergence and resolvent inversion | RandomMatrices Milestone 3; F1/F5 consume it through the state-to-measure and formal/analytic bridges specified here. Use its native `resolventTransform` m and prove G=−m before comparing R/S formulas. |
+| Semicircle and Marchenko–Pastur measures | RandomMatrices Milestone 3 supplies the measure carriers. Identify F6's variance-σ² centered semicircle with `semicircleReal 0 σ²`; for λ>0 its rate-λ jump-one free Poisson law is the dilation by λ of `MP_(1/λ)`, and λ=0 is δ₀. F6 adds the general jump/compound-law theory. |
+| Scalar free independence, cumulants, reduced Hilbert products, bounded free convolutions and scalar limit theorems | RandomMatrices Milestone 6 and F1–F6 describe a single common implementation. F1–F5 specify its broader algebraic, C*-completion and formal-series contracts; F4 separately owns the operator-valued and normal amalgamated extensions. Use the same expectations, NC cumulants, free-product representations and scalar laws. |
+| Random matrix functions and ensemble carriers | RandomMatrices Milestones 1,5 supply measurable matrix maps, normalized spectral measures, GUE/Ginibre coordinates and Haar laws. F8 extends their representatives to the all-moments `AEEqFun` algebra; prove coordinatewise a.e. equality preserves every integrable star-word and `E tr_N`, and compare each covariance and dimension normalization. |
+| Matrix integration and limits | F8 specifies the general expected-star-moment/Weingarten interface, including deterministic limits without a uniform norm bound. The corresponding expected-moment targets of RandomMatrices Milestone 6 use this same interface; that roadmap owns the additional almost-sure, variance/higher-centered-moment and orthogonal conclusions and its matrix applications. |
+| Permutation-cycle products | [IntegralHeckeAndGaloisDeterminants §0.2, PR #789](https://github.com/TauCetiProject/TauCetiRoadmap/pull/789) supplies `cycleProduct`/`cycleTerm` in their cyclic traversal order. F8 specializes that scalar-valued functional to `tr_N`, including fixed points, instead of introducing another generic cycle-product API. |
+
+For F8's expected empirical measures consume RandomMatrices Milestone 1's
+`empiricalMeasure`/`spectralMeasure` and decreasing Hermitian eigenvalues.
+Prove its trace-moment dictionary and measurability comparison with the
+all-moments quotient. Moment-to-weak convergence uses Milestone 3's common
+law interface; it does not imply an almost-sure or operator-norm conclusion.
 
 ## F1. Distributions, moments, and free independence
 
@@ -281,7 +308,7 @@ norm 2sqrt3, while the full trivial character sends it to 4. Construct
 the 4-regular Cayley tree, the end-oriented shift for the upper norm
 bound, and finitely supported radial vectors for the matching lower
 bound. Thus the trivial character cannot factor through the reduced
-algebra; this example does not assume an unowned amenability converse.
+algebra, proving the full/reduced distinction directly.
 
 For von Neumann algebras with faithful normal states construct the weak
 closure of the left copies, prove their normality, and construct its
@@ -359,7 +386,14 @@ by an expectation-preserving isomorphism of represented products, and
 associativity/regrouping with all intermediate expectations specified.
 
 Develop expectation-preserving factor embeddings into other systems with
-the same B, and prove the induced reduced-product embedding. Prove the
+the same B, assuming both source and target expectations have faithful
+GNS representations, and prove the induced reduced-product embedding.
+Give the obstruction without source GNS faithfulness: A=ℂ⊕ℂ with
+E(z,w)=z embeds diagonally into M₂ with ψ(x)=x₁₁, preserving
+expectation, but the reduced source kills (0,1) while the target GNS
+representation retains its nonzero diagonal image. Retain a pure M₂
+vector state as a positive control for faithful GNS representation
+without a faithful state. Prove the
 free product of B-bimodule unital completely positive maps that fix B and
 preserve the expectations exists, assuming both source and target
 expectations have faithful GNS representations. Give its word formula,
@@ -369,7 +403,10 @@ onto factors/subproducts as cases of this construction. State and prove
 faithfulness of the product expectation when all E_i are faithful,
 separately from faithful GNS representations. Remove factors equal to B
 before the nontrivial-factor compression proof; the zero/one-factor cases
-have their direct identifications. The necessity follows by restriction.
+have their direct identifications: the zero-factor product is B;
+the one-factor product is the image in the expectation-GNS representation,
+equal to the original algebra when that representation is faithful.
+The necessity follows by restriction.
 Do not give the reduced product the unrestricted categorical universal
 property of the full product.
 
