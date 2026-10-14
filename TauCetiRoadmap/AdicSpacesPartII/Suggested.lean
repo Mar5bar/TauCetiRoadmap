@@ -1,9 +1,11 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Analytic
+import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Completion.Homeomorph
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.GlobalSections
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.Padic.Field
+import TauCeti.RingTheory.Huber.Completion
 
 /-!
 # Foundations of adic spaces, Part II: representative target signatures
@@ -411,6 +413,35 @@ structure Affinoid where
 
 attribute [instance] Affinoid.commRing Affinoid.uniformSpace Affinoid.uniformAdd
   Affinoid.topologicalRing Affinoid.huberRing Affinoid.complete Affinoid.hausdorff
+
+/-- The separated completion of a sheafy Huber pair provides a complete Hausdorff affinoid
+presentation, with the closure of the image plus ring and the completed pair of definition
+(Wedhorn, Remarks 6.7–6.8 and Proposition 7.48). -/
+def Affinoid.ofSheafyCompletion {R : Type w} [CommRing R] [UniformSpace R]
+    [IsUniformAddGroup R] [IsTopologicalRing R] [IsHuberRing R]
+    (Q : Pair R) (P : PairOfDefinition R) (hP : P.ringOfDefinition ≤ Q.plus)
+    (hR : IsSheafyRing R) : Affinoid.{w} := by
+  let Qhat : Pair (Completion R) :=
+    { plus := completionPlus Q.plus
+      isRingOfIntegralElements := by
+        rw [completionPlus_def]
+        exact Q.isRingOfIntegralElements.completion }
+  have hP' : P.completion.ringOfDefinition ≤ Qhat.plus := by
+    rw [PairOfDefinition.completion_ringOfDefinition]
+    change (P.ringOfDefinition.map Completion.coeRingHom).topologicalClosure ≤
+      completionPlus Q.plus
+    rw [completionPlus_def]
+    apply Subring.topologicalClosure_mono
+    rintro x ⟨r, hr, rfl⟩
+    exact ⟨r, hP hr, rfl⟩
+  exact
+    { ring := Completion R
+      pair := Qhat
+      basis := P.completion
+      basis_le := hP'
+      sheafy := (isSheafy_presentationLimitPreAdicSpace_iff _ _ _ _).mpr
+        ((hR.isSheafyForEveryPresentation_completionPlus Q.isRingOfIntegralElements).isSheaf
+          P.completion hP') }
 
 /-- The affinoid adic space `Spa(A, A⁺)`. -/
 def Affinoid.spa (A : Affinoid.{w}) : TauCeti.AdicSpace.{w} :=
