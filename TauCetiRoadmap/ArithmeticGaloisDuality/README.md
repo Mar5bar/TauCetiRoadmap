@@ -3074,6 +3074,85 @@ duality and the nine-term exact sequence*; ProfiniteCohomology Layer 10; Tau Cet
   `χ(G_S, μ₂)² = 1`, so `χ` alone is not multiplicative; the archimedean factor corrects it,
   `φ(μ₄) = ½ · 4/2 = 1 = φ(μ₂)²`.
 
+**The equivariant Kummer Euler class.** Let `p` be prime, `S` a finite set of places of a
+number field `K` containing the archimedean places and all places above `p`, and `L/K` a finite
+Galois extension inside `K_S`. Suppose that `Δ = Gal(L/K)` has order prime to `p`, that `L` is
+totally imaginary and contains `μ_p`, and, if `p = 2`, that `L` contains `μ₄`. Write `S_L` for the
+places above `S`, `S_{L,f}` for its finite places and `S_∞(L)` for its archimedean places. In the
+Grothendieck group of finite-dimensional `𝔽_p[Δ]`-modules, with the conjugation action on
+cohomology and the permutation action on places, prove
+
+```text
+[H⁰(G_{L,S_L}, μ_p)] − [H¹(G_{L,S_L}, μ_p)] + [H²(G_{L,S_L}, μ_p)]
+  = −[𝔽_p[S_∞(L)]].
+```
+
+This target owns the following equivariant comparisons, including their compatibility with
+field automorphisms and coefficient maps. Put `U = E_{L,S_L}`, `A = Pic(R_{L,S_L})`, and let
+`B_S(L)` be the kernel of `Br(L) → ⊕_{w∉S_L} Br(L_w)`. Construct exact sequences
+
+```text
+0 → U/U^p → H¹(G_{L,S_L}, μ_p) → A[p] → 0,
+0 → A/pA → H²(G_{L,S_L}, μ_p) → B_S(L)[p] → 0,
+0 → B_S(L)[p] → 𝔽_p[S_{L,f}] → 𝔽_p → 0,
+```
+
+where the last map sums the local invariants, using `1/p ↔ 1` to identify their `p`-torsion with
+`𝔽_p`. Prove the S-unit character calculation
+`[U/U^p] = [μ_p] + [𝔽_p[S_L]] − [𝔽_p]` and the class-group cancellation
+`[A[p]] = [A/pA]`. In particular these are equalities of representation classes, not only of
+dimensions. The action on the `μ_p` term is cyclotomic.
+
+*Proof sketch.* The first two sequences come from the long exact sequence of
+`0 → μ_p → E_S → E_S → 0` over `L`, with `H¹(G_{L,S_L}, E_S) = A`. For the second sequence,
+identify `H²(G_{L,S_L}, E_S)(p)` with `B_S(L)(p)`: apply cohomology to
+`0 → E_S → J_S → C_S → 0`, use `H¹(G_{L,S_L}, C_S) = 0`, and identify the map from the `p`-primary
+part of `H²(J_S)` to `H²(C_S)` with the sum of the local invariants. Include the needed
+`p`-primary comparison `H²(G_{L,S_L}, J_S)(p) ≅ ⊕_{w∈S_{L,f}} Br(L_w)(p)`. It follows by Shapiro
+and the local inflation comparison: the cyclotomic tower in `K_S` has local degrees divisible
+by arbitrarily large powers of `p` at every finite `w∈S_L`, so restriction kills local
+`p`-primary Brauer classes in the limit. At `w∤p` its Frobenius acts by the integer `#k_w > 1`,
+of infinite order in `ℤ_p^×`; at `w|p` the local cyclotomic degrees are unbounded. All invariant
+maps commute with field automorphisms. The global Brauer sequence then gives the third sequence;
+`S_{L,f}` is nonempty because it contains the places above `p`.
+
+For the S-unit character, use the full logarithmic embedding of ordinary units, whose image
+spans the sum-zero hyperplane on `S_∞(L)`, and the valuation sequence
+`0 → 𝓞_L^× → U → ℤ[S_{L,f}] → Cl(𝓞_L) → A → 0`.
+Class-group finiteness gives the rational character of `U/μ(L)` as the permutation character on
+`S_L` minus the trivial character. Reduce its `ℤ_p`-lattice using *Surjectivity of the decomposition
+map* and retain the torsion contribution `μ(L)/μ(L)^p ≅ μ_p` as a `Δ`-module. Devissage of the
+finite `p`-primary part of `A`, applied to multiplication by `p`, gives `[A[p]] = [A/pA]`.
+Finally `H⁰(G_{L,S_L}, μ_p) = μ_p`; the Kummer sequences cancel its class and the class-group
+terms, and the finite-place terms cancel against the Brauer contribution, leaving exactly
+`−[𝔽_p[S_∞(L)]]`. ([Milne, *Arithmetic Duality
+Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), I, §4, proofs of Lemmas 4.12–4.13,
+pp. 59–60, and Corollary 4.18, pp. 63–64; II, §2, Proposition 2.1 and Remark 2.2(a), pp. 163–165,
+for the S-integer Brauer calculation; I, §5, Theorem 5.1, p. 67, for the Euler formula.) *Needs:*
+*The Kummer sequence for S-units*; *S-ideles, S-units and S-idele classes*; *(G_S, C_S) is a
+P-class formation* (Layer R02.3); *Ext into the S-units and the S-ideles*; *Surjectivity of the
+decomposition map*; ClassFieldTheory Layers 5, 6 and 10; ProfiniteCohomology Layers 7 and 10;
+Mathlib `NumberField.Units.logEmbedding`, `NumberField.Units.finrank_modTorsion`
+and `NumberField.RingOfIntegers.instFintypeClassGroup`. The S-unit character and the `p`-primary
+idele comparison are supplied here from these inputs.
+
+**Checks.**
+
+- `K = ℚ`, `p = 3`, `S = {3, ∞}`, `L = ℚ(ζ₃)`: write `1` and `ε` for the trivial and sign
+  representations of `Δ = ℤ/2`. Here `μ₃ = ε`, `[U/U³] = [ε] + [1]`, `A = 0`, `B_S(L)[3] = 0`,
+  and `𝔽₃[S_∞(L)] = 1`; thus the Euler class is `[ε] − ([ε] + [1]) = −[1]`.
+  Tensoring by `M ⊗ μ₃⁻¹` gives `−[ε]` for `M = ℤ/3` and `−[1]` for `M = μ₃`. Taking
+  `Δ`-invariants gives logarithmic Euler characteristics `0` and `−1`, respectively. At the real
+  place their ordinary invariants have orders `3` and `1`, their archimedean factors are `1` and
+  `1/3`, and their global Euler characteristics are `1` and `1/3`. This paired check applies to
+  the intermediate representations as well as to the final formula.
+- `Δ = 1`, `L = ℚ(i)`, `p = 2`, `S_L` the places above `2` and `∞`: `dim H⁰ = 1`,
+  `dim H¹ = 2` (the classes of `i` and `1+i`), `H² = 0`, and the Euler class is `−[𝔽₂]`.
+- For a finite `p`-primary class-group summand `A = ℤ/p²` with trivial `Δ`-action,
+  `A[p]` and `A/pA` each contribute one trivial representation. They cancel even though
+  `A` itself is not an `𝔽_p`-vector space. If `S_{L,f}` has one place, its Brauer kernel is zero;
+  in general it has dimension `#S_{L,f} − 1` with the specified permutation action.
+
 **Tate's global Euler characteristic formula.** Let `S` be a finite set of places of the number
 field `K` containing the archimedean places, and `M` a finite `G_S`-module whose order is a unit in
 `R_{K,S}`. Put `χ(G_S, M) = #H⁰(G_S, M) · #H²(G_S, M)/#H¹(G_S, M)` (ordinary cohomology, even when
@@ -3094,23 +3173,39 @@ Conventions (Tate groups at the archimedean places).
 
 *Proof sketch.* *The Euler characteristic quotient is multiplicative* reduces to `M` killed by a
 prime `p`, a unit in `R_{K,S}`. Choose a finite Galois `L ⊆ K_S` splitting `M` and containing `μ_p`
-(`μ₄` if `p = 2`). `φ` is a homomorphism on `R_{𝔽_p}(Gal(L/K))`; by *R_{𝔽_p}(G) ⊗ ℚ is induced from
-cyclic p′-subgroups* and Shapiro's lemma (ProfiniteCohomology Layer 7) one may enlarge `K` and
-assume `Gal(L/K)` cyclic of order prime to `p`. `L` is totally imaginary, so
-`H^r(Gal(K_S/L), M) = 0` for `r ≥ 3` (*Cohomological dimension of G_{K,S}*); cup product with `μ_p`
-and `𝔽_p[Ḡ] ⊗ M ≅ 𝔽_p[Ḡ] ⊗ M₀` (Milne, Lemma 5.4) give `χ(G_S, M) = χ(G_S, M^D)`. For finite `S`
-all terms of the nine-term sequence are finite, so `χ(G_S, M) · χ(G_S, M^D) = ∏_{v∈S} χ(K_v, M)`;
-by the local Euler characteristic formula (ClassFieldTheory Layer 5), the product formula and
-*Local duality at the archimedean places* this gives `φ(M) · φ(M^D) = 1`. At a real `v` the factors
-of `φ(M)` and `φ(M^D)` agree (if `L_w ≠ K_v` then `p` is odd and
-`[M^{G_v}] = [M_{G_v}] = [(M^D)^{G_v}]`); so `φ(M) = φ(M^D)` and `φ(M) = 1`. ([Milne, *Arithmetic
-Duality Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I, §5, Theorem 5.1, p. 67
-(PDF p. 75); [Milne, *Arithmetic Duality Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf),
-Chapter I, §5, footnote 13, p. 67 (PDF p. 75).) *Needs:* *The Euler characteristic quotient is
-multiplicative*; *R_{𝔽_p}(G) ⊗ ℚ is induced from cyclic p′-subgroups*; *Poitou–Tate duality and
-the nine-term exact sequence*; *Finiteness of Galois cohomology with restricted ramification*;
-*Cohomological dimension of G_{K,S}*; *Local duality at the archimedean places*; *The dual M^D =
-Hom(M, E_S)*; ProfiniteCohomology Layers 7 and 12; ClassFieldTheory Layer 5.
+(`μ₄` if `p = 2`). The quotient `φ` defines a homomorphism on `R_{𝔽_p}(Gal(L/K))`.
+*R_{𝔽_p}(G) ⊗ ℚ is induced from cyclic p′-subgroups* reduces to modules induced from such
+subgroups: Shapiro identifies the global Euler characteristics, and Mackey decomposition at
+archimedean places identifies the ordinary-invariant factors and normalised absolute values.
+Thus, replacing `K` by the corresponding fixed field, assume `Δ = Gal(L/K)` has order prime
+to `p`. The extension `L` is totally imaginary.
+
+Apply *The equivariant Kummer Euler class*. Put `W = M ⊗_{𝔽_p} μ_p⁻¹`, where
+`μ_p⁻¹ = Hom_{𝔽_p}(μ_p, 𝔽_p)` has the inverse cyclotomic action. Since `G_{L,S_L}` acts trivially
+on `W`, cup product gives `Hⁱ(G_{L,S_L}, M) ≅ Hⁱ(G_{L,S_L}, μ_p) ⊗ W` equivariantly.
+Hochschild–Serre and the exactness of `Δ`-invariants give
+
+```text
+log_p χ(G_{K,S}, M) = −dim_{𝔽_p}(𝔽_p[S_∞(L)] ⊗ W)^Δ.
+```
+
+For odd `p`, decompose the permutation module into the orbits over the archimedean places of `K`.
+A complex place has trivial stabiliser and contributes `dim M`. At a real place the stabiliser
+is generated by complex conjugation `c_v`, which acts as `−1` on `μ_p`; hence `W^{c_v=1}` has
+dimension `dim M^{c_v=−1}`. Consequently
+`log_p χ = −r₂(K) dim M − Σ_{v real} dim M^{c_v=−1}`, exactly the logarithm of the displayed
+archimedean product. For `p = 2`, the odd-order group `Δ` acts trivially on `μ₄`, so the reduced
+base field contains `μ₄` and is totally imaginary; the same computation gives
+`log₂ χ = −r₂(K) dim M`. Induction and multiplicativity recover the formula for the original
+field and all finite coefficients, including `2`-primary modules over fields with real places.
+Finally, the finite nine-term sequence gives the asserted product with `χ(G_S, M^D)`, using
+local Tate groups at archimedean places. ([Milne, *Arithmetic Duality
+Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I, §5, Theorem 5.1 and footnote 13,
+p. 67 (PDF p. 75); Lemma 5.3 and Lemma 5.4(a), pp. 69–70, for multiplicativity and the
+equivariant tensor comparison.) *Needs:* *The Euler characteristic quotient is multiplicative*;
+*R_{𝔽_p}(G) ⊗ ℚ is induced from cyclic p′-subgroups*; *The equivariant Kummer Euler class*;
+*The Hochschild–Serre spectral sequence* (Layer R02.2); *Poitou–Tate duality and the nine-term
+exact sequence*; *The dual M^D = Hom(M, E_S)*; ProfiniteCohomology Layers 7 and 12.
 
 **Checks.**
 

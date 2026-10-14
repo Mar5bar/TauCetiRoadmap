@@ -447,6 +447,22 @@ example : archFactor false 2 2 = 1 := by norm_num [archFactor]
 /-- At a complex place with `M = ℤ/2` the factor is `1/2`. -/
 example : archFactor true 2 2 = 1 / 2 := by norm_num [archFactor]
 
+/-- Over `ℚ` with `S = {3, ∞}`, the pair `ℤ/3`, `μ₃` has global Euler characteristics
+`1`, `1/3` and real-place factors `1`, `1/3`, respectively. The equivariant Kummer Euler
+class is `−[1]`; twisting by the inverse cyclotomic character before taking invariants gives
+these two different values. -/
+example :
+    (eulerChar 3 3 1, archFactor false 3 3, eulerChar 1 3 1, archFactor false 1 3) =
+      (1, 1, 1 / 3, 1 / 3) := by
+  norm_num [eulerChar, archFactor]
+
+/-- In the additive `𝔽₃` models of the real actions on `ℤ/3` and `μ₃`, complex conjugation
+acts by `+1` and `−1`; the ordinary invariant groups have orders `3` and `1`. -/
+example :
+    Fintype.card {x : ZMod 3 // (1 : ZMod 3) * x = x} = 3 ∧
+      Fintype.card {x : ZMod 3 // (-1 : ZMod 3) * x = x} = 1 := by
+  decide
+
 end EulerCharacteristic
 
 open RestrictedRamification IsDedekindDomain in
@@ -645,7 +661,8 @@ Kummer fields, the antiunit class-field rank and the absence of `ℤ_p`-extensio
 Ext of discrete modules, Tate's duality for a class formation and for the `S`-idele classes, the finite dual `M^D`, archimedean local duality, the
 exact annihilators of unramified classes, the restricted-product self-duality, Poitou–Tate duality
 and the nine-term sequence, global finiteness, cohomological dimension, `H²` surjectivity,
-high-degree cohomology of the units, the Euler characteristic with real places, the decomposition
+high-degree cohomology of the units, the equivariant Kummer Euler class (including its S-unit character, class-group cancellation
+and p-primary idele comparison), the Euler characteristic with real places, the decomposition
 map, all-place `Ш` duality, Grunwald–Wang with its dyadic obstruction, character roots, Tate's
 vanishing of `H²(G_K, ℚ/ℤ)`, torus duality, the function-field Poitou–Tate theorem and central
 obstructions, and totally real local base change; perfect amplitude and Tor for the module-derived
