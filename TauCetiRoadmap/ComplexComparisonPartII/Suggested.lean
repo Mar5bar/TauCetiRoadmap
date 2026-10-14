@@ -303,7 +303,23 @@ example {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
       (E ⧸ LinearMap.range (((ContinuousLinearMap.id ℂ E) + (-ContinuousLinearMap.id ℂ E) :
         E →L[ℂ] E) : E →ₗ[ℂ] E)) := sorry
 
-/-! ### C1.2 The sign of the Hodge Laplacian -/
+/-! ### C1.2 Zero-dimensional orientation and the sign of the Hodge Laplacian -/
+
+/-- The positive zero-dimensional volume form is `+1`, so the defining wedge identity in
+`HodgeStar.dimensionZero` gives `*1 = 1`. -/
+example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] [Fact (Module.finrank ℝ E = 0)] :
+    (positiveOrientation : Orientation ℝ E (Fin 0)).volumeForm =
+      AlternatingMap.constLinearEquivOfIsEmpty (1 : ℝ) :=
+  Orientation.volumeForm_zero_pos
+
+/-- The negative zero-dimensional volume form is `−1`, so the defining wedge identity in
+`HodgeStar.dimensionZero` gives `*1 = −1`. -/
+example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] [Fact (Module.finrank ℝ E = 0)] :
+    (-positiveOrientation : Orientation ℝ E (Fin 0)).volumeForm =
+      -AlternatingMap.constLinearEquivOfIsEmpty (1 : ℝ) :=
+  Orientation.volumeForm_zero_neg
 
 section HodgeLaplacianSign
 
@@ -762,7 +778,7 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `compactEllipticHodge`
   (operator-dependent shifted coercivity, graph-norm regularity and the original operator's kernel),
   `HarmonicGreen`, `ddbarLemma` (d-closed pure-type forms on compact Kähler manifolds without
-  boundary are d-exact exactly when they are `∂∂̄`-exact, with negative bidegrees zero; uses
+  boundary have equivalent d-, ∂-, ∂̄- and `∂∂̄`-exactness, with negative bidegrees zero; uses
   `HarmonicGreen` and `kaehlerIdentities`), `kaehlerHodgeDecomposition`, `CurrentCalculus` (compactly supported test forms
   with their inductive-limit topology; degree `k` acts on degree `2n − k`, bidegree `(a,b)`
   on type `(n−a,n−b)`, differential sign `(−1)^{k+1}`; positivity dual to strongly positive forms,

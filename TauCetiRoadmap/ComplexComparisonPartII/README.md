@@ -865,7 +865,9 @@ wedge, orientations and Riemannian metrics, Layers 0–2 and 12).
 **Checks.**
 
 - `HodgeStar.dimensionZero`: on the positively oriented point (`m = 0`), `*` is the identity of
-  `Λ⁰`; on the negatively oriented point, `* = −id`.
+  `Λ⁰`; on the negatively oriented point, `* = −id`. The corresponding volume forms are
+  `+1` and `−1`, as in Mathlib's `Orientation.volumeForm_zero_pos` and
+  `Orientation.volumeForm_zero_neg`; the defining wedge identity determines `*1`.
 - `HodgeStar.euclideanPlane`: on `ℝ²` with `dx ∧ dy` positive, `*dx = dy`, `*dy = −dx`, `*1 = dx ∧ dy`;
   the opposite orientation flips all three signs.
 - `HodgeStar.complexLinearity`: `*(iα) = i(*α)`; putting the conjugation into `*` instead of into the
@@ -2209,8 +2211,9 @@ isomorphism) (Demailly, VI.2.4, pp. 289–290; VI.3.15–3.17, pp. 294–295). *
   harmonic `0`- and `2`-forms are one-dimensional (constants and multiples of the volume form).
 
 Prove `ddbarLemma`: on a compact Kähler manifold without boundary, a smooth complex form `α`
-of pure type `(p,q)` with `dα = 0` is d-exact if and only if `α = ∂∂̄β` for a smooth form `β`
-of type `(p−1,q−1)`. Spaces of forms with a negative bidegree are zero. Derive the equivalence
+of pure type `(p,q)` with `dα = 0` has equivalent d-, ∂- and ∂̄-exactness, each equivalent to
+the existence of a smooth form `β` of type `(p−1,q−1)` with `α = ∂∂̄β`.
+Spaces of forms with a negative bidegree are zero. Derive the equivalence
 from the harmonic/Green decomposition and the Kähler identities: exactness makes the harmonic
 projection vanish, and the identities eliminate the coexact component in the successive
 `∂̄` and `∂` decompositions. This also identifies exactness with orthogonality to harmonic
@@ -2928,7 +2931,9 @@ logarithmic to meromorphic forms). *Needs:* `deligneRiemannHilbert`; `boundedOpe
 
 - For the trivial connection on `G_m = P¹ ∖ {0, ∞}`, choose `z⁻¹ℂ{z}` at `0` and the
   unshifted lattice `ℂ{w}`, `w = 1/z`, at `∞`. The residues `(−1,0)` meet the comparison
-  condition; the logarithmic complex computes `H⁰ = H¹ = ℂ`.
+  condition. Both terms of the logarithmic complex are `O_{P¹}(1)` and have no higher
+  cohomology. In the global bases `(1,z⁻¹)` and `(dz/z,z⁻¹ dz/z)`, its differential has
+  matrix `diag(0,−1)`, giving `H⁰ = H¹ = ℂ`.
 - Replacing only the first lattice by `zℂ{z}` gives residues `(1,0)`. Both terms of the
   logarithmic complex are `O_{P¹}(−1)` and have zero cohomology, so its hypercohomology is zero.
 - Using `e′ = z⁻¹` as a global frame instead gives residues `(−1,+1)`. Both terms are
