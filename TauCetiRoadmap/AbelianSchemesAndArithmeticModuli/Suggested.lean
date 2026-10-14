@@ -660,6 +660,47 @@ theorem realRosatiDecomposition [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
               0 < (∑ j, ∑ k, star (v j) * ((e s).2.2 i) j k * v k).re) := by
   sorry
 
+/-- Check: the positive diagonal matrix has its positive unit square root inside the real
+matrix algebra (README A6.15). -/
+example :
+    let t := Matrix.traceLinearMap (Fin 2) ℝ ℝ
+    let s : Matrix (Fin 2) (Fin 2) ℝ := !![2, 0; 0, 3]
+    let r : Matrix (Fin 2) (Fin 2) ℝ := !![Real.sqrt 2, 0; 0, Real.sqrt 3]
+    IsRosatiPositive t s ∧ IsRosatiPositive t r ∧ r * r = s ∧ IsUnit r := by
+  sorry
+
+/-- Check: the second diagonal matrix unit witnesses failure of strict trace positivity
+for a singular nonnegative matrix (README A6.15). -/
+example :
+    let t := Matrix.traceLinearMap (Fin 2) ℝ ℝ
+    let s : Matrix (Fin 2) (Fin 2) ℝ := !![1, 0; 0, 0]
+    let x : Matrix (Fin 2) (Fin 2) ℝ := !![0, 0; 0, 1]
+    x ≠ 0 ∧ t (s * x * star x) = 0 ∧ ¬ IsRosatiPositive t s ∧ ¬ IsUnit s := by
+  sorry
+
+/-- Check: commutation with a repeated-eigenvalue diagonal matrix implies commutation
+with its positive root and inverse, including on the full repeated block (README A6.15). -/
+example (c : Matrix (Fin 3) (Fin 3) ℝ) :
+    let s : Matrix (Fin 3) (Fin 3) ℝ := Matrix.diagonal ![4, 4, 9]
+    let r : Matrix (Fin 3) (Fin 3) ℝ := Matrix.diagonal ![2, 2, 3]
+    let rInv : Matrix (Fin 3) (Fin 3) ℝ := Matrix.diagonal ![1/2, 1/2, 1/3]
+    Commute c s → Commute c r ∧ Commute c rInv := by
+  sorry
+
+/-- Check: positivity is vacuous in the zero matrix algebra, whose zero element is a unit
+and its own square root (README A6.15). -/
+example :
+    let t := Matrix.traceLinearMap (Fin 0) ℝ ℝ
+    let z : Matrix (Fin 0) (Fin 0) ℝ := 0
+    IsRosatiPositive t z ∧ z * z = z ∧ IsUnit z := by
+  refine ⟨⟨?_, ?_⟩, ?_, ?_⟩
+  · exact Subsingleton.elim _ _
+  · intro x hx
+    exact (hx (Subsingleton.elim _ _)).elim
+  · exact Subsingleton.elim _ _
+  · rw [Subsingleton.elim (0 : Matrix (Fin 0) (Fin 0) ℝ) 1]
+    exact isUnit_one
+
 end RealRosatiAlgebra
 
 /-- Check: the adjoint defined by `J = diag(1, -1)` on a semisimple matrix algebra fails trace
@@ -692,6 +733,8 @@ example :
 The API and Checks of A0.1 and A2.2 include `AbelianScheme.field_agreement`,
 `AbelianScheme.dual_baseChange`, `AbelianScheme.dual_elliptic`, `AbelianScheme.dual_field`,
 `AbelianScheme.dual_prod`, `AbelianScheme.dual_product` and `AbelianScheme.dual_zero`.
+The elliptic comparison uses the inversion adapter from ModularCurves' self-duality to
+the positive self-duality here; its Poincaré pullback and torsion-pairing sign are retained.
 A3.1 specifies `IsAbelianIsogeny.comp_rank`, `IsAbelianIsogeny.elliptic_two` and
 `IsAbelianIsogeny.field_iff`; the last is the field comparison theorem above.
 A5.8 specifies `siegelAction_one` and `siegelAction_translation` (tested above).
@@ -700,8 +743,8 @@ A6.1 specifies `deg_dual`, `deg_functionField`, `deg_mulBy_two_elliptic`, `deg_z
 by two, inversion and the positive-dimensional zero and identity maps. A6.9 states
 `eq_of_padicNorm_roots_products` and `det_aeval_eq_prod_roots` with their hypotheses;
 A6.18 states `eq_one_of_root_of_unity` with the necessary bound on the congruence modulus.
-A6.22 specifies `CoefficientHom.scalar_isogeny`, `CoefficientHom.dual_numbers`,
-`CoefficientHom.zero` and `CoefficientHom.not_field_extension`; its examples above
+A6.22 specifies `CoefficientHom.scalar_isogeny`, `CoefficientHom.dual_numbers` and
+`CoefficientHom.zero`; its examples above
 pin the scalar inverse and the dual-numbers inverse. A6.26 includes
 `LocalizedHom.prime_to_p`.
 

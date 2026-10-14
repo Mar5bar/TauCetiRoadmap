@@ -248,6 +248,11 @@ the Hom statements here are faithfulness and saturation.
   base. On an elliptic curve with `L = O(0)` this sends `a` to `O([−a] − [0])`; under the
   identification of the dual by `a ↦ O([−a] − [0])` (positive self-duality) `φ_{O(d·0)} = [d]`.
   The graph bundle `(id, λ)^*P` has Mumford map `2λ`, not `λ`.
+  ModularCurves 2D instead uses `λ_E(a) = O([a] − [0])`. Our identification is
+  `ι_E = λ_E ∘ [−1]`. Thus the Poincaré bundle on `E × E` pulled back through `ι_E`
+  is the pullback through `λ_E` followed by `id × [−1]`. For a fixed intrinsic torsion
+  pairing, inversion in its dual argument inverts its value; A3.5–A3.7 retain this sign
+  when comparing with ModularCurves 2E's equation-normalized Weil pairing.
 - **Degrees and torsion.** The degree of an isogeny is the rank of the finite locally free
   morphism (Mathlib `Scheme.Hom.finrank`), which counts inseparable degree; a non-isogeny between
   varieties of equal dimension has degree `0`. `A[n]` is the scheme-theoretic kernel of `[n]`; a
@@ -362,8 +367,8 @@ Here `AlgebraicModuli` abbreviates the roadmap AlgebraicModuliForArithmeticGeome
   proper curve and its Jacobian (Layer D), and the Abel–Jacobi morphism with the Albanese universal
   property (Layer F). For a singular curve one first normalizes
   and chooses a point of the normalization.
-- *ModularCurves 0B, 0E, 1C, 1D, 2A–2F, 7E, 7F*: as listed above; the elliptic Picard dual is matched with
-  the positive self-duality of the Conventions.
+- *ModularCurves 0B, 0E, 1C, 1D, 2A–2F, 7E, 7F*: as listed above; the elliptic Picard dual is compared
+  through the inversion adapter `ι_E = λ_E ∘ [−1]` of the Conventions.
 - *AlgebraicVectorBundles L0B, L0C, L2A, L2B*: finite locally free sheaves with their operations and
   the vector group `V(F)`.
 - *StableReduction, Layer 2*: relative Gorenstein-curve duality supplies the relatively ample
@@ -774,7 +779,9 @@ an arbitrary base is projective. *Needs:* A0.3, A1.1; SchemeAndStackFoundations 
 - Over an affine nonreduced base the dual Picard component is a scheme, not merely an algebraic space.
 - For `S′ = Spec k ⊔ Spec k`, finitely many points spanning both components of `E ⊔ E` lie in
   one affine open, formed as a disjoint union of affine neighbourhoods.
-- The affine-neighbourhood property assumes neither normality of the base nor a chosen polarization.
+- For `S = Spec ℂ[u,v]/(uv)` and `A = E × S`, the points `(P,(1,0))` and `(Q,(0,1))`
+  lie in the affine open `U × S`, where `U ⊆ E` is an affine open containing `P,Q`.
+  The base is nonnormal and the two points lie over different components.
 
 ### A2.2 The dual abelian scheme and the Poincaré bundle
 
@@ -792,7 +799,8 @@ bundle gives a group isomorphism `κ_A : A ≅ A^∨∨`, natural in `A`, with `
 `AbelianScheme.dual_prod` (`(A ×_S B)^∨ ≅ A^∨ ×_S B^∨`, with Poincaré bundle the tensor product of the
 two pullbacks); `AbelianScheme.dual_field` (over `Spec K` this is the dual abelian variety of
 JacobianChallenge Layer E, with its Poincaré bundle rigidified along both zero sections); `AbelianScheme.dual_elliptic` (for an elliptic curve it
-is ModularCurves 2D's Picard dual).
+is ModularCurves 2D's Picard dual, with self-duality compared by `ι_E = λ_E ∘ [−1]`
+and Poincaré pullback transported by `id × [−1]`).
 
 Prove the comparison `normalizedPoincare`: two pairs `(B, Q)` of an abelian scheme and a doubly
 rigidified line bundle on `A ×_S B` inducing an isomorphism `B ≅ A^∨` are canonically isomorphic;
@@ -815,6 +823,8 @@ rigidifications. *Needs:* A0.2, A0.3, A1.2, A2.1; JacobianChallenge Layer E; Mod
   tensor product of the two; a definition without rigidification would differ by a base line bundle.
 - `AbelianScheme.dual_elliptic`: for `E` elliptic, `a ↦ O([−a] − [0])` identifies `E` with `E^∨`, and
   the pullback of `P` along `id × (that map)` restricted to `E × {a}` is `t_a^*O(0) ⊗ O(0)^{-1}`.
+- Over `ℂ`, for a nonzero point `a` of order three, `O([−a] − [0])` and
+  `O([a] − [0])` are different classes, testing the inversion in the elliptic comparison.
 
 ### A2.3 The Mumford map and biextension identities
 
@@ -1170,6 +1180,14 @@ pairings of finite étale group schemes with target `μ_n`; for `n = p` in chara
 finite-flat pairing is kept although geometric points do not detect it. *Needs:* A2.2, A3.3;
 ModularCurves 0B; Tau Ceti `cartierDualBaseChangeIso` over affine bases.
 
+For elliptic curves compare the Cartier–Nishi construction and its evaluation convention with
+ModularCurves 2D–2E through `dual_elliptic`. For the same intrinsic pairing `e_n`, the two
+self-duality pullbacks satisfy `e_n(x, ι_E y) = e_n(x, λ_E y)^{-1}`. Carry this identity through
+the theta commutator comparison in A3.6 and the polarized pairing in A3.7, and through
+ModularCurves 2E's `weilPairing_eq_equationLevel` over fields with `n` invertible. The comparison
+retains the order of the Poincaré trivializations as well as the inversion of the dual argument.
+*Needs:* ModularCurves 2D–2E in addition to the inputs above.
+
 ### A3.6 Theta groups and polarized descent
 
 For a commutative group object `G` over `S` and a bimultiplicative morphism
@@ -1279,6 +1297,9 @@ with restriction and arbitrary-base-change compatibility. The proof reads perfec
 Cartier duality composed with `λ[n]` prime by prime; pullback is naturality
 of the Poincaré bundle (Faltings–Chai I.1.6–1.8, pp. 4–5; Boxer–Calegari–Gee–Pilloni,
 Remark 10.3.2, p. 215). *Needs:* A2.5, A2.6, A3.5, A3.6.
+For elliptic curves the comparison with ModularCurves' equation-normalized pairing uses
+A3.5's inversion adapter, including its evaluation convention; the two self-duality
+pullbacks of a fixed intrinsic pairing are inverses.
 
 **Checks.**
 
@@ -1288,6 +1309,8 @@ Remark 10.3.2, p. 215). *Needs:* A2.5, A2.6, A3.5, A3.6.
 - For a principal polarization of a supersingular elliptic curve in characteristic `2`,
   `E[2]` is connected of rank `4`; a local representative supplies the central extension witness,
   and a check on geometric points alone cannot supply it.
+- On `E/ℂ`, choose `x,y ∈ E[3]` with `e_3(x, λ_E y) = ζ₃`. Then
+  `e_3(x, ι_E y) = ζ₃^{-1} ≠ ζ₃`, detecting omission of the inversion adapter.
 
 ### A3.8 Full level structures
 
@@ -2592,9 +2615,19 @@ fibres and A1.2 (Milne 2008, Proposition 14.4, p. 62, and Lemma 14.5, p. 63; Ols
 its proof, pp. 301–302; Kass, Theorem 8, p. 7). In Milne's proof of (1) the compact set must be the
 ellipsoid, not `End(A) ⊗ ℝ`, and in (2) the nilpotence of `β^†β` uses that `β` and `β^†` commute;
 Milne states (2) on the points `A[n](k̄)` for every `n ≥ 3`, a form that needs `n` prime to the
-characteristic. For `E` with
+characteristic. Represent the zero-preserving Isom functor using A0.3(4)
+`homAndIsomSchemes` and A1.2. For polarizations `λ` on `A` and `μ` on `B`, the equation
+`f^∨ ∘ μ ∘ f = λ` cuts out a closed subfunctor by equality of morphisms to the separated dual,
+using the Hom scheme's composition and A2.2's dual-map operation. This condition preserves
+the polarization, rather than a chosen line-bundle class. Over a field the graph bundles
+of A2.6 give projective presentations; A1.2 gives unramifiedness, and (1) gives finitely many
+geometric points. The resulting scheme, locally of finite type over the field, is therefore
+finite étale. Over arbitrary bases, descend the construction and unramifiedness from
+locally Noetherian approximations, with the polarizations and their equations retained.
+For `E` with
 `j = 1728` over `ℂ`, `Aut(E, λ) = μ₄` and `[i]` acts nontrivially on `E[3]`. *Needs:* A1.2, A3.4, A3.8, A6.7,
-A6.11, A6.14; AlgebraicModuli Layer 5 §5.2, Layer 7 §7.6.3 (`polarisedIsomScheme`).
+A6.11, A6.14; A0.3(4) (`homAndIsomSchemes`), A2.2, A2.6;
+AlgebraicModuli Layer 5 §5.2; ModularCurves 0E (approximation and descent).
 
 Prove the algebraic tool `eq_one_of_root_of_unity`: over a field `F` of characteristic
 zero, if `π` is integral over `ℤ`, `n : ℤ` satisfies `3 ≤ n`, `ζ = 1 + nπ`, and
@@ -2605,6 +2638,15 @@ and the conclusion fails. As an interface on the field carrier, prove
 `α = 1 + n • β` for some `β : End A` and integer `n ≥ 3`, then `α = 1`.
 This is the finite-order congruence milestone stated in `Suggested.lean`; (1) above
 supplies finite order for polarized automorphisms.
+
+**Checks.**
+
+- On `E/ℂ`, let `L = O(P)` with `2P ≠ 0`. Inversion preserves `φ_L` but pulls `L` back to
+  `O(−P)`, a different line-bundle class; it belongs to the polarization-preserving group.
+- On the elliptic curve with `j = 1728` over `ℂ`, the polarization-preserving automorphism
+  scheme has four reduced points, and `[i]` acts nontrivially on `E[3]`.
+- At level two, inversion fixes `E[2]` but is not the identity over `ℂ`; the bound `N ≥ 3`
+  cannot be dropped.
 
 ### A6.19 Orbits of principal polarizations
 
@@ -2674,8 +2716,6 @@ preserves identities and inverses). *Needs:* A6.7; AlgebraicModuli Layer 1; Tau 
 - `CoefficientHom.zero`: for a nonzero commutative `ℚ`-algebra `R` and positive-dimensional `A`,
   zero is not a unit in `R ⊗_ℤ End A`. If `R = 0` or `g = 0`, this is the zero ring and its unit
   group is a singleton, even for an elliptic `A` when `R = 0`.
-- `CoefficientHom.not_field_extension`: an `R`-point for a non-field `R` does not make `A` an abelian scheme
-  over `R`; the objects stay over `K`.
 
 ### A6.23 Coefficient isogeny torsors
 
@@ -2876,8 +2916,6 @@ SchemeAndStackFoundations Layer 1.
 - `AbelianTwist.not_geometric`: the `{±1}`-torsor `Spec L → Spec K` of a separable quadratic extension
   is a torsor over `Spec K`, not over `Spec D`, and is not an input; the quadratic twist it defines is
   `QuadraticAbelianTwist` (A6.34).
-- `AbelianTwist.coefficients`: a torsor of coefficient automorphisms does not change the base field of the
-  abelian scheme.
 - For `S = Spec ℂ`, an elliptic curve `E`, `D = ℤ[1/2]`, the trivial group `Z` and `P = Spec D`, take
   `T = ⨿_{n≥1} Spec ℂ` and points `x_n ∈ E(ℂ)` of exact order `2^n` (A3.2). The section
   `(x_n)_n/1` is nonzero in `(∏_n E(ℂ))[1/2]`, since no one power of `2` kills every coordinate,
@@ -3065,9 +3103,12 @@ visible: equality of CM fields does not identify simple factors. This is a chara
 statement, not one about reductions with larger endomorphism rings. The proof decomposes the rational
 homology under a commutative semisimple CM algebra of dimension `2g` into rank-one character spaces with
 their Hodge types (A5.5); an irreducible polarized CM Hodge summand has a CM field of endomorphisms, and
-conjugate Hodge types determine isogeny only together with the type data (Tsimerman, Lemma 4.1 and the
-isotypic CM decompositions it refers to, pp. 384–385). The classification of irreducible polarized CM Hodge
-structures by CM types is not proved in that source and is part of this target. `Eⁿ` has `M_n(End⁰ E)`, not
+conjugate Hodge types determine isogeny only together with the type data (Tsimerman, §2.2, p. 382,
+for CM types, primitive types and the isogeny class with fixed type). This target proves the
+decomposition into simple CM factors and classifies their underlying irreducible rational Hodge
+structures by CM fields with primitive types; polarizing forms remain additional data.
+Lemma 4.1 supplies the separate full-level descent statement
+A6.20. `Eⁿ` has `M_n(End⁰ E)`, not
 a product of `n` copies of its CM field; a supersingular reduction can have a quaternion endomorphism
 algebra and is outside the statement. *Needs:* A5.5, A6.5, A6.8.
 
