@@ -794,7 +794,10 @@ endomorphism approximately inner of each rank r>0. These are targets
 here, not consequences of V13's automorphism-only theorem. Construct
 Izumi's canonical extension on the core, its normalized version
 `ρ̌(x)=ρ(x)`, `ρ̌(u_t)=(D(φ∘φ_ρ):Dφ)_t u_t`, and the
-module comparison `mod(ρ)=θ_(log(r/d_ρ))` with V11's dual-flow sign.
+canonical extension `ρ̃=θ_(-log d_ρ)∘ρ̌`. Define having a
+Connes–Takesaki module by ρ̃ taking the core center into itself with
+automorphism restriction, and prove the rank comparison
+`mod(ρ)=θ_(log(r/d_ρ))` with V11's dual-flow sign.
 For II∞ build trace-scaled partial-isometry approximants. For III₁
 construct the locally trivial inclusion `diag(x,ρ(x))⊂M₂(M)`,
 its weighted conditional expectations and modular/finite-index API;
