@@ -1,10 +1,13 @@
 import Mathlib
 import TauCetiRoadmap.AlgebraicVectorBundles.Suggested
+import TauCeti.CategoryTheory.Exact.Abelian
+import TauCeti.CategoryTheory.GrothendieckGroup.Exact
 import TauCeti.Algebra.BrauerGroup.Group
 import TauCeti.AlgebraicGeometry.Cohomology.Genus
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
+import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
 
 /-!
@@ -25,7 +28,7 @@ noncomputable section
 section Layer0
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry
-open scoped _root_.TensorProduct
+open scoped _root_.TensorProduct ZeroObject
 
 /-! ### §0.3 Proj and base change -/
 
@@ -71,6 +74,35 @@ theorem isPseudoCoherentSheaf_iff_affineOpens {X : Scheme.{u}} (F : X.Modules) :
     IsPseudoCoherentSheaf F ↔ F.IsQuasicoherent ∧
       ∀ U : X.affineOpens, IsPseudoCoherentModule Γ(X, U.1)
         (ModuleCat.of Γ(X, U.1) Γ(F, U.1)) := by
+  sorry
+
+-- Finite free and zero modules and sheaves have finite free resolutions.
+example (A : Type u) [CommRing A] (n : ℕ) :
+    IsPseudoCoherentModule A (ModuleCat.of A (Fin n → A)) := by sorry
+example (A : Type u) [CommRing A] : IsPseudoCoherentModule A (0 : ModuleCat.{u} A) := by
+  sorry
+example (X : Scheme.{u}) (n : ℕ) :
+    IsPseudoCoherentSheaf (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n))) := by
+  sorry
+example (X : Scheme.{u}) : IsPseudoCoherentSheaf (0 : X.Modules) := by sorry
+example (A : Type u) [CommRing A] (M : ModuleCat.{u} A)
+    (hM : ¬ Module.FinitePresentation A M) : ¬ IsPseudoCoherentModule A M := by sorry
+example (M : ModuleCat.{0} ℤ) : IsPseudoCoherentModule ℤ M ↔ Module.Finite ℤ M := by sorry
+
+-- The residue module over the dual numbers has a periodic infinite free resolution.
+example (k : Type u) [Field k] :
+    let J : Ideal (Polynomial k) := Ideal.span {(Polynomial.X : Polynomial k) ^ 2}
+    let A := Polynomial k ⧸ J
+    let I : Ideal A := Ideal.span {Ideal.Quotient.mk J Polynomial.X}
+    let M := ModuleCat.of A (A ⧸ I)
+    IsPseudoCoherentModule A M ∧ ∀ n : ℕ, ¬ HasProjectiveDimensionLE M n := by sorry
+
+-- A cyclic module over infinitely many variables need not be finitely presented.
+example (k : Type u) [Field k] :
+    let A := MvPolynomial ℕ k
+    let I : Ideal A := Ideal.span (Set.range (MvPolynomial.X : ℕ → A))
+    let M := ModuleCat.of A (A ⧸ I)
+    Module.Finite A M ∧ ¬ Module.FinitePresentation A M ∧ ¬ IsPseudoCoherentModule A M := by
   sorry
 
 -- Extension by zero from the generic point of a DVR: pseudo-coherent sections, not a
@@ -185,6 +217,13 @@ theorem existsUnique_lift (I : Ideal R) {S : Type u} [CommRing S]
 theorem fixed_of_henselian (I : Ideal R) [HenselianRing R I] :
     Nonempty (algebra I ≃ₐ[R] R) := by sorry
 
+-- Identity neighbourhoods and the zero-ideal henselization retain the base ring.
+example (I : Ideal R) : IsNeighbourhood I (CommAlgCat.of R R) := by sorry
+example : Nonempty (algebra (⊥ : Ideal R) ≃ₐ[R] R) := by sorry
+example (I : Ideal R) [HenselianRing R I] : Nonempty (algebra I ≃ₐ[R] R) :=
+  fixed_of_henselian I
+example : Nonempty (algebra (⊥ : Ideal (ZMod 5)) ≃ₐ[ZMod 5] ZMod 5) := by sorry
+
 -- `ℤ[1/2]` is a neighbourhood of `(ℤ, (5))`; `ℤ[1/5]` and `ℤ × ℤ` are not.
 example : IsNeighbourhood (Ideal.span {(5 : ℤ)})
     (CommAlgCat.of ℤ (Localization.Away (2 : ℤ))) := by sorry
@@ -282,6 +321,31 @@ def IsExcellentRing (R : Type u) [CommRing R] : Prop :=
 theorem IsQuasiExcellentRing.isNagata (R : Type u) [CommRing R]
     (h : IsQuasiExcellentRing R) : Ring.IsNagata R := by
   sorry
+
+-- Fields and zero algebras are geometrically regular; nilpotents distinguish J-2 from regularity.
+example (k : Type u) [Field k] : GeometricallyRegular k k := by sorry
+example (k : Type u) [Field k] : GeometricallyRegular k (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : ¬ GeometricallyRegular k (TrivSqZeroExt k k) := by sorry
+example (R : Type u) [CommRing R] : RegularAlgebraMap R R := by sorry
+example (R : Type u) [CommRing R] : RegularAlgebraMap R (R ⧸ (⊤ : Ideal R)) := by sorry
+example (k : Type u) [Field k] : ¬ RegularAlgebraMap k (TrivSqZeroExt k k) := by sorry
+example (k : Type u) [Field k] : regularLocus k = Set.univ := by sorry
+example (k : Type u) [Field k] : regularLocus (k ⧸ (⊤ : Ideal k)) = ∅ := by sorry
+example (k : Type u) [Field k] : regularLocus (TrivSqZeroExt k k) = ∅ := by sorry
+example (k : Type u) [Field k] : IsJ2 k := by sorry
+example (k : Type u) [Field k] : IsJ2 (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsJ2 (TrivSqZeroExt k k) := by sorry
+example (k : Type u) [Field k] : IsGRing k := by sorry
+example (k : Type u) [Field k] : IsGRing (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsExcellentRing k := by sorry
+example (k : Type u) [Field k] : IsExcellentRing (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsExcellentRing (TrivSqZeroExt k k) := by sorry
+example (k : Type u) [Field k] : IsQuasiExcellentRing k := by sorry
+example (k : Type u) [Field k] : IsQuasiExcellentRing (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsQuasiExcellentRing (TrivSqZeroExt k k) := by sorry
+
+example (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    [IsAdicComplete (IsLocalRing.maximalIdeal R) R] : IsGRing R := by sorry
 
 -- A purely inseparable extension is not geometrically regular.
 example (k L : Type u) [Field k] [Field L] [Algebra k L] [Module.Finite k L]
@@ -1130,29 +1194,46 @@ theorem DQCoh.affineEquiv (A : CommRingCat.{u}) :
     Nonempty (DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A)) := by
   sorry
 
+local instance {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    (Scheme.Modules.restrictFunctor f).Additive := by sorry
+local instance {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    PreservesFiniteLimits (Scheme.Modules.restrictFunctor f) := by sorry
+
 /-- Restriction of derived module sheaves along an open immersion, induced by the exact
 module-sheaf restriction functor. Stacks, §20.45 (0D65). -/
 def derivedRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
-    DerivedCategory Y.Modules ⥤ DerivedCategory X.Modules := by
-  let F := Scheme.Modules.restrictFunctor f
-  letI : F.Additive := by sorry
-  letI : PreservesFiniteLimits F := by sorry
-  letI : PreservesFiniteColimits F := by infer_instance
-  exact F.mapDerivedCategory
+    DerivedCategory Y.Modules ⥤ DerivedCategory X.Modules :=
+  (Scheme.Modules.restrictFunctor f).mapDerivedCategory
 
-/-- The canonical comparison between direct and successive restrictions on nested opens.
-Stacks, Situation 20.45.3 (0D67). -/
+/-- Direct and successive restrictions on nested opens agree by localization of the canonical
+module-sheaf comparison. Stacks, Situation 20.45.3 (0D67). -/
 def derivedRestrictComp {X : Scheme.{u}} {U V W : X.Opens}
     (hVU : V ≤ U) (hWV : W ≤ V) :
     derivedRestrict (X.homOfLE (hWV.trans hVU)) ≅
       derivedRestrict (X.homOfLE hVU) ⋙ derivedRestrict (X.homOfLE hWV) := by
-  sorry
+  let e := Scheme.Modules.restrictFunctorCongr
+      (by simp : X.homOfLE (hWV.trans hVU) = X.homOfLE hWV ≫ X.homOfLE hVU) ≪≫
+    Scheme.Modules.restrictFunctorComp (X.homOfLE hWV) (X.homOfLE hVU)
+  exact { hom := e.hom.mapDerivedCategory
+          inv := e.inv.mapDerivedCategory
+          hom_inv_id := by sorry
+          inv_hom_id := by sorry } ≪≫
+    (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctor (X.homOfLE hVU))
+      (Scheme.Modules.restrictFunctor (X.homOfLE hWV))).symm
 
-/-- The canonical comparison between restricting from a scheme to an open directly and
-restricting through a larger open. Stacks, Situation 20.45.3 (0D67). -/
+/-- Direct restriction to an open agrees with restriction through a larger open, using the
+canonical exact-functor comparison. Stacks, Situation 20.45.3 (0D67). -/
 def derivedRestrictOpens {X : Scheme.{u}} {U V : X.Opens} (hVU : V ≤ U) :
     derivedRestrict V.ι ≅ derivedRestrict U.ι ⋙ derivedRestrict (X.homOfLE hVU) := by
-  sorry
+  let e := Scheme.Modules.restrictFunctorCongr
+      (by simp : V.ι = X.homOfLE hVU ≫ U.ι) ≪≫
+    Scheme.Modules.restrictFunctorComp (X.homOfLE hVU) U.ι
+  exact { hom := e.hom.mapDerivedCategory
+          inv := e.inv.mapDerivedCategory
+          hom_inv_id := by sorry
+          inv_hom_id := by sorry } ≪≫
+    (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctor U.ι)
+      (Scheme.Modules.restrictFunctor (X.homOfLE hVU))).symm
 
 /-- The presheaf of derived morphisms, with restriction induced by exact restriction of
 module sheaves and its canonical composition comparisons. Stacks, Lemma 20.45.2 (0D66). -/
@@ -1209,6 +1290,87 @@ theorem derivedObject_gluing {X : Scheme.{u}} (B : Set X.Opens)
     Nonempty (DerivedGluingSolution d) ∧
       ∀ a b : DerivedGluingSolution d, ∃! e : a.obj ≅ b.obj,
         ∀ U : B, (derivedRestrict U.val.ι).mapIso e ≪≫ b.iso U = a.iso U := by
+  sorry
+
+-- For unshifted structure modules the Hom presheaf is a sheaf, with sections the ring of functions.
+example (X : Scheme.{u}) :
+    let K := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    (derivedHomPresheaf K K).IsSheaf ∧
+      (∀ (U : X.Opens) (i : ℤ), i < 0 →
+        Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj K)⟦i⟧)) ∧
+      ∀ U : X.Opens, Nonempty (((derivedRestrict U.ι).obj K ⟶
+        (derivedRestrict U.ι).obj K) ≃ Γ(X, U)) := by
+  sorry
+
+/-- The restriction cocycle of a global derived object, using canonical restriction comparisons.
+Stacks, Situation 20.45.3 (0D67). -/
+def restrictedGluingData (X : Scheme.{u}) (B : Set X.Opens) (K : DerivedCategory X.Modules) :
+    DerivedGluingData X B where
+  obj U := (derivedRestrict U.val.ι).obj K
+  transition h := ((derivedRestrictOpens h).app K).symm
+  cocycle := by sorry
+
+-- Basis refinement identifies the solutions by the unique compatible isomorphism.
+example (X : Scheme.{u}) (K : DerivedCategory X.Modules) (B C : Set X.Opens)
+    (hB : TopologicalSpace.IsTopologicalBasis ((fun U : X.Opens => (U : Set X)) '' B))
+    (hC : TopologicalSpace.IsTopologicalBasis ((fun U : X.Opens => (U : Set X)) '' C))
+    (hCB : C ⊆ B)
+    (hneg : ∀ (U : B) (i : ℤ), i < 0 →
+      Subsingleton ((derivedRestrict U.val.ι).obj K ⟶ ((derivedRestrict U.val.ι).obj K)⟦i⟧))
+    (a : DerivedGluingSolution (restrictedGluingData X B K))
+    (b : DerivedGluingSolution (restrictedGluingData X C K)) :
+    ∃! e : a.obj ≅ b.obj, ∀ U : C,
+      (derivedRestrict U.val.ι).mapIso e ≪≫ b.iso U = a.iso ⟨U.val, hCB U.property⟩ := by
+  sorry
+
+-- Shifted differential bundles on the projective line glue to the original global bundle.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let X := Proj 𝒜
+    letI : X.Over (Spec (.of k)) :=
+      ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
+    let K := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let B : Set X.Opens := {U | IsAffineOpen U}
+    (∀ (U : B) (i : ℤ), i < 0 →
+      Subsingleton ((derivedRestrict U.val.ι).obj K ⟶
+        ((derivedRestrict U.val.ι).obj K)⟦i⟧)) ∧
+      Nonempty (DerivedGluingSolution (restrictedGluingData X B K)) ∧
+      ∀ a : DerivedGluingSolution (restrictedGluingData X B K), Nonempty (a.obj ≅ K) := by
+  sorry
+
+-- The componentwise affine basis on infinitely many projective lines has no finite subcover.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let P := Proj 𝒜
+    let Xs := fun _ : ℕ => P
+    let X := ∐ Xs
+    letI : X.Over (Spec (.of k)) := ⟨Sigma.desc (fun _ =>
+      Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0))))⟩
+    let K := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let B : Set X.Opens := {U | IsAffineOpen U ∧ ∃ n, (U : Set X) ⊆ Set.range (Sigma.ι Xs n)}
+    ¬ CompactSpace X ∧
+      (∀ (U : B) (i : ℤ), i < 0 →
+        Subsingleton ((derivedRestrict U.val.ι).obj K ⟶
+          ((derivedRestrict U.val.ι).obj K)⟦i⟧)) ∧
+      Nonempty (DerivedGluingSolution (restrictedGluingData X B K)) ∧
+      ∀ a : DerivedGluingSolution (restrictedGluingData X B K), Nonempty (a.obj ≅ K) := by
+  sorry
+
+-- Without negative-Ext vanishing, a nonzero global derived morphism can vanish on every affine.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let X := Proj 𝒜
+    letI : X.Over (Spec (.of k)) :=
+      ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
+    let K := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    let L := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    ∃ φ : K ⟶ L, φ ≠ 0 ∧
+      (∀ U : X.Opens, IsAffineOpen U → (derivedRestrict U.ι).map φ = 0) ∧
+      ¬ (∀ U : X.Opens, IsAffineOpen U → ∀ i : ℤ, i < 0 →
+        Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj L)⟦i⟧)) := by
   sorry
 
 end Coherent
@@ -1462,6 +1624,16 @@ structure AdicThickeningSystem where
   isThickening : ∀ n, IsThickening (ι n)
   adic : ∀ n, (ι n).ker = (levelMap X ι (n + 1)).ker ^ (n + 1)
 
+-- Thickening transitions alone need not satisfy the adic power equation.
+example (k : Type u) [Field k] :
+    let A := Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) ^ 3}
+    ∃ (X : ℕ → Scheme.{u}) (ι : ∀ n, X n ⟶ X (n + 1)),
+      Nonempty (X 0 ≅ Spec (.of k)) ∧
+      (∀ n, Nonempty (X (n + 1) ≅ Spec (.of A))) ∧
+      (∀ n, IsThickening (ι n)) ∧ (∀ n, IsIso (ι (n + 1))) ∧
+      (ι 1).ker ≠ (levelMap X ι 2).ker ^ 2 := by
+  sorry
+
 /-- The formal completion along `V(I)`: the system `V(I^{n+1})`.
 Stacks, Lemma 87.14.2 (0AIZ) and Definition 87.14.3 (0AMC). -/
 def Scheme.formalCompletion (X : Scheme.{u}) (I : X.IdealSheafData) :
@@ -1489,7 +1661,12 @@ def Scheme.completionFunctor (X : Scheme.{u}) (I : X.IdealSheafData)
     Scheme.CoherentFormalModule (Scheme.formalCompletion X I) where
   F n := (Scheme.Modules.pullback (Scheme.formalCompletion.toScheme X I n)).obj M
   fp _ := by sorry
-  iso _ := by sorry
+  iso n :=
+    (Scheme.Modules.pullbackComp ((Scheme.formalCompletion X I).ι n)
+      (Scheme.formalCompletion.toScheme X I (n + 1))).app M ≪≫
+    (Scheme.Modules.pullbackCongr (by sorry :
+      (Scheme.formalCompletion X I).ι n ≫ Scheme.formalCompletion.toScheme X I (n + 1) =
+        Scheme.formalCompletion.toScheme X I n)).app M
 
 /-- Grothendieck's existence theorem: over a complete Noetherian adic ring, every coherent formal
 module on the completion of a proper scheme along its closed fibre is the completion of a
@@ -1933,40 +2110,54 @@ example : HasResolutionProperty (∅ : Scheme.{u}) := by sorry
 attribute [local instance] MvPolynomial.gradedAlgebra in
 example : HasResolutionProperty (Proj (MvPolynomial.homogeneousSubmodule (Fin 2) κ)) := by sorry
 
-/-- `G_0(X)`: the Grothendieck group of finitely presented `O_X`-modules. -/
-def G0 (X : Scheme.{u}) : Type (u + 1) :=
-  FreeAbelianGroup {F : X.Modules // F.IsFinitePresentation} ⧸
-    AddSubgroup.closure {x | ∃ (S : ShortComplex X.Modules) (_ : S.ShortExact)
-      (h₁ : S.X₁.IsFinitePresentation) (h₂ : S.X₂.IsFinitePresentation)
-      (h₃ : S.X₃.IsFinitePresentation),
-      x = FreeAbelianGroup.of ⟨S.X₂, h₂⟩ - FreeAbelianGroup.of ⟨S.X₁, h₁⟩ -
-        FreeAbelianGroup.of ⟨S.X₃, h₃⟩}
+-- The affine plane with doubled origin has a coherent ideal not generated by any vector bundle.
+example : ∃ X : Scheme.{u}, IsNoetherian X ∧ ¬ HasResolutionProperty X := by sorry
 
-instance (X : Scheme.{u}) : AddCommGroup (G0 X) := by unfold G0; infer_instance
-
-/-- `K_0(X)`: the Grothendieck group of finite locally free `O_X`-modules. -/
-def K0 (X : Scheme.{u}) : Type (u + 1) :=
-  FreeAbelianGroup {E : X.Modules // E.IsLocallyFree ∧ E.IsFiniteType} ⧸
-    AddSubgroup.closure {x | ∃ (S : ShortComplex X.Modules) (_ : S.ShortExact)
-      (h₁ : S.X₁.IsLocallyFree ∧ S.X₁.IsFiniteType) (h₂ : S.X₂.IsLocallyFree ∧ S.X₂.IsFiniteType)
-      (h₃ : S.X₃.IsLocallyFree ∧ S.X₃.IsFiniteType),
-      x = FreeAbelianGroup.of ⟨S.X₂, h₂⟩ - FreeAbelianGroup.of ⟨S.X₁, h₁⟩ -
-        FreeAbelianGroup.of ⟨S.X₃, h₃⟩}
-
-instance (X : Scheme.{u}) : AddCommGroup (K0 X) := by unfold K0; infer_instance
-
-/-- The determinant of a virtual finite locally free sheaf, valued in the additive form of
-Tau Ceti's group of line-bundle classes. A line-bundle generator maps to its own class.
-Fulton 1998, §15.1. -/
-def K0.det (X : Scheme.{u}) : K0 X →+ Additive (TauCeti.AlgebraicGeometry.LineBundleClass X) := by
+local instance (X : Scheme.{u}) :
+    (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).ContainsZero := by sorry
+local instance (X : Scheme.{u}) :
+    (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).IsClosedUnderBinaryProducts := by sorry
+local instance (X : Scheme.{u}) :
+    (TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFree X).ContainsZero := by sorry
+local instance (X : Scheme.{u}) :
+    (TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFree X).IsClosedUnderBinaryProducts := by
   sorry
 
-/-- The natural map `K_0(X) → G_0(X)`, `[E] ↦ [E]`, on a Noetherian scheme. -/
+/-- The exact structure on finitely presented sheaves induced by ambient short exact sequences.
+GrothendieckEulerForms Layer 2, specialized to the extension-closed sheaf subcategory. -/
+def finitelyPresentedExact (X : Scheme.{u}) :
+    TauCeti.ExactStructure
+      (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).FullSubcategory :=
+  (TauCeti.ExactStructure.abelian X.Modules).fullSubcategory _ (by sorry)
+
+/-- The exact structure on the owner's finite locally free sheaves induced by short exact
+sequences. GrothendieckEulerForms Layer 2 and AlgebraicVectorBundles L0B. -/
+def finiteLocallyFreeExact (X : Scheme.{u}) :
+    TauCeti.ExactStructure (TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf X) :=
+  (TauCeti.ExactStructure.abelian X.Modules).fullSubcategory _ (by sorry)
+
+/-- The owner's exact Grothendieck group of finitely presented sheaves; on a Noetherian scheme
+these are coherent sheaves. -/
+abbrev G0 (X : Scheme.{u}) : Type (u + 1) := TauCeti.ExactK0 (finitelyPresentedExact X)
+
+/-- The owner's exact Grothendieck group of finite locally free sheaves. -/
+abbrev K0 (X : Scheme.{u}) : Type (u + 1) := TauCeti.ExactK0 (finiteLocallyFreeExact X)
+
+/-- The determinant of a virtual finite locally free sheaf, induced by the owner's determinant
+and the universal property of exact Grothendieck groups. Fulton 1998, §15.1. -/
+def K0.det (X : Scheme.{u}) : K0 X →+ Additive (TauCeti.AlgebraicGeometry.LineBundleClass X) :=
+  TauCeti.ExactK0.lift
+    { obj := fun E => Additive.ofMul (TauCeti.AlgebraicGeometry.LineBundleClass.mk
+        (TauCetiRoadmap.AlgebraicVectorBundles.determinantObj E))
+      map_conflation := by sorry }
+
+/-- The natural map from vector-bundle classes to coherent classes on a Noetherian scheme. -/
 def K0.toG0 (X : Scheme.{u}) [IsNoetherian X] : K0 X →+ G0 X :=
-  QuotientAddGroup.lift _
-    ((QuotientAddGroup.mk' _).comp
-      (FreeAbelianGroup.map (fun E => (⟨E.1, by sorry⟩ : {F : X.Modules // F.IsFinitePresentation}))))
-    (by sorry)
+  TauCeti.ExactK0.lift
+    { obj := fun E => TauCeti.ExactK0.of
+        (⟨E.obj, E.property.2⟩ :
+          (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).FullSubcategory)
+      map_conflation := by sorry }
 
 /-- A kernel class with nontrivial determinant detects failure of injectivity of `K_0 → G_0`.
 Fulton 1998, §15.1. -/

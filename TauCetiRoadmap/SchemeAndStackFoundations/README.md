@@ -25,7 +25,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), compactifications (§0.30), ideal-sheaf comparisons |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -42,9 +42,8 @@ Mathlib schemes, Tau Ceti curves and models  →  Layer 0  →  Layer 1  →  La
 The geometric Chow groups and all operations graded by absolute closure dimension
 are restricted to schemes locally of finite type over a fixed field, with maps over
 that field (§5). General bases, including DVRs, need a different grading and are
-outside this API. The general cotangent-complex obstruction class of §4.6 uses
-DerivedDeRhamCohomology's cotangent complex, and the non-affine Brauer comparison of
-§2.22 includes the construction of the gerbe of local splittings.
+outside this API. The ordinary cotangent complex and its square-zero obstruction class are
+targets of §4.6, and the non-affine Brauer comparison of §2.22 includes the construction of the gerbe of local splittings.
 
 
 **This roadmap owns** the shared scheme-, space-, site- and coherent-sheaf foundations: the general
@@ -60,7 +59,7 @@ Nisnevich site, the pro-étale site foundations (replete topoi, w-contractible c
 left-completeness), coherent Grothendieck duality in the generality of the Stacks Project, the Brauer
 group of a scheme, abelian-extension boundaries, equivariant sheaf cohomology, the curve and Picard theory that no curve roadmap
 states, formal deformation theory with elementary obstruction theories, adic thickening systems, coherent existence and algebraization of compatible morphisms, modifications,
-strict transforms and alterations, the moduli stack of stable pointed curves, Chow groups,
+strict transforms and alterations, scheme compactifications, the moduli stack of stable pointed curves, Chow groups,
 Chern classes, refined Gysin maps, intersection products, a K-theoretic pushforward for
 Riemann–Roch, and surfaces. Formal geometry here uses chosen ideals and level-preserving adic thickening
 systems. Comparison with the category of topologically locally ringed formal schemes and
@@ -121,71 +120,23 @@ comparisons to them and never a second carrier.
   theory*: Tau Ceti, [ClassFieldTheory](../ClassFieldTheory/README.md),
   [ProfiniteCohomology](../ProfiniteCohomology/README.md) and
   [QuadraticFormInvariants](../QuadraticFormInvariants/README.md) Layer 7B.
-- *Finite-coefficient and adic étale theory*: Supplied by LefschetzPencilsAndVanishingCycles
-  §§F.0–F.4 / `VanishingCycles.constructibleEtale`, `VanishingCycles.constructibleDerivedCategory`,
-  `VanishingCycles.etaleBaseChange`, `VanishingCycles.etaleCompactSupports`,
-  `VanishingCycles.etaleFiniteness`, `VanishingCycles.adicRealization`.
-  Constructibility needs no invertibility; geometric finiteness and ctf operations carry their
-  Noetherian and invertible-annihilator hypotheses, proper base change admits arbitrary torsion,
-  and normalized adic systems have uniform cohomological and Tor bounds.
-- *Scheme compactifications*: Supplied by ComplexComparisonPartII §§C4.3a–C4.3c /
-  `Compactification`, `nagataCompactification`, `compactificationCommonRefinement`.
-  These are algebraic factorizations for separated finite-type morphisms over qcqs bases;
-  §2.19 uses their geometry to prove independence in its own coherent coefficient category.
-- *Complex topology, Riemann existence and Artin comparison*: Supplied by ComplexComparisonPartII
-  §§C6.0–C6.6 / `complexAlgebraicTopology`, `riemannExistence`, `artinComparison`,
-  `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`.
-  Ordinary finite comparison uses ctf coefficients on finite-type complex schemes, compact support
-  requires separatedness, and adic comparison retains coherent reductions and uniform Tor bounds.
-- *Perfect-complex traces, curve traces and point counts*: Supplied by
-  LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
-  `PerfectComplex.filteredTraceAdditivity`, `VanishingCycles.curveEndomorphismTrace`,
-  `VanishingCycles.etaleTraceFormulaFinite`, `VanishingCycles.etaleTraceFormula`,
-  `VanishingCycles.pointCountTrace`.
-  Finite-field traces use descended ctf coefficients, compact support and geometric Frobenius at
-  every positive power; the curve comparison uses a smooth proper geometrically connected curve,
-  invertible `ℓ` and a specified Tate coordinate.
-- *Abelian torsion and Tate modules*: Supplied by AbelianSchemesAndArithmeticModuli §A3.2 /
-  `multiplicationAndDensity` and §A4.1 / `AbelianTate`; *algebraic and Tate endomorphism traces*:
-  Supplied by AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 / `End.trace`, `charpolyTate`.
-  Prime-to-characteristic torsion and Tate comparisons retain every finite level and its reductions;
-  the cohomological curve comparison is the separate §F.10 contract above.
-- *Étale cycle classes and projective-bundle normalization*: Supplied by
-  ClassicalAdicEtaleCohomology §0.9 / `ClassicalAlgebraic.cycleClasses`,
-  `ClassicalAlgebraic.lciCycleClass`; *higher and adic Gysin formulas*: Supplied by
-  LefschetzPencilsAndVanishingCycles §F.6 / `VanishingCycles.smoothPairGysin`.
-  Finite classes require positive invertible order, regular-immersion classes carry their
-  locally Noetherian scope, and no purity assertion for singular pairs follows from a cycle class.
+- *Exact categorical Grothendieck groups and resolution comparison*:
+  [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) Layers 2–3,
+  implemented by `TauCeti.ExactK0`, `TauCeti.ExactK0.lift` and the resolution API.
+  Section 5.7 specializes these carriers to sheaves and constructs the geometric operations.
 
 The sites, the coefficient sheaves `𝔾_a`, `𝔾_m`, `μ_n`, Hilbert 90, the Kummer and Artin–Schreier
 sequences, `𝔾_m` on curves, Tsen and Brauer groups remain owned here, together with the Galois,
 limit, Hochschild–Serre, Gabber and hypercovering theorems for arbitrary abelian sheaves and the
 pro-étale site foundations. In particular, §§2.1–2.2 own `Sheaf.derivedPushforward`,
 `Sheaf.higherDirectImage` and `leray_spectral_sequence` for generic sites and abelian D⁺ complexes.
-The calculus Supplied by ClassicalAdicEtaleCohomology §0.4 / `ClassicalDerived.functorCoherence` is the distinct
-enhanced module-valued functor calculus; an exchange transformation becomes an equivalence only
-under its geometric theorem's hypotheses.
-
-The comparison Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.etaleProetaleAdicComparison`
-consumes §2.17's repleteness, w-contractible covers and left-completeness for its normalized
-bounded systems on locally Noetherian schemes. The compactification API Supplied by ComplexComparisonPartII
-§§C4.3b–C4.3c / `nagataCompactification`, `compactificationCommonRefinement` supplies §2.19's
-geometry for separated finite-type morphisms over qcqs bases. The maps of §0.29 apply to arbitrary
-characteristic-`p` schemes. The site equivalence of §0.23a consumes §0.23's geometry and preserves
-and reflects covers. Its sheaf and cohomology transport consequences belong to
-EtaleCohomologyFoundations. The curve theorem Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
-`VanishingCycles.curveEndomorphismTrace` consumes §§2.11, 2.16, 5.6 and 5.9 to compute smooth
-proper curve cohomology and compare it with Jacobian torsion for invertible `ℓ`.
-The twist Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.etaleTateTwists` is compared
-with our `muEtale` by §2.9's `mu_eq_etaleTateTwists`, identifying underlying abelian sheaves for
-invertible order.
-- *Néron models, abelian semistable reduction*: NeronModelsAndSemistableAbelianVarieties; *étale
-  supports, the étale `f^!`, absolute purity, perverse sheaves*: EtaleDualityAndPerverseSheaves;
-  *banded gerbes and their `H²` classification, Picard schemes over general bases,
-  characteristic-zero resolution*: AlgebraicModuliForArithmeticGeometry; *the full cotangent
-  complex*: DerivedDeRhamCohomology; *Néron–Severi groups*: AbelianSchemesAndArithmeticModuli;
-  *perfect-site quotient stacks*: GeometricSatakeAndFusion. These roadmaps import from this one and
-  are never cited as inputs.
+The scheme compactifications used in coherent duality are constructed in §0.30.
+Finite-module twists, finite and adic étale comparisons, trace formulas, complex comparison,
+Tate modules and étale cycle classes are downstream applications of these foundations;
+they are not prerequisites for any target here. Section 2.9 exports `muEtale`, and §2.11
+exports its Kummer sequence. The downstream twist owner identifies its degree-one twist
+with this sheaf for invertible order. The full derived de Rham theory extends the ordinary
+cotangent complex of §4.6.
 
 **Already stated or built elsewhere.** The following are stated by another roadmap or built in the
 pinned libraries; each is cited where it lives and is not a target here.
@@ -219,10 +170,6 @@ pinned libraries; each is cited where it lives and is not a target here.
   surjectivity of the projection and the orbit description of fibres:
   `TauCeti.AffineInvariantQuotient.quotient` and `.projection`
   (`TauCeti.AlgebraicGeometry.Quotient.Affine`, `.FiniteGroup.Affine`) and ModularCurves 0C.
-- The étale-to-pro-étale morphism, torsion comparison and lisse adic systems: Supplied by
-  LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.normalizedAdicSystems`,
-  `VanishingCycles.etaleProetaleAdicComparison`; the adic comparison is for locally Noetherian
-  schemes and normalized bounded systems with uniform cohomological and Tor intervals.
 - The cohomological Brauer group of a field as the Brauer group: `TauCeti.brauerCohomologyEquiv`
   (`TauCeti.Algebra.CrossedProduct.Comparison`) and QuadraticFormInvariants Layer 7B; the
   finite-field case `Subsingleton (BrauerGroup k)` is `TauCeti.subsingleton_brauerGroup_of_finite`.
@@ -234,10 +181,7 @@ pinned libraries; each is cited where it lives and is not a target here.
   ℤ`: `SchemeWeilDivisor.classGroupPicZeroAddEquivPicZero`,
   `weightedDegreeZeroQuotientAddEquivPicZero`, `picQuotientPicZeroAddEquivInt`
   (`TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.PicZero`); the rational points of the Jacobian as
-  degree-zero line bundles given a rational point: StableReduction contract J-D. The Jacobian's
-  degree-one étale comparison is Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
-  `VanishingCycles.curveEndomorphismTrace`, for smooth proper geometrically connected curves,
-  invertible `ℓ` and a chosen Tate coordinate, compatibly with all finite-level reductions.
+  degree-zero line bundles given a rational point: StableReduction contract J-D.
 - The relative Grassmannian: ModularCurves 0G. Regularity of stalks of smooth schemes and of
   blow-ups of nodes: `TauCeti.AlgebraicGeometry.isRegularRing_iff_isRegularLocalRing_stalk_Spec`,
   `isRegularLocalRing_stalk_of_smooth`, `TauCeti.NodeAlgebra.isRegularLocalRing_stalk_blowup_iff`.
@@ -306,11 +250,8 @@ here for the roadmaps that import them.
    `Sheaf.H`; for `O_X`-modules it is Tau Ceti's `Scheme.Modules.Cohomology`. Every cohomological
    statement says which coefficient regime it is in (`𝔾_m` and smooth groups, `p`-torsion in
    characteristic `p`, quasi-coherent, arbitrary abelian sheaves) and never transports a result across
-   regimes without a named comparison. Finite and adic coefficient extensions are supplied by
-   LefschetzPencilsAndVanishingCycles §§F.0–F.4 / `VanishingCycles.constructibleEtale`,
-   `VanishingCycles.constructibleDerivedCategory`, `VanishingCycles.adicRealization`;
-   ctf membership requires finite Tor amplitude, and adic systems retain uniform bounds and
-   coherent derived reductions.
+   regimes without a named comparison. Finite and adic coefficient extensions are downstream
+   consumers; their comparisons retain finite Tor amplitude and coherent derived reductions.
 3. Stacks are pseudofunctors with Mathlib's `IsStack`; representability of a morphism of presheaves
    means by schemes, of stacks by algebraic spaces; torsors are fppf torsors; group actions are on the
    left; group objects are `GrpObj` in the cartesian monoidal categories `Over S` (schemes, the
@@ -471,25 +412,6 @@ Picard–Brauer obstruction), E (abelian varieties), F (Abel–Jacobi). **From A
 classes), 12 (the dictionary). **From ClassFieldTheory** Layers 5 and 10 and **ProfiniteCohomology**
 Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 
-### From LefschetzPencilsAndVanishingCycles
-
-| Supplier | Interface and convention |
-| --- | --- |
-| Supplied by LefschetzPencilsAndVanishingCycles §§F.0–F.1 / `VanishingCycles.constructibleEtale`, `VanishingCycles.constructibleDerivedCategory`, `VanishingCycles.finiteCoefficientCohomology` | Finite module coefficients extend §§2.1–2.2's generic abelian D⁺ functors; global finite stratifications use Noetherian schemes, and ctf adds finite Tor amplitude without making invertibility part of constructibility. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.etaleTateTwists` | §2.9's `mu_eq_etaleTateTwists` compares underlying abelian sheaves for invertible order, using our `muEtale` and §2.11's Kummer theorem. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleBaseChange`, `VanishingCycles.properBaseChange`, `VanishingCycles.smoothBaseChange`, `VanishingCycles.etaleCompactSupports` | Proper exchange is for arbitrary torsion; smooth exchange has a smooth map and qcqs opposite map with sectionwise invertible torsion, while constructible lower-shriek exchange uses separated finite-type Noetherian maps and invertible finite ctf coefficients. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.3 / `VanishingCycles.etaleFiniteness`, `VanishingCycles.compactSupportFiniteness` | Geometric finiteness uses separably closed fields and invertible finite coefficients; perfect compact-support complexes do not require each cohomology module to be projective. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.adicRealization`, `VanishingCycles.etaleProetaleAdicComparison` | The realization consumes §2.17's topoi; locally Noetherian schemes, invertible `ℓ`, coherent reductions and uniform cohomological and Tor bounds specify its adic domain. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.6 / `VanishingCycles.smoothPairGysin`, `VanishingCycles.etaleGaussBonnet` | Higher and adic Gysin extend the finite cycle classes below; §5.10's Euler comparison is Gauss–Bonnet for a smooth proper surface over algebraically closed `k` with `ℓ` invertible. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`, `VanishingCycles.curveEndomorphismTrace`, `VanishingCycles.etaleTraceFormulaFinite`, `VanishingCycles.etaleTraceFormula`, `VanishingCycles.pointCountTrace` | Curve trace consumes our Kummer, curve `𝔾_m` and intersection theory; the finite-field formulas use compact support, descended ctf coefficients, perfect-complex traces and geometric Frobenius, acting on `ℚ_ℓ(1)` by `q⁻¹`, for all positive powers. |
-
-### From ComplexComparisonPartII
-
-| Supplier | Interface and convention |
-| --- | --- |
-| Supplied by ComplexComparisonPartII §§C4.3a–C4.3c / `Compactification`, `nagataCompactification`, `compactificationCommonRefinement` | §2.19 uses separated finite-type compactifications over qcqs bases and dense common refinements, proving the coefficient-specific coherent comparisons here. |
-| Supplied by ComplexComparisonPartII §§C6.0–C6.6 / `complexAlgebraicTopology`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison` | These consume our sites and abelian D⁺ functors on finite-type complex schemes; ordinary Artin comparison uses finite ctf objects, compact support requires separatedness, and adic comparison retains coherent reductions and uniform bounds. |
-
 ### Scheme and site contracts owned here
 
 | Section | Interface and convention |
@@ -498,29 +420,14 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | §0.29 / `SchemeFrobenius.absoluteFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`, `SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.iteratedSchemeFrobenius` | Arbitrary characteristic-`p` schemes have absolute and relative maps with distinct codomains; smooth pure relative dimension `d` gives finite locally free relative Frobenius of rank `p^d`. |
 | §0.29 / `SchemeFrobenius.qPowerFrobenius` | Over a field of order `q = p^a`, the specified absolute iterate is a map over that field. Its base change fixes extension-field scalars and is compared with relative Frobenius. |
 
-### From AbelianSchemesAndArithmeticModuli
-
-| Supplier | Interface and convention |
-| --- | --- |
-| Supplied by AbelianSchemesAndArithmeticModuli §A3.2 / `multiplicationAndDensity` and §A4.1 / `AbelianTate` | Jacobian torsion and Tate modules use invertible `ℓ`, with `T_ℓ A / ℓ^r ≅ A[ℓ^r]` at every level; the curve `H¹` comparison belongs to the separate §F.10 supplier above. |
-| Supplied by AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 / `End.trace`, `charpolyTate` | Algebraic endomorphism traces agree with Tate traces and their finite-level reductions for `ℓ` different from the field characteristic. |
-
-### From ClassicalAdicEtaleCohomology
-
-| Supplier | Interface and convention |
-| --- | --- |
-| Supplied by ClassicalAdicEtaleCohomology §0.4 / `ClassicalDerived.functorCoherence` | The enhanced module-valued calculus agrees with our §§2.1–2.2 generic abelian D⁺ calculus after coefficient forgetting; constructing exchange does not assert its invertibility. |
-| Supplied by ClassicalAdicEtaleCohomology §§0.7–0.8 / `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports` | Étale module localization and compactification-defined D⁺ torsion `Rf_!` have this owner; proper supports uses separated finitely presented maps between qcqs schemes, while our §2.19 owns coherent `f^!`. |
-| Supplied by ClassicalAdicEtaleCohomology §0.9 / `ClassicalAlgebraic.cycleClasses`, `ClassicalAlgebraic.lciCycleClass` | Our Chow and Chern classes have this étale realization for positive invertible coefficient order, with qcqs cycle/projective-bundle scope and locally Noetherian regular-immersion scope; a class on a singular pair carries no purity claim. |
-
-### From other open roadmap pull requests
+### Other supplier contracts
 
 | Supplier | Interface consumed here | Convention and scope bridge |
 | --- | --- | --- |
-| AbundanceStatement §4A / items 2–4 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.9's characteristic-zero divisor/curve degree realization, line-bundle compatibility and vanishing on principal divisors | On smooth projective surfaces over algebraically closed characteristic-zero fields, compare normalized degree with §3.3's Euler degree once. Arbitrary-field local-length and arithmetic formulas remain §5.9 targets. |
-| AbundanceStatement §4B / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. §5.10 owns the single, characteristic-independent carrier `Chow.NumericallyEquivalent` / `Num S`; *numericalQuotient_abundanceComparison* identifies its characteristic-zero specialization and scalar extensions with the supplier's quotients. Both Hodge targets use this carrier in every characteristic. |
-| AbundanceStatement §4B / item 2 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero finite generation and real finite-dimensionality | Use the integral group of §4B / item 1. Torsion-freeness and integral freeness require the separate argument in §5.10; positive-characteristic surface finiteness remains a target here. |
-| AbundanceStatement §4D / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak) | §5.10's characteristic-zero Nakai–Moishezon criterion, including restriction to integral subvarieties | Compare intersection numbers through §4A / items 2–4 and ampleness with StableReduction Layer 2's positive-power very-ample convention. The positive-characteristic surface criterion is built here. |
+| AbundanceStatement §4A / items 2–4 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.9's characteristic-zero divisor/curve degree realization, line-bundle compatibility and vanishing on principal divisors | On smooth projective surfaces over algebraically closed characteristic-zero fields, compare normalized degree with §3.3's Euler degree once. Arbitrary-field local-length and arithmetic formulas remain §5.9 targets. |
+| AbundanceStatement §4B / item 1 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. §5.10 owns the single, characteristic-independent carrier `Chow.NumericallyEquivalent` / `Num S`; *numericalQuotient_abundanceComparison* identifies its characteristic-zero specialization and scalar extensions with the supplier's quotients. Both Hodge targets use this carrier in every characteristic. |
+| AbundanceStatement §4B / item 2 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero finite generation and real finite-dimensionality | Use the integral group of §4B / item 1. Torsion-freeness and integral freeness require the separate argument in §5.10; positive-characteristic surface finiteness remains a target here. |
+| AbundanceStatement §4D / item 1 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero Nakai–Moishezon criterion, including restriction to integral subvarieties | Compare intersection numbers through §4A / items 2–4 and ampleness with StableReduction Layer 2's positive-power very-ample convention. The positive-characteristic surface criterion is built here. |
 
 ## How to read the build
 
@@ -724,7 +631,8 @@ Ceti `FinitelyPresentedSheaf`; JacobianChallenge Layer B.
 
 *Lean:* `PseudoCoherence.IsPseudoCoherentModule`, `PseudoCoherence.IsPseudoCoherentSheaf`,
 `PseudoCoherence.isPseudoCoherentSheaf_iff_affineOpens`, with the extension-by-zero Check as an
-`example`. The predicates `Module.IsPseudoCoherent`, `Scheme.Modules.IsPseudoCoherent` and the API
+`example`, together with the free, zero, dual-number and finite-presentation controls.
+The predicates `Module.IsPseudoCoherent`, `Scheme.Modules.IsPseudoCoherent` and the API
 above are specified in this README only.
 
 ### 0.6 Reflexive sheaves, reflexive hulls and Hartogs
@@ -1038,7 +946,8 @@ the universal property, with `map_comp_unit`, `map_extended_le`, `map_id`, `map_
 `Henselization.neighbourhood_isFiltered`, `Henselization.neighbourhood_essentiallySmall`,
 `Henselization.diagram`, `Henselization.algebra`, `Henselization.extended`,
 `Henselization.henselian`, `Henselization.existsUnique_lift`, `Henselization.fixed_of_henselian`;
-the three `(ℤ, (5))` neighbourhood Checks and `henselization_unit_ideal` are `example`s.
+the identity and three `(ℤ, (5))` neighbourhood Checks, the zero- and unit-ideal
+henselizations, the fixed-pair case and the finite-field case are `example`s.
 
 ### 0.13 Ind-étale algebras and the properties of the henselization
 
@@ -1464,9 +1373,8 @@ universal injectivity with the scheme property. The same comparison transports
 CommRingFactorizationSystems F2 / `CommRingCat.WeakNormalization.univHomeo_of_surjective_of_isNilpotent_ker`
 to the affine case of `of_isThickening` for a surjection with elementwise nil kernel; no uniform
 nilpotence exponent is required. Nonaffine gluing and the scheme-level API are owned here.
-The topological invariance of the small étale site is Supplied by
-LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence`,
-which consumes this subsection's geometry and requires no finiteness or invertibility hypothesis.
+The topological invariance of the small étale site is constructed in §0.23a from this
+subsection's geometry, without finiteness or invertibility hypotheses.
 *Needs:* Mathlib
 `MorphismProperty.universally`, `AlgebraicGeometry.topologically`, `UniversallyClosed`,
 `IsIntegralHom`.
@@ -1535,8 +1443,8 @@ canonical comparison isomorphisms.
 
 ### 0.24 Perfect schemes and perfection
 
-Let `p` be a prime. The absolute Frobenius `F_X : X → X` is Supplied by
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`; its arbitrary
+Let `p` be a prime. The absolute Frobenius `F_X : X → X` is constructed in
+§0.29 / `absoluteFrobenius`; its arbitrary
 characteristic-`p` scheme domain includes every scheme over `𝔽_p` used here.
 Define `Scheme.IsPerfect X` for `X` over `𝔽_p`: `F_X` is an
 isomorphism (Bhatt–Scholze 2017, Definitions 3.1, 3.2, p. 10). API: `isPerfect_iff_perfectRing`
@@ -1557,10 +1465,9 @@ immersions, immersions, étale maps and (faithful) flatness, without asserting t
 converses (Lemma 3.4 (viii)–(xii)). For étale maps the perfection square is cartesian
 (the proof of (xi)); finite étale preservation follows also from integrality.
 The equivalence of small étale sites is Theorem 3.7, applying the unrestricted universal-homeomorphism
-equivalence to `perfection.toScheme`. *Needs:* §0.23; Supplied by
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`;
-Supplied by LefschetzPencilsAndVanishingCycles §F.0 /
-`VanishingCycles.universalHomeomorphismEtaleEquivalence`; Mathlib
+equivalence to `perfection.toScheme`. *Needs:* §0.23;
+§0.29 / `absoluteFrobenius`;
+§0.23a / `universalHomeomorphismEtaleEquivalence`; Mathlib
 `PerfectRing`, `PerfectClosure`, `IsReduced`, `Limits`.
 
 **Checks.**
@@ -1649,7 +1556,7 @@ not uniqueness after forgetting the generic-field data. Prove
 `frobenius_factors_through_universalHomeomorphism`: for `g : Y → X` a finite universal
 homeomorphism of `𝔽_p`-schemes of finite type, some power of `F_X` factors through `g`
 (Bhatt–Scholze 2017, proof of Proposition 11.41, p. 53). *Needs:* §0.23, §0.24, §0.25;
-Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`,
+§0.29 / `absoluteFrobenius`,
 `iteratedSchemeFrobenius`, on the characteristic-`p` schemes used here;
 Mathlib `Etale`, `AffineSpace`, `WittVector`, `IsReduced`, `IsFinite`.
 
@@ -1929,10 +1836,77 @@ integers (§0.13); `ℤ` and every field are excellent, Nagata, universally cate
 
 Mathlib and Tau Ceti as listed under supplier contracts; AlgebraicVectorBundles L0A–L2A (§§0.1–0.3);
 StableReduction Layer 2 (§0.3); JacobianChallenge Layer B (§§0.4–0.6); ModularCurves 4D (§0.10);
-Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`,
-`iteratedSchemeFrobenius` (§§0.24–0.26, characteristic-`p` schemes); Supplied by
-LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence`
+§0.29 / `absoluteFrobenius`,
+`iteratedSchemeFrobenius` (§§0.24–0.26, characteristic-`p` schemes);
+§0.23a / `universalHomeomorphismEtaleEquivalence`
 (§0.24, with no coefficient restriction). No later layer of this roadmap.
+
+### 0.30 Scheme compactifications
+
+**Compactification objects — `Compactification`, `DenseCompactification`.**
+For a scheme morphism `f : X → S`, a compactification consists of `Xbar`, a quasi-compact open
+immersion `j : X → Xbar`, a proper map `p : Xbar → S`, and `j ≫ p = f`.
+`Compactification.Hom C D` consists of `h : C.Xbar → D.Xbar` fixing `X` and commuting with the
+maps to `S`. Construct identity and composition. The dense full subcategory requires `j` to
+be schematically dominant. Construct arbitrary base change of compactifications and restriction
+over base opens. The schematic closure of `j(X)` gives `Compactification.denseReplacement` and
+its map to the original compactification, preserving the entire open subscheme. For flat base
+change this closure commutes with pullback; for arbitrary base change use dense replacement
+again, with its canonical map to the pullback of the original dense replacement. Prove the
+identity and composition laws for these maps. Source: Stacks, §§29.6–29.7 (schematic images and
+density), §38.32 (compactifications). *Needs:* §0.9, scheme gluing and schematic images;
+Mathlib `IsSchemeTheoreticallyDominant`, `IsOpenImmersion`, `QuasiCompact`, `IsProper`.
+
+**Checks.**
+- A proper `f` has the dense identity compactification, with `j=id`.
+- `A¹_k ⊂ P¹_k` is dense and has boundary `∞`.
+- Closing `Spec k[t,ε]/(ε²)` in `P¹_{k[ε]/(ε²)}` retains its nilpotents.
+- After pulling `D(t) ⊂ Spec k[t]` back to `t=0`, the interior is empty and its dense
+  replacement is empty, although the pulled-back ambient scheme is a point.
+
+**Nagata existence — `nagataCompactification`.**
+For `S` qcqs and `f : X → S` separated of finite type, construct a compactification and its
+dense replacement. Finite presentation is not assumed. Build the extension of admissible
+blowups across quasi-compact opens, the separation of disjoint constructible closures by
+blowups, and the gluing of compactifications after blowups. Use these to extend a
+compactification across a two-open cover. The qcqs case uses §0.9's Noetherian approximation:
+embed `X` as a closed subscheme of a separated finitely presented scheme, descend that scheme,
+compactify at a Noetherian stage, then pull back and take schematic closure. Source:
+[Stacks, Theorem 38.33.8 (0F41)](https://stacks.math.columbia.edu/tag/0F41) and its preceding
+Lemmas 38.33.1–38.33.7. *Needs:* the compactification objects above, §0.9, schematic images;
+StableReduction Layer 4's blowups. The extension and gluing results specified here are targets
+of this subsection on those blowup carriers.
+
+**Checks.**
+- Proper `f` admits the identity choice over every qcqs base.
+- `A¹_k → Spec k` admits `A¹_k ⊂ P¹_k` over any field.
+- This affine-line compactification has a nonempty boundary, so its open immersion is not
+  surjective; existence does not assert properness of the original map.
+
+**Common refinements — `compactificationCommonRefinement`.**
+For separated finite-type `f : X → S`, `S` qcqs, and two compactifications, take the schematic
+closure of the image of `X` in their product over `S`. Its projections are proper refinement
+maps fixing `X`, and its interior is schematically dense. Prove that every compactification
+morphism is proper, that finite diagrams admit dense refinements, and that the dense
+subcategory is nonempty and cofiltered. Two maps from a dense source to a compactification
+agree by separatedness and schematic density; for nondense sources equalize them after dense
+replacement. Supply compatible product and base-change cones; flat base change preserves the
+closure construction, and arbitrary base change is followed by dense replacement. Prove that
+any functor sending refinements to equivalences has canonical choice comparisons, independent
+of the refining cone and satisfying identity, inverse and three-choice cocycle laws. The
+coherent coefficient functor and its refinement equivalences are constructed in §2.19.
+Source: Stacks, Lemma 38.32.1 and §§29.6–29.7; §48.16 for the coherent application.
+*Needs:* the preceding compactification objects and existence theorem; proper products,
+separated diagonals, schematic closure and Mathlib's category API.
+
+**Checks.**
+- Refining a dense compactification with itself recovers it and its identity comparison.
+- For the two embeddings of `G_m` in `P¹` given by `t` and `t⁻¹`, the closure of their
+  joint graph in `P¹ × P¹` gives a common refinement fixing the specified interior.
+- A compactification with an extra disjoint proper component need not have unique maps out
+  of it fixing the interior; dense replacement removes the component and restores uniqueness.
+- Three choices yield the same comparison through any dense common refinement, testing the
+  cocycle rather than only pairwise existence.
 
 ## Layer 1: descent, algebraic spaces and stacks
 
@@ -2030,8 +2004,9 @@ and *isAlgebraicSpace_of_etale_cover* (fppf-local nature, used by §1.2). *Needs
 - *IsAlgebraicSpace.test_field*, `test_empty`, `test_nonreduced`, `test_arbitrary_scheme`: `h_X` is
   an algebraic space for every scheme `X`.
 - *IsAlgebraicSpace.test_not_sheaf*: the presheaf quotient of `h_{Spec L}` by `Gal(L/K)` for a
-  quadratic Galois extension is not an fppf sheaf, hence not an algebraic space, although it has
-  representable diagonal and an étale atlas.
+  quadratic Galois extension is not an fppf sheaf, hence not an algebraic space, and its diagonal is not representable. On `Spec L ⊔ Spec L`, the lifts
+  `(id,id)` and `(id,σ)` have quotient classes agreeing on both components but differing globally,
+  so their equality presheaf is not a sheaf.
 - *IsAlgebraicSpace.test_constant_not_sheaf*: the constant presheaf `T ↦ {0, 1}` is not an fppf
   sheaf (a sheaf takes the empty scheme to a point), hence not an algebraic space.
 
@@ -2540,7 +2515,8 @@ scheme `Y/Γ` with `q : Y → Y/Γ` finite, surjective and `Γ`-invariant, `O_{Y
 The invariant algebra `(⊕_{k ≥ 0} f_* M^{⊗k})^Γ` is a finitely generated graded `O_S`-algebra whose
 `N`-th Veronese subalgebra is generated in degree one for some `N > 0`; `Y/Γ` is a closed subscheme
 of its relative `Proj` (§0.3), so `Y/Γ → S` is projective, and the restriction `L_Q` of `O(1)` is an
-ample invertible sheaf with `q^* L_Q ≅ M^{⊗N}` compatibly with the linearizations (Rydh 2013,
+invertible sheaf relatively ample over `S`, with `q^* L_Q ≅ M^{⊗N}` compatibly with the
+linearizations (Rydh 2013,
 Proposition (3.8), p. 13, Definition (3.17), p. 18, Lemma (4.3) and Theorem (4.4), p. 20,
 Proposition (4.7), case (B′), and its proof, pp. 20–22, Remark (4.9)(4), pp. 22–23; Stacks,
 Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base change on `S` only
@@ -2548,6 +2524,9 @@ Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base
 `TauCeti.AffineInvariantQuotient`.
 
 **Checks.**
+- `Quotient.test_relative_ampleness`: for `Y=S=ℙ¹_k`, `f=id`, `Γ=1`, and `L=O(−1)`,
+  the quotient is projective over `S` and `L_Q=O(−N)` is relatively ample but not absolutely ample.
+  Over the affine base `Spec ℤ[1/m]`, relative ampleness does imply absolute ampleness.
 - `Quotient.test_finite_affine`: for a finite group `Γ` acting on `Spec A`, `Spec A → Spec A^Γ` is a
   geometric quotient: two primes with the same contraction to `A^Γ` are conjugate, and
   `O_{Spec A^Γ} = (π_* O)^Γ`; this is Tau Ceti's `TauCeti.AffineInvariantQuotient.quotient` and
@@ -3106,22 +3085,9 @@ duality for schemes; the Brauer group of a scheme by Azumaya algebras with its c
 Complexes are cohomologically indexed. `D(O_X)` is Mathlib's `DerivedCategory X.Modules`;
 `D_QCoh(O_X)` its full subcategory of complexes with quasi-coherent cohomology sheaves; `f^!` is
 defined on `D⁺_QCoh` for separated morphisms of finite type between Noetherian schemes. `G_K` is
-Mathlib's `Field.absoluteGaloisGroup`. Finite-coefficient étale cohomology, base change, compact
-support and adic realization are Supplied by LefschetzPencilsAndVanishingCycles §§F.0–F.4 /
-`VanishingCycles.constructibleEtale`, `VanishingCycles.constructibleDerivedCategory`,
-`VanishingCycles.etaleBaseChange`, `VanishingCycles.etaleCompactSupports`,
-`VanishingCycles.etaleFiniteness`, `VanishingCycles.adicRealization`;
-proper exchange allows arbitrary torsion, while finite ctf operations and normalized adic systems
-retain their invertibility and Tor bounds. Scheme Frobenius is Supplied by
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`, `relativeFrobenius`,
-`qPowerFrobenius`, with relative twists and finite-field cardinality explicit.
-Artin comparison is Supplied by ComplexComparisonPartII §§C6.3–C6.6 / `artinComparison`,
-`artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`, for finite-type
-complex schemes with ctf coefficients and separatedness for compact support.
-Trace formulas are Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
-`VanishingCycles.etaleTraceFormulaFinite`, `VanishingCycles.etaleTraceFormula`,
-`VanishingCycles.pointCountTrace`, using descended coefficients, compact support and geometric
-Frobenius for every positive power. Affine acyclicity, the Čech computation, flat
+Mathlib's `Field.absoluteGaloisGroup`. Finite-coefficient and adic étale cohomology, Artin comparison
+and trace formulas are downstream consumers. Scheme Frobenius is §0.29's scheme-level API,
+with relative twists and finite-field cardinality explicit. Affine acyclicity, the Čech computation, flat
 base change and Jacobians are JacobianChallenge Layers A–D, and so are general proper coherence and
 coherent higher direct images (its Layer C, in the shared `Cohomology/{Proper,Pushforward}.lean`);
 the relative dualising sheaf of a proper flat finitely presented Gorenstein curve is StableReduction
@@ -3157,15 +3123,9 @@ sheafification of `V ↦ H^i(u(V), F)`), `higherDirectImage_δ` (long exact sequ
 Rg_* Rf_*`, pushforward preserves injectives) (Stacks, Lemma 21.7.4 (072W) for the sheafification
 description; for abelian sheaves the morphism of ringed topoi is flat, so `f_*` preserves injectives
 by Lemma 21.14.2 (0730)). This subsection and §2.2 own the generic site/D⁺ construction,
-including its small-étale specialization. The contracts Supplied by LefschetzPencilsAndVanishingCycles
-§§F.1–F.2 / `VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange`
-are the finite-module and geometric exchange extensions of these functors; defining the
-pushforward or exchange map requires no coefficient invertibility. Here prove
-*higherDirectImage_etaleComparison*: in the common bounded-below regime, identify that owner's
-underlying abelian derived pushforward and cohomology with restriction of this construction to
-small étale sites, naturally in morphisms and coefficient-forgetting maps. The coefficient-specific
-extensions have the same §§F.1–F.2 owner and retain their stated constructibility, Tor and
-geometric hypotheses; they introduce no separate generic site functor.
+including its small-étale specialization. Downstream finite-module extensions compare their
+coefficient-forgetting functors with this construction, naturally in maps of schemes and
+coefficients, retaining their constructibility and Tor hypotheses.
 *Needs:* Mathlib
 `Sheaf.H`, `Sheaf.H.map`, `Sheaf.H.equiv₀`, `Functor.sheafPullback`, `sheafPushforwardContinuous`,
 `Functor.rightDerived`, `IsGrothendieckAbelian`, `HasExt`.
@@ -3473,15 +3433,12 @@ Lemma 35.8.1, and the same O-linear Hom comparison applies to the fpqc carrier).
 additive), `Gm S` (`T ↦ Γ(T, O_T)^×`) and `mu S n` for every integer `n ≥ 1` (`T ↦ {t ∈ Γ(T, O)^× :
 t^n = 1}`), sheaves of abelian groups on the big fpqc site over `S`, and their restrictions `GmEtale
 X`, `muEtale X n` to the small étale site (Stacks, Section 59.28 (03PK)). API: `Gm_obj`, `powHom S
-n`, `mu_eq_ker_pow` (`μ_n = ker(n : 𝔾_m → 𝔾_m)`), `Gm_restrict_small`, `mu_eq_etaleTateTwists`
-(for `n` invertible on `S`, identify `muEtale S n` with the underlying abelian sheaf of the
-`ℤ/n` degree-one twist, through coefficient forgetting). The finite-module twist API is Supplied by
-LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.etaleTateTwists` and uses this same
-`muEtale`; its annihilator must be invertible on `S`. `μ_n` here
+n`, `mu_eq_ker_pow` (`μ_n = ker(n : 𝔾_m → 𝔾_m)`), `Gm_restrict_small`.
+The downstream finite-module twist construction consumes `muEtale` for invertible order.
+`μ_n` here
 is defined for every `n`, as a subsheaf of `𝔾_m` on the fppf site; it is representable by
 `Spec_S O_S[t]/(t^n − 1)` and is not étale when `n` is not invertible. *Needs:* §0.4; Mathlib
-`fpqcTopology`, `Over`, `rootsOfUnity`; Supplied by LefschetzPencilsAndVanishingCycles §F.0 /
-`VanishingCycles.etaleTateTwists` (underlying-coefficient comparison for invertible `n` only).
+`fpqcTopology`, `Over`, `rootsOfUnity`.
 
 **Checks.**
 - `bigStructureSheaf_field`: evaluation at `Spec k` over itself is the ring `k`.
@@ -3545,9 +3502,7 @@ and §1.15's `picEquiv` cite it. Prove `fppf_kummer_sequence`: for every integer
 `H¹_fppf(X, μ_n)` as pairs of a line bundle and a trivialisation of its `n`-th power: Lemma 59.28.5
 (040Q); all in Section 59.28 (03PK)); for `n` invertible on `X` the sequence is already exact on the
 étale site (Lemma 59.28.1 (03PL)), and the two agree through §2.10's comparison. Both Kummer
-statements are owned here. The contract Supplied by LefschetzPencilsAndVanishingCycles §F.0 /
-`VanishingCycles.etaleTateTwists` is the finite-module twist API consuming this theorem and
-§2.9's `muEtale`, with invertible annihilator. Prove
+statements are owned here and exported with §2.9's `muEtale` to the downstream twist theory. Prove
 `artinSchreier_sequence`: in characteristic `p` the sequence `0 → ℤ/p → 𝔾_a → 𝔾_a → 0`
 (`x ↦ x^p − x`) is exact on `X_ét` (Stacks, Section 59.63 (0A3J)), giving `H^q(X_ét, ℤ/p) = 0` for
 `q ≥ 2` and `X` affine, and the bound `H^q(X_ét, ℤ/p) = 0` for `q ≥ d + 2` for `X` quasi-compact and
@@ -3557,10 +3512,8 @@ quasi-separated of dimension `d` in characteristic `p`, that is `p`-cohomologica
 `f_*` is exact on abelian sheaves on the small étale sites and `R^q f_* = 0` for `q > 0`; for `f`
 integral, `f_*` commutes with arbitrary base change (Stacks, Lemma 59.55.1, Proposition 59.55.2,
 Lemmas 59.55.3–59.55.4 (03QN)); the pushforward along a morphism of small étale sites is the site
-functor owned by §2.1. The contracts Supplied by LefschetzPencilsAndVanishingCycles §§F.1–F.2 /
-`VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange` are its
-coefficient-specific extensions and consume this exactness theorem after forgetting finite
-module coefficients to abelian sheaves. *Needs:* §2.1, §2.9, §2.10; Tau Ceti `LineBundleClass`.
+functor owned by §2.1. Its coefficient-specific extensions are downstream consumers of this
+exactness theorem after forgetting module coefficients to abelian sheaves. *Needs:* §2.1, §2.9, §2.10; Tau Ceti `LineBundleClass`.
 
 **Checks.**
 - `hilbert90_test_affine`: for `X = Spec A`, `H¹(X_ét, 𝔾_m) ≅ CommRing.Pic A`.
@@ -3787,9 +3740,7 @@ Definition 59.67.5, Theorems 59.67.8, 59.67.10, Lemmas 59.67.11–59.67.12 (0A2M
 Pic⁰(X) → Pic(X) → ℤ → 0`; and for `X` a smooth curve over a field `k` the cohomology of `𝔾_m` on
 `X_{k^s}` with its Galois action (Stacks, Theorem 59.68.1, Lemmas 59.68.2–59.68.4, Theorem 59.68.5
 (03RH)). The cohomology of `μ_n` on curves over an algebraically closed field follows from this
-theorem and the Kummer sequence (§2.11). The theorem Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
-`VanishingCycles.curveEndomorphismTrace` is the smooth proper geometrically connected curve
-comparison and trace route consuming both, for invertible `n = ℓ^r` with a chosen Tate coordinate.
+theorem and the Kummer sequence (§2.11). Curve trace comparisons are downstream applications.
 Prove
 `proper_hypercover_descent`: cohomological descent for proper hypercoverings: for a proper
 surjective `X_0 → X` and the associated hypercovering, `RΓ(X, F) = RΓ(X_•, F)` for every abelian
@@ -3824,13 +3775,8 @@ Prove `proetale_left_completeness`: `D(X_proét, Λ)` is left-complete for every
 unbounded derived category of pro-étale sheaves is compactly generated by the w-contractible objects
 (Bhatt–Scholze 2014, Proposition 3.3.3, p. 19, for left-completeness;
 [Proposition 3.2.3(2)](https://arxiv.org/html/1309.1198#S3.SS2), for compact generation). These three theorems are
-the foundations consumed by the finite/adic comparison Supplied by
-LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.etaleProetaleAdicComparison`,
-`VanishingCycles.normalizedAdicSystems`. That owner constructs `ν` and the torsion comparison
-`H^q(X_ét, F) = H^q(X_proét, ν^* F)`; its adic theorem uses locally Noetherian `X`, invertible `ℓ`
-and normalized bounded systems with uniform cohomological and Tor bounds. For an unbounded
-coefficient complex, the corresponding comparison equivalence is an explicit hypothesis in any
-application here. *Needs:* §0.13 (ind-étale
+foundations consumed by downstream finite and adic comparisons. An unbounded coefficient
+comparison is not a prerequisite for any assertion here. *Needs:* §0.13 (ind-étale
 algebras, for w-contractibility); Mathlib `ProEt.topology`, `Limits`, `Epi`, `DerivedCategory`.
 
 **Checks.**
@@ -3957,7 +3903,9 @@ Assume `Ext^i_{O_U}(K_U,K_U)=0` for all `U ∈ B`, `i<0`. Construct `K ∈ D(O_X
 `ρ_U : K|_U ≅ K_U` satisfying `ρ_V = ρ^U_V ∘ ρ_U|_V`, unique up to unique isomorphism
 compatible with every `ρ_U`. `Coherent.DerivedGluingData` packages the local `obj`,
 `transition` and `cocycle`; `Coherent.DerivedGluingSolution` packages the global `obj`,
-`iso` and `compatibility`.
+`iso` and `compatibility`. `Coherent.restrictedGluingData X B K` is the canonical
+restriction cocycle of a global object, using the inverse of `derivedRestrictOpens` for each
+transition; it supplies the cocycles in the shifted-line-bundle Checks.
 The basis can be infinite: it covers `X`, and each intersection is covered by basis members
 contained in it; no quasi-compactness or quasi-separatedness is assumed. Prove that restriction
 and refinement of the basis give the same solution up to the unique compatible isomorphism,
@@ -3996,11 +3944,11 @@ Here the schemes are Noetherian, so this is the usual lci condition
 (Stacks, §37.62, as used in Lemma 48.17.11). Define
 `upperShriek f : D⁺_QCoh Y ⥤ D⁺_QCoh X` for `f` separated of finite type between Noetherian
 schemes: choose a compactification `f = f̄ ∘ j` with `j` an open immersion and `f̄` proper
-(Supplied by ComplexComparisonPartII §C4.3b / `nagataCompactification`, whose separated
+(§0.30 / `nagataCompactification`, whose separated
 finite-type/qcqs domain includes these Noetherian schemes) and set `f^! := j^* ∘ a_{f̄}`;
 prove `upperShriek_compactification_independence`: `f^!` is independent of the compactification up
 to canonical isomorphism, with the pseudofunctor structure `(g ∘ f)^! ≅ f^! g^!` and its coherence,
-using common refinements Supplied by ComplexComparisonPartII §C4.3c /
+using common refinements §0.30 /
 `compactificationCommonRefinement`; dense replacement supplies the identity and cocycle
 comparisons, and the coherent coefficient argument is owned here (Stacks, Situation 48.16.1, Lemmas 48.16.2–48.16.5
 (0A9Y)). API: `upperShriek_proper` (`f^! ≅ a_f` for proper `f`), `upperShriek_openImmersion` and
@@ -4015,7 +3963,7 @@ The object `f^! O_Y` is tensor-invertible in the derived category, locally a shi
 ≅ ω_{X/Y}[d]`; [Stacks, Lemmas 48.17.9(5) and 48.17.11](https://stacks.math.columbia.edu/tag/0ATZ)), `upperShriek_unit`, `upperShriek_counit` (the adjunction maps on
 the proper part). The regime is bounded-below complexes with quasi-coherent cohomology on
 Noetherian schemes, separated finite-type morphisms; nothing is asserted for unbounded complexes or
-non-Noetherian bases. *Needs:* §2.18; Supplied by ComplexComparisonPartII §§C4.3a–C4.3c /
+non-Noetherian bases. *Needs:* §2.18; §0.30 /
 `Compactification`, `nagataCompactification`, `compactificationCommonRefinement` (separated
 finite type over a qcqs base); StableReduction
 Layer 1 (the sheaf of differentials, for `upperShriek_smooth`).
@@ -4278,7 +4226,12 @@ geometrically integral variety `X` over `k`, `X̄ = X_{k^s}`, and
 `Γ(X̄,O)^× = k^{s×}` (in particular for proper geometrically integral `X`),
 the exact sequence `0 → Pic(X) →
 Pic(X̄)^{G_k} → Br(k) → ker(Br′(X) → Br′(X̄)) → H¹(G_k, Pic(X̄)) → H³(G_k, k^{s×})` from §2.15's
-Hochschild–Serre (Harpaz–Wittenberg 2023, §3, display (3.1), Remark 3.1, pp. 8–9). *Needs:* §1.1,
+Hochschild–Serre spectral sequence and Hilbert 90. Source: David Harari,
+[Étale cohomology and Brauer groups](https://www.imo.universite-paris-saclay.fr/~david.harari/enseignement/m2brauer23/etalbrauer.pdf),
+Theorem 7.1 and Remark 3.35: the constant-unit hypothesis identifies the bottom row, and the
+low-degree edge sequence gives the displayed maps. Harpaz–Wittenberg 2023, §3, display (3.1),
+Remark 3.1, pp. 8–9, is the characteristic-zero homogeneous-space specialization with finite
+geometric stabilizer. *Needs:* §1.1,
 §2.4, §2.9, §2.11, §2.15; Mathlib `IsAzumaya`, `BrauerGroup`, `Matrix`; Tau Ceti
 `brauerCohomologyEquiv`, `subsingleton_brauerGroup_of_finite`; AlgebraicVectorBundles L0B.
 
@@ -4387,10 +4340,9 @@ Layer 0: §0.4–§0.5 (quasi-coherent modules, pseudo-coherence), §0.9 (limits
 (henselization and henselian pairs), §0.17–§0.18 (depth and Cohen–Macaulay). Layer 1: §1.1 (descent,
 in §2.22) and §1.18 (stacks in groupoids). Mathlib and Tau Ceti as listed;
 StableReduction Layers 1–2; JacobianChallenge Layer B; ProfiniteCohomology Layers 9–10;
-AlgebraicVectorBundles L0B; Supplied by ComplexComparisonPartII §§C4.3a–C4.3c /
+AlgebraicVectorBundles L0B; §0.30 /
 `Compactification`, `nagataCompactification`, `compactificationCommonRefinement` (§2.19,
-separated finite type over qcqs bases); Supplied by LefschetzPencilsAndVanishingCycles §F.0 /
-`VanishingCycles.etaleTateTwists` (§2.9, underlying abelian coefficients for invertible order).
+separated finite type over qcqs bases).
 ## Layer 3: curves, divisors and Picard objects
 
 The curve-and-Picard layer. Three Tau Ceti roadmaps already plan most of the theory of curves
@@ -4421,11 +4373,8 @@ AlgebraicVectorBundles L0B's `isFiniteLocallyFreeOfRank`. Abel–Jacobi with a b
 JacobianChallenge Layer F; the Abel maps here need no base point. Néron–Severi groups and Picard
 numbers are AbelianSchemesAndArithmeticModuli; coherent duality beyond curves is Layer 2; positivity
 beyond degree bounds is Layer 5; Picard schemes over general bases are
-AlgebraicModuliForArithmeticGeometry; models of curves are Layer 4. Tate modules are Supplied by
-AbelianSchemesAndArithmeticModuli §A4.1 / `AbelianTate`, for invertible `ℓ` with every finite-level
-reduction; the curve `H¹` comparison is Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
-`VanishingCycles.curveEndomorphismTrace`, for smooth proper geometrically connected curves with
-the chosen Tate coordinate and pullback/pushforward orientation retained.
+AlgebraicModuliForArithmeticGeometry; models of curves are Layer 4. Tate modules and their cohomological comparisons are downstream applications of the
+curve, Kummer and Picard theory here.
 
 ### 3.1 Curves are affine or projective; the genus under field extension
 
@@ -4611,13 +4560,16 @@ trivialisations are the determinants of `π_* L` relative to `π_* O_X` (Stacks,
 0BD2). API: `lineBundleNorm_tensor`, `_one` (a group homomorphism), `_pullback` (`Norm(π^* N) = N^{⊗
 d}` when `π.finrank` is constantly `d`), `_comp` (`Norm_{π∘ρ} = Norm_π ∘ Norm_ρ`), `_baseChange`,
 `_det` (`Norm_π(L) ⊗ det(π_* O_X) ≅ det(π_* L)`, with AlgebraicVectorBundles L0C's `determinant`),
-`sectionNorm` (the norm of a section `s` of `L` is a section of `Norm_π L` with divisor `π_*(div
-s)`), `lineBundleNorm_divisor` (`Norm_π O(D) = O(π_* D)` on regular curves). Hypotheses: `π` finite
+`sectionNorm` (every section `s` of `L` has a norm section of `Norm_π L`; when `s` is regular,
+its norm is regular and `div(Norm(s)) = π_*(div(s))`), `lineBundleNorm_divisor` (`Norm_π O(D) = O(π_* D)` on regular curves). Hypotheses: `π` finite
 locally free; where a degree appears it is `π`'s `finrank`, never a free parameter. *Needs:* §3.4;
 Mathlib `IsFinite`, `Flat`, `LocallyOfFinitePresentation`, `Scheme.Hom.finrank`;
 AlgebraicVectorBundles L0C; ModularCurves 0B.
 
 **Checks.**
+- `lineBundleNorm_zero_section`: for the identity of `ℙ¹_k` and `L=O`, the zero section has
+  norm zero, but its vanishing scheme is all of `ℙ¹_k`, not an effective Cartier divisor; the
+  divisor identity does not apply.
 - `lineBundleNorm_id`: `Norm_{𝟙} = 𝟙`.
 - `lineBundleNorm_field`: for `Spec L → Spec K` finite, the norm on units is Mathlib's
   `Algebra.norm`.
@@ -5014,11 +4966,18 @@ classes form a torsor under `Ext¹_B(NL_{B/A}, B ⊗_A I)`; infinitesimal
 automorphisms are `Hom_B(Ω_{B/A}, B ⊗_A I)`. Here `NL` is the two-term
 cotangent complex supplied by `Algebra.Extension.cotangentComplex`, using a free
 presentation and presentation independence (Stacks 08S7, 08S5, 0GPT).
-The general obstruction in `Ext²_B(L_{B/A}, B ⊗_A I)` uses the full cotangent
-complex owned by DerivedDeRhamCohomology, a supplier `Algebra.CotangentComplex` with
-simplicial polynomial resolutions, resolution independence, transitivity and the
-square-zero obstruction class of Stacks 08SP. The two-term supplier does not
-provide this general obstruction theory. Its exact declarations are
+Construct functorial augmented simplicial polynomial resolutions of every commutative
+`A`-algebra `B`, prove that their augmentations resolve `B`, and construct the ordinary
+`Algebra.CotangentComplex` `L_{B/A}` from their differential modules, with resolution-independent derived
+comparisons, `H⁰=Ω_{B/A}`, its truncation comparison with `NL`, functoriality, transitivity
+triangles and Tor-independent derived base change (Stacks, Chapter 92, §§92.4, 92.7–92.8,
+92.15). For `A' → A` square-zero with kernel `I`, and `B` flat over `A`, construct the
+canonical obstruction in `Ext²_B(L_{B/A}, B ⊗_A I)`. Its vanishing is equivalent to a flat
+`A'`-algebra lift with specified reduction to `B`; when it vanishes the lift classes and
+automorphisms are `Ext¹` and `Ext⁰`, respectively (Stacks, Lemma 92.16.1 (08SP)).
+This ordinary construction and its obstruction API are owned here. Derived de Rham
+constructions are downstream consumers. The two-term complex alone does not provide
+the general `Ext²` obstruction. The pinned two-term declarations are
 `Algebra.Extension.cotangentComplex`, `exact_cotangentComplex_toKaehler` in
 `Mathlib/RingTheory/Extension/Cotangent/Basic.lean`; §4.6 packages this map in
 degrees `−1,0` before taking `Ext¹`. Prove
@@ -5044,6 +5003,12 @@ convention is the rational split-node convention used in §4.18. *Needs:* §2.6,
 `Algebra.Extension.cotangentComplex` (`NL`), `Ext`; StableReduction Layers 1, 3.
 
 **Checks.**
+- `cotangent_polynomial`: for `B=A[x₁,…,x_n]`, `L_{B/A}=B^n[0]`, with the coordinate
+  differentials as basis and zero positive obstruction groups.
+- `cotangent_regular_quotient`: for `B=A/(f)` with `f` a nonzerodivisor, `L_{B/A}=(f)/(f²)[1]`;
+  its `H⁻¹` need not vanish, unlike the smooth case.
+- `cotangent_identity`: `L_{A/A}=0`, and both the transitivity and base-change comparisons
+  reduce to the identity comparisons.
 - *algebra_deformation_test_smooth*: a smooth algebra deforms uniquely up to isomorphism (`NL`
   is `Ω` in degree `0`, its `Ext¹` vanishes; formal smoothness supplies existence).
 - `smooth_scheme_test_projective_line`: `ℙ¹` is rigid (`H¹(T) = 0`) and unobstructed.
@@ -5081,6 +5046,9 @@ level-preserving ones), `Spf.ofScheme` (for `I = 0`, `Spf A = Spec A`),
 `IsAdicComplete`, `AdicCompletion`, `Ideal.Quotient.factor`, `IsPullback`.
 
 **Checks.**
+- `adic_tower_cubic_rejected`: take `X₀=Spec k`, `X_n=Spec k[t]/(t³)` for `n≥1`, with the
+  origin inclusion followed by identity transitions. Every transition is a thickening, but
+  at `n=1` its kernel is zero while `(ker(X₀→X₂))²=(t²)≠0`; it is not an adic system.
 - `Spf.padicInt_points`: `Spf ℤ_p` has one point.
 - `Spf.discrete_eq_spec`: for `I = 0`, `Spf A = Spec A`.
 - `Spf.not_spec_powerSeries`: `Spf k[[t]]` has one point and `Spec k[[t]]` two.
@@ -5424,6 +5392,7 @@ projective space is an immersion (in particular a very ample system) (Stacks, Se
 
 ### 4.14 Hilbert and Quot schemes
 
+Let `S` be Noetherian throughout this subsection, including the Hom/Isom assertions and Checks.
 Prove `hilbert_quot_schemes`: for `X → S` projective with a relatively very ample `L`
 (StableReduction Layer 2) and `E` coherent on `X`, the Quot functor `Quot^{Φ, L}_{E/X/S}` of
 quotients with Hilbert polynomial `Φ` is representable by a projective `S`-scheme, hence
@@ -5911,8 +5880,10 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
   `k`.
 - `not_split_nodalCubic`: the nodal cubic over `k` with its node's branches defined over a
   quadratic extension is prestable and not split.
-- `split_after_extension`: `V(x² − a y²) ⊆ ℙ²_k`, `a` not a square, is not split over `k` and is
-  split over `k(√a)`.
+- `split_after_extension`: for `char k ≠ 2` and a nonsquare `a ∈ kˣ`,
+  `V(x² − a y²) ⊆ ℙ²_k` is prestable but not split, and becomes split over the finite separable
+  extension `k(√a)`. In characteristic two with `k=𝔽₂(s)` and `a=s`, its base change is a double
+  line, hence is not prestable.
 - `split_smooth`: a smooth family with geometrically irreducible fibres is split.
 - `node_local_structure_dvr_persistent`: for `R=k[[π]]`, the proper flat split
   prestable family `V(XY) ⊆ ℙ²_R` has node chart `NodeAlgebra R 0` and completed
@@ -6347,8 +6318,10 @@ Chern classes need it; AlgebraicModuliForArithmeticGeometry imports it. Define S
 ∩ α := p_*(c_1(O(1))^{e+i} ∩ p^* α)` and `Chow.chernClass E i`, the components of the inverse `c(E)
 = 1 + c_1(E) + ⋯` of the Segre series `s(E) = 1 + s_1 + ⋯`, acting on `CH_*(X)` (Fulton 1998,
 Proposition 3.1, Theorem 3.2; Stacks, Sections 42.37, 42.43 (02TZ, 02UK)). Hypotheses: `E` locally
-free of constant finite rank; Chern classes of coherent sheaves are defined only on smooth
-quasi-projective schemes through §5.7's `K_0`. API: `vanishing` (`c_i(E) = 0` for `i > rank`),
+free of constant finite rank. The projective-bundle formula for Segre classes applies to positive
+rank. In rank zero define `s₀(0)=c₀(0)=id` and `s_i(0)=c_i(0)=0` for `i>0`;
+`ℙ(0)=∅` does not compute the constant term by pushforward. Chern classes of coherent sheaves
+are defined only on smooth quasi-projective schemes through §5.7's `K_0`. API: `vanishing` (`c_i(E) = 0` for `i > rank`),
 `commutativity`, `projection_formula`, `pullback`, `whitney_sum` (`c(E) = c(E') c(E'')` for a short
 exact sequence), `splitting_principle` (there is a flat `f : X' → X` with `f^*` injective on `CH_*`
 and `f^* E` carrying a filtration with invertible quotients; Fulton, §3.2), `chernCharacterOp` and
@@ -6358,6 +6331,8 @@ the splitting principle, graded by degree, with `td_1 = c_1/2` and `td_2 = (c_1�
 L0B–L0C, L2A–L2B; StableReduction Layer 2.
 
 **Checks.**
+- `test_rank_zero_chern`: on `Spec k`, `ℙ(0)=∅`, `s₀(0)=c₀(0)=id` and all positive
+  classes vanish; Whitney sum with `0` gives `c(E ⊕ 0)=c(E)`.
 - `test_trivial`: `ℙ(O^{e+1}) = ℙ^e × X`; `test_point`: `CH_*(ℙ^e_k) = ℤ[h]/(h^{e+1})`;
   `test_rank_one`: `ℙ(L) ≅ X`; `test_hirzebruch`: `ℙ(O ⊕ O(1))` over `ℙ¹` has an intersection form
   different from `ℙ¹ × ℙ¹`.
@@ -6598,10 +6573,21 @@ meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multipliciti
 
 ### 5.7 Coherent and perfect classes: `K_0`, `G_0` and the K-theoretic pushforward
 
-Define `Chow.K0 X`: the Grothendieck group of finite locally free sheaves on `X` (the free abelian
-group on them modulo short exact sequences), a commutative ring under `⊗` with `[O_X] = 1`, and
-`Chow.G0 X`: the Grothendieck group of finitely presented (on a Noetherian `X`, coherent)
-sheaves, a `K0 X`-module. API: *K0.pullback* (`f^* : K_0(Y) → K_0(X)`, a ring map), *K0.rank*,
+Define `Chow.K0 X` and `Chow.G0 X` by specialization of
+[GrothendieckEulerForms](../GrothendieckEulerForms/README.md) Layer 2's exact Grothendieck group,
+using the induced exact structures on the extension-closed full subcategories of finite locally
+free and finitely presented module sheaves, respectively. Use AlgebraicVectorBundles L0B's
+`FiniteLocallyFreeSheaf X` and the native finitely presented sheaf carrier; on Noetherian `X`
+the latter is the abelian category of coherent sheaves. Conflations are exactly the ambient
+short exact sequences with terms in the chosen subcategory. The Lean interfaces
+`Chow.finitelyPresentedExact` and `Chow.finiteLocallyFreeExact` specialize
+`TauCeti.ExactStructure.abelian` via `ExactStructure.fullSubcategory`; `K0` and `G0` are
+`TauCeti.ExactK0` of these structures, with no second quotient presentation.
+Compare the Noetherian `G0` specialization with the owner's abelian-category construction,
+identifying sheaf classes and exact-sequence relations. Consume GrothendieckEulerForms Layer 3
+for finite-resolution comparison, with the finite locally free resolutions built here under
+the regularity and resolution-property hypotheses below. The geometric API here gives `K0`
+a commutative ring under `⊗`, with `[O_X]=1`, and `G0` a `K0`-module. API: *K0.pullback* (`f^* : K_0(Y) → K_0(X)`, a ring map), *K0.rank*,
 *K0.det* (the determinant homomorphism to the additive form of `Pic(X)`, using Tau Ceti's
 `LineBundleClass X`, taking a line-bundle generator to its isomorphism class), `K0.toG0` (the natural map `[E] ↦ [E]` on a Noetherian `X`), *G0.additivity* (short
 exact sequences), *Chow.kPushforward* (`f_! [F] := Σ (−1)^i [R^i f_* F]` for `f` proper with
@@ -6620,11 +6606,13 @@ between smooth quasi-projective varieties, `f_! : K_0(X) → K_0(Y)` is defined 
 the locally free sheaves themselves (SGA 6, Exposé 0, Appendice; Fulton 1998, §15.1, Example
 15.1.8). Prove `K0.toG0_not_injective_of_det`: for Noetherian `X`, a class `a ∈ K_0(X)` with
 `K0.toG0(a) = 0` and nontrivial determinant proves this map is not injective (the determinant
-homomorphism of Fulton 1998, §15.1). Define `chernCharacter : K_0(X) → A(X)_ℚ` for `X` smooth (a ring map, by the splitting
-principle, §5.4) and `chernClass_coherent` for coherent sheaves on smooth quasi-projective `X` as
+homomorphism of Fulton 1998, §15.1). Define `chernCharacter : K_0(X) → A(X)_ℚ` for `X` smooth of finite pure dimension (a ring map, by the splitting
+principle, §5.4). For arbitrary smooth schemes locally of finite type use the degreewise
+`chernCharacterOp` of §5.4. Define `chernClass_coherent` for coherent sheaves on smooth quasi-projective `X` as
 `c(F) := c(Σ (−1)^i [E_i])` for a locally free resolution, independent of the resolution by
 `K0.toG0_bijective` (Fulton 1998, §15.1, Example 15.1.5). *Needs:* §2.2, §2.6, §4.13, §5.4;
-AlgebraicVectorBundles L0B; JacobianChallenge Layer B; StableReduction Layer 2.
+AlgebraicVectorBundles L0B; JacobianChallenge Layer B; StableReduction Layer 2;
+GrothendieckEulerForms Layers 2–3 (`TauCeti.ExactK0` and finite-resolution comparison).
 
 **Checks.**
 - `test_K0_point`: `K_0(Spec k) = ℤ` by rank; `test_K0_pone`: `K_0(ℙ¹) = ℤ²` with basis `[O]`,
@@ -6651,7 +6639,18 @@ AlgebraicVectorBundles L0B; JacobianChallenge Layer B; StableReduction Layer 2.
 - `test_K0_G0_skyscraper`: on a smooth curve the skyscraper at a point is `[O] − [O(−P)]` in
   `K_0`, and its Chern character does not depend on the resolution.
 - `test_pushforward_pone`: for `f : ℙ¹ → Spec k`, `f_! [O(n)] = n + 1` in `K_0(Spec k) = ℤ`.
-- `test_chernCharacter_line`: `ch(L) = e^{c_1(L)}`.
+- `test_chernCharacter_line`: on a smooth scheme of finite pure dimension, `ch(L) = e^{c_1(L)}`.
+- `test_chernCharacter_unbounded_dimension`: on `X=⨿_{n≥0} ℙⁿ_k`, with `L|_{ℙⁿ}=O(1)`,
+  each degree `ch_i(L)` is nonzero on some component. These degreewise classes do not give an
+  element of the uncompleted direct sum over all degrees.
+- `resolutionProperty_doubled_plane_rejected`: glue two copies of `A²_k` away from the origin.
+  Every vector bundle is free: trivialize on the two affine planes by Quillen–Suslin, extend
+  the transition matrix and its inverse across the missing point by Hartogs, then change one
+  trivialization. The coherent ideal of only the first origin has global sections `(x,y)`;
+  at the second origin they cannot generate its stalk `O`, so it is no quotient of any vector
+  bundle. This regular Noetherian scheme fails the resolution property (Thomason–Trobaugh,
+  *Higher algebraic K-theory of schemes and of derived categories*, Exercise 8.6;
+  [Hoyois, Algebraic K-theory, Lecture 21](https://hoyois.app.uni-regensburg.de/SS20/ktheory/lect21.pdf)).
 - `resolutionProperty_affine`: `Spec A` has the resolution property for every ring `A`: a finitely
   presented module is `M~` with `M` a finitely presented `A`-module, a quotient of some `A^n`.
 - `resolutionProperty_empty`: the empty scheme has the resolution property, every module on it
@@ -6693,7 +6692,7 @@ quasi-projective; `f` projective; `ℚ`-coefficients. *Needs:* §2.2, §2.6, §4
 **Surface pairing.** *surface_pairing*
 Provides the characteristic-zero divisor/curve intersection as the degree of the restricted
 line bundle on the normalization.
-Supplied by AbundanceStatement §4A / items 2–4 (an open TauCetiRoadmap pull request by RoktimMascharak).
+Supplied by AbundanceStatement §4A / items 2–4 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)).
 The supplier uses integral projective curves over an algebraically closed characteristic-zero
 field and normalized degree; compare that degree with §3.3's Euler degree before using the
 surface pairing, and retain arbitrary-field local-length and arithmetic formulas here.
@@ -6744,8 +6743,7 @@ Serre duality `h²(D) = h⁰(K − D)` from §2.20 (Hartshorne 1977, V.1, Theore
 **Noether's formula** in the form `12 χ(O_S) = K² + deg c_2(T_S)` with `c_2(T_S)` the second Chern
 class of §5.4, an instance of Hirzebruch–Riemann–Roch (§5.8) for `E = O_S` (Fulton 1998, §15.2,
 Example 15.2.2); the identification of `deg c_2(T_S)` with the ℓ-adic Euler characteristic `Σ (−1)^i
-dim H^i(S, ℚ_ℓ)` is Supplied by LefschetzPencilsAndVanishingCycles §F.6 /
-`VanishingCycles.etaleGaussBonnet`, for a smooth proper surface over algebraically closed `k`
+dim H^i(S, ℚ_ℓ)` is a downstream étale Gauss–Bonnet comparison, for a smooth proper surface over algebraically closed `k`
 and `ℓ` invertible in `k`. Noether's algebraic formula here uses §5.8 independently of this
 étale comparison.
 
@@ -6769,7 +6767,7 @@ import is transported along this comparison; it does not define a second surface
 **Numerical Néron–Severi finiteness.** *Num.free_finiteRank*
 Provides finite generation of the characteristic-zero numerical divisor group and
 finite-dimensionality of its real span.
-Supplied by AbundanceStatement §4B / item 2 (an open TauCetiRoadmap pull request by RoktimMascharak).
+Supplied by AbundanceStatement §4B / item 2 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)).
 The supplier proves finite generation for projective varieties over algebraically closed
 characteristic-zero fields; torsion-freeness, integral freeness and positive-characteristic
 surface finiteness are separate targets here.
@@ -6797,7 +6795,7 @@ inequality `(D · H)² ≥ D² H²` for `H` ample follows (Exercise 1.9).
 
 **Nakai–Moishezon.** *nakai_moishezon*
 Provides the Nakai–Moishezon ampleness criterion on characteristic-zero smooth projective surfaces.
-Supplied by AbundanceStatement §4D / item 1 (an open TauCetiRoadmap pull request by RoktimMascharak).
+Supplied by AbundanceStatement §4D / item 1 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)).
 Specialize the supplier's subvariety intersection criterion to `D² > 0` and `D · C > 0`
 using §5.9's intersection bridge and StableReduction Layer 2's ampleness convention,
 retaining the positive-characteristic surface theorem here.
@@ -6837,7 +6835,7 @@ StableReduction Layer 2's notion ("some power is very ample"); it is not an inpu
 
 Prove `weil_bound_via_surfaces`: for `C` a smooth projective geometrically irreducible curve of
 genus `g` over `𝔽_q`, with `C̄ = C ×_{𝔽_q} 𝔽̄_q`, `S = C̄ × C̄`, `Γ ⊆ S` the graph of the `q`-power
-Frobenius `F : C̄ → C̄` (Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 /
+Frobenius `F : C̄ → C̄` (§0.29 /
 `qPowerFrobenius`, base-changed from `C/𝔽_q` so it fixes algebraic-closure scalars), `Δ` the
 diagonal, and for a point `P ∈
 C̄(𝔽̄_q)` the fibres `F_1 := {P} × C̄` and `F_2 := C̄ × {P}`: (i) `Γ · F_1 = 1` (one point `(P,
@@ -6869,10 +6867,9 @@ p. 37, applied to Frobenius on p. 38. Milne's horizontal `C_1 × {P}` is our `F_
 vertical `{P} × C_2` is our `F_1`; thus the degrees `q` and `1` must be swapped when translating
 his subscripts. The negative signs in `Γ_0² = −2gq` and `Δ_0² = −2g` agree with his nonnegative
 equivalence defect. The Weil-conjectures roadmap imports this as
-one of its two routes; the curve-cohomological route is Supplied by
-LefschetzPencilsAndVanishingCycles §F.10 / `VanishingCycles.curveEndomorphismTrace`, retaining
+one of its two routes; the curve-cohomological route is a downstream comparison retaining
 smooth proper geometric connectedness and invertible `ℓ`. *Needs:* §5.6, §5.9, §5.10, §3.3;
-Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `qPowerFrobenius`,
+§0.29 / `qPowerFrobenius`,
 `iteratedSchemeFrobenius` (the relative `q`-power map after base change from `𝔽_q`);
 Tau Ceti `WeierstrassCurve.hasse_bound`; AlgebraicCurves Layer 8.
 
@@ -6881,7 +6878,7 @@ Tau Ceti `WeierstrassCurve.hasse_bound`; AlgebraicCurves Layer 8.
   table needs a construction of `O(Γ)`, `O(Δ)` and the two fibre classes from a curve and its
   relative Frobenius, with Cartier-divisor and degree comparisons, which `intersectionNumber` (a
   pairing on line-bundle classes) does not supply. Those constructions are targets of
-  §5.6, using the scheme map Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 /
+  §5.6, using the scheme map §0.29 /
   `qPowerFrobenius` after base change from the finite field. The statement `weilBound_normalized_intersections` checks
   the signed normalization on the surface pairing conditional on the geometric table; it does
   not assert that arbitrary four line-bundle classes come from this geometry.
@@ -6929,7 +6926,7 @@ Layer 0: §0.2–§0.3 (relative Spec and Proj). Layer 2: §2.2, §2.6 (spectral
 quasi-coherent cohomology), §2.20 (duality on surfaces). Layer 3: §3.3–§3.4. Layer 4: §4.11
 (modifications), §4.13 (regular schemes). Mathlib and Tau Ceti as listed; AlgebraicVectorBundles
 L0B–L2B; StableReduction Layers 2, 4; JacobianChallenge Layer B; AlgebraicCurves Layer 8;
-Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `qPowerFrobenius`,
+§0.29 / `qPowerFrobenius`,
 `iteratedSchemeFrobenius` (§5.11 uses the finite-field map after base change);
 AbundanceStatement §§4A–4B and §4D for the characteristic-zero
 inputs identified in §§5.9–5.10.
@@ -6937,13 +6934,16 @@ inputs identified in §§5.9–5.10.
 ## Downstream consumers
 
 The perfectoid and adic roadmaps import henselization of pairs (§0.12), the excellence package
-(§0.21) and the pro-étale site foundations (§2.17). LefschetzPencilsAndVanishingCycles §§F.0–F.4 /
+(§0.21) and the pro-étale site foundations (§2.17). EtaleCohomologyFoundations §§F.0–F.4 /
 `VanishingCycles.constructibleEtale`, `VanishingCycles.etaleTateTwists`,
 `VanishingCycles.universalHomeomorphismEtaleEquivalence`,
 `VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange`,
 `VanishingCycles.etaleProetaleAdicComparison` consume our sites and abelian D⁺ functors
 (§§2.1–2.2), coefficient sheaves and Kummer theorem (§§2.9–2.11), universal-homeomorphism geometry
-(§0.23) and pro-étale foundations (§2.17), retaining their finite/adic coefficient hypotheses.
+(§§0.23–0.23a) and pro-étale foundations (§2.17), retaining their finite/adic coefficient hypotheses.
+Its compactification applications consume §0.30. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+consumes §0.29 for scheme Frobenius and constructs the group-specific Frobenius and Verschiebung.
+Derived de Rham and module-algebra constructions consume §4.6's ordinary cotangent inputs.
 LefschetzPencilsAndVanishingCycles §F.10 / `VanishingCycles.curveEndomorphismTrace` consumes
 §§2.11, 2.16, 5.6 and 5.9 for smooth proper geometrically connected curves and invertible `ℓ`;
 `VanishingCycles.etaleTraceFormulaFinite` uses our Noether normalization and dimension geometry.
