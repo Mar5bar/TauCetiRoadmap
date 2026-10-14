@@ -437,9 +437,12 @@ Its zero-box spaces consist of functions on vertices of each parity and
 are generally larger than ℂ. A connected planar subalgebra need not be
 the full graph planar algebra.
 
+Fix a spherical subfactor planar algebra P from S6 with modulus δ>0.
 Define the shaded right planar-module operad: replace the output disk's
 marked interval by a left wall with unshaded adjacent region; full-disk
 inputs carry P boxes and wall-attached semidisk inputs carry module boxes.
+An output or input semidisk with 2k string endpoints has type k and
+carries Mₖ; this fixes the exponent in its closure normalization.
 Its action is multilinear
 `(⊗ᵢ M_(kᵢ))⊗(⊗ⱼ P_(ℓⱼ,±ⱼ))→M_(k₀)` in the prescribed input order.
 Specify typed plugging, identities, reflection and input permutations.
@@ -450,21 +453,30 @@ make Mₖ finite-dimensional C*-algebras; closure maps
 Connectedness means `dim M₀=1`; identify M₀ with ℂ and normalize
 `trₖ=δ⁻ᵏTrₖ` as faithful tracial states. Define morphisms by linear
 dagger-preserving box maps intertwining every module tangle, and prove
-identity, composition and isomorphism transport. The level-zero identity
-is the simple basepoint in the category of projections.
+identity, composition and isomorphism transport. Connectedness fixes the
+unique level-zero root of the tower graph.
 
 Construct its Markov tower `M₀⊂M₁⊂⋯` using strand addition, with
 compatible tracial states and projections `eₙ∈M_(n+1)` for n≥1.
+These are the module-tower indices of the source: eₙ implements Eₙ.
+When comparing with S2's algebra tower, the projection implementing
+Mₙ→M_(n−1) there is labeled e_(n+1); keep this index shift explicit.
 Prove the normalized TL relations, `eₙxeₙ=Eₙ(x)eₙ` for x∈Mₙ,
 `E_(n+1)(eₙ)=δ⁻²`, and pull-down `M_(n+1)eₙ=Mₙeₙ`, where
 `Eₙ:Mₙ→M_(n−1)` is the trace-preserving expectation.
 Prove `tr_(n+1)(xeₙ)=δ⁻²trₙ(x)` and the matrix-block decomposition
-into the old ideal MₙeₙMₙ and its new simple summands. Define the
+into the old ideal MₙeₙMₙ and its new simple summands Y_(n+1), with
+Y₀=M₀ and Y₁=M₁. Define the
 pointed principal graph from those new summands and their Bratteli
 edges, and vertex dimensions `μ(v)=δᵏtrₖ(p)` for a minimal projection
 p representing v first at level k. Prove `δμ(v)=Σ_(w∼v)μ(w)`.
-Define the planar module's fusion graph as this tower graph and compare
-it with the strand action on its rectangular-box projection category.
+Define the planar module's fusion graph as this tower graph. A tower
+has finite depth when this pointed graph is finite, equivalently Yₙ=0
+at some level; prove vanishing then persists. Its depth is the largest
+k with Yₖ≠0. Construct P's regular right planar module Mₖ=P_(k,+)
+and define P's principal graph and depth by this tower, independently
+of S8's operator-algebra reconstruction. CA2b compares module tower
+graphs with the strand action on the module projection category.
 For finite-depth P prove the module tower has finite depth, bounded by
 the depth of P (Coles–Huston–Penneys–Srinivas Lemma3.12).
 
@@ -474,9 +486,23 @@ the sufficiently shifted standard finite-dimensional inclusion, the
 canonical relative-commutant planar algebra, its graph-loop identification
 and the string-adding embedding; prove injectivity and all operation
 comparisons. For a finite-depth subfactor planar algebra P and a connected
-right planar P-module, construct the embedding into the graph planar
-algebra of its finite fusion graph via the Markov tower just built.
-Prove the shifted inclusion, relative-commutant and tangle comparisons.
+right planar P-module, construct a planar *-algebra embedding
+`P→GPA(Γ_M)` via the Markov tower just built. Prove Γ_M is finite
+and connected and its positive δ-eigenvector μ is a Perron–Frobenius
+vector, hence `‖Γ_M‖=δ`; use this vector in the target state sums.
+Normalize μ at the module root to one. Define a strongly Markov
+finite-dimensional tracial inclusion of modulus δ by its canonical
+basic-construction trace: multiplication by δ⁻² normalizes that trace
+and its restriction is the given trace, and there is a finite
+Pimsner–Popa basis (bᵢ) with `Σᵢbᵢbᵢ*=δ²1`.
+Prove the equivalent conditional-expectation/basis identities.
+Choose a sufficiently large even
+shift so the adjacent finite-dimensional tower inclusion is strongly
+Markov. Construct its canonical relative-commutant planar algebra from
+the iterated basic construction, and identify it with GPA(Γ_M) using
+path matrix units. The right planar-module action with added strings
+defines the maps from P's boxes to these relative commutants. Prove
+injectivity and compatibility with every tangle, dagger and trace.
 Abstract pivotal
 module C*-categories and their equivalence with these modules belong to
 CategoricalOperatorAlgebras; the tower/planar-module construction here
