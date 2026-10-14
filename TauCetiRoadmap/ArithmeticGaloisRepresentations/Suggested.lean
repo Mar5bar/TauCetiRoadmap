@@ -1477,6 +1477,71 @@ theorem log_exp_and_exp_log {R V : Type*} [CommRing R] [Algebra ℚ R]
       IsNilpotent.exp (log u hu) = (u : Module.End R V) := by
   sorry
 
+-- The identity unit has zero logarithm over `ℚ`.
+example : log (1 : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ))
+    _root_.LinearMap.GeneralLinearGroup.isUnipotent_one = 0 := by
+  sorry
+
+-- The square-zero Jordan block gives a unipotent unit `1 + E₁₂` with logarithm `E₁₂`.
+example :
+    let N := Matrix.toLin' (!![(0 : ℚ), 1; 0, 0])
+    ∃ u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ),
+      (u : Module.End ℚ (Fin 2 → ℚ)) = 1 + N ∧ ∃ hu, log u hu = N := by
+  let N := Matrix.toLin' (!![(0 : ℚ), 1; 0, 0])
+  have hmat : (!![(0 : ℚ), 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = 0 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;> norm_num [pow_succ, Matrix.mul_apply, Fin.sum_univ_succ]
+  have hN : N ^ 2 = 0 := by
+    dsimp [N]
+    rw [← Matrix.toLin'_pow, hmat, map_zero]
+  have hunit := (show IsNilpotent N from ⟨2, hN⟩).isUnit_one_add
+  let u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ) := hunit.unit
+  have hu : _root_.LinearMap.GeneralLinearGroup.IsUnipotent u := by
+    change IsNilpotent ((hunit.unit : Module.End ℚ (Fin 2 → ℚ)) - 1)
+    rw [hunit.unit_spec]
+    simpa using (show IsNilpotent N from ⟨2, hN⟩)
+  refine ⟨u, hunit.unit_spec, hu, ?_⟩
+  sorry
+
+-- The length-three block retains the quadratic term in its logarithm.
+example :
+    let N := Matrix.toLin' (!![(0 : ℚ), 1, 0; 0, 0, 1; 0, 0, 0])
+    ∃ u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 3 → ℚ),
+      (u : Module.End ℚ (Fin 3 → ℚ)) = 1 + N ∧ ∃ hu,
+        log u hu = N - (1 / 2 : ℚ) • N ^ 2 := by
+  let N := Matrix.toLin' (!![(0 : ℚ), 1, 0; 0, 0, 1; 0, 0, 0])
+  have hmat : (!![(0 : ℚ), 1, 0; 0, 0, 1; 0, 0, 0] : Matrix (Fin 3) (Fin 3) ℚ) ^ 3 = 0 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;> norm_num [pow_succ, Matrix.mul_apply, Fin.sum_univ_succ]
+  have hN : N ^ 3 = 0 := by
+    dsimp [N]
+    rw [← Matrix.toLin'_pow, hmat, map_zero]
+  have hunit := (show IsNilpotent N from ⟨3, hN⟩).isUnit_one_add
+  let u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 3 → ℚ) := hunit.unit
+  have hu : _root_.LinearMap.GeneralLinearGroup.IsUnipotent u := by
+    change IsNilpotent ((hunit.unit : Module.End ℚ (Fin 3 → ℚ)) - 1)
+    rw [hunit.unit_spec]
+    simpa using (show IsNilpotent N from ⟨3, hN⟩)
+  refine ⟨u, hunit.unit_spec, hu, ?_⟩
+  sorry
+
+-- A square-zero operator has the unipotent square root `1 + N/2`.
+example (N : Module.End ℚ (Fin 2 → ℚ)) (hN : N ^ 2 = 0) :
+    ∃ u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ),
+      (u : Module.End ℚ (Fin 2 → ℚ)) = 1 + (1 / 2 : ℚ) • N ∧
+      _root_.LinearMap.GeneralLinearGroup.IsUnipotent u ∧
+      (u : Module.End ℚ (Fin 2 → ℚ)) ^ 2 = 1 + N := by
+  have hhalf : ((1 / 2 : ℚ) • N) ^ 2 = 0 := by
+    rw [_root_.smul_pow, hN, smul_zero]
+  have hunit := (show IsNilpotent ((1 / 2 : ℚ) • N) from ⟨2, hhalf⟩).isUnit_one_add
+  let u : _root_.LinearMap.GeneralLinearGroup ℚ (Fin 2 → ℚ) := hunit.unit
+  have hu : _root_.LinearMap.GeneralLinearGroup.IsUnipotent u := by
+    change IsNilpotent ((hunit.unit : Module.End ℚ (Fin 2 → ℚ)) - 1)
+    rw [hunit.unit_spec]
+    simpa using (show IsNilpotent ((1 / 2 : ℚ) • N) from ⟨2, hhalf⟩)
+  refine ⟨u, hunit.unit_spec, hu, ?_⟩
+  sorry
+
 end LinearMap.GeneralLinearGroup.IsUnipotent
 
 namespace GaloisRep
@@ -2602,7 +2667,7 @@ theorem carayol_conj_of_trace_eq {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [
 
 /-- The first step of the `GSp₄` semisimplicity criteria: if `char_ρ(Frob)(s(Frob)) = 0` at the
 Frobenius elements above a density-one set of primes then `char_ρ(g)(s(g)) = 0` for every `g`
-(BCGP 2025, §4.11). -/
+(BCGP25, §4.11). -/
 theorem aeval_charpoly_eq_zero_of_frobenius {E : Type*} [Field E] [TopologicalSpace E]
     [IsTopologicalRing E] [T2Space E] {n : ℕ}
     (ρ : Field.absoluteGaloisGroup ℚ →* GL (Fin 4) E) (s : Field.absoluteGaloisGroup ℚ →* GL (Fin n) E)
@@ -2618,7 +2683,7 @@ theorem aeval_charpoly_eq_zero_of_frobenius {E : Type*} [Field E] [TopologicalSp
   sorry
 
 /-- A potentially abelian irreducible `ρ` over an algebraically closed field of characteristic zero
-restricts to `G_L` as `⊕_{i=1}^b χᵢ^{⊕a}` with `ab = n` and the `χᵢ` distinct (BCGP 2025,
+restricts to `G_L` as `⊕_{i=1}^b χᵢ^{⊕a}` with `ab = n` and the `χᵢ` distinct (BCGP25,
 Lemma 10.2.3). -/
 theorem restrict_eq_sum_isotypic {F : Type*} [Field F] {E : Type*} [Field E] [IsAlgClosed E]
     [CharZero E] [TopologicalSpace E]
@@ -3012,8 +3077,9 @@ abbrev GSp (m : ℕ) (R : Type*) [CommRing R] : Subgroup (GL (Fin m ⊕ Fin m) R
 abbrev GO (m : ℕ) (R : Type*) [CommRing R] : Subgroup (GL (Fin m) R × Rˣ) :=
   groupScheme (1 : Matrix (Fin m) (Fin m) R) R
 
-/-- The Lie algebra `gsp/go = {X : Xᵀ J + J X = c J for some c}`; its kernel of `dν` is Mathlib's
-`skewAdjointMatricesSubmodule J`. -/
+/-- The matrix projection `{X : ∃ c, Xᵀ J + J X = c J}` of the similitude Lie algebra.
+For nonempty `n` and perfect `J`, this identifies with the full Lie algebra of `groupScheme J`;
+under that identification the kernel of `dν` is `skewAdjointMatricesSubmodule J` (§7.3). -/
 def lie (J : Matrix n n R) : Submodule R (Matrix n n R) where
   carrier := {X | ∃ c : R, Xᵀ * J + J * X = c • J}
   add_mem' := sorry
@@ -3035,6 +3101,15 @@ theorem mem_iff (J : Matrix n n R) (p : GL n R × Rˣ) (m : ℕ) (g : GL (Fin m 
         skewAdjointMatricesSubmodule J ⊔ Submodule.span R {(1 : Matrix n n R)} = lie J ∧
         skewAdjointMatricesSubmodule J ≤ lie J) := by
   sorry
+
+-- With zero Gram matrix in rank one, every infinitesimal multiplier projects to the same matrix.
+example : lie (0 : Matrix (Fin 1) (Fin 1) ℚ) = ⊤ ∧
+    ∀ c : ℚ, (0 : Matrix (Fin 1) (Fin 1) ℚ)ᵀ * 0 + 0 * 0 = c • 0 := by
+  constructor
+  · ext X
+    simp [lie]
+  · intro c
+    simp
 
 -- `GSp₂ = GL₂` with `ν = det`; `Sp_{2m}` is Mathlib's `Matrix.symplecticGroup`; over `F₂` the
 -- identity lies in `sp₄`, so `gsp = sp ⊕ R·1` needs `2 ∈ Rˣ`.
@@ -3080,8 +3155,8 @@ variable {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   [TopologicalSpace M] [IsModuleTopology A M]
 
 /-- A polarisation of `ρ ∈ ContinuousRep Δ A M` at an involution `c ∈ Γ` (`Δ ≤ Γ` open of index at
-most two; for a CM field `Γ = G_{F⁺}`, `Δ = G_F`, `c` a complex conjugation): a continuous
-multiplier `μ : Γ → Aˣ`, a perfect pairing with `⟨ρ(σ)x, ρ(cσc)y⟩ = μ(σ)⟨x, y⟩`, a sign `ε` with
+most two in the arithmetic case, and normalized by `c` in general; for a CM field `Γ = G_{F⁺}`,
+`Δ = G_F`, `c` a complex conjugation): a continuous multiplier `μ : Γ → Aˣ`, a perfect pairing with `⟨ρ(σ)x, ρ(cσc)y⟩ = μ(σ)⟨x, y⟩`, a sign `ε` with
 `⟨x, y⟩ = ε⟨y, x⟩`, and `ε = −μ(c)` when `c ∉ Δ` (BLGGT 2014, §2.1) (§7.4). -/
 structure PolarizedRep (Δ : Subgroup Γ) (ρ : ContinuousRep Δ A M) (c : Γ) where
   /-- The multiplier `μ : Γ → Aˣ`. -/
@@ -3094,9 +3169,11 @@ structure PolarizedRep (Δ : Subgroup Γ) (ρ : ContinuousRep Δ A M) (c : Γ) w
   sq_c : c ^ 2 = 1
   /-- Perfectness: `M → M^∨` is an isomorphism. -/
   pairing_perfect : Function.Bijective pairing
+  /-- Conjugation by `c` preserves `Δ`, so the conjugate representation is defined. -/
+  conj_mem : ∀ σ : Δ, c * (σ : Γ) * c ∈ Δ
   /-- Covariance `⟨ρ(σ)x, ρ(cσc)y⟩ = μ(σ)⟨x, y⟩`. -/
-  covariance : ∀ σ τ : Δ, (τ : Γ) = c * σ * c → ∀ x y : M,
-    pairing (ρ σ x) (ρ τ y) = (multiplier σ : A) * pairing x y
+  covariance : ∀ (σ : Δ) (x y : M),
+    pairing (ρ σ x) (ρ ⟨c * (σ : Γ) * c, conj_mem σ⟩ y) = (multiplier σ : A) * pairing x y
   /-- Symmetry with sign `ε`. -/
   symm : ∀ x y : M, pairing x y = ((sign : ℤ) : A) * pairing y x
   /-- The CM sign condition `ε = −μ(c)` when `c ∉ Δ`. -/
@@ -3109,10 +3186,12 @@ variable {Δ : Subgroup Γ} {ρ : ContinuousRep Δ A M} {c : Γ}
 /-- A polarised representation is essentially conjugate self-dual, `ρ^c ≅ ρ^∨ ⊗ μ|_Δ`; on a free
 carrier of rank `n`, `det ρ(cσc) det ρ(σ) = μ(σ)^n`. -/
 theorem essConjSelfDual (P : PolarizedRep Δ ρ c) :
-    (∃ e : M ≃ₗ[A] Module.Dual A M, ∀ σ τ : Δ, (τ : Γ) = c * σ * c → ∀ y : M,
-      e (ρ τ y) = (P.multiplier σ : A) • Representation.dual ρ.toRepresentation σ (e y)) ∧
-    ([Module.Free A M] → ∀ σ τ : Δ, (τ : Γ) = c * σ * c →
-      LinearMap.det (ρ τ) * LinearMap.det (ρ σ) = (P.multiplier σ : A) ^ Module.finrank A M) := by
+    (∃ e : M ≃ₗ[A] Module.Dual A M, ∀ (σ : Δ) (y : M),
+      e (ρ ⟨c * (σ : Γ) * c, P.conj_mem σ⟩ y) =
+        (P.multiplier σ : A) • Representation.dual ρ.toRepresentation σ (e y)) ∧
+    ([Module.Free A M] → ∀ σ : Δ,
+      LinearMap.det (ρ ⟨c * (σ : Γ) * c, P.conj_mem σ⟩) * LinearMap.det (ρ σ) =
+        (P.multiplier σ : A) ^ Module.finrank A M) := by
   sorry
 
 /-- For `c ∈ Δ` (totally real), `2 ∈ Aˣ` and `Spec A` connected, `ρ` is polarisable iff it preserves
@@ -3129,7 +3208,8 @@ and sign, for the multiplier `μ'` with `μ'(σ) = μ(σ) χ(σ) χ(cσc)` on `�
 `c ∉ Δ`. In the CM/index-two case, the tensor product of two polarisations is polarised with
 the product pairing, sign `εε'` and multiplier `μμ'δ` (§7.4, BLGGT 2014, §1.1). -/
 theorem exists_twist_tensor (P : PolarizedRep Δ ρ c) (χ : Δ →ₜ* Aˣ) (μ' : Γ →ₜ* Aˣ)
-    (hμ : ∀ σ τ : Δ, (τ : Γ) = c * σ * c → μ' σ = P.multiplier σ * χ σ * χ τ)
+    (hμ : ∀ σ : Δ,
+      μ' σ = P.multiplier σ * χ σ * χ ⟨c * (σ : Γ) * c, P.conj_mem σ⟩)
     (hc : c ∉ Δ → μ' c = P.multiplier c) :
     ∃ P' : PolarizedRep Δ (ρ.twist χ) c,
       P'.multiplier = μ' ∧ P'.pairing = P.pairing ∧ P'.sign = P.sign := by
@@ -3142,6 +3222,13 @@ def IsTotallyOdd (P : PolarizedRep Δ ρ c) (C : Set Γ) : Prop :=
 
 theorem isTotallyOdd_iff_multiplier (P : PolarizedRep Δ ρ c) (hc : c ∉ Δ) (C : Set Γ) :
     P.IsTotallyOdd C ↔ ∀ c' ∈ C, (P.multiplier c' : A) = -1 := by
+  sorry
+
+-- The transposition subgroup of `S₃` is not preserved by a different transposition.
+example :
+    let Δ : Subgroup (Equiv.Perm (Fin 3)) := Subgroup.zpowers (Equiv.swap 0 1)
+    let c : Equiv.Perm (Fin 3) := Equiv.swap 1 2
+    ¬ ∀ σ : Δ, c * (σ : Equiv.Perm (Fin 3)) * c ∈ Δ := by
   sorry
 
 -- A multiplier on a product of involutions squares to one over every commutative coefficient ring.
