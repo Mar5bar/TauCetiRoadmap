@@ -5,7 +5,8 @@ and `p`-divisible groups, and the integral `p`-adic Hodge theory that classifies
 algebra. It starts from Tau Ceti's finite locally free commutative group schemes over an affine base
 with Cartier duality, from ModularCurves' finite locally free group schemes and descent, and from
 the Barsotti–Tate interface of AbelianSchemesAndArithmeticModuli. Layer R07.1 builds the structure
-theory: absolute, relative and iterated Frobenius of characteristic-`p` schemes, Verschiebung,
+theory, preceded by the finite-K period structures, realization predicates and labelled Sen
+theory of §§R07.P2–R07.P5a and R07.P7.1–R07.P7.5: absolute, relative and iterated Frobenius of characteristic-`p` schemes, Verschiebung,
 étale and multiplicative groups and their rigidity, the general theory of `p`-divisible groups (levels, Cartier duality, Tate modules, connected–étale sequences,
 truncations), formal Lie groups and dimension, Tate's Hodge–Tate decomposition and his generic-fibre
 theorem, schematic closures and finite flat models, Raynaud's uniqueness theorem for `e < p − 1`,
@@ -38,6 +39,7 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
+| R07.P | Finite-K periods and labelled Sen theory | `aCris`, `bCris`, `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham`, `GaloisRep.deRhamSupplierEquiv` |
 | R07.1 | Scheme Frobenius, finite flat group schemes and `p`-divisible groups | `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius`, `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT`, `FormalLieGroup`, `tateSen`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
 | R07.2 | Dieudonné theory | `canonicalDecomposition`, `DieudonneRing`, `dieudonneEquivalenceFinite`, `dieudonnePDivisible`, `dieudonneManinClassification`, `isogenyClassification`, `hasseInvariant`, `btStackSmooth`, `BarsottiTate.universalCover`, `deJongDieudonneEquivalence` |
 | R07.3 | Filtered modules and Fontaine–Laffaille theory | `FilteredPhiNModule`, `FilteredPhiNModule.IsWeaklyAdmissible`, `dSt_isWeaklyAdmissible`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
@@ -124,7 +126,8 @@ point-counting applications consume these shared maps and comparisons.
   and agreement theorem.
 - TauCetiRoadmap.EllipticCurves Layer 4 (the Tate curve), TauCetiRoadmap.ProfiniteCohomology Layer 9
   (Hilbert 90 and Kummer theory) and TauCetiRoadmap.ClassFieldTheory Layers 5, 7 and 11 (local Tate
-  duality and the local and global Artin maps).
+  duality and the local and global Artin maps); ClassFieldTheory Layer 13 and GlobalNumberFields
+  Layers 9–10 supply the global character and Hecke infinity-type inputs of §R07.P7.3.
 
 **Imported from the arithmetic-geometry and representation-theory roadmaps.**
 
@@ -142,27 +145,22 @@ point-counting applications consume these shared maps and comparisons.
   fields, different-slope Hom vanishing and slope descent to perfect fields. §CR.7.2 owns the
   crystalline Dieudonné crystal of a Barsotti–Tate group, its
   variance, Frobenius, Verschiebung and twists, and Grothendieck–Messing deformation theory; §CR.7.3
-  owns relative crystalline direct images; Layer CR.0 owns divided-power envelopes and universal
+  owns relative crystalline direct images; DerivedDeRhamCohomology §§CR.0.3–CR.0.7 own divided-power envelopes and universal
   thickenings. The classical Dieudonné theory of R07.2 over a perfect field is the evaluation of
   that crystal at `W(k)`, and §R07.2 proves the classification theorems, which CR.7 does not state.
-- SelmerIwasawaCohomology Layer 4, for finite K/ℚ_p, owns `C_p`, the comparison of Mathlib's
-  `BDeRhamPlus`/`BDeRham`
-  with `A_inf` (§4.1), `A_cris` and `B_cris` (§4.2), the fundamental exact sequences (§4.3), the
-  invariants of the period rings (§4.4) and the covariant functors `D_cris`, `D_dR` with the
-  predicates crystalline and de Rham (§4.5). Its §§4.6–4.7 state the covariant small-weight
-  Fontaine–Laffaille category over an unramified field with finite residue field and its crystalline
-  realisation. Layer R07.3 is the Fontaine–Laffaille theory over `W(k)` for an arbitrary perfect
-  field `k`, in Fontaine and Laffaille's contravariant normalisation, with the simple objects, tame
-  inertia, the endpoint analysis and the finite-flat dictionary; over a finite field its torsion
-  functor composed with duality is the realisation of SelmerIwasawaCohomology §4.7.
-- NeronModelsAndSemistableAbelianVarieties §5.3, for finite K/ℚ_p, owns `B_st` with `φ` and `N`, the
-  covariant functors
-  `D_st`, `D_cris`, `D_dR` with the predicates semistable, crystalline and de Rham, and the
-  potentially semistable Weil–Deligne realisation. §R07.3.0 supplies the period-ring and
-  period-functor extension to complete discretely valued fields with arbitrary perfect residue field.
-- DerivedDeRhamCohomology Layer 0 (the full cotangent complex, §0.4, and its transitivity triangle,
+- PadicPeriodRings owns the early period-ring foundations: the completed algebraic closure,
+  its continuous Galois action, normalized traces, Tate fixed points and twists, and the
+  topological de Rham and crystalline carriers. Sections R07.P2–R07.P5a here give the finite-K
+  crystalline structures, fundamental exact sequences, fixed fields, realization functors and
+  integral coefficient predicates. Sections R07.P7.1–R07.P7.5 give finite-coefficient de Rham and
+  Hodge–Tate adapters, labelled Sen theory, character criteria and lifting applications.
+  Section R07.3.3a owns the general-ring filtered Frobenius carrier; §R07.3.4 specializes its
+  generating objects to W(k), with Fontaine–Laffaille's contravariant realization in §R07.3.7.
+  Section R07.3.0 supplies the semistable rings and functors over complete discretely valued
+  fields with arbitrary perfect residue field, including finite extensions of ℚ_p.
+- DerivedModuleAlgebra (the full cotangent complex, §0.4, and its transitivity triangle,
   §0.8), SchemeAndStackFoundations §4.1 (thickenings, formally smooth and formally étale morphisms
-  and the infinitesimal lifting criterion), InverseGaloisAndArithmeticFundamentalGroups Layer IG.0
+  and the infinitesimal lifting criterion), EtaleCohomologyFoundations §F.0 (`finiteEtaleGaloisCategory`)
   (finite étale covers of a connected scheme and their fibre functors),
   SchemeAndStackFoundations §0.14 `henselian_smooth_lifting` (smooth sections along henselian
   pairs), and CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*
@@ -371,9 +369,11 @@ laws) with `FormalGroup.IsComm`.
 - **ProfiniteCohomology.** Layer 9 (Hilbert 90 and Kummer theory for local fields).
 - **ClassFieldTheory.** Layer 5 (local Tate duality, its target `tateDualityPairing_perfect_mixed`),
   Layer 7 (the local Artin map) and Layer 11 (global Artin reciprocity), used in §R07.1.35 and
-  §R07.5.14.
+  §R07.5.14; Layer 13 supplies the global character input of §R07.P7.3.
+- **GlobalNumberFields.** Layers 9–10 supply Hecke characters, algebraic infinity types and
+  unit relations for §R07.P7.3.
 
-### From AbelianSchemesAndArithmeticModuli, CrystallineCohomology, SelmerIwasawaCohomology, NeronModelsAndSemistableAbelianVarieties and the further foundational roadmaps
+### From AbelianSchemesAndArithmeticModuli, CrystallineCohomology, PadicPeriodRings and the further foundational roadmaps
 
 - **AbelianSchemesAndArithmeticModuli.** §A4.5 `BarsottiTate` with `BarsottiTate.truncation`,
   `BarsottiTate.dual`, `BarsottiTate.baseChange`, `BarsottiTate.ofAbelian` and
@@ -386,7 +386,7 @@ laws) with `FormalGroup.IsComm`.
   *The classical Abhyankar lemma* includes purity of the branch locus (SGA 1 X 3.1):
   for an excellent regular local ring A, its finite normalization in a finite
   separable generic-fibre algebra, if unramified above every height-one point, is étale. The source
-  normality hypothesis is essential (Stacks Tag 0BMB). Layer CR.0 (divided powers, envelopes,
+  normality hypothesis is essential (Stacks Tag 0BMB). DerivedDeRhamCohomology §§CR.0.3–CR.0.7 (divided powers, envelopes,
   universal thickenings); §CR.7.1
   (the Tate twist of coefficients with Frobenius and filtration); §CR.7.2
   `LogCrystalline.dieudonneEvaluation` (evaluation of `D(G)` on divided-power thickenings,
@@ -394,30 +394,34 @@ laws) with `FormalGroup.IsComm`.
   `D(μ_{p^∞}) = (W(k), pσ)`, and Grothendieck–Messing (lifts of `G₀` along a nilpotent
   divided-power thickening correspond to lifts of the Hodge filtration); §CR.7.3 (relative
   crystalline direct images and base change).
-- **SelmerIwasawaCohomology.** For finite K/ℚ_p, §4.1 `padicComplex_fixed_eq`,
-  `tate_normalizedTrace`, `tate_almostEtale`, `tate_H0_padicComplex_twist` and
-  `tate_H1_padicComplex_twist` supply fixed points, normalized traces and Tate cohomology;
-  the same section supplies (`C_p`, `A_inf`, `θ`, `B_dR^+`, `t` with `g(t) = χ(g)t`), §4.2
-  (`aCris`, `bCris`, `φ(t) = pt`, the injection into `B_dR`), §4.3 (the fundamental exact
-  sequences), §4.5 (`dCris`, `IsCrystalline`), and §§4.6–4.7 as the special case of Layer R07.3
-  described above.
-- **NeronModelsAndSemistableAbelianVarieties.** For finite K/ℚ_p, §5.3 (`B_st` with `φ`, `N` and its
-  embedding into
-  `B_dR` for a chosen branch of the `p`-adic logarithm, `D_st`, `D_cris = D_st^{N=0}`, semistable
-  and crystalline representations, potentially semistable representations and their Weil–Deligne
-  realisation).
-- **ArithmeticGaloisRepresentations.** §2.3 supplies the finite-local-field `fundamentalCharacter`,
+- **PadicPeriodRings.** The early period-ring layer supplies `C_p`, `A_inf`, `θ`,
+  `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
+  `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
+  `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`.
+  The finite-K structures and predicates are specified here in §§R07.P2–R07.P5a;
+  semistable constructions use §R07.3.0.
+- **ArithmeticGaloisDuality.** §R02.1.2 supplies continuous-cochain long exact sequences
+  for quotient maps admitting continuous nonequivariant sections; §R02.2.3a supplies
+  the finite-type procyclic cohomology calculation.
+- **ArithmeticGaloisRepresentations.** §§1.1–1.2 supply continuous representations and maps;
+  §1.5 supplies finite coefficient models; §7.6 supplies strong irreducibility, the Zariski and
+  Goursat inputs, roots of characters and projective lifting used in §§R07.P7.1–R07.P7.5.
+  Section 2.3 supplies the finite-local-field `fundamentalCharacter`,
   `fundamentalCharacter_pow_p`, norm maps between levels, `cyclotomic_restrict_tameInertia`
   and the residual tame-inertia classification. Section R07.1.26 extends the characters to
   arbitrary perfect residue fields as `perfectResidueFundamentalCharacter`, with
   `perfectResidueFundamentalCharacter_eq_fundamentalCharacter` after identifying the tame
   quotient, roots of unity and residue embeddings; the finite-residue API has this single supplier.
-- **DerivedDeRhamCohomology** §0.4 (the full cotangent complex) and §0.8 (its transitivity
+- **PerfectoidSpaces.** §§P1.6, P1.10 and P1.16–P1.18 supply the tilt, Fontaine map,
+  primitive kernel and perfectoid-field inputs to the period constructions.
+- **DerivedDeRhamCohomology.** §§CR.0.3–CR.0.7 supply divided powers, envelopes and their
+  completions; §0.20 supplies syntomic morphisms.
+- **DerivedModuleAlgebra** §0.4 (the full cotangent complex) and §0.8 (its transitivity
   triangle), **SchemeAndStackFoundations** §0.14 `henselian_smooth_lifting`
   (a smooth-algebra section over C/J lifts to C for every henselian pair, Stacks Tag 0H74),
   and §4.1 (thickenings, formally smooth and formally étale
-  morphisms, the infinitesimal lifting criterion), **InverseGaloisAndArithmeticFundamentalGroups**
-  Layer IG.0, **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
+  morphisms, the infinitesimal lifting criterion), **EtaleCohomologyFoundations**
+  §F.0 (`finiteEtaleGaloisCategory`), **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
   Layer SR.2 (smooth and compact induction for `GL₂(F)`), as listed under *Scope and ownership*.
 
 ### Scheme Frobenius contract
@@ -680,7 +684,7 @@ constructing this instance is part of this target, since the pin has the categor
 functor but no `GaloisCategory` instance on it. Given the instance, Mathlib's
 `PreGaloisCategory.functorToContAction` makes `F_{s̄}` an equivalence onto finite continuous `π₁(S,
 s̄)`-sets. Covariance on fibres and contravariance on algebras are as in
-InverseGaloisAndArithmeticFundamentalGroups Layer IG.0. The equivalence preserves finite products,
+EtaleCohomologyFoundations §F.0 (`finiteEtaleGaloisCategory`). The equivalence preserves finite products,
 so group objects correspond to group objects: finite étale group schemes ↔ finite groups with
 continuous π₁-action (Stix Theorem 33). The inverse is the explicit twist of Stix 7.3.1,
 representable by fpqc descent (ModularCurves Layer 0E); its fibre at s̄ is M with action ρ. For a
@@ -1094,7 +1098,7 @@ For a truncation G = H[p^n] over a mixed-characteristic base, instead use
 ω_G ≅ ω_H/p^nω_H; this is not generally locally free over O_S.
 
 Here `p` is nilpotent on `S` (with `p^n = 0` for (i)), and the coLie complex `ℓ_G` is built from the
-cotangent complex of `G/S` along the unit section (DerivedDeRhamCohomology §0.4).
+cotangent complex of `G/S` along the unit section (DerivedModuleAlgebra §0.4).
 
 *Proof sketch.* (i) is Illusie's Corollaire 2.2.5, quoted with its notation by Anschütz–Le Bras,
 Remark 4.6.3. (ii) for n = 1: reduce to S over F_p; F : G → G^{(p)} factors through G → ker(V :
@@ -1110,7 +1114,7 @@ terms of t_G, t_{G^D}, φ_G, φ_{G^D}, with the ranks of ω_G and ν_{G^D}; Pill
 of Lemma 10.1.1 and footnote 14, p. 57: the fibrewise criterion, proved for n = 1, with the general
 case asserted and attributed to Fargues.)
 
-*Needs:* §R07.1.10; §R07.1.1; DerivedDeRhamCohomology §0.4 (the full cotangent complex);
+*Needs:* §R07.1.10; §R07.1.1; DerivedModuleAlgebra §0.4 (the full cotangent complex);
 TauCetiRoadmap.ModularCurves Layer 0B.
 
 **Checks.**
@@ -1324,6 +1328,258 @@ Lemma 1, pp. 164–165: the discriminant formula disc(G(v)) = (p^{n v p^{hv}}) t
 - ℤ/p^vℤ (étale): ω = 0 and 𝔇 = R.
 - Over ℤ_p[ζ_p] (e = p − 1): μ_p has ω = R/p of length p − 1, matching 𝔇(μ_p) = (p) = (π^{p−1}) and
   the character θ_{p−1}^{p−1} = 1 of §R07.1.33 (μ_p ⊂ K).
+
+### R07.P2 Crystalline period ring and its structures
+
+Throughout §§R07.P2–R07.P5a, p is prime, K/ℚ_p is finite inside `PadicAlgCl p`,
+G_K has its Krull topology, C_p is `PadicComplex p` with the supplied continuous Galois
+action, k is the residue field of K, and K₀ = Frac W(k). All period rings carry their
+canonical period topologies; V is a finite-dimensional continuous ℚ_p-representation.
+
+Inside A_inf[1/p], form the subring generated by A_inf and ξ^n/n!, n≥1, for a primitive generator ξ of ker θ. Prove `aCris_model_equiv`: its separated p-adic completion is canonically isomorphic, as an A_inf-algebra with divided powers, to A_cris(O_{ℂ_p}) of DerivedDeRhamCohomology §CR.0.7; write `aCris` for that supplied carrier. Define B_cris^+=A_cris[1/p], B_cris=B_cris^+[1/t]. The ring is independent of ξ and the generator of ℤ_p(1); give the Galois action, Frobenius φ extending Witt Frobenius, φ(t)=pt, θ and the injective map B_cris→B_dR. For K with residue field k, K₀=Frac W(k) embeds, φ is σ-semilinear there and commutes with G_K. The induced filtration is the intersection with Fil^i B_dR. The completed envelope and its universal property belong to DerivedDeRhamCohomology §CR.0.7; the explicit-model comparison and B_cris period structures belong here. No geometric crystalline comparison theorem is included in this subsection.
+
+C_p, t, A_inf, θ from PadicPeriodRings (early period-ring layer); canonical divided powers on (p). Use DerivedDeRhamCohomology §CR.0.7, including its principal-kernel hypothesis: ξ modulo p is a non-zero-divisor, supplied by the primitive kernel of PerfectoidSpaces §P1.18.
+
+The construction proceeds as follows. Apply `Crystalline.fontaineEnvelope_identify` to the explicit subalgebra generated by divided powers in A_inf[1/p] and its completion at (p). Transport the supplied initial property and θ; prove independence of ξ by the uniqueness of the envelope comparison. The comparison intertwines the functorial Galois action, Witt Frobenius, the convergent logarithm t = log[ε] and the map to B_dR^+; uniqueness on the dense PD subalgebra and continuity prove these compatibilities. Extend Frobenius and Galois action by continuity, compute φ(t)=pt and invert p,t. Expand elements as convergent divided-power series to prove the embedding into B_dR (Fontaine 4.1). The stronger scalar-extension injectivity K⊗K₀ B_cris→B_dR follows by restricting Fontaine Theorem 4.2.4; use that theorem for the crystalline-to-de Rham comparison.
+
+(Fontaine, Le corps des périodes, Theorem 2.2.1 and proof, pp. 76–77; §§2.3.1–2.3.4, pp. 78–79; §4.1, pp. 83–84; Theorem 4.2.4, p. 86, proof §4.3, pp. 87–89.)
+
+The named operations and identities are:
+
+- `aCris` — The O_{ℂ_p} specialization of the canonical CR.0.7 carrier.
+- `aCris_model_equiv` — Canonical PD A_inf-algebra isomorphism from the completed explicit model, preserving θ, G_K, Frobenius, t and the B_dR^+ map.
+- `bCris` — Invert p and the logarithmic Tate period.
+- The initial property is `Crystalline.fontaineEnvelope_initial`, transported through `aCris_model_equiv`; there is one shared completed envelope.
+- `bCris_toBDR` — Injective Galois-compatible period map.
+- `bCris_frobenius` — σ-semilinear Frobenius, commuting with G_K and sending t to pt.
+- `bCris_generatorIndependent` — Changing ξ or a primitive Tate generator gives the canonical same ring.
+
+**Checks.**
+
+- The explicit model comparison fixes A_inf and θ, sends its log[ε] to the same t in the canonical envelope, and intertwines φ(t)=pt and g(t)=χ(g)t. The logarithmic period is nonzero.
+- θ(t)=0 before t is inverted; θ cannot extend as a unital map B_cris→C_p.
+- The period map to B_dR is injective and respects G_K; a free formal PD variable does not satisfy this comparison.
+
+*Needs:* PadicPeriodRings (early period-ring layer: C_p, Tate's fixed/twist calculations and topological de Rham rings); DerivedDeRhamCohomology §CR.0.7; PerfectoidSpaces §§P1.16–P1.18 (A_inf and the primitive kernel).
+
+### R07.P3 Fundamental period sequences with continuous sections
+
+The following G_K-equivariant sequences are exact: 0→ℚ_p→B_cris^(φ=1)⊕B_dR^+→B_dR→0, with diagonal first map and difference last map; and 0→ℚ_p→B_cris⊕B_dR^+→B_cris⊕B_dR→0 with (x,y)↦((1−φ)x,x−y). Tensoring with a finite-dimensional continuous V gives the continuous-cohomology LES because the quotient maps admit continuous nonequivariant sections on the canonical topologies. Supply the boundary map D_dR(V)/Fil⁰→H¹(K,V) and its compatibility with coefficient/twist maps. A merely algebraically exact sequence is not enough for this LES.
+
+Canonical period topologies; finite-dimensional V; the continuous-cochain long exact sequences of ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*), which apply to these topological coefficients because the sections constructed here are continuous.
+
+Prove this as follows. Prove B_cris^(φ=1)∩B_dR^+=ℚ_p and surjectivity of 1−φ using divided-power Frobenius estimates. Use Bloch–Kato Lemma 1.17.3: logarithms of lifted roots span the successive de Rham quotients and provide the required Frobenius eigenvectors; deduce difference-map surjectivity. Construct the continuous sections as in Remark 1.18 and apply the continuous-section long exact sequence of ArithmeticGaloisDuality §R02.1.2 after tensoring with V.
+
+(Bloch–Kato, Proposition 1.17, Lemma 1.17.3 and Remark 1.18, pp. 340–341.)
+
+**Checks.**
+
+- For V = 0 every term and the boundary map vanish.
+- For V = ℚ_p, the diagonal scalar pair maps to zero under the difference map; the sign is x−y.
+- On a Tate twist, tensoring and the boundary commute with the twist and retain the period's continuous Galois action.
+
+*Needs:* §R07.P2 (Crystalline period ring and its structures); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality Layer R02.1.
+
+### R07.P4 Period fixed fields and dimension bounds
+
+For finite K/ℚ_p, (B_dR^+)^G_K=B_dR^G_K=K and B_cris^G_K=K₀. The invariant comparison maps for finite-dimensional V are injective, yielding dim_K D_dR(V)≤dim_ℚp V and dim_K₀ D_cris(V)≤dim_ℚp V. For B_dR use its filtration and Tate's calculation of H⁰ and H¹(G_K, ℂ_p(i)) (PadicPeriodRings (early period-ring layer)); for B_cris use the divided-power expansions and Frobenius structure. These fixed fields and dimension bounds underlie the realization predicates of §R07.P5.
+
+Finite K/ℚ_p inside `PadicAlgCl p`; the canonical topologies and embeddings of PadicPeriodRings (early period-ring layer) and §R07.P2. The only inputs about ℂ_p are the Galois action, Ax–Sen–Tate and Tate's H⁰/H¹ calculation of PadicPeriodRings (early period-ring layer), in exactly the range i ∈ ℤ, degrees 0 and 1, stated there.
+
+Prove this as follows. Use `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist` (PadicPeriodRings (early period-ring layer)) for every twist i. Use the H⁰ calculation on de Rham filtration quotients and their completed limit (Fontaine Exposé II 1.5.7). For the crystalline fixed field use injectivity of K⊗K₀ B_cris→B_dR: the two copies of K₀ are precisely the intersection of the scalar copies of K and B_cris (Exposé III 5.1.2). For B_dR use the minimal-dependence argument. For B_cris transfer injectivity through the scalar extension embedding and prove regularity using Exposé III 5.1.3’s classification of Galois-stable one-dimensional period lines. Its invertibility statement, not mere injectivity, gives the dimension-equality criterion.
+
+(Fontaine, Le corps des périodes, §1.5.7, p. 74; §4.1, pp. 83–84; Fontaine, Représentations semi-stables, Proposition 1.4.2, pp. 123–124; Proposition 5.1.2 and Lemma 5.1.3, pp. 155–156; Nizioł, §2, pp. 749–750.)
+
+**Checks.**
+
+- For V = ℚ_p, the fixed fields give D_dR(V) = K and D_cris(V) = K₀, both of dimension one.
+- For V = 0 both dimension bounds are equalities with dimension zero.
+- For ramified K/ℚ_p, the crystalline fixed field is K₀, not K; the scalar-extension injection into B_dR uses K⊗_{K₀}B_cris.
+
+*Needs:* PadicPeriodRings (early period-ring layer: C_p, Tate's fixed/twist calculations and topological de Rham rings); §R07.P2 (Crystalline period ring and its structures).
+
+### R07.P5 Crystalline and de Rham realization data
+
+For a finite-dimensional continuous G_K-representation V define D_cris(V)=(V⊗B_cris)^G_K over K₀ and D_dR(V)=(V⊗B_dR)^G_K over K, with inherited Frobenius and filtration. Define crystalline and de Rham by equality of their dimension with dim_ℚp V, together with the canonical comparison-map isomorphism formulation. Crystalline implies de Rham. The inherited filtration jump of ℚ_p(1) is −1; §R07.P7.1 defines its labelled Hodge–Tate weight as +1. These are the finite-K specializations of the shared period carriers. The semistable functors use §R07.3.0.
+
+Finite K/ℚ_p; continuous period tensor action and its invariants. Include the coefficient extension for E/ℚ_p by scalar restriction, not an unspecified Frobenius-linear E-action.
+
+The construction proceeds as follows. Take invariants of the actual period tensor modules; restrict the structures and define the comparison maps. Use the period-ring regularity and fixed-field results to bound dimensions and prove equality iff the canonical comparison map is an isomorphism. Use the embedding K⊗K₀ B_cris→B_dR to prove crystalline implies de Rham and compute the Tate generators t^−n.
+
+(Nizioł, §2, pp. 748–751; Bloch–Kato, §1, pp. 337–340.)
+
+The named operations and identities are:
+
+- `dCris` — Period tensor invariants over K₀.
+- `dDeRham` — Period tensor invariants over K with filtration.
+- `IsCrystalline` — The canonical B_cris comparison map is an isomorphism.
+- `IsDeRham` — The canonical B_dR comparison map is an isomorphism.
+- `crystalline_iff_dim` — Dimension equality characterizes crystalline representations.
+- `crystalline_isDeRham` — Crystalline implies de Rham via the canonical embedding.
+
+**Checks.**
+
+- The zero representation is crystalline and de Rham with zero realization.
+- D_cris(ℚ_p(n)) is generated by t^−n, Frobenius p^−n and filtration jump −n.
+- For ramified K, D_cris is a K₀-space while D_dR is a K-space; identifying their scalar rings is wrong.
+
+*Needs:* §R07.P2 (Crystalline period ring and its structures); §R07.P4 (Period fixed fields and dimension bounds).
+
+### R07.P5a Crystalline predicates for integral coefficients
+
+**Integral crystalline coefficient predicates.** For unramified K/ℚ_p, define `IsTorsionCrystalline` for a finite ℤ_p-Galois module R in [a,b] by existence of stable lattices R′⊆R″ in a crystalline rational representation of weights [a,b] and a Galois-equivariant isomorphism R≅R″/R′. Define `IsIntegralCrystalline` for a finite-type integral module by this predicate on every R/p^mR, m≥1. For O-coefficients first restrict scalars to ℤ_p. These definitions use §R07.P5's rational crystalline predicate and no small-weight realization. Prove invariance under equivariant isomorphisms, scalar restriction, and closure under finite products and subquotients with the same interval; a stable lattice in a crystalline rational representation has crystalline finite reductions.
+
+(Liu–Tian–Xiao–Zhang–Zhu, Definition 2.2.4, pp. 124–125.)
+
+**Checks.**
+
+- The zero module satisfies both predicates in every interval.
+- ℤ/p^m(1) is a quotient of the lattices p^mℤ_p(1)⊆ℤ_p(1) and is crystalline in an interval containing −1.
+- The trivial ℤ/p module in [0,0] is nonzero and crystalline, although its tensor over ℤ_p with B_cris is zero; rational period tensors cannot define the torsion predicate.
+- For K=ℚ₃, μ₃ is not torsion crystalline in [0,0]: weight-zero crystalline lattice quotients are unramified by the weight-zero realization of §R07.3.7 (with duality and the interval shift), whereas inertia acts nontrivially on μ₃. Indeed, Φ₃(1+X)=X²+3X+3 is Eisenstein, so ℚ₃(μ₃)/ℚ₃ is ramified. Thus ℤ₃(1) is not integral crystalline in [0,0], already by its mod-3 reduction. Both μ₃ and every finite reduction of ℤ₃(1) rationalize to zero, so a rational-period-only predicate incorrectly accepts them.
+
+*Needs:* §R07.P5 (Crystalline and de Rham realization data).
+
+### R07.P7.1 Period functors with finite coefficients
+
+Let `K/ℚ_p` inside `ℂ_p` and `E/ℚ_p` be finite, with `E`
+containing all embeddings of `K`, and `V` a finite-dimensional continuous `E`-representation of
+`G_K`. Consume the topological period rings, actions and fixed fields of PadicPeriodRings
+(early period-ring layer), §R07.P4 and the realization and predicate of §R07.P5. Write `D_dR(V)` for the supplied
+`dDeRham(Res_{ℚ_p} V)` and use its `IsDeRham` predicate, filtration and canonical comparison map.
+Prove the named adapter `GaloisRep.deRhamSupplierEquiv`: the tensor flip
+`v ⊗ b ↦ b ⊗ v` identifies the supplied `(V ⊗_{ℚ_p} B_dR)^{G_K}` with
+`(B_dR ⊗_{ℚ_p} V)^{G_K}`, naturally in `ContinuousRep` maps. It is a filtered `K ⊗_{ℚ_p} E`-linear
+isomorphism, with `(k ⊗ e)(b ⊗ v) = kb ⊗ ev`, carrying the supplied comparison map to
+`B_dR ⊗_K D_dR(V) → B_dR ⊗_{ℚ_p} V`, `b' ⊗ (Σ b_i ⊗ v_i) ↦ Σ b'b_i ⊗ v_i`.
+It commutes with every finite coefficient extension `E'/E`, identifying
+`D_dR(V) ⊗_E E'` with `D_dR(V ⊗_E E')` and each filtration step with its scalar extension.
+De Rham admissibility and its dimension bound are inherited from the supplier;
+use the bound to prove that admissibility is equivalent to freeness of rank `dim_E V` over
+`K ⊗_{ℚ_p} E`.
+Set `B_HT = ⨁_{i∈ℤ} ℂ_p(i)` as a graded Galois algebra, define
+`D_HT(V) = (B_HT ⊗_{ℚ_p} V)^{G_K}` and Hodge–Tate by its canonical comparison isomorphism,
+equivalently freeness of the same rank over `K ⊗ E`. Prove its dimension bounds, the natural
+injection `gr D_dR(V) → D_HT(V)` and its being an isomorphism for de Rham `V`, hence de Rham
+implies Hodge–Tate. Split `K ⊗ E = ∏_{τ:K→E} E` to define the labelled weight multisets: a jump
+at filtration index `i` has weight `−i` with multiplicity `dim_E gr^i(e_τ D_dR(V))` in the de Rham
+case, so `HT_τ(χ_p) = +1`. The adapter preserves the filtration and assigns weight +1 to the cyclotomic character
+at this labelled-weight step. For `ℚ̄_p`-coefficients, first
+descend by ArithmeticGaloisRepresentations §1.5, enlarge `E` to contain the embeddings, and prove that extension of `E` preserves
+these properties and weight multisets, independently of the model
+(Patrikis 2019, §§2.2.1–2.2.2, pp. 21–23; Brinon–Conrad, §6.1 and §6.3, Proposition 6.3.2, pp. 73–76).
+*Needs:* ArithmeticGaloisRepresentations §§1.1–1.2, 1.5; PadicPeriodRings (early period-ring layer); §§R07.P4–R07.P5.
+
+**Checks.**
+
+- On `E(1)`, the adapter sends `e ⊗ t⁻¹` to `t⁻¹ ⊗ e`, preserving the filtration jump `−1`;
+  `χ_p` has weight `+1`. The trivial `E`-character gives a free rank-one `K ⊗ E` module,
+  filtration jump `0` and weight `0` under both tensor orderings.
+- The dual of a Hodge–Tate representation negates every labelled weight.
+- If `K ≠ ℚ_p`, a labelled Lubin–Tate character has weight `1` at one embedding and `0` at the
+  others; the filtration need not have constant rank over `K ⊗ E` in each degree.
+- For `V = 0`, both sides of `GaloisRep.deRhamSupplierEquiv` and their filtrations are zero,
+  and the supplied de Rham comparison is an isomorphism of zero modules.
+- Extending `E` to `E'` preserves every labelled filtration jump; the `E'`-action comes from the
+  representation tensor factor, and the adapter commutes with its extension.
+
+### R07.P7.2 Labelled Sen operators
+
+For the finite-coefficient inputs above, use the normalized traces
+of PadicPeriodRings (early period-ring layer) to construct the finite-dimensional Sen module over
+`K_∞ = K(μ_{p^∞})`, with a model stable under a small cyclotomic subgroup at a sufficiently
+large finite layer, and its operator given by
+`log(ρ(γ))/log(χ_p(γ))` for sufficiently small cyclotomic `γ` on the Sen module.
+Prove recovery after extension to `ℂ_p`, independence of the layer, model and generator,
+functoriality under maps, and insensitivity to finite restriction. For an embedding
+`ι : ℚ̄_p → ℂ_p`, descend to `E` and restrict to `G_{Kι(E)}` before constructing the operator;
+the induced label is `τ = ι⁻¹|_K`. Define Hodge–Tate–Sen weights as its eigenvalues with
+multiplicity. Prove that Hodge–Tate is equivalent to semisimplicity of every labelled Sen operator
+with integer eigenvalues, with eigenvalues equal to `HT_τ`. Prove the direct-sum, tensor
+(`Θ_{V⊗W} = Θ_V ⊗ 1 + 1 ⊗ Θ_W`), dual and symmetric-power formulas, hence the weight
+formulas used below (Patrikis 2019, §2.2.2, Lemmas 2.2.4–2.2.6, pp. 23–24; Brinon–Conrad,
+§15.1, Corollary 15.1.6 and Theorem 15.1.7). *Needs:* §R07.P7.1;
+ArithmeticGaloisRepresentations §1.5; PadicPeriodRings (early period-ring layer) (normalized traces).
+
+**Checks.**
+
+- The cyclotomic Sen operator is `1`; its dual has operator `−1`.
+- The extension defined by the cocycle `log χ_p` has a nonzero nilpotent Sen operator with
+  eigenvalues `0,0`, so integer eigenvalues alone do not imply Hodge–Tate.
+- Enlarging the coefficient field or restricting to a finite local extension preserves the
+  labelled eigenvalues under the corresponding restriction of embeddings.
+
+### R07.P7.3 Local character criterion and global weights
+
+For `K/ℚ_p`, `E/ℚ_p` finite, with `E`
+containing all embeddings of `K`, and a continuous
+`χ : G_K → E^×`, prove that Hodge–Tate is equivalent to de Rham and to being locally algebraic
+under local reciprocity: on some open subgroup of `O_K^×` the character is
+`x ↦ ∏_τ τ(x)^{m_τ}`, with integer exponents, with `HT_τ = −m_τ`: arithmetic reciprocity gives
+`χ_p(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹` for units, as in ClassFieldTheory Layer 7. Prove that all labelled Sen operators vanish
+iff the inertia image is finite; unramified characters may still have infinite image.
+For `F` totally real and a continuous global character unramified almost everywhere, prove that
+rational labelled Sen weights are all equal, hence a de Rham character has one common integer
+weight. Use the locally algebraic character–Hecke character correspondence and the unit relations
+of GlobalNumberFields Layers 9–10 (`HeckeCharacter`, `AlgebraicInfinityType`, `HeckeCharacter.IsAlgebraic`), together with ClassFieldTheory's arithmetic reciprocity;
+prove the local-to-global identification of labels and infinity exponents here. For `x ∈ ℤ`,
+`d ≥ 1`, construct a character with every Sen weight `x/d` by ArithmeticGaloisRepresentations §7.6 (Roots of characters);
+it is Hodge–Tate iff `d | x` (Patrikis 2019, Theorem 2.3.13, Remark 2.3.14 and Lemmas 2.3.15, 2.3.17, pp. 30–32;
+Brinon–Conrad, Example 6.3.9, pp. 81–82, for the zero-weight character case). *Needs:* §R07.P7.2; ArithmeticGaloisRepresentations §7.6 (Roots of characters); ClassFieldTheory Layers 7 and 13;
+GlobalNumberFields Layers 9–10 (Hecke-character infinity types and unit relations).
+
+**Checks.**
+
+- A finite-order character has all weights zero and finite inertia image.
+- An unramified character sending Frobenius to `1+p` has weight zero and infinite total image;
+  the criterion concerns inertia.
+- A square root of `χ_p` up to finite order has weight `1/2` and is not Hodge–Tate; its square
+  has weight `1`. The cyclotomic character fixes the reciprocity sign in the algebraic formula.
+
+### R07.P7.4 Strong irreducibility of tensor products
+
+Prove that for `F` a number field,
+`ρ, ρ' : G_F → GL₂(ℚ̄_p)` continuous and strongly irreducible, and `τ : F → ℚ̄_p` at `v | p` with both
+restrictions Hodge–Tate, `HT_τ(ρ) = {a, b}`, `HT_τ(ρ') = {a', b'}` and `a − b ≠ ±(a' − b')`, the image
+of `Proj ρ × Proj ρ'` is Zariski dense in `PGL₂ × PGL₂`, and
+`(Sym^m ρ ⊗ Sym^{m'} ρ')|_{G_{F(ζ_{p^∞})}}` is strongly irreducible for all `m, m' ≥ 1` (Newton–Thorne, Lemma
+2.2, p. 10).
+
+*Needs:* §§R07.P7.1–R07.P7.2; ArithmeticGaloisRepresentations §7.6
+(Strong irreducibility, Zariski closures and Goursat for PGL₂); ArithmeticGaloisRepresentations
+§1.5 (finite coefficient models).
+
+**Checks.**
+
+- For m = m′ = 1 the theorem gives strong irreducibility of the four-dimensional tensor product after cyclotomic restriction.
+- Taking ρ′ = ρ violates the weight-gap condition; V⊗V has its invariant exterior-square summand, so the condition cannot be dropped.
+- Interchanging the two weights in either pair changes a gap's sign; the condition with ± and the conclusion are invariant under that interchange.
+
+### R07.P7.5 Hodge–Tate lifts
+
+Prove: (1) for `P : G_F → PGL₂(ℚ̄_ℓ)` continuous, unramified almost everywhere,
+with `ad⁰` of one (hence every) lift de Rham at all `v | ℓ`, a lift exists with Hodge–Tate–Sen weights
+in `½ℤ` at every `v | ℓ` and `τ` and `det` of finite order, and every such lift has `Sym² ρ` and
+`det ρ` geometric. A finite-determinant lift need not be Hodge–Tate: for the projectivization
+of an elliptic Tate module with weights `{0, 1}`, every finite-determinant lift has weights
+`{−½, ½}` and is not Hodge–Tate, although the original Tate module is
+(Patrikis 2019, Remark 2.1.5, p. 17). The proof uses §R07.P7.3: a character of
+`G_{F_v}` with zero labelled Sen operators has finite inertia image. (2) For `F` totally real, `F'/F` quadratic and `s : G_{F'} → GL₂(ℚ̄_ℓ)`
+unramified almost everywhere, de Rham at all `v | ℓ` with weights `{−1, 0}` at every `τ` (BCGP 2021 write
+`{0, 1}` with `HT(ε) = −1`), and `Proj s` extending to `P` on `G_F`: `P` lifts to
+`r̃ : G_F → GL₂(ℚ̄_ℓ)` unramified almost everywhere, Hodge–Tate of weights `{−1, 0}` at every `v | ℓ`
+and `τ`, with `r̃|_{G_{F'}} = s ⊗ ψ` for `ψ` of finite order (BCGP 2021, proof of Prop. 9.2.1, p. 254).
+*Needs:* ArithmeticGaloisRepresentations §7.6 (Projective lifting; Roots of characters);
+§§R07.P7.1–R07.P7.3.
+
+**Checks.**
+
+- The projectivization of an elliptic Tate module of weights `{0,1}` has a determinant-finite
+  lift with weights `{−1/2,1/2}`. No finite-determinant lift is Hodge–Tate, while the original
+  Tate module is a Hodge–Tate lift with cyclotomic determinant.
+- Twisting a lift by a finite-order character preserves its labelled Sen weights.
+- A local character with zero Sen operator can have infinite unramified image; finite inertia
+  suffices to preserve unramifiedness outside finitely many places in the lifting argument.
 
 ### R07.1.18 The Tate–Sen theorem: Galois cohomology of `C(i)`
 
@@ -2304,10 +2560,10 @@ p-complete ring as compatible systems modulo p^n.)
 Tau Ceti `FiniteLocallyFreeCommAffineGroupSchemeCat` with Cartier duality and base change, and its
 constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, 0C, 0D, 0E and 7E;
 TauCetiRoadmap.LocalFieldsRamification Layers 3 and 4; TauCetiRoadmap.ClassFieldTheory Layers 7
-and 11; AbelianSchemesAndArithmeticModuli §A4.5 and Layer A3; DerivedDeRhamCohomology §0.4;
+and 11; AbelianSchemesAndArithmeticModuli §A4.5 and Layer A3; DerivedModuleAlgebra §0.4;
 SchemeAndStackFoundations §0.23 and §4.1 (and §5.4 for the projective-line-bundle Check);
-InverseGaloisAndArithmeticFundamentalGroups Layer IG.0;
-SelmerIwasawaCohomology §4.1; Mathlib's local rings, discrete valuation rings, power series, Kähler
+EtaleCohomologyFoundations §F.0 (`finiteEtaleGaloisCategory`);
+PadicPeriodRings (early period-ring layer); Mathlib's local rings, discrete valuation rings, power series, Kähler
 differentials and continuous cohomology; Mathlib schemes, ringed-space gluing, pullbacks,
 étale and smooth morphisms, ring Frobenius and finite-field Frobenius.
 
@@ -3387,7 +3643,7 @@ and integrally for quotients of perfect rings by regular ideals (Theorem A); Car
 B⁺_cris(R).)
 
 *Needs:* §R07.2.25; §R07.2.10; §R07.2.20; CrystallineCohomology §CR.7.2 (the crystalline Dieudonné
-crystal); CrystallineCohomology Layer CR.0 (divided powers and universal thickenings).
+crystal); DerivedDeRhamCohomology §§CR.0.3–CR.0.7 (divided powers and universal thickenings).
 
 **Checks.**
 
@@ -3504,7 +3760,8 @@ local rings are fields or valuation rings; Caraiani–Scholze 2017, §4.2, proof
 
 ### Dependencies
 
-Layer R07.1; CrystallineCohomology Layer CR.0, §CR.4.7, §CR.7.2 and §CR.7.3; Mathlib `WittVector` with
+Layer R07.1; DerivedDeRhamCohomology §§CR.0.3–CR.0.7;
+CrystallineCohomology §§CR.4.7, CR.7.2–CR.7.3; Mathlib `WittVector` with
 Frobenius, Verschiebung, `WittVector.Isocrystal` and `isocrystal_classification`; Tau Ceti Cartier
 duality.
 
@@ -3514,8 +3771,7 @@ The first three targets fix the linear algebra of `p`-adic Hodge theory used by 
 roadmap: filtered `(φ, N)`-modules, their Hodge and Newton numbers, weak admissibility, and
 Fontaine's theorem that the module of a semistable representation is weakly admissible, with full
 faithfulness of `D_st`. §R07.3.0 constructs the general-base period rings and functors,
-agreeing for finite K/ℚ_p with SelmerIwasawaCohomology Layer 4 and
-NeronModelsAndSemistableAbelianVarieties §5.3. The rest of the
+agreeing for finite K/ℚ_p with §§R07.P2–R07.P5 and §R07.3.0. The rest of the
 layer is Fontaine–Laffaille theory over `W(k)` for a perfect field `k`: the abelian categories of
 torsion filtered Dieudonné modules, the ring `S` and the contravariant functor `U_S`, exactness, the
 simple objects and their tame inertia, full faithfulness on the safe interval `[0, p − 2]` and the
@@ -3693,8 +3949,8 @@ The API:
 Prove `dSt_isWeaklyAdmissible` and `dSt_fullyFaithful`. Let `K` be as in §R07.3.1 and let `D_st`,
 `D_cris`, `IsSemistable` and `IsCrystalline` be the period functors and predicates of §R07.3.0,
 agreeing for finite K/ℚ_p with
-NeronModelsAndSemistableAbelianVarieties §5.3 (covariant, `D_st(V) = (B_st ⊗_{ℚ_p} V)^{G_K}`, with
-`D_cris(V) = D_st(V)^{N = 0}`), whose `B_cris` agrees on finite K with SelmerIwasawaCohomology §4.2. Then:
+§R07.3.0 (covariant, `D_st(V) = (B_st ⊗_{ℚ_p} V)^{G_K}`, with
+`D_cris(V) = D_st(V)^{N = 0}`), whose `B_cris` agrees on finite K with §R07.P2. Then:
 
 1. for every semistable representation `V`, the filtered `(φ, N)`-module `D_st(V)` is weakly
    admissible (§R07.3.2); in particular `D_cris(V)` is weakly admissible for crystalline `V`;
@@ -3714,7 +3970,7 @@ this to `Λ^top D_st(V)` and, for a subobject `D′`, to `Λ^top` of the saturat
 cuts out of `B_st ⊗ V`, using the `(ℚ_p, G_K)`-regularity of `B_st`. (2) Regularity of `B_st` makes
 the comparison map `B_st ⊗_{K₀} D_st(V) → B_st ⊗_{ℚ_p} V` an isomorphism compatible with `φ`, `N`,
 the filtration and `G_K`; take `φ = 1`, `N = 0` and `Fil⁰` invariants, using `B_cris^{φ = 1} ∩ Fil⁰
-B_dR = ℚ_p` (the fundamental exact sequence, SelmerIwasawaCohomology §4.3). (3) The dimension bound
+B_dR = ℚ_p` (the fundamental exact sequence, §R07.P3). (3) The dimension bound
 for weakly admissible `D` is the first half of the Colmez–Fontaine argument; the converse direction
 "weakly admissible implies admissible" is the theorem proved in §R07.4.13. (Brinon–Conrad 2009,
 Proposition 9.2.11, p. 144: regularity of `B_st`; Proposition 9.2.14, p. 146: full faithfulness and
@@ -3731,9 +3987,9 @@ The API:
 - `dStar`: the contravariant `D*_st` and `D*_cris`, with `dStar_eq_dual : D*_st(V) ≅ D_st(V^∨)`.
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.3.1; §R07.3.2;
-NeronModelsAndSemistableAbelianVarieties §5.3 (`B_st`, `D_st`,
-`D_cris`, semistable and crystalline representations); SelmerIwasawaCohomology §4.2 (`bCris`) and
-§4.3 (the fundamental exact sequence).
+§R07.3.0 (`B_st`, `D_st`,
+`D_cris`, semistable and crystalline representations); §R07.P2 (`bCris`) and
+§R07.P3 (the fundamental exact sequence).
 
 **Checks.**
 
@@ -3746,6 +4002,36 @@ NeronModelsAndSemistableAbelianVarieties §5.3 (`B_st`, `D_st`,
 - `not_isAdmissible_of_not_wa`: `K₀` with `φ = pσ` and its jump in degree `0` is not the module of
   any representation, because it is not weakly admissible (§R07.3.2).
 
+### R07.3.3a Small-weight filtered Frobenius modules
+
+For a commutative ring W, an automorphism σ and a natural number p, define the generating filtered Frobenius carrier on a finite W-module M, with an exhaustive separated decreasing filtration Fil^i M and σ-semilinear maps φ_i:Fil^i M→M satisfying φ_i|Fil^(i+1)=p φ_(i+1), with Σ_i im φ_i=M. For arithmetic applications take p>2, K₀/ℚ_p finite unramified, W=O_K₀ and σ the Witt Frobenius. In the free case each filtration step is a direct summand. Restrict to a weight interval [a,b] of width ≤p−2, and form morphisms preserving the filtration and all φ_i. The covariant realization uses Nizioł §2; translating Fontaine–Laffaille’s contravariant Hom realization requires a dual. For torsion exactness use the abelian enlarged category with separate filtration modules and their inclusion maps, not an assertion that the entire category of all filtered modules is abelian.
+
+K₀ unramified; small weights; integral and torsion coefficient variants distinguished. The Tate representation ℤ_p(1) has weight −1.
+
+The construction proceeds as follows. Define the finite module, filtration, divided Frobenius maps and morphisms on native module carriers. Embed in the category of diagrams with separate filtration modules as Fontaine–Laffaille §1.11; establish exactness on strongly divisible torsion objects. Give induced direct sums, interval restriction, allowed tensor/dual operations and the scalar-forgetting convention.
+
+(Fontaine–Laffaille, §§0.4–0.6, pp. 549–550 (Numdam PDF pp. 4–5); §1.11, pp. 558–559; §§7.12–7.15, pp. 593–594; Nizioł, §2, pp. 750–751.)
+
+The named operations and identities are:
+
+- `FontaineLaffailleModule` — Finite filtered W-module with compatible generating divided Frobenius maps.
+- `FontaineLaffailleHom` — Filtration- and Frobenius-preserving linear maps.
+- `fontaineLaffaille_sum` — Direct sums and their divided Frobenius maps.
+- `fontaineLaffaille_interval` — The explicit interval support predicate.
+- `fontaineLaffaille_dual` — Dual/twist shifts the interval according to the weight convention.
+- `IsFreeFontaineLaffaille` — The module is free and every filtration step has a W-submodule complement. `FontaineLaffailleModule` is stated for a general ring W with an automorphism σ; the arithmetic statements take W = W(k) = 𝒪_{K₀} with σ the Witt Frobenius.
+
+**Checks.**
+
+- The zero module with zero filtration is an object in every allowed interval.
+- The rank-one weight-zero object has Fil⁰=M, Fil¹=0 and unit Frobenius; omitting generation would admit φ₀=0.
+- For interval support, a weight-zero line lies in [0,0] and [−1,1], but not [1,2]. A nonzero object cannot lie in a reversed interval a>b; the zero object can.
+- The identity and zero maps are Fontaine–Laffaille morphisms. Between weight-zero rank-one objects over ℤ₃ with φ₀ multiplication by 1 and by 2, the underlying identity preserves the filtration but does not commute with Frobenius, so it is not a morphism.
+- A tensor product with combined width >p−2 is not covered by the small-weight comparison theorem.
+- In the free rank-one W-module, the proper filtration step pW (p nonunit) is not a direct summand. A free filtered object admitting that step fails IsFreeFontaineLaffaille, even if its underlying module is free.
+
+*Needs:* §R07.P2 (Crystalline period ring and its structures).
+
 ### R07.3.4 Fontaine–Laffaille modules
 
 Define `FLModule`. A (Fontaine–Laffaille) filtered module over W(k) is a W(k)-module M with a
@@ -3756,8 +4042,11 @@ moreover Fil^a M = M and Fil^{b+1} M = 0 (FL write MF_tor^{f,p} for [0, p − 1]
 
 K = K₀ = W(k)[1/p] with k perfect of characteristic p (absolutely unramified, e = 1); FL's general
 (A, τ, π) is specialised to A = W(k), τ = σ, π = p, E = ℚ_p, q = p. Over a finite field `k` this
-category is SelmerIwasawaCohomology §4.6's `FontaineLaffailleModule`; that roadmap realises it
-covariantly, and this layer uses Fontaine and Laffaille's contravariant functor (§R07.3.7).
+category uses the W(k) specialization of §R07.3.3a's `FontaineLaffailleModule`,
+`FontaineLaffailleHom` and `fontaineLaffaille_interval` on finite generating objects.
+The enlarged `FLModule` category also admits nongenerating objects: generation is part of
+`FLModule.IsTorsion`, and the two carriers agree on that full subcategory. The covariant
+realization dualizes Fontaine and Laffaille's contravariant functor (§R07.3.7).
 
 *Construction.* Definition as displayed (FL 1.2 and 0.4 with π = p; 1.5 for MF_tor; 3.2 for the
 range condition). Equivalently (FL 1.4(b)) one gives the filtered module and a single σ-semilinear
@@ -3777,7 +4066,7 @@ The API:
 - `FLModule.twist`: The shift M(j): Fil^i M(j) = Fil^{i−j} M, φ^i_{M(j)} = φ^{i−j}_M.
 
 *Needs:* Mathlib `WittVector`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `Module.length`;
-§R07.2.5.
+§R07.2.5; §R07.3.3a (the general finite generating carrier, morphisms and interval API).
 
 **Checks.**
 
@@ -3835,7 +4124,7 @@ and for rational representations.
 
 The setting is the Fontaine–Laffaille setting of §R07.3.4. The ring R = lim_{x↦x^p} O_K̄/p, W(R) and
 θ are Mathlib's PreTilt and WittVector.fontaineTheta at the pin; `A_cris` and `B_dR`
-use §R07.3.0 and agree for finite K with SelmerIwasawaCohomology §§4.1–4.2, and the comparison of `S`
+use §R07.3.0 and agree for finite K with PadicPeriodRings (early period-ring layer) and §R07.P2, and the comparison of `S`
 with them is §R07.3.15.
 
 *Construction.* R, W(R), W_K(R) and θ with its principal kernel (FL 2.1–2.5, citing Fontaine [F2]
@@ -3854,7 +4143,7 @@ The API:
 - `ringS.completion`: Ŝ = lim S/p^n S.
 - `ringS.reduction`: S̄ = coker(p on S) in \widetilde{MF}.
 
-*Needs:* §R07.3.0 (`generalBasePeriodRings`); SelmerIwasawaCohomology §4.1–§4.2 (`A_inf`, `θ`,
+*Needs:* §R07.3.0 (`generalBasePeriodRings`); PadicPeriodRings (early period-ring layer) and §R07.P2 (`A_inf`, `θ`,
 `aCris`); §R07.3.4; Mathlib `WittVector`;
 Mathlib `Field.absoluteGaloisGroup`; Mathlib `PreTilt`; Mathlib `WittVector.fontaineTheta`.
 
@@ -4135,16 +4424,16 @@ ring written B in [F2] §4, a ring of B⁺_cris type); in terms of A_cris, Ŝ �
 Φ compatible and Fil^i S_K = S_K ∩ Fil^i B_dR.
 
 The setting is the Fontaine–Laffaille setting of §R07.3.4. `A_cris`, `B_cris` and `B_dR` with their
-Frobenius, filtration and Galois action are SelmerIwasawaCohomology §§4.1–4.2; Fontaine–Laffaille
+Frobenius, filtration and Galois action are PadicPeriodRings (early period-ring layer) and §R07.P2; Fontaine–Laffaille
 predates `A_cris` and states the identification with the ring of Fontaine's [F2] §4.
 
 *Proof sketch.* FL, proof of Theorem 8.4: with a the ideal of R of elements of valuation ≥ p, S_K is
 identified, as a filtered Galois ring, with Fontaine's ring of [F2] §4. The inclusion S → A_cris extends to the p-adic completion Ŝ;
 inverting p gives S_K → B⁺_cris, with θ and Φ compatible. The filtered-ring identification
-of FL §8.4 gives the filtration comparison (SelmerIwasawaCohomology §4.2). (Fontaine–Laffaille 1982, §§7.14–7.17, pp. 593–594: the completed ring; §8.4, proof of
+of FL §8.4 gives the filtration comparison (§R07.P2). (Fontaine–Laffaille 1982, §§7.14–7.17, pp. 593–594: the completed ring; §8.4, proof of
 Theorem 8.4, pp. 595–596: the identification.)
 
-*Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.3.6; SelmerIwasawaCohomology §4.2 (`aCris`, `bCris`).
+*Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.3.6; §R07.P2 (`aCris`, `bCris`).
 
 **Checks.**
 
@@ -4171,7 +4460,7 @@ Hom_{G_K}(U_{S_K}(D), S_K) (Proposition 7.17). This rational statement is distin
 full faithfulness, whose safe interval is [0, p − 2].
 
 The setting is the Fontaine–Laffaille setting of §R07.3.4. Admissibility is that of §R07.3.3, and
-`V_cris`, `D_cris` are those of SelmerIwasawaCohomology §4.5, whose §4.7 states the
+`V_cris`, `D_cris` are those of §R07.P5; §§R07.3.7, R07.3.10–R07.3.11 and R07.3.15 give the
 finite-residue-field covariant form of this theorem; the filtered Galois ring S_K is identified with
 Fontaine's period ring in §R07.3.15.
 
@@ -4184,7 +4473,7 @@ For general j use D⟨j⟩ of §R07.3.1 and twist its contravariant realization 
 the theorem; Fontaine–Laffaille 1982, §7.17, Proposition 7.17, p. 594: dimension and injectivity.)
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.3.14; §R07.3.13; §R07.3.15; §R07.3.2;
-SelmerIwasawaCohomology §4.5 (`dCris`,
+§R07.P5 (`dCris`,
 `IsCrystalline`).
 
 **Checks.**
@@ -4288,9 +4577,10 @@ equivalence between Honda systems and MF_tor^{f,2}, the anti-equivalence with fi
 
 ### Dependencies
 
-Layer R07.2 (Dieudonné–Manin and slopes); SelmerIwasawaCohomology §§4.1–4.5 (period rings, `D_cris`,
-crystalline representations) and §§4.6–4.7 (the special case over a finite residue field);
-NeronModelsAndSemistableAbelianVarieties §5.3 (`B_st`, `D_st`); Mathlib `WittVector`, `PreTilt`,
+Layer R07.2 (Dieudonné–Manin and slopes); §§R07.P2–R07.P5 and PadicPeriodRings (early period-ring layer) (period rings, `D_cris`,
+crystalline representations); §R07.3.3a (general filtered Frobenius carrier) and
+§§R07.3.4–R07.3.15 (Fontaine–Laffaille theory and period realization);
+§R07.3.0 (`B_st`, `D_st`); Mathlib `WittVector`, `PreTilt`,
 `WittVector.fontaineTheta`, `Module.length`.
 
 ## Layer R07.4: Breuil–Kisin modules
@@ -4326,8 +4616,8 @@ k is a perfect field of characteristic p, W = W(k), K₀ = W[1/p], and K/K₀ is
 ramified of degree e, with a uniformiser π, its Eisenstein polynomial E(u) ∈ W[u], and π_n ∈ K̄ with
 π_0 = π and π_{n+1}^p = π_n; K_∞ = ∪_n K(π_n) and G_{K∞} = Gal(K̄/K_∞). A general finite K/ℚ_p is of
 this form over its maximal unramified subfield. `R`, `W(R)` and `θ` are Mathlib's `PreTilt` and
-`WittVector.fontaineTheta`; `A_cris` and `B⁺_cris` are those of SelmerIwasawaCohomology §4.2, and
-`B⁺_st ⊂ B_st` (NeronModelsAndSemistableAbelianVarieties §5.3) is taken with the element `log[π̃]`.
+`WittVector.fontaineTheta`; `A_cris` and `B⁺_cris` are those of §R07.P2, and
+`B⁺_st ⊂ B_st` (§R07.3.0) is taken with the element `log[π̃]`.
 Kisin 2006 (2.1.1) places ℰ, ℰ̂^ur and 𝔖^ur inside W(Fr R); the corrected placement is Kisin's own
 erratum (E.3), used here.
 
@@ -4356,9 +4646,8 @@ The API:
 - `toWittR`: 𝔖 → W(R), u ↦ [π̃], φ-equivariant, with θ ∘ (𝔖 → W(R)) = θ_𝔖.
 - `breuilS`: Breuil's S with Fil¹S, φ and φ₁ = φ/p on Fil¹S.
 
-*Needs:* §R07.3.0 (`generalBasePeriodRings`); SelmerIwasawaCohomology §4.2 (`aCris`, `bCris`);
-NeronModelsAndSemistableAbelianVarieties
-§5.3 (`B_st`); Mathlib `PowerSeries`; Mathlib `WittVector`; Mathlib `WittVector.frobenius`; Mathlib
+*Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.P2 (`aCris`, `bCris`);
+§R07.3.0 (`B_st`); Mathlib `PowerSeries`; Mathlib `WittVector`; Mathlib `WittVector.frobenius`; Mathlib
 `Polynomial.IsEisensteinAt`; Mathlib `AdicCompletion`; Mathlib `PreTilt`; Mathlib
 `WittVector.fontaineTheta`.
 
@@ -4885,7 +5174,7 @@ Proposition (2.1.5), p. 21: hypotheses of the proposition; Kisin 2006, Introduct
 consequence (a); Kisin 2008, §2.5, proof of Theorem (2.5.5), p. 19: consequence (b).)
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.4.10; §R07.4.12; §R07.4.6; §R07.3.3;
-NeronModelsAndSemistableAbelianVarieties §5.3
+§R07.3.0
 (`B_st`, `D_st`).
 
 **Checks.**
@@ -4978,7 +5267,7 @@ inside 𝔐(T) ⊗_{𝔖,β₁} B_cris = T ⊗_{ℤ_p} B_cris. Consequently
 The tensor products of D_cris(V) over K₀ use the usual coefficient inclusion.
 
 The setting is the Kummer frame of §R07.4.1. `D_cris` and crystalline representations are those of
-§R07.3.0, extending SelmerIwasawaCohomology §4.5. Fix the coefficient inclusion W(k) → A_inf
+§R07.3.0, extending §R07.P5. Fix the coefficient inclusion W(k) → A_inf
 and the compatible roots π^♭. Include `kisinPeriodScalarMaps` with these named ring maps:
 
 - ι₀ : 𝔖 → A_inf uses the coefficient inclusion and sends u to [π^♭].
@@ -5029,8 +5318,8 @@ its Eisenstein divisor. The scalar adapters follow from ring Frobenius on A_inf 
 the meromorphic linearisation of Definition 4.1.)
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.4.10; §R07.4.12; §R07.4.14; §R07.4.4; §R07.4.15;
-SelmerIwasawaCohomology §4.5
-(`dCris`, `IsCrystalline`); SelmerIwasawaCohomology §4.1–§4.2 (`A_inf`, `aCris`).
+§R07.P5
+(`dCris`, `IsCrystalline`); PadicPeriodRings (early period-ring layer) and §R07.P2 (`A_inf`, `aCris`).
 
 **Checks.**
 
@@ -5180,8 +5469,7 @@ after inverting p. For p > 2 a map whose composite factors through pA_cris alrea
 p𝔖^ur (Breuil, as cited in Kisin 2006, 2.2.7, proof). (Kisin 2006, §2.2.4, Lemma (2.2.4), p. 26: the
 lemma.)
 
-*Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.4.18; §R07.4.5; §R07.1.8; SelmerIwasawaCohomology
-§4.2 (`aCris`, `bCris`).
+*Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.4.18; §R07.4.5; §R07.1.8; §R07.P2 (`aCris`, `bCris`).
 
 **Checks.**
 
@@ -5472,8 +5760,7 @@ modules, Kisin–Ren modules and their comparison with M(G).)
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4; CrystallineCohomology §CR.7.2 (the
 crystalline Dieudonné crystal);
-CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation theory); SelmerIwasawaCohomology
-§4.5 (`dCris`, `IsCrystalline`).
+CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation theory); §R07.P5 (`dCris`, `IsCrystalline`).
 
 **Checks.**
 
@@ -5568,7 +5855,7 @@ Gal(F/F′) (Proposition 2.9); similarly V ≅ V^{F′}_st(D^F_st(V)). V^{F′}_
 Corollary 2.12, p. 7: the weight range.)
 
 *Needs:* §R07.3.0 (`generalBasePeriodRings`); §R07.4.27; §R07.3.3; §R07.4.13;
-NeronModelsAndSemistableAbelianVarieties §5.3 (`B_st`).
+§R07.3.0 (`B_st`).
 
 **Checks.**
 
@@ -5684,8 +5971,8 @@ and Frobenius. Construct the torsion versions A[1/p]/A for these rings, their di
 in T_st. (Savitt 2005, §3.2, pp. 12–13; Breuil 1999b, §2.2.2, as described in Savitt §3.2: the completed period
 rings; Breuil 2000, §2.3: the syntomic sheaves.)
 
-*Needs:* §R07.4.1; §R07.3.0 `generalBasePeriodRings`; CrystallineCohomology Layer CR.0
-(PD envelopes); DerivedDeRhamCohomology §0.4 and §0.20 (lci and syntomic morphisms);
+*Needs:* §R07.4.1; §R07.3.0 `generalBasePeriodRings`; DerivedDeRhamCohomology §§CR.0.3–CR.0.7
+(PD envelopes); DerivedModuleAlgebra §0.4 (cotangent complexes) and DerivedDeRhamCohomology §0.20 (syntomic morphisms);
 Tau Ceti `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`
 (`RingTheory/Syntomic/StandardSyntomic.lean`: affine syntomic charts).
 
@@ -6144,7 +6431,7 @@ in (1.2.7), since D_cris and V_cris commute with ⊗_A N (1.3.5). (Kisin 2009, �
 ### Dependencies
 
 Layers R07.2 and R07.3; CrystallineCohomology §CR.7.2 (Dieudonné crystal, Grothendieck–Messing);
-SelmerIwasawaCohomology §§4.1–4.5; NeronModelsAndSemistableAbelianVarieties §5.3;
+§§R07.P2–R07.P5 and PadicPeriodRings (early period-ring layer); §R07.3.0;
 TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.ProfiniteCohomology Layer 9; Mathlib
 `PowerSeries`, `Polynomial.IsEisensteinAt`, `AdicCompletion`, `WittVector`, `PreTilt`,
 `WittVector.fontaineTheta`.
@@ -7062,19 +7349,19 @@ itself. (For u = id the cone is zero and the statement is empty: G̃ itself is a
 
 A any commutative ring; Ext is computed in the derived category of fppf abelian sheaves on Spec A;
 ℓ̌ is the coLie complex, the dual of the restriction of the cotangent complex along the unit section
-(DerivedDeRhamCohomology §0.4).
+(DerivedModuleAlgebra §0.4).
 
 *Proof sketch.* (i) is Illusie, Complexe cotangent et déformations II, Théorème VII.4.2.5(i), with A
 = ℤ and base ring ℤ there, up to the shift convention in K (Scholze, Theorem 3.2.1, proof). (ii) is
 Illusie's Remarque VII.4.2.6(i). The construction uses the cotangent complex of group schemes and
-the transitivity triangle for H → G (DerivedDeRhamCohomology §0.8). (Scholze 2015, §III.2.1, Theorem
+the transitivity triangle for H → G (DerivedModuleAlgebra §0.8). (Scholze 2015, §III.2.1, Theorem
 III.2.1 and its proof, p. 31 (arXiv:1306.2070v2; published §3.2.1, Theorem 3.2.1, pp. 975–976): the
 obstruction class o_i ∈ Ext¹(H, K ⊗ J_i), its vanishing criterion and functoriality in the
 thickening, citing Illusie VII.4.2.5–4.2.6; Scholze 2015, Corollary III.2.2 and Remark III.2.3, p.
 32 (arXiv v2): the canonical-subgroup lifting with explicit constants, and the alternative through
 the deformation theory of rings.)
 
-*Needs:* DerivedDeRhamCohomology §0.4 (the full cotangent complex); DerivedDeRhamCohomology §0.8
+*Needs:* DerivedModuleAlgebra §0.4 (the full cotangent complex); DerivedModuleAlgebra §0.8
 (the transitivity triangle); TauCetiRoadmap.ModularCurves Layer 0B.
 
 **Checks.**
@@ -7262,7 +7549,7 @@ for good reduction at p > 2, by Fontaine's bound against the root discriminant o
 
 ### Dependencies
 
-Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedDeRhamCohomology §§0.4, 0.8;
+Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
 TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
 
@@ -7302,6 +7589,14 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   with torsion and the all-weight Kisin functor (§R07.4.15, §R07.4.16).
 
 ## References
+
+- **Bloch–Kato 1990.** Spencer Bloch and Kazuya Kato, *L-functions and Tamagawa numbers of motives*, The Grothendieck Festschrift I, 333–400. <https://virtualmath1.stanford.edu/~conrad/BSDseminar/refs/BKTamagawa.pdf>
+- **Fontaine 1994, Le corps des périodes.** *Le corps des périodes p-adiques*, Astérisque 223, 59–111. <https://www.numdam.org/item/AST_1994__223__59_0.pdf>
+- **Fontaine 1994, Représentations semi-stables.** *Représentations p-adiques semi-stables*, Astérisque 223, 113–184. <https://www.numdam.org/item/AST_1994__223__113_0.pdf>
+- **Liu–Tian–Xiao–Zhang–Zhu 2022.** *On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives*, Invent. Math. 228, 107–375. <https://doi.org/10.1007/s00222-021-01088-4>
+- **Newton–Thorne.** James Newton and Jack A. Thorne, *Symmetric power functoriality for Hilbert modular forms*, arXiv:2212.03595v2; locators use the preprint pagination. <https://arxiv.org/abs/2212.03595v2>
+- **Nizioł 1993.** Wiesława Nizioł, *Cohomology of crystalline representations*, Duke Math. J. 71, 747–791. <https://webusers.imj-prg.fr/~wieslawa.niziol/duke1993.pdf>
+- **Patrikis 2019.** Stefan Patrikis, *Variations on a theorem of Tate*, Mem. Amer. Math. Soc. 258; locators use arXiv:1207.6724v4. <https://arxiv.org/abs/1207.6724v4>
 
 - **ACC 2023.** P. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm, B. Le Hung, J. Newton, P. Scholze, R. Taylor, J. Thorne, *Potential automorphy over CM fields*, Ann. of Math. 197 (2023), no. 3. <https://annals.math.princeton.edu/2023/197-3/p02>
 - **AGHMP 2018.** Fabrizio Andreatta, Eyal Z. Goren, Benjamin Howard, Keerthi Madapusi Pera, *Faltings heights of abelian varieties with complex multiplication*, Ann. of Math. 187 (2018), no. 2. <https://arxiv.org/abs/1508.00178v3>

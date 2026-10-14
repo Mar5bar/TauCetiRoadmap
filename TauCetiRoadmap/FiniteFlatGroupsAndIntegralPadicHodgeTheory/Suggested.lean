@@ -775,6 +775,82 @@ theorem FilteredPhiNModule.nilpotent_N (D : FilteredPhiNModule p k K) : IsNilpot
 
 end Filtered
 
+section FontaineLaffaille
+
+/-- §R07.3.3a: filtered Frobenius data with semilinear divided maps and generation. The arithmetic
+statements take `W = W(k)` with `σ` the Witt Frobenius, `p > 2` and small weights. -/
+structure FontaineLaffailleModule (W : Type*) [CommRing W] (p : ℕ) (σ : W ≃+* W)
+    (M : Type*) [AddCommGroup M] [Module W M] [Module.Finite W M] where
+  /-- The decreasing filtration `Fil^i M`. -/
+  F : ℤ → Submodule W M
+  antitone : Antitone F
+  exhaustive : ∃ a, F a = ⊤
+  separated : ∃ b, F b = ⊥
+  /-- The divided Frobenius maps `φ_i : Fil^i M → M`. -/
+  φ : ∀ i, F i →ₛₗ[σ.toRingHom] M
+  divided : ∀ (i : ℤ) (x : F (i + 1)),
+    φ i ⟨x, antitone (by omega) x.property⟩ = p • φ (i + 1) x
+  generation : Submodule.span W (⋃ i, Set.range (φ i)) = ⊤
+
+/-- §R07.3.3a: free objects have split filtration steps. -/
+def IsFreeFontaineLaffaille {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
+    [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) : Prop :=
+  Module.Free W M ∧ ∀ i : ℤ, ∃ N : Submodule W M, IsCompl (D.F i) N
+
+/-- §R07.3.3a: support in the closed filtration interval `[a, b]`. -/
+def fontaineLaffaille_interval {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
+    [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) (a b : ℤ) :
+    Prop :=
+  D.F a = ⊤ ∧ D.F (b + 1) = ⊥
+
+/-- §R07.3.3a: a linear map preserving the filtration and the divided semilinear Frobenius maps. -/
+structure FontaineLaffailleHom {W M N : Type*} [CommRing W]
+    [AddCommGroup M] [Module W M] [AddCommGroup N] [Module W N]
+    [Module.Finite W M] [Module.Finite W N] {p : ℕ} {σ : W ≃+* W}
+    (D : FontaineLaffailleModule W p σ M) (D' : FontaineLaffailleModule W p σ N) where
+  /-- The underlying linear map. -/
+  map : M →ₗ[W] N
+  filtration : ∀ i, (D.F i).map map ≤ D'.F i
+  frobenius : ∀ i (x : D.F i),
+    map (D.φ i x) = D'.φ i ⟨map x, filtration i (Submodule.mem_map_of_mem x.property)⟩
+
+end FontaineLaffaille
+
+namespace Tests
+
+/-- The zero module admits the zero filtration in every interval. -/
+example (a b : ℤ) : ∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) (Fin 0 → ℤ),
+    fontaineLaffaille_interval D a b := sorry
+
+/-- The proper step `3ℤ` cannot occur in a free split-filtration object. -/
+example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ)
+    (hD : IsFreeFontaineLaffaille D) : D.F 1 ≠ Ideal.span {(3 : ℤ)} := sorry
+
+/-- The unit weight-zero object; generation excludes `φ₀ = 0` on a nonzero module. -/
+example : (∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ,
+    fontaineLaffaille_interval D 0 0 ∧ ∀ x : D.F 0, D.φ 0 x = x) ∧
+    ∀ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ, ¬ (∀ i (x : D.F i), D.φ i x = 0) :=
+  sorry
+
+/-- A nonzero object has no support in a reversed interval. -/
+example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ) :
+    ¬ fontaineLaffaille_interval D 1 0 := sorry
+
+/-- The same filtration with Frobenius `1` and `2` over `ℤ₃`: the underlying identity is not a
+morphism. -/
+example : ∃ D D' : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
+    fontaineLaffaille_interval D 0 0 ∧ fontaineLaffaille_interval D' 0 0 ∧
+    (∀ x : D.F 0, D.φ 0 x = x) ∧ (∀ x : D'.F 0, D'.φ 0 x = 2 * (x : ℤ_[3])) ∧
+    ¬ (∃ f : FontaineLaffailleHom D D', f.map = LinearMap.id) := sorry
+
+/-- Identity and zero maps are morphisms on every object. -/
+example {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
+    [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) :
+    (∃ f : FontaineLaffailleHom D D, f.map = LinearMap.id) ∧
+      ∃ f : FontaineLaffailleHom D D, f.map = 0 := sorry
+
+end Tests
+
 section FL
 
 variable (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectRing k p]
@@ -1072,6 +1148,23 @@ theorem finrank_sym (p : ℕ) [Fact p.Prime] (r : ℕ) :
     Module.finrank (ZMod p) (MvPolynomial.homogeneousSubmodule (Fin 2) (ZMod p) r) = r + 1 := sorry
 
 end SerreWeights
+
+/-! Finite-K targets stated in the README: `aCris`, `aCris_model_equiv`, `bCris`,
+`bCris_toBDR`, `bCris_frobenius`, `bCris_generatorIndependent`; the continuous fundamental
+period sequences; `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham`, `crystalline_iff_dim`,
+`crystalline_isDeRham`; `IsTorsionCrystalline`, `IsIntegralCrystalline`;
+`fontaineLaffaille_sum`, `fontaineLaffaille_dual`. These period constructions are not typed here. -/
+
+/-! The period target of §R07.P7.1 uses §R07.P5's `dDeRham` and `IsDeRham`
+on the scalar restriction of a finite-dimensional continuous `E`-representation of `G_K`, for
+finite `K/ℚ_p` and `E/ℚ_p` with `E` containing the embeddings of `K`.
+`GaloisRep.deRhamSupplierEquiv` is the filtered `K ⊗ E`-linear tensor-flip comparison
+from the supplied `(V ⊗ B_dR)^{G_K}` to `(B_dR ⊗ V)^{G_K}`. It preserves the inherited
+`E`-action, canonical comparison maps and every finite coefficient extension and filtration step.
+The supplied de Rham predicate and dimension bound are used on this same carrier; the graded
+`B_HT` realization, labelled weights and Sen operators are §R07.P7.1 targets. A filtration jump
+at `i` has labelled weight `-i`, so the cyclotomic character has weight `+1` and filtration
+jump `-1`. These interfaces are specified in the README. -/
 
 /-!
 ## Statements not typed here
