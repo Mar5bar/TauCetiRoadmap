@@ -89,6 +89,27 @@ example (δ : AdditivePowers I) : δ.dpow 2 0 = 0 := by
   have h := δ.dpow_mul (n := 2) (a := 0) (x := 0) I.zero_mem
   simpa using h
 
+/-- Over a rational algebra the candidate from divided powers has the factorial formula
+on its ideal (test_candidate_rational). -/
+example {R : Type*} [CommRing R] [Algebra ℚ R] {J : Ideal R}
+    (γ : DividedPowers J) {x : R} (hx : x ∈ J) (n : ℕ) :
+    (ofDividedPowers γ).dpow n x = TauCeti.Associative.dividedPower n x ∧
+      (ofDividedPowers γ).dpow n x = Ring.inverse (n.factorial : R) * x ^ n := by
+  sorry
+
+open scoped Classical in
+/-- On the dual numbers over `ZMod 2`, an additive candidate can fail the multiplication
+identity in degrees one and two (test_candidate_not_pd). -/
+example :
+    let B := Polynomial (ZMod 2) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod 2)) ^ 2}
+    let ε : B := Ideal.Quotient.mk _ Polynomial.X
+    let J := Ideal.span {ε}
+    ∃ δ : AdditivePowers J,
+      (∀ n x, δ.dpow n x = if x ∈ J then
+        if n = 0 then 1 else if n = 1 ∨ n = 3 then x else 0 else 0) ∧
+      δ.dpow 1 ε * δ.dpow 2 ε ≠ (3 : B) * δ.dpow 3 ε := by
+  sorry
+
 end AdditivePowers
 
 /-- Divided powers from identities on generators (Stacks, Lemma 23.2.4): an additive candidate
@@ -213,6 +234,17 @@ theorem dp_two_not_mem_span_dp_one :
       Ideal.span (Set.range fun m : ZMod 2 ↦ DividedPowerAlgebra.dp (ZMod 2) 1 m) := by
   sorry
 
+open scoped Classical in
+/-- Rational evaluation on `dp₂(1)` is distinct from augmentation
+(augmentation_test_not_evaluation). -/
+example :
+    DividedPowerAlgebra.lift
+      (DividedPowers.RatAlgebra.dividedPowers (⊤ : Ideal ℚ))
+      (LinearMap.id : ℚ →ₗ[ℚ] ℚ) (fun _ ↦ by simp)
+      (DividedPowerAlgebra.dp ℚ 2 (1 : ℚ)) = 1 / 2 ∧
+    augmentation ℚ ℚ (DividedPowerAlgebra.dp ℚ 2 (1 : ℚ)) = 0 := by
+  sorry
+
 end Augmentation
 
 /-! ### The divided power filtration -/
@@ -247,6 +279,49 @@ theorem pow_le_pdFiltration (γ : DividedPowers I) (n : ℕ) : I ^ n ≤ pdFiltr
 
 /-- The zero ideal with its unique divided powers is PD nilpotent. -/
 example : IsPDNilpotent (dividedPowersBot A) := by
+  sorry
+
+/-- The canonical 2-adic PD filtration differs from ordinary ideal powers: its second
+step contains `2`, whereas the ordinary square does not. -/
+example :
+    (2 : ℤ_[2]) ∈ pdFiltration (PadicInt.dividedPowers 2) 2 ∧
+      (2 : ℤ_[2]) ∉ (Ideal.span {(2 : ℤ_[2])}) ^ 2 := by
+  sorry
+
+open scoped Classical in
+/-- The square-zero ideal `(2)` of `ZMod 4` supports both PD-nilpotent square-zero powers
+and non-PD-nilpotent canonical powers (test_nilpotent_two_structures). -/
+example :
+    let J := Ideal.span {(2 : ZMod 4)}
+    ∃ (hJ : J ^ 2 = 0) (γ : DividedPowers J),
+      (∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
+        canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n) ∧
+      γ.dpow 2 2 = 2 ∧
+      pdFiltration (DividedPowers.OfSquareZero.dividedPowers hJ) 2 = ⊥ ∧
+      IsPDNilpotent (DividedPowers.OfSquareZero.dividedPowers hJ) ∧
+      ¬ IsPDNilpotent γ := by
+  classical
+  sorry
+
+/-- Coefficients of the nonsymmetric second-order thickening over `ZMod 2`: the diagonal
+quadratic term is zero on each basis vector and nonzero on their sum, and the symmetric
+cross-product equals `1` in the second-order summand. -/
+example :
+    let q : (ZMod 2 × ZMod 2) → (ZMod 2 × ZMod 2) → ZMod 2 := fun z z' ↦ z.1 * z'.2
+    let e₁ : ZMod 2 × ZMod 2 := (1, 0)
+    let e₂ : ZMod 2 × ZMod 2 := (0, 1)
+    q e₁ e₁ = 0 ∧ q e₂ e₂ = 0 ∧ q (e₁ + e₂) (e₁ + e₂) = 1 ∧
+      q e₁ e₂ + q e₂ e₁ = 1 := by
+  decide
+
+open scoped TensorProduct in
+/-- The tensor-product ring in the identity-leg PD pushout Check has the original carrier. -/
+example : Nonempty ((ZMod 4 ⊗[ℤ] ℤ) ≃ₐ[ℤ] ZMod 4) := by
+  sorry
+
+open scoped TensorProduct in
+/-- The zero-ideal PD pushout of two copies of `ZMod 2` over `ℤ` has the ordinary tensor ring. -/
+example : Nonempty ((ZMod 2 ⊗[ℤ] ZMod 2) ≃ₐ[ℤ] ZMod 2) := by
   sorry
 
 /-- PD nilpotence implies nilpotence of the ideal; the converse fails for `(2) ⊂ ZMod 4`. -/
@@ -326,6 +401,14 @@ end Crystalline
 namespace Crystalline
 
 open CategoryTheory
+
+/-- The first `r` ghost components jointly determine a truncated Witt vector over a
+`p`-torsion-free ring, by cancellation in the triangular ghost equations. -/
+theorem truncatedGhost_injective (p r : ℕ) [Fact p.Prime] (R : Type*) [CommRing R]
+    (hR : Function.Injective (fun x : R ↦ (p : R) * x)) :
+    Function.Injective (fun x : TruncatedWittVector p r R ↦
+      fun i : Fin r ↦ WittVector.ghostComponent i.val x.out) := by
+  sorry
 
 /-- A Dieudonné complex (Bhatt–Lurie–Mathew, Definition 2.1.1): a cochain complex of abelian
 groups with a graded endomorphism `F` satisfying `d(F x) = p F(d x)`. -/
@@ -737,6 +820,9 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
+Structural properties of the classical complex on smooth F_p-algebras:
+Crystalline.classicalDRW_injective; Crystalline.classicalDRW_saturated;
+Crystalline.classicalDRW_restriction_kernel; Crystalline.classicalDRW_strict.
 Crystalline.cuspSeminormalComparison;
 Crystalline.relativeDRW_lift; Crystalline.relativeDRW_zero; Crystalline.relativeDRW_map;
 Crystalline.relativeDRW_generated; Crystalline.relativeDRW_base_quotient;
@@ -746,6 +832,17 @@ Crystalline.classicalDRW_map; Crystalline.classicalDRW_toRelative;
 Crystalline.classicalDRW_lift_degreeZero; Crystalline.continuousWitt_eval;
 Crystalline.continuousWitt_map; Crystalline.continuousWitt_operators;
 Crystalline.continuousWitt_fromRelative.
+
+CR.4.7 Integral cohomological control:
+Crystalline.wittCohomology_bounded_torsion; Crystalline.wittCohomology_free_quotient;
+Crystalline.wittCohomology_V_complete.
+
+CR.6.4 Sato’s homological de Rham–Witt complex:
+Crystalline.SatoWitt.residue; Crystalline.SatoWitt.ordered_gr;
+Crystalline.SatoWitt.absolute_map; Crystalline.SatoWitt.rational_compare.
+Rigid cohomology of smooth strata:
+Crystalline.smoothStratumRigid.frame_independence; Crystalline.smoothStratumRigid.finiteDimensional;
+Crystalline.smoothStratumRigid.frobenius; Crystalline.smoothStratumRigid.proper_comparison.
 
 CR.3:duality.1 The trace, duality and Gysin maps:
 cechTraceSign_add; Crystalline.crysTrace_projective; Crystalline.crysTrace_reduction;
