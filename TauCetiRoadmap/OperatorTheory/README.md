@@ -67,7 +67,7 @@ scope and dependencies.
 | `OrthogonalGeometry`           | Mathlib                                                                                                    |
 | `Majorization`                 | `PolarDecomposition`, `OrthogonalGeometry`                                                                 |
 | `PrincipalAngles`              | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`                                                 |
-| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups` |
+| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups`, `BanachSpaceTheory` B1/B5 (SA-B63/65 only) |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`                                                                                       |
 | `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory`                       |
@@ -82,8 +82,10 @@ stated against.
 
 The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group
 and bounded-Borel-calculus layers in `SelfAdjointSpectralTheory` Parts A and B depend only
-on Mathlib within this family. Part D generalizes Tau Ceti's `LinearPMap` resolvent core to
-the scalar fields used by the self-adjoint theory. The unitary-group restriction and generator
+on Mathlib within this family. SelfAdjointSpectralTheory's bidual comparison
+`SA-B63` and `SA-B65` additionally consume `BanachSpaceTheory` B1/B5.
+Part D consumes Tau Ceti’s supplied scalar-generic `LinearPMap`
+resolvent core. The unitary-group restriction and generator
 relation `SA-A15`–`SA-A16` also consume `OneParameterSemigroups`.
 
 ## Ownership boundaries
@@ -104,8 +106,8 @@ Between roadmaps in this family:
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.
 - **The domain-aware Sylvester equation** — the transport statement `A X − X B = C` with
-  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, together with the in-place
-  scalar generalization of Tau Ceti's `LinearPMap` resolvent core, the self-adjoint resolvent
+  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, together with its use of
+  Tau Ceti’s supplied scalar-generic `LinearPMap` resolvent core, the self-adjoint resolvent
   estimates, and the imaginary-shift Yosida approximants. Its solvability and its a-priori
   estimates belong to `SpectralSubspacePerturbation`.
 - **Matrix-level statements with entrywise hypotheses** belong to
