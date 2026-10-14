@@ -8,13 +8,12 @@ The roadmap is `README.md`. This file records the definitions and theorem signat
 roadmap that can be stated against the pinned Mathlib and Tau Ceti; it is not exhaustive.
 The enhancement itself (the dg nerve, D∞(O), coherent towers, sheaves of spaces, Cat∞, operads,
 presentable categories, animated rings and the cotangent complex) is not available at the pins,
-so those constructions are targets of the README only. What is stated here are the parts that
+so their comparisons and extensions are specified in the README. What is stated here are the parts that
 live on carriers the pinned libraries already have, with the conventions they fix:
 
 * categorical equivalences of quasicategories, as equivalences in Mathlib's homotopy bicategory
   `SSet.QCat.bicategory` (not equivalences of homotopy categories);
-* K-flatness of complexes of modules, and existence of K-injective replacements in a
-  Grothendieck abelian category;
+* the point-site K-flat condition supplied by ClassicalAdicEtaleCohomology §0.2;
 * the global dimension of regular rings and Kunz's theorem, on Mathlib's `IsRegularRing`;
 * Frobenius-root ideals and Tor independence of perfect `𝔽_p`-algebras;
 * `𝔪`-saturation of modules over a valuation ring;
@@ -29,6 +28,7 @@ live on carriers the pinned libraries already have, with the conventions they fi
 namespace TauCetiRoadmap.EnhancedDerivedSheaves
 
 open CategoryTheory CategoryTheory.Limits Opposite
+open scoped ZeroObject
 open TauCetiRoadmap.SchemeAndStackFoundations.Proetale (IsReplete)
 
 universe u v w z
@@ -69,7 +69,7 @@ section KFlat
 
 open MonoidalCategory
 
-/-- **K-flat complexes** (`IsKFlat`, Section E1.2), in the case of the one-point site: a complex
+/-- The point-site K-flat condition of ClassicalAdicEtaleCohomology §0.2 (Section E1.2): a complex
 `P` of `R`-modules is K-flat when tensoring with it preserves acyclicity of every unbounded
 complex. Termwise flatness is not the definition. The sheaf version replaces `ModuleCat R` by
 `SheafOfModules O` with the sheafified tensor product. -/
@@ -88,16 +88,14 @@ example (p : ℕ) (hp : p.Prime) :
       (ModuleCat.of ℤ (ZMod p))) := by
   sorry
 
-end KFlat
-
-/-- **K-injective replacement** (`kInjectiveReplacement`, Section E1.2), objectwise: every
-unbounded complex in a Grothendieck abelian category maps by a quasi-isomorphism to a
-K-injective complex. The roadmap asks for a functorial replacement bounded by one regular
-cardinal; this is its objectwise shadow. -/
-theorem kInjectiveReplacement_exists (A : Type u) [Category.{v} A] [Abelian A]
-    [IsGrothendieckAbelian.{v} A] (K : CochainComplex A ℤ) :
-    ∃ (L : CochainComplex A ℤ) (f : K ⟶ L), L.IsKInjective ∧ QuasiIso f := by
+/-- A flat module concentrated in any integer degree is K-flat. -/
+example (R : Type u) [CommRing R] (M : Type u) [AddCommGroup M] [Module R M]
+    [Module.Flat R M] (n : ℤ) :
+    IsKFlat R ((HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.up ℤ) n).obj
+      (ModuleCat.of R M)) := by
   sorry
+
+end KFlat
 
 section RegularRings
 
@@ -128,6 +126,51 @@ theorem frobenius_flat_of_isRegular (R : Type u) [CommRing R] (p : ℕ) [Fact p.
 11.35): a Noetherian ring of characteristic `p` with flat Frobenius is regular. -/
 theorem isRegular_of_frobenius_flat (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
     [CharP R p] [IsNoetherianRing R] (h : (frobenius R p).Flat) : IsRegularRing R := by
+  sorry
+
+/-- Every vector space has projective dimension zero. -/
+example (k : Type u) [Field k] (M : ModuleCat.{u} k) : HasProjectiveDimensionLE M 0 := by
+  sorry
+
+/-- Every abelian group has projective dimension at most one. -/
+example (M : ModuleCat.{0} ℤ) : HasProjectiveDimensionLE M 1 := by
+  sorry
+
+/-- A prime residue module over the integers is not projective. -/
+example (p : ℕ) (hp : p.Prime) :
+    ¬ HasProjectiveDimensionLE (ModuleCat.of ℤ (ZMod p)) 0 := by
+  sorry
+
+/-- The residue field at the polynomial origin has projective dimension exactly the
+number of variables, including the zero-variable case. -/
+example (k : Type u) [Field k] (d : ℕ) :
+    letI : Algebra (MvPolynomial (Fin d) k) k :=
+      (MvPolynomial.constantCoeff : MvPolynomial (Fin d) k →+* k).toAlgebra
+    ∀ n : ℕ, HasProjectiveDimensionLE (ModuleCat.of (MvPolynomial (Fin d) k) k) n ↔ d ≤ n := by
+  sorry
+
+/-- The residue field of the dual numbers has infinite projective dimension. -/
+example (k : Type u) [Field k] (n : ℕ) :
+    ¬ HasProjectiveDimensionLE
+      (ModuleCat.of (DualNumber k) (ResidueField (DualNumber k))) n := by
+  sorry
+
+/-- Dual numbers over a field are not regular, despite their zero Krull dimension. -/
+example (k : Type u) [Field k] : ¬ IsRegularRing (DualNumber k) := by
+  sorry
+
+/-- Frobenius on a perfect field is flat. -/
+example (k : Type u) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] [PerfectRing k p] :
+    (frobenius k p).Flat := by
+  sorry
+
+/-- Frobenius on the prime field is flat. -/
+example (p : ℕ) [Fact p.Prime] : (frobenius (ZMod p) p).Flat := by
+  sorry
+
+/-- Frobenius on the dual numbers over the prime field is not flat. -/
+example (p : ℕ) [Fact p.Prime] (B : Type u) [CommRing B] [CharP B p]
+    (e : B ≃+* DualNumber (ZMod p)) : ¬ (frobenius B p).Flat := by
   sorry
 
 end RegularRings
@@ -173,6 +216,15 @@ theorem perfectRing_tor_eq_zero (A B C : Type u) [CommRing A] [CommRing B] [Comm
       (ModuleCat.of A C)) := by
   sorry
 
+/-- In the perfect polynomial ring, the first root of the variable lies in its root
+ideal and does not lie in its principal ideal. -/
+example (p : ℕ) [Fact p.Prime] :
+    let R := PerfectClosure (MvPolynomial (Fin 1) (ZMod p)) p
+    let t : R := PerfectClosure.of (MvPolynomial (Fin 1) (ZMod p)) p (MvPolynomial.X 0)
+    (iterateFrobeniusEquiv R p 1).symm t ∈ frobeniusRootIdeal R t ∧
+      (iterateFrobeniusEquiv R p 1).symm t ∉ Ideal.span {t} := by
+  sorry
+
 end PerfectRings
 
 section ValuationModules
@@ -189,14 +241,40 @@ def valuationSaturationMap (V : Type u) [CommRing V] (m : Ideal V)
   map_smul' c x := by ext a; simp [smul_comm (a : V) c x]
 
 /-- **`𝔪`-saturated modules** (`IsValuationSaturated`, Section E1.7, BS17 Lemma 6.14): the
-multiplication map `M → Hom_V(𝔪, M)` is bijective. A nonzero open ball in a nonarchimedean
-field fails this, a closed ball with full value group satisfies it. -/
+multiplication map `M → Hom_V(𝔪, M)` is bijective. For a nonarchimedean field with
+`|K×| = ℝ_{>0}`, a nonzero open ball of finite positive radius fails this, while a closed
+ball satisfies it. An open ball with radius outside the value group can be saturated. -/
 def IsValuationSaturated (V : Type u) [CommRing V] (m : Ideal V)
     (M : Type v) [AddCommGroup M] [Module V M] : Prop :=
   Function.Bijective (valuationSaturationMap V m M)
 
 /-- The zero module is saturated. -/
 example (V : Type u) [CommRing V] (m : Ideal V) : IsValuationSaturated V m PUnit.{v + 1} := by
+  sorry
+
+/-- Saturation with respect to the unit ideal holds for every module. -/
+example (V : Type u) [CommRing V] (M : Type v) [AddCommGroup M] [Module V M] :
+    IsValuationSaturated V ⊤ M := by
+  sorry
+
+/-- Saturation with respect to the zero ideal characterizes zero modules. -/
+example (V : Type u) [CommRing V] (M : Type v) [AddCommGroup M] [Module V M] :
+    IsValuationSaturated V ⊥ M ↔ Subsingleton M := by
+  sorry
+
+/-- The valuation ring of a discretely valued p-adic field is not saturated for its
+maximal ideal. -/
+example (p : ℕ) [Fact p.Prime] :
+    ¬ IsValuationSaturated ℤ_[p] (Ideal.span {(p : ℤ_[p])}) ℤ_[p] := by
+  sorry
+
+/-- Principal lattices for a valuation with full real value group are saturated,
+including the zero lattice. -/
+example (K : Type u) [Field K] (val : Valuation K NNReal) (hval : Function.Surjective val)
+    (a : K) :
+    IsValuationSaturated val.valuationSubring
+      (IsLocalRing.maximalIdeal val.valuationSubring)
+      (Submodule.span val.valuationSubring {a}) := by
   sorry
 
 end ValuationModules
@@ -210,7 +288,8 @@ transition map. This is a condition on transitions, not on the limit. -/
 def IsProZero {A : Type u} [Category.{v} A] [HasZeroMorphisms A] (F : ℕᵒᵖ ⥤ A) : Prop :=
   ∀ n : ℕ, ∃ m : ℕ, ∃ h : n ≤ m, F.map (homOfLE h).op = 0
 
-/-- **Pro-isomorphisms** (`IsProIsomorphism`): kernel and cokernel towers are pro-zero. -/
+/-- Ordinary abelian pro-isomorphisms have pro-zero kernel and cokernel towers. This
+predicate is distinct from the stable null-transition condition used for descendability. -/
 def IsProIsomorphism {A : Type u} [Category.{v} A] [Abelian A]
     {F G : ℕᵒᵖ ⥤ A} (f : F ⟶ G) : Prop :=
   IsProZero (kernel f) ∧ IsProZero (cokernel f)
@@ -233,6 +312,46 @@ example (A : Type u) [Category.{v} A] [Abelian A] (F : ℕᵒᵖ ⥤ A)
 
 /-- Multiplication by a prime `p` on `ℤ` is not pro-zero, although its limit is zero. -/
 example (p : ℕ) (hp : p.Prime) : ¬ IsProZero (pMultiplicationTower p) := by
+  sorry
+
+/-- The zero tower is pro-zero. -/
+example (A : Type u) [Category.{v} A] [Abelian A] :
+    IsProZero (0 : ℕᵒᵖ ⥤ A) := by
+  sorry
+
+/-- Multiplication by zero gives a pro-zero tower with nonzero terms. -/
+example : IsProZero (pMultiplicationTower 0) := by
+  sorry
+
+/-- Multiplication by one gives the constant identity tower. -/
+example : Nonempty (pMultiplicationTower 1 ≅
+    (Functor.const ℕᵒᵖ).obj (ModuleCat.of ℤ ℤ)) := by
+  sorry
+
+/-- The identity morphism of a tower is a pro-isomorphism. -/
+example (A : Type u) [Category.{v} A] [Abelian A] (F : ℕᵒᵖ ⥤ A) :
+    IsProIsomorphism (𝟙 F) := by
+  sorry
+
+/-- A zero-transition error gives a pro-isomorphism that is not a levelwise isomorphism. -/
+example : IsProIsomorphism
+    (0 : (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) ⟶ pMultiplicationTower 0) := by
+  sorry
+
+/-- A finite-prefix error is invisible to pro-isomorphism. -/
+example (F : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) (N : ℕ)
+    (hF : ∀ n ≥ N, IsZero (F.obj (op n))) :
+    IsProIsomorphism (0 : (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) ⟶ F) := by
+  sorry
+
+/-- The constant identity tower on the integers is not pro-zero. -/
+example : ¬ IsProIsomorphism
+    (0 : (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ) ⟶ pMultiplicationTower 1) := by
+  sorry
+
+/-- Prime-multiplication errors are not pro-isomorphisms, although their limits vanish. -/
+example (p : ℕ) (hp : p.Prime) : ¬ IsProIsomorphism
+    (0 : pMultiplicationTower p ⟶ (0 : ℕᵒᵖ ⥤ ModuleCat.{0} ℤ)) := by
   sorry
 
 end ProTowers
@@ -266,7 +385,7 @@ end Replete
 
 section DerivedComplete
 
-/-- **Derived completeness of a module** (the point-topos case of `DerivedCompleteSheaves`,
+/-- The point-site telescope criterion of DerivedDeRhamCohomology §1.2 (`DerivedCompleteSheaves`,
 Section E4.1). For `f ∈ I` the derived limit of `M ←f M ←f ⋯` is the fibre of
 `(x_n) ↦ (x_n - f • x_{n+1})` on `ℕ → M`; `M` is derived `I`-complete when this map is
 bijective for every `f ∈ I`. -/
@@ -289,6 +408,11 @@ example (p : ℕ) (hp : p.Prime) : ¬ IsDerivedComplete (Ideal.span {(p : ℤ)})
 
 /-- `ℤ_[p]` is derived `p`-complete. -/
 example (p : ℕ) [Fact p.Prime] : IsDerivedComplete (Ideal.span {(p : ℤ_[p])}) ℤ_[p] := by
+  sorry
+
+/-- A countable direct sum of p-adic integers is not derived p-complete. -/
+example (p : ℕ) [Fact p.Prime] :
+    ¬ IsDerivedComplete (Ideal.span {(p : ℤ_[p])}) (ℕ →₀ ℤ_[p]) := by
   sorry
 
 /-- A module killed by `p` is derived `p`-complete. -/
@@ -317,8 +441,10 @@ end DerivedComplete
 /-
 The README also specifies API beyond the representative statements above:
 * E0.2: `isCategoricalEquivalence_iff` uses right mapping spaces.
-* E1.2: `isKFlat_boundedAbove`, `isKFlat_tensor` and `isKFlat_quasiIso_tensor` specify the
-  sheaf-complex API, whereas `IsKFlat` above is the point-site specialization.
+* E1.2: `replacementDGComparison` compares the replacements supplied by
+  ClassicalAdicEtaleCohomology §0.2 with the dg realization; `IsKFlat` spells its point-site
+  acyclicity condition. E1.5 `koszulEnhancedComparison` reindexes the Koszul complex supplied
+  by IntegralHeckeAndGaloisDeterminants §6.4.
 * E1.6: `frobeniusRootIdeal_radical` and `frobeniusRootIdeal_colimit` identify the root ideal
   with the radical and its sequential colimit presentation.
 * E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,
@@ -331,14 +457,14 @@ and `IsReplete.derivedCategory_leftComplete`; its predicate is imported above.
 The remaining constructions use carriers that are not at the pins: the join, slices and right
 mapping spaces, the dg nerve, Cat∞ and Spaces, coCartesian
 fibrations and straightening, presentable quasicategories (Layer E0); D∞(O), the derived tensor
-product and internal Hom, ringed pullback and pushforward, Koszul complexes, Dqc and base change
+product and internal Hom, ringed pullback and pushforward, the supplied Koszul comparison, Dqc and base change
 on perfect schemes (Layer E1); Kan extensions, adjoints, localizations and mates (Layer E3);
 coherent towers and derived-limit filtrations (Layer E2:towers); operads, algebras, modules,
 monoidal localizations, Verdier quotients and Barr–Beck–Lurie (Layer E5:abstract); Ind,
 PrL, spectra, dualizable and rigid categories (Layer E5:presentability); descendable algebras
 (Layer E5:descent); animated rings (Layer E5:animation); Postnikov completion, hypercover
 descent, sheaves of spaces and h-descent (Layer E2); sheaf completion and coefficient
-reconstruction (Layer E4); the cotangent complex (Layer E5:cotangent-export); and the
+reconstruction (Layer E4); the animated cotangent and power comparisons (Layer E5:cotangent-export); and the
 Eilenberg–Mac Lane comparison (Layer E5:spectra-comparison).
 -/
 
