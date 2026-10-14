@@ -20,6 +20,8 @@ commutative algebra used by the geometric targets, in their corresponding README
 Design choices made explicit here:
 * over a field, an ordinary quadratic form is Mathlib's `QuadraticMap.Nondegenerate` on a nonzero
   space; this is the characteristic-free notion, and no invertibility of two is assumed;
+  polar-nondegenerate means that the polar form has zero kernel, a stronger condition in odd
+  rank in characteristic two;
 * the coordinate expansion of a quadratic form uses `Q (e i)` on the diagonal and the polar form
   off the diagonal, with no division by two, and "order at least three" is Mathlib's total-degree
   order, `3 ≤ MvPowerSeries.order R`;
@@ -218,7 +220,7 @@ one). This is the field case of the README's `Quadric.IsOrdinary` (README 2.1,
 def IsOrdinaryOverField (Q : QuadraticForm K V) : Prop :=
   Nontrivial V ∧ Q.Nondegenerate
 
-/-- Over a field in which two is invertible, ordinarity is nondegeneracy of the polar form. -/
+/-- Over a field in which two is invertible, ordinarity is equivalent to polar-nondegeneracy. -/
 theorem isOrdinaryOverField_iff_polar_nondegenerate [Invertible (2 : K)] [Nontrivial V]
     [FiniteDimensional K V] (Q : QuadraticForm K V) :
     IsOrdinaryOverField Q ↔ (QuadraticMap.polarBilin Q).Nondegenerate := by
@@ -226,7 +228,8 @@ theorem isOrdinaryOverField_iff_polar_nondegenerate [Invertible (2 : K)] [Nontri
 
 /-- README check `isOrdinary_xy_add_sq_char_two`: over any field of characteristic two, `xy + z²`
 is ordinary: the polar form has kernel the line of `e₂`, on which the form does not vanish, so the
-conic `xy = z²` is smooth. -/
+conic `xy = z²` is smooth, although the form is not polar-nondegenerate. This is also the
+characteristic-two cone of README 2.7 after the quadratic base change `t = z²` in `xy = t`. -/
 example [CharP K 2] : IsOrdinaryOverField
     (QuadraticMap.proj 0 1 + QuadraticMap.proj 2 2 : QuadraticForm K (Fin 3 → K)) := by
   sorry

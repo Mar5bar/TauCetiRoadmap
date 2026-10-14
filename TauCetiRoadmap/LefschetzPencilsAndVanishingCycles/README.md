@@ -28,7 +28,8 @@ This roadmap owns:
    scheme Frobenius, abelian torsion/Tate traces and cycle-class definitions are supplied
    by the contracts below. These shared finite-coefficient, adic and trace results have
    their single owner in LPV.F; downstream point-counting and weight developments consume
-   these declarations on the full domains specified here.
+   these declarations on the full domains specified here. CohomologicalPointCounting imports
+   these interfaces under the [shared supplier contracts](https://github.com/TauCetiProject/TauCetiRoadmap/pull/196#issuecomment-6157004490).
 
 1. **Nearby and vanishing cycles over a henselian trait** (Layer LPV.0): the topos `X_s ×_s S` and its Galois
    description, the functors `Ψ_η`, `Ψ`, `RΨ`, `RΦ`, the specialization triangle and the variation, functoriality under
@@ -2264,7 +2265,9 @@ two, `Q` is ordinary if and only if `Φ` is nondegenerate; if `r` is odd and the
 is ordinary if and only if the kernel of the alternating form `Φ` is a line on which `Q` does not vanish.
 Over a field and for `V ≠ 0` this is Mathlib's `QuadraticMap.Nondegenerate` (radical zero and polar kernel
 of rank at most one). The case `r = 0` is excluded, and no invertibility of two is assumed. Define
-`Quadric.IsOrdinary`.
+`Quadric.IsOrdinary`. In geometric prose, **polar-nondegenerate** means that the polar pairing
+is perfect; over a field this means that its kernel is zero. Ordinarity allows a one-dimensional
+polar kernel in odd rank in characteristic two.
 
 - `Quadric.IsOrdinary`: IsOrdinary Q : Prop — Q nowhere zero with smooth quadric.
 - `Quadric.IsOrdinary.baseChange`: Ordinary is stable under base change and can be checked on the fibres at points of S.
@@ -2465,17 +2468,18 @@ pp. 17–18; Table 3.7, p. 20.) *Needs:* the theorem above, 2.3; F.6.
 `p`, and `n = dim_y Y`. For `k` algebraically closed, `y` is an **ordinary quadratic point** if, as
 `k`-algebras, `Ô_{Y,y} ≅ k[[x_1, …, x_{n+1}]]/(f)` with `f = Q(x) + R(x)`, `Q` an ordinary quadratic form in
 `n + 1 > 0` variables and every coefficient of `R` of total degree below three zero. For general `k`, `y` is
-ordinary quadratic if the points of `Y ⊗_k k̄` over `y` are. Replacing *ordinary* by *nondegenerate* (polar
-form nondegenerate) defines nondegenerate quadratic points; `y` is nondegenerate exactly when it is
-ordinary and `p ≠ 2` or `n` is odd, and an ordinary quadratic point with `p = 2` and `n` even is called
-degenerate. An arbitrary ordinary germ is not replaced by its pure quadratic cone. Define
+ordinary quadratic if the points of `Y ⊗_k k̄` over `y` are. Requiring the leading form to be
+*polar-nondegenerate* defines polar-nondegenerate quadratic points (called nondegenerate in Exposé XV);
+`y` is polar-nondegenerate exactly when it is
+ordinary and (`p ≠ 2` or `n` is odd), and an ordinary quadratic point with `p = 2` and `n` even is called
+polar-degenerate (degenerate in Exposé XV). An arbitrary ordinary germ is not replaced by its pure quadratic cone. Define
 `Quadric.IsOrdinaryQuadraticPoint`, `Quadric.IsNondegenerateQuadraticPoint`, and the coordinate
 expansion `Quadric.quadraticSeries` of a quadratic form as a multivariate power series, whose
 diagonal coefficients are `Q(e_i)` and whose mixed coefficients are `Q(e_i + e_j) − Q(e_i) − Q(e_j)`, with
 no division by two.
 
 - `Quadric.IsOrdinaryQuadraticPoint`: Geometric predicate on (Y/k,y), tested after algebraic closure. Its field formal-germ specialization takes a k-algebra A and r=n+1>0 and requires A≅k[[x₁,…,x_r]]/(quadraticSeries(Q)+R) as k-algebras, with Q ordinary and R of order at least three (`3 ≤ MvPowerSeries.order R`).
-- `Quadric.IsNondegenerateQuadraticPoint`: The same with the leading form nondegenerate.
+- `Quadric.IsNondegenerateQuadraticPoint`: The same with the leading form polar-nondegenerate.
 - `Quadric.isNondegenerate_iff`: IsNondegenerateQuadraticPoint Y y ↔ IsOrdinaryQuadraticPoint Y y ∧ (p ≠ 2 ∨ Odd n).
 - `Quadric.isOrdinaryQuadraticPoint_baseChange`: The notion is geometric: it holds at y if and only if it holds at the points over y after any field extension.
 - `Quadric.isOrdinaryQuadraticPoint_cone`: For r > 0 and Q ordinary, the formal quotient k[[x]]/(quadraticSeries Q) is an ordinary germ; its identification with the completed local ring of the cone Q = 0 at its vertex is a statement about schemes (Mathlib `AdicCompletion`; TauCetiRoadmap ModularCurves Layer 4D).
@@ -2483,7 +2487,7 @@ no division by two.
 - `Quadric.quadraticSeries_proj`: For Q=proj_i·proj_j the constructor returns X_i X_j, including i=j.
 
 *Proof sketch.* The quadratic part of `f` is determined up to a linear change of coordinates and a unit,
-because `f` has no linear term, and ordinarity is invariant under both. Nondegeneracy is the criterion of
+because `f` has no linear term, and ordinarity is invariant under both. Polar-nondegeneracy is the criterion of
 2.1 for the form in `n + 1` variables. (SGA 7 II, Exposé XV, Définition 1.2.1, p. 4; 1.2.2, pp. 4–5;
 Exemple 1.2.4, p. 5.) *Needs:* 2.1; Mathlib `MvPowerSeries`, `MvPowerSeries.order`, `AdicCompletion`
 (completed local rings); TauCetiRoadmap ModularCurves Layer 4D. *Lean:* `Suggested.lean` declares `Quadric.quadraticSeries`,
@@ -2495,18 +2499,18 @@ the field formal-germ form `Quadric.IsOrdinaryQuadraticGerm` and `isOrdinaryQuad
 
 - For the mixed projection `xy`, `quadraticSeries` is `X₀X₁`; for `x²` it is `X₀²`.
 - For `xy+z²` over a characteristic-two field, `quadraticSeries` is `X₀X₁+X₂²`, with no division by two.
-- `Quadric.node_isOrdinary`: The node xy = 0 in 𝔸² (n = 1): Q = xy is ordinary and nondegenerate in every characteristic.
-- `Quadric.doublePoint_char_two`: n = 0, Y = Spec k[x]/(x²): Q = x² is ordinary in every characteristic, so the origin is ordinary; it is non-degenerate if and only if p ≠ 2, and for p = 2 it is degenerate.
+- `Quadric.node_isOrdinary`: The node xy = 0 in 𝔸² (n = 1): Q = xy is ordinary and polar-nondegenerate in every characteristic.
+- `Quadric.doublePoint_char_two`: n = 0, Y = Spec k[x]/(x²): Q = x² is ordinary in every characteristic, so the origin is ordinary; it is polar-nondegenerate if and only if p ≠ 2, and for p = 2 it is polar-degenerate.
 - `Quadric.cusp_not_ordinary`: The cusp y² = x³ (n = 1): the quadratic part y² in two variables is not ordinary (its quadric is a double point of P¹), so the cusp is not an ordinary quadratic point.
 - `Quadric.smooth_point_not_quadratic`: A smooth point is not an ordinary quadratic point: its Zariski tangent space has dimension n, not n + 1.
 - The node, the double point in both characteristics, the cusp and a smooth point.
 
 **Lemma (the Tjurina module).** Let `y` be an ordinary quadratic point of `Y/k` with `k(y)` purely
 inseparable over `k`, and `T¹_{Y/k} = O_Y/J` the quotient by the Jacobian ideal. Near `y`, `T¹` is monogenic
-and concentrated at `y`, of rank one over `k` if `y` is nondegenerate (and then `k(y) = k`), of rank two if `y`
-is degenerate (`p = 2`, `n = 2m`), in which case `k(y) = k` or `k(y) ≅ k(√a)` with `a ∈ k − k²`. *Proof
-sketch.* Check over `k̄` after completion. If `y` is nondegenerate the partial derivatives of
-`f = Q + (order ≥ 3)` generate the maximal ideal by Nakayama, so the quotient is `k`. In the degenerate case
+and concentrated at `y`, of rank one over `k` if `y` is polar-nondegenerate (and then `k(y) = k`), of rank two if `y`
+is polar-degenerate (`p = 2`, `n = 2m`), in which case `k(y) = k` or `k(y) ≅ k(√a)` with `a ∈ k − k²`. *Proof
+sketch.* Check over `k̄` after completion. If `y` is polar-nondegenerate the partial derivatives of
+`f = Q + (order ≥ 3)` generate the maximal ideal by Nakayama, so the quotient is `k`. In the polar-degenerate case
 `f = x_0² + Σ_{i=1}^m x_i x_{i+m} + R` in suitable coordinates, and `(f, ∂f/∂x_i) = (x_0², x_i (i ≠ 0))`, so the
 quotient is `k[x_0]/(x_0²)`; a radicial subscheme of rank two of affine space lies on a unique line.
 (SGA 7 II, Exposé XV, Lemmes 1.2.7–1.2.8, pp. 6–7; 1.2.9–1.2.10.) *Needs:* the definition above.
@@ -2541,13 +2545,13 @@ over henselian pairs).
 **Theorem (canonical form up to henselization).** Let `y` be an ordinary quadratic point of a `k`-scheme
 `Y` and `k'` the separable closure of `k` in `k(y)`. There are a `k'`-scheme `Y_0 ⊂ 𝔸^{n+1}_{k'}` and a point
 `y_0` with an isomorphism of henselizations `Y_(y) ≅ Y_0(y_0)` over `k`, where either `Y_0` is the cone `Q = 0`
-of a nondegenerate form and `y_0` the origin, or (`p = 2`, `n = 2m`) `Y_0` is
-`(x_0² − a) + Σ_{0<i≤j≤2m} a_{ij} x_i x_j = 0` with the `2m`-variable form nondegenerate and `y_0 = (√a, 0, …, 0)`.
+of a polar-nondegenerate form and `y_0` the origin, or (`p = 2`, `n = 2m`) `Y_0` is
+`(x_0² − a) + Σ_{0<i≤j≤2m} a_{ij} x_i x_j = 0` with the `2m`-variable form polar-nondegenerate and `y_0 = (√a, 0, …, 0)`.
 The same holds for the affine quadric of a non-homogeneous quadratic form with an ordinary singular
 point, by an affine change of variables. *Proof sketch.* Pass to an étale neighbourhood that is a
 `k'`-scheme; `dim(Ω¹_{Y/k})_y = n + 1`, so `Y` is a hypersurface in a smooth `Z` of dimension `n + 1`. In the
-nondegenerate case `k(y) = k` (Tjurina lemma), choose étale coordinates with `f = Q + (order > 2)` and apply
-the implicit function theorem to get coordinates `x'_i ≡ x_i mod 𝔪²` with `Q(x') = 0`; the degenerate case
+polar-nondegenerate case `k(y) = k` (Tjurina lemma), choose étale coordinates with `f = Q + (order > 2)` and apply
+the implicit function theorem to get coordinates `x'_i ≡ x_i mod 𝔪²` with `Q(x') = 0`; the polar-degenerate case
 uses the line of the Tjurina lemma. (SGA 7 II, Exposé XV, Théorème 1.2.6 and its proof, pp. 5–7.)
 *Needs:* the definition, the Tjurina lemma and the implicit function theorem above; 2.1.
 
@@ -2560,7 +2564,7 @@ uses the line of the Tjurina lemma. (SGA 7 II, Exposé XV, Théorème 1.2.6 and 
 
 **Theorem (henselian versal deformation).** Over a henselian noetherian local base, an isolated ordinary
 quadratic germ has a henselian versal deformation: the one-parameter family `Q − b = 0` in the
-nondegenerate case, and the two-parameter family `x_0² + b x_0 + c + Q'` in the degenerate case
+polar-nondegenerate case, and the two-parameter family `x_0² + b x_0 + c + Q'` in the polar-degenerate case
 (characteristic two, even fibre dimension). A chosen identification on the special fibre extends once
 the lifts of the coefficients are prescribed. *Proof sketch.* The Tjurina lemma gives one or two
 deformation parameters; the formal versal deformation is computed by the Jacobian calculation of
@@ -2571,7 +2575,7 @@ and 1.3.1–1.3.3, pp. 10–12.) *Needs:* the Tjurina lemma; AlgebraicModuliForA
 
 **Checks.**
 
-- The ordinary quadratic point has a one-parameter versal deformation Q − b = 0 (non-degenerate case) and a two-parameter one in the degenerate case, matching the ranks 1 and 2 of T¹ in the Tjurina-module lemma.
+- The ordinary quadratic point has a one-parameter versal deformation Q − b = 0 (polar-nondegenerate case) and a two-parameter one in the polar-degenerate case, matching the T¹ ranks one and two.
 
 - For the node `xy=0`, `xy=b` supplies the one smoothing parameter.
 - In characteristic two, `x²=0` has the two-parameter deformation `x²+bx+c`; the linear parameter cannot be absorbed by translating `x`.
@@ -2579,12 +2583,12 @@ and 1.3.1–1.3.3, pp. 10–12.) *Needs:* the Tjurina lemma; AlgebraicModuliForA
 **Theorem (local equation of a family).** Let `S = Spec A` be henselian local with closed point `s`,
 `f : X → S` flat of finite presentation, and `x` a closed point of `X_s` at which `X_s` (of dimension `n`) has an
 ordinary quadratic singularity, with `k(x)` purely inseparable over `k(s)`.
-(i) If `x` is nondegenerate, there are a nondegenerate quadratic form `Q` in `n + 1` variables over `A` and
+(i) If `x` is polar-nondegenerate, there are a polar-nondegenerate quadratic form `Q` in `n + 1` variables over `A` and
 `b` in the maximal ideal such that the henselization of `X` at `x` is isomorphic to that of `Q − b = 0` at the
 origin of `𝔸^{n+1}_S`.
-(ii) If `x` is degenerate (`n = 2m`, characteristic two), there is
+(ii) If `x` is polar-degenerate (`n = 2m`, characteristic two), there is
 `Q(x) = x_0² + b x_0 + c + Σ_{1≤i≤j≤2m} a_{ij} x_i x_j` over `A`, with `b` in the maximal ideal and the
-`2m`-variable form nondegenerate, such that the henselization of `X` at `x` is isomorphic to that of `Q = 0`
+`2m`-variable form polar-nondegenerate, such that the henselization of `X` at `x` is isomorphic to that of `Q = 0`
 at `(√c, 0, …, 0)`.
 The isomorphism can be chosen to extend a given one on the special fibre. The source prints `x_0` for
 `x_0²` in (ii). *Proof sketch.* The special fibre at `x` is in canonical form; pull back the henselian versal
@@ -2699,7 +2703,7 @@ maximal ideal. Smoothness of the generic fibre is an additional hypothesis, not 
 - `VanishingCycles.StandardQuadraticDegeneration.vertex`: The singular point x₀ of X_s, rational unless char k(s) = 2 and n is even.
 - `VanishingCycles.StandardQuadraticDegeneration.projectiveClosure`: X₁ ⊂ P^{n+1}_S with X = X₁ − Y; Y = X₁ ∩ H is a smooth quadric of dimension n−1 for n>0 and is empty for n=0.
 - `VanishingCycles.StandardQuadraticDegeneration.discriminantCharacter`: For n even, the character ε : I → {±1} of the separable quadratic extension of k(η) given by the centre of the even Clifford algebra of the rank-n+2 homogenized form defining X₁,η in (2.2.1.1), assuming the generic fibre smooth.
-- `VanishingCycles.StandardQuadraticDegeneration.ofLocalEquation`: The local model Q − b = 0 of a family at a non-degenerate ordinary quadratic point (XV 1.3.2) is a standard degeneration.
+- `VanishingCycles.StandardQuadraticDegeneration.ofLocalEquation`: The local model Q − b = 0 of a family at a polar-nondegenerate ordinary quadratic point (XV 1.3.2) is a standard degeneration.
 
 *Proof sketch.* The projective closure is a flat family of quadrics and (a) says its section at infinity is
 smooth; on `X_s` the partial derivatives define the singular locus of the cone, whose degree is computed
@@ -2900,7 +2904,7 @@ a uniformizer. (Weil II, 4.2.1–4.2.3, pp. 219–220.) *Needs:* the even theore
 - Over `k[[t]]` in characteristic two, `x²+tx+t=0` has Artin–Schreier character `u²+u=1/t`, which is wild for every odd coefficient prime.
 
 **Theorem (odd relative dimension, the Picard–Lefschetz formula at a point).** Let `X → S` have an ordinary
-nondegenerate quadratic singularity of relative dimension `n = 2m + 1` with smooth generic fibre, local
+polar-nondegenerate quadratic singularity of relative dimension `n = 2m + 1` with smooth generic fibre, local
 equation `Q − b = 0`, `b ≠ 0` in the maximal ideal of the henselian trait. The primitive quotient of the
 cohomology of the exceptional quadric determines `±δ` (2.6). For finite coefficients prime to the residue
 characteristic,
@@ -2914,7 +2918,9 @@ cohomology, and with `ℚ_ℓ` coefficients `ε_b = v(b) t_ℓ`. The twists make
 
 *Proof sketch.* The algebraic proof (Illusie 2002, described in Illusie 2021, §6.1) runs through the
 semistable calculation of 1.9. For the model `Q(x_0, …, x_n) = t` (`n + 1` even), the base change `t = s²` of
-ramification index two gives the nondegenerate cone `Q(x) = s²` in `n + 2` variables; blowing up its vertex
+ramification index two gives the ordinary quadratic cone `Q(x) = s²` in `n + 2` variables. In residue
+characteristic two its leading form has polar kernel the `s`-line, on which the quadratic form is nonzero;
+it is ordinary and polar-degenerate. Blowing up its vertex
 gives a regular scheme whose special fibre is reduced with two smooth components, the strict transform of
 the cone `Q = 0` and the exceptional divisor (the smooth quadric `Q(x) = s²` of dimension `n` in `P^{n+1}`),
 meeting transversally in the smooth quadric `Q = 0` of dimension `n − 1`. The two-component complex of 1.9
@@ -2949,6 +2955,8 @@ F.6.
   `−1` modulo `k`; two is invertible in `ℤ/k` and no coefficient order divisible by the
   residue characteristic enters the argument.
 - For `xy=π²`, the odd-dimensional variation is `−2t_ℓ(σ)(·,δ)δ`; thickness two detects the valuation factor.
+- In characteristic two, the base-changed cone `xy=s²` has polar kernel `k·e_s` with
+  `(xy−s²)(e_s)=−1=1`. Its projective conic is smooth, so the cone is ordinary although its polar form is degenerate.
 
 ### 2.8 The Picard–Lefschetz formula for a proper family
 
@@ -3171,7 +3179,7 @@ an ordinary quadratic one, form a dense open subset of the dual locus, and the b
 closed subset of codimension at least two in `P̌`. Together with the open transversality condition on the
 axis this gives a nonempty open set of axes `A` (in the Grassmannian of codimension-two subspaces) for which
 `(X_t)_{t∈D}` is a Lefschetz pencil. The good-axis conditions concern ordinary singularities, not the
-separability of the Gauss map. *Proof sketch.* Use the degree-`r` one-jet map and prescribe a nondegenerate
+separability of the Gauss map. *Proof sketch.* Use the degree-`r` one-jet map and prescribe an ordinary
 quadratic two-jet at one point; bound the hyperplanes with a nonordinary singularity using the open set of
 ordinary forms (2.1); estimate the incidence of hyperplanes with two singular points, separating `r ≥ 3`
 from `r = 2`, where the common mixed coefficient can lower the number of independent conditions by one when
@@ -3537,8 +3545,8 @@ is zero exactly when all are (`LefschetzPencil.vanishingCycle_eq_zero_iff_forall
 4.1 always holds. The characteristic-two even branch is 5.9. *Proof sketch.* The dual variety is irreducible
 (3.2), so the smooth locus of `X̌` is connected and the local inertia groups at its generic point form one
 conjugacy class in `π_1(P̌ − X̌)`; Abhyankar's lemma controls the ramification of `R^n g_*ℚ_ℓ` along that smooth
-locus. The unique nondegenerate critical point makes the dual smooth at each critical
-hyperplane; the incidence local equation has a nondegenerate quadratic part and a smoothing
+locus. The unique polar-nondegenerate critical point makes the dual smooth at each critical
+hyperplane; the incidence local equation has a polar-nondegenerate quadratic part and a smoothing
 parameter. Regularity of the pencil total space makes that parameter a uniformizer, so `D` meets
 the dual transversely there. Apply the transverse-line tame statement of SGA 7 XVIII 6.1
 (in 5.1), which holds for every such line, to transport conjugacy to `π_1(U, u)`; transporting the primitive vanishing
