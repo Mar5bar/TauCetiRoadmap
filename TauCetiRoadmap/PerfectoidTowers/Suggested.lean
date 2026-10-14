@@ -13,9 +13,10 @@ P8 and P9 that can be stated against Mathlib, Tau Ceti and the perfectoid carrie
 PerfectoidSpaces: the invariant Huber pair and its adic spectrum, perfectoid invariants,
 categorical quotients of pre-adic and perfectoid spaces under an invariant affinoid cover, clean
 neighbourhoods, perfectoidisation of integral extensions, and the affine forms of torsor descent.
-The pro-étale site, completed structure sheaves, pro-étale Galois towers, good towers, analytic
-separation and the diamond comparisons are formalisation targets in their own right and are
-specified in the README only.
+The rigid pro-étale affinoid perfectoid basis is supplied by PerfectoidSpaces P7.16,
+and finite Galois module descent by AdicEtaleGeometry A4.2a. Completed structure sheaves,
+pro-étale Galois towers, good towers, analytic separation and the diamond comparisons
+are formalisation targets specified in the README only.
 Good towers use PerfectoidSpaces P7.11's represented-limit affinoid basis through a local
 diamond-limit adapter, and AdicSpacesPartIII R3.7's finite-cover algebraization and projectivity.
 P9.0 constructs continuous cochain foundations, including lifting along discrete surjections
