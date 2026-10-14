@@ -1,0 +1,231 @@
+import Mathlib
+
+/-!
+# ShimuraVarieties: representative target signatures
+
+The roadmap is README.md. This file records definitions and theorem signatures
+statable against the pinned APIs and is not exhaustive. Its group carriers give
+the genuine two-sided orbit relation, retaining the domain coordinate and right
+level action. They do not carry the complex analytic topology. Inverting a
+supplied homomorphism with abelian target fixes the geometric Artin convention;
+constructing number-field reciprocity and its continuity is a separate input.
+CM types are sets of ring maps to `ℂ` closed under the partition condition with
+Mathlib's conjugate embedding `star φ`; the reflex norm, which needs the
+reflex-field module and its determinant, stays in the README.
+-/
+
+namespace TauCetiRoadmap.ShimuraVarieties
+
+
+universe u v w
+
+/-! ## Layer 1: the complex analytic tower -/
+
+section Points
+variable {Q : Type u} {A : Type v} {X : Type w}
+variable [Group Q] [Group A] [MulAction Q X]
+
+/-- Inversion turns the right level action into a commuting left action. -/
+@[instance_reducible] def doubleAction (ι : Q →* A) (K : Subgroup A) :
+    MulAction (Q × K) (X × A) where
+  smul q xa := (q.1 • xa.1, ι q.1 * xa.2 * (q.2 : A)⁻¹)
+  one_smul xa := by
+    change ((1 : Q) • xa.1, ι 1 * xa.2 * (1 : A)⁻¹) = xa
+    simp
+  mul_smul q r xa := by
+    change ((q.1 * r.1) • xa.1, ι (q.1 * r.1) * xa.2 *
+      ((q.2 : A) * (r.2 : A))⁻¹) =
+      (q.1 • (r.1 • xa.1), ι q.1 * (ι r.1 * xa.2 * (r.2 : A)⁻¹) * (q.2 : A)⁻¹)
+    simp [mul_smul, mul_assoc]
+
+/-- The native orbit setoid, retaining the domain and finite-adelic coordinates. -/
+def pointSetoid (ι : Q →* A) (K : Subgroup A) : Setoid (X × A) :=
+  letI := doubleAction (X := X) ι K
+  MulAction.orbitRel (Q × K) (X × A)
+
+/-- The two-sided orbit carrier of Layer 1, before its quotient topology is supplied. -/
+def AnalyticPoints (ι : Q →* A) (K : Subgroup A) : Type (max v w) :=
+  Quotient (pointSetoid (X := X) ι K)
+
+namespace AnalyticPoints
+variable (ι : Q →* A) (K : Subgroup A)
+
+/-- The class of a domain point and adelic representative. -/
+def mk (x : X) (a : A) : AnalyticPoints (X := X) ι K :=
+  Quotient.mk (pointSetoid ι K) (x, a)
+
+/-- Equality is the actual two-sided orbit condition, with either right-inverse
+convention equivalent by replacing the level element with its inverse. -/
+theorem mk_eq (x y : X) (a b : A) :
+    mk ι K x a = mk ι K y b ↔
+      ∃ q : Q, ∃ k : K, y = q • x ∧ b = ι q * a * (k : A) := by
+  sorry
+
+end AnalyticPoints
+end Points
+
+section PointExamples
+
+-- The trivial datum has a singleton point carrier.
+example : Subsingleton
+    (AnalyticPoints (X := PUnit) (MonoidHom.id PUnit) (⊤ : Subgroup PUnit)) := by
+  sorry
+
+-- Changing representatives by the rational and level actions changes no point.
+example {Q A X : Type*} [Group Q] [Group A] [MulAction Q X]
+    (ι : Q →* A) (K : Subgroup A) (q : Q) (k : K) (x : X) (a : A) :
+    AnalyticPoints.mk ι K (q • x) (ι q * a * (k : A)) =
+      AnalyticPoints.mk ι K x a := by
+  sorry
+
+/-- A trivial rational group cannot identify distinct domain points. -/
+@[instance_reducible] def trivialDomainAction : MulAction PUnit ℕ where
+  smul _ n := n
+  one_smul _ := rfl
+  mul_smul _ _ _ := rfl
+
+local instance : MulAction PUnit ℕ := trivialDomainAction
+
+-- Discarding X would wrongly identify these two points.
+example : AnalyticPoints.mk (MonoidHom.id PUnit) (⊤ : Subgroup PUnit) (0 : ℕ) PUnit.unit ≠
+    AnalyticPoints.mk (MonoidHom.id PUnit) (⊤ : Subgroup PUnit) (1 : ℕ) PUnit.unit := by
+  sorry
+
+end PointExamples
+
+/-! ## Layer 4: reciprocity, canonical models and foundational descent -/
+
+section Artin
+variable {I : Type u} {B : Type v} [Group I] [CommGroup B]
+
+/-- The Layer 4 geometric convention inverts a supplied arithmetic homomorphism. -/
+def geometricArtin (rec : I →* B) : I →* B where
+  toFun s := (rec s)⁻¹
+  map_one' := by simp
+  map_mul' s t := by simp [mul_comm]
+
+/-- Norm/restriction compatibility survives changing the reciprocity convention. -/
+theorem geometricArtin_norm {J C : Type*} [Group J] [CommGroup C]
+    (recF : I →* B) (recL : J →* C) (norm : J →* I) (res : C →* B)
+    (h : ∀ s, recF (norm s) = res (recL s)) (s : J) :
+    geometricArtin recF (norm s) = res (geometricArtin recL s) := by
+  sorry
+
+-- An arithmetic Frobenius image becomes geometric Frobenius.
+example (rec : I →* B) (uniformizer : I) (arithFrob : B)
+    (h : rec uniformizer = arithFrob) :
+    geometricArtin rec uniformizer = arithFrob⁻¹ := by
+  sorry
+
+-- Identity normalization is retained.
+example (rec : I →* B) : geometricArtin rec 1 = 1 := by
+  sorry
+
+-- The cyclotomic normalization transports to a supplied character.
+example {U : Type*} [CommGroup U] (rec : I →* B) (chi : B →* U)
+    (unit : I) (u : U) (h : chi (rec unit) = u⁻¹) :
+    chi (geometricArtin rec unit) = u := by
+  sorry
+
+/-- A character of order three detects an erroneous arithmetic convention. -/
+example : geometricArtin (MonoidHom.id (Multiplicative (ZMod 3)))
+    (Multiplicative.ofAdd (1 : ZMod 3)) = Multiplicative.ofAdd (2 : ZMod 3) := by
+  sorry
+
+end Artin
+
+/-! ## Layer 5: complex multiplication and Siegel existence -/
+
+section CMTypes
+open scoped ComplexConjugate
+
+/-- A CM type on a commutative ring `E`: a set of ring maps `E →+* ℂ` containing exactly one
+of `φ` and its complex conjugate `star φ` for every `φ` (Milne, *Complex Multiplication*,
+Definition 1.8). Layer 5 applies it to CM algebras, finite products of CM fields in the sense
+of `NumberField.IsCMField`; a ring with a real embedding has no CM type. -/
+structure CMType (E : Type*) [CommRing E] where
+  /-- The selected complex embeddings. -/
+  toSet : Set (E →+* ℂ)
+  star_mem_iff : ∀ φ : E →+* ℂ, star φ ∈ toSet ↔ φ ∉ toSet
+
+namespace CMType
+variable {E : Type*} [CommRing E]
+
+/-- The conjugate type `ιΦ = {star φ | φ ∈ Φ}`, which is the complement of `Φ`. -/
+def conjugate (Φ : CMType E) : CMType E where
+  toSet := Φ.toSetᶜ
+  star_mem_iff φ := by
+    simp only [Set.mem_compl_iff, Φ.star_mem_iff, not_not]
+
+/-- The type trace `a ↦ ∑_{φ ∈ Φ} φ a`. -/
+noncomputable def typeTrace (Φ : CMType E) (a : E) : ℂ :=
+  ∑ᶠ φ ∈ Φ.toSet, φ a
+
+/-- The reflex field: the subfield of `ℂ` generated by the type traces (Milne,
+*Complex Multiplication*, Proposition 1.16 and Definition 1.17). -/
+noncomputable def reflexField (Φ : CMType E) : IntermediateField ℚ ℂ :=
+  IntermediateField.adjoin ℚ (Set.range Φ.typeTrace)
+
+/-- A CM type on a reduced finite-dimensional `ℚ`-algebra selects half of its complex
+embeddings: `2 |Φ| = [E : ℚ]`. -/
+theorem card [Algebra ℚ E] [IsReduced E] [FiniteDimensional ℚ E] (Φ : CMType E) :
+    2 * Nat.card Φ.toSet = Module.finrank ℚ E := by
+  sorry
+
+/-- Conjugating the type conjugates its traces, so `Φ` and `ιΦ` have the same reflex field. -/
+theorem typeTrace_conjugate [Finite (E →+* ℂ)] (Φ : CMType E) (a : E) :
+    Φ.conjugate.typeTrace a = conj (Φ.typeTrace a) := by
+  sorry
+
+end CMType
+
+-- `ℚ` has no CM type: its only complex embedding is real. A condition asking only for
+-- at least one embedding from each conjugate pair would accept `{φ}`.
+example : IsEmpty (CMType ℚ) := by
+  sorry
+
+-- The Gaussian type has trace `i` at `i`; the full trace would give `0`.
+example (Φ : CMType GaussianInt) (h : GaussianInt.toComplex ∈ Φ.toSet) :
+    Φ.typeTrace ⟨0, 1⟩ = Complex.I := by
+  sorry
+
+-- Hence the reflex field of a Gaussian type is not `ℚ`.
+example (Φ : CMType GaussianInt) : Φ.reflexField ≠ ⊥ := by
+  sorry
+
+end CMTypes
+
+/-! ## Layer 8: arithmetic towers and minimal compactifications -/
+
+/-- Two noncommuting integral matrices distinguish the order of right translations. -/
+example :
+    (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 0; 1, 1] ≠
+      (!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 1; 0, 1] := by
+  sorry
+end TauCetiRoadmap.ShimuraVarieties
+
+/-
+Further README definitions and constructions:
+TauCeti.Shimura.Level, TauCeti.Shimura.AutomorphicRing, TauCeti.CM.CMType.reflexNorm,
+TauCeti.Shimura.ReflexNorm, TauCeti.Shimura.CanonicalModel,
+TauCeti.Shimura.torusModel, TauCeti.Shimura.CMAbelianVariety,
+TauCeti.Shimura.ConnectedTower, TauCeti.Shimura.conjugatedDatum,
+CanonicalTower.ofLevelMaps, CanonicalHecke.span, ZeroDimShimura.shimuraSet.
+Their analytic, arithmetic and canonical-symmetry carriers must be supplied
+before the mathematical target signatures can be stated here.
+
+README-only CM API and Checks from Section 5.1:
+TauCeti.CM.CMType.mem_conjugate_iff, TauCeti.CM.CMType.conjugate_conjugate,
+TauCeti.CM.CMType.induced_mem, TauCeti.CM.CMType.induced_trans,
+TauCeti.CM.CMType.primitive_core_unique, TauCeti.CM.CMType.reflexField_le_iff,
+TauCeti.CM.CMType.reflexField_stabilizer, TauCeti.CM.CMType.reflexField_isCMField,
+TauCeti.CM.CMType.reflexField_prod, TauCeti.CM.CMType.reflexField_induced,
+TauCeti.CM.CMType.reflexField_generic, TauCeti.CM.CMType.typeNorm_identities,
+TauCeti.CM.CMType.test_gaussian, TauCeti.CM.CMType.test_not_full,
+TauCeti.CM.CMType.test_product, TauCeti.CM.CMType.test_zeta8_induced,
+TauCeti.CM.CMType.test_reflex_quadratic, TauCeti.CM.CMType.test_reflex_not_Q,
+TauCeti.CM.CMType.test_reflex_induced, TauCeti.CM.CMType.test_typeNorm_gaussian,
+TauCeti.CM.CMType.test_typeNorm_conjugate, TauCeti.CM.CMType.test_typeNorm_transitivity.
+Section 1.1's TauCeti.Shimura.AnalyticPoints.keep_domain is the GL₂ domain Check;
+the distinct-domain-points example above states its group-carrier negative control.
+-/
