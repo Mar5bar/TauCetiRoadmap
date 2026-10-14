@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.RingTheory.Kaehler.MapSemilinear
+import TauCeti.RingTheory.DividedPowers.Associative
 
 /-!
 # DerivedDeRhamCohomology: representative target signatures
@@ -27,15 +28,16 @@ Design choices made explicit here:
 * The K-flat models of README 0.2 cover arbitrary complexes of modules; ArithmeticGaloisDuality
   §D7.1 / Derived tensor, perfect amplitude and Tor consumes them for bounded perfect complexes.
   The module derived limit of README 1.1 uses the tower kernels, cokernels and Milnor sequence
-  supplied by ArithmeticGaloisDuality §R02.1.1 / lim and lim¹ of a tower and ArithmeticGaloisDuality
-  §R02.1.1 / The Milnor sequence for towers of complexes. Towers have transitions `K_(n+1) → K_n`
+  supplied by DerivedModuleAlgebra §1.T.1 / lim and lim¹ of a tower and DerivedModuleAlgebra
+  §1.T.1 / The Milnor sequence for towers of complexes. Towers have transitions `K_(n+1) → K_n`
   for `n : ℕ`; forgetting scalars identifies their additive carriers with the supplier's, and the
   induced module action is retained.
   Vanishing of `lim¹` under eventual stabilization of cohomology transition images is supplied by
-  ArithmeticGaloisDuality §R02.1.1 / Mittag-Leffler towers have vanishing lim¹.
+  DerivedModuleAlgebra §1.T.1 / Mittag-Leffler towers have vanishing lim¹.
 * `Z_p(1)` is the kernel of Mathlib's untilt `PreTilt.untilt`, and `A_inf`, `θ` and `B_dR⁺` are
   Mathlib's `WittVector p (PreTilt O p)`, `WittVector.fontaineTheta` and `BDeRhamPlus`.
 -/
+
 
 namespace TauCetiRoadmap.DerivedDeRhamCohomology
 
@@ -238,6 +240,416 @@ theorem test_bdr_p_inverted_inside (p : ℕ) [Fact p.Prime] :
   sorry
 
 end DerivedDeRham
+
+end
+
+end TauCetiRoadmap.DerivedDeRhamCohomology
+
+namespace TauCetiRoadmap.CrystallineCohomology
+
+open Finset
+
+universe u
+
+/-! ## Layer PD: Divided powers and universal thickenings -/
+
+namespace PD
+
+variable {A : Type*} [CommRing A]
+
+/-- An additive divided-power candidate on an ideal `I`: operations `δ_n : A → A` vanishing
+outside `I`, with `δ₀ = 1`, `δ₁ = id` on `I`, `δ_n(I) ⊆ I` for `n > 0`, the addition formula and
+homogeneity, but neither the multiplication nor the iteration identity (Stacks, Lemma 23.2.4,
+hypothesis (a)). The generator layer is README PD.1. -/
+structure AdditivePowers (I : Ideal A) where
+  /-- The operations `δ_n`. -/
+  dpow : ℕ → A → A
+  dpow_null : ∀ {n x}, x ∉ I → dpow n x = 0
+  dpow_zero : ∀ {x}, x ∈ I → dpow 0 x = 1
+  dpow_one : ∀ {x}, x ∈ I → dpow 1 x = x
+  dpow_mem : ∀ {n x}, n ≠ 0 → x ∈ I → dpow n x ∈ I
+  dpow_add : ∀ {n x y}, x ∈ I → y ∈ I →
+    dpow n (x + y) = (antidiagonal n).sum fun k ↦ dpow k.1 x * dpow k.2 y
+  dpow_mul : ∀ {n} {a : A} {x}, x ∈ I → dpow n (a * x) = a ^ n * dpow n x
+
+namespace AdditivePowers
+
+variable {I : Ideal A}
+
+/-- Every divided power structure is an additive candidate with the same operations. -/
+def ofDividedPowers (γ : DividedPowers I) : AdditivePowers I where
+  dpow := γ.dpow
+  dpow_null := γ.dpow_null
+  dpow_zero := γ.dpow_zero
+  dpow_one := γ.dpow_one
+  dpow_mem := γ.dpow_mem
+  dpow_add := γ.dpow_add
+  dpow_mul := γ.dpow_mul
+
+@[simp]
+theorem ofDividedPowers_dpow (γ : DividedPowers I) : (ofDividedPowers γ).dpow = γ.dpow := rfl
+
+/-- The candidate vanishes outside the ideal in degree zero as well. -/
+example (δ : AdditivePowers I) {x : A} (hx : x ∉ I) : δ.dpow 0 x = 0 := δ.dpow_null hx
+
+/-- In positive degree the candidate vanishes at zero. -/
+example (δ : AdditivePowers I) : δ.dpow 2 0 = 0 := by
+  have h := δ.dpow_mul (n := 2) (a := 0) (x := 0) I.zero_mem
+  simpa using h
+
+/-- Over a rational algebra the candidate from divided powers has the factorial formula
+on its ideal (test_candidate_rational). -/
+example {R : Type*} [CommRing R] [Algebra ℚ R] {J : Ideal R}
+    (γ : DividedPowers J) {x : R} (hx : x ∈ J) (n : ℕ) :
+    (ofDividedPowers γ).dpow n x = TauCeti.Associative.dividedPower n x ∧
+      (ofDividedPowers γ).dpow n x = Ring.inverse (n.factorial : R) * x ^ n := by
+  sorry
+
+open scoped Classical in
+/-- On the dual numbers over `ZMod 2`, an additive candidate can fail the multiplication
+identity in degrees one and two (test_candidate_not_pd). -/
+example :
+    let B := Polynomial (ZMod 2) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod 2)) ^ 2}
+    let ε : B := Ideal.Quotient.mk _ Polynomial.X
+    let J := Ideal.span {ε}
+    ∃ δ : AdditivePowers J,
+      (∀ n x, δ.dpow n x = if x ∈ J then
+        if n = 0 then 1 else if n = 1 ∨ n = 3 then x else 0 else 0) ∧
+      δ.dpow 1 ε * δ.dpow 2 ε ≠ (3 : B) * δ.dpow 3 ε := by
+  sorry
+
+end AdditivePowers
+
+/-- Divided powers from identities on generators (Stacks, Lemma 23.2.4): an additive candidate
+whose multiplication and iteration identities hold on a generating set of `I` is a divided power
+structure with the same operations. -/
+theorem exists_dividedPowers_of_generators {I : Ideal A} (δ : AdditivePowers I) (S : Set A)
+    (hS : I = Ideal.span S)
+    (hmul : ∀ s ∈ S, ∀ m n : ℕ,
+      δ.dpow m s * δ.dpow n s = (m + n).choose m * δ.dpow (m + n) s)
+    (hcomp : ∀ s ∈ S, ∀ m n : ℕ, n ≠ 0 →
+      δ.dpow m (δ.dpow n s) = Nat.uniformBell m n * δ.dpow (m * n) s) :
+    ∃ γ : DividedPowers I, γ.dpow = δ.dpow := by
+  sorry
+
+/-- Divided powers on a sum of ideals (Stacks, Lemma 23.2.5): structures `γ` on `I` and `ε` on `J`
+extend to a common structure on `I ⊔ J` exactly when they agree on `I ⊓ J`. -/
+theorem exists_dividedPowers_sup_iff {I J : Ideal A} (γ : DividedPowers I)
+    (ε : DividedPowers J) :
+    (∃ θ : DividedPowers (I ⊔ J), (∀ n, ∀ x ∈ I, θ.dpow n x = γ.dpow n x) ∧
+      ∀ n, ∀ x ∈ J, θ.dpow n x = ε.dpow n x) ↔
+      ∀ n, ∀ x ∈ I ⊓ J, γ.dpow n x = ε.dpow n x := by
+  sorry
+
+/-- The glued structure on `I ⊔ J` is unique. -/
+theorem dividedPowers_sup_unique {I J : Ideal A} (γ : DividedPowers I) (ε : DividedPowers J)
+    (θ θ' : DividedPowers (I ⊔ J))
+    (hθ : (∀ n, ∀ x ∈ I, θ.dpow n x = γ.dpow n x) ∧ ∀ n, ∀ x ∈ J, θ.dpow n x = ε.dpow n x)
+    (hθ' : (∀ n, ∀ x ∈ I, θ'.dpow n x = γ.dpow n x) ∧ ∀ n, ∀ x ∈ J, θ'.dpow n x = ε.dpow n x) :
+    θ = θ' := by
+  sorry
+
+/-- Flat extension of divided powers (Stacks, Lemma 23.4.2): along a flat ring map `A → B`, a
+divided power structure on `I` extends uniquely to `IB` so that `A → B` is a divided power
+morphism. -/
+theorem existsUnique_dividedPowers_map_of_flat {B : Type*} [CommRing B] [Algebra A B]
+    [Module.Flat A B] {I : Ideal A} (γ : DividedPowers I) :
+    ∃! δ : DividedPowers (I.map (algebraMap A B)),
+      DividedPowers.IsDPMorphism γ δ (algebraMap A B) := by
+  sorry
+
+/-- Divided powers after localization: `γᴮ_n(x/s) = γ_n(x)/sⁿ`. -/
+theorem dpow_localization {B : Type*} [CommRing B] [Algebra A B] (S : Submonoid A)
+    [IsLocalization S B] {I : Ideal A} (γ : DividedPowers I)
+    (δ : DividedPowers (I.map (algebraMap A B)))
+    (hδ : DividedPowers.IsDPMorphism γ δ (algebraMap A B)) (n : ℕ) {x : A} (hx : x ∈ I)
+    (s : S) :
+    δ.dpow n (IsLocalization.mk' B x s) = IsLocalization.mk' B (γ.dpow n x) (s ^ n) := by
+  sorry
+
+/-- The coefficient `c_n`, the image in `A` of `pⁿ/n! ∈ pℤ_(p)`: the factor `p^(n − v_p(n!))`
+times the inverse of the prime-to-`p` part of `n!`. In a `ℤ_(p)`-algebra that inverse exists;
+`Ring.inverse` returns `0` on non-units, so the formula is only used under that hypothesis. -/
+noncomputable def canonicalCoeff (p : ℕ) (A : Type*) [CommRing A] (n : ℕ) : A :=
+  (p : A) ^ (n - padicValNat p n.factorial) *
+    Ring.inverse ((n.factorial / p ^ padicValNat p n.factorial : ℕ) : A)
+
+example (p : ℕ) (A : Type*) [CommRing A] : canonicalCoeff p A 0 = 1 := by
+  simp [canonicalCoeff]
+
+/-- At `p = 2`, the degree-two coefficient is `2`, rather than `4`. -/
+example : canonicalCoeff 2 ℚ 2 = 2 := by
+  sorry
+
+/-- The canonical divided powers on `(p)` in a `ℤ_(p)`-algebra (Stacks, Example 23.2.3), `γ_n(pa) = c_n aⁿ`; the prime
+`p = 2` is included and `A` may have `p`-torsion. -/
+theorem exists_dividedPowers_span_p (p : ℕ) [Fact p.Prime] (A : Type*) [CommRing A]
+    (hA : ∀ n : ℕ, ¬ p ∣ n → IsUnit (n : A)) :
+    ∃ γ : DividedPowers (Ideal.span {(p : A)}),
+      ∀ (n : ℕ) (a : A), γ.dpow n (p * a) = canonicalCoeff p A n * a ^ n := by
+  sorry
+
+/-- Every ring map between `ℤ_(p)`-algebras is a divided power morphism for the canonical
+structures on `(p)`. -/
+theorem isDPMorphism_canonical (p : ℕ) [Fact p.Prime] {A B : Type*} [CommRing A] [CommRing B]
+    (f : A →+* B) (γ : DividedPowers (Ideal.span {(p : A)}))
+    (ε : DividedPowers (Ideal.span {(p : B)}))
+    (hγ : ∀ (n : ℕ) (a : A), γ.dpow n (p * a) = canonicalCoeff p A n * a ^ n)
+    (hε : ∀ (n : ℕ) (b : B), ε.dpow n (p * b) = canonicalCoeff p B n * b ^ n)
+    (hA : ∀ n : ℕ, ¬ p ∣ n → IsUnit (n : A)) :
+    DividedPowers.IsDPMorphism γ ε f := by
+  sorry
+
+section CanonicalAugmentationPowers
+
+variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
+
+/-- The canonical divided powers on the augmentation ideal (Stacks, Lemma 23.5.1): the unique
+structure with `δ_n(dp₁ m) = dp_n m`. -/
+theorem existsUnique_dividedPowers_augmentationIdeal :
+    ∃! δ : DividedPowers (RingHom.ker (DividedPowerAlgebra.lift (dividedPowersBot R)
+      (0 : M →ₗ[R] R) (fun _ ↦ by simp))),
+      ∀ (n : ℕ) (m : M), δ.dpow n (DividedPowerAlgebra.dp R 1 m) =
+        DividedPowerAlgebra.dp R n m := by
+  sorry
+
+/-- The free rank-one generator over `ZMod 2` has square zero and nonzero second
+  divided generator (test_gammaPD_F2). -/
+example : (DividedPowerAlgebra.dp (ZMod 2) 1 (1 : ZMod 2)) ^ 2 = 0 ∧
+    DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2) ≠ 0 := by
+  sorry
+
+/-- The degree-two and degree-one generators of `Γ_ℤ(ℤ/2)` have additive orders four and two
+  (test_gammaPD_torsion_module). -/
+example : addOrderOf (DividedPowerAlgebra.dp ℤ 2 (1 : ZMod 2)) = 4 ∧
+    addOrderOf (DividedPowerAlgebra.dp ℤ 1 (1 : ZMod 2)) = 2 := by
+  sorry
+
+end CanonicalAugmentationPowers
+
+/-! ### The divided power filtration -/
+
+variable {I : Ideal A}
+
+/-- The divided power filtration `Fⁿ_γ I = I^{[n]}`: the ideal generated by the products
+`γ_{e₁}(x₁) ⋯ γ_{e_t}(x_t)` with `x_j ∈ I` and `∑ e_j ≥ n`, the empty product included. -/
+def pdFiltration (γ : DividedPowers I) (n : ℕ) : Ideal A :=
+  Ideal.span {y | ∃ (t : ℕ) (e : Fin t → ℕ) (x : Fin t → A),
+    (∀ j, x j ∈ I) ∧ n ≤ ∑ j, e j ∧ y = ∏ j, γ.dpow (e j) (x j)}
+
+/-- `I` is PD nilpotent if some step of its divided power filtration vanishes. -/
+def IsPDNilpotent (γ : DividedPowers I) : Prop :=
+  ∃ n, n ≠ 0 ∧ pdFiltration γ n = ⊥
+
+/-- Positive steps of the zero ideal's PD filtration vanish. -/
+example (n : ℕ) (hn : n ≠ 0) : pdFiltration (dividedPowersBot A) n = ⊥ := by
+  sorry
+
+theorem pdFiltration_zero (γ : DividedPowers I) : pdFiltration γ 0 = ⊤ := by
+  rw [eq_top_iff, ← Ideal.span_singleton_one]
+  refine Ideal.span_mono ?_
+  rintro _ rfl
+  exact ⟨0, Fin.elim0, Fin.elim0, fun j ↦ j.elim0, by simp, by simp⟩
+
+theorem pdFiltration_one (γ : DividedPowers I) : pdFiltration γ 1 = I := by
+  sorry
+
+theorem pow_le_pdFiltration (γ : DividedPowers I) (n : ℕ) : I ^ n ≤ pdFiltration γ n := by
+  sorry
+
+/-- The zero ideal with its unique divided powers is PD nilpotent. -/
+example : IsPDNilpotent (dividedPowersBot A) := by
+  sorry
+
+/-- The canonical 2-adic PD filtration differs from ordinary ideal powers: its second
+step contains `2`, whereas the ordinary square does not. -/
+example :
+    (2 : ℤ_[2]) ∈ pdFiltration (PadicInt.dividedPowers 2) 2 ∧
+      (2 : ℤ_[2]) ∉ (Ideal.span {(2 : ℤ_[2])}) ^ 2 := by
+  sorry
+
+/-- Every positive step of the canonical 2-adic PD filtration is `(2)`
+  (pd_filtration_two_adic_constant). -/
+example (n : ℕ) (hn : 0 < n) :
+    pdFiltration (PadicInt.dividedPowers 2) n = Ideal.span ({(2 : ℤ_[2])} : Set ℤ_[2]) := by
+  sorry
+
+open scoped Classical in
+/-- The square-zero ideal `(2)` of `ZMod 4` supports both PD-nilpotent square-zero powers
+and non-PD-nilpotent canonical powers (test_nilpotent_two_structures). -/
+example :
+    let J := Ideal.span {(2 : ZMod 4)}
+    ∃ (hJ : J ^ 2 = 0) (γ : DividedPowers J),
+      (∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
+        canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n) ∧
+      γ.dpow 2 2 = 2 ∧
+      pdFiltration (DividedPowers.OfSquareZero.dividedPowers hJ) 2 = ⊥ ∧
+      IsPDNilpotent (DividedPowers.OfSquareZero.dividedPowers hJ) ∧
+      ¬ IsPDNilpotent γ := by
+  classical
+  sorry
+
+/-- Coefficients of the nonsymmetric second-order thickening over `ZMod 2`: the diagonal
+quadratic term is zero on each basis vector and nonzero on their sum, and the symmetric
+cross-product equals `1` in the second-order summand. -/
+example :
+    let q : (ZMod 2 × ZMod 2) → (ZMod 2 × ZMod 2) → ZMod 2 := fun z z' ↦ z.1 * z'.2
+    let e₁ : ZMod 2 × ZMod 2 := (1, 0)
+    let e₂ : ZMod 2 × ZMod 2 := (0, 1)
+    q e₁ e₁ = 0 ∧ q e₂ e₂ = 0 ∧ q (e₁ + e₂) (e₁ + e₂) = 1 ∧
+      q e₁ e₂ + q e₂ e₁ = 1 := by
+  decide
+
+open scoped TensorProduct in
+/-- The tensor-product ring in the identity-leg PD pushout Check has the original carrier. -/
+example : Nonempty ((ZMod 4 ⊗[ℤ] ℤ) ≃ₐ[ℤ] ZMod 4) := by
+  sorry
+
+open scoped TensorProduct in
+/-- The zero-ideal PD pushout of two copies of `ZMod 2` over `ℤ` has the ordinary tensor ring. -/
+example : Nonempty ((ZMod 2 ⊗[ℤ] ZMod 2) ≃ₐ[ℤ] ZMod 2) := by
+  sorry
+
+/-- PD nilpotence implies nilpotence of the ideal; the converse fails for `(2) ⊂ ZMod 4`. -/
+theorem IsPDNilpotent.isNilpotent {γ : DividedPowers I} (h : IsPDNilpotent γ) :
+    IsNilpotent I := by
+  sorry
+
+/-! ### Compatibility with a base and divided power envelopes -/
+
+/-- `δ` on `J ⊆ B` is compatible with `γ` on `I ⊆ A` along `φ` (Stacks, Definition 60.4.1): some
+divided power structure on `J ⊔ IB` makes `φ` and the identity of `B` divided power morphisms. -/
+def IsCompatibleWith {B : Type*} [CommRing B] (φ : A →+* B) (γ : DividedPowers I)
+    {J : Ideal B} (δ : DividedPowers J) : Prop :=
+  ∃ θ : DividedPowers (J ⊔ I.map φ),
+    DividedPowers.IsDPMorphism γ θ φ ∧ DividedPowers.IsDPMorphism δ θ (RingHom.id B)
+
+/-- A divided power structure is compatible with itself. -/
+example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) γ γ := by
+  sorry
+
+/-- The zero PD ideal is compatible with every divided power structure on the same ring. -/
+example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) (dividedPowersBot A) γ := by
+  sorry
+
+/-- `(D, J', δ)` with `ι : B → D` is a divided power envelope of `J ⊆ B` relative to `(A, I, γ)`:
+`ι(J) ⊆ J'`, `A → D` is a divided power morphism, and every `A`-algebra map `B → C` sending `J` into
+a divided power ideal `K` compatible with `γ` factors uniquely through a divided power morphism
+`D → C`. -/
+structure IsPDEnvelope {B D : Type u} [CommRing B] [CommRing D] [Algebra A B] [Algebra A D]
+    (γ : DividedPowers I) (J : Ideal B) {J' : Ideal D} (δ : DividedPowers J') (ι : B →ₐ[A] D) :
+    Prop where
+  map_le : J.map ι ≤ J'
+  isDPMorphism : DividedPowers.IsDPMorphism γ δ (algebraMap A D)
+  universal : ∀ (C : Type u) [CommRing C] [Algebra A C] (K : Ideal C) (ε : DividedPowers K),
+    DividedPowers.IsDPMorphism γ ε (algebraMap A C) → ∀ g : B →ₐ[A] C, J.map g ≤ K →
+      ∃! h : D →ₐ[A] C, DividedPowers.IsDPMorphism δ ε h.toRingHom ∧ h.comp ι = g
+
+/-- Existence of the universal divided power envelope (Stacks, Lemma 60.2.1 and Definition 60.2.2). -/
+theorem exists_isPDEnvelope {B : Type u} [CommRing B] [Algebra A B] (γ : DividedPowers I)
+    (J : Ideal B) (hJ : I.map (algebraMap A B) ≤ J) :
+    ∃ (D : Type u) (_ : CommRing D) (_ : Algebra A D) (J' : Ideal D) (δ : DividedPowers J')
+      (ι : B →ₐ[A] D), IsPDEnvelope γ J δ ι := by
+  sorry
+
+/-- The identity PD envelope has the original ring and ideal. -/
+example (A : Type u) [CommRing A] (I : Ideal A) (γ : DividedPowers I) :
+    IsPDEnvelope γ I γ (AlgHom.id A A) := by
+  sorry
+
+/-- A compatible-base envelope keeps the quotient `B/J`: its PD ideal may exclude the
+extended base ideal, but their powers have a common extension. Its universal property tests
+PD ideals compatible with the base powers (README PD.6). -/
+structure IsCompatiblePDEnvelope {B D : Type u} [CommRing B] [CommRing D]
+    [Algebra A B] [Algebra A D] (γ : DividedPowers I) (J : Ideal B)
+    {K : Ideal D} (δ : DividedPowers K) (ι : B →ₐ[A] D) : Prop where
+  map_le : J ≤ K.comap ι.toRingHom
+  compatible : IsCompatibleWith (algebraMap A D) γ δ
+  quotient_bijective : Function.Bijective (Ideal.quotientMap K ι.toRingHom map_le)
+  universal : ∀ (C : Type u) [CommRing C] [Algebra A C] (L : Ideal C) (ε : DividedPowers L),
+    IsCompatibleWith (algebraMap A C) γ ε → ∀ g : B →ₐ[A] C, J ≤ L.comap g.toRingHom →
+      ∃! h : D →ₐ[A] C, DividedPowers.IsDPMorphism δ ε h.toRingHom ∧ h.comp ι = g
+
+/-- The compatible-base envelope exists with quotient `B/J` when the base powers extend
+  to the image of `I` in `B/J` (Berthelot I.2.4.3(iii)). -/
+theorem exists_isCompatiblePDEnvelope {B : Type u} [CommRing B] [Algebra A B]
+    (γ : DividedPowers I) (J : Ideal B)
+    (hquot : IsCompatibleWith (algebraMap A (B ⧸ J)) γ (dividedPowersBot (B ⧸ J))) :
+    ∃ (D : Type u) (_ : CommRing D) (_ : Algebra A D) (K : Ideal D) (δ : DividedPowers K)
+      (ι : B →ₐ[A] D), IsCompatiblePDEnvelope γ J δ ι := by
+  sorry
+
+/-- With canonical base powers on `(2)`, the identity compatible envelope of `ZMod 4`
+  has zero defining ideal, which does not contain the base ideal (compatible_identity). -/
+example (γ : DividedPowers (Ideal.span {(2 : ZMod 4)}))
+    (hγ : ∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
+      canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n) :
+    IsCompatiblePDEnvelope γ (⊥ : Ideal (ZMod 4)) (dividedPowersBot (ZMod 4))
+      (AlgHom.id (ZMod 4) (ZMod 4)) ∧
+      ¬ Ideal.span {(2 : ZMod 4)} ≤ (⊥ : Ideal (ZMod 4)) := by
+  sorry
+
+end PD
+
+/-
+The following APIs are specified in the README on the carriers constructed there.
+PD.1 Divided powers from identities on generators, and gluing on sums:
+PD.AdditivePowers.toDividedPowers_dpow; PD.AdditivePowers.toDividedPowers_unique;
+PD.AdditivePowers.toDividedPowers_generators; PD.convolution_eq; PD.convolution_swap;
+PD.convolution_mem; PD.convolution_eq_coeff_exp_mul; PD.supCandidate_dpow_add; PD.supCandidate_left;
+PD.supCandidate_right; PD.sup_dpow_add; PD.sup_left; PD.sup_right; PD.sup_isDPMorphism_iff.
+
+PD.2 Extension along principal ideals, flat maps and localisation:
+PD.extendPrincipal_dpow; PD.extendPrincipal_isDPMorphism; PD.extendPrincipal_generator_independent;
+PD.extensionCoefficient_eq; PD.extensionCoefficient_one; PD.extensionCoefficient_mem;
+PD.dpow_sum_mul_map_eq_extensionCoefficient; PD.flatCandidate_formula; PD.flatCandidate_base;
+PD.flatCandidate_outside; PD.extendFlat_formula; PD.extendFlat_isDPMorphism; PD.extendFlat_unique;
+PD.extendFlat_isDPMorphism_iff; PD.extendFlat_trans; PD.extendFlat_eq_ofRingEquiv.
+
+PD.4 The divided power filtration and PD nilpotence:
+PD.pdFiltration_le_iff; PD.prod_dpow_mem_pdFiltration; PD.dpow_mem_pdFiltration;
+PD.pdFiltration_eq_span_of_span; Crystalline.pdNilpotent_iff; Crystalline.pdNilpotent_ordinary;
+Crystalline.pdNilpotent_map; Crystalline.pdIdeal_le_nilradical_iff.
+
+PD.5 Compatibility with a base, canonical divided powers and square-zero thickenings:
+PD.canonicalP_dpow_mul; PD.pow_div_factorial_mem_span; PD.canonicalP_unique;
+PD.canonicalP_isDPMorphism; PD.canonicalP_padicInt; Crystalline.isCompatibleWith_iff_isDPMorphism;
+Crystalline.isCompatibleWith_iff_extends_agree; Crystalline.isCompatibleWith_of_inf_eq_mul;
+Crystalline.isCompatibleWith_bot; Crystalline.gammaPD_generator; Crystalline.gammaPD_lift;
+Crystalline.gammaPD_map; Crystalline.gammaPD_unique; Crystalline.gammaPD_dp;
+Crystalline.pdPolynomial_basis; Crystalline.pdPolynomial_lift;
+Crystalline.pdPolynomial_monomial_mul; Crystalline.pdPolynomial_algebraMap_isDPMorphism;
+Crystalline.pdPolynomial_dpow_var; Crystalline.pdPolynomial_dpow_unique;
+Crystalline.pdSqZeroExt_dpow; Crystalline.pdSqZeroExt_dpow_inr;
+Crystalline.pdSqZeroExt_inl_isDPMorphism; Crystalline.pdSqZeroExt_fst_isDPMorphism;
+Crystalline.pdSqZeroExt_map; Crystalline.pdSqZeroExt_derivation_iff.
+
+PD.6 Divided power envelopes:
+Crystalline.compatiblePDEnvelope.lift; Crystalline.compatiblePDEnvelope.quotient;
+Crystalline.compatiblePDEnvelope.containing_base.
+Crystalline.completedEnvelope_reduction; Crystalline.completedEnvelope_lift;
+Crystalline.completedEnvelope_functorial; Crystalline.completedEnvelope_mod_pow;
+Crystalline.completedEnvelope_eq_limit.
+
+PD.7 The crystalline period ring:
+Crystalline.fontaineEnvelope_initial; Crystalline.fontaineEnvelope_theta;
+Crystalline.fontaineEnvelope_identify; Crystalline.fontaineEnvelope_eq_trivialBase;
+Crystalline.fontaineEnvelope_wittResidue; Crystalline.fontaineEnvelope_map.
+
+PD.AdditivePowers.ext; PD.convolution_eq_coeff_exp_mul;
+Crystalline.PDEnvelope.lift; Crystalline.PDEnvelope.quotient; Crystalline.PDEnvelope.map;
+Crystalline.PDEnvelope.span_dpow_image; Crystalline.PDEnvelope.presentation;
+Crystalline.PDEnvelope.compatible_lift; Crystalline.PDEnvelope.eq_of_isCompatible.
+-/
+
+end TauCetiRoadmap.CrystallineCohomology
+
+namespace TauCetiRoadmap.DerivedDeRhamCohomology
+
+open CategoryTheory CategoryTheory.Limits CategoryTheory.Pretriangulated ExteriorAlgebra
+open scoped TensorProduct
+
+noncomputable section
 
 /-! ## Layer 2: Ordinary and derived de Rham cohomology -/
 
@@ -638,7 +1050,7 @@ namespace DerivedDeRham
 
 /-- The derived category of sheaves of modules over the base coefficient ring sheaf. Global
 de Rham objects and finite Hodge quotients use this carrier; README 5.8 compares it with the
-operations of ClassicalAdicEtaleCohomology and EnhancedDerivedSheaves. -/
+operations of EnhancedDerivedSheaves §§0.1–0.4. -/
 abbrev baseLinearSheafDerived {C : Type} [SmallCategory C] {J : GrothendieckTopology C}
     (R : Sheaf J RingCat.{0}) :=
   letI := HasDerivedCategory.standard (SheafOfModules.{0} R)
@@ -693,9 +1105,9 @@ complex `Algebra.CotangentComplex` and its API (`arrowResolution`, `resolutionRi
 `kernelExtensionClass`, `deformationObstruction`, `derivationEvaluation`,
 `derivationEvaluation_differential`, `polynomialLift_sign`), derived tensor products and derived powers, derived
 limits (`derivedLimit_surjective`, `derivedLimit_milnor` are the module adapters of
-ArithmeticGaloisDuality §R02.1.1 / The Milnor sequence for towers of complexes; the derived-limit
+DerivedModuleAlgebra §1.T.1 / The Milnor sequence for towers of complexes; the derived-limit
 functor and `derivedLimit_triangle` are constructed in README 1.1), the unbounded
-`moduleDerivedHom` point-site adapter using ClassicalAdicEtaleCohomology's `ClassicalDerived.enhancedCategory`,
+`moduleDerivedHom` point-site adapter using EnhancedDerivedSheaves §§0.1–0.3's `ClassicalDerived.enhancedCategory`,
 `ClassicalDerived.replacements` and `ClassicalDerived.tensorHom` (README 1.1.1), and completion
 (`derivedCompletion`, `completionUnit`, `completionAdjunction`,
 `completionIdempotent`, `completeNakayama`, `completionComplete`, `completedColimit`), the filtered
@@ -704,7 +1116,7 @@ derived category, the ordinary de Rham differential, complex and pullback (`comp
 `pullback_smul`, `pullback_base_smul`, `pullback_add`, `d_add`, `d_base_smul`), derived de Rham
 cohomology with its filtrations and completions, the simplicial deformation target
 `simplicialSquareZeroLifting` using PerfectoidSpaces' `semiperfectoidFiniteIdealDescent`,
-the adic `perfectSystemEffective` adapter to AlgebraicModuliForArithmeticGeometry's
+the adic `perfectSystemEffective` adapter to DerivedModuleAlgebra §1.E.1's
 `perfectInverseSystemEffectivity`, raw and completed descent (`cotangentFlatDescent`,
 `hodgeQuotientFlatDescent`, `hodgeCompletedFlatDescent`, `pCompletedHodgeDescent`),
 `relativeConjugateTransitivity`, Cartier theory, crystalline comparisons, derived
@@ -719,10 +1131,10 @@ The base-linear sheaf and filtration adapters compare the supplied `ClassicalDer
 provide the de Rham realization and cup product.
 `regularFpCrystallineCech` uses EnhancedDerivedSheaves' `frobenius_flat_of_isRegular` and
 `isRegular_of_frobenius_flat`. The period interfaces `bdrPlusStructure` and `tateTwistInvariants`
-compare the supplied structures: SelmerIwasawaCohomology §4.1's `padicComplexGaloisAction`,
+compare the supplied structures: PadicPeriodRings §§1.1–1.5's `padicComplexGaloisAction`,
 `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist` and de Rham period rings for finite local fields;
-FiniteFlatGroupsAndIntegralPadicHodgeTheory's `PadicFieldCompletion`, `tateSen_H0` (§R07.1.18) and
-`generalBasePeriodRings` (§R07.3.0) for arbitrary perfect residue fields. The derived/PD-filtered
+PadicPeriodRings §2's `PadicFieldCompletion`, `tateSen_H0` and
+§4.1's `generalBasePeriodRings` for arbitrary perfect residue fields. The derived/PD-filtered
 `A_cris` comparison and its `Fil²` vanishing consequence are in README 5.12–5.15.
 -/
 
