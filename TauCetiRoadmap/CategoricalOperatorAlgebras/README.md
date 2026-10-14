@@ -109,7 +109,9 @@ faithful such functors are isometric.
 
 Build finite linking algebras for lists of objects, their corner
 identifications and matrix positivity. Recover the Hom norm and
-positivity from two-object corners. Construct finite orthogonal sums,
+positivity from two-object corners. Call a C*-category finitely unitarily
+Cauchy complete when it admits finite orthogonal sums and unitary
+splittings of all self-adjoint idempotents. Construct finite orthogonal sums,
 unitary splittings of self-adjoint idempotents, and additive/Karoubi
 completion. Compare with native biproducts and `Karoubi`, proving an
 idempotent is similar through an invertible morphism to a self-adjoint
@@ -131,7 +133,7 @@ naturality and the component norm bound; pointwise limits of arbitrary
 normal functors are not asserted to preserve normality.
 
 Construct orthogonal direct sums indexed by sets in `Type u`, with bounded column/row morphism criteria and convergence of
-finite partial sums. Define Cauchy completeness here to require these
+finite partial sums. Define W*-Cauchy completeness here to require these
 sums and projection splittings, in the W* sense used in CA9. Construct
 this completion and its normal-functor universal property. A finite
 additive Karoubi completion alone does not supply infinite W* sums.
@@ -153,8 +155,12 @@ hypothesis supplies the left unitors; include it in the carriers rather
 than silently using it for arbitrary adjointable actions. Prove linear/dagger hom-category structure,
 unitors, associators, interchange and pentagon/triangle identities from
 H3 and S1's tensor constructions. Use M–N correspondences and compose
-H:M–N, K:N–P by H⊗_N K. Construct conjugate bimodules as the
-bi-involution, including its reversed tensor coherence.
+H:M–N, K:N–P by H⊗_N K. On normal scalar-Hilbert correspondences,
+construct conjugate bimodules as the bi-involution, including its
+reversed tensor coherence. The general right C*-correspondence
+bicategory carries the dagger on 2-cells. Construct reversed
+C*-correspondences on H3's imprimitivity subbicategory using both
+inner products, with conjugation and reversed tensor coherence.
 
 ## CA2. Unitary tensor duality and shaded planar algebras
 
@@ -264,7 +270,19 @@ equivalence.
 
 ## CA3. Q-systems and their bicategorical completion
 
-In a C*/W*-bicategory B, a Q-system at b is a monoid object
+Throughout CA3 require the C*/W*-bicategory B to be locally unitarily
+Cauchy complete in CA1a's finite sense: every Hom category has finite
+orthogonal sums and unitary splittings of self-adjoint idempotents.
+This is separate from the W*-Cauchy completeness with arbitrary sums
+used in CA9. Verify this hypothesis for CA1b's intended correspondence
+bicategories: finite direct sums and adjointable projection ranges
+are right Hilbert C*-correspondences with nondegenerate inherited left
+actions, and bounded projection ranges are normal Hilbert
+correspondences. Prove the inclusions and orthogonal projections are
+bimodule intertwiners and the splittings have the required analytic
+structure.
+
+A Q-system at b is a monoid object
 Q in `EndMonoidal b`, with multiplication m:Q≫Q→Q and unit
 i:1_b→Q. The 2-cell equations below use native bicategory associators
 and unitors; a C*-tensor category is the one-object specialization.
@@ -287,11 +305,21 @@ Construct adjoints and spaces of bimodule intertwiners.
 
 Compose X:P–Q and Y:Q–R by the range of the self-adjoint idempotent
 `p=(ρ_X⊗λ_Y)(1_X⊗m_Q†i_Q⊗1_Y)` on X⊗Y. Prove self-adjointness,
-idempotence and balancedness, then split it unitarily by CA1. Show the
+idempotence and balancedness, then split it unitarily inside the original
+Hom category using the standing local unitary Cauchy-completeness
+hypothesis. Show the
 range is the balanced coequalizer, independent of the splitting.
 Construct its left/right actions, regular-Q units and unitors,
 associators from the splittings, and prove all bicategory coherences.
 Build QSys(C) and its canonical fully faithful hom-wise inclusion.
+Prove QSys(C) is again locally unitarily Cauchy complete in the finite
+sense: finite orthogonal sums carry the componentwise bimodule actions,
+and a self-adjoint bimodule-intertwiner idempotent splits using the
+ambient Hom category's splitting. Transport both actions through its
+isometry, and prove all unital Frobenius and specialness equations for
+the range. Prove normality of these constructions in the W* case.
+This supplies the carrier for iterating QSys and its completion
+universal property.
 
 Define splitting by a dual pair of 1-morphisms X,X̄ and a unitary
 algebra identification `Q≃X⊗X̄`, with multiplication
@@ -330,8 +358,10 @@ supplies the dual pair; constructing its Q-system is owned here.
 
 ## CA4. Internal C*/W* algebra objects
 
-For essentially small semisimple rigid C*-tensor C with simple unit construct
-complex linear presheaves Vec(C), and Hilbert-space objects Hilb(C),
+For essentially small semisimple rigid C*-tensor C with simple unit and
+finite-dimensional Hom spaces, require CA1a's finite unitary Cauchy
+completeness, so the one-object bicategory meets CA3's local hypothesis.
+Construct complex linear presheaves Vec(C), and Hilbert-space objects Hilb(C),
 using simple-object coefficient spaces, their direct sums, bounded
 natural transformations and dagger. Build linear Day convolution,
 monoidal Yoneda and the tensor of Hilbert objects, including completion
@@ -482,7 +512,11 @@ Define the unitary relative center Z_C(E) for a dagger tensor functor
 `X⊗α(c)≃α(c)⊗X`, with the tensor hexagon and unit equation;
 morphisms intertwine them. Use Mathlib's `HalfBraiding` orientation,
 construct dagger/tensor and duality by mates, and identify
-`Z†(C)=Z_C(C)` for α=id on the native `Center` carrier.
+`Z†(C)=Z_C(C)` for α=id as the full subcategory of the native
+`Center` whose half-braiding components are unitary. Native
+`HalfBraiding` supplies invertible components; the unitary condition is
+an additional property. Prove dagger, tensor and duality by mates
+preserve that condition before installing the analytic center structure.
 
 Prove the equivalence between these pointed state-bearing categories
 and unitary anchored planar algebras. In one direction recover boxes by
@@ -746,12 +780,42 @@ Construct the properly infinite factor endomorphism model: objects
 are normal unital endomorphisms ρ:M→M, together with a zero object;
 morphisms t:ρ→σ are t∈M with `tρ(a)=σ(a)t` for every a.
 Build its dagger, norms, sums/subobjects and tensor composition, and
-the equivalence with separable normal Bim(M), using the right-twisted
-model `L²(M)_ρ`: left action ordinary and right action
-`ξ·a=ξρ(a)`. Prove this is monoidal for ρ⊗σ=ρ∘σ,
-with explicit fusion tensorator and intertwiner identifications. For
+the complex-linear dagger equivalence with separable normal Bim(M),
+using the left-twisted model `_ρL²(M)`: left action `a·ξ=ρ(a)ξ`
+and ordinary right action. Map t:ρ→σ to left multiplication by t,
+proving complex linearity and covariance. On this endomorphism model
+call this category End_rev(M), with reversed composition
+`ρ⊗_rev σ=σ∘ρ`; for t:ρ→ρ′ and s:σ→σ′,
+the tensor intertwiner is `s σ(t)=σ′(t)s`. Construct the fusion
+tensorator `_ρL²(M)⊗_M _σL²(M)≃_(σ∘ρ)L²(M)` and prove its
+naturality, unitarity and associator/unit coherence.
+
+Construct the convention bridge to Tomatsu's usual-composition
+endomorphism category, whose tensor on objects is `ρ⊗σ=ρ∘σ` and
+on intertwiners is `t ρ(s)=ρ′(s)t`. End_rev(M) is exactly this
+category with its tensor reversed. Tensor reversal keeps objects,
+morphisms, dagger and complex scalars, sets `X⊗_rev Y=Y⊗X`, and
+uses `a^rev_(X,Y,Z)=a_(Z,Y,X)⁻¹`, `λ^rev=ρ`, `ρ^rev=λ`. For a representation
+F:C→End_rev(M) obtained above, construct the unitary tensor functor
+G:C^rev→End(M) with the same object and morphism maps. If
+`u_(X,Y):F_Y∘F_X→F_(X⊗Y)` is F's tensor constraint, G's constraint
+is `u_(Y,X)` and Tomatsu's cocycle is `c_(X,Y)=u_(Y,X)†`.
+Prove the tensor-intertwiner and cocycle equations under this translation,
+including nonstrict associators. Swap the two standard conjugate cups
+when reversing the tensor category, retaining their dimension and
+standardness. Prove preservation of amenability, central freeness,
+approximate unitary equivalence and strong cocycle conjugacy, and
+construct the inverse translation. Apply the action theorem below to
+C^rev and translate its result back to the original correspondence
+representations; no identification of C with C^rev is required.
+For the back-translation take the invertible correspondence
+`U=_γL²(M)`. Construct the natural unitaries
+`U⊗_M β(X)≃α(X)⊗_M U` from the action intertwiners w_X† and the
+fusion tensorators, proving their tensor coherence.
+
+In the usual-composition endomorphism category, for
 finite-statistical-dimension objects choose CA2's standard conjugate
-solution with R_std†R_std=d_ρ, and use the isometry
+solution `R_std:id→ρ̄∘ρ` with R_std†R_std=d_ρ, and use the isometry
 `r_ρ=d_ρ^(-1/2)R_std`. Pin the source's normalized conjugate equations
 `r_ρ* ρ̄(r̄_ρ)=d_ρ⁻¹1`, `r̄_ρ*ρ(r_ρ)=d_ρ⁻¹1` and the canonical
 normal ucp left inverse `φ_ρ(x)=r_ρ*ρ̄(x)r_ρ`.
@@ -793,9 +857,14 @@ intertwiner spaces. Define `ρ(ψ)=ψ∘φ_ρ∈M_*` and
 `(uρ(ψ)u*)(x)=ρ(ψ)(u*xu)`. Approximate unitary equivalence of
 ρ₁,ρ₂ means a sequence of unitaries u_n∈M with
 `‖u_nρ₁(ψ)u_n*−ρ₂(ψ)‖_(M_*)→0` for every ψ∈M_*.
-Prove equivalence with exact unitary comparison of the corresponding
-induced maps in the ultrapower, its invariance, sums and standard
-left-inverse transport. This is a predual criterion, not pointwise
+Define the induced lifted functional
+`ρ_i(ψ^ω)=ψ^ω∘φ_(ρ_i)^ω`. Prove equivalence with the existence of
+one unitary u∈M^ω satisfying
+`u ρ₁(ψ^ω) u*=ρ₂(ψ^ω)` for every ψ∈M_*; the conjugation action
+on functionals is `(u f u*)(x)=f(u*xu)`. Construct the necessary
+unitary representatives and use separability of the predual to pass
+between sequences and this simultaneous exact comparison. Prove
+invariance, sums and standard left-inverse transport. This is a predual criterion, not pointwise
 convergence of ρ₁(x) and ρ₂(x).
 
 Define approximate innerness of rank r>0 by partial isometries v_i^n,
