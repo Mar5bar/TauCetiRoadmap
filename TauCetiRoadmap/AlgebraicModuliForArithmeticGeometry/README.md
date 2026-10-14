@@ -815,12 +815,13 @@ Here Arbitrary characteristic, including mixed characteristic over Spec ℤ; K a
 
 ([Alexander Grothendieck](https://www.numdam.org/item/SB_1960-1961__6__249_0.pdf), §2, Lemma 2.4 and the sentence introducing it, exposé p.7 (collected p.255), which states the boundedness over any Noetherian base and attributes it to the content of Chow coordinates; [Wei-Liang Chow, B. L. van der Waerden](https://gdz.sub.uni-goettingen.de/id/PPN235181684_0113?tify={%22pages%22:[696]}), §1, Satz 1, pp.695–697, for the associated form; Hartshorne, *Algebraic Geometry*, Chapter I, Theorem 7.7, for the degree count of linear sections over an algebraically closed field of any characteristic).
 
-For the proof, first let Y be integral of degree d. The incidence {(y,H_0,…,H_r): y∈Y∩H_0∩…∩H_r} is a projective bundle over Y of dimension r+(r+1)(n−1), and a general (H_1,…,H_r) cuts Y in finitely many points, so its image in (Pⁿ∨)^(r+1) is an irreducible hypersurface; let F_Y be a reduced equation. On a general line in the i-th block, with the other hyperplanes general, the zeros of F_Y are simple and correspond to the points of the general linear section of Y by the other r hyperplanes, so the i-th degree of F_Y is at most d by the Bézout count. If x∈Y, F_Y vanishes on all hyperplanes through x. If x∉Y, projection from x carries Y onto an r-dimensional closed subset of P^(n−1), so a general linear space of codimension r+1 through x misses Y and some tuple of hyperplanes through x has F_Y≠0. For reduced Y with components Y_j take F=∏F_(Y_j), of multidegree at most Σdeg Y_j≤D, so W_F=Y as sets. Closedness of W: the tuples of hyperplanes through x form a projective subbundle of Pⁿ×(Pⁿ∨)^(r+1) over Pⁿ, and W is the zero locus of the direct image of the restricted universal form. No separability hypothesis enters, and no field of definition of F is asserted for Y.
+For n=0, a nonempty reduced pure zero-dimensional Y⊂P⁰_K is P⁰_K itself. There are no hyperplanes through its point, so every allowed nonzero parameter form gives W_c=P⁰_K by the vacuous vanishing condition. For n≥1, first let Y be integral of degree d. The incidence {(y,H_0,…,H_r): y∈Y∩H_0∩…∩H_r} is a projective bundle over Y of dimension r+(r+1)(n−1), and a general (H_1,…,H_r) cuts Y in finitely many points, so its image in (Pⁿ∨)^(r+1) is an irreducible hypersurface; let F_Y be a reduced equation. On a general line in the i-th block, with the other hyperplanes general, the zeros of F_Y are simple and correspond to the points of the general linear section of Y by the other r hyperplanes, so the i-th degree of F_Y is at most d by the Bézout count. If x∈Y, F_Y vanishes on all hyperplanes through x. If x∉Y, projection from x carries Y onto an r-dimensional closed subset of P^(n−1), so a general linear space of codimension r+1 through x misses Y and some tuple of hyperplanes through x has F_Y≠0. For reduced Y with components Y_j take F=∏F_(Y_j), of multidegree at most Σdeg Y_j≤D, so W_F=Y as sets. Closedness of W: the tuples of hyperplanes through x form a projective subbundle of Pⁿ×(Pⁿ∨)^(r+1) over Pⁿ, and W is the zero locus of the direct image of the restricted universal form. No separability hypothesis enters, and no field of definition of F is asserted for Y.
 
 *Needs:* `ProjectiveBundles.projectiveBundle`, `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, `gradedPiecesFinite`, `hilbertPolynomial`, StableReduction Layer 2.
 
 **Checks.**
 
+- `BoundedSupportChecks.point`: n=r=0 and Y=P⁰_K give W_c=P⁰_K, although the incidence scheme is empty; every allowed nonzero parameter form has this fibre.
 - `BoundedSupportChecks.linear`: for a linear subspace Y of dimension r, the determinant pairing r+1 hyperplanes with a basis of the cone over Y has multidegree (1,…,1) and W_c=Y, already reduced.
 - `BoundedSupportChecks.degreeBound`: for a smooth conic Y⊂P² and D=1 no parameter exists: a form vanishing at every pair of lines meeting on Y is divisible by the multidegree-(2,2) equation of that incidence hypersurface. The bound D is a hypothesis, not a convenience.
 - `BoundedSupportChecks.inseparable`: for n=1, r=0 and the binary form X^p−tY^p over 𝔽_p(t), W_c is a reduced point of degree p over 𝔽_p(t) whose geometric fibre is one point of multiplicity p; its reduced geometric fibre has Hilbert polynomial 1. Reductions are taken after passage to an algebraic closure, not over the parameter field.
@@ -981,7 +982,7 @@ Prove `hilbertDegreeOneAndNonFlatBase`. For f : X → S separated of finite pres
 (Stacks, Lemma 99.9.2 (tag 0D00) (`Hilb = Quot`) and Lemma 10.16.4 (tag 05G8) (a surjective endomorphism of a finite module is an isomorphism); the degree-one representability additionally uses the preceding fibrewise unit-map argument and has no Stacks number.)
 *Needs:* §2.1.
 
-Prove `homAndIsomSchemes`. Let S be locally Noetherian, X → S projective flat and Y → S quasi-projective. (i) T ↦ Hom_T(X_T,Y_T) is represented by an open subscheme Hom_S(X,Y) ⊂ Hilb_{X×_SY/S}, the locus of Z ⊂ X_T ×_T Y_T with pr_1 : Z → X_T an isomorphism; it is a disjoint union over Hilbert polynomials of quasi-projective S-schemes, commutes with base change, and carries identity, composition and evaluation X ×_S Hom_S(X,Y) → Y. (ii) If also Y → S is projective flat, the isomorphisms form an open subscheme Isom_S(X,Y) ⊂ Hom_S(X,Y), with inverse Isom_S(X,Y) ≅ Isom_S(Y,X), composition and base change. When Y → S is projective flat, (i) and (ii) are the Hom and Isom schemes of SchemeAndStackFoundations §4.14's `hilbert_quot_schemes`, which are imported with their universal families and base change and are not rebuilt; the extension proved here is (i) for a quasi-projective target. For an immersion Y ⊂ Ȳ into a projective flat S-scheme, the comparison is that Hom_S(X,Y) is the open subscheme of the §4.14 scheme Hom_S(X,Ȳ) where the universal morphism factors through Y, compatibly with evaluation, composition and base change. The cited openness argument applies to the projective projection from the universal graph between proper flat families. A general proper morphism is not covered by that projectivity-based source argument. Checks: Hom_S(S,Y) = Y, Hom_S(X,S) = S; Hom_k(Spec k[ε],Y) is the tangent scheme Spec Sym Ω_{Y/k} for Y smooth; for Y = A¹_k ⊂ P¹_k and X = P¹_k, Hom_k(X,Y) is the open locus of constant maps to A¹ in Hom_k(P¹,P¹), a copy of A¹_k.
+Prove `homAndIsomSchemes`. Let S be locally Noetherian, X → S projective flat and Y → S quasi-projective. (i) T ↦ Hom_T(X_T,Y_T) is represented by an open subscheme Hom_S(X,Y) ⊂ Hilb_{X×_SY/S}, the locus of Z ⊂ X_T ×_T Y_T with pr_1 : Z → X_T an isomorphism; it is a disjoint union over Hilbert polynomials of quasi-projective S-schemes, commutes with base change, and carries identity, composition and evaluation X ×_S Hom_S(X,Y) → Y. (ii) If also Y → S is projective flat, the isomorphisms form an open subscheme Isom_S(X,Y) ⊂ Hom_S(X,Y), with inverse Isom_S(X,Y) ≅ Isom_S(Y,X), composition and base change. When Y → S is projective flat, (i) and (ii) are the Hom and Isom schemes of SchemeAndStackFoundations §4.14's `hilbert_quot_schemes`, which are imported with their universal families and base change and are not rebuilt; the extension proved here is (i) for a quasi-projective target. For an open immersion Y ⊂ Ȳ into a projective flat S-scheme, Hom_S(X,Y) is the open subscheme of the §4.14 scheme Hom_S(X,Ȳ) where the universal morphism avoids Ȳ\Y: remove the proper image of the inverse image of that closed complement in X×_S Hom_S(X,Ȳ). For a locally closed immersion, first impose the closed factorization condition through the scheme-theoretic closure of Y, then the open avoidance condition inside that closure. This gives a locally closed Hom subscheme, compatibly with evaluation, composition and base change; a closed target gives a closed Hom subscheme. The cited openness argument applies to the projective projection from the universal graph between proper flat families. A general proper morphism is not covered by that projectivity-based source argument. Checks: Hom_S(S,Y) = Y, Hom_S(X,S) = S; Hom_k(Spec k[ε],Y) is the tangent scheme Spec Sym Ω_{Y/k} for Y smooth; for Y = A¹_k ⊂ P¹_k and X = P¹_k, Hom_k(X,Y) is the open locus of constant maps to A¹ in Hom_k(P¹,P¹), a copy of A¹_k. `HomTargetChecks.closedPoint`: for X=Spec k and Y={0}⊂P¹_k, the Hom locus is the closed point {0}, which is not open. `HomTargetChecks.openLine`: for X=Spec k and Y=A¹_k⊂P¹_k it is the open A¹_k. `HomTargetChecks.locallyClosed`: for X=Spec k and Y=A¹_k×{0}⊂P¹_k×P¹_k it is open in the closed fibre P¹_k×{0} and is not open in the ambient product.
 (Nitsure, Lemma 6.5 and Theorem 6.6, pp. 30–31, with the evaluation, inverse and composition maps supplied by the graph functor.)
 *Needs:* §2.1, SchemeAndStackFoundations §4.14 (`hilbert_quot_schemes`), SchemeAndStackFoundations §0.8.
 
@@ -2609,7 +2610,7 @@ Here C is a fixed small category with topology J; F is the existing Cat-valued p
 
 ([Stacks](https://stacks.math.columbia.edu/tag/06NY), Lemma 8.11.8, final omitted varying-U step).
 
-For the proof, equality at x pulls back to the actual object F(a)x for every a:V→U, using evaluation pullback compatibility; then for y over V, use the gerbe's local-isomorphism covering sieve comparing F(a)x with y. On each g in it, pull back the previous equality and conjugate by a local object isomorphism; then the new cover-local evaluation lemma, using the fully faithful descent functor, gives equality at (a,y) globally. It requires no abelian-inertia assumption; then vary (V,a,y) and apply the existing component extensionality. The proof and its trivial-inertia consequence have no admission dependency in the exact Mathlib extraction.
+For the proof, equality at x pulls back to the actual object F(a)x for every a:V→U, using evaluation pullback compatibility; then for y over V, use the gerbe's local-isomorphism covering sieve comparing F(a)x with y. On each g in it, pull back the previous equality and conjugate by a local object isomorphism; then the new cover-local evaluation lemma, using the fully faithful descent functor, gives equality at (a,y) globally. It requires no abelian-inertia assumption; then vary (V,a,y) and apply the existing component extensionality.
 
 *Needs:* `bandCenterEvaluation`, `bandCenterExt`, `IsGerbe`, Mathlib `CategoryTheory.Pseudofunctor.sheafHom`, `bandCenterEvaluationCover`.
 
@@ -2817,9 +2818,9 @@ The API gives `IntrinsicBandSections.fromBandingPresheaf`: The natural transform
 
 **Checks.**
 
-- `BandComparisonPresheafTests.zero`: Every actual natural-transformation component sends zero to zero.
-- `BandComparisonPresheafTests.add`: The component at a+a′, read as a central section, is the product of the sections c_b(U)(a) and c_b(U)(a′).
-- `BandComparisonPresheafTests.restriction`: Restricting the component at a along the displayed f:V→U is the component at the actual coefficient restriction along f.
+- `BandComparisonPresheafTests.generator`: on the canonical C₃ point band, coefficient 1 maps to the nonidentity section with value 1.
+- `BandComparisonPresheafTests.inverted`: on the inverted C₃ band, coefficient 1 maps to the section with value 2.
+- `BandComparisonPresheafTests.restriction`: on the C₄→C₂→C₂ fixture, the section with value 1 restricts to value 1 at both C₂ stages, whereas the section with value 2 restricts to zero.
 
 Prove `bandCenterFixedBandDistinction`. For two A-bandings b and b′, if their automorphisms at one fixed (U,x,a) differ, then c_b(U)(a) and c_b′(U)(a) differ. In particular, canonical and inverted C3 coefficient identifications remain distinct.
 
@@ -3503,9 +3504,11 @@ The API gives `BandFixtures.constantSectionsEquiv`: For every U, the units of th
 
 **Checks.**
 
-- `ConstantEquivTests.centreRoundTrip`: The forward map followed by the actual inverse recovers every centre unit.
-- `ConstantEquivTests.sectionRoundTrip`: The actual inverse followed by the forward map recovers every compatible section.
-- `ConstantEquivTests.restriction`: Every base-arrow restriction retains the same centre unit.
+- `ConstantEquivTests.generator`: on the constant B(C₃) diagram, the canonical generator 1 corresponds to a section evaluating to 1, not 2, at the identity slice arrow.
+- `ConstantEquivTests.disconnected`: on B(C₃)⊔B(C₃), the profile (1,2) evaluates to 1 on the first component and 2 on the second; one coefficient shared by both components does not represent it.
+- `ConstantEquivTests.symmetric`: on B(S₃), the only centre unit, and hence the only compatible section, is the identity; no transposition is selected.
+
+The forward and evaluation-inverse maps satisfy both round-trip laws, and every base-arrow restriction retains the same centre unit.
 
 Define `BandFixtures.componentCenter`. For a commutative group G and type I, use the existing product category of the discrete category on I and the one-object category of G. A profile a:I to G determines a natural endomorphism of its identity functor with component (identity,a(i)) at (i,star).
 
@@ -4220,7 +4223,7 @@ The API gives `BandedIsom.act_one`: act(p,1)=p; multiplicative one is additive z
 
 - `BandCenterTests.C3`: one component and C₃ give exactly three sections.
 - `BandCenterTests.identity`: a trivial automorphism group gives one section.
-- `BandPointTests.disconnectedCardinality`: two discrete components with C₃ give nine sections.
+- `BandPointTests.disconnectedCardinality`: on the point site, B(C₃)⊔B(C₃) has nine sections, and B(S₃)⊔B(C₃) has three. Both fail gerbe local isomorphism, so neither satisfies the gerbe hypotheses of the cardinality examples.
 - `ConnectedBandTests.cardinality`: two codiscretely connected indices with C₃ give three sections.
 
 `RestrictionBandFixtures.reduction` is C₄→C₂. `RestrictionBandFixtures.chainGroups` is C₄→C₂→C₂; `RestrictionBandFixtures.ChainSite` is the opposite three-object chain; `RestrictionBandFixtures.chainPresheaf` and `RestrictionBandFixtures.chainF` are its group presheaf and one-object groupoid pseudofunctor. `RestrictionBandFixtures.U₀`, `RestrictionBandFixtures.U₁`, `RestrictionBandFixtures.U₂` name its three objects and `RestrictionBandFixtures.f₀₁`, `RestrictionBandFixtures.f₁₂`, `RestrictionBandFixtures.f₀₂` the reduction arrow, identity restriction arrow and their composite. The API `chain_generator_restrict`, `chain_generator_comp`, `chain_two_killed` computes their actual coordinate maps. `RestrictionBandFixtures.TwoChainSite` is the disjoint union of two such sites; `RestrictionBandFixtures.twoChainPresheaf` and `RestrictionBandFixtures.twoChainF` repeat the construction on both components. Their API `twoChains_no_terminal`, `twoChains_sections_equiv`, `twoChains_gerbe` proves the absence of a terminal object, the sectionwise band computation and gerbe locality. Each indexing abbreviation is determined by these objects, arrows and composite computations; it introduces no additional carrier. (Direct finite-category and cyclic-group calculations.)
@@ -4760,7 +4763,7 @@ The API gives `GerbeMorphismPullback.comparison_native`: The component agrees ex
 - `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.zeroComparison`: The inverse comparison followed by its forward comparison is the identity arrow.
 - `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.comparisonBand`: Conjugation by c_f(x) preserves the specified target-band coefficient.
 
-Define `GerbeMorphismPullback.mapIso`. For p:F(f)x≅F(f)y define M_f(p)=c_f(x)⁻¹ ∘ ηV(p) ∘ c_f(y), an isomorphism G(f)(ηUx)≅G(f)(ηUy). Source: Olsson 2007 (Math 274 notes), §31, Definition 31.1 and Lemma 31.3, pp. 122–123.
+Define `GerbeMorphismPullback.mapIso`. For p:F(f)x≅F(f)y define M_f(p)=c_f(y) ∘ ηV(p) ∘ c_f(x)⁻¹, an isomorphism G(f)(ηUx)≅G(f)(ηUy). Source: Olsson 2007 (Math 274 notes), §31, Definition 31.1 and Lemma 31.3, pp. 122–123.
 
 Here An arbitrary specified site (C,J), Cat-valued pseudofunctors F,G with IsGerbe and one actual abelian sheaf A, with the supplied bandings bF,bG; η is the StrongTrans. The comparison, forward Isom map and forward Hom map are defined without band preservation; the inverse laws, injectivity, equivariance and equivalences assume BandPreserving(bF,bG,η); f:V→U and actual x,y∈F(U). Coefficients and fibre Hom types share one universe; base and object universes are arbitrary; An actual source anchor is assumed only where explicitly stated; local nonemptiness is not a global anchor. No finite, neutral, terminal-object, finite-presentation or bottom-topology assumption is imposed.
 
@@ -4862,7 +4865,7 @@ For the proof, express q as actF(p,differenceF(p,q)), apply action compatibility
 
 *Needs:* `GerbeMorphismPullback.mapIso_act`, `BandedIsom.act_difference`, `BandedIsom.difference_act`.
 
-Define `GerbeMorphismPullback.preimageIso`. Given a local anchor p:F(f)x≅F(f)y and q:G(f)(ηUx)≅G(f)(ηUy), define P_f(p,q)=BandedMorphism.preimageIso(p,c_f(x) ∘ q ∘ c_f(y)⁻¹). Source: Olsson 2007 (Math 274 notes), §31, Definition 31.1 and Lemma 31.3, pp. 122–123.
+Define `GerbeMorphismPullback.preimageIso`. Given a local anchor p:F(f)x≅F(f)y and q:G(f)(ηUx)≅G(f)(ηUy), define P_f(p,q)=BandedMorphism.preimageIso(p,c_f(y)⁻¹ ∘ q ∘ c_f(x)). Source: Olsson 2007 (Math 274 notes), §31, Definition 31.1 and Lemma 31.3, pp. 122–123.
 
 Here An arbitrary specified site (C,J), Cat-valued pseudofunctors F,G with IsGerbe and one actual abelian sheaf A, with the supplied bandings bF,bG; η is the StrongTrans. The comparison, forward Isom map and forward Hom map are defined without band preservation; the inverse laws, injectivity, equivariance and equivalences assume BandPreserving(bF,bG,η); f:V→U and actual x,y∈F(U). Coefficients and fibre Hom types share one universe; base and object universes are arbitrary; An actual source anchor is assumed only where explicitly stated; local nonemptiness is not a global anchor. No finite, neutral, terminal-object, finite-presentation or bottom-topology assumption is imposed.
 
@@ -4954,23 +4957,23 @@ For the proof, unfold the component definition; the equality is reflexive.
 
 *Needs:* `GerbeMorphismPullback.comparison`.
 
-Prove `GerbeMorphismPullback.comparison_comp`. For f:V→U and g:W→V, c_(g∘f)(x) is ηW applied to the source mapComp comparison, followed by c_g(F(f)x), G(g)(c_f(x)), and the inverse target mapComp comparison.
+Prove `GerbeMorphismPullback.comparison_comp`. For f:V→U and g:W→V, c_(f∘g)(x) is ηW applied to the source mapComp comparison, followed by c_g(F(f)x), G(g)(c_f(x)), and the inverse target mapComp comparison.
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
 ([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored comparison_comp deduction).
 
-For the proof, apply the strong-transformation composition coherence to f.op and g.op, convert the Cat-valued 2-isomorphisms to natural isomorphisms, and evaluate at x; then retain all four factors and their direction: ηW(F(gf)x)→ηW(F(g)F(f)x)→G(g)ηV(F(f)x)→G(g)G(f)ηUx→G(gf)ηUx. The first and last maps are the actual pseudofunctor comparisons, not definitional identifications; then use the mapComp′ equality witness for the base composite. Associators in Cat evaluate to the required component identities.
+For the proof, apply the strong-transformation composition coherence to f.op and g.op, convert the Cat-valued 2-isomorphisms to natural isomorphisms, and evaluate at x; then retain all four factors and their direction: ηW(F(f∘g)x)→ηW(F(g)F(f)x)→G(g)ηV(F(f)x)→G(g)G(f)ηUx→G(f∘g)ηUx. The first and last maps are the actual pseudofunctor comparisons, not definitional identifications; then use the mapComp′ equality witness for the base composite. Associators in Cat evaluate to the required component identities.
 
 *Needs:* `GerbeMorphismPullback.comparison`, `GerbeMorphismPullback.comparison_native`, Mathlib `CategoryTheory.Pseudofunctor.StrongTrans.naturality_comp_iso`.
 
-Prove `GerbeMorphismPullback.homMap_pullHom`. For every actual local arrow p:F(f)x→F(f)y and g:W→V, h:W→U with g∘f=h, h_h(pullHom_F(p,g,h,h))=pullHom_G(h_f(p),g,h,h). No global antecedent for p is assumed.
+Prove `GerbeMorphismPullback.homMap_pullHom`. For every actual local arrow p:F(f)x→F(f)y and g:W→V, h:W→U with f∘g=h, h_h(pullHom_F(p,g,h,h))=pullHom_G(h_f(p),g,h,h). No global antecedent for p is assumed.
 
 Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on LocallyDiscrete Cᵒᵖ. η is their StrongTrans. The forward comparison and the presheaf maps require no gerbe or band hypothesis; the sheaf map requires the IsPrestack predicates for the specified topology J; For injectivity, covering image sieves, the sheaf isomorphism and fibrewise fullness, F,G are IsGerbe on the specified site, bF,bG band them by the same actual abelian sheaf A, and η preserves that band. No global source anchor, neutralization, terminal base object, finite site or chosen single cover is assumed; The coefficient sheaf is A : Sheaf J AddCommGrpCat.{v′}, in the universe of the fibre Hom types. Independent coefficient universes are handled by `universeNormalizedGerbe` (§4.21), which enlarges the coefficient and fibre-Hom universes to their maximum; the statement here is its normalized case. Base and fibre-object universes are not restricted.
 
 ([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homMap_pullHom deduction).
 
-For the proof, replace h by g∘f using the supplied equality, then expand the pullHom formula: source mapComp hom, functorial pullback of p, target mapComp inverse; then expand h_f as c_f(x) inverse, ηV(p), c_f(y) forward. Substitute the two comparison-composite formulas for x and y; then use naturality of c_g at the arbitrary local arrow p and functorial preservation of composition. Cancel adjacent inverse comparison factors. The remaining factors are exactly the target pullHom formula; then the argument works for p that does not lift from U. The earlier supplied-global-arrow restriction lemma is therefore not used as a substitute.
+For the proof, replace h by f∘g using the supplied equality, then expand the pullHom formula: source mapComp hom, functorial pullback of p, target mapComp inverse; then expand h_f as c_f(x) inverse, ηV(p), c_f(y) forward. Substitute the two comparison-composite formulas for x and y; then use naturality of c_g at the arbitrary local arrow p and functorial preservation of composition. Cancel adjacent inverse comparison factors. The remaining factors are exactly the target pullHom formula; then the argument works for p that does not lift from U. The earlier supplied-global-arrow restriction lemma is therefore not used as a substitute.
 
 *Needs:* `GerbeMorphismPullback.comparison_comp`, `GerbeMorphismPullback.homMap`, Mathlib `CategoryTheory.Pseudofunctor.LocallyDiscreteOpToCat.pullHom`.
 
@@ -4987,7 +4990,7 @@ The API gives `GerbeMorphismPullback.homPresheafMap_app`: At every T∈C/U, the 
 **Checks.**
 
 - `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.presheafIdentity`: The identity StrongTrans induces exactly the identity of the Hom presheaf.
-- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.deeperArrow`: For an arbitrary local p and composable f,g, h_(g∘f) of pullHom_F(p) equals pullHom_G(h_f(p)); p need not descend from a global arrow.
+- `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.deeperArrow`: For an arbitrary local p and composable f,g, h_(f∘g) of pullHom_F(p) equals pullHom_G(h_f(p)); p need not descend from a global arrow.
 - `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.identitySlice`: At id U, the map agrees with the actual fibre functor through the two presheafHomObjHomEquiv maps.
 - `TauCeti.AlgebraicGeometry.GerbeMorphismPullback.Tests.pointNonzero`: On the one-point constant SingleObj(Multiplicative(Z/2Z)) fixture, the identity transformation preserves the actual nonidentity arrow represented by additive 1.
 
@@ -5195,7 +5198,7 @@ Here C is an arbitrary category, J its specified Grothendieck topology, and F,G 
 
 ([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement localImageSieve_covering).
 
-For the proof, choose a covering sieve R from F.locallyNonempty. For each f:V→U in R, choose x in F(V); then apply G.locallyIsomorphic to ηV(x) and G(f)z. Its covering sieve S on V consists of arrows g along which the two target objects become isomorphic; then use c_g(x) and the G.mapComp′ comparison as in downward closure to show S≤Lz.pullback(f). Superset covering makes Lz.pullback(f) cover V; then apply GrothendieckTopology.transitive to R and Lz. Effective descent in F then produces the global object with its specified local comparisons.
+For the proof, choose a covering sieve R from F.locallyNonempty. For each f:V→U in R, choose x in F(V); then apply G.locallyIsomorphic to ηV(x) and G(f)z. Its covering sieve S on V consists of arrows g along which the two target objects become isomorphic; then use c_g(x) and the G.mapComp′ comparison as in downward closure to show S≤Lz.pullback(f). Superset covering makes Lz.pullback(f) cover V; then apply GrothendieckTopology.transitive to R and Lz. This proves that the local-image sieve is covering. Global lifting in `GerbeMorphismDescent.global_preimage` uses band-preserving full faithfulness to lift the descent arrows and their cocycle before applying stack effectivity.
 
 *Needs:* `GerbeMorphismDescent.localImageSieve_mem`, `IsGerbe`, Mathlib `CategoryTheory.GrothendieckTopology.transitive`, Mathlib `CategoryTheory.GrothendieckTopology.superset_covering`.
 
@@ -5210,6 +5213,8 @@ The API gives `GerbeMorphismDescent.targetOverlapIso_formula`: The target overla
 *Needs:* `GerbeMorphismPullback.comparison`, Mathlib `CategoryTheory.Pseudofunctor.DescentData.ofObj`, Mathlib `CategoryTheory.Pseudofunctor.DescentData.iso`.
 
 **Checks.**
+
+- `GerbeMorphismDescentTests.localNotGlobal`: over ℝ, B1→B(C₂) has covering local-image sieve for the torsor Spec ℂ, but no global preimage: its only image is the trivial torsor. The morphism does not preserve a common band.
 
 - `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.selfOverlap`: For the same local index and base arrow, the complete five-factor target comparison cancels to the identity.
 - `TauCeti.AlgebraicGeometry.GerbeMorphismDescent.Tests.tripleOverlap`: Three distinct local lifts over a common test object satisfy the ordered target cocycle.
@@ -5415,7 +5420,7 @@ Here C is an arbitrary category, J its specified Grothendieck topology, and F,G 
 
 ([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31 Lemma 31.3, PDF122–123; authored descent refinement componentIsEquivalence).
 
-For the proof, extract the Full and Faithful instances from componentFullyFaithful and register componentEssSurj. Supply the three fields of Functor.IsEquivalence; then this is the fibrewise step only. Inverse functors, the coherent inverse strong transformation, and band preservation of the inverse, unit and counit are part of the pseudonatural equivalence target `CoherentInverse.inverse` (§4.12).
+For the proof, extract the Full and Faithful instances from componentFullyFaithful and register componentEssSurj. Supply the three fields of Functor.IsEquivalence; then this is the fibrewise step only. Inverse functors, the coherent inverse strong transformation, and band preservation of the inverse, unit and counit are part of the pseudonatural equivalence target `CoherentInverse.inverse` (§4.21).
 
 *Needs:* `GerbeMorphismDescent.componentFullyFaithful`, `GerbeMorphismDescent.componentEssSurj`, Mathlib `CategoryTheory.Functor.IsEquivalence`.
 
@@ -5439,7 +5444,7 @@ Here A specified site (C,J); F,G are Cat-valued pseudofunctors with groupoid fib
 
 ([Martin Olsson (lectures), Anton Geraschenko and course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Definition 31.1 and Lemma 31.3, PDF pp.122–123; authored fixed-band deductions using the equivalence and modification API.).
 
-For the proof, evaluate the component comparisons at U; then apply `GerbeBandEquivalence.of_fibreNatIso` to the actual component functors and the map_band projection of §4.2; then package the resulting equations in the existing BandPreserving class; do not define a new transformation carrier.
+For the proof, evaluate the component comparisons at U; then apply `GerbeBandEquivalence.fibreNatIso_map_band` to the actual component functors and the map_band projection of §4.2; then package the resulting equations in the existing BandPreserving class; do not define a new transformation carrier.
 
 *Needs:* `AbelianBanding`, `BandPreserving`, `GerbeBandEquivalence.fibreNatIso_map_band`, Mathlib `CategoryTheory.Pseudofunctor.StrongTrans`.
 
@@ -7249,6 +7254,9 @@ For a locally full map f:Γ→Δ, the synchronized index records a locally full 
 
 **Checks.**
 
+- `BooleanChecks.singleton`: the terminal 2-category is Boolean cofiltered; its collapsed poset has one element.
+- `BooleanChecks.empty`: the empty 2-category is excluded by nonemptiness, despite satisfying the pair-cone and parallel-arrow conditions vacuously.
+- `BooleanChecks.connected`: the codiscrete two-object groupoid, viewed as a locally discrete 2-category, is Boolean cofiltered and its collapsed poset is a singleton.
 - `BooleanChecks.parallel`: the one-object category with endomorphism monoid {1,0}, where 0 is absorbing, is cofiltered: precomposition with 0 equalizes every parallel pair. It is not equivalent to a poset because it has two endomorphisms. Thus ordinary cofilteredness does not supply the stated biequivalence; the unique-2-cell condition is material.
 - `LimitChecks.singleton`: a one-index identity diagram returns the whole fibre groupoid, including all automorphisms; replacing it by its isomorphism classes deletes those automorphisms.
 - `LimitChecks.twoCoordinates`: in the tower of products (C₂)ⁿ, an object, an arrow and a relation involving coordinates 1 and 2 are all detected at n=2. Coordinate 2 is invisible at n=1, and checking two relations at separate stages requires passage to their common refinement.
@@ -7700,6 +7708,8 @@ noncomputable def principalSheafIso (x y : F.obj (.mk (op U))) :
     actionSheaf F J A b x y ≅ pairSheaf F J x y
 
 end BandedIsom
+
+variable [IsGerbe G J]
 
 namespace BandedMorphism
 
@@ -8903,7 +8913,7 @@ Prove `universalFlatteningProperSupport`. Let f : X → Y be a morphism of finit
 
 Here f of finite presentation; F finitely presented with support proper over Y; no Noetherian hypothesis. Generic flatness of SchemeAndStackFoundations §4.12 gives only a dense open of flatness and does not replace this theorem.
 
-([Stacks](https://stacks.math.columbia.edu/tag/0CVI), Lemma 77.3.6; [Stacks](https://stacks.math.columbia.edu/tag/0CX1), Theorem 77.11.7; [Stacks](https://stacks.math.columbia.edu/tag/0CX2), Lemma 77.11.8; scheme case [Stacks](https://stacks.math.columbia.edu/tag/05UF), Theorem 38.27.4).
+([Stacks](https://stacks.math.columbia.edu/tag/0CVI), Lemma 77.3.6; [Stacks](https://stacks.math.columbia.edu/tag/0CX1), Theorem 77.11.7; [Stacks](https://stacks.math.columbia.edu/tag/0CX2), Lemma 77.11.8; scheme case [Stacks](https://stacks.math.columbia.edu/tag/05UF), Lemma 38.27.4).
 
 For the proof, proper support makes F universally pure: an associated point of a fibre specializes inside the proper support to a point over the closed point of any henselian test trait. The flattening functor is an fppf sheaf and a subfunctor of Y, so its diagonal is that of Y, and representability is étale local on Y because a monomorphism of finite presentation is separated and quasi-finite and such morphisms descend. On an affine scheme Y, use descending induction on n for the subfunctors of flatness in fibre dimensions at least n, applying the scheme theorem for pure modules at each step and re-establishing purity after each quasi-finite base change.
 
@@ -9156,7 +9166,7 @@ For the proof, import the analytic/algebraic completed-stalk identification from
 
 Prove `proper_space_gaga`. For a proper morphism h:X→Y of analytifiable finite-type algebraic spaces over K and coherent F, (R^j h_*F)^an→R^j h^an_*F^an is an isomorphism for every j≥0. For X proper over K, analytification induces an exact tensor equivalence of coherent-module categories.
 
-Here K is complete and nontrivially valued; the source is the étale ringed site of an algebraic space. This is the space extension of the existing proper scheme theorem. Complex coherent GAGA belongs to ComplexComparisonPartII and is not used here.
+Here K is complete and nontrivially valued; the source is the étale ringed site of an algebraic space. This is the space extension of the existing proper scheme theorem. The complex coherent GAGA targets are owned by §7.10.3 of this roadmap. This target is their nonarchimedean counterpart and uses AdicSpacesPartIII R3.7.
 
 ([Brian Conrad and Michael Temkin](https://math.stanford.edu/~conrad/papers/analgpaper.pdf), §3.3, Example 3.3.1, pp. 16–17).
 
@@ -9268,15 +9278,27 @@ The API gives `ArithmeticCoefficients.KOCoefficients.mk`: A fractional tensor de
 - `KOTests.integralClass`: An integral tensor 1⊗m is zero in the quotient, although it need not be zero in K⊗M.
 - `KOTests.halfIntegralNonzero`: For O=Z, K=Q and M=Z, the class of (1/2)⊗1 is nonzero in KOCoefficients. This tests the general raw quotient construction; it makes no DVR claim about Z and rules out defining the quotient as zero.
 
-Prove `ko_cohomology_cofinite`. Let X be a proper flat finitely presented relative curve over a complete discrete valuation ring O with fraction field K, uniformizer π and residue field k, and let L be locally free coherent. Cohomology with L_{K/O} is zero above degree one; H¹(X,L_{K/O}) is π-divisible, and H⁰ and H¹ are cofinite O-modules. Here cofinite means their Matlis/Pontryagin dual under the appropriate K/O injective-cogenerator pairing is finitely generated. H⁰(X,L_{K/O})[π]≅H⁰(X_k,L_k), and H¹(X,L_{K/O})[π] is a quotient of H¹(X_k,L_k).
+Prove `ArithmeticCoefficients.dvrTorsionCofiniteCriterion`. Let O be a complete discrete valuation ring, K its fraction field, π a uniformizer and k its residue field, without any finiteness assumption on k. For a π-power-torsion O-module M with r=dim_k M[π]<∞, construct an O-linear embedding M↪(K/O)^r and prove that its Matlis dual D(M)=Hom_O(M,K/O) is a quotient of O^r, hence finitely generated. Cofinite means finite generation of this algebraic Matlis dual.
+
+Identify K/O with the injective hull of k: divisibility gives injectivity over the DVR, and every nonzero submodule meets its π-torsion. Embed the socle M[π] in the socle of (K/O)^r, extend by injectivity, and use essentiality of the socle in a power-torsion module to prove the extension injective. Exact Matlis duality and D(K/O)=O for complete O give the asserted finite quotient. (Stacks, Lemma 47.7.2, [tag 08Z3](https://stacks.math.columbia.edu/tag/08Z3), and §47.7, [tag 08Z1](https://stacks.math.columbia.edu/tag/08Z1), especially Remark 47.7.9.)
+
+*Needs:* DeformationAndDerivedPatchingAlgebraPartII K0.7 (*Matlis duality and completion inputs*, arbitrary residue field).
+
+**Checks.**
+
+- `DvrCofiniteChecks.zero`: M=0 has r=0, the zero embedding and zero dual.
+- `DvrCofiniteChecks.divisible`: for O=ℚ[[π]] and M=(K/O)^2, r=2 and D(M)=O^2, although M is an infinite set and the residue field is infinite.
+- `DvrCofiniteChecks.infiniteSocle`: M=⊕_{n∈ℕ}k has infinite-dimensional π-torsion and dual ∏_{n∈ℕ}k, which is not finitely generated over O; it lies outside the criterion.
+
+Prove `ko_cohomology_cofinite`. Let X be a proper flat finitely presented relative curve over a complete discrete valuation ring O with fraction field K, uniformizer π and residue field k, and let L be locally free coherent. Cohomology with L_{K/O} is zero above degree one; H¹(X,L_{K/O}) is π-divisible, and H⁰ and H¹ are cofinite O-modules. Here cofinite means that the algebraic Matlis dual Hom_O(M,K/O) is finitely generated, for either cohomology module M; the residue field need not be finite. H⁰(X,L_{K/O})[π]≅H⁰(X_k,L_k), and H¹(X,L_{K/O})[π] is a quotient of H¹(X_k,L_k).
 
 Here Use proper finiteness, curve cohomological dimension, filtered-colimit compatibility and the exact coefficient sequence. Do not identify cofinite with finite cardinality.
 
 ([Frank Calegari and David Geraghty](https://arxiv.org/pdf/1207.4224), Section 3.2, proof of Lemma 3.7, p. 19; the relative-curve and cofinite conclusions use SchemeAndStackFoundations §§2.6, 2.19–2.21 and JacobianChallenge Layer C).
 
-For the proof, apply cohomology to 0→L_k→L_{K/O}→π L_{K/O}→0; then the curve vanishing H²(X_k,L_k)=0 gives surjectivity of multiplication by π on H¹; then proper finite-dimensional special-fibre cohomology bounds the π-torsion, and the torsion-module duality criterion gives finite generation of the dual; then use coherent duality (SchemeAndStackFoundations §§2.19–2.21) for the pairings.
+For the proof, apply cohomology to 0→L_k→L_{K/O}→π L_{K/O}→0; then the curve vanishing H²(X_k,L_k)=0 gives surjectivity of multiplication by π on H¹; then proper finite-dimensional special-fibre cohomology bounds the π-torsion. Filtered-colimit compatibility applied to L_{K/O}=colim_n L/π^nL makes both cohomology groups π-power torsion; apply `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` to each. Coherent duality supplies the geometric pairings, separately from this module-duality criterion.
 
-*Needs:* `ArithmeticCoefficients.KOCoefficients`, JacobianChallenge Layer C, StableReduction Layer 2, SchemeAndStackFoundations §2.2, SchemeAndStackFoundations Layer 2.
+*Needs:* `ArithmeticCoefficients.KOCoefficients`, JacobianChallenge Layer C, StableReduction Layer 2, SchemeAndStackFoundations §2.2, SchemeAndStackFoundations Layer 2, `ArithmeticCoefficients.dvrTorsionCofiniteCriterion`, DeformationAndDerivedPatchingAlgebraPartII K0.7 (*Matlis duality and completion inputs*).
 
 Prove `rigidifiedPicardSetoid`. Under universal OT≅fT*OXT, an automorphism of (L,α) is identity. Any two choices of α for the same L give isomorphic rigidified objects, because their ratio is a base unit.
 
@@ -9811,9 +9833,9 @@ The API gives `CompletedLocalRing.ofStalk`: The canonical local ring map O_X,x�
 
 **Checks.**
 
-- `CompletionTests.residueJet`: The index-zero projection, transported along m¹=m, is the ordinary residue quotient map.
-- `CompletionTests.multiplication`: Each jet preserves multiplication using the ring projection.
-- `CompletionTests.localResidue`: For a Noetherian stalk the structural map induces a bijection on residue fields.
+- `CompletionTests.field`: at the point of Spec k, the completion is k and every jet projection is the identity.
+- `CompletionTests.line`: at the origin of A¹_k the completion is k[[x]], with jets given by truncation modulo x^(n+1). Every compatible tower of these quotient classes is induced by a unique completed element. Over ℚ the tower of truncations of Σ_{j≥1}x^(j!) is effective here and has no antecedent in ℚ[x]_(x): rational power-series coefficients satisfy an eventual finite linear recurrence, which these increasingly separated nonzero coefficients cannot satisfy.
+- `CompletionTests.node`: at the origin of Spec k[x,y]/(xy), the completion is k[[x,y]]/(xy), with xy=0 and x,y both nonzero; its residue field is k. The jet maps preserve these products and the structural map induces the identity on k.
 
 Prove `schemeFramedCompletionEquiv`. Let X be locally of finite type over a locally Noetherian S and x a finite-type point with k=κ(x). On C_Λ, the framed deformation functor of X at x is naturally isomorphic to h_R, where R=Ô_X,x and h_R(A) consists of continuous local Λ-algebra maps R→A inducing the specified identity on k. Thus the identity formal family prorepresents this scheme-point deformation functor.
 
@@ -10502,7 +10524,7 @@ The recursive construction uses presentations, not a bare tuple of multiplicitie
 
 For the marked-ideal route, define `boundaryMonomialPart` as the largest divisor factor supported on the ordered SNC boundary, and `nonmonomialPart` by I=M(I)N(I). This factorization is on the smooth ambient variety, for a coherent ideal generically nonzero on every component; it does not use a gcd in an arbitrary ring. Let c be the largest order of N(I) on the cosupport of (I,b). If the cosupport is empty there is nothing to resolve. If c=0 use the monomial algorithm. Otherwise define `companionIdeal` as the marked sum (N(I),c)+(M(I),b−c) when c<b, and as (N(I),c) when c≥b. A marked sum (J,a)+(K,e), for positive a,e, has common mark ae and ideal Jᵉ+Kᵃ; its cosupport is the intersection of the two cosupports on a smooth ambient variety. Thus no zero or negative mark is introduced. Prove `companionIdeal.maximalOrder`, `companionIdeal.cosupport`, `companionIdeal.permissible`, `companionIdeal.transformComparison` and `companionIdeal.orderDropsAfterResolution`. Resolving the companion removes the maximum c-stratum from the original cosupport; recompute the boundary factor of the controlled transform, then repeat. The strictly decreasing nonnegative integers c reduce the problem to the monomial case. This route is kept distinct from the Hilbert–Samuel normalization above. (Włodarczyk, *Simple Hironaka resolution in characteristic zero*, author version dated 27 January 2010, Definition 3.0.10 and Step 2a, p. 19; Step 2b, pp. 19–20; summary §3.1, pp. 20–21.)
 
-Define `MarkedIdeal.homogenize` on the same marked-ideal route. Let (I,μ) be a marked ideal on a smooth M over a characteristic-zero field, with ordered SNC boundary E, of maximal order: ord_a(I)≤μ at every point a, equivalently Dᵘ(I)=O_M for the iterated derivative ideals of §9.2a glued as in §9.2. Its tangent ideal is T(I)=D^(μ−1)(I), and its homogenization is H(I,μ)=(I+D(I)·T(I)+D²(I)·T(I)²+⋯+D^(μ−1)(I)·T(I)^(μ−1), μ), with the same mark and the same labelled boundary; for μ=1 it is (I,1). Prove `homogenize_equiv`: (I,μ) and H(I,μ) have the same cosupport and the same permissible test sequences of types (i) and (ii) of `testEquivalence`, with equal transformed cosupports along them, and the controlled transform of H(I,μ) along such a sequence is, with mark μ, the ideal sum over 0≤i<μ of the products of the controlled transform of (Dⁱ(I),μ−i) with the i-th power of the controlled transform of (T(I),1). Type (iii) tests are not asserted. Prove `homogenize_tangentTransport`: if u,v∈T(I) at a cosupport point a are both transverse to every component of E through a, there is an automorphism of the completed local ring of M at a that sends u to v, maps every component of E to itself, preserves the completion of H(I) and fixes the cosupport pointwise. Prove `homogenize_etaleGluing`: under the same hypotheses there are étale neighbourhoods φ_u,φ_v of a with φ_u^*H(I,μ)=φ_v^*H(I,μ), φ_u^*(u)=φ_v^*(v), φ_u^*E=φ_v^*E and φ_u=φ_v on the cosupport; these identities persist along every test sequence of H(I,μ), and the strict transforms of the maximal-contact hypersurfaces V(u) and V(v) correspond. Smooth pullback commutes with homogenization. Consequently, on this route, the coefficient ideal of H(I,μ) on a maximal-contact hypersurface is independent of that hypersurface up to these étale identifications. This is Włodarczyk's mechanism. On the Bierstone–Milman presentation route of §§9.1–9.2 that independence comes instead from `coefficientEquivalence` and the invariants, and homogenization is not used there; the two routes share only the marked-ideal carrier, the transforms and the test sequences of §9.1. (Włodarczyk, *Simple Hironaka resolution in characteristic zero*, arXiv math/0401401v1, §2.9, the definition and Lemmas 2.9.1–2.9.5, pp. 9–12; Definitions 2.5.1 and 2.7.1, pp. 6–7.)
+Define `MarkedIdeal.homogenize` on the same marked-ideal route. Let (I,μ) be a marked ideal on a smooth M over a characteristic-zero field, with ordered SNC boundary E, of maximal order: ord_a(I)≤μ at every point a, equivalently Dᵘ(I)=O_M for the iterated derivative ideals of §9.2a glued as in §9.2. Its tangent ideal is T(I)=D^(μ−1)(I), and its homogenization is H(I,μ)=(I+D(I)·T(I)+D²(I)·T(I)²+⋯+D^(μ−1)(I)·T(I)^(μ−1), μ), with the same mark and the same labelled boundary; for μ=1 it is (I,1). Prove `homogenize_equiv`: (I,μ) and H(I,μ) have the same cosupport and the same permissible test sequences of types (i) and (ii) of `testEquivalence`, with equal transformed cosupports along them, and the controlled transform of H(I,μ) along such a sequence is, with mark μ, the ideal sum over 0≤i<μ of the products of the controlled transform of (Dⁱ(I),μ−i) with the i-th power of the controlled transform of (T(I),1). Type (iii) tests are not asserted. Prove `homogenize_tangentTransport`: if u,v∈T(I) at a cosupport point a each have order exactly one, and each together with the equations of all incident components of E extends to a regular parameter system, there is an automorphism of the completed local ring of M at a that sends u to v, maps every component of E to itself, preserves the completion of H(I) and fixes the cosupport pointwise. Prove `homogenize_etaleGluing`: under the same hypotheses there are étale neighbourhoods φ_u,φ_v of a with φ_u^*H(I,μ)=φ_v^*H(I,μ), φ_u^*(u)=φ_v^*(v), φ_u^*E=φ_v^*E and φ_u=φ_v on the cosupport; these identities persist along every test sequence of H(I,μ), and the strict transforms of the maximal-contact hypersurfaces V(u) and V(v) correspond. Smooth pullback commutes with homogenization. Consequently, on this route, the coefficient ideal of H(I,μ) on a maximal-contact hypersurface is independent of that hypersurface up to these étale identifications. This is Włodarczyk's mechanism. On the Bierstone–Milman presentation route of §§9.1–9.2 that independence comes instead from `coefficientEquivalence` and the invariants, and homogenization is not used there; the two routes share only the marked-ideal carrier, the transforms and the test sequences of §9.1. (Włodarczyk, *Simple Hironaka resolution in characteristic zero*, arXiv math/0401401v1, §2.9, the definition and Lemmas 2.9.1–2.9.5, pp. 9–12; Definitions 2.5.1, 2.7.1 and 2.7.5, pp. 6–7.)
 
 For the proof, in order: (1) H(I)⊇I, so test sequences of H(I,μ) are test sequences of (I,μ); conversely a test sequence of (I,μ) is one for every (Dⁱ(I),μ−i) and for (T(I),1), and since y^(−μ)·σ^*(Dⁱ(I)·T(I)ⁱ)=(y^(−(μ−i))·σ^*Dⁱ(I))·(y^(−1)·σ^*T(I))ⁱ for an exceptional equation y, the transform formula and the equality of cosupports follow by induction along the sequence; product with a line is a smooth pullback, which commutes with the derivative ideals and hence with H, so type (ii) tests reduce to type (i) on M×A¹. (2) For tangent transport choose parameters u=u_1,u_2,…,u_n at a such that v,u_2,…,u_n are also parameters and the components of E through a are among u_2,…,u_n, and set φ(u_1)=v and φ(u_i)=u_i for i≥2. With h=v−u∈T(I), Taylor expansion of f(u_1+h,u_2,…,u_n) puts φ^*(f) in H(I) for f∈I, and similarly maps each Dⁱ(I)·T(I)ⁱ into H(I); so φ^* maps H(I) into itself, hence onto it by Noetherianity, and its fixed locus h=0 contains the cosupport, on which h vanishes. (3) For gluing, take the étale maps to Aⁿ given by (u_1,u_2,…,u_n) and (v,u_2,…,u_n) on a neighbourhood of a, their fibre product and its component through a; the two projections agree on h=0, tangent transport identifies the pulled-back ideals on completions at every point, and since every test centre lies in the cosupport, both projections lift to every test blowup with the same identities.
 
@@ -10510,6 +10532,7 @@ For the proof, in order: (1) H(I)⊇I, so test sequences of H(I,μ) are test seq
 
 **Checks.**
 
+- `HomogenizationTests.zeroDirection`: for M=A¹_ℚ, I=(x²), μ=2, a=0 and E=∅, u=x belongs to T(I)=(x) and has order one, but v=0 has infinite order and is excluded from both transport and étale gluing; no completed-local-ring automorphism sends x to zero.
 - `HomogenizationTests.markOne`: H(I,1)=I.
 - `HomogenizationTests.cusp`: for (y²−x³) with mark 2, D(I)=(y,x²)=T(I) and H((y²−x³),2)=(y²,x³,x²y). It differs from I, so homogenization is not the identity at mark two.
 - `HomogenizationTests.transverseDirections`: for the cusp (y²−x³) with mark 2 and E={x=0}, the directions u=y and v=y+x² of T(I)=(y,x²) are transverse to E, and y↦y+x², x↦x preserves H=(y²,x³,x²y) and E but not I, since its image of y²−x³ is y²−x³+2x²y+x⁴. For E={y=0} no order-one element of T(I) is transverse to E, and tangent transport is not asserted: it needs transversality to E, not merely hypersurfaces containing the cosupport.

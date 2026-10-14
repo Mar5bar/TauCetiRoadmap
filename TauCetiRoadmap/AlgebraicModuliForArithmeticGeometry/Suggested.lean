@@ -110,6 +110,32 @@ theorem exists_artinianHilbertPolynomial (A : Type u) [CommRing A] [IsArtinianRi
       ∃ (P : Polynomial ℚ) (N : ℕ), ∀ n, N ≤ n →
         P.eval (n : ℚ) = ((Module.length A (ℳ n)).toNat : ℚ) := sorry
 
+/-- `HilbertFunctionChecks.zero`: every piece of the zero graded submodule has dimension zero. -/
+example (k : Type u) [Field k] (n : ℕ) :
+    Module.finrank k ((fun _ : ℕ => (⊥ : Submodule k (MvPolynomial (Fin 1) k))) n) = 0 := sorry
+
+/-- `HilbertFunctionChecks.constant`: the degree-`n` piece of `k[x]` is spanned by `x^n`. -/
+example (k : Type u) [Field k] (n : ℕ) :
+    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin 1) k n) = 1 := sorry
+
+/-- `HilbertFunctionChecks.degreeTwo`: `x²`, `xy`, `y²` form a basis of the quadratic piece. -/
+example (k : Type u) [Field k] :
+    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin 2) k 2) = 3 := sorry
+
+/-- `HilbertLengthChecks.dualNumbers`: the constant graded piece over the dual numbers has
+length two over its coefficient ring. -/
+example (k : Type u) [Field k] :
+    letI : CommRing (DualNumber k) := inferInstance
+    Module.length (DualNumber k)
+      (MvPolynomial.homogeneousSubmodule (Fin 1) (DualNumber k) 0) = 2 := sorry
+
+/-- `HilbertLengthChecks.dualNumbers`: the constant piece of the residue-field polynomial ring
+has length one over the dual numbers, acting through the augmentation. -/
+example (k : Type u) [Field k] :
+    letI : Algebra (DualNumber k) k := (TrivSqZeroExt.fstHom k k k).toRingHom.toAlgebra
+    Module.length (DualNumber k)
+      ((MvPolynomial.homogeneousSubmodule (Fin 1) k 0).restrictScalars (DualNumber k)) = 1 := sorry
+
 end ProjectiveParameterSpaces
 
 /-- The ordered maximal minors of the rank-two quotient graph matrix over any commutative ring
@@ -514,13 +540,15 @@ abbrev IntrinsicBandSection (U : C) := ↥(intrinsicBandSectionSubgroup F U)
 
 variable (J : GrothendieckTopology C) [IsGerbe F J]
 
+include J in
 /-- `BandCenterTests.C3`: for a gerbe with commutative automorphism groups and an object over `U`
 with automorphism group `ℤ/3`, the intrinsic band has three sections over `U`. -/
 example (hComm : ∀ (U : C) (x : F.obj (.mk (op U))) (a b : Aut x), a * b = b * a)
     (U : C) (x : F.obj (.mk (op U))) (e : Aut x ≃* Multiplicative (ZMod 3)) :
     Nat.card (IntrinsicBandSection F U) = 3 := sorry
 
-/-- `BandCenterTests.S3`: for an object with automorphism group `S₃` the sections of the
+include J in
+/-- `BandCenterTests.S3`: for a gerbe and an object with automorphism group `S₃` the sections of the
 intrinsic band form the trivial centre of `S₃`, not all six automorphisms. -/
 example (U : C) (x : F.obj (.mk (op U)))
     (e : Aut x ≃* Equiv.Perm (Fin 3)) :
