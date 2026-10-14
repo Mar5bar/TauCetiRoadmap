@@ -249,6 +249,22 @@ example : IsHilbertian ℚ := isHilbertian_of_numberField ℚ
 -- `ℂ` is not Hilbertian: `Y² − T` is irreducible over `ℂ(T)` but every specialization splits.
 example : ¬ IsHilbertian ℂ := sorry
 
+/-- A proper finite extension of an algebraic Galois extension of a characteristic-zero
+Hilbertian field is Hilbertian (Weissauer; Fried–Jarden, Theorem 13.9.1(b)). The Galois
+extension may be infinite. -/
+theorem isHilbertian_of_proper_finite_extension_of_galois
+    (K M L : Type*) [Field K] [Field M] [Field L] [CharZero K]
+    [Algebra K M] [Algebra M L] [Algebra K L] [IsScalarTower K M L]
+    [Algebra.IsAlgebraic K M] [IsGalois K M] [FiniteDimensional M L]
+    (hK : IsHilbertian K) (hproper : 1 < Module.finrank M L) : IsHilbertian L := sorry
+
+/-- A characteristic-zero Hilbertian field has arbitrarily large independent families of
+square classes; every nonempty subproduct of the chosen representatives is nonsquare. -/
+theorem IsHilbertian.exists_independent_square_classes {F : Type*} [Field F] [CharZero F]
+    (hF : IsHilbertian F) (r : ℕ) :
+    ∃ a : Fin r → F, (∀ i, a i ≠ 0) ∧
+      ∀ s : Finset (Fin r), s.Nonempty → ¬ IsSquare (∏ i ∈ s, a i) := sorry
+
 /-! ## Layer IG.3: branch cycles, rigidity, braid orbits and lifting invariants -/
 
 /-- A branch tuple of length `r` in `G`. -/
@@ -801,8 +817,11 @@ Layer IG.3: `ArtinNeighborhood`, `BranchCover`, `CoverDescent`, `HurwitzMove.equ
 `ReducedSchur.schurRelations`, `ReducedSchur.reducedMultiplier`, `ReducedSchur.schurRelations_empty`, the
 reduced Schur cover and the marked fibre product, the unit action, and stable classification.
 Layer IG.4: proper embedding problems with local prescriptions, Galois localization kernels,
-finite Poitou–Tate, Grunwald–Wang, free operator shrinking, `BrauerManinSet`, Brauer–Manin density
-for supersolvable stabilisers, unramified Brauer classes of finite quotients of `SL_n`, unramified
+finite Poitou–Tate, Grunwald–Wang, free operator shrinking, `BrauerManinSet`, torus types and
+Brauer–Manin descent for cyclic stabiliser quotients, the quotient fibration and smaller stabiliser,
+Brauer–Manin fibration density over a quasi-trivial torus, Brauer–Manin density for supersolvable
+stabilisers, collectively coprime degrees of ordinary field realizations, unramified Brauer classes
+of finite quotients of `SL_n`, unramified
 `Γ`-groups, Property E and the marked extension count over `𝔽_q(t)`.
 Layer IG.5: topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers, the
 cohomological comparisons, component invariants, patching of Galois algebras and of covers with a

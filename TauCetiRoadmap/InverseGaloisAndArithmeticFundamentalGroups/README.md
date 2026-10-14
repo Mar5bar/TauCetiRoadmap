@@ -2130,22 +2130,85 @@ restriction and norm tori), SchemeAndStackFoundations Layer 0.
 
 ### IG.2.8 Normal subgroups of absolute Galois groups
 
+**Weissauer's Hilbertian extension theorem.** Let `K` be a Hilbertian field of characteristic
+zero, `M/K` an algebraic Galois extension, possibly infinite, and `L/M` a finite extension with
+`1 < [L : M]`. Then `L` is Hilbertian. This arithmetic input is built here, including the
+root-avoidance form used in its proof: for any finite family of polynomials in `L(T)[Y]` with
+no root in `L(T)`, there are infinitely many regular specializations having no root in `L`.
+For this form the polynomials have positive degree and are separable in `Y`.
+
+*Proof sketch.* Use the root-avoidance criterion for Hilbertianity, proved here by applying it to
+resolvent polynomials for proper subsets of the roots of an irreducible polynomial. Descend the
+coefficients of the finite family and a primitive element for `L/M` to finite extensions of `K`.
+Develop the conjugate-polynomial construction in the proof of Weissauer's theorem: Galois
+normality of `M/K` and an element of `L` outside `M` allow Hilbert specialization over the finite
+base to exclude roots in `L`, rather than only in that finite base. Keep the finite family and
+finite avoidance set throughout; the properness hypothesis is essential to this step. Convert
+root avoidance for the resolvents back to irreducibility, retaining denominators and degrees.
+The finite-extension and rational-function-field permanence of Hilbertianity used here and below
+are included in this target, by the same finite-descent and several-parameter specialization
+arguments. Source: Fried–Jarden, *Field Arithmetic*, third edition, §§13.2–13.3 and §13.9,
+Theorem 13.9.1(b); the theorem's algebraic-Galois, proper-finite-separable hypotheses are also
+stated in [Jarden, *Almost locally free fields*](https://www.math.tau.ac.il/~jarden/Articles/paper99.pdf),
+Proposition 2.5 and its proof, pp. 7–8. *Needs:* *Hilbert subsets and Hilbertian fields*,
+*Hilbert irreducibility over number fields*; Mathlib finite-extension, primitive-element and
+infinite Galois theory. *Lean:* `isHilbertian_of_proper_finite_extension_of_galois`.
+
+**Checks.**
+
+- With `M = K = ℚ` and `L = ℚ(√2)`, this gives the finite-extension permanence theorem.
+- Properness cannot be omitted: `M = ℚ̄` is Galois over the Hilbertian field `ℚ` but is not Hilbertian.
+- Let `M = ℚ(μ_{2^∞})` and `L = M(∛2)`. Then `[L : M] = 3`: `M/ℚ` is abelian and cannot contain
+  the nonnormal cubic field `ℚ(∛2)`. Thus `L` is Hilbertian although it is not finitely generated
+  over `ℚ`.
+
+**Independent quadratic characters of Hilbertian fields.** Let `F` be a Hilbertian field of
+characteristic zero, with no finite-generation assumption on `F`. For each `r ≥ 0` there are
+`a₁, …, a_r ∈ F^×` whose square classes are independent: no nonempty subproduct is a square.
+Consequently `Γ_F` has a continuous quotient `C₂^r` for every `r`, and is not topologically
+finitely generated.
+
+*Proof sketch.* Given independent square classes, take representatives `b` for their finite
+span and specialize simultaneously the irreducible polynomials `Y² − bT`, including `b = 1`.
+Irreducibility of all specializations places the new class outside that span. The Kummer
+extensions then have compositum of degree `2^r`, giving independent continuous quadratic
+characters. A profinite group generated topologically by `d` elements has at most `2^d`
+continuous homomorphisms to `C₂`, since their values on those generators determine them.
+Sources: Fried–Jarden, *Field Arithmetic*, third edition, Proposition 16.11.6 and Chapter 13;
+Mathlib Kummer and finite Galois theory. *Needs:* *Hilbert subsets and Hilbertian fields*;
+Layer IG.0 *Finite Galois algebras and torsors*; ProfiniteProPGroups Layer 3 (topological generators).
+*Lean:* `IsHilbertian.exists_independent_square_classes`.
+
+**Checks.**
+
+- In `ℚ`, any finite list of distinct primes has independent square classes.
+- The conclusion applies to the infinite algebraic field `ℚ(μ_{2^∞})(∛2)` from the preceding target;
+  it is not restricted to number fields or fields finitely generated over `ℚ`.
+- In `ℝ`, only two square classes occur and `Γ_ℝ = C₂` is finitely generated; `ℝ` is not Hilbertian.
+
 **Normal subgroups of absolute Galois groups.** Let `k` be a field finitely generated over `ℚ` and
 `Γ_k` its absolute Galois group. Every closed normal subgroup `N ⊴ Γ_k` that is topologically finitely
-generated is trivial. The target includes the input that `k` is Hilbertian: `k` is a finite
-extension of a purely transcendental extension `ℚ(t₁, …, t_n)`, which is Hilbertian (Fried–Jarden,
-*Field Arithmetic*, third edition, Chapter 13, from Hilbert's theorem for `ℚ`), and a finite extension
-of a Hilbertian field is Hilbertian (Serre, Corollary 3.2.2, p. 22). The theorem is the case of
-fields finitely generated over `ℚ` of Fried–Jarden, Proposition 16.11.6, cited through Schmidt–Stix; the statement for arbitrary Hilbertian fields is
-outside this roadmap. It does not follow
-from Hilbert irreducibility alone. *Proof sketch.* Establish Hilbertianity of `k` as above and apply
-Proposition 16.11.6 to `k`, keeping the hypotheses closed, normal and topologically finitely
-generated separate. The conclusion is triviality, not finite index: an open
-subgroup is `Γ_L` for a finite extension `L/k`, again finitely generated over `ℚ`, and `L^×/L^{×2}` is
-infinite, so `Γ_L` has infinitely many independent quadratic characters and is not topologically
-finitely generated. Source: [Schmidt–Stix](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p05-p.pdf),
-Theorem 7.1 proof, published p.850, which uses this statement with the Fried–Jarden citation.
-*Needs:* *Hilbert irreducibility over number fields*; ProfiniteProPGroups Layer 0.
+generated is trivial. The Hilbertianity of `k` follows from Hilbert's theorem for `ℚ` and the
+rational-function-field and finite-extension permanence in *Weissauer's Hilbertian extension
+theorem*. The conclusion is the case of fields finitely generated over `ℚ` of Fried–Jarden,
+Proposition 16.11.6; Hilbert irreducibility alone is not its proof.
+
+*Proof sketch.* Suppose `N ≠ 1`. A finite continuous quotient separating a nonidentity element
+provides a proper open subgroup `H < N`. Put `M = (k^sep)^N` and `L = (k^sep)^H`. Infinite
+Galois correspondence identifies `M/k` as Galois and `[L : M] = [N : H] > 1`, and identifies
+`Γ_L` topologically with `H`. Use Mathlib's
+`InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, `InfiniteGalois.normal_iff_isGalois`
+and `InfiniteGalois.isOpen_iff_finite`, over `k` and over `M`; the fixed-field subgroup
+identifications and their Krull-topology compatibility are part of this target's interface.
+Weissauer makes `L` Hilbertian. The open-subgroup theorem
+`TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` makes `H` finitely generated, whereas
+*Independent quadratic characters of Hilbertian fields* makes `Γ_L` not finitely generated,
+a contradiction. No assumption that `M` or `L` is finitely generated over `ℚ` enters this argument.
+Source: [Schmidt–Stix](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p05-p.pdf),
+Theorem 7.1 proof, published p. 850, citing Fried–Jarden, Proposition 16.11.6;
+Fried–Jarden, Theorem 13.9.1(b). *Needs:* *Weissauer's Hilbertian extension theorem*,
+*Independent quadratic characters of Hilbertian fields*; Mathlib infinite Galois correspondence;
+ProfiniteProPGroups Layers 0 and 3, with the pinned open-subgroup theorem above.
 
 **Checks.**
 
@@ -2198,8 +2261,9 @@ divisors and Picard objects) enters the weak-approximation theorem. The Lang–W
 the Weil bound for a single curve from SchemeAndStackFoundations §5.11 (`weil_bound`) and owns only
 the reduction to curves. The norm pullback uses ReductiveGroupsPartII Layer RG2.0a for Weil
 restriction and norm tori. Frattini detection uses ProfiniteProPGroups Layers 0 and 3 and Mathlib's
-`frattini`, and the normal-subgroup theorem uses ProfiniteProPGroups Layer 0 together with
-Fried–Jarden, Proposition 16.11.6, cited through Schmidt–Stix.
+`frattini`, and the normal-subgroup theorem uses Mathlib infinite Galois correspondence and
+ProfiniteProPGroups Layers 0 and 3, together with the Weissauer and independent-quadratic-character
+targets of IG.2.8.
 
 ## Layer IG.3: branch cycles, rigidity, braid orbits and lifting invariants
 
@@ -2220,7 +2284,7 @@ of a tuple `(g₁, …, g_r)` is `g₁ g₂ ⋯ g_r`; product one and generation
 raw tuple. The positive Hurwitz move replaces an adjacent pair `(a, b)` by `(a b a⁻¹, a)`. Inner
 classes divide by simultaneous conjugation in `G`; absolute classes divide by the normaliser of a
 specified faithful permutation representation; `T`-systems divide generating homomorphisms from a
-free group by `Aut(G)`. Throughout, `c ⊂ G` is a conjugacy-invariant subset, `D = c/G` its set of
+free group `F_r` by `Aut(F_r) × Aut(G)`. Throughout, `c ⊂ G` is a conjugacy-invariant subset, `D = c/G` its set of
 conjugacy classes, and `M(G) = H₂(G, ℤ)` the Schur multiplier, Mathlib's `groupHomology.H2` of the
 trivial module `ℤ`. The BelyiMaps roadmap writes its triples in the order `τ_∞ τ₁ τ₀ = 1`; Layer
 IG.6 transports that convention to the present one.
@@ -3999,6 +4063,181 @@ the Brauer sequence); GlobalNumberFields Layers 0 and 1.
   place and to `1` at every finite place pairs to `inv_∞(−1, −1) = 1/2`, so it is outside the
   Brauer–Manin set; a sum over finite places only would keep it.
 
+**Torus types and Brauer–Manin descent for cyclic stabiliser quotients.** Let `k` be a number
+field, `G` semisimple simply connected, `V` a homogeneous `G`-space with finite geometric stabiliser
+`H`, and `X` a smooth proper compactification of `V`. Fix a proper normal subgroup `H' ⊂ H`,
+stable under the Galois outer action, with cyclic quotient `C = H/H'`. Define the finite group of
+multiplicative type `R` by `R(k̄) = C`, so its character module is
+`R̂ = Hom(C, k̄^×)` with the induced Galois action. The character identification
+`Pic(V_k̄) = Hom(H^ab, k̄^×)` gives an injection `λ : R̂ → Pic(V_k̄)`. With
+`Q̂ = Div_{X_k̄ ∖ V_k̄}(X_k̄)`, form
+`T̂ = Pic(X_k̄) ×_{Pic(V_k̄)} R̂` and its projection `ν : T̂ → Pic(X_k̄)`.
+Then `0 → Q̂ → T̂ → R̂ → 0` is exact, `Q` is a quasi-trivial torus, `T̂` is torsion free,
+and the dual sequence is `1 → R → T → Q → 1` with `T` a torus.
+
+If `X(𝔸_k)^{Br}` is nonempty, a `T`-torsor `f : Y → X` of type `ν` exists. For every such torsor,
+letting `f^σ : Y^σ → X` range over all twists `σ ∈ H¹(k,T)`, one has
+`X(𝔸_k)^{Br} ⊂ ⋃_σ f^σ(Y^σ(𝔸_k)^{Br_nr Y^σ})`.
+Smooth proper compactifications of these twists, with maps to `X` obtained by resolving
+indeterminacy, therefore reduce density on `X` to density on every such compactification.
+The descent statement also covers norm-kernel tori
+`T₀ = ker(Res_{E⊗_kℓ/k} 𝔾_m → Res_{E/k} 𝔾_m)` for finite étale `E/k` and finite Galois `ℓ/k`.
+For a dense open `O` of a smooth proper rationally connected variety `Z` and any `T₀`-torsor
+`W₀ → O`, `Z(𝔸_k)^{Br}` lies in the closure of the images of
+`W₀^σ(𝔸_k)^{Br_nr W₀^σ}` as `σ` ranges over all of `H¹(k,T₀)`.
+
+This target includes Harari's formal lemma in the form needed here: for a smooth proper
+rationally connected variety `Z`, a dense open `O`, and a subgroup `B ⊂ Br O` containing
+`Br Z` with `B/Br k` finite, `Z(𝔸_k)^{Br}` lies in the closure of `O(𝔸_k)^B`. Specify local
+evaluation constancy, smooth local lifting near prescribed points, finitely many additional
+places to cancel the evaluations of `B`, and integral control outside those places.
+
+*Proof sketch.* Build the character/Picard identification from the fundamental-group sequence of
+IG.1. The geometric group `G_k̄` is rational, so its finite quotients are unirational; their smooth
+compactifications are rationally connected and have torsion-free finitely generated geometric
+Picard group. Establish these properties here. Since `λ` is injective, so is `ν`, making `T̂`
+torsion free. The boundary-divisor sequence is exact because `k̄[V]^× = k̄^×`; its permuted basis
+makes `Q` quasi-trivial. The type obstruction lies in `H²(k,T)`; local liftability and the
+algebraic Brauer pairing kill it for a Brauer–Manin point. Develop this type-obstruction criterion
+and the torus arithmetic needed here: the perfect pairing
+`Ш¹(k,T) × Ш²(k,T̂) → ℚ/ℤ` and the adelic evaluation exactness
+`T(𝔸_k) → Hom(H²(k,T̂),ℚ/ℤ) → Hom(Ш²(k,T̂),ℚ/ℤ)`.
+These are targets here for both the type tori and the norm-kernel tori, derived from local duality and global
+reciprocity by the torus descent argument, including their real-place terms.
+Use the Leray and Hochschild–Serre sequences for a torus torsor to compare unramified Brauer
+classes across twists. Their residual evaluation functional is killed first by a
+Tate–Shafarevich twist and then by adelic translation in `T`; this proves the displayed inclusion
+for the full Brauer group, including transcendental classes. For the dense-open closure version,
+prove finiteness modulo constants of the inverse image of the torsor's unramified Brauer group
+and use the formal lemma and local control above, proving its finite-evaluation cancellation
+by global reciprocity and local duality.
+
+Source: [Harpaz–Wittenberg](https://arxiv.org/pdf/1802.09605v2), Theorem 2.1, Corollary 2.2,
+§§2.2–2.3 (especially Propositions 2.3, 2.6 and 2.7), diagram (3.1), and the type-existence step
+in the proof of Theorem 6.6, PDF pp. 7–13 and 23; the latter cites Skorobogatov,
+*Torsors and rational points*, Theorem 6.1.1. For the torus arithmetic, §2.3 uses
+Neukirch–Schmidt–Wingberg, Theorem 8.6.7, and Harari (2008), Theorem 2; for the formal lemma,
+Corollary 2.2 uses Colliot-Thélène–Skorobogatov (2000), Proposition 1.1.
+*Needs:* *The Brauer–Manin set*; IG.1 *Homogeneous spaces with finite stabilisers*;
+SchemeAndStackFoundations Layers 1–3 (torsors, Picard groups, Brauer groups and spectral sequences);
+ReductiveGroups Layers 0 and 3, ReductiveGroupsPartII RG2.0a (multiplicative-type groups and
+quasi-trivial tori); ClassFieldTheory Layers 5 and 10–12; ProfiniteCohomology;
+AlgebraicModuliForArithmeticGeometry Layer 9 (smooth compactification and resolution).
+
+**Checks.**
+
+- For the split quotient `H = C₂`, `H' = 1`, the character module `R̂` is `ℤ/2`, not a lattice;
+  `T̂` is nevertheless torsion free. Replacing `R` by a torus would lose the finite quotient.
+- For `V = PGL₂`, `X = ℙ³` and `H' = 1 ⊂ H = C₂`, the determinant quadric is the boundary.
+  Here `Pic(X_k̄) = ℤ`, `Pic(V_k̄) = ℤ/2`, and the dual torus sequence is
+  `1 → μ₂ → 𝔾_m → 𝔾_m → 1`, with last map squaring.
+- Density on one chosen twist is insufficient: a local torsor class need not be zero, and the
+  inclusion ranges over all of `H¹(k,T)`. On the split torus `𝔾_m`, Hilbert 90 makes this set a
+  singleton, illustrating the special case in which one twist suffices.
+
+**Quotient fibration and the smaller stabiliser.** In the preceding cyclic-quotient construction,
+let `Y → X` be any `T`-torsor of type `ν` and `W = Y ×_X V`. Then `W/R ≅ V × Q` as `Q`-torsors
+over `V`. A choice of this trivialization gives a smooth map `π : W → Q`; for every `q ∈ Q(k)`,
+`W_q → V` is an `R`-torsor of type `λ`. Its `G`-action lifts uniquely from `V`, and its geometric
+stabiliser is `H'`, with the induced Galois outer action compatible with that on `H`. In particular,
+a stable cyclic normal series ending in `H' ⊂ H` shortens to the stable series inside `H'`.
+Smooth compactifications of the geometric generic fibre are rationally connected, and
+`π_k̄` has a rational section.
+
+*Proof sketch.* The pushout type in `H¹(V_k̄,Q)` is zero; injectivity over `k` follows from
+`H¹(k,Q) = 0`, so the quotient is trivial. Restrict its `R`-torsor to `V × {q}` to obtain the
+fibres. Geometrically the fibre cover is `G_k̄/H' → G_k̄/H`. Build the unique lifted `G`-action
+by lifting the orbit maps through the cover using the trivial geometric fundamental group of `G`;
+uniqueness gives the action law and descent. Identify its stabiliser and the compatible outer
+actions through the two fundamental-group extensions of IG.1.
+For the geometric section, lift a generator of the cyclic `R̂` to `T̂`. The resulting diagram
+reduces `π_k̄` by base change to a fibration over `𝔾_m`. This target includes the rational-section
+input used in this reduction: over an algebraically closed characteristic-zero field, a smooth
+projective family over a smooth curve with rationally connected geometric generic fibre has a
+rational section with generic image in any prescribed dense open of the total space. Develop the
+curve case by the Graber–Harris–Starr multisection construction, attaching very free rational
+curves to remove deformation obstructions and deforming to a section; the very-free-curve
+argument also gives density of generic-fibre rational points, as in Kollár, Chapter IV,
+Theorem 6.10. Compactification gives the open-curve form with image in `W`. Pull the section back
+along the diagram.
+For a proper compactification of `π_k̄`, extend the rational section over the discrete valuation
+ring of each codimension-one base point. Smoothness of the total space implies that its image
+lies on a multiplicity-one geometrically integral fibre component, giving split geometric fibres.
+
+Sources: [Harpaz–Wittenberg](https://arxiv.org/pdf/1802.09605v2), Propositions 3.1, 3.3(ii), 5.1 and
+5.2, diagram (3.9) and the proof of Theorem 6.6, PDF pp. 12–15, 18–20 and 23–24;
+[Graber–Harris–Starr, *Families of rationally connected varieties*](https://arxiv.org/pdf/math/0109220v1),
+Theorem 1.1 and §§2–3, PDF pp. 2 and 5–14.
+*Needs:* *Torus types and Brauer–Manin descent for cyclic stabiliser quotients*;
+IG.1 *Homogeneous spaces with finite stabilisers*; ReductiveGroups Layers 0 and 3;
+SchemeAndStackFoundations Layers 1, 3 and 4 (torsors, curves and deformations);
+AlgebraicModuliForArithmeticGeometry Layer 9.
+
+**Checks.**
+
+- For `H = S₃`, `H' = A₃`, the fibres have stabiliser `C₃`, not `C₂`; the shortened series is
+  `1 ⊂ C₃` and its outer action is inherited from that on `S₃`.
+- With `H = C₂²` and an outer action cyclically permuting its three order-two subgroups, no one
+  of those subgroups is stable. An arbitrary group-theoretic cyclic series cannot be shortened
+  equivariantly in this way.
+- For the split product fibration `V' × Q → Q`, a geometric point of `V'` gives a geometric
+  section, even when `V'(k)` is empty. A geometric rational section need not be a `k`-section.
+
+**Brauer–Manin fibration density over a quasi-trivial torus.** Let `k` be a number field, `E` a
+finite étale `k`-algebra of dimension `n`, `Q = Res_{E/k} 𝔾_m`, and
+`Q_aff = Res_{E/k} 𝔸¹ ≅ 𝔸^n ⊂ ℙ^n`, after choosing a basis of `E`. Let `Z` be smooth proper
+geometrically integral and `f : Z → ℙ^n` dominant, with rationally connected geometric generic
+fibre. Suppose every fibre over a codimension-one point of `Q` is split over its residue field,
+and every geometric codimension-one fibre over `Q_aff,k̄` is split. Here split means possessing
+an irreducible component of multiplicity one which is geometrically integral over the residue
+field. If `Z_q(k)` is dense in `Z_q(𝔸_k)^{Br}` for every rational `q` in a Hilbert subset of `Q`
+on which the fibres are smooth geometrically integral, then `Z(k)` is dense in `Z(𝔸_k)^{Br}`.
+
+This target also develops the fibration theorem with all codimension-one fibres over `Q_aff`
+split over `k`, using specialization of a finite set of generic-fibre Brauer classes on a Hilbert subset and
+Hilbert irreducibility with local conditions to approximate in a fibre.
+
+*Proof sketch.* Establish that `Z_k̄` is rationally connected from its rational base and
+rationally connected geometric generic fibre, using the curve-section argument of the preceding
+target (Graber–Harris–Starr, Corollary 1.3). Choose a finite Galois extension `ℓ/k` splitting
+the finitely many boundary fibres of `Q_aff ∖ Q`. For `Q' = Res_{E⊗_kℓ/k} 𝔾_m` use the translated norm maps
+`b_r : Q' → Q`, `x ↦ r N(x)` for `r ∈ Q(k)`. On `Q` these are torsors under the norm-kernel
+torus. The pullback compactifications have split codimension-one fibres over all of `Q'_aff`:
+inside `Q'` use the split-fibre hypothesis over `Q`; on its boundary the residue fields contain
+`ℓ`. Apply the dense-open Brauer–Manin descent of the torus-type target to lift and approximate
+an adelic point on a twist; Hilbert 90 represents every twist by some `b_r`. Norm pullback
+preserves the Hilbert subset by IG.2. Apply the fibration theorem with split fibres over `k`
+to this pullback and push its rational approximants down to `Z`.
+For the fibration of *Quotient fibration and the smaller stabiliser*, resolve to a smooth proper
+`Z → ℙ^n`. Its fibres over `Q` contain the smooth geometrically integral dense opens `W_q`,
+so are split over `k`; its geometric rational section gives split geometric codimension-one
+fibres on `Q_aff`. After shrinking `Q` its smooth proper fibres compactify the `W_q`, so the
+inductive hypothesis supplies exactly the fibre-density assumption.
+
+Source: [Harpaz–Wittenberg](https://arxiv.org/pdf/1802.09605v2), Corollary 2.2, Theorems 4.1(ii)
+and 4.2(ii), Lemmas 4.3–4.4 and the proof of Theorem 6.6, PDF pp. 8, 15–17 and 23–24;
+§4.1 cites Harari (1997), Theorem 3.2.1 and the remark at the end of §3.2;
+Corollary 2.2 and the proof of Theorem 4.2 cite Colliot-Thélène–Skorobogatov (2000), Proposition 1.1,
+for the formal lemma. *Needs:* *The Brauer–Manin set*, *Torus types and Brauer–Manin descent for
+cyclic stabiliser quotients* (its norm-kernel dense-open descent assertion),
+*Quotient fibration and the smaller stabiliser* (its geometric curve-section input);
+IG.2 *Hilbert specialization with
+local conditions*, *Hilbert pullback through geometrically integral norm maps*;
+ReductiveGroupsPartII RG2.0a;
+SchemeAndStackFoundations Layers 1–3; AlgebraicModuliForArithmeticGeometry Layer 9;
+GlobalNumberFields Layers 0 and 1.
+
+**Checks.**
+
+- For `Z = ℙ¹ × ℙ^n` with the projection, all fibres are split and satisfy weak approximation;
+  the conclusion recovers density in the whole adelic product.
+- The conic family `x² − a y² = t z²` over `𝔾_m`, with `a ∈ k^×` nonsquare, has split smooth
+  fibres on the torus. Its boundary fibre at `t = 0` consists of two conjugate lines, each of
+  multiplicity one: geometrically split, but not split over `k`. Thus the theorem requires
+  geometric splitting on the affine boundary and arithmetic splitting on `Q` separately.
+- A section over `k̄` supplies the geometric boundary condition, while it supplies no arithmetic
+  density on the fibres. Fibre Brauer–Manin density remains a separate hypothesis.
+
 **Brauer–Manin density for supersolvable stabilisers.** Let `k` be a number field and `X` a smooth
 proper geometrically integral `k`-variety birational to a homogeneous space `V` of a semisimple simply
 connected linear `k`-group whose geometric stabiliser `H` is finite and supersolvable as a group with
@@ -4019,18 +4258,22 @@ induct on `|H|`.
   torsors under semisimple simply connected groups (Kneser, Harder, Chernousov). Hence `V(k) ≠ ∅`,
   `V ≅ G`, and weak approximation for `G`, with the same local density, makes `X(k)` dense in
   `X(𝔸_k) = ∏_v X(k_v)`, which contains the Brauer–Manin set.
-- *Inductive step.* For the last cyclic quotient, a torsor of `X` under a torus, which exists because
-  the Brauer–Manin set is nonempty, contains an open set fibred over a quasi-trivial torus in
-  homogeneous spaces of `G` whose stabiliser is the preceding term of the chain. Apply the fibration
-  method on that torus, with Harari's formal lemma, and the inductive hypothesis to the fibres.
+- *Inductive step.* Apply *Torus types and Brauer–Manin descent for cyclic stabiliser quotients*
+  with `H' = H_{m−1}`. It reduces approximation on `X` to approximation on compactifications of
+  all torsors of that type, including every twist. *Quotient fibration and the smaller stabiliser*
+  gives their fibrations over `Q`, their geometric sections and the stable shortened series on
+  `H_{m−1}`. Induction supplies density in the fibre Brauer–Manin sets. The codimension-one
+  verification in *Brauer–Manin fibration density over a quasi-trivial torus* then gives density
+  on each torsor compactification, and descent gives density on `X`.
 
 Source: [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes*](https://arxiv.org/pdf/1802.09605v2),
 Théorème B, PDF p. 3, which is Théorème 6.6, with Définition 6.4, Exemple 6.5 and the proof of
 Théorème 6.6 through §6.1, PDF pp. 21–25. The trivial-stabiliser case is in the proof of Théorème 6.1,
 PDF p. 21, citing Kneser, Harder and Chernousov through Platonov–Rapinchuk, Theorems 6.6 and 7.8. The
 passage between `V` and `X` by the implicit function theorem is the remark after Lemme 6.3, PDF p. 22.
-*Needs:* *The Brauer–Manin set*, *Approximation and nonabelian localization*; AdelicAlgebraicGroups
-Layer 4, §4.1 (*Hasse kernel and injectivity*, and *Weak approximation*,
+*Needs:* *The Brauer–Manin set*, *Torus types and Brauer–Manin descent for cyclic stabiliser
+quotients*, *Quotient fibration and the smaller stabiliser*, *Brauer–Manin fibration density over
+a quasi-trivial torus*; AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity*, and *Weak approximation*,
 `Approximation.hasWeakApproximation_of_simplyConnected`); ReductiveGroups Layers 0 and 3,
 ReductiveGroupsPartII Layer RG2.0a (quasi-trivial tori), AlgebraicModuliForArithmeticGeometry Layer 9
 (smooth compactifications), SchemeAndStackFoundations Layers 1 and 2; Mathlib
@@ -4163,24 +4406,35 @@ prescriptions force full image*, *Supersolvable Grunwald prescriptions*.
 
 **Collectively coprime realization degrees.** Let `G` be a finite group and `k` a number field. Then
 there are finite extensions `k_1, …, k_r` of `k` with `gcd([k_i : k]) = 1` such that, for every `i`,
-`G` is the Galois group of a regular Galois extension of `k_i(t)`. This does not assert that any `k_i`
-equals `k`.
+`G` is the Galois group of a finite Galois extension of `k_i`.
 
-*Proof sketch.* Take the Hilbert subset attached to the cover `SL_n → SL_n/G`, and move a zero-cycle of
-degree one on the smooth quotient into it, by induction on dimension. Each residue field of its support
-gives a fibre with full group `G`. The regular form spreads these along rational curves, using the
-geometric input of Harpaz–Wittenberg, Remark 7.11.
+*Proof sketch.* Embed the constant group `G` into `SL_n` and use the Hilbert subset of
+`V = SL_n/G` defined by connected fibres of `SL_n → V`. This target includes the Hilbert-subset
+moving theorem: on a smooth geometrically integral variety over a number field, every zero-cycle
+can be moved, preserving its degree, to a rationally equivalent cycle supported in a specified
+Hilbert subset. Prove it by reduction to curves through the cycle's support and induction on
+dimension, using Hilbert irreducibility to
+choose divisors in the required linear systems on smooth projective models of those curves, with
+zeros and poles in the open variety. This gives equality of degrees on the projective curves;
+no degree map on the Chow group of a nonproper variety is assumed. The rational point
+`1G ∈ V(k)` gives a zero-cycle of degree one. Move it to `Σ_i n_i P_i` in the Hilbert subset, allowing signed integer coefficients.
+Then `Σ_i n_i [k(P_i) : k] = 1`, so those positive residue-field degrees have gcd one. The connected
+`G`-torsor above each `P_i` is a `G`-Galois field extension of `k_i = k(P_i)`.
 
 Source: [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes*](https://arxiv.org/pdf/1802.09605v2),
-Remark 7.11, PDF p. 28. The result does not depend on the inverse Galois conjecture.
-*Needs:* Layer IG.2 *Hilbert subsets and Hilbertian fields*, *Proper solutions with local
-prescriptions*; SchemeAndStackFoundations Layer 4.
+Remark 7.11, PDF p. 28, for the moving theorem and ordinary realizations.
+*Needs:* Layer IG.2 *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number
+fields*; Layer IG.0 *Finite Galois algebras and torsors*; ReductiveGroups Layers 0 and 3 (the
+quotient); SchemeAndStackFoundations Layer 3 and §5.1 (divisors, zero-cycles and rational equivalence).
 
 **Checks.**
 
 - A list of degrees with greatest common divisor one, such as `2, 3`, need not contain `1`.
-- No realization over `k` itself follows from the conclusion.
-- For `G = 1`, the single field `k_1 = k` works, with `k(t)` itself.
+- No realization over `k` itself follows from the conclusion; the degree-one cycle can have signed
+  coefficients, for example `−P₂ + P₃` with degrees two and three.
+- For `G = 1`, the single field `k_1 = k` works, with the identity extension `k/k`.
+- A nontrivial Galois extension `L/k_i` gives a constant extension `L(t)/k_i(t)` whose constants
+  contain `L`. It is not regular over `k_i`, so these fibres do not imply regular realizations.
 
 ### IG.4.5 Unramified Γ-groups and Property E
 
@@ -6664,8 +6918,9 @@ with connected nonempty locally Noetherian based π₁ and no coefficient-invert
 
 ## Worked examples
 
-- **`S₃` over `ℚ`, three ways.** The rigid triple `((12), (23), (132))` gives the regular `S₃`-cover
-  of `ℙ¹_ℚ` with Belyi map `y ↦ y³ − 3y` (Layer IG.3); Hilbert irreducibility specializes it to
+- **`S₃` over `ℚ`, three ways.** The rigid triple `((12), (23), (132))` gives a regular
+  degree-six `S₃`-Galois cover of `ℙ¹_ℚ`, the Galois closure of the degree-three Belyi map
+  `y ↦ (y³ − 3y + 2)/4` with `S₃` monodromy (Layer IG.3); Hilbert irreducibility specializes it to
   infinitely many linearly disjoint `S₃`-extensions of `ℚ` (Layer IG.2); and Shafarevich's theorem
   realizes `S₃` as a solvable group by successive proper embedding problems with abelian kernels
   `C₃` and `C₂` (Layer IG.4). The realization certificates of Layer IG.6 make the three outputs
