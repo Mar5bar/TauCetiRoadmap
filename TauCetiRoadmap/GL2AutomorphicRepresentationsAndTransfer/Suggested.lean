@@ -121,7 +121,7 @@ open scoped NumberField
 
 variable {K : Type*} [Field K] [NumberField K]
 
-/-- A subgroup of number-field units outside a fixed finite set is finitely generated. -/
+/-- The arbitrary-subgroup adapter to HeightsAndUnits §4.2 S-unit finite generation. -/
 theorem fg_of_units_outside_finset (E : Subgroup Kˣ)
     (S : Finset (HeightOneSpectrum (𝓞 K)))
     (hE : ∀ x : E, ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S →
@@ -460,6 +460,126 @@ example (χ : Fˣ →* ℂˣ)
 
 end IwahoriOldforms
 
+section LocalModelFixtures
+open scoped ValuativeRel
+variable {p : ℕ} [Fact p.Prime]
+
+/-- The norm-power character on Q_p with the normalized p-adic absolute value. -/
+def localNormCharacter (p : ℕ) [Fact p.Prime] (t : ℝ) : ℚ_[p]ˣ →* ℂˣ := by sorry
+
+/-- The norm character evaluates by the real power of the normalized absolute value. -/
+theorem localNormCharacter_eval (t : ℝ) (u : ℚ_[p]ˣ) :
+    (localNormCharacter p t u : ℂ) = (‖(u : ℚ_[p])‖ ^ t : ℝ) := by sorry
+
+/-- Smooth normalized upper-Borel induction as a submodule of functions on GL₂(Q_p). -/
+def localPrincipalSeriesSpace (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ) :
+    Submodule ℂ (GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) where
+  carrier := {f | (∃ K : Subgroup (GeneralLinearGroup (Fin 2) ℚ_[p]),
+      IsOpen (K : Set (GeneralLinearGroup (Fin 2) ℚ_[p])) ∧
+      ∀ g k, k ∈ K → f (g * k) = f g) ∧
+    ∀ (b : k0 (⊥ : Ideal ℚ_[p])) g,
+      f ((b : GeneralLinearGroup (Fin 2) ℚ_[p]) * g) =
+        (Real.sqrt (‖b.val.val 0 0‖ / ‖b.val.val 1 1‖) : ℂ) *
+          (χ₁ (Units.mk0 (b.val.val 0 0) (by sorry)) : ℂ) *
+          (χ₂ (Units.mk0 (b.val.val 1 1) (by sorry)) : ℂ) * f g}
+  zero_mem' := by sorry
+  add_mem' := by sorry
+  smul_mem' := by sorry
+
+/-- Right translation on the concrete smooth induced function space. -/
+def localPrincipalSeriesRep (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ) :
+    Representation ℂ (GeneralLinearGroup (Fin 2) ℚ_[p])
+      (localPrincipalSeriesSpace χ₁ χ₂) := by sorry
+
+/-- The induced action evaluates by right translation of its argument. -/
+theorem localPrincipalSeriesRep_eval (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
+    (g x : GeneralLinearGroup (Fin 2) ℚ_[p]) (f : localPrincipalSeriesSpace χ₁ χ₂) :
+    (localPrincipalSeriesRep χ₁ χ₂ g f : GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) x =
+      (f : GeneralLinearGroup (Fin 2) ℚ_[p] → ℂ) (x * g) := by sorry
+
+/-- Constants in the unnormalized flag-function realization of the reducible principal series. -/
+def localSteinbergConstants (p : ℕ) [Fact p.Prime] :
+    Submodule ℂ (localPrincipalSeriesSpace
+      (localNormCharacter p (-(1/2))) (localNormCharacter p (1/2))) :=
+  Submodule.span ℂ {⟨fun _ => 1, by sorry⟩}
+
+/-- Steinberg is the flag-function quotient by constants, with a determinant twist. -/
+def localSteinbergTwist (χ : ℚ_[p]ˣ →* ℂˣ) :
+    Representation ℂ (GeneralLinearGroup (Fin 2) ℚ_[p])
+      ((localPrincipalSeriesSpace (localNormCharacter p (-(1/2)))
+        (localNormCharacter p (1/2))) ⧸ localSteinbergConstants p) := by sorry
+
+/-- On the quotient, Steinberg's twist is the determinant character times right translation. -/
+theorem localSteinbergTwist_quotient (χ : ℚ_[p]ˣ →* ℂˣ)
+    (g : GeneralLinearGroup (Fin 2) ℚ_[p])
+    (f : localPrincipalSeriesSpace (localNormCharacter p (-(1/2)))
+      (localNormCharacter p (1/2))) :
+    localSteinbergTwist χ g (Submodule.Quotient.mk f) =
+      (χ (GeneralLinearGroup.det g) : ℂ) • Submodule.Quotient.mk
+        (localPrincipalSeriesRep (localNormCharacter p (-(1/2)))
+          (localNormCharacter p (1/2)) g f) := by sorry
+
+example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
+    (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
+      χ₁ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1 ∧
+      χ₂ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
+    (hgen : χ₁ * χ₂⁻¹ ≠ localNormCharacter p 1 ∧
+      χ₁ * χ₂⁻¹ ≠ localNormCharacter p (-1))
+    (hex : ∃ n, ∃ v ∈ Representation.invariants
+      ((localPrincipalSeriesRep χ₁ χ₂).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
+    conductorExponent (localPrincipalSeriesRep χ₁ χ₂) (localK1 ℚ_[p]) hex = 0 := by sorry
+
+example (χ : ℚ_[p]ˣ →* ℂˣ)
+    (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
+      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
+    (hex : ∃ n, ∃ v ∈ Representation.invariants
+      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
+    conductorExponent (localSteinbergTwist χ) (localK1 ℚ_[p]) hex = 1 := by sorry
+
+example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
+    (hdepth : ∀ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ a →
+      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
+    (hminimal : ∃ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ (a - 1) ∧
+      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) ≠ 1)
+    (hex : ∃ n, ∃ v ∈ Representation.invariants
+      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
+    conductorExponent (localSteinbergTwist χ) (localK1 ℚ_[p]) hex = 2 * a := by sorry
+
+end LocalModelFixtures
+
+section NormalizedLine
+variable {V : Type*} [AddCommGroup V] [Module ℂ V]
+
+/-- The vector of value one for a nonzero functional on a one-dimensional line. -/
+def normalizedNewvector (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) : L := by sorry
+
+/-- The normalized vector has value one under the specified functional. -/
+theorem normalizedNewvector_eval (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) :
+    ell (normalizedNewvector L ell hdim hell) = 1 := by sorry
+
+/-- A value-one vector on the line is the normalized vector. -/
+theorem normalizedNewvector_unique (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) (v : L) (hv : ell v = 1) :
+    v = normalizedNewvector L ell hdim hell := by sorry
+
+example (ell : (⊤ : Submodule ℂ ℂ) →ₗ[ℂ] ℂ)
+    (hell : ∀ z, ell z = 2 * (z : ℂ)) (hne : ell ≠ 0)
+    (hdim : Module.finrank ℂ (⊤ : Submodule ℂ ℂ) = 1) :
+    (normalizedNewvector ⊤ ell hdim hne : ℂ) = 1 / 2 := by sorry
+
+example (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0)
+    (a : ℂ) (ha : a ≠ 0) (hscaled : a • ell ≠ 0) :
+    normalizedNewvector L (a • ell) hdim hscaled =
+      a⁻¹ • normalizedNewvector L ell hdim hell := by sorry
+
+example (L : Submodule ℂ V) :
+    ¬ ∃ v : L, (0 : L →ₗ[ℂ] ℂ) v = 1 := by sorry
+
+end NormalizedLine
+
 section Spherical
 
 /-- The complete homogeneous polynomial Σᵢ αⁱβᵐ⁻ⁱ; it is defined also when the Satake roots collide. -/
@@ -475,6 +595,8 @@ theorem sphericalValues_equal (α : ℂ) (m : ℕ) :
     sphericalValues α α m = (m + 1) * α ^ m := by sorry
 
 example (α β : ℂ) : sphericalValues α β 1 = α + β := by sorry
+
+example (α β : ℂ) : sphericalValues α β 2 = α^2 + α*β + β^2 := by sorry
 
 example : sphericalValues 1 1 2 = 3 := by sorry
 
@@ -537,9 +659,11 @@ theorem steinbergParameter (q α : ℂ) (hq : q ≠ 0) (hα : α ≠ 0) :
 #check Complex.Gammaℂ_def
 #check Complex.Gammaℝ_mul_Gammaℝ_add_one
 
-example (s t : ℂ) (m : ℕ) :
-    Complex.Gammaℂ (s + t + (m : ℂ) / 2) =
-      Complex.Gammaℂ (s + t + (((m + 1 : ℕ) : ℂ) - 1) / 2) := by sorry
+example : Complex.Gammaℂ 1 = (Real.pi : ℂ)⁻¹ := by sorry
+
+example : Complex.Gammaℝ 1 * Complex.Gammaℝ 2 = Complex.Gammaℂ 1 := by sorry
+
+example : Complex.Gammaℂ 2 = (2 * (Real.pi : ℂ)^2)⁻¹ := by sorry
 
 end Parameters
 
@@ -562,7 +686,14 @@ theorem nonCM_self_twist_square {H P : Type*} [CommGroup H] [MulAction H P]
 
 example {H : Type*} [Group H] (π : H) : π ∈ nonCM H H := by sorry
 
-example {H P : Type*} [Group H] [MulAction H P] (π : P) : (1 : H) • π = π := by sorry
+section TrivialCyclicAction
+local instance : MulAction (Multiplicative (ZMod 3)) PUnit where
+  smul _ _ := PUnit.unit
+  one_smul _ := rfl
+  mul_smul _ _ _ := rfl
+
+example : PUnit.unit ∉ nonCM (Multiplicative (ZMod 3)) PUnit := by sorry
+end TrivialCyclicAction
 
 example {H P : Type*} [Group H] [MulAction H P] (π : P) (χ : H)
     (hne : χ ≠ 1) (hsquare : χ ^ 2 = 1) (hfix : χ • π = π) :
@@ -580,8 +711,13 @@ end Global
 
 section Classical
 
-example {Old : Type*} (f : Old) (M N : ℕ) (hMN : M < N)
-    (cond : Old → ℕ) (hcond : cond f = M) : cond f ≠ N := by sorry
+example {M N d : ℕ} [NeZero M] [NeZero N] [NeZero d] {k : ℤ}
+    (f : HeckeRing.GL2.Newform M k) (hd : d * M ∣ N) (hMN : M < N) :
+    CuspForm.levelRaise d (TauCeti.Gamma1_map_le_conjAct_scaleGL_of_dvd hd)
+        f.toCuspForm ∈ TauCeti.cuspFormsOld N k ∧
+      ∀ g : HeckeRing.GL2.Newform N k,
+        CuspForm.levelRaise d (TauCeti.Gamma1_map_le_conjAct_scaleGL_of_dvd hd)
+          f.toCuspForm ≠ g.toCuspForm := by sorry
 
 example {N : ℕ} [NeZero N] {k : ℤ} (f : HeckeRing.GL2.Newform N k)
     (c : ℂ) (hc : c ≠ 1) : c * (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff 1 ≠ 1 := by sorry
@@ -801,6 +937,8 @@ theorem unramifiedBaseChange_tower (A : GeneralLinearGroup (Fin 2) K) (f g : ℕ
     unramifiedBaseChange (unramifiedBaseChange A f) g =
       unramifiedBaseChange A (f * g) := by sorry
 
+example (A : GeneralLinearGroup (Fin 2) K) : unramifiedBaseChange A 1 = A := by sorry
+
 example (f : ℕ) : unramifiedBaseChange (1 : GeneralLinearGroup (Fin 2) K) f = 1 := by sorry
 
 example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
@@ -810,6 +948,9 @@ example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
 
 example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
     unramifiedBaseChange A 2 ≠ unramifiedBaseChange A 1 := by sorry
+
+example (A : GeneralLinearGroup (Fin 2) ℚ) (hA : A.val = !![2, 0; 0, 3]) :
+    (unramifiedBaseChange (unramifiedBaseChange A 2) 3).val = !![64, 0; 0, 729] := by sorry
 
 end Satake
 
@@ -865,6 +1006,12 @@ theorem pureCubicPhase_negative (a b c : ℚ) :
 example : pureCubicMatrix 0 1 0 ^ 3 = (2 : ℚ) • (1 : Matrix (Fin 3) (Fin 3) ℚ) := by sorry
 
 example : pureCubicMatrix 1 0 0 = 1 := by sorry
+
+example (a b c : ℚ) : (pureCubicMatrix a b c) 2 1 = b := by sorry
+
+example : pureCubicNorm 1 1 1 = 1 := by sorry
+
+example : pureCubicQuadratic 1 0 0 = 3 := by sorry
 
 example : pureCubicNorm 0 1 0 = 2 := by sorry
 
@@ -935,6 +1082,24 @@ theorem solvable_finite_image_integral_lift
         RingHom.ker f = IsLocalRing.maximalIdeal (Localization.AtPrime v.asIdeal) ∧
         ∀ g : Γ, r g = P * GeneralLinearGroup.map f (ρ g) * P⁻¹ := by sorry
 
+section CharacteristicTwoLiftFixture
+local instance : Fact (Nat.Prime 2) := ⟨by decide⟩
+
+example :
+    ∃ (E : Type) (_ : Field E) (_ : NumberField E)
+      (v : HeightOneSpectrum (𝓞 E)),
+      letI : v.asIdeal.IsPrime := v.isPrime
+      ∃ (f : Localization.AtPrime v.asIdeal →+* AlgebraicClosure (ZMod 2))
+        (ρ : GeneralLinearGroup (Fin 2) (ZMod 2) →*
+          GeneralLinearGroup (Fin 2) (Localization.AtPrime v.asIdeal))
+        (P : GeneralLinearGroup (Fin 2) (AlgebraicClosure (ZMod 2))),
+        RingHom.ker f = IsLocalRing.maximalIdeal (Localization.AtPrime v.asIdeal) ∧
+        ∀ g, GeneralLinearGroup.map
+            (algebraMap (ZMod 2) (AlgebraicClosure (ZMod 2))) g =
+          P * GeneralLinearGroup.map f (ρ g) * P⁻¹ := by sorry
+
+end CharacteristicTwoLiftFixture
+
 section OddReductionTests
 
 /-- The integral diagonal involution with eigenvalues +1 and −1. -/
@@ -949,6 +1114,10 @@ private def mixedSignInvolution : GeneralLinearGroup (Fin 2) ℤ where
     fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_succ]
 
 local instance : Fact (Nat.Prime 3) := ⟨by decide⟩
+
+example : mixedSignInvolution ^ 2 = 1 := by sorry
+
+example : mixedSignInvolution ≠ GeneralLinearGroup.scalar (Fin 2) (-1 : ℤˣ) := by sorry
 
 example : GeneralLinearGroup.det mixedSignInvolution = (-1 : ℤˣ) := by sorry
 
@@ -995,16 +1164,7 @@ end OddReductionTests
 
 section ArithmeticLifting
 
-/-- Every locally constant trivial-action Q/Z-valued two-cocycle of a number-field absolute Galois group is a locally constant coboundary. -/
-theorem tate_vanishing (F : Type*) [Field F] [NumberField F]
-    (α : Field.absoluteGaloisGroup F → Field.absoluteGaloisGroup F → AddCircle (1 : ℚ))
-    (hcont : IsLocallyConstant
-      (fun p : Field.absoluteGaloisGroup F × Field.absoluteGaloisGroup F => α p.1 p.2))
-    (hα : ∀ g h k, α g h + α (g * h) k = α g (h * k) + α h k) :
-    ∃ b : Field.absoluteGaloisGroup F → AddCircle (1 : ℚ),
-      IsLocallyConstant b ∧ ∀ g h, α g h = b g + b h - b (g * h) := by sorry
-
-/-- A finite continuous arithmetic projective representation has a finite continuous linear lift. -/
+/-- The finite-image complex rank-two specialization of ArithmeticGaloisRepresentations §7.6 gives a finite continuous linear lift with its specified projectivization. -/
 theorem finite_projective_lift (F : Type*) [Field F] [NumberField F]
     (r : Field.absoluteGaloisGroup F →* ProjGenLinGroup (Fin 2) ℂ)
     (hr : IsOpen (r.ker : Set (Field.absoluteGaloisGroup F))) :
@@ -1022,6 +1182,8 @@ def redSqrtNegTwo : ℤ√(-2) →+* ZMod 3 := Zsqrtd.lift ⟨-1, by decide⟩
 example : redSqrtNegTwo (⟨0, 1⟩ : ℤ√(-2)) = -1 := by sorry
 
 example : redSqrtNegTwo (⟨1, 1⟩ : ℤ√(-2)) = 0 := by sorry
+
+example : redSqrtNegTwo (⟨-1, 1⟩ : ℤ√(-2)) = 1 := by sorry
 
 /-- The section used by the octahedral mod-3 application (Darmon–Diamond–Taylor,
 Theorem 3.14(a)): an injective homomorphism GL₂(F₃) → GL₂(ℤ[√−2]) reducing to the
@@ -1112,8 +1274,8 @@ k0_mono, k0_scalar, k0_top, k1_le_k0.
 k1_mem, k1_mono, k1_scalar, k1_top.
 localK0_antitone, localK0_scalar_mul_localK1, localK0_zero, localK1_antitone.
 localK1_le_integral, localK1_le_localK0, localK1_zero, nonCM_iff.
-normalizedNewvector, normalizedNewvector_eval, normalizedNewvector_fixed, normalizedNewvector_twist.
-normalizedNewvector_unique, quadraticDirichletFive, quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
+normalizedNewvector_fixed, normalizedNewvector_twist.
+quadraticDirichletFive, quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
 quarticCharacter, sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
 steinbergProjectorDifference_central, steinbergProjectorDifference_eval, steinbergProjectorDifference_twist, tamelyDihedral.
 tamelyDihedral_parameter, tamelyDihedral_unramified_twist, twoUnit, unramifiedBaseChange_conjugate.
