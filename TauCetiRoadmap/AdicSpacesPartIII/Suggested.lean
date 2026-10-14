@@ -59,47 +59,6 @@ Completeness includes the Hausdorff property.
 local instance (n : ℕ) : ∀ i : Fin n, Fact (0 < (fun _ : Fin n ↦ (1 : ℝ)) i) :=
   fun _ ↦ ⟨zero_lt_one⟩
 
-namespace TauCetiRoadmap.AdicSpacesPartII
-
-/-- The finite-ideal-type adic-ring carrier of Part II R0.1a: the given topology is adic
-for a finitely generated ideal for which the ring is complete and separated
-(EGA I, Ch. 0, 7.1.9, p. 62). -/
-class IsAdicRing (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] : Prop where
-  /-- A finite ideal of definition with algebraic adic completeness. -/
-  exists_isAdic : ∃ I : Ideal A, I.FG ∧ IsAdic I ∧ IsAdicComplete I A
-
-namespace IsAdicRing
-
-variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
-
-/-- A finite ideal defining the topology of an adic ring. -/
-noncomputable def ideal [IsAdicRing A] : Ideal A :=
-  Classical.choose (IsAdicRing.exists_isAdic (A := A))
-
-/-- The chosen ideal is finite, defines the topology, and has complete separated ring. -/
-theorem ideal_spec [IsAdicRing A] :
-    (ideal A).FG ∧ IsAdic (ideal A) ∧ IsAdicComplete (ideal A) A :=
-  Classical.choose_spec (IsAdicRing.exists_isAdic (A := A))
-
-/-- The pair consisting of the whole ring and its finite ideal of definition is Huber. -/
-instance (priority := 100) isHuberRing [IsAdicRing A] : TauCeti.Huber.IsHuberRing A :=
-  TauCeti.Huber.isHuberRing_of_isAdic (ideal A) (ideal_spec A).2.1 (ideal_spec A).1
-
-/-- Completing a noetherian ring along an ideal gives a noetherian adic ring with the
-extended-ideal topology (Part II R0.1b; EGA I, Ch. 0, 7.3.1; Stacks, Tag 05GH). -/
-theorem adicCompletion {R : Type*} [CommRing R] [IsNoetherianRing R] (I : Ideal R) :
-    letI : WithIdeal (AdicCompletion I R) := ⟨I.map (algebraMap R (AdicCompletion I R))⟩
-    IsAdicRing (AdicCompletion I R) ∧ IsNoetherianRing (AdicCompletion I R) := sorry
-
-end IsAdicRing
-
-/-- Completeness for a finite ideal and noetherianity of its quotient imply noetherianity
-of the ring (Part II R0.1b; EGA I, Ch. 0, 7.2.6; Stacks, Tag 05GH). -/
-theorem isNoetherianRing_of_isAdicComplete {R : Type*} [CommRing R] (I : Ideal R) (hI : I.FG)
-    [IsAdicComplete I R] [IsNoetherianRing (R ⧸ I)] : IsNoetherianRing R := sorry
-
-end TauCetiRoadmap.AdicSpacesPartII
-
 namespace TauCetiRoadmap.AdicSpacesPartIII
 
 open TauCeti TauCetiRoadmap.AdicSpacesPartII TensorProduct
@@ -113,8 +72,8 @@ noncomputable section
 /-! ### F0.1 Constructions on adic rings (*completed-localization*,
 *restricted-power-series-adic*, *completed-tensor-product-adic*) -/
 
-/-! AdicSpacesPartII R0.1a–R0.1b supplies `IsAdicRing`, its chosen ideal and Huber instance,
-prototyped above under the supplier namespace, and the noetherian completion criteria. -/
+/-! AdicSpacesPartII R0.1a–R0.1b supplies the imported `IsAdicRing`, its chosen ideal and
+Huber instance, and the noetherian completion criteria. -/
 
 namespace IsAdicRing
 
@@ -982,7 +941,8 @@ variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] [Module.Finite
   [Module.Projective R M]
 
 /-- Scalar realization of the symmetric categorical trace on finite projective modules,
-by contraction and evaluation at `1` on the endomorphisms of the unit module `R`. -/
+supplied by PivotalSpherical Layers 0–2 and 10, by contraction and evaluation at `1`
+on the endomorphisms of the unit module `R`. -/
 def projectiveTrace : (M →ₗ[R] M) →ₗ[R] R :=
   contractLeft R M ∘ₗ (dualTensorHomEquiv R M M).symm.toLinearMap
 
@@ -997,7 +957,8 @@ theorem projectiveTrace_baseChange (R' : Type*) [CommRing R'] [Algebra R R'] (f 
     projectiveTrace R' (R' ⊗[R] M) (f.baseChange R') = algebraMap R R' (projectiveTrace R M f) :=
   sorry
 
-/-- Cyclicity of the scalar trace across two finite projective modules. -/
+/-- Scalar realization of PivotalSpherical Layer 2’s cyclicity across two finite
+projective modules. -/
 theorem projectiveTrace_cyclic {N : Type*} [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
     projectiveTrace R M (g.comp f) = projectiveTrace R N (f.comp g) := sorry

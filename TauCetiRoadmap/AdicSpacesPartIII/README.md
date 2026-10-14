@@ -100,12 +100,13 @@ RigidAnalyticGeometry §7.5 supplies proper formal functions and the stable prin
 filtration; R3.6 transports them through the rigid–adic comparison.
 These targets use Part II's affinoid, rigid-space and Banach-module carriers and its
 rigid–adic functor. R3.3 owns small perturbations over general complete Tate rings;
-R3.8 owns the symmetric categorical trace and its finite-projective scalar realization.
+R3.8 specializes PivotalSpherical’s categorical trace and cyclicity APIs to finite
+projective modules and owns their scalar realization.
 The scheme-level étale topological invariance is supplied by SchemeAndStackFoundations §0.23a.
 
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0.0–R0.20 and R1.1–R1.9;
 SchemeAndStackFoundations Layers 0–4, including §0.23a; RigidAnalyticGeometry Layers 1–8;
-CompactOperators §0.1.
+CompactOperators §0.1; PivotalSpherical Layers 0–2 and 10.
 The supplier contracts below also specify the main-roadmap inputs from StableReduction,
 JacobianChallenge, ModularCurves and AlgebraicVectorBundles, and the gauge inputs from
 PadicFunctionalAnalysis §0.4 and its Banach-module inputs in §§1.2, 2.1–2.4.
@@ -159,9 +160,8 @@ waiting for upstream work.
     `EllipticModuli`, `GeneralisedEllipticCurve` and their subnamespaces, including
     `Module.IsCoherent`, `AlgebraicGeometry.Scheme.Hom` and `AlgebraicGeometry.Scheme.Modules`.
     The class `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, its chosen ideal and its completion
-    criteria are supplied by AdicSpacesPartII R0.1a–R0.1b. The carrier, chosen ideal,
-    `ideal_spec`, Huber instance and completion criteria are prototyped in this folder's `Suggested.lean`
-    under the supplier namespace. Its field `IsAdicRing.exists_isAdic` records a finite
+    criteria are imported from AdicSpacesPartII R0.1a–R0.1b in its `Suggested.lean`.
+    Its field `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.exists_isAdic` records a finite
     ideal defining the topology and algebraic adic completeness. The `IsAdicRing` namespace
     under Part III adds only the restricted-series and finite-module targets of F0.1.
     The projective trace declarations use `LinearMap` and `Algebra`; relative differential data
@@ -204,7 +204,7 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 
 | F0 supplier | Exact file | Contract used |
 |---|---|---|
-| AdicSpacesPartII R0.1a–R0.1b: `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal_spec`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.isHuberRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.adicCompletion`, `TauCetiRoadmap.AdicSpacesPartII.isNoetherianRing_of_isAdicComplete` | `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.1a–R0.1b; carrier and criterion prototypes in `TauCetiRoadmap/AdicSpacesPartIII/Suggested.lean` | Adic rings of finite ideal type, chosen ideals of definition, their Huber-ring instance and noetherian completion criteria. F0 constructs completed localisations, restricted series and completed tensor products over these rings. |
+| AdicSpacesPartII R0.1a–R0.1b: `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal_spec`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.isHuberRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.adicCompletion`, `TauCetiRoadmap.AdicSpacesPartII.isNoetherianRing_of_isAdicComplete` | `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.1a–R0.1b, and `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Adic rings of finite ideal type, chosen ideals of definition, their Huber-ring instance and noetherian completion criteria. F0 constructs completed localisations, restricted series and completed tensor products over these rings. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `fieldAffinoid`, `AdicOver`, `rigidToAdic`, `rigidToAdic.rho`; `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | The affine and global Raynaud comparisons use these imported carriers and the functor `RigidSpace K ⥤ AdicOver K`. Part III supplies the formal generic fibre and its comparison isomorphisms. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp`, AdicSpacesPartII *proper-separated-comparisons*, `AdicSpace.rigidToAdic` (same prefix); RigidAnalyticGeometry §6.3 | RigidAnalyticGeometry README §6.3; AdicSpacesPartII carrier contracts | Quasi-compact rigid morphisms are those of §6.3. The inner relation is its relative compactness for affinoid opens over an affinoid base. Part II transports these through its affinoid and rigid–adic carriers. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.projectiveSpace`, `projectiveSpace.toSpec` (same namespace); `CategoryTheory.Limits.pullback`, `terminal.from` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`); `Mathlib/AlgebraicGeometry/Limits.lean` | The Part II homogeneous-polynomial projective space and scheme fibre products define `AlgebraicGeometry.relativeProjectiveSpace` over an arbitrary scheme base; its affine comparison preserves the structural map. |
@@ -325,7 +325,8 @@ complex and its signs. R3 adds the comparison with exact augmented edges.
 
 | Contract | Supplier and exact label | Retained gap / consumer |
 | --- | --- | --- |
-| Finite-projective endomorphism trace | R3.8 *projective-module-trace*, *projective-trace-realization* | Use the pinned symmetric category and finite-projective duals; identify the symmetric categorical trace with `LinearMap.projectiveTrace`. |
+| Generic categorical trace, coherence and cyclicity | [PivotalSpherical](../PivotalSpherical/README.md), Layers 0–2 and 10 | Use its categorical trace and symmetric pivotal/spherical structures on the pinned finite-projective category. These are supplier targets; Part III specializes them rather than building a generic trace library. |
+| Finite-projective endomorphism trace | R3.8 *projective-module-trace*, *projective-trace-realization* | Identify the supplied categorical trace on the pinned symmetric category and finite-projective duals with `LinearMap.projectiveTrace`. |
 | Cross-object cyclicity | R3.8 *projective-trace-cyclicity* | `LinearMap.projectiveTrace_cyclic` for two finite projective modules; *algebra-trace-transitivity* uses this scalar law. |
 | Identity trace and rank | R3.8 *projective-trace-realization* | The scalar trace of the identity has the local rank in every prime localization. |
 
@@ -528,7 +529,10 @@ normalisation of pull–identify–trace. Formal schemes, coherent sheaves on ad
 everything built on them are stated in this README only. A target with a Lean carrier ends its
 statement with a `Lean:` sentence naming the declarations; a target without one is specified in
 this README only, and the API names and Check labels it gives (Convention 13) are the names to use
-when it is formalised, not declarations of the current file. Characterisation checks may directly
+when it is formalised, not declarations of the current file. A supplier contract used
+as a hypothesis in an adapter still requires the supplier theorem; that hypothesis
+does not discharge the target. Library definitions from the supplier replace the
+corresponding suggested carriers when available. Characterisation checks may directly
 apply the named comparison theorem, retaining all its hypotheses.
 
 The section headings of `Suggested.lean` name the target labels they carry:
@@ -11420,12 +11424,14 @@ characteristic, `P¹` over an algebraically closed field being simply connected)
 ### R3.8 finite locally free traces and pull–identify–trace
 
 **Trace of endomorphisms of finite projective modules.** (*projective-module-trace*)
-For a commutative ring `R`, use the symmetric categorical trace on
-`(TauCeti.finiteProjectiveModules R).FullSubcategory`: coevaluation, the endomorphism,
+For a commutative ring `R`, specialize PivotalSpherical Layers 0–2 and 10’s
+symmetric categorical trace to `(TauCeti.finiteProjectiveModules R).FullSubcategory`:
+coevaluation, the endomorphism,
 the symmetry and evaluation give an endomorphism of the unit `R`. Left and right
 traces agree by the symmetric duality, and evaluation at `1` gives the scalar trace
 (Stacks Tag 02DU, Exercise 111.22.6; Mathlib's evaluation and coevaluation for exact pairings).
-*Needs:* the pinned symmetric category and finite-projective duals in
+*Needs:* PivotalSpherical Layers 0–2 and 10 (generic trace, coherence, cyclicity and
+symmetric pivotal/spherical structures); the pinned symmetric category and finite-projective duals in
 `TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Monoidal.lean` and `Dualizable.lean`;
 `CategoryTheory.ExactPairing.evaluation`, `CategoryTheory.ExactPairing.coevaluation`
 (`Mathlib/CategoryTheory/Monoidal/Rigid/Basic.lean`). The scalar comparison is *projective-trace-realization*.
@@ -11436,9 +11442,9 @@ on `R²`, the matrix with diagonal `a,d` has trace `a+d`.
 **Cross-object cyclicity for finite projective modules.** (*projective-trace-cyclicity*)
 For finite projective `R`-modules `M`, `N` and linear maps `f : M → N`, `g : N → M`,
 prove `LinearMap.projectiveTrace_cyclic`: `tr_M(g ∘ f) = tr_N(f ∘ g)`.
-Prove it by finite dual expansions, or by localization where both modules are free
+Transport PivotalSpherical Layer 2’s categorical cyclicity through the scalar realization
 (Stacks Tag 02DU, Exercise 111.22.6; Mathlib `_root_.LinearMap.trace_comp_comm'` in the free case).
-*Needs:* *projective-trace-realization*; finite-projective localization and duality.
+*Needs:* PivotalSpherical Layer 2; *projective-trace-realization*; finite-projective duality.
 Lean: `LinearMap.projectiveTrace_cyclic`.
 
 Checks (Lean examples): with `M = N = R`, this is `ab = ba`; with `M = 0`, both traces vanish;
@@ -11449,8 +11455,9 @@ Let `R` be a commutative ring and `M` a finitely generated projective `R`-module
 Use `(TauCeti.finiteProjectiveModules R).FullSubcategory` and its supplied
 `TauCeti.finiteProjectiveModulesSymmetricCategory` structure, with
 `ModuleCat.hasLeftDualOfFiniteProjective` and `ModuleCat.hasRightDualOfFiniteProjective`.
-The dual is `M^∨ = Hom_R(M,R)`. Identify the canonical double dual and prove that the
-left and right symmetric traces agree; identify `End_R(R)` with `R` by evaluation at `1`.
+The dual is `M^∨ = Hom_R(M,R)`. Identify its canonical double dual with
+PivotalSpherical’s symmetric pivotal structure and use its equality of left and right
+traces; identify `End_R(R)` with `R` by evaluation at `1`.
 Prove that the scalar categorical trace is the contraction below. The trace
 `tr_M : End_R(M) → R` is the `R`-linear map `tr_M = contractLeft ∘ (dualTensorHomEquiv R M M)⁻¹`,
 where `dualTensorHomEquiv : M^∨ ⊗_R M ≅ End_R(M)` (Mathlib, for `M` finite projective) and
@@ -11471,7 +11478,8 @@ every prime `𝔭`; and that `tr_M f` is nilpotent when `f` is nilpotent (Stacks
 free, equivalently finite projective, module; Stacks Tag 0BVH, §49.3, the sheaf version for
 finite locally free modules; KL15 §1.1, Def. 1.1.2, p. 11, finite projective modules as the
 setting).
-*Needs:* `TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Monoidal.lean` and
+*Needs:* PivotalSpherical Layers 0–2 and 10;
+`TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Monoidal.lean` and
 `TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Dualizable.lean`;
 AlgebraicVectorBundles L0B for the affine comparison with finite locally free sheaves;
 Mathlib `dualTensorHomEquiv`, `contractLeft`, `LinearMap.trace`,
