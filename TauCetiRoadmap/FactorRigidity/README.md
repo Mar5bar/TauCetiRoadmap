@@ -144,12 +144,17 @@ the converse by adjoining the complementary summand. Retain the
 normalized trace τ_p in its coefficient-map and finite-set/ε criteria.
 
 Prove invariance, expected-subalgebra, corner, amplification and intermediate-
-subalgebra permanence with their precise hypotheses. For p=1,Q=ℂ prove
-this is ambient amenability/injectivity, equivalently identity weakly
-contained in the coarse correspondence; identify V13's hypertrace and CP
+subalgebra permanence with their precise hypotheses. For p=1,P=M,Q=ℂ prove
+this is ambient amenability/injectivity of M, equivalently
+`_M L²(M)_M` weakly contained in the coarse M–M correspondence;
+identify V13's hypertrace and CP
 factorizations with R1's coefficients. For Q=M verify relative amenability
 of every P. Compare group-subgroup examples with invariant means on cosets,
 and show relative amenability does not assert finite index.
+For M=L(F₂), P=Q=ℂ1 and p=1, construct the vacuum state on
+`⟨M,e_Q⟩=B(L²(M))`: it restricts to τ and is P-central,
+although M is nonamenable. This distinguishes the general M–P
+criterion from the ambient M–M specialization.
 
 Develop the localization lemma for asymptotically central bounded vectors
 in multiples of relative correspondences: a bounded, nonvanishing net,
