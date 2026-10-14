@@ -20,8 +20,9 @@ This file states the ring-level noetherian and adicness conditions, Huber's stan
 f-adic rings (Huber 1996, (1.1.1)), the morphism classes of adic spaces (adic, finite type,
 separated, proper, finite, quasi-finite, flat, unramified, smooth, étale) with their main
 theorems, and the inclusion of polynomials into Tau Ceti's Tate algebras. Classical `K`-affinoid
-algebras, affinoid subdomains and rigid-analytic spaces are the RigidAnalyticGeometry roadmap's
-(README, supplier contracts). The completed tensor product, continuous differentials, the spectral
+algebras and affinoid subdomains are supplied by RigidAnalyticGeometry §§1–4; its §§6.2
+and 8.3 supply rigid spaces, the comparison functor, products and the ringed-topos comparison.
+Part II supplies the additional ringed-site finality and the adic morphism comparisons. The completed tensor product, continuous differentials, the spectral
 seminorm and the analytification functor are README targets. R1.4 specifies general exact
 module pullback and its stalk, tensor and ideal comparisons; the affinoid section comparison
 for analytified associated modules and its associated-sheaf Checks belong to
@@ -57,7 +58,8 @@ provide the tensor ring topology, adic-ring completion comparison, elementary-te
 and rational preimages under the two adic structure maps.
 R0.4 and R0.9: `Huber.tateNorm_apply`, `Huber.tateNorm_pseudoUniformizer_mul`,
 `Huber.tateNorm_hasBasis_nhds_zero` and `Huber.Affinoid.powerBoundedSubring_eq_integralClosure`
-are the supplied gauge and affinoid carrier bridges, with the supplier ownership in the README.
+are carrier bridges to PadicFunctionalAnalysis §0.4 and RigidAnalyticGeometry §2.3, respectively,
+with the chosen data and integral-presentation hypotheses in the README.
 
 R0.7 and R0.11: `AdicSpace.affinoid_isPullback`, `AdicSpace.fibreProduct_weighted_exhaustion`
 provide the sheafy tensor pullback and the weighted chart exhaustion over a stably sheafy base.
@@ -504,8 +506,10 @@ end FiniteHom
 
 /-! ### R0.9 The polynomial inclusion into Tate algebras
 
-The theory of classical `K`-affinoid algebras is the RigidAnalyticGeometry roadmap's (README, R0.9);
-the disc Checks of R0.16–R0.17 use this inclusion. -/
+RigidAnalyticGeometry §1.1 supplies classical `K`-affinoid algebras through README R0.9’s
+carrier bridge. RestrictedPowerSeries §6.2 supplies the comparison for complete normed
+coefficients. The polynomial map below uses arbitrary nonarchimedean coefficient rings;
+the disc Checks of R0.16–R0.17 use this general inclusion. -/
 
 /-- The canonical polynomial homomorphism into the separated completion of the restricted
 power-series ring; it is injective when `A` is Hausdorff. -/
