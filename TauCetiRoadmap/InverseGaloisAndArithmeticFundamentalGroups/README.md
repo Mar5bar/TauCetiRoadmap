@@ -73,8 +73,9 @@ The roadmap owns:
   the fundamental groups of homogeneous spaces with finite stabilisers (Layer IG.1);
 - specialization of polynomials over `K(T)` at points of `K`, Hilbert subsets and thin sets,
   Hilbertian fields, Hilbert's irreducibility theorem over number fields and its full-group,
-  linearly disjoint, local-condition, norm-pullback and quantitative forms, Frattini detection of
-  full image, and normal subgroups of absolute Galois groups of Hilbertian fields (Layer IG.2);
+  linearly disjoint, local-condition, norm-pullback and quantitative forms, Hilbert specialization
+  detected by the Frattini quotient, and normal subgroups of absolute Galois groups of Hilbertian
+  fields (Layer IG.2);
 - Riemann existence for punctured curves in the form used for branch cycles, Artin neighbourhoods
   as `K(π, 1)` spaces, branch tuples, Nielsen classes, the Hurwitz braid action and the braid-orbit
   monoid, exterior epimorphisms and `T`-systems, realization of generating tuples, rational rigidity,
@@ -136,6 +137,10 @@ It does not own, and consumes by name:
   `TauCeti.FiniteEmbeddingProblem` and, for any abelian kernel,
   `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`), and continuous
   cohomology (**ProfiniteCohomology**, Layers 1, 5, 7 and 10);
+- general profinite full-image detection and openness of the Frattini subgroup for compact
+  matrix groups (**ArithmeticGaloisRepresentations**, §6.4a). Detection requires a closed image;
+  the finite-cover specialization application here assumes an open Frattini subgroup, and the
+  compact-matrix openness theorem requires a compact subgroup of `GL_n(E)` with `E/ℚ_ℓ` finite;
 - the `Sₙ` polynomials over `ℚ` (**PolynomialGaloisGroups**, Layer 9, with its Layers 2 and 3 for the
   Galois–permutation dictionary and the discriminant), and the Galois groups of the small cubics
   and quartics computed in the Tau Ceti library (`X³ − 3X − 1`, `X⁴ − 2`, `Φ₅`); places,
@@ -305,10 +310,16 @@ not supply local acyclicity at that boundary.
 
 ### Trace contracts in this roadmap
 
-| Object | Target | Convention/consumer |
+The four geometric trace declarations are constructed in §§IG.0.T1–IG.0.T4 under their public
+`VanishingCycles` names. Applications consume these declarations with the hypotheses below.
+Their perfect-complex trace algebra, free-torsor equivariant perfectness and derived coefficient
+descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
+
+| Object | Construction target | Convention/consumer |
 | --- | --- | --- |
 | Curve endomorphism trace | §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace` | Use smooth proper geometrically connected curves and invertible ℓ with the supplied Tate coordinate and isolated fixed-point multiplicities. |
-| Finite and rational trace formulas | §§IG.0.T2–IG.0.T3 / `VanishingCycles.etaleTraceFormulaFinite`, `VanishingCycles.etaleTraceFormula` | For separated finite-type finite-field schemes use descended ctf prime-to-characteristic coefficients and perfect-complex traces at finite level, then the normalized rational realization. |
+| Finite-coefficient trace formula | §IG.0.T2 / `VanishingCycles.etaleTraceFormulaFinite` | For separated finite-type finite-field schemes use descended ctf prime-to-characteristic coefficients and perfect-complex traces. |
+| Rational constructible trace formula | §IG.0.T3 / `VanishingCycles.etaleTraceFormula` | Use the normalized rational realization of compatible finite-level systems, with descended coefficients, compact support and geometric Frobenius for every positive power. |
 | Constant-sheaf point-count trace | §IG.0.T4 / `VanishingCycles.pointCountTrace` | §IG.5.5 takes r=1, ℓ≠char k, geometric Frobenius and compact support; the weight bound in the point estimate is a separate hypothesis. |
 
 ### From EnhancedDerivedSheaves
@@ -1446,7 +1457,7 @@ polynomial form a finite set. It then defines Hilbert subsets at all scheme poin
 proves Hilbert irreducibility over number fields and the integral count of thin sets, and derives
 full-group specialization of regular covers with linear disjointness, local conditions at finitely
 many places and weak approximation, the pullback of Hilbert subsets through norm maps of tori,
-Frattini detection of full profinite images, and the triviality of finitely generated closed normal
+Hilbert specialization detected by the Frattini quotient, and the triviality of finitely generated closed normal
 subgroups of absolute Galois groups of fields finitely generated over `ℚ`. Layers IG.4 and IG.6 use
 these theorems.
 
@@ -2095,37 +2106,48 @@ IG.0 *Finite Galois algebras and torsors*.
 - Regularity cannot be dropped: `L = ℚ(i)(T)` is Galois over `ℚ(T)` with group `C₂` but contains the
   constant field `ℚ(i)`, so every fibre contains `ℚ(i)` and none is disjoint from `M = ℚ(i)`.
 
-**Frattini detection of full profinite image.** Let `P` be a profinite group, `Φ(P)` its Frattini
-subgroup, the intersection of the maximal proper open subgroups of `P`, and assume that `Φ(P)` is
-open, so that `P/Φ(P)` is finite. A closed subgroup `J ≤ P` whose image in `P/Φ(P)` is the whole
-quotient equals `P`. In the specialization setting: if `P` is the image of a continuous
-representation attached to a family, a Hilbert condition guaranteeing that the specialized image
-maps onto the finite quotient `P/Φ(P)` forces the specialized image to be all of `P`. Openness of
-`Φ(P)` is a hypothesis: for compact `ℓ`-adic analytic groups it is a separate structural input with
-its own hypotheses, and it fails for some profinite groups. For pro-`p` groups the criterion is the
-Burnside basis theorem of ProfiniteProPGroups Layer 3; here `P` is an arbitrary profinite group.
-*Proof sketch.* A proper closed subgroup is an intersection of open subgroups, so it lies in a proper
-open subgroup and hence in a maximal proper open subgroup `M`; then `J·Φ(P) ⊂ M ≠ P`, contradicting
-surjectivity. For specialization, reduce to the finite quotient and apply the full-group Hilbert
-condition. Source: [Masser–Zannier](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf),
-Proof of Lemma 5.1, published p.659, which uses the finite Frattini quotient of a compact `ℓ`-adic
-image together with an integral thin-set bound. *Needs:* *Full-group specialization of regular
-covers*; ProfiniteProPGroups Layer 0 (closed and open subgroups), ProfiniteProPGroups Layer 3
-(Frattini theory); Mathlib `frattini`.
+**Hilbert specialization detected by the Frattini quotient.** Let `K` be a Hilbertian field of
+characteristic zero, `U ⊂ 𝔸¹_K` a nonempty open, `P` a profinite group, and
+`ρ : π₁^ét(U, x̄) → P` a continuous surjection. Assume that `Φ(P)`, the intersection of the maximal
+proper open subgroups, is open. Put `Q = P/Φ(P)`. Construct the connected finite étale `Q`-torsor
+`V → U` classified by the quotient of `ρ`, and its Hilbert subset
+`H = {t ∈ U(K) : V_t is connected}`. For every `t ∈ H` with closed specialized image
+`J_t = im(ρ_t) ≤ P`, prove `J_t = P`. Here `ρ_t : G_K → P` is restriction along the rational-point
+section transported by a chosen étale path; continuity and compactness of `G_K` ensure closedness.
+Changing the path conjugates the image and preserves the conclusion. The set `H` is infinite and
+avoids any prescribed finite set. Geometric connectedness of `V` is not needed: connected finite
+étale covers of the normal integral `U` are integral, as required by the Hilbert datum.
+Openness of `Φ(P)` is an explicit hypothesis. For compact `P ≤ GL_n(E)` with `E/ℚ_ℓ` finite it is
+supplied by ArithmeticGaloisRepresentations §6.4a, *Finite Frattini quotient of a compact matrix
+group*; compactness alone does not imply it.
+*Proof sketch.* The finite quotient of `ρ` gives a transitive `Q`-set and hence the connected
+torsor. Membership in its Hilbert subset means that `G_K` acts transitively on the fibre, or
+equivalently that `J_t → Q` is surjective. Apply the supplied closed-image detection theorem of
+ArithmeticGaloisRepresentations §6.4a. Hilbertianity and the guarded polynomial comparison give
+infinitude and finite avoidance for this integral cover. Source:
+[Masser–Zannier](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf),
+Proof of Lemma 5.1, published p.659 (specialization through a finite Frattini quotient).
+*Needs:* *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number fields*;
+Layer IG.0 *Finite Galois algebras and torsors*; EtaleCohomologyFoundations §§F.0, F.0.A2
+(finite-cover classification and rational-point sections); ArithmeticGaloisRepresentations
+§6.4a, *Frattini detection of full profinite image*.
 
 **Checks.**
 
-- For a finite group with the discrete topology, `Φ(P)` is Mathlib's `frattini P`: for `P = ℤ/4`,
-  `Φ(P) = {0, 2}`, and the proper subgroup `{0, 2}` has trivial image in `P/Φ(P) ≅ ℤ/2`; a proper
-  subgroup of a finite `p`-group never maps onto its Frattini quotient.
+- For the `C₄`-cover `Y⁴ = T` over `K = ℚ(i)` on `𝔾_m`, `Φ(C₄) = C₂` and the detecting cover is
+  `Z² = T`. At `t = 2` this quotient fibre is connected and the specialized group is `C₄`; at
+  `t = 4` it splits and the specialized group is the proper `C₂`, which does not surject onto
+  `C₄/Φ(C₄)`.
 - A finite quotient whose kernel is not inside `Φ(P)` does not detect the full image: for
   `P = ℤ_p²` and the quotient onto `ℤ/p` by the first coordinate, the proper closed subgroup
   `ℤ_p × {0}` maps onto it.
 - Openness of `Φ(P)` is what makes the detecting quotient finite: for `P = ∏_ℓ ℤ/ℓ` over all
   primes, the maximal open subgroups are the kernels of the projections and `Φ(P) = 1` is not open,
   so `P/Φ(P) = P` is infinite, and every finite quotient of `P` is hit by a proper closed subgroup,
-  the kernel of the projection to a factor not involved in that quotient. (The implication
-  `J·Φ(P) = P ⇒ J = P` itself holds for every profinite `P`.)
+  the kernel of the projection to a factor not involved in that quotient. Such a `P` does not
+  satisfy the finite-cover hypothesis of this specialization target.
+- The dense subgroup `ℤ ⊂ ℤ_p` maps onto `ℤ_p/pℤ_p` but is proper and not closed. It cannot be
+  the image of a continuous representation of the compact absolute Galois group `G_K` in `ℤ_p`.
 
 **A worked disjoint quadratic family.** Over `ℚ` take `Y² − T`. Its generic splitting field
 `ℚ(T)(√T)` is a regular `C₂`-Galois extension of `ℚ(T)`, with branch points `0` and `∞` on `ℙ¹`. For
@@ -2362,9 +2384,9 @@ ProfiniteProPGroups Layers 0 and 3, with the pinned open-subgroup theorem above.
   ring laws carry regularity hypotheses.
 - Non-Hilbertian fields: over `ℂ` every specialization of `Y² − T` splits and `𝔸¹(ℂ)` is thin; over
   `ℝ` every specialization of `Y² − (T² + 1)` splits.
-- Frattini detection on `P = ℤ_ℓ`: `Φ(ℤ_ℓ) = ℓℤ_ℓ` is open, and a closed subgroup of `ℤ_ℓ` maps onto
-  `ℤ/ℓ` only if it is `ℤ_ℓ`; for `P = ∏_ℓ ℤ/ℓ` the Frattini subgroup is trivial and not open, and no
-  finite quotient detects the full image.
+- For a family with image `P = ℤ_ℓ`, connected fibres of the detecting `ℤ/ℓ`-cover give full
+  specialized image by ArithmeticGaloisRepresentations §6.4a. For `P = ∏_ℓ ℤ/ℓ` the Frattini
+  subgroup is trivial and not open, so the finite-cover specialization target does not apply.
 
 ### Dependencies
 
@@ -2384,8 +2406,10 @@ constancy of local fibres at finite places, and SchemeAndStackFoundations Layer 
 divisors and Picard objects) enters the weak-approximation theorem. The Lang–Weil estimate takes
 the Weil bound for a single curve from SchemeAndStackFoundations §5.11 (`weil_bound`) and owns only
 the reduction to curves. The norm pullback uses ReductiveGroupsPartII Layer RG2.0a for Weil
-restriction and norm tori. Frattini detection uses ProfiniteProPGroups Layers 0 and 3 and Mathlib's
-`frattini`, and the normal-subgroup theorem uses Mathlib infinite Galois correspondence and
+restriction and norm tori. Hilbert specialization detected by the Frattini quotient uses the
+Hilbert-subset and finite-torsor interfaces of IG.0 and IG.2 and the closed-image detection supplied
+by ArithmeticGaloisRepresentations §6.4a; openness is assumed, with its compact-matrix case supplied
+by the separate theorem in that section. The normal-subgroup theorem uses Mathlib infinite Galois correspondence and
 ProfiniteProPGroups Layers 0 and 3, together with the Weissauer and independent-quadratic-character
 targets of IG.2.8.
 
@@ -3655,7 +3679,7 @@ Source: [Harpaz–Wittenberg, *Massey vanishing*](https://arxiv.org/pdf/1904.065
 final proof, PDF pp. 28–31. This is a concrete construction with two lifts, different from general
 Grunwald prescriptions.
 *Needs:* *Finite abelian-kernel obstruction and pullback*, ArithmeticGaloisDuality §R02.4.5b *Grunwald–Wang and its exceptional class*,
-Layer IG.2 *Frattini detection of full profinite image*.
+ArithmeticGaloisRepresentations §6.4a *Frattini detection of full profinite image*.
 
 **Checks.**
 
@@ -5029,8 +5053,8 @@ This layer uses the following earlier layers of this roadmap:
 
 - Layer IG.0: *Finite Galois algebras and torsors*.
 - Layer IG.1: *Tame and prime-to-p fundamental quotients*, *Homogeneous spaces with finite stabilisers*.
-- Layer IG.2: *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number fields*,
-  *Frattini detection of full profinite image*.
+- Layer IG.2: *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number fields*
+  for specialization and realization.
 - Layer IG.3: *Reduced Schur covers*, *Conjugacy classes lift bijectively*, *The kernel of the universal
   marked extension*.
 
@@ -5043,6 +5067,8 @@ From other roadmaps:
 
 - ProfiniteProPGroups Layers 0, 3, 4 and 5: profinite foundations, Frattini theory, free pro-`p`
   groups, finite embedding problems and the extension dictionary.
+- ArithmeticGaloisRepresentations §6.4a: closed-image detection by the Frattini quotient,
+  used for the independence of the two `C₈`-lifts.
 - ProfiniteCohomology Layers 1, 5 and 7: continuous cohomology, inflation–restriction and Shapiro's
   lemma.
 - ClassFieldTheory Layers 5, 7, 10 and 12: local duality, Kummer theory, local Artin maps, local

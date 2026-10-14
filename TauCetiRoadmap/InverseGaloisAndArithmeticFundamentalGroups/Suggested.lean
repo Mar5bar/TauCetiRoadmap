@@ -1000,8 +1000,14 @@ it proves semisimplicity of the source and transports the construction to algebr
 characteristic-zero fields. Algebraic simple connectedness then gives trivial étale π₁, used for
 the finite-stabiliser quotient with the shared fibre/deck convention.
 Layer IG.2: Hilbert subsets of varieties, `ThinSet`, full-group specialization of regular covers,
-local conditions, norm pullbacks, Frattini detection for profinite groups, the integral thin-set
-count and normal subgroups of absolute Galois groups.
+local conditions, norm pullbacks, Hilbert specialization detected by the Frattini quotient,
+the integral thin-set count and normal subgroups of absolute Galois groups. The specialization
+target uses a continuous surjection from the fundamental group of a nonempty open in the affine
+line over a Hilbertian characteristic-zero field to a profinite group P with open Frattini subgroup.
+Connected fibres of the resulting finite quotient torsor detect the full closed specialized image.
+ArithmeticGaloisRepresentations §6.4a supplies general closed-image detection and, for compact
+subgroups of GL_n(E) with E/ℚ_ℓ finite, openness of the Frattini subgroup. It also supplies the
+Frattini criterion used for the two C₈-lifts in Layer IG.4.
 Layer IG.3: `ArtinNeighborhood`, `BranchCover`, `CoverDescent`, `HurwitzMove.equiv`,
 `HurwitzAction.action`, `HurwitzAction.action_sigma`, `HurwitzAction.product_action`,
 `HurwitzAction.generated_action`, `ExteriorEpi.ofTuple`, the braid-orbit monoid,
@@ -1020,9 +1026,10 @@ of finite quotients of `SL_n`, unramified
 `Γ`-groups, Property E and the marked extension count over `𝔽_q(t)`.
 ArithmeticGaloisDuality R02.3.0d/R02.4.5a/R02.4.5b supplies finite Galois localization,
 absolute finite Poitou–Tate and Grunwald–Wang.
-Layer IG.0.T1–IG.0.T4: VanishingCycles.curveEndomorphismTrace,
+Layer IG.0.T1–IG.0.T4 constructs the public declarations VanishingCycles.curveEndomorphismTrace,
 VanishingCycles.etaleTraceFormulaFinite, VanishingCycles.etaleTraceFormula,
-VanishingCycles.pointCountTrace.
+VanishingCycles.pointCountTrace. EtaleCohomologyFoundations F.10.3–F.10.5 supplies their
+perfect-complex trace algebra, free-torsor equivariant perfectness and derived coefficient descent.
 Layer IG.5: topological and arithmetic Hurwitz spaces, tame `G`-covers of smooth proper target
 curves of arbitrary genus, the general-genus Hurwitz comparison for the smooth admissible locus
 and versal families, admissible `G`-covers, the cohomological comparisons, component invariants, patching of Galois algebras and of covers with a
