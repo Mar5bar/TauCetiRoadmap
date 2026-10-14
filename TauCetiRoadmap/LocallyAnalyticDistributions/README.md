@@ -116,7 +116,7 @@ The controls in §0.1 and §1.1 include δ_(−1), with D_h=1 for every h, and b
 
 PadicFunctionalAnalysis, CompactOperators, RestrictedPowerSeries and RigidAnalyticGeometry are the roadmaps of W. Coram. Supplier references below use their section headings; a descriptive label identifies the corresponding paragraph within that section. PadicFunctionalAnalysis §0.4 gives the Banach–Tate structure of the algebra A in Convention 1. Its §2.6 uses output-first matrices, so a_ij here is its matrix coefficient with indices j,i. CompactOperators §0.2 names uniform output-row decay `IsRowCompact`; this is distinct from its field-facing compactoid-image predicate in §0.5. Over the Noetherian A of Convention 1, PadicFunctionalAnalysis §2.6 supplies closed finite submodules and bounded lifting, and CompactOperators §0.2 identifies row compactness with complete continuity. On a (Pr) module one uses its retract extension as in CompactOperators §§0.4 and 1.5. The bounded-equivalent contractive norm of §4.1 transports topological imports; exact norm formulas retain their displayed norm hypotheses.
 
-RestrictedPowerSeries §§2.1, 2.3 and 7.2 own generic entire evaluation, Hasse calculus, division and monic entire resultants. CompactOperators §§2.1–2.2 consume this series algebra and own the resolvent and spectral applications. RigidAnalyticGeometry §§2.1–2.2 supply the supremum/spectral comparison and §7.2 the numerical module-slope interface.
+RestrictedPowerSeries §§1.1, 2.1, 2.3 and 7.2 own generic Gauss completeness, entire evaluation, Hasse calculus, division and monic entire resultants. CompactOperators §2.4 supplies the resolvent and §§3.1–3.4 the projectors and spectral applications. RigidAnalyticGeometry §§2.1–2.2 supply the supremum/spectral comparison and §7.2 the numerical module-slope interface.
 
 | Target here | Supplied by | Named interface where specified |
 |---|---|---|
@@ -140,14 +140,15 @@ RestrictedPowerSeries §§2.1, 2.3 and 7.2 own generic entire evaluation, Hasse 
 | §4.1 Finite coordinates detect a finite submodule | PadicFunctionalAnalysis §2.6 | — |
 | §4.1 Complete continuity of the identity detects finite generation | CompactOperators §0.1 | — |
 | §4.2 Fredholm determinant in an orthonormal chart | CompactOperators §1.2 | `minor`, `charCoeff`, `charPowerSeries` |
-| §4.2 Entire power series over A | RestrictedPowerSeries §7.2 | `IsEntire`, `evalAt` |
+| §4.2 Entire power series over A | RestrictedPowerSeries §§2.1 and 7.2 | `IsEntire`, `evalAt` |
 | §4.2 Uniform entire tail bound from column majorants | CompactOperators §1.2 and §1.3, and **Uniform tails under a common majorant** | `norm_charCoeff_mul_pow_le_of_rowNorm_le` |
 | §4.2 Continuity in each determinant degree | CompactOperators §1.3 | — |
 | §4.2 Gauss convergence under a common column majorant | CompactOperators §1.3 | — |
 | §4.2 Determinant of a finite-coordinate operator | CompactOperators §1.2 | — |
 | §4.2 Independence of chart and equivalent norm | CompactOperators §1.5 and §1.7 | — |
 | §4.2 Cyclic Fredholm determinant identity | CompactOperators §1.4 | — |
-| §4.2 Completed scalar extension of ON modules and determinants, the determinant identity | CompactOperators §1.7 | — |
+| §4.2 Completed scalar extension of ON modules and determinants, pure tensor comparison | AdicSpacesPartII §R0.5, *completed-tensor-banach-module*; CompactOperators §1.7, **Pure tensor comparison** | `c0_completedBaseChange` |
+| §4.2 Completed scalar extension of ON modules and determinants, coefficientwise determinant identity and transport to retracts | CompactOperators §1.7, **Coefficientwise Fredholm base change** and **Abstract module transport** | `charPowerSeries_map` |
 | §4.2 Property (Pr) | PadicFunctionalAnalysis §2.2 | — |
 | §4.2 Continuous lifting characterization of (Pr) | PadicFunctionalAnalysis §2.2 | — |
 | §4.2 Finite (Pr) modules are algebraically projective | PadicFunctionalAnalysis §2.2 | — |
@@ -182,8 +183,9 @@ RestrictedPowerSeries §§2.1, 2.3 and 7.2 own generic entire evaluation, Hasse 
 | §4.10 Similarity invariance of the characteristic series | CompactOperators §1.1 and §1.4, with its §1.1 | — |
 | §4.10 Finite characteristic spectral mapping | CompactOperators §1.1 and §3.3 | — |
 | §4.11 The normalized scalar limit in Coleman A3.8 | CompactOperators §3.3 | `colemanDSeries` |
-| §4.12 Entire truncations converge at every radius | RestrictedPowerSeries §7.2 | — |
-| §4.12 Unique entire limit of Gauss-Cauchy sequences | RestrictedPowerSeries §7.2 | — |
+| §4.12 Entire truncations converge at every radius | RestrictedPowerSeries §§1.1 and 7.2 | — |
+| §4.12 Unique entire limit of Gauss-Cauchy sequences | RestrictedPowerSeries §§1.1 and 7.2 | — |
+| §4.12 Uniform evaluation of a Gauss limit, evaluation bound | RestrictedPowerSeries §2.1 | `evalAt` |
 | §4.13 Newton majorants without eigenvalues | CompactOperators §3.3, **Majorants** | `colemanMajorant`, `exists_newtonMajorant`, `tendsto_colemanMajorant`, `norm_coeff_colemanDBounded_le` |
 | §4.13 Full entire spectral transform | CompactOperators §3.3, **Convergence and topology** | `colemanDEntire`, `tendsto_gaussNorm_colemanDBounded`, `colemanDEntire_isEntire`, `colemanDEntire_coe`, `colemanDEntire_mul` |
 | §4.13 Entire operator evaluation | CompactOperators §3.3, **Operator evaluation and spectral mapping** | `exists_tendsto_opNorm_sum_pow`, `IsRowCompact.of_tendsto_opNorm_sum_pow` |
@@ -212,7 +214,7 @@ The following definitions in [Suggested.lean](Suggested.lean) are signature stan
 - `HasFiniteAImage`, range in a finitely generated submodule (CompactOperators §0.1, `IsFiniteRank`); used by §4.1 (Strict norm approximation by finite-image maps).
 - `IsCompletelyContinuous` (CompactOperators §0.1), with approximants of finitely generated range, the same predicate over a Noetherian A; used by §4.16 and §4.17.
 - `HasPr`, property (Pr) as a continuous retract of some c_A(I) (PadicFunctionalAnalysis §2.2); used by §4.8 and §4.16.
-- `IsEntire` and `entireEval` (RestrictedPowerSeries §7.2, `IsEntire` and `evalAt`, with `entireEval f a` its `evalAt a f`); used by §4.3, §4.11, §4.12 and §4.13. They are stated here over any normed commutative ring, as those subsections use them; the supplier's section assumes a complete ultrametric ring with ‖1‖ = 1.
+- `IsEntire` and `entireEval` (RestrictedPowerSeries §§2.1 and 7.2, `IsEntire` and `evalAt`, with `entireEval f a` its `evalAt a f`); used by §4.3, §4.11, §4.12 and §4.13. They are stated here over any normed commutative ring, as those subsections use them; the supplier's entire algebra assumes a complete ultrametric ring with ‖1‖ = 1.
 - `entireMonicQuotient` (RestrictedPowerSeries §7.2, **Explicit monic division**); used by §4.3, §4.11, §4.12 and §4.13.
 - `hasseSeries` (RestrictedPowerSeries §2.3 (semiring Hasse calculus)); used by §4.5.
 - `polynomialSpectralResultant`, the transform D_(n,m) (CompactOperators §3.3, **Prescribed finite rank**, `colemanDBounded`); used by §4.9, §4.10, §4.11 and §4.13.
@@ -1222,7 +1224,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `IsUl
 - A nilpotent two-dimensional Jordan block has characteristic series one.
 - A scalar a on a line has characteristic series 1−aT.
 
-**Entire power series over A** (supplier). A power series is entire when it is Mathlib's `PowerSeries.IsRestricted` at every positive radius; the entire series form a subring A{{T}} with the Gauss seminorms, and evaluation at a ∈ A is the convergent coefficient sum, a ring homomorphism on A{{T}} with ‖F(a)‖ ≤ G_R(F) for R ≥ ‖a‖. Supplied by RestrictedPowerSeries §7.2 (`IsEntire`, `evalAt`) (the roadmap of W. Coram). There A is a complete ultrametric normed ring with ‖1‖ = 1; the local restatements `IsEntire` and `entireEval` here carry the same formulas over any normed commutative ring, with `entireEval f a` its `evalAt a f`.
+**Entire power series over A** (supplier). A power series is entire when it is Mathlib's `PowerSeries.IsRestricted` at every positive radius; the entire series form a subring A{{T}} with the Gauss seminorms, and evaluation at a ∈ A is the convergent coefficient sum, a ring homomorphism on A{{T}} with ‖F(a)‖ ≤ G_R(F) for R > 0 with R ≥ ‖a‖. Supplied by RestrictedPowerSeries §§2.1 and 7.2 (`IsEntire`, `evalAt`) (the roadmap of W. Coram). There A is a complete ultrametric normed ring with ‖1‖ = 1; the local restatements `IsEntire` and `entireEval` here carry the same formulas over any normed commutative ring, with `entireEval f a` its `evalAt a f`.
 
 **Checks.**
 
@@ -1278,15 +1280,21 @@ Library inputs of this subsection, used by several of its targets: Mathlib `IsUl
 - A nilpotent two-dimensional Jordan block has characteristic series one.
 - A scalar a on a line has characteristic series 1−aT.
 
-**Completed scalar extension of ON modules and determinants** (comparison). For a continuous K-algebra homomorphism η:A→B of the stated Banach algebras, use AdicSpacesPartII §R0.5, *completed-tensor-banach-module* (g), for c_A(I)⊗̂_A B. Prove the coefficient equivalence c_A(I)⊗̂_A B≃c_B(I), sending e_i⊗b to b e_i, against that supplied carrier: finite-support coefficient maps are bounded in both directions and extend by density. Continuous K-linear η is bounded, and complete continuity extends by finite-range approximation. PadicFunctionalAnalysis §2.6 supplies the mapped matrix; CompactOperators §1.7 supplies the determinant identity for that matrix, hence for this tensor extension. A and B are commutative Noetherian K-Banach algebras with the norms of Convention 1; η need not be contractive. Source: Buzzard, Lemmas 2.8–2.9 and Corollary 2.10, pp. 16–18; AdicSpacesPartII §R0.5, clause (g).
+**Completed scalar extension of ON modules and determinants** (comparison). Let η:A→B be a continuous K-algebra homomorphism between commutative Noetherian K-Banach algebras with the norms of Convention 1. Its K-linear bound gives L≥1 with ‖η(a)‖≤L‖a‖; a topologically nilpotent nonzero scalar in K supplies common Banach–Tate data. The comparison has two clauses.
 
-*Needs:* AdicSpacesPartII §R0.5, *completed-tensor-banach-module* (g); PadicFunctionalAnalysis §2.2 and §2.6; CompactOperators §0.2 and §1.7.
+1. On AdicSpacesPartII §R0.5's *completed-tensor-banach-module* carrier, import CompactOperators §1.7's **Pure tensor comparison** (`c0_completedBaseChange`): the continuous B-linear equivalence Θ:c_A(I)⊗̂_A B≃c_B(I) satisfies Θ(x⊗b)_i=η(x_i)b, ‖Θ(z)‖≤L‖z‖_π and ‖Θ⁻¹(y)‖_π≤‖y‖, where ‖·‖_π is the supplied product seminorm extended to the Hausdorff completion. This specializes the ring-scalar comparison independently of any operator or determinant. For contractive η it is an isometry; the general bound gives a continuous linear equivalence.
+2. Import CompactOperators §1.7's **Coefficientwise Fredholm base change** (`charPowerSeries_map`) for the mapped matrix of PadicFunctionalAnalysis §2.6: complete continuity is preserved and P_(u_B)=PowerSeries.map η P_u. Identify this coefficientwise operator with the tensor extension through Θ, then transport the identity to (Pr) modules using the supplied tensor functoriality and split exactness on their continuous inclusions and retractions, as in §1.7's **Abstract module transport**. The resulting determinant is independent of the chosen retract by CompactOperators §1.5.
+
+Source: Buzzard, Lemma 2.8 and Corollaries 2.9–2.10, pp. 16–18; AdicSpacesPartII §R0.5, clauses (a), (b), (d) and (g); CompactOperators §1.7.
+
+*Needs:* AdicSpacesPartII §R0.5, *completed-tensor-banach-module* (a), (b), (d), (g); PadicFunctionalAnalysis §2.2 and §2.6; CompactOperators §§0.2, 1.5 and 1.7, **Pure tensor comparison** (`c0_completedBaseChange`), **Coefficientwise Fredholm base change** (`charPowerSeries_map`) and **Abstract module transport**.
 
 **Checks.**
 
 - `onScalar_identity`: η=id_A gives the identity coefficient equivalence and unchanged Fredholm series.
 - `onScalar_empty`: I=∅ gives zero and determinant one; a singleton gives B and maps each scalar endomorphism through η.
 - `onScalar_product`: For A=K×K and either projection to K, e_i⊗b maps to b e_i in the chosen fibre, and a rank-one diagonal entry (a₁,a₂) gives 1−a_jT in fibre j.
+- For K=ℚ_p, give K[ε]/(ε²) the two norms ‖a+bε‖_A=max(|a|,|b|) and ‖a+bε‖_B=max(|a|,p|b|). The identity η:A→B has bound L=p and is not contractive. For singleton I, Θ(ε⊗1)=ε, with ‖ε⊗1‖_π≤1<p=‖ε‖_B, so an isometric comparison would be false.
 
 **Property (Pr)** (supplier). A Banach A-module has (Pr) when it is a continuous direct summand of a potentially ONable module, equivalently a continuous retract of some c_A(I); potentially ONable modules have (Pr). Supplied by PadicFunctionalAnalysis §2.2 (the roadmap of W. Coram).
 
@@ -2034,11 +2042,13 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Powe
 
 **Gauss norms are Mathlib's** (supplier). For every real R and every power series F, G_R(F) is Mathlib's `PowerSeries.gaussNorm` of the coefficient norm, the supremum of ‖coeff_n F‖R^n (`PowerSeries.gaussNorm_eq`); no separate supremum is defined in this roadmap. Under (a).
 
-*Needs:* RestrictedPowerSeries §7.2.
+*Needs:* RestrictedPowerSeries §§1.1 and 7.2; Mathlib `PowerSeries.gaussNorm_eq`.
 
 **Checks.**
 
 - `EntireGaussTests.native_polynomial` (compatibility): For every polynomial P and real R ≥ 0, G_R of the polynomial coercion of P is the maximum of ‖coeff_n P‖R^n over n ≤ deg P.
+- The zero series has G_R(0)=0 for every R.
+- For a constant series and R>0, G_R(C(a))=‖a‖; no norm-one hypothesis is needed.
 
 **Two-radius truncation estimate** (lemma). If 0<R≤S and F has native HasGaussNorm at S, then G_R(F−trunc_N(F))≤G_S(F)(R/S)^N for every N≥0. Under (a).
 
@@ -2047,7 +2057,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Powe
 - `EntireGaussTests.tail_boundary`: For F=aT^N and R>0 the truncation at N is zero and G_R(F−trunc_N(F))=‖a‖R^N.
 - `EntireGaussTests.zero_truncation` (degenerate): The truncation at zero is zero, so its tail has the same Gauss norm as F.
 
-**Entire truncations converge at every radius** (supplier). For entire F and R > 0, G_R(F − trunc_N(F)) → 0 as N → ∞, so polynomials are dense in A{{T}}. Supplied by RestrictedPowerSeries §7.2 (the roadmap of W. Coram).
+**Entire truncations converge at every radius** (supplier). For entire F and R > 0, G_R(F − trunc_N(F)) → 0 as N → ∞, so polynomials are dense in A{{T}}. Supplied by RestrictedPowerSeries §§1.1 and 7.2 (the roadmap of W. Coram): §1.1 gives truncation convergence at a fixed radius and §7.2 polynomial density in the entire topology.
 
 **Checks.**
 
@@ -2075,7 +2085,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Powe
 
 *Needs:* §4.12 `isEntire_iff_forall_isRestricted`.
 
-**Unique entire limit of Gauss-Cauchy sequences** (supplier). Over a complete ultrametric A, a sequence of entire series that is Cauchy in every Gauss norm has a unique entire limit in every Gauss norm, A{{T}} being complete for the family of Gauss norms. Supplied by RestrictedPowerSeries §7.2 (the roadmap of W. Coram).
+**Unique entire limit of Gauss-Cauchy sequences** (supplier). Over a complete ultrametric A, a sequence of entire series that is Cauchy in every Gauss norm has a unique entire limit in every Gauss norm, A{{T}} being complete for the family of Gauss norms. Supplied by RestrictedPowerSeries §§1.1 and 7.2 (the roadmap of W. Coram): §1.1 supplies completeness at each fixed radius and §7.2 completeness for all Gauss norms together.
 
 **Checks.**
 
@@ -2085,11 +2095,13 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Powe
 
 **Uniform evaluation of a Gauss limit** (theorem; `tendstoUniformlyOn_entireEval_of_gauss`). Assume A is complete and ultrametric. For any filter l and family F_i of entire series, any entire f and R>0, G_R(F_i−f)→0 along l implies uniform convergence of entireEval(F_i,a) to entireEval(f,a) on the native closed ball ‖a‖≤R. Under (a), (b) and (c).
 
-*Needs:* RestrictedPowerSeries §7.2; Mathlib `PowerSeries.gaussNorm_eq`; Mathlib `Metric.tendstoUniformlyOn_iff`.
+*Needs:* RestrictedPowerSeries §2.1 (the bound ‖F(a)−f(a)‖≤G_R(F−f) for ‖a‖≤R) and §7.2 (entire evaluation); Mathlib `PowerSeries.gaussNorm_eq`; Mathlib `Metric.tendstoUniformlyOn_iff`.
 
 **Checks.**
 
 - `EntireGaussTests.uniform_truncation_evaluation` (compatibility): For entire F, its native truncations evaluate uniformly to F on every closed ball of positive radius.
+- Constant series C(a_i) with a_i→a evaluate uniformly to C(a) on each such ball.
+- In a norm-one ring, T^N tends coefficientwise to zero but evaluates to 1 at 1 for every N; coefficient convergence alone does not imply uniform evaluation on the unit ball.
 
 **Multiplication of Gauss limits** (lemma; `tendsto_gaussNorm_mul`). In an ultrametric A, if entire F_i→f and H_i→h in the native Gauss norm at a fixed R>0, then F_iH_i→fh in that same Gauss norm. Under (a) and (b).
 
@@ -2614,7 +2626,7 @@ The identity on c₀(ℕ, A) is not completely continuous, while the identity on
 
 ### Dependencies
 
-Layers 0–3 for the families and complexes; Mathlib `ZeroAtInftyContinuousMap`, `PowerSeries` with `IsRestricted` and `gaussNorm`, `Polynomial` with `resultant`, `hasseDeriv`, `charpolyRev`, `AdjoinRoot`, `ModuleCat`, `CochainComplex`, `Homotopy`; Tau Ceti `AdjoinRoot.norm_mk_eq_resultant`, `Polynomial.Monic.resultant_of_le`, `TauCeti.PowerSeries` (restricted series, Gauss norm); PadicFunctionalAnalysis §1.4, §2.1–§2.2 and §2.6 (Banach modules, c₀, orthonormalizable and (Pr) modules); CompactOperators Layers 0–3 (complete continuity, Fredholm determinants, resolvents, Riesz projectors and Coleman's transform); RestrictedPowerSeries §§2.1, 2.3 and 7.2 (generic entire algebra); RigidAnalyticGeometry §7.2 (the common module-level slope decomposition), with the fibre comparison and local Fredholm-window existence of §4.16; AdicSpacesPartIII §R3.6 (complete continuity over affinoids) and §R3.4 (quasi-Stein spaces); ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII §RG2.1.2 (torus, roots and apartment translation), with the additional slope comparisons specified in §4.17.
+Layers 0–3 for the families and complexes; Mathlib `ZeroAtInftyContinuousMap`, `PowerSeries` with `IsRestricted` and `gaussNorm`, `Polynomial` with `resultant`, `hasseDeriv`, `charpolyRev`, `AdjoinRoot`, `ModuleCat`, `CochainComplex`, `Homotopy`; Tau Ceti `AdjoinRoot.norm_mk_eq_resultant`, `Polynomial.Monic.resultant_of_le`, `TauCeti.PowerSeries` (restricted series, Gauss norm); PadicFunctionalAnalysis §1.4, §2.1–§2.2 and §2.6 (Banach modules, c₀, orthonormalizable and (Pr) modules); CompactOperators Layers 0–3 (complete continuity, Fredholm determinants, resolvents, Riesz projectors and Coleman's transform); RestrictedPowerSeries §§1.1, 2.1, 2.3 and 7.2 (Gauss completeness and generic entire algebra); RigidAnalyticGeometry §7.2 (the common module-level slope decomposition), with the fibre comparison and local Fredholm-window existence of §4.16; AdicSpacesPartIII §R3.6 (complete continuity over affinoids) and §R3.4 (quasi-Stein spaces); ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII §RG2.1.2 (torus, roots and apartment translation), with the additional slope comparisons specified in §4.17.
 
 ## Downstream consumers
 

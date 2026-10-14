@@ -693,7 +693,8 @@ def IsEntire (f : PowerSeries A) : Prop :=
   ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f
 
 /-- Signature stand-in for RestrictedPowerSeries §§2.1 and 7.2 (`evalAt`, with arguments
-swapped): the total coefficient sum at a scalar, a convergent evaluation for entire series. -/
+swapped): `entireEval f a = evalAt a f`, the total coefficient sum at a scalar.
+For entire series over complete ultrametric coefficients this is the convergent evaluation. -/
 def entireEval (f : PowerSeries A) (a : A) : A := ∑' n : ℕ, f.coeff n * a ^ n
 
 omit [NormOneClass A] hNontrivialA hCompleteA hNoeth in
@@ -1051,7 +1052,8 @@ theorem tendsto_gaussNorm_of_coeff_tendsto_of_gauss_bounded
     (R : ℝ) (hR : 0 < R) :
     Tendsto (fun i => PowerSeries.gaussNorm norm R (F i - f)) atTop (𝓝 0) := by sorry
 
-/-- §4.12 (Uniform evaluation of a Gauss limit) on the closed ball of radius `R`. -/
+/-- §4.12 (Uniform evaluation of a Gauss limit): RestrictedPowerSeries §2.1's evaluation
+bound gives uniform convergence on the closed ball of positive radius `R`. -/
 theorem tendstoUniformlyOn_entireEval_of_gauss [CompleteSpace A]
     (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
     {ι : Type*} (l : Filter ι) (F : ι → PowerSeries A) (hF : ∀ i, IsEntire (F i))
