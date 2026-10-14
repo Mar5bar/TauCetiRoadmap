@@ -10,6 +10,7 @@ import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.AlgebraicTopology.SimplicialSet.StdSimplex
 import Mathlib.AlgebraicTopology.SimplicialSet.TopAdj
 import Mathlib.Topology.Category.CompactlyGenerated
+import Mathlib.Topology.Homotopy.Basic
 import Mathlib.CategoryTheory.Comma.Over.Basic
 import Mathlib.CategoryTheory.Limits.Constructions.Over.Basic
 import Mathlib.CategoryTheory.Action.Basic
@@ -42,6 +43,87 @@ open CategoryTheory CategoryTheory.MonoidalCategory
 open scoped Simplicial
 
 namespace TauCetiRoadmap.GeneralizedCohomology
+
+/-- The raw mapping-path replacement has the product/subspace topology.
+G2's convenient-space comparison applies k-ification afterward. -/
+def MappingPathSpace {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) :=
+  {p : B × C(unitInterval, K) // p.2 0 = f p.1}
+
+instance {B K : Type*} [TopologicalSpace B] [TopologicalSpace K] (f : C(B, K)) :
+    TopologicalSpace (MappingPathSpace f) :=
+  inferInstanceAs (TopologicalSpace {p : B × C(unitInterval, K) // p.2 0 = f p.1})
+
+/-- The actual homotopy-fibre carrier over k keeps both endpoint equations. -/
+def MappingPathFiber {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) (k : K) :=
+  {p : B × C(unitInterval, K) // p.2 0 = f p.1 ∧ p.2 1 = k}
+
+instance {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) (k : K) : TopologicalSpace (MappingPathFiber f k) :=
+  inferInstanceAs
+    (TopologicalSpace {p : B × C(unitInterval, K) // p.2 0 = f p.1 ∧ p.2 1 = k})
+
+def mappingPathProjection {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) : C(MappingPathSpace f, B) where
+  toFun p := p.val.1
+  continuous_toFun := continuous_fst.comp continuous_subtype_val
+
+def mappingPathFiberProjection {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) (k : K) : C(MappingPathFiber f k, B) where
+  toFun p := p.val.1
+  continuous_toFun := continuous_fst.comp continuous_subtype_val
+
+def mappingPathEndpoint {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) : C(MappingPathSpace f, K) where
+  toFun p := p.val.2 1
+  continuous_toFun := (continuous_eval_const (1 : unitInterval)).comp
+    (continuous_snd.comp continuous_subtype_val)
+
+def mappingPathInclusion {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
+    (f : C(B, K)) : C(B, MappingPathSpace f) where
+  toFun b := ⟨(b, ContinuousMap.const unitInterval (f b)), rfl⟩
+  continuous_toFun := (continuous_id.prodMk
+    (ContinuousMap.continuous_const'.comp f.continuous)).subtype_mk _
+
+@[simp] theorem mappingPathProjection_comp_inclusion {B K : Type*}
+    [TopologicalSpace B] [TopologicalSpace K] (f : C(B, K)) :
+    (mappingPathProjection f).comp (mappingPathInclusion f) = ContinuousMap.id B := by
+  ext b
+  rfl
+
+@[simp] theorem mappingPathEndpoint_comp_inclusion {B K : Type*}
+    [TopologicalSpace B] [TopologicalSpace K] (f : C(B, K)) :
+    (mappingPathEndpoint f).comp (mappingPathInclusion f) = f := by
+  ext b
+  rfl
+
+/-- Actual lift data for a supplied stable oriented classifier.
+G5.0 constructs the canonical BSpin/BSO carriers and classifies these lifts;
+this generic signature keeps the projection homotopy as data. -/
+structure SpinClassifierLift {X BSpin BSO : Type*}
+    [TopologicalSpace X] [TopologicalSpace BSpin] [TopologicalSpace BSO]
+    (projection : C(BSpin, BSO)) (classifier : C(X, BSO)) where
+  lift : C(X, BSpin)
+  projectionHomotopy : (projection.comp lift).Homotopy classifier
+
+/-- The telescope multiplication comparison is fixed at the actual unit pair.
+G5.0 constructs this for its unit-preserving designated maps and TopK Whitney sum. -/
+structure SpinClassifierMultiplicationComparison {BSpin BSO : Type*}
+    [TopologicalSpace BSpin] [TopologicalSpace BSO]
+    (unitSpin : BSpin) (projection : C(BSpin, BSO))
+    (spinSum : C(BSpin × BSpin, BSpin)) (orientedSum : C(BSO × BSO, BSO)) where
+  comparison : ContinuousMap.HomotopyRel (projection.comp spinSum)
+    (orientedSum.comp (projection.prodMap projection)) {(unitSpin, unitSpin)}
+
+/-- G5.5 uses this native underlying algebra for the mixed operator model.
+Its operator adjoint agrees with native global Clifford star when p=0;
+for p>0 the positive generators have the opposite adjoint sign. -/
+abbrev RealMixedCliffordCarrier (p q : ℕ) :=
+  CliffordAlgebra (TauCeti.realCliffordForm p q)
+
+/-- Affiliated negative-Clifford operators classify KO^(-n). -/
+abbrev RealNegativeCliffordCarrier (n : ℕ) := RealMixedCliffordCarrier 0 n
 
 /-- A right-H module is expressed using native opposite scalars. -/
 abbrev RightQuaternionScalars := (Quaternion ℝ)ᵐᵒᵖ
