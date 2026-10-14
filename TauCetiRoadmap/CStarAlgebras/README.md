@@ -41,9 +41,11 @@ proving equivalence of their norms for the amenability transfer.
 [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) owns positive functionals,
 GNS, state separation and faithful representations (V0), operator topologies,
 bicommutants and Kaplansky density (V1), support projections and Hilbert/spatial
-tensors (V2), and preduals and normal representations (V4). Its V13 owns the
+tensors (V2), and preduals and normal representations (V4). Its V13a owns the
 shared CP-map and operator-system order foundations, Tomiyama's theorem,
-Arveson extension, and injectivity versus semidiscreteness. Consume those
+Arveson extension and the projection/extension definition of injectivity;
+V13b owns injectivity versus semidiscreteness and consumes C5's minimal
+tensor construction. Consume those
 specific developments. C3–C4 add operator spaces, dilation and CB-map theory;
 C6 uses the injectivity/semidiscreteness equivalence for arbitrary W*-algebras,
 including biduals without separable predual or a faithful normal state,
@@ -194,7 +196,7 @@ satisfying Ruan's axioms: `‖x⊕y‖=max(‖x‖,‖y‖)` and
 zero-level convention. Prove compatibility of level one with the underlying
 normed space, reindexing, matrix amplification, completions, subspaces and
 quotients. Prove Ruan's representation theorem as a complete isometry into
-B(H), with closed image for complete spaces. Reuse V13's matrix-order
+B(H), with closed image for complete spaces. Reuse V13a's matrix-order
 and CP-extension APIs. Construct abstract Archimedean matrix-ordered
 *-vector spaces with a matrix order unit, their order-unit matrix norms,
 and their Choi–Effros realization as concrete operator systems by
@@ -222,7 +224,7 @@ of B(H), with its inherited operator-space structure; specify units when used.
 
 ## C4. CP dilations, multiplicative domains, and Wittstock theory
 
-Use Mathlib's `CompletelyPositiveMap` and the shared V13 operator-system
+Use Mathlib's `CompletelyPositiveMap` and the shared V13a operator-system
 extension API. Add bounded/continuous realizations and norm compatibility:
 for a CP map with unital domain, `‖φ‖cb=‖φ‖=‖φ(1)‖`; include the nonunital
 approximate-unit formulation and unitization of completely positive
@@ -346,12 +348,14 @@ Prove the following equivalent characterizations for every C*-algebra A:
   no a priori matrix factorization imposed.
 - For every C*-algebra B, the canonical map `A⊗max B→A⊗min B` is an
   isomorphism, equivalently A⊙B has a unique C*-cross norm.
-- A** is semidiscrete, equivalently injective in the sense of V13.
+- A** is semidiscrete, equivalently injective by V13b.
 - A is amenable as the Banach algebra of BanachAlgebras A6.
 
 Build the connecting tools as targets. Prove the tensor-extension argument
 that turns nuclear CP factorizations into min-to-max continuity. For the
-converse construct the matrix factorizations via CP extension and separation.
+converse construct the matrix factorizations via CP extension and separation,
+consuming V13b's explicit commuting-representation minimal-norm criterion
+and its normal CP/predual approximation equivalents.
 Develop dual CP pairings and the point-weak-star approximation on A*, then
 the passage between approximations of A, A*, and A**; convexity and Kaplansky
 density must yield the stated point-norm conclusion. Keep normal maps in
@@ -383,8 +387,9 @@ normal representation in which every normal state is a vector state:
 amplify any faithful normal representation by ℓ²(ℕ) and use V4's
 countable vector-functional decomposition. In that representation extend
 `x⊗y ↦ (T↦xTy)` to the isometric bimodule identification of V_h* with bounded
-M′-bimodule maps on B(H). Use V10–V11's standard form and its conjugation to
-transfer injectivity from M to M′. For nonzero M, an expectation onto M′
+M′-bimodule maps on B(H). Consume V13b's commutant-injectivity theorem,
+using V10–V11's general standard form for its representation comparison.
+For nonzero M, an expectation onto M′
 yields a central element of V_h* of norm one with multiplication equal to 1.
 For M=0 use the zero diagonal. Construct an M-bimodule
 map `θ:V_h*→V*` intertwining the multiplication maps: its norm is at most 2
@@ -523,9 +528,20 @@ Develop the approximation constructions underlying the quotient theorem.
 A C*-algebra is residually finite-dimensional (RFD) when its finite-dimensional
 *-representations separate points. Give its faithful product-of-matrices
 description and its norm-detecting finite-set criteria, and prove permanence
-under subalgebras and unitization. Construct cones
-`CA=C₀((0,1],A)` and homotopies of *-homomorphisms as maps into
-C([0,1],B), with evaluation, composition and contraction APIs. Prove
+under subalgebras and unitization. Construct the path algebra
+`PA=C([0,1],A)`, cone `CA=C₀((0,1],A)` and suspension
+`SA=C₀((0,1),A)`, with supremum norm and pointwise star operations.
+Prove completeness, endpoint evaluation, ideal/quotient identifications,
+functoriality, tensor comparisons and cone contraction. View cone functions
+as paths vanishing at 0; the cone quotient is evaluation at 1.
+For a star homomorphism φ:A→B construct the mapping cone
+`C_φ={(a,f)∈A×CB : φ(a)=f(1)}` as a closed pullback C*-algebra.
+Prove its pullback universal property, functoriality for commuting squares,
+and the extension `0→SB→C_φ→A→0`, with inclusion g↦(0,g)
+and projection (a,f)↦a. Prove surjectivity using f(t)=tφ(a),
+the completely positive contractive section and homotopy transport.
+Construct homotopies of *-homomorphisms as maps into PB, with
+evaluation and composition APIs. Prove
 that cones over RFD algebras are RFD, using evaluation and finite-dimensional
 representations. Prove
 Voiculescu's homotopy invariance of quasidiagonality for separable C*-algebras;
