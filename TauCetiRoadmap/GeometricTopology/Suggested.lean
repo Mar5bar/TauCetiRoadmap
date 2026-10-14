@@ -3,6 +3,8 @@ import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 import TauCeti.Geometry.Manifold.TubularNeighborhood.Euclidean
 import TauCeti.Geometry.Manifold.TubularNeighborhood.NormalFrame
 import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Exponential
+import TauCeti.Geometry.Manifold.Morse.Basic
+import TauCeti.Analysis.Calculus.Sard.EqualDimension
 
 /-!
 # Geometric topology and the Kirby-list problems: target signatures
@@ -40,7 +42,7 @@ dependency order, have these shapes:
   -- theorem connectedSum_sphere (M : Manifold ...) : connectedSum M (sphere n) ≃ₘ M
   --
   -- Layer 3, the Smale conjecture, once Diff carries the C^∞ topology:
-  -- theorem smale_conjecture : Diff (sphere 3) ≃ₜ* orthogonalGroup 4 ...   -- [Kir97, 4.34]
+  -- theorem smale_conjecture : ∃ h : ContinuousMap.HomotopyEquiv (orthogonalGroup 4 ℝ) (Diff (sphere 3)), h.toFun = orthogonalInclusion   -- [Kir97, 4.34]
   --
   -- Layer 4, topological sliceness stated cleanly (knot theory owned here):
   -- theorem freedman_alexanderOne_slice (K : Knot) (h : alexander K = 1) :
@@ -617,6 +619,43 @@ theorem euclideanChartNormalDerivativePairing {g η : E → V} {u : E}
   sorry
 end FiniteRegularityEuclideanCharts
 
+section EuclideanMorseCenters
+variable {E H M V : Type*}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [TopologicalSpace M] [ChartedSpace H M] [T2Space M] [SecondCountableTopology M]
+  [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+  [I.Boundaryless]
+
+/-- Closed Euclidean embeddings give proper squared distance for every center. -/
+theorem euclideanSquaredDistance_isProper [IsManifold I 2 M]
+    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) 2 M V)
+    (hclosed : IsClosed (Set.range f)) (a : V) :
+    IsProperMap (fun x : M => ‖f x - a‖ ^ 2) := by
+  sorry
+
+variable [MeasurableSpace V] [BorelSpace V]
+
+/-- C² is enough for nondegenerate critical points almost everywhere;
+the stronger native IsMorse also requires smoothness. -/
+theorem ae_nondegenerateCriticalPoints_euclideanSquaredDistance [IsManifold I 2 M]
+    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) 2 M V)
+    (ν : MeasureTheory.Measure V) [MeasureTheory.Measure.IsAddHaarMeasure ν] :
+    ∀ᵐ a ∂ν, ∀ x : M,
+      mfderiv I 𝓘(ℝ, ℝ) (fun y : M => ‖f y - a‖ ^ 2) x = 0 →
+        TauCeti.IsManifoldNondegenerateCriticalPoint I (fun y : M => ‖f y - a‖ ^ 2) x := by
+  sorry
+
+/-- The same almost-everywhere theorem on the smooth branch uses the native Morse predicate. -/
+theorem ae_isMorse_euclideanSquaredDistance [IsManifold I ∞ M]
+    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
+    (ν : MeasureTheory.Measure V) [MeasureTheory.Measure.IsAddHaarMeasure ν] :
+    ∀ᵐ a ∂ν, TauCeti.IsMorse I (fun y : M => ‖f y - a‖ ^ 2) := by
+  sorry
+
+end EuclideanMorseCenters
+
+
 section CWTransport
 variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
 
@@ -655,6 +694,79 @@ def markedRelCWComplex [T2Space X] (P : Finset X)
     RelCWComplex (Set.univ : Set X) (P : Set X) := by
   sorry
 end CWTransport
+
+section TopologicalMicrobundles
+
+/-- Actual zero-section neighborhoods and centered local product charts.
+A Microbundle is a germ object under the isomorphisms specified in comparison3b. -/
+structure Microbundle (n : ℕ) (B : Type*) [TopologicalSpace B] where
+  total : Type*
+  topology : TopologicalSpace total
+  zero : @ContinuousMap B total _ topology
+  projection : @ContinuousMap total B topology _
+  projection_zero : Function.LeftInverse projection zero
+  local_product : ∀ b : B, ∃ (U : Set B), IsOpen U ∧ b ∈ U ∧
+    ∃ e : @OpenPartialHomeomorph total (B × (Fin n → ℝ)) topology _,
+      e.target = U ×ˢ Set.univ ∧
+      (∀ a ∈ U, zero a ∈ e.source ∧ e (zero a) = (a, 0)) ∧
+      (∀ x ∈ e.source, (e x).1 = projection x)
+
+/-- The neighborhood fiber is an actual subtype of the microbundle's total space. -/
+abbrev microbundleNeighborhoodFiber {n : ℕ} {B : Type*} [TopologicalSpace B]
+    (ξ : Microbundle n B) (U : Set ξ.total) (b : B) :=
+  {x : ξ.total // x ∈ U ∧ ξ.projection x = b}
+
+/-- The induced topology identifies the neighborhood's total space with its source. -/
+def microbundleNeighborhoodTotalToSource {n : ℕ} {B : Type*} [TopologicalSpace B]
+    (ξ : Microbundle n B) (U : Set ξ.total) :
+    Bundle.TotalSpace (Fin n → ℝ) (microbundleNeighborhoodFiber ξ U) → U :=
+  fun x => ⟨x.2.val, x.2.property.1⟩
+
+/-- Kister–Mazur produces a native Euclidean FiberBundle inside the germ.
+Numerability, zero-preserving charts and the unique germ comparison are
+additional explicit comparison3b targets. -/
+theorem microbundle_exists_fiberBundleNeighborhood {n : ℕ} {B : Type*}
+    [TopologicalSpace B] [T2Space B] [ParacompactSpace B] (ξ : Microbundle n B) :
+    letI : TopologicalSpace ξ.total := ξ.topology
+    ∃ U : Set ξ.total, IsOpen U ∧ (∀ b, ξ.zero b ∈ U) ∧
+      (letI : TopologicalSpace (Bundle.TotalSpace (Fin n → ℝ)
+          (microbundleNeighborhoodFiber ξ U)) :=
+        TopologicalSpace.induced (microbundleNeighborhoodTotalToSource ξ U) inferInstance
+       Nonempty (FiberBundle (Fin n → ℝ) (microbundleNeighborhoodFiber ξ U))) := by
+  sorry
+
+/-- TOP(n) uses Mathlib's actual homeomorphism group, with multiplication f∘g. -/
+def topGroup (n : ℕ) : Subgroup ((Fin n → ℝ) ≃ₜ (Fin n → ℝ)) where
+  carrier := {h | h 0 = 0}
+  one_mem' := rfl
+  mul_mem' := by
+    intro f g hf hg
+    change f (g 0) = 0
+    rw [hg, hf]
+  inv_mem' := by
+    intro f hf
+    change f 0 = 0 at hf
+    change f.symm 0 = 0
+    simpa only [hf] using f.symm_apply_apply (0 : Fin n → ℝ)
+
+/-- The topology records both the map and its inverse on native compact-open carriers. -/
+def topGroupCompactOpenPair (n : ℕ) (h : topGroup n) :
+    ContinuousMap (Fin n → ℝ) (Fin n → ℝ) ×
+      ContinuousMap (Fin n → ℝ) (Fin n → ℝ) :=
+  (⟨h.val, h.val.continuous⟩, ⟨h.val.symm, h.val.symm.continuous⟩)
+
+instance topGroupTopology (n : ℕ) : TopologicalSpace (topGroup n) :=
+  TopologicalSpace.induced (topGroupCompactOpenPair n) inferInstance
+
+/-- Comparison3c supplies the actual continuous group operations. -/
+theorem topGroup_isTopologicalGroup (n : ℕ) : IsTopologicalGroup (topGroup n) := by
+  sorry
+
+theorem topGroup_continuous_eval (n : ℕ) :
+    Continuous (fun p : topGroup n × (Fin n → ℝ) => p.1.val p.2) := by
+  sorry
+
+end TopologicalMicrobundles
 
 end
 

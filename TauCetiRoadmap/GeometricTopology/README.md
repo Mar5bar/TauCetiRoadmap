@@ -366,6 +366,37 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   This is the single C² chart proof; RiemannianGeometry R6 consumes and
   compares these formulas with its intrinsic B/S Hessian geometry.
 
+  Own the generic squared-distance supplier on this same finite-C² normal
+  carrier, before its Riemannian/complex consumers. For a Hausdorff
+  second-countable boundaryless S with a C² closed embedding i into finite
+  Euclidean V, export `euclideanSquaredDistance_isProper`: for every center a,
+  x↦‖i(x)−a‖² is a native IsProperMap with compact sublevel sets, is
+  nonnegative and is C². Prove properness directly from the closed image,
+  a bounded Euclidean ball and finite-dimensional compactness.
+  Define the C¹ normal endpoint map Φ(x,v)=i(x)+v on the already constructed
+  normal total space. Export `euclideanNormalEndpoint_criticalImage_isNull`,
+  for any additive Haar measure on V: its critical image has measure0.
+  Use the equal-dimensional chart derivative, native
+  `TauCeti.addHaar_image_eq_zero_of_not_surjective_fderivWithin`
+  from `TauCeti/Analysis/Calculus/Sard/EqualDimension.lean`, and the countable
+  normal chart cover; the base/normal dimensions add to dim V. This requires
+  only differentiability of the endpoint chart map and no new general Sard
+  theorem. Treat empty source separately and derive the dimension inequality
+  from tangent injectivity at a source point in the nonempty case.
+  By the direct chart Hessian/normal-derivative block prove the exact equivalence
+  between a degenerate critical point of ‖i(x)−a‖² and a critical normal
+  endpoint over a. Export `ae_nondegenerateCriticalPoints_euclideanSquaredDistance`
+  and density of the good centers, with the actual normal/chart/Haar
+  comparisons and dimension0 cases. For smooth i export
+  `ae_isMorse_euclideanSquaredDistance` using native TauCeti.IsMorse, whose
+  regularity clause is C∞; the C² result states native nondegeneracy at
+  every critical point instead. Prove isolated/countable critical points and
+  finitely many in each compact band from the C¹ critical equations and
+  local inverse theorem. RiemannianGeometry R6 consumes this real
+  proper-exhaustion/almost-everywhere supplier and owns its intrinsic
+  Jacobi/shape/focal comparison; AffineMorseLefschetz A2 consumes it and
+  owns the complex J/Hessian/index identities.
+
   For every closed-image C² Euclidean embedding i:S→V and every ε>0
   for which (x,v)↦i x+v is injective on `normalTube I i ε`, construct a
   C¹ partial diffeomorphism on the codimension-model normal bundle tube
@@ -394,6 +425,92 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   `IsTubularNeighborhood` the common predicate. Prove the smooth closed-disc
   and sphere extensions required for surgery. Every noncompact embedded S
   has a positive radius function; no uniform radius is asserted.
+- **Formal immersions and the punctured torus.** Own the Smale–Hirsch
+  formal-immersion comparison in positive codimension and the Hirsch–Phillips
+  equal-dimension version for smooth manifolds with no compact components.
+  Formal data are a smooth map and an actual injective tangent-bundle map over
+  it. Prove the weak homotopy comparison on the compact-open C∞ carriers,
+  including compact parameter families relative to their given parameter boundary.
+  For equal dimensions, source-relative extension carries a specified relative
+  core/compression or open-handle hypothesis; a formal solution near an arbitrary
+  closed subset alone is not sufficient. Build the compression to a positive-
+  codimension core, holonomic approximation over its handles and the parametric
+  derivative homotopies, following Hirsch, *Differential Topology*, immersion
+  chapter, and Phillips' open-manifold submersion theorem.
+  Export `puncturedTorusImmersion` on the actual finite product
+  T^n=(Fin n→Circle), punctured at the constant1 point, n≥1. Use native Circle's
+  Lie manifold and `Circle.exp` derivative, its translation tangent frame and
+  the product-model comparison; apply the open formal-immersion theorem to
+  obtain an actual smooth immersion into ℝ^n. Include n=1 explicitly.
+  Its cover is ℝ^n→T^n by coordinatewise Circle.exp, with period2π in each
+  coordinate; pin the bounded-lift/fundamental-domain comparisons used by the
+  torus trick. Ordinary PL surgery and Four's embedding deformation consume
+  this single immersion; no four-dimensional theorem is an input here.
+- **Smooth relative handles, cancellation and surgery.** Own
+  `smoothElementaryMorseCobordismHandleComparison`: for a smooth compact band
+  with one critical level and regular marked boundaries, construct
+  the smooth attaching embedding and a diffeomorphism from the rounded
+  index-λ handle cobordism to that band, rel the prescribed regular collars.
+  Use M1's actual normalized chart and M2's critical/compact-band data, the
+  smooth gradient-like flow on the regular region, and a monotone rounded
+  curve in the two normal corner coordinates. Prove compatibility of its
+  local smooth charts, smoothing of the corners, and the agreement of both
+  maps with the fixed collars. Include simultaneous critical points and
+  zero/top index. M2's topological cell comparison is the forgetting map;
+  it does not supply this smooth conclusion. Iterate this theorem to obtain
+  finite smooth handle decompositions of compact smooth collared cobordisms,
+  with actual attaching embeddings, ordered indices, rounded traces and
+  diffeomorphisms rel the marked boundary collars, following Milnor's
+  *Lectures on the h-cobordism theorem*, the elementary-cobordism construction. Export `smoothHandleCancellation`:
+  consecutive index-k and index-(k+1) handles whose attaching/belt spheres meet
+  transversely in exactly one point cancel by a diffeomorphism rel the unaffected
+  boundary. Retain the embeddings, framings, isotopy and identification of the
+  complement. Prove handle slides, creation of a cancelling pair, reordering
+  under disjointness and dualization with index k↦d−k in dimension d.
+  Own `smoothWhitneyMove` for an actual embedded framed Whitney disk, with
+  interior disjoint from the two sheets, removing its specified opposite-sign
+  intersection pair by a smooth ambient isotopy supported in that disk's
+  neighborhood. Prove existence of such disks for transverse complementary
+  sphere sheets of dimensions p,q≥3 in a simply connected (p+q)-manifold,
+  using general position and the normal-framing correction. Keep the disk,
+  framing and complement hypotheses explicit in lower-dimensional cases.
+  Also own the p=2,q≥3 case when the complement of the q-sheet is simply
+  connected: choose the Whitney disk in that complement, use general position
+  to avoid the two-dimensional sheet, and correct its framing in the spare
+  normal direction. The handle-trading argument below owns the slides and
+  complement-connectivity verification required to apply this case when d=6.
+  No smooth four-dimensional Whitney existence is asserted.
+
+  Export `framedInteriorSphereSurgery`: an actual smooth embedded S^k in the
+  interior of an n-manifold with a supplied normal framing determines the
+  embedded S^k×D^(n−k), cut-and-paste surgery manifold and smooth trace,
+  with actual boundary/complement identifications and inverse surgery data.
+  Include finite disjoint families, prescribed collars and stabilization of
+  framings. For n≥5 prove representatives of finite sets of π₁ and π₂ classes
+  by disjoint embedded circles and 2-spheres via general position; π₂ uses
+  a simply connected ambient manifold. Normal trivializations are additional
+  input: derive them from specified stable normal trivializations when
+  n−k≥3 for k=1,2. Prove the fundamental-group quotient after circle surgery
+  and the relative π₂/H₂ effect of 2-sphere surgery, retaining the relevant
+  group-ring coefficients and extension of any supplied compatible bundle
+  structure. PositiveScalarCurvature P4 owns the choice of normal-1-type
+  classes and framings; this item owns their geometric realization.
+
+  Export `smoothHandleIndices_le_dim_sub_three`: for a compact connected
+  smooth d-dimensional cobordism W:N→M, d≥6, with nonempty connected marked
+  closed boundary faces, M simply connected and inclusion M→W 2-connected,
+  construct a finite handle decomposition from N with every index≤d−3,
+  and an actual diffeomorphism to W rel the marked boundary collars.
+  Express 2-connectivity by the actual π₀/π₁ isomorphisms and π₂ surjection.
+  Prove it by turning the cobordism around, eliminating relative indices0,1,2
+  using connectivity, handle trading/slides, relative Hurewicz and the smooth
+  cancellation geometry, then dualizing. Own the low-index geometric
+  realization in this argument with its complement/framing checks; algebraic
+  cancellation alone is insufficient. The proof uses no PSC metric.
+  [Frenck, §2.2](https://arxiv.org/pdf/1912.08613) supplies the marked
+  trace/handle formulation and its 2-connectivity-to-index-range handoff;
+  Smale's handle-cancellation proof and Milnor's *Lectures on the h-cobordism
+  theorem*, handle trading/cancellation chapters, supply the geometric proof.
 - **Connected sum, with the choices explicit.** The definition must *take* the data it
   depends on: an orientation on each summand and an embedding of the closed `n`-ball into
   each, inducing opposite orientations; `M # N` deletes the open balls and glues along the
@@ -437,15 +554,12 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
 - **The one genuine groupoid inclusion**, `PLGroupoid ≤ continuousGroupoid` (PL maps are
   continuous), giving the forgetful "PL implies Top". ⚠ There is *no* inclusion
   `contDiffGroupoid ≤ PLGroupoid`: a smooth transition map is not literally PL. The relation
-  between smooth and PL structures is the Whitehead smoothing comparison, deferred to its own
-  far-horizon section near the end of this roadmap; it is a map between structures rather than
-  a containment of groupoids, and it is not cheap.
-
-**The smoothing-and-triangulation comparison** between the smooth, PL, and topological
-structures (where the gluing and structure-group tracks would meet) is a major sub-project
-of its own and is deliberately *not* part of the early layer-1 work. It has its own section
-near the end of this roadmap, after the layers, so no one starts it before the substrate it
-compares even exists.
+  between smooth and PL structures is the Whitehead smoothing comparison in
+  comparison item1, built from these chart/corner carriers. It compares actual
+  structures and maps, with its induced PL atlas and relative triangulation.
+  Comparison item3 constructs the microbundle, CW-type and TOP/PL foundation
+  after its stated ordinary PL and geometric prerequisites. FourManifolds
+  consumes the specified item-level inputs from that construction.
 
 **Design notes.** Keep orientability a separate predicate, not bundled into the manifold
 (the connected-sum API above already depends on this). State gluing in the corners category
@@ -500,7 +614,19 @@ topological-manifold structure group `continuousGroupoid` (layer 1).
   place local flatness does real work: it is false for the wild Alexander horned sphere.
 - **Smooth and PL embeddings are locally flat**, stated against layer 1's structure groups,
   so the low-codimension subtleties are isolated in this one predicate.
-- **The Annulus Conjecture**, stated from the right hypothesis: two *disjoint* locally flat
+- **Generalized Schoenflies.** Own `brownGeneralizedSchoenflies`: for n≥1
+  and a specified bicollar of S^(n−1) in S^n, construct homeomorphisms from
+  the two closures of the complementary domains to D^n, with their actual
+  boundary maps. Prove the separation/components, restriction and marking
+  comparisons; any prescribed boundary parametrization extends by the radial
+  Alexander map on the ball. Use Brown's cellular collapse argument:
+  collapse the two outside pieces to poles, prove those inverse sets cellular,
+  and identify each closure as a cell (Brown1960, Theorems0–5,
+  [primary paper](https://www.maths.gla.ac.uk/~mpowell/Brown%20Schoenflies.pdf)).
+  This proof takes the bicollar as input and uses no annulus theorem. Four's
+  early collared-ball recognition consumes the n=4 case.
+- **Annulus and stable homeomorphisms.** Prove the annulus theorem from
+  the right hypothesis: two *disjoint* locally flat
   `(n-1)`-spheres in `ℝⁿ`, one inside the region bounded by the other, cobound a closed
   region homeomorphic to `Sⁿ⁻¹ × [0,1]`. The input is two spheres; that the region between
   them is a product is the whole content, and is false without local flatness. (The earlier
@@ -517,12 +643,30 @@ topological-manifold structure group `continuousGroupoid` (layer 1).
 
 **Design notes.** Do not bake a codimension into `IsLocallyFlat`: codimension 0 (open
 embeddings, trivially flat), codimension 1 (collaring), and codimension 2 (where knotting
-lives) behave differently, and isolating them in one predicate is the point. The Annulus
-Conjecture reduces to the Stable Homeomorphism Conjecture (Kirby's route in dimension
-`≥ 5`); record that as the intended proof even though only the statement is the target. The
-companion notion, a locally flat submanifold with a topological normal bundle, is more
-delicate in positive codimension (Kirby–Siebenmann) and is what layer 5's topological
-surgery would consume; flag it as a dependency rather than building it here.
+lives) behave differently, and isolating them in one predicate is the point. The annulus target includes its proof. In dimensions1–2 use the ordered-line/Jordan
+and compact-surface comparisons; in dimension3 use the relative Moise/smoothing
+comparison and the smooth disc/isotopy theorem. For n≥5 own
+`stableHomeomorphism_realEuclidean`: every orientation-preserving homeomorphism
+of ℝ^n factors into finitely many homeomorphisms that are identity on some
+nonempty open set, with an actual open-ball witness for each factor. Prove
+the torus-unfurling construction of Kirby1969 using comparison3d.0's ordinary
+PL surgery/finite-cover theorem. Own `plEuclideanEndCapping`: a PL n-manifold
+end with a given TOP S^(n−1)×ℝ product, n≥5, has a PL product on a smaller
+end and can be capped by a marked PL n-ball. For n≥6 use the ordinary PL
+end/handle product construction; for n=5 own Wall's Euclidean-fiber bundle/end
+argument (Wall, *On bundles over a sphere with fibre Euclidean space*,
+Fund.Math.61 (1967),57–72, p.67; Kirby1969, p.575), rather than applying a
+compact5-dimensional PL h-cobordism theorem. Apply this to the pulled-back
+PL punctured-torus structure, then take the coordinatewise double finite cover
+in the homotopy-torus comparison to kill its degree3 mod2 obstruction. Derive
+`topologicalAnnulus_highDimension`. Retain the regions and actual product maps,
+with one prescribed boundary marking and the induced marking of the other;
+compatible two-boundary markings are additional data. The ordinary PL engine
+uses none of these TOP annulus results. This order is 3d.0 → this stable/annulus
+proof → 3d.1's TOP straightening. Four F3.2 owns the dimension4 Quinn
+annulus comparison on its four-dimensional disk/proper-product foundations.
+The prescribed ordinary normal microbundle or Marin stable normal-microbundle germ data
+are constructed in comparison3b and3e respectively and retained in the transversality inputs.
 
 **Unlocks.** The Annulus Conjecture (Kirby 1969 in dimension `≥ 5`; Quinn 1982 in
 dimension 4; no Kirby number): two disjoint nested locally flat spheres cobound a product
@@ -566,7 +710,7 @@ topological-group and uniform-space API from Mathlib's algebra-and-topology libr
 -- instance : Group (Diff I M)
 -- instance : TopologicalGroup (Diff I M)   -- the C^∞ topology (initial topology in charts), M compact
 -- def ofSmoothFamily (F : P × M → M) (h : ∀ p, IsDiffeo (F p ·)) : C(P, Diff I M) := …  -- forward only
--- theorem smale_conjecture : Nonempty (HomotopyEquiv (Diff 𝓘 (sphere 3)) (orthogonalGroup 4 ℝ))
+-- theorem smale_conjecture : ∃ h : ContinuousMap.HomotopyEquiv (orthogonalGroup 4 ℝ) (Diff 𝓘 (sphere 3)), h.toFun = orthogonalInclusion
 ```
 
 **Design notes.** State the Smale conjecture as a homotopy equivalence of the underlying
@@ -637,6 +781,26 @@ manifolds for complements (handed on to layer 5).
     where they are cheap or load-bearing (grid-to-diagram for the Heegaard Floer roadmap,
     braid-to-diagram via Markov). Each extra edge is a convenience theorem, not a
     prerequisite; the tree is what the rest of the layer actually needs.
+- **Seifert surfaces and the integral/Arf dictionary.** For an oriented
+  geometric link in oriented S³ construct an actual compact connected
+  embedded oriented Seifert surface with its marked boundary and positive
+  normal push-off. Export `seifertMatrix` on a chosen integral H₁ basis,
+  V_ij=lk(x_i,x_j^+), its coordinate-change and stabilization laws, and
+  V−Vᵀ equal to the oriented intersection matrix. Prove the geometric and
+  diagram Seifert algorithms agree through the presentation correspondences.
+  Define the mod2 quadratic refinement q(x)=lk(x,x^+) mod2 on H₁(surface;F2)
+  and prove q(x+y)=q(x)+q(y)+x·y. Consume TangentialBordism B3.2's early
+  `finiteQuadraticArf` constructor, basis independence, orthogonal-sum and
+  metabolic criterion, independently of its surface-bordism classification.
+  For a knot the polar form is nonsingular. For a proper link (each component
+  has even total linking with the others), prove q vanishes on the boundary
+  radical and use its nonsingular quotient. Export `knotArfInvariant` and
+  `properLinkArfInvariant`, independence of surface/basis, isotopy,
+  connected/band-sum and mirror/orientation comparisons. Pin the unknot to0
+  and a trefoil to1. Prove Alexander agrees with det(tV−Vᵀ), up to the
+  units fixed by Conway normalization, and the determinant-at−1 mod8 Arf
+  criterion; export `alexanderOne_arf_eq_zero`. Four F1/F3/F4 consumes this
+  geometric dictionary, and Layer6 consumes the Alexander-one corollary.
 - **Slice-ness, stated cleanly** on a presentation `K` (by default a smooth embedding
   `S¹ ↪ S³`). `IsSmoothlySlice K` (`K` bounds a smoothly embedded disc in `D⁴`) and
   `IsTopologicallySlice K` (a *locally flat* disc, consuming layer 2 and the topological
@@ -768,10 +932,23 @@ Seifert matrix.
   with genus giving the concordance and slice genera.
 - **The 4-manifold input to topological sliceness** that Freedman's theorem needs:
   topologically locally flat surfaces in `D⁴` (consuming layer 2) and the existence of
-  locally flat slice discs for Alexander-polynomial-one knots. This is 4-dimensional
-  topology rather than homology, which is why it lives here rather than in the combinatorial
-  Heegaard Floer roadmap; layer 4's `IsTopologicallySlice` and the Freedman unlock consume
-  it.
+  locally flat slice discs for Alexander-polynomial-one knots. Consume
+  FourManifolds F3.1's cyclic disk theorem and F3.2's TOP surgery exact
+  sequence for π₁=ℤ, including its normal invariant, surgery obstruction
+  and boundary marking; construct the knot-exterior normal map and the
+  resulting slice-disk exterior with meridian π₁ generator. Its target
+  pair is (S¹×D³,S¹×S²); the boundary map from zero-surgery M_K is a
+  ℤ[ℤ]-chain equivalence when Δ_K=1. Construct this degree-one map
+  and its stable normal data through Four F3.2's
+  `knotExteriorNormalFillingOfArfZero`; Layer4's Seifert-matrix/Arf dictionary
+  proves Δ_K=1 implies Arf(K)=0. Consume Four's marked G/TOP extension
+  theorem and its geometric L₄(ℤ[ℤ]) action to kill the obstruction, then
+  its relative homology-surgery variant to obtain an exterior homotopy
+  equivalent to S¹. Attach the meridian2-handle and compute the contractible
+  total manifold and S³ boundary. Use Four F3.1c's early ball recognition
+   to identify it with D⁴,
+  retaining the embedded cocore disk and its marked boundary K. Layer4's
+  `IsTopologicallySlice` and Freedman application consume this construction.
 - **Concordance invariants**: the Tristram–Levine signature function from layer 4's Seifert
   matrix (built here), and the import of `τ : C → ℤ` and `s` as consumers of the
   combinatorial Heegaard Floer roadmap.
@@ -1193,12 +1370,477 @@ following sequence of targets:
    the [extract](references/munkres-smoothing-triangulations.md).
 2. **PL implies Top.** The forgetful direction, immediate from layer 1's inclusion
    `PLGroupoid ≤ continuousGroupoid`.
-3. **Top to PL, the smoothing obstruction.** The deep, far-horizon part: the
-   Kirby–Siebenmann obstruction in `H⁴(M; ℤ/2)` to a PL structure, and the failure of the
-   Hauptvermutung. Reference: R. Kirby, L. Siebenmann, *Foundational Essays on Topological
-   Manifolds, Smoothings, and Triangulations* (Annals of Math. Studies 88, 1977), Essays
-   IV–V. Treat this as genuinely speculative, and keep each direction a separate named target
-   so the easy ones are never blocked on the hard one.
+3. **Topological microbundles, CW type and the TOP/PL obstruction.**
+   Own the following named foundation interfaces on Layer1's continuous/PL
+   chart carriers. They precede FourManifolds' dimension-four classification.
+   The smooth-triangulation construction in item1 remains independent.
+
+   **3a. Topological manifold CW type.** Consume AlgebraicTopology 8.11a's
+   metric ANR/ANE, locally finite nerve domination and homotopy-idempotent
+   telescope criterion. Own the local-to-global ANR theorem for a Hausdorff
+   second-countable locally Euclidean or half-space charted manifold:
+   metrize the existing topology, use the Euclidean neighborhood-retraction
+   charts and numerable refinements, and prove the relative collar version.
+   Export `topologicalManifoldCWType` as an actual homotopy equivalence
+   with a native countable locally finite CW complex, not a triangulation
+   of M. Give maps of pairs, homeomorphism invariance and prescribed
+   finite-point relative forms. For a compact M prove finite domination
+   directly by a finite nerve of a numerable ANR cover, and deduce homology
+   finite generation from the domination maps. The compact finite-CW corollary follows
+   item3e's handle/simple-homotopy machinery. No PL structure on M is
+   required, including in dimension4. AT8.7 consumes item1 for smooth CW structures; this
+   paragraph consumes AT8.11a's independent ANR foundation.
+
+   **3b. Microbundles and their Euclidean representatives.** Define
+   `Microbundle n B` by an actual neighborhood of a section in E,
+   maps i:B→E and p:E→B with p∘i=id, and local product homeomorphisms
+   near i(b) to U×ℝⁿ that carry i to (b,0) and p to projection.
+   Isomorphisms are germs of homeomorphisms near the zero sections with
+   these commuting equations. Build restriction, pullback, composition,
+   product/direct sum, stabilization, relative trivialization and gluing
+   along locally finite atlases, including rank0. Own `brownTopologicalBoundaryCollar` for paracompact Hausdorff TOP
+   manifolds modeled on the half-space: construct an actual collar embedding
+   ∂M×[0,1)→M with open neighborhood image and its boundary value equal
+   to inclusion. Prove prescribed-relative collar extension, uniqueness by
+   ambient isotopy near the boundary, and the double/restriction comparisons.
+   This general boundary theorem also supplies codimension1 normal collars;
+   local bicollars alone do not give it. The diagonal defines
+   `topologicalTangentMicrobundle`: for a boundaryless M use i=diagonal
+   and p=first projection on a neighborhood in M×M, with the second
+   coordinate centered in each chart. For boundary manifolds use the double
+   and its collar restriction; prove independence of the double/collar.
+   Compare this germ with the smooth tangent vector bundle only after a
+   smooth reduction is specified, and with the PL tangent microbundle
+   for a PL atlas. Prove Kister–Mazur for paracompact Hausdorff bases:
+   every rank-n microbundle has a numerable locally trivial ℝⁿ-bundle
+   representative near its zero section, unique up to the germ/isomorphism
+   comparison. Own the controlled radial shrinking and successive locally
+   finite extension argument, including parameterized and relative forms.
+   Use [Holm, *The microbundle representation theorem*](https://archive.ymsc.tsinghua.edu.cn/pacm_download/117/6026-11511_2006_Article_BF02395045.pdf), Acta Math.117 (1967),
+   whose numerable-base theorem supplies this paracompact generality beyond
+   the original finite-dimensional simplicial-base Kister statement;
+   no positive-codimension normal microbundle is inferred merely from local
+   flatness without its separate existence hypothesis.
+   Define an ordinary normal microbundle of a locally flat M⊂W as an
+   actual neighborhood retraction ν:U→M with zero section the inclusion,
+   and rank-codimension local microbundle charts identifying that section
+   with M×{0}. Retain its neighborhood germ, shrinking and relative
+   equivalences; it is neither an arbitrary regular neighborhood nor an
+   unspecified vector reduction.
+   Own `topologicalManifoldProperLocallyFlatEmbedding`: every Hausdorff
+   second-countable finite-dimensional TOP manifold admits an actual proper
+   locally flat embedding in a finite-dimensional real Euclidean space.
+   Construct it directly from chart partitions of unity. For compact M use a
+   finite chart cover; for noncompact M own a finite-colored locally finite
+   chart refinement, using the finite covering dimension of Euclidean charts
+   and the local-to-global refinement theorem. In each color use the weighted
+   chart coordinates, weight and discrete chart label; at a positive weight
+   recover that chart by division. Add a proper exhaustion coordinate.
+   Prove injectivity/properness and local flatness by this recovered chart:
+   the image is a continuous graph, flattened by subtracting its graph function.
+   Include the boundary form through the double/collar and the empty/discrete
+   cases. Construct the corresponding locally flat graph of f:M→X in
+   X×ℝ^D and its stabilization maps. This embedding proof uses no TOP
+   handle theorem or dimension4 classification. Preserve the specified target
+   normal microbundle in this graph construction; no unstable source normal
+   microbundle is inferred merely from local flatness.
+   Own `locallyFlatNormalBundle_lowCodim`: codimension1 uses the Brown
+   collar/normal interval-bundle construction; codimension2 in ambient
+   dimension>4 uses
+   [Kirby–Siebenmann, *Normal bundles for codimension2 locally flat imbeddings*, TheoremA](https://math.berkeley.edu/~kirby/papers/Kirby%20and%20Siebenmann%20-%20Normal%20bundles%20for%20codimension%202%20locally%20flat%20imbeddings%20-%20MR0400237.pdf).
+   For codimension2 in ambient dimension≤3 build the point/curve normal
+   disk neighborhoods directly from locally flat charts: patch along intervals,
+   retain endpoint clutching on circle components, and prove relative germ
+   uniqueness by collar straightening. Ambient dimension4 remains Four's
+   `locallyFlatNormalBundle_topFour` supplier.
+   Construct the actual neighborhood normal microbundle and its ambient
+   isotopy uniqueness, with prescribed germs on a smaller neighborhood of
+   a closed subset. For manifolds with boundary take a given compatible
+   normal germ on the boundary collar, then apply the relative interior
+   theorem; do not require constructing an exceptional dimension4 boundary
+   normal bundle as a prerequisite. Own the deformation retractions
+   TOP(1)→O(1) and TOP(2)→O(2), with stabilization/relative classifying
+   comparisons (Kneser–Dibbern for rank2), to obtain actual linear normal
+   bundles from these microbundles. Low ambient smooth/PL comparisons are
+   deferred to item3g; the point/curve normal microbundles here use direct charts;
+   Four F3.1c owns ambient4 normal existence. Include normal Euler/orientation
+   comparison through CC after this reduction and the actual neighborhood
+   embedding/zero-section equations.
+
+   **3c. Structure groups and stable classifying maps.** Define TOP(n)
+   as the subgroup of the native homeomorphism group `ℝⁿ ≃ₜ ℝⁿ` fixing0, with
+   the induced topology of h↦(h,h⁻¹) in the product of native compact-open
+   continuous-map spaces. Prove continuous evaluation, composition,
+   inversion and product stabilization, and its orientation homomorphism
+   to {±1} by the action on the one-point-compactified fiber's reduced
+   homology; TOP(0) is trivial. Pin the PL comparison to the simplicial
+   group of germs of jointly PL, fiber-preserving homeomorphisms of
+   Δ^q×ℝⁿ near Δ^q×{0}, with inverse jointly PL and base fixed.
+   Affine face/degeneracy pullbacks give its native simplicial operators.
+   Merely requiring each fiber map to be PL is insufficient for this
+   parameterized carrier. Build its forgetful map to parameterized TOP
+   germs and the latter's weak comparison with Sing TOP(n), with actual
+   basepoint and stabilization maps. Consume GeneralizedCohomology G2.9's
+   single extension of CC C1.1's numerable join construction to general
+   topological groups, and AT4.7's realization CW structure for simplicial
+   classifiers; do not treat TOP(n) as a compact Lie group. Construct
+   BPL(n)→BTOP(n), the universal bundles/microbundles, and the comparison
+   of these models with numerable microbundle classification on CW-type
+   bases. Stabilize by adding the trivial line, using the single generic
+   mapping-cylinder telescope carrier of GeneralizedCohomology G3.4, to obtain BPL→BTOP. Define `topPLFiber` as the
+   actual homotopy fiber of that map; its quotient notation TOP/PL is
+   supplied by a proved comparison, not by an assumed quotient fibration.
+   Construct BO→BPL at the bundle/classifier level using the parametric
+   smooth-to-PL bundle comparison of
+   [Lashof–Rothenberg, *Microbundles and smoothing*, §§1–3](https://www.maths.gla.ac.uk/~mpowell/Lashof-Rothenberg-smoothing-microbundles.pdf).
+   Construct the parametrized piecewise-differentiable bundle/germ model BPD
+   and the maps BO(n)→BPD(n)←BPL(n), comparing BO(n) with TopK T1.6's
+   same fixed-rank classifier. Prove BPL(n)→BPD(n) is a weak equivalence
+   by relative bundle triangulation, then construct its based CW-model
+   homotopy inverse by AT Whitehead. Retain the universal bundles and
+   stabilization homotopies; this gives the actual BO→BPL map.
+   Own its relative, pullback and stabilization comparisons, then prove its
+   composite to BTOP agrees with forgetting the actual linear bundle.
+   A family of linear fiber maps has bilinear dependence on parameter and
+   fiber coordinates, so no simplexwise map Sing O(n)→PL(n) is defined by
+   declaring that family jointly PL. Export the actual classifier map,
+   orientation covers and homotopies comparing tangent classifying maps.
+   Prove the Whitney direct-sum and group-completion comparison on these
+   same stable TOP bundle classifiers, with actual associativity, block-swap
+   and trivial-line maps, consuming GeneralizedCohomology G2.8's single additive group-completion
+   machinery. Export stable inverses and `topologicalBundleStableComplement`
+   on finite CW bases and compact Hausdorff bases of CW type, with a
+   finite-rank representative and a specified stable trivialization. Use
+   the bounded telescope height of a map from a compact base, and of its
+   homotopies, for the finite-rank factorization. Apply this to item3a's
+   earlier CW-type witness, independently of its compact finite-CW
+   corollary, to construct on compact M
+   `topologicalStableNormalBundle` and the actual trivialization
+   τM⊕νM⊕ℝ^k≅ℝ^N. On general noncompact bases retain the stable inverse
+   class and its cancellation homotopy on BTOP. A finite-rank complement
+   there requires a supplied finite-stage representative and trivialization,
+   or a proved finite-dimensional rank-lifting theorem; it is not obtained
+   from a compact-source bounded-height argument. Give restriction, relative framing and boundary
+   outward-line comparisons, and define its orientation from this framing.
+   This supplies the stable normal data of geometric normal maps without
+   claiming every locally flat positive-codimension embedding has a normal
+   microbundle. Smooth normal bundles compare after their smooth reduction.
+
+   **3d.0. Ordinary PL surgery and its algebraic engine.** Own the generic PL Whitehead-torsion
+   and s-cobordism interfaces needed here. Define Wh(π)=K₁(ℤ[π])/⟨±g⟩
+   using native group rings, stabilized invertible matrices and their
+   elementary relations; construct the based finite-free cellular chain
+   torsion, basis-change/simple-collapse invariance, composition and duality.
+   Consume GrothendieckEulerForms' single projective-module K₀ construction;
+   own its comparison with idempotent matrices over a general unital ring,
+   the rank summand and reduced K₀ used here. Build the Bass–Heller–Swan
+   Laurent extension in degrees0/1, with augmentation, t-multiplication,
+   localization/patching maps and their exactness. Prove the Nil summands
+   vanish for the iterated Laurent rings over ℤ by regular-Noetherian
+   finite resolutions, proving preservation of those hypotheses at each
+   extension. Compute K₀(ℤ[ℤⁿ])=ℤ and
+   K₁(ℤ[ℤⁿ])=ℤ/2⊕ℤⁿ with generators−1 and the n Laurent units;
+   export `whitehead_freeAbelian_eq_zero` and
+   `reducedKZero_freeAbelian_eq_zero`, including n=0.
+   Construct the compatible algebraic K-spectrum of a unital ring from
+   its finite projective-module category using G2.8's additive completion,
+   with the stable-GL plus-construction comparison. Compare π₀/π₁ with
+   the existing K₀ and matrix K₁, and build the Bass polynomial/Laurent
+   nonconnective extension. Prove ring-map, stabilization, Morita and
+   boundary compatibility. Define the Whitehead coefficient spectrum as
+   the cofiber of the group assembly from Bπ with the ℤ K-spectrum
+   to K(ℤ[π]); identify its π₁,π₀ and negative groups with Wh(π),
+   reduced K₀ and negative ring K-groups. Prove negative K_i vanish
+   for ℤ and its iterated Laurent rings by their regular finite resolutions
+   and the Bass exact sequences. These are the coefficient inputs to
+   Four's controlled torsion, before the geometric TOP applications.
+
+   Own PL normal block bundles before this surgery construction. For a
+   triangulated PL base, give each simplex its (dimσ+q)-dimensional block
+   and PL product chart, with face intersections exactly the specified
+   face blocks; use subdivision-compatible germ isomorphisms. Build
+   restriction, stabilization, Whitney sum, isomorphism and concordance,
+   relative trivialization and gluing, and compare stabilized block bundles
+   with item3b's PL microbundle/simplicial-group classifiers. A block bundle
+   need not have a pointwise bundle projection. Construct the stable normal
+   block bundle of a PL embedding and its tangent-normal sum comparison;
+   export the compatible normal block neighborhoods used by surgery.
+   Prove relative PL transversality to a PL submanifold with this normal
+   block data, constructing the transverse inverse-image PL manifold and
+   its normal pullback. Give parameter, isotopy, boundary and
+   Pontryagin–Thom inverse-image comparisons with displayed normal data.
+
+   Build the stable spherical-fibration classifier BG from the
+   grouplike monoid of based sphere homotopy self-equivalences and its
+   suspension maps, consuming GeneralizedCohomology G2.8's topologically
+   enriched nerve/realization and G3.4's single telescope, together with
+   AT's native pointed mapping-space/sphere interfaces. Construct BPL→BG and
+   the actual homotopy fiber G/PL.
+   Prove its normal-invariant classification:
+   degree-one PL normal maps to a finite-dimensional PL manifold, with a
+   stable normal-bundle map to a specified spherical reduction and boundary
+   identification, modulo normal bordism rel boundary. Include the surgery
+   existence theorem for a degree-one normal map whose boundary map is already
+   a simple homotopy equivalence, retaining that boundary map during interior
+   surgery; it need not initially be an isomorphism. This supplies the
+   relative five-dimensional PL normal-bordism application. Give identity,
+   pullback under transverse maps, disjoint sum, stabilization and the
+   difference/action API. Construct quadratic forms/formations and based
+   quadratic Poincaré chain complexes over ℤ[π], with involution
+   g↦w(g)g⁻¹ for the specified orientation character. Define the decorated
+   surgery groups and the surgery-kernel obstruction, its normal-bordism
+   invariance, additivity and boundary exact sequence. Own the integral
+   four-periodicity maps and the simply connected quadratic calculation
+   L_(4j)(ℤ)=ℤ by signature/8, L_(4j+2)(ℤ)=ℤ/2 by Arf,
+   L_(2j+1)(ℤ)=0, with hyperbolic stabilization and explicit generators;
+   this supplies the algebraic L₄/L₅ used by FourManifolds. Prove the PL surgery
+   exact sequence in dimension≥5 (relative boundary and L_(m+1) action
+   included), using embedded surgery handles and the previously built
+   normal data. This is the high-dimensional PL engine; FourManifolds F3
+   owns ambient4 submanifold and high-ambient map transversality with
+   expected preimage dimension4, and the disk-embedding replacements.
+   Item3e owns the complementary KS-range map transversality.
+   Compute its homotopy groups through
+   degree5: π₁=π₃=π₅=0, π₂=ℤ/2 and π₄=ℤ. Own the comparison
+   with the low-degree fiber of BO→BG using item3g's PL4-compatible
+   smoothing and relative low-link smoothing obstruction calculation.
+   Consume HomotopySpheres PR284 §4B's stable-O groups and §9.1–2's
+   Hopf/EHP/Toda low stable stems. On π₄(BO)=ℤ pin the generator by
+   p₁=2u; prove its spherical J image generates π₃ˢ=ℤ/24, so the
+   fiber generator maps to24 times that BO generator. Compare the surgery
+   obstruction with the smooth signature formula and
+   [SpinGeometry G6.7](../SpinGeometry/README.md)/
+   [IndexTheory I7.5](../IndexTheory/README.md)'s untwisted Rokhlin theorem:
+   π₄(G/PL)→L₄(ℤ) is multiplication by2, with positive generator
+   normalized to signature16. Prove the π₂ Arf comparison and the
+   dimension≥5 coefficient maps through PL surgery, rather than assume
+   the factor2 from a table. Export its actual Postnikov4-stage as the
+   homotopy fiber of βSq²:K(ℤ/2,2)→K(ℤ,5), consuming AT's
+   Bockstein/EM and TB B4.1–2's single Sq. Include its universal integral
+   degree4 generator `gPLDegreeFourClass`, evaluating to2 on the positive π₄ generator,
+   and its reduction a², lift/action and relative normal-invariant
+   comparisons. These inputs precede the TOP/PL π₃-generator argument.
+   For π=ℤⁿ construct the Laurent-product splitting
+   L_q(ℤ[ℤⁿ])≅⊕_(i=0)^n L_(q−i)(ℤ)^(binomial n i), with the actual
+   transfer, product and assembly maps. Compute the PL normal invariants
+   and surgery sequence of Tⁿ×Dᵏ rel boundary for n+k≥5, and prove the
+   Wall/Hsiang–Shaneson finite-cover splitting/unfurling theorem for PL
+   homotopy tori with its marking and boundary data. Include the change of
+   surgery decoration justified by the displayed Wh and reduced-K₀
+   vanishing. These are owned inputs to torus unfurling and the exotic-torus
+   examples below; they use no already-computed TOP/PL obstruction.
+   For a compact PL h-cobordism of dimension at least6, build the relative
+   handles, its torsion and the product PL isomorphism rel the incoming
+   boundary iff that torsion vanishes, with the parameter/relative boundary
+   hypotheses displayed. The simply connected smooth h-cobordism theorem
+   alone does not supply this general group case. This ordinary PL engine
+   and its finite-cover comparisons precede Layer2's high-dimensional stable
+   homeomorphism/annulus proof and use no TOP annulus or TOP handle theorem.
+   **3d.1. TOP straightening and the TOP/PL fiber.** Consume Layer2's
+   proved high-dimensional annulus/stable-homeomorphism targets and Layer1's
+   single punctured-torus immersion. Prove the controlled
+   handle-straightening and torus-unfurling lemmas, the standard covering
+   pullbacks of their obstruction cochains and the realization detecting
+   the surviving mod2 class, then the stabilization comparison
+   π_k(TOP_m/PL_m)→π_k(topPLFiber) for k<m and m>5. Prove
+   `topPLFiber_isEMThree`: the stable fiber is K(ℤ/2,3), with chosen
+   nonzero π₃ generator, all other homotopy groups zero and the ordinary
+   universal-class comparison through AT8's single EM models. Prove the
+   PL product-structure and concordance-implies-isotopy theorems for
+   m≥6, or m=5 with ∂M contained in the specified near-C region U,
+   from this same engine. Keep the actual extension fixed on a smaller
+   neighborhood of C, and distinguish this structure isotopy from a claim
+   about arbitrary concordant self-homeomorphisms.
+
+   **3e. Kirby–Siebenmann class and PL structures.** Define the universal
+   class ks∈H⁴(BTOP;ℤ/2) as the obstruction to lifting through BPL,
+   using AT8's local-coefficient primary obstruction cochain and the chosen
+   fiber generator. Its pullback is `kirbySiebenmannClass M`; include
+   relative classes when a PL structure is specified near a closed C,
+   naturality under homeomorphisms, products with Euclidean spaces,
+   boundary restriction, and vanishing under an actual PL reduction.
+   For dimension m≥6, or m=5 with ∂M contained in that specified region,
+   prove `plStructure_exists_iff_ks_eq_zero` for extension of the prescribed
+   PL atlas. When an extension is chosen, prove
+   `plStructureConcordanceTorsor` under H³(M,C;ℤ/2), with actual addition,
+   difference, realization and zero-class relative-concordance statements.
+   State this first on concordance classes; use the proved isotopy theorem
+   for its applicable manifold-structure comparison. This class is defined
+   in every dimension, but these existence/classification equivalences
+   are not asserted for four-manifolds. Construct the exotic high-dimensional
+   homotopy tori and the resulting distinct PL structures on the same
+   topological manifold that witness failure of the manifold Hauptvermutung.
+
+   Define ordinary normal transversality for N⊂W to (M,ν) by local
+   transverse product charts at P=M∩N and N=ν⁻¹(P) as neighborhood germs;
+   ν restricted to N is the actual inverse-image normal microbundle. For
+   f:N→W require a locally flat P=f⁻¹(M) with an actual normal microbundle
+   and a morphism of its neighborhood germ into (M,ν), over f|P,
+   identifying the normal fiber germs homeomorphically and with zero section
+   f|P. Include restriction and relative collar diagrams.
+   The stable notions below stabilize exactly these ordinary data.
+   Own `ksSubmanifoldTransversality` for locally flat P^p and Q^(N−q)
+   in a TOP N-manifold with the specified actual target normal microbundle,
+   N≠4. The exceptional cases are expected intersection dimension4,
+   and a four-dimensional submanifold when the other has codimension1 or2.
+   Outside those cases construct the transverse ambient isotopy, inverse-image
+   normal data and relative boundary comparisons, using the
+   Kirby–Siebenmann EssayIII handle proof. Parameter forms concern the total
+   map on parameter×domain, with these total-dimension inequalities and
+   already-transverse parameter-boundary data. In particular p=4,q≥3 and
+   p−q≠4 is in this submanifold range. The graph adapter of3b then supplies
+   map comparisons; Four owns the remaining four-dimensional steps.
+   Own KS-range TOP map transversality with specified normal microbundle
+   data: domain dimension m and expected preimage dimension
+   m−q must both differ from4. Construct a transverse locally flat
+   inverse-image manifold, its normal pullback and boundary/relative
+   parameter comparisons from the product-structure theorem. In the relative
+   boundary form take already transverse boundary data as a hypothesis,
+   including its actual normal chart and collar; constructing a dimension4
+   boundary preimage is not a prerequisite of this theorem. Four F3.1c
+   supplies such data in its applications. This supplies the dimension5
+   normal-bordism preimage case; Four owns the exceptional preimage4 map
+   theorem, with no return dependency in this construction.
+
+   Also own Marin's stable version on the actual stabilized microbundle
+   germs, not arbitrary block bundles or open regular neighborhoods. For a
+   locally flat M⊂W, a stable normal germ is a normal microbundle retraction
+   η in W×ℝ^v near M×0, with further-stabilization and relative-concordance
+   identifications. Define stable transverse N by local transverse charts at
+   P=M∩N and η⁻¹(P)=N×ℝ^v as germs. For a map f:N→W require a locally flat
+   P=f⁻¹(M) and a homotopy F_t of f×id_(ℝ^v) with
+   F_t⁻¹(M×0)=P×0 at every time, to an actual morphism of stable normal microbundle germs over f|P. Construct
+   stable-germ existence/uniqueness, relative symmetry and the ambient normal
+   comparison, then `marinStableMapTransversality` with support/control
+   and already-transverse relative data. For target codimension q≥3 use
+   Marin Theorem1.7 with expected preimage dimension n−q≠4; the domain
+   dimension n may equal4. For q=1,2 use the preceding ordinary KS range
+   (domain n≠4 and n−q≠4), stabilize its normal data and use relative
+   stable-germ uniqueness. The q=2 construction excludes ambient target
+   dimension4, whose normal supplier is owned by Four. Codimension q=1
+   in every ambient dimension, and q=2 in ambient dimension≠4, consume
+   3b's low-codimension construction.
+   Codimension0 is the open inverse-image/zero-normal case. No codimension1–2
+   case is attributed to Marin's codimension≥3 theorems. Follow Marin, *La transversalité topologique*, Ann.Math.106
+   (1977),269–293, Definitions1.1/1.6, Theorems1.2–1.7 and the stability
+   construction2.3 ([primary text](https://www.numdam.org/item/BJHTUP11_1979__2205__A2_0.pdf)).
+   Four's dimension4 modification supplies the exceptional stable version
+   after its ordinary microbundle theorem. A block presentation on a
+   triangulated base enters only through a separately supplied comparison
+   with this actual stable normal germ; an open regular neighborhood alone
+   is not transversality input.
+
+   Export `compactTopologicalManifoldFiniteCWType` here, including the
+   boundary pair, as an actual finite-CW homotopy equivalence. Prove the
+   compact finiteness theorem of Kirby–Siebenmann Annex2 by the stable
+   high-dimensional TOP handle theorem owned here. For a compact TOP
+   m-manifold of any fundamental group choose k with m+k≥6, construct
+   the TOP handlebody of M×D^k (rounding product corners through the
+   fixed collar), and prove finite CW type by its handle-core cofibration
+   maps and AT4. Prove the relative boundary/marked-point version and
+   transfer through M×D^k≃M. Build the dimension≥6 TOP handle theorem
+   from controlled chart/annulus/torus straightening and TOP transversality
+   in this range, with arbitrary π₁, fixed side collars and normal
+   block/microbundle comparisons. This stabilization proof precedes
+   dimension4 surgery.
+   Give homology finite generation and finite marked-point relative forms;
+   finite domination alone is not asserted to imply finite CW type.
+
+   **3f. Topological orientation and characteristic comparison.** Build
+   the fiberwise one-point compactification and mod2 Thom class of a
+   numerable TOP(n)-bundle using its local compact-support generators;
+   TOP(n) need not preserve a chosen round ball. Consume AT's relative
+   cochains/products and TangentialBordism B4.1–2's foundational cup-i/Sq
+   operations, before its manifold/Wu or coefficient applications,
+   to define its Stiefel–Whitney classes by the Thom identity. Prove
+   naturality, Whitney sums, stabilization and comparison with CC's linear
+   classes through BO→BTOP. Define the stable oriented topological-spin
+   classifier as the homotopy fiber of w₂:BTOP⁺→K(ℤ/2,2), and export
+   the obstruction, H¹ torsor of chosen lifts and smooth Spin reduction
+   comparison. A topological-spin structure on a non-PL four-manifold is
+   this stable lift, without an SO frame bundle or a Lie Spin principal lift.
+
+   **3g. Low-dimensional and Euclidean uniqueness.** Own the Moise
+   existence/uniqueness comparison, independently of items3d–3f, for
+   Hausdorff second-countable TOP
+   manifolds of dimensions≤3, including boundary collars: a PL atlas
+   exists, PL atlases are equivalent under an ambient isotopy in the
+   stated relative setting, and their smoothings yield the same
+   diffeomorphism class. Construct the triangulation/straightening and
+   smoothing maps; a homeomorphism is compared with a PL/smooth
+   representative through approximation and isotopy, not asserted smooth.
+   Include the relative forms with the structure specified on an open
+   neighborhood of a closed compact subset and the comparisons fixed on
+   a smaller neighborhood.
+   This strengthens Layer11's unstructured triangulation statement.
+   Independently of item3d's surgery, construct compatible smooth atlases
+   on PL manifolds of dimensions≤6, including boundary collars and a prescribed
+   smoothing on a neighborhood of a closed subset. Own the Whitehead
+   smooth-triangulation→compatible PL-atlas comparison from item1, including
+   tangent microbundles and prescribed boundary charts. Own the local simplex/
+   link smoothing obstruction and its relative extension/uniqueness
+   argument of Cairns–Munkres in these dimensions, with actual chart
+   transition smoothing and comparison to Layer1's native smooth groupoid.
+   Own the stable relative smoothing comparison π_i(PL/O)=0 for 0≤i≤6.
+   Before applying its low-link obstruction calculation, own path-connectedness
+   of Diff⁺(S¹) and Diff⁺(S²), including the explicit O(2)/O(3) inclusion
+   comparisons (rotation isotopy and Smale's sphere theorem). Own the actual
+   Cerf component theorem π₀Diff⁺(S³)=0 on Layer3's C∞ carrier, with the
+   relative disk/sphere extension argument of Cerf's Théorème1; derive
+   Γ₄=0 from this component theorem. Also own the full Hatcher homotopy
+   equivalence O(4)→Diff(S³), whose forward map is the canonical orthogonal
+   action. Prove contractibility of Diff(D³ rel a boundary collar) by the
+   parametric sphere/disc-straightening theorem in Hatcher's proof, including
+   finite parameter families and their prescribed parameter-boundary data.
+   Use Layer3's isotopy-extension fibration to restrict a sphere diffeomorphism
+   to a marked embedded3-disc. Compare its fiber (diffeomorphisms fixing
+   that disc, with their smooth boundary jets) with Diff(D³ rel an open
+   boundary collar) by parametric collar straightening; these are not
+   identified as literal groups. Compare that embedding space with the point/
+   tangent-frame space by shrinking the disc, its derivative and polar frame
+   normalization; identify the latter with O(4). Prove the weak equivalence,
+   the C∞ mapping/diffeomorphism spaces' CW type, and its actual homotopy
+   inverse/homotopies by AT Whitehead. Follow Hatcher, *A proof of the Smale
+   conjecture, Diff(S³)≃O(4)*, Ann. Math.117 (1983),553–607,
+   [primary paper](https://pi.math.cornell.edu/~hatcher/Papers/SmaleConj.pdf).
+   The Γ₄ argument consumes Cerf's component theorem; the full parametric
+   homotopy equivalence is a separate target on the same carrier.
+   Define Γ_i, i≥2, as the Cerf
+   cokernel of restriction of orientation-preserving marked disk
+   diffeomorphisms to the boundary sphere, on the appropriate components.
+   Build the gluing map Γ_i→Θ_i and its isomorphism for i≥5 by the
+   [HomotopySpheres PR284](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
+   Stage1.7's proposed dimension≥6 simply connected smooth
+   h-cobordism theorem and marked
+   PL sphere comparison. In dimensions3–6 own the comparison with the
+   relative simplex/link smoothing obstruction π_i(PL/O); dimensions0–2
+   use the direct chart/link smoothing. Consume HomotopySpheres §6C/§9's
+   exact sequence and low-stem calculation to prove Θ₅=Θ₆=0. Retain actual
+   generators, stabilization and boundary-marking maps before using these
+   vanishings in item3d's G/O comparison. No theorem about π₀(Diff S⁴)
+   is assumed.
+   This supplies the PL4 smoothing used when applying analytic Rokhlin
+   and the PL5/6 smoothing comparisons used by Four's controlled argument;
+   it supplies no smoothing of a TOP4 manifold without a PL atlas.
+   Own Stallings' smooth Euclidean-space theorem for n≥5: a connected
+   boundaryless smooth n-manifold that is contractible and simply connected
+   at infinity is diffeomorphic to ℝⁿ. Consume AT8.5's single
+   `SimplyConnectedAtInfinity` predicate and its compact-exhaustion
+   independence and proper-homotopy invariance.
+   Prove the PL engulfing/cell exhaustion and the Euclidean PL-to-smooth comparison
+   of Munkres' Corollary6.6 used in the theorem. Their relative cell maps
+   and smoothing comparisons are owned here; the proof is Stallings'
+   Theorems4 and5.1, [primary paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/stallings2.pdf).
+   Apply it to any smooth manifold homeomorphic to ℝⁿ. Combine it with
+   the n≤3 comparison (and the n=0 point case) to export
+   `euclideanSmoothStructure_unique_of_dimension_ne_four`. FourManifolds
+   owns the dimension4 counterexample; no smooth-four-sphere conclusion
+   is used in these other-dimensional comparisons.
+
+   Kirby–Siebenmann, *Foundational Essays*, Essays I and IV–V and Annex2,
+   provide the handle/product/classification proof spine; the exact relative
+   and dimension hypotheses and the stable fiber computation are in the
+   [existing extract](references/ks-triangulation-obstruction.md).
 
 ## Acceptance criteria (checks along the way)
 
@@ -1316,7 +1958,7 @@ essential statements quoted with attribution and an exact locator); those are li
   [arXiv:1808.02923](https://arxiv.org/abs/1808.02923), `[Kir97, 1.41]`; M. Freedman, *The
   topology of four-dimensional manifolds*, J. Differential Geom. 17 (1982), and
   Freedman–Quinn (above): Alexander-polynomial-one knots are topologically slice (Theorem
-  11.7B, [extract](references/fq-topological-slice.md)), `[Kir97, 1.36]`.
+  11.11, [extract](references/fq-topological-slice.md)), `[Kir97, 1.36]`.
 
 *Layer 5 (Dehn surgery).*
 - D. Rolfsen, *Knots and Links*, Publish or Perish (1976), Chapter 9 (Dehn surgery, slopes,
