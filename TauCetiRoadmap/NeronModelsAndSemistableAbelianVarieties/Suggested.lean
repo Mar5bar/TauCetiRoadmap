@@ -722,18 +722,30 @@ with a generic-fibre marking and semi-abelian open identity component. Both the
 base-changed Néron identity model and `PicardZero` satisfy whole-group smoothness;
 no residue-field restriction is imposed.
 
-PadicPeriodRings supplies the early completion, Galois action and topological period rings.
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.P1–R07.P5 supplies `B_cris`, `D_cris`,
-`D_dR` and their crystalline and de Rham predicates: these denote its `bCris`, `dCris`, `dDeRham`,
-`IsCrystalline` and `IsDeRham`. Its R07.P6 supplies `B_st`, `D_st`, the semistable
-predicate and `PeriodRealization`; R07.P8 supplies `D_pst` and
-`PadicWeilDeligneRealization`,
-retaining the logarithm branch, `N = e * N_p` and the `K₀` versus `K` scalar fields.
-`PeriodRealization` supplies functoriality, `dim_le` (using the supplied crystalline
-and de Rham bounds), tensor/dual compatibility on the admissible subcategories and
-finite-extension de Rham descent for those same carriers. Its weights are filtration
-indices, so `ℚ_p(1)` has weight `-1`; R07.P7.1–R07.P7.5's labelled Sen weights have
-the opposite numeric sign.
+PadicPeriodRings §§1–2 and 4.1–4.3 supplies the completed field, Galois action, topological
+`B_cris`, `B_dR`, `B_st`, invariant functors, canonical comparisons, regularity and
+crystalline/semistable/de Rham predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+R07.P2–R07.P5a and R07.3.0's `finiteKPeriodComparison` identifies its finite-K crystalline
+and de Rham structures, `bCris`, `dCris`, `dDeRham`, `IsCrystalline` and `IsDeRham`, with
+those shared carriers, maps and predicates, preserving topology, variance and logarithm branch.
+Its R07.4.27 supplies `FilteredPhiNModuleDD` and `FilteredPhiNModuleDD.weilDeligne`.
+`PadicWeilDeligneRealization` in README 5.3 adapts the actual admissible period modules
+of potentially semistable representations of G_K, finite K/ℚ_p, to that same construction
+and the shared WD fields, including p = 2. It retains the commuting coefficient-field action,
+semilinear descent, filtration and effective coefficient descent data. Its formula
+r(g) = g_D ∘ φ^{-a_K(g)} uses arithmetic a_K(Φ_K) = [k_K:𝔽_p]; geometric Frobenius
+inverts Φ_K. Its extension comparisons preserve N_p and prove independence of the chosen
+semistable extension. The normalized output has N_K = e_K N_p; `restrict` uses
+N_L = e(L/K) N_K, with identity and composition in towers. It compares the admissible tensor
+and dual maps and finite-extension filtered de Rham descent on these same period modules.
+`D_pst` is the direct limit of the semistable-extension invariant modules.
+For ℚ_p(1) its WD inertia is trivial and N = 0 despite infinite p-adic Galois inertia;
+φ = p⁻¹σ and the filtration jump is −1. For Tate period π⁵ with e_K = 2, N_K has
+coefficient 5 and N_p has 5/2; further ramified quadratic restriction gives coefficient 10
+for N_L. The adapter preserves the specified coefficient embeddings into the common parameter
+field, and supplies no smaller-field model solely from invariance of an isomorphism class.
+R07.P7.1–R07.P7.5's labelled Sen weights use the opposite numeric sign to filtration
+indices, giving +1 on ℚ_p(1).
 `PadicComparison` uses these supplied predicates and identifies their `D_dR(V_p(A))`
 with the dual degree-one de Rham cohomology and its dual Hodge filtration, naturally
 under finite extensions. The downstream elliptic Bloch–Kato diagram of

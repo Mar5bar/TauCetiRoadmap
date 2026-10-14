@@ -159,15 +159,18 @@ It leaves to other roadmaps, and consumes from them:
   normalisation. Its arbitrary-trait contract includes infinite and imperfect residue fields
   and residue characteristic zero; ArithmeticGaloisRepresentations §2.1a supplies the
   agreement with the local-field character.
-- **PadicPeriodRings**, the completed algebraic-closure/Galois-action, Tate fixed-point/twist
-  and topological period-ring contracts: the shared early `ℂ_p`, `B_dR` and `B_cris`
-  structures and their general-base carriers.
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.P1–R07.P5: finite-`K` period
-  structures, fixed fields, dimension bounds and crystalline/de Rham functors and predicates;
-  §R07.P6: `B_st`, `D_st`, semistability and `PeriodRealization`; §R07.P8:
-  `D_pst` and `PadicWeilDeligneRealization`; §R07.P7.1–R07.P7.5 supplies finite-coefficient
-  period functors, labelled Sen operators and Hodge–Tate lifts. Section 5.3 here owns the
-  geometric Raynaud realization and the abelian-variety period comparison.
+- **PadicPeriodRings**, §§1–2 and 4.1–4.3: completed algebraic closure with Galois action,
+  Tate fixed points/twists, topological `B_cris`, `B_dR`, `B_st`, their invariant functors,
+  canonical comparison maps, regularity and crystalline/semistable/de Rham predicates.
+- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.P2–R07.P5a and R07.3.0:
+  finite-`K` crystalline/de Rham structures and `finiteKPeriodComparison` with those
+  foundational carriers, maps and predicates; §R07.4.27:
+  `FilteredPhiNModuleDD` and `FilteredPhiNModuleDD.weilDeligne`, the arithmetic-normalized
+  filtered-module construction with semilinear descent. Sections R07.P7.1–R07.P7.5 supply
+  finite-coefficient period functors, labelled Sen operators and Hodge–Tate lifts.
+  Section 5.3 here owns `PadicWeilDeligneRealization`, the all-prime finite-`K` adapter
+  from admissible period modules to the shared Weil–Deligne fields, and the geometric
+  Raynaud realization and abelian-variety period comparison.
 - **InverseGaloisAndArithmeticFundamentalGroups**, §§IG.2.4, IG.2.6: Hilbertian fields,
   full-group specialization of finite covers and its Frattini application for 6.0.
 - **NumberFieldArithmetic**, Layer 5, and **LocalFieldsRamification**, Layer 2:
@@ -509,19 +512,20 @@ These are mathematical dependency targets. Only the declarations in the Mathlib 
 Tau Ceti contracts above are asserted to exist at the pins; a carrier required from
 another roadmap is specified in this README and is not a Lean import or declaration.
 
-PadicPeriodRings supplies the early completed algebraic closure with its continuous Galois
-action, Tate fixed points/twists and topological period rings. On that foundation,
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P1–R07.P5 supplies the finite-`K` period
-core: the Galois action on Mathlib's `PadicComplex` and `BDeRham`, `bCris` with its
-Frobenius and embedding in `B_dR`, invariant fields and dimension bounds, and `dCris`,
-`dDeRham`, `IsCrystalline` and `IsDeRham` with their canonical comparison maps.
-Here `B_cris`, `D_cris` and `D_dR` denote those supplied carriers. Its R07.P6 supplies
-`B_st`, `D_st` and `PeriodRealization`, retaining the logarithm branch, Frobenius,
-filtration, `N = e N_p`, the `K₀` and `K` scalar fields, tensor/dual maps and admissibility
-predicates. Its R07.P8 supplies `D_pst` and `PadicWeilDeligneRealization` on potentially
-semistable representations; R07.P7.1–R07.P7.5 supplies the finite-coefficient period and
-Sen interfaces. The target order is this period core, then 5.3's geometric Raynaud
-realization and period comparison, then `PadicComparison`, then 6.10's trace exports;
+PadicPeriodRings §§1–2 and 4.1–4.3 supplies the completed algebraic closure, continuous
+Galois action, topological period carriers, invariant functors, canonical comparison maps,
+fixed fields, regularity and admissibility predicates. Here `B_cris`, `B_dR`, `B_st`,
+`D_cris`, `D_dR` and `D_st` denote those carriers and functors. Consume
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0's
+`finiteKPeriodComparison` to identify the finite-`K` crystalline/de Rham carriers, maps
+and predicates with these foundational ones, preserving topology, Frobenius, filtration,
+variance and logarithmic embedding. Its §§R07.P7.1–R07.P7.5 supplies the finite-coefficient
+period and Sen interfaces. Its §R07.4.27 supplies `FilteredPhiNModuleDD.weilDeligne`;
+5.3's `PadicWeilDeligneRealization` owns the adapter from potentially semistable
+representations over finite `K/ℚ_p` to that construction and the shared parameter fields,
+including at `p = 2`, with descent and ramified restriction. The order is the shared
+period core and its finite-`K` comparisons, then this adapter and 5.3's geometric Raynaud
+realization, then `RaynaudPeriodComparison`, `PadicComparison` and 6.10's trace exports.
 SelmerIwasawaCohomology §4.26 consumes the geometric comparison for its elliptic
 Bloch–Kato diagram.
 
@@ -2521,17 +2525,100 @@ and 5.1 applies; for a non-henselian `R` the abelian-scheme model descends from 
 ### 5.3 Period rings and the `p`-adic comparison at the residue prime
 
 Let `K` be a finite extension of `ℚ_p`, and `K₀` its maximal unramified subfield.
-Use PadicPeriodRings' topological period-ring carriers and the finite-`K` period core of
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P1–R07.P6:
-`B_cris`, `B_dR`, `B_st`, `D_cris`, `D_dR`, `D_st`, their crystalline, semistable and de Rham
-predicates, canonical comparison maps and `PeriodRealization`. Choose the logarithm branch
-of R07.P6 for `B_st → B_dR`; normalize monodromy by `ord(π) = 1`, so
-`N = e N_p` for `e = ord(p)` (Fontaine, Exposé III, §5.2.1, p. 158).
-Preserve the supplied Frobenius, filtration, `K₀`/`K` scalar fields and tensor/dual maps.
+Use PadicPeriodRings §§4.1–4.3's topological period carriers, invariant functors,
+crystalline/semistable/de Rham predicates and canonical comparison maps.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0's
+`finiteKPeriodComparison` identifies the finite-`K` crystalline/de Rham structures with
+these same carriers, maps and predicates. Choose the logarithm branch in the shared
+`B_st → B_dR`; normalize monodromy by `ord_K(π) = 1`, so `N_K = e_K N_p` for
+`e_K = ord_K(p)` (Fontaine, Exposé III, §5.2.1, p. 158). Write `N = N_K` over `K`.
+Preserve Frobenius, filtration, `K₀`/`K` scalar fields and tensor/dual maps.
 The filtration-index convention is `ℚ_p(1)` of weight `−1` and filtration jump `−1`;
 R07.P7.1–R07.P7.5's labelled Sen weights use the opposite numeric sign, giving `+1` on
-`ℚ_p(1)`. Dualising negates either label. The supplied finite-extension de Rham descent
-and R07.P8's `D_pst` and `PadicWeilDeligneRealization` apply to the geometric comparisons below.
+`ℚ_p(1)`. Dualising negates either label.
+
+**Period-to-Weil–Deligne adapter.** Construct `PadicWeilDeligneRealization` for a
+finite-dimensional continuous `E`-representation `V` of `G_K`, where `E/ℚ_p` is finite,
+`p` is any prime, and `V` becomes semistable over a finite Galois extension `F/K`.
+Use the actual shared invariant module
+`D_st^F(V) = (B_st ⊗_{ℚ_p} V)^{G_F}`, retaining its commuting `E`-action, its rank
+`dim_E V` over `F₀ ⊗_{ℚ_p} E`, semilinear Frobenius, nilpotent `N_p`, filtration on its
+`F`-extension and semilinear `Gal(F/K)` descent. The tensor ordering agrees with the
+finite-`K` functors through the tensor symmetry and `finiteKPeriodComparison`.
+The adapter includes the following comparisons.
+
+- Identify these admissible invariant modules with the corresponding
+  `FilteredPhiNModuleDD` objects, and identify the crystalline and de Rham predicates
+  and canonical comparison maps used by `RaynaudPeriodComparison` and `PadicComparison`
+  through `finiteKPeriodComparison`. Use PadicPeriodRings §4.3's semistable predicate.
+  The supplied tensor and dual maps are isomorphisms on these admissible modules;
+  prove this using their canonical period comparisons and regularity. Carry the dual
+  monodromy `−Nᵗ`, filtration and twists. Prove finite-extension de Rham descent on the
+  same carriers: `D_dR,K(V) ≅ D_dR,F(V)^{Gal(F/K)}` as filtered `K`-spaces.
+- Apply `FilteredPhiNModuleDD.weilDeligne` to these period modules with `N_p`.
+  R07.4.27 states its interface for odd `p`; supply its specialization on admissible
+  period modules also at `p = 2`, using the same carrier and operation. For
+  `a_K(g) = [k_K:𝔽_p] α_K(g)`, with arithmetic degree `α_K(Φ_K) = 1`, its formula
+  `r(g) = g_D ∘ φ^{−a_K(g)}` cancels the scalar Frobenius and commutes with the
+  `E`-action. The identity `N_p φ = p φ N_p` proves
+  `r(g) N_p r(g)⁻¹ = p^{a_K(g)} N_p` for every prime. Nilpotence follows by taking
+  `φ^{−[k_F:𝔽_p]}`: it is scalar-linear and conjugates `N_p` to
+  `p^{[k_F:𝔽_p]} N_p`, forcing all its eigenvalues to zero.
+  Compare its fields with the
+  shared `(V,r,N)` fields of ArithmeticGaloisRepresentations §2.4 and
+  SmoothRepresentationsOfLocalGroups SR.5.2 before and after Frobenius semisimplification.
+  For a specified common characteristic-zero parameter field `Ω` containing the images
+  of `E` and `F₀`, pass to the rank-`dim_E V` factor of `F₀ ⊗ E` selected by these
+  embeddings. Retain the `E`-action and coefficient descent data; compare different
+  factors by Frobenius. Give natural comparisons under `E → E′` and under effective
+  coefficient descent in the shared carrier. Invariance of an isomorphism class alone
+  supplies no model over a smaller coefficient field.
+- If `F′/K` is another semistable Galois extension, compare both constructions over a
+  common Galois overfield using
+  `F′₀ ⊗_{F₀} D_st^F(V) ≅ D_st^{F′}(V)` whenever `F ⊆ F′`.
+  These comparisons preserve `φ`, `N_p`, descent and filtered de Rham maps, compose
+  in towers and prove independence of the chosen semistable extension. The notation
+  `D_pst(V)` denotes the resulting direct limit of these invariant modules.
+  At geometric Frobenius `Φ_K⁻¹`, `r(Φ_K⁻¹) N_p r(Φ_K⁻¹)⁻¹ = q_K⁻¹ N_p`.
+  Convert to the uniformizer-normalized output by `N_K = e_K N_p`, using the shared
+  nonzero-monodromy-rescaling isomorphism. For finite `L/K`, `restrict` identifies the
+  output for `V|G_L` with `(r|W_L, e(L/K) N_K)` on the common parameter field:
+  `e_L = e(L/K)e_K`, while `N_p` is unchanged. Prove naturality in `V`, dual and tensor
+  compatibility, and identity and composition of restriction and coefficient extension.
+  These are comparisons of Weil–Deligne fields and isomorphism classes; the filtered
+  period comparison still retains its chosen logarithm and normalized operator.
+
+*Source:* Fontaine, Exposé III, §§5.2.1–5.2.3, pp. 158–159, §§5.6.3–5.6.8,
+pp. 166–168; Exposé VIII, §§1.3.5–1.3.7, pp. 329–330, §§2.3.2–2.3.7, pp. 335–339.
+The semilinear cancellation formula is the one in
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.27 (Savitt 2005, §2.2, Definition 2.7,
+p. 6); its use on actual period modules here covers finite `K/ℚ_p` and all primes.
+*Needs:* PadicPeriodRings §§4.1–4.3;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a, R07.3.0 and R07.4.27;
+ArithmeticGaloisRepresentations §§2.4–2.5, `wd-parameter-operations` and
+`wd-frobenius-semisimplification`; SmoothRepresentationsOfLocalGroups SR.5.2,
+`classical-llc-normalization`.
+
+**Checks.**
+
+- For `V = ℚ_p(1)`, `D_cris` is generated by `t⁻¹`, `φ = p⁻¹σ`, `N_p = 0`
+  and the filtration jump is `−1`. Its WD inertia is trivial, arithmetic Frobenius
+  acts by `q_K` and geometric Frobenius by `q_K⁻¹`, although its `p`-adic Galois
+  inertia is infinite. A direct use of the prime-to-`p` inertia construction fails.
+- For a Tate curve with period `π⁵` over `K` with `e_K = 2`, the positive
+  toric/period coefficient is `5` for `N_K` and `5/2` for `N_p`. Under a further
+  ramified quadratic extension it becomes `10` for `N_L`, while `N_p` stays `5/2`.
+- At `p = 2`, the good elliptic scheme `y² + y = x³` over `ℤ₂` has crystalline
+  WD with trivial inertia and `N = 0`; its degree-one cohomological geometric
+  Frobenius polynomial is `t² + 2`. The same adapter applies over `ℚ₂(√2)`.
+- Enlarging a semistable extension without changing `K` leaves `N_K` unchanged;
+  restricting the representation to that extension multiplies normalized monodromy
+  by its ramification index. These are different comparisons.
+- For the trivial and zero representations the output has `N = 0`, respectively
+  trivial rank-one and zero Weil action; duality inverts the Tate-line Frobenius.
+- For unramified quadratic `K/ℚ_p`, `a_K(Φ_K) = 2`; using `φ⁻¹` in place of
+  `φ⁻²` fails scalar linearity on `K₀`. The parameter still has rank `dim_E V`
+  after selecting a scalar factor, rather than multiplying its rank by `[K₀:ℚ_p]`.
 
 **Full filtered Raynaud realization.** For semistable `A/K`, construct
 `RaynaudFilteredRealization` of the full `1`-motive `[Y → G]` from 3.14, independently of
@@ -2641,8 +2728,10 @@ rather than dimension equalities. Prove naturality under finite extensions with
 `N = e N_p` and the corresponding logarithm branch, and descend the split comparison
 and admissibility through a finite unramified splitting extension as in Fontaine Exposé
 III §1.8.6, p. 135. *Needs:* `RaynaudFilteredRealization`; the shared period core and
-`B_st`, `D_st` and `PeriodRealization` supplied by
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.P6; 3.14's torsion and duality.
+PadicPeriodRings §§4.1–4.3's `B_st`, `D_st`, predicates and canonical comparison maps;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3.0's `finiteKPeriodComparison`;
+`PadicWeilDeligneRealization`'s admissible tensor/dual and descent comparisons;
+3.14's torsion and duality.
 
 **Checks.**
 
@@ -2690,16 +2779,17 @@ For the good abelian quotient `B`, retain the crystalline/de Rham bridge constru
 `RaynaudPeriodComparison`, including for ramified `K` and `p = 2`.
 *Needs:* 1.8, 1.10, 3.1, 3.10, 3.13, 3.14;
 `RaynaudFilteredRealization`, `RaynaudPeriodComparison`;
-PadicPeriodRings (topological period-ring carriers);
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P1–R07.P6, R07.P8;
+PadicPeriodRings §§4.1–4.3 (period carriers, invariant functors and predicates);
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0;
+`PadicWeilDeligneRealization` (admissible period-module comparisons and descent);
 AbelianSchemesAndArithmeticModuli A4.2–A4.3;
 CrystallineCohomology CR.2.1, CR.2.3, CR.3.4;
 SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, and
 ArithmeticGaloisRepresentations R01.2 §2.4, `wd-parameter-operations`.
 
-Apply the supplied `PadicWeilDeligneRealization` of
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.P8 to these potentially semistable Tate
-representations. Keep its semilinear descent action, geometric Frobenius convention,
+Apply `PadicWeilDeligneRealization` of this section to these potentially semistable Tate
+representations, through the supplied `FilteredPhiNModuleDD.weilDeligne`. Keep its
+semilinear descent action, geometric Frobenius convention,
 `N = e N_p` and the specified rescaling under ramified restriction. Compare parameters
 over the common characteristic-zero field supplied by SmoothRepresentationsOfLocalGroups
 SR.5.2 and ArithmeticGaloisRepresentations §2.4. Thus changing from `N_p` to `e N_p`
@@ -3035,8 +3125,9 @@ under the hypothesis; by the perfect pairing of 4.6 one may use `#Φ_A(k̄)` in 
 Layers 1, 3 and 4; ArithmeticGaloisRepresentations §§2.1–2.5, 3.1–3.7, 6.1–6.2,
 §6.3 **The Tate curve**/**Local Euler factors**, §6.6 **Serre's wild bound**;
 `AbelianSchemesAndArithmeticModuli:A3`, `A4.3`; EllipticCurves Layer 4;
-PadicPeriodRings (topological period rings),
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P1–R07.P6, R07.P8, CrystallineCohomology CR.2.1, CR.2.3, CR.3.4 and
+PadicPeriodRings §§4.1–4.3 (period rings, functors and predicates),
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a, R07.3.0 and R07.4.27,
+CrystallineCohomology CR.2.1, CR.2.3, CR.3.4 and
 SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, for 5.3.
 
 ## Layer 6: interfaces for modularity and finiteness
@@ -3394,6 +3485,10 @@ is not asserted to determine monodromy. Exterior powers give weight `i`, and A4.
 `H^i = Λ^i H¹` transfers the result to all `H^i`.
 *Additional needs:* `RaynaudFilteredRealization`, `RaynaudPeriodComparison` and
 `PadicComparison` of 5.3 for the degree-one de Rham maps and their period comparison;
+5.3's `PadicWeilDeligneRealization`, reusing
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.27's
+`FilteredPhiNModuleDD.weilDeligne`, for the shared coefficient-prime WD fields,
+Frobenius convention and ramified restriction;
 CrystallineCohomology CR.2.1 (crystalline cohomology), CR.2.3 (proper smooth formal
 comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization), applied to
 `B_k/W(k)`, including `p = 2`; SmoothRepresentationsOfLocalGroups SR.5.2,
