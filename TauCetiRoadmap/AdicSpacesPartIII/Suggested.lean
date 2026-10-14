@@ -16,13 +16,17 @@ import TauCetiRoadmap.AdicSpacesPartII.Suggested
 /-!
 # Foundations of adic spaces, Part III: representative target signatures
 
+These signatures are suggested forms, not an exhaustive checklist. README.md is the definitive
+specification.
+
 Formal schemes, coherent formal modules, admissible formal models and their generic fibres,
 Raynaud's theorem, flattening, Hasse domains, coherent sheaves on adic spaces, Kiehl-properness,
 the GAGA comparison maps and the traces of finite locally free morphisms are README targets. This
 file states the parts that are a few lines over the pinned carriers:
 
-* F0: adic rings of finite ideal type, completed localisations and completed tensor products
-  of adic rings, finite modules as adic systems, the first-order ideal of a square-zero tower,
+* F0: completed localisations and completed tensor products of the adic rings supplied by
+  AdicSpacesPartII R0.1a–R0.1b, finite modules as adic systems, the first-order ideal of a
+  square-zero tower,
   and on schemes proper over an adic noetherian ring the theorem on formal functions and
   Grothendieck's existence theorem of SchemeAndStackFoundations (§4.9, §4.10) in quotient-system
   form, with the thickenings `Xₙ` encoded as universal quotients `F ⧸ I^{n+1} F` of
@@ -60,37 +64,15 @@ noncomputable section
 
 /-! ## Layer F0: formal geometry -/
 
-/-! ### F0.1 Adic rings (*adic-ring*, *adic-completion-noetherian*, *completed-localization*,
+/-! ### F0.1 Constructions on adic rings (*completed-localization*,
 *restricted-power-series-adic*, *completed-tensor-product-adic*) -/
 
-/-- A topological ring `A` is an *adic ring of finite ideal type* if its topology is the
-`I`-adic topology of a finitely generated ideal `I` and `A` is `I`-adically complete and
-separated (EGA I, Ch. 0, 7.1.9, p. 62). The topology is part of the data. -/
-class IsAdicRing (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] : Prop where
-  /-- A finitely generated ideal of definition for which `A` is complete. -/
-  exists_isAdic : ∃ I : Ideal A, I.FG ∧ IsAdic I ∧ IsAdicComplete I A
+/-! AdicSpacesPartII R0.1a–R0.1b supplies `IsAdicRing`, its chosen ideal and Huber instance,
+and the noetherian completion criteria. -/
 
 namespace IsAdicRing
 
 variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
-
-/-- A chosen finitely generated ideal of definition. -/
-def ideal [IsAdicRing A] : Ideal A :=
-  Classical.choose (IsAdicRing.exists_isAdic (A := A))
-
-theorem ideal_spec [IsAdicRing A] :
-    (ideal A).FG ∧ IsAdic (ideal A) ∧ IsAdicComplete (ideal A) A :=
-  Classical.choose_spec (IsAdicRing.exists_isAdic (A := A))
-
-/-- An adic ring is a Huber ring, with pair of definition `(A, I)`. -/
-instance (priority := 100) isHuberRing [IsAdicRing A] : Huber.IsHuberRing A :=
-  Huber.isHuberRing_of_isAdic (ideal A) (ideal_spec A).2.1 (ideal_spec A).1
-
-/-- The adic completion of a noetherian ring along any ideal `I`, with its `I·R̂`-adic topology,
-is an adic noetherian ring (EGA I, Ch. 0, 7.3.1, p. 66). -/
-theorem adicCompletion {R : Type*} [CommRing R] [IsNoetherianRing R] (I : Ideal R) :
-    letI : WithIdeal (AdicCompletion I R) := ⟨I.map (algebraMap R (AdicCompletion I R))⟩
-    IsAdicRing (AdicCompletion I R) ∧ IsNoetherianRing (AdicCompletion I R) := sorry
 
 /-- Over an adic noetherian ring the restricted power series ring `A⟨T₁, …, T_r⟩` is noetherian
 (EGA I, Ch. 0, 7.5.4(ii), p. 71). -/
@@ -98,32 +80,6 @@ theorem isNoetherianRing_restrictedMvPowerSeriesCompletion [IsAdicRing A] [IsNoe
     (r : ℕ) : IsNoetherianRing (Huber.restrictedMvPowerSeriesCompletion r A) := sorry
 
 end IsAdicRing
-
-/-- A ring complete for a finitely generated ideal `I` with `R ⧸ I` noetherian is noetherian
-(EGA I, Ch. 0, 7.2.6, p. 64; Stacks, Tag 05GH). -/
-theorem isNoetherianRing_of_isAdicComplete {R : Type*} [CommRing R] (I : Ideal R) (hI : I.FG)
-    [IsAdicComplete I R] [IsNoetherianRing (R ⧸ I)] : IsNoetherianRing R := sorry
-
-/-- `ℤ_p` is an adic noetherian ring with ideal of definition `(p)`. -/
-example (p : ℕ) [Fact p.Prime] :
-    IsAdicRing ℤ_[p] ∧ IsNoetherianRing ℤ_[p] ∧ IsAdic (Ideal.span {(p : ℤ_[p])}) := sorry
-
-/-- Every discrete ring is adic, with ideal of definition `0`. -/
-example (R : Type*) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
-    [DiscreteTopology R] : IsAdicRing R := sorry
-
-/-- `ℚ_p` is not adic: its only open ideal is `ℚ_p`, whose powers do not shrink. -/
-example (p : ℕ) [Fact p.Prime] : ¬ IsAdicRing ℚ_[p] := sorry
-
-/-- A field is adic exactly for the discrete topology. -/
-example (k : Type*) [Field k] [TopologicalSpace k] [IsTopologicalRing k] :
-    IsAdicRing k ↔ DiscreteTopology k := sorry
-
-/-- Completeness alone gives nothing: `k[X₀, X₁, …]` is complete for `I = 0` and is not
-noetherian (here `R ⧸ I = R`). -/
-example (k : Type*) [Field k] :
-    IsAdicComplete (⊥ : Ideal (MvPolynomial ℕ k)) (MvPolynomial ℕ k) ∧
-      ¬ IsNoetherianRing (MvPolynomial ℕ k) := sorry
 
 namespace AdicRing
 
