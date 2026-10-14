@@ -683,15 +683,14 @@ the geometric `ComponentGroup`, `Chevalley`, `ToricCharacter`,
 `IntegralMonodromyPairing`, `ComponentPairing`, `RegularPicardNeronQuotient`,
 `BgwSmoothHyperellipticModel`, `BgwNodalPinch`, `BgwGeneralizedJacobian`, `BgwOddFactorTorsors`,
 `StableFamilyPicard`,
-`B_st`, `D_st`, the semistable predicate, the `PeriodRealization` API on the shared
-period functors, `D_pst`, `PadicWeilDeligneRealization`,
 `AbelianVariety.deRham`, and `SemistableOrdinaryAdapter`.
 Their geometric Checks are likewise in README.md.
 
-LefschetzPencilsAndVanishingCycles 0.1 supplies `VanishingCycles.HenselianTrait`,
+EtaleCohomologyFoundations F.3a supplies `VanishingCycles.HenselianTrait`,
 `VanishingCycles.HenselianTrait.inertia_exact`, `VanishingCycles.inertia_eq_valuation_inertia`
 and `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`, `tameCharacter_conj`,
-`tameCharacter_restrict` and `tameCharacter_eq_inertiaTameCharacter`. README 3.5–3.12,
+`tameCharacter_restrict`. ArithmeticGaloisRepresentations 2.1a supplies
+`tameCharacter_eq_inertiaTameCharacter`. README 3.5–3.12,
 4.3 and 5.1 use its general henselian-trait interface: the generic Galois group is the
 one acting on `AbelianTate`, the residue action is on the character lattices, and reduction
 of prime-to-residue roots of unity identifies the supplier's twist with `PadicTateTwist`.
@@ -723,18 +722,22 @@ with a generic-fibre marking and semi-abelian open identity component. Both the
 base-changed Néron identity model and `PicardZero` satisfy whole-group smoothness;
 no residue-field restriction is imposed.
 
-SelmerIwasawaCohomology 4.1–4.5 supplies `B_cris`, `D_cris`, `D_dR` and their
-crystalline and de Rham predicates: these denote its `bCris`, `dCris`, `dDeRham`,
-`IsCrystalline` and `IsDeRham`. README 5.3 extends that core by `B_st` and `D_st`,
+PadicPeriodRings supplies the early completion, Galois action and topological period rings.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.P1–R07.P5 supplies `B_cris`, `D_cris`,
+`D_dR` and their crystalline and de Rham predicates: these denote its `bCris`, `dCris`, `dDeRham`,
+`IsCrystalline` and `IsDeRham`. Its R07.P6 supplies `B_st`, `D_st`, the semistable
+predicate and `PeriodRealization`; R07.P8 supplies `D_pst` and
+`PadicWeilDeligneRealization`,
 retaining the logarithm branch, `N = e * N_p` and the `K₀` versus `K` scalar fields.
 `PeriodRealization` supplies functoriality, `dim_le` (using the supplied crystalline
 and de Rham bounds), tensor/dual compatibility on the admissible subcategories and
 finite-extension de Rham descent for those same carriers. Its weights are filtration
-indices, so `ℚ_p(1)` has weight `-1`; R01.7's numeric labels have the opposite sign.
+indices, so `ℚ_p(1)` has weight `-1`; R07.P7.1–R07.P7.5's labelled Sen weights have
+the opposite numeric sign.
 `PadicComparison` uses these supplied predicates and identifies their `D_dR(V_p(A))`
 with the dual degree-one de Rham cohomology and its dual Hodge filtration, naturally
-under finite extensions. The elliptic Bloch–Kato diagram of the supplier's 4.26 uses
-that same `dDeRham(V_p(E))/Fil⁰`.
+under finite extensions. The downstream elliptic Bloch–Kato diagram of
+SelmerIwasawaCohomology 4.26 uses that same `dDeRham(V_p(E))/Fil⁰`.
 
 `RaynaudFilteredRealization` in README 5.3 constructs the full cohomological realization
 of `[Y → G]` for semistable `A` over finite `K/ℚ_p`, with a `K₀`-structure, semilinear
@@ -781,6 +784,15 @@ The two-lattice construction in README 4.6 has intended signature
   LatticePairing.componentGroup u →+ (LatticePairing.componentGroup u.flip →+ AddCircle (1 : ℚ))`.
 Its API targets are `discriminantPairing_zero_left`, `discriminantPairing_mk` and
 `discriminantPairing_rankOne` in README 4.6. These are mathematical targets, not Lean declarations.
+
+README 5.0a–5.0c specifies finite-étale torsion specialization and the good-reduction
+Frobenius and Euler-factor comparisons; 5.1a specifies potential good reduction.
+README 5.3a–5.3e, 5.3g–5.3i specifies the elliptic conductor, special fibre, étale Euler
+characteristics, determinant/discriminant, Ogg/Saito formula, bounds, residual conductors
+and comparison with Mathlib's local polynomial. README 6.0 specifies independence and
+closed-point specialization. These geometric targets have no typed signatures here.
+AbelianSchemesAndArithmeticModuli A1.8 supplies Weil extension for the consequence
+`AbelianSchemeModel` in README 1.8.
 
 The corresponding untyped theorems include `GroupLaw`, `Smoothening`, `LocalExistence`,
 `AbelianSchemeModel`, `SpreadAbelian`, `DedekindGluing`, `EtaleBasechange`,
