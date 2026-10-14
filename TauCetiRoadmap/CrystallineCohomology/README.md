@@ -122,7 +122,8 @@ roadmap of that comparison, which builds on this one.
   supplies unique lifting, generated orthogonal factorization systems and their reflections.
   The implementation order is OrthogonalFactorization, then CommRingFactorizationSystems,
   then the seminormal comparison in CR.4.6. The cusp computation is owned by that local comparison.
-- **EnhancedDerivedSheaves** owns the enhanced derived categories of sheaves, derived tensor
+- **EnhancedDerivedSheaves** ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/03046909/TauCetiRoadmap/EnhancedDerivedSheaves/README.md))
+  owns the enhanced derived categories of sheaves, derived tensor
   products and internal Hom, pullback and pushforward (Layer E1), derived limits, hypercovers and
   hypercover descent (Layer E2), Kan extensions and Beck–Chevalley comparisons (Layer E3) and the
   quasicategorical background (Layer E0); this roadmap applies them to crystalline sites.
@@ -397,7 +398,8 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   of a composite); Layer E2 (hypercovers, bounded-below hypercover descent, derived limits of
   epimorphic systems with their Milnor sequences, the Čech complex of a finite cover); Layer E3
   (Beck–Chevalley comparisons).
-- **SchemeAndStackFoundations**: Layer 2 (coherent cohomology, Tor-independent base change,
+- **SchemeAndStackFoundations**: §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
+  for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
   perfect complexes and their biduality, a single perfect generator of `D_QCoh`, coherent
   Grothendieck duality with `(g∘f)^! ≅ f^!g^!`, the finite and smooth formulas, the proper trace
   and Serre duality, the pro-étale site and `ν`, extension by zero `F_!`, étale lifting across
