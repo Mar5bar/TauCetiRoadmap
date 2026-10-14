@@ -390,7 +390,9 @@ axiomatic theories independently of their G2 spectral representation.
    a nonsemistable counterexample F₁S¹. Ordinary sequential spectra
    have their own proved stable-colimit comparison; do not transfer that
    statement to arbitrary symmetric spectra by forgetting permutation actions.
-7. **Represented theories and ordinary adapters.** Prove that the displayed
+7. **Represented theories and ordinary adapters.** First construct early
+   G2.10 after DGF1.2, then DGF1.4's fixed abelian models, before this item.
+   Prove that the displayed
    formulas in the conventions satisfy every G1 axiom and product/sign law.
    Their spectral maps induce natural maps of theories. Assemble the ordinary
    coefficient comparison into a concrete HA for any abelian A: its n-th pointed simplicial level is
@@ -495,15 +497,31 @@ axiomatic theories independently of their G2 spectral representation.
 
 
 10. **Mapping-path replacements and homotopy fibres.** This foundational
-   convenient-space sublane depends only on G2.1 and uses
-   native continuous maps and the compact-open path topology. For f:B→K
-   construct `MappingPathSpace f := {p:B×C(I,K) // p.2(0)=f(p.1)}`
+   raw convenient-space construction uses G2.1, native continuous maps
+   and the compact-open path topology. Own `IsHurewiczFibration p` for a
+   continuous p:E→B: use an actual continuous lifting function
+   Λ:{(e,γ):E×C(I,B) | γ(0)=p(e)}→C(I,E), with Λ(e,γ)(0)=e
+   and p(Λ(e,γ)(t))=γ(t). Prove it yields continuous homotopy lifting
+   for parameter spaces Z in arbitrary universes: for a:Z→E and
+   H:Z×I→B starting at p∘a, construct L:Z×I→E starting at a with p∘L=H.
+   For the converse, require lifting for the universal parameter
+   MappingPathSpace p in Type(max uE uB), or its ULift to a larger
+   universe. The interval's compact-open exponential law and this
+   universal test establish the equivalence and its upward universe
+   comparisons. Develop pullback/composition and map/homotopy naturality.
+   After DGF1.2's Serre carrier, prove the Hurewicz-to-Serre comparison
+   by specializing these lifts to its cube/disk tests. DGF Layer2 consumes
+   this single predicate and comparison for Moore-path replacements.
+   For f:B→K construct `MappingPathSpace f := {p:B×C(I,K) // p.2(0)=f(p.1)}`
    and `MappingPathFiber f k := {p:B×C(I,K) //
    p.2(0)=f(p.1) ∧ p.2(1)=k}` with the actual product/subspace topology.
    Construct the constant-path inclusion B→MappingPathSpace f, the
    projection to B, endpoint map to K and the flattening homeomorphism
    between MappingPathFiber and the literal endpoint fibre. Contract
    the replacement to B by the actual reparameterization γ(s t).
+   Name the based path space at k as MappingPathSpace of the constant
+   map {∗}→K with value k; the same γ(s t) homotopy contracts it to the
+   constant path. Its endpoint fibre over k is the actual based loop space.
    Prove the endpoint map is a Hurewicz, hence Serre, fibration by a
    continuous parametrized path-concatenation lifting construction.
    Likewise the fibre projection to B is the pullback of the fixed-end
@@ -523,7 +541,11 @@ axiomatic theories independently of their G2 spectral representation.
    homotopies, pullback/naturality and homotopy-choice comparisons.
    Compare these explicit replacements with the derived homotopy fibre
    in the designated topological model and with the same CW/Serre
-   carrier used by DGFloer1.2's LES. StringOrientation's BString and
+   carrier supplied by DGFloer1.2's LES, after that ordinary Serre carrier
+   is constructed. This comparison has order DGF1.2→G2.10→DGF1.4;
+   the raw path construction itself uses only G2.1. This early G2.10
+   precedes DGF1.4 and hence G2.7's HA/ordinary comparison.
+   StringOrientation's BString and
    TangentialBordism's normal-classifier lifting use this single carrier;
    neither constructs an endpoint-dependent disjoint sum of path fibres.
 
@@ -1599,17 +1621,39 @@ axiomatic theories independently of their G2 spectral representation.
    algebra to native `CliffordAlgebra (TauCeti.realCliffordForm p q)` and
    its adjoint to reversion composed with the sign change on negative
    coordinates. This adjoint equals native global Clifford star when p=0;
-   for p>0 the positive generators have the opposite adjoint sign. Give the
-   actual graded compact operators, tensor/multiplier and continuous
+   for p>0 the positive generators have the opposite adjoint sign. Keep the
+   C*-model on a separate `def` type synonym with an explicit underlying
+   algebra equivalence; do not install this adjoint on the native abbreviation.
+   For mixed signature complexification pin the involution to
+   conjugation graded-⊗(β∘reverse), where β changes the negative coordinates.
+   Pin the real spectral order: x≤y iff y−x is self-adjoint with nonnegative
+   real spectrum; use the unitization/quasispectrum form for nonunital
+   Clifford/compact/adjointable synonyms. Identify it with the pullback of
+   the complex spectral order and construct their `PartialOrder`,
+   `StarOrderedRing` and nonnegative-spectrum interfaces. On native real
+   Hilbert operators H→L[ℝ]H retain `ContinuousLinearMap.instLoewnerPartialOrder`
+   and the existing `NonnegSpectrumClass ℝ`; prove spectral positivity
+   equivalent to native `IsPositive`, using `IsPositive.spectrumRestricts`
+   and `realHilbertContinuousFunctionalCalculus`'s descended square root
+   for the converse, after the Hilbert complexification/bounded transport
+   below. Obtain `StarOrderedRing` from native `ContinuousLinearMap.instStarOrderedRingRCLike` after the
+   real CFC is built; do not introduce a second order on that native type.
+   Use the specified real algebra order for module pairing positivity.
+   Give the actual graded compact operators, tensor/multiplier and continuous
    functional-calculus constructors. For signature addition pin the
    coordinate shuffle (x,y,x′,y′)↦(x,x′,y,y′), with positive x,x′ and
    negative y,y′. Its determinant is (−1)^(p′q); retain this reference-
    volume/Koszul sign in the graded tensor, Bott and Morita comparisons:
-   ω_(p+p′,q+q′)=(−1)^(p′q)·(ω_(p,q) graded-⊗ω_(p′,q′)), together with the
-   ordered exterior-module isomorphism Λ(V) graded-⊗Λ(V′)≃Λ(V⊕V′).
-   Insert this sign once through those maps; the ordered exterior vacuum
-   normalization supplies its reference-module comparison, not another
-   scalar factor in the index product.
+   ω_(p+p′,q+q′)=(−1)^(p′q)·(ω_(p,q) graded-⊗ω_(p′,q′)).
+   For the neutral block Cl(c,c) specify the module Λ(ℝ^c), with its
+   exterior-degree parity, e_i↦ε_i+ι_i and f_i↦ε_i−ι_i in ordered
+   coordinates (e_1,…,e_c,f_1,…,f_c). Here ε_i is wedge by the ith
+   positive basis vector and ι_i its adjoint contraction. The ordered
+   Λ(ℝ^c) graded-⊗Λ(ℝ^c′)≃Λ(ℝ^(c+c′)) map sends vacuum⊗vacuum
+   to vacuum with sign +1. Its reference-volume formula accounts for the
+   coordinate shuffle once, without an extra scalar in the index product.
+   Test Cl(1,1) graded-⊗Cl(1,1): the volume shuffle has determinant −1,
+   while the exterior vacuum tensor map still has sign +1.
    Construct the real finite-Clifford Hilbert-module interface on native
    complete normed real vector spaces, with right A-action expressed through
    opposite scalars, an A-valued real-sesquilinear pairing with
@@ -1617,14 +1661,72 @@ axiomatic theories independently of their G2 spectral representation.
    recovery ‖x‖²=‖⟨x,x⟩_A‖, and compatible module/algebra gradings.
    Here A is the finite real C*-Clifford Cl(p,q) just constructed. Native
    `CStarModule` currently requires complex scalars on both A and E; reuse
-   it after complexification and real-form descent, not as an instance on
-   this real carrier. Build adjointable maps, finite-rank θ_(x,y), compact
+   H1's right-module form `CStarModule A_Cᵐᵒᵖ E_C` after complexification
+   and real-form descent, reading its pairing through `MulOpposite.unop`.
+   Use a `WithCStarModule`-style type synonym for the trace-induced real
+   Hilbert norm, with the identity linear homeomorphism and norm comparison
+   to the A-module norm; competing norm/star instances stay on their
+   designated synonyms. Build adjointable maps, finite-rank θ_(x,y), compact
    completion and finite matrix-factor/complexification comparisons.
    Construct the normalized faithful even scalar trace of A and the induced
    real inner product, with uniform equivalent-norm/completion comparisons.
+   Construct `realFiniteCliffordContinuousFunctionalCalculus` for these finite
+   Clifford algebras and their compact/multiplier/adjointable operator
+   algebras. Their trace-induced real Hilbert spaces consume the single
+   native-operator instance `realHilbertContinuousFunctionalCalculus`
+   constructed below. Complexify the algebra and
+   module with their actual C*-norms and conjugations, compare the real
+   algebra/module with the fixed points, and descend conjugation-commuting
+   real-valued functions from native complex CFC. Install the native real
+   `IsometricContinuousFunctionalCalculus`
+   and nonunital interfaces on the designated real models, extending the
+   preceding spectral order to their compact/multiplier/adjointable models
+   and proving norm, positivity, composition and tensor/compact compatibility.
+   For a complete real inner-product space H construct
+   `RealHilbertComplexification H` as a separate synonym of
+   native `TauCeti.Complexification H`, retaining its complex linear
+   structure but installing the Hilbert inner product
+   ⟨x+iy,x′+iy′⟩=(x,x′)+(y,y′)+i((x,y′)−(y,x′)), with norm
+   √(‖x‖²+‖y‖²). Do not install this norm on the native Taylor-norm carrier.
+   Prove the real embedding is isometric, conjugation J(x+iy)=x−iy is an
+   antilinear isometry, and this space is complete. Construct the identity
+   complex continuous-linear equivalence with the native Taylor model,
+   proving ‖z‖_T≤‖z‖_H≤√2·‖z‖_T. Transport native
+   `ContinuousLinearMap.complexify` through it for bounded maps, retaining
+   composition and adjoints, and prove equality of operator norms from
+   the Hilbert formula. Then construct `realHilbertContinuousFunctionalCalculus`
+   on native H→L[ℝ]H for every complete real inner-product space H:
+   transport bounded operators to this Hilbert complexification, use native
+   complex CFC and conjugation descent, and install one native real
+   isometric CFC instance. It precedes the native positivity converse
+   and `instStarOrderedRingRCLike` above; all trace-induced real Hilbert
+   spaces use this same instance. For a densely defined real `LinearPMap` D define D_C(x+iy)=Dx+iDy on the actual
+   complexified domain; prove graph/closure transport and
+   (D_C)†=(D†)_C, including equality of domains. For closed self-adjoint D
+   this supplies the complex Hilbert operator used below.
+   On this Hilbert synonym pin H1–2's transported scalar structure:
+   `CStarModule ℂᵐᵒᵖ H_C` has `op z • v=z•v` and
+   `unop (inner ℂᵐᵒᵖ v w)=⟨v,w⟩_ℂ`, derived from native
+   `instCStarModuleComplex`; keep it local to the designated synonym.
+   Export `scalarComplexHilbertModuleAdjointComparison`: for densely
+   defined T, H6's representing-vector module adjoint equals native
+   `LinearPMap.adjoint` with the same domain, by scalar Riesz and density.
+   Hence native self-adjointness is equivalent to the H6 scalar-module
+   condition. Specialize H6 to coefficient ℂ and prove scalar regularity
+   from H6's symmetric-operator criterion and
+   [SelfAdjointSpectralTheory SA-D15–D17](../OperatorTheory/SelfAdjointSpectralTheory/README.md)'s
+   closed/dense range and nonreal resolvents. Descend H6's actual scalar
+   C₀(ℝ) calculus to real-valued conjugation-intertwining functions, proving
+   nondegeneracy, bounded-transform and real resolvent formulas (1+D²)⁻¹
+   and D(1+D²)⁻¹. Export this real Hilbert closed descent as
+   `realHilbertClosedFunctionalCalculus`. Prove J f(D_C) J=conj(f)(D_C)
+   through resolvents and density, so real-valued functions preserve the
+   real fixed space; also retain conjugation and domain laws for bounded
+   transforms. This scalar regularity uses no real finite-Clifford module
+   theorem and precedes the operator-transfer exports below.
    Export `realFiniteCliffordAdjointableComparison`: every bounded A-linear
    operator on the resulting real Hilbert space is A-adjointable, with the
-   same adjoint. Prove this using A-linearity and testing the A-valued adjoint
+   same adjoint and operator norm. Prove this using A-linearity and testing the A-valued adjoint
    identity against every right scalar through the faithful trace pairing.
    Export `realFiniteCliffordCompactComparison`: A-linear real-compact
    operators are exactly K_A(E). Finite-rank A-operators have finite real
@@ -1636,7 +1738,13 @@ axiomatic theories independently of their G2 spectral representation.
    module-regular, with the same module adjoint/domain; real-compact
    resolvent implies K_A-compact resolvent. Transfer the A-linear operators
    (1+D²)⁻¹ and D(1+D²)⁻¹ through the preceding two comparisons, proving
-   the dense-range regularity condition and the functional-calculus match.
+   the dense-range regularity condition. Then construct
+   `realFiniteCliffordClosedFunctionalCalculus`: complexify the now-regular
+   module operator, consume H6's actual C₀(ℝ) module calculus and descend
+   its conjugation-invariant real functions. Prove equality with the preceding
+   real Hilbert-space calculus, strong/strict convergence, bounded-transform,
+   compact and essential-support laws, including zero representation. This
+   module calculus follows regularity and precedes Spin's analytic use.
    Construct `realFiniteCliffordHilbertModuleStabilization` for every
    countably generated graded Hilbert A-module: an even A-linear unitary
    E⊕Std_A≃Std_A, where Std_A=U_(p,q) graded-⊗A is the countably infinite
@@ -1648,7 +1756,11 @@ axiomatic theories independently of their G2 spectral representation.
    Hilbert spaces. Do not require an A-orthonormal basis of an arbitrary
    Hilbert A-module. For p=q=0 stabilize the two real parity spaces
    separately. Give support/universe comparisons and the actual isomorphism
-   K_A(Std_A)≃Cl(p,q) graded-⊗K(U_(p,q)). Prove even-unitary frame-choice
+   K_A(Std_A)≃K(U_(p,q)) graded-⊗A, whose elementary action is
+   (k⊗a)(u⊗c)=(−1)^(|a||u|)ku⊗ac. Its graded flip
+   k⊗a↦(−1)^(|k||a|)a⊗k gives the displayed A graded-⊗K(U_(p,q))
+   operator model; prove both action/tensor comparisons and their signs.
+   Prove even-unitary frame-choice
    contractibility in the strong (equivalently strict on these unitaries)
    topology, and numerable parameter/pullback compatibility, including
    conjugation of compacts in point norm and stabilization of the
@@ -1667,9 +1779,12 @@ axiomatic theories independently of their G2 spectral representation.
    Cl(c,0) graded-⊗Cl(0,c), eight-periodic Morita maps, product/unit,
    Hilbert stabilization and parameter/pair naturality, including the
    normalized real/complex coefficient diagrams. Export the operator-level
-   Morita insertion (p,q)→(p+c,q+c), with its even intertwiner, compact-
-   operator/functional-calculus map and index compatibility; the signature
-   degree p−q is unchanged. This is an algebraic/operator export, before
+   Morita insertion (p,q)→(p+c,q+c), by placing Cl(c,c) as the second
+   signature summand and tensoring its specified exterior module. Pin the
+   coordinate map (x,y,e,f)↦(x,e,y,f), its volume sign (−1)^(cq), and
+   the even exterior-vacuum intertwiner with unit sign +1. Prove compact-
+   operator/functional-calculus and index compatibility, product/unit and
+   iterated insertion coherence; the signature degree p−q is unchanged. This is an algebraic/operator export, before
    any geometric embedding/excision square.
    Then construct `realMixedCliffordIndexClassification` in degree d=p−q.
    Construct `realMixedCliffordIndexClassification_map` to

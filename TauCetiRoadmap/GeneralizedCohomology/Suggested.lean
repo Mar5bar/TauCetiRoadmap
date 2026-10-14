@@ -1,3 +1,4 @@
+import TauCeti.Analysis.Normed.Module.Complexification
 import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Compact
 import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.Real.Four
 import TauCeti.Geometry.Lie.Subgroup.Unitary
@@ -53,6 +54,33 @@ def MappingPathSpace {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
 instance {B K : Type*} [TopologicalSpace B] [TopologicalSpace K] (f : C(B, K)) :
     TopologicalSpace (MappingPathSpace f) :=
   inferInstanceAs (TopologicalSpace {p : B × C(unitInterval, K) // p.2 0 = f p.1})
+
+/-- A genuine universal path-lifting condition. G2.10 proves equivalence
+with homotopy lifting tested on the universal path parameter (or its ULift
+into a larger universe). The forward lift works for arbitrary parameter universes. -/
+def IsHurewiczFibration {E B : Type*} [TopologicalSpace E] [TopologicalSpace B]
+    (p : C(E, B)) : Prop :=
+  ∃ lifting : C(MappingPathSpace p, C(unitInterval, E)),
+    (∀ q, lifting q 0 = q.val.1) ∧
+    (∀ q t, p (lifting q t) = q.val.2 t)
+
+/-- The universal lifting function produces actual lifts for arbitrary parameters. -/
+theorem IsHurewiczFibration.lift {E B X : Type*}
+    [TopologicalSpace E] [TopologicalSpace B] [TopologicalSpace X]
+    (p : C(E, B)) (hp : IsHurewiczFibration p)
+    (a : C(X, E)) (H : C(X × unitInterval, B))
+    (h0 : ∀ x, H (x, 0) = p (a x)) :
+    ∃ L : C(X × unitInterval, E),
+      (∀ x, L (x, 0) = a x) ∧ (∀ x t, p (L (x, t)) = H (x, t)) := by
+  obtain ⟨lifting, hstart, hproj⟩ := hp
+  let q : C(X, MappingPathSpace p) :=
+    { toFun x := ⟨(a x, H.curry x), h0 x⟩
+      continuous_toFun := (a.continuous.prodMk H.curry.continuous).subtype_mk _ }
+  refine ⟨(lifting.comp q).uncurry, ?_, ?_⟩
+  · intro x
+    exact hstart (q x)
+  · intro x t
+    exact hproj (q x) t
 
 /-- The actual homotopy-fibre carrier over k keeps both endpoint equations. -/
 def MappingPathFiber {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
@@ -116,11 +144,53 @@ structure SpinClassifierMultiplicationComparison {BSpin BSO : Type*}
   comparison : ContinuousMap.HomotopyRel (projection.comp spinSum)
     (orientedSum.comp (projection.prodMap projection)) {(unitSpin, unitSpin)}
 
+/-- A separate carrier for the Hilbert norm; native Complexification retains
+its Taylor norm. The Hilbert normed/inner-product instances are G5.5 targets. -/
+def RealHilbertComplexification (H : Type*) := TauCeti.Complexification H
+
+instance {H : Type*} [AddCommGroup H] : AddCommGroup (RealHilbertComplexification H) :=
+  inferInstanceAs (AddCommGroup (TauCeti.Complexification H))
+
+instance {H : Type*} [AddCommGroup H] [Module ℝ H] :
+    Module ℂ (RealHilbertComplexification H) :=
+  inferInstanceAs (Module ℂ (TauCeti.Complexification H))
+
+/-- The actual Hermitian form to be used for the Hilbert synonym. -/
+noncomputable def hilbertComplexificationInner {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (z w : RealHilbertComplexification H) : ℂ :=
+  let z' : TauCeti.Complexification H := z
+  let w' : TauCeti.Complexification H := w
+  ((inner ℝ z'.re w'.re + inner ℝ z'.im w'.im : ℝ) : ℂ) +
+    Complex.I * ((inner ℝ z'.re w'.im - inner ℝ z'.im w'.re : ℝ) : ℂ)
+
+/-- The Hilbert norm formula, not an instance on the native Taylor carrier. -/
+noncomputable def hilbertComplexificationNorm {H : Type*} [NormedAddCommGroup H]
+    (z : RealHilbertComplexification H) : ℝ :=
+  let z' : TauCeti.Complexification H := z
+  Real.sqrt (‖z'.re‖ ^ 2 + ‖z'.im‖ ^ 2)
+
 /-- G5.5 uses this native underlying algebra for the mixed operator model.
 Its operator adjoint agrees with native global Clifford star when p=0;
 for p>0 the positive generators have the opposite adjoint sign. -/
 abbrev RealMixedCliffordCarrier (p q : ℕ) :=
   CliffordAlgebra (TauCeti.realCliffordForm p q)
+
+/-- Separate synonym for the operator C*-model; its norm and adjoint are
+construction targets, and no native Clifford star instance is installed on it. -/
+def RealMixedCliffordCStarModel (p q : ℕ) := RealMixedCliffordCarrier p q
+
+instance (p q : ℕ) : Ring (RealMixedCliffordCStarModel p q) :=
+  inferInstanceAs (Ring (RealMixedCliffordCarrier p q))
+
+instance (p q : ℕ) : Algebra ℝ (RealMixedCliffordCStarModel p q) :=
+  inferInstanceAs (Algebra ℝ (RealMixedCliffordCarrier p q))
+
+/-- Only the underlying algebra is transported here. G5.5 constructs the
+C*-adjoint β∘reverse on this separate synonym. -/
+def realMixedCliffordCStarModelEquiv (p q : ℕ) :
+    RealMixedCliffordCStarModel p q ≃ₐ[ℝ] RealMixedCliffordCarrier p q :=
+  AlgEquiv.refl
 
 /-- Affiliated negative-Clifford operators classify KO^(-n). -/
 abbrev RealNegativeCliffordCarrier (n : ℕ) := RealMixedCliffordCarrier 0 n
