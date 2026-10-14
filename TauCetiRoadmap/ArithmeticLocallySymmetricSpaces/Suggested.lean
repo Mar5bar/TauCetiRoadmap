@@ -76,8 +76,8 @@ noncomputable section
 /-! ## Group-ring coefficients (ALS.F.2) -/
 
 /-- **ALS.F.2, `groupRing_S3_noncomm`.** The integral group ring of `S₃` has two unequal
-products of transposition basis elements, so its perfect left-module interface requires an
-arbitrary unital ring. -/
+products of transposition basis elements, requiring the general-ring extension of the shared
+perfect left-module interface. -/
 theorem groupRing_S3_noncomm :
     MonoidAlgebra.single (Equiv.swap (0 : Fin 3) 1) (1 : ℤ) *
         MonoidAlgebra.single (Equiv.swap (1 : Fin 3) 2) (1 : ℤ) ≠
@@ -665,30 +665,36 @@ The following README targets need carriers that Mathlib and Tau Ceti do not prov
 commits; they are stated in `README.md` with their exact hypotheses and are not Lean declarations
 here.
 
-* Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups),
-  ALS.F.2 specifies `PerfectComplex.IsPerfect` on Mathlib's `DerivedCategory (ModuleCat A)`
-  for left modules over every unital ring. Its definition, shift invariance,
+* Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups).
+  Generic commutative perfect objects, their bounded-finite-projective/compact/dualizable
+  characterization, traces and filtered trace additivity are supplied by
+  LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
+  `PerfectComplex.filteredTraceAdditivity`. ALS.F.2 owns the extension of that theory to
+  arbitrary unital rings with the shared `PerfectComplex.IsPerfect` interface on Mathlib's
+  `DerivedCategory (ModuleCat A)` for left modules. The general-ring definition, shift invariance,
   `PerfectComplex.IsPerfect.of_triangle`, `PerfectComplex.IsPerfect.of_summand`,
   `PerfectComplex.IsPerfect.baseChange` as `B ⊗^L_A K`,
   `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left `A`-module,
   `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests,
-  and `PerfectComplex.IsPerfect.dual` are targets here; the dual takes values in right modules
-  over a noncommutative ring. Generic commutative perfect objects, their characterization and
-  traces are supplied by LefschetzPencilsAndVanishingCycles §F.10 /
-  `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`.
-  Transport of that supplied realization, its shift/scalar/tensor/dual functors and its
-  compact/dualizable characterization carries `PerfectComplexInput(A)` for commutative `A`.
-  This explicit realization input supplies no general-ring closure theorem and is not needed
-  by the arithmetic finite-cell arguments. There is no additional arithmetic carrier or predicate.
+  and `PerfectComplex.IsPerfect.dual` form the extension API; the dual takes values in right
+  modules over a noncommutative ring. On commutative rings the interface consumes the supplied
+  objects through `PerfectComplexInput(A)`, identifying their realization and
+  shift/scalar/tensor/dual functors with the commutative restriction of this interface.
+  The supplier does not name the predicate or closure declarations. This identification is an
+  explicit hypothesis; the general-ring proofs and arithmetic finite-cell arguments use
+  finite-projective representatives independently of it. There is no second commutative
+  perfect-object theory or additional arithmetic carrier or predicate.
   Tensor/dualizable identities for two left complexes require commutativity. Arithmetic duality
   uses `RHom_R(−,R)` with the contragredient finite-group action.
   Bounded constructible/ctf categories on the étale domain
   are supplied by LefschetzPencilsAndVanishingCycles §F.1 /
   `VanishingCycles.constructibleDerivedCategory`.
-  `SheafDerived.pushforward` and its API are arithmetic adapters to the topological functors
-  supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 /
-  `artinComparisonCompactSupport` supplies compact-support Artin comparison on separated
-  finite-type complex schemes. `TopologicalCoefficientInput(R)` assumes the ordinary
+  `SheafDerived.pushforward` and its API are only arithmetic adapters to the generic topological
+  `j_!`, `Rf_!`, `RΓ_c` and comparison functors supplied by ComplexComparisonPartII §C6.1 /
+  `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` supplies
+  compact-support Artin comparison and independence of algebraic compactification on separated
+  finite-type complex schemes. Relative Borel–Serre comparison consumes §C6.1 and the arithmetic
+  pair model. `TopologicalCoefficientInput(R)` assumes the ordinary
   local-system comparison for arbitrary commutative rings/stalk modules, compact support on
   the relative finite CW models, and functor coherence on all spaces used here outside that
   finite-coefficient domain, including ALS.F.4. It asserts no perfectness.
