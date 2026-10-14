@@ -26,7 +26,9 @@ Fix a prime p. For arithmetic coefficients O is the ring of integers of a finite
 
 Write Â = lim_m A/p^mA for additive completion, and use power quotients for multiplicative groups. This is not an unrestricted algebraic tensor product. Inverse limits of compact coefficient systems carry their inverse-limit topology. Rational Iwasawa cohomology means integral Iwasawa cohomology tensored with ℚ_p, rather than an inverse limit allowing unbounded denominators. Pontryagin corank of a cofinitely generated discrete module is the rank of its compact dual.
 
-Cochain complexes are cohomological. The fibre of f is Cone(f)[−1]. Local Tate duality has degree two and global compact-support duality degree three. Derived global statements assume condition (P): p is odd or F has no real places. At p = 2 with real places use ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*), the complete Tate-cochain correction in the unbounded derived category; finite Poitou–Tate modifications alone do not give this derived comparison. Ordinary étale and Galois cohomology of Spec 𝒪_{F,S} agree in all degrees with no real-place modification (§3.15). The displayed cyclotomic Euler-rank formulas assume p odd. Finite ordinary and nonsingular conditions retain their H⁰, inertia and Tamagawa errors.
+Cochain complexes are cohomological. The fibre of f is Cone(f)[−1]. Write C_v^ord(X) = C_cont(G_v,X) at every place. The arithmetic local diagram C_v^mod(X) uses the same complex at finite places, complete Tate cochains at real places and zero at complex places. The supplier map q_v:C_v^ord→C_v^mod is the identity at finite places, the ordinary-to-Tate map at real places and the zero map at complex places. Modified localization is q_v∘res_v. For a module T, ordinary local H⁰ is T^{G_v}; modified real H⁰ is T^{G_v}/N_vT and modified complex H⁰ is zero. Ordinary cochains supply deformation tangents; arithmetic compact support and derived Selmer duality use the modified diagram. Section 2.21 supplies both fibres and their archimedean comparison, and §2.22 uses H⁰ of the specified diagram.
+
+Local Tate duality has degree two and global compact-support duality degree three. The bounded derived arithmetic statements assume condition (P): p is odd or F has no real places. Under (P), modified archimedean cochains are acyclic, so arithmetic compact support is represented by the finite-place fibre. Ordinary archimedean H⁰ need not vanish under (P). At p = 2 with real places use ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*), with complete Tate cochains in the unbounded derived category; finite Poitou–Tate modifications alone do not give this derived comparison. Ordinary étale and Galois cohomology of Spec 𝒪_{F,S} agree in all degrees with no real-place modification (§3.15). The displayed cyclotomic Euler-rank formulas assume p odd. Finite ordinary and nonsingular conditions retain their H⁰, inertia and Tamagawa errors.
 
 For Λ = O⟦Γ⟧ the induced compact coefficient action is g(ℓ ⊗ t) = [g]⁻¹ℓ ⊗ gt; ι(γ) = γ⁻¹. A k-fold Tate cup twist is semilinear for Tw_k(γ) = χ_cyc(γ)⁻ᵏγ (§3.0). Arithmetic Frobenius is used in the explicitly specified Euler factors. The arithmetic determinant is det⁻¹; for a generically acyclic complex its valuation is Σ_i(−1)^i length H^i, so degrees one and two give char H²/char H¹. Positive rank needs a supplied regulator trivialization.
 
@@ -94,12 +96,12 @@ Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-t
 
 §P1.6 (functoriality of tilting), §P1.10 (`isPerfectoidField_padicComplex`), §P1.16 (A_inf = W(R⁺) for a perfect plus ring), §P1.17 (Fontaine's θ is Mathlib's `WittVector.fontaineTheta`), §P1.18 (the primitive kernel of θ), §P1.31 (the completed cyclotomic field is perfectoid), §P3.7 (finite extensions of perfectoid fields), §P3.12 (the integral closure is almost finite étale). They supply the period-ring inputs of §4.1 and the almost-étale trace statement used in Tate's calculation; they do not identify Hodge–Tate weights with archimedean Hodge indices.
 
-### From other open roadmap pull requests
+### From other roadmaps
 
 | Contract | Supplier and exact target | Convention / retained consumer |
 | --- | --- | --- |
-| S869b | ZerosOfLFunctions §1.5 / **The gamma factor of a record**, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math) | Require the full finite-product pole theorem on the two shift multisets alone. §4.14 expands multiplicities and specializes at integers, obtaining finite order in `WithTop ℤ` equal to the negative integer count. The real-bodied local carrier `gammaPoleOrder` serves `poleOrderAtOne`, Tate-dual factors and criticality; `gammaPoleOrder_hodge_analytic` transports the supplied theorem for Hodge realizations. |
-| S869c | LFunctions §Layer 0 / **completed L-function data**, `AnalyticLFunctionData.gammaFactor`, `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC` (an open TauCetiRoadmap pull request by roed-math) | Require a factor-only product on two complex-shift multisets agreeing with the record's projection. §4.14 retains the Hodge/Betti recipe and weighted integral-list adapter `hodgeGammaShifts`; the real-bodied local restatement `hodgeGammaFactor` serves `gammaFactor`, `gamma_tate_factor` and Hodge Checks, with `hodgeGammaFactor_eq_shiftProduct` identifying it with the supplier's formula. |
+| S869b | ZerosOfLFunctions §1.5 / **The gamma factor of a record**, poles and divisor clause | Require the full finite-product pole theorem on the two shift multisets alone. §4.14 expands multiplicities and specializes at integers, obtaining finite order in `WithTop ℤ` equal to the negative integer count. The real-bodied local carrier `gammaPoleOrder` serves `poleOrderAtOne`, Tate-dual factors and criticality; `gammaPoleOrder_hodge_analytic` transports the supplied theorem for Hodge realizations. |
+| S869c | LFunctions §Layer 0 / **completed L-function data**, `AnalyticLFunctionData.gammaFactor`, `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC` | Require a factor-only product on two complex-shift multisets agreeing with the record's projection. §4.14 retains the Hodge/Betti recipe and weighted integral-list adapter `hodgeGammaShifts`; the real-bodied local restatement `hodgeGammaFactor` serves `gammaFactor`, `gamma_tate_factor` and Hodge Checks, with `hodgeGammaFactor_eq_shiftProduct` identifying it with the supplier's formula. |
 
 The two Gamma contracts use only the shift multisets: they require neither Dirichlet coefficients, conductor, root number, completed function nor a polar divisor. Hodge factors enter through this factor-only interface, without constructing a full L-function record.
 
@@ -439,17 +441,17 @@ Each identity uses its specified coefficient pairing and the supplier's compatib
 
 ### 1.3 Local conditions and derived orthogonal complements
 
-Given actual local cochain complexes C_X,C_Y with the supplier perfect degree-two cup duality and maps U_X^+→C_X, U_Y^+→C_Y, include a chosen nullhomotopy of their cup product as orthogonality data. Put U_Y^−=Cone(U_Y^+→C_Y). The adjoint U_X^+→RHom(U_Y^−,J)[−2] defines Err_v as its cone. Derived complementarity means Err_v is acyclic; H¹-annihilation alone does not imply it. For complementary finite-free coefficient subcomplexes X^+,Y^+ under X⊗Y→J(1), the coefficient adjoint X/X^+→D_J(Y^+)(1) gives the vanishing criterion.
+Given specified local complexes C_X,C_Y with the supplier perfect degree-two cup duality and maps U_X^+→C_X, U_Y^+→C_Y, include a chosen nullhomotopy of their cup product as orthogonality data. Put U_Y^−=Cone(U_Y^+→C_Y). The adjoint U_X^+→RHom(U_Y^−,J)[−2] defines Err_v as its cone. Derived complementarity means Err_v is acyclic; H¹-annihilation alone does not imply it. The arithmetic instance uses C_v^mod on both sides: ordinary cochains at finite places, complete Tate cochains at real places and zero at complex places. Ordinary archimedean cochains do not supply the required degree-two duality. At finite places, for complementary finite-free coefficient subcomplexes X^+,Y^+ under X⊗Y→J(1), the coefficient adjoint X/X^+→D_J(Y^+)(1) gives the vanishing criterion.
 
-Bounded local conditions and coefficient finiteness/cofiniteness satisfying Nekovář 6.2.5; p=2 real places use the supplier modified complexes, or exclude real places. J is the chosen injective or dualizing coefficient complex.
+Bounded local conditions and coefficient finiteness/cofiniteness satisfying Nekovář 6.2.5; under (P) modified archimedean complexes are acyclic. At p=2 with real places use the supplier complete Tate duality in the unbounded derived category. J is the chosen injective or dualizing coefficient complex.
 
 The construction proceeds as follows. Form the actual cones and the chain-level adjoint using the nullhomotopy. Define the error cone and its long exact sequence; derive the comparison with ordinary H¹ annihilators only under the necessary H⁰/H² hypotheses. For elementary subcomplexes, use the supplier derived local duality and the coefficient exact triangle to identify the error with the cohomology of the coefficient adjoint cone.
 
-(Nekovář, §§6.2.1–6.2.7, pp. 137–140; §6.7, pp. 151–154.)
+(Nekovář, §§6.2.1–6.2.7, pp. 137–140; §6.7, pp. 151–154; §5.7.1–5.7.2, pp. 130–132.)
 
 The named operations and identities are:
 
-- `LocalConditionMorphism` — A morphism U^+→C on the actual continuous cochain carrier.
+- `LocalConditionMorphism` — A morphism U^+→C into the explicitly supplied local complex.
 - `localMinus` — The cone of U^+→C.
 - `localDualError` — Cone of the cup-adjoint U_X^+→D(U_Y^−)[−2].
 - `derivedComplement_iff` — Derived complementarity iff the error cone is acyclic.
@@ -460,24 +462,26 @@ The named operations and identities are:
 - The zero and identity local-condition maps are derived complements under perfect local duality.
 - Adding a nonzero degree-zero complex with zero map to U^+ leaves its H¹ image unchanged but changes the error cone.
 - For a zero coefficient pairing on nonzero modules, H¹ cup annihilation does not produce complementary derived local conditions.
+- At a real place with T=𝔽_p trivial and p odd, C_v^ord has H⁰=𝔽_p and H²=0, so it cannot have perfect degree-two self-duality; C_v^mod is acyclic.
 
-*Needs:* ArithmeticGaloisDuality §D7.4 (*Derived local Tate duality*); §1.1 (Perfect pairings and dual local conditions).
+*Needs:* ArithmeticGaloisDuality §D7.4 (*Derived local Tate duality*); ArithmeticGaloisDuality §R02.4.2 (*Local duality at the archimedean places*); ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*); §1.1 (Perfect pairings and dual local conditions).
 
 ### 1.4 Duality for a global mapping fibre with local conditions
 
-Let F_X=Fib(C_global(X)⊕⊕U_X,v^+→⊕C_v(X)), and F_Y similarly, with the arrow res−i and pairings/nullhomotopies as in §1.3. Transport the ArithmeticGaloisDuality Layer D7 global compact-support duality to a map F_X→D_J(F_Y)[−3]. Its error triangle has third vertex ⊕_v Err_v. It is an isomorphism if the local adjoints are quasi-isomorphisms, and otherwise the error cone is part of the statement. This Layer 1 theorem is parametric in local-condition maps; Layer 2 instantiates it, so Layer 1 does not depend on Layer 2.
+Let F_X=Fib(C_global(X)⊕⊕U_X,v^+→⊕C_v^mod(X)), and F_Y similarly, with modified localization q_v∘res_v, the arrow loc−i and pairings/nullhomotopies on the modified diagram as in §1.3. Transport the ArithmeticGaloisDuality Layer D7 global compact-support duality to a map F_X→D_J(F_Y)[−3]. Its error triangle has third vertex ⊕_v Err_v computed on that diagram. It is an isomorphism if the local adjoints are quasi-isomorphisms, and otherwise the error cone is part of the statement. Under (P) the local target can be replaced by the finite-place sum, retaining any U_v^+ at archimedean places in the source. This Layer 1 theorem is parametric in local-condition maps; Layer 2 instantiates it, so Layer 1 does not depend on Layer 2. Ordinary deformation fibres require the archimedean comparison of §2.21 before this arithmetic duality can be applied.
 
 Finite S; bounded admissible complexes with the supplier’s finite/cofinite or dualizing coefficient hypotheses; condition (P): p is odd or F has no real places. Chain-level orthogonality data, not just orthogonal H¹ subspaces. For p=2 with real places this construction/theorem requires ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*).
 
 Prove this as follows. Import the compact-support triangle and its perfect degree-three duality. Use the local nullhomotopies to define the fibre pairing; use the octahedral axiom on the global and local duality triangles. Identify the third vertex with the finite direct sum of local adjoint cones (Nekovář 6.3.4). Take cohomology for the exact error sequence.
 
-(Nekovář, Theorem 6.3.4, pp. 142–143.)
+(Nekovář, Theorem 6.3.4, pp. 142–143; §5.7.2–5.7.5, pp. 131–133.)
 
 **Checks.**
 
 - Over a field, complementary conditions pair H^i(F_X) with H^(3−i)(F_Y), rather than degree 2−i.
 - A nonacyclic Err_v is retained even if the H¹ local conditions annihilate each other.
-- At p=2 with a real place, the unmodified compact-support complex is not an allowed substitution.
+- For F=ℚ, S={p,∞}, T=𝔽_p trivial and p odd, the strict ordinary fibre has an extra 𝔽_p in H¹ relative to the modified fibre; (P) does not remove it.
+- At p=2 with a real place, use the complete Tate local diagram and the unbounded supplier duality.
 
 *Needs:* §1.3 (Local conditions and derived orthogonal complements); ArithmeticGaloisDuality §D7.5 (*Derived Poitou–Tate duality*); ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*).
 
@@ -955,34 +959,56 @@ The lim¹ bookkeeping is explicit.
 
 ### 2.21 Selmer complex as a mapping fibre
 
-For a finite set S and a bounded compact/rational/discrete coefficient complex X on the canonical continuous carrier, a complex local condition consists of actual maps i_v^+:U_v^+→C_cont(G_v,X). Define RΓ_f(F,S,X;U^+) as Cone(C_cont(G_(F,S),X)⊕⊕_v U_v^+ --res−i-->⊕_v C_cont(G_v,X))[−1]. Supply the triangles RΓ_f→RΓ_global→⊕U_v^− and RΓ_c→RΓ_f→⊕U_v^+. Strict uses U^+=0 and relaxed uses i=id. Submodules of H¹ are not by themselves a unique choice of U^+.
+For a finite set S and a bounded compact/rational/discrete coefficient complex X, specify actual local complexes C_v(X), localization maps loc_v:C_cont(G_(F,S),X)→C_v(X), and local-condition maps i_v^+:U_v^+→C_v(X). Define RΓ_f(F,S,X;C_v,U^+) as Cone(C_cont(G_(F,S),X)⊕⊕_v U_v^+ --loc−i-->⊕_v C_v(X))[−1]. Put U_v^−=Cone(i_v^+) and C_c(C_v)=Fib(loc); supply the triangles RΓ_f→RΓ_global→⊕U_v^− and C_c(C_v)→RΓ_f→⊕U_v^+. Strict uses U^+=0 and relaxed uses i=id into the chosen C_v. Submodules of H¹ are not by themselves a unique choice of U^+.
 
-Actual continuous complexes and localization maps are supplier objects; finite S; use modified real local complexes at p=2 where required. The compact-support identification uses condition (P): p odd or F totally imaginary. Outside (P), use the modified real-place complex and duality of ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*) in the unbounded derived category.
+Instantiate this carrier as RΓ_f^ord with C_v^ord and ordinary restriction, and as RΓ_f^mod with C_v^mod and localization q_v∘res_v from the Conventions. For an ordinary condition keep U_v^+ and replace i_v^+ by q_v∘i_v^+ to obtain its modified condition. Only C_c(C_v^mod) is arithmetic compact support RΓ_c. Under (P) its acyclic archimedean target terms can be omitted, giving the finite-place model; any archimedean U_v^+ remain in the Selmer source. At p=2 with real places the modified diagram and its duality use ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*) in the unbounded derived category. Global cochains remain ordinary and untruncated in both diagrams.
 
-The construction proceeds as follows. Form the finite direct sums, res−i arrow and its shifted cone in Mathlib derived categories. Give chain-level maps for both triangles, and prove their naturality via cone functoriality and the octahedral axiom. For discrete X identify the continuous carrier with the locally constant cohomology of TauCetiRoadmap.EllipticCurves Layer 7; compare its H¹ kernel after §2.22 computes the H⁰ correction.
+Construct the natural comparison for these transported conditions. With S_∞ the archimedean part of S, put Q_∞(X)=⊕_{v∈S_∞} Cone(q_v). The triangle is
 
-(Nekovář, Definitions 6.1.1–6.1.2 and triangles 6.1.3, pp. 135–136.)
+```text
+RΓ_f^ord(X) → RΓ_f^mod(X) → Q_∞(X)[−1] → RΓ_f^ord(X)[1].
+```
+
+For a coefficient module T in degree zero, H^j(Q_∞(T))=0 for j≥0 and H^{−1}(Q_∞(T))=⊕_{v∈S_∞} T_{G_v}, with T_{G_v}=T at a complex place. Thus the comparison gives
+
+```text
+H⁰(RΓ_f^ord) → H⁰(RΓ_f^mod) → ⊕_{v∈S_∞} T_{G_v} → H¹(RΓ_f^ord) → H¹(RΓ_f^mod) → 0,
+H^j(RΓ_f^ord) ≅ H^j(RΓ_f^mod)  (j≥2).
+```
+
+Under (P), Q_∞(T)[−1]≃⊕_{v∈S_∞} T^{G_v}[0]. At a dyadic real place, lower negative Tate groups can survive in Q_∞, so this concentration in degree zero requires (P), or coefficients on which 2 is invertible.
+
+The construction proceeds as follows. Form the finite direct sums, loc−i arrow and its shifted cone in Mathlib derived categories. Give chain-level maps for the two fibre triangles, and prove their naturality via cone functoriality and the octahedral axiom. Apply the same construction to the square with identity on the source and ⊕q_v on the target to obtain the archimedean comparison. For a real module, use the periodic Tate resolution: the quotient by ordinary cochains has top cohomology T_{G_v} in degree −1, and lower cohomology is the negative Tate cohomology. At a complex place Cone(q_v)≃T[1]. For discrete X compare the classical continuous H¹ kernel with TauCetiRoadmap.EllipticCurves Layer 7 using §2.22.
+
+(Nekovář, Definitions 6.1.1–6.1.2 and triangles 6.1.3, pp. 135–136; §5.7.2, pp. 131–132, for modified localization.)
 
 The named operations and identities are:
 
-- `selmerComplex` — Cone(res−i)[−1] on canonical continuous complexes.
+- `selmerComplex` — Cone(loc−i)[−1], parametric in the supplied local diagram.
+- `selmerComplexOrd` — The instance using ordinary cochains at every place.
+- `selmerComplexMod` — The instance using the modified arithmetic local diagram and q_v∘res_v.
 - `selmerComplex_globalTriangle` — RΓ_f→RΓ_global→⊕Cone(i_v^+) is an exact triangle.
-- `selmerComplex_compactTriangle` — RΓ_c→RΓ_f→⊕U_v^+ is an exact triangle.
-- `selmerComplex_map` — Coefficient/field/local-condition maps and homotopies induce a fibre map, with identity and composition.
+- `selmerComplex_compactTriangle` — C_c(C_v)→RΓ_f→⊕U_v^+ is an exact triangle for the same local diagram; its first vertex is arithmetic RΓ_c in the modified instance.
+- `selmerComplex_map` — Maps of the global, local and condition complexes with compatible localization homotopies induce a fibre map, with identity and composition.
 - `selmerComplex_quasiIso` — Compatible quasi-isomorphic conditions give equivalent Selmer complexes.
+- `selmerArchimedeanCone` — Q_∞(X), the sum of the archimedean comparison cones.
+- `selmerComplex_archimedeanTriangle` — The ordinary-to-modified comparison triangle above, natural in the transported local conditions.
 
 **Checks.**
 
 - If every i_v=id, RΓ_f is quasi-isomorphic to RΓ_global.
-- If every U_v^+=0, RΓ_f is compact-support cohomology with the same real-place convention.
+- If every U_v^+=0 in the modified diagram, RΓ_f^mod is arithmetic compact support, represented under (P) by the finite-place fibre.
 - For S empty, the fibre is the global complex, without an extra shift.
 - Two local conditions with equal H¹ image can give different Selmer H¹ because their H⁰ differs.
+- For F=ℚ, S={p,∞}, T=k=𝔽_p trivial and p odd, strict conditions give 0→k→H¹(RΓ_f^ord)→H¹(RΓ_f^mod)→0 and Q_∞[−1]≃k[0]. The ordinary fibre is not arithmetic compact support.
+- At a complex place and for a module T, C_v^ord≃T[0], C_v^mod=0 and Cone(q_v)[−1]≃T[0]; even a totally imaginary field can have an ordinary archimedean correction.
+- At a real place with T=𝔽₂ trivial, Cone(q_v) has H^{−1}=𝔽₂ and H^j=𝔽₂ for every j≤−2, but H^j=0 for j≥0. The comparison of fibre cohomology in degrees ≥2 still holds.
 
-*Needs:* ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*); §1.3 (Local conditions and derived orthogonal complements); ArithmeticGaloisDuality §R02.1.2 (*Comparison with the canonical carrier for compact coefficients*).
+*Needs:* ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*; *Duality when p = 2 and K has real places*); ArithmeticGaloisDuality §R02.3.1 (*Localisation maps and the modified local groups*); §1.3 (Local conditions and derived orthogonal complements); ArithmeticGaloisDuality §R02.1.2 (*Comparison with the canonical carrier for compact coefficients*).
 
 ### 2.22 The H⁰ correction before the classical Selmer kernel
 
-Assume H¹(U_v^+)→H¹(C_v) is injective. With L_v its image, the fibre LES gives 0→J→H¹(RΓ_f)→Sel_L→0, where J=coker[H⁰(C_global)⊕⊕H⁰(U_v^+) --res−i-->⊕H⁰(C_v)]. The right map forgets the uniquely determined local H¹ lifts. Hence H¹(RΓ_f)=Sel_L when this H⁰ arrow is onto; a sufficient hypothesis is H⁰(i_v^+) bijective for every v. Without H¹-injectivity, retain ker(⊕H¹(U_v^+)→⊕H¹(C_v)) in the kernel calculation.
+Specify the local diagram of §2.21 and assume H¹(U_v^+)→H¹(C_v) is injective. With L_v its image and Sel_L=ker[H¹(C_global)→⊕H¹(C_v)/L_v] using that localization, the fibre LES gives 0→J→H¹(RΓ_f)→Sel_L→0, where J=coker[H⁰(C_global)⊕⊕H⁰(U_v^+) --loc−i-->⊕H⁰(C_v)]. The right map forgets the uniquely determined local H¹ lifts. Hence H¹(RΓ_f)→Sel_L is an isomorphism exactly when this H⁰ arrow is onto; a sufficient hypothesis is H⁰(i_v^+) bijective for every v. For a module T in degree zero, the ordinary diagram uses T^{G_v} at all places, whereas the modified diagram uses Tate H⁰ at real places and zero at complex places. For such a module and conditions transported by q_v, the classical H¹ kernels agree, since H¹(q_v) is bijective; their H⁰ correction terms can differ. Without H¹-injectivity, retain ker(⊕H¹(U_v^+)→⊕H¹(C_v)) in the kernel calculation.
 
 Use the fibre of §2.21; no unconditional identification of fibre H¹ with the classical kernel.
 
@@ -995,6 +1021,7 @@ Prove this as follows. Write the LES segment in degrees zero and one, including 
 - For global complex 0, one local complex k[0] and strict condition, Sel=0 while H¹(fibre)=k.
 - For a nonzero U^+ in degree one mapping to zero, the extra local H¹ survives; H¹i injectivity fails.
 - Bijective local H⁰ and injective local H¹ give the classical kernel.
+- For F=ℚ, S={p,∞}, T=k=𝔽_p trivial and p odd, with strict conditions, the ordinary H⁰ map is the diagonal k→k⊕k with cokernel k. The modified map k→k⊕0 is onto, so J^mod=0 and H¹(RΓ_f^mod) is the classical strict kernel.
 
 *Needs:* §2.21 (Selmer complex as a mapping fibre); §2.2 (Compact and rational Selmer kernel).
 
@@ -1212,7 +1239,7 @@ Prove this as follows. On the infinite Galois subgroup, t^k identifies the coeff
 
 ### 3.8 Iwasawa Selmer complex and completed action
 
-For Γ=Gal(F∞/F)≅ℤ_p^d, Λ=O[[Γ]], define the infinite compact Selmer complex as Rlim_n RΓ_f(F_n,T;U_n), with corestriction, and the discrete complex as colim_n RΓ_f(F_n,A;U_n), with restriction. Choose actual local maps, transition maps and their coherent comparison homotopies. Shapiro identifies the compact complex with the finite-S fibre for T_Λ=Λ⊗̂_O T on which g acts by [g]^−1⊗g. At a place v use the induced semilocal Λ-module from its decomposition subgroup Γ_v. The completed action is continuous, and the compact/discrete actions are paired contragrediently. F∞,v is never treated as a locally compact local field.
+For Γ=Gal(F∞/F)≅ℤ_p^d, Λ=O[[Γ]], define the infinite compact Selmer complex as Rlim_n RΓ_f(F_n,T;U_n), with corestriction, and the discrete complex as colim_n RΓ_f(F_n,A;U_n), with restriction. Specify the ordinary or modified diagram of §2.21 at each level, with actual local maps, transition maps and their coherent comparison homotopies. Shapiro identifies the compact complex with the finite-S fibre for T_Λ=Λ⊗̂_O T on which g acts by [g]^−1⊗g, using that same local diagram. Arithmetic duality in §3.12 uses the modified instance. At a place v use the induced semilocal Λ-module from its decomposition subgroup Γ_v. The completed action is continuous, and the compact/discrete actions are paired contragrediently. F∞,v is never treated as a locally compact local field.
 
 Finite S containing p, infinite places and coefficient ramification; finitely generated compatible local coefficient complexes. Nekovář condition (U): added non-p places are unramified in the tower, or their ramification errors are retained.
 
@@ -1299,7 +1326,7 @@ Prove this as follows. Apply the five-term sequences of ArithmeticGaloisDuality 
 
 ### 3.12 Iwasawa duality with the involution and local errors
 
-For perfect coefficient duals T and T^*(1), transport the Layer 1 duality (§1.4) to induced coefficients. For Γ≅ℤ_p^d and the regular local ring Λ=O[[Γ]], use coefficient duality with Λ placed in degree zero and obtain RΓ_f,Iw(T)→RHom_Λ(RΓ_f,Iw(T^*(1)),Λ)^ι[−3], where ι(γ)=γ^−1. Its cone is the sum of the induced local complement errors. With elementary coefficient complements at p and the precise unramified conditions elsewhere, calculate which errors vanish and which survive (including Tamagawa terms); derived duality is an equivalence only after those errors vanish. This is compatible with finite-level specialization, global degree-three duality and local degree-two pairings.
+For perfect coefficient duals T and T^*(1), transport the Layer 1 duality (§1.4) to induced coefficients on the modified arithmetic local diagram, with local complements computed on that diagram. For Γ≅ℤ_p^d and the regular local ring Λ=O[[Γ]], use coefficient duality with Λ placed in degree zero and obtain RΓ_f,Iw(T)→RHom_Λ(RΓ_f,Iw(T^*(1)),Λ)^ι[−3], where ι(γ)=γ^−1. Its cone is the sum of the induced local complement errors. With elementary coefficient complements at p and the precise unramified conditions elsewhere, calculate which errors vanish and which survive (including Tamagawa terms); derived duality is an equivalence only after those errors vanish. This is compatible with finite-level specialization, global degree-three duality and local degree-two pairings.
 
 Perfectness/dualizing coefficient hypotheses of Nekovář §8.9 and the duality of ArithmeticGaloisDuality §D7.5 (*Derived Poitou–Tate duality*); tower condition (U); condition (P): p odd or F has no real places. The p=2 real-place version uses ArithmeticGaloisDuality §D7.5 (*Duality when p = 2 and K has real places*), the modified compact-support construction in the unbounded derived category; no bounded integral amplitude is claimed. A height-one disappearance of an error is weaker than its integral acyclicity. Here the compact dual T^*(1) means Hom_O(T,O)(1); it is distinct from Rubin’s discrete T^*=Hom_O(T,E/O)(1). Λ is the degree-zero coefficient dualizing module in this normalization; using an absolute dualizing complex shifted by dim Λ requires the compensating shift. The displayed shift is the arithmetic degree-three normalization.
 
@@ -1885,9 +1912,9 @@ The named operations and identities are:
 
 ### 4.14 Gamma factor and its integer pole order
 
-**`hodgeGammaFactor`.** Provides the finite product of shifted Mathlib real and complex Gamma factors. Supplied by LFunctions §Layer 0 / completed L-function data (`AnalyticLFunctionData.gammaFactor`) (an open TauCetiRoadmap pull request by roed-math). Our weighted list has integral shifts and multiplicities whereas the supplier has separate complex-shift multisets, so the retained adapter expands multiplicities and casts each shift without changing the `s + shift` sign.
+**`hodgeGammaFactor`.** Provides the finite product of shifted Mathlib real and complex Gamma factors. Supplied by LFunctions §Layer 0 / completed L-function data (`AnalyticLFunctionData.gammaFactor`). Our weighted list has integral shifts and multiplicities whereas the supplier has separate complex-shift multisets, so the retained adapter expands multiplicities and casts each shift without changing the `s + shift` sign.
 
-**`gammaPoleOrder_analytic`.** Provides the meromorphic pole orders of finite products of shifted real and complex Gamma factors. Supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math). Here translate weighted integral shifts to complex-shift multisets and specialize at integers, proving that Mathlib's order in `WithTop ℤ` is the negative finite pole count, independently of totalized Gamma values at poles.
+**`gammaPoleOrder_analytic`.** Provides the meromorphic pole orders of finite products of shifted real and complex Gamma factors. Supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause. Here translate weighted integral shifts to complex-shift multisets and specialize at integers, proving that Mathlib's order in `WithTop ℤ` is the negative finite pole count, independently of totalized Gamma values at poles.
 
 **Hodge Gamma recipe and integer adapter.** For a real place, each off-diagonal pair (a,b),(b,a), a<b, contributes a complex shift −a with multiplicity h^(a,b), and the diagonal sign ε contributes a real shift ε−a with multiplicity h_a^ε. For a complex place each type (a,b) contributes a complex shift −min(a,b) with its multiplicity. Finite support makes these lists finite. The integer carrier `gammaPoleOrder` sums multiplicities of complex factors with m+shift≤0 and real factors with m+shift a nonpositive even integer. The Hodge-specific adapter `gammaPoleOrder_hodge_analytic` transports ZerosOfLFunctions §1.5 to these factors and equates `meromorphicOrderAt` to the negative count cast into `WithTop ℤ`; it does not construct another generic Gamma divisor theorem.
 
@@ -2201,9 +2228,9 @@ Prove this as follows. Over L the representation is trivial and its rational fin
 
 ### 4.28 Parity of Selmer ranks in self-dual ordinary families and under quadratic twist
 
-This subsection proves the Selmer-complex half of Nekovář's parity theorem: in a family of self-dual ordinary Galois representations the parity of the Selmer rank is constant, and over a 2-abelian extension it decomposes along characters. Throughout, p is odd, E is a number field and S contains p∞ and the coefficient ramification. At v | p use the strict ordinary complex U_v^+(X) = C_cont(G_v,X_v^+) with its inclusion into C_cont(G_v,X); elsewhere use the unramified complex C_cont(G_v/I_v,X^{I_v}). These specify the mapping fibre of §2.21. The inertia-kernel condition of §2.8 requires its separate correction and is not substituted for this complex. Write h¹_f(E,X) for the dimension of its H¹ for rational X; comparison with Bloch–Kato uses §4.12 and the H⁰ correction of §2.22 (Nekovář Proposition 12.7.13.3(iii)).
+This subsection proves the Selmer-complex half of Nekovář's parity theorem: in a family of self-dual ordinary Galois representations the parity of the Selmer rank is constant, and over a 2-abelian extension it decomposes along characters. Throughout, p is odd, E is a number field and S contains p∞ and the coefficient ramification. At v | p use the strict ordinary complex U_v^+(X) = C_cont(G_v,X_v^+) with its inclusion into C_cont(G_v,X); at the other finite places use the unramified complex C_cont(G_v/I_v,X^{I_v}). At archimedean places use U_v^+=0 into C_v^mod. Every RΓ_f in this subsection uses this modified arithmetic diagram of §2.21, represented here by its finite-place model. The inertia-kernel condition of §2.8 requires its separate correction and is not substituted for this complex. Write h¹_f(E,X) for the dimension of its H¹ for rational X; comparison with Bloch–Kato uses §4.12 and the H⁰ correction of §2.22 (Nekovář Proposition 12.7.13.3(iii)).
 
-**The skew-symmetric generalized Cassels–Tate pairing.** Let O be a DVR with fraction field 𝒦 of characteristic zero and 2 ∈ Oˣ. Coefficients are either finite free continuous O-lattices for O the integers in a finite extension of ℚ_p, or finite-type admissible localized coefficients in ArithmeticGaloisDuality §D7.5, *Duality after localising the coefficients*, arising from a complete Noetherian local ring with finite residue field; cochains in the latter case are filtered colimits over finite-type submodules of that base ring, not cochains for an invented O-adic topology. Let X be finite free over O with a perfect equivariant skew-symmetric pairing π : X ⊗_O X → O(1). Assume its global and local cochain complexes and U_v^+ are perfect, that X_v^+ at p is a stable O-direct summand equal to its orthogonal, and that every local error Err_v of §1.3 is acyclic. Include the orthogonality nullhomotopies and their transposition data from §§1.3–1.5. Prove `selmerComplex_skewPairing`: for C = RΓ_f(E,X), cup product with π followed by the compact-support trace RΓ_c(E,O(1)) → O[−3] gives a pairing C ⊗^L_O C → O[−3] and an isomorphism
+**The skew-symmetric generalized Cassels–Tate pairing.** Let O be a DVR with fraction field 𝒦 of characteristic zero and 2 ∈ Oˣ. Coefficients are either finite free continuous O-lattices for O the integers in a finite extension of ℚ_p, or finite-type admissible localized coefficients in ArithmeticGaloisDuality §D7.5, *Duality after localising the coefficients*, arising from a complete Noetherian local ring with finite residue field; cochains in the latter case are filtered colimits over finite-type submodules of that base ring, not cochains for an invented O-adic topology. Let X be finite free over O with a perfect equivariant skew-symmetric pairing π : X ⊗_O X → O(1). Assume its global and modified local cochain complexes and U_v^+ are perfect, that X_v^+ at p is a stable O-direct summand equal to its orthogonal, and that every local error Err_v of §1.3 on this diagram is acyclic. Include the orthogonality nullhomotopies and their transposition data from §§1.3–1.5. Prove `selmerComplex_skewPairing`: for C = RΓ_f^mod(E,X), cup product with π followed by the arithmetic compact-support trace RΓ_c(E,O(1)) → O[−3] gives a pairing C ⊗^L_O C → O[−3] and an isomorphism
 
 ```text
 C ≃ RHom_O(C,O)[−3].
@@ -2257,7 +2284,7 @@ Its first term is precisely the maximal divisible submodule of the middle term: 
 
 **Arithmetic realization and common local-condition base change.** Let R be a complete Noetherian normal local domain of characteristic zero, with finite residue field of characteristic p, equipped with the dualizing coefficient contract of ArithmeticGaloisDuality §D7.5. Let 𝒦_R = Frac R and 𝒱 be a finite-dimensional admissible localized 𝒦_R-representation of G_{E,S}, with a fixed nondegenerate equivariant skew pairing π : 𝒱 ⊗ 𝒱 → 𝒦_R(1). Specify once and for all its generic ordinary summands 𝒱_v^+ and generic local-condition diagram, including restriction maps and orthogonality/transposition homotopies. For each height-one P under consideration, O_P = R_P is a DVR with k(P) of characteristic zero; supply an admissible finite-type R-lattice T_R(P) ⊆ 𝒱 and stable finite-type local submodules whose localizations T(P), T(P)_v^+ are finite free and direct summands, respectively. Require T(P) ⊗ 𝒦_R = 𝒱 and T(P)_v^+ ⊗ 𝒦_R = 𝒱_v^+ as subrepresentations with their specified local maps. A scalar multiple of the common generic skew pairing must restrict to a perfect pairing T(P) ⊗ T(P) → O_P(1), with self-orthogonal T(P)_v^+ and the compatible homotopies. For every twist β used below, assume the global, local and strict ordinary cochain models over R are perfect; their localizations are the ind-admissible cochains of ArithmeticGaloisDuality §D7.3, not cochains for the maximal-ideal topology on R_P.
 
-For a quadratic or trivial character β with values in Rˣ, set V_P = T(P)/PT(P). Impose (A1) H⁰(E,V_P ⊗ β) = 0 and (A2): at every w ∤ p∞ in S, both C_cont(G_w,X ⊗ β) and C_cont(G_w/I_w,(X ⊗ β)^{I_w}) are acyclic for X = T(P), V_P, 𝒱. Define C_P as the strict ordinary/unramified mapping fibre. Prove `selmerFamily_baseChange`: C_P is perfect and there are canonical comparisons
+For a quadratic or trivial character β with values in Rˣ, set V_P = T(P)/PT(P). Impose (A1) H⁰(E,V_P ⊗ β) = 0 and (A2): at every w ∤ p∞ in S, both C_cont(G_w,X ⊗ β) and C_cont(G_w/I_w,(X ⊗ β)^{I_w}) are acyclic for X = T(P), V_P, 𝒱. Define C_P as the modified arithmetic fibre with these strict ordinary/unramified conditions and zero archimedean conditions. Prove `selmerFamily_baseChange`: C_P is perfect and there are canonical comparisons
 
 ```text
 C_P ⊗^L_{O_P} k(P) ≃ RΓ_f(E,V_P ⊗ β),

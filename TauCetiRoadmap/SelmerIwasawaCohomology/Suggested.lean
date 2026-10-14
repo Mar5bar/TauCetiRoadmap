@@ -31,6 +31,12 @@ Design choices made explicit here:
   `Submodule.orthogonalBilin`. Double annihilators are stated for finite `ZMod n`-modules.
 * The algebraic Selmer diagram `SelmerData` takes actual global and local modules and maps; its
   identification with continuous Galois cohomology is a README target.
+* The Selmer-complex carrier takes an explicitly supplied local diagram. Its ordinary instance
+  uses continuous cochains at every place; its modified instance uses finite-place cochains,
+  complete Tate cochains at real places and zero at complex places, with localization composed
+  with the ordinary-to-Tate maps. Arithmetic compact support and derived duality use the
+  modified instance. The H⁰ correction uses the chosen diagram, and the archimedean comparison
+  retains the difference between the two fibres even at odd p.
 * ℤ_p-corank is computed on a compact dual (`corankFromDual`); Iwasawa corank is computed on
   each finite compact component dual (`iwasawaCorankFromComponentDual`).
 * ℂ_p is Mathlib's `PadicComplex`; the Galois action is the continuous extension of the action on
@@ -768,19 +774,17 @@ def complexHodgeGammaFactors (H : TauCeti.Hodge.HodgeStructureOn W ω w) :
     (.complex (-min a (w - a)), H.hodgeNumber a)
 
 /-- §4.14: expand weighted integral shifts into the separate complex-shift multisets of
-LFunctions §Layer 0 / `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC`
-(an open TauCetiRoadmap pull request by roed-math), without constructing an L-function record. -/
+LFunctions §Layer 0 / `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC`, without constructing an L-function record. -/
 def hodgeGammaShifts (factors : List (ShiftedGamma × ℕ)) : Multiset ℂ × Multiset ℂ :=
   factors.foldr (fun f shifts =>
     match f.1 with
     | .real a => (Multiset.replicate f.2 (a : ℂ) + shifts.1, shifts.2)
     | .complex a => (shifts.1, Multiset.replicate f.2 (a : ℂ) + shifts.2)) (0, 0)
 
-/-- Local restatement of LFunctions §Layer 0, to be replaced by the import once that roadmap is
-merged. Its `AnalyticLFunctionData.gammaFactor` (an open TauCetiRoadmap pull request by
-roed-math) supplies the generic product; this real-bodied weighted-integral-list carrier is
-needed by `gammaFactor` (§4.15), `gamma_tate_factor` and Hodge Checks. The shift-multiset
-adapter identifies it with the supplier's factor-only formula, with the same `s + shift` sign. -/
+/-- §4.14: the weighted-integral-list adapter for the generic product of LFunctions §Layer 0,
+`AnalyticLFunctionData.gammaFactor`. This carrier supplies `gammaFactor` (§4.15),
+`gamma_tate_factor` and Hodge Checks. The shift-multiset adapter identifies it with the
+supplier's factor-only formula, with the same `s + shift` sign. -/
 def hodgeGammaFactor (factors : List (ShiftedGamma × ℕ)) (s : ℂ) : ℂ :=
   (factors.map fun f =>
     (match f.1 with
@@ -788,18 +792,15 @@ def hodgeGammaFactor (factors : List (ShiftedGamma × ℕ)) (s : ℂ) : ℂ :=
      | .complex a => Complex.Gammaℂ (s + (a : ℂ))) ^ f.2).prod
 
 /-- §4.14: the weighted-list/multiset adapter identifies the local carrier with the factor-only
-formula of LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor` (an open TauCetiRoadmap
-pull request by roed-math), including totalized values. No full L-function data are needed. -/
+formula of LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`, including totalized values. No full L-function data are needed. -/
 theorem hodgeGammaFactor_eq_shiftProduct (f : List (ShiftedGamma × ℕ)) (s : ℂ) :
     hodgeGammaFactor f s =
       ((hodgeGammaShifts f).1.map fun μ => Complex.Gammaℝ (s + μ)).prod *
         ((hodgeGammaShifts f).2.map fun ν => Complex.Gammaℂ (s + ν)).prod := sorry
 
-/-- Local restatement of ZerosOfLFunctions §1.5, to be replaced by the import once that roadmap
-is merged. The poles and divisor clause of The gamma factor of a record (an open TauCetiRoadmap
-pull request by roed-math) supplies the analytic interpretation of this real-bodied integer
-pole-count carrier after the shift-multiset adapter. `poleOrderAtOne`, Tate-dual factors and
-criticality need the count; totalized Gamma values are not used to detect poles. -/
+/-- §4.14: the integer pole-count adapter for ZerosOfLFunctions §1.5, The gamma factor of a
+record, poles and divisor clause. Its analytic interpretation uses the shift-multiset adapter.
+The count supplies `poleOrderAtOne`, Tate-dual factors and criticality. -/
 def gammaPoleOrder (factors : List (ShiftedGamma × ℕ)) (m : ℤ) : ℕ :=
   (factors.map fun f =>
     match f.1 with
@@ -807,19 +808,17 @@ def gammaPoleOrder (factors : List (ShiftedGamma × ℕ)) (m : ℤ) : ℕ :=
     | .complex a => if m + a ≤ 0 then f.2 else 0).sum
 
 /-- §4.14: list-concatenation/multiset transport for the local carrier; generic Gamma products
-are supplied by LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor` (an open
-TauCetiRoadmap pull request by roed-math). -/
+are supplied by LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`. -/
 theorem gammaFactor_sum (f g : List (ShiftedGamma × ℕ)) (s : ℂ) :
     hodgeGammaFactor (f ++ g) s = hodgeGammaFactor f s * hodgeGammaFactor g s := sorry
 
 /-- §4.14: concatenation adds the local integer counts; their analytic interpretation is
-supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause
-(an open TauCetiRoadmap pull request by roed-math), through shift-multiset transport. -/
+supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause, through shift-multiset transport. -/
 theorem gammaPoleOrder_sum (f g : List (ShiftedGamma × ℕ)) (m : ℤ) :
     gammaPoleOrder (f ++ g) m = gammaPoleOrder f m + gammaPoleOrder g m := sorry
 
 /-- §4.14: the `gammaPoleOrder_analytic` supplier contract is ZerosOfLFunctions §1.5 / The gamma
-factor of a record, poles and divisor clause (an open TauCetiRoadmap pull request by roed-math).
+factor of a record, poles and divisor clause.
 This Hodge-specific adapter applies its factor-only theorem to `hodgeGammaShifts`, obtains
 finite order, and transports the negative count into Mathlib's `WithTop ℤ`. -/
 theorem gammaPoleOrder_hodge_analytic (A : ArchimedeanRealization W ω w) (m : ℤ) :
@@ -1090,11 +1089,24 @@ end TauCetiRoadmap.SelmerIwasawaCohomology
 Targets stated in `README.md` only, because their carriers are not at the pins: the limit Kummer
 map `kummerLimit` and its API (§0.6); Galois Selmer groups on continuous cochains, `corank` on a
 discrete p-primary module, `SelmerStructure` and its dual (§§2.9–2.13); `procyclic_H1_equiv_coinvariants`
-(§2.7); `LocalConditionMorphism`, `localMinus`, `localDualError` (§1.3); `selmerComplex` and its
-triangles (§2.21); `ellipticSelmerInfinity` (§2.12); Iwasawa algebras of `ℤ_p^d × Δ` with their
+(§2.7); `LocalConditionMorphism`, `localMinus`, `localDualError` (§1.3, with arithmetic local
+duality on the modified diagram); `selmerComplex` (parametric in the supplied local complexes),
+`selmerComplexOrd`, `selmerComplexMod`, `selmerComplex_globalTriangle`,
+`selmerComplex_compactTriangle` (the strict fibre for the same diagram, arithmetic compact
+support for the modified instance), `selmerComplex_map`, `selmerComplex_quasiIso`,
+`selmerArchimedeanCone` and `selmerComplex_archimedeanTriangle` (§2.21). The latter compares the
+ordinary fibre with its modified fibre using the same condition complexes and maps composed
+with the local comparison. Its third vertex is the sum of the archimedean cones shifted by −1;
+for a module it has H⁰ equal to the archimedean coinvariants and no positive cohomology, but at
+dyadic real places it can have lower negative Tate cohomology. Section 2.22 uses the local H⁰
+groups of the specified diagram: ordinary invariants, or modified real Tate groups and zero
+complex-place groups. For trivial `𝔽_p` over `ℚ`, `S = {p, ∞}` and odd p, the strict ordinary
+H⁰ map has cokernel `𝔽_p`, while the modified map has zero cokernel;
+`ellipticSelmerInfinity` (§2.12); Iwasawa algebras of `ℤ_p^d × Δ` with their
 coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
 `iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
-`selmerDeterminant` (§§3.1–3.14); the étale comparison `restrictedRamification_finiteEtale_equiv`,
+`selmerDeterminant` (§§3.1–3.14, with Iwasawa fibres for the chosen diagram and arithmetic
+duality on the modified instance); the étale comparison `restrictedRamification_finiteEtale_equiv`,
 `etaleCohomology_Gm_restrictedRamification`, `etaleGalois_comparison_restrictedRamification`,
 `etaleGalois_comparison_lattice` (including the finite-S ordinary-limit simplification),
 `etale_jStar_stalk`, `etale_jStar_degreeOne` (injection with image unramified at every removed
@@ -1110,10 +1122,11 @@ CR.0.7 specialization `aCris`, its explicit comparison `aCris_model_equiv`, and 
 (§§4.21–4.23), with `iwasawaCorank` the tuple of the component coranks above;
 `localAnnihilation_uniform` (§4.25); `elliptic_dDeRham_tangent`, `elliptic_exponential_kummer`,
 `elliptic_local_comparison_descent` (§4.26); the parity theorems
-`selmerComplex_skewPairing` (the untwisted degree-three O-module adjoint),
+`selmerComplex_skewPairing` (the untwisted degree-three O-module adjoint for the modified fibre),
 `skewSymmetric_filtration_parity` (O-bilinear, with 2 invertible), `selmerParity_perfectComplex`,
-`selmerFamily_baseChange` (the common strict ordinary local diagram with its localized
-coefficient contract), `selmerParity_family`, `selmerParity_quadraticTwist` (exponent two),
+`selmerFamily_baseChange` (the common modified arithmetic diagram with strict ordinary
+conditions at p, unramified conditions at other finite places, zero archimedean conditions and
+its localized coefficient contract), `selmerParity_family`, `selmerParity_quadraticTwist` (exponent two),
 `selmerParity_oddAbelian` (odd degree, with `H⁰(E′, V) = 0`),
 `ordinaryModular_selmerParity_family` (§4.28) and
 `casselsTate_pairing`, `selmerParity_twoIsogeny`, `congruentNumber_selmerParity` (§4.29).
