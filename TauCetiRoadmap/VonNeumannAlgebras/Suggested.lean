@@ -11,8 +11,8 @@ import Mathlib.Analysis.Calculus.Deriv.Basic
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive
-specification. Interfaces whose prerequisite API is not yet available are described there,
+These are suggested forms. The README is the definitive specification.
+Interfaces whose prerequisite API is not yet available are described there,
 rather than encoded as empty proposition fields.
 -/
 
