@@ -16,6 +16,8 @@ neighbourhoods, perfectoidisation of integral extensions, and the affine forms o
 The pro-étale site, completed structure sheaves, pro-étale Galois towers, good towers, analytic
 separation and the diamond comparisons are formalisation targets in their own right and are
 specified in the README only.
+Good towers use PerfectoidSpaces P7.11's represented-limit affinoid basis through a local
+diamond-limit adapter, and AdicSpacesPartIII R3.7's finite-cover algebraization and projectivity.
 P9.5 supplies local adapters to the general continuous cochain model and homogeneous
 comparison of ArithmeticGaloisDuality R02.1.2, with local naturality and discrete-compatibility
 APIs. Its explicit joint-continuity hypothesis is illustrated below;

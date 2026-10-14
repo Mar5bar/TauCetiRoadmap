@@ -145,6 +145,7 @@ and structure projections are supplied with their parent declarations.
 | Closed loci and pro-étale maps | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.zeroLocus`, `PerfectoidSpace.zeroLocus_sup`, `PerfectoidSpace.IsProEtale`, `PerfectoidSpace.prodProfinite` with its point sections (P6.8, Checks `pointSection_singleton`, `pointSection_two_points`, `pointSection_empty_base`) | P8 global closed embeddings, the P8.12 torsor sections and P9 profinite torsors. |
 | Tilde-limits and tower geometry | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsTildeLimit`, `PerfectoidSpace.IsPreperfectoid`, `PerfectoidSpace.TowerGeometry.IsFinite`, `PerfectoidSpace.VQuotient.tildeLimit_represented_comparison` | P8 good towers and P9 Galois towers use P7's limit conditions and projection comparisons. |
 | Represented-limit topology and density | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.VQuotient.represented_limit_homeomorph`, `TauCetiRoadmap.PerfectoidSpaces.AdicSpace.HasDenseCharts` | `GoodTower.homeomorph` specializes the supplied homeomorphism to the represented cone of a good tower; `GoodTower.isTildeLimit` requires the separate, supplied density predicate. |
+| Finite-level affinoid basis (P7.11) | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.VQuotient.represented_limit_affinoid_basis` | P8.19's `finite_level_affinoid_basis` adapts the represented-functor basis to the diamond-limit cone through DiamondsAndVStacks D6.4, with locally noetherian analytic levels, finite transitions and `TowerGeometry.IsOverZp`. |
 | Almost-zero modules and basic setups | `Almost.BasicSetup.IsAlmostZero`, `Almost.BasicSetup.almostZero`, `Almost.BasicSetup.ofCompatibleRoots`, `Almost.BasicSetup.ofValuationRing`, `Almost.BasicSetup.padicComplex_maximalIdeal_not_fg` | P9 specifies annihilation by the root ideal or valuation maximal ideal, including the setup on `PadicComplexInt p`. |
 | Almostification and ordinary Tor | `Almost.toAlmost`, `Almost.Module.ordinaryTor` | P9 almostifies module sections and uses ordinary derived tensor groups in coefficient-change statements. |
 | Tilting maps and completed pair products | `Perfectoid.Pair.tiltHom`, `Perfectoid.PairCat.tiltFunctor`, `Perfectoid.PairCat.tensorPair`, `Perfectoid.tilt.coeff`, `Perfectoid.tilt.sharp` | P8 tilting of quotients uses the supplied maps; the affinoid self-product Check uses the supplied tensor pair. |
@@ -1483,17 +1484,33 @@ Condition (3) gives the closure hypothesis of *perfectoid-finite-quotient*. Defi
 projective analytifications, finite transitions, perfectoid limit, paired finite-level affinoid
 covers with closures) and `PerfectoidSpace.GoodTower.limit` (the perfectoid space
 `X = lim X_i^◇`); prove `PerfectoidSpace.GoodTower.isAnalyticallySeparated` (the limit is
-analytically separated) ([HJ] Definition 5.12, pp. 32–33, and Lemma 5.6, p. 30). Prove that for a cofiltered inverse system
-of locally noetherian adic spaces with finite transition maps and perfectoid limit `X`, the open
-affinoid perfectoids pulled back from open affinoids at variable finite levels form a
-neighbourhood basis of `X` (*finite-level-affinoid-basis*) ([HJ] Lemma 5.11, p. 32); and that a
+analytically separated) ([HJ] Definition 5.12, pp. 32–33, and Lemma 5.6, p. 30).
+PerfectoidSpaces P7.11 supplies `VQuotient.represented_limit_affinoid_basis`: for a cofiltered
+system of locally noetherian analytic levels with finite transitions and a represented
+perfectoid limit, finite-level affinoid preimages which are affinoid perfectoid form a
+neighbourhood basis. The local `finite_level_affinoid_basis` (*finite-level-affinoid-basis*)
+adapts this supplier to the diamond-limit cone through DiamondsAndVStacks D6.4, retaining
+the finite-transition and `TowerGeometry.IsOverZp` hypotheses ([HJ] Lemma 5.11, p. 32).
+GoodTower construction consumes this supplied basis. Prove that a
 tower mapping by finite maps `f_i` to a good tower (with finite transition maps) is good
 (*good-towers-under-finite-maps*) ([HJ] Proposition 5.13(1), p. 33).
-*Needs for the carriers and finite-level affinoid basis:* *analytically-separated*; [P7.11](../PerfectoidSpaces/README.md#layer-p7-tilde-limits-and-frobenius-controlled-towers); [P5.3](../PerfectoidSpaces/README.md#layer-p5-cofiltered-limits-and-finite-stage-étale-descent); AdicSpacesPartII layer R1; Tau Ceti
+*Needs for the carriers and finite-level affinoid adapter:* *analytically-separated*;
+PerfectoidSpaces [P7.11](../PerfectoidSpaces/README.md#layer-p7-tilde-limits-and-frobenius-controlled-towers),
+`VQuotient.represented_limit_affinoid_basis`; DiamondsAndVStacks D6.4;
+[P5.3](../PerfectoidSpaces/README.md#layer-p5-cofiltered-limits-and-finite-stage-étale-descent); AdicSpacesPartII layer R1; Tau Ceti
 `TauCeti.ValuationSpectrum.rationalSubset`.
 *Needs for `GoodTower.isAnalyticallySeparated` and the projective-line separation output:*
 *projective-tower-limit-is-analytically-separated*. *Needs for `GoodTower.of_finite`:*
-*finite-tower-over-perfectoid-tower* and the finite-level affinoid basis.
+*finite-tower-over-perfectoid-tower*; PerfectoidSpaces P7.11's
+`VQuotient.represented_limit_affinoid_basis` through the local adapter;
+AdicSpacesPartIII R3.7 (*gaga-finite-covers*), specifically
+`AdicSpace.analytification_finiteCover_algebraization`,
+`AdicSpace.analytification_finiteCover_hom`, and
+`AdicSpace.analytification_finiteCover_projective`. Algebraize each finite map into a
+projective level. For a transition, base change the algebraized finite cover at its target
+to the source level of the good tower and apply the Hom comparison there; its uniqueness
+retains the transition identities and commuting squares. AdicSpacesPartII R1's
+*analytification-reflects-finite-closed-immersion* retains finiteness of these transitions.
 
 **Checks.**
 
@@ -1561,7 +1578,8 @@ That hypothesis is density of finite-level functions on an affinoid covering, as
 [SW13] Definition 2.4.1, pp. 19–20. Representability on perfectoid tests in
 [HJ] Definition 5.12(2) does not imply it; [SW13] Proposition 2.4.5, pp. 20–21,
 establishes the implication from a perfectoid tilde-limit to representation.
-`GoodTower.of_finite` and `finite_level_affinoid_basis` name the preceding two theorems.
+`GoodTower.of_finite` names the finite-map theorem; `finite_level_affinoid_basis` is the
+adapter to PerfectoidSpaces P7.11's supplied basis theorem.
 
 `TowerGeometry.Analytification` expresses analytification in the supplied Yoneda-adic
 category by its natural mapping equivalence on **sheafy** complete affinoid test pairs
@@ -1736,9 +1754,24 @@ states the perfectoid pullback and its global Zariski-closed map. `closed_loci_i
 identifies the compatible closed limit and its tilde-limit comparison. Both statements
 include the open projective presentations of the finite-level varieties.
 
-- `analytificationMap_identity` — the identity scheme map gives the identity analytic map.
-- `analytificationMap_composition` — analytification preserves the order of composition.
-- `analytificationMap_empty` — maps from the empty scheme induce the same empty-space map.
+**Checks.** On the `TowerGeometry.Analytification.map` carrier over a characteristic-zero
+complete nonarchimedean field `K`, use the coordinate `T` determined by the analytification
+mapping equivalence and the chart `[1:T]` of the polynomial projective line
+([Wedhorn] Proposition 8.61 and Remark 8.62, pp. 91–92; [Sch12] §8, Theorem 8.5(ii),
+pp. 45–46).
+
+- `analytificationMap_affine_square` — for the scheme endomorphism of `𝔸¹_K` given by
+  `T ↦ T²`, its analytic map `f` satisfies `f^*T = T²` on the analytic affine line;
+  on `Spa(K,K°)`-valued points it sends the point of coordinate `2` to that of coordinate `4`.
+- `analytificationMap_affine_zero` — the scheme endomorphism given by `T ↦ 0` has
+  analytic pullback `f^*T = 0` and sends the point of coordinate `1` to that of coordinate `0`.
+- `analytificationMap_projective_power` — the scheme map `[X:Y] ↦ [X^p:Y^p]` preserves
+  the chart `[1:T]`; its analytic restriction satisfies `f^*T = T^p`, so its composite
+  with the analytic chart equals the chart composed with the analytic `p`-power map.
+
+The auxiliary functor laws `analytificationMap_identity`, `analytificationMap_composition`,
+and `analytificationMap_empty` assert the identity equation, preservation of composition
+in its given order, and the unique empty-source map. They do not count as definition Checks.
 
 Lean: README only.
 
@@ -1769,7 +1802,9 @@ about their perfectoid closed loci.
 Layer [P1](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts) ([P1.1](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts), [P1.4](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts), [P1.24](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts), [P1.27](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts), *perfectoid-tate-ring-from-integral-perfectoid*); layer [P2](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)
 ([P2.3](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces), [P2.8](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces), [P2.16](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces), [P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)); layer [P3](../PerfectoidSpaces/README.md#layer-p3-almost-purity-and-the-étale-site); layer [P4](../PerfectoidSpaces/README.md#layer-p4-injections-immersions-and-separatedness) ([P4.10](../PerfectoidSpaces/README.md#layer-p4-injections-immersions-and-separatedness), [P4.15](../PerfectoidSpaces/README.md#layer-p4-injections-immersions-and-separatedness), [P4.19](../PerfectoidSpaces/README.md#layer-p4-injections-immersions-and-separatedness)); layer [P5](../PerfectoidSpaces/README.md#layer-p5-cofiltered-limits-and-finite-stage-étale-descent) ([P5.3](../PerfectoidSpaces/README.md#layer-p5-cofiltered-limits-and-finite-stage-étale-descent)); layer [P7](../PerfectoidSpaces/README.md#layer-p7-tilde-limits-and-frobenius-controlled-towers)
 ([P7.2](../PerfectoidSpaces/README.md#layer-p7-tilde-limits-and-frobenius-controlled-towers), [P7.11](../PerfectoidSpaces/README.md#layer-p7-tilde-limits-and-frobenius-controlled-towers)); the Foundations of adic spaces roadmap (AdicSpaces), layer 3; AdicSpacesPartII
-layers R0 and R1; AdicEtaleGeometry layer A4 (the torsor case of the orbit homeomorphism);
+layers R0 and R1; AdicSpacesPartIII R3.7 (*gaga-finite-covers*, for algebraization,
+transition maps and projectivity in `GoodTower.of_finite`);
+AdicEtaleGeometry layer A4 (the torsor case of the orbit homeomorphism);
 DiamondsAndVStacks layers D2, D4 and D5; the Tau Ceti and Mathlib declarations named in the
 *Needs* clauses above (`Algebra.IsInvariant.isIntegral`, `MulSemiringAction.charpoly`,
 `ProperlyDiscontinuousSMul.exists_nhds_disjoint_image`,
@@ -2049,8 +2084,8 @@ sheaves. Sheafification on each small étale topology is expressed by the
 proposition-valued `HasSheafify`; finite limits of abelian-group sheaves use
 Mathlib's standard instance. The `i = 0` statement is the one used for function descent along Galois towers in
 *function-descent-along-tower*: the functions on `X` are the pro-étale-locally completed
-functions that descend ([Sch13] §6, Definition 6.8, p. 37, and Corollary 6.19, p. 41; §4, Lemma
-4.5 (toric charts)). *Needs:* *completed-structure-sheaves*; *proetale-site*; [P1.31](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts).
+functions that descend ([Sch13] §6, Definition 6.8, p. 37, and Corollary 6.19, p. 41;
+§5, Lemma 5.2 (étale toric charts)). *Needs:* *completed-structure-sheaves*; *proetale-site*; [P1.31](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts).
 
 `CyclotomicModule p R` is the additive module of compatible `p`-power roots of
 unity in `R`. Its coordinate equations specify addition by multiplication and
