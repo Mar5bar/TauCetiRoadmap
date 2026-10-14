@@ -14,8 +14,6 @@ Key definitions and headline theorems of the roadmap on Mathlib's schemes and Ta
 carriers. The README is the specification and states every other target.
 -/
 
-set_option synthInstance.maxHeartbeats 100000
-
 universe u
 
 namespace TauCetiRoadmap.SchemeAndStackFoundations
@@ -297,6 +295,66 @@ example (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
 
 end Excellence
 
+/-! ### §0.23a Étale topological invariance -/
+
+/-- Base change on Mathlib's small étale categories. -/
+def smallEtaleBaseChange {X Y : Scheme.{u}} (f : X ⟶ Y) : Y.Etale ⥤ X.Etale := by
+  letI : MorphismProperty.HasPullbacksAlong (@Etale : MorphismProperty Scheme.{u}) f :=
+    ⟨fun _ _ => inferInstance⟩
+  letI : MorphismProperty.IsStableUnderBaseChangeAlong
+      (@Etale : MorphismProperty Scheme.{u}) f :=
+    ⟨fun h hp => MorphismProperty.IsStableUnderBaseChange.of_isPullback h hp⟩
+  exact MorphismProperty.Over.pullback @Etale ⊤ f
+
+/-- A universal homeomorphism induces an equivalence of small étale sites.
+Stacks, Theorem 59.45.2 (04DZ). -/
+def universalHomeomorphismEtaleEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) : Y.Etale ≌ X.Etale := by
+  sorry
+
+/-- The forward functor of topological invariance is scheme base change. -/
+theorem universalHomeomorphismEtaleEquivalence_functor {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) :
+    (universalHomeomorphismEtaleEquivalence f hf).functor = smallEtaleBaseChange f := by
+  sorry
+
+/-- The forward and inverse functors preserve covering sieves. -/
+theorem universalHomeomorphismEtaleEquivalence_coverPreserving {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) :
+    CoverPreserving (Scheme.smallEtaleTopology Y) (Scheme.smallEtaleTopology X)
+      (universalHomeomorphismEtaleEquivalence f hf).functor ∧
+    CoverPreserving (Scheme.smallEtaleTopology X) (Scheme.smallEtaleTopology Y)
+      (universalHomeomorphismEtaleEquivalence f hf).inverse := by
+  sorry
+
+/-- Identity compatibility uses the canonical pullback comparison. -/
+def universalHomeomorphismEtaleEquivalence_id (X : Scheme.{u})
+    (hX : (topologically IsHomeomorph).universally (𝟙 X)) :
+    (universalHomeomorphismEtaleEquivalence (𝟙 X) hX).functor ≅ 𝟭 X.Etale := by
+  sorry
+
+/-- Composition compatibility is the associativity comparison for scheme pullbacks. -/
+def universalHomeomorphismEtaleEquivalence_comp {X Y Z : Scheme.{u}}
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    (hf : (topologically IsHomeomorph).universally f)
+    (hg : (topologically IsHomeomorph).universally g)
+    (hfg : (topologically IsHomeomorph).universally (f ≫ g)) :
+    (universalHomeomorphismEtaleEquivalence (f ≫ g) hfg).functor ≅
+      (universalHomeomorphismEtaleEquivalence g hg).functor ⋙
+        (universalHomeomorphismEtaleEquivalence f hf).functor := by
+  sorry
+
+/-- In a cartesian square the equivalence commutes with arbitrary base change. -/
+def universalHomeomorphismEtaleEquivalence_baseChange {X Y Y' : Scheme.{u}}
+    (f : X ⟶ Y) (g : Y' ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f)
+    (hf' : (topologically IsHomeomorph).universally (pullback.snd f g)) :
+    (universalHomeomorphismEtaleEquivalence f hf).functor ⋙
+        smallEtaleBaseChange (pullback.fst f g) ≅
+      smallEtaleBaseChange g ⋙
+        (universalHomeomorphismEtaleEquivalence (pullback.snd f g) hf').functor := by
+  sorry
+
 /-! ### §0.27 Flat base change of annihilators -/
 
 namespace FlatAnnihilator
@@ -322,6 +380,242 @@ example :
 end Nonflat
 
 end FlatAnnihilator
+
+/-! ### §0.29 Scheme Frobenius -/
+
+namespace SchemeFrobenius
+
+open AlgebraicGeometry CategoryTheory.Limits
+
+/-- Intrinsic characteristic `p`: every local ring has characteristic `p`. -/
+def SchemeCharP (X : Scheme.{u}) (p : ℕ) : Prop :=
+  ∀ x : X, CharP (X.presheaf.stalk x) p
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- On affine schemes intrinsic characteristic means `p = 0`, including the zero ring. -/
+theorem schemeCharP_spec_iff (A : Type u) [CommRing A] :
+    SchemeCharP (Spec (CommRingCat.of A)) p ↔ (p : A) = 0 := sorry
+
+/-- Intrinsic characteristic is equivalent to a unique prime-field structure map. -/
+theorem schemeCharP_iff_structureMap (X : Scheme.{u}) :
+    SchemeCharP X p ↔ ∃! f : X ⟶ Spec (CommRingCat.of (ULift.{u} (ZMod p))), True := sorry
+
+/-- A scheme mapping to a characteristic-`p` scheme has characteristic `p`. -/
+theorem schemeCharP_of_hom {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p) :
+    SchemeCharP X p := by
+  sorry
+
+/-- Absolute Frobenius fixes the space and raises structure-sheaf sections to `p`th powers. -/
+def absoluteFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : X ⟶ X := sorry
+
+/-- Absolute Frobenius on an affine scheme is induced by ring Frobenius. -/
+theorem absoluteFrobenius_spec (A : Type u) [CommRing A] [CharP A p]
+    (hA : SchemeCharP (Spec (CommRingCat.of A)) p) :
+    absoluteFrobenius p _ hA = Spec.map (CommRingCat.ofHom (frobenius A p)) := sorry
+
+/-- Absolute Frobenius acts identically on the underlying space. -/
+theorem absoluteFrobenius_base (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    (absoluteFrobenius p X hX).base = (𝟙 X : X ⟶ X).base := sorry
+
+/-- Absolute Frobenius is natural for all morphisms between characteristic-`p` schemes. -/
+theorem absoluteFrobenius_naturality {X Y : Scheme.{u}}
+    (hX : SchemeCharP X p) (hY : SchemeCharP Y p) (f : X ⟶ Y) :
+    absoluteFrobenius p X hX ≫ f = f ≫ absoluteFrobenius p Y hY := sorry
+
+/-- Absolute Frobenius is integral without finiteness assumptions on the scheme. -/
+theorem absoluteFrobenius_integral (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    IsIntegralHom (absoluteFrobenius p X hX) := sorry
+
+/-- Absolute Frobenius is a universal homeomorphism on every characteristic-`p` scheme. -/
+theorem absoluteFrobenius_universalHomeomorphism (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    (topologically IsHomeomorph).universally (absoluteFrobenius p X hX) := by
+  sorry
+
+/-- Over a perfect field, local finite type suffices for finite absolute Frobenius. -/
+theorem absoluteFrobenius_finite (k : Type u) [Field k] [CharP k p] [PerfectRing k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+    (hX : SchemeCharP X p) : IsFinite (absoluteFrobenius p X hX) := by
+  sorry
+
+/-- The relative twist is the scheme pullback along the absolute Frobenius of the base. -/
+def schemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p) :
+    Scheme.{u} := pullback f (absoluteFrobenius p S hS)
+
+/-- Relative Frobenius has projections equal to absolute Frobenius and the structure map. -/
+def relativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    X ⟶ schemeFrobeniusTwist p f hS := sorry
+
+/-- The first projection factors absolute Frobenius through relative Frobenius. -/
+theorem relativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    relativeFrobenius p f hX hS ≫ pullback.fst f (absoluteFrobenius p S hS) =
+      absoluteFrobenius p X hX := sorry
+
+/-- The second projection makes relative Frobenius a morphism over the base. -/
+theorem relativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    relativeFrobenius p f hX hS ≫ pullback.snd f (absoluteFrobenius p S hS) = f := sorry
+
+/-- The two projection identities uniquely characterize relative Frobenius. -/
+theorem relativeFrobenius_unique {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p)
+    (g : X ⟶ schemeFrobeniusTwist p f hS)
+    (hfst : g ≫ pullback.fst f (absoluteFrobenius p S hS) = absoluteFrobenius p X hX)
+    (hsnd : g ≫ pullback.snd f (absoluteFrobenius p S hS) = f) :
+    g = relativeFrobenius p f hX hS := sorry
+
+/-- Relative Frobenius is integral for an arbitrary morphism of characteristic-`p` schemes. -/
+theorem relativeFrobenius_integral {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    IsIntegralHom (relativeFrobenius p f hX hS) := sorry
+
+/-- Relative Frobenius is a universal homeomorphism without a smoothness assumption. -/
+theorem relativeFrobenius_universalHomeomorphism {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    (topologically IsHomeomorph).universally (relativeFrobenius p f hX hS) := by
+  sorry
+
+/-- Relative Frobenius of an étale morphism is an isomorphism over every characteristic-`p` base. -/
+theorem relativeFrobenius_etale_isIso {X S : Scheme.{u}} (f : X ⟶ S) [Etale f]
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    IsIso (relativeFrobenius p f hX hS) := sorry
+
+/-- For smooth pure relative dimension `d`, relative Frobenius is finite flat and its
+direct-image algebra has affine-local bases of cardinality `p^d`. -/
+theorem relativeFrobenius_smooth_rank {X S : Scheme.{u}} (f : X ⟶ S) (d : ℕ)
+    [SmoothOfRelativeDimension d f] (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    let F := relativeFrobenius p f hX hS
+    IsFinite F ∧ Flat F ∧ LocallyOfFinitePresentation F ∧
+      ∀ y : schemeFrobeniusTwist p f hS,
+        ∃ U : (schemeFrobeniusTwist p f hS).Opens, IsAffineOpen U ∧ y ∈ U ∧
+          letI : Algebra Γ(schemeFrobeniusTwist p f hS, U) Γ(X, F ⁻¹ᵁ U) :=
+            (F.app U).hom.toAlgebra
+          Nonempty (Γ(X, F ⁻¹ᵁ U) ≃ₗ[Γ(schemeFrobeniusTwist p f hS, U)]
+            (Fin (p ^ d) → Γ(schemeFrobeniusTwist p f hS, U))) := by
+  sorry
+
+/-- The relative twist commutes with every change of base. -/
+def schemeFrobeniusTwistBaseChangeIso {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S)
+    (hS : SchemeCharP S p) (hS' : SchemeCharP S' p) :
+    schemeFrobeniusTwist p (pullback.snd f g) hS' ≅
+      pullback (pullback.snd f (absoluteFrobenius p S hS)) g := by
+  sorry
+
+/-- The base-change comparison transports relative Frobenius, with both projections. -/
+theorem relativeFrobenius_baseChange {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (hS' : SchemeCharP S' p) :
+    let F' := relativeFrobenius p (pullback.snd f g)
+      (schemeCharP_of_hom p (pullback.fst f g) hX) hS'
+    let e := schemeFrobeniusTwistBaseChangeIso p f g hS hS'
+    F' ≫ e.hom ≫ pullback.fst (pullback.snd f (absoluteFrobenius p S hS)) g =
+        pullback.fst f g ≫ relativeFrobenius p f hX hS ∧
+      F' ≫ e.hom ≫ pullback.snd (pullback.snd f (absoluteFrobenius p S hS)) g =
+        pullback.snd f g := by
+  sorry
+
+/-- The `r`-fold absolute scheme Frobenius raises sections to `p^r` powers. -/
+def iteratedSchemeFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) (r : ℕ) : X ⟶ X :=
+  sorry
+
+/-- The zeroth absolute iterate is identity. -/
+theorem iteratedSchemeFrobenius_zero (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    iteratedSchemeFrobenius p X hX 0 = 𝟙 X := sorry
+
+/-- Successor iteration composes with absolute Frobenius. -/
+theorem iteratedSchemeFrobenius_succ (X : Scheme.{u}) (hX : SchemeCharP X p) (r : ℕ) :
+    iteratedSchemeFrobenius p X hX (r + 1) =
+      iteratedSchemeFrobenius p X hX r ≫ absoluteFrobenius p X hX := sorry
+
+/-- Addition of exponents is composition of the absolute iterates. -/
+theorem iteratedSchemeFrobenius_add (X : Scheme.{u}) (hX : SchemeCharP X p) (r s : ℕ) :
+    iteratedSchemeFrobenius p X hX (r + s) =
+      iteratedSchemeFrobenius p X hX r ≫ iteratedSchemeFrobenius p X hX s := sorry
+
+/-- The `r`-fold relative twist retains the pullback along the base's `r`-fold Frobenius. -/
+def iteratedSchemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) (r : ℕ) : Scheme.{u} :=
+  pullback f (iteratedSchemeFrobenius p S hS r)
+
+/-- Iterated relative Frobenius factors the absolute iterate as a map over the base. -/
+def iteratedRelativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
+    X ⟶ iteratedSchemeFrobeniusTwist p f hS r := sorry
+
+/-- The first projection of iterated relative Frobenius is the absolute iterate. -/
+theorem iteratedRelativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
+    iteratedRelativeFrobenius p f hX hS r ≫
+      pullback.fst f (iteratedSchemeFrobenius p S hS r) =
+        iteratedSchemeFrobenius p X hX r := sorry
+
+/-- The second projection of iterated relative Frobenius is the structure map. -/
+theorem iteratedRelativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
+    iteratedRelativeFrobenius p f hX hS r ≫
+      pullback.snd f (iteratedSchemeFrobenius p S hS r) = f := sorry
+
+/-- The zeroth twist is canonically the original scheme. -/
+def iteratedSchemeFrobeniusTwistZeroIso {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) : iteratedSchemeFrobeniusTwist p f hS 0 ≅ X := by
+  sorry
+
+/-- Zeroth relative Frobenius becomes identity under the canonical comparison. -/
+theorem iteratedRelativeFrobenius_zero {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    iteratedRelativeFrobenius p f hX hS 0 ≫
+      (iteratedSchemeFrobeniusTwistZeroIso p f hS).hom = 𝟙 X := by
+  sorry
+
+/-- Successive twists identify with the twist for the sum of the exponents. -/
+def iteratedSchemeFrobeniusTwistAddIso {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) (r s : ℕ) :
+    iteratedSchemeFrobeniusTwist p
+        (pullback.snd f (iteratedSchemeFrobenius p S hS r)) hS s ≅
+      iteratedSchemeFrobeniusTwist p f hS (r + s) := by
+  sorry
+
+/-- Both projections characterize the addition comparison and enforce its coherence. -/
+theorem iteratedSchemeFrobeniusTwistAddIso_projections {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) (r s : ℕ) :
+    let πr := pullback.snd f (iteratedSchemeFrobenius p S hS r)
+    let e := iteratedSchemeFrobeniusTwistAddIso p f hS r s
+    e.hom ≫ pullback.fst f (iteratedSchemeFrobenius p S hS (r + s)) =
+        pullback.fst πr (iteratedSchemeFrobenius p S hS s) ≫
+          pullback.fst f (iteratedSchemeFrobenius p S hS r) ∧
+      e.hom ≫ pullback.snd f (iteratedSchemeFrobenius p S hS (r + s)) =
+        pullback.snd πr (iteratedSchemeFrobenius p S hS s) := by
+  sorry
+
+/-- Relative iteration composes through the specified twist addition isomorphism. -/
+theorem iteratedRelativeFrobenius_add {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r s : ℕ) :
+    let πr := pullback.snd f (iteratedSchemeFrobenius p S hS r)
+    iteratedRelativeFrobenius p f hX hS (r + s) =
+      iteratedRelativeFrobenius p f hX hS r ≫
+        iteratedRelativeFrobenius p πr (schemeCharP_of_hom p πr hS) hS s ≫
+          (iteratedSchemeFrobeniusTwistAddIso p f hS r s).hom := by
+  sorry
+
+/-- For a finite field of order `p^a`, the `q`-power scheme map is the `a`-fold absolute map. -/
+def qPowerFrobenius (k : Type u) [Field k] [Finite k] [CharP k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (ha : Nat.card k = p ^ a) : X ⟶ X := sorry
+
+/-- The finite-field scheme map agrees with the specified absolute iterate. -/
+theorem qPowerFrobenius_eq_iterated (k : Type u) [Field k] [Finite k] [CharP k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (ha : Nat.card k = p ^ a) :
+    qPowerFrobenius p k f hX a ha = iteratedSchemeFrobenius p X hX a := sorry
+
+/-- The finite-field `q`-power scheme map is linear over the given field. -/
+theorem qPowerFrobenius_over (k : Type u) [Field k] [Finite k] [CharP k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (ha : Nat.card k = p ^ a) :
+    qPowerFrobenius p k f hX a ha ≫ f = f := sorry
+
+end SchemeFrobenius
 
 end Layer0
 
@@ -382,7 +676,8 @@ def AlgSpace.pullbackObj {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) : Al
 
 /-- The second projection of the fibre product. -/
 def AlgSpace.pullbackSnd {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
-    AlgSpace.pullbackObj f g ⟶ G := ObjectProperty.homMk (pullback.snd _ _)
+    AlgSpace.pullbackObj f g ⟶ G :=
+  ObjectProperty.homMk (pullback.snd (f.hom : F.obj ⟶ H.obj) (g.hom : G.obj ⟶ H.obj))
 
 /-- A property of scheme morphisms, read on a square of étale atlases.
 Stacks, Lemma 67.22.1 (03MJ) and Definition 67.22.2 (04RD). -/

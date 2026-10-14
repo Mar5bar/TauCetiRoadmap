@@ -25,7 +25,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, ideal-sheaf comparisons |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -50,7 +50,9 @@ DerivedDeRhamCohomology's cotangent complex, and the non-affine Brauer compariso
 **This roadmap owns** the shared scheme-, space-, site- and coherent-sheaf foundations: the general
 relative Proj and its comparison with the finitely generated case, extension of coherent modules,
 henselization of pairs, the catenary, Cohen–Macaulay, Nagata and excellent packages, perfect schemes
-and perfection, the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
+and perfection, the universal-homeomorphism equivalence of small étale sites (§0.23a),
+absolute, relative, iterated and finite-field scheme Frobenius with coherent twists (§0.29),
+the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
 projective quotients by finite groups, algebraic stacks, moduli spaces, Galois gerbs, the
 functoriality of sheaf cohomology on sites, the comparison of the topologies of a scheme with the coefficient sheaves `𝔾_a`, `𝔾_m`, `μ_n`, the
@@ -135,11 +137,6 @@ comparisons to them and never a second carrier.
   `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`.
   Ordinary finite comparison uses ctf coefficients on finite-type complex schemes, compact support
   requires separatedness, and adic comparison retains coherent reductions and uniform Tor bounds.
-- *Absolute, relative and iterated scheme Frobenius*: Supplied by
-  FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`,
-  `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius`.
-  The basic maps apply to arbitrary characteristic-`p` schemes, relative maps retain their twists,
-  and the `q`-power map over a finite field of order `q` is its specified absolute iterate.
 - *Perfect-complex traces, curve traces and point counts*: Supplied by
   LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
   `PerfectComplex.filteredTraceAdditivity`, `VanishingCycles.curveEndomorphismTrace`,
@@ -173,11 +170,10 @@ The comparison Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `Vanishing
 consumes §2.17's repleteness, w-contractible covers and left-completeness for its normalized
 bounded systems on locally Noetherian schemes. The compactification API Supplied by ComplexComparisonPartII
 §§C4.3b–C4.3c / `nagataCompactification`, `compactificationCommonRefinement` supplies §2.19's
-geometry for separated finite-type morphisms over qcqs bases. The Frobenius Supplied by
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius` supplies §0.24's
-map on characteristic-`p` schemes. The equivalence Supplied by LefschetzPencilsAndVanishingCycles §F.0 /
-`VanishingCycles.universalHomeomorphismEtaleEquivalence` consumes §0.23's geometry without
-coefficient restrictions. The curve theorem Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
+geometry for separated finite-type morphisms over qcqs bases. The maps of §0.29 apply to arbitrary
+characteristic-`p` schemes. The site equivalence of §0.23a consumes §0.23's geometry and preserves
+and reflects covers. Its sheaf and cohomology transport consequences belong to
+EtaleCohomologyFoundations. The curve theorem Supplied by LefschetzPencilsAndVanishingCycles §F.10 /
 `VanishingCycles.curveEndomorphismTrace` consumes §§2.11, 2.16, 5.6 and 5.9 to compute smooth
 proper curve cohomology and compare it with Jacobian torsion for invertible `ℓ`.
 The twist Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.etaleTateTwists` is compared
@@ -214,14 +210,6 @@ pinned libraries; each is cited where it lives and is not a target here.
   Mathlib `isJacobsonRing_of_finiteType`, `finite_of_finite_type_of_isJacobsonRing`,
   `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`, Tau Ceti
   `AlgebraicGeometry.Scheme.finite_Γevaluation_of_isClosed`.
-- Absolute, relative and `q`-power Frobenius, Frobenius twists, and the relative Frobenius of étale
-  and smooth morphisms: Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 /
-  `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `qPowerFrobenius`,
-  `iteratedSchemeFrobenius`; smooth relative dimension `d` gives rank `p^d`, while a single
-  absolute `p`-power map need not be linear over a finite field of larger order.
-- Topological invariance of the small étale site: Supplied by LefschetzPencilsAndVanishingCycles
-  §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence`; every universal homeomorphism
-  qualifies, with no Noetherian or coefficient-invertibility restriction.
 - The colimit of an `𝔽_p`-algebra along Frobenius: Mathlib `PerfectClosure K p` with
   `PerfectClosure.of`, `PerfectClosure.lift`, its `PerfectRing` instance and `IsPerfectClosure`.
 - Effective fpqc descent of affine schemes along one faithfully flat morphism and of finite locally
@@ -489,7 +477,6 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | --- | --- |
 | Supplied by LefschetzPencilsAndVanishingCycles §§F.0–F.1 / `VanishingCycles.constructibleEtale`, `VanishingCycles.constructibleDerivedCategory`, `VanishingCycles.finiteCoefficientCohomology` | Finite module coefficients extend §§2.1–2.2's generic abelian D⁺ functors; global finite stratifications use Noetherian schemes, and ctf adds finite Tor amplitude without making invertibility part of constructibility. |
 | Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.etaleTateTwists` | §2.9's `mu_eq_etaleTateTwists` compares underlying abelian sheaves for invertible order, using our `muEtale` and §2.11's Kummer theorem. |
-| Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence` | §0.24 applies the unrestricted site equivalence to perfection; the supplier consumes §0.23's universal-homeomorphism geometry. |
 | Supplied by LefschetzPencilsAndVanishingCycles §F.2 / `VanishingCycles.etaleBaseChange`, `VanishingCycles.properBaseChange`, `VanishingCycles.smoothBaseChange`, `VanishingCycles.etaleCompactSupports` | Proper exchange is for arbitrary torsion; smooth exchange has a smooth map and qcqs opposite map with sectionwise invertible torsion, while constructible lower-shriek exchange uses separated finite-type Noetherian maps and invertible finite ctf coefficients. |
 | Supplied by LefschetzPencilsAndVanishingCycles §F.3 / `VanishingCycles.etaleFiniteness`, `VanishingCycles.compactSupportFiniteness` | Geometric finiteness uses separably closed fields and invertible finite coefficients; perfect compact-support complexes do not require each cohomology module to be projective. |
 | Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.adicRealization`, `VanishingCycles.etaleProetaleAdicComparison` | The realization consumes §2.17's topoi; locally Noetherian schemes, invertible `ℓ`, coherent reductions and uniform cohomological and Tor bounds specify its adic domain. |
@@ -503,12 +490,13 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | Supplied by ComplexComparisonPartII §§C4.3a–C4.3c / `Compactification`, `nagataCompactification`, `compactificationCommonRefinement` | §2.19 uses separated finite-type compactifications over qcqs bases and dense common refinements, proving the coefficient-specific coherent comparisons here. |
 | Supplied by ComplexComparisonPartII §§C6.0–C6.6 / `complexAlgebraicTopology`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison` | These consume our sites and abelian D⁺ functors on finite-type complex schemes; ordinary Artin comparison uses finite ctf objects, compact support requires separatedness, and adic comparison retains coherent reductions and uniform bounds. |
 
-### From FiniteFlatGroupsAndIntegralPadicHodgeTheory
+### Scheme and site contracts owned here
 
-| Supplier | Interface and convention |
+| Section | Interface and convention |
 | --- | --- |
-| Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius` | §§0.24–0.26 use scheme maps on arbitrary characteristic-`p` schemes; absolute maps and relative maps to their specified twists have distinct codomains. |
-| Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 / `qPowerFrobenius`, `iteratedSchemeFrobenius` | §5.11 uses the map over `𝔽_q` base-changed to its algebraic closure, so it fixes closure scalars and has relative coordinate action by `q`-th powers. |
+| §0.23a / `universalHomeomorphismEtaleEquivalence` | Scheme base change gives the equivalence of small étale sites, preserving and reflecting covers, with coherent composition and arbitrary base change. |
+| §0.29 / `SchemeFrobenius.absoluteFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`, `SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.iteratedSchemeFrobenius` | Arbitrary characteristic-`p` schemes have absolute and relative maps with distinct codomains; smooth pure relative dimension `d` gives finite locally free relative Frobenius of rank `p^d`. |
+| §0.29 / `SchemeFrobenius.qPowerFrobenius` | Over a field of order `q = p^a`, the specified absolute iterate is a map over that field. Its base change fixes extension-field scalars and is compared with relative Frobenius. |
 
 ### From AbelianSchemesAndArithmeticModuli
 
@@ -1492,6 +1480,59 @@ which consumes this subsection's geometry and requires no finiteness or invertib
   t³ − t]` is not universally injective (two points over the node).
 - `isUniversalHomeomorphism_id`: identities and thickenings are universal homeomorphisms.
 
+### 0.23a Étale topological invariance
+
+For every universal homeomorphism `f : X → Y`, construct
+`universalHomeomorphismEtaleEquivalence f : Y.Etale ≌ X.Etale` on Mathlib's categories of
+schemes étale over the base. Its forward functor is `smallEtaleBaseChange f`, the scheme
+pullback functor: an object `V → Y` goes to `V ×_Y X → X`. Prove full faithfulness and
+essential surjectivity for all étale objects, and identify both the forward and inverse
+functors as cover-preserving for `Scheme.smallEtaleTopology`. In particular, jointly
+surjective families correspond to jointly surjective families; this is an equivalence of
+sites, with the specified base-change functor, unit and counit.
+
+The only geometric hypothesis is that `f` is a universal homeomorphism, in the sense of
+§0.23. There is no Noetherian, finite-type, reducedness or coefficient restriction. Give the
+canonical identity comparison and, for universal homeomorphisms `X → Y → Z`, the comparison
+between pullback along the composite and successive pullbacks. For every `Y' → Y`, write
+`X' = X ×_Y Y'`, `f' : X' → Y'` and `g_X : X' → X`. Construct the natural isomorphism
+between the functors `g_X* ∘ f*` and `f'* ∘ g*`; §0.23 gives the universal-homeomorphism
+hypothesis for `f'`. Require the identity, associativity and composite-base-change coherence
+laws for these comparisons, including compatibility with the unit and counit of the
+equivalences. Sheaf transport of constants, module coefficients, stalks, sections and
+cohomology belongs to EtaleCohomologyFoundations.
+
+*Source:* Stacks, §59.45 [Topological invariance of the small étale site](https://stacks.math.columbia.edu/tag/04DY),
+Theorems 59.45.1–59.45.2 ([04DZ](https://stacks.math.columbia.edu/tag/04DZ)); the covering
+condition is joint surjectivity and is preserved and reflected by universal homeomorphisms.
+
+*Needs:* §0.23; Mathlib `AlgebraicGeometry.Scheme.Etale`, `Scheme.smallEtaleTopology`,
+`Scheme.smallEtalePretopology`, `MorphismProperty.Over.pullback`,
+`CategoryTheory.Equivalence`, `CategoryTheory.CoverPreserving`, scheme pullbacks and their
+canonical comparison isomorphisms.
+
+**Checks.**
+
+- A nilpotent thickening induces the equivalence on all étale objects and preserves and
+  reflects jointly surjective covers; the argument must also allow an elementwise nil ideal
+  without a uniform nilpotence exponent.
+- The normalization `Spec k[t] → Spec k[t², t³]` of the cusp induces the equivalence, even
+  though the normalization map is not an isomorphism.
+- The normalization of a nodal curve in characteristic different from two has two points
+  over the node and fails the universal-homeomorphism hypothesis.
+- `Spec 𝔽_{p²} → Spec 𝔽_p` is a homeomorphism of underlying one-point spaces but does not
+  induce this equivalence: its self-product has two points. Ordinary homeomorphism is
+  insufficient.
+- Base-change a thickening along an arbitrary morphism and then along a second one. The two
+  routes give the same comparison on étale objects and covers; with identity base change the
+  comparison is the unit comparison.
+
+*Lean:* `smallEtaleBaseChange`, `universalHomeomorphismEtaleEquivalence`,
+`universalHomeomorphismEtaleEquivalence_functor`,
+`universalHomeomorphismEtaleEquivalence_coverPreserving`,
+`universalHomeomorphismEtaleEquivalence_id`, `universalHomeomorphismEtaleEquivalence_comp`,
+`universalHomeomorphismEtaleEquivalence_baseChange`.
+
 ### 0.24 Perfect schemes and perfection
 
 Let `p` be a prime. The absolute Frobenius `F_X : X → X` is Supplied by
@@ -1747,6 +1788,134 @@ and `allOpenSheafComparison_unique` give extensionality on representatives. *Nee
   `𝟙 ≫ g = g` followed by the componentwise identification of equal extended ideals.
 - `allOpenSheafComparison_isIso_check`: for `I = ⊤` the sheafified quotient is the zero sheaf and
   `V(I) = ∅`; for `I = ⊥` it is `O_X` and `V(I) = X`.
+
+### 0.29 Scheme Frobenius
+
+The labels in this section refer to scheme constructions; their representative Lean names lie in
+`SchemeFrobenius`. There is no group, field, reducedness, Noetherian or finiteness assumption on
+the basic constructions. Absolute scheme maps and relative scheme maps have distinct codomains.
+
+*Absolute Frobenius of characteristic-p schemes.*
+For a prime `p`, define `SchemeCharP X p` intrinsically by `CharP` on every local ring of `X`.
+Prove equivalence with the existence of a unique structure map `X → Spec (ZMod p)` and with
+`p = 0` in every open section ring, hence every affine coordinate ring. On a nonempty affine
+open this gives `CharP` of its coordinate ring; the empty open has the zero ring and satisfies
+`p = 0`, without having ring characteristic `p`. Include the empty scheme. Provide restriction
+to opens, isomorphism invariance, products, fibre products and base change of this condition.
+
+Construct `absoluteFrobenius X p`, written F_X : X → X, with identity map on the underlying
+space and `a ↦ a^p` on the structure sheaf. On Spec A it is `Spec.map` of ring Frobenius.
+Prove open restriction, naturality for every morphism of characteristic-`p` schemes, compatibility
+with composition and isomorphisms, and projection identities on products and fibre products
+(over Spec F_p, these are the usual product maps). Package this as a natural transformation
+on the full category of characteristic-`p` schemes. Prove that F_X is integral, radicial
+(universally injective) and a universal homeomorphism. If X is locally of finite type over a
+perfect field of characteristic `p`, prove F_X finite; finiteness is not imposed on general X.
+
+*Source:* Stacks, §33.36 [Frobenii](https://stacks.math.columbia.edu/tag/0CC6),
+Definition 33.36.1, Lemmas 33.36.2–33.36.3 and 33.36.8; its affine finite-generation
+argument gives the finite assertion because Frobenius is invertible on the perfect base field.
+
+*Needs:* §§0.8, 0.23; Mathlib `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Spec.map`,
+`CharP`, `frobenius`, `PerfectRing`, ringed-space gluing, scheme pullbacks and composition,
+`AlgebraicGeometry.Etale`, `AlgebraicGeometry.Smooth`,
+`AlgebraicGeometry.SmoothOfRelativeDimension`, `Module.Free`, `Module.Finite`,
+`FiniteField.frobenius_pow`. Relative constructions and iterates use the
+absolute construction in this section; the rank proof uses local étale coordinates.
+
+**Checks.**
+
+- On Spec A the algebra map is `a ↦ a^p`, including nilpotents; it commutes with localization.
+- On Spec F_{p²} the underlying one-point space is fixed but the ring map is nontrivial.
+- On Spec F_p[ε]/(ε²), F_X pulls ε back to zero, so the map need not be an isomorphism.
+- The empty scheme satisfies the intrinsic condition and has identity Frobenius.
+
+*Lean:* `SchemeCharP`, `schemeCharP_spec_iff`, `schemeCharP_iff_structureMap`,
+`absoluteFrobenius`, `absoluteFrobenius_spec`, `absoluteFrobenius_base`,
+`absoluteFrobenius_naturality`, `absoluteFrobenius_integral`,
+`schemeCharP_of_hom`, `absoluteFrobenius_universalHomeomorphism`, `absoluteFrobenius_finite`.
+
+*Relative scheme Frobenius and arbitrary base change.*
+For every f : X → S between characteristic-`p` schemes, define
+`schemeFrobeniusTwist f p` = X^{(p/S)} = X ×_{S,F_S} S, with projections π₁ to X and π₂ to S.
+The structure map is π₂. Construct `relativeFrobenius f p`, F_{X/S} : X → X^{(p/S)}, uniquely
+characterized by π₁ ∘ F_{X/S} = F_X and π₂ ∘ F_{X/S} = f. Thus F_X factors through the
+relative map. For A → B the coordinate algebra of the twist is B ⊗_{A,F_A} A and the relative
+map on algebras sends b ⊗ a to b^p a.
+
+Give the induced twist functor and naturality square for every map over S, compatibility with
+products over S and transport along isomorphisms of schemes and bases. For every S′ → S,
+construct the canonical isomorphism
+(X ×_S S′)^{(p/S′)} ≅ X^{(p/S)} ×_S S′ and prove that it identifies relative Frobenius with
+its base change. Keep this isomorphism and both projections explicit, with identity and composite
+base-change coherence; no perfectness or flatness of S′ → S is required.
+
+Prove F_{X/S} integral, radicial and a universal homeomorphism for arbitrary f; for étale f
+it is an isomorphism. For smooth f of pure relative dimension d, it is finite locally free of
+rank p^d. For general smooth f, the locally constant relative dimension on X gives rank
+p^{d(x)} at the corresponding point of X^{(p/S)}, via the Frobenius homeomorphism; no constant
+rank on all of S is assumed. Use étale coordinates to reduce the rank assertion to affine
+space.
+
+*Source:* Stacks, §33.36, Definition 33.36.4 and Lemmas 33.36.5–33.36.8;
+Lemma 41.14.3 ([0EBS](https://stacks.math.columbia.edu/tag/0EBS)) for étale f;
+smooth étale coordinates (Lemma 29.37.21, [054L](https://stacks.math.columbia.edu/tag/054L))
+and the monomial basis with exponents < p give
+finite local freeness and its rank.
+
+**Checks.**
+
+- For A¹_S the relative coordinate map is t ↦ t^p and the algebra is free with basis 1,…,t^{p−1}.
+- Relative Frobenius of every étale S-scheme is an isomorphism, even when F_S is not one.
+- Smooth relative dimension d gives rank p^d; A¹_S has rank p, rather than rank one.
+- The disjoint union of A¹_S and A²_S has ranks p and p² on the respective twist components.
+
+*Lean:* `schemeFrobeniusTwist`, `relativeFrobenius`, `relativeFrobenius_fst`,
+`relativeFrobenius_snd`, `relativeFrobenius_unique`, `relativeFrobenius_integral`,
+`relativeFrobenius_etale_isIso`, `relativeFrobenius_universalHomeomorphism`,
+`relativeFrobenius_smooth_rank`, `schemeFrobeniusTwistBaseChangeIso`,
+`relativeFrobenius_baseChange`.
+
+*Iterated scheme Frobenius and finite-field q-power maps.*
+For every characteristic-`p` scheme X and every r ≥ 0 construct `iteratedSchemeFrobenius X p r`
+= F_X^r. For f : X → S define `iteratedSchemeFrobeniusTwist f p r` = X ×_{S,F_S^r} S and
+`iteratedRelativeFrobenius f p r` with projection maps F_X^r and f. Prove canonical coherent
+isomorphisms between successive twists and the twist for the sum of the exponents. Relative
+addition composes the r-fold map with the s-fold map of the r-twist, using these isomorphisms.
+Require unit and associativity coherence for twist addition, and compatibility with the
+identity and composite-base-change comparisons; the projection identities characterize these
+comparisons uniquely. The zeroth twist identifies with X and its relative map with identity;
+give successor, addition,
+naturality, isomorphism, product and arbitrary relative base-change laws for every exponent.
+On sections the absolute r-fold map is `a ↦ a^{p^r}`; its point map is identity.
+
+For an explicit finite field k of characteristic p and cardinality q = p^a, construct
+`qPowerFrobenius` of every k-scheme as F_X^a and prove it is over k. Its r-fold iterate raises
+sections to q^r powers. Identify the a-fold relative twist with X using F_{Spec k}^a = identity,
+and identify the resulting relative map with the absolute a-fold map. Give identity, successor,
+addition, naturality, products and base-change laws with finite fields and cardinality equalities
+visible. Under an extension k′/k, base change of this k-map is the q-power relative map after
+identifying its twist, not in general the q-power absolute map on X_{k′}; that absolute map also
+acts on k′. A single absolute p-Frobenius need not be over k.
+
+*Source:* Stacks, §33.36, Remark 33.36.11 ([0CCG](https://stacks.math.columbia.edu/tag/0CCG));
+Mathlib `FiniteField.frobenius_pow` for the finite-field identity.
+
+**Checks.**
+
+- The zeroth absolute iterate is identity, and the zeroth relative twist is canonically X.
+- Over F_{p²}, the single absolute p-map on Spec k is not a k-map; its square is identity.
+- On Spec F_{q²}, base change of identity on Spec F_q is identity, whereas absolute q-Frobenius
+  is nontrivial on the ring; this tests the relative base-change convention.
+
+*Lean:* `iteratedSchemeFrobenius`, `iteratedSchemeFrobenius_zero`,
+`iteratedSchemeFrobenius_succ`, `iteratedSchemeFrobenius_add`,
+`iteratedSchemeFrobeniusTwist`, `iteratedRelativeFrobenius`,
+`iteratedRelativeFrobenius_fst`, `iteratedRelativeFrobenius_snd`,
+`iteratedSchemeFrobeniusTwistZeroIso`, `iteratedRelativeFrobenius_zero`,
+`iteratedSchemeFrobeniusTwistAddIso`, `iteratedSchemeFrobeniusTwistAddIso_projections`,
+`iteratedRelativeFrobenius_add`,
+`qPowerFrobenius`, `qPowerFrobenius_eq_iterated`, `qPowerFrobenius_over`.
 
 ### Examples
 
