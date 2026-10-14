@@ -31,8 +31,7 @@ the mathematical scope, including hypotheses whose carriers come from another ro
 ## Scope and ownership
 
 The roadmap owns determinant polynomial laws and their reconstruction and interpolation theory:
-homogeneous and multiplicative polynomial laws, Chenevier determinants with their characteristic
-polynomials, kernels and Cayley–Hamilton ideals, the Roby divided-power representing algebras and
+Chenevier determinants with their characteristic polynomials, kernels and Cayley–Hamilton ideals,
 the determinant coordinate ring, the Amitsur formula and the comparison with pseudocharacters,
 continuous determinants, contragredients, finite projective and Azumaya determinants, connected
 reductive pseudocharacters with their invariant-coordinate evaluations, the general untwisted
@@ -59,8 +58,9 @@ exact declarations are listed under *Exact supplier contracts*.
 
 - Mathlib supplies polynomial laws, tensor products, matrices, group algebras, divided powers, the
   exterior algebra, module and derived categories, quotient, local and topological algebra, and the
-  Azumaya predicate; homogeneity, multiplicativity and the determinant structure extend Mathlib's
-  law carrier here.
+  Azumaya predicate. DerivedModuleAlgebra §§0.DP.1–0.DP.2 supplies the homogeneous and
+  multiplicative law predicates and Roby algebras; the determinant structure extends that carrier
+  here. DerivedModuleAlgebra §0.K.1 supplies the linear-functional Koszul theory.
 - Tau Ceti supplies right comodules over a coalgebra, the completed group algebra, Fitting ideals,
   the classical rank-two Satake parameters, conjugacy of algebra isomorphisms over a field and the
   arithmetic-Frobenius value of the cyclotomic character.
@@ -275,8 +275,8 @@ All names in this section are part of the dependency contract.
 
 - `DividedPowerAlgebra.map`, `DividedPowerAlgebra.map_apply_dp`, `DividedPowerAlgebra.dp_sum_smul`,
   `DividedPowerAlgebra.dp_mul` in `Mathlib/RingTheory/DividedPowerAlgebra/Init.lean` supply
-  the raw divided-power algebra operations. The functoriality `Γ^d(f)` of Layer 0 restricts this
-  map to a fixed homogeneous submodule; the internal multiplication is a separate operation.
+  the raw divided-power algebra operations. DerivedModuleAlgebra §0.DP.2 supplies the restriction
+  `Γ^d(f)` to a fixed homogeneous submodule and its separate internal multiplication.
 - `PolynomialLaw.toFun` and its comparison lemma `toFun'_eq_toFun` in
   `Mathlib/RingTheory/PolynomialLaw/Basic.lean` supply evaluation in arbitrary universes.
 - `PiTensorProduct.reindex`, `PiTensorProduct.tprod` in
@@ -345,12 +345,13 @@ The following APIs are used directly, with no additional image or Fitting aliase
 Polynomial laws, tensor products, matrices and group algebras: `PolynomialLaw`,
 `PolynomialLaw.ground`, `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`,
 `Algebra.TensorProduct.rid`, `MonoidAlgebra`, `MonoidAlgebra.of`, `MonoidAlgebra.mapDomainAlgHom`,
-`Matrix.det`, `Matrix.charpoly`, `Matrix.trace`. Homogeneity, multiplicativity and determinant
-structure extend this existing law carrier; nothing here redefines a polynomial law.
+`Matrix.det`, `Matrix.charpoly`, `Matrix.trace`. DerivedModuleAlgebra §0.DP.1 supplies
+homogeneity and multiplicativity on this existing law carrier; the determinant structure here uses
+them.
 
 Divided powers and the exterior algebra: `DividedPowerAlgebra` and `DividedPowerAlgebra.dp` supply
-the entire divided-power algebra and its generators; its homogeneous pieces and their internal
-algebra multiplication are defined here (Layer IHG.0). `exteriorPower.map`, the existing tensor
+the entire divided-power algebra and its generators; DerivedModuleAlgebra §0.DP.2 supplies its
+homogeneous pieces and their internal algebra multiplication. `exteriorPower.map`, the existing tensor
 powers and `SymmetricAlgebra` are used for the subsequent constructions.
 
 Module and derived categories: `ModuleCat`, `DerivedCategory`, `DerivedCategory.Q`,
@@ -415,6 +416,14 @@ simultaneous coefficient and group limits.
 against in Layer IHG.3a only; `IsArithFrobeniusLift.coe_localCyclotomicCharacter`, the value
 `ε = q` at arithmetic Frobenius; `exists_unit_conj_of_algEquiv`, conjugacy of algebra isomorphisms
 over a field, the field case of the inner-conjugacy statement of Layer IHG.1.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+| Supplier | Supplied interface |
+| --- | --- |
+| DerivedModuleAlgebra §0.DP.1 | Homogeneous and multiplicative polynomial laws on Mathlib's carrier, their composition laws and degree-one characterizations. |
+| DerivedModuleAlgebra §0.DP.2 | Homogeneous divided powers, grading, universal law and Roby representability, arbitrary base change, tensor map, internal multiplication, and free symmetric tensors. |
+| DerivedModuleAlgebra §0.K.1 | Linear-functional Koszul complexes, finite-sequence specialization, chain maps, concatenation tensor formula, null-homotopies and weakly regular resolutions. |
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
@@ -534,7 +543,7 @@ prototyped there by the listed declarations; the others are specified in this RE
 IHG.0 → IHG.3a → IHG.1 → IHG.2 → IHG.3b → IHG.4 → IHG.5 → IHG.6.
 
 - **Layer 0** delivers polynomial laws, determinants, their characteristic coefficients, kernels,
-  Roby representability and the determinant coordinate ring, the Amitsur formula and the trace
+  the determinant coordinate ring using DerivedModuleAlgebra §0.DP.2, the Amitsur formula and the trace
   comparisons, continuity, duals, finite projective and Azumaya determinants, and connected
   invariant-coordinate pseudocharacters and their algebraic representing rings, with rational
   cohomology of a flat affine group scheme.
@@ -570,48 +579,8 @@ that Layers IHG.1 and IHG.6 consume.
 
 ### 0.1 Homogeneous and multiplicative laws
 
-**Homogeneous polynomial laws.** For `A` a commutative ring and `A`-modules `M` and `N`, an
-`A`-polynomial law `f : M → N` is a family `f_S : S ⊗_A M → S ⊗_A N` natural in the commutative
-`A`-algebra `S`, Mathlib's `PolynomialLaw`; `S` ranges over commutative `A`-algebras in the universe
-of `A`, as in Mathlib's `PolynomialLaw`, whose extension to all universes is Mathlib's `toFun`. Such
-a law is homogeneous of degree `n` if `f_S(s·x) = s^n·f_S(x)` for every commutative `A`-algebra `S`,
-`s ∈ S` and `x ∈ S ⊗_A M`. Define the predicate `PolynomialLaw.IsHomogeneousOfDegree` and prove
-that the zero law is homogeneous of every degree, that homogeneity of a fixed degree is closed under
-addition, that composition multiplies degrees, and that a law has degree one iff it is the base
-change of a linear map ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7). *Needs:*
-Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
-*Lean:* `PolynomialLaw.IsHomogeneousOfDegree`.
-
-**Checks.**
-
-- The identity law is homogeneous of degree `1`: `id_S(s·x) = s·x` on every scalar extension, so a
-  definition demanding `s^n` for some other `n`, or testing only ground points, would misclassify
-  the identity.
-- Over `𝔽_p`, the degree-`(p+1)` law `(x,y) ↦ x^p y − xy^p` vanishes on all
-  `𝔽_p`-points. At `(T,1)` over `𝔽_p[T]` its value is `T^p−T ≠ 0`, so it is not the
-  zero law. Testing only `S=A` would miss it.
-- The zero law is homogeneous of degree `n` for every `n`, the degenerate case; a definition that
-  assigned each law a unique degree would reject it.
-
-**Multiplicative polynomial laws.** For `A`-algebras `R` and `B`, associative and unital but not
-necessarily commutative, an `A`-polynomial law `f : R → B` is multiplicative if `f_S(1) = 1` and
-`f_S(xy) = f_S(x)f_S(y)` for every commutative `A`-algebra `S` and `x, y ∈ S ⊗_A R`, where the ring
-structure on `S ⊗_A R` is Mathlib's `Algebra.TensorProduct` ring structure. Define the predicate
-`PolynomialLaw.IsMultiplicative` and prove that the identity is multiplicative, that multiplicative
-laws compose, and that the multiplicative laws of degree one to `A` are the `A`-algebra maps
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p. 7). *Needs:* Mathlib `PolynomialLaw`,
-`PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`.
-*Lean:* `PolynomialLaw.IsMultiplicative`.
-
-**Checks.**
-
-- The identity law is multiplicative: `1 ↦ 1` and `xy ↦ xy` on every `S ⊗_A R`, so a definition
-  using a wrong ring structure on the tensor product would already fail on the identity.
-- The matrix determinant law `M_d(A) → A` is multiplicative, computing `det(XY) = det X · det Y` after
-  every scalar extension; a definition that only asked for multiplicativity on `R` itself would
-  not be testable against the scalar-extended matrix identity.
-- The zero law on a nonzero ring preserves products but sends `1` to `0`; it fails precisely
-  the unit condition. Over `ℤ`, `2 • id` fails both the unit and product conditions.
+DerivedModuleAlgebra §0.DP.1 supplies homogeneity and multiplicativity of Mathlib polynomial
+laws, including their scalar-extension definitions and degree-one characterizations.
 
 ### 0.2 Scalar-extension laws and degree one
 
@@ -619,7 +588,7 @@ laws compose, and that the multiplicative laws of degree one to `A` are the `A`-
 as the degree-one polynomial law with `ℓ_S = S ⊗ ℓ` (`LinearMap.lTensor`) for every commutative
 `A`-algebra `S`. Prove that the degree-one laws are exactly these and that the ground map of the
 law of `ℓ` is `ℓ` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.2(i), p. 7). *Needs:*
-Homogeneous polynomial laws, Mathlib `LinearMap.lTensor`.
+DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws, Mathlib `LinearMap.lTensor`.
 
 **Checks.**
 
@@ -645,7 +614,7 @@ and for `d = 0` the only determinant is the constant `1`. For `R = A[G]`, with `
 monoid, it is called a determinant on `G`. Define the structure `Determinant` and its value
 `Determinant.eval`, and prove `D(xy) = D(x)D(y)`, `D(1) = 1`, `D(ax) = a^d D(x)` and that units go
 to units ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5, Definition,
-p. 9). *Needs:* Homogeneous polynomial laws, Multiplicative polynomial laws, Mathlib `PolynomialLaw.ground`.
+p. 9). *Needs:* DerivedModuleAlgebra §0.DP.1 (homogeneous and multiplicative polynomial laws), Mathlib `PolynomialLaw.ground`.
 *Lean:* `Determinant`, `Determinant.eval`.
 
 **Checks.**
@@ -847,108 +816,10 @@ polynomial law `P̃ : M/K → N`: `P` factors through `M/K` iff `K ≤ Ker(P)`
 
 ### 0.4 Roby algebras and representability
 
-**Homogeneous divided-power piece.** For an `A`-module `M` and `d ≥ 0`, define `Γ^d_A(M)` as the
-`A`-submodule of Mathlib's `DividedPowerAlgebra A M` spanned by the products `∏_j γ_(n_j)(m_j)` with
-`∑_j n_j = d`. It is a graded piece of the full commutative algebra, not an algebra under its
-degree-adding multiplication. Define the homogeneous submodule `Γ^d_A(M)`, prove that `γ_d(m)`
-belongs to `Γ^d_A(M)`, and define the map `Γ^d(f) : Γ^d_A(M) → Γ^d_A(N)` induced by an `A`-linear
-`f : M → N`, taking `γ_d(m)` to `γ_d(f(m))`
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.2, p.8). *Needs:* Mathlib `DividedPowerAlgebra`,
-`DividedPowerAlgebra.dp`.
-
-**Checks.**
-
-- `Γ^0_A(M) ≅ A`, with `γ₀(m) = 1`: the degree-zero piece is spanned by the empty product, so a
-  definition whose span omitted the unit would compute `0`.
-- `Γ^1_A(M) ≅ M`, and `γ₁` corresponds to the identity: so a definition in which `γ₁` were not
-  injective, or `Γ^1` had extra relations, would fail here.
-- In the full `Γ_ℤ(ℤ)`, `γ₁(1)² = 2γ₂(1)`, and `γ₂(1)` is a basis of `Γ²_ℤ(ℤ)`: the divided-power
-  grading cannot be replaced by an ordinary polynomial grading, which would make `γ₁(1)²` a basis
-  and lose the element `γ₂(1)`.
-
-**Direct-sum grading of divided powers.** For any commutative ring `A` and module `M`, prove that
-the sum map `⊕_(d≥0) Γ^d_A(M) → Γ_A(M)` is an `A`-linear equivalence, that multiplication maps
-degrees `a, b` to `a + b`, and that `γ_d(m)` has degree `d`. The proof gives the polynomial
-generators their weight `n` and proves each Roby relation homogeneous; the quotient decomposition
-must establish directness as well as generation, and the grading is multiplicative ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250).
-*Needs:* Homogeneous divided-power piece.
-
-**Universal homogeneous polynomial law.** For every `d ≥ 0` and `A`-module `M`, construct the
-homogeneous polynomial law `γ^univ_d : M → Γ^d_A(M)` whose value at `∑_j s_j ⊗ m_j` after scalar
-extension is
-
-```text
-∑_(∑ n_j = d) (∏_j s_j^{n_j}) ⊗ ∏_j γ_(n_j)(m_j).
-```
-
-Define `γ^univ_d` as the homogeneous law with ground value `m ↦ γ_d(m)`, and prove that the
-ground evaluation of `γ^univ_d` at `m` is `γ_d(m)` and that the coefficient of `∏ T_j^{n_j}` in
-`γ^univ_d(∑ T_j m_j)` is `∏ γ_(n_j)(m_j)` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Proposition IV.1 and Theorem IV.1, pp.265–267). *Needs:*
-Direct-sum grading of divided powers, Homogeneous polynomial laws.
-
-**Checks.**
-
-- The degree-zero law is constant `1` in `Γ⁰ ≅ A`, the degenerate case; a construction whose empty
-  sum gave `0` would fail.
-- Under `Γ¹ ≅ M` it is Mathlib's identity polynomial law, so a construction not agreeing with
-  `PolynomialLaw.id` in degree one would be wrong.
-- The coefficient of `UV` in `γ²(Ux + Vy)` is `γ₁(x)γ₁(y)`, with no factor `2` inserted: a
-  construction modelled on `(Ux + Vy)²/2` would produce a spurious `2`, or fail over `𝔽_2`.
-
-**Roby representability.** For all `A`-modules `M, N` and `d ≥ 0`, prove that composition with
-`γ^univ_d` is a natural `A`-linear equivalence between `Hom_A(Γ^d_A(M), N)` and the homogeneous
-degree-`d` `A`-polynomial laws `M → N`; no flatness or projectivity of `M` is assumed
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem IV.1 and proof, pp.266–267). *Needs:* Universal homogeneous polynomial law.
-
-**Arbitrary base change of divided powers.** For any commutative `A`-algebra `B` and `A`-module `M`,
-prove that the canonical map `B ⊗_A Γ^d_A(M) → Γ^d_B(B ⊗_A M)` is a `B`-linear equivalence for
-every `d`, taking `1 ⊗ γ_d(m)` to `γ_d(1 ⊗ m)`; flatness of `B` is unnecessary
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem III.3 and proof, pp.261–262). *Needs:* Roby representability.
-
-**Tensor map for homogeneous divided powers.** For `A`-modules `M, N`, construct the natural
-`A`-linear map `Γ^d_A(M) ⊗_A Γ^d_A(N) → Γ^d_A(M ⊗_A N)`, characterized by the polynomial law
-`(m, n) ↦ γ_d(m ⊗ n)`, separately homogeneous of degree `d`. Its mixed coefficient formula is
-required; no assertion that this map is an isomorphism is made. Define this linear map
-`Γ^d(M) ⊗ Γ^d(N) → Γ^d(M ⊗ N)`, and prove that `γ_d(m) ⊗ γ_d(n)` maps to `γ_d(m ⊗ n)` and that it
-commutes with `Γ^d(f) ⊗ Γ^d(g)` and `Γ^d(f ⊗ g)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.2 and the Roby algebra
-structure, p.8; [Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), IV §11, Proposition IV.9 and proof, pp.284–286). *Needs:*
-Arbitrary base change of divided powers.
-
-**Checks.**
-
-- For `d = 1` the map is the identity on `M ⊗ N` under `Γ¹ ≅ identity`, so a construction with an
-  extra scalar or a twist would fail in degree one.
-- For `d = 0` it is `A ⊗_A A ≅ A`, the degenerate case; a construction that was not the canonical
-  multiplication in degree zero would fail.
-- For `d = 2` and `M = N = ℤ`, the basis element `γ₂(1) ⊗ γ₂(1)` maps to `γ₂(1 ⊗ 1)` with
-  coefficient `1`: a construction modelled on symmetric tensors `(m^{⊗2}) ⊗ (n^{⊗2}) ↦ (m ⊗ n)^{⊗2}`
-  with a divided-power normalisation would insert a factor `2` or `1/2` here.
-
-**Roby algebra of multiplicative laws.** For an associative unital `A`-algebra `R`, equip
-`Γ^d_A(R)` with the internal multiplication `Γ^d(R) ⊗ Γ^d(R) → Γ^d(R ⊗ R) → Γ^d(R)`, induced by the
-multiplication of `R`, and unit `γ_d(1)`. Prove that algebra maps `Γ^d_A(R) → S` are naturally
-equivalent to multiplicative homogeneous degree-`d` polynomial laws `R → S`. The addition and scalar action are those of the homogeneous submodule in Mathlib’s
-divided-power algebra; the unit is `gamma d 1` and the scalar map sends `a` to `a • gamma d 1`. This internal algebra
-can be noncommutative and is distinct from the graded multiplication on `Γ_A(R)`. Define the
-degree-`d` representing module with its internal associative `A`-algebra structure, prove
-`γ_d(x) ⋆ γ_d(y) = γ_d(xy)`, with unit `γ_d(1)`, and construct the equivalence between algebra maps
-from this internal algebra and the multiplicative degree-`d` laws ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.2 and footnote
-13, p.8). *Needs:* Tensor map for homogeneous divided powers, Multiplicative polynomial laws.
-
-**Checks.**
-
-- `Γ¹_A(R)` with its internal multiplication is `R` as an `A`-algebra, so an internal product not
-  reducing to the multiplication of `R` in degree one would fail.
-- For `R = ℤ`, `d = 2`: `γ₂(1) ⋆ γ₂(1) = γ₂(1)`, while the full graded product `γ₂(1)γ₂(1) = 6γ₄(1)`
-  is a different operation; a definition that used the graded product of `Γ_A(R)` would compute
-  `6γ₄(1)` and leave degree `2`.
-- For `R = A` the universal multiplicative law is `a ↦ a^d` and its representing algebra is `A`, so
-  a representing algebra larger than `A` in this case would mean spurious generators.
-
-For this equivalence, the three ground-value Checks for `R=S=A` are degree zero
-`a↦1`, degree one `a↦a`, and degree two `a↦a²`, for every algebra map from the corresponding
-internal algebra. The equivalence is specified by its evaluation on `γ_d`, and the complete
-internal product by the tensor map followed by `LinearMap.mul'`.
+DerivedModuleAlgebra §0.DP.2 supplies the homogeneous divided-power pieces, their grading,
+Roby representability, arbitrary base change, the tensor map, the internal algebra of multiplicative
+laws and the free-module comparison with symmetric tensors. This section constructs the determinant
+coordinate ring and its generic-matrix comparison from that algebra.
 
 **Determinant coordinate ring.** For `d ≥ 0` and any `A`-algebra `R`, define
 `Z_A(R, d) = Γ^d_A(R)^ab`, the quotient by the two-sided ideal generated by all commutators for the
@@ -957,7 +828,7 @@ coefficient algebras: `Hom_{A-alg}(Z_A(R, d), B) ≅ Det_d(B ⊗_A R, B)`. Defin
 `Z_A(R, d)`, the abelianized internal degree-`d` divided-power algebra, and the universal
 determinant on `Z_A(R, d) ⊗_A R`, and prove that the `A`-algebra maps `Z_A(R, d) → B` correspond
 naturally to `B`-valued determinants and that `B ⊗_A Z_A(R, d) ≅ Z_B(B ⊗_A R, d)`
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), Proposition 1.6 and Example 1.7(iv), pp.9–10). *Needs:* Roby algebra of multiplicative laws, Determinants (Chenevier).
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), Proposition 1.6 and Example 1.7(iv), pp.9–10). *Needs:* DerivedModuleAlgebra §0.DP.2 / Roby algebra of multiplicative laws, Determinants (Chenevier).
 
 **Checks.**
 
@@ -969,12 +840,6 @@ naturally to `B`-valued determinants and that `B ⊗_A Z_A(R, d) ≅ Z_B(B ⊗_A
   `X^d − e₁X^(d−1) + … + (−1)^d e_d`: a construction that identified fewer or more free
   coefficients, or signed them differently, would fail this computation.
 
-**Free divided powers and symmetric tensors.** For any free `A`-module `M`, prove that
-`Γ^d_A(M) → (M^(⊗d))^(S_d)`, `γ_d(m) ↦ m^(⊗d)`, is an `A`-linear equivalence. The module
-comparison is stated with permutation-fixed tensors as the intersection of the
-kernels of `reindex σ − id` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf),
-Theorem IV.2 and Proposition IV.5, p.272). *Needs:* Roby algebra of multiplicative laws.
-
 **Vaccarino universal determinant theorem.** For any set `X`, prove that the determinant of the
 generic `d × d` matrices induces an isomorphism `Γ^d_ℤ(ℤ{X})^ab ≅ E_X(d)`, where `E_X(d)` is the
 subring of `ℤ[x_(a,i,j)]` generated by all characteristic-polynomial coefficients of words in the
@@ -984,7 +849,7 @@ relation theorem and the identification with the divided-power abelianization.
 On divided-power classes the comparison is the determinant of the generic evaluation.
 Characteristic-zero
 invariant generation does not supply the integral relations ([Chenevier](https://arxiv.org/pdf/0809.0415v2),
-Theorem 1.15, pp.14–15; [Emerson–Morel](https://arxiv.org/pdf/2310.03869v2), Theorem 1.12, p.5). *Needs:* Determinant coordinate ring, Free divided powers and symmetric tensors.
+Theorem 1.15, pp.14–15; [Emerson–Morel](https://arxiv.org/pdf/2310.03869v2), Theorem 1.12, p.5). *Needs:* Determinant coordinate ring, DerivedModuleAlgebra §0.DP.2 / Free divided powers and symmetric tensors.
 
 ### 0.5 Characteristic coefficients and trace comparisons
 
@@ -1499,7 +1364,6 @@ Chenevier §§1.5, 1.9, 1.17–1.19 and the divided-power functor of §1.3.
 
 | Interface | Computed Checks |
 |---|---|
-| `PolynomialLaw.IsHomogeneousOfDegree` | The identity has degree one; the zero law has every degree; the identity over `ℤ` does not have degree two (evaluate at `2`). |
 | `Determinant.traceLinear` | The degree-one identity sends `a` to `a`; the trace of `[[2,3],[4,5]]` is `7`; every degree-zero trace is zero. |
 | One-dimensional determinants as algebra maps | The inverse at `f` evaluates to `f(r)`; the identity over `ℤ` takes `2` to `2`; the identity over `𝔽₂` has polynomial `X−1` at `1`. The inverse is this evaluation at every input. |
 | `cycleProduct` | The identity permutation returns the chosen entry; the transposition starting at `0` gives `x₀x₁`; starting at `1` gives `x₁x₀`. |
@@ -1508,7 +1372,6 @@ Chenevier §§1.5, 1.9, 1.17–1.19 and the divided-power functor of §1.3.
 | `Ker(D)` as a two-sided ideal (membership in `PolynomialLaw.ker`) | A degree-zero law has full kernel; the determinant on a matrix algebra has zero kernel; on upper triangular matrices its kernel consists of the strictly upper triangular matrices. |
 | The coefficients `χ_α` of the law `χ` | Matrix determinants have zero coefficients of the CH law; evaluation at `0` on `ℤ[X]` gives coefficient `X` in multidegree one of the input `tX`, and zero in multidegree two. |
 | The coefficient subring `C` | Over `ℤ` it is all of `ℤ`; every group characteristic coefficient belongs to it; a degree-zero law generates just the prime subring. |
-| The map `Γ^d(f)` | The identity induces the identity; the zero map preserves `γ₀(m)=1`; in degree one it sends `γ₁(m)` to zero. |
 
 **Checks for restriction.** Restriction of an `H`-pseudocharacter along a group map is
 precomposition on every tuple. Restriction by the identity fixes `Θ`; restriction by the
@@ -1526,13 +1389,8 @@ map. The universal determinant is the case `φ=id`; the equivalence is natural i
 change; the base-change isomorphism is specified on the image of every
 homogeneous divided-power element. These are the maps of Chenevier, Proposition 1.6 and
 Example 1.7(iv), pp.9–10.
-Scalar extension of `Γ^d` is fixed on the spanning mixed
-monomials; the full law represented by an algebra map from the internal algebra is
-composition through `γ^univ_d`; the universal law is specified after every scalar extension. The
-full tensor map is specified by its mixed coefficients: sum over nonnegative matrices with the
-prescribed row and column sums, with coefficient one for each divided-power monomial (Roby,
-Theorem III.3, pp.261–262, and Proposition IV.9, pp.284–286). The map `Γ^d(f)` is restriction of
-Mathlib's `DividedPowerAlgebra.map` to the homogeneous piece.
+The homogeneous-piece scalar extension, universal homogeneous law, mixed-coefficient tensor
+map and functoriality used here are supplied by DerivedModuleAlgebra §0.DP.2.
 
 The law `χ` is evaluation of the characteristic polynomial at its
 argument after every scalar extension. The integral Newton relation is the identity of
@@ -1553,9 +1411,6 @@ These are the scalar-extension constructions in Chenevier, §§1.1–1.5.
 | Products of determinants | Two identity characters at three give value `9`, polynomial `X²−6X+9`, trace `6`; the two projections at `(0,3)` give `0`, `X²−3X`, `3`; degree zero is the unit. |
 | Restriction of determinants | Identity; evaluation at two takes `X` to `2`; evaluation at zero kills `X` and preserves `1`. |
 | Scalar extension of determinants | Reduction sends `2` to `0`; rational extension retains determinant `−2`; rank zero remains `1` at zero. |
-| `Γ^d_A(M)` | The degree-zero piece is `A`; degree one is the input module; the quadratic piece on `ℚ²` has dimension three. |
-| `γ_d` | `γ₀(0)=1`, `γ₁(2)=2γ₁(1)`, `γ₂(2)=4γ₂(1)`. |
-| Base change of `Γ^d` | Modulo two the degree-zero generator remains `1`, the degree-one generator is nonzero, and `γ₂(2)` vanishes. This includes nonflat base change. |
 | The quotient map to `Z_A(R, d)`, the universal determinant and the representing equivalence | For `A=R=ℤ`, their degree-zero, degree-one and degree-two values are respectively `1` at zero, `3` at three and `9` at three; specialization to `ℚ` has the same values. |
 | Base change of `Z_A(R, d)` | Reduction modulo two preserves the degree-zero class as `1` and kills the degree-one class of `2`; rational extension sends the degree-two class of `3` to `9`. |
 | Compatible evaluation and its evaluation map | Identity tuples use the counit on both factors; arity zero over `ℚ` gives scalar `3`; scalar `2` vanishes over `𝔽₂` at a two-term tuple. |
@@ -1568,8 +1423,6 @@ These are the scalar-extension constructions in Chenevier, §§1.1–1.5.
 | Tensor coordinates | Arity zero over `ℚ` has dimension one; the torus variable is not idempotent; the variables on the two torus factors are distinct. |
 | Tensor evaluation | The arity-zero scalar `3` gives `3`, the square of the torus coordinate at `2` gives `4`, and the tensor of the two coordinates at `(2,3)` gives `6`. |
 | Dual coefficient convention | At `diag(2,3)` over `ℚ`, the dual characteristic polynomial, that is the polynomial at `g⁻¹`, is `X²−(5/6)X+1/6`, fixing both reciprocal coefficients. |
-| The internal ring structure on `Γ^d_A(R)` | Degree one agrees with the input algebra; `γ₂(1)` is internally idempotent; the internal product of `γ₂(2)` and `γ₂(3)` is `36γ₂(1)`. The graded square `γ₁(1)²=2γ₂(1)` has a different coefficient. |
-| The internal algebra structure on `Γ^d_A(R)` | In degree two the image of scalar `2` differs from `γ₂(2)`; scalar `3` times `γ₂(2)` is `12γ₂(1)`; degree zero retains scalar `−3`. |
 | Reindexing pullback | At torus values `(2,3)`, selecting the first or second coordinate gives `2` or `3`; repeating the point `2` in the two-variable product gives `4`. |
 | Multiplication pullback | The one-variable coordinate at `(2,3)` becomes `6`; at `(2,3,5)` the first coordinate stays `2` and the last becomes `15`. These distinguish multiplication of the final pair from the first pair. |
 | `mergeLast` | `(2,3)` gives `(6)` and `(2,3,5)` gives `(2,15)`; for the noncommuting matrix pair of the ordered-products Check of *Compatible invariant-coordinate evaluation*, reversing the final pair changes the tested trace from `5` to `4`. |
@@ -1711,10 +1564,10 @@ algebra is the standing non-faithful example, with kernel the strictly upper-tri
 (The kernel of a polynomial law,
 The kernel of a determinant is a two-sided ideal). `Γ_ℤ(ℤ)` with `γ₁(1)² = 2γ₂(1)`
 and `γ₂(1) ⋆ γ₂(1) = γ₂(1)` separates the graded and the internal multiplications
-(Homogeneous divided-power piece, Roby algebra of multiplicative laws),
+(DerivedModuleAlgebra §0.DP.2 / Homogeneous divided-power piece, DerivedModuleAlgebra §0.DP.2 / Roby algebra of multiplicative laws),
 and `Z_A(A[t], d) ≅ A[e₁, …, e_d]` carries the universal characteristic polynomial
 (Determinant coordinate ring). Over `𝔽_p`, the trace-blind determinants on `𝔽_p[T]`
-show why the determinant language is kept (Homogeneous polynomial laws,
+show why the determinant language is kept (DerivedModuleAlgebra §0.DP.1 / Homogeneous polynomial laws,
 Determinants (Chenevier)). The Hamilton quaternions over `ℝ` give the nonsplit reduced
 norm `a² + b² + c² + d²` (Azumaya reduced-norm determinant), the diagonal unit pair
 `(a, b)` the inverse-root polynomial of the dual (Contragredient determinant), and
@@ -1728,7 +1581,9 @@ Kernel of a reductive pseudocharacter).
 
 ### Dependencies
 
-This layer is the base of the roadmap and uses no earlier IHG layer. From Mathlib it uses the
+This layer is the base of the roadmap and uses no earlier IHG layer. DerivedModuleAlgebra
+§§0.DP.1–0.DP.2 supplies homogeneous and multiplicative laws and the Roby algebra theory.
+From Mathlib it uses the
 polynomial-law carrier `PolynomialLaw` with `PolynomialLaw.id`, `PolynomialLaw.comp`,
 `PolynomialLaw.ground`, `TensorProduct`, `LinearMap.lTensor`,
 `TensorProduct.AlgebraTensorModule.cancelBaseChange`, `TensorProduct.finsuppScalarLeft`,
@@ -2028,7 +1883,7 @@ Cayley–Hamilton ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.21, p
 **Determinants on product algebras.** For a nonzero commutative `A` with connected spectrum and
 `A`-algebras `R₁, R₂`, prove that every dimension-`d` determinant on `R₁ × R₂` is uniquely a
 product `D₁D₂`, with dimensions `d₁ + d₂ = d`. Without connectedness, the dimensions are locally
-constant on `Spec(A)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 2.2(iii), pp.23–24). *Needs:* Roby algebra of multiplicative laws.
+constant on `Spec(A)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 2.2(iii), pp.23–24). *Needs:* DerivedModuleAlgebra §0.DP.2 / Roby algebra of multiplicative laws.
 
 **Corner determinant.** For `D : R → A` with `A` nonzero and connected and `e² = e` in `R`, define
 `D_e : eRe → A`, `D_e(x) = D(x + 1 − e)`, naturally after every scalar
@@ -2910,7 +2765,7 @@ has a generic representation ring of positive dimension (Generic Cayley–Hamilt
 ### Dependencies
 
 Layer IHG.0 throughout (determinants, kernels, the characteristic polynomial law, pseudocharacters,
-scalar extension and restriction, the Roby algebra, Azumaya determinants, continuous determinants,
+scalar extension and restriction, Azumaya determinants, continuous determinants,
 and the connected reductive pseudocharacters of IHG.0.7 with their invariant coordinate algebras
 and evaluations); Layer IHG.3a for the full similitude identity (Full similitude character under duality and twist) consumed by symplectic descent. From Mathlib: `TwoSidedIdeal.span`,
 `IsIdempotentElem.Corner`, `Subsemigroup.mem_corner_iff`, `HenselianLocalRing`,
@@ -3473,7 +3328,8 @@ laws and the continuous inverse-limit determinant assembles them with the invers
 
 Layer 0 supplies scalar extension, pullback, the rank-one algebra-homomorphism correspondence,
 coefficient descent, coefficientwise continuity, the open-kernel criterion in the profinite case,
-and representability of multiplicative laws. Layer 3a supplies the normalized Hecke polynomials.
+and the determinant coordinate ring. DerivedModuleAlgebra §0.DP.2 supplies representability of
+multiplicative laws. Layer 3a supplies the normalized Hecke polynomials.
 [Chebotarev layer 10][chebotarev10] supplies arithmetic conjugacy density. Coefficient interpolation
 uses the ordinary group algebra and the specified quotient-limit ring.
 
@@ -4166,39 +4022,8 @@ Lemma 3.2, pp.20–21). *Needs:* Trace and determinant invariant subring, Trace 
 
 ### 6.4 Koszul complexes, induction and good filtrations
 
-**Koszul complex of a finite sequence.** For a commutative ring `A` and `x = (x₁, …, xₙ)` in `A`,
-define `K(x)`, the exterior algebra `⋀(Aⁿ)` with the degree `−1` derivation
-determined by `e_i ↦ x_i`, as a nonnegative chain complex with `K(x)_k = ⋀^k Aⁿ`. Prove
-that its first differential is `d₁(v) = ∑ x_i v_i`, that
-`H₀(K(x)) = A/(x)`, that `K(x, y) ≅ K(x) ⊗_A K(y)` for concatenated
-sequences, functoriality in the sequence (a linear map `g : Aⁿ → A^{n′}` with
-`x′ ∘ g = x` induces a chain map `K(x) → K(x′)`), and that
-if `x` is weakly regular, `H_k(K(x)) = 0` for `k > 0`, so `K(x) → A/(x)` is a finite free
-resolution ([Stacks](https://stacks.math.columbia.edu), Definitions 15.29.1–15.29.2 (tags 0622, 0623), Lemma 15.29.3
-(tag 0624), Lemma 15.29.12 (tag 0664) and Lemma 15.31.2 (tag 062F)). *Needs:* Mathlib
-`ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`.
-
-Use Mathlib's [linear-functional Koszul-complex interface](https://github.com/leanprover-community/mathlib4/pull/43708):
-`koszulComplex φ`, for a linear functional `φ : M →ₗ[A] A`, has exterior-power terms,
-alternating-deletion differential, and `koszulComplex.map` induced by `φ′ ∘ g = φ`.
-The finite-sequence notation here specializes this construction to
-`φ(v)=∑ x_i v_i`; its differential on wedges and its induced map in each degree are exactly those
-operations.
-The tensor and homotopy interfaces follow [Koszul tensor-product interface](https://github.com/leanprover-community/mathlib4/pull/43711)
-and [Koszul homotopy interface](https://github.com/leanprover-community/mathlib4/pull/43706).
-Build these contracts in Tau Ceti when absent from the pin and use Mathlib's declarations
-when supplied; the local finite-sequence notation adds no competing complex construction.
-
-**Checks.**
-
-- `K(x)` for a single element is `A --x→ A` in degrees `1, 0`: the one-variable exterior algebra
-  has two terms and the differential is multiplication by `x`, so a definition with the wrong
-  degree convention or sign would fail here.
-- `K` of the empty sequence is `A` in degree `0`: the degenerate case, which a definition that
-  required at least one generator would not produce.
-- Over `ℤ`, `K(2)` has `H₁ = 0` while `K(0)` has `H₁ = ℤ`; over `ℤ/4`, `K(2)` has `H₁ ≅ ℤ/2`, so
-  acyclicity needs regularity: a definition asserting acyclicity without the weak-regularity
-  hypothesis would be refuted by `ℤ/4`.
+DerivedModuleAlgebra §0.K.1 supplies the linear-functional Koszul complex, its finite-sequence
+specialization, functoriality, tensor and homotopy interfaces, and weakly regular resolutions.
 
 **Integral restriction to the lower Borel.** For `G = GL₂/ℤ`, its lower Borel `B`, every rational
 `G`-module `V` and every `i ≥ 0`, prove that restriction `Hⁱ(G, V) → Hⁱ(B, V)` is an isomorphism.
@@ -4360,7 +4185,7 @@ p.27). *Needs:* Adjoint weight and dual identities.
 constraints, prove `H⁰(B, R) = A₀[d_τ]`, the subring specified above ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf),
 Corollary 4.17, pp.27–28). *Needs:* Integral trace and determinant invariants,
 Invariants of entirely triangular matrices, Trace and determinant invariant subring,
-Koszul complex of a finite sequence.
+DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence.
 
 **Checks.**
 
@@ -4395,7 +4220,7 @@ homogeneous alternating forms on `U` and `β ∈ ∧U`, prove that determinant c
 `ω(λ₁ ∧ … ∧ λ_r)(β) = (−1)^{r+1} ω(λ₁) ⋯ ω(λ_r)(β)`, with the sign convention of Buchsbaum §1; the
 formula defines all signs in the bar differential ([Buchsbaum](https://people.brandeis.edu/~buchsbau/miscpapers/009.pdf), Lemma 1.1,
 pp.184–185). For two forms this is `ω(λ∧μ) = −ω(λ)∘ω(μ)`, which iterates to
-the displayed sign. *Needs:* Koszul complex of a finite sequence.
+the displayed sign. *Needs:* DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence.
 
 **Checks.** For the exterior-contraction convention, on `ℤ²` with its ordered basis,
 `ω(e₁* ∧ e₂*)(e₁ ∧ e₂) = det([[1,0],[0,1]]) = 1`, whereas
@@ -4448,7 +4273,7 @@ with `d₁ = f`, and `d₂ : ∧ᵐW* ⊗ ∧^{m+1}U → U` is the signed maxima
 Prove
 that its degree-one differential is `f` and that
 for `m = 1` it is `K(x)` of the row `x`
-([Buchsbaum](https://people.brandeis.edu/~buchsbau/miscpapers/009.pdf), §1 pp.185–187; DKSW23 §5.3.1 equation (60)). *Needs:* Composition of exterior contractions, Koszul complex of a finite sequence, Mathlib
+([Buchsbaum](https://people.brandeis.edu/~buchsbau/miscpapers/009.pdf), §1 pp.185–187; DKSW23 §5.3.1 equation (60)). *Needs:* Composition of exterior contractions, DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence, Mathlib
 `exteriorPower.map`.
 
 **Checks.**
@@ -4591,7 +4416,7 @@ Coordinate regularity in disjoint minor quotients supplies that hypothesis for e
 coefficient ring in the mixed-minor application
 ([Stacks](https://stacks.math.columbia.edu/tag/068P), Lemma 15.31.16, tag 068P, for the
 generic-element step; Lemma 15.29.6, tag 0663, for the Koszul homotopy; the iterated
-argument is a target here). *Needs:* Koszul complex of a finite sequence, Mathlib
+argument is a target here). *Needs:* DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence, Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`, homology long exact sequences.
 *Lean:* `IntegralRibet.genericLinearSequence`, `IntegralRibet.generic_combinations_regular`.
 
@@ -4818,7 +4643,7 @@ The equivariant comparison target below supplies the coactions on the formal inp
 Prove that `D₀ = R` with degree-one image
 `J`, and that each `D_k` is a direct sum of adjoint tensor
 powers of the free rank-four matrix module. Exactness in positive degrees is not part of this construction
-([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §5.4 equation (66), p.39). *Needs:* Koszul complex of a finite sequence, Buchsbaum–Rim determinant complex.
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §5.4 equation (66), p.39). *Needs:* DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence, Buchsbaum–Rim determinant complex.
 
 **Checks.**
 
@@ -5277,7 +5102,7 @@ Trace and determinant invariant subring), the relation `ε₁X₁ + ε₂X₂` w
 with zero trace and determinant `a²`. For the group-scheme side, the trivial module
 `ℤ = Ind_B^G(0)` and the standard representation `ℤ²` have good filtrations, while a module with
 `H¹(G, V) ≠ 0` has none (Good filtrations and acyclicity). For the complexes:
-`K(2)` over `ℤ` and over `ℤ/4`, and `K(0)` (Koszul complex of a finite sequence);
+`K(2)` over `ℤ` and over `ℤ/4`, and `K(0)` (DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence);
 `f = id : R² → R²`, `f = 0 : R³ → R²` and the cyclic contraction `r₁₂e₃ + r₂₃e₁ + r₃₁e₂`
 (Buchsbaum–Rim module complex); the generic `2 × 3` matrix with its three minors
 and two syzygies (Buchsbaum–Rim determinant complex); multiplication by `2` on `ℤ`
@@ -5287,7 +5112,8 @@ Full-entry relation complex).
 
 ### Dependencies
 
-Layer IHG.0 (Amitsur's formula for determinants for the character congruence,
+DerivedModuleAlgebra §0.K.1 supplies the Koszul complexes and their tensor, homotopy and
+weakly regular resolution interfaces. Layer IHG.0 (Amitsur's formula for determinants for the character congruence,
 Invariant coordinate algebras under conjugation and Rational cohomology of a flat affine group scheme for the integral Borel cohomology); Layer IHG.1 (Henselian lifting of matrix units for the distinct-character case and Faithful quotients over arbitrary fields for excluding `I = 0`). Tau Ceti `TauCeti.fittingIdeal` with
 `TauCeti.fittingIdeal_eq_minorsIdeal_ker`, and `TauCeti.Comodule`; ProfiniteCohomology layer 2 for
 cocycles, coboundaries and `H¹`. PadicMeasuresIwasawaAlgebras §4.5 supplies the general

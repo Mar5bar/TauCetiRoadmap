@@ -8,7 +8,9 @@ import TauCetiRoadmap.SmoothRepresentationsOfLocalGroups.Suggested
 The mathematical roadmap is `README.md`. This file records the definitions and the headline
 theorems that can already be stated against the pinned Mathlib and Tau Ceti APIs and the
 `SmoothRepresentationsOfLocalGroups` roadmap. It is not an exhaustive list of the targets of any
-layer.
+layer. DerivedModuleAlgebra §§0.DP.1–0.DP.2 and 0.K.1 supply polynomial-law predicates,
+Roby algebras and Koszul complexes. The determinant fields below spell out the supplied
+homogeneity and multiplicativity conditions on Mathlib's law carrier.
 
 Design choices.
 * A `d`-dimensional determinant (Chenevier) is a Mathlib `PolynomialLaw` `R →ₚₗ[A] A` that is
@@ -43,20 +45,6 @@ namespace PolynomialLaw
 
 variable {A : Type u} [CommRing A]
 
-/-- `f` is homogeneous of degree `n`: `f_S(s • x) = s ^ n • f_S(x)` for every commutative
-`A`-algebra `S`, `s ∈ S` and `x ∈ S ⊗ M` ([Chenevier], §1.1, pp. 6–7). -/
-def IsHomogeneousOfDegree {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N]
-    [Module A N] (n : ℕ) (f : M →ₚₗ[A] N) : Prop :=
-  ∀ (S : Type u) [CommRing S] [Algebra A S] (s : S) (x : S ⊗[A] M),
-    f.toFun' S (s • x) = s ^ n • f.toFun' S x
-
-/-- `f` preserves `1` and products after every scalar extension to a commutative `A`-algebra
-([Chenevier], §1.1, p. 7). -/
-def IsMultiplicative {R B : Type*} [Ring R] [Algebra A R] [Ring B] [Algebra A B]
-    (f : R →ₚₗ[A] B) : Prop :=
-  ∀ (S : Type u) [CommRing S] [Algebra A S],
-    f.toFun' S 1 = 1 ∧ ∀ x y : S ⊗[A] R, f.toFun' S (x * y) = f.toFun' S x * f.toFun' S y
-
 /-- The kernel of a polynomial law: the `x` with `f_S(b ⊗ x + m) = f_S(m)` for every commutative
 `A`-algebra `S`, `b ∈ S` and `m ∈ S ⊗ M` ([Chenevier], §1.17, p. 16). -/
 def ker {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
@@ -74,40 +62,6 @@ example {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N
 example {M : Type*} [AddCommGroup M] [Module A M] : ker (PolynomialLaw.id : M →ₚₗ[A] M) = ⊥ :=
   sorry
 
--- The identity law is homogeneous of degree one.
-example {M : Type*} [AddCommGroup M] [Module A M] :
-    IsHomogeneousOfDegree 1 (PolynomialLaw.id : M →ₚₗ[A] M) := by
-  intro S _ _ s x
-  rw [PolynomialLaw.id_apply', pow_one]
-  rfl
-
--- Homogeneity is tested after scalar extension: the identity of `ℤ` is not of degree two.
-example : ¬ IsHomogeneousOfDegree 2 (PolynomialLaw.id : ℤ →ₚₗ[ℤ] ℤ) := sorry
-
--- The zero law on `ℤ` preserves products but not `1`.
-example : ¬ IsMultiplicative (0 : ℤ →ₚₗ[ℤ] ℤ) := sorry
-
--- The zero law is homogeneous in every degree, after every scalar extension.
-example {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
-    (n : ℕ) : IsHomogeneousOfDegree n (0 : M →ₚₗ[A] N) := sorry
-
--- The identity preserves the tensor-product ring operations.
-example {R : Type*} [Ring R] [Algebra A R] :
-    IsMultiplicative (PolynomialLaw.id : R →ₚₗ[A] R) := sorry
-
--- Ground values do not determine a law over a finite field.
-example {k : Type} [Field k] (p : ℕ) [Fact p.Prime] (e : k ≃+* ZMod p) :
-    ∃ f : (Fin 2 → k) →ₚₗ[k] k,
-      IsHomogeneousOfDegree (A := k) (p + 1) f ∧
-      (∀ (S : Type) [CommRing S] [Algebra k S] (x y : S),
-        f.toFun' S (x ⊗ₜ[k] ![1, 0] + y ⊗ₜ[k] ![0, 1]) =
-          (x ^ p * y - x * y ^ p) ⊗ₜ[k] (1 : k)) ∧
-      (∀ x, f.ground x = 0) ∧ f ≠ 0 ∧
-      Algebra.TensorProduct.rid k k k[X]
-        (f.toFun' k[X]
-          (X ⊗ₜ[k] ![1, 0] + 1 ⊗ₜ[k] ![0, 1])) = X ^ p - X ∧
-      (X ^ p - X : k[X]) ≠ 0 := sorry
-
 end PolynomialLaw
 
 /-- A `d`-dimensional `A`-valued determinant on an `A`-algebra `R` ([Chenevier], §1.5,
@@ -115,8 +69,13 @@ Definition, p. 9): a multiplicative polynomial law `R → A`, homogeneous of deg
 structure Determinant (A : Type u) [CommRing A] (R : Type*) [Ring R] [Algebra A R] (d : ℕ) where
   /-- The underlying polynomial law. -/
   toLaw : R →ₚₗ[A] A
-  isHomogeneous : PolynomialLaw.IsHomogeneousOfDegree d toLaw
-  isMultiplicative : PolynomialLaw.IsMultiplicative toLaw
+  /-- Homogeneity after every scalar extension, as supplied by DerivedModuleAlgebra §0.DP.1. -/
+  isHomogeneous : ∀ (S : Type u) [CommRing S] [Algebra A S] (s : S) (x : S ⊗[A] R),
+    toLaw.toFun' S (s • x) = s ^ d • toLaw.toFun' S x
+  /-- Multiplicativity after every scalar extension, as supplied by DerivedModuleAlgebra §0.DP.1. -/
+  isMultiplicative : ∀ (S : Type u) [CommRing S] [Algebra A S],
+    toLaw.toFun' S 1 = 1 ∧ ∀ x y : S ⊗[A] R,
+      toLaw.toFun' S (x * y) = toLaw.toFun' S x * toLaw.toFun' S y
 
 namespace Determinant
 
@@ -159,9 +118,11 @@ theorem charpoly_ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) (x : R) :
     (ofMatrix ρ).charpoly x = (ρ x).charpoly := sorry
 
 -- The matrix determinant is multiplicative as a polynomial law.
-example : PolynomialLaw.IsMultiplicative
-    (ofMatrix (AlgHom.id A (Matrix (Fin d) (Fin d) A))).toLaw :=
-  (ofMatrix _).isMultiplicative
+example (S : Type u) [CommRing S] [Algebra A S] :
+    let D := ofMatrix (AlgHom.id A (Matrix (Fin d) (Fin d) A))
+    D.toLaw.toFun' S 1 = 1 ∧ ∀ x y : S ⊗[A] Matrix (Fin d) (Fin d) A,
+      D.toLaw.toFun' S (x * y) = D.toLaw.toFun' S x * D.toLaw.toFun' S y :=
+  (ofMatrix _).isMultiplicative S
 
 -- On `M₂(ℤ)` at `[[2,3],[4,5]]`: value `−2` (`ad − bc`), polynomial `X² − 7X − 2`, trace `7`.
 example :
