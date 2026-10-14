@@ -26,6 +26,16 @@ and finite-coefficient ULA. SchemeAndStackFoundations §§2.1–2.2 supplies the
 abelian D+ functors. README §5.6 extends the supplied ULA notion with agreement on the
 common finite-coefficient domain. Analytic applications carry their geometric hypotheses.
 
+AdicSpacesPartII §§R0.19.1–R0.19.10 supplies constructible topology, spectral limits,
+generic Pro categories and qcqs topoi. Its §§R0.20.1–R0.20.2 supplies the ordinary predicate
+`TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit` and its affinoid and base-change API.
+The base-change contract keeps qcqs spaces, adic transitions and cone maps, a final stage,
+a locally weakly finite-type morphism and the required fibre products. README §1.5's
+`SupportedTildeLimit.fullSupport_iff` identifies the full-support predicate with that same
+ordinary predicate. PerfectoidSpaces P7 supplies the analytic and perfectoid refinements.
+The exact inverse-image arguments in README §1.1 use underlying sheaves or fixed coefficients;
+ringed-module direct images use its coefficient-forgetting/resolution comparison.
+
 Design choices made explicit here:
 
 * The ramification cutoff of the Bloch–Kato–Hyodo filtration is the natural ceiling of `pe/(p-1)`
@@ -476,7 +486,8 @@ AdicSpace.RGamma, AdicSpace.Rpushforward, AdicSpace.PseudoAdic, AdicSpace.Pseudo
 AdicSpace.EtaleSheaf.extendByZero, locallyClosedExtensionByZero, Support,
 AdicSpace.EtaleSheaf.IsLocallyConstant, AdicSpace.TorsionLocalSystem,
 AdicSpace.EtaleSheaf.IsConstructible, AdicSpace.DbConstructible, AdicSpace.muN,
-AdicSpace.tateTwist, SupportedTildeLimit, ProEtaleSheaf.completedZp, LisseSheaf.
+AdicSpace.tateTwist, SupportedTildeLimit, SupportedTildeLimit.fullSupport_iff,
+ProEtaleSheaf.completedZp, LisseSheaf.
 Layer 2: Huber.IsHenselian, Huber.Henselization, Huber.Pair.rationalHenselization,
 Huber.specialSubset, Huber.IsSpecialSubset, Huber.IsProSpecialSubset, Huber.Triple,
 Huber.Pair.proSpecialHenselization, AdicSpace.PseudoAdic.schemeFibreProduct,
