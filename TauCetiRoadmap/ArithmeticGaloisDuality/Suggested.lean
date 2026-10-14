@@ -3,6 +3,7 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.TraceForm
 import TauCeti.FieldTheory.GaloisCohomology.Coefficients
+import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
 
 /-!
 # Compact coefficients and arithmetic duality: target signatures
@@ -20,14 +21,20 @@ Design choices made explicit here:
 
 * Continuous cohomology is Mathlib's `continuousCohomology n X` for `X : TopRep ℤ G`, and a
   discrete module enters through Tau Ceti's `TauCeti.ofDiscreteModule`. No second cohomology
-  theory is introduced; towers and inverse limits are stated on coefficient groups.
-* `lim` and `lim¹` of an `ℕ`-indexed tower are the kernel and cokernel of the shift map
+  theory is introduced; tower algebra is supplied by DerivedModuleAlgebra §R02.1.1.
+* In DerivedModuleAlgebra §R02.1.1, `lim` and `lim¹` of an `ℕ`-indexed tower are the kernel
+  and cokernel of the shift map
   `(a_n) ↦ (a_n - φ_n(a_{n+1}))`; the Mittag-Leffler condition is Mathlib's
   `CategoryTheory.Functor.IsMittagLeffler` on the underlying functor `ℕᵒᵖ ⥤ Type`.
 * The pointwise `Hom` of discrete modules carries the topology induced from the product `A^C`,
   never the discrete topology: for infinitely generated `C` the two differ. Continuous
   homomorphisms from a profinite source are Mathlib's `ContinuousAddMonoidHom` with the
   compact-open topology, which is discrete for a discrete target, not the pointwise one.
+* S-unit rank and fundamental systems use Mathlib's `Set.unit` carrier. The import
+  `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` supplies `Set.unit_fg`,
+  `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker` and
+  `Set.unitEmptyEquivUnits`. Their multiplicative valuation convention gives negative orders
+  after additive transport. Sections R02.3.0a–R02.3.0c state completion and rank refinements.
 * `S` is a set of finite places (height-one primes of the ring of integers); the archimedean places
   are always allowed to ramify. `G_{K,S}` is the Galois group of the compositum, inside a fixed
   field `Ω`, of the finite subextensions unramified outside `S`. Unramifiedness at a finite place
@@ -38,11 +45,9 @@ Design choices made explicit here:
   real places and zero at complex places. For coefficients of residue characteristic `p`,
   under `(P)` this is the finite-place fibre. The
   ordinary deformation-local diagram uses ordinary cochains at every place.
-  SelmerIwasawaCohomology §§2.21–2.22 supply the parametric Selmer fibre, both instances,
-  functoriality, triangles, the archimedean comparison and the abstract H⁰ correction. R02.3 and
-  D7 supply the arithmetic local complexes, ordinary-to-Tate maps and duality; R02.5.2 identifies
-  the strict modified fibre with arithmetic compact support and specializes the supplied
-  archimedean cohomology and H⁰ corrections. These arithmetic constructions are README targets.
+  R02.3 and D7 supply arithmetic local complexes, ordinary-to-Tate maps and duality.
+  D7.7 constructs dual conditions and parametric mapping-fibre duality on the modified diagram.
+  Finite Selmer numerics use EllipticCurves Layer 7 for the discrete Selmer carrier.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
 * The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
@@ -61,164 +66,6 @@ universe u
 /-! ## Layer R02.1: compact coefficients, limits and continuous extensions -/
 
 namespace CompactCoefficients
-
-/-- An `ℕ`-indexed inverse system of abelian groups `⋯ → A₂ → A₁ → A₀`. -/
-structure Tower where
-  /-- The terms. -/
-  obj : ℕ → Type u
-  [inst : ∀ n, AddCommGroup (obj n)]
-  /-- The transition maps `A_{n+1} → A_n`. -/
-  map : ∀ n, obj (n + 1) →+ obj n
-
-attribute [instance] Tower.inst
-
-namespace Tower
-
-variable (A : Tower.{u})
-
-/-- The composite transition `A_{n+k} → A_n`. -/
-def mapIter : ∀ (n k : ℕ), A.obj (n + k) →+ A.obj n
-  | _, 0 => AddMonoidHom.id _
-  | n, k + 1 => (mapIter n k).comp (A.map (n + k))
-
-/-- The shift map `∏ A_n → ∏ A_n`, `(a_n) ↦ (a_n - φ_n(a_{n+1}))`. -/
-def shift : (∀ n, A.obj n) →+ (∀ n, A.obj n) where
-  toFun a n := a n - A.map n (a (n + 1))
-  map_zero' := by ext n; simp
-  map_add' a b := by ext n; simp only [Pi.add_apply, map_add]; abel
-
-/-- `lim A`: the kernel of the shift, the compatible families. -/
-def lim : AddSubgroup (∀ n, A.obj n) := A.shift.ker
-
-/-- `lim¹ A`: the cokernel of the shift. For an `ℕ`-indexed tower this is `R¹lim`, and
-`Rⁱlim = 0` for `i ≥ 2` (Stacks, Tag 07KW). -/
-abbrev limOne : Type u := (∀ n, A.obj n) ⧸ A.shift.range
-
-/-- The tower as a functor `ℕᵒᵖ ⥤ AddCommGrpCat`. -/
-def toFunctor : ℕᵒᵖ ⥤ AddCommGrpCat.{u} :=
-  Functor.ofOpSequence (X := fun n => AddCommGrpCat.of (A.obj n))
-    (fun n => AddCommGrpCat.ofHom (A.map n))
-
-/-- The Mittag-Leffler condition: Mathlib's condition on the underlying functor to types. -/
-abbrev IsMittagLeffler : Prop :=
-  (A.toFunctor ⋙ CategoryTheory.forget AddCommGrpCat).IsMittagLeffler
-
-theorem mem_lim (a : ∀ n, A.obj n) : a ∈ A.lim ↔ ∀ n, A.map n (a (n + 1)) = a n := by
-  simp only [lim, AddMonoidHom.mem_ker, shift, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
-  constructor
-  · intro h n
-    have := congrFun h n
-    simp only [Pi.zero_apply] at this
-    exact (sub_eq_zero.mp this).symm
-  · intro h
-    ext n
-    simp [h n]
-
-/-- The images of the iterated transitions stabilise. -/
-theorem isMittagLeffler_iff_ranges : A.IsMittagLeffler ↔
-    ∀ n, ∃ m, ∀ k ≥ m, (A.mapIter n k).range = (A.mapIter n m).range := sorry
-
-theorem isMittagLeffler_of_surjective (h : ∀ n, Function.Surjective (A.map n)) :
-    A.IsMittagLeffler := sorry
-
-theorem isMittagLeffler_of_finite [∀ n, Finite (A.obj n)] : A.IsMittagLeffler := sorry
-
-theorem limOne_subsingleton_of_surjective (h : ∀ n, Function.Surjective (A.map n)) :
-    Subsingleton A.limOne := sorry
-
-/-- **Mittag-Leffler towers have vanishing `lim¹`** (Stacks, Lemma 15.88.1, Tag 07KW). -/
-theorem limOne_subsingleton_of_isMittagLeffler (h : A.IsMittagLeffler) :
-    Subsingleton A.limOne := sorry
-
-/-- A morphism of towers: levelwise homomorphisms commuting with the transitions. -/
-structure Hom (A B : Tower.{u}) where
-  /-- The levelwise maps. -/
-  app : ∀ n, A.obj n →+ B.obj n
-  comm : ∀ n, (app n).comp (A.map n) = (B.map n).comp (app (n + 1))
-
-variable {A} {B : Tower.{u}}
-
-/-- The map on `∏ A_n` induced by a morphism of towers. -/
-def Hom.onProduct (f : Hom A B) : (∀ n, A.obj n) →+ (∀ n, B.obj n) where
-  toFun a n := f.app n (a n)
-  map_zero' := by ext; simp
-  map_add' a b := by ext; simp
-
-/-- The induced map on `lim¹`. -/
-def Hom.limOneMap (f : Hom A B) : A.limOne →+ B.limOne :=
-  QuotientAddGroup.map _ _ f.onProduct (by
-    rintro _ ⟨a, rfl⟩
-    refine ⟨f.onProduct a, ?_⟩
-    ext n
-    have h := congrArg (fun φ => φ (a (n + 1))) (f.comm n)
-    simp only [AddMonoidHom.coe_comp, Function.comp_apply] at h
-    simp only [shift, Hom.onProduct, AddMonoidHom.coe_mk, ZeroHom.coe_mk, map_sub]
-    rw [h])
-
-/-- **The six-term sequence of `lim` and `lim¹`**: for a levelwise short exact sequence of
-towers `0 → A → B → C → 0`, the maps `lim¹ A → lim¹ B → lim¹ C → 0` are exact (the left half of
-the sequence, `0 → lim A → lim B → lim C → lim¹ A`, is the companion statement). -/
-theorem limOne_exact {C : Tower.{u}} (f : Hom A B) (g : Hom B C)
-    (hexact : ∀ n, Function.Exact (f.app n) (g.app n))
-    (hinj : ∀ n, Function.Injective (f.app n)) (hsurj : ∀ n, Function.Surjective (g.app n)) :
-    Function.Exact f.limOneMap g.limOneMap ∧ Function.Surjective g.limOneMap := sorry
-
-end Tower
-
-/-- The constant tower with identity transitions. -/
-def constantTower (A : Type u) [AddCommGroup A] : Tower.{u} where
-  obj _ := A
-  map _ := AddMonoidHom.id A
-
-/-- Check `lim_constant`: evaluation at level zero identifies the limit with `A`, with
-inverse the diagonal family. -/
-example (A : Type u) [AddCommGroup A] :
-    ∃ e : (constantTower A).lim ≃+ A,
-      (∀ x, e x = x.1 0) ∧ (∀ a n, (e.symm a).1 n = a) := sorry
-
-/-- Check `lim_constant`: the constant identity tower has vanishing `lim¹`. -/
-example (A : Type u) [AddCommGroup A] : Subsingleton (constantTower A).limOne := sorry
-
-/-- The reduction tower `ℤ/p^{n+1} → ℤ/p^n`. -/
-def reductionTower (p : ℕ) : Tower.{0} where
-  obj n := ZMod (p ^ n)
-  map n := (ZMod.castHom (pow_dvd_pow p (Nat.le_succ n)) (ZMod (p ^ n))).toAddMonoidHom
-
-/-- Check `limOne_surjective_tower`: reduction modulo `pⁿ` identifies the limit with `ℤ_p`. -/
-example (p : ℕ) [Fact p.Prime] :
-    ∃ e : (reductionTower p).lim ≃+ ℤ_[p],
-      ∀ x n, PadicInt.toZModPow n (e x) = x.1 n := sorry
-
-/-- Check `limOne_surjective_tower`: reduction transitions give vanishing `lim¹`. -/
-example (p : ℕ) (hp : p.Prime) : Subsingleton (reductionTower p).limOne := sorry
-
-/-- Check `ml_finite`: identity transitions have full stable image. -/
-example : (constantTower (ZMod 2)).IsMittagLeffler := sorry
-
-/-- Check `ml_surjective`: zero transitions have zero stable image. -/
-example : (show Tower from
-    { obj := fun _ => ZMod 2, map := fun _ => (0 : ZMod 2 →+ ZMod 2) }).IsMittagLeffler := sorry
-
-/-- The tower `⋯ → ℤ → ℤ` with every transition multiplication by `p`. -/
-def mulTower (p : ℕ) : Tower.{0} where
-  obj _ := ℤ
-  map _ := (p : ℤ) • AddMonoidHom.id ℤ
-
-/-- Check `ml_mul_p_fails`: the tower `ℤ ←p ℤ ←p ⋯` is not Mittag-Leffler, since the images `pᵏℤ`
-never stabilise. -/
-example (p : ℕ) (hp : p.Prime) : ¬ (mulTower p).IsMittagLeffler := sorry
-
-/-- Check `limOne_mul_p`: a compatible integer family is divisible by every power of `p`. -/
-example (p : ℕ) (hp : p.Prime) : (mulTower p).lim = ⊥ := sorry
-
-/-- Check `limOne_mul_p`: summing `pⁿ a_n` identifies the cokernel with `ℤ_p/ℤ`. -/
-example (p : ℕ) [Fact p.Prime] :
-    ∃ e : (mulTower p).limOne ≃+ (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range),
-      ∀ a : ℕ → ℤ, e (QuotientAddGroup.mk a) =
-        QuotientAddGroup.mk (∑' n : ℕ, (p : ℤ_[p]) ^ n * (a n : ℤ_[p])) := sorry
-
-/-- Check `limOne_mul_p`: the cokernel is nonzero. -/
-example (p : ℕ) (hp : p.Prime) : Nontrivial (mulTower p).limOne := sorry
 
 /-- **Lifting continuous cochains along surjections of discrete spaces.** Composing with a
 set-theoretic section of `π` is continuous because `Z` is discrete. -/
@@ -319,7 +166,119 @@ end ContinuousHom
 
 end CompactCoefficients
 
-/-! ## Layer R02.3: restricted ramification and the `S`-idele class formation -/
+/-! ## Layer R02.3: completions, S-units and restricted ramification -/
+
+open scoped NumberField
+
+section Completion
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- §R02.3.0a: the `p`-adic completion `Â = lim_m A/p^m A` of an abelian group (written additively), as
+Mathlib's `AdicCompletion` for the ideal `(p) ⊆ ℤ`. For `A = Fˣ` (through `Additive`) this is
+`lim_m Fˣ/(Fˣ)^{p^m}`. -/
+abbrev pCompletion (A : Type*) [AddCommGroup A] : Type _ :=
+  AdicCompletion (Ideal.span {(p : ℤ)}) A
+
+/-- §R02.3.0a: the kernel of `A → Â` is `⋂_m p^m A`. -/
+theorem ker_adicCompletion_of_span (A : Type*) [AddCommGroup A] :
+    LinearMap.ker (AdicCompletion.of (Ideal.span {(p : ℤ)}) A) =
+      ⨅ m : ℕ, (Ideal.span {(p : ℤ)} ^ m) • (⊤ : Submodule ℤ A) := sorry
+
+/-- §R02.3.0a: `AdicCompletion (p) ℤ ≅ ℤ_p`, so that `Â` is a `ℤ_p`-module. -/
+theorem adicCompletion_int_equiv_padicInt :
+    Nonempty (AdicCompletion (Ideal.span {(p : ℤ)}) ℤ ≃+* ℤ_[p]) := sorry
+
+/-- §R02.3.0b: for a number field `F`, `Ê_F → F̂ˣ` is injective, because a unit that is a `p^m`-th power
+in `F` is the `p^m`-th power of a unit. -/
+theorem units_pCompletion_injective (F : Type*) [Field F] [NumberField F] :
+    Function.Injective (AdicCompletion.map (Ideal.span {(p : ℤ)})
+      (MonoidHom.toAdditive (Units.map (algebraMap (𝓞 F) F).toMonoidHom) :
+        Additive (𝓞 F)ˣ →+ Additive Fˣ).toIntLinearMap) :=
+  sorry
+
+/-- §R02.3.0b: a `p^m`-th root in the field of an integral unit is an integral unit. -/
+theorem units_pow_of_pow_eq (F : Type*) [Field F] [NumberField F] (m : ℕ)
+    (u : (𝓞 F)ˣ) (x : Fˣ)
+    (hx : x ^ p ^ m = Units.map (algebraMap (𝓞 F) F).toMonoidHom u) :
+    ∃ v : (𝓞 F)ˣ, Units.map (algebraMap (𝓞 F) F).toMonoidHom v = x := sorry
+
+end Completion
+
+section SUnits
+
+variable {K : Type*} [Field K] [NumberField K]
+    (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
+
+/-- §R02.3.0c: the module form of the pinned finite-generation theorem for `S.unit K`,
+for a finite set `S` of finite places of a number field `K`. -/
+theorem Set.unit_moduleFinite (hS : S.Finite) :
+    Module.Finite ℤ (Additive (S.unit K)) := by
+  have : Finite S := hS.to_subtype
+  exact Module.Finite.iff_addGroup_fg.mpr
+    (GroupFG.iff_add_fg.mp (_root_.Set.unit_fg_of_units S K))
+
+/-- §R02.3.0c: for finite `S`, the free rank of Mathlib's `S.unit K` is the global unit rank plus
+`Nat.card S`. The rank argument uses the additive transport of the pinned multiplicative
+`Set.unitValuation` and its kernel, the global units. -/
+theorem Set.unit_finrank_numberField (hS : S.Finite) :
+    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S := sorry
+
+/-- §R02.3.0c: for finite `S`, a fundamental system of Mathlib's `S.unit K` indexed by
+`Fin (NumberField.Units.rank K + Nat.card S)` gives unique integer exponents and a torsion factor
+for every S-unit. -/
+theorem Set.exists_unit_fundSystem (hS : S.Finite) :
+    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
+      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + Nat.card S) → ℤ,
+        ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i := sorry
+
+/-- §R02.3.0c: for finite `S`, a fundamental system gives each element of Mathlib's `S.unit K` a
+unique pair of torsion factor and integer exponent vector on
+`Fin (NumberField.Units.rank K + Nat.card S)`. -/
+theorem Set.exists_unit_fundSystem' (hS : S.Finite) :
+    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
+      ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) ×
+          (Fin (NumberField.Units.rank K + Nat.card S) → ℤ),
+        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
+
+/-- §R02.3.0c: the cardinality adapter expresses the canonical S-unit rank using `Set.ncard`. -/
+theorem sUnits_finrank_ncard (hS : S.Finite) :
+    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + S.ncard := by
+  simpa only [Nat.card_coe_set_eq] using Set.unit_finrank_numberField S hS
+
+/-- §R02.3.0c: the reindexing adapter gives unique torsion factors and integer exponent vectors
+on any finite type of the required cardinality. -/
+theorem sUnits_fundSystem_reindex (hS : S.Finite) (I : Type*) [Fintype I]
+    (hI : Fintype.card I = NumberField.Units.rank K + Nat.card S) :
+    ∃ ε : I → S.unit K,
+      ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) × (I → ℤ),
+        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
+
+end SUnits
+
+namespace CompletionChecks
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- Completion kills a `p`-divisible group. -/
+example : Subsingleton (pCompletion p ℚ) := sorry
+
+/-- Prime-to-three finite torsion disappears in the quotient-tower completion. -/
+example : Subsingleton (pCompletion 3 (ZMod 2)) := sorry
+
+/-- An infinite free lattice has completed elements with infinite support. -/
+example : ¬ Function.Surjective
+    (AdicCompletion.ofTensorProduct (Ideal.span {(p : ℤ)}) (ℕ →₀ ℤ)) := sorry
+
+/-- The integer completion map is injective, while every rational maps to zero. -/
+example : Function.Injective (AdicCompletion.of (Ideal.span {(p : ℤ)}) ℤ) ∧
+    ∀ x : ℚ, AdicCompletion.of (Ideal.span {(p : ℤ)}) ℚ x = 0 := sorry
+
+/-- `ℚ` with no finite place in `S_f` has S-unit rank zero. -/
+example : Module.finrank ℤ (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ))
+    = 0 := sorry
+
+end CompletionChecks
 
 namespace RestrictedRamification
 
@@ -703,7 +662,7 @@ modified local diagram: ordinary finite-place cochains, real Tate cochains and z
 terms, or the quasi-isomorphic finite-place model under `(P)` for coefficients of residue
 characteristic `p`. At dyadic real places, boundedness of the finite-place fibre depends on
 the coefficients; arithmetic duality uses the model with real Tate terms. The fibre of ordinary cochains at
-every place has the separate archimedean comparison specified in R02.5.2. -/
+every place is compared with the modified diagram through the maps q_v of R02.3.1. -/
 abbrev compactCochains (res : A ⟶ B) : CochainComplex (ModuleCat.{u} R) ℤ :=
   (CochainComplex.mappingCone res)⟦(-1 : ℤ)⟧
 
@@ -739,7 +698,62 @@ example (n : ℤ) : Limits.IsZero (compactCohomology (𝟙 A) n) := sorry
 
 end GaloisCohomology
 
-/-! ## Layer D8: cohomological fibres for determinant and coefficient change -/
+/-! ## Dual local conditions (D7.7.1) -/
+
+section Orthogonal
+
+variable {R : Type*} [CommRing R] {X X' Y : Type*} [AddCommGroup X] [Module R X]
+  [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
+
+/-- §D7.7.1: the image rule for adjoint maps, `(π F)^⊥ = ι^{-1}(F^⊥)`. -/
+theorem orthogonal_map_eq_comap {Z Z' : Type*} [AddCommGroup Z] [Module R Z] [AddCommGroup Z']
+    [Module R Z'] (b : X →ₗ[R] X' →ₗ[R] Y) (bZ : Z →ₗ[R] Z' →ₗ[R] Y) (π : X →ₗ[R] Z)
+    (ι : Z' →ₗ[R] X') (hadj : ∀ x z', bZ (π x) z' = b x (ι z')) (F : Submodule R X) :
+    Submodule.orthogonalBilin bZ (F.map π) = (Submodule.orthogonalBilin b F).comap ι := by
+  ext z'
+  simp [Submodule.mem_orthogonalBilin, hadj]
+
+end Orthogonal
+
+section FiniteDuality
+
+variable {n : ℕ} [NeZero n] {A B : Type*} [AddCommGroup A] [Module (ZMod n) A]
+  [AddCommGroup B] [Module (ZMod n) B] [Finite A] [Finite B]
+
+/-- §D7.7.1: double annihilators recover a submodule for a perfect pairing of finite modules. -/
+theorem orthogonal_orthogonal (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) (hb : b.IsPerfPair)
+    (F : Submodule (ZMod n) A) :
+    Submodule.orthogonalBilin b.flip (Submodule.orthogonalBilin b F) = F := sorry
+
+/-- §D7.7.1: the character-dual quotient pairing `(A/F) × F^⊥ → ℤ/n` is perfect. -/
+theorem quotientPairing_perfect (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) (hb : b.IsPerfPair)
+    (F : Submodule (ZMod n) A) :
+    ∃ c : (A ⧸ F) →ₗ[ZMod n] (Submodule.orthogonalBilin b F) →ₗ[ZMod n] ZMod n,
+      c.IsPerfPair ∧ ∀ x (y : Submodule.orthogonalBilin b F), c (F.mkQ x) y = b x y := sorry
+
+/-- §D7.7.1: for a perfect pairing of finite `ℤ/n`-modules, `#F · #F^⊥ = #A`. -/
+theorem card_mul_card_orthogonal (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) (hb : b.IsPerfPair)
+    (F : Submodule (ZMod n) A) :
+    Nat.card F * Nat.card (Submodule.orthogonalBilin b F) = Nat.card A := sorry
+
+end FiniteDuality
+
+namespace PairingChecks
+
+/-- A zero pairing on a nonzero space fails perfectness. -/
+example : ¬ (0 : ℚ →ₗ[ℚ] ℚ →ₗ[ℚ] ℚ).IsPerfPair := sorry
+
+/-- Nondegeneracy without surjectivity: `3xy` on `ℤ` is not perfect. -/
+example : ¬ ((3 : ℤ) • LinearMap.mul ℤ ℤ).IsPerfPair := sorry
+
+/-- A zero pairing has full annihilator for every condition. -/
+example {R X X' Y : Type*} [CommRing R] [AddCommGroup X] [Module R X]
+    [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
+    (F : Submodule R X) : Submodule.orthogonalBilin (0 : X →ₗ[R] X' →ₗ[R] Y) F = ⊤ := sorry
+
+end PairingChecks
+
+/-! ## Layer D8: adjoint coefficients and first-order lifts -/
 
 namespace Adjoint
 
@@ -830,7 +844,7 @@ end Adjoint
 ## Targets stated only in README.md
 
 The following targets need carriers that the pinned libraries do not have, and are stated only in
-the README: the Milnor sequence, the comparison of module-derived limits with the explicit tower
+the README: the comparison of module-derived limits with the explicit tower
 API, and Tate's inverse-limit theorem; rationalisation and the
 discrete quotient `V/T`; the splitting class and its cup-product formula; the conjugation action,
 evaluation cup product and `H¹` comparison of the continuous `Hom` from a profinite source (its
@@ -856,20 +870,18 @@ archimedean points, the completed all-place torus sequence, compactness of the m
 quotient and realization of the completed image by actual adelic points, torus Sha duality,
 the function-field Poitou–Tate theorem and central
 obstructions, and totally real local base change; perfect amplitude and Tor for the module-derived
-tensor supplied by DerivedDeRhamCohomology §0.2, Matlis duality, the derived
+tensor supplied by DerivedModuleAlgebra §0.2, Matlis duality, the derived
 composite spectral sequence, adic continuous-map flatness, the Hilbert–Samuel Euler function,
 the residual criterion for perfect amplitude, the dualizing complex and local duality for complete
 local rings, continuous cochains in the
 derived category, the local and global invariant trivialisations, derived local and global
 duality, compactly supported cup products and Euler characteristics, the lattice and rational
 Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field,
-abelian-variety local duality and the isogeny sequence; the arithmetic compact-support
-identification and specialization of the archimedean cohomology and H⁰ corrections for the
-Selmer fibres and comparison triangle supplied by SelmerIwasawaCohomology §§2.21–2.22, and the
-Greenberg–Wiles formula;
-the Selmer tangent comparison,
-the full real Tate trace sequence, and derived coefficient
-change; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
+abelian-variety local duality and the isogeny sequence; compatibility of local coefficient
+pairings, derived local complements, parametric mapping-fibre duality, ordinary-condition
+annihilators and nonsingular torsion classes; procyclic H¹; finite Galois localization and Sha
+kernels, absolute finite Poitou–Tate consequences and the exceptional order-two class;
+the Greenberg–Wiles formula and the full real Tate trace sequence; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
 Khare–Wintenberger relation bounds, odd and dyadic Taylor–Wiles primes and finite-order determinant
 twists.
 
@@ -887,6 +899,10 @@ whose cohomology is perfect by compact Shapiro and the totally imaginary amplitu
 The README names the following definitions and API of those targets, which are therefore not
 declared here.
 
+* Dual local conditions: `orthogonal_comap_eq_map`, `LocalConditionMorphism`, `localMinus`,
+  `localDualError`, `derivedComplement_iff`, `localDualError_congr`.
+* Procyclic cohomology: `procyclic_H1_equiv_coinvariants`.
+* `FiniteGaloisLocalization`: `sha`, `shaS`, `dual`, `naturality`.
 * `CompactCoefficients`: `moduleDerivedLimit_compare`, `homPt_equiv_internalHom`,
   `sections_nonempty_iff`, `splittingClass`,
   `splittingClass_eq_zero_iff`, `pointwiseHomRepresentation`, `pointwiseHomRepresentation_apply`,
