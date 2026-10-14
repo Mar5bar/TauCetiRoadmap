@@ -33,8 +33,8 @@ cuspidal support, the Bernstein decomposition and centre, noetherianity, the Lan
 classification conditional on Harish–Chandra tempered support and the Iwahori categories (SR.3); Bernstein's stabilisation theorem and second
 adjointness over ℂ (SR.2a); the Satake transform and isomorphism with their explicit GL_n, unitary
 and GSp_4 normalisations (SR.4); the integral local families of GL_n (SR.5); and the integral
-algebra of finite-wild parameters, excursion coefficients, center images and stable operators
-(SR.6).
+algebra of finite-wild parameters, excursion coefficients, center images and contracting Hecke
+operators (SR.6). The generic stable-operator algebra is a prerequisite in SR.5.2.
 
 It uses the carriers of the neighbouring roadmaps as they exist and adds the smooth category, its
 functors and its theorems on top of them. From
@@ -137,7 +137,7 @@ the central-coset localisation of Modular forms, layer 2 (SR.4.3); the Iwasawa p
 Fr s Fr⁻¹ = s^q of Local fields and ramification, layer 4, with Tau Ceti `IsArithFrobeniusLift`,
 `tameQuotientEquiv`, `wildInertiaSubgroup` (SR.6.1); and Mathlib's Fitting decomposition
 `LinearMap.eventually_isCompl_ker_pow_range_pow`, of which stable operators on Noetherian Artinian
-modules are the instance (SR.6.5).
+modules are the instance (SR.5.2 *stable-operator*, applied in SR.6.5).
 
 ## Conventions
 
@@ -179,8 +179,10 @@ matrix product of G-invariant kernels on G/U × G/U; it acts on V^U on the right
 v ∗ h = Σ_{Ug ∈ U\G} h(U, gU) g⁻¹v. When μ(U) is a unit it is the corner e_U H(G, A) e_U of the
 convolution algebra. The convolution algebra acts on the left, f·v = ∫ f(g) ρ(g)v dμ(g); with
 μ(U) = 1 the characteristic function 1_{UgU} acts on V^U by v ↦ Σ_{xU ⊆ UgU} ρ(x)v, which is the
-right action of [Ug⁻¹U], not of [UgU]. The basis element [UgU] of SR.1.2 and Tau Ceti's
-`HeckeCoset.heckeSum` act by the right action; the operator of a double coset KaK on V^K in
+right action of [Ug⁻¹U], not of [UgU]. The basis element [UgU] of SR.1.2 acts by the right action. Its comparison with
+Tau Ceti's `HeckeCoset.heckeSum` uses the left regular representation on A[G] and the
+U-invariant linear map q_v(δ_x) = ρ(x)⁻¹v: evaluating that Hecke sum at δ_1 gives
+v ∗ [UgU] (*permutation-hecke-algebra*); the operator of a double coset KaK on V^K in
 SR.2.3, SR.2a, SR.4.2, SR.5.2 and SR.6.5 (Jacquet's lemma on invariants, Borel–Casselman,
 stabilisation, spherical characters, integral stability, stable operators) is the convolution
 operator of 1_{KaK}. The double coset
@@ -246,11 +248,11 @@ dependencies.
 ### From Mathlib
 
 The smooth representation design follows
-[Mathlib PR 41525](https://github.com/leanprover-community/mathlib4/pull/41525),
+[smooth representation design](https://github.com/leanprover-community/mathlib4/pull/41525),
 `Mathlib/RepresentationTheory/Smooth/Basic.lean`: `Representation.Smooth.IsSmooth` is a
 proposition-valued class asserting open stabilizers, and `smoothVectors` is a
 `Subrepresentation`. The categorical extension in
-[PR 41520](https://github.com/leanprover-community/mathlib4/pull/41520),
+[smooth representation category design](https://github.com/leanprover-community/mathlib4/pull/41520),
 `Mathlib/RepresentationTheory/Smooth/SmRep.lean`, uses `ObjectProperty.FullSubcategory` and
 smooth vectors as the right adjoint of its inclusion. These are design references rather than
 suppliers at the pins. SR.0 constructs these interfaces in Tau Ceti using that design. The
@@ -379,8 +381,8 @@ For SR.1: the double-coset Hecke ring 𝕋 (⊤) U A of Mathlib/Tau Ceti as `Hec
 `HeckeCosetModule.mul_assoc`, `HeckeCosetModule.instRingHeckeRing` and
 `HeckeCosetModule.structureConstants` (the multiplicities m(D₁, D₂; D) that the comparison
 matches), `HeckeRing.GLn.polynomialRingEquivTwo` (the GL_2 polynomial presentation, reused by the
-GL_n spherical generators), `HeckeCoset.heckeSum` (the operator of one double coset on
-invariants) and `HeckeCoset.degree_eq_relIndex` (the degree of a double coset).
+GL_n spherical generators), `HeckeCoset.heckeSum` (the sum on invariant linear maps, compared with the right
+vector action through q_v on the left regular representation) and `HeckeCoset.degree_eq_relIndex` (the degree of a double coset).
 
 For SR.0d and SR.2: `TauCeti.indTrivialIso` (c-Ind_U^G A = A[G/U]), `TauCeti.Rep.indFunctorCompIso`
 (transitivity of algebraic induction), `TauCeti.indProjection` (the projection formula for open
@@ -394,10 +396,11 @@ which the spherical parameters must agree with). For the derived Satake comparis
 continuous cohomology), `TauCeti.TopPairing.cup_one_left` in `.../ContCohomology/Cup/Unit.lean`
 and `TauCeti.TopPairing.cup_gradedComm` in `.../ContCohomology/Cup/Graded/Comm.lean` (its unit and
 graded commutativity), and the general `TauCeti.ChainComplex.cup` in
-`TauCeti/Algebra/Homology/Monoidal/Cup.lean`. The torus cup product of SR.4.5 is the same operator
-with Mathlib's discrete `groupCohomology` of the finite torus quotient as carrier instead of
-`continuousCohomology`; its unit law and its odd-square law are the specialisations of
-`cup_one_left` and `cup_gradedComm` to that carrier.
+`TauCeti/Algebra/Homology/Monoidal/Cup.lean`. The target *finite-discrete-cup-comparison* of SR.4.5 constructs the natural S-linear,
+cup-compatible comparison with Mathlib's `groupCohomology` of the finite torus quotient.
+The unit and odd-square laws are transported through that comparison. The pinned
+`TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology` in
+`.../ContCohomology/DiscreteGroup.lean` supplies only existence of an additive equivalence.
 
 For SR.6: `TauCeti.AffineGroupSchemeCat` (the affine group schemes carrying the cocycle scheme),
 and `TauCeti.IsArithFrobeniusLift`, `TauCeti.tameQuotientEquiv`, `TauCeti.wildInertiaSubgroup`
@@ -499,6 +502,14 @@ Local Langlands for tori is an input stated where used.
 Local fields and ramification, layer 4: the wild and tame filtrations and the Iwasawa
 presentation Fr s Fr⁻¹ = s^q.
 
+### From TauCetiRoadmap.DGAInfinity and DerivedDeRhamCohomology
+
+[DGAInfinity](../DGAInfinity/README.md) layers 0–1 supply A-linear Hom complexes, their
+comparison with Mathlib's additive Hom complex, and dg enrichment.
+[DerivedDeRhamCohomology](../DerivedDeRhamCohomology/README.md) §0.2 supplies K-flat
+resolutions and derived tensor products for underlying A-module complexes. SR.0d
+constructs the equivariant resolutions and the K-injective smooth subcategory on these APIs.
+
 ## How to read the build
 
 `README.md` fixes the hypotheses and conclusions of the targets. `Suggested.lean` states the
@@ -511,8 +522,9 @@ permutation-module Hecke algebra, and precedes SR.2 because the Jacquet module o
 principal series splits by the vanishing of Ext between distinct central characters. SR.2a follows
 SR.3a and SR.3 because Bernstein's stabilisation theorem uses uniform admissibility, the Bernstein
 decomposition, noetherianity and generic irreducibility; SR.3 itself uses nothing from SR.2a, since
-the centre is proved by the Bernstein–Deligne route. SR.4 uses SR.1 and SR.2; SR.5 uses SR.3; SR.6
-uses SR.0–SR.3, SR.2a and SR.4 and is used by nothing earlier. Within a target, *Needs* names the
+the centre is proved by the Bernstein–Deligne route. SR.4 uses SR.1 and SR.2; SR.5 uses SR.3, with the algebraic *stable-operator* prerequisite
+in SR.5.2 preceding *integral-second-adjointness*; SR.6
+uses SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator* and is used by nothing earlier. Within a target, *Needs* names the
 earlier targets by their short names and the supplier layers by roadmap and layer; the references
 in parentheses are to the editions listed under *References*, by printed page.
 
@@ -1140,14 +1152,17 @@ H(G, U; A) := Fun_G(G/U × G/U, A), the Hecke algebra of finitely supported
 functions on U\G/U for S = G/U, with basis the double cosets [UgU]. It is defined over every A,
 including F_p for p-adic G: no measure or averaging is used. Through V^U = Hom_G(A[G/U], V), V^U
 is a right H(G, U; A)-module, explicitly v * h = Σ_{Ug ∈ U\G} h(U, gU) ρ(g)⁻¹ v (the summand
-depends only on Ug, and only finitely many are nonzero); the operator of one double coset is Tau
-Ceti's `HeckeCoset.heckeSum`. For U' ≤ U the inclusion V^U ⊆ V^{U'} and the trace
+depends only on Ug, and only finitely many are nonzero); for v ∈ V^U define the A-linear map q_v : A[G] → V by q_v(δ_x) = ρ(x)⁻¹v.
+Prove q_v is U-invariant for the algebraic left regular representation on A[G], and that
+Tau Ceti's `HeckeCoset.heckeSum` applied to that representation and q_v, evaluated on δ_1,
+is v ∗ [UgU], naturally in V and under every commutative coefficient change A → B. For U' ≤ U the inclusion V^U ⊆ V^{U'} and the trace
 tr_{U/U'}(v) = Σ_{u ∈ U/U'} ρ(u) v are induced by the G-maps A[G/U'] → A[G/U], gU' ↦ gU, and
 A[G/U] → A[G/U'], gU ↦ Σ_{u ∈ U/U'} guU'; tr ∘ incl = [U : U'], and for U' normal in U,
 incl ∘ tr = Σ_{u ∈ U/U'} ρ(u). The anti-involution [UgU] ↦ [Ug⁻¹U] identifies H(G, U; A) with
 its opposite ([TV] §2.10, (2.10.1)–(2.10.3), pp. 187–188 (published; arXiv v1 §2.10)). *Needs:*
 *van-dantzig*, *compact-open-invariants*.
-*Lean:* `HeckeAlgebraLevel`, in the endomorphism form End_{A[G]}(A[G/U]) of the permutation module
+*Lean:* `heckeInvariantMap`, `heckeInvariantMap_comp_of_mem`,
+`heckeSum_invariantMap_apply_one` (the left-regular comparison above); `HeckeAlgebraLevel`, in the endomorphism form End_{A[G]}(A[G/U]) of the permutation module
 (Mathlib's `Representation.ofMulAction` on G ⧸ U, as a module over `MonoidAlgebra A G`); for
 S = G/U, a single orbit, the comparison above identifies it with Fun_G(G/U × G/U, A).
 
@@ -1155,6 +1170,11 @@ The integral transfer is specified on coset basis vectors together with its two 
 equivariant maps A[G/U] → V are identified with invariant vectors by evaluation at the identity
 coset; and the inversion sends the double coset of g to the double coset of g⁻¹ in the opposite
 algebra.
+
+**Checks (Hecke-sum direction).** For G = F^×, U = O_F^× and an unramified rational
+character with χ(ϖ) = 2, the right operator of [UϖU] is 1/2 on the invariant line.
+The supplier applied to χ itself and q = id instead gives 2. On the valuation quotient
+ℤ the Lean example computes these two scalars and q_v(δ_ϖ) = 1/2.
 
 Four pinning statements fix the matrix convolution, the action on finitely supported columns, the
 scalar matrices, and the identity when there are finitely many orbits. The signatures require
@@ -1231,7 +1251,9 @@ Checks:
 **Checks.**
 
 - For H = A (unital), NondegMod H ≌ ModuleCat A.
-- ⊕_{n ∈ ℕ} A with componentwise product is idempotented, and ∏_n A is not a nondegenerate module.
+- For A ≠ 0, ⊕_{n ∈ ℕ} A with componentwise product is idempotented, and ∏_n A is not a
+  nondegenerate module: the all-one tuple has no finite local unit. For A = 0 both modules
+  are zero and nondegenerate.
 - A with the zero multiplication is not idempotented, for A ≠ 0.
 
 **Smooth representations as nondegenerate Hecke modules** (*hecke-module-equivalence*). Let G be
@@ -1601,7 +1623,7 @@ RHom(X, Y) := HomComplex(X, I_Y) computes Hom_{D(𝒜)}(X, Y[n]) in degree n. Ap
 Hom complexes ([Stacks] Tag 079P). *Needs:* the library vocabulary of this layer.
 
 
-The existence statement applies the library resolution theorem to this category; the unbounded invariant functor is computed on objects by K-injective resolutions and is identified, as a functor, with Mathlib's right derived functor of invariants on bounded-below objects. The module dual is fixed on morphisms by H^n 𝔻V ≅ Hom(V, A[n]), natural in V.
+The existence statement applies the library resolution theorem to this category; the unbounded invariant functor is computed on objects by K-injective resolutions and is identified, as a functor, with Mathlib's right derived functor of invariants on bounded-below objects.
 
 **Checks.** The existence statement is specialized to smooth
 complexes. The zero complex is K-injective; the identity on a K-injective complex is a
@@ -1631,10 +1653,6 @@ reference for arbitrary G and A. The general cochain comparison, including acycl
 closed N, remains an explicit proof obligation here. *Needs:* *grothendieck-abelian*, *derived-smooth-category*, *invariants-exact*;
 ProfiniteCohomology layer 7, ProfiniteCohomology layer 10.
 
-ComplexTori §Milestone 4 / Integral connecting class, Step 5 (an open TauCetiRoadmap pull request
-by Paul-Lez) states the special case for real vector spaces and finite cyclic groups, obtained
-from this acyclicity with G = U = C_m, A = ℝ and m > 0.
-
 **Checks.**
 
 - For G = U = ℤ_p and A = F_p, H¹(RΓ(U, F_p)) ≅ F_p and H²(RΓ(U, F_p)) = 0.
@@ -1645,10 +1663,11 @@ The comparison RΓ(U, −) ≅ RHom_G(A[G/U], −) is stated for unbounded deriv
 
 **The dg enhancement of the derived smooth category** (*dg-enhancement*). Let G be locally
 profinite and A a commutative ring. The derived smooth category is enhanced by the dg category
-whose objects are K-injective complexes of smooth representations and whose Hom complexes are
-Mathlib's CochainComplex.HomComplex; prove that its homotopy category is equivalent to D(G, A).
+whose objects are K-injective complexes of smooth representations. Use the A-linear Hom
+complex and dg enrichment of DGAInfinity layers 0–1, with underlying additive complex
+identified with Mathlib's CochainComplex.HomComplex; prove that its homotopy category is equivalent to D(G, A).
 For complexes V, W of smooth representations define
-RHom_G(V, W) := HomComplex(V, I_W) with I_W a K-injective resolution, a complex of A-modules, and
+RHom_G(V, W) := Hom_A-linear(V, I_W) with I_W a K-injective resolution, a complex of A-modules, and
 prove that RHom_G is functorial in both variables on D(G, A),
 contravariant in the first (functorial up to homotopy on complexes), with its action on morphisms
 fixed by H^n RHom_G(V, W) ≅ Hom(V, W[n]) natural in both variables; that
@@ -1656,7 +1675,9 @@ H^n RHom_G(V, W) ≅ Hom_{D(G,A)}(V, W[n]); and RHom_G(A[G/U], W) ≅ RΓ(U, W) 
 which is the comparison of *derived-invariants*. The forgetful functor to complexes of A-modules,
 restriction to open subgroups, derived invariants and derived tensor products over A are dg
 functors or are computed by K-flat/K-injective replacements in this model ([Stacks] Tag 070Y and
-Tag 079P). *Needs:* *k-injective-resolutions*, *derived-smooth-category*, *derived-invariants*.
+Tag 079P). *Needs:* *k-injective-resolutions*, *derived-smooth-category*, *derived-invariants*;
+DGAInfinity layers 0–1 (A-linear Hom complexes and dg enrichment);
+DerivedDeRhamCohomology §0.2 (underlying module K-flat resolutions and derived tensor).
 
 Check (Koszul sign): for the two complexes [ℤ → ℤ] with identity differentials in degrees 0 and 1, the tensor differential is (x,y) ↦ x − y in the (0,1),(1,0) ordering. The vector (0,1) maps to −1.
 
@@ -1666,7 +1687,10 @@ Check (Koszul sign): for the two complexes [ℤ → ℤ] with identity different
 - For G = ℤ_p and A = F_p, H¹ RHom_G(F_p, F_p) = F_p.
 - For G finite discrete, RHom_G agrees with RHom over A[G] after Rep.equivalenceModuleMonoidAlgebra.
 
-Use the diagonal tensor product, the internal Hom and the tensor–Hom adjunction of smooth representations. The tensor product of complexes is Mathlib’s direct-sum total tensor complex with its Koszul differential. A complex is K-flat if tensoring with it preserves acyclic complexes, and every complex has a quasi-isomorphic K-flat complex.
+Use the diagonal tensor product, the internal Hom and the tensor–Hom adjunction of smooth representations. The tensor product of complexes is Mathlib’s direct-sum total tensor complex with its Koszul differential. Use the underlying module K-flat and derived-tensor API of DerivedDeRhamCohomology §0.2.
+Construct equivariant K-flat resolutions here: every smooth complex has a quasi-isomorphic
+smooth complex whose underlying A-module complex is K-flat; the diagonal tensor product
+preserves smoothness. These resolutions compute the derived tensor in this dg model.
 
 **Compact induction from pro-p subgroups generates the derived category** (*compact-generation*).
 Let G be locally profinite with a cofinal family 𝒦 of compact open
@@ -1694,7 +1718,9 @@ Hom_{D(G,A)}(B, 𝔻(V)) ≅ Hom_{D(G,A)}(B ⊗^L_A V, A) natural in B and V. De
 admissible complexes: a complex V is admissible if V^K is a perfect complex of
 A-modules for every K in the cofinal family of compact open subgroups of invertible pro-order.
 Prove 𝔻(V)^K ≅ RHom_A(V^K, A) for K of invertible
-pro-order; hence the dual of an admissible complex is admissible, and the natural map
+pro-order, and consequently (H^n 𝔻V)^K ≅ Hom_{D(A)}(V^K, A[n]), naturally in V.
+Here V^K denotes the invariant complex, since K-invariants are exact. Thus the dual of an
+admissible complex is admissible, and the natural map
 V → 𝔻𝔻(V) is an isomorphism for admissible V. A further statement pins that map: over a
 field, under identifications 𝔻(V[0]) ≅ V^∨[0], it is the evaluation map
 V → Ṽ̃ of *smooth-dual* in degree zero, so it is not zero on a nonzero V ([FS] Ch. V §1, Corollary V.1.4 and proof, pp. 170–171;
@@ -1712,6 +1738,9 @@ version is attributed to the geometric theorems. *Needs:* *smooth-dual*, *dg-enh
 
 - 𝔻(A(χ)) ≅ A(χ⁻¹) in degree 0.
 - 𝔻(0) = 0.
+- For G = C₂, A = ℚ and V the sign line, H⁰𝔻V is the nonzero sign line, whereas
+  Hom_G(V, ℚ) = 0. For K = G both sides of the fixed-vector formula vanish; for K = 1
+  they are one-dimensional.
 - For G = ℚ_p and A = F_ℓ (ℓ ≠ p), F_ℓ[ℚ_p/ℤ_p] in degree 0 is not an admissible complex.
 
 The derived tensor product is characterized on objects using K-flat representatives, and on morphisms there as the tensor product of chain maps. The derived internal Hom is pinned by the derived tensor–Hom adjunction in the covariant variable and by its action on morphisms in the contravariant one, and its value at the coefficient unit is identified with the derived smooth dual.
@@ -1773,7 +1802,8 @@ non-admissible complex F_ℓ[ℚ_p/ℤ_p].
 ### Dependencies
 
 SR.0 and SR.1; Mathlib's Grothendieck-abelian, derived-category, K-injective and Ext API;
-ProfiniteCohomology layers 7 and 10.
+ProfiniteCohomology layers 7 and 10; DGAInfinity layers 0–1;
+DerivedDeRhamCohomology §0.2.
 
 ## Layer SR.2: induction, compact induction and Jacquet functors
 
@@ -3464,15 +3494,37 @@ representations ([CG20-arXiv] Definition 6.7, p. 28; [Pil] Lemma 5.1.5.1 and Rem
 
 The factorization statement pins the four factors by the generator evaluations, including q³T₀ = αδ = βγ. `SpinPolynomial.reciprocal` records the reciprocal monic polynomial in the CG generator order T₂, T₁, T₀.
 
+**Finite discrete cohomology and cup comparison** (*finite-discrete-cup-comparison*).
+For a finite group Q with discrete topology, a commutative ring S and a discrete S[Q]-module M,
+construct a natural S-linear comparison between continuousCohomology and Mathlib's
+groupCohomology by identifying continuous and ordinary inhomogeneous cochains and their
+differentials. Prove compatibility with S-bilinear equivariant cup pairings, the coefficient
+unit, restriction to subgroups and conjugation by automorphisms. Apply it to the finite
+prime-to-p torus quotient T(k_F), with its Weyl conjugation action ([Ven-arXiv] §3.2,
+pp. 21–22, for this torus cohomology; Tau Ceti `ContCohomology/DiscreteGroup.lean`,
+`Cup/Cohomology.lean`, `Cup/Unit.lean` and `Cup/Graded/Comm.lean` for the continuous carrier
+and cup laws). *Needs:* *derived-invariants*; ProfiniteCohomology layer 10.
+
+**Checks.**
+
+- In degree zero the comparison is the identity on M^Q and sends the coefficient unit to 1.
+- For Q = C_ℓ and S = F_ℓ it sends the degree-one class of the identity homomorphism to
+  the same inhomogeneous cocycle; when ℓ is odd its square is zero.
+- For Q = C_ℓ × C_ℓ the two coordinate classes have nonzero cup product, and swapping
+  coordinates transports it to the product in the opposite order, with the graded sign.
+
 **Derived Satake at Taylor–Wiles primes** (*derived-satake*). For split G, S = ℤ/ℓ^r, q ≡ 1
 modulo ℓ^r and ℓ ∤ |W|, prove that derived spherical restriction gives a graded algebra
 isomorphism with (S[Λ] ⊗ H*(T(k_F), S))^W, whose degree-zero map is the classical Satake
 specialization. The Iwahori-to-spherical Morita comparison is restricted to the étale locus of
 Spec S[Λ] over Spec S[Λ]^W ([Ven-arXiv] Theorem 3.3, p. 22 (hypotheses §3.2, p. 21);
 Lemma 4.5, pp. 28–29, and Lemma 4.7, pp. 30–31).
-*Needs:* *satake-isomorphism*; layer SR.1, layer SR.0.
+*Needs:* *satake-isomorphism*, *finite-discrete-cup-comparison*; layer SR.1, layer SR.0d.
 
-The isomorphism uses Ext in the smooth category and the exact Jacquet functor. It states injectivity, the diagonal Weyl-invariant image, cup-convolution multiplicativity, and the degree-zero radical integral on permutation-module endomorphisms. Its torus coefficient group is the finite prime-to-p quotient of the maximal compact torus, with pro-p kernel. The torus invariants use Mathlib group cohomology, with the action on both the lattice and the cohomology coefficients. The torus cup product is fixed on inhomogeneous cocycles; it differs from the Tau Ceti cup product `TauCeti.TopPairing.cup` only in its carrier (Mathlib `groupCohomology` rather than `continuousCohomology`), and its unit law and odd-square law specialise `TauCeti.TopPairing.cup_one_left` and `TauCeti.TopPairing.cup_gradedComm`.
+The isomorphism uses Ext in the smooth category and the exact Jacquet functor. It states injectivity, the diagonal Weyl-invariant image, cup-convolution multiplicativity, and the degree-zero radical integral on permutation-module endomorphisms. Its torus coefficient group is the finite prime-to-p quotient of the maximal compact torus, with pro-p kernel. The torus invariants use Mathlib group cohomology, with the action on both the lattice and the cohomology coefficients. The torus cup product is fixed on inhomogeneous cocycles. Its unit and odd-square laws
+transport `TauCeti.TopPairing.cup_one_left` and `TauCeti.TopPairing.cup_gradedComm` through
+*finite-discrete-cup-comparison*, whose restriction and Weyl compatibility also identify
+the action used in the invariant algebra.
 
 Checks: four tests of the cup product check scalar multiplication, the unit, an odd square with 2 invertible, and the nonzero product from two cyclic directions in characteristic ℓ. Three tests of the invariants check trivial actions, exclusion of a moved monomial, and transport of coefficients in an orbit sum.
 
@@ -3737,10 +3789,12 @@ RG2.2.4 (*gl-building-lattice-chains*).
 
 **Checks.**
 
-- For n = 1 every type is (O_F^×, χ) for a character χ of O_F^×. Its intertwining is F^× and
+- For n = 1 every maximal distinguished cuspidal R-type is (O_F^×, χ) for a character χ of O_F^×. Its intertwining is F^× and
   H(G, K, τ) = R[T, T⁻¹] with T supported on ϖO_F^×. The cuspidal representations containing it
   are the characters of F^× that extend χ, and they form one unramified-twist class; over 𝒦,
   which is not algebraically closed, this exhaustion fails (fourth Check).
+  The broader R-type definition also permits (1 + 3ℤ_3, 1) over F = ℚ_3 and R = ℂ,
+  and a trivial rank-two module; neither is a maximal distinguished cuspidal type.
 - In depth zero for n = 2, K = GL_2(O_F), K¹ = 1 + ϖM_2(O_F) and K/K¹ = GL_2(𝔽_q); κ is trivial and
   σ is an irreducible cuspidal representation of GL_2(𝔽_q). The intertwining is F^×GL_2(O_F).
   Here ϖ_E = ϖ is central with determinant ϖ², so twisting by χ ∘ det multiplies its action by
@@ -3853,6 +3907,30 @@ Proposition 11.5, p. 57; [DHKM1] proof of Corollary 1.3, p. 15, for the unnormal
   These values differ in W(k); χ² ≠ 1. A Lean `example` makes the same calculation on the
   valuation quotient ℤ with rational coefficients.
 
+**Stable module operators and their algebra** (*stable-operator*). Let A be commutative,
+M an A-module and T an A-linear endomorphism. Define stability by the existence of c ≥ 1
+and a T-invariant summand I with M = ker(T^c) ⊕ I and T an automorphism of I. Prove that I
+identifies with the module direct limit along powers of T, written M[T⁻¹], through its
+canonical map. For every coefficient module D, precomposition by T is stable on Hom_A(M,D),
+with decomposition Hom_A(ker(T^c),D) ⊕ Hom_A(I,D). Equivariant maps between stable operators
+preserve their decompositions, so stability passes to kernels and cokernels. A product or
+direct sum of stable operators with a common positive exponent is stable with that exponent
+([DHKM1] §4, observations following Corollary 4.6, pp. 13–14; [Hel16] Definition 11.9 and
+Lemma 11.10, pp. 58–59). *Needs:* Mathlib module direct limits and linear maps.
+*Lean:* `StableOperator`, `StableOperator.pi_of_uniform`; the localization, dual, kernel,
+cokernel and direct-sum statements are specified here only.
+
+**Checks.**
+
+- T = 0 is stable with invertible part zero, and its localization is zero (stability is a
+  Lean `example`).
+- T = id is stable with nilpotent part zero and localization M (stability is a Lean `example`).
+- For a nilpotent operator on M₁ and an automorphism on M₂, the stable image on M₁ ⊕ M₂ is
+  M₂; precomposition on the dual has invertible part Hom_A(M₂,D).
+- For A ≠ 0, multiplication by t on M_j = A[t]/(t^j), j ≥ 1, is stable on each factor but
+  not on their product: its images have zero intersection, and no common power kills it.
+  Thus the product theorem requires a common exponent. For A = 0 the product is zero.
+
 **Integral Bernstein decomposition and second adjointness for GL_n** (*integral-second-adjointness*).
 Keep the setting of *type-projective-construction*: F is a finite extension of ℚ_p with residue
 field 𝔽_q, G = GL_n(F) with n ≥ 1, k is algebraically closed of characteristic ℓ ≠ p, and the
@@ -3927,7 +4005,8 @@ following four steps.
      V_j^K = ker T_j^c ⊕ V_{j,*} for every j, the product splits as
      ker((∏_j T_j)^c) ⊕ ∏_j V_{j,*}, with the inverse on the second part taken coordinatewise.
      The Hecke action agrees with ∏_j T_j. *Lean:* `SmoothRep.nonempty_invariants_smoothProduct`
-     and `StableOperator.pi_of_uniform` carry the open-subgroup and common-exponent hypotheses.
+     and *stable-operator*
+     (`StableOperator.pi_of_uniform`) carry the open-subgroup and common-exponent hypotheses.
    - Π is (K, P)-stable if Π and Π_U are admissible over a commutative noetherian W(k)-algebra
      acting compatibly.
    - E_{(K,τ)} = End_G(P_{(K,τ)}) is commutative and finite over a finitely generated
@@ -3972,7 +4051,8 @@ following four steps.
 
 *Needs:* *distinguished-cuspidal-types*, *type-projective-construction*, *first-adjointness*,
 *jacquet-module*, *jacquet-lemma*, *parabolic-induction*, *modulus-character*,
-*iwahori-decomposition*, *finite-type-corners*, *smooth-rep-abelian*, *averaging-projector*.
+*iwahori-decomposition*, *finite-type-corners*, *smooth-rep-abelian*, *averaging-projector*,
+*stable-operator*.
 
 **Checks.**
 
@@ -3999,7 +4079,9 @@ following four steps.
   in I, embeds the trivial A-line in ∏_{n≥1}^sm I. Every tuple is G-fixed, and injectivity
   follows from ⋂_{n≥1} 3^n A = 0. The image of 1 has infinitely many nonzero coordinates and
   does not lie in the direct sum.
-- A common exponent is necessary: for M_j = A[t]/(t^j), j ≥ 1, multiplication by t is nilpotent
+- A singleton smooth product is its factor, a product of zero objects is zero, and every tuple
+  in a product of trivial actions is smooth and fixed (Lean examples).
+- A common exponent is necessary: for A ≠ 0 and M_j = A[t]/(t^j), j ≥ 1, multiplication by t is nilpotent
   of index j. On ∏_j M_j the coordinatewise operator is not stable. The intersection of all
   its images is zero, so an invertible summand would be zero, but no power kills the product.
 
@@ -4025,6 +4107,42 @@ Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact su
 
 Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and the half modulus over k. Three tests check nonzero, disjoint, and exhaustive block projections. For F = ℚ_3 and ℓ = 2, where W(k) has no square root of 3, P_{(T,1⊗1)} = I_B^G(P ⊗ P) of the fourth Check of *type-projective-construction*, which is projective by the third Check of *integral-second-adjointness*, lies in the block of (T, 1 ⊗ 1).
 
+**Modular generic segments** (*modular-generic-segments*). Let F be a finite extension
+of ℚ_p, n ≥ 1 and κ an algebraically closed field of characteristic different from p.
+In positive characteristic ℓ, construct modular cuspidal segments [a,b]_ρ using the reducibility character ν_ρ, their equivalence
+and linking relation, and the representations L(Δ). A period is the sum of the shifted
+segments [a+j,b+j]_ρ for 0 ≤ j < m(ρ)ℓ^r, r ≥ 0, with multiplicities retained;
+aperiodic means containing no such period. Here m(ρ) is e(ρ) when e(ρ) > 1 and ℓ
+otherwise, with e(ρ) the size of the ν_ρ-orbit of ρ ([MS] (4.10)–(4.11), p. 51,
+and Lemma 7.2, p. 84). In characteristic zero set e(ρ) = m(ρ) = ∞ and admit no periods.
+Prove that each irreducible generic
+κ[GL_n(F)]-representation is the normalized parabolic product of L(Δ_i) for a unique
+unordered aperiodic collection of pairwise unlinked segments; use only segments whose
+L(Δ_i) are generic. Prove conversely that such a product is irreducible and generic.
+Choose a square root of q in κ for normalized induction ([MS] v1 Definitions 7.17–7.19,
+7.22 and 9.7, Proposition 7.33, Theorems 7.36 and 9.10, Corollary 9.12,
+pp. 90–92, 95–97, 113 and 115; [Hel12] proof of Proposition 4.8, p. 8).
+
+Prove compatibility with algebraically closed coefficient extensions. For an absolutely
+irreducible generic representation over a nonclosed residue field, apply the classification
+after algebraic closure, retain its descent data and prove the field-extension and
+independent unramified-twist forms used at generic points in Helm's proof. Prove the same generic classification in characteristic zero ([MS] Theorem 9.10
+with its characteristic-zero conventions), and its compatibility with coefficient extensions,
+for the characteristic-zero prime fibers. These generic statements use L; the full complex
+Z/L normalization is the separate target *segment-representations*.
+*Needs:* *distinguished-cuspidal-types*, *mirabolic-derivatives*, *parabolic-induction*;
+layer SR.3 for characteristic-zero support theory.
+
+**Checks.**
+
+- A singleton cuspidal segment gives its cuspidal representation; for GL_1 this is a character.
+- For F = ℚ_2 and ℓ = 5, ν has order four. The singleton segments labelled 1 and ν are
+  linked, and 1 × ν is reducible; singleton segments on distinct ν-orbits give an
+  irreducible generic product.
+- For F = ℚ_2 and ℓ = 5, the four singleton segments labelled 1, ν, ν², ν³ form a full
+  period and fail aperiodicity. Extending the algebraically closed coefficient field
+  preserves that failure and the linking relation.
+
 **Distinguished type projectives and their fibers** (*type-projectives*). For F a finite extension
 of ℚ_p, k algebraically closed of characteristic ℓ ≠ p, and a maximal distinguished cuspidal
 k-type (K, τ) of *distinguished-cuspidal-types*, let P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ) be the
@@ -4036,7 +4154,7 @@ E_{(K,τ)}, is E-admissible, and has top derivative locally free of rank one ove
 prime fiber has absolutely irreducible generic cosocle and essentially AIG smooth dual ([Hel12]
 Theorem 4.1, Proposition 4.3, Proposition 4.8 and Corollary 4.9, pp. 6–9). *Needs:*
 *distinguished-cuspidal-types*, *type-projective-construction*, *integral-blocks*,
-*mirabolic-derivatives*, *essentially-aig*; layer SR.2.
+*mirabolic-derivatives*, *essentially-aig*, *modular-generic-segments*; layer SR.2.
 
 **Checks.**
 
@@ -4656,47 +4774,70 @@ The depth-r part is the subrepresentation generated by the Moy–Prasad r-plus f
 
 Checks: the depth part vanishes on zero; it contains the whole trivial representation; it vanishes when every r-plus invariant module vanishes.
 
-**Torsion-free projective cuspidal embeddings** (*cuspidal-embedding*). Fix ℓ ≠ p and a square
-root of q in Q̄_ℓ, and put R = ℤ_ℓ[√q]. Prove that a finitely generated projective smooth
-R[G]-representation embeds into a finite direct sum of normalized parabolic inductions of finitely generated ℓ-torsion-free
-cuspidal Levi modules. This is proved by characteristic-zero *cuspidal-support* theory and stable
-lattices; no integral classification of supercuspidals is used ([DHKM1] Lemma 3.4, p. 10).
-*Needs:* *depth-generators*; layer SR.2, layer SR.3, layer SR.2a.
+**Supercuspidal descent and stable lattices** (*cuspidal-stable-lattice*). Let G = 𝐆(F)
+for a connected reductive group over a nonarchimedean local field of residue characteristic p,
+and let ℓ be a prime different from p. Prove characteristic-zero cuspidal-support theory and the Bernstein projective
+generator construction over Q̄_ℓ by transporting the algebraic ℂ-theory of SR.3. Descend every
+irreducible Q̄_ℓ-supercuspidal representation π to a finite extension E/ℚ_ℓ. Choose an
+unramified character χ, with finite enlargement of E allowed, such that π ⊗ χ has integral
+central character; construct a G-stable admissible cyclic O_E-lattice L with
+Q̄_ℓ ⊗_{O_E} L ≅ π ⊗ χ. Here admissible means that L^K is finitely generated over O_E for every
+compact open K, and cyclic means generated by one vector as an O_E[G]-module.
 
-The embedding is stated over the actual subalgebra ℤ_ℓ[√q] of an algebraic closure of ℚ_ℓ. Each Levi is a Levi datum of the Bruhat–Tits building of ReductiveGroupsPartII; the comparison with its rational parabolic preserves its inclusion in G. The target modules are finitely generated, cuspidal, and ℓ-torsion-free, and the map into the finite direct sum is explicitly injective.
-
-### SR.6.5 Stable module operators
-
-**Stable contracting Hecke operators** (*stable-operator*). For a module M and an endomorphism T,
-define stability: there exist c ≥ 1 and a T-invariant direct summand I such that
-M = ker(T^c) ⊕ I and T restricts to an automorphism of I (M is the direct
-sum of ker(T^c) and a T-invertible submodule for some positive c). Prove
-that the stable image identifies with the localization M[T⁻¹],
-and that stability passes to the injective-cogenerator dual with the
-adjoint operator. For a decomposed compact open K and a strictly P-positive central element λ,
-use the convolution operator T_λ of 1_{KλK} on V^K; the invertible summand maps canonically to the
-Levi compact-open Jacquet invariants ([DHKM1] §4, the definition of K,P-stability preceding Lemma 4.5,
-p. 13, and the observations following Corollary 4.6, pp. 13–14; [Hel16] Definition 11.9, p. 58). *Needs:* layer SR.1, layer SR.2.
-*Lean:* `StableOperator` (some c > 0 and a complement I of ker(T^c), stable under T, on which T is
-bijective); the localization and duality statements are specified here only.
-
-
-The localization M[T⁻¹] is Mathlib’s module direct limit of the powers of T, and the stable image is identified with that colimit through its canonical map. The adjoint acts by precomposition, and stability is proved for Hom into any coefficient module.
-
-Checks:
-
-- Inverting a nilpotent operator gives zero.
-- The identity gives the original module.
-- Only the invertible summand survives.
-
-The direct limit for the contracting Hecke operator is identified with the actual Jacquet invariants, and its degree-zero map with the Jacquet projection ([Ber87], §5.1–5.3, pp. 19–23).
+For each Levi M let M⁰ be its subgroup generated by compact elements. Construct the
+Bernstein generators i_P(π ⊗ Q̄_ℓ[M/M⁰]) with integral central-character π, and descend any
+finite collection of these generators, and the maps needed for a finitely generated
+projective summand, to a common finite extension E containing √q. Their lattices
+L ⊗ O_E[M/M⁰] supply the cuspidal modules in *cuspidal-embedding* ([DHKM1] proof of
+Lemma 3.4, p. 10).
+*Needs:* *cuspidal-support*, *bernstein-decomposition*, *second-adjointness*; layer SR.2.
 
 **Checks.**
 
-- A nilpotent T is stable with invertible part zero (a Lean `example` for T = 0).
-- An invertible T is stable with nilpotent part zero (a Lean `example` for T = id).
-- On M₁ ⊕ M₂ with T nilpotent on M₁ and invertible on M₂, the stable
-  invertible part is M₂.
+- For G = F^× the unramified character ϖ ↦ ℓ has no stable O_E-lattice before twisting;
+  its inverse unramified twist gives the trivial line with lattice O_E.
+- A smooth character of O_F^× has finite image, lies in a finite coefficient extension,
+  and has unit values; it preserves its rank-one O_E-lattice.
+- For G = F^× and M⁰ = O_F^×, the trivial-character generator is O_E[T,T⁻¹]. It is cyclic
+  over O_E[G] and torsion-free, but its O_F^×-invariants have infinite O_E-rank. The
+  admissibility claim applies to L, not to L ⊗ O_E[M/M⁰].
+
+**Torsion-free projective cuspidal embeddings** (*cuspidal-embedding*). Fix ℓ ≠ p and a square
+root of q in Q̄_ℓ, and put R = ℤ_ℓ[√q]. Prove that a finitely generated projective smooth
+R[G]-representation embeds into a finite direct sum of normalized parabolic inductions of finitely generated ℓ-torsion-free
+cuspidal Levi modules. This uses the Q̄_ℓ cuspidal-support transport, finite-extension descent and stable
+lattices of *cuspidal-stable-lattice*; no integral classification of supercuspidals is used ([DHKM1] Lemma 3.4, p. 10).
+*Needs:* *depth-generators*, *cuspidal-stable-lattice*; layer SR.2, layer SR.3, layer SR.2a.
+
+The embedding is stated over the actual subalgebra ℤ_ℓ[√q] of an algebraic closure of ℚ_ℓ. Each Levi is a Levi datum of the Bruhat–Tits building of ReductiveGroupsPartII; the comparison with its rational parabolic preserves its inclusion in G. The target modules are finitely generated, cuspidal, and ℓ-torsion-free, and the map into the finite direct sum is explicitly injective.
+
+**Checks.**
+
+- For G = F^× and a pro-p compact open U, Q = R[G/U] is projective; P = G and the identity
+  Q → Q give an embedding with one finitely generated torsion-free cuspidal summand.
+- The zero projective embeds into the empty direct sum.
+- The nonzero trivial module R/ℓR cannot embed into an ℓ-torsion-free target: every image
+  is killed by ℓ. It is not projective over R[G].
+
+
+### SR.6.5 Stable module operators
+
+**Stable contracting Hecke operators** (*stable-contracting-hecke-operator*). For a smooth
+representation V of a connected reductive local group with p invertible in A, a compact open
+K of invertible pro-order in A with an Iwahori decomposition, Haar measure normalized
+by volume(K) = 1, and a strictly P-positive central element λ of the Levi, let T_λ be the convolution operator of 1_{KλK} on V^K. Prove that the direct limit along
+T_λ is the Levi compact-open Jacquet invariants and that its canonical map is the Jacquet
+projection. When T_λ is stable, the invertible summand of *stable-operator* maps isomorphically
+to these invariants ([Ber87] §5.1–5.3, pp. 19–23; [DHKM1] §4, preceding Lemma 4.5,
+p. 13). *Needs:* *stable-operator*, *jacquet-lemma*, *iwahori-decomposition*; layer SR.1.
+
+**Checks.**
+
+- For P = G, λ = 1 and volume(K) = 1, T_λ is the identity and the Jacquet projection is
+  the identity on V^K.
+- If T_λ is nilpotent, the corresponding Jacquet invariant module is zero.
+- On a stable V^K = ker(T_λ^c) ⊕ I, the projection kills the first summand and identifies I
+  with the Jacquet invariants, rather than with all of V^K.
 
 ### Examples
 
@@ -4704,11 +4845,11 @@ The checks are the crossed cocycles of a trivial action (group homomorphisms), t
 cocycle and its gauge conjugates h α(γ)(h)⁻¹; the excursion coefficients of the trivial
 representation, of a zero annihilation map and of a single index; the zero representation, a
 scalar-center admissible family and an infinite direct sum of the trivial representation for
-Z-finiteness; and nilpotent, invertible and mixed operators for stability.
+Z-finiteness; and the identity, nilpotent and mixed contracting Hecke operators for the Jacquet projection.
 
 ### Dependencies
 
-SR.0–SR.3, SR.2a and SR.4; Tau Ceti's `TauCeti.AffineGroupSchemeCat` and Mathlib's
+SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator*; Tau Ceti's `TauCeti.AffineGroupSchemeCat` and Mathlib's
 `Representation.tprod`; ReductiveGroups layers 7 and 9; ReductiveGroupsPartII RG2.5;
 ClassFieldTheory layer 9; LocalFieldsRamification layer 4 through the Tau Ceti Iwasawa
 presentation. The layer is used by nothing earlier.
@@ -4730,7 +4871,8 @@ integral local families of SR.5.
 
 | Supplier target | Consumer | Conventions |
 |---|---|---|
-| SR.0d.2 / *derived-invariants*, acyclicity for invertible pro-order | ComplexTori §Milestone 4 / Integral connecting class, Step 5 (an open TauCetiRoadmap pull request by Paul-Lez) consumes vanishing in positive degrees for E in its connecting equivalence. | Use G = U = C_m, A = ℝ and m > 0: the finite group is discrete and compact, every action is smooth, and m is a unit. Regard E as an algebraic ℝ-module with discrete coefficient topology for group cohomology; this does not assert vanishing for continuous cochains with the ordinary real vector-space topology. |
+| SR.4.3 / *gln-generators* | IntegralHeckeAndGaloisDeterminants IHG.3a.1 / Integral GLn Hecke polynomial | Characteristic-double-coset T_i and the q^{i(i−1)/2} factors; determinant characteristic polynomials and traces are supplied by IHG.0 / Characteristic polynomial and trace of a determinant. |
+| SR.4.5 / *gsp4-spin-polynomial*, *gsp4-galois-comparison* | IntegralHeckeAndGaloisDeterminants IHG.3a.2 / GSp4 dual-spin Hecke polynomial | `SpinPolynomial.reciprocal` uses reflect at 4; this roadmap's (T₀,T₂,T₁) are the consumer's (T₀,T₁,T₂). IHG.0 owns characteristic polynomials, traces and reciprocal determinant identities. |
 
 ## References
 
@@ -4769,6 +4911,8 @@ Locators use the printed page numbers of the following editions.
 - [Les] S. Leslie, *The endoscopic fundamental lemma for unitary Friedberg–Jacquet periods*, [arXiv:1911.07907v3](https://arxiv.org/pdf/1911.07907v3).
 - [Mac] I. G. Macdonald, *Symmetric functions and Hall polynomials*, second edition, Oxford University Press, 1995 (Chapter III, (2.1) for the Hall–Littlewood normaliser `v_λ(t)`).
 - [LTXZZ] Y. Liu, Y. Tian, L. Xiao, W. Zhang and X. Zhu, *On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives*, Invent. Math. 228 (2022), 107–375, [published](https://par.nsf.gov/servlets/purl/10323568).
+- [MS] A. Mínguez and V. Sécherre, *Représentations lisses modulo ℓ de GL(m,D)*,
+  [arXiv:1110.1467v1](https://arxiv.org/pdf/1110.1467v1). The locators here use this edition.
 - [Hel12] D. Helm, *Whittaker models and the integral Bernstein center for GL_n*, [arXiv:1210.1789v1](https://arxiv.org/pdf/1210.1789v1).
 - [Ros14] S. Rostami, *The Bernstein presentation for general connected reductive groups*, [arXiv:1312.7374v3](https://arxiv.org/html/1312.7374v3), §§2.5–2.9, 3.2.
 - [HM18] D. Helm and G. Moss, *Converse theorems and the local Langlands correspondence in families*, Invent. Math. 214 (2018), 999–1022, [published](https://link.springer.com/content/pdf/10.1007/s00222-018-0816-y.pdf).

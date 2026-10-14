@@ -4,6 +4,7 @@ import TauCeti.RepresentationTheory.BaseChange
 import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.UpperUnitriangular.Basic
 import TauCeti.NumberTheory.HeckeRing.Associativity
 import TauCeti.NumberTheory.HeckeRing.Normalizer
+import TauCeti.NumberTheory.HeckeRing.Representation
 import TauCeti.Algebra.AlgebraicGroup.FiniteType.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.Dynamic.Parabolic
@@ -84,6 +85,13 @@ example [IsTopologicalGroup G] : IsSmooth (_root_.Representation.trivial A G V) 
     ext g
     simp [_root_.Representation.stabilizer]⟩
 
+-- Reduction modulo `p^n` gives `U = p^n ℤ_p`; its permutation module is smooth and U-fixed.
+example (p n : ℕ) [Fact p.Prime] :
+    let U := (PadicInt.toZModPow (p := p) n).toAddMonoidHom.toMultiplicative.ker
+    let ρ := _root_.Representation.ofMulAction ℤ (Multiplicative ℤ_[p])
+      (Multiplicative ℤ_[p] ⧸ U)
+    IsSmooth ρ ∧ ∀ (g : U) v, ρ g v = v := sorry
+
 -- The left regular representation of `ℤ_p` on `ℤ[ℤ_p]` is not smooth.
 example (p : ℕ) [Fact p.Prime] :
     ¬ IsSmooth (_root_.Representation.ofMulAction ℤ (Multiplicative ℤ_[p])
@@ -98,6 +106,48 @@ example (p : ℕ) [Fact p.Prime] :
 example (p : ℕ) [Fact p.Prime] :
     ¬ IsAdmissible (_root_.Representation.trivial ℚ (Multiplicative ℤ_[p]) (ℕ →₀ ℚ)) := sorry
 
+-- The product of the permutation modules has no common open stabilizer for its basepoints.
+example (p : ℕ) [Fact p.Prime] :
+    let U := fun n => (PadicInt.toZModPow (p := p) n).toAddMonoidHom.toMultiplicative.ker
+    let X := fun n => Rep.of (_root_.Representation.ofMulAction ℤ (Multiplicative ℤ_[p])
+      (Multiplicative ℤ_[p] ⧸ U n))
+    ¬ IsSmooth (Limits.piObj X).ρ := sorry
+
+-- The smooth vectors of the integral regular representation of `ℤ_p` are zero.
+example (p : ℕ) [Fact p.Prime] :
+    smoothVectors (_root_.Representation.ofMulAction ℤ (Multiplicative ℤ_[p])
+      (Multiplicative ℤ_[p])) = ⊥ := sorry
+
+-- Finite permutation modules of `ℤ_p` are admissible, with one-dimensional full invariants.
+example (p n : ℕ) [Fact p.Prime] :
+    let U := (PadicInt.toZModPow (p := p) n).toAddMonoidHom.toMultiplicative.ker
+    let ρ := _root_.Representation.ofMulAction ℚ (Multiplicative ℤ_[p])
+      (Multiplicative ℤ_[p] ⧸ U)
+    IsAdmissible ρ ∧ Module.finrank ℚ (_root_.Representation.invariants ρ) = 1 := sorry
+
+-- The permutation module of `ℚ_p/ℤ_p` is smooth but has infinitely generated compact invariants.
+example (p : ℕ) [Fact p.Prime] :
+    let U := PadicInt.subring p |>.toAddSubgroup.toSubgroup
+    let ρ := _root_.Representation.ofMulAction ℚ (Multiplicative ℚ_[p])
+      (Multiplicative ℚ_[p] ⧸ U)
+    IsSmooth ρ ∧ ¬ IsAdmissible ρ := sorry
+
+-- The zero representation is admissible over every commutative ring.
+example [IsTopologicalGroup G] :
+    IsAdmissible (_root_.Representation.trivial A G (Fin 0 → A)) := sorry
+
+-- A finite coefficient module with trivial action is admissible.
+example [IsTopologicalGroup G] [IsNoetherianRing A] [Module.Finite A V] :
+    IsAdmissible (_root_.Representation.trivial A G V) := sorry
+
+-- `ℚ_p^ℕ` has no compact open subgroup in its product topology.
+example (p : ℕ) [Fact p.Prime] (U : OpenSubgroup (Multiplicative (ℕ → ℚ_[p]))) :
+    ¬ IsCompact (U : Set (Multiplicative (ℕ → ℚ_[p]))) := sorry
+
+-- A zero representation has all its vectors in the smooth part.
+example [IsTopologicalGroup G] :
+    smoothVectors (_root_.Representation.trivial A G (Fin 0 → A)) = ⊤ := sorry
+
 end Representation
 
 /-- A subgroup `K` has pro-order invertible in `A` when every quotient of `K` by an open normal
@@ -109,6 +159,20 @@ def HasUnitProOrder (A : Type*) [CommRing A] {G : Type*} [Group G] [TopologicalS
 -- `ℤ_p` has pro-order invertible in a nonzero ring `A` exactly when `p` is a unit of `A`.
 example (p : ℕ) [Fact p.Prime] (A : Type*) [CommRing A] [Nontrivial A] :
     HasUnitProOrder A (⊤ : Subgroup (Multiplicative ℤ_[p])) ↔ IsUnit (p : A) := sorry
+
+-- The trivial subgroup has invertible pro-order over every coefficient ring.
+example (A : Type*) [CommRing A] (G : Type*) [Group G] [TopologicalSpace G] :
+    HasUnitProOrder A (⊥ : Subgroup G) := sorry
+
+-- Compactness excludes this discrete infinite 2-group, whose full quotient has Nat.card zero.
+example :
+    letI : TopologicalSpace (Multiplicative (ℕ →₀ ZMod 2)) := ⊥
+    ¬ HasUnitProOrder ℚ (⊤ : Subgroup (Multiplicative (ℕ →₀ ZMod 2))) := sorry
+
+-- Connected compact groups need not pass unit pro-order to closed subgroups.
+example (p : ℕ) [Fact p.Prime] :
+    HasUnitProOrder (ZMod p) (⊤ : Subgroup Circle) ∧
+      ¬ HasUnitProOrder (ZMod p) (powMonoidHom p : Circle →* Circle).ker := sorry
 
 -- For a finite discrete group the condition is that the group order is a unit.
 example (A : Type*) [CommRing A] (G : Type*) [Group G] [Finite G] [TopologicalSpace G]
@@ -195,6 +259,20 @@ example [IsTopologicalGroup G] [DiscreteTopology G] (X : Rep.{u} A G) :
 example (U : Subgroup G) (X : SmoothRep A G) (hX : ∀ g : G, X.obj.ρ g = LinearMap.id) :
     ((SmoothRep.invariantsFunctor A G U).obj X : Type u) ≃ X.obj.V := sorry
 
+-- The smooth part sends a morphism to its restriction on smooth vectors.
+example [IsTopologicalGroup G] {X Y : Rep.{u} A G} (f : X ⟶ Y)
+    (v : Representation.smoothVectors X.ρ) :
+    (show Representation.smoothVectors Y.ρ from
+      ((SmoothRep.smoothPart A G).map f).hom.hom v).val = f.hom (v : X.V) := rfl
+
+-- Trivial twisting preserves the action; inverse twisting restores it.
+example [IsTopologicalGroup G] (X : SmoothRep A G) :
+    ((SmoothRep.twistFunctor A G 1 (by simp [IsSmoothCharacter])).obj X).obj.ρ = X.obj.ρ := sorry
+
+example [IsTopologicalGroup G] {V : Type u} [AddCommGroup V] [Module A V]
+    (χ : G →* Aˣ) (ρ : _root_.Representation A G V) :
+    _root_.Representation.charTwist χ⁻¹ (_root_.Representation.charTwist χ ρ) = ρ := sorry
+
 -- The trivial character is smooth.
 example : IsSmoothCharacter (1 : G →* Aˣ) := by
   simp [IsSmoothCharacter]
@@ -205,6 +283,16 @@ end SmoothRepCategory
 -- map is not. This is why `HasUnitProOrder` is assumed.
 example (p : ℕ) [Fact p.Prime] :
     ¬ HasUnitProOrder (ZMod p) (⊤ : Subgroup (Multiplicative (ZMod p))) := sorry
+
+-- In characteristic p the augmentation is surjective, but kills every full invariant vector.
+example (p : ℕ) [Fact p.Prime] :
+    let ρ := _root_.Representation.ofMulAction (ZMod p) (Multiplicative (ZMod p))
+      (Multiplicative (ZMod p))
+    Function.Surjective (Finsupp.linearCombination (ZMod p)
+      (fun _ : Multiplicative (ZMod p) => (1 : ZMod p))) ∧
+      ∀ v : _root_.Representation.invariants ρ,
+        Finsupp.linearCombination (ZMod p) (fun _ => (1 : ZMod p))
+          (v : MonoidAlgebra (ZMod p) (Multiplicative (ZMod p))).coeff = 0 := sorry
 
 /-! ## Layer SR.1: Hecke algebras over rings -/
 
@@ -234,6 +322,43 @@ example (p : ℕ) [Fact p.Prime] (μ : HaarMeasureWithValues (Multiplicative ℤ
     (hc : IsCompact (Set.univ : Set (Multiplicative ℤ_[p]))) :
     μ.vol ⟨⟨Set.univ, hc⟩, isOpen_univ⟩ ≠ 1 := sorry
 
+-- The empty compact open has zero volume.
+example {G A : Type*} [Group G] [TopologicalSpace G] [AddCommMonoid A]
+    (μ : HaarMeasureWithValues G A) : μ.vol ⊥ = 0 := μ.vol_bot
+
+-- The unnormalized axioms admit the zero measure.
+example {G A : Type*} [Group G] [TopologicalSpace G] [AddCommMonoid A] :
+    ∃ μ : HaarMeasureWithValues G A, ∀ K, μ.vol K = 0 :=
+  ⟨⟨fun _ => 0, rfl, fun _ _ _ => (zero_add 0).symm, fun _ _ _ _ => rfl⟩, fun _ => rfl⟩
+
+/-- The linear map `q_v(δ_x) = ρ(x)⁻¹v` on the left regular representation, used to compare
+right Hecke actions with Tau Ceti's Hecke sum on invariant maps ([TV], §2.10, pp. 187–188). -/
+def heckeInvariantMap {A G V : Type*} [CommRing A] [Group G] [AddCommGroup V] [Module A V]
+    (ρ : _root_.Representation A G V) (v : V) : MonoidAlgebra A G →ₗ[A] V where
+  toFun x := Finsupp.linearCombination A (fun g => ρ g⁻¹ v) x.coeff
+  map_add' := by intro x y; simp
+  map_smul' := by intro a x; simp
+
+/-- If `v` is `U`-fixed, `q_v` is `U`-invariant on the algebraic left regular representation. -/
+theorem heckeInvariantMap_comp_of_mem {A G V : Type*} [CommRing A] [Group G]
+    [AddCommGroup V] [Module A V] (ρ : _root_.Representation A G V) (U : Subgroup G)
+    (v : V) (hv : ∀ u : U, ρ u v = v) (u : U) :
+    heckeInvariantMap ρ v ∘ₗ (_root_.Representation.ofMulAction A G G) u =
+      heckeInvariantMap ρ v := sorry
+
+/-- The supplier's left-regular Hecke sum at `δ_1` is the inverse-representative vector sum,
+which gives the right action on invariants ([TV], §2.10, pp. 187–188). -/
+theorem heckeSum_invariantMap_apply_one {A G V : Type*} [CommRing A] [Group G]
+    [AddCommGroup V] [Module A V] (ρ : _root_.Representation A G V) (U : Subgroup G)
+    [IsHeckeTriple (⊤ : Submonoid G) U U] (D : HeckeCoset (⊤ : Submonoid G) U U)
+    (v : V) (hv : ∀ u : U, ρ u v = v) :
+    letI := Fintype.ofFinite (DoubleCoset.DecompQuotient U U (D.out : G)⁻¹)
+    HeckeCoset.heckeSum D
+        ((_root_.Representation.ofMulAction A G G).comp (⊤ : Submonoid G).subtype)
+        (by trivial) (by intro x hx; trivial) (heckeInvariantMap ρ v)
+        (MonoidAlgebra.single 1 1) =
+      ∑ a : DoubleCoset.DecompQuotient U U (D.out : G)⁻¹, ρ (DoubleCoset.rightCosetRep D a)⁻¹ v := sorry
+
 /-- The Hecke algebra of level `U` over an arbitrary coefficient ring: the endomorphism ring of the
 permutation module `A[G/U]`, with no measure or averaging ([TV], §2.10, pp. 187–188). -/
 abbrev HeckeAlgebraLevel (A G : Type u) [CommRing A] [Group G] (U : Subgroup G) :=
@@ -251,6 +376,23 @@ theorem HeckeAlgebraLevel.exists_ringEquiv_heckeRing {A G : Type u} [CommRing A]
 -- For `U` normal the Hecke algebra of level `U` is the group algebra of `G ⧸ U`.
 example (A G : Type u) [CommRing A] [Group G] (U : Subgroup G) [U.Normal] :
     Nonempty (HeckeAlgebraLevel A G U ≃+* MonoidAlgebra A (G ⧸ U)) := sorry
+
+-- On the valuation quotient an unramified character with value 2 gives inverse right action.
+example :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    let ρ := _root_.Representation.ofLinearCharacter χ
+    ρ (Multiplicative.ofAdd 1) 1 = 2 ∧
+      ρ (Multiplicative.ofAdd (-1)) 1 = 1 / 2 ∧
+      heckeInvariantMap ρ 1 (MonoidAlgebra.single (Multiplicative.ofAdd 1) 1) = 1 / 2 := by
+  norm_num [heckeInvariantMap, Finsupp.linearCombination_single,
+    _root_.Representation.ofLinearCharacter_apply, zpowersHom]
+
+-- The left-regular comparison preserves coefficient scalars at the identity basis vector.
+example {A G V : Type*} [CommRing A] [Group G] [AddCommGroup V] [Module A V]
+    (ρ : _root_.Representation A G V) (v : V) :
+    heckeInvariantMap ρ v (MonoidAlgebra.single 1 1) = v := by
+  simp [heckeInvariantMap]
+
 
 /-- In the integral Levi Hecke ring, two elements normalizing the level subgroup have a
 coefficient-one basis product. For positive elements, the homomorphism of [ACC], §2.1.9,
@@ -272,6 +414,39 @@ permutation modules `A[G/U]`, `U` open, form a generating family; hence it has e
 instance SmoothRep.instIsGrothendieckAbelian (A : Type u) [CommRing A] (G : Type u) [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] :
     IsGrothendieckAbelian.{u} (SmoothRep A G) := sorry
+
+section DerivedChecks
+
+variable (A : Type u) [CommRing A] (G : Type u) [Group G] [TopologicalSpace G]
+  [IsTopologicalGroup G] [HasDerivedCategory.{u + 1} (SmoothRep A G)]
+
+-- The single-degree embedding gives a bijection on Hom.
+example (X Y : SmoothRep A G) :
+    Function.Bijective (fun f : X ⟶ Y => (DerivedCategory.singleFunctor (SmoothRep A G) 0).map f) :=
+  sorry
+
+-- Negative Ext between objects of the heart vanishes.
+example (X Y : SmoothRep A G) :
+    Subsingleton (((DerivedCategory.singleFunctor (SmoothRep A G) 0).obj X) ⟶
+      ((DerivedCategory.singleFunctor (SmoothRep A G) 0).obj Y)⟦(-1 : ℤ)⟧) := sorry
+
+-- A zero smooth object stays zero in the derived category.
+example (X : SmoothRep A G) (hX : Limits.IsZero X) :
+    Limits.IsZero ((DerivedCategory.singleFunctor (SmoothRep A G) 0).obj X) := sorry
+
+-- The zero complex is K-injective.
+example : CochainComplex.IsKInjective
+    (HomologicalComplex.zero : CochainComplex (SmoothRep A G) ℤ) := sorry
+
+-- The identity resolution of a K-injective complex is a quasi-isomorphism.
+example (I : CochainComplex (SmoothRep A G) ℤ) [I.IsKInjective] : QuasiIso (𝟙 I) := inferInstance
+
+-- Bounded-below complexes of injective smooth objects are K-injective.
+example (I : CochainComplex (SmoothRep A G) ℤ) (d : ℤ) [I.IsStrictlyGE d]
+    [∀ n : ℤ, Injective (I.X n)] : I.IsKInjective :=
+  CochainComplex.isKInjective_of_injective I d
+
+end DerivedChecks
 
 /-! ## Layer SR.2: induction, compact induction and Jacquet functors -/
 
@@ -309,6 +484,28 @@ subgroups that are not open ([Cas95], Theorem 2.4.1(e), p. 26). -/
 theorem SmoothRep.compactFrobeniusReciprocity [IsTopologicalGroup G] (H : OpenSubgroup G) :
     Nonempty (SmoothRep.cIndFunctor A H ⊣
       SmoothRep.res A H.toSubgroup.subtype continuous_subtype_val) := sorry
+
+-- Inducing a restriction from the whole group recovers the original smooth object.
+example [IsTopologicalGroup G] :
+    Nonempty ((SmoothRep.res A (⊤ : Subgroup G).subtype continuous_subtype_val ⋙
+      SmoothRep.indFunctor A (⊤ : Subgroup G)) ≅ 𝟭 (SmoothRep A G)) := sorry
+
+-- Induction from the trivial subgroup of `ℤ_p` gives locally constant functions.
+example (p : ℕ) [Fact p.Prime] :
+    let ρ := _root_.Representation.coind (⊥ : Subgroup (Multiplicative ℤ_[p])).subtype
+      (_root_.Representation.trivial A (⊥ : Subgroup (Multiplicative ℤ_[p])) A)
+    Nonempty ((Representation.smoothVectors ρ).toSubmodule ≃ₗ[A] LocallyConstant (Multiplicative ℤ_[p]) A) := sorry
+
+-- Compact induction from the whole open subgroup has the same identity comparison.
+example [IsTopologicalGroup G] :
+    Nonempty ((SmoothRep.res A (⊤ : OpenSubgroup G).toSubgroup.subtype continuous_subtype_val ⋙
+      SmoothRep.cIndFunctor A (⊤ : OpenSubgroup G)) ≅ 𝟭 (SmoothRep A G)) := sorry
+
+-- Coinduction contains the delta function at zero on `ℤ_p`, which is not a smooth vector.
+example (p : ℕ) [Fact p.Prime] :
+    let ρ := _root_.Representation.coind (⊥ : Subgroup (Multiplicative ℤ_[p])).subtype
+      (_root_.Representation.trivial ℤ (⊥ : Subgroup (Multiplicative ℤ_[p])) ℤ)
+    Representation.smoothVectors ρ ≠ ⊤ := sorry
 
 end Induction
 
@@ -394,6 +591,11 @@ parabolic, `Hom_G(V, Ind_P^G infl σ) ≅ Hom_M(V_N, σ)` ([Cas95], Theorem 3.2.
 theorem SmoothRep.firstAdjointness [IsTopologicalGroup G] :
     Nonempty (SmoothRep.jacquetFunctor A L ⊣ SmoothRep.parabolicInduction A L) := sorry
 
+-- With trivial unipotent radical the Jacquet action is just the restricted Levi action.
+example [IsTopologicalGroup G] (hN : L.N = ⊥) (X : SmoothRep A G) :
+    Nonempty (_root_.Representation.Equiv ((SmoothRep.jacquetFunctor A L).obj X).obj.ρ
+      (X.obj.ρ.comp L.M.subtype)) := sorry
+
 end Jacquet
 
 /-! ## Layer SR.3a: admissibility of irreducible representations -/
@@ -407,6 +609,19 @@ variable {F : Type} [Field F] [TopologicalSpace F]
 /-- The rational points `𝐆(F)` of an affine group `Spec H` over `F`, with the point topology. -/
 abbrev Points (H : TauCeti.FiniteTypeCommHopfAlgCat.{0, 0} F) : Type :=
   WithConv ((H : Type) →ₐ[F] F)
+
+-- The trivial Hopf algebra has just one rational point.
+example [IsTopologicalRing F] :
+    Subsingleton (Points (TauCeti.FiniteTypeCommHopfAlgCat.of F F)) := sorry
+
+-- The multiplicative group has the usual topology on field units.
+example [IsTopologicalRing F] :
+    Nonempty (Points (TauCeti.FiniteTypeCommHopfAlgCat.of F (LaurentPolynomial F)) ≃ₜ Fˣ) := sorry
+
+-- The general linear coordinate Hopf algebra recovers the matrix-units topology.
+example [IsTopologicalRing F] :
+    Nonempty (Points (TauCeti.FiniteTypeCommHopfAlgCat.of F
+      (TauCeti.GeneralLinear.coordinateHopfAlgebra F 2)) ≃ₜ GL (Fin 2) F) := sorry
 
 variable {H : TauCeti.FiniteTypeCommHopfAlgCat.{0, 0} F}
 
@@ -552,6 +767,18 @@ example (a : W →* MulAut T) (d : W → T) (s x c : T) (hx : Pseudoroot a d s x
       rw [mul_one, mul_mul_mul_comm]; exact h1
     exact mul_left_cancel this
 
+-- Trivial action at q = 2 gives the pseudoroot 1/2 with square 1/4.
+example : Pseudoroot (1 : Unit →* MulAut ℚˣ) (fun _ => 1)
+    (Units.mk0 (1 / 4) (by norm_num)) (Units.mk0 (1 / 2) (by norm_num)) := sorry
+
+-- If the prescribed square is nontrivial, the identity cannot be a pseudoroot.
+example (a : W →* MulAut T) (d : W → T) (s : T) (hs : s ≠ 1) :
+    ¬ Pseudoroot a d s 1 := sorry
+
+-- Squaring is injective in characteristic two, so a pseudoroot is unique when it exists.
+example {k : Type*} [Field k] [CharP k 2] (a : W →* MulAut kˣ) (d : W → kˣ)
+    (s x y : kˣ) (hx : Pseudoroot a d s x) (hy : Pseudoroot a d s y) : x = y := sorry
+
 end Pseudoroot
 
 -- The sign of the twisted Weyl action, for `GL₂` with `q = 3`: the raw Satake transform of
@@ -617,6 +844,20 @@ example : SpinPolynomial (0 : ℤ) 1 2 3 = 1 - 3 * X := by
   push_cast
   ring
 
+-- At q = 2 the middle coefficient includes q³ + q.
+example : SpinPolynomial (2 : ℤ) 1 2 3 =
+    1 - 3 * X + 14 * X ^ 2 - 24 * X ^ 3 + 64 * X ^ 4 := by
+  simp only [SpinPolynomial, eq_intCast]
+  ring
+
+-- The constant term is one and scaling spin roots scales coefficient j by c^j.
+example (q T0 T1 T2 : A) : (SpinPolynomial q T0 T1 T2).coeff 0 = 1 := by
+  simp [SpinPolynomial]
+
+example (q T0 T1 T2 c : A) :
+    SpinPolynomial q (c ^ 2 * T0) (c ^ 2 * T1) (c * T2) =
+      (SpinPolynomial q T0 T1 T2).comp (C c * X) := sorry
+
 end Spin
 
 /-! ## Layer SR.5: integral local families for `GL_n` -/
@@ -668,6 +909,60 @@ theorem SmoothRep.nonempty_invariants_smoothProduct (A : Type u) [CommRing A] (G
         (SmoothRep.smoothProduct A G V)) ≃ₗ[A]
       ((j : J) → (SmoothRep.invariantsFunctor A G K.toSubgroup).obj (V j))) := sorry
 
+/-- Stability of an endomorphism `T` of a module ([DHKM1], §4, pp. 13–14; [Hel16], Definition 11.9,
+p. 58): for some `c ≥ 1`, `M = ker(T^c) ⊕ I` with `I` stable under `T` and `T` bijective on `I`. -/
+def StableOperator {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
+    (T : Module.End R M) : Prop :=
+  ∃ (c : ℕ) (I : Submodule R M), 0 < c ∧ IsCompl (LinearMap.ker (T ^ c)) I ∧
+    (∀ x ∈ I, T x ∈ I) ∧ ∀ y ∈ I, ∃! x : I, T x = y
+
+/-- A common positive stability exponent gives a stable coordinatewise product operator
+([DHKM1], the product statement following Corollary 4.6, p. 14). -/
+theorem StableOperator.pi_of_uniform {R J : Type*} [CommRing R] {M : J → Type*}
+    [∀ j, AddCommGroup (M j)] [∀ j, Module R (M j)] (T : ∀ j, Module.End R (M j))
+    (c : ℕ) (hc : 0 < c) (I : ∀ j, Submodule R (M j))
+    (hsplit : ∀ j, IsCompl (LinearMap.ker (T j ^ c)) (I j))
+    (hstable : ∀ j, ∀ x ∈ I j, T j x ∈ I j)
+    (hinvertible : ∀ j, ∀ y ∈ I j, ∃! x : I j, T j x = y) :
+    StableOperator (LinearMap.piMap T) := sorry
+
+-- An automorphism is stable with nilpotent part zero, a nilpotent operator with invertible part
+-- zero.
+example {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M] :
+    StableOperator (LinearMap.id : Module.End R M) := sorry
+
+example {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M] :
+    StableOperator (0 : Module.End R M) := sorry
+
+
+-- A one-factor smooth product is the original smooth object.
+example {A G : Type u} [CommRing A] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    (X : SmoothRep A G) :
+    Nonempty (SmoothRep.smoothProduct A G (fun _ : PUnit.{u + 1} => X) ≅ X) := sorry
+
+-- A smooth product of zero objects is zero.
+example {A G J : Type u} [CommRing A] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    (X : J → SmoothRep A G) (hX : ∀ j, Limits.IsZero (X j)) :
+    Limits.IsZero (SmoothRep.smoothProduct A G X) := sorry
+
+-- On a product of trivial actions every tuple is smooth and fixed.
+example {A G J : Type u} [CommRing A] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    (X : J → SmoothRep A G) (hX : ∀ j g v, (X j).obj.ρ g v = v) :
+    ∀ g v, (SmoothRep.smoothProduct A G X).obj.ρ g v = v := sorry
+
+-- A mixed nilpotent/invertible operator is stable on the direct sum.
+example {A M N : Type*} [CommRing A] [AddCommGroup M] [Module A M]
+    [AddCommGroup N] [Module A N] :
+    StableOperator (LinearMap.prodMap (0 : Module.End A M) (LinearMap.id : Module.End A N)) := sorry
+
+-- Nilpotent factors without a common exponent do not give a stable product.
+example :
+    let I : ℕ → Ideal (Polynomial ℚ) := fun j => Ideal.span {Polynomial.X ^ (j + 1)}
+    let M := fun j : ℕ => Polynomial ℚ ⧸ I j
+    let T : ∀ j, Module.End ℚ (M j) := fun j =>
+      LinearMap.mul ℚ (M j) (Ideal.Quotient.mk (I j) Polynomial.X)
+    (∀ j, StableOperator (T j)) ∧ ¬ StableOperator (LinearMap.piMap T) := sorry
+
 end IntegralInterfaces
 
 section Whittaker
@@ -684,6 +979,40 @@ example {A U V : Type*} [CommRing A] [Group U] [AddCommGroup V] [Module A V]
     WhittakerCoinvariants ρ 1 = _root_.Representation.Coinvariants ρ := by
   have h : (1 : U →* Aˣ)⁻¹ = 1 := by ext; simp
   rw [WhittakerCoinvariants, h, _root_.Representation.charTwist_one]
+
+-- For a trivial subgroup the quotient is the original module.
+example {A V : Type*} [CommRing A] [AddCommGroup V] [Module A V]
+    (ρ : _root_.Representation A Unit V) :
+    Function.Bijective (_root_.Representation.Coinvariants.mk
+      (_root_.Representation.charTwist (1 : Unit →* Aˣ)⁻¹ ρ)) := sorry
+
+-- The inverse twist acts by the inverse character value, rather than the character value.
+example :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    (_root_.Representation.charTwist χ⁻¹
+      (_root_.Representation.trivial ℚ (Multiplicative ℤ) ℚ)) (Multiplicative.ofAdd 1) 1 = 1 / 2 := by
+  norm_num [_root_.Representation.charTwist_apply_apply, zpowersHom]
+
+-- The ordinary regular coinvariants identify every basis class with one.
+example {A G : Type*} [CommRing A] [Group G] :
+    let ρ := _root_.Representation.ofMulAction A G G
+    ∃ e : _root_.Representation.Coinvariants ρ ≃ₗ[A] A,
+      ∀ g, e (_root_.Representation.Coinvariants.mk ρ (MonoidAlgebra.single g 1)) = 1 := sorry
+
+-- The ψ-character line has a Whittaker quotient of rank one.
+example {A U : Type*} [CommRing A] [Group U] (ψ : U →* Aˣ) :
+    Nonempty (WhittakerCoinvariants (_root_.Representation.ofLinearCharacter ψ) ψ ≃ₗ[A] A) := sorry
+
+-- A nontrivial sign character on the trivial integral line gives `ℤ/2`, not zero.
+example :
+    let ψ : (ZMod 6)ˣ →* ℤˣ :=
+      { toFun := fun g => if g = 1 then 1 else -1
+        map_one' := by simp
+        map_mul' := by sorry }
+    Nonempty (WhittakerCoinvariants (_root_.Representation.trivial ℤ (ZMod 6)ˣ ℤ) ψ ≃ₗ[ℤ] ZMod 2) ∧
+      _root_.Representation.Coinvariants.mk
+        (_root_.Representation.charTwist ψ⁻¹ (_root_.Representation.trivial ℤ (ZMod 6)ˣ ℤ)) 1 ≠ 0 :=
+  sorry
 
 -- On the trivial line a character value with `ψ(u) − 1` a unit kills the Whittaker quotient.
 example {A U : Type*} [CommRing A] [Group U] (ψ : U →* Aˣ) (u : U)
@@ -711,6 +1040,36 @@ def EssentiallyAIG (ρ : _root_.Representation k G V) (U : Subgroup G) (ψ : U �
       ((ρ.quotient S.toSubmodule fun g => S.apply_mem_toSubmodule g).comp U.subtype) ψ) ∧
     ∀ v : V, ∃ T : Subrepresentation ρ, v ∈ T.toSubmodule ∧
       IsFiniteLength (MonoidAlgebra k G) T.toRepresentation.asModule
+
+-- Absolute irreducibility excludes the zero representation and a trivial rank-two module.
+example : ¬ AbsolutelyIrreducible (_root_.Representation.trivial k G (Fin 0 → k)) := sorry
+
+example : ¬ AbsolutelyIrreducible (_root_.Representation.trivial k G (Fin 2 → k)) := sorry
+
+-- Genericity also excludes zero.
+example (U : Subgroup G) (ψ : U →* kˣ) :
+    ¬ IsGeneric (_root_.Representation.trivial k G (Fin 0 → k)) U ψ := sorry
+
+-- For the rational sign line the object-valued dual is nonzero, but equivariant Hom to the
+-- trivial line is zero.
+example :
+    let χ : (ZMod 6)ˣ →* ℚˣ :=
+      { toFun := fun g => if g = 1 then 1 else -1
+        map_one' := by simp
+        map_mul' := by sorry }
+    let ρ := _root_.Representation.ofLinearCharacter χ
+    Nontrivial (Module.Dual ℚ ℚ) ∧
+      Subsingleton (ρ.IntertwiningMap (_root_.Representation.trivial ℚ (ZMod 6)ˣ ℚ)) ∧
+      Module.finrank ℚ (_root_.Representation.invariants (_root_.Representation.dual ρ)) = 0 :=
+  sorry
+
+-- The direct sum of two trivial lines is not essentially AIG, even with trivial Whittaker data.
+example : ¬ EssentiallyAIG (_root_.Representation.trivial k G (Fin 2 → k)) ⊥ 1 := sorry
+
+-- An absolutely irreducible generic smooth representation is essentially AIG.
+example (ρ : _root_.Representation k G V) (U : Subgroup G) (ψ : U →* kˣ)
+    (hs : Representation.IsSmooth ρ) (hi : AbsolutelyIrreducible ρ) (hg : IsGeneric ρ U ψ) :
+    EssentiallyAIG ρ U ψ := sorry
 
 -- The trivial line is absolutely irreducible and generic for `U = ⊥`.
 example : AbsolutelyIrreducible (_root_.Representation.trivial k G k) := sorry
@@ -742,6 +1101,13 @@ def genericCharacter (n : ℕ) {F A : Type*} [Field F] [CommRing A]
 example {F A : Type*} [Field F] [CommRing A] (ψ : Multiplicative F →* Aˣ)
     (u : TauCeti.upperUnitriangularGroup (Fin 1) F) : genericCharacter 1 ψ u = 1 := by
   simp [genericCharacter]
+
+-- For `n = 2` the generic character is the additive character of the upper-right entry.
+example {F A : Type*} [Field F] [CommRing A] (ψ : Multiplicative F →* Aˣ) (x : F)
+    (u : TauCeti.upperUnitriangularGroup (Fin 2) F)
+    (hu : ((u : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![1, x; 0, 1]) :
+    genericCharacter 2 ψ u = ψ (Multiplicative.ofAdd x) := by
+  simp [genericCharacter, hu, Fin.sum_univ_succ]
 
 -- For `n = 3` the value at `[[1, a, b], [0, 1, c], [0, 0, 1]]` is `ψ(a + c)`, whatever `b` is.
 example {F A : Type*} [Field F] [CommRing A] (ψ : Multiplicative F →* Aˣ) (a b c : F)
@@ -776,6 +1142,15 @@ def CoWhittaker (ρ : _root_.Representation A G V) (U : Subgroup G) (ψ : U →*
 
 -- The trivial line with `U = ⊥` and `ψ = 1` is co-Whittaker over every commutative ring.
 example : CoWhittaker (_root_.Representation.trivial A G A) ⊥ 1 := sorry
+
+-- Over the zero coefficient ring the zero representation satisfies the relative predicate.
+example [Subsingleton A] : CoWhittaker (_root_.Representation.trivial A G (Fin 0 → A)) ⊥ 1 := sorry
+
+-- Over a nonzero ring the zero derivative prevents co-Whittaker rank one.
+example [Nontrivial A] : ¬ CoWhittaker (_root_.Representation.trivial A G (Fin 0 → A)) ⊥ 1 := sorry
+
+-- Two trivial co-Whittaker lines have a derivative of rank two.
+example [Nontrivial A] : ¬ CoWhittaker (_root_.Representation.trivial A G (Fin 2 → A)) ⊥ 1 := sorry
 
 end CoWhittaker
 
@@ -815,6 +1190,30 @@ def CrossedCocycle.gauge (α : Γ →* MulAut H) (h : H) (c : CrossedCocycle α)
   cocycle γ δ := by
     simp only [c.cocycle, map_mul, MulAut.mul_apply, map_inv, mul_assoc, inv_mul_cancel_left]
 
+-- A crossed cocycle takes the group identity to the coefficient identity.
+example (α : Γ →* MulAut H) (c : CrossedCocycle α) : c.value 1 = 1 := sorry
+
+-- Gauging by h and then its inverse restores the cocycle.
+example (α : Γ →* MulAut H) (h : H) (c : CrossedCocycle α) (γ : Γ) :
+    (CrossedCocycle.gauge α h⁻¹ (CrossedCocycle.gauge α h c)).value γ = c.value γ := by
+  simp [CrossedCocycle.gauge, mul_assoc]
+
+-- For trivial coefficient action the cocycle identity is the homomorphism identity.
+example (c : CrossedCocycle (1 : Γ →* MulAut H)) (γ δ : Γ) :
+    c.value (γ * δ) = c.value γ * c.value δ := by simpa using c.cocycle γ δ
+
+-- Gauge by one is the identity, and successive gauges multiply in the specified order.
+example (α : Γ →* MulAut H) (c : CrossedCocycle α) (γ : Γ) :
+    (CrossedCocycle.gauge α 1 c).value γ = c.value γ := by simp [CrossedCocycle.gauge]
+
+example (α : Γ →* MulAut H) (h k : H) (c : CrossedCocycle α) (γ : Γ) :
+    (CrossedCocycle.gauge α h (CrossedCocycle.gauge α k c)).value γ =
+      (CrossedCocycle.gauge α (h * k) c).value γ := by
+  simp [CrossedCocycle.gauge, mul_assoc]
+
+-- A cocycle with trivial target has only the identity value.
+example (α : Γ →* MulAut Unit) (c : CrossedCocycle α) (γ : Γ) : c.value γ = 1 := rfl
+
 end Cocycles
 
 -- For `ℤ` acting on `ℚˣ` by inversion at the generator, gauging the identity cocycle by `2`
@@ -827,30 +1226,6 @@ example :
   simp [CrossedCocycle.gauge, α]
   norm_num
 
-/-- Stability of an endomorphism `T` of a module ([DHKM1], §4, pp. 13–14; [Hel16], Definition 11.9,
-p. 58): for some `c ≥ 1`, `M = ker(T^c) ⊕ I` with `I` stable under `T` and `T` bijective on `I`. -/
-def StableOperator {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
-    (T : Module.End R M) : Prop :=
-  ∃ (c : ℕ) (I : Submodule R M), 0 < c ∧ IsCompl (LinearMap.ker (T ^ c)) I ∧
-    (∀ x ∈ I, T x ∈ I) ∧ ∀ y ∈ I, ∃! x : I, T x = y
-
-/-- A common positive stability exponent gives a stable coordinatewise product operator
-([DHKM1], the product statement following Corollary 4.6, p. 14). -/
-theorem StableOperator.pi_of_uniform {R J : Type*} [CommRing R] {M : J → Type*}
-    [∀ j, AddCommGroup (M j)] [∀ j, Module R (M j)] (T : ∀ j, Module.End R (M j))
-    (c : ℕ) (hc : 0 < c) (I : ∀ j, Submodule R (M j))
-    (hsplit : ∀ j, IsCompl (LinearMap.ker (T j ^ c)) (I j))
-    (hstable : ∀ j, ∀ x ∈ I j, T j x ∈ I j)
-    (hinvertible : ∀ j, ∀ y ∈ I j, ∃! x : I j, T j x = y) :
-    StableOperator (LinearMap.piMap T) := sorry
-
--- An automorphism is stable with nilpotent part zero, a nilpotent operator with invertible part
--- zero.
-example {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M] :
-    StableOperator (LinearMap.id : Module.End R M) := sorry
-
-example {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M] :
-    StableOperator (0 : Module.End R M) := sorry
 
 end
 
