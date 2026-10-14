@@ -8,10 +8,11 @@ This roadmap owns the quasicategorical comparisons for enhanced sheaves and the 
 
 - quasicategorical foundations beyond Mathlib's: joins, slices and right mapping spaces, categorical equivalences detected on mapping spaces, functor quasicategories, cores, Dwyer–Kan localizations, limits and colimits, final maps, stability, Cat∞ and Spaces, coCartesian fibrations and straightening, cardinal filteredness, accessibility and presentability (Layer E0);
 - the dg nerve and its comparison with Mathlib's cochain shift, mapping cone and pretriangulated structure (Layer E0);
-- the quasicategorical realization of the supplied enhanced category D∞(O), its dg-nerve, presentability and tensor–Hom comparisons, general derived ringed pullback and pushforward, coefficient change, the cochain reindexing of supplied Koszul complexes, the global dimension of regular rings and Kunz's theorem, the algebra of perfect 𝔽_p-algebras, the enhanced quasicoherent derived sheaves and derived base change on perfect schemes (Layer E1);
+- enhanced ringed-site module sheaves, K-injective and K-flat replacements, tensor–Hom, coherent derived limits, module completion comparisons and exact functor calculus (Sections 0.1–0.4);
+- the quasicategorical realization of this enhanced category D∞(O), its dg-nerve, presentability and tensor–Hom comparisons, general derived ringed pullback and pushforward, coefficient change, the cochain reindexing of supplied Koszul complexes, the global dimension of regular rings and Kunz's theorem, the algebra of perfect 𝔽_p-algebras, the enhanced quasicoherent derived sheaves and derived base change on perfect schemes (Layer E1);
 - Kan extensions, finality, representability, the adjoint functor theorem, localizations, limits of presentable categories, compact generation, ringed diagrams and coherent mates (Layer E3);
 - derived limits of towers, pro-zero towers and multiplicative derived-limit filtrations (Layer E2:towers), the inverse-limit theory of replete topoi (slices and covers, relative epimorphisms, countable products, the amplitude of Rlim, the Milnor sequence and pro-zero errors), Postnikov completion and convergence, exact sections over projective objects and locally weakly contractible topoi, hypercover descent, sheaves of spaces, and h-descent on perfect schemes with the descendability results for schemes that it needs (Layer E2);
-- derived completion of sheaves, the completed tensor product, Koszul models, regular ideals and coefficient-system reconstruction (Layer E4); its point-topos case is compared with the module completion supplied by DerivedDeRhamCohomology §§1.2–1.5;
+- derived completion of sheaves, the completed tensor product, Koszul models, regular ideals and coefficient-system reconstruction (Layer E4); its point-topos case is compared with the module completion supplied by DerivedModuleAlgebra §§1.2–1.5;
 - symmetric monoidal ∞-categories, operads, algebras, modules, monoidal localizations, idempotent completion, Verdier quotients and Barr–Beck–Lurie (Layer E5:abstract); presentable categories, Ind, spectra, the tensor product of presentable categories, group actions, dualizable and rigid categories (Layer E5:presentability); descendable algebras and module descent (Layer E5:descent); animation, animated rings, Frobenius and Witt vectors on animated 𝔽_p-algebras (Layer E5:animation); the coherent animated refinement of the supplied cotangent complex and derived powers, and the comparison of animated rings with commutative algebra objects (Layer E5:cotangent-export); Eilenberg–Mac Lane rings and the module comparison (Layer E5:spectra-comparison).
 
 The boundaries are as follows.
@@ -25,9 +26,9 @@ The boundaries are as follows.
 - `TauCetiRoadmap.SchemeAndStackFoundations` owns schemes and quasicoherent modules, perfect schemes, the colimit perfection and perfectly finitely presented and perfectly proper maps (Layer 0, §§0.24–0.25); higher direct images on sites and the Leray and Čech-to-cohomology spectral sequences (§§2.1–2.2), cohomology commuting with filtered colimits (§2.5), quasicoherent higher direct images with flat base change (§2.6, `qcoh_higherDirectImages`); depth and Cohen–Macaulay modules (§0.17); and generic flatness, flattening by blowing up and regular schemes (§§4.12–4.13). Its §2.17 owns the repleteness predicate `IsReplete` (BS-proet Definition 3.1.1) with `IsReplete.lim_epi`, `IsReplete.derived_limits` (lim = Rlim for a tower of abelian sheaves with epimorphic transitions, BS-proet Proposition 3.1.10), `IsReplete.derivedCategory_leftComplete` (K ≅ Rlim τ^{≥−n} K for every K in Mathlib's `DerivedCategory`, BS-proet Proposition 3.3.3), `isReplete_of_locallyWeaklyContractible` (BS-proet Proposition 3.2.3(1)) and the pro-étale case of compact generation by weakly contractible objects. Its §2.18 owns `DQCoh X` inside Mathlib's `DerivedCategory X.Modules`, with `DQCoh.affineEquiv` and `DQCoh.restrict`, the derived tensor product, internal Hom, pullback and pushforward of a scheme on that triangulated category, and Tor-independent base change (`torIndependent_baseChange`). All of these are used here unchanged; the targets of this roadmap in the same direction are their refinements to the enhancement D∞ on arbitrary small ringed sites and topoi, and the results those sections do not state.
 - `TauCetiRoadmap.JacobianChallenge` (Layer C) supplies proper-flat-finitely-presented coherent pushforward. Section E2.8 owns `properHigherDirectImage_coherent` without flatness (Stacks 02O5).
 - The geometric roadmaps verify the hypotheses of the abstract theorems: `DiamondEtaleCohomology` proves that the v- and quasi-pro-étale sites of diamonds are locally weakly contractible, hence replete, and exhibits the accessibility and colimit closure of its étale subcategories; `DiamondSixOperations` builds the six operations from the diagram categories, mates and Beck–Chevalley transformations of Layer E3; `AdicCoefficientsAndComparisons` applies coefficient-system reconstruction to étale objects; `VStackSheavesAndLisseCategories`, `PerfectoidQuotients`, `EtaleDualityAndPerverseSheaves`, `PrismaticCohomology`, `AInfCohomology` and `CrystallineCohomology` consume the enhancement, descent and completion.
-- `DerivedDeRhamCohomology` §§0.1–0.4 supplies module K-flat models, `DerivedDeRham.derivedTensor` and `Algebra.CotangentComplex`; §§0.5–0.13 supplies its ordinary deformation and functorial properties; §§0.14–0.17 supplies `DerivedDeRham.derivedExteriorPower` and integral décalage; §§1.2–1.5 supplies module completeness, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.koszulCompletionTower` and regular-quotient completion. E4 extends these to ringed topoi; E5:cotangent-export gives their coherent animated refinements and compares their homotopy-category shadows with these suppliers.
-- `ClassicalAdicEtaleCohomology` §§0.1–0.4 supplies `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits` and `ClassicalDerived.functorCoherence` on essentially small ringed sites. Additive enhancement and K-injectives allow noncommutative rings; tensor products require commutativity. E1 gives explicit quasicategorical and dg-nerve comparison adapters for these objects. Its §0.3 `ClassicalDerived.derivedCompletion` is the ℓ-adic module specialization over ℤ of DerivedDeRhamCohomology §§1.2–1.5; E4 compares both with the sheaf extension.
-- `IntegralHeckeAndGaloisDeterminants` §6.4 supplies the linear-functional `koszulComplex φ`, its maps, tensor formula, multiplication null-homotopies and finite weakly regular resolutions. E1.5 owns only cochain reindexing and realization in the enhancement.
+- `DerivedModuleAlgebra` §§0.1–0.4 supplies module K-flat models, `DerivedDeRham.derivedTensor` and `Algebra.CotangentComplex`; §§0.5–0.13 supplies its ordinary deformation and functorial properties; §§0.14–0.17 supplies `DerivedDeRham.derivedExteriorPower` and integral décalage; §§1.2–1.5 supplies module completeness, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.koszulCompletionTower` and regular-quotient completion. E4 extends these to ringed topoi; E5:cotangent-export gives their coherent animated refinements and compares their homotopy-category shadows with these suppliers.
+- Sections 0.1–0.4 supply `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits` and `ClassicalDerived.functorCoherence` on essentially small ringed sites. Additive enhancement and K-injectives allow noncommutative rings; tensor products require commutativity. E1 gives explicit quasicategorical and dg-nerve comparison adapters for these objects. Section 0.3 `ClassicalDerived.derivedCompletion` is the ℓ-adic module specialization over ℤ of DerivedModuleAlgebra §§1.2–1.5; E4 compares both with the sheaf extension.
+- `DerivedModuleAlgebra` §6.4 supplies the linear-functional `koszulComplex φ`, its maps, tensor formula, multiplication null-homotopies and finite weakly regular resolutions. E1.5 owns only cochain reindexing and realization in the enhancement.
 - Concrete point-set models of spectra (symmetric spectra and their stable model structures) and their comparison with the ∞-category Sp of Layer E5:presentability belong to `StableHomotopyKTheory`, which applies `monoidalModelLocalization` of Layer E5:abstract; this roadmap uses only Sp.
 - `SchemeKTheoryOperations` and `DeformationAndDerivedPatchingAlgebra` use the enhancement of Layer E1 and the completion of Layer E4 rather than building their own.
 
@@ -142,22 +143,23 @@ These are section-level mathematical suppliers. The Lean imports in [Suggested.l
 | Supplier sections | Supplied contract | Consumers here |
 | --- | --- | --- |
 | `DiamondsAndVStacks` D0.17–D0.18 | Quasicompact and quasiseparated objects and morphisms of a topos, algebraic topoi, and filtered-colimit cohomology on their qcqs objects | E2.5–E2.6 |
-| `ClassicalAdicEtaleCohomology` §§0.1–0.4 | Ringed-site enhancement, K-injective and K-flat replacements, tensor–Hom, coherent derived limits and exact functor calculus; §0.3 also supplies ℓ-adic module completion over ℤ | E1 and E3 comparisons, E2:towers, E5:abstract tensor comparison, E4 specialization |
-| `DerivedDeRhamCohomology` §0.2, §§0.4–0.17, §§1.1–1.5 | Module K-flat tensor models, ordinary cotangent and power functors with their functorial laws, module derived limits, completeness, Koszul completion towers and regular-quotient models | E1.2, E2:towers, E4, E5:cotangent-export |
-| `IntegralHeckeAndGaloisDeterminants` §6.4 | Linear-functional Koszul complexes, maps, signed tensor formulas, multiplication null-homotopies and finite weakly regular resolutions | E1.5–E1.6 and E4 |
+| This roadmap §§0.1–0.4 | Ringed-site enhancement, K-injective and K-flat replacements, tensor–Hom, coherent derived limits and exact functor calculus; §0.3 also supplies ℓ-adic module completion over ℤ | E1 and E3 comparisons, E2:towers, E5:abstract tensor comparison, E4 specialization |
+| `DerivedModuleAlgebra` §§0.1–0.17, §§1.1–1.5, §R02.1.1 | Module K-flat tensor models, ordinary cotangent and power functors with their functorial laws, elementary towers and ML/Milnor, module derived limits, completeness, Koszul completion towers and regular-quotient models | §§0.1–0.3, E1.2, E2:towers, E4, E5:cotangent-export |
+| `DerivedModuleAlgebra` §6.4 | Linear-functional Koszul complexes, maps, signed tensor formulas, multiplication null-homotopies and finite weakly regular resolutions | E1.5–E1.6 and E4 |
 | `PerfectoidSpaces` P0.1–P0.2, P0.5–P0.15, P7.16 | Basic and compatible-root setups, almost modules and algebras, almost projectivity and finite étale algebra; regularity of finite-variable power-series rings over fields | E1.6–E1.7 |
 
 PerfectoidSpaces is also a supplier of DiamondsAndVStacks; its algebra contracts in this table are direct inputs here.
 
 ## How to read the build
 
-Specification merge or bundle order follows these section contracts. The ordinary Koszul, K-flat, cotangent, power and module-completion models are built in their supplier sections; E0's generic quasicategorical foundations are built independently. These inputs and ClassicalAdicEtaleCohomology §§0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and DiamondsAndVStacks D0.17–D0.18 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; reciprocal section references do not require a whole-roadmap ordering.
+The mathematical build order follows these section contracts. The ordinary Koszul, K-flat, cotangent, power and module-completion models are built in their supplier sections; E0's generic quasicategorical foundations are built independently. These inputs and the ringed-site constructions of Sections 0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and DiamondsAndVStacks D0.17–D0.18 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; each external supplier precedes this roadmap in the dependency order.
 
-The layer labels are identifiers that other roadmaps cite; the build order differs from their numbering. E0 builds quasicategorical foundations, Yoneda and presheaf presentations. E1 compares the supplied sheaf enhancement with the dg nerve and supplies the additional commutative algebra. E3 builds Kan extensions, adjoints and localizations. The additive part of E2:towers then builds derived limits and pro-zero theory; E5:abstract supplies the monoidal carriers before the multiplicative part of E2:towers. E5:presentability and E5:descent use these constructions. Build E5:spectra-comparison before E5:animation.4, whose animated module comparisons use it. E2 then uses descendability and animation for perfect h-descent; E4 extends module completion to replete topoi. E5:cotangent-export and the final compatibility comparisons use these earlier layers.
+The layer labels are identifiers that other roadmaps cite; the build order differs from their numbering. E0 builds quasicategorical foundations, Yoneda and presheaf presentations. Sections 0.1–0.4 construct enhanced ringed-site sheaves after E0. E1 compares this sheaf enhancement with the dg nerve and supplies the additional commutative algebra. E3 builds Kan extensions, adjoints and localizations. The additive part of E2:towers then builds derived limits and pro-zero theory; E5:abstract supplies the monoidal carriers before the multiplicative part of E2:towers. E5:presentability and E5:descent use these constructions. Build E5:spectra-comparison before E5:animation.4, whose animated module comparisons use it. E2 then uses descendability and animation for perfect h-descent; E4 extends module completion to replete topoi. E5:cotangent-export and the final compatibility comparisons use these earlier layers.
 
 | Layer | Construction | Principal outputs |
 | --- | --- | --- |
 | [E0](#layer-e0-a-concrete-enhancement-and-higher-category-operations) | Quasicategorical foundations and the dg nerve | Mapping spaces and equivalences, Dwyer–Kan localization, limits and final maps, stability, Cat∞ and Spaces, the dg nerve and its sign comparison, straightening, presentability |
+| [0.1–0.4](#layer-0-ringed-site-enhancement-and-derived-functors) | Ringed-site foundations | Enhanced module sheaves, replacements, tensor–Hom, coherent limits, module completion comparison and exact functor coherence |
 | [E1](#layer-e1-unbounded-derived-sheaves-and-presentability) | The enhanced derived category D∞(O) | Supplied replacement, tensor–Hom and dg comparisons, Lf^∗ ⊣ Rf_∗, Koszul reindexing, perfect 𝔽_p-algebras, Dqc and perfect base change |
 | [E3](#layer-e3-coherent-diagrams-kan-extensions-and-adjoints) | Kan extensions and adjoints | Relative left Kan extension, representability, the adjoint functor theorem, localizations, presentable limits, compact generation, ringed diagrams, mates |
 | [E2:towers, additive](#layer-e2towers-coherent-towers-and-pro-towers) | Towers | Rlim = fib(1 − s), ordinary and stable pro-zero towers |
@@ -586,9 +588,88 @@ Provide `IsKappaCompact`, `IsKappaAccessible`, `IsAccessible`, `IsAccessibleFunc
 
 Mathlib (simplicial sets, quasicategories, Kan complexes, the homotopy bicategory of quasicategories, the simplicial nerve, Dold–Kan, pretriangulated categories and shifts); `TauCetiRoadmap.DGAInfinity` Layers 0 and 1. No other layer of this roadmap.
 
+## Layer 0: Ringed-site enhancement and derived functors
+
+The generic quasicategorical foundations of E0 precede these ringed-site constructions. Sections 0.1–0.2 are joint: replacements are constructed in complexes before localization. Sections 0.3–0.4 then give the coherent operations used in E1 and E3.
+
+### 0.1 Enhanced derived sheaf categories
+
+**Enhanced module sheaves.** Provide `ClassicalDerived.enhancedCategory` for an essentially small site C and a sheaf of rings R: the stable derived enhancement of the Grothendieck abelian category Mod(C,R), obtained from complexes by inverting quasi-isomorphisms. Construct it through the dg category of K-injective complexes and its dg nerve, with its homotopy category identified with Mathlib's `DerivedCategory`. Provide shifts, cones, mapping complexes, the standard cohomological t-structure and its D⁺ and Dᵇ subcategories. Prove presentability and compatibility of filtered colimits with cohomology. For a commutative coefficient ring Λ, this specializes to Sh(C,Λ); an arbitrary coefficient ring is allowed for the additive enhancement. Sites and the small skeleton are inputs, not new geometric sites. (Lurie, *Higher Algebra*, §1.3.5, Definition 1.3.5.8 and Propositions 1.3.5.9 and 1.3.5.21; Stacks, Injectives, §19.12.)
+
+**Checks.**
+
+- On the one-object point site, the homotopy category is D(R-Mod).
+- A sheaf concentrated in degree zero has that sheaf as H⁰ and zero other cohomology; its shift obeys the standing cohomological convention.
+- A quasi-isomorphism gives an equivalence of enhanced objects; an acyclic complex gives the zero object.
+
+*Needs:* Mathlib's sheaf, Grothendieck abelian and derived-category APIs; Section 0.2 for K-injectives; E0.3 (`IsDwyerKanLocalization`), E0.4 (`IsStable`, enhanced limits and colimits), E0.6 (`dgNerve`, `dgNerve_quasicategory`, `dgNerve_homotopyCategoryIso`, `dgNerve_rightMappingSpaceIso`, `dgNerve_shift_cone_comparison`) and E0.8 (`IsPresentable`, accessibility and cardinal conventions). These generic foundations precede the ringed-site construction here; its quasicategorical realization and presentability comparisons in E1.3 follow this construction. Sections 0.1–0.2 are joint: replacements are constructed in complexes before the localization.
+
+### 0.2 Replacements on ringed sites
+
+**K-injective and K-flat replacements.** Provide `ClassicalDerived.replacements`: on every essentially small ringed site (C,R), every complex has a functorial quasi-isomorphism into a K-injective complex and a quasi-isomorphism from a K-flat complex with flat terms. A bounded-below complex of injectives is K-injective. Define the K-flat condition using acyclicity after tensoring with every acyclic complex, and prove independence of choices and compatibility with restriction to slices. Use Mathlib's `CochainComplex.IsKInjective` wherever available. For tensor products R is commutative; the K-injective assertion also applies to arbitrary sheaves of rings. (Stacks, Theorem 19.12.6 and Cohomology on Sites, §21.17 *Flat resolutions*, Lemma 21.17.11, and §21.19 *Cohomology of unbounded complexes*.)
+
+**Checks.**
+
+- A bounded-below injective resolution computes the same RΓ as the replacement of an unbounded complex restricted to D⁺.
+- A bounded complex of flat sheaves is K-flat and needs no replacement to compute a derived tensor product.
+- An acyclic input has acyclic replacement, so both replacement constructions preserve the zero derived object.
+
+*Needs:* Mathlib's complexes and Grothendieck abelian APIs; the small ringed site. This construction precedes the enhanced category of Section 0.1.
+
+### 0.3 Tensor, internal Hom and derived limits
+
+**Derived tensor and internal Hom.** For a commutative R on C, provide `ClassicalDerived.tensorHom`: K-flat replacement defines ⊗ᴸ_R and K-injective replacement defines Rℋom_R. Construct their tensor–Hom adjunction, unit R, associativity, symmetry and the Koszul sign on shifts, with coherent identifications in the enhancement. Derived tensor preserves colimits in either variable. Define finite Tor amplitude by a fixed interval controlling tensor products with all module sheaves in degree zero; it is a hypothesis when boundedness of tensor or Hom is used. (Stacks, Cohomology on Sites, §§21.17–21.18 and §21.35 *Internal hom in the derived category*; Lurie, *Higher Algebra*, §4.1.3 and §7.1.2.)
+
+**Checks.**
+
+- R⊗ᴸK=K and Rℋom(R,K)=K.
+- Over R=Z, (Z/n)⊗ᴸ(Z/n) has Z/n in degrees −1 and 0 for n>1; ordinary tensor alone misses a cohomology group.
+- Interchanging homogeneous factors of degrees i and j gives (−1)^(ij), including the minus sign for two degree-one factors.
+
+**Derived limits and module comparison.** Provide `ClassicalDerived.inverseLimits` for small coherent diagrams in the enhanced category of an essentially small ringed site, including structured countable towers, derived products and Rlim K_i=fib(∏ᴿK_i→∏ᴿK_i), where the arrow is 1 minus transition. Prove invariance under initial reindexing and functoriality for open-exhaustion restriction maps. Fix universes and the small skeleton before forming limits. On the point site with coefficients in a commutative ring A, import `DerivedDeRham.derivedLimit` from `DerivedModuleAlgebra`, §1.1, and the underlying `CompactCoefficients.Tower` shift, lim, lim¹ and ML theory from `DerivedModuleAlgebra`, §R02.1.1. The ML predicate is Mathlib's `CategoryTheory.Functor.IsMittagLeffler` on the underlying set-valued tower, with the supplier's eventual-image characterization. These are the ordinary module theory used here.
+
+Provide `ClassicalDerived.inverseLimits.moduleComparison`: for a commutative ring A and a strict tower of A-module complexes, its enhanced limit, transported to Mathlib's `DerivedCategory`, is canonically isomorphic to the supplied module derived limit, naturally in the derived category of towers. Identify the projections, transition maps, fibre triangle and all maps of the supplied A-linear Milnor sequence 0→lim¹ H^(r−1)(K_i)→H^r(Rlim K_i)→lim H^r(K_i)→0. Retain its lim¹ term unless the cohomology tower satisfies ML; degreewise surjectivity of complexes alone does not impose ML on cohomology. The comparisons respect finite products and actions by a fixed group through compatible A-linear tower maps. For sheaves retain derived products; module ML vanishing is not transferred by a stalkwise-surjectivity argument without product acyclicity. (Stacks, Derived Categories, §13.34 *Derived limits*, tag 08TB, and More on Algebra, Lemmas 15.88.1 and 15.88.10, tags 07KW and 07KY, and Lemma 15.89.1, tag 091D; Lurie, *Higher Algebra*, §1.1.4; Bhatt–Scholze, *The pro-étale topology for schemes*, §§3 and 5.)
+
+**Checks.**
+
+- A constant identity tower has limit its constant object; the module comparison identifies its projections with the supplied diagonal maps.
+- For a prime ℓ, the surjective tower Z/ℓ^(i+1) on a point has lim¹=0 and inverse limit Z_ℓ in degree zero, with the same reduction projections on both sides.
+- For a prime ℓ and K_i=[Z→Z/ℓ^(i+1)] in degrees 0,1 with identity/reduction transitions, every transition is degreewise surjective but H⁰(K_i)=ℓ^(i+1)Z is not ML. The comparison identifies the supplied Milnor injection lim¹ H⁰(K_i)≅Z_ℓ/Z with H¹(Rlim K_i), although H¹(K_i)=0 for every i.
+- Derived reduction (Z/ℓ)⊗ᴸ_(Z/ℓ²)(Z/ℓ), for a prime ℓ, has nonzero Tor₁ in degree −1. It is not an ordinary tensor product and has no asserted finite Tor amplitude.
+
+**Derived completion and reduction recovery.** For a prime ℓ and K∈D(Z-Mod), use `ClassicalDerived.derivedCompletion` for the specialization of `DerivedDeRham.derivedCompletion` and `DerivedDeRham.completionUnit` at A=Z and I=(ℓ), with its finite-generation witness. The predicate is the supplied `DerivedDeRham.derivedCompleteness`, equivalently RHom_Z(Z[1/ℓ],K)=0. The regular one-element sequence (ℓ) allows the supplier's ordinary-quotient comparison: K^∧_ℓ=Rlim_(n≥1)(K⊗ᴸ_Z Z/ℓⁿ). Its idempotence, reduction recovery and conservativity modulo ℓ are specializations of the supplied reflector and derived Nakayama theorems, including their units.
+
+Lift this construction to the point-site enhancement and provide `ClassicalDerived.derivedCompletion.moduleComparison`. Write q for the homotopy-category equivalence with D(Z-Mod), Ĉ for enhanced completion and Λ_(ℓ) for the supplied module reflector. Require a natural isomorphism α_K:q(ĈK)≅Λ_(ℓ)(qK) with α_K∘q(η_K)=`DerivedDeRham.completionUnit` at qK. Identify the completeness predicates: the enhanced unit is an equivalence exactly when qK satisfies the supplied predicate. Compare the coherent quotient towers through `ClassicalDerived.inverseLimits.moduleComparison`, identifying their finite-level projections, reduction-recovery maps and transitions, and the Milnor injections and edge maps. Require equivariance for compatible actions of a fixed group, and finite-product compatibility.
+
+If P is a perfect Z-complex, prove P⊗ᴸRlim K_n≅Rlim(P⊗ᴸK_n), compatibly with the module limit comparison; a finite-projective representative supplies the interchange. For derived-complete K,L, their completed tensor is (K⊗ᴸ_Z L)^∧_ℓ, recovered as Rlim_n((K⊗ᴸ_Z Z/ℓⁿ)⊗ᴸ_(Z/ℓⁿ)(L⊗ᴸ_Z Z/ℓⁿ)). The completion comparison identifies this tensor, its unit-induced map and its reductions with the same construction from the supplied module reflector and tensor product. Completeness alone does not assert that ordinary tensor commutes with inverse limits.
+
+For sheaves use the derived products of `ClassicalDerived.inverseLimits`. E4.1–E4.2 and E4.4–E4.5 supply the extension to replete ringed topoi: local derived completeness, the completion reflector with unit, Koszul towers, regular-ideal quotient comparison, completed tensor and coefficient reconstruction on their stated domains. On the point topos these refine the module comparisons here, including predicates, units, reductions and completed tensor; on ringed slices use its restriction comparisons. Further tensor interchange or restriction to bounded categories carries its proved interchange hypotheses and uniform cohomological and Tor bounds. (Stacks, More on Algebra, *Derived Completion*, tag 091N, especially Lemmas 15.93.10, 15.93.18 and 15.93.20, tags 091V, 0920 and 0G1U, and Lemma 15.95.2, tag 0923; Bhatt–Scholze, *The pro-étale topology for schemes*, §3.4–§3.5.)
+
+**Checks.**
+
+- Z completes to Z_ℓ; the comparison identifies the unit Z→Z_ℓ with the supplied completion unit and all quotient projections. The derived-complete module Z_ℓ is recovered from its Z/ℓⁿ reductions.
+- Z/ℓ is derived complete. Its derived reduction over Z has a Tor term in degree −1 as well as its degree-zero value; the comparison preserves both terms and their transition maps. Recovery uses the full complexes.
+- A derived-complete object with zero reduction modulo ℓ is zero; Z[1/ℓ] is nonzero with zero reductions and is not derived complete.
+
+*Needs:* Sections 0.1–0.2 and the tensor–Hom construction of Section 0.3; Mathlib's `ModuleCat`, tensor, Hom, `DerivedCategory` and small limits. `DerivedModuleAlgebra`, §R02.1.1, supplies elementary tower algebra and ML/Milnor; `DerivedModuleAlgebra`, §§1.1–1.5, supplies the ordinary module adapters, completeness predicate, reflector, unit and quotient-tower comparison. These module contracts precede the enhanced comparisons here. The replete-topos completion refinements in E4 follow this module comparison. Perfectness or uniform Tor bounds for interchange are carried in each application.
+
+### 0.4 Coherent derived functors
+
+**Enhanced functor calculus.** Provide `ClassicalDerived.functorCoherence`: an exact inverse-image functor of module sheaves and its right adjoint induce an enhanced adjunction f*⊣Rf*, compatible with composition and with Mathlib's bounded-below right derived functor. Construct base-change and projection transformations by the unit and counit, prove identity and composition coherence, and enhance exact extension by zero on slices. A transformation is an equivalence only after its geometric hypotheses have been proved. For a proper-support functor on analytic sites, give its enhanced lift under explicit finite cohomological amplitude, proper étale exchange, projection and colimit hypotheses. Its application requires proofs of these geometric hypotheses. (Stacks, Cohomology on Sites, §21.19, *Cohomology of unbounded complexes*, and §21.18, *Derived pullback*; Lurie, *Higher Algebra*, §1.3.4.)
+
+For small étale sites, the underlying abelian D⁺ construction and Leray are `SchemeAndStackFoundations`, §§2.1–2.2 (`Sheaf.derivedPushforward`, `Sheaf.higherDirectImage`, `leray_spectral_sequence`). Provide `ClassicalDerived.functorCoherence.coefficientComparison` identifying the module enhancement after forgetting coefficients with those functors and their constant-sheaf cohomology pullback. Construct coherent derived coefficient-change transformations, including reductions, with shifts, triangles, tensor and finite group actions. In the square X′→X over Y′→Y the canonical exchange has direction g*Rf*K→Rf′*g′*K and agrees on H⁰ of sheaves with ordinary exchange. These constructions need neither invertibility of coefficient orders nor Noetherian schemes. Scalar-extension or exchange equivalences require their respective hypotheses; proper, smooth and constructible lower-shriek exchange equivalences require the corresponding geometric base-change and Tor hypotheses in each application.
+
+**Checks.**
+
+- For the identity site morphism, the enhanced adjunction and exchange map are identities.
+- On D⁺, K-injective direct image agrees with `Functor.rightDerivedFunctorPlus`.
+- Two Cartesian squares give the same exchange transformation as their outer rectangle, without assuming any of the maps is invertible.
+
+*Needs:* Sections 0.1–0.3; the site inverse-image/direct-image adjunction in each application; `SchemeAndStackFoundations`, §§2.1–2.2 for the underlying abelian D⁺ comparison and Leray; the finite amplitude, proper étale exchange, projection and colimit hypotheses only for the conditional enhanced proper-support export.
+
 ## Layer E1: Unbounded derived sheaves and presentability
 
-This layer gives explicit quasicategorical comparisons for the enhanced derived category, replacements, tensor–Hom and exact functor coherence supplied by ClassicalAdicEtaleCohomology §§0.1–0.4. It adds general derived ringed pullback, coefficient change and the action of finite-cell coefficients, cochain realization of the Koszul complex supplied by IntegralHeckeAndGaloisDeterminants §6.4, and the commutative algebra and perfect-scheme comparisons needed for h-descent. A small ringed site has a sheaf of rings O and uses Mathlib's `SheafOfModules O` and its Grothendieck abelian instance. Additive comparisons allow noncommutative O; tensor and commutative algebra statements assume O commutative.
+This layer gives explicit quasicategorical comparisons for the enhanced derived category, replacements, tensor–Hom and exact functor coherence supplied by Sections 0.1–0.4. It adds general derived ringed pullback, coefficient change and the action of finite-cell coefficients, cochain realization of the Koszul complex supplied by DerivedModuleAlgebra §6.4, and the commutative algebra and perfect-scheme comparisons needed for h-descent. A small ringed site has a sheaf of rings O and uses Mathlib's `SheafOfModules O` and its Grothendieck abelian instance. Additive comparisons allow noncommutative O; tensor and commutative algebra statements assume O commutative.
 
 ### E1.1 Complexes of module sheaves as a dg category
 
@@ -616,7 +697,7 @@ Provide `sliceFree`, `sliceFree_homEquiv` (the representing bijection), `sliceFr
 
 ### E1.2 Supplied replacements and their dg comparison
 
-ClassicalAdicEtaleCohomology §0.2, `ClassicalDerived.replacements`, supplies functorial K-injective replacements (also for noncommutative rings), K-flat replacements with flat terms for commutative rings, restriction to slices and independence of choices. DerivedDeRhamCohomology §0.2 supplies their module tensor models. These replacements and their K-flat API are used throughout E1, E3 and E4. The point-site signature `IsKFlat` denotes their condition that A ⊗ P be acyclic for every acyclic A; its replacement and basic K-flat API are supplied by that section.
+Section 0.2, `ClassicalDerived.replacements`, supplies functorial K-injective replacements (also for noncommutative rings), K-flat replacements with flat terms for commutative rings, restriction to slices and independence of choices. DerivedModuleAlgebra §0.2 supplies their module tensor models. These replacements and their K-flat API are used throughout E1, E3 and E4. The point-site signature `IsKFlat` denotes their condition that A ⊗ P be acyclic for every acyclic A; its replacement and basic K-flat API are supplied by that section.
 
 **The dg comparison for supplied replacements** (`replacementDGComparison`). For a Grothendieck abelian category A, construct its combinatorial injective model on unbounded complexes, with quasi-isomorphisms as weak equivalences, monomorphisms as cofibrations and K-injective complexes of injectives as fibrant objects. For module sheaves on a small ringed site identify this model with `ClassicalDerived.replacements`, using Mathlib's `CochainComplex.IsKInjective` and `sheafComplexDG`; prove equivalences on derived mapping spaces, coherently under slice restriction. Fix a regular cardinal for the combinatorial injective model, depending on the category, and show that the supplied functorial replacement admits this cardinal control. (HA Propositions 1.3.5.3, 1.3.5.6 and 1.3.5.15, pp. 121–127.)
 
@@ -625,15 +706,15 @@ ClassicalAdicEtaleCohomology §0.2, `ClassicalDerived.replacements`, supplies fu
 - A quasi-isomorphism between supplied K-injective models is a homotopy equivalence.
 - A flat module in any single integer degree is K-flat; over ℤ, (ℤ/p)[0] for p prime is not, as the acyclic cone of [ℤ →p ℤ] → (ℤ/p)[0] detects.
 - The cardinal controls the whole functorial model, including unbounded complexes, rather than being chosen separately for each map.
-- Over A = ℤ/4, `zmodFourTwoComplex` has Pⁱ = A and every successive differential multiplication by 2. It is acyclic and termwise free, but not K-flat: P ⊗_A (A/2)[0] has zero differentials and nonzero cohomology in every degree. An acyclic K-flat complex tensors acyclically with every complex, so this tensor detects the failure (DerivedDeRhamCohomology §0.2, `test_derived_tensor_unbounded_flat`).
+- Over A = ℤ/4, `zmodFourTwoComplex` has Pⁱ = A and every successive differential multiplication by 2. It is acyclic and termwise free, but not K-flat: P ⊗_A (A/2)[0] has zero differentials and nonzero cohomology in every degree. An acyclic K-flat complex tensors acyclically with every complex, so this tensor detects the failure (DerivedModuleAlgebra §0.2, `test_derived_tensor_unbounded_flat`).
 
-*Needs:* `sheafComplexDG`; `dgNerve_rightMappingSpaceIso`; ClassicalAdicEtaleCohomology §0.2 (`ClassicalDerived.replacements`); DerivedDeRhamCohomology §0.2 (module K-flat models); Mathlib `CochainComplex.IsKInjective`, `CategoryTheory.IsGrothendieckAbelian`.
+*Needs:* `sheafComplexDG`; `dgNerve_rightMappingSpaceIso`; Section 0.2 (`ClassicalDerived.replacements`); DerivedModuleAlgebra §0.2 (module K-flat models); Mathlib `CochainComplex.IsKInjective`, `CategoryTheory.IsGrothendieckAbelian`.
 
 ### E1.3 The enhanced derived category
 
 The export “DG comparison for complexes of module sheaves” is `sheafComplexDG` together with `replacementDGComparison` and `enhancedDerived`: for any small ringed site their mapping spaces are the Dold–Kan truncations of the supplied derived Hom complexes, without boundedness or enough-points hypotheses. The composite-derived-functor spectral sequence for bounded-below sheaf functors is supplied by SchemeAndStackFoundations §2.2, `leray_spectral_sequence`, under its acyclicity hypotheses.
 
-**The enhanced derived category** (`enhancedDerived`). Realize `ClassicalDerived.enhancedCategory` of ClassicalAdicEtaleCohomology §0.1 in Mathlib's quasicategories by an equivalence with the dg nerve of its supplied K-injective model. For a Grothendieck abelian category A, the same comparison uses the injective model of HA §1.3.5; for a ringed site use A = `SheafOfModules O`, allowing noncommutative O for this additive comparison. Its homotopy category is equivalent to Mathlib's `DerivedCategory A`, through the localization at quasi-isomorphisms, sending a complex to its K-injective replacement; more precisely, the functor from the nerve of complexes to D∞(A) is a Dwyer–Kan localization at the quasi-isomorphisms (`IsDwyerKanLocalization`; HA Proposition 1.3.5.15). Map(K, L) is the Dold–Kan image of the good connective truncation of the derived Hom complex, so π_i Map(K, L) = H^{−i} RHom(K, L) for i ≥ 0. D∞(A) is stable, with suspension and cofibres given by Mathlib's shift and mapping cone. (HA Definition 1.3.5.8 and Propositions 1.3.5.9 and 1.3.5.15, pp. 124–127.)
+**The enhanced derived category** (`enhancedDerived`). Realize `ClassicalDerived.enhancedCategory` of Section 0.1 in Mathlib's quasicategories by an equivalence with the dg nerve of its supplied K-injective model. For a Grothendieck abelian category A, the same comparison uses the injective model of HA §1.3.5; for a ringed site use A = `SheafOfModules O`, allowing noncommutative O for this additive comparison. Its homotopy category is equivalent to Mathlib's `DerivedCategory A`, through the localization at quasi-isomorphisms, sending a complex to its K-injective replacement; more precisely, the functor from the nerve of complexes to D∞(A) is a Dwyer–Kan localization at the quasi-isomorphisms (`IsDwyerKanLocalization`; HA Proposition 1.3.5.15). Map(K, L) is the Dold–Kan image of the good connective truncation of the derived Hom complex, so π_i Map(K, L) = H^{−i} RHom(K, L) for i ≥ 0. D∞(A) is stable, with suspension and cofibres given by Mathlib's shift and mapping cone. (HA Definition 1.3.5.8 and Propositions 1.3.5.9 and 1.3.5.15, pp. 124–127.)
 
 Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enhancedDerived.homotopyCategory` (the equivalence with `DerivedCategory A`), `enhancedDerived.mappingSpaces` (the Dold–Kan formula and π_i = H^{−i} RHom), `enhancedDerived.isStable` (with the sign comparison of `dgNerve_shift_cone_comparison`) and `enhancedDerived.detection` (a map of complexes becomes an equivalence exactly when it is a quasi-isomorphism, and equivalences are detected by all integer cohomology objects, as in Mathlib's `DerivedCategory.isIso_iff`).
 
@@ -645,9 +726,9 @@ Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enha
 
 *Proof route.* Compare the nerve of complexes localized at quasi-isomorphisms with the dg nerve of fibrant complexes: K-injective replacement gives essential surjectivity and the Hom-acyclicity of K-injectives gives full faithfulness on mapping spaces. Identify the ordinary localization with Mathlib's `DerivedCategory`; zero objects, cones and shifts give stability.
 
-*Needs:* `replacementDGComparison`; ClassicalAdicEtaleCohomology §§0.1–0.2 (`ClassicalDerived.enhancedCategory`, K-injective replacement); `sheafComplexDG`; `dgNerve`; `IsDwyerKanLocalization`; `dgNerve_rightMappingSpaceIso`; `dgNerve_shift_cone_comparison`; `IsStable`; Mathlib `DerivedCategory`, `DerivedCategory.isIso_iff`, `DerivedCategory.isIso_Q_map_iff_quasiIso`.
+*Needs:* `replacementDGComparison`; Sections 0.1–0.2 (`ClassicalDerived.enhancedCategory`, K-injective replacement); `sheafComplexDG`; `dgNerve`; `IsDwyerKanLocalization`; `dgNerve_rightMappingSpaceIso`; `dgNerve_shift_cone_comparison`; `IsStable`; Mathlib `DerivedCategory`, `DerivedCategory.isIso_iff`, `DerivedCategory.isIso_Q_map_iff_quasiIso`.
 
-**Presentability comparison for unbounded derived sheaves** (`enhancedDerived_isPresentable`). Transport presentability and filtered-colimit compatibility from ClassicalAdicEtaleCohomology §0.1 across `enhancedDerived`; identify its generating family and accessibility cardinal in the quasicategorical realization. The localization functor from complexes inverts exactly the quasi-isomorphisms and is accessible. Filtered colimits in D∞(O) are computed by degreewise filtered colimits of complexes, and cohomology commutes with them. The shifts of the slice-free modules form a small family detecting zero objects, which becomes a family of κ-compact generators for a sufficiently large regular κ. This asserts accessibility, not compact generation: on a general site the generators need not be ω-compact, and D∞(O) need not be left complete. (HA Proposition 1.3.5.21 and Warning 1.3.5.22, pp. 128–130.)
+**Presentability comparison for unbounded derived sheaves** (`enhancedDerived_isPresentable`). Transport presentability and filtered-colimit compatibility from Section 0.1 across `enhancedDerived`; identify its generating family and accessibility cardinal in the quasicategorical realization. The localization functor from complexes inverts exactly the quasi-isomorphisms and is accessible. Filtered colimits in D∞(O) are computed by degreewise filtered colimits of complexes, and cohomology commutes with them. The shifts of the slice-free modules form a small family detecting zero objects, which becomes a family of κ-compact generators for a sufficiently large regular κ. This asserts accessibility, not compact generation: on a general site the generators need not be ω-compact, and D∞(O) need not be left complete. (HA Proposition 1.3.5.21 and Warning 1.3.5.22, pp. 128–130.)
 
 **Checks.**
 
@@ -658,11 +739,11 @@ Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enha
 
 *Proof route.* Identify D∞(O) with the underlying ∞-category of the combinatorial injective model; its small generating cofibrations give an accessibility cardinal. AB5 identifies filtered homotopy colimits with degreewise colimits. The slice-free generators and their shifts detect cohomology; choose κ so that their derived mapping functors preserve κ-filtered colimits.
 
-*Needs:* `enhancedDerived`; ClassicalAdicEtaleCohomology §0.2 (K-injective replacement); `sliceFree_isSeparating`; `IsDwyerKanLocalization`; `IsPresentable`; Mathlib `CategoryTheory.IsGrothendieckAbelian`.
+*Needs:* `enhancedDerived`; Section 0.2 (K-injective replacement); `sliceFree_isSeparating`; `IsDwyerKanLocalization`; `IsPresentable`; Mathlib `CategoryTheory.IsGrothendieckAbelian`.
 
 ### E1.4 Tensor, internal Hom, pullback, pushforward and change of coefficients
 
-**Derived sheaf tensor** (`derivedTensor`). For a sheaf of commutative rings O, identify the tensor of `ClassicalDerived.tensorHom` (ClassicalAdicEtaleCohomology §0.3) with the total tensor of the supplied K-flat replacements under `enhancedDerived`, with differential d(x ⊗ y) = dx ⊗ y + (−1)^{deg x} x ⊗ dy. It is a functor D∞(O) × D∞(O) → D∞(O) of ∞-categories, independent of the replacements, with natural associativity, unit (O[0]) and symmetry equivalences, and it preserves small colimits separately in each variable. The full symmetric monoidal ∞-category structure, with all higher coherences, is `derivedTensor_symmetricMonoidal` of Layer E5:abstract. On a scheme its homotopy-category shadow is the derived tensor product of `TauCetiRoadmap.SchemeAndStackFoundations` §2.18; the target here is the functor of ∞-categories on an arbitrary small ringed site. K-injective complexes are not used for the tensor product, since they need not be closed under it. (Stacks, Cohomology on Sites, Lemmas 21.17.5 and 21.17.12 and Definition 21.17.13, tags 07A2, 06YT, 06YU, PDF pp. 29–31; Liu–Zheng §3.1–§3.2, Proposition 3.1.3 and Lemma 3.2.2, pp. 84–87.)
+**Derived sheaf tensor** (`derivedTensor`). For a sheaf of commutative rings O, identify the tensor of `ClassicalDerived.tensorHom` (Section 0.3) with the total tensor of the supplied K-flat replacements under `enhancedDerived`, with differential d(x ⊗ y) = dx ⊗ y + (−1)^{deg x} x ⊗ dy. It is a functor D∞(O) × D∞(O) → D∞(O) of ∞-categories, independent of the replacements, with natural associativity, unit (O[0]) and symmetry equivalences, and it preserves small colimits separately in each variable. The full symmetric monoidal ∞-category structure, with all higher coherences, is `derivedTensor_symmetricMonoidal` of Layer E5:abstract. On a scheme its homotopy-category shadow is the derived tensor product of `TauCetiRoadmap.SchemeAndStackFoundations` §2.18; the target here is the functor of ∞-categories on an arbitrary small ringed site. K-injective complexes are not used for the tensor product, since they need not be closed under it. (Stacks, Cohomology on Sites, Lemmas 21.17.5 and 21.17.12 and Definition 21.17.13, tags 07A2, 06YT, 06YU, PDF pp. 29–31; Liu–Zheng §3.1–§3.2, Proposition 3.1.3 and Lemma 3.2.2, pp. 84–87.)
 
 Provide the comparison `derivedTensor`, with `derivedTensor_map` (functoriality in pairs of maps), `derivedTensor_unit` (O[0] is a unit; the associativity and Koszul symmetry equivalences are natural), `derivedTensor_ordinary` (on homotopy categories it is the K-flat derived tensor) and `derivedTensor_colimits`.
 
@@ -675,7 +756,7 @@ Provide the comparison `derivedTensor`, with `derivedTensor_map` (functoriality 
 
 *Proof route.* Tensoring a quasi-isomorphism between K-flat complexes with a K-flat complex gives a quasi-isomorphism, so the total tensor product of K-flat complexes descends to the localization at quasi-isomorphisms, which is D∞(O) because every complex has a K-flat replacement; compare with the K-injective model through `enhancedDerived`. The bifunctor comparison uses ordinary Dwyer–Kan descent in each variable and requires no points of the topos. Layer E5:abstract identifies the higher symmetric monoidal coherences by monoidal localization.
 
-*Needs:* ClassicalAdicEtaleCohomology §0.2 (`ClassicalDerived.replacements`, K-flat API); `enhancedDerived`; `enhancedDerived_isPresentable`; `restrictedStraightening`; Mathlib `CategoryTheory.MonoidalCategory`, `HomologicalComplex.monoidalCategory`.
+*Needs:* Section 0.2 (`ClassicalDerived.replacements`, K-flat API); `enhancedDerived`; `enhancedDerived_isPresentable`; `restrictedStraightening`; Mathlib `CategoryTheory.MonoidalCategory`, `HomologicalComplex.monoidalCategory`.
 
 **Derived internal Hom** (`derivedInternalHom`). For K, L in D∞(O), identify the internal Hom of the supplied `ClassicalDerived.tensorHom` with RℋOM_O(K, L) under `enhancedDerived`; it is right adjoint in L to − ⊗ᴸ K, with a natural equivalence Map(M ⊗ᴸ K, L) ≃ Map(M, RℋOM(K, L)). It is computed by the sheaf Hom complex into a K-injective replacement of L; its global sections give the derived Hom complex of `enhancedDerived.mappingSpaces`, and restriction to a slice commutes with it. On a scheme its homotopy-category shadow is the internal Hom of `TauCetiRoadmap.SchemeAndStackFoundations` §2.18. (HTT Proposition 5.5.2.2 and Corollary 5.5.2.9, PDF pp. 481–484; ECD Lemma 17.8, p. 100.)
 
@@ -689,11 +770,11 @@ Provide the comparison `derivedInternalHom`, with `derivedInternalHom_mapEquiv`,
 
 *Proof route.* The ordinary tensor–Hom adjunction for a K-flat first argument and a K-injective second argument descends to equivalences of all derived mapping spaces; the slice-free generators prove compatibility with restriction. The presentable adjoint functor theorem gives a second construction.
 
-*Needs:* `derivedTensor`; ClassicalAdicEtaleCohomology §0.2 (K-injective replacement); `enhancedDerived`; `sliceFree`.
+*Needs:* `derivedTensor`; Section 0.2 (K-injective replacement); `enhancedDerived`; `sliceFree`.
 
 **Enhanced pullback and pushforward of ringed topoi** (`enhancedPullback`, `enhancedPushforward`). For a morphism of ringed topoi f : (Y, S) → (X, R) with ring map f^{−1}R → S, define Lf^∗K = S ⊗ᴸ_{f^{−1}R} f^{−1}K and Rf_∗ by K-injective right derivation of f_∗. They form an adjunction on D∞, with Map_Y(Lf^∗K, L) ≃ Map_X(K, Rf_∗L); for S = f^{−1}R, Lf^∗ is the exact inverse image; and composites of ringed morphisms give coherent composition equivalences. For a morphism of schemes the homotopy-category shadows are `derivedPullback` and `totalDirectImage` of `TauCetiRoadmap.SchemeAndStackFoundations` §2.18. (Stacks, Cohomology on Sites, Lemmas 21.18.1–21.18.3, tags 0G7E, 06YY, 0D6D, PDF pp. 33–34; Lemmas 21.19.1–21.19.2, tags 07A6, 0D6E, PDF p. 37, the second for composites; Lemma 21.20.2, tag 0D6F, PDF pp. 40–41, for cohomology on a slice; Liu–Zheng §3.2, pp. 85–87.)
 
-Provide `enhancedPullback`, `enhancedPushforward`, `enhancedPullPush_mapEquiv`, `enhancedPullback_comp` (coherent composition with its associativity) and `enhancedPullback_constant` (agreement with the exact inverse image when S = f^{−1}R). For exact inverse image these functors and their composition agree with ClassicalAdicEtaleCohomology §0.4, `ClassicalDerived.functorCoherence`. A right adjoint preserves K-injectives when its left adjoint is exact (slice restriction, unchanged coefficients), but general ringed pushforward does not: restriction of scalars from ℤ/p to ℤ does not preserve injectives.
+Provide `enhancedPullback`, `enhancedPushforward`, `enhancedPullPush_mapEquiv`, `enhancedPullback_comp` (coherent composition with its associativity) and `enhancedPullback_constant` (agreement with the exact inverse image when S = f^{−1}R). For exact inverse image these functors and their composition agree with Section 0.4, `ClassicalDerived.functorCoherence`. A right adjoint preserves K-injectives when its left adjoint is exact (slice restriction, unchanged coefficients), but general ringed pushforward does not: restriction of scalars from ℤ/p to ℤ does not preserve injectives.
 
 **Checks.**
 
@@ -701,7 +782,7 @@ Provide `enhancedPullback`, `enhancedPushforward`, `enhancedPullPush_mapEquiv`, 
 - For the point topos and ℤ → ℤ/p, pullback is derived extension of scalars and pushforward is restriction of scalars.
 - Pulling back (ℤ/p)[0] along ℤ → ℤ/p gives cohomology in degrees −1 and 0; the underived extension of scalars is not enough.
 
-*Needs:* ClassicalAdicEtaleCohomology §0.2 (K-flat replacement); ClassicalAdicEtaleCohomology §0.2 (K-injective replacement); `derivedTensor`; `coherentFun`; Mathlib `SheafOfModules`, `SheafOfModules.pushforward`, `SheafOfModules.pullback`.
+*Needs:* Section 0.2 (K-flat replacement); Section 0.2 (K-injective replacement); `derivedTensor`; `coherentFun`; Mathlib `SheafOfModules`, `SheafOfModules.pushforward`, `SheafOfModules.pullback`.
 
 **Change of coefficients and the action of finite-cell coefficients** (`enhancedCoeffChange`). For a map of sheaves of commutative rings R → S on one topos, derived extension of scalars − ⊗ᴸ_R S is left adjoint to restriction of scalars, with coherent identities and composites. The D∞(R)-action on its module categories restricts to thick(R), the finite-cell coefficient subcategory: the smallest stable idempotent-complete subcategory containing R. For an exact functor with coherent R-linear structure, compatibility with this action follows from finite sums, cones, shifts and retracts. Locally perfect sheaves are instead locally represented by bounded complexes of finite locally free modules; they need not belong to thick(R), and coefficient-linearity alone does not imply compatibility with their action. For an ordinary commutative ring A, Perf(A) denotes the ordinary-ring perfect complexes acting externally by constant coefficients, as in E4.5. (Liu–Zheng Lemma 3.2.8, pp. 87–88; Stacks, Cohomology on Sites, Definition 21.47.1, tag 08G5, in §21.47, tag 08G4.)
 
@@ -719,7 +800,7 @@ Provide `enhancedCoeffChange`, `enhancedCoeffChange_comp` ((K ⊗ᴸ_R S) ⊗ᴸ
 
 ### E1.5 Cochain realization of supplied Koszul complexes
 
-IntegralHeckeAndGaloisDeterminants §6.4 supplies `koszulComplex φ` for any linear functional φ : E →ₗ[A] A, its exterior-power differential, maps, signed tensor formula, null-homotopies and finite weakly regular resolutions. Use that construction with cochain degree −q corresponding to its chain degree q.
+DerivedModuleAlgebra §6.4 supplies `koszulComplex φ` for any linear functional φ : E →ₗ[A] A, its exterior-power differential, maps, signed tensor formula, null-homotopies and finite weakly regular resolutions. Use that construction with cochain degree −q corresponding to its chain degree q.
 
 **Enhanced Koszul comparison** (`koszulEnhancedComparison`). Prove that this reindexing, with the grading and braiding conventions of DGAInfinity Layer 0, identifies the supplied tensor formula with `derivedTensor` for finite projective E, identifies its augmentation with A/(f) for a finite weakly regular sequence, and transports its multiplication null-homotopies through `enhancedDerived`. (Stacks Definitions 15.29.1–15.29.2, tags 0622–0623; Lemma 15.29.12, tag 0664; Lemma 15.31.2, tag 062F.)
 
@@ -729,7 +810,7 @@ IntegralHeckeAndGaloisDeterminants §6.4 supplies `koszulComplex φ` for any lin
 - For p prime, the supplied K_ℤ(p) becomes [ℤ →p ℤ] in degrees −1 and 0, resolving ℤ/p.
 - For A ≠ 0, the supplied K_A(0) has H^{−1} = H⁰ = A; the differential in degree −1 is multiplication by the element, including when it is zero.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §6.4; DGAInfinity Layer 0; `enhancedDerived`; `derivedTensor`.
+*Needs:* DerivedModuleAlgebra §6.4; DGAInfinity Layer 0; `enhancedDerived`; `derivedTensor`.
 
 ### E1.6 Perfect 𝔽_p-algebras
 
@@ -744,9 +825,9 @@ A perfect 𝔽_p-algebra is a commutative ring of characteristic p on which Frob
 - For a field k and R = k[x₁, …, x_d], the residue field at the origin has projective dimension exactly d (its Koszul resolution has length d), so the bound is sharp.
 - For the non-regular ring k[ε]/(ε²), of Krull dimension 0, the residue field has infinite projective dimension (its minimal resolution ⋯ → B →ε B →ε B → k never stops), so regularity cannot be dropped.
 
-*Proof route.* By Lemma 10.109.12 it suffices to bound the projective dimension of cyclic, hence finite, modules; projective dimension of a finite module over a Noetherian ring is the supremum over maximal ideals of that of its localizations. Over a regular local ring of dimension d a minimal generating set of the maximal ideal is a regular sequence, its Koszul complex resolves the residue field (IntegralHeckeAndGaloisDeterminants §6.4 (weakly regular Koszul resolution)), so Tor_{d+1}(κ, M) = 0 for every finite M and a minimal free resolution of M stops after d steps. Conversely, finite projective dimension of κ bounds the minimal number of generators of the maximal ideal by the dimension through the Koszul complex of a minimal generating set.
+*Proof route.* By Lemma 10.109.12 it suffices to bound the projective dimension of cyclic, hence finite, modules; projective dimension of a finite module over a Noetherian ring is the supremum over maximal ideals of that of its localizations. Over a regular local ring of dimension d a minimal generating set of the maximal ideal is a regular sequence, its Koszul complex resolves the residue field (DerivedModuleAlgebra §6.4 (weakly regular Koszul resolution)), so Tor_{d+1}(κ, M) = 0 for every finite M and a minimal free resolution of M stops after d steps. Conversely, finite projective dimension of κ bounds the minimal number of generators of the maximal ideal by the dimension through the Koszul complex of a minimal generating set.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §6.4 (weakly regular Koszul resolution); Mathlib `IsRegularRing`, `IsRegularLocalRing`, `ringKrullDim`, `CategoryTheory.HasProjectiveDimensionLE`, `CategoryTheory.Tor`, `RingTheory.Sequence.IsRegular`.
+*Needs:* DerivedModuleAlgebra §6.4 (weakly regular Koszul resolution); Mathlib `IsRegularRing`, `IsRegularLocalRing`, `ringKrullDim`, `CategoryTheory.HasProjectiveDimensionLE`, `CategoryTheory.Tor`, `RingTheory.Sequence.IsRegular`.
 
 **Kunz's theorem: regular rings have flat Frobenius** (`frobenius_flat_of_isRegular`). Let p be a prime and R a regular ring of characteristic p (`IsRegularRing R`, `CharP R p`). Then the absolute Frobenius R → R, a ↦ a^p (Mathlib's `frobenius R p`), is flat (`RingHom.Flat (frobenius R p)`). With `isRegular_of_frobenius_flat` below this is Kunz's characterisation of regularity in characteristic p. (Stacks, Local Cohomology, Lemma 51.17.6, tag 0EC0, the implication from regularity to flatness.)
 
@@ -1075,7 +1156,7 @@ Provide `ringedDiagramDerived`, `ringedDiagram_eval` (evaluation at ξ and at ea
 
 *Proof route.* Mark quasi-isomorphisms among dg-flat complexes before taking the multisimplicial nerve; pullback preserves marked maps; relative localization and straightening assemble the coherent diagram; compare fibrewise with the K-injective enhancement.
 
-*Needs:* `enhancedPullback`; ClassicalAdicEtaleCohomology §0.2 (K-flat replacement); `IsDwyerKanLocalization`; `restrictedStraightening`; `coherentFun`.
+*Needs:* `enhancedPullback`; Section 0.2 (K-flat replacement); `IsDwyerKanLocalization`; `restrictedStraightening`; `coherentFun`.
 
 **Point-free comparison for coefficient towers** (`ringedSystemComparison`). Let X be a topos presented by a fixed small site and (R_n) an inverse sequence of sheaves of commutative rings on X. The Cartesian full subcategory of the enhanced derived category of R_•-modules on the topos Fun(ℕ^{op}, X) is equivalent, on mapping spaces as well as on objects, to the limit lim_n D∞(X, R_n) along derived scalar extension. No enough-points hypothesis is imposed. (HA Proposition 1.3.4.25, p. 119, for the comparison of coherent and strict diagram categories; BS-proet Definition 3.5.3 and Lemma 3.5.7, pp. 24–25, for the ordinary ringed-system description.)
 
@@ -1134,7 +1215,7 @@ The additive inverse-limit constructions and ordinary and stable pro-zero theory
 Rlim_n K_n = fib( 1 − s : ∏_n K_n → ∏_n K_n ),
 ```
 
-where the n-th component of s is the transition K_{n+1} → K_n after projection. The fibre carries compatible projections Rlim K → K_n, and Map(z, Rlim K) ≃ lim_n Map(z, K_n) for every z: it is the limit of Section E0.4. On ringed sites, identify this formula and its projections with ClassicalAdicEtaleCohomology §0.3, `ClassicalDerived.inverseLimits`; on modules also compare with DerivedDeRhamCohomology §1.1. The abstract stable-category formula here uses those supplied sheaf and module limits unchanged. A strict tower of complexes or modules gives a coherent tower by localization; an arbitrary diagram in the homotopy category is not substituted for a coherent tower. (Stacks, Derived Categories, Definition 13.34.1, Lemma 13.34.2 and Remark 13.34.4, tags 08TC, 07KC, 0H9J, PDF pp. 105–106; Cohomology on Sites, Lemma 21.23.1, tag 0941, PDF pp. 47–48; Bhatt, *Direct summand*, §3, Definition 3.2 and Lemma 3.4, p. 6, in the almost setting.)
+where the n-th component of s is the transition K_{n+1} → K_n after projection. The fibre carries compatible projections Rlim K → K_n, and Map(z, Rlim K) ≃ lim_n Map(z, K_n) for every z: it is the limit of Section E0.4. On ringed sites, identify this formula and its projections with Section 0.3, `ClassicalDerived.inverseLimits`; on modules also compare with DerivedModuleAlgebra §1.1. The abstract stable-category formula here uses those supplied sheaf and module limits unchanged. A strict tower of complexes or modules gives a coherent tower by localization; an arbitrary diagram in the homotopy category is not substituted for a coherent tower. (Stacks, Derived Categories, Definition 13.34.1, Lemma 13.34.2 and Remark 13.34.4, tags 08TC, 07KC, 0H9J, PDF pp. 105–106; Cohomology on Sites, Lemma 21.23.1, tag 0941, PDF pp. 47–48; Bhatt, *Direct summand*, §3, Definition 3.2 and Lemma 3.4, p. 6, in the almost setting.)
 
 Provide `coherentTower` (the functor quasicategory Fun(N(ℕ^{op}), C)), `towerDifference` (the endomorphism 1 − s of the product), `derivedTowerLimit`, `derivedTowerLimit_projection` and `derivedTowerLimit_mapEquiv`.
 
@@ -1345,7 +1426,7 @@ Provide `DerivedFamilyData` (base, total space, projection and localized fibres;
 
 ### E5:abstract.4 Stable monoidal structures
 
-**The symmetric monoidal derived tensor product** (`derivedTensor_symmetricMonoidal`). For a small ringed site with O commutative, D∞(O) carries a symmetric monoidal ∞-category structure whose underlying tensor bifunctor is `derivedTensor` of Layer E1, with unit O[0]. Compare the supplied coherent tensor of ClassicalAdicEtaleCohomology §0.3 with the operadic structure obtained by applying `monoidalDwyerKanLocalization` to the symmetric monoidal category of K-flat complexes and the quasi-isomorphisms between them, which are stable under tensoring with K-flat complexes; it needs no hypothesis on points of the topos. The tensor product preserves colimits in each variable, so D∞(O) is presentably symmetric monoidal. (Nikolaus–Scholze Proposition A.5, pp. 129–130; Stacks, Cohomology on Sites, Lemma 21.17.12, tag 06YT, PDF p. 31; Liu–Zheng §3.1, pp. 84–86, for the case of enough points.)
+**The symmetric monoidal derived tensor product** (`derivedTensor_symmetricMonoidal`). For a small ringed site with O commutative, D∞(O) carries a symmetric monoidal ∞-category structure whose underlying tensor bifunctor is `derivedTensor` of Layer E1, with unit O[0]. Compare the supplied coherent tensor of Section 0.3 with the operadic structure obtained by applying `monoidalDwyerKanLocalization` to the symmetric monoidal category of K-flat complexes and the quasi-isomorphisms between them, which are stable under tensoring with K-flat complexes; it needs no hypothesis on points of the topos. The tensor product preserves colimits in each variable, so D∞(O) is presentably symmetric monoidal. (Nikolaus–Scholze Proposition A.5, pp. 129–130; Stacks, Cohomology on Sites, Lemma 21.17.12, tag 06YT, PDF p. 31; Liu–Zheng §3.1, pp. 84–86, for the case of enough points.)
 
 **Checks.**
 
@@ -1353,7 +1434,7 @@ Provide `DerivedFamilyData` (base, total space, projection and localized fibres;
 - On homotopy categories the associativity, unit and symmetry isomorphisms are those of the ordinary derived tensor product; the symmetry on two classes of degree one carries the sign −1.
 - The structure on D∞(ℤ) restricted to the heart is not the ordinary tensor product of abelian groups: (ℤ/p) ⊗ (ℤ/p) has a nonzero H^{−1}.
 
-*Needs:* `derivedTensor`; ClassicalAdicEtaleCohomology §0.2 (`ClassicalDerived.replacements`, K-flat API); `monoidalDwyerKanLocalization`; `enhancedDerived_isPresentable`.
+*Needs:* `derivedTensor`; Section 0.2 (`ClassicalDerived.replacements`, K-flat API); `monoidalDwyerKanLocalization`; `enhancedDerived_isPresentable`.
 
 **Stable monoidal comparison** (`stableMonoidal_homotopyCategory`). Let C be a stable ∞-category (Section E0.4) with a symmetric monoidal structure whose tensor product is exact in each variable. Then the tensor product descends to a symmetric monoidal structure on the homotopy category compatible with suspension and with the distinguished triangles of cofibre sequences. For D∞(R), with the structure of `derivedTensor_symmetricMonoidal`, this is the derived tensor product on Mathlib's `DerivedCategory`, with Mathlib's shift and triangles. Exactness in each variable is a hypothesis; it does not follow from the existence of a monoidal structure. (HA Theorem 1.1.2.14, p. 27; §4.8.1, Corollary 4.8.1.14 and Propositions 4.8.1.15 and 4.8.1.17, pp. 711–715.)
 
@@ -2173,7 +2254,7 @@ Provide `cartesianDerivedSystem`, `cartesianDerivedSystem_transition`, `hypercov
 
 *Proof route.* Resolve by K-injectives and compare the product-total Hom double complex of the hypercover; the augmented free hypercover complex is acyclic, so the comparison is a quasi-isomorphism in each degree, identified with the enhanced unit through mapping spaces.
 
-*Needs:* `cartesianDerivedSystem`; ClassicalAdicEtaleCohomology §0.2 (K-injective replacement).
+*Needs:* `cartesianDerivedSystem`; Section 0.2 (K-injective replacement).
 
 **The left adjoint counit** (`hypercoverPullback_counit_left`). For a hypercover in a replete topos and the adjunction f_! ⊣ f^∗ (f_! from `adjointFunctorTheorem`), the counit f_! f^∗ → id is an equivalence on D(X). It is f_!, not f_∗, in this counit. (BS-proet Proposition 3.3.6(2), p. 20.)
 
@@ -2378,13 +2459,13 @@ Layers E0, E1, E3, E2:towers, E5:descent and E5:animation. Mathlib (sheaves, lim
 
 ## Layer E4: Derived completion of sheaves and coefficient reconstruction
 
-This layer defines derived I-complete complexes of sheaves on a replete topos and builds the completion reflector, completed tensor products and their internal Hom, the comparison with classical completeness, the Koszul model of completion and the algebra of regular ideals, and the reconstruction of complete complexes from their derived reductions modulo I^n. Its point-topos cases compare with DerivedDeRhamCohomology §§1.2–1.5, which supplies module completion and its Koszul and regular-quotient models. Throughout, X is a replete topos (Layer E2), R a sheaf of commutative rings (or a commutative ring, viewed as a constant sheaf) and I ⊆ R an ideal, locally finitely generated; D(X, R) = D∞(X, R) with cohomological grading. In Section E4.5 and in `regularIdeal_quotients`, R is a commutative ring and I = (f₁, …, f_r) is generated by a finite regular sequence in Mathlib's sense (`RingTheory.Sequence.IsRegular`, which includes nontriviality of R/I); the empty sequence covers I = 0, no Noetherian hypothesis is imposed, R_n = R/I^n for n ≥ 1, and all tensor products are derived. For x a local section of R, T(K, x) is the derived limit of the tower K ←x K ←x ⋯.
+This layer defines derived I-complete complexes of sheaves on a replete topos and builds the completion reflector, completed tensor products and their internal Hom, the comparison with classical completeness, the Koszul model of completion and the algebra of regular ideals, and the reconstruction of complete complexes from their derived reductions modulo I^n. Its point-topos cases compare with DerivedModuleAlgebra §§1.2–1.5, which supplies module completion and its Koszul and regular-quotient models. Throughout, X is a replete topos (Layer E2), R a sheaf of commutative rings (or a commutative ring, viewed as a constant sheaf) and I ⊆ R an ideal, locally finitely generated; D(X, R) = D∞(X, R) with cohomological grading. In Section E4.5 and in `regularIdeal_quotients`, R is a commutative ring and I = (f₁, …, f_r) is generated by a finite regular sequence in Mathlib's sense (`RingTheory.Sequence.IsRegular`, which includes nontriviality of R/I); the empty sequence covers I = 0, no Noetherian hypothesis is imposed, R_n = R/I^n for n ≥ 1, and all tensor products are derived. For x a local section of R, T(K, x) is the derived limit of the tower K ←x K ←x ⋯.
 
 ### E4.1 Derived complete sheaves and the completion reflector
 
 **Derived complete sheaves** (`DerivedCompleteSheaves`). Dcomp(X, R, I) is the full subcategory of D(X, R) on those K such that T(K|_U, x) = 0 for every object U of X and every x ∈ I(U). The condition is imposed on every slice and every local section of the ideal. On the point topos this is derived I-completeness of complexes of R-modules. (BS-proet Definition 3.4.1 and the paragraph after it, p. 21.)
 
-The point-site predicate `IsDerivedComplete` expresses the supplied module criterion from DerivedDeRhamCohomology §1.2: for every f ∈ I, (x_n) ↦ (x_n − f x_{n+1}) is bijective on M^ℕ. Provide `DerivedCompleteSheaves` with its fully faithful inclusion, `derivedCompleteSheaf_iff` (membership is the vanishing of all local telescopes), `derivedCompleteSheaf_restrict` (stable under restriction to slices, coherently) and `derivedCompleteSheaf_zero`.
+The point-site predicate `IsDerivedComplete` expresses the supplied module criterion from DerivedModuleAlgebra §1.2: for every f ∈ I, (x_n) ↦ (x_n − f x_{n+1}) is bijective on M^ℕ. Provide `DerivedCompleteSheaves` with its fully faithful inclusion, `derivedCompleteSheaf_iff` (membership is the vanishing of all local telescopes), `derivedCompleteSheaf_restrict` (stable under restriction to slices, coherently) and `derivedCompleteSheaf_zero`.
 
 **Checks.**
 
@@ -2417,7 +2498,7 @@ The point-site predicate `IsDerivedComplete` expresses the supplied module crite
 
 *Needs:* `DerivedCompleteSheaves`; `derivedTowerLimit`; `IsReplete.milnor`; `enhancedDerived`.
 
-**The completion reflector** (`completeSheaf`). The inclusion Dcomp(X, R, I) → D(X, R) has a left adjoint L_I, compatible with restriction to slices. If I = (f₁, …, f_r) globally, put F₀(K) = K and F_j(K) = cofib(T(F_{j−1}(K), f_j) → F_{j−1}(K)); then L_I K = F_r(K). For a locally finitely generated ideal the local reflectors glue by hypercover descent, and the adjunction makes the result independent of choices. On the point topos identify this reflector with `DerivedDeRham.derivedCompletion` of DerivedDeRhamCohomology §1.3, and for R = ℤ, I = (ℓ), with `ClassicalDerived.derivedCompletion` of ClassicalAdicEtaleCohomology §0.3. (BS-proet Lemma 3.4.9, pp. 21–22.)
+**The completion reflector** (`completeSheaf`). The inclusion Dcomp(X, R, I) → D(X, R) has a left adjoint L_I, compatible with restriction to slices. If I = (f₁, …, f_r) globally, put F₀(K) = K and F_j(K) = cofib(T(F_{j−1}(K), f_j) → F_{j−1}(K)); then L_I K = F_r(K). For a locally finitely generated ideal the local reflectors glue by hypercover descent, and the adjunction makes the result independent of choices. On the point topos identify this reflector with `DerivedDeRham.derivedCompletion` of DerivedModuleAlgebra §1.3, and for R = ℤ, I = (ℓ), with `ClassicalDerived.derivedCompletion` of Section 0.3. (BS-proet Lemma 3.4.9, pp. 21–22.)
 
 Provide `completeSheaf` with its unit η_K : K → L_I K, `completeSheaf_map`, `completeSheaf_mapEquiv` (for complete L, Map(L_I K, L) ≃ Map(K, L) through η_K), `completeSheaf_restrict` and `completeSheaf_idempotent`.
 
@@ -2444,13 +2525,13 @@ Provide `completeSheaf` with its unit η_K : K → L_I K, `completeSheaf_map`, `
 
 ### E4.2 Koszul models and regular ideals
 
-**The Koszul power model of completion** (`koszulCompletionTower`). For a finitely generated ideal I = (f₁, …, f_r), lift `DerivedDeRham.koszulCompletionTower` of DerivedDeRhamCohomology §1.4 to coherent towers under `enhancedDerived`, and extend it to ringed slices. For unbounded K the comparison is
+**The Koszul power model of completion** (`koszulCompletionTower`). For a finitely generated ideal I = (f₁, …, f_r), lift `DerivedDeRham.koszulCompletionTower` of DerivedModuleAlgebra §1.4 to coherent towers under `enhancedDerived`, and extend it to ringed slices. For unbounded K the comparison is
 
 ```text
 L_I K ≃ Rlim_n ( K ⊗ᴸ_A K_A(f₁^n, …, f_r^n) ),   n ≥ 1,
 ```
 
-where the transition from m to n (m ≥ n) is the identity in degree zero and sends the i-th exterior generator e_i to f_i^{m−n} e_i. No Noetherian or regularity hypothesis is used; the terms are Koszul complexes, not quotient rings. The comparison on a ringed slice is compatible with restriction; the module tower and its ordinary proof are supplied by DerivedDeRhamCohomology §1.4. (Stacks, More on Algebra, Situation 15.93.15 and Lemmas 15.93.16–15.93.18, tags 0BKC, 091Y, 091Z, 0920, pp. 266–267; Lemma 15.30.6, tag 0913, pp. 74–75.)
+where the transition from m to n (m ≥ n) is the identity in degree zero and sends the i-th exterior generator e_i to f_i^{m−n} e_i. No Noetherian or regularity hypothesis is used; the terms are Koszul complexes, not quotient rings. The comparison on a ringed slice is compatible with restriction; the module tower and its ordinary proof are supplied by DerivedModuleAlgebra §1.4. (Stacks, More on Algebra, Situation 15.93.15 and Lemmas 15.93.16–15.93.18, tags 0BKC, 091Y, 091Z, 0920, pp. 266–267; Lemma 15.30.6, tag 0913, pp. 74–75.)
 
 **Checks.**
 
@@ -2460,9 +2541,9 @@ where the transition from m to n (m ≥ n) is the identity in degree zero and se
 
 *Proof route.* Koszul functoriality gives the transitions; f_i^n acts null-homotopically on each term, so every term and the limit are complete. On complete K, the inverse limit of each negative graded piece of the Koszul filtration is a finite sum of telescopes for products of generators, which vanish; so the unit is an equivalence on complete objects. The finite-free dual Koszul model of the extended Čech complex and tensor–Hom adjunction give the universal property.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes); `DerivedCompleteSheaves`; `derivedComplete_iff_generators`; `completeSheaf`; `derivedInternalHom`; `derivedTowerLimit`; `IsReplete.milnor`.
+*Needs:* DerivedModuleAlgebra §6.4 (Koszul complexes); `DerivedCompleteSheaves`; `derivedComplete_iff_generators`; `completeSheaf`; `derivedInternalHom`; `derivedTowerLimit`; `IsReplete.milnor`.
 
-**Regular ideal quotient comparison** (`regularIdeal_quotients`). For a finite regular sequence I = (f₁, …, f_r) in a commutative ring A, compare the coherent Koszul tower in `koszulCompletionTower` with the quotient tower K ⊗ᴸ_A A/Iⁿ, on every ringed slice with constant coefficients A. DerivedDeRhamCohomology §1.5 supplies the ordinary quotient-tower completion comparison; lift it through `koszulEnhancedComparison` and prove coherent restriction to slices. Here additionally prove that for every n ≥ 1, A/Iⁿ is perfect over A with Tor amplitude contained in [−r, 0], uniformly in n. No Noetherian hypothesis is imposed. (Stacks Lemmas 15.31.2–15.31.6, tags 062F, 062G, 062I; Lemma 15.93.18, tag 0920; BS-proet proof of Lemma 3.5.5, p. 25.)
+**Regular ideal quotient comparison** (`regularIdeal_quotients`). For a finite regular sequence I = (f₁, …, f_r) in a commutative ring A, compare the coherent Koszul tower in `koszulCompletionTower` with the quotient tower K ⊗ᴸ_A A/Iⁿ, on every ringed slice with constant coefficients A. DerivedModuleAlgebra §1.5 supplies the ordinary quotient-tower completion comparison; lift it through `koszulEnhancedComparison` and prove coherent restriction to slices. Here additionally prove that for every n ≥ 1, A/Iⁿ is perfect over A with Tor amplitude contained in [−r, 0], uniformly in n. No Noetherian hypothesis is imposed. (Stacks Lemmas 15.31.2–15.31.6, tags 062F, 062G, 062I; Lemma 15.93.18, tag 0920; BS-proet proof of Lemma 3.5.5, p. 25.)
 
 **Checks.**
 
@@ -2473,7 +2554,7 @@ where the transition from m to n (m ≥ n) is the identity in degree zero and se
 
 *Proof route.* Resolve A/I by the regular Koszul complex. Regularity implies H₁-regularity and then quasi-regularity (Stacks 062F, 062I), identifying Iʲ/Iʲ⁺¹ with the degree-j part of (A/I)[T₁, …, T_r], a finite free A/I-module. Induct on n using 0 → Iⁿ⁻¹/Iⁿ → A/Iⁿ → A/Iⁿ⁻¹ → 0. Perfect complexes and Tor amplitude [−r, 0] are closed under these extensions, giving the uniform bound.
 
-*Needs:* DerivedDeRhamCohomology §1.5; IntegralHeckeAndGaloisDeterminants §6.4; `koszulEnhancedComparison`; `koszulCompletionTower`; `enhancedCoeffChange`.
+*Needs:* DerivedModuleAlgebra §1.5; DerivedModuleAlgebra §6.4; `koszulEnhancedComparison`; `koszulCompletionTower`; `enhancedCoeffChange`.
 
 ### E4.3 Complete modules and cohomology
 
@@ -2596,7 +2677,7 @@ Provide `reconstructCoefficientSystem`, `reconstructCoefficientSystem_projection
 - The Noetherian bounded-above argument of the source does not apply to an unbounded system as such; the regular-sequence amplitude replaces it.
 - For I = 0 the two tensor products agree at every stage and the comparison cone is the zero tower.
 
-*Needs:* `derivedTowerLimit`; `IsReplete.milnor`; `IsReplete.rlim_eq_zero_of_proZero`; IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes); `regularIdeal_quotients`; `ringedSystemComparison`; `enhancedDerived`.
+*Needs:* `derivedTowerLimit`; `IsReplete.milnor`; `IsReplete.rlim_eq_zero_of_proZero`; DerivedModuleAlgebra §6.4 (Koszul complexes); `regularIdeal_quotients`; `ringedSystemComparison`; `enhancedDerived`.
 
 **Reduction of the reconstructed limit** (`reconstruction_counit`). For K_• ∈ Sys_I(X, R) and every k ≥ 1, (Rlim_n K_n) ⊗ᴸ_R R/I^k → K_k is an equivalence. I^k need not be generated by a regular sequence. (BS-proet Lemma 3.5.5 and its proof, p. 25.)
 
@@ -2652,7 +2733,7 @@ Provide `reconstructionUnit`, `reconstructionCounit` and `coefficientSystemRecon
 
 *Proof route.* Start from P = R, extend to finite sums and shifts by exactness, then to cofibres and retracts, hence to Perf(R); R/I^n is perfect by `regularIdeal_quotients`.
 
-*Needs:* `perfectAction_exactFunctor`; `regularIdeal_quotients`; IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes); `presentable_limit_restricted`.
+*Needs:* `perfectAction_exactFunctor`; `regularIdeal_quotients`; DerivedModuleAlgebra §6.4 (Koszul complexes); `presentable_limit_restricted`.
 
 **Equivalences detected modulo the ideal** (`isIso_of_isIso_mod`). A map f : K → L of derived I-complete objects is an equivalence if and only if f ⊗ᴸ_R R/I is. For a finitely generated ideal on the point topos the same holds with the Koszul complex K_R(f₁, …, f_r) in place of R/I (derived Nakayama). Completeness cannot be dropped, and the test uses the derived, not the ordinary, reduction. (ECD Remark 26.3, p. 162; Stacks, More on Algebra, Lemma 15.93.20, tag 0G1U, p. 268.)
 
@@ -2677,7 +2758,7 @@ Layers E0, E1, E2:towers, E2, E3 and E5:abstract. Mathlib (adic completeness, re
 
 ## Layer E5:cotangent-export: The cotangent complex of animated rings
 
-This layer constructs the coherent animated refinements of the ordinary cotangent complex and powers supplied by DerivedDeRhamCohomology §§0.4–0.17. It gives mapping-space universal properties and natural comparisons with those supplied models, including transitivity and base change. Animated modules are from E5:animation.4, using the earlier spectral comparison. Throughout, connective means cohomology in degrees ≤ 0.
+This layer constructs the coherent animated refinements of the ordinary cotangent complex and powers supplied by DerivedModuleAlgebra §§0.4–0.17. It gives mapping-space universal properties and natural comparisons with those supplied models, including transitivity and base change. Animated modules are from E5:animation.4, using the earlier spectral comparison. Throughout, connective means cohomology in degrees ≤ 0.
 
 ### E5:cotangent-export.1 Derivations and the cotangent complex
 
@@ -2693,7 +2774,7 @@ Provide `squareZeroExtension` with its projection and zero section, `derivedDeri
 
 *Needs:* `animatedAlgebras`; `animatedModules`; `animationExtension`; Mathlib `TrivSqZeroExt`.
 
-**Animated cotangent refinement and ordinary comparison** (`cotangentComplex`, `cotangentComplex_ordinary`). Extend the polynomial differential functor, including its scalar extension in both variables, by animation to maps A → B of animated rings. The resulting connective object L_{B/A} ∈ Mod_B has coherent functoriality on squares. For ordinary rings, identify its image under the homotopy-category equivalence with `Algebra.CotangentComplex A B` of DerivedDeRhamCohomology §0.4, compatibly with that supplier's maps and resolution comparison. Transport the supplier's transitivity, derived base change, localization, filtered-colimit, smooth and regular-quotient formulas (§§0.8–0.13) to coherent diagrams; for simplicial rings compare with its diagonal model (§0.9). The ordinary constructions and their proofs remain with that supplier. (Bhatt–Lurie Appendix B, Construction B.1 and Remark B.2, pp. 225–226; Stacks Definition 92.3.2, tag 08PN, and Proposition 92.7.4, tag 08QX.)
+**Animated cotangent refinement and ordinary comparison** (`cotangentComplex`, `cotangentComplex_ordinary`). Extend the polynomial differential functor, including its scalar extension in both variables, by animation to maps A → B of animated rings. The resulting connective object L_{B/A} ∈ Mod_B has coherent functoriality on squares. For ordinary rings, identify its image under the homotopy-category equivalence with `Algebra.CotangentComplex A B` of DerivedModuleAlgebra §0.4, compatibly with that supplier's maps and resolution comparison. Transport the supplier's transitivity, derived base change, localization, filtered-colimit, smooth and regular-quotient formulas (§§0.8–0.13) to coherent diagrams; for simplicial rings compare with its diagonal model (§0.9). The ordinary constructions and their proofs remain with that supplier. (Bhatt–Lurie Appendix B, Construction B.1 and Remark B.2, pp. 225–226; Stacks Definition 92.3.2, tag 08PN, and Proposition 92.7.4, tag 08QX.)
 
 **Checks.**
 
@@ -2701,9 +2782,9 @@ Provide `squareZeroExtension` with its projection and zero section, `derivedDeri
 - For k of characteristic ≠ 2 and B = k[ε]/(ε²), the comparison is [B → B·dε], 1 ↦ 2ε dε, in degrees −1, 0, so H^{−1} = εB ≠ 0.
 - Under base change ℤ → 𝔽_p along ℤ → 𝔽_p use the animated pushout 𝔽_p ⊗ᴸ_ℤ 𝔽_p; replacing it by its ordinary truncation would incorrectly kill the relative cotangent complex.
 
-*Needs:* DerivedDeRhamCohomology §§0.4–0.13 (`Algebra.CotangentComplex`, `.map`, `.resolutionIso`, `.transitivityTriangle`, `.baseChange`, `.smooth`, `.regularQuotient`); `animatedModules`; `animationExtension`; `animatedPushout`; `enhancedDerived`.
+*Needs:* DerivedModuleAlgebra §§0.4–0.13 (`Algebra.CotangentComplex`, `.map`, `.resolutionIso`, `.transitivityTriangle`, `.baseChange`, `.smooth`, `.regularQuotient`); `animatedModules`; `animationExtension`; `animatedPushout`; `enhancedDerived`.
 
-**The mapping-space universal property** (`cotangentComplex_corepresents`). For animated A → B and connective B-module M, construct a natural equivalence Map_{Mod_B}(L_{B/A}, M) ≃ Der_A(B, M), compatible with base squares and module maps. On ordinary rings, π₀ is the Ext-zero/derivation correspondence of DerivedDeRhamCohomology §0.6; the target here retains all higher homotopies. (Bhatt, *p-adic derived de Rham*, Remark 6.6 and equivalence (6), p. 25.)
+**The mapping-space universal property** (`cotangentComplex_corepresents`). For animated A → B and connective B-module M, construct a natural equivalence Map_{Mod_B}(L_{B/A}, M) ≃ Der_A(B, M), compatible with base squares and module maps. On ordinary rings, π₀ is the Ext-zero/derivation correspondence of DerivedModuleAlgebra §0.6; the target here retains all higher homotopies. (Bhatt, *p-adic derived de Rham*, Remark 6.6 and equivalence (6), p. 25.)
 
 **Checks.**
 
@@ -2713,11 +2794,11 @@ Provide `squareZeroExtension` with its projection and zero section, `derivedDeri
 
 *Proof route.* Use the polynomial universal property, then the sifted-colimit extension in the algebra and module variables; mapping out converts these colimits to limits.
 
-*Needs:* `cotangentComplex`; `derivedDerivations`; `animationExtension`; DerivedDeRhamCohomology §0.6.
+*Needs:* `cotangentComplex`; `derivedDerivations`; `animationExtension`; DerivedModuleAlgebra §0.6.
 
 ### E5:cotangent-export.2 Animated exterior powers
 
-**Animated power comparison** (`animatedExteriorPower`). Extend exterior powers on finite free modules over polynomial rings by animation of pairs (B, M), with coherent scalar extension and graded multiplication. For discrete B, its homotopy-category shadow is `DerivedDeRham.derivedExteriorPower` of DerivedDeRhamCohomology §0.14, including weight zero, weight one, the flat-module comparison and integral décalage of §0.17. This is an enhancement comparison; the ordinary power functor is supplied there. (SAG Construction 25.2.2.2 and Proposition 25.2.3.1, pp. 1700–1702; Proposition 25.2.4.2, pp. 1704–1707, for integral décalage. Bhatt–Lurie Appendix B, Construction B.1 and Remark B.5, pp. 225–226, give the cotangent specialization.)
+**Animated power comparison** (`animatedExteriorPower`). Extend exterior powers on finite free modules over polynomial rings by animation of pairs (B, M), with coherent scalar extension and graded multiplication. For discrete B, its homotopy-category shadow is `DerivedDeRham.derivedExteriorPower` of DerivedModuleAlgebra §0.14, including weight zero, weight one, the flat-module comparison and integral décalage of §0.17. This is an enhancement comparison; the ordinary power functor is supplied there. (SAG Construction 25.2.2.2 and Proposition 25.2.3.1, pp. 1700–1702; Proposition 25.2.4.2, pp. 1704–1707, for integral décalage. Bhatt–Lurie Appendix B, Construction B.1 and Remark B.5, pp. 225–226, give the cotangent specialization.)
 
 **Checks.**
 
@@ -2725,7 +2806,7 @@ Provide `squareZeroExtension` with its projection and zero section, `derivedDeri
 - For a free line Be, the second exterior power is zero, including over 𝔽₂, where signed coinvariants alone would not impose e ∧ e = 0.
 - For a nonzero ring B and the line M = B, L∧ⁿ(M[1]) ≃ Γⁿ(M)[n] is nonzero for every n. For B = 0 all these objects vanish.
 
-*Needs:* DerivedDeRhamCohomology §§0.14–0.17 (powers and integral décalage); `animationExtension`; `animatedModules`; `cotangentComplex_ordinary`.
+*Needs:* DerivedModuleAlgebra §§0.14–0.17 (powers and integral décalage); `animationExtension`; `animatedModules`; `cotangentComplex_ordinary`.
 
 ### Examples
 
@@ -2734,7 +2815,7 @@ Provide `squareZeroExtension` with its projection and zero section, `derivedDeri
 
 ### Dependencies
 
-Layers E0, E1, E3, E5:abstract, E5:presentability, E5:spectra-comparison and E5:animation; DerivedDeRhamCohomology §§0.4–0.17 for the ordinary cotangent and power models. Mathlib (Kähler differentials, the naive cotangent complex and H1Cotangent, trivial square-zero extensions, regular sequences, exterior powers).
+Layers E0, E1, E3, E5:abstract, E5:presentability, E5:spectra-comparison and E5:animation; DerivedModuleAlgebra §§0.4–0.17 for the ordinary cotangent and power models. Mathlib (Kähler differentials, the naive cotangent complex and H1Cotangent, trivial square-zero extensions, regular sequences, exterior powers).
 
 ## Layer E5: Compatibility of the enhancements
 
@@ -2750,7 +2831,7 @@ The last layer checks that the constructions of the roadmap fit together: the de
 
 *Proof route.* Each comparison is determined by its value on the unit or on polynomial generators, by the universal properties of `animationExtension`, `presentableTensor` and `moduleSpectra_equiv_derived`; the composites agree there and hence everywhere, naturally.
 
-*Needs:* `animatedAlgebras`; `animatedModules`; `cotangentComplex_ordinary`; DerivedDeRhamCohomology §§0.12–0.13 (`Algebra.CotangentComplex.smooth`, `.regularQuotient`); `moduleSpectra_equiv_derived`; `exactMonoidalFunctor_triangle`; `enhancedDerived`.
+*Needs:* `animatedAlgebras`; `animatedModules`; `cotangentComplex_ordinary`; DerivedModuleAlgebra §§0.12–0.13 (`Algebra.CotangentComplex.smooth`, `.regularQuotient`); `moduleSpectra_equiv_derived`; `exactMonoidalFunctor_triangle`; `enhancedDerived`.
 
 ### Examples
 

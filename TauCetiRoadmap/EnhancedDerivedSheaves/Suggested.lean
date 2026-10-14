@@ -13,7 +13,7 @@ live on carriers the pinned libraries already have, with the conventions they fi
 
 * categorical equivalences of quasicategories, as equivalences in Mathlib's homotopy bicategory
   `SSet.QCat.bicategory` (not equivalences of homotopy categories);
-* the point-site K-flat condition supplied by ClassicalAdicEtaleCohomology §0.2;
+* the point-site K-flat condition supplied by README §0.2;
 * the global dimension of regular rings and Kunz's theorem, on Mathlib's `IsRegularRing`;
 * Frobenius-root ideals and Tor independence of perfect `𝔽_p`-algebras;
 * `𝔪`-saturation of modules over a valuation ring;
@@ -69,7 +69,7 @@ section KFlat
 
 open MonoidalCategory
 
-/-- The point-site K-flat condition of ClassicalAdicEtaleCohomology §0.2 (Section E1.2): a complex
+/-- The point-site K-flat condition of README §0.2 (Section E1.2): a complex
 `P` of `R`-modules is K-flat when tensoring with it preserves acyclicity of every unbounded
 complex. Termwise flatness is not the definition. The sheaf version replaces `ModuleCat R` by
 `SheafOfModules O` with the sheafified tensor product. -/
@@ -419,7 +419,7 @@ end Replete
 
 section DerivedComplete
 
-/-- The point-site telescope criterion of DerivedDeRhamCohomology §1.2 (`DerivedCompleteSheaves`,
+/-- The point-site telescope criterion of DerivedModuleAlgebra §1.2 (`DerivedCompleteSheaves`,
 Section E4.1). For `f ∈ I` the derived limit of `M ←f M ←f ⋯` is the fibre of
 `(x_n) ↦ (x_n - f • x_{n+1})` on `ℕ → M`; `M` is derived `I`-complete when this map is
 bijective for every `f ∈ I`. -/
@@ -474,11 +474,17 @@ end DerivedComplete
 
 /-
 The README also specifies API beyond the representative statements above:
+* §§0.1–0.4: ClassicalDerived.enhancedCategory, ClassicalDerived.replacements,
+  ClassicalDerived.tensorHom, ClassicalDerived.inverseLimits,
+  ClassicalDerived.inverseLimits.moduleComparison, ClassicalDerived.derivedCompletion,
+  ClassicalDerived.derivedCompletion.moduleComparison, ClassicalDerived.functorCoherence and
+  ClassicalDerived.functorCoherence.coefficientComparison specify ringed-site constructions
+  and their module and coefficient comparisons; their carriers are not at the pins.
 * E0.2: `isCategoricalEquivalence_iff` uses right mapping spaces.
 * E1.2: `replacementDGComparison` compares the replacements supplied by
-  ClassicalAdicEtaleCohomology §0.2 with the dg realization; `IsKFlat` spells its point-site
+  README §0.2 with the dg realization; `IsKFlat` spells its point-site
   acyclicity condition. E1.5 `koszulEnhancedComparison` reindexes the Koszul complex supplied
-  by IntegralHeckeAndGaloisDeterminants §6.4.
+  by DerivedModuleAlgebra §6.4.
 * E1.6: `frobeniusRootIdeal_radical` and `frobeniusRootIdeal_colimit` identify the root ideal
   with the radical and its sequential colimit presentation.
 * E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,
