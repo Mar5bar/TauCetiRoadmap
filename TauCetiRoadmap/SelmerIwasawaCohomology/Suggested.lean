@@ -5,6 +5,7 @@ import TauCeti.Geometry.Hodge.Dual
 import TauCeti.Geometry.Hodge.Prod
 import TauCeti.Geometry.Hodge.Tate.Basic
 import TauCeti.Geometry.Hodge.Tate.Twist
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
 
 /-!
 # Selmer groups and Iwasawa cohomology: suggested Lean forms
@@ -202,6 +203,9 @@ variable (p : ℕ) [Fact p.Prime]
 
 /-- Completion kills a `p`-divisible group. -/
 example : Subsingleton (pCompletion p ℚ) := sorry
+
+/-- Prime-to-three finite torsion disappears in the quotient-tower completion. -/
+example : Subsingleton (pCompletion 3 (ZMod 2)) := sorry
 
 /-- An infinite free lattice has completed elements with infinite support. -/
 example : ¬ Function.Surjective
@@ -402,11 +406,16 @@ variable {R : Type*} [CommRing R] {H HI HQ : Type*} [AddCommGroup H] [Module R H
 /-- §2.7: `H¹_ur = ker(H¹(G, M) → H¹(I, M))` (Rubin Definition I.3.1). -/
 def unramified (resI : H →ₗ[R] HI) : Submodule R H := LinearMap.ker resI
 
-/-- §2.7: inflation from the unramified quotient is exact against restriction to inertia, so the
-unramified condition is its image. -/
-theorem unramified_eq_range_inflation {H₀ : Type*} [AddCommGroup H₀] [Module R H₀]
-    (inf : H₀ →ₗ[R] H) (resI : H →ₗ[R] HI) (hexact : Function.Exact inf resI) :
-    unramified resI = LinearMap.range inf := sorry
+/-- §2.7: for a profinite group and closed normal inertia subgroup, the kernel of the actual
+restriction map is the range of inflation from the quotient with invariant coefficients. -/
+theorem unramified_eq_range_inflation (G : Type*) [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
+    (M : Type*) [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
+    [IsTopologicalAddGroup M] [DistribMulAction G M] [ContinuousSMul G M]
+    (I : Subgroup G) [I.Normal] (hI : IsClosed (I : Set G))
+    [ContinuousSMul (G ⧸ I) (FixedPoints.addSubgroup I M)] :
+    unramified (TauCeti.ContCohomology.explicitRes1 G M I).toIntLinearMap =
+      LinearMap.range (TauCeti.ContCohomology.explicitInfl1 G M I).toIntLinearMap := sorry
 
 /-- §2.7: with injective inflation from the Frobenius coinvariants `B/(σ - 1)B` of the inertia
 invariants (the procyclic calculation), the unramified condition is these coinvariants. -/
@@ -430,6 +439,41 @@ theorem unramified_le_greenberg (resI : H →ₗ[R] HI) (resQ : H →ₗ[R] HQ) 
     (hπ : π ∘ₗ resI = resQ) : unramified resI ≤ greenberg resQ := sorry
 
 end Conditions
+
+section Ordinary
+
+variable {E G V : Type*} [Field E] [Group G] [AddCommGroup V] [Module E V]
+    [FiniteDimensional E V]
+
+/-- §2.8a: a finite decreasing stable filtration whose inertia graded actions are the indexed
+powers of the supplied cyclotomic character. -/
+structure OrdinaryFiltration (ρ : Representation E G V) (I : Subgroup G) (χ : G →* Eˣ) where
+  F : ℤ → Submodule E V
+  antitone : Antitone F
+  exhaustive : ∃ a, F a = ⊤
+  separated : ∃ b, F b = ⊥
+  stable : ∀ i g, (F i).map (ρ g) ≤ F i
+  inertia : ∀ i (g : I) (x : F i),
+    ρ (g : G) (x : V) - ((χ (g : G) ^ i : Eˣ) : E) • (x : V) ∈ F (i + 1)
+
+/-- §2.8a: existence of an ordinary filtration on the given representation. -/
+def IsOrdinary (ρ : Representation E G V) (I : Subgroup G) (χ : G →* Eˣ) : Prop :=
+  Nonempty (OrdinaryFiltration ρ I χ)
+
+/-- §2.8a: the positive ordinary subspace is the first filtration step. -/
+def OrdinaryFiltration.plus {ρ : Representation E G V} {I : Subgroup G} {χ : G →* Eˣ}
+    (D : OrdinaryFiltration ρ I χ) : Submodule E V := D.F 1
+
+/-- The zero representation is ordinary. -/
+example [Subsingleton V] (ρ : Representation E G V) (I : Subgroup G) (χ : G →* Eˣ) :
+    IsOrdinary ρ I χ := sorry
+
+/-- The line of character `χ^n` has its filtration jump at `n`. -/
+example (ρ : Representation E G E) (I : Subgroup G) (χ : G →* Eˣ) (n : ℤ)
+    (hρ : ∀ g x, ρ g x = ((χ g ^ n : Eˣ) : E) * x) :
+    ∃ D : OrdinaryFiltration ρ I χ, ∀ i, D.F i = if i ≤ n then ⊤ else ⊥ := sorry
+
+end Ordinary
 
 /-! Pontryagin characters and coranks (§§2.10–2.11). -/
 
@@ -521,6 +565,16 @@ example (D : SelmerData R Empty) : D.selmer = ⊤ := sorry
 example : propagatePreimage (0 : ℚ →ₗ[ℚ] ℚ) ⊥ = ⊤ ∧ propagateImage (0 : ℚ →ₗ[ℚ] ℚ) ⊤ = ⊥ :=
   sorry
 
+/-- Forward propagation along a composite is the iterated image. -/
+example {X Y Z : Type*} [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]
+    [AddCommGroup Z] [Module R Z] (h : X →ₗ[R] Y) (g : Y →ₗ[R] Z) (L : Submodule R X) :
+    propagateImage (g ∘ₗ h) L = propagateImage g (propagateImage h L) := sorry
+
+/-- Backward propagation along a composite reverses the order of preimages. -/
+example {X Y Z : Type*} [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]
+    [AddCommGroup Z] [Module R Z] (h : X →ₗ[R] Y) (g : Y →ₗ[R] Z) (L : Submodule R Z) :
+    propagatePreimage (g ∘ₗ h) L = propagatePreimage h (propagatePreimage g L) := sorry
+
 /-- Identity inertia restriction gives the strict condition; a zero quotient restriction gives
 the relaxed Greenberg condition. -/
 example : unramified (LinearMap.id : ℚ →ₗ[ℚ] ℚ) = ⊥ ∧ greenberg (0 : ℚ →ₗ[ℚ] ℚ) = ⊤ := sorry
@@ -529,6 +583,11 @@ example : unramified (LinearMap.id : ℚ →ₗ[ℚ] ℚ) = ⊥ ∧ greenberg (0
 corank from torsion length. -/
 example (p : ℕ) [Fact p.Prime] :
     corankFromDual p ℤ_[p] = 1 ∧ corankFromDual p (Fin 2 → ℤ_[p]) = 2 := sorry
+
+/-- The nonzero finite compact dual has corank zero under its natural residue action. -/
+example (p : ℕ) [Fact p.Prime] :
+    @corankFromDual p _ (ZMod p) _
+      (Module.compHom (ZMod p) (PadicInt.toZMod : ℤ_[p] →+* ZMod p)) = 0 := sorry
 
 /-- The contragredient pullback evaluates at the inverse group element. -/
 example {G M : Type*} [Group G] [TopologicalSpace M] [CommGroup M]
@@ -591,6 +650,21 @@ def padicComplexGaloisAction (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) : 
 theorem padicComplexGaloisAction_spec (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
     ∃ τ : ℂ_[p] ≃ₐ[ℚ_[p]] ℂ_[p], ⇑τ = padicComplexGaloisAction p σ ∧ Isometry τ ∧
       ∀ x : PadicAlgCl p, τ x = σ x := sorry
+
+/-- The identity Galois automorphism extends to the identity of the completed carrier. -/
+example (x : ℂ_[p]) :
+    padicComplexGaloisAction p (AlgEquiv.refl : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) x = x := sorry
+
+/-- Every extended Galois action fixes the base field. -/
+example (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : ℚ_[p]) :
+    padicComplexGaloisAction p σ (algebraMap ℚ_[p] ℂ_[p] x) =
+      algebraMap ℚ_[p] ℂ_[p] x := sorry
+
+/-- An automorphism changing a square root of `p` has a nonidentity completed action. -/
+example (hp : p ≠ 2) (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : PadicAlgCl p)
+    (hx : x ^ 2 = (p : PadicAlgCl p)) (hσ : σ x = -x) :
+    padicComplexGaloisAction p σ (x : ℂ_[p]) = (-x : PadicAlgCl p) ∧
+      padicComplexGaloisAction p σ (x : ℂ_[p]) ≠ (x : ℂ_[p]) := sorry
 
 /-- §4.1, Ax–Sen–Tate: for `K/ℚ_p` finite inside `PadicAlgCl p`, the `G_K`-invariants of `ℂ_p`
 are `K`. -/
@@ -773,54 +847,69 @@ def complexHodgeGammaFactors (H : TauCeti.Hodge.HodgeStructureOn W ω w) :
   exact H.finite_setOf_hodgeNumber_ne_zero.toFinset.toList.map fun a =>
     (.complex (-min a (w - a)), H.hodgeNumber a)
 
-/-- §4.14: expand weighted integral shifts into the separate complex-shift multisets of
-LFunctions §Layer 0 / `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC`, without constructing an L-function record. -/
+/-- §4.14: the factor-only product on separate multisets of complex shifts. -/
+def gammaShiftProduct (gammaR gammaC : Multiset ℂ) (s : ℂ) : ℂ :=
+  (gammaR.map fun μ => Complex.Gammaℝ (s + μ)).prod *
+    (gammaC.map fun ν => Complex.Gammaℂ (s + ν)).prod
+
+/-- §4.14: the finite number of real and complex Gamma poles, counting multiset multiplicity. -/
+def gammaShiftPoleCount (gammaR gammaC : Multiset ℂ) (s : ℂ) : ℕ := by
+  classical
+  exact (gammaR.filter fun μ => ∃ n : ℕ, s + μ = -(2 * (n : ℂ))).card +
+    (gammaC.filter fun ν => ∃ n : ℕ, s + ν = -(n : ℂ)).card
+
+/-- §4.14: every finite shifted Gamma product is meromorphic. -/
+theorem gammaShiftProduct_meromorphic (gammaR gammaC : Multiset ℂ) :
+    Meromorphic (gammaShiftProduct gammaR gammaC) := sorry
+
+/-- §4.14: the meromorphic germ is nonzero, even at a totalized zero value. -/
+theorem gammaShiftProduct_nonzero_germ (gammaR gammaC : Multiset ℂ) (s : ℂ) :
+    meromorphicOrderAt (gammaShiftProduct gammaR gammaC) s ≠ ⊤ := sorry
+
+/-- §4.14: the analytic order of the factor-only product is the negative finite pole count. -/
+theorem gammaPoleOrder_analytic (gammaR gammaC : Multiset ℂ) (s : ℂ) :
+    meromorphicOrderAt (gammaShiftProduct gammaR gammaC) s =
+      (-(gammaShiftPoleCount gammaR gammaC s : ℤ) : WithTop ℤ) := sorry
+
+/-- §4.14: expand weighted integral shifts into separate complex-shift multisets,
+retaining the `s + shift` sign. -/
 def hodgeGammaShifts (factors : List (ShiftedGamma × ℕ)) : Multiset ℂ × Multiset ℂ :=
   factors.foldr (fun f shifts =>
     match f.1 with
     | .real a => (Multiset.replicate f.2 (a : ℂ) + shifts.1, shifts.2)
     | .complex a => (shifts.1, Multiset.replicate f.2 (a : ℂ) + shifts.2)) (0, 0)
 
-/-- §4.14: the weighted-integral-list adapter for the generic product of LFunctions §Layer 0,
-`AnalyticLFunctionData.gammaFactor`. This carrier supplies `gammaFactor` (§4.15),
-`gamma_tate_factor` and Hodge Checks. The shift-multiset adapter identifies it with the
-supplier's factor-only formula, with the same `s + shift` sign. -/
+/-- §4.14: the product of weighted real and complex Gamma factors with integral shifts. -/
 def hodgeGammaFactor (factors : List (ShiftedGamma × ℕ)) (s : ℂ) : ℂ :=
   (factors.map fun f =>
     (match f.1 with
      | .real a => Complex.Gammaℝ (s + (a : ℂ))
      | .complex a => Complex.Gammaℂ (s + (a : ℂ))) ^ f.2).prod
 
-/-- §4.14: the weighted-list/multiset adapter identifies the local carrier with the factor-only
-formula of LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`, including totalized values. No full L-function data are needed. -/
+/-- §4.14: expansion of multiplicities identifies the weighted product with the factor-only
+shift product, including totalized values. -/
 theorem hodgeGammaFactor_eq_shiftProduct (f : List (ShiftedGamma × ℕ)) (s : ℂ) :
-    hodgeGammaFactor f s =
-      ((hodgeGammaShifts f).1.map fun μ => Complex.Gammaℝ (s + μ)).prod *
-        ((hodgeGammaShifts f).2.map fun ν => Complex.Gammaℂ (s + ν)).prod := sorry
+    hodgeGammaFactor f s = gammaShiftProduct (hodgeGammaShifts f).1 (hodgeGammaShifts f).2 s :=
+  sorry
 
-/-- §4.14: the integer pole-count adapter for ZerosOfLFunctions §1.5, The gamma factor of a
-record, poles and divisor clause. Its analytic interpretation uses the shift-multiset adapter.
-The count supplies `poleOrderAtOne`, Tate-dual factors and criticality. -/
+/-- §4.14: the integer pole count for a weighted factor list, interpreted through the analytic
+order theorem for the shift product. -/
 def gammaPoleOrder (factors : List (ShiftedGamma × ℕ)) (m : ℤ) : ℕ :=
   (factors.map fun f =>
     match f.1 with
     | .real a => if m + a ≤ 0 ∧ (m + a) % 2 = 0 then f.2 else 0
     | .complex a => if m + a ≤ 0 then f.2 else 0).sum
 
-/-- §4.14: list-concatenation/multiset transport for the local carrier; generic Gamma products
-are supplied by LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`. -/
+/-- §4.14: concatenating weighted lists multiplies their Gamma products. -/
 theorem gammaFactor_sum (f g : List (ShiftedGamma × ℕ)) (s : ℂ) :
     hodgeGammaFactor (f ++ g) s = hodgeGammaFactor f s * hodgeGammaFactor g s := sorry
 
-/-- §4.14: concatenation adds the local integer counts; their analytic interpretation is
-supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause, through shift-multiset transport. -/
+/-- §4.14: concatenating weighted lists adds their integer pole counts. -/
 theorem gammaPoleOrder_sum (f g : List (ShiftedGamma × ℕ)) (m : ℤ) :
     gammaPoleOrder (f ++ g) m = gammaPoleOrder f m + gammaPoleOrder g m := sorry
 
-/-- §4.14: the `gammaPoleOrder_analytic` supplier contract is ZerosOfLFunctions §1.5 / The gamma
-factor of a record, poles and divisor clause.
-This Hodge-specific adapter applies its factor-only theorem to `hodgeGammaShifts`, obtains
-finite order, and transports the negative count into Mathlib's `WithTop ℤ`. -/
+/-- §4.14: the analytic order of the real-place Hodge product is the negative integer pole
+count, obtained from the factor-only Gamma theorem. -/
 theorem gammaPoleOrder_hodge_analytic (A : ArchimedeanRealization W ω w) (m : ℤ) :
     meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors A)) (m : ℂ) =
       (-(gammaPoleOrder (hodgeGammaFactors A) m : ℤ) : WithTop ℤ) := sorry
@@ -875,13 +964,11 @@ def tateArchimedean (n : ℤ) : ArchimedeanRealization ℂ standardConjugation (
           tateHodge_number n (2 * n - a))
       rw [ha, hb]
 
-/-- §4.14: the Hodge/shift adapter specializes LFunctions §Layer 0's supplied Gamma product to
-the L-function Tate convention `Γℝ(s - n)`. -/
+/-- §4.14: the real-place Hodge product of the Tate line is `Γℝ(s - n)`. -/
 theorem gamma_tate_factor (n : ℤ) (s : ℂ) :
     hodgeGammaFactor (hodgeGammaFactors (tateArchimedean n)) s = Complex.Gammaℝ (s - n) := sorry
 
-/-- §4.15: the local Hodge integer count at `s = 1`, interpreted analytically by
-ZerosOfLFunctions §1.5 through `gammaPoleOrder_hodge_analytic`. -/
+/-- §4.15: the pole count at one for the real-place Hodge realization. -/
 def poleOrderAtOne (A : ArchimedeanRealization W ω w) : ℕ :=
   gammaPoleOrder (hodgeGammaFactors A) 1
 
@@ -908,8 +995,7 @@ theorem tateDualHodgeGammaFactors_eq (A : ArchimedeanRealization W ω w)
 def IsGreenbergCritical (A : ArchimedeanRealization W ω w) : Prop :=
   poleOrderAtOne A = 0 ∧ gammaPoleOrder (tateDualHodgeGammaFactors A) 1 = 0
 
-/-- §4.15: the Hodge realization's factor list evaluated through the local carrier for
-LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`. -/
+/-- §4.15: the Gamma factor computed from the explicit Hodge and Betti realization. -/
 def gammaFactor (A : ArchimedeanRealization W ω w) (s : ℂ) : ℂ :=
   hodgeGammaFactor (hodgeGammaFactors A) s
 
@@ -953,17 +1039,28 @@ one. -/
 example : IsGreenbergCritical (tateArchimedean 2) ∧ IsGreenbergCritical (tateArchimedean (-1)) ∧
     ¬ IsGreenbergCritical (tateArchimedean 0) ∧ poleOrderAtOne (tateArchimedean 1) = 1 := sorry
 
-/-- §4.14: the empty-list adapter gives two empty supplier shift multisets, unit product and
+/-- §4.14: the empty-list adapter gives two empty shift multisets, unit product and
 zero integer count. -/
 example (s : ℂ) : hodgeGammaShifts [] = (0, 0) ∧
     hodgeGammaFactor [] s = 1 ∧ gammaPoleOrder [] 0 = 0 := by
   simp [hodgeGammaShifts, hodgeGammaFactor, gammaPoleOrder]
 
 /-- §4.14: the adapter preserves negative shifts, repeats multiplicities, separates factor
-kinds and discards zero multiplicities before the supplier's factor-only formula is applied. -/
+kinds and discards zero multiplicities. -/
 example : hodgeGammaShifts [(.real (-2), 2), (.complex 1, 1), (.real 4, 0)] =
     (Multiset.replicate 2 (-2 : ℂ), {1}) := by
   simp [hodgeGammaShifts]
+
+/-- §4.14: the empty generic product has unit value and analytic order zero. -/
+example (s : ℂ) : gammaShiftProduct 0 0 s = 1 ∧
+    meromorphicOrderAt (gammaShiftProduct 0 0) s = 0 := sorry
+
+/-- §4.14: coincident real and complex poles add their multiplicities. -/
+example : meromorphicOrderAt (gammaShiftProduct {0, 0} {0}) 0 = (-3 : WithTop ℤ) := sorry
+
+/-- §4.14: minus one is a complex Gamma pole but is not a real Gamma pole. -/
+example : meromorphicOrderAt (gammaShiftProduct {0} 0) (-1) = 0 ∧
+    meromorphicOrderAt (gammaShiftProduct 0 {0}) (-1) = (-1 : WithTop ℤ) := sorry
 
 /-- §4.14: changing the real sign moves the pole at zero; odd negative arguments are not real
 Gamma poles, while complex Gamma has a pole at every nonpositive integer. -/
@@ -972,9 +1069,11 @@ example : gammaPoleOrder [(.real 0, 1)] 0 = 1 ∧ gammaPoleOrder [(.real 1, 1)] 
   decide
 
 /-- §4.14: the Hodge Tate-line adapter has totalized product value zero at a pole but integer
-count one; the analytic interpretation is supplied by ZerosOfLFunctions §1.5. -/
+count one and analytic order minus one. -/
 example : hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0)) 0 = 0 ∧
-    gammaPoleOrder (hodgeGammaFactors (tateArchimedean 0)) 0 = 1 := sorry
+    gammaPoleOrder (hodgeGammaFactors (tateArchimedean 0)) 0 = 1 ∧
+    meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0))) 0 =
+      (-1 : WithTop ℤ) := sorry
 
 /-- §4.14: a conjugate off-diagonal pair is counted once at a real place. -/
 example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1014,6 +1113,22 @@ example : gammaPoleOrder (tateDualHodgeGammaFactors (tateArchimedean 2)) 1 = 0 �
 /-- §4.14: the complex-place factor of a real Tate line is a complex Gamma factor. -/
 example (s : ℂ) : hodgeGammaFactor (complexHodgeGammaFactors (tateHodge 0)) s =
     Complex.Gammaℂ s := sorry
+
+/-- §4.14: the zero complex-place realization has unit product. -/
+example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    {ω : TauCeti.Hodge.Conjugation W} {w : ℤ} [Subsingleton W]
+    (H : TauCeti.Hodge.HodgeStructureOn W ω w) (s : ℂ) :
+    hodgeGammaFactor (complexHodgeGammaFactors H) s = 1 := sorry
+
+/-- §4.14: a complex-place type `(2,2)` shifts the complex factor by minus two. -/
+example (s : ℂ) : hodgeGammaFactor (complexHodgeGammaFactors (tateHodge 2)) s =
+    Complex.Gammaℂ (s - 2) := sorry
+
+/-- §4.14: complex places count both conjugate weight-one types with the same zero shift. -/
+example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    {ω : TauCeti.Hodge.Conjugation W} (H : TauCeti.Hodge.HodgeStructureOn W ω 1)
+    (h : ∀ a, H.hodgeNumber a = if a = 0 ∨ a = 1 then 1 else 0) (s : ℂ) :
+    hodgeGammaFactor (complexHodgeGammaFactors H) s = Complex.Gammaℂ s ^ 2 := sorry
 
 /-- §4.13: switching the real sign twice recovers the original involution. -/
 example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1111,12 +1226,12 @@ duality on the modified instance); the étale comparison `restrictedRamification
 `etaleGalois_comparison_lattice` (including the finite-S ordinary-limit simplification),
 `etale_jStar_stalk`, `etale_jStar_degreeOne` (injection with image unramified at every removed
 place), `etale_jStar_iwasawa` (infinite decomposition groups at every removed place, §3.15);
-`GreenbergStructureHypotheses` (§3.18); Tate's normalized traces,
+`semilocalCoind_restriction` (§3.6); `GreenbergStructureHypotheses` (§3.18); Tate's normalized traces,
 `tate_almostEtale`, `tate_cyclotomicBanachH1` and `tate_H1_padicComplex_twist`, the canonical
 CR.0.7 specialization `aCris`, its explicit comparison `aCris_model_equiv`, and `bCris`, `dCris`,
 `dDeRham`, `IsCrystalline`, `IsDeRham` (§§4.1–4.5); `fontaineLaffaille_sum`,
-`fontaineLaffaille_dual`, `IsTorsionCrystalline`, `IsIntegralCrystalline`,
-`crystallineNonsingular` (§§4.6–4.8); `blochKatoCondition`, `blochKatoCondition_T`,
+`fontaineLaffaille_dual` (§§4.6–4.7), `IsTorsionCrystalline`, `IsIntegralCrystalline`
+(§4.5a), `crystallineNonsingular` (§4.8); `blochKatoCondition`, `blochKatoCondition_T`,
 `blochKatoStructure` (§4.9); `pRamifiedModule`, `unramifiedModule`, `closedGlobalUnitTower`,
 `arithmeticPlusMinus` (§4.16); `PadicLFunctionDatum` and the main-conjecture propositions
 (§§4.21–4.23), with `iwasawaCorank` the tuple of the component coranks above;

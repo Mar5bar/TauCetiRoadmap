@@ -66,7 +66,7 @@ Layer 5: the local cyclotomic character. Layer 7: the completed multiplicative g
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
-Layer 5: local Tate duality for finite modules over a local field. Layer 10: the global Brauer group sequence 0 → Br F → ⊕_v Br F_v → ℚ/ℤ. Layer 11: global reciprocity, the idele class formation and the norm/transfer compatibilities used in §4.16. Layer 13: the principal ideal theorem, through ArithmeticGaloisDuality §R02.3.3.
+Layer 5: local Tate duality for finite modules over a local field, and the local Euler formulas `eulerCharacteristic_mixed` and `eulerCharacteristic_finrank_fp`. Layer 10: the global Brauer group sequence 0 → Br F → ⊕_v Br F_v → ℚ/ℤ. Layer 11: global reciprocity, the idele class formation and the norm/transfer compatibilities used in §4.16. Layer 13: the principal ideal theorem, through ArithmeticGaloisDuality §R02.3.3.
 
 ### From TauCetiRoadmap.EllipticCurves
 
@@ -96,18 +96,15 @@ Layer R02.1: §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*; *The six-t
 
 §P1.6 (functoriality of tilting), §P1.10 (`isPerfectoidField_padicComplex`), §P1.16 (A_inf = W(R⁺) for a perfect plus ring), §P1.17 (Fontaine's θ is Mathlib's `WittVector.fontaineTheta`), §P1.18 (the primitive kernel of θ), §P1.31 (the completed cyclotomic field is perfectoid), §P3.7 (finite extensions of perfectoid fields), §P3.12 (the integral closure is almost finite étale). They supply the period-ring inputs of §4.1 and the almost-étale trace statement used in Tate's calculation; they do not identify Hodge–Tate weights with archimedean Hodge indices.
 
-### From other roadmaps
+### Gamma products
 
-| Contract | Supplier and exact target | Convention / retained consumer |
-| --- | --- | --- |
-| S869b | ZerosOfLFunctions §1.5 / **The gamma factor of a record**, poles and divisor clause | Require the full finite-product pole theorem on the two shift multisets alone. §4.14 expands multiplicities and specializes at integers, obtaining finite order in `WithTop ℤ` equal to the negative integer count. The real-bodied local carrier `gammaPoleOrder` serves `poleOrderAtOne`, Tate-dual factors and criticality; `gammaPoleOrder_hodge_analytic` transports the supplied theorem for Hodge realizations. |
-| S869c | LFunctions §Layer 0 / **completed L-function data**, `AnalyticLFunctionData.gammaFactor`, `AnalyticLFunctionData.gammaR`, `AnalyticLFunctionData.gammaC` | Require a factor-only product on two complex-shift multisets agreeing with the record's projection. §4.14 retains the Hodge/Betti recipe and weighted integral-list adapter `hodgeGammaShifts`; the real-bodied local restatement `hodgeGammaFactor` serves `gammaFactor`, `gamma_tate_factor` and Hodge Checks, with `hodgeGammaFactor_eq_shiftProduct` identifying it with the supplier's formula. |
-
-The two Gamma contracts use only the shift multisets: they require neither Dirichlet coefficients, conductor, root number, completed function nor a polar divisor. Hodge factors enter through this factor-only interface, without constructing a full L-function record.
+Section 4.14 owns the factor-only product on two complex-shift multisets and its
+meromorphic pole-order theorem, built from Mathlib's Gamma and meromorphic-order APIs.
+The Hodge adapters use these products without requiring a full L-function record.
 
 ## How to read the build
 
-Layer 0 establishes completion and coefficient-limit comparisons, including the S-unit theorem and the procyclic criterion used by nonsingular conditions. Layer 1 treats annihilators and the parametric duality of fibres. Layer 2 constructs the Selmer diagrams and applies that duality to arithmetic cochains. Layer 3 fixes the Iwasawa algebras (§3.0), passes to induced Iwasawa coefficients, computes control errors and determinants, compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 first supplies ℂ_p, Tate's calculation and the periods, then the finite conditions, the archimedean criticality and the cyclotomic arithmetic dictionary, and finally the parity theorems (§§4.28–4.29). References within a layer follow this construction order; the parametric duality of Layer 1 is instantiated by the Layer 2 arithmetic fibre.
+Layer 0 establishes completion and coefficient-limit comparisons, including the S-unit theorem and the procyclic criterion used by nonsingular conditions. Layer 1 treats annihilators and the parametric duality of fibres. Layer 2 constructs the Selmer diagrams and applies that duality to arithmetic cochains. Layer 3 fixes the Iwasawa algebras (§3.0), passes to induced Iwasawa coefficients, computes control errors and determinants, compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 first supplies ℂ_p, Tate's calculation and the periods, then the crystalline coefficient predicates (§4.5a), the small-weight realization and finite conditions, the archimedean criticality and the cyclotomic arithmetic dictionary, and finally the parity theorems (§§4.28–4.29). References within a layer follow this construction order; the parametric duality of Layer 1 is instantiated by the Layer 2 arithmetic fibre.
 
 ## Layer 0: Completions and coefficient limits
 
@@ -299,9 +296,9 @@ S ⊇ {v | p∞}, so μ_{p^m} is a G_{F,S}-module and p is an S-unit.
 
 Prove this as follows. The Kummer sequence for G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H^1(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0 (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes lim^1 H^0; `Set.unit_moduleFinite` of §0.3 makes the terms 𝓞_{F,S}^×/p^m finite; lim_m Pic[p^m] = T_p Pic = 0 because Pic(𝓞_{F,S}) is finite. lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^× (§0.3).
 
-(Burungale–Tian (arXiv v2), Footnote 3 to Theorem 2.1, p. 4, and §2.2.3 (arXiv v2); Rubin (1999 draft), Appendix B, §2, Proposition 2.3, printed p. 152 (PDF p. 162).)
+(Milne, *Arithmetic Duality Theorems*, Chapter I, §4, proof of Lemma 4.12, p. 59 (PDF p. 67), and proof of Corollary 4.18, p. 63 (PDF p. 71), as in ArithmeticGaloisDuality §R02.3.3, *The Kummer sequence for S-units*; Rubin (1999 draft), Appendix B, Proposition 2.3, p. 152 (PDF p. 162).)
 
-This is the finite-level statement behind Burungale–Tian's unit Kummer comparison; the tower limit is §§3.1 and 4.19.
+The tower limit is §§3.1 and 4.19; Burungale–Tian §2.2.3 is a downstream Iwasawa étale-cohomology application (§3.15).
 
 *Needs:* §0.7 (The system μ_{p^m}(K) is Mittag-Leffler); §0.3 (The S-unit theorem, `Set.unit_moduleFinite`, and Completion of S-units); ArithmeticGaloisDuality §R02.1.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
 
@@ -668,7 +665,7 @@ The construction proceeds as follows. Kernel of restriction to inertia. Inflatio
 The named operations and identities are:
 
 - `unramified` — ker(res to inertia).
-- `unramified_eq_range_inflation` — = image of inflation from G_v/I_v.
+- `unramified_eq_range_inflation` — For a profinite decomposition group G_v, closed normal inertia I_v and continuous discrete, compact finite-type or rational coefficients B, the kernel of the actual restriction map equals the range of inflation from H¹(G_v/I_v,B^{I_v}). The discrete prototype uses the pinned `TauCeti.ContCohomology.explicitRes1` and `explicitInfl1`, with `explicitInfRes_exact`; the compact/rational comparison uses ArithmeticGaloisDuality §R02.2.3. Mathlib `LinearMap.exact_iff` supplies the algebraic range/kernel conversion.
 - `unramified_equiv_coinvariants` — ≅ B^{I}/(Fr − 1)B^{I}.
 - `greenberg_zero` — The Greenberg condition with F^+ = 0.
 
@@ -718,6 +715,22 @@ For M = W_n = (ℚ_p/ℤ_p)(n) over ℚ(μ_{p^∞})^+ with Fil^1 = W_n (n ≥ 1)
 
 *Needs:* §2.7 (The unramified condition); §2.1 (Compact and rational Selmer data).
 
+### 2.8a Ordinary Galois filtrations
+
+**Ordinary filtrations.** For a finite-dimensional continuous E-representation V of G_K, K/ℚ_p finite, define `OrdinaryFiltration` to be an exhaustive separated decreasing filtration Fil^iV by G_K-stable E-subspaces, with finitely many jumps and inertia acting on gr^iV through χ_cyc^i. Define `IsOrdinary` as existence of this datum and `OrdinaryFiltration.plus` as Fil¹V. The general stable-subspace condition in §2.8 also applies when no ordinary filtration exists. For a stable O-lattice T, use the saturated intersections T∩Fil^iV and their images on V/T.
+
+Give Tate-twist, direct-sum and dual-filtration operations. On V(n) put Fil^i=Fil^{i−n}V; on V^* put Fil^i=ann(Fil^{1−i}V), and then twist by one for the Tate dual. Prove stability, inertia character, finiteness of jumps and compatibility of saturated lattice intersections with these operations. The Lean prototype takes an actual representation, inertia subgroup and cyclotomic character; the arithmetic interface carries their continuity and local-field hypotheses.
+
+(Rodrigues Jacinto–Williams, Definition 13.19(1), arXiv v2 p. 70; Greenberg, *Iwasawa theory for p-adic representations*, §1. For the supersingular boundary, Fontaine–Laffaille Theorem 5.3 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.9.)
+
+**Checks.**
+
+- The zero representation has the zero filtration and is ordinary.
+- For ℚ_p(n), Fil^i=V for i≤n and zero for i>n; its only graded piece has inertia χ_cyc^n. In particular Fil¹ is V for n≥1 and zero for n≤0.
+- The good supersingular curve y²=x³−x over ℚ₃ has no ordinary filtration on V₃E: its residual inertia characters have niveau two, rather than integral cyclotomic powers. Good reduction alone does not imply ordinarity.
+
+*Needs:* §2.1 (Compact and rational Selmer data); TauCetiRoadmap.LocalGaloisGroups Layer 5 (cyclotomic character); Mathlib `Representation`, `Submodule`.
+
 ### 2.9 Compact and rational Galois Selmer groups
 
 Extend the general discrete Selmer interface of TauCetiRoadmap.EllipticCurves Layer 7 to compact lattice T and rational V cohomology, and compare coefficient propagation on A=V/T with that interface. For a number field K, a finite set Σ of places containing those above p∞ and the ramified primes, and a coefficient module M (discrete, compact or rational), Sel_L(K, M) is the Selmer module of the data H = H^1(G_{K,Σ}, M), H_v = H^1(K_v, M), res_v the localisation (restriction to a decomposition group), with local conditions L_v for v ∈ Σ. It equals the classes of H^1(K, M) that are unramified outside Σ and satisfy L_v at Σ (Rubin Lemma I.5.3).
@@ -739,7 +752,7 @@ The named operations and identities are:
 
 - Relaxed on Σ: H^1(G_{K,Σ}, M).
 - With coefficients μ_p and relaxed conditions on Σ={v|p∞}, the Selmer group is H¹(G_(K,Σ),μ_p), fitting into the S-unit/p and Pic[p] Kummer sequence. Requiring unramifiedness also at p cuts this group down.
-- Strict on Σ for M with H^1(G_{K,Σ}, M) = 0 gives 0.
+- For F=ℚ, p=3, Σ={3,19,∞} and M=μ₃, relaxed H¹ is (ℤ/3)² with Kummer generators 3 and 19, since Pic(ℤ[1/57])=0. Strict at 3 and relaxed at 19 gives the nonzero line generated by 19: the cube map carries 1+3ℤ₃ onto 1+9ℤ₃, so 19 is a cube in ℚ₃, while 3 has valuation one. Strict at both finite places gives zero, since 19 has valuation one at 19.
 
 Enlarging Σ with unramified conditions does not change the group.
 
@@ -829,7 +842,7 @@ The Bloch–Kato comparison of these conditions on V_pE belongs to §4.26.
 
 ### 2.13 Dual Selmer structures
 
-Extend the discrete Selmer structures of TauCetiRoadmap.EllipticCurves Layer 7 by orthogonal local conditions on the compact and rational Selmer data of §2.1 and their dual coefficient diagrams. A Selmer structure F on T (Mazur–Rubin, Definition 2.1) is a finite set Σ(F) of places containing the archimedean places, the places above p and the primes where T is ramified, with a local condition H¹_F(K_q, T) for each q ∈ Σ(F); its Selmer module H¹_F(K, T) is the kernel of H¹(K_{Σ(F)}/K, T) → ⊕_{q∈Σ(F)} H¹(K_q, T)/H¹_F(K_q, T). The dual Selmer structure F^* on T^* = Hom(T, μ_{p^∞}) has Σ(F^*) = Σ(F) and H¹_{F^*}(K_q, T^*) = H¹_F(K_q, T)^⊥ under the local Tate pairing (Mazur–Rubin, Definition 2.5).
+Extend the discrete Selmer structures of TauCetiRoadmap.EllipticCurves Layer 7 by orthogonal local conditions on the compact and rational Selmer data of §2.1 and their dual coefficient diagrams. A Selmer structure F on T (Mazur–Rubin, Definition 2.1) is a finite set Σ(F) of places containing the archimedean places, the places above p and the primes where T is ramified, with a local condition H¹_F(K_q, T) for each q ∈ Σ(F); its Selmer module H¹_F(K, T) is the kernel of H¹(K_{Σ(F)}/K, T) → ⊕_{q∈Σ(F)} H¹(K_q, T)/H¹_F(K_q, T). For an O-lattice use T^*=Hom_O(T,E/O)(1), paired O-linearly into E/O, as in the Conventions. Mazur–Rubin’s Cartier dual Hom_ℤp(T,μ_{p^∞}) instead uses the canonical trace-dual coefficient E/d⁻¹, where d is the different of E/ℚ_p. Coefficient trace identifies Hom_O(T,E/d⁻¹)(1) with that Cartier dual; identifying it with the E/O-dual requires a specified coefficient comparison. The dual Selmer structure F^* has Σ(F^*) = Σ(F) and H¹_{F^*}(K_q, T^*) = H¹_F(K_q, T)^⊥ under the local Tate pairing (Mazur–Rubin, Definition 2.5).
 
 T finitely generated over O with continuous G_K-action, unramified outside a finite set. Compact local conditions are closed in their natural topology (in the finite-type O case submodules are closed); coefficient biduality and perfect topological pairings are used for double orthogonals.
 
@@ -845,7 +858,7 @@ The named operations and identities are:
 - `SelmerData.dualCond` and `SelmerData.dualOf` — Local annihilators and their algebraic Selmer datum on the supplied dual global/local modules.
 - `SelmerStructure.dual_dual` — F^{**} = F; on the algebraic datum, `SelmerData.dualCond_dualCond` for finite local modules.
 - `SelmerStructure.dual_modify` — (F^b_a)^* = (F^*)^a_b: strict at a ↔ relaxed at a (Mazur–Rubin, Definition 2.3); on the algebraic datum, `SelmerData.dualCond_relax`.
-- `SelmerStructure.dual_induced` — The structure induced on T/IT is dual to the one induced on T^*[I].
+- `SelmerStructure.dual_induced` — With T^*=Hom_O(T,E/O)(1), the structure induced on T/IT is dual to the one induced on T^*[I]; use the O-linear pairing into E/O throughout.
 - `SelmerStructure.rubin_dual` — Rubin's S^Σ(K, W_M) and S_Σ(K, W^*_M) are the Selmer modules of dual structures (§2.17).
 
 **Checks.**
@@ -853,6 +866,7 @@ The named operations and identities are:
 - The structure relaxed at every q ∈ Σ has dual strict at every q ∈ Σ; the dual Selmer module is Ш¹_Σ(K, T^*) (ArithmeticGaloisDuality §R02.4.2 (*Restricted products of local cohomology and Ш^r_S*)).
 - For T unramified at q∤p, H¹_f(K_q,T) and H¹_f(K_q,T*) are exact annihilators in their respective local cohomology groups; they are not identified as the same subgroup of one module.
 - At a real place H¹(ℝ, W_M) = 0 for p odd, so every archimedean condition is 0 = its dual; for p = 2 it can be nonzero (Rubin, Remark 3.7).
+- For O=ℤ_p[√p], p odd and T=O, coefficient trace on E/O has kernel d⁻¹/O≠0; it cannot identify the O-linear E/O-dual with the Cartier dual.
 - Adding a place q ∉ Σ(F) to Σ(F^*) with the relaxed condition does not give the dual structure: the dual keeps the finite condition at q.
 
 Σ(F^*) = Σ(F); the dual conditions are orthogonal complements for the named local Tate pairing.
@@ -1093,11 +1107,27 @@ Layers 0, 1 and the supplier interfaces: Mathlib `ContinuousMonoidHom.comp`; Mat
 
 ### 3.0 Iwasawa algebras of ℤ_p^d × Δ
 
-Let O be the ring of integers of a finite extension of ℚ_p, Γ = Γ₀ × Δ with Γ₀ ≅ ℤ_p^d (d ≥ 0) and Δ finite abelian, and Λ = O⟦Γ⟧ the completed group algebra `TauCeti.completedGroupAlgebra O Γ` of Tau Ceti (TauCetiRoadmap.ProfiniteProPGroups Layer 9 specifies it and its API: `proj`, `of`, `lift`, `map`, the inverse-limit topology). This subsection fixes the coordinates, the involution, the twists and the augmentation regular sequence that the rest of the layer uses; for d = 1 the one-variable coordinate and the structure theory are PadicMeasuresIwasawaAlgebras §§1.7 and 4.1–4.6.
+Let R be a complete Noetherian local ring with finite residue field of characteristic p, Γ = Γ₀ × Δ with Γ₀ ≅ ℤ_p^d (d ≥ 0) and Δ finite abelian. Coordinates and regular sequences use Λ_R=R⟦Γ⟧ on the carrier `TauCeti.completedGroupAlgebra R Γ`; arithmetic specializations take R=O, the ring of integers of a finite extension of ℚ_p, and Λ = O⟦Γ⟧ the completed group algebra `TauCeti.completedGroupAlgebra O Γ` of Tau Ceti (TauCetiRoadmap.ProfiniteProPGroups Layer 9 specifies it and its API: `proj`, `of`, `lift`, `map`, the inverse-limit topology). This subsection fixes the coordinates, the involution, the twists and the augmentation regular sequence that the rest of the layer uses; for d = 1 the one-variable coordinate and the structure theory are PadicMeasuresIwasawaAlgebras §§1.7 and 4.1–4.6.
 
-**Coordinates.** Prove `iwasawaAlgebra_mvPowerSeries_equiv`: a ℤ_p-basis γ₁, …, γ_d of Γ₀ gives a continuous O-algebra isomorphism O⟦X₁, …, X_d⟧ ≅ O⟦Γ₀⟧, X_i ↦ γ_i − 1, for the (𝔪_O, X)-adic topology on the source and the inverse-limit topology on the target, and O⟦Γ⟧ ≅ O⟦Γ₀⟧[Δ]. For d = 1 and O = ℤ_p the first isomorphism is Tau Ceti's `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, and the second is Tau Ceti's product decomposition R⟦C × Γ⟧ ≅ R⟦Γ⟧[C] (`CompletedGroupAlgebra/Prod.lean`). Consequently O⟦Γ₀⟧ is a regular local ring of dimension d + 1 and Λ is a finite free O⟦Γ₀⟧-module of rank #Δ.
+**Coordinates.** Prove `iwasawaAlgebra_mvPowerSeries_equiv`: a ℤ_p-basis γ₁,…,γ_d of Γ₀ gives a continuous R-algebra isomorphism R⟦X₁,…,X_d⟧≅R⟦Γ₀⟧, X_i↦γ_i−1, for the (𝔪_R,X)-adic and inverse-limit topologies. Also R⟦Γ⟧≅R⟦Γ₀⟧[Δ], finite free of rank #Δ. Construct the multivariable coordinate by the completed-group-algebra universal property and compatible finite quotients; for R=ℤ_p and d=1 it agrees with `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, and the product decomposition is Tau Ceti's `CompletedGroupAlgebra/Prod.lean`. The regular-local dimension d+1 conclusion is restricted to R=O a DVR.
 
-**Augmentation regular sequence.** Prove `iwasawaAlgebra_isRegular_augmentation`: γ₁ − 1, …, γ_d − 1 is a Λ-regular sequence with Λ/(γ₁ − 1, …, γ_d − 1) ≅ O[Δ]; more generally, if Γ′ ⊆ Γ₀ is spanned by part of a basis, its generators minus one form a regular sequence and Λ/(γ′ − 1 : γ′ ∈ Γ′) ≅ O⟦Γ/Γ′⟧. This is the regular sequence of the derived control theorems (§§3.3, 3.10).
+(Nekovář, §§8.4.1–8.4.2, pp. 204–205; Tau Ceti's completed-group-algebra coordinate and product APIs.)
+
+**Checks** (coordinates).
+
+- d=0 gives R[Δ], including R=𝔽_p; no dimension-one assertion is made for R=𝔽_p.
+- R=O and d=1 gives O[[X]], regular local of dimension two.
+- R=𝔽_p[ε]/(ε²) and d=1 gives R[[X]], retaining the nonzero nilpotent ε; the general coefficient ring need not be regular.
+
+**Augmentation regular sequence.** Prove `iwasawaAlgebra_isRegular_augmentation` over R: γ₁−1,…,γ_d−1 is a Λ_R-regular sequence with quotient R[Δ]. For any closed Γ′≅ℤ_p^{r′} in Γ₀, Smith normal form gives a basis with Γ′ generated by γ_i^{p^{a_i}}, 1≤i≤r′. The elements γ_i^{p^{a_i}}−1 form a regular sequence with quotient R⟦Γ/Γ′⟧. In coordinates they are the distinguished monic polynomials (1+X_i)^{p^{a_i}}−1. Prove division for these polynomials by lifting the unique division modulo 𝔪_R, where they become X_i^{p^{a_i}}, through successive powers of 𝔪_R and passing to the complete limit. Each quotient is finite free in the eliminated variable over the remaining power-series ring, and multiplication by the next polynomial is injective. This supplies arbitrary closed-subgroup descent in §§3.3 and 3.10, including nonsaturated Γ′.
+
+(Nekovář, §8.4.8.1, p. 214, and §8.4.8.3, pp. 215–216; Smith normal form over ℤ_p and complete-local Weierstrass division.)
+
+**Checks** (regular sequence).
+
+- Γ′=0 gives the empty sequence and quotient Λ_R.
+- R=𝔽_p, Γ=ℤ_p, Γ′=pℤ_p: the generator is X^p, a non-zero-divisor, and the quotient is 𝔽_p[[X]]/(X^p)≅𝔽_p[C_p]. The generator X would give the wrong quotient.
+- Γ=ℤ_p², Γ′ generated by γ₁^{p²}: the quotient retains the second variable and the finite C_{p²} factor; Γ′ need not be a direct summand.
 
 **Involution and twists.** Prove `iwasawaAlgebra_involution`: inversion on the abelian group Γ induces a continuous O-algebra involution ι of Λ with ι(γ) = γ^{−1} (Tau Ceti `completedGroupAlgebra.map`). For a continuous character κ : Γ → O^×, prove `iwasawaAlgebra_twist`: there is a unique continuous O-algebra automorphism Tw_κ of Λ with Tw_κ(γ) = κ(γ)γ (from `completedGroupAlgebra.lift` applied to γ ↦ κ(γ)γ), with Tw_1 = id, Tw_κ ∘ Tw_{κ′} = Tw_{κκ′} and ι ∘ Tw_κ ∘ ι = Tw_{κ^{−1}}. With the cyclotomic character χ_cyc of the Conventions, Tw_k := Tw_{χ_cyc^{−k}}, so Tw_k(γ) = χ_cyc(γ)^{−k}γ. For a G-module M on which Λ acts compatibly, and the tautological character χ_Γ : G → Γ ⊂ Λ^×, define the twisted module M⟨n⟩ (same Λ-module, G acting by χ_Γ(g)^n g) and M^ι (same G-module, Λ acting through ι); then M⟨n⟩^ι = M^ι⟨−n⟩.
 
@@ -1206,17 +1236,27 @@ Only for primes not above p; the places above p and those that split finitely ar
 
 ### 3.6 Semilocal cohomology and descent of local classes
 
-Let K be a number field, q a prime of K, F/K finite and S the primes of F above q, with decomposition groups D_Q = g_Q^{−1} D g_Q. For a discrete G_K-module T and a D-submodule T′, H^i(F, Ind_D^{G_K}(T′)) ≅ ⊕_{Q∈S} H^i(F_Q, T′_Q); in particular H^i(G_F, Ind_D(T)) ≅ ⊕_Q H^i(F_Q, T) and H^i(G_F, Ind_D(T^I)) ≅ ⊕_Q H^i(F_Q, T^{I_Q}). For F/K finite Galois and T finitely generated over ℤ_p, restriction gives H¹(K_q, T) ≅ (⊕_{Q|q} H¹(F_Q, T))^{Gal(F/K)} if [F : K] is prime to p, and H¹(K_q, V) ≅ (⊕_{Q|q} H¹(F_Q, V))^{Gal(F/K)} always.
+Let K be a number field, q a prime of K, F/K finite and S the primes of F above q, with decomposition groups D_Q = g_Q^{−1} D g_Q. For a discrete G_K-module T and a D-submodule T′, use Coind_D^{G_K}T′, the supplier’s discrete module of locally constant D-equivariant functions. Then H^i(F,Coind_D^{G_K}T′)≅⊕_{Q∈S}H^i(F_Q,T′_Q) in every degree; the same statement applies to T and T^I, with conjugated coefficients at each Q. For F/K finite Galois and T finitely generated over ℤ_p, restriction gives H¹(K_q, T) ≅ (⊕_{Q|q} H¹(F_Q, T))^{Gal(F/K)} if [F : K] is prime to p, and H¹(K_q, V) ≅ (⊕_{Q|q} H¹(F_Q, V))^{Gal(F/K)} always.
 
-T discrete for the induction statements; finitely generated over ℤ_p for the descent.
+T discrete for coinduction; D closed, G_F open, and i≥0 arbitrary. T finitely generated over ℤ_p for the descent.
 
-Prove this as follows. D\G_K/G_F ↔ S by D g G_F ↦ g^{−1}Q₀; the double-coset form of Shapiro's lemma (Rubin, Proposition B.4.2; ProfiniteCohomology Layers 6–7) gives the decomposition. Descent: ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*) applied to the semilocal module; for V, finite groups have no rational cohomology.
+Prove this as follows. D\G_K/G_F↔S by DgG_F↦g^{−1}Q₀. Partition locally constant equivariant functions over this finite double-coset set to obtain the restriction decomposition below. Apply the pinned all-degree `TauCeti.ContinuousCohomology.shapiroIso` to each closed subgroup D_Q∩G_F; ProfiniteCohomology Layer 10 supplies its all-degree contract. Descent: ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*) applied to the semilocal module; for V, finite groups have no rational cohomology.
 
 (Rubin (1999 draft), Appendix B, §5, Proposition 5.1, printed p. 157 (PDF p. 167).)
 
+**Restriction decomposition for semilocal coinduction.** Prove `semilocalCoind_restriction`: res_{G_F}Coind_D^{G_K}T′≅⊕_Q Coind_{D_Q∩G_F}^{G_F}T′_Q. Restrict each function to Dg_QG_F and translate by g_Q; extend the resulting functions by zero on the other clopen double cosets. These maps are inverse, G_F-equivariant and preserve local constancy. Finite F/K makes the direct sum a finite product.
+
+(Rubin, Appendix B, Proposition 5.1, p. 157 (PDF p. 167); ProfiniteCohomology Layers 7 and 10, on the coinduced carrier.)
+
+**Checks.**
+
+- F=K gives one summand and the original coinduced module.
+- If q splits completely in F, the decomposition has [F:K] local summands, not one.
+- For D closed of infinite index and trivial nonzero finite T′, H⁰(G_K,Coind_D T′)=T′ via constant functions. Algebraic induction has no nonzero invariant finite-support function and would give zero.
+
 This is how infinite-level local conditions are defined: as limits of semilocal conditions, not as conditions over a 'completion' of K_∞.
 
-*Needs:* §3.1 (Iwasawa cohomology); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); TauCetiRoadmap.ProfiniteCohomology Layer 6; TauCetiRoadmap.ProfiniteCohomology Layer 7.
+*Needs:* §3.1 (Iwasawa cohomology); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); TauCetiRoadmap.ProfiniteCohomology Layer 7 (closed-subgroup coinduction); Layer 10 (all-degree Shapiro); Tau Ceti `TauCeti.ContinuousCohomology.shapiroIso`.
 
 ### 3.7 Twisting Iwasawa cohomology
 
@@ -1737,6 +1777,20 @@ The named operations and identities are:
 
 *Needs:* §4.2 (Crystalline period ring and its structures); §4.4 (Period fixed fields and dimension bounds).
 
+### 4.5a Crystalline predicates for integral coefficients
+
+**Integral crystalline coefficient predicates.** For unramified K/ℚ_p, define `IsTorsionCrystalline` for a finite ℤ_p-Galois module R in [a,b] by existence of stable lattices R′⊆R″ in a crystalline rational representation of weights [a,b] and a Galois-equivariant isomorphism R≅R″/R′. Define `IsIntegralCrystalline` for a finite-type integral module by this predicate on every R/p^mR, m≥1. For O-coefficients first restrict scalars to ℤ_p. These definitions use §4.5's rational crystalline predicate and no small-weight realization. Prove invariance under equivariant isomorphisms, scalar restriction, and closure under finite products and subquotients with the same interval; a stable lattice in a crystalline rational representation has crystalline finite reductions.
+
+(Liu–Tian–Xiao–Zhang–Zhu, Definition 2.2.4, pp. 124–125.)
+
+**Checks.**
+
+- The zero module satisfies both predicates in every interval.
+- ℤ/p^m(1) is a quotient of the lattices p^mℤ_p(1)⊆ℤ_p(1) and is crystalline in an interval containing −1.
+- The trivial ℤ/p module in [0,0] is nonzero and crystalline, although its tensor over ℤ_p with B_cris is zero; rational period tensors cannot define the torsion predicate.
+
+*Needs:* §4.5 (Crystalline and de Rham realization data).
+
 ### 4.6 Small-weight filtered Frobenius modules
 
 For K₀/ℚ_p finite unramified, W=O_K₀ and p>2, an integral Fontaine–Laffaille object has a finite W-module M, an exhaustive separated decreasing filtration Fil^i M and σ-semilinear maps φ_i:Fil^i M→M satisfying φ_i|Fil^(i+1)=p φ_(i+1), with Σ_i im φ_i=M. In the free case each filtration step is a direct summand. Restrict to a weight interval [a,b] of width ≤p−2, and form morphisms preserving the filtration and all φ_i. Use the covariant convention of Nizioł §2; translating Fontaine–Laffaille’s contravariant Hom realization requires a dual. For torsion exactness use the abelian enlarged category with separate filtration modules and their inclusion maps, not an assertion that the entire category of all filtered modules is abelian.
@@ -1745,7 +1799,7 @@ K₀ unramified; small weights; integral and torsion coefficient variants distin
 
 The construction proceeds as follows. Define the finite module, filtration, divided Frobenius maps and morphisms on native module carriers. Embed in the category of diagrams with separate filtration modules as Fontaine–Laffaille §1.11; establish exactness on strongly divisible torsion objects. Give induced direct sums, interval restriction, allowed tensor/dual operations and the scalar-forgetting convention.
 
-(Fontaine–Laffaille, §§0.4–0.6, pp. 550–551; §1.11, pp. 558–559; §§7.12–7.15, pp. 593–594; Nizioł, §2, pp. 750–751.)
+(Fontaine–Laffaille, §§0.4–0.6, pp. 549–550 (Numdam PDF pp. 4–5); §1.11, pp. 558–559; §§7.12–7.15, pp. 593–594; Nizioł, §2, pp. 750–751.)
 
 The named operations and identities are:
 
@@ -1769,7 +1823,7 @@ The named operations and identities are:
 
 ### 4.7 Small-weight crystalline realization and extension exactness
 
-On the small-weight category over an unramified p-adic field, the covariant period realization gives an exact fully faithful functor to finite ℤ_p-Galois modules whose essential image is the torsion crystalline representations of the specified interval. For free objects pass to the inverse limit of the mod-p^m realizations; the resulting free lattice has the same rank and its rationalization is crystalline. The reverse functor is the filtered Frobenius module inside the crystalline tensor invariants, and the two maps are canonical inverse comparisons. Tensor/dual compatibility holds only when the combined interval remains in the permitted range.
+On the small-weight category over an unramified p-adic field, the covariant period realization gives an exact fully faithful functor to finite ℤ_p-Galois modules whose essential image is the torsion crystalline representations of the specified interval. For free objects pass to the inverse limit of the mod-p^m realizations; the resulting free lattice has the same rank and its rationalization is crystalline. For the torsion inverse use the finite-level period object S_m=coker(p^m:S→S) in Fontaine–Laffaille’s enlarged filtered category, including its filtration modules and divided Frobenius. Here S=W(𝒪_{ℂ_p}^♭)[[x]/p]⊆W(𝒪_{ℂ_p}^♭)[1/p], with v(x)=p in the normalization v(p)=1, Fil^iS=(ker θ)^i∩{s:φ(s)∈p^iS} for i≥0, Fil^iS=S for i≤0, and φ_i=p^{−i}φ. This is the carrier `ringS` of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.6, and its S_m is the period carrier of §R07.3.7. Shift the interval into [0,p−2] and transport the corresponding Tate twist. The contravariant realization is Hom_{Fil,φ}(M,S_m); dualize over ℤ_p into ℚ_p/ℤ_p for the covariant convention. Construct the inverse filtered object from crystalline lattice lifts, with evaluation into Hom_{G_K}(R^∨,S_m), and prove that the evaluation image, filtration and divided Frobenius are independent of those lifts and invert realization. Recover free lattices through compatible finite reductions. Only after rationalization identify the inverse with `dCris`. Tensor/dual compatibility holds only when the combined interval remains in the permitted range.
 
 p>2; interval width ≤p−2; Nizioł’s covariant normalization. Endpoint width p−1 needs extra nilpotence/unipotence hypotheses and is outside this target.
 
@@ -1777,22 +1831,26 @@ Prove this as follows. Construct the Hom period realization and dualize to the c
 
 (Fontaine–Laffaille, Theorem 3.3 and proof §§3.5–3.11, pp. 562–565; Theorem 6.1, pp. 581–583; Propositions 7.15 and 7.17, pp. 593–594; Theorem 8.4 and Remark 8.5, pp. 595–596; Nizioł, §2, pp. 750–751.)
 
-*Needs:* §4.6 (Small-weight filtered Frobenius modules); §4.5 (Crystalline and de Rham realization data).
+**Checks.**
+
+- The zero filtered object realizes to zero and its inverse is zero.
+- The weight-zero object W(k)/p realizes to the nonzero trivial ℤ/p; its inverse is recovered using S_1, whereas its rational B_cris tensor is zero.
+- Compatible reductions of the free weight-zero unit recover the trivial ℤ_p-lattice; finite-level evaluation agrees under reduction and does not depend on a chosen crystalline lattice presentation.
+
+*Needs:* §4.6 (Small-weight filtered Frobenius modules); §4.5a (Integral crystalline coefficient predicates); FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.6–R07.3.7 (`ringS`, `flFunctor_eq_hom`), R07.3.10–R07.3.11 (torsion exactness and full faithfulness), R07.3.15 (period comparison). These targets use §§4.1–4.2 here; their later admissibility target is not an input.
 
 ### 4.8 Integral crystalline modules and nonsingular extensions
 
-For unramified K/ℚ_p, call a finite ℤ_p-module R crystalline in [a,b] if it is a quotient R″/R′ of stable lattices in a crystalline rational representation with weights in [a,b]. A finite-type integral module is crystalline if every R/p^mR is so; for O-coefficients apply the underlying ℤ_p-module functor. If a≤0≤b, define H¹_ns(K,R) as extension classes 0→R→R_s→ℤ_p→0 whose middle term is crystalline in that interval. The extension set is an O-submodule. It is not defined by a nonexistent tensor R⊗B_cris, which would be zero for finite p-torsion R.
+Use the quotient-lattice and all-reductions predicates of §4.5a over unramified K/ℚ_p, with scalar restriction for O-coefficients. For a crystalline coefficient module R and a≤0≤b, define H¹_ns(K,R) as extension classes 0→R→R_s→ℤ_p→0 whose middle term is crystalline in that interval. The extension set is an O-submodule. The rationalized tensor R⊗_{ℤ_p}B_cris vanishes for finite p-primary R and cannot define this condition.
 
 K unramified and coefficient weight conventions fixed; weights of ℚ_p(1) are −1. Scalar restriction precedes the crystalline test.
 
-The construction proceeds as follows. Define the quotient-lattice and all-reductions predicates with genuine Galois representations. Use continuous Ext¹/cohomology to identify classes with extensions and pull back the crystalline extension predicate. For the submodule assertion use closure of crystalline lattice quotients under finite products and subquotients in the fixed interval: Baer sum and coefficient pushout are formed from those operations. Use the exact small-weight filtered-module category only for the comparison and finite-length calculations within its allowed interval, not to prove a general-width assertion.
+The construction proceeds as follows. Use the predicates of §4.5a and continuous Ext¹/cohomology to identify classes with extensions and pull back the crystalline extension predicate. For the submodule assertion use closure of crystalline lattice quotients under finite products and subquotients in the fixed interval: Baer sum and coefficient pushout are formed from those operations. Use the exact small-weight filtered-module category only for the comparison and finite-length calculations within its allowed interval, not to prove a general-width assertion.
 
 (Liu–Tian–Xiao–Zhang–Zhu, Definitions 2.2.4–2.2.5, pp. 124–125.)
 
 The named operations and identities are:
 
-- `IsTorsionCrystalline` — Stable-lattice quotient with bounded crystalline weights.
-- `IsIntegralCrystalline` — All finite p-power reductions satisfy the torsion predicate.
 - `crystallineNonsingular` — Submodule of cohomology represented by crystalline extensions.
 - `crystallineNonsingular_map` — Compatible coefficient maps induce the extension-class map.
 - `crystallineNonsingular_scalarRestriction` — O-coefficient predicate agrees with the underlying ℤ_p predicate.
@@ -1801,9 +1859,9 @@ The named operations and identities are:
 
 - Zero is crystalline and has zero nonsingular extension group.
 - ℤ/p^m(1) is crystalline in any permitted interval containing −1.
-- R⊗ℚ_p B_cris=0 for finite R; using that as the definition would declare every extension finite and lose the crystalline condition.
+- For finite p-primary R, R⊗_{ℤ_p}B_cris=0, equivalently its rationalization is zero. Testing only that tensor loses the integral crystalline condition; R=ℤ/p is nonzero despite its zero rationalization.
 
-*Needs:* §4.5 (Crystalline and de Rham realization data); §4.7 (Small-weight crystalline realization and extension exactness); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*).
+*Needs:* §4.5a (Integral crystalline coefficient predicates); §4.7 (Small-weight crystalline realization and extension exactness, for small-weight comparisons); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*).
 
 ### 4.9 The Bloch–Kato local condition on T and W
 
@@ -1835,13 +1893,19 @@ The comparison with ordinary local conditions is the conditional defect calculat
 
 ### 4.10 Crystalline extensions and the integral finite preimage
 
-Let R be a finite free O-lattice over unramified K/ℚ_p, R[1/p] crystalline with weights [a,b], a≤0≤b and b−a≤p−2. Then H¹_ns(K,R) is exactly the preimage of H¹_f(K,R[1/p]) under H¹(K,R)→H¹(K,R[1/p]). The key lifting criterion is Breuil Proposition 6: a stable free lattice is rationally crystalline in the permitted interval when all its finite p-power reductions are torsion crystalline in that interval. Apply it to the middle term of the extension; width bounds and unramifiedness are hypotheses.
+Let p>2 and R be a finite free O-lattice over unramified K/ℚ_p, R[1/p] crystalline with weights [a,b], a≤0≤b and b−a≤p−2. Then H¹_ns(K,R) is exactly the preimage of H¹_f(K,R[1/p]) under H¹(K,R)→H¹(K,R[1/p]). The key lifting criterion is Breuil Proposition 6: a stable free lattice is rationally crystalline in the permitted interval when all its finite p-power reductions are torsion crystalline in that interval. Apply it to the middle term of the extension; width bounds and unramifiedness are hypotheses.
 
 The extension has a free middle term; all finite reductions must be tested. No such equivalence is asserted for arbitrary weights or ramified K.
 
 Prove this as follows. A crystalline integral extension gives a rational crystalline extension, hence a finite rational class by the period exact sequence. For the converse represent a rational finite class by its crystalline rational extension and apply the finite-reduction lattice criterion to the integral middle term. Use the small-weight fully faithful exact realization to identify the reductions; Breuil’s limit argument gives crystalline rational middle term and the prescribed bounded weights.
 
 (Breuil, §2.3, Proposition 6 and Remark 8, p. 465; Liu–Tian–Xiao–Zhang–Zhu, Lemma 2.2.6, p. 125.)
+
+**Checks.**
+
+- For R=ℤ_p with trivial action, p>2 and [a,b]=[0,0], both conditions are the unramified ℤ_p-line.
+- For R=ℤ_p(1), p>2 and [a,b]=[−1,0], both conditions give integral unit Kummer classes and exclude the uniformizer.
+- For p=2, K=ℚ₂ and R=ℤ₂ of weight zero, the interval bounds alone hold but the p>2 hypothesis fails. The dyadic [0,0] torsion realization belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.10–R07.3.11; it does not supply the free-lattice comparison asserted here.
 
 *Needs:* §4.8 (Integral crystalline modules and nonsingular extensions); §4.9 (The Bloch–Kato local condition on T and W); §4.7 (Small-weight crystalline realization and extension exactness).
 
@@ -1861,13 +1925,13 @@ Prove this as follows. Use the crystalline extension product to factor the nonsi
 - For E=ℚ_p(√p), p odd, d is nonunit and d^−1/O is nonzero; trace-zero values need not be zero.
 - Width p−2 is insufficient for the product proof; the half-width bound is essential.
 
-*Needs:* §4.7 (Small-weight crystalline realization and extension exactness); §4.8 (Integral crystalline modules and nonsingular extensions); §1.2 (Compatibility of the local pairings for T, V, W and W_M); ArithmeticGaloisDuality §R02.4.4 (*Tate's global Euler characteristic formula*).
+*Needs:* §4.7 (Small-weight crystalline realization and extension exactness); §4.8 (Integral crystalline modules and nonsingular extensions); §1.2 (Compatibility of the local pairings for T, V, W and W_M); ClassFieldTheory Layer 5, `eulerCharacteristic_mixed` and `eulerCharacteristic_finrank_fp`, applied to the underlying finite ℤ_p-module and transported through coefficient trace for O.
 
 ### 4.12 Finite versus ordinary local conditions with explicit exceptional terms
 
-For a de Rham ordinary V with saturated G_K-stable V^+ and V^−, compare L_f=H¹_f(K,V), L_str=im H¹(K,V^+) and L_Gr=ker[H¹(K,V)→H¹(I_K,V^−)]. Use the coefficient LES, the finite-period exact sequence and §1.5 to calculate L_str/(L_str∩L_f), L_f/(L_str∩L_f), and L_Gr/L_str=im H¹(K,V)→H¹(K,V^−) ∩ H¹_ur(K,V^−). The first two are measured by the kernel/cokernel of the induced finite-period maps and the H⁰ coefficient boundary; the third is the displayed unramified quotient. Under the separate vanishings H¹_f(K,V^+)=H¹(K,V^+), H¹_f(K,V^−)=0 and exactness of the finite-extension sequence, L_f=L_str; under zero unramified intersection L_str=L_Gr. Verify these conditions in each arithmetic example, retaining φ=1, Fil⁰ and H⁰ factors when they fail.
+For a de Rham V equipped with an `OrdinaryFiltration`, put V^+=Fil¹V and V^−=V/V^+; use saturated intersections on lattices. Then compare L_f=H¹_f(K,V), L_str=im H¹(K,V^+) and L_Gr=ker[H¹(K,V)→H¹(I_K,V^−)]. Use the coefficient LES, the finite-period exact sequence and §1.5 to calculate L_str/(L_str∩L_f), L_f/(L_str∩L_f), and L_Gr/L_str=im H¹(K,V)→H¹(K,V^−) ∩ H¹_ur(K,V^−). The first two are measured by the kernel/cokernel of the induced finite-period maps and the H⁰ coefficient boundary; the third is the displayed unramified quotient. Under the separate vanishings H¹_f(K,V^+)=H¹(K,V^+), H¹_f(K,V^−)=0 and exactness of the finite-extension sequence, L_f=L_str; under zero unramified intersection L_str=L_Gr. Verify these conditions in each arithmetic example, retaining φ=1, Fil⁰ and H⁰ factors when they fail.
 
-Finite K/ℚ_p; de Rham coefficient sequence and compatible finite-period complexes. No universal equality of Bloch–Kato and Greenberg conditions is assumed. Infinite-level comparison uses the limits and §3.9, not a period ring at an infinite local field.
+Finite K/ℚ_p; the ordinary filtration of §2.8a, de Rham coefficient sequence and compatible finite-period complexes. No universal equality of Bloch–Kato and Greenberg conditions is assumed. Infinite-level comparison uses the limits and §3.9, not a period ring at an infinite local field.
 
 Prove this as follows. Write the H⁰/H¹ coefficient LES and the two finite-period exact sequences as a commuting diagram. Compute the two intersections and their quotient kernels/cokernels by the snake lemma, preserving the boundary and (1−φ)/Fil⁰ maps. Combine with the inertia/unramified quotient of §1.5. When every displayed defect vanishes conclude equality; otherwise propagate each actual defect through T→V→A and the tower.
 
@@ -1879,7 +1943,7 @@ Prove this as follows. Write the H⁰/H¹ coefficient LES and the two finite-per
 - For V=ℚ_p(1), V^+=V, L_str=L_Gr=H¹, while L_f consists of unit Kummer classes and omits the valuation line.
 - In the good ordinary elliptic case, the nonexceptional unit-root eigenvalue and local Euler dimensions eliminate the finite/strict defect.
 
-*Needs:* §4.9 (The Bloch–Kato local condition on T and W); §4.3 (Fundamental period sequences with continuous sections); §1.5 (Strict ordinary and inertia ordinary annihilators); §2.24 (Lattice changes with global and local errors); §3.9 (Local specialization correction complex).
+*Needs:* §2.8a (Ordinary Galois filtrations); §4.9 (The Bloch–Kato local condition on T and W); §4.3 (Fundamental period sequences with continuous sections); §1.5 (Strict ordinary and inertia ordinary annihilators); §2.24 (Lattice changes with global and local errors); §3.9 (Local specialization correction complex).
 
 ### 4.13 Archimedean realization on the existing Hodge carrier
 
@@ -1912,43 +1976,59 @@ The named operations and identities are:
 
 ### 4.14 Gamma factor and its integer pole order
 
-**`hodgeGammaFactor`.** Provides the finite product of shifted Mathlib real and complex Gamma factors. Supplied by LFunctions §Layer 0 / completed L-function data (`AnalyticLFunctionData.gammaFactor`). Our weighted list has integral shifts and multiplicities whereas the supplier has separate complex-shift multisets, so the retained adapter expands multiplicities and casts each shift without changing the `s + shift` sign.
+**Factor-only Gamma products.** Define `gammaShiftProduct` on two finite multisets R,C of complex shifts by ∏_{μ∈R}Γ_ℝ(s+μ)·∏_{ν∈C}Γ_ℂ(s+ν), using Mathlib’s totalized functions. Prove `gammaShiftProduct_meromorphic` at every s and `gammaShiftProduct_nonzero_germ`: the meromorphic germ has finite order, including at a pole. No conductor, Dirichlet coefficients or completed L-function are inputs. Define `hodgeGammaFactor` on weighted integral factor lists and prove `hodgeGammaFactor_eq_shiftProduct` after `hodgeGammaShifts` repeats multiplicities and casts shifts to ℂ.
 
-**`gammaPoleOrder_analytic`.** Provides the meromorphic pole orders of finite products of shifted real and complex Gamma factors. Supplied by ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause. Here translate weighted integral shifts to complex-shift multisets and specialize at integers, proving that Mathlib's order in `WithTop ℤ` is the negative finite pole count, independently of totalized Gamma values at poles.
+Prove this using Mathlib `Meromorphic.Gamma`, the entire nonzero exponential factors in `Complex.Gammaℝ_def` and `Complex.Gammaℂ_def`, and finite-product meromorphicity. The analytic reciprocals `Complex.differentiable_Gammaℝ_inv` and `Complex.differentiable_Gammaℂ_inv` provide the same germs independently of values assigned at poles.
 
-**Hodge Gamma recipe and integer adapter.** For a real place, each off-diagonal pair (a,b),(b,a), a<b, contributes a complex shift −a with multiplicity h^(a,b), and the diagonal sign ε contributes a real shift ε−a with multiplicity h_a^ε. For a complex place each type (a,b) contributes a complex shift −min(a,b) with its multiplicity. Finite support makes these lists finite. The integer carrier `gammaPoleOrder` sums multiplicities of complex factors with m+shift≤0 and real factors with m+shift a nonpositive even integer. The Hodge-specific adapter `gammaPoleOrder_hodge_analytic` transports ZerosOfLFunctions §1.5 to these factors and equates `meromorphicOrderAt` to the negative count cast into `WithTop ℤ`; it does not construct another generic Gamma divisor theorem.
+(Deligne, §5.3 and Table 5.3, p. 329; Mathlib `Analysis/SpecialFunctions/Gamma/Deligne.lean`, definitions and analyticity section, and `Analysis/Meromorphic/Complex.lean`.)
 
-ArchimedeanRealization and finite support; diagonal eigenspaces in the real case. Products and pole orders include every archimedean place.
+**Checks.**
 
-The construction proceeds as follows. Read Hodge numbers and diagonal eigenspace dimensions from the existing carrier; form the finite list of shifted factors using Deligne Table 5.3. Expand it into the two shift multisets and identify the local product carrier with LFunctions §Layer 0's factor-only formula. Apply the full product pole theorem of ZerosOfLFunctions §1.5 to the derived multisets; integer shifts give exactly the tests in `gammaPoleOrder`, and the supplied nonvanishing meromorphic germ gives finite order. Prove list-concatenation/multiset transport, Tate-dual shift compatibility and the Hodge-specific order comparison, using the factor-only contracts S869b–S869c.
+- Empty shift multisets and the empty weighted list have product 1 and nonzero germ.
+- R={−2,−2}, C={1} gives Γ_ℝ(s−2)²Γ_ℂ(s+1), retaining multiplicities and shift signs.
+- R={0}, C=∅ at s=0 has totalized value zero but a nonzero meromorphic germ with a pole.
 
-(Deligne, §5.3 and Table 5.3, p. 329; Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, preprint p. 71.)
+**Analytic pole order of a Gamma product.** Define `gammaShiftPoleCount` to count real shifts with s+μ=−2n and complex shifts with s+ν=−n for some n≥0, with multiset multiplicities. Prove `gammaPoleOrder_analytic`: `meromorphicOrderAt` of `gammaShiftProduct` at s is the negative of this count in `WithTop ℤ`. Derive simple poles for individual factors from the Gamma recurrence and residue at zero, then add orders of meromorphic products. Gamma has no meromorphic zeros, so no cancellation occurs. For integral weighted lists, `gammaPoleOrder` is the same count at an integer m; `gammaPoleOrder_hodge_analytic` applies this owned theorem to the Hodge list.
+
+(Deligne, §5.3, p. 329; Rodrigues Jacinto–Williams, §13.5.3, arXiv v2 p. 71; Mathlib `Complex.Gammaℝ_residue_zero`, `Complex.Gammaℝ_add_two`, `Complex.Gammaℂ_add_one`, and `meromorphicOrderAt_mul`.)
+
+**Checks.**
+
+- Empty products have order 0 at every complex point, not infinite order.
+- Two real zero shifts and one complex zero shift have order −3 at s=0, despite totalized value zero.
+- A single real zero shift has order 0 at s=−1, whereas a complex zero shift has order −1 there.
+
+**Hodge Gamma recipe and integer adapter.** For a real place, each off-diagonal pair (a,b),(b,a), a<b, contributes a complex shift −a with multiplicity h^(a,b), and the diagonal sign ε contributes a real shift ε−a with multiplicity h_a^ε. For a complex place each type (a,b) contributes a complex shift −min(a,b) with its multiplicity. Finite support makes these lists finite. The integer carrier `gammaPoleOrder` sums multiplicities of complex factors with m+shift≤0 and real factors with m+shift a nonpositive even integer. Products and pole orders include every archimedean place.
+
+Use §4.13’s actual opposed-filtration carrier and diagonal eigenspaces. Expand the Hodge factors with `hodgeGammaShifts`, apply `gammaPoleOrder_analytic`, and prove list-concatenation, Tate-dual shift and analytic-order compatibility.
+
+(Deligne, §5.3 and Table 5.3, p. 329; Rodrigues Jacinto–Williams, §13.5.3, arXiv v2 p. 71.)
 
 The named operations and identities are:
 
 - `ShiftedGamma` — Real or complex native Gamma function with its integral shift.
-- `complexHodgeGammaFactors` — One complex-place factor for every Hodge type, with shift −min(a,b).
-- `hodgeGammaFactors` — Finite multiset of shifted real and complex Gamma factors.
-- `tateDualHodgeGammaFactors` — Compute the dual multiset from the same primal Hodge pieces and Betti signs: for a<b=w−a the dual complex shift is b−1; for a diagonal piece the real shifts are a−1 and a with their original ε=0 and ε=1 multiplicities.
-- `tateDualHodgeGammaFactors_eq` — This computed list agrees up to permutation with the factors of the native Tate-dual Hodge realization equipped with the negative transpose Betti involution.
-- `hodgeGammaShifts` — Expand multiplicities into separate real and complex shift multisets, casting integral shifts to ℂ.
-- `hodgeGammaFactor_eq_shiftProduct` — Identify the local weighted-list carrier with the two-multiset formula supplied by LFunctions §Layer 0, including its totalized values.
-- `gammaPoleOrder` — Weighted integer pole count for the derived multiset.
-- `gammaFactor_sum`, `gammaPoleOrder_sum` — List-concatenation/multiset-transport adapters for direct sums; generic Gamma products and analytic pole orders come from LFunctions §Layer 0 and ZerosOfLFunctions §1.5.
-- `gamma_tate_factor` — the Tate line ℚ_p(n) gives Γ_ℝ(s − n).
-- `gammaPoleOrder_hodge_analytic` — Apply the supplied analytic order theorem to the real-place factors of an `ArchimedeanRealization`; complex-place and dual factors use the same integer/multiset adapter.
+- `complexHodgeGammaFactors` — One complex-place factor per Hodge type, with shift −min(a,b).
+- `hodgeGammaFactors` — Weighted real-place factor list.
+- `tateDualHodgeGammaFactors` — For a<b=w−a, the dual complex shift is b−1; diagonal real shifts are a−1 and a with the original ε=0 and ε=1 multiplicities.
+- `tateDualHodgeGammaFactors_eq` — Agreement up to permutation with the native Tate-dual realization and its negative transpose Betti involution.
+- `hodgeGammaShifts` — Expansion into real and complex shift multisets.
+- `hodgeGammaFactor_eq_shiftProduct` — Equality with `gammaShiftProduct`, including totalized values.
+- `gammaPoleOrder` — Weighted integer pole count.
+- `gammaFactor_sum`, `gammaPoleOrder_sum` — Concatenation multiplies products and adds counts.
+- `gamma_tate_factor` — The real Tate line ℚ_p(n) gives Γ_ℝ(s−n).
+- `gammaPoleOrder_hodge_analytic` — Real-place Hodge factors have analytic order equal to the negative integer count; the same product theorem handles complex-place and dual factors.
 
 **Checks.**
 
-- Zero realization gives product 1 and pole order 0.
-- The Tate type (n,n), sign (-1)^n gives Γ_ℝ(s−n).
-- Weight-zero real sign + gives Γ_ℝ(s), sign − gives Γ_ℝ(s+1); their pole orders at 0 differ.
-- A real weight-one structure with h^(0,1)=h^(1,0)=1 gives Γ_ℂ(s), counted once rather than twice; its Tate dual gives the same factor.
-- The dual factors of the zero realization have no positive multiplicities. The dual of the type (0,0), sign + Tate line has Γ_ℝ(s−1) and a pole at one; the dual of the type (2,2), sign + line has Γ_ℝ(s+1) and no pole there.
-- The empty-list adapter yields two empty supplier shift multisets, product 1 and integer count 0. Expanding a real shift −2 of multiplicity two, a complex shift 1 of multiplicity one and a real shift of multiplicity zero preserves the signs, factor kinds and multiplicities.
-- For the weight-zero sign + Tate realization, the local product value at 0 is Mathlib's totalized zero while the integer count is 1; its analytic order is −1 by the Hodge specialization of ZerosOfLFunctions §1.5.
+- Zero realization gives product 1 and pole order 0; directly at a complex place, `complexHodgeGammaFactors` of the zero carrier gives product 1.
+- The real Tate type (n,n), sign (−1)^n gives Γ_ℝ(s−n). At a complex place `complexHodgeGammaFactors (tateHodge 2)` instead gives Γ_ℂ(s−2).
+- Weight-zero real sign + gives Γ_ℝ(s), sign − gives Γ_ℝ(s+1); their orders at 0 differ.
+- A real weight-one structure with h^(0,1)=h^(1,0)=1 gives Γ_ℂ(s), counted once. At a complex place the same two Hodge types give Γ_ℂ(s)²: `complexHodgeGammaFactors` has two zero shifts, rather than shifts 0 and −1.
+- The dual factors of the zero realization have no positive multiplicities. The dual of the type (0,0), sign + line has Γ_ℝ(s−1) and a pole at one; the dual of the type (2,2), sign + line has Γ_ℝ(s+1) and no pole there.
+- Expanding a real shift −2 of multiplicity two, a complex shift 1 of multiplicity one and a real shift of multiplicity zero preserves signs, kinds and multiplicities.
+- The weight-zero sign + Tate realization has totalized product zero at 0, integer count 1 and analytic order −1.
 
-*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor` (factor-only contract S869c); ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause (factor-only contract S869b).
+*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); Mathlib `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Meromorphic.Gamma`, `meromorphicOrderAt` and its finite-product API.
 
 ### 4.15 The Gamma factor, r_V and criticality
 
@@ -1956,7 +2036,7 @@ For explicit archimedean realization data attached to L(V,s), define r_V=gammaPo
 
 A finite-dimensional Hodge realization and its comparison to the chosen L-function convention, together with the compatible Tate-dual realization.
 
-The construction proceeds as follows. Apply §4.14's Hodge/sign recipe to the Gamma product supplied by LFunctions §Layer 0, and transport ZerosOfLFunctions §1.5's analytic order through the integer-count adapter. Apply the Tate-dual transformation to compute the second order. For Tate types, the real factor gives poles at n,n−2,…; evaluate at 1 for n and 1−n to obtain the exact parity table.
+The construction proceeds as follows. Apply §4.14’s Hodge/sign recipe and its factor-only product and analytic pole-order theorems through the integer-count adapter. Apply the Tate-dual transformation to compute the second order. For Tate types, the real factor gives poles at n,n−2,…; evaluate at 1 for n and 1−n to obtain the exact parity table.
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, pp. 71–72 (arXiv v2), with Remark 13.23; published pp. 197–198.)
 
@@ -1979,7 +2059,7 @@ The named operations and identities are:
 
 This is Greenberg's Gamma-factor notion; it agrees with Deligne's criticality for Tate twists (L(ℚ_p(n), 1) = ζ(1 − n) and L(ℚ_p(n)^∨, 1) = ζ(n) both critical).
 
-*Needs:* §4.14 (Hodge Gamma recipe and integer adapter); §4.13 (Archimedean realization on the existing Hodge carrier); LFunctions §Layer 0 / `AnalyticLFunctionData.gammaFactor`; ZerosOfLFunctions §1.5 / The gamma factor of a record, poles and divisor clause.
+*Needs:* §4.14 (Factor-only Gamma products, Analytic pole order of a Gamma product, and Hodge Gamma recipe and integer adapter); §4.13 (Archimedean realization on the existing Hodge carrier).
 
 ### 4.16 Class groups, p-ramified Galois groups and unit towers
 
@@ -2077,7 +2157,7 @@ RJW write H^1_{L^Gr}(F_∞, W_n) for the group over F = F_∞^+ in steps (3)–(
 
 Here Frac Λ is the total quotient ring, localization at the non-zero-divisors (`FractionRing`, `IsFractionRing`); it is ∏_ω Q_ω and is not required to be a field. Individual character ranks after a splitting coefficient extension agree with these orbit-component ranks. Prove the API by flat localization on each component and exact Pontryagin duality.
 
-(Rodrigues Jacinto–Williams, §13.5.1, Lemma 13.4 and Definition 13.5, published p. 190, and §13.5.3, Conjecture 13.21, p. 197; PadicMeasuresIwasawaAlgebras §4.6, isotypic and nonsplit orbit decomposition.)
+(Rodrigues Jacinto–Williams, §13.1, Lemma 13.4 and Definition 13.5, arXiv v2 p. 66 (published p. 190), and §13.5.3, Conjecture 13.21, p. 197; PadicMeasuresIwasawaAlgebras §4.6, isotypic and nonsplit orbit decomposition.)
 
 **Checks.**
 
@@ -2085,11 +2165,11 @@ Here Frac Λ is the total quotient ring, localization at the non-zero-divisors (
 - For a finitely generated torsion X, every component corank is zero, including X = Λ/(T).
 - For split Δ^+ = C₂ and X = e_+Λ, the ranks are (1,0); no scalar corank one on all components is assigned. At p = 5 the cyclotomic Γ^+ has this finite factor and its total quotient ring has two field factors.
 
-For a p-ordinary G_ℚ-representation V with saturated G_{ℚ_p}-stable filtration, stable global lattice T and A=V/T, explicit archimedean realization and a specified analytic p-adic L-function L_p(V) in Frac Λ(Γ^+), state Greenberg’s proposition: corank_Λ Sel_Gr(F∞^+,A)=r_V; and, if V is critical, its torsion dual has characteristic ideal (L_p(V)). If L_p(V) is only a fraction, equality is an equality of fractional ideals with the integral characteristic ideal, and hence asserts integrality of that ideal. The datum carries the normalization/interpolation hypothesis appropriate to V; no general existence theorem is asserted. Positive corank leads to a determinant/leading-term proposition with a regulator trivialization, not this rank-zero characteristic-ideal equation.
+For a G_ℚ-representation V equipped at p with an `OrdinaryFiltration` of §2.8a, stable global lattice T and A=V/T, explicit archimedean realization and a specified analytic p-adic L-function L_p(V) in Frac Λ(Γ^+), state Greenberg’s proposition: corank_Λ Sel_Gr(F∞^+,A)=r_V; and, if V is critical, its compact Selmer dual X is Λ-torsion and, using that torsion conclusion, char_Λ(X)=(L_p(V)). If L_p(V) is only a fraction, equality is an equality of fractional ideals with the integral characteristic ideal, and hence asserts integrality of that ideal. The datum carries the normalization/interpolation hypothesis appropriate to V; no general existence theorem is asserted. Positive corank leads to a determinant/leading-term proposition with a regulator trivialization, not this rank-zero characteristic-ideal equation.
 
-V p-ordinary at p (Greenberg filtration, stable under G_{ℚ_p}); L_p(V) is supplied data.
+V has the ordinary filtration of §2.8a, with saturated lattice intersections; L_p(V) is supplied data.
 
-The construction proceeds as follows. Definitions only: (i) uses the componentwise Iwasawa corank just defined, with finitely generated compact dual and (ii) the characteristic ideal of a finitely generated torsion Λ(Γ^+)-module (PadicMeasuresIwasawaAlgebras §§4.1–4.2, with the isotypic decomposition over Λ(Γ^+)).
+The construction proceeds as follows. Definitions only: (i) uses the componentwise Iwasawa corank just defined, with finitely generated compact dual, and (ii) includes torsion in its critical branch before forming the characteristic ideal of X (PadicMeasuresIwasawaAlgebras §§4.1–4.2, with the isotypic decomposition over Λ(Γ^+)).
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, Conjecture 13.21, p. 71 (arXiv v2); published p. 197.)
 
@@ -2097,7 +2177,7 @@ The named operations and identities are:
 
 - `PadicLFunctionDatum` — An element L_p(V) of Frac Λ(Γ^+), recorded as data with its conjectural interpolation.
 - `GreenbergCorankConjecture` — Proposition (i): every component of `iwasawaCorank` of H^1_{L^Gr}(F, W) is r_V; finite generation of its compact dual is a hypothesis of the interface.
-- `GreenbergCharIdealConjecture` — Proposition (ii): r_V = r_{V^∨} = 0 → char(H^1_{L^Gr}(F, W)^∨) = (L_p(V)).
+- `GreenbergCharIdealConjecture` — Proposition (ii): if V is critical, there exists a proof h_tors that X=H¹_{L^Gr}(F,W)^∨ is Λ-torsion and char_Λ(X;h_tors)=(L_p(V)). The ideal equality depends on that proof; (ii) is defined independently of (i).
 - `GreenbergMainConjecture` — The conjunction of (i) and (ii).
 - `greenbergCharIdealConjecture_of_not_critical` — (ii) holds vacuously when V is not critical.
 
@@ -2105,24 +2185,31 @@ The named operations and identities are:
 
 - V = ℚ_p(n), n even > 0: (ii) is the twisted Iwasawa main conjecture (§4.22).
 - V = ℚ_p: r_{V^∨} = 1, so (ii) says nothing, although Theorem 13.8 is proved (Remark 13.23).
+- A free compact dual X=Λ has finite generation but positive component rank. In a critical branch (ii) fails at its torsion assertion, before any torsion-only characteristic ideal is formed.
 - At the torsion ideal-comparison interface over Λ=O[[T]], X=Λ/(f) with f≠0 has characteristic ideal (f). The predicate with supplied element f is true, whereas the predicate with pf is false, since p is a nonunit. A unit multiple of f preserves the predicate. Thus supplying an element does not make the ideal assertion automatic.
 - Changing the lattice preserves rationalized Iwasawa cohomology and corank. Its integral finite-coefficient tower errors need not be finite Λ-modules; a Λ/(p) error changes a height-one characteristic divisor. Do not assert integral characteristic-ideal independence without a proved error cancellation.
 
 The rank-zero characteristic-ideal statement (ii) and any positive-rank leading-term statement are distinct propositions; only (i) and (ii) are stated. RJW state the conjecture over F = ℚ(μ_{p^∞})^+, not over the cyclotomic ℤ_p-extension used by Greenberg (their Remark 13.9).
 
-*Needs:* §2.8 (Greenberg's local condition); §2.9 (Compact and rational Galois Selmer groups); §2.11 (Coranks); §2.10 (Pontryagin duals with the contragredient action); §4.15 (The Gamma factor, r_V and criticality); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (isotypic decomposition over Λ(H × ℤ_p)).
+*Needs:* §2.8a (Ordinary Galois filtrations); §2.8 (Greenberg's local condition); §2.9 (Compact and rational Galois Selmer groups); §2.11 (Coranks); §2.10 (Pontryagin duals with the contragredient action); §4.15 (The Gamma factor, r_V and criticality); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (isotypic decomposition over Λ(H × ℤ_p)).
 
 ### 4.22 Equivalence of the critical Tate-twist main-conjecture propositions
 
-For n positive even, the Tate Selmer dictionary identifies its compact dual with X∞^+(−n). The specified analytic element is the corresponding nth twist of Kubota–Leopoldt. By the characteristic-ideal twist automorphism, Greenberg’s rank-zero ideal proposition for ℚ_p(n) is equivalent to the cyclotomic main-conjecture proposition char X∞^+=(the normalized zeta element). Prove the equivalence of propositions, not the cyclotomic main-conjecture theorem. Its corank assertion is equivalent to torsion of X∞^+. The n=0 case is excluded by criticality of the Tate dual.
+For n positive even, the Tate Selmer dictionary identifies its compact dual with X∞^+(−n). State the cyclotomic proposition as torsion of X∞^+ together with char_Λ(X∞^+)=I(Γ^+)ζ_p, where I(Γ^+) is the augmentation ideal and ζ_p the Kubota–Leopoldt pseudomeasure. Choose a generator a of I and put z=aζ_p. For Γ^+=Γ₀×Δ^+, with e₀ the trivial Δ^+ idempotent and γ a generator of Γ₀, take a=(1−e₀)+e₀(γ−1). The normalized analytic datum for ℚ_p(n) is Tw_{−n}(z), with Tw_k(γ)=χ(γ)^{−k}γ as in §3.0. Even n makes χ^n descend to Γ^+. Prove char(X∞^+(−n))=Tw_{−n}(char X∞^+) when X∞^+ is torsion; thus §4.21’s dependent torsion-and-ideal proposition is equivalent to the stated cyclotomic proposition. Its corank assertion is separately equivalent to torsion of X∞^+. The n=0 case is excluded by criticality of the Tate dual.
+
+The interpolation normalization is evaluation at ψ: Tw_{−n}(z)(ψ)=z(χ^nψ)=a(χ^nψ)ζ_p(χ^nψ), whenever the raw pseudomeasure has finite evaluation. At its augmentation pole use the regularized value of aζ_p. Changing γ changes a by a unit and hence preserves the ideal proposition; changing a to 1 does not. Retain the nonunit augmentation factor on the trivial Δ^+ component before twisting, and transport that idempotent along Tw_{−n}.
 
 p odd; F_∞ = ℚ(μ_{p^∞}), F = F_∞^+ = ℚ(μ_{p^∞})^+, Gal(F_∞/F) = {1, c}; K_∞^+ denotes the finite-level local tower; χ is the cyclotomic character, T_n = ℤ_p(n), V_n = ℚ_p(n), W_n = (ℚ_p/ℤ_p)(n); X_∞ = Gal(M_∞/F_∞) and Y_∞ = Gal(L_∞/F_∞) for the maximal abelian pro-p extensions unramified outside p and everywhere unramified, with X_∞^+ = Gal(M_∞^+/F_∞^+) (§4.16).
 
-Prove this as follows. Use the explicit plus/Tate-dual dictionary, including the contragredient Λ action. Transport the characteristic ideal along the twist automorphism and compare the supplied analytic twist. State the equivalence in both directions; the main-conjecture assertion itself is the proposition of §4.21 and is not proved here.
+Prove this as follows. Use the explicit plus/Tate-dual dictionary, including the contragredient Λ action. For the action χ^{−n} on X∞^+(−n), the identity on underlying coefficients is Tw_{−n}-semilinear. Transport the characteristic ideal along that automorphism and compare Tw_{−n}(aζ_p), preserving the augmentation factor. State the equivalence in both directions; the main-conjecture assertion itself is the proposition of §4.21 and is not proved here.
 
-(Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, Example 13.22 and Remark 13.23, pp. 71–72 (arXiv v2); published pp. 197–198.)
+(Rodrigues Jacinto–Williams, §13.3, Theorem 13.8, arXiv v2 p. 67; §13.5.3, Example 13.22 and Remark 13.23, pp. 71–72, for the Selmer twist and criticality.)
 
-The criticality parity table restricts this comparison to even positive twists; n=0 is excluded (Rodrigues Jacinto–Williams, Remark 13.23).
+**Checks.**
+
+- p=3 gives Δ^+=1 and a=γ−1. Its Tw_{−n} image χ(γ)^nγ−1 remains a nonunit; the augmentation factor cannot be discarded from the equation with the raw ζ_p twist.
+- p=5 gives Δ^+=C₂: a is γ−1 on the trivial component and 1 on the other component, so replacing I by the procyclic augmentation ideal on every component is wrong. For n=2, Tw_{−2} sends e₀ to the nontrivial-character idempotent; the augmentation factor follows that transport.
+- Twisting back by Tw_n recovers Iζ_p and X∞^+, including the torsion branch. At n=0 this algebraic transport exists, but §4.21(ii) is vacuous because ℚ_p is not critical.
 
 *Needs:* §4.20 (Greenberg Selmer groups of Tate twists); §4.15 (The Gamma factor, r_V and criticality); §4.21 (The Iwasawa–Greenberg main conjecture (as a proposition)); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (transport of characteristic ideals along semilinear equivalences).
 
@@ -2145,7 +2232,7 @@ The named operations and identities are:
 
 **Checks.**
 
-- For generically acyclic C the regulator input reduces to the torsion determinant convention of §3.14.
+- Generic acyclicity can coexist with positive specialization rank: C=[O[[u]] —u→ O[[u]]] in degrees one and two is generically acyclic, but at u=0 it has H¹=H²=O and still needs the supplied regulator. Only an acyclic specialized complex has the canonical acyclic trivialization of §3.14.
 - A degenerate regulator cannot give a determinant trivialization.
 - Deleting a nonunit local-error determinant changes the leading-term lattice.
 
@@ -2155,7 +2242,7 @@ The named operations and identities are:
 
 Define Sel_f(F,T) as the preimage of the rational finite Selmer group and Sel_(f,T)(F,T/λ^m) as the image of Sel_f(F,T) in finite coefficient cohomology; distinguish this global image from the Selmer kernel formed from independently propagated local conditions. For a free O-submodule S of Sel_f(F,T) whose image modulo torsion is saturated, its image S(m) is free over O/λ^m of the same rank. Its localizations lie in the nonsingular condition at unramified non-p places and at unramified p places in the small crystalline range. If c restricts to an automorphism of F, conjugation gives Sel_f(F,V)≃Sel_f(F,V^c), carrying each place to its conjugate.
 
-Stable free lattice T; m≥1; the saturation condition is on the image in Sel_f/torsion, not merely a submodule of the torsion group. The local crystalline hypothesis is the one in §4.10.
+Stable free lattice T; m≥1; the saturation condition is on the image in Sel_f/torsion, not merely a submodule of the torsion group. The local crystalline hypothesis includes p>2 and the interval bounds of §4.10.
 
 Prove this as follows. Apply the coefficient LES and the global kernel definition to form the preimage and finite image. The map (Sel_f/torsion)/λ^m→Sel_(f,T)(T/λ^m)/image(torsion) is injective; saturation gives the stated free reduction and rank. Use §4.10 and unramified propagation for the local containment. Conjugate extension classes and localization maps to get inverse Selmer maps.
 
@@ -2409,7 +2496,7 @@ v = 2:             #I_v(n) = 4 if n ≡ ±1 (mod 8),  2 if n ≡ ±3 (mod 8),  1
 
 so σ_φ(E_n/ℚ_v) is −1 at ∞, 1 at odd q ∤ n, the Legendre symbol (−1/q) at odd q | n, and at 2 equals −1 for n ≡ ±1 (mod 8) and for n even, +1 for n ≡ ±3 (mod 8). Prove this as follows. At ∞, X³ + 4n²X ≥ 0 forces X ≥ 0, so the image is trivial. At odd q ∤ n the curves have good reduction; φ is an isomorphism on the formal groups (its degree 2 is prime to q) and the reduced isogeny on the finite groups of points of the reductions has kernel and cokernel of equal order, so #coker φ_v = #ker φ_v = 2. At odd q | n and at 2, decide for each of the finitely many classes d whether d(d²t⁴ + 4n²) is a nonzero square in ℚ_v for some t ∈ ℚ_v^×, using that a unit is a square in ℚ_q iff it is a square modulo q, and in ℚ₂ iff it is ≡ 1 (mod 8); the answer depends only on q mod 4, respectively on n mod 8.
 
-(Silverman, *The Arithmetic of Elliptic Curves*, Chapter X, Proposition 4.9, for the coboundary of a 2-isogeny; Dokchitser, *Notes on the parity conjecture*, §§5.1–5.4, pp. 27–30, for the archimedean and good places. By Dokchitser's Theorem 5.1 with a = 0, σ_φ(E_n/ℚ_v) equals the local root number w(E_n/ℚ_v), which gives an independent check against Cowland Kellock–Dokchitser, Theorem 2.3, pp. 4–5, and Appendix A, pp. 26–27.)
+(Silverman, *The Arithmetic of Elliptic Curves*, Chapter X, Proposition 4.9, for the coboundary of a 2-isogeny; Dokchitser, *Notes on the parity conjecture*, §§5.1–5.4, pp. 27–30, for the archimedean and good places. Dokchitser §5.3, Conjecture 5.6, p. 29, proved in §5.7, p. 33, gives w(E/K_v)=σ_φ(E/K_v)(−2,−b)_v for a=0. Here b=−n² and (−2,n²)_v=1 at every place, so σ_φ(E_n/ℚ_v)=w(E_n/ℚ_v), which gives an independent check against Cowland Kellock–Dokchitser, Theorem 2.3, pp. 4–5, and Appendix A, pp. 26–27.)
 
 **Checks.**
 
@@ -2442,7 +2529,7 @@ For the crystalline trivial representation, D_cris=K₀, t_V=D_dR/Fil⁰=0 and H
 
 ### Dependencies
 
-Layers 0, 1, 2, 3 and the supplier interfaces: Mathlib `PadicComplex`, `PadicAlgCl`, `PadicComplexInt`, `PadicComplex.isAlgClosed`, `spectralNorm`, `UniformSpace.Completion.map`, `cyclotomicCharacter`, `continuousCohomology`, `BDeRhamPlus`, `BDeRham`, `fontaineThetaInvertP`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.dual`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.finrank_dual_piece`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.tateTwist`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; Tau Ceti `TauCeti.Hodge.tate`; TauCetiRoadmap.ClassFieldTheory Layer 11; TauCetiRoadmap.EllipticCurves Layer 7; TauCetiRoadmap.EllipticCurves Layers 2 and 7; TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.LocalGaloisGroups Layer 5; TauCetiRoadmap.ProfiniteCohomology Layer 7; ArithmeticGaloisDuality Layer R02.1; ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §D7.6 (*Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*); ArithmeticGaloisDuality §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.4.4 (*Tate's global Euler characteristic formula*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (isotypic decomposition over Λ(H × ℤ_p)); PadicMeasuresIwasawaAlgebras §4.6 (transport of characteristic ideals along semilinear equivalences); PerfectoidSpaces §P1.16 (*primitive elements and ideals of degree one*); PerfectoidSpaces §§P1.6, P1.10, P1.16, P1.17, P1.18, P1.31, P3.7, P3.12.
+Layers 0, 1, 2, 3 and the supplier interfaces: Mathlib `PadicComplex`, `PadicAlgCl`, `PadicComplexInt`, `PadicComplex.isAlgClosed`, `spectralNorm`, `UniformSpace.Completion.map`, `cyclotomicCharacter`, `continuousCohomology`, `BDeRhamPlus`, `BDeRham`, `fontaineThetaInvertP`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.dual`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.finrank_dual_piece`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.tateTwist`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; Tau Ceti `TauCeti.Hodge.tate`; TauCetiRoadmap.ClassFieldTheory Layers 5 and 11; TauCetiRoadmap.EllipticCurves Layer 7; TauCetiRoadmap.EllipticCurves Layers 2 and 7; TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.LocalGaloisGroups Layer 5; TauCetiRoadmap.ProfiniteCohomology Layer 7; ArithmeticGaloisDuality Layer R02.1; ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §D7.6 (*Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*); ArithmeticGaloisDuality §R02.1.1 (*Mittag-Leffler towers have vanishing lim¹*); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (isotypic decomposition over Λ(H × ℤ_p)); PadicMeasuresIwasawaAlgebras §4.6 (transport of characteristic ideals along semilinear equivalences); PerfectoidSpaces §P1.16 (*primitive elements and ideals of degree one*); PerfectoidSpaces §§P1.6, P1.10, P1.16, P1.17, P1.18, P1.31, P3.7, P3.12.
 ## Downstream consumers
 
 Euler-system arguments for the cyclotomic main conjecture use the completed units, the Kummer and norm compatibilities and the cyclotomic Selmer dictionary (§§0.8, 4.16–4.22). Main-conjecture arguments for ordinary modular forms use the Iwasawa Selmer complexes, corrected specialization, localization surjectivity and the Fitting/characteristic comparison (§§3.8–3.21). Regulator and p-adic Hodge arguments start from the period and finite-condition foundations (§§4.1–4.12). NeronModelsAndSemistableAbelianVarieties §5.3 builds B_st, D_st and the semistable theory, and FiniteFlatGroupsAndIntegralPadicHodgeTheory its integral theory, on the period carriers of §§4.1–4.5. Rank-zero and rank-one Bloch–Kato arguments for elliptic curves use the ordinary structure criteria, the elliptic Selmer comparison and the parity theorems (§§3.18–3.21, 4.26, 4.28–4.29). The Bloch–Kato arguments for Rankin–Selberg motives in the style of Liu–Tian–Xiao–Zhang–Zhu use the torsion-crystalline condition, its small-weight comparisons and the uniform away-p bound (§§4.8–4.11, 4.24–4.25). The adjoint Bloch–Kato argument for finite-image representations uses the restriction and class-group finiteness criterion (§4.27). ArithmeticGaloisDuality's Selmer applications use Layers 1 and 2.
