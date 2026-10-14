@@ -38,8 +38,14 @@ intersections, and the double-annihilator theorem with the correct closure. For 
 closed subspace `F ≤ E`, identify `(E/F)*` isometrically with `Fᗮ`, and `F*` with
 `E*/Fᗮ`; construct restriction, quotient and inclusion maps and prove their naturality.
 Develop the adjoint of a bounded map, its norm, kernels, ranges and composition.
-Prove the closed-range theorem: closedness of `range T` is equivalent to closedness
-of `range T*`, with the corresponding annihilator identities.
+For a bounded operator between Banach spaces, with both domain and codomain
+complete, prove the closed-range theorem: `range T` is norm closed iff
+`range T*` is norm closed. Separate the unconditional identities
+`ker T*=(range T)ᗮ`, `ker T=(range T*)_⊥`, and
+`closure(range T)=(ker T*)_⊥` from the closed-range conclusion
+`range T*=(ker T)ᗮ`. Give the incomplete-domain counterexample
+`c₀₀⊂ℓ²` with its ℓ² norm: inclusion has dense proper range,
+while its adjoint is surjective by extension to the completion.
 
 Extend the existing canonical bidual embedding by its naturality under bounded
 maps, Goldstine's theorem (its closed unit ball has weak-star dense image in the
