@@ -163,8 +163,9 @@ replace the corresponding local constructions when they become available.
    define an Ehresmann connection as a distribution H complementary to
    `ker(mfderiv π)` at every point, with native
    `TauCeti.IsContMDiffDistribution` from DifferentialGeometry Layer4.
-   Prove the kernel is a smooth constant-rank distribution and construct
-   H by orthogonal complement for an auxiliary metric from DG12.1.
+   Consume LieGroupoidsPoisson G0.1's smooth constant-rank kernel
+   distribution and construct H by orthogonal complement for an auxiliary
+   metric from DG12.1.
    Specialize this same construction to smooth fiber bundles. Develop pullback,
    restriction and local horizontal lifts; transport exists on its maximal
    interval and need not be complete for an arbitrary connection. Prove
