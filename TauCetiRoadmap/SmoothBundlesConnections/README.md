@@ -313,6 +313,14 @@ real/complex L² construction; no complex structure on the base is needed.
 Construct real rank-n and complex rank-n frame bundles with
 `Matrix.GeneralLinearGroup (Fin n) ℝ` and
 `Matrix.GeneralLinearGroup (Fin n) ℂ`, the latter regarded as a real Lie group.
+Pin the matrix normed-ring instances to `Matrix.linftyOpNormedRing`
+and the topological-space instances to `Matrix.linftyOpTopologicalSpace`,
+for both real and complex matrices, as in Tau Ceti's native general-linear
+Lie construction. Prove the identity homeomorphism with default entrywise
+matrix topology by finite-dimensional norm equivalence, and its induced
+units-level homeomorphism on `Matrix.GeneralLinearGroup (Fin n) 𝕜`,
+for `𝕜=ℝ,ℂ`. Prove compatibility
+of multiplication, inversion, frame evaluation and manifold charts.
 The right action is `f·g=f∘g`; recovery is `[f,v]↦f(v)`.
 Prove an equivalence of **groupoids of isomorphisms**
 between the corresponding smooth vector bundles and principal GL_n bundles. Orthogonal,
@@ -452,8 +460,10 @@ circle bundles with prescribed loop holonomy are acceptance examples.
 ## B6. Circle bundles, integral classes, and flat ambiguity
 
 **B6.0. Smooth good covers.** On finite-dimensional Hausdorff second-countable
-manifolds with boundaryless model, construct an auxiliary smooth Riemannian
-metric using DifferentialGeometry 12.1. Construct the compatible extended
+manifolds with boundaryless model, prove the following for **any chosen smooth
+positive-definite Riemannian metric**, including its given-metric convexity
+radii and endpoint maps. DifferentialGeometry 12.1 constructs an auxiliary
+metric when none is specified. Construct the compatible extended
 metric using `EMetricSpace.ofRiemannianMetric`; T3 follows from Hausdorffness
 and local compactness. Consume HopfRinow's exponential/logarithm
 and Gauss-lemma APIs. Prove the variable-base inverse-function theorem for
@@ -461,8 +471,12 @@ and Gauss-lemma APIs. Prove the variable-base inverse-function theorem for
 along sufficiently short geodesics, following Lee RM Lemma6.16/Thm6.17.
 Construct strongly geodesically convex neighborhoods in Lee's sense: any
 pair is joined by a unique globally minimizing geodesic, entirely in the
-neighborhood. Export a uniform convexity radius on each compact set and
-smooth dependence of that segment on its endpoint pair/time. Build locally
+neighborhood. Export positive uniform normal and strong-convexity
+radius bounds on each compact set for the given metric, with `IsNormalDomain`
+on every tangent ball of that normal radius. Prove these bounds by the
+variable-base inverse-function neighborhoods and a finite compact subcover;
+they do not require a separately defined global injectivity-radius function.
+Export smooth dependence of the segment on its endpoint pair/time. Build locally
 finite good-cover refinements, finite when compact.
 Require each cover member V to be uniformly normal: for every q∈V choose
 r_q>0 with `IsNormalDomain` on B(0,r_q) and V⊆exp_q(B(0,r_q)), following
