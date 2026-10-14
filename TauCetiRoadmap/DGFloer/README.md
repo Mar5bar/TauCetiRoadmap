@@ -88,15 +88,33 @@ This roadmap consumes, and does not rebuild:
 - **[Algebraic topology](../AlgebraicTopology/README.md).**
   - Stage 2: relative singular homology and local coefficient systems.
   - Stage 4: CW pairs, cellular approximation and cofibrations.
-  - Stage 5: Eilenberg--Zilber, the Künneth theorems, the Serre-fibration carrier, and the homology
-    Serre spectral sequence over CW bases.
+  - Stage 5.1–5.4: Eilenberg--Zilber, the Künneth theorems and transfer.
+    Layer 1 item 2 consumes native `TauCeti.TopCat.serreFibrations` and owns
+    the fibration homotopy exact sequence and ordinary homology
+    Serre spectral sequence consumed by AT5.5; it uses AT1–4 and item 3,
+    with no AT5.5 or GeneralizedCohomology input. Its multiplicative cohomology
+    counterpart additionally consumes AT6.0–6.2's foundational tower/cochains/cup
+    portion, which precedes duality and EM constructions.
   - Stage 6: fundamental classes, the orientation local system, cap products, Poincaré and
     Poincaré--Lefschetz duality.
-  - Stage 8: absolute and relative Hurewicz in degrees `≥ 2`, and Whitehead.
+  - Stage 8.1–8.7: absolute and relative Hurewicz in degrees `≥ 2`, and Whitehead.
+    Layer 1 item 4 additionally consumes AT8.8's generic degree-one bar model;
+    the EM constructor consumes no AT8.9–8.12 results.
 - **[DG and A-infinity](../DGAInfinity/README.md).**
   - Layer 1: DG algebras, right DG modules, restriction of scalars, tensor products.
   - Layer 4: Maurer--Cartan elements in the strictly upper-triangular regime.
   - Layer 5: one-sided twisted complexes and derived tensor products.
+- **[Generalized cohomology](../GeneralizedCohomology/README.md).**
+  - Early G2.1 supplies the convenient-space comparisons; G2.10 owns
+    `IsHurewiczFibration`, continuous lifting for arbitrary parameter spaces,
+    the based path-loop and mapping-path fibre carriers, and the comparison
+    with native `TauCeti.TopCat.serreFibrations`. The order is
+    early G2.1 → G2.10's path/lift/native-comparison constructions;
+    Layer 1 item 2 → G2.10's fibration-LES applications. Both precede
+    Layer 1 item 4 and Layer 2.
+    G2.1's individual convenient-space exports retain their own earlier
+    prerequisites; G2.10 precedes G2.7's Eilenberg–MacLane spectra and
+    consumes no EM representability or mod-2 vanishing.
 - **[Geometric topology](../GeometricTopology/README.md).**
   - Layer 1: manifolds with boundary, collars, tubular neighbourhoods, connected sum.
   - Layer 3: `Diff(M)` as a topological group with the `C^∞` topology, the smooth-families map,
@@ -134,7 +152,10 @@ This roadmap consumes, and does not rebuild:
 This roadmap owns everything else it states. In particular it owns:
 - cubical singular chains and their comparison with simplicial singular chains;
 - `H₁ ≅ π₁ᵃᵇ`, CW approximation, and homology invariance under weak equivalences;
-- the spectral sequence of a bounded-below exhaustive filtered complex;
+- the homological/cohomological adapters and convergence/filtration theory
+  extending the native filtered-cochain spectral-object and spectral-sequence API;
+- the fibration homotopy exact sequence and ordinary homological and
+  multiplicative cohomological Serre sequences on native `serreFibrations` over arbitrary CW and arbitrary-space bases;
 - Serre classes;
 - the Pontryagin--Thom collapse for framed submanifolds of an arbitrary closed ambient manifold,
   extending the Euclidean-ambient construction of the homotopy spheres roadmap;
@@ -144,8 +165,9 @@ This roadmap owns everything else it states. In particular it owns:
   roadmap's Morse--Bott API;
 - the extension of that roadmap's broken-geodesic carrier from based paths to the free loop space
   of a closed Riemannian manifold;
-- Moore path and loop spaces, Hurewicz fibrations, their Moore-path replacement with its strict
-  holonomy, and mapping spaces out of spheres;
+- Moore path and loop spaces, transitive lifting-function data, the Moore-path
+  replacement with its strict holonomy, and mapping spaces out of spheres;
+  G2.10 owns the Hurewicz-fibration predicate and its Serre comparison;
 - DG local systems;
 - the Barraud--Cornea construction;
 - DG Morse and DG Floer homology;
@@ -158,9 +180,13 @@ This roadmap owns everything else it states. In particular it owns:
 
 Four of these touch other roadmaps and are coordination points:
 
-- **The filtered-complex spectral sequence.** The algebraic topology roadmap builds its Serre
-  spectral sequence from a skeletal filtration. Once the generic construction of Layer 1 exists,
-  that roadmap is expected to consume it.
+- **The filtered-complex and ordinary Serre spectral sequences.** Layer 1
+  item 3 extends native filtered-cochain spectral objects with homological
+  and cohomological adapters,
+  Classical/Complete Convergence Theorems and actual induced filtrations.
+  Item 2 applies them to the skeletal filtration for native `serreFibrations`, owns the
+  multiplicative/local-pairing construction and extends along CW approximation;
+  AlgebraicTopology Stage 5.5 and GeneralizedCohomology consume these targets.
 - **The cotangent bundle of a manifold.** Lane F3 of the Heegaard Floer roadmap takes its cotangent
   examples from here.
 - **The Pontryagin--Thom collapse.** Layer 1 builds it with the same data as the homotopy spheres
@@ -176,8 +202,10 @@ Four of these touch other roadmaps and are coordination points:
 
 ## Standing conventions
 
-- **Cubical chains throughout.** All chains in this roadmap are *normalized cubical singular
-  chains*, following the source and BDHO.
+- **Cubical chains and the ordinary supplier.** The DG/Morse/Floer chains in this roadmap
+  are normalized cubical singular chains, following the source and BDHO. Layer 1 item 2's
+  general ordinary-topology supplier uses AT's native simplicial singular and twisted chains;
+  Layer 0 item 3 transports its homology and Serre sequence to cubical chains for the DG consumers.
   - A singular `n`-cube is a continuous map `Iⁿ → X`. It is degenerate when it does not depend on
     at least one coordinate (Massey's convention, which is BDHO §5.2's). The chain group is free on
     all cubes modulo the degenerate ones.
@@ -313,11 +341,14 @@ Tau Ceti provides:
 - the Morse lemma, the Morse index, negative-gradient flows;
 - finite-dimensional Sard and Sard–Smale.
 
-None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They are built here:
+The following targets are built here, consuming the native APIs cited in their layers:
 - cubical chains;
 - `H₁ ≅ π₁ᵃᵇ`;
 - CW approximation;
-- the filtered-complex spectral sequence;
+- the homotopy exact sequence and arbitrary-CW/arbitrary-base homological
+  and multiplicative cohomological spectral sequences for native `serreFibrations`;
+- the homological adapter and convergence theory for native filtered-complex
+  spectral objects and spectral sequences;
 - Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A` with their
   uniqueness up to weak equivalence, and the one-step connected covers of Layer 1 item 4;
 - the Pontryagin--Thom collapse in a non-Euclidean ambient manifold;
@@ -360,9 +391,17 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
 
 These are general facts that the later layers use, which no other roadmap builds.
 
+Reuse the native Serre interfaces in
+[`SerreFibration/Basic.lean`](https://github.com/TauCetiProject/TauCeti/blob/720bf8c135bd2c354a15d55a73f2fc2c3d7aa358/TauCeti/Topology/Homotopy/SerreFibration/Basic.lean)
+and [`SerreFibration/FiberBundle.lean`](https://github.com/TauCetiProject/TauCeti/blob/720bf8c135bd2c354a15d55a73f2fc2c3d7aa358/TauCeti/Topology/Homotopy/SerreFibration/FiberBundle.lean).
+They supply the morphism-property/disc/cube vocabulary and bundle lifting;
+the remaining LES, coefficient, arbitrary-base, multiplicativity and
+convergence targets below extend those interfaces.
+
 1. **Hurewicz in degree one.** For a path-connected space, `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` naturally. This
    proves the isomorphism theorem for AT8.3's actual normalized absolute
-   Hurewicz map: a loop is sent to its induced positively oriented singular
+   Hurewicz map with target AT's native simplicial singular H₁(X;ℤ):
+   a loop is sent to its induced positively oriented singular
    circle class, through Layer 0's cubical/simplicial chain comparison. The
    induced map on abelianization is the displayed isomorphism, with no
    independent sign or map. AT8.3's higher-degree isomorphism theorem starts
@@ -387,10 +426,13 @@ These are general facts that the later layers use, which no other roadmap builds
      for maps of pairs and their exact sequences. This also proves that a weak
      equivalence induces local-coefficient homology isomorphisms on arbitrary
      spaces; CC C1.2 consumes these exact maps, not a second proof.
-   - Own the Serre-fibration carrier by its disc homotopy-lifting property,
-     pullbacks and maps of fibrations, the fibration homotopy exact sequence
-     including components, and the bridge from native locally trivial
-     `FiberBundle` to that lifting property, with no paracompactness hypothesis.
+   - Use `TauCeti.TopCat.serreFibrations` on native TopCat morphisms,
+     with `mem_serreFibrations_iff`/`mem_serreFibrations_iff_cube`
+     for disc/cube lifting, its pullbacks and maps of fibrations.
+     Reuse `TauCeti.TopCat.mem_serreFibrations_proj` and
+     `FiberBundle.hasHomotopyLiftingProperty_proj_cube` for locally
+     trivial bundles, with no paracompactness hypothesis. Own the
+     remaining fibration homotopy exact sequence including components.
      Construct the sequence and boundary directly by disc lifting and endpoint
      restrictions, retaining group laws and pointed-set exactness at π1/π0;
      do not consume AT8.1's relative-pair sequence. These constructions use
@@ -419,8 +461,8 @@ These are general facts that the later layers use, which no other roadmap builds
      These targets use AT1–4 and item 3, with no AT5.5 or GeneralizedCohomology input,
      and precede item 4. The source applies them over `Ω₀Q`, `Ω²B` and `Y`.
    - Own `arbitraryCWSerreCohomologySpectralSequence` and
-     `arbitraryBaseSerreCohomologySpectralSequence` on that same single Serre
-     carrier and skeletal filtration. Use the actual dual filtered cochain
+     `arbitraryBaseSerreCohomologySpectralSequence` on native
+     `TauCeti.TopCat.serreFibrations` and the same skeletal filtration. Use the actual dual filtered cochain
      complex and its relative quotients, including the cellular/singular
      filtration comparison; do not identify cohomology pages by naive duality
      of homology pages. The cohomological sequence has
@@ -459,8 +501,12 @@ These are general facts that the later layers use, which no other roadmap builds
      homotopy. Use it, iterated for the finite product-skeletal union in each
      m, to define the product-filtered cup on a small-chain/relative model;
      do not evaluate the ordinary cross cochain unconditionally on arbitrary
-     simplices in that closed union. Prove products of Serre fibrations are
-     Serre, and preserve that fact under pullback. Identify g^*(M⊠N) with
+     simplices in that closed union. Consume native
+     `IsStableUnderProductsOfShape` and `IsStableUnderBaseChange`
+     instances for `serreFibrations`. Transport categorical products
+     to the concrete E×E carrier through native `RespectsIso` and
+     TopCat's product isomorphism. Use `mem_serreFibrations_pullbackFst`
+     for pullbacks. Identify g^*(M⊠N) with
      q^*(M⊗N) by inverse transport along the actual lifted diagonal-to-g
      homotopy, using AT2.6's path-natural local-system comparison; retain
      that identification in cups.
@@ -482,8 +528,13 @@ These are general facts that the later layers use, which no other roadmap builds
      construction, independently of AT duality/EM and G5. GeneralizedCohomology G5 consumes this
      multiplicative supplier for rational K(ℤ,n); no second Serre construction
      or assumption that additive page calculations determine the cup ring.
-3. **The spectral sequence of a filtered complex.** For an increasing filtration
-   of a module chain complex over a ring, assume degreewise filtration lower
+3. **The spectral sequence of a filtered complex.** Reuse the native
+   `CochainComplex.spectralObject`, `filtrationFunctor`,
+   `spectralSequence` and mapping-cone/cokernel first-page comparisons in
+   [`Filtered/SpectralObject.lean`](https://github.com/TauCetiProject/TauCeti/blob/720bf8c135bd2c354a15d55a73f2fc2c3d7aa358/TauCeti/Algebra/Homology/SpectralSequence/Filtered/SpectralObject.lean),
+   with the reindexing and convergence comparisons specified here.
+   For an increasing filtration of a module chain complex over a ring,
+   assume degreewise filtration lower
    bounds `∀ n, ∃ s(n), F_(s(n)) C_n=0` and exhaustion `⋃_p F_p C_n=C_n`.
    Construct the sequence `E¹_(p,q)=H_(p+q)(F_p C/F_(p−1) C)` as an instance
    of Mathlib's `SpectralObject`. Prove natural strong convergence in the
@@ -521,7 +572,7 @@ These are general facts that the later layers use, which no other roadmap builds
      Serre class for simply connected spaces (Serre 1953, Theorem 1; the source's Theorem 5.12).
    - Instances: the torsion groups (equivalently `G ⊗ ℚ = 0`), and, for a fixed integer `d ≥ 1`,
      the groups annihilated by **some** power of `d`, `∃ m, dᵐ · G = 0`. The groups annihilated by
-     one fixed `dᵐ` do not form a class: they are not closed under extensions.
+     one fixed `dᵐ`, for `d ≥ 2` and `m ≥ 1`, do not form a class: they are not closed under extensions.
    - The class `{G | G ⊗ ℤ/2 = 0}` used in the source's proof of Theorem 5.15 is **not** a Serre
      class: `ℚ` belongs to it and its subgroup `ℤ` does not. It is replaced by the following
      theorem, which is what that proof needs.
@@ -529,38 +580,140 @@ These are general facts that the later layers use, which no other roadmap builds
      is uniquely 2-divisible (a `ℤ[1/2]`-module). Only this direction is used. No finite generation
      is assumed. A uniquely 2-divisible group has `G ⊗ ℤ/2 = 0`, which is how Layer 10 item 5
      applies it. Its prerequisites are owned here, since no roadmap supplies them:
-     - **Eilenberg--MacLane spaces.** `K(A, 1) = |B_•A|`, the realization of the bar construction
-       (the nerve of `A`), which is a `K(A, 1)` because the realization of the contractible `E_•A`
-       covers it; and `K(A, n)` for `n ≥ 2` by iterating the bar construction, or as the
-       realization of the simplicial abelian group corresponding to `A[n]` under Dold--Kan. These
-       are CW complexes, functorial in `A`. For a **directed union** `A = ⋃ A_i` of subgroups, the
-       `|B_•A_i|` are subcomplexes with union `|B_•A|`, so `H_*(K(A, n)) = colim H_*(K(A_i, n))`
-       by compact supports. No statement about arbitrary topological filtered colimits is made: the
-       topological colimit of the circles `S¹ → S¹ → ⋯` under the degree-2 maps is indiscrete and
-       is not a `K(ℤ[1/2], 1)`. (Their mapping telescope is one, but it is not used.) Tau Ceti has
-       only `IsEilenbergMacLaneSpaceOne`.
+     - **Eilenberg--MacLane spaces.** Pin one functorial abelian model in each degree.
+       For n=1 set `K(A,1)=B(Multiplicative A)`, an alias of
+       [AlgebraicTopology 8.8](../AlgebraicTopology/README.md)'s native
+       `|nerve (SingleObj (Multiplicative A))|`. That item owns the generic
+       contractible Eπ, covering, CW structure and fundamental-group edge normalization;
+       it has no dependency on this item. For n≥2 use the realization of the
+       simplicial abelian group Γ(A[n]) from Mathlib's Dold–Kan equivalence,
+       with A[n] the nonnegative chain complex concentrated in degree n.
+       Consume AT4's single generic simplicial-realization CW structure.
+       Construct the coefficient-natural identification π_n≃A through AT8.2's
+       simplicial-group Kan/Moore theorem and actual Kan realization-unit
+       comparison, followed by the cubical comparison and the degree-n
+       homology map of the native Dold–Kan counit NΓ(A[n])≅A[n]. Thus the
+       distinguished class from a normalized simplex labelled a maps to a. Pin the positive sphere orientation by
+       AT8.6. In degree one compare Γ(A[1]) with the abelian nerve as simplicial
+       abelian groups, with the edge labelled a corresponding to a; use the bar
+       carrier above throughout. Prove all other positive homotopy groups vanish.
+       Thus AT8.10 consumes a fixed constructor and normalized identification,
+       without constructing another abelian model. The construction uses only
+       AT8.1–8.8, not AT8.9–8.12's obstruction/representability results.
+       For a **directed union** A=⋃A_i of subgroups, prove the corresponding
+       simplicial inclusions are subcomplexes with union the chosen model, so
+       H_*(K(A,n))=colim H_*(K(A_i,n)) by compact supports. No statement about
+       arbitrary topological filtered colimits is made: the topological colimit
+       of S¹→S¹→⋯ under degree-2 maps is indiscrete and is not K(ℤ[1/2],1).
+       (Its mapping telescope is one, but is not used.) Native
+       `IsEilenbergMacLaneSpaceOne` supplies the degree-one EM property interface.
+     - **Presentation model and skeletal extension.** Own a second, comparison
+       CW construction of K(A,n) from a presentation of A: for n≥2 start
+       with a wedge of positively oriented n-spheres for its generators,
+       attach (n+1)-cells along its relations, and kill successive higher
+       homotopy groups by cells in dimensions≥n+2. For n=1 use the
+       group-presentation 2-complex of A and kill higher homotopy in
+       dimensions≥3. Prove each stage preserves π_n and the lower
+       groups, and prove the limit's homotopy groups by compact-family
+       factorization through the CW tower. Give the coefficient-normalized
+       comparison to the chosen bar/Dold–Kan model, using the skeletal
+       extension below and Whitehead; the chosen functorial carrier stays
+       that single model. Own Hatcher's Lemma4.31 skeletal extension:
+       realize a supplied homomorphism on π_n by maps of the generator
+       spheres, extend over the presentation cells using their null
+       relations, and over every higher cell using the target's vanishing
+       higher homotopy. Construct the based maps and homotopies and prove
+       their coefficient normalization. Likewise own the general higher-cell
+       killing construction used below, with its connectivity and preserved
+       lower-group claims. All these constructions use AT4's cell attachments
+       and AT8.1–8.7's relative homotopy/Hurewicz/Whitehead machinery,
+       without AT8.9–8.12 obstruction or representability results.
      - **Uniqueness.** For the CW complex `K(A, n)` above and any space `Z` with `π_n Z ≅ A` and
        all other homotopy groups zero, a map `K(A, n) → Z` realizing a given isomorphism on `π_n`
-       exists and is a weak equivalence (Hatcher, Proposition 4.30; it needs Whitehead's theorem
-       from Stage 8 of the algebraic topology roadmap and CW approximation from item 2). Through
-       item 2, every `K(A, n)` has the homology of the bar model.
+       exists by the presentation/skeletal extension just constructed and is
+       a weak equivalence (Hatcher, Proposition4.30). Construct it first on
+       the presentation model, and precompose with a based homotopy inverse
+       of the coefficient-normalized presentation-to-bar/Dold–Kan comparison
+       to obtain the map on the chosen functorial carrier. Use Whitehead's theorem
+       from AT8.1–8.7 and CW approximation from item2 for the CW comparison.
+       The normalized
+       identification uses AT8.2's ordered-simplex/cube orientation comparison:
+       a spherical n-simplex labelled a has cubical Hurewicz image the
+       relative class σ_*[Δ^n,∂Δ^n], transported to absolute homology by
+       the point-pair sequence for n≥1. Separately its normalized Moore
+       class maps to a under the native Dold–Kan counit. The counit does
+       not act directly on the topological singular homology class.
+       This fixes the constructor's sign. AT8.10 proves the downstream
+       universal-class evaluation e_a↦a; this item consumes no such class. Through
+       item 2, every K(A,n) has the homology of the chosen degree-one bar
+       or higher-degree Dold–Kan model. The chosen models and the targets
+       Z in this uniqueness comparison are path connected; include π₀
+       explicitly, rather than imposing only positive-degree homotopy conditions.
+     - **Path and homotopy-fibre carriers.** Consume
+       [GeneralizedCohomology G2.10](../GeneralizedCohomology/README.md#g2-a-concrete-spectral-model-and-represented-theories)
+       for the based path-loop fibration and mapping-path homotopy fibre,
+       including its endpoint-evaluation Hurewicz fibration, comparison with
+       the native Serre carrier consumed in item 2 and contractibility of the based path space.
+       Apply **item 2's** long exact fibration homotopy sequence, including
+       its component terms, to these supplied Hurewicz/Serre fibrations.
+       G2.10's predicate/path/native-comparison constructions use early
+       G2.1 and native `TauCeti.TopCat.serreFibrations`; its
+       applications of the fibration LES consume item 2.
+       Thus item 2 → G2.10's LES applications → this item;
+       G2.10's constructions need only early G2.1. This item consumes no Eilenberg--MacLane
+       representability or mod-2 vanishing. Identify the loop fibre
+       ΩK(A,n) with K(A,n−1) for n≥2 through the **Uniqueness** target above,
+       after CW approximation, using the coefficient-natural connecting
+       isomorphism on π_(n−1). This comparison consumes no AT8.11 result.
+     - **Integral/mod-2 chain comparison.** Own the homology Bockstein
+       sequence needed here. For AT2's native simplicial integral singular
+       chain complex C_Z, prove degreewise freeness
+       and the natural degreewise short exact sequence
+       `0→C_Z --×2→ C_Z→C_Z⊗ℤ𝔽₂→0`, identify the quotient complex
+       with AT2's native simplicial 𝔽₂ singular chains, used by item2's
+       Serre sequence, restricted from 𝔽₂-modules
+       to ℤ-modules. Prove the restriction-of-scalars homology comparison
+       and instantiate the native homology long exact sequence over ℤ.
+       Export its maps, exactness and
+       naturality. In particular, vanishing of H_(i+1)(Z;𝔽₂) and
+       H_i(Z;𝔽₂) makes multiplication by2 on H_i(Z;ℤ) bijective.
+       This comparison precedes the one-step lemma and uses no homology
+       universal-coefficient theorem. Export also the natural surjection
+       H₁(Z;ℤ)→H₁(Z;𝔽₂) from the torsion-free H₀(Z;ℤ) term,
+       and its identification with the quotient by2.
      - `H̃_*(K(A, n); 𝔽₂) = 0` for every `ℤ[1/2]`-module `A`. For `n = 1`: `A` is the directed
        union of its finitely generated `ℤ[1/2]`-submodules, which are finite sums of copies of
        `ℤ[1/2]` and of finite cyclic groups of odd order, so by the directed-union property and
-       Künneth it suffices to treat these two. For `ℤ[1/2] = ⋃_r 2^{−r}ℤ`: each `2^{−r}ℤ ≅ ℤ`, and
+       Künneth it suffices to treat these two. Construct the canonical map
+       `|N(A×B)| → |N(A)|×|N(B)|` induced by the two group projections.
+       AT8.8 identifies its π₁ map with the identity on A×B and all higher
+       groups with zero, so it is a weak equivalence; item 2's homology
+       invariance and AT Stage 5 item 1's field Künneth theorem give the
+       required natural homology product formula. This argument uses no
+       obstruction or representability theorem. For `ℤ[1/2] = ⋃_r 2^{−r}ℤ`: each `2^{−r}ℤ ≅ ℤ`, and
        under these identifications the inclusion `2^{−r}ℤ ⊂ 2^{−r−1}ℤ` is multiplication by `2`.
        By uniqueness, `K(ℤ, 1)` has the homology of `S¹`, and `H_1(K(G, 1)) ≅ G^{ab}` naturally in
-       `G` (item 1), so `H̃_*(K(ℤ[1/2], 1); 𝔽₂) = colim(𝔽₂ →×2 𝔽₂ →×2 ⋯) = 0`, since `×2 = 0`
-       on `𝔽₂`. Finite cyclic groups of odd order have odd-torsion reduced integral homology. For
+       `G` (item 1). The preceding reduction/quotient comparison
+       identifies the induced mod-2 H₁ map as multiplication by2,
+       hence zero. Therefore `H̃_*(K(ℤ[1/2], 1); 𝔽₂) =
+       colim(𝔽₂ →×2 𝔽₂ →×2 ⋯) = 0`. For a finite cyclic group of odd order, consume AT8.8's
+       bar-space/group-cohomology comparison. Construct the finite-group
+       averaging contraction on its positive-degree bar cochain complex:
+       its order is invertible in 𝔽₂, so its positive group cohomology
+       with trivial 𝔽₂ coefficients vanishes. AT6's field universal
+       coefficient comparison identifies this cohomology with the dual
+       of homology; a vector space with zero dual is zero. Thus its
+       reduced mod-2 homology vanishes. For
        `n ≥ 2`: induction through the path-loop fibration `K(A, n−1) → P → K(A, n)` over the simply
        connected base `K(A, n)`; the mod-2 Serre spectral sequence has `E²` concentrated in the
        bottom row, which is `H_*(K(A, n); 𝔽₂)`, so `E² = E^∞`, and the total space is
        contractible.
      - **The one-step lemma.** Let `n ≥ 2` and let `Z` be an `(n−1)`-connected space with
        `H̃_*(Z; 𝔽₂) = 0`. Then:
-       - `π_n Z ≅ H_n(Z; ℤ)` (Hurewicz, Stage 8) is uniquely 2-divisible. By universal
-         coefficients, `H_n(Z; 𝔽₂) = H_n(Z) ⊗ ℤ/2 ⊕ Tor(H_{n−1}(Z), ℤ/2)` with `H_{n−1}(Z) = 0`,
-         so `H_n(Z) ⊗ ℤ/2 = 0`, and `H_{n+1}(Z; 𝔽₂) ⊇ Tor(H_n(Z), ℤ/2)`, so `Tor(H_n(Z), ℤ/2) = 0`.
+       - `π_n Z ≅ H_n(Z; ℤ)` (AT8.3 Hurewicz, on the native
+         simplicial integral singular homology carrier) is uniquely 2-divisible:
+         the preceding chain comparison and vanishing of mod-2 homology
+         in degrees n and n+1 make ×2 on H_n(Z;ℤ) bijective.
        - After CW approximation (item 2), attaching cells of dimension `≥ n + 2` to `Z` kills `π_k`
          for `k > n` and produces a `K(π_n Z, n)` containing `Z`, with `Z → K(π_n Z, n)` an
          isomorphism on `π_n` (Hatcher §4.1). Let `Z' → Z` be its homotopy fibre. Then `Z'` is
@@ -612,24 +765,60 @@ These are general facts that the later layers use, which no other roadmap builds
      topological monoid.
    - The free loop space `𝓛X` and its component `𝓛₀X` of contractible loops.
    - Constant loops `X ↪ 𝓛₀X`.
-2. Hurewicz fibrations, and transitive lifting functions `E ×_B P B → P E` that preserve
-   concatenation. A homotopy lifting property alone does not supply a transitive lifting function.
-   - Every Hurewicz fibration is a Serre fibration in the algebraic topology roadmap's sense.
+2. Consume GeneralizedCohomology G2.10's `IsHurewiczFibration`, its
+   explicit continuous homotopy lifts for every parameter space, and its
+   comparison with the native Serre carrier consumed in Layer 1 item 2. Define transitive
+   lifting functions `E ×_B P B → P E` as additional continuous data
+   preserving concatenation, and construct these data for the replacement below.
+   Require Φ(e,γ) to start at e, have γ's Moore length, project to γ,
+   and satisfy `Φ(e,length-zero path at p(e))=length-zero path at e` and
+   `Φ(e,γ*λ)=Φ(e,γ)*Φ(end Φ(e,γ),λ)`.
+   A homotopy lifting property alone does not supply a transitive lifting function.
    - **Moore-path replacement** (BDHO §7.1, after Dold--Kamps, Proposition 5.5). For any map
      `p : E → B`, put `E' = {(e, γ) | γ a Moore path in B starting at p(e)}` and
      `p'(e, γ) = γ(end)`. Then `p'` is a Hurewicz fibration with the transitive lifting function
      given by concatenation, and its fibre `F'` over the basepoint carries the strict right action
      `(e, γ) · λ = (e, γ · λ)` of `ΩB`. When `p` is a Hurewicz fibration, the inclusion
-     `E → E'`, `e ↦ (e, const)`, is a fibre homotopy equivalence over `B`, and `F → F'` is a
+     `E → E'`, sending e to (e, the length-zero path at p(e)), is a fibre homotopy equivalence over `B`, and `F → F'` is a
      homotopy equivalence.
+     Prove the fixed-interval/Moore continuity adapters explicitly. For the
+     replacement prove the all-parameter lifting property directly by
+     appending the initial segment of the base homotopy at time t, of Moore
+     length t; at t=0 this is the strict length-zero unit. For a general
+     Hurewicz p and a Moore path γ of length r, use its continuously normalized
+     interval path `s↦γ(rs)` and G2.10's interval lift Λ, including r=0.
+     The return map sends `(e,γ)` to `Λ(e,s↦γ(rs))(1)`. Its composite with
+     the constant-path inclusion is homotopic to the identity through
+     `t↦Λ(e,const)(t)`. The opposite composite is homotopic to the identity
+     through the lifted point at time t paired with γ's remaining segment
+     of length `r(1−t)` starting at rt. Prove these maps and homotopies
+     continuous in all parameters and over B. An arbitrary Λ need not fix
+     constant paths, so this argument does not assert a strict length-r
+     regular lift by rescaling Λ's output at r=0.
    - When `p` itself has a transitive lifting function `Φ`, transport `F' → F`,
      `(e, γ) ↦ Φ(e, γ)(end)`, is strictly `ΩB`-equivariant and a homotopy equivalence.
    - The endpoint evaluation `P_{A→X} X → X` is a Hurewicz fibration. So is evaluation
      `C(K, X) → C(L, X)` along a closed cofibration `L ⊆ K` of compact Hausdorff spaces.
    - Applying `Ω` or `Ω²` to a Hurewicz fibration gives a Hurewicz fibration.
-   - A locally trivial bundle over a paracompact base is a Hurewicz fibration.
+   - A locally trivial bundle over a paracompact Hausdorff base, or with an
+     explicit numerable trivializing cover, is a Hurewicz fibration.
 3. The canonical homeomorphisms, stated for the **fixed-interval** path and loop models
    (`P^{[0,1]}`, `Ω^{[0,1]}`), never for the Moore carriers:
+   Identify every fixed-start interval path carrier P^[0,1] with
+   G2.10's `MappingPathSpace (const b)`. Consume its general endpoint-fibre
+   homeomorphism `mappingPathFiberConstHomeomorphPath b k` with native
+   `Path b k` and its forward/inverse evaluation laws. At k=b its
+   `mappingPathFiberConstHomeomorphLoopSpace` specialization has target
+   native `LoopSpace X b`. For arbitrary start and endpoint subsets
+   A,B⊆X, identify the free-start carrier P^[0,1]_(A→B)X with
+   G2.10's `MappingPathSpace (Subtype.val : A→X)` restricted over B,
+   with its inherited topology and endpoint maps.
+   This item owns the homeomorphism from
+   that native loop carrier to `Map_*(S¹,X)` through I/∂I and AT4.4's
+   based circle model, as well as the iterated sphere-model comparisons
+   below. Prove continuity and inverse laws with the declared compact-open
+   topologies and convenient-space adapters; the two notations designate
+   these compared carriers, not an additional loop construction.
    - `P^{[0,1]}_{⋆→Q} 𝓛₀Q ≅ Map_*(S², Q)`;
    - `P^{[0,1]}_{Q→Q} 𝓛₀Q ≅ Map(S², Q)`;
    - `Map_*(S^k, X) ≅ (Ω^{[0,1]})^k X`.
