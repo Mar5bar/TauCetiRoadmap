@@ -76,8 +76,9 @@ exact declarations are listed under *Exact supplier contracts*.
   Hopf algebra and its represented points; the
   `GSp₄` statements of Layers IHG.3a and IHG.3b take the similitude as a matrix identity
   `ρ(g)ᵀ J ρ(g) = μ(g) J` for a fixed invertible alternating `J`; **ReductiveGroupsPartII** (RG2.2, RG2.3)
-  supplies bounded-action building fixed points and the passage, after finite field extension and
-  conjugation, to a hyperspecial integral model.
+  supplies the bounded-orbit building fixed-point theorem (RG2.2) and hyperspecial
+  containment after finite extension for a single element of `G(ℚ_p)` lying in a compact open
+  subgroup (RG2.3).
 - **SmoothRepresentationsOfLocalGroups** (SR.4, SR.6) supplies the integral spherical double-coset
   generators, normalised Satake, the `GSp₄` spin polynomial, the integral finite-wild cocycle scheme
   (SR.6.1) and the finite-wild excursion algebra with its twisted applications (SR.6.3).
@@ -166,8 +167,8 @@ SmoothRepresentationsOfLocalGroups; `Suggested.lean` uses `TauCeti.fittingIdeal`
   multiplier `μ` is retained separately from `det ρ = μ²`, and tensoring a contragredient with `θ`
   gives multiplier `μ⁻¹θ²`.
 - **Topologies and limits.** Complete local rings carry their maximal-ideal-adic topology unless
-  another specified ideal supplies it. A continuous determinant means continuity of each group
-  characteristic coefficient. Galois interpolation fixes the same finite ramification set `S`
+  another specified ideal supplies it. A continuous determinant means continuity of every
+  coefficient of the group characteristic polynomial `g ↦ χ_D(g,X)`. Galois interpolation fixes the same finite ramification set `S`
   throughout a limit.
 - **Fitting ideals.** Fitting ideals are zeroth Fitting ideals, Tau Ceti's
   `TauCeti.fittingIdeal A M 0`; for a finite module a finite list of generators is enough, while
@@ -459,8 +460,9 @@ ReductiveGroups layer 9: split reductive group schemes over `ℤ` constructed fr
 The general root-datum construction belongs to that layer; here they are data (a commutative Hopf
 algebra with the identity component given, and the similitude as a matrix identity against a fixed invertible
 alternating form), and the Hopf algebras of layer 9 are the intended instances. [Reductive groups, Part II](../ReductiveGroupsPartII/README.md) RG2.2 and
-RG2.3: bounded-action building fixed points and passage, after finite field extension and
-conjugation, to a hyperspecial integral model, used for the integral model of Layer IHG.1.
+RG2.3: respectively the bounded-orbit building fixed-point theorem and hyperspecial containment
+after finite extension for a single element of `G(ℚ_p)` lying in a compact open subgroup.
+The latter does not supply simultaneous containment for a prescribed compact subgroup.
 
 ### From TauCetiRoadmap.ClassFieldTheory and TauCetiRoadmap.Chebotarev
 
@@ -534,13 +536,14 @@ IHG.0 → IHG.3a → IHG.1 → IHG.2 → IHG.3b → IHG.4 → IHG.5 → IHG.6.
 - **Layer 0** delivers polynomial laws, determinants, their characteristic coefficients, kernels,
   Roby representability and the determinant coordinate ring, the Amitsur formula and the trace
   comparisons, continuity, duals, finite projective and Azumaya determinants, and connected
-  invariant-coordinate pseudocharacters with rational cohomology of a flat affine group scheme.
+  invariant-coordinate pseudocharacters and their algebraic representing rings, with rational
+  cohomology of a flat affine group scheme.
 - **Layer 3a** delivers the `GLₙ` Hecke polynomial, its Satake normalisation, the character twist,
   reciprocal and Frobenius conversions, the `GSp₄` dual-spin polynomial and the full similitude
   identity used by symplectic coefficient descent.
 - **Layer 1** delivers Cayley–Hamilton algebras, semisimple reconstruction over fields, henselian
   lifting and generalized matrix algebras, reducibility ideals and extension modules, universal Cayley–Hamilton algebras, coefficient descent, compatible local
-  compressions, GL pseudocharacter reconstruction and algebraic representing rings.
+  compressions, GL pseudocharacter reconstruction and generic representation algebras.
 - **Layer 2** delivers the four Hecke images of a complex, the ghost ideal with its amplitude
   bound, local factors and localized summands over a complete coefficient ring, and operator
   localisation with ordinary parts.
@@ -792,9 +795,9 @@ determinant is a pseudocharacter) ([Chenevier](https://arxiv.org/pdf/0809.0415v2
 `Function.minimalPeriod`, `LinearMap`.
 *Lean:* `cycleProduct`, `cycleTerm`, `IsPseudocharacter`.
 
-FreeProbability §F8 / Gaussian and Haar random-matrix asymptotic freeness (an open
-TauCetiRoadmap pull request by kim-em) states the special case for normalized complex-matrix
-traces, with the cycle conventions specified in the downstream contract below.
+FreeProbability §F8, Gaussian and Haar random-matrix asymptotic freeness, consumes
+`cycleProduct` and `cycleTerm` for normalized complex-matrix traces, with the permutation
+conventions specified in the downstream contract below.
 
 **Checks.**
 
@@ -985,6 +988,36 @@ Theorem 1.15, pp.14–15; [Emerson–Morel](https://arxiv.org/pdf/2310.03869v2),
 
 ### 0.5 Characteristic coefficients and trace comparisons
 
+**Amitsur's formula for determinants.** For a degree-`d` determinant on an associative
+`A`-algebra `R`, over any commutative ring `A`, prove the following identity after every
+commutative coefficient extension. For a finite ordered family `r_j`, take one Lyndon
+representative `w` of each primitive cyclic word in the indexed letters `j`, write `|w|` for its
+length, `r_w` for its ordered product, and `t_w = ∏_j t_j^{number of occurrences of j in w}`.
+With `Λ₀ = 1` and `Λ_m = 0` for `m > d`, the mixed expansion is
+
+```text
+Λ_i(∑_j t_j r_j) = ∑_(m) (−1)^(i−∑_w m_w) ∏_w Λ_(m_w)(r_w) t_w^(m_w),
+                  ∑_w m_w |w| = i.
+```
+
+Here `m` ranges over finitely supported families of nonnegative integers on these
+representatives; each family occurs once. Thus the multiplicity of a given monomial is the
+number of families contributing it, rather than an extra orbit-size factor. Equivalently,
+`D(1−∑ t_j r_j) = ∏_w ∑_(m=0)^d (−1)^m Λ_m(r_w)t_w^m` in the formal power-series ring.
+Prove cyclic independence of each coefficient, the homogeneous-degree extraction, and
+compatibility with scalar extension; the coefficient of every `t^α` gives the corresponding
+mixed characteristic coefficient ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10,
+Lemma 1.12(ii), equations (1.4)–(1.5), pp.12–14). *Needs:* Characteristic polynomial and trace of a
+determinant, D(1 + rr′) = D(1 + r′r).
+
+**Checks.**
+
+- In degree one, `Λ₁(tr+us)=tΛ₁(r)+uΛ₁(s)`: no length-two word contributes.
+- In degree two, `Λ₂(tr+us)=t²Λ₂(r)+u²Λ₂(s)+tu(Λ₁(r)Λ₁(s)−Λ₁(rs))`.
+  For `r=E₀₁,s=E₁₀` over `ℤ`, this is `−tu`; over `𝔽₂` it is `tu`.
+- With two equal rank-two identity matrices, the same formula gives `(t+u)²`,
+  whose mixed coefficient is `2`; with no inputs, only `Λ₀(0)=1` survives.
+
 **Coefficient reconstruction from group words.** For a monoid `G`, a commutative ring `A`
 and two determinants `D,E : A[G] → A` of the same degree, prove
 `Determinant.eq_of_charpoly_eq`: if their characteristic polynomials agree at every `g ∈ G`,
@@ -992,7 +1025,8 @@ then their entire polynomial laws agree, including mixed coefficients after scal
 The proof uses Amitsur's expansion of characteristic coefficients of a sum in terms of
 characteristic coefficients of words. No invertibility of a factorial is required
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.12(ii), equations (1.4)–(1.5), and
-Corollary 1.14, pp.12–15). *Needs:* Characteristic polynomial and trace of a determinant.
+Corollary 1.14, pp.12–15). *Needs:* Characteristic polynomial and trace of a determinant,
+Amitsur's formula for determinants.
 *Lean:* `Determinant.eq_of_charpoly_eq`.
 
 **Integral Newton identities.** For `d ≥ 1`, a determinant `D` and `r ∈ R`, writing
@@ -1106,9 +1140,11 @@ extension is `D`; consequently each polynomial `D(Σ t_j g_j)` has its coefficie
 Amitsur's formula for determinants, Mathlib `Subring.closure`, `MonoidAlgebra.of`.
 
 **Continuous determinants.** For a group `G` and a commutative ring `A`, each with a topology, a determinant
-`D` on `A[G]` is continuous if every coefficient map `g ↦ Λ_i(g)`, `i ≤ d`, is continuous.
-When `A` is a topological ring, Amitsur's formula makes this equivalent to Chenevier's definition by continuity of the maps
-`D^{[α]} : G^d → A`. Define `Determinant.IsContinuous` as continuity of every `Λ_i`; prove that a
+`D` on `A[G]` is continuous if every coefficient map of `g ↦ χ_D(g,X)` is continuous.
+When `A` is a topological ring, continuity of negation makes this equivalent to continuity of
+every `Λ_i`, and Amitsur's formula makes it equivalent to Chenevier's definition by continuity
+of the maps `D^{[α]} : G^d → A`. Define `Determinant.IsContinuous` using the coefficients of
+`χ_D`; prove that a
 continuous determinant is determined on a dense subgroup and that, for profinite `G` and discrete
 `A`, continuity means that the kernel is open ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §2.30, p. 37). *Needs:*
 Amitsur's formula for determinants, Mathlib `Continuous`, `MonoidAlgebra.of`.
@@ -1120,10 +1156,10 @@ Amitsur's formula for determinants, Mathlib `Continuous`, `MonoidAlgebra.of`.
   and the continuous character `n ↦ 2ⁿ` into discrete `ℚˣ` has infinite image since `2^n ≠ 1`
   for every positive integer `n`.
 
-- On a discrete group every determinant is continuous: each `Λ_i` is a function on a discrete
+- On a discrete group every determinant is continuous: each polynomial coefficient is a function on a discrete
   space, so a definition that demanded more than continuity of the coefficients would reject some
   of these.
-- `det ∘ ρ` is continuous for continuous `ρ`: its coefficients are the polynomial functions
+- Over a topological ring, `det ∘ ρ` is continuous for continuous `ρ`: its coefficients are the polynomial functions
   `Λ_i(ρ(g))` of the matrix entries, so a definition under which the matrix determinant of a
   continuous representation failed would be wrong.
 - Over a topological ring, a determinant of dimension one coming from a discontinuous
@@ -1205,8 +1241,8 @@ splittings differ by an automorphism of a matrix algebra, which preserves the de
 the degree-`d` reduced-norm determinant; prove that under a matrix splitting it becomes
 `Matrix.det` and that every degree-`d` determinant on `R` equals the reduced norm
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.7(ii), p.10 and Example 2.5, p.24;
-[Grothendieck](http://www.numdam.org/item/SB_1964-1966__9__199_0.pdf), Théorème 5.1 and §5, pp.208–211, for the étale-local matrix
-splitting and the reduced norm). *Needs:* SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`,
+[Grothendieck](http://www.numdam.org/item/SB_1964-1966__9__199_0.pdf), Théorème 5.1, p.210, for étale matrix splitting;
+Théorème 5.10 and §5.13, pp.212–213, for automorphism invariance and descent of the reduced norm). *Needs:* SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`,
 Determinant coordinate ring,
 The determinant of a matrix representation.
 
@@ -1319,12 +1355,15 @@ is evaluation at the identity using the counit. The cotensor convention is
 
 **Checks.**
 
-- Induction along the identity is `M`. Membership in `Ind_f M` is exactly equality of the
-  two displayed coactions; zero belongs to that equalizer.
-- Reciprocity is bijective and sends the zero map to zero. For the identity subgroup,
-  the value of the forward map at `x` is `(id⊗ε)(q(x))`.
-- Over the trivial group scheme over `ℤ`, the cofree module `ℤ` is acyclic but is not
-  injective, as witnessed by the absence of a linear map taking `2` to `1`.
+- For constant group schemes over `ℤ`, `Ind₁^{C₂}(ℤ)=Map(C₂,ℤ)` has rank two;
+  the nonidentity element swaps the delta-function basis. The nonzero equivariant map
+  from the trivial module taking `1` to the constant function `1` corresponds under
+  reciprocity to `id_ℤ`, since counit evaluation gives `1` at the identity.
+- `Ind_{C₂}^{C₂}(sign)` consists of `F` with `F(h)=hF(1)`; evaluation at the identity
+  identifies it with `ℤ`, and right translation by the nonidentity acts as `−1`.
+- For `C₂=⟨(12)⟩⊂S₃` with trivial coefficients, `Ind_{C₂}^{S₃}(ℤ)` has rank three,
+  with the delta basis of left cosets `C₂g`. Right translation takes the delta function
+  of `C₂g` to that of `C₂gk⁻¹`; a three-cycle permutes the three basis vectors cyclically.
 
 **Compatible invariant-coordinate evaluation.** For the invariant coordinate algebras
 `Cₙ = O[Hⁿ]^H`, the group `H(A)`, and a commutative `O`-algebra `A`, a compatible evaluation is a
@@ -1499,16 +1538,6 @@ polynomial law, after every scalar extension. For the matrix formula, the extend
 with the original on every pure tensor; its linearity then fixes it on all inputs.
 These are the scalar-extension constructions in Chenevier, §§1.1–1.5.
 
-**Universal compatible evaluations.** For a group `Γ` and the Hopf input `C`, the universal
-ring `B_H^Γ` of *Universal reductive pseudocharacter ring*, for the group scheme `H` of `C`,
-represents the compatible evaluations defined here. The representing equivalence is
-natural in coefficient postcomposition, and the evaluations of its universal pseudocharacter
-generate this algebra. This is the generators-and-relations construction in Quast, Theorem 3.20,
-p.20; it uses the whole-group invariant algebras here, with connected reductive groups as
-an application. Coefficient change and quotient descent are fixed on every tuple. The latter,
-together with extensionality and surjectivity of `Γ→Γ/Δ`,
-uniquely specifies descent for a normal `Δ` contained in the evaluation kernel.
-
 **Checks for the canonical maps and conventions.**
 
 | Definitions or convention | Computed Checks |
@@ -1553,7 +1582,7 @@ Construct every word-substitution pullback `u* : C_n → C_m`: on points over ev
 `O`-algebra `S`, substitute the words `u(x_i)` into the `m` basis values in `H(S)`.
 Multiplication, inversion and the empty word use the coproduct, antipode and counit of `C`.
 Prove equivariance for simultaneous conjugation, restriction to scheme invariants, and the identity
-and composition laws. Take the colimit in `CommAlgCat O`, with maps `ι_(n,γ)` obeying
+and composition laws. Take the colimit `B_H^Γ` in `CommAlgCat O`, with maps `ι_(n,γ)` obeying
 `ι_(m,δ) ∘ u* = ι_(n,γ)`. For every commutative `O`-algebra `A`, prove that postcomposition with
 these maps bijects algebra maps from the colimit to `A` with families of algebra maps
 `a_(n,γ) : C_n → A` satisfying every such cocone equation. Prove extensionality on these maps,
@@ -1561,8 +1590,7 @@ generation by their images, and naturality in coefficient postcomposition and gr
 homomorphisms `Γ → Γ′`, the latter sending `ι_(n,γ)(f)` to `ι_(n,h ∘ γ)(f)`.
 
 This roadmap owns this general untwisted construction; *Untwisted excursion comparison* supplies
-its specialization to the finite-wild carrier of SmoothRepresentationsOfLocalGroups SR.6.3 and
-its identification with `B_H^Γ`. The construction follows
+its specialization to the finite-wild carrier of SmoothRepresentationsOfLocalGroups SR.6.3. The construction follows
 [Quast §3.6–3.7, Example 3.14, Proposition 3.19 and the proof of Theorem 3.20,
 pp.18–20](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf), using
 whole-group invariants here; the word maps and colimit argument require no reductivity.
@@ -1583,6 +1611,51 @@ whole-group invariants here; the word maps and colimit argument require no reduc
   to `t⁻¹`, `1` and `t₁t₂`, respectively. They impose inversion, identity and multiplication,
   including for nonreduced coefficient algebras.
 
+**Universal reductive pseudocharacter ring.** For `Γ` and the actual Hopf-coordinate input `H/O`, define
+`B_H^Γ` using *General invariant-word colimit*, owned in §0.7 for arbitrary commutative `O`,
+commutative Hopf-coordinate input and abstract `Γ`. Prove directly from its cocone equations
+`Hom_O(B_H^Γ, A) ≃ PC_H^Γ(A)`: `O`-algebra maps `B_H^Γ → A` are exactly `H`-pseudocharacters
+with values in `A`. A cocone gives `Θ_n(f)(g)` by its map at `(n,g)`;
+Reindexing and final-pair multiplication give compatibility with positive-word substitutions.
+For invertible substitutions this also gives compatibility with their inverses; these generate
+all free-group word substitutions, including inverse letters and identity insertion
+(Quast Lemma 3.18 and Proposition 3.19, pp.19–20). The coordinate maps use the Hopf
+antipode and counit. Conversely these compatibilities
+give a cocone, and the colimit property makes the two constructions inverse, natural in
+coefficient maps. The algebraic completion at a supplied ideal `m` is Mathlib
+`AdicCompletion m B_H^Γ`; no local wrapper is needed. The representing-ring target
+concerns algebraic pseudocharacters. It does not include a continuous deformation-functor
+comparison or a noetherianity assertion for this completion.
+([Quast](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf),
+Theorem 3.20, p.20, for the representing ring.) *Needs:* Connected reductive pseudocharacter,
+General invariant-word colimit, Mathlib `AdicCompletion`.
+
+**Checks.**
+
+- For the trivial target group `H`, `B_H^Γ = O`: every invariant algebra is `O`, so a construction
+  that added a generator per free-group map would not collapse to `O`.
+- For `H = GL₁` and `Γ = ℤ`, `B_H^Γ = O[t, t⁻¹]`: the colimit computes the coordinate ring of the
+  character variety of `ℤ`, so a construction omitting the inverse `t⁻¹`, or keeping a variable
+  for every word, would fail.
+- For `Γ = ℤ`, the trivial coordinate system has universal ring `ℤ`, which is not
+  `ℤ[t,t⁻¹]`. The GL determinant comparison requires the actual simultaneous-conjugation
+  invariant coordinate algebras; it does not hold for an arbitrary invariant-coordinate input.
+
+**Universal compatible evaluations.** For a group `Γ` and the Hopf input `C`, the universal
+ring `B_H^Γ` of *Universal reductive pseudocharacter ring*, for the group scheme `H` of `C`,
+represents the compatible evaluations defined here. The representing equivalence is
+natural in coefficient postcomposition, and the evaluations of its universal pseudocharacter
+generate this algebra. This is the generators-and-relations construction in Quast, Theorem 3.20,
+p.20; it uses the whole-group invariant algebras here, with connected reductive groups as
+an application. Coefficient change and quotient descent are fixed on every tuple. The latter,
+together with extensionality and surjectivity of `Γ→Γ/Δ`,
+uniquely specifies descent for a normal `Δ` contained in the evaluation kernel.
+*Needs:* Universal reductive pseudocharacter ring, Compatible invariant-coordinate evaluation.
+
+**Checks.** For `GL₁`, the universal character coordinate at a chosen generator maps to `2`
+over `ℚ`, to `−3` over `ℚ`, and at the identity over `𝔽₂` to `1`; these are the
+values of its representing algebra homomorphism.
+
 **Untwisted excursion comparison.** For the commutative base `O` and Hopf input `C` of
 *General invariant-word colimit*, construct the free-group trivial-action cocycle coordinates:
 over every coefficient algebra `S`, trivial-action `F_n`-cocycles are homomorphisms
@@ -1591,9 +1664,9 @@ Gauge invariants are exactly `C_n`, and this coordinate identification commutes 
 word pullback. Identify the resulting invariant-word colimit with the universal ring `B_H^Γ`
 of *Universal compatible evaluations*. It sends `ι_(n,γ)(f)` to the universal evaluation
 `θ_n(f)(γ(x_1), …, γ(x_n))`, and identifies every map to a coefficient algebra with its
-represented pseudocharacter, naturally in coefficient postcomposition. Prove that the reindexing
-and final-pair multiplication equations imply compatibility with all free-group words, including
-inverses and identity insertion; this supplies the cocone used by the representing equivalence.
+represented pseudocharacter, naturally in coefficient postcomposition. Use the all-word
+compatibility of *Universal reductive pseudocharacter ring* to identify this cocone with the
+universal pseudocharacter evaluations.
 
 Under SR.6.3's actual hypotheses (`O = ℤ_ℓ`, `ℓ ≠ p`, split reductive `H`, and
 `Γ = W_F⁰/P_F^e`) and **trivial** Weil action on `H`, construct an isomorphism from this same
@@ -2089,7 +2162,10 @@ for a `k`-basis `b` of `L_s`. Define, with `PolynomialLaw.comp`,
 ```
 
 Prove that `δ_C` is a `k`-valued determinant of dimension `n f q` on the `k`-algebra `C`,
-independent of `b`, with ground value `Algebra.norm k (Nrd_{C/L}(c)^q)` at `c ∈ C`. Prove also
+independent of `b`. Let `ι : L_s →ₐ[k] L` be the canonical inclusion and
+`z_c : L_s = ⟨Nrd_{C/L}(c)^q, h_c⟩`, where `h_c` is membership in the separable-closure
+subfield supplied by the exponent condition, so `ι(z_c)=Nrd_{C/L}(c)^q`. Its ground value at
+`c ∈ C` is `Algebra.norm k z_c`, with domain `L_s`, the finite separable extension of `k`. Prove also
 that `L ⊗_k k^sep` is a product of `f` fields `L_i`, each separably closed, purely inseparable over
 `k^sep` of exponent `q` and permuted transitively by `Gal(k^sep/k)`, and that the scalar extension
 of `δ_C` to `k^sep` is the product of the `δ_{C ⊗_L L_i}`
@@ -2106,6 +2182,8 @@ determinants, Mathlib `PolynomialLaw.comp`, `Algebra.leftMulMatrix`, `Algebra.no
 - For the Hamilton quaternions over `L = k = ℝ`, `δ_ℍ = Nrd` has dimension `2`, while the
   determinant of the left regular representation `ℍ → M₄(ℝ)` is `Nrd²`: a construction through
   the regular representation of `C` over `k` would have the wrong dimension.
+- For `k = 𝔽₂(u,v)`, `L = k(√u,√v)`, `C=L` and `c=√u`, `z_c=u` in `L_s=k`,
+  so `δ_C(c)=u`; applying the norm on `L` instead would give `u⁴`.
 - For `k = 𝔽₂(u, v)`, `L = k(√u, √v)` and `C = M₂(L)`, `δ_C = (det)²` has values in `k` and
   dimension `n f q = 4`, whereas `Algebra.norm k ∘ det` has dimension `n [L : k] = 8`: the
   inseparable factor enters through `q = 2`, not through `[L : L_s] = 4`.
@@ -2248,11 +2326,28 @@ system `E_ij` and `E_ii R E_ii = A E_ii` with faithful scalar map, the map `M_d(
 `(a_ij) ↦ ∑ a_ij E_ij`, is an `A`-algebra isomorphism ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Proof of
 Theorem 2.22(i), p.34). *Needs:* Henselian lifting of matrix units, Rank-one Cayley–Hamilton algebras.
 
+**Inner conjugacy of local matrix algebras.** For a commutative local ring `A`, a positive matrix
+size `d > 0` and an `A`-algebra automorphism `f` of `M_d(A)` (an algebra equivalence), prove that
+`f` is conjugation by an invertible matrix `P`. Applied to the two full-matrix identifications of
+the same residually absolutely irreducible Cayley–Hamilton quotient, it conjugates their group
+representations ([Allen–Newton–Thorne](https://arxiv.org/pdf/1912.11269v2), Proof of Theorem 2.4, p.5;
+[Caraiani–Newton](https://arxiv.org/pdf/2301.10509v3), Proof of Proposition 3.2.4(3), p.50). *Needs:* Mathlib
+`Matrix.toLinAlgEquiv'`, `Module.Projective`, `Module.free_of_flat_of_isLocalRing`,
+`Module.Flat.of_projective`.
+
+**Checks.**
+
+- For `d=1`, every `A`-algebra automorphism is the identity and `P=1` suffices.
+- Over `ℤ₃`, conjugation by `[[1,1],[0,1]]` sends `E₀₀` to `[[1,−1],[0,0]]`.
+- Over any local `A`, conjugation by the swap matrix exchanges `E₀₀` and `E₁₁`;
+  the identity automorphism is implemented by `1`, regardless of nilpotents in `A`.
+
 **Henselian irreducible reconstruction.** For a dimension-`d` Cayley–Hamilton `D : R → A` over
 henselian local `A`, prove that if `D̄` is split and absolutely irreducible then `R ≅ M_d(A)` and
 `D` is the matrix determinant. Applying this to `R = A[G]/CH(D)` reconstructs an actual
 `G → GL_d(A)`. Without residual splitness a central-simple obstruction remains
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.22(i), p.34). *Needs:* Reconstruction from rank-one corners.
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.22(i), p.34). *Needs:* Reconstruction from rank-one corners,
+Inner conjugacy of local matrix algebras.
 The group-algebra form is the Lean target: a determinant on `A[G]` whose coefficient change to the
 residue field is `det ∘ ρ̄` for a representation `ρ̄` that is absolutely irreducible as a matrix
 family (so that `D̄` is split, the image of `ρ̄` being `M_d(k)`) is `det ∘ ρ` for a representation
@@ -2266,8 +2361,8 @@ identify off-diagonal blocks with `M_{d_i,d_j}(A_ij)`; multiplication comes from
 pairings `A_ij ⊗ A_jk → A_ik`. Define GMA data as the idempotents, corner matrix algebra
 isomorphisms and cyclic trace, and the entry module `A_ij = E_i,11 R E_j,11`. Prove the Peirce
 decomposition `R ≅ ⊕_(i,j) e_i R e_j` as `A`-modules and that the off-diagonal
-multiplication pairings are associative ([Bellaïche–Chenevier](https://arxiv.org/pdf/math/0602340v2), Definition 1.3.1 and
-Lemma 1.3.2, pp.20–21). *Needs:* The trace of a determinant is a pseudocharacter.
+multiplication pairings are associative ([Bellaïche–Chenevier](https://arxiv.org/pdf/math/0602340v2), Definition 1.3.1,
+§1.3.2 and Lemma 1.3.5, pp.20–22). *Needs:* The trace of a determinant is a pseudocharacter.
 
 **Checks.**
 
@@ -2357,6 +2452,31 @@ block sizes the residual constituent dimensions. This does not make off-diagonal
 yield a `d`-dimensional free representation over `A` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem
 2.22(ii), p.34). *Needs:* Henselian irreducible reconstruction, Ordered residual GMA constituents.
 
+**Conjugacy of adapted henselian GMA data.** Let `A` be henselian local and `D : R → A`
+Cayley–Hamilton, with fixed ordered, pairwise nonisomorphic, absolutely irreducible split
+residual representations `ρ̄_i` whose determinant product is `D̄`. For any two adapted data
+`(e_i,ψ_i)` and `(e′_i,ψ′_i)` on this same algebra, prove that a unit `u ∈ Rˣ` satisfies
+`ue_i u⁻¹=e′_i` and `ψ′_i(uxu⁻¹)=ψ_i(x)` for every `x ∈ e_i R e_i`.
+First compare the two complete orthogonal families modulo `Rad(R)`; their ordered block
+projectors coincide. The element `u₀=∑_i e′_i e_i` is `1` modulo `Rad(R)`, hence a
+unit, and satisfies `u₀e_i=e′_iu₀`. Then correct the corner identifications by a block-diagonal unit, applying
+local matrix inner conjugacy in each positive-size block. Conjugation transports primitive
+entry modules and their multiplication pairings ([Allen–Newton–Thorne](https://arxiv.org/pdf/1912.11269v2),
+Theorem 2.4 and proof, p.5; [Bellaïche–Chenevier](https://arxiv.org/pdf/math/0602340v2),
+Lemma 1.4.3 and Theorem 1.4.4(i), pp.30–31). *Needs:* Multiplicity-free henselian GMA structure,
+Radical of a local Cayley–Hamilton algebra, Inner conjugacy of local matrix algebras.
+
+**Checks.**
+
+- In one block `R=M_d(A)`, the block idempotent is `1`; an inner change of `ψ` is
+  corrected by its implementing unit even though the block idempotent stays fixed.
+- In the upper-triangular algebra over henselian local `A`, `u=[[1,t],[0,1]]` takes
+  `e₁=E₀₀` to `[[1,−t],[0,0]]` and `e₂` to its complement, preserving the two ordered
+  residual characters; both corner scalar identifications remain the identity.
+- For `R=A×A` with its two labelled residual characters, the ordered projectors are
+  fixed by every inner conjugation. Exchanging their labels is excluded by the fixed
+  residual dictionary; the identity data are conjugate by `1`.
+
 ### 1.4 Reducibility ideals and quotient extensions
 
 **Partition reducibility for determinants.** For henselian local `A`, a determinant `D` with
@@ -2377,7 +2497,8 @@ in different partition parts. Prove that for chosen Cayley–Hamilton GMA
 data with its residual dictionary, `I_P ⊆ J` iff a unique family of factors has the specified
 degrees, full product law and residual products ([Bellaïche–Chenevier](https://arxiv.org/pdf/math/0602340v2), Proposition
 1.5.1, pp.32–34; [Allen–Newton–Thorne](https://arxiv.org/pdf/1912.11269v2), Proposition 2.5 and its entire proof, pp.5–6).
-*Needs:* Ordered residual GMA constituents, The kernel contains the Cayley–Hamilton ideal, A determinant is determined by its trace when d! is invertible.
+*Needs:* Ordered residual GMA constituents, Conjugacy of adapted henselian GMA data,
+The kernel contains the Cayley–Hamilton ideal, A determinant is determined by its trace when d! is invertible.
 
 **Two-block determinant reducibility ideal.** For a henselian local `A` and a two-block
 Cayley–Hamilton GMA `(S, D_E)` with ordered residual dictionary `(ρ̄ᵢ, ρ̄ⱼ)`, `i ≠ j`, whose
@@ -2605,15 +2726,6 @@ Integral lift of the local projector.
 field factor, and that after inverting `p` it is the chosen local subrepresentation
 ([Caraiani–Newton](https://arxiv.org/pdf/2301.10509v3), Proposition 3.2.4(2), p.50). *Needs:* Integral lift of the local projector.
 
-**Inner conjugacy of local matrix algebras.** For a commutative local ring `A`, a positive matrix
-size `d > 0` and an `A`-algebra automorphism `f` of `M_d(A)` (an algebra equivalence), prove that
-`f` is conjugation by an invertible matrix `P`. Applied to the two full-matrix identifications of
-the same residually absolutely irreducible Cayley–Hamilton quotient, it conjugates their group
-representations ([Allen–Newton–Thorne](https://arxiv.org/pdf/1912.11269v2), Proof of Theorem 2.4, p.5;
-[Caraiani–Newton](https://arxiv.org/pdf/2301.10509v3), Proof of Proposition 3.2.4(3), p.50). *Needs:* Mathlib
-`Matrix.toLinAlgEquiv'`, `Module.Projective`, `Module.free_of_flat_of_isLocalRing`,
-`Module.Flat.of_projective`.
-
 **Local lifts compatible with global quotient reconstruction.** Let `B → A` be surjective, with `B` local and
 `A` henselian local. Let `S` be a `B`-algebra with a two-block GMA `E` of sizes `(d,d)`
 and `r : G → Sˣ`. For a subgroup `H`, supply `ρ,σ : G → GL_d(A)` with equal determinant
@@ -2644,7 +2756,7 @@ diagonal corners, idempotence of the biproduct projections, and membership of th
 coordinates.
 
 
-### 1.7 GL reconstruction and invariant-coordinate representing rings
+### 1.7 GL reconstruction and generic representation algebras
 
 **GL pseudocharacter reconstruction.** For algebraically closed `k`, a group `Γ` and positive
 `d`, prove that every pseudocharacter for the actual
@@ -2657,30 +2769,6 @@ uniqueness already stated in *Semisimple reconstruction of field determinants*
 ([Emerson–Morel](https://arxiv.org/pdf/2310.03869v2), Theorem 4.1, pp.13–15;
 [Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.12.) *Needs:* Determinants and GLn
 excursion pseudocharacters, Semisimple reconstruction of field determinants.
-
-**Universal reductive pseudocharacter ring.** For `Γ` and the actual Hopf-coordinate input `H/O`, define
-`B_H^Γ` using *General invariant-word colimit*, owned in §0.7 for arbitrary commutative `O`,
-commutative Hopf-coordinate input and abstract `Γ`, and the representing-ring identification of
-*Untwisted excursion comparison*. Prove
-`Hom_O(B_H^Γ, A) ≃ PC_H^Γ(A)`: `O`-algebra maps `B_H^Γ → A` are exactly `H`-pseudocharacters
-with values in `A`. The algebraic completion at a supplied ideal `m` is Mathlib
-`AdicCompletion m B_H^Γ`; no local wrapper is needed. The representing-ring target
-concerns algebraic pseudocharacters. It does not include a continuous deformation-functor
-comparison or a noetherianity assertion for this completion.
-([Quast](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf),
-Theorem 3.20, p.20, for the representing ring.) *Needs:* Connected reductive pseudocharacter,
-General invariant-word colimit, Untwisted excursion comparison, Mathlib `AdicCompletion`.
-
-**Checks.**
-
-- For the trivial target group `H`, `B_H^Γ = O`: every invariant algebra is `O`, so a construction
-  that added a generator per free-group map would not collapse to `O`.
-- For `H = GL₁` and `Γ = ℤ`, `B_H^Γ = O[t, t⁻¹]`: the colimit computes the coordinate ring of the
-  character variety of `ℤ`, so a construction omitting the inverse `t⁻¹`, or keeping a variable
-  for every word, would fail.
-- For `Γ = ℤ`, the trivial coordinate system has universal ring `ℤ`, which is not
-  `ℤ[t,t⁻¹]`. The GL determinant comparison requires the actual simultaneous-conjugation
-  invariant coordinate algebras; it does not hold for an arbitrary invariant-coordinate input.
 
 **Generic Cayley–Hamilton representation algebra.** For a commutative ring `A` and a
 Cayley–Hamilton `A`-algebra `(E, D)` finite as an `A`-module, define
@@ -2828,7 +2916,7 @@ and `Module.Flat.of_projective`. From the roadmaps: SemisimpleAlgebras layers 0,
 (radical, Artin–Wedderburn, density, central simple algebras), with Tau Ceti
 `exists_unit_conj_of_algEquiv` as the field case of inner conjugacy; ProfiniteCohomology layer 2
 for continuous group cohomology;
-ReductiveGroupsPartII RG2.2 and RG2.3 for the integral model; ReductiveGroups layer 9 through the
+ReductiveGroups layer 9 through the
 invariant coordinate algebras of Layer IHG.0.
 
 ## Layer 2: integral and derived Hecke actions
@@ -3825,7 +3913,8 @@ characterization needs no additional nonzero hypothesis.
 representation satisfies it with `(1,1)` and ideal zero. Every representation over `A` satisfies
 it modulo the unit ideal, since its characteristic polynomial is already integral.
 Irreducibility on a field quotient fails for a scalar representation over `ℚ` and for the integer
-upper-unipotent representation after mapping to `ℚ`; it holds for the natural representation
+upper-unipotent representation after reduction along the surjective map `ℤ→𝔽₂`: the
+proper nonzero line `𝔽₂(1,0)` is invariant; it holds for the natural representation
 of `GL₂(ℚ)`. `IntegralRibet.IrreducibleOnFields` fails for scalar `ℚ` and integer upper-unipotent
 representations, but holds vacuously over the zero coefficient ring, which has no maps to fields.
 The total-fraction hypotheses in the extension theorems exclude that last input. These
@@ -3914,7 +4003,12 @@ pp.15–16). *Needs:* Character congruence on the group algebra.
 
 ### 6.3 Formal matrix algebra and invariant error
 
-**Formal Ribet matrix ring.** For a fixed finite relation minor, let
+**Formal Ribet matrix ring.** When `Σ` is nonempty, first conjugate the global
+representation into the supplied lower-triangular basis at `v₀`, before choosing the difference
+generators and relation minor; transport every other local basis through that conjugation.
+Thus, for a distinguished-place occurrence, `b_σ=0` and
+`d_σ=ξ_{v₀}(σ)−ψ(σ)` in this global basis. When `Σ` is empty no basis constraint is imposed.
+For a fixed finite relation minor in this basis, let
 `R₀ = ℤ[ν_i, ε_(row,i), δ_(row,ijk), x_σ]` with distinct variables for each selected relation, let
 `R₁ = R₀[a_i, b_i, c_i, d_i]` and define the formal Ribet ring
 `R = R₁/(b_σ : σ ∈ B_{v₀})`, with distinct row-indexed coefficient variables. The matrices
@@ -3936,6 +4030,10 @@ equations (35)–(37), pp.17–18). *Needs:* Five types of Ribet module relation
 - With one matrix and no `v₀` constraint, `R = ℤ[a, b, c, d]` apart from the `R₀` variables: no
   `b_σ` is killed, so a definition that imposed `b = 0` for every matrix rather than only for
   `σ ∈ B_{v₀}` would compute a smaller ring.
+- Over `ℤ₃`, `g=[[1,3],[0,4]]` lies in `1+3M₂(ℤ₃)` and has a lower-triangular
+  conjugate by the swap matrix, although its original upper entry is `3`. After choosing
+  that lower-triangular global basis, `ρ(g)−1=[[3,0],[3,0]]`, so the distinguished
+  upper entry evaluates to zero and the evaluation factors through `R`.
 - Imposing `b = 0` gives `ℤ[a, c, d]`, whose lower-Borel torus fixes `a, d` and weights `c`: the
   coaction computes the weight of `c` as the ratio of the diagonal entries, so a definition using
   the upper Borel or the inverse weight would fail this.
@@ -3996,8 +4094,9 @@ equation (38) and the following comparison, printed pp.17–18).
 
 **Formal Ribet relation ideals.** In the formal ring `R` define
 the full four-entry ideal `J` generated by the four entries of each linear relation matrix, each
-product relation `(Y_i + ν_i)Y_j − ∑ δ_ijk Y_k`, and each local matrix
-`[[A_στ, B_στ],[C_στ, D_στ]]`, where
+product relation `(Y_i + ν_i)Y_j − ∑ δ_ijk Y_k`, and, for each local block
+`B_v` with `v≠v₀`, each local matrix `[[A_στ, B_στ],[C_στ, D_στ]]` for pairs
+of distinct stabilized occurrence indices `σ≠τ` in that same block, where
 
 ```text
 A_στ = b_σ c_τ − (x_τ − d_τ)(x_σ − a_σ),
@@ -4013,6 +4112,9 @@ their `b` entries. Prove `J′ ⊂ J` and that
 
 **Checks.**
 
+- A singleton local block contributes no generators to `J` or `J′`. The excluded
+  self-pair would give `A_σσ=bc−(x−d)(x−a)`, which at `b=c=0,x=1,a=d=0` is `−1`;
+  adjoining it would change the ideal.
 - With no selected relation rows or local pairs, `J = J′ = 0`: the degenerate case, where a
   definition generating `J` by all matrix entries would give the whole augmentation ideal.
 - For `ε₁X₁ + ε₂X₂`, `J` has the four scalar coefficients and `J′` is `(ε₁b₁ + ε₂b₂)`: the
@@ -4029,10 +4131,10 @@ p.19). *Needs:* Formal Ribet relation ideals.
 **Trace and determinant invariant subring.** In `R` let `A₀` be the image of the `R₀`-subalgebra
 of `R₁` generated by `tr f(Y_i)` and `det f(Y_i)` for all noncommutative polynomials `f`, and define
 `A = A₀[d_τ : τ ∈ B_{v₀}]`, that is
-`R₀[trace/determinant words, d_τ]`; this is the lower-Borel invariant subring after the specified
-upper-entry quotient. Prove that every word trace lies in
-`A` and that `A = H⁰(B, R)`, with rational scheme
-cohomology ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.3, p.19; Corollary 4.17, p.27). *Needs:* Formal Ribet matrix ring.
+`R₀[trace/determinant words, d_τ]`. Prove the subring inclusions `R₀⊆A₀⊆A`,
+that every specified word trace and determinant belongs to `A₀`, and that each selected
+`d_τ` belongs to `A`. The equality with the lower-Borel invariant subring is the target
+*Invariants of the formal Ribet ring* in §6.4 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §3.3, p.19; Corollary 4.17, p.27). *Needs:* Formal Ribet matrix ring.
 
 **Checks.**
 
@@ -4240,7 +4342,8 @@ by the traces and determinants of all matrices in the algebra of the generic mat
 establishes the integral trace/determinant generator theorem with its relations, then commutes
 flat extension with the invariant equalizer; the standard `GL₂` representation and its dual are
 distinct integral representations ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Theorem 4.16, pp.26–27). *Needs:*
-Rational cohomology of a flat affine group scheme, Trace and determinant invariant subring.
+Rational cohomology of a flat affine group scheme, the subring definitions of
+Trace and determinant invariant subring.
 
 **Invariants of entirely triangular matrices.** For `R = R₀[a_τ, c_τ, d_τ]`, obtained by setting
 every `b_τ` to zero, prove `R^B = R₀[a_τ, d_τ]` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Corollary 4.17, first part,
@@ -4249,7 +4352,16 @@ p.27). *Needs:* Adjoint weight and dual identities.
 **Invariants of the formal Ribet ring.** For the formal ring `R` with the chosen `b_τ = 0`
 constraints, prove `H⁰(B, R) = A₀[d_τ]`, the subring specified above ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf),
 Corollary 4.17, pp.27–28). *Needs:* Integral trace and determinant invariants,
-Invariants of entirely triangular matrices, Koszul complex of a finite sequence.
+Invariants of entirely triangular matrices, Trace and determinant invariant subring,
+Koszul complex of a finite sequence.
+
+**Checks.**
+
+- With no generic matrices, `H⁰(B,R)=R₀`, agreeing with `A₀=A=R₀`.
+- One entirely triangular matrix gives `R₀[a,d]`; trace `a+d` and the adjoined `d`
+  generate the two independent diagonal coordinates.
+- Over `𝔽₂`, a scalar matrix has trace zero and determinant `a²`; the equality retains
+  this determinant generator and cannot be obtained by discarding it.
 
 **Lower-Borel stability of relation ideals.** Under `g = [[x, 0],[y, z]]`, prove that each
 relation quadruple transforms by inverse conjugation as
@@ -5016,7 +5128,12 @@ Ribet theory for distinct residual characters, Irreducibility excludes an exact 
 *Lean:* `IntegralRibet.global_ribet`.
 
 **Checks for difference and local-relation maps.** The integral unipotent example is
-`ρ(n)=[[1,n],[0,1]]`, with both characters trivial.
+`IntegralRibet.unipotentRepresentation`, `ρ(n)=[[1,n],[0,1]]`, with additive integers
+written as `Multiplicative ℤ` and both characters trivial. The scalar fixture
+`IntegralRibet.scalarRepresentation ψ` is `ρ(g)=ψ(g)I₂`. The sign-character input uses
+`G=ℤˣ`, `ρ(u)=uI₂` and both comparison characters equal to `1`; its differences span
+`2ℤI₂` and their products span `4ℤI₂`. These fixtures and the computations in the table
+are mirrored in [Suggested.lean](Suggested.lean).
 
 | Definition | Computed Check | Degenerate Check | Agreement Check |
 |---|---|---|---|
@@ -5046,10 +5163,13 @@ polynomial quotients.
 | Invariant subring `A` | Each free coefficient belongs to the subring | With no generators over `ℤ` it is all of `ℤ` | The lower-right entry of a selected triangular matrix belongs to it |
 | Borel invariants `H⁰(B, R)` | The trace of a generic matrix belongs to it | With no variables it is the entire ring | The upper entry of a full generic matrix does not belong to it |
 
-**Local-data carriers.** The empty local datum has count `0`, empty `sigma`, and no
-distinguished place. The full local datum has count `1`, subgroup equal to the entire group, and
-distinguished place `0`. The two-place local datum has count `2`, trivial subgroup at place `1`,
-and both places in `sigma`. For an arbitrary `IntegralRibet.LocalData`, count zero forces no
+**Local-data carriers.** `IntegralRibet.emptyLocalData` has count `0`, empty `sigma`, and no
+distinguished place. `IntegralRibet.fullLocalData` has count `1`, subgroup equal to the entire
+group, and distinguished place `0`. `IntegralRibet.twoPlaceLocalData` has count `2`, full
+subgroup and distinguished place at `0`, trivial subgroup at place `1`, and both places in
+`sigma`. `IntegralRibet.threePlaceLocalData` has count `3`, all places in `sigma`, trivial
+subgroups and distinguished place `1`. Each fixture has trivial inertia
+(DKSW Theorem 2.1, pp.7–8). For an arbitrary `IntegralRibet.LocalData`, count zero forces no
 distinguished place;
 empty `sigma` does the same; nonempty `sigma` excludes `distinguished=none`.
 
@@ -5183,9 +5303,9 @@ IHG.3a and the symplectic descent of Layer IHG.1), automorphic congruences and m
 (Galois-type maximal ideals of Layer IHG.3b, the reconstruction and coefficient descent of Layer
 IHG.1, the compatible local compressions of Caraiani–Newton), Iwasawa theory and Ribet's method
 (the integral Ribet modules and Fitting-ideal bounds of Layer IHG.6, including the residually
-indistinguishable case), and Galois deformation spaces (the universal Cayley–Hamilton algebras and
-invariant-coordinate representing rings of Layer IHG.1, the generic representation algebra of
-Böckle–Iyengar–Paškūnas). Each such application supplies its own geometric Hecke comparison,
+indistinguishable case), and Galois deformation spaces (the invariant-coordinate representing
+rings of Layer IHG.0 and the universal Cayley–Hamilton algebras and generic representation
+algebra of Böckle–Iyengar–Paškūnas in Layer IHG.1). Each such application supplies its own geometric Hecke comparison,
 classical congruence witnesses and eigenvalue systems in the exact algebraic form this roadmap
 specifies: a congruence witness of Uniform congruence witnesses for classical systems, an error ideal with a uniform exponent for Determinant from a quantified Hecke comparison, the existence of the residual representation for Maximal ideals of Galois type, and the integral lattice and local triangularisations of Ribet extension with all local conditions. Within the roadmap, Layer IHG.3b consumes IHG.1 and IHG.3a;
 IHG.4 consumes IHG.0 and IHG.3a; IHG.5 consumes IHG.1, IHG.2 and IHG.4; IHG.6 consumes IHG.0 and
@@ -5193,7 +5313,7 @@ IHG.1.
 
 | Consumer | Supplied interface | Conventions and consumer work |
 |---|---|---|
-| FreeProbability §F8 / Gaussian and Haar random-matrix asymptotic freeness (an open TauCetiRoadmap pull request by kim-em) | §0.2 / Pseudocharacters supplies `cycleProduct` and `cycleTerm`; F8 identifies its permutation-trace functional with `cycleTerm tr_N σ D` for `R = M_N(ℂ)`, `A = ℂ`, `T = tr_N`, `N > 0` and a matrix word `D`. | Here `tr_N(M) = N⁻¹ tr(M)`: one factor per cycle, fixed points included, with word order `i, σi, σ²i, …` starting at the least cycle representative. Cyclicity of `tr_N` handles changing starting points; F8 supplies the explicit permutation inversion/orientation comparison needed by its Wick and Kreweras formulas. Since `tr_N(1) = 1` while ordinary matrix trace has `T(1) = N`, this contract consumes the cycle construction without asserting that normalized trace is a dimension-`N` pseudocharacter. |
+| FreeProbability §F8 / Gaussian and Haar random-matrix asymptotic freeness | §0.2 / Pseudocharacters supplies `cycleProduct` and `cycleTerm`; F8 identifies its permutation-trace functional with `cycleTerm tr_N σ D` for `R = M_N(ℂ)`, `A = ℂ`, `T = tr_N`, `N > 0` and a matrix word `D`. | Here `tr_N(M) = N⁻¹ tr(M)`: one factor per cycle, fixed points included, with word order `i, σi, σ²i, …` starting at the least cycle representative. Cyclicity of `tr_N` handles changing starting points; F8 supplies the explicit permutation inversion/orientation comparison needed by its Wick and Kreweras formulas. Since `tr_N(1) = 1` while ordinary matrix trace has `T(1) = N`, this contract consumes the cycle construction without asserting that normalized trace is a dimension-`N` pseudocharacter. |
 
 ## References
 

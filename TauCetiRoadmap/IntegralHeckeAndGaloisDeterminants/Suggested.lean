@@ -155,15 +155,15 @@ example :
 example (p : ℕ) [Fact p.Prime] :
     ∃ D E : Determinant (ZMod p) (ZMod p)[X] p, D.traceLinear = E.traceLinear ∧ D ≠ E := sorry
 
-/-- Amitsur's formula: the characteristic polynomials of the group elements determine a
+/-- Coefficient reconstruction using Amitsur's formula: the characteristic polynomials of group elements determine a
 determinant on a monoid algebra as a polynomial law, with no factorial inverted ([Chenevier],
 Lemma 1.12(ii) and Corollary 1.14, pp. 12–15). -/
 theorem eq_of_charpoly_eq {G : Type*} [Monoid G] (D E : Determinant A (MonoidAlgebra A G) d)
     (h : ∀ g : G, D.charpoly (MonoidAlgebra.of A G g) = E.charpoly (MonoidAlgebra.of A G g)) :
     D = E := sorry
 
-/-- A determinant on a topological group is continuous if every coefficient `g ↦ Λ_i(g)` is
-continuous ([Chenevier], §2.30, p. 37). -/
+/-- Continuity of every coefficient of `g ↦ χ_D(g,X)` for the supplied topologies. Over a
+topological ring this is equivalent to continuity of every `Λ_i` ([Chenevier], §2.30, p. 37). -/
 def IsContinuous {G : Type*} [Group G] [TopologicalSpace G] [TopologicalSpace A]
     (D : Determinant A (MonoidAlgebra A G) d) : Prop :=
   ∀ i, Continuous fun g : G ↦ (D.charpoly (MonoidAlgebra.of A G g)).coeff i
@@ -208,6 +208,32 @@ def IsPseudocharacter (d : ℕ) (T : R →ₗ[A] A) : Prop :=
     ∀ x : Fin (d + 1) → R,
       ∑ σ : Equiv.Perm (Fin (d + 1)), (Equiv.Perm.sign σ : ℤ) • cycleTerm T σ x = 0
 
+-- The identity cycle returns its chosen entry, even in a noncommutative algebra.
+example {n : ℕ} (x : Fin n → R) (i : Fin n) : cycleProduct 1 x i = x i := by
+  simp [cycleProduct]
+
+-- Opposite starting points retain opposite word orders.
+example (x : Fin 2 → R) : cycleProduct (Equiv.swap 0 1) x 0 = x 0 * x 1 := by
+  have h : Function.minimalPeriod (Equiv.swap (0 : Fin 2) 1) 0 = 2 := by
+    apply Function.minimalPeriod_eq_prime
+    · decide
+    · decide
+  simp [cycleProduct, h, List.range_succ]
+
+example (x : Fin 2 → R) : cycleProduct (Equiv.swap 0 1) x 1 = x 1 * x 0 := by
+  have h : Function.minimalPeriod (Equiv.swap (0 : Fin 2) 1) 1 = 2 := by
+    apply Function.minimalPeriod_eq_prime
+    · decide
+    · decide
+  simp [cycleProduct, h, List.range_succ]
+
+-- An empty cycle family gives the empty product; identity cycles give two factors.
+example (T : R → A) (x : Fin 0 → R) : cycleTerm T 1 x = 1 := by
+  simp [cycleTerm]
+
+example (T : R → A) (x : Fin 2 → R) : cycleTerm T 1 x = T (x 0) * T (x 1) := by
+  simp [cycleTerm, cycleProduct, Fin.prod_univ_succ]
+
 -- A transposition has one cycle, so one factor: `T^{(0 1)}(x₀, x₁) = T(x₀x₁)`.
 example (T : R → A) (x : Fin 2 → R) : cycleTerm T (Equiv.swap 0 1) x = T (x 0 * x 1) := sorry
 
@@ -251,6 +277,14 @@ variable {A : Type u} [CommRing A]
 def glnPolynomial (n : ℕ) (q : A) (T : Fin (n + 1) → A) : A[X] :=
   ∑ i : Fin (n + 1), C ((-1) ^ i.val * q ^ (i.val * (i.val - 1) / 2) * T i) * X ^ (n - i.val)
 
+-- Rank zero is constant one, including at `q = 0`.
+example : glnPolynomial 0 (0 : ℤ) ![1] = 1 := by
+  norm_num [glnPolynomial, Fin.sum_univ_succ]
+
+-- In characteristic two at `q = 0`, the signed middle coefficient is `1`.
+example : glnPolynomial 2 (0 : ZMod 2) ![1, 1, 1] = X ^ 2 + X := by
+  simp [glnPolynomial, Fin.sum_univ_succ, CharTwo.neg_eq]
+
 -- Rank one carries no power of `q`.
 example : glnPolynomial 1 (7 : ℤ) ![1, 3] = X - 3 := by
   norm_num [glnPolynomial, Fin.sum_univ_succ]; ring
@@ -286,12 +320,31 @@ example : gsp4SpinPolynomial (2 : ℤ) 1 3 5 = X ^ 4 - 3 * X ^ 3 + 20 * X ^ 2 - 
   rw [gsp4SpinPolynomial, SmoothRepresentationsOfLocalGroups.SpinPolynomial.reciprocal]
   norm_num
 
+-- The identity parameters give four unit roots.
+example : gsp4SpinPolynomial (1 : ℤ) 1 4 4 = (X - 1) ^ 4 := by
+  rw [gsp4SpinPolynomial, SmoothRepresentationsOfLocalGroups.SpinPolynomial.reciprocal]
+  norm_num; ring
+
+-- At `q = 0`, only the two leading terms survive.
+example : gsp4SpinPolynomial (0 : ℤ) 1 3 5 = X ^ 4 - 3 * X ^ 3 := by
+  rw [gsp4SpinPolynomial, SmoothRepresentationsOfLocalGroups.SpinPolynomial.reciprocal]
+  norm_num
+
 /-- The scaled dual spin polynomial
 `X⁴ − T₀⁻¹T₁X³ + T₀⁻²(qT₂ + (q³+q)T₀)X² − q³T₀⁻²T₁X + q⁶T₀⁻²`, whose roots are `q³` divided by the
 spin roots ([BCGP], Lemma 1.8.28, p. 17). -/
 def gsp4DualSpinPolynomial (q : A) (T₀ : Aˣ) (T₁ T₂ : A) : A[X] :=
   X ^ 4 - C ((↑T₀⁻¹) * T₁) * X ^ 3 + C ((↑T₀⁻¹) ^ 2 * (q * T₂ + (q ^ 3 + q) * ↑T₀)) * X ^ 2 -
     C (q ^ 3 * (↑T₀⁻¹) ^ 2 * T₁) * X + C (q ^ 6 * (↑T₀⁻¹) ^ 2)
+
+-- Unit parameters in the dual polynomial also give four unit roots.
+example : gsp4DualSpinPolynomial (1 : ℚ) 1 4 4 = (X - 1) ^ 4 := by
+  norm_num [gsp4DualSpinPolynomial, Polynomial.C_ofNat]; ring
+
+-- A nontrivial central unit still scales the cubic term at `q = 0`.
+example : gsp4DualSpinPolynomial (0 : ℚ) (Units.mk0 2 (by norm_num)) 3 5 =
+    X ^ 4 - C (3 / 2) * X ^ 3 := by
+  norm_num [gsp4DualSpinPolynomial]
 
 /-- `P(X) Q(0) = X⁴ Q(q³/X)`, coefficient by coefficient ([BCGP], Lemma 1.8.28, p. 17). -/
 theorem gsp4DualSpinPolynomial_reciprocal (q T₀ : Aˣ) (T₁ T₂ : A) (i : ℕ) (hi : i ≤ 4) :
@@ -804,6 +857,24 @@ example (S : Type u) [CommRing S] :
       ((genericLinearSequence (fun j : Fin 4 ↦
         (MvPolynomial.X (Sum.inr j) : Q)) 3).map (Ideal.Quotient.mk I)) := sorry
 
+/-- The integral upper-unipotent representation `n ↦ [[1,n],[0,1]]`, with additive integers
+written as `Multiplicative ℤ`. -/
+def unipotentRepresentation :
+    MonoidAlgebra ℤ (Multiplicative ℤ) →ₐ[ℤ] Matrix (Fin 2) (Fin 2) ℤ :=
+  MonoidAlgebra.lift ℤ _ _
+    { toFun := fun n ↦ Matrix.of ![![1, n.toAdd], ![0, 1]]
+      map_one' := by ext i j; fin_cases i <;> fin_cases j <;> simp
+      map_mul' := by
+        intro n m
+        ext i j
+        fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_succ, add_comm] }
+
+/-- The scalar matrix representation associated to a unit character. -/
+def scalarRepresentation (ψ : G →* Aˣ) :
+    MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) A :=
+  MonoidAlgebra.lift A _ G
+    ((algebraMap A (Matrix (Fin 2) (Fin 2) A)).toMonoidHom.comp ((Units.coeHom A).comp ψ))
+
 /-- `t ↦ ρ(t) − ψ(t) I₂` on `A[G]`. -/
 def differenceMap (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (ψ : G →* Aˣ) :
     MonoidAlgebra A G →ₗ[A] Matrix (Fin 2) (Fin 2) B :=
@@ -834,6 +905,58 @@ def canonicalCocycle (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
   (↑(ψ g)⁻¹ : A) • (productInside ρ χ ψ).mkQ
     ⟨differenceMap ρ ψ (MonoidAlgebra.of A G g), LinearMap.mem_range_self _ _⟩
 
+-- The unipotent differences are exactly the multiples of the upper matrix unit.
+example (n : ℤ) :
+    differenceMap unipotentRepresentation 1
+      (MonoidAlgebra.of ℤ (Multiplicative ℤ) (Multiplicative.ofAdd n)) =
+      Matrix.of ![![0, n], ![0, 0]] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [differenceMap, unipotentRepresentation]
+
+example : differenceModule unipotentRepresentation 1 =
+    Submodule.span ℤ {Matrix.of ![![0, 1], ![0, 0]]} := sorry
+
+example (ψ : G →* Aˣ) : differenceMap (scalarRepresentation ψ) ψ = 0 := sorry
+
+example (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (ψ : G →* Aˣ) :
+    differenceMap ρ ψ (MonoidAlgebra.of A G 1) = 0 := by
+  rw [map_one (MonoidAlgebra.of A G)]
+  simp [differenceMap]
+
+-- The product is inside the right difference module; square-zero differences give zero products.
+example (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ) :
+    Submodule.span A {z | ∃ x ∈ differenceModule ρ χ, ∃ y ∈ differenceModule ρ ψ, z = x * y} ≤
+      differenceModule ρ ψ := sorry
+
+example :
+    (Submodule.span ℤ {z | ∃ x ∈ differenceModule unipotentRepresentation 1,
+      ∃ y ∈ differenceModule unipotentRepresentation 1, z = x * y}) = ⊥ ∧
+    productInside unipotentRepresentation 1 1 = ⊥ ∧
+    Function.Injective (productInside unipotentRepresentation 1 1).mkQ := sorry
+
+example (ψ : G →* Aˣ) :
+    differenceModule (scalarRepresentation ψ) ψ = ⊥ ∧
+    (Submodule.span A {z | ∃ x ∈ differenceModule (scalarRepresentation ψ) ψ,
+      ∃ y ∈ differenceModule (scalarRepresentation ψ) ψ, z = x * y}) = ⊥ ∧
+    productInside (scalarRepresentation ψ) ψ ψ = ⊥ ∧
+    (∀ z : differenceModule (scalarRepresentation ψ) ψ,
+      (productInside (scalarRepresentation ψ) ψ ψ).mkQ z = 0) ∧
+    (∀ g, canonicalCocycle (scalarRepresentation ψ) ψ ψ g = 0) := sorry
+
+-- Normalize the unipotent quotient by sending the difference class at additive `1` to `1`.
+example : ∃ e : initialModule unipotentRepresentation 1 1 ≃ₗ[ℤ] ℤ,
+    ∀ n : ℤ, e (canonicalCocycle unipotentRepresentation 1 1 (Multiplicative.ofAdd n)) = n := sorry
+
+-- The sign scalar representation with both comparison characters trivial has `M₀ ≅ ℤ/2`.
+example :
+    let ρ := scalarRepresentation (MonoidHom.id ℤˣ)
+    ∃ z : differenceModule ρ (1 : ℤˣ →* ℤˣ),
+      (z : Matrix (Fin 2) (Fin 2) ℤ) = 2 • (1 : Matrix (Fin 2) (Fin 2) ℤ) ∧
+      z ∉ productInside ρ 1 1 ∧ (2 : ℤ) • z ∈ productInside ρ 1 1 ∧
+      (productInside ρ 1 1).mkQ z ≠ 0 ∧
+      (2 : ℤ) • (productInside ρ 1 1).mkQ z = 0 := sorry
+
 -- `κ₀(1) = 0`.
 example (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ) :
     canonicalCocycle ρ χ ψ 1 = 0 := sorry
@@ -849,6 +972,43 @@ structure LocalData (G : Type u) [Group G] where
   distinguished : Option (Fin count)
   distinguished_mem : ∀ v, distinguished = some v → v ∈ sigma
   distinguished_exists : sigma.Nonempty → ∃ v, distinguished = some v
+
+/-- The empty set of local places. -/
+abbrev emptyLocalData (G : Type u) [Group G] : LocalData G :=
+  ⟨0, ∅, Fin.elim0, Fin.elim0, fun v ↦ v.elim0, none, fun v ↦ v.elim0, by simp⟩
+
+/-- One distinguished place with full subgroup and trivial inertia. -/
+abbrev fullLocalData (G : Type u) [Group G] : LocalData G where
+  count := 1
+  sigma := Finset.univ
+  subgroup := fun _ ↦ ⊤
+  inertia := fun _ ↦ ⊥
+  inertia_le := fun _ ↦ bot_le
+  distinguished := some 0
+  distinguished_mem := fun v _ ↦ Finset.mem_univ v
+  distinguished_exists := by intro _; exact ⟨0, rfl⟩
+
+/-- Two sigma places: distinguished place zero has full subgroup, place one has trivial subgroup. -/
+abbrev twoPlaceLocalData (G : Type u) [Group G] : LocalData G where
+  count := 2
+  sigma := Finset.univ
+  subgroup := fun v ↦ if v = 0 then ⊤ else ⊥
+  inertia := fun _ ↦ ⊥
+  inertia_le := fun _ ↦ bot_le
+  distinguished := some 0
+  distinguished_mem := fun v _ ↦ Finset.mem_univ v
+  distinguished_exists := by intro _; exact ⟨0, rfl⟩
+
+/-- Three sigma places with trivial subgroups and distinguished place one. -/
+abbrev threePlaceLocalData (G : Type u) [Group G] : LocalData G where
+  count := 3
+  sigma := Finset.univ
+  subgroup := fun _ ↦ ⊥
+  inertia := fun _ ↦ ⊥
+  inertia_le := fun _ ↦ bot_le
+  distinguished := some 1
+  distinguished_mem := fun v _ ↦ Finset.mem_univ v
+  distinguished_exists := by intro _; exact ⟨1, rfl⟩
 
 variable (L : LocalData G)
 
@@ -885,6 +1045,48 @@ def localVector (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ 
     (v : {v // v ∈ extraPlaces L}) : localModule L ρ χ ψ :=
   (localRelations L ρ χ ψ).mkQ (0, Pi.single v 1)
 
+-- The surviving place indices distinguish the one-, two- and three-place fixtures.
+example : extraPlaces (twoPlaceLocalData G) = {1} := by
+  ext v; fin_cases v <;> simp [extraPlaces, twoPlaceLocalData]
+
+example : extraPlaces (fullLocalData G) = ∅ := by
+  ext v; fin_cases v; simp [extraPlaces, fullLocalData]
+
+example : extraPlaces (threePlaceLocalData G) = {0, 2} := by
+  ext v; fin_cases v <;> simp [extraPlaces, threePlaceLocalData]
+
+-- Full local conditions kill the span of the integral unipotent cocycle.
+example : localRelations (fullLocalData (Multiplicative ℤ)) unipotentRepresentation 1 1 = ⊤ ∧
+    ∀ g, localCocycle (fullLocalData (Multiplicative ℤ)) unipotentRepresentation 1 1 g = 0 := sorry
+
+-- Scalar differences vanish, including in the presence of the surviving free local generator.
+example (ψ : G →* Aˣ) :
+    localRelations (emptyLocalData G) (scalarRepresentation ψ) ψ ψ = ⊥ ∧
+    localRelations (twoPlaceLocalData G) (scalarRepresentation ψ) ψ ψ = ⊥ ∧
+    ∀ g, localCocycle (emptyLocalData G) (scalarRepresentation ψ) ψ ψ g = 0 := sorry
+
+-- The sign class survives when there are no local relations.
+example : localCocycle (emptyLocalData ℤˣ) (scalarRepresentation (MonoidHom.id ℤˣ)) 1 1 (-1) ≠ 0 :=
+  sorry
+
+-- A trivial subgroup at the extra place leaves its integral local vector of infinite order.
+example {G : Type} [Group G]
+    (ρ : MonoidAlgebra ℤ G →ₐ[ℤ] Matrix (Fin 2) (Fin 2) ℤ) (χ ψ : G →* ℤˣ) :
+    let v : {v // v ∈ extraPlaces (twoPlaceLocalData G)} := ⟨1, by simp [extraPlaces, twoPlaceLocalData]⟩
+    ∀ n : ℤ, n • localVector (twoPlaceLocalData G) ρ χ ψ v = 0 ↔ n = 0 := sorry
+
+example : IsEmpty {v // v ∈ extraPlaces (fullLocalData G)} := by
+  refine ⟨fun v ↦ ?_⟩
+  have h : extraPlaces (fullLocalData G) = ∅ := by
+    ext v; fin_cases v; simp [extraPlaces, fullLocalData]
+  simpa [h] using v.property
+
+-- Distinct free place vectors remain distinct over every nonzero coefficient ring.
+example [Nontrivial A] (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ) :
+    let v : {v // v ∈ extraPlaces (threePlaceLocalData G)} := ⟨0, by simp [extraPlaces, threePlaceLocalData]⟩
+    let w : {v // v ∈ extraPlaces (threePlaceLocalData G)} := ⟨2, by simp [extraPlaces, threePlaceLocalData]⟩
+    localVector (threePlaceLocalData G) ρ χ ψ v ≠ localVector (threePlaceLocalData G) ρ χ ψ w := sorry
+
 -- With no places the local module is the initial module.
 example (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ) :
     Nonempty (localModule ⟨0, ∅, Fin.elim0, Fin.elim0, fun v ↦ v.elim0, none,
@@ -908,6 +1110,16 @@ def fieldRepresentation {k : Type u} [Field k]
 def IrreducibleOnFields (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) : Prop :=
   ∀ (k : Type u) [Field k] (φ : B →+* k), Function.Surjective φ →
     IsSimpleModule (MonoidAlgebra k G) (matrixModule (fieldRepresentation ρ φ))
+
+-- Reduction `ℤ → 𝔽₂` is a field quotient and preserves the first-coordinate line.
+example :
+    Function.Surjective (Int.castRingHom (ZMod 2)) ∧
+    ¬ IsSimpleModule (MonoidAlgebra (ZMod 2) (Multiplicative ℤ))
+      (matrixModule (fieldRepresentation unipotentRepresentation (Int.castRingHom (ZMod 2)))) ∧
+    ¬ IrreducibleOnFields unipotentRepresentation := by
+  refine ⟨ZMod.intCast_surjective, ?_, ?_⟩
+  · sorry
+  · sorry
 
 /-- The local triangular input: on each `G_v` a basis in which `ρ` is lower triangular with
 diagonal characters `η_v, ξ_v` valued in `T̃ˣ`, `ξ_v ≡ ψ` on `G_v` for `v ∈ Σ` and `ξ_v ≡ χ` on
