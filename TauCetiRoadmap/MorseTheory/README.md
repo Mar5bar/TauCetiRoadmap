@@ -169,25 +169,26 @@ sublevel pairs. For a proper bounded-below Morse function, choose an exhausting
 sequence of regular levels with finite critical sets at each stage, prove the
 cofibration/compatibility statements and pass to a genuine CW complex homotopy
 equivalent to M with one λ-cell per critical point. Consume Mathlib TopCat
-pushouts and general `RelativeCellComplex` for critical-level-ordered mixed-
-dimension attachments. At each finite critical stage construct the classical
-finite CW model inductively on the pushout, proving its cell/weak-topology
-properties before using cellular approximation. Apply AT
-Stage 4 cellular approximation to each attaching map into the existing model's
-(λ−1)-skeleton, with its homotopy comparison; critical-value order need not
-agree with cell dimension. At the infinite union reindex the resulting cellular attachments by
-dimension to obtain `TopCat.RelativeCWComplex` and prove the dimension-filtered
-and critical-level colimit topologies agree. Prove closure-finiteness and weak
-topology and the classical `Topology.CWComplex`/`RelCWComplex` comparison on
-that realization. Prove homotopic
-attaching maps give homotopy-equivalent spaces and a homotopy equivalence of
-bases extends over matched attached cells (Milnor Lemmas 3.6–3.7). Build the
-mapping telescope of the compatible sublevel/CW sequence using AT Stage 4's
-cylinders and cofibrations, and prove its comparison with the exhausted
-manifold and the CW realization. Prove strictly compatible levelwise homotopy
-equivalences induce a homotopy equivalence of mapping telescopes, constructing
-compatible inverse maps and cylinder homotopies. Give compact-family
-factorization and coherent homotopies. Compact M gives a finite CW model. For regular-level compact
+pushouts and AT4.5's `relativeCWPushout`, `relativeCWPushoutCWModel`,
+`homotopyPushoutGluingComparison`, `cofibrationTowerHomotopyEquivalence`
+and `cwSubcomplexTowerUnion`.
+These supply finite cell/weak-topology induction, cellular approximation,
+dimension reindexing and the categorical/classical CW comparison. Own the
+Morse-specific negative-handle attaching maps and their relative comparison
+to those adjunctions, the regular-level sequence and the resulting cell
+index labeling. At stage k+1 use `relativeCWPushoutCWModel` with
+Z=M_(a_k), Z_c=W_k and h=φ_k, followed by the negative-handle/cell
+comparison that is identity on M_(a_k). The resulting φ_(k+1) restricts
+exactly to φ_k; this constructs strict comparison-map compatibility. Use AT's telescope/colimit comparison for strictly commuting
+levelwise equivalences and prove its comparison with the exhausted manifold,
+retaining the proper-function control and actual level inclusions. Regular-level
+collars make those inclusions closed cofibrations. Start at a regular a₀ below
+a global lower bound for f, where the sublevel is empty; use AT4.4's
+`diskBoundaryRelCW` and coproduct cells at each handle stage. Specialize
+AT4.5's compact-subset finite-stage factorization to this sublevel tower.
+The W_k inclusions retain compatible cell labels and characteristic maps;
+`cwSubcomplexTowerUnion` builds the CW structure on their critical-level
+union even when later stages add cells of lower dimension. Compact M gives a finite CW model. For regular-level compact
 cobordisms build the relative version from the incoming boundary, with outgoing
 boundary identified by the opposite function and complementary indices.
 
