@@ -174,6 +174,53 @@ example : ¬ (4 : ℝ) ^ 2 ≤ ∏ j : Fin 2, (![4, 1] : Fin 2 → ℝ) j := by 
 
 end ElementaryBounds
 
+end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+namespace TauCeti.IntegralLattice
+variable {V : Type*} [AddCommGroup V] [Module ℚ V]
+
+/-- The natural squared-norm threshold for an independent family of size `i+1` (1.2.13a). -/
+def successiveMinimum (L : TauCeti.IntegralLattice V) (i : Fin (finrank ℤ L)) : ℕ :=
+  sInf {N : ℕ | ∃ v : Fin (i.val + 1) → L, LinearIndependent ℤ v ∧
+    ∀ j, L.integralNorm (v j) ≤ (N : ℤ)}
+
+/-- A semidefinite squared minimum is at most `N` exactly when an independent family meets
+that squared-norm bound (1.2.13a). -/
+theorem successiveMinimum_le_iff (L : TauCeti.IntegralLattice V) (hL : L.IsPosSemidef)
+    (i : Fin (finrank ℤ L)) (N : ℕ) :
+    L.successiveMinimum i ≤ N ↔ ∃ v : Fin (i.val + 1) → L, LinearIndependent ℤ v ∧
+      ∀ j, L.integralNorm (v j) ≤ (N : ℤ) := by sorry
+
+/-- One independent family simultaneously attains all semidefinite squared minima (1.2.13a). -/
+theorem IsPosSemidef.exists_linearIndependent_integralNorm_eq_successiveMinimum
+    {L : TauCeti.IntegralLattice V} (hL : L.IsPosSemidef) :
+    ∃ v : Fin (finrank ℤ L) → L, LinearIndependent ℤ v ∧
+      ∀ i, L.integralNorm (v i) = (L.successiveMinimum i : ℤ) := by sorry
+
+-- Thresholds for `[4]` distinguish the squared norm from its square root.
+example :
+    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 1))
+      (Matrix.diagonal ![4] : Matrix (Fin 1) (Fin 1) ℤ) (by sorry)
+    ∃ i : Fin (finrank ℤ L), L.successiveMinimum i = 4 ∧
+      ¬ L.successiveMinimum i ≤ 3 ∧ L.successiveMinimum i ≤ 4 := by sorry
+
+-- The two ordered thresholds are simultaneous, including a semidefinite zero minimum.
+example :
+    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 2))
+      (Matrix.diagonal ![1, 4] : Matrix (Fin 2) (Fin 2) ℤ) (by sorry)
+    ∃ e : Fin 2 ≃ Fin (finrank ℤ L), ∀ i, L.successiveMinimum (e i) = ![1, 4] i := by sorry
+example :
+    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 2))
+      (Matrix.diagonal ![0, 4] : Matrix (Fin 2) (Fin 2) ℤ) (by sorry)
+    ∃ e : Fin 2 ≃ Fin (finrank ℤ L), ∀ i, L.successiveMinimum (e i) = ![0, 4] i := by sorry
+example {L : TauCeti.IntegralLattice V} [Subsingleton L] :
+    IsEmpty (Fin (finrank ℤ L)) ∧
+      ∃ v : Fin (finrank ℤ L) → L, LinearIndependent ℤ v := by sorry
+
+end TauCeti.IntegralLattice
+
+namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
 section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
@@ -522,6 +569,13 @@ example (a : HermitianLatticeInvariants ℤ 2 (ZMod 8) 1) : a.valuation = 3 ∧ 
 example (a : HermitianLatticeInvariants R π M 3) (ha : a.exponent = ![0, 1, 1]) :
     a.valuation = 2 ∧ a.type = 2 := by sorry
 
+-- A zero module has only padded zero exponents; the residue cardinality counts the quotient.
+example (a : HermitianLatticeInvariants R π M n) [Subsingleton M] (hπ : Irreducible π) :
+    a.valuation = 0 ∧ a.type = 0 := by sorry
+example [Fintype (R ⧸ Ideal.span {π})]
+    (a : HermitianLatticeInvariants R π M n) (hπ : Irreducible π) :
+    Nat.card M = Fintype.card (R ⧸ Ideal.span {π}) ^ a.valuation := by sorry
+
 end HermitianLatticeInvariants
 end PrimaryInvariantFactors
 
@@ -558,6 +612,10 @@ example (q : QuadraticForm R (Fin 2 → R)) (h2 : ¬ IsUnit (2 : R))
 
 -- Negative control: the zero-dimensional form is not an atomic block.
 example (q : QuadraticForm R (Fin 0 → R)) : ¬ IsAtomicIntegralQuadraticForm q := by sorry
+
+-- When two is a unit the unary branch cannot have rank two.
+example (q : QuadraticForm R (Fin 2 → R)) (h2 : IsUnit (2 : R)) :
+    ¬ IsAtomicIntegralQuadraticForm q := by sorry
 
 end AtomicDVRForms
 
@@ -795,6 +853,20 @@ example : normalizedHermitianCount 3 1 (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
 example : choYamauchiWeight 3 1 = 1 - Polynomial.X := by sorry
 example : -((choYamauchiWeight 3 2).derivative.eval 1) = 4 := by sorry
 
+example (G : Matrix (Fin m) (Fin m) A) :
+    hermitianRepresentationCount G (0 : Matrix (Fin 0) (Fin 0) A) = 1 := by sorry
+example : hermitianEmbeddingCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
+    (1 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 2 := by sorry
+example (G : Matrix (Fin m) (Fin m) A) :
+    hermitianEmbeddingCount G (0 : Matrix (Fin 0) (Fin 0) A) = 1 := by sorry
+example : hermitianEmbeddingCount (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
+    (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 0 := by sorry
+example : normalizedHermitianCount 3 0 (1 : Matrix (Fin 1) (Fin 1) (ZMod 3))
+    (1 : Matrix (Fin 1) (Fin 1) (ZMod 3)) = 2 := by sorry
+example (q N : ℕ) (G : Matrix (Fin m) (Fin m) A) :
+    normalizedHermitianCount q N G (0 : Matrix (Fin 0) (Fin 0) A) = 1 := by sorry
+example : (choYamauchiWeight 3 0).derivative.eval 1 = 0 := by sorry
+
 end FiniteHermitianCounts
 
 section NumberRingTrace
@@ -811,6 +883,13 @@ theorem numberRingTraceForm_apply (q : QuadraticForm (𝓞 K) M) (x : M) :
 
 -- Over `ℚ` the trace form is the form itself: `2x²` at `3` is `18`.
 example : numberRingTraceForm (2 • QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (3 : 𝓞 ℚ) = 18 := by
+  sorry
+
+example : numberRingTraceForm (QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (2 : 𝓞 ℚ) = 4 := by
+  sorry
+example : numberRingTraceForm (QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (-3 : 𝓞 ℚ) = 9 := by
+  sorry
+example : numberRingTraceForm (QuadraticMap.sq (R := 𝓞 ℚ) (A := 𝓞 ℚ)) (0 : 𝓞 ℚ) = 0 := by
   sorry
 
 end NumberRingTrace
@@ -919,6 +998,18 @@ example : maximalLocalMassFactor 2 1 true .I = 1/2 ∧
 example : maximalLocalMassFactor 3 2 false .I = 2 ∧ maximalLocalMassFactor 3 2 false .II = 5 := by
   sorry
 
+-- Cardinality alone does not determine mass; transport swaps unequal stabilizer orders.
+example : genusMass (fun _ : Fin 2 => 2) = 1 := by sorry
+example : genusMass (fun _ : Fin 0 => 2) = 0 := by sorry
+example : genusMass ((![2, 4] : Fin 2 → ℕ) ∘ (Equiv.swap (0 : Fin 2) 1).symm) =
+      genusMass (![2, 4] : Fin 2 → ℕ) ∧
+    genusMass (![2, 4] : Fin 2 → ℕ) = 3/4 := by sorry
+example (c hMinusMinus hMinusDisc hMinusNegDisc : ℤ) :
+    maximalMassWittSign 2 c hMinusMinus hMinusDisc hMinusNegDisc = c ∧
+    maximalMassWittSign 5 c hMinusMinus hMinusDisc hMinusNegDisc = c * hMinusMinus := by sorry
+example : maximalMassLocalType false false false true false = .IIIMinus ∧
+    maximalMassLocalType true false false true true = .zero := by sorry
+
 end WeightedMass
 
 section OrthogonalModels
@@ -957,6 +1048,15 @@ example : orthogonalLocalVolumeRatio 3 1 0 24 4 = 2 := by norm_num [orthogonalLo
 
 -- Negative control: a zero denominator order returns `0`, outside the positivity hypotheses.
 example : orthogonalLocalVolumeRatio 2 1 1 6 0 = 0 := by norm_num [orthogonalLocalVolumeRatio]
+
+-- Rank-zero and invalid-cardinality values of the polynomial expressions.
+example : finiteEvenOrthogonalOrder 0 0 true = 0 ∧
+    finiteEvenOrthogonalOrder 0 0 false = 2 := by sorry
+example : finiteEvenOrthogonalOrder 3 1 true = 2 ∧
+    finiteEvenOrthogonalOrder 3 1 false = 4 := by sorry
+example : finiteOddOrthogonalOrder 1 1 = 0 := by sorry
+example : orthogonalLocalVolumeRatio 2 1 1 6 12 = 1/2 ∧
+    orthogonalLocalVolumeRatio 2 1 0 6 6 = 1/2 := by sorry
 
 end OrthogonalModels
 
@@ -1012,20 +1112,14 @@ example : orthogonalSkewBasisVolume 3 = 8 * Real.pi ^ 2 ∧ orthogonalMassGaugeS
 
 variable (K : Type*) [Field K] [NumberField K]
 
-/-- Local restatement of LFunctions §0, to be replaced by the import once that roadmap is merged.
-Specialized by §3's `dedekindZetaData` with zero shifts and the real/complex place multiplicities;
-this real-bodied factor is required by the mass-value consumers because the card is unavailable at
-the pins. It becomes an alias of `(dedekindZetaData K).gammaFactor`, with Mathlib's `Gammaℂ`.
-LFunctions is an open TauCetiRoadmap pull request by roed-math. -/
+/-- Consumer spelling of LFunctions §0/§3's supplied Gamma expression, with zero shifts,
+real and complex place multiplicities and Mathlib's factor two in `Gammaℂ`. -/
 def dedekindArchimedeanFactor (s : ℂ) : ℂ :=
   Complex.Gammaℝ s ^ NumberField.InfinitePlace.nrRealPlaces K *
     Complex.Gammaℂ s ^ NumberField.InfinitePlace.nrComplexPlaces K
 
-/-- Local restatement of LFunctions §0, to be replaced by the import once that roadmap is merged.
-The multiplier in `HasDirichletAgreement.completes`, specialized by §3 to conductor `|d_K|`, is
-required by the mass-value and completed-zeta consumers. There is no separately named supplier
-multiplier export; this is its real-bodied local spelling, not a new construction target.
-LFunctions is an open TauCetiRoadmap pull request by roed-math. -/
+/-- Consumer spelling of LFunctions §0/§3's supplied Gamma/conductor expression, with
+conductor `|d_K|` and exponent `s/2`. -/
 def completedDedekindFactor (s : ℂ) : ℂ :=
   ((|NumberField.discr K| : ℤ) : ℂ) ^ (s / 2) * dedekindArchimedeanFactor K s
 
@@ -1042,6 +1136,18 @@ theorem completedDedekindFactor_one :
 -- The mass-value consumers require the `ℚ` constants `1, 1/π, 1/(2π)` at `s = 1, 2, 3`.
 example : dedekindArchimedeanFactor ℚ 2 = 1 / (Real.pi : ℂ) := by sorry
 example : completedDedekindFactor ℚ 3 = 1 / (2 * Real.pi : ℂ) := by sorry
+
+example : orthogonalArchimedeanConstant 0 true = 1 := by sorry
+example : orthogonalArchimedeanConstant 2 true = 6 / (2 * Real.pi) ^ 6 := by sorry
+example : orthogonalSkewBasisVolume 2 = 2 * Real.pi ∧
+    orthogonalSkewBasisVolume 4 = 16 * Real.pi ^ 4 := by sorry
+example : orthogonalMassGaugeScale 1 = 1 ∧ orthogonalMassGaugeScale 4 = 1 ∧
+    orthogonalMassGaugeScale 5 = 1/4 := by sorry
+example : dedekindArchimedeanFactor ℚ 1 = 1 ∧ completedDedekindFactor ℚ 1 = 1 := by sorry
+example : completedDedekindFactor ℚ 2 = 1 / (Real.pi : ℂ) := by sorry
+example (hreal : NumberField.InfinitePlace.nrRealPlaces K = 0)
+    (hcomplex : NumberField.InfinitePlace.nrComplexPlaces K = 1) :
+    dedekindArchimedeanFactor K 1 = 1 / (Real.pi : ℂ) := by sorry
 
 end MassArchimedeanFactors
 
@@ -1160,6 +1266,12 @@ example (N : ℕ) :
 example : multisetLatticeCount (fun x : Fin 1 → ℝ => if x 0 = 0 ∨ x 0 = 2 then 1 else 0) = 2 ∧
     multisetVolume (fun x : Fin 1 → ℝ => if x 0 = 0 ∨ x 0 = 2 then 1 else 0) = 0 := by sorry
 
+example : multisetLatticeCount (fun _ : Fin n → ℝ => 0) = 0 ∧
+    multisetVolume (fun _ : Fin n → ℝ => 0) = 0 := by sorry
+example (N : ℕ) :
+    multisetVolume (fun x : Fin 1 → ℝ => if x 0 ∈ Set.Icc 0 (N : ℝ) then 2 else 0) =
+      2 * (N : ℝ) := by sorry
+
 end DavenportMultisets
 
 section LatticePointCounting
@@ -1268,15 +1380,30 @@ example (j : ℕ) (t : ℝ) :
       (!![1, t; 0, 1]) * (!![Real.exp (j : ℝ), 0; 0, Real.exp (-(j : ℝ))]) =
       (!![1, t * Real.exp (-2 * (j : ℝ)); 0, 1]) := by sorry
 
+-- Every representation on the zero Hilbert space has continuous orbit maps.
+example (π : ContRepresentation ℂ G (EuclideanSpace ℂ (Fin 0))) :
+    StronglyContinuous π := by sorry
+
+-- The real character is strongly continuous; conjugate-linearity fixes its coefficient phase.
+example :
+    let π : ContRepresentation ℂ (Multiplicative ℝ) ℂ :=
+      { toMonoidHom :=
+          { toFun := fun t => Complex.exp (Complex.I * (t.toAdd : ℂ)) •
+              (ContinuousLinearMap.id ℂ ℂ)
+            map_one' := by sorry
+            map_mul' := by sorry } }
+    StronglyContinuous π ∧ ∀ t : ℝ,
+      inner (𝕜 := ℂ) (π (Multiplicative.ofAdd t) 1) 1 =
+        Complex.exp (-Complex.I * (t : ℂ)) := by sorry
+
 end HilbertDynamics
 
 section KoopmanActions
 variable {G X : Type*} [Group G] [MeasurableSpace X] [MulAction G X]
 
-/-- Local restatement of IncompressibleFlows §3.3, to be replaced by the import once that roadmap
-is merged, for the scalar-flow pullback input. IncompressibleFlows is an open TauCetiRoadmap pull request by emberian; its §3.3 is Layer 3 item 3. The local L² representation carrier is required by the homogeneous-action consumers;
-its arbitrary-group assembly uses Mathlib's `Lp.compMeasurePreservingₗᵢ`, with defining formula
-`(π(g) f)(x) = f(g⁻¹ x)` almost everywhere. The supplier states forward-time flow pullback. -/
+/-- Inverse-element L² action adapter to IncompressibleFlows Layer 3, item 3. The
+arbitrary-group assembly uses Mathlib's `Lp.compMeasurePreservingₗᵢ` and satisfies
+`(π(g) f)(x) = f(g⁻¹ x)` almost everywhere; the supplier uses forward-time flow pullback. -/
 def quotientKoopman (μ : Measure X)
     (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
     ContRepresentation ℂ G (Lp ℂ 2 μ) where
@@ -1368,6 +1495,14 @@ example :
     let μ : Measure (Fin 2) := (1 / 2 : ENNReal) • Measure.count
     ¬ ErgodicSMul PUnit (Fin 2) μ := by sorry
 
+-- The fair observable `(1,-1)` has zero mean and unit L² norm.
+example :
+    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
+    letI : IsProbabilityMeasure μ := by sorry
+    ∃ f : Lp ℂ 2 μ, (f : Fin 2 → ℂ) =ᵐ[μ] (fun x => if x = 0 then 1 else -1) ∧
+      f ∈ meanZeroL2 μ ∧ ‖f‖ = 1 := by sorry
+example : meanZeroL2 (Measure.dirac PUnit.unit) = ⊥ := by sorry
+
 end ErgodicKoopman
 
 section ErgodicKernels
@@ -1409,6 +1544,18 @@ example :
       { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
     let μ : Measure (Fin 2) := (1 / 2 : ENNReal) • Measure.count
     ¬ ∃ E : ActionErgodicKernel (G := PUnit) μ, E.κ = Kernel.const (Fin 2) μ := by sorry
+
+-- Each trivial-action component is a Dirac probability at its base point.
+example :
+    letI : MulAction PUnit (Fin 2) :=
+      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
+    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
+    ∃ E : ActionErgodicKernel (G := PUnit) μ, E.κ = Kernel.id := by sorry
+-- The transitive permutation action has one ergodic component.
+example :
+    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
+    ∃ E : ActionErgodicKernel (G := Equiv.Perm (Fin 2)) μ,
+      E.κ = Kernel.const (Fin 2) μ := by sorry
 
 end ErgodicKernels
 
@@ -1479,6 +1626,19 @@ example : configurationMeasure (⟨3, ![0, 1, 0]⟩ : Σ n : ℕ, Fin n → Fin 
 example : (finitePoissonConfiguration 1 (Measure.dirac PUnit.unit)).map
     (configurationCount Set.univ) = poissonMeasure 1 := by sorry
 
+example (intensity : NNReal) : finitePoissonConfiguration intensity (0 : Measure X) =
+    Measure.dirac (⟨0, Fin.elim0⟩ : Σ n : ℕ, Fin n → X) := by sorry
+example (μ : Measure X) [IsFiniteMeasure μ] : finitePoissonConfiguration 0 μ =
+    Measure.dirac (⟨0, Fin.elim0⟩ : Σ n : ℕ, Fin n → X) := by sorry
+example : (finitePoissonConfiguration 2 (Measure.count : Measure (Fin 2))).map
+    (configurationCount Set.univ) = poissonMeasure 4 := by sorry
+example : (finitePoissonConfiguration 2 (Measure.count : Measure (Fin 2))).map
+    (configurationCount {0}) = poissonMeasure 2 := by sorry
+example (c : Σ n : ℕ, Fin n → X) : configurationCount ∅ c = 0 := by sorry
+example (s : Set X) : configurationCount s (⟨0, Fin.elim0⟩ : Σ n : ℕ, Fin n → X) = 0 := by sorry
+example : configurationMeasure (⟨2, fun _ => PUnit.unit⟩ : Σ n : ℕ, Fin n → PUnit) =
+    2 • Measure.dirac PUnit.unit := by sorry
+
 end FinitePoissonConfigurations
 
 section ActionAverages
@@ -1532,6 +1692,15 @@ example :
     let μ : Measure (Fin 2) := (1 / 2 : ENNReal) • Measure.count
     ¬ AveragingSequence (G := PUnit) μ Measure.count (fun _ : ℕ => Set.univ)
       (Kernel.const (Fin 2) μ) := by sorry
+
+example (η : Measure G) (f : X → ℝ) (x : X) :
+    normalizedActionAverage η ∅ f x = 0 := by sorry
+example (η : Measure G) : ¬ TemperedFolnerSequence η (fun _ => ∅) := by sorry
+example :
+    letI : MulAction PUnit (Fin 2) :=
+      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
+    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
+    AveragingSequence (G := PUnit) μ Measure.count (fun _ : ℕ => Set.univ) Kernel.id := by sorry
 
 end ActionAverages
 
@@ -1612,6 +1781,22 @@ example :
     measureEntropy ν (fun x k => x (k + 1)) = ENNReal.ofReal (Real.log 2) := by sorry
 example : measureEntropy (Measure.dirac PUnit.unit) id = 0 := by sorry
 
+example : finitePartitionEntropy (Measure.dirac PUnit.unit) id = 0 := by sorry
+example : finitePartitionEntropy
+    ((1/4 : ENNReal) • (Measure.count : Measure (Fin 2 × Fin 2))) id = 2 * Real.log 2 := by sorry
+example : partitionEntropyRate
+    ((1/2 : ENNReal) • (Measure.count : Measure (Fin 2))) id id = 0 := by sorry
+example :
+    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
+    letI : IsProbabilityMeasure μ := by sorry
+    let ν := Measure.infinitePi (fun _ : ℤ => μ)
+    partitionEntropyRate ν (fun x k => x (k + 1)) (fun x => x 0) =
+      ENNReal.ofReal (Real.log 2) := by sorry
+example (T : X → X) (label : X → ι) (x : X) :
+    iteratedPartitionLabel T label 0 x = (Fin.elim0 : Fin 0 → ι) := by sorry
+example (label : X → ι) (n : ℕ) (x : X) :
+    iteratedPartitionLabel id label n x = (fun _ => label x) := by sorry
+
 end PartitionEntropy
 
 section ConditionalLabelEntropy
@@ -1649,7 +1834,46 @@ example : conditionalLabelEntropy
 example (μ : Measure X) [IsProbabilityMeasure μ] (s : X ≃ᵐ X) :
     conditionalLabelEntropy μ s.symm id = 0 := by sorry
 
+example : atomInformation 1 = 0 := by sorry
+example : conditionalLabelEntropy (Measure.dirac PUnit.unit) id id = 0 := by sorry
+example : conditionalLabelEntropy (Measure.dirac PUnit.unit) id (fun _ => PUnit.unit) = 0 := by
+  sorry
+
 end ConditionalLabelEntropy
+
+section KacReturnTimes
+variable {X : Type*} [MeasurableSpace X]
+
+/-- The first positive return time, with value `∞` when the orbit never returns. -/
+def positiveReturnTime (T : X → X) (A : Set X) (x : X) : ℕ∞ :=
+  sInf {r : ℕ∞ | ∃ n : ℕ, 0 < n ∧ r = (n : ℕ∞) ∧ T^[n] x ∈ A}
+
+/-- First positive return times are measurable for a measurable map and return set. -/
+theorem measurable_positiveReturnTime (T : X → X) (hT : Measurable T)
+    (A : Set X) (hA : MeasurableSet A) : Measurable (positiveReturnTime T A) := by sorry
+
+/-- Kac's formula supplies almost-everywhere finite, integrable return times and their
+unnormalized integral `1` on every positive-measure return set. -/
+theorem kac_return_time_integral (μ : Measure X) [IsProbabilityMeasure μ]
+    (T : X ≃ᵐ X) (hT : Ergodic T μ) (A : Set X) (hA : MeasurableSet A) (hpos : 0 < μ A) :
+    (∀ᵐ x ∂μ.restrict A, positiveReturnTime T A x < ⊤) ∧
+      Integrable (fun x => ((positiveReturnTime T A x).toNat : ℝ)) (μ.restrict A) ∧
+      (∫ x in A, ((positiveReturnTime T A x).toNat : ℝ) ∂μ) = 1 := by sorry
+
+example : positiveReturnTime (id : PUnit → PUnit) Set.univ PUnit.unit = 1 := by sorry
+example : (∫ x in (Set.univ : Set PUnit),
+    ((positiveReturnTime id Set.univ x).toNat : ℝ) ∂Measure.dirac PUnit.unit) = 1 := by sorry
+example : positiveReturnTime (fun i : Fin 2 => 1 - i) {0} 0 = 2 ∧
+    (∫ x in ({0} : Set (Fin 2)),
+      ((positiveReturnTime (fun i : Fin 2 => 1 - i) {0} x).toNat : ℝ)
+      ∂((1/2 : ENNReal) • Measure.count)) = 1 := by sorry
+example : (∫ x in ({0} : Set (Fin 2)),
+    ((positiveReturnTime id {0} x).toNat : ℝ) ∂((1/2 : ENNReal) • Measure.count)) = 1/2 := by sorry
+example (T : X → X) (x : X) : positiveReturnTime T ∅ x = ⊤ := by sorry
+example (μ : Measure X) (T : X → X) :
+    (∫ x in (∅ : Set X), ((positiveReturnTime T ∅ x).toNat : ℝ) ∂μ) = 0 := by sorry
+
+end KacReturnTimes
 
 section SubordinatePartitions
 variable {X V Y : Type*} [MeasurableSpace X] [Group V] [TopologicalSpace V]
@@ -1689,6 +1913,19 @@ example :
         mul_smul := by intro a b x; exact add_assoc a.toAdd b.toAdd x }
     ¬ ∃ P : SubordinatePartition (Measure.dirac (0 : ℝ)) (Multiplicative ℝ) ℝ,
       P.label = id := by sorry
+
+example :
+    letI : MulAction PUnit (Fin 2) :=
+      { smul := fun _ x => x, one_smul := by simp, mul_smul := by simp }
+    let μ : Measure (Fin 2) := (1/2 : ENNReal) • Measure.count
+    ¬ ∃ P : SubordinatePartition μ PUnit PUnit, P.label = (fun _ => PUnit.unit) := by sorry
+example :
+    letI : MulAction (Multiplicative ℝ) ℝ :=
+      { smul := fun v x => v.toAdd + x
+        one_smul := by intro x; exact zero_add x
+        mul_smul := by intro a b x; exact add_assoc a.toAdd b.toAdd x }
+    ∃ P : SubordinatePartition (Measure.dirac (1/2 : ℝ)) (Multiplicative ℝ) ℤ,
+      P.label = Int.floor := by sorry
 
 end SubordinatePartitions
 
@@ -1801,6 +2038,12 @@ example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 1) ℤ Δ)
     (hb : (b 0 : Fin 2 → ℝ) = ![1, 1]) :
     primitiveExteriorCovolume (Matrix.diagonal ![2, 3]) Δ b = 3 := by sorry
 
+example (h : Matrix (Fin d) (Fin d) ℝ) (Δ : Submodule ℤ (Fin d → ℝ))
+    (b : Basis (Fin 0) ℤ Δ) : primitiveExteriorCovolume h Δ b = 1 := by sorry
+example (Δ : Submodule ℤ (Fin 2 → ℝ)) (b : Basis (Fin 2) ℤ Δ)
+    (h0 : (b 0 : Fin 2 → ℝ) = ![2, 0]) (h1 : (b 1 : Fin 2 → ℝ) = ![0, 3]) :
+    primitiveExteriorCovolume 1 Δ b = 6 := by sorry
+
 end PrimitiveExteriorCovolumes
 
 section QuantitativeNondivergence
@@ -1857,6 +2100,12 @@ example : shortIntegerVectorSet (fun _ : Fin 1 → ℝ => (1 : Matrix (Fin 1) (F
     Set.univ (1/2) = ∅ ∧
     shortIntegerVectorSet (fun _ : Fin 1 → ℝ => (1 : Matrix (Fin 1) (Fin 1) ℝ))
     Set.univ 2 = Set.univ := by sorry
+
+example {d : ℕ} : integralPrimitiveSubgroup (⊥ : Submodule ℤ (Fin d → ℝ)) := by sorry
+example {d : ℕ} : integralPrimitiveSubgroup
+    (Submodule.span ℤ (Set.range fun z : Fin d → ℤ => (fun i => (z i : ℝ)))) := by sorry
+example {s : ℕ} (h : (Fin s → ℝ) → Matrix (Fin 0) (Fin 0) ℝ)
+    (B : Set (Fin s → ℝ)) (ε : ℝ) : shortIntegerVectorSet h B ε = ∅ := by sorry
 
 end QuantitativeNondivergence
 
@@ -1972,6 +2221,12 @@ example (τ : ℂ) : ternaryHarmonicTheta (X (0 : Fin 3)) τ = 0 := by sorry
 example : ternaryFundamentalDiscriminant 1 = -4 ∧ ternaryFundamentalDiscriminant 2 = -8 ∧
     ternaryFundamentalDiscriminant 3 = -3 := by decide
 
+example : signedThreeSquareCount 1 = 6 ∧ signedThreeSquareCount 2 = 12 := by sorry
+example : ternaryWeightedCoefficient (1 : MvPolynomial (Fin 3) ℝ) 1 = 6 := by sorry
+example (n : ℕ) : ternaryWeightedCoefficient
+    ((X (0 : Fin 3)) ^ 2 - (X (1 : Fin 3)) ^ 2 : MvPolynomial (Fin 3) ℝ) n = 0 := by sorry
+example : 1 < (ternaryHarmonicTheta (1 : MvPolynomial (Fin 3) ℝ) Complex.I).re := by sorry
+
 end HarmonicTheta
 
 section KroneckerKernels
@@ -2051,6 +2306,16 @@ example : kroneckerDoubleKernel 0 (1/3) 0 0 = 3/2 := by sorry
 example : kroneckerCyclicTerm 0 (1/3) (2/3) (3/4) = 2 := by sorry
 example : kroneckerCorrection 0 0 0 (1/2) = 8/3 := by sorry
 
+example (q : ℂ) (hq : ‖q‖ < 1) : jacobiProduct 1 q = 0 := by sorry
+example : kroneckerSummand (1/2) (1/3) (2/3) (3/4) 0 0 = 3/2 ∧
+    kroneckerSummand (1/2) (1/3) (2/3) (3/4) 1 0 = 4/5 := by sorry
+example : kroneckerDoubleKernel 0 0 0 0 = 1 ∧
+    kroneckerDoubleKernel 0 (1/3) (1/2) (1/2) = 7/2 := by sorry
+example : kroneckerCyclicTerm 0 (1/3) (3/4) (2/3) = 27/10 ∧
+    kroneckerCyclicTerm 0 (2/3) (3/4) (1/3) = 9/2 := by sorry
+example : kroneckerCorrection 0 0 0 0 = 2 ∧
+    kroneckerCorrection 0 (1/3) (2/3) (3/4) = 27/10 := by sorry
+
 end KroneckerKernels
 
 section HalfIntegralKloosterman
@@ -2100,6 +2365,11 @@ example : halfIntegralKloosterman 0 0 0 4 = 1 - Complex.I ∧
 -- At `x = 0` every partial sum is zero.
 example (ℓ n Q : ℕ) (v : ℝ) : halfIntegralKloostermanPartialSum ℓ n Q 0 v = 0 := by sorry
 
+example : thetaMultiplierPhase 5 = 1 := by sorry
+example : halfIntegralKloosterman 0 1 1 4 = -1 + Complex.I := by sorry
+example : halfIntegralKloostermanPartialSum 0 0 4 3 0 = 0 ∧
+    halfIntegralKloostermanPartialSum 0 0 4 4 0 = (1 - Complex.I) / 2 := by sorry
+
 end HalfIntegralKloosterman
 
 section PackingCovering
@@ -2141,6 +2411,12 @@ example : latticePackingRadius (Submodule.span ℤ ({1} : Set ℝ)) = 1/2 ∧
 example : latticeCoveringRadius (Submodule.span ℤ
     ({WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![0, 1]} : Set (EuclideanSpace ℝ (Fin 2)))) =
       Real.sqrt 2 / 2 := by sorry
+
+example (L : Submodule ℤ (EuclideanSpace ℝ (Fin 0))) :
+    latticePackingRadius L = 0 ∧ latticeCoveringRadius L = 0 := by sorry
+example : latticePackingRadius (Submodule.span ℤ
+    ({WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![0, 1]} : Set (EuclideanSpace ℝ (Fin 2)))) =
+      1/2 := by sorry
 
 end PackingCovering
 
@@ -2237,6 +2513,9 @@ example (K : CompactStarBody ℝ) (h : ∀ x, K.gauge x = |x|) : criticalDetermi
 example (K : CompactStarBody ℝ) (h : ∀ x, K.gauge x = |x| / 2) : criticalDeterminant K = 2 := by
   sorry
 
+example (K : CompactStarBody (EuclideanSpace ℝ (Fin 0))) : criticalDeterminant K = 1 := by
+  sorry
+
 end CriticalDeterminants
 
 section GaussianSums
@@ -2287,6 +2566,18 @@ end GaussianSums
 example : latticeGaussianSum (Submodule.span ℤ {(2 : ℝ)}) 2 0 =
     latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
 
+-- Rank zero and integral translates are normalization controls for the Gaussian sum.
+example (s : ℝ) (hs : 0 < s) :
+    latticeGaussianSum (⊥ : Submodule ℤ (EuclideanSpace ℝ (Fin 0))) s 0 = 1 := by sorry
+example : latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 1 =
+    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
+-- Positive nonzero terms and the odd dual terms in Poisson summation give strict inequalities.
+example : 1 < latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
+example : latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 (1/2) <
+    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 := by sorry
+example : latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 1 0 <
+    latticeGaussianSum (Submodule.span ℤ {(1 : ℝ)}) 2 0 := by sorry
+
 section SiegelTransform
 variable {E : Type*} [AddCommGroup E]
 
@@ -2306,6 +2597,9 @@ theorem siegelTransform_nonneg (L : Submodule ℤ E) (f : E → ℝ)
 
 -- The zero lattice has transform `0` even when `f(0) ≠ 0`.
 example (f : E → ℝ) : siegelTransform ⊥ f = 0 := by sorry
+
+example : siegelTransform (Submodule.span ℤ {(1 : ℝ)})
+    ((Set.Icc (-1 : ℝ) 1).indicator (fun _ => (1 : ℝ))) = 2 := by sorry
 
 end SiegelTransform
 
@@ -2362,6 +2656,11 @@ example : shortVectorSpan (Submodule.span ℤ {(1 : ℝ)}) 1 = ⊥ ∧
 -- For `ℤ`, the characteristic function at `1/2` is strictly less than `1`.
 example : gaussianCharacteristic (Submodule.span ℤ {(1 : ℝ)}) (1/2) < 1 := by sorry
 
+example (L : Submodule ℤ E) (r : ℝ) (hr : r ≤ 0) : shortVectorSpan L r = ⊥ := by sorry
+example (L : Submodule ℤ (EuclideanSpace ℝ (Fin 0)))
+    (u : EuclideanSpace ℝ (Fin 0)) : gaussianCharacteristic L u = 1 := by sorry
+example : gaussianCharacteristic (Submodule.span ℤ {(1 : ℝ)}) 1 = 1 := by sorry
+
 end GaussianAllIndex
 
 section HexagonalLattice
@@ -2389,6 +2688,11 @@ example (K : ConvexBody (EuclideanSpace ℝ (Fin 2)))
     (hK : (K : Set (EuclideanSpace ℝ (Fin 2))) = Metric.closedBall 0 1) :
     letI := hexagonalLattice_discrete
     ∀ i, successiveMin hexagonalLattice K i = 1 := by sorry
+
+example (K : ConvexBody (EuclideanSpace ℝ (Fin 2)))
+    (hK : (K : Set (EuclideanSpace ℝ (Fin 2))) = Metric.closedBall 0 1) :
+    ∀ i, successiveMin (LinearMap.BilinForm.dualSubmodule
+      (innerₗ (EuclideanSpace ℝ (Fin 2))) hexagonalLattice) K i = 2 / Real.sqrt 3 := by sorry
 
 end HexagonalLattice
 
@@ -2544,6 +2848,20 @@ theorem LLLReductionResult.shortVector {b : Fin n → E} (r : LLLReductionResult
     (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
     ‖r.output ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
 
+-- The swap and identity certificates carry explicit integral inverse matrices.
+example (b : Fin 2 → E) : UnimodularBasisCertificate b (fun i => b (1 - i)) :=
+  { matrix := !![0, 1; 1, 0]
+    inverse := !![0, 1; 1, 0]
+    rightInverse := by sorry
+    leftInverse := by sorry
+    coordinates := by sorry }
+example (b : Fin n → E) : UnimodularBasisCertificate b b :=
+  { matrix := 1
+    inverse := 1
+    rightInverse := by sorry
+    leftInverse := by sorry
+    coordinates := by sorry }
+
 end LLL
 
 section IntegerPotential
@@ -2580,6 +2898,8 @@ theorem lllIntegerPotential_swap (A : Matrix (Fin n) (Fin n) ℤ) (hA : A.det �
 -- The potential of `diag(2, 1)` is `4`, and the empty potential is `1`.
 example : lllIntegerPotential (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) = 4 := by sorry
 example : lllIntegerPotential (1 : Matrix (Fin 0) (Fin 0) ℤ) = 1 := by sorry
+
+example : lllIntegerPotential (1 : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by sorry
 
 end IntegerPotential
 
@@ -2623,17 +2943,20 @@ end LLLChecks
 section C2NormMaps
 variable {A : Type*} [AddCommGroup A]
 
-/-- Local restatement of ComplexTori §4, to be replaced by the import once that roadmap is merged.
-Local endomorphism spelling `1 + σ` required by the C₂ Tate-complex consumer; under the involution
-hypothesis it is Milestone 4's period-two `cyclicNormHom`. ComplexTori is an open TauCetiRoadmap
-pull request by Paul-Lez. -/
+/-- Period-two consumer spelling of ComplexTori Milestone 4's period-two `cyclicNormHom`, with
+endomorphism formula `1 + σ` under the involution hypothesis. -/
 def c2Norm (σ : A →+ A) : A →+ A := AddMonoidHom.id A + σ
 
-/-- Local restatement of ComplexTori §4, to be replaced by the import once that roadmap is merged.
-Local endomorphism spelling `1 - σ` required by the C₂ Tate-complex consumer; under the involution
-hypothesis it is Milestone 4's `oneSubPow` at exponent one. ComplexTori is an open TauCetiRoadmap
-pull request by Paul-Lez. -/
+/-- Period-two consumer spelling of ComplexTori Milestone 4's `oneSubPow` at exponent one, with
+endomorphism formula `1 - σ` under the involution hypothesis. -/
 def c2Difference (σ : A →+ A) : A →+ A := AddMonoidHom.id A - σ
+
+example : c2Norm (AddMonoidHom.id ℤ) 1 = 2 ∧
+    c2Difference (AddMonoidHom.id ℤ) 1 = 0 := by sorry
+example : c2Norm (-AddMonoidHom.id ℤ) 1 = 0 ∧
+    c2Difference (-AddMonoidHom.id ℤ) 1 = 2 := by sorry
+example (x : ZMod 2) : c2Norm (AddMonoidHom.id (ZMod 2)) x = 0 ∧
+    c2Difference (AddMonoidHom.id (ZMod 2)) x = 0 := by sorry
 
 end C2NormMaps
 
@@ -2814,7 +3137,9 @@ invertible in the middle. -/
 theorem exact_five_lemma (S T : ShortComplex C) (hS : E.Conflation S) (hT : E.Conflation T)
     (f : S ⟶ T) [IsIso f.τ₁] [IsIso f.τ₃] : IsIso f.τ₂ := by sorry
 
-/-- A hermitian `Q`-span `X ↞ U ↣ Y` whose pairing square is bicartesian (6.5.1). -/
+/-- A hermitian `Q`-span `X ↞ U ↣ Y` whose pairing square is bicartesian (6.5.1).
+Equivalently, the restricted pairings agree and the kernel map induced by the inflation is an
+isomorphism compatible with the inclusions into `Y`. -/
 structure HermitianQSpan (X Y : SymmetricSpace D.toStrongCategoryDuality) where
   middle : C
   deflation : middle ⟶ X.carrier
@@ -3101,6 +3426,8 @@ The following README targets extend declarations of this file but need carriers 
 available at the pins, or are steps of a proof rather than milestones; their signatures and
 sources are in the README.
 
+* Layer 1: `TauCeti.IntegralLattice.successiveMinimum_eq_sq_successiveMin` through ThetaSeries'
+  `realModel`; its squared-norm definition and threshold API are prototyped above.
 * Layer 2: `IntegralQuadraticLattice.quadraticMap`, `IntegralQuadraticLattice.localize` with
   `IntegralQuadraticLattice.localize_mem_iff` and `IntegralQuadraticLattice.localize_map`,
   `IntegralHermitianLattice.map`, `HermitianLatticeInvariants.ofDualQuotient`,
@@ -3116,6 +3443,7 @@ sources are in the README.
   `unipotentSingularOrbitDetection` and `oneOrbitAverageIdentification` on the homogeneous
   wedge and singular-stratum carriers.
 * Layer 5: the algorithm `exactLLL`.
-* Layer 6: `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
+* Layer 6: `stableIndCompletion`, `finiteSemisimpleIsotypicDecomposition` and
+  `stableKHeartComparison` on stable/finite-length category carriers; `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
   `ExactW0`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
 -/
