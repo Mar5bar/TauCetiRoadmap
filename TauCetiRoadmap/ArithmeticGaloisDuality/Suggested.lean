@@ -21,14 +21,18 @@ Design choices made explicit here:
 
 * Continuous cohomology is Mathlib's `continuousCohomology n X` for `X : TopRep ℤ G`, and a
   discrete module enters through Tau Ceti's `TauCeti.ofDiscreteModule`. No second cohomology
-  theory is introduced; tower algebra is supplied by DerivedModuleAlgebra §R02.1.1.
+  theory is introduced; tower algebra is supplied by DerivedModuleAlgebra §1.T.1.
   PerfectoidTowers §P9.0 supplies continuous cochain lifting, inverse-limit cochain comparisons
   and the all-degree homogeneous comparison for jointly continuous actions. Topological cohomology
   carries the quotient topology; comparisons in derived categories use the underlying modules.
-* In DerivedModuleAlgebra §R02.1.1, `lim` and `lim¹` of an `ℕ`-indexed tower are the kernel
+* In DerivedModuleAlgebra §1.T.1, `lim` and `lim¹` of an `ℕ`-indexed tower are the kernel
   and cokernel of the shift map
   `(a_n) ↦ (a_n - φ_n(a_{n+1}))`; the Mittag-Leffler condition is Mathlib's
   `CategoryTheory.Functor.IsMittagLeffler` on the underlying functor `ℕᵒᵖ ⥤ Type`.
+* DerivedModuleAlgebra §S.1 supplies the first-quadrant double-complex spectral sequence
+  with its abutment filtration, convergence and edge maps; §1.M.1 supplies Matlis duality
+  for arithmetic coefficients. EnhancedDerivedSheaves §E1.8.DMA.1 supplies the affine
+  comparison of the module-derived tensor from DerivedModuleAlgebra §0.2.
 * The pointwise `Hom` of discrete modules carries the topology induced from the product `A^C`,
   never the discrete topology: for infinitely generated `C` the two differ. Continuous
   homomorphisms from a profinite source are Mathlib's `ContinuousAddMonoidHom` with the
@@ -844,7 +848,7 @@ discrete quotient `V/T`; the splitting class and its cup-product formula; the co
 evaluation cup product and `H¹` comparison of the continuous `Hom` from a profinite source (its
 discreteness is `discreteTopology_continuousAddMonoidHom` above); continuous factor-set
 extensions and the continuous Schreier classification; unbalanced cochain products; the
-first-quadrant and Hochschild–Serre spectral sequences, the transgression and its cup-product
+Hochschild–Serre spectral sequence, the transgression and its cup-product
 formula, finite-index descent, the compact Hochschild–Serre and five-term sequences; the Laurent
 residue sequence and the cyclotomic power kernel; the localization maps with their modified
 archimedean groups; the `S`-ideles, `S`-units and `S`-idele classes, `P`-class formations, the
@@ -864,7 +868,7 @@ archimedean points, the completed all-place torus sequence, compactness of the m
 quotient and realization of the completed image by actual adelic points, torus Sha duality,
 the function-field Poitou–Tate theorem and central
 obstructions, and totally real local base change; perfect amplitude and Tor for the module-derived
-tensor supplied by DerivedModuleAlgebra §0.2, Matlis duality, the derived
+tensor supplied by DerivedModuleAlgebra §0.2, the derived
 composite spectral sequence, adic continuous-map flatness, the Hilbert–Samuel Euler function,
 the residual criterion for perfect amplitude, the dualizing complex and local duality for complete
 local rings, continuous cochains in the
@@ -902,9 +906,6 @@ declared here.
   `splittingClass_eq_zero_iff`, `pointwiseHomRepresentation`, `pointwiseHomRepresentation_apply`,
   `continuousHomRepresentation`, `continuousHomCup`, `h1Equiv_continuousHom`, `factorSetClass`,
   `factorSetClass_rescale`, `factorSetClass_eq_extensionClass`, `factorSetClass_eq_zero_iff`.
-* `DoubleComplex`: `spectralSequence`, `e2Iso`, `abutmentFiltration`, `eInftyIsoGr`,
-  `page_eq_eInfty`, `edgeBottom`, `edgeLeft`, `fiveTerm_exact`, `exact_of_rows_vanish`,
-  `totalCohomology_of_exact_rows`, `spectralSequence_map`.
 * `HochschildSerre`: `spectralSequence`, `abutmentIso`, `edgeBottom_eq_inflation`,
   `edgeLeft_eq_restriction`, `map`, `res`, `cor`, `cup`.
 * `RestrictedRamification`: `toGaloisGroupS_surjective`, `maxUnramifiedOutside_of_le`,

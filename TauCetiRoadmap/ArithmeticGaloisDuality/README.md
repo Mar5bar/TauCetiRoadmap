@@ -4,7 +4,7 @@
 that roadmap leaves out — non-discrete coefficients and the Hochschild–Serre spectral sequence —
 and uses them to build global arithmetic duality. Starting from Mathlib's `continuousCohomology`
 and ProfiniteCohomology's exact sequences, Shapiro's lemma and cup products, it uses the tower `lim` and `lim¹` supplied by
-DerivedModuleAlgebra §R02.1.1 and the continuous cochain comparisons supplied by
+DerivedModuleAlgebra §1.T.1 and the continuous cochain comparisons supplied by
 PerfectoidTowers §P9.0 to prove Tate's inverse-limit theorem and the passage from finite to compact and rational
 coefficients; the spectral sequence of a group extension with its transgression; the Galois group
 `G_{K,S}` of the maximal extension of a number field unramified outside a set of places `S`, the
@@ -24,10 +24,10 @@ The layers are:
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | R02.1 | Compact coefficients, limits and continuous extensions | Tower supplier contract, Tate's inverse-limit theorem, rationalisation, `HomPt`, the splitting torsor, continuous factor-set extensions, unbalanced cochain products |
-| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `DoubleComplex.spectralSequence`, `HochschildSerre.spectralSequence`, transgression as a cup product, descent along open subgroups, Laurent residue sequences, procyclic H¹ |
+| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `HochschildSerre.spectralSequence`, transgression as a cup product, descent along open subgroups, Laurent residue sequences, procyclic H¹ |
 | R02.3 | Restricted ramification and the `S`-idele class formation | Multiplicative completion, S-unit rank and fundamental systems, finite Galois localization, `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
 | R02.4 | Arithmetic duality and local–global obstruction groups | Tate's duality for class formations, Poitou–Tate duality, `cd_p G_S ≤ 2`, global Euler characteristic, function-field Poitou–Tate, finite compact support, all-place `Ш` duality, Grunwald–Wang, character roots, torus duality |
-| D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor comparisons and Matlis duality, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality, dual local conditions and mapping-fibre duality |
+| D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor and limit comparisons, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality, dual local conditions and mapping-fibre duality |
 | R02.5 | Selmer duality and dimension formulas | Greenberg–Wiles formula, change of one finite local condition, rank-one numerics |
 | D8 | Adjoint coefficients and first-order lifts | trace-zero adjoint duality, first-order cocycle comparison, determinant derivative |
 | R02.6 | Auxiliary primes and patching numerics | Taylor–Wiles local count, dual-Selmer killing, the group theory of Taylor–Wiles primes, odd and dyadic auxiliary primes, archimedean adjoint dimensions |
@@ -43,10 +43,9 @@ theorem, the long exact sequences that need a continuous section, rationalisatio
 quotient `V/T`; the pointwise `Hom` with its
 splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
 with its evaluation cup product; topologies on factor-set extensions and the
-continuous Schreier classification; unbalanced cochain products. The spectral sequence of a
-first-quadrant double complex and the Hochschild–Serre spectral sequence of a closed normal
-subgroup with its edge maps, multiplicativity, transgression, degeneration, finite-index descent
-and compact-coefficient variants; residue sequences of Laurent-series fields. The group `G_{K,S}`,
+continuous Schreier classification; unbalanced cochain products. The Hochschild–Serre spectral
+sequence of a closed normal subgroup with its edge maps, multiplicativity, transgression,
+degeneration, finite-index descent and compact-coefficient variants; residue sequences of Laurent-series fields. The group `G_{K,S}`,
 Hermite's finiteness theorem with ramification outside `S`, finiteness of `H¹(G_S, M)`, localisation
 maps with the modified archimedean groups, `S`-ideles, S-unit rank and fundamental systems, multiplicative completion and its unit injections,
 `S`-units and `S`-idele classes, finite Galois localization and Sha kernels, `P`-class
@@ -66,7 +65,7 @@ character roots and their local Brauer obstructions, totally real base change wi
 local behaviour, Tate's vanishing of `H²(G_K, ℚ/ℤ)`, torus duality and function-field central
 obstructions. The derived coefficient algebra the duality theorems need (perfect amplitude,
 Tor and arithmetic coefficient comparisons for the imported module-derived tensor product,
-the comparison of module-derived limits with the explicit tower API, Matlis duality, Grothendieck
+the comparison of module-derived limits with the explicit tower API, Grothendieck
 local duality for complete local rings, the derived composite spectral sequence, flatness of adic continuous
 functions, the Hilbert–Samuel Euler function); admissible coefficients, continuous cochains in the
 derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
@@ -137,19 +136,23 @@ spaces,
   *Derived categories of quasi-coherent complexes*, `derivedTensor`, `derivedHom`, of which the
   affine case is used, through `DQCoh.affineEquiv`), and the comparison of étale cohomology of a
   field with Galois cohomology (§2.15, `etale_galois_comparison`). The module-derived tensor product
-  uses DerivedModuleAlgebra §0.2's affine comparison with §2.18.
-- *DerivedModuleAlgebra* §R02.1.1 owns the tower shift, lim/lim¹, Mittag–Leffler,
+  uses DerivedModuleAlgebra §0.2 and EnhancedDerivedSheaves §E1.8.DMA.1's affine comparison
+  with §2.18.
+- *DerivedModuleAlgebra* §1.T.1 owns the tower shift, lim/lim¹, Mittag–Leffler,
   six-term and Milnor APIs. Its §0.2 owns K-flat resolutions, the module-derived tensor product
-  `DerivedDeRham.derivedTensor`, derived extension of scalars, model independence, exactness and
-  the affine comparison `derivedTensor_affine` with SchemeAndStackFoundations §2.18. D7.1 uses
-  this functor for perfect amplitude, Tor and arithmetic coefficient change. Layer 1 §1.1 owns
-  the general module-derived limit `DerivedDeRham.derivedLimit`; its Milnor proof reuses DerivedModuleAlgebra §R02.1.1's
+  `DerivedDeRham.derivedTensor`, derived extension of scalars, model independence and exactness.
+  D7.1 uses this functor for perfect amplitude, Tor and arithmetic coefficient change. Layer 1 §1.1 owns
+  the general module-derived limit `DerivedDeRham.derivedLimit`; its Milnor proof reuses DerivedModuleAlgebra §1.T.1's
   shift calculation after a degreewise-surjective replacement. D7.1 owns the comparison
   `CompactCoefficients.moduleDerivedLimit_compare` with that early explicit tower API.
   Layer 1 also supplies the derived completion reflector `DerivedDeRham.derivedCompletion`
   (§1.3) and the comparison of derived completion with ordinary completion for complexes with
   finitely generated cohomology over a Noetherian ring (§1.5), used by *Grothendieck local duality
-  for a complete Noetherian local ring*.
+  for a complete Noetherian local ring*. Section 1.M.1 supplies Matlis duality for arithmetic
+  coefficients, and §S.1 supplies the first-quadrant double-complex spectral sequence with its
+  convergence, edge maps and exact-row consequences.
+- *EnhancedDerivedSheaves* §E1.8.DMA.1 supplies the affine comparison `derivedTensor_affine`
+  with SchemeAndStackFoundations §2.18.
 - *AbelianSchemesAndArithmeticModuli* Layer A2: the dual abelian scheme with its Poincaré bundle
   (`AbelianScheme.dual`, §A2.2), and *AlgebraicModuliForArithmeticGeometry* Layer 4: banded gerbes
   and their classification by `H²` of the band (`gerbeClass`, §4.20, derived classification on
@@ -390,8 +393,14 @@ as inputs; and Galois representations attached to automorphic forms.
   spaces, inverse-limit cochain comparisons, and the all-degree comparison with Mathlib's
   homogeneous cochains for jointly continuous actions, with quotient topologies on cohomology
   in topological statements and underlying modules in derived categories.
-- Supplied by DerivedModuleAlgebra §R02.1.1: the tower, shift, lim/lim¹,
+- Supplied by DerivedModuleAlgebra §1.T.1: the tower, shift, lim/lim¹,
   Mittag–Leffler, six-term and Milnor APIs used by compact continuous cochains.
+- Supplied by DerivedModuleAlgebra §S.1: the first-quadrant double-complex spectral sequence,
+  with its E₂ identification, abutment filtration, convergence, edge and five-term maps,
+  exact-row consequences and naturality.
+- Supplied by DerivedModuleAlgebra §1.M.1: Matlis duality for arithmetic coefficients.
+- Supplied by EnhancedDerivedSheaves §E1.8.DMA.1: `derivedTensor_affine`, the affine comparison
+  of module-derived tensor with SchemeAndStackFoundations §2.18.
 - `SchemeAndStackFoundations` Layer 2: §2.21 *Dualising complexes* (`DualizingComplex A ω` for a
   Noetherian ring, with `biduality`; `NormalizedDualizing A ω` for a Noetherian local ring,
   `RHom_A(κ, ω) ≅ κ[0]`); §2.7 *Cohomology with supports and local cohomology*
@@ -402,9 +411,9 @@ as inputs; and Galois representations attached to automorphic forms.
   Mathlib's `etaleTopology` on schemes over it, as in its conventions.
 - `DerivedModuleAlgebra` §0.2 *Derived tensor products on module derived categories*:
   `DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
-  `derivedTensor_triangulated` and `derivedTensor_affine`. Layer 1: §1.1 *Derived limits of towers*
+  `derivedTensor_triangulated`. Layer 1: §1.1 *Derived limits of towers*
   (`DerivedDeRham.derivedLimit`, `derivedLimit_surjective`, `derivedLimit_milnor`), using the
-  DerivedModuleAlgebra §R02.1.1 shift/Milnor calculation with the same `CompactCoefficients.Tower.lim` and
+  DerivedModuleAlgebra §1.T.1 shift/Milnor calculation with the same `CompactCoefficients.Tower.lim` and
   `CompactCoefficients.Tower.limOne` after forgetting scalars; §1.3 *The derived completion reflector*
   (`DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`); §1.5 *When ordinary quotient
   towers compute completion* (for a Noetherian ring, the derived completion of a complex with finitely
@@ -447,7 +456,7 @@ used before it is stated.
 ## Layer R02.1: Compact coefficients, limits and continuous extensions
 
 This layer extends continuous cohomology from discrete coefficients to compact and rational ones,
-working throughout with Mathlib's `continuousCohomology`. It uses DerivedModuleAlgebra §R02.1.1
+working throughout with Mathlib's `continuousCohomology`. It uses DerivedModuleAlgebra §1.T.1
 for `lim`, `lim¹`, the Mittag-Leffler criterion and the Milnor sequence, and PerfectoidTowers §P9.0
 for the inverse-limit and homogeneous–inhomogeneous cochain comparisons; proves Tate's inverse-limit
 theorem and the long exact sequences that need a continuous set-theoretic section; treats a lattice
@@ -460,7 +469,7 @@ modules, where they agree.
 
 ### R02.1.1 Tower algebra supplier
 
-Supplied by DerivedModuleAlgebra §R02.1.1: `CompactCoefficients.Tower`, its shift,
+Supplied by DerivedModuleAlgebra §1.T.1: `CompactCoefficients.Tower`, its shift,
 `Tower.lim`, `Tower.limOne`, Mathlib's Mittag–Leffler condition on the underlying
 functor, vanishing of lim¹ for Mittag–Leffler towers, the six-term sequence and
 the Milnor exact sequence for degreewise-surjective towers of complexes.
@@ -488,14 +497,14 @@ In particular `Hⁱ(G, T) = lim Hⁱ(G, T_n)` when every `H^{i−1}(G, T_n)` is 
 
 *Proof sketch.* By *Continuous cochains into an inverse limit* (PerfectoidTowers §P9.0),
 `C^•(G, T) = lim C^•(G, T_n)` with surjective transitions, and *The Milnor sequence for towers of
-complexes* (DerivedModuleAlgebra §R02.1.1) gives the short exact sequence. Finite groups
+complexes* (DerivedModuleAlgebra §1.T.1) gives the short exact sequence. Finite groups
 `H^{i−1}(G, T_n)` form a Mittag-Leffler tower
 (`Tower.isMittagLeffler_of_finite`), so `lim¹ = 0` ([Rubin, *Euler
 Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Proposition 2.3,
 printed p. 152 (PDF p. 162)). *Needs:* *Continuous cochains into an inverse limit*
-(PerfectoidTowers §P9.0); *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1);
-*Mittag-Leffler towers have vanishing lim¹*; *Comparison with the canonical carrier for compact
-coefficients* (PerfectoidTowers §P9.0).
+(PerfectoidTowers §P9.0); *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §1.T.1);
+*Mittag-Leffler towers have vanishing lim¹* (DerivedModuleAlgebra §1.T.1);
+*Comparison with the canonical carrier for compact coefficients* (PerfectoidTowers §P9.0).
 
 **Checks.**
 
@@ -596,7 +605,7 @@ cohomology*](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf), §4, Proposi
 Corollary 4.9, p. 227, Remark 4.14(b), p. 228; [Rubin, *Euler
 Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Proposition 2.4,
 printed p. 152 (PDF p. 162), which states the result after Tate). *Needs:* *Continuous cochains
-into V land in a lattice*; *Tate's inverse-limit theorem*; *The six-term sequence of lim and lim¹* (DerivedModuleAlgebra §R02.1.1).
+into V land in a lattice*; *Tate's inverse-limit theorem*; *The six-term sequence of lim and lim¹* (DerivedModuleAlgebra §1.T.1).
 
 **Checks.**
 
@@ -857,7 +866,7 @@ module and use completeness of `M` ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§2.1–2.3, pp. 51–53;
 §§3.1–3.2, pp. 75–78; §4.1, pp. 95–96; [Nakamura, *Zeta morphisms for rank two universal
 deformations*](https://arxiv.org/pdf/2006.13647), Appendix B, Lemmas B.29–B.31, author
-pp. 104–106; journal pp. 285–288). *Needs:* *lim and lim¹ of a tower* (DerivedModuleAlgebra §R02.1.1); Mathlib `AdicCompletion`.
+pp. 104–106; journal pp. 285–288). *Needs:* *lim and lim¹ of a tower* (DerivedModuleAlgebra §1.T.1); Mathlib `AdicCompletion`.
 
 **Checks.**
 
@@ -1017,6 +1026,7 @@ compact coefficients* (PerfectoidTowers §P9.0); ProfiniteCohomology Layer 12; M
 
 ### Dependencies
 
+- DerivedModuleAlgebra: §1.T.1 (tower algebra and Milnor).
 - TauCetiRoadmap ProfiniteCohomology: Layers 3, 4, 5, 10, 12.
 - Libraries: Mathlib `CategoryTheory.Functor.IsMittagLeffler`, Mathlib `continuous_pi_iff`,
   Mathlib `continuousCohomology`, Tau Ceti `TauCeti.exists_continuous_section`, Tau Ceti
@@ -1027,8 +1037,8 @@ compact coefficients* (PerfectoidTowers §P9.0); ProfiniteCohomology Layer 12; M
 
 TauCetiRoadmap ProfiniteCohomology constructs the five-term inflation–restriction–transgression
 sequence. This layer builds the full Hochschild–Serre spectral sequence of a closed normal subgroup
-of a profinite group with discrete coefficients, from the spectral sequence of a first-quadrant
-double complex, and identifies its edge maps with inflation and restriction, its low-degree sequence
+of a profinite group with discrete coefficients, using the first-quadrant double-complex
+spectral sequence supplied by DerivedModuleAlgebra §S.1, and identifies its edge maps with inflation and restriction, its low-degree sequence
 with ProfiniteCohomology's explicit five-term sequence, and its second differential with the
 transgression. It then proves the consequences: degeneration when the quotient has cohomological
 dimension at most one, descent along open subgroups of index prime to the coefficients,
@@ -1037,83 +1047,11 @@ with the extension class and its compatibility with norms, and the residue seque
 Laurent-series fields. The spectral sequence for compact coefficients, built from derived
 relative invariants, is *Relative compact Hochschild–Serre* (Layer D7).
 
-### R02.2.1 Spectral sequences of double complexes and of group extensions
+### R02.2.1 The Hochschild–Serre spectral sequence
 
-**The spectral sequence of a first-quadrant double complex.** Let `A^{••}` be a first-quadrant
-double complex of abelian groups (or of modules over a ring): `A^{pq} = 0` for `p < 0` or `q < 0`,
-with anticommuting differentials `d′` (in `p`) and `d″` (in `q`). The column filtration
-`FᵖTotⁿ = ⊕_{i≥p} A^{i,n−i}` of the total complex is biregular and gives a cohomological spectral
-sequence
-
-```text
-E₂^{pq} = H^p_I(H^q_{II}(A)) ⇒ Eⁿ = Hⁿ(Tot A).
-```
-
-It converges: `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`, and
-`E_∞^{pq} ≅ FᵖE^{p+q}/F^{p+1}E^{p+q}`. It has edge morphisms `E₂^{n,0} → Eⁿ → E₂^{0,n}` and the
-five-term exact sequence
-
-```text
-0 → E₂^{1,0} → E¹ → E₂^{0,1} → E₂^{2,0} → E².
-```
-
-If `E₂^{pq} = 0` for `0 < q < n`, then `E₂^{m,0} ≅ Eᵐ` for `m < n` and
-`0 → E₂^{n,0} → Eⁿ → E₂^{0,n} → E₂^{n+1,0} → E^{n+1}` is exact. If every row
-`A^{0q} → A^{1q} → ⋯` is exact in positive degrees, then
-`Eⁿ = Hⁿ(ker(A^{0•} → A^{1•}))`. The abutment and its filtration are part of the statement, since
-Mathlib's spectral sequence of a spectral object records only the pages.
-
-The API:
-
-- `DoubleComplex.spectralSequence`: the `E₂` spectral sequence of a first-quadrant double complex,
-  from Mathlib's spectral objects.
-- `DoubleComplex.e2Iso`: `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`.
-- `DoubleComplex.abutmentFiltration`: the column filtration `FᵖHⁿ(Tot A)`.
-- `DoubleComplex.eInftyIsoGr`: `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`.
-- `DoubleComplex.page_eq_eInfty`: `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
-- `DoubleComplex.edgeBottom`: `E₂^{n,0} → Hⁿ(Tot A)`.
-- `DoubleComplex.edgeLeft`: `Hⁿ(Tot A) → E₂^{0,n}`.
-- `DoubleComplex.fiveTerm_exact`: the five-term exact sequence (NSW (2.1.1)).
-- `DoubleComplex.exact_of_rows_vanish`: vanishing rows `0 < q < n` give the extended sequence
-  (NSW (2.1.2)).
-- `DoubleComplex.totalCohomology_of_exact_rows`: exact rows give
-  `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
-- `DoubleComplex.spectralSequence_map`: naturality in the double complex.
-
-*Proof sketch.* Mathlib builds a spectral object from any functor into cochain complexes by mapping
-cones (`HomotopyCategory.spectralObjectMappingCone`); apply it to the column-truncation filtration
-indexed by `EInt`, and pass to an abelian spectral object with the homology functor
-(`Triangulated.SpectralObject.mapHomologicalFunctor`). The first-quadrant condition
-(`Abelian.SpectralObject.IsFirstQuadrant`) holds because `A^{pq} = 0` outside the quadrant, and
-Mathlib's `spectralSequence` for `coreE₂CohomologicalNat` gives the `E₂` pages and differentials.
-Identify `E₂^{pq}` with `H^p_I(H^q_{II}(A))`: the `E₁` page is the vertical cohomology and `d₁` is
-induced by `d′` (NSW (2.2.1)). Convergence: the filtration is finite in each degree, so the pages
-stabilise for `r > max(p, q + 1)` and `E_∞` is the associated graded of `Hⁿ(Tot A)`. The edge
-morphisms and the five-term sequence come from the definition of the filtration (NSW (2.1.1),
-(2.1.2)); the exact-rows statement from the transposed double complex (NSW (2.2.4)). The source's
-anticommuting differentials become the commuting differentials of Mathlib's `HomologicalComplex₂`
-after a sign depending on the degree; its totalisation uses `ComplexShape.TensorSigns`, and the
-pages and edge maps are transported through the same convention ([Neukirch–Schmidt–Wingberg,
-*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); [Neukirch–Schmidt–Wingberg,
-*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Mathlib
-`HomotopyCategory.spectralObjectMappingCone`; Mathlib
-`CategoryTheory.Triangulated.SpectralObject.mapHomologicalFunctor`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.IsFirstQuadrant`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.coreE₂CohomologicalNat`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.spectralSequence`; Mathlib `HomologicalComplex₂.total`.
-
-**Checks.**
-
-- `one_row`: if `A^{pq} = 0` for `q > 0`, then `E₂^{p0} = Hᵖ(A^{•0}) = Hᵖ(Tot A)` and all
-  differentials vanish.
-- `one_column`: if `A^{pq} = 0` for `p > 0`, then `E₂^{0q} = H^q(A^{0•}) = H^q(Tot A)`.
-- `acyclic_square`: `A^{00} = A^{10} = ℤ` with `d′ = id` and all other terms `0`: `E₂ = 0` and
-  `H(Tot A) = 0`.
-- `low_degree`: `H⁰(Tot A) = E₂^{00}` for every first-quadrant double complex.
-- The abutment filtration is pinned: for a single row (`q = 0`) it is `FⁿHⁿ = Hⁿ`,
-  `F^{n+1}Hⁿ = 0`; for a single column (`p = 0`) it is `F⁰Hⁿ = Hⁿ`, `F¹Hⁿ = 0`.
+Supplied by DerivedModuleAlgebra §S.1: the first-quadrant double-complex spectral sequence,
+its E₂ identification, abutment filtration, convergence, edge maps, five-term sequence,
+exact-row consequences and naturality.
 
 **The Hochschild–Serre spectral sequence.** Let `G` be a profinite group, `H` a closed normal
 subgroup and `A` a discrete `G`-module, with jointly continuous action (a smooth discrete
@@ -1149,7 +1087,7 @@ The API:
 *Proof sketch.* Apply `H⁰(H, −)` to the standard resolution `A → X^•(G, A)` by induced modules, and
 form the double complex `C^{pq} = Cᵖ(G/H, H⁰(H, X^q))` with `d′` the cochain differential and
 `d″ = (−1)ᵖ` times the differential of `X^•` (*The spectral sequence of a first-quadrant double
-complex*). Since `Cᵖ(G/H, −)` is exact on discrete modules, the vertical cohomology is
+complex* (DerivedModuleAlgebra §S.1)). Since `Cᵖ(G/H, −)` is exact on discrete modules, the vertical cohomology is
 `Cᵖ(G/H, H^q(H, A))` and `E₂^{pq} = Hᵖ(G/H, H^q(H, A))`. The rows are exact in positive degrees
 because each `H⁰(H, X^q)` is an induced `G/H`-module (ProfiniteCohomology Layer 7), so by the
 exact-rows statement the abutment is `Hⁿ(X^•(G, A)^G) = Hⁿ(G, A)`, the homogeneous continuous-cochain
@@ -1160,7 +1098,7 @@ Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), 
 Theorem 2.4.1, printed p. 111 (PDF p. 128); [Neukirch–Schmidt–Wingberg, *Cohomology of Number
 Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter II, §4,
 Exercises 1, 3, 5, printed p. 119 (PDF p. 136)). *Needs:* *The spectral sequence of a
-first-quadrant double complex*; ProfiniteCohomology Layers 3, 7, 10 and 12; Mathlib
+first-quadrant double complex* (DerivedModuleAlgebra §S.1); ProfiniteCohomology Layers 3, 7, 10 and 12; Mathlib
 `continuousCohomology`.
 
 **Checks.**
@@ -1197,10 +1135,10 @@ vanish (NSW (2.4.5)). (3) For trivial `G₁`-coefficients `C^•(G₁, B) ≅ C^
 complex is a tensor product with a complex of flat `ℤ`-modules, and the Künneth argument
 degenerates it (NSW (2.4.6), after Jannsen). (4) Two nonzero rows, or, when `cd(G/H) ≤ 1` and `A` is
 torsion, two nonzero columns (ProfiniteCohomology Layer 11), in *The spectral sequence of a
-first-quadrant double complex* (NSW II §4, Exercise 4; Lemma 2.1.3) ([Neukirch–Schmidt–Wingberg,
+first-quadrant double complex* (DerivedModuleAlgebra §S.1) (NSW II §4, Exercise 4; Lemma 2.1.3) ([Neukirch–Schmidt–Wingberg,
 *Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
 Chapter II, §4, Theorem 2.4.6, printed p. 118 (PDF p. 135)). *Needs:* *The Hochschild–Serre
-spectral sequence*; *The spectral sequence of a first-quadrant double complex*; ProfiniteCohomology
+spectral sequence*; *The spectral sequence of a first-quadrant double complex* (DerivedModuleAlgebra §S.1); ProfiniteCohomology
 Layer 11.
 
 **Checks.**
@@ -1235,16 +1173,16 @@ is the inflation–restriction–transgression sequence of ProfiniteCohomology L
 is exact.
 
 *Proof sketch.* The five-term sequence is that of *The spectral sequence of a first-quadrant double
-complex*, with edge maps inflation and restriction (*The Hochschild–Serre spectral sequence*). For
+complex* (DerivedModuleAlgebra §S.1), with edge maps inflation and restriction (*The Hochschild–Serre spectral sequence*). For
 `d₂^{0,1} = tg`: an element of `H¹(H, A)^{G/H}` is represented by an `H`-invariant `1`-cocycle `x` of
 the resolution; `G/H`-invariance gives `b` with `d(b_{σ,ρ}) = ρx − σx`, which may be taken
 `G`-invariant, normalised and factoring through `G/H × G/H`; the cocycle `∂b` represents
 `d₂^{0,1}`, and `y_σ = x_{1,σ} + b_{1,σ}(σ)` has the properties defining `tg`, with `∂y = ∂b`
 (NSW (2.4.3), proof of Moser and Stix). The extended sequence is the vanishing-rows case of *The
-spectral sequence of a first-quadrant double complex* ([Neukirch–Schmidt–Wingberg, *Cohomology of
+spectral sequence of a first-quadrant double complex* (DerivedModuleAlgebra §S.1) ([Neukirch–Schmidt–Wingberg, *Cohomology of
 Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter II, §4,
 Theorem 2.4.3, printed p. 113 (PDF p. 130)). *Needs:* *The Hochschild–Serre spectral sequence*;
-*The spectral sequence of a first-quadrant double complex*; ProfiniteCohomology Layer 5.
+*The spectral sequence of a first-quadrant double complex* (DerivedModuleAlgebra §S.1); ProfiniteCohomology Layer 5.
 
 **Checks.**
 
@@ -1382,7 +1320,7 @@ The full spectral sequence for compact coefficients is *Relative compact Hochsch
 *Proof sketch.* (1) is the cochain proof of the discrete case (ProfiniteCohomology Layer 5), which
 does not use discreteness. (2) For `T` finitely generated over `ℤ_p`, apply *The five-term sequence
 and the transgression* to the discrete modules `T/pᵐT`; the hypotheses make every term finite, so
-the inverse limit over `m` is exact (*Mittag-Leffler towers have vanishing lim¹* (DerivedModuleAlgebra §R02.1.1)), and
+the inverse limit over `m` is exact (*Mittag-Leffler towers have vanishing lim¹* (DerivedModuleAlgebra §1.T.1)), and
 *Tate's inverse-limit theorem* (Layer R02.1) identifies the limits with the cohomology of `T`. The
 terms with coefficients `(T/pᵐT)^H` need one more step, since `(T/pᵐT)^H` is not `T^H/pᵐT^H` in
 general and the transitions of the tower `((T/pᵐT)^H)_m` need not be surjective: its limit is
@@ -1394,7 +1332,7 @@ limit of cohomology groups, to which Tate's theorem applies. For a
 Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Proposition 2.5,
 printed p. 152 (PDF p. 162)). *Needs:* *The five-term sequence and the transgression*; *Tate's
 inverse-limit theorem* (Layer R02.1); *Rationalisation of lattice cohomology* (Layer R02.1);
-*Mittag-Leffler towers have vanishing lim¹* (DerivedModuleAlgebra §R02.1.1); ProfiniteCohomology Layer 5.
+*Mittag-Leffler towers have vanishing lim¹* (DerivedModuleAlgebra §1.T.1); ProfiniteCohomology Layer 5.
 
 **Checks.**
 
@@ -1501,6 +1439,8 @@ residue field; the Witt sequence for an arbitrary perfect residue field is prove
 ### Dependencies
 
 - Earlier layers of this roadmap: R02.1.
+- DerivedModuleAlgebra: §S.1 (the first-quadrant double-complex spectral sequence); §1.T.1
+  (Mittag–Leffler towers and Milnor).
 - TauCetiRoadmap ProfiniteCohomology: Layers 3, 4, 5, 6, 7, 9, 10, 11, 12.
 - TauCetiRoadmap ClassFieldTheory: Layer 5.
 - Libraries: Mathlib `HomotopyCategory.spectralObjectMappingCone`, Mathlib
@@ -4111,7 +4051,7 @@ commutatifs*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/
 §2, proof of Theorem 2, author pp. 10–11, specialized to `[0 → T]`.)
 *Needs:* *Local torus evaluation and modified adelic points*; *All-place Sha duality and transfer
 adjunction*; *Tate's duality theorem for a class formation*; *Ext of discrete G-modules*;
-*The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1); ProfiniteCohomology Layers 7 and 9.
+*The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §1.T.1); ProfiniteCohomology Layers 7 and 9.
 
 **Checks.**
 
@@ -4253,9 +4193,9 @@ This layer puts continuous cochains with compact and cofinite coefficients into 
 category and proves Nekovář's derived local and global duality. It first develops the coefficient
 algebra this needs: perfect amplitude and the Tor spectral sequence for the module-derived tensor
 product supplied by DerivedModuleAlgebra §0.2, the comparison of its §1.1 derived limits with
-the DerivedModuleAlgebra §R02.1.1 tower API, Matlis duality over a complete Noetherian local ring, Grothendieck local
-duality for a normalised dualizing complex, the spectral sequence of a composite of derived
-functors, flatness of continuous functions into an adic ring, and the Hilbert–Samuel Euler
+the DerivedModuleAlgebra §1.T.1 tower API. Using Matlis duality from DerivedModuleAlgebra
+§1.M.1, it proves Grothendieck local duality for a normalised dualizing complex, the spectral
+sequence of a composite of derived functors, flatness of continuous functions into an adic ring, and the Hilbert–Samuel Euler
 function. It then defines admissible and ind-admissible coefficients, the derived continuous
 cochain functor with its finiteness and base-change properties, the compact Hochschild–Serre
 spectral sequence, the local duality morphisms with their invariant trivialisation, compactly
@@ -4270,8 +4210,9 @@ statements.
 **Derived tensor, perfect amplitude and Tor.** Let `R → R′` be a homomorphism of commutative
 rings. The left-derived tensor functor `R′ ⊗^L_R − : D(R) → D(R′)` between Mathlib's derived
 categories of modules is the derived extension of scalars supplied by DerivedModuleAlgebra
-§0.2, using `DerivedDeRham.derivedTensor` and its K-flat models. Use its exactness and its
-`derivedTensor_affine` comparison with SchemeAndStackFoundations §2.18. Call
+§0.2, using `DerivedDeRham.derivedTensor` and its K-flat models. Use its exactness and the
+`derivedTensor_affine` comparison supplied by EnhancedDerivedSheaves §E1.8.DMA.1 with
+SchemeAndStackFoundations §2.18. Call
 `C ∈ D(R)` perfect with amplitude in `[a, b]` if it is represented by a bounded complex of finite
 projective `R`-modules in degrees `[a, b]`; then `R′ ⊗^L_R C` is represented by the degreewise
 tensor product, again in degrees `[a, b]`. For such `C` there is a convergent spectral sequence
@@ -4300,8 +4241,9 @@ groups*](https://msp.org/ant/2013/7-7/ant-v7-n7-p02-p.pdf), §1, Theorem 1.1, Le
 More on Algebra, Definition 15.60.13, tag 064M, with Lemma 15.60.12, tag 064L.) *Needs:*
 DerivedModuleAlgebra §0.2 *Derived tensor products on module derived categories*
 (`DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
-`derivedTensor_triangulated`, `derivedTensor_affine`, including its comparison through
-SchemeAndStackFoundations §2.18 `DQCoh.affineEquiv`); Mathlib
+`derivedTensor_triangulated`); EnhancedDerivedSheaves §E1.8.DMA.1
+(`derivedTensor_affine`, the comparison through SchemeAndStackFoundations §2.18
+`DQCoh.affineEquiv`); Mathlib
 `DerivedCategory`; Mathlib `HomologicalComplex₂.total`; Mathlib `CategoryTheory.Tor`; Mathlib
 `HomotopyCategory.spectralObjectMappingCone`; Mathlib
 `CategoryTheory.Abelian.SpectralObject.spectralSequence`.
@@ -4350,7 +4292,7 @@ the six-term connecting map, and every map in `derivedLimit_milnor`, identifying
 ```
 
 For degreewise-surjective transitions, `derivedLimit_surjective` identifies the middle term with
-`H^j(lim K_n)` and the whole sequence with DerivedModuleAlgebra §R02.1.1's *The Milnor sequence for towers of complexes*.
+`H^j(lim K_n)` and the whole sequence with DerivedModuleAlgebra §1.T.1's *The Milnor sequence for towers of complexes*.
 The module `lim` and `lim¹` use the kernel and cokernel of the same `R`-linear shift; their
 underlying additive carriers are `Tower.lim` and `Tower.limOne`, with the induced `R`-action.
 
@@ -4360,7 +4302,7 @@ compatibility with the connecting map. Apply the early Milnor proof to a degreew
 replacement from DerivedModuleAlgebra §1.1; its natural long exact sequence identifies all the Milnor maps. ([Stacks
 Project](https://stacks.math.columbia.edu/tag/091D), More on Algebra, Lemmas 15.89.1, 15.89.3–15.89.4,
 tags 091D, 0CQD, 0CQE; Lemmas 15.88.1, 15.88.9–15.88.10, tags 07KW, 07KX, 07KY.) *Needs:*
-DerivedModuleAlgebra §R02.1.1 *lim and lim¹ of a tower*, *The six-term sequence of lim and lim¹* and *The Milnor sequence
+DerivedModuleAlgebra §1.T.1 *lim and lim¹ of a tower*, *The six-term sequence of lim and lim¹* and *The Milnor sequence
 for towers of complexes*; DerivedModuleAlgebra §1.1 `DerivedDeRham.derivedLimit`,
 `derivedLimit_surjective`, `derivedLimit_milnor`.
 
@@ -4369,41 +4311,15 @@ for towers of complexes*; DerivedModuleAlgebra §1.1 `DerivedDeRham.derivedLimit
 - For the constant module tower `M[0]`, the comparison is the diagonal map on `lim`, `lim¹ = 0`,
   and the Milnor projection in degree zero is the identity of `M`.
 - Over `ℤ`, for `K_n = [ℤ → ℤ/p^{n+1}]` in degrees `0, 1`, the comparison sends the Milnor
-  injection `lim¹ p^{n+1}ℤ → H¹([ℤ → ℤ_p])` to the explicit `ℤ_p/ℤ` identification in DerivedModuleAlgebra §R02.1.1.
+  injection `lim¹ p^{n+1}ℤ → H¹([ℤ → ℤ_p])` to the explicit `ℤ_p/ℤ` identification in DerivedModuleAlgebra §1.T.1.
 - For `K_n = ℤ[0]` with transition multiplication by a prime `p`, the comparison gives
   `H⁰(derivedLimit K) = 0` and `H¹(derivedLimit K) = (mulTower p).limOne ≅ ℤ_p/ℤ ≠ 0`;
   this tower has no surjective transitions, so its ordinary limit does not compute its derived limit.
 
-**Matlis duality for arithmetic coefficients.** Let `R` be a complete Noetherian local ring with
-maximal ideal `𝔪` and finite residue field `k`, and fix an injective hull `E_R(k)` of `k`: an
-injective `R`-module containing `k` as an essential submodule (an arbitrary injective module
-containing `k` does not give biduality). The functor `D(M) = Hom_R(M, E_R(k))` is contravariant and
-exact; it exchanges finitely generated `R`-modules with Artinian (cofinite-type) `R`-modules, and
-the evaluation map `M → D(D(M))` is an isomorphism for `M` in either class. Finitely generated
-modules carry their `𝔪`-adic topology and cofinite-type modules the discrete topology. For a module
-with a continuous action of a group `G`, `D(M)` carries the contragredient action
-`(gφ)(m) = φ(g⁻¹m)`, and evaluation, reduction modulo `𝔪ⁿ` and passage to inverse and direct limits
-are `G`-equivariant. Applied termwise, `D` gives Matlis duality on complexes, and the biduality map
-is a quasi-isomorphism for complexes whose cohomology is of finite type or of cofinite type. For
-modules in neither class biduality fails (Check). The comparison with a normalised dualizing
-complex and local cohomology is *Grothendieck local duality for a complete Noetherian local ring*.
-
-*Proof sketch.* Construct an essential injective hull of `k` inside an injective module
-containing it. Exactness of `D` is injectivity of `E_R(k)`; biduality for modules of finite length
-follows by induction on the length. Completeness of `R` and the compatible reductions modulo `𝔪ⁿ`
-give the anti-equivalence between finite-type and cofinite-type modules and its equivariant form.
-([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§2.2–2.3,
-pp. 51–53; §3.1, pp. 75–76.) *Needs:* Mathlib `DerivedCategory`; Mathlib
-`CategoryTheory.IsGrothendieckAbelian.enoughInjectives`.
-
-**Checks.**
-
-- For `R = ℤ_p`, `E_R(k) = ℚ_p/ℤ_p`, `D(ℤ_p^r) = (ℚ_p/ℤ_p)^r` and `D((ℚ_p/ℤ_p)^r) = ℤ_p^r`: a
-  lattice is dual to a cofinite-type module and conversely.
-- `D(k) = Hom_R(k, E_R(k)) = k` (the socle of `E_R(k)`), and `k → D(D(k))` is an isomorphism; by
-  induction on length every module of finite length is canonically bidual.
-- For `R = k` (so `E_R(k) = k`) and `M = ⊕_ℕ k`, which is neither finitely generated nor Artinian,
-  `D(M) = ∏_ℕ k` and `M → D(D(M))` is injective but not surjective.
+Supplied by DerivedModuleAlgebra §1.M.1: *Matlis duality for arithmetic coefficients*,
+including the contragredient action, evaluation biduality and the finite-type/cofinite-type
+comparison on complexes. Its comparison with a normalised dualizing complex and local
+cohomology is constructed by the following target.
 
 **Grothendieck local duality for a complete Noetherian local ring.** Let `(R, 𝔪, k)` be a complete
 Noetherian local ring of dimension `d`, `E = E_R(k)` an injective hull of the residue field,
@@ -4445,7 +4361,7 @@ for the finite and Artinian cohomology modules. *Needs:* SchemeAndStackFoundatio
 local cohomology*: `localCohomology_colimit_ext_comparison`; §2.18: `derivedTensor` and `derivedHom`
 of modules); DerivedModuleAlgebra Layer 1 (§1.3 *The derived completion reflector*:
 `DerivedDeRham.derivedCompletion`; §1.5 *When ordinary quotient towers compute completion*);
-*Matlis duality for arithmetic coefficients*; Mathlib `localCohomology`.
+*Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); Mathlib `localCohomology`.
 
 **Checks.**
 
@@ -4480,7 +4396,7 @@ resolution and apply `H`, obtaining a first-quadrant double complex. The acyclic
 identifies one of its filtrations with `R(H ∘ F)(X)`; the other gives the displayed page. Use the
 double-complex spectral sequence and identify the edge maps.
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §3.6.3–3.6.5,
-pp. 92–93.) *Needs:* *The spectral sequence of a first-quadrant double complex* (Layer R02.2);
+pp. 92–93.) *Needs:* *The spectral sequence of a first-quadrant double complex* (DerivedModuleAlgebra §S.1);
 Mathlib `DerivedCategory`.
 
 **Checks.**
@@ -4617,7 +4533,7 @@ of the cohomological sequence. Over a field, dualise the finite-dimensional chai
 detection in homology is the index identity for corestriction and transfer; in cohomology it is the
 cited Tau Ceti statement. ([Calegari–Dimitrov–Tang, *The unbounded denominators
 conjecture*](https://www.math.uchicago.edu/~fcale/papers/UDC.pdf), §4.5, pp. 661–663.) *Needs:*
-*Matlis duality for arithmetic coefficients*;
+*Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1);
 *Restriction and corestriction descent for finite index* (Layer R02.2); ProfiniteCohomology Layer
 10; Mathlib `groupCohomology`; Tau Ceti
 `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` and
@@ -4649,7 +4565,7 @@ colimit over finite sets of coordinates. ([Calegari–Dimitrov–Tang, *The unbo
 conjecture*](https://www.math.uchicago.edu/~fcale/papers/UDC.pdf), §4.5, pp. 661–665.) *Needs:*
 *Finite-group universal coefficients and Sylow detection*; *Degeneration of the Hochschild–Serre
 spectral sequence* (Layer R02.2); *Derived tensor, perfect amplitude and Tor*; *Matlis duality for
-arithmetic coefficients*; ProfiniteCohomology Layer 4.
+arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); ProfiniteCohomology Layer 4.
 
 **Checks.**
 
@@ -4698,7 +4614,7 @@ products. Their exact inclusion into all `R[G]`-modules has the right adjoint `j
 to injective embeddings of `R[G]`-modules gives enough injectives (Nekovář 3.3.5). ([Nekovář,
 *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§3.2.1–3.3.6,
 pp. 75–81; §4.1, pp. 95–96.) *Needs:* *Adic continuous-map flatness*; *Completed tensor products
-and finite reductions* (Layer R02.1); *Matlis duality for arithmetic coefficients*; Mathlib
+and finite reductions* (Layer R02.1); *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); Mathlib
 `TopRep`; Tau Ceti `TauCeti.DiscreteRep`; Mathlib `Subrepresentation`; Mathlib
 `Subrepresentation.toRepresentation`.
 
@@ -4757,8 +4673,8 @@ complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§3.3–3.6,
 cohomology*](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf), §2, Theorem 2.2, pp. 215–216.)
 *Needs:* *Admissible compact and cofinite coefficients*; *Comparison with the canonical carrier for
 compact coefficients* (PerfectoidTowers §P9.0); *The Milnor sequence for towers of complexes*
-(DerivedModuleAlgebra §R02.1.1);
-*Derived tensor, perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients*;
+(DerivedModuleAlgebra §1.T.1);
+*Derived tensor, perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1);
 ProfiniteCohomology Layer 10.
 
 **Checks.**
@@ -4810,7 +4726,7 @@ complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§3.6.2–3.
 §§4.2.1–4.2.2, pp. 96–97; §§4.4.1–4.4.7, pp. 102–104; [Jannsen, *Continuous étale
 cohomology*](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf), §2, Theorem 2.2, pp. 215–216.)
 *Needs:* *The Hochschild–Serre spectral sequence* (Layer R02.2); *The Milnor sequence for towers of
-complexes* (DerivedModuleAlgebra §R02.1.1); *Admissible compact and cofinite coefficients*; *Derived tensor, perfect
+complexes* (DerivedModuleAlgebra §1.T.1); *Admissible compact and cofinite coefficients*; *Derived tensor, perfect
 amplitude and Tor*; *Derived composite spectral sequence*; *Continuous cochains in the derived
 category*; *Tate's inverse-limit theorem* (Layer R02.1).
 
@@ -4857,7 +4773,7 @@ pp. 1574–1576; proof pp. 1577–1578.) *Needs:* *Continuous cochains in the de
 *Finiteness of Galois cohomology with restricted ramification* (Layer R02.4); *Cohomological
 dimension of G_{K,S}* (Layer R02.4); *Derived tensor, perfect amplitude and Tor*;
 *Residual criterion for perfect amplitude*; *Matlis duality
-for arithmetic coefficients*.
+for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1).
 
 **Checks.**
 
@@ -4925,7 +4841,7 @@ morphisms for rank two universal deformations*](https://arxiv.org/pdf/2006.13647
 Lemmas B.29–B.31 and Corollary B.32, author pp. 104–106; journal pp. 285–288.) *Needs:* *Continuous
 cochains in the derived category*; *Cohomological finiteness and perfect amplitude*; *Completed
 tensor products and finite reductions* (Layer R02.1); *Derived tensor, perfect amplitude and Tor*;
-*Matlis duality for arithmetic coefficients*; *Adic continuous-map flatness*;
+*Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); *Adic continuous-map flatness*;
 *Compact Shapiro and projection formulas*.
 
 **Checks.**
@@ -5026,12 +4942,12 @@ The API:
 
 *Proof sketch.* The adjunction `Hom(A ⊗ B, C) = Hom(A, Hom(B, C))` (Nekovář 1.2.6) turns the pairing
 into `α`. Independence of `r_{v,J}`: two retractions into the K-injective target are homotopic.
-*Matlis duality for arithmetic coefficients* (Nekovář 2.3.2) gives `ε_J` in case (A), and
+*Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1; Nekovář 2.3.2) gives `ε_J` in case (A), and
 *Grothendieck local duality for a complete Noetherian local ring* (Nekovář 2.6, 2.8.11) in case (B).
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.2.2–5.2.3,
 pp. 115–116 (PDF 124–125).) *Needs:* *The local invariant map as a quasi-isomorphism*; *Continuous
 cochains into an inverse limit* (PerfectoidTowers §P9.0); *Matlis duality for arithmetic
-coefficients*;
+coefficients* (DerivedModuleAlgebra §1.M.1);
 *Continuous cochains in the derived category*; *Grothendieck local duality for a complete Noetherian
 local ring*; ProfiniteCohomology Layer 12; SchemeAndStackFoundations Layer 2, §2.21
 (`NormalizedDualizing`).
@@ -5079,8 +4995,8 @@ Mittag-Leffler lemmas (Nekovář 4.1.2, 4.2.4); dually for `A` of cofinite type.
 sequence is 2.8.6 applied to the diagram. ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.2.4–5.2.6 and 5.2.10,
 pp. 116–121 (PDF 125–130).) *Needs:* *The local duality morphisms α_{J,X}*; *The local invariant map
-as a quasi-isomorphism*; *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1); *Mittag-Leffler
-towers have vanishing lim¹* (Layer R02.1); *Matlis duality for arithmetic coefficients*;
+as a quasi-isomorphism*; *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §1.T.1); *Mittag-Leffler
+towers have vanishing lim¹* (DerivedModuleAlgebra §1.T.1); *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1);
 *Cohomological finiteness and perfect amplitude*; *Derived tensor, perfect amplitude and Tor*;
 *Grothendieck local duality for a complete Noetherian local ring*; ClassFieldTheory Layer 5.
 
@@ -5310,7 +5226,7 @@ diagram of 5.3.3.4 replacing that of 3.4.5.4, and Theorem 5.4.5 as 5.2.6, from P
 pp. 126–128 (PDF 135–137).) *Needs:* *The global invariant map on H³_c*; *Cup products with compact
 support*; *Derived local Tate duality*; *The local duality morphisms α_{J,X}*; *Poitou–Tate duality
 and the nine-term exact sequence* (Layer R02.4); *Tate's global duality for the S-idele classes*
-(Layer R02.4); *Matlis duality for arithmetic coefficients*; *Cohomological finiteness and perfect
+(Layer R02.4); *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); *Cohomological finiteness and perfect
 amplitude*; *Prime-to-characteristic function-field Poitou–Tate duality* (Layer R02.4);
 *Grothendieck local duality for a complete Noetherian local ring*.
 
@@ -5453,7 +5369,7 @@ make the alternating sums finite. ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.3.5–5.3.7, pp. 124–125
 (PDF 133–134).) *Needs:* *Continuous cochains with compact support*; *Tate's global Euler
 characteristic formula* (Layer R02.4); *The Euler characteristic quotient is multiplicative* (Layer
-R02.4); *Derived tensor, perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients*;
+R02.4); *Derived tensor, perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1);
 *Hilbert–Samuel Euler function*.
 
 **Checks.**
@@ -5497,7 +5413,7 @@ Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2
 2.3–2.5, pp. 151–152; §3, pp. 153–154; [Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§5.2, 5.4, 5.7, pp. 116–133.)
 *Needs:* *Poitou–Tate duality and the nine-term exact sequence* (Layer R02.4); *The Milnor sequence
-for towers of complexes* (DerivedModuleAlgebra §R02.1.1); *Tate's inverse-limit theorem* (Layer R02.1);
+for towers of complexes* (DerivedModuleAlgebra §1.T.1); *Tate's inverse-limit theorem* (Layer R02.1);
 *Rationalisation of lattice cohomology* (Layer R02.1); *The sequence T → V → W and the torsion of
 H¹(T)* (Layer R02.1); *Duality when p = 2 and K has real places*; *Adic continuous-map flatness*.
 
@@ -5603,7 +5519,7 @@ integration*](https://arxiv.org/pdf/1810.06739v2), §6.5, opening Tate-duality a
 discussion, author p. 42; [Milne, *Arithmetic Duality
 Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), I, Lemma 3.1, p. 40; Theorem 3.2, p. 41;
 Corollary 3.4, p. 43.) *Needs:* *Abelian-variety Ext on the big étale site*; *Derived tensor,
-perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients*; *Derived local Tate
+perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); *Derived local Tate
 duality*; ClassFieldTheory Layer 5; AbelianSchemesAndArithmeticModuli Layer A2, §A2.2
 (`AbelianScheme.dual`); AlgebraicModuliForArithmeticGeometry Layer 4, §4.20 (`gerbeClass`, the
 classification of banded gerbes by `H²`); SchemeAndStackFoundations Layer 2, §2.15
@@ -5912,7 +5828,9 @@ exact annihilators*).
   (`derivedTensor`, `derivedHom`; the affine case `⊗^L_A`).
 - DerivedModuleAlgebra: §0.2 *Derived tensor products on module derived categories*; Layer 1,
   §1.1 *Derived limits of towers*; §1.3 *The derived completion reflector*; §1.5 *When ordinary
-  quotient towers compute completion*.
+  quotient towers compute completion*; §1.T.1 (tower algebra and Milnor); §1.M.1
+  (Matlis duality for arithmetic coefficients); §S.1 (the double-complex spectral sequence).
+- EnhancedDerivedSheaves: §E1.8.DMA.1 (`derivedTensor_affine`).
 - TauCetiRoadmap ProfiniteCohomology: Layers 4, 7, 10, 12.
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7.
 - AbelianSchemesAndArithmeticModuli: Layer A2, §A2.2 (the dual abelian scheme).
