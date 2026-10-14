@@ -34,7 +34,6 @@ Design choices.
 
 namespace TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
-set_option autoImplicit false
 
 noncomputable section
 
