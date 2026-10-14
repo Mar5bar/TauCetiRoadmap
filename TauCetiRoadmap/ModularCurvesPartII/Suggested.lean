@@ -19,7 +19,6 @@ Their supplier is §R2.11, `compactified-moduli-generalised-elliptic-curves`.
 namespace TauCetiRoadmap.ModularCurvesPartII
 
 open scoped BigOperators TensorProduct
-set_option maxRecDepth 4096
 noncomputable section
 
 /-! ## Layer 0: general inputs on stacks and invariant rings -/
