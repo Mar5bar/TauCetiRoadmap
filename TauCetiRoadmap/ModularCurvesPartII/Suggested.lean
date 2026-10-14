@@ -236,8 +236,9 @@ example :
 
 /-! ## Layer 11: explicit semistable split-Cartan models -/
 
-/-- Ramification exponent of the chosen root ϖ^((ℓ²−1)/2)=ℓ.
-BDMTV Theorems 6.5–6.6, pp.928–929; the chosen root is stronger than its square equation. -/
+/-- Ramification exponent for the split-Cartan normalizer model X_s⁺ of README §11.7,
+with the chosen root ϖ^((ℓ²−1)/2)=ℓ. BDMTV Theorems 6.5–6.6, pp.928–929;
+the chosen root is stronger than its square equation. -/
 def splitCartanRamificationIndex (ℓ : ℕ) : ℕ := (ℓ ^ 2 - 1) / 2
 
 
@@ -319,6 +320,47 @@ end Parabolic
 /-- An image can fail to be saturated over ℤ; integral duality needs more than this definition. -/
 example : (2 : ℤ) ∈ parabolicH1 (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) ∧
     (1 : ℤ) ∉ parabolicH1 (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) := by sorry
+
+/-- Transport of an ideal through the adjoint ring equivalence. For an involution `ι`,
+this is the ideal of `t` such that `ι t` lies in `m`, as in README §14.11. -/
+def adjointIdeal {T : Type*} [CommRing T] (ι : T ≃+* T) (m : Ideal T) : Ideal T :=
+  m.comap ι.symm.toRingHom
+
+/-- Identity adjoint transport preserves every ideal. -/
+example {T : Type*} [CommRing T] (m : Ideal T) :
+    adjointIdeal (RingEquiv.refl T) m = m := by
+  sorry
+
+/-- Involutive adjoint transport applied twice returns the original ideal. -/
+example {T : Type*} [CommRing T] (ι : T ≃+* T)
+    (hι : Function.Involutive ι) (m : Ideal T) :
+    adjointIdeal ι (adjointIdeal ι m) = m := by
+  sorry
+
+/-- The adjoint may exchange distinct maximal ideals rather than fix them. -/
+example : adjointIdeal (RingEquiv.prodComm : (ℚ × ℚ) ≃+* (ℚ × ℚ)) (RingHom.ker (RingHom.fst ℚ ℚ)) =
+    RingHom.ker (RingHom.snd ℚ ℚ) := by
+  sorry
+
+/-- A diamond-invariant bilinear pairing vanishes on a same-character block when
+`a² - 1` is a unit. Its dual block has the inverse character (README §14.11). -/
+theorem diamondPairing_sameCharacter_zero {R M : Type*} [CommRing R]
+    [AddCommGroup M] [Module R M] (B : M →ₗ[R] M →ₗ[R] R) (D : M →ₗ[R] M)
+    (hB : ∀ x y, B (D x) (D y) = B x y) (a : R) (ha : IsUnit (a ^ 2 - 1))
+    (x y : M) (hx : D x = a • x) (hy : D y = a • y) : B x y = 0 := by
+  sorry
+
+/-- The residual value 2 in 𝔽₇ is nonquadratic: it has order three and a²-1 is a unit. -/
+example : (2 : ZMod 7) ^ 3 = 1 ∧ (2 : ZMod 7) ^ 2 ≠ 1 ∧
+    IsUnit ((2 : ZMod 7) ^ 2 - 1) := by
+  decide
+
+/-- Multiplication pairs the 2-character line with its inverse 4-character line. -/
+example (x y : ZMod 7) : (2 * x) * (4 * y) = x * y := by
+  have h : (2 : ZMod 7) * 4 = 1 := by decide
+  calc
+    (2 * x) * (4 * y) = ((2 : ZMod 7) * 4) * (x * y) := by ring
+    _ = x * y := by rw [h, one_mul]
 
 /-! ## Layer 15: Ihara and change of level -/
 
@@ -508,6 +550,10 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * Atkin–Lehner quotient curves X₀⁺(N)
 * Geometric weight coefficient systems
 * Finite and adic parabolic cohomology
+* The natural parabolic pairing between the m and adjointIdeal m summands, with
+  two-sided boundary and reduction hypotheses, distinct from Fricke transport
+* The GL₂ arithmetic Betti/support comparison of §14.4, including coefficient
+  monodromy, inverse-double-coset adjoints and finite-cover descent
 * The two geometric degeneracy pullbacks
 * Congruence classes in ordinary H¹
 * The Hecke prime and coefficient field of a newform

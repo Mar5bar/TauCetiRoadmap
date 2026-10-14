@@ -20,6 +20,18 @@ The generic Bruhat–Tits tree and local SL₂ amalgam are owned by ReductiveGro
 
 The construction of eigenform Galois representations, higher-weight Deligne congruences, level lowering, Serre weights, patching, R=T and identification of a modular quotient with a specified elliptic curve belong to the downstream roadmaps named below. This roadmap supplies modular character maps and their finite lattice errors. The quaternionic character sequence of Ribet–Stein (3.2) requires a separately owned quaternionic/Cerednik–Drinfeld construction.
 
+The shared arithmetic-cohomology interfaces have the following ownership. Each comparison below is a specialization on a neat fine GL₂ level, followed by the stated finite-cover descent where needed; it does not consume higher-rank boundary theorems or conditional Galois inputs.
+
+| Interface | Supplier | Modular specialization and retained work |
+| --- | --- | --- |
+| Betti coefficients and supported complexes | [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces) ALS.1.1–ALS.1.8 | §§14.1–14.4 compare the chosen GL₂/ℚ component with Γ\ℍ. Use the dual of the fibre homology representation for R¹f_* and Sym^r thereof. Match the row-frame convention with ALS.1.1’s whole-inverse endpoint transport; the elliptic-family construction and finite étale comparison stay here. |
+| Hecke and boundary/support maps | ALS.3.5–ALS.3.9 and ALS.4.1 | §§14.3–14.4 and 14.8 identify pullback/trace with the actual modular isogeny correspondence and the support map. In weight two this is unnormalized curve trace; higher weights retain §14.8’s coefficient transport. Cusp inertia and the weight-two Eisenstein calculation of §14.9 stay here. |
+| Coefficient duality and adjoint ideals | ALS.5a.3–ALS.5a.5 | §14.11 identifies evaluation/trace with the elliptic coefficient cup pairing, including twists; inverse double cosets become reversed modular legs and transposed coefficient maps. The duality projector is at m†, with inverse diamonds at r=0. The Fricke pairing of §14.7 is a separate transport. |
+| Finite-cover descent | ALS.6.1–ALS.6.3, using AlgebraicTopology Stage 5 | §§17.8–17.10 identify descent and augmentation for the actual Δ_Q-cover. The principal-level Ihara argument, conjugation minus complex, retained auxiliary level and selected-root Taylor–Wiles geometry stay here. |
+| Finite Hecke images, local factors and operator summands | [IntegralHeckeAndGaloisDeterminants](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants) §§2.1–2.3 | §§14.10–14.11 and 17.8–17.10 apply the supplied finite-image and idempotent constructions over the complete DVR O. Commuting selected-root and minus projectors restrict these summands; no second general localization theory is specified here. |
+
+These supplier layers use general arithmetic quotients, local coefficients and Hecke algebra; the specialization comparisons here use the modular family and cusp charts. They require none of this roadmap’s Ihara or Taylor–Wiles conclusions, and none of ALS.4.12–ALS.5b’s Galois existence hypotheses.
+
 ## Conventions
 
 These conventions apply throughout. The letters Z, Q, C and H in formulas denote ℤ, ℚ, ℂ and the upper half-plane ℍ.
@@ -46,7 +58,7 @@ These conventions apply throughout. The letters Z, Q, C and H in formulas denote
 
 **Taylor–Wiles data.** ℓ is odd, Δ_Q is the actual finite abelian ℓ-group of the auxiliary primes, the auxiliary fine level R≥5 is kept at both ends, and ξ=diag(−1,1) acts with the minus eigenspace taken; minus cohomology is free over O[Δ_Q], with no Hecke multiplicity-one claim.
 
-Use X_s(ℓ) for the ordered split-Cartan curve and X_s⁺(ℓ) for the monomial split-Cartan curve, including in the semistable-model formulas. For odd ℓ the monomial subgroup is the normalizer of the diagonal Cartan; at ℓ=2 it preserves the unordered coordinate lines and has order 2, whereas the normalizer of the trivial diagonal subgroup is all GL₂(𝔽₂). The source of those formulas writes X_s for the normalizer; here it is always X_s⁺≅X₀(ℓ²)/w_(ℓ²). Write J₁(N)=Pic⁰(X₁(N)) for the point-of-exact-order model with N≥5 over ℤ[1/N].
+Use X_s(ℓ) for the ordered split-Cartan curve and X_s⁺(ℓ) for the monomial split-Cartan curve, including in the semistable-model formulas. For odd ℓ the monomial subgroup is the normalizer of the diagonal Cartan; at ℓ=2 it preserves the unordered coordinate lines and has order 2, whereas the normalizer of the trivial diagonal subgroup is all GL₂(𝔽₂). In these formulas X_s⁺≅X₀(ℓ²)/w_(ℓ²); the citation dictionary in §9.6 records the source notation. Write J₁(N)=Pic⁰(X₁(N)) for the point-of-exact-order model with N≥5 over ℤ[1/N].
 
 Every division has its stated range: nonzero periods and positive levels in uniformization, nonzero q on the smooth Tate fibre, p-divisibility before coherent normalization, r! invertible for integral symmetric-power self-duality, and 2 invertible for the minus projector. The nonvanishing and integrality requirements survive specialization.
 
@@ -183,53 +195,35 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 
 ### TauCetiRoadmap ModularCurves
 
-- **Layer 0A**: Use the existing relative effective Cartier divisors and their sums and base change.
-- **Layer 0A**: Relative effective Cartier divisors and their pullback along flat morphisms.
+- **Layer 0A**: Relative effective Cartier divisors, their sums, flat inverse images and arbitrary base change; use the existing divisor carrier.
 - **Layer 0B**: Use the existing finite locally free group-scheme, Cartier duality and subgroup carrier; polygon torsion/quotients specialize it.
-- **Layer 0C**: Use the existing finite quotients of affine schemes by finite locally free group actions and torsors.
-- **Layer 0C**: Finite group quotients of affine schemes and finite étale torsors.
+- **Layer 0C**: Affine finite-group invariant quotients, with the finite-type hypothesis for module finiteness; finite locally free group-scheme torsors, affine finite locally free equivalence relations and free actions with an invariant affine open cover. Keep the scheme-versus-algebraic-space hypotheses.
 - **Layer 0D**: Finite étale schemes, Galois actions and Galois descent of their points.
-- **Layer 0E**: Use the existing effective descent (schemes, morphisms, sections, polarized curves, groups, level structures, torsors) and spreading out. It does not state invariance of connectedness under field extension; that is §4.9.
-- **Layer 0E**: Effective descent along étale coverings.
+- **Layer 0E**: Effective faithfully flat descent of schemes, morphisms, sections, polarized curves, groups, level structures, actions and torsors in the supplier’s stated cases, and finite-presentation spreading out. Invariance of connectedness under field extension is §4.9 here.
 - **Layer 1A**: Use the existing smooth projective Weierstrass curve with identity and projective-point dictionary.
 - **Layer 1C**: Use the invariant-differential line, dx/(2y+a₁x+a₃), coordinate-change multiplier and Weierstrass differential identities.
 - **Layer 1D**: Use the algebraic pointed elliptic group scheme and its translation-invariant differential; ordinary group laws are not reconstructed here.
-- **Layer 2B**: Use algebraic isogenies, finite subgroup quotients and their dual/kernel/degree/base-change API.
-- **Layer 2B**: Quotients E→E/C of elliptic curves by finite locally free subgroups.
-- **Layer 2B**: Elliptic quotients by finite locally free subgroup schemes, the universal quotient isogeny and its degree; no new elliptic-curve or quotient carrier is defined here.
-- **Layer 2E**: Use the Silverman-convention scheme Weil pairing, nondegeneracy, functoriality and determinant identity. Tau Ceti’s equation-level `TauCeti.Isogeny.weilPairing` fixes the convention; the scheme comparison is the ModularCurves contract.
-- **Layer 2E**: The Weil pairing e_N, alternating and perfect, with e_N((P,Q)g)=e_N(P,Q)^{det g}.
-- **Layer 2E**: Relative Weil pairing on elliptic torsion, alternating perfection and compatibility with an isogeny, including the multiplier equal to its degree.
+- **Layer 2B**: Algebraic isogenies and elliptic quotients E→E/C by finite locally free subgroup schemes, the universal quotient isogeny and its kernel, dual, degree and base-change API; no second elliptic or quotient carrier is defined here.
+- **Layer 2E**: Cartier–Nishi duality and the relative scheme Weil pairing, alternating and scheme-theoretically perfect, with isogeny/dual-isogeny compatibility, degree multiplier and e_N((P,Q)g)=e_N(P,Q)^{det g}. The equation-level convention is Tau Ceti’s `TauCeti.Isogeny.weilPairing`; the scheme comparison is this supplier’s contract.
 - **Layer 2F**: Rigidity of elliptic curves with naive full level N≥3 structure over ℤ[1/N] (Katz–Mazur 2.7).
 - **Layer 3C**: Use the ordinary elliptic Drinfeld full, point and cyclic level definitions/full-set theorems.
-- **Layer 3D**: Use prime-to-characteristic agreement with naive torsion labels and exact full/point level rigidity ranges.
-- **Layer 3D**: Comparison of Drinfeld and naive level structures after inverting N.
+- **Layer 3D**: Prime-to-characteristic comparison of Drinfeld and naive structures after inverting N, including the exact full/point rigidity ranges.
 - **Layer 3N**: Naive level structures and the finite étale N-torsion over ℤ[1/N].
-- **Layer 5A**: Use fine open Y₁(N) over Z[1/N] for N≥4 and its moduli/universal-object interface.
-- **Layer 5A**: Y₁(N) for N≥4 over ℤ[1/N] via Tate normal form.
-- **Layer 5B**: Use the ordinary full ordered-basis moduli, cyclotomic determinant fibre and fine fixed-pairing scheme for N≥3; do not assume connectedness before Layer 4, Layer 6.
-- **Layer 5B**: Y_full(N) for N≥3 over ℤ[1/N], its determinant to μ_N^{prim} and the fibres Y(N,ζ).
-- **Layer 5C**: Use the paired finite-module symplectic-frame twist Y(ρ), its smooth finite-type quotient/descent, and its conditional geometric-irreducibility theorem. Its three missing comparison contracts are discharged separately in Layer 4, Layer 6.
-- **Layer 5C**: The twisted curve Y(ρ)/ℚ for N≥3 and a symplectic Galois module V_ρ.
+- **Layer 5A**: The fine open Y₁(N) for N≥4 over ℤ[1/N] via Tate normal form, with its moduli and universal-object interface.
+- **Layer 5B**: Ordinary full ordered-basis moduli Y_full(N) for N≥3 over ℤ[1/N], its determinant to μ_N^{prim}, and the fine fibres Y(N,ζ). Connectedness is proved in Layers 4 and 6 here.
+- **Layer 5C**: The paired finite-module symplectic-frame twist Y(ρ)/ℚ for N≥3, with smooth finite-type quotient/descent and conditional geometric irreducibility. Its three comparison contracts are discharged in Layers 4 and 6 here.
 - **Layer 7B**: Use the existing Katz–Mazur ordinary local/deformation-ring and regularity statements at bad primes, with their stated hypotheses; this is the local algebra input to the cyclic-isogeny construction of §11.2.
 - **Layer 7E**: Import the existing elliptic PD-3 target: relative Frobenius and Verschiebung in characteristic p with V∘F=[p]=F∘V, together with the PD-1 finite locally free torsion levels and Cartier duality from Layer 2E. Quotients remain the existing Layer 2B interface; these elliptic notions are not new A3 definitions. Additional consuming contract: for the ordinary-locus proof of the special-fibre Eichler–Shimura relation (Conrad, Theorem 5.16), use PD-2 (connected–étale sequence over a henselian local base, giving the connected and étale order-p subgroups of an ordinary curve and of its lifts) and PD-5 (the ordinary/supersingular dichotomy).
 - **Layer 7F**: The universal ordinary elliptic deformation with Serre–Tate parameter and the supersingular one-dimensional deformation, including Frobenius/Verschiebung torsion and Drinfeld-generator conditions. The ModularCurves Layer 7F–7H and Layer 8C outputs supply these deformation calculations.
 - **Layers 7D–7F**: Formal elliptic deformations and their ordinary/supersingular parameters. **Layer 7G**: The three characteristic-p rigidity calculations. The cyclic pⁿ-isogeny deformation ring and its source/target comparison are this roadmap’s `cyclicIsogenyDeformationRing` in §11.2.
 - **Layer 8B**: Use generator schemes, finite locally free rank φ(N), cyclicity and standard subgroup/quotient identities on ordinary elliptic curves.
 - **Layer 8C**: Import the actual cyclic-generator comparison and its supersingular deformation rings; combine with Layer 7F–7H and the existing rigidifier/representability package. The mixed-level subsection §11.5 supplies only the modular one-factor component calculation.
-- **Layer 8D**: Use the ordinary cyclicity locus and Y₀(N) level functor; boundary extension is the generalized-level construction of Layers 2–4.
-- **Layer 8D**: The cyclicity locus and the integral problem [Γ₀(N)].
+- **Layer 8D**: The ordinary cyclicity locus, the integral [Γ₀(N)] level functor and Y₀(N); boundary extension is the generalized-level construction of Layers 2–4 here.
 - **Layer 9A**: Katz–Mazur quotient problems [Γ(n)]/H̄ over ℤ with Q1–Q2, and after inverting n their identification with the fppf sheaf quotient of the naive full-level problem.
-- **Layer 9B**: Use row action (P,Q)γ=(aP+cQ,bP+dQ) and exact full-to-point-to-cyclic quotient identifications; upper triangular labels act on P by a=d⁻¹.
-- **Layer 9B**: The seven standard quotient identifications of Katz–Mazur 7.4.2 in the row-vector convention, in particular [Γ₁(N)] and [Γ₀(N)] as quotients of [Γ(N)], and the diamond action P↦aP.
-- **Layer 9D**: Use finite group quotients and coarse moduli universal properties, preserving stack inertia versus coarse objects.
-- **Layer 9D**: Coarse moduli schemes M(𝒫) of affine moduli problems with M(𝒫)/H≅M(𝒫/H) (Katz–Mazur 8.1.5), base change 8.1.6, and the smoothness of finite quotients of smooth affine relative curves.
-- **Layer 9D**: The KM affine coarse quotient of the supplied relatively representable affine level problem, its classifying map, normality and categorical universal property.
-- **Layer 9E**: Use the ordinary coarse j-line/Y₀(N) schemes and their source/quotient-invariant maps.
-- **Layer 9E**: The coarse j-line Spec ℤ[j] over ℤ and over every ring (coarseJLine_int, coarseJLine), and M([Γ₀(N)])⊗ℤ[1/N]≅Y_full(N)/B for N≥3.
-- **Layer 10**: Use only the existing prime N≥5, Z[1/N] compact diamond-quotient coarse curve, its cusp/covering interface and its stated base; no composite/bad-level extension is inferred.
-- **Layer 10**: The prime N≥5 diamond quotients X_H over ℤ[1/N] as normalizations of ℙ¹_j in Y₁(N)/H with their cusp divisor; the level-H construction in Layers 3 and 5 proves agreement and builds nothing again on this class.
-- **Layer 10**: Import the prime N≥5 diamond quotient cusp package over ℤ[1/N]: Tate torsion/level covers, integral closures, cusp labels, widths, characteristic-2/3 ramification and stabilizers; establish identity-compatible agreement rather than rebuilding it.
+- **Layer 9B**: The seven quotient identifications of Katz–Mazur 7.4.2, including full-to-point-to-cyclic quotients, in the row action (P,Q)γ=(aP+cQ,bP+dQ); upper triangular labels act on P by a=d⁻¹ and diamonds by P↦aP.
+- **Layer 9D**: The affine coarse moduli scheme M(𝒫) of a relatively representable affine level problem, classifying map, normality and categorical universal property; M(𝒫)/H≅M(𝒫/H) (KM 8.1.5), the precise base-change cases of KM 8.1.6 and quotient smoothness for a smooth affine relative curve over a regular noetherian base. Preserve stack inertia versus coarse objects.
+- **Layer 9E**: The coarse j-line Spec ℤ[j] and its arbitrary ring-base versions (coarseJLine_int, coarseJLine), and M([Γ₀(N)])⊗ℤ[1/N]≅Y_full(N)/B for N≥3, with source/quotient-invariant maps.
+- **Layer 10**: Only prime N≥5 diamond quotients X_H over ℤ[1/N], constructed as normalizations of ℙ¹_j in Y₁(N)/H, with their cusp divisor, Tate level covers, integral closures, labels, widths, characteristic-2/3 ramification and stabilizers, and Shimura covering. Sections 5.18–5.19 prove identity-compatible agreement on this range; no composite or bad-level extension is inferred.
 - **Layer 6**: The integral level problems [Γ(N)], [Γ₁(N)] and balanced [Γ₁(N)] over ℤ.
 
 ### TauCetiRoadmap ModularForms
@@ -2806,7 +2800,7 @@ Establish this as follows. Construct the unordered middle pair from a cyclic ℓ
 
 - At ℓ=2, X₀(4)/⟨w₄⟩≅X_s⁺(2) has j-degree 3; the literal normalizer would give degree 1.
 - Ordering the pair gives X_s(ℓ)≅X₀(ℓ²), and reversing the chain induces its order-2 quotient.
-- For ℓ=13 the quotient has genus 3; calling the ordered split-Cartan curve X_s would change the degree and genus.
+- At ℓ=13, the ordered X_s(13) has (j-degree, genus)=(182,8), whereas X_s⁺(13) has (91,3).
 
 *Needs:* [§5.2](#s5-2); [§9.4](#s9-4); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
 
@@ -2816,7 +2810,9 @@ Establish this as follows. Construct the unordered middle pair from a cyclic ℓ
 
 ### 9.6 Cartan modular curves
 
-Let ℓ be a prime and H̄⊂GL₂(𝔽_ℓ) a subgroup, with H⊂GL₂(Ẑ) its preimage. The coarse curve X_H is a normal projective curve over ℤ, smooth over ℤ[1/ℓ], of degree [GL₂(𝔽_ℓ):±H̄] over ℙ¹_ℤ, with cyclotomic base ℤ when det H̄=𝔽_ℓ^×. For the split plus level use the monomial subgroup even at ℓ=2. For the Cartan levels write X_s(ℓ)=X_{C_s(ℓ)}, X_s⁺(ℓ)=X_{C_s⁺(ℓ)}, X_ns(ℓ)=X_{C_ns(ℓ)}, X_ns⁺(ℓ)=X_{C_ns⁺(ℓ)}, of degrees ℓ(ℓ+1), ℓ(ℓ+1)/2, ℓ(ℓ−1) and ℓ(ℓ−1)/2 for ℓ odd. Over ℤ[1/ℓ], a level-C_s⁺(ℓ) structure on E is an unordered pair of distinct subgroups of order ℓ (equivalently a split Cartan subalgebra 𝔽_ℓ×𝔽_ℓ of End(E[ℓ])), a level-C_s(ℓ) structure an ordered such pair, a level-C_ns⁺(ℓ) structure a subalgebra of End(E[ℓ]) étale locally conjugate to 𝔽_{ℓ²}, and a level-C_ns(ℓ) structure such a subalgebra with a chosen isomorphism to 𝔽_{ℓ²}. The ordered split Cartan curve is identified with X₀(ℓ²) over ℤ[1/ℓ] by (E,C₁,C₂)↦(E/C₁, [ℓ]⁻¹(C₂)/C₁), and X_s⁺(ℓ) with X₀(ℓ²)/⟨w_{ℓ²}⟩, over ℚ by [§9.5](#s9-5) and over ℤ[1/ℓ] because the ordered identification carries the exchange of C₁ and C₂ to w_{ℓ²}. Every other subgroup of GL₂(𝔽_ℓ), for example the preimage of an exceptional S₄⊂PGL₂(𝔽₁₃), gives its curve by the same construction. Notation: X_s(ℓ) is the ordered (diagonal) curve as in Zywina; Balakrishnan–Dogra–Müller–Tuitman–Vonk and §9.5 write X_s(ℓ) for the normaliser curve, which is X_s⁺(ℓ) here.
+Let ℓ be a prime and H̄⊂GL₂(𝔽_ℓ) a subgroup, with H⊂GL₂(Ẑ) its preimage. The coarse curve X_H is a normal projective curve over ℤ, smooth over ℤ[1/ℓ], of degree [GL₂(𝔽_ℓ):±H̄] over ℙ¹_ℤ, with cyclotomic base ℤ when det H̄=𝔽_ℓ^×. For the split plus level use the monomial subgroup even at ℓ=2. For the Cartan levels write X_s(ℓ)=X_{C_s(ℓ)}, X_s⁺(ℓ)=X_{C_s⁺(ℓ)}, X_ns(ℓ)=X_{C_ns(ℓ)}, X_ns⁺(ℓ)=X_{C_ns⁺(ℓ)}, of degrees ℓ(ℓ+1), ℓ(ℓ+1)/2, ℓ(ℓ−1) and ℓ(ℓ−1)/2 for ℓ odd. Over ℤ[1/ℓ], a level-C_s⁺(ℓ) structure on E is an unordered pair of distinct subgroups of order ℓ (equivalently a split Cartan subalgebra 𝔽_ℓ×𝔽_ℓ of End(E[ℓ])), a level-C_s(ℓ) structure an ordered such pair, a level-C_ns⁺(ℓ) structure a subalgebra of End(E[ℓ]) étale locally conjugate to 𝔽_{ℓ²}, and a level-C_ns(ℓ) structure such a subalgebra with a chosen isomorphism to 𝔽_{ℓ²}. The ordered split Cartan curve is identified with X₀(ℓ²) over ℤ[1/ℓ] by (E,C₁,C₂)↦(E/C₁, [ℓ]⁻¹(C₂)/C₁), and X_s⁺(ℓ) with X₀(ℓ²)/⟨w_{ℓ²}⟩, over ℚ by [§9.5](#s9-5) and over ℤ[1/ℓ] because the ordered identification carries the exchange of C₁ and C₂ to w_{ℓ²}. Every other subgroup of GL₂(𝔽_ℓ), for example the preimage of an exceptional S₄⊂PGL₂(𝔽₁₃), gives its curve by the same construction. The notation X_s(ℓ) always denotes the ordered diagonal curve.
+
+Citation dictionary: Zywina’s X_s is our ordered X_s; Balakrishnan–Dogra–Müller–Tuitman–Vonk’s X_s is our X_s⁺, and their X_ns is our X_ns⁺.
 
 ℓ prime; ℓ odd for the nonsplit Cartan description with a nonsquare ε, ℓ=2 using the order-3 subgroup.
 
@@ -3316,7 +3312,7 @@ Use Layer 0, Layer 2, Layer 5, Layer 9. External contracts: TauCetiRoadmap Stabl
 
 ### 12.1 Modular dual graphs and thicknesses
 
-Attach to each specified semistable modular model its imported labelled dual multigraph, retaining the normalized component, each pair of branches, node thickness, residue-field action, marked cusp section and its Layers 3–5 parameter. For a fine one-factor Γ₁(M)∩Γ₀(p) model the graph has two vertices and one edge per supersingular marked elliptic curve, so for s geometric nodes b₁=s−1. For the ℓ² split Cartan model the graph is K_(k,3), with the component genera above. A nonreduced coarse pⁿ fibre is instead exported as a weighted intersection configuration until a stated reduced nodal model is chosen; it is not a semistable dual graph. An n-gon has n edges, also for n=1 (a loop) and n=2 (two parallel edges).
+Attach to each specified semistable modular model its imported labelled dual multigraph, retaining the normalized component, each pair of branches, node thickness, residue-field action, marked cusp section and its Layers 3–5 parameter. For a fine one-factor Γ₁(M)∩Γ₀(p) model the graph has two vertices and one edge per supersingular marked elliptic curve, so for s geometric nodes b₁=s−1. For the normalizer model X_s⁺(ℓ), ℓ=12k+1 prime, the graph is K_(k,3), with the component genera of §11.7; the ordered X_s(ℓ)≃X₀(ℓ²) model has K_(k,4). A nonreduced coarse pⁿ fibre is instead exported as a weighted intersection configuration until a stated reduced nodal model is chosen; it is not a semistable dual graph. An n-gon has n edges, also for n=1 (a loop) and n=2 (two parallel edges).
 
 Establish this as follows. Choose the exact proper model and base from Layer 11 and use the imported graph construction. Read branch incidences and thickness from its completed local charts; mark cusp sections via the cyclotomic chart maps. Compute the graph ranks without removing loops or parallel edges; export weighted coarse configurations separately.
 
@@ -3331,7 +3327,7 @@ The public interface should expose:
 **Checks.**
 
 - A 2-gon has two parallel edges and b₁=1, not a single edge and b₁=0.
-- For X_s⁺(13) the graph is a three-leaf tree and Σ g_v=3.
+- For X_s⁺(13) the graph is a three-leaf tree and Σ g_v=3. The ordered X_s(13) has (j-degree, genus)=(182,8), against (91,3) for X_s⁺(13); its four-leaf model cannot replace the quotient model.
 - The multiplicity-4 middle component of X₀(25) cannot be silently entered as a reduced nodal component.
 - Resolving a thickness-n edge by a chain increases both edge and vertex counts by n−1, so H₁ rank is unchanged.
 - At ℓ=13 the quotient graph is K_(1,3), b₁=0; at ℓ=37 it is K_(3,3), b₁=4.
@@ -3352,6 +3348,7 @@ Establish this as follows. Use the imported normalized Picard/Néron comparison 
 
 - For X_s⁺(13) after ϖ⁸⁴=13 the torus vanishes and the abelian quotient is the genus-3 horizontal Jacobian.
 - For K_(3,3) the character lattice has rank 4, not rank equal to its 9 nodes.
+- The ordered X_s(13) has genus 8 and a different horizontal/Igusa abelian quotient; the genus-3 Jacobian here belongs to X_s⁺(13).
 
 *Needs:* [§12.1](#s12-1); `NeronModelsAndSemistableAbelianVarieties §4.2`; `NeronModelsAndSemistableAbelianVarieties §4.1`; `NeronModelsAndSemistableAbelianVarieties §R11.4`.
 
@@ -3439,7 +3436,7 @@ The public interface should expose:
 
 ### 13.2 Upper and lower Jacobian Hecke operators
 
-On the generic fibre define upper T_p^J=π₁*π₂^* and lower (T_p^J)_*=π₂*π₁^*, with the same disjoint correspondence for p∣N. Define upper diamond by Picard pullback I_a^* and lower diamond by Albanese norm I_a*. Extend these endomorphisms uniquely over J₁(N)/ℤ[1/N] by normal-base Hom extension; for p∤N the degeneracy maps themselves exist on the smaller smooth base ℤ[1/Np] before this extension. The endomorphisms commute and satisfy the full-subgroup Hecke algebra relations. Their polarization transposes exchange upper/lower. On the cotangent space the lower operator is classical T_p, whereas the upper operator is its Petersson adjoint. On a bad-level Néron model extend the generic endomorphism by the Néron mapping property, without declaring its identity fibre abelian.
+On the generic fibre define upper T_p^J=π₁*π₂^* and lower (T_p^J)_*=π₂*π₁^*, with the same disjoint correspondence for p∣N. Define upper diamond by Picard pullback I_a^* and lower diamond by Albanese norm I_a*. Extend these endomorphisms uniquely over J₁(N)/ℤ[1/N] by normal-base Hom extension; for p∤N the integral degeneracy maps are those of §9.1, and their source is smooth over the smaller base ℤ[1/Np]. The smooth relative-Jacobian push–pull construction applies over that smaller base; normal-base Hom extension carries its endomorphisms to ℤ[1/N], where the correspondence source has semistable reduction at p (§11.5). The endomorphisms commute and satisfy the full-subgroup Hecke algebra relations. Their polarization transposes exchange upper/lower. On the cotangent space the lower operator is classical T_p, whereas the upper operator is its Petersson adjoint. On a bad-level Néron model extend the generic endomorphism by the Néron mapping property, without declaring its identity fibre abelian.
 
 Establish this as follows. Compose the actual Picard and norm maps, then apply polarization duality to reverse the legs. Compare cotangent action under Shimura and use its faithfulness in characteristic zero to transport the classical relations. Extend over the normal good-level base using the imported relative Hom theorem; use Néron extension separately at bad-level DVRs.
 
@@ -3671,7 +3668,7 @@ Establish this as follows. Apply the localization triangle for j_! and Rj_*; com
 
 For the supplied smooth finite-type modular curves over Q̄, a chosen embedding Q̄↪C, and finite locally constant ℤ/ℓⁿ coefficients from the universal family, Artin comparison gives H^i_et(Y,L_{r,ℓ,n})≅H^i_B(Y_an,L_{r,B}/ℓⁿ), with compact-support analogues and their support maps. These identify finite parabolic images. After proving the required inverse-limit exactness and finite generation, they give the adic comparison; for r=0 this also identifies the actual compact-curve lattice with Mathlib’s pro-étale EllAdicCohomology in degree one. Pullback, trace, cup product and level maps commute with comparison.
 
-The comparison includes local-system coefficients and compact support, not merely constant rational cohomology.
+On a neat fine GL₂/ℚ level, also identify these Betti complexes with the corresponding connected component of ArithmeticLocallySymmetricSpaces ALS.1. Compare the R¹f_* fibre with the dual of the elliptic homology lattice, carrying its row-frame action; match parallel transport with ALS.1.1’s action by the inverse of the lifted loop endpoint. The comparison identifies the support/boundary triangle, Hecke pullback and unnormalized trace, and finite-cover descent with ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3. Descend to other torsion-free fine levels only through the proved cover comparison. The elliptic isogeny coefficient maps and modular cusp-inertia computation are those of §§14.1 and 14.3. Adjoint-ideal transport under this comparison is §14.11. The shared interface uses no higher-rank Eisenstein theorem or conditional Galois input.
 
 Derived-limit obstructions must be eliminated by finite coefficient Mittag–Leffler systems; reduction modulo π commutes only under the torsion hypotheses of [§14.10](#s14-10).
 
@@ -3681,8 +3678,11 @@ Establish this as follows. Import Artin’s comparison with locally constant and
 
 - Trace composed with pullback is degree times identity in each realization.
 - Changing the complex embedding changes the comparison choice; Galois invariance is not asserted for that choice.
+- At a cusp of strict width w, transport on R¹f_* is dual to that on the homology lattice; the chosen bases must reproduce §14.1’s unipotent cusp matrix and its Sym^r action.
+- At r=0 the boundary triangle gives §14.3’s residue-sum sequence, with the same support map in the arithmetic Betti complex.
+- For a finite Δ-cover the trace of pullback is |Δ|; integral descent keeps derived invariants when |Δ| is not a unit.
 
-*Needs:* [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.1–F.4; `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.1–F.4; `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and discussion of W_ℓ, pp. 154–156; corollary following Theorem 4.1, printed as Corollaire 3.2, p. 161.)
 
@@ -3716,7 +3716,7 @@ Establish this as follows. Use the Sh of §14.5 and integrate harmonic represent
 
 **Checks.**
 
-- For a nonzero f∈S₂(Γ₀(11)), cup(Sh(f),Sh(ḟ))=−8π²i⟨f,f⟩ is nonzero and imaginary.
+- For a nonzero f∈S₂(Γ₀(11)), cup(Sh(f),Sh(ḟ))=−8π²i⟨f,f⟩ is nonzero and imaginary; its complex conjugate is its negative, equal to cup(Sh(ḟ),Sh(f)).
 - Reversing the two cohomology classes changes the sign.
 - Multiplying the pairing by this common nonzero scalar preserves all adjoint conclusions of §14.7.
 
@@ -3804,7 +3804,7 @@ Establish this as follows. Compute the two parts of the good-prime correspondenc
 
 For a torsion-free congruence modular curve Y and a finite free O-local system L, H¹(Y,L) is O-finite. If H⁰(Y,L/π)_m=0, the localized group H¹(Y,L)_m is O-torsion-free, hence O-free; if in addition the boundary sequence localizes to zero, it equals H¹_par(Y,L)_m, and reduction gives H¹_par(Y,L)_m/πⁿ≅H¹_par(Y,L/πⁿ)_m. Constant weight-two coefficients satisfy these conditions at the non-Eisenstein ideals of [§14.9](#s14-9). Higher-weight claims carry the displayed vanishing conditions as hypotheses.
 
-O is a complete DVR finite over ℤ_ℓ; anemic localization is a direct summand of the completed O-finite Hecke module.
+O is a complete DVR finite over ℤ_ℓ. Apply IntegralHeckeAndGaloisDeterminants §§2.1–2.2 to the finite commutative Hecke image on the perfect cochain complex: anemic localization is its supplied finite-local-factor idempotent summand, compatible with coefficient change. Commuting operator/root localizations use §2.3 of that supplier.
 
 Use a finite graph deformation retract of the noncompact torsion-free quotient; its two-term cochain complex has finite free terms.
 
@@ -3813,9 +3813,10 @@ Establish this as follows. Use `modularOpenFiniteGraph` of §14.9a and import tw
 **Checks.**
 
 - No freeness over the integral Hecke algebra is asserted.
+- For T=O×O acting on O² by coordinate multiplication, the two local-factor projectors select the two coordinate lines and commute with reduction; ordinary localization over a noncomplete coefficient base is outside this contract.
 - At level divisible by ℓ, or with coarse stabilizers, the displayed geometric and vanishing hypotheses must be checked afresh.
 
-*Needs:* [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); [§14.3](#s14-3); [§14.9](#s14-9); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups).
+*Needs:* IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); [§14.3](#s14-3); [§14.9](#s14-9); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1, author pp. 7–8; [Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and (3.20), pp. 154–155, 159–160.)
 
@@ -3823,22 +3824,29 @@ Establish this as follows. Use `modularOpenFiniteGraph` of §14.9a and import tw
 
 ### 14.11 Parabolic Poincaré pairing
 
-The elliptic cup product L⊗L→A(−1) induces Sym^r L⊗Sym^r L→A(−r). For A=K it is perfect. For finite or integral coefficients assume r! is a unit (in particular ℓ>r); then the symmetrized tensor pairing is perfect with the chosen normalization. On parabolic H¹ it induces a pairing into A(−r−1), alternating for even r and symmetric for odd r. The rational pairing is nondegenerate; integral/finite perfection is exported only in the localized setting of [§14.10](#s14-10), where boundary and coefficient-reduction obstructions vanish. Pullback and trace are adjoint.
+The elliptic cup product L⊗L→A(−1) induces a coefficient pairing on V=Sym^r L with values in A(−r). It is perfect for A=K=Frac(O); for A=O or O/πⁿ assume r! is a unit. Fix its induced identification V≃V^∨(−r). Ordinary evaluation and the curve trace first pair H¹_c(Y,V) with H¹(Y,V^∨(−r)) into A(−r−1). Their common parabolic image inherits the natural cup pairing B, alternating for even r and symmetric for odd r; over K it is nondegenerate.
 
-A complete DVR O of residue characteristic ℓ; finite coefficients O/πⁿ; integral conclusion additionally needs finite freeness and boundary conditions.
+Use anemic correspondences away from Nℓ, including diamonds and inverse correspondences. On the paired perfect support/ordinary complexes, take their common finite commutative O-Hecke image T, retaining the coefficient dual identification. Reversing the legs and transposing the coefficient map defines an O-algebra involution † on T: B(tx,y)=B(x,t†y). This is the specialization of inverse-double-coset duality, with the coefficient map transported through V≃V^∨(−r); it is not defined by declaring every T self-adjoint. In weight two it gives D_d†=D_d⁻¹ and T_q†=D_q⁻¹T_q for q∤Nℓ, as in §14.7. Define m†={t∈T : t†∈m} for a maximal ideal m. The representative definition `adjointIdeal` is Ideal.comap along the inverse adjoint ring equivalence; for an involution this is the displayed formula. Maximality and (m†)†=m follow from the ring equivalence.
 
-At ℓ≤r no integral perfectness is inferred from Deligne’s rational statement; a different divided-power lattice would require its own comparison.
+Put M_A=H¹_par(Y,V_A). For integral perfection require the hypotheses of §14.10 on **both** V at m and V^∨(−r) at m†: H⁰ modulo π vanishes, and the boundary complexes vanish at O and at every O/πⁿ. In particular both support maps are isomorphisms after localization, both degree-one lattices are O-free, and both commute with reduction. Then the actual pairing
 
-Establish this as follows. Form the coefficient pairing by symmetrizing products of the alternating rank-two elliptic pairing; invert r! when necessary. Apply ClassicalAdicEtaleCohomology §0.11 curve duality to j_*L and its dual, or Betti Poincaré–Lefschetz duality. Restrict the compact-support/ordinary pairing to their common image, using the vanishing and exactness hypotheses to prove integral perfection. The sign is the coefficient sign (−1)^r times the degree-one cup sign.
+M_O,m × M_O,m† → O(−r−1)
+
+is perfect, and its reduction is the perfect pairing M_(O/πⁿ),m × M_(O/πⁿ),m† → (O/πⁿ)(−r−1). The second factor uses the displayed coefficient-dual identification and its transported Hecke action. A pairing of a summand with itself is asserted only when m=m†. This natural pairing is separate from the Fricke-transported pairing of §14.7.
+
+Establish this as follows. Symmetrize products of the rank-two elliptic pairing, with r! inverted for integral coefficients. Apply the supplied Betti Poincaré–Lefschetz and finite étale curve dualities, and compare their traces. Duality on the paired complexes identifies the kernels of the correspondence actions under leg reversal, so † descends to their common image and is involutive by biduality. It identifies the support triangle with its dual triangle, including the connecting signs. Apply the finite-local-factor/idempotent interface of IntegralHeckeAndGaloisDeterminants §2.2: B(e_m x,y)=B(x,e_(m†)y), so distinct unpaired summands are orthogonal. Under the two sets of vanishing hypotheses, derived duality restricts to a duality of free degree-one modules. Prove that the projectors, support maps, coefficient reductions and the comparisons of §14.4 commute with this duality; retain the Tate twist in étale realization. The cup sign is (−1)^(r+1). At ℓ≤r, no integral perfection follows from the rational theorem without a separately compared divided-power lattice.
 
 **Checks.**
 
-- r=0 gives an alternating curve pairing; r=1 gives a symmetric pairing.
+- r=0 gives an alternating global curve pairing; r=1 gives a symmetric global pairing. On individual summands the sign compares the m,m† pairing with the reversed m†,m pairing.
+- For r=0 and a residual diamond character χ with χ(d)²−1 a unit, B vanishes on the χ×χ block: invariance under D_d on both factors gives (χ(d)²−1)B=0. Its potentially perfect partner has character χ⁻¹. The representative `diamondPairing_sameCharacter_zero` states this consequence of bilinearity and invariance.
+- Over 𝔽₇, χ(d)=2 has order 3, χ(d)⁻¹=4 and χ(d)²−1=3 is a unit. The same-character restriction is zero; evaluation xy pairs the 2- and 4-character lines perfectly since 2·4=1.
+- If m is adjoint-stable the pairing is perfect on M_m with itself under the same two-sided hypotheses; adjoint stability is an additional condition.
 - A rationally perfect pairing whose determinant is divisible by ℓ is not an integral acceptance case.
 
-*Needs:* [§14.1](#s14-1); [§14.8](#s14-8); [§14.10](#s14-10); `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
+*Needs:* [§14.1](#s14-1); [§14.4](#s14-4); [§14.7](#s14-7); [§14.8](#s14-8); [§14.10](#s14-10); `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
 
-([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), (3.20), pp. 159–160.)
+([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), (3.20), pp.159–160, for the rational pairing and its sign; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Conrad’s Appendix, Corollary 5.3, p.66, for the inverse-diamond adjoint; [ACC+23](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), Corollary 2.2.22, p.932, for duality and Hecke adjoints, specialized through ALS.5a.)
 
 <a id="s14-12"></a>
 
@@ -4378,15 +4386,15 @@ Apply Layer 13’s existing Néron extension of the actual modular Hecke endomor
 
 Pic⁰_{X₁(N)/ℤ[1/N]} is an abelian scheme, hence the Néron model of its generic fibre.
 
-Establish this as follows. Import the endomorphisms and their already-owned generic Néron extension. Take the appropriate special fibre; apply the generic functoriality on tori, characters and components. Match the reduced operator to the specific modular correspondence on the special fibre.
+Establish this as follows. Import the endomorphisms and their already-owned generic Néron extension. Take the appropriate special fibre; apply the generic functoriality on tori, characters and components. Match the reduced operator to the integral correspondence of §9.1 using the component maps of §12.4. Its singular source has a semiabelian neutral Picard fibre, so the construction through two smooth proper relative curves and their abelian Jacobians does not apply over the whole base. Keep the separate coarse-descent hypotheses of §9.1.
 
 **Checks.**
 
 - At p∤N the integral degeneracy maps of §9.1 exist and their source has the semistable fibre of §11.5. The endomorphisms of the good Jacobian extend over ℤ[1/N], although the correspondence source is not smooth at p.
-- The good target and the semistable correspondence source have different smoothness properties.
+- At N=5,p=2, the fine mixed model has two special-fibre components (§11.5), and both degeneracy maps have the component restrictions of §12.4. Their existence does not imply that the source is smooth at 2.
 - Reduction of the extended endomorphism agrees with the special-fibre correspondence action.
 
-*Needs:* [§13.1](#s13-1); [§13.2](#s13-2); `NeronModelsAndSemistableAbelianVarieties §R11.6`.
+*Needs:* [§9.1](#s9-1); [§11.5](#s11-5); [§12.4](#s12-4); [§13.1](#s13-1); [§13.2](#s13-2); `NeronModelsAndSemistableAbelianVarieties §R11.6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 72 (printed page; PDF page 76).)
 
@@ -4570,7 +4578,7 @@ The public interface should expose:
 - Q=empty gives Δ_Q=1 and the fixed auxiliary base-level module.
 - The choice of root is part of the Hecke localization, not a new definition of an abstract free module.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§14.2](#s14-2); [§14.8](#s14-8); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§9.1](#s9-1); [§9.2](#s9-2); [§14.2](#s14-2); [§14.8](#s14-8); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Definition of Δ_Q, Γ_Q, Γ̄_Q and auxiliary R, author pp. 4–7; Proposition 1, pp. 7–8.)
 
@@ -4584,7 +4592,7 @@ Odd ℓ; Δ_Q is an abelian ℓ-group; the congruence group Γ̄_Q is torsion-fr
 
 The finite-level identification with cohomology modulo πⁿ uses [§14.10](#s14-10) or the minus-cochain computation, not merely a claim that rational invariants commute with integral reduction.
 
-Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). By `modularOpenFiniteGraph` of §14.9a, Γ̄_Q is free of finite rank, so its cocycle module is finite free over O[Δ_Q]. ξ acts trivially on Δ_Q, so all coboundaries are in the plus eigenspace; minus H¹ equals minus cocycles, a projective summand. O[Δ_Q] is local for a finite ℓ-group over the complete DVR, so that finite projective module is free. Over Frac(O), finite cover descent identifies Δ_Q invariants with base cohomology, giving the stated rank; prove coefficient reduction by the same finite free minus complex. Completed commuting Hecke localization is an idempotent summand; use boundary removal only for the stated non-Eisenstein modules. Apply Mathlib groupCohomology.coindIso for Shapiro; the new work is its compatibility with the tree cochain sequence or finite diamond cover.
+Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). By `modularOpenFiniteGraph` of §14.9a, Γ̄_Q is free of finite rank, so its cocycle module is finite free over O[Δ_Q]. ξ acts trivially on Δ_Q, so all coboundaries are in the plus eigenspace; minus H¹ equals minus cocycles, a projective summand. O[Δ_Q] is local for a finite ℓ-group over the complete DVR, so that finite projective module is free. Over Frac(O), finite cover descent identifies Δ_Q invariants with base cohomology, giving the stated rank; prove coefficient reduction by the same finite free minus complex. Completed commuting Hecke localization is the idempotent summand supplied by IntegralHeckeAndGaloisDeterminants §§2.2–2.3; its projector commutes with ξ and Δ_Q. Use boundary removal only for the stated non-Eisenstein modules. Apply Mathlib groupCohomology.coindIso for Shapiro; the new work is its compatibility with the tree cochain sequence or finite diamond cover.
 
 **Checks.**
 
@@ -4592,7 +4600,7 @@ Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). By `m
 - For Δ_Q of order ℓ, the O-rank is ℓ times the O[Δ_Q]-rank.
 - Nothing is asserted about weight-one coherent cohomology by this weight-two argument.
 
-*Needs:* [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); the existing diamond group-ring contract in the supplier section; [§14.9](#s14-9); [§14.10](#s14-10); [§17.8](#s17-8); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); the existing diamond group-ring contract in the supplier section; [§14.9](#s14-9); [§14.10](#s14-10); [§17.8](#s17-8); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proposition 1 and proof, author pp. 7–8.)
 
@@ -4612,8 +4620,9 @@ Establish this as follows. On the Shapiro free-group complex, augmentation is co
 
 - A rank equality without the specialization morphism is insufficient.
 - This does not remove an auxiliary R-level on its own.
+- With Q empty, Δ_Q=1 and I_Q=0; augmentation and root specialization are identities on the fixed auxiliary-level module.
 
-*Needs:* [§15.8](#s15-8); [§17.9](#s17-9); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§15.8](#s15-8); [§17.9](#s17-9); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1, author pp. 7–8; [Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6, pp. 88–90.)
 
