@@ -3667,6 +3667,63 @@ square with `g : S' → S` and `f : X → S` Tor-independent (`Tor_i^{O_S}(O_X, 
 `Coherent.DQCoh`, `Coherent.DQCoh.affineEquiv` (stated as the existence of an equivalence
 `D(A) ≌ D_QCoh(Spec A)`; its description by `M ↦ M~` and the t-structures are specified here).
 
+**Derived morphism gluing.** This subsection owns `Coherent.derivedHom_isSheaf`: for a scheme
+`X`, an open basis `B`, and `K,L ∈ D(O_X)`, assume
+`Ext^i_{O_U}(K|_U,L|_U) = Hom(K|_U,L|_U[i]) = 0` for every `U ∈ B` and every `i < 0`.
+Then the same vanishing holds on every open, and `U ↦ Hom(K|_U,L|_U)` is a sheaf of
+abelian groups. Compatible morphisms on any open covering therefore glue uniquely; equality
+is local under these hypotheses. Use `Coherent.derivedRestrict`, the functor induced by
+Mathlib's exact `Scheme.Modules.restrictFunctor`, with the canonical nested-open comparisons
+`Coherent.derivedRestrictComp` and `Coherent.derivedRestrictOpens` induced by
+`Scheme.Modules.restrictFunctorComp`. Their identity and composition coherence define the
+restriction maps of `Coherent.derivedHomPresheaf`; its sections on `U` are the displayed Hom
+group. The Lean prototype uses `Subsingleton` of shifted Hom types for Ext vanishing and the
+underlying sheaf of sets for the Hom sheaf. Construct these interfaces before §2.20's
+comparisons of local dualising objects. Source:
+[Stacks, Lemma 20.45.2(2) (0D66)](https://stacks.math.columbia.edu/tag/0D66), applied to the
+identity of the underlying ringed space. *Needs:* the ambient derived category and restriction
+to opens of this subsection; Mathlib's exact-functor localization API.
+
+**Checks.**
+- For `K=L=O_X[0]`, negative Ext vanishes on every open and the Hom sheaf is `O_X`.
+- On `X=ℙ¹_k`, a nonzero `O_X[0] → O_X(−2)[1]` represents a generator of
+  `H¹(X,O_X(−2)) ≅ k` and restricts to zero on both standard affine charts. The local
+  negative-Ext hypothesis fails: `Ext^(−1)(O_U,O_U(−2)[1]) = Γ(U,O_U(−2)) ≠ 0`.
+  This is a negative control for unqualified locality of derived morphisms
+  ([Stacks, Lemmas 30.8.1 (01XT)](https://stacks.math.columbia.edu/tag/01XT) and
+  [30.2.2 (01XB)](https://stacks.math.columbia.edu/tag/01XB)).
+- For pairs satisfying the hypothesis, refining an affine basis by principal opens preserves
+  the glued morphism. If the local maps are isomorphisms, glue their inverses as well: their
+  compositions are identities by the qualified equality assertion.
+
+**Derived object gluing.** This subsection owns `Coherent.derivedObject_gluing`. On an open
+basis `B` of a scheme `X`, give `K_U ∈ D(O_U)` for each `U ∈ B` and restriction isomorphisms
+`ρ^U_V : K_U|_V ≅ K_V` whenever `V ⊆ U` are in `B`, with
+`ρ^U_W = ρ^V_W ∘ (ρ^U_V)|_W` for `W ⊆ V ⊆ U`, using the canonical restriction comparisons.
+Assume `Ext^i_{O_U}(K_U,K_U)=0` for all `U ∈ B`, `i<0`. Construct `K ∈ D(O_X)` and
+`ρ_U : K|_U ≅ K_U` satisfying `ρ_V = ρ^U_V ∘ ρ_U|_V`, unique up to unique isomorphism
+compatible with every `ρ_U`. `Coherent.DerivedGluingData` packages the local `obj`,
+`transition` and `cocycle`; `Coherent.DerivedGluingSolution` packages the global `obj`,
+`iso` and `compatibility`.
+The basis can be infinite: it covers `X`, and each intersection is covered by basis members
+contained in it; no quasi-compactness or quasi-separatedness is assumed. Prove that restriction
+and refinement of the basis give the same solution up to the unique compatible isomorphism,
+with identity and composition compatibility. Source:
+[Stacks, Situation 20.45.3 (0D67)](https://stacks.math.columbia.edu/tag/0D67) and
+[Theorem 20.45.8 (0D6C), the BBD gluing lemma](https://stacks.math.columbia.edu/tag/0D6C).
+*Needs:* `Coherent.derivedHom_isSheaf`, the ambient derived category and restriction comparisons
+above. This is the object-gluing input to §2.20, distinct from §1.1's descent of module sheaves.
+
+**Checks.**
+- On `ℙ¹_k` the standard affine restrictions of `O(−2)[1]=Ω¹[1]`, with coordinates
+  `y=x⁻¹` and differential transition `dy=−x⁻² dx`, glue to that shifted line bundle.
+  Its internal self-Hom is `O[0]`, so negative self-Ext vanishes on every basis member.
+- On `⨿_{n≥0} ℙ¹_k`, use all affine opens contained in individual components and the same
+  shifted differential bundles. The solution restricts to `O(−2)[1]` on every component,
+  although the scheme has no finite affine cover.
+- Refining those affine bases by principal opens gives the unique compatible comparison with
+  the original solution; two successive refinements give the same comparison as their composite.
+
 ### 2.19 The right adjoint of pushforward and the upper shriek functor
 
 Define `pushforwardRightAdjoint f` (`a_f : DQCoh Y ⥤ DQCoh X`) for `f` quasi-compact
@@ -3755,7 +3812,59 @@ dualising complex, which is defined in terms of it. Define `RelativeDualizingCom
 isomorphism `Δ_* O_X ≅ RHom_{O_W}(Δ_* O_X, L pr_1^* K|_W)` (Stacks, Definition 48.28.1 (0E2S)). API:
 `RelativeDualizingComplex.unique`, `.exists`, `.baseChange` (derived pullback along `S' → S`),
 `.homothety_iso` (`O_X ≅ RHom(K, K)`), `.upperShriek` (for `f` flat in `FTS_S`, `f^! O_S` with its
-canonical `ξ` is one) (Lemmas 48.28.2–48.28.7, 48.28.9). Define `relativeDualizingModule f d hd hCM :=
+canonical `ξ` is one) (Lemmas 48.28.2–48.28.7, 48.28.9).
+
+**Construction of relative dualising pairs.** This subsection owns the affine construction
+and comparison used by `RelativeDualizingComplex.exists`, `.unique` and `.baseChange` for every
+flat locally finitely presented `f : X → S`, including non-quasi-compact and non-quasi-separated
+schemes. Build them in the following order, using
+[Stacks, Lemmas 47.27.2–47.27.5](https://stacks.math.columbia.edu/tag/0E2D) and
+[48.28.2–48.28.6](https://stacks.math.columbia.edu/tag/0E2U).
+
+1. For a flat finitely presented ring map `R → A`, construct the relative dualising object in
+   `D(A)` and a diagonal generator `ξ_A : A → K_A ⊗^L_A (A ⊗_R A)`, with its defining
+   internal-Hom isomorphism, homothety, localization and arbitrary derived base-change
+   comparisons ([Lemma 47.27.4 (0E2F)](https://stacks.math.columbia.edu/tag/0E2F) and
+   [Lemma 47.27.5 (0E2G)](https://stacks.math.columbia.edu/tag/0E2G)). Under §2.18's
+   `DQCoh.affineEquiv` this supplies an `S`-perfect pair `(K_U,ξ_U)` on every affine open
+   `U ⊆ X` mapping into an affine open of `S`. Compare two such pairs by the unique
+   isomorphism preserving their diagonal generators; the homothety identifies automorphisms
+   with units, so rescaling an isomorphism by the requisite unit gives this uniqueness.
+   For restrictions that are not affine, first use smaller affine opens and §2.18's qualified
+   Hom gluing. This also makes the pair independent of the chosen base affine.
+2. These opens form a possibly infinite basis. The generator-preserving restriction
+   isomorphisms satisfy the cocycle condition by uniqueness. Locally
+   `RHom(K_U,K_U) ≅ O_U[0]`, hence all negative self-Ext groups vanish. Apply
+   `Coherent.derivedObject_gluing` to construct `K` with compatible affine identifications.
+   Quasi-coherence of cohomology is local, so `K ∈ DQCoh X`; its relative perfectness follows
+   from the affine-local criterion, included in
+   `IsRelativelyPerfect` for flat locally finitely presented `f` and `K ∈ DQCoh X`
+   ([Lemma 36.35.3 (0DI2)](https://stacks.math.columbia.edu/tag/0DI2)). For two global pairs the
+   affine comparisons give vanishing of negative cross-Ext as well, so
+   `Coherent.derivedHom_isSheaf` glues their unique generator-preserving isomorphism
+   ([Lemma 48.28.4 (0E2W)](https://stacks.math.columbia.edu/tag/0E2W)).
+3. Construct `ξ` separately. Choose `W = ⋃_{U∈B} U ×_S U`, on which the diagonal is closed,
+   and put `E = RHom_W(Δ_*O_X,L pr_1^*K|_W)`. The affine rigidifications show that `E`
+   has cohomology only in degree zero. Transport the `ξ_U` to compatible sections of
+   `H⁰(E)`. Compare them on smaller affine opens around diagonal points to obtain agreement
+   on overlaps; off the diagonal `E=0`. Glue them as sections of that module sheaf, and use
+   `Hom_{D(O_W)}(Δ_*O_X,L pr_1^*K|_W) = Γ(W,H⁰(E))` to obtain `ξ`.
+   Its defining internal-Hom map is an isomorphism on the cover, hence globally
+   ([Lemma 48.28.5 (0E2X)](https://stacks.math.columbia.edu/tag/0E2X)). Include the canonical
+   comparison for another diagonal neighbourhood `W`.
+4. Prove restriction and affine-basis refinement compatibility for the objects and their
+   rigidifications. For arbitrary `S' → S`, pull back `K` and the diagonal morphism by the
+   derived functors; flatness supplies the diagonal Tor-independence identifying the pulled-back
+   `Δ_*O_X` with `Δ'_*O_{X'}`. Check the defining property by the affine base-change result
+   in step 1, then compare with the constructed pair by `.unique`
+   ([Lemma 48.28.6 (0E2Y)](https://stacks.math.columbia.edu/tag/0E2Y)). These comparisons commute
+   with refinement and composition of base changes because they preserve the rigidifications.
+
+*Needs:* §2.18's affine equivalence, derived operations, `Coherent.derivedHom_isSheaf` and
+`Coherent.derivedObject_gluing`; the local criterion for relative perfectness. The comparison
+`.upperShriek` uses §2.19 in its Noetherian separated finite-type regime.
+
+Define `relativeDualizingModule f d hd hCM :=
 H^{−d}(f^! O_Y)` for `f : X → Y` flat, separated, quasi-compact and locally of finite type with
 `Y` Noetherian, `d : ℕ`, `hd : PureRelativeDimension d f`, and
 `hCM : ∀ y : Y, Scheme.IsCohenMacaulay (f.fiber y)` (fibres Cohen–Macaulay of pure dimension `d`,
@@ -3786,7 +3895,15 @@ StableReduction Layers 1–2; JacobianChallenge Layer B.
 
 **Checks.**
 - `test_rdc_identity`: for `f = 𝟙_S` the relative dualising complex is `O_S[0]`.
-- `test_rdc_projective_line`: for `ℙ¹_S → S` it is `O(−2)[1] = Ω¹[1]`.
+- `test_rdc_projective_line`: for `ℙ¹_S → S` it is `O(−2)[1] = Ω¹[1]`. Over a field,
+  the standard affine differential bundles glue with `dy=−x⁻² dx` as in §2.18; the
+  diagonal Koszul constructions on the affine charts give compatible `ξ_U` and the global
+  relative-duality rigidification `ξ`.
+- `test_rdc_refinement`: refining that affine basis by principal opens preserves both `K`
+  and `ξ` under the unique compatible comparison, and this comparison commutes with base change.
+- `test_rdc_infinite_basis`: for `⨿_{n≥0} ℙ¹_k → Spec k`, the construction on the infinite
+  componentwise affine basis gives a relative dualising pair restricting to the preceding
+  rigidified pair on every component.
 - `test_rdc_base_change`: base change of the relative dualising complex of `f` is that of `f'`.
 - `test_rdc_not_invertible`: for `Spec k[x, y]/(x, y)² → Spec k` the relative dualising complex is
   `Hom_k(A, k)[0]`, which needs two generators; it is not invertible (the morphism is not
@@ -3801,8 +3918,8 @@ StableReduction Layers 1–2; JacobianChallenge Layer B.
 
 ### 2.21 Dualising complexes
 
-The strand `Coherent` of `Suggested.lean` contains only the derived category of §2.18; this
-subsection is specified in this README only. Define
+The strand `Coherent` of `Suggested.lean` contains the derived-category and gluing interfaces
+of §2.18; this subsection is specified in this README only. Define
 `DualizingComplex A ω` for a Noetherian ring `A` and `ω ∈ D(A)`: `ω` has finite injective dimension,
 finite cohomology modules, and `A → RHom_A(ω, ω)` is a quasi-isomorphism (Stacks, Definition
 47.15.1), with `homothety`, `cohomology_finite`, `biduality` (`M ≅ RHom(RHom(M, ω), ω)` for `M ∈

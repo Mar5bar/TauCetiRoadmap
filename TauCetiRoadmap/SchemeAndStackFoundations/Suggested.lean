@@ -789,6 +789,87 @@ theorem DQCoh.affineEquiv (A : CommRingCat.{u}) :
     Nonempty (DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A)) := by
   sorry
 
+/-- Restriction of derived module sheaves along an open immersion, induced by the exact
+module-sheaf restriction functor. Stacks, §20.45 (0D65). -/
+def derivedRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    DerivedCategory Y.Modules ⥤ DerivedCategory X.Modules := by
+  let F := Scheme.Modules.restrictFunctor f
+  letI : F.Additive := by sorry
+  letI : PreservesFiniteLimits F := by sorry
+  letI : PreservesFiniteColimits F := by infer_instance
+  exact F.mapDerivedCategory
+
+/-- The canonical comparison between direct and successive restrictions on nested opens.
+Stacks, Situation 20.45.3 (0D67). -/
+def derivedRestrictComp {X : Scheme.{u}} {U V W : X.Opens}
+    (hVU : V ≤ U) (hWV : W ≤ V) :
+    derivedRestrict (X.homOfLE (hWV.trans hVU)) ≅
+      derivedRestrict (X.homOfLE hVU) ⋙ derivedRestrict (X.homOfLE hWV) := by
+  sorry
+
+/-- The canonical comparison between restricting from a scheme to an open directly and
+restricting through a larger open. Stacks, Situation 20.45.3 (0D67). -/
+def derivedRestrictOpens {X : Scheme.{u}} {U V : X.Opens} (hVU : V ≤ U) :
+    derivedRestrict V.ι ≅ derivedRestrict U.ι ⋙ derivedRestrict (X.homOfLE hVU) := by
+  sorry
+
+/-- The presheaf of derived morphisms, with restriction induced by exact restriction of
+module sheaves and its canonical composition comparisons. Stacks, Lemma 20.45.2 (0D66). -/
+def derivedHomPresheaf {X : Scheme.{u}} (K L : DerivedCategory X.Modules) :
+    TopCat.Presheaf (Type (u + 1)) X where
+  obj U := (derivedRestrict (show X.Opens from U.unop).ι).obj K ⟶
+    (derivedRestrict (show X.Opens from U.unop).ι).obj L
+  map {U V} h := ↾fun α =>
+    (derivedRestrictOpens (leOfHom h.unop)).hom.app K ≫
+      (derivedRestrict (X.homOfLE (leOfHom h.unop))).map α ≫
+      (derivedRestrictOpens (leOfHom h.unop)).inv.app L
+  map_id := by sorry
+  map_comp := by sorry
+
+/-- Basis-local negative-Ext vanishing makes derived Hom a sheaf and gives the same
+vanishing on every open. Stacks, Lemma 20.45.2(2) (0D66). -/
+theorem derivedHom_isSheaf {X : Scheme.{u}} (B : Set X.Opens)
+    (hB : TopologicalSpace.IsTopologicalBasis ((fun U : X.Opens => (U : Set X)) '' B))
+    (K L : DerivedCategory X.Modules)
+    (hneg : ∀ U ∈ B, ∀ i : ℤ, i < 0 →
+      Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj L)⟦i⟧)) :
+    (derivedHomPresheaf K L).IsSheaf ∧
+      ∀ (U : X.Opens) (i : ℤ), i < 0 →
+        Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj L)⟦i⟧) := by
+  sorry
+
+/-- Local derived objects on an open basis, with restriction isomorphisms satisfying
+the cocycle condition. Stacks, Situation 20.45.3 (0D67). -/
+structure DerivedGluingData (X : Scheme.{u}) (B : Set X.Opens) where
+  obj : ∀ U : B, DerivedCategory U.val.toScheme.Modules
+  transition : ∀ {U V : B} (hVU : V.val ≤ U.val),
+    (derivedRestrict (X.homOfLE hVU)).obj (obj U) ≅ obj V
+  cocycle : ∀ {U V W : B} (hVU : V.val ≤ U.val) (hWV : W.val ≤ V.val),
+    transition (hWV.trans hVU) =
+      (derivedRestrictComp hVU hWV).app (obj U) ≪≫
+        (derivedRestrict (X.homOfLE hWV)).mapIso (transition hVU) ≪≫ transition hWV
+
+/-- A global derived object with identifications realizing a given restriction cocycle.
+Stacks, Theorem 20.45.8 (0D6C). -/
+structure DerivedGluingSolution {X : Scheme.{u}} {B : Set X.Opens}
+    (d : DerivedGluingData X B) where
+  obj : DerivedCategory X.Modules
+  iso : ∀ U : B, (derivedRestrict U.val.ι).obj obj ≅ d.obj U
+  compatibility : ∀ {U V : B} (hVU : V.val ≤ U.val),
+    iso V = (derivedRestrictOpens hVU).app obj ≪≫
+      (derivedRestrict (X.homOfLE hVU)).mapIso (iso U) ≪≫ d.transition hVU
+
+/-- An arbitrary open-basis cocycle with vanishing negative self-Ext has a global
+solution, unique up to unique compatible isomorphism. Stacks, Theorem 20.45.8 (0D6C). -/
+theorem derivedObject_gluing {X : Scheme.{u}} (B : Set X.Opens)
+    (hB : TopologicalSpace.IsTopologicalBasis ((fun U : X.Opens => (U : Set X)) '' B))
+    (d : DerivedGluingData X B)
+    (hneg : ∀ (U : B) (i : ℤ), i < 0 → Subsingleton (d.obj U ⟶ (d.obj U)⟦i⟧)) :
+    Nonempty (DerivedGluingSolution d) ∧
+      ∀ a b : DerivedGluingSolution d, ∃! e : a.obj ≅ b.obj,
+        ∀ U : B, (derivedRestrict U.val.ι).mapIso e ≪≫ b.iso U = a.iso U := by
+  sorry
+
 end Coherent
 
 /-! ### §2.22 Azumaya algebras -/
