@@ -574,7 +574,6 @@ open scoped Isocrystal
 
 variable (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p] [PerfectRing k p]
 
-set_option backward.isDefEq.respectTransparency.types false in
 /-- A `(φ, N)`-module over `K₀ = W(k)[1/p]`: an isocrystal with a `K₀`-linear monodromy operator
 satisfying `N φ = p φ N`, the relation of the Hyodo–Kato operators. -/
 structure PhiNModule (V : Type*) [AddCommGroup V] [Isocrystal p k V] where
@@ -583,7 +582,6 @@ structure PhiNModule (V : Type*) [AddCommGroup V] [Isocrystal p k V] where
   N_frobenius : ∀ x : V, N (Isocrystal.frobenius p k (V := V) x) =
     (p : K(p, k)) • Isocrystal.frobenius p k (V := V) (N x)
 
-set_option backward.isDefEq.respectTransparency.types false in
 /-- Zero monodromy gives a `(φ, N)`-module (the good-reduction case). -/
 example (V : Type*) [AddCommGroup V] [Isocrystal p k V] : Nonempty (PhiNModule p k V) :=
   ⟨⟨0, fun x ↦ by simp⟩⟩
