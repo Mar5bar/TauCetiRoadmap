@@ -52,7 +52,8 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   independently of the normal crossed-product theorem.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   and [OneParameterSemigroups](../OneParameterSemigroups/README.md) supply
-  self-adjoint generators, their spectral calculus, and strongly continuous
+  self-adjoint generators, their spectral calculus, Part B's PVM carrier,
+  integration and representation-PVM API, and strongly continuous
   one-parameter groups. Use their `LinearPMap` domains and graph closures.
 - Use the topological groupoid vocabulary shared with
   [LieGroupoidsPoisson G0](../LieGroupoidsPoisson/README.md):
@@ -513,8 +514,14 @@ positive functionals obtained by integration on Borel sets. For a
 decomposition ω=ω₁+ω₂, orthogonality means the canonical GNS isometry
 `H_ω→H_(ω₁)⊕H_(ω₂)` is onto; prove its equivalent projection criterion
 in the commutant. Require this for the functionals of a Borel set and
-its complement. Construct the commuting projection-valued measure on the GNS
-space and its L∞ representation. For separable A construct the measurable
+its complement. Use SelfAdjointSpectralTheory SA-B14's projection-valued-measure
+carrier. Own the measure obtained from these orthogonal decompositions and prove
+its range lies in the GNS commutant; consume SA-B44's integration to construct
+its L∞ representation, proving descent through the representing measure's
+a.e. classes via SA-B50 and `P(B)=0↔μ(B)=0`, using the cyclic GNS
+vector's separating property for the commutant. For compact-space commutative
+representations consume SA-B59 and SA-B67's supported, possibly degenerate
+version. For separable A construct the measurable
 fields of cyclic representations and the corresponding direct-integral
 GNS identification. Prove the correspondence between orthogonal decompositions and
 abelian subalgebras of the commutant, and identify the central measure from
