@@ -17,6 +17,14 @@ of Huber pairs, formal specialization, valuation nearby cycles, proper supports,
 and the cohomology of radial regions have no carriers at the pins: they are README targets with
 their intended signatures, listed by layer at the end of this file.
 
+The generic enhanced module functors, coefficient-forgetting comparisons, abelian and derived
+extension by zero, localization and D+ torsion proper supports are shared scheme interfaces
+owned here. SchemeAndStackFoundations supplies the underlying abelian D+ functors;
+ComplexComparisonPartII supplies scheme compactification geometry; LefschetzPencilsAndVanishingCycles
+supplies geometric exchange theorems and finite-coefficient ULA. Application roadmaps import these
+interfaces on their stated domains. README §5.6 extends the supplied ULA notion with agreement
+on the common finite-coefficient domain.
+
 Design choices made explicit here:
 
 * The ramification cutoff of the Bloch–Kato–Hyodo filtration is the natural ceiling of `pe/(p-1)`
@@ -469,7 +477,10 @@ conservativity; perfect tensor interchange, completed tensor for general complet
 ClassicalDerived.functorCoherence.coefficientComparison (underlying abelian D+ comparison and
 coherent coefficient/exchange transformations, with equivalences only under proved hypotheses),
 ClassicalCoefficients.finitePresentationDescent, ClassicalCoefficients.constructibleDerivedDescent,
-ClassicalCoefficients.constructibleHomContinuity, ClassicalAlgebraic.supportLocalization,
+ClassicalCoefficients.constructibleHomContinuity, ClassicalAlgebraic.supportLocalization
+(abelian exact extension by zero for open immersions of arbitrary schemes and any coefficient
+ring, its underlying-abelian comparison, and its enhanced termwise derived action with
+H^i(j_! K) = j_! H^i(K)),
 ClassicalAlgebraic.supportLocalization.mayerVietoris (finite-open localization and coherent
 group, coefficient and tensor transformations on scheme etale module complexes),
 ClassicalAlgebraic.properSupports, ClassicalAlgebraic.finiteTrace, ClassicalAlgebraic.cycleClasses,
