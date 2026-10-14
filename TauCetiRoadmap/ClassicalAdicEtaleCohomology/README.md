@@ -14,12 +14,15 @@ The objects here are sheaves on classical étale and pro-étale sites, including
 
 Sections 0.5–0.6 construct the coefficient and finite-presentation descent interfaces; Sections 0.7–0.11 construct the algebraic support, trace, cycle-class and duality inputs. The trait action, specialization triangle and variation maps of `LefschetzPencilsAndVanishingCycles`, layer LPV.0, are also shared. The logarithmic differential, Cartier and closed/exact differential interfaces used in the semistable filtration come from `CrystallineCohomology`, layer CR.5, Section CR.5.1, and the log de Rham–Witt interfaces from its layer CR.6, Section CR.6.1 (*Logarithmic de Rham–Witt complexes* and *Log de Rham–Witt model*). We leave integral comparison with crystalline and prismatic cohomology, primitive comparisons and diamond six operations to their own roadmaps.
 
-The generic derived limits and completion of Section 0.3, enhanced functor coherence of Section 0.4, étale localization of Section 0.7, D⁺ compactification-defined lower shriek of Section 0.8 and finite cycle classes of Section 0.9 have their single owner here. `LefschetzPencilsAndVanishingCycles`, §§F.0–F.4, owns constructible finite coefficients, universal-homeomorphism invariance, geometric base-change theorems, bounded ctf operations and normalized adic realization; §F.6 extends our finite classes to higher Gysin and adic operations. `ComplexComparisonPartII`, §§C4.3a–C4.3c, owns scheme compactification objects, Nagata existence and common refinements over qcqs bases. These algebraic compactifications are distinct from the analytic compactifications constructed in Layer 8.
+The enhanced ringed-site limits and module-completion comparisons of Section 0.3, enhanced functor coherence of Section 0.4, étale localization of Section 0.7, D⁺ compactification-defined lower shriek of Section 0.8 and finite cycle classes of Section 0.9 have their single owner here. `LefschetzPencilsAndVanishingCycles`, §§F.0–F.4, owns constructible finite coefficients, universal-homeomorphism invariance, geometric base-change theorems, bounded ctf operations and normalized adic realization; §F.6 extends our finite classes to higher Gysin and adic operations. `ComplexComparisonPartII`, §§C4.3a–C4.3c, owns scheme compactification objects, Nagata existence and common refinements over qcqs bases. These algebraic compactifications are distinct from the analytic compactifications constructed in Layer 8.
 
 These are shared scheme-level interfaces as well as analytic inputs. Their ownership is independent of the application: point-counting and Artin-comparison developments import this library on its full stated domains, rather than defining parallel functors. Those developments are not prerequisites of this roadmap. The shared interfaces have the following owners.
 
 | Interface | Owner and domain |
 | --- | --- |
+| Ordinary tower algebra, ML and Milnor maps | `ArithmeticGaloisDuality`, §R02.1.1, supplies abelian-group shifts, lim and lim¹; `DerivedDeRhamCohomology`, §1.1, supplies `DerivedDeRham.derivedLimit` and its module adapters. Section 0.3 compares enhanced limits with these supplied constructions. |
+| Module completion and its unit | `DerivedDeRhamCohomology`, §§1.2–1.5, supplies the completeness predicate, reflector, unit and quotient-tower comparison. `ClassicalDerived.derivedCompletion` is its ℓ-adic ℤ-module specialization with the enhanced comparison of Section 0.3. |
+| Generic enhancement foundations and sheaf-completion refinements | `EnhancedDerivedSheaves`, E0, supplies the quasicategorical and dg-nerve foundations used in Section 0.1; its E1 compares the resulting ringed-site enhancements. Its E4 supplies completion on replete ringed topoi, the Koszul/regular-quotient comparison and coefficient reconstruction, compared with Section 0.3 on the point topos. |
 | Abelian and derived extension by zero, with their comparison | Section 0.7, `ClassicalAlgebraic.supportLocalization`, for open immersions of arbitrary schemes and any coefficient ring; Section 0.4 supplies its coherent enhancement. |
 | Module-valued enhanced Rf* and coefficient-forgetting coherence | Sections 0.1–0.4, `ClassicalDerived.functorCoherence` and `ClassicalDerived.functorCoherence.coefficientComparison`; the underlying abelian D⁺ functors and Leray belong to `SchemeAndStackFoundations`, §§2.1–2.2. |
 | Scheme compactification objects, Nagata existence and common refinements | `ComplexComparisonPartII`, §§C4.3a–C4.3c, for separated finite-type morphisms over qcqs bases; Section 0.8 consumes this geometry. |
@@ -87,7 +90,7 @@ Layer 0 supplies enhanced derived sheaves, finite coefficient descent and the al
 - A sheaf concentrated in degree zero has that sheaf as H⁰ and zero other cohomology; its shift obeys the standing cohomological convention.
 - A quasi-isomorphism gives an equivalence of enhanced objects; an acyclic complex gives the zero object.
 
-*Needs:* Mathlib's sheaf, Grothendieck abelian and derived-category APIs; Section 0.2 for K-injectives. The construction of Sections 0.1–0.2 is joint: replacements are constructed in complexes before the localization.
+*Needs:* Mathlib's sheaf, Grothendieck abelian and derived-category APIs; Section 0.2 for K-injectives; `EnhancedDerivedSheaves`, E0.3 (`IsDwyerKanLocalization`), E0.4 (`IsStable`, enhanced limits and colimits), E0.6 (`dgNerve`, `dgNerve_quasicategory`, `dgNerve_homotopyCategoryIso`, `dgNerve_rightMappingSpaceIso`, `dgNerve_shift_cone_comparison`) and E0.8 (`IsPresentable`, accessibility and cardinal conventions). These generic foundations precede the ringed-site construction here; its quasicategorical realization and presentability comparisons in E1.3 of that roadmap follow this construction. Sections 0.1–0.2 are joint: replacements are constructed in complexes before the localization.
 
 ### 0.2 Replacements on ringed sites
 
@@ -111,23 +114,32 @@ Layer 0 supplies enhanced derived sheaves, finite coefficient descent and the al
 - Over R=Z, (Z/n)⊗ᴸ(Z/n) has Z/n in degrees −1 and 0 for n>1; ordinary tensor alone misses a cohomology group.
 - Interchanging homogeneous factors of degrees i and j gives (−1)^(ij), including the minus sign for two degree-one factors.
 
-**Derived limits, ML control and completion.** Provide `ClassicalDerived.inverseLimits` for small coherent diagrams in the enhanced category of an essentially small ringed site, including structured countable towers, derived products and Rlim K_i=fib(∏ᴿK_i→∏ᴿK_i), where the arrow is 1 minus transition. Prove invariance under initial reindexing and functoriality for open-exhaustion restriction maps. For towers of modules over any ring, define the Mittag–Leffler condition by eventual stabilization of the images in each fixed term, prove lim¹=0 under this condition, and give the Milnor sequence 0→lim¹ H^(r−1)(K_i)→H^r(Rlim K_i)→lim H^r(K_i)→0. Surjective module towers are Mittag–Leffler; degreewise surjectivity makes the tower of complex terms lim-acyclic, but does not itself assert surjectivity of the cohomology transitions. Prove compatibility with finite products and actions by a fixed group. For sheaves retain derived products and lim¹; a stalkwise surjectivity assertion alone does not replace the necessary product-acyclicity theorem. Fix universes and the small skeleton before forming these limits. (Stacks, Derived Categories, §13.34 *Derived limits*, tag 08TB, and More on Algebra, *Rlim of abelian groups*, tag 07KV; Lurie, *Higher Algebra*, §1.1.4; Bhatt–Scholze, *The pro-étale topology for schemes*, §§3 and 5.)
+**Derived limits and module comparison.** Provide `ClassicalDerived.inverseLimits` for small coherent diagrams in the enhanced category of an essentially small ringed site, including structured countable towers, derived products and Rlim K_i=fib(∏ᴿK_i→∏ᴿK_i), where the arrow is 1 minus transition. Prove invariance under initial reindexing and functoriality for open-exhaustion restriction maps. Fix universes and the small skeleton before forming limits. On the point site with coefficients in a commutative ring A, import `DerivedDeRham.derivedLimit` from `DerivedDeRhamCohomology`, §1.1, and the underlying `CompactCoefficients.Tower` shift, lim, lim¹ and ML theory from `ArithmeticGaloisDuality`, §R02.1.1. The ML predicate is Mathlib's `CategoryTheory.Functor.IsMittagLeffler` on the underlying set-valued tower, with the supplier's eventual-image characterization. These are the ordinary module theory used here.
+
+Provide `ClassicalDerived.inverseLimits.moduleComparison`: for a commutative ring A and a strict tower of A-module complexes, its enhanced limit, transported to Mathlib's `DerivedCategory`, is canonically isomorphic to the supplied module derived limit, naturally in the derived category of towers. Identify the projections, transition maps, fibre triangle and all maps of the supplied A-linear Milnor sequence 0→lim¹ H^(r−1)(K_i)→H^r(Rlim K_i)→lim H^r(K_i)→0. Retain its lim¹ term unless the cohomology tower satisfies ML; degreewise surjectivity of complexes alone does not impose ML on cohomology. The comparisons respect finite products and actions by a fixed group through compatible A-linear tower maps. For sheaves retain derived products; module ML vanishing is not transferred by a stalkwise-surjectivity argument without product acyclicity. (Stacks, Derived Categories, §13.34 *Derived limits*, tag 08TB, and More on Algebra, Lemmas 15.88.1 and 15.88.10, tags 07KW and 07KY, and Lemma 15.89.1, tag 091D; Lurie, *Higher Algebra*, §1.1.4; Bhatt–Scholze, *The pro-étale topology for schemes*, §§3 and 5.)
 
 **Checks.**
 
-- A constant identity tower has limit its constant object.
-- For a prime ℓ, the surjective tower Z/ℓ^(i+1) on a point has lim¹=0 and inverse limit Z_ℓ in degree zero.
+- A constant identity tower has limit its constant object; the module comparison identifies its projections with the supplied diagonal maps.
+- For a prime ℓ, the surjective tower Z/ℓ^(i+1) on a point has lim¹=0 and inverse limit Z_ℓ in degree zero, with the same reduction projections on both sides.
+- For a prime ℓ and K_i=[Z→Z/ℓ^(i+1)] in degrees 0,1 with identity/reduction transitions, every transition is degreewise surjective but H⁰(K_i)=ℓ^(i+1)Z is not ML. The comparison identifies the supplied Milnor injection lim¹ H⁰(K_i)≅Z_ℓ/Z with H¹(Rlim K_i), although H¹(K_i)=0 for every i.
 - Derived reduction (Z/ℓ)⊗ᴸ_(Z/ℓ²)(Z/ℓ), for a prime ℓ, has nonzero Tor₁ in degree −1. It is not an ordinary tensor product and has no asserted finite Tor amplitude.
 
-**Derived completion and reduction recovery.** For a prime ℓ and K∈D(Z-Mod), provide `ClassicalDerived.derivedCompletion`: K^∧_ℓ=Rlim_(n≥1)(K⊗ᴸ_Z Z/ℓⁿ), with coherent transition maps and the natural completion map. Define derived completeness by RHom_Z(Z[1/ℓ],K)=0 and prove that this is equivalent to K→K^∧_ℓ being an equivalence. Completion is idempotent and preserves every derived reduction modulo ℓⁿ. A map of derived-complete objects is an equivalence if its reductions are, already if its reduction modulo ℓ is; apply this to the cone. Prove finite-product and group-action compatibility. If P is a perfect Z-complex, prove P⊗ᴸRlim K_n≅Rlim(P⊗ᴸK_n); the finite-projective representative supplies the product and limit interchange. For arbitrary derived-complete K,L, define their completed tensor as (K⊗ᴸ_Z L)^∧_ℓ and recover it from Rlim_n((K⊗ᴸ_Z Z/ℓⁿ)⊗ᴸ_(Z/ℓⁿ)(L⊗ᴸ_Z Z/ℓⁿ)). In sheaf applications use the derived products of `ClassicalDerived.inverseLimits`; any further tensor interchange or restriction to bounded categories requires a proved interchange theorem and the stated uniform cohomological and Tor bounds. Completeness alone supplies no assertion that ordinary tensor commutes with an inverse limit. (Stacks, More on Algebra, *Derived Completion*, tag 091N, especially Lemmas 15.93.10, 15.93.17–15.93.18 and 15.93.20, and *Rlim of abelian groups*, tag 07KV; Bhatt–Scholze, *The pro-étale topology for schemes*, §§3 and 5.)
+**Derived completion and reduction recovery.** For a prime ℓ and K∈D(Z-Mod), use `ClassicalDerived.derivedCompletion` for the specialization of `DerivedDeRham.derivedCompletion` and `DerivedDeRham.completionUnit` at A=Z and I=(ℓ), with its finite-generation witness. The predicate is the supplied `DerivedDeRham.derivedCompleteness`, equivalently RHom_Z(Z[1/ℓ],K)=0. The regular one-element sequence (ℓ) allows the supplier's ordinary-quotient comparison: K^∧_ℓ=Rlim_(n≥1)(K⊗ᴸ_Z Z/ℓⁿ). Its idempotence, reduction recovery and conservativity modulo ℓ are specializations of the supplied reflector and derived Nakayama theorems, including their units.
+
+Lift this construction to the point-site enhancement and provide `ClassicalDerived.derivedCompletion.moduleComparison`. Write q for the homotopy-category equivalence with D(Z-Mod), Ĉ for enhanced completion and Λ_(ℓ) for the supplied module reflector. Require a natural isomorphism α_K:q(ĈK)≅Λ_(ℓ)(qK) with α_K∘q(η_K)=`DerivedDeRham.completionUnit` at qK. Identify the completeness predicates: the enhanced unit is an equivalence exactly when qK satisfies the supplied predicate. Compare the coherent quotient towers through `ClassicalDerived.inverseLimits.moduleComparison`, identifying their finite-level projections, reduction-recovery maps and transitions, and the Milnor injections and edge maps. Require equivariance for compatible actions of a fixed group, and finite-product compatibility.
+
+If P is a perfect Z-complex, prove P⊗ᴸRlim K_n≅Rlim(P⊗ᴸK_n), compatibly with the module limit comparison; a finite-projective representative supplies the interchange. For derived-complete K,L, their completed tensor is (K⊗ᴸ_Z L)^∧_ℓ, recovered as Rlim_n((K⊗ᴸ_Z Z/ℓⁿ)⊗ᴸ_(Z/ℓⁿ)(L⊗ᴸ_Z Z/ℓⁿ)). The completion comparison identifies this tensor, its unit-induced map and its reductions with the same construction from the supplied module reflector and tensor product. Completeness alone does not assert that ordinary tensor commutes with inverse limits.
+
+For sheaves use the derived products of `ClassicalDerived.inverseLimits`. `EnhancedDerivedSheaves`, E4.1–E4.2 and E4.4–E4.5, supplies the extension to replete ringed topoi: local derived completeness, the completion reflector with unit, Koszul towers, regular-ideal quotient comparison, completed tensor and coefficient reconstruction on their stated domains. On the point topos these refine the module comparisons here, including predicates, units, reductions and completed tensor; on ringed slices use its restriction comparisons. Further tensor interchange or restriction to bounded categories carries its proved interchange hypotheses and uniform cohomological and Tor bounds. (Stacks, More on Algebra, *Derived Completion*, tag 091N, especially Lemmas 15.93.10, 15.93.18 and 15.93.20, tags 091V, 0920 and 0G1U, and Lemma 15.95.2, tag 0923; Bhatt–Scholze, *The pro-étale topology for schemes*, §3.4–§3.5.)
 
 **Checks.**
 
-- Z completes to Z_ℓ; the derived-complete module Z_ℓ is recovered from its Z/ℓⁿ reductions.
-- Z/ℓ is derived complete. Its derived reduction over Z has a Tor term in degree −1 as well as its degree-zero value; recovery uses the full complexes.
+- Z completes to Z_ℓ; the comparison identifies the unit Z→Z_ℓ with the supplied completion unit and all quotient projections. The derived-complete module Z_ℓ is recovered from its Z/ℓⁿ reductions.
+- Z/ℓ is derived complete. Its derived reduction over Z has a Tor term in degree −1 as well as its degree-zero value; the comparison preserves both terms and their transition maps. Recovery uses the full complexes.
 - A derived-complete object with zero reduction modulo ℓ is zero; Z[1/ℓ] is nonzero with zero reductions and is not derived complete.
 
-*Needs:* Sections 0.1–0.2 and the tensor–Hom construction of Section 0.3; Mathlib's `ModuleCat`, tensor, Hom, `DerivedCategory` and small limits. The module-tower Milnor and Mittag–Leffler theorems precede completion; the perfectness or uniform Tor bounds used for tensor interchange are carried in each application. Geometric normalized systems and their realization use this machinery in `LefschetzPencilsAndVanishingCycles`, §F.4.
+*Needs:* Sections 0.1–0.2 and the tensor–Hom construction of Section 0.3; Mathlib's `ModuleCat`, tensor, Hom, `DerivedCategory` and small limits. `ArithmeticGaloisDuality`, §R02.1.1, supplies elementary tower algebra and ML/Milnor; `DerivedDeRhamCohomology`, §§1.1–1.5, supplies the ordinary module adapters, completeness predicate, reflector, unit and quotient-tower comparison. These precede the enhanced comparisons here and require none of that roadmap's de Rham or crystalline applications. The replete-topos completion refinements use `EnhancedDerivedSheaves`, E4, after this module comparison. Perfectness or uniform Tor bounds for interchange are carried in each application. Geometric normalized systems and their realization consume these interfaces in `LefschetzPencilsAndVanishingCycles`, §F.4.
 
 ### 0.4 Coherent derived functors
 
@@ -272,7 +284,7 @@ For finite commutative Λ annihilated by n, use derived extension of scalars fro
 
 ### Dependencies
 
-Sections 0.1–0.4 use Mathlib's ringed-site module sheaves, Grothendieck abelian categories and `DerivedCategory`, with `SchemeAndStackFoundations`, §§2.1–2.2, supplying the generic abelian D⁺ functors and Leray. Section 0.3 owns derived limits and completion; scheme adic realization in `LefschetzPencilsAndVanishingCycles`, §F.4, consumes them. Sections 0.5–0.6 use finite-presentation limits from `SchemeAndStackFoundations`, §0.9. Section 0.7 uses `LefschetzPencilsAndVanishingCycles`, §F.0 (`VanishingCycles.universalHomeomorphismEtaleEquivalence`), for nilpotent invariance. Section 0.8 requires its §F.2 (`VanishingCycles.properBaseChange`) before constructing D⁺ proper supports, and the scheme compactification objects, existence and coherent refinements of `ComplexComparisonPartII`, §§C4.3a–C4.3c. Constructible ctf operations in `LefschetzPencilsAndVanishingCycles`, §§F.2–F.3, then consume the D⁺ support and localization functors here; §F.6 consumes Section 0.9's finite cycle classes. The algebraic trace and duality inputs remain Sections 0.10–0.11 and their named geometry suppliers.
+Sections 0.1–0.4 use Mathlib's ringed-site module sheaves, Grothendieck abelian categories and `DerivedCategory`, with `SchemeAndStackFoundations`, §§2.1–2.2, supplying the generic abelian D⁺ functors and Leray. Section 0.1 uses `EnhancedDerivedSheaves`, E0.3–E0.4, E0.6 and E0.8, before its E1 comparisons. Section 0.3 owns enhanced ringed-site limits and comparisons with the ordinary module theory of `ArithmeticGaloisDuality`, §R02.1.1, and `DerivedDeRhamCohomology`, §§1.1–1.5; its replete-topos completion refinements come from `EnhancedDerivedSheaves`, E4; scheme adic realization in `LefschetzPencilsAndVanishingCycles`, §F.4, consumes them. Sections 0.5–0.6 use finite-presentation limits from `SchemeAndStackFoundations`, §0.9. Section 0.7 uses `LefschetzPencilsAndVanishingCycles`, §F.0 (`VanishingCycles.universalHomeomorphismEtaleEquivalence`), for nilpotent invariance. Section 0.8 requires its §F.2 (`VanishingCycles.properBaseChange`) before constructing D⁺ proper supports, and the scheme compactification objects, existence and coherent refinements of `ComplexComparisonPartII`, §§C4.3a–C4.3c. Constructible ctf operations in `LefschetzPencilsAndVanishingCycles`, §§F.2–F.3, then consume the D⁺ support and localization functors here; §F.6 consumes Section 0.9's finite cycle classes. The algebraic trace and duality inputs remain Sections 0.10–0.11 and their named geometry suppliers.
 
 ## Layer 1: Sheaves, supports and strict-local cohomology
 
@@ -4511,17 +4523,19 @@ For a partially proper morphism f of rigid K-spaces of relative pure dimension d
 
 (Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, Lemma 5.3.2 and proof, p. 77 (Λ = ℤ/nℤ fixed at the start of §5.3).)
 
-For a partially proper morphism f of rigid K-spaces of relative pure dimension d and any abelian Λ=ℤ/n-sheaf F, R^if_!F=0 for i>2d. This is Zavyalov Lemma 5.3.2, whose proof cites Huber 5.3.11 and 1.8.7. It is the dimensional bound required by the trace’s top-degree Leray isomorphism, and is recorded separately from this roadmap’s more restricted relative-ball and general compactifiable-map bounds.
-
 *Needs:* the supplier contracts; Section 8.3; `AdicEtaleGeometry`, layer A2 (`relative-dimension-rank-one-fibres`).
 
-Let Λ=ℤ/n with n invertible in K. For smooth partially proper taut rigid f:X→Y and g:Y→Z of relative pure dimensions d,e, Leray and the 2d/2e bounds give a canonical isomorphism R^{2(d+e)}(g∘f)_!Λ(d+e) ≅ R^{2e}g_!(R^{2d}f_!Λ(d))(e). For α:R^{2d}f_!Λ(d)→Λ and β:R^{2e}g_!Λ(e)→Λ, define β⊙α by this isomorphism followed by R^{2e}g_!(α)(e) and β. This specifies the meaning of trace compatibility with composition.
+**Top-degree trace composition.** Provide `SmoothRelativeTrace.topDegreeComposition`. Let K be complete nontrivially rank-one valued and Λ=ℤ/n with n>0 invertible in K. For smooth partially proper taut rigid f:X→Y and g:Y→Z of relative pure dimensions d,e, Leray and the 2d/2e bounds give a canonical isomorphism R^{2(d+e)}(g∘f)_!Λ(d+e) ≅ R^{2e}g_!(R^{2d}f_!Λ(d))(e). For α:R^{2d}f_!Λ(d)→Λ and β:R^{2e}g_!Λ(e)→Λ, define β⊙α by this isomorphism followed by R^{2e}g_!(α)(e) and β. This specifies the meaning of trace compatibility with composition.
 
 (Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, §5.3, paragraph before Theorem 5.3.3, pp. 77–78; Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, §5.3, p. 78.)
 
-For smooth partially proper taut rigid f:X→Y and g:Y→Z of relative pure dimensions d,e, Leray and the 2d/2e bounds give a canonical isomorphism R^{2(d+e)}(g∘f)_!Λ(d+e) ≅ R^{2e}g_!(R^{2d}f_!Λ(d))(e). For α:R^{2d}f_!Λ(d)→Λ and β:R^{2e}g_!Λ(e)→Λ, define β⊙α by this isomorphism followed by R^{2e}g_!(α)(e) and β. This specifies the meaning of trace compatibility with composition.
+**Checks.**
 
-*Needs:* Section 9.4; Section 8.3; Section 8.4; `DiamondsAndVStacks`, layer D0.
+- If f is the identity in relative dimension zero, β⊙id=β under the Leray identification.
+- For two composable split finite étale covers with summation traces α,β, β⊙α is the sum over the composite finite fibre, agreeing with iterated summation.
+- For P¹×P¹→P¹→Spa(C,O_C), the product of the two c₁(O(1)) classes has iterated trace 1 for the normalized P¹ traces, including n=p in mixed characteristic.
+
+*Needs:* the relative 2d bound above; Section 8.3; Section 8.4; `DiamondsAndVStacks`, layer D0.
 
 For a separated taut smooth f:X→Y of equidimension d between locally noetherian analytic adic spaces, and n>0 invertible in O_Y, put Λ=Z/n. Then Rf!Λ_X(d)[2d] belongs to D≤0(Y_ét,Λ). Every morphism from this complex to Λ_Y factors uniquely through R²ᵈf!Λ_X(d). The source’s use of Huber 5.5.8 covers this constant-coefficient statement without requiring n to be invertible in O_Y⁺.
 
@@ -4549,7 +4563,7 @@ This uses Projective bundle geometry is imported from R3; its cohomological norm
 
 (Shizhang Li, Emanuel Reinecke and Bogdan Zavyalov, Relative Poincaré duality in nonarchimedean geometry, Lemma 6.1.6 and formula (6.1.7), pp. 69–70; Remark 6.1.8, pp. 70–71.)
 
-Provide `AffineSpaceTrace.projectiveLine`: For d=1 the trace is restriction to P¹ followed by the inverse Chern-class isomorphism in degree two; `AffineSpaceTrace.projection`: Successive projections compose the traces with the corresponding Tate twists and cohomological shifts; `AffineSpaceTrace.permutation`: Any permutation of affine coordinates leaves the trace unchanged; `AffineSpaceTrace.baseChange`: Pullback of the trace equals the trace on the pullback after the canonical support base-change transformation.
+Provide `AffineSpaceTrace.projectiveLine`: For d=1 the trace is restriction to P¹ followed by the inverse Chern-class isomorphism in degree two; `AffineSpaceTrace.projection`: Successive projections compose the traces with the corresponding Tate twists and cohomological shifts; on the partially proper taut rigid domain their top-degree maps use `SmoothRelativeTrace.topDegreeComposition`; `AffineSpaceTrace.permutation`: Any permutation of affine coordinates leaves the trace unchanged; `AffineSpaceTrace.baseChange`: Pullback of the trace equals the trace on the pullback after the canonical support base-change transformation.
 
 Provide `AffineSpaceTrace.algebraic`: Over Spa(C,O_C) it agrees with the scheme affine-space trace under algebraic–analytic support comparison.
 
@@ -4576,15 +4590,13 @@ For separated smooth u(f):u(X)→u(Y) of pure relative dimension d (Berkovich's 
 
 (Berkovich (1993), Theorem 7.2.1, pp. 131–132; Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, proof of Theorem 5.3.3, p. 78; Berkovich (1993), §7.2, first sentence, p. 130.)
 
-For boundaryless smooth u(f):u(X)→u(Y) of pure relative dimension d, import Berkovich 1993 Theorem 7.2.1’s trace R^{2d}u(f)_!Λ(d)→Λ, with geometric-fibre/base-change compatibility, top-degree composition, dimension-zero étale counit and surjectivity for nonempty fibres. Work with n invertible in K so the Tate twist is defined; in mixed characteristic p, n=p^r is allowed here. The prime-to-residue hypothesis is imposed on Poincaré duality, not on this trace interface. Berkovich writes the composite trace as α□β with α the trace of the second map φ and β that of the first map ψ; this is t_g⊙t_f in the adic notation of top-degree-proper-support-composition.
-
 *Needs:* Section 3.1; Section 9.4; Section 1.4; Section 9.5.
 
 Let K be a complete nontrivially rank-one valued field, n>0 invertible in K and Λ=ℤ/n. (Zavyalov §5 assumes O_K of mixed characteristic (0, p) and allows every n; Berkovich §7.2 needs only n prime to char K and Zavyalov's Appendix A holds for every complete rank-one K, so the construction applies verbatim.) For a smooth partially proper rigid f:X→Y of relative pure dimension d, define t_f:R^{2d}f_!Λ_X(d)→Λ_Y by θ_Y^* of the Berkovich trace on taut affinoid-base neighbourhoods, using α_f. These local sheaf morphisms glue by their compatible geometric maximal stalks. The map has geometric-maximal-fibre compatibility, t_g⊙t_f=t_{g∘f}, the étale counit normalization at d=0, and is surjective when every fibre is nonempty. This is Zavyalov Theorem 5.3.3; it constructs a trace without asserting p-torsion duality.
 
 (Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, Theorem 5.3.3 and proof, p. 78.)
 
-Provide `SmoothRelativeTrace`: The family t_f:R^{2d}f_!Λ(d)→Λ for smooth partially proper pure-dimensional f; `SmoothRelativeTrace.ofBerkovich`: Local trace obtained through α_f and θ^*; `SmoothRelativeTrace.maximalFiber`: Restriction to a geometric fibre over a maximal point is its trace; `SmoothRelativeTrace.comp`: t_g⊙t_f=t_{g∘f} under the top-degree Leray isomorphism.
+Provide `SmoothRelativeTrace`: The family t_f:R^{2d}f_!Λ(d)→Λ for smooth partially proper pure-dimensional f; `SmoothRelativeTrace.ofBerkovich`: Local trace obtained through α_f and θ^*; `SmoothRelativeTrace.maximalFiber`: Restriction to a geometric fibre over a maximal point is its trace; `SmoothRelativeTrace.comp`: t_g⊙t_f=t_{g∘f}, using `SmoothRelativeTrace.topDegreeComposition` of Section 9.4.
 
 Provide `SmoothRelativeTrace.dimensionZero`: For d=0 the map is the counit (f_!,f^*); `SmoothRelativeTrace.surjective`: All nonempty fibres imply an epimorphism of sheaves; `SmoothRelativeTrace.restrict`: Trace commutes with restriction to the affinoid-base neighbourhoods used in its construction; `SmoothRelativeTrace.proper`: For proper f, use f_!=f_* to obtain R^{2d}f_*Λ(d)→Λ.
 
@@ -4599,8 +4611,6 @@ Provide `SmoothRelativeTrace.baseChange`: For a morphism g : Y′ → Y of taut 
 - For C complete algebraically closed and f : P^{1,ad}_C → Spa(C, O_C), t_f : H²(P¹_C, μ_n) → ℤ/n is the isomorphism induced by deg : Pic(P¹) → ℤ (Berkovich 6.2.1(b) and 7.2.1(d)), for every n invertible in C, including n = p^r when char C = 0 and the residue characteristic is p.
 - If char K = 0 and the residue characteristic is p, for the open unit disc f : D → Spa(C, O_C) and n = p, t_f : H²_c(D, μ_p) → 𝔽_p is surjective but not injective, since H²_c(D, μ_p) is infinite (Berkovich Remark 6.2.10): connected nonempty fibres give an isomorphism only for n invertible in O_K.
 
-Let K be a complete nontrivially rank-one valued field, n>0 invertible in K and Λ=ℤ/n. For a smooth partially proper rigid f:X→Y of relative pure dimension d, define t_f:R^{2d}f_!Λ_X(d)→Λ_Y by θ_Y^* of the Berkovich trace on taut affinoid-base neighbourhoods, using α_f. These local sheaf morphisms glue by their compatible geometric maximal stalks. The map has geometric-maximal-fibre compatibility, t_g⊙t_f=t_{g∘f}, the étale counit normalization at d=0, and is surjective when every fibre is nonempty. This is Zavyalov Theorem 5.3.3; it constructs a trace without asserting p-torsion duality.
-
 *Needs:* Section 9.5; Section 9.1; Section 3.2; Section 9.4.
 
 For the trace t_f and a geometric point over a maximal y∈Y, the proper-support base-change identification carries its stalk to t_{f_y}:H_c^{2d}(X_y,Λ(d))→Λ. It is the maximal-geometric-fibre property in Zavyalov 5.3.3(1). This statement does not claim a base-change theorem for arbitrary higher-rank plus rings or arbitrary morphisms of bases.
@@ -4609,7 +4619,7 @@ For the trace t_f and a geometric point over a maximal y∈Y, the proper-support
 
 *Needs:* Section 9.5; Section 9.1.
 
-For smooth partially proper pure-dimensional f,g as in top-degree-proper-support-composition, t_g⊙t_f=t_{g∘f}. The equality is between the maps from R^{2(d+e)}(g∘f)_!Λ(d+e) to Λ after the canonical Leray/twist identification; relative dimensions add.
+The compatibility theorem `SmoothRelativeTrace.comp` uses exactly the composition operation `SmoothRelativeTrace.topDegreeComposition` of Section 9.4 for smooth partially proper taut rigid f,g of pure dimensions d,e. It asserts t_g⊙t_f=t_{g∘f}; this is a property of the normalized trace family of this section.
 
 (Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, Theorem 5.3.3(2), p. 78.)
 
@@ -4631,23 +4641,17 @@ For f:X→Y smooth partially proper of relative pure dimension d, an arbitrary m
 
 (Berkovich (1993), §7.2, definition of compatibility with base change (pp. 130–131) and Theorem 7.2.1(a), p. 131.)
 
-For a Cartesian square of smooth partially proper pure-dimensional rigid maps over K, with all four spaces taut and their Berkovich realization available, the smooth trace commutes with the canonical proper-support base-change map. The comparison α_f must be coherent with that square; that coherence is a supplier obligation. The statement covers rigid spaces over Spa(K,O_K), retaining n invertible in K, and does not assert arbitrary-plus-ring base change.
-
 *Needs:* Section 9.5; Section 9.1; Section 3.1.
 
 For smooth partially proper taut rigid f of pure relative dimension d and n invertible in O_K, if the geometric fibres over all maximal points of Y (base changes along Spa(C, O_C) → Y) are nonempty and connected, t_f:R^{2d}f_!ℤ/n(d)→ℤ/n is an isomorphism. This is the final assertion of Berkovich 7.2.1 transferred by θ^* and α_f. The stronger prime-to-residue condition is retained here; nonempty fibres alone give only surjectivity.
 
 (Berkovich (1993), Theorem 7.2.1, final assertion (p. 132) and its proof (p. 133); Berkovich (1993), Remark 6.2.10, p. 118.)
 
-For smooth partially proper taut rigid f of pure relative dimension d and n invertible in O_K, if all geometric fibres are nonempty and connected, t_f:R^{2d}f_!ℤ/n(d)→ℤ/n is an isomorphism. This is the final assertion of Berkovich 7.2.1 transferred by θ^* and α_f. The stronger prime-to-residue condition is retained here; nonempty fibres alone give only surjectivity.
-
 *Needs:* Section 9.5; Section 9.1; Section 3.2.
 
 A trace family on separated smooth morphisms of analytic spaces over all non-archimedean extensions of K (Berkovich's base change in 7.2.1(a) is along morphisms of analytic spaces over k, including ground-field extensions) is uniquely determined by base-change compatibility, top-degree composition, the dimension-zero étale trace, and the absolute algebraically closed curve trace. Consequently the adic trace obtained through the fixed θ/α comparison is independent of the local affinoid cover and any choice of normalized Berkovich family. This uses all four normalizations of Berkovich 7.2.1; it does not claim uniqueness from Guo–Reinecke’s three assumptions alone.
 
 (Berkovich (1993), Theorem 7.2.1(a)–(d), pp. 131–132.)
-
-A trace family on separated smooth strict Berkovich maps is uniquely determined by base-change compatibility, top-degree composition, the dimension-zero étale trace, and the absolute algebraically closed curve trace. Consequently the adic trace obtained through the fixed θ/α comparison is independent of the local affinoid cover and any choice of normalized Berkovich family. This uses all four normalizations of Berkovich 7.2.1; it does not claim uniqueness from Guo–Reinecke’s three assumptions alone.
 
 *Needs:* Section 9.5; Section 9.2.
 
@@ -4673,7 +4677,7 @@ This uses n must be a unit in O_Y; it can fail to be a unit in O_Y⁺; Classical
 
 (Shizhang Li, Emanuel Reinecke and Bogdan Zavyalov, Relative Poincaré duality in nonarchimedean geometry, Theorem 6.1.1 and its proof, pp. 66–74; Theorem 1.2.1, pp. 3–4.)
 
-Provide `GeneralSmoothTrace.chart`: On an étale coordinate chart, trace is AffineSpaceTrace composed with the étale counit; `GeneralSmoothTrace.independent`: The trace does not depend on the charts or cover; any normalized compatible assignment has the same maps; `GeneralSmoothTrace.comp`: tr_(g∘f)=tr_g∘Rg!(tr_f(e)[2e]) for smooth maps of dimensions d and e, using support composition and projection formula; `GeneralSmoothTrace.baseChange`: For a Cartesian pullback, tr_f′∘BC=g*tr_f. BC is not declared invertible unless its separate hypotheses hold.
+Provide `GeneralSmoothTrace.chart`: On an étale coordinate chart, trace is AffineSpaceTrace composed with the étale counit; `GeneralSmoothTrace.independent`: The trace does not depend on the charts or cover; any normalized compatible assignment has the same maps; `GeneralSmoothTrace.comp`: tr_(g∘f)=tr_g∘Rg!(tr_f(e)[2e]) for smooth maps of dimensions d and e, using support composition and projection formula; on the partially proper taut rigid domain its top-degree form is `SmoothRelativeTrace.comp` with the operation of Section 9.4; `GeneralSmoothTrace.baseChange`: For a Cartesian pullback, tr_f′∘BC=g*tr_f. BC is not declared invertible unless its separate hypotheses hold.
 
 Provide `GeneralSmoothTrace.etale`: For étale f the trace is the usual exact f!–f* counit; `GeneralSmoothTrace.projectiveLine`: For P¹,an_C over Spa(C,O_C), the trace is the transported algebraic curve trace; `GeneralSmoothTrace.topDegree`: The trace factors uniquely through R²ᵈf!Λ(d).
 
@@ -4685,7 +4689,7 @@ Provide `GeneralSmoothTrace.etale`: For étale f the trace is the usual exact f!
 - The trace is defined for the relative disc over Spa(C,C⁺) of rank(C⁺)>1 and is compatible with the rank-one generic pullback.
 - For the mixed-characteristic closed disc with Λ=F_p, the nonzero difference of the point classes at 0 and 1 lies in the kernel of its trace; trace existence therefore cannot give an isomorphism H²_c≅F_p (LRZ Corollary 5.5.18 and Lemma 5.5.21, pp. 60–61).
 
-The result includes Spa(C,C⁺) for arbitrary open bounded valuation subrings. Residue-p coefficients on a nonproper disc do not satisfy full classical Poincaré duality merely because this trace exists.
+Affine-space normalization has its home in `AffineSpaceTrace` of Section 9.4. On the common smooth partially proper taut rigid domain, the top-degree map of `GeneralSmoothTrace` is `SmoothRelativeTrace`, by the same coordinate normalization and étale descent. The general derived trace retains its larger domain, including Spa(C,C⁺) for arbitrary open bounded valuation subrings. Residue-p coefficients on a nonproper disc do not satisfy full classical Poincaré duality merely because this trace exists.
 
 *Needs:* Section 9.4; Section 9.5; Section 9.3; `AdicSpacesPartII`, layer R0; Section 1.2; Sections 0.1–0.4.
 
@@ -4787,11 +4791,9 @@ For a rank-two base S with open generic point η, let X be the closed disc over 
 
 ### 9.7 Proper pairings and integral traces
 
-For smooth proper rigid X/K of pure dimension d, n invertible in K and a completed algebraic closure C, the relative trace yields (as in Zavyalov §5.4 for 𝔽_p in mixed characteristic) a G_K-equivariant map t_X:H^{2d}_et(X_C,ℤ/n(d))→ℤ/n. It is compatible with finite coefficient reduction and with composition of smooth proper maps. The field-point stalk comparison transports the continuous Galois action; equivariance is part of the sheaf morphism on Spa(K,O_K).
+For smooth proper rigid X/K of pure dimension d, n invertible in K and a completed algebraic closure C, the proper field-fibre specialization of `SmoothRelativeTrace` in Section 9.5 yields (as in Zavyalov §5.4 for 𝔽_p in mixed characteristic) a G_K-equivariant map t_X:H^{2d}_et(X_C,ℤ/n(d))→ℤ/n. It is compatible with finite coefficient reduction and with composition of smooth proper maps. The field-point stalk comparison transports the continuous Galois action; equivariance is part of the sheaf morphism on Spa(K,O_K).
 
 (Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, §5.4, first paragraph, and Remark 5.4.1, p. 78.)
-
-For smooth proper rigid X/K of pure dimension d, n invertible in K and a completed algebraic closure C, the relative trace yields a G_K-equivariant map t_X:H^{2d}_et(X_C,ℤ/n(d))→ℤ/n. It is compatible with finite coefficient reduction and with composition of smooth proper maps. The field-point stalk comparison transports the continuous Galois action; equivariance is part of the sheaf morphism on Spa(K,O_K).
 
 *Needs:* Section 9.5; Section 1.3; `AdicEtaleGeometry`, layer A1 (`finite-etale-galois-category`).
 
@@ -4845,13 +4847,13 @@ For d=0 and a split finite étale map, the formula identifies the dual of a fini
 
 *Needs:* Section 9.7; Section 9.1; `DiamondsAndVStacks`, layer D0; Sections 0.1–0.4.
 
-Let f:𝔛→𝔜 be smooth proper of constant relative dimension d between smooth formal O_K-schemes, with K complete of mixed characteristic (0,p), and write f_η for the analytic generic-fibre map. Construct `IntegralSmoothProperTrace` on the pro-étale site as the degree-zero map of the derived trace Rf_{η,*}Ẑ_p(d)[2d]→Ẑ_p. Start with the coherent finite-level traces, identify Rf_{η,*}Ẑ_p(d) with Rlim_r ν*Rf_{η,ét,*}Z/p^r(d), and take their derived inverse limit. Taking H⁰ gives t_f:R^{2d}f_{η,*}Ẑ_p(d)→Ẑ_p. Equivalently this is the canonical top-degree edge map to lim_r ν*R^{2d}f_{η,ét,*}Z/p^r(d), followed by the limit traces; the edge map need not be declared an isomorphism in a family. Prove compatibility with finite-level projections and derived coefficient reduction, composition and the finite étale counit in dimension zero. If every geometric fibre is nonempty, prove t_f is an epimorphism using compatible local cycle classes, rather than inverse limits of unrelated surjections. For the Guo–Reinecke application restrict K further to a complete discretely valued field with perfect residue field.
+Let f:𝔛→𝔜 be smooth proper of constant relative dimension d between smooth formal O_K-schemes, with K complete of mixed characteristic (0,p), and write f_η for the analytic generic-fibre map. Construct `IntegralSmoothProperTrace` on the pro-étale site as the degree-zero map of the derived trace Rf_{η,*}Ẑ_p(d)[2d]→Ẑ_p. Use the proper generic-fibre specialization of `GeneralSmoothTrace` from Section 9.5 at each finite level; on its rigid domain this is `SmoothRelativeTrace`. Identify Rf_{η,*}Ẑ_p(d) with Rlim_r ν*Rf_{η,ét,*}Z/p^r(d), and take their derived inverse limit. Taking H⁰ gives t_f:R^{2d}f_{η,*}Ẑ_p(d)→Ẑ_p. Equivalently this is the canonical top-degree edge map to lim_r ν*R^{2d}f_{η,ét,*}Z/p^r(d), followed by the limit traces; the edge map need not be declared an isomorphism in a family. Prove compatibility with finite-level projections and derived coefficient reduction, composition and the finite étale counit in dimension zero. If every geometric fibre is nonempty, prove t_f is an epimorphism using compatible local cycle classes, rather than inverse limits of unrelated surjections. For the Guo–Reinecke application restrict K further to a complete discretely valued field with perfect residue field.
 
 This uses The integral sheaf is Ẑ_p=lim_r ν*Z/p^r on the pro-étale site, and derived operations use the enhanced category. Formal schemes are smooth and the morphism proper, smooth and equidimensional. Nonempty fibres are required only for epimorphy.
 
 (Haoyang Guo, Emanuel Reinecke, A prismatic approach to crystalline local systems, Remark 7.17, p. 114; Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, §5.5, Lemma 5.5.1 and Definition 5.5.3, pp. 81–82; Haoyang Guo, Emanuel Reinecke, A prismatic approach to crystalline local systems, Theorem 7.16, p. 114; Haoyang Guo, Emanuel Reinecke, A prismatic approach to crystalline local systems, §1, conventions, p. 30; Shizhang Li, Emanuel Reinecke and Bogdan Zavyalov, Relative Poincaré duality in nonarchimedean geometry, §6.2, Lemma 6.2.2, pp. 74–75; §6.4, Lemma 6.4.5, p. 83.)
 
-Provide `IntegralSmoothProperTrace`: The ℤ_p-linear trace family on smooth proper formal generic fibres; `IntegralSmoothProperTrace.modPow`: Derived reduction of the integral trace complex by p^r recovers the normalized finite-level trace complex, and the finite-level projections commute with the top-degree edge map. A quotient isomorphism for the relative top cohomology sheaf requires a further amplitude assertion and is not part of this interface; `IntegralSmoothProperTrace.comp`: The integral trace family is compatible with composition; `IntegralSmoothProperTrace.dimensionZero`: For d=0 the trace is the finite étale adjunction counit.
+Provide `IntegralSmoothProperTrace`: The ℤ_p-linear trace family on smooth proper formal generic fibres; `IntegralSmoothProperTrace.modPow`: Derived reduction of the integral trace complex by p^r recovers the normalized finite-level trace complex, and the finite-level projections commute with the top-degree edge map. A quotient isomorphism for the relative top cohomology sheaf requires a further amplitude assertion and is not part of this interface; `IntegralSmoothProperTrace.comp`: The integral trace family is compatible with composition by derived inverse limit of `GeneralSmoothTrace.comp` on these proper generic fibres; `IntegralSmoothProperTrace.dimensionZero`: For d=0 the trace is the finite étale adjunction counit.
 
 Provide `IntegralSmoothProperTrace.surjective`: For nonempty geometric fibres the trace is an epimorphism of pro-étale Z_p-sheaves, witnessed locally by compatible section cycle classes; `IntegralSmoothProperTrace.guoReineckeInput`: Packages exactly assumptions (a)–(c) of Guo–Reinecke Theorem 7.16.
 
@@ -4866,11 +4868,9 @@ The finite étale–pro-étale exchange is Section 1.3. The lisse-tower derived-
 
 *Needs:* Section 1.3; Section 8.4; Section 9.5; Sections 0.1–0.4.
 
-The integral trace family of integral-smooth-proper-trace supplies a collection tr^et of Ẑ_p-linear maps R^{2n}f_{η,*}Ẑ_p(n) → Ẑ_p satisfying Guo–Reinecke 7.16(a)–(c) (K complete discretely valued with perfect residue field), and agrees with the classical family specified in Remark 7.17 after finite-level reduction. The downstream prismatic theorem may consume these hypotheses to construct its own Frobenius-equivariant trace; no prismatic pairing or mod-p analytic duality is asserted by this export.
+The specialization `IntegralSmoothProperTrace.guoReineckeInput` of the integral trace family above supplies a collection tr^et of Ẑ_p-linear maps R^{2n}f_{η,*}Ẑ_p(n) → Ẑ_p satisfying Guo–Reinecke 7.16(a)–(c) (K complete discretely valued with perfect residue field), and agrees with the classical family specified in Remark 7.17 after finite-level reduction. The downstream prismatic theorem may consume these hypotheses to construct its own Frobenius-equivariant trace; no prismatic pairing or mod-p analytic duality is asserted by this export.
 
 (Haoyang Guo, Emanuel Reinecke, A prismatic approach to crystalline local systems, Theorem 7.16(a)–(c) and Remark 7.17, p. 114.)
-
-The integral trace family of integral-smooth-proper-trace supplies a collection tr^et satisfying Guo–Reinecke 7.16(a)–(c), and agrees with the classical family specified in Remark 7.17 after finite-level reduction. The downstream prismatic theorem may consume these hypotheses to construct its own Frobenius-equivariant trace; no prismatic pairing or mod-p analytic duality is asserted by this export.
 
 *Needs:* Section 9.7.
 
@@ -5357,7 +5357,7 @@ Use Layers 1–10, the analytification and algebraic lci geometry of `AdicSpaces
 
 | Consumer | Shared foundation and hypotheses |
 | --- | --- |
-| `LefschetzPencilsAndVanishingCycles`, §§F.1–F.4 | Sections 0.3–0.4 (`ClassicalDerived.inverseLimits`, `ClassicalDerived.derivedCompletion`, `ClassicalDerived.functorCoherence`) supply generic limits, recovery and coherent transformations; Sections 0.7–0.8 (`ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`) supply étale localization and compactification-defined D⁺ torsion supports. Its finite-ctf preservation and geometric realization carry their own bounds and invertibility assumptions. |
+| `LefschetzPencilsAndVanishingCycles`, §§F.1–F.4 | Sections 0.3–0.4 (`ClassicalDerived.inverseLimits`, `ClassicalDerived.derivedCompletion`, `ClassicalDerived.functorCoherence`) supply enhanced limits, the module-completion specialization with its predicate/unit comparisons, recovery and coherent transformations; Sections 0.7–0.8 (`ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`) supply étale localization and compactification-defined D⁺ torsion supports. Its finite-ctf preservation and geometric realization carry their own bounds and invertibility assumptions. |
 | `LefschetzPencilsAndVanishingCycles`, §F.6 and §F.10 | Section 0.9 (`ClassicalAlgebraic.cycleClasses`, `ClassicalAlgebraic.lciCycleClass`) supplies finite classes and the projective-bundle normalization for positive invertible orders; higher Gysin, adic extensions and Frobenius traces use these classes in the consumer. |
 | `ComplexComparisonPartII`, §§C6.3–C6.5 | Sections 0.4 and 0.7 supply the same enhanced étale module functors and localization, with Section 0.8 supplying the D⁺ supports used in separated finite-type compact-support comparison. |
 | `InverseGaloisAndArithmeticFundamentalGroups`, §IG.5.5 | Sections 0.7–0.8 supply localization and D⁺ torsion supports; constructible exchange and rational finiteness come from `LefschetzPencilsAndVanishingCycles`, §§F.2–F.4. |

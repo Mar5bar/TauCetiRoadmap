@@ -25,6 +25,13 @@ supplies geometric exchange theorems and finite-coefficient ULA. Application roa
 interfaces on their stated domains. README §5.6 extends the supplied ULA notion with agreement
 on the common finite-coefficient domain.
 
+ArithmeticGaloisDuality R02.1.1 supplies the ordinary tower/shift, ML and Milnor theory;
+DerivedDeRhamCohomology §§1.1–1.5 supplies the module derived limit, completeness predicate,
+completion reflector and unit. README §0.3 supplies enhanced comparisons preserving these units
+and maps. EnhancedDerivedSheaves E0.3–E0.4, E0.6 and E0.8 supplies generic localization, stability,
+dg-nerve and presentability foundations before the ringed-site construction here; E1 compares it
+afterwards. E4 supplies the replete ringed-topos completion refinements on their stated domains.
+
 Design choices made explicit here:
 
 * The ramification cutoff of the Bloch–Kato–Hyodo filtration is the natural ceiling of `pe/(p-1)`
@@ -472,8 +479,21 @@ end Radial
 Further definitions specified in README.md, by layer, with no carriers at the pins:
 Layer 0: ClassicalDerived.enhancedCategory, ClassicalDerived.replacements,
 ClassicalDerived.tensorHom, ClassicalDerived.inverseLimits, ClassicalDerived.functorCoherence,
-ClassicalDerived.derivedCompletion (derived Z-module completion, reduction recovery and
-conservativity; perfect tensor interchange, completed tensor for general complete inputs),
+ClassicalDerived.inverseLimits.moduleComparison (strict module-complex towers over a commutative
+ring A, naturally in their derived category, compared with DerivedDeRham.derivedLimit from DerivedDeRhamCohomology §1.1
+using ArithmeticGaloisDuality R02.1.1's CompactCoefficients.Tower shift/lim/limOne and Mathlib's
+CategoryTheory.Functor.IsMittagLeffler; identifies projections, transitions, fibre triangles and
+A-linear Milnor maps, finite products and compatible group actions),
+ClassicalDerived.derivedCompletion (the prime-ell specialization of
+DerivedDeRham.derivedCompletion at (ell) in Z, with DerivedDeRham.derivedCompleteness and
+DerivedDeRham.completionUnit from §§1.2–1.5; enhanced lift, reduction recovery and conservativity;
+perfect tensor interchange and completed tensor for general complete Z-complexes),
+ClassicalDerived.derivedCompletion.moduleComparison (with q the homotopy-category equivalence,
+a natural alpha_K : q(C_hat K) ≅ Lambda_(ell)(q K) identifying completeness predicates and satisfying
+alpha_K composed with q(eta_K) = DerivedDeRham.completionUnit at q K; respects quotient-tower
+reductions and transitions, projections, Milnor maps, compatible group actions, finite products
+and completed tensor with its unit-induced map; EnhancedDerivedSheaves E4 supplies the replete
+ringed-topos extension, slice restrictions and point-topos comparison),
 ClassicalDerived.functorCoherence.coefficientComparison (underlying abelian D+ comparison and
 coherent coefficient/exchange transformations, with equivalences only under proved hypotheses),
 ClassicalCoefficients.finitePresentationDescent, ClassicalCoefficients.constructibleDerivedDescent,
@@ -541,7 +561,15 @@ AdicSpace.RProperSupportSections, AdicSpace.lowerShriek, AdicSpace.lowerShriekUn
 AdicSpace.compactCohomology, AdicSpace.quasiFiniteTrace.
 Layer 9: AdicSpace.IsSmoothCurve, AdicSpace.curveTrace, BoundaryPretrace,
 BoundaryResidueTrace, AnalyticLCICycleClass, AffineSpaceTrace, AnalyticFirstChernClass,
-SmoothRelativeTrace, GeneralSmoothTrace, IntegralSmoothProperTrace.
+SmoothRelativeTrace, SmoothRelativeTrace.topDegreeComposition (the top-degree Leray operation
+for smooth partially proper taut rigid maps of pure dimensions d,e over a complete nontrivially
+rank-one valued K, n > 0 invertible in K, with the 2d/2e support bounds; its trace compatibility is
+SmoothRelativeTrace.comp), GeneralSmoothTrace (n invertible in O_Y over arbitrary analytic bases;
+its GeneralSmoothTrace.comp specializes in top degree to SmoothRelativeTrace.comp on the common
+rigid domain, and its affine-space normalization is AffineSpaceTrace),
+IntegralSmoothProperTrace (derived inverse limit of the proper generic-fibre specialization of
+GeneralSmoothTrace, with IntegralSmoothProperTrace.comp inherited from GeneralSmoothTrace.comp;
+its Guo–Reinecke export is IntegralSmoothProperTrace.guoReineckeInput).
 AdicSpace.curveTrace_generic: for a smooth separated taut curve f over S = Spa(C,Cplus),
 C algebraically closed complete nontrivially valued, Cplus an open bounded valuation subring
 and n > 0 a unit in Cplus, restriction identifies Hom_S(R^2 f_! mu_n, Z/n) with
