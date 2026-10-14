@@ -1,6 +1,6 @@
 # Roadmap: automorphic L-functions and local factors
 
-**Summary.** This roadmap constructs the analytic L-functions of characters and automorphic representations of GLₙ, together with the normalization maps needed to compare their values, poles and local factors. It starts with Fourier analysis over local fields and adeles, develops Tate's zeta distributions, then the Godement–Jacquet and Rankin–Selberg integrals. Its final interfaces compare Satake and Weil–Deligne determinants, rational period structures and finite Euler corrections. The function-field part also proves the polynomial and reciprocal-factor statements used to normalize intertwining scalars.
+**Summary.** This roadmap constructs the analytic L-functions of characters and automorphic representations of GLₙ, together with the normalization maps needed to compare their values, poles and local factors. It starts with Fourier analysis over local fields and adeles, develops Tate's zeta distributions, then the Godement–Jacquet and Rankin–Selberg integrals. Its final interfaces compare Satake and Weil–Deligne determinants, rational period structures and finite Euler corrections. The function-field part also proves the polynomial and reciprocal-factor statements used to normalize intertwining scalars, and checks the weight conventions on projective spaces, the multiplicative group, curves, semistable filtrations and unramified cuspidal tensor factors.
 
 The library must expose the spaces, measures, distributions and comparison maps that make those theorems usable. An integral formula is accompanied by its convergence domain and continuation theorem. A local denominator is characterized by the ideal of test integrals, rather than by a choice of one test vector. A period is a class modulo the units of its rationality field, rather than a canonically chosen complex number.
 
@@ -10,7 +10,7 @@ The finite-place representation categories, normalized parabolic induction, gene
 
 **AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. This roadmap uses those measures to construct Schwartz spaces, Poisson summation and zeta integrals. The local intertwining operators and their operator identities come from **AutomorphicSpectralTheory**, §§2.1–2.3; their GLₙ L-factor normalization and positive-half-plane estimates needed for strip bounds are constructed here; the Rankin–Selberg scalar that normalizes them belongs here. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized GLₙ Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. Ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
-For function fields AL.3 constructs residue-character, self-dual-measure and Poisson comparisons on the completion-valued adeles of **AutomorphicSpectralTheory**, §1.10a, using **AlgebraicCurves**, layers 0, 4, 5, 9 and 12, then the unramified pure realization and cohomological determinant comparison. The scheme geometry is imported from **SchemeAndStackFoundations**, layers 0–3; scheme étale operations and trace from **LefschetzPencilsAndVanishingCycles**, §§F.0–F.6 and F.10, and **ClassicalAdicEtaleCohomology**, §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; weights and purity from **DeligneWeightsAndPurity**, DWP.0–DWP.1 and DWP.5–DWP.7. **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §R07.1.0, supplies scheme Frobenius and its twists. The curve subsection constructs Harder–Narasimhan truncation theory and the ramified lower-rank correspondence and function-field converse inputs for rank induction. Rational cohomology for the particular finite-stabilizer shtuka compactifications, their boundary comparison and essential Hecke summand are part of the realization construction here. Scheme-level duality alone does not supply those stack statements.
+For function fields AL.3 constructs residue-character, self-dual-measure and Poisson comparisons on the completion-valued adeles of **AutomorphicSpectralTheory**, §1.10a, using **AlgebraicCurves**, layers 0, 4, 5, 9 and 12, then the unramified pure realization, cohomological determinant comparison and [weight-facing acceptance suite](#weight-facing-acceptance-suite). The suite uses **EtaleCohomologyFoundations**, §§F.5–F.7, for duality, cycle classes and projective-space cohomology, and **DeligneWeightsAndPurity**, §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3, for weight transport, purity, semistable weights and component-aware point counts. The scheme geometry is imported from **SchemeAndStackFoundations**, layers 0–3; scheme étale operations and trace from **LefschetzPencilsAndVanishingCycles**, §§F.0–F.6 and F.10, and **ClassicalAdicEtaleCohomology**, §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; weights and purity from **DeligneWeightsAndPurity**, DWP.0–DWP.1 and DWP.5–DWP.7. **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §R07.1.0, supplies scheme Frobenius and its twists. The curve subsection constructs Harder–Narasimhan truncation theory and the ramified lower-rank correspondence and function-field converse inputs for rank induction. Rational cohomology for the particular finite-stabilizer shtuka compactifications, their boundary comparison and essential Hecke summand are part of the realization construction here. Scheme-level duality alone does not supply those stack statements.
 
 The last layer states the complex GL₂ period and stabilization dictionary used by interpolation formulas. Constructing p-adic measures, overconvergent modular symbols and exceptional-zero formulas is separate work. Algebraicity is used only with an actual critical-value theorem and its coefficient field, sign, character and nonzero period. The rational Whittaker/cohomological period theorem of AL.3 has its own broader hypotheses; a GL₂ formula over ℚ does not establish algebraicity for arbitrary rank or arbitrary number fields.
 
@@ -44,6 +44,7 @@ The following constructions are reused. The work below proves the additional loc
 | Conductors | The main **ClassFieldTheory** roadmap, layer 7, supplies `characterConductorExp` and `unitFiltration_characterConductorExp_le_ker`. The normalized local analytic statements use that attained integer directly, together with the local Artin normalization. |
 | Rank-one checks | Mathlib's primitive Dirichlet completed functional equation, Gaussian Fourier transform, theta identity, finite Gauss sums, completed Riemann zeta functional equation and residue, and number-field class number/regulator/discriminant definitions and real one-sided Dedekind residue limit. The real residue limit alone does not assert complex continuation. Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` and `TauCeti.ne_zero_of_eqOn_dedekindZeta` already give the Dedekind specialization near Re(s)=1; use them in that scope. The general Hecke continuation and adelic measure comparison remain the targets here. |
 | Holomorphic modular L-functions | Tau Ceti `CuspForm.abscissaOfAbsConv_qExpansion_coeff_le`, `CuspForm.LSeries_qExpansion_coeff_eq` and `CuspForm.hasEntireExtension_qExpansion_coeff`. In the coefficient normalization the recorded absolute-convergence bound is Re(s)>k/2+1 and the comparison includes width⁻ˢ. Tau Ceti `HeckeRing.GL2.Newform.LSeries_eulerProduct_hasProd` and its value forms already give analytic Euler products with the bad-prime factors included. These are used for the modular specialization. |
+| Weight-facing acceptance | **DeligneWeightsAndPurity**, §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3, supplies weight predicates, purity and arithmetic transports; **EtaleCohomologyFoundations**, §§F.5–F.7, supplies duality, cycle classes and projective-space cohomology. AL.3 owns the [acceptance suite](#weight-facing-acceptance-suite) and its comparison with the unramified pure realization. |
 | Polynomial factors and orders | Mathlib `Matrix.charpolyRev` is det(1−T M). `MeromorphicOn.divisor`, its multiplication/inversion lemmas and `meromorphicOrderAt_mul` supply divisor arithmetic. The latter adds native `WithTop ℤ` orders even in the infinite-order cases; no replacement order function is constructed. |
 
 
@@ -134,6 +135,13 @@ identification of the residue with adelic measure are AL.1 targets.
   §R07.1.0 supplies absolute, relative, iterated and q-power scheme Frobenius
   with their specified codomains. Their scheme statements are not
   substituted for AL.3's finite-stabilizer shtuka cohomology and boundary comparisons.
+- **EtaleCohomologyFoundations**, §§F.5–F.7, supplies the duality, cycle classes
+  and projective-space cohomology used in AL.3's
+  [weight-facing acceptance suite](#weight-facing-acceptance-suite).
+  **DeligneWeightsAndPurity**, §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3,
+  supplies spectral separation, curve weights, zeta rationality, purity and the
+  arithmetic weight transports for that suite. The acceptance statements and
+  their unramified cuspidal tensor-factor comparisons are AL.3 targets here.
 
 All local APIs below are proposed extensions of those carriers. The suggested file illustrates signatures and discriminating examples; the mathematical hypotheses in this document define their scope.
 
@@ -144,7 +152,7 @@ All local APIs below are proposed extensions of those carriers. The suggested fi
 | AL.0 | Annihilators, self-dual measures, local and adelic Schwartz–Bruhat analysis, Poisson summation and Bessel transforms. |
 | AL.1 | Tate eigendistributions, local/global L and epsilon factors, Hecke continuation and CM normalization. |
 | AL.2 | Godement–Jacquet standard factors, newform tests, global growth and positivity, and Maass standard functions. |
-| AL.3 | Whittaker models, Rankin–Selberg analysis, multiplicity/converse theorems, periods, and function-field rational normalizers. |
+| AL.3 | Whittaker models, Rankin–Selberg analysis, multiplicity/converse theorems, periods, function-field rational normalizers and the weight-facing acceptance suite. |
 | AL.4 | Satake/L-group determinants, conditional Weil–Deligne comparisons and factor operations. |
 | AL.5 | Finite Euler corrections, critical-value normalization, sign vanishing and refined GL₂ factors. |
 
@@ -2078,12 +2086,65 @@ Prove the proper unstable-open fixed-point comparison for these compactification
 
 Boundary strata whose degenerators meet D use the [lower-rank leg-in-level fixed-point calculations](#shtuka-leg-level-counting), together with the full ramified lower-rank correspondence. The geometric targets are negligible boundary contributions, essential cohomology concentrated in degree 2r−2 and pure of weight 2r−2, and negligible kernels/cokernels under truncation change. Its finite-dimensional summand carries commuting Hecke and partial-Frobenius actions. Compute traces with the unramified t=0 truncated fixed-point formula: for distinct closed legs and sufficiently large equal total Frobenius degrees S, the cuspidal term is q^((r−1)S) times the sum over compatible cuspidal π of the Hecke trace, the inverse Satake power sum at the pole and the Satake power sum at the zero. Remaining terms are lower-rank products. Construct this counting comparison by double-coset/fixed-point and parabolic constant-term calculations before the purity conclusion. Hecke traces isolate the summand. Rank induction uses the full ramified lower-rank inputs of [Leveled shtukas and ramified rank induction](#leveled-shtuka-rank-induction), the function-field converse and strong multiplicity one, local/adelic zeta analysis and this counting formula. Complete the arbitrary-level induction before specializing to no level; the later polynomial/Riemann-hypothesis conclusions supply none of these inputs.
 
+<a id="unramified-pure-realization"></a>
+
 The D=0 specialization of that induction yields the **unramified pure realization theorem**: for an everywhere-unramified cuspidal π of GLₙ(𝔸_K) with finite-order central character, there is an irreducible rank-n lisse Q̄_ℓ-sheaf V_π on X, with finite-order determinant, pure of weight zero, such that its geometric-Frobenius characteristic polynomial at every closed point agrees with the unitary Satake polynomial under the chosen coefficient identification. Conversely such irreducible lisse sheaves give the corresponding unramified cusp representation; uniqueness fixes dual and degree-character comparisons, and matching Frobenius polynomials identifies tensor local factors. Tensor products need not be irreducible and no cuspidal tensor transfer is asserted. For a general unitary central character, first remove a unitary degree character to reduce to finite order, then restore that character as a Weil-sheaf twist. An arbitrary unitary complex degree character is not silently treated as a continuous ℓ-adic Galois character.
 
 The `UnramifiedPureRealization` API provides `rank`, `determinant_finiteOrder`, `pure_weight_zero`, `localPolynomial`, isomorphism invariance, `dual` and `degreeTwist`. **Checks.** rank one recovers reciprocity; the trivial line gives curve zeta factors; a self-pair with one degree self-twist has H⁰ eigenvalue 1 and H² eigenvalue q, while non-inertially-equivalent inputs have neither extreme group. Prerequisites: [Leveled shtukas and ramified rank induction](#leveled-shtuka-rank-induction), [Function-field local factors, multiplicity one and converse theorem](#function-field-analytic-converse), and the preceding geometric constructions; SchemeAndStackFoundations layer 2 scheme cohomology, LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10 and ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity, all with their invertible finite coefficients, stated compactifications and rational ℓ-adic realization, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7, and the function-field automorphic realization and SR.4/IHG §3a.1 Hecke parameters. Sources: Lafforgue, Theorem I.13, pp.31–32; VI.15–VI.22, pp.168–182; VI.24–VI.27, pp.184–191; Theorems VI.9–VI.10, pp.158–159.
 
 **Tensor cohomological determinant.** For V=V_(π₁)⊗V_(π₂)∨, the formal Euler series equals ∏_(i=0)^2 det(1−z Fr_q|Hⁱ(X̄,V))^((−1)^(i+1)). The dimensions of H⁰ and H² and their Frobenius eigenvalues are computed from geometric invariants, not from an assertion of rationality alone. Poincaré duality identifies H² with the dual invariant space twisted by (−1). If π₁ and π₂ are not related by a unitary degree character, both extremes vanish; for a self-pair with d degree-character self-twists they give the two cyclic factors 1−zᵈ and 1−(qz)ᵈ. The unramified Euler characteristic is (2−2g)n₁n₂, and purity places all H¹ roots at |z|=q⁻¹ᐟ². This proves the rationality, degree and root location used below. **Checks.** For the constant line, H⁰ and H² give 1−z and 1−qz; for two inputs unrelated by a degree character the extreme groups vanish; for d degree self-twists the extreme determinants are 1−zᵈ and 1−(qz)ᵈ, and have different radii. Prerequisites: the pure realization, SchemeAndStackFoundations, layer 2, LefschetzPencilsAndVanishingCycles §§F.4–F.6 and F.10, ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity, DeligneWeightsAndPurity DWP.6.4/DWP.7.8 (ℓ≠char(𝔽_q), rational adic coefficients) and the native reversed characteristic polynomial. Sources: Lafforgue, Theorems VI.1–VI.2, p.153; Yu, Proposition 6.1.1, pp.42–43.
 
+
+<a id="weight-facing-acceptance-suite"></a>
+
+### The weight-facing acceptance suite
+
+Work over 𝔽_q with q>1 and ℓ≠char(𝔽_q), using rational ℓ-adic coefficients,
+geometric Frobenius and the Tate convention in which ℚ_ℓ(−1) has weight 2.
+For projective space take N≥0; for curve cohomology take a smooth projective
+geometrically connected genus-g curve. For the semistable case take a proper
+semistable curve over a trait with finite residue field. For all-extension point
+counts retain the Frobenius permutation of geometric components and the pure
+dimension hypothesis of DeligneWeightsAndPurity §10.2. In the cuspidal case
+fix the coefficient identification and embedding ι of the preceding
+[unramified pure realization](#unramified-pure-realization), distinguishing
+finite-order central characters from general unitary degree-character twists.
+
+The common predicates and transports must reproduce: for 0≤r≤N, H^(2r)(ℙᴺ)=ℚ_ℓ(−r) of weight 2r, with all odd cohomology and all degrees above 2N zero (in particular H²(ℙ⁰)=0); H⁰(𝔾_m)=ℚ_ℓ of weight 0, H¹(𝔾_m)=ℚ_ℓ(−1) of weight 2, H¹_c(𝔾_m)=ℚ_ℓ of weight 0 and H²_c(𝔾_m)=ℚ_ℓ(−1) of weight 2; H¹ of a smooth projective genus-g curve of weight 1 with reciprocal pairs α_iα_(i+g)=q; the finite-residue-field semistable graded weights 0,1,2; and the component-aware all-extension point count. For Yu's everywhere-unramified unitary cuspidal Rankin–Selberg inputs on a
+smooth projective geometrically connected curve, use
+[the unramified pure realization](#unramified-pure-realization):
+finite-order central characters give integer-pure weight-zero étale lisse
+realizations, using its pure_weight_zero API and dual/local tensor-factor compatibility.
+General unitary central characters use its explicit degree-character Weil
+twists and give fixed-ι weight-zero purity. Thus ℱ₁⊗ℱ₂∨ is integer-pure of
+weight zero in the finite-order case and ι-pure of weight zero in the general
+unitary case. Apply the corresponding version of DeligneWeightsAndPurity §7.15(i) to get curve factors
+of weights 0,1,2 for that embedding, which cannot cancel; a transcendental
+unitary degree twist need not have algebraic eigenvalues. The correspondence, automorphic poles and functional equations are specified by their separate targets in AL.3.
+
+**Checks.**
+
+- For N=0, H⁰(ℙ⁰)=ℚ_ℓ and H²(ℙ⁰)=0; substituting r=1 in the Tate-line
+  identity violates its range. For every N, H^(2N+2)(ℙᴺ)=0.
+- For ℙ¹, the only nonzero groups are the weight-zero constant line in degree
+  zero and the weight-two line ℚ_ℓ(−1) in degree two.
+- An unramified rank-one unitary degree character with a transcendental scalar
+  b and |ιb|=1 gives ι-purity of weight zero, but no integer Weil purity. Its
+  curve factors still have ι-weights 0,1,2, so their zeros cannot cancel across degrees.
+- For 𝔾_m, ordinary H¹ and compactly supported H² are ℚ_ℓ(−1) of
+  weight 2, while ordinary H⁰ and compactly supported H¹ have weight 0;
+  compact support changes which degree contains the constant line.
+- For a smooth projective genus-g curve, H¹ has 2g roots in reciprocal
+  pairs α_iα_(i+g)=q, all of weight 1; for g=0 this group is zero.
+- In the semistable curve filtration, the graph, normalized-component and
+  Tate-twisted graph-homology pieces have weights 0,1,2 respectively,
+  including the signed Frobenius permutations on components and branches.
+- For Spec 𝔽_(q²), the all-extension point count is two for even extension
+  degree and zero for odd extension degree, retaining the component factor.
+
+*Needs:* [DeligneWeightsAndPurity §1.7](../DeligneWeightsAndPurity/README.md#target-1-7), [DeligneWeightsAndPurity §6.4](../DeligneWeightsAndPurity/README.md#target-6-4), [DeligneWeightsAndPurity §10.1](../DeligneWeightsAndPurity/README.md#target-10-1), [DeligneWeightsAndPurity §10.3](../DeligneWeightsAndPurity/README.md#target-10-3), [DeligneWeightsAndPurity §10.2](../DeligneWeightsAndPurity/README.md#target-10-2), [EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)](../EtaleCohomologyFoundations/README.md#f6-smooth-purity-gysin-maps-and-cycle-classes), [DeligneWeightsAndPurity §1.10](../DeligneWeightsAndPurity/README.md#target-1-10), [EtaleCohomologyFoundations §§F.5–F.6 (lisse tensor–Hom and curve duality)](../EtaleCohomologyFoundations/README.md#f5-exceptional-inverse-image-and-duality), [DeligneWeightsAndPurity §7.15](../DeligneWeightsAndPurity/README.md#target-7-15), [The unramified pure realization](#unramified-pure-realization) (everywhere-unramified unitary cuspidal realizations, degree twists and tensor factors), [DeligneWeightsAndPurity §0.17](../DeligneWeightsAndPurity/README.md#target-0-17).
+
+(Sources: [Yu](#ref-yu2023), §1 pp. 2–3, Proposition 6.1.1 pp. 42–43, §7.1 p. 64; [Weil II](#ref-deligne1980), (3.2.3), p.200.)
 
 ### Cuspidal polynomials and self-pair reciprocity
 
@@ -2303,7 +2364,7 @@ For GL₂×GL₁ the exponent is s−1/2; in equal rank one the product-characte
 
 ### Dependencies
 
-AL.0–AL.1 and the local AL.2 prefix; AL.4's determinant interpretation before the function-field suffix; SmoothRepresentationsOfLocalGroups SR.2–SR.5; the representation prerequisites here and ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; AdelicAlgebraicGroups §§2.2–2.3; ArithmeticLocallySymmetricSpaces ALS.5b; AlgebraicCurves layers 0, 4, 5, 9 and 12; JacobianChallenge A and D–F; SchemeAndStackFoundations layers 0–3; AlgebraicVectorBundles L0B and L2B; AlgebraicModuliForArithmeticGeometry layers 1–5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (scheme Frobenius); LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10; ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; DeligneWeightsAndPurity DWP.0–DWP.1 and DWP.5–DWP.7.
+AL.0–AL.1 and the local AL.2 prefix; AL.4's determinant interpretation before the function-field suffix; SmoothRepresentationsOfLocalGroups SR.2–SR.5; the representation prerequisites here and ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; AdelicAlgebraicGroups §§2.2–2.3; ArithmeticLocallySymmetricSpaces ALS.5b; AlgebraicCurves layers 0, 4, 5, 9 and 12; JacobianChallenge A and D–F; SchemeAndStackFoundations layers 0–3; AlgebraicVectorBundles L0B and L2B; AlgebraicModuliForArithmeticGeometry layers 1–5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (scheme Frobenius); LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10; ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; DeligneWeightsAndPurity DWP.0–DWP.1 and DWP.5–DWP.7, with §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3 for the weight-facing acceptance suite; EtaleCohomologyFoundations §§F.5–F.7 for that suite's duality, cycle classes and projective-space cohomology.
 
 
 ## Layer AL.4: Parameters and local determinant comparisons
@@ -2672,3 +2733,8 @@ Locators above refer to these editions. Physical thesis pages and preprint page 
 <a id="ref-conradgeomcft"></a>
 
 [Brian Conrad, *Geometric global class field theory*](https://math.stanford.edu/~conrad/249BW09Page/handouts/geomcft.pdf), Math 249B handout, pp.1–4. The zero-modulus finite-cover classification is Theorem 3.2; Pic¹ retains curves without a rational point.
+
+
+<a id="ref-deligne1980"></a>
+
+[La conjecture de Weil. II](https://www.numdam.org/article/PMIHES_1980__52__137_0.pdf), Pierre Deligne. Publ. Math. IHÉS 52 (1980), 137–252; printed pagination.
