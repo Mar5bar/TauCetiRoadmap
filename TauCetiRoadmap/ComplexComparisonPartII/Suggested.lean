@@ -28,6 +28,14 @@ Chow and the algebraization of morphisms using supplied scheme compactifications
 logarithmic structures and regular singular connections (C5), and stratified topology,
 Riemann existence and finite/adic Artin comparison (C6).
 
+C3.2a's `spaceDerivedLimits` obtains intrinsic quasi-coherent products and limits by
+applying `spaceQuasiCoherator` to EnhancedDerivedSheaves §§0.1–0.4's shared ringed-site
+products and coherent limits, retaining their projections and transition maps. C3.2b's
+perfect-test systems use EnhancedDerivedSheaves E1.9's `perfect_proper_pushforward`
+and DerivedModuleAlgebra §1.E.1's `perfectInverseSystemEffectivity`: every finite-stage
+test complex is perfect, transitions have locally nilpotent kernels, and compatibility
+is by derived tensor. The proper-support modules themselves need not be perfect.
+
 EtaleCohomologyFoundations G.1–G.3 owns the shared scheme compactification category,
 dense replacement, Nagata existence and refinement comparisons, in namespace
 `TauCeti.AlgebraicGeometry`. C4.3 consumes those geometric targets with coherent coefficients. C6 owns the finite-stalk
@@ -58,7 +66,13 @@ class, retaining torsion. The shared Čech–de Rham comparison identifies its r
 normalized Chern curvature. `chernFubiniStudyIntersection` consumes this identification.
 `ehresmannFibration` is C5.2's underlying-smooth holomorphic/analytification adapter to
 SmoothBundlesConnections B1.5's general proper-surjective-submersion theorem, including
-native smooth trivializations and their pullbacks. C6.0 extends AffineMorseLefschetz A4's
+native smooth trivializations and their pullbacks; its realification maps come from
+ComplexManifolds Milestone 1. C0.3 uses that roadmap's Milestone 7.1–7.3 fixed-rank
+holomorphic gluing to build the bundle–sheaf equivalence on clopen rank strata.
+C5.1's nesting-small resolution extends and compares with CharacteristicClasses C1.2's
+shared locally acyclic constant-coefficient resolution on Hausdorff CW representatives,
+including the augmentation and maps from singular cochains.
+C6.0 extends AffineMorseLefschetz A4's
 compact closed-family triangulation foundation to noncompact locally closed pieces and
 separated algebraic chart gluing. C6.1 uses AlgebraicTopology Stage 6.1's direct cochains
 with actual vertex fibres; the pinned twisted Hom complex instead has dual coefficients.
@@ -611,8 +625,9 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 
 * **Complex analytic spaces and analytification** (C−1.1–C−1.3/C1.9):
   `CoherentAnalyticModule` on analytic spaces, `coherentOperations`, `CoherentAnalyticIdeal`,
-  `holomorphicBundleDictionary` (model fibre `Fin r → ℂ` at each fixed rank, and gluing on
-  clopen rank strata for locally constant ranks), `CoherentAnalytification`, `coherentAnalytification_faithful`,
+  `holomorphicBundleDictionary` (model fibre `Fin r → ℂ` at each fixed rank, using
+  ComplexManifolds Milestone 7.1–7.3's gluing and frame changes on clopen rank strata
+  for locally constant ranks), `CoherentAnalytification`, `coherentAnalytification_faithful`,
   `coherentPullbackOperations`, `HigherImageComparison`, `analyticSetGeometry`, `fibreDimensionLoci`;
   `SteinManifold`, `StronglyOneComplete`, `StronglyOneComplete.completeKaehlerMetric`,
   `cartanTheoremB`, `cartanSerreFiniteness`, `projectiveLerayCover`,
@@ -631,7 +646,11 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `cohStack_algebraic`, Picard-stack and relative-Picard algebraicity, separatedness,
   Brauer obstruction, Cartier-dual torsors, torsion and identity components, and
   `picardParameter_formalEquiv`. The algebraic carriers and generic formal transport
-  are supplied by AlgebraicModuliForArithmeticGeometry.
+  are supplied by AlgebraicModuliForArithmeticGeometry. `spaceDerivedLimits` uses
+  EnhancedDerivedSheaves §§0.1–0.4's ambient products and coherent limits through
+  `spaceQuasiCoherator`, with its X-dependent bound and perfect-test comparison.
+  `strongProperSupportExistence` consumes EnhancedDerivedSheaves E1.9's perfect
+  proper-support pushforward and DerivedModuleAlgebra §1.E.1's perfect-system effectivity.
 * **Algebraic spaces and their derived categories:** `analyticEtaleDescent`,
   `SpaceCoherentAnalytification`, `spaceQuasiCoherator` (on AlgebraicModuliForArithmeticGeometry's
   `spaceDQCoh`), `pseudoCoherenceDetection`, `derivedGagaProperSpace`.
@@ -667,10 +686,13 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `chernFubiniStudyIntersection` in general consumes this integral class and curvature comparison
   before the projective divisor/intersection argument, `dghIntegrationApplication`.
 * **Singular cohomology with coefficients** (AlgebraicTopology, Stage 6): `SmallSingularCochains`,
-  `sheafSingularComparison`, `multiplicativePeriodInterface`, `relativeBettiLocalSystem`; and
+  `sheafSingularComparison` (the non-Hausdorff nesting extension, compared on Hausdorff
+  CW representatives with CharacteristicClasses C1.2's shared locally acyclic resolution),
+  `multiplicativePeriodInterface`, `relativeBettiLocalSystem`; and
   `ehresmannFibration` (the underlying-real smooth adapter for proper surjective holomorphic
   submersions of finite-dimensional Hausdorff second-countable complex manifolds without
-  boundary and analytifications of smooth separated schemes; consumes
+  boundary and analytifications of smooth separated schemes; specializes ComplexManifolds
+  Milestone 1's realification and consumes
   SmoothBundlesConnections B1.5's componentwise native smooth trivializations,
   with restriction and holomorphic-base pullback compatibility).
 * **Stratified topology and finite/adic comparison** (C6): `complexAlgebraicTopology` uses
@@ -683,8 +705,11 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   compact Hausdorff proper supports to C5.1's constant ordinary comparison. No finite
   projectivity or reflexivity is assumed; native twisted Hom cochains compute the dual system.
   `riemannExistence` compares finite-cover categories for all finite-type
-  complex schemes. `artinComparison`, `artinComparisonCompactSupport` and
-  `relativeArtinComparison` give the canonical ctf exchanges, using
+  complex schemes. `artinComparison` and `artinComparisonCompactSupport` give canonical
+  exchanges on bounded constructible coefficients, including finite local systems and
+  constant finite abelian groups without finite Tor dimension. Their ctf restrictions
+  retain the same maps and the Tor hypotheses for tensor, Künneth and derived reduction;
+  `relativeArtinComparison` uses the ctf domain. These exchanges use
   EtaleCohomologyFoundations F.0–F.3 and EnhancedDerivedSheaves’ enhancement.
   `adicArtinComparison` uses F.4's normalized étale systems and builds their topological
   derived-complete realization and rationalization. C6 owns these topological carriers and

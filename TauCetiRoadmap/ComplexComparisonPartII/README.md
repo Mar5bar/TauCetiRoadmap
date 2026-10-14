@@ -27,8 +27,9 @@ coherent GAGA and de Rham comparison have their own coefficient categories and c
 The analytic local algebra (convergent germs, Weierstrass preparation and division, Oka
 coherence), complex analytic spaces with nilpotents, scheme and space analytification, and
 flat analytic stalk comparisons are built in §§C−1.1–C−1.3. Projective and proper coherent
-GAGA are proved in §C1.9 after the analytic cohomology inputs. §§C3.2a–C3.2g build derived
-limits, proper-support effectivity, coherent-sheaf and Picard algebraicity, Picard components
+GAGA are proved in §C1.9 after the analytic cohomology inputs. §§C3.2a–C3.2g build intrinsic
+quasi-coherent derived limits from shared ringed-site limits, proper-support effectivity,
+coherent-sheaf and Picard algebraicity, Picard components
 and their formal parameter interface on the algebraic carriers supplied by
 AlgebraicModuliForArithmeticGeometry.
 Every object keeps its nilpotents and every comparison is a named canonical map (pullback,
@@ -61,7 +62,9 @@ theory, the Hodge star, the Hodge Laplacian and the Kähler identities, the Cher
 the Bochner–Kodaira identity, Cartan's theorem B, Montel's and Schwartz's theorems, Cartan–Serre finiteness, analytic projective twisting sheaves with their
 cohomology, and Serre's analytic generation, vanishing and twist presentations. The base-change and
 dictionary consequences of projective GAGA. Coherent analytic descent on étale presentations, the
-quasi-coherator of an algebraic space (on AlgebraicModuliForArithmeticGeometry's `spaceDQCoh`), Hall's
+quasi-coherator of an algebraic space (on AlgebraicModuliForArithmeticGeometry's `spaceDQCoh`),
+its intrinsic products and limits obtained from EnhancedDerivedSheaves §§0.1–0.4's ringed-site
+enhancement, replacements and coherent limits, Hall's
 pseudo-coherence detection and derived GAGA for proper algebraic spaces. Remmert's and
 Remmert–Stein's theorems, Chow's theorem with nilpotents, algebraization
 with proper support, algebraicity of holomorphic maps from proper sources and of maps with algebraic
@@ -98,7 +101,9 @@ comparison. These use §C−1.1's analytic-space carrier
 and analytification functor. InverseGaloisAndArithmeticFundamentalGroups uses the same cover
 equivalence and comparison maps for its puncture, ramification and Hurwitz-space adapters.
 C5.1's constant sheaf–singular comparison retains arbitrary abelian coefficients and its
-non-Hausdorff domain. C6 uses it and constructs the local-system sheaf resolution, stratified and compact-support
+non-Hausdorff domain; on Hausdorff CW spaces it uses and compares with CharacteristicClasses
+C1.2's early locally acyclic small-chain sheaf resolution. C6 uses this shared constant
+resolution and constructs the local-system sheaf resolution, stratified and compact-support
 comparisons; generic direct local-system cochains and their topological identities come from
 AlgebraicTopology Stage 6.1.
 
@@ -152,15 +157,32 @@ in LefschetzPencilsAndVanishingCycles §0.8a. C6 does not use that application t
   `spaceDQCoh.schemeEtaleEquivalence`, `spaceDQCoh.derivedPullback`,
   `spaceDQCoh.derivedPushforward`, `spaceDQCoh.tensor` and `spaceDQCoh.cohomologyComparison`. C3.2
   builds the quasi-coherator on this category.
+- *DerivedModuleAlgebra, §1.E.1.* `perfectInverseSystemEffectivity` supplies effectivity
+  of compatible perfect complexes over surjective inverse ring systems with locally nilpotent
+  transition kernels, with the given derived reductions and projections.
+- *EnhancedDerivedSheaves, E1.9.* `perfect_proper_pushforward` supplies perfect pushforward
+  of a perfect complex tensored with a bounded finitely presented, target-flat complex
+  with proper support, and its arbitrary derived base-change comparison on algebraic spaces.
 - *EtaleCohomologyFoundations, §§F.0–F.3.* Finite étale covers and monodromy,
   finite/constructible module sheaves, the bounded constructible finite-Tor category, finite
   cohomology and products, proper/smooth base change, compact supports, finiteness and Künneth.
   C6.2–C6.5 use these inputs, with their precise coefficient and geometric hypotheses.
   Its §F.4 supplies normalized adic systems and their classical/pro-étale realizations for C6.6.
 - *EnhancedDerivedSheaves §§0.1–0.4 and EtaleCohomologyFoundations §§0.7–0.8.* Enhanced module-sheaf categories,
-  canonical derived functors, derived limits/completion, étale support localization and
+  K-injective/K-flat replacements, ambient derived products, canonical derived functors,
+  coherent derived limits/completion, étale support localization and
   compactification-defined proper supports. These use the geometry of EtaleCohomologyFoundations §§G.1–G.3;
   coherent proper-support algebraization in C4.3 uses the same geometry with `O_X`-modules.
+- *ComplexManifolds, Milestones 1 and 7.1–7.3.* Restriction of scalars and functorial
+  realification of manifolds, maps and bundle charts; fixed-model-fibre holomorphic cocycle
+  gluing and change of frame on native Mathlib bundles. C0.3 builds the bundle–sheaf
+  equivalence and its locally constant rank extension; C5.2 specializes realification to
+  holomorphic submersions and analytification.
+- *CharacteristicClasses, C1.2, locally acyclic resolution in item 2.* The shared
+  constant-coefficient small-chain sheaf resolution on Hausdorff CW representatives.
+  C5.1 supplies the nesting extension to semilocally contractible spaces and identifies
+  its CW specialization with that resolution; Čech refinement and transport to CW-type
+  bases remain in the supplier.
 - *SmoothBundlesConnections, B1.5.* The general proper-surjective-submersion theorem on
   finite-dimensional Hausdorff second-countable real smooth manifolds without boundary,
   with native `FiberBundle`/`Trivialization` charts smooth in both directions over the base,
@@ -402,6 +424,15 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 
 ### From TauCetiRoadmap roadmaps
 
+- **ComplexManifolds.** Milestone 7.1–7.3 supplies fixed-rank holomorphic bundle gluing,
+  frame changes and bundle operations to C0.3; Milestone 1 supplies the functorial
+  underlying-real structures used by C5.2. The bundle–locally-free-sheaf equivalence,
+  clopen rank strata and holomorphic/analytification submersion adapter are targets here.
+- **CharacteristicClasses.** C1.2 item 2 supplies the early locally acyclic constant
+  singular-cochain sheaf resolution on Hausdorff CW representatives, before its Čech
+  comparison. C5.1 identifies its nesting-small extension with this resolution, preserving
+  augmentation, restrictions and coefficient maps. The supplier owns Čech refinement
+  and homotopy transport to paracompact Hausdorff CW-type bases.
 - **AlgebraicVectorBundles.** L0A: the closed symmetric monoidal category of sheaves of modules,
   internal Hom (an isomorphism on stalks for finitely presented sources), strong monoidal pullback;
   L0B: finite locally free sheaves, duals, `Hom(E, F) ≅ E^∨ ⊗ F`; L0C: symmetric and exterior powers
@@ -452,12 +483,18 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   bundles and twists, `relativeSerre`, projective-space Čech comparison, `coherentDevissage`,
   `devissageViaChow`, effective étale/fpqc quasi-coherent descent and projective Hom/Isom representability.
   Layer 6 supplies module obstruction theory and common étale neighbourhoods. §§7.1–7.3 supply Artin criteria, independent coherent-stack approximation, module Hom/Isom,
-  `perfectInverseSystemEffectivity`, `universalFlatteningProperSupport`, general Picard
-  sheaves, base change, rigidification and infinitesimal lifting. §7.2 supplies perfect proper pushforward; §§7.6.1–7.8 supply `spaceDQCoh`, `spacePerfect`, the ringed étale carriers and `properSpaceCompletionEquivalence`. §7.9 supplies
+  `universalFlatteningProperSupport`, general Picard
+  sheaves, base change, rigidification and infinitesimal lifting. §7.2 supplies perfect-complex
+  rank loci; §§7.6.1–7.8 supply `spaceDQCoh`, `spacePerfect`, the ringed étale carriers and `properSpaceCompletionEquivalence`. §7.9 supplies
   `spaceSectionComponentCriterion`; §8.3 supplies generic parameter transport and the two
   framed-completion equivalences. §§9.1–9.7 supply algebraic resolution and SNC geometry.
   The analytic local models are §§C−1.1–C−1.4, coherent GAGA is §C1.9, and derived limits,
   coherent/Picard algebraicity and components are §§C3.2a–C3.2g here.
+- **DerivedModuleAlgebra §1.E.1 and EnhancedDerivedSheaves E1.9.**
+  `perfectInverseSystemEffectivity` and `perfect_proper_pushforward`, respectively, supply
+  the ring-complex effectivity and geometric perfect-test inputs of C3.2b. The latter also
+  supplies the Picard cohomology inputs of C3.2d.1 and C3.2d.3. Ambient enhancement,
+  replacements and limits for C3.2a come from EnhancedDerivedSheaves §§0.1–0.4.
 - **SchemeAndStackFoundations.** Layer 1 (algebraic spaces, étale sites, effective descent); Layer 2 (the site-cohomology, quasi-coherent cohomology and derived
   quasi-coherent declarations named in *Scope and ownership*), including §§2.19–2.20's coherent
   duality, smooth dualizing module, trace and Serre duality for C5.3; §4.12 (Chow's lemma).
@@ -783,17 +820,25 @@ and pointwise product of ranks; duals preserve ranks, exterior powers use binomi
 determinants have rank one, and pullback uses `ρ ∘ f`. Compare determinants on fixed-rank
 subcategories and on the core of all objects, as in AlgebraicVectorBundles L0C. Prove that these operations correspond
 to the module operations of AlgebraicVectorBundles. A finite holomorphic frame identifies the section sheaf
-with `O^r`; conversely transition matrices between module frames glue a bundle (Demailly,
+with `O^r`; conversely use ComplexManifolds Milestone 7.1–7.3's holomorphic cocycle gluing
+on the native `VectorBundleCore` to turn transition matrices between module frames into a
+bundle with model fibre `Fin r → ℂ`. Its change-of-frame and bundle-map comparisons give
+the unit and counit, natural in sheaf morphisms; apply this construction separately on
+each clopen rank stratum (Demailly,
 II.3.1–3.6, pp. 83–86). The dictionary is a theorem about smooth spaces: on a singular space there
 is no tangent bundle and no such equivalence is used. *Needs:* `coherentOperations`; Mathlib
 `SheafOfModules.IsLocallyFree`, `ContMDiffVectorBundle`; TauCetiRoadmap.AlgebraicVectorBundles
-(L0B rank predicates, exterior powers and determinants of finite locally free modules).
+(L0B rank predicates, exterior powers and determinants of finite locally free modules);
+ComplexManifolds Milestone 7.1–7.3 (fixed-rank holomorphic gluing, frame changes and operations).
 
 **Checks.**
 
 - Rank zero: the model fibre `Fin 0 → ℂ` gives the zero section sheaf, and its determinant is `O_M`.
 - Fixed positive rank: the trivial model bundle `M × (Fin r → ℂ)` has section sheaf `O_M^r`;
   its dual and pullbacks agree with the fixed-rank dictionary.
+- Replacing module frames by holomorphic matrices `h_i` replaces transition matrices by
+  `h_i⁻¹ g_ij h_j`; the supplier's change-of-frame isomorphism induces the same section-sheaf
+  isomorphism and the same dictionary counit.
 - On `M = ℂ ⊔ ℂ`, glue rank one on the first component and rank two on the second to obtain
   `O ⊔ O²`. No single fixed-model-fibre bundle on all of `M` represents this object; the
   clopen-stratum carrier does, and its second exterior power has ranks `(0,1)`.
@@ -1528,21 +1573,64 @@ SchemeAndStackFoundations §2.18 `perfect_generator`.
 
 ### C3.2a Derived products and inverse limits of quasi-coherent complexes
 
-Prove `spaceDerivedLimits` for a quasi-compact quasi-separated algebraic space X, using ComplexComparisonPartII C3.2's `spaceQuasiCoherator` RQ_X, the right adjoint of the inclusion i:spaceDQCoh X→D(O_X). As part of this target construct ambient derived products: take K-injective replacements of complexes of O_X-modules and their degreewise product, and prove the product universal property using the K-injective Hom comparison. For any set-indexed family M_j in spaceDQCoh X, construct its product as RQ_X(∏_j iM_j), with the product universal property. For a countable inverse sequence M_n in this category, construct its derived limit as the homotopy fibre of 1−shift on these products and prove the canonical comparison
+Prove `spaceDerivedLimits` for a quasi-compact quasi-separated algebraic space X, using
+C3.2's `spaceQuasiCoherator` RQ_X, the right adjoint of the inclusion
+i:spaceDQCoh X→D(O_X). Specialize EnhancedDerivedSheaves §§0.1–0.4's
+`ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`,
+`ClassicalDerived.inverseLimits` and `ClassicalDerived.functorCoherence` to the ringed
+small étale site (X_ét,O_X). Use its ambient derived products and coherent limits.
+For any set-indexed family M_j in spaceDQCoh X, construct its intrinsic product as
+RQ_X(∏ᴿ_j iM_j), with the product universal property. Construct the enhanced
+quasi-coherent full subcategory and lift the quasi-coherator adjunction to it, with
+homotopy-category image the adjunction of C3.2. For a coherent countable inverse sequence
+M_n, use the shared enhanced limit and the right adjoint to obtain the canonical comparison
+
 R lim_(spaceDQCoh X) M_n ≅ RQ_X(R lim_(D(O_X)) iM_n).
-These are operations and comparisons induced by the right adjoint of §C3.2, on AlgebraicModuliForArithmeticGeometry §7.7’s category; the right adjoint itself is owned by C3.2.
 
-The API `spaceDerivedLimits.products` and `spaceDerivedLimits.comparison` gives these constructions with their projections. `spaceDerivedLimits.boundedness` gives an integer N(X)≥0 such that, if H^i(U,L)=0 outside [a,b] for every affine étale U→X and L∈D(O_X), then H^i(RQ_X L)=0 outside [a,b+N(X)]. In particular, for an inverse sequence of quasi-coherent modules in degree zero, affine étale cohomology of the ambient derived limit vanishes outside [0,1], so its intrinsic derived limit lies in degrees [0,1+N(X)]. This proves the bounded, nonnegative assertion used in `strongProperSupportExistence` for the closed pushforwards of F_n. For X over Spec A and E perfect, `spaceDerivedLimits.perfectTest` identifies RHom_X(E,R lim_(spaceDQCoh X) M_n) with R lim RHom_X(E,M_n) in D(A); the global-sections tensor version follows using E^∨.
+Identify its homotopy-category image with the fibre of 1−shift on the intrinsic derived
+products, with shift induced by the given transition maps. This is the fibre presentation
+of the shared limit, with its projections and transition homotopies. The API
+`spaceDerivedLimits.products` and `spaceDerivedLimits.comparison` gives these intrinsic
+constructions and comparisons with their actual projections.
 
-([Stacks](https://stacks.math.columbia.edu/tag/079P), Theorem 19.12.6, and [Stacks](https://stacks.math.columbia.edu/tag/07D9), Lemma 19.13.4, for ambient products; [Stacks](https://stacks.math.columbia.edu/tag/0CST), Example 75.19.5; [Stacks](https://stacks.math.columbia.edu/tag/0CSS), Lemma 75.19.4; [Stacks](https://stacks.math.columbia.edu/tag/0CX5), Lemma 77.12.2; [Stacks](https://stacks.math.columbia.edu/tag/0CX6), Lemma 77.12.3, proof.)
+`spaceDerivedLimits.boundedness` gives an integer N(X)≥0 such that, if H^i(U,L)=0
+outside [a,b] for every affine étale U→X and L∈D(O_X), then H^i(RQ_X L)=0 outside
+[a,b+N(X)]. In particular, for an inverse sequence of quasi-coherent modules in degree
+zero, affine étale cohomology of the ambient derived limit vanishes outside [0,1], so
+its intrinsic derived limit lies in degrees [0,1+N(X)]. This proves the bounded,
+nonnegative assertion used in `strongProperSupportExistence` for the closed pushforwards
+of F_n. For X over Spec A and E perfect, `spaceDerivedLimits.perfectTest` identifies
+RHom_X(E,R lim_(spaceDQCoh X) M_n) with R lim RHom_X(E,M_n) in D(A), compatibly with
+every projection and transition map; the global-sections tensor version follows using E^∨.
 
-For ambient products, verify the Grothendieck hypotheses on the module-sheaf category using exact filtered colimits and generators from sheafified free presheaves on site objects, then construct K-injective replacements. For boundedness, use the affine description of RQ_X and induction through elementary distinguished étale squares, with the finite cohomological dimension of quasi-compact open pushforward. Perfect duality and the right-adjoint property of global sections make perfect-test functors preserve products and hence their homotopy fibres. The comparisons are canonical maps, rather than an identification with the ordinary inverse-limit sheaf.
+([Stacks](https://stacks.math.columbia.edu/tag/079P), Theorem 19.12.6, and
+[Stacks](https://stacks.math.columbia.edu/tag/07D9), Lemma 19.13.4, for the supplied
+ambient replacements and products; [Stacks](https://stacks.math.columbia.edu/tag/0CST),
+Example 75.19.5; [Stacks](https://stacks.math.columbia.edu/tag/0CSS), Lemma 75.19.4;
+[Stacks](https://stacks.math.columbia.edu/tag/0CX5), Lemma 77.12.2;
+[Stacks](https://stacks.math.columbia.edu/tag/0CX6), Lemma 77.12.3, proof.)
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §7.7 (`spaceDQCoh`, `spacePerfect`); ComplexComparisonPartII C3.2 (`spaceQuasiCoherator.adjunction`, `spaceQuasiCoherator.projection_perfect`), SchemeAndStackFoundations §2.18 (ambient derived category and cones) and Layer 1 (affine étale charts and distinguished squares); Mathlib `CochainComplex.IsKInjective` and `CochainComplex.IsKInjective.Qh_map_bijective`. K-injective replacements and ambient products needed for this construction are included in this target.
+For the enhanced adjunction, use affine étale descent to prove that the quasi-coherent
+full subcategory is presentable and its inclusion preserves small colimits. Apply
+EnhancedDerivedSheaves E3.2's `adjointFunctorTheorem`; its mapping-space adjunction
+induces the adjunction of C3.2 on homotopy categories. The enhanced right adjoint
+preserves limits. For boundedness, use the affine description of RQ_X and induction
+through elementary distinguished étale squares, with the finite cohomological dimension
+of quasi-compact open pushforward. Perfect duality and the right-adjoint property of
+global sections make perfect-test functors preserve these limits. All comparisons are
+induced by those adjunctions and the shared limit, including their projections.
+
+*Needs:* EnhancedDerivedSheaves §§0.1–0.4 (`ClassicalDerived.enhancedCategory`,
+`ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`,
+`ClassicalDerived.functorCoherence`) and E3.2 (`adjointFunctorTheorem`);
+AlgebraicModuliForArithmeticGeometry §7.7
+(`spaceDQCoh`, `spacePerfect`); C3.2 (`spaceQuasiCoherator.adjunction`,
+`spaceQuasiCoherator.projection_perfect`); SchemeAndStackFoundations §2.18 and Layer 1
+(affine étale charts and distinguished squares).
 
 **Checks.**
 
-- `SpaceLimitChecks.constant`: a constant sequence of quasi-coherent modules with identity maps has that module as its intrinsic derived limit, in degree zero.
+- `SpaceLimitChecks.constant`: a constant sequence of quasi-coherent modules with identity maps has that module as its intrinsic derived limit, in degree zero; its projection to each term is the identity.
 - `SpaceLimitChecks.empty`: on the empty algebraic space both the ambient and intrinsic derived limits are zero.
 - `SpaceLimitChecks.adicSheaf`: for A=k[[t]], X=Spec A and M_n=O_X/t^n, the ordinary inverse-limit sheaf has sections A on X but zero on D(t), and is not quasi-coherent. The limit in spaceDQCoh X corresponds under D_qc(Spec A)≃D(A) to lim A/t^n=A, so is O_X in degree zero and has sections k((t)) on D(t).
 
@@ -1554,9 +1642,9 @@ Here arbitrary rings A_n with locally nilpotent kernels; A need not be Noetheria
 
 ([Stacks](https://stacks.math.columbia.edu/tag/0CXB), Theorem 77.12.8, with Situation 77.12.1 (tag 0CX4) and Lemmas 77.12.2–77.12.7 (tags 0CX5–0CXA); [Stacks](https://stacks.math.columbia.edu/tag/0CTJ), Lemma 38.28.8).
 
-For the proof, in order: (1) push each F_n forward along the closed immersion X_n→X and form K = RQ_X(R lim F_n in D(O_X)), using ComplexComparisonPartII C3.2's `spaceQuasiCoherator`. By `spaceDerivedLimits` this is the limit in `spaceDQCoh X`, bounded with cohomology in degrees at least zero; the ambient limit is not assumed quasi-coherent. (2) For every perfect E on X, `perfect_proper_pushforward` on X_n gives perfect M_n=RΓ(X_n,F_n⊗ᴸE|_(X_n)) with the derived transition isomorphisms M_(n+1)⊗ᴸ_(A_(n+1))A_n≅M_n. Apply `perfectInverseSystemEffectivity` to obtain a perfect limit and its canonical derived reductions. The perfect-test comparison of `spaceDerivedLimits` identifies this limit with RΓ(X,K⊗ᴸE); applying it to E^∨ identifies RHom_X(E,K) as well. (3) Hence K is pseudo-coherent relative to A, and for every quasi-compact étale U→X one has RΓ(U,K)⊗ᴸ_A A_n≅RΓ(U_n,F_n), by writing RΓ(U,−) as a homotopy colimit of RΓ(X,−⊗ᴸE_m) for perfect E_m (Stacks, Lemmas 75.25.7 and 75.27.3, and More on Morphisms of Spaces, Lemma 76.51.4). (4) There is an open W⊂X containing all points over Spec A_1 on which K is H⁰(K), finitely presented and restricting to every F_n, and after shrinking W its support is proper over A. (5) By `universalFlatteningProperSupport` the universal flattening of H⁰(K)|_W is a monomorphism of finite presentation through which every Spec A_n→Spec A factors, so it is all of Spec A by Lemma 38.28.8 and F=H⁰(K)|_W is flat. (6) Its proper support makes extension by zero to X the required module. The perfect objects in (2) are test complexes E; the modules F_n themselves need not be perfect.
+For the proof, in order: (1) push each F_n forward along the closed immersion X_n→X and form K = RQ_X(R lim F_n in D(O_X)), using ComplexComparisonPartII C3.2's `spaceQuasiCoherator`. By `spaceDerivedLimits` this is the limit in `spaceDQCoh X`, bounded with cohomology in degrees at least zero; the ambient limit is not assumed quasi-coherent. (2) For every perfect E on X, EnhancedDerivedSheaves E1.9's `perfect_proper_pushforward` on X_n gives perfect M_n=RΓ(X_n,F_n⊗ᴸE|_(X_n)) with the derived transition isomorphisms M_(n+1)⊗ᴸ_(A_(n+1))A_n≅M_n. Apply DerivedModuleAlgebra §1.E.1's `perfectInverseSystemEffectivity`, with every M_n perfect and the locally nilpotent transition kernels, to obtain a perfect limit and its canonical derived reductions. Retain the tower's projections and derived transition maps in these comparisons. The perfect-test comparison of `spaceDerivedLimits` identifies this limit with RΓ(X,K⊗ᴸE); applying it to E^∨ identifies RHom_X(E,K) as well. (3) Hence K is pseudo-coherent relative to A, and for every quasi-compact étale U→X one has RΓ(U,K)⊗ᴸ_A A_n≅RΓ(U_n,F_n), by writing RΓ(U,−) as a homotopy colimit of RΓ(X,−⊗ᴸE_m) for perfect E_m (Stacks, Lemmas 75.25.7 and 75.27.3, and More on Morphisms of Spaces, Lemma 76.51.4). (4) There is an open W⊂X containing all points over Spec A_1 on which K is H⁰(K), finitely presented and restricting to every F_n, and after shrinking W its support is proper over A. (5) By `universalFlatteningProperSupport` the universal flattening of H⁰(K)|_W is a monomorphism of finite presentation through which every Spec A_n→Spec A factors, so it is all of Spec A by Lemma 38.28.8 and F=H⁰(K)|_W is flat. (6) Its proper support makes extension by zero to X the required module. The perfect objects in (2) are test complexes E; the modules F_n themselves need not be perfect.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §7.2 `perfect_proper_pushforward`, AlgebraicModuliForArithmeticGeometry §7.3 `perfectInverseSystemEffectivity`, AlgebraicModuliForArithmeticGeometry §7.3 `universalFlatteningProperSupport`, §C3.2a `spaceDerivedLimits`, AlgebraicModuliForArithmeticGeometry §7.7 `spaceDQCoh`, AlgebraicModuliForArithmeticGeometry §7.7 `spacePerfect`, ComplexComparisonPartII C3.2 (`spaceQuasiCoherator`), SchemeAndStackFoundations §2.18, SchemeAndStackFoundations Layer 1.
+*Needs:* EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, DerivedModuleAlgebra §1.E.1 `perfectInverseSystemEffectivity`, AlgebraicModuliForArithmeticGeometry §7.3 `universalFlatteningProperSupport`, §C3.2a `spaceDerivedLimits`, AlgebraicModuliForArithmeticGeometry §7.7 `spaceDQCoh`, AlgebraicModuliForArithmeticGeometry §7.7 `spacePerfect`, ComplexComparisonPartII C3.2 (`spaceQuasiCoherator`), SchemeAndStackFoundations §2.18, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -1607,7 +1695,7 @@ Here No global section, Noetherian base or projectivity is required. The ambient
 
 For the proof, apply `cohStack_algebraic`; then invertibility is open in a flat finitely presented family; the complement of its locus has proper image in T; then restrict the coherent-sheaf stack to that open substack and import its local finite presentation and quasi-separatedness.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §7.3 `PicardStackSpaces`, §C3.2c `cohStack_algebraic`, AlgebraicModuliForArithmeticGeometry §7.2 `perfect_proper_pushforward`, SchemeAndStackFoundations Layer 1.
+*Needs:* AlgebraicModuliForArithmeticGeometry §7.3 `PicardStackSpaces`, §C3.2c `cohStack_algebraic`, EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -1643,7 +1731,7 @@ Here For the separatedness statement geometric integrality is required; normalit
 
 For the proof, express the diagonal as the locus of relative equality of line-bundle classes, computed by sections of L and L⁻¹; then use perfect pushforward and rank loci for its immersion and quasi-compactness; then for a valuation-ring test, two positive section spaces on an integral fibre force a line bundle generically trivial and relatively equal to zero; conclude the properness of the diagonal.
 
-*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, AlgebraicModuliForArithmeticGeometry §7.2 `perfect_proper_pushforward`, SchemeAndStackFoundations Layer 1.
+*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -2114,7 +2202,16 @@ singular simplex is small for the nesting when, for every chain of faces `σ₁ 
 face `σ₁` lies in the set assigned to the images of the barycentres of `σ₁, …, σ_m`. Small
 `A`-valued cochains, taken in the directed colimit over refinements of nestings, form a complex of
 flasque sheaves on `T` with degree-zero augmentation from the constant sheaf `A`. Use Tau Ceti's singular cochain complex as the
-complex of all cochains; the extra construction here is its nesting-small flasque resolution. The API is
+complex of all cochains. On Hausdorff CW representatives consume CharacteristicClasses
+C1.2 item 2's early locally acyclic small-chain sheaf resolution, with its constant-sheaf
+augmentation and small-chain restriction maps. Construct the nesting-small extension to
+general semilocally contractible spaces here. On the common CW domain identify the two
+augmented resolutions in the derived category by their quasi-isomorphisms from the same
+constant sheaf. Prove that the comparison commutes with the maps from ordinary singular
+cochains, using common small-chain refinements and the subdivision homotopies. Retain
+restriction, coefficient naturality and homotopy coherence; thus the canonical
+sheaf–singular map agrees with the supplier's map on that domain. Its Čech-refinement
+and CW-type transport theorems remain in CharacteristicClasses C1.2. The API is
 `SmallSingularCochains.augmentation` (on a semilocally contractible `T`, the degree-zero cocycles
 are the locally constant `A`-valued functions; on a totally path-disconnected space every function
 is a cocycle), `SmallSingularCochains.restriction_surjective` (every restriction map of the cochain
@@ -2124,7 +2221,8 @@ include into all singular chains by a chain homotopy equivalence, built from sub
 homotopies corrected on faces; in the colimit over nestings the map from all singular cochains to
 the small ones is a quasi-isomorphism) (Sella, *Comparison of sheaf cohomology and singular
 cohomology*, arXiv:1602.06674v3, the definition of nestings, p. 6, Lemma 0.1, pp. 2–4, and
-Steps 1–3, pp. 7–19). *Needs:* Tau Ceti `TopCat.singularCochainComplex` and
+Steps 1–3, pp. 7–19). *Needs:* CharacteristicClasses C1.2 item 2's early locally acyclic
+small-chain sheaf resolution on Hausdorff CW representatives; Tau Ceti `TopCat.singularCochainComplex` and
 `TauCeti.smallSingularChainHomotopyEquiv` (the open-cover construction);
 TauCetiRoadmap.AlgebraicTopology (Stage 6, cochain products); Mathlib `AlgebraicTopology.singularChainComplexFunctor`.
 
@@ -2133,6 +2231,9 @@ TauCetiRoadmap.AlgebraicTopology (Stage 6, cochain products); Mathlib `Algebraic
 - `SmallSingularCochains.point`: on a point the cohomology of global sections is `A` in degree `0`
   and zero in positive degrees.
 - `SmallSingularCochains.empty`: on the empty space every cochain group is zero.
+- On the CW circle with coefficients `ℤ`, the shared resolution and the nesting extension
+  identify the same degree-one generator evaluated as `1` on the positive loop; restrictions
+  to open arcs and coefficient reduction `ℤ → ℤ/n` commute with this identification.
 - `SmallSingularCochains.nonHausdorff`: on Sella's five-point locally contractible non-Hausdorff
   space, the map from singular `1`-cochains to global sections of the sheafification of the presheaf
   of all singular `1`-cochains is not surjective, so an argument through the naive sheafification
@@ -2263,7 +2364,8 @@ isomorphism (Deligne 1970, I.2.23(ii)–(iii) and proof, printed pp. 15–19).
 Prove `ehresmannFibration`, the holomorphic/analytification adapter to
 SmoothBundlesConnections B1.5: for a proper surjective holomorphic submersion
 `f : T → S` of finite-dimensional Hausdorff second-countable complex manifolds without
-boundary, forget to their real smooth structures and prove `Manifold.IsSubmersion I J ∞ f`.
+boundary, use ComplexManifolds Milestone 1's restriction-of-scalars structures and
+functorial map/derivative comparison to prove `Manifold.IsSubmersion I J ∞ f`.
 The native continuous map has the same properness and surjectivity. Consume B1.5's
 regular-fibre manifold carrier and smooth `FiberBundle` atlas, componentwise on `S`:
 for every `s`, a `Trivialization` over an open `V` represents an actual diffeomorphism
@@ -2282,8 +2384,8 @@ lift infrastructure have their single owner in that supplier; this adapter suppl
 `relativeBettiLocalSystem` (tom Dieck, *Differential Manifolds*, January 2009,
 Theorems 2.2.1 and 2.2.3 and Corollary 2.2.4, pp. 52–53; Deligne 1970, I.2.24–2.25, p. 19).
 *Needs:* SmoothBundlesConnections B1.5's foundational submersion/trivialization leaf;
-§C−1.1; Mathlib `Manifold.IsSubmersion`,
-`FiberBundle`, `Trivialization` and the real smooth structure of complex manifolds.
+ComplexManifolds Milestone 1's realification and atlas-transport maps;
+§C−1.1; Mathlib `Manifold.IsSubmersion`, `FiberBundle`, `Trivialization`.
 
 **Checks.**
 
@@ -2294,6 +2396,8 @@ Theorems 2.2.1 and 2.2.3 and Corollary 2.2.4, pp. 52–53; Deligne 1970, I.2.24�
   diffeomorphic, so no single fixed fibre is asserted for both components.
 - For `z ↦ zⁿ` on `ℂ*`, `n ≥ 1`, the proper holomorphic submersion has `n`-point fibres;
   its smooth trivializations and those of its pullback give the same fibre permutations.
+- For the map `z ↦ iz` on `ℂ`, the underlying real derivative is the matrix
+  `[[0,−1],[1,0]]`; realification, composition and restriction give the supplier's same map.
 
 Prove `relativeBettiLocalSystem`: for a proper smooth holomorphic map `f : T → S` of complex manifolds
 (proper surjective submersion) and an abelian group `A`, `R^q f_* A` is a locally constant sheaf with
@@ -3487,15 +3591,16 @@ of C0–C4 for the finite-cover analytic algebraization constructed in this targ
 - A nilpotent thickening induces the same finite-cover category on both sides.
 - A disconnected finite cover retains its components and their fibrewise cardinalities.
 
-### C6.3 Finite-level Artin comparison for ctf coefficients
+### C6.3 Finite-level Artin comparison for constructible coefficients
 
-**Finite-level Artin comparison for ctf coefficients — `artinComparison`.**
-For every finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_ctf(X_ét,Λ)`, construct
+**Finite-level Artin comparison for constructible coefficients — `artinComparison`.**
+For every finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_c(X_ét,Λ)`, construct
 the site morphism `ε_X : (T_X)_lh → X_ét` by analytifying étale maps as local
 homeomorphisms. The small local-homeomorphism site with jointly surjective covers has
 the same sheaf category as the open-set site of `T_X`; prove and use this equivalence.
-Define `K^an = ε_X^*K`, preserving stalks, finite lissity, constructibility, tensor,
-duals and coefficient maps. The unit gives the canonical comparison
+Define `K^an = ε_X^*K`, preserving stalks, finite lissity and constructibility.
+Its derived tensor and coefficient-change maps retain the Tor bounds needed to stay
+bounded; dual comparisons carry the supplier's perfect-source hypotheses. The unit gives the canonical comparison
 `RΓ_ét(X,K) → RΓ(T_X,K^an)`; prove it is an equivalence of enhanced derived
 `Λ`-module objects, natural in `X` and `K`. No smoothness, properness or separatedness
 hypothesis is imposed on `X`.
@@ -3510,19 +3615,24 @@ is the separate point/finite-disjoint-union base case. For finite lisse coeffici
 prove degree-zero/one fibre and higher-direct-image comparison, higher vanishing and
 monodromy agreement. Leray and dimension induction give the smooth lisse comparison.
 Noetherian stratification, finite direct images, localization and induction give the
-constructible case. Use bounded truncations in the ambient constructible derived category,
-then restrict to ctf; arbitrary truncations are not asserted to remain ctf.
+constructible case. Use bounded truncations to export this comparison on `Dᵇ_c`.
+Its restriction to `Dᵇ_ctf` is the same canonical map; arbitrary truncations are not
+asserted to remain ctf. The ctf restriction supplies the Tor-sensitive tensor/Künneth,
+relative and adic interfaces below, with their stated additional hypotheses.
 
 Supply ordinary singular corollaries for finite local systems and constant finite abelian
-groups, viewing a finite abelian `A` as a finite `ℤ/n`-module for an annihilator `n`.
-State both comparison directions, and coherent compatibility with cups, ordinary Künneth
-on its supplier domain, twists, derived coefficient reduction and finite group actions.
+groups from the ambient `Dᵇ_c` theorem and C6.1, viewing a finite abelian `A` as a finite
+`ℤ/n`-module for an annihilator `n`; this does not assert finite Tor dimension over `ℤ/n`.
+State the comparison and its inverse, and coherent compatibility with coefficient maps,
+localization and its connecting morphisms, twists and finite group actions throughout
+`Dᵇ_c`. Cup/external products, ordinary Künneth and derived coefficient reduction retain
+the supplier's Tor and boundedness hypotheses. These maps agree on the ctf restriction.
 
 *Source:* SGA 4 XI §4, especially §4.6 (elementary fibrations), and XVI §4 (comparison);
 Milne, *Lectures on Étale Cohomology*, §21, Theorems 21.1, 21.5, Definition 21.7 and
 Proposition 21.8, pp. 130–134, for the smooth induction.
 *Needs:* §§C6.0–C6.2 and §C−1.1;
-EtaleCohomologyFoundations §§F.0–F.3 (the ctf/cohomology, base-change,
+EtaleCohomologyFoundations §§F.0–F.3 (the constructible/ctf categories, cohomology, base-change,
 local-acyclicity, fibre-transport, dimension, finiteness and ordinary Künneth contracts above);
 SchemeAndStackFoundations §§2.1–2.2 (site functors and Leray);
 EnhancedDerivedSheaves §§0.1–0.4 and EtaleCohomologyFoundations §0.7 / `ClassicalAlgebraic.supportLocalization`.
@@ -3534,21 +3644,30 @@ Its localization and finite-open Mayer–Vietoris use étale module coefficients
   evaluates as `1` on the positive loop through the root-of-unity coordinate.
 - A singular finite-type complex scheme is admitted without choosing a manifold structure.
 - On `Spec ℂ` with `ℤ/2` coefficients the comparison is the canonical identity in degree zero.
+- On `Spec ℂ`, take `Λ = ℤ/4` and `K = (ℤ/2)[0]`. The periodic free resolution with
+  differential multiplication by `2` gives `Tor_i^Λ(ℤ/2,ℤ/2) = ℤ/2` for every `i ≥ 0`.
+  Thus `K` lies in `Dᵇ_c` and comparison is the identity, while `K` is outside `Dᵇ_ctf`.
+- The constant group `ℤ/2 ⊕ ℤ/4`, viewed over its annihilator ring `ℤ/4`, also lies outside
+  ctf and is covered by the ambient theorem and its singular corollary.
 
 ### C6.4 Compact-support Artin comparison
 
 **Compact-support Artin comparison — `artinComparisonCompactSupport`.**
-For separated finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_ctf(X_ét,Λ)`,
+For separated finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_c(X_ét,Λ)`,
 construct the canonical equivalence
 `RΓ_c,ét(X,K) → RΓ_c(T_X,ε_X^*K)` using EtaleCohomologyFoundations §§G.1–G.3's compactifications,
 proper analytic comparison and the exchange with topological `j_!`. Prove independence
 of compactification by the refinement comparisons and their cocycle. Supply the local-system
-and constant compact singular corollaries via §C6.1. The source and target are the
+and constant compact singular corollaries from this ambient theorem via §C6.1.
+The ctf restriction uses the same exchange map and refinement comparisons, and supplies
+the finite-Tor compact-support and adic interfaces. The source and target are the
 compact-support constructions, not the cohomology of coherent modules with proper support.
 
 The equivalence commutes with proper pushforward, open extension by zero, localization
-triangles and their connecting maps, compact-support external products/Künneth, derived
-coefficient change, twists and finite group actions. For complex conjugation use the
+triangles and their connecting maps, coefficient maps, twists and finite group actions
+on `Dᵇ_c`. Compact-support external products/Künneth and derived coefficient change
+carry their supplier's Tor and boundedness hypotheses; all compatibilities restrict
+to ctf. For complex conjugation use the
 conjugate scheme and the transported coefficient object together with the induced continuous
 homeomorphism; track its action on orientation and root-of-unity coordinates. Arbitrary
 abstract field automorphisms of `ℂ` do not supply continuous maps on the classical topology.
@@ -3565,6 +3684,9 @@ EtaleCohomologyFoundations §§0.7–0.8 / `ClassicalAlgebraic.supportLocalizati
 **Checks.**
 
 - `H⁰_c(A¹,Λ) = 0` on both sides, although ordinary `H⁰` is `Λ`.
+- On the proper point `Spec ℂ`, compact comparison for `Λ = ℤ/4` and `K = (ℤ/2)[0]`
+  is the same identity as ordinary comparison; its infinite Tor dimension excludes only
+  the ctf restriction, not the compact singular corollary.
 - The localization sequence for `G_m ⊂ A¹` has the same connecting map after comparison.
 - Conjugation on `P¹` reverses its complex orientation; the comparison transports the
   coefficient/twist coordinate with this action, rather than declaring it trivial.
