@@ -1112,7 +1112,7 @@ end BoundaryChecks
 
 The following targets are stated in `README.md` only: the composite-support spectral sequence
 for local cohomology, its Čech, change-of-rings and filtered-colimit comparisons (Layer K0); the
-Matlis and completion inputs and catenarity from dualizing complexes; normalized
+catenarity from dualizing complexes; normalized
 local duality, including its completed Ext comparison and normalization/torsion-adjunction
 steps, in the form `H^j_𝔪(M) ≅ Hom(Ext^{-j}(M, ω), E)`, the
 duality annihilator identity, the annihilator description of the non-Cohen–Macaulay locus and the

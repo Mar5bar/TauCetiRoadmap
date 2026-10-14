@@ -254,10 +254,13 @@ are not imported as Lean carriers.
 - **ArithmeticGaloisDuality, D7.1**: `localDuality` owns Grothendieck local duality over complete
   Noetherian local rings for bounded complexes with finite cohomology. K0.7 owns the
   noncomplete finite-module extension and its annihilator consequences, agreeing with
-  `localDuality` and Matlis evaluation over complete rings. D7.1's Matlis target covers complete
-  rings with finite residue fields; K0.7 supplies the arbitrary-residue-field extension.
+  `localDuality` and Matlis evaluation over complete rings.
+- **DerivedModuleAlgebra, §§1.M.1–1.M.2**: Matlis duality for complete rings with finite
+  residue fields and for Noetherian local rings with arbitrary residue fields, canonical
+  completion actions on power-torsion modules, biduality and the completion adjunction.
+  Used in K0.7.
 
-- **IntegralHeckeAndGaloisDeterminants, §6.4**, **Koszul complex of a finite sequence**:
+- **DerivedModuleAlgebra, §0.K.1**, **Koszul complex of a finite sequence**:
   `koszulComplex φ`, its alternating-deletion differential, maps, tensor formula and homotopies.
   K0.5 uses `φ(e_i)=z_i` on the finite free module and tensors with `M`.
 - **DGFloer, Layer 1, item 3**, **The spectral sequence of a filtered complex**:
@@ -266,7 +269,7 @@ are not imported as Lean carriers.
   filtrations of the bounded Čech–Koszul complex, with cohomological reindexing.
 - **SchemeAndStackFoundations, §2.18**: `derivedTensor` and `derivedHom` on module derived
   categories. Together with §2.7's derived torsion these supply K0.7's evaluation argument.
-- **DerivedDeRhamCohomology, §§1.3 and 1.5**: `DerivedDeRham.derivedCompletion` is
+- **DerivedModuleAlgebra, §§1.3 and 1.5**: `DerivedDeRham.derivedCompletion` is
   `RHom(C_I,−)` for a finite generating list of `I`; over a Noetherian ring its cohomology
   on complexes with finite cohomology is ordinary adic completion (Stacks 0A06). Used in K0.7.
 
@@ -624,7 +627,7 @@ secant sequence for a Cohen–Macaulay module is regular. `Suggested.lean` decla
 *Hypotheses.* `R` Noetherian local, `M` finite and nonzero with `d = dim Supp M ∈ ℕ`, the list
 nonempty and secant (so its entries lie in `𝔪`).
 
-*Proof sketch.* Use IntegralHeckeAndGaloisDeterminants §6.4, **Koszul complex of a finite sequence**,
+*Proof sketch.* Use DerivedModuleAlgebra §0.K.1, **Koszul complex of a finite sequence**,
 `koszulComplex φ` with `φ(e_i)=z_i`, tensor it with `M`, and use its alternating-deletion
 differential (Stacks, §15.29, tag 0621). The Čech–Koszul annihilator argument belongs here.
 For a full system of `d` parameters `z`, each Koszul homology module has finite length: it is finite, supported in
@@ -649,7 +652,7 @@ no added entries the boundary already gives zero. Replace `rₛ` by `rₛⁿ` to
 positive-power statement, using `IsSecant.pow` without changing `a(M)`.
 (Česnavičius, Remark 3.3, p. 10; Kawasaki 1996, Lemma 2.4, p. 42; the double-complex argument
 uses Stacks §15.29, tag 0621, and Lemma 47.9.1, tag 0A6R.) *Needs:* K0.1–K0.3, including
-secant parameter completion; IntegralHeckeAndGaloisDeterminants §6.4 (finite Koszul complex);
+secant parameter completion; DerivedModuleAlgebra §0.K.1 (finite Koszul complex);
 Mathlib's double complexes and `SpectralObject`; DGFloer Layer 1, item 3, **The spectral sequence
 of a filtered complex** (convergence and total-cohomology filtration);
 `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. This proof requires no dualizing complex.
@@ -720,29 +723,8 @@ Over a Noetherian local ring with a normalized dualizing complex `ω` (SchemeAnd
 `H^j_𝔪(M)` into the annihilator of a finite module, whose zero locus is a support. These targets
 explain what CM-secancy means; the later layers do not use them.
 
-**Matlis duality and completion inputs.** For a Noetherian local ring with arbitrary residue
-field, construct an injective hull `E` of `κ`, the canonical `R̂`-actions on `E` and all
-`𝔪`-power-torsion modules, and the
-exact duality between Artinian `R`-modules and finite `R̂`-modules. Prove evaluation biduality
-on both classes and that an `𝔪`-power-torsion module whose Matlis dual is finite over `R̂`
-is Artinian. Obtain hulls by maximal essential extensions inside injective modules; use
-Tau Ceti's `IsInjectiveEnvelope` and its uniqueness API. Construct the completion adjunction
-`Hom_{R̂}(N̂,E) ≅ Hom_R(N,E)` for finite `N`, using
-`AdicCompletion.ofTensorProductEquivOfFiniteNoetherian` for `N̂ ≅ R̂ ⊗_R N`.
-ArithmeticGaloisDuality D7.1 supplies the complete finite-residue-field case; this target
-supplies the general residue-field and completion inputs. (Stacks, §47.7, tag 08Z1,
-especially Remark 47.7.9.) *Needs:* Mathlib enough injectives in `ModuleCat`, `AdicCompletion`;
-Tau Ceti `Algebra.Module.Injective.Envelope.Basic`; ArithmeticGaloisDuality D7.1
-(*Matlis duality for arithmetic coefficients*, the complete finite-residue-field case).
-
-**Checks.**
-
-- For `R = k` with `k = ℚ`, `E = k` and biduality holds for finite-dimensional vector spaces;
-  finiteness of the residue field is unnecessary.
-- For `R = k[x]_{(x)}`, `E = k(x)/R` has the canonical `k⟦x⟧`-action: on an element killed
-  by `xⁿ`, only the class of a power series modulo `xⁿ` matters.
-- For that DVR, `D(E) = R̂` and `Hom_{R̂}(R̂,E) = E`; algebraic `Hom_R(R̂,E)` is larger,
-  as in the completion Check below.
+DerivedModuleAlgebra §§1.M.1–1.M.2 supplies Matlis duality and completion inputs,
+including the arbitrary-residue-field case and the completion adjunction used below.
 
 **Normalized local duality for finite modules.** Let `(R, 𝔪, κ)` be Noetherian local with a
 normalized dualizing complex `ω` and let `E` be an injective hull of `κ`. The complete-ring
@@ -761,7 +743,7 @@ ArithmeticGaloisDuality D7.1 applies before its completeness-removal step: prove
 from the extended Čech complex. Using `RHom(C_𝔪,−)=Λ_𝔪`, evaluation then yields
 `Λ_𝔪 RHom_R(M,ω) ≅ RHom_R(RΓ_𝔪(M),E[0])` (Stacks 0A84). These normalization
 and torsion-adjunction steps are parts of this target over the noncomplete ring.
-DerivedDeRhamCohomology §1.3 `DerivedDeRham.derivedCompletion` and §1.5 identify its cohomology
+DerivedModuleAlgebra §1.3 `DerivedDeRham.derivedCompletion` and §1.5 identify its cohomology
 with ordinary completion of finite cohomology over a Noetherian ring (Stacks 0A06, 0AAK).
 Here `^∧` denotes `𝔪`-adic completion. Put `N = Ext^{-j}_R(M, ω)`, a finite module. Local cohomology is
 `𝔪`-power torsion; the finite completed dual above implies it is Artinian (Stacks, Remark
@@ -774,9 +756,10 @@ valid over a noncomplete ring. Over a complete ring this is Hartshorne's form, w
 quotes. (Stacks, Theorem 47.18.3, tag 0A84, and
 Lemma 47.18.4, tag 0AAK; Section 47.7, tag 08Z1, for the injective hull and Matlis duality;
 Česnavičius, proof of Lemma 3.6(a), p. 11.) *Needs:* SchemeAndStackFoundations §2.21
-(`NormalizedDualizing`); the Matlis and completion target above; ArithmeticGaloisDuality D7.1
+(`NormalizedDualizing`); DerivedModuleAlgebra §§1.M.1–1.M.2 (Matlis duality and completion);
+ArithmeticGaloisDuality D7.1
 `localDuality`; SchemeAndStackFoundations §2.7 (derived torsion and the Čech comparison) and
-§2.18 (`derivedTensor`, `derivedHom`); DerivedDeRhamCohomology §§1.3 and 1.5
+§2.18 (`derivedTensor`, `derivedHom`); DerivedModuleAlgebra §§1.3 and 1.5
 (derived completion and finite-cohomology completion); Mathlib `CategoryTheory.Injective`.
 
 **Checks.**
@@ -917,8 +900,8 @@ SchemeAndStackFoundations §2.7 (depth), §2.21 (localization shifts); the caten
 ### Dependencies
 
 Mathlib; SchemeAndStackFoundations §§0.16–0.18, §2.7, §2.18 and §2.21;
-AdicSpacesPartII (algebraic Čech complex); IntegralHeckeAndGaloisDeterminants §6.4;
-DGFloer Layer 1, item 3; ArithmeticGaloisDuality D7.1; DerivedDeRhamCohomology §§1.3 and 1.5.
+AdicSpacesPartII (algebraic Čech complex); DerivedModuleAlgebra §0.K.1;
+DGFloer Layer 1, item 3; ArithmeticGaloisDuality D7.1; DerivedModuleAlgebra §§1.3, 1.5 and 1.M.1–1.M.2.
 
 ## Layer K1: Huneke d-sequences and the Goto–Yamagishi identities
 
