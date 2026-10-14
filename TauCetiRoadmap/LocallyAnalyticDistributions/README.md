@@ -51,11 +51,11 @@ It leaves the following to the roadmaps and libraries named, and does not restat
 
 ## Conventions
 
-1. **Fields and algebras.** K is a field complete for a nontrivial nonarchimedean absolute value; in the arithmetic layers K is a finite extension of ℚ_p with v_p(p) = 1, and L ⊆ ℂ_p denotes a closed subfield containing the relevant coefficients. A is a nonzero commutative Noetherian K-Banach algebra with a submultiplicative ultrametric norm; A is not assumed to be a field, reduced or affinoid, and the zero algebra is treated as a separate degenerate case. Banach A-modules are complete Hausdorff ultrametric normed K-spaces with a bounded A-action; operator norms of continuous A-linear maps are computed after restriction of scalars to K. The native c₀ norm identities use ‖1_A‖=1. The exact-norm universal property of c₀ additionally requires a contractive A-action, ‖ax‖≤‖a‖‖x‖ (`IsBoundedSMul A M`); mere boundedness does not supply that hypothesis.
+1. **Fields and algebras.** K is a field complete for a nontrivial nonarchimedean absolute value; in the arithmetic layers K is a finite extension of ℚ_p with v_p(p) = 1, and L ⊆ ℂ_p denotes a closed subfield containing the relevant coefficients. A is a nonzero commutative Noetherian K-Banach algebra with a submultiplicative ultrametric norm satisfying ‖1_A‖=1; A is not assumed to be a field, reduced or affinoid, and the zero algebra is treated as a separate degenerate case. Banach A-modules are complete Hausdorff ultrametric normed K-spaces with a bounded A-action; operator norms of continuous A-linear maps are computed after restriction of scalars to K. The native c₀ norm identities use ‖1_A‖=1. The exact-norm universal property of c₀ additionally requires a contractive A-action, ‖ax‖≤‖a‖‖x‖ (`IsBoundedSMul A M`); mere boundedness does not supply that hypothesis.
 2. **Charts and coefficients.** A normalised analytic chart on a residue ball has coordinate (x − a)/p^h. The coefficient space of a Banach stage is Mathlib's c₀, `ZeroAtInftyContinuousMap` on a discrete index type I (`C₀(I, A)`), used directly with no alias and no countability assumption; its finitely supported element with value a at i is `c0Single` i a, and e_i = `c0Single` i 1; in several variables the coefficients tend to zero along the cofinite filter on the multi-index set. For an operator u on c₀ write u(e_i) = Σ_j a_{ij} e_j, so that i is the input index and j the output index (a_{ij} is `matrixCoeff u j i` of PadicFunctionalAnalysis §2.6.1, whose matrices index rows by outputs), and r_j(u) = sup_i ‖a_{ij}‖ (`rowNorm u j` of CompactOperators §0.2.1); finite coordinate projections π_S retain a finite set of output coordinates.
-3. **Topologies.** The locally analytic functions carry the inductive-limit topology of the Banach stages. Distributions carry the projective limit of the Banach dual topologies. Over finite K/Q_p, §0.3 compares this with the strong dual topology of the compact-type function space; over general closed L⊆ℂ_p only the projective-limit distribution topology is claimed here. Equality of underlying functions is never equality of topologies: the locally analytic topology is strictly finer than the uniform one. These nonarchimedean locally convex objects are not instances of Mathlib's ordered-field `LocallyConvexSpace`. The dual of a Banach stage has bounded coefficient values and is not asserted to be a c₀ space.
+3. **Topologies.** The locally analytic functions carry the inductive-limit topology of the Banach stages. Distributions carry the projective limit of the Banach dual topologies. Over finite K/Q_p, §0.3 compares this with the strong dual topology of the compact-type function space; over general closed L⊆ℂ_p only the projective-limit distribution topology is claimed here. On Z_p the locally analytic topology is strictly finer than the uniform topology (§0.1). On a finite zero-dimensional compact manifold the two topologies agree, including the empty manifold; equality of function carriers alone does not settle the topology. These nonarchimedean locally convex objects are not instances of Mathlib's ordered-field `LocallyConvexSpace`. The dual of a Banach stage has bounded coefficient values and is not asserted to be a c₀ space.
 4. **Series.** A series on the open disc satisfies ‖a_n‖R^n → 0 for every 0 < R < 1; an entire series satisfies it for every real R > 0. Both carry the Fréchet topology of all Gauss norms, which governs evaluation and limits; neither is given a single radius-one norm. Mathlib's `PowerSeries` and `MvPowerSeries` are the carriers; restricted series at one radius are Mathlib's `PowerSeries.IsRestricted`, so an open-disc series (`OnOpenDisc`) is one restricted at every radius below one and an entire series (`IsEntire`) one restricted at every positive radius; the Gauss norm at radius R is Mathlib's `PowerSeries.gaussNorm` applied to the coefficient norm, and evaluation at a is the total coefficient sum `entireEval`, a convergent sum only for entire series.
-5. **Amice and Mellin normalisations.** The Amice transform of a distribution μ on ℤ_p is Σ_n μ(binom(x, n)) T^n, and Y = 1 + T, so δ_a ↦ Y^a. The transpose derivative is (dμ)(f) = μ(f′), with multiplier log(1 + T); multiplication by x is (1 + T)d/dT. Mellin branches use ω(x)^i⟨x⟩^s with no shift s ↦ 1 − s. At odd p the topological generator of the principal units is 1 + p; at p = 2 the units are {±1} × (1 + 4ℤ_2) with generator 5. Full ℚ_p-analytic Mellin transforms live on the full character space; F-analytic distributions satisfy the closed differential relations of §0.1 and use the F-analytic character subspace.
+5. **Amice and Mellin normalisations.** The Amice transform of a distribution μ on ℤ_p is Σ_n μ(binom(x, n)) T^n, and Y = 1 + T, so δ_a ↦ Y^a. The transpose derivative is (dμ)(f) = μ(f′), with multiplier log(1 + T); multiplication by x is (1 + T)d/dT. Mellin branches use ω(x)^i⟨x⟩^s with no shift s ↦ 1 − s. At odd p the topological generator of the principal units is 1 + p; at p = 2 the units are {±1} × (1 + 4ℤ_2) with generator 5. Full ℚ_p-analytic Mellin transforms live on the full character space; F-analytic distributions satisfy the closed differential relations of §0.3 and use the F-analytic character subspace.
 6. **Operators.** P_u(T) = det(1 − Tu) with c_0 = 1 and c_n = (−1)^n times the sum of the principal n × n minors. "Finite rank" means image contained in a finitely generated A-submodule (not finite K-dimension, not necessarily free), "completely continuous" means approximable in operator norm by such maps, and neither is identified with Mathlib's `IsCompactOperator`. Q*(X) = X^{deg Q} Q(1/X). Root multiplicity is read from Hasse derivatives, the first nonzero one being a unit. In the Riesz theory, v = 1 − au, z_s = Δ_s F_u(a), c = Δ_h P_u(a) is a unit, b = c⁻¹ z_h, p = (vb)^h and E = 1 − p; E projects onto N = ker(v^h) and p onto its regular complement; at h = 0, E = 0 and N = 0.
 7. **Entire division.** The entire-division targets state weaker hypotheses than the standing ones: A complete, commutative, normed with ‖1‖ = 1, ultrametric only where stated; the parameter a is arbitrary; the native `PowerSeries`, `IsEntire`, `entireEval` and `Polynomial.divByMonic` are reused; a total `tsum` outside the entire subring is never treated as a convergent evaluation. For monic Q, ρ_Q is entire division followed by `AdjoinRoot`, and Res(Q, F) is `Algebra.norm (ρ_Q F)`; the degree-zero quotient is the zero ring, so Res(1, F) = 1. No domain, reducedness or root-splitting hypothesis is used.
 8. **Vector order.** Anisotropic C^{r_i} on ℤ_p^g means the completed projective tensor product of the one-variable C^{r_i} spaces; rectangular coset bounds are separate in each conductor exponent. The literal simultaneous first-difference condition is not used (see the source corrections in the references).
@@ -196,6 +196,8 @@ PadicFunctionalAnalysis, CompactOperators and RigidAnalyticGeometry are the road
 | §4.15 Complete continuity from analytic contraction | CompactOperators §0.3.3, with the row-decay criteria of its §0.2.8 | — |
 | §4.16 Numerical h-slope decomposition and projection | RigidAnalyticGeometry Banach-prerequisites item 6, with the local fibre and normalization comparisons | `IsSlopeLE`, `IsSlopeDecomposition`, `IsSlopeDecomposition.exists_projection` |
 
+The Layer 0 interface supplied to CrystallineCohomology is `naProjectiveLimit_cohomology_finiteDimensionalML` (§0.2). Its Stein exhaustion consumer must supply the common finite degree window, closed differential images, degreewise strict Roos surjectivity and finite-dimensional Mittag–Leffler cohomology; limit carriers and three-space results alone do not imply this comparison.
+
 ### Canonical supplier interfaces
 
 | Canonical supplier result | Local adapter | Further local target |
@@ -266,7 +268,8 @@ Here K is a complete nontrivially valued ultrametric field. The categorical latt
 
 **Checks.**
 
-- `projectiveTensor_pure`: For normed factors, ‖x⊗y‖_π=‖x‖‖y‖, and for K⊗̂_π E the map a⊗x↦ax is an isomorphism. A sum-norm formula without the ultrametric maximum fails the first test on two independent basis vectors.
+- `projectiveTensor_pure`: For normed factors, ‖x⊗y‖_π=‖x‖‖y‖. For complete Hausdorff E, K⊗̂_π E≃E via a⊗x↦ax; for arbitrary Hausdorff normed E it identifies with the completion of E. In particular finitely supported sequences with the sup norm complete to c₀.
+- `projectiveTensor_two_summands`: In K²⊗K² with sup-norm orthonormal bases, ‖e₁⊗e₁+e₂⊗e₂‖_π=1, whereas the infimum-of-sums norm gives 2. The finite coefficient maximum must agree with the constructed tensor seminorm on this tensor. The native finite coefficient norm example in Suggested.lean has value one; the tensor-seminorm identity uses the construction above.
 - `projectiveTensor_zero`: Zero⊗̂_π E=0, including E=0; the unique bilinear map factors uniquely.
 - `projectiveTensor_completion`: Σ_(n≥0) p^n e_n⊗e_n gives the diagonal coefficient array in c₀(N²,K). Its infinite-rank matrix is not in the algebraic tensor (whose matrices have finite rank). An uncompleted algebraic model fails this check.
 
@@ -305,6 +308,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 **Checks.**
 
+- `analyticStage_radius_zero`: At h=0, the residue ball is all Z_p and its indicator is 1 in LA_0; stage exclusion is asserted only for h≥1.
 - `analyticStage_trivial_character`: The character one lies in LA_0 and every higher stage.
 - `analyticStage_sqrt_odd`: For odd p, the Mahler coefficients a_n=(√p)^n have normalized valuations n/2−v_p(⌊n/p⌋!) tending to infinity, so the character lies in LA_1.
 - `analyticStage_sqrt_two` (strict boundary): For p=2 and n=2^k, k≥1, v_2((√2)^n/⌊n/2⌋!)=1, so these coefficient norms stay 1/2 and the character is not in LA_1. At level 2 the valuations are at least n/2−⌊n/4⌋→∞, so it lies in LA_2. The coefficient-convergence criterion is PadicFunctionalAnalysis §4.4.3, from Colmez Théorème I.4.7, p. 15.
@@ -315,6 +319,12 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* PadicFunctionalAnalysis §4.3.1–4.3.3 (`LocallyAnalytic`), with the topology of §0.1 (Locally analytic functions of fixed radius); PadicFunctionalAnalysis §4.4.2–4.4.3.
 
+**Checks.**
+
+- `analyticTopology_Zp`: The sequence p^n binom(x,p^(2n)) tends to zero uniformly and does not tend to zero in LA(Z_p,L).
+- `analyticTopology_point`: On a one-point manifold, LA and C⁰ both have the given topology of L.
+- `analyticTopology_empty`: On the empty manifold both spaces are zero with the same topology.
+
 **Locally analytic distributions** (supplier). D(ℤ_p, L), the linear forms on LA(ℤ_p, L) bounded on every stage LA_h, equivalently the inverse limit of the Banach duals D_h = LA_h(ℤ_p, L)′. In Mahler coordinates this means D_h(μ)=sup_n |μ(binom(x,n))|·|⌊n/p^h⌋!|<∞ for every h; the bounded measures are the distributions bounded on C⁰(ℤ_p, L). Supplied by PadicFunctionalAnalysis §4.7.1, with the measures of its §4.7.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). There D carries no topology; this roadmap gives it the projective-limit topology of the D_h (§0.0 `naProjectiveLimit`), the Fréchet topology of the valuations v_{LA_h}(μ) = inf_{φ≠0}(v_p(μ(φ)) − v_{LA_h}(φ)) used for the Amice theorem, and compares it with the strong dual topology for finite L/ℚ_p in §0.3 (Strong duality for analytic compact-type spaces).
 
 **Checks.**
@@ -323,14 +333,9 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 - `amice_stage_zero`: The zero distribution has D_h=0 at every stage.
 - `amice_stage_every_level`: A continuous form on a single LA_h supplies only a stage dual element; compatibility and continuity on every LA_h are required for a distribution on their inductive limit.
 - `amice_stage_single_level` (non-example): The moments b_n=1/n! give basis values one on LA_0, hence stage norm one. Their LA_1 basis values are unbounded; the corresponding exp(T) has radius p^(−1/(p−1))<1. Thus the union of bounded-stage conditions is not the distribution space.
-
-**F-analytic against ℚ_p-analytic functions** (lemma). Let F/ℚ_p be finite, 𝒪 = 𝒪_F viewed both as a locally F-analytic group G and, by restriction of scalars, as a locally ℚ_p-analytic group G₀ of dimension [F : ℚ_p], and K ⊆ ℂ_p complete containing F. The inclusion C^an(G, K) ⊂ C^an(G₀, K) identifies the F-analytic functions with the closed subspace of ℚ_p-analytic f satisfying the Cauchy–Riemann equations (tx)f = t·(xf) for x in the Lie algebra and t ∈ F, and is a homeomorphism onto this image. Dually D(G₀, K) → D(G, K) is a surjective quotient map of Fréchet algebras. A locally ℚ_p-analytic character χ of G₀ is F-analytic exactly when dχ is F-linear. In addition: Schneider–Teitelbaum work with a commutative locally F-analytic group; only G = 𝒪_F is used here. (Source: Schneider–Teitelbaum, Introduction, p. 1, and Lemmas 1.1–1.3, pp. 3–5.)
-
-*Needs:* PadicFunctionalAnalysis §4.3.1 (`LocallyAnalytic`).
-
 ### 0.2 Strict sequences and three-space properties
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 **Strict sequences and left-heart extensions** (comparison). Use the NACvx category and its left heart from §0.0. For Hausdorff outer spaces, an extension of their embedded objects is represented by a Hausdorff space and a strict short exact sequence: a closed kernel embedding followed by a surjective quotient map. Conversely each such strict sequence is exact after embedding. The same strict-sequence comparison holds in the Hausdorff category's own left heart. These two constructions are distinguished; no equivalence of their entire hearts is asserted. Under (a). (Source: Colmez–Dospinescu–Nizioł §2.1.1, pp. 7–9; Colmez–Nizioł Appendix A, pp. 58–59.)
 
@@ -344,6 +349,26 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* Mathlib `ContinuousLinearMap`, `IsUltrametricDist`.
 
+**Continuous functional extension in countable type** (theorem; `naFunctionalExtension_countableType`). Let K be complete, nontrivially valued and ultrametric, and V locally convex. Suppose every separated completion of V for a continuous ultrametric K-seminorm has a dense countable-dimensional K-subspace. Every continuous K-linear functional on an induced-topology subspace U extends continuously to V. Choose a continuous seminorm controlling the functional, descend to the separated normed image of U, and extend to its closure in the seminorm completion. PadicFunctionalAnalysis §2.4.3 complements that closed subspace; composing with its continuous projection and V's completion map gives the extension. No preservation of the original operator norm is asserted. Source: Schneider–Teitelbaum §1, pp. 4–5, citing Schikhof [Sh] §§4.2,4.4; the complementation argument uses the named supplier below.
+
+*Needs:* §0.0 (Locally convex spaces and separation); PadicFunctionalAnalysis §2.4.3, `exists_continuousLinearEquiv_prod_of_countableType`; native uniform completion and `ContinuousLinearMap`.
+
+**Checks.**
+
+- `functionalExtension_zero`: The zero functional extends by zero, also on V=0.
+- `functionalExtension_line`: A coordinate functional on K×0 extends to K².
+- `functionalExtension_Cp`: A closed subspace of c₀(N,C_p) admits continuous functional extension; spherical norm preservation is not a conclusion.
+
+**Fréchet open mapping** (theorem). A continuous surjective K-linear map between Fréchet spaces over a complete nontrivially valued ultrametric field is open, hence a strict quotient map. The Baire argument uses completeness and a scalar of norm strictly between zero and one. Source: Schneider, author notes §8, Proposition 8.6 and Corollary 8.7, pp. 54–55; Schneider–Teitelbaum §1, p. 5, for the dual quotient application.
+
+*Needs:* §0.0 (Locally convex spaces and separation); native Baire theorem and quotient topologies.
+
+**Checks.**
+
+- `frechetOpen_identity`: Identity on a Fréchet space is open.
+- `frechetOpen_zero`: The surjection onto zero is a quotient map.
+- `frechetOpen_dense_failure`: The diagonal x_n↦p^n x_n on c₀ is not surjective and is not relatively open.
+
 **Splitting under spherical completeness or separability** (theorem). In the preceding Banach extension a continuous K-linear section of V→V₂ exists if K is spherically complete or if both outer Banach spaces have a dense subspace of countable K-dimension. The disjunction is essential to the source statement. Under (a). (Source: Colmez–Nizioł, Appendix A, Remark A.2, printed p. 58; derived from the cited passage, not printed there.)
 
 *Needs:* §0.2 (Extensions of Banach spaces); §0.2 (The nonarchimedean Hahn–Banach theorem).
@@ -352,17 +377,27 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions); §0.2 (Extensions of Banach spaces).
 
+**Strict countable inverse limits and cohomology** (theorem; `naProjectiveLimit_cohomology_finiteDimensionalML`). Let K be complete, nontrivially valued and ultrametric, and (C_n) a countable inverse system of Fréchet cochain complexes in a common finite degree window, with continuous differentials having closed images. Suppose each degreewise Roos map 1−shift:∏_n C_n^j→∏_n C_n^j is a strict surjection, and each system of finite-dimensional Hausdorff cohomology spaces H^j(C_n) is Mittag–Leffler. Then the canonical H^j(lim C_n)→lim H^j(C_n) is a topological K-linear isomorphism for quotient and projective-limit topologies. As the strict inverse-limit input, the Roos sequence 0→lim C_n^j→∏C_n^j→∏C_n^j→0 is strictly exact under the stated surjectivity. Its cohomology sequence and vanishing lim¹ of the Mittag–Leffler cohomology systems give the algebraic comparison. The surjection from the Fréchet space of limit cycles onto lim H^j(C_n) is open, so limit boundaries are closed and the comparison is topological. Source: Schneiders §§1.4.2–1.4.3, pp. 65–71; Colmez–Dospinescu–Nizioł §§2.1.1,3.1.1–3.1.3, with this Roos comparison derived here.
+
+*Needs:* §0.0 `naProjectiveLimit` and strict exactness; §0.2 (Fréchet open mapping); algebraic countable Mittag–Leffler vanishing of lim¹ via the Roos sequence, proved as part of this target.
+
+**Checks.**
+
+- `limitCohomology_constant`: A constant identity system of finite-dimensional complexes gives its original cohomology and topology.
+- `limitCohomology_zero`: Zero complexes have zero limit cohomology.
+- `limitCohomology_truncations`: K^n in degree zero with coordinate deletion has limit K^N with product topology, containing (1,1,…); it is not c₀.
+
 **Extensions of spaces of compact type** (theorem). An exact left-heart extension with compact-type outer terms has compact-type middle term if K is spherically complete or both outer terms are separable. Compact type means a countable inductive limit of Banach spaces with injective compact transition maps, with its locally convex limit topology. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.4, printed pp. 58–59; derived from the cited passage, not printed there.)
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions); §0.2 (Extensions of Fréchet spaces); §0.2 (Splitting under spherical completeness or separability).
 
 ### 0.3 Polydiscs, charts and compact manifolds
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: Schneider–Teitelbaum, §1, Lemmas 1.1–1.2 and Proposition 1.4, printed pp. 3–6; derived from the cited passage, not printed there.
 
-**Analytic functions on finitely many polydiscs** (construction). For a finite clopen chart set S and coordinates z∈Z_p^d, the radius-h analytic stage is the finite product over S of restricted power series in normalized coordinates (z−a)/p^h. Coefficients tend to zero outside finite subsets of N^d; the norm is the maximum coefficient norm. Its coefficient model is Mathlib's `C₀(S × ℕ^d, K)`, used directly with no alias. The chart realization, rather than a second power-series carrier, identifies this with actual functions; the realization map and its injectivity are the content of this target. Under (a). Its API consists of the realization map, Mathlib's `ZeroAtInftyContinuousMap.ext` (Equality is coefficientwise equality) and `c0Single_apply` (A monomial on one chart has its specified single coefficient).
+**Analytic functions on finitely many polydiscs** (construction). For a finite clopen chart set S and coordinates z∈Z_p^d, the radius-h analytic stage is the finite product over S of restricted power series in normalized coordinates (z−a)/p^h. Coefficients tend to zero outside finite subsets of N^d; the norm is the maximum coefficient norm. Its coefficient model is Mathlib's `C₀(S × ℕ^d, K)`, used directly with no alias. The chart realization, rather than a second power-series carrier, identifies this with actual functions; the realization map and its injectivity are the content of this target. Under (a), with the stage construction and realization also valid for any complete closed K⊆C_p containing the chart coefficients. Its API consists of the realization map, Mathlib's `ZeroAtInftyContinuousMap.ext` (Equality is coefficientwise equality) and `c0Single_apply` (A monomial on one chart has its specified single coefficient).
 
 *Needs:* §0.1 `discAnalytic`; Mathlib `ZeroAtInftyContinuousMap`.
 
@@ -371,6 +406,26 @@ Source for this subsection unless a target says otherwise: Schneider–Teitelbau
 - `AnalyticDistributionTests.analyticStage_point` (compatibility): For S and N^0 both singleton, evaluation at the unique index is a continuous linear isometry to K.
 - `AnalyticDistributionTests.analyticStage_empty` (degenerate): The empty chart set gives the zero space.
 - `AnalyticDistributionTests.analyticStage_geometric_excluded` (non-example): The coefficient family constantly 1 in positive dimension is not a radius-h analytic stage element.
+
+**Countable type of analytic function spaces** (theorem). For F/Q_p finite, G₀=𝒪_F with restriction-of-scalars charts, and complete K⊆C_p containing F, form LA(G₀,K) as the locally convex union of the finite-polydisc stages. Every separated completion of LA(G₀,K) for a continuous ultrametric seminorm has a dense countable-dimensional K-subspace. Indeed each finite-polydisc stage has a countable coefficient basis; the span of the images of all these bases is dense in that completion, since the seminorm is continuous on every stage. This statement supplies the hypothesis for functional extension and does not require spherical completeness. Source: Schneider–Teitelbaum, §1, pp. 4–5, with the coefficient-basis proof given here.
+
+*Needs:* §0.3 (Analytic functions on finitely many polydiscs); §0.0 `naInductiveLimit`; PadicFunctionalAnalysis §2.1.2 (finite-support density).
+
+**Checks.**
+
+- `analyticCountable_point`: A point gives the one-dimensional space K.
+- `analyticCountable_empty`: Empty charts give the zero completion.
+- `analyticCountable_Cp`: For K=C_p the same countable coefficient span works, although K is not spherically complete.
+
+**F-analytic against ℚ_p-analytic functions** (lemma). Let F/ℚ_p be finite, 𝒪 = 𝒪_F viewed both as a locally F-analytic group G and, by restriction of scalars, as a locally ℚ_p-analytic group G₀ of dimension [F : ℚ_p], and K ⊆ ℂ_p complete containing F. The inclusion C^an(G, K) ⊂ C^an(G₀, K) identifies the F-analytic functions with the closed subspace of ℚ_p-analytic f satisfying the Cauchy–Riemann equations (tx)f = t·(xf) for x in the Lie algebra and t ∈ F, and is a homeomorphism onto this image. Dually D(G₀, K) → D(G, K) is a surjective quotient map of Fréchet algebras. A locally ℚ_p-analytic character χ of G₀ is F-analytic exactly when dχ is F-linear. In addition: Schneider–Teitelbaum work with a commutative locally F-analytic group; only G = 𝒪_F is used here. (Source: Schneider–Teitelbaum, Introduction, p. 1, and Lemmas 1.1–1.3, pp. 3–5.)
+
+*Needs:* §0.3 (Analytic functions on finitely many polydiscs); §0.3 (Countable type of analytic function spaces); §0.2 `naFunctionalExtension_countableType`; §0.2 (Fréchet open mapping); §0.0 `naInductiveLimit` and `naProjectiveLimit`.
+
+**Checks.**
+
+- `Fanalytic_Qp`: For F=Q_p the function inclusion and dual quotient are identities.
+- `Fanalytic_Cp`: For K=C_p the dual quotient is surjective by countable-type continuous extension, without spherical completeness.
+- `Fanalytic_trace_character`: For [F:Q_p]>1 and sufficiently small nonzero c, χ(x)=exp(c Tr_(F/Q_p)(x)) is Q_p-analytic on 𝒪_F but not F-analytic: its derivative is not F-linear.
 
 **Compact restriction to a smaller radius** (lemma). For finite p-adic charts, restriction from analytic radius h to radius h+1 is a continuous injective K-linear map and is completely continuous. After splitting into the finitely many smaller residue charts, the omitted destination Taylor coefficients of total degree≥N contribute at most C|p|^N; C depends only on the fixed normalization. Under (a).
 
@@ -419,7 +474,7 @@ Source for this subsection unless a target says otherwise: Schneider–Teitelbau
 
 ### Examples
 
-The function x on the closed unit disc has Gauss valuation 0; Σ xᵏ converges on the open disc but is not analytic on the closed one; the indicator of a + pʰℤ_p lies in `LA_h` and not in `LA_{h−1}`; the sequence pⁿ·binom(x, p^{2n}) tends to zero uniformly but not in the locally analytic topology; the derivative at zero is a locally analytic distribution that is not a bounded measure.
+The function x on the closed unit disc has Gauss valuation 0; Σ xᵏ converges on the open disc but is not analytic on the closed one; for h≥1 the indicator of a + pʰℤ_p lies in `LA_h` and not in `LA_{h−1}`; at h=0 it is the constant function 1 in `LA_0`; the sequence pⁿ·binom(x, p^{2n}) tends to zero uniformly but not in the locally analytic topology; the derivative at zero is a locally analytic distribution that is not a bounded measure.
 
 ### Dependencies
 
@@ -490,7 +545,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Powe
 
 ### 1.3 Pushforward, convolution and multiplication
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: Colmez, §II.4, printed pp. 34–37; derived from the cited passage, not printed there.
 
@@ -537,7 +592,7 @@ Source for this subsection unless a target says otherwise: Colmez, §II.4, print
 
 ### 1.4 The Amice dictionary for the standard operators
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: Colmez, §II.4, printed pp. 34–37; derived from the cited passage, not printed there.
 
@@ -575,7 +630,7 @@ Source for this subsection unless a target says otherwise: Colmez, §II.4, print
 
 ### 1.5 Primitives, non-splitting and logarithmic factors
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 **Local primitives with a radius loss** (lemma). Every analytic function on a closed p-adic disc admits a primitive on each strictly smaller closed disc; every locally analytic function on compact Z_p admits a locally analytic primitive. The kernel of d/dx on LA(Z_p,K) is the locally constant functions. Under (a). (Source: Colmez, §I.5, Proposition I.5.16, printed pp. 24–25; Kohlhaase Corollary 4.3, printed p. 21; derived from the cited passage, not printed there.)
 
@@ -645,7 +700,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 ### 2.2 Vector order: tensor wavelets and rectangular growth
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: Loeffler, §2.3, Definitions 2.11–2.14, Remark 2.13 and Theorem 2.15, printed pp. 4–5; derived from the cited passage, not printed there.
 
@@ -669,6 +724,9 @@ Source for this subsection unless a target says otherwise: Loeffler, §2.3, Defi
 
 **Checks.**
 
+- `boxIndicator_center`: boxIndicator a m a=1, including dimension zero.
+- `padicBox_depth_zero`: padicBox a (fun _ => 0)=Set.univ, including dimension zero.
+- `boxIndicator_outside`: At depth one in every coordinate, replacing a_i by a_i+1 gives indicator zero for every chosen i.
 - `AnalyticDistributionTests.rectangularGrowth_dirac`: A point mass has growth r for every r_i≥0, with C=1.
 - `AnalyticDistributionTests.rectangularGrowth_zero` (degenerate): The zero functional has C=0.
 - `AnalyticDistributionTests.rectangularGrowth_refinement` (compatibility): A box mass equals the sum of its p children in a chosen coordinate.
@@ -691,7 +749,7 @@ Source for this subsection unless a target says otherwise: Loeffler, §2.3, Defi
 
 ### 2.3 Uniqueness, the critical case and ray-class adapters
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 **Determination by finite characters and polynomial moments** (lemma). A tensor distribution of order r with r_i<N_i+1 is determined by all moments χ(x)∏x_i^{j_i} with finite-order χ of Z_p^g and 0≤j_i≤N_i, after a finite splitting-field coefficient extension. These functions span the locally polynomial test spaces at each finite residue level. Under (a). (Source: Loeffler, §2.3, Definitions 2.11–2.14, Remark 2.13 and Theorem 2.15, printed pp. 4–5; derived from the cited passage, not printed there.)
 
@@ -717,6 +775,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 **Checks.**
 
+- `isotropicGrowth_zero`: The zero functional has C=0 at every equal-radius order.
 - `isotropicGrowth_dirac`: A point mass has growth r≥0 with C=1 and extends to point evaluation.
 - `isotropic_zero_order`: At r=0 the extension is exactly the imported bounded measure, with its original locally constant values.
 - `isotropic_endpoint` (non-example): At r=1 on Z_p, dδ_0 vanishes on all locally constant functions but takes x to 1. Uniqueness among order-one distributions cannot follow from those values.
@@ -741,13 +800,24 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 - `growth_norms_equal_sum`: At r=1/2 and vector order (1/4,1/4), depths (4k,0) give isotropic scaling exponent 2k and tensor exponent k, despite equal total order.
 - `growth_equal_radius_only`: The equal-radius hypothesis supplies no separate bound C p^(Σ_i r_i m_i) for arbitrary rectangular exponents and a prescribed vector r.
 
-**From conductor bounds to analytic ray-class distributions** (comparison). An imported ray-class distribution with conductor growth bound v(μ(class modulo ∏p^{m_p}))≥C−Σ_p e_p v(α_p)m_p gives the indicated rectangular growth on compatible p-adic Lie factors. If only the equal-radius bound 0≤r=Σ_p e_pv(α_p)<1 is established, §2.3 `isotropicExtension` applies and `isotropicDual_to_distribution` supplies the locally analytic distribution. The arithmetic construction of the ray-class distribution and its finite-additivity relation are inputs of this comparison and are not built here. Under (a). (Source: Loeffler, §3.1, Definition 3.1 and Theorem 3.3, printed pp. 6–7; derived from the cited passage, not printed there.)
+**Ray-class quotient-chart subgroup comparison** (adapter; `rayClass_rectangularSubgroupComparison`). Take an imported ray-class Lie quotient, a chosen rank-one quasi-factor chart Z_p^g onto an open subgroup, and nonnegative prime orders s_𝔭=v_p(α_𝔭). Construct integers c_𝔭 and nonnegative depth coefficients b_{𝔭i} such that every rectangular subgroup of depths m_i contains the image of the conductor subgroup with exponents c_𝔭+Σ_i b_{𝔭i}m_i. Finite additivity and the ultrametric inequality then bound each rectangular mass by order r_i=Σ_𝔭 s_𝔭 b_{𝔭i}. The subgroup containment, with constants uniform in the coset, is a required datum; the chart alone gives no prescribed vector orders. Source: Loeffler §3.4, Example 3.12, p. 10; this subgroup-containment adapter is derived here.
 
-*Needs:* §2.2 (Extension of rectangular distributions); §2.3 (Equal-radius growth and unique isotropic extension); §2.3 (Isotropic coordinates and locally analytic distributions); §2.3 (Isotropic and vector growth bounds differ); PadicMeasuresIwasawaAlgebras Layer 0.
+*Needs:* §2.2 `RectangularGrowth` and compatible quasi-factor chart invariance; imported ray-class conductor subgroups and finite additivity.
+
+**Checks.**
+
+- `rayClass_chart_split_quadratic`: For an imaginary quadratic field with p split, the two independent local factors give orders (s₁,s₂).
+- `rayClass_chart_cubic`: In Loeffler Example 3.12 the chart from primes 1 and 2 gives (s₁+s₃,s₂+s₃).
+- `rayClass_chart_zero`: If every s_𝔭=0, the induced rectangular orders are zero.
+
+**From conductor bounds to analytic ray-class distributions** (comparison). An imported ray-class distribution satisfies v_p(μ(class modulo ∏𝔭^{m_𝔭}))≥C−Σ_𝔭 v_p(α_𝔭)m_𝔭. In a logarithmic open-subgroup chart, uniform p-power depth m corresponds to conductor exponents c_𝔭+e_𝔭m; thus the equal-radius order is r=Σ_𝔭 e_𝔭v_p(α_𝔭), with ramification included once. For 0≤r<1, §2.3 `isotropicExtension` and `isotropicDual_to_distribution` give a locally analytic distribution. The rectangular route additionally requires a chosen rank-one quasi-factor chart and `rayClass_rectangularSubgroupComparison`, which determines its vector orders; every coordinate order must lie in [0,1) to apply rectangular extension. Conductor bounds without this comparison supply only the equal-radius route. The arithmetic distribution and finite additivity are inputs. Under (a). Source: Loeffler Definitions 3.1–3.2 and proof of Theorem 3.3, pp. 6–7; Example 3.12 for the rectangular distinction.
+
+*Needs:* §2.3 `rayClass_rectangularSubgroupComparison`; §2.2 (Extension of rectangular distributions); §2.3 (Equal-radius growth and unique isotropic extension); §2.3 (Isotropic coordinates and locally analytic distributions); §2.3 (Isotropic and vector growth bounds differ); PadicMeasuresIwasawaAlgebras Layer 0.
 
 **Checks.**
 
 - `rayClass_growth_dimension_one`: A one-dimensional conductor bound with r<1 agrees with the one-variable extension.
+- `rayClass_growth_ramification`: At a prime of ramification index e=2 and prime order s, conductor depth c+2m gives isotropic order 2s, not 4s.
 - `rayClass_growth_zero`: A bounded input extends to the original imported measure along either route.
 - `rayClass_growth_endpoint`: An equal-radius total order r=1 cannot use the unique isotropic extension; dδ_0 gives the one-dimensional boundary obstruction.
 
@@ -804,6 +874,10 @@ Source for this subsection unless a target says otherwise: RJW, Remark 3.47, pp.
 
 Library inputs of this subsection, used by several of its targets: Mathlib `PadicInt.addChar_of_value_at_one`.
 
+**Arithmetic branches stay inside the character disc** (lemma; `branchCoordinate_norm_le`). For q∈K with ||q||<1 and s∈Z_p, ||κ_q(s)−1||≤||q||<1. Under (a) and (b). (Source: Colmez, §II.2, Lemma II.2.1 and Theorem II.2.2 with proofs, author PDF p. 30; derived from the cited passage, not printed there.)
+
+*Needs:* Mathlib `PadicInt.coe_addChar_of_value_at_one`, `PadicInt.hasSum_mahlerSeries`, `PadicInt.norm_mahler_eq`.
+
 **Mellin branches in an arithmetic parameter** (construction). For an open-disc series F, q∈K with ||q||<1, and s∈Z_p, put B_{F,q}(s)=E(F,κ_q(s)−1), using the native κ_q(1)=1+q. In the standard odd-prime unit chart, γ=1+p, q=γ−1, and ν=ω^i, this is Mel_{μ,i}(s)=∫ω(x)^i〈x〉^s dμ. At p=2 the imported chart is {±1}×(1+4Z_2), with γ=5; the odd-prime chart is not used there. Under (a) and (b). Its API consists of `branchMellin` (the construction itself), `branchMellin_def` (B_{F,q}(s)=E(F,κ_q(s)−1)), `branchMellin_zero` (B_{F,q}(0)=coeff_0 F), `branchMellin_one` (B_{F,q}(1)=E(F,q)) and `branchMellin_add` (B_{F+H,q}(s)=B_{F,q}(s)+B_{H,q}(s) for two open-disc series).
 
 *Needs:* §3.2 (Arithmetic branches stay inside the character disc); §3.1 (Character evaluation equals the component Mellin value); PadicMeasuresIwasawaAlgebras §3a.1.
@@ -815,10 +889,6 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Padi
 - `BranchMellinTests.linear_at_one`: B_{T,q}(1)=q.
 - `BranchMellinTests.generator_at_zero`: B_{1+T,q}(0)=1.
 - `BranchMellinTests.torsion_point`: for the Dirac measure at a torsion point H⁻¹(δ, 0), the branch value of its component series is ν(δ) for every weight s, independently of q.
-
-**Arithmetic branches stay inside the character disc** (lemma; `branchCoordinate_norm_le`). For q∈K with ||q||<1 and s∈Z_p, ||κ_q(s)−1||≤||q||<1. Under (a) and (b). (Source: Colmez, §II.2, Lemma II.2.1 and Theorem II.2.2 with proofs, author PDF p. 30; derived from the cited passage, not printed there.)
-
-*Needs:* Mathlib `PadicInt.coe_addChar_of_value_at_one`, `PadicInt.hasSum_mahlerSeries`, `PadicInt.norm_mahler_eq`.
 
 **Mellin evaluation at integral weights** (lemma; `branchMellin_nat`). For n≥0, B_{F,q}(n)=E(F,(1+q)^n−1). This pins integral specialization of a branch independently of arithmetic L-value interpolation. In the canonical unit chart, recovering x^k for k≥0 additionally requires the finite character ν=ω^i with k≡i modulo p−1 for odd p, and the corresponding parity branch at p=2; the coordinate comparison (the power-character identity of the canonical unit chart) is that the imported unit decomposition gives ω(x)^i〈x〉^k=x^k for such k, including the parity condition at p=2; composing with §3.1 character evaluation proves that this branch value is the x^k moment. No finite-character factor is omitted. Under (a) and (b).
 
@@ -841,7 +911,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Padi
 
 ### 3.3 The Mellin transform of distributions
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: RJW, Theorem 3.43 and Remark 3.47, printed pp. 24–26; §5.3, printed pp. 34–35; derived from the cited passage, not printed there.
 
@@ -927,7 +997,7 @@ Source for this subsection unless a target says otherwise: RJW, Theorem 3.43 and
 
 ### 3.4 Geometric comparison and pseudo-measures
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: RJW, Theorem 3.43 and Remark 3.47, printed pp. 24–26; §5.3, printed pp. 34–35; derived from the cited passage, not printed there.
 
@@ -969,15 +1039,7 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Zero
 
 **Complete continuity in the Banach algebra convention** (supplier). A continuous A-linear map is completely continuous when it is an operator-norm limit of continuous A-linear maps whose range lies in a finitely generated A-submodule (finite A-rank, neither finite K-rank nor Mathlib's `IsCompactOperator`); these form a two-sided ideal closed under sums, scalar multiples and operator-norm limits and containing the finite-rank maps. Supplied by CompactOperators §0.1.1–0.1.2 and **Finite rank implies complete continuity** (`IsFiniteRank`, `IsCompletelyContinuous`, `IsFiniteRank.isCompletelyContinuous`) (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The local restatements `HasFiniteAImage` and `IsCompletelyContinuous` here take approximants of finitely generated range, which over the Noetherian A of Convention 1 is the same predicate by CompactOperators **Finite rank against finitely generated range**, and CompactOperators **Banach modules normed by a lattice** gives its agreement with AdicSpacesPartIII's `Huber.IsCompletelyContinuous` (§R3.6, *completely-continuous-map*) on an affinoid algebra with a chosen Banach model.
 
-**Finite coordinate truncation** (supplier). For finite T ⊆ I the coordinate truncation π_T of c_A(I), retaining the coordinates in T, has norm at most one and range the finite free module on T, and π_T x → x along the finite subsets T, with e_j = `c0Single j 1`. Supplied by PadicFunctionalAnalysis §2.6.3, with the coordinate vectors `single` of its §2.1.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
-
-**Evaluation of a finite coordinate projection** (lemma). For T finite, x∈c_A(I) and j∈I, (π_T x)_j=x_j when j∈T, and (π_T x)_j=0 otherwise. Under the standing Banach hypotheses of Convention 1, with arbitrary discrete I.
-
-*Needs:* PadicFunctionalAnalysis §2.6.3.
-
-**Contractivity of coordinate truncation** (lemma). For every finite T⊆I and every x∈c_A(I), ‖π_T x‖≤‖x‖. Under the standing Banach hypotheses of Convention 1, with arbitrary discrete I.
-
-*Needs:* PadicFunctionalAnalysis §2.6.3.
+**Finite coordinate truncation** (supplier). For finite T ⊆ I the coordinate truncation π_T of c_A(I), with (π_T x)_j=x_j for j∈T and zero otherwise, satisfies ‖π_T x‖≤‖x‖, has norm at most one and range the finite free module on T, and π_T x → x along the finite subsets T, with e_j = `c0Single j 1`. Supplied by PadicFunctionalAnalysis §2.6.3, with the coordinate vectors `single` of its §2.1.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
 
 **Bounded-family extension from c0** (supplier). For ‖1_A‖=1 and a Banach A-module M with contractive A-action, a bounded family (m_i) is the family of basis images of a unique continuous A-linear map c_A(I) → M, x ↦ Σ_i x_i m_i, of K-operator norm sup_i ‖m_i‖ (zero for empty I). Supplied by PadicFunctionalAnalysis §2.1.3 under its `IsBoundedSMul A M` convention. For a merely bounded action ‖ax‖≤C‖a‖‖x‖, the same extension instead satisfies sup_i ‖m_i‖≤‖u‖_K≤C sup_i ‖m_i‖. These estimates follow from ‖e_i‖=1 and the ultrametric sum bound; no equality in the original norm is inferred. Source: Buzzard, §2, operator norm and orthonormal bases, pp. 8–10.
 
@@ -1346,7 +1408,7 @@ Source: Serre §6 Proposition 10 and Lemma 3, pp. 78–79; §7 Proposition 12, p
 
 *Needs:* §4.7 (Lower Hasse resolvent annihilation); §4.7 (Evaluated Hasse resolvent recurrence); §4.7 (Hasse resolvent values commute); CompactOperators §2.4.1 (`resolventCoeff`).
 
-**Explicit Hasse Riesz projector** (supplier). When Δ_s P_u(a) = 0 for s < h and c = Δ_h P_u(a) is a unit, with b = c⁻¹z_h and p = ((1 − au)b)^h, the operator E = 1 − p is the projector onto ker((1 − au)^h) and b inverts 1 − au on the range of p; at h = 0 the formula gives E = 0. Supplied by CompactOperators **The explicit Riesz projector** (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). There h ≥ 1 and u is an operator on c₀(I, R); on a (Pr) module this roadmap applies it to u ⊕ 0, whose projector is a limit of polynomials in u ⊕ 0 and so preserves M.
+**Explicit Hasse Riesz projector** (supplier). When Δ_s P_u(a) = 0 for s < h and c = Δ_h P_u(a) is a unit, with b = c⁻¹z_h and p = ((1 − au)b)^h, the supplied interface `rieszRootProjector` denotes E = 1 − ((1 − au)c⁻¹z_h)^h, the projector onto ker((1 − au)^h); b inverts 1 − au on the range of p; at h = 0 the formula gives E = 0. Supplied by CompactOperators **The explicit Riesz projector** (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). There h ≥ 1 and u is an operator on c₀(I, R); on a (Pr) module this roadmap applies it to u ⊕ 0, whose projector is a limit of polynomials in u ⊕ 0 and so preserves M.
 
 **Idempotence of the Hasse projector** (lemma). Under the exact Hasse-order hypotheses, E is idempotent; p=1-E is its complementary idempotent. Under (c) and (d).
 
@@ -1743,9 +1805,9 @@ The right side tends to zero independently of the unbounded characteristic rank 
 - `spectralStabilization_quadratic`: For B=T² and P_N=1+c_1T+c_2T²+⋯, N≥2, the coefficient of T in the output is 2c_2−c_1². It is independent of every c_j with j>2, including over nonreduced rings.
 - `spectralStabilization_nonzero_constant` (non-example): For B=1 and P_N=1 at prescribed rank N, the output is (1−T)^N. Its linear coefficient is −N over Z, so b_0=0 is necessary for rank stabilization.
 
-**Full entire spectral transform** (supplier). For entire B, P with B(0) = 0 and P(0) = 1, D(B, P) is the entire series that the double truncations D_(N,M)(trunc_(M+1)B, trunc_(N+1)P) approach in every Gauss norm as N and M tend to infinity independently; it has constant coefficient 1, is multiplicative in P, and is Coleman's transform with polynomial functional input when B is a polynomial. Supplied by CompactOperators **Coleman's transform with an entire functional input** (`colemanDEntire`, `tendsto_gaussNorm_colemanDBounded`, `colemanDEntire_isEntire`, `colemanDEntire_coe`, `colemanDEntire_mul`) (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). Its `colemanDEntire B P` is D(B, P) here, and for polynomial P it is the fixed-rank E_(deg P)(B, P) of §4.13, the diagonal truncations converging to both by §4.13 (Simultaneous truncation convergence for polynomial characteristic input).
+**Full entire spectral transform** (supplier). For entire B, P with B(0) = 0 and P(0) = 1, D(B, P) is the entire series that the double truncations D_(N,M)(trunc_(M+1)B, trunc_(N+1)P) approach in every Gauss norm as N and M tend to infinity independently; it has constant coefficient 1, is multiplicative in P, and is Coleman's transform with polynomial functional input when B is a polynomial. Supplied by CompactOperators **Coleman's transform with an entire functional input** (`colemanDEntire`, `tendsto_gaussNorm_colemanDBounded`, `colemanDEntire_isEntire`, `colemanDEntire_coe`, `colemanDEntire_mul`) (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). The supplied interface label `entireSpectralTransform` denotes its `colemanDEntire B P`, which is D(B, P) here, and for polynomial P it is the fixed-rank E_(deg P)(B, P) of §4.13, the diagonal truncations converging to both by §4.13 (Simultaneous truncation convergence for polynomial characteristic input).
 
-**Entire operator evaluation** (supplier). For entire B and a continuous operator u, B(u) = Σ_m b_m u^m converges in operator norm, and B(u) is completely continuous when u is and b_0 = 0. Supplied by CompactOperators **Operator evaluation of an entire series** (`exists_tendsto_opNorm_sum_pow`, `IsCompactoid.of_tendsto_opNorm_sum_pow`) (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). There u is an operator on c₀(I, R) and the conclusion is compactoid, which over the Noetherian A of Convention 1 is complete continuity; on a (Pr) module this roadmap evaluates B at u ⊕ 0, b_0 = 0 giving B(u ⊕ 0) = B(u) ⊕ 0.
+**Entire operator evaluation** (supplier). For entire B and a continuous operator u, the supplied interface label `entireOperatorEval` denotes B(u) = Σ_m b_m u^m, which converges in operator norm, and B(u) is completely continuous when u is and b_0 = 0. Supplied by CompactOperators **Operator evaluation of an entire series** (`exists_tendsto_opNorm_sum_pow`, `IsCompactoid.of_tendsto_opNorm_sum_pow`) (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). There u is an operator on c₀(I, R) and the conclusion is compactoid, which over the Noetherian A of Convention 1 is complete continuity; on a (Pr) module this roadmap evaluates B at u ⊕ 0, b_0 = 0 giving B(u ⊕ 0) = B(u) ⊕ 0.
 
 **Infinite Coleman spectral mapping** (supplier). For completely continuous u on an ONable or (Pr) A-Banach module and entire B with B(0) = 0, P_(B(u)) = D(B, P_u) as entire series in every Gauss norm. Supplied by CompactOperators §3.3.4 and **The spectral mapping formula for an entire `B`** (`charPowerSeries_aeval`, `charPowerSeries_eq_colemanDEntire`) (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one). There u is compactoid on c₀(I, R); on a (Pr) module this roadmap extends u by zero as in CompactOperators §1.5.2, B(0) = 0 giving B(u ⊕ 0) = B(u) ⊕ 0.
 
@@ -1761,9 +1823,9 @@ Use Convention 1's Banach/(Pr) hypotheses, monic polynomials and degree-correct 
 
 ### 4.15 Affinoid families, coefficient actions and compactness
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
-Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6–3.4.7 and Definition 3.4.10, author pp. 43–45; derived from the cited passage, not printed there.
+Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6–3.4.7, Corollary 3.4.10, and the following definition of D_{n,U} and D_U, author pp. 43–45; derived from the cited passage, not printed there.
 
 **Affinoid-valued analytic stages** (construction). For a complete affinoid K-algebra A with a chosen submultiplicative Banach norm, define the normalized finite-chart analytic stage A_h(X,A) as Mathlib's `C₀(S × ℕ^d, A)`, used directly, realized as restricted analytic functions in the chart coordinates. This is an orthonormalizable Banach A-module; its natural integral lattice consists of coefficient families in the norm unit ball A₀. Under (a). Its API consists of the realization map, Mathlib's `ZeroAtInftyContinuousMap.ext` (Coefficient equality determines a section) and the integral-lattice description (the norm unit ball is exactly the coefficient families of norm ≤ 1, from Mathlib's `ZeroAtInftyContinuousMap.norm_toBCF_eq_norm` and `BoundedContinuousFunction.norm_le`).
 
@@ -1809,7 +1871,7 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 - `AnalyticDistributionTests.dualExtension_point` (compatibility): At a point K⊗̂_K A→Hom_A(A,A) is multiplication.
 - `AnalyticDistributionTests.dualExtension_derivative`: dδ_0⊗a has Amice coefficients a times those of log(1+T).
 
-**One-disc coefficient action models** (construction). On c₀(N,A), `analyticStageDilate a` for ‖a‖≤1 has nth coefficient a^n f_n, the pullback along z↦az. `analyticStageEvaluate x` for ‖x‖≤1 is Σ f_n x^n, a continuous A-linear functional when A is complete and ultrametric. API: `analyticStageDilate_coeff`, `analyticStageDilate_comp`, `analyticStageEvaluate_hasSum`, `analyticStageEvaluate_basis`, `analyticStageEvaluate_dilate`. These are concrete specializations of the chart constructions; their coefficient formulas make the family/action comparison testable at the native pins. Needs: §0.3 stage substitution, affinoid stages here and ultrametric coefficient summation. Source: Urban Lemmas 3.4.6–3.4.7, pp. 43–44; Colmez §II.4, pp. 34–37.
+**One-disc coefficient action models** (construction). On c₀(N,A), `analyticStageDilate a` for ‖a‖≤1 has nth coefficient a^n f_n, the pullback along z↦az. `analyticStageEvaluate x` for ‖x‖≤1 is Σ f_n x^n, a continuous A-linear functional when A is complete and ultrametric. The native constant-multiplier transpose `analyticStageConstantTranspose a j μ` is (j·μ) composed with the dilation map. API: `analyticStageDilate_coeff`, `analyticStageDilate_comp`, `analyticStageEvaluate_hasSum`, `analyticStageEvaluate_basis`, `analyticStageEvaluate_dilate`. These are concrete specializations of the chart constructions; their coefficient formulas make the family/action comparison testable at the native pins. Needs: §0.3 stage substitution, affinoid stages here and ultrametric coefficient summation. Source: Urban Lemmas 3.4.6–3.4.7, pp. 43–44; Colmez §II.4, pp. 34–37.
 
 **Checks.**
 
@@ -1870,7 +1932,7 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 
 ### 4.16 Banach complexes and finite-slope decompositions
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 Source for this subsection unless a target says otherwise: Pilloni, §§13.1.1–13.1.3, author pp. 84–85; derived from the cited passage, not printed there.
 
@@ -2001,9 +2063,19 @@ For a finite collection of degree operators of a bounded complex, choose cutoffs
 - `perfect_window_common`: The two-degree Gauss-point window above gives a bounded finite-projective complex on one rational affinoid.
 - `perfect_window_infinite_complement` (non-example): For U=0 on c_A(N), the selected complex is zero; the infinite-rank complementary Banach module is not asserted perfect.
 
-**Cohomology and finite slopes** (comparison). For such a split cochain representative, H^j(C^{≤h}) identifies algebraically with the h-slope part of H^j(C). Cohomology is formed as ker d/im d even when im d is not closed; no Hausdorff Banach norm on arbitrary H^j(C) is assumed. Under (a). (Source: Urban, Propositions 2.3.9–2.3.10, author pp. 26–27; derived from the cited passage, not printed there.)
+**Algebraic slope parts** (construction; `algebraicSlopePartLE`). For an arbitrary A-module H, A-linear endomorphism U and cutoff h, define algebraicSlopePartLE H U h as the sum of ker(P(U)) over monic polynomials P with unit constant coefficient and `IsSlopeLE K |p|^h P`. Products of admissible polynomials are admissible, so an element belongs exactly when one such P annihilates it. Intertwining A-linear maps preserve this submodule. For a split slope complex it equals the image of the induced cohomology projector: one common annihilating polynomial kills the finite-window complex, while every admissible P acts invertibly on its complement as a cochain map, hence on its cohomology. No projectivity, separatedness or norm is required on H. Source: Urban §§2.3.1,2.3.6–2.3.10, pp. 23–27; this affinoid-module generalization is derived here.
 
-*Needs:* §4.16 (The finite-slope subcomplex); §4.16 (A finite perfect model on a slope window).
+*Needs:* RigidAnalyticGeometry `IsSlopeLE` and §4.16 (Classical and geometric slope criteria); native polynomial evaluation in module endomorphisms, sums of submodules; §4.16 (The finite-slope subcomplex) for the projector comparison.
+
+**Checks.**
+
+- `algebraicSlope_torsion`: For A=Q₃⟨S⟩ and U=1 at h=0 on A/(S), P=X−1 gives the whole nonprojective module.
+- `algebraicSlope_zero_operator`: U=0 gives zero at every finite cutoff, since P(0) is a unit.
+- `algebraicSlope_contractible`: A contractible complex has zero cohomology and zero algebraic slope part.
+
+**Cohomology and finite slopes** (comparison). For such a split cochain representative, H^j(C^{≤h}) identifies algebraically with `algebraicSlopePartLE` H^j(C) U h, the image of its induced cohomology projector. Cohomology is formed as ker d/im d even when im d is not closed; no Hausdorff Banach norm on arbitrary H^j(C) is assumed. Under (a). (Source: Urban, Proposition 2.3.9 and §2.3.10, author pp. 26–27; derived from the cited passage, not printed there.)
+
+*Needs:* §4.16 `algebraicSlopePartLE`; §4.16 (The finite-slope subcomplex); §4.16 (A finite perfect model on a slope window).
 
 **Homotopy invariance on a finite slope window** (lemma). Continuous U-equivariant cochain homotopy equivalences induce homotopy equivalences between their finite h-slope complexes on common slope-adapted affinoids. Their finite-slope cohomology and coherent support agree, even though their raw representative products may differ. Under (a).
 
@@ -2043,7 +2115,7 @@ For a finite collection of degree operators of a bounded complex, choose cutoffs
 
 ### 4.17 Fréchet presentations, Stein exhaustions and the torus order
 
-Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm. Numerical slopes are tested on geometric rank-one fibres.
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
 
 **Compact factorization on Fréchet presentations** (definition). Let V=lim_n V_n be a projective system of Banach modules with compact transition t_n:V_(n+1)→V_n. A compatible operator has compact-stage factorization when there are bounded a_n:V_n→V_(n+1) with U_n=t_n a_n and U_(n+1)=a_n t_n. This is additional data, not a consequence of Fréchet completeness. Under (a). Its API consists of `CompactStageFactorization` (Compact transitions t_n and bounded a_n with U_n=t_na_n and U_{n+1}=a_nt_n), `compactStageFactorization_zero` (Compact transitions with zero stage operators admit a_n=0) and `compactStageFactorization_compatible` (The factorization implies U_n t_n=t_n U_{n+1}). (Source: Urban, §2.3.12 and Lemma 2.3.13, author pp. 27–28; derived from the cited passage, not printed there.)
 
