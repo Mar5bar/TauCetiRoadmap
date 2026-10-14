@@ -82,14 +82,16 @@ reductive `H` (layer 3; the closed-orbit embedding `H\G ↪ V` is derived in AA.
 and 3), character lattices of groups of multiplicative type (layer 4), the centre, derived group
 and simply connected covers (layer 6), rational parabolics, Levi decompositions and relative
 roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the finite-type affine evaluation
-topology and compact open local subgroups; in RG2.0a, coefficient-natural Weil restriction, its
+topology, compact open local subgroups and the local analytic chart/cotangent/Haar-Jacobian
+bridge specified in the supplier contracts below; in RG2.0a, coefficient-natural Weil restriction, its
 tower maps and tensor comparison; in RG2.1, the valuation map of the maximal split central torus
 at the finite places (the torus itself is ReductiveGroups, layers 6–7); in RG2.3, reductive
 integral models, hyperspecial subgroups and Lang's theorem with Hensel lifting; in RG2.4, the
 local decompositions and integration, the Iwasawa decomposition `G(F_v) = K_v P(F_v)` with
 `K_v ∩ P(F_v) = P(𝒪_v)` for an arbitrary parabolic and a hyperspecial `K_v`
 (`iwasawa-parabolic-integral`), and the Kneser–Tits theorem over a local field
-(`kneser-tits-local`). Quasi-splitness at almost all places (AA.4.2,
+(`kneser-tits-local`), and the algebraic parabolic adjoint determinant comparison
+(*parabolic-adjoint-determinant*). Quasi-splitness at almost all places (AA.4.2,
 *isotropic-almost-everywhere*) is proved in this roadmap from those inputs.
 
 The
@@ -284,6 +286,84 @@ All names in this section are part of the dependency contract. Each is cited aga
 |---|---|---|
 | Compactness for a definite quaternion algebra | [OverconvergentForms §§0.2–0.3 and the stabilizer target](https://github.com/WilliamCoram/PhD/blob/9d948b203d93167c41d8f171a7a4c9ebbf7cd4b5/PhD/TauCeti/Roadmaps/OverconvergentForms/README.md): `TauCetiRoadmap.OverconvergentForms.Dfx`, `TauCetiRoadmap.OverconvergentForms.unitsIncl`, `TauCetiRoadmap.OverconvergentForms.globalUnits`, `TauCetiRoadmap.OverconvergentForms.classSet`, `TauCetiRoadmap.OverconvergentForms.finite_classSet`; **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**, **DefiniteQuaternion.finite_stab**: `TauCetiRoadmap.OverconvergentForms.DefiniteQuaternion.finite_stab` | AA.5.3 requires the TauCetiRoadmap import of this supplier, with the finite-adele module topology and canonical units topology. It specializes stabilizer finiteness to `F = ℚ` and conjugates `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. |
 
+### Local analytic and parabolic suppliers
+
+The local charts, their cotangent comparison and their Haar change of variables belong to
+ReductiveGroupsPartII RG2.0. RG2.4 then supplies the local adjoint-modulus theorem and its
+parabolic determinant reduction; AA.2.2 consumes these local results, and AA.2.4 consumes the
+same RG2.0 charts for gauge measures. SmoothRepresentationsOfLocalGroups SR.2.2 consumes RG2.4
+and supplies the change to coefficient-valued moduli and the square root for normalized induction.
+The local supplier order is RG2.0 charts → RG2.4 local modulus → AA.2.2 and SR.2.2;
+AA.2.4 gauge measures use RG2.0 charts independently. The roadmap dependency order is
+ReductiveGroupsPartII before AdelicAlgebraicGroups and SmoothRepresentationsOfLocalGroups;
+AA's local modulus comparison has no dependency on SR.
+
+**Local analytic chart supplier.** (RG2.0, *smooth-group-analytic-charts*) For every
+nondiscrete locally compact field `K` of characteristic zero and smooth affine finite-type
+`K`-group `G = Spec H` of dimension `d`, construct an analytic manifold structure on `G(K)`
+inducing the evaluation topology of RG2.0. Construct charts from smooth local parameters
+using the local inverse function theorem; multiplication and inversion are analytic.
+Identify the tangent space at the identity with the `K`-linear dual of
+`TauCeti.Bialgebra.CotangentSpace K H`, with the derivative of a coordinate function equal
+to evaluation on its cotangent class. Prove analytic change of variables for analytic
+isomorphisms of open chart domains, with normalized absolute determinant and product
+additive Haar measure. ReductiveGroupsPartII RG2.0 owns this bridge
+([Platonov–Rapinchuk–Rapinchuk], §3.1,
+Theorem 3.2 and Proposition 3.3, pp. 128–130, and the local-parameter and measure
+constructions on pp. 192–196).
+*Needs:* ReductiveGroupsPartII, RG2.0 (point topology); ReductiveGroups, layer 2
+(cotangent duality); Tau Ceti `Derivation.cotangentLinearEquiv`,
+`Algebra/AlgebraicGroup/Tangent/Cotangent.lean`; Mathlib additive Haar measure and
+`HasStrictFDerivAt.toOpenPartialHomeomorph`. The product additive measure is formed locally;
+no adelic measure or RG2.4 modulus theorem is an input. At a nonarchimedean place use
+`vol(𝒪_K) = 1`, over `ℝ` use `dx`, and over `ℂ` use `2 dx dy` and the squared modulus.
+For a Borel set `B` in the source of an analytic chart isomorphism `f`, the image law is
+`μ_d(f(B)) = ∫_B |det Df(x)|_K dμ_d(x)`; for a linear isomorphism `A`, its pushforward
+is `A_*μ_d = |det A|_K⁻¹ μ_d`.
+*Lean:* none; specified in the README only.
+
+**Checks.**
+
+- `G_a(K)` has its standard coordinate, whose derivative is the identity.
+- `G_m(K)` is the open subset `K^×` with coordinate `T`; at `1` its derivative is
+  dual to the class of `T − 1`.
+- On `ℚ₃`, multiplication by `3` has image factor `1/3` and pushforward factor `3`.
+  RG2.0 *equal-characteristic-smooth-group-analytic-charts* gives the same two factors
+  for multiplication by `t` on `𝔽₃((t))`, with no characteristic-zero argument.
+- The trivial group has dimension zero; its chart is the singleton `K^0` and the
+  empty Jacobian determinant is `1`.
+
+**Parabolic adjoint determinant supplier.** (RG2.4, *parabolic-adjoint-determinant*)
+For a connected reductive group `G` over a field `E`, a parabolic `P = M ⋉ N` and
+`p ∈ P(E)`, supply the algebraic identity
+`det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`. Use the `P`-stable exact sequence
+`0 → Lie N → Lie P → Lie M → 0`, where the action on the quotient factors through
+`P → M`. The adjoint determinant of the connected reductive Levi is the trivial
+algebraic character: after scalar extension to an algebraic closure, its maximal-torus
+weights consist of zero weights and opposite root pairs, whose product is one; a
+character of a connected reductive group trivial on that torus is trivial. Descend the
+identity to `E`. This proves equality in `Eˣ` in every characteristic, before taking
+absolute values; local Haar unimodularity alone only gives an absolute-value identity.
+This is a deduction from [Conrad RGS], §1.2, equation (1.2.1), p. 16
+(the root-weight decomposition in arbitrary characteristic), and Proposition 1.4.7,
+pp. 35–36 (parabolics and Levi factors), with ReductiveGroups layer 7's parabolic/Levi
+theory. Together with `LocalIntegration.modularCharacter_eq_adjointModulus`
+it gives the local formula `Δ_P(p) = |det(Ad(p)|Lie N)|_E` used by AA and SR
+([Casselman], §1.5, p. 16). *Needs:* ReductiveGroups layers 4, 6–7 (characters,
+reductive structure, root spaces and Levi decomposition); RG2.1's shared adjoint-weight
+carriers; Tau Ceti `Derivation.adjointAction`; Mathlib `LinearEquiv.det`.
+*Lean:* none; specified as a supplier contract in the README only.
+
+**Checks.**
+
+- For the upper Borel of `GL₂`, the determinants on `Lie P` and `Lie N` at
+  `diag(a,d)` are both `a/d`, even though `Lie P` has dimension three and `Lie N` one.
+- For the lower Borel they are both `d/a`; at `diag(3,1)` over `ℚ₃` the
+  absolute determinants are `3`, while the upper Borel gives `1/3`. At `diag(t,1)`
+  over `𝔽₃((t))` the same lower and upper values are `3` and `1/3`.
+- For `P = G`, `N = 1`: the determinant on the zero Lie algebra is one, and the
+  adjoint determinant of `G` is one as an algebraic character.
+
 ### From Mathlib
 
 Restricted products: `RestrictedProduct.topologicalSpace_eq_iSup`,
@@ -440,8 +520,9 @@ exhaustive. Every target ends with a *Lean:* line. It either names the declarati
 which case the target is specified in this README only (no Lean declaration) and building its
 objects is part of the target. A Check label in backticks names an `example` of `Suggested.lean`
 (marked there by a `-- Test` comment) or one of its declarations; a Check without a label has no
-Lean form. The layers are built in order. AA.0 is the Borel structure and the Haar
-measures of a restricted product and of the adeles and ideles; everything measure-theoretic later
+Lean form. The RG2.0 analytic chart suppliers precede RG2.4 local integration,
+which is an input to AA.1.5 and AA.2.2. The AA layers are built in order. AA.0 is the Borel
+structure and the Haar measures of a restricted product and of the adeles and ideles; everything measure-theoretic later
 is an instance of it. AA.1 puts the evaluation topology on the adelic points of a Hopf algebra,
 compares them with a restricted product of local groups through an integral model, and
 establishes the discrete rational diagonal, Weil restriction, the concrete groups, unimodularity
@@ -1452,13 +1533,13 @@ restriction of scalars.
   character of `P(𝔸_F)` is the modulus, the idele norm of the adjoint determinant.
   *Needs:* AA.2.2; AA.1.5; AA.1.3; Tau Ceti `TauCeti.Cocharacter.leviDecompositionMulEquiv`;
   Mathlib `MeasureTheory.Measure.modularCharacter`; AA.0.3;
-  SmoothRepresentationsOfLocalGroups SR.2.2, *modulus-character*.
+  ReductiveGroupsPartII RG2.4, *parabolic-adjoint-determinant*.
   *Lean:* none; specified in the README only.
 
   The nonarchimedean inputs are ReductiveGroupsPartII RG2.4
   `LocalIntegration.modularCharacter_eq_adjointModulus` for the general adjoint determinant,
-  and SmoothRepresentationsOfLocalGroups SR.2.2, *modulus-character*, for the parabolic
-  comparison `det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`.
+  and RG2.4 *parabolic-adjoint-determinant* for the algebraic comparison
+  `det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`, with the supplier contract above.
   AA owns the existence of points supported at a single finite place and their modulus: a point
   supported at a finite place has exactly the local adjoint modulus after scalar extension.
   Multiplication gives the finite-support product comparison; continuity and the integral
@@ -1695,30 +1776,6 @@ restriction of scalars.
   - Along `ℚ → ℝ`, `1 ⊗ dT/T` for `G_m` goes to the class of `1 ⊗ T` itself; the rescaled
     equivalence, twice the base-change map, would send it to twice that class.
 
-- **Analytic charts on smooth affine groups.** (*smooth-group-analytic-charts*) For every
-  nondiscrete locally compact field `K` of characteristic zero and smooth affine finite-type
-  `K`-group `G = Spec H` of dimension `d`, construct an analytic manifold structure on `G(K)`
-  inducing the evaluation topology of RG2.0. Construct charts from smooth local parameters
-  using the local inverse function theorem; multiplication and inversion are analytic.
-  Identify the tangent space at the identity with the `K`-linear dual of
-  `TauCeti.Bialgebra.CotangentSpace K H`, with the derivative of a coordinate function equal
-  to evaluation on its cotangent class. Prove analytic change of variables for analytic
-  isomorphisms of open chart domains, with normalized absolute determinant and product
-  additive Haar measure. AA.2.4 owns this bridge ([Platonov–Rapinchuk–Rapinchuk], §3.1,
-  Theorem 3.2 and Proposition 3.3, pp. 128–130, and the local-parameter and measure
-  constructions on pp. 192–196).
-  *Needs:* ReductiveGroupsPartII, RG2.0 (point topology); ReductiveGroups, layer 2
-  (cotangent duality); Tau Ceti `Derivation.cotangentLinearEquiv`,
-  `Algebra/AlgebraicGroup/Tangent/Cotangent.lean`; AA.0.4 (additive measures).
-  *Lean:* none; specified in the README only.
-
-  **Checks.**
-  - `G_a(K)` has its standard coordinate, whose derivative is the identity.
-  - `G_m(K)` is the open subset `K^×` with coordinate `T`; at `1` its derivative is
-    dual to the class of `T − 1`.
-  - The trivial group has dimension zero; its chart is the singleton `K^0` and the
-    empty Jacobian determinant is `1`.
-
 - **The Haar measure of a gauge form over a local field.** For a nondiscrete locally
   compact field `K` of characteristic zero, a smooth affine algebraic `K`-group `G` of
   dimension `d`, and a nonzero left-invariant top form `ω` defined over `K`, construct
@@ -1751,7 +1808,7 @@ restriction of scalars.
   `Adeles.infiniteAdeleHaar`. These clauses determine the measures attached to `G_a` and to `G_m`; for
   a general group the constant is fixed by the chart construction or by Weil's formula below, which
   is stated only for `GL_n` at finite places. *Needs:* AA.2.4; ReductiveGroupsPartII, RG2.0 (point topology);
-  *smooth-group-analytic-charts*.
+  RG2.0 *smooth-group-analytic-charts*, as specified in the local analytic supplier contract.
   *Lean:* none; specified in the README only.
 
   **Checks.**

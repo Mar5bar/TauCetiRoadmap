@@ -23,6 +23,12 @@ The mathematical roadmap is `README.md`. This file records the definitions and t
 that can already be stated against the pinned Mathlib and Tau Ceti and the imported
 ReductiveGroupsPartII roadmap. It is not an exhaustive list of the targets of any layer.
 
+Local analytic charts, cotangent comparison and additive Haar change of variables are the
+RG2.0 supplier contract in `README.md`; RG2.4 supplies the local adjoint-modulus theorem and
+algebraic parabolic determinant reduction. The adelic modulus uses these suppliers before the
+AA.2.4 gauge measures. These README-only contracts have no suggested declarations here;
+SR supplies coefficient-valued moduli and square roots for normalized induction.
+
 Design choices.
 * An affine algebraic group over a number field `F` is a commutative Hopf `F`-algebra `H`; its
   points with values in an `F`-algebra `R` form the convolution group `WithConv (H →ₐ[F] R)`.
