@@ -8,9 +8,11 @@ This roadmap owns the finite-K ℂ_p action, Ax–Sen–Tate, normalized traces,
 
 Consumers are DerivedDeRhamCohomology, CrystallineCohomology, FiniteFlatGroupsAndIntegralPadicHodgeTheory, SelmerIwasawaCohomology, NeronModelsAndSemistableAbelianVarieties, ArithmeticGaloisRepresentations and ArithmeticGaloisDuality. The downstream finite-K comparison contracts identifying crystalline and semistable realizations with their arithmetic interfaces belong to FiniteFlatGroupsAndIntegralPadicHodgeTheory. Its downstream integral theory, Sen operators on representations, admissibility and realization theorems are separate from the carrier and invariant-functor construction here. Geometric crystalline and derived de Rham comparisons, Raynaud realizations, abelian-variety comparison and Selmer conditions belong to the named consumers. In particular, the finite-K B_st/D_st/PeriodRealization package and the finite-K crystalline realization contracts are downstream interfaces, not prerequisites here.
 
+The procyclic theorem and finite-K core have their single owner in §§0.1 and 1.1–1.5, including the declarations in namespace TauCetiRoadmap.PadicPeriodRings. The general-base completion, Tate–Sen calculation, period carriers, invariant functors, fixed fields and underlying fundamental sequence have their single owner in §§2–4. Their finite-K specializations use the same carriers, actions and structure maps; consumer interfaces import these constructions. Section 3 owns the ordinary principal envelope for O_C, including its presentation, completion, θ and initial property. General-ideal envelopes, envelopes for arbitrary p-adically complete rings, and derived or PD-filtered comparisons belong to the geometric consumers; their O_C specializations identify with this principal envelope by its initial property.
+
 ## Conventions
 
-Fix a prime p, including p = 2. A general p-adic field K is a characteristic-zero field complete for a discrete valuation with arbitrary perfect residue field k of characteristic p. Choose the Cohen inclusion W(k) ⊆ O_K, and write K₀ = W(k)[1/p]. The algebraic closure has the extended valuation; C_K is its separated completion, with its norm topology and valuation ring O_C. Finite K/ℚ_p is represented inside Mathlib's PadicAlgCl p. The Galois group carries the Krull topology; every action on a completed or period coefficient is jointly continuous. Continuous cohomology means continuous cochain cohomology, using the underlying module of Mathlib's continuousCohomology through PerfectoidTowers P9.0. Topological assertions retain the quotient topology on cohomology.
+Fix a prime p, including p = 2. A general p-adic field K is a characteristic-zero field complete for a discrete valuation with arbitrary perfect residue field k of characteristic p. Choose the Cohen inclusion W(k) ⊆ O_K, and write K₀ = W(k)[1/p]. The algebraic closure has the extended valuation; C_K is its separated completion, with its norm topology and valuation ring O_C. Finite K/ℚ_p is represented inside Mathlib's PadicAlgCl p. The Galois group carries the Krull topology; every action on a completed or period coefficient is jointly continuous. Continuous cohomology means continuous cochain cohomology; for profinite groups, identify it with the underlying module of Mathlib's continuousCohomology through PerfectoidTowers P9.0. Topological assertions retain the quotient topology on cohomology.
 
 The full cyclotomic tower K(μ_{p^∞}) retains the finite torsion in Γ_K. A torsion-free procyclic stage is chosen sufficiently high, at least stage 2 when p = 2, and may depend on a fixed twist. Trace normalization always uses the actual extension degree. Twists are g·x = χ(g)^i g(x); g(t) = χ(g)t, φ(t) = pt, grⁱ B_dR = C_K(i), and the covariant realization of ℚ_p(1) has filtration jump −1. The contravariant functor is the covariant functor on V^∨. Choose a branch of log for B_st → B_dR. Use the p-normalized monodromy N_p, with N_p φ = p φ N_p; a uniformizer-normalized operator for ord_K(π)=1 is e N_p, e=ord_K(p).
 
@@ -23,13 +25,13 @@ Names in this README are target names relative to TauCetiRoadmap.PadicPeriodRing
 | Mathlib, pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` | PadicAlgCl, PadicComplex, PadicComplexInt, spectralNorm, completion maps, algebraic closures and the Krull topology, cyclotomicCharacter and continuousCohomology; PreTilt, WittVector and Fontaine's θ; BDeRhamPlus and BDeRham as defined in [Mathlib/RingTheory/Perfectoid/BDeRham.lean](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Perfectoid/BDeRham.lean); localization, AdicCompletion, divided powers and DividedPowerAlgebra. The period topology, discrete valuation structure and comparisons are targets here. |
 | Tau Ceti, pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` | TauCeti.ContCohomology's explicit continuous cocycles, principal cocycles, invariants, restriction and inflation; its explicitInfRes_exact and explicitInfl1_injective in TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic. Consume these with their topological coefficient and quotient-action hypotheses. |
 | ProfiniteCohomology | Layers 3 and 5: canonical continuous-cohomology comparison and the low-degree restriction/inflation API. These supply the continuous cocycle vocabulary of §0. |
-| ProfiniteArithmetic | Layer 0: profinite integers, units and continuous powers for the procyclic group and the cyclotomic character. |
-| LocalFieldsRamification | Layer 3: the different, normalized trace estimates, upper ramification numbering and the Herbrand function. |
+| ProfiniteArithmetic | Layers 0 and 1: profinite integers and units (Layer 0), and continuous profinite and ℤ_p powers (Layer 1), for the procyclic group and the cyclotomic character. |
+| LocalFieldsRamification | Layer 3: finite-local-field different, ramification and Herbrand theory. The trace-ideal formula and Sen tower estimates are targets of §§1.3 and 2 here, including their general-base domain. |
 | LocalGaloisGroups | Layer 5: the local cyclotomic character and its agreement with Mathlib's character. |
 | PerfectoidSpaces | §§P1.6, P1.10–P1.11, P1.16–P1.18: functorial tilting, perfectoid complete algebraically closed fields, Witt vectors, primitive degree-one kernels and comparison of θ with Mathlib; §P1.31 the completed cyclotomic field; §§P3.7, P3.12 finite perfectoid extensions and almost finite étale integral closure. |
-| PerfectoidTowers | P9.0: **Lifting continuous cochains along finite surjections**, **Continuous cochains into an inverse limit**, and **Comparison with the canonical carrier for compact coefficients**. Use all degrees and jointly continuous actions, with quotient topology for topological statements and underlying modules for derived statements. These three targets have a single owner there. |
+| PerfectoidTowers | P9.0: **Lifting continuous cochains along finite surjections**, **Continuous cochains into an inverse limit**, and **Comparison with the canonical carrier for compact coefficients**, for profinite groups. Use all degrees and jointly continuous actions, with quotient topology for topological statements and underlying modules for derived statements. These three targets have a single owner there. |
 | EtaleCohomologyFoundations | §F.4.0: a stable lattice in a finite-dimensional continuous ℚ_p-representation of a compact group, used in the rational-coefficient procyclic calculation of §0.1. |
-| DerivedModuleAlgebra | §R02.1.1: tower lim/lim¹ and Mittag–Leffler exactness for the lattice quotient towers of §0.1; §1.1 and §§1.2–1.5: module-level derived limits and completion when expressing those towers in the derived category. Module derived tensor is its §§0.1–0.3 contract; no sheaf or geometric derived completion is constructed here. |
+| DerivedModuleAlgebra | §1.T.1: lim and lim¹ of a tower, Mittag–Leffler vanishing, the six-term sequence and the Milnor sequence for degreewise-surjective towers of complexes. Its CompactCoefficients.Tower.lim, Tower.limOne, Tower.limOne_subsingleton_of_isMittagLeffler and Tower.limOne_exact supply the lattice quotient towers of §0.1. Section 1.1 supplies DerivedDeRham.derivedLimit and derivedLimit_milnor; §§1.2–1.5 supply module derived completeness and completion when expressing these towers in the derived category, with the stated finite-generation and ordinary-quotient hypotheses. Module derived tensor is its §§0.1–0.3 contract; no sheaf or geometric derived completion is constructed here. |
 
 ## 0. Continuous-cochain preliminaries
 
@@ -43,19 +45,19 @@ Names in this README are target names relative to TauCetiRoadmap.PadicPeriodRing
 - Γ = Ẑ acting on C = ℤ_p with σ acting by 1 + p (through the ℤ_p-factor of Ẑ): (σ − 1)C = pℤ_p, so H¹ = ℤ/p, finite although C is torsion free.
 - p odd, Γ = Ẑ, C = ℚ_p with σ acting by 2 ∈ ℤ_p^×: σ − 1 is invertible, so H¹ = 0, while for the trivial action H¹ = Hom_cont(Ẑ, ℚ_p) ≅ ℚ_p, through the ℤ_p-factor of Ẑ. In the previous check the invariants vanish while H¹ = ℤ/p, so H¹ is the coinvariants and not the invariants. For p = 2 no continuous action of Ẑ on ℚ₂ has σ acting by 2: the image of the compact group Ẑ in ℚ₂^× is compact, hence lies in ℤ₂^×, which does not contain 2.
 
-*Needs:* Mathlib topology, finite modules and continuous cocycles; ProfiniteArithmetic Layer 0; ProfiniteCohomology Layers 3 and 5; PerfectoidTowers P9.0 (lifting continuous cochains, inverse-limit cochains and canonical compact-coefficient comparison); EtaleCohomologyFoundations §F.4.0 (stable lattices); DerivedModuleAlgebra §R02.1.1 (Mittag–Leffler exactness), §1.1 and §§1.2–1.5 for the module derived limit/completion description. The Banach-coefficient calculation required for C_K is the separate target in §§1.4 and 2; finite-type procyclic cohomology does not assert that calculation.
+*Needs:* Mathlib topology, finite modules and continuous cocycles; ProfiniteArithmetic Layers 0 and 1; ProfiniteCohomology Layers 3 and 5; PerfectoidTowers P9.0 (lifting continuous cochains, inverse-limit cochains and canonical compact-coefficient comparison); EtaleCohomologyFoundations §F.4.0 (stable lattices); DerivedModuleAlgebra §1.T.1 (Mittag–Leffler vanishing, six-term exactness and Milnor for degreewise-surjective complex towers), §1.1 and §§1.2–1.5 for the module derived limit/completion description under their stated hypotheses. The Banach-coefficient calculation required for C_K is the separate target in §§1.4 and 2; finite-type procyclic cohomology does not assert that calculation.
 
 ### 0.2 Inflation–restriction and finite descent for topological coefficients
 
 **Low-degree continuous descent.** For a topological group G, closed normal subgroup H, and a Hausdorff topological additive G-module M with jointly continuous action, use the subspace topology on M^H and the quotient topology on G/H. With a jointly continuous descended action, prove the exact continuous-cochain sequence
 0 → H¹(G/H,M^H) → H¹(G,M) → H¹(H,M).
-Thus H¹(H,M)=0 identifies H¹(G,M) with H¹(G/H,M^H), compatibly with coefficient maps and twists trivial on H. This is the supplied Tau Ceti inflation–restriction theorem on its stated topological domain. Verify the descended joint continuity for the closed subgroups and invariant Banach spaces of §§1.4 and 2; the quotient map is open and invariants have their subspace topology. Construct the identification with Mathlib's `continuousCohomology` through PerfectoidTowers P9.0.
+Thus H¹(H,M)=0 identifies H¹(G,M) with H¹(G/H,M^H), compatibly with coefficient maps and twists trivial on H. This is the supplied Tau Ceti inflation–restriction theorem on its stated topological domain. Verify the descended joint continuity for the closed subgroups and invariant Banach spaces of §§1.4 and 2; the quotient map is open and invariants have their subspace topology. When G is profinite, construct the identification with Mathlib's `continuousCohomology` through PerfectoidTowers P9.0; H and G/H are then profinite as well. For an arbitrary topological group, the assertion uses the explicit continuous-cochain H¹ supplied by Tau Ceti.
 
 For a finite quotient F acting continuously and linearly on a Banach coefficient module over a characteristic-zero valued field, averaging by |F|⁻¹ gives an exact invariants functor and a continuous contracting homotopy in positive cochain degrees. Use this to prove restriction H¹(G,M) ≅ H¹(H,M)^F for a finite-index open normal H and to descend the finite cyclotomic-stage calculations to K, retaining the action of F on both coefficients and classes. No discreteness assumption on M is used.
 
-*Source:* Neukirch–Schmidt–Wingberg, Cohomology of Number Fields, (1.6.7), the continuous inflation–restriction sequence; Rubin, Euler Systems, Appendix B §2, Proposition 2.3, printed p. 152 (PDF p. 162), cochain exactness; Brinon–Conrad §14.3, Proposition 14.3.3 and Theorem 14.3.4, pp. 253–254, finite descent in the Tate–Sen calculation.
+*Source:* Neukirch–Schmidt–Wingberg, Cohomology of Number Fields, (1.6.7), the continuous inflation–restriction sequence; Rubin, Euler Systems, Appendix B §2, Definition 2.1, printed p. 151 (PDF p. 161), cochain exactness under a continuous-section hypothesis, and Proposition 2.5(i), printed p. 152 (PDF p. 162), inflation–restriction; Brinon–Conrad §14.3, Proposition 14.3.3 and Theorem 14.3.4, pp. 253–254, finite descent in the Tate–Sen calculation. The pinned Tau Ceti theorem supplies inflation–restriction on the larger topological-group domain stated here.
 
-*Needs:* ProfiniteCohomology Layers 3 and 5; the pinned Tau Ceti continuous cocycle, restriction and inflation API; PerfectoidTowers P9.0 (canonical compact-coefficient comparison); Mathlib quotient topology, continuous linear maps and finite-group averaging.
+*Needs:* ProfiniteCohomology Layers 3 and 5; the pinned Tau Ceti continuous cocycle, restriction and inflation API; PerfectoidTowers P9.0 (canonical compact-coefficient comparison when G is profinite); Mathlib quotient topology, continuous linear maps and finite-group averaging.
 
 **Checks.**
 
@@ -98,17 +100,36 @@ Throughout, ℂ_p is Mathlib's `PadicComplex p`, the completion of `PadicAlgCl p
 
 ### 1.3 Normalized cyclotomic traces and almost trace surjectivity
 
-**Tate's normalized traces.** Let K/ℚ_p be finite, K_∞ = K(μ_{p^∞}) the full cyclotomic extension, K_n = K(μ_{p^n}), and Γ_K = Gal(K_∞/K), identified by χ with an open subgroup of ℤ_p^×. Retain its finite torsion subgroup. For n sufficiently large (n ≥ 2 at p = 2), Γ_n = Gal(K_∞/K_n) is torsion-free and procyclic; let γ_n generate it. Prove `tate_normalizedTrace`: the maps R_n = [K_m : K_n]^{−1} Tr_{K_m/K_n} on K_m (independent of m ≥ n) define a K_n-linear, Γ_K-equivariant retraction R_n : K_∞ → K_n that is bounded uniformly in n for n large and extends to K̂_∞; X_n = ker R_n is closed, K̂_∞ = K_n ⊕ X_n, and γ_n − 1 is invertible on X_n with an inverse bounded independently of n. Prove this as follows. Tate's estimates for the different of K_{n+1}/K_n in a ramified ℤ_p-extension (upper numbering and the Herbrand function, TauCetiRoadmap.LocalFieldsRamification Layer 3) give v(Tr_{K_{n+1}/K_n}(x)) ≥ v(x) + 1 − c p^{−n}, which bounds R_n; the invertibility of γ_n − 1 on X_n is the estimate v((γ_n − 1)x) ≤ v(x) + c′ on ker R_n, proved first on K_{n+1} and then by passage to the limit. Also prove `tate_almostEtale`: for every finite extension M/K_∞, the trace Tr_{M/K_∞}(𝒪_M) contains the maximal ideal of 𝒪_{K_∞}. This follows from PerfectoidSpaces §P1.31 (*the completed cyclotomic field*, perfectoid) together with §P3.7 (*finite extensions of perfectoid fields*) and §P3.12 (*the integral closure is almost finite étale*): the completed extension of valuation rings is almost finite étale, so its trace is almost surjective.
+**Trace ideals and Sen tower estimates.** For finite extensions L/F of finite extensions of ℚ_p, prove `periodTraceIdeal`: with integer-normalized ord_L, ramification index e(L/F), different exponent d(L/F) and every r ∈ ℤ,
+Tr_{L/F}(𝔪_L^r)=𝔪_F^{⌊(r+d(L/F))/e(L/F)⌋}.
+Fractional ideals are allowed. For the common valuation v(p)=1 this gives
+v(Tr(x)) ≥ v(x)+v(𝔇_{L/F})−(e(L/F)−1)/ord_L(p);
+the rounding term is retained.
 
-(Fontaine–Ouyang, §1.4, Theorem 1.92 (Sen's filtration theorem), Corollary 1.96 (the trace statement), Corollary 1.99, Definition 1.100 and Proposition 1.104, pp. 36–39; Brinon–Conrad, Theorem 13.1.2, p. 199, with Faltings's argument in Exercise 13.7.4, and Lemmas 14.1.3–14.1.4, pp. 237–238; Tate, *p-divisible groups*, Proceedings of a Conference on Local Fields (1967), §3.1.)
+Prove `senTowerEstimates` for every infinitely ramified Galois extension L_∞/F whose group contains an open ℤ_p-subgroup. After a finite base stage F′, index its totally ramified ℤ_p-tower by L_0=F′ and [L_n:F′]=pⁿ. There are c and a bounded sequence a_n with v(𝔇_{L_n/F′})=n+c+p⁻ⁿa_n. Deduce v(Tr_{L_{n+1}/L_n}(x)) ≥ v(x)+1−Cp⁻ⁿ with C independent of n. For every δ>0, sufficiently deep degree-normalized traces satisfy v(R_n(x)) ≥ v(x)−δ uniformly over all finite stages. For a fixed finite Galois extension E/F′, prove v(𝔇_{EL_n/L_n})=O(p⁻ⁿ), giving the almost trace estimate in the splitting tower. Construct the ramification-filtration and different arguments needed for these estimates. Section 2 extends both named targets to the stated general p-adic fields and their finite extensions.
+
+*Source:* Serre, Local Fields, III §3, Proposition 7 (trace ideals); Brinon–Conrad §13.1, Lemmas 13.1.6 and 13.1.8, Proposition 13.1.9 and Lemma 13.1.10, pp. 201–205; §14.1, Lemma 14.1.4, p. 238. The trace-dual formula gives the rounded exponent, and the different estimates make its rounding error tend to zero in the tower.
+
+*Needs:* LocalFieldsRamification Layer 3 (finite-local-field different, ramification and Herbrand theory); Mathlib field trace, fractional ideals and discrete valuations. The tower estimates are targets here.
+
+**Checks.**
+
+- For unramified L/F, e=1 and d=0, so Tr(𝔪_L^r)=𝔪_F^r. Normalization in the unramified ℤ_p-tower is unbounded and does not satisfy the Sen estimate.
+- For L=ℚ₂(√2), F=ℚ₂, e=2 and d=3: Tr(O_L)=2ℤ₂ and Tr(𝔪_L)=4ℤ₂. Dropping the floor gives an incorrect exponent.
+- For L_∞=ℚ_p(μ_{p^∞}), pass beyond its finite torsion, including stage 2 at p=2. The estimates apply at every higher finite stage and normalize the trace of 1 to 1 using the actual degree.
+
+**Tate's normalized traces.** Let K/ℚ_p be finite, K_∞ = K(μ_{p^∞}) the full cyclotomic extension, K_n = K(μ_{p^n}), and Γ_K = Gal(K_∞/K), identified by χ with an open subgroup of ℤ_p^×. Retain its finite torsion subgroup. For n sufficiently large (n ≥ 2 at p = 2), Γ_n = Gal(K_∞/K_n) is torsion-free and procyclic; let γ_n generate it. Prove `tate_normalizedTrace`: the maps R_n = [K_m : K_n]^{−1} Tr_{K_m/K_n} on K_m (independent of m ≥ n) define a K_n-linear, Γ_K-equivariant retraction R_n : K_∞ → K_n that is bounded uniformly in n for n large and extends to K̂_∞; X_n = ker R_n is closed, K̂_∞ = K_n ⊕ X_n, and γ_n − 1 is invertible on X_n with an inverse bounded independently of n. Prove this as follows. The local `periodTraceIdeal` and `senTowerEstimates` targets give v(Tr_{K_{n+1}/K_n}(x)) ≥ v(x) + 1 − c p^{−n}, which bounds R_n; the invertibility of γ_n − 1 on X_n is the estimate v((γ_n − 1)x) ≤ v(x) + c′ on ker R_n, proved on X_n∩K_m for every m≥n by induction on m, with a constant independent of m and of sufficiently large n (Brinon–Conrad Proposition 14.1.7, pp. 240–241). Finite-dimensional injectivity gives bijectivity at each stage. The union X_n∩K_∞ is dense in X_n, so the uniformly bounded inverse extends to the completion. Also prove `tate_almostEtale`: for every finite extension M/K_∞, the trace Tr_{M/K_∞}(𝒪_M) contains the maximal ideal of 𝒪_{K_∞}. This follows from PerfectoidSpaces §P1.31 (*the completed cyclotomic field*, perfectoid) together with §P3.7 (*finite extensions of perfectoid fields*) and §P3.12 (*the integral closure is almost finite étale*): the completed extension of valuation rings is almost finite étale, so its trace is almost surjective.
+
+(Fontaine–Ouyang, §1.4, Theorem 1.92 (Sen's filtration theorem), Corollary 1.96 (the trace statement), Corollary 1.99, Definition 1.100 and Proposition 1.104, pp. 36–39; Brinon–Conrad, Theorem 13.1.2, p. 199, with Faltings's argument in Exercise 13.7.4, and Lemmas 14.1.3–14.1.4, pp. 237–238, with Proposition 14.1.7, pp. 240–241; Tate, *p-divisible groups*, Proceedings of a Conference on Local Fields (1967), §3.1.)
 
 **Checks.**
 
 - R_n restricted to K_n is the identity, and an element of K_{n+1} of trace zero to K_n lies in X_n.
 - For the unramified ℤ_p-extension of K the normalized traces are not uniformly bounded: Tr_{K_m/K_n} maps 𝒪_{K_m} onto 𝒪_{K_n}, so R_n has norm p^{m−n} on K_m. Deep ramification is essential.
 - For K = ℚ_p, the unramified ℤ_p-extension K′_∞ in place of K_∞ and M = K′_∞(p^{1/p²}), the Eisenstein polynomial X^{p²} − p gives a different of valuation 3p² − 1 in M, so Tr_{M/K′_∞}(𝒪_M) = p²𝒪_{K′_∞}, which does not contain p: the trace statement fails without deep ramification.
+- A single K_{n+1} is closed in K̂_∞ and cannot provide the density step. The union of X_n∩K_m over all m≥n is dense in X_n: apply 1−R_n to algebraic approximations.
 
-*Needs:* §§1.1–1.2; LocalFieldsRamification Layer 3 (different and cyclotomic ramification); PerfectoidSpaces §§P1.31, P3.7, P3.12 (completed cyclotomic field, finite extensions and almost étaleness).
+*Needs:* §§1.1–1.2; §1.3 `periodTraceIdeal` and `senTowerEstimates`; LocalFieldsRamification Layer 3 (finite-local-field different and ramification); PerfectoidSpaces §§P1.31, P3.7, P3.12 (completed cyclotomic field, finite extensions and almost étaleness).
 
 ### 1.4 Tate cohomology and the cyclotomic Banach calculation
 
@@ -141,7 +162,7 @@ Prove this as follows. Compare the θ of PerfectoidSpaces §P1.17 with Mathlib `
 
 *Needs:* §1.1; Mathlib BDeRhamPlus, BDeRham, fontaineThetaInvertP and AdicCompletion; PerfectoidSpaces §§P1.6, P1.10, P1.16–P1.18 (functorial tilt, perfectoid ℂ_p, primitive kernel and θ comparison).
 
-The suggested Lean checks for §1.1 also require the identity extension, fixed base-field elements, and the nonidentity action on a square root of p at odd p. These checks use the same algebraic-closure and completion carriers as the action theorem.
+The suggested Lean checks for §1.1 require the identity extension, fixed base-field elements, the nonidentity action on a square root of p at odd p, and a discontinuous abstract field automorphism. They also record the full-Galois fixed-field Check of §1.2 and the i=1 no-eigenvector Check of §1.4, using the same algebraic-closure and completion carriers.
 
 ## 2. Tate–Sen over a general p-adic field
 
@@ -165,6 +186,32 @@ Construct `PadicFieldCompletion`, the valued completion C_K of K̄, with its con
 G_K-action and valuation ring. For finite K/ℚ_p, identify it canonically with the supplied
 Mathlib `PadicComplex` through the chosen embedding of K̄.
 
+**General-base tower estimates.** Extend `periodTraceIdeal` and `senTowerEstimates` of §1.3 to finite extensions of every K in this section, with arbitrary perfect residue field. Construct their different and ramification-filtration inputs on this domain. The trace-ideal formula uses integer-normalized valuations and its floor; the Sen formula uses v(p)=1 and a totally ramified ℤ_p-tower indexed after a finite base stage. Include every infinitely ramified splitting tower of a character η with finite or virtually ℤ_p image, and the compatible estimates after finite base extensions. These give the normalized-trace splittings, the almost trace assertion for finite M/K_∞, and the uniform inverse to γ_n−1 by induction over all finite stages as in §1.3. Also prove that γ−λ has a bounded inverse on K̂_∞ whenever γ generates the totally ramified ℤ_p-group and λ∈1+𝔪_K is not a p-power root of unity; the geometric-series argument first treats λ close to 1 and then passes to a power of γ. This supplies the twisted-generator calculation for the infinite-inertia branch of `tateSen_character`.
+
+*Source:* Brinon–Conrad, Definition 1.3.1, p. 7; §13.1, Lemmas 13.1.6 and 13.1.8, Proposition 13.1.9 and Lemma 13.1.10, pp. 201–205; §14.1, Lemma 14.1.4, p. 238, Proposition 14.1.7, pp. 240–241, and Lemma 14.1.9, pp. 242–243. The trace-dual proof of the trace-ideal formula applies to these complete DVRs.
+
+*Needs:* §1.3 (the formulas and finite-K construction); Mathlib complete discrete valuations, finite field extensions, field trace and fractional ideals. The general-base different and ramification arguments are targets here.
+
+**Checks.**
+
+- K=Frac W(𝔽_p(s)^perf) satisfies these hypotheses; its cyclotomic tower uses the same trace-ideal formula and Sen bounds, without local compactness or a finite residue field.
+- Over this K, an unramified ℤ_p-tower still has surjective integral trace and unbounded normalized traces; it does not satisfy the infinite-ramification hypothesis.
+- λ=1 makes γ−λ vanish on K⊂K̂_∞. Thus the exclusion of p-power roots of unity is necessary, including at p=2.
+
+**Completed unramified descent — `completedUnramifiedDescent`.** Construct K^un inside K̄ and its valuation completion K̂^un, with valuation ring R′=completion of O_{K^un}, residue field k^s and canonical continuous G_k-action. Write R=O_K. For every finitely generated R′-module M with a continuous semilinear G_k-action for its natural valuation topology, prove that M^{G_k} is finitely generated over R and the natural map R′⊗_R M^{G_k}→M is an isomorphism. It preserves rank and invariant factors, and taking invariants is exact on these modules. Prove descent modulo each uniformizer power by finite Galois descent and induction on torsion length, then pass to the complete modules and use faithful flatness. Apply the rank-one case to R′(η) for unramified η, invert p, and use finite Galois descent when η becomes unramified over a finite extension.
+
+*Source:* Brinon–Conrad, Lemma 3.2.6 and proof, pp. 36–37; Theorem 14.3.4, pp. 253–254, for its character application.
+
+*Needs:* `PadicFieldCompletion`; the general-base finite-extension valuation theory of this section; Mathlib finitely generated modules, tensor products and faithful flatness; §0.2 (finite descent); DerivedModuleAlgebra §1.T.1 (Mittag–Leffler exactness for the finite-length uniformizer-quotient modules). Constructing K^un and its completion is part of this target.
+
+**Checks.**
+
+- For M=R′^r with its coefficient action, M^{G_k}=R^r and the descent map is the standard scalar-extension isomorphism, including r=0.
+- For a uniformizer π of R and M=R′/πⁿR′, invariants are R/πⁿR; descending the exact sequence for successive uniformizer powers preserves its torsion invariant factors.
+- For K=ℚ_p, p odd, and unramified η with η(Frob)=1+p, the invariant line in R′(η) has a unit generator. Its scalar extension is R′(η), although η has infinite image; finite Galois descent alone cannot provide this completed invariant line.
+
+The construction order is `PadicFieldCompletion`, the general-base `periodTraceIdeal` and `senTowerEstimates`, `completedUnramifiedDescent`, and then `tateSen` with its character criterion.
+
 Cohomology is continuous cochain cohomology for the `p`-adic topology of `C` (Mathlib
 `continuousCohomology`, applied to `C(i)` as a topological `G_K`-module); with discrete coefficients
 the statement is false, since `C` is not a discrete module. For `K/ℚ_p` finite, `C` is Mathlib's
@@ -186,8 +233,10 @@ The factor p^{m−n} equals [K_n : K_m]⁻¹ only after a stage where every tran
 the invertibility estimates use sufficiently large m (and, for twists, sufficiently large m
 for the fixed twist). Inflation–restriction from `H`
 to `G_K` gives parts 1 and 2. For the general character criterion, finite inertia
-image becomes unramified after a finite extension; completed unramified descent
-identifies C(η) with C, and finite Galois descent gives the one-dimensional groups.
+image becomes unramified after a finite extension L/K; `completedUnramifiedDescent`
+applied to O_{L̂^un}(η) gives an invariant unit. Multiplication by that unit gives a
+noncanonical continuous C-linear G_L-equivariant isomorphism C ≃ C(η). Invert p in
+the descent theorem and use finite Galois descent to obtain the one-dimensional groups.
 For infinite inertia image, apply the Tate–Sen axioms to the splitting tower of η
 and its twisted generator, as in Brinon–Conrad §14.3; the cyclotomic calculation
 alone is used only for χ^i. (Tate 1967, §3.3, Theorems 1 and 2, pp. 176–177: parts 1 and 2 for
@@ -205,7 +254,7 @@ The API:
 - `normalisedTrace`: the continuous `K_m`-linear projection `R_m : K̂_∞ → K_m`, `Γ`-equivariant,
   equal to the identity on `K_m`.
 
-*Needs:* §§0.1–0.2, 1.1–1.4; Mathlib continuousCohomology, PadicComplex, Field.absoluteGaloisGroup and nonarchimedean completion; LocalFieldsRamification Layer 3 (the different and cyclotomic ramification); LocalGaloisGroups Layer 5; PerfectoidSpaces §§P1.10–P1.11, P1.31, P3.7, P3.12 (perfectoid fields and almost finite étale extensions); PerfectoidTowers P9.0 (continuous-cochain comparison).
+*Needs:* §§0.1–0.2, 1.1–1.4; §2 `periodTraceIdeal`, `senTowerEstimates` and `completedUnramifiedDescent` (including the character criterion); Mathlib continuousCohomology, PadicComplex, Field.absoluteGaloisGroup and nonarchimedean completion; LocalFieldsRamification Layer 3 on its finite-local-field domain; LocalGaloisGroups Layer 5 on its finite-K domain, with the general-base cyclotomic character constructed from roots of unity here; PerfectoidSpaces §§P1.10–P1.11, P1.31, P3.7, P3.12 (perfectoid fields and almost finite étale extensions); PerfectoidTowers P9.0 (continuous-cochain comparison).
 
 **Checks.**
 
@@ -262,7 +311,7 @@ Construct B_st=B_cris[u] in a logarithmic frame, its Galois action, φ and the d
 
 Supply functorial maps for continuous valued embeddings of the base fields with compatible algebraic closures and logarithmic choices. They commute with θ on plus carriers, φ, Galois restriction, N_p and filtrations. Prove identity and composition, independence of primitive θ-kernel generators and Tate generators, and compatibility with the completion universal properties. When K is finite over ℚ_p, the completed-field and de Rham identifications are exactly §§1.1 and 1.5; no additional finite-K crystalline or semistable comparison contract is assumed.
 
-*Construction and source:* Brinon–Conrad, Definition 1.3.1, p. 7, §§4.3–4.4, pp. 49–55, §9.1, pp. 128–135, and §9.2, pp. 135–146. Fontaine, Le corps des périodes p-adiques, §§1.5.1–1.5.7, pp. 71–74; Theorem 2.2.1, pp. 76–77; §§2.3.1–2.3.4, pp. 78–79; §§3.1–3.2 and §4.2, pp. 79–86; §4.1, pp. 83–84, and Theorem 4.2.4, p. 86, proof §4.3, pp. 87–89. Apply the perfectoid primitive-kernel API, then §3's principal envelope and its completion. Identify the de Rham carriers by their universal properties and extend the action and period maps by continuity.
+*Construction and source:* Brinon–Conrad, Definition 1.3.1, p. 7, §§4.3–4.4, pp. 52–64, §9.1, pp. 128–135, and §9.2, pp. 135–146. Fontaine, Le corps des périodes p-adiques, §§1.5.1–1.5.7, pp. 71–74; Theorem 2.2.1, pp. 76–77; §§2.3.1–2.3.4, pp. 78–79; §§3.1–3.2 and §4.2, pp. 79–86; §4.1, pp. 83–84, and Theorem 4.2.4, p. 86, proof §4.3, pp. 87–89. Apply the perfectoid primitive-kernel API, then §3's principal envelope and its completion. Identify the de Rham carriers by their universal properties and extend the action and period maps by continuity.
 
 *Needs:* §§1.1, 1.5, 2, 3; PerfectoidSpaces §§P1.6, P1.10–P1.11, P1.16–P1.18 (tilts, perfectoid fields, Witt vectors and primitive θ-kernel); Mathlib BDeRhamPlus, BDeRham, Witt Frobenius, ordinary completions, localizations, polynomial rings and continuous maps.
 
@@ -301,9 +350,9 @@ Prove the G_K-equivariant fundamental exact sequence
 0 → ℚ_p → B_cris^{φ=1} → B_dR/Fil⁰ B_dR → 0,
 with the inclusion of constants followed by the crystalline-to-de Rham map modulo B_dR^+. Exactness is asserted on these topological carriers as underlying ℚ_p-vector spaces; constructing the finite-K continuous sections, connecting maps and arithmetic comparison contracts is the downstream consumer's work.
 
-Use §2's Tate–Sen calculation on the de Rham graded quotients and their completed inverse limit; use convergent PD expansions, Frobenius estimates, the logarithmic construction and the period-line regularity argument for the crystalline and semistable identities. Include the construction of the fundamental-sequence surjectivity, not merely its name. All fields with the specified perfect residue field are covered, without reducing them to finite extensions of ℚ_p.
+Use §2's Tate–Sen calculation on the de Rham graded quotients and their completed inverse limit; use convergent PD expansions, Frobenius estimates, the logarithmic construction and the period-line regularity argument for the crystalline and semistable identities. Construct the fundamental-sequence surjectivity by lifting each filtered quotient as in Colmez–Fontaine, Proposition 1.3(v), and pass to the union of Fil⁻ʳ for r≥0. All fields with the specified perfect residue field are covered, without reducing them to finite extensions of ℚ_p.
 
-*Source:* Brinon–Conrad, §§4.3–4.4, pp. 49–55, §9.1, pp. 128–135 (fundamental exact sequence), and §9.2, pp. 135–146 (semistable periods and regularity); Fontaine, Le corps des périodes p-adiques, §1.5.7, p. 74; Fontaine, Représentations p-adiques semi-stables, Proposition 1.4.2, pp. 123–124, Proposition 5.1.2 and Lemma 5.1.3, pp. 155–156.
+*Source:* Brinon–Conrad, §§4.3–4.4, pp. 52–64, §9.1, pp. 128–135 (crystalline structures and the kernel identity); §9.3, equation (9.3.1), p. 151 (fundamental exact sequence), and §9.2, pp. 135–146 (semistable periods and regularity); Colmez–Fontaine, Construction des représentations p-adiques semi-stables, Proposition 1.3(iv)–(v) (filtered surjectivity and its union); Fontaine, Le corps des périodes p-adiques, §1.5.7, p. 74; Fontaine, Représentations p-adiques semi-stables, Proposition 1.4.2, pp. 123–124, Proposition 5.1.2 and Lemma 5.1.3, pp. 155–156.
 
 *Needs:* §§0.2, 1.4, 2, 3, 4.1–4.2; PerfectoidTowers P9.0 (cochains into limits and canonical topological-coefficient comparison); Mathlib invariants, finite-dimensional linear algebra, ordinary completion and localization.
 
@@ -320,11 +369,13 @@ Use §2's Tate–Sen calculation on the de Rham graded quotients and their compl
 - Jean-Marc Fontaine and Yi Ouyang, [Theory of p-adic Galois representations](http://staff.ustc.edu.cn/~yiouyang/galoisrep.pdf); locators use printed pagination.
 - Jean-Marc Fontaine, [Le corps des périodes p-adiques](https://www.numdam.org/item/AST_1994__223__59_0.pdf), Astérisque 223 (1994), 59–111.
 - Jean-Marc Fontaine, [Représentations p-adiques semi-stables](https://www.numdam.org/item/AST_1994__223__113_0.pdf), Astérisque 223 (1994), 113–184.
+- Pierre Colmez and Jean-Marc Fontaine, [Construction des représentations p-adiques semi-stables](https://webusers.imj-prg.fr/~pierre.colmez/CF.pdf), Inventiones Mathematicae 140 (2000), 1–43, Proposition 1.3(v).
 - James Ax, Zeros of polynomials over local fields — the Galois action, Journal of Algebra 15 (1970), 417–428.
 - Jakob Stix, [A course on finite flat group schemes and p-divisible groups](https://www.math.uni-frankfurt.de/~stix/skripte/STIXfinflatGrpschemes20120918.pdf), 2012, Theorem 88.
 - John Tate, p-divisible groups, Proceedings of a Conference on Local Fields, Springer (1967), 158–183.
 - Karl Rubin, [Euler Systems](https://swc-math.github.io/notes/files/99RubinES.pdf), 1999 draft, Appendix B; both printed and PDF pagination are given in §0.
 - Jürgen Neukirch, Alexander Schmidt and Kay Wingberg, Cohomology of Number Fields, second edition, Springer (2008).
+- Jean-Pierre Serre, Local Fields, Springer (1979), III §3, Proposition 7.
 - [Stacks Project, Divided power envelope, §60.2](https://stacks.math.columbia.edu/tag/07H7).
 - Bhargav Bhatt, [p-adic derived de Rham cohomology](https://arxiv.org/abs/1204.6560), §9.
 - Bhargav Bhatt, Matthew Morrow and Peter Scholze, [Integral p-adic Hodge theory](https://people.mpim-bonn.mpg.de/scholze/integralpadicHodge.pdf), §3.3.

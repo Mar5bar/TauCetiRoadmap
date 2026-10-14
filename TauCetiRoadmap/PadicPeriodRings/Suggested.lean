@@ -52,6 +52,9 @@ example (hp : p ≠ 2) (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : Pad
     padicComplexGaloisAction p σ (x : ℂ_[p]) = (-x : PadicAlgCl p) ∧
       padicComplexGaloisAction p σ (x : ℂ_[p]) ≠ (x : ℂ_[p]) := sorry
 
+/-- The abstract field `ℂ_p` admits an automorphism that is discontinuous for its norm topology. -/
+example : ∃ σ : ℂ_[p] ≃+* ℂ_[p], ¬ Continuous σ := sorry
+
 /-- §1.2, Ax–Sen–Tate: for `K/ℚ_p` finite inside `PadicAlgCl p`, the `G_K`-invariants of `ℂ_p`
 are `K`. -/
 theorem padicComplex_fixed_eq (K : IntermediateField ℚ_[p] (PadicAlgCl p))
@@ -59,6 +62,12 @@ theorem padicComplex_fixed_eq (K : IntermediateField ℚ_[p] (PadicAlgCl p))
     (∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
         padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x = x) ↔
       ∃ k : K, x = ((k : PadicAlgCl p) : ℂ_[p]) := sorry
+
+/-- The full `ℚ_p` Galois group fixes exactly the image of `ℚ_p` in `ℂ_p`. -/
+example (x : ℂ_[p]) :
+    (∀ σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p,
+      padicComplexGaloisAction p σ x = x) ↔
+    ∃ q : ℚ_[p], x = algebraMap ℚ_[p] ℂ_[p] q := sorry
 
 /-- §1.4, Tate: `H⁰(G_K, ℂ_p(i)) = 0` for `i ≠ 0`: no nonzero `x` satisfies
 `σ(x) = χ(σ)^{-i} x` for every `σ ∈ G_K`. -/
@@ -70,6 +79,14 @@ theorem tate_H0_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p)
           ℚ_[p]) • x) :
     x = 0 := sorry
 
+/-- The positive Tate twist has no nonzero invariant vector over a finite extension of `ℚ_p`. -/
+example (K : IntermediateField ℚ_[p] (PadicAlgCl p))
+    [FiniteDimensional ℚ_[p] K] (x : ℂ_[p])
+    (hx : ∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
+      padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x =
+        (((cyclotomicCharacter (PadicAlgCl p) p σ.toRingEquiv ^ (-1 : ℤ) : ℤ_[p]ˣ) :
+          ℤ_[p]) : ℚ_[p]) • x) : x = 0 := sorry
+
 end PadicComplex
 
 /-
@@ -77,10 +94,11 @@ The remaining targets are specified in the README, without stand-in declarations
 §0.1 procyclic_H1_equiv_coinvariants; §0.2 continuous inflation–restriction and finite descent;
 §1.1 joint continuity, uniqueness and multiplicativity of padicComplexGaloisAction;
 §1.2 fixed points for every closed subgroup;
-§1.3 tate_normalizedTrace and tate_almostEtale;
+§1.3 periodTraceIdeal, senTowerEstimates, tate_normalizedTrace and tate_almostEtale;
 §1.4 tate_cyclotomicBanachH1 and tate_H1_padicComplex_twist;
 §1.5 the canonical BDeRhamPlus/BDeRham topology, valuation, action, t and graded pieces;
-§2 PadicFieldCompletion, tateSen, tateSen_H0, tateSen_H1, tateSen_character,
+§2 PadicFieldCompletion, the general-base periodTraceIdeal and senTowerEstimates,
+completedUnramifiedDescent, tateSen, tateSen_H0, tateSen_H1, tateSen_character,
 normalisedTrace, tateSen_cyclotomic_twist, tateSen_trivial, tateSen_unramified_character
 and tateSen_H1_trivial_ne_zero;
 §3 periodPDEnvelope, its completed envelope, initial property and generator independence;
