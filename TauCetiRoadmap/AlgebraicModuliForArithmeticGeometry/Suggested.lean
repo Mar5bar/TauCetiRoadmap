@@ -31,10 +31,15 @@ Design choices made explicit here:
 * The identity-component API is `picardZeroSheaf` and `picardZeroCriterion` (README §7.9),
   with the full nonreduced component and arbitrary base change. These algebraic-space carriers
   are README targets.
-* README §7.10.1 constructs `ComplexAnalyticSpace` and `complexSchemeAnalytification` on
-  locally finite-type complex schemes, including infinite affine covers, with the analytic ring
-  sheaf, nilpotents and no global Hausdorff assumption. Its local ringed-space universal property
-  determines the functor and its open, closed and fibre-product comparisons. The finite, proper,
+* This roadmap owns `ComplexAnalyticSpace` and `complexSchemeAnalytification` (README §7.10.1).
+  The analytic category is the full subcategory of locally ringed spaces over Spec C satisfying
+  the analytic local-model condition. The functor's domain is the full subcategory of schemes over
+  Spec C whose structure morphism is `LocallyOfFiniteType`, including infinite affine covers.
+  It retains the analytic ring sheaf and nilpotents with no global Hausdorff assumption. Its
+  universal property uses Hom sets over Spec C, including sheaf maps, and determines the functor
+  and its open, closed and fibre-product comparisons. `SchemeAnalytificationChecks.affineLine`
+  includes the holomorphic exponential, and `SchemeAnalytificationChecks.dual` distinguishes maps
+  with equal point maps and different nilpotent-valued sheaf maps. The finite, proper,
   étale and smooth comparisons concern this same ringed functor; relative smooth charts retain
   base nilpotents (`SchemeAnalytificationChecks.relativeDual`). Properness is relative to analytic
   base charts, and finite morphisms have finite fibres. The local analytic inverse uses
