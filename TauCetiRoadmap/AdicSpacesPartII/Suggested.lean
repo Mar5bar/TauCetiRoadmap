@@ -606,6 +606,16 @@ example (A B : Affinoid.{w}) (φ ψ : Pair.Hom A.pair B.pair) (f : B.spa ⟶ A.s
     (hφ : Affinoid.IsInducedBy f φ) (hψ : Affinoid.IsInducedBy f ψ) :
     φ.toRingHom = ψ.toRingHom := sorry
 
+/-- Sections over the empty open form the zero ring. -/
+example (X : TauCeti.AdicSpace.{w}) :
+    Subsingleton (X.obj.toRingPresheafedSpace.presheaf.obj (op ⊥)) := sorry
+
+/-- Restriction identifies sections on two disjoint opens with the product of their sections. -/
+example (X : TauCeti.AdicSpace.{w}) (U V : Opens X.obj) (hUV : Disjoint U V) :
+    Function.Bijective (fun s : X.obj.toRingPresheafedSpace.presheaf.obj (op (U ⊔ V)) ↦
+      (X.obj.toRingPresheafedSpace.presheaf.map (homOfLE le_sup_left).op s,
+        X.obj.toRingPresheafedSpace.presheaf.map (homOfLE le_sup_right).op s)) := sorry
+
 /-- An affinoid chart: an open immersion of an affinoid adic space. -/
 structure Chart (X : TauCeti.AdicSpace.{w}) where
   /-- The affinoid presentation. -/
@@ -627,6 +637,35 @@ structure HomChart {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) where
   ringHom : Pair.Hom target.affinoid.pair source.affinoid.pair
   isInducedBy : Affinoid.IsInducedBy map ringHom
   commutes : source.ι ≫ f = map ≫ target.ι
+
+/-- An affinoid has an identity chart with its original presentation. -/
+example (A : Affinoid.{w}) :
+    ∃ c : Chart A.spa, c.affinoid = A ∧ HEq c.ι (𝟙 A.spa) := sorry
+
+/-- Every adic space has an empty affinoid chart. -/
+example (X : TauCeti.AdicSpace.{w}) :
+    ∃ c : Chart X, IsEmpty c.affinoid.spa.obj := sorry
+
+/-- A chart inclusion is injective on valuation points. -/
+example (X : TauCeti.AdicSpace.{w}) (c : Chart X) : Function.Injective c.ι.hom.base := by
+  let := c.isOpenImmersion
+  exact c.ι.hom.isOpenEmbedding.injective
+
+/-- The identity of an affinoid has a morphism chart with equal embeddings and full image. -/
+example (A : Affinoid.{w}) : ∃ c : HomChart (𝟙 A.spa),
+    HEq c.source.ι c.target.ι ∧ Set.range c.source.ι.hom.base = Set.univ := sorry
+
+/-- An induced affinoid map has a morphism chart whose two charts cover the whole spectra. -/
+example (A B : Affinoid.{w}) (φ : Pair.Hom A.pair B.pair) (f : B.spa ⟶ A.spa)
+    (hf : Affinoid.IsInducedBy f φ) : ∃ c : HomChart f,
+      Set.range c.source.ι.hom.base = Set.univ ∧
+      Set.range c.target.ι.hom.base = Set.univ := sorry
+
+/-- A morphism chart commutes on every valuation point. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (c : HomChart f)
+    (x : c.source.affinoid.spa.obj) :
+    f.hom.base (c.source.ι.hom.base x) = c.target.ι.hom.base (c.map.hom.base x) := by
+  exact congrArg (fun g ↦ g.hom.base x) c.commutes
 
 /-- `X` is *locally noetherian* if it is covered by charts of noetherian type
 (this roadmap's noetherian-type chart convention; Wedhorn, Corollary 8.35(a)–(b),
@@ -689,6 +728,13 @@ def IsTopologicallyFiniteTypePair {A B : Affinoid.{w}} (φ : Pair.Hom A.pair B.p
               θ (UniformSpace.Completion.coeRingHom
                 (weightedPolynomialHom M hM (MvPolynomial.C m * MvPolynomial.X i)))})))
         B.ring).toSubring
+
+/-- The identity pair map has a zero-variable finite-type presentation, including its plus ring. -/
+example (A : Affinoid.{w}) : IsTopologicallyFiniteTypePair (Pair.Hom.id A.pair) := sorry
+
+/-- Finiteness of a pair map supplies its topological finite-type presentation. -/
+example (A B : Affinoid.{w}) (φ : Pair.Hom A.pair B.pair)
+    (hφ : Huber.Pair.Hom.IsFinite φ) : IsTopologicallyFiniteTypePair φ := sorry
 
 /-- `f` is *locally of finite type* (Huber 1994, §3, p. 535). -/
 def LocallyOfFiniteType {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) : Prop :=
@@ -930,6 +976,14 @@ theorem IsProper.baseChange {X Y Z W : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (g :
 theorem IsClosedImmersion.isProper {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
     (hf : IsClosedImmersion f) (hY : HasStablySheafyCharts Y) : IsProper f := sorry
 
+/-- An open quotient with its integral quotient plus ring gives a closed and proper affinoid map. -/
+example (A B : Affinoid.{w}) (hA : IsStablySheafyRing.{w, w} A.ring)
+    (φ : Pair.Hom A.pair B.pair) (hφ : IsOpenQuotientMap φ.toRingHom)
+    (hplus : B.pair.plus = (integralClosure (A.pair.plus.map φ.toRingHom) B.ring).toSubring)
+    (g : B.spa ⟶ A.spa) (hg : Affinoid.IsInducedBy g φ) :
+    IsClosedImmersion g ∧ IsProper g ∧ QuasiCompact g ∧ UniversallyClosed g ∧
+      UniversallySpecializing g := sorry
+
 /-! ### R0.11 Valuation rings and the valuative criteria
 (*adic-valuation-rings-and-centres*, *valuation-ring-space-spectral*,
 *valuative-criterion-separated*, *valuative-criterion-specializing*,
@@ -987,6 +1041,20 @@ def ValuationRing.IsCentre {X Y : TauCeti.AdicSpace.{w}} (r : ValuationRing X)
         (IsLocalRing.residue _).comp ((f.hom.stalkMap r.pt).hom.comp
           (Y.obj.toRingPresheafedSpace.presheaf.stalkSpecializes h).hom) ∧
       r.ring.comap i = (Y.obj.valuation y).valuation.valuationSubring
+
+/-- The support is its own identity centre precisely for the original residue valuation ring. -/
+example (X : TauCeti.AdicSpace.{w}) (r : ValuationRing X) :
+    r.IsCentre (𝟙 X) r.pt ↔
+      r.ring = (X.obj.valuation r.pt).valuation.valuationSubring := sorry
+
+/-- A strict refinement has no identity centre at its original support. -/
+example (X : TauCeti.AdicSpace.{w}) (r : ValuationRing X)
+    (hr : r.ring < (X.obj.valuation r.pt).valuation.valuationSubring) :
+    ¬ r.IsCentre (𝟙 X) r.pt := sorry
+
+/-- A centre is a specialization of the image of the support. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (r : ValuationRing X)
+    (y : Y.obj) (hy : r.IsCentre f y) : f.hom.base r.pt ⤳ y := hy.1
 
 /-- The affinoid criterion for a unique valuation centre (Huber 1996, Lemma 1.3.6). -/
 theorem ValuationRing_affinoid (X : TauCeti.AdicSpace.{w}) (hX : IsAnalytic X)
@@ -1188,6 +1256,29 @@ theorem Etale.iff_ringHom_etale_of_finite (A B : Affinoid.{w}) [IsNoetherianRing
     (hφ : Huber.Pair.Hom.IsFinite φ) (g : B.spa ⟶ A.spa) (hg : Affinoid.IsInducedBy g φ) :
     Etale g ↔ φ.toRingHom.Etale := sorry
 
+/-- For discrete noetherian affinoids, finite presentation and finite plus-ring generation
+identify adic smoothness with algebraic smoothness (Huber 1996, Example 1.6.6(i)). -/
+example (A B : Affinoid.{w}) [DiscreteTopology A.ring] [DiscreteTopology B.ring]
+    [IsNoetherianRing A.ring] [IsNoetherianRing B.ring] [Algebra A.ring B.ring]
+    [Algebra.FinitePresentation A.ring B.ring]
+    (φ : Pair.Hom A.pair B.pair) (hφ : φ.toRingHom = algebraMap A.ring B.ring)
+    (hplus : ∃ s : Finset B.ring, B.pair.plus = (integralClosure
+      (Subring.closure (φ.toRingHom '' (A.pair.plus : Set A.ring) ∪ (s : Set B.ring)))
+      B.ring).toSubring)
+    (g : B.spa ⟶ A.spa) (hg : Affinoid.IsInducedBy g φ) :
+    Smooth g ↔ Algebra.Smooth A.ring B.ring := sorry
+
+/-- Algebraic smoothness over discrete noetherian rings cannot supply adic smoothness when
+the target plus ring has no finite generating set up to integral closure (Huber 1.6.6(i)). -/
+example (A B : Affinoid.{w}) [DiscreteTopology A.ring] [DiscreteTopology B.ring]
+    [IsNoetherianRing A.ring] [IsNoetherianRing B.ring] [Algebra A.ring B.ring]
+    [Algebra.Smooth A.ring B.ring]
+    (φ : Pair.Hom A.pair B.pair) (hφ : φ.toRingHom = algebraMap A.ring B.ring)
+    (hplus : ∀ s : Finset B.ring, B.pair.plus ≠ (integralClosure
+      (Subring.closure (φ.toRingHom '' (A.pair.plus : Set A.ring) ∪ (s : Set B.ring)))
+      B.ring).toSubring)
+    (g : B.spa ⟶ A.spa) (hg : Affinoid.IsInducedBy g φ) : ¬ Smooth g := sorry
+
 /-- The ring-level part of the control showing that the étale package needs Huber's standing
 class: on the ring `E` of eventually constant sequences `ℕ → ℤ/p`, the eventual-value map
 `ε : E → ℤ/p` has kernel the finitely supported sequences, which is not a finitely generated
@@ -1248,10 +1339,31 @@ example (A B : Affinoid.{w}) [DiscreteTopology A.ring] [IsTateRing B.ring]
 example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) [IsEmpty X.obj]
     (hY : HasStablySheafyCharts Y) :
     IsClosedImmersion f ∧ IsProper f ∧ QuasiCompact f ∧ UniversallyClosed f ∧
-      UniversallySpecializing f ∧ IsSeparated f ∧ LocallyQuasiFinite f := sorry
+      UniversallySpecializing f ∧ IsSeparated f ∧ LocallyQuasiFinite f ∧
+      LocallyOfFinitePresentation f := sorry
 
 /-- Flat identities have flat maps at every stalk. -/
 example (X : TauCeti.AdicSpace.{w}) : Flat (𝟙 X) := sorry
+
+/-- An open immersion is flat because it identifies the stalks. -/
+example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y)
+    [TauCeti.PreAdicSpace.IsOpenImmersion f.hom] : Flat f := sorry
+
+/-- Evaluation at zero gives a nonflat origin inclusion into the closed unit disc. -/
+example (K : Type w) [NontriviallyNormedField K] [IsUltrametricDist K]
+    [CompleteSpace K] [NonarchimedeanRing K] [IsHuberRing K]
+    (D P : Affinoid.{w})
+    (eD : D.ring ≃+* restrictedMvPowerSeriesCompletion 1 K)
+    (eP : P.ring ≃+* K)
+    (hcD : Continuous eD) (hiD : Continuous eD.symm)
+    (hcP : Continuous eP) (hiP : Continuous eP.symm)
+    (hpD : D.pair.plus.map eD.toRingHom = powerBoundedSubring _)
+    (hpP : P.pair.plus.map eP.toRingHom = powerBoundedSubring K)
+    (φ : Pair.Hom D.pair P.pair) (g : P.spa ⟶ D.spa)
+    (hφ : ∀ q : MvPolynomial (Fin 1) K,
+      eP (φ.toRingHom (eD.symm (Huber.TateAlgebra.ofMvPolynomial K 1 q))) =
+        MvPolynomial.eval (fun _ : Fin 1 ↦ (0 : K)) q)
+    (hg : Affinoid.IsInducedBy g φ) : ¬ Flat g := sorry
 
 /-- Finite-presentation cancellation through an identity fixes its original morphism. -/
 example {X Y : TauCeti.AdicSpace.{w}} (f : X ⟶ Y) (hX : IsLocallyHuberStandard X)
@@ -1318,6 +1430,11 @@ variable (K : Type w) [NontriviallyNormedField K] [IsUltrametricDist K] [Complet
 
 include hcA hiA hcD hiD hpA hpD hφ hg
 
+/-- The disc structure map is smooth and finitely presented, with the full plus ring,
+but is neither unramified nor étale, and its coefficient map is not algebraically smooth. -/
+example : IsTopologicallyFiniteTypePair φ ∧ LocallyOfFinitePresentation g ∧ Smooth g ∧
+    ¬ Unramified g ∧ ¬ Etale g ∧ ¬ φ.toRingHom.Smooth := sorry
+
 /-- The closed unit disc with plus ring `K°⟨T⟩` is quasi-compact and separated over `Spa K` but
 neither partially proper nor universally closed. -/
 example : QuasiCompact g ∧ IsSeparated g ∧ ¬ IsPartiallyProper g ∧ ¬ UniversallyClosed g :=
@@ -1348,6 +1465,15 @@ theorem isProConstructible_image {X Y : Type*} [TopologicalSpace X] [Topological
     [SpectralSpace X] [SpectralSpace Y] {f : X → Y} {T : Set X}
     (hf : IsSpectralMap f) (hT : IsProConstructible T) :
     IsProConstructible (f '' T) := sorry
+
+/-- The identity preserves every pro-constructible subset of a spectral space. -/
+example {X : Type*} [TopologicalSpace X] [SpectralSpace X] (T : Set X)
+    (hT : IsProConstructible T) : IsProConstructible (id '' T) := sorry
+
+/-- A spectral map has empty pro-constructible image on the empty subset. -/
+example {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    [SpectralSpace X] [SpectralSpace Y] (f : X → Y) (hf : IsSpectralMap f) :
+    f '' (∅ : Set X) = ∅ ∧ IsProConstructible (f '' (∅ : Set X)) := sorry
 
 end
 

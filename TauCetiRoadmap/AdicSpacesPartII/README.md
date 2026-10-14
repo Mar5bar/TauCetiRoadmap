@@ -5772,7 +5772,8 @@ flatness of `O_{Y,f(x)} → O_{X,x}`.
 Tate affinoids `A`, `B`, a pair map `φ : A → B`, its induced morphism `f : Spa B → Spa A`
 and `Flat f`, and concludes `φ.toRingHom.Flat` (Zavyalov-Q, Lemma B.4.3).
 
-Lean: `AdicSpace.Flat`; the squaring Check is an `example`.
+Lean: `AdicSpace.Flat`; the identity, open-embedding, origin and squaring Checks are
+`example`s.
 
 **Checks.**
 
@@ -5895,8 +5896,21 @@ Lean: `AdicSpace.Smooth_affinoid`, `AdicSpace.Smooth`; the disc Check of the lif
 - *Degenerate.* Identities and open embeddings of locally Huber-standard spaces are smooth (they
   are étale, *open-embedding-etale*).
 - *Compatibility.* Over a discrete base (Huber 1.6.6(i)): for `A`, `B`
-  discrete noetherian rings with `B` of finite presentation over `A` and plus rings as in Huber's
-  discrete affinoid rings, `Spa(B, B⁺) → Spa(A, A⁺)` is smooth iff Mathlib's `Algebra.Smooth A B`.
+  discrete noetherian rings with `B` of finite presentation over `A` and `B⁺` the integral
+  closure in `B` of a finitely generated `A⁺`-subalgebra, `Spa(B, B⁺) → Spa(A, A⁺)` is smooth
+  iff Mathlib's `Algebra.Smooth A B`. The plus-ring hypothesis holds in particular for
+  `A⁺ = A`, `B⁺ = B`.
+- *Non-example.* Give `F = Frac(𝔽₂[tᵢ : i ∈ ℤ])` the discrete topology and the monomial
+  valuation with value group `⊕ᵢ∈ℤ ℤ`, ordered lexicographically by the least nonzero index,
+  with `v(tᵢ) = eᵢ`. For its valuation ring `V`, the identity coefficient homomorphism
+  `(F, V) → (F, F)` is algebraically smooth, but its adic morphism is not smooth.
+  For any finite set of field elements, choose `j` smaller than every index in their values.
+  The coarsened valuation retaining coordinates of index at most `j` has a proper valuation
+  ring containing `V` and those elements, but excluding `tⱼ⁻¹`. This integrally closed ring
+  contains the integral closure of the generated `V`-subalgebra, so that closure cannot be `F`.
+
+The discrete comparison and failure of smoothness when no finite plus-ring generating set
+exists are `example`s in [Suggested.lean](Suggested.lean).
 
 For locally Huber-standard source and target, `Smooth.relativeDimension` is the
 locally constant natural-number-valued function obtained by taking the dimension
@@ -7267,6 +7281,9 @@ generates the unit ideal, including the singleton unit cover. Each item is one C
 - The closed unit disc over K is topologically of finite type with the required plus ring, locally of finite presentation and smooth, but its structure map is neither étale nor unramified.
 - In characteristic 2, at a maximal point the disc map T ↦ T² has a bijective Kähler comparison and a free continuous differential stalk of rank one, so vanishing would incorrectly identify a purely inseparable map as unramified.
 
+The chart, centre, empty-section, disjoint-open section, finite-pair, open-quotient and
+disc structure-map Checks are `example`s on the declared carriers in
+[Suggested.lean](Suggested.lean).
 
 The worked examples of this layer are the checks above. On the ring level: the discrete ring
 `ℤ[T₁, T₂, …]`, `ℤ_p⟦T⟧` and `ℂ_p` against the two clauses of noetherian type and the three clauses
