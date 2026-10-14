@@ -5,7 +5,7 @@ on Mathlib's Kähler and exterior-power carriers and derived de Rham cohomology 
 and conjugate filtrations. It develops André–Quillen criteria, filtered completion, divided powers
 and PD envelopes, derived Cartier theory, quasisyntomic descent, proper smooth control and the
 derived description of Fontaine's period rings `A_cris` and `B_dR⁺`. Its logarithmic period
-calculation identifies Fontaine's map `ε ↦ log [ε]` from specified logarithmic comparison data.
+calculation constructs the canonical comparison data and identifies Fontaine's map `ε ↦ log [ε]`.
 The module cotangent, power and completion operations are supplied by DerivedModuleAlgebra.
 
 Derived de Rham cohomology extends differential algebra to singular rings. Its cotangent and power
@@ -47,8 +47,8 @@ divided powers, relative PD polynomial algebras, regular envelopes, their comple
 the ordinary algebraic de Rham complex with its differential-symbol presentation, pullback and
 universal property; derived de Rham with its Hodge and conjugate filtrations, completions and
 base-linear sheaf realizations; derived Cartier theory, PD conjugate filtrations, quasisyntomic
-sites and descent, period-ring descriptions and proper smooth control. The logarithmic period
-classes use the comparison hypotheses stated in §6.21.
+sites and descent, period-ring descriptions and proper smooth control. Section 6.20 constructs
+the restricted logarithmic period comparison data used by §6.21.
 
 It uses, without restating:
 
@@ -68,7 +68,9 @@ It uses, without restating:
   `tateSen_H0` for arbitrary perfect residue fields, and §4.1 `generalBasePeriodRings`
   supplies their period structures. Sections 5.11 and 5.14 identify these supplied interfaces with
   the period setup; §§5.12–5.15 supply the derived-de-Rham/PD-filtered `A_cris` comparison
-  and its `Fil²` vanishing consequence.
+  and its `Fil²` vanishing consequence. Its §3 `periodPDEnvelope` owns the ordinary principal
+  envelope and completed carrier on `O_C`; §PD.7 identifies the general envelope with that
+  carrier, and §5.13 identifies the two maps into its §4.1 de Rham period carrier.
 - **DerivedModuleAlgebra** §1.T.1 / *lim and lim¹ of a tower*, *The six-term sequence of lim
   and lim¹*, *The Milnor sequence for towers of complexes* and *Mittag-Leffler towers have
   vanishing lim¹* for the tower calculations underlying DerivedModuleAlgebra §1.1.
@@ -104,8 +106,10 @@ Boundaries with neighbouring roadmaps:
 - CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
   CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline
   comparisons, derived de Rham–Witt theory and the general logarithmic constructions.
-  It consumes the de Rham, Cartier, descent and PD algebra here. The retained period targets
-  state their required comparison data as hypotheses.
+  It consumes the de Rham, Cartier, descent and PD algebra here, including the raw lci scheme
+  interface of §5.8.1. The restricted period-envelope calculation of §5.12 and the logarithmic
+  period adapter of §6.20 are owned here; the general crystalline and logarithmic comparisons
+  remain in CrystallineCohomology.
 - DifferentialGeometry, Layers 0–6, constructs differential forms on smooth real manifolds; Layer 2
   here constructs algebraic Kähler forms over arbitrary commutative rings. AlgebraicVectorBundles,
   Layer 0, supplies ordinary sheaf tensor, dual and exterior operations; the derived cotangent powers
@@ -260,6 +264,7 @@ proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib
 | [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.4 | `enhancedPullback` and `enhancedPushforward` supply ringed inverse/direct image, adjunction and composition. Section 5.8 transports these to the base coefficient sheaf and its filtered diagrams. |
 | [PadicPeriodRings](../PadicPeriodRings/README.md) §§1.1–1.5 | For finite `K/ℚ_p`, `padicComplexGaloisAction`, `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist` and *The de Rham period rings*: the continuous Galois action, fixed field and nonzero-twist invariants, and the `BDeRhamPlus`/`BDeRham` DVR, residue and graded-twist structure. Sections 5.11, 5.14 and 5.15 use these on their finite-local-field domain and compare their structures with the derived/PD-filtered `A_cris` description of §§5.12–5.13. |
 | [PadicPeriodRings](../PadicPeriodRings/README.md) §2, §4.1 | `PadicFieldCompletion` and `tateSen_H0` supply the completion of the algebraic closure, its continuous action and Tate-twist invariants for complete discretely valued characteristic-zero fields with arbitrary perfect residue field. `generalBasePeriodRings` supplies the period structures and their agreement with its specializations to finite extensions `K/ℚ_p`. Sections 5.11 and 5.14 identify these with Mathlib's period carriers; §5.15 derives the `Fil² A_cris` vanishing from these inputs and §§5.12–5.14. |
+| [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | `periodPDEnvelope`: the ordinary principal envelope on `O_C`, its completed carrier, initial property, `θ_cris`, logarithm and functorial maps. Section PD.7 identifies its general envelope specialization with this carrier; §5.13 identifies the derived period map with the supplied §4.1 map. |
 | [DGAInfinity](../DGAInfinity/README.md) Layer 1 | Unital cochain DG algebras, DG morphisms, tensor products, units and Koszul signs. Section 2.21 defines strict graded commutativity and odd-square-zero conditions on this carrier; §§2.22 and 2.27 use its strict affine models. |
 | [PerfectoidSpaces](../PerfectoidSpaces/README.md) §P4.15.1 | `semiperfectoidFiniteIdealDescent` supplies derived module models over simplicial commutative bases, their derived tensors, mapping complexes and compatible Koszul systems. Section 1.11.1 uses this adapter for connective square-zero kernels. Its module inputs are DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9. |
 | [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §1.E.1 | `perfectInverseSystemEffectivity`: compatible perfect complexes over a surjective ring tower with locally nilpotent kernels have a perfect derived limit with the specified derived reductions (Stacks Tag 0CQG). Section 1.13 derives finite-stage perfectness from `K₁` by nilpotent lifting and adds derived completeness and pseudo-coherence. |
@@ -2867,6 +2872,41 @@ Mathlib `WittVector.map`; Mathlib `WittVector.eq_of_apply_teichmuller_eq`.
   free R♭/(ξ̄^p)-module on the classes of the γ_(jp)(ξ), j≥0; in particular the kernel of
   R♭=𝕎(R♭)/p→A_cris(R)/p is (ξ̄^p).
 
+**Specialization to the ordinary period envelope.** Let `C` be a complete algebraically closed
+nonarchimedean field of characteristic zero and residue characteristic `p`, and let `O_C` be its
+valuation ring. Use PerfectoidSpaces §§P1.17–P1.18 to identify `A_inf` and `θ` with the data of
+PadicPeriodRings §3 `periodPDEnvelope`. Construct
+`Crystalline.fontaineEnvelope_periodPDEnvelope`: the unique `A_inf`-algebra isomorphism from
+`D(O_C)` to that ordinary principal envelope, and its extension between their separated p-adic
+completions. Construct the maps in both directions by their base-compatible PD universal
+properties; uniqueness makes their composites identities. The isomorphisms preserve the full
+PD ideal `J = J₀ + pD`, its powers, and separately the small ideal `J₀` generated by `ker θ`
+and its PD filtration, including their closures after completion. Thus they preserve the Hodge
+filtration coming from `J₀`; its first quotient is `O_C`, whereas the quotient by `J` is `O_C/p`.
+
+Prove compatibility with the `A_inf` structure map, `θ_cris`, every divided power, the
+ordinary completion maps, and functorial maps of Fontaine data. The completed isomorphism carries
+each convergent logarithm of §5.11 to the same series in the supplied carrier. For the period
+setup of §5.11 it also intertwines the supplied Witt Frobenius and `G_K` actions by uniqueness on
+the uncompleted envelope and continuity. Section 5.13 compares the maps from these carriers to
+`B_dR⁺`.
+
+*Source:* [Bhatt12], Proposition 9.9, p.35; [Fon94], Theorem 2.2.1 and §§2.3.1–2.3.4,
+pp.76–79; Stacks, Lemma 60.2.1, Tag 07H8 (the envelope universal property).
+*Needs:* §PD.7 `Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_identify`
+and `Crystalline.fontaineEnvelope_eq_trivialBase`; §PD.6 completed-envelope lift and uniqueness;
+PerfectoidSpaces §§P1.17–P1.18; PadicPeriodRings §3 `periodPDEnvelope` and §4.1
+`generalBasePeriodRings` for the actions.
+
+**Checks.**
+
+- `test_period_envelope_theta`: both composites from `A_inf` are `θ`, and the two completed
+  `θ_cris` maps agree, with quotient `O_C`, including `p = 2`.
+- `test_period_envelope_generator`: replacing `ξ` by `uξ`, `u ∈ A_infˣ`, gives the same
+  comparison fixing `A_inf`; the images of all `γ_n(ξ)` agree before and after completion.
+- `test_period_envelope_log`: for a nontrivial compatible root system the two p-adically
+  convergent logarithms agree term by term and in their limits, also at `p = 2`.
+
 ## Layer 2: Ordinary and derived de Rham cohomology
 
 *Presenting differential forms.*
@@ -4327,9 +4367,9 @@ base-linear.
 Define the Hodge-completed global object `DerivedDeRham.deRhamSheaves` by
 `Rlim_m RΓ(X_Zar, Q_m)`. An affine hypercover with finitely many affine components in each degree
 computes each `RΓ(X_Zar, Q_m)` by totalizing the affine values, using finite Hodge-quotient descent
-before taking the Hodge limit. It has `gr_H^i = RΓ(X, L∧^i L_(X/A))[−i]`. The uncompleted functor can
-be totalized separately; recovering its raw affine values requires the uncompleted descent theorem
-for the quasisyntomic sites and is not asserted for arbitrary unbounded flat totalizations. For
+before taking the Hodge limit. It has `gr_H^i = RΓ(X, L∧^i L_(X/A))[−i]`. Section 5.8.1 supplies a
+separate raw sheaf object and affine recovery in the nilpotent-p lci range. Neither construction
+asserts arbitrary unbounded flat descent. For
 p-adic formal schemes use the p-complete charts `Spf B` of SchemeAndStackFoundations §4.7, derived
 reductions and Hodge/p-completions in the same base-linear sheaf categories.
 
@@ -4417,6 +4457,69 @@ Prove the following named laws.
   base; properness is essential to the perfectness theorem for proper smooth schemes ([Bhatt12],
   Corollary 3.10, p.8; differentiate `t^n` explicitly).
 
+### 5.8.1 Raw lci derived de Rham on schemes
+
+**Raw lci sheaves and realization.** Fix a prime `p` and `n ≥ 1`. Let `f : X → S` be an lci
+morphism of flat `ℤ/p^n`-schemes, with lci meaning locally finitely presented and locally a regular
+immersion into a smooth scheme. The relative map need not be flat. Construct
+`DerivedDeRham.rawLciDeRhamSheaves` in `D(X_Zar, f⁻¹O_S)`, with its uncompleted Hodge filtration,
+by gluing the raw direct-sum polynomial-resolution models. Its derived global sections over
+`S = Spec A` lie in `D(A)`. Construct this locally on quasi-compact quasi-separated opens and
+glue to arbitrary `X` by Zariski descent. There is a canonical filtered map to the Hodge-completed
+sheaf object of §5.8, agreeing with completion on each affine chart.
+
+Prove the following laws in this range.
+
+- `rawLciDeRhamAffine`: for `U = Spec B ⊆ X` over `V = Spec A ⊆ S`, derived sections on `U`
+  recover raw `dR_(B/A)`, with its filtration, not its Hodge completion.
+- `rawLciDeRhamLocalization`: restriction to `D(b) ⊆ Spec B` is the canonical map
+  `dR_(B/A) → dR_(B[1/b]/A)`. Modulo `p` it is localization of the levelwise Frobenius-twisted
+  polynomial model of §§3.2–3.5; retain the derived twist when it is nondiscrete. Finite
+  p-dévissage gives the restriction law for `ℤ/p^n`. These maps satisfy Zariski descent and
+  agree under restriction of affine base charts.
+- `rawLciDeRhamRealization`: the Čech totalizations for finite Zariski covers of a
+  quasi-compact quasi-separated open, resolving their intersections by affine opens, recover
+  its derived sections. Affine refinements induce canonical isomorphisms in the base-linear
+  derived category, independent of the refinement map and compatible with composition.
+  The strict-model realization and the ringed-site realization of §5.8 agree for these raw
+  objects, their Hodge stages, finite quotients and filtration cofibres.
+- `rawLciDeRhamCup`: affine shuffle multiplication induces the ringed-site cup product,
+  with `F_H^i ⊗^L F_H^j → F_H^(i+j)` over the base coefficient sheaf. It is unital,
+  associative and graded-commutative in the derived category, and compatible with restriction,
+  refinement, pullback within the stated range and the map to Hodge completion.
+
+For localization and descent modulo `p`, use the conjugate stages and their cotangent-power
+graded pieces. On a chart factoring through a smooth algebra with a regular sequence of length
+`c`, the twisted graded pieces `((L∧^i L_(B/A))[−i]) ⊗^L_(A,Frob_A) A` have a common lower
+cohomological bound `−c`: before twisting the shifted lci powers have terms in `[0,i]`, and
+`B` has Tor amplitude in `[−c,0]` over `A`. On a finite affine cover choose a common bound.
+The quasi-coherent twisted graded pieces satisfy affine Zariski descent; the same bound controls
+the exhaustive conjugate colimit and its Čech realization. Apply finite p-dévissage using
+flatness of both coefficient schemes over `ℤ/p^n`. No relative `qSyn_A` membership or arbitrary
+faithfully flat totalization is used. The Hodge-stage assertions follow from their triangles
+with finite Hodge quotients.
+
+*Source:* [Bhatt12], Proposition 3.5 and Corollary 3.14, pp.7–9 (Cartier and localization),
+Theorem 3.27, Lemma 3.29 and Remark 3.33, pp.13–15 (the lci range and raw boundary);
+[StacksCoh] §20.25, Tag 01FP (Čech realization and refinement).
+*Needs:* §§2.22–2.24, 3.2–3.5 and §5.8 base-linear realization and cup products;
+DerivedModuleAlgebra §§0.9–0.14, 0.17 (derived twists, localization, regular quotients and powers);
+SchemeAndStackFoundations §§2.5, 2.18; EnhancedDerivedSheaves §§0.1–0.3, E1.4.
+
+**Checks.**
+
+- `test_raw_lci_hodge_completion`: for `A = F_p[t] → B = F_p`, `t ↦ 0`, raw `dR` is
+  `⊕_(j≥0) F_p·γ_j(t)`, whereas Hodge completion is `∏_(j≥0) F_p·γ_j(t)`. The series with every
+  coefficient equal to 1 is outside the image of completion. The representative Lean theorem
+  states this failure of surjectivity of the finite-support inclusion. Derived p-completion
+  leaves both characteristic-p objects unchanged.
+- `test_raw_lci_refinement`: over `A = F_p[t]`, take `B = F_p[s]` with `t ↦ 0`. The cover
+  `D(s), D(1−s)` and its refinement `D(s²), D(s(1−s)), D((1−s)²)` give the same raw Čech
+  realization. On their overlaps the comparison is the canonical localization of the twisted
+  model, preserves `γ_j(t)` and the product, and commutes with the map to the Hodge limit.
+- `test_raw_lci_nonflat`: `F_p[t] → F_p[t]/(t²)` lies in this interface although the relative
+  map is nonflat and the target is singular. Both coefficient rings are flat over `F_p`.
+
 ### 5.11 The period setup
 
 Let `k` be a perfect field of characteristic `p`, `W = W(k)`, `K` a finite extension of `W[1/p]`, `K̄` an
@@ -4426,8 +4529,10 @@ unit. `G_K = Field.absoluteGaloisGroup K` acts on `K̄`, on `O_K̄` and, by cont
 automorphisms; all Galois actions below are the functoriality of the constructions in these ring
 automorphisms. Put `A_inf = 𝕎(O_C♭)` with `O_C♭ = PreTilt O_C p` and `θ = WittVector.fontaineTheta O_C p`
 (Mathlib); `θ` is surjective (`surjective_fontaineTheta`) and `ker θ` is generated by a primitive
-nonzerodivisor `ξ` (PerfectoidSpaces §P1.18). `A_cris = A_cris(O_C)` is §PD.7 here
-with `θ_cris`, and `B_dR⁺ = BDeRhamPlus O_C p`, `B_dR = BDeRham O_C p` (Mathlib). Define
+nonzerodivisor `ξ` (PerfectoidSpaces §P1.18). Use §PD.7
+`Crystalline.fontaineEnvelope_periodPDEnvelope` to identify the general `A_cris(O_C)` with
+PadicPeriodRings §3's ordinary completed carrier, with the same `θ_cris`.
+Put `B_dR⁺ = BDeRhamPlus O_C p`, `B_dR = BDeRham O_C p` (Mathlib). Define
 `Z_p(1) = {ε ∈ O_C♭ : ε^♯ = 1}`, `DerivedDeRham.compatibleRootsOfUnity`, the kernel of the untilt
 `PreTilt.untilt : O_C♭ →* O_C`, written additively; it is the group of compatible systems `(ε_n)` of
 `p^n`-th roots of unity in `O_C`, a free `ℤ_p`-module of rank one on which `G_K` acts through the
@@ -4462,17 +4567,27 @@ PadicPeriodRings §2 `PadicFieldCompletion`, §4.1
 
 In the period setup, `Λ_p dR_(O_K̄/W) ≃ Λ_p dR_(O_C/W) ≃ Λ_p dR_(O_C/A_inf) ≃ A_cris`. The Hodge
 filtration is the completed PD filtration, the map `A_inf → A_cris` is the PD structure map, and the
-equivalence preserves Frobenius and the `G_K` action. Assume the completed regular-envelope
-comparison for the principal nonzerodivisor `ξ`:
+equivalence preserves Frobenius and the `G_K` action. Construct the restricted period theorem
+`DerivedDeRham.periodRegularEnvelopeComparison` for the principal nonzerodivisor `ξ`:
 `Λ_p dR_(O_C/A_inf) ≃ D̂_(A_inf)((ξ))`, filtered by completed divided powers, compatible with
 Frobenius, the structure map and the `G_K` action. The PD envelope and its completion are those
-of §PD.6. This hypothesis is the specialization of CrystallineCohomology §§CR.DDR.4.3,
-CR.DDR.4.4 and CR.DDR.5.10 used in the period calculation.
+of §PD.6 over the trivial PD ideal, identified with the base-compatible envelope by §PD.7(b).
+For this principal period theorem, reduce modulo `p^n`; both `A_inf/p^n` and `O_C/p^n` are flat
+over `ℤ/p^n`, and `ξ` remains regular. Base change the one-variable polynomial-resolution
+calculation of [Bhatt12] Lemma 3.29 and Corollary 3.40 to obtain the regular-envelope map and
+its filtered equivalence at each level, using their polynomial/PD calculations directly.
+Pass to the derived p-limit using p-torsion-freeness of the envelope. Through
+`Crystalline.fontaineEnvelope_periodPDEnvelope`, transport the Witt Frobenius supplied by
+PadicPeriodRings §4.1 to the period derived object, with its semilinearity over `W`.
+Naturality gives the Galois compatibility.
+This owns only the principal period specialization; the general crystalline comparison remains
+in CrystallineCohomology.
 
 Prove `L̂_(A_inf/W) = 0` by the relatively perfect mod-p calculation ([Bhatt12] Proposition
 9.3(2)); transitivity and §2.28 identify `Λ_p dR_(O_C/W)` with `Λ_p dR_(O_C/A_inf)`.
-The supplied regular-envelope equivalence then identifies this with `A_cris(O_C)` by
-§PD.7 `Crystalline.fontaineEnvelope_identify`. The integral perfectoid generalization retains
+The period regular-envelope equivalence then identifies this with `A_cris(O_C)` by
+§PD.7 `Crystalline.fontaineEnvelope_identify` and `Crystalline.fontaineEnvelope_periodPDEnvelope`.
+The integral perfectoid generalization retains
 p-torsion-freeness, relative perfectness mod p and the same filtered regular-envelope hypothesis
 ([Bhatt12] Remarks 9.6 and 9.10 take p-adically complete flat `O_C`-algebras).
 A perfect `F_p`-algebra `R` has `θ`-kernel `(p)` and is excluded from this period assertion.
@@ -4481,12 +4596,12 @@ Given the derived-Witt identification of CrystallineCohomology §CR.DDR.4.5, thi
 `LWΩ_R`; this conditional identification makes no assertion about `Λ_p dR_(R/W(k))`.
 
 [Bhatt12], Proposition 9.3(2)–(5), Remark 9.6, Definition 9.7, Proposition 9.9, Remark 9.10, pp.34–35;
-Corollary 8.6, p.32.
+Lemma 3.29 and Corollary 3.40, pp.13–17; Lemma 8.3 and Corollary 8.6, pp.31–32.
 
 *Needs:* Layer 5: The period setup; Layer 4: The torsion boundary for F_p over Z_p;
 DerivedModuleAlgebra §§0.13, 0.8, 1.1–1.5; Layer 2: p-completed derived de Rham; Layer 2: Derived de
-Rham transitivity filtrations; §§PD.6–PD.7 here; the filtered, Frobenius- and Galois-compatible
-regular-envelope equivalence specified above as a hypothesis.
+Rham transitivity filtrations; §§PD.6–PD.7 here. The principal period regular-envelope
+equivalence is constructed here; its generalization retains the stated regular-envelope hypothesis.
 
 Lean: `DerivedDeRham.acrisDerivedDescription`.
 
@@ -4509,13 +4624,25 @@ not identified with inversion outside the limit. The composite `A_cris → B_dR�
 identification is the natural map; it preserves the filtrations and the `G_K` action, and `B_dR` is
 `BDeRham O_C p`.
 
-[Bhatt12], Remark 9.17, p.38.
+Prove `DerivedDeRham.periodMapComparison`: writing `ι` for the completed isomorphism
+`Crystalline.fontaineEnvelope_periodPDEnvelope` and `j_ord` for PadicPeriodRings §4.1's map,
+the derived/Hodge map is `j_ord ∘ ι` in the same Mathlib `BDeRhamPlus O_C p` carrier. On the
+uncompleted PD subalgebra both maps send `γ_n(ξ)` to `ξ^n/n!`. Their maps to each Hodge quotient
+are p-adically continuous, so equality extends through p-completion and the Hodge limit.
+The square commutes with `θ` on plus carriers, with the `G_K` action and functorial valued
+embeddings of the period data, and with the Hodge/PD filtrations. The source identification
+intertwines Witt Frobenius; the equality of maps also holds after precomposing with that
+Frobenius. These statements require no Frobenius endomorphism of `B_dR⁺`.
+
+[Bhatt12], Proposition 9.9 and Remark 9.17, pp.35, 38; [Fon94], §§2.3.1–2.3.4 and §4.1,
+pp.78–79, 83–84.
 
 *Needs:* Layer 5: The derived de Rham description of A_cris; Layer 2: Hodge-completed derived de
 Rham; Layer 1: Valid exchanges of completion and derived operations; Layer 1: Completion of a
 filtered object; Mathlib `BDeRhamPlus`, `BDeRham`, `fontaineThetaInvertP`; DerivedModuleAlgebra §1.1
 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of
-complexes*.
+complexes*; §PD.7 `Crystalline.fontaineEnvelope_periodPDEnvelope`; PadicPeriodRings §§3, 4.1
+(`periodPDEnvelope`, `generalBasePeriodRings`, including the ordinary period map).
 
 Lean: `DerivedDeRham.rationalHodgePeriodComparison`.
 
@@ -4528,6 +4655,10 @@ Lean: `DerivedDeRham.rationalHodgePeriodComparison`.
   completion (`test_p_derham_inverted`, 2.26): these give zero and `ℚ_p`, respectively.
 - `test_bdr_theta_compatible`: the composite `A_inf → A_cris → B_dR⁺ → B_dR⁺/Fil¹` is `θ` followed by
   the inclusion `O_C ⊂ C`.
+- `test_period_map_dp`: after the carrier identification, both period maps send `γ_n(ξ)` to
+  `ξ^n/n!` and the convergent `log[ε]` to the same `t`, including `p = 2`.
+- `test_period_map_generator`: replacing `ξ` by a unit multiple leaves the commuting square
+  unchanged; precomposing either route with Witt Frobenius gives equal maps as well.
 
 ### 5.14 The structure of B_dR⁺ and the filtered embedding of A_cris
 
@@ -4834,7 +4965,77 @@ perfectness and arbitrary base change of proper pushforward; Mathlib supplies `W
 
 ## Layer 6: Logarithmic period classes
 
-The period calculation uses explicit logarithmic comparison data as hypotheses.
+The restricted period adapter constructs the canonical comparison data; the final identification
+also has a conditional form for any logarithmic models carrying those data.
+
+### 6.20 The canonical logarithmic period adapter
+
+**Canonical period comparison data.** In precisely the period setup of §5.11, put
+`can = (O_K̄ ∖ {0} → O_K̄)`, with trivial base prelog structure on `W`. Construct
+`DerivedDeRham.periodLogComparisonData`, consisting of the following canonical maps and their
+compatibilities, for every perfect residue field `k` and every prime `p`, including `p = 2`.
+The logarithmic constructions required for this adapter are local targets here on these period
+prelog rings, their valuation charts and compatible derived reductions.
+
+Construct their Gabber log cotangent complexes and raw log derived de Rham objects using free
+simplicial prelog resolutions: ordinary generators give polynomial variables, and log generators
+give a free commutative monoid mapping to the corresponding polynomial variables. The log
+differentials impose `dα(m) = α(m) d log m` and `d log(mm′) = d log m + d log m′`.
+Their exterior algebra, direct-sum realization, Hodge filtration and closed `d log` map give
+the required period models, with resolution independence and naturality. Construct their
+modulo-p derived conjugate filtration by the free-coordinate Cartier calculation, including
+`C⁻¹(d log m) = [d log m]`. Use derived ring and monoid pushouts throughout. Prove the
+restricted cotangent transitivity/base-change and integral logification invariance needed for
+these charts; de Rham logification is used only modulo `p^n` and after p-completion.
+
+- `periodLogCotangentComparison`: the map induced by adding `can` is an equivalence
+  `Λ_p L_(O_K̄/W) → Λ_p L_log((O_K̄, can)/W)`. Prove it for this canonical map, not by choosing
+  an abstract isomorphism. After logifying the trivial structure to the unit group, the
+  quotient of the canonical monoid by units is its uniquely p-divisible rational valuation
+  monoid. Prove the relative log cotangent vanishing modulo `p` for this group inclusion,
+  using its free prelog resolution and p-divisibility as in [Bhatt12] Remark 9.12. Transitivity,
+  finite p-dévissage and derived completion give the asserted map and its completed-ring version.
+- `periodLogDeRhamComparison`: the canonical map
+  `Λ_p dR_(O_K̄/W) → Λ_p dR_log((O_K̄, can)/W)` is an equivalence; compose its inverse with
+  §5.12 to identify the log object with the actual `A_cris` carrier of §5.11. On derived
+  reductions compare the exhaustive conjugate filtrations and their derived cotangent powers.
+  Establish equivalence by the conjugate colimits, then finite p-dévissage and the p-limit.
+  This avoids reconstruction from Hodge graded pieces without Hodge completeness. The
+  Hodge filtrations correspond through the canonical map and §5.12's completed PD comparison.
+- `periodLogDLogFirstGraded`: let `I = ker θ ⊆ A_inf`. Under the canonical transitivity
+  isomorphism `ψ : I/I² ≃ Λ_p L_(O_K̄/W)[−1]` of [Bhatt12] Proposition 9.3(5), the class
+  of `[ε] − 1` maps to `lim_n d log(ε_n)`. At level `p^n`, this is the connecting-map
+  formula `ψ_n([ε] − 1) = ε_n⁻¹ dε_n` in `Ω¹_(O_K̄/W)[p^n]`; the inverse system uses
+  multiplication by `p` on these torsion differentials. Prove that the first Hodge graded
+  map of the completed log `d log` is this same class. Use the explicit transitivity
+  boundary of Remark 9.4, including the identification of the completed cotangent complex
+  with completed differentials in this ind-lci period setup, rather than a dimension argument.
+
+All these maps commute with valued embeddings of the period data, `G_K`, the canonical
+completion maps and products. They preserve the Hodge/PD filtrations and the conjugate
+filtrations on reductions. Any rational-power chart used in a proof gives the same canonical
+maps; chart changes do not change `ψ` or the resulting first graded map.
+
+*Source:* [Bhatt12], Definition 5.6, Definitions 6.1, 6.3, 6.8, Proposition 6.9, Proposition 7.4
+and Corollary 7.5, pp.23–29; Proposition 9.3(5), Remark 9.4, Proposition 9.11, Remark 9.12,
+Proposition 9.13,
+Construction 9.15 and Proposition 9.16, pp.34–38.
+*Needs:* §§2.21–2.26, 3.2–3.5, 5.11–5.12; DerivedModuleAlgebra §§0.1, 0.3, 0.8–0.10,
+0.14, 1.1–1.5; PerfectoidSpaces §§P1.17–P1.18; §PD.7. The restricted free prelog resolutions,
+log differential, cotangent, Cartier and logification statements used above are part of this target.
+
+**Checks.**
+
+- `test_period_log_qp`: for `K = ℚ_p`, take a generator `ε` of `Z_p(1)` with `ε_1` primitive.
+  The actual boundary `ψ_n([ε] − 1) = ε_n⁻¹ dε_n` holds for all `n`, and its limit is nonzero.
+  At `p = 2`, use the compatible system through primitive fourth roots and higher roots;
+  the conclusion holds even when a differential at an early finite level is zero.
+- `test_period_log_general_residue`: for any perfect `k`, including `k = F_p(u)ᵖᵉʳᶠ`, and
+  finite `K/W(k)[1/p]`, the same canonical comparisons and a nontrivial root system give the
+  same boundary formula. No finite-extension-of-`ℚ_p` hypothesis is introduced.
+- `test_period_log_chart`: two choices of compatible rational powers of a uniformizer induce
+  the same completed ordinary/log map and the same `ψ`; adding the identity root system
+  gives the zero class, whereas a Tate generator has nonzero first graded class.
 
 ### 6.21 Logarithmic period d log and Fontaine's map
 
@@ -4845,8 +5046,7 @@ cotangent map is a p-completed equivalence; the conjugate graded comparison is o
 its derived exterior powers and reconstructs the p-completed de Rham objects by convergent
 dévissage; and the first Hodge graded `d log` class is the class of `[ε] − 1` in
 `ker θ/(ker θ)²`. Require compatibility with the `G_K` action, products, completion and the
-PD filtration on `A_cris`. These are the special period inputs of CrystallineCohomology
-§§CR.DDR.6.7, CR.DDR.6.9, CR.DDR.6.10 and CR.5.5, stated here as hypotheses.
+PD filtration on `A_cris`. These hypotheses are supplied by §6.20 on the period setup.
 Under these hypotheses,
 `Λ_p L_(O_K̄/W) ≃ Λ_p L_log((O_K̄, can)/W)` and `Λ_p dR_log((O_K̄, can)/W) ≃ A_cris` ([Bhatt12] Proposition
 9.11, proved by dévissage and the conjugate filtration from the cotangent statement). Completing
@@ -4861,7 +5061,7 @@ Remark 9.4), so their difference is a `G_K`-equivariant map into `Fil² A_cris`,
 *Needs:* Layer 5: The period setup; Layer 5: The derived de Rham description of A_cris; Layer 5:
 Hodge completion and B_dR⁺; Layer 5: Galois invariants of Tate twists; DerivedModuleAlgebra §1.3 The
 derived completion reflector; §§PD.4–PD.7 here; the logarithmic objects, convergent comparison and
-first graded `d log` data stated above as hypotheses.
+first graded `d log` data stated above as hypotheses; §6.20 for the canonical instantiation.
 
 Lean: `DerivedDeRham.logPeriodDlog`.
 
@@ -4871,6 +5071,10 @@ Prove the following named laws.
 - `periodDLogTate`: `β : Z_p(1) → Fil_H¹ A_cris` is `G_K`-equivariant.
 - `periodDLogFormula`: `β(ε) = log([ε])` in `A_cris`.
 - `periodDLogFirstGraded`: the first Hodge graded map is the completed `d log` cotangent class.
+- `periodDLogCanonical`: apply these conditional laws to `periodLogComparisonData` of §6.20.
+  The canonical completed `d log` of the actual period prelog ring equals Fontaine's map
+  for every `K` in §5.11, with no logarithmic comparison hypotheses remaining. Under
+  `Crystalline.fontaineEnvelope_periodPDEnvelope` this is also PadicPeriodRings §3's logarithm.
 
 **Checks.**
 
@@ -4878,25 +5082,34 @@ Prove the following named laws.
 - `test_period_dlog_roots`: `β(ε^a) = aβ(ε)` for `a ∈ ℤ_p`, and `G_K` acts through the cyclotomic character.
 - `test_period_dlog_logarithm_domain`: an `A_inf` unit `[x]` with `θ([x]) = x^♯ ≠ 1` is not assigned this
   `Fil_H¹` logarithm by the construction.
+- `test_period_dlog_canonical`: for a nontrivial Tate generator over `ℚ_p`, including `p = 2`,
+  and over `W(k)[1/p]` for arbitrary perfect `k`, the constructed `β` has the nonzero first
+  graded class of §6.20 and equals `log[ε]` in the identified ordinary carrier.
 
 ### Examples
 
 The root-of-unity identity maps to `log(1) = 0`. Multiplication of compatible root systems
-becomes addition of logarithms under the hypotheses of §6.21.
+becomes addition of logarithms for the canonical period adapter of §6.20.
 
 ### Dependencies
 
 Layers 1, PD and 5 and DerivedModuleAlgebra §1.3 supply completion, the filtered period object and
-the Tate-invariant vanishing. Section 6.21 states its logarithmic inputs as hypotheses.
+the Tate-invariant vanishing. Section 6.20 constructs the restricted logarithmic inputs, and
+§6.21 applies its conditional identification to them.
 
 ## Downstream consumers
 
 CrystallineCohomology consumes filtered completion (§§1.13–1.17, 1.22–1.23), ordinary and
 formal de Rham (§§2.12, 2.21, 2.27), Cartier theory (§§3.4, 3.6–3.6.1), quasisyntomic descent
-(§§5.1–5.8, 5.16–5.17), PD algebra (PD.1–PD.2, PD.4–PD.7) and the Teichmüller-quotient
+(§§5.1–5.8.1, 5.16–5.17), PD algebra (PD.1–PD.2, PD.4–PD.7) and the Teichmüller-quotient
 calculation (§5.19). Its §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
 CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 construct the crystalline,
-Witt and general logarithmic comparisons on these inputs. Prismatic and `A_inf`-cohomology,
+Witt and general logarithmic comparisons on these inputs. Its §§CR.DDR.5.8–CR.DDR.5.9 use
+`rawLciDeRhamSheaves`, `rawLciDeRhamAffine`, `rawLciDeRhamRealization` and `rawLciDeRhamCup`
+of §5.8.1 for the uncompleted lci comparison; `schemeDeRhamAffine` of §5.8 recovers the
+completed object. Its general logarithmic theory can use the restricted period adapter
+`periodLogComparisonData` and `periodDLogCanonical` of §§6.20–6.21 for the period specialization.
+Prismatic and `A_inf`-cohomology,
 p-adic Hodge theory and motivic and K-theoretic applications use cotangent powers,
 quasisyntomic descent, period identifications and the differential-symbol API.
 

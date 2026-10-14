@@ -20,7 +20,8 @@ Design choices made explicit here:
   forms, with existence and uniqueness stated as theorems.
 * Affine derived statements live in Mathlib's `DerivedCategory (ModuleCat A)`. Global de Rham
   sheaf objects and finite Hodge quotients live in `DerivedCategory (SheafOfModules R)` for the
-  base coefficient sheaf `R`, with the filtered diagram version of README 5.8; cotangent powers
+  base coefficient sheaf `R`, with the filtered diagram version of README 5.8 and the raw lci
+  realization of README 5.8.1; cotangent powers
   and Hodge graded pieces also have quasi-coherent `O_X`-module structures. Derived completeness is the
   vanishing of all morphisms from shifted localizations, as supplied by DerivedModuleAlgebra §1.2.
   The cotangent complex, module completion and derived powers are supplied by DerivedModuleAlgebra;
@@ -31,6 +32,9 @@ Design choices made explicit here:
   derived categories and the explicit localization-vanishing condition where needed.
 * `Z_p(1)` is the kernel of Mathlib's untilt `PreTilt.untilt`, and `A_inf`, `θ` and `B_dR⁺` are
   Mathlib's `WittVector p (PreTilt O p)`, `WittVector.fontaineTheta` and `BDeRhamPlus`.
+  README PD.7 and 5.13 identify the general envelope and derived period map with the ordinary
+  carrier and map of PadicPeriodRings §§3–4.1. README 6.20 constructs the canonical period
+  logarithmic comparison data used to instantiate the conditional statement of README 6.21.
 -/
 
 
@@ -535,6 +539,10 @@ PD.7 The crystalline period ring:
 Crystalline.fontaineEnvelope_initial; Crystalline.fontaineEnvelope_theta;
 Crystalline.fontaineEnvelope_identify; Crystalline.fontaineEnvelope_eq_trivialBase;
 Crystalline.fontaineEnvelope_wittResidue; Crystalline.fontaineEnvelope_map.
+Crystalline.fontaineEnvelope_periodPDEnvelope identifies the generic envelope on O_C and its
+p-adic completion with PadicPeriodRings §3's periodPDEnvelope, preserving A_inf, θ_cris, the full
+base-compatible PD ideal and the separate small Hodge ideal, powers, completion, functorial maps
+and logarithms. In the period setup it also intertwines Witt Frobenius and Galois actions.
 
 PD.AdditivePowers.ext; PD.convolution_eq_coeff_exp_mul;
 Crystalline.PDEnvelope.lift; Crystalline.PDEnvelope.quotient; Crystalline.PDEnvelope.map;
@@ -949,8 +957,8 @@ end DerivedDeRham
 namespace DerivedDeRham
 
 /-- The derived category of sheaves of modules over the base coefficient ring sheaf. Global
-de Rham objects and finite Hodge quotients use this carrier; README 5.8 compares it with the
-operations of EnhancedDerivedSheaves §§0.1–0.4. -/
+de Rham objects, raw lci objects and finite Hodge quotients use this carrier; README 5.8–5.8.1
+compares it with the operations of EnhancedDerivedSheaves §§0.1–0.4. -/
 abbrev baseLinearSheafDerived {C : Type} [SmallCategory C] {J : GrothendieckTopology C}
     (R : Sheaf J RingCat.{0}) :=
   letI := HasDerivedCategory.standard (SheafOfModules.{0} R)
@@ -963,6 +971,14 @@ abbrev baseLinearFilteredDerived {C : Type} [SmallCategory C] {J : GrothendieckT
     (R : Sheaf J RingCat.{0}) :=
   letI := HasDerivedCategory.standard (ℤᵒᵖ ⥤ SheafOfModules.{0} R)
   DerivedCategory (ℤᵒᵖ ⥤ SheafOfModules.{0} R)
+
+/-- The finite-support inclusion from the raw divided-power vector space to its Hodge
+completion is not surjective: the constant coefficient sequence `1` is outside its image.
+These are the underlying carriers for `dR_(F_p/F_p[t])` and its Hodge completion, respectively
+(README 5.8.1; Bhatt, Lemma 3.29 and Remark 3.33). -/
+theorem test_raw_lci_hodge_completion (p : ℕ) [Fact p.Prime] :
+    ¬ Function.Surjective (fun v : ℕ →₀ ZMod p => (v : ℕ → ZMod p)) := by
+  sorry
 
 /-- **`Z_p(1)`**, the compatible systems of p-power roots of unity of a p-adically complete ring
 `O`: the kernel of Mathlib's untilt `PreTilt O p →* O`, written multiplicatively (README 5.11). -/
@@ -1010,10 +1026,26 @@ using PerfectoidSpaces §P4.15.1, the adic `perfectSystemEffective` adapter to D
 PD conjugate filtrations, quasisyntomic sites, proper smooth control and period descriptions.
 The base-linear sheaf and filtration adapters compare EnhancedDerivedSheaves §§0.1–0.3 and E1.4;
 `schemeDeRhamRealization` and `schemeDeRhamCup` supply realization and cup products.
+README 5.8.1 constructs `rawLciDeRhamSheaves`, with `rawLciDeRhamAffine`,
+`rawLciDeRhamLocalization`, `rawLciDeRhamRealization` and `rawLciDeRhamCup`, for lci maps of flat
+Z/p^n-schemes, n ≥ 1, without relative flatness. These recover raw affine values and are compatible
+with Zariski restriction and refinement, base-linear realization, products, Hodge stages and
+the map to completion; `schemeDeRhamAffine` of README 5.8 recovers Hodge completion.
 CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
 CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline comparisons,
-derived de Rham–Witt and general logarithmic theory. README 5.12 and 6.21 state the required
-regular-envelope and logarithmic comparison data as hypotheses of their period calculations.
+derived de Rham–Witt and general logarithmic theory. README 5.12 constructs the principal period
+`periodRegularEnvelopeComparison` and `acrisDerivedDescription`; its integral perfectoid
+generalization retains the regular-envelope hypothesis. README 6.20 constructs the restricted
+`periodLogComparisonData`, `periodLogCotangentComparison`, `periodLogDeRhamComparison` and
+`periodLogDLogFirstGraded`, including the canonical transitivity boundary and its nonzero Tate class.
+README 6.21's conditional `logPeriodDlog`, `logPeriodOrdinaryComparison`, `periodDLogTate`,
+`periodDLogFormula` and `periodDLogFirstGraded` apply to these constructed data to give
+`periodDLogCanonical`, the unconditional identification of the canonical period d log with log[ε].
+The range is README 5.11, including p = 2 and arbitrary perfect residue fields.
+README 5.13's `periodMapComparison` identifies the derived/Hodge period map with PadicPeriodRings
+§4.1's ordinary map under `Crystalline.fontaineEnvelope_periodPDEnvelope`. It preserves θ,
+Galois actions, filtrations and functorial maps; the source identification intertwines Witt
+Frobenius, with no Frobenius on B_dR⁺ asserted.
 The period interfaces `bdrPlusStructure` and `tateTwistInvariants` compare PadicPeriodRings
 §§1.1–1.5's `padicComplexGaloisAction`, `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist`
 and period structures for finite local fields, and §§2, 4.1's `PadicFieldCompletion`, `tateSen_H0`
