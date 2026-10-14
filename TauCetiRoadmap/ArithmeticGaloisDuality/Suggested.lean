@@ -33,6 +33,11 @@ Design choices made explicit here:
   `v` is Mathlib's `Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal`, quantified explicitly over the places
   outside `S` as in NumberFieldArithmetic §1.2; no wrapper predicate is introduced.
 * Compact support is the mapping fibre `Cone(res)[-1]` of Mathlib's `CochainComplex.mappingCone`.
+  Arithmetic localization uses ordinary cochains at finite places, complete Tate cochains at
+  real places and zero at complex places. Under `(P)` this is the finite-place fibre. The
+  ordinary deformation-local diagram uses ordinary cochains at every place; its Selmer fibre
+  and its archimedean comparison with the modified fibre are README targets on the carrier
+  supplied by SelmerIwasawaCohomology §2.21.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
 * The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
@@ -534,8 +539,10 @@ open CategoryTheory.Pretriangulated
 
 variable {R : Type u} [CommRing R] {A B A' B' : CochainComplex (ModuleCat.{u} R) ℤ}
 
-/-- Compactly supported cochains: the mapping fibre `Cone(res)[-1]` of the localization map
-`res : C(G_S, M) → ⊕_{v ∈ S} C(G_v, M)`. -/
+/-- The mapping fibre `Cone(res)[-1]`. For arithmetic compact support, `res` has target the
+modified local diagram: ordinary finite-place cochains, real Tate cochains and zero complex-place
+terms, or the quasi-isomorphic finite-place model under `(P)`. The fibre of ordinary cochains at
+every place has the separate archimedean comparison specified in R02.5.2. -/
 abbrev compactCochains (res : A ⟶ B) : CochainComplex (ModuleCat.{u} R) ℤ :=
   (CochainComplex.mappingCone res)⟦(-1 : ℤ)⟧
 
@@ -593,6 +600,21 @@ theorem traceBilinForm_restrict_slIdeal_nondegenerate_iff [Nonempty n] :
 /-- In characteristic two the identity of `M₂` has trace zero, so `ad⁰` contains the scalars. -/
 example : (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) ∈ TauCeti.slIdeal (ZMod 2) (Fin 2) := by
   rw [TauCeti.mem_slIdeal_iff]
+  decide
+
+/-- For the unipotent real involution over `𝔽₂`, the invariant groups on `ad` and `ad⁰` both
+have order four, while the norm images have orders four and two. Thus their Tate `H⁰` groups
+have orders one and two, and the trace sequence retains its preceding Tate term. -/
+example :
+    let u : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![1, 1; 0, 1]
+    (Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) // u * X * u = X},
+      Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+        X.trace = 0 ∧ u * X * u = X},
+      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), Y = X + u * X * u},
+      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), X.trace = 0 ∧ Y = X + u * X * u}) =
+      (4, 4, 4, 2) := by
   decide
 
 /-- **The determinant derivative is the trace**: `det(1 + εX) = 1 + ε tr X` over `k[ε]`. -/
@@ -657,7 +679,8 @@ archimedean groups; the `S`-ideles, `S`-units and `S`-idele classes, `P`-class f
 `S`-class formation, its reciprocity and the `S`-unit Kummer sequence; the global function-field
 class-field inputs (Chebotarev density for global function fields is cited from
 ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function fields**); the one-new-prime
-Kummer fields, the antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`;
+Kummer fields, the antiunit class-field rank with its lower-field tower and all-primes splitting
+sets, and the absence of `ℤ_p`-extensions unramified at `p`;
 Ext of discrete modules, Tate's duality for a class formation and for the `S`-idele classes, the finite dual `M^D`, archimedean local duality, the
 exact annihilators of unramified classes, the restricted-product self-duality, Poitou–Tate duality
 and the nine-term sequence, global finiteness, cohomological dimension, `H²` surjectivity,
@@ -673,7 +696,9 @@ derived category, the local and global invariant trivialisations, derived local 
 duality, compactly supported cup products and Euler characteristics, the lattice and rational
 Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field,
 abelian-variety local duality and the isogeny sequence; the Selmer
-comparisons and the Greenberg–Wiles formula; the Selmer tangent comparison and derived coefficient
+comparisons for the ordinary and modified fibres, their ordinary-to-Tate archimedean comparison
+triangle and H⁰ corrections, and the Greenberg–Wiles formula; the Selmer tangent comparison,
+the full real Tate trace sequence, and derived coefficient
 change; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
 Khare–Wintenberger relation bounds, odd and dyadic Taylor–Wiles primes and finite-order determinant
 twists.

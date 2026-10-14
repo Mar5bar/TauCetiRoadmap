@@ -216,8 +216,14 @@ as inputs; and Galois representations attached to automorphic forms.
 - **Local groups at the places.** `Hʳ(K_v, M)` means `Hʳ(G_v, M)` at a finite place and Tate
   cohomology `Ĥʳ(G_v, M)` of the finite group `G_v` at an archimedean place, in every degree,
   including degree `0`: at a real place `H⁰(K_v, M) = M^{G_v}/N_{G_v}M`, and at a complex place
-  every group vanishes. Where a statement uses ordinary archimedean invariants (the Euler
-  characteristic), it says so. At a finite place where inertia acts trivially on `M`,
+  every group vanishes. Write `C_v^ord(X) = C_cont(G_v, X)` for the ordinary deformation-local
+  complex at every place, and `C_v^mod(X)` for the arithmetic-duality local complex: the same
+  complex at finite places, the complete Tate complex at real places, and zero at complex places.
+  Ordinary restriction followed by the natural map `q_v : C_v^ord → C_v^mod` gives modified
+  localisation; on real `H⁰` this is the quotient by norms. Thus `H⁰(G_v, X)` always denotes
+  ordinary invariants, whereas `H⁰(K_v, X)` follows the modified convention. The Euler
+  characteristic and the ordinary deformation fibre use ordinary invariants. At a finite place
+  where inertia acts trivially on `M`,
   `Hʳ_un(K_v, M)` is the image of inflation from the residue-field Galois group.
 - **Duals.** For a finite discrete `G_S`-module `M` of exponent `m` with `#M` a unit in `R_{K,S}`,
   the dual is `M^D = Hom(M, μ_m)` with the contragredient cyclotomic action `(σf)(x) = σ(f(σ⁻¹x))`
@@ -227,6 +233,11 @@ as inputs; and Galois representations attached to automorphic forms.
   the mapping fibre `Cone(res)[−1]`, with differential `(a, b) ↦ (da, −res(a) − db)` in degree
   `n` on `Aⁿ ⊕ Bⁿ⁻¹`. A compact-first cup product has local coordinate `a_S ∪ res(b)`; a
   compact-second product has local coordinate `(−1)ⁱ res(a) ∪ b_S` for `a` of degree `i`.
+  Arithmetic compact support uses `B = ⊕ C_v^mod`; under `(P)` its archimedean summands are
+  acyclic, so it agrees with the finite-place fibre. SelmerIwasawaCohomology §2.21 owns the
+  Selmer mapping-fibre carrier for either specified local diagram. Write `S̃^ord` and `S̃^mod`
+  for its ordinary and modified instances; their comparison, including the archimedean
+  correction, is *Selmer complex H¹ with its H⁰ correction* (R02.5.2).
 - **Transgression.** The transgression and the inhomogeneous cochain conventions are those of
   ProfiniteCohomology Layer 5; with them the second differential of the Hochschild–Serre spectral
   sequence of a central extension with class `u` is `d₂ = −u ∪ (·)`.
@@ -344,7 +355,11 @@ as inputs; and Galois representations attached to automorphic forms.
   §2.7 *The unramified condition*, §2.9 *Compact and rational Galois Selmer groups*, §2.13 *Dual
   Selmer structures*, §2.3 *Change of local conditions*, §2.19 *Poitou–Tate for Selmer groups*,
   §2.21 *Selmer complex as a mapping fibre*, §2.2 *Compact and rational Selmer kernel*, §2.22 *The
-  H⁰ correction before the classical Selmer kernel*.
+  H⁰ correction before the classical Selmer kernel*. The §2.21 carrier is instantiated with an
+  explicitly specified ordinary or modified local diagram. Its compact-support triangle uses
+  that same diagram; the strict fibre is this roadmap's arithmetic compact support for
+  `C_v^mod`, or for the finite-place model under `(P)`. The §2.22 cokernel uses `H⁰` of the
+  chosen local complexes. The arithmetic duality contract of §§1.3–1.4 uses the modified diagram.
 - `SchemeAndStackFoundations` Layer 2: §2.21 *Dualising complexes* (`DualizingComplex A ω` for a
   Noetherian ring, with `biduality`; `NormalizedDualizing A ω` for a Noetherian local ring,
   `RHom_A(κ, ω) ≅ κ[0]`); §2.7 *Cohomology with supports and local cohomology*
@@ -2366,30 +2381,46 @@ ClassFieldTheory Layers 10 and 13; GlobalNumberFields Layer 7.
 - A dyadic prime does not satisfy the conclusion: `ℚ({2}) = ℚ(i, √2)` has degree `4` over
   `ℚ(∅) = ℚ`, so adding `2` adds two independent quadratic characters.
 
-**The antiunit class-field rank.** Work in the setting of Newton–Thorne, Lemma 3.4: `p` is odd,
-`K/F` is a CM extension of a totally real field `F` with complex conjugation `c`, `v₀` is the split
-finite place chosen there, and `T` is the set of places of `K` above `v₀`; the towers and avoidance
-conditions are those of the lemma. Since `p` is odd, `(1 − c)/2` is an idempotent of
-`ℤ_p[Gal(K/F)]`, and the `c = −1` part of a module is its image. Let `Δ` be the Galois group of the
-maximal abelian pro-`p` extension of `K` unramified outside `p`, and `Δ₀` its largest quotient in
-which the places of `T` split completely. Then the `ℤ_p`-rank `d₀` of the `c = −1` part of
-`ker(Δ → Δ₀)` equals the `ℤ_p`-rank of the `c = −1` part of the closure of the image of
-`O_{K,T}^×` in `∏_{v|p} O_{K_v}^×(p)`, the pro-`p` completions of the local units. This is the rank
-of a closure in local units, not the rank of the abstract unit group, and no Leopoldt hypothesis is
-assumed. In the towers `K₁ ⊆ K₂` of the lemma, `d₀(K₂) ≥ d₀(K₁)`. If the totally real field
-contains an abelian subextension of odd degree `d > 1` in which `v₀` splits, then `d₀ ≥ d`; this
-lower bound is the input from Maire (Proposition 19, with its 2003 addendum) that Newton–Thorne
-use, and it is stated only under the hypotheses of the lemma.
+**The antiunit class-field rank.** Let `p` be an odd prime, `F₂/F₁/F₀` a finite tower of totally real
+number fields, and `K₀/F₀` a CM extension. Put `K_i = K₀ F_i`, with complex conjugation `c`.
+Fix a finite place `v₀ ∤ p` of the lower field `F₀` that splits in `K₀/F₀`, and set
+`T_i = {w a finite place of K_i : w | v₀}`, for `i = 0, 1, 2`: these sets contain every place
+above the original `v₀`. Let `Δ_i` be the Galois group of the maximal abelian pro-`p` extension of
+`K_i` unramified outside `p`, and `Δ_{i,0}` its largest quotient in which every place in `T_i`
+splits completely. Define `d₀(K_i,T_i) = rank_{ℤ_p} ker(Δ_i → Δ_{i,0})^{c=−1}`. Then
 
-*Proof sketch.* Global Artin reciprocity expresses the kernel imposed by complete splitting at `T`
-as the image of the `T`-units, embedded diagonally, in the `p`-adic local units. Take the `c = −1`
-part; for odd `p` the idempotent `(1 − c)/2` makes this exact. Restriction and norm in the finite
-tower give the rank inequality. The degree-`d` lower bound is Maire's Proposition 19 with its 2003
-addendum, as applied by Newton–Thorne. ([Newton–Thorne, *Symmetric power functoriality for Hilbert
-modular
-forms*](https://api.repository.cam.ac.uk/server/api/core/bitstreams/6bd9d94f-51d3-42e2-9cb1-ffc812189ac5/content),
-§3, proof of Lemma 3.4, author pp. 16–17.) *Needs:* ClassFieldTheory Layers 11 and 12;
-GlobalNumberFields Layer 8.
+```text
+d₀(K_i,T_i) = rank_{ℤ_p} (closure of im(O_{K_i,T_i}^× → ∏_{w|p} O_{K_{i,w}}^×(p)))^{c=−1},
+d₀(K₂,T₂) ≥ d₀(K₁,T₁).
+```
+
+Here `(p)` means pro-`p` completion, the minus part is the image of `(1−c)/2`, and the closure is
+taken in the product of local units. No Leopoldt hypothesis is imposed.
+
+For the Maire lower bound, assume that `K₀ = L F₀` for an imaginary quadratic field `L/ℚ` in
+which `p` and the residue characteristic of `v₀` split; that `F₁/F₀` and `F₂/F₀` are solvable;
+that `[F₁:F₀]` is even and `K₁/F₁` is everywhere
+unramified at finite places; that `v₀` splits completely in `F₁/F₀`; that every place above `p` in
+`F₁` splits completely in `F₂/F₁`; and that there is an intermediate field `F₀ ⊆ E ⊆ F₁` with
+`E/F₀` abelian of odd degree `d > 1`. Then
+`d₀(K₂,T₂) ≥ d₀(K₁,T₁) ≥ d`. The same `T_i` index the units and the splitting quotients in
+this inequality. In particular, a chosen prime of `F₁` or `F₂` cannot replace all the primes
+above `v₀`.
+
+*Proof sketch.* Global reciprocity and finiteness of the class group identify the splitting kernel,
+up to finite groups, with the image of the `T_i`-units in the local units modulo global units.
+The minus part of the global units of a CM field is finite, giving the displayed rank identity.
+Inclusion into the local units of `K₂` takes the closure at level `1` into the closure at level `2`;
+norm composed with inclusion is multiplication by `[K₂:K₁]`, hence is injective after tensoring
+with `ℚ_p`. This proves monotonicity. The lower bound is the application of Maire's Proposition 19
+in Newton–Thorne's proof, with `F₀` denoting their `F` and `L` their imaginary quadratic `K₀`.
+([Newton–Thorne, *Symmetric power functoriality for Hilbert modular
+forms*](https://arxiv.org/pdf/2212.03595v2), Lemma 3.4(1)–(4) and proof, pp. 16–17;
+Maire, *On the Zℓ-rank of abelian extensions with restricted ramification*, Proposition 19,
+J. Number Theory 92 (2002), pp. 376–404, with addendum, 98 (2003), pp. 217–220.)
+*Needs:* ClassFieldTheory Layers 11 and 12; GlobalNumberFields Layer 8;
+SelmerIwasawaCohomology §0.3 *The S-unit theorem and the completion of S-units*, using the pinned
+`Set.unitValuation`, `Set.unitValuation_ker` and `Set.unitEmptyEquivUnits`.
 
 **Checks.**
 
@@ -2399,6 +2430,14 @@ GlobalNumberFields Layer 8.
   `d₀ = 1`.
 - With no place imposed (`T = ∅`), `Δ₀ = Δ` and the `c = −1` part of `O_K^×` is finite, because the
   unit ranks of `K` and `F` agree; both sides are `0`.
+- For any CM `K/F`, if `T` consists of just the two places above one split finite place of `F`,
+  the `T`-unit valuation sequence tensored with `ℚ` has minus part `ℚ[T]^{c=−1} ≅ ℚ`, since
+  ordinary global units have zero minus rank and the class group is finite. Thus the closure
+  has rank at most `1`, regardless of abelian subfields of `F`.
+- Under the lower-bound hypotheses with `[E:F₀] = 3`, complete splitting of `v₀` gives at least
+  three conjugate pairs in `T₁`. The bound is `d₀(K₂,T₂) ≥ d₀(K₁,T₁) ≥ 3`, compatible with the
+  valuation upper bound `d₀(K₁,T₁) ≤ #T₁/2`; imposing only one conjugate pair gives rank at most
+  `1` instead.
 
 **No Z_p-extension unramified at p.** Let `F` be a number field, `p` a prime and `S` a finite set
 of finite places of `F` containing no place above `p`; write `G_{F,S}` for the Galois group of the
@@ -4522,8 +4561,8 @@ complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.2.7–5.2.
 **Continuous cochains with compact support.** Let `K` be a global field of characteristic `≠ p`, `S`
 a finite set of places containing those above `p` and the archimedean ones, `S_f` its
 nonarchimedean part, `R` a complete Noetherian local ring with finite residue field, and `X` a
-bounded complex of ind-admissible `R[G_{K,S}]`-modules. Extending *Finite arithmetic compact
-support* (Layer R02.4), define
+bounded complex of ind-admissible `R[G_{K,S}]`-modules. Define the finite-place model of
+*Finite arithmetic compact support* (Layer R02.4) by
 
 ```text
 C_c(G_{K,S}, X) = Cone(res)[−1],   res : C(G_{K,S}, X) → ⊕_{v∈S_f} C(G_v, X),
@@ -4531,7 +4570,9 @@ C_c(G_{K,S}, X) = Cone(res)[−1],   res : C(G_{K,S}, X) → ⊕_{v∈S_f} C(G_v
 
 the mapping fibre of the morphism of continuous cochain complexes `res`, with differential
 `d(a, b) = (da, −res(a) − db)`. It has its exact triangle, long exact sequence and change-of-embedding
-homotopy equivalence. Under (P) (`p` odd or `K` without real places), if `X` has cohomology of
+homotopy equivalence. Under (P) (`p` odd or `K` without real places), this represents the
+modified arithmetic fibre, since `C_v^mod` is acyclic at every archimedean place. It does not
+include ordinary archimedean cochains `C_v^ord`. Under (P), if `X` has cohomology of
 finite type, resp. cofinite type, so does `C_c(G_{K,S}, X)`, and it is bounded. When `p = 2` and `K`
 has a real place the finite-place fibre is not bounded, and duality uses the construction with Tate
 cochains at the real places, *Duality when p = 2 and K has real places*.
@@ -4784,8 +4825,9 @@ infinitely many degrees and the global cochains are not truncated; `Ĉ_c` may ha
 negative degrees. For finite `M` the pairings
 `Hⁱ(G_{K,S}, M) × Ĥ_c^{3−i}(G_{K,S}, M^D) → ℚ/ℤ`, with `M^D = Hom(M, E_S)`, are perfect for every
 integer `i`, and `Ĥⁱ_c = 0` for `i > 3`. The corresponding derived duality for coefficients of finite
-or cofinite type holds in the unbounded derived category. After inverting `2`, the ordinary and
-modified compactly supported complexes agree and the bounded comparison is restored.
+or cofinite type holds in the unbounded derived category. After inverting `2`, the finite-place
+fibre `C_c` and Tate-modified fibre `Ĉ_c` agree and the bounded comparison is restored. The fibre
+using ordinary cochains at every place still has the archimedean correction of R02.5.2.
 
 *Proof sketch.* These are the classical statements with Tate cohomology at the real places (NSW
 Chapter VIII), restated by Nekovář; the constructions of 5.3 are repeated with `Ĉ` at the real
@@ -4800,7 +4842,10 @@ support*; *Derived Poitou–Tate duality*; *Local duality at the archimedean pla
   `Ĥⁱ_c(G_{ℚ,S}, ℤ/2) ≅ Ĥ^{i−1}(ℝ, ℤ/2) = ℤ/2` for every `i < 0`, dual to
   `H^{3−i}(G_{ℚ,S}, μ₂) ≅ H^{3−i}(ℝ, μ₂) = ℤ/2`.
 - With `ℚ₂`-coefficients the real Tate terms vanish (`Ĥⁱ(ℝ, V) = 0` for a `ℚ₂`-vector space `V`), so
-  `Ĉ_c` and `C_c` agree after inverting `2`.
+  `Ĉ_c` and the finite-place `C_c` agree after inverting `2`.
+- For trivial `V = ℚ₂`, the ordinary archimedean complex has `H⁰ = ℚ₂` at a real place even
+  after inverting `2`. It cannot be inserted into the finite-place fibre without its comparison
+  term `ℚ₂[0]`.
 
 **Euler–Poincaré characteristic with compact support.** Let `R` be a complete Noetherian local ring
 with finite residue field of characteristic `p`, `K` a global field, `S` a finite set of places
@@ -5173,44 +5218,79 @@ Theorem 2.18, p. 61 (author PDF, revised 9 September 2007).) *Needs:* *The Green
 ### R02.5.2 Selmer complexes and rank-one numerics
 
 **Selmer complex H¹ with its H⁰ correction.** Let `T` be a coefficient module and `S` a finite set
-of places as in SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as a mapping fibre*, with
-local conditions given for `v ∈ S` by maps of complexes `i_v : U_v⁺ → C(G_v, T)`, not merely by
-subgroups of `H¹`. The Selmer complex `S̃(T)` is the fibre of
+of places as in SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as a mapping fibre*.
+Fix a prime `p` and the `p`-adic coefficient hypotheses of Layer D7 whenever `(P)` is used, and
+write `S_∞` for the archimedean places in `S`.
+Specify either the ordinary diagram `C_v^ord(T)` or the modified arithmetic-duality diagram
+`C_v^mod(T)` of the Conventions, with maps `i_v : U_v⁺ → C_v(T)`, not merely subgroups of `H¹`.
+For this specified diagram the supplier's Selmer complex `S̃(T)` is the fibre of
 
 ```text
-C(G_S, T) ⊕ ⊕_{v∈S} U_v⁺ → ⊕_{v∈S} C(G_v, T),   (x, (u_v)) ↦ (loc_v(x) − i_v(u_v))_v,
+C(G_S, T) ⊕ ⊕_{v∈S} U_v⁺ → ⊕_{v∈S} C_v(T),   (x, (u_v)) ↦ (loc_v(x) − i_v(u_v))_v,
 ```
 
-where `loc_v` is the localisation map of *Localisation maps and the modified local groups* on
-continuous cochains. Let `H¹_f(T) = {x ∈ H¹(G_S, T) : loc_v(x) ∈ im H¹(i_v) for all v ∈ S}` be the
-classical Selmer kernel (SelmerIwasawaCohomology Layer 2, §2.2 *Compact and rational Selmer
-kernel*). If `H¹(i_v)` is injective for every `v ∈ S`, the canonical map `H̃¹(T) → H¹_f(T)` is
-surjective with kernel
+using ordinary restriction for `C_v^ord` and its composite with `q_v` for `C_v^mod`.
+Let `H¹_f(T) = {x ∈ H¹(G_S, T) : loc_v(x) ∈ im H¹(i_v) for all v ∈ S}` be the classical Selmer
+kernel (SelmerIwasawaCohomology Layer 2, §2.2 *Compact and rational Selmer kernel*). For a module
+`T` in degree zero, `q_v` induces an isomorphism in degree one, so the ordinary and modified
+kernels agree when the conditions are transported along `q_v`. If `H¹(i_v)` is injective for
+every `v ∈ S`, the canonical map `H̃¹(T) → H¹_f(T)` is surjective with kernel
 
 ```text
-coker( H⁰(G_S, T) ⊕ ⊕_{v∈S} H⁰(U_v⁺) → ⊕_{v∈S} H⁰(G_v, T) ),
+coker( H⁰(G_S, T) ⊕ ⊕_{v∈S} H⁰(U_v⁺) → ⊕_{v∈S} H⁰(C_v(T)) ),
 ```
 
 so it is an isomorphism exactly when this map on `H⁰` is surjective (SelmerIwasawaCohomology Layer
 2, §2.22 *The H⁰ correction before the classical Selmer kernel*, which owns the general statement;
-this target is its specialisation to the localisation maps of Layer R02.3, not a second
-construction). Applied to the coefficients of a
-first-order deformation problem, the same sequence compares the tangent space computed by the Selmer
-complex with the classical Selmer group, with the same `H⁰` correction.
+this target specialises that statement to the two localisation diagrams). For the ordinary
+fibre the local `H⁰` groups are invariants at every place; for the modified fibre they are Tate
+groups at real places and zero at complex places. Strict conditions give arithmetic compact
+support only in the modified diagram. Under `(P)` that diagram agrees with the finite-place
+fibre, including for odd `p` when ordinary archimedean invariants can be nonzero.
+
+For an ordinary local condition, keep `U_v⁺` and compose `i_v` with `q_v` to define its modified
+condition. Construct the comparison, natural in this diagram, with
+`Q_∞(T) = ⊕_{v∈S_∞} Cone(q_v)`:
+
+```text
+S̃^ord(T) → S̃^mod(T) → Q_∞(T)[−1] → S̃^ord(T)[1].
+```
+
+The first arrow is the instance of `GaloisCohomology.compactMap` with identity on the source
+and `⊕ q_v` on the local target.
+
+For a module in degree zero, `H^j(Q_∞) = 0` for `j ≥ 0`, and
+`H^{−1}(Q_∞) = ⊕_{v∈S_∞} T_{G_v}` (coinvariants, also `T` at a complex place). Hence the comparison
+includes
+
+```text
+H⁰(S̃^ord) → H⁰(S̃^mod) → ⊕_{v∈S_∞} T_{G_v} → H¹(S̃^ord) → H¹(S̃^mod) → 0,
+H^j(S̃^ord) ≅ H^j(S̃^mod)  (j ≥ 2).
+```
+
+Under `(P)`, `Q_∞(T)[−1] ≃ ⊕_{v∈S_∞} T^{G_v}[0]`. These terms, together with the ordinary local
+and global automorphism spaces `H⁰`, are retained in comparisons with framed deformation
+problems. The carrier and its functoriality belong to SelmerIwasawaCohomology §2.21 for each
+specified diagram; the comparison here is an application of that functoriality, not an
+identification of the two fibres. Derived arithmetic duality uses `S̃^mod` and local conditions
+complementary on the modified diagram.
 
 *Proof sketch.* The fibre gives the long exact sequence
 
 ```text
-H⁰(G_S, T) ⊕ ⊕_v H⁰(U_v⁺) → ⊕_v H⁰(G_v, T) → H̃¹(T) → H¹(G_S, T) ⊕ ⊕_v H¹(U_v⁺) → ⊕_v H¹(G_v, T),
+H⁰(G_S, T) ⊕ ⊕_v H⁰(U_v⁺) → ⊕_v H⁰(C_v(T)) → H̃¹(T) → H¹(G_S, T) ⊕ ⊕_v H¹(U_v⁺) → ⊕_v H¹(C_v(T)),
 ```
 
 Nekovář's sequence (6.1.3). Projection to `H¹(G_S, T)` maps the kernel of the last map onto
 `H¹_f(T)`, with kernel `⊕_v ker H¹(i_v)`, which is zero by hypothesis; this gives the `H⁰`
-correction. Since the localisation maps in the fibre are those of *Localisation maps and the
-modified local groups*, `H¹_f(T)` is the classical Selmer kernel defined by these maps, and the
-tangent comparison is the same sequence for the deformation coefficients. ([Nekovář, *Selmer
+correction for the chosen diagram. Apply the cone triangle for the composite with `⊕ q_v` to
+obtain the comparison triangle. At a real place the quotient of the complete Tate complex by
+ordinary cochains has `H^{−1} = T_{G_v}`; at a complex place `Cone(q_v) = C_v^ord[1]`.
+If `2` is invertible, the real norm identifies coinvariants with invariants, and all modified
+archimedean complexes are acyclic. ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, Definition 6.1.2 and exact
-sequence 6.1.3, pp. 135–137.) *Needs:* *Localisation maps and the modified local groups* (Layer
+sequence 6.1.3, pp. 135–137; §5.7.2, pp. 131–132, for the ordinary-to-Tate map.)
+*Needs:* *Localisation maps and the modified local groups* (Layer
 R02.3); *Derived tensor, perfect amplitude and Tor* (Layer D7); SelmerIwasawaCohomology Layer 2,
 §2.2 *Compact and rational Selmer kernel*; SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as
 a mapping fibre*; SelmerIwasawaCohomology Layer 2, §2.22 *The H⁰ correction before the classical
@@ -5227,6 +5307,11 @@ Selmer kernel*.
 - `F = ℚ`, `T = μ_p` with `p` odd and `S = {p, ∞}`: `H⁰(ℚ_p, μ_p) = 0` and `H⁰(ℝ, μ_p) = 0`, so the
   cokernel vanishes and `H̃¹(T) ≅ H¹_f(T)` for every choice of local conditions with `H¹(i_v)`
   injective.
+- `F = ℚ`, `S = {p, ∞}`, `T = k = 𝔽_p` with `p` odd, strict conditions at both places: the
+  ordinary `H⁰` map is `k → k ⊕ k`, with cokernel `k`; the modified map is `k → k ⊕ 0`, with
+  zero cokernel. Thus `0 → k → H¹(S̃^ord) → H¹(S̃^mod) → 0`, with both maps to the same classical
+  strict Selmer kernel. The comparison term is `Q_∞[−1] ≃ k[0]`.
+- For a function field there are no archimedean places: `Q_∞ = 0` and the two fibres agree.
 
 **Rank-one Selmer numerics.** Let `F` be a number field with `r₁` real and `r₂` complex places, `p`
 an odd prime with `ζ_p ∉ F`, and `M = 𝔽_p` with trivial action. Take `L_v = H¹_un(F_v, 𝔽_p)` at
@@ -5425,39 +5510,51 @@ gives the quotient by `δ(H⁰(G, k))`. ([Khare–Wintenberger, *Serre's modular
 
 **Selmer and deformation tangent comparison.** Let `F` be a number field, `S` a finite set of places
 of `F`, `k` a finite field and `ρ : G_{F,S} → GL_n(k)` continuous, and let a first-order local lift
-problem at each `v ∈ S` be given by a subspace `L_v ⊆ H¹(G_v, ad ρ)`. By *First-order Galois cocycle
+problem at each `v ∈ S` be given by a subspace `L_v ⊆ H¹(G_v, ad ρ)`. Deformation-local cochains
+are `C_v^ord(ad ρ)`, including at archimedean places. By *First-order Galois cocycle
 comparison*, the global first-order lifts form `H¹(G_{F,S}, ad ρ)`, the local ones `H¹(G_v, ad ρ)`,
 and the two are compared by the restriction maps induced by `G_v → G_{F,S}`, in a commutative square
 of cocycle identifications (not merely an equality of dimensions). The tangent space of the global
 problem with the local conditions `L_v` is therefore the Selmer group
 `H¹_L(G_{F,S}, ad ρ) = ker(H¹(G_{F,S}, ad ρ) → ⊕_{v∈S} H¹(G_v, ad ρ)/L_v)`, the kernel Selmer group
 of SelmerIwasawaCohomology Layer 2. When the local conditions are maps of complexes
-`U_v⁺ → C(G_v, ad ρ)` that are injective on `H¹` with image `L_v`, `H¹` of the Selmer complex
-(SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as a mapping fibre*) maps onto `H¹_L` with
-kernel the cokernel of `H⁰(G_{F,S}, ad ρ) ⊕ ⊕_v H⁰(U_v⁺) → ⊕_v H⁰(G_v, ad ρ)` (*Selmer complex H¹
+`U_v⁺ → C_v^ord(ad ρ)` that are injective on `H¹` with image `L_v`, `H¹` of the ordinary Selmer
+fibre `S̃^ord(ad ρ)` (SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as a mapping fibre*)
+maps onto `H¹_L` with kernel the cokernel of
+`H⁰(G_{F,S}, ad ρ) ⊕ ⊕_v H⁰(U_v⁺) → ⊕_v H⁰(G_v, ad ρ)` (*Selmer complex H¹
 with its H⁰ correction*, Layer R02.5); the two agree exactly when this `H⁰` map is surjective, and
 no equality is asserted without that hypothesis. Framed versions keep cocycles instead of classes
-and so add the corresponding local and global `H⁰(ad ρ)` terms. The `H¹` comparison uses nothing
-more. The subspaces `L_v`, and the `H⁰` and `H¹` of the `U_v⁺`, do not determine `H²` of the Selmer
-complex (Check), so no duality for that `H²` (the target of an obstruction map) is asserted from
-them. Its dual is described by SelmerIwasawaCohomology Layer 1, §1.4 *Duality for a global mapping
-fibre with local conditions*, under that theorem's hypotheses: `S` contains the places above
-`p = char k` and the archimedean places; (P) holds, or the modified real-place complexes of *Duality
-when p = 2 and K has real places* (Layer D7) are used; and dual local conditions
-`U_v^{⊥+} → C(G_v, ad ρ(1))` are given for the trace-pairing dual `(ad ρ)^∨(1) ≅ ad ρ(1)`, together
-with chosen nullhomotopies of the local cup products (§1.3 *Local conditions and derived orthogonal
-complements*). It gives a morphism from the Selmer complex of `(ad ρ, U⁺)` to the shift by `[−3]` of
-the `k`-dual of the Selmer complex of `(ad ρ(1), U^{⊥+})`, whose cone is `⊕_{v∈S} Err_v`
+and use the exact sequence
+`0 → H⁰(G, ad ρ) → ad ρ → Z¹(G, ad ρ) → H¹(G, ad ρ) → 0` for the global group and each local
+group `G`. Thus, when finite-dimensional, the framing contribution is
+`dim Z¹ − dim H¹ = n² − dim H⁰`, with ordinary `H⁰` at every place. Passage to `S̃^mod` also
+retains the `Q_∞[−1]` comparison of R02.5.2, whose boundary in degree zero measures the change
+in `H¹`; condition `(P)` does not remove this correction. The subspaces `L_v`, and the `H⁰` and
+`H¹` of the `U_v⁺`, do not determine `H²` of the Selmer complex (Check), so no duality for that
+`H²` (the target of an obstruction map) is asserted from
+them. For these degree-zero coefficients `H²(S̃^ord) ≅ H²(S̃^mod)` by the comparison triangle.
+Apply SelmerIwasawaCohomology Layer 1, §1.4 *Duality for a global mapping fibre with local
+conditions* to the modified fibre, under that theorem's hypotheses: `S` contains the places above
+`p = char k` and the archimedean places; use the finite-place model under `(P)` and the full
+modified real-place model of *Duality when p = 2 and K has real places* (Layer D7) otherwise;
+and dual local conditions `U_v^{⊥+} → C_v^mod(ad ρ(1))` are given for the trace-pairing dual
+`(ad ρ)^∨(1) ≅ ad ρ(1)`, together with chosen nullhomotopies of the local cup products
+(§1.3 *Local conditions and derived orthogonal
+complements*), for `U_v⁺ → C_v^mod` obtained by composing the ordinary condition with `q_v`.
+It gives a morphism from `S̃^mod(ad ρ, U⁺)` to the shift by `[−3]` of the `k`-dual of
+`S̃^mod(ad ρ(1), U^{⊥+})`, whose cone is `⊕_{v∈S} Err_v`
 (`localDualError`). When every `Err_v` is acyclic (`derivedComplement_iff`), `H²` of the first is
-`k`-dual to `H¹` of the second; otherwise the error terms are part of the statement. The
+`k`-dual to the modified `H¹` of the second; replacing that group by its ordinary fibre `H¹`
+requires its own archimedean comparison. Otherwise the error terms are part of the statement. The
 determinant and trace-zero variants come from the trace sequence, as in *Determinant tangent
 fibres*.
 
 *Proof sketch.* Write a first-order lift as `(1 + εc)ρ` by *First-order Galois cocycle comparison*.
 The commutative restriction square identifies the global tangent space subject to the local
 conditions with the kernel. Apply the long exact sequence of the fibre, keeping the framing and `H⁰`
-corrections. For `H²`, apply SelmerIwasawaCohomology Layer 1, §1.4 to the given dual local
-conditions and nullhomotopies, and take cohomology of its error triangle.
+corrections. Compare the ordinary and modified fibres by R02.5.2. For `H²`, apply
+SelmerIwasawaCohomology Layer 1, §1.4 to the modified diagram with the given dual local conditions
+and nullhomotopies, and take cohomology of its error triangle.
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, pp.
 135–137; [Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1–4.2, pp. 39–45.) *Needs:*
@@ -5480,30 +5577,46 @@ mapping fibre*.
   tangent space is `Hom(G_S, 𝔽_p) ≅ 𝔽_p`, spanned by the first layer of the cyclotomic
   `ℤ_p`-extension.
 - `n = 1`, `ρ` trivial, strict conditions `U_v⁺ = 0` at `s ≥ 2` places: the `H⁰` map is the diagonal
-  `k → k^s`, with cokernel `k^{s−1}`, so `H¹` of the Selmer complex is an extension of `Ш¹_S(F, k)`
+  `k → k^s`, with cokernel `k^{s−1}`, so `H¹(S̃^ord)` is an extension of `Ш¹_S(F, k)`
   by `k^{s−1}` and is strictly larger than the Selmer group.
+- For `F = ℚ`, `S = {p, ∞}`, `p` odd and the same trivial rank-one strict conditions,
+  `H¹(S̃^ord)` has the correction `k`, while `H¹(S̃^mod)` has correction zero. This is the
+  R02.5.2 comparison even though `(P)` holds.
 
 **Determinant tangent fibres.** Let `ρ : G_{F,S} → GL_n(k)` be as above, `p = char k`, and
 `k[ε] = k[ε]/(ε²)`. On first-order matrices `det(1 + εX) = 1 + ε tr X`, so the differential of the
 determinant is the trace. The trace `ad ρ → k` induces maps of the global and local continuous
-cochain complexes that commute with restriction. Their mapping fibres — fibres of the trace map
-itself, not an independently chosen tangent complex — give the determinant-relative tangent
+cochain complexes `C(G_{F,S}, −)` and `C_v^ord(−)` that commute with restriction. Their mapping
+fibres — fibres of the trace map itself, not an independently chosen tangent complex — give the determinant-relative tangent
 comparison and, globally and at each `v ∈ S`, the long exact sequence
 
 ```text
 0 → H⁰(ad⁰ ρ) → H⁰(ad ρ) → H⁰(k) → H¹(ad⁰ ρ) → H¹(ad ρ) → H¹(k) → H²(ad⁰ ρ) → ⋯
 ```
 
-Local determinant conditions are given as maps of local complexes compatible with the trace, and
-the fixed-determinant Selmer comparison uses the dual quotient `(ad⁰ ρ)^∨ ≅ ad ρ/k·Id` with its
+For the modified arithmetic diagram, apply the trace to `C_v^mod` and retain the full Tate long
+exact sequence at each real place:
+
+```text
+⋯ → Ĥ^{−1}(G_v, k) → Ĥ⁰(G_v, ad⁰ ρ) → Ĥ⁰(G_v, ad ρ) → Ĥ⁰(G_v, k) → Ĥ¹(G_v, ad⁰ ρ) → ⋯ .
+```
+
+The initial zero of the ordinary sequence is not present here. The maps `q_v` commute with the
+trace sequence and its connecting maps, giving the ordinary/modified comparison also for the
+determinant fibres. Local determinant conditions are given as maps of local complexes compatible
+with the trace, and the fixed-determinant Selmer comparison uses the dual quotient
+`(ad⁰ ρ)^∨ ≅ ad ρ/k·Id` with its
 Tate twist, including when `p` divides `n`.
 
 *Proof sketch.* Expand the determinant over the dual numbers and identify its linear term. Check
 that the trace intertwines conjugation, so that it induces the global and local cochain maps. Apply
-the long exact sequences of the mapping fibre and of the trace sequence. Compare with the
+the long exact sequences of the mapping fibre and of the trace sequence, using the complete
+resolution at real places in the modified diagram. Compare with the
 fixed-determinant first-order lift problem of *First-order Galois cocycle comparison*, keeping the
 `H⁰` boundary. ([Khare–Wintenberger, *Serre's modularity conjecture
-(II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1.4–4.2, pp. 41–43.) *Needs:*
+(II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1.4–4.2, pp. 41–43;
+[Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.7.2,
+pp. 131–132.) *Needs:*
 *Trace-zero adjoint duality without division by n*; *Selmer and deformation tangent comparison*;
 *First-order Galois cocycle comparison*; *Derived tensor, perfect amplitude and Tor* (Layer D7).
 
@@ -5515,12 +5628,19 @@ fixed-determinant first-order lift problem of *First-order Galois cocycle compar
   `H¹(G_{F,S}, ad⁰ ρ)/k`.
 - `p ∤ n`: `ad ρ = ad⁰ ρ ⊕ k·Id` equivariantly, the boundary vanishes, and the fixed-determinant
   tangent space is `H¹(G_{F,S}, ad⁰ ρ)`.
+- At a real place in characteristic two, take `k = 𝔽₂` and
+  `ρ(c) = u = [[1,1],[0,1]]` on `k²`. Conjugation by `u` has invariant spaces of dimension `2`
+  on both `ad` and `ad⁰`; the norm `1+c` has image dimensions `2` and `1`, respectively
+  (orders `4` and `2`). Hence `Ĥ⁰(G_v, ad) = 0` while `Ĥ⁰(G_v, ad⁰) ≅ k`. The preceding
+  `Ĥ^{−1}(G_v,k) → Ĥ⁰(G_v,ad⁰)` is surjective; an initial zero would falsely assert injectivity
+  into `Ĥ⁰(G_v,ad)`.
 
 **Derived coefficient change for Selmer comparisons.** Let `R → R′` be a homomorphism of complete
 Noetherian local coefficient rings. Let `C_f` be a Selmer complex over `R` — the mapping fibre of
 the global cochain complex together with the local conditions `U_v⁺` towards the local cochain
-complexes — and `C′_f` the corresponding complex over `R′`, with given morphisms from the
-`R`-data to the `R′`-data. Assume that the global, local and local-condition complexes are perfect
+complexes, with the same specified ordinary or modified convention over both rings — and `C′_f`
+the corresponding complex over `R′`, with given morphisms from the `R`-data to the `R′`-data.
+Assume that the global, local and local-condition complexes are perfect
 of bounded amplitude; that the global and local derived base-change morphisms
 `R′ ⊗^L_R C(·) → C′(·)` (*Nakamura cochain tensor comparisons*, Layer D7) are quasi-isomorphisms;
 and that each local condition comes with a base-change morphism `R′ ⊗^L_R U_v⁺ → U′_v⁺` which is a
