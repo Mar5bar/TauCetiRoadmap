@@ -112,6 +112,13 @@ Galois actions, invariant rings and shared de Rham realization and predicate use
 The graded Hodge–Tate realization, labelled Sen operators, character criteria and
 Lie-theoretic semisimplicity inputs needed there are owned subtargets of §7.6. Crystalline and
 finite-flat conditions on Tate modules and automorphic `ε`-factors belong to their suppliers.
+LFunctions Layers 0, 5–6 supply primitive Hecke functions, completions, continuation and
+functional equations on GlobalNumberFields' characters. Section 2.7 owns their comparison with
+adelic Tate integrals and products of local epsilon factors. AdelicAlgebraicGroups AA.2.4 supplies
+finite-image Artin factors, induction and meromorphic assembly; §2.7 proves their completed
+functional equation with these local constants. CFSGBasicProperties T1–T2 supplies finite
+fixed-point root calculus and simplicity; §7.12 owns the Hermitian matrix and projective-quotient
+comparison with its valid twisted type-A carriers.
 NeronModelsAndSemistableAbelianVarieties supplies general Néron models, §2.7
 `MinimalRegularSmoothLocus` and §5.1 `NeronOggShafarevich`; §§6.3 and 6.5 here consume these
 criteria for potential reduction and elliptic conductors. The function-field recognition statements
@@ -343,6 +350,11 @@ comparison of unit groups with the upper numbering is §3.2 here. Layer 9: `Weil
 topology in which inertia is open (`isOpenEmbedding_inertiaToWeil`), `weilDegree` (kernel inertia, value
 `1` on arithmetic lifts through `unramifiedCoordinate_weilDegree`), `weilTransfer` with
 `weilDegree_weilTransfer`, and `localWeilArtinEquiv` for `K/ℚ_p` finite. Layer 13: `kroneckerWeber`.
+For §7.6, Layer 5 supplies local duality and Brauer invariants; Layer 10 supplies the global
+Brauer localization and sum of invariants (`eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`).
+Layers 11–12 supply global reciprocity and its local compatibility, used to turn the finite-order
+Hecke extension constructed in §7.6 into a global Galois character. Section 2.7 also consumes
+this reciprocity for its prescribed global characters.
 
 ### From `TauCetiRoadmap.NumberFieldArithmetic`
 
@@ -369,8 +381,9 @@ unions, squeeze).
 subgroup), layer 6 (Brauer's induction theorem: every character is a `ℤ`-combination of characters
 induced from linear characters of elementary subgroups) and layer 7 (projective representations,
 factor sets, and the obstruction `cliffordObstruction` in `H²(T/N, k^×)` to extending a stable
-irreducible representation); the extension theorem for cyclic `G/N` and the vanishing of `H²` of a
-finite cyclic group with divisible coefficients are §3.2 here. `SemisimpleAlgebras` layer 2: the
+irreducible representation); §7.6 uses its factor-set algebra with continuous sections and finite
+discrete kernels. The extension theorem for cyclic `G/N` and the vanishing of `H²` of a finite
+cyclic group with divisible coefficients are §3.2 here. `SemisimpleAlgebras` layer 2: the
 Wedderburn presentation with its uniqueness and dimension count. `CompactGroups` works with Mathlib's
 `ContRepresentation`; the carrier of Layer 1 adds joint continuity.
 
@@ -398,8 +411,9 @@ lower ramification groups of function-field extensions, for comparison with §3.
 ### From `TauCetiRoadmap.ProfiniteCohomology` and `TauCetiRoadmap.ReductiveGroups`
 
 ProfiniteCohomology layer 2: the explicit low-degree complex and its functoriality (`H¹`, `H²`). Layer
-10: continuous cohomology in all degrees with filtered coefficient colimits; the obstruction to lifting
-through a central extension is §7.6 here. Layer 13: for an open `U` of index `l`, the permutation wreath
+10: continuous cohomology in all degrees with filtered discrete-coefficient colimits; the
+finite-kernel continuous lifting obstruction and the algebraic torus-kernel reduction are §7.6
+here. Layer 13: for an open `U` of index `l`, the permutation wreath
 product `U^l ⋊ S_l` and the transversal-dependent continuous monomial homomorphism `G → U^l ⋊ S_l`.
 ReductiveGroups layer 0 (the functor of points of affine group schemes over a field), layer 2 (Lie
 algebras and the adjoint representation), layer 3 (closed subgroup schemes and Hopf ideals, the identity
@@ -416,7 +430,9 @@ IntegralHeckeAndGaloisDeterminants Layer 0: polynomial laws and determinants on 
 on a group and pairs `(T, D)` with `D(g)T(g⁻¹h) − T(g)T(h) + T(gh) = 0`. Layer 1: the Cayley–Hamilton
 ideal and Cayley–Hamilton algebras (§1.1), semisimple reconstruction of determinants over
 algebraically closed fields (§1.2), henselian lifting for absolutely irreducible residual determinants
-(§1.3), the *Classical Ribet lattice* (§1.4), and GL reconstruction (§1.7). ReductiveGroupsPartII
+(§1.3), *Inner conjugacy of local matrix algebras* (§1.3, automorphisms in positive size),
+the *Classical Ribet lattice* (§1.4), and GL reconstruction (§1.7). Section 5.5 reduces
+endomorphisms to that automorphism theorem over the residue field. ReductiveGroupsPartII
 RG2.2: the action of `Ĝ(E)` on its building and the Bruhat–Tits fixed point theorem for bounded
 subgroups (`Building.exists_fixedPoint_of_bounded`); RG2.2.2 and RG2.2.4: the reduced building
 `ReducedBuilding` and *gl-building-lattice-chains*, the description of the building of `GL(V)` by
@@ -450,6 +466,31 @@ filtration, comparison maps and coefficient extension, and converting filtration
 labelled weights. These period subtargets use the earlier local and cohomological interfaces;
 §7.6 consumes them without a dependency on SelmerIwasawaCohomology's Selmer conditions.
 
+### From `LFunctions`, `AdelicAlgebraicGroups` and `CFSGBasicProperties`
+
+[LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md)
+Layer 0 supplies analytic and arithmetic completed-function records, normalization translation,
+duals and polar divisors. Layers 5–6 supply primitive finite-order Hecke and algebraic
+Grössencharacter presentations on GlobalNumberFields' carriers, their conductors, gamma factors,
+root numbers, continuation and inverse-character functional equations. Section 2.7 compares
+adelic Tate integrals with these functions and obtains complex norm twists by translating their
+meromorphic germs. It identifies the supplied root number with the product of Tate's local
+epsilon factors in the specified conductor normalization.
+
+AdelicAlgebraicGroups AA.2.4, *convergence-factors*, supplies finite-image complex Artin factors,
+their ramified induction identity, Artin–Hecke comparison and global meromorphic assembly.
+Section 2.7 consumes these on the dual of our finite-image representation to convert its
+arithmetic Frobenius to our geometric-Frobenius convention. It proves the completed functional
+equation by Brauer induction and identifies its epsilon factors; it constructs the adelic
+Schwartz–Bruhat, Fourier, Poisson and globalization inputs used by local constants.
+
+[CFSGBasicProperties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2ac39458eaba8c50e0b1acf1c56401986ea10ca6/TauCetiRoadmap/CFSGBasicProperties/README.md)
+T1–T2 supplies the finite fixed-point root calculus and simplicity on CFSGStatement's exact
+derived central quotient. Section 7.12 constructs the Hermitian matrix comparison by a proved
+`MulEquiv` for `m ≥ 3` in the valid twisted `A_{m−1}` range, at fixed-field parameter `q`.
+Rank two uses the matrix comparison with `PSL₂(F_q)` and Mathlib's simplicity theorem; rank one
+is computed directly. The automorphism-group input to the verification lemmas remains §7.12's.
+
 | Input | Interface | Ownership |
 | --- | --- | --- |
 | Completion and period-ring carriers | `PadicComplex`, `BDeRhamPlus`, `BDeRham` | Pinned Mathlib declarations |
@@ -467,8 +508,9 @@ labelled weights. These period subtargets use the earlier local and cohomologica
 | --- | --- | --- |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md#sr52-integral-blocks-whittaker-projectives-and-families) SR.5.2, **Classical parameters and the generic convention**, `classical-llc-normalization` | Owns the Frobenius-semisimplified parameter and functor, algebraic dual compatibility, descent and scalar extension. §2.4 `wd-linear-substrate` here owns exp/log, monodromy, operations on the underlying parameter fields and the full construction with its inverse and exactness; §2.5 `wd-frobenius-semisimplification` owns the separate operation and its agreement with the supplier's output. These use the same `(V, r, N)` data, with Frobenius semisimplicity an additional hypothesis; there is no second carrier. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. |
 | Fundamental characters and residual tame inertia | [FiniteFlatGroupsAndIntegralPadicHodgeTheory](../FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) R07.1.26 and R07.1.27–R07.1.32 | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
-| Projective-unitary simplicity | §7.12, *Projective-unitary simplicity* | Owns simplicity and the matrix/derived-central-quotient comparison at `q = p`, with the small exceptions. |
-| Grössencharacter continuation and completed equation | §2.7, *Global inputs* | Owns continuation, the completed equation, primitive conductor, inverse/shift/poles and Tate-local product identification for type A₀ characters and complex norm twists. |
+| Projective-unitary simplicity | CFSGBasicProperties T1–T2; Mathlib rank-two simplicity | §7.12 owns the Hermitian matrix, centre and quotient comparison with the valid derived central quotient at fixed-field parameter `q`, and transports supplied simplicity. Rank two uses `PSL₂(F_q)`; the small exceptions and rank one are direct checks. |
+| Grössencharacter continuation and completed equation | LFunctions Layers 0, 5–6 | §2.7 consumes the primitive functions and completed equations, compares them with adelic Tate integrals, translates complex norm twists, and identifies the product of local epsilon factors, including conductor, inverse, gamma and pole conventions. |
+| Finite-image Artin factors and meromorphic assembly | AdelicAlgebraicGroups AA.2.4, *convergence-factors* | §2.7 consumes the factors and ramified induction identity on dual representations, and proves the completed functional equation with the local-epsilon product. Only Layers 1–2 through §2.5 feed AA.2.4. |
 | Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace (`leftTrace`, `rightTrace`, common spherical `trace`) | §7.2 standard symmetric module duality and tensor-unit/scalar identification. |
 | Concrete projective contraction trace | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | §7.2 `ContinuousRep.endTrace` consumer alias and finite-free Check; the concrete scalar realization and its Mathlib-based finite-free compatibility in `Suggested.lean` use contraction, without assuming finite projective modules are free. |
 
@@ -500,6 +542,12 @@ does not require SmoothRepresentationsOfLocalGroups to consume Layers 1 or 5.
 Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the same direction
 as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
 are in build order.
+For global constants, GlobalNumberFields → LFunctions Layers 0, 5–6 → §2.7's Tate-integral
+comparison; Layers 1–2 through §2.5 → AdelicAlgebraicGroups AA.2.4 → §2.7's completed Artin
+equation and epsilon comparison → Deligne–Langlands existence. Section 7.12 consumes
+CFSGBasicProperties T2 after constructing the valid matrix comparison. Section 7.6's Tate
+vanishing uses ClassFieldTheory Layers 5, 10–12 and its own idelic torsion-character extension;
+ArithmeticGaloisDuality consumes that vanishing.
 `Suggested.lean` follows the same order, with one `/-! ## Layer k -/` section per layer; it records
 representative signatures and the discriminating checks as `example`s.
 
@@ -1633,25 +1681,43 @@ unramified, and `ε(ω ω_s, ψ, dx_ψ) = ω(ϖ^{ν+c}) q^{(1/2−s)(ν+c)} 𝔤
 `tateLocalConstant (ω : Kˣ →* ℂˣ) (ψ : AddChar K ℂ) (μ : Measure K) : ℂˣ`.
 
 **Global inputs.** For a number field `F` and a continuous idele-class character
-`χ = χ₀ |·|_𝔸^t`, with `χ₀` algebraic of type A₀ and `t ∈ ℂ`, construct the primitive Hecke
-`L`-function, its archimedean gamma factors and completed function. Prove meromorphic continuation
-and the inverse-character equation relating `s` to `1 − s`, with conductor and epsilon factors
-identified as the product of Tate's local factors, including the archimedean ones. Construct the
-Schwartz–Bruhat space on the adeles, the self-dual Fourier transform and Poisson summation needed
-for the global zeta-integral proof. The completed function is entire except for pure norm
-characters, whose reflected simple poles are carried in the equation. Define the equation as an
-identity of meromorphic functions, with its pointwise consequence away from the polar divisors.
-Prove the complex norm-twist shift from the type A₀ equation
-(Deligne 1973, 3.12 (A)–(C), p. 533; Tate, *Fourier analysis in number fields and Hecke's
-zeta-functions*, §4.4, Main Theorem 4.4.1, in Cassels–Fröhlich, pp. 339–340).
+`χ = χ₀ |·|_𝔸^t`, with `χ₀` algebraic of type A₀ and `t ∈ ℂ`, consume LFunctions Layers 0, 5–6's
+primitive presentation of `χ₀`, conductor, Hecke function, completion, meromorphic continuation
+and inverse-character equation. Construct the Schwartz–Bruhat space on the adeles, its
+restricted-product and tensor-product API, the self-dual Fourier transform and Poisson summation
+for a nontrivial additive character of `𝔸_F/F`. Prove Tate's global zeta-integral equation and its
+comparison with the supplied primitive Hecke function, first on a convergence half-plane and then
+as meromorphic germs. The comparison includes every ramified factor and the finite Euler
+correction for an imprimitive presentation.
 
-Construct the prescribed global characters in this class. Deduce the Artin functional equation
-by Brauer induction; and prove the globalisation lemmas: a finite extension of local fields and a
-character of its Weil group are the completions at one place of a global extension and a global
-character with prescribed behaviour at finitely many other places (Deligne 1973, Lemmas 4.12–4.16,
-pp. 544–547). Build these analytic inputs before the existence theorem for local constants.
-*Needs:* GlobalNumberFields Layers 4–6 (adeles and ideles) and Layers 9–10 (Hecke characters);
-Mathlib Haar integration and Fourier transform; ClassFieldTheory layers 7 and 9;
+Pin the normalization as follows. At a prime idele, write
+`χ₀(π_v) = χ₀,u(π_v) q_v^σ`, with `σ` the ideal-side shift in LFunctions Layer 6, so its
+idelic norm exponent is `−σ`. With `A = |disc F| N(𝔣₀)` for the primitive finite conductor,
+the supplied unitary completion gives
+`Λ(χ,s) = Λ_unit(χ₀,s+t−σ)`: its conductor power is `A^((s+t−σ)/2)`.
+Use the supplier's gamma factors at `s+t−σ`, with real shift the parity of `χ₀,u` and complex
+shift `|n_τ−n_τ̄|/2` for the idelic infinity exponents of `χ₀`; the real parity includes the signs
+outside the identity component. Compare the analytic equation at `s` with the inverse character
+`χ₀⁻¹ |·|_𝔸^(−t)` at `1−s`, and transport the arithmetic normalization by LFunctions Layer 0's
+weight translation. Identify the supplied root number with the product of local Tate epsilon
+factors, including the archimedean factors and the conductor power: for the global self-dual
+measure, that product for `χ |·|_𝔸^s` is `W(χ₀) A^(1/2−s−t+σ)`.
+The complex norm twist is precomposition of the supplied germs by `s ↦ s+t`. Transport their
+polar divisors: only pure norm characters have poles, with their reflected simple poles included
+in the equation; values are compared away from both polar divisors
+(Deligne 1973, 3.11–3.12 (A)–(C), pp. 532–533; Tate, *Fourier analysis in number fields and
+Hecke's zeta-functions*, §4.4, Main Theorem 4.4.1, in Cassels–Fröhlich, pp. 339–340).
+
+Construct the prescribed global characters in this class and prove the globalization lemmas
+with the hypotheses and auxiliary places of Deligne 1973, Lemmas 4.12–4.16, pp. 544–547.
+Consume AdelicAlgebraicGroups AA.2.4's finite-image Artin factors, ramified induction and
+meromorphic assembly. For our representation `V`, use its complex dual in that supplier:
+its arithmetic-Frobenius factor then equals our geometric-Frobenius factor. By Brauer induction
+prove the completed Artin functional equation with the product of the local epsilon factors
+(Deligne 1973, 3.12 (B)–(C), p. 533). These inputs precede Deligne–Langlands existence.
+*Needs:* LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
+GlobalNumberFields Layers 4–6 (adeles and ideles) and Layers 9–10 (Hecke characters);
+Mathlib Haar integration and Fourier transform; ClassFieldTheory layers 7, 9 and 11–12;
 RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's local constant above.
 
 **Checks.**
@@ -1661,6 +1727,11 @@ RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's loc
   equation uses its inverse character and primitive conductor.
 - Twisting by `|·|_𝔸^t` shifts `s` to `s + t` and reflects against the inverse twist, rather than
   retaining the untwisted polar locations.
+- For `χ = |·|_𝔸^t` over `ℚ`, the supplied completion is the zeta completion at `s+t`,
+  with poles at `−t` and `1−t`; real gamma parity is zero. For the odd character modulo `4`,
+  real parity is one even though its algebraic type is zero on the identity component.
+- For a finite-image character with arithmetic Frobenius eigenvalue `ζ₃`, our local factor
+  is `(1−ζ₃⁻¹ q_v^(−s))⁻¹`, agreeing with AA.2.4 on the dual character.
 
 **Deligne–Langlands local constants.** Define `epsilonWeil V ψ dx ∈ ℂ^×` for complex representations
 of `W_K` with open kernel on inertia: the unique function multiplicative in exact sequences, scaling
@@ -1703,6 +1774,9 @@ Layer 1; Tau Ceti's inertia, Frobenius, cyclotomic and tame declarations;
 `TauCetiRoadmap.LocalFieldsRamification` layers 0, 2, 4; `TauCetiRoadmap.ClassFieldTheory` layers 7,
 9, 13; `TauCetiRoadmap.NumberFieldArithmetic` layers 2, 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6.
+For §2.7: GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6;
+AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly;
+ClassFieldTheory Layers 11–12 for global characters.
 
 ## Layer 3: Artin and Swan conductors
 
@@ -2447,13 +2521,24 @@ Let `k` be a field with algebraic closure `k̄`, `Γ` a group and `ρ : Γ → G
 
 **Automorphisms of matrix algebras over a local ring.** Prove that for `R` commutative local and
 `d ≥ 0`, every unital `R`-algebra endomorphism of `M_d(R)` is `x ↦ g x g⁻¹` for `g ∈ GL_d(R)` unique
-up to `R^×`, hence an automorphism; locality (used to make projective modules free) is necessary: over
+up to `R^×`, hence an automorphism. For `d > 0`, reduce the endomorphism modulo the maximal ideal.
+It is a unital endomorphism of the simple finite-dimensional residue-field matrix algebra, hence
+injective and bijective. Its determinant as an `R`-linear map is nonzero modulo the maximal
+ideal and therefore a unit; the original map is an algebra automorphism. Apply
+IntegralHeckeAndGaloisDeterminants §1.3 / *Inner conjugacy of local matrix algebras* for the
+conjugator and use the scalar centralizer for uniqueness. For `d = 0`, both the matrix algebra
+and its general linear group have a single element. Locality is necessary: over
 `ℤ[√−5]` with `I = (2, 1 + √−5)`, `I ⊕ I ≅ R²` gives a non-inner automorphism of `M₂(R)` (Chenevier,
-proof of Thm 2.22(i), p. 34). *Needs:* Mathlib `Module.free_of_flat_of_isLocalRing`,
+proof of Thm 2.22(i), p. 34; the supplied inner-conjugacy theorem also cites Allen–Newton–Thorne,
+proof of Thm 2.4, p. 5). *Needs:* that supplier theorem; simplicity of matrix algebras over a
+field, determinant reduction and Mathlib `Matrix.isUnit_iff_isUnit_det`,
 `Matrix.mem_range_scalar_of_commute_single`. *Lean:* `GaloisRep.algHom_matrix_eq_conj_of_isLocalRing`.
-IntegralHeckeAndGaloisDeterminants §1.3 / *Inner conjugacy of local matrix algebras* states the special
-case of algebra automorphisms with `d > 0`, whereas this target also covers unital endomorphisms and
-`d = 0`.
+
+**Checks.**
+- For `d = 0`, the sole endomorphism is conjugation by the sole element of `GL₀(R)`.
+- For `d = 1`, scalar compatibility forces the endomorphism to be the identity.
+- Over `ℤ₃`, conjugation by `(1 1; 0 1)` sends `E₀₀` to `(1 −1; 0 0)`; its residue map
+  is bijective and its determinant on the four-dimensional matrix module is a unit.
 
 **The image algebra.** Define `GaloisRep.traceField ρ = k(tr ρ(γ) : γ ∈ Γ) ⊂ k̄`,
 `GaloisRep.imageAlgebra ρ = B(ρ)`, the `k(ρ)`-subalgebra of `M_n(k̄)` generated by `ρ(Γ)`, the Brauer
@@ -3797,6 +3882,50 @@ of `Proj ρ × Proj ρ'` is Zariski dense in `PGL₂ × PGL₂`, and
 `(Sym^m ρ ⊗ Sym^{m'} ρ')|_{G_{F(ζ_{p^∞})}}` is strongly irreducible for all `m, m' ≥ 1` (NT26, Lemma
 2.2, p. 10).
 
+**Finite-kernel lifting obstruction.** Let `Γ` be profinite and
+`1 → C → E → G → 1` a central extension of Hausdorff topological groups, with `C` finite
+discrete, its inclusion a topological embedding, and the continuous surjection `E → G` an
+open quotient map admitting local continuous sections. For continuous `P : Γ → G`, pull back
+the extension to `Γ`. A finite clopen refinement of its local sections gives a normalized global
+continuous section `s`. Prove that `s(g)s(h)s(gh)⁻¹` is a continuous finite-valued factor set,
+using the kernel's subspace topology, and define its class in continuous `H²(Γ,C)` with trivial
+discrete coefficients. Prove independence of section, compatibility with restriction and finite
+coefficient pushouts satisfying these topology hypotheses, and vanishing iff a continuous
+homomorphic lift exists (Pat, Proposition 2.1.4 and proof, p. 17; Tau Ceti
+`GroupExtension.continuous_factorSet` and `GroupExtension.continuous_sectionDiff`,
+`Topology/Algebra/GroupExtension/Profinite.lean`). *Needs:* ProfiniteCohomology Layers 2 and 10;
+RepresentationTheory/InductionRestriction Layer 7's factor-set algebra; these pinned continuity
+declarations. The pushout classes pass to filtered colimits of discrete coefficients.
+
+**Checks.**
+- The split extension `C × Γ` gives the zero class and its canonical continuous lift.
+- For `Γ = ℤ/2`, the extension `ℤ/4 → ℤ/2` with kernel `ℤ/2` has nonzero obstruction for
+  the identity map: no element of order dividing two maps to the generator.
+- A normalized continuous cocycle into discrete `C` is identically one on `U × U` for some
+  open subgroup `U`. In contrast, the extension of `ℤ₃²` by `ℚ̄₃^×` with multiplication
+  `(a,x,y)(b,x',y') = (ab 4^(xy'),x+x',y+y')` and its usual 3-adic topology has commutator
+  `4^(xy'−x'y)`. Every open subgroup contains `3^Nℤ₃²`, whose two coordinate generators
+  have commutator `4^(3^(2N)) ≠ 1`. It admits a continuous section but no homomorphic
+  splitting on any open subgroup; it lies outside the finite discrete obstruction theorem.
+
+**Idelic torsion-character extension.** For a number field `F`, `n ≥ 1` and a continuous
+character `ω : μ_n(𝔸_F)/μ_n(F) → S¹`, prove that a finite-order continuous Hecke character
+extending `ω` exists iff its restriction to `μ_n(F_v)` is trivial at every complex place.
+Real-place signs are allowed. Construct the extension on GlobalNumberFields' idele-class
+carrier, including extension from the image of idelic torsion to the full `n`-torsion of the
+idele class group; in the Grunwald–Wang special case this intermediate extension need not be
+unique. Establish the unit relations and finite-order criterion needed for the extension
+(Pat, Lemma 2.3.6 and proof, pp. 27–28). *Needs:* GlobalNumberFields Layers 6–7 and 9–10
+(idele norm structure, ray-class characters, infinity types and unit relations).
+
+**Checks.**
+- The trivial `ω` extends to the trivial Hecke character for every `F` and `n`.
+- Over `ℚ` with `n = 2`, the product of the signs on the real and the 2-adic roots of unity
+  is trivial on diagonal `μ₂(ℚ)` and extends to the finite-order character of conductor `4`.
+- Over `ℚ(i)`, the product of the signs on `μ₂` at the complex place and one finite place
+  descends through diagonal `μ₂(F)` but has no finite-order extension: a continuous
+  finite-order character on the connected group `ℂ^×` is trivial.
+
 **Projective lifting.** Prove that `H²(G_F, ℚ/ℤ) = 0` for `F` a number field (Tate). For trivial
 discrete coefficients and `n ≥ 1`, local duality identifies `H²(G_K, ℤ/n)` with
 the dual of `μ_n(K)` only for finite extensions `K/ℚ_p`. At archimedean places prove separately
@@ -3806,19 +3935,39 @@ the dual of `μ_n(K)` only for finite extensions `K/ℚ_p`. At archimedean place
 Prove these compatibilities before taking the direct limit: local roots of unity are finite for
 `K/ℚ_p`, the real classes die under `ℤ/n → ℤ/(2n)`, and complex classes vanish
 (Pat, Thm 2.1.1 and proof, pp. 15–16; for the real computation, Mathlib's
-`Rep.FiniteCyclicGroup.groupCohomologyIsoEven` with the trivial `C₂`-action). Prove that for a
-profinite group `Γ`, a central extension `1 → C → E → G → 1` of
-topological groups with `C` finite (or a torus over `ℚ̄_ℓ`) and a continuous `P : Γ → G`, the
-obstruction to lifting `P` to `E` is a class in `H²(Γ, C)` with discrete coefficients, compatible with
-direct limits of coefficients; this is the profinite form of the Clifford obstruction. Prove that
-every continuous `P : G_F → PGL_n(ℚ̄_ℓ)` lifts to a continuous `ρ : G_F → GL_n(ℚ̄_ℓ)`, more generally
-through any surjection of linear algebraic groups over `ℚ̄_ℓ` with central torus kernel; that two
-lifts differ by a continuous character; and that lifts of a `P` unramified almost everywhere are
-unramified almost everywhere (Pat, proof of Lemma 2.7.4, p. 49). *Needs:*
-`TauCetiRoadmap.ProfiniteCohomology` layer 2 (explicit `H²`) and layer 10 (continuous cohomology in
-all degrees, filtered coefficient colimits);
-`TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 7 (factor sets and the obstruction
-class).
+`Rep.FiniteCyclicGroup.groupCohomologyIsoEven` with the trivial `C₂`-action).
+
+Prove the global bridge using ClassFieldTheory's Brauer sequence and the idelic torsion-character
+extension above. For each prime `p`, restrict to `F(μ_p)` and use restriction–corestriction of
+prime-to-`p` degree. When `μ_p ⊂ F`, identify `H²(G_F,ℤ/p)` with `Br(F)[p]` and prove
+surjectivity of the boundary `H¹(G_F,ℚ_p/ℤ_p) → Br(F)[p]` from
+`0 → ℤ/p → ℚ_p/ℤ_p → ℚ_p/ℤ_p → 0`. Local character restrictions on `μ_p(F_v)` encode the
+local Brauer classes; the sum of local invariants makes the assembled character trivial on
+diagonal `μ_p(F)`, and the complex components are trivial. Extend it to a finite-order Hecke
+character, project to its `p`-primary part, use global reciprocity, and compare boundaries using
+injectivity of the Brauer localization. Multiplication by `p` is consequently injective on the
+`p`-primary torsion group
+`H²(G_F,ℚ_p/ℤ_p)`, which must vanish. This proves global vanishing in addition to the local
+direct-limit calculations (Pat, Theorem 2.1.1 and proof, pp. 15–16).
+
+For a surjection `H' → H` of linear algebraic groups over `ℚ̄_ℓ` with central torus kernel `S`,
+prove that every continuous `P : G_F → H(ℚ̄_ℓ)` has a continuous lift. Reduce by a flag in `S`
+to `S = G_m`. Construct an algebraic isogeny complement `H'_1` with
+`H'_1 ∩ S = μ_{n₀}`; for `n₀ | n`, the subgroup `H'_n = H'_1 S[n]` surjects onto `H` with
+finite central kernel `μ_n`. Establish the local continuous sections for these finite isogenies
+on their `ℓ`-adic points (over finite coefficient extensions) and apply the finite-kernel
+obstruction above. The classes `c_n ∈ H²(G_F,ℤ/n)` use the trivial action on coefficient roots
+of unity and are compatible with `a ↦ (m/n)a` for `n | m`. Their colimit is zero by Tate
+vanishing, so some finite stage lifts `P` (Pat, Proposition 2.1.4 and proof, p. 17).
+Two lifts differ by a continuous `S(ℚ̄_ℓ)`-valued character. For `P` unramified almost everywhere,
+the lift obtained by this finite-kernel reduction is unramified almost everywhere
+(Pat, Remark 2.1.5, p. 17, and proof of Lemma 2.7.4, p. 49).
+For `n ≥ 1`, specialize to `GL_n → PGL_n`, with isogeny complement `SL_n`.
+*Needs:* the finite-kernel obstruction and idelic torsion-character extension above;
+ClassFieldTheory Layer 5 (local duality and Brauer invariants), Layer 10
+(`eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`) and Layers 11–12 (global reciprocity);
+ProfiniteCohomology Layers 2 and 10 (continuous cohomology and filtered discrete-coefficient
+colimits); ReductiveGroups Layers 0, 3 and 6–7 (linear algebraic groups and central tori).
 
 **Checks.**
 - `G_ℂ = 1` gives `H²(G_ℂ, ℤ/2) = 0`, while `μ₂(ℂ)` has order two.
@@ -3826,6 +3975,9 @@ class).
   first class to zero in `(ℤ/4)/2(ℤ/4)`.
 - For `K = ℚ₃`, `μ₂(K) = {±1}` gives nonzero `H²(G_K, ℤ/2)`; the map to `H²(G_K, ℤ/4)`
   is zero because the dual squaring map on `μ₄(ℚ₃) = {±1}` is trivial.
+- For `GL_n → PGL_n`, the stages are `SL_n μ_m` for `n | m`, with kernel `μ_m`.
+  Centrality makes the action on these coefficient roots trivial, independently of the
+  cyclotomic action on field-theoretic roots of unity.
 
 **Hodge–Tate lifts.** Prove: (1) for `P : G_F → PGL₂(ℚ̄_ℓ)` continuous, unramified almost everywhere,
 with `ad⁰` of one (hence every) lift de Rham at all `v | ℓ`, a lift exists with Hodge–Tate–Sen weights
@@ -4243,19 +4395,32 @@ these conditions (BCGNT, Def. 5.2.1, pp. 50–51; ACC+, Thm 6.1.1(3)–(4), p. 1
   scalar `2 · 1` has `ε̄ = det = 4 ≠ 1`, so (TW3) holds.
 
 **Projective-unitary simplicity.** For a prime power `q` and `m ≥ 2`, construct the centre
-and projective quotient of `SU_m(F_{q²})` for a nondegenerate Hermitian form, and prove that
-`PSU_m(F_{q²})` is simple except at `(m,q) = (2,2), (2,3), (3,2)`
+and projective quotient of `SU_m(F_{q²})` for a nondegenerate Hermitian form, with involution
+`x ↦ x^q`. The centre consists of `λI` with `λ^(q+1) = λ^m = 1`; transport the model across
+isometries of Hermitian forms. For `m ≥ 3` and `(m,q) ≠ (3,2)`, construct a proved `MulEquiv`
+from this projective quotient to CFSGStatement's exact derived central quotient of the
+graph-twisted `A_{m−1}` fixed-point group at fixed-field parameter `q`, with its validity proof.
+Transport simplicity from CFSGBasicProperties T2 through that comparison. For `m = 2`, construct
+`PSU₂(F_{q²}) ≅ PSL₂(F_q)` and use Mathlib's rank-two theorem when `q ≥ 4`.
+Thus `PSU_m(F_{q²})` is simple except at `(m,q) = (2,2), (2,3), (3,2)`
 (Taylor, [*The Geometry of the Classical Groups*](https://www.maths.usyd.edu.au/u/don/papers/gcg.pdf),
-Theorem 10.20, pp. 127–130). Identify this quotient with the derived central quotient of the
-graph-twisted `A_{m−1}` group at fixed-field parameter `q`; construct the matrix comparison
-`PSU₂(F_{q²}) ≅ PSL₂(F_q)`, and identify `SU_1 = 1`. Prove these inputs before the verification
-lemmas. *Needs:* finite fields, matrix groups and finite-dimensional Hermitian forms;
-construct the unitary centre and projective quotient in this target; Mathlib `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'` for rank two.
+Theorems 10.9 and 10.20, pp. 119, 127–130; CFSGStatement L1–L3 and
+CFSGBasicProperties T1–T2). Identify `SU_1 = 1` directly, and compute the exceptional
+projective groups separately. The comparison with a derived central quotient carries the valid
+range: the nonsimple exceptional projective groups need not equal those derived quotients.
+*Needs:* finite fields, matrix groups and finite-dimensional Hermitian forms;
+CFSGStatement L1–L3's carriers and validity; CFSGBasicProperties T1–T2's fixed-point root
+calculus and supplied simplicity; Mathlib `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`
+for rank two. This target owns the matrix model, centre, quotient and comparison.
 
 **Checks.**
 - `PSU₂(F_{5²}) ≅ PSL₂(F_5)` is simple: the fixed-field parameter is `5`, not `25`.
 - `PSU₃(F_{2²})` has order `72` and is not simple; the exceptional pair is necessary.
 - `SU_1 = 1`, so a positive-rank simplicity criterion cannot include `m = 1`.
+- `PSU₂(F_4) ≅ S_3` and `PSU₂(F_9) ≅ A_4` are the two rank-two exceptions.
+- At `(m,q) = (3,2)`, the fixed-point group `SU₃(F_4)` has order `216`, its derived
+  subgroup has order `54` and centre of order `3`, so its derived central quotient has
+  order `18`, distinct from the projective quotient of order `72`.
 
 **Verification lemmas.** Using the projective-unitary target above, prove (BCGNT unless stated): for `F/ℚ`
 Galois and `H/F` finite with Galois
@@ -4267,7 +4432,7 @@ closure over `ℚ` linearly disjoint over `F` from `F(ζ_p)` times the Galois cl
 projective fixed fields linearly disjoint over `F(ζ_p)`, `s̄(G_{F(ζ_p)})` is adequate;
 `det r̄_A = ε̄^{−m}` and multiplier `ε̄^{1−m}` for `r̄_B` put `s̄` in `GU_{mn}(F_{p²})` with
 multiplier `ε̄^{1−mn}`; and `ε̄(G_F) = F_p^×` gives (TW3) (Lemma 5.2.4, pp. 52–53), the proof using
-projective-unitary simplicity through the carrier comparison above and the
+projective-unitary simplicity supplied through the valid carrier comparison above and the
 automorphism-group theorem, which this target proves (Steinberg, *Lectures on Chevalley groups*,
 §10, Thm 30; BCGNT, Lemma 5.2.3, pp. 51–52); for `E/ℚ` cyclic of degree `m` with `p ∤ m`, linearly
 disjoint from `F`, `L = EF`,
@@ -4279,7 +4444,9 @@ primitive `m`-th root of unity (Lemma 5.2.5, pp. 53–54); for `n, m ≥ 1`, `r�
 when `det r̄_A = ε̄^{−m}`, `det r̄_B = ε̄^{−m(m−1)/2}` and `ε̄(G_L) = F_p^×` (Lemma 5.2.6, pp. 54–55);
 and under the hypotheses of the enormous symmetric powers of §7.10 with `l` unramified in `F'/ℚ`,
 `ζ_l` is not in the field of `ad Sym^m r̄` times `F'`, so `Sym^m r̄|_{G_{F'}}` satisfies the enormous
-conditions (ACC+, proof of Lemma 7.1.6(1), p. 1090). *Needs:* §§7.9–7.10; §4.7.
+conditions (ACC+, proof of Lemma 7.1.6(1), p. 1090). *Needs:* §§7.9–7.10; §4.7;
+the matrix comparisons above with CFSGBasicProperties T2 for `m ≥ 3`, Mathlib rank-two
+simplicity for `m = 2`, and the direct rank-one computation for `m = 1`.
 
 **Checks.**
 - For `m = 1`, `SU₁(F_{p²}) = PSU₁(F_{p²}) = 1`, so the verification uses the rank-one case.
@@ -4307,6 +4474,10 @@ de Rham realization/predicate);
 GlobalNumberFields Layers 9–10 (Hecke-character infinity types); Mathlib's `groupCohomology`, `Matrix.symplecticGroup`, `skewAdjointMatricesSubmodule`,
 `LinearMap.IsPerfPair`, `Subgroup.goursat`, `Matrix.SL2.commutator_eq_top` and
 `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`.
+For §7.6's projective lifting: ClassFieldTheory Layers 5 and 10–12;
+GlobalNumberFields Layers 6–7 and 9–10; the finite-kernel obstruction and idelic
+torsion-character extension of §7.6. For §7.12: CFSGStatement L1–L3 and
+CFSGBasicProperties T1–T2 on the valid twisted type-A carrier.
 
 ## Downstream consumers
 

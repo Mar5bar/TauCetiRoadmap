@@ -2565,9 +2565,11 @@ theorem haar_eq_addHaar_div_of_isOpen {A : Type*} [Ring A] [TopologicalSpace A]
         μ ((fun g : Aˣ => (g : A)) '' (G : Set Aˣ)) := by
   sorry
 
-/-- Every `R`-algebra endomorphism of `M_d(R)`, `R` local, is conjugation by an element of
-`GL_d(R)`; locality is needed (`ℤ[√−5]` and the ideal `(2, 1 + √−5)`) (Chenevier 2008, proof of
-Thm 2.22 (i)). -/
+/-- Every `R`-algebra endomorphism of `M_d(R)`, `R` commutative local, is conjugation by an
+element of `GL_d(R)`. In positive size, residue-field bijectivity makes its linear determinant a
+unit, giving an algebra automorphism to which IntegralHeckeAndGaloisDeterminants §1.3's inner
+conjugacy applies. Size zero has a single endomorphism and conjugator. Locality is needed
+(`ℤ[√−5]` and the ideal `(2, 1 + √−5)`) (Chenevier 2008, proof of Thm 2.22 (i)). -/
 theorem algHom_matrix_eq_conj_of_isLocalRing {R : Type*} [CommRing R] [IsLocalRing R] {d : ℕ}
     (φ : Matrix (Fin d) (Fin d) R →ₐ[R] Matrix (Fin d) (Fin d) R) :
     ∃ g : GL (Fin d) R, ∀ x : Matrix (Fin d) (Fin d) R,
