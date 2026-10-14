@@ -36,15 +36,22 @@ LefschetzPencilsAndVanishingCycles F.4's étale normalized systems and
 ClassicalAdicEtaleCohomology's generic derived limits/completion. F.0–F.4 supply C6;
 F.9's nearby-cycle and inertia comparison consumes C6.
 
-C5.2 owns `artinDeRhamBetti`: for a finite-dimensional local complex algebra with residue
-field `ℂ` and a smooth proper scheme over it, the nilpotent-retaining relative analytic de Rham
+C5.2 owns `analyticFlatConnectionLocalSystem`: local horizontal frames with holomorphic
+parameters identify a finite locally free module with integrable relative connection with
+the structure sheaf tensored with its horizontal sheaf. The unit and canonical evaluation
+counit give the analytic equivalence, used by the coefficient `relativePoincare` contraction
+and regular-singular comparison. C5.2 also owns `artinDeRhamBetti`: for a finite-dimensional
+local complex algebra with residue field `ℂ` and a smooth proper scheme over it, the nilpotent-retaining relative analytic de Rham
 complex resolves the constant algebra sheaf. Operator-complex GAGA and constant-coefficient
 sheaf–singular comparison identify its cohomology with special-fibre Betti cohomology tensored
 with the algebra. This supplies the total length input to `relativeHodgeBundles`, including
 nonreduced bases, before freeness of the Hodge pieces is proved. C5.4 owns `CurrentCalculus`,
 the test-form dual and its chartwise comparison with Mathlib distributions, differential signs,
 smooth wedge, positivity, mass and local regularization used by `closedCurrentExtension` and
-the cycle and Chern targets.
+the cycle and Chern targets. Its `integralLineBundleChernClass` constructs the integral class
+from the underlying smooth transition cocycle and exponential sequence, retaining torsion;
+the Čech–de Rham comparison identifies its real coefficient image with normalized curvature
+without requiring a meromorphic section. `chernFubiniStudyIntersection` consumes that comparison.
 
 Most of its carriers are not in Mathlib or Tau Ceti at the pinned commits: complex analytic spaces
 with nilpotents, the analytification functor and proper coherent GAGA are built in the
@@ -144,6 +151,8 @@ noncomputable section
 #check @Distribution.lineDerivCLM
 #check @Distribution.ofFun
 #check @Distribution.delta
+-- Smooth partitions of unity make smooth function and differential-form sheaves acyclic (C5.4).
+#check @SmoothPartitionOfUnity.exists_isSubordinate
 -- Length and the dual-number coefficient algebra in C5.2's Artin comparison.
 #check @Module.length
 #check @DualNumber
@@ -406,7 +415,20 @@ example : commutatorWith ℂ (A := ℂ[X]) X
 
 end DifferentialOperators
 
-/-! ### C5.2 Artin coefficients -/
+/-! ### C5.2 Horizontal frames and Artin coefficients -/
+
+/-- The connection `d + dz` has a nowhere vanishing horizontal frame `exp(−z)`, as used
+by `analyticFlatConnectionLocalSystem` to transport the coefficient Poincaré contraction. -/
+example (z : ℂ) :
+    deriv (fun w : ℂ => Complex.exp (-w)) z + Complex.exp (-z) = 0 ∧
+      Complex.exp (-z) ≠ 0 := sorry
+
+/-- The frame for `d_z + t dz` is normalized at zero and depends holomorphically on the
+parameter; differentiation here is in the fibre variable, with `t` fixed. -/
+example (t z : ℂ) :
+    deriv (fun w : ℂ => Complex.exp (-(t * w))) z +
+        t * Complex.exp (-(t * z)) = 0 ∧
+      Complex.exp (-(t * z)) ≠ 0 ∧ Complex.exp (-(t * 0)) = 1 := sorry
 
 /-- The coefficient algebra for the `artinDeRhamBetti` check on `P¹` has length two;
 its degree-zero and degree-two cohomology modules each identify with this algebra. -/
@@ -446,7 +468,9 @@ example (s t : ℝ) (hs : 0 ≤ s) (hst : s ≤ t) :
     (Matrix.diagonal (fun _ : Fin 2 => (s : ℂ))).det.re ≤
       (Matrix.diagonal (fun _ : Fin 2 => (t : ℂ))).det.re := sorry
 
-/-- **C5.4, `chernFubiniStudyIntersection`, the normalisation on a line.** In the affine chart
+/-- **C5.4, `chernFubiniStudyIntersection`, the normalisation on a line.** The exponential-sequence
+class `integralLineBundleChernClass O(1)` is the positive integral generator on `P¹`, by its
+Čech–curvature comparison and the following integral. In the affine chart
 of `P¹`, the normalised Fubini–Study form `(i/2π) ∂∂̄ log(1 + |z|²)` is
 `π⁻¹ (1 + |z|²)⁻² dx dy`, and its integral is `1`: `c₁(O(1))` has degree one. -/
 theorem fubiniStudy_integral_eq_one :
@@ -555,7 +579,15 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 * **Forms, metrics and currents on complex manifolds** (DifferentialGeometry's forms are not in the
   library at the pins): `localDolbeault` in several variables, `HodgeStar`, `HodgeLaplacian`,
   `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`,
-  `HolomorphicDeRham`, `holomorphicPoincare`, `relativePoincare`, `compactEllipticHodge`
+  `HolomorphicDeRham`, `holomorphicPoincare`, `analyticFlatConnectionLocalSystem`
+  (finite locally free holomorphic coefficients on a holomorphic submersion of complex manifolds,
+  local horizontal frames with holomorphic parameters; horizontal sheaf locally pulled back from
+  a finite locally free base module of the same rank; the unit and connection-compatible evaluation
+  `O_T ⊗_(f⁻¹O_S) ker ∇ → E`; naturality for horizontal morphisms, pullback with base scalar
+  extension, tensors and duals; over a point the finite-dimensional complex local-system equivalence),
+  `relativePoincare` (the scalar radial contraction in fibre coordinates, transported to an
+  integrable finite locally free coefficient connection through that evaluation isomorphism),
+  `compactEllipticHodge`
   (operator-dependent shifted coercivity, graph-norm regularity and the original operator's kernel),
   `HarmonicGreen`, `kaehlerHodgeDecomposition`, `CurrentCalculus` (compactly supported test forms
   with their inductive-limit topology; degree `k` acts on degree `2n − k`, bidegree `(a,b)`
@@ -563,7 +595,13 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   trace mass `T ∧ ω^p/p!` for `ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`, finite-mass extension by zero and
   local convolution convergence), `closedCurrentExtension`,
   `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
-  `chernFubiniStudyIntersection` in general, `dghIntegrationApplication`.
+  `integralLineBundleChernClass` (holomorphic line bundles on arbitrary complex manifolds,
+  underlying smooth transition cocycle and `exp(2πi ·)` connecting map into integral cohomology;
+  cover/frame/logarithm independence, isomorphism and pullback invariance, tensor additivity,
+  dual and trivial formulas; its real coefficient image equals `[(i/2π)Θ(L,h)]` for every smooth
+  Hermitian metric by the Čech–de Rham comparison, independently of meromorphic sections),
+  `chernFubiniStudyIntersection` in general consumes this integral class and curvature comparison
+  before the projective divisor/intersection argument, `dghIntegrationApplication`.
 * **Singular cohomology with coefficients** (AlgebraicTopology, Stage 6): `SmallSingularCochains`,
   `sheafSingularComparison`, `multiplicativePeriodInterface`, `relativeBettiLocalSystem`; and
   `ehresmannFibration` (DifferentialGeometry flows, Layer 3).

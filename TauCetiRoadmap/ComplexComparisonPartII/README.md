@@ -63,13 +63,16 @@ Remmert–Stein's theorems, Chow's theorem with nilpotents, algebraization
 with proper support, algebraicity of holomorphic maps from proper sources and of maps with algebraic
 graphs, the morphism interfaces for families, and the affine-curve connectedness comparison. In
 Layer C5: sheafification of the shared algebraic de Rham complex and the holomorphic de Rham complex, the holomorphic and relative Poincaré
-lemmas, the nilpotent-retaining Artin-base de Rham–Betti comparison, analytification of differential operators and proper hypercohomology comparison for
-operator complexes, small singular cochains and the sheaf–singular comparison for arbitrary abelian
+lemmas, the analytic equivalence between flat connections and local systems with holomorphic
+parameters, the nilpotent-retaining Artin-base de Rham–Betti comparison, analytification of differential
+operators and proper hypercohomology comparison for operator complexes, small singular cochains and the sheaf–singular comparison for arbitrary abelian
 coefficients, the proper de Rham–Betti comparison with its multiplicative and integral structure,
 Ehresmann's fibration theorem and Betti local systems, the Gauss–Manin connection and the relative
 comparison, compact elliptic theory for the Hodge Laplacian, harmonic projection and the Green
 operator, the compact Kähler Hodge decomposition, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem, the test-form topology and current calculus with positivity, mass and local regularization, integration over analytic
-cycles, positivity of (1,1)-forms and the Chern normalisation, sheafification and analytification of shared ordinary connections,
+cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle
+and its Čech–curvature comparison, and the Chern normalisation, sheafification and analytification of
+shared ordinary connections,
 regular singularities, canonical logarithmic extensions, Deligne's Riemann–Hilbert equivalence and
 nonproper comparison, the curve logarithmic and compact-support complexes with residues, and the
 specializations and analytic adapters for shared logarithmic structures and de Rham complexes,
@@ -1720,31 +1723,6 @@ the suppliers named below). *Needs:* `properDeRhamBetti`; TauCetiRoadmap.Differe
 
 ### C5.2 Families, Ehresmann and the Gauss–Manin connection
 
-Prove `relativePoincare`: for a holomorphic submersion `f : T → S` of complex manifolds, the relative
-holomorphic de Rham complex `Ω^•_{T/S}` (with `f⁻¹O_S`-linear differential) is a resolution of
-`f⁻¹O_S`; with coefficients in a holomorphic vector bundle with integrable relative connection it
-resolves the sheaf of relatively horizontal sections. The degree-zero kernel is `f⁻¹O_S`, not the
-constant sheaf `ℂ`. Apply the radial homotopy in the fibre coordinates of a local product chart; the
-parameter integral keeps holomorphic dependence on the base (Deligne 1970, I.2.22–2.23 and proof,
-printed pp. 14–19). *Needs:* `HolomorphicDeRham`; `holomorphicPoincare`.
-
-Prove `ehresmannFibration`: a proper surjective submersion `f : M → N` of smooth manifolds is a
-locally trivial fibre bundle: every `y ∈ N` has a neighbourhood `V` with a diffeomorphism
-`f⁻¹(V) ≅ V × f⁻¹(y)` over `V`. Lift coordinate vector fields horizontally; properness makes their flows
-complete on preimages of small cubes, and the composed flows give the trivialization (tom Dieck,
-*Differential Manifolds*, author notes of January 2009, Theorems 2.2.1 and 2.2.3 and
-Corollary 2.2.4, pp. 52–53). DifferentialGeometry has flows (Layer 3) but not this theorem. *Needs:*
-TauCetiRoadmap.DifferentialGeometry (Layer 3, flows of vector fields).
-
-Prove `relativeBettiLocalSystem`: for a proper smooth holomorphic map `f : T → S` of complex manifolds
-(proper surjective submersion) and an abelian group `A`, `R^q f_* A` is a locally constant sheaf with
-stalk `H^q_sing(f⁻¹(s), A)` at `s`; for `A = ℂ` (or `ℚ`) it has finite rank, and for `A = ℤ` finitely
-generated stalks. Local triviality comes from `ehresmannFibration`; on a trivialized `V × F` with `V`
-contractible, `R^q f_*A|_V` is the constant sheaf `H^q(F, A)` by `sheafSingularComparison` and homotopy
-invariance; finiteness uses that the compact fibre has finite CW type (Deligne 1970, I.2.24–2.25,
-printed p. 19, for the stalks of `R^q f_*`; tom Dieck, Corollary 2.2.4, p. 53). *Needs:* `ehresmannFibration`;
-`sheafSingularComparison`; TauCetiRoadmap.AlgebraicTopology (Stage 8, finite CW type).
-
 Use the ordinary connection carrier `Crystalline.Connection` from CrystallineCohomology CR.1,
 sheafified as `Crystalline.Connection E` for a smooth scheme `X` over a field `k` of characteristic zero and a
 finite locally free `O_X`-module `E`: a `k`-linear sheaf map `∇ : E → Ω¹_X ⊗ E` with
@@ -1756,7 +1734,9 @@ on `E ⊗ F`, and the dual connection) and `Crystalline.Connection.curvature` (z
 iff the extended `∇` squares to zero; the trivial connection is `(A, d)`) (Deligne 1970, I.2.3–2.15, printed pp. 6–11, for holomorphic bundles, and I.2.20.3–2.21, pp. 13–14,
 for smooth schemes). The same
 definitions on complex manifolds give holomorphic connections, and analytification carries one to the
-other. On an affine `Spec A`, use the supplier's ordinary `Ω¹_{A/k}` case and
+other. For a holomorphic submersion `f : T → S`, use the same sheafified carrier with
+relative holomorphic forms `Ω¹_{T/S}`, the relative exterior derivative and
+`f⁻¹O_S`-linearity. On an affine `Spec A`, use the supplier's ordinary `Ω¹_{A/k}` case and
 its tensor order `E ⊗ Ω¹`; tensor symmetry identifies this with `Ω¹ ⊗ E` in the
 geometric formula. Additivity and the Leibniz rule imply `k`-linearity because `d` kills
 base scalars. Extension, curvature, tensor and dual connections are the CR.1 operations,
@@ -1776,6 +1756,73 @@ Mathlib `Derivation`, `KaehlerDifferential`.
   `a ∈ ℂ`, its horizontal sections on `ℂ*` are the branches of `z^{−a}`, and its monodromy along the
   positive loop is `exp(−2πia)`.
 
+Prove `analyticFlatConnectionLocalSystem`: let `f : T → S` be a holomorphic submersion of
+complex manifolds and `(E, ∇)` a finite locally free holomorphic module with integrable relative
+connection on the shared carrier above. Its horizontal sheaf `V = ker ∇` is an `f⁻¹O_S`-module
+locally isomorphic, on a product chart, to the inverse image of a finite locally free module on
+an open of `S`, with the same local rank as `E`. The canonical evaluation map
+`O_T ⊗_{f⁻¹O_S} V → E`, `a ⊗ v ↦ av`, is an isomorphism carrying the connection
+`d_{T/S} ⊗ 1` to `∇`. Conversely, for an `f⁻¹O_S`-module `V` locally of this form,
+the unit `V → (O_T ⊗_{f⁻¹O_S} V)^{d_{T/S}⊗1}` is an isomorphism. These maps give
+quasi-inverse functors between such relative local systems and finite locally free holomorphic
+modules with integrable relative connection; prove naturality for horizontal morphisms,
+compatibility with tensor products and duals, and pullback along diagrams of holomorphic
+submersions with extension of base scalars. For `S` a point this is the equivalence with
+finite-dimensional complex local systems, preserving the locally constant rank function of C0.3.
+
+Construct the local horizontal frames with holomorphic parameters: for a holomorphic matrix
+`A(z,t)` and holomorphic initial matrix `G₀(t)`, solve `∂G/∂z = −A(z,t)G`,
+`G(0,t) = G₀(t)`, uniquely on a smaller product polydisc; with invertible initial matrix the
+solution is invertible after shrinking. Starting with the identity on the zero section, extend
+a frame successively in the fibre variables, using the preceding frame as initial value at each
+step. Integrability and uniqueness make each extension horizontal in the preceding variables. The frames identify evaluation with
+multiplication in a free module; horizontal morphisms have coefficients pulled back from the base,
+which proves the functorial assertions (Deligne 1970, I.2.22–2.23(iii) and proof, printed
+pp. 14–19, especially the Cauchy problem with parameters and induction on pp. 17–18).
+*Needs:* `holomorphicBundleDictionary`; `HolomorphicDeRham`; CrystallineCohomology CR.1's
+shared connection operations and their holomorphic/relative sheafification above.
+
+**Checks.**
+
+- Rank zero gives the zero horizontal sheaf and the zero evaluation isomorphism; for
+  `(O_T^r, d_{T/S})` the horizontal sheaf is `(f⁻¹O_S)^r` and evaluation is the usual free-module
+  isomorphism.
+- On a disc, `d + dz` has the nowhere vanishing horizontal frame `exp(−z)`.
+  The scalar radial operator gives `K(∇1) = K(dz) = z`, whereas `(id − ev₀)(1) = 0`;
+  the coefficient contraction is obtained by conjugating through the horizontal frame.
+- For `T = D_z × D_t → D_t`, `d_z + t dz` has frame `exp(−tz)`, holomorphic in both variables,
+  normalized to one at `z = 0`; its horizontal sheaf is the inverse image of `O_{D_t}`.
+- Gluing local frames `z^{−a}` for `d + a dz/z` on `ℂ*` gives monodromy
+  `exp(−2πia) = localMonodromy a` along the positive loop, matching C5.6.
+
+Prove `relativePoincare`: for a holomorphic submersion `f : T → S` of complex manifolds, the relative
+holomorphic de Rham complex `Ω^•_{T/S}` (with `f⁻¹O_S`-linear differential) is a resolution of
+`f⁻¹O_S`; with coefficients in a finite locally free holomorphic module with integrable relative
+connection it resolves its horizontal sheaf `V`. The scalar degree-zero kernel is `f⁻¹O_S`.
+Apply the radial homotopy in the fibre coordinates of a local product chart for scalar forms;
+the parameter integral keeps holomorphic dependence on the base. For coefficients, first use
+`analyticFlatConnectionLocalSystem` to identify `(E, ∇)` with
+`(O_T ⊗_{f⁻¹O_S} V, d_{T/S} ⊗ 1)` and transport the scalar contraction through its evaluation
+isomorphism (Deligne 1970, I.2.23(ii)–(iii) and proof, printed pp. 15–19).
+*Needs:* `HolomorphicDeRham`; `holomorphicPoincare`; `analyticFlatConnectionLocalSystem`.
+
+Prove `ehresmannFibration`: a proper surjective submersion `f : M → N` of smooth manifolds is a
+locally trivial fibre bundle: every `y ∈ N` has a neighbourhood `V` with a diffeomorphism
+`f⁻¹(V) ≅ V × f⁻¹(y)` over `V`. Lift coordinate vector fields horizontally; properness makes their flows
+complete on preimages of small cubes, and the composed flows give the trivialization (tom Dieck,
+*Differential Manifolds*, author notes of January 2009, Theorems 2.2.1 and 2.2.3 and
+Corollary 2.2.4, pp. 52–53). DifferentialGeometry has flows (Layer 3) but not this theorem. *Needs:*
+TauCetiRoadmap.DifferentialGeometry (Layer 3, flows of vector fields).
+
+Prove `relativeBettiLocalSystem`: for a proper smooth holomorphic map `f : T → S` of complex manifolds
+(proper surjective submersion) and an abelian group `A`, `R^q f_* A` is a locally constant sheaf with
+stalk `H^q_sing(f⁻¹(s), A)` at `s`; for `A = ℂ` (or `ℚ`) it has finite rank, and for `A = ℤ` finitely
+generated stalks. Local triviality comes from `ehresmannFibration`; on a trivialized `V × F` with `V`
+contractible, `R^q f_*A|_V` is the constant sheaf `H^q(F, A)` by `sheafSingularComparison` and homotopy
+invariance; finiteness uses that the compact fibre has finite CW type (Deligne 1970, I.2.24–2.25,
+printed p. 19, for the stalks of `R^q f_*`; tom Dieck, Corollary 2.2.4, p. 53). *Needs:* `ehresmannFibration`;
+`sheafSingularComparison`; TauCetiRoadmap.AlgebraicTopology (Stage 8, finite CW type).
+
 Define `GaussManin f` for a smooth proper morphism `f : X → S` of smooth schemes over a field `k` of
 characteristic zero: filter the absolute de Rham complex `Ω^•_{X/k}` by the subcomplexes generated by
 `p` forms pulled back from `S`; smoothness makes the graded pieces `f^*Ω^p_S ⊗ Ω^•_{X/S}[−p]`. The
@@ -1791,8 +1838,8 @@ de Rham cohomology classes with respect to parameters*, J. Math. Kyoto Univ. 8 (
 pp. 199–201, §2, Theorem 1 and proof, pp. 201–204, and §3, sequence (13), pp. 204–205, for the
 filtration construction and integrability; Deligne 1970, II.7.7, printed p. 117, for
 `horizontalComparison`, and II.7.8, pp. 117–118). *Needs:* `AlgebraicDeRham`; `Crystalline.Connection`;
-`relativePoincare`; `relativeBettiLocalSystem`; `boundedOperatorHyperGaga`;
-SchemeAndStackFoundations Layer 2.
+`relativePoincare`; `analyticFlatConnectionLocalSystem`; `relativeBettiLocalSystem`;
+`boundedOperatorHyperGaga`; SchemeAndStackFoundations Layer 2.
 
 **Checks.**
 
@@ -1811,10 +1858,12 @@ is assumed. Compare the relative operator complexes by `boundedOperatorHyperGaga
 quasi-compact open `V ⊆ S`, over which `Ω^•_{X/S}` is bounded (`f` is quasi-compact and `Ω¹_{X/S}` is
 finite locally free, so its rank on `f⁻¹(V)` is bounded), resolve
 `f^{an,−1}O_{S^an}` by `relativePoincare`, and use `relativeBettiLocalSystem` with the projection
-formula (Deligne 1970, I.2.27–2.29, printed pp. 19–21, and II.7.7, p. 117; Deligne, *Théorème de
+formula; identify the horizontal sheaf and its evaluation map by
+`analyticFlatConnectionLocalSystem` (Deligne 1970, I.2.27–2.29, printed pp. 19–21, and II.7.7, p. 117; Deligne, *Théorème de
 Lefschetz et critères de dégénérescence de suites spectrales*, Publ. Math. IHÉS 35 (1968), Theorem 5.5,
 printed pp. 123–125, for local freeness). *Needs:* `GaussManin`;
-`relativePoincare`; `relativeBettiLocalSystem`; `boundedOperatorHyperGaga`.
+`relativePoincare`; `analyticFlatConnectionLocalSystem`; `relativeBettiLocalSystem`;
+`boundedOperatorHyperGaga`.
 
 **Artin-base relative comparison — `artinDeRhamBetti`.** Let `A` be a finite-dimensional
 commutative local `ℂ`-algebra with maximal ideal `m` and specified residue identification `A/m ≅ ℂ`,
@@ -2131,20 +2180,60 @@ Mathlib `circleIntegral`.
   `ℂ`, `(i/π)∂∂̄ log ‖e‖_h = −(i/2π) dz ∧ dz̄ = −c₁(L, h)`, and `c₁(L, h)` is positive, matching
   `ChernConnection.lineBundleCurvature`.
 
-Prove `chernFubiniStudyIntersection`: for a Hermitian holomorphic line bundle `L`, the form
-`(i/2π)Θ(L)` of its Chern connection is closed and its de Rham class is the image of the integral
-first Chern class `c₁(L)`; on `Pʳ` the normalised Fubini–Study form represents `c₁(O(1))` and integrates
-to `1` over a line (in the affine chart, `∫_ℂ π⁻¹(1 + |z|²)⁻² dλ = 1`,
+Define `integralLineBundleChernClass L ∈ H²_sing(M, ℤ)` for a holomorphic line bundle `L`
+on a complex manifold `M`, from the transition cocycle of its underlying smooth complex line
+bundle. On the smooth sheaves use the exponential sequence
+`0 → ℤ → C∞_M(ℂ) → C∞_M(ℂ)ˣ → 1`, where the last map is `u ↦ exp(2πiu)`.
+Prove exactness by local smooth logarithms; refine a trivializing cover so that its intersections
+admit logarithms. With coordinate transitions `g_αβ` from the β-coordinates to the α-coordinates, apply the connecting map to
+`[g] ∈ H¹(M, C∞_M(ℂ)ˣ)` and then `sheafSingularComparison`. For local logarithms
+`g_αβ = exp(2πiu_αβ)`, its integral Čech representative is
+`n_αβγ = u_βγ − u_αγ + u_αβ`. Prove independence of the cover, frames and logarithms,
+isomorphism invariance, naturality under holomorphic pullback, tensor additivity, and the
+trivial-bundle and dual formulas. This construction retains integral torsion and is independent
+of any metric or meromorphic section.
+
+For every smooth Hermitian metric `h`, prove that the real coefficient-change image of this
+class, under the smooth de Rham comparison, is `[(i/2π)Θ(L,h)]`; extension to `ℂ` gives the
+complex version. Build the Čech–de Rham comparison from the fine resolution of the constant real
+sheaf by smooth forms, prove its terms acyclic by smooth partitions of unity, and identify it
+with DifferentialGeometry's integration comparison, compatibly with the sheaf–singular map and
+coefficient change. In unitary smooth frames the
+local connection forms satisfy `A_β − A_α = 2πi du_αβ` and `Θ = dA_α`; the total-complex
+signs carry `n = δu` to `(i/2π)Θ`. Changes of metric change this form by an exact form.
+Use C1.3's Chern connection for holomorphic `L`; no global meromorphic section is required
+(Demailly, V.8.2 and V.9.2–9.5, printed pp. 264–265, with the Čech–de Rham signs in IV.6.11).
+*Needs:* `holomorphicBundleDictionary`; `ChernConnection`; `sheafSingularComparison`;
+SchemeAndStackFoundations §2.1–2.2 (connecting maps and Čech-to-cohomology);
+DifferentialGeometry Layers 6–8 (smooth Poincaré lemma, de Rham cohomology and integration);
+Mathlib `SmoothPartitionOfUnity.exists_isSubordinate`.
+
+**Checks.**
+
+- The trivial holomorphic bundle has integral class zero. On `ℂ` the metric `‖1‖² = e^{−|z|²}`
+  has nonzero curvature `dz ∧ dz̄`, whose normalized form is exact; a nonzero curvature form
+  does not make the integral class nonzero.
+- On `P¹`, `O(1)` has the positive integral generator: its normalized Fubini–Study curvature
+  pairs to one with the complex-oriented fundamental class (`fubiniStudy_integral_eq_one`).
+- Tensoring `L` with its dual gives integral class zero and cancels the two normalized curvature
+  classes; this holds before coefficient change, including the torsion information.
+
+Prove `chernFubiniStudyIntersection`: for a Hermitian holomorphic line bundle `L` on a complex
+manifold, the form `(i/2π)Θ(L)` of its Chern connection is closed and its de Rham class is the image of the integral
+first Chern class `integralLineBundleChernClass L`; on `Pʳ` the normalised Fubini–Study form
+represents `c₁(O(1))` and integrates to `1` over a line (in the affine chart, `∫_ℂ π⁻¹(1 + |z|²)⁻² dλ = 1`,
 `fubiniStudy_integral_eq_one`); and for a projective `d`-dimensional algebraic cycle `Z` (with multiplicities) and a
 line bundle `L`, `∫_Z c₁(L, h)ᵈ` equals the algebraic intersection degree `(c₁(L)ᵈ · Z)`, with mixed
-degrees and Segre pullbacks normalised the same way. `lelongPoincareSection` identifies the class of
+degrees and Segre pullbacks normalised the same way. The assertion on any complex manifold uses
+the integral class and Čech–curvature comparison of `integralLineBundleChernClass`.
+For the projective intersection assertion, `lelongPoincareSection` identifies the class of
 the curvature form with that of the divisor current — for a global section `s` of `(L, h)` through
 `(i/π)∂∂̄ log ‖s‖_h = [div s] − c₁(L, h)`, not through the function equation
 `(i/π)∂∂̄ log|f| = [div f]`, which holds only for a local coefficient `f` — and induction on dimension
-cuts by divisors (Demailly,
-V.13.2–13.9, pp. 271–273; V.15.8, V.15.10 and V.15.12 and proofs, pp. 279–281). *Needs:*
+cuts by divisors (Demailly, V.9.2–9.5, pp. 264–265; V.13.2–13.9, pp. 271–273; V.15.8, V.15.10
+and V.15.12 and proofs, pp. 279–281). *Needs:*
 `AnalyticCycleIntegration`; `semipositiveWedge`; `lelongPoincareSection`; `ChernConnection`;
-`multiplicativePeriodInterface`;
+`integralLineBundleChernClass`; `multiplicativePeriodInterface`;
 `projectiveChowNonreduced`; SchemeAndStackFoundations Layer 5 (degrees and intersection products);
 AlgebraicModuliForArithmeticGeometry Layer 1.
 
@@ -2473,7 +2562,9 @@ AlgebraicModuliForArithmeticGeometry Layer 9 (`sncCompactification`).
 Define `CanonicalLogExtension`: for a local system `V` of finite rank on `U^an`, `U = X ∖ D` with `X`
 smooth proper and `D` SNC, and a set-theoretic section `τ` of `ℂ → ℂ/ℤ` (for instance
 `0 ≤ Re λ < 1`), the unique locally free extension `(Ē, ∇)` of `(V ⊗ O_{U^an}, d)` to `X^an` with
-logarithmic poles whose residues along each component of `D` have eigenvalues in `τ`. Local monodromy
+logarithmic poles whose residues along each component of `D` have eigenvalues in `τ`.
+The initial bundle and its identification with the horizontal local system use the inverse and
+unit of `analyticFlatConnectionLocalSystem`. Local monodromy
 along a positive loop is `exp(−2πi Res)`. The extension is exact in `V`; tensor products need integer
 shifts of residues, while the unipotent extension (nilpotent residues) is tensor compatible. Choose
 logarithms of the commuting local monodromies with eigenvalues in `τ` and twist multivalued flat frames
@@ -2482,8 +2573,9 @@ by the corresponding exponentials; moderate growth glues and characterizes the e
 (monodromy `exp(−2πi Res)`, `localMonodromy`; strip representatives `residueStripRep`) and
 `CanonicalLogExtension.uniqueness` (uniqueness of an extension with the
 strip condition) (Deligne 1970, II.5.1–5.6, printed pp. 91–96: the choice of `τ` in II.5.3, misnumbered
-4.3 in print, and Proposition 5.4, p. 94; the monodromy in Corollary 5.6, p. 96). *Needs:* `RegularSingular`;
-`LogCrystalline.logDifferentials`; `logAnalytification`;
+4.3 in print, and Proposition 5.4, p. 94; the monodromy in Corollary 5.6, p. 96).
+*Needs:* `RegularSingular`; `analyticFlatConnectionLocalSystem`; `LogCrystalline.logDifferentials`;
+`logAnalytification`;
 AlgebraicModuliForArithmeticGeometry Layer 9 (`analyticPolydisc`).
 
 **Checks.**
@@ -2518,15 +2610,18 @@ by horizontal sections is an equivalence between the category of regular singula
 connections on `U` and the category of local systems of finite-dimensional complex vector spaces on
 `U^an`; it is exact, fully faithful and compatible with tensor products and duals. In particular a
 horizontal analytic morphism between regular singular algebraic connections is algebraic. Descent of
-such tensors to a smaller field of definition is an additional arithmetic input not supplied here. On a
-smooth quasi-projective `U`, take the canonical logarithmic extension on an SNC compactification
+such tensors to a smaller field of definition is an additional arithmetic input not supplied here.
+Use `analyticFlatConnectionLocalSystem` for the analytic horizontal-section functor, its rank
+property, unit and evaluation counit, and its tensor/dual compatibility. On a smooth quasi-projective
+`U`, take the canonical logarithmic extension on an SNC compactification
 (`sncCompactification`), algebraize it and its logarithmic connection by proper GAGA
 (`properSchemeGagaEquivalence` and `DifferentialOperatorAnalytification`), and algebraize horizontal
 maps by moderate growth; a general `U` is covered by quasi-projective opens (Deligne 1970, II.5.7–5.9
 and proof, printed pp. 96–98, with the corrected II.4.1; Caraiani–Scholze, *On the generic part of the
 cohomology of compact unitary Shimura varieties*, arXiv:1511.02418v1, §2.3, PDF p. 17, which uses it
 on a Hodge-type Shimura variety to make horizontal Hodge tensors algebraic).
-*Needs:* `CanonicalLogExtension`; `relativePoincare`; `DifferentialOperatorAnalytification`;
+*Needs:* `CanonicalLogExtension`; `analyticFlatConnectionLocalSystem`; `relativePoincare`;
+`DifferentialOperatorAnalytification`;
 AlgebraicModuliForArithmeticGeometry `properSchemeGagaEquivalence`, `sncCompactification`;
 SchemeAndStackFoundations Layer 1.
 
@@ -2540,7 +2635,7 @@ the inverses of `k + Res` (available because no residue eigenvalue is a positive
 `boundedOperatorHyperGaga` and the coefficient Poincaré lemma (Deligne 1970, Theorem II.6.2, printed
 p. 98, and II.6.7–6.10 and proof, pp. 101–105, with II.3.13–3.15, pp. 80–85, for the passage from
 logarithmic to meromorphic forms). *Needs:* `deligneRiemannHilbert`; `boundedOperatorHyperGaga`; `LogDeRham`;
-`sheafSingularComparison`; `relativePoincare`.
+`sheafSingularComparison`; `analyticFlatConnectionLocalSystem`; `relativePoincare`.
 
 ### C5.7 Curves and the proper logarithmic comparison
 
