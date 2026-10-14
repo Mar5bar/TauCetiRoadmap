@@ -130,6 +130,17 @@ example : ((RatFunc.X ^ 2 - 1) / (RatFunc.X - 1) : RatFunc ℚ) ∈ regularSubri
 -- A genuine pole is not: `T⁻¹` at `t = 0`.
 example : (RatFunc.X⁻¹ : RatFunc ℚ) ∉ regularSubring ℚ 0 := sorry
 
+-- Reduced fractions distinguish cancellation from a genuine pole.
+example : ((RatFunc.X ^ 2 - RatFunc.X) / RatFunc.X : RatFunc ℚ) ∈ regularSubring ℚ 0 :=
+  sorry
+
+example : (RatFunc.X / RatFunc.X ^ 2 : RatFunc ℚ) ∉ regularSubring ℚ 0 := sorry
+
+-- Equal total values at zero do not imply equal regularity.
+example : (RatFunc.X : RatFunc ℚ) ∈ regularSubring ℚ 0 ∧
+    RatFunc.eval (RingHom.id ℚ) 0 (RatFunc.X : RatFunc ℚ) =
+      RatFunc.eval (RingHom.id ℚ) 0 RatFunc.X⁻¹ := sorry
+
 /-- Evaluation at `t` as a ring homomorphism on the regular subring. -/
 def evalRegular (t : K) : regularSubring K t →+* K where
   toFun f := RatFunc.eval (RingHom.id K) t f.val
@@ -150,6 +161,19 @@ theorem evalRegular_surjective (t : K) : Function.Surjective (evalRegular t) := 
 
 -- Evaluation preserves the unit even at the zero parameter.
 example : evalRegular (0 : ℚ) 1 = 1 := map_one _
+
+-- Polynomial and nonpolynomial inputs use the same parameter evaluation.
+example : evalRegular (3 : ℚ)
+    ⟨RatFunc.X, algebraMap_mem_regularSubring 3 X⟩ = 3 := sorry
+
+example : evalRegular (3 : ℚ)
+    ⟨(RatFunc.X - 1)⁻¹, by sorry⟩ = 1 / 2 := sorry
+
+example : evalRegular (2 : ℚ)
+    ⟨RatFunc.X - 2, by sorry⟩ = 0 := sorry
+
+example : evalRegular (5 : ℚ)
+    ⟨RatFunc.C 7, by sorry⟩ = 7 := sorry
 
 /-- Coefficientwise specialization `p(T, Y) ↦ p(t, Y)`, total as a function. -/
 def specialize (t : K) (p : (RatFunc K)[X]) : K[X] :=
@@ -176,6 +200,34 @@ example : specialize (2 : ℚ) (X ^ 2 - C RatFunc.X) = X ^ 2 - C 2 := sorry
 example : specialize (0 : ℚ) (C (RatFunc.X : RatFunc ℚ) * C RatFunc.X⁻¹) ≠
     specialize 0 (C RatFunc.X) * specialize 0 (C RatFunc.X⁻¹) := sorry
 
+-- Specialization is total, including the zero polynomial and coefficient poles.
+example : specialize (0 : ℚ) (0 : (RatFunc ℚ)[X]) = 0 := sorry
+
+example : specialize (0 : ℚ) (C RatFunc.X * X + 1) = 1 := sorry
+
+example : (specialize (0 : ℚ) (C (RatFunc.X⁻¹ : RatFunc ℚ) * X)).coeff 1 = 0 :=
+  sorry
+
+-- The polynomial map along regular evaluation agrees with coefficientwise specialization.
+example :
+    let q : (regularSubring ℚ 0)[X] :=
+      C ⟨(RatFunc.X - 1)⁻¹, by sorry⟩ * X + C ⟨RatFunc.X, by sorry⟩
+    specialize 0 (q.map (regularSubring ℚ 0).subtype) = q.map (evalRegular 0) ∧
+      q.map (evalRegular 0) = -X := sorry
+
+-- Cancellation of two poles breaks additivity of total evaluation.
+example : specialize (0 : ℚ)
+      (C (RatFunc.X⁻¹ : RatFunc ℚ) + C (1 - RatFunc.X⁻¹)) ≠
+    specialize 0 (C RatFunc.X⁻¹) + specialize 0 (C (1 - RatFunc.X⁻¹)) := sorry
+
+-- Regular coefficients retain the addition and multiplication laws.
+example : specialize (2 : ℚ)
+    ((X ^ 2 - C RatFunc.X) + C (RatFunc.X - 1)⁻¹ * X) =
+      (X ^ 2 - C 2) + X := sorry
+
+example : specialize (2 : ℚ) ((X - C RatFunc.X) * (X + C RatFunc.X)) =
+    (X - C 2) * (X + C 2) := sorry
+
 /-- Product, with repetitions, of the reduced denominators of the nonzero coefficients. -/
 def denominatorProduct (p : (RatFunc K)[X]) : K[X] :=
   ∏ n ∈ p.support, (p.coeff n).denom
@@ -186,6 +238,10 @@ example : denominatorProduct (C (RatFunc.X⁻¹ : RatFunc ℚ) * X + C RatFunc.X
 -- The empty coefficient support contributes the empty product, not zero.
 example : denominatorProduct (0 : (RatFunc ℚ)[X]) = 1 := sorry
 
+-- A cancelled denominator contributes no factor.
+example : denominatorProduct
+    (C ((RatFunc.X ^ 2 - 1) / (RatFunc.X - 1) : RatFunc ℚ)) = 1 := sorry
+
 theorem denominatorProduct_ne_zero (p : (RatFunc K)[X]) : denominatorProduct p ≠ 0 := sorry
 
 theorem denominatorProduct_eval_ne_zero_iff (t : K) (p : (RatFunc K)[X]) :
@@ -194,6 +250,19 @@ theorem denominatorProduct_eval_ne_zero_iff (t : K) (p : (RatFunc K)[X]) :
 theorem natDegree_specialize (t : K) (p : (RatFunc K)[X])
     (h : RatFunc.eval (RingHom.id K) t p.leadingCoeff ≠ 0) :
     (specialize t p).natDegree = p.natDegree := sorry
+
+-- Vanishing of the leading value loses degree even with regular coefficients.
+example : (C (RatFunc.X : RatFunc ℚ) * X + 1).natDegree = 1 ∧
+    (specialize (0 : ℚ) (C RatFunc.X * X + 1)).natDegree = 0 := sorry
+
+-- An irreducible value can have smaller degree than its source.
+example : (C (RatFunc.X : RatFunc ℚ) * X ^ 2 + X + 1).natDegree = 2 ∧
+    specialize (0 : ℚ) (C RatFunc.X * X ^ 2 + X + 1) = X + 1 ∧
+    Irreducible (specialize (0 : ℚ) (C RatFunc.X * X ^ 2 + X + 1)) := sorry
+
+-- A lower-coefficient pole does not change a nonvanishing leading value.
+example : specialize (0 : ℚ) (X + C (RatFunc.X⁻¹ : RatFunc ℚ)) = X ∧
+    (specialize (0 : ℚ) (X + C (RatFunc.X⁻¹ : RatFunc ℚ))).natDegree = 1 := sorry
 
 /-- The guard: if `(denominatorProduct p · num(lc p))(t) ≠ 0`, every coefficient is regular at `t`
 and the degree is preserved. -/
@@ -229,6 +298,11 @@ def IsHilbertian (K : Type*) [Field K] : Prop :=
     ∃ t : K, ∀ p ∈ s, (∀ n, (p.coeff n).denom.eval t ≠ 0) ∧
       (specialize t p).natDegree = p.natDegree ∧ Irreducible (specialize t p)
 
+/-- A finite extension of a characteristic-zero Hilbertian field is Hilbertian, including
+extensions of degree one (Serre, Corollary 3.2.2). -/
+theorem IsHilbertian.finite_extension {K L : Type*} [Field K] [Field L] [CharZero K]
+    [Algebra K L] [FiniteDimensional K L] (hK : IsHilbertian K) : IsHilbertian L := sorry
+
 /-- Hilbert's irreducibility theorem over number fields (Serre, *Topics in Galois Theory*,
 §3.4). -/
 theorem isHilbertian_of_numberField (K : Type*) [Field K] [NumberField K] : IsHilbertian K :=
@@ -248,6 +322,13 @@ example : IsHilbertian ℚ := isHilbertian_of_numberField ℚ
 
 -- `ℂ` is not Hilbertian: `Y² − T` is irreducible over `ℂ(T)` but every specialization splits.
 example : ¬ IsHilbertian ℂ := sorry
+
+-- Over the reals this quadratic is irreducible before every specialization splits.
+example : Irreducible (X ^ 2 - C (RatFunc.X ^ 2 + 1) : (RatFunc ℝ)[X]) ∧
+    ∀ t : ℝ, ¬ Irreducible
+      (RationalSpecialization.specialize t (X ^ 2 - C (RatFunc.X ^ 2 + 1))) := sorry
+
+example : ¬ IsHilbertian ℝ := sorry
 
 /-- A proper finite extension of an algebraic Galois extension of a characteristic-zero
 Hilbertian field is Hilbertian (Weissauer; Fried–Jarden, Theorem 13.9.1(b)). The Galois
@@ -279,6 +360,11 @@ def product (t : BranchTuple r G) : G := (List.ofFn t).prod
 
 /-- The subgroup generated by the entries. -/
 def generated (t : BranchTuple r G) : Subgroup G := Subgroup.closure (Set.range t)
+
+-- The empty tuple has identity product and generates the trivial subgroup.
+example (G : Type*) [Group G] :
+    product (fun i : Fin 0 => Fin.elim0 i : BranchTuple 0 G) = 1 ∧
+    generated (fun i : Fin 0 => Fin.elim0 i : BranchTuple 0 G) = ⊥ := sorry
 
 -- In `S₃`, `((0 1), (1 2), ((0 1)(1 2))⁻¹)` has product one and generates.
 example : product ![Equiv.swap (0 : Fin 3) 1, Equiv.swap (1 : Fin 3) 2,
@@ -499,6 +585,13 @@ example : ¬ IsRationalClass (ConjClasses.mk (Multiplicative.ofAdd (1 : ZMod 3))
 
 example : IsRationalClass (ConjClasses.mk (Equiv.swap (0 : Fin 3) 1)) := sorry
 
+-- Rationality does not supply a generating product-one tuple.
+example : IsRationalClass (ConjClasses.mk (Multiplicative.ofAdd (1 : ZMod 2))) ∧
+    ¬ IsRigid ![ConjClasses.mk (Multiplicative.ofAdd (1 : ZMod 2))] := sorry
+
+-- For the trivial group the empty tuple is the unique generating product-one tuple.
+example : IsRigid (fun _ : Fin 0 => ConjClasses.mk (1 : PUnit)) := sorry
+
 end Rigidity
 
 /-- `G` is the Galois group of a regular extension of `K(T)`: a finite Galois extension `L` of
@@ -550,6 +643,17 @@ def universalProjection (c : Set G) (hc : ∀ g : G, ∀ x ∈ c, g * x * g⁻¹
     rintro w ⟨x, y, rfl⟩
     simp)
 
+-- With no marked generators the universal group is trivial.
+example : Nat.card (universalMarked (∅ : Set PUnit) (by simp)) = 1 := sorry
+
+-- The one C₂ marking gives an infinite cyclic group with projection modulo two.
+example : Nonempty {e :
+    universalMarked ({Multiplicative.ofAdd (1 : ZMod 2)} : Set (Multiplicative (ZMod 2)))
+      (by intro g x hx; rw [mul_comm g x, mul_assoc, mul_inv_cancel, mul_one]; exact hx) ≃* Multiplicative ℤ //
+    ∀ u, universalProjection ({Multiplicative.ofAdd (1 : ZMod 2)} : Set (Multiplicative (ZMod 2)))
+      (by intro g x hx; rw [mul_comm g x, mul_assoc, mul_inv_cancel, mul_one]; exact hx) u =
+        Multiplicative.ofAdd ((Multiplicative.toAdd (e u) : ℤ) : ZMod 2)} := sorry
+
 /-- The conjugacy classes meeting `c`, the index set `D = c/G` of the class degree. -/
 def classSet (c : Set G) : Set (ConjClasses G) := ConjClasses.mk '' c
 
@@ -572,6 +676,15 @@ def classDegree (c : Set G) : (classSet c →₀ ℤ) →+ Additive (Abelianizat
 example : classDegree ({Multiplicative.ofAdd (1 : ZMod 2)} : Set (Multiplicative (ZMod 2)))
     (Finsupp.single ⟨ConjClasses.mk (Multiplicative.ofAdd (1 : ZMod 2)), ⟨_, rfl, rfl⟩⟩ 1) ≠ 0 :=
   sorry
+
+-- The empty class set has zero degree map.
+example : classDegree (∅ : Set G) = 0 := sorry
+
+-- Every integer coefficient, including negative ones, is reduced modulo two.
+example (k : ℤ) :
+    classDegree ({Multiplicative.ofAdd (1 : ZMod 2)} : Set (Multiplicative (ZMod 2)))
+      (Finsupp.single ⟨ConjClasses.mk (Multiplicative.ofAdd (1 : ZMod 2)), ⟨_, rfl, rfl⟩⟩ k) =
+        Additive.ofMul (Abelianization.of (Multiplicative.ofAdd (k : ZMod 2))) := sorry
 
 /-- The kernel `K(G, c)` of the universal marked extension. -/
 def universalKernel (c : Set G) (hc : ∀ g : G, ∀ x ∈ c, g * x * g⁻¹ ∈ c) :
@@ -601,6 +714,11 @@ theorem cyclotomicTwist_eval_bijective (B T X : Type*) [Group B] [MulAction B T]
 
 -- Twisting a two-element set by the trivial torsor preserves its two distinct points.
 example : Nonempty (cyclotomicTwist PUnit PUnit (Fin 2) ≃ Fin 2) := sorry
+
+-- Equivariance cuts the four maps between regular two-element sets down to two.
+example : Nat.card (cyclotomicTwist (Multiplicative (ZMod 2))
+    (Multiplicative (ZMod 2)) (Multiplicative (ZMod 2))) = 2 ∧
+    Nat.card (Multiplicative (ZMod 2) → Multiplicative (ZMod 2)) = 4 := sorry
 
 end ReducedSchur
 
@@ -683,6 +801,13 @@ example : IsEmpty (UnorderedConfiguration (Fin 2) 3) := sorry
 example : (OrderedConfiguration.forget (⟨id, Function.injective_id⟩ :
     OrderedConfiguration (Fin 2) 2)).val = Finset.univ := sorry
 
+-- Empty configurations are singletons, and one-point configurations recover the type.
+example (X : Type*) : Nonempty (OrderedConfiguration X 0 ≃ PUnit) ∧
+    Nonempty (UnorderedConfiguration X 0 ≃ PUnit) := sorry
+
+example (X : Type*) : Nonempty (OrderedConfiguration X 1 ≃ X) ∧
+    Nonempty (UnorderedConfiguration X 1 ≃ X) := sorry
+
 /-- The lifted affine coordinate group: triples `(a, b, d)` with `d² = aⁿ`, acting by
 `x ↦ a x + b` on the line and by `y ↦ d y` on the hyperelliptic coordinate. -/
 structure LiftedAffineGroup (n : ℕ) (R : Type*) [CommRing R] where
@@ -707,6 +832,17 @@ def mul {n : ℕ} {R : Type*} [CommRing R] (g h : LiftedAffineGroup n R) :
 /-- For odd `n`, `(a, b, d) ↦ (d / a^{(n-1)/2}, b)` identifies the group with `Rˣ × R`. -/
 theorem nonempty_equiv_of_odd {n : ℕ} (hn : Odd n) (R : Type*) [CommRing R] :
     Nonempty (LiftedAffineGroup n R ≃ Rˣ × R) := sorry
+
+-- The identity coordinate change is a two-sided identity for composition.
+example {n : ℕ} {R : Type*} [CommRing R] (g : LiftedAffineGroup n R) :
+    mul (⟨1, 0, 1, by simp⟩ : LiftedAffineGroup n R) g = g ∧
+    mul g (⟨1, 0, 1, by simp⟩ : LiftedAffineGroup n R) = g := sorry
+
+-- For odd degree three the two signs are distinct and both fix every branch label.
+example :
+    let g : LiftedAffineGroup 3 ℚ := ⟨1, 0, 1, by simp⟩
+    let h : LiftedAffineGroup 3 ℚ := ⟨1, 0, -1, by simp⟩
+    g ≠ h ∧ ∀ x : ℚ, (g.a : ℚ) * x + g.b = x ∧ (h.a : ℚ) * x + h.b = x := sorry
 
 -- For even `n` the fibre over `(a, b)` contains both square roots: `(1, 0, ±1)` for `n = 2`.
 example : (⟨1, 0, 1, by simp⟩ : LiftedAffineGroup 2 ℚ) ≠ ⟨1, 0, -1, by simp⟩ := by
@@ -749,6 +885,20 @@ def PolynomialRealization.toField {K G : Type*} [Field K] [Group G] {f : K[X]}
 
 -- The trivial group is realized by `K` itself.
 example (K : Type*) [Field K] : Nonempty (FieldRealization K K PUnit) := sorry
+
+-- Every nonzero constant has trivial splitting field and group.
+example (K : Type*) [Field K] (a : K) (ha : a ≠ 0) :
+    Nonempty (PolynomialRealization (C a) PUnit) := sorry
+
+-- The zero polynomial cannot supply the separability field of a certificate.
+example (K : Type*) [Field K] (G : Type*) [Group G] :
+    ¬ Nonempty (PolynomialRealization (0 : K[X]) G) := sorry
+
+-- Constant certificates convert to extensions of degree one.
+example (K : Type*) [Field K] (a : K) (ha : a ≠ 0)
+    (c : PolynomialRealization (C a) PUnit) :
+    Module.finrank K (C a).SplittingField = 1 ∧
+      Nonempty (FieldRealization K (C a).SplittingField PUnit) := sorry
 
 -- `(X² − 2)(X² − 3)` realizes `C₂ × C₂` over `ℚ`; reducible polynomials are allowed.
 example : Nonempty (PolynomialRealization ((X ^ 2 - C 2) * (X ^ 2 - C 3) : ℚ[X])
@@ -823,8 +973,9 @@ Brauer–Manin fibration density over a quasi-trivial torus, Brauer–Manin dens
 stabilisers, collectively coprime degrees of ordinary field realizations, unramified Brauer classes
 of finite quotients of `SL_n`, unramified
 `Γ`-groups, Property E and the marked extension count over `𝔽_q(t)`.
-Layer IG.5: topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers, the
-cohomological comparisons, component invariants, patching of Galois algebras and of covers with a
+Layer IG.5: topological and arithmetic Hurwitz spaces, tame `G`-covers of smooth proper target
+curves of arbitrary genus, the general-genus Hurwitz comparison for the smooth admissible locus
+and versal families, admissible `G`-covers, the cohomological comparisons, component invariants, patching of Galois algebras and of covers with a
 fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine curves, and
 the steps of Serre, Raynaud and Harbater towards Abhyankar's conjecture.
 Layer IG.6: `FieldRealization.transport`, specialization of realizations, generic-polynomial universality.
