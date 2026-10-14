@@ -1444,7 +1444,7 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.arisesFrom_baseChange`: For absolutely irreducible ρ̄, ArisesFrom ρ̄ f ↔ ArisesFrom (ρ̄ ⊗_F F′) f.
 
-**Checks.**
+**Checks for S-type.**
 
 - `TauCeti.ResidualModularity.isSType_11a1_three` (computation): E[3] for 11a1 is of S-type with N = 11, k = 2, ε = 1, and arises from 11a1.
 
@@ -1452,9 +1452,25 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.isSType_p2_odd` (degenerate): At p = 2 oddness is automatic: det ρ̄(c) = 1 = −1 in F.
 
+**Checks for ArisesFrom.**
+
+- `TauCeti.ResidualModularity.arisesFrom_11a1_three` (computation): E[3] for 11a1 arises from its normalized weight-two newform, using its rational coefficient field and the place at 3.
+
+- `TauCeti.ResidualModularity.not_arisesFrom_trivial_11a1_three` (non-example): The trivial rank-two F₃ representation does not arise from that form: at Frobenius 2 its polynomial is (X−1)², while the form gives X²−X+2.
+
+- `TauCeti.ResidualModularity.not_arisesFrom_11a1_three_delta` (non-example): E[3] for 11a1 does not arise from Δ. At Frobenius 2 its trace is −2=1 in F₃, whereas τ(2)=−24 reduces to 0. The different traces give different characteristic polynomials.
+
+**Checks for IsModular.**
+
+- `TauCeti.ResidualModularity.isModular_11a1_three` (computation): The weight-two newform of 11a1 supplies a modularity witness for E[3].
+
+- `TauCeti.ResidualModularity.isModular_11a1_five` (boundary): The semisimplification of E[5] for 11a1 is modular through the same newform. The rational point (5,5) has order 5 and supplies an invariant line, so this representation fails S-type.
+
+- `TauCeti.ResidualModularity.not_isModular_trivial_three` (non-example): The trivial rank-two F₃ representation is not modular. Every newform attachment has determinant −1 at complex conjugation, since ε(−1)=(−1)^k and det ρ_f=εχ_cyc^(k−1); reduction and semisimplification preserve this determinant. The trivial representation has determinant 1≠−1 in F₃.
+
 *Needs:* [A residual modularity witness](#target-residual-modularity-witness); [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [Determinant and parity](#target-determinant-parity-and-weight-mod-p-minus-one); ArithmeticGaloisRepresentations Layer 3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7.
 
-([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, p. 2 (authors' preprint); [Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, p. 2 (authors' preprint).)
+([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, p. 2 (authors' preprint); [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), §1.5, pp.508–509, §4.5, p.514, Theorems 6.1 and 6.7, pp.520–522.)
 
 <a id="target-serre-conjecture-target-with-N-k-epsilon"></a>
 

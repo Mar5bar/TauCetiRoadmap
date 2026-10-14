@@ -278,6 +278,12 @@ example : tameExponents (.niveauTwo 1 3) = some (1, 3) ∧
 example : wildExponents (.wild 3 1 false) = some (3, 1) ∧
     wildExponents (.niveauOne 0 0) = none := by sorry
 
+example : wildExponents (.niveauTwo 1 3) = none := by rfl
+
+example : tameExponents (.niveauTwo 0 1) = some (0, 1) := by rfl
+
+example : tameExponents (.niveauOne 0 0) = some (0, 0) := by rfl
+
 /-- Classical Serre arithmetic table, retaining the unramified and dyadic corrections. -/
 def serreWeight (p : ℕ) : LocalData → ℕ
   | .niveauOne a b => if a=0 ∧ b=0 then p else 1+p*a+b
@@ -610,6 +616,17 @@ example (F : Matrix (Fin 2) (Fin 2) (ZMod 3))
     (htrace : Matrix.trace F = 1) (hdet : F.det = 2) :
     F.charpoly ≠ (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly := by sorry
 
+/-- The different Frobenius traces of 11a1 and Δ at two modulo three exclude attachment. -/
+example (F D : Matrix (Fin 2) (Fin 2) (ZMod 3))
+    (hF : Matrix.trace F = 1) (hD : Matrix.trace D = 0) :
+    F.charpoly ≠ D.charpoly := by sorry
+
+/-- The trivial rank-two representation over F₃ cannot satisfy determinant oddness. -/
+example {G : Type*} [Group G]
+    (rho : G →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) (c : G)
+    (hodd : (rho c : Matrix (Fin 2) (Fin 2) (ZMod 3)).det = -1) :
+    rho ≠ 1 := by sorry
+
 /-- The determinant identity fixes the parity of the residual character. -/
 theorem determinantParity {k : Type*} [Field k] (weight : ℕ) (hw : 1 ≤ weight)
     (epsilon : k) (h : (-1 : k) = epsilon * (-1 : k)^(weight-1)) :
@@ -660,6 +677,8 @@ TauCeti.EigenvalueLifting:
 
 TauCeti.ResidualModularity:
   ArisesFrom, ClassicalTarget, IsModular, IsSType, Witness, arisesFrom_baseChange,
+  arisesFrom_11a1_three, not_arisesFrom_trivial_11a1_three, not_arisesFrom_11a1_three_delta,
+  isModular_11a1_three, isModular_11a1_five, not_isModular_trivial_three,
   classicalTarget_baseChange, classicalTarget_implies_modular, isSType_11a1_three,
   isSType_baseChange, isSType_p2_odd, katz_vs_reduction, modpCuspForms,
   modpCuspForms_baseChange, modpCuspForms_mem, modpCuspForms_zero, not_isSType_11a1_five,
