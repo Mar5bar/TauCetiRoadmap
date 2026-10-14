@@ -1767,8 +1767,8 @@ determinant coefficient is
 `q^{n(n−1)/2} T_n`. Prove that for `0 ≤ i ≤ n` the coefficient of `X^{n−i}` is
 `(−1)^i q^{i(i−1)/2} T_i`, that `P` is monic if `T_0 = 1`, even in the zero ring, that it has
 degree `n` when `A` is nonzero, and that it is compatible with every ring homomorphism ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.5, equation (2.2.6),
-p.922). *Needs:* [Smooth representations of local
-groups](../SmoothRepresentationsOfLocalGroups/README.md) SR.4, Characteristic polynomial and trace of a determinant.
+p.922). *Needs:* IHG.0, Characteristic polynomial and trace of a determinant; [Smooth representations of local
+groups](../SmoothRepresentationsOfLocalGroups/README.md) SR.4.3, *gln-generators*.
 *Lean:* `Spherical.glnPolynomial`.
 
 **Checks.**
@@ -1896,8 +1896,8 @@ interpretation. Prove
 `Spherical.gsp4DualSpinPolynomial_reciprocal` (`P(X) = X⁴ Q(q³/X) / Q(0)`, stated coefficient by
 coefficient after clearing `Q(0)`) and `P(0) = q⁶ T_0^{-2}`; the roots of `P` are `q³`
 divided by the spin-`Q` roots ([BCGP](https://arxiv.org/pdf/2502.20645v1), Equation (1.8.27) and Lemma 1.8.28, p.17).
-*Needs:* [Smooth representations of local groups](../SmoothRepresentationsOfLocalGroups/README.md)
-SR.4, Normalized reciprocal characteristic polynomial.
+*Needs:* IHG.0, Characteristic polynomial and trace of a determinant; [Smooth representations of local groups](../SmoothRepresentationsOfLocalGroups/README.md)
+SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*.
 *Lean:* `Spherical.gsp4SpinPolynomial`, `Spherical.gsp4DualSpinPolynomial`,
 `Spherical.gsp4DualSpinPolynomial_reciprocal`.
 
