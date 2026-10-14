@@ -15,9 +15,9 @@ The heavy carriers are README targets with their intended signatures and do not 
 projective bundles of quasi-coherent modules and their twisting sheaves, coherent Grassmannians
 and flags, the quasi-coherent descent pseudofunctor, relative Hom and Weil restriction presheaves,
 the intrinsic band sheaf and the Hom sheaves of banded morphisms, gerbe classes in `H²`,
-rigidifications and finite correspondences of stacks, Picard stacks and spaces, framed
-deformation groupoids, analytifications and the resolution functor. Layers 5 and 8 consist of
-such targets only and have no section below.
+rigidifications and finite correspondences of stacks, Picard stack carriers and sheaves, framed
+deformation groupoids, nonarchimedean analytifications and the resolution functor. Layers 5 and 8
+consist of such targets only and have no section below.
 
 Design choices made explicit here:
 
@@ -28,23 +28,6 @@ Design choices made explicit here:
   conjugation equations; band-preserving transformations are a class on strong transformations.
 * Formal points retain every positive power of the ideal; tangent fibres are fibres of the
   dual-number restriction over a fixed point, not all dual-number points.
-* The identity-component API is `picardZeroSheaf` and `picardZeroCriterion` (README §7.9),
-  with the full nonreduced component and arbitrary base change. These algebraic-space carriers
-  are README targets.
-* This roadmap owns `ComplexAnalyticSpace` and `complexSchemeAnalytification` (README §7.10.1).
-  The analytic category is the full subcategory of locally ringed spaces over Spec C satisfying
-  the analytic local-model condition. The functor's domain is the full subcategory of schemes over
-  Spec C whose structure morphism is `LocallyOfFiniteType`, including infinite affine covers.
-  It retains the analytic ring sheaf and nilpotents with no global Hausdorff assumption. Its
-  universal property uses Hom sets over Spec C, including sheaf maps, and determines the functor
-  and its open, closed and fibre-product comparisons. `SchemeAnalytificationChecks.affineLine`
-  includes the holomorphic exponential, and `SchemeAnalytificationChecks.dual` distinguishes maps
-  with equal point maps and different nilpotent-valued sheaf maps. The finite, proper,
-  étale and smooth comparisons concern this same ringed functor; relative smooth charts retain
-  base nilpotents (`SchemeAnalytificationChecks.relativeDual`). Properness is relative to analytic
-  base charts, and finite morphisms have finite fibres. The local analytic inverse uses
-  `AnalyticAt.exists_openPartialHomeomorph`; coherent and topological consumers share
-  this analytification. These carriers and comparisons are README targets.
 * The relative Picard presheaf is `T ↦ Pic(X_T)` on schemes over the base, before fppf
   sheafification; its values are Tau Ceti's `LineBundleClass`.
 * The order of an ideal at a prime is computed in the localisation, valued in `ℕ∞`; a marked
