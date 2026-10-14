@@ -451,7 +451,12 @@ Maass–Selberg, spectral completeness and the trace formulas require the README
 
 end TauCetiRoadmap.AutomorphicSpectralTheory
 
-/-! ## Residual scalar prototypes for §§4.15a–4.15d -/
+/-! ## Residual scalar prototypes for §§4.15a–4.15d
+
+The residual quotient and telescoping targets belong to this roadmap; their cuspidal pair
+factors are supplied by AutomorphicLFunctionsAndLocalFactors AL.3. The normalizing scalar
+and its Weyl composition API are specified in this roadmap's §4.15d.
+-/
 
 namespace TauCeti.AutomorphicLFunctions.AL3
 
