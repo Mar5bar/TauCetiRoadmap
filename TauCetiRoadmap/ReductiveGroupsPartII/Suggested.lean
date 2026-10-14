@@ -36,7 +36,6 @@ Design choices.
 
 namespace TauCetiRoadmap.ReductiveGroupsPartII
 
-set_option autoImplicit false
 
 noncomputable section
 
