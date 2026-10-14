@@ -156,13 +156,106 @@ the attachment; no diffeomorphism of a cornered handle space is asserted.
 Build the modified-function/cutoff deformation, control all chart
 boundaries and prove continuity of the local modified-function deformation.
 Consume GT's collars for the attaching-face boundary identifications and
-native TopCat pushouts for the topological handle adjunction. Give the homotopy cell attachment directly,
-without needing a corner-smoothing theorem, and specify characteristic and
-attaching maps. Prove the homotopy class of the attaching map into M_(c−ε)
-is independent of auxiliary chart/metric choices, with identifications of the
-regular lower sublevel explicit. The cell-attachment comparison homotopy fixes
-that entire lower sublevel pointwise; prove this before compactification gluing.
-Include simultaneous critical points, index 0 and top-index cases.
+native TopCat pushouts for the topological handle adjunction. Give the homotopy
+cell attachment directly, and specify attaching maps ∂D^λ→M_(c−ε) and
+characteristic maps χ:(D^λ,∂D^λ)→(M_(c+ε),M_(c−ε)). The handle-to-cell
+comparison Φ_α:M_(c−ε)∪_αD^λ→M_(c+ε) is the pushout map induced by the
+inclusion on the lower sublevel and χ on the disk. Prove it is a homotopy
+equivalence whose inverse homotopies fix the entire lower sublevel. Include
+simultaneous critical points, index 0 and
+whole-dimension cases.
+
+Own the change-of-chart comparison at fixed c and a common admissible ε,
+before compactification gluing, with the regular lower sublevel identified
+explicitly. An admissible ε has compact band f⁻¹[c−ε,c+ε], no critical
+points there except the specified points at c, and every chosen chart image
+contains its closed negative-coordinate disk of radius √ε. These conditions
+are retained on decreasing ε. For a chart φ use χ_φ(w)=φ⁻¹(√ε·w,0)
+and α_φ=χ_φ|∂D. For two choices construct
+h∈O(λ), its boundary restriction h_∂ and a homotopy of characteristic maps
+of pairs K:χ₁≃χ₀∘h. Write H=K|∂D with H(·,0)=α₁ and
+H(·,1)=α₀∘h_∂. Construct the particular Milnor comparison (Lemma 3.6)
+E_H:M_(c−ε)∪_(α₁)D^λ→M_(c−ε)∪_(α₀)D^λ: it is identity on the lower
+sublevel, sends x to the target disk point h(2x) for |x|≤1/2, and sends x
+to H(x/|x|,2−2|x|) for 1/2≤|x|≤1. Prove agreement at the seam and on
+the attaching boundary. For λ=0 use the identity on the isolated point.
+Prove this map is a homotopy equivalence with inverse and homotopies rel the
+lower sublevel. First prove Φ₀∘E_H≃Φ₁ rel the lower sublevel from that
+same pair homotopy K by its disk-cylinder comparison.
+If Ψ₀ is the relative inverse of Φ₀, this gives E_H≃Ψ₀∘Φ₁ rel the lower
+sublevel and hence the required equivalence, independently of any unspecified
+AT gluing equivalence. The relative class of E_H is independent of the chosen
+pair homotopy K with these endpoints; an arbitrary boundary homotopy does
+not have that property. For a strict α₁=α₀∘h_∂, id⊔h itself is the adjunction homeomorphism
+rel the lower sublevel. Write E_ij for the map from chart j's adjunction
+to chart i's. For three choices prove E₀₂≃E₀₁∘E₁₂ rel that
+sublevel and supply a path from h₀₁h₁₂ to h₀₂ in O(λ); do not assert strict
+multiplicativity of polar parts. For compact finite-CW parameter spaces P,
+fixed f,c and labelled critical points, require jointly continuous charts,
+inverses and coordinate derivatives through order 2 on specified common
+neighborhoods, and continuous C¹ metric coefficients/inverses on the compact
+band. Families are maps over P between the fiberwise adjunction spaces
+(P×M_(c−ε))∪_(α_•)(P×D^λ), with homotopies over P×I. Choose ε, δ, L,
+β and the critical-free flow uniformly over P, and construct the comparison,
+inverse and homotopies continuously over P. On a subcomplex P′⊆P these
+families restrict to this same construction applied to the restricted data;
+there is no assertion of extending arbitrary prescribed homotopies on P′.
+
+Set A=D(φ₀∘φ₁⁻¹)(0), and h=A_uu(A_uuᵀA_uu)⁻¹ᐟ², the polar part of its
+negative-coordinate block. Choose 0<δ<√ε and L with ‖A‖≤L,
+|T(y)|≤L|y| for |y|≤δ, and the closed ball of radius Lδ in φ₀'s image,
+where T=φ₀∘φ₁⁻¹. These conditions include the limit A(x,0), the linear
+positive-coordinate contraction and the polar path, since all their points
+have norm at most Lδ. Deform the small disk by
+s↦φ₀⁻¹(T(sx,0)/s), extending at s=0 by φ₀⁻¹(A(x,0)). Since Q∘T=Q
+for Q(u,v)=−|u|²+|v|², each inner boundary circle remains exactly at
+level c−δ². Next decrease the linear positive-coordinate component A_vu x
+to zero; the level only decreases. Write A_uu=hP with P≥I, and use
+hP^(1−t)x to reach h(x), again keeping the boundary at or below c−δ².
+Use the critical-free-band deformation R from M_(c−δ²) to M_(c−ε) to
+extend these moving small disks: replace each outer annulus by the
+retraction track R_(β(r))(circle_t(θ)), with β continuous increasing from
+0 at the inner seam to1 at the outer seam. For each chart annulus
+γ_θ(r), δ≤r≤√ε, first use R_(tβ(r))(γ_θ(r)), then
+R_(β(r))(γ_θ(δ+(1−t)(r−δ))), 0≤t≤1, to deform it to the track of its
+inner circle. Both stages fix the inner seam; at the outer seam the first
+stage fixes the point already in M_(c−ε), and the second uses R₁.
+After moving the inner circle and its entire track together through the
+small-disk comparison, reverse these two stages for chart0's annulus
+γ_θ(r)=φ₀⁻¹(hrθ,0). Admissibility puts that entire annulus in φ₀'s image.
+Thus the final map is χ₀∘h, including its outer annulus. Prove continuity
+at both seams and that the attaching boundary stays in the lower sublevel
+throughout. No original whole-disk graph or overlap assertion is used.
+Prove contractibility of the space of maximal negative-definite
+subspaces of the Hessian in graph coordinates, and compare the chart-induced
+orientations through that space. Then det h=+1 exactly when those orientations
+agree. For λ≥1, SO(λ)'s planar-rotation paths give h_∂≃id in that case and
+hence α₁≃α₀; det h=+1 forces h=id when λ=1. For det h=−1 the boundary
+map has degree −1 when λ≥2 and swaps the two points when λ=1. For λ=0 use
+h=id and the empty boundary. With the chart and ε fixed, metric changes
+retain the literal characteristic/attaching maps and h=id; only auxiliary
+flow comparisons change. For levels ε_i admissible for chart i, if ε₀≤ε₁ use
+M2's actual band retraction b:M_(c−ε₀)→M_(c−ε₁) and prove
+α₁≃b∘α₀∘h_∂, comparing the charts first at ε₀ and flowing chart1
+from that smaller disk; chart0 need not fit the larger ε₁ disk. If ε₀>ε₁
+use b:M_(c−ε₁)→M_(c−ε₀) and prove b∘α₁≃α₀∘h_∂, using the symmetric
+smaller-level construction. Simultaneous critical points use ⊔_p h_p on
+⊔_p D^(λ_p),
+with labels fixed by the actual critical points.
+
+As acceptance tests, for f(x)=(x²−1)² on ℝ use c=1, ε=1/2 and the charts
+±x√(2−x²) on (−1,1). For s∈S⁰={−1,1}, the attaching maps are
+α_±(s)=±s√(1−1/√2)∈{f≤1/2}. The two values at s=1 lie in different
+components, so α_+ and α_- are not homotopic with their labelled source fixed;
+α_-=α_+∘r is strict for r=−id on D¹, giving the adjunction homeomorphism
+rel {f≤1/2}. For RP² use
+f[x:y:z]=(y²+2z²)/(x²+y²+z²), top point [0:0:1] and 0<ε<1. The lower
+sublevel {f≤2−ε} is a Möbius band. Fix its H₁ (equivalently π₁) core generator by
+θ↦[cosθ:sinθ:0], 0≤θ≤π, and orient ∂D² counterclockwise in the normalized
+negative coordinates (√2x/z,y/z)/√(1+(x/z)²+(y/z)²). This chart's α_+
+has degree +2; reflecting the first negative coordinate gives the strict
+α_-=α_+∘r of degree −2. Prove those maps are not homotopic with the source
+fixed and the attachment pairs are homeomorphic rel the lower sublevel.
 
 Iterate finite critical levels to construct compatible relative CW models for
 sublevel pairs. For a proper bounded-below Morse function, choose an exhausting
