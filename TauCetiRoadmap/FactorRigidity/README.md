@@ -48,6 +48,9 @@ subunital/subtracial satisfy `φ(1)≤1` and `τ∘φ≤τ` on positive elements
   as in OperatorAlgebraDynamics D1; discrete-group strong continuity
   follows from the discrete topology. R3–R4 builds the group property-(T),
   positive-definite-kernel and Haagerup inputs required below.
+- [OperatorAlgebraDynamics D2](../OperatorAlgebraDynamics/README.md) supplies
+  the regular-representation P₂ amenability criterion and its squared-vector
+  converse to an invariant mean, used for R3's nonamenable spectral gap.
 - VonNeumannAlgebras V11 supplies normal trace-preserving expectations
   onto every subalgebra of a finite tracial algebra, including nonfactors.
   R2 builds the general basic construction from that expectation.
