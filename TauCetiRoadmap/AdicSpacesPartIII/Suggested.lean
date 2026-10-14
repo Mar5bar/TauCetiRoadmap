@@ -46,7 +46,6 @@ analytic theorems and series criterion. The general-Tate small-perturbation theo
 Completeness includes the Hausdorff property.
 -/
 
-set_option autoImplicit false
 
 local instance (n : ℕ) : ∀ i : Fin n, Fact (0 < (fun _ : Fin n ↦ (1 : ℝ)) i) :=
   fun _ ↦ ⟨zero_lt_one⟩
