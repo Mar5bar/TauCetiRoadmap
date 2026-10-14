@@ -20,8 +20,9 @@ their intended signatures, listed by layer at the end of this file.
 Design choices made explicit here:
 
 * The ramification cutoff of the Bloch–Kato–Hyodo filtration is the natural ceiling of `pe/(p-1)`
-  computed in `ℚ` and defined for all natural inputs; primality of `p` and positivity of `e` enter
-  only its cohomological application.
+  computed in `ℚ` and defined for all natural inputs. On a ramified base change to `K`, use
+  `e = v_K(p)` and the new uniformizer; primality of `p` and positivity of `e` enter only its
+  cohomological application.
 * The variation of a left monodromy action is `u - 1` in Mathlib's `Module.End`, and the product
   term of its cocycle formula is composed in the order of the action.
 * A surjective map of valuation spectra is a ring homomorphism whose `PrimeSpectrum.comap` is
@@ -40,8 +41,8 @@ namespace TauCetiRoadmap.ClassicalAdicEtaleCohomology
 namespace Semistable
 
 /-- The first integer at or beyond the ramification threshold `pe/(p-1)`.
-In the nearby-cycle application `p` is prime and `e` is the absolute ramification index
-(README §4.7). -/
+In the nearby-cycle application `p` is prime and `e = v_K(p)` is the absolute ramification
+index of the field after any finite ramified base change (README §4.7). -/
 def filtrationCutoff (p e : ℕ) : ℕ :=
   ⌈((p : ℚ) * e) / (p - 1)⌉₊
 
@@ -69,6 +70,10 @@ example : filtrationCutoff 2 3 = 6 := by
 
 /-- At `p=3, e=2` the integral threshold is three. -/
 example : filtrationCutoff 3 2 = 3 := by
+  sorry
+
+/-- For the wild node `XY = 2` over `ℚ₂(√2)`, absolute ramification two gives cutoff four. -/
+example : filtrationCutoff 2 2 = 4 := by
   sorry
 
 end Semistable
@@ -496,10 +501,18 @@ FormalScheme.StrictLocalisationSystem, FormalScheme.CompletionData,
 FormalScheme.CompletionData.phi, FormalScheme.CompletionData.derivedComparison,
 FormalScheme.MicrobialBase, FormalScheme.IsSemistable, SemistableFormalNearbyCycles,
 FormalNearbySymbol, FormalBKHFiltration, FormalBKHZeroSymbolMaps, FormalBKHPositiveSymbolMaps.
+semistable_algebraic_symbol_generation: for a regular flat essentially finite-type semistable
+model T over a mixed-characteristic henselian DVR R with perfect residue field and every finite
+extension K/Frac(R), symbols generate i*R^qj* Z/p^N(q) on etale neighborhoods of T ×_R R_K,
+q >= 0 and N >= 1. The base change need not be regular. Its mod-p U/V quotients use the
+induced relative log differentials and the uniformizer of K, with the B/Z distinction of
+README §4.7 and vanishing at m >= ceil(p v_K(p)/(p-1)). Hyodo's projective-line argument uses
+both nilpotent action on the abutment and nonnilpotent action forced by a nonzero discrepancy.
 Layer 5: ClassicalAlgebraic.relativeDuality (exceptional f^! on the left-completed ambient
 etale category, separated finitely presented qcqs schemes and noetherian prime-power coefficients
 invertible on the base), ClassicalAlgebraic.IsUniversallyLocallyAcyclic (strict-local acyclicity
-after every scheme base change on the same perfect-constructible coefficient domain),
+after every scheme base change on the same perfect-constructible coefficient domain,
+extending VanishingCycles.localAcyclicity and agreeing with it for finite coefficients),
 AlgebraicGeometry.ValuationQuadruple, AlgebraicGeometry.ValuationQuadruple.Hom,
 AlgebraicGeometry.ValuationQuadruple.nearbyCycles,
 AlgebraicGeometry.ValuationQuadruple.galoisAction,
@@ -518,6 +531,13 @@ AdicSpace.compactCohomology, AdicSpace.quasiFiniteTrace.
 Layer 9: AdicSpace.IsSmoothCurve, AdicSpace.curveTrace, BoundaryPretrace,
 BoundaryResidueTrace, AnalyticLCICycleClass, AffineSpaceTrace, AnalyticFirstChernClass,
 SmoothRelativeTrace, GeneralSmoothTrace, IntegralSmoothProperTrace.
+AdicSpace.curveTrace_generic: for a smooth separated taut curve f over S = Spa(C,Cplus),
+C algebraically closed complete nontrivially valued, Cplus an open bounded valuation subring
+and n > 0 a unit in Cplus, restriction identifies Hom_S(R^2 f_! mu_n, Z/n) with
+Hom(H^2_c(X_eta,mu_n), Z/n). AdicSpace.curveTrace is the normalized sheaf morphism; it
+induces the global-sections trace, which determines it when Cplus = O_C and need not determine
+it at higher rank. For rank-two S and f : P^1_eta -> S the source is j_! Z/n with zero global
+sections and Hom to Z/n = Z/n.
 Layer 10: AnnulusKummerGenerator.
 Layer 11: BallExhaustion, radiusBall.
 -/
