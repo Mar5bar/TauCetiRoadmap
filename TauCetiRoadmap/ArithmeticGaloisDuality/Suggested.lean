@@ -36,8 +36,9 @@ Design choices made explicit here:
   Arithmetic localization uses ordinary cochains at finite places, complete Tate cochains at
   real places and zero at complex places. Under `(P)` this is the finite-place fibre. The
   ordinary deformation-local diagram uses ordinary cochains at every place; its Selmer fibre
-  and its archimedean comparison with the modified fibre are README targets on the carrier
-  supplied by SelmerIwasawaCohomology §2.21.
+  is supplied by SelmerIwasawaCohomology §2.21. R02.5.2 constructs the modified arithmetic
+  adapter and its archimedean comparison using the cone API below; the actual arithmetic
+  cochain diagrams and their duality are README targets.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
 * The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
@@ -558,6 +559,24 @@ def compactTriangle (res : A ⟶ B) : Triangle (CochainComplex (ModuleCat.{u} R)
 def compactMap (res : A ⟶ B) (res' : A' ⟶ B') (a : A ⟶ A') (b : B ⟶ B')
     (comm : res ≫ b = a ≫ res') : compactCochains res ⟶ compactCochains res' :=
   (CochainComplex.mappingCone.map res res' a b comm)⟦(-1 : ℤ)⟧'
+
+/-- The arithmetic Selmer adapter on supplied complexes. `loc` is ordinary localization,
+`iMod` is the sum of maps into the modified local complexes, and `q` carries the ordinary diagram
+to the modified one: identity at finite places, the ordinary-to-Tate map at real places, and zero
+at complex places. On these arithmetic diagrams, its strict instance is arithmetic compact
+support. -/
+abbrev modifiedSelmerCochains {U Bmod : CochainComplex (ModuleCat.{u} R) ℤ}
+    (loc : A ⟶ B) (iMod : U ⟶ Bmod) (q : B ⟶ Bmod) :
+    CochainComplex (ModuleCat.{u} R) ℤ :=
+  compactCochains (Limits.biprod.desc (loc ≫ q) (-iMod))
+
+/-- The ordinary-to-modified Selmer comparison on supplied complexes, with identity on the
+global cochains and local conditions and `q` on the local target. -/
+def ordinaryToModifiedSelmerMap {U Bmod : CochainComplex (ModuleCat.{u} R) ℤ}
+    (loc : A ⟶ B) (i : U ⟶ B) (q : B ⟶ Bmod) :
+    compactCochains (Limits.biprod.desc loc (-i)) ⟶ modifiedSelmerCochains loc (i ≫ q) q :=
+  compactMap _ _ (𝟙 _) q (by
+    apply Limits.biprod.hom_ext' <;> simp)
 
 /-- **The compact-support long exact sequence**
 `⋯ → Hⁿ(A) → Hⁿ(B) → Hⁿ⁺¹_c → Hⁿ⁺¹(A) → Hⁿ⁺¹(B) → ⋯`. -/

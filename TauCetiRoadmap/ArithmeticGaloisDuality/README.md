@@ -111,10 +111,12 @@ and Khare–Wintenberger numerics of Layer R02.6.
 **Further roadmaps this roadmap builds on.**
 
 - *SelmerIwasawaCohomology*. Its Layers 1 and 2 own local conditions, Selmer structures, dual Selmer
-  structures and the Selmer complex as a mapping fibre, and its Layer 1, §§1.3–1.4, owns the
-  derived orthogonality of local conditions and the duality of a global mapping fibre with local
-  conditions; Layers R02.5 and D8 prove the dimension statements about them and use that duality
-  with its hypotheses. In the other direction SelmerIwasawaCohomology uses `lim¹`
+  structures and the ordinary Selmer complex as a mapping fibre. R02.5.2 here owns the arithmetic
+  adapter to the modified local diagram, its triangles, functoriality and H⁰ correction. Its Layer
+  1, §§1.3–1.4, owns derived orthogonality and the formal duality of a global mapping fibre with
+  supplied local complexes and conditions; D8 applies this to the adapter using D7's modified
+  compact-support duality. Layers R02.5 and D8 prove the dimension statements with those
+  hypotheses. In the other direction SelmerIwasawaCohomology uses `lim¹`
   (R02.1), `G_{K,S}` and the localisation maps (R02.3) and Poitou–Tate duality (R02.4) from here.
 - *SchemeAndStackFoundations* Layer 2: dualising complexes over Noetherian rings and the normalised
   local dualising complex (§2.21 *Dualising complexes*, `DualizingComplex`, `NormalizedDualizing`),
@@ -234,10 +236,10 @@ as inputs; and Galois representations attached to automorphic forms.
   `n` on `Aⁿ ⊕ Bⁿ⁻¹`. A compact-first cup product has local coordinate `a_S ∪ res(b)`; a
   compact-second product has local coordinate `(−1)ⁱ res(a) ∪ b_S` for `a` of degree `i`.
   Arithmetic compact support uses `B = ⊕ C_v^mod`; under `(P)` its archimedean summands are
-  acyclic, so it agrees with the finite-place fibre. SelmerIwasawaCohomology §2.21 owns the
-  Selmer mapping-fibre carrier for either specified local diagram. Write `S̃^ord` and `S̃^mod`
-  for its ordinary and modified instances; their comparison, including the archimedean
-  correction, is *Selmer complex H¹ with its H⁰ correction* (R02.5.2).
+  acyclic, so it agrees with the finite-place fibre. SelmerIwasawaCohomology §2.21 supplies the
+  ordinary Selmer mapping fibre `S̃^ord`; *Selmer complex H¹ with its H⁰ correction* (R02.5.2)
+  constructs the modified arithmetic adapter `S̃^mod` using D7's cone API and supplies its
+  comparison with `S̃^ord`, including the archimedean correction.
 - **Transgression.** The transgression and the inhomogeneous cochain conventions are those of
   ProfiniteCohomology Layer 5; with them the second differential of the Hochschild–Serre spectral
   sequence of a central extension with class `u` is `d₂ = −u ∪ (·)`.
@@ -355,11 +357,12 @@ as inputs; and Galois representations attached to automorphic forms.
   §2.7 *The unramified condition*, §2.9 *Compact and rational Galois Selmer groups*, §2.13 *Dual
   Selmer structures*, §2.3 *Change of local conditions*, §2.19 *Poitou–Tate for Selmer groups*,
   §2.21 *Selmer complex as a mapping fibre*, §2.2 *Compact and rational Selmer kernel*, §2.22 *The
-  H⁰ correction before the classical Selmer kernel*. The §2.21 carrier is instantiated with an
-  explicitly specified ordinary or modified local diagram. Its compact-support triangle uses
-  that same diagram; the strict fibre is this roadmap's arithmetic compact support for
-  `C_v^mod`, or for the finite-place model under `(P)`. The §2.22 cokernel uses `H⁰` of the
-  chosen local complexes. The arithmetic duality contract of §§1.3–1.4 uses the modified diagram.
+  H⁰ correction before the classical Selmer kernel*. §§2.21–2.22 supply the ordinary fibre and
+  its H⁰ correction. R02.5.2 here constructs the modified fibre and proves its triangles and
+  correction from D7's cone API. Its strict fibre is arithmetic compact support, with the
+  finite-place model under `(P)`. §§1.3–1.4 supply the formal local-adjoint and fibre-duality
+  constructions on given complexes; their arithmetic application here uses the modified local
+  duality and compact-support triangle of D7 and R02.5.2.
 - `SchemeAndStackFoundations` Layer 2: §2.21 *Dualising complexes* (`DualizingComplex A ω` for a
   Noetherian ring, with `biduality`; `NormalizedDualizing A ω` for a Noetherian local ring,
   `RHom_A(κ, ω) ≅ κ[0]`); §2.7 *Cohomology with supports and local cohomology*
@@ -5114,8 +5117,9 @@ ClassFieldTheory Layer 5.
 ## Layer R02.5: Selmer duality and dimension formulas
 
 This layer turns Poitou–Tate duality into the dimension formulas for Selmer groups used in
-deformation theory. The Selmer structures, their duals and the Selmer complex are those of
-SelmerIwasawaCohomology Layers 1 and 2. This layer proves the Greenberg–Wiles formula, the effect of
+deformation theory. The Selmer structures, their duals and the ordinary Selmer complex are those of
+SelmerIwasawaCohomology Layers 1 and 2; R02.5.2 constructs the modified arithmetic adapter.
+This layer proves the Greenberg–Wiles formula, the effect of
 changing local conditions, the comparison of `H¹` of the Selmer complex with the classical Selmer
 kernel including its `H⁰` correction, the rank-one numerics for `GL₁`, and the Greenberg–Wiles
 formula for global function fields.
@@ -5223,13 +5227,35 @@ Fix a prime `p` and the `p`-adic coefficient hypotheses of Layer D7 whenever `(P
 write `S_∞` for the archimedean places in `S`.
 Specify either the ordinary diagram `C_v^ord(T)` or the modified arithmetic-duality diagram
 `C_v^mod(T)` of the Conventions, with maps `i_v : U_v⁺ → C_v(T)`, not merely subgroups of `H¹`.
-For this specified diagram the supplier's Selmer complex `S̃(T)` is the fibre of
+For this specified diagram define `S̃(T)` as the fibre of
 
 ```text
 C(G_S, T) ⊕ ⊕_{v∈S} U_v⁺ → ⊕_{v∈S} C_v(T),   (x, (u_v)) ↦ (loc_v(x) − i_v(u_v))_v,
 ```
 
 using ordinary restriction for `C_v^ord` and its composite with `q_v` for `C_v^mod`.
+The ordinary instance is SelmerIwasawaCohomology §2.21's carrier. This target constructs the
+modified instance from ordinary localisation and maps into the modified local complexes using
+D7's `GaloisCohomology.compactCochains`. More explicitly, with `A = C(G_S,T)`,
+`U = ⊕ U_v⁺`, `B = ⊕ C_v^ord(T)`, `B_mod = ⊕ C_v^mod(T)` and `q = ⊕ q_v`:
+
+- `GaloisCohomology.modifiedSelmerCochains(loc, i_mod, q)` is `Cone(q loc − i_mod)[−1]` on
+  `A ⊕ U → B_mod`, allowing independently supplied modified conditions `i_mod : U → B_mod`.
+- `GaloisCohomology.ordinaryToModifiedSelmerMap(loc, i, q)` is the cone map with identity on
+  `A ⊕ U` and `q` on the local target, for the transported condition `i_mod = q i`.
+
+Supply naturality under compatible coefficient, field and local-condition maps and homotopies,
+the identity and composition laws, and invariance under compatible quasi-isomorphisms, using
+the cone API. With `U_v^{−,mod} = Cone(i_v^mod)`, supply the exact triangles
+
+```text
+S̃^mod(T) → C(G_S,T) → ⊕ U_v^{−,mod} → S̃^mod(T)[1],
+C_c^mod(G_S,T) → S̃^mod(T) → ⊕ U_v⁺ → C_c^mod(G_S,T)[1].
+```
+
+Here `C_c^mod` is D7's arithmetic compact support. The triangles follow by cone rotation and
+the octahedral axiom; their maps and homotopies use this same modified diagram.
+
 Let `H¹_f(T) = {x ∈ H¹(G_S, T) : loc_v(x) ∈ im H¹(i_v) for all v ∈ S}` be the classical Selmer
 kernel (SelmerIwasawaCohomology Layer 2, §2.2 *Compact and rational Selmer kernel*). For a module
 `T` in degree zero, `q_v` induces an isomorphism in degree one, so the ordinary and modified
@@ -5240,9 +5266,9 @@ every `v ∈ S`, the canonical map `H̃¹(T) → H¹_f(T)` is surjective with ke
 coker( H⁰(G_S, T) ⊕ ⊕_{v∈S} H⁰(U_v⁺) → ⊕_{v∈S} H⁰(C_v(T)) ),
 ```
 
-so it is an isomorphism exactly when this map on `H⁰` is surjective (SelmerIwasawaCohomology Layer
-2, §2.22 *The H⁰ correction before the classical Selmer kernel*, which owns the general statement;
-this target specialises that statement to the two localisation diagrams). For the ordinary
+so it is an isomorphism exactly when this map on `H⁰` is surjective. SelmerIwasawaCohomology Layer
+2, §2.22 *The H⁰ correction before the classical Selmer kernel* supplies the ordinary case;
+the same fibre long exact sequence proves the modified case here. For the ordinary
 fibre the local `H⁰` groups are invariants at every place; for the modified fibre they are Tate
 groups at real places and zero at complex places. Strict conditions give arithmetic compact
 support only in the modified diagram. Under `(P)` that diagram agrees with the finite-place
@@ -5270,10 +5296,12 @@ H^j(S̃^ord) ≅ H^j(S̃^mod)  (j ≥ 2).
 
 Under `(P)`, `Q_∞(T)[−1] ≃ ⊕_{v∈S_∞} T^{G_v}[0]`. These terms, together with the ordinary local
 and global automorphism spaces `H⁰`, are retained in comparisons with framed deformation
-problems. The carrier and its functoriality belong to SelmerIwasawaCohomology §2.21 for each
-specified diagram; the comparison here is an application of that functoriality, not an
-identification of the two fibres. Derived arithmetic duality uses `S̃^mod` and local conditions
-complementary on the modified diagram.
+problems. The ordinary carrier and its functoriality belong to SelmerIwasawaCohomology §2.21;
+the modified adapter and this comparison are constructed here. Derived arithmetic duality
+applies SelmerIwasawaCohomology §§1.3–1.4's formal constructions to the adapter's modified
+compact-support triangle, using D7's local and global duality and local conditions complementary
+on the modified diagram. The strict compact-support identification uses the modified fibre,
+including under `(P)`.
 
 *Proof sketch.* The fibre gives the long exact sequence
 
@@ -5291,13 +5319,17 @@ archimedean complexes are acyclic. ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, Definition 6.1.2 and exact
 sequence 6.1.3, pp. 135–137; §5.7.2, pp. 131–132, for the ordinary-to-Tate map.)
 *Needs:* *Localisation maps and the modified local groups* (Layer
-R02.3); *Derived tensor, perfect amplitude and Tor* (Layer D7); SelmerIwasawaCohomology Layer 2,
+R02.3); *Derived tensor, perfect amplitude and Tor*, *Continuous cochains with compact support*
+and *Duality when p = 2 and K has real places* (Layer D7); SelmerIwasawaCohomology Layer 2,
 §2.2 *Compact and rational Selmer kernel*; SelmerIwasawaCohomology Layer 2, §2.21 *Selmer complex as
 a mapping fibre*; SelmerIwasawaCohomology Layer 2, §2.22 *The H⁰ correction before the classical
 Selmer kernel*.
 
 **Checks.**
 
+- With `q = id`, the adapter and its comparison map recover the ordinary fibre and its identity.
+  With every `U_v⁺ = 0`, the modified adapter is `C_c^mod`; with every modified `i_v = id`, it is
+  the global complex. Both identities use the displayed modified triangles.
 - `F = ℚ`, `T = μ_p` with `p` odd, `S = {ℓ, p, ∞}` with `ℓ ≡ 1 mod p` and the strict condition
   `U_ℓ⁺ = 0`: `H⁰(G_S, μ_p) = 0` but `H⁰(ℚ_ℓ, μ_p) = μ_p`, so the cokernel contains `μ_p` and
   `H̃¹(T) → H¹_f(T)` is not injective.
@@ -5534,8 +5566,9 @@ in `H¹`; condition `(P)` does not remove this correction. The subspaces `L_v`, 
 `H²` (the target of an obstruction map) is asserted from
 them. For these degree-zero coefficients `H²(S̃^ord) ≅ H²(S̃^mod)` by the comparison triangle.
 Apply SelmerIwasawaCohomology Layer 1, §1.4 *Duality for a global mapping fibre with local
-conditions* to the modified fibre, under that theorem's hypotheses: `S` contains the places above
-`p = char k` and the archimedean places; use the finite-place model under `(P)` and the full
+conditions* to the modified adapter of R02.5.2, using its compact-support triangle and D7's
+arithmetic duality as the formal theorem's input, under that theorem's hypotheses: `S` contains
+the places above `p = char k` and the archimedean places; use the finite-place model under `(P)` and the full
 modified real-place model of *Duality when p = 2 and K has real places* (Layer D7) otherwise;
 and dual local conditions `U_v^{⊥+} → C_v^mod(ad ρ(1))` are given for the trace-pairing dual
 `(ad ρ)^∨(1) ≅ ad ρ(1)`, together with chosen nullhomotopies of the local cup products
@@ -5553,8 +5586,9 @@ fibres*.
 The commutative restriction square identifies the global tangent space subject to the local
 conditions with the kernel. Apply the long exact sequence of the fibre, keeping the framing and `H⁰`
 corrections. Compare the ordinary and modified fibres by R02.5.2. For `H²`, apply
-SelmerIwasawaCohomology Layer 1, §1.4 to the modified diagram with the given dual local conditions
-and nullhomotopies, and take cohomology of its error triangle.
+SelmerIwasawaCohomology Layer 1, §1.4's formal construction to R02.5.2's modified adapter and
+compact-support triangle with the given dual local conditions and nullhomotopies. D7 supplies
+the modified local and global duality; take cohomology of the resulting error triangle.
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, pp.
 135–137; [Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1–4.2, pp. 39–45.) *Needs:*
@@ -5636,7 +5670,8 @@ pp. 131–132.) *Needs:*
   into `Ĥ⁰(G_v,ad)`.
 
 **Derived coefficient change for Selmer comparisons.** Let `R → R′` be a homomorphism of complete
-Noetherian local coefficient rings. Let `C_f` be a Selmer complex over `R` — the mapping fibre of
+Noetherian local coefficient rings. Let `C_f` be the ordinary Selmer complex of
+SelmerIwasawaCohomology §2.21 or the modified adapter of R02.5.2 over `R` — the mapping fibre of
 the global cochain complex together with the local conditions `U_v⁺` towards the local cochain
 complexes, with the same specified ordinary or modified convention over both rings — and `C′_f`
 the corresponding complex over `R′`, with given morphisms from the `R`-data to the `R′`-data.
