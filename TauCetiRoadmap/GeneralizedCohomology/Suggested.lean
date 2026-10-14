@@ -1,3 +1,4 @@
+import Mathlib.Topology.Homotopy.HomotopyGroup
 import TauCeti.Analysis.Normed.Module.Complexification
 import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Compact
 import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.Real.Four
@@ -91,6 +92,49 @@ instance {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
     (f : C(B, K)) (k : K) : TopologicalSpace (MappingPathFiber f k) :=
   inferInstanceAs
     (TopologicalSpace {p : B × C(unitInterval, K) // p.2 0 = f p.1 ∧ p.2 1 = k})
+
+/-- The fixed-interval endpoint fibre is the native compact-open path space. -/
+noncomputable def mappingPathFiberConstHomeomorphPath
+    {K : Type*} [TopologicalSpace K] (b k : K) :
+    MappingPathFiber (ContinuousMap.const PUnit b) k ≃ₜ Path b k where
+  toFun p :=
+    { toContinuousMap := p.val.2
+      source' := p.property.1
+      target' := p.property.2 }
+  invFun gamma := ⟨(PUnit.unit, gamma.toContinuousMap), gamma.source', gamma.target'⟩
+  left_inv p := by
+    apply Subtype.ext
+    apply Prod.ext
+    · exact Subsingleton.elim _ _
+    · rfl
+  right_inv gamma := by ext t; rfl
+  continuous_toFun := continuous_induced_rng.mpr
+    (continuous_snd.comp continuous_subtype_val)
+  continuous_invFun := (continuous_const.prodMk continuous_induced_dom).subtype_mk _
+
+@[simp] theorem mappingPathFiberConstHomeomorphPath_apply
+    {K : Type*} [TopologicalSpace K] (b k : K)
+    (p : MappingPathFiber (ContinuousMap.const PUnit b) k) (t : unitInterval) :
+    mappingPathFiberConstHomeomorphPath b k p t = p.val.2 t := rfl
+
+@[simp] theorem mappingPathFiberConstHomeomorphPath_symm_apply
+    {K : Type*} [TopologicalSpace K] (b k : K) (gamma : Path b k) (t : unitInterval) :
+    ((mappingPathFiberConstHomeomorphPath b k).symm gamma).val.2 t = gamma t := rfl
+
+/-- The native loop-space comparison is the same endpoint comparison at k=b. -/
+noncomputable def mappingPathFiberConstHomeomorphLoopSpace
+    {K : Type*} [TopologicalSpace K] (k : K) :
+    MappingPathFiber (ContinuousMap.const PUnit k) k ≃ₜ LoopSpace K k :=
+  mappingPathFiberConstHomeomorphPath k k
+
+@[simp] theorem mappingPathFiberConstHomeomorphLoopSpace_apply
+    {K : Type*} [TopologicalSpace K] (k : K)
+    (p : MappingPathFiber (ContinuousMap.const PUnit k) k) (t : unitInterval) :
+    mappingPathFiberConstHomeomorphLoopSpace k p t = p.val.2 t := rfl
+
+@[simp] theorem mappingPathFiberConstHomeomorphLoopSpace_symm_apply
+    {K : Type*} [TopologicalSpace K] (k : K) (gamma : LoopSpace K k) (t : unitInterval) :
+    ((mappingPathFiberConstHomeomorphLoopSpace k).symm gamma).val.2 t = gamma t := rfl
 
 def mappingPathProjection {B K : Type*} [TopologicalSpace B] [TopologicalSpace K]
     (f : C(B, K)) : C(MappingPathSpace f, B) where
