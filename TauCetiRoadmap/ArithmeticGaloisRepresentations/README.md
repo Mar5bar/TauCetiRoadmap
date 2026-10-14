@@ -6,7 +6,7 @@ over topological coefficient rings, their integral models and residual represent
 restrictions to decomposition groups with Frobenius polynomials and Weil–Deligne representations,
 local factors and local constants, Artin and Swan conductors, the classification of residual images
 in rank two, recognition of a semisimple representation by the characteristic polynomials of
-Frobenius elements, the Tate modules of elliptic curves and abelian varieties with their conductors,
+Frobenius elements, the Tate modules of elliptic curves and abelian varieties,
 and the dimension-general calculus of powers, adjoints, polarisations and residual-image conditions
 used by automorphy lifting. We want it because every automorphy lifting theorem, every compatible
 system and every conductor computation in the Caraiani–Newton programme is stated in these terms,
@@ -26,8 +26,7 @@ Mathlib's `Field.absoluteGaloisGroup` with its Krull topology, Mathlib's `Repres
 finite-group representation theory, Haar probability and abelian-variety carrier, and on the Tau
 Ceti roadmaps for local fields, class field theory, Chebotarev density and elliptic curves. Its end
 theorems are the recognition theorem for semisimple representations by Frobenius characteristic
-polynomials (Layer 5), the comparison between the Artin conductor of the Tate module of an elliptic
-curve and the conductor computed by Tate's algorithm, with Ogg's formula (Layer 6, on Layer 3), and
+polynomials (Layer 5), the Tate-module representation and pairing adapters (Layer 6), and
 the residual-image criteria (absolute irreducibility of odd representations, adequacy, enormous
 image) in the exact form the Taylor–Wiles method needs (Layers 4 and 7).
 
@@ -73,10 +72,9 @@ The roadmap owns:
   of the density theorem, Carayol's lemma, potentially abelian representations and recognition for
   lisse sheaves on curves over finite fields (Layer 5);
 - the arithmetic adapter of the supplied geometric `ℓ`-adic Tate module as a continuous representation, its residual
-  representation, determinant through the Weil pairing, oddness, good-reduction Frobenius
-  polynomial, isogeny compatibility, the comparison with the elliptic Tate module, the local Euler
-  factors, `λ`-adic Tate modules for real multiplication, and the conductor of an elliptic curve
-  with Ogg's formula and its bounds (Layer 6);
+  representation, determinant through the Weil pairing, oddness, isogeny compatibility, the
+  comparison with the elliptic Tate module, the Tate curve, general local Euler factors,
+  `λ`-adic Tate modules for real multiplication, compact-image criteria and Serre's wild bound (Layer 6);
 - continuous symmetric, exterior and tensor powers, tensor induction and restriction of scalars,
   the adjoint, trace-zero adjoint and adjoint modulo scalars with the trace pairing, similitude
   groups and the Clozel–Harris–Taylor group `𝒢_n`, polarised representations with their sign and
@@ -98,20 +96,16 @@ wild inertia subgroups of `G_K`, arithmetic Frobenius lifts, the cyclotomic char
 field (`TauCetiRoadmap.NumberFieldArithmetic`); the Chebotarev density theorem for finite Galois
 extensions (`TauCetiRoadmap.Chebotarev`, `TauCetiRoadmap.ArithmeticDirichletSeries`); continuous
 cohomology of profinite groups (`TauCetiRoadmap.ProfiniteCohomology`); torsion, the Weil pairing,
-Tate's algorithm, the Tate curve, twists and Néron–Ogg–Shafarevich for Weierstrass curves
-(`TauCetiRoadmap.EllipticCurves`); minimal regular models of arithmetic surfaces
-(`TauCetiRoadmap.StableReduction`); abelian varieties at field level, duals and polarisations
+the Tate curve and isogenies for Weierstrass curves
+(`TauCetiRoadmap.EllipticCurves`); abelian varieties at field level, duals and polarisations
 (`TauCetiRoadmap.JacobianChallenge`); algebraic groups, their Lie algebras and closed subgroups, and
 the reductive classification (`TauCetiRoadmap.ReductiveGroups`, ReductiveGroupsPartII); determinant
 laws, Cayley–Hamilton algebras, Chenevier's reconstruction and the classical Ribet lattice
 (IntegralHeckeAndGaloisDeterminants). AbelianSchemesAndArithmeticModuli A3, A4.1 and A6.10–A6.12 supply abelian-scheme torsion,
 isogenies, intrinsic and polarised Weil pairings, the geometric Tate module and its continuous
 Galois action, and endomorphism polynomials. Layer 6 packages these in `ContinuousRep` and proves
-arithmetic consequences. SelmerIwasawaCohomology §§4.1, 4.4–4.5 supply the period-ring topology,
-Galois actions, invariant rings and shared de Rham realization and predicate used in §7.6.
-The graded Hodge–Tate realization, labelled Sen operators, character criteria and
-Lie-theoretic semisimplicity inputs needed there are owned subtargets of §7.6. Crystalline and
-finite-flat conditions on Tate modules and automorphic `ε`-factors belong to their suppliers.
+arithmetic consequences. Lie-theoretic semisimplicity is a target of §7.6.
+Crystalline and finite-flat conditions on Tate modules and automorphic `ε`-factors belong to their owners.
 LFunctions Layers 0, 5–6 supply primitive Hecke functions, completions, continuation and
 functional equations on GlobalNumberFields' characters. Section 2.7 owns their comparison with
 adelic Tate integrals and products of local epsilon factors. AdelicAlgebraicGroups AA.2.4 supplies
@@ -119,10 +113,20 @@ finite-image Artin factors, induction and meromorphic assembly; §2.7 proves the
 functional equation with these local constants. CFSGBasicProperties T1–T2 supplies finite
 fixed-point root calculus and simplicity; §7.12 owns the Hermitian matrix and projective-quotient
 comparison with its valid twisted type-A carriers.
-NeronModelsAndSemistableAbelianVarieties supplies general Néron models, §2.7
-`MinimalRegularSmoothLocus` and §5.1 `NeronOggShafarevich`; §§6.3 and 6.5 here consume these
-criteria for potential reduction and elliptic conductors. The function-field recognition statements
-used here are targets of §5.13.
+The function-field recognition statements used here are targets of §5.13.
+
+The following ownership boundaries locate the geometric and period-theoretic interfaces.
+
+| Mathematics | Owner and section |
+| --- | --- |
+| Finite-étale specialization, good-reduction Frobenius and its reciprocal Euler polynomial | NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0c |
+| Potential good reduction | NeronModelsAndSemistableAbelianVarieties §5.1a |
+| Elliptic conductors, special fibres, étale Euler characteristics, determinant of cohomology and Ogg's formula | NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3e |
+| Elliptic conductor bounds, residual conductors and Mathlib local-polynomial comparison | NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3i |
+| Serre's independence and Noot's specialization | NeronModelsAndSemistableAbelianVarieties §6.0 |
+| Finite-coefficient period functors, labelled Sen operators, character criteria, tensor-product strong irreducibility and Hodge–Tate lifts | FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.5 |
+| Finite-extension crystalline periods, fundamental sequences, fixed fields and realization predicates | FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a |
+| Completion, Galois action, normalized traces and topological period foundations | PadicPeriodRings §§1.1–1.5, 2, 4.1–4.3 |
 
 Already in Mathlib, hence cited and not rebuilt: `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`
 (simplicity of `PSL₂` over a field with more than three elements), `AlgHom.IsArithFrobAt` (arithmetic
@@ -216,12 +220,6 @@ introduces no second local cyclotomic character.
   exponent of multiplicative reduction. The ramification filtration is used for nonarchimedean local
   fields; its extension to complete discretely valued fields with perfect residue field is a target
   of §3.1.
-- For an elliptic curve, the number `m` in Ogg's formula counts the geometric irreducible components
-  of the special fibre of the minimal proper regular model without multiplicity (`m = 5` for type
-  `I₀^*`); the exponent `f` is the Artin conductor exponent of `V_ℓ E`, and the comparison with
-  Tate's algorithm includes the wild contributions at `2` and `3`. Witness of `v(Δ) = f + m − 1`: a
-  curve of type `I₀^*` over `ℚ_p`, `p ≥ 5`, has `v(Δ) = 6`, additive reduction with `f = 2`, hence
-  `m = 5`; type `I_n` has `v(Δ) = n`, `f = 1`, `m = n`; good reduction has `f = 0`, `m = 1`.
 - A complex conjugation at a real place `v` of a number field `F` is an element `c ∈ G_F` with
   `ι ∘ c = conj ∘ ι` for some embedding `ι : F̄ → ℂ` above `v` (`GaloisRep.IsComplexConjugation`).
   Oddness of a rank-two representation is `det ρ(c_v) = −1` for every complex conjugation at every
@@ -387,7 +385,7 @@ cyclic group with divisible coefficients are §3.2 here. `SemisimpleAlgebras` la
 Wedderburn presentation with its uniqueness and dimension count. `CompactGroups` works with Mathlib's
 `ContRepresentation`; the carrier of Layer 1 adds joint continuity.
 
-### From `TauCetiRoadmap.EllipticCurves`, `StableReduction`, `JacobianChallenge`, `AlgebraicCurves`
+### From `TauCetiRoadmap.EllipticCurves`, `JacobianChallenge`, `AlgebraicCurves`
 
 EllipticCurves layer 0.5: base change of Weierstrass curves. Layer 1: isogenies with their point maps,
 composition and degree, and the quotient `W → W/Φ` by a finite Galois-stable subgroup (Vélu). Layer 2:
@@ -395,14 +393,9 @@ composition and degree, and the quotient `W → W/Φ` by a finite Galois-stable 
 Galois-equivariant) and the `ℓ`-adic Tate module with its continuous `G_K`-action. Layer 3:
 `frobeniusTrace`, `pointCount`, the Frobenius isogeny acting as `(x, y) ↦ (x^q, y^q)`,
 `deg(1 − π_q) = #E(F_q)` and `π_q² − a_q π_q + q = 0`; the trace formula on `V_ℓ` for every
-endomorphism is §6.1 here. Layer 4: Tate's algorithm with `ReductionSymbol`, the component count and
-independence of the minimal equation; the Tate curve with the Galois-equivariant uniformisation
-`L^×/q^ℤ ≅ E_q(L)`; Néron–Ogg–Shafarevich (good reduction iff `T_ℓ` unramified; potential good
-reduction iff the inertia image is finite). The torsion of the Tate curve and the behaviour under base
-change to `R^{sh∧}` are §§6.3 and 6.5 here. Layer 5: quadratic twists and the classification of twists
-through `Aut(E, O)`. StableReduction layers 4 and 5: intersection theory and blow-ups on regular
-arithmetic surfaces, existence and uniqueness of the minimal regular model, and the components and
-multiplicities and Kodaira configurations of its special fibre. JacobianChallenge layer E supplies
+endomorphism is §6.1 here. Layer 4 supplies the Tate curve with its Galois-equivariant
+uniformisation `L^×/q^ℤ ≅ E_q(L)`; §6.3 constructs its torsion representation.
+JacobianChallenge layer E supplies
 field-level abelian varieties, duals and polarisations, compared with the abelian-scheme carrier in
 AbelianSchemesAndArithmeticModuli A0.2. The Tate module and Weil pairing used here are the A4.1
 `AbelianTate` and A3.5 pairings, with the arithmetic adapters of §§6.1–6.2. AlgebraicCurves layer 8:
@@ -439,7 +432,7 @@ subgroups (`Building.exists_fixedPoint_of_bounded`); RG2.2.2 and RG2.2.4: the re
 lattice chains, whose reduced vertices are the homothety classes of lattices (§1.6);
 RG2.3: parahoric group schemes, among them the hyperspecial model.
 
-### From `AbelianSchemesAndArithmeticModuli`, `NeronModelsAndSemistableAbelianVarieties` and `SelmerIwasawaCohomology`
+### From `AbelianSchemesAndArithmeticModuli` and `EtaleCohomologyFoundations`
 
 AbelianSchemesAndArithmeticModuli A3.1–A3.5 supply isogeny kernels, quotients and prime-to-characteristic
 torsion; A3.7 and A3.9 supply polarized pairings and Rosati; A4.1 supplies `AbelianTate`, its
@@ -448,23 +441,10 @@ functoriality, base change and dual pairing. A6.10–A6.11 supply `End.charpoly`
 A6.12 supplies freeness through an endomorphism subfield. Layer 6 consumes these geometric
 interfaces without imposing a dependency on this roadmap's Layer 6 in their construction.
 
-NeronModelsAndSemistableAbelianVarieties §2.7 `MinimalRegularSmoothLocus` identifies the relative
-smooth locus of a minimal proper regular elliptic model with its Néron model over a discrete
-valuation ring. Its §5.1 `NeronOggShafarevich` gives good reduction iff `T_ℓA` is unramified for
-`ℓ ≠ char k` over an excellent henselian discrete valuation ring. Its §2.9 `WildKodairaComparison` consumes StableReduction Layer 5's Kodaira configurations, including
-residue characteristics `2` and `3`. SchemeAndStackFoundations §0.14
-`henselian_finiteEtale_equivalence` supplies specialization of finite étale torsion; §§0.12–0.13
-supply the henselian-pair and henselisation inputs.
-
-SelmerIwasawaCohomology §4.1 supplies the continuous isometric Galois action on Mathlib's
-`PadicComplex p`, Ax–Sen–Tate, normalized traces, Tate's calculation for `ℂ_p(i)`, and the canonical
-topology and action on `BDeRhamPlus`/`BDeRham`; §4.4 supplies the fixed field `B_dR^{G_K} = K` and
-dimension bounds; §4.5 supplies `dDeRham`, its filtration, `IsDeRham`, the canonical comparison
-maps and finite `E/ℚ_p` coefficients by scalar restriction. Section 7.6 uses this shared realization
-through `GaloisRep.deRhamSupplierEquiv`, preserving the inherited `E`-action and `K ⊗ E` module,
-filtration, comparison maps and coefficient extension, and converting filtration indices to our
-labelled weights. These period subtargets use the earlier local and cohomological interfaces;
-§7.6 consumes them without a dependency on SelmerIwasawaCohomology's Selmer conditions.
+EtaleCohomologyFoundations §F.0.2 `finiteEtaleGaloisCategory` supplies finite étale covers
+and the fundamental groupoid, and §F.0.A1 supplies decomposition and inertia groups of a cover
+for §5.13. Its §F.3a supplies henselian traits, inertia and the tame character for the
+local-field comparison of §2.1a.
 
 ### From `LFunctions`, `AdelicAlgebraicGroups` and `CFSGBasicProperties`
 
@@ -493,13 +473,10 @@ is computed directly. The automorphism-group input to the verification lemmas re
 
 | Input | Interface | Ownership |
 | --- | --- | --- |
-| Completion and period-ring carriers | `PadicComplex`, `BDeRhamPlus`, `BDeRham` | Pinned Mathlib declarations |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
 | Linear Weil–Deligne substrate on parameter fields | §2.4 `wd-linear-substrate`, including §2.5 `wd-frobenius-semisimplification` | Owned shared targets; independent of the supplier's functor and Layer 1 |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
-| Period topology, actions, invariants and de Rham realization/predicate | SelmerIwasawaCohomology §§4.1, 4.4–4.5 | Supplier targets; §7.6 adapter |
-| Labelled Sen operators and character-weight criteria | §7.6 below | Owned targets |
 | Logarithm, Lie and minuscule semisimplicity comparison | §7.6 below | Owned targets |
 
 ### Shared and owned interfaces
@@ -507,7 +484,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md#sr52-integral-blocks-whittaker-projectives-and-families) SR.5.2, **Classical parameters and the generic convention**, `classical-llc-normalization` | Owns the Frobenius-semisimplified parameter and functor, algebraic dual compatibility, descent and scalar extension. §2.4 `wd-linear-substrate` here owns exp/log, monodromy, operations on the underlying parameter fields and the full construction with its inverse and exactness; §2.5 `wd-frobenius-semisimplification` owns the separate operation and its agreement with the supplier's output. These use the same `(V, r, N)` data, with Frobenius semisimplicity an additional hypothesis; there is no second carrier. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. |
-| Fundamental characters and residual tame inertia | [FiniteFlatGroupsAndIntegralPadicHodgeTheory](../FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) R07.1.26 and R07.1.27–R07.1.32 | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
+| Fundamental characters and residual tame inertia | §2.3 here | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
 | Projective-unitary simplicity | CFSGBasicProperties T1–T2; Mathlib rank-two simplicity | §7.12 owns the Hermitian matrix, centre and quotient comparison with the valid derived central quotient at fixed-field parameter `q`, and transports supplied simplicity. Rank two uses `PSL₂(F_q)`; the small exceptions and rank one are direct checks. |
 | Grössencharacter continuation and completed equation | LFunctions Layers 0, 5–6 | §2.7 consumes the primitive functions and completed equations, compares them with adelic Tate integrals, translates complex norm twists, and identifies the product of local epsilon factors, including conductor, inverse, gamma and pole conventions. |
 | Finite-image Artin factors and meromorphic assembly | AdelicAlgebraicGroups AA.2.4, *convergence-factors* | §2.7 consumes the factors and ramified induction identity on dual representations, and proves the completed functional equation with the local-epsilon product. Only Layers 1–2 through §2.5 feed AA.2.4. |
@@ -521,13 +498,10 @@ local objects (decomposition groups, Frobenius, tame and cyclotomic characters, 
 representations, local factors and constants) and depends on Layer 1. Layer 3 defines conductors from
 the ramification filtration and the Weil–Deligne representations of Layer 2. Layer 4 (residual images
 in rank two) uses Layers 1 and 2. Layer 5 (recognition by Frobenius polynomials) uses Layers 1 and 2
-and the determinants of IntegralHeckeAndGaloisDeterminants. Layer 6 (Tate modules and elliptic
-conductors) uses Layers 1–5 and the abelian-variety and elliptic-curve suppliers. At target level,
-AbelianSchemesAndArithmeticModuli A3.5 and A4.1 precede §§6.1–6.2's Tate and pairing adapters;
-these adapters and Layers 1–2 feed the Néron-model supplier's geometric criteria. Its §5.1 then
-feeds potential good reduction in §6.3, and its §2.7 together with StableReduction Layer 5 feeds
-the conductor comparison and Ogg's formula in §6.5. The supplier's later conductor and Euler-factor
-applications consume these arithmetic results. Layer 7
+and the determinants of IntegralHeckeAndGaloisDeterminants. Layer 6 uses Layers 1–5 and
+AbelianSchemesAndArithmeticModuli A3.5 and A4.1 for its Tate and pairing adapters. These adapters
+feed the geometric reduction and conductor targets of NeronModelsAndSemistableAbelianVarieties
+§§5.0a–5.3i and its specialization target §6.0. Layer 7
 (dimension-general API) uses Layers 1, 2, 4 and 5. The supplier order is
 SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization` → the §2.4 arithmetic
 adapter and §2.5 agreement theorem, alongside
@@ -1209,6 +1183,29 @@ wild inertia onto `ρ(P_Q)` (Deligne 1973, 3.12, p. 533). At a real place the lo
   and for an `S₃`-extension at `p = 5` the restrictions `ρ_{ι∘σ}` and `ρ_ι` are different
   homomorphisms: the isomorphism between local restrictions is not canonical.
 
+### 2.1a Local-field comparison for henselian-trait inertia
+
+**Local-field comparison.** For the valuation ring `R` of a nonarchimedean local field `K`
+with residue characteristic `p`, identify the inertia of the henselian trait `Spec R` with
+`TauCeti.inertiaSubgroup K` using its valuation-theoretic description. For each prime `ℓ ≠ p`,
+prove `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`: under this identification
+and the identification of the prime-to-`p` roots of unity in the geometric residue and generic
+fields, the character of EtaleCohomologyFoundations §F.3a is the `ℓ`-component of
+`TauCeti.inertiaTameCharacter`. Prove compatibility with the `ℓ`-adic form
+`TauCeti.inertiaPadicTameCharacter`, conjugation and finite extension with ramification index `e`.
+Both characters are determined by their finite-level Kummer ratios on roots of a uniformizer
+(Stacks, Section 15.114, Lemma 09EE, Definition 0BU4, Lemmas 0BU5 and 0BU7, Remark 0BU8).
+*Needs:* §2.1; EtaleCohomologyFoundations §F.3a (henselian traits, valuation inertia and tame
+characters); LocalFieldsRamification Layer 4; Tau Ceti `inertiaTameCharacter`,
+`inertiaPadicTameCharacter` and their Kummer formulas.
+
+**Checks.**
+- Arithmetic Frobenius conjugates the `ℓ`-component by multiplication by `#k`, as for the
+  local-field character.
+- For a ramified quadratic extension with `p ≠ 2`, restriction is twice the character
+  normalized by the extension's uniformizer.
+- Wild inertia maps to zero on both sides.
+
 ### 2.2 Ramification and Frobenius
 
 **Inertia under finite extensions.** Prove that for `L/K` finite separable inside `K^sep`, with
@@ -1352,8 +1349,8 @@ the identity `θ_{p−1} = χ̄_p` over `ℚ_p`, and restriction (Serre 1987, 2.
 Prop. 2, p. 264, 1.7, p. 267, and 1.8, Prop. 8, p. 269; Khare–Wintenberger 2009 (I), 1.5, p. 4).
 The finite-residue names `fundamentalCharacter`, `fundamentalCharacter_pow_p` and
 `cyclotomic_restrict_tameInertia` belong to this target; the API includes Frobenius powers of the
-chosen embedding of `F_{p^n}` and norm maps between levels. FiniteFlatGroupsAndIntegralPadicHodgeTheory
-R07.1.26 uses this API and supplies its extension to arbitrary perfect residue fields, with an
+chosen embedding of `F_{p^n}` and norm maps between levels. The downstream
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 uses this API and owns its extension to arbitrary perfect residue fields, with an
 agreement theorem after identifying inertia, roots of unity and the chosen residue embeddings.
 *Needs:* Tau Ceti `rootsOfUnityEquivResidueField`, `residue_teichmuller`, `inertiaKummerCharacter`.
 
@@ -1372,7 +1369,7 @@ level `2`; that level `2` happens iff `ρ̄` is irreducible; that for `χ : G_{�
 every irreducible `ρ̄` arising so; and that for `(p + 1) | j`, `Ind χ` is `χ̃ ⊕ χ̃η` for `p` odd and a
 non-split self-extension of `χ̃` for `p = 2` (Serre 1972, 1.6, Prop. 4, p. 265; Serre 1987, 2.1,
 Prop. 1, and 2.2, p. 183). This is the finite-residue representation-theoretic classification;
-Raynaud exponent bounds and finite-flat realizability are supplied by
+The downstream Raynaud exponent bounds and finite-flat realizability targets are owned by
 FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.27–R07.1.32. *Lean:*
 `GaloisRep.tame_of_semisimple_residual` (the first statement).
 
@@ -1801,7 +1798,7 @@ Artin conductor is §3.3.
 
 For `K/ℚ_p` finite: `WD(ℚ_ℓ(1)) = (ω, 0)`, `P = X − q`, `L = 1 − q⁻¹X`, weight `−2`. For `α ∈ O_E^×`,
 `WD(λ(α)) = (λ_W(α), 0)` and `L = 1 − α⁻¹X`. The Kummer representation of an element `q_E ∈ K^×` with
-`v(q_E) > 0` (the rational Tate module of the Tate curve, §6.5) is a non-split extension
+`v(q_E) > 0` (the rational Tate module of the Tate curve, §6.3) is a non-split extension
 `0 → ℚ_ℓ(1) → V → ℚ_ℓ → 0` with `ρ(I_K)` infinite and `WD(V) ≅ Sp(2)` (`N` is `v(q_E)` times a
 generator, up to rescaling); it is Frobenius-semisimple and not semisimple, `L(V) = 1 − q⁻¹X`,
 `L(V^∨) = 1 − X`, weight `−1`, and the twist by the unramified quadratic character `η` has
@@ -1815,6 +1812,7 @@ Layer 1; Tau Ceti's inertia, Frobenius, cyclotomic and tame declarations;
 `TauCetiRoadmap.LocalFieldsRamification` layers 0, 2, 4; `TauCetiRoadmap.ClassFieldTheory` layers 7,
 9, 13; `TauCetiRoadmap.NumberFieldArithmetic` layers 2, 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6.
+For §2.1a: EtaleCohomologyFoundations §F.3a.
 For §2.7: GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6;
 AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly;
 ClassFieldTheory Layers 11–12 for global characters.
@@ -1825,7 +1823,8 @@ This layer defines the breaks, Swan and Artin conductors of local Galois represe
 conductor of a Weil–Deligne representation, global conductors and the prime-to-`p` conductor
 `N(ρ̄)`; it proves Hasse–Arf integrality, functoriality, the induction and conductor–discriminant
 formulas and the behaviour under reduction modulo `ℓ`. Layers 4–7 and every level statement
-consume these numbers; the conductors of elliptic curves are §§6.5–6.6.
+consume these numbers; the downstream elliptic conductor comparisons are owned by
+NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3i.
 
 Standing hypotheses (the *conductor setting*): `K` is complete for a discrete valuation `v_K` with
 `v_K(K^×) = ℤ`, ring of integers `O_K` and **perfect** residue field `k` of characteristic `p > 0`,
@@ -2832,8 +2831,8 @@ conjugacy class at `x` by lifting `a ↦ a^{q^{deg x}}` in its residue Galois gr
 modulo inertia, conjugacy independence, compatibility in finite quotients and the surjection
 `G_{K_C,U} → G_{K_C,C}` (SGA 1, Exposé XIII, §2; Stacks, tags 03QR and 0BQM).
 *Needs:* AlgebraicCurves Layers 0, 2 and 6 (function fields, valuations and normalization);
-InverseGaloisAndArithmeticFundamentalGroups IG.0–IG.1 (finite étale covers, fundamental groups,
-decomposition and inertia); Mathlib infinite Galois correspondence.
+EtaleCohomologyFoundations §F.0.2 `finiteEtaleGaloisCategory` (finite étale covers and
+fundamental groupoids), §F.0.A1 (decomposition and inertia groups of a cover); Mathlib infinite Galois correspondence.
 
 **Checks.**
 - A constant extension `𝔽_{q^a}K_C/K_C` is unramified everywhere and its Frobenius at `x`
@@ -2867,15 +2866,15 @@ basic example of a representation with real traces not realisable over `ℝ`.
 Layers 1 and 2; `TauCetiRoadmap.Chebotarev` layers 10 and 14;
 `TauCetiRoadmap.ArithmeticDirichletSeries` layer 7;
 `TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras` layer 2; IntegralHeckeAndGaloisDeterminants
-Layers 0 and 1; Tau Ceti's Brauer group, central simple algebras and Haar probability.
+Layers 0 and 1; EtaleCohomologyFoundations §§F.0.2, F.0.A1; Tau Ceti's Brauer group,
+central simple algebras and Haar probability.
 
 ## Layer 6: Tate modules of elliptic curves and abelian varieties
 
 This layer produces the representations of Layer 1 attached to abelian varieties: the `ℓ`-adic Tate
-module with its Weil pairing and determinant, its residual representation, its behaviour under good,
-multiplicative and additive reduction with the local Euler factors, `λ`-adic Tate modules for real or
-complex multiplication, image conditions, and the conductor of an elliptic curve with Ogg's formula
-and its bounds.
+module with its Weil pairing and determinant, its residual representation, the Tate-curve
+representation, general local Euler factors, `λ`-adic Tate modules for real or complex multiplication,
+compact-image conditions and Serre's wild bound.
 
 Standing hypotheses: `K` is a field, `K̄ = AlgebraicClosure K ⊇ K^sep`, `G_K` its absolute Galois
 group; `A` is an abelian variety over `K` of dimension `g` (Tau Ceti's
@@ -2884,15 +2883,6 @@ coordinatewise; torsion is taken over `K^sep`, never over `K`. Elliptic curves a
 `WeierstrassCurve` with `IsElliptic`. Proposed names live in the namespace `TateModule`.
 
 ### 6.1 The Tate module
-
-AbelianSchemesAndArithmeticModuli A3.1–A3.5 supply `[n]`, prime-to-characteristic torsion,
-isogeny kernels and quotient isogenies; A4.1 supplies the geometric Tate module. For an abelian
-scheme over a henselian discrete valuation ring, specialise its finite étale torsion using the
-henselian finite-étale contract `henselian_finiteEtale_equivalence` of
-SchemeAndStackFoundations §0.14 (Stacks, Lemma 15.13.2, tag 09ZL), on the henselian pair
-`(R, 𝔪_R)` for the base discrete valuation ring `R`. This identifies generic and special
-geometric torsion equivariantly for the decomposition group. These are supplier
-interfaces (Milne 2008, Ch. I, Theorem 7.2 and Remark 7.3; Serre–Tate 1968, §1).
 
 **The Tate-module representation adapter.** For `ℓ ≠ char K`, use the geometric fibre over
 `Spec K` of `AbelianTate A ℓ` (AbelianSchemesAndArithmeticModuli A4.1), identified there with
@@ -3020,26 +3010,7 @@ Mathlib `Matrix.J`. *Lean:* `Involution.eigensum`, `Involution.two_smul_mem_eige
   coincide, so a rank statement for two eigenspaces needs characteristic `≠ 2`. *Lean:* the second
   `example`.
 
-### 6.3 Reduction and Euler factors
-
-**Good reduction.** Let `K` be a nonarchimedean local field of residue characteristic `p`, `𝒜/O_K` an
-abelian scheme with fibres `A`, `A_k`, and `ℓ ≠ p`. Use the supplied finite-étale specialization
-`A[ℓ^n](K̄) ≅ A_k[ℓ^n](k̄)` of §6.1 to prove that `I_K` acts trivially and `T_ℓA ≅ T_ℓA_k`. Let `F` be a
-number field, `v` a finite place with residue field `F_{q_v}` of characteristic `p`, `A` with good
-reduction at `v` and `π_v` the `q_v`-Frobenius endomorphism of `A_v` (Tau Ceti's
-`Isogeny.frobeniusIsogeny` for `g = 1`). Prove that `V_ℓA` is unramified at `v`, the arithmetic
-`Frob_w` acts as `T_ℓπ_v`, and `P_v(V_ℓA, X)` is the supplied endomorphism polynomial of `π_v`:
-AbelianSchemesAndArithmeticModuli A6.10–A6.11 give integer coefficients, degree `2g` and
-`ℓ`-independence. Prove that this arithmetic Frobenius polynomial satisfies `X^{2g} P_v(q_v/X) = q_v^g P_v(X)`;
-for `g = 1` with `WeierstrassCurve.HasGoodReduction`, `P_v = X² − a_v X + q_v` with `a_v` Tau Ceti's
-`WeierstrassCurve.frobeniusTrace` of the reduction (Milne 2008, Ch. I, Prop. 10.20, p. 52, and Ch. IV,
-Thm 3.5, p. 141). *Needs:* AbelianSchemesAndArithmeticModuli A3.2, A4.1, A6.10–A6.11; §6.1; `TauCetiRoadmap.NumberFieldArithmetic` layer 5;
-`TauCetiRoadmap.LocalFieldsRamification` layer 2.
-
-**Checks.**
-- Arithmetic Frobenius on `T_ℓA` corresponds to `π_v`; geometric Frobenius corresponds to `π_v⁻¹`.
-- For an elliptic curve the constant term is `q_v`, not `q_v⁻¹`.
-- The dimension-zero abelian variety has polynomial `1`.
+### 6.3 The Tate curve and local Euler factors
 
 **The Tate curve.** Prove that for `K` finite over `ℚ_p`, `q ∈ K^×` with `|q| < 1`, `E_q` the Tate
 curve of `TauCetiRoadmap.EllipticCurves` layer 4 and any `ℓ`, the uniformisation `K̄^×/q^ℤ ≅ E_q(K̄)`
@@ -3055,50 +3026,17 @@ iff `ℓ^n | v(q)` for `ℓ ≠ p` (Darmon–Diamond–Taylor 2007, §2.2, Prop.
 - For `ℓ ≠ p`, `q = p` has ramified `E_q[ℓ]`.
 - For `K = ℚ₃`, `ℓ = 3`, `q = 3³`, divisibility holds but `μ₃ ⊂ E_q[3]` is ramified.
 
-**Potential good reduction.** Prove that for `K` a nonarchimedean local field of residue
-characteristic `p` and `ℓ ≠ p`, `ρ_{A,ℓ}(I_K)` is finite iff `A` has potential good reduction, and
-then the image of inertia is independent of `ℓ` and `A` acquires good reduction over the fixed field
-of the kernel of `I_K` on `A[m]` for any `m ≥ 3` prime to `p` (Serre–Tate 1968, §2, Thm 2, p. 496, and
-its corollaries). Use NeronModelsAndSemistableAbelianVarieties §5.1 `NeronOggShafarevich`
-(good reduction iff `T_ℓA` unramified, in every dimension) and §1.5's extension of homomorphisms
-to Néron models; the target here is the potential-reduction and inertia consequence of those
-criteria (Serre–Tate 1968, §1, Thm 1; §2, Thm 2 and corollaries). *Needs:* §§6.1–6.2;
-NeronModelsAndSemistableAbelianVarieties §§1.5, 5.1.
-
-**Checks.**
-- Good reduction gives trivial inertia image for every `ℓ ≠ p`.
-- The Tate curve has infinite unipotent inertia image for every `ℓ ≠ p`, hence no potential
-  good reduction.
-- `y² = x³ − x` over `ℚ_2` has bad reduction and integral `j = 1728`, hence potential good
-  reduction and finite inertia image; finite inertia is weaker than unramifiedness.
-
 **Local Euler factors.** Define `H¹_ℓ(A) = V_ℓA^∨` for `A` over a nonarchimedean local field `F_v` of
 residue characteristic `≠ ℓ`, and
 `TateModule.localEulerFactor A = det(1 − T Φ_v | H¹_ℓ(A)^{I_v}) ∈ ℚ_ℓ[T]` with `Φ_v` geometric
 (equivalently the coinvariants of `V_ℓA` with arithmetic Frobenius). Its API is the coinvariant form;
-`T^{2g} P_v(1/T)` at good reduction; isogeny invariance; products; degree `≤ 2g`, with equality iff
+isogeny invariance; products; degree `≤ 2g`, with equality iff
 unramified; and agreement with the Weil–Deligne local factor of §2.5. The partial `L`-function is
 `∏_{v ∉ S} L_v(A, q_v^{−s})⁻¹` for `S` containing the bad places and those above `ℓ`
 (Darmon–Diamond–Taylor 2007, §1.7, p. 46). *Needs:* §2.5.
 
 **Checks.**
-- `y² = x³ − x` at `5` has `L_5 = 1 + 2T + 5T²` for every `ℓ ≠ 5`.
-- On `V_ℓA` rather than its dual the factor would be `1 + (2/5)T + (1/5)T² ∉ ℤ[T]`.
 - The Tate curve over `ℚ_p` has `L = 1 − T`.
-
-**Comparison with Mathlib's local polynomial.** Prove that for `F` a number field, `W` elliptic over
-`F`, `𝔭` a height-one prime with `R = adicCompletionIntegers`, `q = #(O_F/𝔭)` and `ℓ ∤ q`, with the
-minimal model over `R`, `WeierstrassCurve.localPolynomial R W` equals `L_v(V_ℓE^∨, X)`: at good
-reduction its linear coefficient is the negative of the `frobeniusTrace` of the reduction; at split, resp. nonsplit,
-multiplicative reduction both are `1 − X`, resp. `1 + X`; at additive reduction `(V_ℓE)^{I_v} = 0` and
-both are `1`, for every Kodaira type and residue characteristic; so `WeierstrassCurve.LFunction` has
-the Euler factors of `V_ℓE^∨` away from `ℓ` (Darmon–Diamond–Taylor 2007, §2.2, Prop. 2.12, pp. 57–58).
-*Needs:* `TauCetiRoadmap.EllipticCurves` layers 4–5; Mathlib `WeierstrassCurve.minimal`.
-
-**Checks.**
-- For `y² = x³ − x` at `5`, `a_5 = −2` and the linear coefficient is `+2`.
-- Split multiplicative reduction gives `1 − X`; nonsplit multiplicative reduction gives `1 + X`.
-- Additive reduction gives `1` even in residue characteristics `2` and `3`.
 
 ### 6.4 Coefficients and images
 
@@ -3110,8 +3048,13 @@ the Euler factors of `V_ℓE^∨` away from `ℓ` (Darmon–Diamond–Taylor 200
 and `A[λ] = {x ∈ A[ℓ] : λx = 0}`. Intended signatures: `TateModule.lambdaTateModule A E λ` with its
 `ContinuousRep` over `E_λ`. Its API is the decomposition `V_ℓA = ⊕_{λ|ℓ} V_λA`, `dim V_λA = 2g/d`,
 freeness of `T_λA`, `A[λ] ≅ T_λA/λ`, `det V_λA = χ_ℓ` for `E` totally real, fixed by Rosati, with
-`d = g`, oddness, the Frobenius at good `v ∤ ℓ` induced by `π_v` when endomorphisms extend to `𝒜/O_v`,
-and coefficient extension (Ribet 1992, §3, pp. 4–5). *Needs:* §6.2; AbelianSchemesAndArithmeticModuli A3.9, A4.1, A6.12 (Rosati and coefficient action).
+`d = g`, oddness, compatibility with the action of endomorphisms, and coefficient extension
+(Ribet 1992, §3, pp. 4–5). *Needs:* §6.2; AbelianSchemesAndArithmeticModuli A3.9, A4.1, A6.12
+(Rosati and coefficient action).
+
+The downstream Frobenius comparison for these coefficient summands at good `v ∤ ℓ`,
+with endomorphisms extending to `𝒜/O_v`, is owned by
+NeronModelsAndSemistableAbelianVarieties §5.0b.
 
 **Checks.**
 - `y² = x³ − x` over `ℚ(i)` and `ℓ = 5` (split in `ℚ(i)`): two one-dimensional summands.
@@ -3131,15 +3074,35 @@ finite `k'/k`; agreement after a symplectic framing; and independence of the pri
 - The image never lies in the symplectic group `{μ = 1}`, since `χ_p` has infinite image.
 - `IsGaloisGeneric` is invariant under finite base change.
 
+### 6.4a Frattini detection of full profinite image
+
+**Frattini detection of full profinite image.** Let `P` be a profinite group and `Φ(P)` the
+intersection of its maximal proper open subgroups. If `Φ(P)` is open, then `P/Φ(P)` is finite,
+and every closed subgroup `J ≤ P` surjecting onto this quotient equals `P`. For pro-`p` groups
+this is the Burnside basis theorem; the statement here applies to any profinite group.
+A proper closed subgroup lies in a proper open subgroup and hence in a maximal proper open
+subgroup `M`; then `J Φ(P) ⊆ M`, contradicting surjectivity. Thus the implication
+`J Φ(P) = P ⇒ J = P` holds even without openness; openness makes the detecting quotient finite
+(Masser–Zannier 2020, proof of Lemma 5.1, p. 659).
+*Needs:* ProfiniteProPGroups Layers 0 and 3 (closed and open subgroups, Frattini theory);
+Mathlib `frattini`.
+
+**Checks.**
+- For `P = ℤ/4`, `Φ(P) = {0, 2}`, and the proper subgroup `{0, 2}` does not surject onto `P/Φ(P)`.
+- Projection `ℤ_p² → ℤ/p` onto the first coordinate is surjective on `ℤ_p × {0}`; its kernel
+  is not contained in `Φ(P)`, so this quotient does not detect full image.
+- For `P = ∏_ℓ ℤ/ℓ` over all primes, `Φ(P) = 1` is not open, and each finite quotient is hit
+  by a proper closed subgroup, the kernel of projection to an unused factor.
+
 **Finite Frattini quotient of a compact matrix group.** For compact `P ≤ GL_n(E)`,
 `E/ℚ_ℓ` finite, prove that the profinite Frattini subgroup `Φ(P)` is open. Choose the normal open
 uniform pro-`ℓ` subgroup `U` from §5.8; `Φ(U) = U^ℓ[U,U]` is open by finite generation and is
 contained in every maximal proper open subgroup of `P`: otherwise `M Φ(U) = P` would imply
 `(M ∩ U) Φ(U) = U`, contradicting the pro-`ℓ` Burnside basis theorem. Thus `Φ(U) ≤ Φ(P)`.
-Combine this with full-image detection in `P/Φ(P)` before the specialization theorem
+Combine this with §6.4a's full-image detection in `P/Φ(P)`
 (Masser–Zannier 2020, proof of Lemma 5.1, p. 659; Schneider, §27, Theorem 27.1).
 *Needs:* §5.8 compact subgroup charts; ProfiniteProPGroups Layer 3 (Frattini and Burnside basis);
-InverseGaloisAndArithmeticFundamentalGroups IG.2.6, *Frattini detection of full profinite image*.
+§6.4a, *Frattini detection of full profinite image*.
 
 **Checks.**
 - For `P = ℤ_ℓ`, `Φ(P) = ℓℤ_ℓ`; surjectivity modulo `ℓ` detects a full closed subgroup.
@@ -3147,164 +3110,7 @@ InverseGaloisAndArithmeticFundamentalGroups IG.2.6, *Frattini detection of full 
 - `∏_{i≥0} C_ℓ` has trivial, non-open Frattini subgroup; compactness without the finite-dimensional
   matrix-group hypothesis does not give a finite detecting quotient.
 
-**Serre's independence and Noot's specialisation.** Prove that for `K` a number field some finite
-`L/K` has adelic image `∏_ℓ U_ℓ` with each `U_ℓ` Zariski connected in `GL(V_ℓA)` (Richard–Yafaev 2025,
-Thm 4.9(1)–(2), p. 17). Prove that for `F` finitely generated over `ℚ`, `S` a normal geometrically
-irreducible variety over `F` with function field `K`, `X/S` an abelian scheme, `σ` a closed point and
-`D_σ ⊆ G_K` its decomposition group, `X_η[n](K̄) ≅ X_σ[n](F̄)` equivariantly for `D_σ`, so
-`T_ℓX_η ≅ T_ℓX_σ` and `ρ_{X_η,ℓ}(D_σ) = ρ_{X_σ,ℓ}(G_{F(σ)})`; and that there are closed points with
-`ρ_{X_σ,ℓ}(G_{F(σ)}) = ρ_{X_η,ℓ}(G_K)`, by Hilbert specialization of the single finite quotient `P/Φ(P)`, where
-`P = ρ_{X_η,ℓ}(G_K)` (Noot 1995, §§1.2–1.3, p. 163). First extend the Hilbertian-field input
-from number fields to finitely generated characteristic-zero fields, using its permanence under
-purely transcendental and finite extensions. For a connected finite étale cover of a normal
-geometrically irreducible `S`, use a separating Noether normalization on a smooth dense open and
-Hilbert irreducibility of the composite finite cover to obtain a closed point with connected
-fibre. Applied to the `P/Φ(P)`-torsor, this gives surjectivity to that quotient, and Frattini
-detection gives full compact image. This closed-point argument carries the constant-field part
-of the torsor and does not require an `F`-rational point on `S`
-(Serre, *Topics in Galois Theory*, §3.2; Noot, §§1.2–1.3).
-*Needs:* the torsion and specialisation targets of §6.1; §5.1; the finite Frattini quotient above;
-InverseGaloisAndArithmeticFundamentalGroups IG.2.4 (Hilbertian fields and Hilbert irreducibility)
-and IG.2.6, *Full-group specialization* and *Frattini detection of full profinite image*;
-SchemeAndStackFoundations finite normalization. The permanence and Noether-normalization bridge
-are subtargets of this specialization target.
-
-**Checks.**
-- For the cover `Y² = T` over `G_m/ℚ`, the fibre at `T = 2` has full group `C₂`; the fibre at
-  `T = 1` does not, even though both fibres have degree two.
-- For `P = ℤ_ℓ`, surjectivity of the specialized image modulo `ℓ` forces equality with `P`.
-- A variety without an `F`-rational point still has closed specialization points of finite degree;
-  over `ℂ` the cover `Y² = T` has split closed fibres, showing why the Hilbertian input is needed.
-
-### 6.5 The conductor of an elliptic curve and Ogg's formula
-
-Standing hypotheses: `K` is in the conductor setting of Layer 3 with `R = O_K`, and `E/K` is given by a
-Weierstrass curve `W` with `IsElliptic`.
-
-**The conductor exponent.** Define `f(E) := a(V_{ℓ₀}E)` with `ℓ₀` the least prime `≠ p`, the tame part
-`ε(E) := codim (V_{ℓ₀}E)^{I_K}`, the wild part `δ(E) := Sw(V_{ℓ₀}E)`, and over a number field
-`N_E := ∏_v 𝔭_v^{f(E_{F_v})}` (intended signatures `TateModule.ellipticConductorExp W : ℕ`,
-`TateModule.ellipticConductor W : Ideal (𝓞 F)`). Prove that `a(V_ℓE) = f(E)` for every `ℓ ≠ p`, `ε`
-and `δ` are independent of `ℓ` and `δ(E) = Sw(E[ℓ])`; that `ε(E) = 0, 1, 2` as `W.minimal R` (never a
-bare integral equation) has good, multiplicative or additive reduction
-(`WeierstrassCurve.HasGoodReduction`, `WeierstrassCurve.HasMultiplicativeReduction`,
-`WeierstrassCurve.HasAdditiveReduction`); that `δ(E) = 0` for `p ≥ 5` and under good or multiplicative
-reduction; and that `a((V_ℓE)^∨) = f(E)`. Its API is the comparison with the Artin conductor, `f = 0`
-iff good reduction, `f = 1` iff multiplicative reduction, invariance under unramified base change and
-under duality (Serre 1970, n° 2.4, cases b), c), p. 10; Brumer–Kramer 1994, §6, (6.1), p. 243).
-*Needs:* §§3.2, 3.4, 3.6; §6.2; §6.3 (potential good reduction); `TauCetiRoadmap.EllipticCurves`
-layers 2–5; Mathlib `WeierstrassCurve.minimal`,
-`WeierstrassCurve.hasGoodReduction_or_hasMultiplicativeReduction_or_hasAdditiveReduction`.
-
-**Checks.**
-- `y² + y = x³ − x² − 10x − 20` over `ℚ` has `f_11 = 1` and `f_v = 0` otherwise, so `N_E = 11`.
-- Good reduction of `W.minimal R` gives `f = 0`; scaling a good minimal equation by a uniformiser gives
-  `v(Δ) = 12` and a bare-equation reading of additive reduction, yet `f = 0`.
-- `y² = x³ − x` over `ℚ_2` has `f = 5`; for `p = 2`, `a(V_3E) = a(V_5E)`.
-
-**The special fibre of the minimal regular model.** Let `Δ_min` be the minimal discriminant, `X` the
-minimal proper regular model of `E` over `R` (`TauCetiRoadmap.StableReduction` layers 4–5) and `m` the
-number of geometric irreducible components of `X_k̄`, without multiplicity. Consume
-NeronModelsAndSemistableAbelianVarieties §2.7 `MinimalRegularSmoothLocus` for the Néron model,
-StableReduction Layer 5 for the Kodaira configurations, and the supplier's §2.9
-`WildKodairaComparison` for their agreement with Tate's algorithm in every residue characteristic.
-Use this dictionary to identify `m` with the component count of the symbol produced by Tate's
-algorithm on `W.minimal R` (EllipticCurves Layer 4; Silverman, *Advanced Topics in the Arithmetic
-of Elliptic Curves*, Ch. IV, §§5–6, 8–9). Over the completed strict henselisation
-`R^{sh∧}` the supplied counts are
-`m = 1, n, 1, 2, 3, 5, n + 5, 7, 8, 9` for `I_0, I_n, II, III, IV, I_0^*, I_n^*, IV^*, III^*, II^*`,
-in every residue characteristic including `2` and `3`. Prove the arithmetic comparison that
-passage from `R` to `R^{sh∧}` preserves `v(Δ_min)`, `f(E)` and `m`, the minimal regular model
-being compatible with this base change (Liu 1994, Introduction, p. 51; Silverman, *Advanced Topics*,
-Ch. IV, §6). *Needs:* NeronModelsAndSemistableAbelianVarieties §§2.7, 2.9;
-`TauCetiRoadmap.StableReduction` layers 4–5 (intersection theory, minimal
-regular models, components and multiplicities); `TauCetiRoadmap.EllipticCurves` layer 4
-(`ReductionSymbol`, component count, independence of the minimal equation); Mathlib
-`WeierstrassCurve.IsMinimal`, `WeierstrassCurve.Δ`; Tau Ceti
-`WeierstrassCurve.valuation_Δ_eq_of_isMinimal_smul`.
-
-**Checks.**
-- Type `I₀*` has `m = 5`, although its geometric Néron component group has order `4`: components
-  of multiplicity greater than one do not meet the relative smooth locus.
-- Nonsplit `I_n` has `m = n` after strict henselisation, although the number of rational Néron
-  components can be smaller; the conductor comparison uses the geometric count.
-- Strict henselisation and completion preserve `v(Δ_min)` and `f(E)` in residue characteristics
-  `2` and `3`; the tame discriminant table is not used for those characteristics.
-
-**Étale Euler characteristics and elliptic comparison.** For `ℓ ≠ p`, construct the rational
-`ℓ`-adic étale cohomology of the geometric generic and special fibres of the regular model, with
-their Galois actions, finite dimensions and Euler characteristic
-`χ(Y) = Σ_i (−1)^i dim H^i_ét(Y,ℚ_ℓ)`. Prove invariance under nilpotent thickenings and the
-normalization exact sequence used to compute the special-fibre Euler characteristic. Construct the
-Galois-equivariant isomorphism `H¹_ét(E_K̄,ℚ_ℓ) ≅ V_ℓE^∨`, naturally under isogenies and base change,
-by finite-level torsion/dual pairings and passage to the inverse limit; identify its Swan conductor
-with that of `V_ℓE` by conductor duality. Deduce `χ(E_K̄) = 0` and, using the special-fibre
-configurations above, `χ(X_k̄) = m − 1 + ε(E)`
-(Milne, *Étale Cohomology*, Ch. III, §4, the Kummer sequence and Picard groups;
-Saito 1988, §1; Liu 1994, Introduction, p. 51).
-*Needs:* §6.1's elliptic Tate comparison and §3.4's conductor duality;
-LefschetzPencilsAndVanishingCycles §F.0 `universalHomeomorphismEtaleEquivalence`, §F.1
-`finiteCoefficientCohomology`, §F.3 `etaleFiniteness`, and §F.4
-`classicalAdicRealization`, `rationalAdicRealization`, `adicFiniteness`;
-AbelianSchemesAndArithmeticModuli A3.5 and A4.1 (torsion pairing and Tate module).
-Only the supplier's foundational §F.0–F.4 cohomology is used, before its monodromy targets.
-
-**Checks.**
-- A smooth geometric elliptic fibre has dimensions `(1,2,1)` and Euler characteristic zero.
-- A geometric `I_n` fibre has Euler characteristic `n = m − 1 + ε`, including the nodal `I_1`.
-- Type `I₀*` has Euler characteristic `6`, with `m = 5` and `ε = 2`; multiplicity of its central
-  component changes neither its étale cohomology nor this calculation.
-
-**Determinant of cohomology and the discriminant valuation.** For a proper flat regular curve
-`f : X → Spec R`, with `R` a complete DVR, perfect residue field, smooth projective geometrically
-connected generic fibre `C` of genus at least one, and relative dualizing line `ω`, prove that
-`Rf_*ω` and `Rf_*ω²` are perfect. Construct their determinant lines over `R` from bounded finite
-free resolutions, with quasi-isomorphism, exact-sequence and flat-base-change compatibility.
-This determinant-of-cohomology construction is owned here, using finite-projective determinants
-from AlgebraicVectorBundles L0C and coherent finiteness from SchemeAndStackFoundations §2.6.
-Use the canonical generic-fibre Mumford isomorphism
-`det Rf_*ω² ≅ (det Rf_*ω)^13` to define the rational discriminant section `Δ_{X/R}` of
-`(det Rf_*ω)^13 ⊗ (det Rf_*ω²)^−1`. Define its order by writing the section as `a` times an
-`R`-basis and taking `v_K(a)`; prove basis independence and compatibility with unramified base
-change. For the minimal regular elliptic model identify this line with the twelfth power of the
-invariant-differential line and its section with the minimal Weierstrass discriminant, giving
-`ord Δ_{X/R} = v(Δ_min)`
-(Saito 1988, §1 and Theorem 1; Knudsen–Mumford 1976, §I, Theorem 1;
-Deligne, *Le discriminant d'une courbe*, Appendix 3 to *Lettre à Quillen*;
-Liu 1994, §2.1, pp. 58–59, for the determinant-line formulation).
-*Needs:* AlgebraicVectorBundles L0C (determinants of finite projective modules);
-SchemeAndStackFoundations §2.6 (proper coherent cohomology);
-StableReduction Layer 2 (relative dualizing line) and Layers 4–5 (regular models);
-Mathlib DVRs, valuations, finite modules and complexes. Construct the finite free resolutions
-over the DVR in this target. The determinant-line and generic Mumford
-isomorphism constructions are subtargets here, before the conductor–discriminant theorem.
-
-**Checks.**
-- Smooth elliptic reduction gives a unit section and order zero.
-- For the Tate curve, the order is `v(q)`, the number of components of its `I_{v(q)}` fibre.
-- Changing an integral basis multiplies the scalar by a unit and leaves the order unchanged;
-  replacing a minimal Weierstrass equation by its uniformiser scaling adds `12` to its equation
-  discriminant valuation, which cannot be used as `ord Δ_{X/R}` without correcting the basis.
-
-**Ogg's formula.** Prove that for `p ≥ 5`, `v(Δ_min) = f(E) + m − 1` (Darmon–Diamond–Taylor 2007,
-§2.2, Rem. 2.14, p. 58). Prove Saito's conductor–discriminant formula: for `R` a complete discrete
-valuation ring with perfect residue field of characteristic `p`, `C/K` smooth projective geometrically
-connected of genus `≥ 1` with minimal regular model `X/R`,
-`Art(X/R) := χ(X_K̄) − χ(X_k̄) − Sw(H¹_ét(C_K̄, ℚ_ℓ))` (`ℓ ≠ p`) and Deligne's discriminant `Δ_{X/R}`,
-`−Art(X/R) = ord Δ_{X/R}` (Saito 1988, Thm 1; Liu 1994, Introduction, p. 51, and §2.1, pp. 58–59).
-Prove that for `C = E`, `ord Δ_{X/R} = v(Δ_min)`, `χ(X_k̄) = m − 1 + ε(E)` and `χ(X_K̄) = 0`, so
-`−Art(X/R) = f(E) + m − 1` (same locators); hence Ogg's formula `v(Δ_min) = f(E) + m − 1` in every
-residue characteristic, including `2` and `3`, in mixed and equal characteristic (Liu 1994,
-Introduction, p. 51). *Needs:* §3.1; the étale Euler characteristics and elliptic comparison, determinant of
-cohomology and discriminant valuation, and special-fibre targets above.
-
-**Checks.**
-- Good reduction has `v(Δ_min) = f = 0` and `m = 1`.
-- Type `I₀*` in residue characteristic at least five has `6 = 2 + 5 − 1`.
-- For `y² = x³ − x` over `ℚ₂`, the minimal discriminant valuation is `6`, `f = 5` and
-  `m = 2`; substituting the tame additive value `f = 2` would fail.
-
-### 6.6 Elliptic conductors: values, bounds, residual conductors
+### 6.6 Serre's wild bound
 
 **Serre's wild bound.** Prove that for `K` of characteristic `0` in the conductor setting,
 `e_K = v_K(p)`, `V` of dimension `N` over a field of characteristic `≠ p` and `ρ` continuous with
@@ -3312,36 +3118,6 @@ finite image `G = Gal(L/K)`, lower groups of orders `g_i` and `g_1 = p^c`,
 `Sw(V) ≤ N e_K (c + 1/(p − 1))` and hence `a(V) ≤ N(1 + e_K c + e_K/(p − 1))`, by Hilbert's formula
 and Hensel's bound for the different; the strict form for non-cyclic `G_1` is not asserted (Serre
 1987, §4.9, Prop. 9 and (4.9.4), pp. 215–216). *Needs:* §§3.1, 3.2.
-
-**Values and bounds.** For `K` a nonarchimedean local field of residue characteristic `p` and `E/K`
-elliptic, prove that `f(E) = 0, 1, 2 + δ(E)` for good, multiplicative, additive reduction, the last
-equal to `2` when `p ≥ 5` (Darmon–Diamond–Taylor 2007, Prop. 2.13, p. 58); that additive potentially
-multiplicative reduction with ramified quadratic twisting character `χ` gives `f(E) = 2a(χ)`, with
-values `4` and `6` over `ℚ_2` (same locator; `TauCetiRoadmap.EllipticCurves` layer 5, quadratic
-twists); that `f(E) ≤ 2 + 3v_K(3)` for `K/ℚ_3` finite (Serre 1987, §4.9 (a), p. 216) and
-`f(E) ≤ 2 + 6v_K(2)` for `K/ℚ_2` finite, so `f_2 ≤ 8` over `ℚ_2` (Serre 1987, §4.9 (b), p. 216;
-Brumer–Kramer 1994, Thm 6.2, p. 243); that `K`-isogenous curves have equal `f`, and equal `N_E` over a
-number field; and that for `E/ℚ`, `p | N_E` iff `E` has bad reduction at `p`, `v_p(N_E) = 1` iff the
-reduction is multiplicative, and `N_E | 2⁸ · 3⁵ · ∏_{p ≥ 5, p | N_E} p²` (same locators). *Needs:*
-§§3.4, 3.6, 3.7; §6.1 (isogenies); the wild bound above.
-
-**Residual conductors.** For `E/K` elliptic over a nonarchimedean local field of residue
-characteristic `p` and `ℓ ≠ p`, `E[ℓ]` is the reduction of `T_ℓE` and `Sw(E[ℓ]) = δ(E)`. Prove that
-good reduction gives `a(E[ℓ]) = 0`; multiplicative reduction gives `a(E[ℓ]) = 0` if `ℓ | v(Δ_min)` and
-`1` otherwise (Serre 1987, §4.1, (4.1.12), p. 201); additive potentially multiplicative reduction and
-odd `ℓ` give `a(E[ℓ]) = f(E)`; and additive potentially good reduction with `ℓ` not dividing the order
-of the inertia image gives `a(E[ℓ]) = f(E)`, which holds for `ℓ ≥ 5` (Serre 1987, §4.6, Lemme 5, p.
-207). Prove that for `E/ℚ` and `ℓ ≥ 5`, with `E[ℓ]` the actual residual representation (not
-semisimplified), `N(E[ℓ]) = N_E^{(ℓ)} / ∏ q` over `q ∥ N_E`, `q ≠ ℓ`, `ℓ | v_q(Δ_min)`, hence
-`N(E[ℓ]) | N_E`, while for the semisimplification only `N(E[ℓ]^ss) | N(E[ℓ])` is asserted (same
-locator; Bennett–Siksek 2020, §2, (3), p. 358). *Needs:* §3.6; §3.3 (global conductors); the values
-and bounds above; `TauCetiRoadmap.EllipticCurves` layers 4–5.
-
-**Checks.**
-- For `E = 11a1`, `N(E[5]) = 1` (`5 | v_11(Δ_min) = 5`) and `N(E[3]) = 11`.
-- Good reduction gives `a(E[ℓ]) = 0` and multiplicative reduction with `ℓ ∤ v(Δ_min)` gives `1`, like
-  `V_ℓE`.
-- Over `ℚ_2`, `f_2 ≤ 8`, attained; a bound `f_2 ≤ 2` would be the tame bound and is false.
 
 ### Examples
 
@@ -3356,9 +3132,8 @@ with Euler factor `1 − aT + qT²` (Darmon–Diamond–Taylor 2007, §2.1, p. 5
 ### Dependencies
 
 Layers 1–5; AbelianSchemesAndArithmeticModuli A3, A4.1, A6.10–A6.12;
-SchemeAndStackFoundations §§0.12–0.14 (`henselian_finiteEtale_equivalence` in §0.14);
-NeronModelsAndSemistableAbelianVarieties §§1.5, 2.7, 2.9, 5.1; `TauCetiRoadmap.EllipticCurves` layers 1–5;
-`TauCetiRoadmap.StableReduction` layers 4–5; `TauCetiRoadmap.LocalFieldsRamification` layer 2;
+`TauCetiRoadmap.EllipticCurves` layers 1–4; ProfiniteProPGroups Layers 0 and 3;
+`TauCetiRoadmap.LocalFieldsRamification` layer 2;
 `TauCetiRoadmap.NumberFieldArithmetic` layer 5; Tau Ceti's abelian varieties, isogenies and elliptic
 Tate modules.
 
@@ -3851,101 +3626,6 @@ Prove coefficient-extension invariance for absolute strong irreducibility. Prove
 - For `χ = χ_ℓ` and `m = 1`, `χ₁ = χ_ℓ`, `χ₀ = 1`.
 - For `χ` of finite order, `χ₁ = 1` and `χ₀ = χ` works.
 
-**Period functors with finite coefficients.** Let `K/ℚ_p` inside `ℂ_p` and `E/ℚ_p` be finite, with `E`
-containing all embeddings of `K`, and `V` a finite-dimensional continuous `E`-representation of
-`G_K`. Consume the topological period rings, actions and fixed fields of SelmerIwasawaCohomology
-§§4.1, 4.4 and its shared realization and predicate of §4.5. Write `D_dR(V)` for the supplied
-`dDeRham(Res_{ℚ_p} V)` and use its `IsDeRham` predicate, filtration and canonical comparison map.
-Prove the named adapter `GaloisRep.deRhamSupplierEquiv`: the tensor flip
-`v ⊗ b ↦ b ⊗ v` identifies the supplied `(V ⊗_{ℚ_p} B_dR)^{G_K}` with
-`(B_dR ⊗_{ℚ_p} V)^{G_K}`, naturally in `ContinuousRep` maps. It is a filtered `K ⊗_{ℚ_p} E`-linear
-isomorphism, with `(k ⊗ e)(b ⊗ v) = kb ⊗ ev`, carrying the supplied comparison map to
-`B_dR ⊗_K D_dR(V) → B_dR ⊗_{ℚ_p} V`, `b' ⊗ (Σ b_i ⊗ v_i) ↦ Σ b'b_i ⊗ v_i`.
-It commutes with every finite coefficient extension `E'/E`, identifying
-`D_dR(V) ⊗_E E'` with `D_dR(V ⊗_E E')` and each filtration step with its scalar extension.
-De Rham admissibility and its dimension bound are inherited from the supplier;
-use the bound to prove that admissibility is equivalent to freeness of rank `dim_E V` over
-`K ⊗_{ℚ_p} E`.
-Set `B_HT = ⨁_{i∈ℤ} ℂ_p(i)` as a graded Galois algebra, define
-`D_HT(V) = (B_HT ⊗_{ℚ_p} V)^{G_K}` and Hodge–Tate by its canonical comparison isomorphism,
-equivalently freeness of the same rank over `K ⊗ E`. Prove its dimension bounds, the natural
-injection `gr D_dR(V) → D_HT(V)` and its being an isomorphism for de Rham `V`, hence de Rham
-implies Hodge–Tate. Split `K ⊗ E = ∏_{τ:K→E} E` to define the labelled weight multisets: a jump
-at filtration index `i` has weight `−i` with multiplicity `dim_E gr^i(e_τ D_dR(V))` in the de Rham
-case, so `HT_τ(χ_p) = +1`. The adapter preserves the supplier's filtration and converts its negative
-cyclotomic-weight convention only at this labelled-weight step. For `ℚ̄_p`-coefficients, first
-descend by §1.5, enlarge `E` to contain the embeddings, and prove that extension of `E` preserves
-these properties and weight multisets, independently of the model
-(Pat, §§2.2.1–2.2.2, pp. 21–23; Brinon–Conrad, §6.1 and §6.3, Proposition 6.3.2, pp. 73–76).
-*Needs:* §§1.1–1.2, 1.5; SelmerIwasawaCohomology §§4.1, 4.4–4.5.
-
-**Checks.**
-- On `E(1)`, the adapter sends `e ⊗ t⁻¹` to `t⁻¹ ⊗ e`, preserving the filtration jump `−1`;
-  `χ_p` has weight `+1`. The trivial `E`-character gives a free rank-one `K ⊗ E` module,
-  filtration jump `0` and weight `0` under both tensor orderings.
-- The dual of a Hodge–Tate representation negates every labelled weight.
-- If `K ≠ ℚ_p`, a labelled Lubin–Tate character has weight `1` at one embedding and `0` at the
-  others; the filtration need not have constant rank over `K ⊗ E` in each degree.
-- For `V = 0`, both sides of `GaloisRep.deRhamSupplierEquiv` and their filtrations are zero,
-  and the supplied de Rham comparison is an isomorphism of zero modules.
-- Extending `E` to `E'` preserves every labelled filtration jump; the `E'`-action comes from the
-  representation tensor factor, and the adapter commutes with its extension.
-
-**Labelled Sen operators.** For the finite-coefficient inputs above, use the normalized traces
-of SelmerIwasawaCohomology §4.1 to construct the finite-dimensional Sen module over
-`K_∞ = K(μ_{p^∞})`, with a model stable under a small cyclotomic subgroup at a sufficiently
-large finite layer, and its operator given by
-`log(ρ(γ))/log(χ_p(γ))` for sufficiently small cyclotomic `γ` on the Sen module.
-Prove recovery after extension to `ℂ_p`, independence of the layer, model and generator,
-functoriality under maps, and insensitivity to finite restriction. For an embedding
-`ι : ℚ̄_p → ℂ_p`, descend to `E` and restrict to `G_{Kι(E)}` before constructing the operator;
-the induced label is `τ = ι⁻¹|_K`. Define Hodge–Tate–Sen weights as its eigenvalues with
-multiplicity. Prove that Hodge–Tate is equivalent to semisimplicity of every labelled Sen operator
-with integer eigenvalues, with eigenvalues equal to `HT_τ`. Prove the direct-sum, tensor
-(`Θ_{V⊗W} = Θ_V ⊗ 1 + 1 ⊗ Θ_W`), dual and symmetric-power formulas, hence the weight
-formulas used below (Pat, §2.2.2, Lemmas 2.2.4–2.2.6, pp. 23–24; Brinon–Conrad,
-§15.1, Corollary 15.1.6 and Theorem 15.1.7). *Needs:* the finite-coefficient period functors;
-§1.5; SelmerIwasawaCohomology §4.1 (normalized traces).
-
-**Checks.**
-- The cyclotomic Sen operator is `1`; its dual has operator `−1`.
-- The extension defined by the cocycle `log χ_p` has a nonzero nilpotent Sen operator with
-  eigenvalues `0,0`, so integer eigenvalues alone do not imply Hodge–Tate.
-- Enlarging the coefficient field or restricting to a finite local extension preserves the
-  labelled eigenvalues under the corresponding restriction of embeddings.
-
-**Local character criterion and global weights.** For `K/ℚ_p`, `E/ℚ_p` finite, with `E`
-containing all embeddings of `K`, and a continuous
-`χ : G_K → E^×`, prove that Hodge–Tate is equivalent to de Rham and to being locally algebraic
-under local reciprocity: on some open subgroup of `O_K^×` the character is
-`x ↦ ∏_τ τ(x)^{m_τ}`, with integer exponents, with `HT_τ = −m_τ`: arithmetic reciprocity gives
-`χ_p(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹` for units, as in ClassFieldTheory Layer 7. Prove that all labelled Sen operators vanish
-iff the inertia image is finite; unramified characters may still have infinite image.
-For `F` totally real and a continuous global character unramified almost everywhere, prove that
-rational labelled Sen weights are all equal, hence a de Rham character has one common integer
-weight. Use the locally algebraic character–Hecke character correspondence and the unit relations
-of GlobalNumberFields Layers 9–10 (`HeckeCharacter`, `AlgebraicInfinityType`, `HeckeCharacter.IsAlgebraic`), together with ClassFieldTheory's arithmetic reciprocity;
-prove the local-to-global identification of labels and infinity exponents here. For `x ∈ ℤ`,
-`d ≥ 1`, construct a character with every Sen weight `x/d` by the roots-of-characters target above;
-it is Hodge–Tate iff `d | x` (Pat, Theorem 2.3.13, Remark 2.3.14 and Lemmas 2.3.15, 2.3.17, pp. 30–32;
-Brinon–Conrad, Example 6.3.9, pp. 81–82, for the zero-weight character case). *Needs:* labelled Sen operators; the roots-of-characters
-target, which uses only §1.5 and continuous characters; ClassFieldTheory Layers 7 and 13;
-GlobalNumberFields Layers 9–10 (Hecke-character infinity types and unit relations).
-
-**Checks.**
-- A finite-order character has all weights zero and finite inertia image.
-- An unramified character sending Frobenius to `1+p` has weight zero and infinite total image;
-  the criterion concerns inertia.
-- A square root of `χ_p` up to finite order has weight `1/2` and is not Hodge–Tate; its square
-  has weight `1`. The cyclotomic character fixes the reciprocity sign in the algebraic formula.
-
-**Strong irreducibility of tensor products.** Prove that for `F` a number field,
-`ρ, ρ' : G_F → GL₂(ℚ̄_p)` continuous and strongly irreducible, and `τ : F → ℚ̄_p` at `v | p` with both
-restrictions Hodge–Tate, `HT_τ(ρ) = {a, b}`, `HT_τ(ρ') = {a', b'}` and `a − b ≠ ±(a' − b')`, the image
-of `Proj ρ × Proj ρ'` is Zariski dense in `PGL₂ × PGL₂`, and
-`(Sym^m ρ ⊗ Sym^{m'} ρ')|_{G_{F(ζ_{p^∞})}}` is strongly irreducible for all `m, m' ≥ 1` (NT26, Lemma
-2.2, p. 10).
-
 **Finite-kernel lifting obstruction.** Let `Γ` be profinite and
 `1 → C → E → G → 1` a central extension of Hausdorff topological groups, with `C` finite
 discrete, its inclusion a topological embedding, and the continuous surjection `E → G` an
@@ -4042,29 +3722,6 @@ colimits); ReductiveGroups Layers 0, 3 and 6–7 (linear algebraic groups and ce
 - For `GL_n → PGL_n`, the stages are `SL_n μ_m` for `n | m`, with kernel `μ_m`.
   Centrality makes the action on these coefficient roots trivial, independently of the
   cyclotomic action on field-theoretic roots of unity.
-
-**Hodge–Tate lifts.** Prove: (1) for `P : G_F → PGL₂(ℚ̄_ℓ)` continuous, unramified almost everywhere,
-with `ad⁰` of one (hence every) lift de Rham at all `v | ℓ`, a lift exists with Hodge–Tate–Sen weights
-in `½ℤ` at every `v | ℓ` and `τ` and `det` of finite order, and every such lift has `Sym² ρ` and
-`det ρ` geometric. A finite-determinant lift need not be Hodge–Tate: for the projectivization
-of an elliptic Tate module with weights `{0, 1}`, every finite-determinant lift has weights
-`{−½, ½}` and is not Hodge–Tate, although the original Tate module is
-(Pat, Remark 2.1.5, p. 17). The proof uses the local character criterion above: a character of
-`G_{F_v}` with zero labelled Sen operators has finite inertia image. (2) For `F` totally real, `F'/F` quadratic and `s : G_{F'} → GL₂(ℚ̄_ℓ)`
-unramified almost everywhere, de Rham at all `v | ℓ` with weights `{−1, 0}` at every `τ` (BCGP21 write
-`{0, 1}` with `HT(ε) = −1`), and `Proj s` extending to `P` on `G_F`: `P` lifts to
-`r̃ : G_F → GL₂(ℚ̄_ℓ)` unramified almost everywhere, Hodge–Tate of weights `{−1, 0}` at every `v | ℓ`
-and `τ`, with `r̃|_{G_{F'}} = s ⊗ ψ` for `ψ` of finite order (BCGP21, proof of Prop. 9.2.1, p. 254).
-*Needs:* projective lifting; finite-coefficient period functors; labelled Sen operators;
-local character criterion and global weights; roots of characters.
-
-**Checks.**
-- The projectivization of an elliptic Tate module of weights `{0,1}` has a determinant-finite
-  lift with weights `{−1/2,1/2}`. No finite-determinant lift is Hodge–Tate, while the original
-  Tate module is a Hodge–Tate lift with cyclotomic determinant.
-- Twisting a lift by a finite-order character preserves its labelled Sen weights.
-- A local character with zero Sen operator can have infinite unramified image; finite inertia
-  suffices to preserve unramifiedness outside finitely many places in the lifting argument.
 
 **Logarithm and Lie comparison.** Let `Γ` be profinite and `r,s` continuous finite-dimensional
 representations over a finite extension `E/ℚ_p`, with
@@ -4554,9 +4211,8 @@ Layers 1, 2, 4 and 5; Tau Ceti's representation-theoretic powers and tensor indu
 group schemes of forms, Hopf ideals and identity components; `TauCetiRoadmap.ReductiveGroups` layers
 0, 2, 3, 6 and 9; `TauCetiRoadmap.ProfiniteCohomology` layers 2, 10 and 13;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 7; IntegralHeckeAndGaloisDeterminants
-Layer 1; SelmerIwasawaCohomology §§4.1, 4.4–4.5 (period topology, actions, invariants and shared
-de Rham realization/predicate);
-GlobalNumberFields Layers 9–10 (Hecke-character infinity types); Mathlib's `groupCohomology`, `Matrix.symplecticGroup`, `skewAdjointMatricesSubmodule`,
+Layer 1; GlobalNumberFields Layers 9–10 (Hecke-character infinity types); Mathlib's
+`groupCohomology`, `Matrix.symplecticGroup`, `skewAdjointMatricesSubmodule`,
 `LinearMap.IsPerfPair`, `Subgroup.goursat`, `Matrix.SL2.commutator_eq_top` and
 `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple'`.
 For §7.6's projective lifting: ClassFieldTheory Layers 5 and 10–12;
@@ -4573,8 +4229,9 @@ polarised representations and the residual-image conditions of Layer 7, together
 (§5.10), are the input of global and local Galois deformation theory and of the Taylor–Wiles–Kisin
 patching method. Recognition by Frobenius polynomials (Layer 5) and the image conditions (Layers 4 and
 7) are consumed by potential modularity and the theory of compatible systems. The conductors of Layer
-3 and the elliptic conductors of §§6.5–6.6 are the level of the residual and automorphic representations
-in Serre's modularity conjecture and in the modularity of elliptic curves. The Tate modules of Layer 6
+3 give the representation-theoretic conductors used in Serre's modularity conjecture and in the
+modularity of elliptic curves. The downstream geometric comparisons are
+NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3i. The Tate modules of Layer 6
 are consumed by complex multiplication and explicit reciprocity, by the finiteness and isogeny theorems
 for abelian varieties, by Euler systems of Heegner points and by the arithmetic of moduli of abelian
 schemes. The continuous carrier of Layer 1 is the input of the period functors of `p`-adic Hodge theory.

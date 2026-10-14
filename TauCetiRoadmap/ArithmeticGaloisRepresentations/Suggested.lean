@@ -2716,11 +2716,7 @@ Its acting group is Mathlib's `Field.absoluteGaloisGroup K` by definition. The f
 the supplier's separable-closure carrier, compatibly with transitions and
 `TauCeti.absoluteGaloisGroupRestrictEquiv`. This same comparison transports isogeny maps and
 `(W⁄(AlgebraicClosure K)).tateModuleWeilPairing`, including its cyclotomic target (§6.1).
-NeronModelsAndSemistableAbelianVarieties §5.1 supplies Néron–Ogg–Shafarevich for §6.3's potential
-reduction consequences, and its §2.7 supplies the smooth-locus comparison for §6.5's conductor
-comparison. StableReduction Layer 5 supplies the Kodaira configurations. The Tate and pairing
-adapters precede those Néron criteria; the conductor comparison consumes them. The linear algebra
-of the oddness comparison is stated here. -/
+The linear algebra of the oddness comparison is stated here. -/
 
 namespace Involution
 
@@ -3457,17 +3453,6 @@ theorem exists_root_mul_finiteOrder {Γ : Type*} [Group Γ] [TopologicalSpace Γ
     ∃ χ₁ χ₀ : Γ →ₜ* (PadicAlgCl ℓ)ˣ,
       (∃ N : ℕ, 0 < N ∧ ∀ g, χ₀ g ^ N = 1) ∧ ∀ g, χ g = χ₁ g ^ m * χ₀ g := by
   sorry
-
-/-! The period target of §7.6 uses SelmerIwasawaCohomology §4.5's `dDeRham` and `IsDeRham`
-on the scalar restriction of a finite-dimensional continuous `E`-representation of `G_K`, for
-finite `K/ℚ_p` and `E/ℚ_p` with `E` containing the embeddings of `K`.
-`GaloisRep.deRhamSupplierEquiv` is the filtered `K ⊗ E`-linear tensor-flip comparison
-from the supplied `(V ⊗ B_dR)^{G_K}` to `(B_dR ⊗ V)^{G_K}`. It preserves the inherited
-`E`-action, canonical comparison maps and every finite coefficient extension and filtration step.
-The supplied de Rham predicate and dimension bound are used on this same carrier; the graded
-`B_HT` realization, labelled weights and Sen operators are §7.6 targets. A filtration jump
-at `i` has labelled weight `-i`, so the cyclotomic character has weight `+1` and filtration
-jump `-1`. These interfaces are specified in the README. -/
 
 /-- Schur's lemma over a local ring: if the reduction of `ρ : Γ → GL_n(A)` is absolutely irreducible
 then `ρ(Γ)` spans `M_n(A)` and its centraliser is the scalars (CHT08, Lemma 2.1.8). -/
