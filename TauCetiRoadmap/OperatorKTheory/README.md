@@ -561,8 +561,10 @@ Fredholm index of the compressed operator from the even to the odd
 summand. For an odd self-adjoint involutive representative F and a
 unitary u, put `P=(1+F)/2`; the odd pairing is the index of `PuP`
 on PH. With the Clifford/suspension maps fixed in K5, prove as a
-Kasparov-product identity `⟨[z],[2P_Hardy−1]⟩=−1`; its compressed
-operator is the unilateral shift with cokernel dimension1. This
+Kasparov-product identity `⟨[z],[2P_Hardy−1]⟩=−1`. Here P_Hardy is
+ToeplitzOperators T1's projection onto nonnegative Fourier modes, transported
+through its normalized AddCircle/Circle Haar comparison; its compressed
+operator is the unilateral shift with cokernel dimension 1. This
 is the scalar compatibility theorem, not the definition of the sign. Prove
 compactness of the relevant commutators and Fredholmness, extend to
 unitization differences, and establish homotopy invariance and
