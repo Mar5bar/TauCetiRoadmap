@@ -1959,6 +1959,7 @@ topology for which the image of an étale atlas is a quotient map (Stacks, Defin
 `opensEquiv` (open subspaces of `F`, the representable open immersions into `F`, correspond to the
 opens of `|F|`); `points_pullback` (the map `|F ×_H G| → |F| ×_{|H|} |G|` is surjective). *Needs:*
 §1.3, §1.6; Mathlib `TopCat`, `Scheme.residueField`.
+The stack extension of this construction is `Stacks.points` in §1.20.
 
 **Checks.**
 - `points.test_field`: `|h_{Spec k}|` is one point.
@@ -2541,8 +2542,40 @@ algebraic space (Stacks, Proposition 94.13.3 (04SZ)). Define `SmoothLocal P f` f
 of morphisms of spaces that is smooth local on the source-and-target (smooth, flat, locally of
 finite presentation or type, surjective): `f : X → Y` has `P` if for smooth atlases `V → Y` and
 `U → X ×_Y V` the composite `U → V` has `P`, with `SmoothLocal.atlas_independent`; define
-`IsSeparatedStack` (the diagonal is proper), `IsProperStack` (separated, of finite type,
-universally closed on §1.7's spaces), with `IsProperStack.of_representable`, `.baseChange`
+`IsSeparatedStack` (the diagonal is proper).
+
+**Underlying topological spaces of algebraic stacks.** Define `Stacks.points X : TopCat`
+for an algebraic stack `X` by field-valued objects modulo isomorphism after a common field
+extension, with the quotient topology from a smooth surjective scheme atlas. Prove
+`Stacks.points.ofSpace` and `.ofScheme` (agreement with §1.7 and the native scheme topology),
+`.atlasIndependent` (comparison through `U ×_X U'`), `.map` (continuous, unchanged by
+2-isomorphism, preserving identities and composition), and `.atlasOpenSurjective`.
+Prove `.pullbackSurjective`: the map `|X ×_Y Z| → |X| ×_|Y| |Z|` is surjective, and
+`.baseChangeImage`: the image of the base change of `h : W → X` along `Z → X` is the
+inverse image of `|h|`'s image. These statements use the actual 2-fibre product.
+Smooth atlases remain open surjective quotient maps after every base change to an algebraic
+stack (`Stacks.points.atlasBaseChange`). Sources: Stacks, Definition 100.4.2 (04XG),
+Lemmas 100.4.3 (04XH), 100.4.5 (04XJ), 100.4.7 (04XL), Definition 100.4.8 (04Y8).
+*Needs:* §1.7, §1.18–§1.19; `SmoothLocal` and the smooth presentation below.
+
+**Checks.**
+- `stackPoints_scheme`: the identity atlas of a scheme recovers its topology; an étale
+  presentation of an algebraic space recovers §1.7's topology.
+- `stackPoints_classifying`: for the constant group `G = ℤ/2` over an algebraically closed
+  field, `|BG|` is one point. The atlas `Spec k ⊔ Spec k → BG` gives the same topology
+  as `Spec k → BG`.
+- `stackPoints_pullback`: `Spec k ×_{BG} Spec k = G` has two points, while
+  `|Spec k| ×_|BG| |Spec k|` has one. The comparison is surjective; it is not an identification
+  of the underlying spaces.
+
+Define `UniversallyClosedStack f` using `Stacks.points`: every base change
+`X ×_Y Y' → Y'` to an algebraic stack induces a closed map. Define `QuasiCompactStack f`
+by quasi-compactness of `|X ×_Y T|` for every affine scheme `T → Y`, and finite type by
+`SmoothLocal` locally of finite type together with `QuasiCompactStack`. Define a locally
+Noetherian algebraic stack by a locally Noetherian smooth scheme atlas, and prove independence
+of that atlas (Stacks, Definition 100.7.2 (04YG), Remark 100.7.3 (04YH),
+Definition 101.17.1). Define `IsProperStack` as separated, of finite type and universally
+closed, with `IsProperStack.of_representable`, `.baseChange`
 (Stacks, Definitions 101.4.1 (04YW), 101.13.2 (0513), 101.16.2 (06FN), 101.37.1 (0CL5)). Prove
 `stack_presentation`: every algebraic stack is `[U/R]` for a smooth groupoid `(U, R)` of §1.14, and
 the quotient stack of a smooth groupoid is algebraic; atlas independence (Stacks, Theorem 94.17.3
@@ -2556,6 +2589,57 @@ the quotient stack of a smooth groupoid is algebraic; atlas independence (Stacks
   (`B𝔾_m → Spec ℤ` is smooth and of finite type but not separated), `test_doubled_origin` (the
   affine line with doubled origin is of finite type and not separated), `test_projective_line`
   (`ℙ¹ → Spec k` is proper as a stack).
+
+**Properness from DVR lifts after extension.** This subsection owns the stack criterion.
+For `f : X → Y`, `j : Spec K → Spec R`, `x : Spec K → X`, `y : Spec R → Y` and a
+specified 2-isomorphism `γ : y ∘ j ≅ f ∘ x`, define `Stacks.ValuativeLift` as data
+`a : Spec R → X`, `α : a ∘ j ≅ x`, `β : y ≅ f ∘ a`, with
+`γ = (id_f ⋆ α) ∘ (β ⋆ id_j)`, including the pseudofunctor coherence isomorphisms.
+Its arrows are isomorphisms `θ : a ≅ a'` satisfying
+`α = α' ∘ (θ ⋆ id_j)` and `β' = (id_f ⋆ θ) ∘ β`. Construct this groupoid and prove its
+compatibility with 2-base change. `Stacks.ValuativeLift.reidentify` composes `α` with a
+chosen `e : x ≅ x'` and replaces `γ` by `(id_f ⋆ e) ∘ γ`, preserving compatibility
+(Stacks, Definition 101.39.1 (0CLA), Lemmas 101.39.2 (0CLC), 101.39.4 (0CLE)).
+
+Define `StackDVRLiftingAfterExtension f`: for every DVR `R`, fraction field `K` and
+such specified diagram, there are a field extension `K'/K` and a valuation ring `R' ⊆ K'`
+with fraction field `K'` dominating `R`, and a `ValuativeLift` of the pulled-back diagram
+with its induced `γ'`. Domination means an injective local ring map `R → R'`, compatible
+with the inclusions into `K'`; the base and generic restriction maps commute.
+The allowed `R'` need not be a DVR, and `K'/K` need not be finite. A chosen-place DVR
+extension supplied by StableReduction is sufficient lifting data. Prove
+`IsProperStack.ofDVRLifting`: if `X`, `Y` are algebraic stacks, `Y` is locally Noetherian,
+`f` is separated and of finite type, and `StackDVRLiftingAfterExtension f`, then
+`IsProperStack f`. This is Stacks, Lemma 106.11.3 (0CQM) with `h = id_X`: the identity
+is of finite type and its image is dense. It tests every generic object of `X`.
+The theorem includes the Noetherian reduction from valuation rings to these DVR tests
+and derives universal closedness for the topology above.
+Prove `IsProperStack.representableComparison`: for scheme morphisms the compatible lift
+groupoid is canonically equivalent to the discrete groupoid of Mathlib's
+`ValuativeCommSq.commSq.LiftStruct`,
+and stack properness agrees with native `IsProper` (Stacks, Lemmas 101.39.9 (0CLJ),
+101.39.13 (0CLN); Mathlib `IsProper.eq_valuativeCriterion`).
+*Needs:* the topology, morphism properties and presentations above; §1.18–§1.19.
+
+**Checks.**
+- `stackDVR_ramified_classifying`: for `R = ℂ[[t]]`, `K = ℂ((t))` and constant
+  `G = ℤ/2`, the proper DM stack `BG → Spec ℂ` has the generic torsor
+  `Spec K(√t)`. It has no lift over `R`: finite étale torsors over this strictly henselian
+  ring are trivial, and `t` has odd valuation so is not a square in `K`. After
+  `R → ℂ[[u]]`, `t ↦ u²`, it is trivial and extends with its chosen generic identification
+  (Stacks, §101.39 (0CL9), example after Definition 101.39.10).
+- `stackDVR_representable`: `ℙ¹_ℤ → Spec ℤ` has unique lifts over the original valuation
+  ring by Mathlib's `IsProper.eq_valuativeCriterion`; their discrete lift groupoids give
+  the same properness through `IsProperStack.ofDVRLifting`.
+- `stackDVR_separation_required`: `B𝔾_m → Spec ℤ` satisfies DVR existence even without
+  extension, since a line over a field is trivial and extends as a free line. Its diagonal
+  has fibre `𝔾_m`, which is not proper; the separatedness hypothesis excludes it.
+
+*Lean:* `Stacks.ValuativeLift` retains `genericIso` (`α`), `baseIso` (`β`) and
+`compatibility` for the restriction along any scheme morphism `j`;
+`Stacks.ValuativeLift.reidentify` transports
+the chosen generic identification. The stack topology and properness criterion are specified
+in this README only.
 
 ### 1.21 Quotient stacks, line bundles with a section, root stacks
 
@@ -5201,9 +5285,58 @@ last marking and stabilising, compatible with StableReduction Layer 9; its ident
 with the universal curve supplies the added-marking induction, Knudsen II, Corollary 2.6
 and Theorem 2.7, p. 179). Prove `isom_stable_curves`: for stable
 pointed families `C, C'` over `S`, `Isom_S(C, C')` is a finite unramified `S`-scheme (Deligne–Mumford
-1969, §1, Theorem (1.11), pp. 84–85). Prove `Mbar_algebraic_proper_DM`: `M̄_{g,n}` is a proper
-Deligne–Mumford stack over `Spec ℤ` (§1.19–§1.20), with `M_{g,n}` open dense (Deligne–Mumford 1969,
-§5, Proposition (5.1), Theorem (5.2), pp. 104–105; §1, pp. 76–78). Prove `Mbar_smooth`: `M̄_{g,n} →
+1969, §1, Theorem (1.11), pp. 84–85).
+
+**Stable reduction and stack properness.** For every `2g−2+n>0`, first prove
+`Mbar.algebraicFiniteTypeDM`: the polarized Hilbert charts of §4.14, using a uniformly very
+ample power of `ω_{C/S}(Σ σ_i)` and its fixed Hilbert polynomial, give a smooth atlas and
+finite type over `Spec ℤ`. Effective descent and `isom_stable_curves` give the representable
+unramified diagonal and the DM property. The same finite Isom schemes are proper, hence
+give `IsSeparatedStack` for the structural map. Their DVR extension of a specified generic
+isomorphism uses StableReduction Layers 8–9's uniqueness over a fixed DVR.
+These constructions use families, Hilbert charts and Isom schemes, with no proper moduli
+stack as an input (Deligne–Mumford 1969, §5, Proposition (5.1), Theorem (5.2),
+pp. 104–105; Knudsen II, Theorem 2.7, p. 179).
+
+Prove `Mbar.dvrLifting`: any stable pointed generic curve `C/K`, including a nodal one,
+gives §1.20's `StackDVRLiftingAfterExtension` for `M̄_{g,n} → Spec ℤ`. Consume
+StableReduction end goals 2–3 and 6, Layers 8–9: its chosen finite separable extension of
+fraction fields and dominating DVR give a stable family `C'/R'` and the specified pointed
+isomorphism `α : C'_{K'} ≅ C_{K'}`. Use the structural map to `Spec ℤ` for `β` and retain
+the compatibility with the original `γ`. The supplier's unique extension of generic
+isomorphisms identifies any two stable lifts over a fixed DVR while preserving `α`.
+For smooth generic fibres the supplier is pointed stable reduction; for nodal generic
+fibres it is the componentwise normalization and clutching theorem of Layer 9.
+
+Prove `Mbar.properOfStableReduction`: the algebraicity, finite-type and separatedness
+inputs above, together with `Mbar.dvrLifting`, imply
+`IsProperStack (M̄_{g,n} → Spec ℤ)` by `IsProperStack.ofDVRLifting`, since `Spec ℤ` is
+locally Noetherian. This uses all stable generic fibres; no dense-open test hypothesis is
+needed (Stacks, Lemma 106.11.3 (0CQM), applied with the identity; Theorem 109.25.3 (0E9C)
+for the unpointed comparison). The stable range includes `(0,3)` and `(1,1)` and all
+added-marking steps whose target satisfies `2g−2+n>0`, as in `Mbar.forget`.
+Prove `Mbar_algebraic_proper_DM`: assemble these inputs to obtain a proper DM stack with
+`M_{g,n}` open dense. Openness and density come from smoothness of the family locus and
+§4.6's node-smoothing deformations on the Hilbert charts (Deligne–Mumford 1969, §1,
+pp. 76–78, Proposition (1.5), p. 81; §5, Theorem (5.2), pp. 104–105; Knudsen II,
+Theorem 2.7, p. 179). Apply this properness before constructing the level covers below.
+*Needs:* §1.20's stack topology and DVR criterion; §4.6, §4.14;
+StableReduction Layers 2–3, 8–9 and its valuative interface.
+
+**Checks.**
+- `Mbar_dvr_generic_identification`: for a stable pointed family `C/R` over a DVR and
+  a chosen pointed automorphism `e` of `C_K`, use `C` itself as the lift with `α=e`.
+  Uniqueness compares another lift with this specified identification; it does not identify
+  the result with the lift having `α=id` by the identity map when `e≠id`.
+- `Mbar_dvr_nodal_generic`: for `g=1,n=1`, the rational nodal curve obtained by identifying
+  `0` and `∞` on `ℙ¹_K`, marked at `1`, is stable and not smooth. Its constant nodal
+  model over the DVR, with that generic identification, is a test of `Mbar.dvrLifting`.
+- `Mbar_proper_stable_bases`: the criterion applies to `M̄_{0,3}=Spec ℤ` and to
+  `M̄_{1,1}` using pointed stable reduction, even though the unpointed genus-one and
+  two-pointed genus-zero cases have no stable target. For `(g,n)=(0,4)` and `(1,2)`,
+  the added-marking maps have stable targets and preserve these properness inputs.
+
+Prove `Mbar_smooth`: `M̄_{g,n} →
 Spec ℤ` is smooth of relative dimension `3g − 3 + n`, the boundary is a normal crossings divisor,
 and over an algebraically closed residue field the versal deformation has §4.6's labelled
 node-smoothing coordinates; over general fields this description holds geometrically with

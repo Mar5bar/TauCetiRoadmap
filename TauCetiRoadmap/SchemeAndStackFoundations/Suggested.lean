@@ -524,6 +524,52 @@ structure StackInGroupoids where
   isGroupoid : ∀ T : Scheme.{u}, IsGroupoid (toPseudofunctor.obj ⟨op T⟩)
   isStack : toPseudofunctor.IsStack Scheme.fppfTopology
 
+/-! ### §1.20 Compatible valuative lifts -/
+
+/-- A lift of a specified 2-commutative square, retaining the generic identification,
+the base identification and their compatibility with the strong naturality constraint.
+For a valuation ring this is the dotted-arrow datum of Stacks, Definition 101.39.1 (0CLA). -/
+structure ValuativeLift {X Y : StackInGroupoids.{u}}
+    (f : Pseudofunctor.StrongTrans X.toPseudofunctor Y.toPseudofunctor)
+    {T S : Scheme.{u}} (j : T ⟶ S)
+    (x : X.toPseudofunctor.obj ⟨op T⟩) (y : Y.toPseudofunctor.obj ⟨op S⟩)
+    (γ : (Y.toPseudofunctor.map ⟨j.op⟩).toFunctor.obj y ≅
+      (f.app ⟨op T⟩).toFunctor.obj x) where
+  obj : X.toPseudofunctor.obj ⟨op S⟩
+  genericIso : (X.toPseudofunctor.map ⟨j.op⟩).toFunctor.obj obj ≅ x
+  baseIso : y ≅ (f.app ⟨op S⟩).toFunctor.obj obj
+  compatibility :
+    (Y.toPseudofunctor.map ⟨j.op⟩).toFunctor.mapIso baseIso ≪≫
+      ((Cat.Hom.toNatIso (f.naturality ⟨j.op⟩)).app obj).symm ≪≫
+      (f.app ⟨op T⟩).toFunctor.mapIso genericIso = γ
+
+/-- Transport a lift along a chosen isomorphism of generic objects, carrying that
+isomorphism into both the generic identification and the specified square.
+Stacks, Definition 101.39.1 (0CLA). -/
+def ValuativeLift.reidentify {X Y : StackInGroupoids.{u}}
+    {f : Pseudofunctor.StrongTrans X.toPseudofunctor Y.toPseudofunctor}
+    {T S : Scheme.{u}} {j : T ⟶ S}
+    {x x' : X.toPseudofunctor.obj ⟨op T⟩} {y : Y.toPseudofunctor.obj ⟨op S⟩}
+    {γ : (Y.toPseudofunctor.map ⟨j.op⟩).toFunctor.obj y ≅
+      (f.app ⟨op T⟩).toFunctor.obj x}
+    (L : ValuativeLift f j x y γ) (e : x ≅ x') :
+    ValuativeLift f j x' y (γ ≪≫ (f.app ⟨op T⟩).toFunctor.mapIso e) where
+  obj := L.obj
+  genericIso := L.genericIso ≪≫ e
+  baseIso := L.baseIso
+  compatibility := by
+    simpa only [Functor.mapIso_trans, Iso.trans_assoc] using
+      congrArg (fun δ => δ ≪≫ (f.app ⟨op T⟩).toFunctor.mapIso e) L.compatibility
+
+-- `stackDVR_representable`: proper scheme morphisms have lifts over the original ring,
+-- agreeing with the discrete compatible-lift groupoid in §1.20.
+example {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] : ValuativeCriterion f := by
+  have h : ((ValuativeCriterion ⊓ @QuasiCompact ⊓ @QuasiSeparated ⊓
+      @LocallyOfFiniteType) : MorphismProperty Scheme.{u}) f := by
+    rw [← IsProper.eq_valuativeCriterion]
+    infer_instance
+  exact h.1.1.1
+
 end Stacks
 
 /-! ### §1.24 Galois descent -/
