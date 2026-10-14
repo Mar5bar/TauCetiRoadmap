@@ -1,3 +1,9 @@
+import Mathlib.RepresentationTheory.Irreducible
+import Mathlib.RepresentationTheory.Invariants
+import Mathlib.NumberTheory.LocalField.Basic
+import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.FinTwo
+import Mathlib.Topology.Algebra.Module.FiniteDimension
+import Mathlib.Topology.Instances.Matrix
 import Mathlib.Analysis.Fourier.FourierTransform
 import Mathlib.Analysis.Fourier.ZMod
 import Mathlib.Topology.LocallyConstant.Basic
@@ -923,18 +929,6 @@ example : OpenDiscZeroPoleIndex (Polynomial.X-1) 1 = 0 := by sorry
 -- TauCeti.AutomorphicLFunctions.AL3.OpenDiscZeroPoleIndex.cancelled_presentation
 example : OpenDiscZeroPoleIndex Polynomial.X Polynomial.X = 0 := by sorry
 
-/-- Meromorphic quotient represented by polynomials. Numerator and denominator retain pole data. -/
-def RsNormalizingScalar (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ) :
-    Polynomial ℂ × Polynomial ℂ :=
-  (Polynomial.C ((q : ℂ)^(((1 : ℤ)-(g : ℤ))*(Ni : ℤ)*(Nj : ℤ))) * P *
-      Q.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X),
-    Q * P.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X))
--- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.genus_one
-example (P Q : Polynomial ℂ) (q : ℝ) (Ni Nj : ℕ) :
-    RsNormalizingScalar P Q q 1 Ni Nj =
-      (P*Q.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X),
-        Q*P.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X)) := by sorry
-
 /-- A nonzero functional on an irreducible representation gives an injective realization. -/
 theorem WhittakerModel.realization {G V : Type*} [Group G]
     [AddCommGroup V] [Module ℂ V] (ρ : G →* Module.End ℂ V) (ℓ : V →ₗ[ℂ] ℂ)
@@ -996,29 +990,6 @@ theorem FunctionFieldRsEulerProduct.unitary_conjugate {ι κ : Type*}
     (σ : κ ≃ κ) (h : ∀ j, (β j)⁻¹ = star (β (σ j))) :
     ffRsLocalFactor α β d hd =
       ∏ i, ∏ j, (1-PowerSeries.C (α i*star (β j))*PowerSeries.X^d)⁻¹ := by sorry
-
-/-- Equality at regular points; the polynomial pair retains its pole data. -/
-theorem RsNormalizingScalar.root (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ)
-    (z : ℂ) (hQ : Q.eval z ≠ 0) (hQ' : Q.eval ((q : ℂ)⁻¹*z) ≠ 0)
-    (hP' : P.eval ((q : ℂ)⁻¹*z) ≠ 0) :
-    (RsNormalizingScalar P Q q g Ni Nj).1.eval z /
-      (RsNormalizingScalar P Q q g Ni Nj).2.eval z =
-      (q : ℂ)^(((1 : ℤ)-(g : ℤ))*(Ni : ℤ)*(Nj : ℤ)) *
-      (P.eval z/Q.eval z)/(P.eval ((q : ℂ)⁻¹*z)/Q.eval ((q : ℂ)⁻¹*z)) := by sorry
-
--- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.pole_not_value
-example : (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).1.eval 1 = 1/2 ∧
-    (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).2.eval 1 = 0 := by sorry
-
-/-- Residual lengths two give shifts 1, 0, 0, −1, retaining the repeated middle factor. -/
-example (L : ℤ → ℂˣ) :
-    (∏ i : Fin 2, ∏ j : Fin 2, L (1-(i.val : ℤ)-j.val)) =
-      L 1 * (L 0)^2 * L (-1) := by sorry
-
-/-- The algebraic telescoping underlying residual Rankin–Selberg products. -/
-theorem ResidualRsTelescoping (L : ℤ → ℂˣ) (a : ℤ) (ν₁ ν₂ : ℕ) :
-    (∏ i : Fin ν₁, ∏ j : Fin ν₂, L (a-i.val-j.val)/L (a-i.val-j.val-1)) =
-      ∏ j : Fin ν₂, L (a-j.val)/L (a-ν₁-j.val) := by sorry
 
 -- A point-mass computation fixes the unequal-rank half shift.
 example : RsLocalIntegrals 2 1 (Measure.dirac ()) (Measure.dirac ())
@@ -1208,9 +1179,307 @@ AL.3: `RsLocalIntegrals.equal_rank` and `RsLocalIntegrals.j_range` specify the a
 quotient and block embeddings. `MirabolicEisensteinSeries.parabolic_sum` and
 `MirabolicEisensteinSeries.nontrivial_normone` specify unfolding and zero-mode poles.
 `NormalizedRsPeriod.tempered_half_plane` and `NormalizedRsPeriod.continued_value`
-fix the domain and continuation at zero. `RsNormalizingScalar.identity_weyl`,
-`RsNormalizingScalar.weyl_product` and `RsNormalizingScalar.one_root` specify the
-inversion-root product and its Weyl composition.
+fix the domain and continuation at zero.
 AL.5: `pStabilizedCoeff.not_dvd` and `pStabilizedCoeff.mul` specify the prime-to-p
 and multiple-of-p coefficient formulas.
 -/
+
+/-! ## AL.2: GL₂ newvectors on native representation carriers -/
+
+namespace TauCeti.GL2Blueprint
+open _root_.Matrix
+
+section Congruence
+variable {R : Type*} [CommRing R]
+
+/-- The lower-left ideal congruence subgroup of GL₂(R). Submonoid.units includes the inverse condition; for a 2×2 unit it is equivalent to the single entry condition in the AL.2 GL₂ newvector convention. -/
+def k0 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
+  ({ carrier := {M : Matrix (Fin 2) (Fin 2) R | M 1 0 ∈ I}
+     one_mem' := by simp
+     mul_mem' := by
+       intro M N hM hN
+       change (M * N) 1 0 ∈ I
+       simpa [Matrix.mul_apply, Fin.sum_univ_two] using
+         I.add_mem (I.mul_mem_right (N 0 0) hM) (I.mul_mem_left (M 1 1) hN)
+   } : Submonoid (Matrix (Fin 2) (Fin 2) R)).units
+
+example (I : Ideal R) : (1 : GeneralLinearGroup (Fin 2) R) ∈ k0 I := by sorry
+
+example : k0 (⊤ : Ideal R) = ⊤ := by sorry
+
+example (u l : GeneralLinearGroup (Fin 2) (ZMod 5))
+    (hu : u.val = !![1, 1; 0, 1]) (hl : l.val = !![1, 0; 1, 1]) :
+    u ∈ k0 (⊥ : Ideal (ZMod 5)) ∧ l ∉ k0 (⊥ : Ideal (ZMod 5)) := by sorry
+
+/-- The last-row ideal congruence subgroup of GL₂(R): lower-left entry in I and lower-right entry congruent to one. Inversion is included by Submonoid.units. -/
+def k1 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
+  ({ carrier := {M : Matrix (Fin 2) (Fin 2) R | M 1 0 ∈ I ∧ M 1 1 - 1 ∈ I}
+     one_mem' := by simp
+     mul_mem' := by
+       intro M N hM hN
+       constructor
+       · change (M * N) 1 0 ∈ I
+         simpa [Matrix.mul_apply, Fin.sum_univ_two] using
+           I.add_mem (I.mul_mem_right (N 0 0) hM.1) (I.mul_mem_left (M 1 1) hN.1)
+       · change (M * N) 1 1 - 1 ∈ I
+         convert I.add_mem
+           (I.add_mem (I.mul_mem_right (N 0 1) hM.1)
+             (I.mul_mem_left (M 1 1) hN.2)) hM.2 using 1
+         simp [Matrix.mul_apply, Fin.sum_univ_two]
+         ring
+   } : Submonoid (Matrix (Fin 2) (Fin 2) R)).units
+
+example (I : Ideal R) : (1 : GeneralLinearGroup (Fin 2) R) ∈ k1 I := by sorry
+
+example : k1 (⊤ : Ideal R) = ⊤ := by sorry
+
+example (g : GeneralLinearGroup (Fin 2) (ZMod 5)) (hg : g.val = !![2, 0; 0, 1]) :
+    g ∈ k1 (⊥ : Ideal (ZMod 5)) ∧ g.val ≠ !![1, 0; 0, 1] := by sorry
+
+end Congruence
+
+section LocalRepresentation
+variable {G V : Type*} [Group G] [AddCommGroup V] [Module ℂ V]
+
+/-- The least nonzero fixed level of a representation with an explicitly nonempty level set. -/
+def conductorExponent (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
+    (hex : ∃ n, ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0) : ℕ := by
+  classical
+  exact Nat.find hex
+
+/-- The least level has a nonzero fixed vector, and every smaller level has none. -/
+theorem conductor_min (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
+    (hex : ∃ n, ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0) :
+    (∃ v ∈ (Representation.invariants (ρ.comp (K (conductorExponent ρ K hex)).subtype)), v ≠ 0) ∧
+    ∀ n < conductorExponent ρ K hex,
+      ¬ ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0 := by sorry
+
+example (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
+    (hex : ∃ n, ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0)
+    (hzero : ∃ v ∈ (Representation.invariants (ρ.comp (K 0).subtype)), v ≠ 0) :
+    conductorExponent ρ K hex = 0 := by sorry
+
+end LocalRepresentation
+
+section LocalNewvectors
+open scoped ValuativeRel
+variable {F : Type*} [Field F] [CharZero F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+variable {V : Type*} [AddCommGroup V] [Module ℂ V]
+
+/-- The last-row k1 subgroup over the valuation ring, embedded in GL₂(F).
+This abbreviation introduces neither a local-field carrier nor a second
+congruence subgroup. Level zero is the integral maximal compact subgroup. -/
+abbrev localK1 (F : Type*) [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ) :
+    Subgroup (GeneralLinearGroup (Fin 2) F) :=
+  (k1 (𝓂[F] ^ n)).map
+    (GeneralLinearGroup.map (algebraMap 𝒪[F] F))
+
+/-- The image of the lower-left subgroup; this is a specialization
+of k0, rather than another Iwahori or local-field carrier. -/
+abbrev localK0 (F : Type*) [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ) :
+    Subgroup (GeneralLinearGroup (Fin 2) F) :=
+  (k0 (𝓂[F] ^ n)).map
+    (GeneralLinearGroup.map (algebraMap 𝒪[F] F))
+
+example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g.val = !![1, 1; 0, 1]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK0 F 1 := by sorry
+
+example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g.val = !![1, 0; 1, 1]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∉ localK0 F 1 := by sorry
+
+example (u : 𝒪[F]ˣ) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F)
+      (GeneralLinearGroup.scalar (Fin 2) u) ∈ localK0 F 1 := by sorry
+
+example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g.val = !![1, 1; 0, 1]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK1 F 1 := by sorry
+
+example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g.val = !![1, 0; 1, 1]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∉ localK1 F 1 := by sorry
+
+example (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) - 1 ∉ 𝓂[F])
+    (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g.val = !![(u : 𝒪[F]), 0; 0, 1]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK1 F 1 ∧
+      GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ≠ 1 := by sorry
+
+/-- The embedded congruence subgroup is compact. -/
+theorem localK0_isCompact (n : ℕ) :
+    IsCompact (localK0 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
+
+/-- The embedded congruence subgroup is open. -/
+theorem localK0_isOpen (n : ℕ) :
+    IsOpen (localK0 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
+
+/-- The embedded congruence subgroup is compact. -/
+theorem localK1_isCompact (n : ℕ) :
+    IsCompact (localK1 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
+
+/-- The embedded congruence subgroup is open. -/
+theorem localK1_isOpen (n : ℕ) :
+    IsOpen (localK1 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
+
+/-- Trivial action of integral scalar units identifies K₀ and K₁ fixed spaces at every level. -/
+theorem localK0_invariants_eq_localK1
+    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+    (hcent : ∀ (u : 𝒪[F]ˣ) (v : V),
+      π (GeneralLinearGroup.map (algebraMap 𝒪[F] F)
+        (GeneralLinearGroup.scalar (Fin 2) u)) v = v) (n : ℕ) :
+    Representation.invariants (π.comp (localK0 F n).subtype) =
+      Representation.invariants (π.comp (localK1 F n).subtype) := by sorry
+
+example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g.val = !![0, 1; -1, 0]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK0 F 0 ∧
+      GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∉ localK0 F 1 := by sorry
+
+example (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) - 1 ∉ 𝓂[F]) :
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F)
+      (GeneralLinearGroup.scalar (Fin 2) u) ∈ localK0 F 1 ∧
+    GeneralLinearGroup.map (algebraMap 𝒪[F] F)
+      (GeneralLinearGroup.scalar (Fin 2) u) ∉ localK1 F 1 := by sorry
+
+example (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+    (u : 𝒪[F]ˣ) (a : ℂ) (ha : a ≠ 1)
+    (hscalar : ∀ v : V,
+      π (GeneralLinearGroup.map (algebraMap 𝒪[F] F)
+        (GeneralLinearGroup.scalar (Fin 2) u)) v = a • v)
+    (n : ℕ)
+    (hfixed : ∃ v ∈ Representation.invariants (π.comp (localK1 F n).subtype), v ≠ 0) :
+    Representation.invariants (π.comp (localK0 F n).subtype) = ⊥ ∧
+      Representation.invariants (π.comp (localK0 F n).subtype) ≠
+        Representation.invariants (π.comp (localK1 F n).subtype) := by sorry
+
+/-- Casselman, Theorem 1 and its proof, pp. 302–306, in the last-row
+convention of the README. Infinite dimensionality excludes determinant
+characters. No conductor or nonempty-level hypothesis is assumed. -/
+theorem newvectorLevelExists
+    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (hinf : ¬ FiniteDimensional ℂ V) :
+    ∃ n, ∃ v ∈ Representation.invariants (π.comp (localK1 F n).subtype),
+      v ≠ 0 := by sorry
+
+/-- The complete dimension formula, not an assumption that a fixed line exists.
+Natural subtraction expresses max(0, n-c+1). Casselman, Corollary to the
+Proof, p. 306; apply his top-left convention to the contragredient and twist
+back to obtain the lower-last-row subgroup used here. -/
+theorem casselmanNewvector
+    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (hinf : ¬ FiniteDimensional ℂ V) (n : ℕ) :
+    Module.finrank ℂ (Representation.invariants (π.comp (localK1 F n).subtype)) =
+      n + 1 - conductorExponent π (localK1 F)
+        (newvectorLevelExists π hsm hadm hinf) := by sorry
+
+/-- The central-character assertion for the minimal K₀-line. For positive
+conductor the lower-right entry of an integral K₀ matrix is a unit; u is that
+unit, rather than an arbitrary value of the determinant. At conductor zero
+the fixed line is spherical. -/
+theorem casselmanNewvector_k0_character
+    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (hinf : ¬ FiniteDimensional ℂ V)
+    (ω : Fˣ →* ℂˣ)
+    (hcent : ∀ z v, π (GeneralLinearGroup.scalar (Fin 2) z) v = (ω z : ℂ) • v)
+    (hc : 0 < conductorExponent π (localK1 F)
+      (newvectorLevelExists π hsm hadm hinf))
+    (g : GeneralLinearGroup (Fin 2) 𝒪[F])
+    (hg : g ∈ k0 (𝓂[F] ^ conductorExponent π (localK1 F)
+      (newvectorLevelExists π hsm hadm hinf)))
+    (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) = g.val 1 1)
+    (v : Representation.invariants (π.comp (localK1 F
+      (conductorExponent π (localK1 F)
+        (newvectorLevelExists π hsm hadm hinf))).subtype)) :
+    π (GeneralLinearGroup.map (algebraMap 𝒪[F] F) g) v.val =
+      (ω (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) : ℂ) • v.val := by sorry
+
+/-- Nonvanishing of the chosen Whittaker functional on the newvector line.
+The second character condition says it is nontrivial on the inverse maximal
+ideal. Equivariance uses actual upper unipotent matrices. Existence of this
+nonzero functional is SR.2.3's genericity theorem, not an assumption about its
+restriction to the newvector line. Casselman, proof of Theorem 1, pp. 303–306. -/
+theorem casselmanNewvector_whittaker_eval
+    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (hinf : ¬ FiniteDimensional ℂ V)
+    (ψ : AddChar F ℂ) (hψ : Continuous ψ)
+    (hψO : ∀ a : 𝒪[F], ψ (a : F) = 1)
+    (hψp : ∃ x : F, (∀ a : 𝒪[F], a ∈ 𝓂[F] →
+      x * (a : F) ∈ (𝒪[F] : Set F)) ∧ ψ x ≠ 1)
+    (ell : V →ₗ[ℂ] ℂ) (hell : ell ≠ 0)
+    (hwhit : ∀ (x : F) (g : GeneralLinearGroup (Fin 2) F),
+      g.val = !![1, x; 0, 1] → ∀ v, ell (π g v) = ψ x * ell v) :
+    ∃ v : Representation.invariants (π.comp (localK1 F
+      (conductorExponent π (localK1 F)
+        (newvectorLevelExists π hsm hadm hinf))).subtype), ell v.val ≠ 0 := by sorry
+
+end LocalNewvectors
+
+
+section NormalizedLine
+variable {V : Type*} [AddCommGroup V] [Module ℂ V]
+
+/-- The vector of value one for a nonzero functional on a one-dimensional line. -/
+def normalizedNewvector (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) : L := by sorry
+
+/-- The normalized vector has value one under the specified functional. -/
+theorem normalizedNewvector_eval (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) :
+    ell (normalizedNewvector L ell hdim hell) = 1 := by sorry
+
+/-- A value-one vector on the line is the normalized vector. -/
+theorem normalizedNewvector_unique (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) (v : L) (hv : ell v = 1) :
+    v = normalizedNewvector L ell hdim hell := by sorry
+
+example (ell : (⊤ : Submodule ℂ ℂ) →ₗ[ℂ] ℂ)
+    (hell : ∀ z, ell z = 2 * (z : ℂ)) (hne : ell ≠ 0)
+    (hdim : Module.finrank ℂ (⊤ : Submodule ℂ ℂ) = 1) :
+    (normalizedNewvector ⊤ ell hdim hne : ℂ) = 1 / 2 := by sorry
+
+example (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
+    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0)
+    (a : ℂ) (ha : a ≠ 0) (hscaled : a • ell ≠ 0) :
+    normalizedNewvector L (a • ell) hdim hscaled =
+      a⁻¹ • normalizedNewvector L ell hdim hell := by sorry
+
+example (L : Submodule ℂ V) :
+    ¬ ∃ v : L, (0 : L →ₗ[ℂ] ℂ) v = 1 := by sorry
+
+end NormalizedLine
+
+
+/- The full API also includes conductor_iso, conductor_unramified_twist,
+normalizedNewvector_fixed and normalizedNewvector_twist, with the hypotheses
+and last-row convention specified in README AL.2 / GL₂ newvectors. -/
+
+end TauCeti.GL2Blueprint
