@@ -29,9 +29,9 @@ universal-character action and its `familySpecialization_radius` projective-limi
 characteristic products of complexes, slope decompositions,
 finite-slope windows and the torus slope adapters.
 
-The targets supplied by PadicFunctionalAnalysis and CompactOperators are cited in the README and
-not restated here. Their definitions that the statements below use are local restatements, each
-to be replaced by the import once that roadmap is in TauCetiRoadmap.
+The targets supplied by PadicFunctionalAnalysis and CompactOperators are cited in the README.
+These definitions are signature stand-ins for the named supplier APIs. Implementations import
+those APIs and retain one owner for each object.
 -/
 
 namespace TauCetiRoadmap.LocallyAnalyticDistributions
@@ -68,9 +68,8 @@ section Coefficients
 variable {E : Type*} [TopologicalSpace E] [Zero E]
 variable {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
 
-/-- Local restatement of PadicFunctionalAnalysis §2.1.2, to be replaced by the import once that
-roadmap is in TauCetiRoadmap: the coordinate vector `single i a`, the finitely supported element of
-Mathlib's `C₀(I, E)` with value `a` at `i` and zero elsewhere; `c0Single i 1` is the basis vector
+/-- Signature stand-in for PadicFunctionalAnalysis §2.1.2: the coordinate vector `single i a`,
+the finitely supported element of Mathlib's `C₀(I, E)` with value `a` at `i` and zero elsewhere; `c0Single i 1` is the basis vector
 `e_i` and supplies the chart monomials of the analytic stages. -/
 def c0Single (i : I) (a : E) : C₀(I, E) where
   toFun := Pi.single i a
@@ -117,6 +116,12 @@ a finite sum of separated coefficient arrays. -/
 example : (∃ f : C₀(ℕ × ℕ, ℚ_[3]), ∀ i j, f (i, j) = if i = j then (3 : ℚ_[3]) ^ i else 0) ∧
     ¬ ∃ (r : ℕ) (x y : Fin r → ℕ → ℚ_[3]), ∀ i j,
       (∑ k : Fin r, x k i * y k j) = if i = j then (3 : ℚ_[3]) ^ i else 0 := by sorry
+
+/-- §0.0 check `c0Tensor_basis`: the supplied tensor coefficient comparison preserves the
+ordered pair of indices and its norm. -/
+example :
+    let v := NonarchimedeanFredholm.c0Single ((2, 3) : ℕ × ℕ) (1 : ℚ_[3])
+    v (2, 3) = 1 ∧ v (3, 2) = 0 ∧ ‖v‖ = 1 := by sorry
 
 end NonarchimedeanTopologyTests
 
@@ -208,6 +213,23 @@ example (t : K) (ht : ‖t‖ < 1) :
 
 /-- §1.2 check `MellinEvalTests.boundary` (non-example): no convergence is claimed on the boundary. -/
 example : ¬ Summable (fun _ : ℕ => (1 : K)) := by sorry
+
+/-- §1.2 check `MellinEvalTests.zero_series`: the zero series evaluates to zero everywhere. -/
+example (t : K) : evalOpen (0 : PowerSeries K) t = 0 := by sorry
+
+/-- §1.2 check `openDisc_geometric`: the geometric series is open-disc analytic but not
+restricted at radius one. -/
+example : OnOpenDisc (PowerSeries.mk (fun _ => (1 : ℚ_[3]))) ∧
+    ¬ PowerSeries.IsRestricted 1 (PowerSeries.mk (fun _ => (1 : ℚ_[3]))) := by sorry
+
+/-- §1.2 check `openDisc_polynomial`: a quadratic polynomial is open-disc analytic. -/
+example : OnOpenDisc (PowerSeries.X ^ 2 : PowerSeries ℚ_[3]) := by sorry
+
+/-- §1.2 check `openDisc_small_radius_failure`: coefficients `3⁻ⁿ` fail restrictedness already
+at radius `1/2`, so this formal series is not open-disc analytic. -/
+example :
+    let F := PowerSeries.mk (fun n : ℕ => (3 : ℚ_[3]) ^ (-(n : ℤ)))
+    ¬ PowerSeries.IsRestricted (1 / 2) F ∧ ¬ OnOpenDisc F := by sorry
 
 end Mellin
 
@@ -347,6 +369,56 @@ example (r : ℝ) : IsotropicGrowth (p := p) (0 :
     LocallyConstant (Fin g → ℤ_[p]) K →ₗ[K] K) r := by sorry
 
 end Rectangles
+
+end AnalyticDistributions
+
+namespace AnalyticDistributions
+
+/-- §2.2: compatible normalized finite-residue averages supply a locally constant Haar
+functional on `ℤ₃`, with mass `3⁻ᵐ` on every depth-`m` ball. -/
+theorem exists_locallyConstantHaar :
+    ∃ H : LocallyConstant (Fin 1 → ℤ_[3]) ℚ_[3] →ₗ[ℚ_[3]] ℚ_[3],
+      ∀ (a : Fin 1 → ℤ_[3]) (m : ℕ),
+        H (boxIndicator a (fun _ => m)) = (3 : ℚ_[3]) ^ (-(m : ℤ)) := by sorry
+
+/-- §2.2: the normalized locally constant Haar functional, determined by its ball masses. -/
+def locallyConstantHaar : LocallyConstant (Fin 1 → ℤ_[3]) ℚ_[3] →ₗ[ℚ_[3]] ℚ_[3] :=
+  Classical.choose exists_locallyConstantHaar
+
+/-- §2.2: normalized Haar assigns mass `3⁻ᵐ` to each residue ball of depth `m`. -/
+theorem locallyConstantHaar_ball (a : Fin 1 → ℤ_[3]) (m : ℕ) :
+    locallyConstantHaar (boxIndicator a (fun _ => m)) = (3 : ℚ_[3]) ^ (-(m : ℤ)) :=
+  Classical.choose_spec exists_locallyConstantHaar a m
+
+/-- §2.2 check `haar_constant`: normalized Haar takes the constant function one to one. -/
+example : locallyConstantHaar 1 = 1 := by sorry
+
+/-- §2.2 check `haar_ball`: the native ball masses have norm `3ᵐ`. -/
+example (a : Fin 1 → ℤ_[3]) (m : ℕ) :
+    ‖locallyConstantHaar (boxIndicator a (fun _ => m))‖ = (3 : ℝ) ^ m := by sorry
+
+/-- §2.2 check `haar_refinement`: normalized Haar respects the actual three-child
+subdivision of each residue ball. -/
+example (a : Fin 1 → ℤ_[3]) (m : ℕ) :
+    locallyConstantHaar (boxIndicator a (fun _ => m)) = ∑ j : Fin 3,
+      locallyConstantHaar (boxIndicator (fun i => a i + (j.val : ℤ_[3]) * (3 : ℤ_[3]) ^ m)
+        (fun _ => m + 1)) := by sorry
+
+/-- §2.2 and §2.3 checks `rectangularGrowth_haar_one`, `isotropicGrowth_haar_one`:
+normalized Haar has growth one in both conventions. -/
+example : RectangularGrowth locallyConstantHaar (fun _ => 1) ∧
+    IsotropicGrowth locallyConstantHaar 1 := by sorry
+
+/-- §2.2 and §2.3 checks `rectangularGrowth_haar_zero`, `isotropicGrowth_haar_zero`:
+normalized Haar fails growth zero. -/
+example : ¬ RectangularGrowth locallyConstantHaar (fun _ => 0) ∧
+    ¬ IsotropicGrowth locallyConstantHaar 0 := by sorry
+
+/-- §2.2 and §2.3 checks `rectangularGrowth_haar_subcritical`, `isotropicGrowth_haar_subcritical`:
+the ball masses exclude every nonnegative order below one. -/
+example (r : ℝ) (hr : 0 ≤ r) (hr1 : r < 1) :
+    ¬ RectangularGrowth locallyConstantHaar (fun _ => r) ∧
+    ¬ IsotropicGrowth locallyConstantHaar r := by sorry
 
 end AnalyticDistributions
 
@@ -554,9 +626,8 @@ section CompleteContinuity
 variable {A M N : Type*} [NormedCommRing A]
   [NormedAddCommGroup M] [Module A M] [NormedAddCommGroup N] [Module A N]
 
-/-- Local restatement of CompactOperators §0.1.2, to be replaced by the import once that roadmap
-is in TauCetiRoadmap: approximation in operator norm by continuous `A`-linear maps whose range is a
-finitely generated `A`-submodule. Its approximants there have range in a finitely generated
+/-- Signature stand-in for CompactOperators §0.1.2: approximation in operator norm by continuous
+`A`-linear maps whose range is a finitely generated `A`-submodule. Its approximants there have range in a finitely generated
 submodule (`IsFiniteRank`), the same predicate over Noetherian `A` by `isFiniteRank_iff_range_fg`;
 its identity criterion `isCompletelyContinuous_id_iff` and the row-decay comparison
 `isCompletelyContinuous_iff_isCompactoid` are stated on it, and on affinoid algebras it agrees with
@@ -565,9 +636,8 @@ def IsCompletelyContinuous (f : M →L[A] N) : Prop :=
   ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
     (LinearMap.range g.toLinearMap).FG ∧ ∀ x : M, ‖f x - g x‖ ≤ ε * ‖x‖
 
-/-- Local restatement of CompactOperators §0.1.1 (`IsFiniteRank`), to be replaced by the import
-once that roadmap is in TauCetiRoadmap: the image lies in a finitely generated `A`-submodule (finite
-`A`-image, not finite `K`-rank). -/
+/-- Signature stand-in for CompactOperators §0.1.1 (`IsFiniteRank`): the image lies in a finitely
+generated `A`-submodule (finite `A`-image, not finite `K`-rank). -/
 def HasFiniteAImage (f : M →L[A] N) : Prop :=
   ∃ Q : Submodule A N, Q.FG ∧ LinearMap.range f.toLinearMap ≤ Q
 
@@ -595,8 +665,8 @@ theorem isCompletelyContinuous_iff_norm_approximation (f : M →L[A] N) :
     IsCompletelyContinuous f ↔ ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
       HasFiniteAImage g ∧ ‖(f - g).restrictScalars K‖ < ε := by sorry
 
-/-- Local restatement of PadicFunctionalAnalysis §2.2.3, to be replaced by the import once that
-roadmap is in TauCetiRoadmap: property (Pr), `M` is a continuous retract of some `C₀(I, A)`. -/
+/-- Signature stand-in for PadicFunctionalAnalysis §2.2.3: property (Pr), `M` is a continuous
+retract of some `C₀(I, A)`. -/
 def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     [NormedAddCommGroup M] [Module A M] : Prop :=
   ∃ (I : Type v) (t : TopologicalSpace I),
@@ -617,8 +687,8 @@ end Section41
 
 section Entire
 
-/-- Local restatement of CompactOperators §2.1.1 (`PowerSeries.IsEntire`), to be replaced by the
-import once that roadmap is in TauCetiRoadmap: Mathlib's restrictedness at every positive radius.
+/-- Signature stand-in for CompactOperators §2.1.1 (`PowerSeries.IsEntire`): Mathlib's
+restrictedness at every positive radius.
 The supplier states it over a complete ultrametric ring with `‖1‖ = 1` and proves its division and
 root API on it (`IsEntire.exists_eq_mul_add`, `IsEntire.isEntire_divByMonic`,
 `IsEntire.exists_eq_mul_divByMonic_add`, `IsEntire.evalAt_eq_zero_iff`,
@@ -626,9 +696,8 @@ root API on it (`IsEntire.exists_eq_mul_add`, `IsEntire.isEntire_divByMonic`,
 def IsEntire (f : PowerSeries A) : Prop :=
   ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f
 
-/-- Local restatement of CompactOperators §2.1.2 (`PowerSeries.evalAt`, with the arguments
-swapped), to be replaced by the import once that roadmap is in TauCetiRoadmap: evaluation of a
-power series at `a` as the total coefficient sum; it is a convergent evaluation only for entire
+/-- Signature stand-in for CompactOperators §2.1.2 (`PowerSeries.evalAt`, with the arguments
+swapped): evaluation of a power series at `a` as the total coefficient sum; it is a convergent evaluation only for entire
 series. -/
 def entireEval (f : PowerSeries A) (a : A) : A := ∑' n : ℕ, f.coeff n * a ^ n
 
@@ -730,14 +799,27 @@ inverts `1 − aT` but is not entire for `a = p`, so Coleman A3.1 needs entirene
 example (a : A) :
     (1 - PowerSeries.C a * PowerSeries.X) * PowerSeries.mk (fun n : ℕ => a ^ n) = 1 := by sorry
 
+/-- §4.3 check `linear_quotient_constant`: constants have zero linear quotient. -/
+example (a b : A) : entireLinearQuotient a (PowerSeries.C b) = 0 := by sorry
+
+/-- §4.3 check `linear_quotient_zero_shift`: division at zero shifts every formal series. -/
+example (F : PowerSeries A) :
+    entireLinearQuotient 0 F = PowerSeries.mk (fun n => F.coeff (n + 1)) := by sorry
+
+/-- §4.3 check `linear_quotient_native_polynomial`: the actual tail quotient agrees with
+native polynomial division. -/
+example (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖) (a : A) (P : Polynomial A) :
+    entireLinearQuotient a (P : PowerSeries A) =
+      ((P /ₘ (Polynomial.X - Polynomial.C a) : Polynomial A) : PowerSeries A) := by sorry
+
 end LinearDivision
 
 section MonicDivision
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A] [Nontrivial A]
 
-/-- Local restatement of CompactOperators §2.2.2 (**The explicit quotient by a monic polynomial**,
-`PowerSeries.divByMonic`), to be replaced by the import once that roadmap is in TauCetiRoadmap:
+/-- Signature stand-in for CompactOperators §2.2.2 (**The explicit quotient by a monic polynomial**,
+`PowerSeries.divByMonic`):
 `s_n = Σ_k coeff_{n+d+k}(F)·b_k` with `Σ b_k T^k` the inverse of `Q.reverse`. -/
 def entireMonicQuotient (Q : Polynomial A) (F : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk fun n => ∑' k : ℕ, F.coeff (n + Q.natDegree + k) *
@@ -784,6 +866,15 @@ example (e : A) (he : e ^ 2 = 0) :
 example (Q P : Polynomial A) (hQ : Q.Monic) (hP : P.degree < Q.degree) :
     entireMonicQuotient Q (P : PowerSeries A) = 0 ∧ P %ₘ Q = P := by sorry
 
+/-- §4.3 check `monic_coeff_X`: the native quotient by `X` shifts coefficients. -/
+example (F : PowerSeries A) (n : ℕ) :
+    (entireMonicQuotient Polynomial.X F).coeff n = F.coeff (n + 1) := by sorry
+
+/-- §4.3 check `monic_coeff_constant`: a constant input has zero quotient for a
+positive-degree monic divisor. -/
+example (Q : Polynomial A) (hQ : Q.Monic) (hdeg : 0 < Q.natDegree) (a : A) :
+    entireMonicQuotient Q (PowerSeries.C a) = 0 := by sorry
+
 end MonicDivision
 
 end NonarchimedeanFredholm
@@ -796,10 +887,9 @@ section HasseFormal
 
 variable {B : Type*} [Semiring B]
 
-/-- Local restatement of CompactOperators §2.1.3 (**Hasse derivatives over any semiring**,
-`PowerSeries.semiringHasseDeriv`), to be replaced by the import once that roadmap is in
-TauCetiRoadmap: coefficient `n` of `Δ_s f` is `binom(n + s, s)·coeff_{n+s} f`, with no inverse
-factorial. -/
+/-- Signature stand-in for CompactOperators §2.1.3 (**Hasse derivatives over any semiring**,
+`PowerSeries.semiringHasseDeriv`): coefficient `n` of `Δ_s f` is
+`binom(n + s, s)·coeff_{n+s} f`, with no inverse factorial. -/
 def hasseSeries (s : ℕ) (f : PowerSeries B) : PowerSeries B :=
   PowerSeries.mk fun n => (n + s).choose s • f.coeff (n + s)
 
@@ -811,6 +901,12 @@ theorem hasseSeries_polynomial (s : ℕ) (p : Polynomial B) :
 theorem hasseSeries_mul (s : ℕ) (f g : PowerSeries B) :
     hasseSeries s (f * g) = ∑ ij ∈ Finset.HasAntidiagonal.antidiagonal s,
       hasseSeries ij.1 f * hasseSeries ij.2 g := by sorry
+
+/-- Convention 13 check `hasse_characteristic_two`: the second Hasse derivative of `X²`
+is one in characteristic two, while its second ordinary derivative is zero. -/
+example : hasseSeries 2 (PowerSeries.X ^ 2 : PowerSeries (ZMod 2)) = 1 ∧
+    PowerSeries.derivative (PowerSeries.derivative
+      (PowerSeries.X ^ 2 : PowerSeries (ZMod 2))) = 0 := by sorry
 
 end HasseFormal
 
@@ -836,8 +932,8 @@ theorem spectralReversal_monic [Nontrivial A] (P : A[X]) (n : ℕ)
     (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) :
     (P.reflect n).Monic ∧ (P.reflect n).natDegree = n := by sorry
 
-/-- Local restatement of CompactOperators §3.3.1 (**Coleman's transform at a prescribed rank**,
-`colemanDBounded`), to be replaced by the import once that roadmap is in TauCetiRoadmap:
+/-- Signature stand-in for CompactOperators §3.3.1 (**Coleman's transform at a prescribed rank**,
+`colemanDBounded`):
 `D_{n,m}(B, P)` is the bounded resultant over `A[T]` of `Q_n = reflect_n P` and `1 − T·B(Y)`. -/
 def polynomialSpectralResultant (n m : ℕ) (B P : A[X]) : A[X] :=
   Polynomial.resultant ((P.reflect n).map Polynomial.C)
@@ -920,6 +1016,33 @@ example : (polynomialSpectralResultant 1 1 (Polynomial.C 3 * Polynomial.X)
 example : (polynomialSpectralResultant 0 2 0 (Polynomial.C 2 : Polynomial ℤ)).eval 1 = 4 ∧
     (polynomialSpectralResultant 0 0 0 (Polynomial.C 2 : Polynomial ℤ)).eval 1 = 1 := by sorry
 
+/-- §4.9–§4.10 check `empty_matrix`: rank zero gives the unit transform. -/
+example : polynomialSpectralResultant 0 0 (1 : Polynomial ℤ) (1 : Polynomial ℤ) = 1 := by sorry
+
+/-- §4.10 checks `jordan_transform`, `jordan_aeval`: the fixed-rank transform retains a repeated root and
+nilpotent off-diagonal entry over `ZMod 8`. -/
+example :
+    let J : Matrix (Fin 2) (Fin 2) (ZMod 8) := !![2, 1; 0, 2]
+    let B : Polynomial (ZMod 8) := Polynomial.X + Polynomial.X ^ 2
+    polynomialSpectralResultant 2 2 B J.charpolyRev =
+      1 + Polynomial.C 4 * Polynomial.X + Polynomial.C 4 * Polynomial.X ^ 2 ∧
+    Polynomial.aeval J B = !![6, 5; 0, 6] := by sorry
+
+/-- §4.11 check `unit_divisor`: a zero functional polynomial gives scalar resultant one. -/
+example (n : ℕ) (P : Polynomial ℤ) :
+    (polynomialSpectralResultant n 0 0 P).eval 1 = 1 := by sorry
+
+/-- §4.11 check `padding`: fixed-rank reflection preserves the reciprocal scalar value. -/
+example : (polynomialSpectralResultant 5 1 (Polynomial.C 2 * Polynomial.X)
+    (1 + Polynomial.X ^ 2 : Polynomial (ZMod 8))).eval 1 = 5 := by sorry
+
+/-- §4.14 check `spectralStabilization_quadratic`: the linear transform coefficient for
+squaring is the second Newton power-sum expression. -/
+example {A : Type*} [CommRing A] (N : ℕ) (hN : 2 ≤ N) (P : Polynomial A)
+    (hP : P.coeff 0 = 1) (hdeg : P.natDegree ≤ N) :
+    (polynomialSpectralResultant N 2 (Polynomial.X ^ 2) P).coeff 1 =
+      2 * P.coeff 2 - (P.coeff 1) ^ 2 := by sorry
+
 section EntireResultantLimit
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A] [Nontrivial A]
@@ -980,6 +1103,33 @@ example (e : A) (he : e ^ 2 = 0) (hne : e ≠ 0) (R : ℝ) (hR : 0 < R) :
     let f := PowerSeries.monomial 1 e
     PowerSeries.gaussNorm norm R (f * f) = 0 ∧
       0 < PowerSeries.gaussNorm norm R f * PowerSeries.gaussNorm norm R f := by sorry
+
+/-- §4.12 check `EntireGaussTests.native_polynomial`: polynomial inclusion has its finite
+coefficient maximum as the native Gauss norm. -/
+example (P : Polynomial A) (R : ℝ) (hR : 0 ≤ R) :
+    PowerSeries.gaussNorm norm R (P : PowerSeries A) =
+      sSup ((fun n : ℕ => ‖P.coeff n‖ * R ^ n) ''
+        (↑(Finset.range (P.natDegree + 1)) : Set ℕ)) := by sorry
+
+/-- §4.12 check `EntireGaussTests.tail_boundary`: truncation at the monomial degree removes
+no part of that monomial. -/
+example (a : A) (N : ℕ) (R : ℝ) (hR : 0 < R) :
+    let F := PowerSeries.monomial N a
+    PowerSeries.trunc N F = 0 ∧
+    PowerSeries.gaussNorm norm R (F - (PowerSeries.trunc N F : PowerSeries A)) = ‖a‖ * R ^ N := by
+  sorry
+
+/-- §4.12 check `EntireGaussTests.zero_truncation`: the degree-zero truncation is zero. -/
+example (F : PowerSeries A) (R : ℝ) :
+    PowerSeries.trunc 0 F = 0 ∧
+    PowerSeries.gaussNorm norm R (F - (PowerSeries.trunc 0 F : PowerSeries A)) =
+      PowerSeries.gaussNorm norm R F := by sorry
+
+/-- §4.12 check `EntireGaussTests.radius_loss`: exact norms of moving monomials distinguish
+small-radius convergence from large-radius boundedness. -/
+example [NormOneClass A] (N : ℕ) :
+    PowerSeries.gaussNorm norm (1 / 2) (PowerSeries.monomial N (1 : A)) = (1 / 2 : ℝ) ^ N ∧
+    PowerSeries.gaussNorm norm 2 (PowerSeries.monomial N (1 : A)) = (2 : ℝ) ^ N := by sorry
 
 end Gauss
 
@@ -1062,6 +1212,20 @@ example (c : A) : entirePolynomialSpectral 2 (PowerSeries.C c) 1 =
 example (e : A) (he : e ^ 2 = 0) :
     entirePolynomialSpectral 2 (PowerSeries.X : PowerSeries A) (1 - Polynomial.C e * Polynomial.X ^ 2) =
       1 - Polynomial.C e * Polynomial.X ^ 2 := by sorry
+
+/-- §4.13 check `empty_rank`: rank zero has unit entire-polynomial transform. -/
+example (B : PowerSeries A) : entirePolynomialSpectral 0 B 1 = 1 := by sorry
+
+/-- §4.13 check `zero_function`: normalized bounded-rank input and zero functional input
+give the unit transform. -/
+example (n : ℕ) (P : Polynomial A) (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) :
+    entirePolynomialSpectral n 0 P = 1 := by sorry
+
+/-- §4.13 check `unit_input_zero_constant`: zero constant coefficient annihilates the
+padded zero roots of the unit characteristic input. -/
+example (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
+    (n : ℕ) (B : PowerSeries A) (hB : IsEntire B) (hB0 : B.coeff 0 = 0) :
+    entirePolynomialSpectral n B 1 = 1 := by sorry
 
 end FixedCharacteristic
 
@@ -1179,8 +1343,9 @@ def analyticStageConstantTranspose (a : A) (ha : ‖a‖ ≤ 1) (j : A)
 variable {B : Type*} [NormedCommRing B] [CompleteSpace B] [IsUltrametricDist B]
 
 /-- §4.15: specialize analytic coefficients along a bounded ring homomorphism. -/
-def analyticStageSpecialization (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
-    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (f : C₀(ℕ, A)) : C₀(ℕ, B) where
+def analyticStageSpecialization {I : Type*} [TopologicalSpace I] [DiscreteTopology I]
+    (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (f : C₀(I, A)) : C₀(I, B) where
   toFun n := η (f n)
   continuous_toFun := continuous_of_discreteTopology
   zero_at_infty' := by sorry
@@ -1213,6 +1378,58 @@ theorem familySpecialization_eval (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
     (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A) (f : C₀(ℕ, A)) :
     familySpecialization η C hC hη μ (analyticStageSpecialization η C hC hη f) = η (μ f) := by
   sorry
+
+/-- §4.15 check `specialization_identity`: the identity ring map fixes analytic coefficients
+and every stage functional. -/
+example (f : C₀(ℕ, A)) (μ : C₀(ℕ, A) →L[A] A) :
+    analyticStageSpecialization (RingHom.id A) 1 (by norm_num) (by intro a; simp) f = f ∧
+    familySpecialization (RingHom.id A) 1 (by norm_num) (by intro a; simp) μ = μ := by sorry
+
+/-- §4.15 check `specialization_single`: arbitrary discrete coefficient indices are preserved. -/
+example {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
+    (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (i : I) (a : A) :
+    analyticStageSpecialization η C hC hη (NonarchimedeanFredholm.c0Single i a) =
+      NonarchimedeanFredholm.c0Single i (η a) := by sorry
+
+/-- §4.15 check `specialization_empty`: the actual coefficient map on an empty chart is zero. -/
+example (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖)
+    (f : C₀(Empty, A)) : analyticStageSpecialization η C hC hη f = 0 := by sorry
+
+/-- §4.15 check `specialization_atom`: the actual stage specialization maps a weighted
+point evaluation to the corresponding specialized point evaluation. -/
+example (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖)
+    (a x : A) (hx : ‖x‖ ≤ 1) (hηx : ‖η x‖ ≤ 1) :
+    familySpecialization η C hC hη (a • analyticStageEvaluate x hx) =
+      η a • analyticStageEvaluate (η x) hηx := by sorry
+
+/-- §4.15 check `specialization_two_factors`: the two actual coefficient projections
+select different bounded dual values. -/
+example :
+    let μ : C₀(ℕ, ℚ_[3] × ℚ_[3]) →L[ℚ_[3] × ℚ_[3]] (ℚ_[3] × ℚ_[3]) :=
+      { toFun := fun f => (1, 2) * f 0 + (3, 4) * f 1
+        map_add' := by sorry
+        map_smul' := by sorry
+        cont := by sorry }
+    let f := NonarchimedeanFredholm.c0Single 0 (1 : ℚ_[3]) +
+      NonarchimedeanFredholm.c0Single 1 (5 : ℚ_[3])
+    familySpecialization (AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
+      (by intro a; simpa using norm_snd_le a) μ f = 22 ∧
+    familySpecialization (AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
+      (by intro a; simpa using norm_fst_le a) μ f = 16 := by sorry
+
+/-- §4.15 check `specialization_two_factors`, infinite family: bounded constant dual
+coefficients act on a genuinely decaying analytic vector. -/
+example :
+    let μ := ((1, 2) : ℚ_[3] × ℚ_[3]) •
+      analyticStageEvaluate (1 : ℚ_[3] × ℚ_[3]) (by simp)
+    let f : C₀(ℕ, ℚ_[3]) :=
+      { toFun := fun n => (3 : ℚ_[3]) ^ n
+        continuous_toFun := continuous_of_discreteTopology
+        zero_at_infty' := by sorry }
+    familySpecialization (AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
+      (by intro a; simpa using norm_snd_le a) μ f = -1 ∧
+    familySpecialization (AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
+      (by intro a; simpa using norm_fst_le a) μ f = -1 / 2 := by sorry
 
 /-- §4.15 check `stageDilate_unit`: unit dilation is identity. -/
 example (f : C₀(ℕ, A)) (h : ‖(1 : A)‖ ≤ 1) : analyticStageDilate 1 h f = f := by sorry
