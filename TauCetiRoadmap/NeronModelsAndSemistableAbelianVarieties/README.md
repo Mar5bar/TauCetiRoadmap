@@ -144,6 +144,12 @@ It leaves to other roadmaps, and consumes from them:
   comparison with Mathlib's `WeierstrassCurve.localPolynomial`); the underlying Tate module and
   Weil pairing are those of AbelianSchemesAndArithmeticModuli A4.1 and A3.5, as fixed in the
   supplier contracts below.
+- **LefschetzPencilsAndVanishingCycles** §0.1: the general henselian-trait Galois and residue
+  interface, its identification with Mathlib's valuation inertia, and the continuous tame
+  character with Kummer formula, surjectivity, conjugation and finite-extension normalisation.
+  This supplies the arbitrary-trait inertia used in Layers 3–5, including infinite and
+  imperfect residue fields and residue characteristic zero; R01.2 supplies the local-field
+  specialisation and Weil–Deligne theory.
 - **SelmerIwasawaCohomology**, §§4.1–4.5: the shared `ℂ_p`, `B_dR` and `B_cris`
   period structures, fixed fields and dimension bounds, and the crystalline and de Rham
   realization carriers and predicates. Section 5.3 extends these with semistable periods
@@ -454,14 +460,14 @@ polarisation so this supplier applies.
 SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, supplies the canonical
 parameter fields and coefficient descent/extension. ArithmeticGaloisRepresentations R01.2
 §2.4, `wd-parameter-operations`, operates on those fields and supplies the rescaling
-isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image. R01.2 also supplies inertia,
+isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image. R01.2 also supplies local-field inertia,
 local-field quasi-unipotence, the prime-to-residue construction and local Euler factors;
 R01.3 supplies Artin, Swan and residual conductors
 and Ogg's formula, consuming 2.7, 2.9 and StableReduction Layer 5; R01.6 supplies the
 representation packaging of Tate modules, the good-reduction Frobenius polynomial
 (consuming 1.9) and local Euler factors with the comparison to Mathlib's `localPolynomial`.
 The dependence runs target by target, not roadmap by roadmap: R01.1–R01.2 and the
-Tate-module and Weil-pairing targets of R01.6 (§§6.1–6.2) precede Layer 3 here, while the
+Tate-module and Weil-pairing targets of R01.6 (§§6.1–6.2) precede their local-field uses in Layer 3 here, while the
 R01.3 Ogg formula and the R01.6 good-reduction Frobenius polynomial follow 1.8–1.9, 2.7 and
 2.9 here and are consumed only from Layer 5 on (5.4–5.7 and 6.7, and through 5.6 in 6.10).
 These are mathematical dependency targets. Only the declarations in the Mathlib and
@@ -476,7 +482,8 @@ denote those supplied carriers. Section 5.3 constructs `B_st`, `D_st` and `D_pst
 this core; its additional functor API acts on these same tensor-invariant modules,
 preserving Galois actions, Frobenius, filtration, the `K₀` and `K` scalar fields,
 and the canonical tensor and dual maps and admissibility predicates.
-The target order is SelmerIwasawaCohomology §§4.1–4.5, then 5.3 here, then
+The target order is SelmerIwasawaCohomology §§4.1–4.5, then 5.3's geometric Raynaud
+realization and period comparison, then `PadicComparison`, then 6.10's trace exports and
 SelmerIwasawaCohomology §4.26's elliptic Bloch–Kato comparison.
 
 CrystallineCohomology CR.2.1 supplies `H¹_cris(B_k/W(k))[1/p]`, CR.2.3 supplies the proper
@@ -484,8 +491,41 @@ smooth formal comparison over its specified PD bases, and CR.3.4 supplies semili
 and its linearization. These apply to the good abelian special fibre over a finite residue field,
 including `p = 2`. The comparison with the Coleman–Iovita and period realizations over a
 possibly ramified `K/ℚ_p` is part of `PadicComparison` and
-`good_abelian_frobenius_polynomial` here; CR.2.3 is not asserted to provide a smooth lift over
+`RaynaudFilteredRealization` in 5.3; `good_abelian_frobenius_polynomial` in 6.10 consumes
+that bridge. CR.2.3 is not asserted to provide a smooth lift over
 `W(k)` for an arbitrary abelian scheme over the ramified valuation ring.
+
+### From `LefschetzPencilsAndVanishingCycles`
+
+Section 0.1 supplies `VanishingCycles.HenselianTrait`, `HenselianTrait.inertia_exact` and
+`VanishingCycles.inertia_eq_valuation_inertia` for every henselian DVR `R`. In the Galois
+adapters of 3.5 and 4.3, its geometric generic field is the same chosen `K^sep` used by
+`AbelianTate`; its residue action identifies `Gal(s̄/s)` with `Gal(k^sep/k)`. The uniquely
+extended valuation makes the decomposition group all of `Gal(K^sep/K)`, and its inertia
+kernel is Mathlib's `ValuationSubring.inertiaSubgroup`, transported along this identification.
+No second inertia subgroup is defined. The residue field of the normalisation in `K^sep`
+can be purely inseparable over `k^sep`; its automorphism group still gives this residue action.
+
+For each prime `ℓ ≠ char k`, reduction identifies `μ_{ℓ^r}(K^sep)` with `μ_{ℓ^r}(s̄)`,
+compatibly with power maps and Galois action, by henselian lifting of prime-to-residue roots
+of unity. Thus the supplier's `ℤ_ℓ(1)` is the coefficient module of
+`AbelianTate.dualPairing`, namely Tau Ceti's `PadicTateTwist ℓ K^sep`, not another twist.
+Consume `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`,
+`tameCharacter_conj` and `tameCharacter_restrict` through these identifications:
+`t_ℓ(σ) = (σ(π^{1/ℓ^r})/π^{1/ℓ^r})_r`, the positive Kummer direction;
+`t_ℓ : I → ℤ_ℓ(1)` is continuous and surjective, vanishes on wild inertia and satisfies
+`t_ℓ(gσg⁻¹) = g·t_ℓ(σ)`; for a finite separable trait extension of ramification index `e`,
+`t_ℓ|_{I'} = e·t'_ℓ`. Inertia acts trivially on the twist. At a nonarchimedean local field,
+`VanishingCycles.tameCharacter_eq_inertiaTameCharacter` identifies this character with the
+`ℓ`-component of `TauCeti.inertiaTameCharacter`, hence with `inertiaPadicTameCharacter`.
+The latter pinned declaration requires `IsNonarchimedeanLocalField`; its coprimality
+hypothesis cannot supply the residue-characteristic-zero case.
+
+These identifications and character properties are the §0.1 contract, sourced by Stacks
+09ED, 09EE, 0BU4, 0BU5, 0BU7 and 0BU8. Section 0.1 precedes the inertia targets in
+3.5–3.12, 4.3 and 5.1; its local-field comparison uses R01.2 only in that specialisation.
+The later Picard and graph consumers in LefschetzPencilsAndVanishingCycles use Layers 3–4
+here. Neither dependence requires the other whole roadmap first.
 
 ### Additional supplier contracts
 
@@ -1249,7 +1289,12 @@ identification is not asserted and the finite part is described by the finite fl
 printed corank `2g − (2t + a)` in the source is a misprint for `2g − (t + 2a) = t`. *Needs:* 3.1;
 `AbelianSchemesAndArithmeticModuli:A4.1` (the Tate module `AbelianTate` with its Galois action
 and isogeny compatibility, packaged as a representation by `ArithmeticGaloisRepresentations:R01.6`);
-`AbelianSchemesAndArithmeticModuli:A3` (finite flat torsion subgroup schemes).
+`AbelianSchemesAndArithmeticModuli:A3` (finite flat torsion subgroup schemes);
+LefschetzPencilsAndVanishingCycles §0.1 for the arbitrary-trait Galois/residue identification
+and, when `ℓ ≠ char k`, the unramified Tate twist, through the exact supplier contract above. The adapters
+identify its generic Galois action with the action on `AbelianTate`, and its residue action
+with the action on the toric character sheaves; these identifications respect finite
+separable trait extensions.
 
 Also construct `FiniteFlatToricFiltration` over a henselian `R`, for every positive integer
 `m`, **without** requiring `m` invertible in `K`. Let `F_m` be the finite flat part of
@@ -1361,7 +1406,8 @@ part (Conrad, Remark 5.6, p. 18). Inertia fixes `T_f` by 3.5 and acts trivially 
 by 3.6, so `σ − 1` maps `T_ℓ(A)` into `T_f` and kills `T_f`. For the stronger
 toric-image assertion, pair with the inertia-fixed `T_f(A^∨)` using the invariant Weil
 pairing (the prime-to-residue Tate twist is unramified): its annihilator is `T_t(A)`
-by 3.6. *Needs:* 3.5, 3.6.
+by 3.6. *Needs:* 3.5, 3.6; LefschetzPencilsAndVanishingCycles §0.1 for the general-trait
+inertia and unramified twist, and for the surjective tame character in the Tate-curve Check.
 
 **Checks.**
 
@@ -1370,6 +1416,9 @@ by 3.6. *Needs:* 3.5, 3.6.
   tame operator. At `σ = 1` the operator is zero, and wild inertia acts trivially.
 - For good reduction `σ − 1 = 0`.
 - The image of `σ − 1` lies in `T_t`, not merely in `T_f`.
+- Over `R = ℂ[[t]]`, the split Tate curve with parameter `t` has valuation pairing `[1]`.
+  The character of §0.1 is surjective for every coefficient prime, so 4.3 gives a nonzero
+  inertia operator, also at `ℓ = 2`; no finite-residue hypothesis applies.
 
 ### 3.8 The degree-zero Picard scheme of a semistable curve
 
@@ -1503,6 +1552,8 @@ abelian quotient. The target includes this divisible-system descent, not equalit
 finite-level torsion group: `[[1, ℓ], [0, 1]]` and its `ℓ`-th power have equal fixed Tate
 lattices but different fixed points modulo `ℓ²`. Thus the finite-level inference printed on
 p. 21 is not used. *Needs:* 3.7, 3.10; `ArithmeticGaloisRepresentations:R01.6`;
+LefschetzPencilsAndVanishingCycles §0.1 for the trait inertia, residue action and
+finite-extension identifications;
 SchemeAndStackFoundations §§0.12–0.14; the special-fibre group theory of 2.3–2.4.
 
 **Checks.**
@@ -1525,7 +1576,10 @@ the eigenvalues are `1` and 3.11 applies. The integral matrix argument at level 
 this target; torsion-freeness of a group of scalar units is not the argument. No good reduction is
 claimed. For a non-henselian excellent DVR apply the criterion over its henselisation
 and then `SemistableReduction.henselization_iff` of 3.1.
-*Needs:* 3.1, 3.7, 3.10, 3.11; `ArithmeticGaloisRepresentations:R01.6`.
+*Needs:* 3.1, 3.7, 3.10, 3.11; `ArithmeticGaloisRepresentations:R01.6`;
+LefschetzPencilsAndVanishingCycles §0.1 for inertia restriction and the residue action over
+the finite separable extension. The general-trait supplier of 3.5 and 3.7 also supplies the
+inertia used in 3.11; the quasi-unipotence argument here uses 3.10 and 3.7.
 
 **Checks.**
 
@@ -1667,6 +1721,8 @@ Layer 2 for the identity component, the Chevalley decomposition and the toric ch
 `AbelianSchemesAndArithmeticModuli:A2–A3` for duals, finite flat torsion and the Weil pairing,
 A4.1 for the Tate-module carrier, A4.8 for polarised formal effectivity and A6.5 for Poincaré
 reducibility;
+LefschetzPencilsAndVanishingCycles §0.1 for arbitrary henselian-trait inertia, the residue
+Galois action and tame characters;
 SchemeAndStackFoundations §§0.12–0.14, 0.20–0.21 and §§4.7–4.13 for henselisation,
 excellence and formal geometry; Mathlib's Zariski main theorem;
 RigidAnalyticGeometry §§6.1.1, 6.2.2, 6.4.1, 6.4.3, 6.4.5 and §§8.1.1–8.1.2, 8.2.2–8.2.7, 8.3.1–8.3.2
@@ -1816,15 +1872,22 @@ is the curried pairing itself, quotient classes have kernel `range(u♯)`, and
 the finite discriminant-group contract of the symmetric integral-lattice supplier;
 its coefficient is `n`, whereas that supplier's rank-one form has coefficient `2m`. *Needs:* 2.4, 3.13; `AbelianSchemesAndArithmeticModuli:A2` (dual abelian variety and Poincaré biextension),
 A3 (finite flat torsion and Cartier duality), A4.5 (the full BT tower);
-the dual `1`-motive data of 3.14.
+the dual `1`-motive data of 3.14; LefschetzPencilsAndVanishingCycles §0.1 for the general-trait
+inertia, twist and tame character, identified with the Galois and coefficient carriers of 3.5.
 
 For `ℓ ≠ char k`, the dual `1`-motive identifies its period lattice
 `Y` with `X_{A^∨}` and its torus character lattice with `X_A` (Raynaud 1994,
 §2.4.1, p. 298). Let `β_ℓ : T_ℓ(A) → Y ⊗ ℤ_ℓ` be the quotient projection:
 a torsion class represented by `(y, g)` with `ℓ^r g = u_Y(y)` maps to `y mod ℓ^r`,
-where `u_Y : Y → G` is the period map (Raynaud, §3.1, p. 299). On strict henselisation
-choose compatible roots of a uniformiser and put
+where `u_Y : Y → G` is the period map (Raynaud, §3.1, p. 299). Use the continuous surjective
+character supplied by LefschetzPencilsAndVanishingCycles §0.1. Its Kummer formula, after
+strict henselisation and a choice of compatible roots of a uniformiser, is
 `t_ℓ(σ) = (σ(π^{1/ℓ^r})/π^{1/ℓ^r})_r ∈ ℤ_ℓ(1)`.
+Reduction and henselian lifting identify this twist with `PadicTateTwist ℓ K^sep` in the
+Weil pairing. Conjugation is `t_ℓ(gσg⁻¹) = g·t_ℓ(σ)`, and under a finite separable trait
+extension of ramification index `e` its restriction is `e·t'_ℓ`. Thus the formula below
+and `basechange` carry the same valuation normalisation, including in residue characteristic
+zero and over imperfect residue fields.
 With `ι_ℓ : T_ℓ(T) → T_ℓ(A)` the toric inclusion, the positive valuation convention gives
 
 ```text
@@ -1981,8 +2044,13 @@ integral statement is the target; a rational isomorphism of lattices says nothin
 - For the Tate pairing `[n]` the cokernel is `ℤ/n` (`LatticePairing.componentGroup (rankOne n)`);
   for `n = 0` the cokernel is `ℤ`, infinite, so nondegeneracy is a genuine hypothesis.
 - For `n = 1` the cokernel is trivial.
-- Two lattices with a rational isomorphism but integral index `n` have component group `ℤ/n`,
-  not `0`.
+- An integral adjoint of index `n > 0` has cokernel of order `n`; the index alone does not
+  determine its group structure. In rank one the cokernel is `ℤ/n`.
+- For `u♯ = 2 I₂`, the cokernel is `(ℤ/2)²`, of order `4`, and every element is killed by `2`.
+  For `diag(1,4)` the cokernel is `ℤ/4`, also of order `4`, with an element of order `4`.
+  Both pairings are symmetric positive definite and rationally invertible. The product of
+  two split Tate curves of valuation `2` realises the first case. These quotients use
+  Mathlib's existing PID module theory; `AddSubgroup.index_eq_card` identifies order with index.
 
 ### 4.6 Grothendieck's pairing on component groups
 
@@ -2245,19 +2313,28 @@ Let `R` be excellent and henselian and `ℓ ≠ char k`. Prove `NeronOggShafarev
 (Conrad, §4, discussion before Proposition 4.3, pp. 9–10; Theorem 5.8, pp. 20–22; SGA 7 I, Exposé IX,
 Theorem 10.4, p. 444). Good reduction makes the prime-to-`char k` torsion finite étale over `R`,
 hence unramified. Conversely an unramified action is unipotent, so `A` is semistable by 3.11; the
-monodromy pairing of 4.3 is then zero: in the signed comparison `u_Weil,ℓ = -u♯ ⊗ ℤ_ℓ`,
-vanishing of inertia forces vanishing of the integral pairing. Its nondegeneracy forces `t = 0`, and `A` has good
+monodromy pairing of 4.3 is then zero: `β_ℓ` is surjective and `ι_ℓ` injective, and
+LefschetzPencilsAndVanishingCycles §0.1's `tameCharacter_surjective` gives an inertia element
+whose character generates the free rank-one `ℤ_ℓ(1)`. The inertia formula therefore forces
+`u♯ ⊗ ℤ_ℓ = 0`, equivalently `u_Weil,ℓ = 0` in the signed comparison. Faithfulness of
+`ℤ → ℤ_ℓ` on the free character lattices gives vanishing of the integral pairing.
+Its nondegeneracy forces `t = 0`, and `A` has good
 reduction by `toric_zero` of 3.1. The identification of the inertia operator of 3.7 with the
 monodromy pairing of 4.3 is part of this target. The statement concerns the whole `ℓ`-adic
 representation; triviality on one torsion level `A[N]` is a different hypothesis (3.12). For a
 non-henselian excellent discrete valuation ring the good-reduction predicate descends from the
 henselisation, and this descent is stated explicitly in 5.2. *Needs:* 1.8, 3.11, 4.3;
-`ArithmeticGaloisRepresentations:R01.6`.
+`ArithmeticGaloisRepresentations:R01.6`; LefschetzPencilsAndVanishingCycles §0.1 for the
+arbitrary-trait inertia interface and tame-character surjectivity.
 
 **Checks.**
 
 - A split Tate curve has nontrivial inertia action on `T_ℓ` for every prime
   `ℓ ≠ char k` and bad reduction.
+- For parameter `t` over `ℂ((t))`, this holds for every prime, since the valuation pairing
+  is `[1]` and `t_ℓ` is surjective. Over `𝔽_p(s)((t))`, the same calculation applies for
+  every `ℓ ≠ p`; the imperfect residue field changes neither the inertia interface nor
+  the Kummer argument. Neither example requires residue finiteness or perfectness.
 - For an elliptic curve with additive reduction and perfect residue field the inertia action
   on `T_ℓ`, `ℓ ≠ char k`, is not unipotent, so
   neither direction of the criterion is vacuous.
@@ -2327,11 +2404,142 @@ Frobenius and filtration, and monodromy for `D_st`. The filtration-index weight
 convention is SelmerIwasawaCohomology's: `ℚ_p(1)` has weight `−1` and filtration
 jump `−1`. ArithmeticGaloisRepresentations R01.7 uses the opposite numeric labels,
 so its weight is the negative of this weight (`+1` on `ℚ_p(1)`); dualising negates
-either label. In particular potential semistability from 3.10 gives
-`AbelianVariety.deRham` for every `A`. Then
-prove `PadicComparison`: if `A` has good reduction then `V_p(A)` is crystalline, and if `A` has
-semistable reduction then `V_p(A)` is semistable, with `D_st(V_p(A))` the filtered `(φ, N)` realisation of the full Raynaud `1`-motive
-`[Y → G]` of 3.14 (dimension `2g`, including the lattice contribution) and `N` the monodromy operator induced by the lattice `Y` of 3.14
+either label.
+
+**Full filtered Raynaud realization.** For semistable `A/K`, construct
+`RaynaudFilteredRealization` of the full `1`-motive `[Y → G]` from 3.14, independently of
+the tensor-invariant period functors. Start with split torus and lattice, then descend through
+a finite unramified splitting extension. Its cohomological carrier `H_Ray` is a `K₀`-vector
+space of dimension `2g`, with invertible semilinear `φ`, a `K₀`-linear operator `N = e N_p`
+satisfying `Nφ = pφN`, and a comparison
+`K ⊗_{K₀} H_Ray ≅ H¹_dR(A/K)`. Carry the Hodge filtration through this comparison:
+`Fil⁰ = H¹_dR(A/K)`, `Fil¹ = H⁰(A,Ω¹)`, `Fil² = 0`, using A4.3's carrier. Its homological
+realization is the dual with the dual filtration. The construction includes the exact maps
+
+```text
+0 → Hom(Y,K) --δ--> H¹_dR(A/K) --res_G--> H¹_dR(G_K/K) → 0,
+0 → H¹_dR(B_K/K) → H¹_dR(G_K/K) --res_T--> X_A ⊗ K → 0.
+```
+
+Here `res_T` is restriction to the torus followed by the character/residue identification;
+`δ` is the period boundary of the analytic quotient. The maps, their naturality and these
+exact sequences are targets of this construction (Coleman–Iovita, Chapter I §2(i), pp. 9–10).
+On de Rham cohomology the normalized monodromy is
+`N = δ ∘ u_K^t ∘ res_T ∘ res_G`, where `u_K^t(x)(y) = u(y,x)` uses 4.3's positive
+valuation pairing. This operator preserves the constructed `K₀`-structure and has square zero.
+
+Let `A#` be A4.2's universal vector extension and `G*` its pullback to `G^an`, with the
+canonical lift of the period embedding `Y → G*` over zero in `A#`. Identify
+`H¹_dR(A/K)` with invariant forms on `G*`. For each such form `ω`, construct the unique
+additive locally analytic primitive `λ_ω` on `G*(ℂ_p)` whose differential is `ω` and whose torus
+restriction is the `K`-linear combination of `log ∘ χ` determined by its residues.
+Evaluation on the lifted periods defines the retraction
+`I_log(α)(y) = λ_ω(y)` with `I_log ∘ δ = id`; its kernel supplies the section of `res_G`.
+This logarithmic primitive and its uniqueness are owned here (Coleman–Iovita, Chapter I
+§2(ii), Theorem 2.1 and the splitting following it, pp. 11–12).
+For two logarithms agreeing on units, put `c = log'(π) − log(π)`. Prove
+`I_log' − I_log = c·u_K^t ∘ res_T ∘ res_G`, so the sections differ by the corresponding
+monodromy translation. The Hodge filtration remains the intrinsic filtration on `H¹_dR(A)`;
+its coordinates in the Frobenius realization retain the logarithms of the actual periods.
+
+Construct the semiabelian Frobenius comparison of Chapter I §2(ii), diagram (3), p. 12:
+the above sequence for `B,G,T` maps isomorphically to the degree-one dagger-cohomology
+sequence of their good models. Construct this degree-one comparison and Frobenius for
+these models here. The `B` term is identified with the supplied
+`H¹_cris(B_k/W(k))[1/p]`, including its `K₀`-structure, semilinear Frobenius and comparison
+after extending to `K`, also when `K` is ramified and `p = 2`. The toric term is
+`X_A ⊗ K₀` with crystalline Frobenius `p` in the split case. If `q = p^f`, the `q`-eigenspace
+of the `K`-linear dagger Frobenius on `H¹_dR(G)` maps isomorphically onto the toric term:
+prove the required abelian eigenvalue separation here. For the finite-field Frobenius
+`π_B`, the identity `π_B^† π_B = q` and Rosati positivity give complex absolute value
+`√q` for every root of its endomorphism polynomial, excluding `q ≥ 2`
+(Milne, *Abelian Varieties*, §19, Theorem 19.1 and Lemmas 19.2–19.3, pp. 40–41).
+Use AbelianSchemesAndArithmeticModuli A6.11–A6.12 and A6.14–A6.15 for the endomorphism
+polynomial, positivity and its real operator adapter; R01.6's good-reduction Frobenius
+comparison and Katz–Messing Theorem 1, pp. 74–75, transfer this separation to the
+crystalline term.
+This specifies the semiabelian splitting and its `K₀`/semilinear Frobenius structure.
+Combine it with `I_log` and `Hom(Y,K₀)` (split Frobenius `1`) to construct `H_Ray` and
+`φ`; prove the relation with `N` and compatibility of all boundary, pullback and residue maps.
+The ramified good-abelian crystalline/de Rham bridge is part of this construction, using
+CR.2.1, CR.2.3 over its PD bases and CR.3.4; no smooth `W(k)`-lift of the given `B/R` is
+assumed. All maps and both splittings are equivariant under unramified splitting descent.
+The API is `RaynaudFilteredRealization.deRham_exact`, `semiabelian_frobenius`,
+`logarithmic_retraction`, `branch_change`, `monodromy`, `hodge`, `map` (contravariantly in
+abelian homomorphisms, preserving identities and composites), `dual` (the perfect Poincaré
+pairing with the dual abelian variety into `K₀(-1)`, respecting all structures) and
+`unramified_descent`.
+*Needs:* 3.13–3.14, 4.3; AbelianSchemesAndArithmeticModuli A4.2–A4.3,
+A6.11–A6.12 and A6.14–A6.15;
+RigidAnalyticGeometry's analytic carriers in the 3.14 contract;
+CrystallineCohomology CR.2.1, CR.2.3, CR.3.4; ArithmeticGaloisRepresentations R01.6
+(good-reduction Frobenius). The logarithmic and dagger comparisons just specified are
+degree-one abelian/Raynaud targets here.
+
+**Checks.**
+
+- For good reduction `Y = X_A = 0`, the realization is the good-abelian crystalline
+  realization, with `N = 0` and the full Hodge filtration, also over ramified `K`.
+- For a split Tate curve, `B = 0` and `H_Ray` has dimension two; `N` has valuation
+  coefficient `ord(q)` and the logarithmic retraction evaluates the lifted period by
+  `log(q)`. Omitting `Y` gives dimension one and loses the period boundary.
+- Over `ℚ₅` with `log(5) = 0`, compare Tate periods `q = 5` and `q' = 30 = 5·6`.
+  Both valuations are `1`, so the normalized monodromy coefficient and graded Frobenius
+  data agree. Evaluation of the logarithmic primitive on the periods gives `0` and
+  `log(6)` respectively, and `log(6) ≡ 5 mod 25` is nonzero. The resulting Hodge lines
+  differ in the common Frobenius/monodromy realization. Brinon–Conrad's contravariant
+  basis records this difference as the parameters `c_5 = 0` and `c_30 = −log(6)`.
+  (Brinon–Conrad, §8.3, Proposition 8.3.8 and the Tate calculation, pp. 123–126.)
+- For dimension zero every term and map is zero; for a nonsplit torus the unramified
+  descent retains its character action and the resulting Frobenius eigenvalues.
+
+**Geometric period comparison.** Construct `RaynaudPeriodComparison`: the geometric
+period-integration pairing
+`T_p(A) × H¹_dR(A/K) → B_dR^+` induces a natural `G_K`-equivariant isomorphism
+`B_dR ⊗_K H¹_dR(A/K) ≅ B_dR ⊗_{ℚ_p} H¹_ét(A_K̄,ℚ_p)` and restricts to
+`B_st ⊗_{K₀} H_Ray ≅ B_st ⊗_{ℚ_p} H¹_ét(A_K̄,ℚ_p)`.
+Construct the integration pairing and prove its nondegeneracy and this restriction here,
+for the abelian/Raynaud `1`-motive (Coleman–Iovita, introduction, main comparison theorem,
+pp. 2–3). The latter map commutes with Frobenius and normalized monodromy; after extension
+through the chosen logarithmic embedding it is the former filtered isomorphism. Its
+compatibility with the period boundary, toric residues, good abelian quotient, homomorphisms
+and duality is part of the target. Taking invariants gives
+`H_Ray ≅ D_st(H¹_ét(A_K̄,ℚ_p))`, and the displayed map, after this
+identification, is the canonical tensor-invariant comparison map of the shared period
+functors. The induced `K`-linear invariant comparison is the shared `D_dR` map and
+identifies its filtration with A4.3's Hodge filtration. For the good abelian quotient the
+map restricts over `B_cris` and yields
+`D_cris(H¹_ét(B_K̄,ℚ_p)) ≅ H¹_cris(B_k/W(k))[1/p]` with its de Rham comparison,
+also over ramified `K` and at `p = 2`. These are comparisons of maps and structures,
+rather than dimension equalities. Prove naturality under finite extensions with
+`N = e N_p` and the corresponding logarithm branch, and descend the split comparison
+and admissibility through a finite unramified splitting extension as in Fontaine Exposé
+III §1.8.6, p. 135. *Needs:* `RaynaudFilteredRealization`; the shared period core and
+`B_st`, `D_st` and `PeriodRealization` constructed above; 3.14's torsion and duality.
+
+**Checks.**
+
+- For a split Tate curve with positive valuation the period comparison carries the nonzero
+  residue/boundary monodromy to Fontaine's `N`; it is a `B_st` comparison, and the full
+  representation is not crystalline.
+- For the periods `5` and `30` over `ℚ₅` with `log(5) = 0`, it preserves the different
+  lines `Fil¹` calculated above. Their equal graded Frobenius traces do not identify
+  these filtered realizations.
+- For good reduction it restricts to the crystalline comparison with `N = 0`, including
+  over a ramified base; for dimension zero it is the isomorphism of zero modules.
+- A nonsplit semistable variety is compared after unramified splitting and descended
+  with its Galois action on `X_A,Y`; the invariant comparison remains filtered.
+
+Construct `RaynaudFilteredRealization` and `RaynaudPeriodComparison` before
+`PadicComparison`; 6.10's trace and compatible-system exports and
+SelmerIwasawaCohomology §4.26 then consume that comparison. Potential semistability from
+3.10, the comparison over a semistable extension and de Rham descent above give
+`AbelianVariety.deRham` for every `A`. Prove `PadicComparison`: if `A` has good reduction then `V_p(A)` is crystalline, and if `A` has
+semistable reduction then `V_p(A)` is semistable, with
+`D_st(V_p(A)) ≅ RaynaudFilteredRealization(A)^*` as filtered `(φ,N)` modules.
+This is the homological dual of the full cohomological realization of `[Y → G]` in
+`RaynaudPeriodComparison` (dimension `2g`, including the lattice contribution), with `N`
+induced by the lattice `Y` and the valuation pairing
 (Coleman–Iovita, *The Frobenius and monodromy
 operators for curves and abelian varieties*, Duke Math. J. 97 (1999), main theorem of the
 introduction, for the semistable case: the public arXiv version math/9701229v1, introduction,
@@ -2350,16 +2558,12 @@ The resulting de Rham comparison identifies the supplied `D_dR(V_p(A))` with
 `H¹_dR(A/K)^*`, with the dual Hodge filtration of AbelianSchemesAndArithmeticModuli
 A4.3, naturally in `A` and under finite extensions. Finite-extension descent and
 the crystalline comparison use the same supplied comparison maps and predicates.
-For the good abelian quotient `B` of the Raynaud extension, retain the cohomological
-comparison `D_cris(H¹_ét(B_K̄,ℚ_p)) ≅ H¹_cris(B_k/W(k))[1/p]`, and its `K`-linear
-de Rham comparison. Use CrystallineCohomology CR.2.1 for the crystalline complex,
-CR.2.3 for proper smooth formal comparison over its PD bases, and CR.3.4 for semilinear
-Frobenius and its linearization, including `p = 2`. The bridge from these supplied objects to
-the Coleman–Iovita good-reduction realization and the shared period realization, also over
-ramified `K`, is part of `PadicComparison` here (Coleman–Iovita, Chapter I §2(ii), pp. 11–12,
-and the introduction, pp. 2–3); it does not assume a `W(k)`-lift of the given `B/R`.
+For the good abelian quotient `B`, retain the crystalline/de Rham bridge constructed in
+`RaynaudFilteredRealization` and compared with the shared period maps by
+`RaynaudPeriodComparison`, including for ramified `K` and `p = 2`.
 *Needs:* 1.8, 1.10, 3.1, 3.10, 3.13, 3.14;
-SelmerIwasawaCohomology §§4.1–4.5; AbelianSchemesAndArithmeticModuli A4.3;
+`RaynaudFilteredRealization`, `RaynaudPeriodComparison`;
+SelmerIwasawaCohomology §§4.1–4.5; AbelianSchemesAndArithmeticModuli A4.2–A4.3;
 CrystallineCohomology CR.2.1, CR.2.3, CR.3.4;
 SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, and
 ArithmeticGaloisRepresentations R01.2 §2.4, `wd-parameter-operations`.
@@ -2780,16 +2984,14 @@ At `ℓ = p`, replace the middle piece by `H¹_cris(B_k/W(k))[1/p]` in the
 using the canonical parameter fields of SmoothRepresentationsOfLocalGroups SR.5.2,
 `classical-llc-normalization`, and the R01.2 §2.4 operations. The lattice pieces retain their unramified Galois
 action; the geometric Frobenius convention makes the last piece carry the factor `q^d`.
-The construction of these **maps and Frobenius actions**, not only their dimensions, is a
-subtarget of `semistable_trace_comparison`: use the period boundary injection
-`Hom(Y,K) → H¹_dR(A)`, restriction to `H¹_dR(G)`, the pullback from `B` and restriction
-to `T`. Coleman–Iovita, arXiv math/9701229v1, Chapter I §2(i), pp. 9–10, gives the first
-exact sequence and residue maps; §2(ii), pp. 11–12, gives Frobenius on `Hom(Y,K)` and
-`0 → H¹(B) → H¹(G) → H¹(T) → 0`. Their introduction, pp. 2–3, identifies this
-filtered Frobenius–monodromy realisation with `D_st(V_p(A))^*`, as used in 5.3.
-These constructions are functorial: split the torus and lattice over a finite unramified
-extension, keep the action of its Galois group on each map and descend, using the
-comparison/descent in 5.3. This retains nonsplit Frobenius eigenvalues.
+The boundary, pullback and residue maps and their Frobenius actions are constructed in
+5.3's `RaynaudFilteredRealization.deRham_exact` and `semiabelian_frobenius`, before the
+period comparison. Consume them here through `RaynaudPeriodComparison` and
+`PadicComparison`; their equivariant unramified descent retains nonsplit Frobenius
+eigenvalues. Coleman–Iovita, arXiv math/9701229v1, Chapter I §2(i–ii), pp. 9–12,
+supplies the geometric maps and their splittings, and the introduction, pp. 2–3,
+supplies the comparison theorem. The target here is the resulting coefficient-prime
+trace comparison of this already constructed full realization.
 
 Consequently the full trace, for `ℓ ≠ p` and for `ℓ = p`, is
 
@@ -2839,17 +3041,16 @@ operator up to isomorphism (BCGP Lemma 2.5.1, p. 189, consumed through R01.2).
 Thus the same geometric parameter and its `Aut(ℚ̄/ℚ)`-invariance work at `p` as well; equality of traces alone
 is not asserted to determine monodromy. Exterior powers give weight `i`, and A4.4's
 `H^i = Λ^i H¹` transfers the result to all `H^i`.
-*Additional needs:* AbelianSchemesAndArithmeticModuli A4.2 and
-A4.3 for the degree-one de Rham maps in the displayed construction;
+*Additional needs:* `RaynaudFilteredRealization`, `RaynaudPeriodComparison` and
+`PadicComparison` of 5.3 for the degree-one de Rham maps and their period comparison;
 CrystallineCohomology CR.2.1 (crystalline cohomology), CR.2.3 (proper smooth formal
 comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization), applied to
 `B_k/W(k)`, including `p = 2`; SmoothRepresentationsOfLocalGroups SR.5.2,
 `classical-llc-normalization`. Prove `good_abelian_frobenius_polynomial` here for the
-good abelian quotient over the valuation ring of finite `K/ℚ_p`: identify its supplied
-crystalline realization and Frobenius with the Coleman–Iovita and shared period realizations
-of 5.3, retaining their `K₀`-structures and the de Rham comparison after extension to `K`.
-The ramified comparison bridge is owned here, rather than assumed from a smooth `W(k)`-lift.
-Then the characteristic polynomial of `φ^f`, where `q = p^f`, equals its prime-to-`p`
+good abelian quotient over the valuation ring of finite `K/ℚ_p`: consume its supplied
+crystalline realization and Frobenius through the ramified crystalline/de Rham and period
+bridges of 5.3, retaining their `K₀`-structures and the comparison after extension to `K`.
+The characteristic polynomial of `φ^f`, where `q = p^f`, equals its prime-to-`p`
 cohomological Frobenius polynomial by Katz–Messing Theorem 1, pp. 74–75; Coleman–Iovita
 §2(ii), pp. 11–12, supplies the good-reduction Frobenius realization. This is the degree-one
 abelian comparison.
@@ -2886,6 +3087,9 @@ also at scalars excluded by the geometric interpretation.
   At `q = 2`, `a = 1`, it is `4`, while the invariant trace is `2`.
   The arithmetic value `q = 1` gives coincident toric eigenvalue weights and is excluded
   from the geometric purity argument since a finite residue field has `q ≥ 2`.
+- The Tate periods `5` and `30` over `ℚ₅` have full trace `1+5 = 6` at geometric
+  Frobenius, while 5.3's logarithmic construction gives different Hodge filtrations for
+  `log(5) = 0`. The trace export retains the Frobenius data without determining the filtration.
 - For the good elliptic scheme `y² + y = x³` over `ℤ₂`, the special-fibre degree-one
   Frobenius polynomial is `t² + 2` and its trace is zero in both crystalline and étale
   cohomology. Base change to `ℚ₂(√2)` keeps this polynomial; the comparison bridge also
@@ -3106,6 +3310,12 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 - R. Coleman and A. Iovita, *The Frobenius and monodromy operators for curves and abelian
   varieties*, Duke Mathematical Journal 97 (1999), 171–215; [public author version](https://arxiv.org/pdf/math/9701229v1),
   introduction pp. 2–3 and Chapter I §2, pp. 9–12.
+- O. Brinon and B. Conrad, *CMI Summer School Notes on p-adic Hodge Theory*,
+  [author notes](https://math.stanford.edu/~conrad/papers/notes.pdf), §8.3,
+  Proposition 8.3.8 and the Tate-curve filtration calculation, pp. 123–126.
+- J. S. Milne, *Abelian Varieties*, [revised author notes](https://www.jmilne.org/math/xnotes/AVs.pdf),
+  §19, Theorem 19.1 and Lemmas 19.2–19.3, pp. 40–41, for the good-abelian Frobenius
+  eigenvalue separation in 5.3.
 - G. Faltings and C.-L. Chai, *Degeneration of Abelian Varieties*, Ergebnisse der Mathematik
   22, Springer, 1990: Chapter II §§1–3, pp. 33–37, Theorem 6.2 and Remark 6.3,
   pp. 51–52; Chapter III Theorem 7.1, Corollaries 7.2–7.4 and §8, pp. 76–78.

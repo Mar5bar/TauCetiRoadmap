@@ -453,6 +453,21 @@ example (y x : ℤ) : adjoint (rankOne 1) y x = y * x ∧
 component group is `ℤ/n`. -/
 example (n : ℕ) : Nonempty (componentGroup (rankOne n) ≃+ ZMod n) := by sorry
 
+/-- The positive rank-two form `2 I₂` has index four and cokernel `(ℤ/2)²`.
+Its exponent two excludes a cyclic cokernel of order four (README 4.5). -/
+example :
+    let u := DualGraph.edgeForm (fun _ : Fin 2 => 2)
+    Nonempty (componentGroup u ≃+ (ZMod 2 × ZMod 2)) ∧
+      Nat.card (componentGroup u) = 4 ∧
+      (∀ z : componentGroup u, (2 : ℕ) • z = 0) ∧
+      ¬ Nonempty (componentGroup u ≃+ ZMod 4) := by sorry
+
+/-- The positive form `diag(1,4)` has the same index four, with cyclic cokernel `ℤ/4`.
+The order alone does not determine the group structure (README 4.5). -/
+example :
+    let u := DualGraph.edgeForm ![1, 4]
+    Nonempty (componentGroup u ≃+ ZMod 4) ∧ Nat.card (componentGroup u) = 4 := by sorry
+
 /-- Zero lattices (good reduction) give a zero component group, not a group of positive rank. -/
 example : Subsingleton (componentGroup (0 : PUnit →ₗ[ℤ] PUnit →ₗ[ℤ] ℤ)) := by sorry
 
@@ -632,6 +647,18 @@ period functors, `D_pst`, `PadicWeilDeligneRealization`,
 `AbelianVariety.deRham`, and `SemistableOrdinaryAdapter`.
 Their geometric Checks are likewise in README.md.
 
+LefschetzPencilsAndVanishingCycles 0.1 supplies `VanishingCycles.HenselianTrait`,
+`VanishingCycles.HenselianTrait.inertia_exact`, `VanishingCycles.inertia_eq_valuation_inertia`
+and `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`, `tameCharacter_conj`,
+`tameCharacter_restrict` and `tameCharacter_eq_inertiaTameCharacter`. README 3.5–3.12,
+4.3 and 5.1 use its general henselian-trait interface: the generic Galois group is the
+one acting on `AbelianTate`, the residue action is on the character lattices, and reduction
+of prime-to-residue roots of unity identifies the supplier's twist with `PadicTateTwist`.
+The positive Kummer direction is `σ(root)/root`; restriction to a finite separable trait
+extension of ramification index `e` is `e * t'`. Surjectivity gives a generator of the
+rank-one twist in the Néron–Ogg–Shafarevich argument. The Tate periods over `ℂ((t))`
+and `𝔽_p(s)((t))` of README 5.1 use this interface without residue finiteness or perfectness.
+
 `SemiabelianExtensionClassification` in README 3.13 classifies commutative extensions of
 an abelian scheme over a complete DVR by a torus through morphisms of étale sheaves
 `X^*(T) → B^∨`, naturally under base change and descent, and identifies their completions.
@@ -660,11 +687,30 @@ with the dual degree-one de Rham cohomology and its dual Hodge filtration, natur
 under finite extensions. The elliptic Bloch–Kato diagram of the supplier's 4.26 uses
 that same `dDeRham(V_p(E))/Fil⁰`.
 
+`RaynaudFilteredRealization` in README 5.3 constructs the full cohomological realization
+of `[Y → G]` for semistable `A` over finite `K/ℚ_p`, with a `K₀`-structure, semilinear
+Frobenius, `N = e * N_p` and the Hodge filtration on its `K`-linear de Rham comparison.
+Its `deRham_exact`, `semiabelian_frobenius`, `logarithmic_retraction`, `branch_change`,
+`monodromy`, `hodge`, `map`, `dual` and `unramified_descent` API provides the boundary,
+pullback and residue maps; primitives on the pullback of the universal vector extension
+evaluate on the lifted periods to split the exact sequence. The degree-one dagger
+comparison constructs the semiabelian Frobenius structure before any period invariants
+are identified. `RaynaudPeriodComparison` constructs the period-integration pairing,
+proves its nondegeneracy and its Frobenius/monodromy-compatible `B_st` comparison and
+filtered `B_dR` comparison, and identifies these with the canonical comparison maps
+of the shared period functors. Thus `PadicComparison` identifies `D_st(V_p(A))` with
+the homological dual of `RaynaudFilteredRealization`; README 6.10 consumes these maps
+and comparisons for `semistable_trace_comparison`. Over `ℚ₅` with `log(5) = 0`, the
+Tate periods `5` and `30` have equal valuation and graded Frobenius data, while evaluation
+of the logarithmic primitive gives `0` and `log(6) ≡ 5 mod 25`. The full comparison
+preserves the different Hodge lines.
+
 CrystallineCohomology CR.2.1, CR.2.3 and CR.3.4 supplies the crystalline complex, proper
 smooth formal comparison over a PD base and semilinear Frobenius of the good abelian quotient,
 including at `p = 2`. README 5.3 and 6.10 identify these supplied objects with the Coleman–Iovita
-and shared period realizations; their ramified comparison bridge belongs to
-`PadicComparison` and `good_abelian_frobenius_polynomial`. The canonical Weil–Deligne
+and shared period realizations; their ramified crystalline/de Rham bridge belongs to
+`RaynaudFilteredRealization` and their period comparison to `RaynaudPeriodComparison`.
+`PadicComparison` and `good_abelian_frobenius_polynomial` consume these bridges. The canonical Weil–Deligne
 parameter fields come from SmoothRepresentationsOfLocalGroups SR.5.2,
 `classical-llc-normalization`; ArithmeticGaloisRepresentations R01.2 §2.4,
 `wd-parameter-operations`, supplies restriction and rescaling by nonzero scalars for `q ≥ 2`
