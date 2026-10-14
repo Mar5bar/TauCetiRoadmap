@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.Huber.Padic.Field
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Comap
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
@@ -15,8 +16,9 @@ neighbourhoods, perfectoidisation of integral extensions, and the affine forms o
 The pro-étale site, completed structure sheaves, pro-étale Galois towers, good towers, analytic
 separation and the diamond comparisons are formalisation targets in their own right and are
 specified in the README only.
-P9.5 consumes the general continuous cochain model and homogeneous comparison of
-ArithmeticGaloisDuality R02.1.2. Its explicit joint-continuity hypothesis is illustrated below;
+P9.5 supplies local adapters to the general continuous cochain model and homogeneous
+comparison of ArithmeticGaloisDuality R02.1.2, with local naturality and discrete-compatibility
+APIs. Its explicit joint-continuity hypothesis is illustrated below;
 the integral and rational tower Čech comparisons use their lattice and Tate topologies.
 -/
 
@@ -50,6 +52,9 @@ example (ϖ : A) : (normPseudoUniformizer G ϖ : A) = ∏ g : G, g • ϖ := rfl
 example (ϖ : A) (h : ∀ g : G, g • ϖ = ϖ) :
     (normPseudoUniformizer G ϖ : A) = ϖ ^ Fintype.card G := by
   simp [normPseudoUniformizer, h]
+
+-- Check (`norm_trivialGroup`): the norm of every element for a one-element group is itself.
+example [Subsingleton G] (a : A) : (normPseudoUniformizer G a : A) = a := sorry
 
 -- Check: `N(0) = 0` and `N(1) = 1`, since a group is nonempty.
 example :
@@ -231,6 +236,25 @@ example {A : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [Is
   ObjectProperty.le_isoClosure _ _ ⟨A, inferInstance, inferInstance, inferInstance, inferInstance,
     S, P, hP, rfl⟩
 
+-- Check (`isTateAffinoid_padic_field`): the field pair has ring of definition `ℤ_p` and unit `p`.
+example (p : ℕ) [Fact p.Prime] (S : Pair ℚ_[p])
+    (hS : S.plus = PadicInt.subring p)
+    (hP : (TauCeti.Huber.Padic.pairOfDefinition (p := p)).ringOfDefinition ≤ S.plus) :
+    isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace
+      (TauCeti.Huber.Padic.pairOfDefinition (p := p)) S.plus
+      S.isRingOfIntegralElements.isPowerBounded_of_mem hP) := sorry
+
+-- Check (`isTateAffinoid_zero`): the concrete zero pair is a Tate affinoid with empty spectrum.
+example :
+    ∃ hT : IsTateRing PUnit,
+      letI := hT
+      let S := Pair.discrete PUnit
+      let P := PairOfDefinition.discrete PUnit
+      ∃ hP : P.ringOfDefinition ≤ S.plus,
+        isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace P S.plus
+          S.isRingOfIntegralElements.isPowerBounded_of_mem hP) ∧
+        IsEmpty (ValuationSpectrum.spa S.plus) := sorry
+
 -- Negative control (`isTateAffinoid_not_padic_integers`): `Spa(ℤ_p, ℤ_p)` is not a Tate affinoid,
 -- since its point with support `(p)` is not analytic. Every ring of integral elements of `ℤ_p` is
 -- `ℤ_p`, so `S` and `P` only present this space.
@@ -300,6 +324,9 @@ structure IsGClean (G : Type*) {X : Type*} [Group G] [TopologicalSpace X] [MulAc
 every neighbourhood of a point contains a `G`-clean open neighbourhood (HJ Lemma 5.2, p. 28). -/
 theorem exists_isGClean [Finite G] [ContinuousConstSMul G X] [T2Space X] (x : X) (V : Set X)
     (hV : V ∈ nhds x) : ∃ U ⊆ V, IsGClean G x U := sorry
+
+-- Check (`isGClean_discrete_singleton`): every point of a discrete space has a clean singleton.
+example [DiscreteTopology X] (x : X) : IsGClean G x {x} := sorry
 
 -- Negative control: the empty set is invariant with disjoint translates but misses `x`.
 example (x : X) : ¬ IsGClean G x ∅ := fun h ↦ h.mem
