@@ -1,0 +1,405 @@
+import Mathlib
+import TauCeti.Analysis.Complex.Pick.Nevanlinna
+
+/-!
+# AutomorphicSpectralTheory: representative target signatures
+
+The roadmap is `README.md`. This file records light definitions and theorem signatures
+statable against the pinned Mathlib and Tau Ceti APIs and is not exhaustive. In particular,
+it keeps native analytic functions, measures and the upper half-plane; the adelic spaces,
+measurable Hilbert fields, trace distributions and relative cohomology belong to the README.
+
+Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
+The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
+functions only in their stated convergence regions; continuation is an existence theorem,
+with agreement there, rather than evaluation of a divergent integral.
+-/
+
+noncomputable section
+open MeasureTheory Filter Set
+open scoped ENNReal NNReal Topology
+
+namespace TauCetiRoadmap.AutomorphicSpectralTheory
+
+/-! ## Layer 0: Hilbert fields, vector analysis and rank-one kernels -/
+
+section VectorAnalysis
+variable {V : Type*} [NormedAddCommGroup V]
+
+/-- Finite order on closed vertical strips to the right of `C`, with any larger exponent.
+This is the normed specialization of the locally convex condition in the README. -/
+def StripOrder (f : ℂ → V) (d C : ℝ) : Prop :=
+  ∀ d' : ℝ, d < d' → ∀ a b : ℝ, C < a → a ≤ b →
+    ∃ M : ℝ, ∀ s : ℂ, a ≤ s.re → s.re ≤ b →
+      Real.exp (-(‖s‖ ^ d')) * ‖f s‖ ≤ M
+
+/-- An order exponent is common to all strips, while their bounding constants may differ. -/
+def FiniteStripOrder (f : ℂ → V) (C : ℝ) : Prop :=
+  ∃ d : ℝ, 0 < d ∧ StripOrder f d C
+
+/-- One local denominator regularizes the whole vector, on a ball contained in `U`. -/
+def CommonDenominator [NormedSpace ℂ V] (U : Set ℂ) (f : ℂ → V) : Prop :=
+  ∀ z ∈ U, ∃ n : ℕ, ∃ r : ℝ, 0 < r ∧ Metric.ball z r ⊆ U ∧
+    ∃ g : ℂ → V, AnalyticOnNhd ℂ g (Metric.ball z r) ∧
+      ∀ s ∈ Metric.ball z r, s ≠ z → g s = (s - z) ^ n • f s
+
+/-- Continuous linear postcomposition preserves the chosen local denominator. -/
+theorem CommonDenominator.postcomp [NormedSpace ℂ V]
+    {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W]
+    (U : Set ℂ) (f : ℂ → V) (hf : CommonDenominator U f) (ell : V →L[ℂ] W) :
+    CommonDenominator U (fun z => ell (f z)) := by sorry
+
+example : StripOrder (fun z : ℂ => z ^ 3) 1 0 := by sorry
+example : StripOrder Complex.exp 1 0 := by sorry
+example : FiniteStripOrder (fun z : ℂ => Complex.exp (z ^ 2)) 0 := by sorry
+example : ¬ FiniteStripOrder (fun z : ℂ => Complex.exp (Complex.exp (-Complex.I * z))) (-1) := by sorry
+example : CommonDenominator Set.univ (fun z : ℂ => z⁻¹) := by sorry
+example : ¬ CommonDenominator Set.univ (fun z : ℂ => Complex.exp z⁻¹) := by sorry
+end VectorAnalysis
+
+namespace Herglotz
+
+#check TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add
+
+/-- Convert the library's finite Nevanlinna measure to the subtracted-kernel measure. -/
+def weightedMeasure (rho : Measure ℝ) : Measure ℝ :=
+  rho.withDensity (fun t => ENNReal.ofReal (1 + t ^ 2))
+
+/-- The converted measure has finite reciprocal-quadratic moment, equal to the original mass. -/
+theorem weighted_mass (rho : Measure ℝ) [IsFiniteMeasure rho] :
+    Integrable (fun t : ℝ => (1 + t ^ 2)⁻¹) (weightedMeasure rho) ∧
+      ∫ t : ℝ, (1 + t ^ 2)⁻¹ ∂weightedMeasure rho = ∫ _ : ℝ, (1 : ℝ) ∂rho := by sorry
+
+/-- The subtraction convention agrees with Tau Ceti's bounded Nevanlinna kernel. -/
+theorem integral_conversion (rho : Measure ℝ) [IsFiniteMeasure rho]
+    (z : ℂ) (hz : 0 < z.im) :
+    Integrable (fun t : ℝ => ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ))
+      (weightedMeasure rho) ∧
+      ∫ t : ℝ, ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ) ∂weightedMeasure rho =
+        ∫ t : ℝ, (1 + (t : ℂ) * z) / ((t : ℂ) - z) ∂rho := by sorry
+
+/-- Uniqueness, including the linear coefficient, in the subtracted-kernel convention. -/
+theorem herglotz_representation (F : ℂ → ℂ)
+    (hF : AnalyticOnNhd ℂ F {z : ℂ | 0 < z.im})
+    (hIm : ∀ z : ℂ, 0 < z.im → 0 ≤ (F z).im) :
+    ∃! p : ℝ × ℝ × Measure ℝ,
+      p.1 = (F Complex.I).re ∧ 0 ≤ p.2.1 ∧
+      Integrable (fun t : ℝ => (1 + t ^ 2)⁻¹) p.2.2 ∧
+      ∀ z : ℂ, 0 < z.im → F z = (p.1 : ℂ) + (p.2.1 : ℂ) * z +
+        ∫ t : ℝ, ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ) ∂p.2.2 := by sorry
+
+example : weightedMeasure (0 : Measure ℝ) = 0 := by sorry
+example : weightedMeasure (Measure.dirac (2 : ℝ)) =
+    (5 : ℝ≥0∞) • Measure.dirac (2 : ℝ) := by sorry
+end Herglotz
+
+namespace SpecialFunctions
+
+/-- Real-logarithm complex power; the analytic formulas below require a positive base. -/
+def rpowC (x : ℝ) (s : ℂ) : ℂ := Complex.exp (s * (Real.log x : ℂ))
+
+example : rpowC 4 (1 / 2) = 2 := by sorry
+example : rpowC 4 (-1) = 1 / 4 := by sorry
+
+-- The first-kind Bessel function and its integral-order symmetry are library suppliers.
+#check Complex.besselJ
+#check Complex.besselJ_neg_int
+
+/-- I differs from J by the sign of the hypergeometric argument. -/
+def bessel_i (nu : ℂ) (y : ℝ) : ℂ :=
+  ((y : ℂ) / 2) ^ nu * Complex.regularizedHGFun 0 {nu + 1} ((y : ℂ) ^ 2 / 4)
+
+/-- Reciprocal gamma, as totalized in the library, handles negative integral orders. -/
+theorem bessel_j_series (nu : ℂ) (y : ℝ) :
+    HasSum (fun k : ℕ => (-1 : ℂ) ^ k * ((y : ℂ) / 2) ^ (nu + 2 * k) /
+      ((k.factorial : ℂ) * Complex.Gamma (nu + k + 1))) (Complex.besselJ nu y) := by sorry
+
+/-- The modified Bessel series has no alternating sign. -/
+theorem bessel_i_series (nu : ℂ) (y : ℝ) :
+    HasSum (fun k : ℕ => ((y : ℂ) / 2) ^ (nu + 2 * k) /
+      ((k.factorial : ℂ) * Complex.Gamma (nu + k + 1))) (bessel_i nu y) := by sorry
+
+/-- Bessel's differential equation on the positive real axis. -/
+theorem bessel_j_ode (nu : ℂ) (y : ℝ) (hy : 0 < y) :
+    (y : ℂ) ^ 2 * deriv (deriv (fun y : ℝ => Complex.besselJ nu y)) y +
+      (y : ℂ) * deriv (fun y : ℝ => Complex.besselJ nu y) y +
+      ((y : ℂ) ^ 2 - nu ^ 2) * Complex.besselJ nu y = 0 := by sorry
+
+/-- Modified Bessel's differential equation fixes both signs. -/
+theorem bessel_i_ode (nu : ℂ) (y : ℝ) (hy : 0 < y) :
+    (y : ℂ) ^ 2 * deriv (deriv (bessel_i nu)) y + (y : ℂ) * deriv (bessel_i nu) y -
+      ((y : ℂ) ^ 2 + nu ^ 2) * bessel_i nu y = 0 := by sorry
+
+example (y : ℝ) (hy : 0 < y) :
+    Complex.besselJ (1 / 2) y = (Real.sqrt (2 / (Real.pi * y)) * Real.sin y : ℝ) := by sorry
+example (y : ℝ) (hy : 0 < y) :
+    bessel_i (1 / 2) y = (Real.sqrt (2 / (Real.pi * y)) * Real.sinh y : ℝ) := by sorry
+example : bessel_i 0 0 = 1 := by sorry
+
+/-- M uses the entire regularized series, with gamma poles excluded from its analytic domain. -/
+def whittaker_m (mu nu : ℂ) (y : ℝ) : ℂ :=
+  Complex.Gamma (1 + 2 * nu) * Complex.exp (-(y : ℂ) / 2) * rpowC y (nu + 1 / 2) *
+    Complex.regularizedHGFun {nu - mu + 1 / 2} {1 + 2 * nu} y
+
+/-- Euler's integral agrees with M only in its initial convergence region. -/
+theorem whittaker_m_euler (mu nu : ℂ) (y : ℝ) (hy : 0 < y)
+    (hp : 0 < (nu + mu + 1 / 2).re) (hm : 0 < (nu - mu + 1 / 2).re) :
+    whittaker_m mu nu y = rpowC y (nu + 1 / 2) * Complex.exp ((y : ℂ) / 2) *
+      Complex.Gamma (1 + 2 * nu) /
+        (Complex.Gamma (nu + mu + 1 / 2) * Complex.Gamma (nu - mu + 1 / 2)) *
+      ∫ t in (0 : ℝ)..1,
+        rpowC t (nu + mu - 1 / 2) * rpowC (1 - t) (nu - mu - 1 / 2) *
+          Complex.exp (-(y : ℂ) * t) := by sorry
+
+/-- The M–I normalization, with every factor of two retained. -/
+theorem whittaker_bessel_comparison (nu : ℂ) (y : ℝ) (hy : 0 < y)
+    (hnu : 0 < (nu + 1 / 2).re) :
+    bessel_i nu y = rpowC 2 (-2 * nu - 1 / 2) / Complex.Gamma (nu + 1) *
+      rpowC y (-1 / 2) * whittaker_m 0 nu (2 * y) := by sorry
+
+/-- Whittaker's ODE and the growing normalization in the convergent Euler region. -/
+theorem whittaker_asymptotics (mu nu : ℂ)
+    (hp : 0 < (nu + mu + 1 / 2).re) (hm : 0 < (nu - mu + 1 / 2).re) :
+    (∀ y : ℝ, 0 < y → deriv (deriv (whittaker_m mu nu)) y +
+      (-1 / 4 + mu / y + (1 / 4 - nu ^ 2) / (y : ℂ) ^ 2) * whittaker_m mu nu y = 0) ∧
+    Tendsto (fun y : ℝ => whittaker_m mu nu y / rpowC y (nu + 1 / 2))
+      (𝓝[>] 0) (𝓝 1) ∧
+    Tendsto (fun y : ℝ => whittaker_m mu nu y /
+      (rpowC y (-mu) * Complex.exp ((y : ℂ) / 2)))
+      atTop (𝓝 (Complex.Gamma (1 + 2 * nu) / Complex.Gamma (nu - mu + 1 / 2))) := by sorry
+
+example (y : ℝ) (hy : 0 < y) :
+    whittaker_m 0 (1 / 2) y = (2 * Real.sinh (y / 2) : ℝ) := by sorry
+example (y : ℝ) (hy : 0 < y) :
+    whittaker_m 1 (1 / 2) y = y * Complex.exp (-(y : ℂ) / 2) := by sorry
+
+/-- Corrected sine-power integral; reciprocal gamma interprets exceptional denominator values. -/
+theorem sine_power_integral (nu beta : ℂ) (hnu : 0 < nu.re) :
+    (∫ theta in (0 : ℝ)..Real.pi,
+      Complex.exp (Complex.I * beta * theta) * rpowC (Real.sin theta) (nu - 1)) =
+      Real.pi * Complex.exp (Complex.I * Real.pi * beta / 2) * Complex.Gamma nu /
+        (rpowC 2 (nu - 1) * Complex.Gamma ((nu + beta + 1) / 2) *
+          Complex.Gamma ((nu - beta + 1) / 2)) := by sorry
+
+/-- The branch Q_{s−1}(t) for t>1, initially Re(s)>0. -/
+def legendre_q (s : ℂ) (t : ℝ) : ℂ :=
+  ∫ u in Set.Ioi (0 : ℝ), rpowC (t + Real.sqrt (t ^ 2 - 1) * Real.cosh u) (-s)
+
+/-- Integral–hypergeometric comparison in the common convergence region. -/
+theorem legendre_q_hypergeometric (s : ℂ) (hs : 0 < s.re) (t : ℝ) (ht : 1 < t) :
+    legendre_q s t = Complex.Gamma s ^ 2 / (2 * Complex.Gamma (2 * s)) *
+      rpowC (2 / (1 + t)) s * (Complex.Gamma (2 * s) *
+        Complex.regularizedHGFun {s, s} {2 * s} (2 / (1 + t))) := by sorry
+
+/-- The logarithmic singularity and large-distance decay of the initial Q branch. -/
+theorem legendre_q_asymptotics (s : ℝ) (hs : 1 < s) :
+    (∃ C eps : ℝ, 0 < eps ∧ ∀ t : ℝ, 1 < t → t < 1 + eps →
+      ‖legendre_q s t + (1 / 2 * Real.log (t - 1) : ℝ)‖ ≤ C) ∧
+    ∃ C : ℝ, ∀ t : ℝ, 2 ≤ t → ‖legendre_q s t‖ ≤ C * t ^ (-s) := by sorry
+
+example : legendre_q 1 3 = (1 / 2 * Real.log 2 : ℝ) := by sorry
+example : legendre_q 2 3 = (3 / 2 * Real.log 2 - 1 : ℝ) := by sorry
+
+/-- The analytic point-pair kernel; the diagonal is excluded in its smooth API. -/
+def point_pair_invariant (s : ℂ) (z z' : UpperHalfPlane) : ℂ :=
+  -2 * legendre_q s (1 + ‖(z : ℂ) - (z' : ℂ)‖ ^ 2 / (2 * z.im * z'.im))
+
+/-- Simultaneous Möbius transformations preserve the point-pair coordinate. -/
+theorem point_pair_invariant_invariant (s : ℂ)
+    (g : Matrix.SpecialLinearGroup (Fin 2) ℝ) (z z' : UpperHalfPlane) :
+    point_pair_invariant s (g • z) (g • z') = point_pair_invariant s z z' := by sorry
+
+example (z z' : UpperHalfPlane) (hne : z ≠ z') :
+    point_pair_invariant 1 z z' = (Real.log (‖(z : ℂ) - (z' : ℂ)‖ ^ 2 /
+      ‖star (z : ℂ) - (z' : ℂ)‖ ^ 2) : ℝ) := by sorry
+example (s : ℂ) (z z' : UpperHalfPlane) :
+    point_pair_invariant s z z' = point_pair_invariant s z' z := by sorry
+
+/-- Fourier integral V_s(t), absolutely convergent for Re(s)>1−k and k≥1. -/
+def archimedean_v_integral (k : ℕ) (s : ℂ) (t : ℝ) : ℂ :=
+  ∫ x : ℝ, Complex.exp (-2 * Real.pi * Complex.I * x * t) /
+    (((x : ℂ) + Complex.I) ^ (2 * k - 1) * rpowC (x ^ 2 + 1) s)
+
+/-- The strict convergence threshold includes all derivatives on compact sub-half-planes. -/
+theorem archimedean_v_integrable_iff (k : ℕ) (hk : 1 ≤ k) (s : ℂ) :
+    Integrable (fun x : ℝ => (((x : ℂ) + Complex.I) ^ (2 * k - 1) *
+      rpowC (x ^ 2 + 1) s)⁻¹) ↔ 1 - (k : ℝ) < s.re := by sorry
+
+/-- The zero-frequency gamma formula, with the initial domain retained. -/
+theorem archimedean_v_at_zero (k : ℕ) (hk : 1 ≤ k) (s : ℂ)
+    (hs : 1 - (k : ℝ) < s.re) :
+    archimedean_v_integral k s 0 = (-1 : ℂ) ^ k * Real.pi * Complex.I *
+      rpowC 2 (-2 * s - 2 * k + 3) * Complex.Gamma (2 * s + 2 * k - 2) /
+        (Complex.Gamma s * Complex.Gamma (s + 2 * k - 1)) := by sorry
+
+/-- Entire continuation at nonzero frequency is supplied by a function agreeing on the half-plane. -/
+theorem archimedean_v_holomorphic (k : ℕ) (hk : 1 ≤ k) (t : ℝ) (ht : t ≠ 0) :
+    ∃ F : ℂ → ℂ, AnalyticOnNhd ℂ F Set.univ ∧
+      ∀ s : ℂ, 1 - (k : ℝ) < s.re → F s = archimedean_v_integral k s t := by sorry
+
+example : archimedean_v_integral 1 1 0 = -Complex.I * Real.pi / 2 := by sorry
+example (k : ℕ) (hk : 1 ≤ k) : ¬ Integrable (fun x : ℝ =>
+    (((x : ℂ) + Complex.I) ^ (2 * k - 1) * rpowC (x ^ 2 + 1) (1 - k))⁻¹) := by sorry
+end SpecialFunctions
+
+/-! ## Layer 1: Normalized induction and convergent Eisenstein families -/
+
+namespace Modular
+open SpecialFunctions
+
+/-- Classical weight-k Laplacian on ambient functions restricted to Im(z)>0.
+The real derivatives use the horizontal and vertical affine lines through z. -/
+def weight_laplacian (k : ℝ) (f : ℂ → ℂ) (z : ℂ) : ℂ :=
+  -(z.im ^ 2 : ℂ) *
+      (deriv (deriv (fun t : ℝ => f (z + t))) 0 +
+        deriv (deriv (fun t : ℝ => f (z + t * Complex.I))) 0) +
+    k * Complex.I * z.im * deriv (fun t : ℝ => f (z + t)) 0 -
+    k * z.im * deriv (fun t : ℝ => f (z + t * Complex.I)) 0
+
+/-- On y^s the classical weight-k operator has eigenvalue s(1−k−s). -/
+theorem weight_laplacian_power (k : ℝ) (s z : ℂ) (hz : 0 < z.im) :
+    weight_laplacian k (fun w => rpowC w.im s) z =
+      s * (1 - k - s) * rpowC z.im s := by sorry
+
+example (z : ℂ) : weight_laplacian 0 (fun w => (w.im ^ 2 : ℂ)) z = -2 * z.im ^ 2 := by sorry
+example (k : ℝ) (z : ℂ) : weight_laplacian k (fun _ => (1 : ℂ)) z = 0 := by sorry
+
+/-- The finite Kloosterman sum uses units modulo a positive modulus. -/
+def kloosterman_sum (m n : ℤ) (c : ℕ) [NeZero c] : ℂ :=
+  ∑ d : (ZMod c)ˣ,
+    Complex.exp (2 * Real.pi * Complex.I *
+      (((m : ℂ) * (d.val.val : ℂ) + n * (d⁻¹).val.val) / c))
+
+/-- Inversion of units interchanges the two frequencies. -/
+theorem kloosterman_sum_symm (m n : ℤ) (c : ℕ) [NeZero c] :
+    kloosterman_sum m n c = kloosterman_sum n m c := by sorry
+
+example (m n : ℤ) : kloosterman_sum m n 1 = 1 := by sorry
+example (c : ℕ) [NeZero c] : kloosterman_sum 0 0 c = (Nat.totient c : ℂ) := by sorry
+
+/-- Primitive-pair expression for the full modular Eisenstein series; ± pairs count once. -/
+def nonholomorphic_eisenstein (z : UpperHalfPlane) (s : ℂ) : ℂ :=
+  1 / 2 * rpowC z.im s *
+    ∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
+      rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)
+
+/-- Absolute convergence, not merely totalized summability, in the standard half-plane. -/
+theorem nonholomorphic_eisenstein_summable (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    Summable (fun p : {p : ℤ × ℤ // p.1.gcd p.2 = 1} =>
+      rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)) := by sorry
+
+/-- The initial Eisenstein function is modular invariant. -/
+theorem nonholomorphic_eisenstein_automorphy
+    (g : Matrix.SpecialLinearGroup (Fin 2) ℤ) (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    nonholomorphic_eisenstein (g • z) s = nonholomorphic_eisenstein z s := by sorry
+
+/-- Ambient extensions agreeing on the open upper half-plane have the same eigen-equation. -/
+theorem nonholomorphic_eisenstein_eigenfunction (f : ℂ → ℂ)
+    (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re)
+    (hf : ∀ w : UpperHalfPlane, f w = nonholomorphic_eisenstein w s) :
+    weight_laplacian 0 f z = s * (1 - s) * nonholomorphic_eisenstein z s := by sorry
+
+example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    (∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
+      rpowC z.im s * rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)) =
+        2 * nonholomorphic_eisenstein z s := by sorry
+example (z : UpperHalfPlane) :
+    ¬ Summable (fun p : {p : ℤ × ℤ // p.1.gcd p.2 = 1} =>
+      rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2)) := by sorry
+
+/-- The infinity-cusp Eisenstein series at positive level N, in the primitive-pair model. -/
+def level_eisenstein (N : ℕ) (z : UpperHalfPlane) (s : ℂ) : ℂ :=
+  1 / 2 * rpowC z.im s *
+    ∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1 ∧ (N : ℤ) ∣ p.1},
+      rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)
+
+/-- Absolute convergence at a positive level. -/
+theorem level_eisenstein_summable (N : ℕ) (hN : 0 < N)
+    (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    Summable (fun p : {p : ℤ × ℤ // p.1.gcd p.2 = 1 ∧ (N : ℤ) ∣ p.1} =>
+      rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)) := by sorry
+
+/-- The positive-level series is invariant under its native congruence subgroup. -/
+theorem level_eisenstein_automorphy (N : ℕ) (hN : 0 < N)
+    (g : CongruenceSubgroup.Gamma0 N) (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    level_eisenstein N ((g : Matrix.SpecialLinearGroup (Fin 2) ℤ) • z) s = level_eisenstein N z s := by sorry
+
+example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    level_eisenstein 1 z s = nonholomorphic_eisenstein z s := by sorry
+example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
+    level_eisenstein 0 z s = rpowC z.im s := by sorry
+end Modular
+
+/-! ## Layer 2: Meromorphic continuation, local normalization and residues -/
+
+namespace Modular
+open SpecialFunctions
+
+/-- Completed E has a meromorphic continuation, reflection, and residues −1/2 and 1/2.
+Point values at the poles carry no residue information. -/
+theorem completed_eisenstein_continuation :
+    ∃ E : UpperHalfPlane → ℂ → ℂ,
+      (∀ z, MeromorphicOn (E z) Set.univ) ∧
+      (∀ z, AnalyticOnNhd ℂ (E z) ({0, 1}ᶜ : Set ℂ)) ∧
+      (∀ z s, 1 < s.re → E z s = completedRiemannZeta (2 * s) * nonholomorphic_eisenstein z s) ∧
+      (∀ z s, s ∉ ({0, 1} : Set ℂ) → E z (1 - s) = E z s) ∧
+      (∀ z, Tendsto (fun s => s * E z s) (𝓝[≠] 0) (𝓝 (-1 / 2))) ∧
+      (∀ z, Tendsto (fun s => (s - 1) * E z s) (𝓝[≠] 1) (𝓝 (1 / 2))) := by sorry
+
+/-- The uncompleted full modular Eisenstein function has residue 3/π at one. -/
+theorem nonholomorphic_eisenstein_continuation :
+    ∃ E : UpperHalfPlane → ℂ → ℂ,
+      (∀ z, MeromorphicOn (E z) Set.univ) ∧
+      (∀ z s, 1 < s.re → E z s = nonholomorphic_eisenstein z s) ∧
+      (∀ z, Tendsto (fun s => (s - 1) * E z s) (𝓝[≠] 1) (𝓝 (3 / Real.pi : ℂ))) := by sorry
+end Modular
+
+/-! ## Layer 3: Truncation, Maass–Selberg relations and wave packets -/
+
+/-! ## Layer 4: Automorphic spectral completeness -/
+
+/-! ## Layer 5: Weighted cohomology and cuspidal support -/
+
+/-! ## Layer 6: Paley–Wiener theory and trace distributions -/
+
+/-
+README constructions needing the adelic, representation-theoretic, direct-integral or
+locally convex carriers:
+Layer 0: measurable_hilbert_field, direct_integral, decomposable_operator, hilbert_schmidt_kernel,
+operator_trace, nuclear_lf_space, projective_tensor, vector_schwartz, operator_meromorphic, archimedean_v_normalized_entire,
+spectral_cycle_coordinates, compact_cover_transfer, whittaker_w,
+vector_schwartz_entire, locally_convex_integration, vector_phragmen_lindelof.
+The strip-order API target StripOrder.mono_order is in README §0.18.
+
+Layer 1: induced_family, eisenstein_series, convergent_intertwiner, euclidean_paley_wiener, pseudo_eisenstein,
+cuspidal_datum_space, unramified_character_torus, induced_spherical_section,
+induction_normalization_transport, bessel_kloosterman_coefficient, poincare_family,
+poincare_one_form, character_eisenstein, genus_eisenstein.
+
+Layer 2: local_intertwiner, mu_function, residue_calculus, generic_packet, shahidi_normalization,
+isobaric_sum, operator_intertwiner_family, resolvent_kernel, automorphic_green,
+normalized_intertwiner, continued_intertwiner.
+
+Layer 3: truncation_cones, arthur_truncation, eisenstein_wave_packet, gln_relative_roots,
+chamber_height_functions, auxiliary_chamber_selector, degree_cone_series, floor_monomial_family.
+
+Layer 4: associate_parameter_fields, spectral_map, residual_spectrum, discrete_spherical_spectrum,
+discrete_pair, good_discrete_pair.
+
+Layer 5: weighted_l2_complex, finite_character_functor, franke_filtration,
+eisenstein_principal_value.
+
+Layer 6: spectral_multiplier, automorphic_kernel, coarse_truncated_kernel, gm_family,
+orbital_integral, weighted_orbital_integral, weighted_character, almost_compact_test_space,
+invariant_recursion, discrete_functional_trace, pseudo_coefficient, general_euler_poincare,
+fixed_degree_trace, charpoly_kernel_refinement, weyl_fixed_levi, torus_pairing,
+multiplicative_gm_family, finite_fibre_trace.
+
+The normalized V* family and continued W, Green and modular Eisenstein kernels are
+separate continuation targets. The multiplication models, measurable Hilbert–Schmidt kernels
+and complex trace consume OperatorTheory carriers. Franke comparison, Kostant support weights,
+Maass–Selberg, spectral completeness and the trace formulas require the README constructions.
+
+-/
+
+end TauCetiRoadmap.AutomorphicSpectralTheory
