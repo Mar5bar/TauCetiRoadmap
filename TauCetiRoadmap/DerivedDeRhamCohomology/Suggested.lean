@@ -59,7 +59,8 @@ def IsPBasis (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p] {r : ℕ
       (Set.range fun e : Fin r → Fin p => ∏ i, b i ^ (e i : ℕ)) = ⊤
 
 /-- The differentials of a p-basis form a basis of `Ω¹_(k/F_p)`, so its dimension is
-`log_p [k : k^p]` (Clausen–Mathew–Morrow, Theorem 5.7). This is `pBasis_kaehler_basis` of the
+`log_p [k : k^p]` (Clausen–Mathew–Morrow, §5.1, Footnote 10, p.40;
+Matsumura, Commutative ring theory, second edition, §26). This is `pBasis_kaehler_basis` of the
 README (0.23). -/
 theorem pBasis_kaehler_basis (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p]
     [Algebra (ZMod p) k] {r : ℕ} (b : Fin r → k) (hb : IsPBasis p k b) :
@@ -124,7 +125,7 @@ theorem isDerivedCompleteRadical (A : Type) [CommRing A] (I J : Ideal A)
     derivedCompleteness A I M ↔ derivedCompleteness A J M := by
   sorry
 
-/-- `M` is derived complete iff every cohomology module is (Stacks, Proposition 15.93.5). -/
+/-- `M` is derived complete iff every cohomology module is (Stacks, Lemmas 15.93.1–15.93.2, Tags 091P–091Q). -/
 theorem isDerivedCompleteCohomology (A : Type) [CommRing A] (I : Ideal A) (hI : I.FG) (M : D A) :
     derivedCompleteness A I M ↔ ∀ j : ℤ, derivedCompleteness A I (mod0 A (H A j M)) := by
   sorry
@@ -346,6 +347,15 @@ example (c x : B) :
 example (c x : B) : symbolMap A B 2 (sym A B 2 c (fun _ => x)) = 0 := by
   sorry
 
+-- Over `ℤ[X,Y]`, degree-two evaluation is the nonzero exterior basis form.
+example :
+    let B := MvPolynomial (Fin 2) ℤ
+    let v : Fin 2 → B := fun i => MvPolynomial.X i
+    symbolMap ℤ B 2 (sym ℤ B 2 1 v) =
+        exteriorPower.ιMulti B 2 (fun i => KaehlerDifferential.D ℤ B (v i)) ∧
+      symbolMap ℤ B 2 (sym ℤ B 2 1 v) ≠ 0 := by
+  sorry
+
 /-- The symbol map is surjective: elementary forms span `Ωⁿ` over `A` (README 2.3). -/
 theorem symbolMap_surjective (n : ℕ) : Function.Surjective (symbolMap A B n) := by
   sorry
@@ -492,6 +502,33 @@ theorem IsDeRhamDifferential.frobenius_smul (p : ℕ) [Fact p.Prime] [CharP A p]
     (b : B) (x : Forms A B n) : f (b ^ p • x) = b ^ p • f x := by
   sorry
 
+-- In characteristic two, `d(X³) = X² dX`.
+example {f : Forms (ZMod 2) (Polynomial (ZMod 2)) 0 →ₗ[ZMod 2]
+      Forms (ZMod 2) (Polynomial (ZMod 2)) (0 + 1)}
+    (hf : IsDeRhamDifferential (ZMod 2) (Polynomial (ZMod 2)) 0 f) :
+    f (zeroForm (ZMod 2) (Polynomial (ZMod 2)) (Polynomial.X ^ 3)) =
+      (Polynomial.X : Polynomial (ZMod 2)) ^ 2 •
+        f (zeroForm (ZMod 2) (Polynomial (ZMod 2)) Polynomial.X) := by
+  sorry
+
+-- A nonzero p-th power has zero differential over `F_p`.
+example (p : ℕ) [Fact p.Prime]
+    {f : Forms (ZMod p) (Polynomial (ZMod p)) 0 →ₗ[ZMod p]
+      Forms (ZMod p) (Polynomial (ZMod p)) (0 + 1)}
+    (hf : IsDeRhamDifferential (ZMod p) (Polynomial (ZMod p)) 0 f) :
+    f (zeroForm (ZMod p) (Polynomial (ZMod p)) (Polynomial.X ^ p)) = 0 ∧
+      (Polynomial.X : Polynomial (ZMod p)) ^ p ≠ 0 := by
+  sorry
+
+-- Over `F₃`, the ordinary polynomial action does not make the differential linear.
+example {f : Forms (ZMod 3) (Polynomial (ZMod 3)) 0 →ₗ[ZMod 3]
+      Forms (ZMod 3) (Polynomial (ZMod 3)) (0 + 1)}
+    (hf : IsDeRhamDifferential (ZMod 3) (Polynomial (ZMod 3)) 0 f) :
+    f (zeroForm (ZMod 3) (Polynomial (ZMod 3)) (Polynomial.X ^ 2)) ≠
+      (Polynomial.X : Polynomial (ZMod 3)) •
+        f (zeroForm (ZMod 3) (Polynomial (ZMod 3)) Polynomial.X) := by
+  sorry
+
 variable {A B}
 variable {C E : Type u} [CommRing C] [CommRing E] [Algebra A C] [Algebra A E]
 
@@ -553,6 +590,19 @@ theorem IsFormPullback.comp_apply {f : B →ₐ[A] C} {f' : C →ₐ[A] E} {n : 
 example {f : B →ₐ[A] C} {g : Forms A B 0 →ₛₗ[f.toRingHom] Forms A C 0}
     (hg : IsFormPullback f 0 g) (b : B) : g (zeroForm A B b) = zeroForm A C (f b) := by
   sorry
+
+-- Degree-one pullback is the supplied semilinear map on Kähler differentials.
+example {f : B →ₐ[A] C} {g : Forms A B 1 →ₛₗ[f.toRingHom] Forms A C 1}
+    (hg : IsFormPullback f 1 g) (x : Forms A B 1) :
+    (exteriorPower.oneEquiv C (KaehlerDifferential A C)) (g x) =
+      KaehlerDifferential.mapSemilinear f
+        ((exteriorPower.oneEquiv B (KaehlerDifferential A B)) x) := by
+  exact IsFormPullback.one_eq_mapSemilinear hg x
+
+-- Identity pullback fixes every degree-two form.
+example {g : Forms A B 2 →ₛₗ[(AlgHom.id A B).toRingHom] Forms A B 2}
+    (hg : IsFormPullback (AlgHom.id A B) 2 g) (x : Forms A B 2) : g x = x := by
+  exact IsFormPullback.id_apply hg x
 
 end DeRham
 
@@ -619,7 +669,13 @@ end DerivedDeRham
 
 /-
 The constructions of the README are specified there with their intended signatures: the cotangent
-complex `Algebra.CotangentComplex` and its API, derived tensor products and derived powers, derived
+complex `Algebra.CotangentComplex` and its API (`arrowResolution`, `resolutionRings`,
+`resolutionRingMap`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`,
+`transitivityFirst_tmul`, `transitivitySecond_apply`, `extensionCategory`,
+`exal_add_representative`, `conormalComparison`, `conormalComparison_extensionClass`,
+`extensionClass_add`, `transitivityConnecting`, `transitivityConnecting_triangle`,
+`kernelExtensionClass`, `deformationObstruction`, `derivationEvaluation`,
+`derivationEvaluation_differential`, `polynomialLift_sign`), derived tensor products and derived powers, derived
 limits (`derivedLimit_surjective`, `derivedLimit_milnor` are the module adapters of
 ArithmeticGaloisDuality §R02.1.1 / The Milnor sequence for towers of complexes; the derived-limit
 functor and `derivedLimit_triangle` are constructed in README 1.1) and completion
@@ -628,8 +684,15 @@ functor and `derivedLimit_triangle` are constructed in README 1.1) and completio
 derived category, the ordinary de Rham differential, complex and pullback (`complex_d_apply`,
 `complex_d_nonadjacent`, `complex_X`, `complexMap_apply`, `complexMap_id`, `complexMap_comp`,
 `pullback_smul`, `pullback_base_smul`, `pullback_add`, `d_add`, `d_base_smul`), derived de Rham
-cohomology with its filtrations and completions, Cartier theory, crystalline comparisons, derived
-de Rham–Witt theory, quasisyntomic sites and descent, period comparisons and the logarithmic theory.
+cohomology with its filtrations and completions, the simplicial deformation target
+`simplicialSquareZeroLifting` using PerfectoidSpaces' `semiperfectoidFiniteIdealDescent`,
+the adic `perfectSystemEffective` adapter to AlgebraicModuliForArithmeticGeometry's
+`perfectInverseSystemEffectivity`, raw and completed descent (`cotangentFlatDescent`,
+`hodgeQuotientFlatDescent`, `hodgeCompletedFlatDescent`, `pCompletedHodgeDescent`),
+`relativeConjugateTransitivity`, Cartier theory, crystalline comparisons, derived
+de Rham–Witt theory, quasisyntomic sites and descent, period comparisons and the logarithmic theory (`LogSquareZeroExtension`, `LogExal`,
+`logRelativeConjugateTransitivity`). Completion functors and their units retain
+`hI : I.FG`; strict DG models use DGAInfinity Layer 1's unital carrier and morphisms.
 -/
 
 end
