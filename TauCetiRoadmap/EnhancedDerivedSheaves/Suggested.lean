@@ -484,7 +484,16 @@ The README also specifies API beyond the representative statements above:
 * E1.2: `replacementDGComparison` compares the replacements supplied by
   README §0.2 with the dg realization; `IsKFlat` spells its point-site
   acyclicity condition. E1.5 `koszulEnhancedComparison` reindexes the Koszul complex supplied
-  by DerivedModuleAlgebra §6.4.
+  by DerivedModuleAlgebra §0.K.1.
+* E1.F3.H1: `DerivedDeRham.moduleDerivedHom.pointSiteComparison` identifies the
+  point-site internal Hom with the ordinary module derived Hom supplied by
+  DerivedModuleAlgebra §1.1.1, compatibly with its tensor–Hom adjunction, shifts and
+  unit, extension-class and nonperfect-localization computations.
+* E1.8.DMA.1: `derivedTensor_affine`, in namespace `DerivedDeRham`, compares the module
+  tensor of DerivedModuleAlgebra §0.2 with SchemeAndStackFoundations §2.18 on `Spec R`.
+* E1.9: `perfect_proper_pushforward` states perfectness and arbitrary derived base change
+  for `Rf_*(E ⊗ᴸ G•)` on algebraic spaces, with `E` perfect and `G•` bounded, finitely
+  presented, termwise target-flat and with proper support. These carriers are README targets.
 * E1.6: `frobeniusRootIdeal_radical` and `frobeniusRootIdeal_colimit` identify the root ideal
   with the radical and its sequential colimit presentation.
 * E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,
