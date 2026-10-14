@@ -463,12 +463,18 @@ hyperbolic-space specialization does not supply a prerequisite here.
 
 | Contract | Supplier and exact section / label | Convention or hypothesis gap and arithmetic consumer |
 | --- | --- | --- |
-| Generic perfect complexes and traces | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | This is the single supplier here of the commutative perfect-object theory, characterized by bounded finite-projective representatives, compactness and dualizability. ALS.F.2 extends that theory to arbitrary unital rings on `DerivedCategory (ModuleCat A)` with the shared `PerfectComplex.IsPerfect` interface, opposite-ring duals, restriction of scalars and the right-module Tor criterion. On commutative rings it consumes the supplied objects through `PerfectComplexInput(A)` without a separately owned commutative carrier/API. §F.10 does not specify the named predicate or closure declarations; identifying its realization with this interface remains a hypothesis. |
+| Generic perfect complexes and traces | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | The common commutative core has this owner. The supplier contract for CohomologicalPointCounting/TraceFormula Layers 1–3 and ALS.F.2 is to consume the perfect full subcategory of `DerivedCategory (ModuleCat A)`, with the realization, tensor/dual and trace identifications in `PerfectComplexInput(A)`. ALS.F.2 retains the general-ring extension, opposite-ring duals, restriction of scalars and right-module Tor tests; the point-counting consumer retains its geometric trace applications. Consumers import this core without assigning a second commutative carrier or generic trace API. |
 | Bounded constructible/ctf categories | Supplied by LefschetzPencilsAndVanishingCycles §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
-| Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | This is the single supplier here of the generic topological comparison and `j_!`, `Rf_!`, `RΓ_c` package. §C6.1 uses finite commutative coefficients on locally contractible paracompact spaces, with locally compact Hausdorff support functors and a finite-triangulation compact-support comparison. §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS.F.3 owns only arithmetic adapters and assumes `TopologicalCoefficientInput` outside these domains; ALS.1.4 retains slice/deck conventions, relative Borel–Serre models and level/Hecke naturality. |
+| Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The common finite-coefficient topological core has this owner. The supplier contract for CohomologicalPointCounting/ComplexComparison Layers 5–7 and ALS.F.3 is to consume its native local-system carrier, stalk/transport-preserving comparison and the same `j_!`, `Rf_!`, `RΓ_c`. Ordinary comparison uses locally contractible paracompact spaces; supports use locally compact Hausdorff spaces in that class and compact-support cochain comparison uses finite compatible triangulations. §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS assumes `TopologicalCoefficientInput` outside these domains and retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
 | [Cellular freeness](#cellular-freeness) | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause (kim-em) | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
 | [Neat-component group cohomology](#neat-component-group-cohomology) | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause (kim-em) | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
 | Proper action (outbound) | This roadmap [ALS.0.5](#symmetric-space-contractible) / proper-action and discrete-image/finite-kernel clause of `LocallySymmetric.symmetricSpace.contractible` | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` (an open TauCetiRoadmap pull request by t4v1), is the PSL₂(ℂ) special case after an equivariant identification of its H³ model with PSL₂(ℂ)/PSU(2) and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
+
+The finite-coefficient topological core of
+[CohomologicalPointCounting/ComplexComparison, Layers 5–7](https://github.com/bwangpj/TauCetiRoadmap/blob/4bd72379658126cbe9be935656396f0c9dac4de0/TauCetiRoadmap/CohomologicalPointCounting/ComplexComparison/README.md)
+uses ComplexComparisonPartII §C6.1's carrier and comparison maps specified in ALS.F.3;
+its analytification and scheme-comparison applications consume those constructions. The
+arithmetic consumers use these same maps through ALS.F.3 and ALS.1.4.
 
 ### Inputs taken as hypotheses
 
@@ -477,7 +483,14 @@ hyperbolic-space specialization does not supply a prerequisite here.
   commuting with shift, scalar extension, tensor and dual, so that its traces and compact/dualizable
   characterization transport to this carrier. The input identifies the commutative restriction of
   `PerfectComplex.IsPerfect` with the supplier's objects and fixes the functor identifications,
-  which §F.10 does not name. The general-ring extension API is proved in ALS.F.2 from
+  which §F.10 does not name. Its realization is an equivalence onto this full subcategory;
+  its unit, counit and functor comparisons are natural in module morphisms and coefficient maps.
+  A finite-projective representative maps to its usual derived object, and the supplied trace
+  maps to its alternating termwise trace. Finite filtered objects and their endomorphisms use
+  §F.10's coherent filtered enhancement and the same realization, including the graded-piece
+  comparisons. This is also the imported contract for the generic core of
+  [CohomologicalPointCounting/TraceFormula, Layers 1–3](https://github.com/bwangpj/TauCetiRoadmap/blob/4bd72379658126cbe9be935656396f0c9dac4de0/TauCetiRoadmap/CohomologicalPointCounting/TraceFormula/README.md).
+  The general-ring extension API is proved in ALS.F.2 from
   finite-projective representatives; the arithmetic finite-cell arguments do not require this input.
 - `TopologicalCoefficientInput(R)` (ALS.F.3): the supplied topological derived functors and
   ordinary local-system comparison extended to the commutative ring `R` and the coefficient
@@ -596,7 +609,9 @@ LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
 is owned by this supplier. Consume its objects, symmetric tensor/dual functors and traces through
 `PerfectComplexInput(A)` for commutative `A`, as specified above. The input identifies the
 supplier's realization with this interface; §F.10 does not specify the named predicate or
-closure declarations.
+closure declarations. CohomologicalPointCounting/TraceFormula Layers 1–3 consume this same
+commutative core on the same derived-module carrier, including its coherent filtered trace
+maps; the geometric Frobenius and point-counting applications belong to that consumer.
 
 Extend that shared theory to every unital ring `A` with `PerfectComplex.IsPerfect` on
 Mathlib's existing `DerivedCategory (ModuleCat A)`: an object is isomorphic to the image of a
@@ -673,6 +688,20 @@ LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
 The generic topological module-sheaf functors and comparison are supplied by
 ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`. ALS.F.3 owns only the
 arithmetic adapters to this package.
+For finite commutative `Λ`, its local-system carrier is the finite-stalk full subcategory
+`FiniteModuleLocalSystem Λ T` of `TauCeti.LocalCoefficientSystem Λ T`. Its equivalence with
+locally constant module sheaves on locally path-connected, semilocally simply connected `T`
+identifies the actual stalk at each vertex and its path transport, naturally under pullback
+and coefficient maps. The direct cochain complex has
+degree `n` equal to `∏_σ L.obj(σ(v₀))`, with inverse first-edge transport in the first face;
+the sheaf augmentation and local-cochain resolution of §C6.1 fix the comparison map.
+AlgebraicTopology Stages 2.6 and 6.1 supply the native coefficient functors and direct
+cochains. CohomologicalPointCounting/ComplexComparison Layers 5–7 consume this dictionary,
+resolution and comparison, together with §C6.1's support functors; their finite-type
+complex-scheme topology supplies the geometric hypotheses. All consumers use the same
+derived module-sheaf carrier, open extension by zero, locally proper separated pushforward
+with proper supports, and compact-support comparison maps, with their composition and
+localization identifications.
 Consume its topological `j_!`, `Rf_!`, `RΓ_c`, ordinary local-system comparison and
 finite-triangulation compact-support comparison. Compact-support Artin comparison and
 independence of algebraic compactification are supplied by §C6.4 /
@@ -2538,25 +2567,63 @@ intertwines T_K(t) for every t; it is a morphism of Hecke complexes (`heckeCompl
 
 Define `LocallySymmetric.heckeComplex`. Let `S` be finite, `K = K_S K^S` compact open, `K′ ⊂ K` a
 normal open subgroup with `K′^S = K^S`, `R` commutative and `V` an `R`-module with commuting `G(F)`
-and `K_S` actions. Put `Δ = G^S × K_S` and `U = K^S × K′_S`. Let `M_V` be the
-complex of `R[Δ]`-modules obtained by applying global sections over the discrete space `𝔛_G =
-G(F)\(X^G × G(𝔸^∞)^δ)` (or over its compactification, with `j_!` or `i^*` for the supported
-variants) to a `Δ`-equivariant injective resolution of the equivariant sheaf `V_𝔛` of
-[ALS.1.1](#arithmetic-local-system). Define
+and `K_S` actions. Put `Δ = G^S × K_S`, `U = K^S × K′_S`, `L = K^S × K_S` and
+`Q = L/U = K/K′`. Use the discrete-group specialization `Sh_Δ(Z,R)` of ALS.F.4,
+with the equivariant module-sheaf construction of SchemeAndStackFoundations §2.23,
+where `Z = 𝔛_G = G(F)\(X^G × G(𝔸^∞)^δ)` with the
+topology induced by the discrete finite-adelic factor, or its Borel–Serre compactification.
+The whole space need not be discrete. The section functor
+`Γ_Z : Sh_Δ(Z,R) → Mod(R[Δ])` is right adjoint to exact equivariant constant-sheaf
+pullback from a point and therefore preserves injectives. Take a bounded-below injective
+resolution `I^•` of the equivariant coefficient sheaf of [ALS.1.1](#arithmetic-local-system)
+in this category, and put `M_V = Γ_Z(I^•)`. For the supported and boundary variants,
+resolve `j_!V_𝔛` and `i_*i^*V̄_𝔛` separately on the compactification; exactness of `j_!`
+does not assert that it preserves injectives. The sheaf functors and comparisons carry
+`TopologicalCoefficientInput(R)` outside the finite-coefficient supplier domain. Define
 
 ```text
 heckeComplex(K, K′, V) = RΓ_U(M_V) ∈ D⁺(𝕋(Δ, U) ⊗ R) = D⁺(H(G^S, K^S) ⊗ R[K/K′]),
 ```
 
 with `RΓ_U` the derived Hecke-invariants functor of [ALS.3.1](#hecke-action-on-invariants) and the
-ring identification of [ALS.3.2](#hecke-ring-normal). The composite of the `Δ`-equivariant
-global-section functor with `Γ_U` is the global-section functor of the quotient, and both factors
-preserve the relevant injectives, so the forgetful image of `heckeComplex(K, K′, V)` in `D(R[K/K′])`
-is `RΓ_{K/K′}(X_{K′}, V)` (at non-neat `K′` through [ALS.1.3](#refinement-independence)). This
-object, not only a ring homomorphism into an endomorphism ring, is what localization, derived tensor
-products and patching consume. The statement assumes `K′ ⊲ K` with `K′^S = K^S`; `V` an `R[G(F) ×
-K_S]`-module. ([NT16, §2.3, Proposition 2.18 and diagram (2.9), p. 24]; [NT16, §2.2.1, Lemma
-2.3, p. 12]; [ACC+23, §2.1.2, (2.1.5)–(2.1.6), pp. 911–912])
+ring identification of [ALS.3.2](#hecke-ring-normal). Since `M_V` is a bounded-below complex
+of injective `R[Δ]`-modules, the complex `Γ_U(M_V)` computes both this object and the right
+derived composite `R(Γ_U ∘ Γ_Z)`. Each term carries the Hecke action by double-coset sums;
+the differentials are Hecke linear, giving a strict complex of Hecke modules. This uses
+`Γ_U`-acyclicity of injective objects in its **source** `Mod(R[Δ])`, with no injectivity
+assertion in its full target `Mod(𝕋(Δ,U) ⊗ R)`.
+
+For neat `K′`, `U` acts freely with the quotient-cover property of ALS.0.9 and ALS.2.3.
+Restriction `Sh_Δ(Z,R) → Sh_L(Z,R)` preserves injectives because its left adjoint is exact
+sheaf induction. Free descent along `f : Z → Z/U` is an exact equivalence
+`Sh_L(Z,R) ≃ Sh_Q(Z/U,R)` and preserves injectives. Equivariant quotient sections
+`Γ_{Z/U} : Sh_Q(Z/U,R) → Mod(R[Q])` also preserve injectives, by their exact constant-sheaf
+left adjoint. Under restriction of Hecke modules to `R[Q]`, the termwise natural
+identification is
+
+```text
+Γ_U Γ_Z(I^•)|_{R[Q]} ≅ Γ_{Z/U}(f_*^U Res_Δ^L I^•).
+```
+
+Consequently its derived image is the `Q`-equivariant quotient-cohomology object
+`RΓ_{K/K′}(X_{K′},V)` of ALS.1.2, with the same deck action. Forgetting `Q` gives ordinary
+quotient cohomology; the compactified ordinary model is identified with the interior by
+ALS.2.2, and descent commutes with the open and closed coefficient constructions for the
+two other variants.
+
+For non-neat `K′`, choose `K₀ ⊂ K′` neat and normal in `K` and put `E = K/K₀`,
+`N = K′/K₀`. Restrict the same resolution to `Sh_L(Z,R)` and descend freely by `K₀` to
+`Sh_E(Z/K₀,R)`. Equivariant sections give a bounded-below complex of injective `R[E]`-modules
+representing the neat-level complex `C_?(K₀)` of ALS.1.3. The functor
+`(−)^N : Mod(R[E]) → Mod(R[Q])`
+preserves injectives as the right adjoint of exact inflation; restriction to `N` also
+preserves injectives, by exact group-module induction. Thus the same termwise complex
+after restricting its Hecke action to `R[Q]` computes `RΓ(N,C_?(K₀))`, the relative
+groupoid cohomology of ALS.1.2–1.3. The refinement comparisons retain `Q` and satisfy the
+cocycle identity; free descent directly by `U` is used only at neat `K′`.
+This strict Hecke object is what localization, derived tensor products and patching consume.
+([NT16, §2.3, Lemmas 2.13–2.17, Proposition 2.18 and diagram (2.9), pp. 22–24];
+[NT16, §2.2.1, Lemma 2.3, p. 12]; [ACC+23, §2.1.2, (2.1.5)–(2.1.6), pp. 911–912])
 
 The API: `LocallySymmetric.heckeComplex` — the object of `D⁺(H(G^S, K^S) ⊗ R[K/K′])` above, with
 compactly supported and boundary variants `heckeComplex_c` and `heckeComplex_∂`;
@@ -2573,6 +2640,10 @@ triangle of Hecke complexes.
 [ALS.1.1](#arithmetic-local-system); [ALS.1.2](#betti-complexes);
 [ALS.1.3](#refinement-independence); SchemeAndStackFoundations §2.23 (equivariant sheaves, enough
 injectives, acyclicity of the composite section functor); Mathlib `DerivedCategory`.
+The injective-preservation arguments use Mathlib `CategoryTheory.Adjunction.map_injective`;
+[ALS.F.3](#sheaf-derived-functors) supplies the sheaf functors and their coefficient-domain
+hypotheses; [ALS.F.4](#equivariant-sheaves-topological) supplies their discrete-group
+equivariant category.
 
 **Checks.**
 
@@ -2586,6 +2657,15 @@ injectives, acyclicity of the composite section functor); Mathlib `DerivedCatego
   endomorphisms recover `heckeActionRel` of [ALS.3.3](#derived-hecke-action).
 - `heckeComplex_not_underived` (non-example): at `K = SL_2(Ẑ)` for `SL_{2,ℚ}` with `R = ℤ`, plain
   Hecke invariants of `H⁰` miss `H²(SL_2(ℤ), ℤ) = ℤ/12`; the derived functor is needed.
+- `heckeInvariants_S3_obstruction` (non-example): for `k = 𝔽₃`, `Δ = S₃` and `U = ⟨(0 1)⟩`,
+  the Hecke algebra is `H = k[ε]/(ε²)` with `ε = T + 1`, where `T` is the nonidentity
+  double coset. The regular `k[Δ]`-module is injective, by its finite-group Frobenius
+  pairing. On its three-dimensional `U`-invariants, `ε` is the all-ones matrix: its image
+  is the constant line and its kernel is the plane of coordinate sum zero. The vector
+  `(1,2,0)` is in the kernel outside the image, as stated in `Suggested.lean`. The
+  `H`-linear map `(ε) → (k[Δ])^U` sending `ε` to this vector cannot extend to `H`, since
+  an extension would send it to `ε` times the image of `1`. These invariants are therefore
+  not injective over `H`, although restriction to the coefficient field is injective.
 
 <a id="hecke-operator-formula"></a>
 

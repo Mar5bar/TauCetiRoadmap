@@ -497,6 +497,8 @@ end Geodesic
 -- The coinvariant (right-coset) form of the double-coset sum on a representation.
 #check @HeckeCoset.heckeSum
 #check @HeckeCoset.heckeSum_eq_sum_of_rightCosets
+-- Exact left adjoints give the injective preservation used by restriction and descent (ALS.3.4).
+#check @CategoryTheory.Adjunction.map_injective
 -- Twisting a representation by a character (ALS.3.12) and fixed vectors of `p`-groups (ALS.6.3).
 #check @Representation.charTwist
 #check @Representation.invariants_ne_bot_of_forall_pow_eq_one
@@ -589,6 +591,17 @@ example (W : Subgroup (Equiv.Perm (Fin 3))) (hW : W = Subgroup.zpowers (Equiv.sw
     Module.finrank ℤ (𝕋 (⊤ : Submonoid (Equiv.Perm (Fin 3))) W ℤ) = 2 := by
   sorry
 
+/-- **ALS.3.4, `heckeInvariants_S3_obstruction`.** On the invariants of the regular
+`𝔽₃[S₃]`-module under `⟨(0 1)⟩`, the Hecke element `ε = T + 1` acts by the all-ones
+matrix. Its square is zero and `(1,2,0)` lies in its kernel outside its image, giving
+the obstruction to extending the map from `(ε)` in the README's noninjectivity check. -/
+theorem heckeInvariants_S3_obstruction :
+    let ε : (Fin 3 → ZMod 3) →ₗ[ZMod 3] (Fin 3 → ZMod 3) :=
+      Matrix.mulVecLin (fun _ _ => (1 : ZMod 3) : Matrix (Fin 3) (Fin 3) (ZMod 3))
+    ε.comp ε = 0 ∧
+      ![1, 2, 0] ∈ LinearMap.ker ε ∧ ![1, 2, 0] ∉ LinearMap.range ε := by
+  sorry
+
 /-- **ALS.3.8, `T_p² = T_{p²} + (p + 1)S_p`.** In the Hecke ring of `(GL_2(ℚ_p), GL_2(ℤ_p))`, with
 `T_{p²}` the single double coset of `diag(p², 1)` and `S_p` that of `diag(p, p)`. -/
 example (p : ℕ) [Fact p.Prime] (W : Subgroup (GL (Fin 2) ℚ_[p]))
@@ -670,8 +683,12 @@ here.
   characterization, traces and filtered trace additivity are supplied by
   LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
   `PerfectComplex.filteredTraceAdditivity`. ALS.F.2 owns the extension of that theory to
-  arbitrary unital rings with the shared `PerfectComplex.IsPerfect` interface on Mathlib's
-  `DerivedCategory (ModuleCat A)` for left modules. The general-ring definition, shift invariance,
+  general rings; CohomologicalPointCounting/TraceFormula Layers 1–3 consume the same
+  commutative core and retain the geometric trace applications. All consumers use the same
+  perfect full subcategory of Mathlib's `DerivedCategory (ModuleCat A)`.
+  The extension applies to arbitrary unital rings with the shared `PerfectComplex.IsPerfect`
+  interface on Mathlib's `DerivedCategory (ModuleCat A)` for left modules.
+  The general-ring definition, shift invariance,
   `PerfectComplex.IsPerfect.of_triangle`, `PerfectComplex.IsPerfect.of_summand`,
   `PerfectComplex.IsPerfect.baseChange` as `B ⊗^L_A K`,
   `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left `A`-module,
@@ -680,6 +697,10 @@ here.
   modules over a noncommutative ring. On commutative rings the interface consumes the supplied
   objects through `PerfectComplexInput(A)`, identifying their realization and
   shift/scalar/tensor/dual functors with the commutative restriction of this interface.
+  The realization is an equivalence onto the perfect full subcategory, with natural unit,
+  counit and functor comparisons. It sends finite-projective representatives to their usual
+  derived objects and traces to alternating termwise traces. Finite filtered objects use the
+  supplier's coherent enhancement and the same realization and graded-piece comparisons.
   The supplier does not name the predicate or closure declarations. This identification is an
   explicit hypothesis; the general-ring proofs and arithmetic finite-cell arguments use
   finite-projective representatives independently of it. There is no second commutative
@@ -694,7 +715,13 @@ here.
   `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` supplies
   compact-support Artin comparison and independence of algebraic compactification on separated
   finite-type complex schemes. Relative Borel–Serre comparison consumes §C6.1 and the arithmetic
-  pair model. `TopologicalCoefficientInput(R)` assumes the ordinary
+  pair model. The finite-coefficient carrier and maps of §C6.1 are also consumed by
+  CohomologicalPointCounting/ComplexComparison Layers 5–7: `FiniteModuleLocalSystem Λ T` is
+  the finite-stalk subcategory of `TauCeti.LocalCoefficientSystem Λ T`. On locally
+  path-connected, semilocally simply connected spaces its sheaf equivalence preserves
+  vertex stalks and path transport, and its direct cochains use inverse first-edge
+  transport. These consumers use the same sheaf resolution and support functors.
+  `TopologicalCoefficientInput(R)` assumes the ordinary
   local-system comparison for arbitrary commutative rings/stalk modules, compact support on
   the relative finite CW models, and functor coherence on all spaces used here outside that
   finite-coefficient domain, including ALS.F.4. It asserts no perfectness.
@@ -746,6 +773,16 @@ here.
   `BorelSerre.stratumCompactification`.
 * Hecke operators on Betti complexes and their strict lifts: `Hecke.invariantsFunctor`,
   `Hecke.derivedInvariants`, `Hecke.heckeRing_prod`, `heckeAction`, `heckeComplex` and its API,
+  where ALS.3.4 uses `Sh_Δ(Z,R) → Mod(R[Δ]) → Mod(𝕋(Δ,U) ⊗ R)` with global sections
+  preserving injectives and Hecke invariants applied termwise to that injective complex.
+  The sheaf category is the discrete-group specialization of ALS.F.4.
+  Restriction to `L = K` and free `U = K′` descent at neat level give the comparison in
+  `D(R[K/K′])`; at non-neat level free descent by neat normal `K₀` is followed by derived
+  `K′/K₀` invariants. The latter preserve injectives in `Mod(R[K/K′])` by exact inflation.
+  No injective preservation into the full Hecke-module category is assumed;
+  `heckeInvariants_S3_obstruction` states the all-ones-matrix obstruction over `𝔽₃`.
+  Supported and boundary sheaves receive their own equivariant injective resolutions.
+  The API also includes
   `heckeAction_eq_correspondence`, `RΓ.trace`, `RΓ.mackey`, `heckeAction_mul`,
   `heckeAction_compatible`, `heckeAction_discrete_eq_topological` (smooth discrete coefficients),
   `heckeAction_integralLimit` (at fixed good level, finite free lattices with smooth reductions,
