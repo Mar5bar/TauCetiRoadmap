@@ -512,7 +512,9 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    `compactConvenientSmashComparison`, `compactConvenientSuspensionComparison`
    and `cwConvenientSuspensionComparison`, comparing its pointed convenient
    constructions with these same kified raw quotients. It consumes this item's
-   k-counit comparisons. RiemannianGeometry R3 uses that two-stage adapter.
+   k-counit comparisons. These named convenient-category comparisons are
+   proposed §3A.2 supplier targets. RiemannianGeometry R3 consumes the raw
+   reduced-suspension quotient map and `reducedSuspensionSphereHomeomorph`.
 
    Own their quotient maps and continuity/universal-property API.
    `sphereSmashHomeomorph` sends Sᵐ∧Sⁿ to S^(m+n), with m coordinates
@@ -561,7 +563,8 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    homeomorphisms and the explicit generator comparisons, without constructing
    a second sphere-suspension identification.
 5. Prove that relative CW inclusions are closed cofibrations with the homotopy extension
-   property.  Construct mapping cylinders, cellular approximation, and skeletal induction.
+   property. Construct mapping cylinders, cellular approximation, relative
+   cellular approximation rel subcomplex for relative CW pairs, and skeletal induction.
    Prove that a cofibration which is a homotopy equivalence is a strong deformation retract.
    Own `relativeCylinderCW`: for a relative CW pair (X,B), construct native
    `RelCWComplex` on X×I relative to (X×{0,1})∪(B×I), with original cell
@@ -1005,6 +1008,30 @@ items 1–7 are independent of those later constructions.
    relative homotopy is not abelian, and expose a `ModuleCat Z` carrier only in degrees at least
    three.  In particular, `pi_2(X,A)` is group-valued in general; its abelianization, not the
    unmodified group, is the module-valued source available without connectivity assumptions.
+   Own `relativeCWConnectivityOfCellDimension`: for a nonempty native relative
+   CW pair (X,A) in a Hausdorff ambient space, with every relative cell of
+   dimension at least λ≥2, Stage4.5's relative cellular approximation and
+   cofibration API give π_i(X,A,a)=0 for 1≤i<λ at every a∈A. In degree0,
+   prove every point of X can be joined to A by a path. Prove the component
+   map is bijective, inclusion induces π_q(A,a)≅π_q(X,a) for 1≤q≤λ−2,
+   and is surjective for q=λ−1. Include the pointed-set relative degree1;
+   the endpoint surjectivity also holds for λ=1 as a component statement.
+   Prove naturality of the induced isomorphisms under based maps of pairs.
+   Export `relativeCWConnectivityOfCellDimension_transport`: let (X_c,A_c)
+   be that native CW pair, and let g:X_c→Y, f:A_c→B commute with the two
+   inclusions, where B⊆Y is a subspace. If f and g induce bijections on
+   every π_q (including components), at every a∈A_c and its images
+   (equivalently, at one chosen a in each path component), the same inclusion
+   range holds on (Y,B). The actual commuting
+   square transports the bijection/surjection; component bijectivity and
+   basepoint change give the result at every b∈B as a corollary of the
+   pointwise prototype. If relative groups of the
+   target pair are used, take its cofibration/NDR data as a separate hypothesis.
+   In particular, based homotopy equivalences of pairs supply these hypotheses.
+   RiemannianGeometry R3 applies the transport theorem to
+   CharacteristicClasses C2.0's bundle-cell relative CW models, compared with
+   MorseTheory M5's actual Morse–Bott negative-disk attachments; HomotopySpheres §3A.4 owns the sphere
+   Freudenthal theorem itself.
 2. Following #42435, construct homotopy groups of Kan simplicial sets, prove
    `TopCat.toSSet.obj X` is Kan, and compare these groups naturally with cubical homotopy groups.
    Prove compatibility with induced maps, boundary maps, and basepoint change.

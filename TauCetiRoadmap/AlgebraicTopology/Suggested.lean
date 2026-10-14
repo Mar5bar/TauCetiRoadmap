@@ -17,6 +17,7 @@ import TauCeti.AlgebraicTopology.Singular.Sphere
 import TauCeti.AlgebraicTopology.Singular.DiskSphere
 import TauCeti.AlgebraicTopology.Singular.EilenbergZilber
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.Singular
+import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -34,7 +35,7 @@ open scoped ContDiff Manifold Topology TensorProduct Simplicial
 
 noncomputable section
 
-universe u
+universe u v
 
 private abbrev SingularChains (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
     (X : TopCat.{u}) : ChainComplex (ModuleCat.{u} R) ℕ :=
@@ -767,6 +768,59 @@ theorem poincareDualityMap_isIso (R : Type u) [CommRing R] (n : ℕ)
     [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M]
     (p : ℕ) (hp : p ≤ n) (c : FundamentalClassDatum R (TopCat.of M) n) :
     IsIso (poincareDualityMap R (TopCat.of M) n p hp c) := by
+  sorry
+
+/-! ## Relative CW connectivity -/
+
+/-- Cellular approximation gives the exact isomorphism range, including components,
+for an inclusion whose relative cells have dimension at least `cellLowerBound`. -/
+theorem relativeCWConnectivityOfCellDimension
+    (X : Type u) [TopologicalSpace X] [T2Space X] (A : Set X)
+    [Topology.RelCWComplex (Set.univ : Set X) A]
+    (a : A) (cellLowerBound : ℕ) (hLowerBound : 2 ≤ cellLowerBound)
+    (hcells : ∀ n : ℕ, n < cellLowerBound → IsEmpty
+      (Topology.RelCWComplex.cell (Set.univ : Set X) n))
+    (q : ℕ) (hq : q + 1 < cellLowerBound) :
+    Function.Bijective
+      (HomotopyGroup.map (⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)) rfl :
+        HomotopyGroup (Fin q) A a → HomotopyGroup (Fin q) X a.val) := by
+  sorry
+
+/-- The endpoint of the cellular connectivity range is surjective. -/
+theorem relativeCWConnectivityOfCellDimension_surjective
+    (X : Type u) [TopologicalSpace X] [T2Space X] (A : Set X)
+    [Topology.RelCWComplex (Set.univ : Set X) A]
+    (a : A) (cellLowerBound : ℕ) (hLowerBound : 1 ≤ cellLowerBound)
+    (hcells : ∀ n : ℕ, n < cellLowerBound → IsEmpty
+      (Topology.RelCWComplex.cell (Set.univ : Set X) n)) :
+    Function.Surjective
+      (HomotopyGroup.map (⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)) rfl :
+        HomotopyGroup (Fin (cellLowerBound - 1)) A a → HomotopyGroup (Fin (cellLowerBound - 1)) X a.val) := by
+  sorry
+
+/-- A commuting based-pair square whose two components induce bijections on
+all π_q at the chosen basepoint transports the exact cellular range. -/
+theorem relativeCWConnectivityOfCellDimension_transport
+    (X : Type u) (Y : Type v) [TopologicalSpace X] [T2Space X] [TopologicalSpace Y]
+    (A : Set X) (B : Set Y) [Topology.RelCWComplex (Set.univ : Set X) A]
+    (a : A) (cellLowerBound : ℕ) (hLowerBound : 1 ≤ cellLowerBound)
+    (hcells : ∀ n : ℕ, n < cellLowerBound → IsEmpty
+      (Topology.RelCWComplex.cell (Set.univ : Set X) n))
+    (f : C(A, B)) (g : C(X, Y))
+    (hsquare : ∀ x : A, g x.val = (f x).val)
+    (hA : ∀ q : ℕ, Function.Bijective
+      (HomotopyGroup.map f rfl :
+        HomotopyGroup (Fin q) A a → HomotopyGroup (Fin q) B (f a)))
+    (hX : ∀ q : ℕ, Function.Bijective
+      (HomotopyGroup.map g (hsquare a) :
+        HomotopyGroup (Fin q) X a.val → HomotopyGroup (Fin q) Y (f a).val)) :
+    (∀ q : ℕ, q + 1 < cellLowerBound → Function.Bijective
+      (HomotopyGroup.map (⟨Subtype.val, continuous_subtype_val⟩ : C(B, Y)) rfl :
+        HomotopyGroup (Fin q) B (f a) → HomotopyGroup (Fin q) Y (f a).val)) ∧
+    Function.Surjective
+      (HomotopyGroup.map (⟨Subtype.val, continuous_subtype_val⟩ : C(B, Y)) rfl :
+        HomotopyGroup (Fin (cellLowerBound - 1)) B (f a) →
+          HomotopyGroup (Fin (cellLowerBound - 1)) Y (f a).val) := by
   sorry
 
 /-! ## Relative Hurewicz -/
