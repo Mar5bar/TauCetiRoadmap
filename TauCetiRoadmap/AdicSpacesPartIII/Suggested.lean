@@ -9,6 +9,7 @@ import TauCeti.RingTheory.Huber.Adic
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
+import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
 import TauCeti.Topology.PureDimension
 import TauCetiRoadmap.AdicSpacesPartII.Suggested
 
@@ -31,8 +32,8 @@ file states the parts that are a few lines over the pinned carriers:
   fibres, and the fractional valuation bounds behind Hasse domains;
 * R3: glueing squares and Kiehl's glueing theorem for finite projective modules, descent of
   finite modules along strongly noetherian Laurent covers, acyclicity of finite modules on
-  Laurent covers of rings of noetherian type, the trace of a finite projective module and of a
-  finite locally free algebra with affine checks of the pull–identify–trace normalisation, and
+  Laurent covers of rings of noetherian type, exactness of dense Banach inverse sequences,
+  the trace of a finite projective module and of a finite locally free algebra with affine checks of the pull–identify–trace normalisation, and
   the Gel'fand spectrum of a Banach ring.
 
 The R3.6 Banach targets (*completely-continuous-map*,
@@ -46,6 +47,9 @@ Completeness includes the Hausdorff property.
 -/
 
 set_option autoImplicit false
+
+local instance (n : ℕ) : ∀ i : Fin n, Fact (0 < (fun _ : Fin n ↦ (1 : ℝ)) i) :=
+  fun _ ↦ ⟨zero_lt_one⟩
 
 namespace TauCetiRoadmap.AdicSpacesPartIII
 
@@ -590,6 +594,31 @@ def fracPowGE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
 /-- For `q = 0` the bound is `v(f) ≥ 1`. -/
 example (f g : A) (v : Spv A) : v ∈ fracPowGE f g 0 ↔ v.toValuativeRel.vle (g ^ 0) f := sorry
 
+/-- A positive-exponent lower bound by a unit excludes the support of `f`. -/
+example (f g : A) (hg : IsUnit g) (q : ℚ≥0) (hq : 0 < q) (v : Spv A)
+    (hv : v ∈ fracPowGE f g q) : ¬ v.toValuativeRel.vle f 0 := sorry
+
+section ClassicalGE
+
+variable (p : ℕ) [Fact p.Prime]
+
+local notation "P" => MvPowerSeries.IsRestricted.subring (R := ℚ_[p]) (fun _ : Fin 1 ↦ 1)
+local notation "T" => (Subtype.mk
+  (MvPowerSeries.monomial (Finsupp.single (0 : Fin 1) 1) (1 : ℚ_[p]))
+  (MvPowerSeries.isRestricted_monomial _ _ _) : P)
+
+/-- The classical specialization `T = 1` satisfies the lower bound `|T| ≥ |p|^(1/2)`. -/
+example : ∃ ev : P →ₐ[ℚ_[p]] ℚ_[p], ev T = 1 ∧
+    let v := comap ev.toRingHom (⟨inferInstance⟩ : Spv ℚ_[p])
+    v ∈ fracPowGE T (algebraMap ℚ_[p] P p) (1 / 2) ∧ v.toValuativeRel.vle 1 T := sorry
+
+/-- The classical specialization `T = p` fails `|T| ≥ |p|^(1/2)` and the unit threshold. -/
+example : ∃ ev : P →ₐ[ℚ_[p]] ℚ_[p], ev T = p ∧
+    let v := comap ev.toRingHom (⟨inferInstance⟩ : Spv ℚ_[p])
+    v ∉ fracPowGE T (algebraMap ℚ_[p] P p) (1 / 2) ∧ ¬ v.toValuativeRel.vle 1 T := sorry
+
+end ClassicalGE
+
 /-- Any representative `q = a/b`, `b > 0`, may be used. -/
 theorem mem_fracPowLE_iff {f g : A} {q : ℚ≥0} {a b : ℕ} (hb : 0 < b) (hq : q = a / b)
     {v : Spv A} : v ∈ fracPowLE f g q ↔ v.toValuativeRel.vle (f ^ b) (g ^ a) := sorry
@@ -771,6 +800,19 @@ example (R : Type*) [CommRing R] (x y : R) :
     ((1 : R) ⊗ₜ[R] x, (1 : R) ⊗ₜ[R] y) ∈ (GlueingDatum.ofModule R R R R R).sections R ↔
       x = y := sorry
 
+/-- Base-changing a zero module gives a zero section module on every compatible square. -/
+example (R : Type*) [CommRing R] [Algebra R R₁] [Algebra R R₂] [Algebra R R₁₂]
+    [IsScalarTower R R₁ R₁₂] [IsScalarTower R R₂ R₁₂]
+    (Z : Type*) [AddCommGroup Z] [Module R Z] [Subsingleton Z] :
+    Subsingleton ((GlueingDatum.ofModule R₁ R₂ R₁₂ R Z).sections R) := sorry
+
+/-- On the identity square, equal rank-two vectors glue and interchanging coordinates fails. -/
+example (R : Type*) [CommRing R] [Nontrivial R] :
+    ((1 : R) ⊗ₜ[R] ((1, 2) : R × R), (1 : R) ⊗ₜ[R] ((1, 2) : R × R)) ∈
+        (GlueingDatum.ofModule R R R R (R × R)).sections R ∧
+      ((1 : R) ⊗ₜ[R] ((1, 2) : R × R), (1 : R) ⊗ₜ[R] ((2, 1) : R × R)) ∉
+        (GlueingDatum.ofModule R R R R (R × R)).sections R := sorry
+
 end GlueingDatum
 
 section GlueingModules
@@ -835,6 +877,26 @@ theorem GlueingDatum.finite_sections_of_simpleLaurent [IsStronglyNoetherian R]
 
 end GlueingModules
 
+/-! ### R3.4 Dense inverse sequences (*dense-banach-inverse-system-exactness*) -/
+
+/-- The difference map on the product of a countable inverse sequence of Banach spaces
+with continuous dense transitions is surjective (Kiehl-AB, proof of Satz 2.4.2, p. 272). -/
+theorem denseBanach_inverseSystem_exact (K : Type*) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K] (V : ℕ → Type*)
+    [∀ n, NormedAddCommGroup (V n)] [∀ n, NormedSpace K (V n)] [∀ n, CompleteSpace (V n)]
+    (t : ∀ n, V (n + 1) →L[K] V n) (ht : ∀ n, DenseRange (t n)) :
+    Function.Surjective (fun x : ∀ n, V n ↦ fun n ↦ x n - t n (x (n + 1))) := sorry
+
+/-- Identity transitions give a surjective difference map on scalar sequences. -/
+example (K : Type*) [Field K] :
+    Function.Surjective (fun x : ℕ → K ↦ fun n ↦ x n - x (n + 1)) := sorry
+
+/-- On zero spaces the difference map is bijective. -/
+example (K : Type*) [NontriviallyNormedField K] (V : ℕ → Type*)
+    [∀ n, NormedAddCommGroup (V n)] [∀ n, NormedSpace K (V n)] [∀ n, Subsingleton (V n)]
+    (t : ∀ n, V (n + 1) →L[K] V n) :
+    Function.Bijective (fun x : ∀ n, V n ↦ fun n ↦ x n - t n (x (n + 1))) := sorry
+
 /-! ### R3.5 Uniform Banach rings (*uniform-iff-power-bound*) -/
 
 /-- For a complete Tate ring with a submultiplicative norm, the norm is equivalent to a
@@ -883,6 +945,25 @@ theorem test_padic (p : ℕ) [Fact p.Prime] (α : GelfandSpectrum ℚ_[p]) (x : 
 /-- The zero ring has empty spectrum, since `α(1) = 1 ≠ 0 = α(0)`. -/
 theorem test_zero_ring [Subsingleton A] : IsEmpty (GelfandSpectrum A) := sorry
 
+/-- The Gauss point realizes the spectral maximum simultaneously on every restricted series. -/
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    (n : ℕ) :
+    ∃ α : GelfandSpectrum (MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ 1)),
+      ∀ f : MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ 1),
+        α.val f = MvPowerSeries.gaussNorm norm (fun _ : Fin n ↦ 1)
+            (f : MvPowerSeries (Fin n) K) ∧
+        α.val f = smoothingFun (normRingSeminorm _) f ∧
+        α.val f = sSup (Set.range fun β : GelfandSpectrum
+          (MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ 1)) ↦ β.val f) := sorry
+
+/-- The dual-number nilpotent has norm one and spectral value zero; its norm is not multiplicative. -/
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
+    let ε : TrivSqZeroExt K K := TrivSqZeroExt.inr 1
+    ‖ε‖ = 1 ∧ smoothingFun (normRingSeminorm (TrivSqZeroExt K K)) ε = 0 ∧
+      sSup (Set.range fun α : GelfandSpectrum (TrivSqZeroExt K K) ↦ α.val ε) = 0 ∧
+      ‖ε * ε‖ ≠ ‖ε‖ * ‖ε‖ ∧
+      ¬ ∃ α : GelfandSpectrum (TrivSqZeroExt K K), ∀ x, α.val x = ‖x‖ := sorry
+
 /-- Points of the spectrum vanish on nilpotents. -/
 example (α : GelfandSpectrum A) (x : A) (hx : x ^ 2 = 0) : α.val x = 0 := sorry
 
@@ -920,6 +1001,25 @@ theorem projectiveTrace_cyclic {N : Type*} [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
     projectiveTrace R M (g.comp f) = projectiveTrace R N (f.comp g) := sorry
 
+/-- On two scalar modules, cyclicity is commutativity of scalar multiplication. -/
+example (R : Type*) [CommRing R] (a b : R) :
+    projectiveTrace R R ((b • LinearMap.id).comp (a • LinearMap.id)) = b * a ∧
+      projectiveTrace R R ((a • LinearMap.id).comp (b • LinearMap.id)) = a * b ∧
+      b * a = a * b := sorry
+
+/-- A zero source makes both cross-object traces zero. -/
+example (R Z N : Type*) [CommRing R] [AddCommGroup Z] [Module R Z] [Subsingleton Z]
+    [Module.Finite R Z] [Module.Projective R Z] [AddCommGroup N] [Module R N]
+    [Module.Finite R N] [Module.Projective R N] (f : Z →ₗ[R] N) (g : N →ₗ[R] Z) :
+    projectiveTrace R Z (g.comp f) = 0 ∧ projectiveTrace R N (f.comp g) = 0 := sorry
+
+/-- The rank-one/rank-two cyclicity formula has the common value `ca + db`. -/
+example (R : Type*) [CommRing R] (a b c d : R) :
+    let f : R →ₗ[R] R × R := (a • LinearMap.id).prod (b • LinearMap.id)
+    let g : R × R →ₗ[R] R := c • LinearMap.fst R R R + d • LinearMap.snd R R R
+    projectiveTrace R R (g.comp f) = c * a + d * b ∧
+      projectiveTrace R (R × R) (f.comp g) = c * a + d * b := sorry
+
 /-- `ℚ × 0 ⊆ ℚ × ℚ` is projective and not free: the trace of its identity is the rank function
 `(1, 0)`, while Mathlib's trace gives `0`. -/
 example [Module.Finite (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})]
@@ -956,6 +1056,19 @@ def projectiveTraceForm : LinearMap.BilinForm R B :=
 
 /-- On `R` over itself the trace form is multiplication. -/
 example (R : Type*) [CommRing R] : projectiveTraceForm R R = LinearMap.mul R R := sorry
+
+/-- The trace form on the product algebra is the dot product. -/
+example (R : Type*) [CommRing R] (x₁ x₂ y₁ y₂ : R) :
+    projectiveTraceForm R (R × R) (x₁, x₂) (y₁, y₂) = x₁ * y₁ + x₂ * y₂ := sorry
+
+/-- The algebra with diagonal action on its second factor has rank `(1,2)` and trace `(1,2)`. -/
+example :
+    letI : Algebra (ℚ × ℚ) (ℚ × (ℚ × ℚ)) :=
+      ((RingHom.fst ℚ ℚ).prod ((RingHom.snd ℚ ℚ).prod (RingHom.snd ℚ ℚ))).toAlgebra
+    ∃ (_ : Module.Finite (ℚ × ℚ) (ℚ × (ℚ × ℚ)))
+      (_ : Module.Projective (ℚ × ℚ) (ℚ × (ℚ × ℚ))),
+      projectiveTrace (ℚ × ℚ) (ℚ × (ℚ × ℚ)) 1 = (1, 2) ∧
+        _root_.Algebra.trace (ℚ × ℚ) (ℚ × (ℚ × ℚ)) 1 = 0 := sorry
 
 /-- On the zero algebra the trace form is zero and perfect. -/
 example (R B : Type*) [CommRing R] [CommRing B] [Algebra R B] [Module.Finite R B]
