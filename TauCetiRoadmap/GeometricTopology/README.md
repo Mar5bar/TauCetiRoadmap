@@ -215,11 +215,185 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   say) are the same def with `A`, `B` proper faces. Set this up for arbitrary manifolds, not
   only handles, because everything downstream (surgery, handlebodies, cobordism
   composition) is a special case of it.
-- **Tubular neighbourhoods.** A closed submanifold has a neighbourhood diffeomorphic to the
-  total space of its normal bundle (tubular neighbourhood theorem; Hirsch GTM 33, Theorem 6.3,
-  [extract](references/hirsch-tubular-neighbourhood.md); Lee GTM 218, Theorem 6.24,
-  [extract](references/lee-smooth-tubular.md)), consuming Mathlib's smooth vector bundles; the
-  disc- and sphere-bundle versions are the surgery interface for layer 5.
+- **Tubular neighbourhoods.** Work on finite-dimensional Hausdorff
+  second-countable smooth manifolds with boundaryless models. For a smooth
+  embedding i:S→M of dimensions s≤m, construct the quotient normal bundle
+  `i*TM/TS`, with model fibre `EuclideanSpace ℝ (Fin (m-s))`, its quotient map
+  and pullbacks. Consume `SmoothEmbedding.NormalSpace` and `normalClassL`
+  fibrewise, and prove that the bundle topology and fibre operations give
+  those existing quotient spaces. Pin the total-space topology as the coinduced
+  topology of the fibrewise quotient map from the pulled-back tangent total
+  space: use native `(i:S→M) *ᵖ TangentSpace J`,
+  `Pullback.TotalSpace.topologicalSpace` and `ContMDiffVectorBundle.pullback`,
+  whose map into S×TM supplies that topology. Prove local quotient
+  trivializations are continuous/open and their fibre topologies agree with
+  the existing quotient topology. Choose an auxiliary smooth metric once
+  using DifferentialGeometry 12.1 to construct the bundle atlas and its
+  `FiberBundle`, `VectorBundle` and `ContMDiffVectorBundle` instances. Prove
+  the identity on quotient fibers is smooth between every pair of
+  metric-generated bundle atlases, by their smooth complement projections.
+  Use the chosen auxiliary-metric atlas for the public instances and export
+  these explicit metric-to-metric identity equivalences.
+
+  Construct the complement bundle, quotient equivalence and natural exponential
+  domain with only a chosen `RiemannianBundle` and its smoothness; they require
+  no compatible distance. State the global metric-dependent tube theorem with that `RiemannianBundle`,
+  `IsContMDiffRiemannianBundle J ∞ F`, `[J.Boundaryless]`, and a compatible
+  `[EMetricSpace M] [IsRiemannianManifold J M]` as arguments, where J is the
+  ambient model with vector space F. Use the extended distance to include
+  disconnected manifolds. Construct the orthogonal-complement subbundle and
+  its continuous linear equivalence with the quotient bundle. Build smooth
+  local projections by the inverse Gram-matrix formula and prove frame
+  independence. Restrict the ambient metric to the complement and prove its
+  `RiemannianBundle`/`IsContMDiffRiemannianBundle` laws in these charts;
+  in particular the fibre squared norm is smooth. Transport complement
+  charts to the quotient bundle. Prove
+  the quotient atlases obtained from two smooth metrics are compatible:
+  transitions are the quotient of the ambient identity, expressed by smooth
+  projections between complements, with inverse in the opposite direction.
+  Thus the identity on quotient fibres is a smooth bundle isomorphism and
+  the quotient smooth structure is independent of the metric. Add a
+  metric-free existence corollary using DifferentialGeometry 12.1 and
+  native Mathlib `EMetricSpace.ofRiemannianMetric` (with T3 hypotheses) inside
+  its proof; the finite-dimensional Hausdorff second-countable manifold is T3.
+
+  State the universal tubular result as a native `Diffeomorph` between the
+  actual open normal-radius tube and its open image, retaining the map formula
+  and native inverse identities. It includes empty embedded manifolds, whose tube and
+  image are both empty. `exists_normalTubeOpenDiffeomorph` supplies this
+  interface; transport it through the normal/quotient bundle equivalence
+  for the intrinsic quotient tube. A `PartialDiffeomorph` on the whole
+  normal total space is a corollary for nonempty embedded manifolds, with
+  `[Nonempty S]` explicit, since its inverse is a total function on the
+  ambient manifold. Use the open-subset interface for empty cases.
+
+  On the whole orthogonal-complement normal total space define the natural normal exponential
+  domain by v∈expDomain(i x), and prove it is open and the normal exponential
+  smooth there. Consume the joint tangent-bundle statements
+  `isOpen_setOfPred_mem_expDomain` and
+  `contMDiffOn_riemannianExp_tangentBundle` by the smooth normal inclusion.
+  These global natural-domain targets precede the small-radius tube theorem
+  and supply RiemannianGeometry's focal-point calculus.
+
+  For every positive injective Euclidean tube of a closed-image C² embedding,
+  export `exists_c1EuclideanTubeOpenDiffeomorph` between the actual open tube
+  and `Metric.thickening ε (range i)`, with its C¹ inverse; include the smooth
+  version for smooth embeddings. These open-subset results also cover empty
+  source and thickening. The corresponding whole-space `PartialDiffeomorph`
+  forms carry explicit nonempty-source hypotheses and are derived corollaries.
+
+  In Euclidean ambient space use the general `orthogonalNormal` bundle
+  with Mathlib's flat metric as the canonical smooth carrier. The quotient
+  equivalence sends the class of v to its orthogonal projection. Under
+  `NormedSpace.fromTangentSpace (i x)`, prove its fibre submodule maps to
+  native `normalSubspace I i x`. Construct the corresponding total-space
+  homeomorphism to `TotalSpace V (normalSubspace I i ·)`, with its actual
+  projection/fibre formulas and continuous inverse; use it to transport the
+  existing topological tube results. No second Euclidean smooth atlas is chosen.
+  Own `smoothEmbeddingOfLE`: for m≤n lower the native embedding's
+  `ContMDiff` regularity, retaining the same function and embedding/immersion
+  data; prove its coercion equality and identity/composition laws.
+  Define this same `orthogonalNormal` family and its bundle instances for
+  positive C^n embeddings, with source/ambient C^n manifolds and a C^(n−1)
+  metric; the normal bundle regularity is C^(n−1) (∞−1=∞). Keep the native
+  tangent bundle's C¹ ambient prerequisite explicit. Include regularity-lowering
+  comparisons, preserving the underlying fibre/topology and identifying the
+  smooth atlas restricted to C¹ with the C¹ atlas of the C² embedding `smoothEmbeddingOfLE f (by simp)`.
+  For finite C² regularity use native `exists_contMDiffOn_normalFrame` with
+  n=1 (C² source and embedding), plus native
+  `contMDiff_normalSubspace_starProjection` and
+  `contMDiffAt_normalSubspace_starProjection`; for
+  smooth regularity consume its n=∞ specialization through the flat instance.
+  The codimension model stays `EuclideanSpace ℝ (Fin (m-s))`.
+
+  Define the general orthogonal normal bundle as the orthogonal complement
+  of `i.tangentRange x` in `TangentSpace J (i x)` and its radius tube as the
+  subset of its total space with `‖v‖ < δ(x)`. The Euclidean constant-radius
+  set is `normalTube I i ε ⊆ S × V`. Restrict
+  `TauCeti.Manifold.riemannianExp` to the general normal bundle on its natural
+  open domain constructed above. Consume `mfderiv_riemannianExp_zero`
+  and `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`, with the smooth Riemannian
+  instances above. Prove the derivative on the zero section is the direct-sum
+  tangent/normal isomorphism, hence the restriction is a local diffeomorphism
+  near that section.
+
+  Build the injectivity-radius argument of Lee, Theorem 5.25, equations
+  (5.21)–(5.24). For x∈S let V_r(x) consist of normal vectors based at x′
+  with d_g(i x,i x′)<r and ‖v′‖<r, and let Δ(x) be the supremum of
+  admissible radii r≤1 for which V_r(x) lies in the natural normal-exponential
+  domain and the restriction is a diffeomorphism onto an open set.
+  Prove Δ>0, injectivity on V_Δ(x)(x), and |Δ(x)−Δ(x′)|≤d_g(i x,i x′)
+  whenever this extended distance is finite; this proves continuity on S.
+  Consume `TauCeti.Manifold.edist_riemannianExp_le` (and its metric form
+  `dist_riemannianExp_le`) to show equal exponential images have base distance
+  at most ‖v‖+‖v′‖. With δ=Δ/2, both vectors then lie in one injectivity
+  neighbourhood. Prove the radius tube is open and its image U is open,
+  package the restriction as a diffeomorphism onto U, and prove compact S
+  admits a positive uniform radius by the minimum of δ. Choose a smooth
+  positive radius below δ using Mathlib's
+  `exists_contMDiffMap_forall_mem_convex_of_local_const` with
+  t(x)=`Set.Ioo 0 (δ x)`. Its T2 and sigma-compact hypotheses follow from
+  the embedding into Hausdorff M and second-countability plus local
+  compactness of S. Prove radial
+  fibre rescaling identifies the whole normal bundle with a neighbourhood.
+  Own the general-bundle smooth radial rescaling: in each fibre use
+  v↦δ(x)•v/√(1+‖v‖²), with inverse w↦w/√(δ(x)²−‖w‖²) on the
+  open tube. Prove both formulas and smoothness in bundle charts. In the
+  Euclidean case compare with WholeBundle's topological compression; that
+  existing theorem is not a general-ambient supplier. Pin the vertical derivative:
+  inclusion into the total tangent space, derivative of the tubular map and
+  `normalClassL` compose to the identity on the quotient normal fibre. Prove
+  restriction along ambient open inclusions and naturality under ambient
+  diffeomorphisms with transported metrics. The normal-exponential route is
+  Lee, [*Introduction to Riemannian Manifolds*, 2nd ed.](https://sites.math.washington.edu/~lee/Books/RM/),
+  Theorem 5.25, [extract](references/lee-riemannian-tubular.md).
+  The Euclidean route is Hirsch GTM 33, Theorem 6.3,
+  [extract](references/hirsch-tubular-neighbourhood.md); Lee GTM 218,
+  Theorem 6.24, [extract](references/lee-smooth-tubular.md).
+
+  For compact Euclidean S consume the C² uniform-radius open embedding
+  `exists_isOpenEmbedding_normalTube` with `[I.Boundaryless]`. Own
+  `euclideanChartSquaredDistanceHessian` for finite-dimensional C² chart
+  maps g:E→V: at u and n⊥im Dg_u the actual second derivative of
+  z↦‖g(z)−(g(u)+n)‖² is
+  2⟨Dg_u h,Dg_u k⟩−2⟨n,D²g_u(h,k)⟩. Own
+  `euclideanChartNormalDerivativePairing`: for a C¹ normal field η,
+  ⟨Dη_u h,Dg_u k⟩=−⟨η(u),D²g_u(h,k)⟩, by differentiating
+  its orthogonality equation. Project D²g to the normal fibre to define B;
+  with the source metric pulled back by Dg, define the self-adjoint A_n by
+  ⟨A_n h,k⟩=⟨B(h,k),n⟩. Prove chart/normal-frame independence and
+  the tube derivative's tangent block I−A_n and normal-connection block.
+  This is the single C² chart proof; RiemannianGeometry R6 consumes and
+  compares these formulas with its intrinsic B/S Hessian geometry.
+
+  For every closed-image C² Euclidean embedding i:S→V and every ε>0
+  for which (x,v)↦i x+v is injective on `normalTube I i ε`, construct a
+  C¹ partial diffeomorphism on the codimension-model normal bundle tube
+  onto `Metric.thickening ε (Set.range i)`. For smooth i it is smooth.
+  Closedness and finite-dimensional Euclidean properness give distance
+  attainment; compact embeddings are a specialization. The image/thickening
+  equality holds for every ε>0 before injectivity: a minimizing point has
+  normal displacement by first variation. For (x,v) in an injective ε-tube,
+  choose t>1 with t‖v‖<ε when v≠0. A closest point to i x+tv also gives
+  a tube representation, so injectivity makes x that point. The single
+  chart Hessian then gives I−tA_v≥0 and
+  I−A_v≥(1−1/t)I>0; v=0 uses the direct-sum derivative. The derivative
+  block and inverse function theorem prove local diffeomorphism throughout
+  the whole ε-tube, and injectivity gives its C¹ or smooth inverse.
+  Export the per-ε chart with actual injectivity as input, not an already
+  proved open embedding. Define `nearestPoint` on the open thickening;
+  prove its regularity, minimization, uniqueness, zero-section value and
+  normal displacement. Pin its inverse as
+  y↦(nearestPoint y,y−i(nearestPoint y)), with norm less than ε.
+  The general-ambient tube, C² Euclidean Hessian, and compact uniform-radius
+  corollary are separate targets; no RiemannianGeometry theorem is an input.
+  The straight-line homotopy is a strong deformation retraction onto the
+  embedded submanifold. The open normal tube has strict fibre inequality;
+  `normalDiscBundle` is the closed inequality, with `DiscSphere` and
+  `WholeBundle` supplying the existing topological comparisons and
+  `IsTubularNeighborhood` the common predicate. Prove the smooth closed-disc
+  and sphere extensions required for surgery. Every noncompact embedded S
+  has a positive radius function; no uniform radius is asserted.
 - **Connected sum, with the choices explicit.** The definition must *take* the data it
   depends on: an orientation on each summand and an embedding of the closed `n`-ball into
   each, inducing opposite orientations; `M # N` deletes the open balls and glues along the
@@ -865,19 +1039,29 @@ groupoid.
 - **Realized cones and contiguity.** The affine homotopy attached to a pair of contiguous
   simplicial maps, jointly continuous in the point and the parameter; in particular the
   realization of the combinatorial cone contracts onto its apex, fixing the apex throughout.
-- **`|K|` as a CW complex.** Fix a map `o : ι → α` into a linear order that is injective on each
-  simplex (a linear order on `ι` itself, or for a join the index of each vertex). A classical
-  `CWComplex (Set.univ : Set |K|)` whose `n`-cells are the `n`-simplices of `K`, the
-  characteristic map of a simplex being a fixed homeomorphism from the closed unit ball of
-  `Fin n → ℝ` onto the standard simplex `stdSimplex ℝ (Fin (n + 1))`, carrying the sphere onto
-  the union of the proper faces, followed by the map to `|K|` that enumerates the vertices of the
-  simplex in increasing order of `o`. Simplicial maps are cellular for it. A simplicial map that
-  is injective on each simplex and preserves the order of `o` on each simplex carries each
-  characteristic map onto a characteristic map, and a simplicial automorphism permutes the cells.
-  The cellular chain complex is the ordered simplicial chain complex: the cellular boundary of an
-  `n`-simplex `[v₀, …, vₙ]`, with `o v₀ < ⋯ < o vₙ`, is `∑ⱼ (-1)ʲ [v₀, …, v̂ⱼ, …, vₙ]`. This is
-  what lets the cellular theory of the algebraic-topology roadmap apply to a realization, and the
-  classifying-space roadmap consumes it for the cellular chains of the countable join.
+- **`|K|` as a CW complex.** Fix o:ι→α into a linear order, injective on each
+  simplex. Construct the ordered simplicial set K_o of weakly increasing
+  vertex strings whose support is a simplex, its degeneracies and faces,
+  and the barycentric homeomorphism |K|≃ₜ SSet.toTop.obj K_o. Prove its
+  subcomplex and simplicial-map comparisons. Consume AlgebraicTopology 4.7's
+  single `simplicialRealizationCW`, with its normalized ball/simplex
+  characteristic maps. Own `cwComplexTransportHomeomorph` and
+  `relCWComplexTransportHomeomorph`: transport native CW/relative CW
+  structures along any homeomorphism, with the relative base’s actual image,
+  pushed-forward characteristic maps, closed/open cells, subcomplexes and weak
+  topology. Transport the realization structure through this homeomorphism;
+  the nondegenerate n-simplices are precisely the n-simplices of K. Export
+  this transported native `CWComplex (univ:Set |K|)`, rather than a second
+  direct construction. Simplicial maps are cellular; maps injective and
+  order-preserving on each simplex carry its characteristic map to the
+  corresponding characteristic map, and simplicial automorphisms permute cells.
+  Prove the cellular/ordered-simplicial chain identification, with boundary
+  ∑_j (−1)^j[v₀,…,v̂_j,…,vₙ] for n≥1 and zero ordinary degree-zero boundary.
+  The classifying-space and smooth-triangulation constructions consume this
+  one transported structure and its subcomplex/order-change comparisons.
+  For two orders o,o′, compare the ordered realizations through the identity
+  of |K|: closed cells agree and characteristic maps differ by the induced
+  vertex permutation; the chain comparison records its orientation sign.
 - **Triangulation of a space** in the general sense: `IsTriangulable M := ∃ K, Nonempty (|K| ≃ₜ M)`.
   This is the notion in Manolescu's theorem, and it is *weaker* than asking for a
   combinatorial or PL structure. (Moise, *Geometric Topology in Dimensions 2 and 3*, treats
@@ -927,20 +1111,86 @@ solver; it belongs here because it is the cleanest target exercising the collaps
 **Unlocks.** Manolescu's disproof of the triangulation conjecture (no Kirby number); the
 Zeeman collapsibility conjecture, `[Kir97, Problem 5.2]`.
 
-## The smoothing-and-triangulation comparison (far horizon)
+## The smoothing-and-triangulation comparison
 
 Relating the smooth, PL, and topological structures is a major undertaking, arguably its own
-roadmap. It sits here, after the layers, on purpose: it is the comparison joining layer 1's
-chart-based `PLGroupoid` to layer 11's combinatorial manifolds, and most of it should wait
-until both of those exist, so no one starts it as early layer-1 work. Stage it, hardest part
-last:
+roadmap. This comparison joins layer 1's chart-based `PLGroupoid` to layer 11's
+combinatorial manifolds. Its constructions consume those carriers, with the
+following sequence of targets:
 
-1. **Smooth implies PL.** Every smooth manifold has an essentially unique PL structure (a
-   smooth triangulation, Whitehead). References: J. H. C. Whitehead, *On C¹-complexes*, Ann.
-   of Math. 41 (1940) 809–824; the full modern development in J. Munkres, *Elementary
-   Differential Topology* (Annals of Math. Studies 54, 1966), the smoothing-of-triangulations
-   and uniqueness sections. Classical and self-contained, but already a substantial body of
-   work (Whitney/Cairns triangulation plus the uniqueness argument).
+1. **Smooth implies PL.** For finite-dimensional Hausdorff second-countable
+   smooth manifolds with the Euclidean or half-space model, construct a
+   countable locally finite smooth triangulation and its realization
+   homeomorphism. Pin `SmoothTriangulation` to Munkres Definition 8.3: it
+   has data K (a native abstract simplicial complex) and a realization
+   homeomorphism h:|K|≃ₜM. At every point of each closed simplex, require
+   a local smooth extension of its chart-coordinate map to an open neighborhood
+   in that simplex's affine span; use the target's ambient coordinate space,
+   without requiring a global extension into the manifold. Prove that
+   tangential derivatives agree on common faces by continuity from their
+   relative interiors; they are not additional structure data. Require the
+   differential map on the closed star at every point b to be injective on
+   that star; immersion of each simplex alone is insufficient. Develop restriction,
+   smooth-chart comparison, subdivision, relative and PL-structure APIs,
+   and prove the recognition/uniqueness theorems (Munkres 8.4 and 10.5).
+
+   The relative boundary theorem takes a specified smooth triangulation
+   of ∂M, with its given smooth structure, and a product triangulation on
+   a chosen collar compatible with that boundary map; extend it unchanged
+   by the owned `collarFixedSmoothTriangulationExtension`: trim the half-open
+   collar, apply Munkres 10.6 to that manifold's boundary, and glue the prescribed
+   prism triangulation of ∂M×[0,½] along its full end subcomplex. Prove
+   closed-star injectivity across the seam from the opposite interior half-spaces.
+   For dimension m≥1, take a countable locally finite disjoint family of proper smooth
+   boundaryless hypersurfaces, closed as subsets of M and disjoint from ∂M.
+   Pin the family as data (S_j,i_j,K_j,h_j,N_j): each S_j is a
+   boundaryless (m−1)-manifold, i_j its proper smooth embedding into the
+   interior, K_j/h_j its specified smooth triangulation, and N_j its actual
+   rank-one normal interval-bundle collar. Require closed/disjoint ranges and
+   locally finite images; the ∂M collar is disjoint from every N_j image.
+   Use AlgebraicTopology Stage 6.3’s foundational `boundarylessInteriorAtlas` and
+   `boundarylessInterior_isManifold` on that interior, before its orientation or
+   duality targets; this uses the earlier interior half-space chart constructions,
+   not smooth triangulation.
+   Own cutting/regluing along them. For two-sided hypersurfaces the cut has
+   two collar boundary copies. For one-sided hypersurfaces its boundary is
+   the normal sphere double cover. Construct its smooth covering charts and
+   lift each prescribed closed simplex by covering lifting, uniquely after
+   selecting a vertex sheet; prove local smoothness through those charts,
+   face compatibility and simplicial deck action. This preserves the prescribed
+   triangulation without forcing a subdivision. Apply the owned collar-fixed
+   extension to the cut manifold's resulting boundary triangulations;
+   glue the copies/deck pairs with their fixed product collars, and prove
+   the resulting realization homeomorphism is a smooth triangulation in the
+   closed-star sense. This constructs the hypersurfaces as subcomplexes,
+   with exact prescribed restrictions and locally finite simultaneous gluing.
+
+   Include finitely many prescribed interior points outside the relative
+   subcomplex as vertices by geometric stellar refinements of their supporting
+   simplices. Prove homeomorphism, finite support/local finiteness, the
+   closed-star differential criterion and preservation of the relative locus.
+   Choose an injection of the countable vertex set into ℕ and pull back its
+   order; instantiate Layer 11's ordered-realization adapter at that order.
+   Consume its transport of
+   AlgebraicTopology 4.7's single `simplicialRealizationCW` definition.
+   Apply Layer 11's homeomorphism transport to the triangulation map.
+   Export `CWComplex (univ:Set M)` and the
+   finite 0-cell subcomplex P consisting of the prescribed points, then
+   `RelCWComplex (univ:Set M) P`; boundary or hypersurface unions use their
+   actual subcomplex structures. AlgebraicTopology's mapping-space
+   constructions consume these marked CW pairs. The absolute and marked
+   relative exports are `@[instance_reducible] def` structures selected with
+   `letI` in their respective uses: the native relative base is an out-parameter,
+   so they are not simultaneously registered instances on the same ambient set.
+
+   Own adaptive subdivision for a countable compact exhaustion
+   K_r⊂int K_(r+1): refine locally finitely so every simplex meeting K_r
+   lies in K_(r+1), with compatible simplex/realization maps and unchanged
+   smooth/PL structure. These supply locally finite fundamental cycles and
+   cap-product exhaustions. Whitehead, *On C¹-complexes*, Ann. Math. 41 (1940),
+   and Munkres, *Elementary Differential Topology*, §§8–10, give the proof
+   spine; the closed-star definition and relative boundary theorem are in
+   the [extract](references/munkres-smoothing-triangulations.md).
 2. **PL implies Top.** The forgetful direction, immediate from layer 1's inclusion
    `PLGroupoid ≤ continuousGroupoid`.
 3. **Top to PL, the smoothing obstruction.** The deep, far-horizon part: the
