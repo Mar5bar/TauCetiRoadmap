@@ -42,6 +42,9 @@ example : IsLocallySpectralSpace ℕ ∧ ¬ CompactSpace ℕ := sorry
 -- Negative control: `ℝ` is not locally spectral (no nonempty open is quasicompact).
 example : ¬ IsLocallySpectralSpace ℝ := sorry
 
+-- Check `definition_IsLocallySpectralSpace_2`: the empty cover witnesses local spectrality.
+example : IsLocallySpectralSpace Empty := sorry
+
 /-- A space is spectral iff it is locally spectral, quasicompact and quasiseparated (KL15
 §8.1, text after Definition 8.1.1, p. 157). -/
 theorem spectralSpace_iff_isLocallySpectralSpace (X : Type u) [TopologicalSpace X] :
@@ -56,6 +59,16 @@ def IsLocallySpectralMap {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y
     Prop :=
   Continuous f ∧ ∀ (U : Set X) (V : Set Y) (hUV : Set.MapsTo f U V), IsOpen U → IsOpen V →
     SpectralSpace U → SpectralSpace V → IsSpectralMap (Set.MapsTo.restrict f U V hUV)
+
+-- Check `definition_IsLocallySpectralMap_1`: finite spectral opens of discrete ℕ map spectrally.
+example : IsLocallySpectralMap (fun _ : ℕ ↦ (PUnit.unit : PUnit)) ∧
+    ¬ IsSpectralMap (fun _ : ℕ ↦ (PUnit.unit : PUnit)) := sorry
+
+-- Check `definition_IsLocallySpectralMap_2`: the point identity is locally spectral.
+example : IsLocallySpectralMap (id : PUnit → PUnit) := sorry
+
+-- Negative Check `definition_IsLocallySpectralMap_3`: the true fibre {0} is not open in ℝ.
+example : ¬ IsLocallySpectralMap (fun x : ℝ ↦ x = 0) := sorry
 
 /-- Between spectral spaces the local condition is Mathlib's global `IsSpectralMap` (ECD
 Definition 2.1, p. 10). -/
@@ -92,12 +105,6 @@ theorem WithConstructibleTopology.t2Space_totallyDisconnectedSpace (X : Type u)
 -- Check: on the Sierpiński space `Prop` (open point `True`) the constructible topology is
 -- discrete.
 example : constructibleTopology Prop = ⊥ := sorry
-
-/-- The image of a pro-constructible subset under a spectral map of spectral spaces is
-pro-constructible (ECD Lemma 2.3, p. 10). -/
-theorem isProConstructible_image {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [SpectralSpace X] [SpectralSpace Y] {f : X → Y} (hf : IsSpectralMap f) {S : Set X}
-    (hS : IsProConstructible S) : IsProConstructible (f '' S) := sorry
 
 /-- The closure of a pro-constructible subset of a spectral space is its set of specializations
 (ECD Lemma 2.4, pp. 10–11). -/
@@ -137,13 +144,6 @@ theorem spectralSpace_quotient {X : Type u} [TopologicalSpace X] [SpectralSpace 
     SpectralSpace (Quotient r) ∧ IsSpectralMap (Quotient.mk r) ∧
       GeneralizingMap (Quotient.mk r) := sorry
 
-/-- A cofiltered limit of spectral spaces along spectral maps is spectral, with spectral
-projections (ECD Lemma 2.11, pp. 13–14). -/
-theorem spectralSpace_limit {I : Type u} [Category.{u} I] [IsCofiltered I] (F : I ⥤ TopCat.{u})
-    [∀ i, SpectralSpace (F.obj i)] (hF : ∀ ⦃i j : I⦄ (a : i ⟶ j), IsSpectralMap (F.map a)) :
-    SpectralSpace (Limits.limit F : TopCat.{u}) ∧
-      ∀ i, IsSpectralMap (Limits.limit.π F i).hom := sorry
-
 /-- **Hochster's theorem**: a topological space is spectral exactly when it is homeomorphic to the
 prime spectrum of a commutative ring (ECD Theorem 2.2 (i)⇔(ii), p. 10). -/
 theorem spectralSpace_iff_nonempty_homeomorph_primeSpectrum (X : Type u) [TopologicalSpace X] :
@@ -173,6 +173,17 @@ example : IsOpen[inverseTopology Prop] {False} ∧ ¬ IsOpen {False} := sorry
 
 -- Negative control: on discrete `ℕ` the inverse topology is cofinite and not quasi-sober.
 example : ¬ @QuasiSober ℕ (inverseTopology ℕ) := sorry
+
+-- Check `s0_5_inverse_discrete_finite`: complements of finite discrete opens are again open.
+example (X : Type u) [t : TopologicalSpace X] [DiscreteTopology X] [Finite X] :
+    inverseTopology X = t := sorry
+
+-- Check `definition_inverseTopology_2`: finite discrete duality fixes Bool and changes Prop.
+example : inverseTopology Bool = (inferInstance : TopologicalSpace Bool) ∧
+    inverseTopology Prop ≠ (inferInstance : TopologicalSpace Prop) := sorry
+
+-- Check `definition_inverseTopology_3`: the dual two-point chain is not its discrete patch.
+example : inverseTopology Prop ≠ constructibleTopology Prop := sorry
 
 /-- The space of connected components of a spectral space is Hausdorff, hence profinite with
 Mathlib's `Quotient.compactSpace` and `ConnectedComponents.totallyDisconnectedSpace` (ECD proof of
@@ -215,6 +226,16 @@ example : ¬ IsCutoffCardinal Cardinal.aleph0.{u} :=
 -- Negative control: `ℶ_ω` is an uncountable strong limit of countable cofinality.
 example : ¬ IsCutoffCardinal (Cardinal.beth.{u} Ordinal.omega0) := sorry
 
+-- Checks `s0_23_cutoff_zero` and `definition_IsCutoffCardinal_2`: zero fails uncountability.
+example : ¬ IsCutoffCardinal (0 : Cardinal.{u}) := sorry
+
+-- Check `definition_IsCutoffCardinal_1`: the stated continuous beth iteration gives a cutoff.
+example : ∃ f : Ordinal.{u} → Cardinal.{u},
+    f 0 = Cardinal.beth (Cardinal.aleph 1).ord ∧
+    (∀ i, f (i + 1) = Cardinal.beth (Order.succ (f i)).ord) ∧
+    (∀ i, Order.IsSuccLimit i → f i = sSup (f '' Set.Iio i)) ∧
+    IsCutoffCardinal (f (Cardinal.aleph 1).ord) := sorry
+
 /-! ## Layer D1: disconnected perfectoid spaces -/
 
 /-- *Every open cover splits*: for every open cover there is a locally constant choice of a member
@@ -226,6 +247,10 @@ def OpenCoversSplit (X : Type u) [TopologicalSpace X] : Prop :=
 -- Check: open covers of the connected Sierpiński space split (the closed point forces the member
 -- `univ`); negative control: the cover of `ℝ` by `(-∞, 1)` and `(0, ∞)` does not split.
 example : OpenCoversSplit Prop ∧ ¬ OpenCoversSplit ℝ := sorry
+
+-- Check `open_covers_profinite`: compactness gives a finite subordinate clopen partition.
+example (X : Type u) [TopologicalSpace X] [CompactSpace X] [T2Space X]
+    [TotallyDisconnectedSpace X] : OpenCoversSplit X := sorry
 
 /-- **Fargues' characterisation** (ECD Lemma 7.2 (i)⇔(ii), pp. 29–30): every open cover of a
 spectral space splits iff every connected component has a unique closed point. -/
@@ -245,12 +270,19 @@ example (X : PreAdicSpace.{u}) [IsEmpty X] : isTotallyDisconnected X := sorry
 
 /-- A *w-local* space (BS15 Definition 2.1.1, p. 6; ECD Definition 7.4, p. 31): a spectral space
 all of whose open covers split and whose closed points form a closed subset.
-CommRingFactorizationSystems §C5 / `IsWLocalRing` (an open TauCetiRoadmap pull request by
-JakobScholbach) states the prime-spectrum special case; `openCoversSplit_iff` supplies the
+[CommRingFactorizationSystems §C5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/CommRingFactorizationSystems/README.md#c5--the-zariski-factor-of-the-absolutely-flat-reflection-and-w-local-rings)
+supplies `IsWLocalRing`, the prime-spectrum special case; `openCoversSplit_iff` supplies the
 comparison with unique closed points per component before specialization to `PrimeSpectrum A`
-(README contract S820d). -/
+(README contract w-local-comparison). -/
 def IsWLocalSpace (X : Type u) [TopologicalSpace X] : Prop :=
   SpectralSpace X ∧ OpenCoversSplit X ∧ IsClosed {x : X | IsClosed ({x} : Set X)}
+
+-- Checks `w_local_empty` and `definition_IsWLocalSpace_2`: the closed-point locus is empty.
+example : IsWLocalSpace Empty := sorry
+
+-- Check `w_local_profinite`: all points are closed and the closed-point locus is the whole space.
+example (X : Type u) [TopologicalSpace X] [CompactSpace X] [T2Space X]
+    [TotallyDisconnectedSpace X] : IsWLocalSpace X := sorry
 
 /-- In a w-local space the closed points map homeomorphically onto the space of connected
 components (BS15 Lemma 2.1.4, p. 6). -/
@@ -314,6 +346,26 @@ of members of the presieve (ECD Definition 8.1(iii), p. 39). -/
 def vPrecoverage {C : Type*} [Category C] (F : C ⥤ TopCat.{u}) : Precoverage C where
   coverings X := {R | ∀ U : Set (F.obj X), IsOpen U → IsCompact U →
     IsCompactOpenCovered (fun i : R.uncurry ↦ ((F.map i.1.2).hom : F.obj i.1.1 → F.obj X)) U}
+
+-- Check `definition_vPrecoverage_1`: the proper arrow of the two-element chain covers a point.
+example :
+    let F := (Functor.const (Fin 2)).obj (TopCat.of PUnit)
+    Presieve.singleton (homOfLE (show (0 : Fin 2) ≤ 1 by decide)) ∈ vPrecoverage F 1 := sorry
+
+-- Check `definition_vPrecoverage_2`: the empty presieve covers the empty constant space.
+example :
+    let F := (Functor.const (Discrete PUnit)).obj (TopCat.of Empty)
+    (⊥ : Presieve (Discrete.mk PUnit.unit)) ∈ vPrecoverage F (Discrete.mk PUnit.unit) := sorry
+
+-- Check `definition_vPrecoverage_3`: the empty presieve fails to cover a point.
+example :
+    let F := (Functor.const (Discrete PUnit)).obj (TopCat.of PUnit)
+    (⊥ : Presieve (Discrete.mk PUnit.unit)) ∉ vPrecoverage F (Discrete.mk PUnit.unit) := sorry
+
+-- Negative Check `s2_1_vPrecoverage_rational_empty_cover`: ℚ has no nonempty compact open.
+example :
+    let F := (Functor.const (Discrete PUnit)).obj (TopCat.of ℚ)
+    (⊥ : Presieve (Discrete.mk PUnit.unit)) ∈ vPrecoverage F (Discrete.mk PUnit.unit) := sorry
 
 /-- The underlying topological space of a perfectoid space. -/
 abbrev perfdToTop : Perfd.{u} p ⥤ TopCat.{u} :=
@@ -442,6 +494,17 @@ example (R : Type u) [CommRing R] [TopologicalSpace R] : IsEmpty (BerkovichSpect
 -- `log 2 / log p`.
 example (p : ℕ) [Fact p.Prime] :
     Nonempty (BerkovichSpectrum ℚ_[p] p) ∧ Subsingleton (BerkovichSpectrum ℚ_[p] p) := sorry
+
+-- Negative Check `definition_BerkovichSpectrum_3`: every multiplicative seminorm sends 1 to 1.
+example (R : Type u) [CommRing R] [TopologicalSpace R] : IsEmpty (BerkovichSpectrum R 1) := sorry
+
+-- Check `s5_13_product_fields`: the two seminorms are distinguished by the complementary idempotents.
+example (p : ℕ) [Fact p.Prime] :
+    Nonempty (BerkovichSpectrum (ℚ_[p] × ℚ_[p]) (p, p) ≃ Bool) ∧
+      (∀ α : BerkovichSpectrum (ℚ_[p] × ℚ_[p]) (p, p),
+        (α.1 (1, 0) = 1 ∧ α.1 (0, 1) = 0) ∨ (α.1 (1, 0) = 0 ∧ α.1 (0, 1) = 1)) ∧
+      (∃ α : BerkovichSpectrum (ℚ_[p] × ℚ_[p]) (p, p), α.1 (1, 0) = 1) ∧
+      (∃ α : BerkovichSpectrum (ℚ_[p] × ℚ_[p]) (p, p), α.1 (0, 1) = 1) := sorry
 
 /-- **The Berkovich spectrum is the maximal Hausdorff quotient of `Spa`** (ECD Proposition 13.9,
 p. 79). For a complete Hausdorff Tate ring `R` with a ring of integral elements `R⁺` and a
