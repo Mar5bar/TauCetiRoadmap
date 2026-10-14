@@ -83,7 +83,8 @@ The roadmap owns:
   cyclotomic twist, lifting invariants and the stable classification of braid orbits (Layer IG.3);
 - proper embedding problems with local prescriptions over number fields, the abelian lifting
   obstruction, Galois localization and Tate–Shafarevich kernels for finite modules, the
-  absolute-Galois-group form of finite Poitou–Tate that embedding problems use, the order-two
+  absolute-Galois-group form of finite Poitou–Tate, its restricted-ramification localization adapter
+  and auxiliary cokernel comparisons for Shafarevich shrinking, the order-two
   alternative of Grunwald–Wang, Shafarevich's theorem with the Fitting
   subgroup and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg density for
   supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable and quaternion
@@ -143,7 +144,7 @@ It does not own, and consumes by name:
   local and global class field theory with local Tate duality and the Brauer sequence
   (**ClassFieldTheory**, Layers 5, 7 and 10–12; that roadmap excludes Grunwald–Wang, whose order-two
   alternative is owned here); Poitou–Tate duality for finite Galois modules over a number field
-  (**ArithmeticGaloisDuality**, §§R02.4.2–R02.4.3, which consumes Layer IG.4.2 in the target-level
+  (**ArithmeticGaloisDuality**, §§R02.3.1, R02.4.2–R02.4.3, which consumes Layer IG.4.2 in the target-level
   order displayed there); Chebotarev density (**Chebotarev**); unramified extensions, Frobenius,
   ramification and the tame quotient of local Galois groups (**LocalFieldsRamification**, Layers
   2–4); curves and their places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes
@@ -354,11 +355,13 @@ SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, 
 (deformations, stable pointed curves, formal schemes, Grothendieck existence and algebraization,
 §4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
 (`popescu_desingularization`) and §0.21 (G-rings), and §5.11 (`weil_bound`, the Weil bound for
-smooth proper geometrically integral curves over finite fields); ArithmeticGaloisDuality §R02.4.2
-(*Restricted products of local cohomology and Ш^r_S*, with `PoitouTate.sha_eq_absoluteSha`, and
-*P^r_S(K, M) is dual to P^{2−r}_S(K, M^D)*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
-exact sequence*), used only by Layer IG.4.2 *Finite-coefficient Poitou–Tate input*, in the target-level
-order displayed in Layer IG.4.2; LefschetzPencilsAndVanishingCycles §§F.5–F.6 /
+smooth proper geometrically integral curves over finite fields); ArithmeticGaloisDuality §R02.3.1
+(*The Galois group G_{K,S} of the maximal extension unramified outside S*), §R02.4.2
+(*Unramified classes are exact annihilators*, *Restricted products of local cohomology and Ш^r_S*,
+with `PoitouTate.sha_eq_absoluteSha`, and *P^r_S(K, M) is dual to P^{2−r}_S(K, M^D)*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
+exact sequence*), used by Layer IG.4.2 *Finite-coefficient Poitou–Tate input* and Layer IG.4.3
+*Restricted-ramification localization adapter*, in the target-level order displayed in Layer IG.4.2;
+LefschetzPencilsAndVanishingCycles §§F.5–F.6 /
 `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity` (smooth trace, relative
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
 norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
@@ -3519,6 +3522,12 @@ ArithmeticGaloisDuality R02.4.2 Restricted products of local cohomology and Ш^r
 ArithmeticGaloisDuality R02.4.2 P^r_S(K, M) is dual to P^{2−r}_S(K, M^D),
 ArithmeticGaloisDuality R02.4.3 Poitou–Tate duality and the nine-term exact sequence
     → IG.4.2 Finite-coefficient Poitou–Tate input
+ArithmeticGaloisDuality R02.3.1 The Galois group G_{K,S},
+ArithmeticGaloisDuality R02.4.2 Unramified classes are exact annihilators,
+ArithmeticGaloisDuality R02.4.2–R02.4.3 Restricted products and Poitou–Tate
+    → IG.4.3 Restricted-ramification localization adapter
+    → IG.4.3 Auxiliary cokernel comparison
+    → IG.4.3 Cyclic ramification correction, Split nilpotent proper embedding theorem
 IG.4.2 Finite-coefficient Poitou–Tate input
     → IG.4.2 Twisting abelian-kernel solutions, IG.4.2 Grunwald–Wang and its exceptional class,
       and through them the Grunwald and embedding-problem applications of IG.4.3–IG.4.6
@@ -3877,6 +3886,144 @@ Layer 7; ClassFieldTheory Layers 10 and 12; Chebotarev Layer 10.
   field because `−1` is not a sum of two squares in `ℚ` ([Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1),
   Introduction, PDF pp. 1–2). So there is not even a weak solution.
 
+**Restricted-ramification localization adapter.** Let `F` be a number field, `p` a prime,
+`T` a finite set of places and `S ⊇ T ⊇ S_p ∪ S_∞` a possibly infinite set of allowed ramification
+places. Use ArithmeticGaloisDuality R02.3.1's field `F_S` and group `G_{F,S}`. For a finite
+`G_{F,S}`-module `A`, inflation embeds `H¹(G_{F,S}, A)` in `H¹(Γ_F, A)` with image precisely the
+classes whose restrictions to inertia at every finite `v ∉ S` vanish. The action on `A` factors
+through `G_{F,S}`; the characterization concerns classes, not just the ramification of `A`.
+For finite `K/k` inside `k_S`, with `S_K` the places above `S`, the supplier's tower identification
+`K_{S_K} = k_S` gives `H¹(k_S/K, A) = H¹(G_{K,S_K}, A)`. Inflation, restriction, corestriction and
+coefficient maps commute with these identifications and localization; local corestriction sums
+over the places above the base place. These operations preserve the indicated ramification bounds.
+
+For `μ_p ⊆ F`, construct the mixed localization and ramification row
+
+```text
+H¹(G_{F,S}, μ_p) → B_{S,T}(F, μ_p) → H¹(G_{F,T}, ℤ/p)^*,
+B_{S,T}(F, μ_p) = (∏_{v∈T} H¹(F_v, μ_p))
+                 × (⊕_{v∈S∖T} H¹(F_v, μ_p)/H¹_nr(F_v, μ_p)).
+```
+
+It is exact at `B_{S,T}`. The first map records full local classes on `T` and only ramification
+classes on `S ∖ T`. For `b = (b_v)` and `χ ∈ H¹(G_{F,T}, ℤ/p)`, the second map is
+`χ ↦ ∑_{v∈S} inv_v(b_v ∪ χ_v)`. At `v ∈ S ∖ T`, choose a representative of `b_v`: the value is
+independent of it since `χ_v` is unramified and the unramified subgroups are exact annihilators.
+The sum is finite. Retain the real terms: in degree one they are ordinary `H¹`, with the supplier's
+Tate modifications in degree zero. The star denotes the Pontryagin dual of the discrete group.
+Exactness also applies after replacing `T` by any finite `T′` between `T` and `S`.
+
+*Proof sketch.* Consume ArithmeticGaloisDuality R02.3.1's quotient, membership and tower interfaces,
+R02.4.2's restricted products, their duality and unramified annihilators, and R02.4.3's Poitou–Tate
+sequence for this `S`, with `p` invertible in the ring of `S`-integers. Inflation–restriction gives
+the image characterization; the closed normal subgroup defining `G_{F,S}` is generated by inertia
+outside `S`. Quotient `P¹_S(F, μ_p)` by the compact subgroup with zero components on `T` and
+unramified components elsewhere. Its annihilator on global dual classes is exactly the inflated
+`H¹(G_{F,T}, ℤ/p)`. Exactness of Poitou–Tate and Pontryagin duality gives the mixed row; the global
+image plus that compact subgroup is closed. This construction preserves allowed ramification,
+including when `S = cs(Ω/k) ∪ T` and after passing to `K`.
+
+Sources: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Definition 9 and Lemma 10,
+PDF pp. 10–11, and the mixed row in the proof of Theorem 13, PDF pp. 14–15;
+[Milne, Arithmetic Duality Theorems](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I,
+§4, Theorem 4.10 and its proof, pp. 56–62 (PDF pp. 64–70).
+*Needs:* ArithmeticGaloisDuality §§R02.3.1, R02.4.2–R02.4.3, with precisely the quotient/tower,
+unramified-annihilator, restricted-product and possibly infinite-`S` contracts above;
+ProfiniteCohomology Layers 1, 7 and 10; ClassFieldTheory Layer 5; LocalFieldsRamification Layers 2–4.
+
+**Checks.**
+
+- If `S = T` is finite, the direct sum disappears and the row is the degree-one localization row
+  of restricted-ramification Poitou–Tate. Taking `S` to be all places instead recovers absolute
+  global cohomology, with ramification data still retained outside `T`.
+- For `p = 2` and `F = ℚ`, the real components of both degree-one groups are `ℤ/2`; their nonzero
+  classes pair to `1/2 ∈ ℚ/ℤ`. They cannot be deleted from the sum.
+- For `k = ℚ`, `K = ℚ(i)` and `S ⊇ {2, ∞}`, `K ⊆ k_S` and `K_{S_K} = k_S`; restriction followed by
+  corestriction is multiplication by two on `H¹(G_{k,S}, A)`. Localization of corestriction is
+  the sum of local corestrictions, also at the split places with two places above them.
+
+**Auxiliary cokernel comparison.** Let `k` be a number field, `p` a prime,
+`S′ ⊇ S ⊇ T ⊇ S_p ∪ S_∞`, with `T` finite, and `A` a finite `G_{k,S}`-module killed by `p`.
+Write `A^D = Hom(A, μ_p)` and define
+
+```text
+C_{S,T}(A) = coker(H¹(G_{k,S}, A) → ∏_{v∈T} H¹(k_v, A)),
+X_{S,T}(A^D) = ker(H¹(G_{k,S}, A^D) → ∏′_{v∈S∖T} H¹(k_v, A^D)).
+```
+
+The kernel here requires zero full local classes on `S ∖ T`, not merely unramified ones.
+Restricted-ramification duality identifies
+`C_{S,T}(A)^* = X_{S,T}(A^D)/X_{S,∅}(A^D)` and hence embeds `C_{S,T}(A)` in `X_{S,T}(A^D)^*`.
+These finite cokernels have the quotient maps induced by localization. Coefficient maps induce
+covariant maps on `C`; enlargement `S ⊆ S′` gives a surjection `C_{S,T}(A) → C_{S′,T}(A)` by
+inflation and the identity on the local product. Enlargement of `T` gives maps in the opposite
+direction by projection of local products. For finite field towers inside `k_S`, restriction and
+corestriction give the corresponding cokernel maps with sets lifted to the extension field;
+corestriction uses sums over places. Their dual maps are adjoint under the local pairings.
+
+Suppose further that `N/k` is finite Galois inside `k_S`, contains the splitting field `k(A)` and
+`μ_p`, and `S′ ∖ T ⊆ cs(N/k)`. Then build the commuting comparison diagram
+
+```text
+C_{S,T}(A)   ↪ X_{S,T}(A^D)^*   --η-->  H¹(Gal(N/k), A^D)^*
+    ↓                 ↓ φ                         ║
+C_{S′,T}(A)  ↪ X_{S′,T}(A^D)^*  --η′->  H¹(Gal(N/k), A^D)^*.
+```
+
+The rows are not asserted exact. The maps `η` and `η′` are surjections dual to finite-group
+inflation into `X`. The map `φ` is dual to descent of the classes in `X_{S′,T}` to `G_{k,S}`:
+vanishing at the new places kills their inertia restrictions. If
+`cs(N/k) ∖ (S′ ∖ T)` has Dirichlet density zero, `η′` is an isomorphism. The comparison is natural
+for coefficient maps and compatible finite splitting-field towers, with restriction/corestriction
+adjunction and local sums as above. This target also constructs the finite-group comparison
+
+```text
+H¹(Gal(N/k), A^D)^* ≅ H₁(Gal(N/k), A(−1)),
+A(−1) = A ⊗_{𝔽_p} Hom(μ_p, 𝔽_p).
+```
+
+For the shrinking application put `Q_d = Gal(N_d/k) = F(d)/F(d)^ν ⋊ G`, `A_d = E(d,ν)` and
+`S_d = cs(N_d/k) ∪ T_m`, for `d = m,n`, with `N_n ⊆ N_m` and `N_d` splitting `A_d` and containing
+`μ_p`. Here `T_m` is finite and contains `Ram(N_m/k) ∪ S_p ∪ S_∞`. A shrinking map gives `Q_m ↠ Q_n` and `A_m → A_n`. First apply its coefficient map at `S_m`,
+then enlarge allowed places to `S_n`. The comparison diagram and the finite-group duality must
+commute with `H₁(Q_m, A_m(−1)) → H₁(Q_n, A_n(−1))`. If the image of a local defect under
+`C_{S_m,T_m}(A_m) ↪ X_{S_m,T_m}(A_m^D)^* ≅ H₁(Q_m, A_m(−1))` is killed by this map, it has zero image in
+`C_{S_n,T_m}(A_n)`: the lower horizontal comparison is an isomorphism and the cokernel injection
+is faithful. The same comparison over `K` uses `Q_d = Gal(N_d/K) = F(d)/F(d)^ν` in place of the
+semidirect product, with the place sets lifted to `K`. Since `K/k` is Galois, the lifted
+`cs(N_d/k)` agrees with `cs(N_d/K)` up to a density-zero set of places of `K` of residue degree
+larger than one over `k`; the isomorphism hypothesis still holds. These are the two comparisons
+used by the nilpotent embedding theorem.
+
+*Proof sketch.* Apply the restricted-ramification adapter and dualize localization, extending local
+families by zero on `S ∖ T`, to obtain the quotient description and cokernel injection. Inflation
+from `Gal(N/k)` lands in `X` because its allowed places outside `T` split in `N`. Vanishing at
+`S′ ∖ S` permits descent and gives `φ`; dualizing yields the diagram. Under the density hypothesis,
+Chebotarev over `N` makes restriction to `N` of every class in `X_{S′,T}` zero, so finite-group
+inflation is an isomorphism. Dualizing the finite-dimensional group chain complex over `𝔽_p`
+constructs the displayed cohomology/homology duality, natural for group and coefficient maps
+together, and transports the operator shrinking map to the local defect.
+
+Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Definition 9 and Lemmas 10–12,
+PDF pp. 10–13, and proof of Theorem 15, steps 3–4, PDF pp. 28–32 (especially the diagrams on
+pp. 29–30 and their version over `K` on p. 32).
+*Needs:* *Restricted-ramification localization adapter*; ProfiniteCohomology Layers 1, 5, 6 and 10
+(inflation–restriction and transfer); Mathlib `groupCohomology` and `groupHomology` with their
+inhomogeneous cochain and chain complexes; Chebotarev Layer 10.
+
+**Checks.**
+
+- For `A = 0` every cokernel, kernel and finite-group term is zero. For `S′ = S` the vertical
+  comparison maps are identities; no density hypothesis is needed for commutativity.
+- For `S = S′ = cs(N/k) ∪ T`, with `T` containing the ramification of `N/k`, the places above `p`
+  and infinity, and with `N` splitting `A` and containing `μ_p`, `η = η′` is an isomorphism.
+  An arbitrary allowed-place set only gives the surjection; the isomorphism needs the density
+  and splitting hypotheses.
+- In a compatible pair `N_n ⊆ N_m`, the coefficient map followed by enlargement `S_m ⊆ S_n`
+  sends the local defect to the same element as the homology map through the comparison diagram.
+  Repeat over `K`, where the acting finite group omits `G`; killing a semidirect-product homology
+  class alone does not assert that this second defect vanishes.
+
 **Cyclic ramification correction.** Let `p` be a prime and `Ω ⊇ K ⊇ k` finite extensions of number
 fields with `Ω/k` and `K/k` Galois and `μ_p ⊂ K`. Let `T` be a finite set of places of `k` that contains
 `Ram(Ω/k)`, the places `S_p` above `p`, and the archimedean places `S_∞`. Put `S = cs(Ω/k) ∪ T`, where `cs(Ω/k)`
@@ -3890,16 +4037,20 @@ Then there is `x ∈ H¹(k_S/k, A)` with `x_v = (cor_K^k y)_v` for `v ∈ T`, an
 cyclic and `z_{σ𝔓} = 0` for every `σ ≠ 1` in `Gal(K/k)`. For `p = 2` the construction combines three
 classes.
 
-*Proof sketch.* Use the finite-`S` duality of *Finite-coefficient Poitou–Tate input* to capture the
-cokernel. Choose new primes with prescribed splitting and Frobenius (Chebotarev), and solve the
-character corrections by reciprocity. For `p = 2`, combine the three Kummer classes, keeping conjugate
-primes and ramification separated as specified in the source.
+*Proof sketch.* Identify `H¹(k_S/K, A)` with `H¹(G_{K,S_K}, A)` by *Restricted-ramification
+localization adapter*. Its mixed row, with the finite prescription set enlarged by the previously
+chosen primes and their conjugates, records full classes at old places and ramification classes at
+other allowed places. Choose new primes with prescribed splitting and Frobenius (Chebotarev), and
+solve the character corrections in that row by reciprocity. Every constructed class stays in the
+restricted-ramification group. For `p = 2`, combine the three Kummer classes, keeping conjugate
+primes and ramification separated as specified in the source. Local corestriction gives the stated
+class over `k` without enlarging the allowed ramification set.
 
 Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Theorem 13 and its full proof,
 PDF pp. 14–20 (the exact hypotheses on the class, the corestriction conclusion, and the correction at
 conjugate primes).
-*Needs:* *Induced abelian proper solutions*, *Twisting abelian-kernel solutions*, *Finite-coefficient
-Poitou–Tate input*; ClassFieldTheory Layers 10 and 12; Chebotarev Layer 10.
+*Needs:* *Induced abelian proper solutions*, *Twisting abelian-kernel solutions*,
+*Restricted-ramification localization adapter*; ClassFieldTheory Layers 10 and 12; Chebotarev Layer 10.
 
 **Checks.**
 
@@ -3907,6 +4058,10 @@ Poitou–Tate input*; ClassFieldTheory Layers 10 and 12; Chebotarev Layer 10.
 - The hypotheses require `y` to vanish at the places above `Ram(K/k)`, `p` and infinity, and only to be
   unramified at the other places above `T`. For `p = 2` the condition `μ₂ ⊂ K` holds automatically, and
   the three-class correction is needed.
+- For `k = K = ℚ`, `Ω = ℚ(i)`, `p = 2` and `T = {2, ∞}`, the character of `ℚ(√33)` is zero on `T`
+  since `33 > 0` and `33 ≡ 1 mod 8`. Its discriminant is `33`, so it ramifies at `3` and `11`, both
+  outside `S = cs(Ω/ℚ) ∪ T`. Thus it matches zero at the prescribed places but is not in
+  `H¹(G_{ℚ,S}, C₂)`; zero itself is an allowed correction.
 
 **Split nilpotent proper embedding theorem.** Let `k` be a number field. Every finite split embedding
 problem for `Γ_k` with nilpotent kernel has a proper solution. Such a problem consists of a continuous
@@ -3926,23 +4081,36 @@ Nonsplit nilpotent embedding problems are not covered.
 - `N` is the product of its Sylow subgroups, and every finite `G`-operator `p`-group is a quotient of
   some `F(n)/F(n)^ν`. So it suffices to treat these quotients. Solutions for different primes combine in
   a compositum over `K`, whose group is all of `N ⋊ G` because the orders are coprime.
-- For a fixed `p`, induct on `ν`. Shrink the local `H²` obstructions at the old bad places by means of
+- For a fixed `p`, induct on `ν`. At each step first pass to `K(μ_{p^e})`, where `p^e` is the
+  exponent of `F(n)/F(n)^{ν+1}`, inflate the quotient group and eventually descend by its quotient.
+  This supplies the roots of unity required by the duality comparisons; the coefficient action
+  factors through `Gal(K/k)`, so the fields `N_d` split it. The cyclotomic enlargement ramifies
+  only above `p`, so the descent preserves (i) and (ii).
+  Shrink the local `H²` obstructions at the old bad places by means of
   induced modules, then shrink the resulting global `Ш²` obstruction with the duality surjection and a
   Tate twist.
-- Get properness from *Induced abelian proper solutions* and the capture of the cokernel by auxiliary
-  primes. Twist once more (*Cyclic ramification correction*) to restore (i) and (ii), keeping the local
-  conditions through every shrinking map.
+- Get properness from *Induced abelian proper solutions* and auxiliary local generators. Use
+  *Auxiliary cokernel comparison* at `T_m`, first for `Gal(N_d/k)` and then for `Gal(N_d/K)`, to
+  carry the defects through the coefficient shrinking and the enlargement
+  `cs(N_m/k) ∪ T_m ⊆ cs(N_n/k) ∪ T_m`. Its commuting diagrams and finite-group homology
+  identifications show that the killed homology classes give zero restricted-ramification defects.
+  Twist once more (*Cyclic ramification correction*) to restore (i) and (ii), retaining the
+  auxiliary generators and the specified local conditions through these maps.
 
 Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Theorems 14–15 and their proof,
 PDF pp. 20–32 (the complete constructive input for solvable realization).
 *Needs:* *Free operator-group shrinking*, *Induced abelian proper solutions*, *Cyclic ramification
-correction*, *Finite abelian-kernel obstruction and pullback*, *Finite-coefficient Poitou–Tate input*.
+correction*, *Auxiliary cokernel comparison*, *Restricted-ramification localization adapter*,
+*Finite abelian-kernel obstruction and pullback*, *Finite-coefficient Poitou–Tate input*.
 
 **Checks.**
 
 - For `N = 1`, `π` itself is the proper solution.
 - The split hypothesis cannot be dropped. Over `ℚ(√−1)/ℚ`, the problem `C₄ → C₂` has nilpotent kernel
   `C₂` but no solution at all (*Induced abelian proper solutions*).
+- For `p = 2` the induction retains real localization groups, and the auxiliary splitting field
+  contains the required roots of unity. Descent from that field gives the same prescribed splitting
+  above infinity and `2`; these conditions are part of (i), not discarded by shrinking.
 
 **Fitting supplements for solvable groups.** Mathlib has the Frattini subgroup `frattini G` but no
 Fitting subgroup. For a finite group `G`, define `fittingSubgroup G`, written `F(G)`, as the supremum of
@@ -4975,8 +5143,11 @@ From other roadmaps:
   lemma.
 - ClassFieldTheory Layers 5, 7, 10 and 12: local duality, Kummer theory, local Artin maps, local
   invariants, the Brauer sequence and global class field theory.
-- ArithmeticGaloisDuality §R02.4.2 and §R02.4.3: finite Poitou–Tate duality, used only by
-  *Finite-coefficient Poitou–Tate input*, in the target-level order displayed at the start of IG.4.2.
+- ArithmeticGaloisDuality §§R02.3.1, R02.4.2–R02.4.3: maximal extensions unramified outside a
+  possibly infinite set, their tower identifications, local unramified annihilators and finite
+  Poitou–Tate duality, used by *Finite-coefficient Poitou–Tate input* and
+  *Restricted-ramification localization adapter*, in the target-level order displayed at the start
+  of IG.4.2. *Auxiliary cokernel comparison* owns the application-specific comparison diagrams.
 - LocalFieldsRamification Layers 2–4, AlgebraicCurves Layers 7 and 8, Chebotarev Layer 10,
   ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes) and
   4, AlgebraicModuliForArithmeticGeometry Layer 9 (smooth compactifications), and ReductiveGroupsPartII
@@ -4988,7 +5159,8 @@ From other roadmaps:
 
 ClassFieldTheory covers number fields only, and so do the theorems of this layer that rest on it:
 *Finite Galois localization and Sha kernels*, *Finite-coefficient Poitou–Tate input*, *Grunwald–Wang
-and its exceptional class*, *Induced abelian proper solutions*, *Cyclic ramification correction*,
+and its exceptional class*, *Induced abelian proper solutions*, *Restricted-ramification localization
+adapter*, *Auxiliary cokernel comparison*, *Cyclic ramification correction*,
 *Property E for the arithmetic unramified group*, *Tame central lift after adjoining roots* and *The
 global arithmetic lifting invariant*. The definitions of the layer (embedding problems, unramified
 `Γ`-groups, Property E, marked extensions) are stated for global fields, including `𝔽_q(t)`, which
@@ -6308,8 +6480,11 @@ arbitrary: they need not come from splittings. Then:
    `Y ×_{X̂} Spec R̂_U ≅ Ŷ_U` and `Y ×_{X̂} Spec R̂_P ≅ Ŷ_P` inducing the given isomorphisms over every
    `F_℘`;
 2. `Y_K → X̂_K` is étale over `X̂_K ∖ B̂_K`;
-3. if a factor field of every `A_U` and every `A_P` can be chosen so that the chosen factors are
-   matched by the given isomorphisms over every branch, and the stabilisers in `G` of the chosen
+3. choose factor fields `E_U` of `A_U` and `E_P` of `A_P`, with quotient kernels `𝔪_U` and `𝔪_P`.
+   Suppose that for every branch `℘` on an edge `(U,P)`, the identified branch algebra
+   `A_℘ = A_U ⊗ F_℘ ≅ A_P ⊗ F_℘` has a prime `𝔮_℘` contracting to both `𝔪_U` and `𝔪_P`.
+   Thus the chosen factors have a common field factor after extension to the branch field;
+   their entire scalar extensions need not agree. If the stabilisers in `G` of the chosen local
    factors generate `G`, then `Y` is connected;
 4. if moreover `k` is algebraically closed and `Y → X̂` is étale over the generic point of some
    component of `X`, then `K` is algebraically closed in the function field of `Y`, so `Y_K` is
@@ -6324,14 +6499,18 @@ and gives the identifications. (2) A closed point of `X̂_K ∖ B̂_K` specializ
 `X`. If `Q = P ∈ S`, the map `Spec R̂_P → Spec 𝒪_{X̂,Q}` is faithfully flat; if `Q` lies on a component
 `U`, so is `Spec R̂_U → Spec R_U`, since `t` lies in the Jacobson radical of `R_U`, and `𝒪_{X̂,Q}` is a
 localization of `R_U`. In both cases étaleness off `B̂` over the points where `t` is invertible
-descends from the piece. (3) The factor of `A`
-cut out by the chosen factors is stable under each of their stabilisers. (4) Let `K'` be the
+descends from the piece. (3) Contract each chosen local prime to `A`. A common branch prime
+contracts to the same prime of `A` along both sides of an edge; the patch graph is connected,
+so all chosen primes contract to one prime `𝔪`. Each local factor stabiliser fixes `𝔪`.
+Generation makes `𝔪` fixed by all of `G`, and transitivity of `G` on the factors of a `G`-Galois
+algebra forces `A` to be a field. Hence its normalization `Y` is connected. (4) Let `K'` be the
 algebraic closure of `K` in the function field of `Y` and `T'` the integral closure of `T` in it, so
 `T' ⊆ H⁰(Y, 𝒪_Y)`. As `k` is algebraically closed, `T'` is totally ramified of degree `[K' : K]` over
 `T`, so `t` is a unit times the `[K' : K]`-th power of a function on `Y`, and the closed fibre of `Y`
 is nonreduced along every component when `K' ≠ K`; it is reduced over a generic point of `X` where
 `Y → X̂` is étale. Sources: [Harbater–Hartmann](https://arxiv.org/pdf/0710.1392v1), Theorems 5.7–5.9
 and Proposition 5.11, pp. 15–17; Theorem 6.1, pp. 18–19; Theorem 7.1(v), p. 22;
+§7.2, proof of Theorem 7.3, pp. 24–26 (induced factors and their common branch prime);
 [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), §3.3, sketches of Theorems 3.8
 and 3.13 and of the general case, PDF pp. 11–13 (the patching steps that consume this contract);
 [EGA IV₂](https://www.numdam.org/item/PMIHES_1965__24__5_0/), Corollaire (6.14.5) (normalization and
@@ -6351,6 +6530,15 @@ SchemeAndStackFoundations Layers 0, 1 and 3 (excellence, normalization, faithful
 - If every piece is the split cover `⨿_{g∈G}` of its patch, glued by the identity, then `Y` is
   `⨿_{g∈G} X̂`, which is disconnected for `G ≠ 1`: the generation hypothesis of (3) fails, every
   stabiliser being trivial.
+- For `T = ℂ[[t]]` and `K = ℂ((t))`, the quadratic extension
+  `K(x)(√((x+t)/x))` on `ℙ¹_T` is a field at the patch `P` with `x = 0`, since `(x+t)/x` has odd
+  `x`-valuation, and splits on the complementary patch `U`, where `1+t/x` has a Hensel square
+  root. It also splits over the branch field. The field factor's idempotent `1` becomes `(1,1)`
+  there, whereas a chosen factor of the split complementary algebra has a primitive idempotent.
+  A branch prime nevertheless contracts to the selected primes on both sides; the stabilisers
+  `C₂` and `1` generate `C₂`. The only compatible global idempotents are `0` and `1`, as connectedness
+  requires. Equality of the whole extended factors would exclude this example. Its horizontal
+  branch divisor consists of the sections `x = 0` and `x = −t`.
 - The étaleness hypothesis of (4) is needed: for `2` invertible in `k` and `T' = T[s]/(s² − t)`, the
   cover `ℙ¹_{T'} → ℙ¹_T` is a connected `C₂`-cover étale over all of `ℙ¹_K` (so `B̂ = ∅`), but its
   function field contains `K(√t)`; its closed fibre is nonreduced, so it is étale over no point of `X`.
@@ -6524,7 +6712,9 @@ induction, make their inertia at `∞` a `p`-group inside `S` by pulling back al
 `ℙ¹_K` whose fixed branch divisor is the section `∞_T`. The pieces are the thickenings of the realized
 covers, induced to `G`, and a piece with inertia `S` at the patch through `∞_T`, with boundary
 isomorphisms identifying their local extensions at `∞`; every piece is étale over the generic-fibre
-points of its patch off `∞_T`. Constructing these pieces and isomorphisms is part of this target. By
+points of its patch off `∞_T`. Choose factors containing the identified inertia extensions;
+under the boundary isomorphisms their primes have common branch primes as in condition (3).
+Constructing these pieces, choices and isomorphisms is part of this target. By
 that contract the patched `G`-cover of `ℙ¹_K` is étale over `𝔸¹_K`, connected because the realized
 subgroups generate `G`, and geometrically connected because a thickened piece is étale over the
 generic point of the closed fibre; specialize it (*Specialization of covers from `k((t))` to `k`*).
@@ -6567,7 +6757,8 @@ branch divisor is the pair of sections `0_T` and `∞_T`. The pieces are the `P 
 thickened `p(G)`-cover, both induced to `G`, with the boundary isomorphism identifying the completion
 of the latter at `∞` with the local extension of the former at the chosen `K`-point; every piece is
 étale over the generic-fibre points of its patch off `0_T` and `∞_T`. The choice of patches and of
-this isomorphism is part of this target. By that contract the patched `G`-cover is étale over
+this isomorphism, with selected factor primes contracting from a common branch prime, is part of
+this target. By that contract the patched `G`-cover is étale over
 `𝔸¹_K − {0}`, tame over `0`, connected because `p(G)` and `P ⋊ C` generate `G`, and geometrically
 connected because the thickened piece is étale over the generic point of the closed fibre. Specialize
 with *Specialization of covers from `k((t))` to `k`*. Source:
@@ -6607,7 +6798,8 @@ the union of the constant sections through the points of `D`, so that the tame r
 matches that of `f` at `ξ`, with the split local pieces matched when `C₀ = 1`, and all branch
 points remain in `D`: the boundary isomorphism at the image of `ξ`
 identifies the inertia extensions, and every piece is étale over the generic-fibre points of its
-patch off those sections. By that contract the result is a `G`-cover of `C_K` étale over `U_K`,
+patch off those sections. The selected factors have a common branch prime via the identified
+inertia extension, also when it is split. By that contract the result is a `G`-cover of `C_K` étale over `U_K`,
 connected since `H` and `Ḡ` generate `G`, and geometrically connected since the thickening of `f` is
 étale over the generic point of the closed fibre. Specialize with *Specialization of covers from
 `k((t))` to `k`*. The group-theoretic reductions, the matching of inertia at `ξ`, the choice of patches

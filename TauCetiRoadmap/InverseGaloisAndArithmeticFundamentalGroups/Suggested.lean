@@ -967,7 +967,10 @@ Layer IG.3: `ArtinNeighborhood`, `BranchCover`, `CoverDescent`, `HurwitzMove.equ
 `ReducedSchur.schurRelations`, `ReducedSchur.reducedMultiplier`, `ReducedSchur.schurRelations_empty`, the
 reduced Schur cover and the marked fibre product, the unit action, and stable classification.
 Layer IG.4: proper embedding problems with local prescriptions, Galois localization kernels,
-finite Poitou–Tate, Grunwald–Wang, free operator shrinking, `BrauerManinSet`, torus types and
+absolute finite Poitou–Tate, the restricted-ramification localization adapter with its mixed row
+for full old local classes and new ramification classes, the auxiliary cokernel comparison with
+its splitting-field hypotheses and finite-group homology maps, Grunwald–Wang, free operator
+shrinking, `BrauerManinSet`, torus types and
 Brauer–Manin descent for cyclic stabiliser quotients, the quotient fibration and smaller stabiliser,
 Brauer–Manin fibration density over a quasi-trivial torus, Brauer–Manin density for supersolvable
 stabilisers, collectively coprime degrees of ordinary field realizations, unramified Brauer classes
@@ -976,7 +979,8 @@ of finite quotients of `SL_n`, unramified
 Layer IG.5: topological and arithmetic Hurwitz spaces, tame `G`-covers of smooth proper target
 curves of arbitrary genus, the general-genus Hurwitz comparison for the smooth admissible locus
 and versal families, admissible `G`-covers, the cohomological comparisons, component invariants, patching of Galois algebras and of covers with a
-fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine curves, and
+fixed branch divisor (connectedness uses chosen local primes with a common branch prime and
+generating stabilisers), the Euler characteristic of `ℓ`-torsion local systems on affine curves, and
 the steps of Serre, Raynaud and Harbater towards Abhyankar's conjecture.
 Layer IG.6: `FieldRealization.transport`, specialization of realizations, generic-polynomial universality.
 Further API targets specified in the README (IG.2.1–IG.2.3, IG.3.4–IG.3.5):
