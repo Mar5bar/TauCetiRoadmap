@@ -139,12 +139,14 @@ point-counting applications consume these shared maps and comparisons.
   with arbitrary base change, and §A4.5 `BarsottiTate.ofAbelian` supplies its height-2g tower.
 - CrystallineCohomology §CR.4.7, *Slope decomposition on the existing isocrystal carrier*,
   owns standard cyclic blocks, the full Dieudonné–Manin classification over algebraically closed
-  fields, different-slope Hom vanishing and slope descent to perfect fields. §CR.7.2 owns the
-  crystalline Dieudonné crystal of a Barsotti–Tate group, its
-  variance, Frobenius, Verschiebung and twists, and Grothendieck–Messing deformation theory; §CR.7.3
-  owns relative crystalline direct images; DerivedDeRhamCohomology §§PD.1–PD.7 own divided-power envelopes and universal
-  thickenings. The classical Dieudonné theory of R07.2 over a perfect field is the evaluation of
-  that crystal at `W(k)`, and §R07.2 proves the classification theorems, which CR.7 does not state.
+  fields, different-slope Hom vanishing and slope descent to perfect fields. §CR.7.3 owns
+  relative crystalline direct images; DerivedDeRhamCohomology §§PD.1–PD.7 own divided-power
+  envelopes and universal thickenings.
+- AbelianSchemesAndArithmeticModuli §A4.CR.7.2 owns the crystalline Dieudonné crystal of a
+  Barsotti–Tate group, its variance, Frobenius, Verschiebung and twists, and Grothendieck–Messing
+  deformation theory. Its public namespace is `TauCetiRoadmap.CrystallineCohomology`. The classical
+  Dieudonné theory of R07.2 over a perfect field evaluates this crystal at `W(k)`; §R07.2 owns the
+  classification theorems.
 - PadicPeriodRings owns the early period-ring foundations: the completed algebraic closure,
   its continuous Galois action, normalized traces, Tate fixed points and twists (§§1–2),
   and the general-base topological period carriers, invariant functors and identities
@@ -216,7 +218,7 @@ the Colmez–Fontaine theorem from here.
   M/FM`, and `M_{a,b} = W[F, V]/(F^a − V^b)` has slope `b/(a + b)`: étale groups have slope `0` and
   multiplicative groups slope `1`. The covariant module is `M_cov(G) = M(G^D) ≅ M(G)^t`, with
   `M_cov(μ_{p^∞}) = (W, σ)`. This agrees with the evaluation at `W(k)` of the contravariant crystal
-  of CrystallineCohomology §CR.7.2. For σ_k(c) = c^p, write σ_k^*L = k ⊗_{k,σ_k} L,
+  of AbelianSchemesAndArithmeticModuli §A4.CR.7.2. For σ_k(c) = c^p, write σ_k^*L = k ⊗_{k,σ_k} L,
   so 1 ⊗ cℓ = c^p ⊗ ℓ. The tangent comparison is
   σ_k^*Lie(G) ≅ Hom_k(M/FM,k), or Lie(G) ≅ (σ_k^{−1})^*Hom_k(M/FM,k);
   §R07.2.20 gives its scalar map and the ordinary k-linear covariant quotient.
@@ -378,7 +380,11 @@ laws) with `FormalGroup.IsComm`.
   `BarsottiTate.dual`, `BarsottiTate.baseChange`, `BarsottiTate.ofAbelian` and
   `BarsottiTate.connectedEtale` as described above; Layer A3 (isogenies over a base, quotients by
   finite locally free subgroups, and §A3.2 `multiplicationAndDensity`, including finite locally
-  free A[n] of rank |n|^{2g} for integers n ≠ 0 and base change).
+  free A[n] of rank |n|^{2g} for integers n ≠ 0 and base change). §A4.CR.7.2 supplies
+  `LogCrystalline.dieudonneEvaluation` (evaluation of `D(G)` on divided-power thickenings,
+  contravariant, with `FV = VF = p`), the variance-and-twist values `D(ℚ_p/ℤ_p) = (W(k), σ)` and
+  `D(μ_{p^∞}) = (W(k), pσ)`, and Grothendieck–Messing (lifts of `G₀` along a locally PD-nilpotent
+  thickening on which p is locally nilpotent correspond to lifts of the Hodge filtration).
 - **CrystallineCohomology.** §CR.4.7 *Slope decomposition on the existing isocrystal carrier*
   supplies standard cyclic blocks, algebraically closed Dieudonné–Manin classification,
   different-slope Hom vanishing and perfect-field slope descent. §CR.5:log-algebra.4
@@ -387,11 +393,7 @@ laws) with `FormalGroup.IsComm`.
   separable generic-fibre algebra, if unramified above every height-one point, is étale. The source
   normality hypothesis is essential (Stacks Tag 0BMB). DerivedDeRhamCohomology §§PD.1–PD.7 (divided powers, envelopes,
   universal thickenings); §CR.7.1
-  (the Tate twist of coefficients with Frobenius and filtration); §CR.7.2
-  `LogCrystalline.dieudonneEvaluation` (evaluation of `D(G)` on divided-power thickenings,
-  contravariant, with `FV = VF = p`), the variance-and-twist values `D(ℚ_p/ℤ_p) = (W(k), σ)` and
-  `D(μ_{p^∞}) = (W(k), pσ)`, and Grothendieck–Messing (lifts of `G₀` along a nilpotent
-  divided-power thickening correspond to lifts of the Hodge filtration); §CR.7.3 (relative
+  (the Tate twist of coefficients with Frobenius and filtration); §CR.7.3 (relative
   crystalline direct images and base change).
 - **PadicPeriodRings.** §§1–2 and 4.1–4.3 supply `C_p`, `A_inf`, `θ`,
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
@@ -439,7 +441,7 @@ formal Lie groups and Tate's theorems using PadicPeriodRings §2, and then works
 bases: models, Raynaud's theory with its tame characters, Oort–Tate, gluing and descent.
 Layer R07.2 classifies over perfect fields by Dieudonné
 modules and reaches out to smooth, semiperfect and valuation-ring bases; its last targets use
-CrystallineCohomology §CR.7.2 for crystalline evaluation and deformation theory. Layer R07.3
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 for crystalline evaluation and deformation theory. Layer R07.3
 begins with the filtered `(φ, N)`-modules and weak admissibility that the rest of the roadmap
 uses, and builds Fontaine–Laffaille theory. Layer R07.4 builds Breuil–Kisin theory on
 R07.2 and R07.3, with Kedlaya's slope filtration as its analytic input, and classifies `p`-divisible
@@ -2372,8 +2374,8 @@ the standard and elliptic examples, slopes and the Dieudonné–Manin classifica
 and the isogeny classification of `p`-divisible groups. It then treats the Hasse invariant of a
 `BT₁`, smoothness of the stacks of truncated Barsotti–Tate groups and lifting along henselian pairs,
 universal covers, and the extensions of Dieudonné theory to smooth bases, `f`-semiperfect rings and
-perfect valuation rings, which use the crystalline Dieudonné crystal of CrystallineCohomology
-§CR.7.2. The coefficient statements (Frobenius-fixed Witt vectors and descent of characteristic
+perfect valuation rings, which use the crystalline Dieudonné crystal of AbelianSchemesAndArithmeticModuli
+§A4.CR.7.2. The coefficient statements (Frobenius-fixed Witt vectors and descent of characteristic
 polynomials) make Dieudonné modules over finite fields usable for point counts.
 
 ### R07.2.1 The canonical decomposition of finite commutative group schemes over a perfect field
@@ -2689,7 +2691,7 @@ W(k)-free Dieudonné modules of finite rank (free W(k)-modules with σ-linear F,
 VF = p). Moreover M(G_n) ≅ M(G)/p^n M(G), rank_{W(k)} M(G) = h, M is exact and commutes with perfect
 base change, and M(G^D) ≅ M(G)^t := Hom_{W(k)}(M(G), W(k)) with (Ff)(x) = σ(f(Vx)) and (Vf)(x) =
 σ^{−1}(f(Fx)). The crystalline adapter in §R07.2.20 identifies this scalar normalization with
-D(G)_{W(k)} of CrystallineCohomology §CR.7.2, preserving the ordinary W(k)-scalar action,
+D(G)_{W(k)} of AbelianSchemesAndArithmeticModuli §A4.CR.7.2, preserving the ordinary W(k)-scalar action,
 Cartier pairing, F, V, group-map variance and perfect-field base change. The pairing satisfies
 ⟨Fx,F^t f⟩ = pσ⟨x,f⟩; rationally this is D(G^D) ≅ D(G)^∨(−1).
 
@@ -2736,8 +2738,8 @@ dim G^D = dim_k M/VM. The exact sequence then gives the height formula, recoveri
 §R07.1.15 over perfect fields. The crystalline Hodge identification and its scalar-explicit
 comparison with Hom_k(M/FM,k) are the adapter of §R07.2.20.
 (Yu 2026, §2.1, pp. 2–3: height and the Lie-space carrier; Pink 2005, §23,
-Proposition 23.1 and §28, Proposition 28.4: its scalar transport; CrystallineCohomology
-§CR.7.2, *Grothendieck–Messing deformation theory*: the Hodge exact sequence.)
+Proposition 23.1 and §28, Proposition 28.4: its scalar transport; AbelianSchemesAndArithmeticModuli
+§A4.CR.7.2, *Grothendieck–Messing deformation theory*: the Hodge exact sequence.)
 
 *Needs:* §R07.2.10; §R07.2.9; §R07.1.14; §R07.1.15.
 
@@ -3051,7 +3053,7 @@ Berthelot–Breen–Messing, Theorem 4.2.14, as stated in
 [Panny–Robert–Sferlazza, Appendix B](https://www.math.u-bordeaux.fr/~damienrobert/pro/publications/articles/lifting_traces.pdf),
 p. 36: the σ_W pullback of the covector realization;
 de Jong 1995, Propositions 2.5.2 and 2.5.5, pp. 27–28: Verschiebung image and Hodge filtration;
-CrystallineCohomology §CR.7.2, *Dieudonné variance and Tate twists* and
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2, *Dieudonné variance and Tate twists* and
 *Grothendieck–Messing deformation theory*, for Cartier duality and the Hodge quotient;
 Caraiani–Scholze 2017, §4.1, after Proposition 4.1.2 and Example 4.1.3, p. 691:
 the normalization φ = p^{−1}F.)
@@ -3073,7 +3075,7 @@ The API:
 - `linearDualModule`: Over F_p: D^lin(G) = Hom_{ℤ_p}(M(G), ℤ_p) with F_D = F^T, V_D = V^T.
 
 *Needs:* §R07.2.10; §R07.1.7; §R07.2.12; §R07.2.11; §R07.2.16;
-CrystallineCohomology §CR.7.2 (Cartier pairing and Hodge exact sequence).
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Cartier pairing and Hodge exact sequence).
 
 **Checks.**
 
@@ -3144,7 +3146,7 @@ The API:
 ### R07.2.22 The Hasse–Witt maps of a BT₁ and of its dual: the exact sequence of complexes
 
 Prove `bt1HasseWittDuality`. Let S be an F_p-scheme, G a BT₁ over S and 𝓔 = D(G)_S the evaluation on
-S of the contravariant crystalline Dieudonné crystal (CrystallineCohomology CR.7), locally free with
+S of the contravariant crystalline Dieudonné crystal (AbelianSchemesAndArithmeticModuli §A4.CR.7.2), locally free with
 Hodge filtration 0 → ω_G → 𝓔 → ω_{G^D}^∨ → 0. The linearised F\* : 𝓔^{(p)} → 𝓔 and V\* : 𝓔 → 𝓔^{(p)}
 satisfy ker F\* = ω_G^{(p)} = im V\* and ker V\* = im F\*, so the complex (ω_{G^D}^∨)^{(p)} →F\* 𝓔
 →V\* ω_G^{(p)} is exact, and the rows [ω_G →V\*_G ω_G^{(p)}], [(ω_{G^D}^∨)^{(p)} → 𝓔 → ω_G^{(p)}],
@@ -3159,7 +3161,7 @@ coker V\*_G ≅ (ker V\*_{G^D})^∨. Ranks agree only when dim G = dim G^D.
 
 For a `BT₁` `G`, `D(G)` is defined from a resolution `0 → G → H → H′ → 0` by Barsotti–Tate groups
 (Raynaud's embedding, §R07.1.40) as the cokernel of `D(H′) → D(H)` for the crystal of
-CrystallineCohomology §CR.7.2, independently of the resolution (Berthelot–Breen–Messing); this
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2, independently of the resolution (Berthelot–Breen–Messing); this
 extension of the crystal to truncated groups is part of this target. Its local freeness for a BT₁
 and the exactness of F\*, V\* hold after base change to perfect fields and hence on S (Cais–Lau,
 (2.4.2)).
@@ -3178,8 +3180,8 @@ of the sequence is general; Cais–Lau 2017, §2.4, (2.4.2), Definition 2.4.1 an
 pp. 10–11 (arXiv:1412.3174v2): exactness of the F–V complex of a Dieudonné crystal by reduction to
 perfect fields; the Hodge filtration and its compatibility with duality.)
 
-*Needs:* §R07.2.21; §R07.1.40; §R07.2.8; §R07.1.10; CrystallineCohomology §CR.7.2 (the crystalline
-Dieudonné crystal); CrystallineCohomology §CR.7.2 (Dieudonné variance and Tate twists).
+*Needs:* §R07.2.21; §R07.1.40; §R07.2.8; §R07.1.10; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline
+Dieudonné crystal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Dieudonné variance and Tate twists).
 
 **Checks.**
 
@@ -3207,7 +3209,7 @@ Lemma 6.3.1.1 and proof, p. 30).
 
 Smoothness of `BT_n^h` is Illusie's theorem (*Déformations de groupes de Barsotti–Tate*, Astérisque
 127, Théorème 4.4), and smoothness of the truncation maps is due to Wedhorn and Lau; both are part
-of this target. Grothendieck–Messing deformation theory is CrystallineCohomology §CR.7.2.
+of this target. Grothendieck–Messing deformation theory is AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
 
 *Proof sketch.* Deformations of a BT_n along a square-zero thickening are unobstructed (Illusie,
 Théorème 4.4: the obstruction to deforming a truncated Barsotti–Tate group lies in a group that
@@ -3222,7 +3224,7 @@ BT_{n−1}^h is smooth (citing Illusie Thm 4.4 and Wedhorn §2); Pilloni 2020, �
 6.3.1.1, p. 30: the stack of quasi-polarised BT₁ is smooth with dense ordinary locus (citing
 Illusie, Astérisque 127).)
 
-*Needs:* §R07.2.21; §R07.1.10; §R07.1.11; CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation
+*Needs:* §R07.2.21; §R07.1.10; §R07.1.11; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation
 theory).
 
 **Checks.**
@@ -3343,7 +3345,7 @@ Here "up to isogeny" means after `⊗ ℚ` on Hom groups.
 nilpotent, a fixed power of p kills both the obstruction to lifting a homomorphism and the
 difference of two lifts (Drinfeld's rigidity, as used by Scholze–Weinstein); essential surjectivity:
 p-divisible groups lift along nilpotent thickenings (§R07.2.24, or Grothendieck–Messing,
-CrystallineCohomology §CR.7.2). G̃(R) = Hom_R(ℚ_p/ℤ_p, G)[1/p], so the statement for G̃ is the
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2). G̃(R) = Hom_R(ℚ_p/ℤ_p, G)[1/p], so the statement for G̃ is the
 equivalence up to isogeny applied to homomorphisms with source ℚ_p/ℤ_p (Scholze–Weinstein,
 Proposition 3.1.3(ii), proof). For S ∈ Nilp_A, S → S/p has nilpotent kernel; apply the previous
 step. (Scholze–Weinstein 2013, §3.1, Proposition 3.1.3(ii) and Remark 3.1.4, p. 22 (arXiv v2):
@@ -3352,7 +3354,7 @@ Caraiani–Scholze 2017, §4.1, proof of Proposition 4.1.2 (p. 691); §4.2, the 
 before Definition 4.2.1 and the proof of Lemma 4.2.10 (pp. 699, 704): the uses: X̃_b ≅ G̃ through a
 quasi-isogeny mod p, and Aut(X̃_b)(R) = Aut(X̃_b)(R/p).)
 
-*Needs:* §R07.2.25; §R07.2.24; CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation
+*Needs:* §R07.2.25; §R07.2.24; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation
 theory).
 
 **Checks.**
@@ -3367,7 +3369,7 @@ theory).
 
 Prove `deJongDieudonneEquivalence`. Let 𝔛 be a formal scheme of characteristic p, formally smooth
 over F_p, whose reduction is locally of finite type over a field with a finite p-basis. Then the
-crystalline Dieudonné functor G ↦ D(G) (CrystallineCohomology §CR.7.2) is an anti-equivalence from
+crystalline Dieudonné functor G ↦ D(G) (AbelianSchemesAndArithmeticModuli §A4.CR.7.2) is an anti-equivalence from
 p-divisible groups over 𝔛 to Dieudonné crystals over 𝔛 (de Jong's Main Theorem 1); in particular
 over a regular scheme of finite type over such a field, and over a field E finitely generated over
 F_p. If S is reduced of finite type over a field with a finite p-basis, Hom(D(G₂), D(G₁)) =
@@ -3384,7 +3386,7 @@ the relative crystalline cohomology of CrystallineCohomology §CR.7.3.
 *Proof sketch.* Full faithfulness over formally smooth bases with a p-basis: Berthelot–Messing,
 transferred to formal schemes (de Jong, Chapter 2). Essential surjectivity: induction on dimension,
 using deformations of Dieudonné crystals and of p-divisible groups (de Jong, Chapter 3, with
-Grothendieck–Messing, CrystallineCohomology §CR.7.2) and the field case (Chapter 4). Main Theorem 2
+Grothendieck–Messing, AbelianSchemesAndArithmeticModuli §A4.CR.7.2) and the field case (Chapter 4). Main Theorem 2
 by gluing over the singular locus with Berthelot's convergent isocrystals and rigid geometry
 (Chapters 5–7). The abelian-scheme statement: BBM 2.5.6(ii); the unit-root part is the slope-zero
 sub-F-crystal, which is D of the étale quotient because D is exact and sends étale groups to
@@ -3395,8 +3397,8 @@ of finite type; D'Addezio 2023, §5.1, proof of Theorem 5.1.6, p. 25; §5.2, pro
 p. 26 (arXiv:2012.12879v4): R¹f_crys O_A = D(A[p^∞]) (BBM 2.5.6(ii)), its unit-root part, and the
 use of de Jong's full faithfulness for an abelian variety over a finitely generated field.)
 
-*Needs:* §R07.2.10; CrystallineCohomology §CR.7.2 (the crystalline Dieudonné crystal);
-CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation theory); CrystallineCohomology
+*Needs:* §R07.2.10; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline Dieudonné crystal);
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation theory); CrystallineCohomology
 §CR.7.3 (relative crystalline direct images).
 
 **Checks.**
@@ -3420,7 +3422,7 @@ faithful on p-divisible groups. Consequently, for G, G′ over a perfect field k
 k-algebra R, Hom_R(G, G′)[1/p] = (Hom(D(G)[1/p], D(G′)[1/p]) ⊗ B⁺_cris(R))^{φ=1}, and H̃(R) = (D(H)
 ⊗ B⁺_cris(R))^{φ=1} for every p-divisible group H over k (covariant D, as in Caraiani–Scholze).
 
-Here `D` is the Dieudonné crystal of CrystallineCohomology §CR.7.2, in the covariant normalisation
+Here `D` is the Dieudonné crystal of AbelianSchemesAndArithmeticModuli §A4.CR.7.2, in the covariant normalisation
 of Scholze–Weinstein (§R07.2.20), evaluated on `A_cris(R)`.
 
 *Proof sketch.* Reduce to R = S/J with S perfect, by invariance under isogenies of semiperfect rings
@@ -3437,7 +3439,7 @@ and integrally for quotients of perfect rings by regular ideals (Theorem A); Car
 §4.1, proof of Lemma 4.1.8, p. 695: the formulas for Hom_R(G, G′)[1/p] and H̃(R) in terms of
 B⁺_cris(R).)
 
-*Needs:* §R07.2.25; §R07.2.10; §R07.2.20; CrystallineCohomology §CR.7.2 (the crystalline Dieudonné
+*Needs:* §R07.2.25; §R07.2.10; §R07.2.20; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline Dieudonné
 crystal); DerivedDeRhamCohomology §§PD.1–PD.7 (divided powers and universal thickenings).
 
 **Checks.**
@@ -3556,7 +3558,8 @@ local rings are fields or valuation rings; Caraiani–Scholze 2017, §4.2, proof
 ### Dependencies
 
 Layer R07.1; DerivedDeRhamCohomology §§PD.1–PD.7;
-CrystallineCohomology §§CR.4.7, CR.7.2–CR.7.3; Mathlib `WittVector` with
+CrystallineCohomology §§CR.4.7, CR.7.3;
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2; Mathlib `WittVector` with
 Frobenius, Verschiebung, `WittVector.Isocrystal` and `isocrystal_classification`; Tau Ceti Cartier
 duality.
 
@@ -5168,8 +5171,8 @@ from p-divisible groups over 𝒪_K to BT^φ_{/S}; it is an anti-equivalence if 
 anti-equivalence of isogeny categories if p = 2.
 
 The setting is the Kummer frame of §R07.4.1. The Dieudonné crystal of a p-divisible group over a
-non-perfect base and Grothendieck–Messing deformation theory are those of CrystallineCohomology
-§CR.7.2. Kisin's proof of (ii) builds a p-divisible group over 𝒪_K/πⁱ step by step using R_i =
+non-perfect base and Grothendieck–Messing deformation theory are those of AbelianSchemesAndArithmeticModuli
+§A4.CR.7.2. Kisin's proof of (ii) builds a p-divisible group over 𝒪_K/πⁱ step by step using R_i =
 W[u]/uⁱ as a PD thickening and Grothendieck–Messing (Kisin 2006, A.6, proof).
 
 *Construction.* (i): Tor₁^𝔖(S/Fil¹S, 𝔐) = 0 for 𝔐 free, so Fil¹S ⊗ 𝔐 ⊆ S ⊗ 𝔐 and Fil¹𝓜 is well
@@ -5189,8 +5192,8 @@ The API:
 - `BreuilModule.ofPDivisible`: G ↦ 𝔻(G)(S), exact and contravariant.
 - `BreuilModule.frob`: φ(x) = φ₁(E(u))⁻¹φ₁(E(u)x).
 
-*Needs:* §R07.4.1; §R07.4.2; §R07.1.6; CrystallineCohomology §CR.7.2 (the crystalline Dieudonné
-crystal); CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation theory).
+*Needs:* §R07.4.1; §R07.4.2; §R07.1.6; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline Dieudonné
+crystal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation theory).
 
 **Checks.**
 
@@ -5226,7 +5229,7 @@ use preservation of crystallinity by duals. (Faltings 1999, Theorem 7, as quoted
 Kisin 2006, §2.2.4, Lemma (2.2.4), p. 26: the period pairing.)
 
 *Needs:* PadicPeriodRings §§4.1–4.3 `generalBasePeriodRings`; §R07.1.8; §R07.2.10;
-CrystallineCohomology §CR.7.2 (the contravariant crystal, base change and Hodge filtration).
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the contravariant crystal, base change and Hodge filtration).
 
 **Checks.**
 
@@ -5483,7 +5486,7 @@ attributes the deduction to Breuil [Bre02, Theorem 3.4.3].)
 Prove `bkIntegralComparisons`. For a p-divisible group H over O_K let M(H) = 𝔐(T_p(H)^∨) (the Kisin
 functor of §R07.4.16 on the dual Tate module; T_p(H^∨) ≅ T_p(H)^∨(1) differs by a twist). Then H ↦
 M(H) is an exact contravariant equivalence from p-divisible groups over O_K to Breuil–Kisin modules
-of E-height 1, and, with D(H) the contravariant Dieudonné crystal (CrystallineCohomology §CR.7.2)
+of E-height 1, and, with D(H) the contravariant Dieudonné crystal (AbelianSchemesAndArithmeticModuli §A4.CR.7.2)
 and Fil¹D(H)(O_K) = Lie(H)^∨: (1) the composite φ\*M(H)/uφ\*M(H) → M(H)/uM(H)[1/p] ≅
 D_cris(T_p(H)^∨) ≅ D(H)(W)[1/p], whose first map is φ_{M(H)}, carries φ\*M(H)/uφ\*M(H)
 isomorphically onto D(H)(W) (D of the reduction to the residue field); (2) the filtered isomorphism
@@ -5505,7 +5508,7 @@ rational identifications of §R07.4.16 (AGHMP, Theorem 2.1.1, proof, from Kisin'
 (arXiv:1508.00178v3): the equivalence H ↦ M(T_p(H)^∨) onto Breuil–Kisin modules of E-height 1 and
 the integral comparisons (1)–(3), correcting the twist of Kisin 2010, Theorem 1.4.2.)
 
-*Needs:* §R07.4.16; §R07.4.21; §R07.4.23; §R07.4.18; CrystallineCohomology §CR.7.2 (the crystalline
+*Needs:* §R07.4.16; §R07.4.21; §R07.4.23; §R07.4.18; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline
 Dieudonné crystal).
 
 **Checks.**
@@ -5533,7 +5536,7 @@ M_KR(V) = N_r(V) by the recursion N_{i+1} = φ\*(N_i)[E_r(u)^{−1}] ∩ N_i, N�
 M_KR = N for r = 1, and for T = T_p(G)^∨, M(G) = 𝔖 ⊗ M_KR(T).
 
 The case `K = K₀` (`r = 1`) is the comparison of the Wach module with the Breuil–Kisin-type module
-that PadicHodgeTheory uses; Dieudonné crystals are those of CrystallineCohomology §CR.7.2.
+that PadicHodgeTheory uses; Dieudonné crystals are those of AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
 
 *Proof sketch.* Evaluate the Dieudonné crystal on the PD frame S (p-adic completion of the PD
 envelope of E𝔖_cyc) to get a window with Γ_K-action (Cais–Lau, Proposition 2.5.2 with the filtered
@@ -5547,9 +5550,9 @@ E_n(u) (Cais–Lau, Proposition 4.5.2 and Remark 4.5.3). (Cais–Lau 2017, §1, 
 windows behind it; Cais–Lau 2017, §4.5, (4.5.1), Proposition 4.5.2 and Remark 4.5.3, pp. 31–32: Wach
 modules, Kisin–Ren modules and their comparison with M(G).)
 
-*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4; CrystallineCohomology §CR.7.2 (the
+*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the
 crystalline Dieudonné crystal);
-CrystallineCohomology §CR.7.2 (Grothendieck–Messing deformation theory); §R07.P5 (`dCris`, `IsCrystalline`).
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation theory); §R07.P5 (`dCris`, `IsCrystalline`).
 
 **Checks.**
 
@@ -6219,7 +6222,7 @@ in (1.2.7), since D_cris and V_cris commute with ⊗_A N (1.3.5). (Kisin 2009, �
 
 ### Dependencies
 
-Layers R07.2 and R07.3; CrystallineCohomology §CR.7.2 (Dieudonné crystal, Grothendieck–Messing);
+Layers R07.2 and R07.3; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Dieudonné crystal, Grothendieck–Messing);
 §§R07.P2–R07.P5 and PadicPeriodRings §§1–2; §R07.3.0;
 TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.ProfiniteCohomology Layer 9; Mathlib
 `PowerSeries`, `Polynomial.IsEisensteinAt`, `AdicCompletion`, `WittVector`, `PreTilt`,
