@@ -16,6 +16,7 @@ import Mathlib.Analysis.Distribution.TemperedDistribution
 import Mathlib.Analysis.SpecialFunctions.Complex.Log
 import Mathlib.Topology.Algebra.PontryaginDual
 import Mathlib.NumberTheory.LSeries.Basic
+import Mathlib.NumberTheory.DirichletCharacter.GaussSum
 import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
 import Mathlib.Analysis.Meromorphic.Order
 import Mathlib.Analysis.Meromorphic.Divisor
@@ -63,6 +64,17 @@ def pairingAnnihilator (ψ : AddChar R Circle) (L : V →ₗ[R] W →ₗ[R] R)
 -- TauCeti.LocalFourier.pairingAnnihilator_zmod_two
 example : pairingAnnihilator (ZMod.toCircle (N := 2))
     (LinearMap.mul (ZMod 2) (ZMod 2)) ⊤ = ⊥ := by sorry
+
+-- TauCeti.LocalFourier.pairingAnnihilator_trivial_character
+example : pairingAnnihilator (1 : AddChar R Circle)
+    (LinearMap.mul R R) (⊤ : AddSubgroup R) = ⊤ := by sorry
+
+-- TauCeti.LocalFourier.pairingAnnihilator_zmultiples_eq_kernel
+example (ψ : AddChar R Circle) : pairingAnnihilator ψ (LinearMap.mul R R)
+    (AddSubgroup.zmultiples (1 : R)) = ψ.toAddMonoidHom.ker := by sorry
+
+-- TauCeti.AutomorphicLFunctions.AL0.AdditiveDualityMap.zero
+example (ψ : AddChar R Circle) (x : R) : AddChar.mulShift ψ 0 x = 1 := by sorry
 
 -- TauCeti.LocalFourier.pairingAnnihilator_not_real_submodule
 example :
@@ -248,7 +260,15 @@ example {F : Type*} [MeasurableSpace F] (μ₀ : Measure F)
 -- TauCeti.AutomorphicLFunctions.AL0.SelfDualHaar.complex_trace
 example : (∫ z : ℂ, Complex.exp (-2*Real.pi*(‖z‖ : ℂ)^2)) = (1/2 : ℂ) := by sorry
 
+-- TauCeti.AutomorphicLFunctions.AL0.AdditiveDualityMap.real_half
+example : AddChar.mulShift Real.fourierChar (1/2 : ℝ) 1 = -1 := by sorry
+-- TauCeti.AutomorphicLFunctions.AL0.AdditiveDualityMap.zmod_two
+example : Function.Bijective (fun y : ZMod 2 =>
+    AddChar.mulShift (ZMod.toCircle (N := 2)) y) := by sorry
 -- TauCeti.AutomorphicLFunctions.AL0.AdditiveDualityMap.trivial_character
+example : AddChar.mulShift (1 : AddChar ℝ Circle) (1 : ℝ) =
+    AddChar.mulShift (1 : AddChar ℝ Circle) 0 := by sorry
+
 /-- The order variable is complex; the argument is positive real in the public API. -/
 def BesselK (ν : ℂ) (c : ℝ) : ℂ :=
   (1/2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
@@ -266,6 +286,8 @@ theorem BesselK.half {c : ℝ} (hc : 0 < c) :
 
 -- TauCeti.AutomorphicLFunctions.AL0.BesselK.half_at_one
 example : BesselK (1/2) 1 = (Real.sqrt (Real.pi/2)/Real.exp 1 : ℝ) := by sorry
+-- TauCeti.AutomorphicLFunctions.AL0.BesselK.negative_half_at_two
+example : BesselK (-1/2) 2 = (Real.sqrt (Real.pi/4)*Real.exp (-2) : ℝ) := by sorry
 -- TauCeti.AutomorphicLFunctions.AL0.BesselK.zero_order_positive
 example {c : ℝ} (hc : 0 < c) : 0 < (BesselK 0 c).re := by sorry
 -- TauCeti.AutomorphicLFunctions.AL0.BesselK.not_even_in_argument
@@ -277,6 +299,9 @@ def negativeEi (r : ℝ) : ℝ := -(∫ t : ℝ in Set.Ioi r, Real.exp (-t)/t)
 example {r : ℝ} (hr : 0 < r) : negativeEi r < 0 := by sorry
 
 example : deriv negativeEi 2 = Real.exp (-2) / 2 := by sorry
+
+-- TauCeti.AutomorphicLFunctions.AL0.negativeEi.tendsto_atTop
+example : Filter.Tendsto negativeEi Filter.atTop (𝓝 0) := by sorry
 
 theorem BesselHalfOrderDerivative {c : ℝ} (hc : 0 < c) :
     deriv (fun ν : ℂ => BesselK ν c) (1/2) =
@@ -453,6 +478,11 @@ def completedHeckeL {ι : Type*} (L : ι → ℂ → ℂ) (s : ℂ) : ℂ := ∏
 def partialHeckeL {ι : Type*} (S : Set ι) (L : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏' v : {v // v ∉ S}, L v.1 s
 
+/-- Epsilon of the real character sgn^a times a norm twist, for the positive Tate character. -/
+def realStandardEpsilon (a : Fin 2) : ℂ := Complex.I^a.val
+
+example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by sorry
+
 /-- The global epsilon product over the supplied exceptional places. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
@@ -461,6 +491,15 @@ example : globalEpsilon (∅ : Finset (Fin 2)) (fun _ _ => 2) 0 = 1 := by sorry
 
 example : globalEpsilon (Finset.univ : Finset (Fin 2))
     (fun i _ => if i = 0 then Complex.I else -Complex.I) 0 = 1 := by sorry
+
+-- TauCeti.TateZeta.globalEpsilon_conductor_four
+/-- The conductor-four quadratic character has negative-character Gauss sum -2i at 2. -/
+example (χ : DirichletCharacter ℂ 4) (h₃ : χ 3 = -1) :
+    gaussSum χ (ZMod.stdAddChar.mulShift (-1)) = -2*Complex.I ∧
+    gaussSum χ (ZMod.stdAddChar.mulShift (-1))/2 = -Complex.I ∧
+    globalEpsilon (Finset.univ : Finset (Fin 2))
+      (fun v _ => if v = 0 then realStandardEpsilon 1 else
+        gaussSum χ (ZMod.stdAddChar.mulShift (-1))/2) (1/2) = 1 := by sorry
 
 theorem norm_globalEpsilon_half {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ)
     (h : ∀ v ∈ S, ‖ε v (1/2)‖ = 1) : ‖globalEpsilon S ε (1/2)‖ = 1 := by sorry
@@ -773,23 +812,33 @@ def NormalizedRsPeriod {V : Type*} [AddCommGroup V] [Module ℂ V]
     (quotient : ℂ → V →ₗ[ℂ] ℂ) : V →ₗ[ℂ] ℂ := quotient 0
 
 
-/-- A local formal factor. Global coefficients depend only on places of degree ≤k. -/
+/-- A positive-degree local Euler factor has constant coefficient one.
+    Global coefficients depend only on places of degree ≤k. -/
 def ffRsLocalFactor {ι κ : Type*} [Fintype ι] [Fintype κ]
-    (α : ι → ℂ) (β : κ → ℂ) (d : ℕ) : PowerSeries ℂ :=
+    (α : ι → ℂ) (β : κ → ℂ) (d : ℕ) (_hd : 0 < d) : PowerSeries ℂ :=
   ∏ i, ∏ j, (1-PowerSeries.C (α i/(β j))*PowerSeries.X^d)⁻¹
 
+/-- Positive degree makes every inverse local denominator have constant term one. -/
+theorem ffRsLocalFactor.constantCoeff {ι κ : Type*} [Fintype ι] [Fintype κ]
+    (α : ι → ℂ) (β : κ → ℂ) (d : ℕ) (hd : 0 < d) :
+    PowerSeries.constantCoeff (ffRsLocalFactor α β d hd) = 1 := by sorry
+
+-- Degree zero is excluded from ffRsLocalFactor.
+example : PowerSeries.constantCoeff
+    ((1-PowerSeries.C (2/3 : ℂ)*PowerSeries.X^0 : PowerSeries ℂ)⁻¹) = 3 := by sorry
+
 -- TauCeti.AutomorphicLFunctions.AL3.FunctionFieldRsEulerProduct.rank_one
-example (d : ℕ) : ffRsLocalFactor (fun _ : Fin 1 => (2 : ℂ))
-    (fun _ : Fin 1 => (3 : ℂ)) d =
+example (d : ℕ) (hd : 0 < d) : ffRsLocalFactor (fun _ : Fin 1 => (2 : ℂ))
+    (fun _ : Fin 1 => (3 : ℂ)) d hd =
       (1-PowerSeries.C (2/3 : ℂ)*PowerSeries.X^d)⁻¹ := by sorry
 -- TauCeti.AutomorphicLFunctions.AL3.FunctionFieldRsEulerProduct.degree_two
 example : PowerSeries.coeff 1 (ffRsLocalFactor (fun _ : Fin 1 => (2 : ℂ))
-    (fun _ : Fin 1 => (3 : ℂ)) 2) = 0 ∧
+    (fun _ : Fin 1 => (3 : ℂ)) 2 (by decide)) = 0 ∧
       PowerSeries.coeff 2 (ffRsLocalFactor (fun _ : Fin 1 => (2 : ℂ))
-        (fun _ : Fin 1 => (3 : ℂ)) 2) = 2/3 := by sorry
+        (fun _ : Fin 1 => (3 : ℂ)) 2 (by decide)) = 2/3 := by sorry
 -- TauCeti.AutomorphicLFunctions.AL3.FunctionFieldRsEulerProduct.self_pair
-example (a : ℂ) (ha : a ≠ 0) (d : ℕ) : ffRsLocalFactor (fun _ : Fin 1 => a)
-    (fun _ : Fin 1 => a) d = (1-PowerSeries.X^d : PowerSeries ℂ)⁻¹ := by sorry
+example (a : ℂ) (ha : a ≠ 0) (d : ℕ) (hd : 0 < d) : ffRsLocalFactor (fun _ : Fin 1 => a)
+    (fun _ : Fin 1 => a) d hd = (1-PowerSeries.X^d : PowerSeries ℂ)⁻¹ := by sorry
 
 /-- Polynomial root multiplicities in the open unit disc. -/
 def OpenDiscZeroPoleIndex (P Q : Polynomial ℂ) : ℤ :=
@@ -816,6 +865,8 @@ theorem OpenDiscZeroPoleIndex.inv (P Q : Polynomial ℂ) :
 
 -- TauCeti.AutomorphicLFunctions.AL3.OpenDiscZeroPoleIndex.coordinate
 example : OpenDiscZeroPoleIndex Polynomial.X 1 = 1 := by sorry
+-- TauCeti.AutomorphicLFunctions.AL3.OpenDiscZeroPoleIndex.inverse_coordinate
+example : OpenDiscZeroPoleIndex 1 Polynomial.X = -1 := by sorry
 -- TauCeti.AutomorphicLFunctions.AL3.OpenDiscZeroPoleIndex.boundary_excluded
 example : OpenDiscZeroPoleIndex (Polynomial.X-1) 1 = 0 := by sorry
 -- TauCeti.AutomorphicLFunctions.AL3.OpenDiscZeroPoleIndex.cancelled_presentation
@@ -881,17 +932,18 @@ theorem NormalizedRsPeriod.continued_value_scalar (N A L : ℂ → ℂ) (s₀ : 
     (h : A =ᶠ[𝓝[≠] s₀] fun s => L s * N s) :
     A s₀ = L s₀ * N s₀ := by sorry
 
-/-- The degree substitution in the local determinant. -/
+/-- Positive local degree gives the determinant comparison after substituting X^d. -/
 theorem FunctionFieldRsEulerProduct.local {ι κ : Type*} [Fintype ι] [Fintype κ]
-    [DecidableEq ι] [DecidableEq κ] (α : ι → ℂ) (β : κ → ℂ) (d : ℕ) :
-    ffRsLocalFactor α β d =
+    [DecidableEq ι] [DecidableEq κ] (α : ι → ℂ) (β : κ → ℂ) (d : ℕ) (hd : 0 < d) :
+    ffRsLocalFactor α β d hd =
       ((Matrix.diagonal (fun ij : ι × κ => α ij.1/β ij.2)).charpolyRev.eval₂
         PowerSeries.C (PowerSeries.X^d))⁻¹ := by sorry
 
+/-- At positive local degree, inverse roots become conjugate roots after multiset transport. -/
 theorem FunctionFieldRsEulerProduct.unitary_conjugate {ι κ : Type*}
-    [Fintype ι] [Fintype κ] (α : ι → ℂ) (β : κ → ℂ) (d : ℕ)
+    [Fintype ι] [Fintype κ] (α : ι → ℂ) (β : κ → ℂ) (d : ℕ) (hd : 0 < d)
     (σ : κ ≃ κ) (h : ∀ j, (β j)⁻¹ = star (β (σ j))) :
-    ffRsLocalFactor α β d =
+    ffRsLocalFactor α β d hd =
       ∏ i, ∏ j, (1-PowerSeries.C (α i*star (β j))*PowerSeries.X^d)⁻¹ := by sorry
 
 /-- Equality at regular points; the polynomial pair retains its pole data. -/
@@ -915,6 +967,10 @@ theorem ResidualRsTelescoping (L : ℤ → ℂˣ) (a : ℤ) (ν₁ ν₂ : ℕ) 
 -- A point-mass computation fixes the unequal-rank half shift.
 example : RsLocalIntegrals 2 1 (Measure.dirac ()) (Measure.dirac ())
     (fun _ _ => 2) (fun _ => 3) (fun _ => 4) 1 = 12 := by sorry
+
+-- TauCeti.AutomorphicLFunctions.AL3.RsLocalIntegrals.equal_rank_point_mass
+example : rsEqualRankIntegral (Measure.dirac ()) (fun _ => 2) (fun _ => 3)
+    (fun _ => 5) (fun _ => 2) 1 = 60 := by sorry
 
 -- Equal rank vanishes with the Schwartz input.
 example {Q : Type*} [MeasurableSpace Q] (μ : Measure Q)
@@ -946,6 +1002,8 @@ theorem LGroupLocalFactor.standard_gln {ι : Type*} [Fintype ι] [DecidableEq ι
     (α : ι → ℂ) : Matrix.charpolyRev (Matrix.diagonal α) =
       ∏ i, (1-Polynomial.C (α i)*Polynomial.X) := by sorry
 
+-- TauCeti.AutomorphicLFunctions.AL4.LGroupLocalFactor.zero_dimensional
+example : Matrix.charpolyRev (0 : Matrix (Fin 0) (Fin 0) ℂ) = 1 := by sorry
 -- TauCeti.AutomorphicLFunctions.AL4.LGroupLocalFactor.one_dimensional
 example (a : ℂ) : Matrix.charpolyRev (Matrix.diagonal (fun _ : Fin 1 => a)) =
     1-Polynomial.C a*Polynomial.X := by sorry
@@ -1012,7 +1070,8 @@ theorem FirstNonzeroTermParity (Λ : ℂ → ℂ) (hΛ : Differentiable ℂ Λ)
     (ε : ℂ) (hε : ε = 1 ∨ ε = -1) (h : ∀ s, Λ s = ε*Λ (1-s)) (j : ℕ) :
     iteratedDeriv j Λ (1/2) = ε*(-1)^j*iteratedDeriv j Λ (1/2) := by sorry
 
-/-- The complex coefficient adapter for f(z) - beta * f(p*z). -/
+/-- Coefficients of f(z) - beta * f(p*z), for arbitrary beta.
+    Eigenform status uses the Hecke-root and recurrence hypotheses of up_eigen. -/
 def pStabilizedCoeff (a : ℕ → ℂ) (p : ℕ) (β : ℂ) (n : ℕ) : ℂ :=
   a n - if p ∣ n then β * a (n / p) else 0
 
@@ -1023,6 +1082,20 @@ theorem pStabilizedCoeff.LSeries (a χ : ℕ → ℂ) (p : ℕ) (β s : ℂ)
     LSeriesSummable (fun n => χ n * pStabilizedCoeff a p β n) s ∧
     LSeries (fun n => χ n * pStabilizedCoeff a p β n) s =
       (1 - β * χ p * (p : ℂ) ^ (-s)) * LSeries (fun n => χ n * a n) s := by sorry
+
+/-- A Hecke-polynomial root gives U_p eigenvalue alpha under the good-prime recurrence. -/
+theorem pStabilizedCoeff.up_eigen (a : ℕ → ℂ) (p k : ℕ) (hp : 1 < p)
+    (α β εp : ℂ) (hα : α ≠ 0)
+    (hroot : α^2-a p*α+εp*(p : ℂ)^(k+1) = 0)
+    (hβ : β = εp*(p : ℂ)^(k+1)/α)
+    (hrec : ∀ n, a (p*n) = a p*a n -
+      if p ∣ n then εp*(p : ℂ)^(k+1)*a (n/p) else 0) (n : ℕ) :
+    pStabilizedCoeff a p β (p*n) = α*pStabilizedCoeff a p β n := by sorry
+
+-- The level-32 weight-two example has a(1)=1 and a(3)=0.
+example (a : ℕ → ℂ) (h₁ : a 1 = 1) (h₃ : a 3 = 0) :
+    (1 : ℂ)*3 = 3 ∧ pStabilizedCoeff a 3 3 3 = -3 ∧
+    (1 : ℂ)^2-a 3*1+3 ≠ 0 := by sorry
 
 example (a : ℕ → ℂ) (p : ℕ) (hp : 1 < p) (β : ℂ) :
     pStabilizedCoeff a p β 1 = a 1 := by sorry
