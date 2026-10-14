@@ -102,8 +102,8 @@ RepresentationTheory/LieGroups, layer 9, supplies Cartan and Iwasawa theory; sim
 self-adjointness of a nested chain is proved in AA.3.3. GlobalQuadraticForms, layer 5,
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
 for approximation obstructions. ClassFieldTheory, layers 11–12, supplies quadratic idele
-characters, reciprocity and the global norm-index theorem. LFunctions #248 supplies
-finite-order Hecke analysis through ThetaSeries #286; AA supplies Artin induction and assembly. RepresentationTheory/CompactGroups,
+characters, reciprocity and the global norm-index theorem. LFunctions supplies
+finite-order Hecke analysis through ThetaSeries; AA supplies Artin induction and assembly. RepresentationTheory/CompactGroups,
 layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the Haar probability
 measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
 measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
@@ -243,13 +243,13 @@ one, and a single weight of multiplicity two contributes the square.
 | Object | Exact supplier and file | Use here |
 |---|---|---|
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
-| Geometric torsors and classes | SchemeAndStackFoundations #779, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
+| Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
 | Finite-image representation carriers and local polynomials | [ArithmeticGaloisRepresentations, Layers 1–2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c601f10/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md): `ContinuousRep`, `GaloisRep.localEulerFactor`, `WeilDeligneRep.localFactor`, §2.5 | AA.2.4 compares factors for representations defined over a common number field with specified complex and ℓ-adic embeddings. The supplier uses geometric Frobenius and a polynomial; AA uses arithmetic Frobenius and its reciprocal. The comparison uses the dual ℓ-adic representation and `N = 0`, with `ℓ` different from the residue characteristic. |
-| Linear Haar scaling | [MassFormula #226, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
-| Rational tuple heights | [ArithmeticHeights #287, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
-| Finite-order Hecke analysis | [LFunctions #248, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries #286 supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
-| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character χ, choose its primitive ray class character with value χ(Frob_v) at unramified v. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by #248's `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
+| Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
+| Rational tuple heights | [ArithmeticHeights, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
+| Finite-order Hecke analysis | [LFunctions, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
+| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character χ, choose its primitive ray class character with value χ(Frob_v) at unramified v. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
 
@@ -414,7 +414,7 @@ NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/L
 (Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
-obstructions only). LFunctions #248, layers 5–6, consumes ThetaSeries #286 for the
+obstructions only). LFunctions, layers 5–6, consumes ThetaSeries for the
 meromorphic extension and nonvanishing of finite-order Hecke L-functions; AA assembles
 finite-image Artin functions. ClassFieldTheory, layers 11–12
 (quadratic idele characters, reciprocity, the global norm-index theorem). AlgebraicTopology,
@@ -654,9 +654,19 @@ handles the non-unit local volumes needed for Tamagawa measure.
 - **Functoriality of restricted product measures.** Let `φ i : G i ≃ₜ* G' i` be isomorphisms of
   topological groups with `φ i (B i) = B' i` for all but finitely many `i`. Prove that the
   induced isomorphism `Φ = RestrictedProduct.map φ` of restricted products satisfies
-  `Φ_*(∏ʳ μ i) = ∏ʳ (φ i)_* μ i` ([Rosengarten], Lemma 3.5, p. 26). *Needs:* AA.0.2; Mathlib
+  `Φ_*(∏ʳ μ i) = ∏ʳ (φ i)_* μ i`. This is an owned deduction from the box formula and
+  uniqueness in AA.0.2: inverse images of boxes have coordinate inverse images, so the
+  pushforward has the required box masses. [Rosengarten], Lemma 3.5, p. 26, gives the
+  specialization induced by a morphism of affine finite-type schemes over a global field.
+  *Needs:* AA.0.2; Mathlib
   `RestrictedProduct.mapAlong_continuous`, `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
   *Lean:* none; specified in the README only.
+  **Checks.**
+  - The identity family preserves every box mass.
+  - On one copy of `C₄` with counting measure, inversion preserves the mass `2` of `{0,2}`.
+  - On one copy of the additive real group, `x ↦ 2x` sends Lebesgue measure to half
+    Lebesgue measure; the interval `[0,2]` has pushforward mass `1`.
+
 - **Convergent restricted products of local Haar measures.** Let `ι` be countable, each `G_i` a
   second countable locally compact Hausdorff group with a left Haar measure `μ_i`, `B_i ≤ G_i`
   open subgroups, and `S ⊂ ι` finite with `B_i` compact for every `i ∉ S`. Put
@@ -673,9 +683,13 @@ handles the non-unit local volumes needed for Tamagawa measure.
   *Lean:* none; specified in the README only.
 
   **Checks.**
-  - When every `a_i = 1` the measure equals the restricted product `∏ʳ μ_i`, including its integral box of mass `1`.
-  - For `SL_2` good factors `a_v = 1 − q_v⁻²`, the integral box mass is their positive infinite
-    product, strictly less than `1` for a nonempty tail; eventual equality to `1` is unnecessary.
+  - When every tail mass `a_i = 1`, the measure equals the restricted product `∏ʳ μ_i`.
+    Its integral box has mass `∏_{i∈S} μ_i(B_i)`, which is one when all exceptional integral
+    masses are one. A single `C₄` factor with counting measure, `B = {0,2}` and `S` the
+    whole index set has empty tail and integral box mass `2`.
+  - For `SL_2` good factors `a_v = 1 − q_v⁻²`, the tail contributes their positive infinite
+    product, strictly less than `1` for a nonempty tail. The full integral box mass also
+    includes the exceptional integral masses; eventual equality to `1` is unnecessary.
   - Rescaling exactly one normalized factor by `c > 0` multiplies the whole measure by `c`.
 
 
@@ -1034,10 +1048,19 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
     surjective or open.
 - **The centre on adelic points.** For finitely generated `H`, let `Z ⊂ G` be the centre
   (`centerDefiningIdeal`). Prove that `Z(𝔸_F)` is a closed subgroup of `G(𝔸_F)` contained in the
-  centre of `G(𝔸_F)`, and that `Z(F) = Z(𝔸_F) ∩ G(F)` ([Borel], §1.6, p. 8). *Needs:* AA.1.3; Tau
+  centre of `G(𝔸_F)`, and that `Z(F) = Z(𝔸_F) ∩ G(F)`. The closed embedding follows from [Conrad],
+  Proposition 2.1, p. 2, and the centre Hopf-ideal API below. The rational intersection
+  is an owned closed-subgroup deduction: injectivity of `F → 𝔸_F` means a rational
+  point kills the defining ideal after coefficient extension exactly when it kills it over `F`.
+  *Needs:* AA.1.3; Tau
   Ceti `TauCeti.CommHopfAlgCat.centerDefiningIdeal`,
   `TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `G_m`, every adelic point belongs to the centre subgroup.
+  - For `GL₂`, scalar invertible matrices lie in `Z(𝔸_F)`, while `[[1,1],[0,1]]` does not.
+  - For `SL₂/ℚ`, the rational intersection is `{±I}`; `diag(2,1/2)` is outside it.
 
 ### 1.4 Restriction of scalars and concrete groups
 
@@ -1223,12 +1246,28 @@ restriction of scalars.
   geometrically reduced (automatic in characteristic zero by Cartier's theorem, a standing input
   of the Reductive groups roadmap), prove that `X*_F(G)` is a free abelian group of finite rank,
   and that for connected reductive `G`, restriction of `F`-rational characters to the identity
-  component of the centre is injective with finite cokernel ([Borel], Lemma 5.9, p. 22; [Arthur],
-  §5, p. 24). *Needs:* AA.2.1; Tau Ceti
-  `TauCeti.CommHopfAlgCat.isMulTorsionFree_geometricCharacterGroup`; ReductiveGroups, layer 4; Tau
+  component of the centre is injective with finite cokernel. For the lattice statement,
+  base change to an algebraic closure and restrict to a maximal torus. This restriction is
+  injective: characters kill unipotents, and Jordan decomposition and conjugacy of maximal
+  tori determine their values on all geometric points. Geometric reducedness then determines
+  the character morphism. The character group embeds in the finite-free torus lattice;
+  subgroup theory over `ℤ` gives finite freeness. These are owned deductions from
+  ReductiveGroups, layers 4, 5 and 7, and the torsion-free API below. [Borel], Lemma 5.9,
+  p. 22, supplies only the characteristic-zero finite-cokernel assertion, applied to the
+  connected centre; injectivity for connected reductive groups follows from the central
+  isogeny with the derived group ([Arthur], §5, p. 24).
+  *Needs:* AA.2.1; Tau Ceti
+  `TauCeti.CommHopfAlgCat.isMulTorsionFree_geometricCharacterGroup`
+  (`CommHopfAlgCat/CharacterLattice/Torsion.lean`, theorem at line 74); ReductiveGroups, layers 4, 5 and 7; Tau
   Ceti `TauCeti.geometricallyReducedCommHopfAlgProperty`,
   `TauCeti.geometricallyConnectedCommHopfAlgProperty`.
   *Lean:* `RationalCharacter.free` (the lattice statement).
+
+  **Checks.**
+  - `G_m` has lattice `ℤ`, generated by `T`.
+  - `G_a` has zero character lattice, although it has dimension one.
+  - For `GL₂`, restriction of `det` to the scalar centre is the square character:
+    the injective map `ℤ → ℤ` has cokernel `ℤ/2`, rather than being onto.
 - **The real vector space a_G.** For `G = Spec H` affine algebraic over `F` with `H` finitely
   generated and `G` geometrically connected, define
   `RealCharacterSpace H = Hom_ℤ(Additive X*_F(G), ℝ)`, the finite-dimensional real vector space
@@ -1599,20 +1638,25 @@ restriction of scalars.
 ### 2.4 Gauge forms and Tamagawa normalization
 
 - **Invariant top-degree forms.** For a field `k` and a smooth affine algebraic group `G` of
-  dimension `d` over `k` with coordinate Hopf algebra `H`, define `GaugeForm`, the top
-  exterior-power line `ω_G = ∧^d_k (𝔪_ε/𝔪_ε²)` of the cotangent module `(ker ε)/(ker ε)²` at the
+  dimension `d` over `k` with finite-type coordinate Hopf algebra `H`, derive finite
+  dimensionality of its identity cotangent space. For any commutative Hopf algebra whose
+  identity cotangent space is finite-dimensional, define `GaugeForm`, with `d` the cotangent
+  dimension, as the top exterior-power line `ω_G = ∧^d_k (𝔪_ε/𝔪_ε²)` of the cotangent
+  module `(ker ε)/(ker ε)²` at the
   identity, the space of left-invariant top-degree differential forms; a gauge form is a nonzero
-  vector in it. Prove `GaugeForm.finrank_eq_one` (for smooth `G`, `finrank k (GaugeForm H) = 1`),
+  vector in it. Prove `GaugeForm.finrank_eq_one` (`finrank k (GaugeForm H) = 1`),
   that `GaugeForm` commutes with base change `k → k′`, through the canonical
   map `c ⊗ (dh₁ ∧ ⋯ ∧ dh_d) ↦ c • (d(1 ⊗ h₁) ∧ ⋯ ∧ d(1 ⊗ h_d))`
   (both sides are lines, so a linear equivalence alone could be any rescaling of it), and
   that right pullback by `g` acts on the left-invariant top-form line by
-  `det(Ad(g))⁻¹` ([Rosengarten], §1, p. 3). *Needs:* Tau Ceti `TauCeti.Bialgebra.CotangentSpace`,
+  `det(Ad(g))⁻¹` ([Rosengarten], §1.1, pp. 2–3). *Needs:* Tau Ceti `TauCeti.Bialgebra.CotangentSpace`,
   `Derivation.adjointPointRepresentation`; Mathlib `Ideal.Cotangent`, `Bialgebra.counitAlgHom`,
   `exteriorPower.ιMulti`; Tau Ceti `Derivation.adjointAction`; Mathlib `Module.evalEquiv`,
   `TensorProduct.lid`, `exteriorPower.map`.
-  *Lean:* `GaugeForm`, `GaugeForm.finrank_eq_one` (base change and right translation are specified
-  in the README only).
+  *Lean:* `GaugeForm`, `GaugeForm.finrank_eq_one`, `GaugeForm.finiteDimensional_trivial`,
+  `GaugeForm.trivialGroupEquiv`, `GaugeForm.trivialGroupGenerator` (the canonical empty wedge;
+  its image under the degree-zero identification is `1`; twice it maps to `2`). Base change
+  and right translation are specified in the README only.
 
   **Checks.**
   - For `G_m` the cotangent space at `1` is one-dimensional, spanned by the class of `T − 1`, so
@@ -1620,6 +1664,12 @@ restriction of scalars.
   - For the upper triangular Borel of `GL_2`, right pullback by `diag(a,d)` multiplies a
     left-invariant gauge form by `(a/d)⁻¹`; for `a/d ≠ 1` it is not invariant.
   - For the trivial group, the degree-zero exterior power has dimension `1`, so the top-form line is the scalar field (`GaugeForm.trivial_group`).
+  - `GaugeForm.trivialGroupGenerator` is the empty wedge: `trivialGroupEquiv` sends it to `1`
+    and sends twice it to `2`. Over `ℚ`, these fixed forms have real absolute values `1`, `2`
+    and 2-adic absolute values `1`, `1/2`. Over a finite extension `E/ℚ`, the empty-basis
+    form with value `a` restricts with scalar `Algebra.norm ℚ a`.
+  - The infinite torus `ℚ[ℕ →₀ ℤ]` has independent cotangent classes `T_i − 1` at every
+    index; it fails the finite-dimensional hypothesis and has no `GaugeForm` in this API.
 
 
   **Checks.**
@@ -1632,6 +1682,30 @@ restriction of scalars.
     cotangent space of the named group, using the identity cotangent of the quotient Hopf algebra.
   - Along `ℚ → ℝ`, `1 ⊗ dT/T` for `G_m` goes to the class of `1 ⊗ T` itself; the rescaled
     equivalence, twice the base-change map, would send it to twice that class.
+
+- **Analytic charts on smooth affine groups.** (*smooth-group-analytic-charts*) For every
+  nondiscrete locally compact field `K` of characteristic zero and smooth affine finite-type
+  `K`-group `G = Spec H` of dimension `d`, construct an analytic manifold structure on `G(K)`
+  inducing the evaluation topology of RG2.0. Construct charts from smooth local parameters
+  using the local inverse function theorem; multiplication and inversion are analytic.
+  Identify the tangent space at the identity with the `K`-linear dual of
+  `TauCeti.Bialgebra.CotangentSpace K H`, with the derivative of a coordinate function equal
+  to evaluation on its cotangent class. Prove analytic change of variables for analytic
+  isomorphisms of open chart domains, with normalized absolute determinant and product
+  additive Haar measure. AA.2.4 owns this bridge ([Platonov–Rapinchuk–Rapinchuk], §3.1,
+  Theorem 3.2 and Proposition 3.3, pp. 128–130, and the local-parameter and measure
+  constructions on pp. 192–196).
+  *Needs:* ReductiveGroupsPartII, RG2.0 (point topology); ReductiveGroups, layer 2
+  (cotangent duality); Tau Ceti `Derivation.cotangentLinearEquiv`,
+  `Algebra/AlgebraicGroup/Tangent/Cotangent.lean`; AA.0.4 (additive measures).
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - `G_a(K)` has its standard coordinate, whose derivative is the identity.
+  - `G_m(K)` is the open subset `K^×` with coordinate `T`; at `1` its derivative is
+    dual to the class of `T − 1`.
+  - The trivial group has dimension zero; its chart is the singleton `K^0` and the
+    empty Jacobian determinant is `1`.
 
 - **The Haar measure of a gauge form over a local field.** For a nondiscrete locally
   compact field `K` of characteristic zero, a smooth affine algebraic `K`-group `G` of
@@ -1664,8 +1738,8 @@ restriction of scalars.
   `∏_w |c|_w`, squared at complex places, and for `G_a` it is
   `Adeles.infiniteAdeleHaar`. These clauses determine the measures attached to `G_a` and to `G_m`; for
   a general group the constant is fixed by the chart construction or by Weil's formula below, which
-  is stated only for `GL_n` at finite places. *Needs:* AA.2.4; ReductiveGroupsPartII, RG2.0, point topology and
-  analytic charts.
+  is stated only for `GL_n` at finite places. *Needs:* AA.2.4; ReductiveGroupsPartII, RG2.0 (point topology);
+  *smooth-group-analytic-charts*.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -1712,7 +1786,7 @@ restriction of scalars.
   Brauer induction reduces this construction to finite-order Hecke characters.
   Consume the two contracts in the table above, including `heckeLFunctionC_eq_primitive`
   and `heckeLFunction_ne_zero_of_one_le_re`; the analytic dependency is
-  AA → LFunctions #248 → ThetaSeries #286, with GlobalNumberFields and
+  AA → LFunctions → ThetaSeries, with GlobalNumberFields and
   ArithmeticDirichletSeries providing the carriers. The analytic hypotheses of
   the nonvanishing of the leading coefficient are precisely that Hecke/reciprocity contract.
   AA constructs the complex Artin factors and their induction and analytic assembly on the
@@ -1725,7 +1799,7 @@ restriction of scalars.
   A one-dimensional unramified factor is
   `(1 − χ(Frob_v) q_v^(−s))⁻¹`. At conductor primes with nontrivial inertia the
   one-dimensional invariant space is zero and the factor is one. For a larger ray modulus,
-  #248's `eulerCorrection` deletes precisely its additional factors; compare germs at poles,
+  LFunctions' `eulerCorrection` deletes precisely its additional factors; compare germs at poles,
   not totalized point values. Brauer induction and the zeta residue then give the limit:
   [Marzec–Neururer], Definition 5.11 and Remark 5.12, p. 62; Theorem 5.14,
   pp. 62–64; Theorem 5.20 and Corollary 5.21, p. 67. Integral character lattices
@@ -1745,7 +1819,7 @@ restriction of scalars.
     Dedekind zeta; in general the global `L`-function of the trivial character is `ζ_F` as a
     meromorphic germ.
   - The nontrivial character of ℚ(i)/ℚ is the
-    primitive character χ₄, hence #248's `oddPrimitiveModFour` under reciprocity.
+    primitive character χ₄, hence LFunctions' `oddPrimitiveModFour` under reciprocity.
     Its factor at 2 is one. Raising the modulus 4 to 12 gives
     the correction `1 + 3^(−s)`. These are specializations of the one-dimensional Artin–Hecke
     comparison. Arithmetic Frobenius distinguishes eigenvalue ζ from ζ⁻¹ for a
@@ -1802,7 +1876,9 @@ restriction of scalars.
   Use absolute Weyl-group length. These are [Dudas–Michel], Proposition 7.12(iii),
   p. 27, and the character-lattice cokernel argument in Proposition 7.14, p. 28;
   the absolute value makes the determinant the lattice index. Build this input here
-  from ReductiveGroups, layer 7 (Lang and Bruhat decomposition).
+  from ReductiveGroups, layer 7 (Bruhat decomposition), and ReductiveGroupsPartII,
+  RG2.3.7, *lang-theorem*, `Lang.lang_surjective` (Lang's theorem for smooth geometrically
+  connected finite-type groups over finite fields).
   *Lean:* none; specified in the README only.
 
   **Checks.** Split rank one at `q = 2` gives `|2 − 1| = 1`; nonsplit rank one
@@ -1910,7 +1986,7 @@ this case.
 
 ### 2.5 Scalar Jacobians and restriction of scalars
 
-The linear measure input in the next target is MassFormula #226, Layer 2:
+The linear measure input in the next target is MassFormula, Layer 2:
 for a complete discretely valued field with finite residue field, use its lattice
 index and regular-Haar scaling laws, extending integral invertible matrices to
 arbitrary invertible matrices by a scalar denominator. Pushforward has inverse
@@ -2051,7 +2127,7 @@ Layers AA.0 and AA.1; Mathlib's group-like elements, modular character, Riesz re
 fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; Tau Ceti's geometric
 characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics
 and Euler product; ReductiveGroups, layer 4; ReductiveGroupsPartII, RG2.0 and RG2.1;
-GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4; LFunctions #248, layers 5–6 (ThetaSeries #286);
+GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4; LFunctions, layers 5–6 (ThetaSeries);
 ClassFieldTheory reciprocity; Chebotarev, layer 10;
 RepresentationTheory/CompactGroups, layer 5.
 
@@ -2847,7 +2923,7 @@ in the standard integral level.
   and `Γ_{x′,U′}` are commensurable (`Reduction.levelArithmetic_commensurable`) ([Milne], Lemma 5.13, p. 57). *Needs:* AA.1.3; AA.1.5; AA.1.2.
   Discreteness needs only compactness of `U`, as in the Lean signature; the finite-index and
   commensurability applications here use compact open levels.
-  KleinianGroups §Layer 3 / `isDiscrete_bianchi` (an open TauCetiRoadmap pull request by t4v1)
+  KleinianGroups, Layer 3, `isDiscrete_bianchi`
   states the imaginary-quadratic Bianchi special case, reconciled with this theorem by the
   integral-level and finite-centre adapter in **Downstream consumers**.
   *Lean:* in `Reduction`: `levelArithmetic`, `levelArithmetic_discrete`,
@@ -3040,15 +3116,15 @@ cannot replace the reduced norm in the defining equation.
 ### 3.5 Algebraic heights
 
 - **Rational-point Arakelov comparison.** Identify
-  the adelic height on `g ∈ G(F)` with #287's relative `NumberField.arakelovMulHeight`
+  the adelic height on `g ∈ G(F)` with ArithmeticHeights's relative `NumberField.arakelovMulHeight`
   of the tuple indexed by `Bool × Fin m × Fin m`, containing the entries of
   `ρ(g)` and `ρ(g)⁻¹`. Its finite factors use normalized `|π_v|=N(v)⁻¹`; at infinity
   they use the ℓ² norm to exponent `mult(v)`. For `d=[F:ℚ]`, the absolute
   Arakelov height is `height(Δg)^(1/d)`, equivalently the adelic height is the
   d-th power of the absolute height. For `m=0`, the empty tuple and the adelic
-  representation both have height one. Consume #287's extension-power comparison;
+  representation both have height one. Consume ArithmeticHeights's extension-power comparison;
   do not introduce a separate rational tuple-height definition. This is a comparison
-  of the displayed formulas in #287 §0.1 and the height formula of *adelic-height*, not a
+  of the displayed formulas in ArithmeticHeights §0.1 and the height formula of *adelic-height*, not a
   Northcott counting bound.
   *Lean:* none; specified in the README only.
 
@@ -3203,9 +3279,12 @@ every connected reductive group. The LieGroups roadmap's `CartanInvolution` inst
 uses smooth manifolds and the Lie algebra; this carrier records the algebraic
 realization needed for rational parabolics. [BHC], §§1.1, 1.6–1.9, pp. 486, 489–492.
 
-**Checks.** The compact subgroup is the fixed subgroup; `θ` inverts every
-point of the split one-dimensional torus; for `SL₂`, `K` is the
-orthogonal group when the realizing form is the identity.
+**Checks.**
+- In the standard representation of `SL₂` with `b = I`,
+  `θ(diag(2,1/2)) = diag(1/2,2)`.
+- Its compact subgroup `K = SO₂(ℝ)` contains `[[0,−1],[1,0]]`.
+- The upper unipotent `[[1,1],[0,1]]` is outside `K`.
+- The reflection `diag(−1,1)` lies in `O₂(ℝ)` but is outside `SL₂(ℝ)`.
 
 A Siegel triple consists of relative root data (AA.3.1), its minimal parabolic,
 a Cartan datum, and `u∈N(ℝ)`. Its real split torus, positive component and norm-one
@@ -3516,7 +3595,7 @@ quaternion norms and compact abelian Fourier limits.
   `A →ₐ[k] k′`. The Hasse principle below is stated through base change, so these equations
   carry its content: a base change returning the trivial torsor would make every torsor
   locally trivial. Prove that `X` is trivial iff `X` is
-  isomorphic to `G` acting on itself (#779 `Torsor.trivial_iff_section`; the statement is
+  isomorphic to `G` acting on itself (SchemeAndStackFoundations `Torsor.trivial_iff_section`; the statement is
   elementary). *Needs:* Tau Ceti
   `TauCeti.HopfAlgebra.points`.
   *Lean:* none; specified in the README only.
@@ -3553,7 +3632,7 @@ quaternion norms and compact abelian Fourier limits.
     change has the distinguished class.
 
 - **Canonical μ₂ class and scalar extension.** The target
-  uses #779's group space `G = GroupSpace.ofGroupScheme (Spec ℚ[ℤ/2])` and
+  uses SchemeAndStackFoundations's group space `G = GroupSpace.ofGroupScheme (Spec ℚ[ℤ/2])` and
   `torsorClasses G = NonabelianH1 (fppfTopology.over (Spec ℚ)) h_G`. Its class is
   `torsorClasses.mk` of `Spec ℚ[t]/(t²−2)` with coaction `t ↦ t⊗g`; it is not the
   identity class. Pullback along the identity of `Spec ℚ` fixes this nontrivial
@@ -3561,7 +3640,7 @@ quaternion norms and compact abelian Fourier limits.
   `Torsor.baseChange` and its section comparison, then `torsorClasses.mk_eq_base_iff`;
   coefficient `pushforward` is a different map.
   These are equalities in the canonical class set, independently of an arbitrary C.
-  Source interfaces are [#779 §§1.15, 2.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94dae83ded2e18c604ce405d00e059692ea7673b/TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean).
+  Source interfaces are [SchemeAndStackFoundations §§1.15, 2.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94dae83ded2e18c604ce405d00e059692ea7673b/TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean).
   *Lean:* none; specified in the README only.
 
   **Checks.** This concrete
@@ -3596,8 +3675,8 @@ quaternion norms and compact abelian Fourier limits.
   torsors is realized by a global torsor. Use [PR94], Proposition 6.17, pp. 337–339: represent real
   classes in maximal tori, approximate those tori globally, then use real-localization
   surjectivity for tori (§7.3, Corollary 2). Combined with twisting injectivity this gives
-  bijectivity of real localization on #779's canonical fppf class set.
-  The affine comparison uses #779's `torsorClasses.surjective_mk`,
+  bijectivity of real localization on SchemeAndStackFoundations's canonical fppf class set.
+  The affine comparison uses SchemeAndStackFoundations's `torsorClasses.surjective_mk`,
   `torsorClasses.mk_eq_base_iff`, representability and natural base change.
   *Lean:* none; specified in the README only.
 - **Weak approximation.** `Approximation.hasWeakApproximation_of_simplyConnected` holds
@@ -3877,7 +3956,10 @@ quaternion norms and compact abelian Fourier limits.
   - Nor is a torsion-free element whose eigenvalue group contains `ζ_3`, such as
     `(0 −1; 1 1)·(scalar 2)` in `GL_2(ℚ)`.
   - For `r` the identity of `O(GL_n)`, `Neat.algebraicPointMap τ n r` is
-    `Matrix.GeneralLinearGroup.map τ` composed with `TauCeti.GeneralLinear.pointsMulEquiv`.
+    `Matrix.GeneralLinearGroup.map τ` composed with `TauCeti.GeneralLinear.pointsMulEquiv`,
+    and satisfies `Neat.IsFaithfulAlgebraicPointHom` since its coordinate map is surjective.
+  - The trivial group has a faithful dimension-zero representation: the surjective counit
+    `O(GL₀) → F` induces a point map satisfying `Neat.IsFaithfulAlgebraicPointHom`.
   - Over `ℚ`, the coordinate map `X ↦ T³` of the cube map `G_m → GL₁` has point map `x ↦ x³`,
     injective on `ℚ^×`, but that point map is not `Neat.IsFaithfulAlgebraicPointHom`: a surjective
     bialgebra map `O(GL₁) → ℚ[T,T⁻¹]` sends `X` to `T` or `T⁻¹`, with point map `x ↦ x^{±1}`.
@@ -3917,39 +3999,88 @@ quaternion norms and compact abelian Fourier limits.
   - `GL_2(ℤ̂)` is not neat: it contains `−1 ∈ GL_2(ℤ)`.
 - **Stable lattices for compact p-adic matrix groups.** For a prime `p`, `n ≥ 1` and a compact
   subgroup `C ⊂ GL_n(ℚ_p)`, prove that `C` preserves a full `ℤ_p`-lattice `Λ ⊂ ℚ_p^n`, hence is
-  conjugate into `GL_n(ℤ_p)` ([Milne], Proposition 3.5, p. 34). *Needs:* AA.1.5.
+  conjugate into `GL_n(ℤ_p)`. This is an owned deduction from compactness and the DVR lattice
+  theory of LocalFieldsRamification, layer 0 (the auxiliary input to the congruence argument
+  of [Milne], Proposition 3.5, p. 34): the union of the orbits of standard basis vectors is
+  bounded, so its `ℤ_p`-span lies between `ℤ_p^n` and `p^{−r}ℤ_p^n` for some `r`.
+  Noetherianity makes the span finitely generated, and torsion-free modules over the DVR
+  are free. The group permutes these orbits, hence preserves the span.
+  *Needs:* AA.1.5; LocalFieldsRamification, layer 0.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The trivial subgroup preserves the standard lattice.
+  - `GL_n(ℤ_p)` preserves `ℤ_p^n`.
+  - The order-two matrix `[[0,p],[p⁻¹,0]]` preserves `pℤ_p × ℤ_p`, but not `ℤ_p²`.
 - **Distance of p-adic roots of unity from one.** For a prime `p`, `ℚ̄_p` an algebraic closure
   of `ℚ_p` with the unique extension of `|·|_p`, and `ζ ∈ ℚ̄_p` a root of unity with `ζ ≠ 1`,
-  prove `|ζ − 1|_p ≥ p^{−1/(p−1)}`; more precisely a primitive `p^k`-th root has distance
-  `p^{−1/(p^{k−1}(p−1))}`, while a root of order prime to `p` has distance one ([Milne],
-  Proposition 3.5, p. 34). *Needs:* LocalFieldsRamification, layer 0.
+  prove `|ζ − 1|_p ≥ p^{−1/(p−1)}`; more precisely a primitive `p^k`-th root (`k ≥ 1`) has
+  distance `p^{−1/(p^{k−1}(p−1))}`, while a nontrivial root of order prime to `p` has distance
+  one. This is an owned cyclotomic deduction in the congruence argument of [Milne],
+  Proposition 3.5, p. 34: reduction preserves the order of prime-to-`p` roots, while
+  `Φ_{p^k}(1) = p` is the product of the `φ(p^k)` conjugate differences with equal
+  extended valuation. For mixed order, the nontrivial prime-to-`p` part gives distance one.
+  *Needs:* LocalFieldsRamification, layer 0 (valuation extension and residue units).
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - At `p = 2`, `|−1 − 1|₂ = 1/2`, attaining the lower bound.
+  - A primitive cube root at `p = 3` has distance `3^{−1/2}`.
+  - A primitive cube root at `p = 2` has distance one.
 - **Eigenvalue bound for congruence matrices.** For a prime `p`, `a ≥ 1` and
   `M ∈ 1 + p^a M_n(ℤ_p)`, with eigenvalues taken in `ℚ̄_p` with the extended absolute value, prove
   that every eigenvalue `λ` of `M` satisfies `|λ − 1|_p ≤ p^{−a}`; the eigenvalues and their
   inverses then lie in the multiplicative open ball used by *padic-ball-torsion-free* when
-  `p ≥ 3, a ≥ 1` or `p = 2, a ≥ 2` ([Milne], Proposition 3.5, p. 34). *Needs:* AA.4.3.
+  `p ≥ 3, a ≥ 1` or `p = 2, a ≥ 2`. This is an owned deduction in the congruence argument
+  of [Milne], Proposition 3.5, p. 34: write `M = I + p^a A`; the eigenvalues of the integral
+  matrix `A` satisfy a monic integral characteristic polynomial and have absolute value at
+  most one. If a root had absolute value greater than one, its leading power would
+  strictly dominate all other terms, contradicting their sum being zero.
+  *Needs:* AA.4.3; LocalFieldsRamification, layer 0.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - `M = I` has `λ − 1 = 0`.
+  - The scalar matrix `(1+p^a)I` attains the bound `p^{−a}` in positive dimension.
+  - `[[1,p^a],[0,1]]` has only eigenvalue `1`, although the matrix is not the identity.
 - **Principal units of small radius are torsion free.** (*padic-ball-torsion-free*) For a prime
   `p`, prove that in an algebraic closure of `ℚ_p` the multiplicative group
   `{λ : |λ − 1|_p < p^{−1/(p−1)}}` contains no root of unity other than `1`; in particular
   eigenvalues of elements of `1 + pM_n(ℤ_p)` (`p ≥ 3`) or `1 + 4M_n(ℤ_2)` generate a torsion-free
-  group ([Milne], Proposition 3.5, p. 34). *Needs:* AA.4.3.
+  group. This is an owned deduction from *Distance of p-adic roots of unity from one* and
+  *Eigenvalue bound for congruence matrices*, the auxiliary argument for [Milne],
+  Proposition 3.5, p. 34: the ultrametric inequality makes this strict ball closed under
+  multiplication, and `|λ|_p = 1` gives closure under inversion. The distance bound excludes
+  every nonidentity torsion element.
+  *Needs:* AA.4.3.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - At `p = 3`, `4` lies in the strict ball and has infinite multiplicative order.
+  - At `p = 2`, `5` lies in the strict ball and has infinite multiplicative order.
+  - At `p = 2`, `−1` lies on the boundary and has order two; a closed ball would fail.
 - **A one-prime criterion for neatness.** (*neat-criterion-one-prime*) Let `ρ : G ↪ GL_n` be a
   faithful algebraic representation over the number field `F` and `U ⊂ G(𝔸_{F,f})` compact.
   Prove that if, at one place `v` above a prime `p`, every element of `U` acts through `ρ` in
-  `1 + p^e M_n(𝒪_v)` with `e ≥ 1` for `p ≥ 3` and `e ≥ 2` for `p = 2`, then `U` is neat
-  (over `ℚ` this is the condition `1 + pM_n(ℤ_p)`, resp.
-  `1 + 4M_n(ℤ_2)`) ([Milne], Proposition 3.5, p. 34). The congruence is modulo the rational prime
-  power, not modulo a power of a uniformizer of `F_v`: eigenvalues `λ` then satisfy
-  `|λ − 1|_p ≤ p^{−e} < p^{−1/(p−1)}` whatever the ramification of `v`. *Needs:* AA.4.3; AA.1.5.
+  `1 + p^e M_n(𝒪_v)` with `e ≥ 1` for `p ≥ 3` and `e ≥ 2` for `p = 2`, then every rational
+  intersection `G(F) ∩ xUx⁻¹` is neat. This is an owned deduction from the preceding
+  eigenvalue bound and strict torsion-free ball, giving the number-field level form of the
+  congruence argument of [Milne], Proposition 3.5, p. 34. For a rational point in this
+  intersection, local conjugacy preserves eigenvalues; the strict ball contains the group
+  they generate. Embed their algebraic splitting field at `v` to transport any complex
+  multiplicative torsion relation to this ball.
+  The same monic-polynomial argument works over `𝒪_v`. The congruence is modulo the rational
+  prime power, so `|λ − 1|_p ≤ p^{−e} < p^{−1/(p−1)}` whatever the ramification of `v`.
+  *Needs:* AA.4.3; AA.1.5; LocalFieldsRamification, layer 0.
   *Lean:* none; specified in the README only.
 
   **Checks.**
   - Modulo `2` alone the criterion fails: `−1 = 1 + 2·(−1)` lies in `K(2)` and is a nontrivial
     torsion element, whereas `−1 ∉ 1 + 4ℤ`.
+  - `K(3) ⊂ GL₂(ℤ̂)` satisfies the criterion at `3`; all its rational conjugate intersections
+    are neat.
+  - Even over a ramified completion above `2`, congruence modulo `4` gives distance at most
+    `1/4 < 1/2`; congruence modulo a uniformizer alone need not give this bound.
 - **Neat levels exist.** For `G` linear algebraic over `F`, prove that every compact open
   `U ⊂ G(𝔸_{F,f})` contains a neat normal open subgroup of finite index, and that every
   arithmetic subgroup of `G(F)` contains a neat subgroup of finite index defined by congruence
@@ -3964,7 +4095,13 @@ quaternion norms and compact abelian Fourier limits.
   π⁻¹{[g]}`, `kK′ ↦ [g k]`. Prove that `π [g] = [g]`, that `π` is
   surjective, that the fibre map is surjective for each `g`, and
   that the maps for `K″ ≤ K′ ≤ K` compose; no normality is assumed
-  (elementary; no source needed). *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`;
+  (Tau Ceti `DoubleCoset.quotientMapOfLELeft_apply_mk`,
+  `DoubleCoset.quotientMapOfLELeft_refl`, `DoubleCoset.quotientMapOfLELeft_trans`,
+  `DoubleCoset.quotientMapOfLELeft_surjective`, `GroupTheory/DoubleCoset/Map.lean`, lines 38–67;
+  `TauCeti.cosetToOrbitRelMapFiber_surjective`,
+  `GroupTheory/DoubleCoset/Fiber.lean`, lines 57–77). Transport the left-level maps through
+  inversion to change the right level; choose the inverse coset representative so the fibre
+  formula is `[gk]`. *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`;
   Tau Ceti `DoubleCoset.quotientMapOfLELeft`.
   *Lean:* none; specified in the README only.
 
@@ -3981,12 +4118,20 @@ quaternion norms and compact abelian Fourier limits.
   fibre of `H\G/K′ → H\G/K` has at most `N` elements, and that if `H\G/K` is finite of
   cardinality `h` then `H\G/K′` is finite of cardinality at most `Nh`
   (the conclusion states finiteness as well as the bound). No
-  normality, freeness or neatness is assumed (elementary; no source needed). *Needs:* AA.4.4.
+  normality, freeness or neatness is assumed. This is an owned deduction from the
+  preceding fibre surjection and Tau Ceti
+  `TauCeti.finite_fiber_orbitRel_map_of_isFiniteRelIndex`,
+  `GroupTheory/DoubleCoset/Fiber.lean`, lines 80–90: a quotient of `N` cosets is finite
+  with cardinality at most `N`; sum this bound over the `h` coarse classes.
+  *Needs:* AA.4.4.
   *Lean:* none; specified in the README only.
 
   **Checks.**
   - `Nat.card ℤ = 0`, so `Nat.card X ≤ Nh` holds for every infinite `X`; the bound alone does not
     give finiteness.
+  - With `H = 1` and `[K : K′] = 2`, every fibre has size `2`, attaining the bound.
+  - With `H = G` and the same index, both double-coset spaces are singletons and the
+    fibre has size `1`, strictly below the bound.
 - **Conjugate levels give equivalent double-coset sets.** For a group `G`, `H, K ≤ G` and
   `a ∈ G`, prove that `[g] ↦ [ga]` is a bijection `H\G/(aKa⁻¹) ≃ H\G/K` with inverse
   `[x] ↦ [xa⁻¹]`; `a` need not normalize `H` ([LT], §3.2, pp. 11–16 (conjugate lattice
@@ -4408,7 +4553,8 @@ preceding layers; each item is a target with its own locator.
 
 - **Integral adelic congruence.** For `N : ℕ` and finite adeles `x,y`, define
   `AdelicExamples.GL2.CongrMod N x y` by `x − y ∈ Nℤ̂`. For `N > 0` this is
-  equivalent to `(x − y)/N ∈ ℤ̂`; the divisibility definition also handles `N = 0`.
+  equivalent to `(x − y)/N ∈ ℤ̂` ([Milne], §4, definition of congruence subgroups,
+  p. 42). The `N = 0` extension is an owned deduction from divisibility: `0ℤ̂ = {0}`.
   *Lean:* in `AdelicExamples.GL2`: `Af`, `IsAdelicInteger`, `CongrMod`.
   **Checks.** Modulo zero it is equality (`GL2.congrMod_zero`); `1 ≡ 0 mod 1`; `1` is not
   congruent to `0` modulo `2` (`GL2.not_congrMod_two`). The inverse-based expression at `N = 0`
@@ -4582,7 +4728,7 @@ the neat levels of AA.4.3.
 
 | Consumer | Supplied target | Consumer bridge |
 |---|---|---|
-| KleinianGroups §Layer 3 / `isDiscrete_bianchi` (an open TauCetiRoadmap pull request by t4v1) | AA.3.4 `Reduction.levelArithmetic_discrete` for the integral `SL₂` level over an imaginary quadratic field | KleinianGroups identifies the integral level and the chosen complex embedding, then passes through the finite centre to its Bianchi subgroup of `PSL₂(ℂ)`. |
+| KleinianGroups, Layer 3, `isDiscrete_bianchi` | AA.3.4 `Reduction.levelArithmetic_discrete` for the integral `SL₂` level over an imaginary quadratic field | KleinianGroups identifies the integral level and the chosen complex embedding, then passes through the finite centre to its Bianchi subgroup of `PSL₂(ℂ)`. |
 
 For this specialization take `x = 1` and the compact open level `∏_{v finite} SL₂(𝒪_v)`;
 identify its rational preimage with `SL₂(𝒪_F)`. KleinianGroups uses its explicit
@@ -4666,7 +4812,7 @@ number-field sources named there.
   groups over global function fields*. arXiv:1806.10723v3 (31 January 2020); published in
   Algebra & Number Theory 15 (2021), pp. 1865–1920; locators use the arXiv edition.
   <https://arxiv.org/abs/1806.10723v3>
-- **Sutherland**: Andrew V. Sutherland, *18.785 Number theory I, Lecture #23: The ring of adeles,
+- **Sutherland**: Andrew V. Sutherland, *18.785 Number theory I, Lecture 23: The ring of adeles,
   strong approximation*. MIT 18.785 lecture notes, Fall 2016.
   <https://math.mit.edu/classes/18.785/2016fa/LectureNotes23.pdf>
 - **BKT**: Benjamin Bakker, Bruno Klingler, Jacob Tsimerman, *Tame topology of arithmetic

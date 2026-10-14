@@ -243,6 +243,10 @@ abbrev InfinitePoints := WithConv (H →ₐ[F] NumberField.InfiniteAdeleRing F)
 /-- `G(F_v)` at a finite place `v`. -/
 abbrev LocalPoints (v : HeightOneSpectrum (𝓞 F)) := WithConv (H →ₐ[F] v.adicCompletion F)
 
+-- The trivial coordinate Hopf algebra has one adelic point.
+example : Subsingleton (AdelicPoints F F) := by
+  sorry
+
 instance instTopologicalSpace : TopologicalSpace (AdelicPoints F H) :=
   PointTopology.instTopologicalSpaceWithConv F H _
 
@@ -437,7 +441,8 @@ def apply {R : Type} [CommRing R] [Algebra F R] (χ : RationalCharacter F H)
   Units.map x.ofConv.toMonoidHom (GroupLike.toUnits F χ)
 
 /-- For `G` of finite type, geometrically reduced and geometrically connected, `X*_F(G)` is free
-abelian of finite rank ([Borel], Lemma 5.9, p. 22). -/
+abelian of finite rank, by geometric maximal-torus restriction and subgroup theory over `ℤ`
+(ReductiveGroups, layers 4, 5 and 7; Tau Ceti `isMulTorsionFree_geometricCharacterGroup`). -/
 theorem free [Algebra.FiniteType F H]
     (hred : TauCeti.geometricallyReducedCommHopfAlgProperty F (CommHopfAlgCat.of F H))
     (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty F (CommHopfAlgCat.of F H)) :
@@ -511,20 +516,34 @@ example {x g : AdelicPoints F H} (hx : x ∈ normOne F H)
 
 end AdelicPoints
 
-/-- The invariant top-form line `ω_G = ∧^d (𝔪_ε/𝔪_ε²)` of a group over a field, `d` the dimension of
-the cotangent space at the identity; a gauge form is a nonzero vector of it ([Rosengarten], §1,
-p. 2). -/
-abbrev GaugeForm (k : Type*) [Field k] (H : Type*) [CommRing H] [HopfAlgebra k H] :=
+/-- The invariant top-form line `ω_G = ∧^d (𝔪_ε/𝔪_ε²)` for a commutative Hopf algebra with
+finite-dimensional identity cotangent space of dimension `d`; a gauge form is a nonzero vector
+of this line ([Rosengarten], §1.1, p. 2). -/
+abbrev GaugeForm (k : Type*) [Field k] (H : Type*) [CommRing H] [HopfAlgebra k H]
+    [FiniteDimensional k (TauCeti.Bialgebra.CotangentSpace k H)] :=
   ⋀[k]^(Module.finrank k (TauCeti.Bialgebra.CotangentSpace k H))
     (TauCeti.Bialgebra.CotangentSpace k H)
 
 namespace GaugeForm
 
 variable (k : Type*) [Field k] (H : Type*) [CommRing H] [HopfAlgebra k H]
+    [FiniteDimensional k (TauCeti.Bialgebra.CotangentSpace k H)]
 
-theorem finrank_eq_one [FiniteDimensional k (TauCeti.Bialgebra.CotangentSpace k H)] :
+/-- A finite-dimensional identity cotangent space has a one-dimensional top exterior power. -/
+theorem finrank_eq_one :
     Module.finrank k (GaugeForm k H) = 1 := by
   sorry
+
+/-- The identity cotangent space of the trivial group is finite-dimensional. -/
+instance finiteDimensional_trivial : FiniteDimensional k (TauCeti.Bialgebra.CotangentSpace k k) := by
+  sorry
+
+/-- The empty wedge, a fixed generator of the trivial group's top-form line. -/
+def trivialGroupGenerator : GaugeForm k k := by
+  have h : Module.finrank k (TauCeti.Bialgebra.CotangentSpace k k) = 0 := by sorry
+  unfold GaugeForm
+  rw [h]
+  exact exteriorPower.ιMulti k 0 (Fin.elim0 : Fin 0 → TauCeti.Bialgebra.CotangentSpace k k)
 
 /-- The degree-zero top-form line of the trivial group, identified with the scalar field by
 `exteriorPower.zeroEquiv`. A gauge scalar retains its value on the empty basis. -/
@@ -538,27 +557,30 @@ def trivialGroupEquiv : GaugeForm k k ≃ₗ[k] k := by
 example : Nonempty (GaugeForm k k ≃ₗ[k] k) := by
   exact ⟨trivialGroupEquiv k⟩
 
--- Test GaugeForm.degree_zero_one: scalar restriction preserves the unit gauge.
-example : let e := trivialGroupEquiv ℚ
-    Algebra.norm ℚ (e (e.symm 1)) = 1 := by
-  simp
+-- The canonical empty wedge retains its value, fixing the scale of the equivalence.
+example : trivialGroupEquiv k (trivialGroupGenerator k) = 1 := by
+  sorry
 
--- Test GaugeForm.degree_zero_two: the restricted gauge `2` has real mass `2` and 2-adic mass `1/2`.
-example : let e := trivialGroupEquiv ℚ
-    |(Algebra.norm ℚ (e (e.symm 2)) : ℝ)| = 2 ∧
-      ‖(Algebra.norm ℚ (e (e.symm 2)) : ℚ_[2])‖ = (1 / 2 : ℝ) := by
-  dsimp
-  simp only [LinearEquiv.apply_symm_apply, Algebra.norm_self, MonoidHom.id_apply]
-  constructor
-  · norm_num
-  · convert Padic.norm_p (p := 2) using 1 <;> norm_num
+example : trivialGroupEquiv ℚ ((2 : ℚ) • trivialGroupGenerator ℚ) = 2 := by
+  sorry
 
--- Test GaugeForm.degree_zero_norm: restriction uses the field norm of the empty-basis value.
-example (E : Type*) [Field E] [Algebra ℚ E] [FiniteDimensional ℚ E]
-    (a : E) (ha : Algebra.norm ℚ a = 2) :
-    let e := trivialGroupEquiv E
-    Algebra.norm ℚ (e (e.symm a)) = 2 := by
-  simpa using ha
+-- The fixed unit form has unit field norm and unit mass at both places.
+example : Algebra.norm ℚ (trivialGroupEquiv ℚ (trivialGroupGenerator ℚ)) = 1 ∧
+    |(trivialGroupEquiv ℚ (trivialGroupGenerator ℚ) : ℝ)| = 1 ∧
+    ‖(trivialGroupEquiv ℚ (trivialGroupGenerator ℚ) : ℚ_[2])‖ = 1 := by
+  sorry
+
+-- Twice the same fixed form has real mass `2` and 2-adic mass `1/2`.
+example : |(Algebra.norm ℚ (trivialGroupEquiv ℚ
+        ((2 : ℚ) • trivialGroupGenerator ℚ)) : ℝ)| = 2 ∧
+    ‖(Algebra.norm ℚ (trivialGroupEquiv ℚ
+        ((2 : ℚ) • trivialGroupGenerator ℚ)) : ℚ_[2])‖ = (1 / 2 : ℝ) := by
+  sorry
+
+-- Restriction uses the field norm of the scalar multiplying the empty wedge.
+example (E : Type*) [Field E] [Algebra ℚ E] [FiniteDimensional ℚ E] (a : E) :
+    Algebra.norm ℚ (trivialGroupEquiv E (a • trivialGroupGenerator E)) = Algebra.norm ℚ a := by
+  sorry
 
 end GaugeForm
 
@@ -576,6 +598,10 @@ def splitLocalFactor (v : HeightOneSpectrum (𝓞 F)) (r : ℕ) (s : ℂ) : ℂ 
 /-- The split leading coefficient `(res_{s=1} ζ_F)^r`. -/
 def splitLeadingCoeff (r : ℕ) : ℝ := NumberField.dedekindZeta_residue F ^ r
 
+-- Rank zero has no Euler factors.
+example (v : HeightOneSpectrum (𝓞 F)) (s : ℂ) : splitLocalFactor F v 0 s = 1 := by
+  simp [splitLocalFactor]
+
 -- Test Tamagawa.splitLocalFactor_rank_one: residue cardinality `2`, rank `1`, `s = 1` gives `2`.
 example (v : HeightOneSpectrum (𝓞 F)) (hv : Ideal.absNorm v.asIdeal = 2) :
     splitLocalFactor F v 1 1 = 2 := by
@@ -588,6 +614,11 @@ example (v : HeightOneSpectrum (𝓞 F)) (hv : Ideal.absNorm v.asIdeal = 2) :
 
 -- Test Tamagawa.splitLeadingCoeff_rank_zero
 example : splitLeadingCoeff F 0 = 1 := by simp [splitLeadingCoeff]
+
+example : splitLeadingCoeff F 1 = NumberField.dedekindZeta_residue F := by
+  simp [splitLeadingCoeff]
+
+example : splitLeadingCoeff F 2 = NumberField.dedekindZeta_residue F ^ 2 := rfl
 
 /-- Corrected volumes of `GL_n`: for `n ≥ 1`, `(1 − q⁻¹)⁻¹ · #GL_n(𝔽_q) · q^{−n²} =
 ∏_{i=2}^{n} (1 − q^{−i})` at the residue field `𝔽_q` of `v` ([Platonov–Rapinchuk–Rapinchuk],
@@ -610,6 +641,15 @@ variable {n : ℕ}
 `∏ b_ii < C det b` ([BKT], Definition 4.11, p. 17). -/
 def IsReduced (C : ℝ) (b : Matrix (Fin n) (Fin n) ℝ) : Prop :=
   (∀ i j, |b i j| < C * b i i) ∧ (∀ i j, i < j → b i i < C * b j j) ∧ (∏ i, b i i < C * b.det)
+
+-- The identity is reduced in every rank, including rank zero.
+example (n : ℕ) : IsReduced 2 (1 : Matrix (Fin n) (Fin n) ℝ) := by
+  sorry
+
+-- In rank one all positive matrices are reduced for `C > 1`.
+example (C a : ℝ) (hC : 1 < C) (ha : 0 < a) :
+    IsReduced C (!![a] : Matrix (Fin 1) (Fin 1) ℝ) := by
+  sorry
 
 -- Test RealSiegel.IsReduced_not_ordered: `diag(4, 1)` is not `2`-reduced but `diag(1, 4)` is.
 example : ¬ IsReduced 2 (Matrix.diagonal ![(4 : ℝ), 1]) ∧
@@ -866,6 +906,33 @@ example : ¬ IsNeatAut (Matrix.GeneralLinearGroup.mkOfDetNeZero !![(0 : ℂ), -1
     (by simp [Matrix.det_fin_two_of])) := by
   sorry
 
+-- The identity representation is faithful through its identity coordinate morphism.
+example (τ : F →+* ℂ) (n : ℕ) : IsFaithfulAlgebraicPointHom τ n
+    (algebraicPointMap τ n (BialgHom.id F
+      (TauCeti.GeneralLinear.coordinateHopfAlgebra F n))) := by
+  exact ⟨BialgHom.id F _, Function.surjective_id, rfl⟩
+
+-- The trivial group embeds faithfully into `GL₀` through the surjective counit.
+example (τ : F →+* ℂ) :
+    Function.Surjective (Bialgebra.counitBialgHom F
+      (TauCeti.GeneralLinear.coordinateHopfAlgebra F 0)) ∧
+    IsFaithfulAlgebraicPointHom τ 0
+      (algebraicPointMap τ 0 (Bialgebra.counitBialgHom F
+        (TauCeti.GeneralLinear.coordinateHopfAlgebra F 0))) := by
+  have hs : Function.Surjective (Bialgebra.counitBialgHom F
+      (TauCeti.GeneralLinear.coordinateHopfAlgebra F 0)) := by
+    intro a
+    exact ⟨algebraMap F _ a, by simp⟩
+  exact ⟨hs, ⟨Bialgebra.counitBialgHom F _, hs, rfl⟩⟩
+
+-- The cube map on `G_m(ℚ)` is injective but is not a faithful algebraic representation.
+example : ¬ IsFaithfulAlgebraicPointHom (Rat.castHom ℂ) 1
+    ((Matrix.GeneralLinearGroup.scalar (Fin 1)).comp
+      ((Units.map (Rat.castHom ℂ).toMonoidHom).comp
+        ((powMonoidHom 3 : ℚˣ →* ℚˣ).comp
+          TauCeti.MultiplicativeGroup.pointsMulEquiv.toMonoidHom))) := by
+  sorry
+
 -- Test Neat.not_isFaithful_trivial_gm: the trivial point action of `G_m` is not induced by a
 -- surjective coordinate map.
 example (τ : F →+* ℂ) (n : ℕ) : ¬ IsFaithfulAlgebraicPointHom τ n
@@ -999,6 +1066,17 @@ theorem levelUnits_finiteIndex (U : Subgroup (FiniteAdeleRing (𝓞 F) F)ˣ)
 example : levelUnits ℚ (FiniteAdeleRing.integralUnits (𝓞 ℚ) ℚ) = Subgroup.zpowers (-1) := by
   sorry
 
+-- Principal congruence modulo three excludes the rational unit `−1`.
+example : let U : Subgroup (FiniteAdeleRing (𝓞 ℚ) ℚ)ˣ :=
+    { carrier := {x | x ∈ FiniteAdeleRing.integralUnits (𝓞 ℚ) ℚ ∧
+        ∀ v : HeightOneSpectrum (𝓞 ℚ), ∃ z : v.adicCompletionIntegers ℚ,
+          (x : FiniteAdeleRing (𝓞 ℚ) ℚ) v - 1 = 3 * (z : v.adicCompletion ℚ)}
+      one_mem' := by sorry
+      mul_mem' := by sorry
+      inv_mem' := by sorry }
+    levelUnits ℚ U = ⊥ := by
+  sorry
+
 -- Test GL1.levelUnits_top: the full level gives every unit.
 example : levelUnits F ⊤ = ⊤ := by
   sorry
@@ -1117,6 +1195,10 @@ def CongrMod (N : ℕ) (x y : Af) : Prop :=
 example (x y : Af) : CongrMod 0 x y ↔ x = y := by
   sorry
 
+-- Congruence modulo one imposes no condition on this integral pair.
+example : CongrMod 1 (1 : Af) 0 := by
+  sorry
+
 -- Test GL2.not_congrMod_two: `1` is not congruent to `0` modulo `2`.
 example : ¬ CongrMod 2 (1 : Af) 0 := by
   sorry
@@ -1189,6 +1271,25 @@ theorem componentGroup_principalLevel (N : ℕ) (hN : 0 < N) {g : GL (Fin 2) Af}
 
 -- Test GL2.componentGroup_level_one: `Γ_{1, GL₂(ℤ̂)} = SL₂(ℤ)`.
 example : componentGroup GL2Zhat 1 = (⊤ : Subgroup SL(2, ℤ)).map (SpecialLinearGroup.mapGL ℚ) := by
+  sorry
+
+-- The scalar `−I` survives level two and is excluded at level three.
+example : (-1 : GL (Fin 2) ℚ) ∈ componentGroup (principalLevel 2) 1 ∧
+    (-1 : GL (Fin 2) ℚ) ∉ componentGroup (principalLevel 3) 1 := by
+  sorry
+
+-- The upper unipotent belongs to `Γ₀(3)` and `Γ₁(3)`, but not to `Γ(3)`.
+example : let u : GL (Fin 2) ℚ :=
+    (Matrix.GeneralLinearGroup.mkOfDetNeZero !![(1 : ℚ), 1; 0, 1]
+      (by norm_num [Matrix.det_fin_two_of]));
+    u ∈ componentGroup (level0 3) 1 ∧ u ∈ componentGroup (level1 3) 1 ∧
+      u ∉ componentGroup (principalLevel 3) 1 := by
+  sorry
+
+-- The same integral matrix tests Mathlib's named congruence subgroups.
+example : let u : SL(2, ℤ) := ⟨!![1, 1; 0, 1], by norm_num [Matrix.det_fin_two_of]⟩;
+    u ∈ CongruenceSubgroup.Gamma0 3 ∧ u ∈ CongruenceSubgroup.Gamma1 3 ∧
+      u ∉ CongruenceSubgroup.Gamma 3 := by
   sorry
 
 /-- `GL₂(ℚ)^+`, embedded diagonally in `GL₂(𝔸_f)`. -/
