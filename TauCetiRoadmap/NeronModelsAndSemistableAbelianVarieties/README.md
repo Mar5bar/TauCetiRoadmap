@@ -1892,7 +1892,8 @@ weighted form is derived through the subdivision comparison with the regular mod
   form, so positive edge lengths are needed for positive definiteness.
 - Two vertices joined by two edges of lengths `a` and `b` have pairing `[a + b]` on the
   rank-one cycle lattice. A single length-`5` coordinate with coefficients `1` and
-  `−1` gives `−5`; reversing both coefficients gives `5`.
+  `−1` gives `−5`; reversing both coefficients still gives `−5`, whereas reversing
+  just one gives `5`.
 
 ### 4.5 The component group as the cokernel of the monodromy map
 

@@ -383,6 +383,13 @@ example : Module.finrank ℤ (cycleLattice (fun _ : Unit => (0 : Fin 2)) (fun _ 
 example : edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () 1) = 5 ∧
     edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () 2) = 10 := by sorry
 
+/-- A length-five coordinate gives `−5` on coefficients `1,−1`; reversing both preserves
+the value, while reversing only the first gives `5`. -/
+example : edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () (-1)) = -5 ∧
+    edgeForm (fun _ : Unit => 5) (Finsupp.single () (-1)) (Finsupp.single () 1) = -5 ∧
+    edgeForm (fun _ : Unit => 5) (Finsupp.single () (-1)) (Finsupp.single () (-1)) = 5 := by
+  norm_num [edgeForm]
+
 /-- A zero edge length makes the form zero, even on a nonzero cycle. -/
 example : edgeForm (fun _ : Unit => 0) (Finsupp.single () 1) (Finsupp.single () 1) = 0 := by
   sorry
