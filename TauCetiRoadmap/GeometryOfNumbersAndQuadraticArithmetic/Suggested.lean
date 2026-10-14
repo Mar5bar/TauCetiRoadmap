@@ -463,6 +463,15 @@ example (L : IntegralQuadraticLattice R K V) :
 -- Negative control: `B(x,y) = xy` on `ℤ` does not make `x²/2` integral, since `1/2 ∉ ℤ`.
 example : ¬ ∃ z : ℤ, (z : ℚ) = (1 : ℚ) / 2 := by sorry
 
+-- The integral square lattice has polar pairing twice multiplication.
+example :
+    let L : IntegralQuadraticLattice ℤ ℚ ℚ :=
+      { carrier := Submodule.span ℤ {(1 : ℚ)}
+        isLattice := by sorry
+        form := QuadraticMap.sq
+        integral := by sorry }
+    QuadraticMap.polar L.form 1 1 = 2 := by sorry
+
 end IntegralQuadratic
 
 section IntegralHermitian
@@ -1256,6 +1265,13 @@ example :
       (Pi.basisFun ℚ (Fin 2)) (1 : Matrix (Fin 2) (Fin 2) ℤ) (by sorry)
     L.representationNumber 1 = 4 ∧ L.representationNumber 2 = 4 := by sorry
 
+-- The Gram-[1] lattice has shells only at integer squares.
+example :
+    let L := TauCeti.IntegralLattice.ofGramMatrix
+      (Pi.basisFun ℚ (Fin 1)) (1 : Matrix (Fin 1) (Fin 1) ℤ) (by sorry)
+    L.representationNumber 1 = 2 ∧ L.representationNumber 2 = 0 ∧
+      L.representationNumber 3 = 0 ∧ L.representationNumber 4 = 2 := by sorry
+
 end IntegralTheta
 
 /-! ## Layer 4: Lattice points, star bodies and homogeneous dynamics -/
@@ -2002,6 +2018,10 @@ example : GoodOn (fun _ : ℝ => (0 : ℝ)) 1 1 Set.univ := by sorry
 example : volume.real {t : ℝ | t ∈ Set.Ioo (-1) 1 ∧ |t ^ 2| < (1/4 : ℝ)} = 1 ∧
     volume.real {t : ℝ | t ∈ Set.Ioo (-1) 1 ∧ |t| < (1/4 : ℝ)} = 1/2 := by sorry
 
+-- Maxima retain the goodness of the constant and linear inputs.
+example : GoodOn (fun t : ℝ => max |t| 1) 4 1 Set.univ := by sorry
+example : GoodOn (fun t : ℝ => max 0 |t|) 4 1 Set.univ := by sorry
+
 end GoodFunctions
 
 section SingularWedgeTests
@@ -2206,6 +2226,7 @@ example : TauCeti.hurwitzClassNumber 12 = 4 / 3 ∧ Nat.card (ternaryShell 3) = 
 example : Nat.card (primitiveTernaryShell 1) = 6 ∧
     Nat.card (primitiveTernaryShell 3) = 8 := by sorry
 example : Nat.card (ternaryShell 4) = 6 ∧ Nat.card (primitiveTernaryShell 4) = 0 := by sorry
+example : Nat.card (ternaryShell 12) = 8 ∧ Nat.card (primitiveTernaryShell 12) = 0 := by sorry
 example : Nat.card (ternaryShell 9) = 30 ∧ Nat.card (primitiveTernaryShell 9) = 24 := by sorry
 
 /-- The polynomial Laplacian `Σ ∂_i² P`. -/
@@ -2855,6 +2876,10 @@ end LLL
 
 section LLLChecks
 
+-- Dependent real-line families exercise the total Gram–Schmidt ratio.
+example : lllCoefficient (![1, 1] : Fin 2 → ℝ) 0 1 = 0 := by sorry
+example : lllCoefficient (![1, 1/2] : Fin 2 → ℝ) 1 0 = 1/2 := by sorry
+
 -- `μ₁₀ = 1/2` for `((1, 0), (1/2, 1))`.
 example : lllCoefficient
     (![WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![1/2, 1]] :
@@ -3438,5 +3463,5 @@ sources are in the README.
   TopologicalKTheory carriers; `stableIndCompletion` is the supplied `indCompletion` on a stable
   category. `finiteSemisimpleIsotypicDecomposition` and
   `stableKHeartComparison` on stable/finite-length category carriers; `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
-  `ExactW0`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
+  `ExactW0`, `rationalFormationParity`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
 -/
