@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
 import TauCeti.Geometry.Hodge.Dimension
 import TauCeti.Geometry.Hodge.Dual
@@ -609,6 +610,37 @@ example {Y : Type*} [AddCommGroup Y] [Module R Y] (D D' : SelmerData R ι)
     SelmerData.dualCond (D.withCond fun _ => ⊥) D' b v = ⊤ := sorry
 
 end SelmerChecks
+
+/-! ## Layer 2A: Arithmetic Selmer comparisons and deformation tangents -/
+
+namespace Adjoint
+
+variable (k : Type*) [Field k] (n : Type*) [Fintype n] [DecidableEq n]
+
+/-- §2A.4: for the unipotent real involution over `𝔽₂`, the invariant groups on `ad` and `ad⁰` both
+have order four, while the norm images have orders four and two. Thus their Tate `H⁰` groups
+have orders one and two, and the trace sequence retains its preceding Tate term. -/
+example :
+    let u : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![1, 1; 0, 1]
+    (Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) // u * X * u = X},
+      Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+        X.trace = 0 ∧ u * X * u = X},
+      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), Y = X + u * X * u},
+      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 2) //
+        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 2), X.trace = 0 ∧ Y = X + u * X * u}) =
+      (4, 4, 4, 2) := by
+  decide
+
+/-- §2A.4: **The determinant derivative is the trace**: `det(1 + εX) = 1 + ε tr X` over `k[ε]`. -/
+theorem det_one_add_eps (X : Matrix n n k) :
+    ((1 : Matrix n n (DualNumber k)) +
+        (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))).det =
+      1 + DualNumber.eps * algebraMap k (DualNumber k) X.trace := by
+  rw [Matrix.det_one_add_smul]
+  simp [pow_two, DualNumber.eps_mul_eps, mul_comm, Matrix.trace]
+
+end Adjoint
 
 /-! ## Layer 3: Iwasawa cohomology, control and determinants
 
@@ -1230,6 +1262,10 @@ dyadic real places it can have lower negative Tate cohomology. Section 2.22 uses
 groups of the specified diagram: ordinary invariants, or modified real Tate groups and zero
 complex-place groups. For trivial `𝔽_p` over `ℚ`, `S = {p, ∞}` and odd p, the strict ordinary
 H⁰ map has cokernel `𝔽_p`, while the modified map has zero cokernel;
+the arithmetic compact-support identification and Selmer H¹ correction (§2A.1),
+function-field Greenberg–Wiles (§2A.2), Selmer and deformation tangent comparison (§2A.3),
+the cohomological determinant fibres and their ordinary/modified trace sequences (§2A.4),
+and derived coefficient change with its Tor spectral sequence (§2A.5);
 `ellipticSelmerInfinity` (§2.12); Iwasawa algebras of `ℤ_p^d × Δ` with their
 coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
 `iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
