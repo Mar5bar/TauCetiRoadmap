@@ -28,7 +28,8 @@ matrix multiplication, not casts identifying unequal matrix sizes.
 
 - [CStarAlgebras C1–C2](../CStarAlgebras/README.md) supplies ideals,
   quotients, multipliers and functional calculus. C5 supplies spatial
-  tensors and C*-inductive limits. C6–C8 supplies nuclearity, exactness
+  tensors, C*-inductive limits and the path/cone/mapping-cone API.
+  C6–C8 supplies nuclearity, exactness
   and completely positive liftings under their respective hypotheses.
 - [BanachAlgebras](../BanachAlgebras/README.md) supplies holomorphic
   functional calculus, used for idempotent loops in the direct Bott proof.
@@ -179,7 +180,7 @@ induced by an imprimitivity module, and prove identity, composition and
 agreement with full-corner maps; distinguish the chosen natural map from
 an abstract existence of a stable isomorphism.
 
-Consume CStarAlgebras C9's path, cone, suspension and mapping-cone
+Consume CStarAlgebras C5's path, cone, suspension and mapping-cone
 algebras and their pullback/extension API, with the cone/evaluation
 convention fixed above. Establish their K-theory sequences and
 homotopies, cone contractibility, and the action of orientation reversal
@@ -260,9 +261,10 @@ Pin the odd-by-odd torus product to `q*β`: q collapses the two
 coordinate circles in 𝕋² and has degree +1 from the ordered (s,t)
 two-cell to the complex-oriented sphere. Thus the positive winding
 classes satisfy `[z_s]×[z_t]=q*β` for the tautological β fixed above.
-Construct the representative and compare it with the ordered suspension
-and Clifford product, rather than choosing its sign after an index
-calculation. NoncommutativeGeometry N2 computes its cyclic pairing.
+Construct the representative and prove this pinning using the ordered
+suspension and clutching maps. K5–K6 owns the subsequent explicit
+Clifford/KK product comparison; K3's product construction does not use
+KK-theory. NoncommutativeGeometry N2 computes its cyclic pairing.
 
 Develop topological K-theory of dense inverse-closed Fréchet subalgebras
 `𝒜⊆A`, where the Fréchet topology is stronger than the ambient C*-norm
@@ -376,6 +378,20 @@ of the Clifford/suspension comparison, not adjustable matrix labels. These
 are the analytic complex Clifford conventions; geometric real KO and
 its signature conventions remain in TopologicalKTheory.
 
+Pin the two-odd-factor period reduction `Cl₁⊗̂Cl₁→Cl₂` by
+`e⊗1↦e₂`, `1⊗e↦e₁`. The individual generators and the displayed
+Cl₂ matrix model stay fixed. The two-suspension comparison cycle is
+`s e₂+t e₁`, with even-to-odd block `t−is=−iz` in the ordered
+plane; its clutching winding is positive and its class is β.
+The unswapped reduction `e⊗1↦e₁`, `1⊗e↦e₂` instead has
+block `s−it=conjugate z` and class −β. Prove the comparison between
+these two reductions acts by −1 after graded Morita equivalence.
+Use the displayed swapped reduction in the parity-reduced K/KK product
+comparisons. Relative to the unswapped convention the adapter contributes
+`(−1)^(pq)` for p,q∈{0,1}; prove its coherence for triple products
+from `pq+(p+q)r=qr+p(q+r)` modulo two. This records a choice of
+period reduction, not a change to the underlying Kasparov product.
+
 For separable graded A and σ-unital graded B, define a Kasparov cycle
 `(E,φ,F)` with E a countably generated graded right Hilbert B-module,
 φ a graded *-homomorphism into L(E), and F odd and adjointable. For
@@ -420,8 +436,9 @@ ordinary K-group identifications use trivially graded B. Prove the equivalent su
 including the graded Morita maps establishing two-periodicity. Normalize
 the one-suspension comparison with the positive winding class
 `u(t)=exp(2πit)` (the Cayley form `(x−i)/(x+i)` in the increasing
-real coordinate), and the two-suspension comparison with β in the
-ordered plane and the fixed Cl₂ matrices. Construct these comparison
+real coordinate), and the two-suspension comparison with the displayed
+`s e₂+t e₁` cycle, β in the ordered plane and the fixed Cl₂ matrices.
+Construct these comparison
 cycles and prove their scalar evaluation, rather than selecting their
 sign from an abstract ℤ-isomorphism. Identify
 `KK_i(ℂ,B)≃K_i(B)` and `KK_i(A,ℂ)` with analytic K-homology via
@@ -475,7 +492,11 @@ Construct connections, use the technical theorem to construct product
 operators, and prove uniqueness up to operator homotopy. Establish
 independence of all cycle and connection choices, bilinearity,
 associativity, identity classes, and compatibility with homomorphisms,
-Morita equivalences, suspension and the K3 external product. Develop
+Morita equivalences, suspension and the K3 external product, using K5's
+explicit parity-reduction adapter. Record its minus sign for two odd
+factors when comparing with the unswapped Clifford convention; include
+the resulting signs in the K-theory/K-homology index interchange and
+the ordered two-circle/Dirac example. Develop
 the external KK product and its graded interchange law.
 
 Form the additive KK-category of separable graded C*-algebras with
