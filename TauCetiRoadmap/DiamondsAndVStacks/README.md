@@ -4108,7 +4108,9 @@ also build the completed pullback of `O⁺` and its point valuations.
 continuous ring isomorphism `ULift.down` (Mathlib `ULift.uniformSpace`, `ULift.instCompleteSpace`
 and the `IsTopologicalRing (ULift R)` instance), and conjugates pair maps by `ULift.up` and
 `ULift.down`. It is fully faithful, and an object of `PairCat.{1} p` lies in its essential image
-exactly when its ring is `Small.{0}`: the structure then transports to `Shrink.{0}` of the ring.
+exactly when its ring `A` satisfies `Small.{0} A ∧ (c = true → (p : A) = 0)`: the structure
+and characteristic condition then transport to `Shrink.{0} A`. For `c = false` the criterion
+is just `Small.{0} A`.
 `Geometry.HasAffinoidCharts p c` is the property of `X : PerfectoidSpace.Perfd.{1} p` that every
 point has an open neighbourhood `U` for which `X.obj.restrict U.isOpenEmbedding` is isomorphic in
 `PreAdicSpace.{1}` to `PerfectoidSpace.ofPair p` of the lift of some `R : Geometry.Affinoid p c`.
@@ -4264,6 +4266,10 @@ strictly disconnected case ([ECD] Definition 7.1, Lemma 7.3 and Proposition 7.16
 - `Affinoid_ulift_homs` — Pair maps between two lifts are exactly the conjugates of pair maps by
   `ULift.up` and `ULift.down`; distinct pair maps have distinct lifts.
 - `Affinoid_ulift_zero` — The zero pair lifts to the zero pair, whose spectrum is empty.
+- `Affinoid_ulift_cyclotomic_selector` (non-example) — The lift of the
+  `Perfectoid.padicCyclotomic p` pair is in the essential image for `false` and outside it for
+  `true`: its ring is `Small.{0}` but `(p : ULift.{1} (Perfectoid.padicCyclotomic p)) ≠ 0`
+  ([ECD] Example 3.4(i), pp. 14–15). The Lean example with this label states these two ring facts.
 
 **`Geometry.HasAffinoidCharts` — Checks.**
 
@@ -6172,15 +6178,17 @@ of `G̲` on `X̃` over `X` such that v-locally on `X` there is a `G̲`-equivaria
 here: over a v-sheaf `Y`, a `G̲`-torsor is a torsor under the sheaf of groups `G̲` on the site
 `(Perf/Y, v)` in the sense of SchemeAndStackFoundations §2.3, so its isomorphism classes form §2.3's
 `NonabelianH1` of that site, and §1.15's fppf torsors over schemes are the other specialisation of
-the same notion. Owned here are the diamond-specific statements that follow. If `X` is a perfectoid
-space, then `X̃` is representable by a perfectoid space — a theorem, not part of the definition —
+the same notion. For the following geometric conclusions take `G : Type` and
+`X : Geometry.Perf p`, the charted carrier of D1.11. Then `X̃` is representable by a space in
+`Geometry.Perf p` — a theorem, not part of the definition —
 and `X̃ → X` is pro-étale, universally open and a v-cover; for every open subgroup `K ⊂ G` the
 pushout `X̃_K` of `X̃` along the discrete `G`-set `G/K` is separated étale over `X`; for `K' ⊂ K` of
 finite index the transition map `X̃_{K'} → X̃_K` is finite étale; and `X̃` is the inverse limit of
 the `X̃_K` over the open subgroups `K` ([ECD] §10, Lem. 10.13 with proof, pp. 53–54). The functor
 `T ↦ T̲` is used again for the compact Hausdorff diamonds of layer D4 and for the Berkovich quotient
-of layer D5. For `G` profinite and `X = Spa(C, O_C)` a `G̲`-torsor is `X × S̲` for a profinite set
-`S` with a free transitive `G`-action, which is the shape appearing in the proofs of [ECD] Prop.
+of layer D5. For `G : ProfiniteGrp.{0}` and `X = Spa(C, O_C)` with `C : Type` algebraically closed,
+a `G̲`-torsor is `X × S̲` for `S : Profinite.{0}` with a free transitive `G`-action, which is the
+shape appearing in the proofs of [ECD] Prop.
 11.26 and Prop. 13.12; the classifying stack of `GL_n(ℚ_p)` from the introduction of [ECD] is
 `[*/G̲]`, whose atlas `* → BG̲` is a `G̲`-torsor. The presheaf `T̲ : X ↦ C(|X|, T)` is Mathlib's
 `ContinuousMap.yonedaPresheaf` for the underlying-space functor `Perfd → TopCat`, functorial in `T`
@@ -6196,28 +6204,39 @@ for every topological space `T`, `ContinuousMap.yonedaPresheaf (perfdToTop p) T`
 indexing the family by the arrows of the sieve. Mathlib's `equalizerCondition_yonedaPresheaf` treats
 singleton descent under the stronger assumption that the underlying-space functor preserves the
 relevant pullbacks; the theorem here uses only surjectivity on pairs of points and covers with
-arbitrary index sets. For `S` profinite the v-sheaf `S̲ × Spa(R, R⁺)` is the affinoid perfectoid
+arbitrary index sets. For `S : Profinite.{0}` and a perfectoid pair with `R : Type`, the v-sheaf
+`S̲ × Spa(R, R⁺)` is the charted affinoid perfectoid
 space `Spa(C⁰(S, R), C⁰(S, R⁺))` of PerfectoidSpaces layer P6 (`prodProfinite`, [ECD] Ex. 11.12);
 only the identification as v-sheaves is used here. Define `IsTorsor` as the predicate that `f` is a
 `G̲`-torsor, by v-local triviality (the torsor notion of SchemeAndStackFoundations §2.3 on the
-v-site); prove `Torsor.representable` (a `G̲`-torsor over a perfectoid space is representable by a
-perfectoid space) and `Torsor.isProEtale` (it is pro-étale, universally open and a v-cover); define
+v-site). With `G : Type` and `X : Geometry.Perf p`, prove `Torsor.representable` (a `G̲`-torsor
+over `X` is representable in `Geometry.Perf p`) and `Torsor.isProEtale` (it is pro-étale,
+universally open and a v-cover); define
 `Torsor.levelSpace` as the pushout `X̃_K` along `G/K` for `K` an open subgroup, separated étale over
 `X`; prove `Torsor.levelSpace_finiteEtale` (for `K' ⊂ K` of finite index the transition map is
 finite étale) and `Torsor.asLimit` (`X̃` is the inverse limit of the `X̃_K` over the open subgroups
-`K`). *Needs:* Mathlib `ContinuousMap`, `ContinuousMap.yonedaPresheaf`,
+`K`). These geometric level-space and limit assertions carry the same `G : Type` and charted-base
+hypotheses. For a compact open subgroup `H ⊂ G`, the open normal subgroups of `H` and their
+finite quotients give a `Small.{0}` inverse system of finite étale levels over `X̃_H`.
+Its affinoid limits have `Small.{0}` coefficient rings; gluing them constructs the charted
+representing space. The ordered open subgroups of `G` also have `Small.{0}` total arrow type.
+*Needs:* Mathlib `ContinuousMap`, `ContinuousMap.yonedaPresheaf`,
 `equalizerCondition_yonedaPresheaf`, `ProfiniteGrp`, `TotallyDisconnectedSpace`; D3.9; D3.6; D2.2;
-D0.7; SchemeAndStackFoundations §§1.15 and 2.3; PerfectoidSpaces layer P6 (`prodProfinite`).
+D0.7; D1.11; PerfectoidSpaces P5.3 (affinoid limits formed with `Small.{0}` diagrams);
+SchemeAndStackFoundations §§1.15 and 2.3; PerfectoidSpaces layer P6 (`prodProfinite`).
 
 **Checks.**
 
-- `s3_10_split_torsor` (degenerate case) — `G̲ × X` is a `G̲`-torsor over `X`, and its level spaces are
+- `s3_10_split_torsor` (degenerate case) — for `G : Type` locally profinite and
+  `X : Geometry.Perf p`, `G̲ × X` is a charted `G̲`-torsor over `X`, and its level spaces are
   disjoint unions of copies of `X`.
-- `s3_10_finite_group` — for `G` finite, a `G̲`-torsor is a finite étale Galois cover with group `G`; a
-  definition that does not recover this is wrong.
-- `s3_10_profinite_over_geometric_point` — for `X = Spa(C, O_C)` and `G` profinite, a torsor is `X × S̲`
-  for `S` a profinite set with a free transitive `G`-action.
-- `s3_10_not_etale` (non-example) — for `G` infinite profinite and `X ≠ ∅` the torsor `X̃ → X` is
+- `s3_10_finite_group` — for `G : Type` finite, a `G̲`-torsor is a finite étale Galois cover with
+  group `G`; a definition that does not recover this is wrong.
+- `s3_10_profinite_over_geometric_point` — for `X = Spa(C, O_C)` with `C : Type` algebraically
+  closed and `G : ProfiniteGrp.{0}`, a torsor is `X × S̲` for `S : Profinite.{0}` with a free
+  transitive `G`-action.
+- `s3_10_not_etale` (non-example) — for `G : ProfiniteGrp.{0}` infinite and
+  `X : Geometry.Perf p` nonempty, the torsor `X̃ → X` is
   pro-étale and not étale, separating the two classes: already the split torsor `G̲ × X → X` is not
   étale, since its fibre over a point `Spa(C, O_C) → X` is `G̲ × Spa(C, O_C)`, a profinite set of
   points, while an étale map has discrete fibres over a geometric point. For `X = ∅` every map to
@@ -6231,6 +6250,18 @@ D0.7; SchemeAndStackFoundations §§1.15 and 2.3; PerfectoidSpaces layer P6 (`pr
   surject onto `|U| ×_{|X|} |V|` (PerfectoidSpaces layer P4, *fibre-product-points-surjective*).
   Without the first input the sheaf condition fails for a non-quotient surjection (continuous maps
   out of the coarser topology are fewer).
+- `s3_10_large_group_not_representable` (non-example) — Put `I = ℕ × Type`,
+  `G = I → ZMod 2` with the compact product topology, and `P = Spa(C, O_C)` for an algebraically
+  closed characteristic-p perfectoid field `C : Type`. The split torsor `G̲ × h_P → h_P`
+  is not representable over `P` in `Geometry.Perf p`. If a representing space had an affinoid
+  open `V` containing the zero section, the set `B ⊆ G` of `P`-sections factoring through `V`
+  would be `Small.{0}`, by the small pair-map description of `Hom_P(P, V)`. Each block subgroup
+  supported on `{n} × Type` is not `Small.{0}`. Choose `g_n` in that block outside `B`.
+  Coordinatewise `g_n → 0`, giving a continuous `h : OnePoint ℕ → G`. The charted test object
+  `P × underline(OnePoint ℕ)` would map to the representing space with inverse image of `V`
+  exactly `{∞}`, which is not open. This excludes every charted representing space, although
+  the ambient profinite product exists in `Perfd.{1} p`. The Lean example
+  `s3_10_large_group_escape` states the continuous escape from any small `B` containing zero.
 
 The torsor Checks require the sheaf of continuous maps, a group action over the base with local equivariant trivializations, the associated `G/K`-spaces and their adic realization. A torsor of sets alone does not express the claimed pro-étale or étale morphism.
 
@@ -6357,8 +6388,9 @@ sections, invariance over the base, local sections, and simple transitivity on e
 fibre. `Geometry.isTorsor_sheaf_iff` identifies existence of such an action with
 `Geometry.IsTorsor` ([ECD] Definition 10.12, p. 53).
 
-For a Hausdorff locally compact totally disconnected group, `Geometry.Torsor.representable`
-identifies a torsor over a perfectoid space with a perfectoid space, by an equivalence over
+For a Hausdorff locally compact totally disconnected group `G : Type` and a base
+`X : Geometry.Perf p`, `Geometry.Torsor.representable`
+identifies a torsor over `X` with a space in `Geometry.Perf p`, by an equivalence over
 the base; `Geometry.Torsor.isProEtale` states that its representing morphism is pro-étale,
 universally open and a v-cover. `Geometry.Torsor.levelSpace` is the diagram over the ordered
 open subgroups: its value is the sheaf coequalizer of the subgroup action and projection,
@@ -6368,9 +6400,13 @@ quotient by the left `K` action. `Geometry.Torsor.levelSpace_quotient` character
 natural quotient maps by their invariant-map universal property.
 `Geometry.Torsor.levelSpace_representable` identifies each level over a perfectoid base
 with a separated étale perfectoid space; `Geometry.Torsor.levelSpace_finiteEtale` handles
-finite-index inclusions of open subgroups. `Geometry.Torsor.asLimit` supplies the limit cone
+finite-index inclusions of open subgroups. The representing levels and transition maps carry
+the same `G : Type` and charted-base hypotheses. `Geometry.Torsor.asLimit` supplies the limit cone
 over the base, whose legs are invariant epimorphisms from the torsor
 ([ECD] Lemma 10.13, pp. 53–54).
+The abstract `Geometry.IsTorsor`, `Geometry.Torsor`, subgroup coequalizers and stackification
+allow larger-universe groups; the `G : Type` bound belongs to their geometric representability,
+morphism-class and limit applications.
 
 **Checks.**
 
@@ -6391,8 +6427,9 @@ over the base, whose legs are invariant epimorphisms from the torsor
 - `Perfd.underlineSheaf_empty_of_isEmpty` — Continuous maps from an empty test space to the empty space form a singleton.
 - `Perfd.underlineSheaf_not_sheaf_without_quotient` — If a test arrow induces a continuous bijection that is not a quotient map, continuous maps into its source fail descent for that singleton family.
 
-Lean: `isSheaf_yonedaPresheaf` (the v-sheaf property of `T̲` on PerfectoidSpaces' `Perfd p`). The
-rest of this subsection is specified in the README only (no Lean declaration).
+Lean: `isSheaf_yonedaPresheaf` (the v-sheaf property of `T̲` on PerfectoidSpaces' `Perfd p`) and
+the topological example `s3_10_large_group_escape`. The rest of this subsection is specified
+in the README only (no Lean declaration).
 
 ### Examples
 
@@ -6518,7 +6555,7 @@ Tate rings and algebras); PerfectoidSpaces layer P2 (fibre products of perfectoi
   `R` the diagonal `X → X × X`.
 - `profinite_quotient` (characterisation) — for `S` profinite with a free action of a finite group
   `G`, the quotient of `S̲ × Spa(C, O_C)` by `G` is a diamond which is a perfectoid space.
-- `compact_hausdorff` (non-example) — for `T` compact Hausdorff, `T̲ × Spa(K, O_K)` is a diamond
+- `compact_hausdorff` (non-example) — for `T : CompHaus.{0}`, `T̲ × Spa(K, O_K)` is a diamond
   whose underlying space is `T`, which is not spectral in general; this is a required test of the
   layer.
 - `not_every_v_sheaf` (non-example) — not every v-sheaf is a diamond; the definition is not weakened
@@ -6836,7 +6873,7 @@ use the perfectoid field pairs and the open-immersion comparison of PerfectoidSp
 
 - `perfectoid_space` (characterisation) — for `Y` a perfectoid space, `|Y|` is the underlying
   topological space of `Y`.
-- `compact_hausdorff` (non-example) — for `Y = T̲ × Spa(K, O_K)` with `T` compact Hausdorff,
+- `compact_hausdorff` (non-example) — for `Y = T̲ × Spa(K, O_K)` with `T : CompHaus.{0}`,
   `|Y| = T`; in particular `|Y|` need not be spectral, the required non-example.
 - `independent_of_presentation` (compatibility) — two presentations of the same diamond give the
   same topology; a construction whose topology depends on the atlas is wrong. For `Y = Spa(C, O_C)`
@@ -6990,12 +7027,14 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 ### D4.6 Compact Hausdorff spaces as diamonds
 
 **Compact Hausdorff spaces embed fully faithfully into diamonds.** (*compact-hausdorff-diamonds*)
-Fix a perfectoid field `K` of characteristic `p`. Prove that the functor sending a compact Hausdorff
-space `T` to `T̲ × Spa(K, O_K)` is a fully faithful functor from compact Hausdorff spaces to
+Fix a perfectoid field `K : Type` of characteristic `p`. Prove that the functor sending
+`T : CompHaus.{0}` to `T̲ × Spa(K, O_K)` is a fully faithful functor from `CompHaus.{0}` to
 diamonds over `Spa(K, O_K)`; full faithfulness uses that every surjection of compact Hausdorff
 spaces is a quotient map (Mathlib `Continuous.isClosedMap` with
 `Topology.IsClosedMap.isQuotientMap`), and the presentation comes from the profinite cover
-`CompHaus.projectivePresentation T` with its closed relation (D0.16). For `S` profinite,
+`CompHaus.projectivePresentation T` with its closed relation (D0.16). Both the presentation
+`S` and its relation `S ×_T S` lie in `Profinite.{0}`; their continuous-function rings over `K`
+are in `Type`, so the resulting atlas and relation lie in `Geometry.Perf p`. For `S : Profinite.{0}`,
 `S̲ × Spa(K, O_K)` is the affinoid perfectoid space `Spa(C⁰(S, K), C⁰(S, O_K))` of PerfectoidSpaces
 layer P6 (`PerfectoidSpace.prodProfinite` and `PerfectoidSpace.globalSections`, with Check
 `prodProfinite_Zp_sections` for the sections), identified with the product of v-sheaves through
@@ -7015,19 +7054,43 @@ Mathlib `Continuous.isClosedMap`, `Topology.IsClosedMap.isQuotientMap`.
 
 **Checks.**
 
+- `compHaus_empty` — the empty object of `CompHaus.{0}` gives the empty diamond and empty
+  realization.
+- `compHaus_point` — a one-point object gives `Spa(K, O_K)` and its one-point realization;
+  morphisms from it recover the points of the target compact Hausdorff space.
+- `compHaus_profinite` — for `S : Profinite.{0}`, the atlas is
+  `Spa(C⁰(S, K), C⁰(S, O_K))`, with the original topology on `S`; this includes the Cantor set.
 - `interval_not_spectral` — the unit interval is not spectral. This checks the topological
   obstruction in `compact_hausdorff`; constructing its associated diamond requires
   `CompHaus.projectivePresentation`, perfectoid profinite products, and the quotient comparison.
+- `compHaus_large_cube_topology` (non-example) — Let `T = Type → ZMod 2` with its compact
+  product topology and `A = {t : T | Small.{0} {i : Type // t i ≠ 0}}`.
+  The set `A` is dense, since it contains finite-support points, and proper, since it excludes
+  the all-ones point, so it is not closed. For every continuous `h : S → T` with `S : Type`,
+  let `J` be the union of the supports of `h(s)` for `s ∈ h⁻¹(A)`. This union is `Small.{0}`,
+  and `h⁻¹(A) = h⁻¹({t | support(t) ⊆ J})` is closed. Checking on small open charts gives
+  the same conclusion for every `S = |X|` with `X : Geometry.Perf p`. For
+  `P = Spa(C, O_C)` with `C : Type` algebraically closed of characteristic `p`, the canonical
+  evaluation map `q : |T̲ × h_P| → T` therefore has closed inverse image of `A`, by the final
+  topology of realization. Constant sections hit every point of `T`; nevertheless `q` cannot
+  be a homeomorphism. The Lean examples `compHaus_large_cube_dense`,
+  `compHaus_large_cube_not_closed` and `compHaus_large_cube_small_preimage` state the three
+  topological facts used here.
 
 `Perf.Diamond.compHaus_embedding` asserts a fully faithful functor from
-`CompHaus` to the slice of `Geometry.VSheaf p` over the represented
+`CompHaus.{0}` to the slice of `Geometry.VSheaf p` over the represented
 `Spa(K, O_K)`, with object formula `T̲ × Spa(K, O_K)` and diamond image.
-`Perf.Diamond.compHaus_space` gives the homeomorphism to `T`, normalized by
+For the same `K : Type` and `T : CompHaus.{0}`, `Perf.Diamond.compHaus_space` gives the
+homeomorphism to `T`, normalized by
 evaluation of the continuous-map coordinate on every test-space section
-([ECD] Example 11.12, pp. 58–59). `Geometry.maximalField` supplies `O_K` even
+([ECD] Example 11.12, pp. 58–59; Example 11.16, p. 60). The continuous-map sheaf for a
+larger-universe compact Hausdorff space is still defined by D3.10.
+`Geometry.maximalField` supplies `O_K` even
 when the input field pair has a smaller plus ring.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: the examples `compHaus_large_cube_dense`, `compHaus_large_cube_not_closed` and
+`compHaus_large_cube_small_preimage` give the boundary topology. The geometric embedding and
+space comparison are specified in the README only.
 
 ### D4.7 Small v-sheaves and small v-stacks
 
@@ -7065,8 +7128,8 @@ qcqs and the atlas spatial then the relation is spatial) and `Perf.IsSmallVStack
 
 - `diamond` (degenerate case) — every diamond is a small v-sheaf.
 - `classifying_stack` (non-example) — the classifying stack `BG` of a nontrivial locally profinite
-  group `G` over a geometric point is a small v-stack that is not a v-sheaf; for trivial `G` it is
-  the base sheaf.
+  group `G : Type` over a charted geometric point is a small v-stack that is not a v-sheaf;
+  for trivial `G` it is the base sheaf.
 - `quasicompact_is_small` (characterisation) — a quasicompact v-sheaf is small without any further
   hypothesis.
 
@@ -7103,7 +7166,8 @@ is the classifying stack over `B` ([ECD] Definition 12.4, p. 70; §10 torsors).
 - `classifyingGroupoid_empty` — A test space with no section of `B` has no objects in this groupoid.
 
 The `classifying_stack` Check uses `Geometry.classifyingGroupoid` over the represented field point
-`Spa(C, O_C)` and asserts smallness of its stack quotient. Its atlas has automorphism sheaf `G̲`.
+`Spa(C, O_C)` with `C : Type` and locally profinite `G : Type`, and asserts smallness of its stack
+quotient. Its atlas relation is `G̲ × Spa(C, O_C)`, represented by the charted product of D3.10.
 `quasicompact_is_small` applies the finite-subcover condition of D0.17 on the perfectoid site.
 
 **`IsSmallVSheaf`.** On the point test site a single representable atlas has only one section.
@@ -7248,7 +7312,7 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 ### D4.10 Small quotients of v-sheaves
 
 **Small quotients of v-sheaves.** (*small-quotients-and-underlying-spaces*) Let `F` be a small
-v-sheaf with a continuous sheaf action of `G̲` for a locally profinite group `G`. Prove that the
+v-sheaf with a continuous sheaf action of `G̲` for a locally profinite group `G : Type`. Prove that the
 v-sheaf quotient `Q = F/G̲` is small and that `|Q|` is homeomorphic to `|F|/G` with the quotient
 topology ([GLX] §3, Lem. 3.2, first assertion, pp. 16–17). The relation of the quotient is
 `F × G̲ → F × F`, `(x, g) ↦ (x, gx)`, which is injective exactly when the action is free; when
@@ -7308,7 +7372,7 @@ target.
 - `Perf_Diamond_coequalizerSpace_distinct_generator` — For the two identity arrows on the Boolean sheaf, the comparison sends the class of `false` to a point different from the topological class of `true`.
 
 `Perf.IsSmallVSheaf.action_quotient` takes a small `Geometry.VSheaf p`, a locally
-compact Hausdorff totally disconnected topological group, and a sheaf action whose
+compact Hausdorff totally disconnected topological group `G : Type`, and a sheaf action whose
 section maps are actions of continuous group-valued functions. It gives smallness
 of the sheaf coequalizer and a homeomorphism to the orbit space. The induced group
 action is fixed on section generators, and the homeomorphism takes the sheaf
@@ -7446,11 +7510,12 @@ Lean: none; this subsection is specified in the README only (no Lean declaration
 The worked examples of this layer are the checks above: a characteristic `p` perfectoid space as a
 diamond with the diagonal relation; the quotient of `S̲ × Spa(C, O_C)` by a free action of a finite
 group on the profinite set `S`, a diamond that is a perfectoid space; the compact Hausdorff diamonds
-`T̲ × Spa(K, O_K)` with underlying space `T`, not spectral for `T` the unit interval, and
-`S̲ × Spa(K, O_K) = Spa(C⁰(S, K), C⁰(S, O_K))` for `S` profinite; the refusal to define diamonds as
+`T̲ × Spa(K, O_K)` for `T : CompHaus.{0}` with underlying space `T`, not spectral for `T` the
+unit interval, and `S̲ × Spa(K, O_K) = Spa(C⁰(S, K), C⁰(S, O_K))` for `S : Profinite.{0}`;
+the refusal to define diamonds as
 v-sheaves with a perfectoid surjection, which are the small v-sheaves; the independence of the
 underlying space from the presentation and the classical open-subset correspondence for a perfectoid
-space; the classifying stack `BG` of a nontrivial locally profinite group as a small v-stack that is
+space; the classifying stack `BG` of a nontrivial locally profinite `G : Type` as a small v-stack that is
 not a v-sheaf; a quasicompact v-sheaf as small with no further hypothesis; a quasi-pro-étale map
 from a perfectoid space that is surjective on underlying spaces without being a surjection of
 v-sheaves, the non-example for the quasicompactness hypothesis of [ECD] Lem. 12.11, realised by
@@ -7583,7 +7648,7 @@ be a diamond). *Needs:* D4.5; D4.1; D4.4; D4.7; D4.8; D0.17; D0.1; D0.9; D4.6.
 
 - `qcqs_perfectoid` (degenerate cases) — a qcqs perfectoid space is a spatial diamond; a
   non-quasicompact one is locally spatial and not spatial.
-- `compact_hausdorff_not_spatial` (non-example) — `T̲ × Spa(K, O_K)` for `T` compact Hausdorff and
+- `compact_hausdorff_not_spatial` (non-example) — `T̲ × Spa(K, O_K)` for `T : CompHaus.{0}` and
   not profinite is qcqs and not spatial; this is the non-example separating the notions.
 - `space_is_spectral` (non-example) — spatiality implies spectrality of `|Y|`; the required basis
   consists of qc open subfunctors, not merely arbitrary topological opens, so a definition asking
@@ -8399,8 +8464,9 @@ D3.6; D5.6; D3.8.
   the one that fails, and both directions of the "exactly when" are used.
 - `not_representable_in_perfectoid_spaces` (non-example) — a morphism of diamonds need not be
   representable in perfectoid spaces; a definition imposing that is wrong.
-- `classifying_stack` (characterisation) — the map from a geometric point to the classifying stack
-  of a locally profinite group is representable in locally spatial diamonds and quasi-pro-étale.
+- `classifying_stack` (characterisation) — the map from a charted geometric point to the classifying
+  stack of a locally profinite group `G : Type` is representable in locally spatial diamonds and
+  quasi-pro-étale, by D3.10 with its charted-base hypothesis.
 
 In the next three targets `Ỹ → Y` is a map of v-stacks and `f̃ : Y' ×_Y Ỹ → Ỹ` the base change of
 `f`.
@@ -8809,8 +8875,8 @@ qcqs statement). *Needs:* D0.7; D0.16; D4.5; D5.1; D4.7; D3.10; PerfectoidSpaces
   `|𝔻|_B = colim_n M(O(𝔹_n))` is the open Berkovich disc with the union topology; `|𝔻| → |𝔻|_B` is
   still a quotient map ([ECD] Prop. 13.10 asks nothing of `Y`), and the compact Hausdorff conclusion
   is the one that needs qcqs.
-- `compact_hausdorff_diamond` (characterisation) — for `Y = T̲ × Spa(K, O_K)` with `T` compact
-  Hausdorff, `|Y|_B = T`.
+- `compact_hausdorff_diamond` (characterisation) — for `Y = T̲ × Spa(K, O_K)` with
+  `T : CompHaus.{0}`, `|Y|_B = T`.
 
 Lean: none; this subsection is specified in the README only (no Lean declaration).
 
@@ -9156,7 +9222,7 @@ README only (no Lean declaration).
 
 The worked examples of this layer are the checks above and the acceptance cases of the theorems: a
 qcqs perfectoid space as a spatial diamond and a non-quasicompact one as locally spatial but not
-spatial; `T̲ × Spa(K, O_K)` for `T` compact Hausdorff and not profinite, a qcqs diamond that is not
+spatial; `T̲ × Spa(K, O_K)` for `T : CompHaus.{0}` not profinite, a qcqs diamond that is not
 spatial, and the same space with `|Y|_B = T` as its Berkovich space; spectrality of `|Y|` against
 the requirement of a basis of qc open subfunctors; the quasicompact injection into a non-spatial
 diamond for which spatiality fails; the finite étale covers in the class `E` made spatial by finite
@@ -9167,7 +9233,8 @@ that point is everything, against localization at a maximal generalization; the 
 empty generalizing subdiamonds and the non-generalizing closed point of a specialization chain; a
 diamond `Y` as base of a map representable in diamonds exactly when the source is a diamond, a
 quasi-pro-étale map of locally spatial diamonds, a morphism of diamonds not representable in
-perfectoid spaces, and the geometric point of the classifying stack of a locally profinite group; a
+perfectoid spaces, and the charted geometric point of the classifying stack of a locally profinite
+`G : Type`; a
 rank-two point and its rank-one generalization with the same image in the normalised Berkovich
 spectrum, and the change of normalization `ϖ' = ϖ²`; `|Spa(C, C⁺)|_B` a point, the affinoid
 perfectoid disc, and the set-theoretic maximal-generalization section that is not continuous. The
@@ -9441,7 +9508,9 @@ limit comparisons of D5.3. Here the complete Tate ring is in `Type`; AdicEtaleGe
 `FiniteEtaleTorsorTower A` has its directed index in that same universe. Its opposite has
 `Small.{0}` total arrow type, as do the finite-subset and countable iterations used to build it.
 Thus all these uses of D5.3 meet its lower-universe condition, and their completed pairs are
-charted. For `(A, A⁺)` perfectoid the statement reduces to [ECD] Lem. 15.2. The
+charted. The limit group is `G : ProfiniteGrp.{0}`, since it is a closed subgroup of the
+`Type`-indexed product of the finite `G_i`; the uses of D3.10 therefore carry its group-size
+hypothesis. For `(A, A⁺)` perfectoid the statement reduces to [ECD] Lem. 15.2. The
 identification of the underlying space is the reason the functor preserves all topological
 information, and is what the étale-site comparison of D6.5 uses ([ECD] §15, Lem. 15.3 with proof, p.
 90, for the tower; [ECD] §15, Prop. 15.4 with proof, pp. 90–91, for the statement). *Needs:* Mathlib

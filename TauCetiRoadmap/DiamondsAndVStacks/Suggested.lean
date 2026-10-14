@@ -13,8 +13,9 @@ import TauCetiRoadmap.PerfectoidSpaces.Suggested
 The README is the definitive specification. These are suggested forms for the targets that can be
 stated against Mathlib, Tau Ceti and the PerfectoidSpaces roadmap as they stand: the spectral
 topology of D0, the topological part of the disconnected perfectoid spaces of D1, the v-topology
-on Tau Ceti's perfectoid spaces with its descent theorems (D2–D3), and the Berkovich spectrum and
-the component formula of D5. Constructions that are themselves formalisation targets (pro-étale
+on Tau Ceti's perfectoid spaces with its descent theorems (D2–D3), the size obstructions for
+torsors and compact Hausdorff realization (D3–D4), and the Berkovich spectrum and the component
+formula of D5. Constructions that are themselves formalisation targets (pro-étale
 morphisms and sites, stackification, diamonds, their underlying spaces, spatial diamonds, marked
 untilts and `Spd`) are specified in the README only.
 -/
@@ -266,6 +267,14 @@ variable (p : ℕ) [Fact p.Prime]
 theorem isAffinoidPerfectoid_of_isTotallyDisconnected (X : Perfd.{u} p)
     (hX : isTotallyDisconnected X.obj) : isAffinoidPerfectoid p X.obj := sorry
 
+-- Check `Affinoid_ulift_cyclotomic_selector`: the lifted cyclotomic field is small in the
+-- chart universe and has nonzero p (ECD Example 3.4(i), pp. 14–15).
+example : Small.{0} (ULift.{1} (padicCyclotomic p)) ∧
+    (p : ULift.{1} (padicCyclotomic p)) ≠ 0 := by
+  refine ⟨inferInstance, fun hp ↦ ?_⟩
+  have h : (p : padicCyclotomic p) = 0 := congrArg ULift.down hp
+  exact (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero) h
+
 section Flatness
 
 variable {R S : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
@@ -371,6 +380,31 @@ theorem vTopology_subcanonical : (vTopology.{u} p).Subcanonical := sorry
 before Definition 10.12, p. 53). -/
 theorem isSheaf_yonedaPresheaf (T : Type u) [TopologicalSpace T] :
     Presieve.IsSheaf (vTopology p) (ContinuousMap.yonedaPresheaf (perfdToTop p) T) := sorry
+
+-- Check `s3_10_large_group_escape`: the large compact Boolean group admits a sequence
+-- supported on disjoint blocks that converges to zero and escapes every small set containing
+-- zero. This supplies the open-neighbourhood obstruction to charted torsor representability
+-- in README D3.10; the bounded representability theorem is ECD Lemma 10.13, pp. 53–54.
+example (B : Set ((ℕ × Type) → ZMod 2)) (hB : Small.{0} B)
+    (hzero : (0 : (ℕ × Type) → ZMod 2) ∈ B) :
+    ∃ h : OnePoint ℕ → ((ℕ × Type) → ZMod 2), Continuous h ∧ h OnePoint.infty = 0 ∧
+      ∀ n : ℕ, h (n : OnePoint ℕ) ∉ B ∧
+        ∀ i : ℕ × Type, i.1 ≠ n → h (n : OnePoint ℕ) i = 0 := sorry
+
+/-! ## Layer D4: the size boundary of compact Hausdorff realization -/
+
+-- Check `compHaus_large_cube_dense`: finite-support points lie in the small-support subset,
+-- which is dense in the large Boolean cube (README D4.6; ECD Example 11.12, pp. 58–59).
+example : Dense {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}} := sorry
+
+-- Check `compHaus_large_cube_not_closed`: the all-ones point is outside the dense subset.
+example : ¬ IsClosed {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}} := sorry
+
+-- Check `compHaus_large_cube_small_preimage`: the union of the supports at points in the
+-- preimage is small, and the corresponding coordinate subcube is closed. Realization on the
+-- charted site therefore cannot recover the original topology of this large compact space.
+example (S : Type) [TopologicalSpace S] (h : C(S, Type → ZMod 2)) :
+    IsClosed (h ⁻¹' {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}}) := sorry
 
 /-! ## Layer D5: spatial geometry and Hausdorff reduction -/
 
