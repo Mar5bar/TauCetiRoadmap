@@ -39,19 +39,6 @@ universe u
 
 /-! ## Layer IG.0: Galois algebras, local systems and pro-étale fundamental groups -/
 
-/- The characteristic-zero Tate-module parametrization is `e_ζ : ẑ → T`,
-`a ↦ (ζ_n^a)_n`, and the coordinate map is its inverse `c_ζ : T → ẑ`.
-For a profinite unit `u`, `e_(ζ^u) = e_ζ ∘ [u]` and `c_(ζ^u) = [u⁻¹] ∘ c_ζ`,
-where `[u]` denotes multiplication by `u`. The scheme fundamental-group identification
-is a README target. -/
-
--- A unit reducing to `2 mod 5` changes the coordinate of `ζ₅` to `3 mod 5`.
-example {M : Type*} [CommMonoid M] {ζ : M} (hζ : IsPrimitiveRoot ζ 5) :
-    (ζ ^ 2) ^ 3 = ζ := by
-  calc
-    (ζ ^ 2) ^ 3 = ζ ^ 6 := (pow_mul ζ 2 3).symm
-    _ = ζ := by rw [show 6 = 5 + 1 from rfl, pow_succ, hζ.pow_eq_one, one_mul]
-
 section GaloisAlgebra
 
 variable (K : Type*) [Field K] (A : Type*) [CommRing A] [Algebra K A]
@@ -93,7 +80,7 @@ theorem isGaloisAlgebra_of_isGalois (K L : Type*) [Field K] [Field L] [Algebra K
 
 /-! ## Layer IG.1: arithmetic fundamental groups, inertia and specialization
 
-The objects of this layer (arithmetic and tame fundamental groups, inertia groups of covers,
+The objects of this layer (tame fundamental quotients, tangential fibres,
 specialization maps) are built on the étale fundamental group of a scheme, which is not available
 at the pinned libraries; they are README targets only. For characteristic exponent `p`,
 local tame inertia uses `TauCeti.PrimeToPTateModule p K`, whose indices satisfy
@@ -985,13 +972,15 @@ theorem inverseGaloisProblem_of_regular :
 Not stated in this file, because the objects they concern are not available at the pinned
 libraries; the README states each of them in full:
 Layer IG.0: `LatticeScheme`, `AdicLocalSystem`, `IsogenyLocalSystem`, `RationalLocalSystem`,
-`IsNoohiGroup`, `InfiniteGaloisCategory`, `ProetaleFundamentalGroup`, the identification of the
-fundamental groups of a field and of `𝔾_m`, and the comparison with the lisse `ℓ`-adic realization.
+`IsNoohiGroup`, `InfiniteGaloisCategory`, `ProetaleFundamentalGroup`, and the
+comparison with the lisse `ℓ`-adic realization.
+EtaleCohomologyFoundations F.0.A0–F.0.A2 supplies field and multiplicative-group identifications,
+the arithmetic sequence and SchemeInertia.
 The integral/isogeny/stackified rational local-system theory is owned here, including noninvertible
-p and rational objects without a global lattice. Supplied by LefschetzPencilsAndVanishingCycles
+p and rational objects without a global lattice. Supplied by EtaleCohomologyFoundations
 §F.0 / VanishingCycles.finiteEtaleGaloisCategory: finite lisse monodromy needs no coefficient
 invertibility, and based π₁ requires connected nonempty locally Noetherian schemes. Supplied by
-LefschetzPencilsAndVanishingCycles §F.4 / VanishingCycles.normalizedAdicSystems,
+EtaleCohomologyFoundations §F.4 / VanishingCycles.normalizedAdicSystems,
 VanishingCycles.rationalAdicRealization: the comparison uses only the common normalized lisse
 integral subcategory on connected Noetherian schemes with p invertible and uniform
 cohomological/Tor bounds. Its rationalization is fully faithful on the isogeny category, with
@@ -999,9 +988,9 @@ essential image the rational lisse degree-zero objects admitting a global lisse 
 The supplied full rational category contains the nodal rational line with monodromy p, which has
 a constructible integral model and lies outside this essential image. The comparison for the
 whole stackified rational-local-system category is outside this target's scope.
-Layer IG.1: the arithmetic exact sequence, finite étale covers over a henselian local base, proper
+Layer IG.1: finite étale covers over a henselian local base, proper
 descent of finite étale covers, invariance under
-algebraically closed base extension, `SchemeInertia`, `TameFundamentalGroup`,
+algebraically closed base extension, `TameFundamentalGroup`,
 `PrimeToFundamentalGroup`, `TameTangentialFiber`, the specialization theorems,
 `IsArithmeticRepresentation`, connected pointed finite étale Galois covers of semisimple groups
 over algebraically closed characteristic-zero fields as central isogenies, and the homogeneous-space
@@ -1019,16 +1008,21 @@ Layer IG.3: `ArtinNeighborhood`, `BranchCover`, `CoverDescent`, `HurwitzMove.equ
 `ReducedSchur.commutingCycle`, `ReducedSchur.homologicalCommutator`,
 `ReducedSchur.schurRelations`, `ReducedSchur.reducedMultiplier`, `ReducedSchur.schurRelations_empty`, the
 reduced Schur cover and the marked fibre product, the unit action, and stable classification.
-Layer IG.4: proper embedding problems with local prescriptions, Galois localization kernels,
-absolute finite Poitou–Tate, the restricted-ramification localization adapter with its mixed row
+Layer IG.4: proper embedding problems with local prescriptions, twisting of abelian-kernel solutions,
+the restricted-ramification localization adapter with its mixed row
 for full old local classes and new ramification classes, the auxiliary cokernel comparison with
-its splitting-field hypotheses and finite-group homology maps, Grunwald–Wang, free operator
+its splitting-field hypotheses and finite-group homology maps, free operator
 shrinking, `BrauerManinSet`, torus types and
 Brauer–Manin descent for cyclic stabiliser quotients, the quotient fibration and smaller stabiliser,
 Brauer–Manin fibration density over a quasi-trivial torus, Brauer–Manin density for supersolvable
 stabilisers, collectively coprime degrees of ordinary field realizations, unramified Brauer classes
 of finite quotients of `SL_n`, unramified
 `Γ`-groups, Property E and the marked extension count over `𝔽_q(t)`.
+ArithmeticGaloisDuality R02.3.0d/R02.4.5a/R02.4.5b supplies finite Galois localization,
+absolute finite Poitou–Tate and Grunwald–Wang.
+Layer IG.0.T1–IG.0.T4: VanishingCycles.curveEndomorphismTrace,
+VanishingCycles.etaleTraceFormulaFinite, VanishingCycles.etaleTraceFormula,
+VanishingCycles.pointCountTrace.
 Layer IG.5: topological and arithmetic Hurwitz spaces, tame `G`-covers of smooth proper target
 curves of arbitrary genus, the general-genus Hurwitz comparison for the smooth admissible locus
 and versal families, admissible `G`-covers, the cohomological comparisons, component invariants, patching of Galois algebras and of covers with a
