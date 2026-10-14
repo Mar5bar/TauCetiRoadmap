@@ -67,11 +67,11 @@ lemmas, the analytic equivalence between flat connections and local systems with
 parameters, the nilpotent-retaining Artin-base de Rham–Betti comparison, analytification of differential
 operators and proper hypercohomology comparison for operator complexes, small singular cochains and the sheaf–singular comparison for arbitrary abelian
 coefficients, the proper de Rham–Betti comparison with its multiplicative and integral structure,
-Ehresmann's fibration theorem and Betti local systems, the Gauss–Manin connection and the relative
+the underlying-smooth analytification adapter for Ehresmann fibrations and Betti local systems, the Gauss–Manin connection and the relative
 comparison, compact elliptic theory for the Hodge Laplacian, harmonic projection and the Green
 operator, the compact Kähler Hodge decomposition, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem, the test-form topology and current calculus with positivity, mass and local regularization, integration over analytic
 cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle
-and its Čech–curvature comparison, and the Chern normalisation, sheafification and analytification of
+and its integral identification with the shared smooth first Chern class, and the Chern normalisation, sheafification and analytification of
 shared ordinary connections,
 regular singularities, canonical logarithmic extensions, Deligne's Riemann–Hilbert equivalence and
 nonproper comparison, the curve logarithmic and compact-support complexes with residues, and the
@@ -86,15 +86,19 @@ and refinement comparisons. SchemeAndStackFoundations §2.19, ClassicalAdicEtale
 and LefschetzPencilsAndVanishingCycles §F.2 consume this geometry and own their respective
 coherent and étale coefficient constructions and independence theorems.
 
-C6 is the single owner of stratified topology of finite-type complex schemes, topological
-local and constructible coefficient carriers, their sheaf–cochain comparisons, Riemann existence,
+C6 owns the noncompact/locally-closed and algebraic-gluing extensions of
+AffineMorseLefschetz A4’s compact closed-family triangulation. It owns finite locally constant
+module sheaves and their fibre-preserving equivalence with the finite-stalk full subcategory
+of the native `TauCeti.LocalCoefficientSystem`, constructible topological coefficients,
+their sheaf–cochain comparisons, Riemann existence,
 the analytic-to-étale site morphism, and ordinary, compact-support and relative finite Artin
 comparison. These use AlgebraicModuliForArithmeticGeometry §7.10.1's analytic-space carrier
 and analytification functor. InverseGaloisAndArithmeticFundamentalGroups uses the same cover
 equivalence and comparison maps for its puncture, ramification and Hurwitz-space adapters.
 C5.1's constant sheaf–singular comparison retains arbitrary abelian coefficients and its
-non-Hausdorff domain. C6 uses it and constructs the additional local-coefficient and compact-support
-theory.
+non-Hausdorff domain. C6 uses it and constructs the local-system sheaf resolution, stratified and compact-support
+comparisons; generic direct local-system cochains and their topological identities come from
+AlgebraicTopology Stage 6.1.
 
 C6.6 is the single owner of the topological realization of normalized adic systems, its derived
 inverse limit and rationalization, and integral/rational ordinary and compact-support Artin
@@ -171,6 +175,23 @@ in §F.9. C6 does not use that application to construct its comparisons.
   canonical derived functors, derived limits/completion, étale support localization and
   compactification-defined proper supports. These use the geometry of §§C4.3a–C4.3c;
   coherent proper-support algebraization in C4.3 uses the same geometry with `O_X`-modules.
+- *SmoothBundlesConnections, B1.5.* The general proper-surjective-submersion theorem on
+  finite-dimensional Hausdorff second-countable real smooth manifolds without boundary,
+  with native `FiberBundle`/`Trivialization` charts smooth in both directions over the base,
+  componentwise model fibres and restriction/pullback maps. C5.2's `ehresmannFibration`
+  supplies the underlying-smooth holomorphic/analytification adapter and the relative Betti
+  consequence. This dependency uses B1.5's submersion construction, not its principal-bundle
+  applications or the rest of that roadmap.
+- *Same roadmap, B2 and B6.1–B6.4.* Native smooth complex bundles and Hermitian metrics;
+  the integral exponential/Čech-to-singular construction for the inverse-character line of a
+  right principal circle bundle, its pullback/tensor/dual laws, rank-one curvature comparison
+  and flat-holonomy Bockstein. C5.4 forgets holomorphic structure and identifies its class
+  integrally with this one. CharacteristicClasses C1.5 and C3 use the same line class.
+- *AffineMorseLefschetz, A4, opening triangulation paragraphs.* The compact semialgebraic
+  finite closed-family theorem, subcomplexes, compatible subdivisions and dimension API.
+  C6.0 constructs the noncompact/locally-closed and separated algebraic chart-gluing
+  extensions. Only this foundational leaf is consumed, not A4's complement duality or its
+  Lefschetz applications.
 - *UniversalCovers.* Fundamental-groupoid transport, covering classification, lifting and deck
   transformations for C6's finite topological covers and local systems.
 - *SchemeAndStackFoundations.* Algebraic spaces, their étale sites and descent (Layer 1); site
@@ -197,8 +218,8 @@ Layers 12B–12C; C4.5 constructs the affine completion immersion); StableReduct
 theory); and the completed HodgeStructures roadmap
 (abstract pure Hodge structures, implemented in Tau Ceti as `TauCeti.Hodge.HodgeStructureOn` and
 `TauCeti.Hodge.Conjugation`). None of these is re-planned; where this roadmap needs more in one of
-their directions (Hodge stars, Kähler identities, compact elliptic theory on bundles, Ehresmann's
-theorem, Chern connections), the additional target is stated here with its exact relation to the
+their directions (Hodge stars, Kähler identities, compact elliptic theory on bundles,
+holomorphic submersion adapters, Chern connections), the additional target is stated here with its exact relation to the
 supplier.
 
 **Already in the Tau Ceti library.** Montel's theorem for open subsets of `ℂ` is `TauCeti.montel`
@@ -215,7 +236,14 @@ The cochain and cup suppliers are in `TauCeti.AlgebraicTopology.Cohomology.Basic
 `TauCeti.AlgebraicTopology.Cohomology.Cup`; subdivision and the inclusion equivalence are in
 `TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Homotopy` and
 `TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Equiv`. The Fredholm supplier is in
-`TauCeti.Analysis.Fredholm.CompactPerturbation`.
+`TauCeti.Analysis.Fredholm.CompactPerturbation`. The native local-system carrier is
+`TauCeti.LocalCoefficientSystem Λ T` (ring first), with evaluation, path transport,
+monodromy and pullback in `TauCeti.AlgebraicTopology.LocalCoefficient`. Its finite-stalk
+full subcategory is `FiniteModuleLocalSystem Λ T` in C6.1. The pinned
+`TauCeti.LocalCoefficientSystem.twistedCochainComplex` in
+`TauCeti.AlgebraicTopology.Cohomology.Twisted.Basic` takes Hom from twisted chains;
+with scalar target it computes dual-system cochains. C6.1 consumes AlgebraicTopology
+Stage 6.1's direct cochains with the actual coefficient fibres.
 
 Outside this scope are definable Chow and o-minimal algebraization
 (LogicAndDefinabilityInNumberTheory, LD.6); Borel's algebraicity theorem for maps into arithmetic
@@ -276,7 +304,14 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   the differential.
 - **Periods and Chern classes.** The positively oriented unit circle gives `∮ dz/z = 2πi`. The first
   Chern form of a Hermitian holomorphic line bundle is `(i/2π)Θ`; the normalised Fubini–Study form
-  represents `c₁(O(1))` and integrates to `1` over a projective line.
+  represents `c₁(O(1))` and integrates to `1` over a projective line. SmoothBundlesConnections
+  B6's right principal circle class is the class of its inverse-character associated line;
+  the standard-character line has its negative. For a holomorphic line `L`, the unit-frame
+  bundle of `L∨` supplies that convention, so its inverse-character line is `L`.
+- **Hermitian pairing.** Smooth bundle metrics use Mathlib's convention, conjugate-linear in
+  the first slot: `h(s,t) = s* H t` in column coordinates. The pairing displayed in the Hodge
+  star identity is `⟨α,β⟩ = h(β,α)`, linear in the first slot. Transport this swap when
+  comparing Chern connections with SmoothBundlesConnections B2–B4.
 - **Hodge star and Laplacian.** The Hodge star on complex forms is `ℂ`-linear, defined by
   `α ∧ *β̄ = ⟨α, β⟩ vol`; complex conjugation sits in the Hermitian pairing, not in `*`. The Hodge
   Laplacian `Δ = dδ + δd` is nonnegative; on functions it is the negative of DifferentialGeometry's
@@ -363,13 +398,21 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `TauCeti.smallSingularSubdivisionHomotopy` (subdivision is homotopic to the identity on
   cover-small chains), and `TauCeti.smallSingularChainHomotopyEquiv` (their inclusion into
   all chains is a chain homotopy equivalence). They require an open family covering the space.
+- `TauCeti.LocalCoefficientSystem Λ T := FundamentalGroupoid T ⥤ ModuleCat Λ` in
+  `TauCeti.AlgebraicTopology.LocalCoefficient`, with `constantFunctor`, `fiberFunctor`,
+  `transport`, `monodromyRepresentation`, `pullback` and the identity/composition/homotopy comparisons.
+  `FiniteModuleLocalSystem Λ T` is its full subcategory cut out by
+  `∀ x, Finite (L.obj x)`; finite means finite underlying sets, not finite projectivity.
+  Sheaf equivalence identifies these modules and their path maps themselves.
+  `TauCeti.LocalCoefficientSystem.twistedCochainComplex` is Hom from twisted chains,
+  hence dual-valued with scalar target; it is used only with that convention.
 - `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` (compact perturbations of Fredholm
   operators are Fredholm), for Banach spaces. This supplies the finite-kernel case;
   `schwartzFiniteness` treats a surjection with no finite-kernel hypothesis.
 - `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`, `TauCeti.IsSemialgebraicMap` in
   `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic` and `.Function`: polynomial sign sets,
-  finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 builds
-  compatible triangulations and their topology using these carriers.
+  finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 extends
+  AffineMorseLefschetz A4’s compact compatible triangulations using these carriers.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -382,10 +425,26 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `deRhamCohomology`; Layer 8: the de Rham theorem `deRhamEquiv`; Layer 9: Poincaré duality and
   `finiteDimensional_deRhamCohomology` for compact manifolds; Layer 12: Riemannian metrics and
   `laplaceBeltrami = div ∘ grad`. All over `ℝ`; complex manifolds, Hermitian metrics, Chern
-  connections, the Hodge star and Ehresmann's theorem are not there and are targets of C1 and C5.
+  connections and the Hodge star are C1 targets; SmoothBundlesConnections B1.5 owns the
+  general Ehresmann theorem used through C5.2’s holomorphic adapter.
 - **AlgebraicTopology.** Stage 6: singular cochains with coefficients in an arbitrary module
   (abelian groups over `ℤ`), universal coefficients, cup and cap products, orientation and
-  fundamental class, Poincaré duality; Stage 8: compact smooth manifolds are of finite CW type.
+  fundamental class, Poincaré duality; Stage 6.1: direct local-system cochains, relative
+  cochains, coefficient maps, homotopy/excision/Mayer–Vietoris and constant-system comparison,
+  with no projectivity assumption. Its tensor-paired products supply C6.1's cup identities.
+  C6.1 owns the locally constant sheaf/native-functor dictionary and its sheaf resolution;
+  this supplier owns the generic direct complex. Stage 8: compact smooth manifolds are of finite CW type.
+- **SmoothBundlesConnections.** B1.5 supplies the native smooth proper-submersion
+  trivializations to C5.2. B2 supplies the smooth complex bundle carrier/operations and
+  conjugate-first Hermitian metrics; B6.1–B6.4 supplies the integral circle/exponential
+  class, Čech–singular–de Rham comparison and Bockstein to C5.4. The holomorphic bundle
+  adapter and equality with this integral class are C5.4 targets; CharacteristicClasses
+  C1.5 and C3 supply its universal/classical first-Chern identification on these bundles.
+- **AffineMorseLefschetz.** A4's opening triangulation foundation supplies a finite
+  simplicial complex `K`, a semialgebraic homeomorphism `|K| ≅ S` for compact `S`,
+  subcomplexes for a finite closed family and compatible subdivisions. C6.0 extends that
+  model and owns its comparison with separated complex algebraic charts and open simplices.
+  No complement duality or Lefschetz theorem is an input to these extensions.
 - **PDE.** Lane A: Sobolev spaces and Rellich compactness on bounded Euclidean domains; Lane D:
   Gårding's inequality, Lax–Milgram and the Fredholm alternative for scalar elliptic operators;
   Lane E: interior regularity. Scalar and Euclidean only; the compact bundle version is a C5 target.
@@ -858,7 +917,7 @@ manifold `M` (C0.3) with a smooth Hermitian metric `h`: the unique connection
 `D = D' + D''` on the smooth sections of `E` that is compatible with `h` and whose `(0,1)`-part is
 the `∂̄`-operator of the holomorphic structure. Its curvature `Θ(E) = D²` is an
 `End(E)`-valued `(1,1)`-form, and `i Θ(E)` is Hermitian. In a holomorphic frame with Hermitian
-matrix `H`, `D = d + H⁻¹ ∂H`, `Θ = ∂̄(H⁻¹ ∂H)`. The API is `ChernConnection.dbar_part`
+matrix `H` for the conjugate-first metric `h(s,t) = s* H t`, `D = d + H⁻¹ ∂H`, `Θ = ∂̄(H⁻¹ ∂H)`. The API is `ChernConnection.dbar_part`
 (`D'' = ∂̄_E`), `ChernConnection.metric` (`d h(s,t) = h(Ds,t) + h(s,Dt)`) and
 `ChernConnection.curvature_type` (`Θ(E)` has type `(1,1)`) (Demailly, V.10.3, p. 267, and
 V.12.1–12.2, pp. 268–269; normal frames V.12.10, p. 270). DifferentialGeometry's connections are
@@ -1923,13 +1982,40 @@ the parameter integral keeps holomorphic dependence on the base. For coefficient
 isomorphism (Deligne 1970, I.2.23(ii)–(iii) and proof, printed pp. 15–19).
 *Needs:* `HolomorphicDeRham`; `holomorphicPoincare`; `analyticFlatConnectionLocalSystem`.
 
-Prove `ehresmannFibration`: a proper surjective submersion `f : M → N` of smooth manifolds is a
-locally trivial fibre bundle: every `y ∈ N` has a neighbourhood `V` with a diffeomorphism
-`f⁻¹(V) ≅ V × f⁻¹(y)` over `V`. Lift coordinate vector fields horizontally; properness makes their flows
-complete on preimages of small cubes, and the composed flows give the trivialization (tom Dieck,
-*Differential Manifolds*, author notes of January 2009, Theorems 2.2.1 and 2.2.3 and
-Corollary 2.2.4, pp. 52–53). DifferentialGeometry has flows (Layer 3) but not this theorem. *Needs:*
-TauCetiRoadmap.DifferentialGeometry (Layer 3, flows of vector fields).
+Prove `ehresmannFibration`, the holomorphic/analytification adapter to
+SmoothBundlesConnections B1.5: for a proper surjective holomorphic submersion
+`f : T → S` of finite-dimensional Hausdorff second-countable complex manifolds without
+boundary, forget to their real smooth structures and prove `Manifold.IsSubmersion I J ∞ f`.
+The native continuous map has the same properness and surjectivity. Consume B1.5's
+regular-fibre manifold carrier and smooth `FiberBundle` atlas, componentwise on `S`:
+for every `s`, a `Trivialization` over an open `V` represents an actual diffeomorphism
+`f⁻¹(V) ≅ V × f⁻¹(s)` with first projection `f`. Compare the total-space identification
+with the original `T`; both chart maps are smooth for the underlying real models.
+For a proper smooth surjective morphism of smooth separated finite-type complex schemes,
+prove these hypotheses for its analytification using §7.10.1's properness and local analytic
+submersion comparisons.
+
+For a holomorphic base map `g : S′ → S` between these manifolds, identify the native
+pullback bundle with `T ×_S S′ → S′` on its submersion fibre-product manifold. Pull back
+each supplied chart, retaining the projection square and fibre map; prove the identity and
+composition comparisons. The smooth local trivializations are imported from B1.5, not
+chosen independently after base change. The general proper-submersion theorem and horizontal
+lift infrastructure have their single owner in that supplier; this adapter supplies
+`relativeBettiLocalSystem` (tom Dieck, *Differential Manifolds*, January 2009,
+Theorems 2.2.1 and 2.2.3 and Corollary 2.2.4, pp. 52–53; Deligne 1970, I.2.24–2.25, p. 19).
+*Needs:* SmoothBundlesConnections B1.5's foundational submersion/trivialization leaf;
+AlgebraicModuliForArithmeticGeometry §7.10.1; Mathlib `Manifold.IsSubmersion`,
+`FiberBundle`, `Trivialization` and the real smooth structure of complex manifolds.
+
+**Checks.**
+
+- `P¹ × S → S` uses the product smooth chart, and its pullback to `S′` is the same product
+  chart with the base coordinate changed by `g`.
+- Over two disjoint base components, the families with fibres `P¹` and an elliptic curve have
+  componentwise bundle models; both fibres have complex dimension one, but they are not
+  diffeomorphic, so no single fixed fibre is asserted for both components.
+- For `z ↦ zⁿ` on `ℂ*`, `n ≥ 1`, the proper holomorphic submersion has `n`-point fibres;
+  its smooth trivializations and those of its pullback give the same fibre permutations.
 
 Prove `relativeBettiLocalSystem`: for a proper smooth holomorphic map `f : T → S` of complex manifolds
 (proper surjective submersion) and an abelian group `A`, `R^q f_* A` is a locally constant sheaf with
@@ -2327,42 +2413,62 @@ Mathlib `circleIntegral`.
   `ChernConnection.lineBundleCurvature`.
 
 Define `integralLineBundleChernClass L ∈ H²_sing(M, ℤ)` for a holomorphic line bundle `L`
-on a complex manifold `M`, from the transition cocycle of its underlying smooth complex line
-bundle. On the smooth sheaves use the exponential sequence
-`0 → ℤ → C∞_M(ℂ) → C∞_M(ℂ)ˣ → 1`, where the last map is `u ↦ exp(2πiu)`.
-Prove exactness by local smooth logarithms; refine a trivializing cover so that its intersections
-admit logarithms. With coordinate transitions `g_αβ` from the β-coordinates to the α-coordinates, apply the connecting map to
-`[g] ∈ H¹(M, C∞_M(ℂ)ˣ)` and then `sheafSingularComparison`. For local logarithms
-`g_αβ = exp(2πiu_αβ)`, its integral Čech representative is
-`n_αβγ = u_βγ − u_αγ + u_αβ`. Prove independence of the cover, frames and logarithms,
-isomorphism invariance, naturality under holomorphic pullback, tensor additivity, and the
-trivial-bundle and dual formulas. This construction retains integral torsion and is independent
-of any metric or meromorphic section.
+on a complex manifold `M` by forgetting to SmoothBundlesConnections B2's native smooth
+complex `VectorBundle`/`ContMDiffVectorBundle` carrier. Construct this forgetful adapter
+from C0.3's holomorphic bundle dictionary by restricting scalars on the base charts;
+its maps remain fibrewise complex-linear. Prove compatibility with pullback, tensor, dual
+and the trivial line. Equip the underlying line with a smooth Hermitian metric only to form
+its unit-frame circle bundle: let `P_L` be the right unit-frame bundle of the dual smooth
+line. Identify `P_L ×_Circle ℂ` for the inverse character `z ↦ z⁻¹` with the underlying
+smooth `L`. Changes of metric induce the same bundle class.
 
-For every smooth Hermitian metric `h`, prove that the real coefficient-change image of this
-class, under the smooth de Rham comparison, is `[(i/2π)Θ(L,h)]`; extension to `ℂ` gives the
-complex version. Build the Čech–de Rham comparison from the fine resolution of the constant real
-sheaf by smooth forms, prove its terms acyclic by smooth partitions of unity, and identify it
-with DifferentialGeometry's integration comparison, compatibly with the sheaf–singular map and
-coefficient change. In unitary smooth frames the
-local connection forms satisfy `A_β − A_α = 2πi du_αβ` and `Θ = dA_α`; the total-complex
-signs carry `n = δu` to `(i/2π)Θ`. Changes of metric change this form by an exact form.
-Use C1.3's Chern connection for holomorphic `L`; no global meromorphic section is required
-(Demailly, V.8.2 and V.9.2–9.5, printed pp. 264–265, with the Čech–de Rham signs in IV.6.11).
+Consume SmoothBundlesConnections B6.1–B6.4's integral exponential/Čech-to-singular
+construction and define the class using its `c₁(P_L)`. Prove equality in integral singular
+cohomology with CharacteristicClasses C1.5/C3's first Chern class of the underlying
+complex line, before coefficient change. Pullback, tensor additivity, dual negation and
+triviality commute with this equality. The generic exponential sequence, cover refinement,
+Čech comparison and curvature/Bockstein comparison have their single owner in
+SmoothBundlesConnections B6; the holomorphic adapter and integral identification are here.
+
+Identify the cocycles explicitly. If `g_αβ` changes β-coordinates to α-coordinates in unitary
+frames of `L` and `g_αβ = exp(2πiu_αβ)`, then the dual-frame principal cocycle is
+`g^P_αβ = g_αβ⁻¹` with angle `φ^P_αβ = −2πu_αβ`. B6's inverse-character class has
+integer representative `−δφ^P/(2π) = δu`, where
+`(δu)_αβγ = u_βγ − u_αγ + u_αβ`. Prove this equality through the shared integral
+Čech-to-singular map, its refinements and coefficient connecting maps. The inclusion of
+unitary transitions into smooth nonzero complex transitions identifies this class with
+the connecting image of `[g]` for `u ↦ exp(2πiu)` in the smooth complex exponential
+sequence (the positive real factor has a global smooth logarithm). No metric or meromorphic
+section is part of the integral class.
+
+For C1.3's Chern connection, transport the conjugate-first bundle metric
+`h(s,t) = s* H t` to B2–B4's convention; the linear-first Hodge pairing is `h(t,s)`.
+On `P_L`, the dual connection's real circle curvature `F_P` satisfies
+`Θ(L) = −i F_P`. B6.1–B6.3's Čech–singular–de Rham comparison therefore sends the
+real coefficient image of the integral class to `[(i/2π)Θ(L,h)] = [F_P/(2π)]`;
+extending coefficients gives the complex comparison. Prove this square uses
+DifferentialGeometry's integration comparison and C5.1's `sheafSingularComparison`.
+Changing the metric changes the curvature representative by an exact form
+(Demailly, V.8.2 and V.9.2–9.5, printed pp. 264–265; IV.6.11 for the Čech–de Rham sign;
+V.12.1–12.2, pp. 268–269 for the Chern connection).
 *Needs:* `holomorphicBundleDictionary`; `ChernConnection`; `sheafSingularComparison`;
-SchemeAndStackFoundations §2.1–2.2 (connecting maps and Čech-to-cohomology);
-DifferentialGeometry Layers 6–8 (smooth Poincaré lemma, de Rham cohomology and integration);
-Mathlib `SmoothPartitionOfUnity.exists_isSubordinate`.
+SmoothBundlesConnections B2–B4 and B6.1–B6.4; CharacteristicClasses C1.5 and C3;
+DifferentialGeometry Layers 6–8.
 
 **Checks.**
 
-- The trivial holomorphic bundle has integral class zero. On `ℂ` the metric `‖1‖² = e^{−|z|²}`
-  has nonzero curvature `dz ∧ dz̄`, whose normalized form is exact; a nonzero curvature form
-  does not make the integral class nonzero.
-- On `P¹`, `O(1)` has the positive integral generator: its normalized Fubini–Study curvature
-  pairs to one with the complex-oriented fundamental class (`fubiniStudy_integral_eq_one`).
-- Tensoring `L` with its dual gives integral class zero and cancels the two normalized curvature
-  classes; this holds before coefficient change, including the torsion information.
+- The trivial holomorphic line has the shared integral class zero. On `ℂ`, the metric
+  `‖1‖² = e^{−|z|²}` has nonzero exact normalized curvature, still with integral class zero.
+- For `O(1)` on `P¹`, `P_L` is the Hopf bundle of frames of `O(−1)`; the shared
+  inverse-character class and `integralLineBundleChernClass O(1)` are the positive integral
+  generator, pairing to one (`fubiniStudy_integral_eq_one`).
+- For any right circle bundle `P`, its inverse-character line has class `c₁(P)` and its
+  standard-character line has class `−c₁(P)`. Thus the underlying dual of `L` has class
+  `−integralLineBundleChernClass L`, and `L ⊗ L∨` has integral class zero.
+- For a flat circle cocycle with holonomy class `h` and nonzero torsion Bockstein
+  `β(h)`, the shared integral representatives `−δφ^P/(2π)` and `δu` coincide and represent
+  `β(h)`; their real images vanish. Equality only after real coefficient change would miss
+  this test. Use B6.4's torsion cocycle and its connecting-map comparison.
 
 Prove `chernFubiniStudyIntersection`: for a Hermitian holomorphic line bundle `L` on a complex
 manifold, the form `(i/2π)Θ(L)` of its Chern connection is closed and its de Rham class is the image of the integral
@@ -2882,7 +2988,8 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 C0–C4; AlgebraicModuliForArithmeticGeometry (§§7.10.1 and 7.10.3; Layers 1–3 and 9);
 SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–3,
 5, 6, 8, 9 and 12); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
-D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C); TauCetiRoadmap.JacobianChallenge (Layer C);
+D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C); SmoothBundlesConnections B1.5, B2–B4, B6.1–B6.4;
+CharacteristicClasses C1.5, C3; TauCetiRoadmap.JacobianChallenge (Layer C);
 Tau Ceti `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`,
 `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`; Mathlib Kähler differentials, exterior powers,
 derivations, monoids and group completions, `circleIntegral`.
@@ -2893,7 +3000,8 @@ derivations, monoids and group completions, `circleIntegral`.
 
 Use `complexSchemeAnalytification` from AlgebraicModuliForArithmeticGeometry §7.10.1 on
 finite-type complex schemes, and write `T_X` for its underlying topological space. This layer
-owns the topological coefficient carriers, finite-cover equivalence, comparison-site morphism
+owns the finite-stalk sheaf/native-local-system dictionary and constructible coefficients,
+finite-cover equivalence, comparison-site morphism
 and finite/adic Artin equivalences on that analytic carrier. Its algebraic coefficient and
 operation suppliers are LefschetzPencilsAndVanishingCycles §§F.0–F.4 and
 ClassicalAdicEtaleCohomology's generic enhancement; coherent `O_X`-modules and de Rham complexes
@@ -2915,9 +3023,24 @@ homotopy equivalence, not compactness of `T_X`.
 
 Use `TauCeti.IsSemialgebraic` and its Boolean, product and polynomial inverse-image API,
 and `TauCeti.IsSemialgebraicOn` for maps. Consume RealAlgebraicGeometry's cell and projection
-theory; build the compatible subdivision and triangulation lemmas needed here, including
-finite-family compatibility, compact specialization and the passage from algebraic affine
-charts in `ℂⁿ = ℝ²ⁿ` to separated schemes by finite gluing. For arbitrary finite-type `X`
+theory and AffineMorseLefschetz A4's opening compact finite closed-family triangulation
+foundation: its output is a finite simplicial complex `K`, a semialgebraic homeomorphism
+`|K| ≅ S`, and subcomplexes for the prescribed closed subsets. Its compatible subdivision
+maps realize the identity on `S` and preserve those subcomplexes. The dimension comparison
+is that leaf's API; no complement duality or Lefschetz application is consumed.
+
+Construct here the extension to noncompact locally closed semialgebraic sets and finite
+locally closed strata. After a bounded semialgebraic embedding, in the compact closure
+record the closures and boundaries of the locally closed pieces as closed subsets; apply
+the supplied closed-family theorem and express each piece as a difference of subcomplexes,
+hence a union of open simplices. Retain the ambient finite complex and the selected open
+simplices, rather than asserting that this union is compact. Construct common compatible
+refinements, with realization homeomorphisms over the original space and subdivision maps
+on cochains commuting with stratum restrictions. Pass from affine algebraic charts in
+`ℂⁿ = ℝ²ⁿ` to separated schemes by finite gluing: identify chart-overlap maps with the
+algebraic coordinate changes, refine on the overlaps, and prove that the resulting realization
+maps glue to a homeomorphism over `T_X`. Prove cover/refinement independence and the finite
+CW and finite-cohomological-dimension consequences used by Artin comparison. For arbitrary finite-type `X`
 use finite affine covers to prove local compactness, local contractibility and local path
 connectedness, and also second countability and finite cohomological dimension via the
 finite-cover cohomology bound. Hausdorffness, global triangulation and the preceding global
@@ -2928,13 +3051,18 @@ finiteness package are asserted for separated `X`.
 (triangulation compatible with a finite family); SGA 1 XII §§1–3 for analytification's
 local topology and separatedness.
 *Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1; the pinned semialgebraic carriers;
-RealAlgebraicGeometry Layers 3, 6; AlgebraicTopology's simplicial and CW topology. The
-triangulation and gluing results just specified are constructed here.
+RealAlgebraicGeometry Layers 3, 6; AffineMorseLefschetz A4's compact triangulation leaf;
+AlgebraicTopology's simplicial and CW topology. The noncompact/locally-closed extension,
+algebraic chart gluing and finiteness consequences just specified are constructed here.
 
 **Checks.**
 
 - A nodal complex curve is locally contractible at its singular point.
-- `A¹_ℂ` has the homotopy type of a point despite being noncompact.
+- `A¹_ℂ` has the homotopy type of a point despite being noncompact; its finite ambient
+  triangulation selects open simplices, not a compact realization of the whole ambient complex.
+- On `P¹` stratified by `{0}`, `{∞}` and `ℂ*`, the point strata are subcomplexes and the
+  locally closed open stratum is a difference of subcomplexes. The two affine charts have
+  inversion as overlap map; their compatible refinement maps realize that same identification.
 - The affine line with doubled origin has the stated local topology and is not Hausdorff.
 
 ### C6.1 Local-coefficient and constructible topological cohomology
@@ -2942,17 +3070,34 @@ triangulation and gluing results just specified are constructed here.
 **Local-coefficient and constructible topological cohomology — `topologicalCoefficientComparison`.**
 For finite commutative `Λ`, build the category of finite `Λ`-local systems as locally
 constant topological module sheaves. On locally path-connected, semilocally simply connected
-spaces identify it with finite-module functors on the fundamental groupoid; use a basepoint
-only for a based representation statement. Supply stalks, pullback, finite limits/colimits,
-extensions, tensor, dual and path-change coherence. Cochains take values at the first vertex;
-the first face's value is transported back along the first edge. Prove the coboundary-square,
-pullback, homotopy, pair, excision, Mayer–Vietoris and tensor-paired cup identities. For
-constant coefficients consume C5.1's `SmallSingularCochains` and `sheafSingularComparison`
+spaces identify it with `FiniteModuleLocalSystem Λ T`, the finite-stalk full subcategory of
+`TauCeti.LocalCoefficientSystem Λ T`, not a separate functor carrier. The unit/counit identify
+the actual sheaf stalk at each vertex with `L.obj x` and match path maps with native
+`transport`; use a basepoint only for a based representation statement. Supply stalks,
+pullback, finite limits/colimits, extensions, tensor, dual and path-change coherence using
+the native constant/evaluation/monodromy and identity/composition/homotopy pullback maps.
+
+Consume AlgebraicTopology Stage 6.1's direct coefficient complex: in degree `n` it is
+`∏_σ L.obj(σ(v₀))`. Its first face term is transported from `σ(v₁)` back to `σ(v₀)`
+by the inverse of the native first-edge transport; the other face terms keep `v₀` and the
+alternating signs. The supplier owns the square-zero, pullback, homotopy, pair, excision,
+Mayer–Vietoris and tensor-paired cup identities. Its comparison with the pinned Hom-from-
+twisted-chains complex identifies cochains for the dual system with that Hom complex;
+identifying direct `L` with a double dual requires a displayed reflexivity isomorphism.
+No projectivity or reflexivity is imposed on finite coefficients here or in Artin comparison.
+For constant coefficients consume C5.1's `SmallSingularCochains` and `sheafSingularComparison`
 and Tau Ceti's ordinary singular complex and cup product.
 
-On locally contractible paracompact spaces prove the natural derived sheaf/singular
-comparison for these local systems. For a finite triangulation compatible with a finite
-constructible stratification, construct stratified cochains using the sheaf's restriction
+On locally contractible paracompact spaces construct the sheaf resolution by direct
+small local cochains using C5.1’s neighbourhood nestings: trivialize the local system on
+small opens, use the constant resolution there, and glue using its actual transport maps. Prove the augmentation preserves
+vertex fibres, local exactness, acyclicity and the quasi-isomorphism from the supplier's
+all-singular direct complex to global sections. This gives the natural derived sheaf/singular
+comparison for these local systems. C6.1 owns this sheaf/native-functor dictionary and
+resolution on this domain; AlgebraicTopology Stages 2.6 and 6.1 own generic coefficient
+functors and direct cochains. Apply the bridge to the analytic carrier and constructible strata.
+For a finite triangulation compatible with a finite constructible stratification, construct
+stratified cochains using the sheaf's restriction
 and specialization maps, and prove their derived comparison with sheaf cohomology for
 bounded constructible complexes. These coefficients need not be locally constant across
 strata. Prove compatibility with restriction and finite open-cover descent; the local-system
@@ -2970,9 +3115,11 @@ All maps retain coefficient change, cup/external products and coherent finite gr
 
 *Source:* Dimca, *Sheaves in Topology*, §§2.1–2.5, §3.2 and §4.1 (local systems,
 proper supports and constructibility); Sella, Theorem and Lemma 0.1, pp. 2–4, for the
-constant ordinary resolution used in C5.1. The local-system resolution and stratified
-cochain construction are the extensions specified here.
-*Needs:* §C6.0; UniversalCovers' groupoid/cover classification; C5.1; the singular suppliers
+constant ordinary resolution used in C5.1; Hatcher, §3.H, printed pp. 333–334, for direct
+local cochains. The transport-preserving sheaf equivalence, local-system resolution and
+stratified cochain construction are the extensions specified here.
+*Needs:* §C6.0; the native `TauCeti.LocalCoefficientSystem` and its finite-stalk restriction;
+AlgebraicTopology Stages 2.6 and 6.1; UniversalCovers' groupoid/cover classification; C5.1; the singular suppliers
 in *Exact supplier contracts*; ClassicalAdicEtaleCohomology §§0.1–0.4 on topological
 module sheaves, including `ClassicalDerived.tensorHom` and `ClassicalDerived.functorCoherence`.
 
@@ -2980,6 +3127,14 @@ module sheaves, including `ClassicalDerived.tensorHom` and `ClassicalDerived.fun
 
 - A rank-one `𝔽₃`-local system on `ℂ*` with monodromy `−1` is retained as a nonconstant
   object; its degree-zero global sections are zero.
+- On `ℂ*`, a rank-one `𝔽₅` system with positive-loop transport `2` has dual transport
+  `3 = 2⁻¹`. The sheaf/native unit identifies transport `2` itself, while direct cochains'
+  first-face term uses the reverse-edge transport `3`. Testing just the vanishing cohomology
+  groups would not distinguish the two systems.
+- Constant coefficients retain C5.1's augmentation and the ordinary singular cup product.
+- On a point, the finite nonprojective module `ℤ/2` over `ℤ/4` has direct degree-zero
+  cochains and sheaf sections equal to that module, and higher cohomology zero; the comparison
+  requires no projectivity. It does not replace the coefficient module by its dual.
 - A skyscraper at a closed point uses its point stratum and has no local-system extension
   across that point as a locally constant sheaf.
 - On a point, `ℤ/2` over `Λ = ℤ/4` has bounded cohomology but is not perfect.
@@ -3192,7 +3347,9 @@ coherent algebraization used in §C6.2; C5.1 supplies the constant ordinary reso
 and Leray from SchemeAndStackFoundations §§2.1–2.2, and the enhancement/support functors
 of ClassicalAdicEtaleCohomology §§0.1–0.4, 0.7–0.8. C6.6 additionally uses §F.4's adic
 realizations and ClassicalAdicEtaleCohomology's generic derived limits/completion. UniversalCovers,
-RealAlgebraicGeometry Layers 3, 6 and AlgebraicTopology supply the specified topology.
+RealAlgebraicGeometry Layers 3, 6, AffineMorseLefschetz A4’s compact triangulation leaf
+and AlgebraicTopology Stages 2.6 and 6.1 supply the specified topology. C6.1’s
+`FiniteModuleLocalSystem` restricts the native functor carrier to finite fibres.
 LefschetzPencilsAndVanishingCycles §F.9 consumes C6 for its nearby-cycle/inertia application.
 
 ## Worked examples
