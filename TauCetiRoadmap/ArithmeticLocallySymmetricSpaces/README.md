@@ -155,14 +155,13 @@ of Layer RG2.3, `classical-level-subgroups`), the Iwahori factorization (RG2.4.2
 restriction, corestriction and the Mackey double-coset formula in all degrees for open subgroups of
 a profinite group (Layer 10), which this roadmap applies to finite discrete groups.
 
-**Used from SchemeAndStackFoundations.** SchemeAndStackFoundations §2.23 (equivariant sheaf
-cohomology) supplies the category `EquivariantModules X Γ act` of equivariant sheaves of modules on
-a ringed space with a discrete group action, its enough injectives, the invariant global-section
-functor `invariantSections`, equivariant sheaf cohomology `equivariantCohomology` (written `H^n(X,
-Γ; F)` below), the acyclicity of the composite section functor (`coinducedSections_acyclic`) and
-equivariant cohomology with supports in a closed `Γ`-stable subset with its localisation long exact
-sequence; this roadmap applies the equivariant derived functor to the open–closed short exact
-sequence of equivariant sheaves to obtain the localization triangles it uses. ALS.F.2 extends the
+**Discrete equivariant cohomology.** ALS.F.4 supplies the category of equivariant module sheaves
+on the topological spaces used here, enough injectives, invariant sections and their derived
+functor (written `H^n(X, Γ; F)` below), including closed supports and localization. Its discrete
+specialization applies without compactness. SchemeAndStackFoundations §2.23 supplies the
+scheme-domain equivariant theory; no scheme structure on these arithmetic spaces is assumed.
+This roadmap applies the equivariant derived functor to the open–closed short exact sequence
+of equivariant sheaves to obtain its localization triangles. ALS.F.2 extends the
 shared perfectness interface to general rings and supplies restriction of scalars and the pseudo-coherence criterion. ALS.F.3 adapts supplied topological functors; ALS.F.4
 owns equivariant sheaves for topological (in particular locally profinite) groups.
 
@@ -443,17 +442,12 @@ apply on each transported open boundary stratum, with its own dimension and orie
   `corestrictionLe`, `corestriction_comp_res` (`res ≫ corestriction = [G : U] • 𝟙`), `mackeyTerm`
   and `corestriction_mackey`, for open subgroups of a profinite group acting on discrete modules;
   applied here to finite discrete groups.
-- **SchemeAndStackFoundations**, §2.23 (equivariant sheaf cohomology): `EquivariantModules X Γ act`
-  on a ringed space with a discrete group acting by `act : Γ →* Aut X`, enough injectives,
-  `invariantSections` (`F ↦ Γ(X, F)^Γ`), `equivariantCohomology` (its right derived functors, never
-  `H^n(X, F)^Γ`), `coinducedSections_acyclic` (`Γ(X,−)^Γ = Γ(Γ,−) ∘ Γ(X,−)` on injectives), and
-  `equivariantCohomologyWithSupport` for a closed `Γ`-stable subset with its localisation sequence.
 
 ### Shared suppliers
 
 Direct hard suppliers for the shared foundations and arithmetic interfaces include
 AdelicAlgebraicGroups, SmoothRepresentationsOfLocalGroups,
-ReductiveGroupsPartII, SchemeAndStackFoundations and IntegralHeckeAndGaloisDeterminants at the
+ReductiveGroupsPartII and IntegralHeckeAndGaloisDeterminants at the
 sections listed above, and LefschetzPencilsAndVanishingCycles, ComplexComparisonPartII and
 ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
 specification; `Suggested.lean` imports only the pinned Mathlib and Tau Ceti modules.
@@ -466,9 +460,9 @@ hyperbolic-space specialization does not supply a prerequisite here.
 | Generic perfect complexes and traces | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | The common commutative core has this owner. The supplier contract for CohomologicalPointCounting/TraceFormula Layers 1–3 and ALS.F.2 is to consume the perfect full subcategory of `DerivedCategory (ModuleCat A)`, with the realization, tensor/dual and trace identifications in `PerfectComplexInput(A)`. ALS.F.2 retains the general-ring extension, opposite-ring duals, restriction of scalars and right-module Tor tests; the point-counting consumer retains its geometric trace applications. Consumers import this core without assigning a second commutative carrier or generic trace API. |
 | Bounded constructible/ctf categories | Supplied by LefschetzPencilsAndVanishingCycles §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
 | Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The common finite-coefficient topological core has this owner. The supplier contract for CohomologicalPointCounting/ComplexComparison Layers 5–7 and ALS.F.3 is to consume its native local-system carrier, stalk/transport-preserving comparison and the same `j_!`, `Rf_!`, `RΓ_c`. Ordinary comparison uses locally contractible paracompact spaces; supports use locally compact Hausdorff spaces in that class and compact-support cochain comparison uses finite compatible triangulations. §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS assumes `TopologicalCoefficientInput` outside these domains and retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
-| [Cellular freeness](#cellular-freeness) | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause (kim-em) | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
-| [Neat-component group cohomology](#neat-component-group-cohomology) | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause (kim-em) | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
-| Proper action (outbound) | This roadmap [ALS.0.5](#symmetric-space-contractible) / proper-action and discrete-image/finite-kernel clause of `LocallySymmetric.symmetricSpace.contractible` | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` (an open TauCetiRoadmap pull request by t4v1), is the PSL₂(ℂ) special case after an equivariant identification of its H³ model with PSL₂(ℂ)/PSU(2) and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
+| [Cellular freeness](#cellular-freeness) | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
+| [Neat-component group cohomology](#neat-component-group-cohomology) | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
+| Proper action (outbound) | This roadmap [ALS.0.5](#symmetric-space-contractible) / proper-action and discrete-image/finite-kernel clause of `LocallySymmetric.symmetricSpace.contractible` | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` is the PSL₂(ℂ) special case after an equivariant identification of its H³ model with PSL₂(ℂ)/PSU(2) and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
 
 The finite-coefficient topological core of
 [CohomologicalPointCounting/ComplexComparison, Layers 5–7](https://github.com/bwangpj/TauCetiRoadmap/blob/4bd72379658126cbe9be935656396f0c9dac4de0/TauCetiRoadmap/CohomologicalPointCounting/ComplexComparison/README.md)
@@ -514,7 +508,8 @@ arithmetic consumers use these same maps through ALS.F.3 and ALS.1.4.
 - Triangulability (ALS.2.4, ALS.2.10): at neat `K`, the compact smooth manifolds with boundary
   obtained by rounding corners ([ALS.5a.1](#corner-boundary-bridge)) from `X̄_K` and from the
   compactified transported parabolic spaces `Ȳ^P_{L_g}` of
-  [ALS.2.10](#stratum-compactification) admit triangulations. This is Whitehead's smooth
+  [ALS.2.10](#stratum-compactification) admit triangulations with the boundary a subcomplex.
+  This is Whitehead's smooth
   triangulation theorem for compact smooth manifolds with boundary, as used in [BS73, §11.1];
   GeometricTopology states the smooth-implies-PL theorem, for manifolds without boundary, as item 1
   of its section *The smoothing-and-triangulation comparison*, which is not one of its layers. The
@@ -533,14 +528,18 @@ in which the targets are built is not the order of the text. It is the following
 every target's *Needs* precede it:
 
 ```text
-ALS.F.1–F.7; ALS.0.1–0.13; ALS.2.1–2.3; ALS.5a.1; ALS.1.1–1.6; ALS.2.4; ALS.1.7–1.8;
-ALS.2.5–2.10; ALS.3.1–3.14; ALS.5a.2–5a.4; ALS.4.1–4.7; ALS.4.9; ALS.4.10; ALS.4.8;
+ALS.F.1–F.7; ALS.0.1–0.13; ALS.2.1–2.3; ALS.5a.1; ALS.2.4 (geometric clause);
+ALS.1.1–1.6; ALS.2.4 (cohomological clause); ALS.1.7–1.8; ALS.2.5–2.10;
+ALS.3.1–3.8; ALS.3.11–3.12; ALS.3.9–3.10; ALS.3.13–3.14;
+ALS.5a.2–5a.4; ALS.4.1–4.7; ALS.4.9; ALS.4.10; ALS.4.8;
 ALS.4.11–4.13; ALS.5a.5–5a.6; ALS.5b.1–5b.9; ALS.6.1–6.4.
 ```
 
 Thus the Borel–Serre bordification, its compact quotients and the manifold-with-boundary bridge
 (ALS.2.1–2.3 and ALS.5a.1) come before the Betti complexes built on them; the finite triangulation
-ALS.2.4 comes after the finite-cell criterion ALS.1.6 and before coefficient change ALS.1.7; Verdier
+of ALS.2.4 comes next, before the compact-support comparison ALS.1.4 and the finite-cell
+criterion ALS.1.6. Its cohomological consequences then precede coefficient change ALS.1.7.
+The character twist ALS.3.12 precedes its cup-product use in ALS.3.9. Verdier
 duality, the pairings and the Hecke adjoints (ALS.5a.2–5a.4), which use only geometry, Betti
 complexes and Hecke operators, come before the boundary statements ALS.4.8 and ALS.4.11–4.13 that
 use them; localization ALS.4.9 comes before boundary gluing ALS.4.8; and the last two duality
@@ -755,8 +754,8 @@ Mathlib `DerivedCategory`, `CategoryTheory.Sheaf.H`, `TopCat.Sheaf`, `ModuleCat`
   `RΓ([0,1],j_!R) = R[−1]`; at `R = ℤ` this uses `TopologicalCoefficientInput(ℤ)`.
 - On a point, `ℤ/2` over `R = ℤ/4` lies in the finite-coefficient comparison domain and has
   bounded cohomology, but is not perfect: its Tor groups with `ℤ/2` are nonzero in every degree.
-- Non-example: `j_!` is not `j_*`: for this interval and constant `R`, their stalks at `0` are
-  respectively `0` and `R`.
+- Non-example: assume `R` is nonzero. `j_!` is not `j_*`: for this interval and constant `R`,
+  their stalks at `0` are respectively `0` and `R`.
 
 <a id="equivariant-sheaves-topological"></a>
 
@@ -767,8 +766,8 @@ and `X` a `G`-space, that is, a topological space with a continuous right action
 write `p : X × G → X` for the projection. A `G`-equivariant sheaf of `R`-modules on `X` is a sheaf
 `F` of `R`-modules with an isomorphism `θ : p^*F ≅ m^*F` satisfying the cocycle condition on `X × G
 × G`; these form an abelian category `Sh_G(X, R)`, which for discrete `G` is
-SchemeAndStackFoundations
-§2.23's category of equivariant modules for the constant ringed space. Prove: (i) if `q : X → X/G`
+the category of module sheaves with a compatible isomorphism for each group element.
+Prove: (i) if `q : X → X/G`
 is a locally trivial `G`-torsor, `q^* : Sh(X/G, R) → Sh_G(X, R)` is an equivalence with inverse `F ↦
 (q_*F)^G`; (ii) if `X` is compact, the global sections of every object of `Sh_G(X, R)` form a smooth
 `G`-representation; (iii) taking the stalk is an equivalence from `Sh_G(pt, R)` to the smooth
@@ -783,6 +782,23 @@ underlying topological sheaf functors outside the supplied domain; local trivial
 (iv); `G` locally profinite for (v). ([NT16, §2.4, Definitions 2.22–2.23 and Lemma 2.24]; [NT16,
 §2.4.1, Lemmas 2.25–2.26, Definition 2.27 and Lemma 2.28]; [CN23, §2.1.2, p. 10, and footnote 3])
 
+For a discrete group Γ and any topological Γ-space X, prove that the forgetful functor to
+module sheaves is exact and has coinduction as right adjoint, and that equivariant sheaves have
+enough injectives. Restriction to a subgroup preserves injectives by exact sheaf induction.
+Equivariant global sections Γ_X take values in R[Γ]-modules and preserve injectives by their
+exact constant-sheaf left adjoint; compactness is unnecessary for discrete Γ. Define invariant
+sections by Γ_X(F)^Γ. For an equivariant injective I, Γ_X(I) is injective over R[Γ], hence
+acyclic for invariants. Therefore the derived invariant-sections functor is
+RΓ(Γ, RΓ_X(F)), naturally at chain level; apply invariants termwise to Γ_X of a bounded-below
+equivariant injective resolution. For a closed Γ-stable Z ⊂ X, use the right adjoint
+𝓗_Z to exact closed pushforward to obtain supported invariant sections
+Γ_Z(X,F)^Γ = Γ(Z,𝓗_Z(F))^Γ and the localization triangle with X ∖ Z.
+For an open j and complementary closed i, resolve j_!F and i_*i^*F separately to obtain
+the compact-support/open–closed triangle; exactness of j_! alone gives no preservation of
+injectives. These assertions use `TopologicalCoefficientInput(R)` outside the supplied
+coefficient domain. ([NT16, §2.3, Definition 2.12, Lemma 2.13, Lemma 2.14, Corollary 2.15
+and Proposition 2.18, pp. 21–24]; [Stacks, Section 20.21 (0A39), Lemma 20.21.1 (0A3A)])
+
 The API: `LocallySymmetric.EquivariantSheaf` — the category `Sh_G(X, R)`;
 `LocallySymmetric.EquivariantSheaf.descent` — the equivalence `Sh(X/G, R) ≃ Sh_G(X, R)` for a free
 `G`-space; `LocallySymmetric.EquivariantSheaf.smoothSections` — global sections on a compact
@@ -790,8 +806,13 @@ The API: `LocallySymmetric.EquivariantSheaf` — the category `Sh_G(X, R)`;
 `LocallySymmetric.EquivariantSheaf.derivedSections` — `RΓ_X : D⁺(Sh_G(X, R)) → D⁺_sm(G, R)` for
 compact `X`.
 
-*Needs:* [ALS.F.3](#sheaf-derived-functors); SchemeAndStackFoundations §2.23 (equivariant sheaf
-cohomology); SmoothRepresentationsOfLocalGroups SR.0 (smooth representations) and SR.0d.2
+The discrete API also supplies `LocallySymmetric.EquivariantSheaf.invariantSections` —
+F ↦ Γ(X,F)^Γ and its right derived functor;
+`LocallySymmetric.EquivariantSheaf.invariantSectionsWithSupport` — closed supported invariants
+and their derived localization triangle. Discrete `derivedSections` is defined for every X.
+
+*Needs:* [ALS.F.3](#sheaf-derived-functors); Mathlib `CategoryTheory.Adjunction.map_injective`;
+SmoothRepresentationsOfLocalGroups SR.0 (smooth representations) and SR.0d.2
 (`derived-invariants`).
 
 **Checks.**
@@ -801,10 +822,17 @@ cohomology); SmoothRepresentationsOfLocalGroups SR.0 (smooth representations) an
 - For `G = ℤ_p` acting on `X = ℤ_p` by translation, `X` is a free compact `G`-space with quotient a
   point, `Sh_G(ℤ_p, R)` is equivalent to the category of `R`-modules, and the global sections of the
   sheaf attached to `M` are the locally constant functions `ℤ_p → M`, a smooth representation.
--  Non-example: compactness cannot be dropped in (ii). For `G = ℤ_p` acting on `X = ℤ_p × ℕ` (with
-  `ℕ`
-  discrete) by translation on the first factor and `F` the constant sheaf `R`, the global section
+- Non-example: assume `R` is nonzero. Compactness cannot be dropped in (ii). For `G = ℤ_p`
+  acting on `X = ℤ_p × ℕ` (with `ℕ` discrete) by translation on the first factor and `F` the
+  constant sheaf `R`, the global section
   `(x, n) ↦ 1_{p^nℤ_p}(x)` is fixed by no open subgroup of `ℤ_p`.
+- For discrete Γ = C₂ on a point with R = 𝔽₂ and trivial coefficients, derived invariant
+  sections give 𝔽₂ in every nonnegative degree; plain invariants give degree zero alone.
+- For Γ = ℤ translating ℝ, the quotient-cover descent gives invariant cohomology
+  H^0 = H^1 = R and no higher groups, without requiring ℝ compact.
+- For trivial Γ and nonzero R, closed support at {0} in ℝ gives R[−1]. The open–closed
+  compact-pair calculation for j : (0,1) → [0,1] gives RΓ([0,1],j_!R) = R[−1] with zero
+  boundary stalks, whereas RΓ([0,1],j_*R) = R in degree zero.
 
 <a id="lie-cochains"></a>
 
@@ -898,7 +926,9 @@ SmoothRepresentationsOfLocalGroups SR.0 (smooth representations).
 
 - For `G = GL_{1,ℚ}` there is no proper parabolic, so every automorphic form is cuspidal; the
   automorphic forms are the finite sums of products of Hecke characters with polynomials in
-  `log|x|_∞`.
+  `log|x|_𝔸`, the logarithm of the global idele norm. The product formula makes this norm
+  trivial on `ℚ^×`: the identity idele and the principal idele `2` both have norm `1`, although
+  their archimedean logarithms are `0` and `log 2`.
 - For `G` anisotropic modulo its centre, `A_∞G(F)\G(𝔸_F)` is compact and every automorphic form is a
   cusp form.
 - For `G = GL_{2,ℚ}`, the adelic lift of a holomorphic cusp form is a cusp form, while the constant
@@ -970,7 +1000,8 @@ Layers 4, 5, 7 and 9.
 
 ### Examples
 
-- `GL_N(ℝ)` has two components and maximal compact `O(N)`; `SL_2(ℝ)` is connected with maximal
+- `GL_N(ℝ)`, for `N ≥ 1`, has two components and maximal compact `O(N)`; `GL_0(ℝ)` is trivial
+  with one component. `SL_2(ℝ)` is connected with maximal
   compact `SO(2)`.
 - Over a discrete valuation ring, `O/ϖ` is a perfect `O`-module; over `k[ε]/(ε²)`, `k` is not.
 - `RΓ([0, 1], j_!R) = R[−1]` for `j : (0, 1) → [0, 1]`.
@@ -982,7 +1013,7 @@ Layers 4, 5, 7 and 9.
 Mathlib (`DerivedCategory`, `CategoryTheory.Sheaf.H`, `LieModule.Cohomology`, `Module.Projective`);
 RepresentationTheory/LieGroups, Layers 2 and 9; RepresentationTheory/LieHighestWeight, Layers 4, 5,
 7 and 9; DifferentialGeometry, Layers 0 and 6; AdelicAlgebraicGroups §§1.3–1.4, 2.1, 3.4, 3.6;
-SchemeAndStackFoundations §2.23; SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.2.
+[ALS.F.4](#equivariant-sheaves-topological); SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.2.
 
 <a id="als0"></a>
 
@@ -1201,7 +1232,7 @@ discrete and Γ ∩ A_∞ is finite. ([NT16, §3.1, after Definition 3.1, p. 40]
 910]; [BS73, §2.4, pp. 444–447])
 
 KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete`
-(an open TauCetiRoadmap pull request by t4v1), states the PSL₂(ℂ) special case, which is reconciled
+states the PSL₂(ℂ) special case, which is reconciled
 with this theorem through an equivariant identification of H³ with PSL₂(ℂ)/PSU(2) and its trivial
 split centre.
 
@@ -1625,7 +1656,7 @@ R (Tau Ceti's constantFunctor on each component).
 `endpointMonodromy`, inverting through Mathlib's `MulEquiv.inv'`.
 
 *Needs:* [ALS.0.9](#neat-level-manifold); [ALS.0.6](#locally-symmetric-space);
-SchemeAndStackFoundations §2.23 (equivariant sheaf cohomology `H^n(X,Γ;F)`); Tau Ceti
+[ALS.F.4](#equivariant-sheaves-topological) (discrete equivariant sheaf cohomology `H^n(X,Γ;F)`); Tau Ceti
 `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.monodromyRepresentation`;
 Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; AlgebraicTopology, Stage 2 (item 6); Mathlib
 `MulEquiv.inv'`.
@@ -1633,7 +1664,11 @@ Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; AlgebraicTopology, Stage 
 **Checks.**
 
 - `localSystem_trivial`: For V = R with trivial G(F)- and K_S-actions, V_K ≅ the constant sheaf
-  R_{X_K}.
+  R_{X_K}. `sliceRepresentation` is trivial when both actions are trivial, and equals ρ_G
+  when only the K_S-action is trivial. `endpointMonodromy` with δ = 1 is trivial for every ρ_Γ.
+- On the coefficient line ℚ, take trivial rational action, Γ = K_S = ℤ, φ = id and
+  χ(n) = 2^n. `sliceRepresentation` sends the generator to multiplication by 2;
+  `endpointMonodromy`, with δ the identity of Γᵐᵒᵖ, sends its opposite to multiplication by 1/2.
 - `localSystem_monodromy_GL1`: For G = GL_{1,F} with F real quadratic, K neat (so that −1 ∉ O_F^× ∩
   K) and V = R(χ), χ the sign of the first real embedding on F^×, the monodromy on the circle
   O_F^{×}∩K\ℝ is χ of a generator; it is −1 exactly when the generator is negative at that
@@ -1641,8 +1676,11 @@ Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; AlgebraicTopology, Stage 
   R(χ), so R(χ) does not descend to a local system.
 - `localSystem_eq_LocalCoefficientSystem`: At neat level the construction gives
   TauCeti.LocalCoefficientSystem via the above whole-inverse endpoint convention. For K-factor
-  matrices A=(1,1;0,1), B=(1,0;1,1), AB≠BA and (AB)⁻¹=B⁻¹A⁻¹≠A⁻¹B⁻¹; the convention still gives a
-  homomorphism, whereas inverting only one factor in the ordinary slice product fails.
+  matrices A=(1,1;0,1), B=(1,0;1,1) in the natural GL₂(ℚ) representation and trivial rational
+  action, `sliceRepresentation` sends AB and BA on (1,0) to (2,1) and (1,1).
+  With δ = id on Γᵐᵒᵖ, `endpointMonodromy` sends op(A)op(B) and op(B)op(A) on (1,0) to
+  (2,−1) and (1,−1), and its first value equals the product of the two inverse actions.
+  Thus the endpoint convention remains a homomorphism with noncommuting K_S values.
 - `localSystem_not_constant_of_trivial_stalk`: A rank-one system may have trivial stalks and
   nontrivial monodromy. At non-neat GL_2(Ẑ), R(sign det) is an orbifold coefficient system; it is
   not asserted to descend to a local system on the coarse quotient. A manifold example is the
@@ -1685,9 +1723,8 @@ triangulated functors of V (short exact sequences of coefficient modules give tr
 
 *Needs:* [ALS.1.1](#arithmetic-local-system); [ALS.0.8](#proper-action-stabilizers);
 [ALS.2.2](#borel-serre-bordification); [ALS.2.3](#borel-serre-quotient-compact);
-SchemeAndStackFoundations §2.23 (equivariant sheaves, enough injectives, equivariant sheaf cohomology
-`H^n(X, Γ; F)`, acyclicity of the composite section functor, supports and the localization
-sequence); [ALS.F.3](#sheaf-derived-functors) (derived sections, pushforward, `j_!` and the
+[ALS.F.4](#equivariant-sheaves-topological) (discrete equivariant sheaves, enough injectives,
+derived invariant sections, supports and localization); [ALS.F.3](#sheaf-derived-functors) (derived sections, pushforward, `j_!` and the
 localization triangle); Mathlib `DerivedCategory`; Mathlib `CategoryTheory.Sheaf.H`.
 
 **Checks.**
@@ -1710,7 +1747,7 @@ Prove `LocallySymmetric.RΓ.refinementIndependence`. Let `K` be compact open, `V
 commuting `G(F)` and `K_S` actions, and let `K₁ ⊂ K₀ ⊂ K` be neat open subgroups, both
 normal in `K`, with `Q_i = K/K_i`. Write `C_?(K_i) ∈ D(R[Q_i])` for the three equivariant objects of
 [ALS.1.2](#betti-complexes), `? ∈ {∅, c, ∂}`, computed on `X̄_{K_i}` from the `G(F) × K`-equivariant
-sheaf `V̄` on `X̄^G × G(𝔸^∞)^δ` (SchemeAndStackFoundations §2.23, `EquivariantModules`),
+sheaf `V̄` on `X̄^G × G(𝔸^∞)^δ` ([ALS.F.4](#equivariant-sheaves-topological), discrete equivariant sheaves),
 with `j_!` for compact support and `i^*` for the boundary. (i) Free descent: `K₀/K₁` acts freely on
 `X̄_{K₁}` with quotient `X̄_{K₀}`, the quotient map is a finite Galois covering, and pullback
 induces an isomorphism `C_?(K₀) ≅ RΓ(K₀/K₁, C_?(K₁))` in `D(R[Q₀])`; for compact support this uses
@@ -1731,8 +1768,8 @@ compact) and `RΓ(∂X̄_K, V_K)`. The same holds for the relative objects `RΓ_
 2.18, pp. 23–24]; [CN23, §2.1.2, Lemma 2.1.5, p. 11])
 
 *Needs:* [ALS.1.2](#betti-complexes); [ALS.0.9](#neat-level-manifold);
-[ALS.2.3](#borel-serre-quotient-compact); SchemeAndStackFoundations §2.23 (equivariant sheaves,
-enough injectives, acyclicity of the composite section functor, supports);
+[ALS.2.3](#borel-serre-quotient-compact); [ALS.F.4](#equivariant-sheaves-topological) (discrete equivariant sheaves,
+enough injectives, derived invariant sections and supports);
 [ALS.F.3](#sheaf-derived-functors); AlgebraicTopology, Stage 5 (finite covers and transfer).
 
 **Checks.**
@@ -1758,7 +1795,8 @@ pair (X̄_K, ∂X̄_K). Equivalently, RΓ(X_K, V_K) ≅ Hom_{ℤ[Γ_i]}(C_•(X^
 with Γ_i acting through the slice representation. Apply the supplied derived comparison of
 ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`: X_K is a locally contractible
 paracompact manifold. Its compact-support comparison applies to the relative Borel–Serre model
-once the finite triangulation hypothesis is discharged. For arbitrary commutative R, assume the
+using the finite boundary-compatible triangulation of ALS.2.4's geometric clause. For arbitrary
+commutative R, assume the
 wider coefficient comparison `TopologicalCoefficientInput(R)` of ALS.F.3. This target transports
 the supplied maps to the arithmetic slice system, proves naturality in level maps and translations,
 and identifies compact support with the relative Borel–Serre cochains. The Hecke compatibility is
@@ -1773,6 +1811,7 @@ Tau Ceti's Hom-of-twisted-chains carrier uses L = V_K^∨. ([Sel16, Introduction
 [ACC+23, §2.1.2, proof of Lemma 2.1.7, p. 912])
 
 *Needs:* [ALS.1.2](#betti-complexes); [ALS.0.9](#neat-level-manifold);
+[ALS.2.4](#borel-serre-finite-triangulation) (geometric clause, for compact support and relative cochains);
 ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`, §C6.4 /
 `artinComparisonCompactSupport` on its domain; [ALS.F.3](#sheaf-derived-functors), including
 `TopologicalCoefficientInput(R)` for the wider coefficient domain; AlgebraicTopology, Stage 2;
@@ -1818,7 +1857,7 @@ finite local-system supplier domain. ([ACC+23, §2.1.2, proof of Lemma 2.1.7, p.
 
 Provides the comparison between local-coefficient cohomology of a K(Γ,1) and discrete group
 cohomology. Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**,
-local-coefficient cohomology clause (an open TauCetiRoadmap pull request by kim-em).
+local-coefficient cohomology clause.
 ClassifyingSpaces identifies the deck group with the opposite fundamental group; this roadmap's
 adapter uses the arithmetic slice representation with its compatible left action and the
 sheaf-to-cochain comparison of [ALS.1.4](#sheaf-singular-comparison) to reach the complex in D(R).
@@ -1877,7 +1916,7 @@ and its quotient-cover property; good neat K supplies the arithmetic case; K′ 
 
 Provides free cellular chain modules over the integral group ring when the quotient-cover action
 permutes cells freely. Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and
-coverings**, free cellular chain clause (an open TauCetiRoadmap pull request by kim-em).
+coverings**, free cellular chain clause.
 This roadmap uses the action of the full group G(F) × K, discharges the supplier's Hausdorff CW
 and quotient-cover hypotheses, transports the chosen quotient-cell lifts to left group-ring
 modules, and separately proves finite orbit counts, boundedness and the relative/coefficient
@@ -1885,6 +1924,7 @@ model.
 
 *Needs:* [ALS.1.2](#betti-complexes); [ALS.1.4](#sheaf-singular-comparison); AlgebraicTopology,
 Stage 4; ClassifyingSpaces §Stage 3, item 13 ([cellular freeness](#cellular-freeness));
+[ALS.2.4](#borel-serre-finite-triangulation) (geometric clause, supplying the arithmetic cell structure);
 [ALS.F.2](#perfect-complexes); Mathlib `Module.Projective`.
 
 **Checks.**
@@ -1971,9 +2011,9 @@ translate_one, translate_mul and translate_of_mem (r_k^\* = id for k ∈ K);
 
 ### Dependencies
 
-Layers ALS.F and ALS.0; ALS.2.1–2.4 and ALS.5a.1 (the compactification, its finite triangulation and
-the manifold-with-boundary bridge, which precede ALS.1.2 and ALS.1.7 in the build order of *How to
-read the build*); SchemeAndStackFoundations §2.23; AlgebraicTopology, Stages 2, 4, 5 and 6; Mathlib
+Layers ALS.F and ALS.0; ALS.2.1–2.3, ALS.5a.1 and the geometric clause of ALS.2.4 precede
+ALS.1.2; the cohomological clause of ALS.2.4 precedes ALS.1.7 in *How to read the build*.
+AlgebraicTopology, Stages 2, 4, 5 and 6; Mathlib
 (`groupCohomology`, `Rep`, `DerivedCategory`, `Module.Projective`, `Module.Flat`);
 Tau Ceti (`TauCeti.LocalCoefficientSystem`, `TopPair.singularChainComplexFunctor`).
 
@@ -2127,9 +2167,16 @@ quotients of anisotropic groups are compact).
 
 ### ALS.2.4 Finite triangulations and finiteness of Betti cohomology
 
-Prove `LocallySymmetric.BorelSerre.finiteTriangulation`. For neat K, X̄_K admits a finite
-triangulation, and it pulls back to a G(F) × K-invariant triangulation of X̄^G × G(A^∞) with
-finitely many orbits of simplices and free action of G(F) × K′ for every neat K′ ⊂ K. Consequently:
+Prove `LocallySymmetric.BorelSerre.finiteTriangulation`. The geometric clause assumes K neat and
+the triangulability input for the rounded compact manifold with boundary of ALS.5a.1. Compactness
+gives a finite triangulation of X̄_K compatible with its boundary. Lift its cells along the
+quotient covering of ALS.2.3 to X̄^G × G(A^∞)^δ: the full discrete group G(F) × K permutes these
+cells freely, with one orbit per quotient cell, and the boundary lifts to a subcomplex. In
+particular G(F) × K′ acts freely for each K′ ⊂ K. This clause uses only geometry, the
+triangulability input and the CW-cover lifting of ClassifyingSpaces Stage 3, item 13.
+([BS73, §11.1, pp. 481–483]; [ACC+23, §2.1.2, proof of Lemma 2.1.7, p. 912])
+
+The cohomological clause applies ALS.1.4 and ALS.1.6 to this cell structure. Consequently:
 (i) X_K has the homotopy type of a finite CW complex; (ii) for K′ ⊂ K normal and both neat and V
 finite projective over a noetherian ring R, RΓ_{K/K′}(X_{K′}, V) and RΓ_{c,K/K′}(X_{K′}, V) are
 perfect in D(R[K/K′]) and RΓ(X_K, V), RΓ_c(X_K, V), RΓ(∂X̄_K, V) are perfect in D(R); (iii) H^\*(X_K,
@@ -2139,20 +2186,30 @@ and RΓ(∂X̄_K, V) are perfect in D(O): by the triangles of [ALS.1.2](#betti-c
 → V → V/V_tors → 0 and for the ϖ-adic filtration of V_tors, it suffices to treat V/V_tors, which is
 finite free over O, and the graded pieces, which are finite projective over O/ϖ, so that (ii) over
 O/ϖ and [ALS.F.2](#perfect-complexes) (restriction along O → O/ϖ, a perfect O-module) apply. The
-statement assumes: K neat (K′ ⊂ K normal and neat); R noetherian; V finite projective over R for
-(i)–(iii) and finite over the discrete valuation ring O for (iv); the triangulability input
-listed under *Inputs taken as hypotheses* (Whitehead's theorem for the rounded compact manifold
-with boundary). ([ACC+23, §2.1.2, proof
+statement assumes the geometric clause's hypotheses; K′ ⊂ K normal for (ii); R noetherian and
+V finite projective over R for (ii)–(iii), and V finite over the discrete valuation ring O for (iv).
+([ACC+23, §2.1.2, proof
 of Lemma 2.1.7, p. 912]; [ACC+23, §2.1.2, Lemma 2.1.4, p. 911]; [BS73, §11.1, pp. 481–483])
 
-*Needs:* [ALS.2.3](#borel-serre-quotient-compact); [ALS.1.6](#finite-complex-model);
-AlgebraicTopology, Stage 4; [ALS.F.2](#perfect-complexes) (perfect complexes);
+*Needs (geometric clause):* [ALS.2.3](#borel-serre-quotient-compact);
+[ALS.5a.1](#corner-boundary-bridge); ClassifyingSpaces Stage 3, item 13 (CW-cover lifting);
 GeometricTopology, Layer 11 (`IsTriangulable`); the triangulability input (Whitehead's theorem, under
-*Inputs taken as hypotheses*), applied to the compact manifold with boundary of
-[ALS.5a.1](#corner-boundary-bridge).
+*Inputs taken as hypotheses*), including compatibility with the boundary.
+
+*Needs (cohomological clause):* the geometric clause;
+[ALS.1.2](#betti-complexes); [ALS.1.4](#sheaf-singular-comparison);
+[ALS.1.6](#finite-complex-model); AlgebraicTopology, Stage 4;
+[ALS.F.2](#perfect-complexes) (restriction of scalars).
 
 **Checks.**
 
+- For a neat modular-curve level, the geometric clause triangulates a compact surface with its
+  cusp circles as a boundary subcomplex, before any coefficient module is chosen.
+- If G is anisotropic modulo its split centre, the boundary is empty and the geometric clause
+  is a finite triangulation of X_K itself.
+- For K′ normal in neat K with Q = K/K′, each lifted quotient cell has exactly |Q| cells at
+  level K′, freely permuted by Q. Cell freeness here is geometric and holds in every coefficient
+  characteristic, including those dividing |Q|.
 - H^\*(X_K, ℤ) is finitely generated for every neat K.
 - For SL_2(ℤ)-level the orbifold cohomology is not bounded
   ([ALS.1.5](#group-cohomology-comparison)), so neatness is needed for (ii).
@@ -2400,8 +2457,9 @@ p. 476]; [BS73, §9.5, p. 477]; [DH73, Theorem and Definition 6.2, pp. 487–489
 
 ### Dependencies
 
-Layers ALS.F and ALS.0; ALS.1.1–1.6 (used by ALS.2.4, ALS.2.9 and ALS.2.10) and ALS.5a.1 (used by
-ALS.2.4 and ALS.2.10), in the build order of *How to read the build*; AdelicAlgebraicGroups §§1.3,
+Layers ALS.F and ALS.0; ALS.1.1–1.6 (used by the cohomological clause of ALS.2.4, ALS.2.9 and
+ALS.2.10) and ALS.5a.1 (used by the geometric clause of ALS.2.4 and ALS.2.10), in the build order
+of *How to read the build*; AdelicAlgebraicGroups §§1.3,
 1.4, 3.1, 3.2, 3.4, 3.6; ReductiveGroupsPartII RG2.4.4; AlgebraicTopology, Stages 2, 4, 5 and 6;
 GeometricTopology, Layer 11; Mathlib (`ModelWithCorners`, `ContractibleSpace`); Tau Ceti
 (`TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.leviDecompositionMulEquiv`).
@@ -2544,7 +2602,7 @@ consequence of this homomorphism alone; `LocallySymmetric.heckeAction_one` — T
 intertwines T_K(t) for every t; it is a morphism of Hecke complexes (`heckeComplex.map`).
 
 *Needs:* [ALS.3.1](#hecke-action-on-invariants); [ALS.1.2](#betti-complexes);
-[ALS.2.2](#borel-serre-bordification); SchemeAndStackFoundations §2.23 (equivariant sheaf cohomology
+[ALS.2.2](#borel-serre-bordification); [ALS.F.4](#equivariant-sheaves-topological) (discrete equivariant sheaf cohomology
 `H^n(X,Γ;F)`); [ALS.F.3](#sheaf-derived-functors) (derived functors of sheaves);
 [ALS.3.2](#hecke-ring-normal).
 
@@ -2569,7 +2627,6 @@ Define `LocallySymmetric.heckeComplex`. Let `S` be finite, `K = K_S K^S` compact
 normal open subgroup with `K′^S = K^S`, `R` commutative and `V` an `R`-module with commuting `G(F)`
 and `K_S` actions. Put `Δ = G^S × K_S`, `U = K^S × K′_S`, `L = K^S × K_S` and
 `Q = L/U = K/K′`. Use the discrete-group specialization `Sh_Δ(Z,R)` of ALS.F.4,
-with the equivariant module-sheaf construction of SchemeAndStackFoundations §2.23,
 where `Z = 𝔛_G = G(F)\(X^G × G(𝔸^∞)^δ)` with the
 topology induced by the discrete finite-adelic factor, or its Borel–Serre compactification.
 The whole space need not be discrete. The section functor
@@ -2638,8 +2695,8 @@ triangle of Hecke complexes.
 
 *Needs:* [ALS.3.1](#hecke-action-on-invariants); [ALS.3.2](#hecke-ring-normal);
 [ALS.1.1](#arithmetic-local-system); [ALS.1.2](#betti-complexes);
-[ALS.1.3](#refinement-independence); SchemeAndStackFoundations §2.23 (equivariant sheaves, enough
-injectives, acyclicity of the composite section functor); Mathlib `DerivedCategory`.
+[ALS.1.3](#refinement-independence); [ALS.F.4](#equivariant-sheaves-topological) (discrete equivariant sheaves, enough
+injectives and derived invariant sections); Mathlib `DerivedCategory`.
 The injective-preservation arguments use Mathlib `CategoryTheory.Adjunction.map_injective`;
 [ALS.F.3](#sheaf-derived-functors) supplies the sheaf functors and their coefficient-domain
 hypotheses; [ALS.F.4](#equivariant-sheaves-topological) supplies their discrete-group
@@ -2829,6 +2886,7 @@ invariants require the extra averaging or base-change comparison stated at
 §3.1, before Proposition 3.7, p. 48]; [NT16, §4, after Theorem 4.2, p. 55])
 
 *Needs:* [ALS.3.3](#derived-hecke-action); [ALS.3.6](#level-trace); [ALS.1.7](#coefficient-change);
+[ALS.3.12](#character-twist) (the automorphism f_χ in the twisted cup formula);
 [ALS.2.2](#borel-serre-bordification); [ALS.3.4](#hecke-complex); AlgebraicTopology, Stage 6;
 [ALS.F.3](#sheaf-derived-functors) (derived pushforward and pullback).
 
@@ -2874,10 +2932,10 @@ Lemma 2.1.4, p. 11]; [CN23, §2.1.2, Lemma 2.1.5, p. 11])
 
 *Needs:* [ALS.3.3](#derived-hecke-action); [ALS.0.9](#neat-level-manifold);
 [ALS.2.3](#borel-serre-quotient-compact); [ALS.F.4](#equivariant-sheaves-topological) (equivariant
-sheaves for locally profinite groups, smooth sections on compact spaces, preservation of
+sheaves for locally profinite groups and discrete groups, smooth sections on compact spaces, preservation of
 injectives); [ALS.F.3](#sheaf-derived-functors); SmoothRepresentationsOfLocalGroups SR.0 (smooth
 representations) and SR.0d.2 (`derived-invariants`, the derived invariants of the smooth derived
-category); SchemeAndStackFoundations §2.23 (equivariant sheaf cohomology `H^n(X,Γ;F)`).
+category).
 
 **Checks.**
 
@@ -3019,6 +3077,12 @@ Layers 7, 10 and 11 (`artinMap`, `geometricArtinMap`, `globalArtinMap`, `globalA
 
 **Checks.**
 
+- `heckeCosetCharacter` takes value 1 on the identity double coset for every character trivial
+  on U, including U = G.
+- For Γ = ℤ, U = 2ℤ and χ(n) = (−1)^n valued in ℚ^×, the distinct representatives 1 and 3
+  differ by a U-translate and `heckeCosetCharacter` gives the same value on their double coset.
+- For Γ = S₃, U = A₃ and the sign character valued in ℤ^×, the normal quotient has order 2 and
+  `heckeCosetCharacter` takes value −1 on the transposition coset.
 - `twistHecke_trivial`: f_1 = id.
 - `twistHecke_T_GL1`: For n = 1, T_{v,1} = [ϖ_v K_v] and f_ψ(T_{v,1}) = ψ(Frob_v)⁻¹ T_{v,1}.
 - `twistHecke_mul`: f_ψ is an O-algebra automorphism with f_ψ ∘ f_{ψ⁻¹} = id.
@@ -3029,10 +3093,9 @@ Layers 7, 10 and 11 (`artinMap`, `geometricArtinMap`, `globalArtinMap`, `globalA
   every such ideal moves.
 - `idelicCharacter_convention`: for F = ℚ, the geometric Art_{ℚ_2}(2) acts on the unramified
   extension ℚ_2(ζ_5) by ζ_5 ↦ ζ_5^3, the inverse of the arithmetic Frobenius ζ_5 ↦ ζ_5^2 of
-  ClassFieldTheory; with the arithmetic normalization the formula f_ψ(T_{v,i}) =
-  ψ(Frob_v)^{−i}T_{v,i} would hold with the arithmetic Frobenius and the eigenvalues of every
-  twisted
-  eigensystem would be inverted.
+  ClassFieldTheory. Changing to arithmetic Artin replaces each twisting factor
+  ψ(Frob_v)^{−i} by its inverse; the original Hecke eigenvalue is unchanged. With ψ = 1 and
+  the constant GL_2 eigensystem at q_v = 2, both normalizations give T_{v,1} = 3.
 
 <a id="twisting-isomorphism"></a>
 
@@ -3124,7 +3187,7 @@ splitting. ([CG18, §9, proof of Lemma 9.6, pp. 88–90])
 Layers ALS.F and ALS.0–ALS.2; IntegralHeckeAndGaloisDeterminants, Layer 2;
 SmoothRepresentationsOfLocalGroups SR.0, SR.0d.2, SR.1.1 and SR.1.2; ClassFieldTheory, Layers 7, 10
 and 11; AdelicAlgebraicGroups §4.5; ProfiniteCohomology, Layer 10;
-SchemeAndStackFoundations §2.23; AlgebraicTopology, Stages 5 and 6; Mathlib (`IsHeckeTriple`,
+[ALS.F.4](#equivariant-sheaves-topological); AlgebraicTopology, Stages 5 and 6; Mathlib (`IsHeckeTriple`,
 `HeckeCoset`, `HeckeRing`, `Subgroup.relIndex`); Tau Ceti (`HeckeCosetModule.instRingHeckeRing`,
 `HeckeCoset.degree_eq_relIndex`).
 
@@ -4593,12 +4656,23 @@ cohomology can occur. ([ACC+23, §2.1.2, (2.1.6), p. 912]; [NT16, §1, p. 1])
 [ALS.2.5](#boundary-stratification); [ALS.0.7](#component-decomposition); AdelicAlgebraicGroups §3.4
 (compactness criterion, `Reduction.exists_compact_normOne_iff`); Mathlib
 `CongruenceSubgroup.Gamma0`; Mathlib `CongruenceSubgroup.Gamma1`; Mathlib `UpperHalfPlane`.
+The connected-compact example uses [ALS.0.4](#symmetric-space),
+[ALS.F.4](#equivariant-sheaves-topological) (finite-quotient invariants) and
+[ALS.1.5](#group-cohomology-comparison) (rational coarse comparison).
 
 **Checks.**
 
 - The compactified modular curve X(7) has genus 3 and 24 cusps; its open component Y(7) has dim
   H^1(Y(7),ℚ) = 2·3+24−1 = 29. For p∤7, H^1(Y(7),ℚ) ≅ H^1(Y(7p),ℚ)^{SL_2(F_p)} for the SL_2 tower.
-- For D of discriminant 6, the Shimura curve X_K at maximal level has genus 0 and H^1(X_K, ℚ) = 0.
+- For D of discriminant 6, fix a maximal order O_D and take K to be the product of the images
+  of O_{D,v}^× in the local projective groups. The connected-compact variant X̃_K, with
+  K_∞° ≅ SO(2) and symmetric space ℍ^±, is the usual compact Shimura curve of genus 0
+  ([Voi21, §43.2, pp. 788–789]). X_K uses PO(2) and is its folded quotient; finite-quotient
+  rational invariants give H^1(X_K,ℚ) = 0. For D = (2,3)_ℚ choose O_D containing i with i² = 2.
+  The unit 1+i has reduced norm −1 and inverse i−1, so its class lies in K at every finite
+  place and reverses orientation. A negative-norm unit fixing a point of ℍ would have trace
+  zero and square 1, impossible in a division algebra; the induced involution on X̃_K is free.
+  Thus the folded coarse component is ℝP², with H^2(X_K,ℚ) = 0, while H^2(X̃_K,ℚ) = ℚ.
 - Cusps in (i) for N = 3 and p = 2: K/K′ = SL_2(F_2) ≅ S_3 permutes the 12 cusps of Y(6) over the 4
   cusps of Y(3), with stabilizers the upper unipotent subgroup of order 2, so each fibre has 3
   cusps.
@@ -4607,7 +4681,9 @@ cohomology can occur. ([ACC+23, §2.1.2, (2.1.6), p. 912]; [NT16, §1, p. 1])
 
 - `X(7)` has genus `3` and `24` cusps; `dim H¹(Y(7), ℚ) = 2·3 + 24 − 1 = 29`, and for `p ∤ 7`,
   `H¹(Y(7), ℚ) ≅ H¹(Y(7p), ℚ)^{SL_2(F_p)}` in the `SL_2` tower.
-- The Shimura curve of discriminant `6` at maximal level has genus `0` and `H¹(X_K, ℚ) = 0`.
+- At the maximal-order unit level for discriminant `6`, the connected-compact quotient X̃_K
+  is the genus-zero Shimura curve; the PO(2) quotient X_K has coarse component ℝP² and
+  `H¹(X_K, ℚ) = 0` by finite-quotient invariants.
 - Taylor–Wiles covers: `Y_Δ(Q) → Y_0(Q)` with `Δ` the maximal `p`-power quotient of `Δ_Q` preserves
   the lowest localized degree; the full cover `Y_1(Q) → Y_0(Q)` need not when `Δ_Q` has prime-to-`p`
   part acting nontrivially.
@@ -4620,6 +4696,8 @@ Layers ALS.1–ALS.4; AlgebraicTopology, Stage 5; Mathlib (`groupCohomology`,
 
 ## References
 
+- **[Voi21]** J. Voight, *Quaternion algebras*, Springer (2021), stable post-publication version
+  1.0.5 (2024), [author copy](https://jvoight.github.io/quat-book-v1.0.5.pdf).
 - **[ACC+23]** P. B. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm, B. V. Le Hung, J. Newton, P.
   Scholze, R. Taylor, J. A. Thorne, *Potential automorphy over CM fields*, Annals of Mathematics 197
   (2023), 897–1113; page numbers are those of the Annals, as in the [author

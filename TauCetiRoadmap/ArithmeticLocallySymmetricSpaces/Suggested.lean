@@ -408,6 +408,32 @@ example (ρG : Representation R Γ V) (φ : Γ →* Q) :
     sliceRepresentation ρG (1 : Representation R Q V) φ (fun _ _ => by simp) = ρG := by
   sorry
 
+/-- **ALS.1.1.** Two trivial actions give the trivial slice representation. -/
+example (φ : Γ →* Q) :
+    sliceRepresentation (1 : Representation R Γ V) (1 : Representation R Q V) φ
+      (fun _ _ => by simp) = 1 := by
+  sorry
+
+/-- **ALS.1.1.** With trivial rational action, the cyclic `K_S` character of value `2`
+acts by `2` on the slice, retaining the character rather than its inverse. -/
+example :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    sliceRepresentation (1 : Representation ℚ (Multiplicative ℤ) ℚ)
+      (Representation.ofLinearCharacter χ) (MonoidHom.id _) (fun _ _ => by simp)
+      (Multiplicative.ofAdd 1) 1 = 2 := by
+  sorry
+
+/-- **ALS.1.1.** In the natural `GL₂(ℚ)` coefficient representation, two noncommuting
+`K_S` values act in their slice-product order. -/
+example (A B : GL (Fin 2) ℚ) (hA : (A : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1])
+    (hB : (B : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; 1, 1]) :
+    let ρ : Representation ℚ (GL (Fin 2) ℚ) (Fin 2 → ℚ) :=
+      (Units.coeHom _).comp Matrix.GeneralLinearGroup.toLin.toMonoidHom
+    let σ := sliceRepresentation (1 : Representation ℚ (GL (Fin 2) ℚ) (Fin 2 → ℚ))
+      ρ (MonoidHom.id _) (fun _ _ => by simp)
+    (σ A * σ B) ![1, 0] = ![2, 1] ∧ (σ B * σ A) ![1, 0] = ![1, 1] := by
+  sorry
+
 /-- **ALS.1.1, `LocallySymmetric.localSystem.monodromy`.** The monodromy of the associated local
 system: a lifted loop ending at `δ(ℓ)x₀` defines `δ(ℓ) ∈ Γᵐᵒᵖ`, because Tau Ceti's loop product
 `g * h` is `h` followed by `g`, and the monodromy is `ℓ ↦ ρ_Γ(δ(ℓ)⁻¹)`, inverting the whole slice
@@ -416,14 +442,29 @@ def endpointMonodromy {π : Type*} [Group π] (ρ : Representation R Γ V) (δ :
     Representation R π V :=
   ρ.comp ((MulEquiv.inv' Γ).symm.toMonoidHom.comp δ)
 
+/-- **ALS.1.1.** A constant identity endpoint gives trivial monodromy for every slice action. -/
+example {π : Type*} [Group π] (ρ : Representation R Γ V) :
+    endpointMonodromy ρ (1 : π →* Γᵐᵒᵖ) = 1 := by
+  sorry
+
+/-- **ALS.1.1.** The cyclic slice character of value `2` gives endpoint monodromy `1/2`. -/
+example :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    endpointMonodromy (Representation.ofLinearCharacter χ) (MonoidHom.id _)
+      (MulOpposite.op (Multiplicative.ofAdd 1)) 1 = 1 / 2 := by
+  sorry
+
 /-- **`localSystem_eq_LocalCoefficientSystem`.** For the noncommuting `A = (1, 1; 0, 1)` and
-`B = (1, 0; 1, 1)`, inverting the opposite product gives `A⁻¹B⁻¹`, which is not `(AB)⁻¹`: the
-whole-inverse convention is a homomorphism for Tau Ceti's loop product, while inverting the
-ordinary product is not. -/
+`B = (1, 0; 1, 1)`, endpoint monodromy on the natural coefficient module takes the opposite
+product to the product of the two inverse actions, with distinct values in the two orders. -/
 example (A B : GL (Fin 2) ℚ) (hA : (A : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1])
     (hB : (B : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; 1, 1]) :
-    (MulEquiv.inv' _).symm (MulOpposite.op A * MulOpposite.op B) = A⁻¹ * B⁻¹ ∧
-      A⁻¹ * B⁻¹ ≠ (A * B)⁻¹ := by
+    let ρ : Representation ℚ (GL (Fin 2) ℚ) (Fin 2 → ℚ) :=
+      (Units.coeHom _).comp Matrix.GeneralLinearGroup.toLin.toMonoidHom
+    let μ := endpointMonodromy ρ (MonoidHom.id _)
+    μ (MulOpposite.op A * MulOpposite.op B) = μ (MulOpposite.op A) * μ (MulOpposite.op B) ∧
+      μ (MulOpposite.op A * MulOpposite.op B) ![1, 0] = ![2, -1] ∧
+      μ (MulOpposite.op B * MulOpposite.op A) ![1, 0] = ![1, -1] := by
   sorry
 
 end Slice
@@ -636,6 +677,36 @@ def heckeCosetCharacter (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
     HeckeCoset (⊤ : Submonoid G) U U → Rˣ :=
   Quotient.lift (fun g : (⊤ : Submonoid G) => χ g) (by sorry)
 
+/-- **ALS.3.12.** The character value of the identity double coset is `1`. -/
+example (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
+    heckeCosetCharacter U R χ hχ (HeckeCoset.mk U U ⟨1, Submonoid.mem_top 1⟩) = 1 := by
+  sorry
+
+/-- **ALS.3.12.** The two distinct translates `1` and `3` by even integers have the
+same parity-character value on their double coset. -/
+example :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (-1)
+    let U := χ.ker
+    let hχ : ∀ u ∈ U, χ u = 1 := fun _ hu => hu
+    Multiplicative.ofAdd (2 : ℤ) ∈ U ∧
+      Multiplicative.ofAdd (1 : ℤ) ≠ Multiplicative.ofAdd (3 : ℤ) ∧
+      heckeCosetCharacter U ℚ χ hχ
+          (HeckeCoset.mk U U ⟨Multiplicative.ofAdd 1, Submonoid.mem_top _⟩) =
+        heckeCosetCharacter U ℚ χ hχ
+          (HeckeCoset.mk U U ⟨Multiplicative.ofAdd 3, Submonoid.mem_top _⟩) := by
+  sorry
+
+/-- **ALS.3.12.** The sign character on the normal quotient `S₃/A₃` has value `−1`
+on the transposition double coset. -/
+example :
+    let χ : Equiv.Perm (Fin 3) →* ℤˣ := Equiv.Perm.sign
+    let U := χ.ker
+    let hχ : ∀ u ∈ U, χ u = 1 := fun _ hu => hu
+    Nat.card (Equiv.Perm (Fin 3) ⧸ U) = 2 ∧
+      heckeCosetCharacter U ℤ χ hχ
+        (HeckeCoset.mk U U ⟨Equiv.swap 0 1, Submonoid.mem_top _⟩) = -1 := by
+  sorry
+
 /-- **ALS.3.12, `LocallySymmetric.twistHecke`.** Twisting by a character `χ` trivial on `U`: the
 ring automorphism of the Hecke ring multiplying the coefficient of `[UgU]` by `χ(g)⁻¹`. On
 coefficients the matching twist is Tau Ceti's `Representation.charTwist` at `χ⁻¹`. -/
@@ -725,7 +796,11 @@ here.
   local-system comparison for arbitrary commutative rings/stalk modules, compact support on
   the relative finite CW models, and functor coherence on all spaces used here outside that
   finite-coefficient domain, including ALS.F.4. It asserts no perfectness.
-  `EquivariantSheaf` (equivariant sheaves for topological groups),
+  `EquivariantSheaf` (equivariant sheaves for topological groups and their discrete specialization),
+  `EquivariantSheaf.invariantSections` and `EquivariantSheaf.invariantSectionsWithSupport`
+  (discrete invariant sections, the injective-acyclic composite and supported localization).
+  Discrete equivariant sections preserve injectives for every topological carrier; supported
+  and boundary sheaves receive separate injective resolutions.
   `lieCochains` (Chevalley–Eilenberg and relative cochains), `AutomorphicForm` (automorphic forms
   and cusp forms, with `AutomorphicForm.cuspidalSpectrum_discrete` assembling cusp forms as an
   algebraic direct sum of admissible modules), `cohomologicalRepresentation` (algebraic weights,
@@ -737,7 +812,7 @@ here.
   fixed compact and split centre; AA.3.7 supplies rational existence), `realPoints_cartanDatum`,
   `isMaximalCompact_fixedPoints`, `symmetricSpace` and its API, `symmetricSpace.contractible`
   (ALS.0.5 owns the proper-action/discrete-image/finite-kernel theorem; KleinianGroups Layer 1,
-  `properlyDiscontinuousSMul_of_discrete`, by t4v1, is its PSL₂(ℂ) special case after the equivariant
+  `properlyDiscontinuousSMul_of_discrete`, is its PSL₂(ℂ) special case after the equivariant
   H³ identification and trivial-split-centre verification).
 * Adelic level quotients (AdelicAlgebraicGroups §4.4) and neat levels (§4.3): `X` and its API,
   `X.componentDecomposition`, `X.properlyDiscontinuous`, `X.manifold_of_neat`, `taylorWilesLevel`,
@@ -754,11 +829,11 @@ here.
   domain carry `TopologicalCoefficientInput(R)`, including arbitrary modules in ALS.1.5.
   For `RΓ.isoGroupCohomology`, the neat-component-group-cohomology clause is
   supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 Homology, local-coefficient
-  cohomology, by kim-em; the arithmetic consumer retains the deck/opposite and slice-action
+  cohomology; the arithmetic consumer retains the deck/opposite and slice-action
   adapter, CW-model transport, sheaf/derived comparison over arbitrary commutative rings and
   arbitrary coefficient modules, finite component assembly and non-neat stabilizer descent.
   For `RΓrel.perfect_of_freeCellModel`, cellular-freeness is supplied by ClassifyingSpaces
-  §Stage 3, item 13 / CW structures and coverings, free cellular chain clause, by kim-em;
+  §Stage 3, item 13 / CW structures and coverings, free cellular chain clause;
   the arithmetic consumer discharges the Hausdorff CW and quotient-cover hypotheses for the
   full group `G(F) × K` and retains finite basis-orbit counts, boundedness, the relative/coefficient
   model and derived perfectness over possibly noncommutative `R[K/K′]`, using the shared
@@ -767,7 +842,9 @@ here.
   declarations here.
 * The Borel–Serre bordification as a manifold with corners and its strata:
   `BorelSerre.face`, `BorelSerre.bordification`, `BorelSerre.compact_quotient`,
-  `BorelSerre.finiteTriangulation`, `BorelSerre.stratum`, `BorelSerre.unipotentLattice_cocompact`,
+  `BorelSerre.finiteTriangulation` (the geometric boundary-compatible cell structure precedes
+  `RΓ.isoSingular` and `RΓrel.perfect_of_freeCellModel`; cohomological finiteness follows them),
+  `BorelSerre.stratum`, `BorelSerre.unipotentLattice_cocompact`,
   `BorelSerre.parabolicArithmeticExtension`, `BorelSerre.stratum_fibration`,
   `BorelSerre.stratSpectralSequence`, `BorelSerre.mayerVietorisSpectralSequence`,
   `BorelSerre.stratumCompactification`.
