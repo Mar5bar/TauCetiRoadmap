@@ -22,18 +22,13 @@ Design choices made explicit here:
   sheaf objects and finite Hodge quotients live in `DerivedCategory (SheafOfModules R)` for the
   base coefficient sheaf `R`, with the filtered diagram version of README 5.8; cotangent powers
   and Hodge graded pieces also have quasi-coherent `O_X`-module structures. Derived completeness is the
-  vanishing of all morphisms from shifted localizations; complete flatness of a module is stated with
-  Mathlib's `CategoryTheory.Tor`. The cotangent complex, derived completion, derived powers and
-  derived de Rham cohomology are constructions specified in the README.
-* The K-flat models of README 0.2 cover arbitrary complexes of modules; ArithmeticGaloisDuality
-  §D7.1 / Derived tensor, perfect amplitude and Tor consumes them for bounded perfect complexes.
-  The module derived limit of README 1.1 uses the tower kernels, cokernels and Milnor sequence
-  supplied by DerivedModuleAlgebra §1.T.1 / lim and lim¹ of a tower and DerivedModuleAlgebra
-  §1.T.1 / The Milnor sequence for towers of complexes. Towers have transitions `K_(n+1) → K_n`
-  for `n : ℕ`; forgetting scalars identifies their additive carriers with the supplier's, and the
-  induced module action is retained.
-  Vanishing of `lim¹` under eventual stabilization of cohomology transition images is supplied by
-  DerivedModuleAlgebra §1.T.1 / Mittag-Leffler towers have vanishing lim¹.
+  vanishing of all morphisms from shifted localizations, as supplied by DerivedModuleAlgebra §1.2.
+  The cotangent complex, module completion and derived powers are supplied by DerivedModuleAlgebra;
+  derived de Rham cohomology is specified in this README.
+* DerivedModuleAlgebra §§0.2, 1.1–1.9 and 1.T.1 supplies K-flat tensor models, module limits,
+  ideal completion and complete flatness. EnhancedDerivedSheaves §§E1.F3.H1 and E1.8.DMA.1
+  supplies the point-site Hom and affine tensor comparisons. These signatures use module
+  derived categories and the explicit localization-vanishing condition where needed.
 * `Z_p(1)` is the kernel of Mathlib's untilt `PreTilt.untilt`, and `A_inf`, `θ` and `B_dR⁺` are
   Mathlib's `WittVector p (PreTilt O p)`, `WittVector.fontaineTheta` and `BDeRhamPlus`.
 -/
@@ -46,23 +41,9 @@ open scoped TensorProduct
 
 noncomputable section
 
-universe uFlat
-
-/-! ## Layer 0: Cotangent complexes and integral derived powers -/
+/-! ## Layer 0: André–Quillen criteria and local differential algebra -/
 
 namespace DerivedDeRham
-
-/-- Every flat module is the colimit of a small filtered diagram of finite free modules, with a
-colimiting cocone and an identification of its vertex (README 0.2.1; Stacks, Theorem 10.81.4,
-Tag 058G). -/
-theorem flatModuleFilteredFree (R : Type uFlat) [CommRing R] (M : Type uFlat) [AddCommGroup M]
-    [Module R M] [Module.Flat R M] :
-    ∃ (J : Type uFlat) (inst : SmallCategory J),
-      letI := inst
-      ∃ (_ : IsFiltered J) (P : J ⥤ ModuleCat.{uFlat} R) (c : Cocone P),
-        Nonempty (IsColimit c) ∧ Nonempty (c.pt ≅ ModuleCat.of R M) ∧
-          ∀ j, Module.Free R (P.obj j) ∧ Module.Finite R (P.obj j) := by
-  sorry
 
 /-- A family `b : Fin r → k` is a **p-basis** of a field `k` of characteristic `p`: the p-monomials
 `∏ i, b i ^ e i` with `0 ≤ e i < p` form a basis of `k` over the subfield `k^p` of `p`-th powers.
@@ -117,90 +98,6 @@ abbrev D (R : Type) [CommRing R] := DerivedCategory (ModuleCat.{0} R)
 abbrev mod0 (R : Type) [CommRing R] (M : ModuleCat.{0} R) : D R :=
   (DerivedCategory.singleFunctor (ModuleCat R) 0).obj M
 
-/-- Cohomology in the indicated cohomological degree. -/
-abbrev H (R : Type) [CommRing R] (n : ℤ) (M : D R) : ModuleCat R :=
-  (DerivedCategory.homologyFunctor (ModuleCat R) n).obj M
-
-/-- **Derived `I`-completeness** of `M ∈ D(A)`: every morphism from a shifted localization
-`A[1/f][n]`, `f ∈ I`, to `M` is zero (Stacks, Tags 091P, 091S). This is a homotopical condition, not
-classical separatedness. -/
-def derivedCompleteness (A : Type) [CommRing A] (I : Ideal A) (M : D A) : Prop :=
-  ∀ f ∈ I, ∀ n : ℤ,
-    Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away f)))⟦n⟧ ⟶ M)
-
-/-- The condition can be tested on any finite generating set of `I` (Stacks, Lemma 15.93.1). -/
-theorem isDerivedCompleteGenerators (A : Type) [CommRing A] (I : Ideal A) (M : D A)
-    (s : Finset A) (hs : Ideal.span (s : Set A) = I) :
-    derivedCompleteness A I M ↔ ∀ f ∈ s, ∀ n : ℤ,
-      Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away f)))⟦n⟧ ⟶ M) := by
-  sorry
-
-/-- Derived completeness depends only on the radical (Stacks, Lemma 15.93.2). -/
-theorem isDerivedCompleteRadical (A : Type) [CommRing A] (I J : Ideal A)
-    (hI : I.FG) (hJ : J.FG) (h : I.radical = J.radical) (M : D A) :
-    derivedCompleteness A I M ↔ derivedCompleteness A J M := by
-  sorry
-
-/-- `M` is derived complete iff every cohomology module is (Stacks, Lemmas 15.93.1–15.93.2, Tags 091P–091Q). -/
-theorem isDerivedCompleteCohomology (A : Type) [CommRing A] (I : Ideal A) (hI : I.FG) (M : D A) :
-    derivedCompleteness A I M ↔ ∀ j : ℤ, derivedCompleteness A I (mod0 A (H A j M)) := by
-  sorry
-
-/-- Derived complete objects are closed under shifts and under the third vertex of a distinguished
-triangle: the triangulated part of `isDerivedCompleteLimits` (README 1.2), which also asks for
-products and derived limits. -/
-theorem isDerivedComplete_triangle (A : Type) [CommRing A] (I : Ideal A)
-    (T : Pretriangulated.Triangle (D A)) (hT : T ∈ distTriang (D A))
-    (h₁ : derivedCompleteness A I T.obj₁) (h₂ : derivedCompleteness A I T.obj₂) :
-    derivedCompleteness A I T.obj₃ ∧ ∀ n : ℤ, derivedCompleteness A I (T.obj₁⟦n⟧) := by
-  sorry
-
--- For `I = 0` every complex is derived complete.
-example (A : Type) [CommRing A] (M : D A) : derivedCompleteness A ⊥ M := by
-  sorry
-
--- For `I = A` only the zero object is derived complete.
-example (A : Type) [CommRing A] (M : D A) : derivedCompleteness A ⊤ M ↔ IsZero M := by
-  sorry
-
--- `ℤ_p` is derived p-complete over `ℤ`, while `ℚ_p` is not.
-example (p : ℕ) [Fact p.Prime] :
-    derivedCompleteness ℤ (Ideal.span {(p : ℤ)}) (mod0 ℤ (ModuleCat.of ℤ (PadicInt p))) ∧
-      ¬ derivedCompleteness ℤ (Ideal.span {(p : ℤ)}) (mod0 ℤ (ModuleCat.of ℤ (Padic p))) := by
-  sorry
-
-/-- **Complete flatness of a module.** A module `M` is `I`-completely flat when its derived reduction
-`M ⊗^L_A A/I` is a flat `A/I`-module in degree zero: the higher `Tor_n^A(M, A/I)` vanish and
-`A/I ⊗_A M` is flat over `A/I`. This is the discrete case of `completeFlatness` (README 1.7); the
-predicate does not require `M` to be complete. -/
-def IsCompletelyFlatModule (A : Type) [CommRing A] (I : Ideal A) (M : ModuleCat.{0} A) : Prop :=
-  (∀ n : ℕ, 0 < n →
-      IsZero (((CategoryTheory.Tor (ModuleCat.{0} A) n).obj M).obj (ModuleCat.of A (A ⧸ I)))) ∧
-    Module.Flat (A ⧸ I) ((A ⧸ I) ⊗[A] M)
-
-/-- A flat module is `I`-completely flat (the discrete part of `completeFlatCompletion`). -/
-theorem isCompletelyFlatModule_of_flat (A : Type) [CommRing A] (I : Ideal A) (M : ModuleCat.{0} A)
-    [Module.Flat A M] : IsCompletelyFlatModule A I M := by
-  sorry
-
--- `ℤ` is p-completely flat over itself but not derived p-complete.
-example (p : ℕ) [Fact p.Prime] :
-    IsCompletelyFlatModule ℤ (Ideal.span {(p : ℤ)}) (ModuleCat.of ℤ ℤ) ∧
-      ¬ derivedCompleteness ℤ (Ideal.span {(p : ℤ)}) (mod0 ℤ (ModuleCat.of ℤ ℤ)) := by
-  sorry
-
--- `ℤ_p` is p-completely faithfully flat over `ℤ`.
-example (p : ℕ) [Fact p.Prime] :
-    IsCompletelyFlatModule ℤ (Ideal.span {(p : ℤ)}) (ModuleCat.of ℤ (PadicInt p)) ∧
-      Module.FaithfullyFlat (ℤ ⧸ Ideal.span {(p : ℤ)})
-        ((ℤ ⧸ Ideal.span {(p : ℤ)}) ⊗[ℤ] PadicInt p) := by
-  sorry
-
--- `F_p` is not p-completely flat over `ℤ`: `Tor₁^ℤ(F_p, F_p) = F_p` is nonzero.
-example (p : ℕ) [Fact p.Prime] :
-    ¬ IsCompletelyFlatModule ℤ (Ideal.span {(p : ℤ)}) (ModuleCat.of ℤ (ZMod p)) := by
-  sorry
-
 /-- **Bhatt's ordinary flatness criterion** (Bhatt, *On the direct summand conjecture and its
 derived variant*, Proposition 5.1): over a Noetherian base, `π`-torsion-free and classically
 `π`-adically complete algebras with flat reduction are flat. README 1.10. -/
@@ -214,11 +111,14 @@ theorem ordinaryFlatnessFromCompleteFlatness (A B : Type) [CommRing A] [CommRing
   sorry
 
 /-- A quotient `N/gN` of a derived `f`-complete module is derived `f`-complete; the classical
-statement is `quotientClassicalCompleteness`. README 1.11. -/
+statement is `quotientClassicalCompleteness`. README 1.11; DerivedModuleAlgebra §1.2 supplies
+`derivedCompleteness`. Its localization-vanishing condition is written directly in this signature. -/
 theorem quotientCompleteness (A : Type) [CommRing A] (N : ModuleCat.{0} A) (f g : A)
-    (h : derivedCompleteness A (Ideal.span {f}) (mod0 A N)) :
-    derivedCompleteness A (Ideal.span {f})
-      (mod0 A (ModuleCat.of A (N ⧸ LinearMap.range (g • (LinearMap.id : N →ₗ[A] N))))) := by
+    (h : ∀ x ∈ Ideal.span {f}, ∀ n : ℤ,
+      Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away x)))⟦n⟧ ⟶ mod0 A N)) :
+    ∀ x ∈ Ideal.span {f}, ∀ n : ℤ,
+      Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away x)))⟦n⟧ ⟶
+        mod0 A (ModuleCat.of A (N ⧸ LinearMap.range (g • (LinearMap.id : N →ₗ[A] N))))) := by
   sorry
 
 /-- If `N` is classically `f`-adically complete and `f` is a nonzerodivisor on `N/gN`, then `N/gN`
@@ -1044,7 +944,7 @@ theorem ordinaryBaseChangeKunneth (A B C : Type) [CommRing A] [CommRing B] [Comm
 
 end DerivedDeRham
 
-/-! ## Layer 5: Quasisyntomic descent, crystalline applications and geometric control -/
+/-! ## Layer 5: Quasisyntomic descent, periods and geometric control -/
 
 namespace DerivedDeRham
 
@@ -1096,46 +996,29 @@ example (O : Type) [CommRing O] (p : ℕ) [Fact p.Prime] [Fact ¬IsUnit (p : O)]
 end DerivedDeRham
 
 /-
-The constructions of the README are specified there with their intended signatures: the cotangent
-complex `Algebra.CotangentComplex` and its API (`arrowResolution`, `resolutionRings`,
-`resolutionRingMap`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`,
-`transitivityFirst_tmul`, `transitivitySecond_apply`, `extensionCategory`,
-`exal_add_representative`, `conormalComparison`, `conormalComparison_extensionClass`,
-`extensionClass_add`, `transitivityConnecting`, `transitivityConnecting_triangle`,
-`kernelExtensionClass`, `deformationObstruction`, `derivationEvaluation`,
-`derivationEvaluation_differential`, `polynomialLift_sign`), derived tensor products and derived powers, derived
-limits (`derivedLimit_surjective`, `derivedLimit_milnor` are the module adapters of
-DerivedModuleAlgebra §1.T.1 / The Milnor sequence for towers of complexes; the derived-limit
-functor and `derivedLimit_triangle` are constructed in README 1.1), the unbounded
-`moduleDerivedHom` point-site adapter using EnhancedDerivedSheaves §§0.1–0.3's `ClassicalDerived.enhancedCategory`,
-`ClassicalDerived.replacements` and `ClassicalDerived.tensorHom` (README 1.1.1), and completion
-(`derivedCompletion`, `completionUnit`, `completionAdjunction`,
-`completionIdempotent`, `completeNakayama`, `completionComplete`, `completedColimit`), the filtered
-derived category, the ordinary de Rham differential, complex and pullback (`complex_d_apply`,
-`complex_d_nonadjacent`, `complex_X`, `complexMap_apply`, `complexMap_id`, `complexMap_comp`,
-`pullback_smul`, `pullback_base_smul`, `pullback_add`, `d_add`, `d_base_smul`), derived de Rham
-cohomology with its filtrations and completions, the simplicial deformation target
-`simplicialSquareZeroLifting` using PerfectoidSpaces' `semiperfectoidFiniteIdealDescent`,
-the adic `perfectSystemEffective` adapter to DerivedModuleAlgebra §1.E.1's
-`perfectInverseSystemEffectivity`, raw and completed descent (`cotangentFlatDescent`,
-`hodgeQuotientFlatDescent`, `hodgeCompletedFlatDescent`, `pCompletedHodgeDescent`),
-`relativeConjugateTransitivity`, Cartier theory, crystalline comparisons, derived
-de Rham–Witt theory, quasisyntomic sites and descent, period comparisons and the logarithmic theory (`LogSquareZeroExtension`, `LogExal`,
-`logRelativeConjugateTransitivity`). Completion functors and their units retain
-`hI : I.FG`; strict DG models use DGAInfinity Layer 1's unital carrier and morphisms.
-`leftDerivedNonadditive` acts on functors defined on all projective modules; functors on finite
-projectives use their filtered-colimit extension. The flat comparisons `exteriorPowerFlat`,
-`symmetricPowerFlat` and `dividedPowerFlat` use `flatModuleFilteredFree`.
-The base-linear sheaf and filtration adapters compare the supplied `ClassicalDerived.inverseLimits`,
-`enhancedPullback` and `enhancedPushforward`; `schemeDeRhamRealization` and `schemeDeRhamCup`
-provide the de Rham realization and cup product.
-`regularFpCrystallineCech` uses EnhancedDerivedSheaves' `frobenius_flat_of_isRegular` and
-`isRegular_of_frobenius_flat`. The period interfaces `bdrPlusStructure` and `tateTwistInvariants`
-compare the supplied structures: PadicPeriodRings §§1.1–1.5's `padicComplexGaloisAction`,
-`padicComplex_fixed_eq`, `tate_H0_padicComplex_twist` and de Rham period rings for finite local fields;
-PadicPeriodRings §2's `PadicFieldCompletion`, `tateSen_H0` and
-§4.1's `generalBasePeriodRings` for arbitrary perfect residue fields. The derived/PD-filtered
-`A_cris` comparison and its `Fil²` vanishing consequence are in README 5.12–5.15.
+The README specifies constructions whose full interfaces use the supplied module APIs.
+DerivedModuleAlgebra §§0.1–0.17, 0.25 and 1.1–1.9 owns the cotangent complex, tensor, powers,
+module limits, completion and complete flatness. Its §1.T.1 supplies the Milnor sequence.
+EnhancedDerivedSheaves §§E1.F3.H1 and E1.8.DMA.1 supplies the point-site Hom and affine tensor
+comparisons. This roadmap constructs the filtered derived category, ordinary de Rham differential,
+complex and pullback (`complex_d_apply`, `complex_d_nonadjacent`, `complex_X`, `complexMap_apply`,
+`complexMap_id`, `complexMap_comp`, `pullback_smul`, `pullback_base_smul`, `pullback_add`, `d_add`,
+`d_base_smul`), derived de Rham and its filtrations and completions, simplicial square-zero lifting
+using PerfectoidSpaces §P4.15.1, the adic `perfectSystemEffective` adapter to DerivedModuleAlgebra
+§1.E.1, raw and completed descent (`cotangentFlatDescent`, `hodgeQuotientFlatDescent`,
+`hodgeCompletedFlatDescent`, `pCompletedHodgeDescent`), `relativeConjugateTransitivity`, Cartier theory,
+PD conjugate filtrations, quasisyntomic sites, proper smooth control and period descriptions.
+The base-linear sheaf and filtration adapters compare EnhancedDerivedSheaves §§0.1–0.3 and E1.4;
+`schemeDeRhamRealization` and `schemeDeRhamCup` supply realization and cup products.
+CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
+CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline comparisons,
+derived de Rham–Witt and general logarithmic theory. README 5.12 and 6.21 state the required
+regular-envelope and logarithmic comparison data as hypotheses of their period calculations.
+The period interfaces `bdrPlusStructure` and `tateTwistInvariants` compare PadicPeriodRings
+§§1.1–1.5's `padicComplexGaloisAction`, `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist`
+and period structures for finite local fields, and §§2, 4.1's `PadicFieldCompletion`, `tateSen_H0`
+and `generalBasePeriodRings` for arbitrary perfect residue fields. The derived/PD-filtered
+`A_cris` description and its `Fil²` vanishing consequence are in README 5.12–5.15.
 -/
 
 end
