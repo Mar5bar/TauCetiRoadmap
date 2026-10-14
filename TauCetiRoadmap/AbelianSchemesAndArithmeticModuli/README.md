@@ -124,6 +124,13 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
 
 **Built in other roadmaps and cited.**
 
+- *[ComplexTori](https://github.com/Paul-Lez/TauCetiRoadmap/blob/583f86009a6841d01e758fdefec6ff41014b2f6a/TauCetiRoadmap/ComplexTori/README.md).* Milestone 1 owns the compact complex Lie-group structure on the standard
+  additive orbit quotient, descended lattice-preserving maps, and natural covering and homology
+  identifications. Milestones 2–3 own holomorphic period families over complex manifolds and
+  equivariant maps and descent. Milestone 4, Integral connecting class, step 6 supplies the
+  lattice-torsion equivalence for the trivial action. A5.1 transports these to algebraic abelian
+  varieties; A5.6 supplies the polarized Hodge interpretation and extensions to singular or
+  nonreduced analytic bases; A5.8 supplies the Siegel period and symplectic formulas.
 - *RepresentationTheory/SemisimpleAlgebras.* Layers 4–5: Skolem–Noether; Layer 6,
   *Real base field*: finite-dimensional central real division algebras are `ℝ` or `ℍ[ℝ]`.
   Together with Mathlib's algebraically closed Wedderburn theorem over `ℂ`, these supply the
@@ -193,8 +200,9 @@ Barsotti–Tate interface and the degree-one divided-power evaluation of an abel
 here. General Galois representations and their local properties (ArithmeticGaloisRepresentations):
 only the Tate local system of an abelian scheme and the finite-index induction comparison for Weil
 restriction live here. Néron models and semistable reduction (NeronModelsAndSemistableAbelianVarieties).
-A5 constructs the lattice quotients, period families and equivariant lattice maps needed for
-abelian varieties, with Riemann forms, Appell–Humbert, polarizations and the Siegel family.
+ComplexTori owns generic lattice quotients, manifold period families and equivariant lattice maps.
+A5 specializes these to abelian varieties, with Riemann forms, Appell–Humbert, polarizations and
+the Siegel family. This supplier is used only in A5 and its consumers; A0–A4 are independent of it.
 Generic finite-coefficient étale cohomology of schemes and integral adic realization:
 Supplied by LefschetzPencilsAndVanishingCycles §F.3 /
 `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`; §F.2 /
@@ -450,6 +458,27 @@ used for smooth proper families over smooth finite-type complex bases, including
 horizontal comparison. Its C5.4 `chernFubiniStudyIntersection` is for Hermitian holomorphic line
 bundles on complex manifolds and projective cycles. The extensions over other analytic bases stated in A5.6 are
 part of that target.
+
+### From ComplexTori
+
+Milestone 1 uses a finite-dimensional complex normed vector space `V` and
+`Λ : Submodule ℤ V` with its subtype topology, `DiscreteTopology Λ` and `IsZLattice ℝ Λ`.
+The canonical carrier is `AddAction.orbitRel.Quotient Λ V` for translation. ComplexTori owns
+its complex-manifold and Lie-group structures, quotient map, descended complex-linear maps
+preserving the lattices, and natural lattice/covering/homology identifications. Milestone 4's
+trivial-action formula identifies its killed-by-`n` subgroup with `Λ/nΛ` for `n > 0`.
+A5.1 proves that the exponential lattice of an algebraic abelian variety satisfies these
+hypotheses and transports the supplied maps and identifications through its analytification.
+
+Milestone 2 uses Hausdorff second-countable complex manifold bases, holomorphic periods on a
+fixed finite free integral lattice, and injective full discrete period ranges on every fibre.
+A5.6 applies it on simultaneous lattice and Lie-bundle trivializations and derives relative
+properness locally from bounded fundamental representatives. Milestone 3 consumes holomorphic
+linear equivalences with the cocycle and period-equivariance laws. A5.8 supplies these laws for
+the symplectic formulas. The linear action exists also at stabilizers; a manifold quotient by
+that action requires a free base action and the supplier's proper-discontinuity hypotheses.
+Polarized Hodge structures, Appell–Humbert and algebraicity remain A5 targets; the generic
+cyclic-affine and logarithmic-transform constructions remain in ComplexTori.
 
 ## How to read the build
 
@@ -1814,8 +1843,8 @@ invertible `ℓ` and normalized constant coefficients at all finite levels.
 
 ## Layer A5: Complex uniformization and families
 
-This layer constructs the polarized analytic family and its lattice maps, not only a description of
-complex points. Algebraicity of a single polarized torus goes through the theta embedding, Chow's
+This layer specializes ComplexTori's quotient and period-family constructions to polarized analytic
+families and their algebraic comparisons. Algebraicity of a single polarized torus goes through the theta embedding, Chow's
 theorem and proper GAGA, in that order. Analytic families correspond to variations of Hodge
 structure; algebraization of an analytic family over an algebraic base is not asserted. The
 homology and cohomology conventions, the sign of the polarizing form and the lattice duality are fixed
@@ -1826,7 +1855,8 @@ before the Siegel family is introduced.
 Define `AbelianLattice A` for an abelian variety `A` over `ℂ`: the tangent space `V = T₀(A^an)` at zero,
 the lattice `Λ = ker(exp : V → A^an)` of rank `2g`, and the analytic isomorphism `V/Λ ≅ A^an`, where
 `A^an` is the analytification of AlgebraicModuli `complexSchemeAnalytification` and `V/Λ` is the
-compact complex Lie group constructed in this target. `Λ` is identified
+compact complex Lie group on `AddAction.orbitRel.Quotient Λ V` supplied by ComplexTori Milestone 1.
+Here `Λ` has its subtype topology, `DiscreteTopology Λ` and `IsZLattice ℝ Λ`. `Λ` is identified
 naturally with `H₁(A^an, ℤ)`, and `T_ℓ A` (A4.1) with `Λ ⊗ ℤ_ℓ`. A holomorphic
 homomorphism `A^an → B^an` is exactly a complex-linear map `V → W` carrying `Λ` into the lattice of `B`,
 and every holomorphic homomorphism is the analytification of a unique homomorphism of abelian varieties
@@ -1834,23 +1864,24 @@ and every holomorphic homomorphism is the analytification of a unique homomorphi
 compact connected complex Lie group (the analytification of a smooth scheme is a complex manifold, and
 the group law is holomorphic), uses Tau Ceti's Lie exponential `lieExp` with
 `isLocalDiffeomorphAt_lieExp_zero` and shows that the exponential is a holomorphic surjective
-homomorphism (connectedness) with discrete cocompact kernel (compactness). For each finite-dimensional
-complex `V` and full `ℤ`-lattice `Λ`, this target constructs the compact complex Lie group `V/Λ`,
-its quotient map and the holomorphic maps induced by lattice-preserving complex-linear maps.
-The universal covering identifies `π₁` and `H₁` with `Λ`, naturally in these maps (Stanford VIGRE notes *Complex theory of abelian varieties*,
-Theorem 1.8 and §1.2, pp. 2–4). The lattice uses Mathlib's `IsZLattice`; no second notion of lattice or
-manifold is introduced.
+homomorphism (connectedness) with discrete cocompact kernel (compactness). It proves the resulting
+analytic isomorphism from the supplied orbit quotient to `A^an` and transports ComplexTori
+Milestone 1's descended maps and natural `π₁` and `H₁` identifications through it (Stanford VIGRE
+notes *Complex theory of abelian varieties*, Theorem 1.8 and §1.2, pp. 2–4). The lattice uses
+Mathlib's `IsZLattice`; the quotient, manifold structure and generic map theory have one owner,
+ComplexTori.
 
-Construct the additive torsion comparison of the uniformizing torus (Stanford VIGRE notes,
-§1.2, p. 3). For `n > 0`, identify `Λ/nΛ ≃ (1/n)Λ/Λ` by
-`[λ] ↦ [λ/n]`, then along `V/Λ ≅ A^an`; torsion means killed by `n`, not exact order `n`.
+Transport ComplexTori Milestone 4, Integral connecting class, step 6's trivial-action torsion
+equivalence along `V/Λ ≅ A^an` (Stanford VIGRE notes, §1.2, p. 3). For `n > 0`, its formula is
+`Λ/nΛ ≃ (1/n)Λ/Λ`, `[λ] ↦ [λ/n]`; torsion means killed by `n`, not exact order `n`.
 For `n = ℓ^r`, `AbelianLattice.tate` identifies analytic torsion with algebraic complex points
 and proves compatibility with the transition maps `[ℓ]` on torsion and reduction on `Λ/ℓ^rΛ`,
 then passes to the inverse limit to identify `T_ℓ A` with `Λ ⊗ ℤ_ℓ`.
 
 The API is `AbelianLattice.ofAbelian`, `AbelianLattice.homology`,
 `AbelianLattice.map` (differentiate a homomorphism; functorial) and `AbelianLattice.tate`. *Needs:*
-A4.1; Mathlib `IsZLattice`; Tau Ceti `lieExp`, `isLocalDiffeomorphAt_lieExp_zero`; AlgebraicModuli
+A4.1; ComplexTori Milestone 1 and Milestone 4's trivial-action lattice-torsion formula;
+Mathlib `IsZLattice`; Tau Ceti `lieExp`, `isLocalDiffeomorphAt_lieExp_zero`; AlgebraicModuli
 §7.10.1; ComplexComparisonPartII C4.4.
 
 **Checks.**
@@ -1858,6 +1889,8 @@ A4.1; Mathlib `IsZLattice`; Tau Ceti `lieExp`, `isLocalDiffeomorphAt_lieExp_zero
 - `AbelianLattice.elliptic`: for `E = ℂ/(ℤ + τℤ)`, `Im τ > 0`, the lattice is `ℤ + τℤ ≅ ℤ²`, not a rank-one
   complex lattice.
 - `AbelianLattice.zero`: dimension zero gives `V = 0` and `Λ = 0`.
+- On the supplied orbit quotient, the isomorphism to `A^an` sends `[v]` to `exp(v)`;
+  multiplication by two descends from `v ↦ 2v` and acts as `λ ↦ 2λ` on the transported homology.
 - For `n = 1` the killed-by-`n` subgroup is zero; for `n = ℓ^r`, multiplication by `ℓ`
   on torus torsion corresponds to reduction of lattice classes modulo `ℓ^{r-1}`.
 - `AbelianLattice.irrational_map`: multiplication by `√2` on `ℂ` does not preserve `ℤ + iℤ`, so it is not a
@@ -1994,11 +2027,12 @@ Prove `analyticFamilies`. Over a complex analytic base `T`, proper smooth analyt
 connected fibres, equipped with a polarization of locally constant integral type, correspond to
 polarized variations of integral Hodge structure of weight `−1` and types `(−1, 0)`, `(0, −1)`. The family is the quotient of its holomorphic Lie
 bundle by the locally constant lattice, with zero section and group law. Over a complex manifold base,
-on each open set where the lattice local system is trivialized, this quotient with its projection,
-zero section, markings and base change is constructed from holomorphic periods
-`Π_t : ℤ^{2g} → ℂ^g` whose real-linear extension is an isomorphism on every fibre. Lattice
-translations act properly discontinuously locally on the total space; quotient charts give a
-proper smooth analytic group family. Changes of lattice basis glue these quotients along monodromy.
+on each Hausdorff second-countable open set where the lattice local system and Lie bundle are
+trivialized, consume ComplexTori Milestone 2's quotient, projection, zero section, markings and
+base change for holomorphic periods `Π_t : ℤ^{2g} → ℂ^g` whose real-linear extension is an
+isomorphism on every fibre. Its compact-uniform period estimates give locally bounded fundamental
+representatives, from which this target proves relative properness. Changes of lattice basis
+glue the supplied quotients along monodromy using Milestone 3's linear maps.
 For singular or nonreduced analytic bases the same quotient is constructed in analytic spaces, and
 `analyticFamilies.manifoldComparison` compares its pullback to a manifold with that chart construction. For an abelian scheme over a
 complex scheme of finite type, analytification gives this variation, with `H¹_dR ⊗ O^an ≅ H¹_B ⊗ O^an`,
@@ -2012,7 +2046,8 @@ pp. 2–3 and 8, for the fibrewise construction). The relative statement for eve
 exponential and lattice descent, and the horizontal relative Betti–de Rham comparison) is not proved in
 these sources and is part of this target. An analytic variation is not automatically an algebraic
 abelian scheme over an algebraic base; the differential and the evaluation pairing are preserved, not
-only ranks. *Needs:* A4.3, A5.5; AlgebraicModuli §7.10.3 (`properSchemeGagaPushforward`);
+only ranks. *Needs:* A4.3, A5.5; ComplexTori Milestones 2–3 on the manifold-base domain;
+AlgebraicModuli §7.10.3 (`properSchemeGagaPushforward`);
 ComplexComparisonPartII C3.3, C5.1 (`properDeRhamBetti`), C5.2 (`relativeBettiLocalSystem`, `GaussManin`,
 `relativeDeRhamBetti`).
 
@@ -2043,7 +2078,8 @@ ComplexComparisonPartII C5.1.
 ### A5.8 The Siegel universal family
 
 Define `SiegelFamily g`: on the Siegel space `H_g = {Ω ∈ M_g(ℂ) : Ωᵀ = Ω, Im Ω positive definite}`, the
-family `(ℂ^g × H_g)/ℤ^{2g}` with fibre `X_Ω = ℂ^g/(ℤ^g + Ωℤ^g)` over `Ω`. The standard unimodular
+family `(H_g × ℂ^g)/ℤ^{2g}` with fibre `X_Ω = ℂ^g/(ℤ^g + Ωℤ^g)` over `Ω`, on ComplexTori's
+standard additive orbit quotient. The standard unimodular
 alternating form, `E(Ωe_i, e_j) = δ_{ij}` and `E` zero on `ℤ^g` and on `Ωℤ^g`, with
 `H(z, w) = zᵀ (Im Ω)^{-1} w̄`, is a principal polarization of every fibre. `Sp_{2g}(ℤ)` acts by
 `Ω ↦ (AΩ + B)(CΩ + D)^{-1}` and on fibres by `z ↦ (CΩ + D)^{-T} z`, in the column convention for the
@@ -2051,14 +2087,15 @@ lattice `ℤ^g + Ωℤ^g`; integral monodromy is this lattice action. A symplect
 full level-`N` structure (A3.8) in which the matrix of the Weil pairing is the standard symplectic
 matrix times a primitive `N`-th root of unity, is on this family a symplectic trivialization of the
 lattice modulo `N`; for `N ≥ 3` it removes stabilizers. Nonprincipal types use their own lattice automorphism groups (Faltings–Chai I.6,
-pp. 29–30). Construct the total space, projection and zero section by A5.6
-for `Π_Ω(a, b) = Ωa + b` on `ℤ^g × ℤ^g`. Construct the `Sp_{2g}(ℤ)` action by the linear maps `R_M(Ω) = (CΩ + D)^{-T}` and lattice representation
+pp. 29–30). Apply ComplexTori Milestone 2 to the total space, projection and zero section, with
+A5.6's polarized interpretation, for `Π_Ω(a, b) = Ωa + b` on `ℤ^g × ℤ^g`. Apply Milestone 3's
+linear constructor to the `Sp_{2g}(ℤ)` action with linear maps `R_M(Ω) = (CΩ + D)^{-T}` and lattice representation
 `ρ(M) = M^{-T}`. The construction here verifies the cocycle law of `R` and the period-equivariance law
 `R_M(Ω) Π_Ω(v) = Π_{M·Ω}(M^{-T} v)` (checking the transpose), and identifies torsion with the lattice
 modulo `N`. The API is `SiegelFamily.fibre`, `SiegelFamily.polarization`, `SiegelFamily.symplecticAction`
 (the compatible period, lattice and fibre actions) and `SiegelFamily.level`. `Suggested.lean` states
 the period space as `SiegelUpperHalfSpace`, with `siegelAction` and `siegelAction_mem`. *Needs:* A3.7, A3.8, A5.2,
-A5.6; Mathlib `Matrix.symplecticGroup`, `Matrix.PosDef`.
+A5.6; ComplexTori Milestones 2–3; Mathlib `Matrix.symplecticGroup`, `Matrix.PosDef`.
 
 The light predicate has intended signature
 `SiegelUpperHalfSpace (g : ℕ) : Set (Matrix (Fin g) (Fin g) ℂ)`, with symmetry and
@@ -2098,7 +2135,8 @@ corresponding elliptic curve has `j = 1728`. For `g = 2` and `Ω = diag(τ₁, �
 ### Dependencies
 
 A2–A4; Mathlib `IsZLattice`, `Matrix.symplecticGroup`; Tau Ceti Hodge library, `AlmostComplexStructure`,
-`IsRiemannForm` and `latticeHodgeStructure`, `lieExp`; AlgebraicModuli §§7.10.1, 7.10.3; ComplexComparisonPartII C3.3, C4.2, C4.4, C5.1, C5.2, C5.4.
+`IsRiemannForm` and `latticeHodgeStructure`, `lieExp`; ComplexTori Milestones 1–3 and Milestone 4's
+trivial-action lattice-torsion formula; AlgebraicModuli §§7.10.1, 7.10.3; ComplexComparisonPartII C3.3, C4.2, C4.4, C5.1, C5.2, C5.4.
 
 <a id="a6"></a>
 

@@ -37,6 +37,12 @@ Design choices made explicit here:
 * Riemann forms are Tau Ceti's `IsRiemannForm`, with positivity `E(Jv, v) > 0`; the Hermitian form
   is linear in the first variable, `H(v, w) = E(Jv, w) + i E(v, w)`, and principal means unimodular
   on the lattice (README A5.2).
+* ComplexTori Milestone 1 owns the complex Lie-group structure on the translation carrier
+  `AddAction.orbitRel.Quotient Λ V`, its descended maps and natural covering/homology identifications,
+  for finite-dimensional complex normed `V` and `Λ : Submodule ℤ V` with `DiscreteTopology Λ`
+  and `IsZLattice ℝ Λ`. Its Milestones 2–3 supply manifold period families and equivariant maps;
+  Milestone 4 supplies trivial-action lattice torsion. A5 transports these to algebraic abelian
+  varieties and supplies the polarized Hodge and Siegel interpretations.
 -/
 
 open CategoryTheory Limits MonoidalCategory AlgebraicGeometry MonObj Polynomial
@@ -745,9 +751,17 @@ choice of representative, with restriction and arbitrary-base-change compatibili
 * **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
   `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.
-* **Complex analytic carriers** (A5.1 constructs lattice quotients and torsion;
-  `AbelianLattice.tate` provides algebraic transport and transition-map compatibility;
-  A5.6 constructs period families and A5.8 their symplectic maps):
+* **Complex analytic carriers** (ComplexTori Milestone 1 supplies the complex Lie-group
+  quotient `AddAction.orbitRel.Quotient Λ V`, descended lattice-preserving maps and natural
+  covering/homology identifications; Milestone 4, Integral connecting class, step 6 supplies
+  `Λ/nΛ` torsion for `n > 0` and the trivial action. A5.1 proves the exponential lattice
+  hypotheses and transports these structures to the analytification of an abelian variety;
+  `AbelianLattice.tate` provides algebraic transport and transition-map compatibility.
+  A5.6 consumes Milestones 2–3 on Hausdorff second-countable manifold patches with full
+  discrete holomorphic periods, proves relative properness and the polarized Hodge comparison,
+  and extends to singular or nonreduced analytic bases. A5.8 supplies the Siegel period,
+  polarization, symplectic cocycle and period-equivariance formulas to those constructors;
+  linear actions at stabilizers do not imply a free manifold quotient):
   `AbelianLattice`, `appellHumbert`, `polarizedHodgeEquivalence`,
   `analyticFamilies`, `realizationConventions`, `SiegelFamily` (beyond the Siegel space above),
   `cmIsotypic`.
