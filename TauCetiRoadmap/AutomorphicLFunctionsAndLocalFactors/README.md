@@ -125,7 +125,9 @@ identification of the residue with adelic measure are AL.1 targets.
   layers 2–5 supplies Hom/Isom parameters, effective descent, gerbes and rigidification.
   **EtaleCohomologyFoundations**, §§F.0–F.6 and F.10.1–F.10.5, supplies finite
   constructible/ctf and adic operations, duality, Frobenius-equivariant Künneth
-  and `VanishingCycles.etaleTraceFormula`. **EtaleCohomologyFoundations**,
+  and trace algebra.
+  **InverseGaloisAndArithmeticFundamentalGroups**, §IG.0.T3, supplies
+  `VanishingCycles.etaleTraceFormula`. **EtaleCohomologyFoundations**,
   §0.11, supplies `ClassicalAlgebraic.smoothTrace` and
   `ClassicalAlgebraic.curveDuality` for separated smooth finitely presented maps,
   with the §0.8 compactification, coefficients ℤ/n and n invertible; §§0.9–0.10
