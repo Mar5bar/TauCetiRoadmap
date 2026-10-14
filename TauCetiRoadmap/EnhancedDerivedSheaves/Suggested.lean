@@ -95,6 +95,28 @@ example (R : Type u) [CommRing R] (M : Type u) [AddCommGroup M] [Module R M]
       (ModuleCat.of R M)) := by
   sorry
 
+/-- The acyclic constant-term complex over `ℤ/4` with successive differential multiplication
+by `2` (`zmodFourTwoComplex`, Section E1.2). -/
+noncomputable def zmodFourTwoComplex : CochainComplex (ModuleCat.{0} (ZMod 4)) ℤ := by
+  classical
+  exact
+    { X := fun _ => ModuleCat.of (ZMod 4) (ZMod 4)
+      d := fun i j => if (ComplexShape.up ℤ).Rel i j then
+        ModuleCat.ofHom ((2 : ZMod 4) • LinearMap.id) else 0
+      shape := fun i j h => by simp only [ite_eq_right h]
+      d_comp_d' := fun i j k hij hjk => by
+        simp only [ite_eq_left hij, ite_eq_left hjk]
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro x
+        change (2 : ZMod 4) • ((2 : ZMod 4) • x) = 0
+        have htwo : (2 : ZMod 4) * 2 = 0 := by decide
+        rw [smul_smul, htwo, zero_smul] }
+
+/-- The unbounded termwise free complex with differential `2` over `ℤ/4` is not K-flat. -/
+example : ¬ IsKFlat (ZMod 4) zmodFourTwoComplex := by
+  sorry
+
 end KFlat
 
 section RegularRings
@@ -375,6 +397,18 @@ theorem IsReplete.countableProduct_epi {C : Type u} [SmallCategory C]
     {X Y : ℕ → Sheaf J (Type u)} (f : ∀ n, X n ⟶ Y n) (hf : ∀ n, Epi (f n)) :
     Epi (Limits.Pi.map f) := by
   sorry
+
+/-- Sets form a replete topos. -/
+example : IsReplete (Type u) := by
+  sorry
+
+/-- Every slice of the topos of sets is replete, including the slice over two elements. -/
+example (U : Type u) : IsReplete (Over U) := by
+  sorry
+
+/-- Choice makes every set a projective object in the topos of sets. -/
+example (U : Type u) : CategoryTheory.Projective U := by
+  infer_instance
 
 #check CategoryTheory.Projective
 #check CategoryTheory.Projective.factors

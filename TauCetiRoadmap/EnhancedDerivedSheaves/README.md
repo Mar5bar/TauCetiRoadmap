@@ -381,9 +381,21 @@ Provide `spaceInfinity`, `spaceInfinity_vertices`, `spaceInfinity_mappingCompari
 
 *Needs:* `enhancedCore`; `coherentFun`; `catInfinity`; `simplicialNerve_quasicategory`.
 
+**Space-valued straightening over arbitrary bases** (`spaceStraightening`). For every small quasicategory B, construct right fibrations over B and their equivalence with Fun(Bᵒᵖ, Spaces), and dually left fibrations with Fun(B, Spaces). A right fibration lifts every horn Λⁿᵢ with 0 < i ≤ n; a left fibration lifts every horn with 0 ≤ i < n. The equivalences identify fibres with values and pullback with restriction. Construct the arrow right fibration over C × Cᵒᵖ whose classifying presheaf on Cᵒᵖ × C is Map_C(−, −), its restrictions at fixed targets representing individual objects, and the category of elements of every space-valued presheaf. These constructions use the universe of B and the corresponding spaces, including universe lifts. (HTT §§2.1–2.2, especially Proposition 2.1.4.7 and Theorem 2.2.1.2; §5.1.3, Proposition 5.1.3.1.)
+
+**Checks.**
+
+- Over a point right and left fibrations are Kan complexes, and straightening gives the same space.
+- Over N(A), a discrete presheaf unstraightens to the nerve of its ordinary category of elements.
+- For C = K(ℤ, 2), the fibre of the arrow right fibration at (x, x) is ΩC = K(ℤ, 1), rather than the singleton Hom set in its homotopy category.
+
+*Proof route.* Build the contravariant and covariant model structures on simplicial sets over B, their realization/nerve adjunctions and the space-valued Quillen straightening equivalence of HTT 2.2.1.2. Identify the arrow fibration through the rigidification's mapping complexes, and obtain categories of elements by unstraightening presheaves. This construction uses no category-valued straightening or derived families.
+
+*Needs:* `spaceInfinity`; `coherentFun`; `rightMappingSpace_isKan`; Mathlib `CategoryTheory.SimplicialNerve`, `HomotopicalAlgebra.ModelCategory` and small-object factorizations.
+
 **Universe control for mapping spaces** (`IsLocallySmall`). A quasicategory C in universe u + 1 is locally u-small when every right mapping space is homotopy equivalent, after universe lift, to a u-small Kan complex. One chooses such small models with comparison equivalences, and the coherent representable Map_C(x, −) then lands in Spaces_u, with its value at y naturally equivalent to the chosen model. The simplices of the original mapping space need not form a u-small type: local smallness concerns homotopy types, not raw simplex sets. (HTT Corollary 5.4.1.5 and Proposition 5.4.1.7, printed pp. 421–423, PDF pp. 439–441.)
 
-Provide `HasSmallSpaceModel` (a Kan complex has a lifted u-small Kan model with comparison maps inverse up to simplicial homotopy), `IsLocallySmall`, `smallMappingSpace` with `smallMappingSpace_compare`, `representableSpaceFunctor` (the coherent Map(x, −) into Spaces_u), `representableSpaceFunctor_vertex` (its value at y is equivalent to Map_C(x, y)) and `representableSpaceFunctor_vertexComparison` (the evaluation comparison, an equivalence natural in y). The coherent functor is transported through the full inclusion of Spaces_u into larger spaces as a whole diagram, never by unrelated vertexwise choices.
+Provide `HasSmallSpaceModel` (a Kan complex has a lifted u-small Kan model with comparison maps inverse up to simplicial homotopy), `IsLocallySmall`, `smallMappingSpace` with `smallMappingSpace_compare`, `representableSpaceFunctor` (the coherent Map(x, −) into Spaces_u), `representableSpaceFunctor_vertex` (its value at y is equivalent to Map_C(x, y)) and `representableSpaceFunctor_vertexComparison` (the evaluation comparison, an equivalence natural in y). Construct the coherent representable using `spaceStraightening`, then transport it through the full inclusion of Spaces_u into larger spaces as a whole diagram, never by unrelated vertexwise choices.
 
 **Checks.**
 
@@ -392,7 +404,7 @@ Provide `HasSmallSpaceModel` (a Kan complex has a lifted u-small Kan model with 
 - The nerve of an ordinary category with a Hom type that is not u-small is not locally u-small.
 - A contractible Kan complex whose nondegenerate simplices do not form a u-small type (for example the nerve of the indiscrete groupoid on a larger nonempty type) still has a u-small model, the point; the predicate must accept it.
 
-*Needs:* `rightMappingSpace`; `spaceInfinity`; Mathlib `Small`.
+*Needs:* `rightMappingSpace`; `spaceInfinity`; `spaceStraightening`; Mathlib `Small`.
 
 ### E0.6 The dg nerve and its comparisons
 
@@ -513,7 +525,7 @@ Provide `IsCoCartesianEdge`, `IsCoCartesianFibration`, `coCartesianEdge_comp` (c
 
 *Needs:* `rightMappingSpace_isKan`; `IsEnhancedLimit`; `coherentFun`; `fullEnhancedSubcategory`; Mathlib `SSet.InnerFibration`.
 
-**Restricted straightening and sections** (`restrictedStraightening`). Let B be the nerve of a small ordinary category; the cases used later are N(Δ), N(ℕ^{op}), N(Fin_∗), nerves of small posets, the categories of hypercovers and refinements of Layer E2, and products of these with Δ[1]. Straightening and unstraightening identify functors B → Cat∞ with coCartesian fibrations over B. Under this identification the fibre over b is the value at b, transport along an edge is the assigned functor, base change is restriction, and the quasicategory of coCartesian sections is the limit of the classified diagram in Cat∞. Straightening over arbitrary small bases is a target of Layer E5:abstract (`derivedFamily`). (HTT Theorem 3.2.0.1, PDF p. 187; Corollary 3.3.3.2, PDF p. 234, with the coCartesian dual.)
+**Restricted straightening and sections** (`restrictedStraightening`). Let B be the nerve of a small ordinary category; the cases used later are N(Δ), N(ℕ^{op}), N(Fin_∗), nerves of small posets, the categories of hypercovers and refinements of Layer E2, and products of these with Δ[1]. Straightening and unstraightening identify functors B → Cat∞ with coCartesian fibrations over B. Under this identification the fibre over b is the value at b, transport along an edge is the assigned functor, base change is restriction, and the quasicategory of coCartesian sections is the limit of the classified diagram in Cat∞. Category-valued straightening over arbitrary small bases is `generalStraightening` of Layer E5:abstract; space-valued straightening is `spaceStraightening` of E0.5. (HTT Theorem 3.2.0.1, PDF p. 187; Corollary 3.3.3.2, PDF p. 234, with the coCartesian dual.)
 
 **Checks.**
 
@@ -562,7 +574,7 @@ Provide `IsKappaCompact`, `IsKappaAccessible`, `IsAccessible`, `IsAccessibleFunc
 
 *Proof route.* Construct Yoneda and its mapping-space formula from the right fibration of arrows. For a small family G of κ-compact generators, extend G → C to presheaves by taking the colimit over each presheaf's category of elements. The mapping-space formula makes this extension left adjoint to restricted Yoneda. The κ-filtered presentations of objects make restricted Yoneda fully faithful. Enlarge κ so the generating family is closed under κ-small colimits; the cardinal argument in HTT 5.5.1.1 proves accessibility of this reflector and presentability of presheaves. This construction uses the assumed colimits directly.
 
-*Needs:* `IsPresentable`; `IsKappaAccessible`; `coherentFun`; `spaceInfinity`; `restrictedStraightening`; `IsEnhancedColimit`.
+*Needs:* `IsPresentable`; `IsKappaAccessible`; `coherentFun`; `spaceInfinity`; `spaceStraightening`; `IsEnhancedColimit`.
 
 ### Examples
 
@@ -613,6 +625,7 @@ ClassicalAdicEtaleCohomology §0.2, `ClassicalDerived.replacements`, supplies fu
 - A quasi-isomorphism between supplied K-injective models is a homotopy equivalence.
 - A flat module in any single integer degree is K-flat; over ℤ, (ℤ/p)[0] for p prime is not, as the acyclic cone of [ℤ →p ℤ] → (ℤ/p)[0] detects.
 - The cardinal controls the whole functorial model, including unbounded complexes, rather than being chosen separately for each map.
+- Over A = ℤ/4, `zmodFourTwoComplex` has Pⁱ = A and every successive differential multiplication by 2. It is acyclic and termwise free, but not K-flat: P ⊗_A (A/2)[0] has zero differentials and nonzero cohomology in every degree. An acyclic K-flat complex tensors acyclically with every complex, so this tensor detects the failure (DerivedDeRhamCohomology §0.2, `test_derived_tensor_unbounded_flat`).
 
 *Needs:* `sheafComplexDG`; `dgNerve_rightMappingSpaceIso`; ClassicalAdicEtaleCohomology §0.2 (`ClassicalDerived.replacements`); DerivedDeRhamCohomology §0.2 (module K-flat models); Mathlib `CochainComplex.IsKInjective`, `CategoryTheory.IsGrothendieckAbelian`.
 
@@ -1292,7 +1305,19 @@ Provide `monoidalEnvelope`, `envelopeSingleton` and `envelopeRestriction`.
 
 *Needs:* `IsDwyerKanLocalization`; `OMonoidalCategory`; `overDiagram`.
 
-**Derived coCartesian families and straightening over arbitrary bases** (`derivedFamily`). Let X → S be a coCartesian fibration over a small ∞-category, with a class of vertical weak equivalences in each fibre. It is left derivable when every transition functor has an absolute left derived functor, in the sense of a right Kan extension along the localization of its source (Nikolaus–Scholze Definition A.8), and the comparisons between derived composites are equivalences over every 2-simplex of S. Localizing the fibres then gives a coCartesian fibration over S whose transitions are the derived transitions, compatibly with base change along any K → S from a small ∞-category; a transition that preserves the weak equivalences keeps its original coCartesian lifts. As part of this target, straightening and unstraightening are extended from the bases of `restrictedStraightening` to arbitrary small ∞-categories: points and intervals generate Cat∞ under colimits, coCartesian families glue along those colimits, and pullback preserves the gluing. (Nikolaus–Scholze Definition A.8, pp. 131–132; Proposition A.14 and Corollary A.15, pp. 134–135; Lemmas A.16–A.17, pp. 136–137.)
+**Category-valued straightening over arbitrary bases** (`generalStraightening`). For every small quasicategory S, construct the equivalence between coCartesian fibrations over S and Fun(S, Cat∞), with its Cartesian dual, extending `restrictedStraightening`. Identify fibres with values, transport with the classified functor, and pullback with restriction, coherently in the base. (HTT Theorem 3.2.0.1, printed p. 169, PDF p. 187; Proposition 3.2.1.4.)
+
+**Checks.**
+
+- On nerves of ordinary categories the comparison agrees with `restrictedStraightening`.
+- For constant families over any S, coCartesian sections are functors S^gpd → C.
+- For S = K(ℤ, 2), space-valued families agree with `spaceStraightening`; replacing S by its homotopy category would lose its higher monodromy.
+
+*Proof route.* Extend the relative marked Cartesian and coCartesian model structures, functorial replacements and realization/nerve adjunction to every small S. Construct the Quillen straightening equivalence by HTT 3.2.0.1, reducing first to simplices and then using its model-category descent argument. Derive the equivalence and its base-change comparisons. With this equivalence established, NS A.16–A.17 give gluing along colimits in Cat∞ for `derivedFamily`.
+
+*Needs:* `markedSSetModel`; `IsCoCartesianFibration`; `restrictedStraightening`; `coherentFun`; `catInfinity`; Mathlib `HomotopicalAlgebra.ModelCategory`.
+
+**Derived coCartesian families** (`derivedFamily`). Let X → S be a coCartesian fibration over a small ∞-category, with a class of vertical weak equivalences in each fibre. It is left derivable when every transition functor has an absolute left derived functor, in the sense of a right Kan extension along the localization of its source (Nikolaus–Scholze Definition A.8), and the comparisons between derived composites are equivalences over every 2-simplex of S. Localizing the fibres then gives a coCartesian fibration over S whose transitions are the derived transitions, compatibly with base change along any K → S from a small ∞-category; a transition that preserves the weak equivalences keeps its original coCartesian lifts. Use `generalStraightening` to classify families over arbitrary small bases; NS A.16–A.17 then give gluing along colimits in Cat∞ and its compatibility with pullback. (Nikolaus–Scholze Definition A.8, pp. 131–132; Proposition A.14 and Corollary A.15, pp. 134–135; Lemmas A.16–A.17, pp. 136–137.)
 
 Provide `DerivedFamilyData` (base, total space, projection and localized fibres; derivability conditions are part of the definition), `derivedFamily` and `derivedFamilyBaseChange`.
 
@@ -1302,9 +1327,9 @@ Provide `DerivedFamilyData` (base, total space, projection and localized fibres;
 - Over Δ[1] the transition is the derived transition, not the underived functor.
 - If the weak equivalences are the equivalences, the localized family is equivalent to the original one.
 
-*Proof route.* Glue straightening along Cat∞-colimits of points and intervals (NS A.16–A.17), not along colimits of raw simplicial sets; localize fibres and derive transitions using `leftKanExtension_restrict_trivialFibration`; assemble a functor S → Cat∞ from the absolute property and the 2-simplex comparisons; identify the total localization by NS A.14–A.15.
+*Proof route.* Use `generalStraightening` and NS A.16–A.17 to glue coCartesian families along Cat∞-colimits of points and intervals. Localize fibres and derive transitions using `leftKanExtension_restrict_trivialFibration`; assemble a functor S → Cat∞ from the absolute property and the 2-simplex comparisons; identify the total localization by NS A.14–A.15.
 
-*Needs:* `IsDwyerKanLocalization`; `restrictedStraightening`; `leftKanExtension_restrict_trivialFibration`; `coherentFun`; `catInfinity`.
+*Needs:* `IsDwyerKanLocalization`; `generalStraightening`; `leftKanExtension_restrict_trivialFibration`; `coherentFun`; `catInfinity`.
 
 **Monoidal localization of a model category** (`monoidalModelLocalization`). A symmetric monoidal model category satisfying the pushout-product and unit axioms has a symmetric monoidal ∞-localization. The localization of the cofibrant objects carries the derived tensor product and is strongly monoidally equivalent to the Dwyer–Kan localization of all objects with this derived structure; the map from all objects is lax monoidal and initial among lax monoidal functors inverting weak equivalences; and the construction is compatible with base change K → N(Fin_∗) from small quasicategories. If the unit is not cofibrant, the derived unit is its cofibrant replacement, and no strong monoidal map from all objects is asserted. (Nikolaus–Scholze Theorem A.7, pp. 130–131.)
 
@@ -1719,6 +1744,7 @@ Provide `siftedDiagonal`, `siftedProductComparison` (colim(F × G) → colim F �
 - The empty ∞-category is not sifted: its colimit does not preserve the empty product.
 - Δ^{op} is sifted.
 - The discrete category on two objects is not sifted.
+- The nerve of Mathlib's `CategoryTheory.Limits.WalkingReflexivePair` is not sifted, although the ordinary category is sifted: the diagonal comma category at (1,1) is connected with H₁(−; ℚ) = ℚ². Its 13 objects and 40 nonidentity arrows give normalized boundary ranks 12 and 26 in degrees one and two. Connectedness cannot replace weak contractibility (HTT Warning 5.5.8.2).
 
 *Needs:* `IsFinal`; `overDiagram`; `final_fibre_inclusion`; `leftKanExtension_restrict_trivialFibration`; Mathlib `CategoryTheory.IsSifted`.
 
@@ -2093,10 +2119,11 @@ Provide `IsLocallyWeaklyContractible`, `IsLocallyWeaklyContractible.cover` and `
 - For X = Set the generator is ℤ, which generates D(Ab).
 - Maps from shifts of j_!ℤ compute the cohomology of sections over U.
 - For a finite group G, a free transitive G-set gives the compact generator ℤ[G] in the derived category of G-modules; the terminal G-set need not give a compact object.
+- For presheaves on the category with objects a, b, cₙ (n ∈ ℕ) and only the nonidentity arrows cₙ → a, cₙ → b, representables are coherent projective generators. Nevertheless y(a) × y(b) = ⨿ₙ y(cₙ) is not quasicompact, so the fibre-product closure required by `DiamondsAndVStacks` D0.17 fails. The representables are subterminal, hence their terminal projections are quasiseparated. The free abelian representables are compact generators by exact evaluation and finite support, without an algebraic-topos hypothesis.
 
-*Proof route.* Maps out of j_!ℤ[−i] are H^i(U, −); Γ(U, −) is exact and, for coherent U, commutes with filtered colimits (`DiamondsAndVStacks` D0.18), so j_!ℤ is compact; if all maps out of the generators vanish, every cohomology sheaf vanishes on a covering family.
+*Proof route.* Maps out of j_!ℤ[−i] are H^i(U, −). Projectivity makes Γ(U, −) exact by `projective_sections_exact`. Quasicompactness makes sections of an arbitrary direct sum have finite support, so Γ(U, −) commutes with direct sums. The same holds on unbounded complexes since sections are exact and derived coproducts are computed termwise. Apply `exact_preservesColimits_iff_coproducts` to the resulting exact derived sections functor, or the finite-support criterion of HA Proposition 1.4.4.1(3), to obtain compactness. If all maps out of the generators vanish, every cohomology sheaf vanishes on a covering family.
 
-*Needs:* `IsLocallyWeaklyContractible`; `enhancedDerived_isPresentable`; `IsPresentable`; `DiamondsAndVStacks` D0.18 (filtered colimits of abelian sheaves and their cohomology on an algebraic topos).
+*Needs:* `IsLocallyWeaklyContractible`; `projective_sections_exact`; `enhancedDerived_isPresentable`; `IsPresentable`; `exact_preservesColimits_iff_coproducts`.
 
 ### E2.6 Hypercovers and descent
 
@@ -2435,13 +2462,16 @@ where the transition from m to n (m ≥ n) is the identity in degree zero and se
 
 *Needs:* IntegralHeckeAndGaloisDeterminants §6.4 (Koszul complexes); `DerivedCompleteSheaves`; `derivedComplete_iff_generators`; `completeSheaf`; `derivedInternalHom`; `derivedTowerLimit`; `IsReplete.milnor`.
 
-**Regular ideal quotient comparison** (`regularIdeal_quotients`). For a finite regular sequence I = (f₁, …, f_r) in a commutative ring A, compare the coherent Koszul tower in `koszulCompletionTower` with the quotient tower K ⊗ᴸ_A A/Iⁿ, on every ringed slice with constant coefficients A. The ordinary cofinality, regular Koszul resolutions and perfection of A/Iⁿ with Tor amplitude [−r, 0] are supplied by DerivedDeRhamCohomology §1.5; lift its module comparison through `koszulEnhancedComparison` and prove coherent restriction to slices. No Noetherian hypothesis is imposed. (Stacks Lemmas 15.31.2–15.31.6, tags 062F, 062G, 062I; Lemma 15.93.18, tag 0920; BS-proet proof of Lemma 3.5.5, p. 25.)
+**Regular ideal quotient comparison** (`regularIdeal_quotients`). For a finite regular sequence I = (f₁, …, f_r) in a commutative ring A, compare the coherent Koszul tower in `koszulCompletionTower` with the quotient tower K ⊗ᴸ_A A/Iⁿ, on every ringed slice with constant coefficients A. DerivedDeRhamCohomology §1.5 supplies the ordinary quotient-tower completion comparison; lift it through `koszulEnhancedComparison` and prove coherent restriction to slices. Here additionally prove that for every n ≥ 1, A/Iⁿ is perfect over A with Tor amplitude contained in [−r, 0], uniformly in n. No Noetherian hypothesis is imposed. (Stacks Lemmas 15.31.2–15.31.6, tags 062F, 062G, 062I; Lemma 15.93.18, tag 0920; BS-proet proof of Lemma 3.5.5, p. 25.)
 
 **Checks.**
 
 - For a non-zero-divisor f the comparison identifies K_A(fⁿ) with A/fⁿ.
 - For A = k[x,y] and I = (x,y), the comparison uses cofinal towers even though Iⁿ ≠ (xⁿ,yⁿ) for n ≥ 2.
 - In A ≠ 0, (0) is not regular and K_A(0) has H^{−1} = A, so the quotient comparison is not asserted for that generating sequence.
+- For A = k[x,y] and n ≥ 1, A/(x,y)ⁿ has a finite projective resolution in degrees [−2, 0], although (x,y)ⁿ need not be generated by a regular sequence. For the empty sequence, A/Iⁿ = A has amplitude [0, 0].
+
+*Proof route.* Resolve A/I by the regular Koszul complex. Regularity implies H₁-regularity and then quasi-regularity (Stacks 062F, 062I), identifying Iʲ/Iʲ⁺¹ with the degree-j part of (A/I)[T₁, …, T_r], a finite free A/I-module. Induct on n using 0 → Iⁿ⁻¹/Iⁿ → A/Iⁿ → A/Iⁿ⁻¹ → 0. Perfect complexes and Tor amplitude [−r, 0] are closed under these extensions, giving the uniform bound.
 
 *Needs:* DerivedDeRhamCohomology §1.5; IntegralHeckeAndGaloisDeterminants §6.4; `koszulEnhancedComparison`; `koszulCompletionTower`; `enhancedCoeffChange`.
 
