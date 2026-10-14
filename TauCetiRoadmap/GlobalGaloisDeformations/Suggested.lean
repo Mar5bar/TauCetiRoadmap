@@ -230,6 +230,55 @@ theorem framed_restrict_invariant (ι : H →* G) (ρ : G →* GL (Fin n) A)
 
 end Restriction
 
+section Framed
+
+variable {G : Type*} [Group G] [TopologicalSpace G]
+variable {k : Type*} [Field k]
+variable (n : ℕ) (ρbar : G →* GL (Fin n) k)
+variable {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (π : A →+* k)
+variable (T : Type*)
+
+/-- A `T`-framed lift: a lift with frames `α_v ∈ Γ̂ₙ(A)` for `v ∈ T` (README 2.6, 3.3). Local problems,
+ramification and determinant are imposed on top of this. -/
+structure TFramedLift where
+  /-- The lift. -/
+  lift : Lift n ρbar π
+  /-- The frames. -/
+  frame : T → strictKernel n π
+
+/-- The simultaneous action `(ρ, α) ↦ (βρβ⁻¹, βα)`. -/
+instance : MulAction (strictKernel n π) (TFramedLift n ρbar π T) where
+  smul b x := ⟨b • x.lift, fun v ↦ b * x.frame v⟩
+  one_smul x := by
+    obtain ⟨ρ, α⟩ := x
+    show (⟨(1 : strictKernel n π) • ρ, fun v ↦ 1 * α v⟩ : TFramedLift n ρbar π T) = ⟨ρ, α⟩
+    simp only [one_smul, one_mul]
+  mul_smul a b x := by
+    obtain ⟨ρ, α⟩ := x
+    show (⟨(a * b) • ρ, fun v ↦ a * b * α v⟩ : TFramedLift n ρbar π T) =
+      ⟨a • b • ρ, fun v ↦ a * (b * α v)⟩
+    simp only [mul_smul, mul_assoc]
+
+/-- The framed local lift `α_v⁻¹ ρ α_v`. -/
+def TFramedLift.localLift (x : TFramedLift n ρbar π T) (v : T) (g : G) : GL (Fin n) A :=
+  (x.frame v : GL (Fin n) A)⁻¹ * x.lift.toHom g * x.frame v
+
+/-- The framed local lift is constant on classes. -/
+theorem TFramedLift.localLift_smul (x : TFramedLift n ρbar π T) (b : strictKernel n π) (v : T)
+    (g : G) : (b • x).localLift n ρbar π T v g = x.localLift n ρbar π T v g := by
+  show ((b * x.frame v : strictKernel n π) : GL (Fin n) A)⁻¹ *
+      (x.lift.conj n ρbar π b).toHom g * ((b * x.frame v : strictKernel n π) : GL (Fin n) A) =
+    (x.frame v : GL (Fin n) A)⁻¹ * x.lift.toHom g * x.frame v
+  rw [Lift.conj_apply, Subgroup.coe_mul]
+  group
+
+/-- Unrestricted simultaneous `T`-framed classes (README 2.6); type conditions are imposed
+on this quotient in README 3.3. -/
+def UnrestrictedTFramedDef : Type _ :=
+  MulAction.orbitRel.Quotient (strictKernel n π) (TFramedLift n ρbar π T)
+
+end Framed
+
 /-! ## Layer R04.2: Representability and universal lifts -/
 
 section PhiP
@@ -270,7 +319,7 @@ theorem exists_unique_nthRoot_of_residue_eq_one {A : Type*} [CommRing A] [IsLoca
     ∃! v : Aˣ, IsLocalRing.residue A (v : A) = 1 ∧ v ^ n = u := by
   sorry
 
-/-- Characteristic three, `n = 3`: `(1 + aε)³ = 1`, so `1 + ε` has no cube root of that form. -/
+/-- In characteristic three with `ε² = 0`, every expression `1 + aε` has cube one. -/
 example {R : Type*} [CommRing R] (a e : R) (h3 : (3 : R) = 0) (he : e ^ 2 = 0) :
     (1 + a * e) ^ 3 = 1 := by
   linear_combination (a * e) * h3 + (3 * a ^ 2 + a ^ 3 * e) * he
@@ -279,53 +328,6 @@ end NthRoot
 
 /-! ## Layer R04.3: Local conditions and global presentations -/
 
-section Framed
-
-variable {G : Type*} [Group G] [TopologicalSpace G]
-variable {k : Type*} [Field k]
-variable (n : ℕ) (ρbar : G →* GL (Fin n) k)
-variable {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (π : A →+* k)
-variable (T : Type*)
-
-/-- A `T`-framed lift: a lift with frames `α_v ∈ Γ̂ₙ(A)` for `v ∈ T` (README 3.3). Local problems,
-ramification and determinant are imposed on top of this. -/
-structure TFramedLift where
-  /-- The lift. -/
-  lift : Lift n ρbar π
-  /-- The frames. -/
-  frame : T → strictKernel n π
-
-/-- The simultaneous action `(ρ, α) ↦ (βρβ⁻¹, βα)`. -/
-instance : MulAction (strictKernel n π) (TFramedLift n ρbar π T) where
-  smul b x := ⟨b • x.lift, fun v ↦ b * x.frame v⟩
-  one_smul x := by
-    obtain ⟨ρ, α⟩ := x
-    show (⟨(1 : strictKernel n π) • ρ, fun v ↦ 1 * α v⟩ : TFramedLift n ρbar π T) = ⟨ρ, α⟩
-    simp only [one_smul, one_mul]
-  mul_smul a b x := by
-    obtain ⟨ρ, α⟩ := x
-    show (⟨(a * b) • ρ, fun v ↦ a * b * α v⟩ : TFramedLift n ρbar π T) =
-      ⟨a • b • ρ, fun v ↦ a * (b * α v)⟩
-    simp only [mul_smul, mul_assoc]
-
-/-- The framed local lift `α_v⁻¹ ρ α_v`. -/
-def TFramedLift.localLift (x : TFramedLift n ρbar π T) (v : T) (g : G) : GL (Fin n) A :=
-  (x.frame v : GL (Fin n) A)⁻¹ * x.lift.toHom g * x.frame v
-
-/-- The framed local lift is constant on classes. -/
-theorem TFramedLift.localLift_smul (x : TFramedLift n ρbar π T) (b : strictKernel n π) (v : T)
-    (g : G) : (b • x).localLift n ρbar π T v g = x.localLift n ρbar π T v g := by
-  show ((b * x.frame v : strictKernel n π) : GL (Fin n) A)⁻¹ *
-      (x.lift.conj n ρbar π b).toHom g * ((b * x.frame v : strictKernel n π) : GL (Fin n) A) =
-    (x.frame v : GL (Fin n) A)⁻¹ * x.lift.toHom g * x.frame v
-  rw [Lift.conj_apply, Subgroup.coe_mul]
-  group
-
-/-- Unrestricted `T`-framed classes; not the type-`𝒮` functor `TFramedDef`. -/
-def UnrestrictedTFramedDef : Type _ :=
-  MulAction.orbitRel.Quotient (strictKernel n π) (TFramedLift n ρbar π T)
-
-end Framed
 
 /-- Full-adjoint coboundaries take values in the supplied trace-zero ideal, even when the rank
 is divisible by the residue characteristic (README 3.2). Strict-conjugacy stability then places
@@ -398,6 +400,286 @@ end Twist
 section Examples
 
 variable {G : Type*} [Group G] [TopologicalSpace G] {k : Type*} [Field k]
+
+/-- `restrict_id`: precomposition by the identity fixes the underlying lift (README 1.6). -/
+example [TopologicalSpace k] [IsTopologicalRing k] (n : ℕ)
+    (ρbar : G →* GL (Fin n) k) {A : Type*} [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] (π : A →+* k) (ρ : Lift n ρbar π) :
+    ρ.restrict n ρbar π (MonoidHom.id G) continuous_id = ρ := by
+  apply Lift.ext
+  rfl
+
+/-- `def_residue`: a continuous residual lift gives the unique strict class over `k` (README 1.3). -/
+example [TopologicalSpace k] [IsTopologicalRing k] (n : ℕ)
+    (ρbar : G →* GL (Fin n) k) (ρ : Lift n ρbar (RingHom.id k)) :
+    Subsingleton (Def n ρbar (RingHom.id k)) ∧ Nonempty (Def n ρbar (RingHom.id k)) := by
+  sorry
+
+/-- `def_rank_one_eq_lift`: scalar conjugation removes no rank-one lifts (README 1.3). -/
+example (ρbar : G →* GL (Fin 1) k) {A : Type*} [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] (π : A →+* k) :
+    ∃ e : Def 1 ρbar π ≃ Lift 1 ρbar π, ∀ ρ, e (Def.mk 1 ρbar π ρ) = ρ := by
+  sorry
+
+/-- `liftDet_rank_one`: the determinant equation fixes the entire rank-one homomorphism
+(README 1.7). -/
+example (ρbar : G →* GL (Fin 1) k) {A : Type*} [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] (π : A →+* k) (χ : G →* Aˣ) (ρ : Lift 1 ρbar π) :
+    ρ ∈ LiftDet 1 ρbar π χ ↔
+      ρ.toHom = (Matrix.GeneralLinearGroup.scalar (Fin 1)).comp χ := by
+  sorry
+
+/-- `liftDet_residue`: with compatible determinant, every residual lift is the same
+fixed-determinant lift (README 1.7). -/
+example [TopologicalSpace k] [IsTopologicalRing k] (n : ℕ)
+    (ρbar : G →* GL (Fin n) k) (ρ : Lift n ρbar (RingHom.id k)) :
+    ρ ∈ LiftDet n ρbar (RingHom.id k) (Matrix.GeneralLinearGroup.det.comp ρbar) ∧
+      Set.Subsingleton (LiftDet n ρbar (RingHom.id k) (Matrix.GeneralLinearGroup.det.comp ρbar)) := by
+  sorry
+
+/-- `liftDet_wrong_char`: a determinant with incompatible reduction admits no lift
+(README 1.7). -/
+example (n : ℕ) (ρbar : G →* GL (Fin n) k) {A : Type*} [CommRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] (π : A →+* k) (χ : G →* Aˣ)
+    (hχ : (Units.map (π : A →* k)).comp χ ≠ Matrix.GeneralLinearGroup.det.comp ρbar) :
+    LiftDet n ρbar π χ = ∅ := by
+  sorry
+
+/-- `twist_trivial`: the trivial character fixes each lift (README 4.4). -/
+example (n : ℕ) (ρbar : G →* GL (Fin n) k) {A : Type*} [CommRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] (π : A →+* k) (ρ : Lift n ρbar π) :
+    ρ.twist n ρbar π (1 : G →* Aˣ) (by intro g; simp) (by simpa using
+      (continuous_const : Continuous fun _ : G ↦ (1 : A))) = ρ := by
+  apply Lift.ext
+  apply MonoidHom.ext
+  intro g
+  apply Matrix.GeneralLinearGroup.ext
+  intro i j
+  simpa using congrFun (congrFun
+    (Lift.twist_apply n ρbar π (1 : G →* Aˣ) (by intro g; simp)
+      (by simpa using (continuous_const : Continuous fun _ : G ↦ (1 : A))) ρ g) i) j
+
+/-- `tframed_empty_T`: forgetting the unique empty frame tuple identifies the unrestricted
+framed quotient with strict classes (README 2.6, 3.3). -/
+example (n : ℕ) (ρbar : G →* GL (Fin n) k) {A : Type*} [CommRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] (π : A →+* k) :
+    ∃ e : UnrestrictedTFramedDef n ρbar π Empty ≃ Def n ρbar π,
+      ∀ x : TFramedLift n ρbar π Empty,
+        e (Quotient.mk (MulAction.orbitRel _ _) x) = Def.mk n ρbar π x.lift := by
+  sorry
+
+/-- `tframed_residue`: all strict frames and residual lifts give a single quotient point
+(README 3.3). -/
+example [TopologicalSpace k] [IsTopologicalRing k] (n : ℕ)
+    (ρbar : G →* GL (Fin n) k) (T : Type*) (ρ : Lift n ρbar (RingHom.id k)) :
+    Subsingleton (UnrestrictedTFramedDef n ρbar (RingHom.id k) T) ∧
+      Nonempty (UnrestrictedTFramedDef n ρbar (RingHom.id k) T) := by
+  sorry
+
+/-- `nthRoot_fails_p_dvd_n`: the nonzero dual-number direction has no residue-one cube root,
+even among arbitrary elements (README 2.9). -/
+example :
+    let ε : DualNumber (ZMod 3) := TrivSqZeroExt.inr 1
+    ε ≠ 0 ∧ ¬ ∃ v : DualNumber (ZMod 3), v.fst = 1 ∧ v ^ 3 = 1 + ε := by
+  constructor
+  · intro h
+    have hs := congrArg TrivSqZeroExt.snd h
+    exact one_ne_zero hs
+  · rintro ⟨v, hv, he⟩
+    have hs := congrArg TrivSqZeroExt.snd he
+    norm_num [TrivSqZeroExt.snd_pow, hv] at hs
+    have h3 : (3 : ZMod 3) = 0 := by decide
+    rw [h3, zero_mul] at hs
+    exact zero_ne_one hs
+
+/-- `nthRoot_unique`: prime-to-residue-characteristic powers are injective on residue-one units
+(README 2.9). -/
+example {A : Type*} [CommRing A] [IsLocalRing A] [IsArtinianRing A]
+    (p : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField A) p] {n : ℕ}
+    (hn : ¬ p ∣ n) (u v : Aˣ)
+    (hu : IsLocalRing.residue A (u : A) = 1) (hv : IsLocalRing.residue A (v : A) = 1)
+    (h : u ^ n = v ^ n) : u = v := by
+  obtain ⟨_, _, huniq⟩ := exists_unique_nthRoot_of_residue_eq_one p hn (u ^ n) (by simp [hu])
+  exact (huniq u ⟨hu, rfl⟩).trans (huniq v ⟨hv, h.symm⟩).symm
+
+/-- `twDatum_residue_extension`: distinct nonzero eigenvalues over `𝔽₃` cannot have product one;
+`X²+1` has no root in that field (README 5.1). -/
+example : (∀ a b : ZMod 3, a ≠ 0 → b ≠ 0 → a ≠ b → a * b ≠ 1) ∧
+    (∀ a : ZMod 3, a ^ 2 + 1 ≠ 0) ∧
+    (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)).det =
+      (!![(0 : ZMod 3), -1; 1, 0]).det := by
+  decide
+
+/-- `isOfType_unramified_conjugate`: the strict conjugator changes Frobenius but keeps the
+inertia matrix equal to one (README 7.1). -/
+example :
+    let ε : DualNumber (ZMod 3) := TrivSqZeroExt.inr 1
+    let b : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![1, 0; ε, 1]
+    let bi : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![1, 0; -ε, 1]
+    b * !![1, 0; 0, -1] * bi = !![1, 0; 2 * ε, -1] ∧ b * 1 * bi = 1 := by
+  let : DecidableEq (DualNumber (ZMod 3)) := inferInstanceAs (DecidableEq (ZMod 3 × ZMod 3))
+  decide
+
+/-- `polarized_symplectic_triple`: the standard `S₃` matrices preserve the symplectic pairing
+with sign multiplier; its transpose forces multiplier `+1` at the central involution
+(README 8.1). -/
+example :
+    let J : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, 1; -1, 0]
+    let C : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, -1; 1, -1]
+    let S : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, 1; 1, 0]
+    J.det = 1 ∧ J.transpose = -J ∧ C.transpose * J * C = J ∧
+      S.transpose * J * S = -J ∧ J ≠ J.transpose ∧
+      (-J) * J = 1 := by
+  decide
+
+/-- `polarized_not_schur`: the distinct reciprocal characters and alternating pairing admit a
+nonzero diagonal infinitesimal centralizer (README 8.1). -/
+example :
+    let J : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, 1; -1, 0]
+    let D : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![2, 0; 0, 3]
+    let X : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![1, 0; 0, -1]
+    D ^ 4 = 1 ∧ D.transpose * J * D = J ∧ X * D = D * X ∧
+      X.transpose * J + J * X = 0 ∧ X ≠ 0 := by
+  decide
+
+/-- `twSystem_cyclic_augmentation` and `presentation_obstruction_square`: the order-three
+character relation has linear term `3z` and becomes a nonzero cube in characteristic three
+(README 6.4, 3.7). -/
+example :
+    ((1 + Polynomial.X) ^ 3 - 1 : Polynomial ℤ) =
+      3 * Polynomial.X + Polynomial.X ^ 2 * (3 + Polynomial.X) ∧
+    ((1 + Polynomial.X) ^ 3 - 1 : Polynomial (ZMod 3)) = Polynomial.X ^ 3 := by
+  constructor
+  · ring
+  · have h3 : (3 : Polynomial (ZMod 3)) = 0 := CharP.cast_eq_zero _ 3
+    linear_combination (Polynomial.X + Polynomial.X ^ 2) * h3
+
+/-- `dyadic_cyclic_four_fibre`: the order-two determinant fibre is a proper quotient of the
+order-four character ring (README 6.6). -/
+example :
+    ((1 + Polynomial.X) ^ 4 - 1 : Polynomial ℤ) =
+      ((1 + Polynomial.X) ^ 2 - 1) * ((1 + Polynomial.X) ^ 2 + 1) ∧
+    ((1 + Polynomial.X) ^ 2 - 1 : Polynomial ℤ) = Polynomial.X * (2 + Polynomial.X) := by
+  constructor <;> ring
+
+/-- `dyadic_chunk_level`: order-four characters and the formal torus agree modulo the third
+power of the maximal ideal (README 6.6). -/
+example : ((1 + Polynomial.X) ^ 4 - 1 : Polynomial ℤ) ∈
+    (Ideal.span {(2 : Polynomial ℤ), Polynomial.X}) ^ 3 := by
+  sorry
+
+/-- `def_not_full_conj` and `strict_of_full_not_schur`: two rank-two dual-number matrices are
+conjugate by the swap, but no matrix reducing to one intertwines them (README 1.3, 1.5). -/
+example :
+    let ε : DualNumber (ZMod 3) := TrivSqZeroExt.inr 1
+    let D : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![1 + ε, 0; 0, 1]
+    let D' : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![1, 0; 0, 1 + ε]
+    let P : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![0, 1; 1, 0]
+    P * D * P = D' ∧ D ≠ D' ∧
+      ¬ ∃ b : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)),
+        b.map (TrivSqZeroExt.fstHom (ZMod 3) (ZMod 3) (ZMod 3)).toRingHom = 1 ∧
+        b * D = D' * b := by
+  sorry
+
+/-- `restrict_not_injective`: distinct lifts restrict to the same lift on the trivial subgroup
+(README 1.6). -/
+example (n : ℕ) (ρbar : G →* GL (Fin n) k) {A : Type*} [CommRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] (π : A →+* k)
+    (ρ ρ' : Lift n ρbar π) (h : ρ ≠ ρ') :
+    ρ ≠ ρ' ∧
+      ρ.restrict n ρbar π (1 : PUnit →* G) continuous_const =
+        ρ'.restrict n ρbar π (1 : PUnit →* G) continuous_const := by
+  constructor
+  · exact h
+  · apply Lift.ext
+    apply MonoidHom.ext
+    intro g
+    simp [Lift.restrict]
+
+/-- `changeCoeff_schur`: extending the residue field preserves the scalar-centralizer condition
+(README 1.8). -/
+example (n : ℕ) (ρbar : G →* GL (Fin n) k) {k' : Type*} [Field k'] (f : k →+* k') :
+    IsSchur n ρbar ↔ IsSchur n ((Matrix.GeneralLinearGroup.map f).comp ρbar) := by
+  sorry
+
+/-- `framed_normalisation_unique`: a distinguished unit frame entry admits exactly one scalar
+normalization (README 2.6). -/
+example {A : Type*} [CommRing A] (u : Aˣ) : ∃! c : Aˣ, c * u = 1 := by
+  refine ⟨u⁻¹, inv_mul_cancel u, ?_⟩
+  intro c hc
+  exact mul_right_cancel (hc.trans (inv_mul_cancel u).symm)
+
+/-- `twistFree_trace_unit`: an upper/lower unipotent product has nonzero trace, detecting a
+nontrivial scalar twist in residue characteristic two (README 4.10). -/
+example {K : Type*} [Field K] [CharP K 2] (ω : K) (hω : ω ≠ 0) (a : K) :
+    let ωA : DualNumber K := TrivSqZeroExt.inl ω
+    let M : Matrix (Fin 2) (Fin 2) (DualNumber K) :=
+      !![1, 1; 0, 1] * !![1, 0; ωA, 1]
+    M.trace = ωA ∧
+      (((1 + TrivSqZeroExt.inr a : DualNumber K) • M).trace = M.trace ↔ a = 0) := by
+  sorry
+
+/-- `twistFree_A5`: a scalar twist of the identity matrix is conjugate to the identity only
+when its first-order character value is trivial (README 4.10). -/
+example (a : k) :
+    (1 + TrivSqZeroExt.inr a : DualNumber k) •
+      (1 : Matrix (Fin 2) (Fin 2) (DualNumber k)) = 1 ↔ a = 0 := by
+  constructor
+  · intro h
+    have hs := congrArg (fun M : Matrix (Fin 2) (Fin 2) (DualNumber k) ↦
+      TrivSqZeroExt.snd (M 0 0)) h
+    simpa using hs
+  · intro h
+    subst h
+    simp
+
+/-- `trace_subring_S3`: strict first-order conjugation changes the three-cycle matrix while
+preserving its trace (README 6.2). -/
+example :
+    let ε : DualNumber (ZMod 5) := TrivSqZeroExt.inr 1
+    let C : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 5)) := !![0, -1; 1, -1]
+    let b : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 5)) := !![1, ε; 0, 1]
+    let bi : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 5)) := !![1, -ε; 0, 1]
+    b * bi = 1 ∧ b * C * bi ≠ C ∧ (b * C * bi).trace = C.trace ∧ C.trace = -1 := by
+  let : DecidableEq (DualNumber (ZMod 5)) := inferInstanceAs (DecidableEq (ZMod 5 × ZMod 5))
+  decide
+
+/-- `fixedDet_cyclic_four`: the scalar character coordinates have determinant-one equation
+`x+y+xy=0`, allowing distinct reciprocal eigencharacters (README 4.8). -/
+example {R : Type*} [CommRing R] (x y : R) :
+    (!![1 + x, 0; 0, 1 + y]).det - 1 = x + y + x * y := by
+  simp [Matrix.det_fin_two]
+  ring
+
+/-- `phiP_Zp`: the additive p-adic integers satisfy Mazur's finiteness condition (README 2.1). -/
+example (p : ℕ) [Fact p.Prime] : PhiP p (Multiplicative ℤ_[p]) := by
+  sorry
+
+/-- `phiP_open`: the finiteness condition persists on each open subgroup (README 2.1). -/
+example (p : ℕ) (h : PhiP p G) (Δ : Subgroup G) (hΔ : IsOpen (Δ : Set G)) :
+    PhiP p Δ :=
+  h.«open» Δ hΔ
+
+/-- `twist_no_root_p2`: even modulo four no element squares to the nontrivial quadratic unit;
+a square root over the 2-adic integers would reduce to one here (README 4.4). -/
+example : ∀ v : ZMod 4, v ^ 2 ≠ -1 := by
+  decide
+
+/-- `twist_not_fixed_det_odd`: a nontrivial residue-one scalar over the characteristic-three
+dual numbers has nontrivial square (README 4.9). -/
+example :
+    let ε : DualNumber (ZMod 3) := TrivSqZeroExt.inr 1
+    1 + ε ≠ 1 ∧ (1 + ε) ^ 2 ≠ 1 := by
+  let : DecidableEq (DualNumber (ZMod 3)) := inferInstanceAs (DecidableEq (ZMod 3 × ZMod 3))
+  decide
+
+/-- `twist_map_not_injective_p2`: a nontrivial residue-one character value has square one over
+the characteristic-two dual numbers (README 4.8). -/
+example :
+    let ε : DualNumber (ZMod 2) := TrivSqZeroExt.inr 1
+    1 + ε ≠ 1 ∧ (1 + ε) ^ 2 = 1 := by
+  let : DecidableEq (DualNumber (ZMod 2)) := inferInstanceAs (DecidableEq (ZMod 2 × ZMod 2))
+  decide
 
 /-- A lift to the residue field itself is `ρ̄` (README 1.1, `lift_residue`). -/
 example [TopologicalSpace k] [IsTopologicalRing k] (n : ℕ) (ρbar : G →* GL (Fin n) k)
