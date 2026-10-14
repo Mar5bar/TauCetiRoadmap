@@ -61,7 +61,38 @@ theorem extendByZero_stalk_not_mem {X : TopCat.{u}} (U : Opens X)
     (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)) (x : X) (hx : x ∉ U) :
     IsZero (((extendByZero Λ U).obj F).presheaf.stalk x) := by sorry
 
+/-- Extension from the empty open is zero, including every stalk. -/
+example {X : TopCat.{u}}
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of (⊥ : Opens X))) :
+    IsZero ((extendByZero Λ (⊥ : Opens X)).obj F) ∧
+      ∀ x : X, IsZero (((extendByZero Λ (⊥ : Opens X)).obj F).presheaf.stalk x) := by
+  sorry
+
+/-- Restriction to the whole open followed by extension is naturally the identity. -/
+example {X : TopCat.{u}} :
+    Nonempty (((⊤ : Opens X).sheafRestrict (C := ModuleCat.{u} Λ) ⋙
+      extendByZero Λ (⊤ : Opens X)) ≅ 𝟭 (TopCat.Sheaf (ModuleCat.{u} Λ) X)) := by
+  sorry
+
 end OpenExtension
+
+/-- On Sierpiński space, extension of a nonzero constant value from the generic
+singleton has zero closed stalk and global sections; direct image has that value
+at the closed point and therefore differs from extension by zero. -/
+example (Λ : Type) [Ring Λ] (M : ModuleCat.{0} Λ) [Nontrivial M] :
+    let X := TopCat.of Prop
+    let U : Opens X := ⟨{True}, isOpen_singleton_true⟩
+    let F : TopCat.Sheaf (ModuleCat.{0} Λ) (TopCat.of U) :=
+      (constantSheaf (Opens.grothendieckTopology U) (ModuleCat.{0} Λ)).obj M
+    let j : TopCat.of U ⟶ X := TopCat.ofHom ⟨Subtype.val, continuous_subtype_val⟩
+    let E := (extendByZero Λ U).obj F
+    let D := (TopCat.Sheaf.pushforward (ModuleCat.{0} Λ) j).obj F
+    Nonempty (F.presheaf.stalk ⟨True, Set.mem_singleton True⟩ ≅ M) ∧
+      Nonempty (E.presheaf.stalk True ≅ M) ∧
+      IsZero (E.presheaf.stalk False) ∧
+      IsZero (E.presheaf.obj (Opposite.op (⊤ : Opens X))) ∧
+      Nonempty (D.presheaf.stalk False ≅ M) ∧ ¬ Nonempty (E ≅ D) := by
+  sorry
 
 /-! ## Layer C5: relative valuation-space acyclicity -/
 
@@ -258,30 +289,34 @@ example (n : ℕ) :
 
 /-! ## Layer C8: field degrees and cohomological bounds -/
 
-section FibreDimension
-variable {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
+section RelativeDimension
+variable {X : Type u} {Y : Type v} [TopologicalSpace X]
 
-/-- The supremum of topological Krull dimensions of the actual fibre subspaces. -/
-def fibreDimension {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
-    (f : X → Y) : WithBot ℕ∞ :=
-  ⨆ y : Y, topologicalKrullDim {x : X // f x = y}
-
-theorem fibreDimension_homeomorph
+/-- Homeomorphisms preserve the supplier AdicEtaleGeometry A2.6 `AdicSpace.relDim`,
+written as its defining supremum of subspace fibre dimensions. -/
+theorem relDim_homeomorph [TopologicalSpace Y]
     {X' : Type w} {Y' : Type w} [TopologicalSpace X'] [TopologicalSpace Y']
     (eX : X ≃ₜ X') (eY : Y ≃ₜ Y') (f : X → Y) (g : X' → Y')
-    (h : ∀ x, g (eX x) = eY (f x)) : fibreDimension f = fibreDimension g := by sorry
+    (h : ∀ x, g (eX x) = eY (f x)) :
+    (⨆ y, topologicalKrullDim (f ⁻¹' {y})) =
+      ⨆ y', topologicalKrullDim (g ⁻¹' {y'}) := by sorry
 
-theorem fibreDimension_id [Nonempty X] : fibreDimension (id : X → X) = 0 := by sorry
+/-- The supplier relative dimension of an identity on a nonempty space is zero. -/
+theorem relDim_id [Nonempty X] :
+    (⨆ x, topologicalKrullDim ((id : X → X) ⁻¹' {x})) = 0 := by sorry
 
--- fibreDimension_empty
-example [IsEmpty X] (f : X → Y) : fibreDimension f = ⊥ := by sorry
+-- relDim_empty
+example [IsEmpty X] (f : X → Y) :
+    (⨆ y, topologicalKrullDim (f ⁻¹' {y})) = ⊥ := by sorry
 
--- fibreDimension_toPoint
-example : fibreDimension (fun _ : X => (PUnit.unit : PUnit)) = topologicalKrullDim X := by sorry
+-- relDim_toPoint
+example : (⨆ y : PUnit, topologicalKrullDim ((fun _ : X => PUnit.unit) ⁻¹' {y})) =
+    topologicalKrullDim X := by sorry
 
--- fibreDimension_emptyTarget
-example [IsEmpty X] : fibreDimension (id : X → X) = ⊥ := by sorry
-end FibreDimension
+-- relDim_emptyTarget
+example [IsEmpty X] :
+    (⨆ x, topologicalKrullDim ((id : X → X) ⁻¹' {x})) = ⊥ := by sorry
+end RelativeDimension
 
 section DenseIntermediateFields
 variable (K : Type u) (L : Type u) [Field K] [Field L] [Algebra K L]
@@ -565,6 +600,13 @@ example (x : C) :
 
 -- Negative control: the leading-term condition omits zero, where division is totalized.
 example : ¬ ‖(RingEquiv.refl C) 0 / (0 : C) - 1‖ < 1 := by sorry
+
+/-- The trivial action has trivial wild kernel, which is pro-p. -/
+example (hp : p.Prime) (P : Subgroup PUnit)
+    (hP : ∀ g : PUnit, g ∈ P ↔
+      ∀ x : C, x ≠ 0 → ‖(1 : PUnit →* (C ≃+* C)) g x / x - 1‖ < 1) :
+    P = ⊥ ∧ TauCeti.IsProP p P := by sorry
+
 end WildAutomorphisms
 
 section SpecializationChains
@@ -626,8 +668,8 @@ The README also specifies the valuation-ring comparison in C5.7 and
 IsConstFGOn.iff_exists in C7.1.
 The README specifies additional APIs: C7.11 includes HasFiltrationBy.of_mem; C7.1 includes
 IsConstructibleSheaf.extendByZero_open, IsConstructibleSheaf.iff_compact,
-IsConstructibleSheaf.stalk_fg. C8.2 includes fibreDimension_eq_iSup,
-fibreDimension_le_iff and fibreDimension_identity. C8.3 includes topologicalTrdeg_le_iff,
+IsConstructibleSheaf.stalk_fg. C8.2 uses the supplied AdicSpace.relDim;
+relDim_identity is its nonempty identity specialization. C8.3 includes topologicalTrdeg_le_iff,
 topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
 topologicalTrdeg_equiv.
 C8.4 includes topologicalIndependenceDegree_le_iff and topologicalIndependenceDegree_self.
