@@ -322,9 +322,14 @@ operator-space structure. These products are not symmetric in general.
 
 Supply the analytic constructions used by the approximation results: finite
 direct sums, c₀ direct sums, bounded products and their closed-ideal quotients,
-and C*-inductive limits of directed systems of *-homomorphisms, including
+prove the c₀ direct sum is a closed two-sided ideal of the bounded product,
+and build C*-inductive limits of directed systems of *-homomorphisms, including
 noninjective connecting maps. Give their universal properties, canonical
-maps, norm formulas and dense union/range criteria. Build the universal
+maps, norm formulas and dense union/range criteria. For a family (A_i),
+pin the bounded product to native `lp (fun i=>A_i) ∞` and the c₀ ideal
+to its subspace of families whose coordinate norms tend to 0 along the
+cofinite filter. Prove the closed-ideal property by the uniform norm bound,
+with pointwise products and star and the induced quotient norm. Build the universal
 unital C*-algebra on countably many unitary generators, C*(F_∞), from the
 supremum over unitary representations, prove its universal property and
 separability. This universal algebra is the test object in C7;
@@ -540,7 +545,11 @@ by finiteness of every matrix unitization and prove quasidiagonal algebras
 are stably finite. Exhibit the unilateral shift algebra as an obstruction:
 its proper isometry precludes quasidiagonality. Construct its extension
 `0→K(ℓ²)→T→C(𝕋)→0`, proving the symbol map and kernel, and deduce nuclearity
-from C6. This gives a concrete nuclear algebra that is not quasidiagonal.
+from C6. Here ℓ² is native `lp (fun _ : ℕ => ℂ) 2`, S is the forward
+shift `Sx(0)=0`, `Sx(n+1)=x(n)`, 𝕋 is native `Circle`, and the symbol
+of S is the identity coordinate z. ToeplitzOperators consumes this exact
+extension for its Hardy-space comparison. This gives a concrete nuclear
+algebra that is not quasidiagonal.
 
 ## C9. Local reflexivity and exactness under quotients
 
