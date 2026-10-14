@@ -32,8 +32,9 @@ The roadmap owns, layer by layer:
 
 - RG2.0: affine point topology over topological rings, including the adelic case used by
   AdelicAlgebraicGroups; scheme point topology over local topological rings whose units are open
-  and whose inversion is continuous in the subspace topology; integral points and
-  congruence subgroups; the completed maximal unramified extension `Ĕ` with its Frobenius. It does
+  and whose inversion is continuous in the subspace topology; local analytic charts, tangent
+  comparison and Haar Jacobians in characteristic zero and positive characteristic; integral points
+  and congruence subgroups; the completed maximal unramified extension `Ĕ` with its Frobenius. It does
   not own adeles, Haar measures on restricted products or arithmetic quotients, and it does not
   state the compatibility of the scheme point topology with fibre products, the transcendence
   degree of `Ĕ` over `E` in equal characteristic, or a Witt-vector description of `O_Ĕ` for
@@ -63,7 +64,8 @@ The roadmap owns, layer by layer:
   local models or Schubert varieties. It also owns Lang's theorem for inverse limits of smooth
   connected groups over finite fields; it does not state it for torsors under smooth models with
   connected special fibre.
-- RG2.4: the decompositions of `G(E)` and the Iwahori–Weyl combinatorics up to admissible sets. The
+- RG2.4: the decompositions of `G(E)`, the Iwahori–Weyl combinatorics up to admissible sets,
+  the local adjoint-modulus formula and the algebraic parabolic adjoint determinant identity. The
   Hecke algebras, the Satake isomorphism and the smooth representations built on them belong to the
   representation-theoretic roadmaps that cite this one.
 - RG2.5: the dual group, its Galois action, the abstract L-group functors and the finite
@@ -435,11 +437,11 @@ before the model-based proof of tame building descent. The remaining RG2.3 const
 then consume tame descent. In RG2.3.7, *smooth-model-reduction* and
 *finite-level-jet-realizations* precede *positive-depth-intersection-presentation*;
 build the ordinary RG2.4 *iwahori-bruhat-decomposition* over `L` before that intersection
-target. For RG2.4's local adjoint-modulus theorem, build AdelicAlgebraicGroups AA.2.4
-*smooth-group-analytic-charts* from RG2.0 in characteristic zero, and RG2.0
+target. For RG2.4's local adjoint-modulus theorem, build RG2.0
+*smooth-group-analytic-charts* in characteristic zero, and RG2.0
 *equal-characteristic-smooth-group-analytic-charts* in positive characteristic, before
-`LocalIntegration.modularCharacter_eq_adjointModulus`. The AA chart target uses RG2.0
-and cotangent duality, without using this modulus theorem.
+`LocalIntegration.modularCharacter_eq_adjointModulus`. The chart targets use local point
+topology, cotangent duality, the inverse function theorem and local additive Haar measures.
 
 ## Layer RG2.0: topologies on rational points
 
@@ -450,9 +452,12 @@ units are open and whose inversion is continuous on the units. For a nonarchimed
 it makes `G(E)` a Hausdorff, totally disconnected topological group, locally compact and second
 countable when `G` is of finite type, makes the integral points of an affine model of finite type a
 compact open subset, and makes the congruence subgroups of a finite-type model a neighbourhood basis
-of the identity. The layer also constructs the completion `Ĕ` of the maximal unramified extension
-with its Frobenius. AdelicAlgebraicGroups AA.0–AA.1 and the smooth-representation and Shimura-level
-consumers use these objects under these names: the evaluation topology on `WithConv (H →ₐ[E] R)`
+of the identity. For smooth affine groups it supplies local analytic charts and the tangent and
+Haar-Jacobian comparisons, over characteristic-zero nondiscrete locally compact fields and over
+positive-characteristic nonarchimedean local fields. The layer also constructs the completion `Ĕ`
+of the maximal unramified extension with its Frobenius. AdelicAlgebraicGroups AA.0–AA.1 and the
+smooth-representation and Shimura-level consumers use these objects under these names: the
+evaluation topology on `WithConv (H →ₐ[E] R)`
 (`PointTopology.instTopologicalSpaceWithConv`), the instances `T2Space`, `TotallyDisconnectedSpace`,
 `LocallyCompactSpace` and `SecondCountableTopology` on the local points of a Hopf algebra (the last
 two for a Hopf algebra of finite type), `PointTopology.isTopologicalGroup`, the compact open integral
@@ -636,6 +641,47 @@ an open subgroup of `G'(E)`, and compact open subgroups of `G(E)` map to compact
 `G'(E)`. *Needs:* *scheme-point-topology-functoriality*; *points-topological-group*.
 *Lean:* none (README-only).
 
+**Analytic charts and Haar Jacobians in characteristic zero.** (*smooth-group-analytic-charts*)
+Let `K` be a nondiscrete locally compact field of characteristic zero and `G = Spec H` a smooth
+affine finite-type `K`-group of dimension `d`. Give `G(K)` an analytic manifold structure of
+dimension `d` with the evaluation topology. Smooth local parameters and the inverse function
+theorem supply its charts; the group product and inverse are analytic in these charts.
+Identify its tangent space at `1` with the `K`-linear dual of
+`TauCeti.Bialgebra.CotangentSpace K H` through `Derivation.cotangentLinearEquiv`:
+the derivative of a coordinate `h` evaluates the tangent functional on the cotangent class of `h`.
+
+Form additive Haar measure `μ` on `K` locally, with `μ(O_K) = 1` in the nonarchimedean case,
+`μ = dx` over `ℝ` and `μ = 2 dx dy` over `ℂ`, and let `μ_d` be its `d`-fold product.
+Use the normalized absolute value: `TauCeti.normalizedAbsoluteValue K` at nonarchimedean
+fields, the usual real absolute value and `|z|_ℂ = z̄z`. For an analytic isomorphism `f`
+between open subsets of `K^d` and a Borel subset `B` of its source, prove
+
+```text
+μ_d(f(B)) = ∫_B |det Df(x)|_K dμ_d(x).
+```
+
+In particular, a linear isomorphism `A` has image factor `|det A|_K` and pushforward
+`A_*μ_d = |det A|_K⁻¹ μ_d`. These charts and the nonlinear change of variables are supplied here
+([Platonov–Rapinchuk–Rapinchuk], §3.1, Theorem 3.2 and Proposition 3.3, pp. 128–130,
+and the local-parameter and measure construction on pp. 192–196 before Theorem 3.71;
+the chapter's characteristic-zero hypothesis is on p. 125). The complex additive normalization
+is twice that source's, so its `d`-fold product is multiplied by `2^d`.
+*Needs:* *affine-point-topology-embedding*; *points-topological-group*; ReductiveGroups layer 2
+(cotangent duality); Tau Ceti `Derivation.cotangentLinearEquiv`
+(`Algebra/AlgebraicGroup/Tangent/Cotangent.lean`); Mathlib additive Haar measure and
+`HasStrictFDerivAt.toOpenPartialHomeomorph`.
+*Lean:* none (README-only).
+
+**Checks.**
+
+- For `G_a(K)`, the usual coordinate is a global chart and has derivative `1`.
+- For `G_m(K)`, the coordinate `T` identifies its points with the open set `K^×`;
+  its derivative at `1` is dual to the class of `T − 1`.
+- Multiplication by `3` on `ℚ₃` has image factor `1/3` and pushforward factor `3`.
+  The positive-characteristic chart target gives the same factors for multiplication by `t`
+  on `𝔽₃((t))`.
+- The trivial group has chart `K^0`, a singleton of measure `1`, with empty determinant `1`.
+
 **Analytic charts and Haar Jacobians in positive characteristic.**
 (*equal-characteristic-smooth-group-analytic-charts*) Let `E` be a nonarchimedean local
 field of characteristic `p > 0`, with residue field of order `q`, and let `G = Spec H`
@@ -663,8 +709,7 @@ chart domains and a Borel subset `B` of its source, by shrinking to balls on whi
 the invertible derivative has constant absolute determinant and the inverse function
 theorem identifies their images with the corresponding linear images. The adapters
 and nonlinear Haar-Jacobian comparison belong here. They provide the positive-characteristic
-counterpart of
-AdelicAlgebraicGroups AA.2.4 *smooth-group-analytic-charts* for RG2.4.
+counterpart of RG2.0 *smooth-group-analytic-charts* for RG2.4.
 *Needs:* *affine-point-topology-embedding*; *points-topological-group*;
 *smooth-morphism-open-map*; MassFormula Layer 2 (DVR lattice index and regular-Haar image law);
 ReductiveGroups layer 2; Tau Ceti
@@ -6260,6 +6305,43 @@ ReductiveGroups layer 7.
 - `plusSubgroup_gl2` (non-example) — for `GL_2`, whose coroots do not span the cocharacters,
   `G(K)^+ = SL_2(K) ≠ GL_2(K)`.
 
+**The parabolic adjoint determinant.** (*parabolic-adjoint-determinant*) Let `G` be a connected
+reductive group over a field `E` of arbitrary characteristic, let `P` be an `E`-parabolic with
+Levi decomposition `P = M ⋉ N`, where `N = R_u(P)`, and let `p ∈ P(E)`. Prove the identity
+
+```text
+det(Ad(p)|Lie P) = det(Ad(p)|Lie N) ∈ Eˣ.
+```
+
+The `P`-stable exact sequence `0 → Lie N → Lie P → Lie M → 0` factors the determinant on
+`Lie P` into that on `Lie N` and that on `Lie M`; the quotient action factors through
+`P → M`. The latter determinant is the trivial algebraic character of the connected reductive
+Levi. Indeed, over an algebraic closure, its maximal-torus weights are trivial weights and
+opposite root pairs, whose product is `1`. Restriction of characters of a connected
+reductive group to a maximal torus is injective, and the resulting character identity descends
+to `E`. This deduction uses [Conrad RGS], §1.2, equation (1.2.1), p. 16, for the root-weight
+decomposition in every characteristic, and Proposition 1.4.7 and its proof, pp. 35–36, for
+parabolics and their Levi factors. The result is an identity of algebraic determinant characters;
+Haar unimodularity of `M(E)` over a local field gives only an identity of absolute values.
+For nonarchimedean local `E`, combine it with `LocalIntegration.modularCharacter_eq_adjointModulus`
+to obtain `modularCharacter(p) = |det(Ad(p)|Lie N)|_E`, with the modulus convention of
+[Casselman], §1.5, p. 16.
+*Needs:* ReductiveGroups layers 4, 6–7 (characters, reductivity, root spaces and Levi decomposition);
+RG2.1 *rational-points-root-datum* (shared adjoint-weight carriers); Tau Ceti
+`Derivation.adjointAction`; Mathlib `LinearEquiv.det`.
+*Lean:* none (README-only).
+
+**Checks.**
+
+- For the upper Borel of `GL₂` and `p = diag(a,d)` with `a,d ∈ Eˣ`, the determinants on the three-dimensional
+  `Lie P` and the one-dimensional `Lie N` both equal `a/d`. For `diag(3,1)` over `ℚ₃` and
+  `diag(t,1)` over `𝔽₃((t))`, these determinants are `3` and `t`, respectively, both of absolute
+  value `1/3`.
+- For the lower Borel, both determinants at `diag(a,d)` equal `d/a`; at those same points
+  over `ℚ₃` and `𝔽₃((t))`, they are `1/3` and `t⁻¹`, both of absolute value `3`.
+- For `P = G`, `N = 1`; the determinant on the zero Lie algebra is `1`, and the adjoint
+  determinant character of `G` is identically `1`.
+
 **Unimodularity, the parabolic modulus and the Iwasawa integration formula.**
 (*iwasawa-integration-and-unimodularity*) Let `G` be connected reductive over a nonarchimedean local
 field `E`. First, `G(E)` is unimodular: its modular character is trivial ([Cartier], §4.1, p. 144,
@@ -6286,13 +6368,12 @@ The target `LocalIntegration.modularCharacter_eq_adjointModulus` proves the abso
 adjoint-determinant formula for smooth affine groups over every nonarchimedean local
 field, including positive characteristic. `LocalIntegration.adjointModulus` uses
 `TauCeti.normalizedAbsoluteValue` and `Derivation.adjointAction`, not a supplied
-character. For a parabolic, use SmoothRepresentationsOfLocalGroups SR.2.2,
-*modulus-character*, for `det(Ad(p)|Lie P) = det(Ad(p)|Lie N)` and its comparison
-with the coefficient-valued modulus. RG2 supplies
+character. For a parabolic, use RG2.4 *parabolic-adjoint-determinant* for
+`det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`. RG2 supplies both this algebraic identity and
 `LocalIntegration.modularCharacter_eq_adjointModulus`.
-In characteristic zero the proof uses AdelicAlgebraicGroups AA.2.4
+In characteristic zero the local modulus proof uses RG2.0
 *smooth-group-analytic-charts*, including its cotangent identification and Haar
-change of variables, built from RG2.0 before this theorem. In positive characteristic
+change of variables. In positive characteristic
 it uses RG2.0 *equal-characteristic-smooth-group-analytic-charts*, including the
 normalized additive Haar-Jacobian formula. These give local analytic coordinates
 and inverse-determinant scaling for pushforward of additive Haar measure. Combine
@@ -6317,8 +6398,9 @@ Haar measure of `G(E)` with `vol(K) = 1`. Then for `f` locally constant with com
 ([Cartier], §4.1, formulas (3), (4) and (9), p. 145). This statement is not formalized in the
 Lean file. *Needs:* *iwasawa-decomposition*; Mathlib `MeasureTheory.Measure.haar`,
 `MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.Measure.IsMulRightInvariant`,
-`MeasureTheory.Measure.modularCharacter`; RG2.0 *points-topological-group*;
-AdelicAlgebraicGroups AA.2.4 *smooth-group-analytic-charts* (characteristic zero);
+`MeasureTheory.Measure.modularCharacter`; *parabolic-adjoint-determinant*;
+RG2.0 *points-topological-group*;
+RG2.0 *smooth-group-analytic-charts* (characteristic zero);
 RG2.0 *equal-characteristic-smooth-group-analytic-charts* (positive characteristic).
 *Lean:* `Decomposition.modularCharacter_eq_one`, `LocalIntegration.adjointModulus`,
 `LocalIntegration.modularCharacter_eq_adjointModulus`.
@@ -6982,15 +7064,19 @@ AdelicAlgebraicGroups consumes RG2.0 (AA.0–AA.1: the evaluation topology
 `PointTopology.instTopologicalSpaceWithConv`, the `T2Space`, `TotallyDisconnectedSpace`,
 `LocallyCompactSpace` and `SecondCountableTopology` instances, `PointTopology.isTopologicalGroup`, the compact open integral
 points `PointTopology.isOpenEmbedding_integralPoints` and `compactSpace_integralPoints`, and the
-congruence subgroups `CongruenceSubgroup.subgroup`), RG2.0a (AA.1: `WeilRestriction.functor`,
+congruence subgroups `CongruenceSubgroup.subgroup`; AA.2.4: *smooth-group-analytic-charts*
+with its tangent and Haar-Jacobian comparisons), RG2.0a (AA.1: `WeilRestriction.functor`,
 *WeilRestriction.Res*, *WeilRestriction.homEquiv*, *WeilRestriction.ResHopf* with
 *WeilRestriction.instHopfAlgebraRes*, *WeilRestriction.pointsMulEquiv*, *WeilRestriction.mapHopf*
 and the Deligne torus), the integral Iwasawa decomposition of RG2.4
 (AA.3: `G(F_v) = K_v P(F_v)` with `K_v ∩ P(F_v) = P(O_v)` at almost all places) and the Kneser–Tits
-consequence that `G(E)` has no proper subgroup of finite index (AA.4). It states the adelic and
-`F_v` instances of RG2.0 and RG2.0a itself. SmoothRepresentationsOfLocalGroups consumes the local
+consequence that `G(E)` has no proper subgroup of finite index (AA.4). AA.2.2 consumes RG2.4
+`LocalIntegration.modularCharacter_eq_adjointModulus` and *parabolic-adjoint-determinant*.
+It states the adelic and `F_v` instances of RG2.0 and RG2.0a itself.
+SmoothRepresentationsOfLocalGroups consumes the local
 Iwahori decompositions and the modulus clauses of RG2.4 — the Iwahori factorization, the
-double-coset cardinalities, the modulus `δ_P` and the Iwasawa integration formula — without
+double-coset cardinalities, *parabolic-adjoint-determinant*, the modulus `δ_P` and the Iwasawa
+integration formula — without
 restating them. Any positive-level count used in SR carries
 *positive-depth-intersection-presentation* for every intersection in its lifting
 argument. The ordinary Iwahori count, including SR's
