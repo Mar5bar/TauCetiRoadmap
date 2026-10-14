@@ -32,7 +32,8 @@ trace norms and singular values; B4 owns the nuclear/trace-class comparison.
 [Operator theory](../OperatorTheory/README.md) owns
 the Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space
 scope. B5 consumes SelfAdjointSpectralTheory Part B's generic scalar-measure
-integration and regularity layer (SA-B81–84), which is independent
+integration, regularity and bounded continuous-approximation layer
+(SA-B81–84 and SA-B58), which is independent
 of PVMs, representations and this roadmap's bidual comparison.
 
 ## B1. Duality and weak topologies
@@ -257,20 +258,33 @@ finite regular scalar Borel measures, with the total-variation norm, evaluation
 measures and the weak-star topology. Use the submodule of
 `MeasureTheory.VectorMeasure K 𝕜` with finite regular variation, normed by
 `(ν.variation Set.univ).toReal`; compare with native `SignedMeasure` and
-`ComplexMeasure`. Construct the norm, completeness and Dirac maps; write
+`ComplexMeasure`. Use native `VectorMeasure.variation_smul` for scalar
+closure and norm homogeneity, with SA-B83's regularity comparisons.
+Construct the norm and Dirac maps; write
 `M(K)` for this normed measure submodule. Consume `VectorMeasure.integral`
-for its integration pairing, using `ContinuousLinearMap.mul ℝ ℂ` for complex
-measures and `ContinuousLinearMap.mul ℝ ℝ` for real measures. Consume
+for its integration pairing, using `ContinuousLinearMap.mul ℝ 𝕜`
+over any `RCLike 𝕜`. Consume
 SelfAdjointSpectralTheory SA-B81–82's 𝕜-linearity and scalar-integral
-comparison and SA-B83's finite absolute-continuity regularity lemma. Prove this normed
+comparison, SA-B83’s finite absolute-continuity regularity lemma, and
+SA-B84’s generic scalar-measure uniqueness for injectivity. Prove this normed
 dual identification, continuous-function evaluation and the variation norm. Use
 `VectorMeasure.variation`, native scalar Radon–Nikodym
 derivatives and `RealRMK.rieszMeasure`. Construct positive and negative parts
 of real bounded functionals using `Λ⁺(f)=sup{Λ(g):0≤g≤f}` for `f≥0`;
 prove additivity, boundedness and extension to a positive linear functional.
-Apply RMK to those parts. For complex functionals, restrict to real-valued
-functions and represent their real and imaginary parts, then use complex
-linearity. Prove the norm equality for the pairing and its surjectivity.
+Apply RMK to those parts. For general RCLike-valued functionals, restrict to real-valued
+functions and represent their real and imaginary parts. Reconstruct the
+measure using SA-B81 and extend from real tests using 𝕜-linearity. Build the
+Radon–Nikodym density construction below before proving norm equality: at
+ν=|μ| it gives μ=ν.withDensityᵥ h and ‖h‖=1 ν-a.e. The integral bound proves
+‖Λ_μ‖≤ν(K). For the reverse inequality, choose a measurable representative of
+conj(h) bounded by one everywhere, apply SA-B58 to approximate it in L¹(ν)
+by continuous functions with the same bound, and use SA-B82's pairing identity.
+Their integrals against μ tend to ν(K), hence ν(K)≤‖Λ_μ‖. This uses only
+native signed Radon–Nikodym theory and SA-B81–84/58, independently of the dual
+identification. Prove surjectivity by the RMK parts construction, then transport
+completeness from the strong dual through this onto linear isometry. Export the
+resulting isometric dual equivalence and its weak-star evaluation laws.
 For nonempty `K`, prove that the extreme points of its dual unit ball are
 exactly `λδ_x`, `|λ|=1`, by splitting variation on measurable sets and
 using regularity; handle empty spaces separately.
@@ -301,20 +315,19 @@ form the finite regular measure `ν=∑ 2^(−n−1)|νₙ|`. Prove that
 for every finite regular positive ν `g↦ν.withDensityᵥ g` is an
 isometric embedding `L¹(ν)→M(K)` with closed range, consuming native
 `Measure.variation_withDensityᵥ` and SA-B82's pairing identity
-`⟨f,ν.withDensityᵥ g⟩=∫fg dν`. For ℂ use native `ComplexMeasure.rnDeriv`, `integrable_rnDeriv` and
-`singularPart_add_withDensity_rnDeriv_eq`. Install its two-field
-`HaveLebesgueDecomposition` instance for σ-finite ν using native
-`SignedMeasure.haveLebesgueDecomposition_of_sigmaFinite` on the real and
-imaginary parts. For |μ|≪ν prove the missing complex comparison
-`μ=ν.withDensityᵥ (μ.rnDeriv ν)`. For ℝ consume native
+`⟨f,ν.withDensityᵥ g⟩=∫fg dν`. For ℂ, identify the generic density below with native
+`ComplexMeasure.rnDeriv` using SA-B81’s real/imaginary compatibility;
+consume native `integrable_rnDeriv`. For ℝ consume native
 `SignedMeasure.absolutelyContinuous_iff_withDensityᵥ_rnDeriv_eq` and
 `SignedMeasure.totalVariation_eq_variation`. For general RCLike 𝕜,
-construct the density from the signed real/imaginary parts as
-`h=rnDeriv(re μ,ν)+I·rnDeriv(im μ,ν)`, using RCLike's real/imaginary
-reconstruction; specialize to those same native ℝ and ℂ derivatives.
+for `[SigmaFinite ν]` and `|μ|≪ν`, construct the integrable density
+`h=rnDeriv(re μ,ν)+I·rnDeriv(im μ,ν)` from SA-B81’s signed parts.
+Prove `μ=ν.withDensityᵥ h` using their absolute continuity and SA-B81’s
+reconstruction, and specialize to the same native ℝ and ℂ derivatives.
 Consume `Integrable.withDensityᵥ_eq_iff` for a.e.-uniqueness and
 `Measure.variation_withDensityᵥ` for
-`|μ|=ν.withDensity (fun x=>‖h x‖ₑ)`; for ν=|μ| prove |h|=1 ν-a.e. Use these derivatives to transfer weak
+`|μ|=ν.withDensity (fun x=>‖h x‖ₑ)` under these same hypotheses; for μ∈M(K), ν=|μ| is finite by definition, hence σ-finite;
+prove |h|=1 ν-a.e. Use these derivatives to transfer weak
 nullity to the densities in the displayed dominating-measure construction.
 Uniform integrability of those densities and bounded convergence of the weakly
 null continuous functions then prove the `C(K)` sequence criterion.
