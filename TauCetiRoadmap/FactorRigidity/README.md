@@ -337,7 +337,7 @@ make the two Cartans unitarily conjugate. The result singles out rigid
 Cartans, not every Cartan of every finite factor.
 
 For standard probability spaces define countable p.m.p. Borel equivalence
-relations, their full groups and full pseudogroups, restrictions,
+relations, specializing V11's nonsingular full groups and full pseudogroups, restrictions,
 isomorphisms modulo null sets and graphings. Build the counting measure
 and L² convolution representation of their untwisted von Neumann
 algebras, using V11's measured-groupoid algebra construction. Verify the
