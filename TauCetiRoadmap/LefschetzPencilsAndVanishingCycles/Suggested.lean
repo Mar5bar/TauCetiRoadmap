@@ -133,6 +133,28 @@ namespace VanishingCycles
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 
+section GradedSl2Checks
+
+attribute [local instance] LieRing.ofAssociativeRing
+
+/-- Zero monodromy on a line gives the trivial graded action, whose operators do not form
+a native triple because its weight operator is zero. README 1.4, `sl2_zero_on_line`. -/
+theorem sl2_zero_on_line :
+    ¬ IsSl2Triple (0 : Module.End ℚ ℚ) 0 0 := by
+  intro h
+  exact h.h_ne_zero rfl
+
+/-- The graded operators of a size-two nilpotent block form a native triple, in weight,
+raising, lowering order. README 1.4, `sl2_two_block`. -/
+theorem sl2_two_block :
+    IsSl2Triple
+      (Matrix.toLin' !![(-1 : ℚ), 0; 0, 1] : Module.End ℚ (Fin 2 → ℚ))
+      (Matrix.toLin' !![(0 : ℚ), 0; 1, 0])
+      (Matrix.toLin' !![(0 : ℚ), 1; 0, 0]) := by
+  sorry
+
+end GradedSl2Checks
+
 /-- A nilpotent endomorphism of a nonzero space of dimension `n` is maximally nilpotent when
 `N ^ n = 0` and `N ^ (n - 1) ≠ 0`, that is, when it is a single Jordan block (Qian 2023,
 Definition 3.6). The zero space is excluded. Belongs to README 1.6. -/
@@ -755,7 +777,11 @@ conjugacy, generation, irreducibility, the middle-degree reduction, compact `ℓ
 Kazhdan–Margulis theorem, the orthogonal and characteristic-two branches and the gcd lemma
 (5.1–5.11); Gabber's perversity theorems and the tower criterion (6.1–6.6); nodal curves, the
 Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the invariant-cycle theorems
-(7b.1–7b.11). The README names of their API and checks, by namespace:
+(7b.1–7b.11). The canonical graded action of 1.4 includes zero monodromy; its native
+`IsSl2Triple H X Y` corollary assumes nonzero monodromy, as illustrated by the two statements
+above. The Tate-line defects in the totally isotropic branch of 5.5 assume `E ≠ 0`;
+for `E = 0`, its quotient `F` and its defect vanish, while the degree-`n + 1` skyscrapers remain.
+The README names of their API and checks, by namespace:
 
 * `VanishingCycles`: `constructibleEtale`, `fieldSheavesEquiv`, `lisseMonodromyEquiv`,
   `finiteEtaleGaloisCategory`, `etaleTateTwists`, `universalHomeomorphismEtaleEquivalence`,

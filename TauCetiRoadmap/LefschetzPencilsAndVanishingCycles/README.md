@@ -1954,10 +1954,15 @@ abelian categories (`CategoryTheory.Abelian`), images and kernels; F.0 (Tate twi
    opposite isomorphism `N^j : gr_j ≅ gr_{−j}` followed by a power of `N`, with the twists attached to
    powers of `N`. On a Jordan block of length `d + 1` the weights are
    `d, d − 2, …, −d`.
-3. (The `sl₂` realization.) For an untwisted nilpotent endomorphism over a field of characteristic zero,
-   `gr^M X` carries a canonical ordinary `𝔰𝔩₂` action in which `N` is the lowering operator `Y` and `H` acts by the weight `i` on `gr_i`; the raising
+3. (The `sl₂` realization.) For an untwisted nilpotent endomorphism of a finite-dimensional vector space
+   over a field `k` of characteristic zero, `gr^M X` carries a canonical ordinary `𝔰𝔩₂` action, expressed
+   as a Lie algebra homomorphism `sl (Fin 2) k →ₗ⁅k⁆ Module.End k (gr^M X)` and its induced `LieModule`.
+   The induced graded `N` is the lowering operator `Y` and `H` acts by the weight `i` on `gr_i`; the raising
    operator `X` is defined on the primitive decomposition by `X(N^a u) = a(j − a + 1) N^{a−1} u` for
-   `u = (N^j)^{−1} p`, `p ∈ P_{−j}`, `0 ≤ a ≤ j`, and `(X, H, Y)` is an `sl₂`-triple (Mathlib `IsSl2Triple`). Each `N`-string through a primitive
+   `u = (N^j)^{−1} p`, `p ∈ P_{−j}`, `1 ≤ a ≤ j`, with the endpoint value `X(u) = 0`.
+   These operators satisfy `[X,Y] = H`, `[H,X] = 2X` and `[H,Y] = −2Y`, including when `N = 0`,
+   where the action is trivial. If `N ≠ 0`, they also satisfy Mathlib's `IsSl2Triple H X Y`:
+   a string of length at least two has a nonzero weight, so `H ≠ 0`. Each `N`-string through a primitive
    vector of `P_{−j}` is the irreducible `𝔰𝔩₂`-module of dimension `j + 1` (TauCetiRoadmap
    RepresentationTheory/LieHighestWeight Layer 0).
 
@@ -1975,12 +1980,20 @@ item 3 they follow from the Clebsch–Gordan rule, and `Sym^d` of the two-block 
 *Proof sketch.* Split each graded piece into the primitive kernel and the image of the next power of
 `N` using the opposite isomorphisms; iterate; strictness follows by graded surjectivity and injectivity.
 In characteristic zero define `X` on the primitive decomposition by the displayed formula and check the
-three bracket relations on each string. (Weil II, 1.6.3–1.6.8 and 1.6.10–1.6.12, pp. 165–168.)
-*Needs:* 1.3; Mathlib `IsSl2Triple`; TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0
+three bracket relations on each string, giving the homomorphism even for the trivial action;
+for `N ≠ 0`, a nontrivial string supplies the nonzero weight operator required by the native triple.
+(Weil II, 1.6.3–1.6.8 and 1.6.10–1.6.12, pp. 165–168.)
+*Needs:* 1.3; Mathlib `LieHom`, `LieModule` and `IsSl2Triple`; TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0
 (finite-dimensional `𝔰𝔩₂`-modules and Clebsch–Gordan); ArithmeticGaloisRepresentations Layer 2, §2.6.
 
 **Checks.**
 
+- `VanishingCycles.sl2_zero_on_line`: for `N = 0` on `ℚ`, only `gr_0` is nonzero and
+  `H = X = Y = 0`. The canonical action is trivial and satisfies the bracket relations, but
+  `IsSl2Triple H X Y` is false because its `h_ne_zero` field would require `0 ≠ 0`.
+- `VanishingCycles.sl2_two_block`: for `N(e₁) = e₀` on `ℚ²`, the graded weights are `−1, 1`.
+  In the basis `(e₀,e₁)`, `H = diag(−1,1)`, `X(e₀) = e₁`, `X(e₁) = 0` and `Y = N`;
+  the operators satisfy `IsSl2Triple H X Y`.
 - `primitive_three_block`: a size-three block has a one-dimensional `P_{−2}` and no other primitive
   part; with `u = (N²)^{−1}p` its top vector, `X` sends `u` to `0`, `Nu` to `2u` and `N²u = p` to `2Nu`.
 - `strict_fails_for_commuting_map`: for the inclusion of a trivial one-dimensional module into `ker N` of a
@@ -3651,13 +3664,16 @@ restriction of `R^n f_*ℚ_ℓ` to `U`, `E ⊂ V` the vanishing local subsystem,
 2. (Nonradical case.) If the vanishing cycles are not in `R`, the sequences `0 → j_*E → A → C → 0` and
    `0 → j_*R → j_*E → j_*(E/R) → 0` have `C` and `j_*R` constant, so `H^1(j_*E) → H^1(A)` is surjective and
    `H^1(j_*E) → H^1(j_*(E/R))` is injective.
-3. (Totally isotropic case.) If `E ⊂ E^⊥`, put `F = coker(j_*E^⊥ → A)`. The sequences
+3. (Nonzero totally isotropic case.) If `0 ≠ E ⊂ E^⊥`, equivalently the global vanishing cycles
+   are nonzero and lie in the radical by 5.2, put `F = coker(j_*E^⊥ → A)`. The sequences
    `0 → j_*E^⊥ → A → F → 0` (with `j_*E^⊥` constant) and `0 → F → j_*j^*F → ⊕_s i_{s*}L_s → 0` give an injection
    `H^1(A) → H^1(F)` and a surjection `⊕_s H^0(L_s) → H^1(F)`, where `L_s` is the evaluation line `ℚ_ℓ(m − n)` with its
    orientation character, after a finite extension of the residue field that makes the critical points and
    characters rational (3.5). Weil I prints the opposite twist in (7.1.5); pairing an untwisted class with
    `δ ∈ H^n(m)` lands in `ℚ_ℓ(m − n)`, while the printed numerical Frobenius eigenvalue is correct.
-4. If `E = 0`, `A` is constant and `H^1(A) = 0`; the skyscraper contribution in degree `n + 1` (4.1(b)) remains.
+4. If `E = 0`, `A` is constant and `H^1(A) = 0`; `E^⊥ = V`, so the cokernel
+   `F = coker(j_*E^⊥ → A)` is zero and the defect
+   `coker(F → j_*j^*F)` is zero. The skyscraper contribution in degree `n + 1` (4.1(b)) remains.
 
 No hard Lefschetz theorem, degeneration at `E_2` or splitting of the filtration is used. The hypotheses are
 uniform over the critical points because the local vanishing cycles are conjugate (5.2), and `E^⊥` is the
@@ -3667,7 +3683,8 @@ global fixed subsystem (5.3), so `j_*E^⊥` is constant.
 corner is `H^{n−1}(X_u)(−1)`, controlled by weak Lefschetz on the axis, and the upper constant quotient by the
 surjective Gysin map `H^{n−1}(A ∩ X)(−1) → H^{n+1}(X_u)` (4.5). In the nonradical case use the inclusion
 `j_*E → A`, the quotient `A → C` and the projection `j_*E → j_*(E/R)`, with `H^1(P¹, constant) = 0`. In the totally
-isotropic case form `F` from `j_*E^⊥`; the local defect map is evaluation against `δ` by cup product; the two long
+isotropic case with `E ≠ 0`, form `F` from `j_*E^⊥`; each `δ_s` is nonzero by 5.2, so cup-product
+evaluation onto its Tate line is surjective and identifies the local defect; the two long
 exact sequences give the injection and the surjective boundary. Transport the middle maps through the
 blow-up restriction and Gysin maps of 4.5. (Weil I, §7.1, (7.1.2)–(7.1.5), pp. 299–300; §5.8,
 pp. 292–293.) *Needs:* 4.1, 4.2, 4.4, 4.5, 5.2, 5.3; 3.5; F.2–F.3
@@ -3675,10 +3692,12 @@ pp. 292–293.) *Needs:* 4.1, 4.2, 4.4, 4.5, 5.2, 5.3; 3.5; F.2–F.3
 
 **Checks.**
 
-- If `δ = 0` the skyscraper contribution in degree `n + 1` is retained.
-- For `n = 1`, `m = 0` the evaluation line is `ℚ_ℓ(−1)`.
+- For the quadric-surface pencil, `n = 1` and `|S| = 2`, but the smooth fibres are conics with
+  `H¹ = 0`. Thus `V = E = A = F = 0` and `F → j_*j^*F` has zero defect; the two nonzero
+  `ℚ_ℓ(−1)` skyscrapers belong to `R²f_*ℚ_ℓ` as in 4.1(b).
+- For `n = 1`, `m = 0` and `E ≠ 0` in item 3, each defect evaluation line is `ℚ_ℓ(−1)`.
 - Nonradical case: `H^1(j_*E)` surjects onto `H^1(A)` and injects into `H^1(j_*(E/R))`; totally isotropic case: `H^1(A)`
-  injects into `H^1(F)` and the skyscraper boundary surjects onto `H^1(F)`.
+  injects into `H^1(F)` and the skyscraper boundary surjects onto `H^1(F)` when `E ≠ 0`.
 
 ### 5.6 The symplectic Lie algebra generated by transvections
 
