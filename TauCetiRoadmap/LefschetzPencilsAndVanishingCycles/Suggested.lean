@@ -674,9 +674,8 @@ end InvariantCycles
 ## Targets stated in the README only
 
 The remaining targets of the README have no carriers in the pinned Mathlib and Tau Ceti and are
-stated there only, with their intended signatures: curve and finite-field trace formulas (F.10);
-local-field specialization of the tame character
-and absolute purity (0.1, 0.10); the topos `X_s ×_s S`, `Ψ`, `RΨ`, `RΦ`, variation and their
+stated there only, with their intended signatures: absolute purity (0.10); the topos `X_s ×_s S`,
+`Ψ`, `RΨ`, `RΦ`, variation and their
 functoriality (0.2–0.8), and the nearby–Betti adapter (0.8a); Grothendieck's monodromy theorems, the twisted
 operator `N`, the monodromy filtration in an abelian category and its primitive decomposition, the
 relative filtration, `can` and `var`, the filtered derived category and the two-component
@@ -692,10 +691,16 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
 `IsSl2Triple H X Y` corollary assumes nonzero monodromy, as illustrated by the two statements
 above. The Tate-line defects in the totally isotropic branch of 5.5 assume `E ≠ 0`;
 for `E = 0`, its quotient `F` and its defect vanish, while the degree-`n + 1` skyscrapers remain.
-The README names of their API and checks, by namespace:
+The supplied geometric trace interfaces in README F.10 are owned by
+InverseGaloisAndArithmeticFundamentalGroups: `VanishingCycles.curveEndomorphismTrace`
+(IG.0.T1), `VanishingCycles.etaleTraceFormulaFinite` (IG.0.T2),
+`VanishingCycles.etaleTraceFormula` (IG.0.T3) and `VanishingCycles.pointCountTrace`
+(IG.0.T4). The algebraic trace package is supplied by EtaleCohomologyFoundations
+F.10.1–F.10.5. README 0.1 uses `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`,
+supplied by ArithmeticGaloisRepresentations 2.1a.
+The README names of the local targets' API and checks, by namespace:
 
-* `VanishingCycles`: `curveEndomorphismTrace`, `etaleTraceFormulaFinite`,
-  `etaleTraceFormula`, `pointCountTrace`, `nearbyBettiCompatibility`,
+* `VanishingCycles`: `nearbyBettiCompatibility`,
   `PointwisePure`, `purity_pointwiseReduction`, `veryTameQuotient`, `galoisSemistableAlteration`,
   `equivariantLogResolution`, `geometricMonodromy_traitDescent`, `purityOfBranchLocus`,
   `regularLogResolution`, `logSmooth_pointwisePure`,
@@ -715,7 +720,7 @@ The README names of their API and checks, by namespace:
   `semisimpleTrace_shift`, `semisimpleTrace_shortExact`, `semisimpleTrace_trivial`,
   `semisimpleTrace_unipotent_block`, `specialization_direction`, `standard_double_point`,
   `standard_node`, `standard_trivial_family`,
-  `tameCharacter_eq_inertiaTameCharacter`, `twoComponentNearbyComplex_grades`,
+  `twoComponentNearbyComplex_grades`,
   `twoComponentNearbyComplex_monodromy`, `twoComponentNearbyComplex_resolves`,
   `twoComponent_N_square`, `twoComponent_disjoint`, `twoComponent_node`,
   `twoComponent_not_sheaf_split`, `variation_left`, `variation_mul`, `variation_ne_sub_one`,

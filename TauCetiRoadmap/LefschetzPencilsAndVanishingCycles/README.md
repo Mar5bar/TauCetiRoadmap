@@ -19,13 +19,10 @@ weight spectral sequence of a strictly semistable degeneration (7a.8) and the in
 
 This roadmap owns:
 
-0. **Curve and finite-field trace formulas** (F.10): the curve/Jacobian trace adapter,
-   finite-coefficient and rational constructible trace formulas and constant-sheaf point counts.
-
 1. **Nearby and vanishing cycles over a henselian trait** (Layer LPV.0): the topos `X_s ×_s S` and its Galois
    description, the functors `Ψ_η`, `Ψ`, `RΨ`, `RΦ`, the specialization triangle and the variation, functoriality under
    proper, smooth, quasi-finite and trait base change, constructibility over an excellent trait, finite and adic
-   coefficients, the nearby–Betti comparison (0.8a), local-field specialization of the tame character (0.1),
+   coefficients, the nearby–Betti comparison (0.8a),
    and Gabber's absolute cohomological purity for regular pairs (0.10).
 2. **Inertia and monodromy** (Layer LPV.1): Grothendieck's monodromy theorem for residue fields with no finite
    extension containing all ℓ-power roots of unity and the geometric local monodromy theorem, the twisted operator
@@ -65,7 +62,14 @@ It uses, and does not redevelop:
   `𝔰𝔩₂`-modules from TauCetiRoadmap RepresentationTheory and Completed IntegralLattices; abelian Chebotarev from
   TauCetiRoadmap Chebotarev Layer 9; mixed Hodge structures and strictness from Completed HodgeStructures (layer L2) and
   Tau Ceti's `TauCeti.Hodge.MixedHodgeStructure`;
-- tame specialization of fundamental groups from InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3.
+- curve/Jacobian comparison, finite-coefficient and rational constructible trace formulas,
+  and constant-sheaf point counts from InverseGaloisAndArithmeticFundamentalGroups
+  §§IG.0.T1–IG.0.T4, on the domains specified in F.10;
+- local-field specialization of the general-trait tame character from
+  ArithmeticGaloisRepresentations §2.1a, as used in 0.1;
+- cover decomposition and inertia from EtaleCohomologyFoundations §F.0.A1,
+  and tame specialization of fundamental groups from
+  InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3.
 
 It leaves to other roadmaps:
 
@@ -205,7 +209,8 @@ It leaves to other roadmaps:
 - **EtaleCohomologyFoundations** §§F.0–F.8 (finite-cover monodromy, constructible
   cohomology, base change, local acyclicity, adic realization, duality, Gysin maps,
   weak Lefschetz and field perversity), §F.3a (henselian traits, inertia and tame
-  characters), §§0.7–0.11 (algebraic localization, supports, traces, cycle classes
+  characters), §F.0.A1 (cover decomposition and inertia), §§0.7–0.11
+  (algebraic localization, supports, traces, cycle classes
   and smooth purity), §§G.1–G.3 (compactifications and common refinements),
   and §§F.10.1–F.10.5 (finite-field Frobenius, perfect-complex trace algebra and
   finite-torsor perfectness and coefficient descent).
@@ -213,9 +218,12 @@ It leaves to other roadmaps:
   ampleness and the classifying map `ProjectiveBundles.IsRelativelyVeryAmple.completeMap`, from which 3.4 builds
   the Veronese embeddings), Layer 6 (Artin approximation), and §7.6.1
   (`relativePicardSheaf`, `RelativePicard.baseLineBundle`, relative Picard sheaves over arbitrary bases).
-- **InverseGaloisAndArithmeticFundamentalGroups** Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
+- **InverseGaloisAndArithmeticFundamentalGroups** §§IG.0.T1–IG.0.T4 (curve/Jacobian
+  comparison, finite-coefficient and rational constructible trace formulas, and constant-sheaf
+  point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
   §IG.1.3 tame specialization).
-- **ArithmeticGaloisRepresentations** Layer 2 (§2.3 tame characters of local fields, §2.4 unipotent logarithm and
+- **ArithmeticGaloisRepresentations** Layer 2 (§2.1a local-field specialization of the general-trait
+  tame character, §2.3 tame characters of local fields, §2.4 unipotent logarithm and
   Grothendieck's monodromy theorem for local fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
   Layer 5 (§5.13 Chebotarev for function fields of curves over finite fields).
 - **DerivedModuleAlgebra** §1.T.1 (towers, inverse limits, lim¹ and Milnor sequences).
@@ -223,8 +231,7 @@ It leaves to other roadmaps:
 - **NeronModelsAndSemistableAbelianVarieties** Layer 3 (§§3.8–3.9 Picard schemes of
   semistable curves) and Layer 4 (§§4.1–4.4 normalization sequence, characters as graph cycles, the integral monodromy
   pairing and its graph formula).
-- **AbelianSchemesAndArithmeticModuli** §§A3.2, A4.1, A6.10–A6.11 (prime-to-characteristic
-  torsion, Tate modules and their duality pairing, algebraic/Tate endomorphism traces).
+- **AbelianSchemesAndArithmeticModuli** §A4.1 (Tate modules and their duality pairing).
 - **ComplexComparisonPartII** Layers C1–C5 for Betti constructions and §C5.2
   (`relativeBettiLocalSystem`) for the smooth punctured analytic family; §C−1.1
   (`complexSchemeAnalytification`) for analytification; §§C6.0–C6.6 for finite-cover,
@@ -259,103 +266,33 @@ stated. Layer LPV.6 depends only on LPV.0–LPV.2. Layer LPV.7a uses LPV.0–LPV
 LPV.3, LPV.5 and LPV.7a. Each target names its sources by section, statement and page, and its inputs, in a final
 *Needs:* clause; numbers such as 2.8 refer to the subsections of this roadmap.
 
-## F.10 Trace formulas for curves and finite fields
+## F.10 Trace-formula imports and compatibility
 
-**Weil's curve trace and graph–diagonal formula.** `VanishingCycles.curveEndomorphismTrace`.
-For smooth proper geometrically connected C/k, ℓ invertible in k and φ:C→C, prove
-Δ_C·Γ_φ = 1 − Tr_alg(φ_* on J_C) + deg φ, with constant maps of degree zero and the induced
-Jacobian map included. Prove the finite-level geometric comparison
-H¹(C_k̄,ℤ/ℓⁿ) ≅ Hom(J_C[ℓⁿ](k̄),ℤ/ℓⁿ), with a chosen separable closure k̄,
-supplied Tate coordinate, pullback/pushforward orientation and all reductions.
-Identify isolated fixed-point intersection multiplicities. Over finite k, q-power scheme
-Frobenius and its deck-twisted forms have transverse fixed points and yield the finite-level
-curve trace. The identity endomorphism uses the diagonal's self-intersection rather than
-a sum over finitely many fixed points. Derive rational H¹ comparison after EtaleCohomologyFoundations §F.4.
-(Stacks §64.14; SGA 4½, curve/Jacobian trace argument.)
-*Needs:* JacobianChallenge Layers A–D; SchemeAndStackFoundations §§2.11, 2.16, 5.6, 5.9;
-AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11 (torsion, `AbelianTate`, `End.trace`,
-`charpolyTate`); EtaleCohomologyFoundations §§F.10.1–F.10.3 (frobeniusFixedPoints, finite-level
-frobeniusCohomology and projective trace algebra). The finite curve proof does not require EtaleCohomologyFoundations §F.4, ComplexComparisonPartII §§C6.0–C6.6 or abelian exterior cohomology.
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 constructs the four
+geometric trace interfaces below. Applications here use their supplied coefficient,
+Frobenius, Jacobian and functorial identifications on the stated domains.
 
-**Checks.**
+| Imported interface | Construction owner | Hypotheses and compatibility used here |
+| --- | --- | --- |
+| `VanishingCycles.curveEndomorphismTrace` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 | Smooth proper geometrically connected C/k, ℓ invertible in k and φ:C→C. The graph–diagonal intersection is 1 − Tr_alg(φ_* on J_C) + deg φ, including constant maps of degree zero and the identity's diagonal self-intersection. The finite-level comparison H¹(C_k̄,ℤ/ℓⁿ) ≅ Hom(J_C[ℓⁿ](k̄),ℤ/ℓⁿ) uses a chosen separable closure, the supplied Tate coordinate, pullback/pushforward orientation and compatible reductions; rational realization uses EtaleCohomologyFoundations §F.4. Over finite k, q-power scheme Frobenius and its deck-twisted forms have transverse fixed points. |
+| `VanishingCycles.etaleTraceFormulaFinite` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T2 | Separated finite-type X/k, k finite of characteristic p and cardinality q, finite commutative Λ of order prime to p, K∈Dᵇ_ctf(X,Λ) descended over k, and every r≥1. The sum of local perfect-complex traces over X(k_r) equals the global trace on RΓc(X_k̄,K). A local term at a k_r-point uses geometric qʳ-Frobenius without an additional r-th power. Use the supplied pushforward, coefficient-change, tensor/twist, Künneth, finite-group and finite-field-extension compatibilities. |
+| `VanishingCycles.etaleTraceFormula` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 | Separated finite-type X/k, k finite of cardinality q, ℓ≠char k, K in EtaleCohomologyFoundations §F.4's rational bounded constructible category with descent data, and every r≥1. The alternating trace on Hⁱc(X_k̄,K) equals the sum over X(k_r) of alternating geometric qʳ-Frobenius stalk traces. Finite coefficient-field extensions E/ℚ_ℓ, normalized finite-level realization and coefficient, tensor/twist, group, base-extension and lower-shriek compatibilities are included. |
+| `VanishingCycles.pointCountTrace` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 | Separated finite-type X/k, k finite of cardinality q, ℓ≠char k and every r≥1. The natural-number count #X(k_r), embedded in ℚ_ℓ, equals Σ_i (−1)ⁱ Tr(Frob_qʳ on Hⁱc(X_k̄,ℚ_ℓ)); each constant stalk contributes one. Finite and integral forms map the count to the coefficient ring. The projective-space computations use the supplied hyperplane class and Tate orientation. |
 
-- ℙ¹ has H¹=0 and graph intersection 1+deg φ.
-- A nonidentity translation of an elliptic curve has fixed-point intersection zero.
-- Frobenius on a genus-g curve gives 1−Tr(H¹)+q.
+EtaleCohomologyFoundations §§F.10.1–F.10.5 supplies the separate Frobenius and
+algebraic trace package: fixed points, finite and adic cohomological Frobenius,
+`PerfectComplex` traces and coherent additivity, free-torsor equivariant compact-support
+perfectness and derived coefficient descent. Its §§F.10.4–F.10.5 apply to finite étale
+Galois torsors with finite lisse projective-stalk coefficients on smooth affine curves,
+including deck groups whose order is divisible by ℓ. Finite-coefficient traces use
+§§F.0–F.3, G.1–G.3 and 0.7–0.8; rational traces additionally use §F.4.
 
-**Finite-coefficient Grothendieck–Lefschetz.** `VanishingCycles.etaleTraceFormulaFinite`.
-For separated finite-type X/k, k finite of characteristic p and cardinality q, finite
-commutative Λ of order prime to p and K∈Dᵇ_ctf(X,Λ) descended over k, prove for every r≥1
-
-Σ_(x∈X(k_r)) L(Frob_(qʳ,x),K_x̄) = L(Frob_qʳ,RΓc(X_k̄,K)).
-
-Both terms are perfect-complex traces; stalk perfectness follows from ctf and global
-perfectness from EtaleCohomologyFoundations §F.3. A local term at a k_r-point already uses geometric qʳ-Frobenius,
-without another r-th power. Prove zero-dimensional and finite étale cases by permutation
-trace, including nilpotents via étale invariance. Give enhanced open–closed devissage and
-the dimension-one proof: reduce to smooth affine curves and finite lisse projective-stalk
-coefficients over primary rings, trivialize on finite étale Galois covers, compactify and
-apply freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent to obtain
-the group-ring-perfect representatives, then curveEndomorphismTrace and the
-group-ring/centralizer identities. In higher dimension
-use Noether normalization U→𝔸ᵈ followed by 𝔸ᵈ→𝔸^(d−1); prove the fibre dimension bound ≤1,
-induct on the base and establish the reusable Rf! Fubini identity for local terms.
-Include pushforward, coefficient maps, twists/tensor, products/Künneth, finite groups and
-finite-field extensions. (Stacks §§64.16–64.17, with §64.14 for curves; SGA 4½ [Sommes trig.].)
-*Needs:* EtaleCohomologyFoundations §§F.0–F.3, G.1–G.3 and 0.8 (finite coefficients, compactifications and lower shriek); EtaleCohomologyFoundations §§F.10.1–F.10.3
-(frobeniusFixedPoints, frobeniusCohomology and PerfectComplex trace/additivity);
-curveEndomorphismTrace; EtaleCohomologyFoundations §§F.10.4–F.10.5
-(freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent);
-SchemeAndStackFoundations Noether normalization and dimension
-lemmas, building any missing fibre-dimension steps here. This finite proof uses neither
-EtaleCohomologyFoundations §F.4 nor ComplexComparisonPartII §§C6.0–C6.6 nor AbelianSchemesAndArithmeticModuli A4.4.
-
-**Checks.**
-
-- A rational point contributes its own geometric stalk trace.
-- A finite étale permutation sheaf gives the permutation fixed-point trace.
-- Extension to k_r uses matching r-th powers in every local and global term.
-
-**Rational constructible trace formula for all powers.** `VanishingCycles.etaleTraceFormula`.
-For separated finite-type X/k with k finite of cardinality q, ℓ≠char k, K in EtaleCohomologyFoundations §F.4's rational
-bounded constructible category with descent data, and every r≥1, prove
-
-Σ_i (−1)ⁱ Tr(Frob_qʳ | Hⁱc(X_k̄,K)) =
-Σ_(x∈X(k_r)) Σ_j (−1)ʲ Tr(Frob_(qʳ,x) | Hʲ(K_x̄)).
-
-Include finite coefficient-field extensions E/ℚ_ℓ. Derive the equation from the finite-level
-theorem by normalized realization and scalar extension, using finite-dimensionality;
-retain coefficient, tensor/twist, group, base-extension and lower-shriek compatibilities.
-(SGA 4½ [Rapport], [Sommes trig.]; finite-level trace and flat scalar extension.)
-*Needs:* etaleTraceFormulaFinite; EtaleCohomologyFoundations §F.10.2b (frobeniusCohomology); EtaleCohomologyFoundations §F.4 classicalAdicRealization,
-adicFiniteness, rationalAdicRealization, adicFunctoriality. No new geometric proof is required.
-
-**Checks.**
-
-- ℙ¹ gives 1+qʳ.
-- 𝔸¹ has only compact-support degree two and gives qʳ.
-- A nonconstant finite-monodromy coefficient contributes its local traces, not merely a point count.
-
-**Constant-sheaf point count for every finite extension.** `VanishingCycles.pointCountTrace`.
-For every separated finite-type X/k with k finite of cardinality q, ℓ≠char k and r≥1, prove
-
-#X(k_r) = Σ_i (−1)ⁱ Tr(Frob_qʳ | Hⁱc(X_k̄,ℚ_ℓ)),
-
-with the natural-number count embedded in ℚ_ℓ. The finite point type is that of
-frobeniusFixedPoints and each constant stalk contributes one. Give finite and integral
-versions using perfect-complex trace, with the count mapped to the coefficient ring.
-Compute 𝔸ⁿ, 𝔾_m and ℙⁿ independently: use the supplied projective-bundle/hyperplane class
-formula and its Tate orientation, localization and compact Künneth, then compare their
-traces to independently counted points. (SGA 4½ [Rapport] point-count corollary;
-SGA 5 VII projective-space computation.)
-*Needs:* EtaleCohomologyFoundations §F.10.1 (frobeniusFixedPoints); etaleTraceFormulaFinite, etaleTraceFormula; EtaleCohomologyFoundations §F.0 twists,
-EtaleCohomologyFoundations §§F.2–F.3 compact cohomology/Künneth; EtaleCohomologyFoundations §0.9 / cycleClasses.
-
-**Checks.**
-
-- 𝔸ⁿ gives q^(nr).
-- 𝔾_m gives qʳ−1.
-- ℙⁿ gives 1+qʳ+⋯+q^(nr).
+The local uses are the point-count compatibility for quadrics (2.3), the all-power
+rational trace in the finite-monodromy character argument (5.10), and the
+curve/Jacobian compatibility for semistable specialization and polarization (7a.4).
+Their Frobenius and Tate coordinates follow the Conventions above and the supplied
+interfaces; the nearby-cycle, monodromy and normalization diagrams are constructed in
+those local targets.
 
 ## Layer LPV.0: Nearby and vanishing cycles over a henselian trait
 
@@ -371,13 +308,16 @@ EnhancedDerivedSheaves §§0.1–0.4 for the enhanced derived functors.
 ### 0.1 Local-field specialization of the tame character
 
 For a henselian trait whose valuation ring is that of a nonarchimedean local field,
-prove `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`: the general-trait
-`t_ℓ` is the ℓ-component of Tau Ceti's prime-to-residue-characteristic tame
-character `TauCeti.inertiaTameCharacter`. Use the Kummer formula for a uniformizer
-on both sides. (Stacks Project, Section 15.114, Remark 0BU8.)
-*Needs:* EtaleCohomologyFoundations §F.3a (general-trait tame character and its
-Kummer formula); ArithmeticGaloisRepresentations §2.3 and LocalFieldsRamification
-Layer 4 (local-field tame characters); Tau Ceti `TauCeti.inertiaTameCharacter`.
+use `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`, supplied by
+ArithmeticGaloisRepresentations §2.1a: under the valuation-inertia and residue-Tate
+identifications, the general-trait `t_ℓ` is the ℓ-component of Tau Ceti's
+prime-to-residue-characteristic tame character `TauCeti.inertiaTameCharacter`.
+The supplied comparison uses the positive Kummer ratio for a uniformizer on both
+sides and is compatible with conjugation and finite extension.
+(Stacks Project, Section 15.114, Remark 0BU8.)
+*Needs:* ArithmeticGaloisRepresentations §2.1a; EtaleCohomologyFoundations §F.3a
+(general-trait tame character and its Kummer formula); LocalFieldsRamification
+Layer 4; Tau Ceti `TauCeti.inertiaTameCharacter`.
 
 **Checks.**
 
@@ -882,7 +822,7 @@ Mathlib (henselian and discrete valuation rings, valuation inertia groups, small
 derived categories); Tau Ceti (`TauCeti.genericFiber`, `TauCeti.specialFiber`);
 EtaleCohomologyFoundations §§F.0–F.6, F.3a, 0.7–0.11; EnhancedDerivedSheaves §§0.1–0.4;
 ComplexComparisonPartII §§C−1.1, C5.2, C6.0–C6.6; SchemeAndStackFoundations Layers 0 and 2;
-TauCetiRoadmap ModularCurves Layer 4D; ArithmeticGaloisRepresentations §2.3 and
+TauCetiRoadmap ModularCurves Layer 4D; ArithmeticGaloisRepresentations §2.1a and
 LocalFieldsRamification Layer 4 (local-field specialization of the tame character);
 CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4 and §CR.5.1
 (logarithmic differentials for 0.10).
@@ -1567,7 +1507,7 @@ criterion of 2.2 decides which families they lie in; `cl` is an isomorphism beca
 Frobenius swapping `α` and `β` exactly when there is no rational generatrix. (SGA 7 II, Exposé XII,
 Théorème 3.3, pp. 14–15; Vérification 3.4, p. 17.) *Needs:* 2.2, the definition above;
 EtaleCohomologyFoundations §F.6 (Poincaré duality and the trace), EtaleCohomologyFoundations §F.6 (Gysin sequence,
-cycle classes) and EtaleCohomologyFoundations §F.7 (weak Lefschetz, cohomology of projective space); F.10 (point counting).
+cycle classes) and EtaleCohomologyFoundations §F.7 (weak Lefschetz, cohomology of projective space); InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (point counting).
 
 **Checks.**
 
@@ -2215,7 +2155,7 @@ Layers LPV.0 and LPV.1; Mathlib (quadratic forms, Clifford algebras, smoothness 
 Jacobian criterion); Tau Ceti (the centre of the even Clifford algebra when two is invertible);
 AlgebraicModuliForArithmeticGeometry Layers 1 and 6; SchemeAndStackFoundations Layers 0 and 3;
 TauCetiRoadmap ModularCurves Layer 4D; EtaleCohomologyFoundations §§F.1–F.7;
-F.10 (point counting);
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (point counting);
 ComplexComparisonPartII §§C6.0–C6.6 and the nearby–Betti adapter 0.8a.
 
 ## Layer LPV.3: Lefschetz pencils
@@ -2968,7 +2908,7 @@ by `(−1)^{n/2}`, the vanishing cycles `δ` have
 `(δ, δ) = 2`, their pairings are integers, they span a lattice `L` on which the form is positive definite, and they
 form an irreducible root system all of whose roots have the same length, so of type A, D or E, with `M` its Weyl
 group. *Proof sketch.* For the finite quotient `M`, the trace formula for all powers of Frobenius
-(F.10, trace formula for all powers) and Chebotarev density for the finite étale cover of `U`
+(InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3, trace formula for all powers) and Chebotarev density for the finite étale cover of `U`
 (ArithmeticGaloisRepresentations Layer 5, §5.13, Chebotarev for function fields) compare the characters of `M` on `E` at
 all `ℓ ≠ p` (Weil II, Lemmas 4.4.6 and 4.4.7); removing trivial constituents gives a character with rational
 integer values, independent of `ℓ`. For two vanishing cycles, with `s_δ(x) = x − (x, δ)δ` and `P_δ = (·, δ)δ`,
@@ -2981,7 +2921,7 @@ invariant form positive definite; the roots form one conjugacy class, so the roo
 simply laced, of type A, D or E (TauCetiRoadmap RepresentationTheory/RootSystems Layer 5), with `M` generated by the
 reflections of the full transported orbit, by 5.3 in every characteristic. (Weil II,
 4.4.5–4.4.9 including Lemmas 4.4.6–4.4.7, pp. 229–231.) *Needs:* 5.10;
-ArithmeticGaloisRepresentations Layer 5, §5.13; F.10 (trace formula for all powers);
+ArithmeticGaloisRepresentations Layer 5, §5.13; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 (trace formula for all powers);
 TauCetiRoadmap Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap
 RepresentationTheory/CharacterTheory Layer 4 (rationality of character values); TauCetiRoadmap
 RepresentationTheory/RootSystems Layer 5.
@@ -3054,7 +2994,7 @@ group (Weil II, 4.3.10, p. 226), so the rational statements of this layer are no
 ### Dependencies
 
 Layers LPV.2–LPV.4; EtaleCohomologyFoundations §F.3a (tame character); InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3;
-ArithmeticGaloisRepresentations Layer 5, §5.13; F.10 (trace formula for all powers);
+ArithmeticGaloisRepresentations Layer 5, §5.13; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 (trace formula for all powers);
 TauCetiRoadmap AdelicAlgebraicGroups Layer 4; TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2; TauCetiRoadmap
 Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap RepresentationTheory
 (CharacterTheory Layer 4, RootSystems Layer 5); SchemeAndStackFoundations Layer 0; Stacks Project 0EYG;
@@ -3445,11 +3385,11 @@ modules are rationalized only after their maps are constructed. *Proof sketch.* 
 the identification of the Néron identity component with `Pic^0` (NeronModelsAndSemistableAbelianVarieties Layer 3,
 §§3.8–3.9, and Layer 4, §§4.1–4.2), the Tate module and its duality pairing (AbelianSchemesAndArithmeticModuli Layer
 A4, §A4.1), and the finite-level comparison of `H^1_ét(C, ℤ/ℓ^n)` with the dual of `J_C[ℓ^n]`
-(F.10, curve/Jacobian comparison); Kummer theory compares the additive normalization sequence with
+(InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1, curve/Jacobian comparison); Kummer theory compares the additive normalization sequence with
 the multiplicative Picard sequence; the sign lemma and the torsion-compatible specialization maps identify the
 filtration. (Illusie 1991, §§2.3–2.6, (2.3.3)–(2.3.5), (2.6.1)–(2.6.5).) *Needs:* 7a.2, 7a.3;
 NeronModelsAndSemistableAbelianVarieties Layers 3–4; AbelianSchemesAndArithmeticModuli Layer A4;
-F.10 (curve/Jacobian comparison).
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian comparison).
 
 **Checks.**
 
@@ -3649,7 +3589,7 @@ Liu–Tian–Xiao–Zhang–Zhu 2022, §5.9, p. 233.) *Needs:* 7a.8, 7a.3.
 
 Layers LPV.0, LPV.1, LPV.2 and LPV.6; TauCetiRoadmap StableReduction Layers 1 and 4; TauCetiRoadmap EllipticCurves
 Layer 4; NeronModelsAndSemistableAbelianVarieties Layers 3 and 4; AbelianSchemesAndArithmeticModuli Layer A4;
-F.10 (curve/Jacobian comparison); EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.5, EtaleCohomologyFoundations §F.6; Mathlib (spectral
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian comparison); EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.5, EtaleCohomologyFoundations §F.6; Mathlib (spectral
 objects and spectral sequences, `DerivedCategory`).
 
 ## Layer LPV.7b: Invariant cycles
