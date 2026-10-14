@@ -296,10 +296,13 @@ theorem coeff_le_coeff_mul_of_nonneg {f g : PowerSeries ℝ} (hf : ∀ n, 0 ≤ 
     (hg : ∀ n, 0 ≤ coeff n g) (hg0 : constantCoeff g = 1) (n : ℕ) :
     coeff n f ≤ coeff n (f * g) := by sorry
 
-/-- Lemma 3.4: the exponential of a power series with nonnegative coefficients and no constant term has nonnegative
-coefficients. -/
-theorem coeff_exp_nonneg {f : PowerSeries ℚ} (hf : ∀ n, 0 ≤ coeff n f) (hf0 : constantCoeff f = 0) (n : ℕ) :
-    0 ≤ coeff n (PowerSeries.mk fun m => ∑ j ∈ Finset.range (m + 1), coeff m (f ^ j) / (j.factorial : ℚ)) := by sorry
+/-- The formal exponential of a series with nonnegative coefficients and zero constant
+term has nonnegative coefficients over an ordered field, including the rational
+case of Weil I (3.4) and the real case of Weil II (1.5.2)(a). -/
+theorem coeff_exp_nonneg {R : Type*} [Field R] [LinearOrder R] [IsStrictOrderedRing R]
+    {f : PowerSeries R} (hf : ∀ n, 0 ≤ coeff n f) (hf0 : constantCoeff f = 0) (n : ℕ) :
+    0 ≤ coeff n (PowerSeries.mk fun m => ∑ j ∈ Finset.range (m + 1),
+      coeff m (f ^ j) / (j.factorial : R)) := by sorry
 
 end WeilI3
 
@@ -314,6 +317,14 @@ theorem norm_add_conj_le {α : ℂ} {q : ℝ} (h : ‖α‖ = Real.sqrt q) :
 
 /-- The point count of `y² = x³ − x` over `𝔽₃` from its characteristic polynomial `X² + 3`: `P(1) = 4`. -/
 example : ((X ^ 2 + 3 : ℤ[X]).eval 1) = 4 := by sorry
+
+/-- The zeroth exterior factor uses reversal: its ordinary polynomial is X−1
+and its Euler polynomial is 1−X (README 1.5). -/
+example : (X - 1 : ℚ[X]).reverse = 1 - X := by sorry
+
+/-- The top elliptic exterior factor has Euler polynomial 1−qX, also for q=0
+as a polynomial identity (README 1.5). -/
+example (q : ℚ) : (X - C q).reverse = 1 - C q * X := by sorry
 
 end WeilEstimate
 
@@ -514,6 +525,26 @@ example : ∀ n : ℤ, ¬ IsPunctuallyPure (X := Unit) (V := fun _ => Fin 2 → 
 example : IsPunctuallyPure (X := Unit) (V := fun _ => Fin 2 → ℚ)
     (fun _ => 2) 0 (fun _ => Matrix.toLin' !![(1 : ℚ), 1; 0, 1]) := by sorry
 
+/-- A transcendental point scalar with the prescribed modulus has fixed-ι weight
+one half and no integer Weil weight (README 5.3). -/
+example (b : E) (hb : b ≠ 0) (htrans : ¬ IsAlgebraic ℚ b)
+    (ι : AlgebraicClosure E →+* ℂ)
+    (hnorm : ‖ι (algebraMap E (AlgebraicClosure E) b)‖ = (2 : ℝ) ^ (1 / 4 : ℝ)) :
+    IsPunctuallyIotaPure (E := E) (X := Unit) (V := fun _ => E) ι (fun _ => 2) (1 / 2)
+      (fun _ => b • LinearMap.id) ∧
+    ∀ n : ℤ, ¬ IsPunctuallyPure (E := E) (X := Unit) (V := fun _ => E) (fun _ => 2) n
+      (fun _ => b • LinearMap.id) := by sorry
+
+/-- Zero stalks satisfy fixed-ι punctual purity at every real weight (README 5.3). -/
+example (ι : AlgebraicClosure E →+* ℂ) (q : X → ℝ) (β : ℝ) :
+    IsPunctuallyIotaPure (V := fun _ => Fin 0 → E) ι q β
+      (fun _ => LinearMap.id) := by sorry
+
+/-- The two point weights 0 and 2 cannot equal one fixed real weight (README 5.3). -/
+example (ι : AlgebraicClosure ℚ →+* ℂ) :
+    ∀ β : ℝ, ¬ IsPunctuallyIotaPure (X := Unit) (V := fun _ => Fin 2 → ℚ)
+      ι (fun _ => 2) β (fun _ => Matrix.toLin' !![(1 : ℚ), 0; 0, 2]) := by sorry
+
 end PunctualCore
 
 /-! ## The actual additive-valuation core of the stalk Newton polygon.
@@ -623,6 +654,15 @@ example :
       Module.finrank (AlgebraicClosure ℚ)
         (Module.End.maxGenEigenspace (G.baseChange (AlgebraicClosure ℚ)) (3 / 2)) = 2 := by sorry
 
+/-- Distinct operators on the same line can pair perfectly without reciprocal
+symmetry of either spectrum (README 0.16). -/
+example :
+    (∀ x y : ℚ, (2 * x) * (3 * y) = 6 * (x * y)) ∧
+      eigenvalues ((2 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) = {2} ∧
+      eigenvalues ((3 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) = {3} ∧
+      (eigenvalues ((2 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ))).map
+        (fun α => 6 / α) ≠ eigenvalues ((2 : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) := by sorry
+
 /-- Positive traces fail to determine the characteristic polynomial in characteristic
 p, even when dimensions agree (README 0.10). -/
 example (p : ℕ) [Fact p.Prime] :
@@ -719,6 +759,24 @@ example : IsIotaReal (X := Unit) (E := ℂ) (V := fun _ => Fin 2 → ℂ) (RingH
       0, (3 - 4 * Complex.I) / 5]) ∧
     (Matrix.toLin' !![((3 + 4 * Complex.I) / 5 : ℂ), 0;
       0, (3 - 4 * Complex.I) / 5]).charpoly = Polynomial.X ^ 2 - C (6 / 5) * Polynomial.X + 1 := by sorry
+
+/-- The point line with scalar √2 is totally real and has an irrational coefficient
+(README 5.4). -/
+example : IsTotallyReal (X := Unit) (E := ℝ) (V := fun _ => ℝ)
+    (fun _ => Real.sqrt 2 • LinearMap.id) ∧
+    ¬ ∃ r : ℚ, Real.sqrt 2 = (r : ℝ) := by sorry
+
+/-- The real cube root of 2 is real in the usual embedding but not totally real
+(README 5.4). -/
+example (s : ℝ) (hs : s ^ 3 = 2) :
+    IsIotaReal (X := Unit) (E := ℝ) (V := fun _ => ℝ) Complex.ofRealHom
+      (fun _ => s • LinearMap.id) ∧
+    ¬ IsTotallyReal (X := Unit) (E := ℝ) (V := fun _ => ℝ)
+      (fun _ => s • LinearMap.id) := by sorry
+
+/-- The point line with scalar i fails reality in the usual embedding (README 5.4). -/
+example : ¬ IsIotaReal (X := Unit) (E := ℂ) (V := fun _ => ℂ) (RingHom.id ℂ)
+    (fun _ => Complex.I • LinearMap.id) := by sorry
 
 end RealityCore
 

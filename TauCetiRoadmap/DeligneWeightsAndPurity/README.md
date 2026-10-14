@@ -33,7 +33,8 @@ LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7; and
 pencils and vanishing cycles from LefschetzPencilsAndVanishingCycles §§0–5, with
 semistable curves and invariant cycles from §§7a–7b. Polarizations, Rosati positivity and
 endomorphism polynomials and the Rosati–Frobenius identity come from AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A6.10–A6.14, A6.21,
-with Tate/Galois realization from ArithmeticGaloisRepresentations §§6.1–6.2.
+with Tate/Galois realization from ArithmeticGaloisRepresentations §§6.1–6.2 and
+H¹/Tate comparison from AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology.
 
 This roadmap constructs rational finite-field zeta functions (§1.10), extraction
 of integral degree factors and their independence of ℓ (§4.4), component-aware
@@ -303,17 +304,17 @@ Noetherian approximation of finite-presentation geometry and finite coefficient 
 
 <a id="input-e11"></a>
 
-#### ArithmeticGaloisRepresentations §§1.1–1.4, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)
+#### ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)
 
-Tate realization, arithmetic Frobenius action of π_A, and H¹(A)≅(V_ℓA)∨. Include finite coefficient models, stable lattices, compact profinite image and étale descent after scalar normalization. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
+ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius π_A. Section 1.5 supplies descent to finite coefficient fields; §1.6 / exists_stable_lattice_iff and GaloisLattice.IntegralModel.nonempty supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ), compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through LefschetzPencilsAndVanishingCycles §F.10. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
 
 <a id="input-e12"></a>
 
 #### LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)
 
-Constructible adic and rational coefficient categories from compatible finite lattices, finite coefficient extension, and the Tate line with geometric Frobenius q⁻¹; Weil descent is constructed in §5.2 here. Compare inverse arithmetic action on roots of unity. Uses: [0.15](#target-0-15), [5.12](#target-5-12), [5.2](#target-5-2), [5.3](#target-5-3).
+Constructible adic and rational coefficient categories from constructible integral models, finite coefficient extension, and the Tate line with geometric Frobenius q⁻¹; Weil descent is constructed in §5.2 here. Compare inverse arithmetic action on roots of unity. Uses: [0.15](#target-0-15), [5.12](#target-5-12), [5.2](#target-5-2), [5.3](#target-5-3).
 
-Bounded constructible derived categories and cohomology sheaves over finite fields and ℤ[1/ℓ]; six operations, localization and Leray/Künneth with finite filtrations. Lisse representations have finite coefficient models and a stable lattice on the profinite group (only geometric for Weil sheaves). Include vanishing positive local Ext for lisse sheaves, generic constructibility/base change, tame j_* and monodromy base change, Hⁱ_c=0 for i>2dim X, and finite evaluations detecting H⁰. Uses: [7.1](#target-7-1), [7.3](#target-7-3), [7.4](#target-7-4), [7.5](#target-7-5), [7.7](#target-7-7), [7.10](#target-7-10), [8.1](#target-8-1), [8.3](#target-8-3), [8.4](#target-8-4), [8.5](#target-8-5), [8.8](#target-8-8), [8.11](#target-8-11), [8.14](#target-8-14), [8.15](#target-8-15), [8.17](#target-8-17), [8.18](#target-8-18), [8.19](#target-8-19), [8.24](#target-8-24), [9.1](#target-9-1), [9.10](#target-9-10).
+Bounded constructible derived categories and cohomology sheaves over finite fields and ℤ[1/ℓ]; six operations, localization and Leray/Künneth with finite filtrations. The profinite-π₁ description of lisse rational objects applies to the full subcategory admitting a global lisse integral lattice over a finite coefficient field; it includes every lisse object on a normal scheme. General lisse objects remain in the constructible category, with integral models that need only be constructible. For Weil sheaves the lattice condition concerns the underlying geometric sheaf. Include vanishing positive local Ext for lisse sheaves, generic constructibility/base change, tame j_* and monodromy base change, Hⁱ_c=0 for i>2dim X, and finite evaluations detecting H⁰. Uses: [7.1](#target-7-1), [7.3](#target-7-3), [7.4](#target-7-4), [7.5](#target-7-5), [7.7](#target-7-7), [7.10](#target-7-10), [8.1](#target-8-1), [8.3](#target-8-3), [8.4](#target-8-4), [8.5](#target-8-5), [8.8](#target-8-8), [8.11](#target-8-11), [8.14](#target-8-14), [8.15](#target-8-15), [8.17](#target-8-17), [8.18](#target-8-18), [8.19](#target-8-19), [8.24](#target-8-24), [9.1](#target-9-1), [9.10](#target-9-10).
 
 <a id="input-e13"></a>
 
@@ -555,7 +556,7 @@ LefschetzPencilsAndVanishingCycles §F.10, frobeniusFixedPoints).
 
 Finite cohomology and the coefficient Grothendieck–Lefschetz formula Z(U₀,F₀,t)=∏ det(1−Ft,Hⁱ_c)^{(−1)^{i+1}}; curve/Jacobian fixed-point formula 1−Tr(α′)+deg α; proper base change on pencil fibres; Frobenius-equivariant Künneth and Leray with finite abutment filtrations. Include descent of pencils, singular/sign data and coefficient models, and trace splitting for finite surjective curve covers, including ramified covers. Uses: [2.1](#target-2-1), [2.4](#target-2-4), [2.10](#target-2-10), [1.6](#target-1-6), [3.3](#target-3-3), [4.1](#target-4-1), [4.2](#target-4-2), [5.2](#target-5-2), [5.10](#target-5-10), [5.12](#target-5-12), [5.15](#target-5-15), [5.18](#target-5-18), [6.2](#target-6-2), [6.3](#target-6-3), [10.5](#target-10-5), [5.9](#target-5-9).
 
-Proper, smooth and compact-support base change, étale invariance under universal homeomorphisms and open/closed excision. Include the coefficient trace/Euler formula and a dense-open affine fibration over a curve lowering fibre dimension for the integrality argument. Uses: [7.3](#target-7-3), [7.4](#target-7-4), [7.5](#target-7-5), [7.6](#target-7-6), [7.7](#target-7-7), [7.10](#target-7-10), [7.15](#target-7-15), [8.3](#target-8-3), [8.21](#target-8-21), [8.23](#target-8-23), [8.24](#target-8-24), [9.4](#target-9-4).
+Proper, smooth and compact-support base change, étale invariance under universal homeomorphisms and open/closed excision. Include the coefficient trace/Euler formula; the dense-open affine fibration used for integrality is constructed in integrality_fibrationReduction before §7.10 here. Uses: [7.3](#target-7-3), [7.4](#target-7-4), [7.5](#target-7-5), [7.6](#target-7-6), [7.7](#target-7-7), [7.10](#target-7-10), [7.15](#target-7-15), [8.3](#target-8-3), [8.21](#target-8-21), [8.23](#target-8-23), [8.24](#target-8-24), [9.4](#target-9-4).
 
 <a id="input-e58"></a>
 
@@ -615,10 +616,14 @@ Algebraic Zariski closure of ℚ_ℓ-point subgroups and connectedness of Sp. Us
 
 Algebraic reductive and semisimple group theory, centers and central isogenies.
 DWP.5 constructs the central-degree and compact-normalizer comparisons in §5.7
-and maximal compacts, complexification and representation comparison in §5.17.
+and the algebraic-by-ℤ compact-form adapter in §5.17, using the connected Lie-group foundations below.
 Uses: [5.7](#target-5-7), [5.17](#target-5-17).
 
 A faithful finite-dimensional representation of an affine algebraic group over algebraically closed characteristic-zero coefficients is semisimple exactly when the identity component is reductive. Finite components use averaging; image and Zariski closure have the same invariant subspaces. Uses: [8.14](#target-8-14).
+
+#### RepresentationTheory/LieGroups, Layer 7 (complexification and real forms)
+
+Connected reductive compact real forms, their complexification, existence and conjugacy, and the equivalence between continuous compact-group representations and holomorphic representations of their complexifications. Section 5.17 here compares these with the algebraic quotient, proves algebraicity for the relevant holomorphic semisimple-group representations, and extends across finite components, cyclic central quotients and Weil degree. Uses: [5.17](#target-5-17).
 
 <a id="input-e67"></a>
 
@@ -948,9 +953,11 @@ Its API includes:
 
 ### 0.16. Eigenvalues under a Frobenius-equivariant perfect pairing
 
-Let V and V′ be E-spaces of finite dimension d with invertible endomorphisms F and F′, and ⟨ , ⟩ : V × V′ → E a perfect bilinear pairing with ⟨Fx, F′y⟩ = c⟨x, y⟩ for some c ∈ E^×. Then: (i) under the isomorphism V′ ≅ V^* given by the pairing, F′ corresponds to c·(F⁻¹)^*; (ii) the eigenvalue multiset of F′ is {c/α_i}, and det(T − F′) = (−T)^d det(c/T − F) / det F; (iii) over Ē, the maximal generalized eigenspaces satisfy ⟨V_α, V′_β⟩ = 0 unless αβ = c, and the pairing restricts to a perfect pairing V_α × V′_{c/α} → Ē; (iv) if V is pure of weight n and c is a Weil q-number of weight w, then V′ is pure of weight w − n, and likewise for ι-weights. For V′ = V, the eigenvalue multiset of F is stable under α ↦ c/α.
+Let V and V′ be E-spaces of finite dimension d with invertible endomorphisms F and F′, and ⟨ , ⟩ : V × V′ → E a perfect bilinear pairing with ⟨Fx, F′y⟩ = c⟨x, y⟩ for some c ∈ E^×. Then: (i) under the isomorphism V′ ≅ V^* given by the pairing, F′ corresponds to c·(F⁻¹)^*; (ii) the eigenvalue multiset of F′ is {c/α_i}, and det(T − F′) = (−T)^d det(c/T − F) / det F; (iii) over Ē, the maximal generalized eigenspaces satisfy ⟨V_α, V′_β⟩ = 0 unless αβ = c, and the pairing restricts to a perfect pairing V_α × V′_{c/α} → Ē; (iv) if V is pure of weight n and c is a Weil q-number of weight w, then V′ is pure of weight w − n, and likewise for ι-weights. If V′=V and F′=F, the eigenvalue multiset of F is stable under α↦c/α.
 
 The pairing is perfect and its target line has Frobenius scalar c. Generalized eigenspaces are used; self-pairing multiplicity parity and functional-equation signs are outside this roadmap.
+
+Check: for V=V′=ℚ, B(x,y)=xy, F=2, F′=3 and c=6, the pairing identity holds and the two spectra are {2} and {3}. The first spectrum is not invariant under α↦6/α: equality of the spaces alone does not give self-pairing symmetry.
 
 *Needs:* [0.7](#target-0-7), [0.11](#target-0-11), [0.2](#target-0-2), [Matrix.charpoly_inv](#input-b18).
 
@@ -1005,7 +1012,8 @@ For an abelian variety A of dimension g over 𝔽_q, view the supplied q-power s
 Frobenius as the group endomorphism `AbelianVariety.frobenius A`. Naturality for multiplication
 and the identity section gives its group-homomorphism property. Its degree is the supplied
 finite-flat rank q^g, and its prime-to-characteristic Tate action is arithmetic Frobenius.
-Its pullback on H¹ is geometric Frobenius, via the curve/abelian cohomology comparison.
+Its pullback on H¹ is geometric Frobenius, via AbelianSchemesAndArithmeticModuli
+§A4.4 / exteriorCohomology and the scheme/descent Frobenius comparison.
 The intended signature is an element of End(A), retaining its underlying over-𝔽_q scheme map.
 The API identifies that map with the supplied qPowerFrobenius, its zero-section and
 multiplication squares, its action on the Tate module, and degree q^g. Degree-m constant
@@ -1021,7 +1029,7 @@ extension has Frobenius π_A^m, with its relative-base-change identification.
   p-Frobenius loses the 𝔽_q-linear structure.
 
 *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (qPowerFrobenius and smooth finite-flat rank);
-AbelianSchemesAndArithmeticModuli §§A3.1, A4.1, A6.1; ArithmeticGaloisRepresentations §6.1;
+AbelianSchemesAndArithmeticModuli §§A3.1, A4.1, A4.4 / exteriorCohomology, A6.1; ArithmeticGaloisRepresentations §6.1;
 LefschetzPencilsAndVanishingCycles §F.10 (scheme/descent Frobenius comparison).
 
 (Source: [AV](#ref-av), Chapter II, §1, pp. 75–76.)
@@ -1059,7 +1067,7 @@ Let A be an abelian variety of dimension g over 𝔽_q. Every root of the charac
 
 Arithmetic Frobenius on V_ℓA is π_A, so geometric Frobenius there is π_A⁻¹. Geometric Frobenius on H¹ is the ordinary transpose dual of π_A. The Rosati proof precedes DWP.4.
 
-*Needs:* AbelianSchemesAndArithmeticModuli §A6.21 / frobeniusSemisimple, [1.2](#target-1-2) (adapter identification), [1.3](#target-1-3), [AbelianSchemesAndArithmeticModuli §A6.11 (charpolyTate)](#input-e4), [0.1](#target-0-1), [0.3](#target-0-3), [ArithmeticGaloisRepresentations §§1.1–1.4, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology, AbelianSchemesAndArithmeticModuli §A6.21 / frobeniusSemisimple, [1.2](#target-1-2) (adapter identification), [1.3](#target-1-3), [AbelianSchemesAndArithmeticModuli §A6.11 (charpolyTate)](#input-e4), [0.1](#target-0-1), [0.3](#target-0-3), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
 
 (Sources: [AV](#ref-av), Chapter II, Theorem 1.1(b), p. 75; [AV](#ref-av), Chapter II, Remark 1.4, p. 78.)
 
@@ -1104,7 +1112,7 @@ Let C be a smooth projective geometrically connected curve of genus g over 𝔽_
 
 The Abel–Jacobi H¹ comparison is Frobenius-equivariant without assuming a rational base point. Permuted components give a nontrivial weight-zero H⁰ permutation action.
 
-*Needs:* [1.4](#target-1-4), [0.15](#target-0-15), [ArithmeticGaloisRepresentations §§1.1–1.4, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and LefschetzPencilsAndVanishingCycles §F.10 (curve/Jacobian trace comparison)](#input-e61), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology, [1.4](#target-1-4), [0.15](#target-0-15), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and LefschetzPencilsAndVanishingCycles §F.10 (curve/Jacobian trace comparison)](#input-e61), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
 
 (Sources: [AV](#ref-av), Chapter III, Remark 11.5, p. 119; [Yu](#ref-yu), §1 pp. 2–3; §7.1 p. 64.)
 
@@ -1168,7 +1176,7 @@ For E:y²=x³−x over 𝔽₃ there are three affine points and the point at in
 
 ### Dependencies
 
-DWP.0; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0; AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A4.1, A6.1, A6.10–A6.14, A6.21; ArithmeticGaloisRepresentations §§6.1–6.2; JacobianChallenge Layer F; SchemeAndStackFoundations §3.6; LefschetzPencilsAndVanishingCycles §F.10; EllipticCurves Layer 3.
+DWP.0; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0; AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A4.1, A4.4, A6.1, A6.10–A6.14, A6.21; ArithmeticGaloisRepresentations §§6.1–6.2; JacobianChallenge Layer F; SchemeAndStackFoundations §3.6; LefschetzPencilsAndVanishingCycles §F.10; EllipticCurves Layer 3.
 
 ## Layer DWP.2: The symplectic tensor-power estimate
 
@@ -1602,7 +1610,7 @@ Its API includes:
 
 ### 5.2. Weil sheaves and étale descent
 
-A constructible Weil sheaf on X₀/𝔽_q is a constructible ℚ̄_ℓ-sheaf on X=X₀×𝔽̄_q together with compatible Weil descent isomorphisms; equivalently an isomorphism F*ℱ≅ℱ for the chosen geometric-Frobenius descent action. For a lisse sheaf on connected X this is a continuous finite-coefficient-model representation of W(X₀,x). An ordinary étale sheaf requires extension of that representation to continuous π₁(X₀,x); a Frobenius isomorphism alone does not ensure it. On a point a rank-one Weil action with scalar b descends étale exactly when b is an ℓ-adic unit.
+A constructible Weil sheaf on X₀/𝔽_q is a constructible ℚ̄_ℓ-sheaf on X=X₀×𝔽̄_q together with compatible Weil descent isomorphisms; equivalently an isomorphism F*ℱ≅ℱ for the chosen geometric-Frobenius descent action. For connected X the profinite-π₁ Weil-group description applies to the full subcategory whose underlying geometric lisse sheaf admits a global lisse integral lattice over a finite coefficient field; this includes every lisse sheaf when X is normal. In this subcategory the description is a continuous finite-model representation of W(X₀,x), and étale descent is equivalent to extension to continuous π₁(X₀,x). General lisse objects retain the geometric-sheaf-and-Frobenius-descent definition; a Frobenius isomorphism alone does not ensure étale descent. On a point a rank-one Weil action with scalar b descends étale exactly when b is an ℓ-adic unit.
 
 Its API includes:
 - `WeilSheaf`: A geometric constructible sheaf with Weil descent data.
@@ -1611,7 +1619,7 @@ Its API includes:
 
 - `WeilSheaf.ofEtale`: Restrict an étale sheaf to Weil descent.
 
-- `WeilSheaf.etaleDescent_iff`: For a lisse Weil sheaf, étale descent means extension to a continuous arithmetic fundamental-group representation. Constructible non-lisse sheaves instead use sheaf descent data; a single representation does not describe them.
+- `WeilSheaf.etaleDescent_iff`: For a lisse Weil sheaf whose underlying geometric sheaf admits a global lisse integral lattice over a finite coefficient field, étale descent means extension to a continuous arithmetic fundamental-group representation. General lisse and constructible objects use sheaf descent data.
 
 - `WeilSheaf.pullback`: Pull back descent along an 𝔽_q-morphism, preserving identity and composition.
 
@@ -1622,7 +1630,9 @@ Its API includes:
 
 - `weilSheaf_tate`: For ℓ≠p the Tate line has geometric scalar q⁻¹ and agrees with LefschetzPencilsAndVanishingCycles §§F.0, F.4, hence descends étale.
 
-*Needs:* [5.1](#target-5-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13), [ArithmeticGaloisRepresentations §§1.1–1.4, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
+- On the split rational nodal curve ℙ¹/(0∼∞)/𝔽_q, the rational line with loop multiplier ℓ admits Frobenius descent but no global geometric lisse lattice. The loop multiplies each lattice ℓᵃ𝒪_E by ℓ and cannot preserve it. This Weil object is outside the profinite-π₁ subcategory (LefschetzPencilsAndVanishingCycles §F.4 / rationalAdicRealization).
+
+*Needs:* [5.1](#target-5-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
 
 (Sources: [WII](#ref-wii), §1.1 (1.1.6), (1.1.10)–(1.1.14), pp. 150–153.)
 
@@ -1666,6 +1676,12 @@ Its API includes:
 
 - `punctual_jordan`: The rank-two unipotent Jordan Frobenius on a point is pure of weight 0 although arithmetic Frobenius is not semisimple.
 
+- A one-point Weil line with nonzero transcendental scalar b and |ιb|=2^(1/4) is punctually ι-pure of real weight 1/2 and is integer-pure of no weight. Use a finite coefficient model containing b and a compatible embedding on its algebraic closure.
+
+- A family of zero stalks is punctually ι-pure of every real weight, for every fixed embedding.
+
+- The one-point action diag(1,2), with residue cardinality 2, is punctually ι-pure of no single real weight, for every coefficient embedding.
+
 *Needs:* [5.2](#target-5-2), [0.7](#target-0-7), [0.9](#target-0-9), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13).
 
 (Sources: [WII](#ref-wii), §1.2 (1.2.2)–(1.2.8), pp. 153–155.)
@@ -1691,6 +1707,12 @@ Its API includes:
 - `real_zero`: The zero object has local polynomial 1 and is totally real.
 
 - `real_envelope_line`: A pure weight-zero line with scalar (3+4i)/5 has real envelope polynomial T²−(6/5)T+1.
+
+- The point line with scalar √2 has polynomial T−√2, whose coefficients are totally real but not all rational.
+
+- The point line with scalar ∛2 is real for the usual complex embedding, but not totally real: T³−2 has two nonreal conjugates.
+
+- The point line with scalar i is not real for the usual embedding.
 
 *Needs:* [5.3](#target-5-3), [0.15](#target-0-15), [0.16](#target-0-16).
 
@@ -1790,8 +1812,8 @@ in §5.7's étale-descent comparison.
 
 *Needs:* ReductiveGroups Layers 2, 3, 6; ReductiveGroupsPartII §RG2.0.2
 (local charts); Mathlib ℓ-adic power-series convergence;
-ArithmeticGaloisRepresentations §§1.1–1.4
-(compact image and stable lattices).
+ArithmeticGaloisRepresentations §§1.1–1.6
+(§1.5 finite coefficient descent; §1.6 stable lattices for compact image).
 (Source: [WII](#ref-wii), Lemma (1.3.15) and proof, pp. 161–162.)
 
 **Checks.**
@@ -1804,7 +1826,7 @@ ArithmeticGaloisRepresentations §§1.1–1.4
 
 For a lisse finite-model Weil system on normal geometrically connected X₀, let G_geom be the Zariski closure of geometric monodromy and G the algebraic-by-discrete extension G_geom⋊ℤ induced by a degree-one lift. The radical of G_geom° is unipotent. If the system is semisimple as a Weil representation, its geometric restriction is semisimple and G_geom° is semisimple. Then degree on Z(G) has finite kernel and image of finite index in ℤ. For a central g of degree m≠0, the spectrum on the determinantal-weight-β constituent has |ια|=q^(mβ/2). Every irreducible Weil system becomes an étale system after a rank-one Weil twist.
 
-*Needs:* centralDegreeComparison and compactNormalizer above, [5.5](#target-5-5), [5.6](#target-5-6), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66), [ArithmeticGaloisRepresentations §§1.1–1.4, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
+*Needs:* centralDegreeComparison and compactNormalizer above, [5.5](#target-5-5), [5.6](#target-5-6), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
 
 (Sources: [WII](#ref-wii), §1.3 (1.3.7)–(1.3.15), pp. 158–162.)
 
@@ -1832,13 +1854,39 @@ normalization); LefschetzPencilsAndVanishingCycles §F.0 (finite étale Galois c
 InverseGaloisAndArithmeticFundamentalGroups §IG.5.7 (finite-cover criterion).
 (Source: [WII](#ref-wii), proof of (1.3.13), p. 161.)
 
+**Fixed-ι even-tensor positivity** (`iotaReal_evenTensor_nonneg`). For a lisse
+ι-real Weil sheaf with a finite coefficient model over a finite-field scheme,
+applying ι to each local Euler factor of every even tensor power gives a series
+in ℝ[[t]] with constant term 1 and nonnegative coefficients. Indeed the traces
+of all local Frobenius powers are real, their even powers are nonnegative,
+and the formal exponential of the resulting logarithmic series has
+nonnegative real coefficients. The numerical exponential statement is
+`coeff_exp_nonneg` over an ordered field, including ℚ and ℝ. Use §§2.7–2.8 on
+these real series; the rational refinement of §2.6 retains §2.9(iii).
+
+*Needs:* §0.10 (traces), §0.13 (tensor spectra), §5.4 (ι-reality),
+the ordered-field exponential statement coeff_exp_nonneg specified here;
+§§2.7–2.8 (real-series comparison).
+(Source: [WII](#ref-wii), (1.5.2)(a), p. 164.)
+
+**Checks.**
+
+- A constant Weil line with transcendental scalar b and ι(b)>0 has even-tensor
+  factors (1−ι(b)^(2k deg x)t^(deg x))⁻¹. For k>0 these have nonnegative real
+  coefficients that are not rational.
+- For a point system with eigenvalues i and −i, the tensor square has Euler
+  factor (1−t²)⁻², with nonnegative coefficients although some tensor-square
+  eigenvalues are −1.
+- A single point line with scalar i is not ι-real; its tensor-square factor
+  (1+t)⁻¹ has coefficient −1 at t. The reality hypothesis is essential.
+
 <a id="target-5-9"></a>
 
 ### 5.9. Deligne’s generalized majoration theorem
 
 For a normal connected X₀ of finite type over 𝔽_q, the irreducible constituents of a lisse ι-real sheaf are punctually ι-pure. More precisely, on a smooth curve let r be its maximal determinantal weight; every stalk eigenvalue has ι-weight ≤r, and each irreducible constituent of determinantal weight β is punctually pure of weight β. No open symplectic-image or rational-coefficient hypothesis is imposed.
 
-*Needs:* [5.4](#target-5-4), [5.6](#target-5-6), [5.7](#target-5-7), [2.6](#target-2-6), [2.8](#target-2-8), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40), [0.14](#target-0-14), [5.8](#target-5-8), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [5.4](#target-5-4), [5.6](#target-5-6), [5.7](#target-5-7), iotaReal_evenTensor_nonneg above, [2.7](#target-2-7), [2.8](#target-2-8), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40), [0.14](#target-0-14), [5.8](#target-5-8), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §1.5 Théorème (1.5.1), Lemme (1.5.2), proof (1.5.3), pp. 164–165.)
 
@@ -1918,7 +1966,7 @@ Fix an embedding ι of the coefficient field into an algebraically closed nonarc
 
 Let f:X→S be smooth with geometrically connected curve fibres, S reduced irreducible with generic point η, and g:S→X a section. For a lisse ℤ_ℓ-sheaf ℱ, after shrinking S to a nonempty open there is, simultaneously for every n, a lisse subgroup of Aut(g*ℱ/ℓⁿ) whose stalk is the image of the geometric fibre fundamental group. If f has a smooth proper curve compactification with boundary finite étale over S, the image is locally constant without further shrinking under the stated tame conditions; the inertia images at sections of the boundary specialize compatibly. The extension (1.11.5) covers finite-type families after stratification and dévissage, with the model and the locally constant image conditions kept explicit.
 
-*Needs:* [ArithmeticGaloisRepresentations §§1.1–1.4, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40).
+*Needs:* [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40).
 
 (Sources: [WII](#ref-wii), §1.11 (1.11.1)–(1.11.5), pp. 184–186.)
 
@@ -1937,7 +1985,7 @@ single curve surjects onto every geometric cover at once. Section 5.5's
 assertion about the entire geometric abelianization uses the separate
 prime-to-p construction below. *Needs:* SchemeAndStackFoundations
 §§0.9, 0.21; LefschetzPencilsAndVanishingCycles §5.1; ArithmeticGaloisRepresentations
-§§1.1–1.4; ProfiniteProPGroups, Layer 3 (Frattini detection of closed images);
+§§1.1–1.6 (finite coefficient descent and compact-image stable lattices); ProfiniteProPGroups, Layer 3 (Frattini detection of closed images);
 §5.15's specialization statement. (Source: [WII](#ref-wii),
 §1.11 (1.11.4)–(1.11.5), pp. 185–186.)
 
@@ -1993,21 +2041,25 @@ Let G be a locally compact extension of Γ=ℤ or ℝ by a compact group G⁰; i
 
 **Complex compact-form comparison** (`complexCompactFormComparison`). For
 G_ℂ algebraic-by-ℤ with semisimple identity component of its algebraic kernel,
-construct a maximal compact U in the finite-type quotient G_ℂ/Z(G_ℂ), prove
-that every compact subgroup is contained in a maximal compact and that maximal
-compacts are conjugate, and identify the quotient as the complexification of U.
-Its inverse image G_R has compact degree-zero kernel and discrete degree.
-Prove that restriction identifies algebraic finite-dimensional representations
-of G_ℂ with continuous finite-dimensional complex representations of G_R,
-respecting tensor products and duals. Establish this first on compact quotients
-by a cyclic central subgroup of nonzero degree, then retain the arbitrary
-central degree action. Use characters on those compact quotients to prove that
+import connected reductive compact real forms, their complexification and the
+continuous/holomorphic representation equivalence from RepresentationTheory/LieGroups
+Layer 7. Compare that complexification with the identity component of the
+algebraic quotient G_ℂ/Z(G_ℂ). Prove algebraicity of the relevant holomorphic
+semisimple-group representations and extend the compact-form and representation
+comparisons across finite components, cyclic central quotients and the Weil-degree
+action. In the finite-type quotient G_ℂ/Z(G_ℂ), every compact subgroup is
+contained in a maximal compact and maximal compacts are conjugate.
+The inverse image G_R of a chosen maximal compact has compact degree-zero kernel
+and discrete degree. Restriction identifies algebraic finite-dimensional
+representations of G_ℂ with continuous finite-dimensional complex representations
+of G_R, respecting tensor products and duals. Establish the comparison first on
+compact quotients by a cyclic central subgroup of nonzero degree, then retain
+the arbitrary central degree action. Characters on these quotients show that
 elements of G_R conjugate in G_ℂ are already conjugate in G_R.
 
 *Needs:* §5.7's centralDegreeComparison; ReductiveGroups Layers 3, 6–7;
-RepresentationTheory/CompactGroups Layers 5–7 (Peter–Weyl and character
-separation). This target constructs the complexification and extension of
-representations required by that character argument.
+RepresentationTheory/LieGroups Layer 7 / Complexification;
+RepresentationTheory/CompactGroups Layers 5–7 (Peter–Weyl and character separation).
 (Source: [WII](#ref-wii), (2.2.1)–(2.2.3) and proof of (2.2.6), pp. 192–194.)
 
 **Checks.**
@@ -2076,7 +2128,7 @@ At q=2, diag(1,2) has Newton vertices (0,0),(1,0),(2,1); passing to q=4 and diag
 
 ### Dependencies
 
-DWP.0–DWP.4, with §§5.1–5.3 preceding DWP.2 and the geometric part of §5.15 preceding §§5.5, 5.9; LefschetzPencilsAndVanishingCycles §§F.0–F.7, F.10, 0.1–0.8, 1.1–1.6, 5.1; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.1–IG.1.3; ArithmeticGaloisDuality §R02.3.2; ArithmeticGaloisRepresentations §§1.1–1.4, 5.13; ReductiveGroups Layers 2–3, 6–7, 9; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layers 0, 5–7; ArithmeticDirichletSeries Layer 8.
+DWP.0–DWP.4, with §§5.1–5.3 preceding DWP.2 and the geometric part of §5.15 preceding §§5.5, 5.9; LefschetzPencilsAndVanishingCycles §§F.0–F.7, F.10, 0.1–0.8, 1.1–1.6, 5.1; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.1–IG.1.3; ArithmeticGaloisDuality §R02.3.2; ArithmeticGaloisRepresentations §§1.1–1.6, 5.13; ReductiveGroups Layers 2–3, 6–7, 9; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layers 0, 5–7; RepresentationTheory/LieGroups Layer 7; ArithmeticDirichletSeries Layer 8.
 
 ## Layer DWP.6: Sharp curve purity by square improvement
 
@@ -2300,13 +2352,39 @@ Fix a field isomorphism ι : ℚ̄_ℓ ≅ ℂ and β ∈ ℝ. Let f : X → Y b
 
 (Sources: [WII](#ref-wii), §3, (3.3.10), p. 207.)
 
+**Affine fibration reduction for integrality** (`integrality_fibrationReduction`).
+For a nonempty separated finite-type scheme X/𝔽_q of pure dimension n>1,
+construct a dense affine open U with dim(X−U)<n and an affine morphism
+U→Y to a finite-field curve whose fibres have dimension ≤n−1.
+Choose disjoint affine neighborhoods of the generic points after removing
+component intersections. Apply affine Noether normalization on each component
+and project 𝔸ⁿ→𝔸¹; their finite disjoint union is affine and one may take
+Y=𝔸¹. Retain nonreduced structure; the dimension bounds concern the
+underlying spaces. Stratification by component dimension supplies the
+corresponding reduction for an arbitrary finite-type X in the integrality induction.
+
+*Needs:* Mathlib
+[exists_finite_inj_algHom_of_fg](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/NoetherNormalization.lean#L287)
+(finite Noether normalization for a finitely generated algebra over a field);
+SchemeAndStackFoundations §0.7 (dimensions and finite-type morphisms).
+(Source: [Int](#ref-int), Exposé XXI, proof of Théorème 5.2.2, pp. 386–387.)
+
+**Checks.**
+
+- For X=𝔸ⁿ with n>1, the first-coordinate projection has fibres 𝔸^(n−1)
+  and U=X, so the complement is empty.
+- For X=ℙⁿ, its standard affine open U=𝔸ⁿ has complement ℙ^(n−1);
+  the same projection gives the required fibre bound.
+- The constant map 𝔸ⁿ→𝔸¹ has a fibre of dimension n and fails the bound.
+  Affineness alone does not give dimension reduction.
+
 <a id="target-7-10"></a>
 
 ### 7.10. Deligne's integrality theorem (SGA 7 XXI 5.2.2)
 
 Let f : X → Y be a separated morphism of schemes of finite type over ℤ[1/ℓ] whose fibres have dimension ≤ d, and ℱ an integral sheaf on X (DWP.7/integral-sheaf). Then for every i the sheaf R^i f_!ℱ is integral, and for i ≥ d the twist R^i f_!ℱ(i − d) is integral: at every closed point y of Y, every eigenvalue α of F_y on (R^i f_!ℱ)_ȳ is an algebraic integer, and for i ≥ d the number α/N(y)^{i−d} is an algebraic integer.
 
-*Needs:* [7.2](#target-7-2), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [5.2](#target-5-2), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* integrality_fibrationReduction above, [7.2](#target-7-2), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [5.2](#target-5-2), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §3, proof of Corollaire (3.3.3), p. 205; [Int](#ref-int), Exposé XXI, §5, Lemma 5.2.1 and Théorème 5.2.2, pp. 384–387.)
 
@@ -2821,7 +2899,7 @@ On a normal finite-type 𝔽_q-scheme, a lisse sheaf punctually pure of real wei
 
 ### 8.20. Sheaves and complexes potentially having a property P
 
-For an isomorphism-invariant property P of finite-field sheaves or complexes, potentially P on X/k requires an explicit model: integral S of finite type over ℤ[1/ℓ], a point Spec k→S, finite-type X_S, a sheaf or bounded constructible complex on X_S, and an identification of its fibre with the given object. Every closed fibre over S must satisfy P. The field k is algebraically closed with ℓ invertible. For complex purity, duality is relative to the finite residue field. The API transports these witnesses and states the extra stability and common-refinement hypotheses for sums, pullbacks and field extensions.
+Let X be a separated scheme of finite type over an algebraically closed field k with ℓ invertible in k. These hypotheses apply to the API and Checks below. For an isomorphism-invariant property P of finite-field sheaves or complexes, potentially P on X/k requires an explicit model: integral S of finite type over ℤ[1/ℓ], a point Spec k→S, finite-type X_S, a sheaf or bounded constructible complex on X_S, and an identification of its fibre with the given object. Every closed fibre over S must satisfy P. For complex purity, duality is relative to the finite residue field. The API transports these witnesses and states the extra stability and common-refinement hypotheses for sums, pullbacks and field extensions.
 
 Require P invariant under isomorphism. Finite-sum and base-extension stability are hypotheses of the corresponding operations, together with the stated witness/refinement conditions.
 
@@ -2851,6 +2929,8 @@ Its API includes:
 
 - `potentially_zero`: The zero sheaf is potentially P for every P satisfied by zero sheaves: choose a finite-type model of X and the zero sheaf on the entire model. For X=Spec ℚ̄ and S=Spec ℤ[1/ℓ], the sheaf i_(p)*ℚ̄_ℓ with p≠ℓ has
   zero ℚ̄-fibre and nonzero p-fibre; that model does not witness P=(being zero).
+
+- Spec ℂ(t) is separated and Noetherian but not of finite type over ℂ. It cannot be a fibre of a finite-type arithmetic model, since finite type is preserved by base change; it is outside the zero-sheaf assertion's hypotheses.
 
 *Needs:* [8.2](#target-8-2), [8.1](#target-8-1), [7.1](#target-7-1), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8).
 
