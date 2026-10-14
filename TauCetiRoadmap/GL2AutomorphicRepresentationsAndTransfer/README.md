@@ -1,6 +1,6 @@
 # Roadmap: GL₂ automorphic representations and transfer
 
-**Summary.** This roadmap builds the rank-two local and adelic representation theory that connects classical modular forms to automorphic transfer and residual modularity: last-row newvectors and their conductors, Whittaker functions and local factors, the classical and Hilbert weight comparisons, quaternionic Jacquet–Langlands, cyclic and solvable base change, non-normal cubic transfer, solvable Artin automorphy, and the characteristic-two modularity theorems. It extends [ModularForms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md) to local/adelic GL₂, newvectors, Whittaker models, Jacquet–Langlands, base change, induction and Artin/residual modularity.
+**Summary.** This roadmap builds the rank-two local and adelic representation theory that connects classical modular forms to automorphic transfer and residual modularity: last-row level and conductor comparisons using supplied newvectors, Whittaker functions and local factors, the classical and Hilbert weight comparisons, quaternionic Jacquet–Langlands, cyclic and solvable base change, non-normal cubic transfer, solvable Artin automorphy, and the characteristic-two modularity theorems. It extends [ModularForms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md) to local/adelic GL₂, newvectors, Whittaker models, Jacquet–Langlands, base change, induction and Artin/residual modularity.
 
 The definitive specification is this README. [`Suggested.lean`](Suggested.lean) records suggested
 forms of light definitions and milestones over the pinned library carriers; it is not an exhaustive
@@ -11,8 +11,8 @@ or modular cohomology are targets here, with their intended inputs and outputs, 
 
 This roadmap owns the GL₂ comparisons in layers R16.1–R16.6 and R17.1–R17.6 below. It builds the
 arithmetic character prescription, the specific rank-two trace identities, the strong transfer
-maps, the Artin and classical attachments used by residual modularity, and their local conductor
-comparisons. It uses existing matrix groups, representation modules, fixed submodules, newforms,
+maps, solvable Artin automorphy and residual modularity, and local conductor comparisons
+for the supplied classical attachments. It uses existing matrix groups, representation modules, fixed submodules, newforms,
 symmetric powers, coefficient twists, idele classes and quaternion algebras.
 
 ModularForms, Layers 0–4, 7, 8, 8G and 8W, owns classical Hecke operators, old/new spaces,
@@ -35,7 +35,8 @@ needed for the adjoint lift.
 ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
 Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
 powers/adjoints. AlgebraicModularFormsAndSerreWeights, R15.1–R15.6, owns geometric forms,
-Hasse invariants, integral Hecke theory and eigenvalue lifting. The geometry exports give specified automorphic representations, coefficient modules and split-place
+Hasse invariants, integral Hecke theory, eigenvalue lifting and the classical rank-two
+cohomological summand and Galois attachments of R15.5A.1–R15.5A.3. The geometry exports give specified automorphic representations, coefficient modules and split-place
 Hecke actions. A geometric realization, an extension with prescribed completions, and a compatible
 system are explicit inputs wherever used. The transfer interfaces construct their indicated
 restrictions and descents from those data.
@@ -166,15 +167,19 @@ AutomorphicLFunctionsAndLocalFactors, AL.0 `local-schwartz-bruhat-space` and
 `adelic-schwartz-bruhat-space`, supplies Fourier theory. AL.1 `hecke-l-functional-equation`
 and `canonical-archimedean-factor`, AL.2 standard factors and `archimedean-standard-epsilon`,
 and AL.4 `local-parameter-comparison` fix local and global factor conventions.
+AL.2 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors)
+supplies the least last-row level, minimal fixed lines, Whittaker normalization and essential
+spherical-twist tests used in R16.2–R16.6.
 AL.3 `gln-fourier-expansion`, `global-whittaker-factorization`, `global-multiplicity-one`,
 `strong-multiplicity-one`, `isobaric-strong-multiplicity-one`, `rs-global-poles`,
-`rs-boundary-nonvanishing`, `rs-global-functional-equation`, `rs-vertical-strip-bounds`,
+`rs-boundary-nonvanishing`, `rs-global-functional-equation`,
 `rs-local-convergence` and `rs-local-factor` are consumed with the hypotheses stated below.
 AL.3 `gln-converse-full-rank` at n=2 needs every GL₁ quasicharacter twist. Its
 `gln-converse-reduced-rank` at n=3 supplies the GL₃ input; an omitted finite set gives only an
 outside-set match. The highly ramified family is obtained by the R17.4 fill-and-twist deduction.
 
-AutomorphicSpectralTheory, §6.9 orbital integrals and Layers 0, 2, 4, 6, supplies trace class,
+AutomorphicSpectralTheory, §3.6a `rs-vertical-strip-bounds`, §6.9 orbital integrals and
+Layers 0, 2, 4, 6, supplies Rankin–Selberg strip bounds, trace class,
 Eisenstein/intertwining analytic extension, spectral completeness, truncation, compact trace formula
 and Euler–Poincaré functions. The finite-place LLC and its factor comparison are constructed
 in R16.0/local-langlands. R17.1 constructs quaternionic transfer, R17.2/quaternionic-orbital-matching
@@ -187,6 +192,7 @@ parameters, lattices, classification, recognition and adjoints. Its arithmetic F
 is compared with the geometric convention here through the stated dual and twist.
 AlgebraicModularFormsAndSerreWeights, R15.1–R15.3, R15.5
 `deligne-serre-eigenvalue-lifting-lemma` and `reduction-to-weight-at-least-two-and-to-a-true-eigenform`,
+R15.5A.1–R15.5A.3 classical cohomology and Galois attachments,
 and R15.6 `residual-modularity-witness`, supplies the geometric residual-form interface.
 
 GlobalNumberFields, Layers 2, 7–10, supplies moduli, ray subgroups, finite ray quotients and
@@ -201,16 +207,18 @@ ArithmeticGaloisRepresentations §7.6 supplies idelic torsion-character extensio
 lifting obstruction and Tate vanishing with trivial discrete Q/Z coefficients. NumberFieldArithmetic, Layer 5, LocalFieldsRamification, Layer 1,
 and Chebotarev, Layer 10, supply completions/valuations, Hensel lifting and inert primes.
 
-For classical attachments, ModularCurves, Layers 5 and 10, supplies the universal elliptic curve
-and compactification. ClassicalAdicEtaleCohomology, §§0.6, 0.8, 0.11 and Layers 8–9,
-supplies constructible cohomology, proper traces and duality; ComplexComparisonPartII, §§C6.3–C6.6, supplies finite and adic Artin comparison;
-LefschetzPencilsAndVanishingCycles, §§F.0–F.5 and F.9, supplies finite constructible coefficients,
-normalized adic realization, duality and their complex comparison. These contracts supply the
-equivariant comparison on the modular-curve coefficient systems. AlgebraicCurves, Layer 12E, and JacobianChallenge, Layers A–B, supply coherent curve cohomology
-and Serre duality. R17.6/classical-parabolic-realization constructs the coefficient de Rham
-complex, logarithmic parabolic realization and Hodge sequence used here. LefschetzPencilsAndVanishingCycles, LPV.0 and LPV.2, supplies nearby cycles, variation
-and Picard–Lefschetz, retaining the monodromy map. The primitive projector, parabolic realization
-and ramified comparison are built in R17.6; none of these suppliers alone identifies that rank-two multiplicity.
+AlgebraicModularFormsAndSerreWeights R15.5A.1 supplies the classical primitive rank-two
+parabolic summand, its coefficient de Rham realization, Hodge sequence and Hecke projector;
+R15.5A.2–R15.5A.3 supplies the higher-weight λ-adic and weight-one Artin attachments.
+R17.6.1 identifies the supplied primitive summand with its adelic Hom in the tower.
+EtaleCohomologyFoundations §§0.6, 0.8, 0.11 and F.0–F.6 supplies scheme constructible
+cohomology, compact support, traces and duality; ClassicalAdicEtaleCohomology Layers 8–9
+supplies the adic coefficient operations used in R17.6.3a–R17.6.3b.
+ComplexComparisonPartII §§C6.3–C6.6 supplies equivariant finite- and adic-coefficient
+Artin comparison. LefschetzPencilsAndVanishingCycles LPV.0 and LPV.2 supplies nearby
+cycles, variation and Picard–Lefschetz, retaining the monodromy map. R17.6.3a–R17.6.4
+constructs the proper-curve correspondence trace, contracting local terms and ramified
+conductor comparison.
 
 Related integral GL₂ level conventions are described in the
 [FLT local-level discussion](https://leanprover-community.github.io/archive/stream/416277-FLT/topic/Rolling.20update.html).
@@ -231,8 +239,8 @@ GL₃ applications next. In R17.5 build the global Weil carrier, finite primitiv
 strong solvable Artin theorem using these weak transfers. Then prove R17.4/local-compatibility,
 including extraordinary components, and strengthen prime-cyclic and solvable transfer to all-place
 WD restriction. The cubic converse construction fixes its components through local LLC and uses
-no extraordinary cyclic comparison. R17.6 constructs the de Rham/parabolic and correspondence
-trace inputs before conductor comparison, and determinant-untwist before solvable-dihedral.
+no extraordinary cyclic comparison. R17.6 compares the supplied classical parabolic summand with the adelic tower and constructs
+the correspondence trace inputs before conductor comparison, and determinant-untwist before solvable-dihedral.
 Katz coprime-level descent precedes unramified-katz. The layer numbers group mathematics; this
 order determines which inputs are available to each proof.
 
@@ -249,7 +257,8 @@ and reciprocity by geometric Frobenius. The correspondence matches determinants,
 character twists and all character-twisted standard L/ε-factors with the self-dual measure.
 It includes one-dimensional nongeneric quotients and primitive dyadic supercuspidals. Construct
 its inverse and prove uniqueness from twisted factors on generic classes. R16.2–R16.3 gives
-explicit newvector and conductor comparisons on this interface.
+explicit conductor comparisons on this interface using AutomorphicLFunctionsAndLocalFactors
+AL.2 GL₂ newvectors.
 
 For n=3 construct the local parameter classes needed by the adjoint and cubic inductions,
 using the GL₃ correspondence: sums of Weil characters, induced rank-three Weil parameters,
@@ -474,74 +483,11 @@ flag-function quotient for an unramified character has conductor one; a characte
 
 *Source:* [casselman73], p. 305, principal/special classification.
 
-<a id="r16-2-newvector-level-exists"></a>
-
-### R16.2.2 Existence of a nonzero newvector level
-
-For an irreducible admissible infinite-dimensional complex smooth representation π of GL₂(F), with F a nonarchimedean local field of characteristic zero, there is n≥0 and a nonzero vector fixed by the last-row K₁(pⁿ). This assertion neither uses a conductor exponent nor asserts the dimension formula; it supplies the nonempty level set before its minimum is defined.
-
-Use Mathlib's `IsNonarchimedeanLocalField`, its valuation ring and maximal ideal, and `Representation.invariants` for the embedded subgroup. Smoothness means every vector stabilizer is open; admissibility means the invariant subspace of every compact open subgroup is finite-dimensional. Irreducibility is Mathlib's `Representation.IsIrreducible`. These conditions specialize the SmoothRepresentationsOfLocalGroups SR.3 theory without introducing replacement representation or local-field carriers.
-
-*Needs:* R16.1/k1; R16.2/local-classification; Mathlib `Representation.invariants`; SmoothRepresentationsOfLocalGroups SR.3; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals.
-
-*Source:* [casselman73], §1 Theorem 1, p. 302; its proof and subgroup decomposition, pp. 303–306.
-
-<a id="r16-2-newvector-conductor"></a>
-
-### R16.2.3 The newvector conductor exponent
-
-For irreducible admissible infinite-dimensional π of GL₂(F), c(π) is the least n≥0 for which π^{K₁(pⁿ)} is nonzero. Define the ideal conductor p^{c(π)}. The same least-level construction is available for an existing representation with an explicit nonempty level set. Existence for the stated π is the preceding newvectorLevelExists theorem, not a field stored in a replacement representation. This specializes fixed vectors.
-
-π generic, equivalently infinite-dimensional irreducible in characteristic zero; O,p and K₁ fixed.
-
-Prove the following API.
-- `conductor_min`: π^{K₁(p^{c(π)})}≠0 and π^{K₁(pⁿ)}=0 for n<c(π).
-- `conductor_iso`: Isomorphic local representations have equal conductor exponent.
-- `conductor_unramified_twist`: An unramified χ has c(π⊗χdet)=c(π), since χdet is trivial on GL₂(O).
-
-**Checks.**
-- An irreducible unramified generic principal series has conductor zero.
-- An unramified Steinberg twist has conductor one.
-- For χ of conductor a≥2, c(St⊗χdet)=2a≠1+a. At a=1 both formulas give2, so that case alone would not detect the incorrect rule.
-
-*Needs:* R16.1/k1; R16.2/local-classification; Mathlib `Representation`; Mathlib `Representation.invariants`; SmoothRepresentationsOfLocalGroups SR.3; R16.2/newvector-level-exists.
-
-*Source:* [casselman73], Theorem 1 p. 302 and epsilon remark p. 307.
-
-<a id="r16-2-casselman-newvector"></a>
-
-### R16.2.4 Casselman’s newvector theorem
-
-For π as above and every n≥0, dimℂ π^{K₁(pⁿ)}=max(0,n−c(π)+1). The minimal fixed space is a line. In the lower-last-row convention it is the ωπ(d)-isotypic line for K₀(p^{c(π)}), with ωπ the central character, when c>0; at c=0 it is the spherical line. With ψ trivial on O but nontrivial on ϖ⁻¹O, Whittaker evaluation W↦W(1) is nonzero on this line. Casselman’s printed top-left central-character convention is transported through the dual/twist convention; it is not silently identified with the lower-last-row subgroup. The theorem has no odd-residue-characteristic restriction.
-
-*Needs:* R16.2/newvector-conductor; R16.2/local-classification; R16.1/k0; R16.1/k1; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals; AutomorphicLFunctionsAndLocalFactors AL.2.
-
-*Source:* [casselman73], Theorem 1, p. 302; Corollary to the Proof, p. 306; Kirillov construction in the proof, pp. 303–306.
-
-<a id="r16-2-normalized-newvector"></a>
-
-### R16.2.5 The normalized Whittaker newvector
-
-For generic irreducible π and the chosen conductor-O ψ, take the unique K₁(p^{c(π)})-fixed vector in the Whittaker model of SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals with W(1)=1. Equivalently, in the existing fixed line and its Whittaker functional λ, choose the unique v with λ(v)=1. No arbitrary vector is made canonical before fixing ψ and λ. For an unramified determinant twist χ, Wχ(g)=χ(det g)W(g) under the corresponding Whittaker identification.
-
-The intended signature is `normalizedNewvector (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
-(hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) : L`, with evaluation one and uniqueness as below.
-The fixed line is one-dimensional and λ restricts nontrivially; the Whittaker model and functional are supplied by SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals.
-
-Prove the following API.
-- `normalizedNewvector_fixed`: vnew is fixed by K₁(p^{c(π)}).
-- `normalizedNewvector_eval`: λ(vnew)=1.
-- `normalizedNewvector_unique`: Every fixed v with λ(v)=1 equals vnew.
-- `normalizedNewvector_twist`: An unramified twist identifies Wnew with χ(det g)Wnew(g).
-
-**Checks.**
-- For V=ℂ and λ(z)=2z the normalized vector is 1/2.
-- Replacing λ by aλ with a≠0 changes vnew to a⁻¹vnew.
-- The zero functional admits no vector of value one; it fails the input hypothesis.
-
-*Needs:* R16.2/casselman-newvector; Mathlib `Representation.invariants`; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals.
-
-*Source:* [jl70], §11 following Proposition 11.1.1, p. 183; normalize the spherical local function at e.
+AutomorphicLFunctionsAndLocalFactors AL.2 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors)
+supplies existence of a nonzero last-row fixed level, its least conductor exponent,
+Casselman’s dimension formula and minimal K₀-character line, value-one Whittaker normalization,
+and the essential-vector restriction and GL₂×GL₁ spherical-twist test. Use its K₀ and K₁
+conventions through the subgroup comparisons of R16.1.
 
 <a id="r16-2-spherical-whittaker-values"></a>
 
@@ -560,7 +506,7 @@ Prove the following API.
 - h₂=α²+αβ+β².
 - h₂(1,1)=3, not an undefined quotient.
 
-*Needs:* R16.2/normalized-newvector; SmoothRepresentationsOfLocalGroups SR.4; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; SmoothRepresentationsOfLocalGroups SR.4; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals.
 
 *Source:* [jl70], §3, Proposition 3.5 and proof, pp. 52–54. Expand the two unramified Euler factors in the normalized Mellin transform L(s,χ₁)L(s,χ₂), with W(1)=1; coefficient comparison gives the values and recurrence.
 
@@ -576,7 +522,7 @@ Choose residue representatives A⊂O; set gₐ=(ϖ a;0 1). Then U=∑ₐπ(gₐ)
 
 **Checks.** For (2 1;−1 0), U−1 is nonzero and square-zero, testing repeated roots. The matrix (5 6;−1 0) satisfies X²−5X+6, and fails X²−5X+3. For unramified χdet on ℂ both invariant spaces are the whole line, of dimension one, even when χ≠1 (`iwahoriDeterminantCharacter`). Thus “not trivial” cannot replace infinite dimensionality.
 
-*Needs:* R16.2/casselman-newvector; R16.2/spherical-whittaker-values; SmoothRepresentationsOfLocalGroups SR.1; SmoothRepresentationsOfLocalGroups SR.4; Mathlib `Representation.invariants`.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/spherical-whittaker-values; SmoothRepresentationsOfLocalGroups SR.1; SmoothRepresentationsOfLocalGroups SR.4; Mathlib `Representation.invariants`.
 
 *Source:* [cg20], §1.3, pp. 805–806; [casselman73], Corollary to the Proof, p. 306.
 
@@ -701,7 +647,7 @@ For π=St⊗χdet, choose a basis e₁,e₂ of the existing rank-two parameter w
 
 Geometric Frobenius convention; choose the positive real square root of q for unitary normalization.
 
-*Needs:* R16.3/principal-series-parameter; R16.2/casselman-newvector; R16.0/local-langlands; ArithmeticGaloisRepresentations §2.4; ArithmeticGaloisRepresentations §3.3; AutomorphicLFunctionsAndLocalFactors AL.2.
+*Needs:* R16.3/principal-series-parameter; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.0/local-langlands; ArithmeticGaloisRepresentations §2.4; ArithmeticGaloisRepresentations §3.3; AutomorphicLFunctionsAndLocalFactors AL.2.
 
 *Source:* [casselman73], p. 307 epsilon remark and special-representation calculation.
 
@@ -741,7 +687,7 @@ For every generic irreducible π, c(π)=a(rec π), with the same value for rec�
 
 Use normalized AutomorphicLFunctionsAndLocalFactors AL.2 epsilon factors, not an unnormalized Fourier measure; π generic and characteristic zero.
 
-*Needs:* R16.2/newvector-conductor; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.3/tate-unitary-normalization; ArithmeticGaloisRepresentations §3.3; AutomorphicLFunctionsAndLocalFactors AL.1; AutomorphicLFunctionsAndLocalFactors AL.2.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.3/tate-unitary-normalization; ArithmeticGaloisRepresentations §3.3; AutomorphicLFunctionsAndLocalFactors AL.1; AutomorphicLFunctionsAndLocalFactors AL.2.
 
 *Source:* [casselman73], p. 307 remark following the Corollary to the Proof.
 
@@ -822,7 +768,7 @@ For unitary central character ω trivial on F×, the smooth K∞-finite cuspidal
 
 F number field; central character unitary for L²; admissible local factors and ArithmeticLocallySymmetricSpaces ALS.F.6 distinguished-vector data.
 
-*Needs:* R16.1/finite-level-comparison; R16.2/normalized-newvector; AutomorphicSpectralTheory §0.50/restricted_tensor_factorization; AutomorphicSpectralTheory AS.4; R16.1/haar-quotient-comparison (central-character L²); AutomorphicLFunctionsAndLocalFactors AL.3/global-whittaker-factorization.
+*Needs:* R16.1/finite-level-comparison; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; AutomorphicSpectralTheory §0.50/restricted_tensor_factorization; AutomorphicSpectralTheory AS.4; R16.1/haar-quotient-comparison (central-character L²); AutomorphicLFunctionsAndLocalFactors AL.3/global-whittaker-factorization.
 
 *Source:* [jl70], §11 product formula (11.1.2), p. 183.
 
@@ -917,7 +863,7 @@ For factorizable cusp φ and Wφ=⊗vWv, the integral ∫_{F×\𝔸×}φ(diag(a,
 
 Cuspidal φ, Hecke character χ; factorizable measures with standard unit volume at almost all finite places; absolute convergence first.
 
-*Needs:* R16.4/global-whittaker-expansion; R16.2/spherical-whittaker-values; R16.2/normalized-newvector; AutomorphicLFunctionsAndLocalFactors AL.0/adelic-schwartz-bruhat-space; AutomorphicLFunctionsAndLocalFactors AL.1; AutomorphicLFunctionsAndLocalFactors AL.2; AutomorphicLFunctionsAndLocalFactors AL.3.
+*Needs:* R16.4/global-whittaker-expansion; R16.2/spherical-whittaker-values; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; AutomorphicLFunctionsAndLocalFactors AL.0/adelic-schwartz-bruhat-space; AutomorphicLFunctionsAndLocalFactors AL.1; AutomorphicLFunctionsAndLocalFactors AL.2; AutomorphicLFunctionsAndLocalFactors AL.3.
 
 *Source:* [jl70], Theorem11.1 p.180; formula (11.1.2) and its Euler product, pp.183–184; Lemma11.1.3 p.184.
 
@@ -988,7 +934,7 @@ Prove the following API.
 - A primitive form of level M properly dividing N is not primitive of conductor N after the oldform inclusion.
 - For a normalized eigenform with a₁=1, multiplying by a scalar c≠1 changes a₁ to c and fails normalization. Every nonzero c yields the same primitive class after renormalization; c=0 is excluded from the eigenform carrier.
 
-*Needs:* R16.2/casselman-newvector; R16.2/normalized-newvector; R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.4/strong-multiplicity-one; R16.1/finite-level-comparison; ModularForms Layer 4; Tau Ceti `HeckeRing.GL2.Newform`; Tau Ceti `HeckeRing.GL2.Newform.qExpansion_coeff_one`.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.4/strong-multiplicity-one; R16.1/finite-level-comparison; ModularForms Layer 4; Tau Ceti `HeckeRing.GL2.Newform`; Tau Ceti `HeckeRing.GL2.Newform.qExpansion_coeff_one`.
 
 *Source:* [jl70], §11, Proposition 11.1.1 p. 183; §5, Theorem 5.11 pp. 85–86. Use the R16.1/finite-level-comparison holomorphic dictionary.
 
@@ -1045,7 +991,7 @@ Export the exact local conductor dimensions, normalized Whittaker line, primitiv
 
 Consumer coefficient field, local level and infinite type fixed; geometric statements imported from their owners.
 
-*Needs:* R16.2/casselman-newvector; R16.4/global-multiplicity-one; R16.4/cohomological-rationality; R16.6/primitive-classical-bijection; R16.6/hilbert-algebraic-weights; R16.6/weight-k-parameter-conversion.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.4/global-multiplicity-one; R16.4/cohomological-rationality; R16.6/primitive-classical-bijection; R16.6/hilbert-algebraic-weights; R16.6/weight-k-parameter-conversion.
 
 *Source:* [cdn20], §5.2.1 pp. 347–348, archimedean weight two.
 
@@ -1057,7 +1003,7 @@ For N>0 and odd nebentypus χ, the existing primitive normalized weight-one cusp
 
 N>0; χ(−1)=−1; existing primitive newform carrier with k=1 and exact conductor; chosen AutomorphicSpectralTheory §§0.48–0.49 limit globalization and R16.1/finite-level-comparison dictionary.
 
-*Needs:* R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.1/finite-level-comparison; AutomorphicSpectralTheory §§0.48–0.49; AutomorphicLFunctionsAndLocalFactors AL.1; ModularForms Layer 4; R16.2/casselman-newvector; R16.2/normalized-newvector.
+*Needs:* R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.1/finite-level-comparison; AutomorphicSpectralTheory §§0.48–0.49; AutomorphicLFunctionsAndLocalFactors AL.1; ModularForms Layer 4; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors.
 
 *Source:* [getz15], §6.4 Lemma 6.19, p. 33, with the AutomorphicSpectralTheory §§0.48–0.49 normalization; §6.5 limit module, p. 34.
 
@@ -1742,12 +1688,12 @@ Its API is `nonnormalCubicInduction_local`, `_standard` (Λ_F(s,AI^3 θ)=Λ_K(s,
 
 For unitary θ, WD tensor-induction and R16.0/local-langlands/AutomorphicLFunctionsAndLocalFactors AL.4 pair compatibility identify Λ_K(s,Π⊗θ) with Λ_F(s,π×AI^3 θ), also for the duals. At v, ε(s,π_v×AI^3 θ_v,ψ_v)=λ(K⊗F_v/F_v,ψ_v)^2∏_{w|v}ε(s,Π_w⊗θ_w,ψ_v∘Tr). Keep this factor locally; its global product is1. Apply dimension-zero induction and the global product formula to Ind1, comparing ζ_K with ζ_F. Deligne's WD invariant-kernel formula extends the local comparison to N≠0.
 
-If AI^3 θ is cuspidal, AutomorphicLFunctionsAndLocalFactors AL.3's unequal-rank theorem gives entireness, strip bounds and the functional equation. In the norm case use Λ(s,π⊗μ)Λ(s,π×μσ₀); the first is entire and the second has no poles unless π is a norm twist of σ₀. AutomorphicLFunctionsAndLocalFactors AL.3/rs-vertical-strip-bounds controls both factors. Norm shifts treat every quasicharacter θ. Outside the exception all twists and duals are nice. Apply AutomorphicLFunctionsAndLocalFactors AL.3/gln-converse-full-rank at n=2 with no omitted places: it gives a cusp with every prescribed component. For π=σ₀⊗ν, restrict Std(S₃) to Gal(L/K)≅C₂ and construct the displayed two-character isobaric output directly. Isobaric strong multiplicity one gives uniqueness; restriction gives twist and centre. The construction fixes every bad component before applying the converse.
+If AI^3 θ is cuspidal, AutomorphicLFunctionsAndLocalFactors AL.3's unequal-rank theorem gives entireness and the functional equation; AutomorphicSpectralTheory §3.6a supplies the strip bounds. In the norm case use Λ(s,π⊗μ)Λ(s,π×μσ₀); the first is entire and the second has no poles unless π is a norm twist of σ₀. AutomorphicSpectralTheory §3.6a/rs-vertical-strip-bounds controls both factors. Norm shifts treat every quasicharacter θ. Outside the exception all twists and duals are nice. Apply AutomorphicLFunctionsAndLocalFactors AL.3/gln-converse-full-rank at n=2 with no omitted places: it gives a cusp with every prescribed component. For π=σ₀⊗ν, restrict Std(S₃) to Gal(L/K)≅C₂ and construct the displayed two-character isobaric output directly. Isobaric strong multiplicity one gives uniqueness; restriction gives twist and centre. The construction fixes every bad component before applying the converse.
 
 Subsidiary norm-phase calculation (`pureCubicMatrix`, `pureCubicNorm`, `pureCubicQuadratic`, `pureCubicNorm_formula`, `pureCubicQuadratic_formula`, `pureCubicPhase_positive`, `pureCubicPhase_negative`): For K=ℚ[t]/(t³−2), multiplication by a+bt+ct² in (1,t,t²) has matrix M=(a,2c,2b;b,a,2c;c,b,a). Define N=det M and Q=((tr M)²−tr(M²))/2. API: N=a³+2b³+4c³−6abc; Q=3a²−6bc; N(C+a,b,c)−3(C+a)=−2C+CQ(a,b,c)+N(a,b,c) for C=±1. Gram determinant: −27=disc(t³−2)/4. Checks: M(0,1,0)³=2I and M(1,0,0)=I; the (3,2) entry of M(a,b,c) is b, not 2b; N(0,1,0)=2, N(0,0,1)=4, N(1,1,1)=1; Q(1,1,1)=−3, Q(0,1,0)=0, Q(1,0,0)=3. Over ℚ₂ the discriminant has square class −3; its unit residue 5 has no square root modulo 8. The discriminant need not be square; the critical quadratic terms are opposite. Stationary phase is separate.
 
 
-*Needs:* R16.2/local-classification; R16.3–4; R16.5/full-gl2-converse; R17.4/quadratic-induction; R16.0/local-langlands; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicLFunctionsAndLocalFactors AL.1/hecke-l-functional-equation; AutomorphicLFunctionsAndLocalFactors AL.3/rs-global-poles, rs-global-functional-equation, rs-vertical-strip-bounds, gln-converse-full-rank, isobaric-strong-multiplicity-one; AutomorphicLFunctionsAndLocalFactors AL.4/local-parameter-comparison; ArithmeticGaloisRepresentations §§2.4–2.7; ClassFieldTheory Layers9,11. Use these parameter/factor carriers for tensor-induction and the lambda comparison.
+*Needs:* R16.2/local-classification; R16.3–4; R16.5/full-gl2-converse; R17.4/quadratic-induction; R16.0/local-langlands; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicLFunctionsAndLocalFactors AL.1/hecke-l-functional-equation; AutomorphicLFunctionsAndLocalFactors AL.3/rs-global-poles, rs-global-functional-equation, gln-converse-full-rank, isobaric-strong-multiplicity-one; AutomorphicLFunctionsAndLocalFactors AL.4/local-parameter-comparison; AutomorphicSpectralTheory §3.6a/rs-vertical-strip-bounds; ArithmeticGaloisRepresentations §§2.4–2.7; ClassFieldTheory Layers9,11. Use these parameter/factor carriers for tensor-induction and the lambda comparison.
 
 *Source:* [jpss79], Theorem14.2 pp.253–254 and monomial remark p.255; [henniart83], Theorem2.10 pp.20–21, Proposition3.2 p.30, §3.5 pp.33–34; [henniart02], Theorem1.5 p.590 and §2 pp.592–596; [deligne73], Proposition3.8 pp.530–531, Theorem4.1 p.535, (5.6.2) p.549, §5.11 p.551, §8.12 p.572; [converse], Theorem3.1 p.6 and Theorem3.3 p.9, application(iv) p.10; [cogdell-fields], Lecture9 §§3–6 pp.71–74. The construction is a deduction from these inputs. [mr00], Theorems1,6 pp.172,195 gives a different weak trace route; §4 pp.185–186 supplies the norm-phase calculation. [carayol86], §12.2.1–3 pp.457–458 states the conductor-comparison interface.
 
@@ -2014,64 +1960,40 @@ R16.1–R16.6; R17.4; ArithmeticGaloisRepresentations Layers 1–5; GlobalNumber
 
 ## Layer R17.6: Characteristic two and residual modularity
 
-### R17.6.1 The classical rank-two cohomological summand
+<a id="r17-6-adelic-parabolic-realization"></a>
 
-For integer weight k≥2 and neat full level m≥3 prime to ℓ, set V_k=Sym^(k−2)R¹h_*ℚ_ℓ for the universal elliptic curve h:E→Y(m), and H¹_par=image(H¹_c→H¹). Transport coefficients through level changes and Hecke pullback/trace. Equivariant Betti–étale comparison gives S_k⊕overline(S_k), with character components. Extract Hom_{GL₂(𝔸_f)}(π_f,H¹_par) in the tower, or the exact-level newvector projector: its dimension is two, one holomorphic and one antiholomorphic contribution. Larger-level oldvectors do not enlarge this multiplicity.
+### R17.6.1 Adelic comparison of the classical rank-two summand
 
-Use AlgebraicModularFormsAndSerreWeights R15.1/target-integral-elliptic-logarithmic-de-rham-extension for H¹_dR(E/Y), its connection, Hodge sequence and logarithmic lattice. Construct its characteristic-zero symmetric coefficient bundle E_k=Sym^(k−2)H¹_dR(E/Y) with the induced connection and logarithmic extension at the cusp divisor D.
-Its coefficient complex is [E_k→E_k⊗Ω¹_X(log D)]. Construct compact-support and middle
-(parabolic) realizations, with parabolic hypercohomology the image of compact-support into
-ordinary hypercohomology. Prove comparison with the image of Betti H¹_c→H¹ for the same
-local system, and hence with the supplied étale comparison. All maps commute with coefficient
-extension and the Hecke pullback/trace correspondences. For the trivial coefficient on a smooth
-proper characteristic-zero curve construct the Hodge sequence
-0→H⁰(Ω¹)→H¹_dR→H¹(O)→0. For E_k construct the induced parabolic filtration: the differential
-map identifies its holomorphic piece with S_k, and the coefficient pairing and Serre duality
-identify the quotient with the dual cusp piece for the contragredient coefficients. Over ℂ
-this is the holomorphic and antiholomorphic Eichler–Shimura decomposition. Carry k≥2 through
-all coefficient complexes and comparisons.
+For integer weight k≥2, a normalized cuspidal primitive classical eigenform f and its
+adelic representation π, identify the primitive rank-two summand of
+AlgebraicModularFormsAndSerreWeights R15.5A.1 with
+Hom_{GL₂(𝔸_f)}(π_f,H¹_par) in the modular-curve tower, over the specified coefficient
+completion. Use its coefficient system V_k=Sym^(k−2)R¹h_*ℚ_ℓ and the image
+H¹_par=image(H¹_c→H¹), with the holomorphic and antiholomorphic contributions supplied
+by the classical comparison. Construct the adelic Hom identification through the finite-level
+and holomorphic dictionaries of R16.4 and R16.6. At exact level the automorphic newvector
+projector recovers the primitive summand; at larger levels distinguish the dimension of
+π_f's oldvector invariants from its rank-two cohomological multiplicity.
 
-Proof: The coefficient de Rham resolution maps cusp forms to vector-valued differentials. Hodge filtration and Serre duality identify their holomorphic and conjugate subspaces with all H¹_par (Deligne2.10); taking the image H¹_c→H¹ removes the boundary. Equivariant Betti–étale comparison transports Hecke correspondences. Multiplicity one and old/new decomposition extract the primitive rank-two multiplicity. Compact quaternionic H¹ is a different carrier.
+Prove compatibility with coefficient extension, Galois and Hecke actions, and level
+pullback/trace. The adelic multiplicity is independent of the auxiliary neat full level;
+pullback is adjoint to trace under the supplied coefficient pairing.
 
-The API includes Parabolic realization commutes with extension of coefficient fields; the Hecke projector commutes with Galois and level maps; the primitive multiplicity has dimension two independent of the auxiliary full level; pullback is adjoint to trace under the coefficient pairing.
+**Checks.** For k=2 the comparison identifies the constant-coefficient Jacobian realization;
+for the weight-twelve level-one cusp form the adelic multiplicity is two despite larger-level
+oldvector spaces; an Eisenstein boundary class has zero cuspidal projection; k=1 is excluded
+from the prescribed symmetric coefficient system.
 
-**Checks.** For k=2 the coefficient is constant and H¹_par is the Jacobian realization; for the weight-twelve level-one cusp form the multiplicity is two despite a larger full-level cohomology space; an Eisenstein boundary class maps to zero in the cuspidal projector; k=1 is excluded because the prescribed symmetric power would have exponent −1.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1
+[classical rank-two cohomological summand](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-parabolic-realization);
+R16.4; R16.6; AutomorphicLFunctionsAndLocalFactors AL.2
+[GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors).
 
-*Needs:* AlgebraicModularFormsAndSerreWeights R15.1/target-integral-elliptic-logarithmic-de-rham-extension; ModularCurves Layers 5 and 10 for universal elliptic curves and compactification; ClassicalAdicEtaleCohomology §§0.6, 0.8, 0.11 and Layers 8–9 for cohomology and duality; ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.0–F.5 and F.9 for equivariant finite- and adic-coefficient Artin comparison; AlgebraicCurves Layer 12E and JacobianChallenge Layers A–B for coherent curve cohomology and Serre duality; R16.4; ModularForms Layers 4 and 8G; Tau Ceti `TauCeti.symPowerRep`. The parabolic coefficient realization and primitive projector are the specialization built here.
-
-*Source:* [deligne69], §§1–2, Theorem 2.10, pp.141–148; Definition 3.9 and (3.10)–(3.12), pp.153–154; Propositions 3.18–19 and pairing (3.20), pp.158–159.
-
-### R17.6.2 Classical eigenforms of weight at least two
-
-For a nonzero holomorphic eigenform f of weight k≥2, level N and character ε, a coefficient number field K containing a_p and ε(p), and λ|ℓ, construct a continuous semisimple ρ_{f,λ}:G_ℚ→GL₂(K_λ), unramified outside Nℓ, with arithmetic Frobenius polynomial X²−a_pX+ε(p)p^(k−1) at p∤Nℓ. Its image is compact and need not be finite. Good-place semisimple recognition proves uniqueness. For an Eisenstein eigensystem with a_p=ψ₁(p)+ψ₂(p)p^(k−1), construct ψ₁⊕ψ₂χ_cyc^(k−1) directly by reciprocity.
-
-For cusp forms dualize the primitive cohomological multiplicity. The good-fibre p-isogeny correspondence gives T_p=F+ε(p)V and FV=p^(k−1), with F geometric Frobenius, hence det(1−FT)=1−a_pT+ε(p)p^(k−1)T². The dual has this polynomial at arithmetic Frobenius. Proper/parabolic specialization and tame cusps give unramifiedness away Nℓ. Descent to K_λ uses the trace algebra of degree ≤2: complex conjugation's rank-one idempotent (1+c)/2 splits its possible central simple obstruction. In the reducible case, traces of g and cg recover the two character values, so they descend too. This constructs a model, beyond equality of rationality fields.
-
-The API includes Good-place trace and determinant; determinant εχ_cyc^(k−1); coefficient embeddings and auxiliary-level independence; uniqueness of semisimple attachments; finite generation of a compact-image stable lattice over the coefficient valuation ring.
-
-**Checks.** E₄ has attachment 1⊕χ_cyc³ and infinite image; the weight-twelve level-one cusp form has polynomial X²−τ(p)X+p¹¹; a weight-two form has determinant εχ_cyc, and replacing arithmetic Frobenius by geometric Frobenius in that same polynomial fails the convention.
-
-*Needs:* R17.6/classical-parabolic-realization; ArithmeticGaloisRepresentations Layer 1 and ArithmeticGaloisRepresentations Layer 5; ModularForms Layers 0, 4 and 8G; ClassFieldTheory Layer 11 for the Eisenstein branch. The rank-two eigenprojector and coefficient descent are part of this attachment.
-
-*Source:* [deligne69], §4, Theorem 4.1 and Propositions 4.2–8, pp.160–166; Theorem 4.9, p.167; [ds74], Theorem 6.1 and Remarks 6.2–5, pp.520–521. The latter uses higher-weight attachment as an input.
-
-### R17.6.3 The Artin representation of a classical weight-one form
-
-For a nonzero holomorphic eigenform f of weight one, level N≥1 and odd Dirichlet character ε, construct a continuous finite-image semisimple ρ_f:G_ℚ→GL₂(ℂ), unramified outside N. At arithmetic Frobenius p∤N its polynomial is X²−a_p(f)X+ε(p). It is unique up to isomorphism, irreducible exactly when f is cuspidal, has determinant ε, and complex conjugation has eigenvalues 1,−1. Reductions specify a number field, coefficient place, residue embedding and stable lattice.
-
-Proof: Eisenstein forms give their two Dirichlet characters. For cusp forms, integrality of all conjugates and their Rankin–Selberg second moments bound a_p in a fixed finite set outside arbitrarily small prime density. At infinitely many split ℓ, multiply by an Eisenstein form ≡1, then apply DS lifting and higher-weight attachment. Chebotarev transfers the polynomial-density bound to the finite residual image. DS7.2 bounds its order uniformly: torus fibres have at most two elements, a torus normalizer has index two, exceptional projective groups and their determinant-controlled scalar kernels are bounded, and SL₂ polynomial fibres have at most ℓ²+ℓ elements, forcing ℓ bounded in that branch.
-
-Adjoin roots of unity of orders ≤A, the image-order bound. Their finite polynomial set Y contains every good polynomial of f, by infinitely many reductions. Choose ℓ>A preserving distinct elements of Y. Prime-to-order Maschke averaging kills deformation obstructions at successive complete-DVR levels and lifts the residual finite-group representation; a number-field splitting realization supplies its integral model. Injectivity on Y identifies the characteristic-zero polynomials. This permits icosahedral images and uses no Fong–Swan assumption. Recognition with a second ℓ removes the extra ℓ-ramification. Reducibility gives two Dirichlet characters and a double Rankin–Selberg pole, contradicting the cusp simple pole. Determinant recognition gives ε and oddness.
-
-The API includes Good-prime trace and determinant; cusp iff irreducible; uniqueness; realization over a number field and lattice reduction; no regular-algebraic coefficient or finiteness assertion is imported from higher-weight cohomology.
-
-**Checks.** A weight-one Eisenstein eigensystem gives the sum of its two finite Dirichlet characters; every cuspidal weight-one attachment is irreducible and finite-image; complex conjugation has trace zero and determinant −1, excluding the scalar involution. Ramified factors require the separate local comparison.
-
-*Needs:* R17.6/classical-higher-weight-attachment; AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma; ArithmeticGaloisRepresentations Layer 4 finite-image classification and ArithmeticGaloisRepresentations Layer 5 recognition; ModularForms Layers 0, 4, 8G and 8W; AutomorphicLFunctionsAndLocalFactors AL.3 Rankin–Selberg pole/second-moment theorem; ClassFieldTheory Layer 11. The uniform finite-image bound and prime-to-order integral lifting are the key finite-group steps here.
-
-*Source:* [ds74], Theorem 4.1, Corollary 4.2 and Remarks 4.4–5, pp.513–515; Propositions 5.1 and 5.5, pp.517–520; Proposition 6.7 and Lemmas 6.11–13, pp.521–523; Proposition 7.2, pp.524–525; §8.1–7, pp.525–527.
-
-<a id="r17-6-proper-curve-correspondence-trace"></a>
+AlgebraicModularFormsAndSerreWeights R15.5A.2
+[classical eigenforms of weight at least two](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-higher-weight-attachment)
+and R15.5A.3 [the Artin representation of a classical weight-one form](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-weight-one-attachment)
+supply the classical Galois attachments, with coefficient descent, stable lattices and
+Frobenius conventions. R17.6.4 constructs their local conductor comparison.
 
 ### R17.6.3a Proper-curve correspondence traces
 
@@ -2089,9 +2011,9 @@ classes to trace classes; transpose and biduality preserve the integrated altern
 on a proper curve has a whole-curve fixed component rather than a finite point sum; a zero
 cohomological correspondence has all local terms zero.
 
-*Needs:* ClassicalAdicEtaleCohomology §§0.6, 0.8, 0.11 and Layers 8–9 (constructible coefficient
-category, proper pushforward and Verdier duality); LefschetzPencilsAndVanishingCycles §§F.0–F.5
-and F.9 (finite-Tor coefficients and normalized adic realization).
+*Needs:* EtaleCohomologyFoundations §§0.6, 0.8, 0.11 and F.0–F.6 (scheme constructible
+coefficients, proper pushforward, traces and Verdier duality); ClassicalAdicEtaleCohomology
+Layers 8–9 (adic coefficient operations and normalized realization).
 
 *Source:* [varshavsky05], §1.2.2, pp.8–9, Proposition 1.2.5 and Corollary 1.2.6, p.10,
 §1.5.7, p.16 (duality).
@@ -2140,7 +2062,8 @@ The API includes Ramified Frobenius-semisimple compatibility with N; equality of
 
 **Checks.** An unramified Steinberg twist has conductor one despite unramified semisimple Weil action; supercuspidals retain Swan conductor; reduction can lower conductor. For trace specialization, (a,d)=(1,pᵐ), m>0, uses the ordinary stalk, (2,3) has a length-two fixed scheme without an extra factor two, and (3,2) uses the dual stalk. Equal orders are excluded: the identity correspondence has a positive-dimensional fixed locus.
 
-*Needs:* R17.6/proper-curve-correspondence-trace; R17.6/contracting-curve-local-term; R17.6/classical-higher-weight-attachment; R16.3; R16.6/classical-hecke-and-level; ArithmeticGaloisRepresentations §§3.1–3.6 and ArithmeticGaloisRepresentations Layer 5; R17.5/prescribed-local-induction; R17.4/nonnormal-cubic-base-change. R17.6/proper-curve-correspondence-trace and R17.6/contracting-curve-local-term supply the ramified trace; parabolic comparison and field-change identification are subsidiary targets here.
+*Needs:* R17.6/proper-curve-correspondence-trace; R17.6/contracting-curve-local-term; AlgebraicModularFormsAndSerreWeights R15.5A.2
+[classical higher-weight attachment](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-higher-weight-attachment); R16.3; R16.6/classical-hecke-and-level; ArithmeticGaloisRepresentations §§3.1–3.6 and ArithmeticGaloisRepresentations Layer 5; R17.5/prescribed-local-induction; R17.4/nonnormal-cubic-base-change. R17.6/proper-curve-correspondence-trace and R17.6/contracting-curve-local-term supply the ramified trace; parabolic comparison and field-change identification are subsidiary targets here.
 
 *Source:* [ddt], Theorem 3.1(d)–(e), p.86 (weight two); [carayol86], Theorems (A)–(B), pp.409–412; §§2.2, 4.9, 11.1–9, 12.2, pp.419–420, 426, 449–454, 457–458; [langlands73], Proposition 3.1 p.27, Theorems 7.1 and 7.5 pp.67, 70, Proposition 7.12 pp.89–90, Lemma 7.14 pp.94–98 (author pagination); [varshavsky05], §1.2.2 pp.8–9, Corollary 1.2.6 p.10, §1.5.7 p.16, Definition 2.1.1 and Theorem 2.1.3 pp.17–18; [rt97], pp.302–306.
 
@@ -2188,7 +2111,9 @@ Fix λ|2 in Q̄⊂ℂ. Let g=Σb(n)q^n∈Prim₁(2^νNr,χ), χ²=1, ν∈{0,2,3
 
 ρ_h means the semisimple residual representation at the fixed place, with good-prime traces and determinants of h.
 
-*Needs:* AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; ArithmeticGaloisRepresentations §§3.1–3.6; ArithmeticGaloisRepresentations Layer 5; R17.6/classical-conductor-comparison; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`; ModularForms Layer 4; ModularForms Layer 6; R17.6/classical-weight-one-attachment; R17.6/classical-higher-weight-attachment.
+*Needs:* AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; ArithmeticGaloisRepresentations §§3.1–3.6; ArithmeticGaloisRepresentations Layer 5; R17.6/classical-conductor-comparison; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`; ModularForms Layer 4; ModularForms Layer 6; AlgebraicModularFormsAndSerreWeights R15.5A.3
+[classical weight-one attachment](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-weight-one-attachment); AlgebraicModularFormsAndSerreWeights R15.5A.2
+[classical higher-weight attachment](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-higher-weight-attachment).
 
 *Source:* [rt97], §1, Lemma, p. 302; §1, p. 301; §1, proof of the Lemma, step (iii), p. 302; §1, preliminary remark, p. 302; §1, Case 2 (ν=2), p. 304.
 
@@ -2287,7 +2212,8 @@ From an odd characteristic-zero dihedral weight-one form reducing to r̄, or the
 
 At an odd ℓ the factor ℓ^(k−1) is one modulo two, so the Hasse shift preserves that eigencharacter. Use the cusp-sheaf H¹ vanishing and integral character conditions in AlgebraicModularFormsAndSerreWeights R15.5.
 
-*Needs:* R17.6/qualitative-residual-modularity; R17.6/unramified-katz; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.3/hasse-invariant-as-a-form-of-weight-p-minus-one`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`; ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.2/base-change-for-spaces-of-forms-and-the-weight-one-boundary`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/modularity-formulations-and-determinant`; R17.6/classical-higher-weight-attachment.
+*Needs:* R17.6/qualitative-residual-modularity; R17.6/unramified-katz; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.3/hasse-invariant-as-a-form-of-weight-p-minus-one`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/deligne-serre-eigenvalue-lifting-lemma`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.5/reduction-to-weight-at-least-two-and-to-a-true-eigenform`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/residual-modularity-witness`; ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.2/base-change-for-spaces-of-forms-and-the-weight-one-boundary`; AlgebraicModularFormsAndSerreWeights `AlgebraicModularFormsAndSerreWeights R15.6/modularity-formulations-and-determinant`; AlgebraicModularFormsAndSerreWeights R15.5A.2
+[classical higher-weight attachment](../AlgebraicModularFormsAndSerreWeights/README.md#target-classical-higher-weight-attachment).
 
 *Source:* [wiese04], Introduction, p. 124; proof of Lemma 11, p. 132.
 
@@ -2353,7 +2279,7 @@ In characteristic two a reflection has a one-dimensional fixed space despite its
 
 ### Dependencies
 
-R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; AlgebraicModularFormsAndSerreWeights R15.1–R15.6; ModularForms Layers 0–8W; ModularCurves Layers 5 and 10; ClassicalAdicEtaleCohomology §§0.6, 0.8, 0.11 and Layers 8–9; ComplexComparisonPartII §§C6.3–C6.6; LefschetzPencilsAndVanishingCycles §§F.0–F.5 and F.9; ClassFieldTheory Layer 11.
+R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; AlgebraicModularFormsAndSerreWeights R15.1–R15.6, including R15.5A.1–R15.5A.3; ModularForms Layers 0–8W; EtaleCohomologyFoundations §§0.6, 0.8, 0.11 and F.0–F.6; ClassicalAdicEtaleCohomology Layers 8–9; ComplexComparisonPartII §§C6.3–C6.6; LefschetzPencilsAndVanishingCycles LPV.0 and LPV.2; ClassFieldTheory Layer 11.
 
 
 ## Bibliography

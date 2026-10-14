@@ -159,30 +159,7 @@ namespace TauCeti.GL2Blueprint
 
 open _root_.Matrix
 
-/-! ## Layer R16.2: Local representations and newvectors -/
-
-section LocalRepresentation
-variable {G V : Type*} [Group G] [AddCommGroup V] [Module ℂ V]
-
-/-- The least nonzero fixed level of a representation with an explicitly nonempty level set. -/
-def conductorExponent (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
-    (hex : ∃ n, ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0) : ℕ := by
-  classical
-  exact Nat.find hex
-
-/-- The least level has a nonzero fixed vector, and every smaller level has none. -/
-theorem conductor_min (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
-    (hex : ∃ n, ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0) :
-    (∃ v ∈ (Representation.invariants (ρ.comp (K (conductorExponent ρ K hex)).subtype)), v ≠ 0) ∧
-    ∀ n < conductorExponent ρ K hex,
-      ¬ ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0 := by sorry
-
-example (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
-    (hex : ∃ n, ∃ v ∈ (Representation.invariants (ρ.comp (K n).subtype)), v ≠ 0)
-    (hzero : ∃ v ∈ (Representation.invariants (ρ.comp (K 0).subtype)), v ≠ 0) :
-    conductorExponent ρ K hex = 0 := by sorry
-
-end LocalRepresentation
+/-! ## Layer R16.2: Local representations and level comparisons -/
 
 section LocalNewvectors
 open scoped ValuativeRel
@@ -280,90 +257,6 @@ example (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
       Representation.invariants (π.comp (localK0 F n).subtype) ≠
         Representation.invariants (π.comp (localK1 F n).subtype) := by sorry
 
-/-- Casselman, Theorem 1 and its proof, pp. 302–306, in the last-row
-convention of the README. Infinite dimensionality excludes determinant
-characters. No conductor or nonempty-level hypothesis is assumed. -/
-theorem newvectorLevelExists
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
-    [Representation.IsIrreducible π]
-    (hsm : ∀ v : V, IsOpen {g | π g v = v})
-    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
-      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
-    (hinf : ¬ FiniteDimensional ℂ V) :
-    ∃ n, ∃ v ∈ Representation.invariants (π.comp (localK1 F n).subtype),
-      v ≠ 0 := by sorry
-
-/-- The complete dimension formula, not an assumption that a fixed line exists.
-Natural subtraction expresses max(0, n-c+1). Casselman, Corollary to the
-Proof, p. 306; apply his top-left convention to the contragredient and twist
-back to obtain the lower-last-row subgroup used here. -/
-theorem casselmanNewvector
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
-    [Representation.IsIrreducible π]
-    (hsm : ∀ v : V, IsOpen {g | π g v = v})
-    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
-      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
-    (hinf : ¬ FiniteDimensional ℂ V) (n : ℕ) :
-    Module.finrank ℂ (Representation.invariants (π.comp (localK1 F n).subtype)) =
-      n + 1 - conductorExponent π (localK1 F)
-        (newvectorLevelExists π hsm hadm hinf) := by sorry
-
-/-- The central-character assertion for the minimal K₀-line. For positive
-conductor the lower-right entry of an integral K₀ matrix is a unit; u is that
-unit, rather than an arbitrary value of the determinant. At conductor zero
-the fixed line is spherical. -/
-theorem casselmanNewvector_k0_character
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
-    [Representation.IsIrreducible π]
-    (hsm : ∀ v : V, IsOpen {g | π g v = v})
-    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
-      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
-    (hinf : ¬ FiniteDimensional ℂ V)
-    (ω : Fˣ →* ℂˣ)
-    (hcent : ∀ z v, π (GeneralLinearGroup.scalar (Fin 2) z) v = (ω z : ℂ) • v)
-    (hc : 0 < conductorExponent π (localK1 F)
-      (newvectorLevelExists π hsm hadm hinf))
-    (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g ∈ k0 (𝓂[F] ^ conductorExponent π (localK1 F)
-      (newvectorLevelExists π hsm hadm hinf)))
-    (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) = g.val 1 1)
-    (v : Representation.invariants (π.comp (localK1 F
-      (conductorExponent π (localK1 F)
-        (newvectorLevelExists π hsm hadm hinf))).subtype)) :
-    π (GeneralLinearGroup.map (algebraMap 𝒪[F] F) g) v.val =
-      (ω (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) : ℂ) • v.val := by sorry
-
-/-- Nonvanishing of the chosen Whittaker functional on the newvector line.
-The second character condition says it is nontrivial on the inverse maximal
-ideal. Equivariance uses actual upper unipotent matrices. Existence of this
-nonzero functional is SR.2.3's genericity theorem, not an assumption about its
-restriction to the newvector line. Casselman, proof of Theorem 1, pp. 303–306. -/
-theorem casselmanNewvector_whittaker_eval
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
-    [Representation.IsIrreducible π]
-    (hsm : ∀ v : V, IsOpen {g | π g v = v})
-    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
-      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
-    (hinf : ¬ FiniteDimensional ℂ V)
-    (ψ : AddChar F ℂ) (hψ : Continuous ψ)
-    (hψO : ∀ a : 𝒪[F], ψ (a : F) = 1)
-    (hψp : ∃ x : F, (∀ a : 𝒪[F], a ∈ 𝓂[F] →
-      x * (a : F) ∈ (𝒪[F] : Set F)) ∧ ψ x ≠ 1)
-    (ell : V →ₗ[ℂ] ℂ) (hell : ell ≠ 0)
-    (hwhit : ∀ (x : F) (g : GeneralLinearGroup (Fin 2) F),
-      g.val = !![1, x; 0, 1] → ∀ v, ell (π g v) = ψ x * ell v) :
-    ∃ v : Representation.invariants (π.comp (localK1 F
-      (conductorExponent π (localK1 F)
-        (newvectorLevelExists π hsm hadm hinf))).subtype), ell v.val ≠ 0 := by sorry
-
 end LocalNewvectors
 
 section IwahoriOldforms
@@ -460,6 +353,10 @@ example (χ : Fˣ →* ℂˣ)
 
 end IwahoriOldforms
 
+/-! AutomorphicLFunctionsAndLocalFactors AL.2, GL₂ newvectors, supplies the least-level
+conductor and normalized Whittaker line. The following classification checks express
+that supplied conductor as `Nat.find hex` on the explicit nonempty level set. -/
+
 section LocalModelFixtures
 open scoped ValuativeRel
 variable {p : ℕ} [Fact p.Prime]
@@ -527,14 +424,14 @@ example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
       χ₁ * χ₂⁻¹ ≠ localNormCharacter p (-1))
     (hex : ∃ n, ∃ v ∈ Representation.invariants
       ((localPrincipalSeriesRep χ₁ χ₂).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
-    conductorExponent (localPrincipalSeriesRep χ₁ χ₂) (localK1 ℚ_[p]) hex = 0 := by sorry
+    @Nat.find _ (Classical.decPred _) hex = 0 := by sorry
 
 example (χ : ℚ_[p]ˣ →* ℂˣ)
     (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
     (hex : ∃ n, ∃ v ∈ Representation.invariants
       ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
-    conductorExponent (localSteinbergTwist χ) (localK1 ℚ_[p]) hex = 1 := by sorry
+    @Nat.find _ (Classical.decPred _) hex = 1 := by sorry
 
 example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
     (hdepth : ∀ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ a →
@@ -543,42 +440,9 @@ example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) ≠ 1)
     (hex : ∃ n, ∃ v ∈ Representation.invariants
       ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
-    conductorExponent (localSteinbergTwist χ) (localK1 ℚ_[p]) hex = 2 * a := by sorry
+    @Nat.find _ (Classical.decPred _) hex = 2 * a := by sorry
 
 end LocalModelFixtures
-
-section NormalizedLine
-variable {V : Type*} [AddCommGroup V] [Module ℂ V]
-
-/-- The vector of value one for a nonzero functional on a one-dimensional line. -/
-def normalizedNewvector (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
-    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) : L := by sorry
-
-/-- The normalized vector has value one under the specified functional. -/
-theorem normalizedNewvector_eval (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
-    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) :
-    ell (normalizedNewvector L ell hdim hell) = 1 := by sorry
-
-/-- A value-one vector on the line is the normalized vector. -/
-theorem normalizedNewvector_unique (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
-    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0) (v : L) (hv : ell v = 1) :
-    v = normalizedNewvector L ell hdim hell := by sorry
-
-example (ell : (⊤ : Submodule ℂ ℂ) →ₗ[ℂ] ℂ)
-    (hell : ∀ z, ell z = 2 * (z : ℂ)) (hne : ell ≠ 0)
-    (hdim : Module.finrank ℂ (⊤ : Submodule ℂ ℂ) = 1) :
-    (normalizedNewvector ⊤ ell hdim hne : ℂ) = 1 / 2 := by sorry
-
-example (L : Submodule ℂ V) (ell : L →ₗ[ℂ] ℂ)
-    (hdim : Module.finrank ℂ L = 1) (hell : ell ≠ 0)
-    (a : ℂ) (ha : a ≠ 0) (hscaled : a • ell ≠ 0) :
-    normalizedNewvector L (a • ell) hdim hscaled =
-      a⁻¹ • normalizedNewvector L ell hdim hell := by sorry
-
-example (L : Submodule ℂ V) :
-    ¬ ∃ v : L, (0 : L →ₗ[ℂ] ℂ) v = 1 := by sorry
-
-end NormalizedLine
 
 section Spherical
 
@@ -1268,13 +1132,12 @@ README-only definitions and API targets:
 CentralCharacterL2 and its inner product, completeness, translation and measure API (R16.1).
 brauerCharacter, brauerCharacter_conjugate, brauerCharacter_one, brauerCharacter_spectrum.
 cdtVexingType, cdtVexingType_lattice, cdtVexingType_restrict, cdtVexingType_unramified.
-characterExtensionOrder_square_ne_one, conductor_iso, conductor_unramified_twist, cyclicMatching_central.
+characterExtensionOrder_square_ne_one, cyclicMatching_central.
 involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, k0_mem.
 k0_mono, k0_scalar, k0_top, k1_le_k0.
 k1_mem, k1_mono, k1_scalar, k1_top.
 localK0_antitone, localK0_scalar_mul_localK1, localK0_zero, localK1_antitone.
 localK1_le_integral, localK1_le_localK0, localK1_zero, nonCM_iff.
-normalizedNewvector_fixed, normalizedNewvector_twist.
 quadraticDirichletFive, quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
 quarticCharacter, sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
 steinbergProjectorDifference_central, steinbergProjectorDifference_eval, steinbergProjectorDifference_twist, tamelyDihedral.
