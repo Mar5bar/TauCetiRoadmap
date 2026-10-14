@@ -25,7 +25,8 @@ quadratic map of a lattice, local densities, genera, the Q-constructions, the he
 Grothendieck–Witt groups and spaces, stable and Poincaré categories, the certified LLL algorithm
 itself, the dynamical incidence carriers, and the comparisons with declarations of the
 ThetaSeries, LFunctions and PointProcesses roadmaps) is stated in the README with its intended
-signature and does not appear here.
+signature and does not appear here. The final README roadmap-for-a-roadmap on motivic/étale
+comparisons and higher integer GW tables is motivation outside the targets of this file.
 
 Design choices made explicit here:
 
@@ -264,21 +265,25 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
 /-- **Minkowski's second theorem, lower half** (1.3.4):
-`(2^d/d!) covol L ≤ (∏ λ_i) vol K` for a symmetric convex body with `0` in its interior. -/
+`(2^d/d!) covol L ≤ (∏ λ_i) μ(K)` for any additive Haar measure and a symmetric convex body
+with `0` in its interior; canonical Euclidean volume is the default. -/
 theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
     [IsZLattice ℝ L] (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) :
-    ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L ≤
-      (∏ i : Fin (finrank ℝ E), successiveMin L K i) * volume.real (K : Set E) := by sorry
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E := by volume_tac)
+    [Measure.IsAddHaarMeasure μ] :
+    ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L μ ≤
+      (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) := by sorry
 
 /-- **Minkowski's second theorem, upper half** (1.5.21, Henk's proof):
-`(∏ λ_i) vol K ≤ 2^d covol L`. -/
+`(∏ λ_i) μ(K) ≤ 2^d covol L` for any additive Haar measure; canonical Euclidean volume
+is the default. -/
 theorem minkowski_second_upper
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) :
-    (∏ i : Fin (finrank ℝ E), successiveMin L K i) * volume.real (K : Set E) ≤
-      2 ^ finrank ℝ E * ZLattice.covolume L := by sorry
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E := by volume_tac)
+    [Measure.IsAddHaarMeasure μ] :
+    (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) ≤
+      2 ^ finrank ℝ E * ZLattice.covolume L μ := by sorry
 
 end MinkowskiSecond
 
@@ -2602,6 +2607,15 @@ example : ¬ IsLLLReduced
 example : ¬ Nonempty (UnimodularBasisCertificate
     (![(1 : ℝ)] : Fin 1 → ℝ) (![(2 : ℝ)] : Fin 1 → ℝ)) := by sorry
 
+-- Native size parameter 1/2 and public parameter 11/20 yield different squared factors.
+example : (1 / ((3 / 4 : ℚ) - (1 / 2) ^ 2)) = 2 ∧
+    (1 / ((3 / 4 : ℚ) - (11 / 20) ^ 2)) = 400 / 179 ∧
+    (2 : ℚ) < 400 / 179 := by norm_num
+
+-- Hex's row shear transposes to the column convention of the certificate.
+example : (!![1, 0; -1, 1] : Matrix (Fin 2) (Fin 2) ℤ).transpose =
+    !![1, -1; 0, 1] := by decide
+
 end LLLChecks
 
 /-! ## Layer 6: Hermitian K-theory of exact categories -/
@@ -3068,6 +3082,15 @@ example : Nat.card (residueDualizingModule (Ideal.span ({2} : Set ℤ)) ℤ) = 2
 example : Nat.card (residueDualizingModule (Ideal.span ({3} : Set ℤ)) ℤ) = 3 := by sorry
 
 end ResidueDualityCoefficient
+
+section FiniteSBoundary
+
+/-- The rational unit group is not finitely generated: prime valuations have infinite support
+across the group. This is the all-primes boundary for the finite-S K-theory interface in the final README
+roadmap-for-a-roadmap. -/
+theorem rationalUnits_not_finitelyGenerated : ¬ Group.FG ℚˣ := by sorry
+
+end FiniteSBoundary
 
 end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
