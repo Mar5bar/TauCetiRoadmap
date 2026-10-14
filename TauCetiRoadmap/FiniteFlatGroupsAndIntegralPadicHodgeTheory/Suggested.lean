@@ -50,145 +50,6 @@ universe u
 
 namespace TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
-/-! ## Layer R07.1.0: scheme Frobenius -/
-
-namespace SchemeFrobenius
-
-open AlgebraicGeometry CategoryTheory.Limits
-
-/-- Intrinsic characteristic `p`: every local ring has characteristic `p`. -/
-def SchemeCharP (X : Scheme.{u}) (p : ℕ) : Prop :=
-  ∀ x : X, CharP (X.presheaf.stalk x) p
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- On affine schemes intrinsic characteristic means `p = 0`, including the zero ring. -/
-theorem schemeCharP_spec_iff (A : Type u) [CommRing A] :
-    SchemeCharP (Spec (CommRingCat.of A)) p ↔ (p : A) = 0 := sorry
-
-/-- Intrinsic characteristic is equivalent to a unique prime-field structure map. -/
-theorem schemeCharP_iff_structureMap (X : Scheme.{u}) :
-    SchemeCharP X p ↔ ∃! f : X ⟶ Spec (CommRingCat.of (ULift.{u} (ZMod p))), True := sorry
-
-/-- Absolute Frobenius fixes the space and raises structure-sheaf sections to `p`th powers. -/
-def absoluteFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : X ⟶ X := sorry
-
-/-- Absolute Frobenius on an affine scheme is induced by ring Frobenius. -/
-theorem absoluteFrobenius_spec (A : Type u) [CommRing A] [CharP A p]
-    (hA : SchemeCharP (Spec (CommRingCat.of A)) p) :
-    absoluteFrobenius p _ hA = Spec.map (CommRingCat.ofHom (frobenius A p)) := sorry
-
-/-- Absolute Frobenius acts identically on the underlying space. -/
-theorem absoluteFrobenius_base (X : Scheme.{u}) (hX : SchemeCharP X p) :
-    (absoluteFrobenius p X hX).base = (𝟙 X : X ⟶ X).base := sorry
-
-/-- Absolute Frobenius is natural for all morphisms between characteristic-`p` schemes. -/
-theorem absoluteFrobenius_naturality {X Y : Scheme.{u}}
-    (hX : SchemeCharP X p) (hY : SchemeCharP Y p) (f : X ⟶ Y) :
-    absoluteFrobenius p X hX ≫ f = f ≫ absoluteFrobenius p Y hY := sorry
-
-/-- Absolute Frobenius is integral without finiteness assumptions on the scheme. -/
-theorem absoluteFrobenius_integral (X : Scheme.{u}) (hX : SchemeCharP X p) :
-    IsIntegralHom (absoluteFrobenius p X hX) := sorry
-
-/-- The relative twist is the scheme pullback along the absolute Frobenius of the base. -/
-def schemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p) :
-    Scheme.{u} := pullback f (absoluteFrobenius p S hS)
-
-/-- Relative Frobenius has projections equal to absolute Frobenius and the structure map. -/
-def relativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
-    X ⟶ schemeFrobeniusTwist p f hS := sorry
-
-/-- The first projection factors absolute Frobenius through relative Frobenius. -/
-theorem relativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
-    relativeFrobenius p f hX hS ≫ pullback.fst f (absoluteFrobenius p S hS) =
-      absoluteFrobenius p X hX := sorry
-
-/-- The second projection makes relative Frobenius a morphism over the base. -/
-theorem relativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
-    relativeFrobenius p f hX hS ≫ pullback.snd f (absoluteFrobenius p S hS) = f := sorry
-
-/-- The two projection identities uniquely characterize relative Frobenius. -/
-theorem relativeFrobenius_unique {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p)
-    (g : X ⟶ schemeFrobeniusTwist p f hS)
-    (hfst : g ≫ pullback.fst f (absoluteFrobenius p S hS) = absoluteFrobenius p X hX)
-    (hsnd : g ≫ pullback.snd f (absoluteFrobenius p S hS) = f) :
-    g = relativeFrobenius p f hX hS := sorry
-
-/-- Relative Frobenius is integral for an arbitrary morphism of characteristic-`p` schemes. -/
-theorem relativeFrobenius_integral {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
-    IsIntegralHom (relativeFrobenius p f hX hS) := sorry
-
-/-- Relative Frobenius of an étale morphism is an isomorphism over every characteristic-`p` base. -/
-theorem relativeFrobenius_etale_isIso {X S : Scheme.{u}} (f : X ⟶ S) [Etale f]
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
-    IsIso (relativeFrobenius p f hX hS) := sorry
-
-/-- The `r`-fold absolute scheme Frobenius raises sections to `p^r` powers. -/
-def iteratedSchemeFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) (r : ℕ) : X ⟶ X :=
-  sorry
-
-/-- The zeroth absolute iterate is identity. -/
-theorem iteratedSchemeFrobenius_zero (X : Scheme.{u}) (hX : SchemeCharP X p) :
-    iteratedSchemeFrobenius p X hX 0 = 𝟙 X := sorry
-
-/-- Successor iteration composes with absolute Frobenius. -/
-theorem iteratedSchemeFrobenius_succ (X : Scheme.{u}) (hX : SchemeCharP X p) (r : ℕ) :
-    iteratedSchemeFrobenius p X hX (r + 1) =
-      iteratedSchemeFrobenius p X hX r ≫ absoluteFrobenius p X hX := sorry
-
-/-- Addition of exponents is composition of the absolute iterates. -/
-theorem iteratedSchemeFrobenius_add (X : Scheme.{u}) (hX : SchemeCharP X p) (r s : ℕ) :
-    iteratedSchemeFrobenius p X hX (r + s) =
-      iteratedSchemeFrobenius p X hX r ≫ iteratedSchemeFrobenius p X hX s := sorry
-
-/-- The `r`-fold relative twist retains the pullback along the base's `r`-fold Frobenius. -/
-def iteratedSchemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S)
-    (hS : SchemeCharP S p) (r : ℕ) : Scheme.{u} :=
-  pullback f (iteratedSchemeFrobenius p S hS r)
-
-/-- Iterated relative Frobenius factors the absolute iterate as a map over the base. -/
-def iteratedRelativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
-    X ⟶ iteratedSchemeFrobeniusTwist p f hS r := sorry
-
-/-- The first projection of iterated relative Frobenius is the absolute iterate. -/
-theorem iteratedRelativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
-    iteratedRelativeFrobenius p f hX hS r ≫
-      pullback.fst f (iteratedSchemeFrobenius p S hS r) =
-        iteratedSchemeFrobenius p X hX r := sorry
-
-/-- The second projection of iterated relative Frobenius is the structure map. -/
-theorem iteratedRelativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
-    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
-    iteratedRelativeFrobenius p f hX hS r ≫
-      pullback.snd f (iteratedSchemeFrobenius p S hS r) = f := sorry
-
-/-- For a finite field of order `p^a`, the `q`-power scheme map is the `a`-fold absolute map. -/
-def qPowerFrobenius (k : Type u) [Field k] [Finite k] [CharP k p]
-    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
-    (a : ℕ) (ha : Nat.card k = p ^ a) : X ⟶ X := sorry
-
-/-- The finite-field scheme map agrees with the specified absolute iterate. -/
-theorem qPowerFrobenius_eq_iterated (k : Type u) [Field k] [Finite k] [CharP k p]
-    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
-    (a : ℕ) (ha : Nat.card k = p ^ a) :
-    qPowerFrobenius p k f hX a ha = iteratedSchemeFrobenius p X hX a := sorry
-
-/-- The finite-field `q`-power scheme map is linear over the given field. -/
-theorem qPowerFrobenius_over (k : Type u) [Field k] [Finite k] [CharP k p]
-    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
-    (a : ℕ) (ha : Nat.card k = p ^ a) :
-    qPowerFrobenius p k f hX a ha ≫ f = f := sorry
-
-end SchemeFrobenius
-
 namespace FiniteFlat
 
 open TauCeti
@@ -618,8 +479,8 @@ end LieScalars
 end DieudonneModule
 
 /-- The Frobenius twist `G^{(p)} = G ×_{k, Frob} k`: the group base-change adapter of R07.1.1,
-with its scheme twist and relative map supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory
-§R07.1.0 / schemeFrobeniusTwist, relativeFrobenius. Forgetting the group structure identifies this
+with its scheme twist and relative map supplied by SchemeAndStackFoundations
+§0.29 / schemeFrobeniusTwist, relativeFrobenius. Forgetting the group structure identifies this
 adapter with the scheme pullback, including its projections and base-change maps. -/
 def frobeniusTwist (G : FLF k) : FLF k :=
   letI : Algebra k k := (frobenius k p).toAlgebra
@@ -1180,8 +1041,8 @@ further instances of the statements above.
   `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`); `TruncatedBT` and
   `btNRecognition`; `FormalLieGroup`, `BarsottiTate.equivFormalLieGroup`, `BarsottiTate.dim`,
   `BarsottiTate.dim_add_dim_cartierDual`, `BarsottiTate.discr_level`,
-  `invariantDifferentialsAndAbsoluteDifferent`; `tateSen`; `BarsottiTate.completedPoints`,
-  `PadicFieldCompletion`; `BarsottiTate.hodgeTate`;
+  `invariantDifferentialsAndAbsoluteDifferent`; `BarsottiTate.completedPoints`;
+  `BarsottiTate.hodgeTate`;
   `BarsottiTate.exists_of_tateModule_summand`, `BarsottiTate.extend_genericFibre`;
   `isSimple_killed_by_prime`; `BarsottiTate.quotientFiniteFlatSubgroup`;
   `Prolongation.sup`, `Prolongation.inf`, with the check
@@ -1219,7 +1080,7 @@ further instances of the statements above.
   `universalCoverRigidity`; `deJongDieudonneEquivalence`; `swDieudonneSemiperfect`;
   `wittCovectors`; `BerthelotConstantLength` (finite generation, p-power torsion and
   constant finite Witt-fibre length); `berthelotPerfectValuationRings`.
-* Layer R07.3: `generalBasePeriodRings`; `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
+* Layer R07.3: `finiteKPeriodComparison`; `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
   with the checks `FilteredPhiNModule.unit_twist`, `FilteredPhiNModule.not_abelian` and
   `FilteredPhiNModule.N_nonzero`; `FilteredPhiNModule.tN`, `IsWeaklyAdmissible`;
   `dSt_isWeaklyAdmissible`, `dSt_fullyFaithful`, `IsAdmissible`; `FLModule.isTorsion_iff`
