@@ -1,6 +1,6 @@
 # Roadmap: algebraic modular forms and Serre weights
 
-**Summary.** This roadmap builds geometric modular forms in every integer weight, integral q-expansion and coherent Hecke comparisons, characteristic-p Hasse and theta operations, the extension-sensitive local Serre weight, Deligne–Serre eigenvalue lifting over arbitrary discrete valuation rings, and place-sensitive residual modularity witnesses. It connects the analytic modular-form theory to sections on compactified modular stacks, preserving the weight-one, torsion and small-prime distinctions needed to state the classical weight, conductor and character target. Representative statements appear in `Suggested.lean`.
+**Summary.** This roadmap builds geometric modular forms in every integer weight, integral q-expansion and coherent Hecke comparisons, characteristic-p Hasse and theta operations, the extension-sensitive local Serre weight, Deligne–Serre eigenvalue lifting over arbitrary discrete valuation rings, classical Galois attachments in weights at least one, and place-sensitive residual modularity witnesses. It connects the analytic modular-form theory to sections on compactified modular stacks, preserving the weight-one, torsion and small-prime distinctions needed to state the classical weight, conductor and character target. Representative statements appear in `Suggested.lean`.
 
 A complex eigenform has an integral system of Hecke eigenvalues, and reducing those eigenvalues at a coefficient prime gives a residual Galois representation. Over a field of positive characteristic there is another source of forms: sections of powers of the Hodge line on a compactified modular curve. These two constructions meet through integral section spaces and their q-expansions. Their meeting is delicate in weight one, at small levels, with torsion coefficients and at the small residual primes. This roadmap develops the geometric comparison, the characteristic-p weight operations, the local weight recipe and the algebraic lifting argument needed to pass between them.
 
@@ -10,7 +10,7 @@ The resulting interfaces serve three purposes. They let a geometric eigenform ca
 
 The [ModularForms roadmap](../ModularForms/README.md) supplies the analytic theory. Its Layer 0 supplies all integer weights, diamonds, character spaces and Eisenstein series; Layer 4 supplies full eigenforms, oldforms, newforms and primitive associates; Layer 8 supplies the integral Hecke algebra and coefficient fields through its modular-symbol lattice; Layer 8W supplies the separately justified weight-one integral all-cusp lattice. This roadmap constructs the higher-weight geometric all-cusp lattice and its comparison with that rational structure. Layer 10C supplies the analytic automorphy line and the stabilizer and cusp conventions. Those constructions are used here through their specified interfaces. The addition is the comparison with geometric sections and the positive-characteristic and local arithmetic operations.
 
-ModularCurvesPartII §§3.1–3.2, 4.1–4.4, 7.1, 9.1–9.3 and 11.1 supply the moduli stack, Hodge line, compactifications, Tate charts, correspondences and Igusa geometry. This roadmap defines forms from those objects, proves the elliptic logarithmic Kodaira–Spencer comparison, constructs the auxiliary curve Fricke map and computes its action on Hodge powers. FiniteFlatGroupsAndIntegralPadicHodgeTheory supplies the general BT₁ Hasse determinant, Raynaud theory, Fontaine–Laffaille functor and extension-sensitive local classification. Here those results specialize to the elliptic Hasse section and to the arithmetic Serre recipe. GL2AutomorphicRepresentationsAndTransfer §§R17.6.2–R17.6.3 supplies classical attachment of representations to forms; R15.6 constructs the residual attachment for the reduction eigensystems used here; ArithmeticGaloisRepresentations supplies conductor, tame characters, finite-field descent and recognition of semisimple representations.
+ModularCurvesPartII §§3.1–3.2, 4.1–4.4, 7.1, 9.1–9.3 and 11.1 supply the moduli stack, Hodge line, compactifications, Tate charts, correspondences and Igusa geometry. This roadmap defines forms from those objects, proves the elliptic logarithmic Kodaira–Spencer comparison, constructs the auxiliary curve Fricke map and computes its action on Hodge powers. FiniteFlatGroupsAndIntegralPadicHodgeTheory supplies the general BT₁ Hasse determinant, Raynaud theory, Fontaine–Laffaille functor and extension-sensitive local classification. Here those results specialize to the elliptic Hasse section and to the arithmetic Serre recipe. [R15.5A.2](#target-classical-higher-weight-attachment) and [R15.5A.3](#target-classical-weight-one-attachment) construct the classical λ-adic and weight-one Artin attachments; R15.6 constructs the residual attachment for the reduction eigensystems used here; ArithmeticGaloisRepresentations supplies conductor, tame characters, finite-field descent and recognition of semisimple representations.
 
 ## Conventions
 
@@ -66,13 +66,17 @@ The targets below have concrete mathematical prerequisites. A complete implement
 | ModularCurvesPartII §11.1 | Ordinary Verschiebung-generator cover, its degree, compactification and effective level action. R15.3 builds the tautological Hodge differential, the full unit monodromy modulo p^m and the simple-zero elliptic Hasse comparison on this cover, including p=2,3. These supply theta, ordinary congruences and supersingular weight reduction. |
 | ModularCurvesPartII §§9.1–9.3, 9.9–9.11 | Compactified degeneracy and Hecke correspondences, quotient level structures, universal isogeny Hodge maps, U_y and the root-dependent curve map. The auxiliary w_x and its square are constructed here. |
 | AbelianSchemesAndArithmeticModuli §A4.3; ModularCurvesPartII §§7.1–7.1a; ComplexComparisonPartII C5.6 | Open elliptic de Rham bundle and Hodge line; characteristic-zero normalized KS and canonical logarithmic extension. R15.1 constructs the integral logarithmic de Rham bundle, filtration, connection and cup-product extension, with coefficient base change and Tate formulas, before integral KS. |
-| AlgebraicModuliForArithmeticGeometry §7.10.3; ComplexComparisonPartII §§C0.4, C1.7–C1.8, C2.1–C2.2 | Proper coherent GAGA and its projective analytic inputs, for integer Hodge powers and cusp twists, compatible with the finite action and descent. Used by analytic comparison. |
+| ComplexComparisonPartII §§C−1.2, C1.9, C0.4, C1.7–C1.8, C2.1–C2.2 | Proper coherent GAGA and its projective analytic inputs, for integer Hodge powers and cusp twists, compatible with the finite action and descent. Used by analytic comparison. |
 | SchemeAndStackFoundations §§2.19–2.21, 3.3 | Proper adjunction, trace, relative dualising complexes and coherent Serre duality. R15.3 builds the K/O specialization and finite-flat correspondence comparison under its finite-free/base-change hypotheses. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1, R07.2 | Raynaud uniqueness, its boundary case and tame inertia; the general BT₁ determinant(V*) and dual-Frobenius compatibility. Used by the local criterion and elliptic Hasse specialization. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3, R07.5 | Contravariant residual Fontaine–Laffaille functor and positive-weight inertia dictionary; rank-two extension classification, ordered wild line and scalar Kummer peu/très calculation. This roadmap supplies the coefficient-action/descent bridge and dyadic tame descent used by R15.4. |
 | ArithmeticGaloisRepresentations Layers 1–5 | Fundamental tame characters and Frobenius action; genuine prime-to-p Artin conductor; S-type induced-dihedral image identification; finite-field semisimplification, coefficient descent, lattice independence and recognition by characteristic polynomials. Used by R15.4 and R15.6 and boundary localization. |
-| GL2AutomorphicRepresentationsAndTransfer §§R17.6.2–R17.6.3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7 | Weight≥2 λ-adic and weight-one Artin attachment, coefficient embeddings, stable lattices and semisimple reduction/recognition. R15.6 constructs residual attachment for reduction eigensystems and proves its agreement with these lifts before the witness predicates. The weight-one supplier uses only the independent R15.5 lifting theorem here. |
-| ModularForms Layers 0, 4, 8, 8W, 10C | Existing analytic carriers, character and Eisenstein normalization, full Hecke eigenform normalization and primitive associates, integral algebra via modular symbols, the weight-one all-cusp lattice, and analytic automorphy and cusp conventions. R15.2 constructs the higher-weight geometric all-cusp lattice and denominator comparison. |
+| ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7 | Coefficient embeddings, stable lattices and semisimple reduction/recognition for the classical attachments constructed in [R15.5A.2](#target-classical-higher-weight-attachment) and [R15.5A.3](#target-classical-weight-one-attachment). R15.6 constructs residual attachment for reduction eigensystems and proves its agreement with these lifts before the witness predicates. |
+| EtaleCohomologyFoundations §§0.6, 0.8, 0.11, F.0–F.6; ComplexComparisonPartII §§C6.3–C6.6 | Scheme cohomology, compact support, duality and equivariant Betti–étale comparison for the classical parabolic coefficient realization in R15.5A.1. |
+| AutomorphicLFunctionsAndLocalFactors AL.3 | Rankin–Selberg poles and second moments used to construct the finite-image Artin attachment in R15.5A.3. |
+| ModularForms Layers 0, 4–5, 8, 8G, 8W, 10C | Existing analytic carriers, character and Eisenstein normalization, full Hecke eigenform normalization, classical multiplicity one and old/new decomposition, coefficient rationality, integral algebra via modular symbols, the weight-one all-cusp lattice, and analytic automorphy and cusp conventions. R15.2 constructs the higher-weight geometric all-cusp lattice and denominator comparison; R15.5A constructs the primitive classical cohomological summand and its Galois attachments. |
+| ModularCurves Layers 5, 10; AlgebraicCurves Layer 12E; JacobianChallenge Layers A–B | Universal elliptic curves and compactification, coherent curve cohomology and Serre duality used by R15.5A.1. |
+| ClassFieldTheory Layer 11 | Global reciprocity for the Dirichlet-character Eisenstein branches of R15.5A.2–R15.5A.3. |
 | EllipticCurves Layers 3–4 | Relative Frobenius and Verschiebung and their differential actions; semistable reduction, Tate torsion extension and the actual Kummer parameter including unramified twists. |
 
 Several proof obligations need more than the named geometric carrier. Q-expansion vanishing uses filtered-colimit cohomology, faithfully flat noetherian completion, formal functions, Krull intersection and the Artin-base depth argument. Fine-level base change uses proper coherent finiteness, curve degree and duality vanishing, with the n≤11 weight-one cusp calculation. The strong principle also uses a reduction from coefficient modules to the Artin-local argument and positive-weight constant-expansion vanishing in characteristic zero. These are foundational proof inputs for the stated q-expansion results.
@@ -127,7 +131,7 @@ Use ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7 for the following d
 
 ## How to read the build
 
-The six layers below keep their arithmetic identifiers R15.1–R15.6. AlgebraicModuliForArithmeticGeometry §7.10.3 supplies the proper coherent GAGA used in R15.1. The strong q-expansion consequence in R15.2 is proved after the ordinary weight congruences of R15.3; integral Hecke preservation uses the ordinary q-expansion principle, not that later consequence. The integral section comparison in R15.2 supports the lifting application in R15.5. The theta and supersingular arguments in R15.3 support controlled weight changes. R15.4 depends on local Galois and finite-flat theory and supplies the numerical invariant used in R15.6. The abstract algebra of R15.5 can be developed independently of the geometry. The final witness definitions use earlier form interfaces and already attached representations, so early representation attachment does not depend on the final modularity predicate.
+The geometric and residual layers have arithmetic identifiers R15.1–R15.6; R15.5A constructs the classical attachments before R15.6 consumes them. ComplexComparisonPartII §§C−1.2, C1.9 supply the analytic carrier and proper coherent GAGA used in R15.1. The strong q-expansion consequence in R15.2 is proved after the ordinary weight congruences of R15.3; integral Hecke preservation uses the ordinary q-expansion principle, not that later consequence. The integral section comparison in R15.2 supports the lifting application in R15.5. The theta and supersingular arguments in R15.3 support controlled weight changes. R15.4 depends on local Galois and finite-flat theory and supplies the numerical invariant used in R15.6. The abstract algebra of R15.5 can be developed independently of the geometry. R15.5A constructs the classical parabolic summand and the higher-weight and weight-one attachments using the earlier form interfaces and R15.5 lifting. The final witness definitions use those attachments, independently of the final modularity predicate.
 
 | Layer | Main objects and results | Principal inputs |
 | --- | --- | --- |
@@ -136,7 +140,8 @@ The six layers below keep their arithmetic identifiers R15.1–R15.6. AlgebraicM
 | R15.3 | Hasse, theta, U and V, Igusa weights, supersingular periodicity and duality | R15.1–R15.2, Igusa geometry, elliptic Frobenius, relative duality |
 | R15.4 | Complete local recipe and local comparisons | Tame inertia, actual extension classes, Raynaud and Fontaine–Laffaille |
 | R15.5 | Deligne–Serre lifting and controlled eigenform application | Existing algebra APIs; R15.2–R15.3 for forms |
-| R15.6 | Place-sensitive residual witnesses and classical target | R15.4–R15.5, conductor, representation attachment and semisimple recognition |
+| R15.5A | Classical parabolic summand, higher-weight λ-adic and weight-one Artin attachments | R15.1, R15.5, scheme cohomology and comparison, classical old/new theory, Rankin–Selberg moments |
+| R15.6 | Place-sensitive residual witnesses and classical target | R15.4–R15.5A, conductor and semisimple recognition |
 
 <a id="layer-r15-1"></a>
 
@@ -272,9 +277,9 @@ The interface consists of:
 
 #### All-weight analytic comparison
 
-Over ℂ identify sections of every integer Hodge power on the algebraic moduli stack with the existing analytic space of holomorphic modular forms. Identify ω^k(−C) with analytic cusp forms, and identify the ε diamond eigenspace with the analytic nebentypus space. The construction combines uniformization and the Hodge automorphy factor with projective coherent GAGA and equivariant descent through a rigidifying cover. Use ModularForms Layer 0 and Layer 10C for the actual analytic carriers and their stabilizer conventions, AlgebraicModuliForArithmeticGeometry §7.10.3 for proper coherent GAGA, and ComplexComparisonPartII §§C0.4, C1.7–C1.8, C2.1–C2.2 for its analytic inputs and bundle compatibilities. The comparison commutes with coefficients and Tate expansions. In negative weight both spaces vanish; in weight zero on a connected compactified component they consist of constants. Small-level stabilizers remain in the comparison.
+Over ℂ identify sections of every integer Hodge power on the algebraic moduli stack with the existing analytic space of holomorphic modular forms. Identify ω^k(−C) with analytic cusp forms, and identify the ε diamond eigenspace with the analytic nebentypus space. The construction combines uniformization and the Hodge automorphy factor with projective coherent GAGA and equivariant descent through a rigidifying cover. Use ModularForms Layer 0 and Layer 10C for the actual analytic carriers and their stabilizer conventions, ComplexComparisonPartII §§C−1.2, C1.9 for the analytic carrier and proper coherent GAGA, and ComplexComparisonPartII §§C0.4, C1.7–C1.8, C2.1–C2.2 for its analytic inputs and bundle compatibilities. The comparison commutes with coefficients and Tate expansions. In negative weight both spaces vanish; in weight zero on a connected compactified component they consist of constants. Small-level stabilizers remain in the comparison.
 
-*Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms); ComplexComparisonPartII §§C0.4, C1.7–C1.8, C2.1–C2.2; ModularCurvesPartII §§4.4, 7.1–7.1a; [ModularForms Layer 0](../ModularForms/README.md#layer-0-diamond-operators-and-modular-forms-with-character-nebentypus); [ModularForms Layer 10](../ModularForms/README.md#layer-10-the-modular-curve-γℍ-and-the-dimension-formulas).
+*Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms); ComplexComparisonPartII §§C−1.2, C1.9, C0.4, C1.7–C1.8, C2.1–C2.2; ModularCurvesPartII §§4.4, 7.1–7.1a; [ModularForms Layer 0](../ModularForms/README.md#layer-0-diamond-operators-and-modular-forms-with-character-nebentypus); [ModularForms Layer 10](../ModularForms/README.md#layer-10-the-modular-curve-γℍ-and-the-dimension-formulas).
 
 ([Katz 1973](https://web.math.princeton.edu/~nmk/old/padicpropMFMS.pdf), 1.5, printed pp.82–83 (Katz running mark Ka-14/15); [Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), 2.1, author DVI pp.3–4.)
 
@@ -1354,6 +1359,91 @@ The matrix [[0,ϖ],[0,0]] has residual eigenvector e₂ with eigenvalue zero, bu
 
 The exact Mathlib and Tau Ceti commutative-algebra suppliers; R15.2's actual integral reduction image and R15.3's justified weight shift for the modular-form application; ModularForms Layer 4 for full eigenforms and primitive associates.
 
+<a id="layer-r15-5a"></a>
+
+## Layer R15.5A — Classical Galois attachments
+
+The classical parabolic coefficient realization constructs the rank-two summand used for higher-weight Galois attachment. Deligne–Serre lifting and Rankin–Selberg second moments then construct the finite-image weight-one attachment. These constructions retain coefficient fields, places and stable lattices for the residual witnesses of R15.6.
+
+<a id="target-classical-parabolic-realization"></a>
+
+### R15.5A.1 The classical rank-two cohomological summand
+
+For integer weight k≥2 and neat full level m≥3 prime to ℓ, set V_k=Sym^(k−2)R¹h_*ℚ_ℓ for the universal elliptic curve h:E→Y(m), and H¹_par=image(H¹_c→H¹). Transport coefficients through level changes and Hecke pullback/trace. Equivariant Betti–étale comparison gives S_k⊕overline(S_k), with character components. For a normalized cuspidal primitive classical eigenform f, construct the exact-level classical newspace Hecke eigenprojector. Its primitive f-isotypical summand has dimension two over the specified coefficient completion, one holomorphic and one antiholomorphic contribution. Transport that summand through auxiliary full levels using classical old/new decomposition; the extra oldvector copies at larger levels do not enlarge its primitive rank-two multiplicity.
+
+Use [Integral elliptic logarithmic de Rham extension](#target-integral-elliptic-logarithmic-de-rham-extension) for H¹_dR(E/Y), its connection, Hodge sequence and logarithmic lattice. Construct its characteristic-zero symmetric coefficient bundle E_k=Sym^(k−2)H¹_dR(E/Y) with the induced connection and logarithmic extension at the cusp divisor D.
+Its coefficient complex is [E_k→E_k⊗Ω¹_X(log D)]. Construct compact-support and middle
+(parabolic) realizations, with parabolic hypercohomology the image of compact-support into
+ordinary hypercohomology. Prove comparison with the image of Betti H¹_c→H¹ for the same
+local system, and hence with the supplied étale comparison. All maps commute with coefficient
+extension and the Hecke pullback/trace correspondences. For the trivial coefficient on a smooth
+proper characteristic-zero curve construct the Hodge sequence
+0→H⁰(Ω¹)→H¹_dR→H¹(O)→0. For E_k construct the induced parabolic filtration: the differential
+map identifies its holomorphic piece with S_k, and the coefficient pairing and Serre duality
+identify the quotient with the dual cusp piece for the contragredient coefficients. Over ℂ
+this is the holomorphic and antiholomorphic Eichler–Shimura decomposition. Carry k≥2 through
+all coefficient complexes and comparisons.
+
+Proof: The coefficient de Rham resolution maps cusp forms to vector-valued differentials. Hodge filtration and Serre duality identify their holomorphic and conjugate subspaces with all H¹_par (Deligne2.10); taking the image H¹_c→H¹ removes the boundary. Equivariant Betti–étale comparison transports Hecke correspondences. The classical multiplicity-one and old/new decomposition of ModularForms Layers 4–5 and 8G extract the primitive rank-two multiplicity. Compact quaternionic H¹ is a different carrier.
+
+The API includes Parabolic realization commutes with extension of coefficient fields; the Hecke projector commutes with Galois and level maps; the primitive multiplicity has dimension two independent of the auxiliary full level; pullback is adjoint to trace under the coefficient pairing.
+
+**Checks.**
+
+- For k=2 the coefficient is constant and H¹_par is the Jacobian realization.
+- For the weight-twelve level-one cusp form the primitive classical summand has dimension two despite a larger full-level cohomology space.
+- An Eisenstein boundary class maps to zero in the cuspidal projector.
+- Weight k=1 is excluded because the prescribed symmetric power would have exponent −1.
+
+*Needs:* [Integral elliptic logarithmic de Rham extension](#target-integral-elliptic-logarithmic-de-rham-extension); ModularCurves Layers 5 and 10 for universal elliptic curves and compactification; EtaleCohomologyFoundations §§0.6, 0.8, 0.11, F.0–F.6 for scheme cohomology, compact support and duality; ComplexComparisonPartII §§C6.3–C6.6 for equivariant Betti–étale comparison; AlgebraicCurves Layer 12E and JacobianChallenge Layers A–B for coherent curve cohomology and Serre duality; ModularForms Layers 4–5 and 8G for classical multiplicity one and old/new decomposition; Tau Ceti `TauCeti.symPowerRep`. The parabolic coefficient realization and primitive classical projector are constructions here.
+
+*Source:* [Deligne 1969](https://www.numdam.org/article/SB_1968-1969__11__139_0.pdf), §§1–2, Theorem 2.10, pp.141–148; Definition 3.9 and (3.10)–(3.12), pp.153–154; Propositions 3.18–19 and pairing (3.20), pp.158–159.
+
+<a id="target-classical-higher-weight-attachment"></a>
+
+### R15.5A.2 Classical eigenforms of weight at least two
+
+For a nonzero holomorphic eigenform f of weight k≥2, level N and character ε, a coefficient number field K containing a_p and ε(p), and λ|ℓ, construct a continuous semisimple ρ_{f,λ}:G_ℚ→GL₂(K_λ), unramified outside Nℓ, with arithmetic Frobenius polynomial X²−a_pX+ε(p)p^(k−1) at p∤Nℓ. Its image is compact and need not be finite. Good-place semisimple recognition proves uniqueness. For an Eisenstein eigensystem with a_p=ψ₁(p)+ψ₂(p)p^(k−1), construct ψ₁⊕ψ₂χ_cyc^(k−1) directly by reciprocity.
+
+For cusp forms dualize the primitive cohomological multiplicity. The good-fibre p-isogeny correspondence gives T_p=F+ε(p)V and FV=p^(k−1), with F geometric Frobenius, hence det(1−FT)=1−a_pT+ε(p)p^(k−1)T². The dual has this polynomial at arithmetic Frobenius. Proper/parabolic specialization and tame cusps give unramifiedness away Nℓ. Descent to K_λ uses the trace algebra of degree ≤2: complex conjugation's rank-one idempotent (1+c)/2 splits its possible central simple obstruction. In the reducible case, traces of g and cg recover the two character values, so they descend too. This constructs a model, beyond equality of rationality fields.
+
+The API includes Good-place trace and determinant; determinant εχ_cyc^(k−1); coefficient embeddings and auxiliary-level independence; uniqueness of semisimple attachments; finite generation of a compact-image stable lattice over the coefficient valuation ring.
+
+**Checks.**
+
+- E₄ has attachment 1⊕χ_cyc³ and infinite image.
+- The weight-twelve level-one cusp form has polynomial X²−τ(p)X+p¹¹.
+- A weight-two form has determinant εχ_cyc.
+- Replacing arithmetic Frobenius by geometric Frobenius in that same polynomial fails the convention.
+
+*Needs:* [R15.5A.1 The classical rank-two cohomological summand](#target-classical-parabolic-realization); ArithmeticGaloisRepresentations Layer 1 and ArithmeticGaloisRepresentations Layer 5; ModularForms Layers 0, 4 and 8G; ClassFieldTheory Layer 11 for the Eisenstein branch. The rank-two eigenprojector and coefficient descent are part of this attachment.
+
+*Source:* [Deligne 1969](https://www.numdam.org/article/SB_1968-1969__11__139_0.pdf), §4, Theorem 4.1 and Propositions 4.2–8, pp.160–166; Theorem 4.9, p.167; [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), Theorem 6.1 and Remarks 6.2–5, pp.520–521. The latter uses higher-weight attachment as an input.
+
+<a id="target-classical-weight-one-attachment"></a>
+
+### R15.5A.3 The Artin representation of a classical weight-one form
+
+For a nonzero holomorphic eigenform f of weight one, level N≥1 and odd Dirichlet character ε, construct a continuous finite-image semisimple ρ_f:G_ℚ→GL₂(ℂ), unramified outside N. At arithmetic Frobenius p∤N its polynomial is X²−a_p(f)X+ε(p). It is unique up to isomorphism, irreducible exactly when f is cuspidal, has determinant ε, and complex conjugation has eigenvalues 1,−1. Reductions specify a number field, coefficient place, residue embedding and stable lattice.
+
+Proof: Eisenstein forms give their two Dirichlet characters. For cusp forms, integrality of all conjugates and their Rankin–Selberg second moments bound a_p in a fixed finite set outside arbitrarily small prime density. At infinitely many split ℓ, multiply by an Eisenstein form ≡1, then apply DS lifting and higher-weight attachment. Chebotarev transfers the polynomial-density bound to the finite residual image. DS7.2 bounds its order uniformly: torus fibres have at most two elements, a torus normalizer has index two, exceptional projective groups and their determinant-controlled scalar kernels are bounded, and SL₂ polynomial fibres have at most ℓ²+ℓ elements, forcing ℓ bounded in that branch.
+
+Adjoin roots of unity of orders ≤A, the image-order bound. Their finite polynomial set Y contains every good polynomial of f, by infinitely many reductions. Choose ℓ>A preserving distinct elements of Y. Prime-to-order Maschke averaging kills deformation obstructions at successive complete-DVR levels and lifts the residual finite-group representation; a number-field splitting realization supplies its integral model. Injectivity on Y identifies the characteristic-zero polynomials. This permits icosahedral images and uses no Fong–Swan assumption. Recognition with a second ℓ removes the extra ℓ-ramification. Reducibility gives two Dirichlet characters and a double Rankin–Selberg pole, contradicting the cusp simple pole. Determinant recognition gives ε and oddness.
+
+The API includes Good-prime trace and determinant; cusp iff irreducible; uniqueness; realization over a number field and lattice reduction; no regular-algebraic coefficient or finiteness assertion is imported from higher-weight cohomology.
+
+**Checks.**
+
+- A weight-one Eisenstein eigensystem gives the sum of its two finite Dirichlet characters.
+- Every cuspidal weight-one attachment is irreducible and finite-image.
+- Complex conjugation has trace zero and determinant −1, excluding the scalar involution.
+
+Ramified factors require the separate local comparison.
+
+*Needs:* [R15.5A.2 Classical eigenforms of weight at least two](#target-classical-higher-weight-attachment); [Deligne–Serre eigenvalue lifting](#target-deligne-serre-eigenvalue-lifting-lemma); ArithmeticGaloisRepresentations Layer 4 finite-image classification and ArithmeticGaloisRepresentations Layer 5 recognition; ModularForms Layers 0, 4, 8G and 8W; AutomorphicLFunctionsAndLocalFactors AL.3 Rankin–Selberg pole/second-moment theorem; ClassFieldTheory Layer 11. The uniform finite-image bound and prime-to-order integral lifting are the key finite-group steps here.
+
+*Source:* [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), Theorem 4.1, Corollary 4.2 and Remarks 4.4–5, pp.513–515; Propositions 5.1 and 5.5, pp.517–520; Proposition 6.7 and Lemmas 6.11–13, pp.521–523; Proposition 7.2, pp.524–525; §8.1–7, pp.525–527.
+
 <a id="layer-r15-6"></a>
 
 ## Layer R15.6 — Residual modularity and the classical target
@@ -1378,7 +1468,7 @@ The classical convention imposes ε(−1)=(−1)^k and requires even k at p=2. T
 
 #### Residual attachment for reduction eigensystems
 
-Import GL2AutomorphicRepresentationsAndTransfer §§R17.6.2–R17.6.3 for the λ-adic attachment of normalized weight≥2 newforms and the Artin attachment of normalized weight-one newforms. Retain their good-prime polynomial X²−a_ℓX+ε(ℓ)ℓ^(k−1), determinant εχ_cyc^(k−1), coefficient embeddings and compact-image stable lattices. For a nonzero reduction eigensystem actually in the integral lattice image of R15.2, construct its semisimple residual representation by reducing an attached lift from R15.5. A Katz eigensystem requires the stated justified Hasse shift into that image. Prove agreement with every such lift from its good-prime characteristic polynomials and semisimple recognition. This defines residual attachment independently of the final modularity predicates and makes no claim that an arbitrary Katz form lifts in its original weight.
+Use [R15.5A.2](#target-classical-higher-weight-attachment) for the λ-adic attachment of normalized weight≥2 newforms and [R15.5A.3](#target-classical-weight-one-attachment) for the Artin attachment of normalized weight-one newforms. Retain their good-prime polynomial X²−a_ℓX+ε(ℓ)ℓ^(k−1), determinant εχ_cyc^(k−1), coefficient embeddings and compact-image stable lattices. For a nonzero reduction eigensystem actually in the integral lattice image of R15.2, construct its semisimple residual representation by reducing an attached lift from R15.5. A Katz eigensystem requires the stated justified Hasse shift into that image. Prove agreement with every such lift from its good-prime characteristic polynomials and semisimple recognition. This defines residual attachment independently of the final modularity predicates and makes no claim that an arbitrary Katz form lifts in its original weight.
 
 Prove lattice independence at a fixed place, coefficient extension and transport under coefficient conjugation with the place and residue embedding transported. A permitted shift by a multiple of p−1 preserves the residual determinant exponent; compare only lifts with the same residual good-prime eigenvalues and character.
 
@@ -1388,7 +1478,7 @@ Prove lattice independence at a fixed place, coefficient extension and transport
 - A weight-one attachment has finite image and determinant ε; its reduction retains the second Hecke term, so it is not obtained by dropping V from T_p.
 - Two stable lattices in the same attachment at the same place give isomorphic semisimple reductions. Conjugating coefficients transports that place; an unrelated place with an untransported residue embedding is not identified by this comparison.
 
-*Needs:* GL2AutomorphicRepresentationsAndTransfer §§R17.6.2–R17.6.3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7; [Controlled eigenform lifting and weight shifts](#target-reduction-to-weight-at-least-two-and-to-a-true-eigenform); [The integral cusp lattice and its reduction image](#target-integral-lattice-and-reduction-image).
+*Needs:* [R15.5A.2 Classical eigenforms of weight at least two](#target-classical-higher-weight-attachment); [R15.5A.3 The Artin representation of a classical weight-one form](#target-classical-weight-one-attachment); ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7; [Controlled eigenform lifting and weight shifts](#target-reduction-to-weight-at-least-two-and-to-a-true-eigenform); [The integral cusp lattice and its reduction image](#target-integral-lattice-and-reduction-image).
 
 ([Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), Theorem 6.1, pp.520–521, Proposition 6.7, p.521, and §§6.9–6.13, pp.522–523.)
 
@@ -1518,7 +1608,7 @@ The curve 11a1 gives an S-type representation at 3 and a reducible representatio
 
 ### Dependencies
 
-R15.4–R15.5; ArithmeticGaloisRepresentations Layers 1, 3 and 5; [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems).
+R15.4–R15.5A; ArithmeticGaloisRepresentations Layers 1, 3 and 5; [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems).
 
 ## Reading and suggested Lean statements
 
@@ -1530,7 +1620,8 @@ The examples distinguish negative global weights from negative supersingular fib
 
 All statements above are mathematical formulations in the conventions of this roadmap. Source citations identify results or proof ingredients, including where a general construction is used through its owner. Journal page numbers and author-file page numbers are distinguished below; the editions are part of the locators.
 
-* Pierre Deligne and Jean-Pierre Serre, [Formes modulaires de poids 1](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), Annales scientifiques de l'ENS, series 4, 7 (1974), pp.507–530. Proposition 2.7 concerns the integral lattice; §6.9 and Lemma 6.11 concern weight shift and eigenvalue lifting, pp.521–523. Those are different inputs.
+* Pierre Deligne, [Formes modulaires et représentations ℓ-adiques](https://www.numdam.org/article/SB_1968-1969__11__139_0.pdf), Séminaire Bourbaki, exposé 355 (1969), pp.139–172. §§1–3 construct the parabolic coefficient realization and its pairing; §4 constructs the higher-weight attachment and coefficient descent.
+* Pierre Deligne and Jean-Pierre Serre, [Formes modulaires de poids 1](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), Annales scientifiques de l'ENS, series 4, 7 (1974), pp.507–530. Proposition 2.7 concerns the integral lattice; §6.9 and Lemma 6.11 concern weight shift and eigenvalue lifting, pp.521–523. §§4–8 supply the classical weight-one attachment, second-moment argument, uniform finite-image bound and prime-to-order lifting.
 * Jean-Pierre Serre, [Sur les représentations modulaires de degré 2 de Gal(Q̄/Q)](https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf), Duke Mathematical Journal 54 (1987), pp.179–230. §§1–2 give the local invariants and recipe, pp.180–192; §§3.1–3.2 give reduction conventions and the classical formulation, pp.192–198.
 * Bas Edixhoven, [The weight in Serre's conjectures on modular forms](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Inventiones 109 (1992), pp.563–594, using the author DVI dated 24 December 1998. All citations marked DVI refer to that file's own pages, especially §§2–4, pp.3–11 and §§7–8, pp.23–28; they are not journal page numbers.
 * Michel Raynaud, [Schémas en groupes de type (p,…,p)](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Bulletin de la Société Mathématique de France 102 (1974), pp.241–280, especially §§3.2–3.4, pp.265–271. The tame prolongation input is Theorem 3.4.3.
