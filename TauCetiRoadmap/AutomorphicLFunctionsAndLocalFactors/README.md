@@ -6,11 +6,11 @@ The library must expose the spaces, measures, distributions and comparison maps 
 
 ## Scope and ownership
 
-The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. The representation prerequisites below construct Casselman–Wallach globalizations, archimedean Langlands parameters, restricted tensors, GLₙ isobaric/residual classification and finite-part rational structures. The generic finite-place newform theorem and Maass realization are targets here. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
+The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. AutomorphicSpectralTheory §§0.48–0.50 supplies normalized archimedean induction, Casselman–Wallach globalizations and restricted tensor factorization; §§1.10a–1.10b supplies the function-field adelic/cuspidal carriers and §4.14 the everywhere-unramified function-field residual classification. The representation prerequisites below construct Whittaker, Weil-parameter, smooth-tensor and residual-factor comparisons, number-field isobaric sums and finite-part rational structures. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and GL2AutomorphicRepresentationsAndTransfer R16.2.2–R16.2.5 for rank two; the compatible higher-rank construction and Maass realization are targets here. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
 
-**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. This roadmap uses those measures to construct Schwartz spaces, Poisson summation and zeta integrals. The local intertwining operators and their operator identities come from **AutomorphicSpectralTheory**, §§2.1–2.3; their GLₙ L-factor normalization and positive-half-plane estimates needed for strip bounds are constructed here; the Rankin–Selberg scalar that normalizes them belongs here. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized GLₙ Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. Ramified comparisons always take a compatible local parameter as an input; the existence of a general finite-place local Langlands correspondence is a separate theorem.
+**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. This roadmap uses those measures to construct Schwartz spaces, Poisson summation and zeta integrals. The local intertwining operators and their operator identities come from **AutomorphicSpectralTheory**, §§2.1–2.3; their GLₙ L-factor normalization and positive-half-plane estimates needed for strip bounds are constructed here; the Rankin–Selberg scalar that normalizes them belongs here. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized GLₙ Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. Ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
-For function fields AL.3 constructs completion-valued additive analysis from **AlgebraicCurves**, layers 0, 4, 5, 9 and 12, then the unramified pure realization and cohomological determinant comparison. The scheme geometry is imported from **SchemeAndStackFoundations**, layers 0–3; scheme étale operations and trace from **LefschetzPencilsAndVanishingCycles**, §§F.0–F.6 and F.10, and **ClassicalAdicEtaleCohomology**, §§0.9–0.10; weights and purity from **DeligneWeightsAndPurity**, DWP.0–DWP.1 and DWP.5–DWP.7. **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §R07.1.0, supplies scheme Frobenius and its twists. The curve subsection constructs Harder–Narasimhan truncation theory and the ramified lower-rank correspondence and function-field converse inputs for rank induction. Rational cohomology for the particular finite-stabilizer shtuka compactifications, their boundary comparison and essential Hecke summand are part of the realization construction here. Scheme-level duality alone does not supply those stack statements.
+For function fields AL.3 constructs residue-character, self-dual-measure and Poisson comparisons on the completion-valued adeles of **AutomorphicSpectralTheory**, §1.10a, using **AlgebraicCurves**, layers 0, 4, 5, 9 and 12, then the unramified pure realization and cohomological determinant comparison. The scheme geometry is imported from **SchemeAndStackFoundations**, layers 0–3; scheme étale operations and trace from **LefschetzPencilsAndVanishingCycles**, §§F.0–F.6 and F.10, and **ClassicalAdicEtaleCohomology**, §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; weights and purity from **DeligneWeightsAndPurity**, DWP.0–DWP.1 and DWP.5–DWP.7. **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §R07.1.0, supplies scheme Frobenius and its twists. The curve subsection constructs Harder–Narasimhan truncation theory and the ramified lower-rank correspondence and function-field converse inputs for rank induction. Rational cohomology for the particular finite-stabilizer shtuka compactifications, their boundary comparison and essential Hecke summand are part of the realization construction here. Scheme-level duality alone does not supply those stack statements.
 
 The last layer states the complex GL₂ period and stabilization dictionary used by interpolation formulas. Constructing p-adic measures, overconvergent modular symbols and exceptional-zero formulas is separate work. Algebraicity is used only with an actual critical-value theorem and its coefficient field, sign, character and nonzero period. The rational Whittaker/cohomological period theorem of AL.3 has its own broader hypotheses; a GL₂ formula over ℚ does not establish algebraicity for arbitrary rank or arbitrary number fields.
 
@@ -99,15 +99,18 @@ identification of the residue with adelic measure are AL.1 targets.
   *whittaker-functionals* gives GL₂ uniqueness; SR.5.1 *mirabolic-derivatives* and
   SR.5.3 *highest-derivative-adapter* give derivatives and their characteristic-zero
   adapter. Higher-rank uniqueness, generic newforms and conductor normalization
-  are [targets here](#generic-local-newforms).
+  use the [generic newform interface](#generic-local-newforms), with rank-two
+  newvectors supplied by GL2AutomorphicRepresentationsAndTransfer R16.2.2–R16.2.5
+  and the higher-rank construction here.
 - **ReductiveGroupsPartII**, RG2.5 supplies the dual group and Frobenius coset.
   **IntegralHeckeAndGaloisDeterminants**, §3a.1, *Normalized Satake coefficients for GLn*,
   supplies the integral-to-unitary polynomial conversion: under its Satake map the
   roots are q^((n−1)/2) times the unitary roots.
 - **ArithmeticGaloisRepresentations**, §§2.4–2.5 supplies the shared Weil–Deligne
   data (V,r,N), inertia and monodromy invariant factor and arithmetic/geometric
-  Frobenius conversion; §2.7 supplies epsilon factors. AL.4 compares only after an
-  L/ε-compatible parameter has actually been supplied.
+  Frobenius conversion; §2.7 supplies epsilon factors. AL.4 takes supplied
+  ramified factor equalities as inputs, and proves their
+  normalization transport and the unramified determinant comparison.
 - **ArithmeticLocallySymmetricSpaces**, ALS.5b.1 *de-rham-comparison*, ALS.5b.4
   *automorphic-comparison* and ALS.5b.5 *cuspidal-cohomology* supplies the geometric
   characteristic-zero realizations, retaining the `FrankeInput` hypothesis of ALS.5b.4.
@@ -120,9 +123,10 @@ identification of the residue with adelic measure are AL.1 targets.
   **LefschetzPencilsAndVanishingCycles**, §§F.0–F.6 and F.10, supplies finite
   constructible/ctf and adic operations, duality, Frobenius-equivariant Künneth
   and `VanishingCycles.etaleTraceFormula`. **ClassicalAdicEtaleCohomology**,
-  §§0.9–0.10, supplies `ClassicalAlgebraic.smoothTrace` and
+  §0.11, supplies `ClassicalAlgebraic.smoothTrace` and
   `ClassicalAlgebraic.curveDuality` for separated smooth finitely presented maps,
-  with coefficients ℤ/n and n invertible; use compatible ℓ-power lattices and
+  with the §0.8 compactification, coefficients ℤ/n and n invertible; §§0.9–0.10
+  supply cycle classes and smooth-boundary purity. Use compatible ℓ-power lattices and
   rational adic realization for ℓ≠char(𝔽_q). **DeligneWeightsAndPurity**,
   DWP.0–DWP.1 and DWP.5–DWP.7, supplies numerical weights, Weil descent,
   curve purity and direct-image bounds. In particular DWP.6.4 and DWP.7.8,
@@ -144,7 +148,7 @@ All local APIs below are proposed extensions of those carriers. The suggested fi
 | AL.4 | Satake/L-group determinants, conditional Weil–Deligne comparisons and factor operations. |
 | AL.5 | Finite Euler corrections, critical-value normalization, sign vanishing and refined GL₂ factors. |
 
-Construct the archimedean representation and parameter prerequisites before AL.1’s archimedean comparisons. Construct AL.0 and AL.1 first among the analytic layers; construct restricted tensors and the ALS.F.6 cusp realization before global integrals. Prove local Whittaker uniqueness before the local integral prefixes, and the newvector/essential-function targets after the local-factor prefix but before ramified tests. Next construct the local integral prefixes of AL.2 and AL.3; the ramified Godement–Jacquet test then uses the finite-place Rankin–Selberg induced-factor product. The global analytic prefix of AL.3 precedes AL.2's absolute convergence and growth results, which use the positive self-pair and the Jacquet–Shalika bound. AL.4's determinant interface precedes the function-field and motivic suffix of AL.3. Rational periods use the geometric rational structures of the finite-part rationality target and ALS.5b after the analytic Whittaker model has been constructed. The isobaric construction precedes number-field strong multiplicity one, which then precedes finite-part rationality and periods. The GLₙ normalized-intertwiner contract and the cited spectral continuation/truncation prefix precede general strip bounds; the residual classification follows the cuspidal analytic prefix and precedes residual pair products. In the curve branch, degree/slope, HN filtrations and polygon boundedness precede shtuka truncations. Function-field local/global analytic and converse targets precede rank induction. Rank r first assumes the ramified correspondence and temperedness in every smaller rank, proves the level-r essential-cohomology construction, applies VI.11 and its local comparisons, then specializes to no level. The document groups targets by layer; these finer dependencies specify their acyclic construction order.
+Import AutomorphicSpectralTheory §§0.48–0.50 for normalized archimedean induction, globalizations and restricted tensors before the Whittaker/Weil-parameter comparisons here and AL.1’s archimedean factors. Construct AL.0 and AL.1 first among the analytic layers; construct the restricted-tensor smooth comparisons and use the ALS.F.6 cusp realization before global integrals; the function-field carrier and adelic topology come from AutomorphicSpectralTheory §§1.10a–1.10b. Prove local Whittaker uniqueness, then construct the local integral/factor prefixes of AL.2 and AL.3. The GL₂ supplier’s newvector targets and the higher-rank newvector/essential-function targets follow these prefixes and precede ramified tests. For this order, GL2AutomorphicRepresentationsAndTransfer R16.2.4’s AL.2 input ends at standard-local-l-factor and excludes the newform tests. The ramified Godement–Jacquet test uses the finite-place Rankin–Selberg induced-factor product. The global analytic prefix of AL.3 precedes AL.2's absolute convergence and growth results, which use the positive self-pair and the Jacquet–Shalika bound. AL.4's determinant interface precedes the function-field and motivic suffix of AL.3. Rational periods use the geometric rational structures of the finite-part rationality target and ALS.5b after the analytic Whittaker model has been constructed. The isobaric construction precedes number-field strong multiplicity one, which then precedes finite-part rationality and periods. The GLₙ normalized-intertwiner contract and the cited spectral continuation/truncation prefix precede general strip bounds; AutomorphicSpectralTheory §4.14’s everywhere-unramified function-field residual classification follows its cuspidal Eisenstein prefix and precedes residual pair products here. In the curve branch, degree/slope, HN filtrations and polygon boundedness precede shtuka truncations. Function-field local/global analytic and converse targets precede rank induction. Rank r first assumes the ramified correspondence and temperedness in every smaller rank, constructs the lower-rank leg-in-level spaces and their counts for boundary degenerators in the level, proves the level-r essential-cohomology construction, applies VI.11 and its local comparisons, then specializes to no level. The document groups targets by layer; these finer dependencies specify their acyclic construction order.
 
 For named APIs, `LocalFourier` means `TauCeti.LocalFourier`, `SchwartzBruhat` means `TauCeti.SchwartzBruhat`, `TateZeta` means `TauCeti.TateZeta`, and `ALk` means `TauCeti.AutomorphicLFunctions.ALk`. A definition's tests specify concrete computations, comparisons or failures that distinguish its normalization.
 
@@ -153,7 +157,7 @@ For named APIs, `LocalFourier` means `TauCeti.LocalFourier`, `SchwartzBruhat` me
 
 <a id="archimedean-smooth-representations"></a>
 
-**Archimedean smooth representations.** For GLₙ(ℝ) and GLₙ(ℂ), n≥1, construct admissible smooth Fréchet representations of moderate growth and finite length, their continuous intertwining maps, contragredients and normalized parabolic induction in a fixed compact picture. Prove that passage to maximal-compact-finite vectors is an equivalence with Harish–Chandra modules; its inverse is the Casselman–Wallach globalization. Identify the globalization of a unitary Harish–Chandra module with smooth vectors of its Hilbert realization, without identifying the two topologies. For generic irreducibles prove one-dimensionality of the continuous Whittaker-functional space for a fixed nondegenerate character. Use ALS.F.1 and RepresentationTheory's Lie/enveloping-algebra and compact-group carriers.
+**Archimedean Whittaker comparisons.** For GLₙ(ℝ) and GLₙ(ℂ), n≥1, use AutomorphicSpectralTheory §0.48 real_representation_foundations and §0.49 smooth_frechet_globalization, treating GLₙ(ℂ) as a real reductive group. They supply normalized induction, Langlands classification, admissible finite-length Casselman–Wallach representations and the comparison with smooth vectors of a specified unitary Hilbert realization. For generic irreducibles prove here one-dimensionality of the continuous Whittaker-functional space for a fixed nondegenerate character and identify the resulting orbit-function realization with the supplied smooth representation. Retain continuity and the globalization topology in this comparison.
 
 **Checks.** GL₁ characters globalize on a complex line; a weight-two GL₂ discrete-series block retains both O(2) signs; a continuous Whittaker functional is unique up to scalar, whereas the zero functional gives no realization.
 
@@ -161,33 +165,33 @@ For named APIs, `LocalFourier` means `TauCeti.LocalFourier`, `SchwartzBruhat` me
 
 <a id="archimedean-gln-parameters"></a>
 
-**Archimedean GLₙ parameters.** Construct the Weil groups W_ℝ=ℂ×∪jℂ×, j²=−1, jzj⁻¹=z̄, and W_ℂ=ℂ×, and their finite-dimensional semisimple continuous parameters. Classify their irreducible constituents and identify irreducible Casselman–Wallach GLₙ representations with the Langlands quotients of ordered normalized standard modules. Real one-dimensional constituents are sgn^a|·|^t; real two-dimensional constituents I_w|·|^t have w≥1; complex constituents have integral angular weight and a complex norm exponent. Match the corresponding characters and discrete-series blocks, duals, norm twists, infinitesimal characters, and the gamma/epsilon formulas of AL.1. The parameter construction precedes those formulas.
+**Archimedean GLₙ parameters.** Construct the Weil groups W_ℝ=ℂ×∪jℂ×, j²=−1, jzj⁻¹=z̄, and W_ℂ=ℂ×, and their finite-dimensional semisimple continuous parameters. Classify their irreducible constituents and match them to the Langlands quotients of ordered normalized standard modules supplied by AutomorphicSpectralTheory §0.48, using its §0.49 globalizations. Real one-dimensional constituents are sgn^a|·|^t; real two-dimensional constituents I_w|·|^t have w≥1; complex constituents have integral angular weight and a complex norm exponent. Match the corresponding characters and discrete-series blocks, duals, norm twists, infinitesimal characters, and the gamma/epsilon formulas of AL.1. The parameter construction precedes those formulas.
 
 **Checks.** The trivial real line gives Γ_ℝ(s); I₁ gives D₂ and Γ_ℂ(s+1/2); I₀ splits as 1⊕sgn and is excluded from the irreducible two-dimensional list.
 
 (Source: Humphries, §2.2.1–§2.2.4 and §2.4.2–§2.4.3, pp.3–7; Borel, §§12–13, pp.46–50.)
 
-*Needs:* [Archimedean smooth representations](#archimedean-smooth-representations); ReductiveGroupsPartII RG2.5's dual-group vocabulary.
+*Needs:* AutomorphicSpectralTheory §§0.48–0.49; [Archimedean Whittaker comparisons](#archimedean-smooth-representations); ReductiveGroupsPartII RG2.5's dual-group vocabulary.
 
 <a id="restricted-tensor-realizations"></a>
 
-**Restricted tensor realizations.** For GLₙ over a global field construct the algebraic restricted tensor of smooth finite-place representations with specified spherical lines almost everywhere. Over a number field combine it with the completed projective tensor of the archimedean globalizations. Prove Flath factorization for irreducible admissible automorphic modules; for unitary cusp representations compare this realization with the smooth vectors of the restricted Hilbert tensor. Isomorphism classes of local factors are unique; tensor maps depend on the chosen spherical vectors and global scalar. Use ALS.F.6's number-field cusp and rapid-decay space. Over a function field construct the analogous locally constant, finite-level, cuspidal automorphic carrier modulo a fixed central character and its admissible irreducible constituents. Construct compact rational unipotent quotients by a root-subgroup filtration and the additive adelic quotient, so their constant-term and Fourier integrals exist with volume one.
+**Restricted tensor realizations.** Use AutomorphicSpectralTheory §0.50 restricted_tensor_factorization for algebraic restricted tensors, Flath factorization, uniqueness of local factors and the restricted Hilbert tensor realization with unit spherical vectors; use §0.49 at infinity. Over a number field prove that the completed projective tensor of the archimedean smooth globalizations realizes the smooth automorphic module in ALS.F.6, compatibly with the supplied algebraic and Hilbert factorizations. Tensor maps depend on the chosen spherical vectors and global scalar. Over a function field use AutomorphicSpectralTheory §1.10a function_field_adelic_data for completion-valued adeles and compact rational unipotent quotients and §1.10b function_field_eisenstein_theory for finite-level cuspidal automorphic carriers. Compare their quotient measures with the residue-character self-dual measures of curve additive analysis here. Number-field rational unipotent integration in stages is supplied by AutomorphicSpectralTheory §0.51.
 
 **Checks.** A GL₁ tensor recovers an idele-class character; changing one spherical vector scales the tensor identification; a sum of two independent pure tensors need not itself be pure.
 
 (Source: Cogdell, Fields lectures, Lecture 3, Theorems 3.2, 3.4 and 3.6, pp.22–26; Lafforgue, VI §1d, pp.157–158 and Appendix B §3b, pp.230–232.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AdelicAlgebraicGroups §§0.1–0.4 and 2.2–2.3; GlobalNumberFields layer 5's additive quotient; [Curve additive analysis](#curve-additive-analysis) for the function-field carrier; [Archimedean smooth representations](#archimedean-smooth-representations) at infinity.
+*Needs:* AutomorphicSpectralTheory §§0.49–0.51 and 1.10a–1.10b; ALS.F.6; SmoothRepresentationsOfLocalGroups SR.1–SR.4; AdelicAlgebraicGroups §§0.1–0.4 and 2.2–2.3; [Curve additive analysis](#curve-additive-analysis) for the function-field measure comparison; [Archimedean Whittaker comparisons](#archimedean-smooth-representations) at infinity.
 
 <a id="isobaric-residual-classification"></a>
 
-**GLₙ isobaric sums and residual blocks.** Construct the isobaric Langlands sum of a finite multiset of cuspidal representations with specified norm twists, as the irreducible Langlands quotient of ordered normalized induction. Identify its unramified Satake polynomial with the product of the constituent polynomials. For unitary cuspidal τ of GL_d and ν≥1 construct the discrete residual block of rank dν as the quotient with exponents (ν−1)/2,(ν−3)/2,…,−(ν−1)/2, and prove the GLₙ discrete-spectrum classification, with the fixed central character and automorphic multiplicity retained. Cuspidality means ν=1. The isobaric construction precedes strong multiplicity one; the discrete classification uses continued Eisenstein residues after the cuspidal analytic prefix, before residual Rankin–Selberg products. Operator continuation and residues use AutomorphicSpectralTheory §§1.1–1.5, 2.4 and 2.6, which require only its convergent/continued prefix at this point.
+**GLₙ isobaric sums and residual factor comparisons.** Over a number field construct the isobaric Langlands sum of a finite multiset of cuspidal representations with specified norm twists, as the irreducible Langlands quotient of ordered normalized induction. Identify its unramified Satake polynomial with the product of the constituent polynomials. This construction precedes number-field strong multiplicity one. For everywhere-unramified discrete representations over a function field, use AutomorphicSpectralTheory §4.14 moeglin_waldspurger: a unitary cuspidal τ of GL_d and ν≥1 supply the residual block of rank dν with exponents (ν−1)/2,(ν−3)/2,…,−(ν−1)/2, with uniqueness and the fixed central-character clauses. Construct here the standard and pair Euler-factor comparisons for those blocks from their supplied spherical Hecke modules. Cuspidality means ν=1. The spectral residual classification follows its cuspidal Eisenstein continuation prefix and precedes these residual factor comparisons.
 
 **Checks.** A one-term isobaric sum is that cusp representation; ν=2 has shifts ±1/2 and is not cuspidal; for d=1,ν=2 the residual determinant character is nongeneric, so generic Whittaker formulas apply to its inducing data rather than to the quotient.
 
 (Source: Cogdell, Fields lectures, Lecture 9, pp.75–76; Mœglin–Waldspurger, *Le spectre résiduel de GL(n)*, Ann. Sci. ENS 22 (1989), introduction theorem, pp.605–606, with the function-field central-character clauses of IV.)
 
-*Needs:* The preceding representation prerequisites; SR.2–SR.3 normalized induction and Langlands quotients; AL.3 cuspidal continuation and pole criterion for the residual construction; the stated AutomorphicSpectralTheory prefix.
+*Needs:* The preceding representation prerequisites; SR.2–SR.3 normalized induction and Langlands quotients; AutomorphicSpectralTheory §0.48 for archimedean Langlands quotients, §§1.10a–1.10b and 4.14 for the everywhere-unramified function-field residual classification; AL.2/AL.3 local-factor prefixes for its factor comparisons.
 
 <a id="finite-part-rationality"></a>
 
@@ -1258,13 +1262,13 @@ AL.0; GlobalNumberFields layers 9–10; ClassFieldTheory layers 7 and 13 (conduc
 
 <a id="generic-local-newforms"></a>
 
-**Generic finite-place newforms.** Let F be a finite extension of ℚ_p, n≥1, and π an irreducible admissible generic smooth complex GLₙ(F) representation. For fixed nondegenerate ψ prove Whittaker uniqueness in all ranks, reusing SR.2.3 for n=2. Put K₁(P^c)={k∈GLₙ(O): k_{nj}∈P^c for j<n, k_{nn}≡1 mod P^c}, with K₁(P⁰)=GLₙ(O). Define c as the least depth with nonzero invariants; prove existence, vanishing below c and dimension one at c. For c>0 identify that line with the ω_π(k_{nn})-isotypic K₀(P^c) line and prove c(ω_π)≤c. For a conductor-O ψ, Whittaker evaluation at 1 is nonzero on it; normalize W°(1)=1 and prove its essential Whittaker restriction and the GLₙ×GLₙ₋₁ spherical-twist test. After the local-factor prefix identify c with the epsilon conductor. This order defines the fixed line before using it as an analytic test vector.
+**Generic finite-place newforms.** Let F be a finite extension of ℚ_p, n≥1, and π an irreducible admissible generic smooth complex GLₙ(F) representation. For fixed nondegenerate ψ prove Whittaker uniqueness in all ranks, reusing SR.2.3 for n=2. Put K₁(P^c)={k∈GLₙ(O): k_{nj}∈P^c for j<n, k_{nn}≡1 mod P^c}, with K₁(P⁰)=GLₙ(O). Use ClassFieldTheory layer 7 for n=1 and GL2AutomorphicRepresentationsAndTransfer R16.2.2–R16.2.5 (newvector-level-exists, newvector-conductor, casselman-newvector, normalized-newvector) for n=2. Construct the compatible theorem here for n≥3: define c as the least depth with nonzero invariants and prove existence, vanishing below c and dimension one at c. For c>0 identify that line with the ω_π(k_{nn})-isotypic K₀(P^c) line and prove c(ω_π)≤c. For a conductor-O ψ, Whittaker evaluation at 1 is nonzero on it; normalize W°(1)=1 and prove its essential Whittaker restriction and the GLₙ×GLₙ₋₁ spherical-twist test. After the local-factor prefix identify c with the epsilon conductor. This order defines the fixed line before using it as an analytic test vector.
 
 **Checks.** For n=1, c is the attained character conductor of ClassFieldTheory layer 7; c=0 gives the spherical line; a ramified central character prevents c=0 and satisfies c(ω_π)≤c; a nongeneric determinant character for n>1 has no essential Whittaker vector.
 
 (Source: Humphries, Godement–Jacquet tests, §2.1–§2.2, p.2, Theorems 3.2 and 3.7, pp.3–4, citing JPSS, Théorèmes (4)–(5); Atobe–Kondo–Yasuda, Theorem 1.1, pp.3–4, and Theorems 2.1–2.2, generic case λ=(0,…,0,c); Casselman, *On some results of Atkin and Lehner*, Theorem 1 and §3, for GL₂.)
 
-*Needs:* SR.2.3 *whittaker-functionals*, SR.5.1 *mirabolic-derivatives* and SR.5.3 *highest-derivative-adapter* for their specified derivative contracts; ClassFieldTheory layer 7; AL.3's generic local Rankin–Selberg factor prefix for the essential test and analytic conductor comparison.
+*Needs:* GL2AutomorphicRepresentationsAndTransfer R16.2.2–R16.2.5 for rank two; its AL.2 back-edge is restricted to the local integral/factor prefix ending at standard-local-l-factor, before newform and ramified-vector tests. SR.2.3 *whittaker-functionals*, SR.5.1 *mirabolic-derivatives* and SR.5.3 *highest-derivative-adapter* for their specified derivative contracts; ClassFieldTheory layer 7; AL.3's generic local Rankin–Selberg factor prefix for the essential test and analytic conductor comparison.
 
 <a id="godement-jacquet-integral"></a>
 
@@ -1287,7 +1291,7 @@ Require the following API.
 
 (Source: [Humphries, archimedean newforms](#ref-humphriesarch), §2.3.2, (2.3), pp.5–6.)
 
-*Needs:* [The local Schwartz–Bruhat space S(F), its F^×-action and tempered distributions](#local-schwartz-bruhat-space); **SmoothRepresentationsOfLocalGroups**, SR.3; [Archimedean smooth representations](#archimedean-smooth-representations); **AdelicAlgebraicGroups**, AA.0.
+*Needs:* [The local Schwartz–Bruhat space S(F), its F^×-action and tempered distributions](#local-schwartz-bruhat-space); **SmoothRepresentationsOfLocalGroups**, SR.3; [Archimedean Whittaker comparisons](#archimedean-smooth-representations); **AdelicAlgebraicGroups**, AA.0.
 
 
 <a id="godement-jacquet-convergence"></a>
@@ -1480,15 +1484,27 @@ Work under the following hypotheses. Same hypotheses and gamma convention as maa
 *Needs:* [The normalized Maass standard L-function](#maass-standard-l-function); [The global standard L-function](#global-godement-jacquet).
 
 
+<a id="maass-adjoint-l-function"></a>
+
+**The finite Maass adjoint L-function.** For the normalized level-one Hecke–Maass cusp eigenform with r∈ℝ, let π be its unitary adelic realization. Its central character is trivial, so at p its Satake roots are α_p,α_p⁻¹. Define L_f(s,Ad φ) in its absolute-convergence half-plane by local denominator (1−T)(1−α_p²T)(1−α_p⁻²T), T=p^(−s). Prove L_f(s,π×π∨)=ζ(s)L_f(s,Ad φ). Continue this quotient to s=1; the simple self-pair pole and the positive unfolding residue give a finite, nonzero, positive value there. The archimedean adjoint factor is Γ_R(s)Γ_R(s+2ir)Γ_R(s−2ir). The light formula `AL2.maassAdjointCompletion` multiplies a supplied finite continuation by these factors, and `AL2.MaassAdjointLFunction.at_one` gives its value L_f(1,Ad φ)/cosh(πr).
+
+**Checks.** At each prime the self-pair denominator has two copies of 1−T, so dividing by ζ leaves exactly one; at s=1 the completed adjoint value is L_f(1,Ad φ)/cosh(πr), rather than the finite value; the positive self-pair residue equals L_f(1,Ad φ) because Res_(s=1)ζ(s)=1, proving positivity without assuming a value for a divergent Euler product.
+
+(Source: Humphries–Nordentoft, §4.1.1, (4.5), p.21; Cogdell, Fields lectures, Lecture 9 §3 and §6, pp.71–74, self-pair pole; the gamma comparison uses the real gamma reflection formula.)
+
+*Needs:* [The normalized Maass standard L-function](#maass-standard-l-function); [The Rankin–Selberg local L-factor](#rs-local-factor); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); AL.1’s trivial-character zeta continuation and canonical archimedean factors. This target follows the AL.3 self-pair analytic prefix and precedes the norm comparison.
+
 <a id="maass-norm-comparison"></a>
 
-**The Maass Fourier and Petersson normalization.** For a level-one Hecke–Maass cusp eigenform with the Duke expansion and a(1)=1, ∫_(SL₂(Z)\H)|φ|² dxdy/y²=2L(1,Ad φ)/cosh(πr). In the W_(0,ir)(4π|n|y) convention, ρ(1)λ(n)=sqrt(n)ρ(n) and W_(0,ir)(x)=sqrt(x/π)K_(ir)(x/2), so the Duke normalization is exactlyρ(1)=1. L²-unit normalization therefore has |ρ(1)|²=cosh(πr)/(2L(1,Ad φ)).
+**The Maass Fourier and Petersson normalization.** For a level-one Hecke–Maass cusp eigenform with the Duke expansion and a(1)=1, ∫_(SL₂(Z)\H)|φ|² dxdy/y²=2L_f(1,Ad φ)/cosh(πr). In the W_(0,ir)(4π|n|y) convention, ρ(1)λ(n)=sqrt(n)ρ(n) and the identity W_(0,ir)(x)=sqrt(x/π)K_(ir)(x/2) for x>0 is imported from AutomorphicSpectralTheory §§0.26–0.27, so the Duke normalization is exactlyρ(1)=1. L²-unit normalization therefore has |ρ(1)|²=cosh(πr)/(2L_f(1,Ad φ)).
 
-Work under the following hypotheses. Level1 and standard hyperbolic measure of volumeπ/3; coefficients normalized as above. No unspecified Petersson scalar is allowed.
+Work under the following hypotheses. Level1 and standard hyperbolic measure of volumeπ/3; coefficients normalized as above. Use the finite adjoint value of the preceding target. No unspecified Petersson scalar is allowed.
+
+**Checks.** Duke’s a(1)=1 gives ρ(1)=1 in the W convention; L²-unit normalization has the displayed reciprocal finite-adjoint scalar; writing the completed adjoint value instead gives norm 2Λ(1,Ad φ), with its gamma factor already included.
 
 (Source: [Humphries–Nordentoft](#ref-humphriesnordentoft), §4.1.1 (4.2)–(4.6) pp.21–22.)
 
-*Needs:* [The normalized Maass standard L-function](#maass-standard-l-function); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [The K-Bessel kernel](#bessel-k); **ArithmeticLocallySymmetricSpaces**, ALS.F.6.
+*Needs:* [The normalized Maass standard L-function](#maass-standard-l-function); [The finite Maass adjoint L-function](#maass-adjoint-l-function); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [The K-Bessel kernel](#bessel-k); AutomorphicSpectralTheory §0.26 whittaker_w and §0.27 whittaker_bessel_comparison, specialized to ν=ir and x>0; these require only AL.0’s K-Bessel prefix. **ArithmeticLocallySymmetricSpaces**, ALS.F.6.
 
 
 ### Examples
@@ -1535,7 +1551,7 @@ injectivity. The three checks below also discriminate the light evaluation formu
 
 (Source: [Jacquet](#ref-jacquetarch), §2, pp.3–5, continuous Whittaker form and realization.)
 
-*Needs:* [Generic finite-place newforms](#generic-local-newforms); [Archimedean smooth representations](#archimedean-smooth-representations).
+*Needs:* [Generic finite-place newforms](#generic-local-newforms); [Archimedean Whittaker comparisons](#archimedean-smooth-representations).
 
 
 <a id="whittaker-compact-parameter-estimates"></a>
@@ -1546,7 +1562,7 @@ Work under the following hypotheses. Use fixed compact-picture Fréchet carrier;
 
 (Source: [Jacquet](#ref-jacquetarch), §3, Lemma 3.12 and Proposition 3.2, pp.19–20.)
 
-*Needs:* [The Whittaker realization](#whittaker-model); [Archimedean smooth representations](#archimedean-smooth-representations).
+*Needs:* [The Whittaker realization](#whittaker-model); [Archimedean Whittaker comparisons](#archimedean-smooth-representations).
 
 
 ### Unequal-rank and equal-rank integrals
@@ -1799,13 +1815,15 @@ Work under the following hypotheses. K is a number field. The function-field rat
 
 <a id="rs-global-functional-equation"></a>
 
-**The global Rankin–Selberg functional equation.** Λ(s,π×π′)=ε(s,π×π′)Λ(1−s,π∨×π′∨), with ε the finite product of the local factors at ramified/archimedean places. Central-character signs disappear because ∏_vω_{π′_v}(−1)=ω_{π′}(−1)=1. The global product is independent of the chosen global additive character.
+**The global Rankin–Selberg functional equation.** Λ(s,π×π′)=ε(s,π×π′)Λ(1−s,π∨×π′∨), with ε the finite product of local epsilon factors at all archimedean places and all finite places where either representation or the chosen additive character is ramified. For the standard trace character this includes places dividing the different, even for unramified representations. Central-character signs disappear because ∏_vω_{π′_v}(−1)=ω_{π′}(−1)=1. The global product is independent of the chosen global additive character.
 
 Work under the following hypotheses. K is a number field. The function-field rational/periodic-pole branch is treated by the separate function-field nodes. Use unitary cuspidal representations and consistent quotient measures.
 
+**Checks.** For the trivial GL₁ self-pair over ℚ, ε=1; over ℚ(√5) both representations are finite-unramified but the trace character at (√5) gives global ε(s)=5^(1/2−s); rescaling the global character by a∈K× changes local factors whose product cancels by the product formula. The scalar exceptional-place model of `TateZeta.globalEpsilon` mirrors the discriminant-5 power.
+
 (Source: [Cogdell, Fields lectures](#ref-cogdellfields), Lecture 9 §4, printed pp.71–72 (PDF pp.75–76); §6, Theorems 9.1–9.2, printed p.74 (PDF p.78).)
 
-*Needs:* [The local Rankin–Selberg functional equation](#rs-local-functional-equation); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles).
+*Needs:* [The local Rankin–Selberg functional equation](#rs-local-functional-equation); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); AL.1 [explicit-epsilon-factors](#explicit-epsilon-factors) and [global-epsilon-factor](#global-epsilon-factor), including additive-character conductors.
 
 
 <a id="gln-normalized-intertwining"></a>
@@ -1816,7 +1834,7 @@ Work under the following hypotheses. K is a number field. The function-field rat
 
 (Source: Gelbart–Shahidi, *Boundedness of automorphic L-functions in vertical strips*, JAMS 14 (2001), §2, (2.5)–(2.6) and Assumption 2.1, pp.84–85; §4, Corollary 4.2 and its proof, p.88; Mœglin–Waldspurger, I §10, Proposition, pp.639–640.)
 
-*Needs:* AL.3's local factor and functional-equation prefix; [Archimedean smooth representations](#archimedean-smooth-representations); SR.2–SR.3; AutomorphicSpectralTheory §§2.1–2.3 for unipotent operators, continuation and compact-picture normalization.
+*Needs:* AL.3's local factor and functional-equation prefix; [Archimedean Whittaker comparisons](#archimedean-smooth-representations); SR.2–SR.3; AutomorphicSpectralTheory §§2.1–2.3 for unipotent operators, continuation and compact-picture normalization.
 
 <a id="rs-vertical-strip-bounds"></a>
 
@@ -1828,7 +1846,7 @@ Work under the following hypotheses. K is a number field; the function-field sta
 
 **Checks.** A GL₁ trivial self-pair gives the completed Dedekind zeta function with poles at 0 and 1, so polar neighborhoods are excluded; a cuspidal pair of different ranks has no pole and is bounded on the whole strip; the statement controls the completed factor, while removing gamma factors can leave polynomial growth.
 
-*Needs:* [GLₙ normalized intertwining estimates](#gln-normalized-intertwining); AutomorphicSpectralTheory §§2.4 and 3.1–3.6; [Archimedean realization of holomorphic multiples](#rs-archimedean-realization); [Global Rankin–Selberg unfolding](#global-rs-unfolding); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); [Archimedean smooth representations](#archimedean-smooth-representations); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
+*Needs:* [GLₙ normalized intertwining estimates](#gln-normalized-intertwining); AutomorphicSpectralTheory §§2.4 and 3.1–3.6; [Archimedean realization of holomorphic multiples](#rs-archimedean-realization); [Global Rankin–Selberg unfolding](#global-rs-unfolding); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); [Archimedean Whittaker comparisons](#archimedean-smooth-representations); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
 
 
 <a id="rs-boundary-nonvanishing"></a>
@@ -1864,7 +1882,7 @@ Work under the following hypotheses. K is a number field; the function-field sta
 
 (Source: [Cogdell, Fields lectures](#ref-cogdellfields), Theorem9.4, pp.75–76.)
 
-*Needs:* [The analytic proof of strong multiplicity one](#strong-multiplicity-one); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [GLₙ isobaric sums and residual blocks](#isobaric-residual-classification), its isobaric construction; **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7.
+*Needs:* [The analytic proof of strong multiplicity one](#strong-multiplicity-one); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [GLₙ isobaric sums and residual factor comparisons](#isobaric-residual-classification), its isobaric construction; **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7.
 
 
 <a id="solvable-gln-base-change"></a>
@@ -1875,7 +1893,7 @@ Work under the following hypotheses. K is a number field; the function-field sta
 
 (Source: Arthur–Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*, Chapter 3, Theorems 3.1, 4.2 and 5.1, pp.201–203 and 212–213; Ramakrishnan, pp.3–6, Proposition 1.1 and Claim 1.2.)
 
-*Needs:* [GLₙ isobaric sums and residual blocks](#isobaric-residual-classification), its isobaric prefix; ClassFieldTheory's number-field cyclic character dictionary; AL.3's number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix. Construct the cyclic twisted trace comparison and norm-transfer identities used in Arthur–Clozel Chapter 3 §§1, 4–5 here from AutomorphicSpectralTheory's trace distributions; their existence is part of this base-change target, with its number-field/cyclic hypotheses.
+*Needs:* [GLₙ isobaric sums and residual factor comparisons](#isobaric-residual-classification), its isobaric prefix; ClassFieldTheory's number-field cyclic character dictionary; AL.3's number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix. Construct the cyclic twisted trace comparison and norm-transfer identities used in Arthur–Clozel Chapter 3 §§1, 4–5 here from AutomorphicSpectralTheory's trace distributions; their existence is part of this base-change target, with its number-field/cyclic hypotheses.
 
 <a id="ramakrishnan-degree-one"></a>
 
@@ -1913,7 +1931,7 @@ Require the following API.
 
 (Source: [Leslie](#ref-leslie2025), §8.2 pp.58–59, (8.3).)
 
-*Needs:* [The Rankin–Selberg local L-factor](#rs-local-factor); [Local convergence and continuity](#rs-local-convergence); [The unramified Rankin–Selberg test](#rs-unramified-test); [Generic finite-place newforms](#generic-local-newforms); [Archimedean smooth representations](#archimedean-smooth-representations); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
+*Needs:* [The Rankin–Selberg local L-factor](#rs-local-factor); [Local convergence and continuity](#rs-local-convergence); [The unramified Rankin–Selberg test](#rs-unramified-test); [Generic finite-place newforms](#generic-local-newforms); [Archimedean Whittaker comparisons](#archimedean-smooth-representations); [Archimedean GLₙ parameters](#archimedean-gln-parameters).
 
 
 <a id="global-central-period"></a>
@@ -1961,9 +1979,9 @@ The following inputs precede the polynomial theorems. They are separate mathemat
 
 <a id="curve-additive-analysis"></a>
 
-**Curve additive analysis.** Take K=𝔽_q(X), places, completions, differential residues and canonical divisors from Tau Ceti's **AlgebraicCurves**, layers 0, 4, 5, 9 and 12. Form completion-valued adeles with the existing restricted-product carrier; distinguish them from layer 4's K-valued repartitions. For nonzero ω and a nontrivial ψ₀:𝔽_q→Circle, define ψ_v(a)=ψ₀(Tr_(k(v)/𝔽_q) res_v(aω)). The residue theorem makes its product trivial on diagonal K. Prove its conductor is P_v^(−n_v), n_v=ord_v(ω); the existing canonical-divisor degree gives Σ_v n_v deg(v)=2g−2. Apply the finite-level Fourier proof to these completions and derive the topological discreteness/cocompactness and Schwartz/Poisson comparison from the existing Riemann–Roch quotient identities. The self-dual measures and global character are compatible with ω↦aω, a∈K×.
+**Curve additive analysis.** Take K=𝔽_q(X), places, completions, differential residues and canonical divisors from Tau Ceti's **AlgebraicCurves**, layers 0, 4, 5, 9 and 12. Use the completion-valued adeles, discrete/cocompact rational diagonal and compact rational unipotent quotients of AutomorphicSpectralTheory §1.10a function_field_adelic_data; distinguish them from layer 4's K-valued repartitions. For nonzero ω and a nontrivial ψ₀:𝔽_q→Circle, define ψ_v(a)=ψ₀(Tr_(k(v)/𝔽_q) res_v(aω)). The residue theorem makes its product trivial on diagonal K. Prove its conductor is P_v^(−n_v), n_v=ord_v(ω); the existing canonical-divisor degree gives Σ_v n_v deg(v)=2g−2. Apply the finite-level Fourier proof to these completions and prove the self-dual normalization and Schwartz/Poisson comparisons from the supplied adelic topology and existing Riemann–Roch quotient identities. Compare §1.10a’s integral local Haar measures and quotient volume with these self-dual measures. The self-dual measures and global character are compatible with ω↦aω, a∈K×.
 
-The `CurveAdditiveAnalysis` API supplies `residueCharacter_scale`, `fractionalIdeal_annihilator`, `conductor_degree`, `global_residue_product` and `poisson`. **Checks.** on ℙ¹, dt has divisor −2∞ and the conductor-degree sum is −2; two simple poles have opposite traced residues, giving a trivial product phase on diagonal constants; ω↦tω changes each n_v by ord_v(t), whose weighted sum is zero. Prerequisites: AlgebraicCurves's cited layers, SchemeAndStackFoundations, layer 3, the existing restricted-product APIs, and AL.0's compact-open Fourier proof specialized to residue characters. Sources: Lafforgue, VI §1a–§1b, pp.152–157, Theorems VI.1, VI.2, VI.6 and VI.8; Yu, §5.3.1, pp.36–38.
+The `CurveAdditiveAnalysis` API supplies `residueCharacter_scale`, `fractionalIdeal_annihilator`, `conductor_degree`, `global_residue_product` and `poisson`. **Checks.** on ℙ¹, dt has divisor −2∞ and the conductor-degree sum is −2; two simple poles have opposite traced residues, giving a trivial product phase on diagonal constants; ω↦tω changes each n_v by ord_v(t), whose weighted sum is zero. Prerequisites: AutomorphicSpectralTheory §1.10a function_field_adelic_data, AlgebraicCurves's cited layers, SchemeAndStackFoundations, layer 3, the existing restricted-product APIs, and AL.0's compact-open Fourier proof specialized to residue characters. Sources: Lafforgue, VI §1a–§1b, pp.152–157, Theorems VI.1, VI.2, VI.6 and VI.8; Yu, §5.3.1, pp.36–38.
 
 **Rank-one unramified reciprocity.** Finite-order unramified idele-class characters factor through Pic(X); identify them with rank-one lisse π₁(X)-representations with prescribed geometric-Frobenius values. Use **JacobianChallenge** A, D–F for the Picard scheme, Jacobian and Abel map X→Pic¹. Prove the unramified finite-cover comparison: an abelian étale covering of X comes from the compatible finite cover of Pic¹ under that map, retaining the constant-field component. For J=Pic⁰, Fr_q−Id is a finite étale isogeny with kernel J(𝔽_q): its differential is −Id, and properness and connectedness give finiteness and surjectivity. Its torsor yields the degree-zero characters; the arithmetic constant-field quotient supplies degree characters. Pic¹ rather than a chosen rational point keeps the construction valid when X(𝔽_q) is empty. These identifications are inverse, with Frobenius/inverse-Artin convention fixed. This is the unramified GLₙ base case.
 
@@ -1995,7 +2013,7 @@ The `UnramifiedRankOneReciprocity` API gives `localPolynomial`, `tensor`, `dual`
 
 **Checks.** A line bundle has a one-step filtration; O(a)⊕O(b) on ℙ¹ with a>b has successive slopes a,b; O(a)⊕O(a) is semistable and has no canonical splitting into two line factors.
 
-(Source: Shatz, *The decomposition and specialization of algebraic families of vector bundles*, Compositio Math.35 (1977), §1 and §2, Proposition 6 and Theorem 1, pp.165–173; Lafforgue, I §1c, pp.20–21, centered polygon.)
+(Source: Shatz, *The decomposition and specialization of algebraic families of vector bundles*, Compositio Math.35 (1977), §§1–3, Proposition 6 and Theorem 1, pp.165–173; Lafforgue, I §1c, pp.20–21, centered polygon.)
 
 *Needs:* AlgebraicVectorBundles L0B/L2B; AlgebraicCurves layers 5 and 9 for divisors; SchemeAndStackFoundations §3.3 for bundle degree, determinant comparison, Riemann–Roch and curve Serre duality; AlgebraicModuliForArithmeticGeometry layers 1–2.
 
@@ -2005,7 +2023,7 @@ The `UnramifiedRankOneReciprocity` API gives `localPolynomial`, `tensor`, `dual`
 
 **Checks.** A constant family has constant polygon; a specialization from O⊕O to O(1)⊕O(−1) raises the rank-one vertex from 0 to 1; the semistable locus is open for the straight-line bound, and need not be closed.
 
-(Source: Shatz, §3, Theorem 3 and §4, Proposition 10 and its Corollary, pp.178–183; Lafforgue, Proposition I.3, p.21.)
+(Source: Shatz, §4, Theorem 3 and §5, Proposition 10 and its Corollary, pp.178–183; Lafforgue, Proposition I.3, p.21.)
 
 *Needs:* [Curve bundle slopes and Harder–Narasimhan filtrations](#curve-bundle-slopes); SchemeAndStackFoundations flat families and relative Quot; AlgebraicModuliForArithmeticGeometry layers 1–2.
 
@@ -2015,7 +2033,7 @@ The `UnramifiedRankOneReciprocity` API gives `localPolynomial`, `tensor`, `dual`
 
 **Checks.** Degree-d line bundles form the bounded Pic^d family; rank-two bundles O(a)⊕O(−a) with unbounded a escape every fixed polygon; enlarging the polygon gives an open inclusion between finite-type fixed-degree truncations, compatible with legs.
 
-(Source: Lafforgue, I §1c, Proposition I.3 and the following fixed-degree finiteness statement, pp.20–22; Shatz, §4, pp.182–184, polygon strata; the uniform Quot presentation follows from the slope bound, curve Riemann–Roch and Serre duality.)
+(Source: Lafforgue, I §1c, Proposition I.3 and the following fixed-degree finiteness statement, pp.20–22; Shatz, §5, pp.182–184, polygon strata; the uniform Quot presentation follows from the slope bound, curve Riemann–Roch and Serre duality.)
 
 *Needs:* The preceding two HN targets; SchemeAndStackFoundations §3.3’s vector-bundle Riemann–Roch and curve Serre duality; SchemeAndStackFoundations §4.14, projective Quot and its universal quotient; AlgebraicModuliForArithmeticGeometry layers 1–2 and 4–5 for parameter/descent and central quotients. Construct the relative Bun stack from these Quot charts here, with its bundle-isomorphism descent.
 
@@ -2023,15 +2041,25 @@ The `UnramifiedRankOneReciprocity` API gives `localPolynomial`, `tensor`, `dual`
 
 The `TwoLegShtuka` API includes bundle/leg projections, diagram-preserving isomorphisms, `baseChange`, central degree translation, `partialFrobenius_commute`, `hecke_comp`, `truncation_inclusion` and `boundary_rank_partition`. **Checks.** rank one has relative dimension zero and determinant recovers its moduli problem; a rank-two boundary has rank-one graded pieces; enlarging a polygon gives an open inclusion preserving leg projections. Construct the no-level compactification by iterated-bundle degeneration. Prerequisites: [HN bounded truncations](#hn-bounded-truncations); **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §R07.1.0, `qPowerFrobenius`, `relativeFrobenius` and `iteratedSchemeFrobenius` with their twists; **AlgebraicVectorBundles**, L0B and L2B (finite locally free sheaves and geometric bundles), SchemeAndStackFoundations, layers 1 and 3, **AlgebraicModuliForArithmeticGeometry**, layers 2–5, and IntegralHeckeAndGaloisDeterminants §3a.1 with SR.4 spherical representations and the function-field restricted tensor prerequisite for the unramified Hecke parameters. Sources: Lafforgue, Definitions I.1–I.2, pp.17–18, I §1c–§2, pp.19–27, and the no-level compactification on pp.4–6.
 
+<a id="shtuka-leg-level-counting"></a>
+
+**Lower-rank shtuka counting with a leg in the level.** Fix ℓ≠char(𝔽_q), a rank k≥1, effective level divisor D and a closed point 0 in supp(D). Construct Lafforgue Chapter II §1’s local-model stack of restricted shtukas with no pole on D, its models with zero at 0, and their automorphism stratification, retaining the multiplicity of 0 in D and local height 1≤h₀≤k. For a chosen model construct the HN-truncated shtuka spaces with naïve level structures containing the zero, and the dual construction containing the pole. Quotient the model automorphisms by their connected component as prescribed there, retain the finite automorphism action, and form the central quotient by a fixed idele of nonzero degree. Construct their rational ℓ-adic cohomology and prove the stack-weighted fixed-point/cohomological trace calculations for the other leg outside D and Frobenius powers divisible by the closed-leg degrees and the local model height. Use these rank-k inputs, for k<r, for rank-r boundary strata whose degenerators meet D. Ordinary D-trivializations with both legs outside D do not provide these spaces.
+
+**Checks.** A level supported at 0 allows the zero at 0 while the pole lies outside D; exchanging zero and pole requires the dual local model; a rank-two boundary with a rank-one degenerator in D uses the rank-one leg-in-level count rather than the ordinary off-level count.
+
+(Source: Lafforgue, Introduction, pp.6–7; Chapter II §1, pp.33–43, especially Proposition II.4 and the following fixed-point calculation, pp.38–43.)
+
+*Needs:* The HN targets and two-leg shtuka construction; AlgebraicModuliForArithmeticGeometry layers 2–5 for model automorphism quotients; LefschetzPencilsAndVanishingCycles §§F.0–F.6/F.10 for scheme-chart cohomology and traces, with rational finite-stabilizer descent as in essential shtuka cohomology. The counting comparison uses the function-field analytic/converse prefix and the rank-k ramified correspondence when k<r in the induction.
+
 <a id="leveled-shtuka-rank-induction"></a>
 
-**Leveled shtukas and ramified rank induction.** Fix ℓ≠char(𝔽_q) and a finite-order central character. For every r≥1 and effective level divisor D, construct rank-r two-leg shtukas with compatible D-trivializations, legs outside supp(D), their HN truncations, compactifications, boundary strata and rational ℓ-adic cohomology/trace descent. Retain the singular strata and the alterations used at arbitrary level; the smooth proper no-level compactification is not a general-level assertion. Prove the essential-cohomology and truncated counting comparisons of VI.15–VI.27 for this level, assuming the full ramified correspondence, L/epsilon compatibility and temperedness in ranks strictly below r. The resulting rank-r automorphic-to-Galois construction gives an irreducible local system on X minus supp(D), finite-order determinant and weight zero, with ramification exactly at the ramified automorphic places. Apply VI.11 and B.13, together with ramified-twist stability and the ℓ-adic trace/product formula, to construct the reverse correspondence; prove its uniqueness using function-field strong multiplicity one and finite-cover Frobenius density. Complete the local L/epsilon comparisons of VI.9(ii) before using this rank as the input to the next rank. Induct from ramified rank one, permitting every finite level at every smaller rank, then specialize the rank-r conclusion to D=0. None of the induction assumptions is drawn from the later unramified polynomial conclusions.
+**Leveled shtukas and ramified rank induction.** Fix ℓ≠char(𝔽_q) and a finite-order central character. For every r≥1 and effective level divisor D, construct rank-r two-leg shtukas with compatible D-trivializations, legs outside supp(D), their HN truncations, compactifications, boundary strata and rational ℓ-adic cohomology/trace descent. Retain the singular strata and the alterations used at arbitrary level; the smooth proper no-level compactification is not a general-level assertion. Prove the essential-cohomology and truncated counting comparisons of VI.15–VI.27 for this level, assuming the full ramified correspondence, L/epsilon compatibility and temperedness in ranks strictly below r. The resulting rank-r automorphic-to-Galois construction gives an irreducible local system on X minus supp(D), finite-order determinant and weight zero, with ramification exactly at the ramified automorphic places. Apply VI.11 and B.13, together with ramified-twist stability and the ℓ-adic trace/product formula, to construct the reverse correspondence; prove its uniqueness using function-field strong multiplicity one and finite-cover Frobenius density. Complete the local L/epsilon comparisons of VI.9(ii) before using this rank as the input to the next rank. Induct from ramified rank one, permitting every finite level at every smaller rank and the [leg-in-level spaces and counts](#shtuka-leg-level-counting) for boundary degenerators in D, then specialize the rank-r conclusion to D=0. None of the induction assumptions is drawn from the later unramified polynomial conclusions.
 
 **Checks.** Rank one at arbitrary D recovers modulus reciprocity; a lower-rank twist ramified at a place away from the two legs belongs to the induction family; D=0 specializes to an everywhere-lisse sheaf, whereas positive-level local systems need not extend across supp(D).
 
 (Source: Lafforgue, I.13, pp.31–32; IV.7, pp.97–99, V.14/V.19, pp.133–134 and 142–150; VI.9–VI.11, pp.158–162, VI.15–VI.27, pp.168–191.)
 
-*Needs:* The preceding function-field analytic/converse and ramified rank-one targets; HN targets and two-leg shtuka construction; the rational finite-stabilizer descent and essential-cohomology construction below, extended to the stated level; LefschetzPencilsAndVanishingCycles §§F.0–F.6/F.10, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7 and Frobenius density for finite covers from ArithmeticGaloisRepresentations §5.13. Construct every level and all lower-rank ramified inputs as part of this induction.
+*Needs:* The preceding function-field analytic/converse and ramified rank-one targets; [Lower-rank shtuka counting with a leg in the level](#shtuka-leg-level-counting); HN targets and two-leg shtuka construction; the rational finite-stabilizer descent and essential-cohomology construction below, extended to the stated level; LefschetzPencilsAndVanishingCycles §§F.0–F.6/F.10, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7 and Frobenius density for finite covers from ArithmeticGaloisRepresentations §5.13. Construct every level and all lower-rank ramified inputs as part of this induction.
 
 **Essential cohomology and local factors.** Fix ℓ≠char(𝔽_q), an identification of algebraic coefficient fields in ℂ and Q̄_ℓ, and finite-order central character. Construct the rational ℓ-adic cohomology of these particular finite-stabilizer compactifications by descent from scheme charts; prove compatibility with finite-group invariants, Künneth, proper base change, trace and purity. The rational-coefficient hypothesis makes finite-group invariants exact. A constituent on the two-leg base is r-negligible when it is a direct summand of an external tensor product of lisse irreducibles of ranks strictly below r; retain its complement in the semisimplification.
 
@@ -2048,13 +2076,13 @@ quotient, truncation comparison and boundary trace decomposition.
 
 Prove the proper unstable-open fixed-point comparison for these compactifications: for a correspondence generated by its dense Deligne–Mumford open part, étale first projection there and preservation of the open near its fixed points, sufficiently large compatible Frobenius iterates have stack-weighted fixed-point count equal to the alternating cohomological trace plus signed boundary-stratum traces. Local stabilization verifies the open-preservation hypothesis for the Hecke correspondences. Source: Lafforgue, Theorem IV.7, pp.97–99 and Theorem V.19, p.142 and proof pp.142–150; the no-level proper case in the remark on pp.188–189 uses this route.
 
-The geometric targets are negligible boundary contributions, essential cohomology concentrated in degree 2r−2 and pure of weight 2r−2, and negligible kernels/cokernels under truncation change. Its finite-dimensional summand carries commuting Hecke and partial-Frobenius actions. Compute traces with the unramified t=0 truncated fixed-point formula: for distinct closed legs and sufficiently large equal total Frobenius degrees S, the cuspidal term is q^((r−1)S) times the sum over compatible cuspidal π of the Hecke trace, the inverse Satake power sum at the pole and the Satake power sum at the zero. Remaining terms are lower-rank products. Construct this counting comparison by double-coset/fixed-point and parabolic constant-term calculations before the purity conclusion. Hecke traces isolate the summand. Rank induction uses the full ramified lower-rank inputs of [Leveled shtukas and ramified rank induction](#leveled-shtuka-rank-induction), the function-field converse and strong multiplicity one, local/adelic zeta analysis and this counting formula. Complete the arbitrary-level induction before specializing to no level; the later polynomial/Riemann-hypothesis conclusions supply none of these inputs.
+Boundary strata whose degenerators meet D use the [lower-rank leg-in-level fixed-point calculations](#shtuka-leg-level-counting), together with the full ramified lower-rank correspondence. The geometric targets are negligible boundary contributions, essential cohomology concentrated in degree 2r−2 and pure of weight 2r−2, and negligible kernels/cokernels under truncation change. Its finite-dimensional summand carries commuting Hecke and partial-Frobenius actions. Compute traces with the unramified t=0 truncated fixed-point formula: for distinct closed legs and sufficiently large equal total Frobenius degrees S, the cuspidal term is q^((r−1)S) times the sum over compatible cuspidal π of the Hecke trace, the inverse Satake power sum at the pole and the Satake power sum at the zero. Remaining terms are lower-rank products. Construct this counting comparison by double-coset/fixed-point and parabolic constant-term calculations before the purity conclusion. Hecke traces isolate the summand. Rank induction uses the full ramified lower-rank inputs of [Leveled shtukas and ramified rank induction](#leveled-shtuka-rank-induction), the function-field converse and strong multiplicity one, local/adelic zeta analysis and this counting formula. Complete the arbitrary-level induction before specializing to no level; the later polynomial/Riemann-hypothesis conclusions supply none of these inputs.
 
 The D=0 specialization of that induction yields the **unramified pure realization theorem**: for an everywhere-unramified cuspidal π of GLₙ(𝔸_K) with finite-order central character, there is an irreducible rank-n lisse Q̄_ℓ-sheaf V_π on X, with finite-order determinant, pure of weight zero, such that its geometric-Frobenius characteristic polynomial at every closed point agrees with the unitary Satake polynomial under the chosen coefficient identification. Conversely such irreducible lisse sheaves give the corresponding unramified cusp representation; uniqueness fixes dual and degree-character comparisons, and matching Frobenius polynomials identifies tensor local factors. Tensor products need not be irreducible and no cuspidal tensor transfer is asserted. For a general unitary central character, first remove a unitary degree character to reduce to finite order, then restore that character as a Weil-sheaf twist. An arbitrary unitary complex degree character is not silently treated as a continuous ℓ-adic Galois character.
 
-The `UnramifiedPureRealization` API provides `rank`, `determinant_finiteOrder`, `pure_weight_zero`, `localPolynomial`, isomorphism invariance, `dual` and `degreeTwist`. **Checks.** rank one recovers reciprocity; the trivial line gives curve zeta factors; a self-pair with one degree self-twist has H⁰ eigenvalue 1 and H² eigenvalue q, while non-inertially-equivalent inputs have neither extreme group. Prerequisites: [Leveled shtukas and ramified rank induction](#leveled-shtuka-rank-induction), [Function-field local factors, multiplicity one and converse theorem](#function-field-analytic-converse), and the preceding geometric constructions; SchemeAndStackFoundations layer 2 scheme cohomology, LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10 and ClassicalAdicEtaleCohomology §§0.9–0.10 with their invertible finite coefficients and rational ℓ-adic realization, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7, and the function-field automorphic realization and SR.4/IHG §3a.1 Hecke parameters. Sources: Lafforgue, Theorem I.13, pp.31–32; VI.15–VI.22, pp.168–182; VI.24–VI.27, pp.184–191; Theorems VI.9–VI.10, pp.158–159.
+The `UnramifiedPureRealization` API provides `rank`, `determinant_finiteOrder`, `pure_weight_zero`, `localPolynomial`, isomorphism invariance, `dual` and `degreeTwist`. **Checks.** rank one recovers reciprocity; the trivial line gives curve zeta factors; a self-pair with one degree self-twist has H⁰ eigenvalue 1 and H² eigenvalue q, while non-inertially-equivalent inputs have neither extreme group. Prerequisites: [Leveled shtukas and ramified rank induction](#leveled-shtuka-rank-induction), [Function-field local factors, multiplicity one and converse theorem](#function-field-analytic-converse), and the preceding geometric constructions; SchemeAndStackFoundations layer 2 scheme cohomology, LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10 and ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity, all with their invertible finite coefficients, stated compactifications and rational ℓ-adic realization, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7, and the function-field automorphic realization and SR.4/IHG §3a.1 Hecke parameters. Sources: Lafforgue, Theorem I.13, pp.31–32; VI.15–VI.22, pp.168–182; VI.24–VI.27, pp.184–191; Theorems VI.9–VI.10, pp.158–159.
 
-**Tensor cohomological determinant.** For V=V_(π₁)⊗V_(π₂)∨, the formal Euler series equals ∏_(i=0)^2 det(1−z Fr_q|Hⁱ(X̄,V))^((−1)^(i+1)). The dimensions of H⁰ and H² and their Frobenius eigenvalues are computed from geometric invariants, not from an assertion of rationality alone. Poincaré duality identifies H² with the dual invariant space twisted by (−1). If π₁ and π₂ are not related by a unitary degree character, both extremes vanish; for a self-pair with d degree-character self-twists they give the two cyclic factors 1−zᵈ and 1−(qz)ᵈ. The unramified Euler characteristic is (2−2g)n₁n₂, and purity places all H¹ roots at |z|=q⁻¹ᐟ². This proves the rationality, degree and root location used below. **Checks.** For the constant line, H⁰ and H² give 1−z and 1−qz; for two inputs unrelated by a degree character the extreme groups vanish; for d degree self-twists the extreme determinants are 1−zᵈ and 1−(qz)ᵈ, and have different radii. Prerequisites: the pure realization, SchemeAndStackFoundations, layer 2, LefschetzPencilsAndVanishingCycles §§F.4–F.6 and F.10, ClassicalAdicEtaleCohomology §§0.9–0.10, DeligneWeightsAndPurity DWP.6.4/DWP.7.8 (ℓ≠char(𝔽_q), rational adic coefficients) and the native reversed characteristic polynomial. Sources: Lafforgue, Theorems VI.1–VI.2, p.153; Yu, Proposition 6.1.1, pp.42–43.
+**Tensor cohomological determinant.** For V=V_(π₁)⊗V_(π₂)∨, the formal Euler series equals ∏_(i=0)^2 det(1−z Fr_q|Hⁱ(X̄,V))^((−1)^(i+1)). The dimensions of H⁰ and H² and their Frobenius eigenvalues are computed from geometric invariants, not from an assertion of rationality alone. Poincaré duality identifies H² with the dual invariant space twisted by (−1). If π₁ and π₂ are not related by a unitary degree character, both extremes vanish; for a self-pair with d degree-character self-twists they give the two cyclic factors 1−zᵈ and 1−(qz)ᵈ. The unramified Euler characteristic is (2−2g)n₁n₂, and purity places all H¹ roots at |z|=q⁻¹ᐟ². This proves the rationality, degree and root location used below. **Checks.** For the constant line, H⁰ and H² give 1−z and 1−qz; for two inputs unrelated by a degree character the extreme groups vanish; for d degree self-twists the extreme determinants are 1−zᵈ and 1−(qz)ᵈ, and have different radii. Prerequisites: the pure realization, SchemeAndStackFoundations, layer 2, LefschetzPencilsAndVanishingCycles §§F.4–F.6 and F.10, ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity, DeligneWeightsAndPurity DWP.6.4/DWP.7.8 (ℓ≠char(𝔽_q), rational adic coefficients) and the native reversed characteristic polynomial. Sources: Lafforgue, Theorems VI.1–VI.2, p.153; Yu, Proposition 6.1.1, pp.42–43.
 
 
 ### Cuspidal polynomials and self-pair reciprocity
@@ -2123,13 +2151,15 @@ Work under the following hypotheses. Use AL.3’s unramified pure realization an
 
 <a id="residual-rs-product"></a>
 
-**The residual Rankin–Selberg product.** Given AF’s discrete residual Π₁=π₁⊠ν₁ and Π₂=π₂⊠ν₂ in unitary normalization, L(Π₁×Π₂∨,z)=∏_{i=1}^{ν₁}∏_{j=1}^{ν₂}L(π₁×π₂∨,q^((ν₁+ν₂)/2+1−i−j)z). The ranks of Π_k are n_kν_k, where n_k is the cusp rank.
+**The residual Rankin–Selberg product.** Given the discrete residual representations of AutomorphicSpectralTheory §4.14, through the [residual factor comparison prerequisite](#isobaric-residual-classification), Π₁=π₁⊠ν₁ and Π₂=π₂⊠ν₂ in unitary normalization, L(Π₁×Π₂∨,z)=∏_{i=1}^{ν₁}∏_{j=1}^{ν₂}L(π₁×π₂∨,q^((ν₁+ν₂)/2+1−i−j)z). The ranks of Π_k are n_kν_k, where n_k is the cusp rank.
 
-Work under the following hypotheses. ν₁,ν₂ positive integers; everywhere-unramified function-field representations. Residual classification belongs to AF, not AL.
+Work under the following hypotheses. ν₁,ν₂ positive integers; everywhere-unramified function-field representations. Use AutomorphicSpectralTheory §4.14’s everywhere-unramified function-field residual classification.
+
+**Checks.** ν₁=ν₂=1 recovers the cuspidal pair factor; ν₁=2,ν₂=1 gives shifts ±1/2; ν₁=ν₂=2 gives shifts 1,0,0,−1, so the unshifted factor occurs twice. These factors use residual inducing data even though a residual quotient can be nongeneric.
 
 (Source: [Yu](#ref-yu2023), Lemma6.1.3, pp.43–44.)
 
-*Needs:* [The function-field pair Euler product](#function-field-rs-euler-product); [Cuspidal pair degrees and poles over a function field](#function-field-cuspidal-polynomial); [GLₙ isobaric sums and residual blocks](#isobaric-residual-classification).
+*Needs:* [The function-field pair Euler product](#function-field-rs-euler-product); [Cuspidal pair degrees and poles over a function field](#function-field-cuspidal-polynomial); [GLₙ isobaric sums and residual factor comparisons](#isobaric-residual-classification).
 
 
 <a id="residual-rs-telescoping"></a>
@@ -2253,7 +2283,7 @@ Work under the following hypotheses. Use Raghuram §2.5.2: Π∈Coh(G_n,μ∨) i
 Require the API `AL3.RationalPeriodComparison.class`, `infinity_scale`,
 `rational_basis` and `gauss_twist`: the class lies in ℂ×/E×, an infinity-vector
 rescaling rescales a representative, rational changes of basis preserve the class,
-and algebraic twisting has the stated Gauss exponent and signature.
+and algebraic twisting has the stated Gauss exponent and signature. Construct the quotient group of ℂ× by the image of E× and realize the following class Checks as equalities or inequalities in that group.
 
 **Checks.**
 
@@ -2273,7 +2303,7 @@ For GL₂×GL₁ the exponent is s−1/2; in equal rank one the product-characte
 
 ### Dependencies
 
-AL.0–AL.1 and the local AL.2 prefix; AL.4's determinant interpretation before the function-field suffix; SmoothRepresentationsOfLocalGroups SR.2–SR.5; the representation prerequisites here and ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; AdelicAlgebraicGroups §§2.2–2.3; ArithmeticLocallySymmetricSpaces ALS.5b; AlgebraicCurves layers 0, 4, 5, 9 and 12; JacobianChallenge A and D–F; SchemeAndStackFoundations layers 0–3; AlgebraicVectorBundles L0B and L2B; AlgebraicModuliForArithmeticGeometry layers 1–5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (scheme Frobenius); LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10; ClassicalAdicEtaleCohomology §§0.9–0.10; DeligneWeightsAndPurity DWP.0–DWP.1 and DWP.5–DWP.7.
+AL.0–AL.1 and the local AL.2 prefix; AL.4's determinant interpretation before the function-field suffix; SmoothRepresentationsOfLocalGroups SR.2–SR.5; the representation prerequisites here and ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; AdelicAlgebraicGroups §§2.2–2.3; ArithmeticLocallySymmetricSpaces ALS.5b; AlgebraicCurves layers 0, 4, 5, 9 and 12; JacobianChallenge A and D–F; SchemeAndStackFoundations layers 0–3; AlgebraicVectorBundles L0B and L2B; AlgebraicModuliForArithmeticGeometry layers 1–5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (scheme Frobenius); LefschetzPencilsAndVanishingCycles §§F.0–F.6 and F.10; ClassicalAdicEtaleCohomology §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; DeligneWeightsAndPurity DWP.0–DWP.1 and DWP.5–DWP.7.
 
 
 ## Layer AL.4: Parameters and local determinant comparisons
@@ -2322,9 +2352,11 @@ Work under the following hypotheses. Use a uniform Satake eigenvalue bound |eige
 
 <a id="local-parameter-comparison"></a>
 
-**Compatibility of local analytic factors with parameters.** For GL_n standard factors and GL_n×GL_m tensor factors, whenever an actual local Langlands parameter with L/ε compatibility is given, the analytic factors from AL.2/AL.3 equal the Weil–Deligne factors. At an unramified place this reduces to P=det(1−T Fr). For a general L-group r, ramified factors require an actual parameter and are not defined from a spherical class.
+**Transport of supplied local parameter comparisons.** For GL_n standard factors and GL_n×GL_m tensor factors, prove the unramified determinant comparison P=det(1−T Fr). Use supplied ramified analytic/Weil–Deligne L- and epsilon-factor equalities as inputs and transport them through duals, arithmetic/geometric Frobenius conversion and the explicitly stated classical/Hilbert normalization shifts. For a general L-group r, retain an actual parameter and supplied ramified factor equalities; a spherical class supplies only unramified factors.
 
-Work under the following hypotheses. At infinity use the archimedean GLₙ parameter target here; at finite places assume the stated L/ε-compatible parameter comparison. ArithmeticGaloisRepresentations §§2.4–2.7 supplies finite-extension-of-ℚₚ factors with geometric Frobenius, reciprocity and monodromy invariants. The classical and Hilbert GL₂ comparisons here take an actually compatible arithmetic realization, away from the coefficient prime, as an input; they neither construct that realization nor assert general finite-place compatibility. Preserve the arithmetic normalization dictionary: the classical weight-k Euler factor uses M=ρ_f^∨ with geometric Frobenius and converts to unitary normalization by the (k−1)/2 shift. In the cited Hilbert instance WD(ρ_π) corresponds to Rec(π⊗|·|^(−1/2)), hence L(WD(ρ_π),s)=L(s−1/2,π). Neither input asserts an unshifted equality for ρ itself.
+Work under the following hypotheses. At infinity use the archimedean GLₙ parameter target here; at finite places take the stated ramified L/epsilon equalities as hypotheses. ArithmeticGaloisRepresentations §§2.4–2.7 supplies finite-extension-of-ℚₚ factors with geometric Frobenius, reciprocity and monodromy invariants. The classical and Hilbert GL₂ comparisons here take an actually compatible arithmetic realization, away from the coefficient prime, as an input; they neither construct that realization nor assert general finite-place compatibility. Preserve the arithmetic normalization dictionary: the classical weight-k Euler factor uses M=ρ_f^∨ with geometric Frobenius and converts to unitary normalization by the (k−1)/2 shift. In the cited Hilbert instance WD(ρ_π) corresponds to Rec(π⊗|·|^(−1/2)), hence L(WD(ρ_π),s)=L(s−1/2,π). Neither input asserts an unshifted equality for ρ itself.
+
+**Checks.** A one-dimensional unramified parameter gives 1−αT; replacing arithmetic Frobenius by its inverse requires the corresponding eigenvalue conversion; the supplied classical weight-k comparison has the (k−1)/2 shift, while the cited Hilbert realization has the −1/2 shift.
 
 (Source: [Borel](#ref-borel1979), §12.1–12.2, p.48 (conditional general parametrization; established GL_n cases distinguished).)
 
@@ -2350,7 +2382,7 @@ Work under the following hypotheses. The actual exterior-square/symmetric-square
 
 (Source: [Borel](#ref-borel1979), §16.1, p.55, displayed L/epsilon-factor comparison; [Boxer–Calegari–Gee–Pilloni](#ref-bcgp2025), §1.8.25, p.16.)
 
-*Needs:* [Functorial operations on unramified factors](#satake-factor-operations); [Compatibility of local analytic factors with parameters](#local-parameter-comparison).
+*Needs:* [Functorial operations on unramified factors](#satake-factor-operations); [Transport of supplied local parameter comparisons](#local-parameter-comparison).
 
 
 <a id="motivic-unitary-shift"></a>
@@ -2361,7 +2393,7 @@ Work under the following hypotheses. Require the actual local-global identificat
 
 (Source: [Liu–Tian–Xiao–Zhang–Zhu](#ref-liu2022), §1.1 pp.109–112, Rankin–Selberg motive normalization.)
 
-*Needs:* [The unramified Rankin–Selberg test](#rs-unramified-test); [Compatibility of local analytic factors with parameters](#local-parameter-comparison).
+*Needs:* [The unramified Rankin–Selberg test](#rs-unramified-test); [Transport of supplied local parameter comparisons](#local-parameter-comparison).
 
 
 ### Examples
@@ -2485,7 +2517,7 @@ Work under the following hypotheses. The GL₂ twist assertion uses an unramifie
 
 (Source: [Atobe–Kondo–Yasuda](#ref-atobekondoyasuda2022), Introduction pp.2–3 epsilon conductor; generic-newform application.)
 
-*Needs:* [A ramified Godement–Jacquet test vector](#godement-jacquet-newform-test); [The local Gauss sum 𝔤(ω, ψ)](#local-gauss-sum); [Compatibility of local analytic factors with parameters](#local-parameter-comparison); [Generic finite-place newforms](#generic-local-newforms).
+*Needs:* [A ramified Godement–Jacquet test vector](#godement-jacquet-newform-test); [The local Gauss sum 𝔤(ω, ψ)](#local-gauss-sum); [Transport of supplied local parameter comparisons](#local-parameter-comparison); [Generic finite-place newforms](#generic-local-newforms).
 
 
 ### Examples

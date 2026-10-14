@@ -6,6 +6,7 @@ import Mathlib.Topology.Compactness.Compact
 import Mathlib.Topology.UniformSpace.UniformConvergence
 import Mathlib.MeasureTheory.Integral.Bochner.Set
 import Mathlib.NumberTheory.LSeries.RiemannZeta
+import Mathlib.NumberTheory.EulerProduct.DirichletLSeries
 import Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation
 import Mathlib.Analysis.SpecificLimits.Normed
 import Mathlib.LinearAlgebra.Matrix.Notation
@@ -249,6 +250,10 @@ def SelfDualHaar {F : Type*} [MeasurableSpace F] (μ₀ : Measure F)
 theorem SelfDualHaar.unit_volume {F : Type*} [MeasurableSpace F]
     (μ₀ : Measure F) (O : Set F) (q : ℝ) (d : ℕ) (h : μ₀ O = 1) :
     SelfDualHaar μ₀ q d O = ENNReal.ofReal (q ^ (-(d : ℝ)/2)) := by sorry
+-- TauCeti.AutomorphicLFunctions.AL0.SelfDualHaar.unramified
+example {F : Type*} [MeasurableSpace F] (μ₀ : Measure F) (q : ℝ) (hq : 0 < q) :
+    SelfDualHaar μ₀ q 0 = μ₀ := by sorry
+
 -- TauCeti.AutomorphicLFunctions.AL0.SelfDualHaar.different_two
 example {F : Type*} [MeasurableSpace F] (μ₀ : Measure F) (q : ℝ) (hq : 0 < q) :
     SelfDualHaar μ₀ q 2 = ENNReal.ofReal q⁻¹ • μ₀ := by sorry
@@ -483,7 +488,11 @@ def realStandardEpsilon (a : Fin 2) : ℂ := Complex.I^a.val
 
 example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by sorry
 
-/-- The global epsilon product over the supplied exceptional places. -/
+/-- The reducible real Weil constituent I₀ has the product epsilon of 1 and sgn. -/
+example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
+
+/-- The global epsilon product over the supplied places containing infinity and all finite
+    representation or additive-character ramification. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 
@@ -500,6 +509,11 @@ example (χ : DirichletCharacter ℂ 4) (h₃ : χ 3 = -1) :
     globalEpsilon (Finset.univ : Finset (Fin 2))
       (fun v _ => if v = 0 then realStandardEpsilon 1 else
         gaussSum χ (ZMod.stdAddChar.mulShift (-1))/2) (1/2) = 1 := by sorry
+
+/-- Two trivial real factors and the trace-different factor over ℚ(√5) give its epsilon power. -/
+example (s : ℂ) : globalEpsilon (Finset.univ : Finset (Fin 3))
+    (fun v t => if v = 2 then (5 : ℂ)^(1/2-t) else 1) s =
+      (5 : ℂ)^(1/2-s) := by sorry
 
 theorem norm_globalEpsilon_half {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ)
     (h : ∀ v ∈ S, ‖ε v (1/2)‖ = 1) : ‖globalEpsilon S ε (1/2)‖ = 1 := by sorry
@@ -550,6 +564,22 @@ example : partialHeckeL (∅ : Set (Fin 2)) (fun _ _ => (2 : ℂ)) 0 = 4 := by s
 theorem completedHeckeL_eq_mul {ι : Type*} [DecidableEq ι] (S : Finset ι)
     (L : ι → ℂ → ℂ) (s : ℂ) (h : Multipliable (fun v => L v s)) :
     completedHeckeL L s = (∏ v ∈ S, L v s)*partialHeckeL (S : Set ι) L s := by sorry
+
+/-- Removing the prime 2 from the convergent Riemann Euler product multiplies by its denominator. -/
+example (s : ℂ) (hs : 1 < s.re) :
+    partialHeckeL {p : Nat.Primes | (p : ℕ) = 2}
+      (fun p t => (1-(p : ℂ)^(-t))⁻¹) s =
+        (1-(2 : ℂ)^(-s))*riemannZeta s := by sorry
+
+/-- Removing distinct primes uses each local denominator once. -/
+example (s : ℂ) (hs : 1 < s.re) :
+    partialHeckeL {p : Nat.Primes | (p : ℕ) = 2 ∨ (p : ℕ) = 3}
+      (fun p t => (1-(p : ℂ)^(-t))⁻¹) s =
+        (1-(2 : ℂ)^(-s))*(1-(3 : ℂ)^(-s))*riemannZeta s := by sorry
+
+/-- Conductor balancing converts the unbalanced reflected power to the balanced one. -/
+example (Q : ℝ) (hQ : 0 < Q) (s : ℂ) :
+    (Q : ℂ)^(s/2)*(Q : ℂ)^(1/2-s) = (Q : ℂ)^((1-s)/2) := by sorry
 
 -- TauCeti.TateZeta.completedHeckeL_not_product_over_ideals
 example : Complex.Gammaℝ (2 : ℂ) ≠ 1 := by sorry
@@ -669,6 +699,24 @@ example (a : ℕ → ℂ) (r : ℝ) (s : ℂ) :
 example (A : ℂ) : PowerSeries.coeff 2
     ((1-PowerSeries.C A*PowerSeries.X+PowerSeries.X^2 : PowerSeries ℂ)⁻¹) = A^2-1 := by sorry
 
+/-- The level-one Maass adjoint gamma completion of a supplied finite continuation. -/
+def maassAdjointCompletion (finite : ℂ → ℂ) (r : ℝ) (s : ℂ) : ℂ :=
+  Complex.Gammaℝ s * Complex.Gammaℝ (s+2*Complex.I*r) *
+    Complex.Gammaℝ (s-2*Complex.I*r) * finite s
+
+/-- The completed adjoint value at one includes the hyperbolic-cosine gamma factor. -/
+theorem MaassAdjointLFunction.at_one (finite : ℂ → ℂ) (r : ℝ) :
+    maassAdjointCompletion finite r 1 = finite 1 / (Real.cosh (Real.pi*r) : ℂ) := by sorry
+
+/-- The self-pair of determinant-one Satake roots has one extra zeta denominator. -/
+example (α : ℂ) (hα : α ≠ 0) (q : ℝ) (s : ℂ) :
+    StandardLocalLFactor
+      ((1-Polynomial.X)^2 * (1-Polynomial.C (α^2)*Polynomial.X) *
+        (1-Polynomial.C (α⁻¹^2)*Polynomial.X)) q s =
+      (1-(q : ℂ)^(-s))⁻¹ * StandardLocalLFactor
+        ((1-Polynomial.X) * (1-Polynomial.C (α^2)*Polynomial.X) *
+          (1-Polynomial.C (α⁻¹^2)*Polynomial.X)) q s := by sorry
+
 /-- Entire order at most one, with the epsilon margin needed for Hadamard factorization. -/
 def IsCenteredOrderOne (f : ℂ → ℂ) : Prop :=
   Differentiable ℂ f ∧ ∀ ε : ℝ, 0 < ε → ∃ C : ℝ, 0 < C ∧
@@ -779,6 +827,9 @@ def rsEqualRankIntegral {Q : Type*} [MeasurableSpace Q] (μ : Measure Q)
 example {G : Type*} [MeasurableSpace G] (μ : Measure G) (χ χ' Φ : G → ℂ)
     (a : G → ℝ) (s : ℂ) : rsEqualRankIntegral μ χ χ' Φ a s =
       TauCeti.TateZeta.zetaIntegral μ a (fun g => χ g*χ' g) s Φ := by sorry
+
+/-- A rank gap of three has three functional-equation partners. -/
+example (m : ℕ) : {j : ℕ | j ≤ (m+3)-m-1} = {0, 1, 2} := by sorry
 
 /-- The tensor local factor has pairwise products of the two Satake root families. -/
 theorem RsLocalFactor.unramified {ι κ : Type*} [Fintype ι] [Fintype κ]
@@ -958,6 +1009,11 @@ theorem RsNormalizingScalar.root (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ
 -- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.pole_not_value
 example : (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).1.eval 1 = 1/2 ∧
     (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).2.eval 1 = 0 := by sorry
+
+/-- Residual lengths two give shifts 1, 0, 0, −1, retaining the repeated middle factor. -/
+example (L : ℤ → ℂˣ) :
+    (∏ i : Fin 2, ∏ j : Fin 2, L (1-(i.val : ℤ)-j.val)) =
+      L 1 * (L 0)^2 * L (-1) := by sorry
 
 /-- The algebraic telescoping underlying residual Rankin–Selberg products. -/
 theorem ResidualRsTelescoping (L : ℤ → ℂˣ) (a : ℤ) (ν₁ ν₂ : ℕ) :
