@@ -3548,7 +3548,37 @@ No local ordinary differential is defined here. -/
 
 end AlgebraicCartan
 
-/-- Ax's theorem (Ax–Schanuel for the exponential, differential-field form). -/
+/- The exponential-case geometric construction contracts are owned by README §5.6:
+axConstantFieldClosure extends the derivations to an algebraic closure, identifies its
+common constants and transports differentials, independence, transcendence degree and rank.
+axGeneratedSubgroupForms supplies finite-product generation and vanishing-form transport
+on the native affine group and Kähler carriers. axAdditiveTorusSeparation supplies the
+vector/torus splitting. ReductiveGroups Layers 0, 3 and 4 supply group/subgroup carriers
+and the diagonalizable anti-equivalence used to extract integral characters. -/
+
+/-- A nonzero constant monomial value and the exponential differential equations put the
+corresponding integral sum of arguments in the common constant field. -/
+theorem axTorusCharacterRelation {F : Type*} [Field F] [CharZero F] {k : ℕ}
+    (D : Fin k → Derivation ℤ F F) (C : Subfield F)
+    (hC : ∀ c, c ∈ C ↔ ∀ j, D j c = 0) {n : ℕ} (x y : Fin n → F)
+    (hy : ∀ i, y i ≠ 0) (hxy : ∀ j i, D j (x i) = D j (y i) / y i)
+    (z : Fin n → ℤ) (a : C) (ha : (a : F) ≠ 0)
+    (hcharacter : ∏ i, y i ^ z i = (a : F)) :
+    (∑ i, (z i : F) * x i) ∈ C := by sorry
+
+/-- A nonzero common-constant relation between logarithmic-minus-exact one-forms gives a
+nonzero integral relation between arguments modulo constants, over arbitrary constants. -/
+theorem axIntegerRelation {F : Type*} [Field F] [CharZero F] {k : ℕ}
+    (D : Fin k → Derivation ℤ F F) (C : Subfield F)
+    (hC : ∀ c, c ∈ C ↔ ∀ j, D j c = 0) {n : ℕ} (x y : Fin n → F)
+    (hy : ∀ i, y i ≠ 0) (hxy : ∀ j i, D j (x i) = D j (y i) / y i)
+    (c : Fin n → C) (hc : c ≠ 0)
+    (hrelation : ∑ i, (c i : F) •
+      ((y i)⁻¹ • KaehlerDifferential.D C F (y i) - KaehlerDifferential.D C F (x i)) = 0) :
+    ∃ z : Fin n → ℤ, z ≠ 0 ∧ (∑ i, (z i : F) * x i) ∈ C := by sorry
+
+/-- Ax–Schanuel over an arbitrary common constant field, using constant-form dependence,
+integral-character extraction and algebraic-closure descent. -/
 theorem ax_schanuel {F : Type*} [Field F] [CharZero F] {k : ℕ} (D : Fin k → Derivation ℤ F F)
     (C : Subfield F) (hC : ∀ c, c ∈ C ↔ ∀ j, D j c = 0) {n : ℕ} (x y : Fin n → F)
     (hy : ∀ i, y i ≠ 0) (hxy : ∀ j i, D j (x i) = D j (y i) / y i)

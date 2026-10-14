@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-Own the field comparisons of relative and absolute heights, absolute tuple heights, Euclidean and Plücker subspace heights with their duality and Northcott properties, the fixed-field Siegel lemma, primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its contraction and Lie-derivative calculus on supplied ordinary algebraic forms.
+Own the field comparisons of relative and absolute heights, absolute tuple heights, Euclidean and Plücker subspace heights with their duality and Northcott properties, the fixed-field Siegel lemma, primitive minimal-polynomial and algebraic-element size adapters, approximation exponents, multivariate divided derivatives, weighted indices, auxiliary-polynomial nonvanishing, Roth and absolute Subspace theorems, finite-rank unit equations, recurrences, exponential transcendence, logarithmic bounds, effective Diophantine equations, E-/G-/Mahler functions, the Picard–Vessiot and differential-Galois comparisons needed by E-function specialization, and exponential Ax–Schanuel with its contraction and Lie-derivative calculus on supplied ordinary algebraic forms, its generated-subgroup and additive/torus separation argument, and its arbitrary-constant-field descent.
 
 The height, Mahler-measure, coefficient-height, subspace-height, Northcott and
 Siegel foundation has one owner here: §§0.2–0.3,1.3,2.5,2.8. All consumers in
@@ -49,6 +49,7 @@ The model carrier is `SignatureModel.taylorCoeff`.
 | §§2,4–5 Euclidean and subspace heights | This roadmap §2.5 / Relative Euclidean projective normalization and Native Plücker heights: arakelovMulHeight, relativePluckerPoint, relativeSubspaceHeight, relativeSubspaceArakelovHeight | height2 and subspaceHeight are absolute Euclidean adapters; vector zero height 0, projective zero height 1, zero-subspace height 1; dot-product perpendicular is transported dual annihilation |
 | §§1–5 Siegel estimates | This roadmap §0.3 / integer Siegel estimate and §2.8 / Saturated kernel lattices; Extraction through field towers; Kernel bases of bounded height; Relative-field Siegel and coefficient conditions: kernelLattice_covolume, linearIndependent_card_le_finrank_mul, exists_linearIndependent_comp_of_lt_finrank_span, exists_linearIndependent_comp_finrank_mul, exists_ne_zero_height2_le, siegelKernelBasis, siegelRelativeKernelBasis | One owner for arbitrary-tower extraction, number-field kernel covolume, discriminant constants and basis bounds; real-lattice inputs come from §0.0’s supplier |
 | §5.6 algebraic Cartan calculus | [DerivedDeRhamCohomology](../DerivedDeRhamCohomology/README.md) §§2.1–2.11 / Ordinary differential symbols; The ordinary de Rham differential; Differential of an elementary form; Uniqueness; Square-zero; Graded Leibniz: DeRham.Forms, DeRham.d, DeRham.d_elementary, DeRham.d_unique, DeRham.d_squared, DeRham.d_leibniz | Specialize base A=C and algebra B=F, retaining C-linearity; contraction, Cartan degree transport, Lie derivative, closed logarithmic forms and Ax’s dependence argument belong here |
+| §5.6 exponential algebraic groups | [ReductiveGroups](../ReductiveGroups/README.md), Layers 0 and 3 / affine group schemes, Hopf ideals and closed subgroups; Layer 4 / diagonalizable groups and tori with their character lattices | Use the native group and subgroup carriers and the diagonalizable anti-equivalence; finite-product generation with vanishing forms, vector/torus separation, character-to-differential conversion and constant-field descent are owned here by axGeneratedSubgroupForms, axAdditiveTorusSeparation, axTorusCharacterRelation and axConstantFieldClosure |
 | §0.0 Gram estimate | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §0.1: hermitian_gram_hadamard | Consumption for complex coefficient estimates |
 | §3.3 qualitative conclusions | [LinearFormsInLogarithms](../LinearFormsInLogarithms/README.md), §6.4: transcendental_exp_mul and GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational | One-variable exponential-polynomial zero estimates and the explicit E19/KW auxiliary constructions as alternative applications of shared estimates |
 | §3.4 | LinearFormsInLogarithms Layers 0–4: mvTaylorCoeff, norm_le_of_mvTaylorCoeff_eq_zero, mvTaylorCoeff_prod_pow_mul_cexp, exists_ne_zero_int_norm_sum_le | Ordinary-derivative adapter and its factorial bridge; coordinate integral, remainder, arithmetic-polynomial and degenerate-case adapters |
@@ -3700,13 +3701,180 @@ using the supplied differential and d(y⁻¹)=−y⁻²dy.
 *Needs:* the preceding ordinary-form specialization, Mathlib contraction,
 Kähler universality and derivation bracket.
 
-For a characteristic-zero field F with derivations Dⱼ and C=⋂ker Dⱼ, suppose yᵢ≠0 and Dⱼxᵢ=Dⱼyᵢ/yᵢ. Set ωᵢ=dyᵢ/yᵢ−dxᵢ∈Ω_F/C. F-linear dependence of these forms implies C-linear dependence. (Kirby, §3.3, Prop. 3.7, pp. 35-36.)
+For a characteristic-zero field F with a family of derivations Dⱼ and
+C=⋂ker Dⱼ, suppose yᵢ≠0 and Dⱼxᵢ=Dⱼyᵢ/yᵢ. Set
+ωᵢ=dyᵢ/yᵢ−dxᵢ∈Ω_F/C. F-linear dependence implies C-linear dependence:
+apply the preceding Lie derivative to a minimal relation normalized to have
+one coefficient 1. Closedness and evaluation on Dⱼ make L_Dⱼωᵢ=0;
+minimality then forces every coefficient into C.
+(Kirby, §3.3, Proposition 3.7, Step 1, pp.35–36.)
 
-In that setting a nonzero constant relation Σcᵢωᵢ=0 gives a nonzero integer tuple z with Σzᵢxᵢ∈C. (Kirby, §3.3, Lem. 3.6, Prop. 3.7, pp. 35-37.)
+The following bounded algebraic development is owned here for
+G=Gₐⁿ×Gₘⁿ. Use ReductiveGroups Layers 0 and 3 for affine group schemes
+and closed subgroups, and Layer 4 for the diagonalizable anti-equivalence
+and character lattices. All forms use Mathlib's Kähler modules on the
+coordinate rings and function fields; ordinary exterior differentiation
+uses the preceding supplier. No semiabelian generalization is included.
 
-If additionally xᵢ are ℚ-independent modulo C, then trdeg_C C(x,y)≥n+rank(Dⱼxᵢ). For one derivation and some D xᵢ≠0 this is ≥n+1. The arbitrary-constant-field theorem is `axSchanuelGeneralConstants`. (Kirby, §1.1, Thm. 1.1, p. 2; Kirby, §3.3, Thm. 3.8, p. 37.)
+**Algebraic closure of common constants.** Build `axConstantFieldClosure`.
+Extend each Dⱼ uniquely from F to an algebraic closure F̄. For a separable
+minimal polynomial p of a over F the extension satisfies
+Dⱼa=−(Dⱼ applied to the coefficients of p)(a)/p′(a).
+The common constants in F̄ are precisely C̄, the elements algebraic over C,
+and C̄ is algebraically closed. Indeed, for a common constant a, differentiating
+its monic minimal polynomial over F gives a polynomial of smaller degree
+vanishing at a, so every coefficient belongs to C. Conversely, algebraic
+elements over C are constants by separability. In particular F∩C̄=C.
+Prove the native comparison F̄⊗_F Ω_F/C≃Ω_F̄/C̄, preserving da,
+logarithmic differentials and constant-coefficient relations. Construct it
+through the separable algebraic tower comparisons; Mathlib's
+KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale supplies the
+formally étale comparison. The extension and comparison for arbitrary
+algebraic towers, including their finite-subextension compatibility, belong
+here. Rational independence of x modulo C is equivalent to independence
+of its image modulo C̄, since rational sums of x remain in F.
+Prove that trdeg_C C(x,y)=trdeg_C̄ C̄(x,y) and that every finite derivative
+submatrix has unchanged rank after extending F to F̄. Thus the algebraically
+closed-constant argument descends to the stated F and C.
+(Kirby, §3.2, Proposition 3.5 and §3.3, Theorem 3.8, pp.33,37–38;
+Stacks, Tag [090W](https://stacks.math.columbia.edu/tag/090W), finite
+separable extensions and formal étaleness; the minimal-polynomial
+calculation above supplies the common-constant adapter.)
 
-*Needs:* §5.4.
+**Checks.**
+
+- For F=ℚ(t), D(t)=1, the original constants are ℚ and the extended constants are ℚ̄; the adapter does not keep the original constant field unchanged.
+- A rational sum of original xᵢ lying in C̄ lies in F∩C̄=C; independence modulo constants therefore survives this extension.
+- With no derivations, C=F and C̄=F̄; independence modulo C is impossible for a nonempty tuple, while the empty tuple has rank and transcendence degree zero.
+- The affine conic u²+v²+1=0 over ℚ is nonempty and has no ℚ-point; over ℚ̄ it has a point. Nonemptiness alone cannot justify the constant translation over an arbitrary C.
+
+*Needs:* Mathlib algebraic closures, minimal polynomials, derivations and
+Kähler tower maps; the separable extension and descent adapters above.
+
+**Generated subgroups and vanishing invariant forms.** Build
+`axGeneratedSubgroupForms` over an algebraically closed characteristic-zero
+field C. For an irreducible reduced closed subvariety V⊆G through the
+identity, the image of a finite product of V·V⁻¹ is a connected reduced
+closed algebraic subgroup H_G, the smallest closed subgroup containing V.
+The product-image equality holds on points over every algebraically closed
+extension of C and determines the reduced subgroup structure.
+Prove finite-product stabilization, not just existence of the intersection
+of closed subgroups. If an invariant regular one-form η on G pulls back
+to zero at the generic point of V, it pulls back to zero on H_G.
+Vanishing on V is used on its dense smooth open; no torsion-freeness
+of the Kähler module of a singular V is assumed. Use
+m*η=pr₁*η+pr₂*η and inv*η=−η, and injectivity of pullback on generic
+Kähler differentials under dominant separable maps to pass from a
+surjective product map to H_G. Include the generic-point comparison:
+for C⊆E⊆F of characteristic zero with E finitely generated over C,
+Ω_E/C⊗_E F→Ω_F/C is injective; regular forms on an integral smooth
+variety inject into forms at its generic point. These are the maps used
+to turn a relation in Ω_F/C into vanishing on the algebraic locus.
+
+Apply this to the locus of (x,y), translated by a C-point γ=(a,b),
+with (x,y)↦(x−a,y/b), and
+η=Σcᵢ(dYᵢ/Yᵢ−dXᵢ), where 0≠c∈Cⁿ. Nullstellensatz supplies γ;
+translation preserves η. The locus is integral over the algebraically
+closed C; it has a dense smooth open, which suffices for the generic
+comparison. The product and translation identities are proved on the
+native coordinate-ring Kähler modules and agree with evaluation in Ω_F/C.
+(Kirby, §3.1, Lemma 3.1 and §3.3, Proposition 3.7, Step 2,
+pp.29,36; Chevalley indecomposability as used there;
+Stacks, Tag [00FV](https://stacks.math.columbia.edu/tag/00FV),
+Nullstellensatz; Kirby, Theorem 3.8, pp.37–38, generic differential comparison.)
+
+**Checks.**
+
+- V={identity} generates the trivial subgroup, and every positive-degree form restricts to zero there.
+- In Gₐ², the parabola V={(t,t²)} through zero generates all of Gₐ²: the target is the subgroup generated by V, not V itself.
+- In Gₘ², V={(t,t²):t≠0} generates that same subtorus; 2dY₁/Y₁−dY₂/Y₂ vanishes on it.
+- For a constant translation (a,b), d(Xᵢ−a)=dXᵢ and d(Yᵢ/bᵢ)/(Yᵢ/bᵢ)=dYᵢ/Yᵢ; bᵢ≠0 is required.
+
+*Needs:* ReductiveGroups Layers 0 and 3; §5.4 differential rank and
+separable generic comparisons; finite-product and form-transport targets above.
+
+**Additive and torus separation.** Build `axAdditiveTorusSeparation`:
+over an algebraically closed characteristic-zero C, every reduced closed
+subgroup H_G⊆Gₐⁿ×Gₘⁿ is J×H, where J is a C-linear vector subgroup
+and H is a closed subgroup of Gₘⁿ. Prove the required vector-subgroup
+and quotient classification, closedness of the projection images, and
+triviality of regular group homomorphisms from a diagonalizable group
+to a vector group. Apply the common-quotient argument: divide each
+projection by the kernel of the other; the common quotient is both a
+vector group and diagonalizable, hence trivial. Torus subgroup and
+quotient descriptions consume the supplied diagonalizable anti-equivalence.
+For η above, its zero pullback to J×H implies that
+ν=ΣcᵢdYᵢ/Yᵢ pulls back to zero on H, by restriction to {0}×H.
+Since c≠0 and the logarithmic coordinate forms are a basis on Gₘⁿ,
+H is proper. This uses the native pullback and restriction maps of the
+preceding target; the assertion concerns forms on H, not just evaluation
+at its constant points.
+(Kirby, §3.3, Lemma 3.6 and Proposition 3.7, Step 3, pp.35–37;
+ReductiveGroups Layer 4 / diagonalizable groups and tori.)
+
+**Checks.**
+
+- Gₐⁿ×{1} and {0}×Gₘⁿ split with one trivial factor; a proper additive factor alone does not make the torus factor proper.
+- A regular homomorphism Gₘ→Gₐ is zero; the set-theoretic or analytic logarithm cannot supply a subgroup graph in this statement.
+- In characteristic p the subgroup {(u,uᵖ):u∈Gₐ}⊆Gₐ² need not be a linear subspace; the vector classification requires characteristic zero.
+- For c≠0, ν is nonzero on the whole torus even though evaluation at every C-point in Ω_C/C is zero; pointwise constant evaluation cannot test its restriction as a regular form.
+
+*Needs:* the preceding generated-subgroup target; ReductiveGroups Layers
+0,3,4, with the vector classification and separation proved here.
+
+**Integral characters and the exponential differential equations.** Build
+`axTorusCharacterRelation`. For a proper closed subgroup H⊊Gₘⁿ over
+an algebraically closed characteristic-zero C, extract 0≠z∈ℤⁿ with
+χ_z|H=1, where χ_z(Y)=∏Yᵢ^zᵢ. The character restriction map
+ℤⁿ→X*(H) is surjective with nonzero kernel, by the supplied
+diagonalizable anti-equivalence. For the constant coset y∈bH(F) obtained
+above, χ_z(y)=χ_z(b)∈Cˣ. Prove the native Kähler and derivation rules
+for every integral z, including negative exponents:
+dχ_z/χ_z=ΣzᵢdYᵢ/Yᵢ and Dⱼχ_z(y)/χ_z(y)=ΣzᵢDⱼyᵢ/yᵢ.
+The exponential equations then give Dⱼ(Σzᵢxᵢ)=0 for every j,
+so Σzᵢxᵢ∈C. The differential adapter itself accepts any z and any
+nonzero constant character value; properness supplies z≠0.
+(Kirby, §3.3, Proposition 3.7, Steps 3–4, pp.37;
+ReductiveGroups Layer 4 / character lattices and the diagonalizable anti-equivalence.)
+
+**Checks.**
+
+- On H={(u,u²)}, z=(2,−1) gives χ_z=1 and 2x₁−x₂∈C; the negative exponent contributes with its sign.
+- On H=μ₂⊆Gₘ, z=2 annihilates H and z=1 does not; an annihilating character need not be primitive for a disconnected subgroup.
+- For H=Gₘⁿ, the restriction map has zero kernel; properness is necessary to obtain nonzero z.
+- Replacing χ_z(y)=a∈Cˣ by an arbitrary a∈Fˣ does not give Dⱼχ_z(y)=0; constancy is an essential hypothesis.
+
+*Needs:* the preceding separation and form comparisons; ReductiveGroups
+Layer 4; native integer powers, derivations and the common-constant hypothesis.
+
+**Constant relations give integral relations.** Prove `axIntegerRelation`
+for the original characteristic-zero F and arbitrary common constant
+field C: a relation Σcᵢωᵢ=0 with 0≠c∈Cⁿ gives 0≠z∈ℤⁿ with
+Σzᵢxᵢ∈C. Apply `axConstantFieldClosure`, then the generated-subgroup,
+separation and character targets over C̄, and descend the rational sum
+by F∩C̄=C. The coefficients c are allowed to be irrational;
+z comes from the torus character lattice.
+(Kirby, §3.3, Proposition 3.7, pp.35–37, specialized to Gₘⁿ.)
+
+**Checks.**
+
+- For n=1 and x,y∈C with y≠0, ω=0 and z=1 supplies the integral relation.
+- Coefficients (1,√2) over C containing ℚ(√2) cannot be converted into an integral tuple by clearing rational denominators; the character extraction is required.
+- For n=0 there is no nonzero coefficient relation and no nonzero integer tuple; the implication has an unsatisfied premise.
+
+*Needs:* `axConstantFieldClosure`, `axGeneratedSubgroupForms`,
+`axAdditiveTorusSeparation` and `axTorusCharacterRelation`.
+
+If additionally xᵢ are ℚ-independent modulo C, then trdeg_C C(x,y)≥n+rank(Dⱼxᵢ). For one derivation and some D xᵢ≠0 this is ≥n+1. The arbitrary-constant-field theorem is `axSchanuelGeneralConstants`, with representative signature `ax_schanuel`. (Kirby, §1.1, Thm. 1.1, p. 2; Kirby, §3.3, Thm. 3.8, p. 37.)
+
+For an arbitrary derivation family, its Jacobian rank is the maximum of
+the finite-submatrix ranks, bounded by n. Choose a finite subfamily attaining
+this rank for the dimension calculation; the common-constant field and
+the dependence argument still use the entire family. The representative
+Lean signatures use a finite family.
+
+*Needs:* §5.4 differential rank, the preceding Lie-derivative dependence
+argument and `axIntegerRelation`.
 
 For multivariate formal series fᵢ∈ℂ[[t₁,…,t_m]] ℚ-independent modulo ℂ, trdeg_ℂ ℂ(f,exp f)≥n+rank J(f). Define exp with the scalar constant factor and the formal exponential of the zero-constant part. The general target `axSchanuelMultivariateSeries` includes the constant-field identification; the one-variable zero-constant case with n≥1 gives ≥n+1. (BT, §1.2, Thm. 1.2.5, p. 4.)
 
