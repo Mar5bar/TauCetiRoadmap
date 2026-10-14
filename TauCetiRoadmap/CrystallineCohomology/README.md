@@ -108,12 +108,18 @@ roadmap of that comparison, which builds on this one.
   completion and derived completeness (its Layer 1), the ordinary algebraic de Rham complex with
   its universal property and its formal version (Layer 2), the Cartier isomorphism for smooth
   algebras (Layer 3), and the comparison of derived de Rham and crystalline cohomology for lci
-  maps. The two roadmaps depend on each other without a cycle at the level of sections: its
+  maps. The supplier contract is at section level: its
   Layers 0–3 use from here only §CR.0.3 (in its §0.16), which uses nothing from it; this roadmap
   uses its Layers 1–3, from §CR.0.6 on; its Layers 4–6 use §§CR.0–CR.2, §§CR.4.6–CR.4.7, Layer
   CR.5:log-algebra and Layer CR.5, and nothing here uses its Layers 4–6. EnhancedDerivedSheaves
   Layer E4 also states derived completeness and completion for sheaves; this roadmap uses the
-  DerivedDeRhamCohomology statements.
+  DerivedDeRhamCohomology statements. The implementation order is CR.0.1–CR.0.5, then
+  DerivedDeRhamCohomology Layers 0–3, then CR.0.6–CR.5, then its Layers 4–6 and CR.6–CR.7.
+- **CommRingFactorizationSystems** supplies the abstract seminormal reflection for CR.4.6
+  (§F1, §F4 and §F6). Its generic prerequisite is **OrthogonalFactorization**, which
+  supplies unique lifting, generated orthogonal factorization systems and their reflections.
+  The implementation order is OrthogonalFactorization, then CommRingFactorizationSystems,
+  then the seminormal comparison in CR.4.6. The cusp computation is owned by that local comparison.
 - **EnhancedDerivedSheaves** owns the enhanced derived categories of sheaves, derived tensor
   products and internal Hom, pullback and pushforward (Layer E1), derived limits, hypercovers and
   hypercover descent (Layer E2), Kan extensions and Beck–Chevalley comparisons (Layer E3) and the
@@ -429,7 +435,7 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
 
 | Supplier | Provides / consumer | Convention gap |
 |---|---|---|
-| CommRingFactorizationSystems §F1 / Seminormal and absolutely weakly normal rings, §F4 / The generated systems and the reflections, and §F6 / The absolute weak normalization theorem and its seminormal companion (an open TauCetiRoadmap pull request by JakobScholbach) | `IsSeminormalRing`; `CommRingCat.WeakNormalization.snRing`, `snMap`, `sn_lift`; F4 idempotence; F6 `snLeft_eq_univHomeo_residueIso`; consumed by CR.4.6's local `S_R ≅ R^sn` comparison; F4 supplies the abstract cusp seminormalisation | Swap the square/cube variables: their unique-root condition is our reducedness plus existence; use `(snMap R).hom` and its composite with `F_p → R` for the induced `F_p`-algebra structure; F4's typed carrier is in `CommRingCat.{0}`, so instantiate the supplier construction in the universe of `R`; retain residue-field isomorphisms as well as the universal homeomorphism. |
+| CommRingFactorizationSystems §F1 / Seminormal and absolutely weakly normal rings, §F4 / The generated systems and the reflections, and §F6 / The absolute weak normalization theorem and its seminormal companion; its generic supplier is OrthogonalFactorization | `IsSeminormalRing`; `CommRingCat.WeakNormalization.snRing`, `snMap`, `sn_lift`; F4 idempotence; F6 `snLeft_eq_univHomeo_residueIso`; consumed by CR.4.6's local `S_R ≅ R^sn` comparison, which also supplies the cusp computation | Swap the square/cube variables: their unique-root condition is our reducedness plus existence; use `(snMap R).hom` and its composite with `F_p → R` for the induced `F_p`-algebra structure; F4's typed carrier is in `CommRingCat.{0}`, so instantiate the supplier construction in the universe of `R`; retain residue-field isomorphisms as well as the universal homeomorphism. |
 
 ## How to read the build
 
@@ -7829,9 +7835,16 @@ arXiv v3, §6.5, Proposition 6.5.1, Corollary 6.5.2, Theorem 6.5.3, Remark 6.5.4
 Rham–Witt complex*; *Classical and saturated de Rham–Witt comparison*;
 CommRingFactorizationSystems §F1, §F4 and §F6, as specified in *Exact supplier contracts*.
 
-The abstract cusp input for the local Checks is supplied by CommRingFactorizationSystems §F4 /
-The generated systems and the reflections: `snRing(F_p[t²,t³]) ≅ F_p[t]`, identifying its quotient
-presentation `F_p[X,Y]/(Y²−X³)` with `F_p[t²,t³]` by `X ↦ t²`, `Y ↦ t³`.
+The local comparison includes `Crystalline.cuspSeminormalComparison`: for every prime p, the
+F_p-algebra isomorphism `snRing(F_p[t²,t³]) ≅ F_p[t]` carrying `snMap` to the inclusion.
+Identify `F_p[X,Y]/(Y²−X³)` with the subring `F_p[t²,t³]` by `X ↦ t²`, `Y ↦ t³`:
+its monomials reduce uniquely to `X^a` and `X^aY`, whose images have distinct exponents in t.
+The inclusion into F_p[t] is a single square/cube adjunction, since t² and t³ lie in the
+subring. Stacks Proposition 29.47.7 (tag 0CND) makes it a universal homeomorphism with
+residue-field isomorphisms; F_p[t] is a normal domain, hence seminormal by §F1.
+The abstract reflection of §F4 and its §F6 left-class identification therefore give the stated
+isomorphism, as in Stacks Lemma 29.48.6 (tag 0EUR). This computation consumes no cusp-specific
+isomorphism from the supplier.
 
 **Checks.**
 
@@ -10405,21 +10418,37 @@ relation*.
 **Logarithmic de Rham–Witt complexes.** Let k be a perfect field of characteristic p, (Y,M) a fine
 log scheme with a log smooth morphism f:(Y,M)→k^log of Cartier type, and n≥1. Let C_n be the log
 crystalline complex Ru_*O of (Y,M) over the standard log Witt base W_n(k)^log in D(Y_ét,W_n(k)),
-represented by the log PD de Rham complexes of embedding systems, and define W_nω^q_Y=H^q(C_n), a
-sheaf of W_n(k)-modules on Y_ét. The canonical lift of M is the log structure
+represented by the log PD de Rham complexes of embedding systems. Define W_nω^q_Y=H^q(C_n)
+as abelian sheaves on Y_ét, with the Witt coefficient action transported through the ring map
+in (2). In this cohomology-sheaf presentation that map acts on constants by σ^n (HK (4.9));
+use this transported action for the W_n(k)-linear Witt complex and its comparisons.
+The canonical lift of M is the log structure
 W_n(M)=M⊕ker(W_n(O_Y)^×→O_Y^×), (m,u)↦[α(m)]·u, on the scheme W_nY=(|Y|,W_n(O_Y)). (1)
 Operators. d:W_nω^q→W_nω^(q+1) is the Bockstein of 0→C_n→C_(2n)→C_n→0 (multiplication by p^n, then
 reduction); F:W_(n+1)ω^q→W_nω^q is induced by the reduction C_(n+1)→C_n, V:W_nω^q→W_(n+1)ω^q by
-multiplication by p:C_n→C_(n+1), and the restriction R:W_(n+1)ω^q→W_nω^q by p^q on the degree-q
-terms of the embedding-system complexes. Then d²=0, FV=VF=p, dF=pFd, Vd=pdV and FdV=d, and R
-commutes with d, F and V. (2) Logarithmic forms. There are a ring map W_n(O_Y)→W_nω⁰_Y, compatible
+multiplication by p:C_n→C_(n+1). To construct the canonical restriction
+R:W_(n+1)ω^q→W_nω^q, use the Cartier intermediary of HK (2.24)–(2.25), with the relative
+Frobenius twist of Y and its log structure. On a compatible flat embedding system set
+Ẽ_m^q={a∈p^q C_m^q | da∈p^(q+1) C_m^(q+1)} and E_n^q=Ẽ_m^q/p^nẼ_m^q for m>n+q;
+the differential uses m>n+q+1. Prove independence of m and the Frobenius-induced
+quasi-isomorphism C_n^(1)→E_n, where C_n^(1) computes the Frobenius-twisted log scheme.
+Multiplication by p^q into C_(n+q+1)^q sends cycles of C_(n+1)^q to cycles of E_n^q
+and boundaries to boundaries. Compose the resulting H^q(C_(n+1))→H^q(E_n) with the
+inverse of H^q(C_n^(1))≅H^q(E_n), transporting the relative Frobenius twist as in HK (4.2).
+This defines R. Then prove d²=0, FV=VF=p, dF=pFd, Vd=pdV and FdV=d, and that R commutes
+with d, F and V. (2) Logarithmic forms. There are a ring map W_n(O_Y)→W_nω⁰_Y, compatible
 with F, V and R, whose composite with d is a derivation, and a homomorphism dlog:M^gp→W_nω¹_Y with
 d[α(m)]=[α(m)]·dlog m, d(dlog m)=0, F(dlog m)=dlog m, R(dlog m)=dlog m and V(x·dlog m)=V(x)·dlog m;
 dlog vanishes on the image of f^(−1)L^gp, so the chart generator of k^log has dlog zero. (3)
 Presentation. W_nω^•_Y is the quotient of the log de Rham complex of (W_nY,W_n(M)) over W_n(k)^log
 by the differential graded ideal generated by V^i[a]·dV^j[α(m)]−V^i[a·α(m)^(p^(i−j))]·dlog m for
-0≤j<i<n, a∈O_Y and m∈M. (4) Structure. R is surjective with kernel V^nW_1ω^q+dV^nW_1ω^(q−1);
-W_1ω^q_Y≅ω^q_(Y/k^log) by the inverse Cartier isomorphism; lim_n W_nω^q_Y is p-torsion-free. (5)
+0≤j<i<n, a∈O_Y and m∈M. (4) Structure. R is surjective with kernel V^nW_1ω^q+dV^nW_1ω^(q−1).
+At length one the precise Cartier identification is
+C⁻¹:ω^q_(Y^(1)/k^log)≅H^q(F_(Y/k^log),*ω^•_(Y/k^log)), with relative Frobenius pullback on
+coefficients. Transport the twist over the perfect base to write W_1ω^q_Y≅ω^q_(Y/k^log).
+The differential on W_1ω^• is the Bockstein d of (1), transported to the ordinary log de Rham
+differential; this is a statement about individual cohomology sheaves, not a replacement of
+W_1ω^• by a complex with zero differential. Finally lim_n W_nω^q_Y is p-torsion-free. (5)
 Semistable case. Let Y be the special log fibre of a semistable scheme over O_K, with the log
 structure of *Integral Hyodo–Kato complexes* (properness is not needed here), t the chart generator
 of k^log and θ=dlog t. Let W_nω̃^•_Y be the quotient of the log de Rham complex of (W_nY,W_n(M))
@@ -10442,25 +10471,33 @@ The API:
   d[α(m)]=[α(m)]·dlog m, F(dlog m)=dlog m, and dlog m=0 for m in the image of f^(−1)L^gp.
 - `LogCrystalline.logDeRhamWitt.presentation`: W_nω_Y is the quotient of the log de Rham complex of
   (W_nY,W_n(M)) over W_n(k)^log by the ideal generated by the displayed elements.
-- `LogCrystalline.logDeRhamWitt.cartier`: W_1ω_Y≅ω_(Y/k^log), R is surjective with kernel
+- `LogCrystalline.logDeRhamWitt.restriction`: The maps on cycles and boundaries through E_n
+  give canonical R; R([a])=[a] and R(dlog m)=dlog m.
+- `LogCrystalline.logDeRhamWitt.cartier`: Inverse Cartier identifies the degree-q cohomology
+  sheaf with forms on the relative Frobenius twist; after transporting coefficients W_1ω^•
+  has the ordinary log de Rham differential. R is surjective with kernel
   V^nW_1ω+dV^nW_1ω, and lim_n W_nω_Y is p-torsion-free.
 - `LogCrystalline.logDeRhamWitt.absolute_sequence`: In the semistable case
   0→W_nω_Y[−1]→W_nω̃_Y→W_nω_Y→0 is exact, with first map ι_θ and φ(θ)=pθ.
 
 *Proof sketch.* The statements are étale local, so use embedding systems whose terms are constant
 simplicial objects (Y,M)↪(Z,N) over W_n(k)^log; each C_n is flat over W_n(k) with C_n⊗Z/p^m≅C_m for
-m≤n. The relations of (1) follow from the definitions of the maps as in the classical case (HK
-(4.1.1)). For (2), the image of a Witt vector (a_0,…,a_(n−1)) is the class of Σ_i p^i·ã_i^(p^(n−i))
+m≤n. Construct E_n and the maps on cycles and boundaries before the operator compatibilities;
+use the relative Frobenius quasi-isomorphism of HK (2.25) to identify their targets.
+The relations of (1) then follow from HK (4.1)–(4.2). For (2), the image of a Witt vector (a_0,…,a_(n−1)) is the class of Σ_i p^i·ã_i^(p^(n−i))
 for lifts ã_i to the envelope, and dlog m is the class of dlog m̃ for a lift m̃ to N; these classes
 are cocycles independent of the lifts, because p^i·(ã+h)^(p^(n−i))≡p^i·ã^(p^(n−i)) for h in the PD
 ideal and dlog changes by d log(u) for u in 1+(PD ideal) (HK (4.9)). These maps define a map from
 the log de Rham complex of (W_nY,W_n(M)) to W_nω^•_Y, surjective in each degree, which kills the
 generators of (3): F^(i−j)d[α(m)]=[α(m)]^(p^(i−j))·dlog m and V(x·F(y))=V(x)·y give
 V^i[a]·dV^j[α(m)]=V^i[a·α(m)^(p^(i−j))]·dlog m. The induced map on the quotient is an isomorphism
-and (4) holds, by induction on n from n=1, where W_1ω^q=H^q(ω^•_(Y/k^log)) and the inverse Cartier
-isomorphism identifies it with ω^q_(Y/k^log); the induction uses the filtration of W_(n+1)ω^q by
-the images of V^n and dV^n, whose graded pieces are computed through the Cartier filtrations
-B_nω, Z_nω (HK (4.3)–(4.7)). For (5), the presentation over the trivial log structure is the
+and (4) holds by induction from the relative Frobenius-twisted Cartier identification at n=1.
+Define B_0ω^q=0, B_1ω^q=dω^(q−1), Z_0ω^q=ω^q and Z_1ω^q=ker d, and define B_(j+1), Z_(j+1)
+as the inverse images under Cartier of B_j, Z_j, carrying the successive Frobenius twists.
+These filtrations compute the images of V^n and dV^n and their relations (HK (4.3)–(4.7)),
+and hence the stated kernel and surjectivity of R. Under Cartier, the Bockstein sends the
+class of t^p in H⁰(C_1) to the class of t^(p−1)dt in H¹(C_1), corresponding to d(t)=dt;
+thus the length-one Witt complex retains the de Rham differential. For (5), the presentation over the trivial log structure is the
 relative one with M^gp in place of M^gp/f^(−1)L^gp; on a semistable chart the class of t is part of
 a basis of the characteristic of M, so the exterior powers of these groups form split short exact
 sequences, and the presentations of the three terms give exactness (HK (1.5), proved in (4.20)). The
@@ -10468,7 +10505,8 @@ degree-scaled Frobenius acts on dlog forms by multiplication by p, so φ(θ)=pθ
 relation Nφ=pφN is functoriality of the connecting map (HK (1.6)). ([Hyodo–Kato, *Semi-stable
 reduction and crystalline cohomology with logarithmic
 poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), §1.4–1.6, pp.225–226; Definition 3.1,
-p.242; §4.1–4.7, pp.246–250; (4.9), pp.250–253; (4.20), pp.261–262.) *Needs:* *Standard log Witt
+p.242; (2.24)–(2.25), pp.240–242; §4.1–4.7, pp.246–250; (4.9), pp.250–253;
+(4.20), pp.261–262.) *Needs:* *Standard log Witt
 bases*; *Integral Hyodo–Kato complexes*; *Associated log structures* (Layer CR.5:log-algebra);
 *Logarithmic differentials* (Layer CR.5); *Log de Rham complexes* (Layer CR.5); *Morphisms of
 Cartier type* (Layer CR.5); *Logarithmic Cartier isomorphism* (Layer CR.5); *Log crystalline sites*
@@ -10487,6 +10525,73 @@ descent* (Layer CR.4); Mathlib `TruncatedWittVector`.
 - The nodal chart: for Y=Spec k[x,y]/(xy), the special fibre of Spec O_K[x,y]/(xy−π), with chart
   ℕ²→O_Y, e₁↦x, e₂↦y, over 1↦e₁+e₂: dlog x+dlog y=0 in W_nω¹_Y and W_1ω¹_Y=ω¹_(Y/k^log) is free of
   rank one on dlog x, whereas in W_nω̃¹_Y, dlog x+dlog y=θ=ι_θ^1(1) and φ(θ)=pθ.
+- `LogCrystalline.logWitt_polynomial_R_F`: For the strict smooth chart A=F_p[t],
+  R([t])=t at lengths 2→1, whereas F([t])=t^p. On the chart with a multiplicative log
+  generator t, R(dlog t)=dlog t.
+- `LogCrystalline.logWitt_smooth_chart_differential`: On the strict smooth chart A=F_p[t],
+  W_1ω^• is the ordinary de Rham complex with d(t)=dt≠0; inverse Cartier represents dt
+  by the cohomology class of t^(p−1)dt on the relative Frobenius twist.
+
+**Finite-level log Witt quotient complexes.** Under the perfect-field, fine log smooth
+Cartier-type hypotheses of *Logarithmic de Rham–Witt complexes*, let m>n≥1. Multiplication
+by p^n on W_mω^• factors through R^n:W_mω^•→W_(m−n)ω^•. Its induced map
+μ_(m,n):W_(m−n)ω^•→W_mω^• is injective in every degree and commutes with d.
+Define Q_(m,n)=`LogCrystalline.logWittQuotient` as its cokernel complex, giving the genuine
+short exact sequence 0→W_(m−n)ω^•→W_mω^•→Q_(m,n)→0.
+Restriction R^(m−n) induces a quasi-isomorphism Q_(m,n)→W_nω^•, functorial in Y and
+compatible with Frobenius and restriction. Thus this quotient yields the corresponding
+triangle in the derived category.
+
+*Proof sketch.* Use the Cartier filtrations and kernel calculation of *Logarithmic de
+Rham–Witt complexes* to factor p^n, prove degreewise injectivity of μ_(m,n), and compute the
+cohomology of the quotient map. Its quasi-isomorphism is distinct from the short exact sequence
+ending in Q_(m,n). ([Hyodo–Kato, *Semi-stable reduction and crystalline cohomology with
+logarithmic poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), Theorem 4.4 and
+Corollary 4.5(1), pp.248–249.) *Needs:* *Logarithmic de Rham–Witt complexes*.
+
+**Checks.**
+
+- For the relative log point, μ_(m,n) is p^n:W_(m−n)(k)→W_m(k), and Q_(m,n)=W_n(k)
+  concentrated in degree zero.
+- `LogCrystalline.logWitt_polynomial_V_not_p`: For A=F_p[t] at m=2, n=1,
+  ker(R:W_2(A)→A)=V(A), but im μ_(2,1)=V(A^p). Hence V(t) lies in ker R and outside that
+  image. The quotient map Q_(2,1)→W_1ω^• is a quasi-isomorphism and is not an isomorphism
+  in degree zero; the positive-degree terms are essential.
+- On a multiplicative log chart, R^(m−n)(dlog t)=dlog t and
+  μ_(m,n)(dlog t)=p^n dlog t; the quotient construction respects these closed forms.
+
+**PD differential factorisation for the log Witt comparison.** Under the hypotheses of
+*Logarithmic de Rham–Witt complexes*, put I_n=V W_(n−1)(O_Y) and give it the canonical
+Witt divided powers γ. The presentation map from the ordinary log de Rham complex of
+(W_nY,W_n(M)) to W_nω^• kills
+`dγ_j(a) − γ_(j−1)(a) da` for every local a∈I_n and j≥1. It therefore factors through the
+quotient by the differential graded ideal generated by these relations, denoted
+`LogCrystalline.logWittPDDifferentials`. For an embedding system admitting
+(W_nY^•,W_n(M^•))→(Z^•,N^•), the induced ring/log map from its PD envelope to Witt vectors
+then gives a map from the log PD de Rham complex to this quotient and hence to W_nω^•.
+This factorisation defines the crystalline comparison map. In the semistable case it also
+holds over the trivial log Witt base with W_nω̃^• as target.
+
+*Proof sketch.* Lift the relation compatibly to the inverse-limit Witt complex. There
+j! times the relation vanishes by the divided-power identities and the derivation rule.
+The inverse limit is p-torsion-free by *Logarithmic de Rham–Witt complexes*, and the prime-to-p
+factor of j! is a unit; hence the relation itself vanishes before reduction to length n.
+In the semistable case the absolute–relative sequence gives the same p-torsion-freeness for
+the inverse-limit absolute complex, so the argument also gives the absolute factorisation.
+Use the universal property of PD differentials, then descend the maps of embedding systems.
+([Hyodo–Kato, *Semi-stable reduction and crystalline cohomology with logarithmic
+poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), (4.19.1) and its vanishing,
+pp.260–261.) *Needs:* *Logarithmic de Rham–Witt complexes*; *Fine log PD envelopes*;
+*Filtered logarithmic PD de Rham complexes* (Layer CR.5); *Canonical divided powers on the
+Verschiebung ideal of W_r(R)* (Layer CR.4).
+
+**Checks.**
+
+- For j=1 the relation is da−da=0, since γ_1(a)=a and γ_0(a)=1 on the PD ideal.
+- For a=V([t]) over F_p[t], dγ_p(a)=γ_(p−1)(a) da in W_nω¹ for n≥2, including p=2;
+  finite-level p-torsion does not justify cancellation of p! there.
+- On a multiplicative log chart the factorisation preserves dlog t; on the relative log point
+  it preserves the relation dlog of the base chart generator=0.
 
 **Log de Rham–Witt model.** For (Y,M) fine and log smooth of Cartier type over k^log let W_nω^•_Y be
 the complex of *Logarithmic de Rham–Witt complexes*. There is a canonical isomorphism
@@ -10498,22 +10603,24 @@ construction gives C̃_n≃W_nω̃^•_Y, and these isomorphisms carry the embed
 monodromy operators N agree. Take Rlim integrally and invert p only at the stated rational
 step.
 
-*Proof sketch.* Choose embedding systems (Y^•,M^•)↪(Z^•,N^•) over W_n(k)^log with maps
-(W_nY^•,W_n(M^•))→(Z^•,N^•) compatible with the immersions of Y^•. The ideal of Y in W_nY is
-V W_(n−1)(O_Y) with its canonical divided powers, so the universal property of the log PD envelope
-gives (W_nY^•,W_n(M^•))→(D^•,M_D^•), hence a map from the log PD de Rham complex of D^• to the log de
-Rham complex of (W_nY^•,W_n(M^•)), and by the presentation of *Logarithmic de Rham–Witt complexes*
-(3) a map C_n→W_nω^•_Y. By the exact sequences 0→C_1→C_(n+1)→C_n→0 (multiplication by p^n, then
-reduction) and their de Rham–Witt counterparts (HK Corollary 4.5(1)), it is enough that it is an
-isomorphism for n=1, where it is the inverse Cartier isomorphism. The same construction over W_n(k)
-with the trivial log structure maps C̃_n to W_nω̃^•_Y; the three maps form a map of short exact
-sequences whose outer maps are isomorphisms, so the middle one is, and the connecting maps agree.
+*Proof sketch.* Choose compatible embedding systems admitting maps from the canonical log
+Witt lift. The PD envelope gives the ring/log morphism; *PD differential factorisation for the
+log Witt comparison* gives the map of complexes C_n→W_nω^• through the quotient by PD
+differential relations. For m=n+1 compare 0→C_1→C_(n+1)→C_n→0 with
+0→W_1ω^•→W_(n+1)ω^•→Q_(n+1,n)→0, using multiplication by p^n for the first arrows.
+Compose the map into Q_(n+1,n) with its quasi-isomorphism to W_nω^•. This compares triangles
+in the derived category and proves the comparison by induction. At n=1 the map is the
+Cartier identification with its coefficient twist and Bockstein differential, as specified
+in *Logarithmic de Rham–Witt complexes*. Apply the same PD factorisation over the trivial
+log base in the semistable case. The maps respect the signed inclusion ι_θ and projection;
+the resulting map of triangles identifies the absolute models and their connecting maps N.
 ([Hyodo–Kato, *Semi-stable reduction and crystalline cohomology with logarithmic
-poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), Corollary 4.5, p.249; §4.19–4.20,
-pp.260–262.) *Needs:* *Logarithmic de Rham–Witt complexes*; *Integral Hyodo–Kato complexes*;
-*Hyodo–Kato monodromy*; *Fine log PD envelopes* (Layer CR.5); *Logarithmic embedding-system descent*
-(Layer CR.5); *Logarithmic Cartier isomorphism* (Layer CR.5); *Canonical divided powers on the
-Verschiebung ideal of W_r(R)* (Layer CR.4).
+poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), Corollary 4.5(1), p.249;
+§4.19–4.20, pp.260–262.) *Needs:* *Logarithmic de Rham–Witt complexes*;
+*Finite-level log Witt quotient complexes*; *PD differential factorisation for the log Witt
+comparison*; *Integral Hyodo–Kato complexes*; *Hyodo–Kato monodromy*;
+*Logarithmic embedding-system descent* (Layer CR.5); *Logarithmic Cartier isomorphism*
+(Layer CR.5).
 
 **Checks.**
 

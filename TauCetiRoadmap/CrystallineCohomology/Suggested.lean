@@ -457,6 +457,35 @@ end LogCrystalline
 
 namespace LogCrystalline
 
+/-- At lengths two to one, Witt restriction sends `[t]` to `t`, while Frobenius sends it
+to `t^p` on the strict smooth chart over `ZMod p` (Layer CR.6.1). -/
+theorem logWitt_polynomial_R_F (p : ℕ) [Fact p.Prime] :
+    (TruncatedWittVector.truncate (show 1 ≤ 2 by decide)
+      (WittVector.truncate 2 (WittVector.teichmuller p
+        (Polynomial.X : Polynomial (ZMod p))))).coeff ⟨0, by decide⟩ = Polynomial.X ∧
+    (WittVector.truncate 1 (WittVector.frobenius (WittVector.teichmuller p
+      (Polynomial.X : Polynomial (ZMod p))))).coeff ⟨0, by decide⟩ = Polynomial.X ^ p := by
+  constructor
+  · simp
+  · rw [WittVector.coeff_truncate, WittVector.coeff_frobenius_charP,
+      WittVector.teichmuller_coeff_zero]
+
+/-- On `F_p[t]`, `V(t)` lies in the kernel of length-two restriction and outside the image
+of multiplication by `p`. This witnesses why the finite log Witt exact sequence ends in a
+quotient complex (Layer CR.6.1). -/
+theorem logWitt_polynomial_V_not_p (p : ℕ) [Fact p.Prime] :
+    let v := WittVector.truncate 2 (WittVector.verschiebung (WittVector.teichmuller p
+      (Polynomial.X : Polynomial (ZMod p))))
+    TruncatedWittVector.truncate (show 1 ≤ 2 by decide) v = 0 ∧
+      ¬ ∃ w : TruncatedWittVector p 2 (Polynomial (ZMod p)), v = (p : _) * w := by
+  sorry
+
+/-- The length-one log Witt differential on a strict smooth polynomial chart is the ordinary
+nonzero differential of its coordinate (Layer CR.6.1). -/
+theorem logWitt_smooth_chart_differential (p : ℕ) [Fact p.Prime] :
+    KaehlerDifferential.D (ZMod p) (Polynomial (ZMod p)) Polynomial.X ≠ 0 := by
+  sorry
+
 open WittVector
 open scoped Isocrystal
 
@@ -567,7 +596,10 @@ quasi-nilpotence; Filtered logarithmic PD de Rham complexes; Derived p-adic log 
 cohomology; The induced log structure on A_cris.
 
 Layer CR.6: Standard log Witt bases; Integral Hyodo–Kato complexes; Rational Hyodo–Kato complexes;
-Hyodo–Kato Frobenius; Hyodo–Kato monodromy; Logarithmic de Rham–Witt complexes; Normalized
+Hyodo–Kato Frobenius; Hyodo–Kato monodromy; Logarithmic de Rham–Witt complexes (canonical
+restriction through the Frobenius-twisted Cartier intermediary, and the length-one Bockstein
+differential); Finite-level log Witt quotient complexes; PD differential factorisation for the
+log Witt comparison; Normalized
 logarithms of units; Uniformizer-dependent Hyodo–Kato maps; Convergent logarithmic embedding complexes; Proper support on open analytic
 tubes; Semistable logarithmic Witt models; Witt comparison maps with proper support; Hyodo–Kato
 cohomology of Stein curves; Hyodo–Kato cohomology of semistable curve towers.
@@ -705,6 +737,7 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
+Crystalline.cuspSeminormalComparison;
 Crystalline.relativeDRW_lift; Crystalline.relativeDRW_zero; Crystalline.relativeDRW_map;
 Crystalline.relativeDRW_generated; Crystalline.relativeDRW_base_quotient;
 Crystalline.relativeDRW_lift_noRestriction; Crystalline.classicalDRW_lift;
@@ -729,6 +762,9 @@ LogCrystalline.PrelogRing.hom_ext; LogCrystalline.PrelogRing.map_comp;
 LogCrystalline.IsFineMonoid.finite_generators; LogCrystalline.IsSaturatedMonoid.root_closed;
 LogCrystalline.IsSaturatedMonoid.saturation_lift; LogCrystalline.IsSaturatedMonoid.fs_integral.
 
+CR.6.1 Logarithmic de Rham–Witt complexes and their crystalline model:
+LogCrystalline.logDeRhamWitt.restriction; LogCrystalline.logWittQuotient;
+LogCrystalline.logWittPDDifferentials.
 
 -/
 
