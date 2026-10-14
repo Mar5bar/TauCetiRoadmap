@@ -163,7 +163,13 @@ example (N : Matrix (Fin 4) (Fin 4) (ZMod 3)) (hN : N ^ 4 = 0) (hN3 : N ^ 3 ≠ 
 
 end ModifiedNilpotent
 
-/-! ## Layer 3: Potentially semistable and crystalline quotient rings -/
+/-! ## Layer 3: Potentially semistable and crystalline quotient rings
+
+The G-valued integral type quotient is reduced and flat. Complete intersection,
+equidimensionality and a dense regular open are properties of its localized scheme
+generic fibre. Crystalline scheme generic fibres are regular; formal smoothness refers
+to completed local deformation rings with the maximal-ideal topology.
+-/
 
 section FiltrationProfile
 
@@ -225,11 +231,56 @@ example : ¬ Connects (RingHom.fst ℚ ℚ) (RingHom.snd ℚ ℚ) := by
 
 end Components
 
+section EtaleCoefficients
+
+variable {R : Type*} [CommRing R]
+
+/-- The coefficient-adic completion of the ordinary Laurent-series ring.
+For a split complete local Kisin coefficient factor the ideal is the maximal ideal. -/
+abbrev EtaleCoeffRing (R : Type*) [CommRing R] (I : Ideal R) :=
+  AdicCompletion (I.map (algebraMap R (LaurentSeries R))) (LaurentSeries R)
+
+/-- A height factor becomes invertible in ordinary Laurent series for nilpotent coefficients. -/
+theorem laurent_height_factor_isUnit_of_nilpotent (a : R) (ha : IsNilpotent a) :
+    IsUnit (HahnSeries.single (1 : ℤ) (1 : R) + HahnSeries.C a : LaurentSeries R) := by
+  sorry
+
+/-- A height factor with constant coefficient in the coefficient ideal is a unit
+in the completed étale carrier. The completion uses that ideal, not the series variable. -/
+theorem etale_height_factor_isUnit (I : Ideal R) (hI : I.FG) (a : R) (ha : a ∈ I) :
+    IsUnit (AdicCompletion.of (I.map (algebraMap R (LaurentSeries R))) (LaurentSeries R)
+      (HahnSeries.single (1 : ℤ) (1 : R) + HahnSeries.C a)) := by
+  sorry
+
+/-- Integral positive height does not imply invertibility in ordinary Laurent series. -/
+example (p : ℕ) [Fact p.Prime] :
+    ¬ IsUnit (HahnSeries.single (1 : ℤ) (1 : PadicInt p) +
+      HahnSeries.C (p : PadicInt p) : LaurentSeries (PadicInt p)) := by
+  sorry
+
+/-- At each Artinian level the height factor has a finite geometric-series inverse. -/
+example (p n : ℕ) [Fact p.Prime] (hn : 0 < n) :
+    IsUnit (HahnSeries.single (1 : ℤ) (1 : ZMod (p ^ n)) +
+      HahnSeries.C (p : ZMod (p ^ n)) : LaurentSeries (ZMod (p ^ n))) := by
+  sorry
+
+/-- The compatible Artinian inverses make the height factor a unit in the completed ring. -/
+example (p : ℕ) [Fact p.Prime] :
+    IsUnit (AdicCompletion.of
+      ((Ideal.span {(p : PadicInt p)}).map
+        (algebraMap (PadicInt p) (LaurentSeries (PadicInt p))))
+      (LaurentSeries (PadicInt p))
+      (HahnSeries.single (1 : ℤ) (1 : PadicInt p) + HahnSeries.C (p : PadicInt p))) := by
+  sorry
+
+end EtaleCoefficients
+
 section IdentityChart
 
 variable {A : Type*} [CommRing A]
 
-/-- The identity-shape partial Frobenius matrix, including its three unit diagonal coordinates. -/
+/-- The residual identity-shape power-series matrix for type `(η, τ)` of actual
+Hodge–Tate weights `{0,1,2}`, including its three unit diagonal coordinates. -/
 noncomputable def identityFrobenius (a b c d e f g h i aStar eStar iStar : A) :
     Matrix (Fin 3) (Fin 3) (Polynomial A) :=
   !![Polynomial.C a + Polynomial.X * Polynomial.C aStar, Polynomial.C b, Polynomial.C c;
@@ -458,6 +509,8 @@ Layer 2: `IsMinimallyRamified`, `SteinbergLifts`, `TameGroup`, `GSp4RamType`,
 Layer 3: `HodgeType`, `GaloisType`, `IsOfType`, `WDTypeRing`.
 Layer 4: `flatLiftingRing`, `flatDeformationRing`, `finiteFlatModels`,
 `flatHodgeTypeQuotient`, `flatResolution`.
+The finite-flat condition and its Fontaine–Laffaille tangent calculation use
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.7.
 Layer 5: `kisinGroupoid`, `DyadicMinimal.lift`.
 Layer 6: the geometric APIs `Connects.sum_tensor_dual` and `Connects.trans_of_smooth`
 of §6.8, `OrdinaryFixedInertia`, `DiscreteSeriesType`, `IsDiscreteSeriesLift`,
@@ -465,7 +518,16 @@ of §6.8, `OrdinaryFixedInertia`, `DiscreteSeriesType`, `IsDiscreteSeriesLift`,
 `partitionRing`, `IsTorsionCrystalline`, `IsCrystallineIntegral`, `GSp4.SiegelOrdinary`,
 `rhoNM0`, `GSp4.IsPDistinguishedOrdinary`, `GSp4.BorelOrdinary`,
 `GSp4.ParabolicOrdinary`, `GL3.explicitRing`, `GL3.comparisonDiagram`,
-`GSp4.weightAlgebra`, `GSp4.ordinaryFlagScheme`, and the weak minimal patching functor.
+`GSp4.weightAlgebra`, `GSp4.ordinaryFlagScheme`, `GL3.WeakMinimalPatchingFunctor`,
+`GL3.typeGeometry_of_weakMinimalPatching`, `GL3.auxiliaryLift`, `GL3.scopedGlobalization`,
+`GL3.definiteUnitaryPatching`, `GL3.weakMinimalPatching_exists`,
+`GL3.weakMinimalPatching_multiplicity`, `GL3.weakMinimalPatching_typeSupport`.
+The GL₃ type `(η, τ)` has actual weights `{0,1,2}` and determinant weight `3`.
+Its Kisin Frobenius matrices lie over power series with a height condition;
+`GL3KisinChart.frobMatrix` becomes invertible over the completed étale coefficient ring,
+and `GL3KisinChart.shape` is defined on residual Laurent-series field fibres.
+The conditional type theorem assumes the functor; its existence for `p > 3` uses
+the separate auxiliary-lift, scoped-globalization and finite-level unitary patching targets.
 Layer 7: `detOrdTilde`, `detOrd`.
 Layer 8: `KWCondition`, `CategoryCondition`.
 -/
