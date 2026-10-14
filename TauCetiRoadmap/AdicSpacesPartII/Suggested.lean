@@ -22,7 +22,10 @@ separated, proper, finite, quasi-finite, flat, unramified, smooth, étale) with 
 theorems, and the inclusion of polynomials into Tau Ceti's Tate algebras. Classical `K`-affinoid
 algebras, affinoid subdomains and rigid-analytic spaces are the RigidAnalyticGeometry roadmap's
 (README, supplier contracts). The completed tensor product, continuous differentials, the spectral
-seminorm and the analytification functor are README targets. The generic spectral-limit,
+seminorm and the analytification functor are README targets. R1.4 specifies general exact
+module pullback and its stalk, tensor and ideal comparisons; the affinoid section comparison
+for analytified associated modules and its associated-sheaf Checks belong to
+AdicSpacesPartIII R3.1a. The generic spectral-limit,
 Pro-category and qcqs-topos APIs are also README targets; adic-ring completions, locally spectral
 spaces and maps, constructible separation and tilde-limits have prototypes below.
 -/

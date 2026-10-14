@@ -20,7 +20,7 @@ algebras, analytification and algebraic correspondences on the adic spaces of
 [TauCetiRoadmap.AdicSpaces](../AdicSpaces/README.md).
 Part II supplies the morphism and analytification interfaces for
 [part III](../AdicSpacesPartIII/README.md), which owns formal geometry and coherent sheaves,
-and [part IV](../AdicSpacesPartIV/README.md), which owns sites, families and dagger geometry.
+and [part IV](../AdicSpacesPartIV/README.md), which owns site applications, families and dagger geometry.
 
 | Layer | Title | What it builds |
 |---|---|---|
@@ -680,7 +680,9 @@ with the discrete topology is adic with `I = 0`; `ℚ_p` is not an adic ring, si
 ideal is `ℚ_p` itself, whose powers do not tend to `0`; and `O_K⟨X⟩` for a complete rank-one
 valuation ring `O_K` with pseudo-uniformiser `ϖ`, with the `ϖ`-adic topology, is an adic ring of
 finite ideal type which is not noetherian when the value group is not discrete, which is the
-setting of the formal schemes of type (S) in AdicSpacesPartIII R2.2. *Needs:* Mathlib `IsAdic`,
+setting of the formal schemes of type (S), a downstream application in
+AdicSpacesPartIII R2.2.
+*Needs:* Mathlib `IsAdic`,
 `isAdic_iff`, `is_ideal_adic_pow`, `IsAdicComplete`, `IsAdic.isAdicComplete_iff`,
 `IsAdicComplete.le_jacobson_bot`, `Ideal.FG`, `IsNoetherianRing`, `IsTopologicalRing`; Tau Ceti
 `TauCeti.Huber.IsHuberRing`, `TauCeti.Huber.PairOfDefinition`,
@@ -3634,8 +3636,8 @@ adic spaces: for every adic space `X` and morphisms `a : X → Spa B`, `b : X �
 Huber94 §2, Prop. 2.1(i), p. 522, morphisms between affinoid adic spaces are continuous ring
 homomorphisms; Huber96 §1.2, Prop. 1.2.2 and proof part 1), p. 47, the adic case on affinoids).
 Sheafiness of `D` is an explicit hypothesis. R0 establishes it in the noetherian case
-using *completed-tensor-noetherian-stability*. PerfectoidSpaces layer P2 and AdicSpacesPartIV
-layer R5 apply this conditional fibre-product theorem after establishing sheafiness for their
+using *completed-tensor-noetherian-stability*. PerfectoidSpaces P2 and P3.17a.3
+apply this conditional fibre-product theorem after establishing sheafiness for their
 perfectoid and sousperfectoid inputs. Huber needs no sheafiness hypothesis
 only because of his standing convention (Huber96 §1.1, (1.1.1), p. 37): every f-adic ring is assumed
 to have a completion finitely generated over a noetherian ring of definition, or to be strongly
@@ -3775,7 +3777,7 @@ continuous for the `U`-adic topology since `|U|^n = p^{-n/2} → 0`) both restri
 all `n`, so `|U|` is not cofinal and `z` is not continuous for the `U`-adic topology of
 `ℤ_p⟦U⟧⟨T⟩`: no point of `X ×_S Y` lies over `(x, y)`. A statement claiming
 surjectivity whenever the fibre product exists fails this example. The étale-site coverings of
-AdicEtaleGeometry layer A1 and of AdicSpacesPartIV layer R4 are jointly surjective families; their base changes
+AdicEtaleGeometry A1.6 are jointly surjective families; their base changes
 along adic morphisms are again jointly surjective by this lemma, while base change along non-adic
 morphisms needs a separate argument (for instance that residue value groups of étale maps are
 torsion over the base). *Needs:* *fibre-products-existence*; *affinoid-fibre-product*;
@@ -6215,8 +6217,7 @@ immersion followed by a finite étale map"), designed to agree with Huber's (KL1
 *etale-morphisms-local-description-and-comparison*, from Huber's Lemma 2.2.8,
 *etale-local-open-finite-etale-factorisation*), and the algebraic notion `Algebra.Etale` of Mathlib
 applied to coordinate rings does not (a rational embedding is étale but its ring map is not of
-finite type). The étale site of AdicEtaleGeometry layer A1, which AdicSpacesPartIV layer R4 places on these
-carriers, is built on this definition (Huber96 §2.1, p. 109). In `AdicSpace`, define `Etale f` as
+finite type). The étale site of AdicEtaleGeometry A1.6 is built on this definition (Huber96 §2.1, p. 109). In `AdicSpace`, define `Etale f` as
 the class: locally of finite presentation and every point has a `HomChart` of `f` whose pair map
 satisfies `Etale_affinoid`; the global Hom-test form of Def. 1.6.5(i) is *lifting-test-agreement*;
 prove the equivalence with smooth and unramified (`Etale f ↔ Smooth f ∧ Unramified f`),
@@ -8190,15 +8191,16 @@ an adic morphism of quasi-compact quasi-separated adic spaces that is locally of
 assume that the fibre products `Y ×_{X_j} X` and `Y ×_{X_j} X_i` exist in adic spaces and are
 affinoid-locally `Spa` of completed tensor products (*affinoid-fibre-product*, AdicSpacesPartII layer R0); the
 existence of the fibre products is a hypothesis, supplied by *fibre-products-existence* (R0.7)
-in the stably sheafy case. AdicSpacesPartIV R5.5 supplies the
-perfectoid-times-smooth specialization. Prove
+in the stably sheafy case. AdicSpacesPartIV R5.5 develops the
+perfectoid-times-smooth specialization as a downstream application. Prove
 that `Y ×_{X_j} X ∼ lim_i Y ×_{X_j} X_i` (Huber96 §2.4, Rem. 2.4.3(ii), p. 126; Huber96 §2.4, (2.4.1), p. 125 (tilde-limits
 are defined for qcqs spaces with adic morphisms)). The case of an étale `f` and a perfectoid
 tilde-limit `X` is PerfectoidSpaces layer P7 (P7.12c, Scholze–Weinstein 2013 Prop. 2.4.3); this
 target is the case of a morphism locally of weakly finite type over quasi-compact quasi-separated
 adic `X`, perfectoid or not. For `Y = X_j` the statement is the hypothesis;
 BHW Corollary 3.5 is the case `Y = X_1 ×_L U` for a smooth `U`
-(AdicSpacesPartIV R5.5 *perfectoid-times-smooth-tilde-limit*). *Needs:* R0.20.1 `AdicSpace.IsTildeLimit.affinoid`,
+(the downstream application AdicSpacesPartIV R5.5 *perfectoid-times-smooth-tilde-limit*).
+*Needs:* R0.20.1 `AdicSpace.IsTildeLimit.affinoid`,
 *tilde-limits-affinoid-criterion*; *fibre-products-existence*, *affinoid-fibre-product*,
 *base-change-stability* (R0.7). Lean: `AdicSpace.IsTildeLimit.baseChange`,
 with the fibre products given as pullback squares and `f` locally of weakly finite type in the sense
@@ -8362,8 +8364,8 @@ foundations use Mathlib and Tau Ceti; R0.20's tilde-limit criteria use R0.7's fi
 Banach spaces of countable type (the pinned supplier specifications above). Continuous differentials (R0.15) and the lifting definitions
 (R0.16) lead to the local structure theory (R0.17), all under Huber's standing class
 (*huber-standing-class*, R0.1) in its space-level form (*locally-huber-standard*, R0.6). The theorem *affinoid-fibre-product* assumes sheafiness explicitly; this layer
-establishes that hypothesis in the noetherian case. PerfectoidSpaces P2 and AdicSpacesPartIV R5
-are downstream applications that establish the hypothesis for their respective inputs. From Mathlib it uses `MaximalSpectrum`, `IsJacobsonRing`,
+establishes that hypothesis in the noetherian case. PerfectoidSpaces P2 and P3.17a.3
+are downstream applications that establish the hypothesis for perfectoid and sousperfectoid inputs. From Mathlib it uses `MaximalSpectrum`, `IsJacobsonRing`,
 `spectralNorm_unique`, `MvPowerSeries.gaussNorm`, `Module.Finite`, `RingHom.Finite`,
 `RingHom.FiniteType`, `RingHom.FinitePresentation`, `Algebra.IsIntegral`, `integralClosure`,
 `moduleTopology` and `IsModuleTopology`, `UniformSpace.Completion`, `IsAdicComplete`,
@@ -9246,7 +9248,8 @@ Huber96 §1.4, (1.4.1), pp. 60–61, closed adic subspaces cut out by an ideal s
 analytifies to the single classical point `0` of `A^{1,ad}_K`, and `D(T) = G_m` analytifies to
 `A^{1,ad}_K \ {0} = ⋃_k {|ϖ^k| ≤ |T| ≤ |ϖ|^{-k}}`; for a closed immersion `Y ↪ X` of
 quasi-projective varieties over `K`, `Y^ad` is the closed adic subspace of `X^ad` cut out by
-`I_Y·O_{X^ad}`, the input that PerfectoidTowers layer P8 consumes. *Needs:*
+`I_Y·O_{X^ad}`, the input consumed by PerfectoidTowers layer P8.
+*Needs:*
 *analytification-universal-property*; *affine-chart-analytification*;
 *tft-plus-ring-power-bounded*; *scheme-fibre-product-analytification*;
 *closed-adic-subspaces-and-embeddings*, *noetherian-type-ideals-closed*,
@@ -9409,22 +9412,10 @@ cokernel isomorphism. In particular, `(O_X/I)^ad ≅ O_{X^ad}/I·O_{X^ad} ≅ i^
 The kernel description is the ideal comparison in the proof of Zavyalov24 §6, Cor. 6.8,
 using Lem. 6.7; the closed immersion itself is *analytification-immersions*.
 
-`analytification.modules_chartSections` states the affine comparison for a locally finite
-type map `Spec C → Spec A`, any `C`-module `M`, and a strongly noetherian affinoid chart
-`c : Spa(B,B⁺) → (Spec C)^ad`. The coefficient map `φ : C → B` must induce `q_X ∘ c`.
-Restriction of `(M̃)^ad` to this chart has global sections `B ⊗_C M`, as a `B`-module via
-`c.affinoid.coeff`; commutativity identifies this with `M ⊗_C B`. For finite `M`, compare finite presentations after pullback and apply
-Part III R3.1 `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.tilde_obj_top` (Zavyalov24 §4, Lemma 4.3(2) and
-Theorem 4.2(1)–(2), applied to the mixed projection of §6). Arbitrary `M` follows
-by filtered colimits of finite submodules: an affinoid has a basis of quasi-compact rational
-opens, so sections on the whole affinoid commute with these colimits
-([Stacks, Lemma 6.29.1](https://stacks.math.columbia.edu/tag/009F)). *Needs:* *analytification-map-flat*; *analytification-functor*;
-AdicSpacesPartIII R3.1: associated finite-module sheaves, `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.tilde_exact`,
-`TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.tilde_obj_top` and
-`TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.tilde_obj_rational`;
+*Needs:* *analytification-map-flat*; *analytification-functor*;
 *analytification-immersions*; Mathlib `SheafOfModules.pullback`, `SheafOfModules.pullbackComp`,
-`SheafOfModules.Submodule`, `AlgebraicGeometry.tilde`, `AlgebraicGeometry.tilde.map`,
-`SheafOfModules.pullbackObjUnitToUnit`; the affine restriction maps of `analytification.modules`.
+`SheafOfModules.Submodule`, `SheafOfModules.pullbackObjUnitToUnit`;
+the affine restriction maps of `analytification.modules`.
 
 **Checks.**
 
@@ -9438,30 +9429,6 @@ AdicSpacesPartIII R3.1: associated finite-module sheaves, `TauCetiRoadmap.AdicSp
 - Free sheaves of ranks two and three tensor to rank six.
 - *Degenerate.* `(O_X)^ad ≅ O_{X^ad}` and
   `0^ad = 0`.
-- *Computation.* For `X = A¹_K`, `(O_X/(T))^ad` is the
-  skyscraper sheaf `K` at the classical point `x₀ = 0` of `A^{1,ad}_K`: its stalk there
-  is isomorphic to `κ(x₀)` as an `O_{X^ad,x₀}`-module, `κ(x₀) ≅ K` as rings,
-  and all other stalks vanish. Stalk-linearity excludes `(O_X/(T²))^ad`, on whose
-  origin stalk `T` acts nontrivially (Conrad-IC, Appendix A.1, Lemma A.1.2(2),(4), p. 32).
-- *Computation.* For `X = A¹_K` and `I = (T)`,
-  on every chart `D = Spa(K⟨ϖ^kT⟩, K⟨ϖ^kT⟩°)`, the image of the analytified
-  inclusion is exactly `D.coeff '' (T)`. Here `T ≠ 0` and `1 ∉ (T)`.
-  The inclusion uses `tilde.map I.subtype`, `tildeSelf`, and the canonical
-  pullback maps to the unit sheaves. The chart map agrees with the polynomial
-  map under the scheme projection. The general ideal-image statement is
-  `analytification.modules_idealImage` (Conrad-IC, Lemma A.1.2(2),(4), p. 32).
-- *Compatibility.* For the exact sequence
-  `0 → O_{A¹} → O_{A¹} → O_{A¹}/(T) → 0` given by multiplication by `T`, the analytified sequence
-  `0 → O_{A^{1,ad}} → O_{A^{1,ad}} → K_0 → 0` is exact (`T` is a nonzerodivisor on every chart
-  `K⟨ϖ^kT⟩`).
-- *Computation.* For `M = K[T]/(T²)`
-  and every expanding disc chart, the sections of `(M̃)^ad` are linearly
-  isomorphic to `K⟨ϖ^kT⟩/(T²)`, written formally over the chart's actual
-  section ring with coordinate `D.coeff T`. The quotient class of this coordinate
-  is nonzero and has square zero, distinguishing the square-zero thickening from
-  the reduced point. The general scalar-extension comparison is
-  `analytification.modules_chartSections` (Conrad-IC, Lemma A.1.2(2),(4), p. 32;
-  KL15, Theorem 2.5.20(b), p. 52).
 
 **Continuous differentials of the analytification charts:
 `Ωᶜ_{A_k/A'} ≅ A_k ⊗_C Ω_{C/B'}`.** (*analytic-kahler-differentials*) Let `h : X → Y` be a
@@ -11008,16 +10975,17 @@ quasi-separated objects (the pinned supplier specifications above). Mathlib supp
 
 ## Downstream consumers
 
-**Forward references.** The following sections use Part II's results or compare their
-constructions with them. Part III F0.1's algebraic *adic-completion-noetherian* supplies
-R0's uniform-completion comparison; its own Needs list contains only Mathlib's algebraic API.
-Part III R3.1 supplies the associated-module comparisons used by
-`analytification.modules_chartSections`, in the order Part II R0 → Part III R3.1 → this target.
+The following sections use Part II's results or compare their constructions with them.
+AdicSpacesPartII R0.1b's algebraic *adic-completion-noetherian* supplies R0's
+uniform-completion comparison. AdicSpacesPartIII R3.1a owns
+`TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.analytification.modules_chartSections`,
+using its R3.1 associated-module sheaves and Part II R1.4's general module pullback.
 
 The following layers consume AdicSpacesPartII layer R1: AdicSpacesPartIII layer R2
 (the Hasse invariant on the analytified Hodge bundle), AdicSpacesPartIII layer R3
-(coherent sheaves, the glued sheaf of differentials), AdicSpacesPartIV layer R4
-(the analytification morphism `λ_X` and the rigid comparison of the sites) and
+(coherent sheaves, the glued sheaf of differentials), AdicEtaleGeometry A2.6a
+(the analytification morphism `λ_X` on étale sites), AdicSpacesPartIV layer R4
+(the rigid comparison and other site applications) and
 AdicSpacesPartIV layer F1 (the dagger–rigid comparison); PerfectoidTowers layer P8
 consumes the closed adic subspaces of analytified quasi-projective varieties.
 
@@ -11026,6 +10994,7 @@ consumes the closed adic subspaces of analytified quasi-projective varieties.
 | [AdicEtaleGeometry A0.1–A0.8](../AdicEtaleGeometry/README.md#a01-the-comparison-interface-the-pushout-of-complete-huber-pairs) | The fibre-product, uniformization, rational-pullback and finite-étale-pullback comparisons use R0's completed tensors and affinoid products. The analytic locus uses `AdicSpace.IsAnalytic` on `TauCeti.AdicSpace`, supplied here, and Tau Ceti's analytic points and open restrictions. |
 | [AdicEtaleGeometry A1.4](../AdicEtaleGeometry/README.md#a14-comparison-with-hubers-definitions), *etale-morphisms-local-description-and-comparison* | The comparison uses R0's *etale-local-open-finite-etale-factorisation* (Huber96, 2.2.8) and its finite-étale algebra comparison. |
 | [AdicSpacesPartIII R3.1](../AdicSpacesPartIII/README.md#r31-the-associated-sheaf-and-acyclicity-for-finite-modules), *noetherian-rod-acyclicity-finite-modules* | Sheaf-cohomology vanishing uses R0's noetherian-ring-of-definition sheafiness and finite-module Čech results. |
+| [AdicSpacesPartIII R3.1a](../AdicSpacesPartIII/README.md#r31a-affinoid-sections-of-analytified-modules) | The affinoid section comparison for analytified associated modules and its associated-sheaf Checks use R1.4's general exact pullback, stalk, tensor and ideal comparisons. |
 | [AdicSpacesPartIII R3.6](../AdicSpacesPartIII/README.md#r36-the-sheaf-of-continuous-differentials-and-kiehls-proper-mapping-theorem), *sheaf-of-continuous-differentials* | The differential sheaf and its analytification comparison glue R0's continuous modules and R1's *analytic-kahler-differentials* chart comparison. |
 | [AdicSpacesPartIV R5.6](../AdicSpacesPartIV/README.md#r56-coefficient-algebras), *mixed-completed-tensor* | The ring-case comparison and the contrast between bounded families and null families refer to R0's completed tensors; the mixed construction is owned by R5. |
 
@@ -11069,7 +11038,7 @@ Its R3 differential sheaf uses `Huber.ContinuousKaehlerDifferential.localization
 `localizationEquiv_D`, `localizationEquiv_symm` and `map_comp` for rational restriction
 and gluing, on the module of continuous differentials defined here. Its geometric
 unramified, smooth and étale predicates are `AdicSpace.Unramified`, `Smooth` and
-`Etale` from R0.16. AdicSpacesPartIV uses R0 and R1 for sites, families and dagger geometry.
+`Etale` from R0.16. AdicSpacesPartIV uses R0 and R1 for site applications, families and dagger geometry.
 AdicEtaleGeometry A0 uses completed and uniform completed tensors, analytic pullbacks and
 analytic loci; A1 uses the étale local structure theorem; A2 uses separatedness, properness,
 smooth charts, relative polydiscs and tori. PerfectoidSpaces P0–P4 and P7 and PerfectoidTowers P9 use affinoid
