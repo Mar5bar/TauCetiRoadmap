@@ -129,10 +129,11 @@ induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
 `Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
 for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
 formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
-and its `LocalIntegration.modularCharacter_eq_adjointModulus` in every characteristic
-(SR.1.4–SR.1.5, SR.2.2, SR.3a.2), whose restriction to a parabolic,
-det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity of M, is
-mentioned in ReductiveGroupsPartII's RG2.4 prose without a named target and is derived here;
+and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
+*parabolic-adjoint-determinant* in every characteristic, supplying
+det(Ad(p)|Lie P) = det(Ad(p)|Lie N) as an algebraic identity (SR.1.4–SR.1.5, SR.2.2, SR.3a.2;
+SR.2.2 owns coefficient change and the square roots used in normalised induction, and
+AdelicAlgebraicGroups §2.2 consumes both results directly from RG2.4);
 the central-coset localisation of Modular forms, layer 2 (SR.4.3); the Iwasawa presentation
 Fr s Fr⁻¹ = s^q of Local fields and ramification, layer 4, with Tau Ceti `IsArithFrobeniusLift`,
 `tameQuotientEquiv`, `wildInertiaSubgroup` (SR.6.1); and Mathlib's Fitting decomposition
@@ -451,11 +452,19 @@ and `PointTopology.instTotallyDisconnectedSpaceLocal` of the same file (the hypo
 
 For SR.2.2, RG2.4 owns `LocalIntegration.modularCharacter_eq_adjointModulus`
 (`Suggested.lean`): the local Haar modular character is the absolute adjoint determinant. This
-holds over every nonarchimedean local field, including positive characteristic. The restriction
-to a parabolic, det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity
-of M, is mentioned in RG2.4's prose without a named target and is derived here. SR constructs the
-coefficient-valued modulus when the residue characteristic is invertible in A.
-AdelicAlgebraicGroups §2.2 consumes this RG2 result for finite-place and adelic comparisons.
+holds over every nonarchimedean local field, including positive characteristic. RG2.4 also owns
+*parabolic-adjoint-determinant*: for a connected reductive group G over a field E, a parabolic
+P = M ⋉ N and p ∈ P(E), it supplies det(Ad(p)|Lie P) = det(Ad(p)|Lie N) in Eˣ, in every
+characteristic. The P-stable exact sequence `0 → Lie N → Lie P → Lie M → 0` factors the
+determinant, with the quotient action induced by P → M. The adjoint determinant character of M
+is trivial: over an algebraic closure its maximal-torus weights are zero weights and opposite
+root pairs, so its restriction to that torus is one. A character of a connected reductive group
+is determined by its restriction to a maximal torus, and the identity descends to E
+([Conrad], §1.2, (1.2.1), p. 16, and Proposition 1.4.7, pp. 35–36). Local Haar unimodularity
+alone gives only an absolute-value identity. SR consumes these two RG2.4 results to construct
+the coefficient-valued modulus when the residue characteristic is invertible in A, with a chosen
+square root for normalised induction. AdelicAlgebraicGroups §2.2 consumes both results directly
+from RG2.4 for finite-place and adelic comparisons.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -1992,13 +2001,12 @@ part of the group data ([Cas95] §1.5 and Lemma 1.5.1, p. 16).
 δ_B^{BH}(diag(a,d)) = |d/a|_F. Thus our δ_B = (δ_B^{BH})⁻¹; the factor
 (δ_B^{BH})^{−1/2} in [BH06] (9.11.1), p. 69, is our δ_B^{1/2}. *Needs:* *a-valued-haar-measure*,
 *smooth-character*; ReductiveGroups layer 7; ReductiveGroupsPartII RG2.4
-`LocalIntegration.modularCharacter_eq_adjointModulus`; the restriction to a parabolic,
-det(Ad(p)|Lie P) = det(Ad(p)|Lie N) by `Lie P = Lie M ⊕ Lie N` and unimodularity of M, is
-mentioned in RG2.4's prose without a named target and is derived here. SR.2.2 consumes this
-arbitrary-characteristic local result and constructs the coefficient-valued character via the
+`LocalIntegration.modularCharacter_eq_adjointModulus` and *parabolic-adjoint-determinant*,
+with the algebraic identity in every characteristic specified in the RG2 supplier contract above.
+SR.2.2 consumes both results and constructs the coefficient-valued character via the
 residue exponent when the residue characteristic is invertible in A (equivalently, q is a unit).
-Its merge contract includes agreement with that RG2 modulus; square roots are required only for
-the normalised functors. AdelicAlgebraicGroups §2.2 consumes the same RG2 result for
+The coefficient-valued character agrees with that RG2 modulus; square roots are required only for
+the normalised functors. AdelicAlgebraicGroups §2.2 consumes both results directly from RG2.4 for
 finite-place and adelic comparison.
 *Lean:* `LeviDecomposition.modulusCharacter` (Mathlib's `MeasureTheory.Measure.modularCharacter`
 of P restricted to M, with values in ℂˣ; by the remark above it is the conjugation modulus of N when
