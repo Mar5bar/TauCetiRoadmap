@@ -461,8 +461,9 @@ product and internal Hom, ringed pullback and pushforward, the supplied Koszul c
 on perfect schemes (Layer E1); Kan extensions, adjoints, localizations and mates (Layer E3);
 coherent towers and derived-limit filtrations (Layer E2:towers); operads, algebras, modules,
 monoidal localizations, Verdier quotients and Barr–Beck–Lurie (Layer E5:abstract); Ind,
-PrL, spectra, dualizable and rigid categories (Layer E5:presentability); descendable algebras
-(Layer E5:descent); animated rings (Layer E5:animation); Postnikov completion, hypercover
+PrL, PrR, limits along left and right adjoints, spectra, dualizable and rigid categories
+(Layer E5:presentability); descendable algebras (Layer E5:descent); animated rings and bounded
+totalizations in spaces, spectra and module categories (Layer E5:animation); Postnikov completion, hypercover
 descent, sheaves of spaces and h-descent (Layer E2); sheaf completion and coefficient
 reconstruction (Layer E4); the animated cotangent and power comparisons (Layer E5:cotangent-export); and the
 Eilenberg–Mac Lane comparison (Layer E5:spectra-comparison).

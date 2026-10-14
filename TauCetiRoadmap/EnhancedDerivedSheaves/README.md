@@ -629,6 +629,7 @@ Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enha
 - Infinite coproducts are computed by degreewise direct sums of complexes.
 - The existence of a sheaf generator does not make it ω-compact: for G = C_p and coefficients 𝔽_p, D(𝔽_p[G]) is presentable and left complete (products of modules are exact), but the trivial representation 𝔽_p is not compact since its group cohomology is nonzero in arbitrarily high degrees.
 - On the point site, R[0] is compact in D∞(R); the comparison recovers this stronger property in this case.
+- For the topos of discrete continuous G-sets with G = ∏_{n≥1} ℤ_p, presented by finite continuous G-sets with jointly surjective covers, D(X, ℤ) is presentable but not left complete: K = ⊕_{n≥1} (ℤ/p^n)[n] with trivial actions has Postnikov completion ∏ᴿ_{n≥1} (ℤ/p^n)[n], and the canonical map is not an equivalence (BS-proet Example 3.3.4, pp. 19–20).
 
 *Proof route.* Identify D∞(O) with the underlying ∞-category of the combinatorial injective model; its small generating cofibrations give an accessibility cardinal. AB5 identifies filtered homotopy colimits with degreewise colimits. The slice-free generators and their shifts detect cohomology; choose κ so that their derived mapping functors preserve κ-filtered colimits.
 
@@ -1419,6 +1420,7 @@ Provide `indCompletion`, `indYoneda` and `indCompactComparison`.
 **Checks.**
 
 - Ind(Δ[0]) is Δ[0].
+- Ind(N(FinSet)) ≃ N(Set), while PΣ(FinSet) ≃ Spaces (E5:animation.1).
 - For a small stable idempotent-complete C, the compact objects of Ind(C) are C.
 - For a discrete ordinary category, a filtered presentation never creates a new connected component.
 
@@ -1468,6 +1470,18 @@ Provide `PresentableData` (a quasicategory, an accessibility cardinal and a smal
 
 *Needs:* `PrL`; `presentable_limit_restricted`; `derivedFamily`; `IsEnhancedLimit`.
 
+**Limits in PrR** (`presentable_limit_right`). Every small diagram of presentable ∞-categories and accessible right adjoints has a limit in PrR whose underlying ∞-category is its limit in Cat∞. The projections are accessible right adjoints, and small limits are computed componentwise. (HTT Theorem 5.5.3.18, printed pp. 472–473, PDF pp. 490–491; HA Proposition 1.4.4.4, pp. 156–157, for the loop-tower application.)
+
+**Checks.**
+
+- The limit over a point is the input category, and the empty limit is Δ[0].
+- A small product of presentable categories is presentable, with right-adjoint projections and componentwise limits.
+- The loop-functor tower on pointed spaces has a presentable limit even though Ω does not preserve colimits: it sends the pushout ∗ ← S⁰ → ∗, whose value is S¹, to the diagram ∗ ← ∗ → ∗, while ΩS¹ ≃ ℤ.
+
+*Proof route.* Use Cartesian unstraightening, obtained by taking opposites in `derivedFamily`. Choose a common accessibility cardinal for the fibres and transitions. The Cartesian sections form an accessible reflective localization of the category of all sections (HTT Proposition 5.5.3.17); their inclusion and evaluation preserve limits. These projections and the same criterion for functors into the section category give the limit universal property in PrR.
+
+*Needs:* `PrR`; `derivedFamily`; `accessibleLocalization`; `adjointFunctorTheorem`; `IsEnhancedLimit`.
+
 **The ∞-category of spectra** (`spectra`). For a pointed quasicategory C with finite limits, Sp(C) is the limit in Cat∞ of the tower ⋯ → C →Ω C →Ω C. Sp(C) is stable; Ω^∞ : Sp(C) → C is an equivalence exactly when C is stable; for presentable C, Sp(C) is presentable and Ω^∞ has a left adjoint Σ^∞. Sp is Sp(Spaces_∗), the stabilization of pointed spaces, with sphere spectrum S = Σ^∞ S⁰. Sp is the unit of the tensor product of presentable stable ∞-categories (next target). No model of spectra by spectrum objects of simplicial sets is used. (HA Corollary 1.4.2.17 and Proposition 1.4.2.21, p. 146; Proposition 1.4.2.24 and Remark 1.4.2.25, p. 147; Proposition 4.8.2.18, p. 722.)
 
 Provide `spectra`, `stabilization` (Sp(C) for pointed C with finite limits), `omegaInfinity`, `sigmaInfinity` and `stabilization_stable`.
@@ -1478,7 +1492,9 @@ Provide `spectra`, `stabilization` (Sp(C) for pointed C with finite limits), `om
 - The stabilization of Δ[0] is Δ[0].
 - Ω^∞ : Sp → Spaces_∗ is not an equivalence: Spaces_∗ is not stable, since the pushout of ∗ ← S⁰ → ∗ is S¹, while its loop space recovers ℤ, not S⁰.
 
-*Needs:* `presentable_limit`; `overDiagram` (pointed objects as the slice under the point); `spaceInfinity`; `IsStable`.
+*Proof route.* Construct the loop tower using finite limits. For presentable pointed C, suspension defined by pushouts is left adjoint to Ω, which is accessible by `adjointFunctorTheorem`. Apply `presentable_limit_right` to obtain presentability of Sp(C) and the left adjoint to its projection Ω^∞ (HA Proposition 1.4.4.4).
+
+*Needs:* `presentable_limit_right`; `adjointFunctorTheorem`; `overDiagram` (pointed objects as the slice under the point); `spaceInfinity`; `IsStable`.
 
 **Tensor products of presentable categories and module base change** (`presentableTensor`). For presentable C and D, C ⊗ D represents functors out of C × D that preserve colimits separately in each variable: FunL(C ⊗ D, E) ≃ FunL,L(C × D, E). This makes PrL symmetric monoidal with unit Spaces, and its full subcategory of stable presentable ∞-categories symmetric monoidal with unit Sp. For a presentably monoidal C, a presentable right C-module M and an algebra A in C, M ⊗_C RMod_A(C) ≃ RMod_A(M). Extension of scalars and these comparisons are coherent for composites and units. This categorical tensor product is distinct from the derived tensor product of objects. (HA Propositions 4.8.1.15 and 4.8.1.17, pp. 712–715; Proposition 4.8.2.18, p. 722; Theorem 4.8.4.6, p. 737.)
 
@@ -1757,15 +1773,17 @@ Provide `simplicialWitt`, `simplicialWittPi` and `wittFrobeniusLocalization`.
 
 ### E5:animation.3 Bounded totalizations
 
-**Bounded totalizations commute with filtered colimits** (`tot_filteredColimit_of_bounded`). For a cosimplicial diagram of n-truncated spaces (n ≥ 0 fixed), the totalization equals the partial totalization Tot_{n+1}. Consequently totalization commutes with filtered colimits of such diagrams when the truncation bound is uniform in the filtered index and the cosimplicial degree. For cosimplicial objects of a stable ∞-category all of whose terms are bounded above by b (in the sense of the t-structure, for spectra or for D∞(R)), π_k of the totalization is computed by Tot_r for r ≥ max(0, b − k + 1), which gives filtered-colimit commutation degree by degree; coconnective terms are the case b = 0. Arbitrary totalizations do not commute with filtered colimits. (BS17 §11, footnote 23, p. 46, and the coconnective argument in the proof of Proposition 11.41, p. 53; the finite-stage bounds are obtained from the matching-object tower.)
+**Bounded totalizations commute with filtered colimits** (`tot_filteredColimit_of_bounded`). For a cosimplicial diagram of n-truncated spaces (n ≥ 0 fixed), the totalization equals the partial totalization Tot_{n+1}. Consequently totalization commutes with filtered colimits of such diagrams when the truncation bound is uniform in the filtered index and the cosimplicial degree. For a cosimplicial diagram X in spectra or D∞(R), assume π_i(X^q) = 0 for i > b, uniformly in q and in the filtered index. Here π_i = H^{−i} in D∞(R), so the hypothesis is the lower cohomological bound H^j(X^q) = 0 for j < −b. Then π_k of the totalization is computed by Tot_r for r ≥ max(0, b − k + 1), and totalization commutes with filtered colimits degree by degree; coconnective spectra have b = 0. Arbitrary totalizations do not commute with filtered colimits. (BS17 §11, footnote 23, p. 46, and the coconnective argument in the proof of Proposition 11.41, p. 53; HTT Proposition 5.3.3.3 for finite-limit commutation in spaces; the finite-stage bounds are obtained from the matching-object tower.)
 
 **Checks.**
 
 - For 0-truncated terms Tot₁, the equalizer, suffices; for 1-truncated terms Tot₂ is needed for the coherence condition.
 - The same bound is used for every input of the filtered diagram, and only finite limits are interchanged with the colimit.
-- For terms bounded above by 0, the window for π_k is r ≥ max(0, 1 − k); there is no single finite stage for all degrees at once.
+- For π_i(X^q) = 0 when i > 0, the window for π_k is r ≥ max(0, 1 − k); there is no single finite stage for all degrees at once.
+- In spectra, fib(0 → ΣHk) ≃ Hk has π₀ = k for a nonzero field k, although the fibre of the π₀ diagram 0 → 0 is zero; homotopy groups do not commute with finite limits.
+- In D∞(k) for a nonzero field k, the cosimplicial object whose normalized complex has k[2] only in cosimplicial degree 2 has Tot₁ = 0 and Tot = k[0]. Its terms have cohomology ≤ 0, which does not give the bound b = 0; their homotopical bound is b = 2.
 
-*Proof route.* In the Reedy tower, passing from Tot_{r−1} to Tot_r has obstruction in degree r − 1 of the matching fibre and space of choices Ω^r of it. For n-truncated spaces both vanish when r > n + 1. For terms bounded above by b, the layer Ω^r of a matching fibre is bounded above by b − r, so π_k and π_{k−1} of the layer vanish for r > b − k + 1. Partial totalizations are finite limits, which commute with filtered colimits and with homotopy groups.
+*Proof route.* In the Reedy tower, passing from Tot_{r−1} to Tot_r has obstruction in degree r − 1 of the matching fibre and space of choices Ω^r of it. For n-truncated spaces both vanish when r > n + 1. In spectra or D∞(R), the layer Ω^r of a matching fibre has π_i = 0 for i > b − r. Its long exact sequence gives stabilization of π_k once r > b − k + 1; the Milnor sequence then identifies π_k of the tower limit with the stable value. Filtered colimits commute with the finite limits defining partial totalizations in these settings, and homotopy groups commute with filtered colimits. Apply these two interchanges to the stabilized groups.
 
 *Needs:* `IsSiftedInfinity`; `IsEnhancedLimit`; `IsStable`.
 
