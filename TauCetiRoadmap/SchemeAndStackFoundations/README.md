@@ -6944,7 +6944,8 @@ The perfectoid and adic roadmaps import henselization of pairs (§0.12), the exc
 Its compactification applications consume §0.30. FiniteFlatGroupsAndIntegralPadicHodgeTheory
 consumes §0.29 for scheme Frobenius and constructs the group-specific Frobenius and Verschiebung.
 Derived de Rham and module-algebra constructions consume §4.6's ordinary cotangent inputs.
-LefschetzPencilsAndVanishingCycles §F.10 / `VanishingCycles.curveEndomorphismTrace` consumes
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T2 /
+`VanishingCycles.curveEndomorphismTrace` consumes
 §§2.11, 2.16, 5.6 and 5.9 for smooth proper geometrically connected curves and invertible `ℓ`;
 `VanishingCycles.etaleTraceFormulaFinite` uses our Noether normalization and dimension geometry.
 ComplexComparisonPartII §§C6.3–C6.6 / `artinComparison`, `artinComparisonCompactSupport`,
