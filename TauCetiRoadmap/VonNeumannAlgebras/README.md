@@ -376,13 +376,25 @@ unitary equivalence, countable direct sums, amplification, and commuting left/ri
 as bimodules (the right action is an action of the opposite algebra). Embed every separable
 module in `L²(M) ⊗ ℓ²`. Define its dimension by the semifinite trace of the **range** projection
 in `M^op ⊗̄ B(ℓ²)`, normalized by a rank-one amplification projection. Prove independence,
-classification by dimension, commutant type II₁ iff dimension is finite and nonzero
-and type II∞ iff dimension is infinite (for separable nonzero modules), realization of [0,∞], countable additivity, standard-module
+classification by attainable dimensions, countable additivity, standard-module
 dimension one, right-cut formula `dim_M L²(M)q=τ(q)`, nonzero left-corner rescaling by
 `1/τ(p)`, commutant-corner scaling and reciprocal dimensions when both acting factors are
 finite. Give the zero module dimension zero, and impose nonzero modules in the finite-commutant
 and reciprocal-dimension statements. Prove cyclic/separating-vector criteria at dimension
 ≤1/≥1 and the original vector-support trace-ratio formula with independence of the vector.
+
+For M of type II₁, prove realization of every dimension in [0,∞]
+by separable modules. For nonzero separable modules prove the commutant
+is type II₁ exactly when dimension is finite, and type II∞ exactly
+when dimension is infinite. For M=M_m(ℂ) with normalized trace,
+construct every normal module as `H=ℂ^m⊗K` and prove
+`dim_M H=dim_ℂ(K)/m` and `M′=B(K)` in this representation.
+For separable H the attainable dimensions are
+`{k/m : k∈ℕ}∪{∞}`; for K of positive finite dimension k the
+commutant is type I_k, and for infinite-dimensional separable K it is
+type I∞. Treat K=0 as the zero module separately. Prove these
+classification and commutant identifications are compatible with the
+general finite-factor dimension, corner and direct-sum APIs.
 
 Define `[M:N]=dim_N L²(M)` for a unital inclusion of II₁ factors. Prove invariance, index ≥1,
 index one iff equality, and the amplification example
