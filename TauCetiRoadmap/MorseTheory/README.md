@@ -311,7 +311,7 @@ already Morse, with compact-support control for local perturbations. Include
 M1's continuous/smooth finite parameter dependence of nondegenerate critical
 branches; do not claim every parameter value of a generic family is Morse
 through birth-death events. General exhaustion existence here is separate
-from RiemannianGeometry R6's distance exhaustion for a given closed embedding.
+from GeometricTopology Layer1's squared-distance exhaustion for a given closed embedding.
 
 ## M4. Strong inequalities and topology tests
 
