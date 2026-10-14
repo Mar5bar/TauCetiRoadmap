@@ -259,9 +259,13 @@ and KO kernel interfaces below.
    cannot establish the absence of2-torsion or an integral index.
 2. First construct `finiteQuadraticArf` for a finite-dimensional F2 vector
    space with a quadratic refinement of a nonsingular alternating form.
-   Construct a symplectic `Module.Basis (Fin m ⊕ Fin m)` for every finite
-   nonsingular alternating F2 form: paired entries are δ_ij, both same-half
-   pairings are zero, and dim V=2m, including m=0. Define Arf as
+   Consume Tau Ceti's implemented
+   `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` and `even_finrank`
+   from `TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis`. Construct only
+   the characteristic-two adapter: `q.polarBilin` is alternating by
+   `QuadraticMap.polar_self`, and Matrix.J's off-diagonal −1 equals +1.
+   Convert its native `Module.Basis (Fin m ⊕ Fin m)` to paired entries δ_ij,
+   same-half pairings zero and dim V=2m, including m=0. Define Arf as
    Σ q(a_i)q(b_i), prove its equality to the basis formula for every such
    basis, independence of basis, isometry invariance and orthogonal-sum
    additivity. Prove the
@@ -276,10 +280,10 @@ and KO kernel interfaces below.
    Lie-spin torus generator. This is the degree2 coefficient; a nonsingular
    algebraic quadratic form alone is not the geometric bordism theorem.
 3. Prove ΩSpin_3=0 from item4's below8 ABS comparison, TopK's ko3=0
-   and B5's geometric PT inverse, and give the specified Lie-spin T3 filling by consuming
+   and B5's geometric PT inverse, and cite the specified Lie-spin T3 filling from
    the independent Four construction E(1) minus a regular elliptic fibre.
    Consume Four's `ellipticEOneFiberComplement_boundarySpin_eq_lie`
-   identification of the actual boundary Spin structure and its
+   identification of the actual boundary Spin structure and F7.0b's
    complex-oriented signature −8; the filling and boundary identification
    belong to that construction. Distinguish its induced framing
    from the Lie framing: under framed PT the latter is η³=12ν≠0 in

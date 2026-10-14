@@ -8,6 +8,8 @@ import Mathlib.Data.ZMod.Basic
 import Mathlib.Algebra.Field.ZMod
 import Mathlib.LinearAlgebra.QuadraticForm.Basic
 import Mathlib.LinearAlgebra.BilinearForm.Properties
+import Mathlib.Algebra.CharP.Two
+import TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis
 
 /-!
 This file suggests selected native carrier and construction signatures.
@@ -29,12 +31,6 @@ noncomputable def finiteQuadraticArfOfBasis (q : QuadraticForm (ZMod 2) V) {m : 
     (b : Module.Basis (Fin m ⊕ Fin m) (ZMod 2) V) : ZMod 2 :=
   ∑ i : Fin m, q (b (Sum.inl i)) * q (b (Sum.inr i))
 
-/-- B3.2 constructs a symplectic basis and proves independence of its choice.
-Use the native polarization, without dividing by two in characteristic two. -/
-noncomputable def finiteQuadraticArf [FiniteDimensional (ZMod 2) V]
-    (q : QuadraticForm (ZMod 2) V) (h : q.polarBilin.Nondegenerate) : ZMod 2 := by
-  sorry
-
 /-- Genuine pairing equations for a native symplectic basis of the polarization. -/
 def IsQuadraticSymplecticBasis (q : QuadraticForm (ZMod 2) V) {m : ℕ}
     (b : Module.Basis (Fin m ⊕ Fin m) (ZMod 2) V) : Prop :=
@@ -42,12 +38,39 @@ def IsQuadraticSymplecticBasis (q : QuadraticForm (ZMod 2) V) {m : ℕ}
   (∀ i j, q.polarBilin (b (Sum.inr i)) (b (Sum.inr j)) = 0) ∧
   (∀ i j, q.polarBilin (b (Sum.inl i)) (b (Sum.inr j)) = if i = j then 1 else 0)
 
-/-- B3.2 constructs the symplectic basis, including the zero-dimensional case. -/
+/-- Characteristic-two polarization is alternating, without division by two. -/
+theorem quadraticPolar_isAlt (q : QuadraticForm (ZMod 2) V) :
+    q.polarBilin.IsAlt := by
+  intro x
+  simp [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar_self,
+    two_smul, CharTwo.add_self_eq_zero]
+
+/-- B3.2 consumes the native symplectic basis and adapts Matrix.J in char two. -/
 theorem finiteQuadraticSymplecticBasis_exists [FiniteDimensional (ZMod 2) V]
     (q : QuadraticForm (ZMod 2) V) (h : q.polarBilin.Nondegenerate) :
     ∃ (m : ℕ) (b : Module.Basis (Fin m ⊕ Fin m) (ZMod 2) V),
       IsQuadraticSymplecticBasis q b ∧ Module.finrank (ZMod 2) V = 2 * m := by
-  sorry
+  obtain ⟨m, b, hb⟩ := LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J (quadraticPolar_isAlt q) h
+  have hp (i j : Fin m ⊕ Fin m) :
+      q.polarBilin (b i) (b j) = Matrix.J (Fin m) (ZMod 2) i j := by
+    simpa only [LinearMap.BilinForm.toMatrix_apply] using congrFun (congrFun hb i) j
+  refine ⟨m, b, ?_, ?_⟩
+  · refine ⟨?_, ?_, ?_⟩
+    · intro i j
+      simpa [Matrix.J] using hp (Sum.inl i) (Sum.inl j)
+    · intro i j
+      simpa [Matrix.J] using hp (Sum.inr i) (Sum.inr j)
+    · intro i j
+      simpa [Matrix.J, Matrix.one_apply, CharTwo.neg_eq] using hp (Sum.inl i) (Sum.inr j)
+  · rw [Module.finrank_eq_card_basis b, Fintype.card_sum, Fintype.card_fin]
+    omega
+
+/-- B3.2 uses the actual basis formula on a chosen native symplectic basis.
+The basis-independence theorem below makes this an invariant. -/
+noncomputable def finiteQuadraticArf [FiniteDimensional (ZMod 2) V]
+    (q : QuadraticForm (ZMod 2) V) (h : q.polarBilin.Nondegenerate) : ZMod 2 :=
+  finiteQuadraticArfOfBasis q
+    (Classical.choose (Classical.choose_spec (finiteQuadraticSymplecticBasis_exists q h)))
 
 /-- The invariant equals the actual finite sum on every symplectic basis. -/
 theorem finiteQuadraticArf_eq_of_symplecticBasis [FiniteDimensional (ZMod 2) V]
