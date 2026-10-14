@@ -25,7 +25,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), compactifications (§0.30), ideal-sheaf comparisons |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -42,8 +42,9 @@ Mathlib schemes, Tau Ceti curves and models  →  Layer 0  →  Layer 1  →  La
 The geometric Chow groups and all operations graded by absolute closure dimension
 are restricted to schemes locally of finite type over a fixed field, with maps over
 that field (§5). General bases, including DVRs, need a different grading and are
-outside this API. The ordinary cotangent complex and its square-zero obstruction class are
-targets of §4.6, and the non-affine Brauer comparison of §2.22 includes the construction of the gerbe of local splittings.
+outside this API. Section 4.6 uses Mathlib's two-term cotangent complex for algebra
+lift classes with an existing flat lift. The non-affine Brauer comparison of §2.22 includes
+the construction of the gerbe of local splittings.
 
 
 **This roadmap owns** the shared scheme-, space-, site- and coherent-sheaf foundations: the general
@@ -59,7 +60,7 @@ Nisnevich site, the pro-étale site foundations (replete topoi, w-contractible c
 left-completeness), coherent Grothendieck duality in the generality of the Stacks Project, the Brauer
 group of a scheme, abelian-extension boundaries, equivariant sheaf cohomology, the curve and Picard theory that no curve roadmap
 states, formal deformation theory with elementary obstruction theories, adic thickening systems, coherent existence and algebraization of compatible morphisms, modifications,
-strict transforms and alterations, scheme compactifications, the moduli stack of stable pointed curves, Chow groups,
+strict transforms and alterations, the moduli stack of stable pointed curves, Chow groups,
 Chern classes, refined Gysin maps, intersection products, a K-theoretic pushforward for
 Riemann–Roch, and surfaces. Formal geometry here uses chosen ideals and level-preserving adic thickening
 systems. Comparison with the category of topologically locally ringed formal schemes and
@@ -130,13 +131,17 @@ sequences, `𝔾_m` on curves, Tsen and Brauer groups remain owned here, togethe
 limit, Hochschild–Serre, Gabber and hypercovering theorems for arbitrary abelian sheaves and the
 pro-étale site foundations. In particular, §§2.1–2.2 own `Sheaf.derivedPushforward`,
 `Sheaf.higherDirectImage` and `leray_spectral_sequence` for generic sites and abelian D⁺ complexes.
-The scheme compactifications used in coherent duality are constructed in §0.30.
+Scheme compactifications, Nagata existence and common refinements are constructed downstream
+in EtaleCohomologyFoundations. The full cotangent complex, polynomial resolutions, general
+square-zero obstruction API and derived module algebra are constructed downstream in
+DerivedModuleAlgebra. These are client developments of the foundations here, not inputs to
+this roadmap. Section 2.19 constructs coherent upper shriek locally and compares it with
+any given open-proper factorization.
 Finite-module twists, finite and adic étale comparisons, trace formulas, complex comparison,
 Tate modules and étale cycle classes are downstream applications of these foundations;
 they are not prerequisites for any target here. Section 2.9 exports `muEtale`, and §2.11
 exports its Kummer sequence. The downstream twist owner identifies its degree-one twist
-with this sheaf for invertible order. The full derived de Rham theory extends the ordinary
-cotangent complex of §4.6.
+with this sheaf for invertible order.
 
 **Already stated or built elsewhere.** The following are stated by another roadmap or built in the
 pinned libraries; each is cited where it lives and is not a target here.
@@ -1840,73 +1845,6 @@ StableReduction Layer 2 (§0.3); JacobianChallenge Layer B (§§0.4–0.6); Modu
 `iteratedSchemeFrobenius` (§§0.24–0.26, characteristic-`p` schemes);
 §0.23a / `universalHomeomorphismEtaleEquivalence`
 (§0.24, with no coefficient restriction). No later layer of this roadmap.
-
-### 0.30 Scheme compactifications
-
-**Compactification objects — `Compactification`, `DenseCompactification`.**
-For a scheme morphism `f : X → S`, a compactification consists of `Xbar`, a quasi-compact open
-immersion `j : X → Xbar`, a proper map `p : Xbar → S`, and `j ≫ p = f`.
-`Compactification.Hom C D` consists of `h : C.Xbar → D.Xbar` fixing `X` and commuting with the
-maps to `S`. Construct identity and composition. The dense full subcategory requires `j` to
-be schematically dominant. Construct arbitrary base change of compactifications and restriction
-over base opens. The schematic closure of `j(X)` gives `Compactification.denseReplacement` and
-its map to the original compactification, preserving the entire open subscheme. For flat base
-change this closure commutes with pullback; for arbitrary base change use dense replacement
-again, with its canonical map to the pullback of the original dense replacement. Prove the
-identity and composition laws for these maps. Source: Stacks, §§29.6–29.7 (schematic images and
-density), §38.32 (compactifications). *Needs:* §0.9, scheme gluing and schematic images;
-Mathlib `IsSchemeTheoreticallyDominant`, `IsOpenImmersion`, `QuasiCompact`, `IsProper`.
-
-**Checks.**
-- A proper `f` has the dense identity compactification, with `j=id`.
-- `A¹_k ⊂ P¹_k` is dense and has boundary `∞`.
-- Closing `Spec k[t,ε]/(ε²)` in `P¹_{k[ε]/(ε²)}` retains its nilpotents.
-- After pulling `D(t) ⊂ Spec k[t]` back to `t=0`, the interior is empty and its dense
-  replacement is empty, although the pulled-back ambient scheme is a point.
-
-**Nagata existence — `nagataCompactification`.**
-For `S` qcqs and `f : X → S` separated of finite type, construct a compactification and its
-dense replacement. Finite presentation is not assumed. Build the extension of admissible
-blowups across quasi-compact opens, the separation of disjoint constructible closures by
-blowups, and the gluing of compactifications after blowups. Use these to extend a
-compactification across a two-open cover. The qcqs case uses §0.9's Noetherian approximation:
-embed `X` as a closed subscheme of a separated finitely presented scheme, descend that scheme,
-compactify at a Noetherian stage, then pull back and take schematic closure. Source:
-[Stacks, Theorem 38.33.8 (0F41)](https://stacks.math.columbia.edu/tag/0F41) and its preceding
-Lemmas 38.33.1–38.33.7. *Needs:* the compactification objects above, §0.9, schematic images;
-StableReduction Layer 4's blowups. The extension and gluing results specified here are targets
-of this subsection on those blowup carriers.
-
-**Checks.**
-- Proper `f` admits the identity choice over every qcqs base.
-- `A¹_k → Spec k` admits `A¹_k ⊂ P¹_k` over any field.
-- This affine-line compactification has a nonempty boundary, so its open immersion is not
-  surjective; existence does not assert properness of the original map.
-
-**Common refinements — `compactificationCommonRefinement`.**
-For separated finite-type `f : X → S`, `S` qcqs, and two compactifications, take the schematic
-closure of the image of `X` in their product over `S`. Its projections are proper refinement
-maps fixing `X`, and its interior is schematically dense. Prove that every compactification
-morphism is proper, that finite diagrams admit dense refinements, and that the dense
-subcategory is nonempty and cofiltered. Two maps from a dense source to a compactification
-agree by separatedness and schematic density; for nondense sources equalize them after dense
-replacement. Supply compatible product and base-change cones; flat base change preserves the
-closure construction, and arbitrary base change is followed by dense replacement. Prove that
-any functor sending refinements to equivalences has canonical choice comparisons, independent
-of the refining cone and satisfying identity, inverse and three-choice cocycle laws. The
-coherent coefficient functor and its refinement equivalences are constructed in §2.19.
-Source: Stacks, Lemma 38.32.1 and §§29.6–29.7; §48.16 for the coherent application.
-*Needs:* the preceding compactification objects and existence theorem; proper products,
-separated diagonals, schematic closure and Mathlib's category API.
-
-**Checks.**
-- Refining a dense compactification with itself recovers it and its identity comparison.
-- For the two embeddings of `G_m` in `P¹` given by `t` and `t⁻¹`, the closure of their
-  joint graph in `P¹ × P¹` gives a common refinement fixing the specified interior.
-- A compactification with an extra disjoint proper component need not have unique maps out
-  of it fixing the interior; dense replacement removes the component and restores uniqueness.
-- Three choices yield the same comparison through any dense common refinement, testing the
-  cocycle rather than only pairwise existence.
 
 ## Layer 1: descent, algebraic spaces and stacks
 
@@ -3943,15 +3881,20 @@ Prove `globalDuality` (`RHom_X(L, a_f K) ≅ RHom_Y(Rf_* L, K)`),
 Here the schemes are Noetherian, so this is the usual lci condition
 (Stacks, §37.62, as used in Lemma 48.17.11). Define
 `upperShriek f : D⁺_QCoh Y ⥤ D⁺_QCoh X` for `f` separated of finite type between Noetherian
-schemes: choose a compactification `f = f̄ ∘ j` with `j` an open immersion and `f̄` proper
-(§0.30 / `nagataCompactification`, whose separated
-finite-type/qcqs domain includes these Noetherian schemes) and set `f^! := j^* ∘ a_{f̄}`;
-prove `upperShriek_compactification_independence`: `f^!` is independent of the compactification up
-to canonical isomorphism, with the pseudofunctor structure `(g ∘ f)^! ≅ f^! g^!` and its coherence,
-using common refinements §0.30 /
-`compactificationCommonRefinement`; dense replacement supplies the identity and cocycle
-comparisons, and the coherent coefficient argument is owned here (Stacks, Situation 48.16.1, Lemmas 48.16.2–48.16.5
-(0A9Y)). API: `upperShriek_proper` (`f^! ≅ a_f` for proper `f`), `upperShriek_openImmersion` and
+schemes. On affine opens, factor the map as a closed immersion into affine space over an
+affine base followed by the smooth projection. Use the finite-map right adjoint for the
+closed immersion and pullback tensored with the shifted top differential bundle for the
+projection. Construct the comparison isomorphisms for different polynomial presentations
+and for restrictions to smaller affine opens; prove their identity and cocycle laws and
+glue the local functors and transformations using §2.18's derived restriction API.
+Prove independence of these local factorizations and the pseudofunctor structure
+`(g ∘ f)^! ≅ f^! g^!` with its unit and associativity coherence.
+For every given factorization `f = f̄ ∘ j` with `j` an open immersion and `f̄` proper, prove
+`upperShriek_compactification_independence`: the canonical comparison
+`f^! ≅ j^* ∘ a_{f̄}` identifies each such expression with the locally constructed functor;
+the induced comparisons between expressions satisfy identity and cocycle laws.
+This is the coherent coefficient comparison of Stacks, Situation 48.16.1,
+Lemmas 48.16.2–48.16.5 (0A9Y). API: `upperShriek_proper` (`f^! ≅ a_f` for proper `f`), `upperShriek_openImmersion` and
 `upperShriek_etale` (`f^! ≅ f^*` for étale `f`; Stacks, Lemma 48.18.2 (0FWI), with the open
 immersion case Lemma 48.17.1 (0AU0)),
 `upperShriek_flat_baseChange` (for `g` flat, `g'^* f^! ≅ f'^! g^*` on `D⁺_QCoh(O_Y)`; Lemma 48.18.1
@@ -3963,10 +3906,9 @@ The object `f^! O_Y` is tensor-invertible in the derived category, locally a shi
 ≅ ω_{X/Y}[d]`; [Stacks, Lemmas 48.17.9(5) and 48.17.11](https://stacks.math.columbia.edu/tag/0ATZ)), `upperShriek_unit`, `upperShriek_counit` (the adjunction maps on
 the proper part). The regime is bounded-below complexes with quasi-coherent cohomology on
 Noetherian schemes, separated finite-type morphisms; nothing is asserted for unbounded complexes or
-non-Noetherian bases. *Needs:* §2.18; §0.30 /
-`Compactification`, `nagataCompactification`, `compactificationCommonRefinement` (separated
-finite type over a qcqs base); StableReduction
-Layer 1 (the sheaf of differentials, for `upperShriek_smooth`).
+non-Noetherian bases. *Needs:* §2.18; the finite-map right adjoint above; affine polynomial
+presentations, closed immersions and smooth projections; StableReduction Layer 1
+(the sheaf of differentials, for `upperShriek_smooth`).
 
 **Checks.**
 - `IsLocalCompleteIntersection_identity`: the identity has an empty regular sequence.
@@ -4340,9 +4282,7 @@ Layer 0: §0.4–§0.5 (quasi-coherent modules, pseudo-coherence), §0.9 (limits
 (henselization and henselian pairs), §0.17–§0.18 (depth and Cohen–Macaulay). Layer 1: §1.1 (descent,
 in §2.22) and §1.18 (stacks in groupoids). Mathlib and Tau Ceti as listed;
 StableReduction Layers 1–2; JacobianChallenge Layer B; ProfiniteCohomology Layers 9–10;
-AlgebraicVectorBundles L0B; §0.30 /
-`Compactification`, `nagataCompactification`, `compactificationCommonRefinement` (§2.19,
-separated finite type over qcqs bases).
+AlgebraicVectorBundles L0B.
 ## Layer 3: curves, divisors and Picard objects
 
 The curve-and-Picard layer. Three Tau Ceti roadmaps already plan most of the theory of curves
@@ -4966,18 +4906,7 @@ classes form a torsor under `Ext¹_B(NL_{B/A}, B ⊗_A I)`; infinitesimal
 automorphisms are `Hom_B(Ω_{B/A}, B ⊗_A I)`. Here `NL` is the two-term
 cotangent complex supplied by `Algebra.Extension.cotangentComplex`, using a free
 presentation and presentation independence (Stacks 08S7, 08S5, 0GPT).
-Construct functorial augmented simplicial polynomial resolutions of every commutative
-`A`-algebra `B`, prove that their augmentations resolve `B`, and construct the ordinary
-`Algebra.CotangentComplex` `L_{B/A}` from their differential modules, with resolution-independent derived
-comparisons, `H⁰=Ω_{B/A}`, its truncation comparison with `NL`, functoriality, transitivity
-triangles and Tor-independent derived base change (Stacks, Chapter 92, §§92.4, 92.7–92.8,
-92.15). For `A' → A` square-zero with kernel `I`, and `B` flat over `A`, construct the
-canonical obstruction in `Ext²_B(L_{B/A}, B ⊗_A I)`. Its vanishing is equivalent to a flat
-`A'`-algebra lift with specified reduction to `B`; when it vanishes the lift classes and
-automorphisms are `Ext¹` and `Ext⁰`, respectively (Stacks, Lemma 92.16.1 (08SP)).
-This ordinary construction and its obstruction API are owned here. Derived de Rham
-constructions are downstream consumers. The two-term complex alone does not provide
-the general `Ext²` obstruction. The pinned two-term declarations are
+The exact two-term declarations are
 `Algebra.Extension.cotangentComplex`, `exact_cotangentComplex_toKaehler` in
 `Mathlib/RingTheory/Extension/Cotangent/Basic.lean`; §4.6 packages this map in
 degrees `−1,0` before taking `Ext¹`. Prove
@@ -5003,12 +4932,6 @@ convention is the rational split-node convention used in §4.18. *Needs:* §2.6,
 `Algebra.Extension.cotangentComplex` (`NL`), `Ext`; StableReduction Layers 1, 3.
 
 **Checks.**
-- `cotangent_polynomial`: for `B=A[x₁,…,x_n]`, `L_{B/A}=B^n[0]`, with the coordinate
-  differentials as basis and zero positive obstruction groups.
-- `cotangent_regular_quotient`: for `B=A/(f)` with `f` a nonzerodivisor, `L_{B/A}=(f)/(f²)[1]`;
-  its `H⁻¹` need not vanish, unlike the smooth case.
-- `cotangent_identity`: `L_{A/A}=0`, and both the transitivity and base-change comparisons
-  reduce to the identity comparisons.
 - *algebra_deformation_test_smooth*: a smooth algebra deforms uniquely up to isomorphism (`NL`
   is `Ω` in degree `0`, its `Ext¹` vanishes; formal smoothness supplies existence).
 - `smooth_scheme_test_projective_line`: `ℙ¹` is rigid (`H¹(T) = 0`) and unobstructed.
@@ -6941,9 +6864,11 @@ The perfectoid and adic roadmaps import henselization of pairs (§0.12), the exc
 `VanishingCycles.etaleProetaleAdicComparison` consume our sites and abelian D⁺ functors
 (§§2.1–2.2), coefficient sheaves and Kummer theorem (§§2.9–2.11), universal-homeomorphism geometry
 (§§0.23–0.23a) and pro-étale foundations (§2.17), retaining their finite/adic coefficient hypotheses.
-Its compactification applications consume §0.30. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+FiniteFlatGroupsAndIntegralPadicHodgeTheory
 consumes §0.29 for scheme Frobenius and constructs the group-specific Frobenius and Verschiebung.
-Derived de Rham and module-algebra constructions consume §4.6's ordinary cotangent inputs.
+DerivedModuleAlgebra constructs the full cotangent complex and derived module algebra downstream;
+§4.6 here uses Mathlib's two-term complex. EtaleCohomologyFoundations constructs scheme
+compactifications, Nagata existence and common refinements downstream.
 InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T2 /
 `VanishingCycles.curveEndomorphismTrace` consumes
 §§2.11, 2.16, 5.6 and 5.9 for smooth proper geometrically connected curves and invertible `ℓ`;
