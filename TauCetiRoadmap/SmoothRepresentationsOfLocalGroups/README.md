@@ -84,6 +84,17 @@ points. From [Class field theory](../ClassFieldTheory/README.md#layer-9-the-loca
 layer 9 it takes the local Weil group and its Frobenius elements (the wild and tame filtrations are
 [Local fields and ramification](../LocalFieldsRamification/README.md); local Langlands for tori is
 an input stated where used), and adds finite-wild discretisations and cocycle functoriality.
+For SR.5.2, [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md#wd-linear-substrate)
+§2.4 `wd-linear-substrate` supplies exp/log, parameter operations, monodromy and the full
+construction over finite extensions of ℚ_ℓ; §2.5
+[`wd-frobenius-semisimplification`](../ArithmeticGaloisRepresentations/README.md#wd-frobenius-semisimplification)
+supplies Frobenius semisimplification over characteristic-zero fields. SR.5.2
+*wd-raw-parameters* supplies their common raw fields and *wd-complete-coefficients* extends
+the coefficient range of the same full construction to complete normed extensions of ℚ_ℓ.
+The target order is raw fields → shared linear substrate → complete-coefficient extension
+and Frobenius semisimplification → *classical-llc-normalization*. The substrate uses ordinary
+linear representations and local characters; the arithmetic `ContinuousRep` adapter,
+determinant reconstruction and LLC are consumers of this construction.
 
 The boundaries with the roadmaps that consume this one are as follows. The ∞-categorical
 enhancement of the derived smooth category and its comparison with étale sheaves on the
@@ -4368,10 +4379,93 @@ apart: Breuil–Schneider uses L(Δ) and π(m), and *highest-derivative-adapter*
   Z(m); its unique irreducible quotient L(m) is the character ν^{1/2}. The other order, 1 × ν,
   exchanges the subrepresentation and the quotient.
 
+<a id="wd-raw-parameters"></a>
+
+**Shared raw Weil–Deligne parameters** (*wd-raw-parameters*). For a characteristic-zero field E,
+a finite-dimensional E-space V, the local Weil group W_F and q the residue cardinality,
+define the canonical fields (V,r,N): r is a linear representation with open kernel,
+N is nilpotent and r(w) N r(w)⁻¹ = q^{deg w} N. Arithmetic Frobenius has degree one.
+Frobenius semisimplicity is a separate predicate: r(w) is semisimple for every w of nonzero
+degree. Over characteristic zero this agrees with geometric semisimplicity of those operators.
+The same raw fields underlie the full construction and the Frobenius-semisimple parameters
+used by LLC. Morphisms intertwine r and N; isomorphisms are invertible such morphisms.
+Give transport along linear equivalences, with its identity and composition laws and explicit
+formulas for r and N. The direct-sum, tensor, dual, twist and scalar-extension operations on
+these fields are supplied by ArithmeticGaloisRepresentations §2.4 `wd-parameter-operations`
+inside `wd-linear-substrate`; Frobenius semisimplification is supplied by its §2.5
+`wd-frobenius-semisimplification` ([Del73] §8.4.1, p. 568, and §§8.5–8.6, p. 570).
+*Needs:* Mathlib linear representations, finite-dimensional endomorphisms and
+`Module.End.IsSemisimple`; ClassFieldTheory layer 9.
+*Lean:* `WeilDeligneParameter`, `WeilDeligneParameter.IsFrobeniusSemisimple`,
+`WeilDeligneParameter.congr`, `WeilDeligneParameter.congr_r`, `WeilDeligneParameter.congr_N`.
+The signatures allow a specified topological group and degree homomorphism; the construction
+and semisimplification targets use the supplied local Weil group with compact open inertia.
+
+**Checks.**
+
+- An unramified parameter with r(Φ) = [[1,1],[0,1]] and N = 0 is raw but fails the
+  Frobenius-semisimplicity predicate. Its Frobenius semisimplification has r(Φ) = 1 and N = 0.
+- The parameter Sp(2), in the basis with r(w) = diag(q^{deg w},1) and N = [[0,1],[0,0]],
+  is Frobenius-semisimple with nonzero monodromy, retained by Frobenius semisimplification.
+- A change of basis conjugates both r and N. Duality gives (r∨,−Nᵗ); applying it twice
+  recovers the original parameter.
+
+<a id="wd-complete-coefficients"></a>
+
+**Complete normed coefficients for the full construction** (*wd-complete-coefficients*).
+Let F be a nonarchimedean local field of residue characteristic p, let ℓ ≠ p be prime,
+let E be a complete normed extension of ℚ_ℓ, and let ρ be a continuous linear action of G_F
+on a finite-dimensional E-space V with its module topology. The norm on E extends the
+ℚ_ℓ norm and is nonarchimedean. Extend the monodromy theorem and full-construction formula
+of ArithmeticGaloisRepresentations §2.4 `wd-linear-substrate` to these coefficients.
+For a trivialisation t of the ℓ-adic tame character, prove that there is a unique nilpotent N
+with ρ(σ) = exp(t(σ)N) on an open subgroup of inertia and
+ρ(w) N ρ(w)⁻¹ = q^{deg w} N on W_F. For a chosen arithmetic lift Φ define
+r(Φ^m σ) = ρ(Φ^m σ) exp(−t(σ)N); this gives `WD_full(ρ) = (V,r,N)` on the shared raw fields.
+Prove functoriality on intertwining maps, lift and trivialisation independence up to isomorphism,
+exactness and the basis-change, dual and coefficient-extension comparisons. Scalar extension
+here is along continuous isometric ℚ_ℓ-algebra embeddings into complete normed fields.
+On finite E/ℚ_ℓ this is the full construction of the supplier, by uniqueness of N and the
+displayed formula. The supplier's inverse and its unit-eigenvalue extension criterion retain
+their finite-coefficient hypotheses.
+
+The valued-coefficient range is stated in [Del73] §8.1, p. 566, before Theorem 8.2;
+§8.4.2–8.4.3, p. 569, supplies the full formula and independence. Establish the extension
+using compactness of ρ(G_F) and sufficiently small congruence subgroups in GL(V).
+Their successive congruence quotients on the compact image are finite ℓ-groups even when
+the residue field of E is infinite. After restriction to an open inertia subgroup the action
+therefore factors through its ℤ_ℓ tame quotient. The convergent logarithm on a sufficiently
+small subgroup gives N, and the Frobenius conjugation relation forces
+tr(N^j) = q^j tr(N^j) for j ≥ 1; Newton identities imply nilpotence. The shared finite
+nilpotent exp/log calculus then gives the full formula and comparisons. No finite
+coefficient descent is a hypothesis of this target.
+*Needs:* *wd-raw-parameters*; ArithmeticGaloisRepresentations §2.4
+`wd-linear-substrate`, specifically `nilpotent-exp-log`, `grothendieck-monodromy`,
+`wd-parameter-operations`, the local Weil-group bridge and `full-wd-construction`;
+ClassFieldTheory layer 9; Tau Ceti's ℓ-adic tame and cyclotomic characters; complete normed
+linear algebra. Only those lower linear targets are inputs.
+*Lean:* `grothendieck_quasiUnipotent_complete` for the monodromy assertion on ordinary
+linear actions; the full formula and comparisons are README targets on the shared fields.
+
+**Checks.**
+
+- For unramified ρ with Φ acting by [[1,1],[0,1]], `WD_full` retains that Jordan block
+  and N = 0; `F-ss ∘ WD_full` is trivial.
+- The Tate-curve parameter Sp(2) has nonzero N. The dual has monodromy −Nᵗ, and
+  coefficient extension preserves this operator and the arithmetic conjugation relation.
+- For E the Gauss-norm completion of ℚ₃(T), put u = 1+3T. The binomial character
+  z ↦ u^z on ℤ₃ is continuous. Inflating it along G_{ℚ₂} → ℤ̂ → ℤ₃ gives an unramified
+  rank-one ρ with `WD_full(ρ)(Φ) = u` and N = 0, fixed by Frobenius semisimplification.
+  The transcendental eigenvalue u prevents descent to a finite extension of ℚ₃.
+- The cyclotomic character on G_{ℚ_ℓ} fails the open-inertia unipotence conclusion;
+  the hypothesis ℓ ≠ p is necessary.
+
 **Classical parameters and the generic convention** (*classical-llc-normalization*).
-SR.5.2 owns the Weil–Deligne functor WD, the Frobenius-semisimplified Weil–Deligne
-parameter of a continuous ℓ-adic representation of G_F (ℓ ≠ p), including its
-monodromy and compatibility with algebraic duals: (r,N)∨ = (r∨,−Nᵗ).
+SR.5.2 defines the normalized Weil–Deligne functor `WD = F-ss ∘ WD_full` on the raw fields
+of *wd-raw-parameters*, using *wd-complete-coefficients* and
+ArithmeticGaloisRepresentations §2.5 `wd-frobenius-semisimplification`.
+Attach the basis-change, algebraic-dual and coefficient-extension comparisons to this composite:
+(r,N)∨ = (r∨,−Nᵗ), and WD(ρ∨) ≅ WD(ρ)∨.
 It also owns the classical GL_n correspondence rec, and
 the Breuil–Schneider generic-socle representation BS, defined using its
 segments and the |det|^{−(n−1)/2} normalization of [EH] §4.2, Definition 4.2.1,
@@ -4388,16 +4482,17 @@ For every parameter define the normalized fibre
 The algebraic Galois dual and the smooth representation dual are separate operations.
 Prove its essentially AIG dual and its supercuspidal support in this normalization
 ([EH] Corollary 4.3.3, p. 32; [Hel12] Theorem 7.1(3), p. 13, for the normalization). *Needs:*
+*wd-raw-parameters*, *wd-complete-coefficients*; ArithmeticGaloisRepresentations §2.4
+`wd-linear-substrate` and §2.5 `wd-frobenius-semisimplification`;
 *segment-representations*, *smooth-dual*, *essentially-aig*; ClassFieldTheory, layer 9.
 
-A Frobenius-semisimple Weil–Deligne parameter of rank n over a field E is a homomorphism r from
-the Weil group to GL_n(E) with open kernel and semisimple images, and a matrix N with
-r(w) N r(w)⁻¹ = q^{deg w} N, where arithmetic Frobenius has degree one. The contragredient is
+A Frobenius-semisimple Weil–Deligne parameter of rank n over a field E is the shared raw datum
+on E^n satisfying `WeilDeligneParameter.IsFrobeniusSemisimple`. The contragredient is
 g ↦ (g⁻¹)ᵀ on GL_n, so ρ∨ is its composite with ρ, which stays continuous. WD takes a continuous
 ρ : G_F → GL_n(E) for E a complete normed extension of ℚ_ℓ and ℓ ≠ p. rec sends a parameter over
 ℂ to a smooth representation of GL_n(F), and BS sends a parameter over any field of characteristic
 zero to the generic-socle representation. π_norm is the displayed composite, and the
-dual-parameter statement gives WD(ρ∨) = (r∨, −Nᵗ) for WD(ρ) = (r, N) together with the resulting
+dual-parameter statement gives WD(ρ∨) ≅ (r∨, −Nᵗ) for WD(ρ) = (r, N) together with the resulting
 description of the fibre.
 
 Checks: in rank one in characteristic zero N = 0, since q ≠ 1; N = [[0,1],[0,0]] is accepted with
@@ -4967,6 +5062,9 @@ Locators use the printed page numbers of the following editions.
 - [HM18] D. Helm and G. Moss, *Converse theorems and the local Langlands correspondence in families*, Invent. Math. 214 (2018), 999–1022, [published](https://link.springer.com/content/pdf/10.1007/s00222-018-0816-y.pdf).
 - [Hel16] D. Helm, *The Bernstein center of the category of smooth W(k)[GL_n(F)]-modules*, [arXiv:1201.1874v3](https://arxiv.org/pdf/1201.1874v3).
 - [EH] M. Emerton and D. Helm, *The local Langlands correspondence for GL_n in families*, [arXiv:1104.0321v1](https://arxiv.org/pdf/1104.0321v1).
+- [Del73] P. Deligne, *Les constantes des équations fonctionnelles des fonctions L*, in
+  *Modular Functions of One Variable II*, Lecture Notes in Mathematics 349 (1973), 501–597,
+  [scan](https://publications.ias.edu/sites/default/files/Number20.pdf).
 - [Nak] K. Nakamura, *Zeta morphisms for rank two universal deformations*, Invent. Math. 234 (2023), [published](https://link.springer.com/content/pdf/10.1007/s00222-023-01203-7.pdf).
 - [AKY] H. Atobe, S. Kondo and S. Yasuda, *Local newforms for the general linear groups over a non-archimedean local field*, [arXiv:2110.09070v4](https://arxiv.org/pdf/2110.09070v4).
 - [DHKM1] J.-F. Dat, D. Helm, R. Kurinczuk and G. Moss, *Finiteness for Hecke algebras of p-adic groups*, [arXiv:2203.04929v2](https://arxiv.org/pdf/2203.04929v2).

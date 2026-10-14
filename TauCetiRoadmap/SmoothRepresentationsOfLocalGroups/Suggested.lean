@@ -9,6 +9,8 @@ import TauCeti.Algebra.AlgebraicGroup.FiniteType.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.Dynamic.Parabolic
 import TauCeti.Algebra.AlgebraicGroup.Dynamic.LeviDecomposition.Basic
+import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
+import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Cyclotomic.Character
 import TauCetiRoadmap.ReductiveGroupsPartII.Suggested
 
 /-!
@@ -30,6 +32,10 @@ Design choices.
   subgroups of a cocharacter are Tau Ceti's dynamic subgroups.
 * The modulus `δ_P` is Mathlib's modular character of `P`; for the upper Borel subgroup of
   `GL₂(ℚ_p)` it sends `diag(a, d)` to `|a/d|_p`.
+* SR.5.2 `wd-raw-parameters` exposes the common raw Weil–Deligne fields below LLC and the
+  arithmetic adapter. ArithmeticGaloisRepresentations §2.4 `wd-linear-substrate` supplies the
+  linear construction; `wd-complete-coefficients` extends its coefficient range, and §2.5
+  `wd-frobenius-semisimplification` supplies the operation in `WD = F-ss ∘ WD_full`.
 -/
 
 namespace TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
@@ -894,6 +900,109 @@ example (q T0 T1 T2 c : A) :
 end Spin
 
 /-! ## Layer SR.5: integral local families for `GL_n` -/
+
+section WeilDeligne
+
+variable {E W V V' : Type*} [Field E] [CharZero E] [Group W] [TopologicalSpace W]
+  [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+  [AddCommGroup V'] [Module E V'] [FiniteDimensional E V']
+
+/-- The shared raw Weil–Deligne fields, with nilpotent monodromy and the arithmetic degree
+relation, before imposing Frobenius semisimplicity (Deligne 1973, §8.4.1, p. 568).
+The local construction uses the ClassFieldTheory Weil group and its degree homomorphism. -/
+structure WeilDeligneParameter (E W V : Type*) [Field E] [CharZero E] [Group W]
+    [TopologicalSpace W] [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+    (deg : W →* Multiplicative ℤ) (q : ℕ) where
+  /-- The Weil action. -/
+  r : _root_.Representation E W V
+  /-- The action is locally constant. -/
+  open_kernel : IsOpen {w : W | r w = 1}
+  /-- The monodromy operator. -/
+  N : Module.End E V
+  /-- Monodromy is nilpotent. -/
+  nilpotent : IsNilpotent N
+  /-- Arithmetic Frobenius scales monodromy by the residue cardinality. -/
+  relation : ∀ w, r w * N * r w⁻¹ = (q : E) ^ Multiplicative.toAdd (deg w) • N
+
+/-- Frobenius semisimplicity is a predicate on the raw fields: every Weil element of nonzero
+degree acts semisimply (Deligne 1973, §§8.5–8.6, p. 570). -/
+def WeilDeligneParameter.IsFrobeniusSemisimple {deg : W →* Multiplicative ℤ} {q : ℕ}
+    (D : WeilDeligneParameter E W V deg q) : Prop :=
+  ∀ w, Multiplicative.toAdd (deg w) ≠ 0 → Module.End.IsSemisimple (D.r w)
+
+/-- Transport of the raw Weil action and monodromy along a change of basis. -/
+def WeilDeligneParameter.congr {deg : W →* Multiplicative ℤ} {q : ℕ}
+    (D : WeilDeligneParameter E W V deg q) (e : V ≃ₗ[E] V') :
+    WeilDeligneParameter E W V' deg q where
+  r :=
+    { toFun := fun w => e.toLinearMap ∘ₗ D.r w ∘ₗ e.symm.toLinearMap
+      map_one' := sorry
+      map_mul' := sorry }
+  open_kernel := sorry
+  N := e.toLinearMap ∘ₗ D.N ∘ₗ e.symm.toLinearMap
+  nilpotent := sorry
+  relation := sorry
+
+/-- Change of basis conjugates the Weil action. -/
+theorem WeilDeligneParameter.congr_r {deg : W →* Multiplicative ℤ} {q : ℕ}
+    (D : WeilDeligneParameter E W V deg q) (e : V ≃ₗ[E] V') (w : W) :
+    (D.congr e).r w = e.toLinearMap ∘ₗ D.r w ∘ₗ e.symm.toLinearMap := rfl
+
+/-- Change of basis conjugates monodromy. -/
+theorem WeilDeligneParameter.congr_N {deg : W →* Multiplicative ℤ} {q : ℕ}
+    (D : WeilDeligneParameter E W V deg q) (e : V ≃ₗ[E] V') :
+    (D.congr e).N = e.toLinearMap ∘ₗ D.N ∘ₗ e.symm.toLinearMap := rfl
+
+-- Identity transport preserves both raw fields.
+example {deg : W →* Multiplicative ℤ} {q : ℕ}
+    (D : WeilDeligneParameter E W V deg q) :
+    D.congr (LinearEquiv.refl E V) = D := by sorry
+
+-- The unramified Jordan block is excluded by Frobenius semisimplicity.
+example (D : WeilDeligneParameter ℚ (Multiplicative ℤ) (Fin 2 → ℚ)
+    (MonoidHom.id _) 2)
+    (hD : D.r (Multiplicative.ofAdd 1) = Matrix.toLin' !![1, 1; 0, 1]) :
+    ¬ D.IsFrobeniusSemisimple := by sorry
+
+-- The arithmetic relation retains nonzero monodromy in Sp(2).
+example :
+    let N : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
+    N ≠ 0 ∧ N ^ 2 = 0 ∧ Matrix.diagonal ![2, 1] * N *
+      Matrix.diagonal ![(1 / 2 : ℚ), 1] = 2 • N := by sorry
+
+end WeilDeligne
+
+open ValuativeRel in
+/-- Grothendieck monodromy over a complete normed extension of `ℚ_ℓ`: there is a unique
+nilpotent operator giving the tame exponential on open inertia and the cyclotomic conjugation
+relation. The linear construction uses these fields without an arithmetic `ContinuousRep`
+wrapper (Deligne 1973, §8.1 and Theorem 8.2, p. 566). -/
+theorem grothendieck_quasiUnipotent_complete
+    (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] (ℓ : ℕ) [Fact ℓ.Prime]
+    (hℓ : ℓ.Coprime (ringChar 𝓀[K]))
+    (T : TauCeti.PadicTateTwist ℓ (AlgebraicClosure K) ≃ₗ[ℤ_[ℓ]] ℤ_[ℓ])
+    {E : Type*} [NormedField E] [NormedAlgebra ℚ_[ℓ] E] [CompleteSpace E]
+    {V : Type*} [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+    [TopologicalSpace V] [IsModuleTopology E V]
+    (ρ : _root_.Representation E (Field.absoluteGaloisGroup K) V)
+    (hρ : Continuous fun gv : Field.absoluteGaloisGroup K × V => ρ gv.1 gv.2) :
+    ∃! N : Module.End E V, IsNilpotent N ∧
+      (∀ w, ρ w ∘ₗ N = algebraMap ℚ_[ℓ] E
+        ((TauCeti.localCyclotomicCharacter ℓ K w : ℤ_[ℓ]) : ℚ_[ℓ]) • (N ∘ₗ ρ w)) ∧
+      ∃ J : Subgroup (TauCeti.inertiaSubgroup K),
+        IsOpen (J : Set (TauCeti.inertiaSubgroup K)) ∧
+        ∀ σ ∈ J, ρ (σ : Field.absoluteGaloisGroup K) =
+          ∑ i ∈ Finset.range (Module.finrank E V),
+            ((i.factorial : E)⁻¹ * (algebraMap ℚ_[ℓ] E
+              (T (TauCeti.inertiaPadicTameCharacter K hℓ σ).toAdd : ℚ_[ℓ])) ^ i) • N ^ i :=
+  sorry
+
+/-! `wd-complete-coefficients` applies the shared `wd-linear-substrate` full formula to this
+monodromy operator. `classical-llc-normalization` is its composite with the supplier's
+`wd-frobenius-semisimplification`. The full unramified Jordan block and the nonzero monodromy
+of `Sp(2)` remain distinct through these two operations; the Gauss-norm rank-one example in the
+README supplies the complete-coefficient boundary without finite coefficient descent. -/
 
 section IntegralInterfaces
 
