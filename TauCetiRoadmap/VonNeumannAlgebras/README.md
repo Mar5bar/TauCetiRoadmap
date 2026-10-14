@@ -383,10 +383,10 @@ finite. Give the zero module dimension zero, and impose nonzero modules in the f
 and reciprocal-dimension statements. Prove cyclic/separating-vector criteria at dimension
 ≤1/≥1 and the original vector-support trace-ratio formula with independence of the vector.
 
-For M of type II₁, prove realization of every dimension in [0,∞]
-by separable modules. For nonzero separable modules prove the commutant
+For M of type II₁ with separable predual, prove realization of every
+dimension in [0,∞] by separable modules. For nonzero separable modules prove the commutant
 is type II₁ exactly when dimension is finite, and type II∞ exactly
-when dimension is infinite. For M=M_m(ℂ) with normalized trace,
+when dimension is infinite. For M=M_m(ℂ), m≥1, with normalized trace,
 construct every normal module as `H=ℂ^m⊗K` and prove
 `dim_M H=dim_ℂ(K)/m` and `M′=B(K)` in this representation.
 For separable H the attainable dimensions are
