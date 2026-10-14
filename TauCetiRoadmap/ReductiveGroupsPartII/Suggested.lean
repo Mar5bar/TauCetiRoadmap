@@ -452,8 +452,10 @@ structure Valuation {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} (D : Ro
   φ : (i : ι) → D.U i → WithTop ℝ
   /-- V0. -/
   three_values : ∀ i, 3 ≤ (Set.range (φ i)).encard
-  /-- V1, at infinity and at finite levels. -/
+  /-- V1: the identity has infinite valuation, and each raw valuation cutoff is a subgroup. -/
   φ_eq_top_iff : ∀ i u, φ i u = ⊤ ↔ u = 1
+  /-- The raw root filtration `U_{a,c} = {u : φ_a(u) ≥ c}`. A positive-depth
+  Moy–Prasad factor on a nonreduced ray also uses the separate doubled-root cutoff. -/
   filtration : ι → ℝ → Subgroup G
   mem_filtration_iff : ∀ i r g, g ∈ filtration i r ↔
     ∃ u : D.U i, (u : G) = g ∧ (r : WithTop ℝ) ≤ φ i u

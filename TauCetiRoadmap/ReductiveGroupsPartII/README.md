@@ -66,9 +66,9 @@ The roadmap owns, layer by layer:
 - RG2.4: the decompositions of `G(E)` and the Iwahori–Weyl combinatorics up to admissible sets. The
   Hecke algebras, the Satake isomorphism and the smooth representations built on them belong to the
   representation-theoretic roadmaps that cite this one.
-- RG2.5: the dual group, its Galois action and the L-group as group functors with their
-  pointwise product comparisons and standard Levi subgroups over coefficient fields. Spaces of
-  Langlands parameters, Weil–Deligne parameters and the moduli of L-parameters are not part of this
+- RG2.5: the dual group, its Galois action, the abstract L-group functors and the finite
+  semidirect-product group scheme, with their pointwise comparisons and standard Levi subgroups
+  over coefficient fields. Spaces of Langlands parameters, Weil–Deligne parameters and the moduli of L-parameters are not part of this
   roadmap; neither is Shapiro's lemma comparing parameters of a Weil restriction with those of the
   original group, nor the dual embedding `Ĝ ↪ Ĝ̃` of a z-extension as a morphism of `ℤ`-group
   schemes.
@@ -157,7 +157,9 @@ parahoric subgroup of `Z(K)`. The length function on `W̃` is zero exactly on th
 the base alcove.
 
 The dual group `Ĝ` is the pinned split reductive group over `ℤ` whose based root datum is the flip
-of that of `G`, and `ᴸG = Ĝ ⋊ Γ` with `Γ` acting through pinned automorphisms with finite image. No
+of that of `G`. The abstract L-group functor is `ᴸG(R) = Ĝ(R) ⋊ Γ`, with `Γ` acting through
+pinned automorphisms with finite image; for finite `Γ`, the group scheme uses the constant group
+scheme `Γ_ℤ`, whose points can choose different components on different parts of `Spec R`. No
 square root of `q` is part of the integral dual data; the normalizations of Satake transforms are
 coefficient choices of the consumers.
 
@@ -1743,13 +1745,16 @@ under `V`, stated as the bijectivity of the displacement).
 
 **Root-group coordinates in quasi-split groups.** (*quasi-split-root-group-coordinates*) Let `G` be
 quasi-split with a fixed Chevalley–Steinberg system, and let `K_a` be the splitting field of `a`. In
-case I, `2a ∉ Φ`: `U_a ≅ Res_{K_a/K} G_a` and `x_a : K_a ≅ U_a(K)`. In case II, `2a ∈ Φ`:
+case I, `a/2 ∉ Φ` and `2a ∉ Φ`: `U_a ≅ Res_{K_a/K} G_a` and `x_a : K_a ≅ U_a(K)`. In case II,
+choose the nondivisible, multipliable root `a`, so `2a ∈ Φ`, and describe both roots on its ray:
 `K_a/K_{2a}` is separable quadratic, `U_a ≅ Res_{K_{2a}/K} U_0` with `U_0 ⊂ SU_3(K_a/K_{2a})` the
 unipotent radical of a Borel, `U_0(K_{2a}) = H_0 := {(u, v) : v + v̄ = uū}`, `x_a : H_0 ≅ U_a(K)` and
-`x_a(0, v) ∈ U_{2a}`. The simply connected cover of the rank-one derived subgroup
+`U_{2a}(K) = {x_a(0,v) : Tr_{K_a/K_{2a}}(v) = 0}`. Every divisible root is covered as `2a` in
+case II. The simply connected cover of the rank-one derived subgroup
 `⟨U_a, U_{−a}⟩` is `Res_{K_a/K} SL_2` in case I and `Res_{K_{2a}/K} SU_3` in case II; the subgroup
 in `G` can be a central quotient. Another Chevalley–Steinberg system rescales `x_a` by `K_a^×`,
-with explicit maps of `H_0` in case II ([Bruhat–Tits II], 4.1.4, p. 78; 4.1.8–4.1.14, pp. 81–85).
+with explicit maps of `H_0` in case II ([Bruhat–Tits II], 4.1.4, p. 78; 4.1.8–4.1.14, pp. 81–85;
+[Fintzen MP], §2.2, arXiv v4 pp. 7–8).
 The general coordinates `x_a` and the rank-one subgroups are statements of the roadmap without a
 Lean target; for `GL_n` the coordinates are the Tau Ceti transvections `TauCeti.transvectionHom`,
 with torus conjugation `TauCeti.diagGL_mul_transvectionUnit_mul_inv`
@@ -1778,6 +1783,10 @@ layer 7.
 - `split_case` — if the Galois action on the root datum is trivial, as for a split group, every
   `K_a = K`.
 - `rootField_finite` — `K_a/K` is finite.
+- *rootField_ramified_SU3_doubled* — for `K = ℚ₅` and `K′ = K(η)`, `η² = 5`, the absolute
+  highest root of `SU_3(K′/K)` is fixed by the diagram involution, so `K_{2a} = K`, while
+  `U_{2a}(K)` is parametrized by the trace-zero line `Kη` inside `K′`, not by the unshifted
+  valuation on `K`.
 - `rootField_ne_bot` (non-example) — if some Galois element moves the root, then `K_a ≠ K`.
 - `H0_commutator` — `(u,v)(u',v')` and `(u',v')(u,v)` have equal first coordinates and second
   coordinates differing by `ūu' − ū'u`, the coordinate of an element of `U_{2a}`.
@@ -1794,10 +1803,15 @@ layer 7.
 **The valuation of a quasi-split group.** (*quasi-split-valuation*) Here the field hypothesis is
 wider than the standing DVR convention: take a nontrivial real-valued valuation with a unique
 extension to a finite Galois splitting field. Let `G` be quasi-split with coordinates `x_a`, and let
-`ω_a` be the induced extension to `K_a`. The formulas `φ_a(x_a(u)) = ω_a(u)` in case I, and
+`ω_a` be the induced extension to `K_a`. The formulas `φ_a(x_a(u)) = ω_a(u)` in case I
+(`a/2 ∉ Φ` and `2a ∉ Φ`), and
 `φ_a(x_a(u, v)) = ½ω_a(v)`, `φ_{2a}(x_a(0, v)) = ω_a(v)` in case II, define an `ω`-compatible
-valuation `φ`; its value sets are `Γ_a = ω_a(K_a^×)` in case I, and in case II they are given by
-[Bruhat–Tits II], 4.2.21, p. 98; other Chevalley–Steinberg systems give equipollent valuations
+valuation `φ`; its value sets are `Γ_a = ω_a(K_a^×)` only in case I. In case II,
+`Γ_{2a} = ω_a(ker Tr_{K_a/K_{2a}} ∖ {0})`; an additive parametrization `v = tη` of that
+trace-zero line, with `t ∈ K_{2a}` and `η ≠ 0`, gives
+`φ_{2a}(x_a(0,tη)) = ω_{2a}(t) + ω_a(η)`, so the valuation offset is retained. The remaining
+case-II value sets are given by [Bruhat–Tits II], 4.2.21, p. 98; [Fintzen MP], §§2.2–2.3,
+arXiv v4 pp. 7–9. Other Chevalley–Steinberg systems give equipollent valuations
 ([Bruhat–Tits II], 4.2.2, p. 89; Theorem 4.2.3, pp. 89–90; Proposition 4.2.9, p. 91). The Lean forms
 proposed for this target state the existence of such a valuation, the formulas being statements of
 the roadmap: `QuasiSplit.valuation_real` in the non-discrete scope, with the extension uniqueness
@@ -1807,13 +1821,26 @@ actual centralizer of the maximal split torus being a torus, as in [Bruhat–Tit
 *Needs:* *quasi-split-root-group-coordinates*; *valuation-of-root-datum*.
 *Lean:* none (README-only).
 
+**Checks.**
+
+- *valuation_caseI_split_SL2* — for either root of split `SL_2`, case I applies and
+  `φ_a(x_a(u)) = ω(u)`; under `ω(K^×) = ℤ`, `Γ_a = ℤ`.
+- *valuation_ramified_SU3_doubled* — for `K = ℚ₅`, `K′ = K(η)` with `η² = 5`, and
+  `ω(5) = 1`, the trace-zero line is `Kη`, `ω(η) = 1/2`, and
+  `Γ_{2a} = 1/2 + ℤ` although `K_{2a} = K`. Thus `4a ∉ Φ` alone does not permit case I.
+- *valuation_ramified_SU3_affine_constants* — in the same example,
+  `Γ_a = 1/4 ℤ`, `Γ'_a = 1/2 ℤ`, and `Γ'_{2a} = Γ_{2a} = 1/2 + ℤ`. Doubled-root
+  affine constants retain the half-integral offset; they do not give a wall of gradient `2a`
+  with constant zero.
+
 **Affine roots and root-group filtrations.** (*affine-roots-and-filtrations*) Put
 `Γ_a := φ_a(U_a ∖ 1)` and `Γ'_a := {φ_a(u) : φ_a(u) is maximal on uU_{2a}}`. The affine roots are
 the functions `α = a + k : x ↦ a(x − φ) + k` with `k ∈ Γ'_a`; their half-apartments are `{α ≥ 0}` and
-their walls `{α = 0}`; `U_α := U_{a,k}` and `U_{a,k+} := ⋃_{l>k} U_{a,l}`. For reductive groups,
-`Γ_a = Γ'_a` is a coset of a discrete group determined by the ramification of `K_a` when `a` is
-non-multipliable; otherwise the values come from `SU_3`, and `Γ'_a ⊊ Γ_a` is possible in the
-ramified case. In `BruhatTits`, define `Valuation.primedValueSet` as `Γ'_a` (the values `φ_a(u)`,
+their walls `{α = 0}`; `U_α := U_{a,k}` and `U_{a,k+} := ⋃_{l>k} U_{a,l}`. For the quasi-split
+valuations above, `Γ_a = Γ'_a = ω_a(K_a^×)` when `a` is neither divisible nor multipliable.
+For a divisible root `2a`, `Γ_{2a} = Γ'_{2a} = ω_a(ker Tr_{K_a/K_{2a}} ∖ {0})`, a possibly
+shifted coset of `ω_{2a}(K_{2a}^×)`. For a multipliable `a`, the values come from `SU_3`, and
+`Γ'_a ⊊ Γ_a` is possible in the ramified case. In `BruhatTits`, define `Valuation.primedValueSet` as `Γ'_a` (the values `φ_a(u)`,
 `u ≠ 1`, maximal on the coset `uU_{2a}`; `Valuation.valueSet` is `Γ_a`), `AffineRoot` as `α = a + k`
 with `a ∈ Φ` and `k ∈ Γ'_a` — not `k ∈ Γ_a` — as a map on `A`, `AffineRoot.gradient` as the vector
 part `a ∈ Φ` of `α`, `AffineRoot.wall` as `{x : a(x − φ) + k = 0} ⊂ A`, *AffineRoot.rootSubgroup* as
@@ -4428,8 +4455,13 @@ p. 65). *Needs:* *hyperspecial-vertices*; *reductive-closed-immersion-criterion*
 *Lean:* none (README-only).
 
 **Models of similitude, derived and adjoint groups.** (*similitude-and-derived-models*) (a) For
-`dim V = 2n` and `h` perfect symmetric, `GO(V,h) = {g : h(gv,gv′) = c(g)h(v,v′)}` has two
-components, and `GO^+(V)` is the component where `c(g)^n = det g`. (b) For `p > 2`, `𝒢` smooth over
+`char K ≠ 2`, `n ≥ 1`, `dim_K V = 2n` and `h` perfect symmetric, the group scheme
+`GO(V,h) = {g : h(gv,gv′) = c(g)h(v,v′)}` has two geometric components, and `GO^+(V)` is the
+identity component, cut out by `c(g)^n = det g`. This is the orthogonal-similitude construction
+of [Kisin–Pappas–Zhou], §6.2.1, arXiv v3 p. 69, in characteristic different from two:
+over an algebraic closure, scalar similitudes times `SO_{2n}` fill the fibre `det/c^n = 1`,
+which is connected; a reflection gives the other fibre. The symmetric-bilinear definition in
+characteristic two is not covered by this assertion. (b) For `p > 2`, `𝒢` smooth over
 `ℤ_p` with a closed immersion `𝒢 ↪ GSp(Λ)`, `Λ = Λ^∨`, and containing the central `G_m`, the
 similitude character `c : 𝒢 → G_m` is a smooth morphism; hence `ker c`, its fibre over the unit
 section, is smooth. (c) Let `p > 2`, `G` tame of Hodge type with `p ∤ |π₁(G^der)|`, and `𝒢_{ℤ_(p)}`
@@ -4441,6 +4473,19 @@ the order of `Z_{G^der}` is prime to `p`, the parahoric of `G^ad` is the identit
 *Needs:* *parahoric-group-scheme*; *central-extensions-of-parahorics*;
 *lattice-chain-stabilizer-schemes*.
 *Lean:* none (README-only).
+
+**Checks.**
+
+- *similitude_hyperbolic_plane* — for `char K ≠ 2` and `h` with matrix
+  `[[0,1],[1,0]]`, `GO^+(h) = {diag(s,t) : s,t ∈ G_m}` with `c = st = det`; the other
+  component consists of anti-diagonal matrices, with `c = st` and `det = −st`.
+- *similitude_char_two_alternating* (non-example) — over `K = 𝔽₂((t))` the same perfect
+  symmetric form is alternating, and `gᵗ h g = det(g) h` for every invertible `2 × 2` matrix
+  over every `K`-algebra. Thus its bilinear similitude scheme is `GL_2`, geometrically connected,
+  and `c = det` cuts out the whole group; part (a) excludes it.
+- *similitude_dimension_zero* (non-example) — when `V = 0`, the defining form equation does
+  not determine a unique similitude scalar. The positive-dimension hypothesis of (a) excludes
+  this case from both the character `c` and the two-component assertion.
 
 **Hyperspecial lattices for orthogonal and quaternionic groups.**
 (*classical-hyperspecial-lattices*) Let `p > 2`. (a) For `K̃/K` tame Galois with group `Γ`,
@@ -4486,15 +4531,22 @@ for every `r`. For other points `G_{gx,r} = gG_{x,r}g^{−1}`, and `G_{y,r+} := 
 (`[G_{y,r}, G_{y,s}] ⊆ G_{y,r+s}` for `r, s ≥ 0`) ([Adler], Prop. 1.4.2, p. 10; [Moy–Prasad 1996],
 §3.2, p. 103), `filtrationPlus_normal` (`G_{y,r+} ⊴ G_{y,r}`, from the normality of every `G_{y,s}`,
 `s ≥ 0`, in `G_{y,0}` and from `filtration_of_neg`), `filtration_conj` (`gG_{y,r}g^{−1} = G_{gy,r}`;
-[Moy–Prasad 1996], §3.2, p. 103) and `filtration_eq_closure_generators` (for `x` in the apartment of
-`S` and `r > 0`, `G_{x,r}` is generated by `Z(K)_r` and the root-group filtration subgroups
-`U_{a,x,r}` cut out by the affine roots `α` of gradient `a` with `α(x) ≥ r`: over `K^ur` this is the
-definition above, [Adler], §1.4, p. 9, and for split `G` it is used in [Adler], proof of Prop.
-1.4.3, p. 11; over `K` it follows by taking `Gal(K^ur/K)`-fixed points in the unique product
-decomposition of `G(K^ur)_{x,r}` along the relative roots of `A`, with one factor
-`G(K^ur)_{x,r} ∩ U_a(K^ur) = U_{a,x,r}·U_{2a,x,r}` for each nondivisible root `a`, as in
-*big-cell-criteria* and [Bruhat–Tits I], (6.4.9) (i)–(ii), p. 136). These statements need no
-tameness and no condition on `p` ([Moy–Prasad 1996], §2.1, p. 100, works with any connected
+[Moy–Prasad 1996], §3.2, p. 103). The affine-root generators retain their rounding: over `K^ur`
+put `c_b(x,r) := min{k ∈ Γ'_b : b(x − φ) + k ≥ r}` for each root `b`. For each nondivisible
+root `a`, the ray intersection is
+`G(K^ur)_{x,r} ∩ U_a(K^ur) = U_{a,c_a(x,r)}·U_{2a,c_{2a}(x,r)}`, omitting the doubled-root
+factor when `2a ∉ Φ`. The two cutoffs are imposed separately; they need not satisfy
+`c_{2a} = 2c_a`, and the product need not be a single raw cutoff `U_{a,c}`. Here `U_{b,c}` and
+`Apartment.filtrationAt` retain their raw valuation-inequality definitions. The minimum exists
+by the discrete affine value sets; it rounds up in `Γ'_b`, not in `Γ_b`
+([Fintzen MP], §§2.3–2.4, arXiv v4 pp. 9–10; [Bruhat–Tits I], (6.4.9) (i)–(ii), p. 136).
+Prove `filtration_eq_closure_generators`: for `x` in the apartment of `S` and `r > 0`, `G_{x,r}`
+is generated by `Z(K)_r` and the intersections `G_{x,r} ∩ U_a(K)` for nondivisible `K`-roots
+`a`. Over `K^ur` this follows from the affine-root generators above ([Adler], §1.4, p. 9;
+for split `G`, proof of Prop. 1.4.3, p. 11). Over `K`, group together the `K^ur`-root rays whose
+gradients restrict to positive multiples of the same nondivisible `K`-root, then take
+`Gal(K^ur/K)`-fixed points of their unique product decomposition, as in *big-cell-criteria*.
+These statements need no tameness and no condition on `p` ([Moy–Prasad 1996], §2.1, p. 100, works with any connected
 reductive group over a nonarchimedean local field of any characteristic). The sources state them
 over a nonarchimedean local field and its maximal unramified extension; here they are stated over
 every `K` as above, the setting of the unramified descent of [Bruhat–Tits II], 5.1.1, pp. 145–146,
@@ -5347,10 +5399,22 @@ Lem. 4.7, p. 14; [Richarz], (1.14) in the proof of Prop. 1.11, p. 123 (arXiv p. 
 the apartment `A = A(S)` of `S ⊆ Z ⊆ M`: the Iwahori subgroup `P°_C` of an alcove `C ⊂ A`, a
 pro-unipotent radical `P_F^+` for a facet `F ⊂ A`, or a Moy–Prasad subgroup `G_{x,r}` with `x ∈ A`
 and `r > 0`. First, the multiplication map `(H ∩ N^-) × (H ∩ M) × (H ∩ N) → H` is bijective in
-every order; `H ∩ U_a(K) = U_{a,f_H(a)}`, and the product map
-`∏_{a ∈ Φ_N ∩ Φ_nd}(H ∩ U_a(K)) → H ∩ N`, one factor for each nondivisible root of `N` as in RG2.3
-*big-cell-criteria*, is bijective in any order, and likewise for `N^-` ([Bruhat–Tits I], (6.4.9)
-(ii), p. 136). The condition on `H` is needed: for `g ∈ G(K)`, `gHg^{-1}` factors with respect to
+every order. The product map
+`∏_{a ∈ Φ_N ∩ Φ_nd}(H ∩ U_a(K)) → H ∩ N`, one intersection factor for each nondivisible root
+of `N` as in RG2.3 *big-cell-criteria*, is bijective in any order, and likewise for `N^-`
+([Bruhat–Tits I], (6.4.9) (i)–(ii), p. 136). For Iwahori and pro-unipotent subgroups, compute
+these intersections from the facet root cutoffs of RG2.3 *parahoric-subgroup* and
+*pro-unipotent-radical-and-nested-facets*. For `H = G_{x,r}`, use the separate affine-depth
+cutoffs of RG2.3 *moy-prasad-filtration*: when `G` is quasi-split, take the same minima
+in the affine value sets over `K`, giving
+`H ∩ U_a(K) = U_{a,c_a(x,r)}·U_{2a,c_{2a}(x,r)}`. For a multipliable `a`, case II gives an
+explicit carrier: choose `λ ∈ K_a` of trace one with maximal valuation, write
+`v = λuū + v₀` with `Tr(v₀) = 0`, and impose
+`ω_a(u) + ½ω_a(λ) ≥ c_a(x,r)` and `ω_a(v₀) ≥ c_{2a}(x,r)` separately
+([Bruhat–Tits II], 4.2.20–4.2.21, pp. 97–98; [Fintzen MP], §§2.2–2.4, arXiv v4 pp. 7–10).
+For general `G`, use the grouped ray factors over `K^ur` and their Galois-fixed points as in
+*moy-prasad-filtration*. A positive-depth ray intersection need not equal any raw `U_{a,c}`.
+The condition on `H` is needed: for `g ∈ G(K)`, `gHg^{-1}` factors with respect to
 the conjugate data `gPg^{-1} = (gMg^{-1})(gNg^{-1})` and `gN^-g^{-1}`, but in general not with
 respect to `P`, `M`, `N` themselves (Check `iwahoriFactorization_conjugate_sl2`); since every alcove
 lies in an apartment `gA`, every Iwahori subgroup is conjugate to one of an alcove of `A`. Second,
@@ -5393,6 +5457,19 @@ root datum). *Needs:* RG2.3 *moy-prasad-filtration*; RG2.3 *parahoric-subgroup*;
 
 **Checks.**
 
+- *iwahoriFactorization_SU3_depth_two* — take `K = ℚ₅`, `K′ = K(δ)`, `δ² = 2`, the
+  unramified `SU_3` with hermitian matrix `[[0,0,1],[0,−1,0],[1,0,0]]`, and its standard
+  hyperspecial point `x`. In coordinates
+  `x_a(u,v) = [[1,ū,v],[0,1,u],[0,0,1]]`, `v + v̄ = uū`, the elements
+  `h = x_a(0,25δ)` and `g = x_a(5,25/2)` both have `φ_a = 1`. But
+  `h ∈ G_{x,2} ∩ U_a(K) = U_{a,2}·U_{2a,2}` and `g ∉ G_{x,2}`: the former lies in
+  `U_{2a,2}`, while the latter has short-root entries of valuation one. After unramified
+  splitting, every depth-two root and torus generator is congruent to the identity modulo
+  `25`, which excludes `g`. No raw cutoff separates these two elements.
+- *iwahoriFactorization_SU3_rounding* — for the same group at `x` and `r = 3/2`,
+  `Γ'_a = Γ'_{2a} = ℤ`, so `c_a = c_{2a} = 2`. Thus the ray factor is still
+  `U_{a,2}·U_{2a,2}`; rounding the raw set `Γ_a = 1/2 ℤ` would admit
+  `x_a(0,125δ)` as a short-root generator even though `3/2 ∉ Γ'_a`.
 - *iwahori_unipotent_contract_sign* (non-example) — for `GL_2`, `v = (1, 0)` and
   `z = diag(ϖ, ϖ^{-1})`, the translation `ν(z) = (−1, 1)` is negative on the upper root, and
   conjugation by `z^{-1}` expands the upper root group: the conclusion of
@@ -6289,12 +6366,27 @@ p. 5; [Kaletha], §2, p. 9 (notation), and §5.6, p. 46). *Needs:* *pinned-autom
 
 ### RG2.5.2 the L-group and its functoriality
 
-**The L-group.** (*l-group*) Use `Γ = Γ_K` itself for the Galois form, the quotient `Γ = Gal(K'/K)` through which the action
-factors for the finite form, or pull back along `W_K → Γ_K` for the Weil form. Define
-`^LG(R) := Ĝ(R) ⋊ Γ` via `μ̂_G`, with `(g,γ)(g',γ') = (g μ̂_G(γ)g', γγ')`, the projection
-`pr : ^LG(R) ↠ Γ` with kernel `Ĝ(R)`, and the section `γ ↦ (1,γ)`, all natural in `R`. The finite form
-is an affine `ℤ`-group scheme with `(ᴸG)° = Ĝ` and `π_0 = Gal(K'/K)`; the Galois form is its
-inflation and the Weil form its pull-back to `W_K`. No `√q` enters. In `LanglandsDual`, define
+**The L-group.** (*l-group*) The abstract point-group functors use `Γ = Γ_K` for the Galois
+form, `Γ = Gal(K'/K)` through which the action factors for the finite abstract form, or the
+pull-back action along `W_K → Γ_K` for the Weil form. For every commutative coefficient ring
+`R`, define `^LG(R) := Ĝ(R) ⋊ Γ` via `μ̂_G`, with
+`(g,γ)(g',γ') = (g μ̂_G(γ)g', γγ')`, projection `pr : ^LG(R) ↠ Γ` with kernel `Ĝ(R)`, and
+section `γ ↦ (1,γ)`. Coefficient maps keep the abstract `Γ`-coordinate fixed.
+
+For finite `Γ`, also construct the affine `ℤ`-group scheme `Ĝ ⋊ Γ_ℤ`. Here `Γ_ℤ` is the
+constant group scheme with `Γ_ℤ(R)` the locally constant maps `Spec R → Γ`, and the
+semidirect-product scheme has coordinate algebra `∏_{γ ∈ Γ} O(Ĝ)`. Construct its Hopf maps
+from the displayed multiplication on each pair of components, with inverse and unit on the
+corresponding components. Its points are naturally `Ĝ(R) ⋊ Γ_ℤ(R)`: a component choice gives
+an idempotent decomposition of `R`, and acts on `Ĝ(R)` by `μ̂_G(γ)` on each piece. Coefficient
+maps pull back the locally constant choices along `Spec R' → Spec R`; projection, inclusion
+and section are natural group-scheme maps, with kernel `Ĝ`. Its relative identity component
+is `Ĝ` and its component group is `Γ_ℤ`. The constant-choice homomorphism from the finite
+abstract functor to these represented points is an isomorphism for every nonzero connected
+coefficient ring, including fields; on arbitrary rings the component choices can vary.
+This construction combines the finite pinned action with the constant group scheme of
+[Stacks, Example 39.5.6, Tag 03YW](https://stacks.math.columbia.edu/tag/03YW). The Galois and
+Weil abstract functors retain their point-group API. No `√q` enters. In `LanglandsDual`, define
 `LGroup` as `^LG(R) = Ĝ(R) ⋊ Γ_K`, the Galois form, and use
 `SemidirectProduct.rightHom`, `SemidirectProduct.inl` and `SemidirectProduct.inr` for its projection,
 inclusion and section, and `SemidirectProduct.rightHom_surjective`,
@@ -6304,9 +6396,10 @@ the kernel and the multiplication law. Define `mapCoeff`, the map `^LG(R) →* ^
 compatibility condition is `galoisActionOnPoints_natural`; `SemidirectProduct.rightHom_comp_map`
 says that it lies over `Γ_K`. Define `WeilLGroup` as `Ĝ(R) ⋊ W` for a homomorphism `W → Γ_K`. For
 an open normal subgroup `U` of `Γ_K` contained in the kernel of the action, the finite action of
-`Γ_K/U` is `QuotientGroup.lift` of `galoisActionOnPoints`, and the inflation
+`Γ_K/U` is `QuotientGroup.lift` of `galoisActionOnPoints`, and the quotient map
 `^LG(R) → Ĝ(R) ⋊ Γ_K/U` is `SemidirectProduct.map` of the identity and `QuotientGroup.mk'`
-([Buzzard–Gee], §2.1, p. 5; [Kaletha], §2, p. 9). *Needs:* *galois-action-on-dual-group*; Mathlib
+([Buzzard–Gee], §2.1, p. 5; [Kaletha], §2, p. 9). *Needs:* *galois-action-on-dual-group*;
+ReductiveGroups layer 0 (Hopf group schemes); Mathlib
 `SemidirectProduct`, `SemidirectProduct.rightHom`, `SemidirectProduct.range_inl_eq_ker_rightHom`,
 `SemidirectProduct.rightHom_surjective`, `SemidirectProduct.map`,
 `SemidirectProduct.rightHom_comp_map`, `QuotientGroup.lift`; ClassFieldTheory layer 9.
@@ -6314,6 +6407,19 @@ an open normal subgroup `U` of `Γ_K` contained in the kernel of the action, the
 
 **Checks.**
 
+- *finiteLGroup_F2* — for a quadratic norm-one torus, `Ĝ = G_m` and `Γ = C₂` acts by
+  inversion. Over `𝔽₂`, both the finite abstract functor and the represented finite form have
+  two points, and the constant-choice comparison is an isomorphism.
+- *finiteLGroup_product_ring* — for the same torus, the represented form over `𝔽₂ × 𝔽₂`
+  has four points, with independently chosen `C₂`-components on the two factors. Its
+  comparison with the product of its two `𝔽₂`-point groups is an isomorphism. More generally
+  it preserves products of coefficient rings; the abstract functor has only two points on
+  `𝔽₂ × 𝔽₂`, and its projection comparison is the diagonal `C₂ → C₂ × C₂`.
+- *finiteLGroup_zero_ring* — the represented finite form has one point on the zero ring,
+  since its spectrum is empty; its constant-group-scheme coordinate is also trivial.
+  The abstract finite functor instead has point group `Γ` on this ring, and the
+  constant-choice homomorphism collapses it. Thus the connected-ring comparison requires
+  the coefficient ring to be nonzero.
 - `LGroup_split_prod` — if `μ_G` is trivial (for instance for `GL_n`) then
   `^LG(R) ≃* Ĝ(R) × Γ_K` over `Γ_K`.
 - `LGroup_trivial` — for a torus, `Ĝ(F_2)` is trivial and `pr` is an isomorphism `^LG(F_2) ≃* Γ_K`.
