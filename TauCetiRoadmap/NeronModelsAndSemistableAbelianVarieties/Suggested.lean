@@ -17,13 +17,12 @@ The file makes the following design choices explicit.
 * A Néron model is *marked*: the isomorphism of its generic fibre with the given variety is data,
   and every uniqueness statement is a statement about marked models.
 * Finite type is enforced by `QuasiCompact` on top of `Smooth` (which already gives locally finite
-  presentation); a locally-finite-type model is not a model in the sense of this file.
+  presentation); an lft model satisfies this finite-type convention exactly when it is quasi-compact.
 * The lattice-level part of the monodromy theory (the integral pairing, its cokernel and
   cycle lattice of a dual multigraph) is stated over `ℤ` with no geometric carrier, so that the
   arithmetic computations of the roadmap's checks are already meaningful.
-* README §4.2 uses GraphConnectivityAndFlows §§1.3 and 8.1 (an open TauCetiRoadmap pull request
-  by fzaiser) for incidence and signed circulations, and SurfaceTopology Layer 10 (an open
-  TauCetiRoadmap pull request by mccorvie) for the binary cycle-space dimension formula;
+* README §4.2 uses GraphConnectivityAndFlows §§1.3 and 8.1 for incidence and signed circulations,
+  and SurfaceTopology Layer 10 for the binary cycle-space dimension formula;
   GraphConnectivityAndFlows §1.1 supplies component counts. Local carriers support the retained
   integral/F₂ coefficient comparison, character-lattice realization and monodromy pairing.
 * The intersection-matrix comparison of the component group of a Jacobian uses Tau
@@ -305,8 +304,8 @@ namespace DualGraph
 
 variable {V E : Type*} [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
 
-/-- Local restatement of GraphConnectivityAndFlows §1.3, to be replaced by the import once that
-roadmap is merged. Its `excessAt` (an open TauCetiRoadmap pull request by fzaiser) is transported
+/-- Coordinate adapter for GraphConnectivityAndFlows §1.3, `excessAt`; use its carrier
+through the endpoint-indexed and Finsupp equivalences. Its excess is transported
 along `Q v w := {e : E // src e = v ∧ tgt e = w}` and finite function/Finsupp equivalences.
 The ℤ-linear carrier is needed by `cycleLattice`, the character lattice and monodromy;
 incoming-minus-outgoing excess is `tgt − src`, with loops and parallel edges retained.
@@ -322,17 +321,16 @@ example : boundary (fun _ : Unit => ()) (fun _ : Unit => ()) (Finsupp.single () 
 example : boundary (fun _ : Unit => (0 : Fin 2)) (fun _ => 1) (Finsupp.single () 1) =
     Finsupp.single 1 1 - Finsupp.single 0 1 := by sorry
 
-/-- Local restatement of GraphConnectivityAndFlows §8.1, to be replaced by the import once that
-roadmap is merged. The additive group is identified with its `signedCirculations Q ℤ`
-(an open TauCetiRoadmap pull request by fzaiser); ℤ satisfies the ordered-group prototype
+/-- Coordinate adapter for GraphConnectivityAndFlows §8.1, `signedCirculations Q ℤ`; use its
+carrier through the specified additive equivalence. ℤ satisfies the ordered-group prototype
 hypotheses. This integral-module carrier is needed by `CharactersGraphHomology`, the monodromy
 pairing and the coefficient comparison. README label: cycle-lattice. -/
 noncomputable def cycleLattice (src tgt : E → V) : Submodule ℤ (E →₀ ℤ) :=
   LinearMap.ker (boundary src tgt)
 
-/-- Local restatement of SurfaceTopology §Layer 10, to be replaced by the import once that
-roadmap is merged. Its `Graph.cycleSpace` (an open TauCetiRoadmap pull request by mccorvie)
-is transported to finite Finsupp coordinates on the same multigraph. This carrier is needed
+/-- Coordinate adapter for SurfaceTopology §Layer 10, `Graph.cycleSpace`; use its carrier
+through the finite function/Finsupp equivalence. The binary cycle space is transported to
+finite Finsupp coordinates on the same multigraph. This carrier is needed
 by the integral/F₂ coefficient comparison; modulo two the incidence is orientation-independent.
 README supplier label: cycle-rank (`finrank_cycleLattice`). -/
 noncomputable def modTwoCycleSpace (src tgt : E → V) : Submodule (ZMod 2) (E →₀ ZMod 2) :=
@@ -340,8 +338,8 @@ noncomputable def modTwoCycleSpace (src tgt : E → V) : Submodule (ZMod 2) (E �
     fun e => Finsupp.single (tgt e) (1 : ZMod 2) - Finsupp.single (src e) (1 : ZMod 2))
 
 /-- Integral/F₂ coefficient comparison retained for the character-lattice rank consumer;
-SurfaceTopology Layer 10 `cycleSpace_finrank` (an open TauCetiRoadmap pull request by mccorvie)
-supplies the component-count combinatorial formula. The finite function/Finsupp adapter
+SurfaceTopology Layer 10 `cycleSpace_finrank` supplies the component-count combinatorial formula.
+The finite function/Finsupp adapter
 identifies `modTwoCycleSpace` with the supplied binary cycle space, preserving edge identities;
 the integral incidence cokernel is torsion-free, so base change identifies the kernels.
 README label: integral-graph-adapter. Connectedness is needed only when specializing the
@@ -378,6 +376,19 @@ example : Module.finrank ℤ (cycleLattice (fun _ : Unit => ()) (fun _ : Unit =>
 example : Module.finrank ℤ (cycleLattice (fun _ : Unit => (0 : Fin 2)) (fun _ => 1)) = 0 := by
   rw [cycleLattice_rank_eq_cycleSpace_finrank]
   sorry
+
+/-- A cycle with coefficients `1,-1` belongs to the rank-one parallel-edge lattice. -/
+example :
+    (Finsupp.single (0 : Fin 2) 1 - Finsupp.single 1 1) ∈
+      cycleLattice (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1) ∧
+    Module.finrank ℤ
+      (cycleLattice (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1)) = 1 := by sorry
+
+/-- The same parallel-edge cycle has self-pairing equal to the sum of the two edge lengths. -/
+example (a b : ℕ) :
+    edgeForm ![a, b]
+      (Finsupp.single (0 : Fin 2) 1 - Finsupp.single 1 1)
+      (Finsupp.single (0 : Fin 2) 1 - Finsupp.single 1 1) = (a : ℤ) + b := by sorry
 
 /-- A loop of length `5` gives `5` on its unit cycle and `10` on coefficients `1,2`. -/
 example : edgeForm (fun _ : Unit => 5) (Finsupp.single () 1) (Finsupp.single () 1) = 5 ∧
@@ -424,6 +435,16 @@ noncomputable def rankOne (n : ℕ) : ℤ →ₗ[ℤ] ℤ →ₗ[ℤ] ℤ := (n 
 /-- Rank-one evaluation specifies the adjoint: at `n = 5`, `y = 1`, `x = 2` its value is `10`. -/
 example : adjoint (rankOne 5) 1 2 = 10 := by sorry
 
+/-- A nonsymmetric two-lattice form distinguishes its adjoint from the transposed adjoint. -/
+example :
+    let u : (Fin 2 → ℤ) →ₗ[ℤ] (Fin 2 → ℤ) →ₗ[ℤ] ℤ :=
+      LinearMap.mk₂ ℤ (fun y x => y 0 * x 0 + 2 * y 0 * x 1 + 3 * y 1 * x 1)
+        (by intros; simp only [Pi.add_apply]; ring)
+        (by intros; simp only [Pi.smul_apply, smul_eq_mul]; ring)
+        (by intros; simp only [Pi.add_apply]; ring)
+        (by intros; simp only [Pi.smul_apply, smul_eq_mul]; ring)
+    adjoint u ![1, 0] ![0, 1] = 2 ∧ adjoint u.flip ![1, 0] ![0, 1] = 0 := by sorry
+
 /-- At modulus `1` the adjoint is the identity functional; at modulus `0` it is zero. -/
 example (y x : ℤ) : adjoint (rankOne 1) y x = y * x ∧
     adjoint (rankOne 0) y x = 0 := by sorry
@@ -449,6 +470,9 @@ noncomputable def rankOneDualClass (n : ℕ) (s : ℤ) : componentGroup (rankOne
 
 /-- The classes are the zero classes at residue `0`. -/
 example (n : ℕ) : rankOneClass n 0 = 0 ∧ rankOneDualClass n 0 = 0 := by sorry
+
+/-- The unit functional gives a nonzero class in each cokernel of the modulus-five pairing. -/
+example : rankOneClass 5 1 ≠ 0 ∧ rankOneDualClass 5 1 ≠ 0 := by sorry
 
 /-- Adding the modulus to a representative preserves each class. -/
 example (n : ℕ) (r : ℤ) : rankOneClass n (r + n) = rankOneClass n r ∧
@@ -530,6 +554,9 @@ example : Matrix.trace (toricFrobenius 2 (-1) 1) = -3 ∧
     Matrix.trace (toricFrobenius 2 (-1) 1) ≠ -1 := by
   norm_num [toricFrobenius, Matrix.trace, Matrix.det_fin_two, Fin.sum_univ_two]
 
+/-- A degree-two geometric Frobenius has trivial nonsplit lattice sign and full trace five. -/
+example : Matrix.trace (toricFrobenius 2 1 2) = 5 := by sorry
+
 end SemistableTrace
 
 namespace Interfaces
@@ -595,14 +622,24 @@ Geometric definitions and comparisons are recorded there rather than typed here:
 `GoodReduction`, `WeakNeronBlowup`, `DifferentialLattice`, `IdentityComponent`,
 the geometric `ComponentGroup`, `Chevalley`, `ToricCharacter`,
 `SemistableReduction` and `henselization_iff`, `FiniteFlatToricFiltration`,
-`FiniteFlatOrthogonality`, `RaynaudExtensionComparison`,
+`FiniteFlatOrthogonality`, `SemiabelianExtensionClassification`, `RaynaudExtensionComparison`,
 `RigidUniformisation`, `RaynaudOneMotive`, `PicardZero`,
 `IntegralMonodromyPairing`, `ComponentPairing`, `RegularPicardNeronQuotient`,
-`BgwNodalPinch`, `BgwGeneralizedJacobian`, `BgwOddFactorTorsors`, `StableFamilyPicard`,
+`BgwSmoothHyperellipticModel`, `BgwNodalPinch`, `BgwGeneralizedJacobian`, `BgwOddFactorTorsors`,
+`StableFamilyPicard`,
 `B_st`, `D_st`, the semistable predicate, the `PeriodRealization` API on the shared
 period functors, `D_pst`, `PadicWeilDeligneRealization`,
 `AbelianVariety.deRham`, and `SemistableOrdinaryAdapter`.
 Their geometric Checks are likewise in README.md.
+
+`SemiabelianExtensionClassification` in README 3.13 classifies commutative extensions of
+an abelian scheme over a complete DVR by a torus through morphisms of étale sheaves
+`X^*(T) → B^∨`, naturally under base change and descent, and identifies their completions.
+`BgwSmoothHyperellipticModel` in README 4.8 constructs the smooth projective geometrically
+integral weighted model of genus `g ≥ 1` in characteristic different from two, with its
+quadratic étale infinity fibre; `BgwNodalPinch` consumes that model.
+The discriminating geometric model Checks of README 1.2 use `AbelianSchemeModel`,
+`WeakNeronBlowup` and ReductiveGroupsPartII RG2.3.2's torus models.
 
 `SemistableIdentityBasechange` in README 3.3 provides identity-model base change and
 the open-immersion helper for a smooth separated finite-type group scheme over a DVR,
@@ -622,6 +659,16 @@ indices, so `ℚ_p(1)` has weight `-1`; R01.7's numeric labels have the opposite
 with the dual degree-one de Rham cohomology and its dual Hodge filtration, naturally
 under finite extensions. The elliptic Bloch–Kato diagram of the supplier's 4.26 uses
 that same `dDeRham(V_p(E))/Fil⁰`.
+
+CrystallineCohomology CR.2.1, CR.2.3 and CR.3.4 supplies the crystalline complex, proper
+smooth formal comparison over a PD base and semilinear Frobenius of the good abelian quotient,
+including at `p = 2`. README 5.3 and 6.10 identify these supplied objects with the Coleman–Iovita
+and shared period realizations; their ramified comparison bridge belongs to
+`PadicComparison` and `good_abelian_frobenius_polynomial`. The canonical Weil–Deligne
+parameter fields come from SmoothRepresentationsOfLocalGroups SR.5.2,
+`classical-llc-normalization`; ArithmeticGaloisRepresentations R01.2 §2.4,
+`wd-parameter-operations`, supplies restriction and rescaling by nonzero scalars for `q ≥ 2`
+and finite inertia image.
 
 The construction `NeronModel.extend` and its API (`extend_restrict`, `extend_unique`,
 `extend_map`, `extend_identity`, `extend_precomp`, `extend_proof_irrel`, `extend_to_model`,
