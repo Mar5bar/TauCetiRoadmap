@@ -711,6 +711,22 @@ example (q : ℂ) (hq : q ≠ 1) :
       Function.Surjective (p ∘ₗ f) := by
   sorry
 
+/-- One transported pair difference kills a vector outside the diagonal line, so its map
+on the global relative quotient is not injective. README `local_obstruction_single_transport`. -/
+example :
+    (![1, 1, 0] : Fin 3 → ℚ) ∉ Submodule.span ℚ {(![1, 1, 1] : Fin 3 → ℚ)} ∧
+    (((LinearMap.proj 0 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 1 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) ![1, 1, 0] = 0 := by
+  sorry
+
+/-- The kernels of all transported pair differences intersect in the diagonal line,
+so the family detects the global relative quotient. README `local_obstruction_all_transports`. -/
+example :
+    (LinearMap.ker (((LinearMap.proj 0 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 1 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) ⊓
+      LinearMap.ker (((LinearMap.proj 0 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 2 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) ⊓
+      LinearMap.ker (((LinearMap.proj 1 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ) - (LinearMap.proj 2 : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) : (Fin 3 → ℚ) →ₗ[ℚ] ℚ)) =
+    Submodule.span ℚ {(![1, 1, 1] : Fin 3 → ℚ)} := by
+  sorry
+
 end InvariantCycles
 
 /-!

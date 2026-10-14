@@ -4942,33 +4942,82 @@ relevant `j`, and so do their invariant subspaces. This is an equality of images
 - For `X` a line in `P²` and constant `K`, the singleton hyperplane fibres give the trivial image for both groups.
 - For `K=0`, both representations and invariant spaces are zero.
 
-**Lemma (local detection of the extension obstruction).** For `L ∈ D^+_c(P¹)` whose negative cohomology sheaves have finite
-support, lisse outside a finite set `B`, and a point `t ∈ P¹`, the map `H^1(P¹ mod t, L) → ∏_{b∈B} H^1(P¹_{(b)} mod η_b, L)` is injective
-(Weil II, Proposition 4.3.6). For the general pencil of `K` (the line incidence `X̃_D` of 7b.7 with `f̃:X̃_D→D`), the
-obstruction to extending a class from a fibre `Y_u` to `X` is a relative class on `P¹` built from the cone of the comparison
-between pushforward and the axis, whose negative cohomology sheaves have finite support under the support bounds of 7b.9;
-so the obstruction vanishes when all its local obstructions vanish. *Proof sketch.* Truncate `L` to `H^0` and `H^1` of a sheaf
-without point-supported sections; a class killed at every `b ∈ B` defines a torsor extending over `P¹`, which is trivial
-by the all-characteristic boundary-inertia normal-generation theorem of 5.3; apply this to the relative cone, using the support bounds
-for the finite-support condition. The orthogonal decomposition of Weil II 4.3.9, which uses hard Lefschetz, is not used.
-(Weil II, Proposition 4.3.6 and §§4.3.7–4.3.8, pp. 224–226; proof of 6.2.11.) *Needs:* `hyperplaneIncidence` (7b.7), including its
-regular-sequence axis comparison for a sufficiently general line; 7b.9;
-F.1–F.2; 5.3 (all-characteristic normal generation).
+**Definition (relative cohomology and transported local maps).** Over an algebraically closed field `k`,
+with `Λ=ℚ_ℓ` or `ℚ̄_ℓ`, `ℓ≠char k`, use the enhanced complexes of F.1–F.4 and define
+`RΓ(T mod T′, L)=fib(RΓ(T,L)→RΓ(T′,L))=cone(RΓ(T,L)→RΓ(T′,L))[−1]` for a morphism
+`T′→T` and `L∈D⁺_c(T,Λ)`, with `L` pulled back to `T′`. Its integer cohomology groups are `H^i(T mod T′,L)`;
+provide the fibre triangle, its long exact sequence and functoriality for coherent squares.
+For `t,b∈ℙ¹(k)`, write `ℙ¹_(t)` and `ℙ¹_(b)` for their strict henselizations and choose
+geometric generic points `η̄_t`, `η̄_b`. For each `ℙ¹`-isomorphism `σ:η̄_b≅η̄_t`, construct
+`λ_{b,σ}:H¹(ℙ¹ mod t,L)→H¹(ℙ¹_(b) mod η̄_b,L)` by the coherent restriction square:
+its top arrow restricts global sections to `ℙ¹_(b)`, and its bottom arrow is
+`RΓ(t,L)≅RΓ(ℙ¹_(t),L)→RΓ(η̄_t,L)→RΓ(η̄_b,L)`, with the last arrow induced by `σ`.
+Prove the strict-local comparison used here and naturality in `L`. Changing `σ` replaces
+this last arrow by the corresponding stalk transport; compositions obey the transport
+cocycle and induce the same compatibilities on fibres and cohomology. The kernels of
+individual `λ_{b,σ}` need not be independent of `σ`. (Weil II §§4.3.4–4.3.5, pp. 223–224.)
+*Needs:* F.0 (geometric points and paths), F.1–F.4;
+ClassicalAdicEtaleCohomology §§0.1–0.4 (`ClassicalDerived.enhancedCategory`, replacements
+and functor coherence); strict henselization from ModularCurves Layer 4D.
 
 **Checks.**
 
-- An invariant class extending over each singular neighbourhood has zero global obstruction.
+- For `T′=T` with the identity restriction, the relative complex is zero.
+- For a degree-zero sheaf with `H¹(T,L)=0`, the long exact sequence identifies
+  `H¹(T mod T′,L)` with the cokernel of `H⁰(T,L)→H⁰(T′,L)`.
+- In the three-sheet cover of `wild_twisted_cubic`, relabelling the sheets changes the
+  local fixed plane from `x₁=x₂` to `x₁=x₃`; the resulting local maps can have different kernels.
+
+**Theorem (local detection of the extension obstruction).** Let `L∈D⁺_c(ℙ¹_k,Λ)` with the
+field and coefficients of the preceding definition, assume every negative cohomology sheaf has finite
+support, and let `B` be finite with every cohomology sheaf lisse on `ℙ¹−B`. For every `t∈ℙ¹(k)`,
+with the chosen geometric generic points above, the map
+`H¹(ℙ¹ mod t,L)→∏_{b∈B} ∏_{σ:η̄_b≅η̄_t over ℙ¹} H¹(ℙ¹_(b) mod η̄_b,L)`
+with components `λ_{b,σ}` is injective; equivalently, the intersection of all these kernels is zero.
+For the general pencil of `K` (the line incidence `X̃_D` of 7b.7 with `f̃:X̃_D→D`), the
+obstruction to extending a class from a fibre `Y_u` to `X` is a relative class on `ℙ¹` built
+from the shifted fibre of the comparison between pushforward and the axis. The support bounds
+of 7b.9 put its negative cohomology sheaves in finite support. Its component `λ_{b,σ}` is the
+obstruction to extending the `σ`-transported fibre class over the strict-local pencil at `b`;
+this identification is compatible with change of transport. Hence the global obstruction
+vanishes when all transported local obstructions vanish. *Proof sketch.* Remove the negative
+and point-supported part, reducing to `H⁰` and `H¹` of sheaves, with the degree-zero sheaf
+having no point-supported sections. A relative torsor killed by every `λ_{b,σ}` has trivial
+local action for every transported inertia subgroup. Their images generate by 5.3, so the
+torsor extends trivially over `ℙ¹`, with its trivialization at `t`. Apply this to the relative
+axis comparison using 7b.9. (Weil II Proposition 4.3.6 and §§4.3.7–4.3.8, pp. 224–226;
+proof of 6.2.11.) *Needs:* the preceding relative-cohomology construction;
+`hyperplaneIncidence` (7b.7), including its regular-sequence axis comparison for a sufficiently
+general line; 7b.9; F.1–F.4; 5.3 (all-characteristic normal generation).
+
+**Checks.**
+
+- An invariant class extending over each singular neighbourhood has zero obstruction for
+  every transport, since each transport gives the same invariant fibre class.
 - The argument uses Weil II 4.3.6–4.3.8 and not the orthogonal splitting of 4.3.9, which depends on hard Lefschetz.
-- For a conic pencil, the diagonal class extends across both double-point critical fibres and has zero local and global obstruction.
+- For a conic pencil, the diagonal class extends across both double-point critical fibres
+  and has zero obstruction for every transport and globally.
+- `local_obstruction_single_transport`: in characteristic two let `h` be `wild_twisted_cubic`,
+  `Λ=ℚ_ℓ` with `ℓ≠2`, `L=h_*Λ` and `t∈𝔸¹(k)`. Finite pushforward gives
+  `H⁰(ℙ¹,L)=Λ`, `H¹(ℙ¹,L)=0` and `L_t=Λ³`, hence
+  `H¹(ℙ¹ mod t,L)=Λ³/Λ(1,1,1)`, of dimension two. At the sole bad point infinity,
+  the strict-local cover has two connected components and no `H¹`; its specialization
+  image is `{(u,u,v)}`. Thus the local relative group is one-dimensional, and a single
+  transport kills the nonzero global class of `(1,1,0)`.
+- `local_obstruction_all_transports`: for the same cover all transports test the three
+  pair differences `x₁−x₂`, `x₁−x₃`, `x₂−x₃`. Their common kernel is the diagonal line,
+  so they jointly detect the two-dimensional global quotient.
 
 **Theorem (ambient and pencil images).** For `K` with the dual support bound of 7b.9 and a sufficiently general pencil `D`, for
 every `u ∈ D` the image of `H^n(X, K)` in `H^n(Y_u, K)` equals the image of `H^0(D, R^n f̃_*(i^*q^*K))`. No degeneration of Leray spectral
 sequences, splitting into fixed and vanishing parts, or hard Lefschetz is used. *Proof sketch.* Restriction from `X` gives a
-global section of the pencil direct image; conversely a global section extends locally by definition, so its local
-obstructions vanish, and the obstruction lemma gives an ambient lift; the general-incidence axis comparison of 7b.7
+global section of the pencil direct image; conversely, for each `b` and every `σ`, transport
+of its fibre value is its geometric generic value near `b`. The strict-local section supplies
+a lift of that value, so every `λ_{b,σ}` of its extension obstruction vanishes. The
+all-transport obstruction theorem gives an ambient lift; the general-incidence axis comparison of 7b.7
 and weak Lefschetz on the general fibres and axis place
 the obstruction in the finite-support range. (Weil II, Proposition 6.2.11(ii) and its proof; 4.3.7–4.3.8.) *Needs:* `hyperplaneIncidence` (7b.7), the
-obstruction lemma, 7b.9.
+all-transport obstruction theorem, 7b.9.
 
 **Checks.**
 
@@ -4985,8 +5034,12 @@ for `u ∈ V`, restriction is an isomorphism `H^n(X, K) ≅ H^n(Y_u, K)^{π_1(U,
 an abstract isomorphism of vector spaces. When `K` is potentially pure (7b.7), the local hypothesis is 7b.8 applied to the
 pulled-back models of 7b.7, with Deligne's weight theorems; the unconditional statement is Weil II, Corollaire 6.2.12.
 *Proof sketch.* Injectivity is weak Lefschetz (7b.9). For surjectivity, a `π_1(U, u)`-invariant class is `π_1(V, u)`-invariant (7b.10),
-hence a global section of the pencil direct image over `V`; local surjectivity at the points of `D − V` extends it to a section over
-`D`; image equality (7b.10) lifts it to `H^n(X, K)`. No decomposition `E ⊕ E^⊥` is used. (Weil II, Corollaire 6.2.12 and its proof,
+hence a global section of the pencil direct image over `V`. At each `b∈D−V`, every
+transport `σ` sends it to the same local inertia-invariant class, because two transports
+differ by global monodromy fixing the original class. Local surjectivity lifts this value at
+`b`, and the resulting sections glue to a section over `D`. Thus all transported local
+extension obstructions vanish, as required by 7b.10; image equality lifts the section to `H^n(X,K)`.
+No decomposition `E ⊕ E^⊥` is used. (Weil II, Corollaire 6.2.12 and its proof,
 p. 250.) *Needs:* 7b.1, 7b.7, 7b.9, 7b.10.
 
 **Checks.**
