@@ -110,6 +110,26 @@ example (q : ℕ) (α : A) : SteinbergFrobRelation q !![α, 0; 0, (q : A) * α] 
 example : ¬ SteinbergFrobRelation 2 (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
   norm_num [SteinbergFrobRelation, Matrix.trace_fin_two, Matrix.det_fin_two]
 
+/-- The nontrivial quadratic finite inertia datum extends with arithmetic Frobenius. -/
+example : IsTameMatrixPair 3 (1 : Matrix (Fin 1) (Fin 1) ℚ) !![-1] ∧
+    (!![-1] : Matrix (Fin 1) (Fin 1) ℚ) ^ 2 = 1 ∧
+    (!![-1] : Matrix (Fin 1) (Fin 1) ℚ) ≠ 1 := by
+  sorry
+
+/-- Finite inertia image alone does not give a Weil extension: scalar Frobenius
+cannot conjugate the primitive cube root two in F₇ to its square. -/
+example : (!![2] : Matrix (Fin 1) (Fin 1) (ZMod 7)) ^ 3 = 1 ∧
+    ¬ ∃ Φ : Matrix (Fin 1) (Fin 1) (ZMod 7), IsTameMatrixPair 2 Φ !![2] := by
+  sorry
+
+/-- For q=11 scalar Frobenius satisfies the split-chain tame data but fails
+its rank-two Steinberg equation. -/
+example : IsTameMatrixPair 11 (1 : Matrix (Fin 2) (Fin 2) ℚ) 1 ∧
+    ¬ SteinbergFrobRelation 11 (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
+  constructor
+  · simp [IsTameMatrixPair]
+  · norm_num [SteinbergFrobRelation, Matrix.trace_fin_two, Matrix.det_fin_two]
+
 end Tame
 
 section ModifiedNilpotent
@@ -160,6 +180,45 @@ example (N : Matrix (Fin 4) (Fin 4) (ZMod 3)) (hN : N ^ 4 = 0) (hN3 : N ^ 3 ≠ 
     (2 : ZMod 3) • N + (modifiedPowerCoefficient 2 : ZMod 3) • N ^ 3 ≠
       (2 : ZMod 3) • N := by
   sorry
+
+/-- The square-zero corner matrix used by the rank-four logarithm controls. -/
+def cornerNilpotent : Matrix (Fin 4) (Fin 4) A :=
+  Matrix.of fun i j => if i = 0 ∧ j = 3 then 1 else 0
+
+/-- Square-zero inertia retains its nonzero linear term in the modified exponential. -/
+example : modifiedExp (cornerNilpotent : Matrix (Fin 4) (Fin 4) A) =
+    1 + cornerNilpotent := by
+  have h2 : (cornerNilpotent : Matrix (Fin 4) (Fin 4) A) ^ 2 = 0 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [pow_two, cornerNilpotent, Matrix.mul_apply]
+  have h3 : (cornerNilpotent : Matrix (Fin 4) (Fin 4) A) ^ 3 = 0 := by
+    rw [pow_succ, h2, zero_mul]
+  simp [modifiedExp, h2, h3]
+
+/-- The modified logarithm of the square-zero unipotent is its corner matrix. -/
+example : modifiedLog (1 + cornerNilpotent : Matrix (Fin 4) (Fin 4) A) =
+    cornerNilpotent := by
+  have h2 : (cornerNilpotent : Matrix (Fin 4) (Fin 4) A) ^ 2 = 0 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [pow_two, cornerNilpotent, Matrix.mul_apply]
+  simp [modifiedLog, h2]
+
+/-- The regular rank-four Jordan nilpotent retains its nonzero square and cube. -/
+def regularJordan : Matrix (Fin 4) (Fin 4) ℚ :=
+  Matrix.of fun i j => if i.val + 1 = j.val then 1 else 0
+
+/-- A regular unipotent's logarithm has a nonzero quadratic correction. -/
+example [Invertible (2 : ℚ)] :
+    modifiedLog (1 + regularJordan) = regularJordan - (1 / 2 : ℚ) • regularJordan ^ 2 ∧
+    modifiedLog (1 + regularJordan) ≠ regularJordan := by
+  constructor
+  · simp [modifiedLog, invOf_eq_inv]
+  · intro h
+    have he := congrArg (fun M : Matrix (Fin 4) (Fin 4) ℚ => M 0 2) h
+    norm_num [modifiedLog, regularJordan, pow_two, Matrix.mul_apply,
+      Fin.sum_univ_succ, invOf_eq_inv] at he
 
 end ModifiedNilpotent
 
@@ -227,6 +286,27 @@ example : Connects (RingHom.id ℚ) (RingHom.id ℚ) := by
 
 /-- The two projections of a product of fields lie on separate components. -/
 example : ¬ Connects (RingHom.fst ℚ ℚ) (RingHom.snd ℚ ℚ) := by
+  sorry
+
+/-- The affine rational node with its actual two-branch relation. -/
+noncomputable def affineNodeIdeal : Ideal (MvPolynomial (Fin 2) ℚ) :=
+  Ideal.span {MvPolynomial.X 0 * MvPolynomial.X 1}
+
+/-- The coordinate ring of the affine node. -/
+abbrev AffineNode := MvPolynomial (Fin 2) ℚ ⧸ affineNodeIdeal
+
+/-- Evaluation at a rational point of the node, retaining the relation a*b=0. -/
+noncomputable def affineNodePoint (a b : ℚ) (hab : a * b = 0) : AffineNode →+* ℚ :=
+  Ideal.Quotient.lift affineNodeIdeal
+    (MvPolynomial.eval₂Hom (RingHom.id ℚ) ![a, b]) (by
+      sorry)
+
+/-- The origin connects to a point on either branch, while the two outer points
+have no common component; unconditional transitivity therefore fails. -/
+example :
+    Connects (affineNodePoint 1 0 (by norm_num)) (affineNodePoint 0 0 (by norm_num)) ∧
+    Connects (affineNodePoint 0 0 (by norm_num)) (affineNodePoint 0 1 (by norm_num)) ∧
+    ¬ Connects (affineNodePoint 1 0 (by norm_num)) (affineNodePoint 0 1 (by norm_num)) := by
   sorry
 
 end Components
@@ -334,6 +414,23 @@ example :
     (-1 - 24 + 0 : ZMod 79) * 1 * 1 - (1 - 12 + 0) * 1 * 8 = 63 := by
   decide
 
+/-- With c33=T the corrected gamma-alpha-gamma product vanishes, whereas the
+conflicting coefficient gives the nonzero series 63*T^3. -/
+example :
+    let T : PowerSeries (ZMod 79) := PowerSeries.X
+    T * ((-1 - 24 + 0) * T * T - (-1 - 12 + 0) * 1 * (8 * T ^ 2)) = 0 ∧
+    T * ((-1 - 24 + 0) * T * T - (1 - 12 + 0) * 1 * (8 * T ^ 2)) = 63 * T ^ 3 ∧
+    (63 : PowerSeries (ZMod 79)) * T ^ 3 ≠ 0 := by
+  sorry
+
+/-- With c33=0 the product vanishes even when its second factor is nonzero. -/
+example :
+    let T : PowerSeries (ZMod 79) := PowerSeries.X
+    (0 : PowerSeries (ZMod 79)) *
+      ((-1 - 24 + 0) * T * T - (-1 - 12 + 0) * 1 * T) = 0 ∧
+    ((-1 - 24 + 0) * T * T - (-1 - 12 + 0) * 1 * T) ≠ 0 := by
+  sorry
+
 end MinimalTypeControl
 
 section Eigenvalue
@@ -411,6 +508,65 @@ example (ρ : G →* GL (Fin 1) A) (χ : Fin 1 → G →* Aˣ) :
       ∀ g, (ρ g : Matrix (Fin 1) (Fin 1) A) 0 0 = ((χ 0 g : Aˣ) : A) := by
   sorry
 
+/-- An explicit invertible matrix from a specified two-sided inverse. -/
+def controlMatrixUnit (M N : Matrix (Fin 2) (Fin 2) A)
+    (hMN : M * N = 1) (hNM : N * M = 1) : GL (Fin 2) A :=
+  ⟨M, N, hMN, hNM⟩
+
+/-- The diagonal rank-two representation of the product of unit groups. -/
+def diagonalControlRep : (Aˣ × Aˣ) →* GL (Fin 2) A where
+  toFun g := controlMatrixUnit !![(g.1 : A), 0; 0, (g.2 : A)]
+    !![(↑g.1⁻¹ : A), 0; 0, (↑g.2⁻¹ : A)] (by sorry) (by sorry)
+  map_one' := by sorry
+  map_mul' := by sorry
+
+/-- The two diagonal characters in their specified order. -/
+def diagonalControlCharacters : Fin 2 → (Aˣ × Aˣ) →* Aˣ :=
+  ![MonoidHom.fst Aˣ Aˣ, MonoidHom.snd Aˣ Aˣ]
+
+/-- The actual diagonal group representation satisfies both ordered conditions. -/
+example : IsDetOrdinary (diagonalControlRep (A := A)) diagonalControlCharacters ∧
+    HasOrderedTriangularization (diagonalControlRep (A := A)) diagonalControlCharacters := by
+  sorry
+
+/-- Generators of a nonsplit rank-two extension over Q: diagonal(2,1) and a unipotent. -/
+def orderedExtensionGenerators : Fin 2 → GL (Fin 2) ℚ :=
+  ![controlMatrixUnit !![2, 0; 0, 1] !![1 / 2, 0; 0, 1] (by sorry) (by sorry),
+    controlMatrixUnit !![1, 1; 0, 1] !![1, -1; 0, 1] (by sorry) (by sorry)]
+
+/-- The nonsplit extension as a representation of the free group on the two generators. -/
+def orderedExtensionRep : FreeGroup (Fin 2) →* GL (Fin 2) ℚ :=
+  FreeGroup.lift orderedExtensionGenerators
+
+/-- The extension's diagonal character followed by its trivial quotient character. -/
+def orderedExtensionCharacters : Fin 2 → FreeGroup (Fin 2) →* ℚˣ :=
+  ![FreeGroup.lift ![⟨2, 1 / 2, by norm_num, by norm_num⟩, 1], 1]
+
+/-- The upper extension has the prescribed ordered flag and determinant products. -/
+example : HasOrderedTriangularization orderedExtensionRep orderedExtensionCharacters ∧
+    IsDetOrdinary orderedExtensionRep orderedExtensionCharacters := by
+  sorry
+
+/-- Reversing the order in a nonsplit extension destroys both ordered conditions. -/
+example :
+    ¬ HasOrderedTriangularization orderedExtensionRep
+      (fun i => orderedExtensionCharacters (1 - i)) ∧
+    ¬ IsDetOrdinary orderedExtensionRep (fun i => orderedExtensionCharacters (1 - i)) := by
+  sorry
+
+/-- Nilpotently shifted reciprocal characters of the cyclic free group over Z/9. -/
+def nilpotentShiftCharacters : Fin 2 → FreeGroup Unit →* (ZMod 9)ˣ :=
+  ![FreeGroup.lift (fun _ => ⟨4, 7, by decide, by decide⟩),
+    FreeGroup.lift (fun _ => ⟨7, 4, by decide, by decide⟩)]
+
+/-- Over Z/9 the scalar representation satisfies determinant-ordinary equations for
+nilpotently shifted characters, but has no direct-summand flag with those characters. -/
+example :
+    IsDetOrdinary (1 : FreeGroup Unit →* GL (Fin 2) (ZMod 9)) nilpotentShiftCharacters ∧
+    ¬ HasOrderedTriangularization (1 : FreeGroup Unit →* GL (Fin 2) (ZMod 9))
+      nilpotentShiftCharacters := by
+  sorry
+
 end DeterminantOrdinary
 
 section NonreducedControl
@@ -437,6 +593,23 @@ example : z9Family 0 1 = !![1, 1; 0, 1] := by
 example : (z9Family 1 0 - 1) * (z9Family 0 1 - 1) = !![0, 3; 0, 0] ∧
     (z9Family 1 0 - 1) * (z9Family 0 1 - 1) ≠ 0 := by
   decide
+
+/-- The invertible generators M=diag(4,7) and U of the nonreduced subgroup. -/
+def z9Generators : Fin 2 → GL (Fin 2) (ZMod 9) :=
+  ![controlMatrixUnit (z9Family 1 0) (z9Family 2 0) (by decide) (by decide),
+    controlMatrixUnit (z9Family 0 1) (z9Family 0 (-1)) (by decide) (by decide)]
+
+/-- The actual subgroup generated by M and U. -/
+def z9Subgroup : Subgroup (GL (Fin 2) (ZMod 9)) :=
+  Subgroup.closure (Set.range z9Generators)
+
+/-- Every subgroup element has the repeated-root polynomial, but the subgroup
+representation fails determinant-ordinarity for the two trivial characters. -/
+example :
+    (∀ g : z9Subgroup, (g.val : Matrix (Fin 2) (Fin 2) (ZMod 9)).charpoly =
+      (Polynomial.X - 1) ^ 2) ∧
+    ¬ IsDetOrdinary z9Subgroup.subtype (fun _ : Fin 2 => 1) := by
+  sorry
 
 end NonreducedControl
 
