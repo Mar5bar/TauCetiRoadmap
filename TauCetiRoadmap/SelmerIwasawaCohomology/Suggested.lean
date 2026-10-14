@@ -1192,6 +1192,19 @@ theorem congruentLocalKummerImage_two_ncard (n : ℤ) (hn : Squarefree n) :
     (congruentLocalKummerImage 2 n).ncard =
       if 2 ∣ n then 1 else if n % 8 = 1 ∨ n % 8 = 7 then 4 else 2 := sorry
 
+/-- §4.29: the image for `n = 1` at `2` has four square classes. -/
+example : (congruentLocalKummerImage 2 1).ncard = 4 := sorry
+
+/-- §4.29: the images for `n = 5` at `2` and `5` each have two square classes. -/
+example : letI : Fact (Nat.Prime 5) := ⟨by decide⟩
+    (congruentLocalKummerImage 2 5).ncard = 2 ∧
+    (congruentLocalKummerImage 5 5).ncard = 2 := sorry
+
+/-- §4.29: the images for `n = 3` at `3` and for `n = 6` at `2` and `3` are trivial. -/
+example : (congruentLocalKummerImage 3 3).ncard = 1 ∧
+    (congruentLocalKummerImage 2 6).ncard = 1 ∧
+    (congruentLocalKummerImage 3 6).ncard = 1 := sorry
+
 end CongruentNumber
 
 /-- §4.29: the odd parts `c₄′ = 3` and `75` of the two root-number witnesses `n = 1, 5` differ

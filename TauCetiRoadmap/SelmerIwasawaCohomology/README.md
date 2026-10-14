@@ -227,7 +227,13 @@ Prove this as follows. Take finite power quotients (`TauCeti.finiteIndex_range_p
 
 (Rubin (1999 draft), Appendix B, §2, Proposition 2.7, printed p. 153 (PDF p. 163).)
 
-For global F, F^×/(F^×)^n is infinite; this is why the global limit is not profinite.
+For a number field F and n≥2, F^×/(F^×)^n is infinite; for n=1 it is trivial. Thus the full global p-power quotient tower is not a tower of finite groups.
+
+**Checks.**
+
+- For F=ℚ and n=1 the power-class quotient is the trivial group, of cardinality one.
+- For F=ℚ and n≥2, distinct rational primes give distinct power classes, as their valuations differ modulo n.
+- For finite K/ℚ_ℓ the finite discrete p-power quotients give a compact inverse limit, and the compatible finite-level Kummer inverses induce its continuous inverse comparison.
 
 *Needs:* Tau Ceti `TauCeti.powerClassQuotient`; TauCetiRoadmap.LocalFieldsRamification Layer 1; TauCetiRoadmap.ProfiniteCohomology Layer 9.
 
@@ -632,7 +638,7 @@ The named operations and identities are:
 
 - Forward propagation of ⊤ along a surjection is ⊤.
 - Backward propagation of ⊥ is the kernel.
-- Propagation along g ∘ h is propagation along h then g.
+- Forward propagation along g∘h applies h then g; backward propagation applies g then h: (g∘h)⁻¹(L)=h⁻¹(g⁻¹(L)).
 
 Mazur–Rubin propagate by image to T/IT and by inverse image to T[I].
 
@@ -667,7 +673,6 @@ The named operations and identities are:
 - `unramified` — ker(res to inertia).
 - `unramified_eq_range_inflation` — For a profinite decomposition group G_v, closed normal inertia I_v and continuous discrete, compact finite-type or rational coefficients B, the kernel of the actual restriction map equals the range of inflation from H¹(G_v/I_v,B^{I_v}). The discrete prototype uses the pinned `TauCeti.ContCohomology.explicitRes1` and `explicitInfl1`, with `explicitInfRes_exact`; the compact/rational comparison uses ArithmeticGaloisDuality §R02.2.3. Mathlib `LinearMap.exact_iff` supplies the algebraic range/kernel conversion.
 - `unramified_equiv_coinvariants` — ≅ B^{I}/(Fr − 1)B^{I}.
-- `greenberg_zero` — The Greenberg condition with F^+ = 0.
 
 **Checks.**
 
@@ -859,7 +864,6 @@ The named operations and identities are:
 - `SelmerStructure.dual_dual` — F^{**} = F; on the algebraic datum, `SelmerData.dualCond_dualCond` for finite local modules.
 - `SelmerStructure.dual_modify` — (F^b_a)^* = (F^*)^a_b: strict at a ↔ relaxed at a (Mazur–Rubin, Definition 2.3); on the algebraic datum, `SelmerData.dualCond_relax`.
 - `SelmerStructure.dual_induced` — With T^*=Hom_O(T,E/O)(1), the structure induced on T/IT is dual to the one induced on T^*[I]; use the O-linear pairing into E/O throughout.
-- `SelmerStructure.rubin_dual` — Rubin's S^Σ(K, W_M) and S_Σ(K, W^*_M) are the Selmer modules of dual structures (§2.17).
 
 **Checks.**
 
@@ -927,7 +931,9 @@ Prove this as follows. §1.2: ⟨φ(c), d⟩ = ⟨c, φ^*(d)⟩. By §2.16 (or t
 
 At ℓ = p nothing is claimed without the chosen orthogonal pair; that Bloch–Kato's subspaces for de Rham V are such a pair (Rubin, Remark 7.1) is §4.9.
 
-*Needs:* §2.16 (Local duality for the finite condition on V); §1.1 (Perfect pairings and dual local conditions); §1.2 (Compatibility of the local pairings for T, V, W and W_M); §2.15 (Finite against unramified classes at bad primes); §2.6 (From V to T and W; saturation); ArithmeticGaloisDuality §R02.4.2 (*Unramified classes are exact annihilators*).
+- `SelmerStructure.rubin_dual` — Rubin's S^Σ(K, W_M) and S_Σ(K, W^*_M) are the Selmer modules of dual structures under these exact-annihilator hypotheses.
+
+*Needs:* §2.16 (Local duality for the finite condition on V); §1.1 (Perfect pairings and dual local conditions); §1.2 (Compatibility of the local pairings for T, V, W and W_M); §2.15 (Finite against unramified classes at bad primes); §2.6 (From V to T and W; saturation); §2.13 (Dual Selmer structures); ArithmeticGaloisDuality §R02.4.2 (*Unramified classes are exact annihilators*).
 
 ### 2.18 Selmer groups of T and W as limits
 
@@ -1788,6 +1794,7 @@ The named operations and identities are:
 - The zero module satisfies both predicates in every interval.
 - ℤ/p^m(1) is a quotient of the lattices p^mℤ_p(1)⊆ℤ_p(1) and is crystalline in an interval containing −1.
 - The trivial ℤ/p module in [0,0] is nonzero and crystalline, although its tensor over ℤ_p with B_cris is zero; rational period tensors cannot define the torsion predicate.
+- For K=ℚ₃, μ₃ is not torsion crystalline in [0,0]: weight-zero crystalline lattice quotients are unramified by the weight-zero realization of §4.7, whereas inertia acts nontrivially on μ₃. Indeed, Φ₃(1+X)=X²+3X+3 is Eisenstein, so ℚ₃(μ₃)/ℚ₃ is ramified. Thus ℤ₃(1) is not integral crystalline in [0,0], already by its mod-3 reduction. Both μ₃ and every finite reduction of ℤ₃(1) rationalize to zero, so a rational-period-only predicate incorrectly accepts them.
 
 *Needs:* §4.5 (Crystalline and de Rham realization data).
 
@@ -2273,9 +2280,9 @@ Prove this as follows. Local Tate duality for V (ArithmeticGaloisDuality Layer R
 
 **Elliptic tangent, exponential and descent comparison.** For every finite K/ℚ_p and elliptic curve E/K, with V = V_pE in the homological convention, prove `elliptic_dDeRham_tangent`: V is de Rham and D_dR(V)/Fil⁰ ≃ Lie(E/K), functorially in E and under finite extensions of K. Prove `elliptic_exponential_kummer`: on a sufficiently small open lattice in Lie(E/K), the Bloch–Kato exponential of §4.3 equals the rational Kummer map composed with the formal-group exponential; after rationalizing the p-adic completion of E(K), the logarithm is the inverse tangent identification. Prove D_cris(V)^{φ=1} = 0, so H¹_e(K,V) = H¹_f(K,V). Prove `elliptic_local_comparison_descent`: these maps and equality of Kummer and finite images descend through every finite Galois L/K, including ramified and p-power degree extensions, by restriction/invariants and corestriction/trace over ℚ_p.
 
-Use NeronModelsAndSemistableAbelianVarieties §5.3 (`AbelianVariety.deRham`, `PadicComparison`, finite-extension descent), §§3.10, 3.13–3.14 (potential semistability and full Raynaud 1-motive), and AbelianSchemesAndArithmeticModuli §A4.3 (degree-one de Rham and vector-extension comparison). Their crystalline and de Rham statements concern the carriers `dCris`, `dDeRham`, `IsCrystalline` and `IsDeRham` of §4.5, which that supplier consumes; only the homological Tate-module convention is matched here. Over a semistable splitting field, apply the semi-abelian logarithm and period-boundary calculation of Bloch–Kato Example 3.10 to the Raynaud uniformization, including the lattice contribution, to obtain the tangent and exponential diagram of Example 3.11. The φ-fixed crystalline subspace vanishes: the toric part has nonunit Frobenius eigenvalues, the abelian part has no eigenvalue one by the Weil bounds, and the uniformizing lattice contributes through monodromy rather than a φ-fixed vector in ker N. This gives H_e = H_f by the fundamental sequence. Descent uses the supplied de Rham descent and finite-group cohomology of ℚ_p-spaces; averaging is available even for p-power degree, and rationalized Kummer images descend by restriction/corestriction. No good-reduction, unramified-base or small-weight assumption is imposed.
+Use NeronModelsAndSemistableAbelianVarieties §5.3 (`AbelianVariety.deRham`, `PadicComparison`, finite-extension descent), §§3.10, 3.13–3.14 (potential semistability and full Raynaud 1-motive), and AbelianSchemesAndArithmeticModuli §A4.3 (degree-one de Rham and vector-extension comparison). Their crystalline and de Rham statements concern the carriers `dCris`, `dDeRham`, `IsCrystalline` and `IsDeRham` of §4.5, which that supplier consumes; only the homological Tate-module convention is matched here. Over a semistable splitting field, apply the semi-abelian logarithm and period-boundary calculation of Bloch–Kato Example 3.10.1, diagram (3.10.2), pp. 359–360, to the Raynaud uniformization, including the lattice contribution, to obtain the tangent and exponential diagram of Example 3.11. The φ-fixed crystalline subspace vanishes: the toric part has nonunit Frobenius eigenvalues, the abelian part has no eigenvalue one by the Weil bounds, and the uniformizing lattice contributes through monodromy rather than a φ-fixed vector in ker N. This gives H_e = H_f by the fundamental sequence. Descent uses the supplied de Rham descent and finite-group cohomology of ℚ_p-spaces; averaging is available even for p-power degree, and rationalized Kummer images descend by restriction/corestriction. No good-reduction, unramified-base or small-weight assumption is imposed.
 
-(Bloch–Kato, Examples 3.10–3.11 and diagram (3.11.1), printed pp. 359–361; NeronModelsAndSemistableAbelianVarieties §5.3, Coleman–Iovita comparison and Fontaine finite-extension descent locators.)
+(Bloch–Kato, Examples 3.10.1 and 3.11, diagrams (3.10.2) and (3.11.1), printed pp. 359–361; NeronModelsAndSemistableAbelianVarieties §5.3, Coleman–Iovita comparison and Fontaine finite-extension descent locators.)
 
 **Checks.**
 
@@ -2418,7 +2425,7 @@ Apply `selmerFamily_baseChange` and `selmerParity_perfectComplex` at each point.
 
 **Parity under an odd-degree abelian extension.** Let E′/E be a finite abelian extension of odd degree n with character group A, with S containing its ramification. Let V be a finite-dimensional representation over a field 𝒦 of characteristic zero (V_P above, or a representation over a finite extension of ℚ_p) with a nondegenerate equivariant skew pairing V ⊗ V → 𝒦(1), stable subspaces V_v^+ at v | p equal to their orthogonals, and the strict ordinary and unramified local-condition complexes of this subsection with their Shapiro compatibility. For every α ∈ A assume the degree-three duality of §1.4 between RΓ_f(E, V ⊗ α) and RΓ_f(E, V ⊗ α^{−1}), with the strict ordinary adjoints of §1.5; over a characteristic-zero coefficient field the unramified errors at w ∤ p vanish (Nekovář §7.8.4.5). Assume H⁰(E′, V) = 0. Prove `selmerParity_oddAbelian`: h¹_f(E, V ⊗ α) = h¹_f(E, V ⊗ α^{−1}) for every α ∈ A, and h¹_f(E′, V) ≡ h¹_f(E, V) (mod 2).
 
-Prove this as follows. Let 𝒦′ = 𝒦(μ_n), so that every α ∈ A takes values in 𝒦′^×. Continuous cochains commute with the finite flat extension 𝒦 → 𝒦′, so each dimension over 𝒦 equals the corresponding dimension over 𝒦′; no condition on n beyond oddness is used. Over 𝒦′, Shapiro's lemma and the character decomposition give RΓ_f(E′, V) ⊗ 𝒦′ ≃ ⊕_{α∈A} C_α with C_α = RΓ_f(E, V ⊗ α). Also H⁰(E′, V) ⊗ 𝒦′ = ⊕_{α∈A} H⁰(E, V ⊗ α), so every H⁰(E, V ⊗ α) vanishes. Hence H⁰(C_α) = 0, through the injection H⁰(C_α) ↪ H⁰(E, V ⊗ α), and H³(C_α) ≅ H⁰(C_{α^{−1}})^∨ = 0 by duality. Since p is odd, G_{E,S} and every G_v have p-cohomological dimension two, so C_α has amplitude [0,3]. The Euler characteristic formula for these local conditions gives
+Prove this as follows. Let 𝒦′ = 𝒦(μ_n), so that every α ∈ A takes values in 𝒦′^×. Continuous cochains commute with the finite flat extension 𝒦 → 𝒦′, so each dimension over 𝒦 equals the corresponding dimension over 𝒦′; no condition on n beyond oddness is used. Over 𝒦′, Shapiro's lemma and the character decomposition give RΓ_f(E′, V) ⊗ 𝒦′ ≃ ⊕_{α∈A} C_α with C_α = RΓ_f(E, V ⊗ α). Also H⁰(E′, V) ⊗ 𝒦′ = ⊕_{α∈A} H⁰(E, V ⊗ α), so every H⁰(E, V ⊗ α) vanishes. Hence H⁰(C_α) = 0, through the injection H⁰(C_α) ↪ H⁰(E, V ⊗ α), and H³(C_α) ≅ H⁰(C_{α^{−1}})^∨ = 0 by duality. Since p is odd, G_{E,S} and every G_v have p-cohomological dimension at most two; the archimedean groups have odd-p cohomological dimension zero. Thus C_α has amplitude [0,3]. The Euler characteristic formula for these local conditions gives
 
 ```text
 χ(C_α) = Σ_{v|∞} dim (V ⊗ α)^{G_v} − Σ_{v|p} [E_v : ℚ_p] dim V_v^+.
@@ -2430,6 +2437,7 @@ An odd-order α is trivial on every real decomposition group. Each complex conju
 
 **Checks.**
 
+- At a complex place G_v=1, and at a real place G_v=C₂. For odd p both have p-cohomological dimension zero: higher cohomology vanishes, while ordinary H⁰ can be nonzero. This preserves the amplitude bound without discarding the archimedean H⁰ Euler terms.
 - The degree-three dual pair C_α = 𝒦′ in degrees 0 and 1 and C_{α^{−1}} = 𝒦′ in degrees 2 and 3, with zero differentials, has Euler characteristic zero on both sides but h¹ equal to 1 and 0. Duality and the Euler characteristic give only h¹(C_α) − h¹(C_{α^{−1}}) = h⁰(C_α) − h⁰(C_{α^{−1}}), so the H⁰ hypothesis cannot be dropped.
 - E = ℚ, p odd, α a cubic character of prime conductor ℓ ≠ p, 𝒦 ⊇ μ₃, V = 𝒦(α^{−1}) ⊕ 𝒦(α)(1) with the hyperbolic skew pairing and V_p^+ = 𝒦(α^{−1}). Then H⁰(ℚ, V) = 0 but V ⊗ α has the trivial line inside its ordinary summand. So h⁰(C_α) = 1, h⁰(C_{α^{−1}}) = 0, and h¹_f(ℚ, V ⊗ α) = h¹_f(ℚ, V ⊗ α^{−1}) + 1. Thus h¹_f(E′, V) − h¹_f(ℚ, V) is odd: H⁰-vanishing for the untwisted V does not suffice, and here H⁰(E′, V) ≠ 0.
 - If V is simple, H⁰(E′, V) = 0 holds automatically. A nonzero V^{G_{E′}} would be G_E-stable, hence all of V, with G_E acting through a finite quotient, which the pairing into 𝒦(1) excludes. For E′/E cyclic cubic this gives h¹_f(E′, V) ≡ h¹_f(E, V) (mod 2), computed over 𝒦(μ₃) even when 𝒦 does not contain μ₃.
