@@ -107,6 +107,14 @@ example : splitOneGonEquation.Δ = 0 := by
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 
+/-- In characteristic two the one-gon tangent cone has two distinct linear factors. -/
+example :
+    let W := splitOneGonEquation.map (Int.castRingHom (ZMod 2))
+    let x : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) (ZMod 2) := MvPolynomial.X 1
+    y ^ 2 + W.a₁ • (x * y) - W.a₂ • x ^ 2 = y * (y + x) ∧ y ≠ y + x := by
+  sorry
+
 /-! ## Layer 3: integral level stacks and the open comparison -/
 
 /-- Exponents of the basis of the fibre of the proper Tate power map at a node.
@@ -122,6 +130,10 @@ example : (nodePowerFibreMonomials 1).card = 1 := by decide
 example : nodePowerFibreMonomials 2 = {(0, 0), (1, 0), (0, 1)} ∧
     (nodePowerFibreMonomials 2).card = 3 := by decide
 
+
+/-- The cube-map fibre has length five; the mixed monomial xy is excluded. -/
+example : (nodePowerFibreMonomials 3).card = 5 ∧ (1, 1) ∉ nodePowerFibreMonomials 3 := by
+  decide
 
 /-- Node-fibre length for positive power; no zero-power isogeny is asserted. -/
 theorem nodePowerFibreMonomials_card (m : ℕ) (hm : 0 < m) :
@@ -147,6 +159,9 @@ example : degeneracyDegree 11 2 = 3 := by decide
 
 /-- Test `degree_degeneracy_dvd`: N=10, p=5. -/
 example : degeneracyDegree 10 5 = 5 := by decide
+
+/-- At level one the good-prime degree for p=2 is three. -/
+example : degeneracyDegree 1 2 = 3 := by decide
 
 /-- HNF branches of the all-subgroup correspondence, with ad=m and b<d. -/
 def allSubgroupBranches (m : ℕ) : Finset (ℕ × ℕ × ℕ) :=
@@ -180,6 +195,14 @@ example : (allSubgroupBranches 4).card = 7 ∧ (cyclicSubgroupBranches 4).card =
 example : (2, 2, 0) ∈ allSubgroupBranches 4 ∧ (2, 2, 0) ∉ cyclicSubgroupBranches 4 := by
   decide
 
+/-- At m=9 the scalar branch makes full degree thirteen differ from cyclic degree twelve. -/
+example : (allSubgroupBranches 9).card = 13 ∧ (cyclicSubgroupBranches 9).card = 12 := by
+  native_decide
+
+/-- At squarefree m=6 every HNF branch is cyclic. -/
+example : (allSubgroupBranches 6).card = 12 ∧ (cyclicSubgroupBranches 6).card = 12 := by
+  native_decide
+
 /-- The analytic Fricke map is the Möbius action of Tau Ceti's Fricke matrix
 `[[0, -1], [N, 0]]`, of determinant `N > 0`: on `ℍ` it is `τ ↦ -1/(Nτ)`. No separate
 complex formula is introduced; `N = 0` has no Fricke matrix. -/
@@ -198,6 +221,11 @@ example : ((TauCeti.frickeGL ℝ 1 • (⟨2 * Complex.I, by simp⟩ : UpperHalf
     UpperHalfPlane) : ℂ) = Complex.I / 2 := by
   sorry
 
+
+/-- Fricke at level two sends i to i/2. -/
+example : ((TauCeti.frickeGL ℝ 2 • (⟨Complex.I, by simp⟩ : UpperHalfPlane) :
+    UpperHalfPlane) : ℂ) = Complex.I / 2 := by
+  sorry
 
 /-- The exact divisors of 12 are 1,3,4,12, excluding 2 and 6. -/
 example :
@@ -221,6 +249,12 @@ theorem splitCartanRamificationIndex_eq (k : ℕ) :
 /-- Level 13: the extension has ramification index 84 (BDMTV Corollary 6.7). -/
 example : splitCartanRamificationIndex 13 = 84 := by decide
 
+/-- The level-37 extension has ramification index 684. -/
+example : splitCartanRamificationIndex 37 = 684 := by decide
+
+/-- The level-61 extension has ramification index 1860. -/
+example : splitCartanRamificationIndex 61 = 1860 := by decide
+
 /-- Arithmetic genus of the stated normalizer fibre: component genera plus b₁(K_(k,3)).
 Its geometric interpretation requires ℓ=12k+1 prime and k≥1 (BDMTV Theorem 6.6, p.929). -/
 def splitCartanFibreGenus (k : ℕ) : ℕ :=
@@ -236,6 +270,9 @@ example : splitCartanFibreGenus 1 = 3 := by decide
 
 /-- For ℓ=37 four graph cycles contribute to genus 45. -/
 example : splitCartanFibreGenus 3 = 45 := by decide
+
+/-- At k=5 the normalizer fibre has arithmetic genus 135. -/
+example : splitCartanFibreGenus 5 = 135 := by decide
 
 /-! ## Layer 14: cohomological realizations and parabolic lattices -/
 
@@ -256,6 +293,14 @@ example {R : Type} {G M : Type*} [CommRing R] [Group G] [AddCommGroup M] [Module
     (ρ : Representation R G M) (g : G) (m : Fin 1 → M) :
     weightCoefficients ρ 3 (by decide) g (⨂ₛ[R] i, m i) = ⨂ₛ[R] i, ρ g (m i) := sorry
 
+
+/-- Weight three detects the unipotent action sending the second basis vector to their sum. -/
+example {G : Type*} [Group G] (ρ : Representation ℚ G (Fin 2 → ℚ)) (g : G)
+    (hg : ρ g = Matrix.toLin' !![(1 : ℚ), 1; 0, 1]) :
+    weightCoefficients ρ 3 (by decide) g
+      (⨂ₛ[ℚ] i, (fun _ : Fin 1 => (![0, 1] : Fin 2 → ℚ)) i) =
+      ⨂ₛ[ℚ] i, (fun _ : Fin 1 => (![1, 1] : Fin 2 → ℚ)) i := by
+  sorry
 
 section Parabolic
 variable {R C H : Type*} [CommRing R]
@@ -283,6 +328,16 @@ variable {R H H' : Type*} [CommRing R]
 
 /-- Sum of the two actual geometric pullbacks, once their cohomological maps are supplied. -/
 def degeneracyH1 (a b : H →ₗ[R] H') : H × H →ₗ[R] H' := a.coprod b
+/-- Two zero degeneracy legs induce the zero map. -/
+example : degeneracyH1 (0 : H →ₗ[R] H') 0 = 0 := by
+  sorry
+
+/-- A common postcomposition commutes with the sum of the two legs. -/
+example {H'' : Type*} [AddCommGroup H''] [Module R H'']
+    (a b : H →ₗ[R] H') (c : H' →ₗ[R] H'') :
+    degeneracyH1 (c.comp a) (c.comp b) = c.comp (degeneracyH1 a b) := by
+  sorry
+
 end Degeneracy
 
 /-- Pin the ordering of the first and second legs. -/
@@ -307,6 +362,29 @@ example (N q : ℕ) (hN : 0 < N) :
     IsCongruenceCharacter N q 0 := by
   exact ⟨N, hN, dvd_refl N, by simp⟩
 
+/-- A congruence-character witness survives refinement to a divisible positive level. -/
+example (N q M M' : ℕ)
+    (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q))
+    (hM : 0 < M) (hM' : 0 < M') (hNM : N ∣ M) (hMM' : M ∣ M')
+    (hψ : ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M →
+      ψ (Additive.ofMul g) = 0) :
+    0 < M' ∧ N ∣ M' ∧
+      ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M' →
+        ψ (Additive.ofMul g) = 0 := by
+  sorry
+
+/-- The sum of two congruence characters vanishes at the lcm of their witness levels. -/
+example (N q M₁ M₂ : ℕ)
+    (ψ φ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q))
+    (hM₁ : 0 < M₁) (hM₂ : 0 < M₂) (hN₁ : N ∣ M₁) (hN₂ : N ∣ M₂)
+    (hψ : ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M₁ →
+      ψ (Additive.ofMul g) = 0)
+    (hφ : ∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma M₂ →
+      φ (Additive.ofMul g) = 0) :
+    (∀ g : CongruenceSubgroup.Gamma N, g.val ∈ CongruenceSubgroup.Gamma (Nat.lcm M₁ M₂) →
+      (ψ + φ) (Additive.ofMul g) = 0) ∧ IsCongruenceCharacter N q (ψ + φ) := by
+  sorry
+
 /-- A finite codomain does not force an ordinary character to be congruence.
 CDT Theorem 4.5.2 and the genus-zero four-cusp quotient Γ(3) give this negative control. -/
 example : ∃ ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma 3)) (ZMod 5),
@@ -323,6 +401,12 @@ example : heckePrime (Int.castRingHom ℚ) = ⊥ := by sorry
 
 /-- A product character selects the first factor and kills the second. -/
 example (x y : ℚ) : (x, y) ∈ heckePrime (RingHom.fst ℚ ℚ) ↔ x = 0 := by sorry
+
+/-- An injective coefficient-field homomorphism preserves the Hecke-character kernel. -/
+example {T K K' : Type*} [CommRing T] [Field K] [Field K']
+    (χ : T →+* K) (ι : K →+* K') (hι : Function.Injective ι) :
+    heckePrime (ι.comp χ) = heckePrime χ := by
+  sorry
 
 /-! ## Layer 17: bad-prime and Taylor–Wiles interfaces -/
 
@@ -356,6 +440,11 @@ theorem taylorWilesMinus_projector_range (ξ : M →ₗ[O] M)
 
 /-- Negation acts as minus on the whole module. -/
 example : taylorWilesMinus (-LinearMap.id : M →ₗ[O] M) = ⊤ := by sorry
+/-- When two is a unit, identity has zero minus eigenspace. -/
+example (u : Oˣ) (hu : (u : O) = 2) :
+    taylorWilesMinus (LinearMap.id : M →ₗ[O] M) = ⊥ := by
+  sorry
+
 end Minus
 
 /-- The swap involution has minus vectors (x,-x). -/
@@ -428,6 +517,16 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * The finite Taylor–Wiles modular cover
 
 The additional interfaces specified in the README are:
+* §0.2: finiteInvariantModule_completion, regularInvariants_freeness and
+  tameInertiaIdeal_cotangent for the local invariant ring and its finite module.
+* §1.4a: latticeSigma, latticeQuasiPeriod, latticeSigma_quasiPeriod and
+  latticeQuasiPeriod_legendre on the native period lattice.
+* §2.11: generalizedTorsionDecontraction for the smooth-locus-preserving polygon lift.
+* §2.10a: generalizedTorsionTransport before generalized generator ranks and level maps.
+* §7.1a (R12.5): kodairaSpencer_normalization on the fine curve with its universal family.
+* §11.2: cyclicIsogenyDeformationRing with its source/target coordinates.
+* §13.5: jacobianTateModule_trace after jacobianTateModule_kummer.
+* §14.9a: modularOpenFiniteGraph for the noncompact torsion-free quotient.
 * §9.1: degeneracyDegree_coprime, degeneracyDegree_dvd.
 * §14.1: weightCoefficients_fibre, weightCoefficients_isogeny,
   weightCoefficients_compare, on the geometric relative coefficient systems.

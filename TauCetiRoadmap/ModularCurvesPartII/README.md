@@ -14,11 +14,11 @@ The new generalized elliptic, full-level, fixed-pairing, composite-level and lev
 
 The generalized elliptic curve itself is imported, not defined here. AdicSpacesPartIII Layer R2.11 owns the carrier `GeneralisedEllipticCurve`, the standard polygons `EllipticModuli.nGon`, the n-gon Tate family `GeneralisedEllipticCurve.tateCurve` and, on its representable range (full level N≥3 over ℤ[1/N], cyclic level with an invertible factor d≥5), the fine compactified moduli scheme `GeneralisedEllipticCurve.moduli` with its universal curve and level. This roadmap proves Deligne–Rapoport's description of that carrier and builds on it the integral theory over ℤ at every level: stacks with inertia, contractions, Drinfeld structures in bad characteristic and the refined Γ₀ problem. Likewise the lattice uniformization of complex abelian varieties and the genus-one family over the upper half-plane are AbelianSchemesAndArithmeticModuli A5.1 (`AbelianLattice`) and A5.8 (`SiegelFamily`), and the analytic cusp data and cusp ramification of Fuchsian quotients are FuchsianOrbifolds Layers 3–4; Layers 1, 3, 4 and 6 specialize them.
 
-The generic curve Jacobian and Abel–Jacobi construction are supplied by JacobianChallenge Layers D and F. StableReduction supplies nodes, dual graphs, blowups, semistable existence and stabilization (Layers 1–4, 7–9); the new outputs here identify their components, inertia actions, thicknesses and modular operators. ModularForms supplies analytic quotient surfaces (10A), compact surface cohomology (10B), automorphy sections (10C), Hecke algebra and slash operators (2), Petersson theory and oldforms (3), primitive forms and multiplicity one (4–5, 8G), and integral full modular symbols and period quotients (8). The geometric symbol comparison here uses the cuspidal kernel and the coefficient dual, rather than identifying the full symbol module with compact cohomology.
+The generic curve Jacobian, its dimension and principal polarization, and the Abel–Jacobi construction are supplied by JacobianChallenge Layers D, E and F. StableReduction supplies nodes, dual graphs, blowups, semistable existence and stabilization (Layers 1–4, 7–9); the new outputs here identify their components, inertia actions, thicknesses and modular operators. ModularForms supplies analytic quotient surfaces (10A), compact surface cohomology (10B), automorphy sections (10C), Hecke algebra and slash operators (2), Petersson theory and oldforms (3), primitive forms and multiplicity one (4–5, 8G), and integral full modular symbols and period quotients (8). The geometric symbol comparison here uses the cuspidal kernel and the coefficient dual, rather than identifying the full symbol module with compact cohomology.
 
 The generic Bruhat–Tits tree and local SL₂ amalgam are owned by ReductiveGroupsPartII §RG2.2.4; strong approximation is AdelicAlgebraicGroups §4.2, and surjectivity of SL₂(ℤ)→SL₂(ℤ/N) is Tau Ceti's `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`. The arithmetic principal-level fundamental-edge calculation here is the additional target. AlgebraicVectorBundles owns sheaf symmetric powers and pullback; DifferentialGeometry and AlgebraicTopology own general manifold and cohomological duality. None of their general constructions is rebuilt for modular curves.
 
-The construction of eigenform Galois representations, higher-weight Deligne congruences, level lowering, Serre weights, patching, R=T and identification of a modular quotient with a specified elliptic curve belong to the downstream roadmaps named below. A quaternionic character sequence requires the explicitly specified quaternionic geometric input; it is not obtained from a rational old/new isogeny.
+The construction of eigenform Galois representations, higher-weight Deligne congruences, level lowering, Serre weights, patching, R=T and identification of a modular quotient with a specified elliptic curve belong to the downstream roadmaps named below. This roadmap supplies modular character maps and their finite lattice errors. The quaternionic character sequence of Ribet–Stein (3.2) requires a separately owned quaternionic/Cerednik–Drinfeld construction.
 
 ## Conventions
 
@@ -46,7 +46,7 @@ These conventions apply throughout. The letters Z, Q, C and H in formulas denote
 
 **Taylor–Wiles data.** ℓ is odd, Δ_Q is the actual finite abelian ℓ-group of the auxiliary primes, the auxiliary fine level R≥5 is kept at both ends, and ξ=diag(−1,1) acts with the minus eigenspace taken; minus cohomology is free over O[Δ_Q], with no Hecke multiplicity-one claim.
 
-Use X_s(ℓ) for the ordered split-Cartan curve and X_s⁺(ℓ) for the normalizer curve, including in the semistable-model formulas. The source of those formulas writes X_s for the normalizer; here it is always X_s⁺≅X₀(ℓ²)/w_(ℓ²). Write J₁(N)=Pic⁰(X₁(N)) for the point-of-exact-order model with N≥5 over ℤ[1/N].
+Use X_s(ℓ) for the ordered split-Cartan curve and X_s⁺(ℓ) for the monomial split-Cartan curve, including in the semistable-model formulas. For odd ℓ the monomial subgroup is the normalizer of the diagonal Cartan; at ℓ=2 it preserves the unordered coordinate lines and has order 2, whereas the normalizer of the trivial diagonal subgroup is all GL₂(𝔽₂). The source of those formulas writes X_s for the normalizer; here it is always X_s⁺≅X₀(ℓ²)/w_(ℓ²). Write J₁(N)=Pic⁰(X₁(N)) for the point-of-exact-order model with N≥5 over ℤ[1/N].
 
 Every division has its stated range: nonzero periods and positive levels in uniformization, nonzero q on the smooth Tate fibre, p-divisibility before coherent normalization, r! invertible for integral symmetric-power self-duality, and 2 invertible for the minus projector. The nonvanishing and integrality requirements survive specialization.
 
@@ -173,12 +173,12 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 
 ### TauCetiRoadmap FuchsianOrbifolds
 
-- **Layer 2**: Supply finite type of the torsion-free congruence quotient, its finite graph deformation retract and finitely generated free fundamental group, with the exact fine/auxiliary-level hypotheses.
+- **Layer 2**: Supply the finite-sided polygon and cofinite-group presentation. Together with the cusp truncation of Layers 3–4 these are inputs to this roadmap’s `modularOpenFiniteGraph` in §14.9a, which constructs the finite graph retract and the free fundamental group.
 - **Layer 3**, **Layer 4**: Cusp data with their widths and q-coordinates q=exp(2πiσ(z)/w) (Layer 3), and the compactified quotient with the ramification index e=w_{Γ′}/w_Γ of a finite-index inclusion at a cusp (Layer 4, item 4); §§4.8 and 6.2 compare these with the algebraic Tate charts and level maps.
 
 ### TauCetiRoadmap JacobianChallenge
 
-- **Layer D**: Existing field-curve Picard/Jacobian scheme theorem with dimension, principal polarization and field-base change. Use it for each geometric fibre; the relative norm and polarization over a base are targets of §13.1.
+- **Layer D**: The field-curve Picard/Jacobian scheme and its field-base change. **Layer E**: Its dimension and canonical principal polarization from the theta divisor. Use both for each geometric fibre; the relative norm and polarization over a base are targets of §13.1.
 - **Layer F**: Use the supplied generic Abel–Jacobi morphism x↦[x−c], its cotangent/universal property and change-of-base-point formula; this part only specializes the modular rational cusp and quotient composite.
 
 ### TauCetiRoadmap ModularCurves
@@ -211,10 +211,10 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 - **Layer 5B**: Y_full(N) for N≥3 over ℤ[1/N], its determinant to μ_N^{prim} and the fibres Y(N,ζ).
 - **Layer 5C**: Use the paired finite-module symplectic-frame twist Y(ρ), its smooth finite-type quotient/descent, and its conditional geometric-irreducibility theorem. Its three missing comparison contracts are discharged separately in Layer 4, Layer 6.
 - **Layer 5C**: The twisted curve Y(ρ)/ℚ for N≥3 and a symplectic Galois module V_ρ.
-- **Layer 7B**: Use the existing Katz–Mazur ordinary local/deformation-ring and regularity statements at bad primes, with their stated hypotheses; the cyclic-deformation input has this owner.
+- **Layer 7B**: Use the existing Katz–Mazur ordinary local/deformation-ring and regularity statements at bad primes, with their stated hypotheses; this is the local algebra input to the cyclic-isogeny construction of §11.2.
 - **Layer 7E**: Import the existing elliptic PD-3 target: relative Frobenius and Verschiebung in characteristic p with V∘F=[p]=F∘V, together with the PD-1 finite locally free torsion levels and Cartier duality from Layer 2E. Quotients remain the existing Layer 2B interface; these elliptic notions are not new A3 definitions. Additional consuming contract: for the ordinary-locus proof of the special-fibre Eichler–Shimura relation (Conrad, Theorem 5.16), use PD-2 (connected–étale sequence over a henselian local base, giving the connected and étale order-p subgroups of an ordinary curve and of its lifts) and PD-5 (the ordinary/supersingular dichotomy).
 - **Layer 7F**: The universal ordinary elliptic deformation with Serre–Tate parameter and the supersingular one-dimensional deformation, including Frobenius/Verschiebung torsion and Drinfeld-generator conditions. The ModularCurves Layer 7F–7H and Layer 8C outputs supply these deformation calculations.
-- **Layer 7G**: Deformations of elliptic isogenies and their finite-flat kernels on the universal deformation ring; preserve inseparable cases and the chosen source/target local moduli.
+- **Layers 7D–7F**: Formal elliptic deformations and their ordinary/supersingular parameters. **Layer 7G**: The three characteristic-p rigidity calculations. The cyclic pⁿ-isogeny deformation ring and its source/target comparison are this roadmap’s `cyclicIsogenyDeformationRing` in §11.2.
 - **Layer 8B**: Use generator schemes, finite locally free rank φ(N), cyclicity and standard subgroup/quotient identities on ordinary elliptic curves.
 - **Layer 8C**: Import the actual cyclic-generator comparison and its supersingular deformation rings; combine with Layer 7F–7H and the existing rigidifier/representability package. The mixed-level subsection §11.5 supplies only the modular one-factor component calculation.
 - **Layer 8D**: Use the ordinary cyclicity locus and Y₀(N) level functor; boundary extension is the generalized-level construction of Layers 2–4.
@@ -326,7 +326,27 @@ Let A be a Noetherian regular local ring with maximal ideal m and residue field 
 
 All three hypotheses are used; at residue characteristics dividing the order of G the criterion is not asserted, and the wild calculations of §11.4 do not use it.
 
-Establish this as follows. Pass to the completion, which commutes with invariants by flatness. A^G is regular exactly when the finite A^G-module A is free: freeness over a regular ring follows from Auslander–Buchsbaum since A is Cohen–Macaulay of the same dimension, and regularity descends along the faithfully flat A^G→A. With the order of G invertible, the Reynolds operator detects this freeness on the graded cotangent action, where it is the Chevalley–Shephard–Todd theorem: the invariants of the linear action on Sym(m/m²) form a polynomial ring exactly when the group is generated by pseudo-reflections.
+**Finite invariant modules.** Under the hypotheses above, prove `finiteInvariantModule_completion`: B=A^G is Noetherian local, A is a finite B-module, and completion identifies B̂ with (Â)^G and Â with A⊗_B B̂. Prove `regularInvariants_freeness`: B is regular exactly when A is a finite free B-module. Include the local depth/freeness and faithfully flat regularity-descent arguments in this target, for both equal and mixed characteristic.
+
+**Checks.**
+
+- For trivial G the finite module is B itself and the completion comparison is the identity.
+- For A=ℤ_p[[x]] and p odd, x↦−x gives B=ℤ_p[[x²]] and A is free with basis 1,x; mixed characteristic is included.
+- For k[[x,y]] with char k≠2 and simultaneous negation, the singular invariant ring does not make A a free invariant module.
+
+([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), Theorem 1.1.4.1 and its Serre reference [15], Théorème I₅, p.35; the local invariant-module argument is part of this target.)
+
+**Cotangent and inertia comparison.** With the same hypotheses and σ∈G, prove `tameInertiaIdeal_cotangent`: the ideal I_σ=(σ(a)−a : a∈A) is principal, allowing zero, exactly when 1−σ on m/m² has rank at most one. Prove the tame local generation step in Serre’s criterion: B is regular exactly when G is generated by automorphisms with principal I_σ. Carry out this step on the local ring, including the residue-characteristic parameter in mixed characteristic; no identification of the local invariant ring with a polynomial invariant ring is assumed.
+
+**Checks.**
+
+- σ=id gives I_σ=0 and cotangent rank zero.
+- On ℤ_p[[x]] for p odd, σ(x)=−x gives I_σ=(x) and cotangent rank one.
+- On k[[x,y]] in characteristic different from two, simultaneous negation gives I_σ=(x,y), which is not principal and has cotangent rank two.
+
+([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), Theorem 1.1.4.1, Remark 1.1.4.2 and Serre [15], Théorème I₅, p.35.)
+
+Establish the regularity criterion by these finite-module and local inertia comparisons. Tame averaging and Nakayama give the cotangent-to-inertia comparison; Serre’s local invariant-theory argument supplies the generation step. This proof includes the required local algebra instead of assuming a general invariant-theory or homological theorem.
 
 The public interface should expose:
 
@@ -458,6 +478,34 @@ The theorem is `invariantDifferentialsAndPeriods`.
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §1, p.2; §6, Example 6.2, p.14; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, Proposition 3.12, p.47.)
 
+<a id="s1-4a"></a>
+
+### 1.4a Sigma, quasi-periods and the oriented Legendre relation
+
+**Lattice sigma function.** For a native `PeriodPair` L with lattice Λ, construct `latticeSigma` by the canonical product σ(z)=z∏_{λ∈Λ\{0}}(1−z/λ)exp(z/λ+z²/(2λ²)). Prove normal convergence, entire oddness, σ′(0)=1 and simple zeros exactly at Λ. Its logarithmic derivative is meromorphic and its negative derivative agrees with the native ℘ off Λ.
+
+**Checks.**
+
+- σ(0)=0 and σ′(0)=1, fixing the multiplicative constant.
+- σ has no zeros off Λ, so the quotient used in §1.5 is meromorphic with the stated divisor.
+- Changing an integer basis of the same lattice does not change σ.
+
+*Needs:* [§1.2](#s1-2); Mathlib `PeriodPair.weierstrassP`.
+
+([NIST DLMF](https://dlmf.nist.gov/23.2), (23.2.4)–(23.2.8) and the zero/pole description in §23.2(ii).)
+
+**Quasi-period and Legendre comparison.** Construct `latticeQuasiPeriod`: the additive homomorphism η:Λ→ℂ satisfying (σ′/σ)(z+λ)−(σ′/σ)(z)=η(λ) for z∉Λ. For a positive basis ω₁,ω₂, prove `latticeSigma_quasiPeriod`: σ(z+aω₁+bω₂)=(−1)^(a+b+ab)exp(η(aω₁+bω₂)(z+(aω₁+bω₂)/2))σ(z), and `latticeQuasiPeriod_legendre`: η(ω₁)ω₂−η(ω₂)ω₁=2πi. Here a,b∈ℤ and Im(ω₂/ω₁)>0.
+
+**Checks.**
+
+- For either primitive basis period, the sigma multiplier includes a minus sign.
+- Translating by ω₁ then ω₂ in either order agrees because exp(2πi)=1.
+- Reversing the basis reverses the Legendre determinant; the displayed positive sign requires positive orientation.
+
+*Needs:* `latticeSigma`; [§1.4](#s1-4).
+
+([NIST DLMF](https://dlmf.nist.gov/23.2), (23.2.11)–(23.2.17); its generators are half-periods, so η here is twice its quasi-period and the Legendre determinant is 2πi.)
+
 <a id="s1-5"></a>
 
 ### 1.5 The analytic Weil-pairing comparison
@@ -481,7 +529,7 @@ The theorem is `analyticAlgebraicWeilPairing`.
 - The determinant of a changed frame is the pairing exponent.
 - For N=1 the pairing is 1 and the single trivial level is retained.
 
-*Needs:* [§1.2](#s1-2); [§1.4](#s1-4); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
+*Needs:* [§1.4a](#s1-4a); [§1.2](#s1-2); [§1.4](#s1-4); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Proposition 7.16 and its proof, Remark 7.17, p.17; §8, Theorem 8.5 and Remark 8.7, pp.17–19.)
 
@@ -620,7 +668,7 @@ Both the group-action condition and, for the automorphism conclusion, the automo
 
 The divisor version requires D to meet every component.
 
-Establish this as follows. On geometric fibres, the transitive component action and Pic⁰ condition reduce the action to translations on the standard polygon or smooth genus-one curve. Use the section e to rigidify the possible structure and descend the fibrewise translation laws and extending action. For the automorphism conclusion subtract the translation by α(e). The remaining identity-fixing automorphism acting trivially on Pic⁰ is the identity; this fails for inversion if the Pic⁰ hypothesis is omitted.
+Establish this as follows. On geometric fibres, the transitive component action and Pic⁰ condition reduce the action to translations on the standard polygon or smooth genus-one curve. Use the section e to rigidify the possible structure and descend the fibrewise translation laws and extending action. For the automorphism conclusion subtract the translation by α(e). The remaining automorphism fixes e, acts trivially on Pic⁰ and still commutes with G. Its restriction to the identity component is the identity; commutation with the component-transitive G-action then makes it the identity on every component. Over the base use the same fppf translation charts to obtain equality, including nilpotents.
 
 The theorem is `deligneRapoportStructureCriterion`.
 
@@ -628,6 +676,7 @@ The theorem is `deligneRapoportStructureCriterion`.
 
 - For a smooth elliptic curve and G=1, inversion commutes with G but is not translation in characteristic zero.
 - An ample subgroup on the standard polygon recovers its standard group/action.
+- On C₃/ℂ, (u,i)↦(ζ₃^i u,i) fixes e and Pic⁰ but is nonidentity; it fails to commute with translation by (1,1), so the centralizer hypothesis excludes it.
 
 *Needs:* [§2.1](#s2-1); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
 
@@ -699,41 +748,6 @@ The public interface should expose:
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 2.2.4, Corollary 2.2.7 and Definition 2.2.8, pp.10–14.)
 
-<a id="s2-8"></a>
-
-### 2.8 Drinfeld structures on the smooth locus
-
-A Drinfeld A-structure on Eˢᵐ is a homomorphism α:A→Eˢᵐ(S) for which D_α=∑_{a∈A}[α(a)] is a finite locally free subgroup and a relative effective Cartier divisor of rank #A. It is ample when D_α meets every geometric component. A cyclic subgroup of order N is a finite locally free subgroup locally admitting a Drinfeld Z/N-generator; its generator scheme is finite locally free of rank φ(N). For d|N its standard order-d subgroup and cyclic quotients are generator-independent and compatible with base change. These extend the existing MC3C/8B carriers to Eˢᵐ; they are not new definitions of general Drinfeld full sets. Over ℤ[1/d], an ample Drinfeld ℤ/N-generator with an invertible factor d≥5 of N, and over ℤ[1/N] an ample full (ℤ/N)²-structure, are exactly AdicSpacesPartIII's `GeneralisedEllipticCurve.LevelStructure`; the definition here extends them to every base, including residue characteristics dividing N.
-
-Repeated sections and nonétale subgroup divisors are allowed. “Basis” is not an assertion of injectivity on geometric points.
-
-For a full (Z/N)² structure require D_α=Eˢᵐ[N]; the torsion has rank N² only when N divides the polygon count.
-
-Establish this as follows. Apply the imported full-set/divisor definition on the smooth relative curve and use the polygon torsion calculation on degenerate fibres. Use torsion congruences and the extension node below to transfer the generator-scheme and cyclicity results from the ordinary elliptic locus. Check standard subgroup and quotient identities by generator changes; descend using their generator independence.
-
-The public interface should expose:
-
-- `GeneralizedDrinfeldStructure`: α together with the subgroup-divisor equality.
-- `GeneralizedDrinfeldStructure.ample`: The divisor meets every geometric component.
-- `GeneralizedCyclicSubgroup.generators`: The Drinfeld-generator scheme G×.
-- `GeneralizedCyclicSubgroup.standardSubgroup`: The canonical subgroup of each divisor order.
-- `GeneralizedCyclicSubgroup.generators_rank`: G× has finite locally free rank φ(N).
-- `GeneralizedDrinfeldStructure.smoothComparison`: On elliptic families it is exactly the imported level structure.
-- `GeneralizedDrinfeldStructure.levelStructure`: On the range of `GeneralisedEllipticCurve.LevelStructure` the two notions agree.
-
-**Checks.**
-
-- The generator scheme of μ_N is cut out by Φ_N and has rank φ(N).
-- In characteristic p, repeated zero sections may be a valid full set for an infinitesimal p-subgroup.
-- For an elliptic curve in characteristic different from two, E[2] is not cyclic of order four.
-- In characteristic p, μ_p×Z/p may be cyclic in the Drinfeld sense; geometric-point injectivity is not the criterion.
-- The generator locus is a scheme, including its nonreduced fibres.
-- A cyclic subgroup’s standard subgroups are independent of a choice of generator.
-
-*Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
-
-([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §2.3 and Theorem 2.4.5, pp.10–16, using the bad-characteristic argument of Česnavičius §4.2; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.2, pp.29–36.)
-
 <a id="s2-9"></a>
 
 ### 2.9 Algebraization of formal polygon families
@@ -757,30 +771,6 @@ The theorem is `formalPolygonAlgebraization`.
 *Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [§2.5](#s2-5); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.grothendieck_existence`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Corollary 2.2.4, pp.8–9; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 3.4.1, p.25; Theorem 3.4.2 and proof, pp.26–27.)
-
-<a id="s2-10"></a>
-
-### 2.10 Torsion congruences and level extension
-
-The ordinary elliptic Drinfeld full-set and cyclicity results extend to generalized elliptic curves with torsion of the required rank. Locally on the base near an m-gon, when N|m the N-torsion agrees to every specified finite infinitesimal order with that of a suitable elliptic deformation; divisor/full-set identities, generator schemes, standard subgroups and their finite-flat ranks therefore extend across degeneration. In particular full Nm-structures reduce to full N-structures with finite locally free lifting rank |GL₂(Z/Nm)|/|GL₂(Z/N)|, full N-structures forget to ample Γ₁(N)-structures with rank Nφ(N), and cyclic order-N subgroups have finite locally free generator schemes of rank φ(N). When polygon counts differ, use the contraction/decontraction interface rather than an unproved smoothing of a prime-to-characteristic polygon.
-
-N,m≥1. Reduction of levels on a family includes the necessary contraction; an uncontracted N-frame need not be ample.
-
-Rank statements are statements about the relative level functors after the indicated contraction, not merely counts on geometric points.
-
-Establish this as follows. Prove the torsion congruence using the local node deformation and smooth group; it concerns finite torsion and does not need a full Tate uniformization. In the p-power cyclic lifting step, a generator Q at exponent e must first be lifted to a point Q′ with p^(r−e)Q′=Q; it is Q′ that carries the lifted Drinfeld ℤ/pʳ-structure. Apply the ordinary full-set theorems at each finite infinitesimal order, including nilpotent base rings; the infinitesimal lifting of full sets and subgroup divisors is part of this target (Česnavičius Lemma 4.2.1). Use the infinitesimal finite-presentation criterion to descend the closed divisor identities and flatness. Use standard subgroup and quotient identities, then contraction, to pass among polygon counts. Česnavičius’s proof removes the prime-to-characteristic restriction left in the older deformation argument.
-
-The theorem is `torsionCongruencesAndLevelExtension`.
-
-**Checks.**
-
-- The mixed-characteristic case with p dividing the polygon count is included.
-- At N=3, forgetting one vector of a full frame has rank 3φ(3)=6.
-- At prime p, full lifting from level one has rank |GL₂(F_p)|=(p²−1)(p²−p).
-
-*Needs:* [§2.6](#s2-6); [§2.8](#s2-8); [§2.9](#s2-9); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
-
-([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.2.1 and Propositions 4.2.5, 4.2.9, 4.2.11 and 4.2.12, pp.29–35; remark before Proposition 4.2.11, p.33; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 2.4.5, pp.15–16, with the bad-characteristic replacement in Česnavičius §4.2.)
 
 <a id="s2-11"></a>
 
@@ -815,6 +805,95 @@ The public interface should expose:
 *Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [§2.4](#s2-4); [§2.6](#s2-6); [§2.9](#s2-9); `SchemeAndStackFoundations Layer 1`; `SchemeAndStackFoundations Layer 4`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity); [StableReduction Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-3-prestable-semistable-stable-and-pointed-curves).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 3.1.6 and Remark 3.1.7, p.17; Theorem 3.2.4, p.21; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §3.1, pp.18–22.)
+
+**Smooth-locus-preserving torsion decontraction.** For E/S generalized elliptic and N≥1, prove `generalizedTorsionDecontraction`: fppf locally on S there is E′ whose degenerate polygon counts are divisible by N and a contraction E′→E identifying Eˢᵐ with an open subgroup of E′ˢᵐ. Every finite locally free subgroup of Eˢᵐ, together with its section-divisor data, is thereby retained. Construct this from the proper flat surjective polygon-count tower; it uses no Drinfeld generator-rank or level-map theorem.
+
+**Checks.**
+
+- Starting from a one-gon and N=p gives a p-gon decontraction whose smooth group contains the original G_m as an open subgroup, including in characteristic p.
+- At N=1 the original curve already satisfies the divisibility requirement.
+- E′ˢᵐ[N] has rank N², while Eˢᵐ[N] need not; the embedding does not identify the two full torsion groups.
+
+*Needs:* the polygon-count contraction tower of §2.11; [§2.6](#s2-6); [§2.9](#s2-9).
+
+([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Corollary 3.2.6, p.22, and its use in Proposition 4.2.7, p.31.)
+
+<a id="s2-10a"></a>
+
+### 2.10a Torsion congruences and full-set transport
+
+For E/S generalized elliptic and N≥1 dividing every degenerate geometric polygon count, prove `generalizedTorsionTransport`: fppf locally on S there is a smooth elliptic family E′ with Eˢᵐ[N]≅E′[N] as finite locally free group schemes. Transport the ordinary Cartier-divisor full-set identities through this comparison: full-set, subgroup-divisor and cyclic-generator conditions agree in the corresponding smooth one-dimensional ambient groups and descend from the fppf cover. Include nilpotent bases and compatibility with every finite infinitesimal base change. The transport uses the ordinary full-set API and does not assume generalized generator ranks or contraction-compatible level maps.
+
+Establish this as follows. On the elliptic locus take E′=E. Near a degenerate fibre work strictly henselian locally and use the polygon torsion and connected–étale sequence to split Eˢᵐ[N] fppf locally as μ_N×ℤ/N. Lift an ordinary elliptic curve with this split torsion and trivialize its extension fppf locally. Use the ordinary full-set comparison for closed subgroup divisors in smooth relative curves and descend the identities. The torsion isomorphism is an fppf comparison, not a claim that every polygon admits a chosen smooth deformation with the same levels.
+
+**Checks.**
+
+- Over a characteristic-p base with N=p dividing the polygon count, the comparison includes μ_p×ℤ/p and its nonreduced divisor data.
+- If N does not divide the polygon count, Eˢᵐ[N] can have rank N·gcd(N,m)<N², so this comparison does not apply.
+- The comparison holds over nilpotent thickenings, rather than merely identifying torsion on geometric points.
+
+*Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [§2.7](#s2-7); [§2.9](#s2-9); MC3C, MC7E and MC8B (ordinary full sets, connected–étale torsion and cyclic generators).
+
+([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.2.1 and its proof, p.29, and the transfer arguments of Propositions 4.2.5 and 4.2.7, pp.30–31.)
+
+<a id="s2-8"></a>
+
+### 2.8 Drinfeld structures on the smooth locus
+
+A Drinfeld A-structure on Eˢᵐ is a homomorphism α:A→Eˢᵐ(S) for which D_α=∑_{a∈A}[α(a)] is a finite locally free subgroup and a relative effective Cartier divisor of rank #A. It is ample when D_α meets every geometric component. A cyclic subgroup of order N is a finite locally free subgroup locally admitting a Drinfeld Z/N-generator; its generator scheme is finite locally free of rank φ(N). For d|N its standard order-d subgroup and cyclic quotients are generator-independent and compatible with base change. These extend the existing MC3C/8B carriers to Eˢᵐ; they are not new definitions of general Drinfeld full sets. Over ℤ[1/d], an ample Drinfeld ℤ/N-generator with an invertible factor d≥5 of N, and over ℤ[1/N] an ample full (ℤ/N)²-structure, are exactly AdicSpacesPartIII's `GeneralisedEllipticCurve.LevelStructure`; the definition here extends them to every base, including residue characteristics dividing N.
+
+Repeated sections and nonétale subgroup divisors are allowed. “Basis” is not an assertion of injectivity on geometric points.
+
+For a full (Z/N)² structure require D_α=Eˢᵐ[N]; the torsion has rank N² only when N divides the polygon count.
+
+Establish this as follows. Apply the imported full-set/divisor definition on the smooth relative curve and use the polygon torsion calculation on degenerate fibres. Use `generalizedTorsionTransport` of §2.10a to transfer the generator-scheme and cyclicity results from the ordinary elliptic locus. For a cyclic subgroup of rank N, use `generalizedTorsionDecontraction` of §2.11 to embed the smooth group fppf locally in one with torsion of rank N²; prove ranks by fppf descent from the ordinary generator theorem. Check standard subgroup and quotient identities by generator changes; descend using their generator independence.
+
+The public interface should expose:
+
+- `GeneralizedDrinfeldStructure`: α together with the subgroup-divisor equality.
+- `GeneralizedDrinfeldStructure.ample`: The divisor meets every geometric component.
+- `GeneralizedCyclicSubgroup.generators`: The Drinfeld-generator scheme G×.
+- `GeneralizedCyclicSubgroup.standardSubgroup`: The canonical subgroup of each divisor order.
+- `GeneralizedCyclicSubgroup.generators_rank`: G× has finite locally free rank φ(N).
+- `GeneralizedDrinfeldStructure.smoothComparison`: On elliptic families it is exactly the imported level structure.
+- `GeneralizedDrinfeldStructure.levelStructure`: On the range of `GeneralisedEllipticCurve.LevelStructure` the two notions agree.
+
+**Checks.**
+
+- The generator scheme of μ_N is cut out by Φ_N and has rank φ(N).
+- In characteristic p, repeated zero sections may be a valid full set for an infinitesimal p-subgroup.
+- For an elliptic curve in characteristic different from two, E[2] is not cyclic of order four.
+- In characteristic p, μ_p×Z/p may be cyclic in the Drinfeld sense; geometric-point injectivity is not the criterion.
+- The generator locus is a scheme, including its nonreduced fibres.
+- A cyclic subgroup’s standard subgroups are independent of a choice of generator.
+
+*Needs:* [§2.11](#s2-11) (`generalizedTorsionDecontraction`); [§2.10a](#s2-10a); [§2.6](#s2-6); [§2.7](#s2-7); [§2.2](#s2-2); [§2.3](#s2-3); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
+
+([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §2.3 and Theorem 2.4.5, pp.10–16, using the bad-characteristic argument of Česnavičius §4.2; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.2, pp.29–36.)
+
+<a id="s2-10"></a>
+
+### 2.10 Contraction-compatible level extension and ranks
+
+Using the generalized Drinfeld structures and generator ranks of §2.8, prove the contraction-compatible level-map rank statements. In particular full Nm-structures reduce to full N-structures with finite locally free lifting rank |GL₂(Z/Nm)|/|GL₂(Z/N)|, full N-structures forget to ample Γ₁(N)-structures with rank Nφ(N), and cyclic order-N subgroups have finite locally free generator schemes of rank φ(N). When polygon counts differ, use the contraction/decontraction interface rather than an unproved smoothing of a prime-to-characteristic polygon.
+
+N,m≥1. Reduction of levels on a family includes the necessary contraction; an uncontracted N-frame need not be ample.
+
+Rank statements are statements about the relative level functors after the indicated contraction, not merely counts on geometric points.
+
+Establish this as follows. Apply §2.10a’s torsion/full-set transport and §2.8’s generator-scheme theory. In the p-power cyclic lifting step, a generator Q at exponent e must first be lifted to Q′ with p^(r−e)Q′=Q; it is Q′ that carries the lifted Drinfeld ℤ/pʳ-structure. Prove representability, finite flatness and the lifting rank on the ordinary comparison cover, then descend. Use standard subgroup and quotient identities, then contraction, to pass among polygon counts. Česnavičius’s proof removes the prime-to-characteristic restriction left in the older deformation argument.
+
+The theorem is `torsionCongruencesAndLevelExtension`.
+
+**Checks.**
+
+- The mixed-characteristic case with p dividing the polygon count is included.
+- At N=3, forgetting one vector of a full frame has rank 3φ(3)=6.
+- At prime p, full lifting from level one has rank |GL₂(F_p)|=(p²−1)(p²−p).
+
+*Needs:* [§2.10a](#s2-10a); [§2.6](#s2-6); [§2.8](#s2-8); [§2.9](#s2-9); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
+
+([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.2.1 and Propositions 4.2.5, 4.2.9, 4.2.11 and 4.2.12, pp.29–35; remark before Proposition 4.2.11, p.33; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 2.4.5, pp.15–16, with the bad-characteristic replacement in Česnavičius §4.2.)
 
 ### Examples
 
@@ -1060,20 +1139,20 @@ The public interface should expose:
 
 ### 3.8 Open level subgroups and the standard levels
 
-An open level subgroup is an open subgroup H of GL₂(Ẑ). Its level is the least n≥1 with Γ(n)=ker(GL₂(Ẑ)→GL₂(ℤ/n)) contained in H; for any n with Γ(n)⊂H write H̄ for the image of H in GL₂(ℤ/n), so that H↦H̄ is a bijection between open subgroups containing Γ(n) and subgroups of GL₂(ℤ/n), and H̄ for a multiple m of n is the full preimage of H̄ for n. Matrices act on ordered bases on the right, (P,Q)·[[a,b],[c,d]]=(aP+cQ, bP+dQ), as in Tau Ceti ModularCurves Convention 5. The standard levels are the subgroups whose images are: Γ(N), the trivial group; Γ₁(N)={a≡1, c≡0 mod N}, the stabiliser of the first basis vector P; Γ₀(N)={c≡0 mod N}, the stabiliser of the line through P; the level Γ₁^μ(N)={c≡0, d≡1 mod N}, whose structures (P,Q)↦(⟨P⟩, Q mod ⟨P⟩) are the embeddings μ_N↪E[N] given by P′↦e_N(P′,Q); the mixed levels Γ₁(N)∩Γ₀(M) for N|M; for a prime ℓ the split Cartan C_s(ℓ) of diagonal matrices and its normaliser C_s⁺(ℓ) (diagonal or antidiagonal); for an odd prime ℓ and a fixed nonsquare ε∈𝔽_ℓ^× the nonsplit Cartan C_ns(ℓ)={[[a,εb],[b,a]] : (a,b)≠(0,0)}, the image of 𝔽_{ℓ²}^× acting on 𝔽_{ℓ²}=𝔽_ℓ⊕𝔽_ℓ√ε, and its normaliser C_ns⁺(ℓ); C_ns(2) is the cyclic subgroup of order 3 of GL₂(𝔽₂). The invariants of H are its index [GL₂(Ẑ):H]=[GL₂(ℤ/n):H̄], its projective index [GL₂(Ẑ):±H] where ±H is generated by H and −I, its determinant image det(H̄)⊂(ℤ/n)^×, and whether −I∈H. Conjugation by g∈GL₂(Ẑ) sends H to g⁻¹Hg and preserves all four invariants.
+An open level subgroup is an open subgroup H of GL₂(Ẑ). Its level is the least n≥1 with Γ(n)=ker(GL₂(Ẑ)→GL₂(ℤ/n)) contained in H; for any n with Γ(n)⊂H write H̄ for the image of H in GL₂(ℤ/n), so that H↦H̄ is a bijection between open subgroups containing Γ(n) and subgroups of GL₂(ℤ/n), and H̄ for a multiple m of n is the full preimage of H̄ for n. Matrices act on ordered bases on the right, (P,Q)·[[a,b],[c,d]]=(aP+cQ, bP+dQ), as in Tau Ceti ModularCurves Convention 5. The standard levels are the subgroups whose images are: Γ(N), the trivial group; Γ₁(N)={a≡1, c≡0 mod N}, the stabiliser of the first basis vector P; Γ₀(N)={c≡0 mod N}, the stabiliser of the line through P; the level Γ₁^μ(N)={c≡0, d≡1 mod N}, whose structures (P,Q)↦(⟨P⟩, Q mod ⟨P⟩) are the embeddings μ_N↪E[N] given by P′↦e_N(P′,Q); the mixed levels Γ₁(N)∩Γ₀(M) for N|M; for a prime ℓ the split Cartan C_s(ℓ) of diagonal matrices and C_s⁺(ℓ) of diagonal or antidiagonal matrices (the monomial subgroup); for an odd prime ℓ and a fixed nonsquare ε∈𝔽_ℓ^× the nonsplit Cartan C_ns(ℓ)={[[a,εb],[b,a]] : (a,b)≠(0,0)}, the image of 𝔽_{ℓ²}^× acting on 𝔽_{ℓ²}=𝔽_ℓ⊕𝔽_ℓ√ε, and its normaliser C_ns⁺(ℓ); C_ns(2) is the cyclic subgroup of order 3 of GL₂(𝔽₂). The invariants of H are its index [GL₂(Ẑ):H]=[GL₂(ℤ/n):H̄], its projective index [GL₂(Ẑ):±H] where ±H is generated by H and −I, its determinant image det(H̄)⊂(ℤ/n)^×, and whether −I∈H. Conjugation by g∈GL₂(Ẑ) sends H to g⁻¹Hg and preserves all four invariants.
 
 n≥1 with Γ(n)⊂H; the nonsplit Cartan needs ℓ odd and ε a nonsquare, or ℓ=2.
 
 The right-action convention is fixed once; the left action on column vectors of Česnavičius and Zywina gives the same subgroups because g acts on the frame φ:(ℤ/n)²→E[n] by φ↦φ∘g.
 
-Establish this as follows. Define each standard level by entry conditions in GL₂(ℤ/n); closure under products and inverses follows from the 2×2 product and adjugate formulas. Define C_s⁺(ℓ) and C_ns⁺(ℓ) as the normalisers in GL₂(𝔽_ℓ) of C_s(ℓ) and C_ns(ℓ); each Cartan has index 2 in its normaliser for ℓ odd. Compute orders from |GL₂(𝔽_ℓ)|=(ℓ²−1)(ℓ²−ℓ): |Γ₀(ℓ)‾|=ℓ(ℓ−1)², |C_s(ℓ)|=(ℓ−1)², |C_ns(ℓ)|=ℓ²−1, and for general N the indices [GL₂:Γ₀(N)]=ψ(N)=N∏_{p|N}(1+1/p) and [GL₂:Γ₁(N)]=φ(N)ψ(N). The projective index is the index when −I∈H̄ and half the index otherwise; −I∉Γ₁(N)‾ and −I∉Γ(N)‾ for N≥3.
+Establish this as follows. Define each standard level by entry conditions in GL₂(ℤ/n); closure under products and inverses follows from the 2×2 product and adjugate formulas. Define C_s⁺(ℓ) as the stabilizer of the unordered coordinate lines, equivalently the normalizer of the split Cartan algebra. For odd ℓ this is the normalizer of C_s(ℓ); at ℓ=2 it has order 2 and is strictly smaller than the normalizer GL₂(𝔽₂) of C_s(2)={I}. Define C_ns⁺(ℓ) as the normalizer of C_ns(ℓ); at ℓ=2 the order-3 Cartan has normalizer GL₂(𝔽₂). Each Cartan has index 2 in its chosen plus subgroup. Compute orders from |GL₂(𝔽_ℓ)|=(ℓ²−1)(ℓ²−ℓ): |Γ₀(ℓ)‾|=ℓ(ℓ−1)², |C_s(ℓ)|=(ℓ−1)², |C_ns(ℓ)|=ℓ²−1, and for general N the indices [GL₂:Γ₀(N)]=ψ(N)=N∏_{p|N}(1+1/p) and [GL₂:Γ₁(N)]=φ(N)ψ(N). The projective index is the index when −I∈H̄ and half the index otherwise; −I∉Γ₁(N)‾ and −I∉Γ(N)‾ for N≥3.
 
 The public interface should expose:
 
 - `levelGamma0`: The subgroup Γ₀(N)‾ of GL₂(ℤ/N) of matrices with lower-left entry 0.
 - `levelGamma1`: The subgroup Γ₁(N)‾ of matrices with upper-left entry 1 and lower-left entry 0; it is the stabiliser of the first basis vector under the right action.
 - `levelGamma1Mu`: The subgroup Γ₁^μ(N)‾={c=0, d=1}; its level structures are embeddings μ_N↪E[N], the convention of Calegari–Geraghty.
-- `splitCartan`: The diagonal subgroup C_s(ℓ), and splitCartanNormalizer its normaliser.
+- `splitCartan`: The diagonal subgroup C_s(ℓ), and `splitCartanNormalizer` the monomial subgroup C_s⁺(ℓ). It is the group normalizer for odd ℓ and the unordered-coordinate-line stabilizer at ℓ=2.
 - `nonsplitCartan`: For a nonsquare ε, the subgroup {[[a,εb],[b,a]]}, and nonsplitCartanNormalizer its normaliser.
 - `projectiveIndex`: The index in GL₂(ℤ/n) of the subgroup ±H̄ generated by H̄ and −I; it is the coarse degree of X_H over the j-line.
 - `projectiveIndex_eq_index`: projectiveIndex H = index H when −I∈H̄, and 2·projectiveIndex H = index H otherwise.
@@ -1087,6 +1166,7 @@ The public interface should expose:
 - For a prime p, projectiveIndex (levelGamma0 p) = p+1.
 - index (levelGamma1 5) = 24 but projectiveIndex (levelGamma1 5) = 12, because −I∉Γ₁(5)‾; a definition of the coarse degree as the plain index fails here.
 - projectiveIndex (splitCartanNormalizer 13) = 91 and projectiveIndex (nonsplitCartanNormalizer 13 ε) = 78 for a nonsquare ε.
+- At ℓ=2, splitCartanNormalizer has order 2 and index 3, while the normalizer of splitCartan is GL₂(𝔽₂) of order 6.
 - For n=1 every subgroup is GL₂(ℤ/1), with index, projective index 1 and trivial determinant group.
 - Pulling level one back to modulus 5 gives all of GL₂(𝔽₅), whose determinant image is 𝔽₅ˣ, although the determinant group at modulus 1 is trivial.
 - The preimage of levelGamma1 N in SL(2,ℤ) is CongruenceSubgroup.Gamma1 N, whose bottom row is ≡(0,1); the upper-left condition a≡1 is forced there by the determinant.
@@ -1647,7 +1727,7 @@ Establish this as follows. Each of the Layers 3 and 4 stacks is regular, hence n
 
 For an open H≤GL₂(Ẑ) containing Γ(n), take the finite-inertia coarse space X_H of the corresponding compactified level stack 𝒳_H ([§3.12](#s3-12); for the full, Γ₁ and refined Γ₀ levels it is Layers 3 and 4's moduli stack, by [§5.1](#s5-1)). It is a projective normal ℤ-scheme, finite locally free over ℙ¹_j and flat of relative dimension one. The construction is algebraic: normalize the j-line in the generic level algebra and compare the stack coarse space to this normalization. Full level has its determinant/cyclotomic constant algebra, fixed-pairing level is over the corresponding cyclotomic integer base, Γ₁ is the marked-generator problem, and Γ₀ uses the refined cyclic-subgroup stack. Keep disconnected full-level generic components in the normalization algebra. No analytic connectedness or Layer 8 is used.
 
-Establish this as follows. Apply finite-inertia coarse existence to the actual level stack; descend the finite j-map through the categorical universal property. Compare on the dense generic level locus with integral closure in its full generic algebra. Normality, projectivity and Cohen–Macaulayness in dimension two yield the finite locally free j-map, as in §6.1.
+Establish this as follows. Apply finite-inertia coarse existence to the actual level stack; descend the finite j-map through the categorical universal property. Compare on the dense generic level locus with integral closure in its full generic algebra. Normality, projectivity and Cohen–Macaulayness in dimension two yield the finite locally free j-map by Česnavičius §6.1, p.62, using miracle flatness (Stacks 00R4).
 
 The public interface should expose:
 
@@ -2007,6 +2087,8 @@ Establish this as follows. The quotient X_{H′}/(H/H′) exists: X_{H′} is pr
 
 **Checks.**
 
+- At ℓ=2, the quotient of X_s(2)=X(2) by the order-2 monomial subgroup is X_s⁺(2), of j-degree 3; quotienting by the literal normalizer GL₂(𝔽₂) instead gives X(1).
+
 - X₀(N)=X₁(N)/((ℤ/N)^×/±1) for N≥3.
 - X_{C_s⁺(ℓ)}=X_{C_s(ℓ)}/(ℤ/2).
 
@@ -2196,7 +2278,7 @@ The theorem is `cuspFieldsAndComponentLabels`.
 
 *Needs:* [§4.1](#s4-1); [§4.2](#s4-2); [§4.5](#s4-5); [§4.8](#s4-8); [§5.2](#s5-2); [§5.5](#s5-5); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); Mathlib `cosetToCuspOrbit`.
 
-([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.2–4.8, pp.310–313; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226 (PDF p.3).)
+([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.2–4.8, pp.310–313; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226 (PDF p.2).)
 
 <a id="s6-4"></a>
 
@@ -2281,6 +2363,23 @@ The theorem is `hodgeLineAutomorphy`.
 
 ([Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.1–3; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §7, p.15; §11, p.26.)
 
+<a id="s7-1a"></a>
+<a id="R12.5"></a>
+
+### 7.1a Kodaira–Spencer normalization (R12.5)
+
+**Normalized modular Kodaira–Spencer isomorphism.** For a fine characteristic-zero compactified level curve C with universal generalized elliptic family and reduced cusp divisor D, prove `kodairaSpencer_normalization`: ω²≅Ω¹_C(log D) sends (du/u)² to dq/q on Tate charts. On the elliptic open use the supplied Gauss–Manin connection on relative de Rham H¹, the Hodge filtration and the polarization contraction, with the sign chosen by this Tate formula. Construct its logarithmic extension across D using the Tate period calculation and prove it is an isomorphism. Restriction gives ω²(−D)≅Ω¹_C and realizes f↦2πi f(τ)dτ. The fine curve and characteristic-zero base are hypotheses; coarse descent elsewhere uses §7.2’s invariant section spaces.
+
+**Checks.**
+
+- At a width-one Tate cusp, (du/u)² maps to dq/q, with coefficient 1.
+- At effective width w, q=t^w gives dq/q=w dt/t; a scalar rescaling would change the differential dictionary.
+- A cusp form has zero constant term and gives a regular differential; a nonzero constant gives a logarithmic pole.
+
+*Needs:* [§3.13](#s3-13); [§4.8](#s4-8); [§7.1](#s7-1); `ComplexComparisonPartII` C5.2 (`GaussManin`, `relativeHodgeBundles`) and C5.6 (regular-singular canonical extension); MC1C (the invariant-differential line).
+
+([Faltings–Chai, Degeneration of Abelian Varieties](https://doi.org/10.1007/978-3-662-02632-8), III §9, pp.80–86, and IV Proposition 3.1(vi), p.107; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.12, pp.25–26, for the weight-two differential normalization.)
+
 <a id="s7-2"></a>
 
 ### 7.2 Weight-two cusp forms and regular differentials
@@ -2293,7 +2392,7 @@ No smooth fine universal elliptic curve on the coarse X is assumed.
 
 The formula contains 2πi and the width w; changing either changes the stated comparison.
 
-Establish this as follows. Use the Hodge-line/automorphy comparison and the imported weight-two canonical-form dictionary on the analytic quotient. At a cusp substitute dq_w/q_w=(2πi/w)dτ. The constant term must vanish exactly when the differential has no pole. At an elliptic chart compute invariants in t with quotient coordinate t^e. Apply proper coherent comparison (AlgebraicModuliForArithmeticGeometry §7.10.3) to identify holomorphic and algebraic regular differentials. Local pullback and finite trace computations give naturality.
+Establish this as follows. On the fine cover use `kodairaSpencer_normalization` and the Hodge-line/automorphy comparison, then the imported weight-two canonical-form dictionary on the analytic quotient. At a cusp substitute dq_w/q_w=(2πi/w)dτ. The constant term must vanish exactly when the differential has no pole. At an elliptic chart compute invariants in t with quotient coordinate t^e. Apply proper coherent comparison (AlgebraicModuliForArithmeticGeometry §7.10.3) to identify holomorphic and algebraic regular differentials. Local pullback and finite trace computations give naturality.
 
 The theorem is `weightTwoRegularDifferentials`.
 
@@ -2304,7 +2403,7 @@ The theorem is `weightTwoRegularDifferentials`.
 - A weight-two form with nonzero cusp constant gives a logarithmic pole and is excluded from H⁰Ω¹.
 - No arbitrary integral base change is claimed: DDT Theorem 1.33 needs its stated flatness or invertibility assumptions.
 
-*Needs:* [§5.2](#s5-2); [§5.3](#s5-3); [§6.1](#s6-1); [§7.1](#s7-1); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `ComplexComparisonPartII` C5.7 (`curveResidueLocalization`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.2 (`projectiveGeometricDictionaries`).
+*Needs:* [§7.1a](#s7-1a), R12.5 (`kodairaSpencer_normalization`); [§5.2](#s5-2); [§5.3](#s5-3); [§6.1](#s6-1); [§7.1](#s7-1); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `ComplexComparisonPartII` C5.7 (`curveResidueLocalization`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.2 (`projectiveGeometricDictionaries`).
 
 ([Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.12, pp.25–26; Theorem 1.33, pp.38–39; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.6–4.7, p.312.)
 
@@ -2401,7 +2500,7 @@ The public interface should expose:
 
 *Needs:* [§4.4](#s4-4); [§5.2](#s5-2); [§7.4](#s7-4); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
-([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.83); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34, p.39.)
+([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34, p.39.)
 
 <a id="s7-6"></a>
 
@@ -2425,7 +2524,7 @@ The theorem is `perfectHeckePairing`.
 
 *Needs:* [§7.5](#s7-5); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
 
-([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.83); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34 and proof, p.39.)
+([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34 and proof, p.39.)
 
 ### Examples
 
@@ -2491,7 +2590,7 @@ The theorem is `gammaZeroRationalFunctionField`.
 
 *Needs:* [§4.5](#s4-5); [§5.6](#s5-6); [§8.1](#s8-1); [AlgebraicCurves Layer 12](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicCurves#layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts).
 
-([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorem 6.1, pp.87–90; §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226 (PDF p.3).)
+([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorem 6.1, pp.87–90; §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226 (PDF p.2).)
 
 <a id="s8-3"></a>
 
@@ -2699,12 +2798,14 @@ The public interface should expose:
 
 ### 9.5 The split Cartan normalizer quotient
 
-For a prime ℓ, over ℚ there is an algebraic isomorphism X₀(ℓ²)/⟨w_(ℓ²)⟩≃X_s⁺(ℓ), where X_s denotes the normalizer of split Cartan, or equivalently the moduli of an unordered pair of distinct ℓ-subgroups. Given a cyclic chain E→E/C_ℓ→E/C_(ℓ²), the middle curve has two distinct order-ℓ subgroups, one from the dual first isogeny and the other from the second; reversing the chain exchanges the pair. The inverse construction and finite-normal compactification comparison establish the isomorphism. This is not the ordered split-Cartan curve. At ℓ itself it is a generic-fibre identification; the semistable quotient is constructed after the explicit extension in Layer 11.
+For a prime ℓ, over ℚ there is an algebraic isomorphism X₀(ℓ²)/⟨w_(ℓ²)⟩≃X_s⁺(ℓ), where X_s⁺ denotes the curve for the monomial subgroup C_s⁺(ℓ), equivalently the moduli of an unordered pair of distinct ℓ-subgroups. This subgroup is the split Cartan normalizer for odd ℓ; at ℓ=2 it is the order-2 line-pair stabilizer. Given a cyclic chain E→E/C_ℓ→E/C_(ℓ²), the middle curve has two distinct order-ℓ subgroups, one from the dual first isogeny and the other from the second; reversing the chain exchanges the pair. The inverse construction and finite-normal compactification comparison establish the isomorphism. This is not the ordered split-Cartan curve. At ℓ itself it is a generic-fibre identification; the semistable quotient is constructed after the explicit extension in Layer 11.
 
 Establish this as follows. Construct the unordered middle pair from a cyclic ℓ²-chain, using dual isogenies and the coprimality of the two middle directions. Reconstruct a chain from an unordered pair up to reversal; this identifies the elliptic open moduli functors over ℚ. Extend the finite birational map between normal compactifications; no analytic connectedness is required.
 
 **Checks.**
 
+- At ℓ=2, X₀(4)/⟨w₄⟩≅X_s⁺(2) has j-degree 3; the literal normalizer would give degree 1.
+- Ordering the pair gives X_s(ℓ)≅X₀(ℓ²), and reversing the chain induces its order-2 quotient.
 - For ℓ=13 the quotient has genus 3; calling the ordered split-Cartan curve X_s would change the degree and genus.
 
 *Needs:* [§5.2](#s5-2); [§9.4](#s9-4); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
@@ -2715,13 +2816,13 @@ Establish this as follows. Construct the unordered middle pair from a cyclic ℓ
 
 ### 9.6 Cartan modular curves
 
-Let ℓ be a prime and H̄⊂GL₂(𝔽_ℓ) a subgroup, with H⊂GL₂(Ẑ) its preimage. The coarse curve X_H is a normal projective curve over ℤ, smooth over ℤ[1/ℓ], of degree [GL₂(𝔽_ℓ):±H̄] over ℙ¹_ℤ, with cyclotomic base ℤ when det H̄=𝔽_ℓ^×. For the Cartan levels write X_s(ℓ)=X_{C_s(ℓ)}, X_s⁺(ℓ)=X_{C_s⁺(ℓ)}, X_ns(ℓ)=X_{C_ns(ℓ)}, X_ns⁺(ℓ)=X_{C_ns⁺(ℓ)}, of degrees ℓ(ℓ+1), ℓ(ℓ+1)/2, ℓ(ℓ−1) and ℓ(ℓ−1)/2 for ℓ odd. Over ℤ[1/ℓ], a level-C_s⁺(ℓ) structure on E is an unordered pair of distinct subgroups of order ℓ (equivalently a split Cartan subalgebra 𝔽_ℓ×𝔽_ℓ of End(E[ℓ])), a level-C_s(ℓ) structure an ordered such pair, a level-C_ns⁺(ℓ) structure a subalgebra of End(E[ℓ]) étale locally conjugate to 𝔽_{ℓ²}, and a level-C_ns(ℓ) structure such a subalgebra with a chosen isomorphism to 𝔽_{ℓ²}. The ordered split Cartan curve is identified with X₀(ℓ²) over ℤ[1/ℓ] by (E,C₁,C₂)↦(E/C₁, [ℓ]⁻¹(C₂)/C₁), and X_s⁺(ℓ) with X₀(ℓ²)/⟨w_{ℓ²}⟩, over ℚ by [§9.5](#s9-5) and over ℤ[1/ℓ] because the ordered identification carries the exchange of C₁ and C₂ to w_{ℓ²}. Every other subgroup of GL₂(𝔽_ℓ), for example the preimage of an exceptional S₄⊂PGL₂(𝔽₁₃), gives its curve by the same construction. Notation: X_s(ℓ) is the ordered (diagonal) curve as in Zywina; Balakrishnan–Dogra–Müller–Tuitman–Vonk and §9.5 write X_s(ℓ) for the normaliser curve, which is X_s⁺(ℓ) here.
+Let ℓ be a prime and H̄⊂GL₂(𝔽_ℓ) a subgroup, with H⊂GL₂(Ẑ) its preimage. The coarse curve X_H is a normal projective curve over ℤ, smooth over ℤ[1/ℓ], of degree [GL₂(𝔽_ℓ):±H̄] over ℙ¹_ℤ, with cyclotomic base ℤ when det H̄=𝔽_ℓ^×. For the split plus level use the monomial subgroup even at ℓ=2. For the Cartan levels write X_s(ℓ)=X_{C_s(ℓ)}, X_s⁺(ℓ)=X_{C_s⁺(ℓ)}, X_ns(ℓ)=X_{C_ns(ℓ)}, X_ns⁺(ℓ)=X_{C_ns⁺(ℓ)}, of degrees ℓ(ℓ+1), ℓ(ℓ+1)/2, ℓ(ℓ−1) and ℓ(ℓ−1)/2 for ℓ odd. Over ℤ[1/ℓ], a level-C_s⁺(ℓ) structure on E is an unordered pair of distinct subgroups of order ℓ (equivalently a split Cartan subalgebra 𝔽_ℓ×𝔽_ℓ of End(E[ℓ])), a level-C_s(ℓ) structure an ordered such pair, a level-C_ns⁺(ℓ) structure a subalgebra of End(E[ℓ]) étale locally conjugate to 𝔽_{ℓ²}, and a level-C_ns(ℓ) structure such a subalgebra with a chosen isomorphism to 𝔽_{ℓ²}. The ordered split Cartan curve is identified with X₀(ℓ²) over ℤ[1/ℓ] by (E,C₁,C₂)↦(E/C₁, [ℓ]⁻¹(C₂)/C₁), and X_s⁺(ℓ) with X₀(ℓ²)/⟨w_{ℓ²}⟩, over ℚ by [§9.5](#s9-5) and over ℤ[1/ℓ] because the ordered identification carries the exchange of C₁ and C₂ to w_{ℓ²}. Every other subgroup of GL₂(𝔽_ℓ), for example the preimage of an exceptional S₄⊂PGL₂(𝔽₁₃), gives its curve by the same construction. Notation: X_s(ℓ) is the ordered (diagonal) curve as in Zywina; Balakrishnan–Dogra–Müller–Tuitman–Vonk and §9.5 write X_s(ℓ) for the normaliser curve, which is X_s⁺(ℓ) here.
 
 ℓ prime; ℓ odd for the nonsplit Cartan description with a nonsquare ε, ℓ=2 using the order-3 subgroup.
 
 The moduli descriptions hold over ℤ[1/ℓ]; over ℤ the curve is defined as X_H.
 
-Establish this as follows. Apply [§3.12](#s3-12) and [§5.2](#s5-2) to the preimage H. Degrees from [§5.10](#s5-10) and the orders of the Cartan subgroups ([§3.8](#s3-8)); −I lies in each Cartan subgroup, so projective index equals index. Moduli: a frame orbit φH̄ is determined by the subalgebra φAφ⁻¹⊂End(E[ℓ]) with A the Cartan algebra, since frames with the same subalgebra differ by an element of the normaliser of A^×; for C_s this subalgebra is the pair of eigenlines. The ordered split Cartan identification: from complementary lines C₁,C₂, the quotient E/C₁ carries the cyclic subgroup [ℓ]⁻¹(C₂)/C₁ of order ℓ²; conversely a cyclic K of order ℓ² on E′ gives E=E′/K[ℓ] with C₂=K/K[ℓ] and C₁ the kernel of the dual isogeny; both are inverse on the elliptic opens over ℤ[1/ℓ], and they extend to the normal compactifications by the finite-normal recognition criterion of ModularCurves Layer 10.
+Establish this as follows. Apply [§3.12](#s3-12) and [§5.2](#s5-2) to the preimage H. Degrees from [§5.10](#s5-10) and the orders of the Cartan subgroups ([§3.8](#s3-8)); −I lies in each Cartan subgroup, so projective index equals index. Moduli: a frame orbit φH̄ is determined by the subalgebra φAφ⁻¹⊂End(E[ℓ]) with A the Cartan algebra, since frames with the same subalgebra differ by an element of the normalizer of the algebra A (at ℓ=2, normalizing its unit subgroup A^× would not suffice); for C_s this subalgebra is the pair of eigenlines. The ordered split Cartan identification: from complementary lines C₁,C₂, the quotient E/C₁ carries the cyclic subgroup [ℓ]⁻¹(C₂)/C₁ of order ℓ²; conversely a cyclic K of order ℓ² on E′ gives E=E′/K[ℓ] with C₂=K/K[ℓ] and C₁ the kernel of the dual isogeny; both are inverse on the elliptic opens over ℤ[1/ℓ], and they extend to the normal compactifications by the finite-normal recognition criterion of ModularCurves Layer 10.
 
 The public interface should expose:
 
@@ -2729,17 +2830,19 @@ The public interface should expose:
 - `cartanCurve_degree`: The j-degree of X_s, X_s⁺, X_ns, X_ns⁺ is ℓ(ℓ+1), ℓ(ℓ+1)/2, ℓ(ℓ−1), ℓ(ℓ−1)/2 for ℓ odd.
 - `cartanCurve_moduli`: Over ℤ[1/ℓ], level-Cartan structures are the Cartan subalgebras of End(E[ℓ]) of the given type, ordered for C_s and C_ns.
 - `splitCartanCurve_iso_gammaZero`: X_s(ℓ)≅X₀(ℓ²) over ℤ[1/ℓ] by (E,C₁,C₂)↦(E/C₁,[ℓ]⁻¹(C₂)/C₁); it is not an isomorphism over the j-line.
-- `cartanCurve_cusps`: Cusp counts and fields: X_s⁺(ℓ) has one rational cusp and (ℓ−1)/2 cusps over ℚ(ζ_ℓ)⁺; X_ns⁺(ℓ) has (ℓ−1)/2 cusps over ℚ(ζ_ℓ)⁺ and none rational.
+- `cartanCurve_cusps`: For odd ℓ, X_s⁺(ℓ) has a distinguished rational cusp and (ℓ−1)/2 further cusps conjugate over ℚ(ζ_ℓ)⁺; X_ns⁺(ℓ) has (ℓ−1)/2 cusps conjugate over that field. The nonsplit cusps are nonrational for ℓ≥5 and rational at ℓ=3. At ℓ=2, X_s⁺(2) has two rational cusps and X_ns⁺(2)=X(1) has one rational cusp.
 - `cartanCurve_quotient`: X_s⁺(ℓ)=X_s(ℓ)/(ℤ/2), the involution swapping the two lines ([§5.16](#s5-16)).
 
 **Checks.**
 
 - X_s⁺(13) has degree 91 and X_ns⁺(13) degree 78 over ℙ¹_j.
-- For ℓ=2, C_s(2) is trivial and X_s(2)=X(2), of degree 6.
-- The ordered split Cartan curve X_s(ℓ) has degree ℓ(ℓ+1), twice that of X_s⁺(ℓ) (182 against 91 for ℓ=13), and two rational cusps instead of one; it is not the normaliser curve.
+- For ℓ=2, C_s(2) is trivial and X_s(2)=X(2), of degree 6; C_s⁺(2) is monomial of order 2 and gives degree 3.
+- X_ns⁺(3) has one cusp over ℚ(ζ₃)⁺=ℚ, so that cusp is rational.
+- X_ns⁺(2)=X(1) has one rational cusp; the odd-prime cusp formula does not apply.
+- For odd ℓ≥5, the ordered split Cartan curve X_s(ℓ) has degree ℓ(ℓ+1), twice that of X_s⁺(ℓ) (182 against 91 for ℓ=13), and two rational cusps instead of one; it is not the normaliser curve.
 - X_ns⁺(13) has six cusps, permuted transitively by Gal(ℚ(ζ₁₃)⁺/ℚ).
-- X_s(ℓ) has ℓ+1 cusps, all of width ℓ: two ℚ-rational and ℓ−1 conjugate over ℚ(ζ_ℓ); X_s⁺(ℓ) has (ℓ+1)/2 cusps, one ℚ-rational (the common image of 0 and ∞ of X₀(ℓ²)) and (ℓ−1)/2 conjugate over ℚ(ζ_ℓ)⁺.
-- X_ns⁺(ℓ) has (ℓ−1)/2 cusps, all conjugate over ℚ(ζ_ℓ)⁺, so no ℚ-rational cusp for ℓ≥5.
+- For odd ℓ, X_s(ℓ) has ℓ+1 cusps, all of width ℓ: two ℚ-rational and ℓ−1 conjugate over ℚ(ζ_ℓ); X_s⁺(ℓ) has (ℓ+1)/2 cusps, the distinguished ℚ-rational image of 0 and ∞ of X₀(ℓ²) and (ℓ−1)/2 further cusps conjugate over ℚ(ζ_ℓ)⁺. At ℓ=3 the further cusp is also rational.
+- For odd ℓ, X_ns⁺(ℓ) has (ℓ−1)/2 cusps, all conjugate over ℚ(ζ_ℓ)⁺, so no ℚ-rational cusp for ℓ≥5.
 - For ℓ=13, X_s⁺(13), X_ns⁺(13) and the exceptional S₄ curve have degrees 91, 78 and 91 over the j-line.
 
 *Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.8](#s3-8); [§3.12](#s3-12); [§5.2](#s5-2); [§5.3](#s5-3); [§5.10](#s5-10); [§5.11](#s5-11); [§5.12](#s5-12); [§9.5](#s9-5); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
@@ -2750,7 +2853,7 @@ The public interface should expose:
 
 ### 9.7 Rational points of X_H and Galois images
 
-Let H be an open level subgroup with −I∈H̄, n with Γ(n)⊂H, and K a field of characteristic not dividing n. If E/K is an elliptic curve whose mod-n image ρ̄_{E,n}(G_K)⊂GL₂(ℤ/n), computed in some frame, is conjugate into H̄, then j(E) is the image of a K-point of Y_H. Conversely, if x∈Y_H(K) has j(x)∉{0,1728} (j(x)≠0 when char K∈{2,3}), then every elliptic curve E/K with j(E)=j(x) has ρ̄_{E,n}(G_K) conjugate into H̄. Without −I∈H̄ the converse holds for a suitable quadratic twist of E only; at j=0 or 1728 a K-point need not come from a curve with image in H̄. For H=C_s⁺(ℓ) or C_ns⁺(ℓ) this gives the correspondence between non-cuspidal rational points of X_s⁺(ℓ), X_ns⁺(ℓ) with j∉{0,1728} and elliptic curves over ℚ with image in the Cartan normaliser, with no twist. In particular the fibres of X_s⁺(13) over j=0 and j=1728 contain ℚ-points, coming from y²=x³+1 and y²=x³−x, whose mod-13 images lie in a split Cartan normaliser because 13 splits in ℚ(√−3) and in ℚ(i).
+Let H be an open level subgroup with −I∈H̄, n with Γ(n)⊂H, and K a field of characteristic not dividing n. If E/K is an elliptic curve whose mod-n image ρ̄_{E,n}(G_K)⊂GL₂(ℤ/n), computed in some frame, is conjugate into H̄, then j(E) is the image of a K-point of Y_H. Conversely, if x∈Y_H(K) has j(x)∉{0,1728} (j(x)≠0 when char K∈{2,3}), then every elliptic curve E/K with j(E)=j(x) has ρ̄_{E,n}(G_K) conjugate into H̄. Without −I∈H̄ the converse holds for a suitable quadratic twist of E only; at j=0 or 1728 a K-point need not come from a curve with image in H̄. For H=C_s⁺(ℓ) or C_ns⁺(ℓ) this gives the correspondence between non-cuspidal rational points of X_s⁺(ℓ), X_ns⁺(ℓ) with j∉{0,1728} and elliptic curves over ℚ with image in the corresponding Cartan plus subgroup, with no twist; for split ℓ=2 this is the monomial subgroup. In particular the fibres of X_s⁺(13) over j=0 and j=1728 contain ℚ-points, coming from y²=x³+1 and y²=x³−x, whose mod-13 images lie in a split Cartan normaliser because 13 splits in ℚ(√−3) and in ℚ(i).
 
 −I∈H̄ for the converse without twist; char K∤n; j(x)∉{0,1728}.
 
@@ -2886,13 +2989,15 @@ The public interface should expose:
 
 <a id="s9-12"></a>
 
-### 9.12 Integral étale correspondence trace
+### 9.12 Finite-coefficient étale correspondence traces
 
-For the actual finite maps f:D→C between smooth proper geometric generic-fibre modular curves and ℓ invertible in their base, use duality to define the integral H¹_et trace f_* dual to f^*. It satisfies f_*f^*=[deg f] and is compatible with Picard norm through T_ℓ Pic⁰≃H¹_et(−,ℤ_ℓ(1)). Thus π₁*π₂^* and its leg reversal give integral Hecke endomorphisms, even when ℓ divides deg π₁; no averaging is imposed. In special characteristic p≠ℓ an inseparable finite map still has its degree-weighted Gysin trace, not the sum of its distinct geometric fibres. At a bad nodal fibre use the Layer 12 nearby-cycle/interface comparison; smooth-curve duality is not asserted on that singular carrier.
+For the actual finite maps f:D→C between smooth proper geometric generic-fibre modular curves and ℓ invertible in their base, for each n≥1 use finite-coefficient curve duality to define the trace f_* on H¹_et(−,ℤ/ℓⁿ), also with the Tate twist. It satisfies f_*f^*=[deg f], composition, base change and compatibility with coefficient reduction. Thus π₁*π₂^* and its leg reversal give finite-coefficient Hecke endomorphisms, even when ℓ divides deg π₁; no averaging is imposed. In special characteristic p≠ℓ an inseparable finite map still has its degree-weighted Gysin trace, not the sum of its distinct geometric fibres. At a bad nodal fibre use the Layer 12 nearby-cycle/interface comparison; smooth-curve duality is not asserted on that singular carrier.
 
-Establish this as follows. Import the finite-curve duality trace and prove the degree formula using the actual fundamental class. Compare with Kummer and Picard norm, then compose the two correspondence legs. For special nodal models use the supplied specialization exact sequence, retaining multiplicities.
+Establish this as follows. Import the finite-curve duality trace and prove the degree formula using the actual fundamental class. Prove composition and base change at finite coefficients, then compose the two correspondence legs. Section 13.5 passes to adic cohomology and identifies its trace with Picard norm after proving the Kummer comparison. For special nodal models use the supplied specialization exact sequence, retaining multiplicities.
 
 **Checks.**
+
+- Reducing a trace modulo ℓⁿ agrees with the trace constructed at that coefficient level; composition retains the full product of degrees.
 
 - A degree-2 map with ℓ=2 has f_*f^*=[2], not identity.
 - Absolute Frobenius in characteristic p has degree p and its duality trace retains that factor although it is a bijection on geometric points.
@@ -2964,11 +3069,14 @@ Establish this as follows. Compare the maps on the elliptic analytic open with t
 
 ### 10.3 Compactified map comparison
 
-The compactified forgetful and quotient isogeny maps constructed algebraically agree under the generic-fibre comparison with their classical analytic degeneracy maps. On a Γ₁(N;p) chart, π₁ forgets the p-subgroup and π₂ quotients by it then contracts to the allowed level polygon. The generic analytic conventions are π₁(z)=z and π₂(z)=pz on the chosen standard branch. At every cusp compare the induced homomorphism of completed rings and the pullback of du/u. A map to a coarse curve factors by categorical universality, but finite flat stack legs do not automatically become finite flat coarse legs; descent uses the actual stabilizer action or a schematic locus where it is trivial.
+The compactified forgetful and quotient isogeny maps constructed algebraically agree under the generic-fibre comparison with their classical analytic degeneracy maps. On a Γ₁(N;p) chart, π₁ forgets the p-subgroup and π₂ quotients by it then contracts to the allowed level polygon. For p∤N choose C=⟨1/p⟩ on ℂ/(ℤ+ℤz), giving the quotient lattice coordinate pz and (π₁,π₂) coordinates (z,pz). Scaling the fibre by p sends P=1/N to p/N, so the Γ₁ comparison retains the diamond ⟨p⟩ transport of the marked point. For p|N and P=1/N choose C=⟨z/p⟩, which is disjoint from ⟨P⟩; use the Γ₁(N)∩Γ₀(p)^t presentation and (π₁(z),π₂(z))=(z,z/p). At every cusp compare the induced homomorphism of completed rings and the pullback of du/u. A map to a coarse curve factors by categorical universality, but finite flat stack legs do not automatically become finite flat coarse legs; descent uses the actual stabilizer action or a schematic locus where it is trivial.
 
-Establish this as follows. Identify both maps on the elliptic dense open through the moduli quotient. Use generalized Tate charts and contraction for the boundary maps; retain the power factor on invariant differentials. Separate categorical existence of coarse maps from the finite-flat descent claim; use the finite-correspondence supplier and schematic locus when needed.
+Establish this as follows. Identify both maps on the elliptic dense open through the moduli quotient. Use generalized Tate charts and contraction for the boundary maps, in the corresponding good- or bad-prime presentation. On the standard branches compare q↦q^p at p∤N and q↦q^(1/p) at p|N on the cover carrying the latter parameter; retain the induced differential multiplier and the effective cusp widths. Separate categorical existence of coarse maps from the finite-flat descent claim; use the finite-correspondence supplier and schematic locus when needed.
 
 **Checks.**
+
+- At N=p=5, ⟨1/5⟩=⟨P⟩ is forbidden by disjointness; ⟨z/5⟩ gives the allowed z/5 branch.
+- At p∤N the ⟨1/p⟩ branch multiplies dτ by p and transports 1/N to p/N; the bad-prime ⟨τ/p⟩ branch multiplies dτ by 1/p and retains 1/N in characteristic zero.
 
 - The two legs have different j coordinates. Extension is not obtained by pretending that π₂ is a map over the same j-line.
 
@@ -3035,16 +3143,29 @@ The public interface should expose:
 
 ### 11.2 Γ₀ prime-power local models
 
+**Cyclic-isogeny deformation and source/target coordinates.** For p prime, n≥1, k algebraically closed of characteristic p and a cyclic pⁿ-isogeny E₀→E′₀ over k, with a prime-to-p auxiliary rigidifier killing automorphisms, construct `cyclicIsogenyDeformationRing`: the complete local W(k)-algebra representing deformations of the isogeny and its finite flat cyclic kernel. Give its maps from the one-parameter deformation rings of E₀ and E′₀ and the source/target parameters x,y. Prove the KM 13.4.7 comparison, including the ordinary mixed and supersingular special-fibre equations and the regular two-dimensional total ring; derive f=f₀+p u with u a unit in these coordinates. Do not infer this ring from a rigidity statement alone.
+
+**Checks.**
+
+- At n=1 the supersingular special fibre is (xᵖ−y)(x−yᵖ)=0, with source and target parameters retained separately.
+- At n=2 the middle component has multiplicity p−1, so the three-component fibre is not reduced for p>2.
+- Forgetting the rigidifier requires taking the actual stabilizer quotient; regularity of the deformation ring does not imply regularity of that coarse quotient.
+
+*Needs:* MC7D–MC7F (formal elliptic deformations), MC7G (rigidity), MC8B–MC8C (cyclic generators), [§2.8](#s2-8) and [§11.1](#s11-1).
+
+([Katz–Mazur, Arithmetic Moduli of Elliptic Curves](https://press.princeton.edu/books/paperback/9780691083520/arithmetic-moduli-of-elliptic-curves), Theorem 13.4.7; [Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §§1.1.3–1.1.5, pp.34–36, for the rigidified source/target comparison and the unit p-term.)
+
 Let p>3, n≥1 and M≥1 with p∤M. The Γ₀(pⁿM) coarse special fibre has n+1 components indexed (a,b), a+b=n, each abstractly X₀(M)_𝔽p, of multiplicity φ(p^min(a,b)). All meet at every supersingular Γ₀(M) point and nowhere else; this intersection is not claimed to be transverse for n>1. Under an étale auxiliary rigidifier the completed surface ring at a relevant noncuspidal point is W[[x,y]]/(f₀+p u), u a unit, where W=W(k̄). At a supersingular point f₀=(x^(pⁿ)−y)(x−y^(pⁿ))∏_(a+b=n,a,b>0)(x^(p^(a−1))−y^(p^(b−1)))^(p−1); on the ordinary mixed (a,b) component f₀=(x^(p^(a−1))−y^(p^(b−1)))^(p−1). These x,y are local moduli of source and target; the component-to-j maps may involve Frobenius. The all-N component/multiplicity statement extends to p=2,3 as the Katz–Mazur/Edixhoven cyclic-deformation target, but its wild invariant-ring and resolution calculation is §11.4’s.
 
-Establish this as follows. Express cyclic pⁿ-subgroups in the imported Drinfeld deformation of the elliptic curve and its isogeny; split by connected/étale type a,b. Use the source/target deformation coordinates to obtain the displayed f₀ and unit p-term. Descend the auxiliary rigidifier with its stabilizer action. Read multiplicities from f₀, retaining possible inseparable component maps. At 2 or 3 keep the component target but do not apply the tame quotient criterion; the wild calculation is §11.4’s.
+Establish this as follows. Use `cyclicIsogenyDeformationRing` and its source/target comparison; split by connected/étale type a,b. Use the source/target deformation coordinates to obtain the displayed f₀ and unit p-term. Descend the auxiliary rigidifier with its stabilizer action. Read multiplicities from f₀, retaining possible inseparable component maps. At 2 or 3 keep the component target but do not apply the tame quotient criterion; the wild calculation is §11.4’s.
 
 **Checks.**
 
 - n=1 gives two reduced components, local f₀=(xᵖ−y)(x−yᵖ).
 - n=2 has multiplicities 1,p−1,1; for p=5 these are 1,4,1, so the coarse fibre is not reduced.
+- At p=2,3 the rigidified deformation comparison retains its component data, while the wild invariant-ring calculation uses §11.4.
 
-*Needs:* [§2.8](#s2-8); [§5.2](#s5-2); [§11.1](#s11-1); [ModularCurves Layer 7G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7g-the-three-characteristic-p-calculations).
+*Needs:* `cyclicIsogenyDeformationRing`; [§2.8](#s2-8); [§5.2](#s5-2); [§11.1](#s11-1).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.1.3–1.1.5, pp.34–36; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter III §1, pp.254–255.)
 
@@ -3210,7 +3331,7 @@ The public interface should expose:
 **Checks.**
 
 - A 2-gon has two parallel edges and b₁=1, not a single edge and b₁=0.
-- For X_s(13) the graph is a three-leaf tree and Σ g_v=3.
+- For X_s⁺(13) the graph is a three-leaf tree and Σ g_v=3.
 - The multiplicity-4 middle component of X₀(25) cannot be silently entered as a reduced nodal component.
 - Resolving a thickness-n edge by a chain increases both edge and vertex counts by n−1, so H₁ rank is unchanged.
 - At ℓ=13 the quotient graph is K_(1,3), b₁=0; at ℓ=37 it is K_(3,3), b₁=4.
@@ -3229,7 +3350,7 @@ Establish this as follows. Use the imported normalized Picard/Néron comparison 
 
 **Checks.**
 
-- For X_s(13) after ϖ⁸⁴=13 the torus vanishes and the abelian quotient is the genus-3 horizontal Jacobian.
+- For X_s⁺(13) after ϖ⁸⁴=13 the torus vanishes and the abelian quotient is the genus-3 horizontal Jacobian.
 - For K_(3,3) the character lattice has rank 4, not rank equal to its 9 nodes.
 
 *Needs:* [§12.1](#s12-1); `NeronModelsAndSemistableAbelianVarieties §4.2`; `NeronModelsAndSemistableAbelianVarieties §4.1`; `NeronModelsAndSemistableAbelianVarieties §R11.4`.
@@ -3284,11 +3405,11 @@ Use Layer 5, Layer 9, Layer 11. External contracts: LefschetzPencilsAndVanishing
 
 ### 13.1 Modular Jacobians and norms
 
-Over the relative base S the construction consumes relative Picard representability and formation of the proper smooth neutral component (AlgebraicModuliForArithmeticGeometry §§7.3 and 7.9) and dual abelian schemes (AbelianSchemesAndArithmeticModuli A2.2). The line-bundle norm is SchemeAndStackFoundations §3.5. Its restriction to relative Pic⁰, the canonical relative principal polarization and the norm/pullback transpose identity are the targets of this subsection. The field Jacobian theorem of JacobianChallenge Layer D supplies the polarization of each fibre.
+Over the relative base S the construction consumes relative Picard representability and formation of the proper smooth neutral component (AlgebraicModuliForArithmeticGeometry §§7.3 and 7.9) and dual abelian schemes (AbelianSchemesAndArithmeticModuli A2.2). The line-bundle norm is SchemeAndStackFoundations §3.5. Its restriction to relative Pic⁰, the canonical relative principal polarization and the norm/pullback transpose identity are the targets of this subsection. JacobianChallenge Layer D supplies each field Picard/Jacobian scheme, and Layer E supplies its dimension and canonical principal polarization.
 
 For N≥5 put S=Spec ℤ[1/N] and let C=X₁(N)/S, the smooth proper geometrically connected coarse curve. Construct J₁(N)=Pic⁰_(C/S), an abelian scheme of relative dimension g(C), with its canonical principal polarization. For X₀(N) or another smooth proper geometrically connected coarse quotient use the same construction on its legal smooth base; disconnected honest full level requires componentwise Picard and field descent. For a finite flat map f:D→C of such curves, define Picard pullback f^*:J_C→J_D and restrict the supplied line-bundle norm to f_*:J_D→J_C, with f_*f^*=[deg f]; the polarization dual of f^* is f_*. Norm counts the ramification/inseparable lengths, not just distinct geometric images. Under the polarization this agrees with the Albanese functor. A bad-level singular coarse fibre is not an abelian scheme: use its smooth generic Jacobian and the lower Néron model.
 
-Establish this as follows. Use the imported relative Picard representability; H² of a curve vanishes, giving smoothness via the infinitesimal lifting criterion (AlgebraicModuliForArithmeticGeometry §7.3, picard_infinitesimal_lifting). Use the proper neutral component to identify the abelian scheme. Define the canonical principal polarization on the generic fibre by JacobianChallenge Layer D and extend it uniquely over the normal base (AbelianSchemesAndArithmeticModuli A6.25); by base change its fibres are the canonical polarizations of the fibre Jacobians. Restrict the supplied line-bundle norm to relative Pic⁰, using its degree, divisor and base-change laws; prove that the resulting morphism of abelian schemes is the polarization transpose of pullback.
+Establish this as follows. Use the imported relative Picard representability; H² of a curve vanishes, giving smoothness via the infinitesimal lifting criterion (AlgebraicModuliForArithmeticGeometry §7.3, picard_infinitesimal_lifting). Use the proper neutral component to identify the abelian scheme. Define the canonical principal polarization on the generic fibre by JacobianChallenge Layer E and extend it uniquely over the normal base (AbelianSchemesAndArithmeticModuli A6.25); by base change its fibres are the canonical polarizations of the fibre Jacobians. Restrict the supplied line-bundle norm to relative Pic⁰, using its degree, divisor and base-change laws; prove that the resulting morphism of abelian schemes is the polarization transpose of pullback.
 
 The public interface should expose:
 
@@ -3310,7 +3431,7 @@ The public interface should expose:
 - For genus zero J=0, so multiplication by any degree is the unique zero endomorphism.
 - For a degree-2 map, norm after pullback is [2], not an identity retraction.
 
-*Needs:* `SchemeAndStackFoundations §3.5/lineBundleNorm`;  [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); `AlgebraicModuliForArithmeticGeometry §7.3/relative_picard_algebraicSpace`; `AlgebraicModuliForArithmeticGeometry §7.9/picardZeroCriterion`; `AlgebraicModuliForArithmeticGeometry §7.3/picard_infinitesimal_lifting`; `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `AbelianSchemesAndArithmeticModuli §A2`; `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
+*Needs:* `SchemeAndStackFoundations §3.5/lineBundleNorm`;  [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.3/relative_picard_algebraicSpace`; `AlgebraicModuliForArithmeticGeometry §7.9/picardZeroCriterion`; `AlgebraicModuliForArithmeticGeometry §7.3/picard_infinitesimal_lifting`; `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `AbelianSchemesAndArithmeticModuli §A2`; `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Lemma 5.4 and Definitions 5.5–5.6, pp.67–68; §5.2, pp.70–72.)
 
@@ -3377,9 +3498,9 @@ The public interface should expose:
 
 ### 13.4 Polarization and Hecke adjoints
 
-The canonical polarization gives a perfect alternating Weil pairing T_ℓJ×T_ℓJ→ℤ_ℓ(1). Upper and lower Hecke operators are mutually adjoint. For p∤N and upper diamond convention, T_p^†=⟨p⟩⁻¹T_p and ⟨a⟩^†=⟨a⟩⁻¹. At bad p use leg reversal, or conjugation by the chosen cyclotomic Fricke map w_ζ; do not substitute an undefined diamond p. Fricke conjugation exchanges upper/lower for all Hecke operators, so the w-twisted bilinear pairing makes the image algebra self-adjoint; this twisted pairing is not claimed alternating. After choosing ℚ̄→ℂ and roots ζ_(ℓ^r)=exp(2πi/ℓ^r), the Weil form on T_ℓPic⁰ corresponds to the negative of the integral cup form on H¹, as in Conrad’s sign convention. With Galois action retain the Tate-twist multiplier and g w_ζ g⁻¹=w_(gζ).
+The canonical polarization gives a perfect alternating Weil pairing T_ℓJ×T_ℓJ→ℤ_ℓ(1). Upper and lower Hecke operators are mutually adjoint. For p∤N and upper diamond convention, T_p^†=⟨p⟩⁻¹T_p and ⟨a⟩^†=⟨a⟩⁻¹. At bad p use leg reversal, or conjugation by the chosen cyclotomic Fricke map w_ζ; do not substitute an undefined diamond p. Fricke conjugation exchanges upper/lower for all Hecke operators, so the w-twisted bilinear pairing makes the image algebra self-adjoint; this twisted pairing is not claimed alternating. The Weil-to-cup comparison follows the Kummer identification in §13.5. With Galois action retain the Tate-twist multiplier and g w_ζ g⁻¹=w_(gζ).
 
-Establish this as follows. Use norm/pullback polarization transposes to compute the adjoint of each correspondence. Compare with Petersson and the Fricke conjugation law to obtain the stated diamond factors. Fix the roots-of-unity identification before comparing Weil and cup signs; retain the Galois twist instead of treating the pairing as ℤ_ℓ-valued intrinsically.
+Establish this as follows. Use norm/pullback polarization transposes to compute the adjoint of each correspondence. Compare with Petersson and the Fricke conjugation law to obtain the stated diamond factors. Retain the Galois twist of the Weil pairing; §13.5 fixes roots and compares it to the cup form.
 
 **Checks.**
 
@@ -3394,15 +3515,16 @@ Establish this as follows. Use norm/pullback polarization transposes to compute 
 
 ### 13.5 The modular Jacobian Tate module
 
-For ℓ prime, over ℚ define T_ℓJ=lim_r J[ℓ^r](ℚ̄), a finite free ℤ_ℓ-module of rank 2g with its continuous G_ℚ action and commuting rational Hecke/diamond action. Intrinsically Kummer identifies it with H¹_et(C_ℚ̄,ℤ_ℓ(1)); choosing a complex embedding and compatible roots removes the twist in the comparison with integral Betti H¹⊗ℤ_ℓ. It is not identified with H₁ without duality/polarization. The map End(J)⊗ℤ_ℓ→End_(ℤ_ℓ)(T_ℓJ) is injective with torsion-free cokernel in the supplied Hom theorem; equality with the Galois centralizer is not asserted. Good reduction over ℤ[1/N] makes this representation unramified outside Nℓ by the lower arithmetic good-reduction criterion. w_ζ is defined over its cyclotomic field and obeys semilinear Galois conjugation, rather than commuting with all G_ℚ. The module is rank 2g over ℤ_ℓ; rank 2 over a Hecke factor belongs to Layer 14.
+For ℓ prime, over ℚ define T_ℓJ=lim_r J[ℓ^r](ℚ̄), a finite free ℤ_ℓ-module of rank 2g with its continuous G_ℚ action and commuting rational Hecke/diamond action. Intrinsically Kummer identifies it with H¹_et(C_ℚ̄,ℤ_ℓ(1)); choosing a complex embedding and compatible roots removes the twist in the comparison with integral Betti H¹⊗ℤ_ℓ. After choosing roots ζ_(ℓ^r)=exp(2πi/ℓ^r), the Weil form on T_ℓPic⁰ corresponds to the negative of the integral cup form on H¹, as in Conrad’s sign convention. It is not identified with H₁ without duality/polarization. The map End(J)⊗ℤ_ℓ→End_(ℤ_ℓ)(T_ℓJ) is injective with torsion-free cokernel in the supplied Hom theorem; equality with the Galois centralizer is not asserted. Good reduction over ℤ[1/N] makes this representation unramified outside Nℓ by the lower arithmetic good-reduction criterion. w_ζ is defined over its cyclotomic field and obeys semilinear Galois conjugation, rather than commuting with all G_ℚ. The module is rank 2g over ℤ_ℓ; rank 2 over a Hecke factor belongs to Layer 14.
 
-Establish this as follows. Import the A4 inverse-limit carrier, its freeness and continuous action. Prove the Kummer comparison here: on the proper curve the Kummer sequence 0→μ_{ℓⁿ}→G_m→G_m→0 identifies H¹_et(C_Q̄,μ_{ℓⁿ}) with Pic(C_Q̄)[ℓⁿ]=J[ℓⁿ], since the global units are divisible and the Néron–Severi group is ℤ; pass to the limit and compare with the integral Betti lattice, tracking the twist and sign. Use the A6 Hom injection for faithfulness and the arithmetic good-reduction criterion for unramifiedness; handle Fricke through its field of definition.
+Establish this as follows. Import the A4 inverse-limit carrier, its freeness and continuous action. Prove the Kummer comparison here: on the proper curve the Kummer sequence 0→μ_{ℓⁿ}→G_m→G_m→0 identifies H¹_et(C_Q̄,μ_{ℓⁿ}) with Pic(C_Q̄)[ℓⁿ]=J[ℓⁿ], since the global units are divisible and the Néron–Severi group is ℤ; pass to the limit and compare with the integral Betti lattice, tracking the twist and sign. Pass the compatible finite traces of §9.12 to the inverse limit using finite generation and the finite-coefficient Mittag–Leffler property. Prove that the trace agrees with Picard norm under Kummer, first at ℓⁿ-torsion and then on the limit; its degree, composition and base-change laws follow from the finite traces. Compare the Weil and cup pairings through Kummer with the chosen roots, retaining the negative sign of §13.4’s convention. Use the A6 Hom injection for faithfulness and the arithmetic good-reduction criterion for unramifiedness; handle Fricke through its field of definition.
 
 The public interface should expose:
 
 - `jacobianTateModule`: The inverse-limit ℤ_ℓ lattice with topology and continuous Galois action.
 - `jacobianTateModule_rank`: Its ℤ_ℓ-rank is 2g.
 - `jacobianTateModule_kummer`: T_ℓ Pic⁰≃H¹_et(C,ℤ_ℓ(1)), retaining the twist.
+- `jacobianTateModule_trace`: The inverse limit of §9.12’s finite traces is the adic trace, agrees with Picard norm through Kummer and satisfies the unnormalized degree, composition and base-change laws.
 - `jacobianTateModule_hecke`: The rational geometric Hecke image acts continuously and commutes with G_ℚ.
 - `jacobianTateModule_faithful`: The imported Hom injection makes the integral image algebra faithful.
 - `jacobianTateModule_unramified`: Unramifiedness away from Nℓ follows from the specified good abelian model.
@@ -3415,8 +3537,10 @@ The public interface should expose:
 - g w_ζ g⁻¹=w_(gζ), while rational Hecke endomorphisms commute with g.
 - At genus zero the Tate module is zero. For Γ₀(11) it has ℤ_ℓ-rank 2, and the Hecke algebra has rank 1.
 - At ℓ=2 the degree-2 trace remains multiplication by 2 rather than an invertible normalization.
+- Composition of finite maps gives the composite Picard norm and the composite adic trace; their degree factors multiply.
+- Reducing the inverse-limit trace at ℓⁿ agrees with §9.12’s finite trace on H¹_et(C,μ_(ℓⁿ)).
 
-*Needs:* [§9.12](#s9-12); [§13.1](#s13-1); [§13.2](#s13-2); [§13.3](#s13-3); [§13.4](#s13-4); `AbelianSchemesAndArithmeticModuli` A4.1; `AbelianSchemesAndArithmeticModuli` A6.7 (`homFreeFinite`); `ArithmeticGaloisRepresentations` §6.3 (`tateModule_specialisation`).
+*Needs:* [§9.12](#s9-12); [§13.1](#s13-1); [§13.2](#s13-2); [§13.3](#s13-3); [§13.4](#s13-4); `AbelianSchemesAndArithmeticModuli` A4.1; `AbelianSchemesAndArithmeticModuli` A6.7 (`homFreeFinite`); `ArithmeticGaloisRepresentations` §6.1 (finite-étale specialization of abelian torsion) and §6.3, Good reduction (unramifiedness and Frobenius comparison).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.67–69; §5.2, pp.72–73.)
 
@@ -3566,7 +3690,7 @@ Establish this as follows. Import Artin’s comparison with locally constant and
 
 ### 14.5 The weight-two Shimura isomorphism is Hecke-equivariant
 
-For N ≥ 5, the Hodge decomposition gives S₂(Γ₁(N), ℂ) ⊕ S̄₂(Γ₁(N), ℂ) ≅ H¹(X₁(N)^an, ℤ) ⊗ ℂ, and it identifies ⟨n⟩ ⊕ ⟨n⟩̄ with ⟨n⟩^*, T_p ⊕ T̄_p with T_p^* = (π₁^{(p)})_* ∘ (π₂^{(p)})^* and w_N ⊕ w̄_N with w^*_{e^{2πi/N}}, where π₁^{(p)}, π₂^{(p)} : X₁(N, p) → X₁(N) are the degeneracy maps and (π₁^{(p)})_* is the trace.
+For N ≥ 5, define Sh(f+ḡ)=[2πi f(τ)dτ+overline{2πi g(τ)dτ}]. The Hodge decomposition gives S₂(Γ₁(N), ℂ) ⊕ S̄₂(Γ₁(N), ℂ) ≅ H¹(X₁(N)^an, ℤ) ⊗ ℂ by this Sh, and it identifies ⟨n⟩ ⊕ ⟨n⟩̄ with ⟨n⟩^*, T_p ⊕ T̄_p with T_p^* = (π₁^{(p)})_* ∘ (π₂^{(p)})^* and w_N ⊕ w̄_N with w^*_{e^{2πi/N}}, where π₁^{(p)}, π₂^{(p)} : X₁(N, p) → X₁(N) are the degeneracy maps and (π₁^{(p)})_* is the trace.
 
 N ≥ 5; at N < 5 both sides vanish. The integral Betti carrier is H¹ of the compact analytic curve. ModularForms Layer 8 supplies a homological symbol module with boundary and possible torsion; only the separately proved cuspidal/dual comparison identifies the relevant lattice.
 
@@ -3584,15 +3708,17 @@ Establish this as follows. Hodge decomposition of the compact Riemann surface X�
 
 ### 14.6 Cup product and the Petersson product
 
-With H²(X₁(N)^an, ℤ) ≅ ℤ by the i-orientation, the cup product pairing on H¹(X₁(N)^an, ℤ) and the non-normalised Petersson product satisfy (Sh(f₁ + ḡ₁), Sh(f₂ + ḡ₂)) = 4π(⟨f₁, g₂⟩ − ⟨f₂, g₁⟩).
+With H²(X₁(N)^an, ℤ) ≅ ℤ by the complex orientation and Sh(f+ḡ)=[2πi f(τ)dτ+overline{2πi g(τ)dτ}], the cup product and the non-normalized Petersson product ⟨f,g⟩=∫f overline{g} dx dy satisfy (Sh(f₁+ḡ₁),Sh(f₂+ḡ₂))=−8π²i(⟨f₁,g₂⟩−⟨f₂,g₁⟩).
 
 The cup-product pairing is perfect; the Petersson integral converges by exponential decay at the cusps.
 
-Establish this as follows. Use the normalization of Sh in Conrad §5.1, pp. 63–65, rather than unscaled f dz. Compute the wedge of the resulting harmonic representatives and evaluate using the specified i-orientation; with the non-normalized Petersson measure the factor is 4π as in Theorem 5.2, p. 66.
+Establish this as follows. Use the Sh of §14.5 and integrate harmonic representatives in the complex orientation. Since dτ∧dτ̄=−2i dx∧dy, ω_f∧overline{ω_g}=−8π²i f overline{g} dx∧dy; reverse the order for the second mixed term. The holomorphic–holomorphic and antiholomorphic–antiholomorphic terms vanish.
 
 **Checks.**
 
-- Only adjoints matter downstream; the factor 4π is harmless.
+- For a nonzero f∈S₂(Γ₀(11)), cup(Sh(f),Sh(ḟ))=−8π²i⟨f,f⟩ is nonzero and imaginary.
+- Reversing the two cohomology classes changes the sign.
+- Multiplying the pairing by this common nonzero scalar preserves all adjoint conclusions of §14.7.
 
 *Needs:* [§7.2](#s7-2); [§14.5](#s14-5); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
 
@@ -3631,7 +3757,7 @@ Establish this as follows. Import the geometric correspondence and finite-map tr
 - At r=0 this recovers the weight-two Shimura convention.
 - Changing the isogeny pullback to its dual without changing Tate twists must fail the pairing adjoint test.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.10](#s9-10); [§9.12](#s9-12); [§14.2](#s14-2); [§14.4](#s14-4); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`.
+*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.10](#s9-10); [§9.12](#s9-12); [§13.5](#s13-5); [§14.2](#s14-2); [§14.4](#s14-4); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Propositions 3.18–3.19 and (3.20), pp. 158–160.)
 
@@ -3656,6 +3782,22 @@ Establish this as follows. Compute the two parts of the good-prime correspondenc
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1 and preceding localization setup, author pp. 6–8.)
 
+<a id="s14-9a"></a>
+
+### 14.9a A finite graph model for the open modular curve
+
+**Finite surface spine.** For a torsion-free congruence subgroup Γ⊂SL₂(ℤ), prove `modularOpenFiniteGraph`: the noncompact surface Y=Γ\ℍ has a deformation retract onto a finite connected graph. Its fundamental group is free of rank 2g+s−1, where g is the compactification genus and s≥1 its cusp count. Use the FuchsianOrbifolds Layer 2 polygon presentation and Layers 3–4 cusp collars to truncate Y to a compact surface with nonempty boundary. Cut that surface along finitely many arcs to a polygon and collapse it to a spine, retaining the side identifications. Compose the cusp-collar and surface retractions. This constructs a finite two-term cellular complex for any finite free local system; the open surface is aspherical because its universal cover is ℍ.
+
+**Checks.**
+
+- Γ(3) has g=0 and s=4; its graph has free fundamental group of rank 3.
+- A genus-one surface with one puncture retracts onto a graph of rank 2.
+- A compact closed surface of positive genus has nonzero H² and is excluded by s≥1; the graph argument cannot be applied to it.
+
+*Needs:* FuchsianOrbifolds Layers 2–4; AlgebraicTopology Stages 1–2 (homotopies, finite cellular chains and the fundamental group).
+
+([Hatcher, Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Chapter 0, pp.1–5, for deformation retractions and the polygon cell model of an oriented surface; §1.A, Proposition 1A.2, pp.84–85, for the free fundamental group, and §1.B, Example 1B.2, p.88, for the nonclosed-surface graph retract. Removing cusp discs allows the polygon’s two-cell to collapse to the finite spine.)
+
 <a id="s14-10"></a>
 
 ### 14.10 Finite generation and localized integral freeness
@@ -3666,14 +3808,14 @@ O is a complete DVR finite over ℤ_ℓ; anemic localization is a direct summand
 
 Use a finite graph deformation retract of the noncompact torsion-free quotient; its two-term cochain complex has finite free terms.
 
-Establish this as follows. Import the Fuchsian finite-type/free-group model and twisted cochains. The coefficient sequence 0→L→L→L/π→0 shows π-torsion in H¹ is the image of H⁰(L/π); the localized vanishing kills it. A finite torsion-free module over a DVR is free; graph cohomological dimension one removes H² obstructions to reduction. Use the boundary sequence at O and finite levels to identify ordinary and parabolic groups under the stated vanishings.
+Establish this as follows. Use `modularOpenFiniteGraph` of §14.9a and import twisted cellular cochains. The coefficient sequence 0→L→L→L/π→0 shows π-torsion in H¹ is the image of H⁰(L/π); the localized vanishing kills it. A finite torsion-free module over a DVR is free; graph cohomological dimension one removes H² obstructions to reduction. Use the boundary sequence at O and finite levels to identify ordinary and parabolic groups under the stated vanishings.
 
 **Checks.**
 
 - No freeness over the integral Hecke algebra is asserted.
 - At level divisible by ℓ, or with coarse stabilizers, the displayed geometric and vanishing hypotheses must be checked afresh.
 
-*Needs:* [§14.3](#s14-3); [§14.9](#s14-9); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups).
+*Needs:* [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); [§14.3](#s14-3); [§14.9](#s14-9); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1, author pp. 7–8; [Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and (3.20), pp. 154–155, 159–160.)
 
@@ -3820,7 +3962,7 @@ The public interface should expose:
 - Away from Np the map commutes with T_q and diamonds.
 - Do not substitute a map to Γ₁(Np) unless the extra covering and its torsion are explicitly handled.
 
-*Needs:* [§9.1](#s9-1); [§9.12](#s9-12); [§14.8](#s14-8); Mathlib `LinearMap.coprod`.
+*Needs:* [§9.1](#s9-1); [§9.12](#s9-12); [§13.5](#s13-5); [§14.8](#s14-8); Mathlib `LinearMap.coprod`.
 
 ([Congruence relations between modular forms](https://math.berkeley.edu/~ribet/Articles/icm.pdf), §3, pp. 507–508; §4, pp. 510–513; [Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), §4.6, Lemma 4.6.2, p. 33.)
 
@@ -4232,7 +4374,7 @@ Use Layer 9, Layer 10, Layer 13, Layer 14. External contracts: AbelianSchemesAnd
 
 ### 17.1 Reduction of the supplied modular Hecke action
 
-Apply Layer 13’s existing Néron extension of the actual modular Hecke endomorphisms. At p∤N, reduce them on the good abelian fibre J_p; at semistable primes use the induced torus, character and component-group maps of R11.6. The degeneracy morphisms of curves need not extend across their correspondence prime in the same form; the Jacobian endomorphism is what is reduced.
+Apply Layer 13’s existing Néron extension of the actual modular Hecke endomorphisms. At p∤N, reduce them on the good abelian fibre J_p; at semistable primes use the induced torus, character and component-group maps of R11.6. At p∤N the integral degeneracy maps of §9.1 exist, with the semistable correspondence source of §11.5; reduction of their Jacobian endomorphisms uses the good abelian target.
 
 Pic⁰_{X₁(N)/ℤ[1/N]} is an abelian scheme, hence the Néron model of its generic fibre.
 
@@ -4240,7 +4382,9 @@ Establish this as follows. Import the endomorphisms and their already-owned gene
 
 **Checks.**
 
-- The degeneracy maps π_i^{(p)} themselves do not exist over ℤ[1/N] near p; only the induced endomorphisms extend.
+- At p∤N the integral degeneracy maps of §9.1 exist and their source has the semistable fibre of §11.5. The endomorphisms of the good Jacobian extend over ℤ[1/N], although the correspondence source is not smooth at p.
+- The good target and the semistable correspondence source have different smoothness properties.
+- Reduction of the extended endomorphism agrees with the special-fibre correspondence action.
 
 *Needs:* [§13.1](#s13-1); [§13.2](#s13-2); `NeronModelsAndSemistableAbelianVarieties §R11.6`.
 
@@ -4262,7 +4406,7 @@ Establish this as follows. On the ordinary dense locus, the good-prime isogeny c
 
 - The extra w_ζ relation is part of the statement; it is used to identify the characteristic polynomial of Frobenius (AutomorphicGaloisRepresentations).
 
-*Needs:* [§3.2](#s3-2); [§3.5](#s3-5); [§4.12](#s4-12); [§9.1](#s9-1); [§9.2](#s9-2); [§9.12](#s9-12); [§13.2](#s13-2); [§13.4](#s13-4); [§17.1](#s17-1); `AbelianSchemesAndArithmeticModuli §A4`.
+*Needs:* [§3.2](#s3-2); [§3.5](#s3-5); [§4.12](#s4-12); [§9.1](#s9-1); [§9.2](#s9-2); [§9.12](#s9-12); [§13.5](#s13-5); [§13.2](#s13-2); [§13.4](#s13-4); [§17.1](#s17-1); `AbelianSchemesAndArithmeticModuli §A4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Theorem 5.16 and proof, pp. 74–79.)
 
@@ -4353,26 +4497,23 @@ Establish this as follows. Import the dual character lattice and monodromy seque
 
 <a id="s17-6"></a>
 
-### 17.6 Integral modular character maps and exactness
+### 17.6 Integral modular character maps and lattice errors
 
-For the quaternionic pivot term J′_pq(K), supply the specific Cerednik–Drinfeld model, its normalization graph and the integral Hecke-compatible comparison to the two modular degeneracy maps (Ribet–Stein §3.10.2, equation (3.2), p.48). This is an additional geometric input; no Shimura-curve theorem is assumed here. Without that comparison the exported exactness statement is the theorem for a supplied exact sequence of reduction tori, with finite lattice errors retained.
+Every degeneracy homomorphism of the semistable modular Jacobians induces the contravariant character map and compatible monodromy/component diagram of R11.6. Identify these maps on the normalization graphs of Layers 11–12 and compute their integral kernels, cokernels and saturation. Retain every finite lattice error of an old/new isogeny. The character sequence of a supplied exact sequence of tori is the generic R11.6 contract, used here with its geometric hypotheses.
 
-Every supplied degeneracy homomorphism of semistable modular Jacobians induces the contravariant character map and the compatible monodromy/component diagram of R11.6. For a supplied exact sequence of special-fibre tori 0→T₁→T→T₂→0, the resulting character sequence 0→X*(T₂)→X*(T)→X*(T₁)→0 is integral and Hecke-equivariant. An old/new abelian isogeny decomposition alone does not provide this exact torus sequence: the concrete modular integral kernel, cokernel and saturation must be computed from the graph maps. The pivot character sequence 0→X_p(J′_pq(K))→X_q(J(K,pq))→X_q(J(K,q))²→0 of Ribet–Stein (3.2) requires its quaternionic/Cerednik–Drinfeld input and is conditional on that quaternionic model-to-graph comparison.
+The sequence involving the quaternionic Jacobian J′_pq(K) in Ribet–Stein §3.10.2, equation (3.2), is outside this modular interface. It requires a separately owned construction of the quaternionic curve, its Cerednik–Drinfeld model and its integral model-to-graph comparison.
 
-All tori and maps in an exactness assertion are specified geometric objects; if only an isogeny is known, retain its finite lattice error.
-
-J_pq(K) in the pivot sequence is a Shimura-curve Jacobian, not a modular-curve Jacobian of level pq.
-
-Establish this as follows. Import generic character functoriality, then identify the specific maps on the normalization graph supplied by Layer 11. Dualize a proved exact torus sequence; compute any finite lattice error instead of erasing it by rationalization. For the pivot sequence retain the explicit quaternionic term and the model-to-graph comparison as a hypothesis; level lowering is not re-proved here.
+Establish this as follows. Apply R11.6 character functoriality to the actual modular degeneracy maps, compute their incidence-chain maps on the supplied graphs, and compare monodromy and component cokernels. Compute integral kernels and cokernels before rationalizing; use generic character exactness only when the corresponding torus sequence has been proved exact.
 
 **Checks.**
 
-- A finite isogeny kernel can give a nonzero finite character cokernel.
+- A finite isogeny kernel can give a nonzero finite character cokernel; multiplication by m on G_m gives cokernel ℤ/m.
 - The character maps reverse the direction of torus maps.
+- A rational old/new isogeny does not identify the integral character lattices or remove their finite errors.
 
 *Needs:* [§11.5](#s11-5); [§12.1](#s12-1); [§12.4](#s12-4); [§17.4](#s17-4); [§17.5](#s17-5); `NeronModelsAndSemistableAbelianVarieties §R11.6`.
 
-([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.10.2, equation (3.2), p. 48.)
+([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §§3.9–3.10.2, pp.44–48, for the modular character maps and the separate quaternionic hypothesis in (3.2).)
 
 <a id="s17-7"></a>
 
@@ -4443,7 +4584,7 @@ Odd ℓ; Δ_Q is an abelian ℓ-group; the congruence group Γ̄_Q is torsion-fr
 
 The finite-level identification with cohomology modulo πⁿ uses [§14.10](#s14-10) or the minus-cochain computation, not merely a claim that rational invariants commute with integral reduction.
 
-Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). Since Γ̄_Q is free, its cocycle module is finite free over O[Δ_Q]. ξ acts trivially on Δ_Q, so all coboundaries are in the plus eigenspace; minus H¹ equals minus cocycles, a projective summand. O[Δ_Q] is local for a finite ℓ-group over the complete DVR, so that finite projective module is free. Over Frac(O), finite cover descent identifies Δ_Q invariants with base cohomology, giving the stated rank; prove coefficient reduction by the same finite free minus complex. Completed commuting Hecke localization is an idempotent summand; use boundary removal only for the stated non-Eisenstein modules. Apply Mathlib groupCohomology.coindIso for Shapiro; the new work is its compatibility with the tree cochain sequence or finite diamond cover.
+Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). By `modularOpenFiniteGraph` of §14.9a, Γ̄_Q is free of finite rank, so its cocycle module is finite free over O[Δ_Q]. ξ acts trivially on Δ_Q, so all coboundaries are in the plus eigenspace; minus H¹ equals minus cocycles, a projective summand. O[Δ_Q] is local for a finite ℓ-group over the complete DVR, so that finite projective module is free. Over Frac(O), finite cover descent identifies Δ_Q invariants with base cohomology, giving the stated rank; prove coefficient reduction by the same finite free minus complex. Completed commuting Hecke localization is an idempotent summand; use boundary removal only for the stated non-Eisenstein modules. Apply Mathlib groupCohomology.coindIso for Shapiro; the new work is its compatibility with the tree cochain sequence or finite diamond cover.
 
 **Checks.**
 
@@ -4451,7 +4592,7 @@ Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). Since
 - For Δ_Q of order ℓ, the O-rank is ℓ times the O[Δ_Q]-rank.
 - Nothing is asserted about weight-one coherent cohomology by this weight-two argument.
 
-*Needs:* the existing diamond group-ring contract in the supplier section; [§14.9](#s14-9); [§14.10](#s14-10); [§17.8](#s17-8); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); the existing diamond group-ring contract in the supplier section; [§14.9](#s14-9); [§14.10](#s14-10); [§17.8](#s17-8); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proposition 1 and proof, author pp. 7–8.)
 
@@ -4498,7 +4639,7 @@ Locators use the versions specified here. Author-copy pagination is distinguishe
 - [Henri Darmon, Fred Diamond and Richard Taylor, Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf). Author-hosted exposition dated September 9, 2007, 166 pages; internal page numbers.
 - [J. S. Milne, Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf). Version 1.31, March 22, 2017, 134 pages.
 - [Benjamin Bakker and Jacob Tsimerman, Errata to p-torsion monodromy representations of elliptic curves over geometric function fields](https://benjamin-bakker.github.io/P.torsion.erratum.pdf). Author-hosted erratum; undated erratum.
-- [Benedict H. Gross and Don B. Zagier, Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf). Published Invent. Math. 84 (1986), 225–320, MPIM author-hosted scan; journal pages.
+- [Benedict H. Gross and Don B. Zagier, Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf). Published Invent. Math. 84 (1986), 225–320, MPIM author-hosted scan; printed page = PDF page +224.
 - [The Stacks Project authors, The Stacks Project](https://stacks.math.columbia.edu). Cited by stable tag.
 - [Benjamin Bakker and Jacob Tsimerman, p-torsion monodromy representations of elliptic curves over geometric function fields (preprint)](https://arxiv.org/pdf/1403.7168v2). arXiv:1403.7168v2, 31 pages; preprint page numbers.
 - [Bas Edixhoven, Minimal resolution and stable reduction of X₀(N)](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf). Published Ann. Inst. Fourier 40 (1990), 31–67, Numdam scan; first PDF page is a repository cover, so use printed page numbers.
@@ -4533,7 +4674,7 @@ The level-lowering and integral-intersection uses have the following scope. The 
 | Good p∤N, ordinary and supersingular Γ₁ level | §§11.1, 11.5 and 12.4 | Igusa/Frobenius inputs for Serre weights; use a prime-to-p auxiliary rigidifier at small level. |
 | Γ₁(M)∩Γ₀(p), p∤M, with arbitrary coefficient-prime powers in M | §§11.5 and 12.1–12.4 | Mazur principle and trivial-character Γ₀(Mp) level lowering with p≠ℓ and odd ℓ. At p=2,3 the fine model and wild coarse descent are distinct. |
 | Γ₀(pⁿM), n≥1, p∤M | §§5.5 and 11.2–11.4 | The all-level Gross–Zagier intersection model. The regular coarse resolution and its exceptional-divisor data are specified for p>3; the wild interior calculation at 2,3 is the additional input in §11.4. |
-| Two added primes p,q, pq∤M | §§11.5, 12.2 and 12.4 | Character-group and Jacobian oldspace matrices. SerreWeightAndLevelOptimisation owns the level-lowering exact sequence, with the conditional quaternionic interface of §17.6 when it is used. |
+| Two added primes p,q, pq∤M | §§11.5, 12.2 and 12.4 | Character-group and Jacobian oldspace matrices. SerreWeightAndLevelOptimisation owns the level-lowering exact sequence, using the modular maps and finite lattice errors of §17.6. Ribet–Stein (3.2) additionally requires a separately owned quaternionic/Cerednik–Drinfeld construction. |
 | Coefficient characteristic 2, M odd or 2∥M, p odd and p∤M | §§11.5 and 12.1–12.4 | Buzzard’s mod-2 level control, including geometric p=3 and its wild coarse quotient calculation. The minus-projector and odd-ℓ Taylor–Wiles statements do not extend to this case. |
 | Γ₀(p²M), p>3; split Cartan ℓ=12k+1 | §§11.6–11.8 | The specified ramified nodal extension and level-13 Chabauty model. These calculations give no stable-model formula for pⁿ with n>2. |
 
