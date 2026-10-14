@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Monoidal
+import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Dualizable
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.RationalSubset.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafForEveryPresentation
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
@@ -36,10 +38,9 @@ file states the parts that are a few lines over the pinned carriers:
 The R3.6 Banach targets (*completely-continuous-map*,
 *strictly-completely-continuous-closed-target*, *completely-continuous-finite-cokernel*,
 *restriction-strictly-completely-continuous*, *almost-noetherian-integral-affinoid-modules*)
-are README-only contracts: RigidAnalyticGeometry's Banach prerequisites, items 1, 2, 4 and 5,
-supply the strict predicate and analytic theorems. Part III supplies their lattice/norm,
-integral-presentation and rigid–adic comparisons and the series criterion for that predicate.
-The general-Tate extension (*surjection-small-perturbation*) also remains a README target.
+are README-only targets of this roadmap, including their strict predicate, lattice norms,
+analytic theorems and series criterion. The general-Tate small-perturbation theorem
+(*surjection-small-perturbation*) is also a README target.
 
 Completeness includes the Hausdorff property.
 -/
@@ -162,6 +163,9 @@ theorem existsUnique_lift {B : Type*} [CommRing B] [UniformSpace B] [IsUniformAd
 
 end CompletedAway
 
+/-- Localisation at `1` followed by completion recovers the original adic ring. -/
+example : Function.Bijective (algebraMap A (CompletedAway A 1)) := sorry
+
 /-- `A_{f}` vanishes exactly when `f` is nilpotent modulo the ideal of definition. -/
 example (f : A) :
     Subsingleton (CompletedAway A f) ↔ IsNilpotent (Ideal.Quotient.mk (IsAdicRing.ideal A) f) :=
@@ -244,6 +248,14 @@ theorem isNoetherianRing [IsNoetherianRing A] [IsNoetherianRing C]
     IsNoetherianRing (CompletedTensorProduct A B C) := sorry
 
 end CompletedTensorProduct
+
+/-- Tensoring an adic algebra with its base on the right recovers that algebra. -/
+example [Huber.IsAdicHom (algebraMap A A)] :
+    Function.Bijective (CompletedTensorProduct.inl A B A) := sorry
+
+/-- Tensoring an adic algebra with its base on the left recovers that algebra. -/
+example [Huber.IsAdicHom (algebraMap A A)] :
+    Function.Bijective (CompletedTensorProduct.inr A A C) := sorry
 
 end CompletedTensorProduct
 
@@ -414,6 +426,10 @@ example (p : ℕ) [Fact p.Prime] : IsCompleteRankOneBase ℤ_[p] (p : ℤ_[p]) :
 /-- `ϖ = 0` is excluded. -/
 example {O : Type*} [CommRing O] [TopologicalSpace O] : ¬ IsCompleteRankOneBase O (0 : O) :=
   sorry
+
+/-- A unit cannot be a pseudouniformiser of a complete rank-one base. -/
+example {O : Type*} [CommRing O] [TopologicalSpace O] {u : O} (hu : IsUnit u) :
+    ¬ IsCompleteRankOneBase O u := sorry
 
 /-- `A` is *topologically of finite presentation* over `O`: a quotient of some `O⟨ξ₁, …, ξₙ⟩` by a
 finitely generated ideal (Bosch–Lütkebohmert I, §1). -/
@@ -632,6 +648,11 @@ example [CompleteSpace A] [T2Space A] [DecidableEq A] (P : PairOfDefinition A) :
 example [DecidableEq A] (P : PairOfDefinition A) (B : Type*) [CommRing B] [TopologicalSpace B]
     [Algebra A B] (h : IsRationalCompletion P {1} 0 (by simp) B) : Subsingleton B := sorry
 
+/-- The diagonal structure map prevents `A × A` from modelling `A⟨1/1⟩`. -/
+example [CompleteSpace A] [T2Space A] [Nontrivial A] [DecidableEq A]
+    (P : PairOfDefinition A) :
+    ¬ IsRationalCompletion P {1} 1 (by simp) (A × A) := sorry
+
 /-- Huber's acyclicity for finite modules on a Laurent cover: for a complete ring of noetherian
 type, the cover `{|f| ≤ 1}`, `{|f| ≥ 1}` with intersection `{|f| = 1}` and a finite module `M`,
 `0 → M → B₁ ⊗ M × B₂ ⊗ M → B₁₂ ⊗ M → 0` is exact (Huber 1994, §2, Theorem 2.5, p. 525, both
@@ -848,7 +869,7 @@ theorem compactSpace_nonempty [CompleteSpace A] :
 
 /-- Berkovich's formula: the spectral seminorm `lim ‖xⁿ‖^{1/n}` is the maximum of `α(x)` over the
 spectrum, attained when `A ≠ 0`; for `A = 0` both sides are `0` (Berkovich, Theorem 1.3.1;
-KL15, Theorem 2.3.10 and Remark 2.3.11(b), p. 35). -/
+KL15, Theorem 2.3.10, p. 35, and Remark 2.3.11(b), p. 36). -/
 theorem smoothingFun_eq_sSup [CompleteSpace A] (x : A) :
     smoothingFun (normRingSeminorm A) x =
         sSup (Set.range fun α : GelfandSpectrum A ↦ α.val x) ∧
@@ -856,11 +877,11 @@ theorem smoothingFun_eq_sSup [CompleteSpace A] (x : A) :
         α.val x = smoothingFun (normRingSeminorm A) x) := sorry
 
 /-- The spectrum of `ℚ_p` is the `p`-adic norm alone. -/
-example (p : ℕ) [Fact p.Prime] (α : GelfandSpectrum ℚ_[p]) (x : ℚ_[p]) : α.val x = ‖x‖ :=
+theorem test_padic (p : ℕ) [Fact p.Prime] (α : GelfandSpectrum ℚ_[p]) (x : ℚ_[p]) : α.val x = ‖x‖ :=
   sorry
 
 /-- The zero ring has empty spectrum, since `α(1) = 1 ≠ 0 = α(0)`. -/
-example [Subsingleton A] : IsEmpty (GelfandSpectrum A) := sorry
+theorem test_zero_ring [Subsingleton A] : IsEmpty (GelfandSpectrum A) := sorry
 
 /-- Points of the spectrum vanish on nilpotents. -/
 example (α : GelfandSpectrum A) (x : A) (hx : x ^ 2 = 0) : α.val x = 0 := sorry
@@ -878,11 +899,8 @@ namespace LinearMap
 variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] [Module.Finite R M]
   [Module.Projective R M]
 
-/-- Local restatement of PivotalSpherical §Layer 2, to be replaced by the import once that roadmap is merged.
-PivotalSpherical is an open TauCetiRoadmap pull request by kim-em. The scalar carrier
-`(M →ₗ[R] M) →ₗ[R] R` is retained for `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`
-and scalar-extension consumers. R3.8's finite-projective duality/scalar adapter identifies this
-contraction with the supplied categorical trace by evaluation at `1` on `End_R(R)`. -/
+/-- Scalar realization of the symmetric categorical trace on finite projective modules,
+by contraction and evaluation at `1` on the endomorphisms of the unit module `R`. -/
 def projectiveTrace : (M →ₗ[R] M) →ₗ[R] R :=
   contractLeft R M ∘ₗ (dualTensorHomEquiv R M M).symm.toLinearMap
 
@@ -897,12 +915,25 @@ theorem projectiveTrace_baseChange (R' : Type*) [CommRing R'] [Algebra R R'] (f 
     projectiveTrace R' (R' ⊗[R] M) (f.baseChange R') = algebraMap R R' (projectiveTrace R M f) :=
   sorry
 
+/-- Cyclicity of the scalar trace across two finite projective modules. -/
+theorem projectiveTrace_cyclic {N : Type*} [AddCommGroup N] [Module R N]
+    [Module.Finite R N] [Module.Projective R N] (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
+    projectiveTrace R M (g.comp f) = projectiveTrace R N (f.comp g) := sorry
+
 /-- `ℚ × 0 ⊆ ℚ × ℚ` is projective and not free: the trace of its identity is the rank function
 `(1, 0)`, while Mathlib's trace gives `0`. -/
 example [Module.Finite (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})]
     [Module.Projective (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})] :
     projectiveTrace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = (1, 0) ∧
       LinearMap.trace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = 0 := sorry
+
+/-- Every endomorphism of the zero module has trace zero. -/
+example (R Z : Type*) [CommRing R] [AddCommGroup Z] [Module R Z] [Subsingleton Z]
+    [Module.Finite R Z] [Module.Projective R Z] (f : Z →ₗ[R] Z) :
+    projectiveTrace R Z f = 0 := sorry
+
+/-- An endomorphism of the scalar module has trace its value at `1`. -/
+example (R : Type*) [CommRing R] (f : R →ₗ[R] R) : projectiveTrace R R f = f 1 := sorry
 
 /-- On `R²` the trace of `!![a, b; c, d]` is `a + d`. -/
 example {R : Type*} [CommRing R] (a b c d : R) :
@@ -935,8 +966,8 @@ variable {R B}
 
 /-- Transitivity in a tower `R → B → C` of finite projective algebras:
 `Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}` (the free case is Mathlib's `Algebra.trace_trace`; the finite
-projective case follows by localising at primes, with cyclicity supplied by PivotalSpherical
-§Layer 2 / `leftTrace_comm` through R3.8's finite-projective module/scalar identification). -/
+projective case follows by localising at primes, using the finite-projective scalar trace
+and its cyclicity from R3.8). -/
 theorem projectiveTrace_trans {C : Type*} [CommRing C] [Algebra B C] [Algebra R C]
     [IsScalarTower R B C] [Module.Finite B C] [Module.Projective B C] :
     ∃ (_ : Module.Finite R C) (_ : Module.Projective R C), ∀ c : C,
