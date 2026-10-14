@@ -18,6 +18,10 @@ import TauCeti.AlgebraicTopology.Singular.DiskSphere
 import TauCeti.AlgebraicTopology.Singular.EilenbergZilber
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.Singular
 import TauCeti.Topology.Homotopy.HomotopyGroup.Map
+import TauCeti.Topology.Homotopy.HomotopyGroup.Product
+import TauCeti.Topology.Homotopy.Extension.CWComplex
+import TauCeti.Topology.Homotopy.Extension.DeformationRetract
+import TauCeti.Topology.Homotopy.Extension.MappingCylinder
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -34,6 +38,12 @@ open CategoryTheory.Limits
 open scoped ContDiff Manifold Topology TensorProduct Simplicial
 
 noncomputable section
+
+#check HomotopyGroup.prodEquiv
+#check HomotopyGroup.prodMulEquiv
+#check TauCeti.HasHomotopyExtensionProperty.exists_strong_deformation_retraction
+#check TauCeti.MappingCylinder.homotopyEquiv
+#check TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl
 
 universe u v
 
@@ -2346,5 +2356,97 @@ theorem brouwerFixedPoint_compactConvex_finiteSpan (C : Set E) (hne : C.Nonempty
   sorry
 
 end FiniteSpanBrouwer
+
+section RelativeCWPushouts
+
+variable {Y Z : Type u} [TopologicalSpace Y] [TopologicalSpace Z]
+    [T2Space Y] [T2Space Z] (B : Set Y)
+
+/-- The actual inclusion and attachment morphisms determine a native TopCat pushout. -/
+abbrev relativeCWPushoutInclusion : TopCat.of B ⟶ TopCat.of Y :=
+  TopCat.ofHom ⟨Subtype.val, continuous_subtype_val⟩
+
+/-- The carrier is the categorical pushout in TopCat, with its actual quotient topology. -/
+noncomputable abbrev relativeCWPushoutCarrier (a : C(B, Z)) : TopCat.{u} :=
+  pushout (relativeCWPushoutInclusion B) (TopCat.ofHom a)
+
+/-- Relative cells are retained after changing the base by the attachment. -/
+@[instance_reducible]
+noncomputable def relativeCWPushout [RelCWComplex (Set.univ : Set Y) B]
+    (a : C(B, Z)) :
+    RelCWComplex
+      (Set.univ : Set (relativeCWPushoutCarrier B a))
+      (Set.range (fun z : Z =>
+        (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) z)) := by
+  sorry
+
+/-- Disk-by-disk separation retains Hausdorffness of the actual quotient pushout. -/
+theorem relativeCWPushout_t2Space [RelCWComplex (Set.univ : Set Y) B]
+    (a : C(B, Z)) :
+    T2Space (relativeCWPushoutCarrier B a) := by
+  sorry
+
+/-- The original base has its actual subspace topology and is closed in the attachment. -/
+theorem relativeCWPushout_base_isClosedEmbedding
+    [RelCWComplex (Set.univ : Set Y) B] (a : C(B, Z)) :
+    IsClosedEmbedding
+      (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) := by
+  sorry
+
+/-- Exact relative-cell indexing, using the constructed pushout CW data. -/
+noncomputable def relativeCWPushout_cell [h : RelCWComplex (Set.univ : Set Y) B]
+    (a : C(B, Z)) (n : ℕ) :
+    letI := relativeCWPushout B a
+    Topology.RelCWComplex.cell
+      (D := Set.range (fun z : Z =>
+        (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) z))
+      (Set.univ : Set (relativeCWPushoutCarrier B a)) n ≃ h.cell n := by
+  sorry
+
+/-- The pushout characteristic map is the original map followed by the actual quotient map. -/
+theorem relativeCWPushout_characteristicMap [h : RelCWComplex (Set.univ : Set Y) B]
+    (a : C(B, Z)) (n : ℕ) (i : h.cell n) (v : Fin n → ℝ)
+    (hv : v ∈ Metric.closedBall (0 : Fin n → ℝ) 1) :
+    letI := relativeCWPushout B a
+    Topology.RelCWComplex.map
+      (C := (Set.univ : Set (relativeCWPushoutCarrier B a)))
+      (D := Set.range (fun z : Z =>
+        (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) z))
+      n ((relativeCWPushout_cell B a n).symm i) v =
+      (pushout.inl (relativeCWPushoutInclusion B) (TopCat.ofHom a)) (h.map n i v) := by
+  sorry
+
+/-- Closed-cofibration HEP retains prescribed data on both endpoints and on A.
+The native cylinder coordinate order is interval first. -/
+theorem closedCofibrationCylinderHomotopyExtension
+    {X : Type u} [TopologicalSpace X] (A : Set X) (hAc : IsClosed A)
+    (hA : TauCeti.HasHomotopyExtensionProperty A) :
+    TauCeti.HasHomotopyExtensionProperty
+      ((({0, 1} : Set unitInterval).prod (Set.univ : Set X)) ∪
+        (Set.univ : Set unitInterval).prod A) := by
+  sorry
+
+/-- Prescribed one-sided inverse data extend for equivalences of cofibered pairs.
+The forward map and its restriction are both equivalences; no arbitrary second
+inverse homotopy is prescribed. -/
+theorem homotopyInversePairExtension_left
+    {X X' : Type u} [TopologicalSpace X] [TopologicalSpace X']
+    (A : Set X) (A' : Set X')
+    (hAc : IsClosed A) (hAc' : IsClosed A')
+    (hA : TauCeti.HasHomotopyExtensionProperty A)
+    (hA' : TauCeti.HasHomotopyExtensionProperty A')
+    (e : ContinuousMap.HomotopyEquiv X X')
+    (e₀ : ContinuousMap.HomotopyEquiv A A')
+    (he : ∀ a : A, e (a : X) = (e₀ a : X'))
+    (g₀ : C(A', A))
+    (H₀ : ContinuousMap.Homotopy (g₀.comp e₀.toFun) (ContinuousMap.id A)) :
+    ∃ (g : C(X', X))
+      (H : ContinuousMap.Homotopy (g.comp e.toFun) (ContinuousMap.id X)),
+      (∀ a' : A', g (a' : X') = (g₀ a' : X)) ∧
+      (∀ (t : unitInterval) (a : A), H (t, (a : X)) = (H₀ (t, a) : X)) ∧
+      (e.toFun.comp g).Homotopic (ContinuousMap.id X') := by
+  sorry
+
+end RelativeCWPushouts
 
 end TauCetiRoadmap.AlgebraicTopology

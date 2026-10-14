@@ -221,6 +221,12 @@ The development starts from these current APIs.
   extending to direct local-system cochains, relative products and duality.
 - Abstract and classical `CWComplex`/`RelCWComplex`, subcomplexes, skeleta,
   `CWComplex.FiniteDimensional`, `CWComplex.FiniteType`, and `CWComplex.Finite`.
+- Existing `TauCeti.MappingCylinder`, its `incl`, `proj`, `proj_comp_incl`,
+  `isClosedEmbedding_incl` and `homotopyEquiv`, and
+  `TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl` in
+  `Topology.Homotopy.MappingCylinder` / `Extension.MappingCylinder`.
+  Consume the HEP, relative-CW and strong-deformation-retraction APIs in
+  `Extension.Basic` / `CWComplex` / `DeformationRetract`.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
   category-theoretic colimits, chain homotopies, homology functors, and exact couples.
 
@@ -562,10 +568,129 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    generator. HomotopySpheres §3A/§3B and RiemannianGeometry R3 consume these
    homeomorphisms and the explicit generator comparisons, without constructing
    a second sphere-suspension identification.
-5. Prove that relative CW inclusions are closed cofibrations with the homotopy extension
-   property. Construct mapping cylinders, cellular approximation, relative
+   Own `diskBoundaryRelCW`: the actual TopCat.disk n relative to its
+   boundary subset `diskBoundarySubset n` has one n-cell and no other
+   relative cells, using the fixed Stage2.5 sup-ball/disk comparison and
+   characteristic map. Export the homeomorphism from that subset's subtype
+   to native `TopCat.diskBoundary n`.
+   Include n=0 with empty boundary. Own the coproduct relative CW construction
+   for arbitrary disjoint unions of these pairs, preserving cell labels,
+   characteristic maps, the base and the actual disjoint-union topology.
+   Export the homeomorphism from the coproduct base subtype to
+   Σ i,TopCat.diskBoundary(n_i), transporting the actual attaching maps
+   to the C(B,Z) pushout input. MorseTheory M2 consumes these disk pairs.
+5. Consume existing `TauCeti.HasHomotopyExtensionProperty` and
+   `TauCeti.hasHomotopyExtensionProperty_base` for native relative CW
+   inclusions as closed cofibrations. Consume the existing mapping cylinder,
+   projection equivalence and inclusion HEP; construct the relative and double
+   mapping cylinders, cellular approximation, relative
    cellular approximation rel subcomplex for relative CW pairs, and skeletal induction.
-   Prove that a cofibration which is a homotopy equivalence is a strong deformation retract.
+   Consume existing
+   `TauCeti.HasHomotopyExtensionProperty.exists_strong_deformation_retraction`
+   when the inclusion is a homotopy equivalence.
+   Own `relativeCWPushout`: for a Hausdorff native relative CW pair (Y,B),
+   a Hausdorff space Z and a continuous attaching map a:B→Z, use the actual
+   TopCat pushout Z∪_aY with its quotient topology. Prove that Z→Z∪_aY is
+   a closed embedding, that the pushout is Hausdorff, and construct native
+   `RelCWComplex` relative to its image. Its n-cells are exactly the relative
+   n-cells of (Y,B), with characteristic maps composed with Y→Z∪_aY.
+   Prove their interior embeddings, boundary formulas, closure-finiteness
+   relative to Z, weak topology and naturality for commuting attachment
+   diagrams. Z needs no CW structure. Use skeletal disk adjunctions to prove
+   the separation and topology statements. If the input spaces are compactly
+   generated, prove the raw relative CW pushout is compactly generated;
+   otherwise identify its Kelley coreflection with the compactly generated
+   pushout of kZ←kB→kY, retaining the canonical continuous bijection to
+   the raw pushout and its comparison maps.
+   Own `homotopyPushoutGluingComparison`: pushouts along a closed
+   cofibration B→Y are homotopy pushouts. For an actual commuting map of
+   attachment diagrams that is a homotopy equivalence on B,Y,Z, construct
+   the induced homotopy equivalence of pushouts, requiring closed cofibrations
+   for both source and target attaching inclusions; if the gluing square only
+   commutes by a specified homotopy, use the double mapping cylinder and
+   retain that homotopy in the comparison. Prove the versions for homotopic
+   attaching maps and for changing the base by a specified homotopy
+   equivalence, with maps, inverses and homotopies relative to each
+   prescribed closed CW/cofibration subspace on which the input maps and
+   inverse homotopies are fixed, with their compatible relative HEP data. In particular,
+   homotopic attachments to the same Z give equivalences restricting to id_Z
+   and inverse homotopies fixing Z (Milnor Lemmas 3.6–3.7).
+   Own `closedCofibrationCylinderHomotopyExtension`: for closed A⊆X with
+   native HEP, prove HEP for (∂I×X)∪(I×A) in I×X. Use the native
+   retraction characterization of HEP and the square homeomorphism carrying
+   {0}×I∪I×∂I to {0}×I (Strøm's product theorem), retaining the full
+   prescribed endpoint and subspace data in the native I×X order.
+   Own `homotopyInversePairExtension_left` for pairs (X,A),(X′,A′). Require both
+   inclusions to be closed cofibrations, f:X→X′ to carry A into A′, and
+   both f and its restriction f₀:A→A′ to be homotopy equivalences.
+   Given g₀:A′→A and H₀:g₀f₀≃id_A, construct g:X′→X and H:gf≃id_X
+   with g|A′=g₀ and H|A×I=H₀ as actual maps into A. Construct the other
+   inverse homotopy. Use the relative mapping-cylinder/HEP construction and
+   `closedCofibrationCylinderHomotopyExtension` for this one-sided pair data.
+   Own `cofibrationTowerHomotopyEquivalence`: for sequences of Hausdorff
+   spaces with closed-cofibration bonding inclusions and strictly commuting
+   levelwise equivalences f_n, construct the actual mapping telescopes and
+   their homotopy equivalences to the raw final-topology colimits.
+   Construct strictly compatible left inverses and compatible left-inverse
+   homotopies by `homotopyInversePairExtension_left`. Apply the same construction a
+   second time to that left-inverse tower to prove the induced colimit map
+   is a two-sided homotopy equivalence. No inverse data are required as input.
+   For levelwise equivalences whose squares commute up to specified
+   homotopies, construct the induced mapping-telescope map and prove it
+   is a homotopy equivalence. A raw colimit map requires strict commuting
+   maps. Prove the relative version when the maps and inverse homotopies
+   fix a specified common closed-cofibration subspace at every stage.
+   Prove that every compact subset, or map from a compact Hausdorff space,
+   in the final-topology union factors through a finite stage, and compare dimension-filtered classical native CW unions
+   with the categorical RelativeCWComplex colimit by their actual maps and
+   weak topologies.
+   Own `cwSubcomplexTowerUnion`: for a sequence of Hausdorff native CW
+   complexes W_k with closed embeddings onto CW subcomplexes, and specified
+   compatible cell labels and characteristic maps, construct native
+   `CWComplex` on the raw final-topology union. New cells may have arbitrary
+   dimensions in any stage order. Its n-cells are the disjoint union of the
+   new n-cells at each stage, including those of W_0; each W_k embeds as
+   its specified subcomplex. A cell's closure lies in its birth stage W_k
+   and meets finitely many cells there. Prove closure-finiteness, that the cellwise weak
+   topology equals the stage final topology, and the comparison
+   with the categorical `RelativeCWComplex` after reindexing by dimension.
+   Prove the union is Hausdorff, indeed normal, by Hatcher Proposition A.3's
+   cellwise ε-neighborhood construction over the union's dimension skeleta;
+   its singletons are closed by the stage final topology. Export `T2Space`
+   and `NormalSpace`, independently of the later paracompactness theorem.
+   Retain actual stage maps, characteristic maps and cellular naturality.
+   MorseTheory M2 uses this union theorem for its critical-level tower.
+   Own `relativeCWPushoutCWModel`: when Z has a specified Hausdorff CW
+   model h:Z_c→Z with its inverse and homotopies, transport the attachment
+   through that model by the gluing comparison. Construct an absolute CW
+   model by cellwise cellular approximation and skeletal reindexing,
+   retaining Z_c as a CW subcomplex, the new relative cell dimensions and
+   the exact original cell labels and characteristic maps of Z_c. Its
+   n-cells are the sum of Z_c's n-cells, with characteristic maps composed
+   with Z_c→W, and the new relative n-cells; reindexing never changes the
+   original cells or their parametrizations. Retain the actual cell-index
+   equivalence and those characteristic-map equations under successive attachments.
+   Construct the pair equivalence (W,Z_c)→(Z∪_aY,Z) restricting exactly to h on Z_c.
+   Construct its inverse and homotopies; no arbitrary prescribed two-sided
+   homotopy data on Z_c are required. In unbounded cell dimension use the
+   induced pushout comparison maps, which restrict exactly to the previous
+   skeletal comparison: cellular approximation changes the attaching map,
+   and the homotopic-attachment equivalence is identity on the existing base.
+   Apply `cofibrationTowerHomotopyEquivalence` to these strictly commuting
+   comparisons for the infinite passage.
+   When Z itself is CW and h=id,
+   the comparison and its homotopies fix Z. Prove the raw/classical and
+   categorical RelativeCellComplex/RelativeCWComplex carrier comparisons;
+   no cellularity of the original attaching map is assumed. CC C2.0 uses
+   these generic targets for disk-bundle attachments, and MorseTheory M2
+   consumes the pushout, CW-model, compatible gluing and tower targets for
+   its finite/infinite sublevel CW induction.
+   Own `basedHomotopyInverseOfEquivalence`: for a homotopy equivalence whose
+   continuous map strictly preserves the chosen basepoints, between
+   Hausdorff CW complexes with marked 0-cell basepoints,
+   construct a based inverse and unit/counit homotopies rel those points.
+   Use HEP (Hatcher Proposition 0.19), retaining the strict
+   basepoint equation of the input map. AT8.5 and TopK T7.0 consume it.
    Own `relativeCylinderCW`: for a relative CW pair (X,B), construct native
    `RelCWComplex` on X×I relative to (X×{0,1})∪(B×I), with original cell
    coordinates first and interval coordinate last. Prove the product weak
@@ -1032,6 +1157,17 @@ items 1–7 are independent of those later constructions.
    CharacteristicClasses C2.0's bundle-cell relative CW models, compared with
    MorseTheory M5's actual Morse–Bott negative-disk attachments; HomotopySpheres §3A.4 owns the sphere
    Freudenthal theorem itself.
+   Own `homotopyGroupKelleyProduct` for pointed topological spaces X,Y
+   as the composite of the map induced by k(X×Y)→X×Y and existing
+   Tau Ceti `HomotopyGroup.prodEquiv` / `prodMulEquiv` from
+   `Topology/Homotopy/HomotopyGroup/Product.lean`. Prove the first map is
+   a bijection on classes because cubes and their homotopy cylinders are
+   compact Hausdorff. Retain q=0 as a pointed-set bijection and q≥1 as a
+   group isomorphism, naturality and actual projection/inclusion maps.
+   No Hausdorff assumption is needed for this comparison. TopK T7.0 uses
+   it on `cwProductKelley`; compact generation supplies its product-valued
+   map x↦(x,*).
+
 2. Following #42435, construct homotopy groups of Kan simplicial sets, prove
    `TopCat.toSSet.obj X` is Kan, and compare these groups naturally with cubical homotopy groups.
    Prove compatibility with induced maps, boundary maps, and basepoint change.
