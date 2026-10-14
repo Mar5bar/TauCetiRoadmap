@@ -47,7 +47,7 @@ sphericality refer to the chosen dual functor, not just a dagger.
 - [PivotalSpherical, PR #57](https://github.com/TauCetiProject/TauCetiRoadmap/pull/57)
   supplies general pivotal/spherical, rigidity and finite semisimple
   categorical theory. Consume its merged specification and construct
-  any missing targets in Tau Ceti with those interfaces. CA2 adds analytic unitary choices and their
+  any missing targets in Tau Ceti with those interfaces. CA2a adds analytic unitary choices and their
   classification; do not duplicate that general categorical API.
 - [CStarAlgebras C1–C5](../CStarAlgebras/README.md) supplies C* order,
   representations and CP/CB maps. [HilbertModules H1–H4](../HilbertModules/README.md)
@@ -60,7 +60,7 @@ sphericality refer to the chosen dual functor, not just a dagger.
   [Subfactors S1–S2,S5–S9](../Subfactors/README.md) supplies normal
   correspondences/Connes fusion, finite index and ordinary shaded planar
   algebras, plus their operator realizations and S9's finite-depth
-  hyperfinite standard-model/completeness theorem. CA2's planar correspondence
+  hyperfinite standard-model/completeness theorem. CA2b's planar correspondence
   consumes those abstract box/tangle objects, and CA5 owns discrete
   internal-algebra realizations. CA6's anchored theory is different
   from the scalar shaded operad.
@@ -68,6 +68,9 @@ sphericality refer to the chosen dual functor, not just a dagger.
   models and reduced/amalgamated products; CA7 adds module Pimsner
   presentations and free-graph C* norm/K-theory results. CA8 compares
   their von Neumann closures with S8's already constructed models.
+- [TemperleyLiebOperatorAlgebras A3–A6](../TemperleyLiebOperatorAlgebras/README.md)
+  supplies positive diagram quotients, trace completions and the elementary
+  unitary TL category used in CA8's planar input examples.
 - [OperatorKTheory K1–K6,K8](../OperatorKTheory/README.md) supplies
   projection/unitary K-groups, full-corner transport, KK and products.
   CA7–CA8 own these particular K computations and ordered/trace comparisons.
@@ -163,8 +166,8 @@ subfactor correspondences, planar reconstruction or module correspondences.
 TemperleyLiebOperatorAlgebras A6 instantiates this layer directly.
 
 Add dagger compatibility and unitary associators/unitors to the native
-tensor structure; prove tensor norm and dagger laws. Build the tensor
-and module functor categories and unitary monoidal natural isomorphisms.
+tensor structure; prove tensor norm and dagger laws. Build tensor-functor
+categories and unitary monoidal natural isomorphisms.
 For a rigid object construct solutions of the conjugate equations,
 standard/balanced solutions, dual morphisms and dimension,
 using native right duals `Xᘁ` as primary and transporting left duals
@@ -245,13 +248,17 @@ module functors, unitary natural transformations, finite sums, subobjects
 and generation by a chosen object. For the generated 2-by-2 category of a subfactor planar algebra,
 prove the correspondence between connected right planar modules of
 S7 and indecomposable pivotal right module C*-categories with a
-simple basepoint generating under the alternating strand action.
+simple basepoint m=m⊗1₊ with Tr_m(id_m)=1, generating under the
+alternating strand action.
 Use the prescribed positive Markov tower dimensions: rectangular module
 boxes give the Hom spaces, concatenation gives the action, closure gives
 the module trace, and range projections give the C* completion. Recover
 the planar module from Hom spaces of alternating words acting on the
 generator, with the prescribed trace and Markov normalization; prove
-functoriality and the two inverse comparisons. S7 owns the tower and
+functoriality and the two inverse comparisons. Identify the level-zero
+identity with the simple basepoint in the rectangular-box projection
+category and prove its strand-action fusion graph is S7's tower graph.
+S7 owns the tower and
 graph embedding; this milestone owns the abstract module-category
 equivalence.
 
@@ -587,7 +594,8 @@ its even shaded restriction. Give the filtered/orthogonal unitary
 comparison by contraction sums. Apply the S8 proof constructions with
 the self-dual single strand, retaining odd boxes, rather than importing
 a nonexistent unshaded S8 theorem. Construct the unshaded positive TL
-factor planar algebra `P[n]=Hom(1,x^⊗n)` from A3–A6's dagger trace
+factor planar algebra `P[n]=Hom(1,x^⊗n)` from
+TemperleyLiebOperatorAlgebras A3–A6's dagger trace
 quotient/category; recover S6's shaded TL example as its even restriction.
 
 For an unshaded factor planar algebra of modulus δ>1 construct
