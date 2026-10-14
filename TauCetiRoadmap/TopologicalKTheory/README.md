@@ -52,6 +52,13 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 - [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) supplies
   smooth principal/associated bundles, connections and smooth bundle operations.
   T1 and T6 build continuous counterparts and their smoothing/descent comparisons.
+- [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md) supplies
+  the smooth graph-chart upgrade on T1.5's existing finite real/complex
+  Grassmannian carriers for T6.6's homogeneous-space diffeomorphism.
+  Its direct inputs from this roadmap are T1.5–T1.6's topological carriers;
+  the join-classifier input through CharacteristicClasses C1.1 consumes T6.4.
+  All precede T6.6, and those classifiers do not consume the smooth upgrade
+  or T6.6.
 - [ComplexKahlerGeometry K5–K7](../ComplexKahlerGeometry/README.md) supplies
   static Laplace-type estimates, Dolbeault Hodge theory, Kähler identities and
   projective examples. T6 owns the continuous-parameter, vertically smooth
@@ -152,8 +159,28 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    of fibrewise invertibility by a uniform bound. Construct clutching over closed
    disc/cone decompositions, its functoriality, dependence on the gluing map up to
    homotopy and changes of trivialization.
-5. Construct finite Grassmannians, tautological bundles and finite Stiefel
-   bundles; compare their local-coordinate charts with Mathlib bundles. Prove
+5. Construct the single finite Grassmannian carrier `finiteGrassmannian 𝕜 r N`
+   for 𝕜=ℝ or ℂ as the native subtype
+   `{V : Submodule 𝕜 (Fin N→𝕜) // Module.finrank 𝕜 V = r}`.
+   Compare this subspace convention, for r≤N, with Mathlib's native
+   `Module.Grassmannian 𝕜 (Fin N→𝕜) (N−r)` (locally free quotients),
+   retaining the underlying submodule; the native algebraic functor and
+   quotient-rank convention in `Mathlib/RingTheory/Grassmannian.lean` are
+   used as supplied. The topological subspace construction below supplies
+   its field-specialized comparison rather than another algebraic functor.
+   Give it the quotient topology of the full-rank frame-span map, where frames
+   are linearly independent r-tuples in Fin N→𝕜 with the inherited coordinate
+   topology. Prove surjectivity, the GL(r,𝕜)-orbit/fibre identification, quotient
+   maps and the comparison with orthonormal frames using native
+   EuclideanSpace/WithLp coordinate transport and Gram–Schmidt. Treat r=0,
+   r=N and r>N explicitly. Construct the continuous graph charts, their
+   transitions, and agreement with these quotient topologies; construct the
+   tautological and orthogonal-complement bundles, finite Stiefel principal
+   bundles and their local trivializations, stabilization, direct-sum and
+   scalar-forgetting maps on these same carriers. GeneralizedCohomology G4.0b
+   supplies the smooth graph-chart/native-projective upgrade; this item owns
+   the topological construction, used unchanged by T1.6 and T6.6. Compare its
+   local-coordinate bundle charts with Mathlib bundles. Prove
    the real `(n−k−1)` and complex `2(n−k)` connectivity bounds for k-frames in
    n-space. The first-column stabilizer includes its contractible off-diagonal
    factor; construct its deformation comparison with the smaller classical
@@ -170,7 +197,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    over paracompact Hausdorff bases, with the universal numerable bundle and
    locally finite partition/classifying-map proof explicitly constructed.
    Name the fixed-rank universal carrier `Gr_k∞(𝕜)` as the union of the
-   T1.5 finite Grassmannians Gr_k(𝕜^(N+k)) along coordinate closed embeddings,
+   T1.5 carriers finiteGrassmannian 𝕜 k (N+k) along coordinate closed embeddings,
    with the final topology for those inclusions. Construct the Schubert-cell
    CW structure and prove agreement with its weak topology and with the
    compactly generated colimit; construct the universal tautological bundle
@@ -517,7 +544,15 @@ comparisons, not an assumption on every K-object.
    Atiyah–Singer theorem or a theorem about arbitrary elliptic symbol families.
 6. Construct the block subgroup H_r=U(r−1)×U(1), its principal quotient,
    and the equivariant diffeomorphism `U(r)/H_r≃CP^(r−1)` with the projective
-   charts of ComplexKahlerGeometry K7 and the Grassmannian charts of T1.5.
+   charts of ComplexKahlerGeometry K7 and GeneralizedCohomology G4.0b's
+   smooth graph charts on T1.5's same complex Grassmannian carrier.
+   Consume G4.0b's rank-one graph-chart/native-Projectivization diffeomorphism
+   with K7's same projective smooth structure; prove
+   this homogeneous quotient diffeomorphism and its U(r)-equivariance by
+   composing that comparison with the actual frame/plane quotient maps.
+   Own the bundle comparison carrying T1.5's tautological line through that
+   rank-one map to K7.2's O(−1), retaining the underlying fibre inclusion and
+   U(r)-action.
    Consume K7's projective Dolbeault/Hodge calculation to extract
    `H^(0,0)(CP^(r−1))=C`, with trivial U(r)-action, and
    `H^(0,q)(CP^(r−1))=0` for q>0. Prove the constant-function/action comparison;

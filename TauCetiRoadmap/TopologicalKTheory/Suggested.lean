@@ -2,7 +2,10 @@ import Mathlib.Topology.VectorBundle.Basic
 import Mathlib.Topology.VectorBundle.Constructions
 import Mathlib.Topology.VectorBundle.Hom
 import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
+import Mathlib.RingTheory.Grassmannian
 import Mathlib.Analysis.Matrix.Normed
+import Mathlib.Analysis.InnerProductSpace.Orthonormal
+import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Topology.ContinuousMap.Algebra
 import Mathlib.Topology.LocallyConstant.Basic
 import Mathlib.Analysis.Complex.Polynomial.Basic
@@ -111,5 +114,60 @@ theorem isUnit_segment_of_uniform_inverse_bound
     IsUnit ((1 - (t : ℝ)) • (↑u : Matrix (Fin n) (Fin n) ℂ) + (t : ℝ) • B) := by
   sorry
 end SpectralSplitting
+
+/-! ### T1.5: the single finite real/complex Grassmannian and frame-span topology -/
+
+abbrev finiteGrassmannian (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :=
+  {V : Submodule 𝕜 (Fin N → 𝕜) // Module.finrank 𝕜 V = r}
+
+abbrev finiteFullRankFrame (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :=
+  {f : Fin r → (Fin N → 𝕜) // LinearIndependent 𝕜 f}
+
+/-- Span of the actual coordinate columns, with its dimension proved from independence. -/
+def finiteGrassmannianFrameSpan (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ)
+    (f : finiteFullRankFrame 𝕜 r N) : finiteGrassmannian 𝕜 r N :=
+  ⟨Submodule.span 𝕜 (Set.range f.1), by sorry⟩
+
+instance finiteGrassmannianTopology (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :
+    TopologicalSpace (finiteGrassmannian 𝕜 r N) :=
+  TopologicalSpace.coinduced (finiteGrassmannianFrameSpan 𝕜 r N) inferInstance
+
+theorem finiteGrassmannianFrameSpan_surjective (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :
+    Function.Surjective (finiteGrassmannianFrameSpan 𝕜 r N) := by
+  sorry
+
+theorem finiteGrassmannianFrameSpan_isQuotientMap (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :
+    Topology.IsQuotientMap (finiteGrassmannianFrameSpan 𝕜 r N) := by
+  sorry
+
+/-- Orthonormality uses the native Euclidean coordinate inner product, not the sup norm. -/
+abbrev finiteOrthonormalFrame (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :=
+  {f : Fin r → (Fin N → 𝕜) // Orthonormal 𝕜 (fun j => WithLp.toLp 2 (f j))}
+
+def finiteGrassmannianOrthonormalSpan (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ)
+    (f : finiteOrthonormalFrame 𝕜 r N) : finiteGrassmannian 𝕜 r N :=
+  ⟨Submodule.span 𝕜 (Set.range f.1), by sorry⟩
+
+/-- Gram–Schmidt compares this quotient with the same full-rank-frame span topology. -/
+theorem finiteGrassmannianOrthonormalSpan_isQuotientMap
+    (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) :
+    Topology.IsQuotientMap (finiteGrassmannianOrthonormalSpan 𝕜 r N) := by
+  sorry
+
+theorem finiteGrassmannian_isEmpty_of_rank_gt
+    (𝕜 : Type*) [RCLike 𝕜] (r N : ℕ) (h : N < r) :
+    IsEmpty (finiteGrassmannian 𝕜 r N) := by
+  sorry
+
+/-- Field subspaces recover Mathlib's quotient-rank convention, on the same submodule. -/
+def finiteGrassmannianQuotientConventionEquiv (𝕜 : Type*) [RCLike 𝕜]
+    (r N : ℕ) (hr : r ≤ N) :
+    finiteGrassmannian 𝕜 r N ≃ Module.Grassmannian 𝕜 (Fin N → 𝕜) (N - r) := by
+  sorry
+
+theorem finiteGrassmannianQuotientConventionEquiv_submodule (𝕜 : Type*) [RCLike 𝕜]
+    (r N : ℕ) (hr : r ≤ N) (V : finiteGrassmannian 𝕜 r N) :
+    (finiteGrassmannianQuotientConventionEquiv 𝕜 r N hr V).toSubmodule = V.1 := by
+  sorry
 
 end TauCetiRoadmap.TopologicalKTheory
