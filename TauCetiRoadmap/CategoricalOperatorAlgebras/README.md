@@ -89,9 +89,10 @@ The definitive specification is this README.
 
 ### CA1a. Elementary analytic category interfaces
 
-This layer consumes CStarAlgebras and HilbertModules H1–H2 only. It
-supplies the shared interfaces used by analytic TL A6 and is independent
-of normal correspondences and subfactor theory.
+The C*-category layer consumes CStarAlgebras and HilbertModules H1–H2.
+The W*-category portion also consumes VonNeumannAlgebras V4 for preduals,
+normality and Sakai's theorem. These interfaces are independent of normal
+correspondences and subfactor theory; analytic TL A6 uses the C* portion.
 
 Construct a dagger on a native complex linear category, with identity,
 composition, involution, additivity and conjugate-scalar laws. Define
@@ -154,6 +155,13 @@ bi-involution, including its reversed tensor coherence.
 
 ## CA2. Unitary tensor duality and shaded planar algebras
 
+### CA2a. Tensor and unitary-duality interfaces
+
+This layer consumes CA1a's C*-category interfaces and native tensor/rigid
+categories only. Its definitions and duality theorems do not require
+subfactor correspondences, planar reconstruction or module correspondences.
+TemperleyLiebOperatorAlgebras A6 instantiates this layer directly.
+
 Add dagger compatibility and unitary associators/unitors to the native
 tensor structure; prove tensor norm and dagger laws. Build the tensor
 and module functor categories and unitary monoidal natural isomorphisms.
@@ -196,6 +204,12 @@ for all endomorphisms f. Develop its positive unit-summand weights and
 the resulting trace-compatibility equations; the equal-weight state
 is spherical for the balanced choice. Keep this state condition
 distinct from a native spherical-category structure with simple unit.
+
+### CA2b. Planar and module correspondences
+
+This layer consumes CA2a, CA1b and Subfactors S5–S7 for the comparisons
+below. Its reconstruction/equivalence targets are separate from CA2a's
+elementary tensor and duality interfaces.
 
 Prove the shaded correspondence at object and morphism level: shaded
 ordinary-operad planar *-algebras with finite-dimensional boxes,
