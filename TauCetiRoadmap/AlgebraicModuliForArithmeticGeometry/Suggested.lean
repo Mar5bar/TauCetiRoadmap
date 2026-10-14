@@ -68,10 +68,12 @@ theorem grassmannian_top_subsingleton [Module.Free R M] [Module.Finite R M] [Non
 
 end Grassmannian
 
-/-- Hilbert–Serre over a field: for a finitely generated graded module `M = ⊕ ℳ n` over the
+/-- The nonnegative field specialization of GroebnerGeometry G4's graded Hilbert polynomial:
+for a finitely generated graded module `M = ⊕ ℳ n` over the
 polynomial ring `k[X_σ]` with its standard grading, the Hilbert function `n ↦ dim_k ℳ n` agrees for
-large `n` with a rational polynomial of degree less than the number of variables. The Hilbert
-function is Mathlib's `Module.finrank` of the graded piece; no separate definition is introduced. -/
+large `n` with a rational polynomial of degree less than the number of variables. Its rational
+Hilbert-series presentation identifies it with Mathlib's `Polynomial.hilbertPoly` over `ℚ`.
+The Hilbert function is Mathlib's `Module.finrank` of the graded piece. -/
 theorem exists_hilbertPolynomial (k : Type u) [Field k] (σ : Type u) [Fintype σ]
     (M : Type u) [AddCommGroup M] [Module k M] [Module (MvPolynomial σ k) M]
     [IsScalarTower k (MvPolynomial σ k) M] [Module.Finite (MvPolynomial σ k) M]
@@ -81,7 +83,8 @@ theorem exists_hilbertPolynomial (k : Type u) [Field k] (σ : Type u) [Fintype �
       ∀ n, N ≤ n → P.eval (n : ℚ) = Module.finrank k (ℳ n) := sorry
 
 /-- Hilbert–Serre over an Artinian coefficient ring: the graded pieces are finite and their
-lengths agree for large `n` with a rational polynomial. -/
+lengths agree for large `n` with a rational polynomial. The coefficients count lengths over `A`;
+the polynomial has rational coefficients for every characteristic of `A`. -/
 theorem exists_artinianHilbertPolynomial (A : Type u) [CommRing A] [IsArtinianRing A]
     (σ : Type u) [Fintype σ] (M : Type u) [AddCommGroup M] [Module A M]
     [Module (MvPolynomial σ A) M] [IsScalarTower A (MvPolynomial σ A) M]
@@ -104,6 +107,12 @@ example (k : Type u) [Field k] (n : ℕ) :
 /-- `HilbertFunctionChecks.degreeTwo`: `x²`, `xy`, `y²` form a basis of the quadratic piece. -/
 example (k : Type u) [Field k] :
     Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin 2) k 2) = 3 := sorry
+
+/-- `HilbertFunctionChecks.cancelledDenominator`: cancelling a factor `1−T` in a rational
+Hilbert-series presentation preserves the polynomial; `k[x]` has this series over every field. -/
+example : Polynomial.hilbertPoly (1 - Polynomial.X : Polynomial ℚ) 2 =
+    Polynomial.hilbertPoly (1 : Polynomial ℚ) 1 := by
+  simpa using Polynomial.hilbertPoly_mul_one_sub_succ (1 : Polynomial ℚ) 1
 
 /-- `HilbertLengthChecks.dualNumbers`: the constant graded piece over the dual numbers has
 length two over its coefficient ring. -/

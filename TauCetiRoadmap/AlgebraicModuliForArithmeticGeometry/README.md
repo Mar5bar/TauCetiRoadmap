@@ -126,6 +126,10 @@ duality with completion for arbitrary residue fields (§1.M.2). CrystallineCohom
 structures (§CR.5:log-algebra.4, `LogCrystalline.divisorialLog`) and algebraic logarithmic
 differentials and de Rham complexes (§CR.5.1, `LogCrystalline.logDifferentials`,
 `LogCrystalline.logDeRham`).
+GroebnerGeometry G4 supplies graded Hilbert functions, rational Laurent Hilbert series and
+eventual Hilbert polynomials over a field; G2 compares them with semigroup degree counts.
+Section 1.5 uses that shared field construction and extends it to Artinian lengths, coherent
+sheaf Euler characteristics and projective families.
 
 Not in this roadmap: generalized elliptic curves and their level structures belong to
 ModularCurvesPartII; polarized abelian schemes, their moduli, Néron–Severi groups and the abelian
@@ -690,6 +694,23 @@ For the proof, induct on the e generators using the exact sequence for multiplic
 
 *Needs:* `gradedPiecesFinite`, Mathlib `Module.length`, Mathlib `Module.length_eq_add_of_exact`, Mathlib `Polynomial.hilbertPoly`, Mathlib `Polynomial.coeff_mul_invOneSubPow_eq_hilbertPoly_eval`.
 
+The shared field interface is `ProjectiveParameterSpaces.exists_hilbertPolynomial`, the
+nonnegative-grading specialization of GroebnerGeometry G4's graded-module construction.
+For a finite graded module over a standard polynomial ring over any field k, the coefficients
+of its Hilbert series are the rational images of `Module.finrank k (ℳ n)`. After a graded
+shift makes the series nonnegative, a presentation `p(T)/(1−T)^e` gives the eventual polynomial
+`Polynomial.hilbertPoly p e` over ℚ. Mathlib's
+`Polynomial.eq_hilbertPoly_of_forall_coeff_eq_eval` identifies any eventual dimension polynomial
+with this one, independently of the chosen numerator and denominator presentation. If
+`H_{M'}(T)=T^a H_M(T)`, the polynomials satisfy `P_M(t)=P_{M'}(t+a)`.
+GroebnerGeometry G2's semigroup counts use this same
+polynomial. The Artinian-length extension `hilbertSerre`, the sheaf-Euler comparison
+`hilbertPolynomial`, and `familyHilbertPolynomials` are targets here. GroebnerGeometry's
+polynomial minor and flag straightening supplies algebraic presentations; §1.3 constructs the
+quotient-functor Grassmannians, flags and their Plücker geometry.
+
+*Needs:* GroebnerGeometry G2 and G4; Mathlib `Polynomial.eq_hilbertPoly_of_forall_coeff_eq_eval`.
+
 Define `hilbertPolynomial`. For a projective k-scheme X, an ample invertible L, and a coherent sheaf F, define P_(F,L)∈Q[t] by P(m)=χ(X,F⊗L^m) for every integer m, where χ is the finite alternating sum of cohomology dimensions. This agrees with the eventual section-dimension polynomial. Short exact sequences add P, tensoring F by L^a replaces P(t) by P(t+a), and extension of k preserves P. If L is very ample, dim support F is the degree of P for nonzero F, and r! times its leading coefficient is its positive degree.
 
 Here k a field; projective X and coherent F; ample L. For degree relative to an embedding take very ample L. The zero sheaf has zero polynomial and is treated separately.
@@ -775,6 +796,9 @@ Proposition 58.7, pp. 136–137.)
 - `HilbertFunctionChecks.zero`: the zero graded module has Hilbert function `0` and polynomial `0`.
 - `HilbertFunctionChecks.constant`: `k[x]` has Hilbert function `1` in every degree.
 - `HilbertFunctionChecks.degreeTwo`: the degree-two piece of `k[x, y]` has dimension `3`.
+- `HilbertFunctionChecks.cancelledDenominator`: the presentations `1/(1−T)` and
+  `(1−T)/(1−T)²` for the Hilbert series of `k[x]` give the same rational polynomial, also
+  when k has positive characteristic.
 - `HilbertLengthChecks.dualNumbers`: over `k[ε]/ε²` the coefficient ring has length `2` and the
   residue field has length `1`, so lengths, not ranks, are the right coefficients.
 - `HilbertLengthChecks.field`: `k` has length `1` as a `k`-module.
@@ -9536,7 +9560,7 @@ The API consists of `DefGroupoid.fibre` gives framed objects and arrows inducing
 
 - `DefGroupoidTests.scheme` for a scheme the groupoid is discrete
 - `DefGroupoidTests.bg` for BG, deformations are G-torsors over Spec A with a chosen trivialization over k; the automorphisms of the trivial framed torsor are ker(G(A) → G(k)), so over A = k this group is trivial. G(k) acts by changing the framing
-- `DefGroupoidTests.noRS` the covariant ideal functor does not satisfy RS: on k[ε₁,ε₂]/(ε₁²,ε₁ε₂,ε₂²)=k[ε]×_k k[ε], the distinct ideals (ε₁+ε₂) and (ε₁,ε₂) have the same two projected ideals (ε), so the fibre-product comparison is not faithful.
+- `DefGroupoidTests.noRS` the covariant ideal functor does not satisfy RS: on k[ε₁,ε₂]/(ε₁²,ε₁ε₂,ε₂²)=k[ε]×_k k[ε], the distinct ideals (ε₁+ε₂) and (ε₁,ε₂) have the same two projected ideals (ε), so the fibre-product comparison is not injective on the set of ideals. As a functor of discrete groupoids it is faithful but not full, hence not fully faithful or an equivalence.
 (Stacks, Section 98.3 (tag 07T2), Section 98.6 (tag 07WT).)
 *Needs:* SchemeAndStackFoundations Layer 4 (SchemeAndStackFoundations §4.2, SchemeAndStackFoundations §4.3), SchemeAndStackFoundations Layer 1 (SchemeAndStackFoundations §1.18).
 
@@ -10508,7 +10532,7 @@ For the proof, use the algebraic vanishing and effective adjoint chain of §9.10
 
 *Needs:* `amplePowersAndFixedTwists`, `hilbertPolynomial`, `uniformQuotientRegularity`, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §5.3, SchemeAndStackFoundations Layer 4.
 
-Prove `smoothPolarizedBoundedness`. Fix n≥1 and r>0. Smooth projective complex varieties X of dimension 2n with K_X trivial and an ample L satisfying L^(2n)=r form a bounded family of underlying varieties. A uniform power L^m embeds them into one fixed P^N with degree m^(2n)r. The bounded-support families of `boundedSupportParameters`, through the bounded-degree target, then supply finitely many finite-type projective parameter families, and finitely many Hilbert polynomials. These families need no Hilbert-functor representability; Layer 2 uses this polynomial finiteness for its Hilbert construction.
+Prove `smoothPolarizedBoundedness`. Fix n≥1 and r>0. Smooth projective complex varieties X of dimension 2n with K_X trivial and an ample L satisfying L^(2n)=r form a bounded family of underlying varieties. A uniform power L^m embeds them into one fixed P^N with degree m^(2n)r. The bounded-support families of `boundedSupportParameters`, through the bounded-degree target, then supply finitely many finite-type projective parameter families, and finitely many Hilbert polynomials. These families need no Hilbert-functor representability; Layer 2 uses this polynomial finiteness in applications of the Hilbert schemes supplied by SchemeAndStackFoundations §4.14's `hilbert_quot_schemes`.
 
 Here Ample L, not merely big; K_X trivial; fixed dimension and top self-intersection. This is a complex geometric family statement, not descent of L over a smaller field.
 
@@ -10529,9 +10553,10 @@ Layer 1 projective closure and Layers 3 and 6 étale comparison; ideal sheaves (
 ## Downstream consumers
 
 ModularCurvesPartII uses the graph parameters, rigidification, finite correspondence descent and
-completed deformation comparisons. AbelianSchemesAndArithmeticModuli uses the algebraic-space
-Picard theory, framed deformations, polarized boundedness, `rigidLevelStructure` for its abelian
-level instances, and the finite-source restriction exports of Layer 3 under their names here:
+completed deformation comparisons. AbelianSchemesAndArithmeticModuli uses the Picard sheaves
+and section rigidifications of §7.6.1, framed deformations, polarized boundedness,
+`rigidLevelStructure` for its abelian level instances, and the finite-source restriction exports
+of Layer 3 under their names here:
 `ModuliDescent.weilRestriction`, `ModuliDescent.weilRestriction_baseChange`,
 `ModuliDescent.weilRestriction_algebraicity`, `ModuliDescent.relativeHom_algebraicity` and
 `ModuliDescent.finiteQuotientComparison`. PELModuli and ShimuraVarieties use the representability
