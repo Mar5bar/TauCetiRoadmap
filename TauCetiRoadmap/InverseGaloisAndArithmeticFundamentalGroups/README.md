@@ -296,8 +296,9 @@ convention transport of Layer IG.6.
 | Constant-sheaf point-count trace | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `VanishingCycles.pointCountTrace` | §IG.5.5 takes r=1, ℓ≠char k, geometric Frobenius and compact support; the weight bound in the point estimate is a separate hypothesis. |
 
 Layer IG.0 owns integral local systems even when p is not invertible, their isogeny category
-and stackified rational local systems without a global lattice; only the common lisse normalized
-subcategory is compared with §F.4. Layers IG.1 and IG.5 own arithmetic/tame π₁ and the tame
+and stackified rational local systems without a global lattice; the comparison with §F.4 uses
+integral lisse systems and the rational subcategory admitting a global lisse integral lattice.
+Layers IG.1 and IG.5 own arithmetic/tame π₁ and the tame
 relative-normal-crossings specialization argument; the generic smooth ULA theorem alone does
 not supply local acyclicity at that boundary.
 
@@ -607,9 +608,11 @@ system, viewed as a `ℤ_p`-adic object of LefschetzPencilsAndVanishingCycles §
 zero, is fully faithful onto its lisse degree-zero objects with finite free stalks, and is compatible
 with the reductions `T ⊗ ℤ/p^n ↦ T_n`, with pullback, with tensor products and with stalks at
 geometric points. It induces a fully faithful functor from `ℤ_p-ILoc(X)` to the rational objects of
-LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.rationalAdicRealization` (its
-`ℤ_p`-objects with `p` inverted in morphisms). No comparison is made for the
-stackified category `ℚ_p-Loc(X)`, which is strictly larger on nonnormal `X`. The finite levels `T_n`
+LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.rationalAdicRealization`, with essential
+image the rational lisse degree-zero objects admitting a global lisse finite free `ℤ_p` lattice.
+The supplied rational category also contains lisse objects whose integral models are constructible
+but not lisse. A comparison for the whole stackified category `ℚ_p-Loc(X)`, which can be strictly
+larger than `ℤ_p-ILoc(X)` on nonnormal `X`, is outside this target's scope. The finite levels `T_n`
 are the finite locally free `ℤ/p^n`-sheaves of LefschetzPencilsAndVanishingCycles §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory` in both theories; the towers
 of this layer, their isogeny and rational versions, and the case where `p` is not invertible on `X`
@@ -620,12 +623,18 @@ inverse systems of finite
 locally free `ℤ/p^n`-sheaves with the reduction isomorphisms; on such systems the normalization of
 adic objects is the identity, so the comparison is the inclusion of a full subcategory; reductions,
 pullback and tensor products are computed levelwise on both sides, and stalks are inverse limits of
-the stalks of the `T_n`. Source: [Kedlaya–Liu, *Relative p-adic Hodge theory:
+the stalks of the `T_n`. Inverting `p` in the morphisms gives full faithfulness for the isogeny
+category; a global lisse integral lattice gives a compatible tower of finite free reductions,
+which identifies the essential image. Sources: [Kedlaya–Liu, *Relative p-adic Hodge theory:
 foundations*](https://arxiv.org/pdf/1301.0792v5), Definition 1.4.1 and Remark 1.4.4, PDF pp. 20–21,
 which identify lisse `ℤ_p`-sheaves with these inverse systems and refer to SGA 5, Exposé VI, §1.2.4,
-for the classical adic formalism. *Needs:* *Integral, isogeny and rational `ℤ_p`-local systems*;
+for the classical adic formalism; [Bhatt–Scholze, *The pro-étale topology for
+schemes*](https://arxiv.org/pdf/1309.1198v2), Lemma 6.8.13 and Proposition 6.8.14, for constructible
+integral models and the full rational constructible category.
+*Needs:* *Integral, isogeny and rational `ℤ_p`-local systems*;
 Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
 Supplied by LefschetzPencilsAndVanishingCycles §F.4 / `VanishingCycles.normalizedAdicSystems`.
+The rational category is supplied by its §F.4 / `VanishingCycles.rationalAdicRealization`.
 Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 The adic inputs require invertible ℓ, coherent derived reductions and uniform cohomological/Tor
@@ -646,9 +655,12 @@ bounds; the integral-to-rational passage retains the whole finite-level tower.
   `ψ(a) = 5^a` (`p = 2`) of `ℤ_p` into `ℤ_p^×` gives a rank-one `ℤ_p`-local system of this layer,
   with `p` equal to the characteristic: its level `n` is
   `ℤ/p^n` with `π₁^ét` acting through `ψ ∘ θ` modulo `p^n`, these reductions are compatible, and its
-  monodromy `ψ(ℤ_p)` (`1 + pℤ_p`, resp. `1 + 4ℤ_2`) is infinite. On the nodal rational curve the
-  rational local system with monodromy `p` is not in the isogeny category, so it has no rational adic
-  counterpart.
+  monodromy `ψ(ℤ_p)` (`1 + pℤ_p`, resp. `1 + 4ℤ_2`) is infinite.
+- On the nodal rational curve `ℙ¹/(0 ∼ ∞)` over an algebraically closed field of characteristic
+  different from `p`, the rational line with loop monodromy `p` is lisse and has a constructible
+  integral model in `VanishingCycles.rationalAdicRealization`. It has no global lisse integral
+  lattice, since `p · p^a ℤ_p = p^{a+1} ℤ_p ≠ p^a ℤ_p` for every integer `a`, and hence lies outside
+  the essential image of `ℤ_p-ILoc(X)` under this comparison.
 
 **Representations and bounded lattice schemes.** Let `X` be connected with geometric point `x̄`.
 Taking the fibre at `x̄` gives a tensor equivalence between `ℤ_p-Loc(X)` and continuous
@@ -1313,25 +1325,73 @@ Riemann existence uses finite-type complex schemes and the shared fibre/deck con
 - For `(g, n) = (1, 1)` the stack `𝓜_{1,1}` has generic stabiliser `±1`, which must appear in its
   fundamental group; computing with the coarse space would lose it.
 
+**Pointed finite étale covers of semisimple groups.** Let `k` be algebraically closed of
+characteristic zero, `G/k` a connected semisimple algebraic group, `p : Y → G` a connected finite
+étale Galois cover, and `y ∈ Y(k)` a point above the identity. There is a unique algebraic group
+structure on `Y` with identity `y` making `p` a group morphism. Its source is a semisimple affine
+group scheme and `p` is a central isogeny. Thus if `G` satisfies the algebraic predicate
+`TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty`, every such cover is an isomorphism
+and `π₁^ét(G, 1) = 1`. This target constructs the group operations on the covering scheme.
+
+*Proof sketch.* Over `ℂ`, put `N = p_*π₁^top(Y, y)`. The product formula and the
+Eckmann–Hilton identity identify multiplication on `π₁^top(G, 1)` with its abelian group law;
+inversion induces negation. Hence multiplication composed with `p × p` and inversion composed
+with `p` have fundamental-group images contained in `N`. The pointed covering-space lifting
+criterion gives their unique lifts with value `y` at the identity. Each lift is a section of the
+corresponding pulled-back finite étale cover, and full faithfulness of Riemann existence makes
+that section algebraic. Pointed uniqueness on the connected products of `Y` gives associativity,
+the unit laws and the inverse laws. The source is smooth and affine since it is finite étale over
+`G`. Conjugation on the finite étale kernel is constant along connected `Y`, so the kernel is
+central. The connected solvable radical maps trivially to semisimple `G`, hence is contained in
+that finite kernel and is trivial; thus `Y` is semisimple.
+
+For arbitrary algebraically closed `k` of characteristic zero, descend `G`, the cover `p` and
+the point `y` to an algebraic closure `k₀` of a finitely generated subfield of `k`, and embed `k₀` in `ℂ`.
+The characteristic-zero base-extension equivalence descends the algebraic sections from `ℂ`
+to `k₀`; extend them to `k`. Faithfulness transports their laws and pointed uniqueness.
+Apply the pinned central-isogeny eliminator over `k` itself. Every connected finite étale cover
+is dominated by a connected Galois cover, so triviality of the latter computes `π₁^ét(G)`.
+Source: [Brion–Szamuely, *Prime-to-p étale covers of algebraic groups and homogeneous
+spaces*](https://arxiv.org/html/1109.2802v4), Proposition 1.1(a) and its proof in §2; in
+characteristic zero there is no restriction on the degree.
+*Needs:* *Invariance under algebraically closed base extension in characteristic zero*;
+Supplied by ComplexComparisonPartII §C6.2 / `riemannExistence` and §C6.0 / `complexAlgebraicTopology`;
+Supplied by LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
+ReductiveGroups Layer 6 (radicals, semisimple groups and central isogenies);
+Mathlib `IsCoveringMap.existsUnique_continuousMap_lifts_of_range_le`;
+Tau Ceti `TauCeti.FundamentalGroup.prodMulEquiv`, `FundamentalGroup.cast_map_prod_mul` and
+`TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty.isIso`.
+
+**Checks.**
+
+- For the identity cover pointed at `1`, the lifted multiplication and inversion are those of `G`.
+- For `G = SL₂`, algebraic simple connectedness forces every connected finite étale Galois cover
+  to have degree one, and `π₁^ét(SL₂, 1) = 1`.
+- The pointed cover `SL₂ → PGL₂` has central kernel `μ₂` and degree two. Its source is semisimple,
+  but the target is not algebraically simply connected, so the isomorphism conclusion fails.
+
 **Homogeneous spaces with finite stabilisers.** Let `k` be a field of characteristic zero, `G` a
-connected semisimple and simply connected algebraic group over `k`, and `V` a homogeneous space of
+connected semisimple and simply connected algebraic group over `k` (using the algebraic
+central-isogeny predicate on `G_{k̄}`), and `V` a homogeneous space of
 `G` whose geometric stabiliser at a point `v ∈ V(k̄)` is a finite group `H`. The orbit map
 `G_{k̄} → V_{k̄}` is a universal finite étale cover and an `H`-torsor, so
 `π₁^ét(V_{k̄}, v) ≅ H`, and the arithmetic sequence reads `1 → H → π₁^ét(V, v) → Γ_k → 1`. Without a
-rational point it gives an outer action and no chosen section. *Proof sketch.* Over `ℂ`,
-`π₁^ét(G) = 1` because `G(ℂ)` is simply connected and finite étale covers are topological covers;
-descend to `k̄` by invariance under algebraically closed base extension. The quotient map is an
-`H`-torsor with deck group `H`; apply the arithmetic sequence. Source: [Harpaz–Wittenberg,
+rational point it gives an outer action and no chosen section. *Proof sketch.* Apply
+*Pointed finite étale covers of semisimple groups* over `k̄` to get `π₁^ét(G_{k̄}, 1) = 1`.
+The quotient map is a connected finite étale `H`-torsor; the finite Galois-category calculation
+identifies its fibre at `v`, pointed by `1`, with `H` and gives `π₁^ét(V_{k̄}, v) ≅ H`.
+For the right `H`-action on `G_{k̄}`, deck transformations compose in the opposite order;
+use inverse right translations to identify the deck group with `H`, retaining the shared
+fibre/deck convention. Apply the arithmetic sequence. Source: [Harpaz–Wittenberg,
 *Zéro-cycles sur les espaces homogènes*](https://arxiv.org/pdf/1802.09605v2), §5.1 and the proof of
-Proposition 5.1, pp. 18–19. *Needs:* *The arithmetic fundamental-group sequence*, *Invariance under
-algebraically closed base extension in characteristic zero*; Supplied by
+Proposition 5.1, pp. 18–19. *Needs:* *The arithmetic fundamental-group sequence*,
+*Pointed finite étale covers of semisimple groups*; Supplied by
 LefschetzPencilsAndVanishingCycles §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
-Supplied by ComplexComparisonPartII §C6.2 / `riemannExistence`; ReductiveGroups Layer 6;
-ModularCurves Layer 0c (finite quotients and
+ReductiveGroups Layer 6; ModularCurves Layer 0c (finite quotients and
 torsors).
 Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-Riemann existence uses finite-type complex schemes and the shared fibre/deck convention.
+The quotient calculation retains the shared fibre/deck convention.
 
 **Checks.**
 

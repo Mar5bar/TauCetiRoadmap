@@ -951,12 +951,23 @@ p and rational objects without a global lattice. Supplied by LefschetzPencilsAnd
 invertibility, and based π₁ requires connected nonempty locally Noetherian schemes. Supplied by
 LefschetzPencilsAndVanishingCycles §F.4 / VanishingCycles.normalizedAdicSystems,
 VanishingCycles.rationalAdicRealization: the comparison uses only the common normalized lisse
-subcategory on connected Noetherian schemes with p invertible and uniform cohomological/Tor bounds.
+integral subcategory on connected Noetherian schemes with p invertible and uniform
+cohomological/Tor bounds. Its rationalization is fully faithful on the isogeny category, with
+essential image the rational lisse degree-zero objects admitting a global lisse integral lattice.
+The supplied full rational category contains the nodal rational line with monodromy p, which has
+a constructible integral model and lies outside this essential image. The comparison for the
+whole stackified rational-local-system category is outside this target's scope.
 Layer IG.1: the arithmetic exact sequence, finite étale covers over a henselian local base, proper
 descent of finite étale covers, invariance under
 algebraically closed base extension, `SchemeInertia`, `TameFundamentalGroup`,
 `PrimeToFundamentalGroup`, `TameTangentialFiber`, the specialization theorems,
-`IsArithmeticRepresentation`, and the homogeneous-space fundamental group.
+`IsArithmeticRepresentation`, connected pointed finite étale Galois covers of semisimple groups
+over algebraically closed characteristic-zero fields as central isogenies, and the homogeneous-space
+fundamental group. The cover-to-isogeny target constructs multiplication
+and inversion by pointed topological lifting and algebraizes the sections by Riemann existence;
+it proves semisimplicity of the source and transports the construction to algebraically closed
+characteristic-zero fields. Algebraic simple connectedness then gives trivial étale π₁, used for
+the finite-stabiliser quotient with the shared fibre/deck convention.
 Layer IG.2: Hilbert subsets of varieties, `ThinSet`, full-group specialization of regular covers,
 local conditions, norm pullbacks, Frattini detection for profinite groups, the integral thin-set
 count and normal subgroups of absolute Galois groups.
