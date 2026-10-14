@@ -4454,19 +4454,144 @@ coefficients `α_ij` with `m ≤ n`, and `c_i ∈ R₀[α_ij]`, prove that the s
 it is regular in Mathlib's stronger convention ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Proposition 5.13, pp.44–45).
 *Needs:* A pivot chart for generic linear sequences, Cancellation of pivot denominators.
 
-**Mixed minor and linear resolutions.** Let `R = R₀[b′₁, …, b′_n, b₁, …, b_{n+r}, V_ij]`,
-partition `{1, …, n}` into blocks `S_a`, let `f_a` have columns `(b_j, b′_j)` for `j ∈ S_a`, and
-add `f_{k+1}(e_i) = ∑_{j ≤ n+r} V_ij b_j` for `i ≤ r`. Prove that `⊗_a DetBR(f_a)` resolves the
-quotient by the sum of their image-minor ideals, with singleton blocks interpreted as zero local
-ideal and omitted ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Proposition 5.14, p.46). *Needs:* Regularity of a generic two-column map, Weak regularity of generic linear equations,
-Tensor resolutions of ordered determinantal ideals.
+**Generic combinations of an ideal containing a regular sequence.** For any commutative
+ring `A`, a finite list of generators `b₁, …, b_h`, and an ideal `(b)` containing a weakly
+regular sequence of length `d`, prove that the independent generic combinations
+`L_i = ∑_j V_ij b_j`, `1 ≤ i ≤ ℓ ≤ d`, are weakly regular in `A[V_ij]`.
+No noetherianity or nonzero-quotient hypothesis is required. This target owns the
+Koszul-cohomology argument: define the cochain complex `Hom_A(K(b), A)`, prove that
+`H^q` vanishes for `q<d` by induction on the given regular sequence, and prove that
+multiplication by every element of `(b)` is nullhomotopic. Its degree-zero cohomology
+is the common annihilator of the `b_j`. McCoy's generic-element criterion therefore
+makes `L₁` a non-zero-divisor. The long exact cohomology sequence for quotienting by
+`L₁` gives vanishing in degrees `<d−1`; repeat with each independent coefficient row.
+Polynomial extension commutes with this finite cochain complex and its cohomology.
+These constructions and vanishing results hold for arbitrary rings. After coefficient
+change the conclusion requires the regular-sequence hypothesis over the new ring;
+Coordinate regularity in disjoint minor quotients supplies that hypothesis for every
+coefficient ring in the mixed-minor application
+([Stacks](https://stacks.math.columbia.edu/tag/068P), Lemma 15.31.16, tag 068P, for the
+generic-element step; Lemma 15.29.6, tag 0663, for the Koszul homotopy; the iterated
+argument is a target here). *Needs:* Koszul complex of a finite sequence, Mathlib
+`RingTheory.Sequence.IsWeaklyRegular`, homology long exact sequences.
+*Lean:* `IntegralRibet.genericLinearSequence`, `IntegralRibet.generic_combinations_regular`.
 
-**Generic variable count for the Ribet relations.** Prove that after the presentation
-stabilization, the formal `b`-entry ideal `J′` consists of local `2 × 2` minors and `r` generic
-linear equations with exactly `r` `b` variables not assigned to a local block: type III
-contributes one row for each assigned local generator, and subtracting these from the square
-presentation leaves the required equality of counts ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §5.9 final paragraph,
-p.46). *Needs:* Stabilization of local relation rows, Formal Ribet relation ideals.
+**Checks.**
+
+- For `(b)=(x,y)` in `ℤ[x,y]`, two independent generic combinations are weakly regular;
+  this is the case `d=2`, without inverting their coefficient determinant.
+- For `(b)=(2)` in `ℤ`, one generic combination `2V` is regular. In `ℤ/4` the same
+  expression kills `2`, and the regular-sequence hypothesis fails.
+- For `(b)=(x)` in `ℤ[x]`, `V₁x,V₂x` is not weakly regular: modulo `V₁x`, the nonzero
+  class of `V₁` kills `V₂x`. The bound on the number of equations is necessary.
+
+**Coordinate regularity in disjoint minor quotients.** Over any commutative `R₀`, let
+`Q=R₀[b_j,b′_j,z₁,…,z_u]/∑_a I₂((b_j,b′_j)_{j∈S_a})`, with disjoint nonempty
+blocks `S₁,…,S_k`. Prove that the unused variables `z₁,…,z_u`, followed by one chosen
+`b_j` from each block, form a weakly regular sequence of length `u+k`.
+Build the integral monomial normal form of each local quotient: the map
+`b_j↦s w_j`, `b′_j↦t w_j` identifies it with the subalgebra of `R₀[s,t,w_j]`
+spanned by monomials `s^p t^q ∏w_j^{e_j}` with `p+q=∑e_j`. Prove that the minors
+are exactly the kernel, these monomials are an `R₀`-basis, and multiplication by a
+chosen `b_j` embeds that basis into itself. Its quotient has the complementary
+monomial basis and is free over `R₀`. Tensoring disjoint blocks and their coordinate
+quotients proves the assertion over every `R₀`, including rings with torsion.
+Empty blocks contribute no variables or equations; a singleton has zero minor ideal
+and its `b_j` can instead be counted among the unused variables, with `b′_j` absorbed
+in `R₀` ([DKSW](https://arxiv.org/pdf/2310.16396v2), Corollary 5.12, monomial equivalence
+argument, printed p.43). *Needs:* Mathlib `MvPolynomial`, tensor products.
+*Lean:* `IntegralRibet.localMinorIdeal` specifies the sum of minors.
+
+**Checks.**
+
+- In `ℤ[b₁,b₂,b′₁,b′₂]/(b₁b′₂−b₂b′₁)`, multiplication by `b₁` is injective, but
+  after killing `b₁`, the nonzero class `b′₁` is killed by `b₂`. A block contributes one
+  coordinate to this sequence, not its number of columns.
+- The same multiplication by `b₁` is injective over `ℤ/4`; the monomial-basis proof
+  requires no domain hypothesis on the coefficient ring.
+- With two disjoint two-column blocks, one `b` from each is a weakly regular sequence.
+  With no blocks, the sequence consists of the `u` polynomial variables; with a singleton,
+  its local ideal is zero and moving its `b` to the unused list preserves the length.
+
+**Mixed minor and linear resolutions.** Let
+`R=R₀[b′₁,…,b′_n,b₁,…,b_{n+u},V_ij]`, partition `{1,…,n}` into `k` nonempty blocks
+`S_a`, and let `f_a` have columns `(b_j,b′_j)` for `j∈S_a`. For `ℓ≤u+k` independent
+coefficient rows, put `L_i=∑_{j≤n+u}V_ij b_j`. Prove that `L₁,…,L_ℓ` is weakly
+regular modulo the sum of the local minor ideals, and that
+`K(L)⊗_R⊗_a DetBR(f_a)` resolves the quotient by those minors and the `L_i`.
+Omit empty and singleton determinant factors, which contribute zero local ideal; moving
+singleton coordinates into the unused list preserves `u+k`.
+Coordinate regularity in disjoint minor quotients supplies a regular sequence of length
+`u+k` in the ideal of all `b` coordinates. Generic combinations of an ideal containing a
+regular sequence supplies scalar regularity at this bound. The disjoint local maps are
+regular in order by Corollary 5.12, and tensor resolutions supply exactness.
+This target extends the unused-variable case `ℓ≤u` of
+[DKSW](https://arxiv.org/pdf/2310.16396v2), Proposition 5.14, printed p.46, using the
+specified Koszul-cohomology argument. It is asserted over arbitrary commutative `R₀`,
+with independent coefficients retained; it does not assert exactness after specializing
+those coefficients. The local and scalar prefix quotients are flat over `R₀`: the local
+normal forms are free, and scalar regularity over every `R₀/I` supplies universal
+regularity for each successive quotient. Apply the pinned
+`Module.Flat.quotient_span_singleton_of_lTensor_mulLeft_injective` at every scalar step.
+*Needs:* Coordinate regularity in disjoint minor quotients, Generic combinations of an ideal
+containing a regular sequence, Regularity of a generic two-column map, Tensor resolutions
+of ordered determinantal ideals, Tau Ceti `RingTheory/Flat/QuotientRegular.lean`.
+*Lean:* `IntegralRibet.mixed_scalar_regular`.
+
+**Checks.**
+
+- For one block `{3,4}`, unused `b₁,b₂`, and three independent coefficient rows,
+  `L_i=∑_{j=1}^4V_ijb_j` is weakly regular modulo `b₃b′₄−b₄b′₃` over `ℤ` and over
+  `ℤ/4`. Here `ℓ=3=u+k`, exceeding the two unused variables. Specializing to
+  `L₁=b₁,L₂=b₂,L₃=b₃` gives quotient
+  `ℤ[b′₃,b′₄,b₄]/(b₄b′₃)`; the third equation is still a non-zero-divisor before
+  taking that quotient.
+- With no blocks the bound is `ℓ≤u`, the generic linear theorem. With one singleton
+  block and `u=0`, its one generic equation is `Vb`; the local determinant factor is the
+  unit complex and the equation is weakly regular.
+- For one two-column block and no unused variables, two generic equations exceed the
+  bound. Modulo the minor and `L₁`, the nonzero class `V₁₁b′₁+V₁₂b′₂` is killed
+  by `L₂`: its product with each `b_j` equals `b′_jL₁`. It is nonzero because setting
+  both `b` coordinates to zero retains this polynomial. Specializing all coefficients
+  to zero also destroys regularity for one equation.
+
+**Generic variable count for the Ribet relations.** Let `N` count difference-generator
+slots after stabilization, `s=|Σ∖{v₀}|`, `t=|P|`, and `a₃,a₄,a₅` count selected rows
+of types (III), (IV), (V). Prove that the `(N+s)`-square relation matrix has
+`L=N+s−a₃−a₄−a₅` scalar rows of types (I)/(II). The formal quotient kills the `a₃`
+distinguished-place `b` coordinates. Separate occurrence slots put `a₄+a₅+t` surviving
+coordinates into local blocks, including each auxiliary top occurrence. Before discarding
+singleton blocks the number of unused surviving coordinates is
+`u₀=N−a₃−a₄−a₅−t`, so `L=u₀+s+t`.
+An empty nondistinguished-place block means its entire `y_v` column is zero in `D`,
+`𝔈` and `𝔈′`; its arithmetic and formal determinants are zero, and the weighted
+Fitting minor is discharged directly. Auxiliary `P` blocks are nonempty because of
+their top occurrence. For the remaining minors all `s+t` local blocks are nonempty.
+Discarding `q` singleton blocks gives `u=u₀+q` and `k=s+t−q`, hence `L=u+k`.
+Their zero minors and repeated-index minors add no generators or determinant factors.
+Identify `J′` with the resulting disjoint minor ideals plus these `L` generic scalar
+rows: translate the independent row coefficients of a type (II) row by `a_i+ν_i`
+and `d_j` (both in its single coefficient when `i=j`), and replace `x_σ` by
+`b′_σ+a_σ`. Killed `b` coordinates disappear from scalar rows; all remaining scalar
+coefficients are still independent polynomial variables over the other coordinates.
+These polynomial changes identify the underlying ideals and complexes; they do not
+alter the prescribed coactions or replace the equivariant comparison
+([DKSW](https://arxiv.org/pdf/2310.16396v2), §§2.3–2.4, printed pp.11–13; §5.9, printed p.46).
+*Needs:* Stabilization of local relation rows, Formal Ribet relation ideals, Modified formal
+auxiliary matrices, Mixed minor and linear resolutions.
+
+**Checks.**
+
+- With `N=4,s=1,t=0,a₃=a₄=0,a₅=2`, the block `{3,4}` leaves `u=2,k=1,L=3`.
+  Three coefficient rows followed by `(0,0,1,0,ν₃)` and `(0,0,0,1,ν₄)` form a
+  `5×5` matrix. Specializing the first three rows to the first three coordinate rows
+  gives determinant `−ν₃`; this pattern is not discarded as a zero minor.
+- A singleton nondistinguished block with `N=2,s=1,a₅=1` has `L=2,u₀=1`.
+  Omitting its zero local ideal gives `u=2,k=0`, preserving `L=u+k`. An empty such
+  block instead gives a zero `y_v` column and a zero determinant.
+- With `N=3,s=0,t=1,a₃=1,a₄=1,a₅=0`, the `P` block contains its local and top
+  occurrences. Thus `u=0,k=1,L=1`; killing the type (III) coordinate does not remove
+  the auxiliary top coordinate or its contribution to the count.
 
 **Checks for prefixes and maximal minors.** The prefix of length `k` restricts `f` along the
 extension by zero from the first `k` coordinates. The empty prefix is zero, the full prefix is
@@ -4510,9 +4635,23 @@ the natural augmentation `C → R/J′`
   This underlying-module check does not detect the twist; the equivariant comparison target
   specifies that additional structure.
 
-**Exactness of the upper-entry resolution.** Prove that the augmented upper-entry complex
-`C → R/J′` is a finite free resolution ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Proposition 5.5(1) and §5.9,
-pp.39,46). *Needs:* Upper-entry relation complex, Mixed minor and linear resolutions, Generic variable count for the Ribet relations.
+**Exactness of the upper-entry resolution.** For a stabilized formal minor with every
+nondistinguished-place block nonempty, prove that the augmented upper-entry complex
+`C → R/J′` is a finite free resolution. The count `L=u+k`, after omitting singleton factors,
+applies Mixed minor and linear resolutions at its block bound. Minors with an empty
+nondistinguished-place block have zero determinant and contribute zero to the weighted
+Fitting ideal ([DKSW](https://arxiv.org/pdf/2310.16396v2), Proposition 5.5(1) and §5.9,
+printed pp.39,46). *Needs:* Upper-entry relation complex, Mixed minor and linear resolutions,
+Generic variable count for the Ribet relations.
+
+**Checks.**
+
+- The `N=4,s=1,a₅=2` pattern gives the Koszul complex of three scalar rows tensored
+  with the two-term complex for `b₃b′₄−b₄b′₃`; its augmentation is exact.
+- With no places, there are `N` scalar rows and `N` unused coordinates; this is the
+  original generic linear resolution, including `N=0` and the unit complex.
+- An empty nondistinguished-place block gives a zero determinant. Its extra scalar row
+  is not covered by the block bound and no upper exactness assertion is used for that minor.
 
 **Full-entry relation complex.** The underlying construction takes linear/product matrix rows,
 a finite family of local sizes, and for each local block the actual matrices `Y_σ` and scalars
@@ -4600,8 +4739,9 @@ local indices; the bar factors are
 `2+∑s_i` factors. Retain Buchsbaum's exterior-bar differential on these submodules.
 The comparison inserts the upper-entry vector in each row and the `B` vector at each
 local index. Prove it is equivariant, `im d₁(C)=J′`, `im d₁(D)=J`, that the augmented
-`C` is exact for this formal relation input, and that every term of `D` is Borel-acyclic.
-The finite truncations resolving the ideals then give the zero maps
+`C` is exact when every nondistinguished-place block is nonempty, and that every term
+of `D` is Borel-acyclic.
+For these nonempty-block minors, the finite truncations resolving the ideals give the zero maps
 `H^j(B,J′)→H^j(B,J)` for `j≥1`. This is the bridge used by invariant lifting;
 exactness is not claimed after an arbitrary specialization of the relation coefficients
 (DKSW Theorems 4.22–4.23, pp.33–34; Proposition 5.5 and Lemmas 5.6–5.10, pp.39–42).
@@ -4612,8 +4752,10 @@ Its hypotheses require each local two-row map to be Buchsbaum–Rim regular modu
 earlier local minor ideals, and the ordered scalar row entries
 to be weakly regular modulo all local minor ideals. Tensor exactness is proved in
 that order; the tensor symmetry places the Koszul factor first in the displayed `C`. Empty and singleton local blocks contribute
-zero minor ideals. The generic regularity and variable count of §6.5 supply these
-hypotheses for the stabilized formal presentation. The prefix Checks give zero at
+zero minor ideals. For minors with no empty nondistinguished-place block, the
+count `L=u+k` and Mixed minor and linear resolutions of §6.5 supply scalar weak
+regularity over the integral formal ring. Empty nondistinguished-place blocks give zero
+determinants and are discharged directly. The prefix Checks give zero at
 index zero, the sum of all local minor ideals at the number of blocks, and the same
 ideal one index beyond that bound. Its conclusions are positive-degree
 exactness of `C`, boundedness of both complexes, the equivariant comparison with
@@ -4725,16 +4867,31 @@ entries and hence has invariant determinant ([DKSW](https://math.iisc.ac.in/~mah
 *Needs:* Unipotent invariance for product rows, Unipotent invariance for one local block.
 
 **Lifting the invariant error across the full ideal.**
-The invariant lifting criterion of rational cohomology applies to the two short exact sequences
+For a minor with every nondistinguished-place block nonempty, the invariant lifting criterion
+of rational cohomology applies to the two short exact sequences
 `0→J′→R→R/J′→0` and `0→J→R→R/J→0`, their inclusion and quotient maps,
-and the zero map on `H¹`. It places the image of `H⁰(B,R/J′)` inside the image of
+and the zero map on `H¹` supplied by the exact relation-complex comparison. It places the image of `H⁰(B,R/J′)` inside the image of
 `H⁰(B,R)→H⁰(B,R/J)`, by naturality and exactness of the connecting maps. Prove that the image of `e` in `R/J` lies
-in the image of `H⁰(B, R) = A` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §4.4 exact sequence (52), p.29). *Needs:*
-Borel invariance of the determinant difference, Equivariant comparison of the relation complexes, Invariants of the formal Ribet ring.
+in the image of `H⁰(B, R) = A`. For an empty nondistinguished-place block,
+`det 𝔈=det 𝔈′=0`, so `e=0` has the invariant lift zero directly
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §4.4 exact sequence (52), p.29). *Needs:*
+Borel invariance of the determinant difference, Equivariant comparison of the relation complexes,
+Generic variable count for the Ribet relations, Invariants of the formal Ribet ring.
+
+**Checks.**
+
+- A zero place column in both formal matrices gives `e=0`, with lift `q=0`, without
+  any exactness assertion for the upper complex of that minor.
+- If `J′=J` and `H¹(B,J)=0`, the same exact sequence lifts every invariant class in
+  `R/J` to an invariant in `R`; the required map on `H¹` is zero.
+- For the trivial group scheme the positive rational cohomology vanishes, and every
+  class in `R/J` has an invariant lift through the surjective quotient map.
 
 **Formal determinant comparison.**
 For every stabilized relation minor under the full local Ribet input, prove
-`π(e) ∈ Ĩ` for `e=det 𝔈′−det 𝔈`. Write `e=q+j` with `q∈A`, `j∈J`; since `e∈I_R`,
+`π(e) ∈ Ĩ` for `e=det 𝔈′−det 𝔈`. Empty nondistinguished-place blocks give zero
+formal and arithmetic determinants directly. For the other minors the invariant lift
+writes `e=q+j` with `q∈A`, `j∈J`; since `e∈I_R`,
 the invariant lift satisfies `q∈A∩(I_R+J)`. The invariant character-error intersection gives
 `π(q)∈Ĩ`, and evaluation annihilates `j`. By specialization,
 `π(det 𝔈′)=det E′_arith=0` in `K`, so `π(det 𝔈)∈Ĩ`. Use the congruence
@@ -4765,11 +4922,21 @@ modulo `m`, local triangularizations `diag(η_v, ξ_v)`, `ξ_v ≡ ψ` on `Σ`, 
 (∏_{v∈P} (ξ_v(σ_v) − χ(σ_v))) · Fitt₀_T(N) · T̃ ⊆ Ĩ.
 ```
 
-Apply the comparison to each arithmetic `E_arith` attached to a stabilized presentation minor
-`D`, then use its exact weighted identity and the stabilization ordering sign to cover the
+For a stabilized presentation minor `D` with an empty nondistinguished-place block, its
+weighted determinant is zero. Apply the comparison to every other arithmetic `E_arith`,
+then use its exact weighted identity and the stabilization ordering sign to cover the
 minors generating `Fitt₀_T(N)`. The containment is in `T̃`; the local factors need not belong to `T` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf),
 Theorem 2.1, equation (12), pp.7–8). Finiteness is a premise of this conditional theorem;
 Finite and continuous Ribet modules supplies it when a finite bound is given. *Needs:* Formal determinant comparison.
+
+**Checks.**
+
+- With `P=∅`, the empty weight is one and the conclusion is the unweighted containment
+  `Fitt₀_T(N)·T̃⊆Ĩ`.
+- A relation minor with an empty nondistinguished-place block contributes zero to the
+  weighted determinantal ideal, independently of its scalar-row count.
+- For a weight `2` and minor `5` over `ℤ`, the weighted generator is `10` and belongs
+  to `(2)` although `5` does not; the weighted containment permits no cancellation.
 
 The proof-plan edges are as follows; each names the result that supplies it.
 

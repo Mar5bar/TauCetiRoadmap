@@ -754,6 +754,56 @@ namespace IntegralRibet
 
 variable {A B G : Type u} [CommRing A] [CommRing B] [Algebra A B] [Group G]
 
+/-- The ordered independent generic combinations of the coordinates `b` (README §6.5,
+Generic combinations of an ideal containing a regular sequence). -/
+def genericLinearSequence {S : Type u} [CommRing S] {h : ℕ} (b : Fin h → S) (ℓ : ℕ) :
+    List (MvPolynomial (Fin ℓ × Fin h) S) :=
+  List.ofFn fun i ↦ ∑ j, MvPolynomial.X (i, j) * MvPolynomial.C (b j)
+
+/-- An ideal containing a weakly regular sequence of length at least `ℓ` supplies `ℓ`
+weakly regular independent generic combinations of its given generators over any commutative
+ring (Stacks tags 068P and 0663; the iterated Koszul-cohomology argument of README §6.5). -/
+theorem generic_combinations_regular {S : Type u} [CommRing S] {h ℓ : ℕ}
+    (b : Fin h → S) (w : List S) (hw : RingTheory.Sequence.IsWeaklyRegular S w)
+    (hmem : ∀ x ∈ w, x ∈ Ideal.span (Set.range b)) (hcount : ℓ ≤ w.length) :
+    RingTheory.Sequence.IsWeaklyRegular (MvPolynomial (Fin ℓ × Fin h) S)
+      (genericLinearSequence b ℓ) := sorry
+
+/-- The sum of the disjoint local two-row minor ideals. Left variables are `b′`, right
+variables are `b`; the final `u` right variables are unused coordinates (DKSW Corollary 5.12,
+printed p.43; README §6.5, Coordinate regularity in disjoint minor quotients). -/
+def localMinorIdeal (S : Type u) [CommRing S] {n k : ℕ} (u : ℕ) (block : Fin n → Fin k) :
+    Ideal (MvPolynomial (Fin n ⊕ Fin (n + u)) S) :=
+  Ideal.span {p | ∃ i j : Fin n, block i = block j ∧
+    p = MvPolynomial.X (Sum.inr (Fin.castAdd u i)) * MvPolynomial.X (Sum.inl j) -
+      MvPolynomial.X (Sum.inr (Fin.castAdd u j)) * MvPolynomial.X (Sum.inl i)}
+
+/-- Modulo disjoint local minors, at most `u + k` independent generic scalar equations are
+weakly regular, with `u` unused coordinates and `k` nonempty blocks, over any commutative
+coefficient ring. Singleton blocks contribute zero minors; moving their coordinates to the
+unused list preserves the bound (README §6.5, Mixed minor and linear resolutions, extending
+DKSW Proposition 5.14, printed p.46). -/
+theorem mixed_scalar_regular (S : Type u) [CommRing S] {n k u ℓ : ℕ}
+    (block : Fin n → Fin k) (hblocks : Function.Surjective block) (hcount : ℓ ≤ u + k) :
+    let Q := MvPolynomial (Fin n ⊕ Fin (n + u)) S
+    let I := (localMinorIdeal S u block).map
+      (MvPolynomial.C : Q →+* MvPolynomial (Fin ℓ × Fin (n + u)) Q)
+    RingTheory.Sequence.IsWeaklyRegular
+      (MvPolynomial (Fin ℓ × Fin (n + u)) Q ⧸ I)
+      ((genericLinearSequence (fun j : Fin (n + u) ↦
+        (MvPolynomial.X (Sum.inr j) : Q)) ℓ).map (Ideal.Quotient.mk I)) := sorry
+
+-- Three scalar equations and two unused coordinates. The first two coordinates form the
+-- local block; relabeling puts it at `{3,4}` as in the README check.
+example (S : Type u) [CommRing S] :
+    let block : Fin 2 → Fin 1 := fun _ ↦ 0
+    let Q := MvPolynomial (Fin 2 ⊕ Fin 4) S
+    let I := (localMinorIdeal S 2 block).map
+      (MvPolynomial.C : Q →+* MvPolynomial (Fin 3 × Fin 4) Q)
+    RingTheory.Sequence.IsWeaklyRegular (MvPolynomial (Fin 3 × Fin 4) Q ⧸ I)
+      ((genericLinearSequence (fun j : Fin 4 ↦
+        (MvPolynomial.X (Sum.inr j) : Q)) 3).map (Ideal.Quotient.mk I)) := sorry
+
 /-- `t ↦ ρ(t) − ψ(t) I₂` on `A[G]`. -/
 def differenceMap (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (ψ : G →* Aˣ) :
     MonoidAlgebra A G →ₗ[A] Matrix (Fin 2) (Fin 2) B :=
@@ -892,8 +942,11 @@ continuous, `κ(G)` and the `y_v` generate `N`, and
 `(∏_{v ∈ P} (ξ_v(σ_v) − χ(σ_v))) · Fitt₀(N) · T̃ ⊆ Ĩ` ([DKSW], Theorem 2.1, pp. 7–8, and §2.1,
 pp. 8–9). For each stabilized relation minor, §6.3 of the roadmap constructs formal matrices
 `𝔈, 𝔈′` with `π(𝔈) ≡ E_arith` entrywise modulo `Ĩ` and `π(𝔈′) = E′_arith`.
-The formal error comparison and `det E′_arith = 0` give `det E_arith ∈ Ĩ`; its exact weighted
-determinant identity supplies the Fitting containment. -/
+For minors with nonempty nondistinguished-place blocks, the count `L = u + k` and the mixed
+resolution at that bound supply upper exactness for the formal error comparison. A minor with
+an empty such block has a zero place column and zero weighted determinant. The formal error
+comparison and `det E′_arith = 0` give `det E_arith ∈ Ĩ`; its exact weighted determinant identity
+supplies the Fitting containment. -/
 theorem local_ribet {Tilde : Type u} [CommRing Tilde] [Algebra A Tilde] [Algebra Tilde B]
     [IsScalarTower A Tilde B] [IsArtinianRing B] [IsPrincipalIdealRing B]
     [IsLocalization (nonZeroDivisors Tilde) B] [IsLocalRing A] [IsNoetherianRing A]
