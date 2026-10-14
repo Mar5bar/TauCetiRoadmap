@@ -93,14 +93,14 @@ It does not own, and cites instead:
   triples, and polarized representations) and §7.10 (`ResidualImage.IsEnormous`).
 - **ArithmeticGaloisDuality.** Layers R02.3–R02.5 and D7 (restricted ramification, Poitou–Tate,
   finiteness of `H¹(G_{F,S}, M)`, the Greenberg–Wiles formula and derived duality); §D8.1
-  (*First-order Galois cocycle comparison*, *Trace-zero adjoint duality without division by n*)
-  and §D8.2 (*Determinant tangent fibres*, *Selmer and deformation tangent comparison*); Layer R02.6 (*Local cohomology at a Taylor–Wiles prime*, *The group-theoretic
+  (*First-order Galois cocycle comparison*, *Trace-zero adjoint duality without division by n*);
+  Layer R02.6 (*Local cohomology at a Taylor–Wiles prime*, *The group-theoretic
   input to Taylor–Wiles primes*, *The conditional dual-Selmer killing calculation*,
   *Khare–Wintenberger tangent and relation bounds*, *Odd-prime Taylor–Wiles auxiliary sets*,
   *Dyadic auxiliary primes and the cyclotomic residual*, *Finite-order determinant twists*,
   *Archimedean adjoint dimensions*).
-- **SelmerIwasawaCohomology**, Layer 2 (Selmer structures and the Selmer complex as a mapping fibre,
-  which underlies the framed complexes of ArithmeticGaloisDuality).
+- **SelmerIwasawaCohomology**, Layer 2 (Selmer structures and the Selmer complex as a mapping fibre),
+  §2A.3 (*Selmer and deformation tangent comparison*) and §2A.4 (*Determinant tangent fibres*).
 - **SchemeAndStackFoundations**, §§4.2–4.4 (Artinian and complete Noetherian coefficient categories,
   small extensions, fibre products, Schlessinger's criteria and hulls), §§0.16, 0.20–0.21
   (catenarity, Nagata rings, excellence and regular completion maps). The completed local products,
@@ -132,8 +132,8 @@ the anchor by which other roadmaps cite it.
   equivalence changes cocycles by coboundaries so that `Def_ρ̄(k[ε]) ≅ H¹(G, ad ρ̄)`, the stabiliser of
   a framed lift is `1 + ε H⁰(G, ad ρ̄)`, and fixed determinant corresponds to trace-zero cocycles
   modulo the boundary of the trace sequence: ArithmeticGaloisDuality §D8.1, *First-order Galois cocycle
-  comparison* and *Trace-zero adjoint duality without division by n*, and §D8.2, *Determinant
-  tangent fibres* (Kisin, Lecture 1,
+  comparison* and *Trace-zero adjoint duality without division by n*, and
+  SelmerIwasawaCohomology §2A.4, *Determinant tangent fibres* (Kisin, Lecture 1,
   Lemma (1.3.1), p. 3; Gee, Exercise 3.11 and Corollary 3.12, p. 13). Applied to `Lift` and `Def`
   of LocalGaloisDeformationRings §§F.1.1, F.1.3, it gives the framed tangent dimension
   `h¹(G, ad ρ̄) + n² − h⁰(G, ad ρ̄)` whenever
@@ -308,8 +308,9 @@ The declarations and targets listed under *Scope and ownership*, with these cont
 continuous representations of profinite groups on finite free modules over topological coefficient
 rings with their adjoints; the finite residual-image classification and the detecting elements used
 in prime selection, in the source-specific forms stated in 5.2; arithmetic finiteness, local and
-global duality, the Greenberg–Wiles formula, the framed and modified Selmer complexes of D8 with
-their exact differential and sign conventions, Euler characteristics, and the residual-image
+global duality, the Greenberg–Wiles formula, the framed and modified Selmer complexes of
+SelmerIwasawaCohomology §§2A.3–2A.4 with their exact differential and sign conventions,
+Euler characteristics, and the residual-image
 cohomology vanishing used in prime selection. The framed complexes are mapping fibres in the sense
 of SelmerIwasawaCohomology §2.21, *Selmer complex as a mapping fibre*; the kernel Selmer group
 is its §2.2, *Compact and rational Selmer kernel*.
@@ -374,7 +375,7 @@ LocalGaloisDeformationRings Layer F.
 
 This layer assembles local deformation problems into a global framed functor. The map from the local
 tensor ring is characterised by the invariant framed restrictions of LocalGaloisDeformationRings
-§F.1.6. The framed Selmer complex of ArithmeticGaloisDuality §D8.2 gives the relative tangent space and the obstruction bound; its scalar
+§F.1.6. The framed Selmer complex of SelmerIwasawaCohomology §§2A.3–2A.4 gives the relative tangent space and the obstruction bound; its scalar
 degree-zero term fixes the frame count.
 
 <a id="global-deformation-type"></a>
@@ -477,7 +478,8 @@ The API:
 
 **Theorem.** For the fixed-determinant global data of 3.3, identify the dual of the relative
 cotangent space `𝔪_{R^{□T}}/(𝔪_{R^{□T}}², λ, 𝔪_{R^loc}R^{□T})` with `H¹` of the framed mapping
-fibre of ArithmeticGaloisDuality R02.5/D8, with the terms below and the pulled-back conditions of
+fibre of SelmerIwasawaCohomology §§2A.3–2A.4, using ArithmeticGaloisDuality R02.5/D8.1,
+with the terms below and the pulled-back conditions of
 LocalGaloisDeformationRings §F.3.2. This first-order identification does not require `p > 2` or
 `p ∤ n`. Degree zero uses the full
 adjoint; positive global degrees use trace zero; local degree zero consists only of the full-adjoint
@@ -485,7 +487,7 @@ framing terms at `T`. The ordinary dual-Selmer interpretation and numerical form
 separate arithmetic hypotheses. For `T = ∅`, `H⁰_rel = k` in the Schur case and
 `H¹_rel = H¹_{L^χ}(G, ad⁰)/im δ_G`; when `p ∤ n`, the trace boundary vanishes and this is the ordinary
 fixed-determinant Selmer group (Gee, Proposition 3.24(1), p. 18, with the complexes and differential
-of §3.23, pp. 16–18; KW ESI, §4.1, Lemma 4.3, p. 31; ArithmeticGaloisDuality §D8.2,
+of §3.23, pp. 16–18; KW ESI, §4.1, Lemma 4.3, p. 31; SelmerIwasawaCohomology §2A.4,
 *Determinant tangent fibres*).
 
 Write `M = ad ρ̄` and `M₀ = ad⁰ρ̄`. The complexes are:
@@ -506,7 +508,7 @@ Schur `ρ̄`, so then `H⁰_rel = 0`.
 
 For the arithmetic comparison assume `p > 2`, `p ∤ n`, `S` a finite set of finite places
 containing those above `p`, `T ⊆ S` containing all those places, and `ρ̄` Schur. In particular `T` is nonempty. The ordinary
-and modified comparison of ArithmeticGaloisDuality D8 and SelmerIwasawaCohomology §2.21 gives
+and modified comparison of SelmerIwasawaCohomology §§2.21, 2A.3–2A.4 gives
 `(H²_rel)ˇ ≅ H¹_dual`, `(H³_rel)ˇ ≅ H⁰(G, M₀(1))` and vanishing above degree three, where
 
 ```text
@@ -520,8 +522,9 @@ h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v^χ 
 ```
 
 *Needs:* [3.4](#global-framed-ring); [3.5](#local-to-global-map);
-[tangent spaces](#tangent-spaces); ArithmeticGaloisDuality R02.4, R02.5, R02.6 and D8
-(*Selmer and deformation tangent comparison*); SelmerIwasawaCohomology Layer 2.
+[tangent spaces](#tangent-spaces); ArithmeticGaloisDuality R02.4, R02.5, R02.6 and D8.1;
+SelmerIwasawaCohomology §2A.3 (*Selmer and deformation tangent comparison*), §2A.4
+(*Determinant tangent fibres*) and Layer 2.
 
 *Lean:* `scalarFrameCokernel`, its three dimension `example`s, and the two-term differential
 `example` over `ZMod 3`, and the `example` separating `2 ∤ 3` from `2 > 2`.
@@ -582,13 +585,13 @@ This gives a linear map `(J/𝔪J)ˇ → H²_rel`. If a nonzero `u` had zero obs
 global lift would split that nonzero extension; minimality makes its relative tangent map an
 isomorphism, contradicting the existence of the section. Thus the map is injective.
 [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations) supplies the algebraic passage and
-ArithmeticGaloisDuality supplies cohomological comparison and the product formula, not this
-construction. For polarized lifts in 8.3 use the same construction with the CHT group and its
+SelmerIwasawaCohomology §§2A.3–2A.4 supplies cohomological comparison and ArithmeticGaloisDuality
+the product formula, not this construction. For polarized lifts in 8.3 use the same construction with the CHT group and its
 fixed-multiplier adjoint (KW final, Lemma 4.6 and proof, pp. 43–45; CHT, Lemma 2.2.11 and
 Corollary 2.2.12, pp. 24–25).
 
 *Needs:* [3.6](#relative-tangent-space); [3.5](#local-to-global-map); ArithmeticGaloisDuality R02.4,
-R02.6 and D8; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
+R02.6 and D8.1; SelmerIwasawaCohomology §§2A.3–2A.4; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
 
 **Checks.**
 
@@ -653,7 +656,7 @@ dimensions*); LocalGaloisDeformationRings 1.1, 1.11, 8.17.
 
 ### Dependencies
 
-LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisDuality R02.4–R02.6 and D8; SelmerIwasawaCohomology Layer 2;
+LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisDuality R02.4–R02.6 and D8.1; SelmerIwasawaCohomology Layer 2 and §§2A.3–2A.4;
 LocalGaloisDeformationRings §§F.0.1–F.0.2; SchemeAndStackFoundations §§4.2–4.4;
 LocalGaloisDeformationRings 1.1, 1.10, 1.11, 8.17.
 
@@ -1702,7 +1705,7 @@ Lemma 6.2.4, p. 137; ACC published, printed p. 1033).
 `L¹_v ⊆ Z¹(F_v, ad ρ̄)` be the tangent subspace and `L_v` its image in `H¹`. The full-adjoint framed complex
 below identifies the relative tangent space, and there is a local `Λ`-algebra surjection
 `R^{T,loc}_𝒮⟦X₁, …, X_g⟧ ↠ R^T_𝒮` with `g = h¹_{𝒮,T}(ad ρ̄)` given by the displayed formula, using
-ArithmeticGaloisDuality D8; the orthogonal conditions apply at `S ∖ T`, and the scalar directions stay in
+SelmerIwasawaCohomology §2A.3; the orthogonal conditions apply at `S ∖ T`, and the scalar directions stay in
 this variable-determinant complex (ACC arXiv v2, §6.2.22 and Proposition 6.2.24 with its proof,
 pp. 143–146; ACC published, Proposition 6.2.25, printed p. 1041).
 
@@ -1719,7 +1722,7 @@ The full-adjoint trace pairing identifies the dual with `ad(1)`; it uses no trac
 `|T| − 1` correction borrowed from the fixed-determinant complex.
 
 *Needs:* [7.2](#variable-determinant-representability); [3.6](#relative-tangent-space);
-ArithmeticGaloisDuality R02.4 and D8.
+ArithmeticGaloisDuality R02.4 and D8.1; SelmerIwasawaCohomology §2A.3.
 
 **Checks.**
 
@@ -1775,7 +1778,7 @@ and its boundary examples. The characteristic-three cube `example` here records 
 
 ### Dependencies
 
-Layer R04.3; LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisDuality R02.4 and D8; LocalGaloisDeformationRings 1.1 and 1.15.
+Layer R04.3; LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisDuality R02.4 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings 1.1 and 1.15.
 
 ## Layer G7: Polarized problems and arbitrary-rank Taylor–Wiles data
 
@@ -1896,7 +1899,7 @@ If `p ∤ n`, the adjoint splits as its trace kernel and a scalar line on which
 2.3.3 and 2.3.4, pp. 8–32).
 
 *Needs:* [8.2](#polarized-representability); [3.7](#local-to-global-presentation)
-for the obstruction construction; ArithmeticGaloisDuality R02.2, R02.4, D7 and D8.
+for the obstruction construction; ArithmeticGaloisDuality R02.2, R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3.
 
 *Lean:* the `example` that `1` has trace `0` in `M₃(𝔽₃)`.
 
@@ -2012,7 +2015,7 @@ eigenvalues. For `T ⊆ S`, any `q` at least the ordinary dual Selmer dimension 
 exactly `q` auxiliary primes of degree one with `q_v ≡ 1 (mod pᴺ)` and ordered distinct residual
 eigenvalues, outside any given finite avoidance set, killing the augmented dual Selmer group. The
 enormous-image and Kummer arguments give detecting elements and an admissible padding class; then apply
-5.6, using D8 to identify its joint kernel with the augmented dual Selmer group. The full adjoint
+5.6, using SelmerIwasawaCohomology §2A.3 to identify its joint kernel with the augmented dual Selmer group. The full adjoint
 splitting uses `p ∤ n`, and the scalar Kummer summand uses `ζ_p ∉ F`. Enormous means the exact condition
 of §7.10 (no nontrivial `p`-power quotient, vanishing `H⁰` and `H¹` on `ad⁰`, and a regular semisimple
 detector on each simple submodule), not adequacy (ACC arXiv v2, Definition 6.2.28, Lemmas 6.2.29 and
@@ -2021,7 +2024,7 @@ printed pp. 1044–1046, PDF pp. 148–150).
 
 *Needs:* [8.5](#taylor-wiles-local-diamond); [7.3](#variable-determinant-presentation);
 ArithmeticGaloisRepresentations §7.10; [5.6](#chebotarev-selmer-selection); ArithmeticGaloisDuality
-D8.
+D8.1; SelmerIwasawaCohomology §2A.3.
 
 **Checks.**
 
@@ -2076,7 +2079,7 @@ and its proof, printed p. 1047, PDF p. 151, with the diamond and augmentation da
 ### Dependencies
 
 Layers R04.3–R04.5 and G8; LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisRepresentations §7.4 and §7.10; ArithmeticGaloisDuality
-R02.4, D7 and D8; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
+R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; [LocalGaloisDeformationRings §F.0.2](../LocalGaloisDeformationRings/README.md#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
 
 ## Downstream consumers
 
