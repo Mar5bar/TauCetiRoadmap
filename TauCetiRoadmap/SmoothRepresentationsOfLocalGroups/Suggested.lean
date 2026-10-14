@@ -3,6 +3,7 @@ import TauCeti.RepresentationTheory.CharacterTwist
 import TauCeti.RepresentationTheory.BaseChange
 import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.UpperUnitriangular.Basic
 import TauCeti.NumberTheory.HeckeRing.Associativity
+import TauCeti.NumberTheory.HeckeRing.Normalizer
 import TauCeti.Algebra.AlgebraicGroup.FiniteType.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.Dynamic.Parabolic
@@ -250,6 +251,18 @@ theorem HeckeAlgebraLevel.exists_ringEquiv_heckeRing {A G : Type u} [CommRing A]
 -- For `U` normal the Hecke algebra of level `U` is the group algebra of `G ⧸ U`.
 example (A G : Type u) [CommRing A] [Group G] (U : Subgroup G) [U.Normal] :
     Nonempty (HeckeAlgebraLevel A G U ≃+* MonoidAlgebra A (G ⧸ U)) := sorry
+
+/-- In the integral Levi Hecke ring, two elements normalizing the level subgroup have a
+coefficient-one basis product. For positive elements, the homomorphism of [ACC], §2.1.9,
+Lemma 2.1.12, p. 914, transports this product to the group Hecke algebra. -/
+theorem heckeBasis_mul_of_mem_normalizer {M : Type*} [Group M] (U_M : Subgroup M)
+    [IsHeckeTriple (⊤ : Submonoid M) U_M U_M] (m m' : (⊤ : Submonoid M))
+    (h : (m : M) ∈ Subgroup.normalizer (U_M : Set M) ∧
+      (m' : M) ∈ Subgroup.normalizer (U_M : Set M)) :
+    HeckeCosetModule.single ℤ (HeckeCoset.mk U_M U_M m) 1 *
+      HeckeCosetModule.single ℤ (HeckeCoset.mk U_M U_M m') 1 =
+    HeckeCosetModule.single ℤ (HeckeCoset.mk U_M U_M (m * m')) 1 :=
+  HeckeCosetModule.single_mul_single_of_mem_normalizer ℤ h.1
 
 /-! ## Layer SR.0d: the derived smooth category -/
 
