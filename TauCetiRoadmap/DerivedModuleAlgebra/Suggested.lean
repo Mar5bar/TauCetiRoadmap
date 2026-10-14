@@ -36,7 +36,7 @@ def IsHomogeneousOfDegree {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGr
     f.toFun' S (s • x) = s ^ n • f.toFun' S x
 
 /-- `f` preserves `1` and products after every scalar extension to a commutative `A`-algebra
-([Chenevier], §1.1, p. 7). -/
+([Chenevier], §1.1, p. 8). -/
 def IsMultiplicative {R B : Type*} [Ring R] [Algebra A R] [Ring B] [Algebra A B]
     (f : R →ₚₗ[A] B) : Prop :=
   ∀ (S : Type u) [CommRing S] [Algebra A S],
@@ -56,6 +56,9 @@ example : ¬ IsHomogeneousOfDegree 2 (PolynomialLaw.id : ℤ →ₚₗ[ℤ] ℤ)
 
 -- The zero law on `ℤ` preserves products but not `1`.
 example : ¬ IsMultiplicative (0 : ℤ →ₚₗ[ℤ] ℤ) := sorry
+
+-- Doubling the identity fails multiplicativity over `ℤ`.
+example : ¬ IsMultiplicative (2 • (PolynomialLaw.id : ℤ →ₚₗ[ℤ] ℤ)) := sorry
 
 -- The zero law is homogeneous in every degree, after every scalar extension.
 example {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
@@ -79,6 +82,20 @@ example {k : Type} [Field k] (p : ℕ) [Fact p.Prime] (e : k ≃+* ZMod p) :
       (X ^ p - X : k[X]) ≠ 0 := sorry
 
 end PolynomialLaw
+
+/-! ## Integral divided-power computations: 0.DP.2 -/
+
+example : DividedPowerAlgebra.dp ℤ 1 (1 : ℤ) ^ 2 =
+    2 * DividedPowerAlgebra.dp ℤ 2 (1 : ℤ) := sorry
+
+example : DividedPowerAlgebra.dp (ZMod 2) 1 (1 : ZMod 2) ^ 2 = 0 := sorry
+
+example : DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2) ≠ 0 := sorry
+
+example : DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2) ^ 2 = 0 := sorry
+
+example : DividedPowerAlgebra.dp ℤ 2 (1 : ℤ) ^ 2 =
+    6 * DividedPowerAlgebra.dp ℤ 4 (1 : ℤ) := sorry
 
 /-! ## Augmentation of divided powers: 0.DP.3 -/
 
@@ -148,7 +165,46 @@ theorem augmentationIdeal_test_unit :
     (1 : DividedPowerAlgebra ℤ ℤ) ∉ augmentationIdeal ℤ ℤ := by
   sorry
 
+-- A scalar has zero positive-degree remainder.
+example (r : R) :
+    algebraMap R (DividedPowerAlgebra R M) r -
+      algebraMap R (DividedPowerAlgebra R M)
+        (augmentation R M (algebraMap R (DividedPowerAlgebra R M) r)) = 0 := sorry
+
+-- The mixed remainder is a multiple of a positive divided-power generator.
+example (m m' : M) :
+    let z := (3 : DividedPowerAlgebra R M) +
+      DividedPowerAlgebra.dp R 2 m * DividedPowerAlgebra.dp R 1 m'
+    augmentation R M z = 3 ∧
+      z - algebraMap R (DividedPowerAlgebra R M) (augmentation R M z) =
+        DividedPowerAlgebra.dp R 2 m * DividedPowerAlgebra.dp R 1 m' ∧
+      z - algebraMap R (DividedPowerAlgebra R M) (augmentation R M z) ∈
+        Ideal.span {x | ∃ (n : ℕ) (v : M), 0 < n ∧ x = DividedPowerAlgebra.dp R n v} := sorry
+
+-- The scalar, ideal and addition formulas characterize the augmentation splitting.
+example : ∃ e : DividedPowerAlgebra R M ≃ₗ[R] R × augmentationIdeal R M,
+    (∀ r : R, e (algebraMap R (DividedPowerAlgebra R M) r) = (r, 0)) ∧
+    (∀ v : augmentationIdeal R M, e v = (0, v)) ∧
+    (∀ (r : R) (v : augmentationIdeal R M),
+      e (algebraMap R (DividedPowerAlgebra R M) r + v) = (r, v)) := sorry
+
+-- The extended ideal `(2)` contributes a positive remainder with its factor `2` retained.
+example :
+    let z := (2 : DividedPowerAlgebra ℤ ℤ) * (1 + DividedPowerAlgebra.dp ℤ 1 (1 : ℤ))
+    augmentation ℤ ℤ z = 2 ∧ z - 2 = 2 * DividedPowerAlgebra.dp ℤ 1 (1 : ℤ) ∧
+      z - 2 ∈ (Ideal.span {(2 : ℤ)}).map (algebraMap ℤ (DividedPowerAlgebra ℤ ℤ)) *
+        augmentationIdeal ℤ ℤ := sorry
+
 end Augmentation
+
+-- The characteristic-two detector kills degree one and detects the square-zero degree-two class.
+example : ∃ f : DividedPowerAlgebra (ZMod 2) (ZMod 2) →ₐ[ZMod 2]
+    TrivSqZeroExt (ZMod 2) (ZMod 2),
+    (∀ a : ZMod 2, f (DividedPowerAlgebra.dp (ZMod 2) 1 a) = 0) ∧
+    f (DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2)) = TrivSqZeroExt.inr (1 : ZMod 2) ∧
+    f (DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2)) ≠ 0 ∧
+    f (DividedPowerAlgebra.dp (ZMod 2) 2 (1 : ZMod 2)) ^ 2 = 0 ∧
+    f (DividedPowerAlgebra.dp (ZMod 2) 4 (1 : ZMod 2)) = 0 := sorry
 
 /-- The positive-degree ideal needs more than its degree-one generators in characteristic two. -/
 theorem augmentationIdeal_test_degree_one_insufficient :
@@ -265,6 +321,24 @@ structure Hom (A B : Tower.{u}) where
 
 variable {A} {B : Tower.{u}}
 
+/-- The identity morphism of a tower. -/
+def Hom.id (A : Tower.{u}) : Hom A A where
+  app _ := AddMonoidHom.id _
+  comm _ := rfl
+
+/-- Composition of tower morphisms, in the order `g ∘ f`. -/
+def Hom.comp {C : Tower.{u}} (g : Hom B C) (f : Hom A B) : Hom A C where
+  app n := (g.app n).comp (f.app n)
+  comm n := by
+    ext x
+    exact (congrArg (g.app n) (DFunLike.congr_fun (f.comm n) x)).trans
+      (DFunLike.congr_fun (g.comm n) (f.app (n + 1) x))
+
+/-- The zero morphism between two towers. -/
+def Hom.zero (A B : Tower.{u}) : Hom A B where
+  app _ := 0
+  comm _ := by ext; simp
+
 /-- The map on `∏ A_n` induced by a morphism of towers. -/
 def Hom.onProduct (f : Hom A B) : (∀ n, A.obj n) →+ (∀ n, B.obj n) where
   toFun a n := f.app n (a n)
@@ -281,6 +355,28 @@ def Hom.limOneMap (f : Hom A B) : A.limOne →+ B.limOne :=
     simp only [AddMonoidHom.coe_comp, Function.comp_apply] at h
     simp only [shift, Hom.onProduct, AddMonoidHom.coe_mk, ZeroHom.coe_mk, map_sub]
     rw [h])
+
+/-- The identity tower morphism acts identically on the product. -/
+theorem Hom.onProduct_id (A : Tower.{u}) :
+    (Hom.id A).onProduct = AddMonoidHom.id (∀ n, A.obj n) := rfl
+
+/-- Product maps respect composition of tower morphisms. -/
+theorem Hom.onProduct_comp {C : Tower.{u}} (g : Hom B C) (f : Hom A B) :
+    (g.comp f).onProduct = g.onProduct.comp f.onProduct := rfl
+
+/-- The zero tower morphism induces the zero map on products. -/
+theorem Hom.onProduct_zero (A B : Tower.{u}) : (Hom.zero A B).onProduct = 0 := rfl
+
+/-- The identity tower morphism acts identically on `lim¹`. -/
+theorem Hom.limOneMap_id (A : Tower.{u}) :
+    (Hom.id A).limOneMap = AddMonoidHom.id A.limOne := sorry
+
+/-- The induced maps on `lim¹` respect composition. -/
+theorem Hom.limOneMap_comp {C : Tower.{u}} (g : Hom B C) (f : Hom A B) :
+    (g.comp f).limOneMap = g.limOneMap.comp f.limOneMap := sorry
+
+/-- The zero tower morphism induces the zero map on `lim¹`. -/
+theorem Hom.limOneMap_zero (A B : Tower.{u}) : (Hom.zero A B).limOneMap = 0 := sorry
 
 /-- **The six-term sequence of `lim` and `lim¹`**: for a levelwise short exact sequence of
 towers `0 → A → B → C → 0`, the maps `lim¹ A → lim¹ B → lim¹ C → 0` are exact (the left half of
@@ -347,6 +443,22 @@ example (p : ℕ) [Fact p.Prime] :
 /-- Check `limOne_mul_p`: the cokernel is nonzero. -/
 example (p : ℕ) (hp : p.Prime) : Nontrivial (mulTower p).limOne := sorry
 
+-- The identity fixes a nonzero class of `lim¹(ℤ ←3 ℤ ←3 ⋯)`.
+example : ∃ c : (mulTower 3).limOne,
+    c ≠ 0 ∧ (Tower.Hom.id (mulTower 3)).limOneMap c = c := sorry
+
+-- The zero endomorphism kills every class of the same nonzero group.
+example : (Tower.Hom.zero (mulTower 3) (mulTower 3)).limOneMap = 0 := sorry
+
+-- Multiplication by two kills the nonzero class represented by a 3-adic half.
+example : ∃ f : Tower.Hom (mulTower 3) (mulTower 3),
+    (∀ n, f.app n = (2 : ℕ) • AddMonoidHom.id ℤ) ∧
+    ∃ e : (mulTower 3).limOne ≃+ (ℤ_[3] ⧸ (Int.castAddHom ℤ_[3]).range),
+      (∀ a : ℕ → ℤ, e (QuotientAddGroup.mk a) =
+        QuotientAddGroup.mk (∑' n : ℕ, (3 : ℤ_[3]) ^ n * (a n : ℤ_[3]))) ∧
+      ∃ (c : (mulTower 3).limOne) (a : ℤ_[3]),
+        2 * a = 1 ∧ e c = QuotientAddGroup.mk a ∧ c ≠ 0 ∧ f.limOneMap c = 0 := sorry
+
 end CompactCoefficients
 
 /-! ## Derived completeness and complete flatness: 1.2, 1.7 -/
@@ -355,61 +467,61 @@ namespace DerivedDeRham
 
 
 /-- The standard derived-category instance for modules over `R`, local to these signatures. -/
-local instance moduleDerived (R : Type) [CommRing R] :
-    HasDerivedCategory.{1} (ModuleCat.{0} R) :=
+local instance moduleDerived (R : Type u) [CommRing R] :
+    HasDerivedCategory.{u+1} (ModuleCat.{u} R) :=
   HasDerivedCategory.standard _
 
 /-- The derived category `D(R)` of `R`-modules. -/
-abbrev D (R : Type) [CommRing R] := DerivedCategory (ModuleCat.{0} R)
+abbrev D (R : Type u) [CommRing R] := DerivedCategory (ModuleCat.{u} R)
 
 /-- A module placed in cohomological degree zero. -/
-abbrev mod0 (R : Type) [CommRing R] (M : ModuleCat.{0} R) : D R :=
+abbrev mod0 (R : Type u) [CommRing R] (M : ModuleCat.{u} R) : D R :=
   (DerivedCategory.singleFunctor (ModuleCat R) 0).obj M
 
 /-- Cohomology in the indicated cohomological degree. -/
-abbrev H (R : Type) [CommRing R] (n : ℤ) (M : D R) : ModuleCat R :=
+abbrev H (R : Type u) [CommRing R] (n : ℤ) (M : D R) : ModuleCat.{u} R :=
   (DerivedCategory.homologyFunctor (ModuleCat R) n).obj M
 
 /-- **Derived `I`-completeness** of `M ∈ D(A)`: every morphism from a shifted localization
 `A[1/f][n]`, `f ∈ I`, to `M` is zero (Stacks, Tags 091P, 091S). This is a homotopical condition, not
 classical separatedness. -/
-def derivedCompleteness (A : Type) [CommRing A] (I : Ideal A) (M : D A) : Prop :=
+def derivedCompleteness (A : Type u) [CommRing A] (I : Ideal A) (M : D A) : Prop :=
   ∀ f ∈ I, ∀ n : ℤ,
     Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away f)))⟦n⟧ ⟶ M)
 
 /-- The condition can be tested on any finite generating set of `I` (Stacks, Lemma 15.93.1). -/
-theorem isDerivedCompleteGenerators (A : Type) [CommRing A] (I : Ideal A) (M : D A)
+theorem isDerivedCompleteGenerators (A : Type u) [CommRing A] (I : Ideal A) (M : D A)
     (s : Finset A) (hs : Ideal.span (s : Set A) = I) :
     derivedCompleteness A I M ↔ ∀ f ∈ s, ∀ n : ℤ,
       Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away f)))⟦n⟧ ⟶ M) := by
   sorry
 
 /-- Derived completeness depends only on the radical (Stacks, Lemma 15.93.2). -/
-theorem isDerivedCompleteRadical (A : Type) [CommRing A] (I J : Ideal A)
+theorem isDerivedCompleteRadical (A : Type u) [CommRing A] (I J : Ideal A)
     (hI : I.FG) (hJ : J.FG) (h : I.radical = J.radical) (M : D A) :
     derivedCompleteness A I M ↔ derivedCompleteness A J M := by
   sorry
 
 /-- `M` is derived complete iff every cohomology module is (Stacks, Lemmas 15.93.1–15.93.2, Tags 091P–091Q). -/
-theorem isDerivedCompleteCohomology (A : Type) [CommRing A] (I : Ideal A) (hI : I.FG) (M : D A) :
+theorem isDerivedCompleteCohomology (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) (M : D A) :
     derivedCompleteness A I M ↔ ∀ j : ℤ, derivedCompleteness A I (mod0 A (H A j M)) := by
   sorry
 
 /-- Derived complete objects are closed under shifts and under the third vertex of a distinguished
 triangle: the triangulated part of `isDerivedCompleteLimits` (README 1.2), which also asks for
 products and derived limits. -/
-theorem isDerivedComplete_triangle (A : Type) [CommRing A] (I : Ideal A)
+theorem isDerivedComplete_triangle (A : Type u) [CommRing A] (I : Ideal A)
     (T : Pretriangulated.Triangle (D A)) (hT : T ∈ distTriang (D A))
     (h₁ : derivedCompleteness A I T.obj₁) (h₂ : derivedCompleteness A I T.obj₂) :
     derivedCompleteness A I T.obj₃ ∧ ∀ n : ℤ, derivedCompleteness A I (T.obj₁⟦n⟧) := by
   sorry
 
 -- For `I = 0` every complex is derived complete.
-example (A : Type) [CommRing A] (M : D A) : derivedCompleteness A ⊥ M := by
+example (A : Type u) [CommRing A] (M : D A) : derivedCompleteness A ⊥ M := by
   sorry
 
 -- For `I = A` only the zero object is derived complete.
-example (A : Type) [CommRing A] (M : D A) : derivedCompleteness A ⊤ M ↔ IsZero M := by
+example (A : Type u) [CommRing A] (M : D A) : derivedCompleteness A ⊤ M ↔ IsZero M := by
   sorry
 
 -- `ℤ_p` is derived p-complete over `ℤ`, while `ℚ_p` is not.
@@ -422,13 +534,13 @@ example (p : ℕ) [Fact p.Prime] :
 `M ⊗^L_A A/I` is a flat `A/I`-module in degree zero: the higher `Tor_n^A(M, A/I)` vanish and
 `A/I ⊗_A M` is flat over `A/I`. This is the discrete case of `completeFlatness` (README 1.7); the
 predicate does not require `M` to be complete. -/
-def IsCompletelyFlatModule (A : Type) [CommRing A] (I : Ideal A) (M : ModuleCat.{0} A) : Prop :=
+def IsCompletelyFlatModule (A : Type u) [CommRing A] (I : Ideal A) (M : ModuleCat.{u} A) : Prop :=
   (∀ n : ℕ, 0 < n →
-      IsZero (((CategoryTheory.Tor (ModuleCat.{0} A) n).obj M).obj (ModuleCat.of A (A ⧸ I)))) ∧
+      IsZero (((CategoryTheory.Tor (ModuleCat.{u} A) n).obj M).obj (ModuleCat.of A (A ⧸ I)))) ∧
     Module.Flat (A ⧸ I) ((A ⧸ I) ⊗[A] M)
 
 /-- A flat module is `I`-completely flat (the discrete part of `completeFlatCompletion`). -/
-theorem isCompletelyFlatModule_of_flat (A : Type) [CommRing A] (I : Ideal A) (M : ModuleCat.{0} A)
+theorem isCompletelyFlatModule_of_flat (A : Type u) [CommRing A] (I : Ideal A) (M : ModuleCat.{u} A)
     [Module.Flat A M] : IsCompletelyFlatModule A I M := by
   sorry
 
@@ -451,6 +563,11 @@ example (p : ℕ) [Fact p.Prime] :
   sorry
 
 end DerivedDeRham
+
+/-! ## The degree-zero edge boundary: S.1 -/
+
+-- For the double complex supported at `(0,0)` with value `ℤ`, both degree-zero edges are identities.
+example : ¬ Function.Exact (AddMonoidHom.id ℤ) (AddMonoidHom.id ℤ) := sorry
 
 /-!
 ## API of the full constructions
@@ -485,6 +602,8 @@ moduleKInjectiveReplacement.
 Algebra.CotangentComplex.PolynomialResolution, Algebra.CotangentComplex.standardResolution,
 Algebra.CotangentComplex.PolynomialResolution.comparison,
 Algebra.CotangentComplex.PolynomialResolution.toQuasiIso.
+PolynomialResolution.comparison identifies the totalized functor models in the derived category
+through Lπ_!F (Stacks 08PS–08PU, 08QI).
 
 0.2:
 DerivedDeRham.derivedTensor, derivedTensor_flatModel, derivedTensor_triangulated, derivedTensor,
@@ -564,6 +683,9 @@ Algebra.CotangentComplex.derivationEvaluation,
 Algebra.CotangentComplex.derivationEvaluation_differential,
 Algebra.CotangentComplex.polynomialLift_sign, transitivityConnecting_identity_source,
 transitivityConnecting_identity_target, derivationEvaluation_base.
+flatDeformation uses flat B over A, N = J ⊗_A B and the canonical kernel map; for the identity
+base extension this gives J = N = 0. For smooth B/A, algebra deformations have one isomorphism
+class, while liftMorphism gives a torsor of morphism lifts under Der_A(B,J).
 
 1.T.1:
 CompactCoefficients.Tower, CompactCoefficients.Tower.lim, CompactCoefficients.Tower.limOne,
@@ -617,6 +739,8 @@ DoubleComplex.spectralSequence, DoubleComplex.e2Iso, DoubleComplex.abutmentFiltr
 DoubleComplex.eInftyIsoGr, DoubleComplex.page_eq_eInfty, DoubleComplex.edgeBottom,
 DoubleComplex.edgeLeft, DoubleComplex.fiveTerm_exact, DoubleComplex.exact_of_rows_vanish,
 DoubleComplex.totalCohomology_of_exact_rows, DoubleComplex.spectralSequence_map.
+The contract of DoubleComplex.exact_of_rows_vanish carries `(n : ℤ) (hn : 1 ≤ n)` and
+vanishing of `E₂^{pq}` for every `p ≥ 0` and `0 < q < n`.
 
 The computation and sign Check aliases in those contracts are:
 .

@@ -81,7 +81,7 @@ necessarily commutative, an `A`-polynomial law `f : R → B` is multiplicative i
 structure on `S ⊗_A R` is Mathlib's `Algebra.TensorProduct` ring structure. Define the predicate
 `PolynomialLaw.IsMultiplicative` and prove that the identity is multiplicative, that multiplicative
 laws compose, and that the multiplicative laws of degree one to `A` are the `A`-algebra maps
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p. 7). *Needs:* Mathlib `PolynomialLaw`,
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). *Needs:* Mathlib `PolynomialLaw`,
 `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`.
 *Lean:* `PolynomialLaw.IsMultiplicative`.
 
@@ -103,7 +103,7 @@ laws compose, and that the multiplicative laws of degree one to `A` are the `A`-
 degree-adding multiplication. Define the homogeneous submodule `Γ^d_A(M)`, prove that `γ_d(m)`
 belongs to `Γ^d_A(M)`, and define the map `Γ^d(f) : Γ^d_A(M) → Γ^d_A(N)` induced by an `A`-linear
 `f : M → N`, taking `γ_d(m)` to `γ_d(f(m))`
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.2, p.8). *Needs:* Mathlib `DividedPowerAlgebra`,
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). *Needs:* Mathlib `DividedPowerAlgebra`,
 `DividedPowerAlgebra.dp`.
 
 **Checks.**
@@ -178,7 +178,7 @@ every `d`, taking `1 ⊗ γ_d(m)` to `γ_d(1 ⊗ m)`; flatness of `B` is unneces
 `(m, n) ↦ γ_d(m ⊗ n)`, separately homogeneous of degree `d`. Its mixed coefficient formula is
 required; no assertion that this map is an isomorphism is made. Define this linear map
 `Γ^d(M) ⊗ Γ^d(N) → Γ^d(M ⊗ N)`, and prove that `γ_d(m) ⊗ γ_d(n)` maps to `γ_d(m ⊗ n)` and that it
-commutes with `Γ^d(f) ⊗ Γ^d(g)` and `Γ^d(f ⊗ g)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.2 and the Roby algebra
+commutes with `Γ^d(f) ⊗ Γ^d(g)` and `Γ^d(f ⊗ g)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1 and the Roby algebra
 structure, p.8; [Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), IV §11, Proposition IV.9 and proof, pp.284–286). *Needs:* §0.DP.2 / Arbitrary base change of divided powers.
 
 **Checks.**
@@ -199,7 +199,7 @@ divided-power algebra; the unit is `gamma d 1` and the scalar map sends `a` to `
 can be noncommutative and is distinct from the graded multiplication on `Γ_A(R)`. Define the
 degree-`d` representing module with its internal associative `A`-algebra structure, prove
 `γ_d(x) ⋆ γ_d(y) = γ_d(xy)`, with unit `γ_d(1)`, and construct the equivalence between algebra maps
-from this internal algebra and the multiplicative degree-`d` laws ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.2 and footnote
+from this internal algebra and the multiplicative degree-`d` laws ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1 and footnote
 13, p.8). *Needs:* §0.DP.2 / Tensor map for homogeneous divided powers; §0.DP.1 / Multiplicative polynomial laws.
 
 **Checks.**
@@ -258,8 +258,10 @@ The API:
 zero ideal as the inputs of DividedPowerAlgebra.lift. Use lift_apply_dp, the degree-zero PD axiom
 and dpow_eval_zero in positive degree to calculate ε on every generator. The algebra-homomorphism
 structure gives ε(algebraMap(r))=r. For naturality and uniqueness use algHom_ext on all dp(n,m),
-splitting n=0 from n>0. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra,
-Section 23.5 (tag 07H4), opening paragraph, before Lemma 23.5.1.) *Needs:* Mathlib
+splitting n=0 from n>0. The free-module augmentation is described in [Stacks §23.5, Tag
+07H4](https://stacks.math.columbia.edu/tag/07H4). For arbitrary modules the lift argument above
+uses the general Roby algebra ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf),
+III §§1–2, pp.248–250). *Needs:* Mathlib
 `dividedPowersBot`; Mathlib `DividedPowerAlgebra.lift`; Mathlib `DividedPowerAlgebra.lift_apply_dp`;
 Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`; Mathlib
 `DividedPowerAlgebra.dp_zero`; Mathlib `DividedPowerAlgebra.map_apply_dp`; Mathlib
@@ -302,8 +304,10 @@ The API:
 
 *Proof sketch.* Apply RingHom.ker to ε; use RingHom.mem_ker for membership. The generator and scalar
 assertions follow by the computed values of ε. Properness over a nonzero ring follows because
-ε(1)=1. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Section 23.5
-(tag 07H4), opening paragraph, before Lemma 23.5.1.) *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib `RingHom.ker`; Mathlib `RingHom.mem_ker`; Mathlib `DividedPowerAlgebra.map`.
+ε(1)=1. The free-module kernel is described in
+[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The preceding kernel argument
+proves the arbitrary-module version from Roby's presentation
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib `RingHom.ker`; Mathlib `RingHom.mem_ker`; Mathlib `DividedPowerAlgebra.map`.
 
 **Checks.**
 
@@ -323,8 +327,10 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 H'. For a scalar the remainder is zero. For a sum it is the sum of the two remainders. For
 z·dp(0,m), dp_zero reduces to the induction hypothesis. For z·dp(n,m) with n>0, the augmentation is
 zero and dp(n,m) is one of H’s generators, so ideal closure under multiplication proves membership.
-([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.5.1 (tag 07H5),
-proof, second paragraph.) *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib
+The free-module calculation appears in the proof of
+[Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The induction above
+proves it for arbitrary modules using Roby's generators and relations
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib
 `DividedPowerAlgebra.induction_on`; Mathlib `DividedPowerAlgebra.dp_zero`; Mathlib
 `Ideal.subset_span`.
 
@@ -345,8 +351,10 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 
 *Proof sketch.* Every listed generator has augmentation zero; Ideal.span_le gives H⊆ker(ε). If
 ε(z)=0, the positive-degree remainder lemma gives z−algebraMap(0)=z∈H, proving the reverse
-inclusion. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.5.1
-(tag 07H5), proof, second paragraph.) *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Positive-degree remainder*;
+inclusion. The free-module generators occur in the proof of
+[Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). For arbitrary modules,
+the two inclusions above use the general Roby algebra
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Positive-degree remainder*;
 Mathlib `Ideal.span_le`.
 
 **Checks.**
@@ -377,9 +385,10 @@ The API:
 *Proof sketch.* Augment the remainder: ε(z)−ε(algebraMap(ε(z)))=0; this gives the subtype membership
 proof. Both coordinate functions and the proposed inverse are R-linear by the algebra maps and
 submodule structure. Substitute each composite. Cancellation gives z in one direction; ε(u)=0 gives
-(r,u) in the other. Package the linear maps with LinearEquiv.ofLinearMap. ([Stacks
-Project](https://stacks.math.columbia.edu), Divided Power Algebra, Section 23.5 (tag 07H4), opening
-paragraph, before Lemma 23.5.1.) *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `LinearEquiv.ofLinearMap`.
+(r,u) in the other. Package the linear maps with LinearEquiv.ofLinearMap. The free-module scalar splitting is given by the degree-zero
+summand in [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The inverse formulas
+above prove the arbitrary-module splitting on Roby's algebra
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `LinearEquiv.ofLinearMap`.
 
 **Checks.**
 
@@ -400,8 +409,11 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 augmentation is Σ_j ε(b_j)a_j. Subtract its scalar image and distribute to obtain Σ_j
 (b_j−algebraMap(ε(b_j)))·algebraMap(a_j). Each first factor lies in Γ_R(M)_+ by the augmentation
 calculation, and each second factor lies in IΓ. Ideal product membership and finite-sum closure give
-the result. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.5.1
-(tag 07H5), proof, second paragraph, displayed equality.) *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `Ideal.map`; Mathlib `Ideal.mem_map_of_mem`; Mathlib
+the result. For free modules, compare the ideal
+calculation in the proof of [Stacks Lemma 23.5.1, Tag
+07H5](https://stacks.math.columbia.edu/tag/07H5). The finite-sum argument above proves the
+arbitrary-module assertion on the general Roby algebra
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `Ideal.map`; Mathlib `Ideal.mem_map_of_mem`; Mathlib
 `Finsupp.mem_ideal_span_range_iff_exists_finsupp`; Mathlib `Ideal.mul_mem_mul`.
 
 **Checks.**
@@ -421,8 +433,10 @@ characteristic, factorial invertibility or nilpotence hypothesis is imposed.
 
 *Proof sketch.* The ideal product is contained in the intersection by Ideal.mul_le_inf. For z in the
 intersection, ε(z)=0. The preceding base-ideal remainder statement reduces to z∈IΓ·Γ_R(M)_+, proving
-the reverse inclusion. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra,
-Lemma 23.5.1 (tag 07H5), proof, second paragraph, displayed equality.) *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Remainder of an extended base ideal*; Mathlib `Ideal.mul_le_inf`.
+the reverse inclusion. The free-module equality occurs
+in the proof of [Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5).
+The containment argument above extends it to arbitrary modules using Roby's algebra
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Remainder of an extended base ideal*; Mathlib `Ideal.mul_le_inf`.
 
 **Checks.**
 
@@ -447,9 +461,11 @@ relation, an index zero is immediate. When both indices are positive, the only n
 side is inr(a)²=0; the only possibly nonzero target degree is 1+1=2, whose coefficient choose(2,1)=2
 vanishes in F₂. For the additive relation, degree zero gives one and degree two gives
 inr(a+b)=inr(a)+inr(b). The only other possible convolution term is degree four, inr(a)·inr(b)=0.
-All remaining terms vanish. Apply lift′_apply_dp for the stated formula. ([Stacks
-Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.5.1 (tag 07H5), proof,
-second paragraph.) *Needs:* Mathlib `DividedPowerAlgebra.lift'`; Mathlib
+All remaining terms vanish. Apply lift′_apply_dp for the stated formula. For the free-module divided-power relations see
+[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
+[Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The detector argument above
+uses Roby's generator presentation
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* Mathlib `DividedPowerAlgebra.lift'`; Mathlib
 `DividedPowerAlgebra.lift'_apply_dp`; Mathlib `TrivSqZeroExt.inr`; Mathlib
 `TrivSqZeroExt.inr_mul_inr`; Mathlib `ZMod.natCast_self`.
 
@@ -472,9 +488,11 @@ ideal generated by {embed(a) | a∈F₂}.
 *Proof sketch.* Take the preceding ordinary algebra homomorphism to the square-zero extension. Every
 embed(a)=dp(1,a) maps to zero, so the ordinary ideal they generate lies in its ring kernel by
 Ideal.span_le. The image of dp(2,1) is inr(1), which is nonzero by inr_injective and 1≠0 in F₂.
-Kernel membership therefore rules out membership in the degree-one ideal. ([Stacks
-Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.5.1 (tag 07H5), proof,
-second paragraph.) *Needs:* §0.DP.3 / *A degree-two detector in characteristic two*; Mathlib
+Kernel membership therefore rules out membership in the degree-one ideal. For the free-module divided-power relations see
+[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
+[Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The detector argument above
+uses Roby's generator presentation
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *A degree-two detector in characteristic two*; Mathlib
 `DividedPowerAlgebra.embed_def`; Mathlib `RingHom.mem_ker`; Mathlib `Ideal.span_le`; Mathlib
 `TrivSqZeroExt.inr_injective`.
 
@@ -567,9 +585,11 @@ in commutative squares `(A → B) → (A′ → B′)`. For any functor `F` from
 `B` to complexes of abelian groups (or of `A`-modules), the complexes `F(P•)` and `F(Q•)` of two
 polynomial resolutions are canonically quasi-isomorphic after totalization: this is the value
 `Lπ_!F` of [StacksCt] Lemmas 4.1–4.3 and 5.6–5.7 (Tags 08PS–08PU, 08QJ, 08QK, pp.4–10), computed by
-any resolution (Remark 5.5). Simplicial homotopies are preserved by every functor ([StacksSimp]
-Remark 14.26.4, Tag 019M, p.45). This is the strict substitute for left Kan extension from
-polynomial algebras.
+any resolution (Remark 5.5). Use the projective presheaves represented by the polynomial algebras
+`P_n` on the category of polynomial `A`-algebras over `B`: the augmentation gives an exact
+resolution after evaluation on each object, by the trivial Kan fibration condition. Applying the
+derived-colimit construction gives the identification with `Lπ_!F`, functorially in `F`.
+This comparison takes place in the derived category of the values of `F`.
 
 *Needs:* Mathlib `SimplicialObject.Augmented`, `SimplicialObject.Augmented.ExtraDegeneracy`,
 `AlgebraicTopology.alternatingFaceMapComplex`, `MvPolynomial`.
@@ -578,19 +598,19 @@ Prove the following named laws.
 
 - `Algebra.CotangentComplex.standardResolution`: the comonad resolution is a polynomial resolution,
   functorial in commutative squares of ring maps, with identity and composition laws.
-- `Algebra.CotangentComplex.PolynomialResolution.comparison`: any two polynomial resolutions of `B`
-  over `A` are homotopy equivalent over `B`, the homotopy equivalence is unique up to homotopy, and
-  for every functor `F` as above the induced map of totalizations is a quasi-isomorphism.
+- `Algebra.CotangentComplex.PolynomialResolution.comparison`: for any two polynomial resolutions of
+  `B` over `A` and each functor `F` above, the totalized complexes are canonically isomorphic in the
+  derived category through their common identification with `Lπ_!F` (Tags 08PS–08PU, 08QI).
 - `Algebra.CotangentComplex.PolynomialResolution.toQuasiIso`: the augmentation `P• → B` is a
   quasi-isomorphism of alternating face complexes of `A`-modules.
 
 **Checks.**
 
 - `test_resolution_identity`: for `A → A`, the constant simplicial algebra `A` is a polynomial
-  resolution (on the empty set of variables) and every comparison with the standard resolution is a
-  homotopy equivalence.
-- `test_resolution_polynomial`: for `B = A[t]`, the constant resolution `A[t]` and the standard
-  resolution are homotopy equivalent; a functor applied to both gives quasi-isomorphic complexes.
+  resolution on the empty set of variables; its `F`-complex and that of the standard resolution
+  have the canonical derived-category comparison through `Lπ_!F`.
+- `test_resolution_polynomial`: for `B = A[t]`, applying `F` to the constant resolution `A[t]` and
+  to the standard resolution gives the same object `Lπ_!F` in the derived category.
 - `test_resolution_not_quasi_iso`: for a nonzero ring `A`, the constant simplicial algebra
   `A[t]`, augmented to `B = A[t]/(t²)` by the quotient map, is degreewise polynomial and surjective onto `B`, but its
   alternating face complex is `A[t]` in degree zero; it is not a resolution.
@@ -908,8 +928,12 @@ For composable ring maps `A → B → C` there is a natural distinguished triang
 `L_(B/A) ⊗^L_B C → L_(C/A) → L_(C/B) → (L_(B/A) ⊗^L_B C)[1]` in `D(C)`. Its first two arrows are
 images under `DerivedCategory.Q` of chain maps `Algebra.CotangentComplex.transitivityFirst` and
 `transitivitySecond` induced by the squares `(A → B) → (A → C)` and `(A → C) → (B → C)`; only the
-connecting arrow is chosen. On `H^−1`/`H⁰` it is the Jacobi–Zariski sequence
-`Algebra.Generators.Cotangent.exact`.
+connecting arrow is chosen. On low-degree homology the middle maps are
+`Algebra.H1Cotangent.δ`, with exactness given by `Algebra.H1Cotangent.exact_map_δ` and
+`Algebra.H1Cotangent.exact_δ_mapBaseChange`. The left term remains
+`H^−1(L_(B/A) ⊗^L_B C)` for general maps. If `C` is flat over `B`, it identifies with
+`C ⊗_B Algebra.H1Cotangent A B`, and the preceding exactness agrees with
+`Algebra.H1Cotangent.exact_liftBaseChange_map_of_flat`.
 
 [StacksCt], §7, Proposition 7.4; Tag 08QX, p.16 (construction pp.13–16).
 
@@ -1187,7 +1211,9 @@ isomorphism; an abstract isomorphism of the kernel with `J ⊗_A B` does not giv
 (`test_deformation_zero_map`). For a square-zero extension `T′ → T` of `A`-algebras with kernel `J` and
 an `A`-map `f : B → T`, the obstruction to lifting `f` to `T′` lies in `Ext¹_B(L_(B/A), J)` and lifts
 form a torsor under `Ext⁰` ([StacksDefos] Lemma 2.1, Tag 08S5, p.2, with `H⁰L = Ω`). For smooth `B/A`,
-finite projectivity of `L` in degree zero gives existence and uniqueness up to the stated automorphisms.
+finite projectivity of `L` in degree zero makes square-zero algebra deformations exist in a single
+isomorphism class, with automorphism group `Ext⁰_B(L_(B/A), N)`. Morphism lifts exist and form the
+torsor under `Der_A(B,J)`; this torsor can have more than one element.
 
 [StacksCt], §16, Lemma 16.1 (Tag 08SP), and its ringed-space version §21, Lemma 21.1 (Tag 08UZ),
 pp.31–32, 37–38; [StacksAlg] Lemma 10.99.8 (Tag 051C).
@@ -1201,10 +1227,14 @@ Lean: `Algebra.CotangentComplex.extensionObstruction` (arbitrary `c`),
 
 **Checks.**
 
-- `test_deformation_identity`: for the identity extension (`J = 0`) the obstruction vanishes and the
-  lift is `B`.
+- `test_deformation_identity`: in the flat specialization, the identity base extension has `J = 0`
+  and `N = J ⊗_A B = 0`, so the obstruction vanishes and the lift is `B`. In the arbitrary-`c`
+  problem with `A′ = A = B = ℤ`, `N = ℤ` and `c = 0`, a solution is `ℤ[ε]/ε²`, with nonzero kernel.
 - `test_deformation_smooth`: a polynomial algebra lifts uniquely up to isomorphism; its obstruction
   group `Ext²(Ω[0], N)` vanishes.
+- For `A = T = k`, `B = k[x]` and `T′ = k[ε]/ε²`, the map `x ↦ 0` has distinct lifts
+  `x ↦ 0` and `x ↦ ε`. Their difference is the derivation `x ↦ ε`; the automorphisms of `T′`
+  fixing its identified kernel and quotient are `Der_k(k,k) = 0`.
 - `test_deformation_ideal`: the lift's kernel must be `J ⊗_A B`; for `A′ = ℤ/4 → A = ℤ/2` and
   `B = F₂[t]`, the lift `ℤ/4[t]` has kernel `2ℤ/4[t] ≅ F₂[t]`, while the extension of `B` by the
   unrelated module `0` is not a lift.
@@ -1244,7 +1274,10 @@ The downstream consumer PerfectoidSpaces §P0.22 uses these normalized ordinary 
 
 - `transitivityConnecting_identity_source`, `transitivityConnecting_identity_target` and
   `transitivityConnecting_polynomial_quotient`: an identity leg gives zero; for
-  `ℚ → ℚ[X] → ℚ` with `X ↦ 0`, the connecting map is nonzero.
+  `k[x]/(x³) → k[x]/(x²) → k` over a field `k`, both maps are quotient maps and the first
+  kernel `(x²)` is square-zero. The connecting map surjects from `H^−2 L_(k/(k[x]/(x²)))`
+  onto `H^−1(L_((k[x]/(x²))/(k[x]/(x³))) ⊗^L k) ≅ k`: the next conormal map sends
+  `x²` to zero in `(x)/(x²)`. Thus the connecting map is nonzero.
 - `transitivityTriangle_cone_sign`: the cone triangle of `0 : ℚ[0] → ℚ[0]` sends its
   degree-`−1` generator to `−1` in the shifted source `ℚ[1]`.
 - `kernelExtensionClass_zero`, `kernelExtensionClass_nonzero` and
@@ -1354,6 +1387,10 @@ exact sequence
 
 In `Suggested.lean` a morphism of towers is `Tower.Hom`, with its map `Hom.onProduct` on products
 and the induced map `Hom.limOneMap`; the `lim¹` half of the sequence is `Tower.limOne_exact`.
+Construct `Tower.Hom.id`, `Tower.Hom.comp` (in the order `g ∘ f`) and `Tower.Hom.zero`.
+The laws `Tower.Hom.onProduct_id`, `Tower.Hom.onProduct_comp`, `Tower.Hom.onProduct_zero`,
+`Tower.Hom.limOneMap_id`, `Tower.Hom.limOneMap_comp` and `Tower.Hom.limOneMap_zero` identify
+their induced maps with the identity, composite and zero homomorphisms, respectively.
 
 *Proof sketch.* Apply the snake lemma to the shift maps on the short exact sequence
 `0 → ∏ A_n → ∏ B_n → ∏ C_n → 0` ([Stacks Project](https://stacks.math.columbia.edu), More on
@@ -1369,6 +1406,11 @@ Lemma 10.86.4, tag 0598). *Needs:* §1.T.1 / *lim and lim¹ of a tower*.
 
 - If `A` is Mittag-Leffler, `0 → lim A → lim B → lim C → 0` is exact (Stacks, Algebra,
   Lemma 10.86.4).
+- The identity endomorphism of `mulTower 3` induces the identity on its nonzero `lim¹ ≅ ℤ₃/ℤ`,
+  and fixes every class under the sum identification of `limOne_mul_p`.
+- The zero endomorphism of `mulTower 3` induces zero on that same nonzero `lim¹`.
+- The levelwise multiplication-by-two endomorphism of `mulTower 3` induces multiplication by two
+  on `ℤ₃/ℤ`. It kills the nonzero class of `1/2 ∈ ℤ₃`, since its double is the integer `1`.
 
 **The Milnor sequence for towers of complexes.** Let `(K_n)` be a tower of cochain complexes of
 abelian groups whose transitions are surjective in every degree, and `K = lim K_n` (so that
@@ -1494,6 +1536,12 @@ Let `I = (f₁, …, f_r) ⊂ A` be finitely generated. A complex `M ∈ D(A)` i
 
 Lean: `DerivedDeRham.derivedCompleteness` (stated in `Suggested.lean` as vanishing of all morphisms
 from the shifted localizations).
+For `A : Type u`, the prototypes use `ModuleCat.{u} A` and the local instance `moduleDerived`
+of `HasDerivedCategory.{u+1}`. The abbreviations `DerivedDeRham.D`, `DerivedDeRham.mod0` and
+`DerivedDeRham.H` denote the derived category, placement in degree zero and cohomology;
+`DerivedDeRham.isDerivedComplete_triangle` gives the shift and triangle part of
+`isDerivedCompleteLimits`. These and `DerivedDeRham.isCompletelyFlatModule_of_flat` in §1.7
+carry the same arbitrary universe `u`.
 
 Prove the following named laws.
 
@@ -1745,8 +1793,9 @@ modules carry their `𝔪`-adic topology and cofinite-type modules the discrete 
 with a continuous action of a group `G`, `D(M)` carries the contragredient action
 `(gφ)(m) = φ(g⁻¹m)`, and evaluation, reduction modulo `𝔪ⁿ` and passage to inverse and direct limits
 are `G`-equivariant. Applied termwise, `D` gives Matlis duality on complexes, and the biduality map
-is a quasi-isomorphism for complexes whose cohomology is of finite type or of cofinite type. For
-modules in neither class biduality fails (Check). Downstream consumers construct the comparison with normalized dualizing complexes and local cohomology.
+is a quasi-isomorphism for complexes whose cohomology is of finite type or of cofinite type.
+Outside these classes, evaluation biduality can fail, as in the infinite-dimensional field Check.
+Downstream consumers construct the comparison with normalized dualizing complexes and local cohomology.
 
 *Proof sketch.* Construct an essential injective hull of `k` inside an injective module
 containing it. Exactness of `D` is injectivity of `E_R(k)`; biduality for modules of finite length
@@ -1760,6 +1809,8 @@ pp. 51–53; §3.1, pp. 75–76.) *Needs:* Mathlib `DerivedCategory`; Mathlib
 
 - For `R = ℤ_p`, `E_R(k) = ℚ_p/ℤ_p`, `D(ℤ_p^r) = (ℚ_p/ℤ_p)^r` and `D((ℚ_p/ℤ_p)^r) = ℤ_p^r`: a
   lattice is dual to a cofinite-type module and conversely.
+- For `R = ℤ_p` and `E = ℚ_p/ℤ_p`, the module `R ⊕ E` is neither finite nor Artinian, but
+  `D(R ⊕ E) ≅ E ⊕ R` and evaluation is an isomorphism, by additivity of `D` on finite sums.
 - `D(k) = Hom_R(k, E_R(k)) = k` (the socle of `E_R(k)`), and `k → D(D(k))` is an isomorphism; by
   induction on length every module of finite length is canonically bidual.
 - For `R = k` (so `E_R(k) = k`) and `M = ⊕_ℕ k`, which is neither finitely generated nor Artinian,
@@ -1811,7 +1862,8 @@ five-term exact sequence
 0 → E₂^{1,0} → E¹ → E₂^{0,1} → E₂^{2,0} → E².
 ```
 
-If `E₂^{pq} = 0` for `0 < q < n`, then `E₂^{m,0} ≅ Eᵐ` for `m < n` and
+For an integer `n ≥ 1`, if `E₂^{pq} = 0` for every `p ≥ 0` and `0 < q < n`, then
+`E₂^{m,0} ≅ Eᵐ` for `m < n` and
 `0 → E₂^{n,0} → Eⁿ → E₂^{0,n} → E₂^{n+1,0} → E^{n+1}` is exact. If every row
 `A^{0q} → A^{1q} → ⋯` is exact in positive degrees, then
 `Eⁿ = Hⁿ(ker(A^{0•} → A^{1•}))`. The abutment and its filtration are part of the statement, since
@@ -1828,8 +1880,8 @@ The API:
 - `DoubleComplex.edgeBottom`: `E₂^{n,0} → Hⁿ(Tot A)`.
 - `DoubleComplex.edgeLeft`: `Hⁿ(Tot A) → E₂^{0,n}`.
 - `DoubleComplex.fiveTerm_exact`: the five-term exact sequence (NSW (2.1.1)).
-- `DoubleComplex.exact_of_rows_vanish`: vanishing rows `0 < q < n` give the extended sequence
-  (NSW (2.1.2)).
+- `DoubleComplex.exact_of_rows_vanish`: with the explicit hypothesis `1 ≤ n`, vanishing
+  `E₂^{pq}` for all `p ≥ 0` and `0 < q < n` gives the extended sequence (NSW (2.1.2)).
 - `DoubleComplex.totalCohomology_of_exact_rows`: exact rows give
   `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
 - `DoubleComplex.spectralSequence_map`: naturality in the double complex.
@@ -1866,6 +1918,9 @@ Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Mathlib
 - `acyclic_square`: `A^{00} = A^{10} = ℤ` with `d′ = id` and all other terms `0`: `E₂ = 0` and
   `H(Tot A) = 0`.
 - `low_degree`: `H⁰(Tot A) = E₂^{00}` for every first-quadrant double complex.
+- The bound `n ≥ 1` is necessary: if only `A^{00} = ℤ` is nonzero, then at `n = 0` both
+  edge maps `E₂^{00} → H⁰(Tot A) → E₂^{00}` are identities. Their composite is nonzero,
+  so the extended sequence would fail exactness despite the empty row-vanishing condition.
 - The abutment filtration is pinned: for a single row (`q = 0`) it is `FⁿHⁿ = Hⁿ`,
   `F^{n+1}Hⁿ = 0`; for a single column (`p = 0`) it is `F⁰Hⁿ = Hⁿ`, `F¹Hⁿ = 0`.
 
@@ -1895,7 +1950,7 @@ the author corrections [IllusieI] and [IllusieII].
 - **StacksDefos**: The Stacks Project Authors, *Deformation Theory* (Chapter 91).
 - **StacksMA**: The Stacks Project Authors, *More on Algebra* (Chapter 15).
 - **StacksSimp**: The Stacks Project Authors, *Simplicial Methods* (Chapter 14).
-- **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21), §21.33 *Cup product*.
+- **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21), §21.35 *Internal hom in the derived category*.
 
 [BL22]: https://arxiv.org/pdf/2201.06120v1
 [BMS19]: https://www.numdam.org/item/10.1007/s10240-019-00106-9.pdf
@@ -1913,4 +1968,4 @@ the author corrections [IllusieI] and [IllusieII].
 [StacksDefos]: https://stacks.math.columbia.edu/download/defos.pdf
 [StacksMA]: https://stacks.math.columbia.edu/download/more-algebra.pdf
 [StacksSimp]: https://stacks.math.columbia.edu/download/simplicial.pdf
-[StacksSites]: https://stacks.math.columbia.edu/tag/0FPJ
+[StacksSites]: https://stacks.math.columbia.edu/tag/08J7
