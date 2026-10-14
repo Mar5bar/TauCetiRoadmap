@@ -254,28 +254,33 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
 - **Projective Picard representability.** For a projective geometrically integral
   scheme `Y` over any field `k`, construct a separated group scheme `Pic_{Y/k}` locally
   of finite type representing the fppf sheaf of relative line-bundle classes. The
-  structural morphism is flat and finitely presented; no perfectness or rational point
-  is assumed. Use the fixed-Hilbert-polynomial and higher-cohomology-vanishing open
-  subfunctors: their divisor atlases are open subsets of Hilbert schemes, and their
+  structural morphism is flat and locally of finite presentation; no perfectness or
+  rational point is assumed. Use the fixed-Hilbert-polynomial and higher-cohomology-vanishing
+  open subfunctors: their divisor atlases are open subsets of Hilbert schemes, and their
   kernel pairs are smooth projective families of complete linear systems. Apply the
   preceding quotient target and glue these open quotients. Supply the natural
   representing comparison on all test schemes, the tensor-product group law, the unit
   and inverse, and coherent field base change. Each fixed-Hilbert-polynomial piece is
-  an increasing union of open quasi-projective schemes (Kleiman, Theorems 2.5, 4.8 and Lemma 4.9,
-  pp. 17–18, 27–31). Extend the locally Noetherian test-scheme construction to arbitrary
-  tests using finite-presentation limits from SchemeAndStackFoundations §0.9 and
-  invertible-sheaf descent; Kleiman's standing convention and limit reduction are on p. 15.
+  an increasing union of open quasi-projective schemes; these quasi-compact open charts
+  are of finite presentation over `k` (Kleiman, Theorems 2.5, 4.8 and Lemma 4.9,
+  pp. 17–18, 27–31; Stacks [01TP](https://stacks.math.columbia.edu/tag/01TP),
+  [01TX](https://stacks.math.columbia.edu/tag/01TX)). Extend the locally Noetherian
+  test-scheme construction to arbitrary tests using finite-presentation limits from
+  SchemeAndStackFoundations §0.9 and invertible-sheaf descent; Kleiman's standing convention
+  and limit reduction are on p. 15.
   The cohomological and formal inputs are Layer C and SchemeAndStackFoundations §4.9's
   `Scheme.Modules.Cohomology.formalFunctionsIso`.
 
   Specialize to the standing curve: proper curves are projective (Stacks
   [0A26](https://stacks.math.columbia.edu/tag/0A26)). With `x₀`, compare its scheme
   directly to `rigidifiedPicardFunctor`; `pointedCurvePicard_representable` records this
-  comparison. SchemeAndStackFoundations §§3.6–3.7 consume this represented object and
+  comparison, with a flat structural morphism locally of finite presentation.
+  SchemeAndStackFoundations §§3.6–3.7 consume this represented object and
   supply no input to its construction. General relative Picard algebraic spaces belong
   to AlgebraicModuliForArithmeticGeometry §7.3. **Checks:**
-  - For `ℙ¹_k`, the representing scheme is `∐_{d ∈ ℤ} Spec k`, and the degree-zero
-    component is `Spec k`.
+  - For `ℙ¹_k`, the representing scheme is `∐_{d ∈ ℤ} Spec k`, flat and locally of
+    finite presentation but not quasi-compact, hence not of finite presentation over `k`.
+    Each degree component, including degree zero, is `Spec k` and is of finite presentation.
   - For an elliptic curve over a finite field, the comparison holds on
     `Spec k[ε]/(ε²)` as well as on field-valued points.
   - For a smooth geometrically integral curve over the imperfect field `𝔽_p(t)`,
@@ -303,6 +308,8 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   fixed-Hilbert-polynomial piece of the preceding construction; its quasi-compactness
   places it inside one quasi-projective open. Proper and quasi-projective over `k`
   implies projective. Supply the field-base-change comparison for this full component
+  and deduce that every `Pic^d`, translated from `Pic⁰` by `𝒪(d·x₀)`, is proper and of
+  finite presentation over `k`
   (Stacks [0BA0](https://stacks.math.columbia.edu/tag/0BA0); Kleiman, Theorem 4.8(2),
   pp. 27–31). **Checks:**
   - In genus zero `Pic⁰ = Spec k` is projective.

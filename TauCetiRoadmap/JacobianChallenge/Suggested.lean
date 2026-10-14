@@ -48,14 +48,15 @@ theorem properIntegralGroup_commutative {k : Type u} [Field k]
     [GeometricallyIntegral G.hom] : IsCommMonObj G := by
   exact isCommMonObj_of_isProper_of_geometricallyIntegral G
 
-/-- A pointed smooth proper geometrically integral curve has a separated Picard scheme
-locally of finite type, representing its existing rigidified Picard functor naturally on
-all test schemes. -/
+/-- A pointed smooth proper geometrically integral curve has a separated Picard scheme,
+flat and locally of finite presentation over the field, representing its existing
+rigidified Picard functor naturally on all test schemes. -/
 theorem pointedCurvePicard_representable {k : Type u} [Field k]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [Smooth f] [IsProper f]
     [GeometricallyIntegral f] (hdim : topologicalKrullDim X = 1)
     (x₀ : Spec (.of k) ⟶ X) (hx₀ : x₀ ≫ f = 𝟙 _) :
-    ∃ P : Over (Spec (.of k)), IsSeparated P.hom ∧ LocallyOfFiniteType P.hom ∧
+    ∃ P : Over (Spec (.of k)), IsSeparated P.hom ∧ Flat P.hom ∧
+      LocallyOfFinitePresentation P.hom ∧
       Nonempty ((uliftYoneda.{u + 1}.obj P) ≅
         TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor f x₀ hx₀) := by
   sorry
