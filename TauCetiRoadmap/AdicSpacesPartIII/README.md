@@ -90,21 +90,25 @@ type) is the boundary of the transport. F0 owns the locally ringed formal-scheme
 comparisons and the results proper to formal schemes.
 
 Part III R3.4, R3.6 and R3.7 own Kiehl's Theorems A and B on quasi-Stein spaces,
-proper coherent cohomology and its completion and base change, coherent analytification and
-proper GAGA. R3.6 also owns the Banach prerequisites: complete continuity and its strict
-variant, descent to closed targets, topologically free surjections, Schwartz finiteness,
-relatively compact restriction, integral-affinoid almost noetherianity, closed complements
-for spaces of countable type and completed extension of affinoid ground fields.
+proper coherent cohomology and its adic completion and base-change comparisons, coherent analytification and
+proper GAGA. R3.6 owns the affinoid adapter for CompactOperators §0.1's complete continuity, its strict
+variant, descent to closed targets, Schwartz finiteness, relatively compact restriction,
+integral-affinoid almost noetherianity and completed extension of affinoid ground fields.
+PadicFunctionalAnalysis §§2.1–2.2 supplies the model-space surjections and §2.4 the
+countable-type splittings; R3.6 identifies their maps with Part II's Banach-module carriers.
+RigidAnalyticGeometry §7.5 supplies proper formal functions and the stable principal
+filtration; R3.6 transports them through the rigid–adic comparison.
 These targets use Part II's affinoid, rigid-space and Banach-module carriers and its
 rigid–adic functor. R3.3 owns small perturbations over general complete Tate rings;
 R3.8 owns the symmetric categorical trace and its finite-projective scalar realization.
 The scheme-level étale topological invariance is supplied by SchemeAndStackFoundations §0.23a.
 
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0.0–R0.20 and R1.1–R1.9;
-SchemeAndStackFoundations Layers 0–4, including §0.23a; RigidAnalyticGeometry §§1–8.
+SchemeAndStackFoundations Layers 0–4, including §0.23a; RigidAnalyticGeometry Layers 1–8;
+CompactOperators §0.1.
 The supplier contracts below also specify the main-roadmap inputs from StableReduction,
 JacobianChallenge, ModularCurves and AlgebraicVectorBundles, and the gauge inputs from
-PadicFunctionalAnalysis §0.4.6.
+PadicFunctionalAnalysis §0.4 and its Banach-module inputs in §§1.2, 2.1–2.4.
 
 Existing Mathlib and Tau Ceti APIs are used directly; cited roadmap suppliers own the contracts
 below. Tau Ceti follows Mathlib's API decisions and builds every needed target here without
@@ -155,8 +159,11 @@ waiting for upstream work.
     `EllipticModuli`, `GeneralisedEllipticCurve` and their subnamespaces, including
     `Module.IsCoherent`, `AlgebraicGeometry.Scheme.Hom` and `AlgebraicGeometry.Scheme.Modules`.
     The class `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, its chosen ideal and its completion
-    criteria are imported from AdicSpacesPartII R0.1a–R0.1b; the `IsAdicRing` namespace here
-    adds only the restricted-series and finite-module targets of F0.1.
+    criteria are supplied by AdicSpacesPartII R0.1a–R0.1b. The carrier, chosen ideal,
+    `ideal_spec`, Huber instance and completion criteria are prototyped in this folder's `Suggested.lean`
+    under the supplier namespace. Its field `IsAdicRing.exists_isAdic` records a finite
+    ideal defining the topology and algebraic adic completeness. The `IsAdicRing` namespace
+    under Part III adds only the restricted-series and finite-module targets of F0.1.
     The projective trace declarations use `LinearMap` and `Algebra`; relative differential data
     use `AlgebraicGeometry`. `RigidSpace.fibreRank` and `RigidSpace.isFinite_iff_of_flat` use the
     rigid-space carriers imported from `TauCetiRoadmap.AdicSpacesPartII`. Tau Ceti declarations
@@ -187,19 +194,19 @@ The tables below specify the supplied contracts. Named Part II interfaces occur 
 README or `Suggested.lean`; contracts without a supplier declaration name are cited by
 Part II's target slug. A Part III name denotes a target here (Convention 13).
 Rigid spaces, the rigid–adic comparison, projective spaces and analytification functors
-use Part II's carrier bridges. The gauge and classical rigid contracts below come from the
-pinned student specifications
-[RigidAnalyticGeometry](https://github.com/CBirkbeck/PhD/blob/af8261a42a548ed86a11fff72c486673ef122ae7/PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md)
+use Part II's carrier bridges. The gauge, operator and classical rigid contracts below come from
+[RigidAnalyticGeometry](../RigidAnalyticGeometry/README.md),
+[CompactOperators](../CompactOperators/README.md)
 and
-[PadicFunctionalAnalysis](https://github.com/CBirkbeck/PhD/blob/77b47a7c501d2cbcca5be670262597c4e7558d8f/PhD/TauCeti/Roadmaps/PadicFunctionalAnalysis/README.md).
+[PadicFunctionalAnalysis](../PadicFunctionalAnalysis/README.md).
 Their statements are transported through Part II R0.9's affinoid-algebra bridge and R1's
 rigid-space bridge. These supplier contracts are cited by their roadmap and section.
 
 | F0 supplier | Exact file | Contract used |
 |---|---|---|
-| AdicSpacesPartII R0.1a–R0.1b: `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal_spec`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.isHuberRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.adicCompletion`, `TauCetiRoadmap.AdicSpacesPartII.isNoetherianRing_of_isAdicComplete` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | Adic rings of finite ideal type, chosen ideals of definition, their Huber-ring instance and noetherian completion criteria. F0 constructs completed localisations, restricted series and completed tensor products over these rings. |
+| AdicSpacesPartII R0.1a–R0.1b: `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal_spec`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.isHuberRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.adicCompletion`, `TauCetiRoadmap.AdicSpacesPartII.isNoetherianRing_of_isAdicComplete` | `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.1a–R0.1b; carrier and criterion prototypes in `TauCetiRoadmap/AdicSpacesPartIII/Suggested.lean` | Adic rings of finite ideal type, chosen ideals of definition, their Huber-ring instance and noetherian completion criteria. F0 constructs completed localisations, restricted series and completed tensor products over these rings. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `fieldAffinoid`, `AdicOver`, `rigidToAdic`, `rigidToAdic.rho`; `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | The affine and global Raynaud comparisons use these imported carriers and the functor `RigidSpace K ⥤ AdicOver K`. Part III supplies the formal generic fibre and its comparison isomorphisms. |
-| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp`, AdicSpacesPartII *proper-separated-comparisons*, `AdicSpace.rigidToAdic` (same prefix); RigidAnalyticGeometry §§7.3.1, 7.3.3 | Pinned RigidAnalyticGeometry README §§7.3.1, 7.3.3; AdicSpacesPartII carrier contracts | Quasi-compact rigid morphisms are those of §7.3.1. The inner relation is §7.3.3 relative compactness for affinoid opens over an affinoid base. Part II transports these through its affinoid and rigid–adic carriers. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp`, AdicSpacesPartII *proper-separated-comparisons*, `AdicSpace.rigidToAdic` (same prefix); RigidAnalyticGeometry §6.3 | RigidAnalyticGeometry README §6.3; AdicSpacesPartII carrier contracts | Quasi-compact rigid morphisms are those of §6.3. The inner relation is its relative compactness for affinoid opens over an affinoid base. Part II transports these through its affinoid and rigid–adic carriers. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.projectiveSpace`, `projectiveSpace.toSpec` (same namespace); `CategoryTheory.Limits.pullback`, `terminal.from` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`); `Mathlib/AlgebraicGeometry/Limits.lean` | The Part II homogeneous-polynomial projective space and scheme fibre products define `AlgebraicGeometry.relativeProjectiveSpace` over an arbitrary scheme base; its affine comparison preserves the structural map. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.projectiveSpace`, `projectiveSpace.toSpec`, `projectiveSpace.over`, `analytification` (same namespace); `MvPolynomial.homogeneousSubmodule`; `AlgebraicGeometry.Scheme.Modules.cohomologyBaseModule` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`); `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`; `TauCeti/AlgebraicGeometry/Cohomology/Module/Base.lean` | `AdicSpace.projectiveSpaceBundle` equips the imported polynomial Proj with F0's representing quotient data. `projectiveSpaceTwist` adds integer twists; `cohomologyComparison_projectiveSpace` uses the imported analytic space and its projections, with the base-ring cohomology action. |
 | `Ideal.exists_pow_le_of_le_radical_of_fg` | `Mathlib/RingTheory/Finiteness/Ideal.lean` | Finite generation supplies a power contained in an ideal from radical containment. `Spf.homEquiv_pow` additionally identifies this condition with continuity for the adic topologies and chooses a positive exponent. |
@@ -270,7 +277,7 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `AdicSpace.ofRigidAffinoid`, `RigidSpace.Affinoid.polydisc` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | The normalized affine generic fibre and the closed disc use these imported carriers. Part III adds the comparison with its universal `FormalScheme.genericFibre`. |
 | `Valuation.IsMicrobial`; `TauCeti.ValuationSpectrum.spaAnalytic`, `spa_integralClosure`; `SpectralSpace`, `IsSpectralMap` | `TauCeti/RingTheory/Valuation/Microbial.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Basic.lean`; `Mathlib/Topology/Spectral/Basic.lean`, `Mathlib/Topology/Spectral/Hom.lean` | Microbial valuations, the analytic locus, invariance under integral closure, and spectral spaces/maps are supplied predicates and results. The new statements concern specialization and the formal generic fibre. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace`, `RigidSpace.GSpace.Opens`, `RigidSpace.IsAdmissibleCover`, `AdicSpace.rigidToAdic.rho` (same namespace) | AdicSpacesPartII README, R0–R1 targets cited in this row | Rigid spaces, admissible opens and covers, and their adic realization. Hasse opens on formal generic fibres use Part III’s `FormalScheme` and `hasseDomain`; real Hasse values characterize their classical points, not all higher-rank points. The admissible-cover comparison is read on adic spaces through AdicSpacesPartII *rigid-adic-quasi-separated-equivalence*. |
-| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.IsEtale`, `RigidSpace.IsEtale.of_isOpenImmersion`, `RigidSpace.IsEtale.baseChange`, `RigidSpace.hasPullbacks`, `RigidSpace.IsAdmissibleOpen`, `RigidSpace.analytification` (same namespace) | AdicSpacesPartII README, R0–R1 targets cited in this row | Étale morphisms of rigid spaces with their stability under open immersions and base change, fibre squares, admissible opens and rigid analytification, for `RigidSpace.IsEtaleCovering`, `RigidSpace.descendOpen` and `RigidSpace.GeneralisedEllipticCurve`; quasi-compact morphisms of rigid spaces come from RigidAnalyticGeometry §7.3.1 through the same carrier. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.IsEtale`, `RigidSpace.IsEtale.of_isOpenImmersion`, `RigidSpace.IsEtale.baseChange`, `RigidSpace.hasPullbacks`, `RigidSpace.IsAdmissibleOpen`, `RigidSpace.analytification` (same namespace) | AdicSpacesPartII README, R0–R1 targets cited in this row | Étale morphisms of rigid spaces with their stability under open immersions and base change, fibre squares, admissible opens and rigid analytification, for `RigidSpace.IsEtaleCovering`, `RigidSpace.descendOpen` and `RigidSpace.GeneralisedEllipticCurve`; quasi-compact morphisms of rigid spaces come from RigidAnalyticGeometry §6.3 through the same carrier. |
 | `CategoryTheory.Limits.cokernel`, `CategoryTheory.Limits.cokernel.π`; `TauCeti.SheafOfModules.tensorProduct` | `Mathlib/CategoryTheory/Limits/Shapes/Kernels.lean`; `TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Basic.lean` | R2 Hasse sections live in the sheaf cokernel of multiplication by `p` on the tensor power. Integral frames differ by units, whose valuation is one. No global lift or root of `p` is required for the domain. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `Affinoid.coeff`, `Chart`, `IsAdic`, `LocallyOfFiniteType`, `fieldAffinoid` (in the same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `Affinoid.coeff`, `Chart`, `IsAdic`, `LocallyOfFiniteType`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Shared complete sheafy affinoids, their coefficient maps, and geometric morphism predicates for `toAdicSpace_spf` and the formal–adic comparison. Part III imports these declarations and supplies the formal source and universal centre morphism. `proper_directImage_etale_baseChange` also uses these imported affinoids and charts, together with Part II's `ringCatSheaf`, `ringCatSheafMap` and `pullbackModules`; Part III supplies the cohomology pullback and its canonical tensor comparison. |
 | `TauCeti.PreAdicSpace.toRingPresheafedSpace`, `stalkValuation`, `toRingPresheafedSpaceHom` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Basic.lean`; `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Hom.lean` | The actual ring-sheaf map and stalk valuations underlying `IntegralSpecialisation`; bounded images encode the integral subsheaf with its subspace topology. |
@@ -395,7 +402,7 @@ and stalks of internal Homs of finitely presented modules.
 | AdicSpacesPartII *completed-tensor-restricted-power-series*, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRestrictedEquiv`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRestrictedEquiv_homeomorph`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRestrictedEquiv_tmul` | AdicSpacesPartII README targets cited in this row | Adic base change transports finite weight families and identifies the completed tensor of a weighted restricted series ring with the series ring for the image weights, including the topology and tensor formula. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.isNoetherianType` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | For complete Hausdorff rings, adic base change of a topologically finite-type algebra over a noetherian-type ring is again topologically finite type and of noetherian type. |
 | AdicSpacesPartII *completed-tensor-rational-localisation*, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRationalEquiv` | AdicSpacesPartII README targets cited in this row | Rational preimages intersect in the product rational domain of the completed tensor, and completed rational localization commutes with this tensor product for compatible presentations. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.TateNormDatum`, `TauCetiRoadmap.AdicSpacesPartII.Huber.tateNorm`; PadicFunctionalAnalysis §0.4.6 | Pinned PadicFunctionalAnalysis README and Suggested.lean | The gauge is `PadicFunctionalAnalysis.tateGauge` with `a = r⁻¹`; shifting the integer index gives multiplication by the pseudouniformiser as scaling by `r`. `PadicFunctionalAnalysis.exists_tateSeminorm` supplies the seminorm and its zero-neighbourhood basis. The datum has a ring of definition containing the pseudouniformiser and `0 < r < 1`. |
+| `TauCetiRoadmap.AdicSpacesPartII.Huber.TateNormDatum`, `TauCetiRoadmap.AdicSpacesPartII.Huber.tateNorm`; PadicFunctionalAnalysis §0.4 | PadicFunctionalAnalysis README §0.4 | The gauge is `tateGauge` with `a = r⁻¹`; shifting the integer index gives multiplication by the pseudouniformiser as scaling by `r`. `exists_tateSeminorm` supplies the seminorm and its zero-neighbourhood basis. The datum has a ring of definition containing the pseudouniformiser and `0 < r < 1`. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_eq_of_ringOfDefinition`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_rpow`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_lt_one_iff`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_eq_zero_iff`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_one` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Smoothing the Tate gauge gives a spectral seminorm independent of the ring of definition for fixed pseudouniformiser and radius, with explicit radius rescaling, topological-nilpotence and zero criteria, and value `1` at `1` for nontrivial Hausdorff rings. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.isUniformAddGroup`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.isTopologicalRing`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.hasBasis_nhds_zero`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.isTopologicallyNilpotent_iff`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.powerBoundedSubring_eq` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The spectral topology is a topological-ring uniformity with neighbourhoods given by pseudouniformiser powers times the topologically nilpotent elements, retaining those elements and having the spectral unit ball as power-bounded subring. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.IsBanachModule`, `TauCetiRoadmap.AdicSpacesPartII.Huber.banachTensorTopology`, `TauCetiRoadmap.AdicSpacesPartII.Huber.hasBasis_banachTensorTopology_lattice` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Complete Hausdorff Tate modules with lattice topologies, and the tensor topology whose separated completion defines their completed tensor product. |
@@ -412,7 +419,7 @@ and stalks of internal Homs of finitely presented modules.
 | AdicSpacesPartII *affinoid-jacobson* | AdicSpacesPartII README, R0–R1 targets cited in this row | a `K`-affinoid algebra is a Jacobson ring. Applied through the carrier bridge of AdicSpacesPartII R0.9. |
 | AdicSpacesPartII *affinoid-maximum-modulus* | AdicSpacesPartII README, R0–R1 targets cited in this row | For a nonzero K-affinoid algebra, each element attains its supremum seminorm at a maximal ideal. Applied through the carrier bridge of AdicSpacesPartII R0.9. |
 | AdicSpacesPartII *affinoid-power-bounded-iff-sup* | AdicSpacesPartII README, R0–R1 targets cited in this row | In a K-affinoid algebra, the power-bounded elements have supremum seminorm at most `1`, and the topologically nilpotent elements have supremum seminorm less than `1`. Applied through the carrier bridge of AdicSpacesPartII R0.9. |
-| RigidAnalyticGeometry §2.2.3, `RigidAnalyticGeometry.powerBounded_integral_over_presentation` | Pinned RigidAnalyticGeometry README and Suggested.lean | For a surjective Tate-algebra presentation, the power-bounded subring is the integral closure of the image of the Gauss unit ball, including for nonreduced affinoids. |
+| RigidAnalyticGeometry §2.3, presentation-ring integrality | RigidAnalyticGeometry README | For a surjective Tate-algebra presentation, the power-bounded subring is the integral closure of the image of the Gauss unit ball, including for nonreduced affinoids. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsSeparated`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsSeparated.hasPullback` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsSeparated`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Huber 1.3.1: local weak finite type and a closed diagonal, with stably sheafy source charts. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsProper` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Quasi-compact, plus weak finite type, separated and universally closed (Huber96, Definitions 1.3.2–1.3.3 and Lemma 1.3.4, p. 51). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsPartiallyProper` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Plus weak finite type, separated, universally specializing (Huber96, Definition 1.3.3(ii), p. 51). |
@@ -436,8 +443,8 @@ and stalks of internal Homs of finitely presented modules.
 | AdicSpacesPartII *smooth-local-structure* | AdicSpacesPartII README targets cited in this row | A smooth map to a noetherian-type affinoid locally factors through an étale map to a weighted polydisc over that affinoid. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.eq_powerBounded_iff_of_isTopologicallyFiniteType` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A morphism from the ground field to a K-affinoid pair is topologically of finite type exactly when its plus ring is the power-bounded subring. |
 | AdicSpacesPartII *gerritzen-grauert* | AdicSpacesPartII README, R0–R1 targets cited in this row | for an affinoid subdomain `U`, there is a finite covering of `Max A` by rational subdomains `Vᵢ` such that each `U ∩ Vᵢ` is a rational subdomain of `Max A_{Vᵢ}`. Applied through the carrier bridge of AdicSpacesPartII R0.9. |
-| AdicSpacesPartII *rigid-analytic-space*; RigidAnalyticGeometry §4.4.2 (*rigid-local-ring-completion*) | Pinned RigidAnalyticGeometry README §4.4.2 | At a maximal point of an affinoid, the germ map is faithfully flat after localising, induces all infinitesimal quotient isomorphisms, and identifies the completed local rings. Conrad-AWS, §2.3, p. 17; KL15, proof of Lemma 2.5.12, p. 50. |
-| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace`, `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Sp`, AdicSpacesPartII *rigid-analytic-space*; RigidAnalyticGeometry §§6.3, 6.4.1 | Pinned RigidAnalyticGeometry README §§6.3, 6.4.1 | `RigidAnalyticGeometry.LocallyGRingedSpace.Sp` supplies the locally G-ringed affinoid. Its global sections identify canonically with the affinoid algebra; pullback along an affinoid homomorphism is that homomorphism under this identification. Restriction to admissible opens uses the same locally G-ringed carrier. |
+| AdicSpacesPartII *rigid-analytic-space*; RigidAnalyticGeometry Layers 3–4 (*rigid-local-ring-completion*) | RigidAnalyticGeometry README Layers 3–4 | At a maximal point of an affinoid, the germ map is faithfully flat after localising, induces all infinitesimal quotient isomorphisms, and identifies the completed local rings. Conrad-AWS, §2.3, p. 17; KL15, proof of Lemma 2.5.12, p. 50. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace`, `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Sp`, AdicSpacesPartII *rigid-analytic-space*; RigidAnalyticGeometry Layers 3–4 and §6.2 | RigidAnalyticGeometry README Layers 3–4 and §6.2 | The classical `Sp A` of Layers 3–4 and the locally G-ringed carrier of §6.2 supply the affinoid. Its global sections identify canonically with the affinoid algebra; pullback along an affinoid homomorphism is that homomorphism under this identification. Restriction to admissible opens uses the same locally G-ringed carrier. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.completedLocalRings` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | At a point above a closed scheme point, the canonical stalk map induces the infinitesimal quotient isomorphisms and the equality of completed local rings. |
 | AdicSpacesPartII *analytification-constructible-closure* | AdicSpacesPartII README targets cited in this row | For a locally constructible subset of a scheme locally of finite type over K, inverse image under analytification commutes with closure. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.SchemePullback`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.schemePullback`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.schemePullback.map` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | For a locally finite-type scheme map and an adic base with stably sheafy charts, the mixed fibre product represents compatible adic and locally ringed morphisms and is functorial in the scheme. |
@@ -482,16 +489,16 @@ identified with their adic forms through Part II R1's *rigid-adic-quasi-separate
 | *quasi-stein-theorems-a-b*, *quasi-stein-theorem-a* | R3.4 | `quasiStein_acyclic`, `quasiStein_global_generation`. |
 | *quasi-stein-direct-image-acyclicity* | R3.4 | `quasiStein_higherDirectImage`, vanishing on affinoid quasi-Stein inverse images. |
 | *kiehl-proper-mapping-theorem* | R3.6 | `kiehlProperMapping`, coherent proper higher direct images. |
-| *completely-continuous-map* | R3.6 | `IsCompletelyContinuous`, `IsStrictlyCompletelyContinuous`, finite-rank approximation, gauge norms, ideal and closedness laws. |
-| *strictly-completely-continuous-closed-target* | R3.6 | Closed-target descent and `c₀(I,A)` surjections. |
+| *completely-continuous-map* | R3.6 | Affinoid specialization of CompactOperators §0.1's `IsCompletelyContinuous`; strict complete continuity and its lattice comparison. |
+| *strictly-completely-continuous-closed-target* | R3.6 | Closed-target descent, using the model-space surjections of PadicFunctionalAnalysis §§2.1–2.2. |
 | *completely-continuous-finite-cokernel* | R3.6 | Closed image and finite cokernel of a surjection plus a completely continuous map. |
 | *surjection-small-perturbation* | R3.3 | Surjectivity and finite generation persist under sufficiently small perturbations. |
 | *restriction-strictly-completely-continuous* | R3.6 | Strict complete continuity of relatively compact restriction after a topologically free surjection. |
 | *almost-noetherian-integral-affinoid-modules* | R3.6 | Finite approximations for integral submodules and noetherianity for discrete valuation. |
 | *proper-affinoid-cohomology-finite* | R3.6 | Finite cohomology and closed Čech differential images. |
-| *proper-cohomology-adic-completion* | R3.6 | Formal functions and the stable principal filtration. |
+| *proper-cohomology-adic-completion* | R3.6 | Adic transport of RigidAnalyticGeometry §7.5's formal functions and stable principal filtration. |
 | *proper-cohomology-affinoid-subdomain* | R3.6 | Affinoid-subdomain base change. |
-| *countable-type-closed-subspace-section* | R3.6 | Closed complements and split strict exactness; Part II *banach-countable-type-orthogonal-basis* supplies the basis. |
+| *countable-type-closed-subspace-section* | R3.6 | Transport of PadicFunctionalAnalysis §2.4's splitting to Part II's Banach completed tensor. |
 | *affinoid-completed-field-extension* | R3.6 | Faithfully flat extension and finite-module completed tensor comparison. |
 | *proper-coherent-cohomology-field-extension*, *proper-cohomology-finite-flat-base-change* | R3.6 | The natural base-change maps are invertible under their stated hypotheses. |
 | *analytification-coherent*, *proper-gaga*, *proper-gaga-coherent-equivalence* | R3.7 | Exact coherent pullback and proper comparison of cohomology, direct images and coherent categories. |
@@ -5414,7 +5421,7 @@ that `B = A[f_1, …, f_n] ⊆ A_K` is an admissible `O_K`-algebra, finite over 
 and that if `r ∈ ℕ` satisfies `ϖ^r f_i ∈ A` for all `i`, then `Spf B → Spf A` is the admissible
 blow-up of the coherent open ideal `(ϖ^r, ϖ^r f_1, …, ϖ^r f_n)` (BL I §4, Lem. 4.5, p. 309). The
 proof uses [BGR 6.3.4/1]: `A_K°` is integral over the image of `O_K⟨ξ⟩` for any presentation
-(*affinoid-power-bounded-integral* (RigidAnalyticGeometry §2.2.3, `powerBounded_integral_over_presentation`)). For residue characteristic `p ≠ 2` and `A =
+(*affinoid-power-bounded-integral* (RigidAnalyticGeometry §2.3, presentation-ring integrality)). For residue characteristic `p ≠ 2` and `A =
 O_K[X]/(X² − ϖ²)`: `f = X/ϖ ∈ A_K° ∖ A`, `B = A[f] = O_K(1, 1) + O_K(1, −1) = O_K × O_K` (as `2`
 is a unit), and `Spf B → Spf A` is the admissible blow-up of `(ϖ, X)` (`r = 1`). Here `p ≠ 2` is
 load-bearing for the identification of `B`, not for the blow-up: for `K = ℚ_2`, `ϖ = 2`, `A =
@@ -5459,7 +5466,7 @@ Exercise 3.3.12, pp. 33–34; BL I §4, Lemma 4.5, p. 309 for the power-bounded 
   this unit-centre blow-up is empty, even though the blow-up itself is the identity.
 
 *Needs:* *admissible-blow-up*; *topologically-finitely-presented-algebra*; *raynaud-generic-fibre*;
-*affinoid-power-bounded-integral* (RigidAnalyticGeometry §2.2.3, `powerBounded_integral_over_presentation`); Tau Ceti `TauCeti.Huber.powerBoundedSubring`; Mathlib
+*affinoid-power-bounded-integral* (RigidAnalyticGeometry §2.3, presentation-ring integrality); Tau Ceti `TauCeti.Huber.powerBoundedSubring`; Mathlib
 `integralClosure`.
 
 **Quasi-compact opens of the generic fibre come from open formal subschemes of an admissible
@@ -6795,13 +6802,13 @@ and `ℳ` on `Y`: `ℳ` is rig-flat in dimension `≥ n` iff `g_*ℳ` is, the tw
 rig-flatness, having the same `M_K`), `IsRigFlatInDim.baseChange` (stability under base change along
 étale morphisms and admissible blow-ups `T' → T`, with strict transforms) and
 `isRigFlatAt_iff_genericFibre_flat` (for `ℳ = O_X` and a rig-point `x`: rig-flat at `x` iff
-`O_{d(T),f(x)} → O_{d(X),x}` is flat, in the sense of *rigid-local-ring-completion* (RigidAnalyticGeometry §4.4.2) and
+`O_{d(T),f(x)} → O_{d(X),x}` is flat, in the sense of *rigid-local-ring-completion* (RigidAnalyticGeometry Layers 3–4) and
 *flat-morphism* (AdicSpacesPartII layer R0) at classical points) (BL I §5, p. 313, rig-flatness at a rig-point; BL I
 §5, Prop. 5.3(c), p. 314, invariance under admissible blow-ups; BL II §3, Def. 3.9, p. 416,
 dimension at a point; BL II §4, after Thm 4.1, p. 419, rig-flatness in dimension `≥ n`; BL II §3,
 after Prop. 3.11, p. 417, Propositions 3.10–3.11 are not needed). *Needs:* *rig-point*;
 *raynaud-generic-fibre*; *admissible-formal-scheme*; *admissible-blow-up*;
-*generic-fibre-inverts-admissible-blow-ups*; *rigid-local-ring-completion* (RigidAnalyticGeometry §4.4.2);
+*generic-fibre-inverts-admissible-blow-ups*; *rigid-local-ring-completion* (RigidAnalyticGeometry Layers 3–4);
 *flat-morphism* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`; Mathlib
 `Module.Flat`, `ringKrullDim`.
 
@@ -8860,7 +8867,7 @@ comparison transports a given covering and its finite-locally-free coequaliser d
 into a fixed target; neither constructs the descended open of (b).
 *Needs:* *rigid-analytic-space*, *rigid-analytification*, *rigid-adic-etale-comparison*,
 *analytification-etale-smooth*, *analytification-surjective* (AdicSpacesPartII layer R1);
-quasi-compact morphisms of rigid spaces (RigidAnalyticGeometry §7.3.1, transported through
+quasi-compact morphisms of rigid spaces (RigidAnalyticGeometry §6.3, transported through
 Part II's *rigid-analytic-space* and *proper-separated-comparisons*).
 
 **Checks.**
@@ -9500,7 +9507,7 @@ canonical map `N → sections` is an isomorphism when `N` is finite projective (
 swapping `R₁` and `R₂` gives a glueing square when `R₁ → R₁₂` also has dense image (KL15 §2.7,
 Def. 2.7.3, pp. 56–57; KL15 §2.7, Def. 2.7.3(b), p. 57, condition (b); KL15
 §1.3, Def. 1.3.7, p. 17, glueing data on the square; KL15 §2.7, proof of Prop. 2.7.5, p. 57, where
-Kedlaya–Liu use Def. 2.7.3(c) only to obtain condition (c)). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4.6, through Part II's norm datum);
+Kedlaya–Liu use Def. 2.7.3(c) only to obtain condition (c)). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4, through Part II's norm datum);
 Tau Ceti `Huber.IsTateRing`, `Huber.IsTateRing.isOpenMap`. Lean: `Huber.GlueingSquare` (fields
 for continuity, `injective`, `exact_sub`, `surjective_sub`, `isInducing`, `isStrictMap_sub`,
 `denseRange`, `exists_prime_comap_eq`), `Huber.GlueingDatum` (fields `ψ₁`, `ψ₂`, with the
@@ -9994,8 +10001,8 @@ site and transport it through the rigid–adic comparison. Use an injective reso
 its section restrictions are surjective, the difference map on the product complexes
 is surjective, and the long exact sequence gives the displayed comparison
 (Kiehl-AB §2, proof of Satz 2.4.2 and Hilfssatz 2.6, pp. 271–273;
-RigidAnalyticGeometry §7.4.2, Čech-to-derived comparison).
-*Needs:* Mathlib sheaf cohomology and injective resolutions; RigidAnalyticGeometry §7.4.2;
+RigidAnalyticGeometry Layer 5, Čech-to-derived comparison).
+*Needs:* Mathlib sheaf cohomology and injective resolutions; RigidAnalyticGeometry Layer 5;
 Part II *rigid-adic-quasi-separated-equivalence*.
 
 **Checks.**
@@ -10253,7 +10260,7 @@ Check `finiteProjective_descent_quadratic_two` asserts étaleness and rank two o
 Prove the characterisation of uniformity of a Banach ring via the square bound and its relation
 to boundedness of `A°` (*uniform-iff-power-bound*): let `A` be a complete Tate ring metrised by a
 submultiplicative norm `|·|` defining its topology (KL15 Rem. 2.4.4), for instance the norm `α_d`
-of a norm datum (*tate-ring-norm*, PadicFunctionalAnalysis §0.4.6, through Part II's norm datum). (i) The following are equivalent: (a) `|·|` is
+of a norm datum (*tate-ring-norm*, PadicFunctionalAnalysis §0.4, through Part II's norm datum). (i) The following are equivalent: (a) `|·|` is
 equivalent to a power-multiplicative norm; (b) `|·|` is equivalent to the spectral seminorm
 `|x|_sp = lim |xⁿ|^{1/n}` (*spectral-seminorm*, AdicSpacesPartII layer R0); (c) there is `c > 0` with
 `|x²| ≥ c|x|²` for all `x`. `A` is a uniform Banach ring when they hold (KL15 Def. 2.8.1 as
@@ -10262,7 +10269,7 @@ is bounded; and (d) alone implies that `|·|_sp` is a norm defining the topology
 the statement of *spectral-topology* (vi) (AdicSpacesPartII layer R0) and is cited from there. (iii) If
 `A` contains a topologically nilpotent unit `z` with `|z|·|z⁻¹| = 1`, then (d) implies (a)–(c).
 This holds for the norms `α_d`, with `z = ϖ`: `α_d(ϖ) = r` and `α_d(ϖ⁻¹) = r⁻¹` when `A ≠ 0` is
-Hausdorff (*tate-ring-norm*, PadicFunctionalAnalysis §0.4.6). So for a complete Tate ring the
+Hausdorff (*tate-ring-norm*, PadicFunctionalAnalysis §0.4). So for a complete Tate ring the
 topological condition (d), which is Tau Ceti's `Huber.IsUniform` (`isUniform_iff`; the normed-field
 case `IsUniform.of_normedDivisionRing`), uniformity in AdicSpaces layer 4.2 and in HK Def. 2.3,
 is equivalent to (a)–(c) for every norm `α_d`; the power-multiplicative norm of (a) is Mathlib's
@@ -10280,7 +10287,7 @@ defines the same topology as the norm, which is equivalent to (d) by HK Def. 2.3
 weaker than the norm equivalence (b) in general, and by (iii) agrees with (a)–(c) for the norms
 `α_d`). `K⟨T⟩` with the Gauss norm is uniform; `K[ε]/(ε²)` with any Banach norm is not, since
 every `aε` (`a ∈ K`) squares to `0`, so `A° ⊇ K·ε` is unbounded; for `K = ℚ_p` with `|·|'` as in
-(iv), `|p|'·|p⁻¹|' = 1 + log p > 1`, so (iii) does not apply. *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4.6);
+(iv), `|p|'·|p⁻¹|' = 1 + log p > 1`, so (iii) does not apply. *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4);
 *spectral-seminorm*, *spectral-topology* (AdicSpacesPartII layer R0); Tau Ceti `Huber.IsTateRing`,
 `Huber.IsUniform`, `TauCeti.Huber.isUniform_iff`, `Huber.IsUniform.of_normedDivisionRing`; Mathlib
 `smoothingSeminorm`, `isPowMul_smoothingFun`. Lean: (i) is `Huber.isUniform_tfae`, for a complete
@@ -10321,7 +10328,7 @@ The sheafiness implication is owned by AdicSpaces layer 4.2; this layer owns the
 split descent criterion. *Needs:* *uniform-iff-power-bound*;
 *completed-tensor-product*, *completed-tensor-rational-localisation*,
 *completed-tensor-banach-module* (AdicSpacesPartII layer R0); *tate-ring-norm*
-(PadicFunctionalAnalysis §0.4.6); Tau Ceti `Huber.IsStablyUniform`.
+(PadicFunctionalAnalysis §0.4); Tau Ceti `Huber.IsStablyUniform`.
 
 Prove the behaviour of spectral norms of uniform rings under isometric maps
 (*uniform-spectral-seminorm*): let `A → B` be a continuous homomorphism `φ` of uniform complete
@@ -10637,12 +10644,23 @@ proper assumes in addition that `f` is Kiehl-proper, a hypothesis that is empty 
 valued `K`.
 
 **Completely continuous maps of Banach modules over an affinoid algebra.**
-(*completely-continuous-map*) For the affinoid `K`-algebra `A` above, in `Huber` define
-`IsCompletelyContinuous` for continuous maps of Banach `A`-modules as operator-norm limits
-of continuous `A`-linear maps with finitely generated image. Prove the finite-rank, sum,
-composition-ideal and operator-norm closedness laws. Norm the module using the gauge of an
-open bounded `A₀`-lattice `M₀`, where `A₀` contains `K°`; prove that it induces the given
-Banach topology and agrees up to bounded factors with each compatible norm.
+(*completely-continuous-map*) For the nonzero affinoid `K`-algebra `A` above,
+`Huber.IsCompletelyContinuous` is the affinoid specialization of CompactOperators §0.1's
+`IsCompletelyContinuous` on compatible complete ultrametric Banach models. Since `A` is
+noetherian, a map whose range is contained in a finite `A`-submodule has finitely generated
+range. Use that supplier's `isFiniteRank_iff_range_fg` to identify the approximation
+conditions, and transport its finite-rank, sum, composition-ideal and operator-norm
+closedness laws.
+For an open bounded `A₀`-lattice `M₀`, with `A₀` an open bounded `K°`-subalgebra of `A`,
+use CompactOperators §0.1's scalar lattice norm
+`α_M(m) = inf{|c| : c ∈ K×, m ∈ cM₀}`. For a scalar `π ∈ K×` with `q = |π| < 1`,
+use parameter `a = q⁻¹` in PadicFunctionalAnalysis §0.4's ring gauge and the
+module gauge `g_M(m) = inf{q^n : n ∈ ℤ, π^(−n)m ∈ M₀}` of CompactOperators §0.1.
+The supplied bounds are `α_M ≤ g_M ≤ q⁻¹ α_M`, and likewise for `A₀`.
+This identifies the chosen lattice model with Part II's Banach-module carrier and
+transports the supplied complete-continuity predicate. Arbitrary gauge parameters give
+power comparisons and do not assert bounded equivalence to the original `K`-norm.
+For `A = 0` every unital `A`-module is zero; the specialization is the unique-map case.
 Define `IsStrictlyCompletelyContinuous` using a single nonzero `a ∈ K°` and approximants
 `f_n → f`: for each `n`, `a f_n(M₀)` lies in a finitely generated `A₀`-submodule of `N₀`.
 The finite submodule may depend on `n`; the scalar may not. Prove that strict complete
@@ -10659,7 +10677,8 @@ rescale the finitely many target generators into the new target lattice. Operato
 convergence is unchanged under equivalent norms. The scalar depends on the comparisons but
 not on the approximant; the finite generating set may depend on the approximant. Thus the
 lattice condition is an equivalent characterization of this predicate. *Needs:*
-PadicFunctionalAnalysis §0.4.6 (*tate-ring-norm*); Part II *completed-tensor-banach-module*; Tau Ceti `Huber.IsTateRing`;
+CompactOperators §0.1, finite-image approximation and the normalized scalar lattice comparison;
+PadicFunctionalAnalysis §0.4 (*tate-ring-norm*); Part II *completed-tensor-banach-module*; Tau Ceti `Huber.IsTateRing`;
 Mathlib continuous linear maps and their operator norm.
 
 Prove `isStrictlyCompletelyContinuous_tsum` as an extension of that same predicate: over a
@@ -10692,6 +10711,8 @@ Decay cannot be replaced by boundedness: the coefficient functionals and `nᵢ =
 
 - (zero map): the zero map is strict for every `A₀`;
   take all approximants zero and each finite generating set empty.
+- (zero algebra): every module over `A = 0` is zero, and its unique map is strict
+  without choosing a norm-one coefficient model.
 - (one-dimensional identity): over `A = K` with `A₀ = K°`, the identity
   on `K` is strict; take `a = 1` and the one generator `1`.
 - (infinite-dimensional identity): the identity on an infinite-dimensional
@@ -10699,6 +10720,10 @@ Decay cannot be replaced by boundedness: the coefficient functionals and `nᵢ =
 - (rescaled lattices): replacing `M₀` and `N₀` by `ϖʳM₀` and `ϖˢN₀` for integers `r`, `s`
   preserves strictness and complete continuity; the uniform scalar and operator-norm error
   bounds change by fixed factors independent of the approximant.
+- (gauge normalization): on `ℚ_p` with lattice `ℤ_p`, pseudouniformiser `p²` and
+  parameter `p`, the discrete gauge of `p^(2m)` is `p^(−m)` while the scalar norm is
+  `p^(−2m)`, so there is no comparison by fixed multiplicative constants. Parameter `p²`
+  gives the supplied bounded comparison, including the value `1` at `p`.
 
 The Schwartz finiteness theorem over affinoid algebras
 (*completely-continuous-finite-cokernel*): if `f : M → N` is a continuous surjective `A`-linear
@@ -10720,18 +10745,20 @@ closed submodule of a Banach `A`-module, with compatible ultrametric norms,
 `A₀ = {a : |a| ≤ 1}`, and an `IntegralAffinoidPresentation K A K° A₀`
 as in *almost-noetherian-integral-affinoid-modules*, and suppose `j ∘ f : M → G` is strictly completely
 continuous; if `M` is topologically free (the completed direct sum of copies of `A` with respect
-to `A₀`), then `f : M → N` is strictly completely continuous. Every Banach `A`-module is the image
-of a continuous surjection from a topologically free one, using `c₀(I,A)` for a discrete index
-set `I` (Kiehl-E §1, Satz 1.4, p. 199; Kiehl-E
+to `A₀`), then `f : M → N` is strictly completely continuous. Use the model-space surjection
+of PadicFunctionalAnalysis §§2.1–2.2 for the chosen Banach `A`-module model: its
+`c₀(I,A)` has a discrete index set `I`, with no countability assumption
+(Kiehl-E §1, Satz 1.4, p. 199; Kiehl-E
 §1, remark before Satz 1.4, p. 199, where over discretely valued or spherically complete fields
 closed subspaces are complemented, a hypothesis Satz 1.4 avoids). For `G = K⟨T⟩`, `N = T·K⟨T⟩` and
 `M` topologically free, a strictly completely continuous map into `G` landing in `N` is strictly
-completely continuous into `N`. Construct
-`exists_c0_surjective` and prove `IsStrictlyCompletelyContinuous.of_subtype_comp` using
-finite approximations in the integral presentation. Identify the source with `c₀(I,A)`
+completely continuous into `N`. The adapter `exists_c0_surjective` identifies that supplied
+surjection with Part II's lattice model. Prove `IsStrictlyCompletelyContinuous.of_subtype_comp`
+using finite approximations in the integral presentation. Identify the source with `c₀(I,A)`
 by its basis and supremum norm. Require the coefficient unit ball to equal the image of
 the Gauss unit ball of the chosen presentation, and preserve this equality in the lattice
 comparison. *Needs:* *completely-continuous-map*; *almost-noetherian-integral-affinoid-modules*;
+PadicFunctionalAnalysis §§2.1–2.2, model-space quotients;
 Part II *completed-tensor-banach-module*, including `c₀(I,A)`.
 
 **Checks.** For `N = G` the subtype is the identity; for `N = 0` the map and all approximants
@@ -10745,7 +10772,7 @@ relatively compact in `V` over `A`, written `U ⋐_A V`, if there are a closed i
 `U ⊆ {|X_i| ≤ ε for all i}`. In `AdicSpace`, define
 `RelativelyCompact K A f j` for the structure map `f : V → r(Sp A)` and
 inclusion `j : U → V`. Its definition uses affinoid rigid realizations and the relative-compactness criterion
-of RigidAnalyticGeometry §7.3.3, transported through Part II's
+of RigidAnalyticGeometry §6.3, transported through Part II's
 *proper-separated-comparisons*, with equations identifying both maps
 under `rigidToAdic`.
 `RelativelyCompact.iff_presentation` identifies it with the stated closed-immersion
@@ -10889,15 +10916,22 @@ Checks: for the identity of an affinoid `H⁰ = F(X)` is finite and positive coh
 vanishes; zero coefficients give the zero complex; for `P¹_K` with `O(−2)`,
 `H¹ = K` and the two-chart Čech difference has closed image.
 
-The completion of proper coherent cohomology, Kiehl's Theorems 3.4 and 3.7
-(*proper-cohomology-adic-completion*): provides, for a Kiehl-proper `f : X → Spa(A, A°)`, coherent
-`F` and an ideal `𝔞 ⊆ A`, the isomorphism of the `𝔞`-adic completion of `Hⁱ(X, F)` with
-`lim_k Hⁱ(X, F/𝔞ᵏF)`, and for `𝔞 = (a)` the stable filtration
-`R_k = ker(Hⁱ(X, F) → Hⁱ(X, F/aᵏF))` with null kernel and cokernel systems. Construct the quotient sheaves
-`F/𝔞ᵏF`, their epimorphisms and transitions, and the induced cohomology maps; prove the
-completion and principal-filtration assertions (Kiehl-E §3, Theorems 3.4 and 3.7,
-pp. 207–209). *Needs:* *proper-affinoid-cohomology-finite*; F0's noetherian module
-completion and Artin–Rees; the Čech complex of a finite affinoid cover, with closed differential images.
+The adic comparison for proper formal functions (*proper-cohomology-adic-completion*):
+for a Kiehl-proper `f : X → Spa(A, A°)`, coherent `F` and an ideal `𝔞 ⊆ A`,
+transport RigidAnalyticGeometry §7.5's completion theorem and stable principal filtration
+through Part II's rigid–adic equivalence. Identify the quotient sheaves `F/𝔞ᵏF`, their
+epimorphisms and transitions with the corresponding rigid quotients; on cohomology these
+identifications intertwine the maps from `Hⁱ(X,F)` at every `k`. Consequently the transported
+isomorphism is the canonical map
+`Hⁱ(X,F)^∧_𝔞 ≃ lim_k Hⁱ(X,F/𝔞ᵏF)`.
+For `𝔞 = (a)`, the comparison identifies
+`R_k = ker(Hⁱ(X,F) → Hⁱ(X,F/aᵏF))` and the kernel and cokernel systems with the
+supplier's systems, preserving their transitions and uniform shifts. This is ideal-adic
+completion of the finite `A`-module, distinct from Banach completion
+(Kiehl-E §3, Theorems 3.4 and 3.7, pp. 207–209).
+*Needs:* RigidAnalyticGeometry §7.5, principal filtrations and formal functions;
+Part II *rigid-adic-quasi-separated-equivalence*; *coherent-sheaf-operations*;
+*proper-affinoid-cohomology-finite*.
 
 Checks: with `𝔞 = 0` the comparison is the identity; with `𝔞 = A` both sides are zero;
 for `X = Spa A`, `F = O`, it is `Â ≅ lim A/𝔞ᵏ`.
@@ -10913,16 +10947,18 @@ finite-module base change and the strict Čech complex.
 Checks: for `U = Spa A` the map is `b ⊗ m ↦ bm`; zero coefficients give a zero
 isomorphism; restricting `P¹_A` with `O(−2)` to `Spa B` sends its rank-one `H¹ = A` to `B`.
 
-Closed subspaces of Banach spaces of countable type have continuous linear sections
-(*countable-type-closed-subspace-section*): provides, for a `K`-Banach space `E` of countable type
-and a closed subspace `F ⊆ E`, a closed complement of `F`, so that strict exact sequences of
-`K`-Banach spaces of countable type split topologically, and stay strict exact under `K' ⊗̂_K (−)`
-for every complete extension `K'/K`. Construct
-`exists_continuousLinearEquiv_prod_of_countableType`. Choose a bounded lift of a
-`t`-orthogonal Schauder basis of `E/F` to obtain the section, using completeness for the
-convergent expansions (BGR §2.7, Banach spaces of countable type).
-*Needs:* Part II *banach-countable-type-orthogonal-basis*, *banach-completed-tensor-field-exactness*;
-Mathlib closed-subspace and quotient Banach-space structures.
+Countable-type splittings on the Banach-module tensor carrier
+(*countable-type-closed-subspace-section*): for a strict exact sequence
+`0 → F → E → E/F → 0` of Banach `K`-spaces with `E` of countable type and `F` closed,
+use PadicFunctionalAnalysis §2.4's `exists_continuousLinearEquiv_prod_of_countableType`.
+Identify its completed projective tensor with Part II's Banach-module completed tensor
+by their continuous balanced universal properties. For every complete isometric extension
+`K'/K`, prove that this identification intertwines the tensored inclusion, quotient,
+section and projection on pure tensors. It therefore transports the supplied continuous
+splitting and strict exactness to `K' ⊗̂_K (−)` on Part II's carrier
+(BGR §2.7, countable-type Banach spaces; KL15, Lemma 2.2.9, pp. 30–31).
+*Needs:* PadicFunctionalAnalysis §2.4, countable type and strict splitting;
+Part II *completed-tensor-banach-module*, *banach-completed-tensor-field-exactness*.
 
 Checks: `F = 0` gives complement `E`; `F = E` gives the zero complement; in
 `c₀(ℕ,K)`, the subspace of sequences with first coordinate zero has complement `K e₀`
@@ -11999,7 +12035,7 @@ induced by a bounded ring homomorphism `A → B`; prove that `M(A)` is compact H
 spectral seminorm) (Berkovich
 Thm 1.2.1, the nonempty compact spectrum; Berkovich Thm 1.3.1, the spectral-seminorm formula;
 KL15 §2.3, Def. 2.3.2 and Thm 2.3.4, p. 34;
-Thm 2.3.10, p. 35; Rem. 2.3.11(b), p. 36). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4.6);
+Thm 2.3.10, p. 35; Rem. 2.3.11(b), p. 36). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4);
 *spectral-seminorm* (AdicSpacesPartII layer R0). Lean: `Huber.GelfandSpectrum` with its topology,
 `GelfandSpectrum.compactSpace_nonempty` and `GelfandSpectrum.smoothingFun_eq_sSup`, with the
 `ℚ_p` Check, the zero-ring Check, the Gauss-point Check and the dual-number Check as Lean

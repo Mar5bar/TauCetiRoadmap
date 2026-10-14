@@ -43,8 +43,13 @@ file states the parts that are a few lines over the pinned carriers:
 The R3.6 Banach targets (*completely-continuous-map*,
 *strictly-completely-continuous-closed-target*, *completely-continuous-finite-cokernel*,
 *restriction-strictly-completely-continuous*, *almost-noetherian-integral-affinoid-modules*)
-are README-only targets of this roadmap, including their strict predicate, lattice norms,
-analytic theorems and series criterion. The general-Tate small-perturbation theorem
+are README-only targets of this roadmap. They use CompactOperators §0.1's complete
+continuity and scalar lattice norms, and PadicFunctionalAnalysis §§2.1–2.2's model-space
+surjections; Part III supplies their affinoid adapters, the strict predicate, closed-target
+and restriction theorems, and the series criterion. R3.6 also transports
+PadicFunctionalAnalysis §2.4's countable-type splitting to Part II's completed tensor and
+RigidAnalyticGeometry §7.5's formal functions to adic coherent cohomology.
+The general-Tate small-perturbation theorem
 (*surjection-small-perturbation*) is also a README target.
 
 Completeness includes the Hausdorff property.
@@ -53,6 +58,47 @@ Completeness includes the Hausdorff property.
 
 local instance (n : ℕ) : ∀ i : Fin n, Fact (0 < (fun _ : Fin n ↦ (1 : ℝ)) i) :=
   fun _ ↦ ⟨zero_lt_one⟩
+
+namespace TauCetiRoadmap.AdicSpacesPartII
+
+/-- The finite-ideal-type adic-ring carrier of Part II R0.1a: the given topology is adic
+for a finitely generated ideal for which the ring is complete and separated
+(EGA I, Ch. 0, 7.1.9, p. 62). -/
+class IsAdicRing (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] : Prop where
+  /-- A finite ideal of definition with algebraic adic completeness. -/
+  exists_isAdic : ∃ I : Ideal A, I.FG ∧ IsAdic I ∧ IsAdicComplete I A
+
+namespace IsAdicRing
+
+variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+
+/-- A finite ideal defining the topology of an adic ring. -/
+noncomputable def ideal [IsAdicRing A] : Ideal A :=
+  Classical.choose (IsAdicRing.exists_isAdic (A := A))
+
+/-- The chosen ideal is finite, defines the topology, and has complete separated ring. -/
+theorem ideal_spec [IsAdicRing A] :
+    (ideal A).FG ∧ IsAdic (ideal A) ∧ IsAdicComplete (ideal A) A :=
+  Classical.choose_spec (IsAdicRing.exists_isAdic (A := A))
+
+/-- The pair consisting of the whole ring and its finite ideal of definition is Huber. -/
+instance (priority := 100) isHuberRing [IsAdicRing A] : TauCeti.Huber.IsHuberRing A :=
+  TauCeti.Huber.isHuberRing_of_isAdic (ideal A) (ideal_spec A).2.1 (ideal_spec A).1
+
+/-- Completing a noetherian ring along an ideal gives a noetherian adic ring with the
+extended-ideal topology (Part II R0.1b; EGA I, Ch. 0, 7.3.1; Stacks, Tag 05GH). -/
+theorem adicCompletion {R : Type*} [CommRing R] [IsNoetherianRing R] (I : Ideal R) :
+    letI : WithIdeal (AdicCompletion I R) := ⟨I.map (algebraMap R (AdicCompletion I R))⟩
+    IsAdicRing (AdicCompletion I R) ∧ IsNoetherianRing (AdicCompletion I R) := sorry
+
+end IsAdicRing
+
+/-- Completeness for a finite ideal and noetherianity of its quotient imply noetherianity
+of the ring (Part II R0.1b; EGA I, Ch. 0, 7.2.6; Stacks, Tag 05GH). -/
+theorem isNoetherianRing_of_isAdicComplete {R : Type*} [CommRing R] (I : Ideal R) (hI : I.FG)
+    [IsAdicComplete I R] [IsNoetherianRing (R ⧸ I)] : IsNoetherianRing R := sorry
+
+end TauCetiRoadmap.AdicSpacesPartII
 
 namespace TauCetiRoadmap.AdicSpacesPartIII
 
@@ -68,7 +114,7 @@ noncomputable section
 *restricted-power-series-adic*, *completed-tensor-product-adic*) -/
 
 /-! AdicSpacesPartII R0.1a–R0.1b supplies `IsAdicRing`, its chosen ideal and Huber instance,
-and the noetherian completion criteria. -/
+prototyped above under the supplier namespace, and the noetherian completion criteria. -/
 
 namespace IsAdicRing
 
