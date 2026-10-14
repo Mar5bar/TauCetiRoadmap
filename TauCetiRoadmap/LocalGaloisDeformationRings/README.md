@@ -47,7 +47,7 @@ The contracts state the input needed at each boundary. Library declarations belo
 
 - [F.1.1](#lifting-functor)–[F.1.10](#determinant-comparison) construct deformation functors, strict equivalence and determinant conditions; [F.2.1](#phi-p-condition)–[F.2.11](#pseudodeformation-rings) supply continuous representability under Φ_p and Schur unframed representability. [F.3.1](#local-deformation-problem)–[F.3.2](#deformation-problem-ideal) supply the condition/ideal correspondence, and [F.4.12](#inertia-rigid-deformations) supplies inertia-rigid rings. [F.0.2](#minimal-relative-presentations) gives relation bounds for a supplied natural, additive obstruction assignment detecting lifts over every finite-dimensional small-extension kernel. The local Galois obstruction assignment and surjection H²(Γ,ad ρ̄)∨→J/𝔪_SJ for a minimal S=𝒪[[x₁,…,x_r]]→R with kernel J are constructed in [1.4](#t1-4). See [Gee22], Lemma 3.2, p. 12, Corollary 3.12 and Lemma 3.13, p. 13.
 - Completed coefficient products, residue extension, flat dimensions and domain comparisons use [F.0.1](#completed-coefficient-products). Its product component formula retains equidimensional special fibres; its domain comparison retains an 𝒪-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#t0-1) supplies the canonical-module and type tests for 6.18.
-- `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*, supplies the cocycle, strict-class and adjoint tangent comparisons. Its D8.2, *Determinant tangent fibres*, retains the trace-sequence boundary when p divides the rank. Apply these to the functors of §§F.1.1–F.1.10; the local obstruction assignment and relation-space comparison are [1.4](#t1-4).
+- `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*, supplies the cocycle, strict-class and adjoint tangent comparisons. `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*, retains the trace-sequence boundary when p divides the rank. Apply these to the functors of §§F.1.1–F.1.10; the local obstruction assignment and relation-space comparison are [1.4](#t1-4).
 - `ClassFieldTheory`, Layer 5, supplies finite smooth discrete local Tate duality and the Euler characteristic. Above p the κ-linear extension is `ArithmeticGaloisDuality`, D7, *Local duality over finite and local coefficient fields*: retain continuity, a stable valuation-ring lattice for local κ, and its adic topology. It supplies finite-dimensional κ-linear cohomology, perfect pairings and Euler characteristic −[K:ℚ_p] dim V for precisely the fields of 1.15. Away from p use the finite duality input and the supplied tame inertia quotient and procyclic resolutions in 1.18, passing through stable-lattice quotients and localization; the resulting Euler characteristic is zero. The latter adapter, including scalar extension, is constructed in [1.18](#t1-18). Pinned `TauCeti.ContCohomology.H2` is only the additive Z²/B² carrier.
 - `ClassFieldTheory`, Layer 7, supplies the local Artin map and its normalization, the identification of abelianized inertia with completed units and its pro-p factor. `LocalGaloisGroups`, Layers 3 and 7, supplies the p-finiteness input over every finite extension. The Kummer maps named in the scope supply H¹(G_L,μ_{pⁿ})≅L×/L×^{pⁿ} for characteristic-zero L. Target [4.2.1](#t4-2-1) constructs the decomposition-equivariant completed valuation sequence over K^nr, including its coefficient twists, from these finite-level maps and `SelmerIwasawaCohomology`, §§0.4–0.6. Full tame inertia and its coefficient-p quotient are different, as specified in the scope.
 - `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1` supplies subobject, quotient and direct-sum stability of finite-flat representations, compatible finite-flat models forming p-divisible groups, and Raynaud's uniqueness/split-extension results when e<p−1, with inertial exponents 0≤i≤e. Its §R07.6.7 supplies finite-flatness as a deformation condition and its Fontaine–Laffaille tangent calculation; 4.1 constructs the representing rings using that condition, and 8.6 identifies its finite-flat specialization with the supplied tangent interface. `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.4, R07.3.7 and R07.3.10–R07.3.12, supplies the scalar Fontaine–Laffaille category, its exact fully faithful contravariant realization on the safe interval [0,p−2], and subquotient stability. Target 1.6 extends this category by commuting coefficient actions and labelled filtration summands, and uses the dual realization to fix the covariant convention (rank-one ℚ_p inertia ε^{−i}). Its Ext and coefficient-change comparisons retain those actions; multiplicity-one is an extra deformation hypothesis.
@@ -79,7 +79,7 @@ Construct completed coefficient products and conditional presentations first, th
 functors, representability and comparisons, the local-condition ideal correspondence and
 inertia-rigid rings. For `k[ε]`, ArithmeticGaloisDuality D8.1 identifies lifts with
 `Z¹(G, ad ρ̄)` and strict classes with `H¹(G, ad ρ̄)`, giving framed tangent dimension
-`h¹ + n² − h⁰`; D8.2 supplies determinant tangent fibres, including the trace-sequence boundary
+`h¹ + n² − h⁰`; SelmerIwasawaCohomology §2A.4 supplies determinant tangent fibres, including the trace-sequence boundary
 when `p | n`. The local obstruction-to-relation-space comparison is [1.4](#t1-4).
 
 <a id="completed-coefficient-products"></a>
@@ -941,11 +941,11 @@ it in `D_v`. The strict-class tangent of `D_v^χ` is therefore `L_v^χ/im δ_v`,
 `δ_v : H⁰(G_v, k) → H¹(G_v, ad⁰)` is the trace-sequence boundary and `ker i_v = im δ_v`.
 When `p ∤ n`, `i_v` is injective and this is the usual trace-zero restriction of `L(D_v)`;
 when `p | n`, neither that inclusion nor the deletion of `im δ_v` is asserted ([Gee22], Exercise 3.19,
-p. 15; `ArithmeticGaloisDuality`, D8.2, *Determinant tangent fibres*).
+p. 15; `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*).
 
 *Needs:* [F.3.1](#local-deformation-problem); [F.2.3](#universal-lifting-ring);
 [F.2.9](#fixed-determinant-rings); `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*;
-`ArithmeticGaloisDuality`, D8.2, *Determinant tangent fibres*.
+`SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*.
 
 *Lean:* `adjoint_coboundary_mem_slIdeal` and the rank-one trace-zero `example`.
 
@@ -1154,7 +1154,7 @@ The construction provides the following API.
 
 The dual cotangent space is Z¹(Γ,ad ρ̄), of dimension h¹+d²−h⁰; H²∨ surjects onto the minimal relation space. Local duality gives h⁰−h¹+h²=−d²[K:ℚ_p] above p, and zero away from p. Component dimensions are at least 1+d²(1+[K:ℚ_p]) and 1+d² respectively. H²=0 gives formal smoothness and equality.
 
-*Needs:* [1.1](#t1-1); `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*; `ArithmeticGaloisDuality`, D8.2, *Determinant tangent fibres*; [F.0.2](#minimal-relative-presentations); `TauCeti.ContCohomology.H2` (Tau Ceti); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, D7, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.1](#t1-1); `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*; `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*; [F.0.2](#minimal-relative-presentations); `TauCeti.ContCohomology.H2` (Tau Ceti); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, D7, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [Gee22], Corollary 3.12, Lemma 3.13 and Corollary 3.14, pp. 13–14; [KisinNotes], Lecture 1, Lemma (1.3.1)(2), p. 3.)
 
@@ -1274,7 +1274,7 @@ For a continuous determinant lift ψ and p∤d, the det=ψ quotient uses ad⁰ f
 
 For Γ_ℝ=C₂ and p odd, all positive-degree residual cohomology vanishes. The framed ring is formally smooth of relative dimension d²−h⁰(C₂,ad ρ̄). In rank two with odd determinant, the two eigenspaces are distinct and the relative dimension is two.
 
-*Needs:* [1.4](#t1-4); [F.1.1](#lifting-functor); `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*; `ArithmeticGaloisDuality`, D8.2, *Determinant tangent fibres*.
+*Needs:* [1.4](#t1-4); [F.1.1](#lifting-functor); `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*; `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*.
 
 (Sources: [TUNG21], §3.2.5, Proposition 3.2.7, p. 15.)
 
@@ -3693,7 +3693,7 @@ The construction provides the following API.
 
 *Needs:* [4.1](#t4-1); [1.5](#t1-5); [F.3.1](#local-deformation-problem); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7.
 
-(Sources: [BCDT01], §4.3, author manuscript pp. 27–28; the general fixed-determinant tangent description follows from the strict equivalence of [F.1.3](#strict-deformation-functor) and [F.1.7](#fixed-determinant-functors), and `ArithmeticGaloisDuality`, D8.2, *Determinant tangent fibres*.)
+(Sources: [BCDT01], §4.3, author manuscript pp. 27–28; the general fixed-determinant tangent description follows from the strict equivalence of [F.1.3](#strict-deformation-functor) and [F.1.7](#fixed-determinant-functors), and `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*.)
 
 <a id="t8-7"></a>
 
