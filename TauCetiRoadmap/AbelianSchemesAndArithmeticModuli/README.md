@@ -1056,11 +1056,10 @@ finite locally free kernel with its closed immersion); `IsAbelianIsogeny.quotien
 homomorphism `g : A → C`, `g` factors uniquely through `f` iff it kills `ker f`; this is A3.3);
 `IsAbelianIsogeny.baseChange`; `IsAbelianIsogeny.comp_rank` (ranks multiply under composition); and
 `IsAbelianIsogeny.field_iff` (over `Spec K` it is equivalent to Tau Ceti's `IsIsogeny`, finite and
-surjective: a surjective homomorphism of smooth connected groups of equal dimension is flat; stated
+surjective: `surjectiveHom_flat` below supplies flatness; stated
 in `Suggested.lean` as `OverField.isAbelianIsogeny_iff`). The
 proof uses that a finite locally free surjection is an fppf cover; translation identifies
-`A ×_B A` with `A × ker f`; flatness over a field is homogeneity plus miracle flatness on a regular
-source. *Needs:* A0.1, A1.2; Tau Ceti `IsIsogeny`, `GroupScheme.IsIsogeny`, `GroupScheme/Kernel`
+`A ×_B A` with `A × ker f`. *Needs:* A0.1, A1.2; Tau Ceti `IsIsogeny`, `GroupScheme.IsIsogeny`, `GroupScheme/Kernel`
 ; SchemeAndStackFoundations Layer 1.
 
 **Checks.**
@@ -1073,6 +1072,29 @@ source. *Needs:* A0.1, A1.2; Tau Ceti `IsIsogeny`, `GroupScheme.IsIsogeny`, `Gro
   not an isogeny (not surjective).
 - `IsAbelianIsogeny.supersingular`: `[p]` on a supersingular elliptic curve in characteristic `p` has
   rank `p²` although its kernel has a single geometric point; a definition by point counts fails.
+
+Prove **`surjectiveHom_flat`**: every surjective homomorphism `f : A → B` of abelian varieties
+over a field `K` is faithfully flat, with no equal-dimension hypothesis. After extension to `K̄`,
+apply SchemeAndStackFoundations §4.12 `generic_flatness` to the finite-type morphism `f_{K̄}`
+with integral target `B_{K̄}` and sheaf `O_{A_{K̄}}` (Stacks, Proposition 29.28.1, tag 052A).
+This gives a nonempty open `U ⊆ B_{K̄}` over which the morphism is flat. Fix `u ∈ U(K̄)`;
+for every `b ∈ B(K̄)` choose `a ∈ A(K̄)` with `f(a) = b − u`. The identity
+`f ∘ t_a = t_{f(a)} ∘ f` transports flatness to `t_{b−u}(U)`. These opens contain every
+closed point, hence cover the finite-type `K̄`-scheme `B_{K̄}`. Descend flatness along the
+faithfully flat field extension (Stacks, Lemma 35.23.17, tag 02L2), using Mathlib's
+`Module.Flat.of_flat_tensorProduct` on affine charts: if `T` is a faithfully flat `R`-algebra
+and `T ⊗_R M` is flat over `T`, then `M` is flat over `R`. Surjectivity then gives
+faithful flatness. `Suggested.lean` states the flatness conclusion with surjectivity as a
+hypothesis as `OverField.surjectiveHom_flat`. *Needs:* A0.1; SchemeAndStackFoundations §4.12
+(`generic_flatness`); Mathlib flatness and `Module.Flat.of_flat_tensorProduct`.
+
+**Checks.**
+
+- For an elliptic curve `E/K`, the projection `E × E → E` is faithfully flat with kernel
+  `0 × E`, of dimension one; it is not finite and is not an isogeny.
+- In characteristic `p`, `[p]` on a supersingular elliptic curve is faithfully flat although
+  its kernel is nonreduced; faithful flatness does not imply a smooth kernel.
+- The identity is faithfully flat, including on the dimension-zero abelian variety `Spec K`.
 
 ### A3.2 Multiplication maps and prime-to-characteristic torsion density
 
@@ -2201,7 +2223,7 @@ the scheme-theoretic image commutes with flat base change (Stacks, Lemma 29.26.1
 `f(A)_{K̄} = f_{K̄}(A_{K̄})`; this is reduced, being the image of a reduced scheme, connected, proper, and
 a group scheme, hence smooth over the perfect field `K̄` (Stacks, Lemma 39.8.4, tag 047P, and in
 characteristic zero Lemma 39.8.2, tag 047N); so `f(A)` is geometrically integral and proper, an abelian
-variety; `A → f(A)` is surjective between smooth varieties and flat by A3.1. No cited abelian-variety
+variety; `A → f(A)` is faithfully flat by A3.1 `surjectiveHom_flat`. No cited abelian-variety
 source states this over imperfect fields; the argument above is the proof to be formalized. Over an
 arbitrary base a connected kernel need not be smooth, and nothing is asserted there.
 `Suggested.lean` states the factorization as `OverField.exists_abelianImage`. *Needs:* A3.1;
@@ -3207,5 +3229,6 @@ semisimplicity and `p`-adic libraries.
 - [Poonen] B. Poonen, *Rational Points on Varieties*, Graduate Studies in Mathematics 186, AMS, 2017;
   author's version, <https://math.mit.edu/~poonen/papers/Qpoints.pdf>.
 - [Stacks] The Stacks Project, <https://stacks.math.columbia.edu>: tags 0BEV (Lemma 33.45.9), 081I
-  (Lemma 29.26.16), 047P (Lemma 39.8.4), 047N (Lemma 39.8.2), 05YF (Proposition 97.11.5), 05YC
+  (Lemma 29.26.16), 052A (Proposition 29.28.1), 02L2 (Lemma 35.23.17),
+  047P (Lemma 39.8.4), 047N (Lemma 39.8.2), 05YF (Proposition 97.11.5), 05YC
   (Lemma 97.11.2), 0D24 (§99.11), 0F14 (Lemma 59.97.2).

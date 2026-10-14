@@ -225,8 +225,40 @@ open TauCeti.AlgebraicGeometry.AbelianVariety (IsIsogeny mulBy)
 
 variable {K : Type u} [Field K]
 
+/-- A surjective homomorphism of abelian varieties is flat, hence faithfully flat,
+without a dimension restriction (README A3.1). -/
+theorem surjectiveHom_flat {A B : AbelianVariety K} (f : A ⟶ B)
+    (hf : Surjective (AbelianVariety.Hom.toSchemeHom f)) :
+    Flat (AbelianVariety.Hom.toSchemeHom f) := by
+  sorry
+
+/-- Check: projection from an elliptic square is faithfully flat with a positive-dimensional
+kernel, so it is not an isogeny (README A3.1). -/
+example (E : AbelianVariety K) (hE : E.dim = 1) :
+    Flat (AbelianVariety.Hom.toSchemeHom (AbelianVariety.prod.fst E E)) ∧
+      Surjective (AbelianVariety.Hom.toSchemeHom (AbelianVariety.prod.fst E E)) ∧
+        ¬ IsIsogeny (AbelianVariety.prod.fst E E) := by
+  sorry
+
+/-- Check: multiplication by the characteristic on an elliptic curve is faithfully flat;
+this includes supersingular curves with nonreduced kernel (README A3.1). -/
+example (p : ℕ) [Fact p.Prime] [CharP K p] (E : AbelianVariety K) (hE : E.dim = 1) :
+    Flat (AbelianVariety.Hom.toSchemeHom (mulBy E (p : ℤ))) ∧
+      Surjective (AbelianVariety.Hom.toSchemeHom (mulBy E (p : ℤ))) := by
+  sorry
+
+/-- Check: the identity is faithfully flat, including in dimension zero (README A3.1). -/
+example (A : AbelianVariety K) :
+    Flat (AbelianVariety.Hom.toSchemeHom (𝟙 A)) ∧
+      Surjective (AbelianVariety.Hom.toSchemeHom (𝟙 A)) := by
+  constructor
+  · change Flat (𝟙 A.toScheme)
+    infer_instance
+  · change Surjective (𝟙 A.toScheme)
+    infer_instance
+
 /-- Over a field, the relative isogeny condition is Tau Ceti's `IsIsogeny` (finite and surjective):
-flatness is automatic (README A3.1). -/
+`surjectiveHom_flat` supplies flatness (README A3.1). -/
 theorem isAbelianIsogeny_iff {A B : AbelianVariety K} (f : A ⟶ B) :
     AbelianScheme.IsAbelianIsogeny (A := AbelianScheme.ofAbelianVariety A)
         (B := AbelianScheme.ofAbelianVariety B) (AbelianVariety.Hom.toOverHom f) ↔ IsIsogeny f := by
@@ -373,11 +405,12 @@ example (A : AbelianVariety K) : Hom.deg (mulBy A (-1)) = 1 := by
   sorry
 
 /-- **Images over the original field**: the image of a homomorphism is an abelian subvariety,
-through which the homomorphism factors by a surjection (README A6.3). -/
+through which the homomorphism factors by a faithfully flat homomorphism (README A6.3). -/
 theorem exists_abelianImage {A C : AbelianVariety K} (f : A ⟶ C) :
     ∃ (B : AbelianVariety K) (q : A ⟶ B) (i : B ⟶ C),
       IsClosedImmersion (AbelianVariety.Hom.toSchemeHom i) ∧
-        Surjective (AbelianVariety.Hom.toSchemeHom q) ∧ q ≫ i = f := by
+        Flat (AbelianVariety.Hom.toSchemeHom q) ∧
+          Surjective (AbelianVariety.Hom.toSchemeHom q) ∧ q ≫ i = f := by
   sorry
 
 /-- An abelian variety is **simple** if it is not zero-dimensional and each of its abelian
@@ -641,6 +674,7 @@ example :
 /-! Library declarations this roadmap builds on. -/
 
 #check @AlgebraicGeometry.Scheme.Hom.finrank
+#check @Module.Flat.of_flat_tensorProduct
 #check @AlgebraicGeometry.isCommMonObj_of_isProper_of_geometricallyIntegral
 #check @LinearMap.IsPerfPair
 #check @TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny
