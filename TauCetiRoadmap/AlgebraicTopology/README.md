@@ -90,8 +90,10 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   bar/CW/cover proof and consumes no DGFloer EM constructor. Stage 8.10
   consumes that abelian family and DGFloer Layer 1 item 1's degree-one Hurewicz.
   DGFloer's constructor uses only AT8.1–8.8, preceding representability and
-  obstruction theory; its Layer 1 item 2 owns the Serre-fibration carrier and ordinary homology
-  Serre spectral sequences consumed in 5.5; its CW approximation is used in 8.11b.
+  obstruction theory; its Layer 1 item 2 consumes native
+  `TauCeti.TopCat.serreFibrations` and owns the fibration homotopy LES and
+  ordinary Serre spectral sequences consumed in 5.5; its CW approximation
+  is used in 8.11b.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers;
   [HomotopySpheres §3A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
   owns the pointed compactly generated suspension–loop adjunction.
@@ -830,9 +832,13 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
 4. Calculate homology of finite products of circles as exterior powers, naturally under integer
    matrices acting on the first homology.  This is a theorem about the product and Kunneth maps,
    not a separately declared answer for a torus.
-5. Consume DGFloer Layer 1 item 2's Serre-fibration carrier, pullbacks,
-   maps of fibrations and native locally trivial `FiberBundle` bridge without
-   a paracompactness hypothesis. Consume its `arbitraryCWSerreSpectralSequence` and
+5. Consume native `TauCeti.TopCat.serreFibrations` and its pullbacks,
+   `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for locally
+   trivial TopCat morphisms, and `TauCeti.TopCat.mem_serreFibrations_proj`
+   with `FiberBundle.hasHomotopyLiftingProperty_proj_cube` for locally
+   trivial `FiberBundle` projections without a paracompactness hypothesis.
+   Consume DGFloer Layer 1 item 2's homotopy LES and
+   `arbitraryCWSerreSpectralSequence` and
    `arbitraryBaseSerreSpectralSequence`, with actual skeletal filtration,
    monodromy local system `H_q(F;R)`, `E²_(p,q)=H_p(B;H_q(F;R))`,
    strong convergence and abutment filtration. Consume its named
@@ -1602,7 +1608,7 @@ trivial monodromy.
 | 3 subdivision/excision | 2 | 1 and 6.0 tower algebra |
 | 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, HomotopySpheres §3A.1 for kified CW products and raw quotient/k-counit comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11b | 1 |
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
-| 5 bundles/covers/finite covers | 2--4; DGFloer 1.2 Serre carrier/homology SS from 1–4 and DG1.3, cohomology SS additionally from independent 6.0–6.2 | 1 |
+| 5 bundles/covers/finite covers | 2--4; native Serre carrier/bundle API; DGFloer 1.2 homotopy LES/homology SS from 1–4 and DG1.3, cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
 | 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, external orientation/collars; Stage 4 for cellular comparisons/RP² | 1 |
 | 6.5 linking/degree consequences | 2--4 and 6.1--6.4 | 1 |
