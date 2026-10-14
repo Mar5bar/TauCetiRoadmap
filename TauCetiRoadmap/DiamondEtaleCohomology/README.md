@@ -12,7 +12,8 @@ Geometry is supplied by the perfectoid and diamond roadmaps. General enhanced sh
 
 | Supplier or consumer | Boundary |
 | --- | --- |
-| `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small v-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations, cutoffs and coherent topoi. C0 defines the three coefficient sites using these objects. C4 owns properness and canonical compactification of v-stacks. |
+| `AdicSpacesPartII`, §R0.19.10 | Quasicompact and quasiseparated objects and morphisms of a topos; algebraic/coherent topoi. |
+| `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small v-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations and cutoffs. C0 defines the three coefficient sites using these objects. C4 owns properness and canonical compactification of v-stacks. |
 | `EnhancedDerivedSheaves`, Layers E1–E3 | Unbounded dg/enhanced derived categories of sheaves of modules, K-injective and K-flat models, derived tensor and Hom, replete-topos convergence, Postnikov completion, coherent diagrams, hyperdescent and adjoints. C2–C3 specialize them to étale coefficients on v-stacks. |
 | `ClassicalAdicEtaleCohomology`, §§2.1–2.5, 3.1, 6.1–6.3, 7.1–7.3, 10.1–10.4 and 11.2 | Henselian and Zariski–Riemann inputs, classical algebraically closed field invariance, tautness, and annulus/open-ball cohomology. C1 uses classical field invariance; C6 proves v-stack field invariance from that input and C5, avoiding a reverse dependency through C1. C8.37 specializes §11.2, `field_cohomological_dimension_transcendence`. |
 | `SchemeAndStackFoundations`, §2.15; `LefschetzPencilsAndVanishingCycles`, §F.2 | Torsion proper base change for schemes and continuity of étale topoi under qcqs limits with affine transitions. C5 uses these in its valuation-space argument. |
@@ -177,8 +178,9 @@ sheaf finite-limit instance; Mathlib `Topology/Sheaves/Over.lean`, `sheafEquivOv
 
 `PerfectoidSpaces`, Layers P0–P6, supplies perfectoid rings and spaces, geometric field pairs,
 rational localization, tilting, almost purity and finite-stage étale descent, with arbitrary
-open integral plus rings. `DiamondsAndVStacks`, Layers D0–D6, supplies cutoff cardinals
-(§D0.23), algebraic/coherent topoi and quasicompact topos objects (§D0.17), strictly totally
+open integral plus rings. `AdicSpacesPartII`, §R0.19.10, supplies algebraic/coherent topoi
+and quasicompact and quasiseparated topos objects and morphisms.
+`DiamondsAndVStacks`, Layers D0–D6, supplies cutoff cardinals (§D0.23), strictly totally
 disconnected tests (D1), the v-topology and pro-étale geometry (D2–D3), small v-stacks and
 diamonds (D4), their spaces and field-point presentations (D5), and analytic diamondification
 and the étale-site comparison (D6). The field-point contracts retain arbitrary-rank open
