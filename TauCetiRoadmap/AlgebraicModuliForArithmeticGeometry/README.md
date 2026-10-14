@@ -269,7 +269,7 @@ does not.
 
 | Object | Owner/export | Consumer/convention |
 | --- | --- | --- |
-| Complex-scheme analytification | AlgebraicModuliForArithmeticGeometry §7.10.1 / `ComplexAnalyticSpace`, `complexSchemeAnalytification` and its ringed-space, functoriality, open/closed/fibre-product and morphism-comparison API | ComplexComparisonPartII C0–C1 and C2–C6, and AbelianSchemesAndArithmeticModuli, use this locally finite-type, nilpotent-sensitive construction |
+| Complex-scheme analytification | AlgebraicModuliForArithmeticGeometry §7.10.1 / `ComplexAnalyticSpace`, `complexSchemeAnalytification`: analytic local models, ring sheaf, arbitrary open gluing, functoriality, open/closed/fibre-product comparisons and finite/proper/étale/smooth comparisons | ComplexComparisonPartII C0–C1 and C2–C6, and AbelianSchemesAndArithmeticModuli, use this locally finite-type, nilpotent-sensitive construction and its underlying topological carrier |
 
 ## How to read the build
 
@@ -9509,13 +9509,14 @@ The API `complexSchemeAnalytification.homEquiv` is the bijection Hom_an(A,X^an)�
 
 The API `complexSchemeAnalytification.complexPoints` identifies the underlying topological space with X(C) equipped with the classical topology: on each affine chart this is the zero-locus subspace topology in C^n, and these topologies glue along the algebraic opens. The API `complexSchemeAnalytification.openSubspace`, `complexSchemeAnalytification.closedSubspace` and `complexSchemeAnalytification.fibreProduct` supplies natural isomorphisms of analytic spaces for open restrictions, closed quotients by the extended coherent ideal, and X×_Z Y, for locally finite-type complex schemes X,Y,Z. These isomorphisms commute with φ and the defining inclusions and projections. The API `complexSchemeAnalytification.reduction` identifies (X_red)^an with (X^an)_red; the underlying topological spaces agree, while X^an itself keeps the full analytic ring sheaf. (SGA 1 XII, 1.1(a), 1.2 and Proposition 2.1, retyped pp. 240–242.)
 
-The API `complexSchemeAnalytification.etaleLocalIso` turns an étale morphism into a local biholomorphism, by the analytic inverse theorem on a standard étale presentation and gluing. The API `complexSchemeAnalytification.smooth` identifies analytification of a smooth morphism locally with a projection from a product with an open polydisc; for a smooth complex scheme this gives its complex manifold charts. The API `complexSchemeAnalytification.separatedHausdorff` proves that separated X has Hausdorff X^an, by the closed diagonal and the product comparison. The API `complexSchemeAnalytification.finite` and `complexSchemeAnalytification.proper` carries finite and proper morphisms, respectively, to finite and proper analytic morphisms; proper includes relative separatedness, and the schemes need only be locally of finite type over C. Finite and proper algebraic morphisms are of finite type, as required for this comparison. These are properties of the same functor and ring sheaf. (SGA 1 XII, Propositions 3.1–3.2, retyped pp. 244–247, original pp. 321–325.)
+The API `complexSchemeAnalytification.etaleLocalIso` turns an étale morphism into a local biholomorphism of analytic ringed spaces, by the analytic inverse theorem on a standard étale presentation and gluing. The analytic inverse is supplied by `AnalyticAt.exists_openPartialHomeomorph` in Tau Ceti’s `TauCeti.Analysis.Analytic.Inverse`. The API `complexSchemeAnalytification.smooth` identifies analytification of a smooth morphism locally with a projection from a product of an analytic open in the base with an open polydisc. This is an isomorphism of analytic ringed spaces even when the base is singular or nonreduced; for a smooth complex scheme it gives complex manifold charts. The API `complexSchemeAnalytification.separatedHausdorff` proves that separated X has Hausdorff X^an, by the closed diagonal and the product comparison. The API `complexSchemeAnalytification.finite` and `complexSchemeAnalytification.proper` carries finite and proper morphisms, respectively, to finite and proper analytic morphisms. Here relative separatedness means that the analytic diagonal is a closed immersion. A proper analytic morphism is relatively separated and, over every Hausdorff analytic open chart of the base, has compact inverse images of compact subsets; a finite analytic morphism is proper with finite fibres. These chart conditions do not require the whole base to be Hausdorff. The schemes need only be locally of finite type over C; finite and proper algebraic morphisms are themselves of finite type, as required for this comparison. All these comparisons use the same functor and ring sheaf. (SGA 1 XII, Propositions 3.1–3.2, retyped pp. 244–247, original pp. 321–325.)
 
-Supplied by AlgebraicModuliForArithmeticGeometry §7.10.1 / `complexSchemeAnalytification`:
-this roadmap is the sole owner of the analytic local models, their category and the scheme
-analytification functor. On finite-type complex schemes, forgetting the analytic ring sheaf gives
-the classical topological carrier; the locally finite-type ringed construction retains nilpotents
-and admits singular and nonseparated schemes.
+This section constructs the analytic local models, their category and
+`complexSchemeAnalytification` with all the comparisons above. Restricting its domain to finite-type
+complex schemes and forgetting the analytic ring sheaf gives the classical topological carrier.
+Coherent and topological consumers use this same construction; its locally finite-type domain
+includes infinite affine covers, and its analytic ring sheaf retains nilpotents on singular and
+nonseparated schemes.
 
 ComplexComparisonPartII consumes this construction and owns the following topology and comparison
 contracts on its underlying carrier:
@@ -9553,7 +9554,8 @@ contracts on its underlying carrier:
 - `SchemeAnalytificationChecks.infiniteCover`: the disjoint union of countably many copies of A¹_C is locally of finite type and has the disjoint union of analytic lines as its analytification; it is not of finite type.
 - `SchemeAnalytificationChecks.doubleOrigin`: the affine line with doubled origin analytifies to two analytic lines glued along C\{0}, with the glued ring sheaf; its carrier is not Hausdorff.
 - `SchemeAnalytificationChecks.fibreProduct`: for D=Spec(C[ε]/(ε²)), D×_C D has one analytic point with ring C[ε,δ]/(ε²,δ²), of length four; the product comparison is an isomorphism of ringed spaces.
-- `SchemeAnalytificationChecks.branch`: z↦z² is étale away from zero and is not a local biholomorphism at zero.
+- `SchemeAnalytificationChecks.branch`: z↦z² is finite and proper, is étale away from zero and is not a local biholomorphism at zero; its analytic fibre over zero has ring C[ε]/(ε²).
+- `SchemeAnalytificationChecks.relativeDual`: for D=Spec(C[ε]/(ε²)), P¹_D→D analytifies to a proper smooth morphism with fibre P¹(C), so it is not finite. A chart has sheaf O_C[ε]/(ε²), and its local polydisc comparison retains ε; relative smoothness does not make the source reduced.
 
 ### 7.10.2 Nonarchimedean local models and étale quotients
 

@@ -31,10 +31,15 @@ Design choices made explicit here:
 * The identity-component API is `picardZeroSheaf` and `picardZeroCriterion` (README §7.9),
   with the full nonreduced component and arbitrary base change. These algebraic-space carriers
   are README targets.
-* Complex analytification is `complexSchemeAnalytification` (README §7.10.1) on locally
-  finite-type complex schemes, valued in `ComplexAnalyticSpace`, with the analytic ring sheaf,
-  nilpotents and no global Hausdorff assumption. Its local ringed-space universal property
-  determines the functor and its open, closed and fibre-product comparisons.
+* README §7.10.1 constructs `ComplexAnalyticSpace` and `complexSchemeAnalytification` on
+  locally finite-type complex schemes, including infinite affine covers, with the analytic ring
+  sheaf, nilpotents and no global Hausdorff assumption. Its local ringed-space universal property
+  determines the functor and its open, closed and fibre-product comparisons. The finite, proper,
+  étale and smooth comparisons concern this same ringed functor; relative smooth charts retain
+  base nilpotents (`SchemeAnalytificationChecks.relativeDual`). Properness is relative to analytic
+  base charts, and finite morphisms have finite fibres. The local analytic inverse uses
+  `AnalyticAt.exists_openPartialHomeomorph`; coherent and topological consumers share
+  this analytification. These carriers and comparisons are README targets.
 * The relative Picard presheaf is `T ↦ Pic(X_T)` on schemes over the base, before fppf
   sheafification; its values are Tau Ceti's `LineBundleClass`.
 * The order of an ideal at a prime is computed in the localisation, valued in `ℕ∞`; a marked
