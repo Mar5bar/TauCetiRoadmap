@@ -132,12 +132,12 @@ Out of scope (non-goals): the full first-order decision procedure for free group
 - GraphConnectivityAndFlows, Target 1.1 and Milestone 2: multigraph walks, connectivity, reachability and components on Mathlib's `Graph`, including loops and parallel edges. §2.1 proves agreement with Serre paths after forgetting edge direction; group-valued paths retain loop direction.
 - SurfaceTopology, Layers 0–2 and 6: connected compact surface maps, polygonal schemas with boundary, and the normal-form moves preserving surface type and boundary components; Layer 7: the edge-path group presented by non-tree edges and face words; Layer 9: essential two-sided curves and cutting. PlanarTopology, Layers 3, 5 and 7, supplies realization, subdivision and tameness. §6.1a owns the passage from these models to §6.1's presented groups and peripheral tuple, and §6.4 owns their finite coset covers. The generic graph free-basis theorem consumed by SurfaceTopology Layer 7 is §2.2 here.
 
-Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8.9 provide the NTQ embedding independently of §8.7; §9.5's carrier and ICE comparison precede §8.7, while its length-function corollary follows §8.7. Finite presentability in §8.7 precedes §8.2's finite-rank abelian-subgroup conclusion.
+Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8.9 provide the NTQ embedding independently of §8.7; §8.6a's carrier and ICE comparison and §8.6b's irreducible-to-NTQ embedding precede §8.7, while §9.5's length-function corollary follows §8.7. Finite presentability in §8.7 precedes §8.2's finite-rank abelian-subgroup conclusion.
 
 
 ## How to read the build
 
-Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply §8.9 independently of §8.7; §8.9 and §9.5's carrier comparison supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
+Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
 
 ## Layer 1: Free-group conjugacy, roots and centralizers
 
@@ -518,9 +518,9 @@ Use [KM02] §6, Lemma 6.1, p. 12, Proposition 6.7 and Corollary 6.8, p. 15; §8,
 
 ### 2.9 Product graphs and subgroup tests as graph criteria
 
-Define `StallingsGraph.prod` as the pullback of two labelled graphs over the rose: vertices are pairs and an edge is a pair of equally labelled edges, with coordinatewise incidence and reversal. For folded graphs the product is folded. Prove `StallingsGraph.prod_subgroup`: the accepted subgroup at (v,w) is the intersection of the accepted subgroups at v and w. The based core consequently represents the intersection. Its non-tree edges give the free basis of §2.8.
+Define `StallingsGraph.prod` as the pullback of two labelled graphs over the rose: vertices are pairs and an edge is a pair of equally labelled edges, with coordinatewise incidence and reversal. For folded graphs Γ and Δ the product is folded. Prove `StallingsGraph.prod_subgroup` with both foldedness hypotheses: subgroup (Γ.prod Δ) (v,w) = subgroup Γ v ⊓ subgroup Δ w. For arbitrary labelled graphs assert only containment in that intersection. For folded factors the based core consequently represents the intersection. Its non-tree edges give the free basis of §2.8.
 
-The API includes the two graph projections, preservation of reversal and labels, the accepted-subgroup equality, preservation of foldedness, and compatibility with based cores. Membership in a folded graph is the closed-path criterion of §2.3; index and conjugacy are the complete-graph and type-graph criteria of §§2.7 and 2.12.
+The representatives `LabelledGraph.prod`, `LabelledGraph.prod_accepted_le` and `LabelledGraph.prod_accepted` carry the product, unconditional containment and folded-factor equality. The API includes the two graph projections, preservation of reversal and labels, the accepted-subgroup equality, preservation of foldedness, and compatibility with based cores. Membership in a folded graph is the closed-path criterion of §2.3; index and conjugacy are the complete-graph and type-graph criteria of §§2.7 and 2.11.
 
 **Checks.**
 
@@ -528,11 +528,12 @@ The API includes the two graph projections, preservation of reversal and labels,
 - The one-vertex graph without edges accepts only 1.
 - b a does not belong to ⟨a b⟩ for distinct a,b, although these words are conjugate; based membership differs from conjugacy.
 - ⟨a²⟩∩⟨a³⟩=⟨a⁶⟩, so the product-core has a six-edge a-cycle.
+- The a-rose and an unfolded three-edge cycle labelled a,b,b⁻¹ both accept ⟨a⟩, but their based product accepts ⊥. Foldedness is necessary for equality.
 - ⟨a,b a b⁻¹⟩ is proper and has infinite index in F(a,b), despite having rank two. Its graph lacks some outgoing labels.
 
 For the index-two subgroup ⟨a²,a b,a b⁻¹⟩ the complete graph has two vertices and four edge pairs, hence rank three.
 
-Sources: [KM02] §7, Propositions 7.1–7.2, p. 16, Corollaries 7.8, 7.11, 7.13, pp. 17–20; §8, Corollary 8.5, p. 21; §9, Corollary 9.5, p. 26.
+Sources: [KM02] §7, Propositions 7.1–7.2, p. 16, Corollaries 7.8, 7.11, 7.13, pp. 17–20; §8, Corollary 8.5, p. 21; §9, Lemmas 9.2–9.3 and Proposition 9.4, pp. 25–26, Corollary 9.5, p. 26.
 
 *Needs:* §2.3 (α-labelled graphs (X-digraphs) and the subgroup they accept); §2.7 (Stallings correspondence: subgroups and based folded core graphs); §2.8 (Explicit free bases and embeddings from a Stallings graph).
 
@@ -580,7 +581,7 @@ The first-order language of groups with constants for a basis and the dictionary
 
 ### 3.1 The language of groups and its coefficient extensions
 
-Define `FirstOrder.Language.group` as follows. Language.group is the first-order language with one constant symbol one, one unary function symbol inv and one binary function symbol mul, and no relation symbols. Every group G is a Language.group-structure by interpreting the symbols as 1, x ↦ x⁻¹ and multiplication. For a type A of coefficient names, L_A := Language.group[[A]] adds a constant for each a ∈ A; a group G together with c : A → G is an L_A-structure. For a coefficient group generated by A (in particular F(A) with c = of), the sentences of L_A over (G, c) are the sentences of the source's language L_A. The theory of groups is the set of the three group axioms as L-sentences.
+Define `FirstOrder.Language.group` as follows. Language.group is the first-order language with one constant symbol one, one unary function symbol inv and one binary function symbol mul, and no relation symbols. Every group G is a Language.group-structure by interpreting the symbols as 1, x ↦ x⁻¹ and multiplication. For a type A of coefficient names, L_A := Language.group[[A]] adds a constant for each a ∈ A; a group G together with c : A → G is an L_A-structure. For a coefficient group generated by A (in particular F(A) with c = of), the sentences of L_A over (G, c) are the sentences of the source's language L_A. The theory of groups is the set of the three group axioms as L-sentences (representative `groupTheory`).
 
 Define the language by its function-symbol family indexed by arity (0, 1, 2) and the empty relation family.
 Instances: Group G gives Language.group.Structure G; a map c : A → G gives the constants structure, hence an L_A-structure (Mathlib's constantsOn structure for withConstants).
@@ -622,7 +623,7 @@ The finite-syntax background uses Mathlib's list encodings. For a `Primcodable` 
 
 Define `FirstOrder.Language.group.Term.toWord` as follows. Define toWord : L_A.Term X → FreeGroup (X ⊕ A) by recursion: var x ↦ of (inl x), the constant a ↦ of (inr a), one ↦ 1, inv t ↦ (toWord t)⁻¹, mul t s ↦ toWord t * toWord s; and ofWord : FreeGroup (X ⊕ A) → L_A.Term X sending the reduced word to the left-nested product of letters and inverted letters (the identity to one). An atomic formula t = s corresponds to the word equation toWord t * (toWord s)⁻¹ = 1.
 
-Structural recursion on terms; ofWord by recursion on toWord of the element.
+Structural recursion on terms; ofWord by recursion on toWord of the element (representative `wordToTerm`).
 
 The public interface should expose the following named results:
 
@@ -935,6 +936,20 @@ Use [FOLD] §2, Definition 2.8, p. 8: Induced splittings of a subgroup with resp
 
 *Needs:* §4.8 (Structure theorem: actions on trees are graphs of groups); §4.7 (The Bass–Serre tree of a graph of groups); §4.9 (Elliptic–hyperbolic dichotomy and fixed points of finitely generated groups).
 
+### 4.10a Group-labelled graphs and folds for the Grushko theorem
+
+For a finite based graph of groups 𝔸 with trivial edge groups, define an 𝔸-graph: a finite typed Serre graph with finitely generated vertex subgroups of the corresponding 𝔸-vertex groups and edge labels (a,e,b) in the endpoint groups and an 𝔸-edge. Its path map represents a subgroup of π₁(𝔸). Construct the S-wedge of a finite family of reduced 𝔸-paths. Define the auxiliary moves A0–A2 and folds F1–F4 with the applicability and basepoint-admissibility conditions of FOLD §4. Prove preservation of the represented subgroup through the canonical epimorphisms and equivariant tree maps of Proposition 4.15. Define complexity as the underlying graph rank plus the sum of vertex-subgroup ranks; prove that these folds do not increase it and that F1–F4 reduce the number of edge pairs. The finite folding sequence terminates in a folded graph realizing the induced splitting. This target uses trivial edge groups; it does not require the benign-graph membership algorithms or folds F5–F6.
+
+**Checks.**
+
+- An S-wedge made from k generating loops has complexity k, even when loop labels traverse several 𝔸-edges.
+- A fold merging two edge pairs preserves the represented subgroup and reduces the edge count; a vertex-subgroup rank increase is compensated in the total complexity.
+- For 𝔸 the one-edge presentation of G₁∗G₂ and S generating that whole group, the terminal induced graph recovers 𝔸 and has complexity rank G₁+rank G₂.
+
+Sources: [FOLD] §3, Definitions 3.1–3.3, pp. 6–8; §4, Definitions 4.5–4.11 and Proposition 4.15, pp. 13–18; §5, Definition 5.1 and Lemma 5.3, pp. 19–20; §6, Definition 6.1 and proof of Theorem 6.2, pp. 27–28.
+
+*Needs:* §§4.1–4.3 (graphs of groups, path presentations and normal forms); §4.10 (induced splittings); §2.2 (graph rank); Mathlib `Group.rank`.
+
 ### 4.11 Kurosh subgroup theorem, Grushko–Neumann theorem and Grushko decompositions
 
 Prove the following statement. (1) (Kurosh) Every subgroup U of a free product ∗_i G_i is a free product of a free group and of subgroups U ∩ g G_i g⁻¹ (one for each double coset U g G_i with nontrivial intersection). (2) (Grushko–Neumann) For finitely generated nontrivial G₁, G₂, rank (G₁ ∗ G₂) = rank G₁ + rank G₂. (3) (Grushko decomposition) Every finitely generated group G is a free product G = G₁ ∗ ⋯ ∗ G_p ∗ F_q with each G_i nontrivial, not ℤ and freely indecomposable; p, q are unique and the G_i are unique up to conjugacy and permutation. (4) (Relative version) For a finite family ℋ of finitely generated subgroups, the same holds for free decompositions in which every H ∈ ℋ is conjugate into some factor, with the G_i freely indecomposable relative to the conjugates of ℋ they contain. Such a relative factor may be infinite cyclic when it carries a nontrivial peripheral subgroup; only unconstrained cyclic factors are collected into F_q. The trees of these decompositions form one deformation space (the Grushko deformation space relative to ℋ).
@@ -950,7 +965,7 @@ rank(ℤ/2 ∗ ℤ/3) = 2; rank(F₂ ∗ ℤ) = 3. The Grushko decomposition of 
 
 Use [FOLD] §6, Definition 6.1 and Theorem 6.2, pp. 27–29: A proof of Grushko's theorem rk(G₁ ∗ G₂) = rk G₁ + rk G₂ by foldings of 𝔸-graphs.; [TREES] Chapter I, §5.5, Theorem 14: Kurosh's subgroup theorem from the action on the Bass–Serre tree of a free product.; [GL-JSJ] Introduction, pp. 1–3, and §3.2, p. 30: Grushko decompositions G = G₁ ∗ ⋯ ∗ G_p ∗ F_q with q and the G_i unique up to conjugacy and permutation; the Grushko deformation space, also relative to a family of subgroups.
 
-*Needs:* §4.10 (Induced splittings of subgroups, with finiteness under finite generation); §4.8 (Structure theorem: actions on trees are graphs of groups); §4.6 (Group actions on trees: elliptic and hyperbolic elements, relative trees); §2.8 (Explicit free bases and embeddings from a Stallings graph); Mathlib `Group.rank`.
+*Needs:* §4.10a (group-labelled graphs and finite trivial-edge folding); §4.10 (Induced splittings of subgroups, with finiteness under finite generation); §4.8 (Structure theorem: actions on trees are graphs of groups); §4.6 (Group actions on trees: elliptic and hyperbolic elements, relative trees); §2.8 (Explicit free bases and embeddings from a Stallings graph); Mathlib `Group.rank`.
 
 ### 4.12 Collapses, refinements and domination of splittings
 
@@ -1269,11 +1284,17 @@ Use [ALG] §3.4, Corollary 8, p. 36; §4, Lemma 15 and Theorem 5, p. 40; Theorem
 
 ### 5.12 Points as homomorphisms; word maps and changes of coordinates
 
-Prove the following statement. Let H be a G-group. (1) For an algebraic set Y ⊆ (X → H), evaluation gives a bijection Hom_G(Γ(Y), H) ≃ Y. (2) Word maps (morphisms of algebraic sets given by tuples of elements of G[X]) correspond contravariantly to G-homomorphisms of coordinate groups, giving an equivalence (anti-equivalence) between algebraic sets over H with word maps and their coordinate groups with G-homomorphisms. (3) A G-automorphism σ of G[X] (a change of coordinates) maps V_H(S) bijectively onto V_H(σ⁻¹(S)) and induces G_{R(S)} ≅ G_{R(σ⁻¹ S)}.
+Prove the following statement. Let H be a G-group. (1) For a nonempty algebraic set Y ⊆ (X → H), evaluation gives a bijection Hom_G(Γ(Y), H) ≃ Y. (2) Word maps (morphisms of algebraic sets given by tuples of elements of G[X]) correspond contravariantly to G-homomorphisms of coordinate groups, giving an equivalence (anti-equivalence) between nonempty algebraic sets over H with word maps and their coordinate G-groups with G-homomorphisms. (3) A G-automorphism σ of G[X] (a change of coordinates) maps V_H(S) bijectively onto V_H(σ⁻¹(S)) and induces G_{R(S)} ≅ G_{R(σ⁻¹ S)}.
 
 (1) A G-homomorphism Γ(Y) → H is determined by the images of X, which form a point of V(I(Y)) = Y.
 (2) ALG Theorem 4 and Corollary 9.
-(3) Specialisation of (2) to invertible word maps.
+(3) Specialisation of (2) to invertible word maps. For empty solution sets, changes of coordinates still transport radicals and quotients, using arbitrary coefficient homomorphisms rather than the category of bundled G-groups.
+
+**Checks.**
+
+- For Y={v}, the coordinate G-group evaluates isomorphically onto the subgroup generated by the coefficients and v; its G-homomorphisms to H correspond to this one point.
+- For Y=∅ over nontrivial G, Γ(Y)=1 has a noninjective coefficient map and is outside the bundled G-group category.
+- An invertible substitution carries an inconsistent system to another empty solution set; both trivial quotients are compared through their arbitrary coefficient maps.
 
 For Y = V([x, a]) over F(a,b), Hom_F(Γ(Y), F) ≃ ⟨a⟩. The change of coordinates x ↦ x a sends V([x, a]) to itself.
 
@@ -1465,18 +1486,24 @@ Use [IFT] §2.7, Definition 6 and the remark after it, p. 9: Definition of regul
 
 ### 6.8 Radicals of consistent standard quadratic equations
 
-Prove the following statement. Let G be freely discriminated (fully residually free and nonabelian) and S = 1 a standard quadratic equation over G with a solution in G. Then: (1) for S = [x, y] d or [x₁, y₁][x₂, y₂], R(S) = ncl(S); (2) for S = x² d, R(S) = ncl(x b) where b² = d; (3) for S = c^z d, R(S) = ncl([z b⁻¹, c]) where d⁻¹ = c^b; (4) for S = x₁² x₂², R(S) = ncl(x₁x₂); (5) for S = x₁² x₂² x₃², R(S) = ncl(x₁x₂x₃, [x₁,x₂], [x₁,x₃], [x₂,x₃]); (6) if r(S) ≥ 2 and S has a non-commutative solution, R(S) = ncl(S); (7) if S is of type (4) and all its solutions are commutative, R(S) is the normal closure of the system consisting of x₁⋯x_n = s₁⋯s_n, pairwise commutators of the x_k and of u_i := a_i⁻¹z_i, the mixed commutators [u_i,x_k], and [x_k,C], [u_i,C], where (s,a) is a fixed solution and C = C_G(c₁^{a₁},…,c_m^{a_m},s₁,…,s_n), and G_{R(S)} is an extension of a centralizer. In addition (general position) the equation has a solution in general position in the cases listed in IFT Theorem 1 (type (1) with n > 2, type (2) with n > 0 and n + m > 1, type (3) with n > 3, type (4) with n > 2, and r(S) ≥ 2 with a non-commutative solution).
+Prove the following statement. Let G be freely discriminated (fully residually free and nonabelian) and S = 1 a standard quadratic equation over G with a solution in G. Then: (1) for S = [x, y] d or [x₁, y₁][x₂, y₂], R(S) = ncl(S); (2) for S = x² d, R(S) = ncl(x b) where b² = d; (3) for S = c^z d, R(S) = ncl({[z b⁻¹,h] : h∈C_G(c)}) where d⁻¹ = c^b; the single-relator formula holds when C_G(c)=⟨c⟩; (4) for S = x₁² x₂², R(S) = ncl(x₁x₂); (5) for S = x₁² x₂² x₃², R(S) = ncl(x₁x₂x₃, [x₁,x₂], [x₁,x₃], [x₂,x₃]); (6) if r(S) ≥ 2 and S has a non-commutative solution, R(S) = ncl(S); (7) if S is of type (4) and all its solutions are commutative, R(S) is the normal closure of the system consisting of x₁⋯x_n = s₁⋯s_n, pairwise commutators of the x_k and of u_i := a_i⁻¹z_i, the mixed commutators [u_i,x_k], and [x_k,C], [u_i,C], where (s,a) is a fixed solution and C = C_G(c₁^{a₁},…,c_m^{a_m},s₁,…,s_n), and G_{R(S)} is an extension of a centralizer. In addition (general position) the equation has a solution in general position in the cases listed in IFT Theorem 1 (type (1) with n > 2, type (2) with n > 0 and n + m > 1, type (3) with n > 3, type (4) with n > 2, and r(S) ≥ 2 with a non-commutative solution).
 
-Throughout this subsection assume: G nonabelian freely discriminated; S consistent over G (has a solution in G).
+Throughout this subsection assume: G nonabelian freely discriminated; S consistent over G (has a solution in G). The representative `radical_conjugacy_eq` carries these coefficient hypotheses and the specified conjugator for case (3).
 
-VAR-I §§2–3 treat the standard types one by one (Propositions 3–8), using discrimination by big powers and Lemma 9.
+VAR-I §§2–3 treat the standard types one by one (Propositions 3–8), using discrimination by big powers (§8.5a) and Lemma 9. For (3), set t=z b⁻¹: every solution centralizes all of C_G(c) by commutative transitivity. The quotient with these full-centralizer relations is G(c,ℤ), discriminated by §8.6, which gives the reverse radical inclusion. VAR-I §3, Form 2, p. 28 distinguishes C_G(c)=⟨c⟩ from the larger-centralizer case; IFT Theorem 2(3) omits those additional relations.
 The general-position statement is VAR-I Theorem 1 as recalled in IFT Theorem 1. For (4), uniqueness of square roots gives x₂=x₁⁻¹, and the quotient by x₁x₂ is G∗ℤ. For (5), Lyndon’s three-squares theorem gives pairwise commutation, and torsion-freeness then gives x₁x₂x₃=1; the resulting quotient is G∗ℤ². These quotients are G-discriminated by centralizer-extension embeddings (VAR-I Lemma 16, p. 28; §8.6), giving the reverse radical inclusions. The commutators alone printed in IFT Theorem 2(4)–(5), p. 9, do not contain the original equation, so those two formulas require the product relations stated here.
 
 Nonabelianity is necessary: over G=ℤ the genus-two equation has all variable commutators in its radical, whereas its defining quotient ℤ∗S⁺(2,0) is nonabelian. For x₁²x₂²=1 the assignment x₁=x₂=a satisfies the commutator alone but fails the equation. For three squares, x₁=a,x₂=x₃=1 does the same.
 
+**Checks.**
+
+- For c=a²,d=a⁻²,b=1 over F(a,t), [z,a] lies in the radical but survives modulo ncl([z,a²]) by Britton's lemma; the radical quotient uses the full centralizer ⟨a⟩.
+- For c=a,d=a⁻¹,b=1 over F(a,t), C(c)=⟨c⟩ and the single-relator formula is valid.
+- Over G=⟨a,t,b | [a,t]=1⟩, c=a has centralizer ⟨a,t⟩, so both [z,a] and [z,t] occur in the conjugacy radical.
+
 Over F(a,b), R(x² a²) = ncl(x a) (b = a). Over F(a,b), R(x₁² x₂² x₃²) contains [x₁, x₂] although [x₁, x₂] ∉ ncl(x₁² x₂² x₃²): the low-genus exceptions are real.
 
-Use [IFT] §2.7, Theorems 1–2, pp. 8–9: General-position solutions in the listed cases, and the explicit radicals of consistent standard quadratic equations over freely discriminated groups.; [VAR-I] §1, Theorems 1 and 3, pp. 7–9; §§2–3, Propositions 3–8, pp. 14–27: Proofs of the radical descriptions type by type.
+Use [IFT] §2.7, Theorems 1–2, pp. 8–9: General-position solutions in the listed cases, and the explicit radicals of consistent standard quadratic equations over freely discriminated groups.; [VAR-I] §1, Theorems 1 and 3, pp. 7–9; §§2–3, Propositions 3–8, pp. 14–27, and §3, Form 2, p. 28: Proofs of the radical descriptions, including the full-centralizer conjugacy radical.
 
 *Needs:* §6.5 (Quadratic words, standard quadratic equations and their solutions); §6.7 (Regular standard quadratic equations); §5.2 (Algebraic sets, radicals and coordinate groups); §5.3 (G-separation and G-discrimination (residual and full residual properties)); §8.6 (Extensions of centralizers are discriminated by the base group).
 
@@ -1597,12 +1624,13 @@ Use [IFT] §4.2, Lemma 14, pp. 22–23: Both directions of the correspondence be
 
 ### 7.4 Elementary relations between generalised equations
 
-Specify `FreeGroup.GenEq.Transformation` as a relation between formally consistent generalised equations with associated surjective F-homomorphisms of coordinate groups. Its five elementary cases are cutting a base at a boundary connection (ET1), transferring a base (ET2), removing matched bases (ET3), removing a lonely base (ET4), and introducing a boundary (ET5), with exactly the applicability hypotheses and exceptional cases of IFT §5.1. The six derived relations are closing or transporting a section, complete cut, taking the kernel, the entire transformation, and identifying constant sections (IFT §5.2). Each admissible source has finitely many successors with the prescribed homomorphisms. This relation records the algebraic moves and their solution maps.
+Specify `FreeGroup.GenEq.Transformation` as a relation between formally consistent generalised equations with associated surjective F-homomorphisms of coordinate groups. Its five elementary cases are cutting a base at a boundary connection (ET1), transferring a base (ET2), removing matched bases (ET3), removing a lonely base (ET4), and introducing a boundary (ET5), with exactly the applicability hypotheses and exceptional cases of IFT §5.1. Keep separate derived data for closing or transporting a section (D1–D2), complete cut (D3), taking the kernel (D4), the entire transformation (D5), and identifying constant sections (D6), with their individual transport maps (IFT §5.2). D4 records an isomorphism F_{R(Ω)}≃F_{R(overline{Ker Ω})}∗F(Z), after free items are removed from the kernel, together with reconstruction of eliminated variables and assignments to the free factor. It is not an elementary coordinate-group quotient. Each elementary source has finitely many successors with the prescribed surjections.
 
-The API gives the applicability conditions, `FreeGroup.GenEq.Transformation.solution_forward` (unique transfer of a fixed graphical solution to a successor), `FreeGroup.GenEq.Transformation.solution_backward` (composition yields a group solution), and the surjectivity and finite-successor assertions. For ET1–ET3 the backward composite is graphical; the other cases require their reducedness conditions. Derived relations are finite composites with the corresponding homomorphisms.
+The API gives the applicability conditions, `FreeGroup.GenEq.Transformation.solution_forward` (unique transfer of a fixed graphical solution to a successor), `FreeGroup.GenEq.Transformation.solution_backward` (composition yields a group solution), and the surjectivity and finite-successor assertions. For ET1–ET3 the backward composite is graphical; the other cases require their reducedness conditions. D1–D3, D5 and D6 have the transport contracts proved for each move in IFT §5.2; a composite uses those contracts. Kernel elimination retains its free-factor assignments and reconstruction isomorphism.
 
 **Checks.**
 
+- Eliminating a lone base retains the free assignments: if h₁=h₂ is the only equation, removing the base leaves a free cyclic coordinate group, not the trivial group.
 - ET3 removes a matched pair and leaves the same solutions on the surviving items; it imposes no new condition on an otherwise unconstrained item.
 - The identity relation carries the identity homomorphism and leaves all solutions unchanged.
 - ET5 inside a length-two base distinguishes every admissible boundary position in the dual base.
@@ -1615,7 +1643,7 @@ Sources: [IFT] §5.1, ET1–ET5, pp. 27–30; §5.2, D1–D6, pp. 30–35; [JSJ]
 
 ### 7.5 Solution preservation under elementary relations
 
-For every formally consistent Ω and every applicable elementary or derived relation, every graphical solution of Ω transfers to a unique successor and graphical solution there, and composition with its coordinate-group surjection recovers the original solution. Conversely every successor solution composes to a group solution of Ω; for ET1–ET3 it is graphical, and for the remaining cases it is graphical under the stated reducedness conditions. Prove `FreeGroup.GenEq.transformation_solution_correspondence`. Formal inconsistency excludes a branch only when that branch has no solutions.
+For every formally consistent Ω and every applicable elementary relation ET1–ET5, every graphical solution of Ω transfers to a unique successor and graphical solution there, and composition with its coordinate-group surjection recovers the original solution. Conversely every successor solution composes to a group solution of Ω; for ET1–ET3 it is graphical, and for the remaining cases it is graphical under the stated reducedness conditions. Prove `FreeGroup.GenEq.transformation_solution_correspondence`. For D1–D3, D5 and D6 use their individual contracts of §7.4. For D4 recover solutions through the kernel/free-factor isomorphism and eliminated-variable substitutions, imposing the original graphical reducedness conditions; the kernel solution alone does not determine the original solution. Formal inconsistency excludes a branch only when that branch has no solutions.
 
 For ET1 the two new bases carry restrictions of the original word at the boundary connection. The distinction between group and graphical solutions is essential: adjacent factors can cancel after a backward composition.
 
@@ -1815,7 +1843,7 @@ The coordinate group of [x, a] = 1 over F(a,b) is fully residually free (an exte
 
 Use [LIMITS] §1, Theorem 1.1 and the remark following it, p. 4: Equivalence of: limit group in Sela's sense, limit of free markings, same universal theory as a free group, subgroup of a non-standard free group, fully residually free; fully residually free groups are the coordinate groups of irreducible algebraic sets.; [IFT] §2.6, the theorems attributed to [47], [4], [19], [20], p. 7: A finitely generated F-group is F-discriminated by F iff it is F-universally equivalent to F iff it is the coordinate group of an irreducible algebraic set over F iff it F-embeds in F^{ℤ[t]}.
 
-*Needs:* §8.1 (Residually free and fully residually free groups); §8.3 (The space of marked groups and limit groups); §5.11 (Irreducibility is discrimination of the coordinate group); §5.9 (Linear groups are equationally Noetherian; so are free groups of finite rank); §5.3 (G-separation and G-discrimination (residual and full residual properties)). The relative equivalence with an F-embedding into F^{ℤ[t]} uses §8.9(4) and §9.5's carrier comparison, independently of §8.7.
+*Needs:* §8.1 (Residually free and fully residually free groups); §8.3 (The space of marked groups and limit groups); §5.11 (Irreducibility is discrimination of the coordinate group); §5.9 (Linear groups are equationally Noetherian; so are free groups of finite rank); §5.3 (G-separation and G-discrimination (residual and full residual properties)). The relative equivalence with an F-embedding into F^{ℤ[t]} uses §8.9(4) and §8.6a's carrier comparison, independently of §8.7.
 
 ### 8.5 Extensions of centralizers and iterated extensions
 
@@ -1849,6 +1877,21 @@ Use [IFT] §2.5, pp. 6–7: The extension G(u, t) of the centralizer of a non-pr
 
 *Needs:* Mathlib `Monoid.PushoutI`; Mathlib `HNNExtension`; Mathlib `Subgroup.centralizer`; §4.5 (One-edge graphs of groups are Mathlib's amalgams and HNN extensions); §1.7 (CSA groups and commutation transitivity).
 
+### 8.5a Big powers and discrimination
+
+Define `Group.IsBP` (representative `IsBP`): for every finite nonempty tuple (u₁,…,u_k) of nonidentity elements whose consecutive entries do not commute, there is N≥1 such that u₁^{e₁}⋯u_k^{e_k}≠1 whenever all natural exponents e_i≥N. Prove `isBP_freeGroup` for every FreeGroup α by cyclic reduction and bounded cancellation between consecutive noncommuting powers. Own the bounded-cancellation estimate: after recording conjugators and maximal roots, the overlap between adjacent power blocks is bounded independently of their exponents; otherwise their axes have a common ray and the elements commute. This uses the Cayley tree and the cyclic-centralizer theorem, not an embedding theorem for limit groups. Prove `IsBP.of_injective` and `IsBP.of_discriminated`, giving BP inheritance by subgroups and by groups discriminated by BP groups, preserving the tuple entries and adjacent commutators in a single discriminating map. Thus prove `IsFullyResiduallyFree.isBP`.
+
+**Checks.**
+
+- In F(a,b), a^p b^q≠1 for all p,q≥1.
+- The tuple (a,a⁻¹) is excluded: its equal-power product is 1 for arbitrarily large exponents.
+- The singleton tuple (1) is excluded; the singleton condition for a nonidentity element rules out torsion. Trivial groups satisfy BP vacuously.
+- Any finite tuple in a fully residually free group is tested in one free image preserving its entries and adjacent commutators, rather than separate maps for each pair.
+
+Sources: [IFT] §2.5, Definition 1 and following paragraph, p. 6 (BP and its inheritance); §§1.4–1.6 here supply the free-group cyclic reduction and centralizers for the bounded-cancellation proof. The explicit nonidentity condition handles the singleton tuple omitted in the printed definition.
+
+*Needs:* §§1.1, 1.4–1.6; §4.6 (Cayley-tree actions); §8.1 (full residual freeness); §5.3 (discrimination).
+
 ### 8.6 Extensions of centralizers are discriminated by the base group
 
 Prove the following statement. Let G be a nonabelian CSA group with the big powers property (in particular a nonabelian fully residually free group), and let u≠1 be not a proper power. Then G(u,ℤ) is G-discriminated by the retractions ξ_k:t↦u^k: for every w≠1 there is N_w with ξ_k(w)≠1 for every k≥N_w. Over a nonabelian fully residually free G, positive-rank extensions are successive rank-one admissible steps and their discriminations compose on finite sets. Consequently every ICE group over nonabelian F is F-discriminated by F and fully residually free. For nonabelian CSA BP groups, G[X] is G-discriminated by G as well.
@@ -1868,13 +1911,43 @@ Prove `LimitGroup.centralizerExt_root_reduction`: for a fully residually free G 
 
 Use [IFT] §2.5, the theorem of [40], pp. 6–7: For a nonabelian CSA BP-group, the maps t ↦ u^k discriminate G(u, t) into G; For finite X, G[X] G-embeds into G(u, t).; [VAR-II] §0, Lemma 2 and Theorem 1, p. 4: Groups obtained by free extensions of centralizers embed in G^{ℤ[x]} and are discriminated by G.
 
-*Needs:* §8.5 (Extensions of centralizers and iterated extensions); §4.3 (Normal form theorem and injectivity of vertex groups); §8.1 (Residually free and fully residually free groups); §5.5 (CSA groups with nonabelian coefficients are domains; free groups are domains); §1.7 (CSA groups and commutation transitivity).
+*Needs:* §8.5a (big powers); §8.5 (Extensions of centralizers and iterated extensions); §4.3 (Normal form theorem and injectivity of vertex groups); §8.1 (Residually free and fully residually free groups); §5.5 (CSA groups with nonabelian coefficients are domains; free groups are domains); §1.7 (CSA groups and commutation transitivity).
+
+### 8.6a Lyndon's completion and its centralizer-chain realization
+
+Construct `LimitGroup.lyndonCompletion` for a nonabelian free group F=F(X) of finite rank. A ℤ[t]-group has exponentiation h^p satisfying h^1=h, h^0=1, 1^p=1, h^{p+q}=h^p h^q, (h^p)^q=h^{pq}, compatibility with conjugation, and (hk)^p=h^p k^p when h and k commute. F^{ℤ[t]} is the tensor ℤ[t]-completion: every homomorphism F→H to a ℤ[t]-group extends uniquely to a homomorphism commuting with exponentiation. Construct its coefficient inclusion and its direct-limit realization by a countable chain of admissible full-centralizer extensions of §8.5, adjoining polynomial powers exhaustively: every centralizer element and every polynomial exponent is assigned a stage, compatible extensions of each abelian centralizer supply the exponent laws, and new centralizers are processed at subsequent stages. Prove injectivity of every transition and independence of the enumeration via the completion universal property. The countable rank extensions of MRS-REGULAR §2.1 are resolved into finite admissible steps; every finite set occurs in one finite step. Prove the comparison: each finite ICE group over F embeds over F in this completion, and each finitely generated subgroup of the completion lies in a finite stage. Renaming the polynomial indeterminate identifies F^{ℤ[x]} with F^{ℤ[t]}. This carrier and comparison use centralizer-extension theory, independently of §8.7.
+
+**Checks.**
+
+- The coefficient inclusion preserves a nonidentity generator a, and its powers satisfy a^{t+1}=a^t a and (a^t)^t=a^{t²}.
+- Mapping F into any ℤ[t]-group determines the exponent-preserving map from the completion uniquely; changing the exhaustive enumeration yields the same completion over F.
+- Every finite set lies in a finite admissible ICE stage, while all polynomial powers of a need not lie in one such stage.
+- F₂(1,ℤ)=F₂×ℤ has no embedding over F₂ in this F₂-discriminated completion.
+
+Sources: [MRS-REGULAR] §2.1, E1–E3 and the centralizer-chain construction, pp. 3–4; [VAR-I] §1, Definitions 6–7 and Lemma 5, pp. 6–7; [IFT] §2.5, p. 7.
+
+*Needs:* §§8.5–8.6 (admissible centralizer extensions and discrimination); Mathlib polynomial rings and group direct limits. No absolute limit-group embedding theorem is used.
+
+### 8.6b Irreducible coordinate groups embed in NTQ groups
+
+Fix a nonabelian free coefficient group F of finite rank. For finite X and a finite system S⊆F[X] with a nonempty irreducible algebraic set, prove that F_{R(S)} admits an F-embedding into the coordinate group of an NTQ system with the admissible full-centralizer levels of §8.8. Equivalently, every finitely generated F-group F-discriminated by F admits such an embedding, using equational Noetherianity to choose S. Build the finite solution decomposition tree from parametric generalised equations, periodic structures and the kernel/free-factor reconstruction of §§7.1–7.6. At its terminal branches form the NTQ levels and their word maps; prove that one branch has kernel exactly R(S), using irreducibility and the finite covering, rather than treating a covering map as an embedding. This owns the irreducible-to-NTQ input independently of the absolute embedding theorem; the NTQ-to-ICE input is §8.9(4), proved by structural induction.
+
+**Checks.**
+
+- For S empty, the free F-group F[X] embeds into the one-level empty NTQ group by the identity.
+- The consistent equation [x,a]=1 over F(a,b) embeds into its admissible centralizer NTQ group.
+- A reducible union ⟨a⟩∪⟨b⟩ has only a finite NTQ cover; an embedding of its coordinate group into an F-discriminated NTQ group would force discrimination and irreducibility, so the irreducibility hypothesis is necessary.
+- An abstract fully residually free group with coefficient subgroup ⟨a²,b⟩ need not be discriminated fixing those coefficients; use the specified relative discrimination hypothesis.
+
+Sources: [VAR-II] §0, Theorem 3, p. 4, and its proof in §§1–9 and §10, pp. 7–39; Theorem 4, pp. 4–5, for the separate passage to abstract groups. The finite NTQ covering is Theorem 2; injectivity needs the irreducible-branch argument.
+
+*Needs:* §§7.1–7.6 (cancellation families, transformations, periodic structures and finite solution trees); §8.8 (NTQ carriers); §§5.9–5.11 (Noetherianity and irreducibility); §6.8 (quadratic radicals); §8.9(2) (independently proved NTQ discrimination, for passage of word maps to radical quotients); §8.9(4) for the subsequent passage from NTQ to ICE.
 
 ### 8.7 Embedding theorems and finite presentability
 
 Prove the following statement. Fix a nonabelian free group F of finite rank. (1) (Kharlampovich–Myasnikov) A finitely generated group is fully residually free if and only if it embeds in Lyndon's group F^{ℤ[x]}; equivalently it embeds in an admissible ICE group over a nonabelian free group of finite rank. (2) Every finitely generated residually free group embeds in a direct product of finitely many fully residually free groups. (3) Every finitely generated fully residually free group is finitely presented, and so is every finitely generated subgroup of it (they are themselves fully residually free). (4) Every finitely generated subgroup of an ICE group over F is built from free abelian groups of finite rank by finitely many free products, amalgams over abelian groups one of which is maximal abelian, free extensions of centralizers, and separated HNN extensions with abelian associated subgroups one of which is maximal abelian.
 
-(1) First prove the irreducible-coordinate-group-to-NTQ embedding of VAR-II Theorem 3 using Layer 7's cancellation families and solution trees. Then use the independently proved NTQ-to-ICE embedding of §8.9(4) and the carrier/ICE comparison of §9.5. Conversely ICE groups are discriminated by §8.6. VAR-II Theorem 4 passes from an abstract finitely generated fully residually free group to its coefficient-free presentation over F; it does not assert discrimination fixing an arbitrary embedded coefficient subgroup.
+(1) Use the irreducible-coordinate-group-to-NTQ embedding of §8.6b, the independently proved NTQ-to-ICE embedding of §8.9(4), and the completion/ICE comparison of §8.6a. Conversely ICE groups are discriminated by §8.6. VAR-II Theorem 4 passes from an abstract finitely generated fully residually free group to its coefficient-free presentation over F; it does not assert discrimination fixing an arbitrary embedded coefficient subgroup.
 (2) VAR-II Corollary 2, via §5.10 (Noetherian Zariski topology and irreducible components).
 (3)–(4) VAR-II Theorem 6 and Corollary 3 (structure of finitely generated subgroups of ICE groups by induced splittings, Layer 4).
 
@@ -1882,7 +1955,7 @@ The closed surface group S⁺(2, 0) embeds in an ICE group over F₂. F₂ × F�
 
 Use [VAR-II] §0, Theorems 1, 3, 4, 6 and Corollaries 2–3, pp. 4–5: Nondegenerate TQ systems have coordinate groups in ICE groups; a finitely generated group is fully residually free iff it embeds in F^{ℤ[x]}; residually free groups embed in finite products; the structure of finitely generated subgroups of ICE groups and finite presentability.; [LIMITS] §4, Theorem 4.2, p. 30: First characterisation: limit groups are exactly the finitely generated subgroups of iterated extensions of centralizers of free groups.; [SUBGROUPS] §2.3, Theorems 1–2, p. 6: Effective versions: from a finite presentation one constructs the embedding into F^{ℤ[t]} and into an ICE group.
 
-*Needs:* §8.5 (Extensions of centralizers and iterated extensions); §8.6 (Extensions of centralizers are discriminated by the base group); §8.4 (Limit groups are the finitely generated fully residually free groups); §8.8 (Triangular quasi-quadratic and NTQ systems); §8.9(4) (NTQ-to-ICE embedding); §9.5's construction of the Lyndon carrier and ICE comparison, independently of its limit-group corollary; §7.2–§7.6 (cancellation families and solution trees); §5.10 (Noetherian Zariski topology and irreducible components); §4.10–§4.11 (induced splittings and subgroup structure) for (3)–(4); Mathlib `Group.IsFinitelyPresented`.
+*Needs:* §8.5 (Extensions of centralizers and iterated extensions); §8.6 (Extensions of centralizers are discriminated by the base group); §8.4 (Limit groups are the finitely generated fully residually free groups); §8.8 (Triangular quasi-quadratic and NTQ systems); §8.9(4) (NTQ-to-ICE embedding); §8.6a (Lyndon completion and ICE comparison); §8.6b (irreducible-to-NTQ embedding); §7.2–§7.6 (cancellation families and solution trees); §5.10 (Noetherian Zariski topology and irreducible components); §4.10–§4.11 (induced splittings and subgroup structure) for (3)–(4); Mathlib `Group.IsFinitelyPresented`.
 
 ### 8.8 Triangular quasi-quadratic and NTQ systems
 
@@ -1947,7 +2020,7 @@ In H=⟨a,b,t | [a,t]=1⟩, specialization t↦aᵏ fixes F(a,b). For every fini
 
 ### Dependencies
 
-This layer consumes Layers 4–7 and §9.5's independent Lyndon carrier comparison. Surface models enter through Layer 6's supplier contracts.
+This layer consumes Layers 4–7 and §8.6a's independent Lyndon carrier comparison. Surface models enter through Layer 6's supplier contracts.
 
 ## Layer 9: Length functions and infinite-word representations
 
@@ -2006,12 +2079,13 @@ The public interface should expose the following named results:
 **Checks.**
 
 - `LambdaTree.self`: Λ itself with d(a, b) = |a − b| is a Λ-tree; ℤ acts freely on the ℤ-tree ℤ by translations.
+- The empty convex subset of ℤ has no Λ-tree carrier, since the metric-space definition requires nonemptiness.
 - `LambdaTree.point`: A one-point space is a Λ-tree, on which every isometry is elliptic, so only the trivial group acts freely on it.
 - `LambdaTree.circle_not_tree`: The vertex set of a cycle of length 4 with the path metric is a geodesic ℤ-metric space but not a ℤ-tree: two segments between opposite vertices meet only in their endpoints, so (T3) fails; a definition asking only for geodesics would accept it.
 - `LambdaTree.reflection_inversion`: On the ℤ-tree ℤ, the isometry n ↦ 1 − n is an inversion (no fixed point, its square is the identity), so an action of ℤ/2 by it is not free without inversions.
 - `LambdaTree.cayley_compat`: For the Cayley tree of FreeGroup α (a ℤ-tree) and the base point 1, the based length function is Mathlib's FreeGroup.norm.
 
-Λ with d(a, b) = |a − b| is a Λ-tree, and so is every convex subset of Λ (KMS-ACTIONS Example 9). A ℤ-metric space is a ℤ-tree iff it is the vertex set of a simplicial tree with the path metric (KMS-ACTIONS Example 10), which links ℤ-trees to the Serre trees of Layer 2.
+Λ with d(a, b) = |a − b| is a Λ-tree, and so is every nonempty convex subset of Λ (KMS-ACTIONS Example 9). A ℤ-metric space is a ℤ-tree iff it is the vertex set of a simplicial tree with the path metric (KMS-ACTIONS Example 10), which links ℤ-trees to the Serre trees of Layer 2.
 
 This interface is used by §9.3: free Λ-valued length functions are the based length functions of free actions on Λ-trees; §9.5 and VAR-II Corollary 6: finitely generated fully residually free groups act freely on ℤⁿ-trees; Layer 4 Bass–Serre theory: for Λ = ℤ, Λ-trees are the simplicial trees of the Bass–Serre theory.
 
@@ -2050,6 +2124,7 @@ The public interface should expose the following named results:
 **Checks.**
 
 - `InfWord.ZFreeGroup`: For Λ = ℤ and X = Fin 2, InfWord ℤ X ≃ FreeGroup (Fin 2) as groups, matching toWord.
+- For a discretely ordered non-Archimedean Λ, P1–P4 alone do not justify a universal-group normal form; that theorem applies only after P5 is proved for the chosen subset.
 - `InfWord.empty`: The empty word (α = 0) is the identity for ∗.
 - `InfWord.at_mul_a`: In R(ℤ[t], {a, b}), a^t ∗ a = a^{t+1} and |a^t ∗ b| = t + 1.
 - `InfWord.undefined_product`: In R(ℤ[t], {a, b}) let v be the word on [1, t] that is a at the integers 1, 2, 3, … and b at the other elements of [1, t]; the common initial segment of a^t and v is {1, 2, 3, …}, which has no largest element, so (a^t)⁻¹ ∗ v is undefined: ∗ is genuinely partial, and R(Λ, X) is not a group.
@@ -2058,45 +2133,47 @@ For Λ = ℤ[t] with t ≫ 1, the word a^t (the constant function a on [1, t]) i
 
 This interface is used by Layer 9 F^{ℤ[t]}: elements of Lyndon's group are infinite ℤ[t]-words; Layer 9 infinite-word graphs: edge labels of (ℤ[t], X)-graphs; Layer 10 finite descriptions of limit groups: standard decompositions of elements as infinite words.
 
-Use [MRS-REGULAR] §3, Theorem 3.4, p. 10; §4, Theorem 4.1 and Corollary 4.2, p. 14: Reduced A-words with partial multiplication form a pregroup; on CDR(A, X) the length is a free Lyndon length function, inherited by every subgroup.; [LENGTH] §2.3, Theorems 2–4 and Corollary 1, p. 9: Infinite words and length functions: subgroups of CDR(A, X) have free length functions (Theorem 2); a group with a free length function in a discretely ordered A embeds length-preservingly in CDR(A, X) (Theorem 3), for arbitrary A after passing to ℤ ⊕ A (Corollary 1), and a free regular length function embeds in R(A′, X) with regular induced length (Theorem 4).
+Use [MRS-REGULAR] §3, Theorem 3.4, p. 10; §4, Theorem 4.1 and Corollary 4.2, p. 14: Reduced A-words with partial multiplication satisfy pregroup axioms P1–P4; P5 is proved for the specified extension-of-centralizers subsets in §6, not for all of R(A,X); on CDR(A, X) the length is a free Lyndon length function, inherited by every subgroup.; [LENGTH] §2.3, Theorems 2–4 and Corollary 1, p. 9: Infinite words and length functions: subgroups of CDR(A, X) have free length functions (Theorem 2); a group with a free length function in a discretely ordered A embeds length-preservingly in CDR(A, X) (Theorem 3), for arbitrary A after passing to ℤ ⊕ A (Corollary 1), and a free regular length function embeds in R(A′, X) with regular induced length (Theorem 4).
 
 *Needs:* Mathlib `Lex`; Mathlib `FreeGroup`.
 
 ### 9.5 Lyndon's group F^{ℤ[t]} as infinite words, and free length functions on limit groups
 
-First construct `LimitGroup.lyndonCompletion` for a nonabelian free group F=F(X) of finite rank. A ℤ[t]-group has exponentiation h^p satisfying h^1=h, h^0=1, 1^p=1, h^{p+q}=h^p h^q, (h^p)^q=h^{pq}, compatibility with conjugation, and (hk)^p=h^p k^p when h and k commute. F^{ℤ[t]} is the tensor ℤ[t]-completion: every homomorphism F→H to a ℤ[t]-group extends uniquely to a homomorphism commuting with exponentiation. Construct its coefficient inclusion and its direct-limit realization by a countable chain of admissible full-centralizer extensions of §8.5, adjoining the polynomial exponents. Prove the comparison: each finite ICE group over F embeds over F in this completion, and each finitely generated subgroup of the completion lies in a finite stage. Renaming the polynomial indeterminate identifies F^{ℤ[x]} with F^{ℤ[t]}. This carrier and comparison use centralizer-extension theory, independently of §8.7.
+Use the completion and ICE comparison of §8.6a as the carrier F^{ℤ[t]}; this subsection constructs its infinite-word representation.
 
-Prove the following statement. (1) This completion embeds in CDR(ℤ[t],X), and the induced length L(w)=|w| is a free regular Lyndon length function with values in ℤ[t] ordered with t≫1. (2) Consequently every finitely generated fully residually free group has a free Lyndon length function with values in ℤⁿ with the lexicographic order, for some n (restrict to the finitely generated subgroup, whose lengths lie in a finitely generated subgroup ℤⁿ of ℤ[t]). (3) Regularity is not inherited by subgroups: a finitely generated subgroup of F^{ℤ[t]} has a free length function that need not be regular; every finitely generated group acting freely on a ℤⁿ-tree embeds length-preservingly in a finitely generated group acting freely and regularly on a ℤⁿ-tree (KMS-ACTIONS Theorems 48–49; an enlargement), and a finitely generated group with a free regular ℤⁿ-length function is the union of a finite chain G₁ < ⋯ < G_n = G with G₁ free of finite rank and each G_{i+1} obtained from G_i by finitely many HNN extensions associating cyclically reduced centralizers by length-preserving isomorphisms (LENGTH Theorem 7).
+Prove the following statement. (1) This completion embeds in CDR(ℤ[t],X), and the induced length L(w)=|w| is a free regular Lyndon length function with values in ℤ[t] ordered with t≫1. (2) Consequently every finitely generated fully residually free group has a free Lyndon length function with values in ℤⁿ with the lexicographic order, for some n (restrict to the finitely generated subgroup, whose lengths lie in a finitely generated subgroup ℤⁿ of ℤ[t]). (3) Regularity is not inherited by subgroups: a finitely generated subgroup of F^{ℤ[t]} has a free length function that need not be regular; every finitely generated group acting freely on a ℤⁿ-tree embeds length-preservingly in a finitely generated group acting freely and regularly on a ℤⁿ-tree (KMS-ACTIONS Theorems 48–49; an enlargement), and a finitely generated group with a free regular ℤⁿ-length function admits, after removing unused convex height levels, a finite chain G₁ < ⋯ < G_m = G with 1≤m≤n for n≥1 and G₁ free of finite rank and each G_{i+1} obtained from G_i by finitely many HNN extensions associating cyclically reduced centralizers by length-preserving isomorphisms (LENGTH Theorem 7, with the height normalized). For n=0 freeness forces G to be trivial.
 
 (1) MRS-REGULAR §§5–7: Lyndon's exponentiation on CDR(ℤ[t], X) (Theorem 5.5) and the embedding of each extension of centralizers (Theorems 6.15, 6.17) into CDR, with regularity of the length.
 (2) §8.7 with (1).
-(3) KMS-ACTIONS §10.3 (Presentations, embeddings and kernel criteria) constructs the regular completion by induction on n (Theorems 47–49); LENGTH Theorems 6–7 give the structure of regular ℤⁿ-free groups.
+(3) KMS-ACTIONS §10.4 (Completions of ℤⁿ-free groups) constructs the regular completion by induction on n (Theorems 47–49); LENGTH Theorems 6–7 give the structure of regular ℤⁿ-free groups.
 
 **Checks.**
 
 - The ICE group ⟨a,b,s | [a,s]=1⟩ maps over F(a,b) into the completion by s↦a^t; its infinite-word length is t and it acts freely on a ℤ²-tree.
+- On ℤ, l(k)=(0,0,|k|) in Lex ℤ³ is free and regular but has only one used height and a one-term structural chain; strict chain length is not the ambient n.
 - A closed surface group S⁺(2,0) has a free ℤⁿ-length function for some n, using §8.7 only for this corollary.
 - Every finite set of completion elements belongs to one finite stage of the direct limit, while all polynomial exponents need not lie in one finite stage.
 - The inadmissible pushout F₂(1,ℤ)=F₂×ℤ cannot embed over F₂ in the completion, which is F₂-discriminated; the ICE comparison applies only to admissible steps.
 
 Use [VAR-I] §1, Definitions 6–7 and Lemma 5, pp. 6–7, and [IFT] §2.5, p. 7 (tensor completion, centralizer-chain realization and comparison); [MRS-REGULAR] Abstract and §1; §5, Theorem 5.5; §6, Theorems 6.15 and 6.17; §7, pp. 1–32: F^{ℤ[t]} is represented by infinite ℤ[t]-words with a free regular Lyndon length function; every finitely generated fully residually free group has a free length function in ℤⁿ.; [KMS-ACTIONS] §10.4, Theorems 47–49, pp. 97–99: Length-preserving regular completion for finitely generated ℤⁿ-free groups; [LENGTH] §4.3, Theorems 6–7, pp. 20–21: Finitely generated groups with a free regular ℤⁿ-length function are iterated HNN extensions of a free group along centralizers.; [VAR-II] §0, Corollary 6, p. 6: Every finitely generated fully residually free group acts freely on a ℤⁿ-tree with the lexicographic order.
 
-*Needs:* The carrier and ICE comparison need §§8.5–8.6 only. Its infinite-word realization (1) also needs §9.4 (Infinite words over an ordered abelian group) and §9.1 (Lyndon length functions: free and regular). The limit-group corollary (2) needs §8.7; the action and regular-completion results (3) use §9.3 (Length functions and actions on Λ-trees).
+*Needs:* The carrier and ICE comparison are supplied by §8.6a. Its infinite-word realization (1) also needs §9.4 (Infinite words over an ordered abelian group) and §9.1 (Lyndon length functions: free and regular). The limit-group corollary (2) needs §8.7; the action and regular-completion results (3) use §9.3 (Length functions and actions on Λ-trees).
 
 ### 9.6 Graphs labelled by infinite words
 
-Define `InfWord.Graph` as a finite Serre graph with inverse-compatible labels in R(ℤ[t],X), each given by a finite standard decomposition into ordinary words and powers u^{f(t)} of cyclically reduced words. Its accepted subgroup consists of products of closed-path labels for which the partial multiplication is defined. Specify U-foldedness by the common-initial-segment conditions of SUBGROUPS Definitions 1–2. For a finite family h₁,…,h_k in F^{ℤ[t]} there exists a based U-folded graph accepting exactly ⟨h₁,…,h_k⟩. The target is existence and its accepted-subgroup characterization.
+Define `InfWord.Graph` as a finite Serre graph with inverse-compatible labels in R(ℤ[t],X), each given by a finite standard decomposition into ordinary words and powers u^{f(t)} of cyclically reduced words. Its accepted subgroup consists of products of closed-path labels for which the partial multiplication is defined. Define U-foldedness by all ten conditions (i)–(x) of SUBGROUPS §2.5, p. 9. Expand each finite standard decomposition into edges labelled ordinary letters or powers u^α from the ordered Lyndon set, and prove that this subdivision preserves accepted labels. Apply the ten conditions to this expanded graph. Construct its ordered Lyndon set U, standard decompositions, u-components and their exponent-labelled paths, component subgroups H_u(v), and level graphs, with the compatibility of path products and standard decomposition required in those conditions. SUBGROUPS §3.1, Definitions 1–2, pp. 11–12 define the partial product and product graphs, separately from U-foldedness. For a finite family h₁,…,h_k in F^{ℤ[t]} there exists a based U-folded graph accepting exactly ⟨h₁,…,h_k⟩. The target is existence and its accepted-subgroup characterization.
 
 The API includes `InfWord.Graph`, `InfWord.Graph.IsUFolded`, `InfWord.Graph.accepted`, `InfWord.Graph.exists_ofGens`, and a product-core construction whose accepted subgroup is the intersection. Require that ordinary ℤ-length labels recover the Stallings correspondence of Layer 2. Standard decompositions are part of the domain; arbitrary functions on infinite intervals need not admit them.
 
 **Checks.**
 
-- ⟨a^t b⟩ is represented by a single loop labelled a^t b.
+- ⟨a^t b⟩ has a U-folded representation after subdividing its standard decomposition and completing its u-components; an unsplit macro-labelled loop does not by itself satisfy the ten conditions.
 - The empty generating family has the one-vertex edgeless graph and accepts ⊥.
 - For the ordinary words a b,a c the graph agrees with the two-vertex, three-edge-pair Stallings graph.
+- Partial foldedness alone does not supply the lower-level paths required by conditions (iii)–(x), so the predicate retains those conditions.
 - An arbitrary reduced function on [1,t] lacking a finite standard decomposition does not meet the definition's representation hypothesis.
 
-Sources: [SUBGROUPS] §2.4 and Proposition 5, pp. 6–10; §3, Definitions 1–2, Corollaries 1–2, Lemma 10, Theorems 4–5, pp. 10–15; [MRS-REGULAR] §8, Proposition 8.3 and Corollaries 8.4, 8.6, pp. 34–36; [INFINITE-WORDS] the paper as cited in SUBGROUPS §2.4.
+Sources: [SUBGROUPS] §§2.4–2.5, conditions (i)–(x), p. 9, and Proposition 5, p. 10; §3, Definitions 1–2, Corollaries 1–2, Lemma 10, Theorems 4–5, pp. 10–15; [MRS-REGULAR] §8, Proposition 8.3 and Corollaries 8.4, 8.6, pp. 34–36; [INFINITE-WORDS] the paper as cited in SUBGROUPS §2.4.
 
 *Needs:* §9.4 (Infinite words over an ordered abelian group); §9.5 (Lyndon's group F^{ℤ[t]} as infinite words, and free length functions on limit groups); §2.3 (α-labelled graphs (X-digraphs) and the subgroup they accept); §2.4 (Stallings folds as graph quotients); §2.6 (The Stallings graph of a finitely generated subgroup).
 
@@ -2151,21 +2228,38 @@ Use [GL-JSJ] Introduction, pp. 3–5; §2, Definition 2.7, p. 24, Definition 2.1
 
 *Needs:* §4.6 (Group actions on trees: elliptic and hyperbolic elements, relative trees); §4.12 (Collapses, refinements and domination of splittings); §6.10 (Quadratically hanging (QH) vertices and their peripheral data).
 
+### 10.1a Accessibility and trees of cylinders
+
+Own two accessibility inputs. For finitely presented G and a sequence T₁←T₂←⋯ of refinements by collapse maps, construct a tree S with finitely generated edge and vertex stabilizers and morphisms S→T_k for all sufficiently large k. Relatively, for G finitely presented relative to a finite family ℋ, and (𝒜,ℋ)-trees T_k, construct such an (𝒜,ℋ)-tree S with finitely generated edge stabilizers. When the members of ℋ are finitely generated, its vertex stabilizers are finitely generated as well. These are eventual domination assertions, not stabilization of the deformation spaces. Build the finite-resolution argument of GL-JSJ Proposition 2.24, using the presentation complexes and tracks appearing in its proof.
+
+For finitely generated torsion-free CSA G and a minimal tree with nontrivial abelian (respectively cyclic) edge stabilizers, define the tree of cylinders using commutation of edge stabilizers, its collapsed tree, and small domination (the new elliptic subgroups are abelian). Prove the cylinder comparison and uniform (2,1)-acylindricity of GL-JSJ Proposition 7.12. Own the acylindrical accessibility input: for fixed k, a bound depending on G and k on edge orbits of minimal reduced k-acylindrical trees; together with the limiting refinement argument of §8.1.1, deduce the torsion-free CSA specialization of Theorem 8.7 for G freely indecomposable relative to ℋ. The limiting argument includes compactness of projectivized length functions, convergence to real-tree actions and agreement of the axes and Gromov topologies (Appendix A), as well as the relative ellipticity and smallness conclusions needed for the cylinder construction. For the limiting actions arising in this argument, prove Lemma 8.4's arc and tripod stabilizer conclusions and the graph-of-actions decomposition used on p. 83 (simplicial, axial and surface components in the torsion-free case); this decomposition input is owned here. Use the surface QH conclusion of Theorem 9.5 for these torsion-free endpoints.
+
+**Checks.**
+
+- A constant sequence yields a morphism from a tree with finitely generated stabilizers onto the given tree, even when that tree's original edge groups are not finitely generated.
+- GL-JSJ Remark 2.18's descending cyclic refinements need not stabilize their deformation spaces; the accessibility tree still eventually dominates them.
+- In a torsion-free CSA group the cylinder segment stabilizer is trivial for length at least three; a noncyclic abelian cylinder stabilizer may become elliptic, so the new tree need not have the same deformation space.
+- Relative accessibility retains each H∈ℋ elliptic; finite generation of these H is needed for the vertex finite-generation conclusion.
+
+Sources: [GL-JSJ] §2, Proposition 2.17 and Remark 2.18, pp. 26–27, Proposition 2.24 and its proof, pp. 28–30; §7, Proposition 7.12, p. 78; §§8.1.1–8.2, pp. 81–90 (accessibility and Theorem 8.7); §9, Theorem 9.5, p. 91; Appendix A.1–A.3, pp. 109–115 (length functions and real-tree convergence).
+
+*Needs:* §§4.6–4.8 (tree actions and their quotient graphs of groups); §4.12 (refinements and domination); §6.10 (surface QH); §9.2–§9.3 for real trees and length functions; ClassifyingSpaces Stage 2 for presentation complexes, with the relative finite-cell construction and track resolution owned by this target.
+
 ### 10.2 Existence of abelian and cyclic JSJ decompositions of limit groups
 
 Prove the following statement. (1) If G is finitely presented (relative to a finite family ℋ of finitely generated subgroups), the JSJ deformation space of G over any family 𝒜 (relative to ℋ) is nonempty and contains a tree with finitely generated edge and vertex stabilizers. (2) If G is a finitely generated torsion-free CSA group freely indecomposable relative to ℋ, it has an abelian JSJ decomposition relative to ℋ, with nonabelian flexible vertices satisfying the surface QH interface of §6.10. (3) For a finitely generated fully residually free group G (finitely presented and CSA by Layer 8), the cyclic and abelian JSJ decompositions relative to a finite family of finitely generated subgroups exist, and their flexible vertices are surface QH vertices of §6.10 or abelian vertices; rigidity is relative to the chosen family: an abelian-JSJ rigid vertex is elliptic in every relative abelian splitting, while a cyclic-JSJ rigid vertex has this assertion only for relative cyclic splittings.
 
 Throughout this subsection assume: G finitely presented relative to ℋ for (1); torsion-free finitely generated CSA and relative free indecomposability for (2); fully residually free and finitely generated for (3).
 
-(1) Dunwoody accessibility gives a bound on reduced splittings dominating a given one, and the standard refinements of §4.12 converge (GL-JSJ Theorem 2.16, relative Theorem 2.20).
-(2) GL-JSJ Theorem 9.5 via acylindrical accessibility for CSA groups.
+(1) The eventual domination theorem of §10.1a supplies a tree dominating the refinement sequence with finitely generated stabilizers (GL-JSJ Theorem 2.16, relative Theorem 2.20).
+(2) Use §10.1a's acylindrical accessibility, limiting argument and tree-of-cylinders comparison to obtain GL-JSJ Theorem 9.5.
 (3) Combine with §8.7 (Embedding theorems and finite presentability) and §8.2; the description of flexible vertices is GL-JSJ §9 for CSA groups and SELA-I §2 for limit groups.
 
 For G = F(a,b) ∗_{a = [x,y]⁻¹} F(x, y) relative to ℋ = {F(a,b)}, the abelian JSJ decomposition has the rigid vertex F(a,b) and the QH vertex F(x, y). Without ℋ it does not: G = ⟨b, x, y⟩ is free of rank 3, so its JSJ trees have trivial vertex groups.
 
 Use [GL-JSJ] §2, Theorem 2.16 and Theorem 2.20, pp. 26–27; §9, Theorem 9.5, p. 91: Finitely presented (relatively finitely presented) groups have JSJ decompositions over any family; torsion-free finitely generated CSA groups have abelian JSJ decompositions.; [SELA-I] §2, Theorem 2.7, p. 43, and §3, Theorem 3.2, p. 44: Freely indecomposable limit groups admit abelian JSJ decompositions with QH, abelian and rigid vertices, and non-abelian ones admit principal cyclic splittings.; [JSJ] §9, Theorem 9.1, and §13, pp. 179–207: Non-degenerate JSJ ℤ-decompositions of freely indecomposable fully residually free groups.
 
-*Needs:* §10.1 (Universal ellipticity, JSJ trees and the JSJ deformation space); §8.7 (Embedding theorems and finite presentability); §8.2 (Structure of fully residually free groups); §4.12 (Collapses, refinements and domination of splittings); §6.10 (Quadratically hanging (QH) vertices and their peripheral data); Mathlib `Group.IsFinitelyPresented`.
+*Needs:* §10.1a (relative accessibility; acylindrical accessibility; trees of cylinders); §10.1 (Universal ellipticity, JSJ trees and the JSJ deformation space); §8.7 (Embedding theorems and finite presentability); §8.2 (Structure of fully residually free groups); §4.12 (Collapses, refinements and domination of splittings); §6.10 (Quadratically hanging (QH) vertices and their peripheral data); Mathlib `Group.IsFinitelyPresented`.
 
 ### 10.3 Presentations, embeddings and kernel criteria
 
@@ -2355,6 +2449,15 @@ Use [IFT] §7.1, the basic automorphisms and Lemma 41, pp. 67–75: The basic se
 
 Prove the following statement. Let G be a nonabelian finitely generated fully residually free group, S = 1 a regular standard orientable quadratic equation over G other than [x₁,y₁][x₂,y₂] = 1, Γ its basic sequence and β : G_S → G a solution in general position (one exists by §6.8; the excluded equation has none, and IFT p. 99 treats it as [x₁,y₁] = [y₂,x₂] over G ∗ F(x₂, y₂)). For any J ≥ 2 and any set P ⊆ ℕ^{JK} unbounded in every coordinate simultaneously (for each M there is p∈P with all p_i>M), the family Ξ_{P,β} = {φ_{JK,p} β | p ∈ P} G-discriminates G_{R(S)} into G, and so does Ξ_{P,β,p′} = {φ_{tK,p′} θ | θ ∈ Ξ_{P,β}} for any t and any fixed p′ ∈ ℕ^{tK} (IFT Theorem 10). Over G = F such families are generic in the sense of §11.1 (Compatible equations, S-lifts and complete S-lifts): this is what the proof of the implicit function theorem (IFT §7.4) establishes. Non-orientable regular equations are treated by the same method in IFT §7.5.
 
+Treat the coefficient-free genus-two equation separately. Put H=F∗F(x₂,y₂) and regard its coordinate group K as that of [x₁,y₁]=[y₂,x₂] over H. The H-solution x₁=y₂,y₁=x₂ has nontrivial commutator and supplies the centralizer-extension embedding K↪E over H. Construct the staged family K→E→H→F: first centralizer retractions and the basic automorphisms over H, then coefficient-fixing discriminating specializations of the free generators x₂,y₂ into F. Prove that finite nontrivial subsets of K survive suitable successive choices, and that the resulting F-valued tuples solve the original genus-two equation. For genericity, transport F-compatibility to this staged family and use the parameter solution tree, cut-equation reconstruction (§§11.4a–11.4b), and Merzljakov's formal solutions (§7.10) to obtain a complete lift in K. Compatibility over F does not by itself assert compatibility over H; the return to F-valued specializations is part of this theorem.
+
+**Checks.**
+
+- The F-valued tuple (a,b,b,a) solves the original equation and has a nontrivial first commutator, although the two atoms commute.
+- No original genus-two solution is in atom general position; the H-coefficient equation has nontrivial constant [y₂,x₂] and uses its one-commutator case.
+- For a finite set of nontrivial K-words, first choose an E→H specialization preserving them, then an H→F specialization preserving their images. Choosing these independently without the finite-set conditions is insufficient.
+- A compatible inequation is retained along the chosen cut-equation branch, giving the complete-lift conclusion rather than only an equation lift.
+
 Throughout this subsection assume: G nonabelian finitely generated fully residually free; S regular; β in general position (exists by §6.8).
 
 Big powers and the Nielsen property of φ_{K,p} with respect to the words of Γ (IFT Lemmas 42–65, §7.2–7.3): long products of large powers do not cancel.
@@ -2364,7 +2467,38 @@ For S = ([x, y] = [a, b]) over F(a,b) (regular by its explicit clause; with one 
 
 Use [IFT] §7.2, Theorem 10, p. 104, the exception on p. 99, and §7.6, Definition 44, p. 141: For a finitely generated fully residually free G, a regular orientable standard quadratic S and a general-position solution β, the families Ξ_{P,β} discriminate G_{R(S)} into G; [x₁,y₁][x₂,y₂] = 1 has no general-position solution and is treated over a larger coefficient group; generic families are defined in Definition 44.; [LIFT] §5, Propositions 5.1–5.2, pp. 266–270: General-position solutions of regular quadratic equations give embeddings into extensions of centralizers.
 
-*Needs:* §11.3 (The basic sequence of automorphisms of a regular quadratic equation); §8.6 (Extensions of centralizers are discriminated by the base group); §6.8 (Radicals of consistent standard quadratic equations); §8.1 (Residually free and fully residually free groups).
+*Needs:* §8.5a (big powers); §§11.4a–11.4b (parameter trees and cut equations); §7.10 (Merzljakov formal solutions) for the genus-two case; §11.3 (The basic sequence of automorphisms of a regular quadratic equation); §8.6 (Extensions of centralizers are discriminated by the base group); §6.8 (Radicals of consistent standard quadratic equations); §8.1 (Residually free and fully residually free groups).
+
+### 11.4a Finite parameter solution trees
+
+For a finite system S(X,Y)=1 over a nonabelian finite-rank free group F, construct the finite parameter solution tree T_sol(Ω,X) for each initial parametric generalised equation from the cancellation family. Its vertices retain X-sections, coordinate-group transport and canonical automorphisms; its terminal equations have only the parameter sections and free items needed for reconstruction. Prove both directions of solution transport and completeness of the finite terminal covering, with the free assignments of kernel elimination retained. Own the decomposition tree, periodic-structure quotients and induction on complexity of IFT §5.6; finite minimal-solution bounds alone do not assert this complete covering.
+
+**Checks.**
+
+- For y=x, a terminal reconstruction is y↦x and the parameter section is retained.
+- A free item eliminated by D4 remains an assignable free factor, so the tree covers arbitrary values for that item.
+- For [y,x]=1, the specialization x=1 permits arbitrary y; completeness includes this degenerate parameter value.
+
+Sources: [IFT] §5.6, Theorems 5–7 and their constructions, pp. 59–61; §5.3–§5.5, pp. 35–58, for the decomposition tree and periodic structures.
+
+*Needs:* §§7.1–7.6 (parametric equations, cancellation, elementary moves, kernel reconstruction and periodic structures); §8.8–§8.9 (terminal NTQ data). This parameter-preserving tree is independent of the ordinary Hom-diagram interface of §10.7.
+
+### 11.4b Cut equations and finite covering
+
+Define a cut equation by a finite interval set E, finite parameter and piece alphabets X,M, and word-label maps f_X:E→F[X], f_M:E→F[M]. A graphical solution consists of coefficient-fixing maps β:F[X]→F and α:F[M]→F with every piece image nonempty, each substituted f_M-label reduced as written, and that word equal to the reduced β(f_X-label). A group solution only requires equality of the evaluated group elements. Construct the cut equation of a generalised equation with its piece and parameter maps and prove both graphical solution directions.
+
+For finite S(X,Y)=1, construct a finite family of cut equations with parameter alphabet X and f_X(E)⊆X^{±1}, and fixed reconstruction words Q_i(M_i) for X. Every F-solution (U,V) has a graphical cut solution α in some member i and reconstruction words P_{i,V}(M_i) with U=Q_i(α), V=P_{i,V}(α), and Q_i(α) reduced as written. Conversely each member i has fixed words P_i(M_i) such that every group cut solution (β,α) yields an S-solution (Q_i(α),P_i(α)). The forward Y-reconstruction may depend on V; it is not asserted to be the same fixed tuple as the backward reconstruction. The covering is supplied by §11.4a's finite parameter solution tree.
+
+**Checks.**
+
+- A one-interval cut labelled x and m has α(m)=β(x) as graphical solution precisely when that word is nonempty.
+- The piece assignment (a,a⁻¹b) gives the group equality m₁m₂=b but fails the graphical reduced-as-written condition.
+- An empty parameter value is covered through terminal free/empty-section data, not by assigning the empty word to a required nonempty piece.
+- Reconstruction from a group cut solution still solves S even when its substituted piece words cancel.
+
+Sources: [IFT] §5.7, Definitions 21–22, p. 61, Lemma 34 and Theorem 8, pp. 61–63; [LIFT] §3, Theorem 3.4, p. 229.
+
+*Needs:* §11.4a (finite parameter solution trees); §§7.1–7.3 (generalised equations and cancellation); §5.1 (evaluation); Mathlib `FreeGroup.IsReduced`.
 
 ### 11.5 Implicit function theorem for regular quadratic equations
 
@@ -2372,14 +2506,14 @@ Prove the following statement. Let S(X, A) = 1 be a regular standard quadratic e
 
 Throughout this subsection assume: S regular standard quadratic over F; T compatible with S (and W such that T ∧ W ≠ 1 is compatible).
 
-Apply the solution tree of T ∧ S with parameters X to the generic family of §11.4; cut equations (IFT §5.7, LIFT Theorem 3.4) show that for large p the solutions over the generic family factor through a single branch whose values are words in X (IFT §7.4, proof of Theorem 9).
+Apply §11.4a's solution tree of T ∧ S with parameters X to the generic family of §11.4, using its separate coefficient-enlargement and F-specialization bridge for genus two; §11.4b's cut equations show that for large p the solutions over the generic family factor through a single branch whose values are words in X (IFT §7.4, proof of Theorem 9).
 The inequality W ≠ 1 is preserved by choosing the branch where W does not vanish on the discriminating family (IFT p. 135).
 
 For S = [x₁,y₁][x₂,y₂] and T = (z = x₁ y₁), the lift is z = x₁ y₁ (trivially). For S = [x₁,y₁][x₂,y₂] and T = ([z, x₁] = 1 ∧ z ≠ 1), a lift is z = x₁.
 
 Use [IFT] §7.4, Theorem 9, p. 67 (statement) and pp. 109–136 (proof, including Case 1 and Case 2 on pp. 135–136): Every equation compatible with a regular standard quadratic equation over F admits a complete S-lift.; [LIFT] Introduction, Theorem A, p. 216: The same theorem with effective complete S-lifts.; [IFT] §7.2, Theorem 10 and Corollary 12, pp. 104–105: Discriminating families of solutions over finitely generated fully residually free coefficient groups (not an implicit function theorem over them).
 
-*Needs:* §11.4 (Generic families of solutions of regular quadratic equations); §11.2 (Compatibility and lifts in terms of coordinate groups); §7.4 (Elementary relations between generalised equations); §7.3 (Correctness of the reduction to generalised equations (both directions)); §7.10 (Merzljakov's theorem: formal solutions of positive sentences).
+*Needs:* §§11.4a–11.4b (parameter solution trees and finite cut-equation covering); §7.10 (Merzljakov formal solutions for the genus-two bridge); §11.4 (Generic families of solutions of regular quadratic equations); §11.2 (Compatibility and lifts in terms of coordinate groups); §7.4 (Elementary relations between generalised equations); §7.3 (Correctness of the reduction to generalised equations (both directions)).
 
 ### 11.6 Implicit function theorem for regular NTQ systems
 
