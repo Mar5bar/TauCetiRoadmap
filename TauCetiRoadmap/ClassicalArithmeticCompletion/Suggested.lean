@@ -75,6 +75,10 @@ def IsPrimaryGaussian (z : GaussianInt) : Prop :=
 example : IsPrimaryGaussian (⟨-1, 2⟩ : GaussianInt) := by
   sorry
 
+/-- Odd real part and even imaginary part alone do not imply the primary congruence. -/
+example : ¬ IsPrimaryGaussian (⟨1, 2⟩ : GaussianInt) := by
+  sorry
+
 /-- Changing the unit by minus one changes the primary congruence. -/
 example : IsPrimaryGaussian 1 ∧ ¬ IsPrimaryGaussian (-1) := by
   sorry
@@ -91,6 +95,10 @@ def IsRational {K : Type*} [Field K] (f : PowerSeries K) : Prop :=
 
 /-- The geometric series is rational. -/
 example : IsRational (PowerSeries.mk fun _ : ℕ => (1 : ℚ)) := by
+  sorry
+
+/-- The Fibonacci generating series has denominator `1 - X - X²`. -/
+example : IsRational (PowerSeries.mk fun n => (Nat.fib n : ℚ)) := by
   sorry
 
 /-- The exponential series is a non-example in characteristic zero. -/
@@ -124,12 +132,20 @@ example (n : ℕ) : lucasU (2 : ℤ) 1 n = n := by
 example (n : ℕ) : lucasU (1 : ℤ) (-1) n = Nat.fib n := by
   sorry
 
+/-- The first-kind parameters three and two give the Mersenne values. -/
+example (n : ℕ) : lucasU (3 : ℤ) 2 n = 2 ^ n - 1 := by
+  sorry
+
 /-- Second-kind values distinguish the two recurrence parameters. -/
 example (n : ℕ) : lucasV (3 : ℤ) 2 n = 2 ^ n + 1 := by
   sorry
 
 /-- The repeated-root second-kind sequence is constant. -/
 example (n : ℕ) : lucasV (2 : ℤ) 1 n = 2 := by
+  sorry
+
+/-- Doubling the index gives Mathlib's Lucas–Lehmer recurrence. -/
+example (i : ℕ) : lucasV (4 : ℤ) 1 (2 ^ i) = LucasLehmer.s i := by
   sorry
 
 /-- Strong divisibility requires coprime integer parameters. -/
@@ -191,12 +207,21 @@ example (k : ℕ) [NeZero k] (hk : 2 ≤ k) (c : ℤ) :
 example : IsAutomatic 2 (fun n : ℕ => (Nat.digits 2 n).sum % 2) := by
   sorry
 
+/-- An infinite range excludes automaticity with finitely many states. -/
+example : ¬ IsAutomatic 2 (fun n : ℕ => n) := by
+  sorry
+
 /-- Exponent zero includes the original sequence in its kernel. -/
 example {Δ : Type*} (a : ℕ → Δ) : a ∈ kernel 2 a := by
   sorry
 
 /-- A constant sequence has a singleton kernel. -/
 example (c : ℤ) : kernel 2 (fun _ : ℕ => c) = {fun _ : ℕ => c} := by
+  sorry
+
+/-- The parity kernel contains the sequence and the two constant subsequences. -/
+example : kernel 2 (fun n : ℕ => n % 2) =
+    {fun n => n % 2, fun _ => 0, fun _ => 1} := by
   sorry
 
 /-- Eilenberg's finite-kernel characterisation. -/
@@ -288,6 +313,10 @@ def IsIntegerValued {D K : Type*} [CommRing D] [Field K] [Algebra D K]
 
 /-- The binomial polynomial is integer-valued despite its rational coefficients. -/
 example : IsIntegerValued (D := ℤ) (C (1 / 2 : ℚ) * X * (X - 1)) := by
+  sorry
+
+/-- The cubic difference is divisible by three at every integer. -/
+example : IsIntegerValued (D := ℤ) (C (1 / 3 : ℚ) * (X ^ 3 - X)) := by
   sorry
 
 /-- The polynomial X/2 fails at the integer one. -/
@@ -467,6 +496,10 @@ def IsEgyptianExpansion (r : ℚ) (D : Finset ℕ) : Prop :=
 example : IsEgyptianExpansion (5 / 6) {2, 3} := by
   sorry
 
+/-- Three distinct positive denominators expand one. -/
+example : IsEgyptianExpansion 1 {2, 3, 6} := by
+  sorry
+
 /-- The repeated sum `1/3 + 1/3` is not available: `{3}` expands `1/3`, not `2/3`. -/
 example : ¬ IsEgyptianExpansion (2 / 3) {3} := by
   sorry
@@ -499,6 +532,10 @@ def quadraticUnitAction (s : ZMod 2) (x : ℤ × ZMod 2) : ℤ × ZMod 2 :=
 
 /-- Norm-minus-one generators have nonzero shear. -/
 example : quadraticUnitAction 1 (1, 0) = (-1, 1) := by
+  sorry
+
+/-- Norm-one generators reverse the free coordinate without a torsion shear. -/
+example : quadraticUnitAction 0 (1, 0) = (-1, 0) := by
   sorry
 
 /-- Even exponents kill the shear. -/

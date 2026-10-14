@@ -14,6 +14,8 @@ ClassFieldTheory owns cohomological local symbols, local and global Artin maps, 
 
 The current Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The current library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and isPrimitive_fundamentalDiscriminantChar), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm −1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one), the narrow class of an element of negative norm (NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg) and the injectivity criterion NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
+FormalLaurentPuiseux L5 owns coefficient Newton polygons and their product law over Laurent fields. §§3.11, 3.18, 3.33 and 3.46 extend these interfaces to general real-valued valuations; their Laurent-field specialization uses L5's polygon, with the orientation comparison specified in §3.18.
+
 HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws on the DiophantineApproximationAndTranscendence height foundation; §§6.15–6.16 consume these results. ArithmeticGaloisRepresentations §2.7 owns Deligne–Langlands local constants and completed finite-image Artin equations, using AdelicAlgebraicGroups AA.2.4 for the arithmetic-Frobenius Artin function. AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 supplies the standard trace characters, self-dual measures and rank-one Tate factors. §§7.13 and 7.30 here own their Fröhlich–Taylor normalization adapters, determinant comparisons and tame symplectic signs.
 
 Four further lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0) supplies its Pell-coordinate comparison.
@@ -96,6 +98,10 @@ Absolute logarithmic height is `NumberField.absLogHeight₁`, with transcendenta
 
 ## Exact supplier contracts
 
+### From [TauCetiRoadmap.FormalLaurentPuiseux, L5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FormalLaurentPuiseux/README.md#l5-newton-polygons-and-formal-newtonpuiseux)
+
+L5 supplies the coefficient Newton polygon, its faces and slope widths, and the product/Minkowski-sum law over F=k((t)), using LaurentSeries k and the integer order HahnSeries.orderTop. §§3.11, 3.18, 3.33 and 3.46 supply the general real-valued-valuation interfaces. On F, identify these with the supplied polygon by embedding integer orders into the reals and reflecting the coefficient abscissae as in §3.18; the comparison preserves widths and transports L5's product law.
+
 ### From Mathlib and Tau Ceti
 
 The signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Each mathematical subsection names the exact declarations it needs. Use the genuine library carriers, including `Polynomial`, `PowerSeries`, `LaurentSeries`, `LinearRecurrence`, `Matrix`, `Module`, `Ideal`, `FractionalIdeal`, `ClassGroup`, `MonoidAlgebra`, `WeierstrassCurve`, `IsNonarchimedeanLocalField` and roots of unity. In particular, symmetric Rouché compares analytic-order sums under strict symmetric boundary domination; it is not an equality-case extension of ordinary strict domination. `SplitK0` is the split group completion of finite projectives. The same library supplies `ExactK0`, `ExactK0.fromSplitEquiv` for the split exact structure, and `finiteProjectiveModulesExactStructure_eq_split`; use these to identify the two groups. Layer 7 adds the stable-free equality criterion and balanced scalar-change comparison, rather than a second construction of either group.
@@ -116,7 +122,7 @@ closedFormRecurrence, as TauCetiRoadmap.DiophantineApproximationAndTranscendence
 
 For an algebraic number x of degree d: the primitive integer minimal polynomial F_x with positive leading coefficient (§0.1); the Mahler measure M(x) of F_x, the field-independent house ⌈x⌉ with ⌈x⌉ = NumberField.house x on a number field, `absMulHeight₁_eq_rpow`, `absMulHeight₁_eq_of_minpoly_eq` and the comparison M(x) = Habs(x)^d (§0.2); bounded-degree Northcott finiteness and the finiteness of the algebraic integers of bounded degree and house (§0.3). The house-form integer Siegel estimate of §0.3 is not used.
 
-### From [TauCetiRoadmap.HeightsAndUnits, §1.3 scalar heights](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-kronecker-and-the-height-gap)
+### From [TauCetiRoadmap.HeightsAndUnits, §1.3 scalar heights](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-instances-and-kroneckers-theorem)
 
 For a characteristic-zero field F and x algebraic over Q, the supplier's `absMulHeight₁_eq_one_iff` gives Habs(x)=1 iff x=0 or x has positive finite multiplicative order; its logarithmic form gives h(x)=0 under the same algebraicity hypothesis. Consume the supplier's scalar law Habs(xⁿ)=Habs(x)ⁿ and its logarithmic corollary h(xⁿ)=n h(x), for n∈N, using exactly Mathlib's `NumberField.absMulHeight₁` and `NumberField.absLogHeight₁`. Their transcendental values are 1 and 0. The field comparisons and Mahler-measure bridge belong to DiophantineApproximationAndTranscendence §0.2. §§6.15–6.16 introduce no second scalar-height declarations; all height-based uses of Kronecker and homogeneity in Layer 6 use this supplier.
 
@@ -5587,6 +5593,8 @@ Let K be a field with an additive valuation v : K → ℝ ∪ {∞} (v(0) = ∞,
 
 Valuation with values in ℝ ∪ {∞} (Mathlib AddValuation K (WithTop ℝ)); the minimum over the support of f.
 
+For Laurent fields this is the supporting-line interface of FormalLaurentPuiseux L5's polygon, under §3.18's comparison.
+
 The supporting API comprises:
 
 - `slopedValuation`: v_r(f).
@@ -5691,19 +5699,19 @@ For q = p prime this is Mathlib's Legendre formula (padicValNat_factorial).
 
 ### 3.14 The ideals Π_q(D): product of the primes of norm q
 
-Let D be a Dedekind domain whose residue fields are finite. For an integer q ≥ 2, Π_q(D) is the product of the maximal ideals 𝔪 of D with N(𝔪) = q; it is the unit ideal D when no maximal ideal has norm q (for example when q is not a prime power). For D = 𝓞_K only finitely many maximal ideals have a given norm, so the product is finite.
+Let D be a Dedekind domain that is not a field, with finite residue fields. For an integer q ≥ 2, Π_q(D) is the product of 𝔪.asIdeal over 𝔪 in HeightOneSpectrum D with N(𝔪) = q; these are precisely the nonzero maximal ideals. It is the unit ideal D when no such ideal has norm q (for example when q is not a prime power). Only finitely many such ideals have a given norm, so the product is finite.
 
-D a Dedekind domain with finite residue fields such that each norm is attained by finitely many maximal ideals (true for 𝓞_K and for any D that is not a field, by the pigeonhole argument of [The local formula for the characteristic ideals of a Dedekind domain](#layer-3-topic-60)).
+D a Dedekind domain, not a field, with finite residue fields. The pigeonhole argument of [The local formula for the characteristic ideals of a Dedekind domain](#layer-3-topic-60) gives finiteness of the ideals of each norm.
 
 The supporting API comprises:
 
-- `polyaIdeal`: Π_q(D) : Ideal D, the product of the maximal ideals of absolute norm q.
-- `PolyaIdeal.count_polyaIdeal`: The exponent of 𝔪 in Π_q(D) is 1 if N(𝔪) = q and 0 otherwise.
+- `polyaIdeal`: Π_q(D) : Ideal D, the product indexed by 𝔪 in HeightOneSpectrum D of absolute norm q.
+- `PolyaIdeal.count_polyaIdeal`: For 𝔪 in HeightOneSpectrum D, its exponent in Π_q(D) is 1 if N(𝔪) = q and 0 otherwise.
 - `PolyaIdeal.eq_top_iff`: Π_q(D) = ⊤ iff no maximal ideal of D has norm q.
 - `PolyaIdeal.eq_top_of_not_isPrimePow`: If q is not a prime power, Π_q(D) = ⊤.
 - `PolyaIdeal.isCoprime`: Π_q(D) and Π_{q′}(D) are coprime for q ≠ q′.
 - `polyaIdeal_pow_ramificationIdxIn`: For K/ℚ Galois and p with residue degree f and ramification index e: Π_{p^f}(𝓞_K)^e = p𝓞_K, and Π_{p^j}(𝓞_K) = ⊤ for j ≠ f.
-- `PolyaIdeal.ne_bot`: If D is not a field and its residue fields are finite, Π_q(D) ≠ ⊥, so its class in the class group is defined.
+- `PolyaIdeal.ne_bot`: Under these hypotheses Π_q(D) ≠ ⊥, so its class in the class group is defined.
 
 (Amandine Leriche, [Pólya fields, Pólya groups and Pólya extensions: a question of capitulation](#reference-leriche-polya-2011), Section 2, Notation before Proposition 2.2, p. 239.) Defines Π_q(K) as the product of the maximal ideals of 𝓞_K of norm q, equal to 𝓞_K when q is not a norm.
 
@@ -5711,7 +5719,7 @@ The supporting API comprises:
 
 (Jean-Luc Chabert, [Integer-Valued Polynomials: Looking for Regular Bases (a Survey)](#reference-chabert-regularbases-survey), Section 5.4, after Definition 6, p. 13.) The same definition for a Dedekind domain D.
 
-To prove this, define Π_q(D) as the finite product of the maximal ideals of norm q.
+To prove this, take the finite product of 𝔪.asIdeal over the elements of HeightOneSpectrum D of norm q.
 
 Its exponent at 𝔪 is 1 if N(𝔪) = q and 0 otherwise; hence Π_q and Π_{q′} are coprime for q ≠ q′.
 
@@ -5724,6 +5732,7 @@ Galois case ([Ostrowski's theorem: the Pólya group of a Galois number field](#l
 - Π_p(ℤ) = Ideal.span {p} for p prime, and Π_4(ℤ) = ⊤.
 - In ℤ[i]: Π_2 = (1 + i), Π_5 = (5), Π_9 = (3) and Π_3 = ⊤.
 - Π_6(D) = ⊤ for every D, since 6 is not a prime power.
+- The field D=𝔽₂ is excluded: an all-maximal-ideal product at q=2 would contain (0), whose powers cannot have the asserted additive finite exponent.
 - For K = ℚ(√−5): Π_2(𝓞_K) = (2, 1 + √−5) is not principal although its square 2𝓞_K is; Π_q is not the extension of an ideal of ℤ.
 - Π_p(ℤ) = pℤ and Π_4(ℤ) = ℤ.
 - In ℤ[i]: Π_2 = (1 + i), Π_5 = (2 + i)(2 − i) = (5), Π_9 = (3), Π_3 = ℤ[i].
@@ -5825,6 +5834,8 @@ Let I ⊂ ℕ be a nonempty finite set and y : I → ℝ (the points (i, y_i)). 
 
 I ⊂ ℕ finite and nonempty; y : I → ℝ. (Points with y_i = ∞, such as zero coefficients, are left out of I.)
 
+For F=k((t)) and nonzero f∈F[X], use FormalLaurentPuiseux L5's coefficient polygon. Express it in coefficient coordinates (i,ord(a_i)) and reflect (i,y)↦(−i,y), embedding the integer orders into ℝ. Prove that its supporting intercept at slope r is μ_r, its contact indices are C_r and its edge widths are m_r. Reflection negates the geometric slopes and preserves widths and Minkowski addition. Thus the sloped valuation, multiplicities and product law of §§3.11, 3.33 and 3.46 act on the supplied Laurent-field polygon.
+
 The supporting API comprises:
 
 - `newtonSupport`: μ_r(y) := the minimum over i ∈ I of y_i + r·i, for a finite nonempty I ⊂ ℕ and y : I → ℝ.
@@ -5858,12 +5869,15 @@ Polynomial case: with y_i = v(a_i) on supp f, μ_r and C_r are those of the slop
 
 - For the points (0, 2), (2, 1), (5, 0): m_{1/2} = 2, m_{1/3} = 3, and m_r = 0 for every other r.
 - For I = {i_0}: μ_r = y_{i_0} + r·i_0 and m_r = 0 for every r.
+- Over k((t)), X−t has μ_r=min(1,r) and width 1 at r=1; reflection sends its coefficient-coordinate slope −1 to 1.
+- Over k((t)), X²−t has width 2 at r=1/2, and X−1 has width 1 at r=0; their product has those same widths by L5's product law.
+- Over k((t)), X(X−1) has total finite width 1, matching deg f−ord₀ f; the factor X contributes no finite slope on either side of the comparison.
 - For the points (0, 0), (1, −1), (2, 0): C_0 = {1} (width 0), and the sides are r = 1 with C_1 = {0, 1} and r = −1 with C_{−1} = {1, 2}; the chord joining the extreme points is not a side.
 - For f = X² − 2 over ℚ₂ (points (0, 1), (2, 0)): μ_r = min(1, 2r), the only side is r = 1/2 with width 2, equal to v_r(f) and m_r(f) of the Layer 3 polynomial results.
 - The points of X⁵ + 2X² + 4 over ℚ₂, (0, 2), (2, 1), (5, 0): C_{1/2} = {0, 2}, C_{1/3} = {2, 5}, widths 2 and 3, summing to 5 = 5 − 0, and u_{1/2} = 2 ≤ ℓ_{1/3} = 2.
 - Supporting-side decomposition as used for φ-adic expansions: a side from (s, u) to (s + ed, u − hd) with slope parameter h/e is exactly the statement that μ_{h/e} = u + (h/e)s with C_{h/e} ⊆ [s, s + ed] containing both endpoints.
 
-*Needs:* Mathlib `ConcaveOn`.
+*Needs:* Mathlib `ConcaveOn`; [TauCetiRoadmap.FormalLaurentPuiseux, L5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FormalLaurentPuiseux/README.md#l5-newton-polygons-and-formal-newtonpuiseux).
 
 <a id="layer-3-topic-19"></a>
 
@@ -6090,7 +6104,7 @@ If H (m × k) and H′ (m × k′) are in Hermite normal form and have the same 
 
 Both matrices satisfy the predicate of [Hermite normal form (column-style, upper)](#layer-3-topic-5) (in particular they have no zero columns).
 
-(Daniele Micciancio, [CSE 206A: Lattice Algorithms and Applications, lecture 4 (Basic algorithms)](#reference-micciancio-hnfalgorithm-2014), Section 1, p. 2.) The HNF uniqueness assertion applies to a basis matrix of a lattice. The target uses the Layer 3 upper-column convention; its first-differing-row proof above supplies the uniqueness argument directly. The unavailable Damer survey is not required to justify this contract.
+(Daniele Micciancio, [CSE 206A: Lattice Algorithms and Applications, lecture 4 (Basic algorithms)](#reference-micciancio-hnfalgorithm-2014), Section 1, p. 2.) The HNF uniqueness assertion applies to a basis matrix of a lattice. The target uses the Layer 3 upper-column convention; its first-differing-row proof above supplies the uniqueness argument directly.
 
 To prove this, k = k′: both column sets are bases of the same lattice (linearIndependent_cols), whose rank is well defined.
 
@@ -6283,6 +6297,8 @@ For a nonzero f = Σ a_i X^i ∈ K[X] and r ∈ ℝ, let S_r be the set of indic
 
 Orientation pinned: slopes are valuations of roots (the lower convex hull of the points (−i, v(a_i))); in the usual picture with points (i, v(a_i)) this is the negative of the geometric slope.
 
+For Laurent fields these widths are those of FormalLaurentPuiseux L5's polygon under §3.18's reflection comparison.
+
 The supporting API comprises:
 
 - `newtonSlopeMultiplicity`: m_r(f), the width of the edge of slope r.
@@ -6422,7 +6438,7 @@ Q = F(b) has integer coefficients because each Q_j/G ∈ ℤ[X], degree d and no
 
 - Q_1 = X², Q_2 = 1 (G = 1, d = 2): b_2 = 0 gives X², which is not squarefree; b_2 = 1 gives X² + 1, which is.
 - Q_1 = 4X + 4 (k = 1): G = X + 1, d = 0 and Q = 4, a nonzero constant: squarefree in ℚ[X] although its content 4 is not squarefree.
-- Warning for formalization: the specialization identity in step 5 holds for the Sylvester determinant Res(F, F′) with fixed formal degrees; the normalized discriminant (Mathlib Polynomial.discr, which divides by the leading coefficient and uses the actual degree) does not vanish when the degree drops by one (a t² + b t + c at a = 0 has discriminant b²).
+- Specializing aX²+bX+c at a=0 gives b² for the fixed quadratic expression b²−4ac, but Mathlib's actual-degree Polynomial.discr(bX+c)=1 when b≠0. For b=2,c=1 these values are 4 and 1. Neither discriminant gives the degree-drop vanishing test provided by the fixed-size Sylvester resultant.
 
 *Needs:* [The primitive gcd of a family of integer polynomials](#layer-3-topic-16); Mathlib `Polynomial.resultant`; Mathlib `Polynomial.resultant_map_map`; Mathlib `Polynomial.resultant_eq_zero_of_lt_lt`; Mathlib `Polynomial.resultant_eq_zero_iff`; Mathlib `Polynomial.derivative`; Mathlib `Polynomial.Separable`; Mathlib `Polynomial.Separable.squarefree`; Mathlib `MvPolynomial.totalDegree`; Mathlib `MvPolynomial.combinatorial_nullstellensatz_exists_eval_nonzero`; Mathlib `Polynomial.IsPrimitive.dvd_iff_fraction_map_dvd_fraction_map`.
 
@@ -6659,6 +6675,8 @@ For nonzero f, g ∈ K[X] and every r ∈ ℝ, m_r(f g) = m_r(f) + m_r(g): the m
 
 K a field with an additive valuation to ℝ ∪ {∞}; f, g ≠ 0; no completeness or splitting hypothesis.
 
+On Laurent fields this is FormalLaurentPuiseux L5's product law transported through §3.18's polygon comparison.
+
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Corollary 2, p. 2.) The target is Corollary 2 in the untwisted case (r₀ = ∞), proved through the extreme minimising indices.
 
 (Edward J. Barbeau, [Polynomials, Chapter Six: Irreducibility and factorization (draft)](#reference-barbeau-irreducibility-2010), Section 2, printed p. 47.) The classical statement over ℤ with the p-adic valuation.
@@ -6673,7 +6691,7 @@ Subtracting: the width m_r(f g) is m_r(f) + m_r(g).
 
 - If v(π) = 1, the polygon of (X² − π)(X − 1) has the slopes 1/2, 1/2 and 0.
 - Barbeau's example (his orientation, slopes of the polygon with points (i, α_i)): g has slope −2 with width 2 and slope 1 with width 3, h has slope 0 with width 3 and slope 3 with width 1, and g·h has slope −2 (width 2), 0 (width 3), 1 (width 3), 3 (width 1); with the orientation fixed here negate the slopes. Barbeau's printed lists {−2,−2,1,1}, {0,3} and {−2,−2,0,1,1,3} count edges between marked lattice points, not widths, so they do not test m_r.
-- Irreducibility test: a polynomial whose polygon has a single edge without interior lattice points has no nontrivial factor ([The Eisenstein–Dumas irreducibility criterion](#layer-3-topic-53)).
+- Over ℚ with v_p for a prime p, X²−p has one edge from (−2,0) to (0,1), with no interior ℤ²-lattice point, and is irreducible by [The Eisenstein–Dumas irreducibility criterion](#layer-3-topic-53). That criterion requires a nonzero constant coefficient and an integer-valued valuation. For comparison, X(X−1) has just the edge from (−2,0) to (−1,0), yet is reducible.
 
 *Needs:* [The Newton polygon, by slope multiplicities](#layer-3-topic-33); [Gauss's lemma for sloped valuations](#layer-3-topic-32); [The lower Newton polygon of a finite point family](#layer-3-topic-18).
 
@@ -7095,22 +7113,22 @@ Exponents from localizations: for a nonzero fractional ideal J and a maximal ide
 
 ### 3.61 The factorial ideals n!_D of a Dedekind domain
 
-Let D be a Dedekind domain whose residue fields are all finite, with N(𝔪) = |D/𝔪|. The n-th factorial ideal of D is the integral ideal n!_D = ∏_𝔪 𝔪^{w_{N(𝔪)}(n)} (a finite product). When D is not a field it is the inverse of the n-th characteristic ideal: n!_D = I_n(D)⁻¹ ([The local formula for the characteristic ideals of a Dedekind domain](#layer-3-topic-60)). This is Bhargava's factorial of the subset D of D.
+Let D be a Dedekind domain that is not a field, with finite residue fields and N(𝔪) = |D/𝔪|. The n-th factorial ideal is n!_D = ∏_𝔪 (𝔪.asIdeal)^{w_{N(𝔪)}(n)}, indexed by HeightOneSpectrum D (a finite product). It is the inverse of the n-th characteristic ideal: n!_D = I_n(D)⁻¹ ([The local formula for the characteristic ideals of a Dedekind domain](#layer-3-topic-60)). This is Bhargava's factorial of the subset D of D.
 
-D a Dedekind domain with finite residue fields; the main case is D = 𝓞_K.
+D a Dedekind domain, not a field, with finite residue fields; the main case is D = 𝓞_K. Fields have the separate statements Int(K)=K[X] and I_n(K)=K of §§3.6 and 3.28.
 
 The supporting API comprises:
 
-- `factorialIdeal`: n!_D as an Ideal D: the finite product of 𝔪^{w_{N(𝔪)}(n)} over the maximal ideals 𝔪.
-- `FactorialIdeal.count_factorialIdeal`: The exponent of 𝔪 in n!_D is w_{N(𝔪)}(n).
-- `FactorialIdeal.mul_characteristicIdeal`: If D is not a field: n!_D · I_n(D) = D as submodules of K, i.e. n!_D = I_n(D)⁻¹.
+- `factorialIdeal`: n!_D as an Ideal D: the finite product of (𝔪.asIdeal)^{w_{N(𝔪)}(n)} for 𝔪 in HeightOneSpectrum D.
+- `FactorialIdeal.count_factorialIdeal`: For 𝔪 in HeightOneSpectrum D, its exponent in n!_D is w_{N(𝔪)}(n).
+- `FactorialIdeal.mul_characteristicIdeal`: n!_D · I_n(D) = D as submodules of K, i.e. n!_D = I_n(D)⁻¹.
 - `FactorialIdeal.zero_eq_top`: 0!_D = ⊤ (and FactorialIdeal.one_eq_top: 1!_D = ⊤).
 - `FactorialIdeal.int`: n!_ℤ = Ideal.span {(n! : ℤ)}.
 - `FactorialIdeal.mul_dvd`: m!_D · n!_D ∣ (m + n)!_D.
 - `FactorialIdeal.dvd_succ`: n!_D ∣ (n + 1)!_D.
 - `FactorialIdeal.eq_prod_polyaIdeal`: n!_D = ∏_{2 ≤ q ≤ n} Π_q(D)^{w_q(n)}.
 - `FactorialIdeal.succ`: (n + 1)!_D = n!_D · ∏_{2 ≤ q ≤ n+1} Π_q(D)^{v_q(n+1)}.
-- `FactorialIdeal.ne_bot`: If D is not a field and its residue fields are finite, n!_D ≠ ⊥ (a finite product of nonzero maximal ideals), so n!_D ∈ (Ideal D)⁰ and has a class ClassGroup.mk0 in the class group.
+- `FactorialIdeal.ne_bot`: n!_D ≠ ⊥ (a finite product of nonzero maximal ideals), so n!_D ∈ (Ideal D)⁰ and has a class ClassGroup.mk0 in the class group.
 
 (Paul-Jean Cahen and Jean-Luc Chabert, [What You Should Know About Integer-Valued Polynomials](#reference-cahen-chabert-intvalued-2016), Section 6, Globalization, formula (15), printed p. 332.) Defines the n-th factorial ideal of 𝓞_K as the inverse of I_n(𝓞_K) and gives the product formula.
 
@@ -7118,9 +7136,9 @@ The supporting API comprises:
 
 (Amandine Leriche, [Pólya fields, Pólya groups and Pólya extensions: a question of capitulation](#reference-leriche-polya-2011), Definition 2.1 and the remarks after it, p. 238; the product formula before Proposition 2.2, p. 239.) Factorial ideals as inverses of characteristic ideals, their divisibility, and n!_{𝓞_K} as a product of the Π_q(K).
 
-To prove this, define n!_D as the finite product over the maximal ideals of norm at most n of 𝔪^{w_{N(𝔪)}(n)} (the other factors are D).
+To prove this, take the finite product over 𝔪 in HeightOneSpectrum D of norm at most n of (𝔪.asIdeal)^{w_{N(𝔪)}(n)} (the other factors are D).
 
-Identification with I_n(D)⁻¹ when D is not a field: compare exponents with [The local formula for the characteristic ideals of a Dedekind domain](#layer-3-topic-60).
+Identification with I_n(D)⁻¹: compare exponents with [The local formula for the characteristic ideals of a Dedekind domain](#layer-3-topic-60).
 
 Product formula: n!_D = ∏_q Π_q(D)^{w_q(n)}, grouping the maximal ideals by their norm q ([The ideals Π_q(D): product of the primes of norm q](#layer-3-topic-14)).
 
@@ -7132,7 +7150,8 @@ D = ℤ: n!_ℤ = ∏_p p^{v_p(n!)} ℤ = n! ℤ by Legendre's formula.
 
 - For every n, factorialIdeal ℤ n = Ideal.span {(n ! : ℤ)}.
 - In ℤ[i], 2!_D = (1 + i) and 4!_D = (1 + i)³; its norm is 8, not 576.
-- 0!_D = 1!_D = ⊤ for every D.
+- 0!_D = 1!_D = ⊤ under the stated hypotheses.
+- For D=𝔽₂, the all-maximal-ideal product at n=2 would give (0)=(0)², incompatible with the exponent w₂(2)=1 and additivity. The field statements Int(𝔽₂)=𝔽₂[X] and I_2(𝔽₂)=𝔽₂ still hold.
 - For K = ℚ(√−5), 2!_{𝓞_K} = (2, 1 + √−5) is not principal, so n!_D is not the ideal generated by the integer n! (that ideal is (2) = 𝔭_2² here).
 - n!_ℤ = n!·ℤ.
 - 4!_{ℤ[i]} = (1 + i)³, of norm 8, while 4!·ℤ[i] has norm 576.
@@ -12367,7 +12386,7 @@ No algebraicity hypothesis is needed for these laws. For transcendental α and n
 - n=0, including α=0: Habs(α⁰)=1 and h(α⁰)=0.
 - A transcendental α and positive n have h(αⁿ)=h(α)=0.
 
-*Needs:* [TauCetiRoadmap.HeightsAndUnits, §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-kronecker-and-the-height-gap); [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §0.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#02-mahler-measure-house-and-absolute-height); Mathlib `Height.mulHeight₁_pow`; Mathlib `NumberField.absMulHeight₁`; Mathlib `NumberField.absLogHeight₁`.
+*Needs:* [TauCetiRoadmap.HeightsAndUnits, §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-instances-and-kroneckers-theorem); [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §0.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#02-mahler-measure-house-and-absolute-height); Mathlib `Height.mulHeight₁_pow`; Mathlib `NumberField.absMulHeight₁`; Mathlib `NumberField.absLogHeight₁`.
 
 <a id="layer-6-topic-16"></a>
 
@@ -12388,7 +12407,7 @@ The algebraicity hypothesis applies to the equivalence. Mathlib gives transcende
 - α=(3+4i)/5 has both conjugates on the unit circle but h(α)=(log 5)/2>0: its primitive minimal polynomial is 5X²−6X+5.
 - A transcendental real α has h(α)=0 and is neither zero nor a root of unity, so the algebraicity hypothesis cannot be removed.
 
-*Needs:* [TauCetiRoadmap.HeightsAndUnits, §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-kronecker-and-the-height-gap); Mathlib `NumberField.absLogHeight₁`.
+*Needs:* [TauCetiRoadmap.HeightsAndUnits, §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-instances-and-kroneckers-theorem); Mathlib `NumberField.absLogHeight₁`.
 
 <a id="layer-6-topic-17"></a>
 
@@ -13805,7 +13824,8 @@ Translate c³+c²≤1 into M(P)³−M(P)−1≥0. The increasing cubic on [1,∞
 **Checks.**
 
 - The reciprocal polynomial X²−3X+1 is excluded even though its factorization exists.
-- The result depends on the short-gap inequality of [The quartic condition in Smyth’s short-gap case](#layer-6-topic-62), whose source verification is still open.
+- P=X³−X−1 has M(P)=θ₀, so it attains the lower bound.
+- The short-gap coefficient case uses [The quartic condition in Smyth’s short-gap case](#layer-6-topic-62) with its stated range and coefficient hypotheses.
 
 **Auxiliary proof target.** The analytic lower bound also requires the multiplier identities of the short-gap condition, with all shifted Schur compressions and the range `3/4≤c<(√17-1)/4`, `k<l<2k`. The survey’s outline does not supply those identities; use the explicit obligation in the short-gap subsection before deriving the endpoint inequality.
 
@@ -15071,7 +15091,7 @@ To prove this, import the Frobenius–Schur classification, local conductors and
 
 Define `analyticArtinRootNumber χ` as ∏_(v finite)E_Fv⁻(1/2,χ_v) · ∏_(v real)i^(n₋(χ,v)); the complex-place factor is 1 for finite-image characters. The finite factors use AL.0's negative trace character, while infinity uses its positive trace character and self-dual measures dx on R and 2 dx dy on C. Each E uses the supplier on χ∨ with the |·|^(1/2) twist, as in §7.13. Thus the product is precisely the normalized global epsilon factor for the arithmetic Artin function. Require `analyticArtinRootNumber_functionalEquation`: Λ(s,χ)=analyticArtinRootNumber(χ) Λ(1−s,χ̄), with the conductor-balanced completion above. Require `analyticArtinRootNumber_unique`: this scalar is determined by that equation, since the Artin function is a nonzero meromorphic germ (its Euler product is nonzero on Re s>1). The equation is transported from the supplier; uniqueness follows from that equation and nonvanishing, and both assertions precede the algebraic comparison. Their analytic inputs are precisely ArithmeticGaloisRepresentations §2.7 (Tate's constants, Deligne–Langlands existence/uniqueness and Global inputs), AA.2.4 (finite-image meromorphic assembly), and AL.0–AL.1 (trace characters, self-dual measures and archimedean Tate factors).
 
-(Deligne, [Les constantes des équations fonctionnelles des fonctions L](#reference-deligne-local-constants-1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#reference-kudla-tate-2004), §3, Propositions3.5–3.8, pp.120–124, and §4, Corollary4.4, p.129.) These supply the finite-image functional equation, local-constant uniqueness and the rank-one archimedean normalization. Transport the additive character by its explicit scaling law, the self-dual measure by the corresponding modulus, and the conductor exponent including the different; no equality of differently normalized epsilon factors is presumed.
+(Deligne, [Les constantes des équations fonctionnelles des fonctions L](#reference-deligne-local-constants-1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#reference-kudla-tate-2004), §3, Propositions3.5–3.8, pp.120–124, and §4, Corollary4.4, p.128.) These supply the finite-image functional equation, local-constant uniqueness and the rank-one archimedean normalization. Transport the additive character by its explicit scaling law, the self-dual measure by the corresponding modulus, and the conductor exponent including the different; no equality of differently normalized epsilon factors is presumed.
 
 **Checks.**
 
@@ -15788,8 +15808,9 @@ Under Gal(N/ℚ) = Gal(K₁/ℚ) × Gal(K₂/ℚ), (τ, σ)(α₁α₂) = τα�
 
 **Checks.**
 
-- ℚ(ζ_3) and ℚ(ζ_5): ζ_3ζ_5 = ζ_15 generates for ℚ(ζ_15).
+- For ℚ(ζ_3) and ℚ(ζ_5), ζ_3ζ_5 is a primitive fifteenth root and generates a normal integral basis of ℚ(ζ_15). With ζ_n=exp(2πi/n), this product is ζ_15⁸.
 - The coprimality hypothesis is needed: ℚ(i) and ℚ(√2) are not arithmetically disjoint.
+- Taking K₁=ℚ and α₁=1 leaves the normal generator of K₂ unchanged.
 
 *Needs:* Mathlib `Module.Basis.ofIsCoprimeDifferentIdeal`; Mathlib `Module.Basis.ofIsCoprimeDifferentIdeal_apply`; Mathlib `NumberField.linearDisjoint_of_isGalois_isCoprime_discr`; Mathlib `NumberField.isCoprime_differentIdeal_of_isCoprime_discr`; Mathlib `Module.Basis.smulTower`; [Normal integral bases](#layer-7-topic-36); [Integral composita under arithmetic disjointness](#layer-7-topic-34).
 
@@ -16438,14 +16459,15 @@ For an arithmetic order Λ in semisimple B, its locally free stable class group 
 
 (Albrecht Fröhlich, [Locally free modules over arithmetic orders](#reference-f75), Theorem1(ii) and II, pp.114–115; §5C–G, pp.120–122.) Matrix stabilization gives the abelian stable quotient even in the definite-quaternion case.
 
-To prove this, first classify rank m by GL_m(B)\J(M_m(B))/GL_m(Λ). Semilocal elimination gives the same reduced-norm image for Λ_v× and GL_m(Λ_v). Since M_m(B) satisfies Eichler for m≥2, strong approximation removes its norm-one fibre. The stable equality theorem identifies equal stable classes in SplitK0 with these stabilized isomorphisms. To ensure no loss from the ambient projective K₀ use a finite free complement of every projective stabilization witness.
+To prove this, first classify rank m by GL_m(B)\J(M_m(B))/U(M_m(Λ)). Here U(M_m(Λ)) has GL_m(Λ_v) at finite places and GL_m(B_v) at infinity, as in §7.72. Semilocal elimination gives the same reduced-norm image for Λ_v× and GL_m(Λ_v). Since M_m(B) satisfies Eichler for m≥2, strong approximation removes its norm-one fibre. The stable equality theorem identifies equal stable classes in SplitK0 with these stabilized isomorphisms. To ensure no loss from the ambient projective K₀ use a finite free complement of every projective stabilization witness.
 
 **Checks.**
 
 - Λ = 𝓞_K: J(K)′ is trivial and the quotient J(K)/(K^× U(𝓞_K)) is the ideal class group.
 - Λ = ℤ[C₂]: the stable class group is trivial.
+- For B=ℚ, Λ=ℤ and m=2, the idele that is [[1,1],[0,1]] at 2 and the identity elsewhere preserves ℤ². It lies in U(M₂(ℤ)); quotienting only by global GL₂(ℤ) would not identify it with the identity idele.
 
-*Needs:* [Rank-one lattices and idele double cosets](#layer-7-topic-78); [Local and global reduced-norm images](#layer-7-topic-60); [Inner forms meet the strong-approximation hypotheses](#layer-7-topic-44); [Stable equality in the existing split K₀](#layer-7-topic-23); [Finite projectives have finite free complements](#layer-7-topic-7); [The locally free class group of an order](#layer-7-topic-77); [Semilocal elimination preserves the determinant image](#layer-7-topic-27).
+*Needs:* [Rank-one lattices and idele double cosets](#layer-7-topic-78); [Ideles and lattice gluing for an arithmetic order](#layer-7-topic-72); [Local and global reduced-norm images](#layer-7-topic-60); [Inner forms meet the strong-approximation hypotheses](#layer-7-topic-44); [Stable equality in the existing split K₀](#layer-7-topic-23); [Finite projectives have finite free complements](#layer-7-topic-7); [The locally free class group of an order](#layer-7-topic-77); [Semilocal elimination preserves the determinant image](#layer-7-topic-27).
 
 <a id="layer-7-topic-86"></a>
 
@@ -16880,7 +16902,7 @@ A = 𝓞_F is the ring of integers of a number field F, and Λ is an 𝓞_F-orde
 
 (John Voight, [Quaternion Algebras](#reference-voight-quaternion-2021), Proposition 20.7.4 (printed p. 326).) The rank-one case for simple B, with proof.
 
-To prove this, handle the zero class by Lambda. For positive rank n reduce to Lambda^(n-1) plus a rank-one lattice (Reiner Theorem27.4, still an unresolved supplier).
+To prove this, handle the zero class by Lambda. For positive rank n, [Positive-rank locally free lattices split off free summands](#layer-7-topic-90) gives Lambda^(n-1) plus a rank-one lattice.
 
 Rank one sums: by weak approximation move one locally free ideal to be locally trivial at the primes where the other is not; the sum map to Λ is then locally surjective, hence surjective and split, with locally free kernel (the argument of Voight Proposition 20.7.4 for simple algebras).
 
@@ -17019,7 +17041,7 @@ To prove this, self-duality and the local-constant duality law give W(χ)²=1. U
 
 ### 7.112 Adjusted tame Gauss homomorphisms
 
-For a tame local G-extension at p, choose the root-of-unity homomorphism y_p on characters specified by the unramified quotient and a local Artin element c_p. Put τ_p*=τ_p·y_p⁻¹·Det(c_p). The choices are recorded before taking determinant quotients. Taylor’s normalization makes τ_p*(χ)=−1 for an unramified one-dimensional χ, unlike the ordinary τ_p normalization. The y_p values are 1 on symplectic characters.
+For a tame local G-extension over F/Q_p, define y_p on an unramified irreducible χ by y_p(χ)=−χ(P_F), using arithmetic reciprocity, and on a ramified irreducible by y_p(χ)=1; extend multiplicatively to virtual characters. Choose a local Artin element c_p as in Taylor (3.9) and put τ_p*=τ_p·y_p⁻¹·Det(c_p). The choices are recorded before taking determinant quotients. Taylor’s normalization makes τ_p*(χ)=−1 for an unramified one-dimensional χ, unlike the ordinary τ_p normalization. The y_p values are 1 on symplectic characters.
 
 The supporting API comprises:
 
@@ -17106,15 +17128,17 @@ To prove this, use [The Hasse–Davenport product relation](#layer-7-topic-29) o
 
 ### 7.116 The diagonal tame norm-resolvent factor is a determinant unit
 
-For tame L/F with group G, choose a∈O_L that is an integral normal generator at every place over S={ℓ:ℓ divides |G|}; let A be its embedding-product norm resolvend as in Taylor (2.2). For each ℓ∈S there is a finite Galois E/Q such that (y′_ℓ)⁻¹Det(A)∏_(𝔭|ℓ)τ_(G,𝔭)⁻¹ belongs to Det(∏_(𝔮|ℓ)(O_(E_𝔮)^P_𝔮[G])×), with P_𝔮 the wild inertia subgroup of Gal(E_𝔮/Q_ℓ). Here y′_ℓ is Taylor’s product of the local unramified correction factors. The coefficient ring is the ring fixed by wild inertia, hence a tame local coefficient extension; no unspecified inertia-norm modification is part of the statement.
+For tame L/F with group G, choose a∈O_L that is an integral normal generator at every place over S={ℓ:ℓ divides |G|}; let A be its embedding-product norm resolvend as in Taylor (2.2). For each ℓ∈S there is a finite Galois E/Q such that (y′_ℓ)⁻¹Det(A)∏_(𝔭|ℓ)τ_(G,𝔭)⁻¹ belongs to Det(∏_(𝔮|ℓ)(O_(E_𝔮)^P_𝔮[G])×), with P_𝔮 the wild inertia subgroup of Gal(E_𝔮/Q_ℓ). Here y′_ℓ is the product of Taylor's global correction factors from p.49: at primes ramified in the normal closure of L/Q these are transferred from y_p⁻¹Det(c_p); at unramified rational primes both y′_p and the corresponding global τ_p are chosen as 1. This convention distinguishes y′ from the local y of §7.112. The coefficient ring is the ring fixed by wild inertia, hence a tame local coefficient extension; no unspecified inertia-norm modification is part of the statement.
 
-(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Theorem2(a), p.45; §11 (proof of Theorem2(a)), (11.1)–(11.10) and Proposition11.6, pp.75–78; Fröhlich (1976), Theorem6 and its Corollaries1–2, pp.396–399.) The diagonal factor of the integral embedding norm resolvend is a group-ring determinant over the wild-inertia fixed integer rings.
+(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Theorem2(a), p.45; §3, global correction after Theorem3, p.49; §11 (proof of Theorem2(a)), (11.1)–(11.10) and Proposition11.6, pp.75–78; Fröhlich (1976), Theorem6 and its Corollaries1–2, pp.396–399.) The diagonal factor of the integral embedding norm resolvend is a group-ring determinant over the wild-inertia fixed integer rings.
 
 To prove this, pass to a tame extension that splits cyclic inertia and contains the required roots of unity. Compare the inertia eigenresolvents with residue Gauss sums; [Tame norm resolvents and Gauss sums have equal finite valuations](#layer-7-topic-108) gives unit coefficients. Unramified character twisting identifies the ratios on the cyclic inertia factors. Use the tame norm/base-change compatibility of Fröhlich (1976), Theorem6 to reassemble the induced module; Taylor §11 then identifies the resulting unit as an integral group-ring determinant. Fröhlich’s (1976) valuation proof supplies this valuation comparison; the additional 1980 local unit identities are specified separately below.
 
 **Checks.**
 
-- G = {1}: no prime divides |G|, so S is empty and the statement is vacuous.
+- Take L=ℚ(ζ₃), F=ℚ, G=⟨σ⟩=C₂ and a=ζ₃. Then S={2}. Since 2 is unramified, Taylor's y′₂ and global τ₂ are 1. With δ=ζ₃−ζ₃², the diagonal factor Det(ζ₃+ζ₃²σ) has trivial/sign values (−1,δ).
+- The regular determinant of ζ₃+ζ₃²σ is ζ₃²−ζ₃=−δ. Since δ²=−3, it is a 2-adic unit. Thus the element is in O_{ℚ₂(ζ₃)}[C₂]×; the coefficient extension is unramified at 2, so its wild inertia is trivial.
+- Multiplication by −σ, an integral group-ring unit, gives u=(1+ζ₃)−ζ₃σ with character values (1,δ) and regular determinant δ. This also checks the normalization in which the trivial-character value is 1.
 
 *Needs:* [Absolute and relative norm resolvents](#layer-7-topic-100); [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [Tame norm resolvents and Gauss sums have equal finite valuations](#layer-7-topic-108); [Local rational Brauer reduction for determinant quotients](#layer-7-topic-63); [Noether's theorem for local fields](#layer-7-topic-88).
 
@@ -17154,7 +17178,7 @@ To prove this, for induced characters compare Gauss factors and determinants aga
 
 ### 7.119 The off-diagonal local Gauss factor is an integral determinant
 
-For a tame local G-Galois extension at a rational prime p and ℓ≠p, put K=Q(ζ_p). Taylor’s off-diagonal factor y_p⁻¹τ_p lies in Det(O_(K,ℓ)[G]×), where O_(K,ℓ) is the product of completed integer rings over ℓ. If p is unramified in the extension, y_p=τ_p=1. The assertion is membership in the integral-unit determinant subgroup, stronger than having unit character values.
+For a tame local G-Galois extension over F/Q_p and ℓ≠p, put K=Q(ζ_p). The local off-diagonal factor y_p⁻¹τ_p of §7.112 lies in Det(O_(K,ℓ)[G]×), where O_(K,ℓ) is the product of completed integer rings over ℓ. Its local unramified factors retain the normalization τ_F(χ)=χ(D_F/Q_p)⁻¹ and y_p(χ)=−χ(P_F) for rank-one χ. The assertion is membership in the integral-unit determinant subgroup, stronger than having unit character values.
 
 (Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Theorem2(b), p.45; Theorem3, p.49, proved in §§5–10, pp.52–75.) Away from the ramified prime, the Gauss homomorphism modulo its root-of-unity correction is a determinant unit.
 
@@ -17162,7 +17186,9 @@ To prove this, reduce by integral-character twisting and ℚ-elementary inductio
 
 **Checks.**
 
-- p unramified in the extension: y_p = τ_p = 1, and the factor 1 lies in every determinant subgroup.
+- For G={1} over ℚ_p, y_p(1)=−1 and τ_p(1)=1, so y_p⁻¹τ_p is Det(−1), an integral-unit determinant.
+- For unramified rank-one χ over F, the different and uniformizer remain in τ_F(χ)=χ(D_F/Q_p)⁻¹ and y_p(χ)=−χ(P_F); unramifiedness alone does not set these two values to 1.
+- At the zero virtual character the factor is 1, since both homomorphisms are multiplicative on the virtual character group.
 
 **Auxiliary proof target.** The determinant representative requires both the logarithm image and the torsion calculation, including the Fröhlich–Taylor (1980) local unit identities, which no source cited here proves. Taylor (1981), Theorem 4, pp. 59–60, and §§9–10, pp. 65–75, give the route.
 
