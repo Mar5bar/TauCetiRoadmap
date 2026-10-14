@@ -190,10 +190,12 @@ def IsAbelianIsogeny {A B : AbelianScheme S} (f : A.toOver ⟶ B.toOver) : Prop 
 example (A : AbelianScheme S) : IsAbelianIsogeny (𝟙 A.toOver) := by
   refine ⟨inferInstance, ?_, ?_, ?_⟩ <;> rw [Over.id_left] <;> infer_instance
 
-/-- Check: a map that is not a homomorphism, such as translation by a nonzero section,
-is excluded even when its underlying scheme morphism is an isomorphism. -/
-example {A B : AbelianScheme S} (f : A.toOver ⟶ B.toOver)
-    (h : ¬ IsMonHom f) : ¬ IsAbelianIsogeny f := fun hf => h hf.1
+/-- Check: translation by a nonzero section is an isomorphism but is not an isogeny,
+because it does not preserve zero (README A3.1). -/
+example (A : AbelianScheme S) (a : 𝟙_ (Over S) ⟶ A.toOver) (ha : a ≠ 1) :
+    IsIso (GrpObj.mulRight a).hom ∧
+      ¬ IsAbelianIsogeny (A := A) (B := A) (GrpObj.mulRight a).hom := by
+  sorry
 
 /-- **Multiplication maps** over an arbitrary base: for `n ≠ 0` on an abelian scheme of relative
 dimension `g`, `[n]` is an isogeny of constant rank `|n|^(2g)` (README A3.2). -/
@@ -298,6 +300,22 @@ example (Ω : Matrix (Fin 1) (Fin 1) ℂ) : Ω ∈ SiegelUpperHalfSpace 1 ↔ 0 
 example (g : ℕ) (hg : 0 < g) : (0 : Matrix (Fin g) (Fin g) ℂ) ∉ SiegelUpperHalfSpace g := by
   sorry
 
+/-- Check: the genus-one inversion matrix fixes the period `i`. -/
+example :
+    siegelAction
+      (Matrix.fromBlocks (0 : Matrix (Fin 1) (Fin 1) ℤ) (-1) 1 0)
+      (Matrix.diagonal fun _ : Fin 1 => Complex.I) =
+        Matrix.diagonal (fun _ : Fin 1 => Complex.I) := by
+  sorry
+
+/-- Check: the empty period matrix belongs to the genus-zero Siegel space. -/
+example (Ω : Matrix (Fin 0) (Fin 0) ℂ) : Ω ∈ SiegelUpperHalfSpace 0 := by
+  sorry
+
+/-- Check: the determinant of the genus-zero denominator is the empty product one. -/
+example (Z : Matrix (Fin 0) (Fin 0) ℂ) : Z.det = 1 := by
+  simp
+
 /-! ## Layer A6: Arithmetic Hom and exports -/
 
 namespace OverField
@@ -344,6 +362,10 @@ example (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : WithBot ℕ∞)) (hp
     Hom.deg (AbelianVariety.End.toHom (0 : AbelianVariety.End A)) = 0 ∧ Hom.deg (𝟙 A) = 1 := by
   sorry
 
+/-- Check: inversion has degree one, including in dimension zero. -/
+example (A : AbelianVariety K) : Hom.deg (mulBy A (-1)) = 1 := by
+  sorry
+
 /-- **Images over the original field**: the image of a homomorphism is an abelian subvariety,
 through which the homomorphism factors by a surjection (README A6.3). -/
 theorem exists_abelianImage {A C : AbelianVariety K} (f : A ⟶ C) :
@@ -368,6 +390,10 @@ example (A : AbelianVariety K) (hA : A.dim = 0) : ¬ IsSimple A := fun h => h.1 
 example (A B : AbelianVariety K) (gA gB : ℕ)
     (hA : A.dim = (gA : WithBot ℕ∞)) (hB : B.dim = (gB : WithBot ℕ∞))
     (hgA : 0 < gA) (hgB : 0 < gB) : ¬ IsSimple (AbelianVariety.prod A B) := by
+  sorry
+
+/-- Check: every dimension-one abelian variety is simple. -/
+example (A : AbelianVariety K) (hA : A.dim = 1) : IsSimple A := by
   sorry
 
 /-- A nonzero endomorphism of a simple abelian variety is an isogeny. -/
@@ -475,6 +501,19 @@ example (A : AbelianVariety K) :
     (2 : R ⊗[ℤ] AbelianVariety.End A) * ((1 / 2 : ℚ) • (1 : R ⊗[ℤ] AbelianVariety.End A)) = 1 := by
   sorry
 
+/-- Check: zero is a nonunit for nontrivial coefficients in positive dimension. -/
+example [Nontrivial R] (A : AbelianVariety K) (g : ℕ)
+    (hg : A.dim = (g : WithBot ℕ∞)) (hpos : 0 < g) :
+    ¬ IsUnit (0 : R ⊗[ℤ] AbelianVariety.End A) := by
+  sorry
+
+/-- Check: with zero coefficients every coefficient endomorphism is a unit. -/
+example [Subsingleton R] (A : AbelianVariety K) :
+    IsUnit (0 : R ⊗[ℤ] AbelianVariety.End A) := by
+  have : (0 : R ⊗[ℤ] AbelianVariety.End A) = 1 := Subsingleton.elim _ _
+  rw [this]
+  exact isUnit_one
+
 end CoefficientHom
 
 /-- **Localized Hom** (README A6.26): global arrows `D ⊗[ℤ] Hom` over the field `K`.
@@ -493,17 +532,44 @@ end OverField
 Restriction is precomposition followed by coefficient extension (README A6.26). -/
 noncomputable def localizedYoneda {S : Scheme.{u}} (D : Subring ℚ)
     (A : AbelianScheme S) : (Over S)ᵒᵖ ⥤ ModuleCat.{u} D := by
-  sorry
+  letI := A.isCommMonObj
+  let pre {T U : Over S} (f : T ⟶ U) :
+      Additive (U ⟶ A.toOver) →ₗ[ℤ] Additive (T ⟶ A.toOver) :=
+    (MonoidHom.toAdditive
+      { toFun := fun x => f ≫ x
+        map_one' := MonObj.comp_one f
+        map_mul' := fun x y => MonObj.comp_mul f x y }).toIntLinearMap
+  exact
+    { obj := fun T => ModuleCat.of D (D ⊗[ℤ] Additive (T.unop ⟶ A.toOver))
+      map := fun f => ModuleCat.ofHom ((pre f.unop).baseChange D)
+      map_id := by
+        intro T
+        apply ModuleCat.hom_ext
+        ext d
+        simp [pre]
+      map_comp := by
+        intro T U V f g
+        apply ModuleCat.hom_ext
+        ext d
+        simp [pre, Category.assoc] }
 
-/-- The value of the localized Yoneda presheaf is the sectionwise tensor product.
-Commutativity of the section group follows from automatic commutativity of `A`
+/-- The value of the localized Yoneda presheaf is definitionally the sectionwise tensor product
 (README A6.26). -/
 theorem localizedYoneda_obj {S : Scheme.{u}} (D : Subring ℚ)
     (A : AbelianScheme S) (T : Over S) :
     letI := A.isCommMonObj
     Nonempty ((localizedYoneda D A).obj (Opposite.op T) ≃ₗ[D]
-      D ⊗[ℤ] Additive (T ⟶ A.toOver)) := by
-  sorry
+      D ⊗[ℤ] Additive (T ⟶ A.toOver)) :=
+  ⟨LinearEquiv.refl D _⟩
+
+/-- Restriction of localized sections precomposes the section and preserves its coefficient
+(README A6.26). -/
+@[simp] theorem localizedYoneda_map_tmul {S : Scheme.{u}} (D : Subring ℚ)
+    (A : AbelianScheme S) {T U : Over S} (f : T ⟶ U) (d : D) (x : U ⟶ A.toOver) :
+    letI := A.isCommMonObj
+    ((localizedYoneda D A).map f.op).hom (d ⊗ₜ[ℤ] Additive.ofMul x) =
+      d ⊗ₜ[ℤ] Additive.ofMul (f ≫ x) :=
+  rfl
 
 section RealRosatiAlgebra
 
@@ -591,7 +657,7 @@ A3.1 specifies `IsAbelianIsogeny.comp_rank`, `IsAbelianIsogeny.elliptic_two` and
 A5.8 specifies `siegelAction_one` and `siegelAction_translation` (tested above).
 A6.1 specifies `deg_dual`, `deg_functionField`, `deg_mulBy_two_elliptic`, `deg_zero`,
 `deg_frobenius_ne_card_ker` and `deg_neg_one`; its examples above test multiplication
-by two and the positive-dimensional zero and identity maps. A6.9 states
+by two, inversion and the positive-dimensional zero and identity maps. A6.9 states
 `eq_of_padicNorm_roots_products` and `det_aeval_eq_prod_roots` with their hypotheses;
 A6.18 states `eq_one_of_root_of_unity` with the necessary bound on the congruence modulus.
 A6.22 specifies `CoefficientHom.scalar_isogeny`, `CoefficientHom.dual_numbers`,
@@ -679,9 +745,9 @@ choice of representative, with restriction and arbitrary-base-change compatibili
 * **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
   `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.
-* **Complex analytic carriers** (A5.1 consumes lattice torsion from ComplexTori §Milestone 4 /
-  Integral connecting class, Step 6, an open TauCetiRoadmap pull request by Paul-Lez;
-  `AbelianLattice.tate` proves the algebraic transport and transition-map compatibility):
+* **Complex analytic carriers** (A5.1 constructs lattice quotients and torsion;
+  `AbelianLattice.tate` provides algebraic transport and transition-map compatibility;
+  A5.6 constructs period families and A5.8 their symplectic maps):
   `AbelianLattice`, `appellHumbert`, `polarizedHodgeEquivalence`,
   `analyticFamilies`, `realizationConventions`, `SiegelFamily` (beyond the Siegel space above),
   `cmIsotypic`.
