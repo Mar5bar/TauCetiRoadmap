@@ -201,6 +201,13 @@ example : IsEmpty (CMType ℚ) := by
 example : Nonempty (CMType GaussianInt) := by
   sorry
 
+-- The Gaussian partition excludes both the full and the empty embedding set.
+example : ¬ ∃ Φ : CMType GaussianInt, Φ.toSet = Set.univ := by
+  sorry
+
+example : ¬ ∃ Φ : CMType GaussianInt, Φ.toSet = ∅ := by
+  sorry
+
 -- Product embeddings factor through projections; a product type selects two of them.
 example : ∃ Φ : CMType (GaussianInt × GaussianInt), Nat.card Φ.toSet = 2 := by
   sorry
@@ -279,11 +286,14 @@ example {I C : Type*} [Category I] [Category C] {B B' : C}
     (F : I ⥤ Over B) {i j : I} (f : i ⟶ j) :
     (F ⋙ Over.pullback b).map f = (Over.pullback b).map (F.map f) := rfl
 
--- CanonicalHecke.test_native_span and the ordered leg evaluations.
-example {C : Type*} [Category C] {A B D : C} (p1 : A ⟶ B) (p2 : A ⟶ D) :
-    (span p1 p2).obj WalkingSpan.zero = A ∧
-    (span p1 p2).map WalkingSpan.Hom.fst = p1 ∧
-    (span p1 p2).map WalkingSpan.Hom.snd = p2 := by
+-- CanonicalHecke.test_ordered_nat_legs distinguishes the two concrete evaluations.
+example :
+    (span (TypeCat.ofHom (fun n : ℕ => 2 * n))
+      (TypeCat.ofHom (fun n : ℕ => n + 1))).map
+      WalkingSpan.Hom.fst (3 : ℕ) = (6 : ℕ) ∧
+    (span (TypeCat.ofHom (fun n : ℕ => 2 * n))
+      (TypeCat.ofHom (fun n : ℕ => n + 1))).map
+      WalkingSpan.Hom.snd (3 : ℕ) = (4 : ℕ) := by
   sorry
 
 -- CanonicalHecke.test_identity.
@@ -327,7 +337,10 @@ TauCeti.Shimura.level_foundations,
 TauCeti.Shimura.real_approximation_tori,
 TauCeti.Shimura.finite_analytic_quotient,
 TauCeti.Shimura.quasi_projective_finite_quotient,
+TauCeti.Shimura.ran_exp_o_minimal,
 TauCeti.Shimura.complex_cusp_charts,
+TauCeti.Shimura.nilpotent_orbit_factorization,
+TauCeti.Shimura.ordered_sector_hodge_norm,
 TauCeti.Shimura.polarized_period_definable,
 TauCeti.Shimura.definable_chow,
 TauCeti.Shimura.cocharacter_incidence,
@@ -342,6 +355,7 @@ TauCeti.Shimura.s_arithmetic_reconstruction,
 TauCeti.Shimura.global_centre_adjoint_comparison,
 TauCeti.Shimura.quadratic_torus_norms,
 TauCeti.Shimura.compact_negative_ke_metric,
+TauCeti.Shimura.clozel_top_forms_growth,
 TauCeti.Shimura.broader_pure_canonical.
 
 Further README definitions and constructions:
