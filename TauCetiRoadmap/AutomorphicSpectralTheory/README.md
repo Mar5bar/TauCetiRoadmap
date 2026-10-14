@@ -8,7 +8,7 @@ The new functional analysis consists of measurable Hilbert fields and direct int
 
 OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The present additions are measurable multiplicity models, square-integrable kernels on general scalar L² spaces, the complex trace and its representative-dependent diagonal formula.
 
-For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, G(𝔸)¹, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and L-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. The real representation foundations, smooth Fréchet globalizations and restricted tensor factorization are constructed in §§0.48–0.50 here. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors owns scalar L-functions, local factors, Fourier–Laplace analysis and K-Bessel transforms.
+For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, G(𝔸)¹, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and L-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. Sections 0.48–0.50 construct the general-group real representation foundations, smooth Fréchet globalizations and restricted tensor factorization, consuming the GLₙ specializations from AutomorphicLFunctionsAndLocalFactors. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar L-functions, local factors, Fourier–Laplace analysis, K-Bessel transforms, curve additive analysis, GLₙ isobaric sums and residual-block classification; §§2.14 and 4.14 adapt the latter contracts.
 
 Ordinary orbital integrals, discrete-series pseudo-coefficients and generic packets built from given tempered packets are constructed here. Stable orbital integrals, endoscopic transfer and stabilization belong to the roadmaps that consume them. Tempered packets, their generic members and compatibility of their local factors with parameters are hypotheses; this roadmap does not prove the general local Langlands correspondence. Its analytic Green kernel precedes the arithmetic Green functions and heights of Gross–Zagier.
 
@@ -45,7 +45,7 @@ The signatures are expressed against Mathlib `6b7abb3c7686292736be2955bd3eb9ebf6
 
 - At J=0 the primary component is V.
 - At J=Z it is zero, including the zero module.
-- For the polynomial module of a size-two nilpotent Jordan operator, the (X)-primary component is the whole module although X does not annihilate every vector.
+- For the polynomial module `Module.AEval'` of N(x,y)=(y,0) on ℂ², the (X)-primary component is the whole module: X² annihilates it, whereas X·(0,1)=(1,0)≠0.
 
 
 ### From Tau Ceti
@@ -68,13 +68,13 @@ OperatorIdeals supplies the nuclear gauge and the trace-class family (OI-B29–O
 
 ### From the adelic and local representation roadmap targets
 
-AdelicAlgebraicGroups Layer 0, §§0.1–0.3 supplies the restricted products and Haar product; §§2.1–2.3 supplies logarithmic height, modulus and quotient integration with integration in stages and split-centre comparison; §3.1 supplies Levi and Iwasawa data, relative roots and chambers; §§3.4–3.6 supplies rational reduction, adelic heights, Siegel covering and finiteness. SmoothRepresentationsOfLocalGroups SR.1.1–SR.1.3 supplies the Hecke action, SR.2.2 normalized parabolic induction and Jacquet modules, SR.3.1 finite length, SR.3.3 tempered representations and the Langlands classification conditional on Harish–Chandra tempered support (so §2.7 inherits that hypothesis), and SR.4.1–SR.4.2 Satake and spherical parameters. ReductiveGroupsPartII RG2.0 supplies the local-point topology, RG2.4 the local decompositions and integration, and RG2.5 the dual group and L-group to these contracts; the rational parabolics and relative roots are supplied by ReductiveGroups Layer 7. None of these contracts supplies an Eisenstein continuation or automorphic spectral completeness theorem.
+AdelicAlgebraicGroups Layer 0, §§0.1–0.3 supplies the restricted products and Haar product; §§2.1–2.3 supplies logarithmic height, modulus and quotient integration with integration in stages and split-centre comparison; §3.1 supplies Levi and Iwasawa data, relative roots and chambers; §§3.4–3.6 supplies rational reduction, adelic heights, Siegel covering and finiteness. SmoothRepresentationsOfLocalGroups SR.1.1–SR.1.3 supplies the Hecke action, SR.2.2 normalized parabolic induction and Jacquet modules, SR.3.1 finite length, SR.3.3 tempered representations and the Langlands classification conditional on Harish–Chandra tempered support (so §2.7 inherits that hypothesis), and SR.4.1–SR.4.2 Satake and spherical parameters. ReductiveGroupsPartII RG2.0 supplies the local-point topology, RG2.4 the nonarchimedean decompositions and integration, and RG2.5 the dual group and L-group to these contracts; the rational parabolics and relative roots are supplied by ReductiveGroups Layer 7. None of these contracts supplies an Eisenstein continuation or automorphic spectral completeness theorem.
 
 ### From ArithmeticLocallySymmetricSpaces and the automorphic roadmap targets
 
 ArithmeticLocallySymmetricSpaces ALS.F.5 supplies relative (𝔤,K) cochains and their invariant forms; ALS.5b.1 specializes them to (𝔪_G,K_∞) with 𝔪_G=𝔤/𝔞_G. ALS.F.6 supplies smooth adelic functions, the uniform-moderate-growth space T([G]), constant terms, cuspidal automorphic representations, and cuspidal discreteness/finite multiplicity. Transitivity of constant terms in stages is constructed in §0.51 from integration in stages (AdelicAlgebraicGroups §2.2). ALS.4.5 supplies Kostant's decomposition with weights w(λ+ρ)−ρ. ALS.5b.1 supplies de Rham comparison with local coefficients, ALS.5b.3 supplies moderate-growth comparison, and ALS.5b.5 supplies cuspidal cohomology. ALS.5b.4 takes `LocallySymmetric.FrankeInput(G,K,V)` as a hypothesis. Layer 5 below proves all three clauses of that hypothesis under the neat-level, irreducible-coefficient, split-central and full-K_∞ conventions above; it uses none of those clauses as an assumption.
 
-Sections 0.48–0.49 construct real discrete series, tempered representations, the real Langlands classification, smooth Fréchet globalizations and normalized real induction with covariance a^(ν+ρ_P)σ(m), right translation, K∩M_P compact picture and induction in stages. Section 0.50 constructs restricted tensor factorization. For convention Y, §§1.10a–1.10b construct the function-field adelic and analytic inputs; only the generic restricted-product topology and Haar construction of AdelicAlgebraicGroups Layer 0 are consumed there. AutomorphicLFunctionsAndLocalFactors Layer 0 supplies local and adelic Fourier analysis with self-dual measures and Fourier inversion, and its AL.0, Bessel transforms section specifies K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du for c>0, with K_{−ν}=K_ν, entire dependence on ν and K_{1/2}(c)=√(π/(2c))e^(−c). These are mathematical target contracts, rather than declarations imported from the pinned libraries. The Euclidean Paley–Wiener theorem on 𝔞_P^G is the target in §1.6; Layer 1 supplies the global Tate zeta integral and Hecke functional equation; Layers 2–3 supplies standard and Rankin–Selberg scalar factors. These suppliers precede the operator continuation and trace theory here.
+ArithmeticLocallySymmetricSpaces ALS.F.1 (`LocallySymmetric.realPoints_lieGroup`) supplies the real Lie group and maximal compact; ALS.0.2 supplies the real reductive Lie adapter. RepresentationTheory/LieGroups Layer 9 supplies `iwasawaDecomposition`, Cartan and KAK decompositions. Sections 0.48–0.49 construct real discrete series, tempered representations, the real Langlands classification, smooth Fréchet globalizations and normalized real induction with covariance a^(ν+ρ_P)σ(m), right translation, K∩M_P compact picture and induction in stages. For GLₙ, consume AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` and `restricted-tensor-realizations`; §§0.49–0.50 construct the general-group extensions with agreement on those specializations. For convention Y, consume completion-valued adeles, residue characters and the discrete/cocompact rational additive quotient from its AL.3 `curve-additive-analysis`, including the `CurveAdditiveAnalysis` annihilator, conductor and Poisson API. Section 1.10a adds determinant-degree/Iwasawa data, quotient-volume normalization and reduction; §1.10b constructs the Eisenstein theory. Consume GLₙ isobaric sums and Satake products from its Representation prerequisites, `isobaric-residual-classification`, isobaric uniqueness over number fields from AL.3 `isobaric-strong-multiplicity-one`, and the residual-classification suffix only after the cuspidal Eisenstein prefix here. AutomorphicLFunctionsAndLocalFactors Layer 0 supplies local and adelic Fourier analysis with self-dual measures and Fourier inversion, and its AL.0, Bessel transforms section specifies K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du for c>0, with K_{−ν}=K_ν, entire dependence on ν and K_{1/2}(c)=√(π/(2c))e^(−c). These are mathematical target contracts, rather than declarations imported from the pinned libraries. The Euclidean Paley–Wiener theorem on 𝔞_P^G is the target in §1.6; Layer 1 supplies the global Tate zeta integral and Hecke functional equation; Layers 2–3 supplies standard and Rankin–Selberg scalar factors. These suppliers precede the operator continuation and trace theory here.
 
 ## How to read the build
 
@@ -804,12 +804,12 @@ The API includes central twisting, compact-picture evaluation, contragredients a
 
 ([Wal79], §§1–2 and 6, Theorems 6.3 and 6.7, pp.71–74, 79–80; use contragredients to pass from its submodule convention to positive standard quotients; discrete-series parameter theory cited there. [CD90], §§1–2, pp.196–205.)
 
-*Needs:* ReductiveGroupsPartII RG2.0 and RG2.4 (real points and decompositions); RepresentationTheory/LieHighestWeight Layer 7 (central algebra); RepresentationTheory/CompactGroups (K-types).
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.1 (real points and maximal compact) and ALS.0.2 (real reductive Lie adapter); RepresentationTheory/LieGroups Layer 9 (Iwasawa, Cartan and KAK); ReductiveGroupsPartII RG2.0 (shared point topology); RepresentationTheory/LieHighestWeight Layer 7 (central algebra); RepresentationTheory/CompactGroups (K-types).
 
 
 ### 0.49 Smooth Fréchet globalizations
 
-Construct `smooth_frechet_globalization`. For the linear real reductive groups of §0.48, taking K-finite vectors is an equivalence between smooth admissible Fréchet representations of moderate growth and Harish-Chandra modules. Construct its inverse, the unique smooth moderate-growth globalization, and extend every module morphism uniquely and continuously. Prove exactness and compatibility with normalized parabolic induction, finite-dimensional tensor products and the smooth vectors of a specified unitary Hilbert realization. Moderate growth is a seminorm estimate p(π(g)v)≤C‖g‖^N q(v), with the source seminorm q and exponent depending on p; admissibility and finite generation are required for this equivalence.
+Construct `smooth_frechet_globalization` for the linear real reductive groups of §0.48, consuming the GLₙ(ℝ) and GLₙ(ℂ) case from AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations`. Taking K-finite vectors is an equivalence between smooth admissible Fréchet representations of moderate growth and Harish-Chandra modules. Construct its inverse, the unique smooth moderate-growth globalization, and extend every module morphism uniquely and continuously. Prove exactness and compatibility with normalized parabolic induction, finite-dimensional tensor products and the smooth vectors of a specified unitary Hilbert realization, agreeing with the supplied GLₙ constructions. Moderate growth is a seminorm estimate p(π(g)v)≤C‖g‖^N q(v), with the source seminorm q and exponent depending on p; admissibility and finite generation are required for this equivalence.
 
 **Checks.**
 
@@ -819,12 +819,12 @@ Construct `smooth_frechet_globalization`. For the linear real reductive groups o
 
 ([BK14], §§1–2, Theorem 1.1, and §§9–11, especially Theorem 11.6 for parameter families.)
 
-*Needs:* §0.48; the locally convex topology and integration of §§0.11–0.12.
+*Needs:* §0.48; the locally convex topology and integration of §§0.11–0.12; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` (GLₙ specialization).
 
 
 ### 0.50 Restricted tensor factorization
 
-Construct `restricted_tensor_factorization` for irreducible admissible adelic representations over a global field, with (𝔤_∞,K_∞)-modules at infinite places and smooth representations at finite places. Choose spherical vectors at almost all finite places and form the algebraic restricted tensor product; prove irreducibility, factorization and uniqueness of the local factors. For an irreducible unitary Hilbert realization, normalize the distinguished vectors to norm one and identify the algebraic K-finite tensor product with the K-finite vectors of the restricted Hilbert tensor completion. Continuous smooth archimedean factors use §0.49.
+Construct `restricted_tensor_factorization` for irreducible admissible adelic representations over a global field, with (𝔤_∞,K_∞)-modules at infinite places and smooth representations at finite places. Consume the GLₙ realization from AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations`, and construct the extension to general reductive groups with agreement on that specialization. Choose spherical vectors at almost all finite places and form the algebraic restricted tensor product; prove irreducibility, factorization and uniqueness of the local factors. For an irreducible unitary Hilbert realization, normalize the distinguished vectors to norm one and identify the algebraic K-finite tensor product with the finite-place smooth, archimedean K-finite vectors of the restricted Hilbert tensor completion. Continuous smooth archimedean factors use §0.49.
 
 **Checks.**
 
@@ -834,7 +834,7 @@ Construct `restricted_tensor_factorization` for irreducible admissible adelic re
 
 ([Fla79], Theorems 1–4, pp.179–182.)
 
-*Needs:* §0.48; §0.49 for number fields; SmoothRepresentationsOfLocalGroups SR.1–SR.3; AdelicAlgebraicGroups Layer 0 (generic restricted products), and §1.10a for function-field specialization.
+*Needs:* §0.48; §0.49 for number fields; SmoothRepresentationsOfLocalGroups SR.1–SR.3; AdelicAlgebraicGroups Layer 0 (generic restricted products), and §1.10a for function-field specialization; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations` (GLₙ realization).
 
 
 ### 0.51 Constant terms in stages
@@ -1039,7 +1039,7 @@ For generators Sχ, require `OrthogonalFamily` of closed spans and dense span of
 
 ### 1.10a Function-field adelic topology, degree and integration
 
-Construct `function_field_adelic_data` under convention Y: X/𝔽_q smooth, projective and geometrically connected, F=𝔽_q(X), and G=GL_n, n≥1, with its block Levis and unipotent radicals. Construct the completions F_v, their compact valuation rings 𝒪_v and finite residue fields, and 𝔸_F=∏′_v(F_v,𝒪_v). Prove the discrete rational diagonal, compactness of F\𝔸_F and of rational unipotent quotients, and the product formula. Use |ϖ_v|_v=q^(−deg v) and deg(a)=−Σ_v deg(v)v(a_v), so |a|_𝔸=q^(deg a). Construct K=∏_vGL_n(𝒪_v), Haar with vol K=1, rational counting measure and quotient integration/unfolding. With vol(𝒪_v)=1, vol(F\𝔸_F)=q^(g−1); normalize N(F)\N(𝔸_F) to mass one and track the resulting Haar factor separately. Prove finite-volume degree fibres modulo the specified centre and the reduction bounds used for convergent series.
+Construct `function_field_adelic_data` under convention Y: X/𝔽_q smooth, projective and geometrically connected, F=𝔽_q(X), and G=GL_n, n≥1, with its block Levis and unipotent radicals. Consume the completions F_v, compact valuation rings 𝒪_v, finite residue fields, completion-valued adeles 𝔸_F=∏′_v(F_v,𝒪_v), residue characters and discrete/cocompact rational additive quotient from AutomorphicLFunctionsAndLocalFactors AL.3 `curve-additive-analysis`. Its Representation prerequisite `restricted-tensor-realizations` supplies the compact rational unipotent quotients and their probability measures. Use |ϖ_v|_v=q^(−deg v) and deg(a)=−Σ_v deg(v)v(a_v), so |a|_𝔸=q^(deg a); the degree-zero principal-divisor law from AlgebraicCurves gives the multiplicative product formula. Construct K=∏_vGL_n(𝒪_v), Haar with vol K=1, rational counting measure and quotient integration/unfolding. Derive the volume conversion vol(F\𝔸_F)=q^(g−1) when vol(𝒪_v)=1; compare it with probability normalization on N(F)\N(𝔸_F) and track the resulting Haar factor separately. Prove finite-volume degree fibres modulo the specified centre and the reduction bounds used for convergent series.
 
 Construct a degree-one idele a, Ξ_M generated by its block scalars, determinant-degree heights H_P, Iwasawa decomposition G(𝔸_F)=N_P(𝔸_F)M_P(𝔸_F)K and its integration formula. Fix the half-modulus δ_P^(1/2) with δ_P=|det Ad(m)|_{Lie N_P,𝔸}; Yu's notation |g|=q^(deg det g) agrees with this adelic determinant absolute value. Prove functoriality under Levi restriction, degree-additivity, quotient integration in stages, and the lattice/chamber formulas. The generic restricted-product carrier, topology and glued Haar construction are consumed from AdelicAlgebraicGroups AA.0.1–AA.0.3; its number-field adelic specialization is not an input here.
 
@@ -1051,12 +1051,12 @@ Construct a degree-one idele a, Ξ_M generated by its block scalars, determinant
 
 ([Yu22], §§2.2.1–2.2.5, pp.8–9 and §§3.1.4–3.1.5, pp.14–15; the global/local Haar comparison in Proposition 5.3.4, p.39. AlgebraicCurves Layers 4–5 and 9 supply the Riemann–Roch and completion inputs to the quotient-volume construction.)
 
-*Needs:* AlgebraicCurves Layers 0–5 and 9 (places, completions, Riemann–Roch); AdelicAlgebraicGroups AA.0.1–AA.0.3 (generic restricted products and Haar); ReductiveGroups Layer 7; ReductiveGroupsPartII RG2.0 and RG2.4 for local GL_n points and integration.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.3 `curve-additive-analysis` and its AL.0 compact-open Fourier proof, and Representation prerequisites, `restricted-tensor-realizations` (rational unipotent quotients); AlgebraicCurves Layers 0–5 and 9 (places, completions, Riemann–Roch); AdelicAlgebraicGroups AA.0.1–AA.0.3 (generic restricted products and Haar); ReductiveGroups Layer 7; ReductiveGroupsPartII RG2.0 and RG2.4 for local GL_n points and integration.
 
 
 ### 1.10b Function-field induction and Eisenstein theory
 
-Construct `function_field_eisenstein_theory` for the groups and measures of §1.10a. Define smooth cuspidal automorphic functions and their unitary central-character L² realizations; prove compact support modulo centre, discreteness and finite multiplicity. For cuspidal Levi data, construct half-modulus-normalized parabolic induction, compact-picture finite-level sections, induction in stages, and transitivity of constant terms. Define Eisenstein sums and unipotent intertwiner integrals in the strict convergence chamber for determinant-degree characters; prove absolute local normal convergence and the cuspidal constant-term formula, with compatible quotient measures.
+Construct `function_field_eisenstein_theory` for the groups and measures of §1.10a. Consume the function-field cuspidal automorphic carrier from AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations`; construct its unitary central-character L² realization and prove compact support modulo centre, discreteness and finite multiplicity. For cuspidal Levi data, construct half-modulus-normalized parabolic induction, compact-picture finite-level sections, induction in stages, and transitivity of constant terms. Define Eisenstein sums and unipotent intertwiner integrals in the strict convergence chamber for determinant-degree characters; prove absolute local normal convergence and the cuspidal constant-term formula, with compatible quotient measures.
 
 Continue these families rationally in the unramified character coordinates, prove Weyl functional/composition equations and unitarity at regular unitary parameters, and construct Laurent residues on the specified central quotient. Extension to discrete inducing data proceeds by induction in stages and the cuspidal residue description of §§4.14–4.17; that extension is used in §2.15, not in constructing the initial cuspidal theory. Prove level-change, character-twist and restricted-tensor compatibility. This is the function-field analytic input to convention Y, independent of the number-field statements in §§1.1 and 2.4.
 
@@ -1068,7 +1068,7 @@ Continue these families rationally in the unramified character coordinates, prov
 
 ([Laf97], Chapter VI §§1–2, in particular the induced spaces and intertwiners, pp.284–304; [Yu22], §§5.2.2–5.2.3, pp.32–35 and §5.3.1, pp.36–39 for the discrete residue extension.)
 
-*Needs:* §1.10a; §0.50; SmoothRepresentationsOfLocalGroups SR.1–SR.4; §0.15 (operator meromorphy).
+*Needs:* §1.10a; §0.50; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations` (function-field cuspidal carrier); SmoothRepresentationsOfLocalGroups SR.1–SR.4; §0.15 (operator meromorphy).
 
 
 ### 1.11 Unramified character tori and central degree lattices
@@ -1279,11 +1279,17 @@ Prove the following API statements.
 
 ### 1.21 Differentiated Whittaker seed
 
-Prove `whittaker_seed_derivative`. For the weight-zero seed of F_m, −2i∂_zF_m is the weight-two Poincaré series with seed −s|m|^(−1/2)(2πy)⁻¹ Γ(s)/Γ(2s) M_{sgn(m),s−1/2}(4π|m|y)e(mx).
+Prove `whittaker_seed_derivative`. For m∈ℤ with m≠0, Re(s)>1 and z=x+iy∈ℍ, −2i∂_zF_m is the weight-two Poincaré series with seed −s|m|^(−1/2)(2πy)⁻¹ Γ(s)/Γ(2s) M_{sgn(m),s−1/2}(4π|m|y)e(mx). Justify termwise differentiation with the compact majorants and derivative bounds of §§1.18–1.20. For m=0, differentiate F₀=E separately: the weight-two seed is −s y^(s−1), with the same convergence half-plane.
+
+**Checks.**
+
+- At m=0 and s=2, the leading y² Eisenstein term has −2i∂_z derivative −2y; the nonzero-frequency Whittaker seed does not apply.
+- At m=1 the Whittaker index is 1 and the phase is e(x); at m=−1 they are −1 and e(−x), with the same positive Whittaker argument 4πy.
+- The endpoint Re(s)=1 is outside the differentiated-series assertion; a continued value there requires the continuation theory.
 
 ([DIT16], §9, (9.2), p.979.)
 
-*Needs:* §0.26; §0.27.
+*Needs:* §0.26; §0.27; §§1.18–1.20 (compact majorants and seed derivative bounds).
 
 
 ### 1.22 Fourier expansion of F_m(z,s)
@@ -1507,19 +1513,20 @@ Prove the following API statements.
 
 ### 2.7 Generic local packets of classical groups
 
-Define `generic_packet` as follows. Let F be a local field of characteristic zero, H*_m a quasi-split symplectic, special orthogonal or unitary group over F (unitary for E/F), and H_m a pure inner form. A local L-parameter φ of H*_m is written up to conjugacy as (φ₁|·|^{β₁}⊕φ₁^∨|·|^{−β₁})⊕⋯⊕(φ_t|·|^{β_t}⊕φ_t^∨|·|^{−β_t})⊕φ₀ with β₁>⋯>β_t>0, where φ_i is a tempered parameter of a general linear group G_{E/F}(n_i) and φ₀ a tempered parameter of H*_{n₀}. Given the tempered packet Π_{φ₀}(H_{n₀}) and the unitary generic tempered τ(φ_i) attached to φ_i, the packet Π_φ(H_m) is the set of Langlands quotients of the standard modules Ind_P^{H_m}(τ(φ₁)|det|^{β₁}⊗⋯⊗τ(φ_t)|det|^{β_t}⊗σ₀), σ₀∈Π_{φ₀}(H_{n₀}), P the standard parabolic with Levi ∏G_{E/F}(n_i)×H_{n₀}. φ is generic when Π_φ(H*_m) contains a generic member σ°. The local L- and ε-factors of every σ∈Π_φ(H_m) are by definition those of σ°.
+Define `generic_packet` as follows. Let F be a local field of characteristic zero, H*_m a quasi-split symplectic, special orthogonal or unitary group over F (unitary for E/F), and H_m a pure inner form. On restriction to the Weil–Deligne group of E put φ_i^*=φ_i^{c∨} in the unitary case, with c the nontrivial automorphism of E/F, and φ_i^*=φ_i^∨ otherwise. A relevant local L-parameter φ of H*_m is written up to conjugacy as (φ₁|·|^{β₁}⊕φ₁^*|·|^{−β₁})⊕⋯⊕(φ_t|·|^{β_t}⊕φ_t^*|·|^{−β_t})⊕φ₀ with β₁>⋯>β_t>0, where φ_i is a tempered parameter of a general linear group G_{E/F}(n_i) and φ₀ a tempered parameter of H*_{n₀}. Given the tempered packet Π_{φ₀}(H_{n₀}) and the unitary generic tempered τ(φ_i) attached to φ_i, the packet Π_φ(H_m) is the set of Langlands quotients of the standard modules Ind_P^{H_m}(τ(φ₁)|det|^{β₁}⊗⋯⊗τ(φ_t)|det|^{β_t}⊗σ₀), σ₀∈Π_{φ₀}(H_{n₀}), P the standard parabolic with Levi ∏G_{E/F}(n_i)×H_{n₀}. This packet construction applies to general relevant φ. The parameter is generic when Π_φ(H*_m) contains a generic member. For generic φ, choose such a member σ°; the local L- and ε-factors of every σ∈Π_φ(H_m) are then defined through σ°. The star convention interprets the dual shorthand in [JZ20] (B.1) compatibly with τ*=ι(τ)∨ in §5.1.
 
 *Standing hypotheses:* the tempered packets and the general-linear correspondence are given data with three properties: members of tempered packets are irreducible and tempered; the quasi-split tempered packet of a generic parameter has a generic member; and the Langlands–Shahidi factors of that member equal the Artin factors of the parameter.
 
 Prove the following API statements.
 - `mem_iff`: σ∈Π_φ(H_m) iff σ is the Langlands quotient of one of the displayed standard modules (Langlands classification: SmoothRepresentationsOfLocalGroups Layer 3, and §0.48 (real reductive representation foundations), real Langlands classification for archimedean F).
 - `tempered`: for t=0, Π_φ(H_m)=Π_{φ₀}(H_m).
-- `local_factor`: L(s,τ×σ)=L(s,τ×σ°) and ε(s,τ×σ,ψ)=ε(s,τ×σ°,ψ) for every member σ.
+- `local_factor`: For generic φ and a chosen quasi-split generic member σ°, L(s,τ×σ)=L(s,τ×σ°) and ε(s,τ×σ,ψ)=ε(s,τ×σ°,ψ) for every member σ.
 
 **Checks.**
 - with t=0 the packet is the whole tempered packet, not only its generic member.
 - for H*_1=SL₂=Sp₂, φ=|·|^β⊕|·|^{−β}⊕1 with 0<β<1/2, the packet is the irreducible complementary series Ind(|·|^β), which equals its Langlands quotient.
-- for SL₂ and φ=|·|⊕1⊕|·|^{−1}, the standard module Ind(|·|) is reducible, its Langlands quotient is the trivial representation, and φ is not generic.
+- for SL₂ and φ=|·|⊕1⊕|·|^{−1}, the standard module Ind(|·|) is reducible, its Langlands quotient is the trivial representation, and φ is not generic; no definition through σ° applies.
+- for E/F=ℂ/ℝ and θ(z)=z/|z|, θ^{c∨}=θ≠θ^∨. For β>0, θ|·|^β⊕θ|·|^{−β} is conjugate-self-dual, whereas θ|·|^β⊕θ⁻¹|·|^{−β} is not.
 
 ([JZ20], Appendix B (B.1)–(B.2), pp.84–85; the generic member, proof of Theorem B.2, p.86, citing Arthur's and Mok's endoscopic classifications.)
 
@@ -1538,9 +1545,9 @@ Prove the following API statements.
 - `global_product`: On factorizable data the global scalar ratio uses L(s,τ×σ)L(2s,τ,ρ) divided by the shifted L-factors and ε-factors, as in (5.2)–(5.4).
 
 **Checks.**
-- If the spherical raw eigenvalue times the local-factor normalizer is one, the normalized operator fixes that vector.
+- For unramified SO₃ with Levi GL₁×SO₁, trivial τ, residue size 2, hyperspecial root Haar measures, conductor-zero ψ and s=1/2, the raw spherical scalar is (1−2⁻²)/(1−2⁻¹)=3/2 and β=2/3, so N fixes the spherical vector.
 - For the unramified tempered self-dual two-dimensional parameter (i,−i), the exterior-square weight is 1 and the symmetric-square weights are −1,1,−1. Their L-factors, hence their normalizers at a regular parameter, differ.
-- For a one-dimensional representation, the normalizer's cross-factor argument is the inverse conjugate character. Check that argument explicitly.
+- For E/F=ℂ/ℝ and τ(z)=z/|z|, τ*=τ, whereas τ^∨=τ⁻¹≠τ; the target uses the inverse-conjugate character in this conjugate-self-dual unitary example.
 
 ([JZ20], §5.1, (5.3)–(5.4), p.48.)
 
@@ -1604,7 +1611,7 @@ Prove `jiang_zhang_holomorphy`. Let φ⁺ be the local component of an H_m-relev
 
 ### 2.14 GLₙ isobaric automorphic sums
 
-Define `isobaric_sum` as follows. For cuspidal automorphic representations π_i of GL_{n_i}(𝔸_F), with specified real/unitary twists and Σn_i=n, the isobaric sum ⊞_iπ_i is the automorphic GL_n representation with those cuspidal Langlands data, equivalently the Langlands quotient of the normalized parabolic induction in its prescribed order. Its unramified Satake multiset is the union of the summands’ multisets and its standard L-function is their product. Existence/uniqueness is a general GL_n theorem; the symbol does not mean a Hilbert direct sum of representations of different groups.
+Use `isobaric_sum` as the adapter to AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification`, consuming its isobaric-construction prefix separately from its residual-classification suffix. For cuspidal automorphic representations π_i of GL_{n_i}(𝔸_F), with specified real/unitary twists and Σn_i=n, the supplied isobaric sum ⊞_iπ_i is the automorphic GL_n representation with those cuspidal Langlands data, equivalently the Langlands quotient of the normalized parabolic induction in its prescribed order. Its unramified Satake multiset is the union of the summands’ multisets and its standard L-function is their product. Over number fields, uniqueness from almost-all Satake data consumes AL.3 `isobaric-strong-multiplicity-one`. The convention-Y specialization transports the supplied Langlands sum and Satake product to the half-modulus Hecke convention of §1.12. The symbol does not mean a Hilbert direct sum of representations of different groups.
 
 *Standing hypotheses:* cuspidal GL_{n_i} data and their twists; compatible Langlands order; strong multiplicity one is required for uniqueness from almost-all Satake parameters.
 
@@ -1618,9 +1625,9 @@ Prove the following API statements.
 - For unramified characters χ₁,χ₂ the GL₂ Satake polynomial is (1−χ₁(ϖ)T)(1−χ₂(ϖ)T).
 - π₁⊕π₂ is not the isobaric GL_{n₁+n₂} representation: it does not even carry the same group action.
 
-([ACC+23], §1.2, local-sum convention p.907 and adelic isobaric-sum convention p.908. Existence and uniqueness consume the GLₙ automorphic classification and local Langlands quotient contracts.)
+([ACC+23], §1.2, local-sum convention p.907 and adelic isobaric-sum convention p.908; the supplied construction and uniqueness are sourced in AutomorphicLFunctionsAndLocalFactors, Representation prerequisites and AL.3.)
 
-*Needs:* §1.1; §2.4; AutomorphicLFunctionsAndLocalFactors Layer 2; SmoothRepresentationsOfLocalGroups Layer 4.
+*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` (isobaric prefix only), and AL.3 `isobaric-strong-multiplicity-one` for number-field Satake uniqueness; its standard-factor product API; §1.12 for convention Y; SmoothRepresentationsOfLocalGroups SR.2–SR.4. No residual-classification suffix is used here.
 
 
 ### 2.15 Intertwiners and operator-valued families
@@ -2015,13 +2022,30 @@ Prove `cutoff_degree_order`. Under the same partial-value compatibility, lim_(mu
 *Needs:* §6.29; §3.14; §3.15; §1.10a (function-field adeles, heights and measures).
 
 
+### 3.17a Geometric and alternating Γ cutoffs
+
+Construct `gamma_cutoffs`. For any compatible reductive relative root datum and standard P, define Γ′_P(H,T)=Σ_{P⊆Q⊆G}(−1)^dim(𝔞_Q^G)τ_P^Q(H)τ̂_Q(H−T), using the projected arguments and strict cones of §3.1. Prove compact support in H modulo 𝔞_G for fixed T, Γ′_G=1, and the Levi/projection compatibilities used for truncation translation. Incidence inversion identifies the alternating sum with Arthur's recursion (9.1). For GL_n with block ranks n₁,…,n_r and determinant degrees H=(d₁,…,d_r), define Γ_P(H,T) to be the indicator that d₁/n₁>⋯>d_r/n_r and every proper block-prefix degree, after subtracting its proportional share of total degree, is at most the corresponding centered prefix of T. Thus for k=n₁+⋯+n_j the bound is Σ_{i≤j}d_i−(k/n)Σ_i d_i≤Σ_{a≤k}T_a−(k/n)Σ_a T_a. Identify this Γ_P with Yu's Γ_(n₁,…,n_r).
+
+Prove Γ_P=Γ′_P when T₁≥⋯≥T_n, including chamber walls, and compact support modulo 𝔞_G. Prove Γ_G=1 and Γ_P(·,0)=0 for proper P. The non-strict prefix bound and strict slope inequalities are both essential.
+
+**Checks.**
+
+- For P=G, the slope and prefix conditions are empty and Γ_G=Γ′_G=1, including GL₁.
+- For the GL₂ Borel, H=(h,−h) and T=(t,−t) with t≥0, Γ_B=Γ′_B=1_(0<h≤t). At t=1 the values at h=0,1,2 are 0,1,0.
+- At the chamber wall T=0 every proper GL_n cutoff is zero; adding c(n₁,…,n_r) to H leaves both cutoffs unchanged. In rank one Γ′_B(h,0)=1_(h>0)−1_(h>0)=0.
+
+([Ch15], §4.5 (4.5.1)–(4.5.2), Remarques 4.5.1 and Lemma 4.5.2, pp.23–24; [Art05], §9 (9.1) and Lemma 9.2, pp.47–48, and its use in the proof of Theorem 9.1, pp.48–50, for the general reductive Γ′ and translation identities.)
+
+*Needs:* §3.1 for the general alternating cones; §§3.10–3.11 for the GL_n determinant-degree coordinates and prefix weights.
+
+
 ### 3.18 Quasi-polynomiality of the Γ-lattice counts and determination from the deep chamber
 
 Prove `lattice_count_quasipolynomial`. Let M_P ≅ GL(n_1) × ⋯ × GL(n_r), e ∈ Z and e_i ∈ Z/n_iZ, and let h = h^e_{(e_i)} = {(d_1, …, d_r) ∈ Z^r : Σ d_i = e, d_i ≡ e_i mod n_i}. (a) [Ch15, Prop 4.5.5] On lattice points T ∈ Hom(X^*(B), Z) ≅ Z^n with T_1 ≥ ⋯ ≥ T_n, the finite sum T ↦ Σ_{H∈h} Γ_{(n_1,…,n_r)}(H, T) agrees with a quasi-polynomial Σ_{ν∈f} p_ν(T) q^{⟨ν,T⟩}, with f ⊂ (2πi/log q) X^*(B) ⊗ Q finite and each p_ν a polynomial. Yu's Γ_I equals Chaudouard's Γ_P. (b) Two such quasi-polynomials that agree at all lattice points T with d(T) ≥ c agree on all lattice points of the closed chamber, in particular at T = 0. (c) (Remarque 3.3.3) Γ_I(·, 0) ≡ 0 for r > 1 and Γ_{(n)} ≡ 1.
 
 ([Yu22], §3.3.1, p. 20, and Remarque 3.3.3, p. 19; [Ch15, Définition 4.5.3, Proposition 4.5.5].)
 
-*Needs:* §1.10a (function-field adeles, heights and measures); §3.10; §3.11.
+*Needs:* §1.10a (function-field adeles, heights and measures); §3.10; §3.11; §3.17a (Γ and Γ′ cutoffs).
 
 
 ### 3.19 Vanishing of the degree-e cone sum on a proper Levi
@@ -2242,11 +2266,11 @@ Prove the following API statements.
 
 ### 4.14 Moeglin–Waldspurger classification
 
-Prove `moeglin_waldspurger`, the Moeglin–Waldspurger classification ([MW89], Théorème, p.606). Let Π be a discrete everywhere-unramified automorphic representation of G_n(A). There are d | n, the standard parabolic P with M_P = G_d × ⋯ × G_d (ν = n/d factors), and an everywhere-unramified cuspidal representation π of G_d(A) such that, with |g| = q^{deg det g} and π̃ = π|·|^{(ν−1)/2} ⊗ π|·|^{(ν−3)/2} ⊗ ⋯ ⊗ π|·|^{−(ν−1)/2}, Π ≅ π̃ as H_G-modules via t_P at every place. The pair (π, ν) is unique. Conversely, for every everywhere-unramified cuspidal π of G_d(A) and every ν ≥ 1, π̃ viewed as an H_G-module via t_P is isomorphic to the H_G-module of a discrete everywhere-unramified representation of G_{νd}(A), denoted π ⊠ ν.
+Use `moeglin_waldspurger` as the convention-Y Hecke adapter to the residual-classification suffix of AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` ([MW89], Théorème, p.606). Let Π be a discrete everywhere-unramified automorphic representation of G_n(A) in the central-character realization of §4.11. For a nonunitary character, first unitarize by its specified positive determinant twist, apply the supplied unitary classification, and twist back in the weighted norm. There are d | n, the standard parabolic P with M_P = G_d × ⋯ × G_d (ν = n/d factors), and an everywhere-unramified cuspidal representation π of G_d(A) with the corresponding central character such that, with |g| = q^{deg det g} and π̃ = π|·|^{(ν−1)/2} ⊗ π|·|^{(ν−3)/2} ⊗ ⋯ ⊗ π|·|^{−(ν−1)/2}, Π ≅ π̃ as H_G-modules via t_P at every place. The pair (π, ν) is unique. Conversely, for every such π and every ν ≥ 1, π̃ viewed as an H_G-module via t_P is isomorphic to the H_G-module of a discrete everywhere-unramified representation of G_{νd}(A), denoted π ⊠ ν. The supplier's residual construction follows the cuspidal Eisenstein prefix, including §1.10b for function fields; it is not a prerequisite of that prefix or of §2.14's isobaric adapter.
 
 ([Yu22], §2.3.4, p. 12, Théorème 2.3.6 (the theorem is on p. 12 only).)
 
-*Needs:* §1.10b; §4.11; §1.10a (function-field adeles, heights and measures).
+*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` (residual suffix); §1.10b (cuspidal theory only); §4.11; §1.12 (half-modulus Hecke transport); §1.10a (function-field adeles, heights and measures).
 
 
 ### 4.15 Residual twist stabilizers
@@ -2454,7 +2478,7 @@ Prove `franke_graded_isomorphism`. For r in the closed positive chamber, each gr
 
 ### 5.7a Finite-character acyclicity of the rapidly decreasing core
 
-Prove `core_finite_character_acyclic`: the all-derivative logarithmically weighted smooth space S_log([G]) of [Fra98] §5 is Fin_J-acyclic in the larger category of §5.3, for finite-codimension invariant J. Construct the Casimir spectral cutoffs and polynomially bounded smooth multiplier estimates of §5.1: each cutoff acts continuously on the all-derivative weighted seminorms, commutes with the compatible actions and provides the finite-character comparison homotopy. Use the split spectral models of §5.2 and the filtered Koszul calculation on distributions supported at the finite central-character locus to prove R^iFin_J(S_log)=0 for i>0. This is a derived-functor theorem for S_log itself; the boundary consumer uses its inclusion in the weighted spaces and the compatible quotient resolution of §5.9. In the cocompact case all weights are equivalent and this supplies the induction base of §5.8.
+Prove `core_finite_character_acyclic`: the all-derivative logarithmically weighted smooth space S_log([G]) of [Fra98] §5 is Fin_J-acyclic in the larger category of §5.3, for finite-codimension invariant J. Construct the Casimir spectral cutoffs and polynomially bounded smooth multiplier estimates of [Fra98] §5.1: each cutoff acts continuously on the all-derivative weighted seminorms, commutes with the compatible actions and provides the finite-character comparison homotopy. Use the split spectral models of [Fra98] §5.3 and the filtered Koszul calculation of its §5.4 on distributions supported at the finite central-character locus to prove R^iFin_J(S_log)=0 for i>0. This is a derived-functor theorem for S_log itself; the boundary consumer uses its inclusion in the weighted spaces and the compatible quotient resolution of §5.9. In the cocompact case all weights are equivalent and this supplies the induction base of §5.8.
 
 **Checks.**
 
@@ -2462,7 +2486,7 @@ Prove `core_finite_character_acyclic`: the all-derivative logarithmically weight
 - In one spectral coordinate the filtered Koszul complex on distributions at zero retains the finite-order delta derivatives in degree zero and has zero positive cohomology.
 - A smooth power y^a on a noncompact cusp need not belong to S_log: its all-log-weight seminorms distinguish this core from an arbitrary smooth growth space.
 
-([Fra98], §5.1 Theorems 8–10, pp.214–219; §5.2 Theorem 12, pp.222–230; §5.3 Theorem 13 and its Koszul proof, pp.230–231.)
+([Fra98], §5.1 Theorems 8–10, pp.214–219; §5.3 Theorem 12, pp.222–230; §5.4 Theorem 13 and its Koszul proof, pp.230–231.)
 
 *Needs:* §5.3; §5.4; §5.2; §4.3–§4.4; §0.6; §3.4.
 
@@ -2611,7 +2635,7 @@ Prove the growth step `spectral_multiplier_growth`: a symbol bounded by C e^(R|R
 **Checks of the growth bound.**
 
 - The polynomial symbol (1+s)^d retains the radius and consumes d additional decay powers.
-- For real a, exp(as) increases exponential type by |a|.
+- For real a, multiplication by exp(as) gives exponential-type upper bound r+|a|; the minimal centered type may decrease. The support-closure [−1,0] bump of §1.6, multiplied in the transform by exp(−s/2), has type 1/2 instead of 1.
 - The zero symbol gives the zero family at every radius.
 
 ([Art83PW], III §4 Theorem 4.2 and its proof, pp.86–87.)
@@ -2658,7 +2682,7 @@ Prove the following API statements.
 
 ([Art05], §6, (6.1), pp.29–30; §9, Theorem 9.1, p.46; §14, (14.2), p.74.)
 
-*Needs:* §6.4; §3.1; AdelicAlgebraicGroups §3.5 (adelic height).
+*Needs:* §6.4; §3.1; §3.17a (Γ′ and Levi translation); AdelicAlgebraicGroups §3.5 (adelic height).
 
 
 ### 6.6 Coarse trace formula
@@ -2780,7 +2804,7 @@ Prove `fine_geometric_expansion`. Given a compact support neighborhood Δ⊂G(�
 
 *Standing hypotheses:* number field; sufficiently large S depending on support and ramification; Arthur connected-centralizer and (M,S)-equivalence conventions.
 
-([Art05], §19, Theorems 19.1–19.2 and Corollary 19.3, (19.10), pp.112–115.)
+([Art05], §19, Theorem 19.1, p.110; Theorem 19.2, p.113; Corollary 19.3 and (19.10), p.115.)
 
 *Needs:* §6.6; §6.10; §6.8.
 
@@ -2791,7 +2815,7 @@ Prove `fine_spectral_expansion`. For f in the adelic bi-K-finite Hecke algebra H
 
 *Standing hypotheses:* number-field connected reductive G; f∈H(G), including finite archimedean K-types; quotient determinant space a_M^L and its Haar; t=minimum-norm imaginary infinitesimal-character height.
 
-([Art05], §21, Theorem 21.6 and Corollary 21.7, p.137, with Remarks 3–4; (21.5), p.130; Corollary 21.3, p.134. [Art88G], Theorem 4.4, and the first coefficient in its proof, p.520.)
+([Art05], §21, Theorem 21.6, p.137, and Corollary 21.7, p.138, with Remarks 3–4; (21.5), p.130; Corollary 21.3, p.134. [Art88G], Theorem 4.4, and the first coefficient in its proof, p.520.)
 
 *Needs:* §6.3; §6.11; §6.6; §3.6; §2.5.
 
@@ -2871,7 +2895,7 @@ Prove the following API statements.
 - `pseudo_coefficient_trace`: the pseudo-coefficient property, from the realization theorem and Langlands' disjointness of the discrete series from the induced relations.
 
 **Checks.**
-- for compact G every λ is discrete, every irreducible π is discrete series, and d_π·conj(χ_π) is a pseudo-coefficient of π.
+- for compact G with probability Haar every λ is discrete, every irreducible π is discrete series, and conj(χ_π) is a pseudo-coefficient of π. The central idempotent d_π·conj(χ_π) acts as identity on π and has trace d_π; for the standard two-dimensional SU(2) representation that trace is 2.
 - for SL₂(ℝ) and a nonzero bi-K-invariant f≥0, the trace on the spherical unitary principal series at parameter 0 is positive, so π↦tr π(f) need not be discrete.
 - for G=ℝ_{>0}^×, the indicator of the trivial character is discrete and admissible but is no trace of a compactly supported f, whose traces form an entire function of the character; the compact-centre hypothesis cannot be dropped.
 
@@ -3019,7 +3043,13 @@ Prove the following API statements.
 
 Prove `coprime_nilpotent_vanishing`. Let X_1 be a smooth projective geometrically connected curve of genus g over F_q, n≥1 and gcd(n,e)=1. At divisor D=0 with the Lie test h_0 of §6.23, for monic p∈F_q[X] of degree n, the T=0 value J̃_{p,e} of the Lie-algebra quasi-polynomial vanishes unless p=(X−α)^n with α∈F_q; in that case translation by α gives J̃_{p,e}=J̃_{nilp,e}. ([Ch15], Theorem 6.2.1, pp.32–33.)
 
-Prove `higgs_fourier_comparison`. With the additive Haar/Fourier measure comparison of §1.10a and a canonical divisor K_can, use h_D=∏_v1_{ϖ_v^(−D_v)𝔤(𝒪_v)} and the compatible self-dual Fourier measures. Write J_K for the divisor K_can test, keeping K for the compact subgroup in §6.21. The unrestricted Lie-algebra kernel satisfies Σ_p J̃^T_{p,e}=J^{T,e}_0=q^{n²(1−g)}J^{T,e}_K for every T and e. This Fourier identity does not require the coprimality used for vanishing. ([Ch15], Corollary 5.2.3, p.30.)
+Prove `higgs_fourier_comparison` with the quotient measures of §1.10a and a canonical divisor K_can. For each divisor D use h_D=∏_v1_{ϖ_v^(−D_v)𝔤(𝒪_v)}, construct its truncated Lie kernel, and prove absolute convergence and quasipolynomial dependence on T by extending §6.22's estimates to these divisor tests. Write J_K for the divisor K_can test, keeping K for the compact subgroup in §6.21. Consume SchemeAndStackFoundations §3.3's vector-bundle degree, Riemann–Roch and Serre duality. Apply them to End(E)(D), of rank n² and degree n² deg D, using the perfect trace pairing End(E)^∨≅End(E). They give |Hom(E,E(D))|=q^{n²(1−g+deg D)}|Hom(E,E(K_can−D))|. The bundle dictionary and deep-chamber kernel comparison transport this equality to the truncated integrals; their quasipolynomial continuation gives it for every T and e. At D=0 this yields Σ_p J̃^T_{p,e}=J^{T,e}_0=q^{n²(1−g)}J^{T,e}_K. This proof requires no coprimality and uses the quotient-volume conversion of §1.10a. ([Ch15], §§5.1–5.2, Corollary 5.1.2 and Theorem 5.2.1, pp.28–29; Corollary 5.2.3 and its Riemann–Roch/Serre-duality proof, p.30.)
+
+**Checks of the divisor comparison.**
+
+- On ℙ¹ in rank one and D=0, Hom(E,E) has q elements and Hom(E,E(K_can)) has one element; the factor is q.
+- In genus one with K_can=0 and D=0, the factor is one and the two tests coincide, for every rank and degree, including noncoprime data.
+- Applying D↦K_can−D twice gives reciprocal factors, since deg K_can=2g−2; their product is one.
 
 Prove the separate canonical-boundary target `canonical_higgs_mass`: under the coprime hypotheses above, J^{0,e}_K equals Σ_{[(E,θ)]}1/|Aut(E,θ)(F_q)| for geometrically stable Higgs bundles θ:E→E⊗ω of rank n and degree e. Semistability equals stability because gcd(n,e)=1. Derive this comparison by identifying the truncated kernel with θ-invariant flags and applying the Arthur cone identity at T=0: unstable Higgs bundles cancel, and stable ones have no proper slope-equality flag. Keep the finite stabilizer weights in the adelic bundle dictionary. Chaudouard's Corollary 5.2.2, p.30 assumes deg D>2g−2; it cannot supply this equality at deg K=2g−2 without this additional argument. The canonical case and resulting counting relation are stated in [Yu22], Appendix B, p.79.
 
@@ -3037,7 +3067,7 @@ J_e = (q−1)J̃_{nilp,e}
 - Scalar translation gives exactly q distinct characteristic-polynomial fibres (X−α)^n; dropping the zero scalar leaves q−1 and belongs to the group kernel rather than the unrestricted Lie-algebra kernel.
 - At rank two and degree zero, equal-slope summands can occur. This fails the coprimality hypothesis, so neither semistable=stable nor the stable-mass comparison is asserted by this target.
 
-*Needs:* §6.22; §6.23; §6.22a; §6.22b; §6.22c; §1.10a (function-field adeles, heights and measures).
+*Needs:* §6.22; §6.23; §6.22a; §6.22b; §6.22c; §1.10a (quotient measures and volume conversion); SchemeAndStackFoundations §3.3 (vector-bundle degree, Riemann–Roch, Serre duality and Ext–Hom comparison).
 
 
 ### 6.25 Weyl permutations and fixed Levis

@@ -23,6 +23,21 @@ namespace TauCetiRoadmap.AutomorphicSpectralTheory
 
 /-! ## Layer 0: Hilbert fields, vector analysis and rank-one kernels -/
 
+section IdealPowerChecks
+variable {A M : Type*} [CommRing A] [AddCommGroup M] [Module A M]
+
+example : Ideal.primaryComponent M (⊥ : Ideal A) = ⊤ := by sorry
+example : Ideal.primaryComponent M (⊤ : Ideal A) = ⊥ := by sorry
+
+example :
+    let N := (LinearMap.inl ℂ ℂ ℂ).comp (LinearMap.snd ℂ ℂ ℂ)
+    let V := Module.AEval' N
+    Ideal.primaryComponent V (Ideal.span ({Polynomial.X} : Set (Polynomial ℂ))) = ⊤ ∧
+      (∀ v : V, (Polynomial.X ^ 2 : Polynomial ℂ) • v = 0) ∧
+      (Polynomial.X : Polynomial ℂ) • Module.AEval'.of N (0, 1) = Module.AEval'.of N (1, 0) ∧
+      Module.AEval'.of N (1, 0) ≠ 0 := by sorry
+end IdealPowerChecks
+
 section VectorAnalysis
 variable {V : Type*} [NormedAddCommGroup V]
 
@@ -214,6 +229,7 @@ theorem legendre_q_asymptotics (s : ℝ) (hs : 1 < s) :
 
 example : legendre_q 1 3 = (1 / 2 * Real.log 2 : ℝ) := by sorry
 example : legendre_q 2 3 = (3 / 2 * Real.log 2 - 1 : ℝ) := by sorry
+example : Tendsto (fun t : ℝ => ‖legendre_q 1 t‖) (𝓝[>] 1) atTop := by sorry
 
 /-- The analytic point-pair kernel; the diagonal is excluded in its smooth API. -/
 def point_pair_invariant (s : ℂ) (z z' : UpperHalfPlane) : ℂ :=
@@ -408,7 +424,8 @@ isobaric_sum, operator_intertwiner_family, resolvent_kernel, automorphic_green,
 normalized_intertwiner, continued_intertwiner.
 
 Layer 3: truncation_cones, arthur_truncation, eisenstein_wave_packet, gln_relative_roots,
-chamber_height_functions, auxiliary_chamber_selector, degree_cone_series, floor_monomial_family.
+chamber_height_functions, auxiliary_chamber_selector, degree_cone_series, floor_monomial_family,
+gamma_cutoffs (general alternating cones and the GL_n slope/prefix specialization).
 
 Layer 4: associate_parameter_fields, spectral_map, residual_spectrum, discrete_spherical_spectrum,
 discrete_pair, good_discrete_pair, quadratic_weyl_domains.
