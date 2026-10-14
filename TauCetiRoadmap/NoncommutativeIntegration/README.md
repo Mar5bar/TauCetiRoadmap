@@ -37,7 +37,8 @@ Use these prerequisite developments:
   operators, the τ-measurable operator algebra, and basic semifinite Lp
   for 1≤p<∞, including completeness, Hölder, L¹=M_* and L²=GNS;
   V11 for weights and their tensor products, general standard forms, modular groups, cocycles and
-  continuous cores. I1 extends the measurable theory to smaller exponents
+  continuous cores, dual fixed-point identification and the
+  Pedersen–Takesaki density theorem. I1 extends the measurable theory to smaller exponents
   and develops singular numbers; it does not reconstruct V10's spaces.
 - [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1–B2 for duality,
   weak compactness and reflexivity, and B6 for absolutely summing maps
@@ -233,12 +234,10 @@ addition and scalars, that adjoint preserves p, and that products carry
 Lp×Lq into Lr for 1/r=1/p+1/q. Show the polar partial isometry of an
 Lp element lies in M and its modulus satisfies the same covariance.
 
-Prove the dual-action fixed-point theorem R^θ=M, with the specified
-coefficient inclusion. Prove the Pedersen–Takesaki Radon–Nikodym theorem
-relative to an n.s.f. trace: every normal semifinite weight on R has a
-unique positive affiliated density h with value Tr_core(h·), interpreted
-on positive elements by h^(1/2) x h^(1/2). Include supported, nonfaithful
-weights and their domains. Prove the dual-weight characterization: every
+Consume V11's dual-action fixed-point theorem R^θ=M and its
+Pedersen–Takesaki trace-density theorem. Compare the specified coefficient
+inclusion and the normalized Tr_core density, including supported,
+nonfaithful weights and their domains. Prove the dual-weight characterization: every
 θ-invariant normal semifinite weight on R is the dual of a unique normal
 semifinite weight on M. Prove the faithful case first. For a nonfaithful
 weight its support p is θ-fixed, hence lies in M. Choose a new n.s.f.
@@ -314,14 +313,10 @@ operator-interpolation formulas with those specified embeddings. Do not
 assert that ordinary real interpolation of an arbitrary state couple is
 the same isometric construction.
 
-For a unital von Neumann subalgebra N⊆M preserved by σ^φ, prove
-Takesaki's conditional-expectation theorem using V11's modular theory
-and the GNS projection: there is a unique normal φ-preserving
-conditional expectation E:M→N, and E commutes with the modular group.
-Conversely such an expectation implies modular invariance. Obtain
-expectations onto every unital subalgebra of a finite tracial algebra
-by σ^τ=id, without assuming the algebras are factors. Specify the restriction state
-on N. Construct the core inclusion and its expectation, and hence consistent
+For a unital von Neumann subalgebra N⊆M preserved by σ^φ,
+consume V11's normal φ-preserving expectation and its modular
+commutation. This includes every unital subalgebra of a finite tracial
+algebra and its restricted state. Construct the core inclusion and its expectation, and hence consistent
 isometric inclusions Lp(N)→Lp(M) and positive contractive projections
 E_p:Lp(M)→Lp(N), 1≤p≤∞. On symmetric dense elements require
 `E_p(h_φ^(1/(2p)) x h_φ^(1/(2p)))
