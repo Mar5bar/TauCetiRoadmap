@@ -788,7 +788,10 @@ and the nine-term sequence, global finiteness, cohomological dimension, `H²` su
 high-degree cohomology of the units, the equivariant Kummer Euler class (including its S-unit character, class-group cancellation
 and p-primary idele comparison), the Euler characteristic with real places, the decomposition
 map, all-place `Ш` duality, Grunwald–Wang with its dyadic obstruction, character roots, Tate's
-vanishing of `H²(G_K, ℚ/ℤ)`, torus duality, the function-field Poitou–Tate theorem and central
+vanishing of `H²(G_K, ℚ/ℤ)`, torus local evaluation with integral annihilators and modified
+archimedean points, the completed all-place torus sequence, compactness of the modified torus
+quotient and realization of the completed image by actual adelic points, torus Sha duality,
+the function-field Poitou–Tate theorem and central
 obstructions, and totally real local base change; perfect amplitude and Tor for the module-derived
 tensor supplied by DerivedDeRhamCohomology §0.2, Matlis duality, the derived
 composite spectral sequence, adic continuous-map flatness, the Hilbert–Samuel Euler function,
@@ -806,6 +809,17 @@ the full real Tate trace sequence, and derived coefficient
 change; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
 Khare–Wintenberger relation bounds, odd and dyadic Taylor–Wiles primes and finite-order determinant
 twists.
+
+The torus completion is the inverse limit over open subgroups of finite index of the entire
+modified adelic restricted product. Local completed point groups enter local duality; the
+global image realization uses the finite torus class sets supplied by AdelicAlgebraicGroups
+§3.4 and compactness modulo the closure of rational points. The README specifies these targets
+with their integral subgroups, evaluation maps and completion comparisons.
+
+The Nakamura cochain tensor comparisons retain perfectness as an explicit hypothesis in the
+dyadic global case. Real places can produce unbounded cohomology for the trivial `ℤ₂`
+representation; induction from `G_{ℚ(i),Σ_F}` gives a rank-two finite-free representation
+whose cohomology is perfect by compact Shapiro and the totally imaginary amplitude theorem.
 
 The README names the following definitions and API of those targets, which are therefore not
 declared here.

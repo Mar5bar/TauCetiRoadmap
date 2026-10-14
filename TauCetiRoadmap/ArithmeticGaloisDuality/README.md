@@ -110,6 +110,13 @@ and Khare–Wintenberger numerics of Layer R02.6.
 
 **Further roadmaps this roadmap builds on.**
 
+- *AdelicAlgebraicGroups* §§1.1–1.2 supply integral models, the topology of affine adelic
+  points and their restricted-product realization; §1.5 supplies compact open local subgroups.
+  Its §3.4 **Finiteness of class numbers** supplies finiteness of
+  `T(F)\T(𝔸_{F,f})/U` for a number-field torus and a compact open subgroup `U`.
+  R02.4.6 here constructs the modified archimedean quotient, its compactness modulo the closure
+  of rational points, torus local duality, the completed sequence and realization of its image
+  by actual adelic points.
 - *SelmerIwasawaCohomology*. Its Layers 1 and 2 own local conditions, Selmer structures, dual Selmer
   structures and the parametric Selmer mapping fibre. Its §§2.21–2.22 supply both the ordinary and
   modified instances, their triangles, functoriality, quasi-isomorphism invariance, archimedean
@@ -3762,6 +3769,131 @@ the power kernel* (Layer R02.3); *Local inputs at places of a global function fi
   `ℤ/2 → ℤ/4` (`1 ↦ 2`), being the connecting image of the quadratic character of `ℚ(i)/ℚ` for
   `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0`; the coefficient enlargement is needed, as the class itself is nonzero.
 
+**Local torus evaluation and modified adelic points.** Let `T` be a torus over a number field `F`
+and put `X = X^*(T)`, with its discrete Galois action. Choose a finite set `S₀` containing the
+archimedean places and a smooth torus model `𝒯` over `𝒪_{F,S₀}`. This target includes existence of
+such a model: spread a finite splitting extension and descend the split torus after enlarging
+`S₀`. At finite `v ∉ S₀` put `U_v = 𝒯(𝒪_v)`, a compact open subgroup of `T(F_v)`; at the finitely
+many finite places in `S₀` choose any compact open subgroup `U_v`. Define `P⁰(T)` as the restricted
+product of the finite-place groups relative to `U_v`, times `Ĥ⁰(F_v,T)` at real places and zero
+at complex places. The real factor is `T(ℝ)/N T(ℂ)`, with its finite quotient topology.
+Changing the model, enlarging `S₀` or changing the exceptional compact open subgroups gives the
+canonical topological identification.
+
+For a topological abelian group `B`, define `B^∧ = lim_U B/U`, where `U` runs through its open
+subgroups of finite index, with the inverse-limit topology. The canonical map has dense image;
+`P⁰(T)^∧` means the completion of this entire restricted product. For a discrete torsion group
+`A`, write `A^D = Hom(A, ℚ/ℤ)` with the compact-open topology, equivalently the inverse limit
+of the finite duals of its finite subgroups. This applies also to groups of unbounded exponent.
+
+Evaluation `T(F_v^s) × X → F_v^{s×}`, cup product and the local invariant give a perfect pairing
+`T(F_v)^∧ × H²(F_v,X) → ℚ/ℤ` at a finite place. At a real place use the perfect pairing
+`Ĥ⁰(F_v,T) × Ĥ²(F_v,X) → ½ℤ/ℤ`; the complex-place factors vanish. At a good finite place,
+the image of `U_v^∧` and `H²_un(F_v,X)`, the image of inflation from `H²(G_{κ_v},X)`
+for the residue-field Galois group, are exact annihilators.
+Thus the finite sum `θ(t)(a) = Σ_v inv_v(t_v ∪ loc_v(a))` defines a continuous homomorphism
+`θ : P⁰(T) → H²(F,X)^D`, natural in `T` and zero on the image of `T(F)` by reciprocity.
+Construct its unique continuous extension `θ^∧` to `P⁰(T)^∧` by extending its maps to each finite
+dual `A^D`, for `A ⊂ H²(F,X)` finite. The adelic comparison supplies a surjection
+`q : T(𝔸_F) → P⁰(T)`, the identity at finite places and the Tate quotient at infinity;
+the sum of evaluation invariants on actual adelic points is `θ ∘ q`.
+
+*Proof sketch.* Use torus character evaluation and local Tate–Nakayama duality, with Kummer
+reductions at every positive integer. Integral evaluation has zero invariant because
+`Br(𝒪_v) = 0`; local duality identifies the exact integral annihilators. Every global lattice
+cohomology class is unramified outside finitely many places, so the sum is finite. Compare
+models through the supplied adelic topology and check that local evaluation factors through
+the real norm quotient. ([Harari–Szamuely, *Arithmetic duality theorems for
+1-motives*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/motive.pdf),
+§2, Theorem 2.3, Proposition 2.9 and Theorem 2.10, author pp. 9–14, specialized to `[0 → T]`;
+[Harari, *Le défaut d’approximation forte pour les groupes algébriques
+commutatifs*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/ant.pdf),
+§1.1, author pp. 1–2, and §2, pairing and definition of `θ`, pp. 7–8.)
+*Needs:* *Tate's duality theorem for a class formation*; *Local duality at the archimedean places*;
+ProfiniteCohomology Layers 9 and 12; ClassFieldTheory Layers 5 and 10;
+ReductiveGroups (tori and character lattices); AdelicAlgebraicGroups §§1.1–1.2 and §1.5.
+
+**Checks.**
+
+- For `T = G_m` at a finite place, `F_v^×/𝒪_v^× = ℤ`, whereas its completed valuation factor
+  is `Ẑ`; the local perfect pairing uses the latter.
+- For `G_m` at a real place, `Ĥ⁰(ℝ,G_m) = {±1}`; at a complex place the modified factor is zero.
+- At a good place for `G_m`, an unramified character evaluates through the valuation and
+  pairs trivially with `𝒪_v^×`, exactly the specified integral subgroup.
+
+**The completed all-place torus sequence.** With `F`, `T`, `X`, `P⁰(T)` and the completion of
+*Local torus evaluation and modified adelic points*, construct the finite perfect pairing
+`Ш¹(F,T) × Ш²(F,X) → ℚ/ℤ` and the exact sequence of continuous homomorphisms
+`P⁰(T)^∧ → H²(F,X)^D → Ш²(F,X)^D → 0`.
+The first map is `θ^∧`; the second restricts a character to `Ш²(F,X)` and, via the finite
+pairing, identifies its value with an element of `Ш¹(F,T)`. This target owns the passage from
+finite Poitou–Tate to the completed lattice/torus sequence, for number fields with all real
+terms retained.
+
+*Proof sketch.* Use the Kummer sequences for `T[n]` and its finite dual `X/nX` for every `n > 0`,
+their compatibility with evaluation, and finite Poitou–Tate. In these diagrams distinguish
+`B^♭ = lim_n B/nB`, with quotient topologies and divisibility as the indexing order, from
+`B^∧`: construct `(B^♭)^∧ ≅ B^∧` for `B = T(F)` and `B = P⁰(T)`.
+Prove that the finite-level localization maps `T(F)/nT(F) → P⁰(T)/nP⁰(T)` are strict with finite
+kernels, and that `T(F)^♭ → P⁰(T)^♭` is strict with closed image and profinite quotient
+`P⁰(T)^♭/im(T(F)^♭)`; these assertions supply exactness through the two completion procedures.
+For multiplicatively written groups, `nB` means the subgroup of `n`th powers. Identify the
+connecting map using the finite Sha pairing from class-formation duality for finitely generated lattices.
+([Harari–Szamuely, *Arithmetic duality theorems for
+1-motives*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/motive.pdf),
+§4, Corollary 4.9 and Remark 4.10; §5, Lemma 5.3, Proposition 5.4, Theorem 5.6 and proof,
+author pp. 30–37, with
+[Corrigenda](https://www.imo.universite-paris-saclay.fr/~david.harari/errata/reviscorcrelle.pdf),
+corrections to journal pp. 120 and 123, corrigenda p. 5;
+[Milne, *Arithmetic Duality Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf),
+I, paragraph following Corollary 4.21, p. 66; [Harari, *Le défaut d’approximation forte pour les
+groupes algébriques
+commutatifs*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/ant.pdf),
+§2, proof of Theorem 2, author pp. 10–11, specialized to `[0 → T]`.)
+*Needs:* *Local torus evaluation and modified adelic points*; *All-place Sha duality and transfer
+adjunction*; *Tate's duality theorem for a class formation*; *Ext of discrete G-modules*;
+*The Milnor sequence for towers of complexes* (Layer R02.1); ProfiniteCohomology Layers 7 and 9.
+
+**Checks.**
+
+- For the zero torus, all three groups and both maps are zero.
+- For `T = G_m`, `Ш²(F,ℤ) = 0` by Chebotarev, so the completed evaluation map is surjective.
+- For `F = ℚ` and `X = ℤ`, `H²(F,X) = Hom(G_F,ℚ/ℤ)` has unbounded exponent, since cyclotomic
+  extensions have cyclic quotients of arbitrarily large order; the sequence uses all `n`.
+
+**Torus quotient compactness and adelic image realization.** For the number-field torus and
+modified group above, put `K_T = ∏_{v finite} U_v × ∏_{v real} Ĥ⁰(F_v,T)`, with zero complex
+factors. The image of `T(F)` has finite index in `P⁰(T)/K_T`. Its projection also has finite
+index in `P⁰_{outside S₀}(T)/∏_{v∉S₀} U_v`. The quotient
+`P⁰(T)/closure(im(T(F)))` is compact Hausdorff. Consequently
+`im(θ) = im(θ^∧)` in `H²(F,X)^D`, and this is also the image of evaluation from the actual
+points `T(𝔸_F)`.
+
+*Proof sketch.* Apply AdelicAlgebraicGroups §3.4 **Finiteness of class numbers** to the compact
+open subgroup `∏_{v finite} U_v` of the finite adelic points. The modified archimedean factors
+are finite, so finitely many translates of the compact group `K_T` cover the quotient by
+rational points. Passing to the closure makes the quotient Hausdorff while preserving
+compactness. Since `θ` kills rational points, its image is compact and closed in the profinite
+target. The dense canonical image of `P⁰(T)` in `P⁰(T)^∧` makes `im(θ)` dense in
+`im(θ^∧)`; closedness gives equality. Surjectivity of `q` identifies this with the actual adelic
+image, preserving evaluation and the modified real-place convention.
+([Harari, *Le défaut d’approximation forte pour les groupes algébriques
+commutatifs*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/ant.pdf),
+§2, Lemma 3, author p. 5, Lemma 4 and proof, p. 10, and remarks after Theorem 2, p. 11.)
+*Needs:* *Local torus evaluation and modified adelic points*; AdelicAlgebraicGroups §3.4
+*Finiteness of class numbers*, with its §§1.2 and 1.5 adelic topology and compact open levels;
+Mathlib compact images and Hausdorff quotients by closed subgroups.
+
+**Checks.**
+
+- For `T = G_m`, the finite-index assertion is finiteness of the ideal class group; removing
+  the archimedean norm factors gives a compact quotient modulo the closure of `F^×`.
+- For `F = ℚ(√2)` and `T = G_m`, the powers of `1 + √2` and `{±1}` form an infinite countable
+  subgroup inside the compact integral box, exactly its rational points. This intersection is
+  not closed, so the rational-point closure is essential for the Hausdorff quotient.
+- `ℤ → ℤ/n` is onto for every `n`, but `ℤ → Ẑ` has dense proper image. Finite-level
+  surjectivity alone cannot replace the compactness and closedness argument.
+
 **Torus Sha duality and adelic annihilators.** Let `T` be a torus over a number field `F` with
 character lattice `X^*(T)`. Then
 `Ш¹(F, T)` and `Ш²(F, X^*(T))` are finite and perfectly paired. The image of `T(𝔸_F)` in
@@ -3770,17 +3902,20 @@ of `Ш²(F, X^*(T))`; here `H²(F, X^*(T))` is discrete and its dual carries the
 In the torsor application of Harpaz–Wittenberg, the obstruction character changes by the negative
 of this pairing.
 
-*Proof sketch.* Resolve the character lattice by permutation lattices; use Shapiro, finite
-Poitou–Tate and class-formation duality for finitely generated coefficients. The torus evaluation
-cup pairing with the local invariants identifies the finite `Ш` groups. Pass to the adelic
-restricted product and identify its annihilator through the all-place exact sequence; check the
-source's torsor sign separately. ([Milne, *Arithmetic Duality
+*Proof sketch.* *The completed all-place torus sequence* supplies the finite Sha pairing and
+identifies the completed evaluation image with the kernel of restriction to `Ш²(F,X^*(T))`.
+*Torus quotient compactness and adelic image realization* realizes exactly this image by
+actual adelic points. Use the evaluation of *Local torus evaluation and modified adelic points*
+and check the source's torsor sign. ([Milne, *Arithmetic Duality
 Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I, §4, Theorem 4.20 and
-Corollaries 4.17, 4.21, pp. 65–70; [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes et
+Corollary 4.21 and the following paragraph, pp. 65–66; [Harari, *Le défaut d’approximation forte
+pour les groupes algébriques
+commutatifs*](https://www.imo.universite-paris-saclay.fr/~david.harari/articles/ant.pdf),
+§2, Theorem 2, author pp. 10–11; [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes et
 problème de Galois inverse*](https://www.math.univ-paris13.fr/~wittenberg/zceh.pdf), §2,
-Propositions 2.6–2.7, author p. 11.) *Needs:* *All-place Sha duality and transfer adjunction*;
-*Tate's duality theorem for a class formation*; *P^r_S(K, M) is dual to P^{2−r}_S(K, M^D)*;
-ClassFieldTheory Layer 10; ReductiveGroups (tori and their character lattices).
+Propositions 2.6–2.7, author p. 11.) *Needs:* *The completed all-place torus sequence*;
+*Torus quotient compactness and adelic image realization*;
+*Local torus evaluation and modified adelic points*.
 
 **Checks.**
 
@@ -3832,6 +3967,8 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
 - Earlier layers of this roadmap: R02.2, R02.3.
 - TauCetiRoadmap ProfiniteCohomology: Layers 4, 5, 7, 10, 11, 12.
 - TauCetiRoadmap ClassFieldTheory: Layers 3, 4, 5, 6, 10, 11, 12.
+- TauCetiRoadmap AdelicAlgebraicGroups: §§1.1–1.2, §1.5 and §3.4 (torus adelic topology,
+  compact open levels and finite class sets).
 - TauCetiRoadmap RepresentationTheory/InductionRestriction: Layer 6.
 - InverseGaloisAndArithmeticFundamentalGroups: IG.4.2 *Finite-coefficient Poitou–Tate input*; IG.4.2
   *Grunwald–Wang and its exceptional class*.
@@ -4510,9 +4647,10 @@ with continuous `G`-action. For every finitely generated `A`-module `M`, the nat
 `A`. Let `P = ∏_I A` be pro-free, with its product topology, and suppose that `C_cts(G, ρ)` is
 perfect, that is, that there is a quasi-isomorphism `N → C_cts(G, ρ)` from a bounded complex `N` of
 finite projective `A`-modules. This holds for `G = G_{ℚ_ℓ}`, and for `G = G_{ℚ,Σ}` when `p` is odd,
-by *Cohomological finiteness and perfect amplitude*; for `p = 2` the real place makes
-`RΓ_cts(G_{ℚ,Σ}, ρ)` unbounded and it is not perfect, so perfectness is then a hypothesis, as in
-Nakamura's Lemma B.31. Under it, `P ⊗ N ⊗ M → C_cts(G, P ⊗ ρ ⊗ M)` is a quasi-isomorphism, with the
+by *Cohomological finiteness and perfect amplitude*. For `p = 2` real places can make global
+cohomology unbounded, so perfectness remains an explicit hypothesis in the global case, as in
+Nakamura's Lemma B.31; it can hold for particular `ρ` (Checks). Under it,
+`P ⊗ N ⊗ M → C_cts(G, P ⊗ ρ ⊗ M)` is a quasi-isomorphism, with the
 tensor topology of the source on the target coefficients. For smooth
 admissible `Γ`-modules the comparison passes through the filtered union of their fixed parts, which
 are finitely generated over `A`, as in Corollary B.32.
@@ -4526,12 +4664,21 @@ morphisms for rank two universal deformations*](https://arxiv.org/pdf/2006.13647
 Lemmas B.29–B.31 and Corollary B.32, author pp. 104–106; journal pp. 285–288.) *Needs:* *Continuous
 cochains in the derived category*; *Cohomological finiteness and perfect amplitude*; *Completed
 tensor products and finite reductions* (Layer R02.1); *Derived tensor, perfect amplitude and Tor*;
-*Matlis duality for arithmetic coefficients*; *Adic continuous-map flatness*.
+*Matlis duality for arithmetic coefficients*; *Adic continuous-map flatness*;
+*Compact Shapiro and projection formulas*.
 
 **Checks.**
 
 - `M = A` gives the identity.
 - `M = A/I` gives the reduction `C_cts(G, ρ)/I ≅ C_cts(G, ρ/Iρ)`.
+- For `p = 2`, `Σ = {2,∞}` and trivial `ρ = ℤ₂`, restriction gives
+  `H^{2j}(G_{ℚ,Σ},ℤ₂) = H^{2j}(ℝ,ℤ₂) = ℤ/2` for every `j ≥ 2`; this complex is unbounded
+  and not perfect.
+- For the same `G = G_{ℚ,Σ}`, let `F = ℚ(i)`, `H = G_{F,Σ_F}` and
+  `ρ = Ind_H^G ℤ₂`. This continuous rank-two finite-free representation has
+  `RΓ_cts(G,ρ) ≃ RΓ_cts(H,ℤ₂)` by compact Shapiro, perfect with amplitude in `[0,2]`
+  since `F` is totally imaginary. Its real restriction is the regular `ℤ₂[C₂]` module,
+  whose Tate cohomology vanishes in every degree.
 - For `A = ℤ_p`, `ρ = ℤ_p` with trivial action and `M = ℤ_p[[T]]` (not finitely generated), the
   degree-one map is not surjective: a continuous `f : G → ℤ_p[[T]]` taking the value `Tⁿ` on
   `U_n ∖ U_{n+1}` for a decreasing basis `(U_n)` of open subgroups has values spanning `ℤ_p[T]`.
