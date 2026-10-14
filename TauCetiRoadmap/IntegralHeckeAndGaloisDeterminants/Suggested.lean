@@ -30,7 +30,6 @@ Design choices.
 
 namespace TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
 
-set_option autoImplicit false
 
 noncomputable section
 
