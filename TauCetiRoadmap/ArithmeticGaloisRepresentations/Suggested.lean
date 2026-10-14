@@ -34,9 +34,11 @@ Design choices made explicit here.
   Ceti's `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`; the `ℓ`-adic cyclotomic character
   is Tau Ceti's `TauCeti.continuousLocalCyclotomicCharacter`, and the `ℓ`-adic tame character is
   `TauCeti.inertiaPadicTameCharacter`.
-* A Weil–Deligne representation is stated over an abstract topological group `W` with a degree map
-  `deg : W →* Multiplicative ℤ`, an arithmetic Frobenius lift having degree `1`; the relation is
-  `r(w) ∘ N = q^{deg w} • (N ∘ r(w))`. Local factors use the geometric Frobenius.
+* SmoothRepresentationsOfLocalGroups SR.5.2 supplies the Weil–Deligne carrier, full functor and
+  Frobenius semisimplification. Its arithmetic lift has degree `1` and relation
+  `r(w) ∘ N = q^{deg w} • (N ∘ r(w))`; dual monodromy is `−Nᵗ`. The arithmetic consumers below
+  take the supplied fields `r`, `N` and their relation directly. Local factors use geometric
+  Frobenius. The full functor and its inverse precede Frobenius semisimplification.
 * Data whose construction is a theorem (semisimplification, the Weil–Deligne representation of an
   `ℓ`-adic representation, conductors, local constants, Tate modules of abelian varieties) are README
   targets and do not appear here.
@@ -1415,8 +1417,16 @@ theorem exists_unique_factor_inertiaPadicTameCharacter (K : Type*) [Field K] [Va
       f = g.comp (TauCeti.inertiaPadicTameCharacter K hℓ).toMonoidHom := by
   sorry
 
-/-- A semisimple representation with coefficients of the residue characteristic `p` is tamely
-ramified, and inertia acts through a cyclic group of order prime to `p` (Serre 1972, 1.6). -/
+/-! Section 2.3 owns `fundamentalCharacter`, `fundamentalCharacter_pow_p` and
+`cyclotomic_restrict_tameInertia`, including the norm API for local fields with finite residue
+field, together with the rank-two tame
+classification over `ℚ_p`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 supplies the
+extension to arbitrary perfect residue fields and its agreement with this finite-residue API;
+R07.1.27–R07.1.32 supply Raynaud exponent bounds and finite-flat applications. -/
+
+/-- Over a nonarchimedean local field with finite residue field of characteristic `p`, a semisimple
+continuous residual representation is tamely ramified and inertia acts through a cyclic group
+of order prime to `p` (Serre 1972, 1.6). -/
 theorem tame_of_semisimple_residual (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] (p : ℕ) [Fact p.Prime] (hp : ringChar 𝓀[K] = p)
     (k₁ : Type*) [Field k₁] [CharP k₁ p] [TopologicalSpace k₁] [DiscreteTopology k₁]
@@ -1431,37 +1441,17 @@ theorem tame_of_semisimple_residual (K : Type*) [Field K] [ValuativeRel K] [Topo
 
 end GaloisRep
 
-/-! ### Nilpotent exponential and unipotent logarithm -/
+/-! ### Arithmetic monodromy and the shared Weil–Deligne interface
 
-namespace IsUnipotent
-
-variable {A : Type*} [Ring A] [Algebra ℚ A]
-
-/-- The logarithm `log u = Σ_{i ≥ 1} (−1)^{i+1} (u − 1)^i / i` of a unipotent element (a finite sum
-when `u − 1` is nilpotent). Mathlib has `IsNilpotent.exp` and no logarithm. -/
-def log (u : A) : A :=
-  ∑ i ∈ Finset.range (nilpotencyClass (u - 1)),
-    ((-1 : ℚ) ^ i / ((i : ℚ) + 1)) • (u - 1) ^ (i + 1)
-
-/-- `exp` and `log` are mutually inverse bijections between nilpotent and unipotent elements. -/
-theorem log_exp_and_exp_log {N u : A} (hN : IsNilpotent N) (hu : IsNilpotent (u - 1)) :
-    log (IsNilpotent.exp N) = N ∧ IsNilpotent.exp (log u) = u ∧ IsNilpotent (log u) := by
-  sorry
-
-/-- A continuous `h : ℤ_ℓ → GL_n(ℚ_ℓ)` with `h(1)` unipotent is `x ↦ exp(x log h(1))`. -/
-theorem apply_eq_exp_smul_log (ℓ : ℕ) [Fact ℓ.Prime] {n : ℕ}
-    (h : Multiplicative ℤ_[ℓ] →* Matrix (Fin n) (Fin n) ℚ_[ℓ]) (hc : Continuous h)
-    (hu : IsNilpotent (h (Multiplicative.ofAdd 1) - 1)) (x : ℤ_[ℓ]) :
-    h (Multiplicative.ofAdd x) =
-      IsNilpotent.exp ((x : ℚ_[ℓ]) • log (h (Multiplicative.ofAdd 1))) := by
-  sorry
-
-end IsUnipotent
+SmoothRepresentationsOfLocalGroups SR.5.2 supplies the nilpotent exponential/unipotent logarithm
+calculus, Grothendieck's monodromy theorem, the full Weil–Deligne construction and its inverse on
+unit-Frobenius parameters, and Frobenius semisimplification. Section 2.4 transports these to
+`ContinuousRep` using the supplied local Weil group and Tau Ceti's tame character. -/
 
 namespace GaloisRep
 
-/-- Grothendieck's `ℓ`-adic monodromy theorem (Deligne 1973, Thm 8.2): for `ℓ ≠ p` and a continuous
-representation of `G_K` on a finite-dimensional space over a finite extension `E` of `ℚ_ℓ`, there are
+/-- The arithmetic consumer of SR.5.2's monodromy theorem (Deligne 1973, Thm 8.2): for `ℓ ≠ p`
+and a continuous representation of `G_K` on a finite-dimensional space over a finite extension `E` of `ℚ_ℓ`, there are
 a unique nilpotent `N` and an open subgroup `J` of `I_K` with `ρ(σ) = exp(t(σ) N)` on `J`, where
 `t = T ∘ t_ℓ` for a trivialisation `T` of `ℤ_ℓ(1)`, and `ρ(w) N = χ_ℓ(w) N ρ(w)`. -/
 theorem grothendieck_quasiUnipotent (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
@@ -1483,208 +1473,59 @@ theorem grothendieck_quasiUnipotent (K : Type*) [Field K] [ValuativeRel K] [Topo
 
 end GaloisRep
 
-/-! ### Weil–Deligne representations -/
-
-/-- A Weil–Deligne representation over a field `Ω`: a representation `r` of the Weil group `W`
-(degree map `deg`, an arithmetic Frobenius lift of degree `1`) trivial on an open subgroup, and a
-nilpotent `N` with `r(w) ∘ N = q^{deg w} • (N ∘ r(w))` (Deligne 1973, (8.4.1)). -/
-structure WeilDeligneRep (W : Type u) [Group W] [TopologicalSpace W] [IsTopologicalGroup W]
-    (deg : W →* Multiplicative ℤ) (q : ℕ) (Ω : Type v) [Field Ω]
-    (V : Type w) [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V] where
-  /-- The Weil group representation. -/
-  r : Representation Ω W V
-  /-- Smoothness: the kernel is open. -/
-  isOpen_ker : IsOpen {w : W | r w = LinearMap.id}
-  /-- The monodromy operator. -/
-  N : Module.End Ω V
-  /-- `N` is nilpotent. -/
-  isNilpotent_N : IsNilpotent N
-  /-- Deligne's relation in the arithmetic normalisation. -/
-  conj_monodromy : ∀ w : W, r w ∘ₗ N = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N ∘ₗ r w)
+/-! ### Local factors on the supplied Weil–Deligne fields -/
 
 namespace WeilDeligneRep
 
-section Basic
-
-variable {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
-  {Ω : Type*} [Field Ω]
-  {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
-  {V' : Type*} [AddCommGroup V'] [Module Ω V'] [FiniteDimensional Ω V']
-
-/-- Isomorphisms of Weil–Deligne representations. -/
-structure Iso (D : WeilDeligneRep W deg q Ω V) (D' : WeilDeligneRep W deg q Ω V') where
-  /-- The underlying linear equivalence. -/
-  toLinearEquiv : V ≃ₗ[Ω] V'
-  /-- Equivariance for the Weil group. -/
-  comm_r : ∀ w, (toLinearEquiv : V →ₗ[Ω] V') ∘ₗ D.r w = D'.r w ∘ₗ toLinearEquiv
-  /-- Compatibility with the monodromy operators. -/
-  comm_N : (toLinearEquiv : V →ₗ[Ω] V') ∘ₗ D.N = D'.N ∘ₗ toLinearEquiv
-
-/-- The relation read at an arithmetic Frobenius lift: `r(Φ) N r(Φ)⁻¹ = q N`. -/
-theorem conj_monodromy_arith (D : WeilDeligneRep W deg q Ω V) (Φ : W)
-    (hΦ : deg Φ = Multiplicative.ofAdd 1) :
-    D.r Φ ∘ₗ D.N ∘ₗ D.r Φ⁻¹ = (q : Ω) • D.N := by
-  sorry
-
-/-- Tensor product `(r ⊗ r', N ⊗ 1 + 1 ⊗ N')`. -/
-def tensor (D : WeilDeligneRep W deg q Ω V) (D' : WeilDeligneRep W deg q Ω V') :
-    WeilDeligneRep W deg q Ω (V ⊗[Ω] V') where
-  r := D.r.tprod D'.r
-  isOpen_ker := sorry
-  N := TensorProduct.map D.N LinearMap.id + TensorProduct.map LinearMap.id D'.N
-  isNilpotent_N := sorry
-  conj_monodromy := sorry
-
-/-- Direct sum `(r ⊕ r', N ⊕ N')`. -/
-def prod (D : WeilDeligneRep W deg q Ω V) (D' : WeilDeligneRep W deg q Ω V') :
-    WeilDeligneRep W deg q Ω (V × V') where
-  r := D.r.prod D'.r
-  isOpen_ker := sorry
-  N := LinearMap.prodMap D.N D'.N
-  isNilpotent_N := sorry
-  conj_monodromy := sorry
-
-/-- Dual `(r^∨, −N^∨)`. -/
-def dual (D : WeilDeligneRep W deg q Ω V) : WeilDeligneRep W deg q Ω (Module.Dual Ω V) where
-  r := D.r.dual
-  isOpen_ker := sorry
-  N := -D.N.dualMap
-  isNilpotent_N := sorry
-  conj_monodromy := sorry
-
-/-- The one-dimensional Weil–Deligne representation `(χ, 0)` of a character with open kernel. -/
-def ofCharacter (χ : W →* Ωˣ) (_hχ : IsOpen {w | χ w = 1}) : WeilDeligneRep W deg q Ω Ω where
-  r := { toFun := fun w => (χ w : Ω) • LinearMap.id, map_one' := sorry, map_mul' := sorry }
-  isOpen_ker := sorry
-  N := 0
-  isNilpotent_N := IsNilpotent.zero
-  conj_monodromy := sorry
-
-/-- Twist `(r ⊗ χ, N)` by a character `χ` with open kernel. -/
-def twist (D : WeilDeligneRep W deg q Ω V) (χ : W →* Ωˣ) (_hχ : IsOpen {w | χ w = 1}) :
-    WeilDeligneRep W deg q Ω V where
-  r := Representation.charTwist χ D.r
-  isOpen_ker := sorry
-  N := D.N
-  isNilpotent_N := D.isNilpotent_N
-  conj_monodromy := sorry
-
-variable (deg) in
-/-- The unramified character `ω(w) = q^{deg w}` (`ω(Φ) = q` for arithmetic `Φ`). -/
-def omega (hq : (q : Ω) ≠ 0) : W →* Ωˣ :=
-  (zpowersHom Ωˣ (Units.mk0 (q : Ω) hq)).comp deg
-
-/-- The special representation `Sp(n)`: basis `e_0, …, e_{n−1}`, `r(w) e_i = ω(w)^i e_i`,
-`N e_i = e_{i+1}`, `N e_{n−1} = 0`; the degree kernel is open. -/
-def special (hdeg : IsOpen (deg.ker : Set W)) (n : ℕ) (hq : (q : Ω) ≠ 0) : WeilDeligneRep W deg q Ω (Fin n → Ω) where
-  r := { toFun := fun w => Matrix.toLin'
-            (Matrix.diagonal fun i : Fin n => ((omega deg hq w : Ωˣ) : Ω) ^ (i : ℕ))
-         map_one' := sorry
-         map_mul' := sorry }
-  isOpen_ker := sorry
-  N := Matrix.toLin' (Matrix.of fun i j : Fin n => if (i : ℕ) = (j : ℕ) + 1 then 1 else 0)
-  isNilpotent_N := sorry
-  conj_monodromy := sorry
-
-/-- `(V, r, aN)` for `a ≠ 0`. -/
-def smulMonodromy (D : WeilDeligneRep W deg q Ω V) (a : Ω) : WeilDeligneRep W deg q Ω V where
-  r := D.r
-  isOpen_ker := D.isOpen_ker
-  N := a • D.N
-  isNilpotent_N := sorry
-  conj_monodromy := sorry
-
-/-- `(V, r, N) ≅ (V, r, aN)` for `a ≠ 0`, under the hypotheses of a local Weil group the proof uses:
-characteristic `0`, `q ≥ 2` and finite image of inertia `ker deg` (Deligne 1973, proof of 8.4.3).
-For `q = 1` and `r(F) = 1 + N` it fails. -/
-theorem nonempty_iso_smulMonodromy [CharZero Ω] (hq : 1 < q) (D : WeilDeligneRep W deg q Ω V)
-    (hfin : (Set.range fun σ : deg.ker => D.r σ).Finite) (a : Ω) (ha : a ≠ 0) :
-    Nonempty (Iso D (D.smulMonodromy a)) := by
-  sorry
-
-/-- `Sp(2)^∨ ≅ Sp(2) ⊗ ω⁻¹`, and `det Sp(2) = ω`. -/
-theorem nonempty_iso_dual_special_two (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : Ω) ≠ 0) (h) :
-    Nonempty (Iso (dual (special (W := W) (deg := deg) hdeg 2 hq))
-      (twist (special hdeg 2 hq) (omega deg hq)⁻¹ h)) ∧
-    ∀ w, LinearMap.det ((special (W := W) (deg := deg) hdeg 2 hq).r w) = omega deg hq w := by
-  sorry
-
--- `Sp(2)` obeys the arithmetic relation `r(Φ) N r(Φ)⁻¹ = q N`; the geometric copy (`ω ⊕ 1` with
--- `N e₀ = e₁`) obeys `q⁻¹ N` instead, so the two differ once `q² ≠ 1`.
-example (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : Ω) ≠ 0) (hq1 : (q : Ω) ^ 2 ≠ 1) (Φ : W) (hΦ : deg Φ = Multiplicative.ofAdd 1) :
-    (special (W := W) (deg := deg) hdeg 2 hq).r Φ ∘ₗ (special (W := W) (deg := deg) hdeg 2 hq).N ∘ₗ
-        (special (W := W) (deg := deg) hdeg 2 hq).r Φ⁻¹ =
-      (q : Ω) • (special (W := W) (deg := deg) hdeg 2 hq).N ∧
-    Matrix.toLin' (Matrix.diagonal ![((omega deg hq Φ : Ωˣ) : Ω), 1]) ∘ₗ
-        Matrix.toLin' !![(0 : Ω), 0; 1, 0] ≠
-      (q : Ω) • (Matrix.toLin' !![(0 : Ω), 0; 1, 0] ∘ₗ
-        Matrix.toLin' (Matrix.diagonal ![((omega deg hq Φ : Ωˣ) : Ω), 1])) := by
-  sorry
-
-/-- Frobenius-semisimple: `r(w)` is a semisimple endomorphism for every `w` of nonzero degree. -/
-def IsFrobeniusSemisimple (D : WeilDeligneRep W deg q Ω V) : Prop :=
-  ∀ w, deg w ≠ 1 → Module.End.IsSemisimple (D.r w)
-
--- `Sp(n)` is Frobenius-semisimple; an unramified Jordan block `r(F) = (1 1; 0 1)` with `N = 0` is
--- not.
-example (hdeg : IsOpen (deg.ker : Set W)) (n : ℕ) (hq : (q : Ω) ≠ 0) : IsFrobeniusSemisimple (special (W := W) (deg := deg) hdeg n hq) := by
-  sorry
-
-example (D : WeilDeligneRep W deg q Ω (Fin 2 → Ω)) (F : W)
-    (hF : deg F = Multiplicative.ofAdd (-1)) (hr : D.r F = Matrix.toLin' !![1, 1; 0, 1]) :
-    ¬ IsFrobeniusSemisimple D := by
-  sorry
-
-end Basic
-
-/-! ### Local factors -/
-
 section LocalFactor
 
-variable {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
+variable {W : Type*} [Group W] {deg : W →* Multiplicative ℤ} {q : ℕ}
   {Ω : Type*} [Field Ω]
   {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
-  {V' : Type*} [AddCommGroup V'] [Module Ω V'] [FiniteDimensional Ω V']
 
-/-- The subspace `(ker N)^{r(I)}`, `I = ker deg`, on which the local factor is computed. -/
-def kerMonodromyInvariants (D : WeilDeligneRep W deg q Ω V) : Submodule Ω V :=
-  LinearMap.ker D.N ⊓ ⨅ σ ∈ deg.ker, LinearMap.ker (D.r σ - LinearMap.id)
+/-- The arithmetic local-factor subspace `(ker N)^{r(I)}`, with `I = ker deg`, computed from the
+fields of the supplied SR.5.2 parameter. -/
+def kerMonodromyInvariants (deg : W →* Multiplicative ℤ) (r : Representation Ω W V)
+    (N : Module.End Ω V) : Submodule Ω V :=
+  LinearMap.ker N ⊓ ⨅ σ ∈ deg.ker, LinearMap.ker (r σ - LinearMap.id)
 
-/-- The local factor `L(V, X) = det(1 − X r(F) | (ker N)^{r(I)})` for a geometric Frobenius lift
-`F` (Deligne 1973, 8.12); independent of `F` (`localFactor_indep`). -/
-def localFactor (D : WeilDeligneRep W deg q Ω V) (F : W) : Polynomial Ω :=
-  (LinearMap.restrict (D.r F) (p := D.kerMonodromyInvariants) (q := D.kerMonodromyInvariants)
-    sorry).charpoly.reverse
+/-- The arithmetic local factor `det(1 − X r(F) | (ker N)^{r(I)})`, computed from the supplied
+parameter fields and conjugation relation. For geometric `F` it is independent of the lift
+(Deligne 1973, 8.12). -/
+def localFactor (r : Representation Ω W V) (N : Module.End Ω V)
+    (hrel : ∀ w, r w ∘ₗ N = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N ∘ₗ r w))
+    (F : W) : Polynomial Ω :=
+  (LinearMap.restrict (r F) (p := kerMonodromyInvariants deg r N)
+    (q := kerMonodromyInvariants deg r N) sorry).charpoly.reverse
 
-/-- Independence of the geometric Frobenius lift, additivity on direct sums, invariance under
-isomorphism, and the unramified twist `L(V ⊗ λ_W(α), X) = L(V, α⁻¹X)`. -/
-theorem localFactor_indep (D : WeilDeligneRep W deg q Ω V) (D' : WeilDeligneRep W deg q Ω V')
-    (F F' : W) (hF : deg F = Multiplicative.ofAdd (-1)) (hF' : deg F' = Multiplicative.ofAdd (-1))
-    (α : Ωˣ) (h) :
-    localFactor D F = localFactor D F' ∧
-      localFactor (prod D D') F = localFactor D F * localFactor D' F ∧
-      (Nonempty (Iso D D') → localFactor D F = localFactor D' F) ∧
-      localFactor (twist D (GaloisRep.weilUnramifiedCharacter deg α) h) F =
-        (localFactor D F).comp (C ((α⁻¹ : Ωˣ) : Ω) * X) := by
+/-- Independence of the geometric Frobenius lift for the local factor of the supplied parameter. -/
+theorem localFactor_indep (r : Representation Ω W V) (N : Module.End Ω V)
+    (hrel : ∀ w, r w ∘ₗ N = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N ∘ₗ r w))
+    (F F' : W) (hF : deg F = Multiplicative.ofAdd (-1))
+    (hF' : deg F' = Multiplicative.ofAdd (-1)) :
+    localFactor r N hrel F = localFactor r N hrel F' := by
   sorry
 
--- `L(ω, X) = 1 − q⁻¹X`, `L(Sp(2), X) = 1 − q⁻¹X` (not `det(1 − X r(F))` on all of `V`, and not the
--- value `1 − qX` given by an arithmetic Frobenius), `L(Sp(2)^∨, X) = 1 − X`, and `L` is not
--- multiplicative on the extension `Sp(2)` of `1` by `ω`.
-example (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : Ω) ≠ 0) (hq1 : (q : Ω) ≠ 1) (h h₁) (F : W)
-    (hF : deg F = Multiplicative.ofAdd (-1)) :
-    localFactor (ofCharacter (deg := deg) (q := q) (omega deg hq) h) F = 1 - C (q : Ω)⁻¹ * X ∧
-      localFactor (special (W := W) (deg := deg) hdeg 2 hq) F = 1 - C (q : Ω)⁻¹ * X ∧
-      localFactor (dual (special (W := W) (deg := deg) hdeg 2 hq)) F = 1 - X ∧
-      localFactor (special (W := W) (deg := deg) hdeg 2 hq) F ≠
-        localFactor (ofCharacter (deg := deg) (q := q) (omega deg hq) h) F *
-          localFactor (ofCharacter (deg := deg) (q := q) 1 h₁) F := by
+-- The fields of `Sp(2)` have geometric Frobenius `diag(1, q⁻¹)` and `N e₀ = e₁`.
+-- Its factor is computed on `ker N`, and differs from the factor of the same action with `N = 0`.
+example (hq : (q : Ω) ≠ 0) (r : Representation Ω W (Fin 2 → Ω)) (F : W)
+    (hF : deg F = Multiplicative.ofAdd (-1))
+    (hI : ∀ σ ∈ deg.ker, r σ = LinearMap.id)
+    (hr : r F = Matrix.toLin' (Matrix.diagonal ![1, (q : Ω)⁻¹]))
+    (hrel : ∀ w, r w ∘ₗ Matrix.toLin' !![(0 : Ω), 0; 1, 0] =
+      ((q : Ω) ^ Multiplicative.toAdd (deg w)) •
+        (Matrix.toLin' !![(0 : Ω), 0; 1, 0] ∘ₗ r w)) :
+    localFactor r (Matrix.toLin' !![(0 : Ω), 0; 1, 0]) hrel F = 1 - C (q : Ω)⁻¹ * X ∧
+      localFactor (deg := deg) (q := q) r 0 (by simp) F = (1 - X) * (1 - C (q : Ω)⁻¹ * X) ∧
+      localFactor r (Matrix.toLin' !![(0 : Ω), 0; 1, 0]) hrel F ≠
+        localFactor (deg := deg) (q := q) r 0 (by simp) F := by
   sorry
 
--- The zero representation has `L = 1`; the trivial character has `L = 1 − X`.
-example (D : WeilDeligneRep W deg q Ω (Fin 0 → Ω)) (F : W)
-    (h : IsOpen {w : W | (1 : W →* Ωˣ) w = 1}) :
-    localFactor D F = 1 ∧ localFactor (ofCharacter (deg := deg) (q := q) (1 : W →* Ωˣ) h) F = 1 - X := by
+-- The zero representation has factor `1`; the trivial character has factor `1 − X`.
+example (F : W) :
+    localFactor (deg := deg) (q := q) (Representation.trivial Ω W (Fin 0 → Ω))
+      0 (by simp) F = 1 ∧
+    localFactor (deg := deg) (q := q) (Representation.trivial Ω W Ω) 0 (by simp) F = 1 - X := by
   sorry
 
 end LocalFactor
@@ -1754,10 +1595,10 @@ def IsPureEnd (q : ℕ) (w : ℤ) (φ N : Module.End k V) : Prop :=
       (monodromyFiltration N (a - 1)).baseChange (AlgebraicClosure k) →
     IsWeilNumber q (w + a) α
 
-/-- Purity of a Weil–Deligne representation, read at a geometric Frobenius lift `F`. -/
-def IsPure {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
-    (D : WeilDeligneRep W deg q k V) (w : ℤ) (F : W) : Prop :=
-  IsPureEnd q w (D.r F) D.N
+/-- Purity on the fields `r`, `N` of the supplied SR.5.2 parameter, read at a geometric lift `F`. -/
+def IsPure {W : Type*} [Group W] (r : Representation k W V) (N : Module.End k V)
+    (q : ℕ) (w : ℤ) (F : W) : Prop :=
+  IsPureEnd q w (r F) N
 
 /-- Purity from a pure graded, one step `0 ⊂ U ⊂ V` (Fresán–Sabbah–Yu 2022, Lemma 5.40): if
 `N φ = q φ N`, `q ≥ 2`, characteristic zero, and the pairs on `U` and `V/U` are pure of weight `w`,
@@ -1773,12 +1614,12 @@ theorem isPureEnd_of_graded (q : ℕ) (hq : 2 ≤ q) (w : ℤ) (φ N : Module.En
         Module.finrank k (LinearMap.range ((U.mapQ U N hUN) ^ j)) := by
   sorry
 
--- `Sp(2)` is pure of weight `−1`; `ω ⊕ 1` with `N = 0` is pure of no weight once `q ≥ 2`.
-example {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ} {q : ℕ}
-    (hdeg : IsOpen (deg.ker : Set W)) (hq : (q : ℚ) ≠ 0) (hq1 : 1 < q) (h h₁) (F : W) (hF : deg F = Multiplicative.ofAdd (-1)) (w : ℤ) :
-    IsPure (special (W := W) (deg := deg) hdeg 2 hq) (-1) F ∧
-      ¬ IsPure (prod (ofCharacter (deg := deg) (q := q) (1 : W →* ℚˣ) h₁)
-        (ofCharacter (deg := deg) (q := q) (omega deg hq) h)) w F := by
+-- `Sp(2)` is pure of weight `−1`; its underlying action with `N = 0` is pure of no weight.
+example {W : Type*} [Group W] (q : ℕ) (hq : 1 < q)
+    (r : Representation ℚ W (Fin 2 → ℚ)) (F : W)
+    (hr : r F = Matrix.toLin' (Matrix.diagonal ![1, (q : ℚ)⁻¹])) (w : ℤ) :
+    IsPure r (Matrix.toLin' !![(0 : ℚ), 0; 1, 0]) q (-1) F ∧
+      ¬ IsPure r 0 q w F := by
   sorry
 
 end Purity
@@ -3069,15 +2910,8 @@ end Adjoint
 
 end ContinuousRep
 
-/-- `ad(r, N) = (ad r, [N, −])` on `End(V)`, a Weil–Deligne representation (§7.2). -/
-def WeilDeligneRep.ad {W : Type*} [Group W] [TopologicalSpace W] [IsTopologicalGroup W] {deg : W →* Multiplicative ℤ}
-    {q : ℕ} {Ω : Type*} [Field Ω] {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
-    (D : WeilDeligneRep W deg q Ω V) : WeilDeligneRep W deg q Ω (Module.End Ω V) where
-  r := Representation.linHom D.r D.r
-  isOpen_ker := sorry
-  N := LinearMap.mulLeft Ω D.N - LinearMap.mulRight Ω D.N
-  isNilpotent_N := sorry
-  conj_monodromy := sorry
+/-! The Weil–Deligne adjoint in §7.2 is formed on SR.5.2's supplied carrier: its fields are
+`Representation.linHom r r` and the monodromy commutator `[N, −]`. -/
 
 /-- The trace pairing `(X, Y) ↦ tr(XY)` on `M_n(A)` is perfect over every commutative ring (Tau
 Ceti's `traceBilinForm` gives nondegeneracy only). -/

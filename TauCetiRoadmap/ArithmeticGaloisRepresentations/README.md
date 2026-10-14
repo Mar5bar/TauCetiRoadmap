@@ -56,9 +56,10 @@ The roadmap owns:
 - decomposition and inertia groups at the places of a number field and the restriction of a global
   representation to them, unramified and tamely ramified representations and the ramification set,
   Frobenius characteristic polynomials, unramified characters, Dirichlet characters as Galois
-  characters, Serre's fundamental characters, Grothendieck's monodromy theorem, Weil–Deligne
-  representations with arithmetic Frobenius and their Frobenius semisimplification, local Euler
-  factors, the monodromy filtration and purity, and Deligne–Langlands local constants (Layer 2);
+  characters, Serre's fundamental characters over finite residue fields, the arithmetic adapter
+  to the shared Weil–Deligne construction and monodromy theorem supplied by
+  SmoothRepresentationsOfLocalGroups SR.5.2, local Euler factors, the monodromy filtration and
+  purity, and Deligne–Langlands local constants (Layer 2);
 - the absolute upper-numbering filtration of `G_K`, breaks, Swan and Artin conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
@@ -453,6 +454,7 @@ labelled weights. These period subtargets use the earlier local and cohomologica
 | --- | --- | --- |
 | Completion and period-ring carriers | `PadicComplex`, `BDeRhamPlus`, `BDeRham` | Pinned Mathlib declarations |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
+| Weil–Deligne carrier, full functor and Frobenius semisimplification | SmoothRepresentationsOfLocalGroups SR.5.2, Classical parameters and the generic convention | Supplier targets; §2.4 arithmetic adapter |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
 | Period topology, actions, invariants and de Rham realization/predicate | SelmerIwasawaCohomology §§4.1, 4.4–4.5 | Supplier targets; §7.6 adapter |
 | Labelled Sen operators and character-weight criteria | §7.6 below | Owned targets |
@@ -462,6 +464,8 @@ labelled weights. These period subtargets use the earlier local and cohomologica
 
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
+| Weil–Deligne carrier and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md) SR.5.2, Classical parameters and the generic convention | Single owner of the carrier, monodromy theorem, full Weil–Deligne construction and inverse on unit-Frobenius parameters, operations and Frobenius semisimplification. §2.4 transports the Layer 1 carrier to this interface. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. The full construction precedes Frobenius semisimplification; §§2.5–2.7 and Layer 3 consume it for factors, purity, constants and conductors. |
+| Fundamental characters and residual tame inertia | [FiniteFlatGroupsAndIntegralPadicHodgeTheory](../FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) R07.1.26 and R07.1.27–R07.1.32 | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
 | Projective-unitary simplicity | CFSGBasicProperties §T1–T2 / `IsSimpleGroup d.Group`, assembled by `CFSGIndex.isSimpleGroup` (an open TauCetiRoadmap pull request by kim-em) | §7.12 verification: unitary/derived-central-quotient comparison, `q = p` versus `p²`, rank, validity and small exceptions. |
 | Grössencharacter continuation and completed equation | LFunctions §Layer 6 / Grossencharacters, `grossencharacterData_hasContinuation`, `grossencharacterData_hasFunctionalEquation`, `Grossencharacter.completed_one_sub`, `Grossencharacter.completed_one_sub_eventuallyEq` (an open TauCetiRoadmap pull request by roed-math) | §2.7 Global inputs: type A₀, primitive conductor, inverse/shift/poles; prove the Tate-local product identification and the needed complex norm-twist extension here. |
 | Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace (`leftTrace`, `rightTrace`, common spherical `trace`) (an open TauCetiRoadmap pull request by kim-em) | §7.2 standard symmetric module duality and tensor-unit/scalar identification. |
@@ -481,7 +485,14 @@ these adapters and Layers 1–2 feed the Néron-model supplier's geometric crite
 feeds potential good reduction in §6.3, and its §2.7 together with StableReduction Layer 5 feeds
 the conductor comparison and Ogg's formula in §6.5. The supplier's later conductor and Euler-factor
 applications consume these arithmetic results. Layer 7
-(dimension-general API) uses Layers 1, 2, 4 and 5. Within a layer the subsections are in build order.
+(dimension-general API) uses Layers 1, 2, 4 and 5. The supplier order is
+SmoothRepresentationsOfLocalGroups SR.5.2 → §2.4, alongside
+SmoothRepresentationsOfLocalGroups SR.4/SR.6 → IntegralHeckeAndGaloisDeterminants → Layer 1/Layer 5.
+The shared Weil–Deligne construction uses its own linear representations and ClassFieldTheory
+Layer 9, independently of this roadmap's `ContinuousRep`; the arithmetic adapter supplies that
+connection. Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the same direction
+as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
+are in build order.
 `Suggested.lean` follows the same order, with one `/-! ## Layer k -/` section per layer; it records
 representative signatures and the discriminating checks as `example`s.
 
@@ -1215,17 +1226,24 @@ p. 54). *Needs:* Tau Ceti `inertiaPadicTameCharacter`, `PadicTateTwist`. *Lean:*
   multiple of `t_ℓ mod ℓ`, and a unit multiple iff it is nonzero. The zero homomorphism has
   open kernel `I_K` and scalar zero.
 
-**Fundamental characters.** Let `I_t = I_K/P_K`. Define the fundamental character of level `n`,
+**Fundamental characters.** For a nonarchimedean local field `K` with finite residue field of
+characteristic `p`, let `I_t = I_K/P_K` and `n ≥ 1`. Define `fundamentalCharacter`, the
+fundamental character of level `n`,
 `θ_{p^n−1} : I_t → F_{p^n}^×`, the reduction of the Kummer character of `π^{1/(p^n−1)}` (intended
 signature `TauCeti.inertiaSubgroup K →* (GaloisField p n)ˣ`, independent of `π`), the predicate
 `IsFundamentalOfLevel n`, the `level` of a character of `I_t` with values in `F̄_p^×` (the least `n`
 such that it factors through `θ_{p^n−1}`), and the Teichmüller lift of `θ_{p^n−1}`. Prove
-`θ(s u s⁻¹) = θ(u)^{q}` for an arithmetic lift `s`; `θ_{p−1}^{e} = χ̄_p|_{I_K}` for `K` of absolute
-ramification index `e` (witness over `ℚ_p`: `ζ_p − 1 ≡ α := (−p)^{1/(p−1)}` to first order, so
+`θ(s u s⁻¹) = θ(u)^{q}` for an arithmetic lift `s`; `θ_{p−1}^{e} = χ̄_p|_{I_K}` for characteristic-zero `K`
+of absolute ramification index `e` (witness over `ℚ_p`: `ζ_p − 1 ≡ α := (−p)^{1/(p−1)}` to first order, so
 `σα/α ≡ χ_p(σ) mod 𝔪`, giving `χ̄_p`, not its inverse); `ω_2 · ω_2^p = ω` for `ω_2 = θ_{p²−1}`
 (`θ_{p²−1}^{p+1} = θ_{p−1}`); independence of the choices, the norm relation, the conjugation formula,
 the identity `θ_{p−1} = χ̄_p` over `ℚ_p`, and restriction (Serre 1987, 2.1, p. 183; Serre 1972, 1.3,
 Prop. 2, p. 264, 1.7, p. 267, and 1.8, Prop. 8, p. 269; Khare–Wintenberger 2009 (I), 1.5, p. 4).
+The finite-residue names `fundamentalCharacter`, `fundamentalCharacter_pow_p` and
+`cyclotomic_restrict_tameInertia` belong to this target; the API includes Frobenius powers of the
+chosen embedding of `F_{p^n}` and norm maps between levels. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+R07.1.26 uses this API and supplies its extension to arbitrary perfect residue fields, with an
+agreement theorem after identifying inertia, roots of unity and the chosen residue embeddings.
 *Needs:* Tau Ceti `rootsOfUnityEquivResidueField`, `residue_teichmuller`, `inertiaKummerCharacter`.
 
 **Checks.**
@@ -1242,124 +1260,151 @@ level `2`; that level `2` happens iff `ρ̄` is irreducible; that for `χ : G_{�
 `χ|_I = ω_2^j`, `Ind χ` has inertia characters `ω_2^j, ω_2^{pj}` and is irreducible iff `(p + 1) ∤ j`,
 every irreducible `ρ̄` arising so; and that for `(p + 1) | j`, `Ind χ` is `χ̃ ⊕ χ̃η` for `p` odd and a
 non-split self-extension of `χ̃` for `p = 2` (Serre 1972, 1.6, Prop. 4, p. 265; Serre 1987, 2.1,
-Prop. 1, and 2.2, p. 183). *Lean:* `GaloisRep.tame_of_semisimple_residual` (the first statement).
-
-### 2.4 Weil–Deligne representations
-
-**Nilpotent exponential and unipotent logarithm.** Define
-`IsUnipotent.log u = Σ_{i ≥ 1} (−1)^{i+1}(u − 1)^i/i` in a `ℚ`-algebra (a finite sum for unipotent
-`u`). Prove that `IsNilpotent.exp` and `log` are inverse bijections between nilpotent and unipotent
-elements, natural in ring maps; `exp(mN) = exp(N)^m`; `exp(m⁻¹ log u)` is the unique unipotent `m`-th
-root of `u`; and a continuous `h : ℤ_ℓ → GL_n(ℚ_ℓ)` with `h(1)` unipotent is `x ↦ exp(x log h(1))`
-(Deligne 1973, Thm 8.2, p. 566). *Needs:* Mathlib `IsNilpotent.exp`. *Lean:* `IsUnipotent.log`,
-`IsUnipotent.log_exp_and_exp_log`, `IsUnipotent.apply_eq_exp_smul_log`.
-
-**Grothendieck's monodromy theorem.** Prove that for `E/ℚ_ℓ` finite, `ℓ ≠ p`, and `ρ : W_K → GL(V)`
-continuous on a finite-dimensional `E`-space (Weil topology on `W_K`, `ℓ`-adic on `GL(V)`), there are
-a unique nilpotent `N ∈ Hom(ℤ_ℓ(1), End V)` and an open `J ⊂ I_K` with `ρ(σ) = exp(N(t_ℓ σ))` for
-`σ ∈ J`; that `ρ(w) N(x) ρ(w)⁻¹ = N(χ_ℓ(w) x)`, so `N' = N(T⁻¹ 1)` satisfies
-`ρ(Φ) N' ρ(Φ)⁻¹ = q N'`; that `ρ(I_K)` is finite iff `N = 0`; and that restriction to `L` of
-ramification index `e` multiplies `N` by `e` (Deligne 1973, 8.1 and Thm 8.2, p. 566; FSY, §5.3.1,
-p. 54). For `ℓ = p` the statement is false: `χ_p` on `G_{ℚ_p}` has infinite, non-unipotent image on
-every open subgroup of inertia. *Needs:* Layer 1 (lattices, Baire descent), §2.3. *Lean:*
-`GaloisRep.grothendieck_quasiUnipotent` (for `G_K`, with the trivialisation `T`).
-
-**Weil–Deligne representations.** Define `WeilDeligneRep W deg q Ω V` over a field `Ω`: a
-finite-dimensional `V`, a representation `r` of the Weil group with open kernel, and a nilpotent `N`
-with `r(w) N r(w)⁻¹ = q^{deg w} N`, so `r(Φ) N r(Φ)⁻¹ = q N` at an arithmetic lift. The Lean takes any
-topological group `W` with a degree map `deg : W →* Multiplicative ℤ` and any field `Ω`;
-characteristic zero is required for the classical Frobenius-semisimplification package of §2.5.
-The construction `special` requires `IsOpen (deg.ker : Set W)`; this follows from degree
-continuity on the local Weil group. Operations: direct
-sum, tensor product with monodromy `N ⊗ 1 + 1 ⊗ N'`, dual `(r^∨, −N^∨)`, twist by a character,
-determinant `(det r, 0)`, restriction to `W_L`, induction with `N_Ind(g ⊗ v) = q^{−deg g} g ⊗ Nv`,
-coefficient extension, and the inertial type `r|_{I_K}`. The character `ω(w) = q^{deg w}` (Deligne's
-`‖·‖`, with `ω(Φ) = q`) and the special representation `Sp(n)` with basis `e_0, …, e_{n−1}`,
-`r(w) e_i = ω(w)^i e_i`, `N e_i = e_{i+1}` (witness of the relation:
-`r(Φ) N r(Φ)⁻¹ e_i = q^{i+1} q^{−i} e_{i+1} = q N e_i`). Prove `(V, r, N) ≅ (V, r, aN)` for `a ∈ Ω^×`
-when `char Ω = 0`, `q ≥ 2` and `r(I_K)` is finite. Its API is morphisms, the relation read at
-arithmetic and geometric lifts, all the operations above, `Sp(2)^∨ ≅ Sp(2) ⊗ ω⁻¹` with `det Sp(2) = ω`,
-and the rescaling isomorphism (Deligne 1973, 8.4.1, p. 568, proof of 8.4.3, p. 569, and 2.2.4,
-p. 522). *Needs:* Mathlib `Representation`, `Representation.tprod`, `Representation.dual`; Tau Ceti
-`Representation.charTwist`; `TauCetiRoadmap.ClassFieldTheory` layer 9 (`WeilGroup`, `weilDegree`,
-`weilTransfer`). *Lean:* `WeilDeligneRep`, `WeilDeligneRep.Iso`, `conj_monodromy_arith`,
-`WeilDeligneRep.tensor`, `WeilDeligneRep.prod`, `WeilDeligneRep.dual`, `WeilDeligneRep.ofCharacter`,
-`WeilDeligneRep.twist`, `WeilDeligneRep.omega`, `WeilDeligneRep.special`,
-`WeilDeligneRep.smulMonodromy`, `nonempty_iso_smulMonodromy`, `nonempty_iso_dual_special_two`.
+Prop. 1, and 2.2, p. 183). This is the finite-residue representation-theoretic classification;
+Raynaud exponent bounds and finite-flat realizability are supplied by
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.27–R07.1.32. *Lean:*
+`GaloisRep.tame_of_semisimple_residual` (the first statement).
 
 **Checks.**
-- `Sp(2)` satisfies the arithmetic relation with factor `q`; the copy `ω ⊕ 1` with `N e₀ = e₁`
-  satisfies it with `q⁻¹`, so it is not a Weil–Deligne representation once `q² ≠ 1`. *Lean:* the
-  first `example` after `nonempty_iso_dual_special_two`.
-- `N = 0` gives exactly the representations of the Weil group with open kernel, and `Sp(2)` is
-  isomorphic to its rescaling by `2`.
-- For `q = 1`, `r(F) = 1 + N` with `N ≠ 0`, no automorphism commuting with `r` rescales `N`, so the
-  rescaling isomorphism needs `q ≥ 2`.
-- `Sp(2)^∨ ≅ Sp(2) ⊗ ω⁻¹` and `det Sp(2) = ω`.
-- For indiscrete `W = Multiplicative ℤ`, `deg = id`, `q = 2`, `Ω = ℚ`, the prescribed `Sp(2)`
-  action has kernel `{0}`, which is not open. The open-degree-kernel hypothesis excludes it.
+- Over `ℚ_p`, the two inertia characters of `Ind χ` with `χ|_I = ω_2` have level `2`
+  and are exchanged by arithmetic Frobenius; `ω ⊕ 1` has only level-1 characters.
+- If `(p + 1) | j`, `Ind χ` splits for odd `p`; for `p = 2`, `Ind 1` is a non-split
+  self-extension of the trivial character, although its semisimplification is trivial.
+- Over the unramified cubic extension of `ℚ_p`, `θ_{p³−1} ⊕ 1` extends to a continuous
+  rank-two representation and has a level-3 inertia character: finite residue field alone
+  does not give the level-1/level-2 conclusion.
+- In the perfect-residue extension supplied by R07.1.26, for `K = Frac W(F̄_p)` one has
+  `G_K = I_K`, and `θ_{p³−1} ⊕ 1` is a continuous rank-two representation with trivial
+  wild inertia and a level-3 character. There is no residue Frobenius imposing the two-level bound.
 
-**Local Weil-group bridge.** For a nonarchimedean local field `K` with residue cardinality
-`q`, specialise `WeilDeligneRep` to ClassFieldTheory Layer 9's `WeilGroup K` and arithmetic
-`weilDegree`. Identify the kernel of the degree map topologically with Tau Ceti's compact inertia
-subgroup of `G_K`; prove that it is open in `W_K`, that the degree map to discrete
-`Multiplicative ℤ` is continuous and surjective, and that `W_K → G_K` is continuous with dense
-image. An arithmetic Frobenius gives `W_K = I_K ⋊ ⟨Φ⟩` topologically, and an open-kernel
-representation has finite inertia image. Transport the generic operations and `special` through
-this specialization, using its open-degree-kernel witness (Deligne 1973, §2.2.1, p. 521;
-ClassFieldTheory Layer 9, `isOpenEmbedding_inertiaToWeil`, `unramifiedCoordinate_weilDegree`).
-*Needs:* ClassFieldTheory Layer 9; Tau Ceti inertia and arithmetic Frobenius.
+### 2.4 Arithmetic Weil–Deligne adapter
+
+SmoothRepresentationsOfLocalGroups SR.5.2, *Classical parameters and the generic convention*,
+is the single supplier of the Weil–Deligne carrier and functors. This section specifies the
+arithmetic interface to that carrier. All later occurrences of a Weil–Deligne representation
+refer to the supplied object. The supplier contract includes the full construction of Deligne
+§8.4 and its Frobenius-semisimplified parameter of §§8.5–8.6 as separate operations.
+
+**Nilpotent exponential and unipotent logarithm.** Use SR.5.2's nilpotent/unipotent calculus in a
+`ℚ`-algebra: the finite logarithm `log u = Σ_{i ≥ 1} (−1)^{i+1}(u − 1)^i/i`, inverse to
+Mathlib's `IsNilpotent.exp`, natural in ring maps. Its supplied API gives `exp(mN) = exp(N)^m`,
+the unique unipotent `m`-th root `exp(m⁻¹ log u)` for nonzero integer `m`, and
+`h(x) = exp(x log h(1))` for continuous `h : ℤ_ℓ → GL_n(ℚ_ℓ)` with unipotent `h(1)`
+(Deligne 1973, Thm 8.2, p. 566). *Needs:* SmoothRepresentationsOfLocalGroups SR.5.2;
+Mathlib `IsNilpotent.exp`.
+
+**Checks.**
+- For `N² = 0`, `exp(N) = 1 + N` and `log(1 + N) = N`.
+- The zero operator gives `exp(0) = 1` and `log(1) = 0`.
+- For nonzero `N² = 0`, the unique unipotent square root of `1 + N` is `1 + N/2`;
+  the nonzero-integer hypothesis excludes `m = 0`.
+
+**Grothendieck's monodromy theorem.** Transport the monodromy theorem supplied by SR.5.2 to
+`ρ : ContinuousRep G_K E V`, for `E/ℚ_ℓ` finite and `ℓ ≠ p`, by restriction to its supplied
+local Weil group. The resulting unique nilpotent `N ∈ Hom(ℤ_ℓ(1), End V)` has
+`ρ(σ) = exp(N(t_ℓ σ))` on an open subgroup of inertia and
+`ρ(w) N(x) ρ(w)⁻¹ = N(χ_ℓ(w) x)`. With a trivialisation `T`, the scalar operator
+`N' = N(T⁻¹ 1)` satisfies `ρ(Φ) N' ρ(Φ)⁻¹ = q N'`. Identify it with the supplier's monodromy;
+finite inertia image is equivalent to `N = 0`, and restriction to ramification index `e`
+scales the operator by `e` under compatible tame identifications (Deligne 1973, 8.1 and Thm 8.2,
+p. 566; FSY, §5.3.1, p. 54). *Needs:* SmoothRepresentationsOfLocalGroups SR.5.2;
+Layer 1 and §2.3. *Lean:* `GaloisRep.grothendieck_quasiUnipotent` (the arithmetic consumer
+statement with `T`).
+
+**Checks.**
+- A finite-image representation has `N = 0`.
+- The Tate curve has nonzero rank-one monodromy; inertia acts unipotently on an open subgroup.
+- For `ℓ = p`, `χ_p` on `G_{ℚ_p}` has infinite, non-unipotent image on every open inertia
+  subgroup, so the supplied theorem does not apply.
+
+**Weil–Deligne representations.** Use the SR.5.2 carrier `(V, r, N)` over a characteristic-zero
+field `Ω`, with `V` finite-dimensional, `r` having open kernel, `N` nilpotent and
+`r(w) N r(w)⁻¹ = q^{deg w} N`. Arithmetic Frobenius has degree `+1`; geometric Frobenius has
+degree `−1`. The supplier provides morphisms, isomorphisms, direct sums, tensor products with
+monodromy `N ⊗ 1 + 1 ⊗ N'`, duals `(r^∨, −N^∨)`, character twists, determinants, restriction,
+induction with `N_Ind(g ⊗ v) = q^{−deg g} g ⊗ Nv`, coefficient extension and inertial type.
+Its unramified character is `ω(w) = q^{deg w}`; its `Sp(n)` has `r(w)e_i = ω(w)^i e_i`
+and `Ne_i = e_{i+1}`, with `Ne_{n−1} = 0`. The supplier also gives the rescaling isomorphism
+`(r, N) ≅ (r, aN)` for `a ≠ 0`, `q ≥ 2` and finite inertia image, and
+`Sp(2)^∨ ≅ Sp(2) ⊗ ω⁻¹`, with `det Sp(2) = ω` (Deligne 1973, 8.4.1, p. 568,
+proof of 8.4.3, p. 569, and 2.2.4, p. 522). These are supplier operations on one carrier.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.5.2; ClassFieldTheory Layer 9.
+
+**Checks.**
+- `Sp(2)` satisfies `r(Φ) N r(Φ)⁻¹ = q N`; `ω ⊕ 1` with `Ne₀ = e₁` instead gives
+  `q⁻¹ N`, and fails the arithmetic relation when `q² ≠ 1`.
+- Duality changes monodromy to `−Nᵗ`, and applying duality twice recovers `N`.
+- `N = 0` recovers open-kernel Weil representations; `Sp(2)` is isomorphic to its rescaling by `2`.
+- For `q = 1`, `r(F) = 1 + N`, `N ≠ 0`, no automorphism commuting with `r` rescales `N`
+  by `2`; the rescaling statement needs `q ≥ 2`.
+- On indiscrete `W = Multiplicative ℤ` the proposed degree-dependent `Sp(2)` action over `ℚ`
+  at `q = 2` has non-open kernel. The supplier's local Weil group has open degree kernel.
+
+**Local Weil-group bridge.** Identify ClassFieldTheory Layer 9's local Weil group and arithmetic
+`weilDegree` in the SR.5.2 parameter with Tau Ceti's `I_K`, tame character and Frobenius lifts.
+Use the supplied open topological inertia embedding, continuous surjective degree map and
+continuous dense map `W_K → G_K`; an arithmetic lift gives `W_K = I_K ⋊ ⟨Φ⟩`.
+The arithmetic adapter preserves these identifications, so an open-kernel Weil representation
+has finite inertia image and every supplied operation uses the same local Weil group
+(Deligne 1973, §2.2.1, p. 521; ClassFieldTheory Layer 9,
+`isOpenEmbedding_inertiaToWeil`, `unramifiedCoordinate_weilDegree`).
+*Needs:* ClassFieldTheory Layer 9; SmoothRepresentationsOfLocalGroups SR.5.2; Tau Ceti inertia
+and arithmetic Frobenius.
 
 **Checks.**
 - `weilDegree(Φ) = 1` and `weilDegree(Φ⁻¹) = −1`.
 - `I_K` is open in the Weil topology, whereas its infinite-index image is not open in `G_K`.
-- An unramified Weil character may send `Φ` to any nonzero scalar; its extension to `G_K`
+- An unramified Weil character may send `Φ` to any nonzero scalar; extension to `G_K`
   requires the continuity condition of §2.2.
 
-**The Weil–Deligne representation of an `ℓ`-adic representation.** For `ρ : G_K → GL(V)` (or
-`W_K → GL(V)`) continuous over `E/ℚ_ℓ` finite, `ℓ ≠ p`, a geometric lift `F` and an isomorphism
-`T : ℚ_ℓ(1) ≅ ℚ_ℓ`, define `ofEllAdic` `WD_{F,T}(ρ) = (V, ρ', T(N))` with
-`ρ'(F^n σ) = ρ(F^n σ) exp(−t_ℓ(σ) N)` (intended signature: a `WeilDeligneRep` of `W_K` over `E` on the
-carrier of `ρ`). Prove that replacing `F` by `Fτ` conjugates the result by `exp((q − 1)⁻¹ t_ℓ(τ) N)`;
-that replacing `T` by `aT` replaces `N'` by `N'/a`; that `V^{ρ(I)} = (ker N')^{ρ'(I)}`; that `N' = 0`
-iff `ρ(I_K)` is finite; that the construction is exact and faithful, compatible with tensor products,
-restriction and induction, preserves semisimplicity of the Frobenius part, and is a bijection on
-isomorphism classes onto those Weil–Deligne representations whose Frobenius eigenvalues are units
-(for `G_K`); and that the inverse `toEllAdic`, `ρ(F^n σ) = r(F^n σ) exp(T(t_ℓ σ) N')`, is the unique
-continuous representation with monodromy `T⁻¹N'` and `ρ' = r`, morphisms commuting with `ρ` iff with
-`r` and `N'` (Deligne 1973, 8.4.2 and 8.4.3, p. 569, and 8.3.7, p. 568). *Needs:* Grothendieck's
-monodromy theorem above.
+**The arithmetic Weil–Deligne adapter.** For finite `E/ℚ_ℓ`, `ℓ ≠ p`, pass
+`ρ : ContinuousRep G_K E V` to SR.5.2's full Weil–Deligne functor by its underlying continuous
+linear action. A choice of basis identifies it with the supplier's matrix input; transport back
+to `V` and prove naturality under change of basis. For a geometric lift `F` and trivialisation
+`T : ℚ_ℓ(1) ≅ ℚ_ℓ`, its full parameter is `(V, r, N')`, where `t = T ∘ t_ℓ`,
+`N' = N(T⁻¹ 1)` and `r(F^n σ) = ρ(F^n σ) exp(−t(σ)N')`.
+Identify `V^{ρ(I)} = (ker N')^{r(I)}` and `N' = 0` iff `ρ(I_K)` is finite. Changes of lift
+and trivialisation use the supplier's isomorphisms; replacing `T` by `aT` scales `N'` by `a⁻¹`.
+Transport the full functor's exactness, faithfulness and compatibility with tensor products,
+restriction and induction. Its supplied inverse is
+`ρ(F^n σ) = r(F^n σ) exp(t(σ)N')`, extending continuously to `G_K` precisely for
+unit Frobenius eigenvalues; morphisms commute with `ρ` iff they commute with `r` and `N'`.
+The canonical Frobenius-semisimplified parameter used by SR.5.2 is the supplier's Frobenius
+semisimplification of this full parameter (Deligne 1973, 8.3.7, p. 568, and 8.4.2–8.4.3,
+p. 569). *Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2; the local bridge above.
 
 **Checks.**
-- `WD(ℚ_ℓ(1)) = (ω, 0)`; for unramified or finite-image `ρ`, `N = 0` and `ρ' = ρ`.
-- For the Tate curve, `WD(V_ℓE) ≅ Sp(2)`, and `Sp(2) ⊗ η` for its non-split unramified quadratic
-  twist (§6.5).
-- `WD(V_ℓE_q) ≇ (1 ⊕ ω, 0)`: the Weil–Deligne representation is not the semisimplification.
-- For `ℓ = p` and `ρ = χ_p` on `G_{ℚ_p}` no `N` exists.
+- `WD(ℚ_ℓ(1)) = (ω, 0)`; an unramified full parameter has `N = 0` and `r = ρ|_{W_K}`.
+- An unramified Jordan-block representation has that same block in its full parameter;
+  its Frobenius-semisimplified parameter is trivial. Exactness and the inverse refer to the full functor.
+- The Tate curve has full parameter `Sp(2)`, and its non-split unramified quadratic twist
+  has `Sp(2) ⊗ η`; neither has parameter `(1 ⊕ ω, 0)`.
+- For `ℓ = p`, the cyclotomic character on `G_{ℚ_p}` has no such monodromy operator.
 
 ### 2.5 Local factors
 
-**Frobenius semisimplification.** For `Ω` of characteristic zero, define the Frobenius semisimplification
-`(V, r^{F-ss}, N)`, `r^{F-ss}(F^n σ) = r(F^n σ) u^{−n}` with `r(F) = su` the multiplicative Jordan
-decomposition (Tau Ceti's `LinearMap.GeneralLinearGroup.jordanDecomposition`), independent of `F` up to isomorphism when
-`r(I_K)` is finite (automatic on `W_K`), keeping `N`; the predicate `IsFrobeniusSemisimple`; and the
-semisimplification `(V^ss, r^ss, 0)`. Its API is independence of the lift, the value at `F`, the
-monodromy, idempotence, tensor products and equality of characteristic polynomials (Deligne 1973,
-8.5 and 8.6, p. 570; Saha, Definition 2.1 and the following construction, pp. 2–3). *Needs:* Tau Ceti `LinearMap.GeneralLinearGroup.jordanDecomposition`. *Lean:*
-`WeilDeligneRep.IsFrobeniusSemisimple`.
+**Frobenius semisimplification.** Use SR.5.2's characteristic-zero Frobenius semisimplification
+`(V, r^{F-ss}, N)`, with `r^{F-ss}(F^n σ) = r(F^n σ) u^{−n}` for geometric `F` and the
+multiplicative Jordan decomposition `r(F) = su`. The supplier proves lift independence when
+`r(I_K)` is finite, idempotence, preservation of `N`, tensor compatibility and equality of
+characteristic polynomials; the ordinary semisimplification is `(V^ss, r^ss, 0)`.
+The local-factor and purity targets below consume this same operation and predicate
+(Deligne 1973, 8.5–8.6, p. 570; Saha, Definition 2.1 and the following construction, pp. 2–3).
+*Needs:* SmoothRepresentationsOfLocalGroups SR.5.2; Tau Ceti
+`LinearMap.GeneralLinearGroup.jordanDecomposition`.
 
 **Checks.**
-- `r(F) = (1 1; 0 1)`, `N = 0` becomes `r(F) = 1`, the semisimple part of the Jordan decomposition.
-  *Lean:* the second `example` after `IsFrobeniusSemisimple`.
-- `Sp(n)` is fixed, and `Sp(2) ≇ (1 ⊕ ω, 0)`. *Lean:* the first `example`.
-- For `Sp(2) ⊕ (Jordan block)` the object, its Frobenius semisimplification and its
-  semisimplification are three distinct objects.
-- Over `Ω = F_p(t)`, an endomorphism with minimal polynomial `(X^p − t)²` has no Jordan decomposition.
-- Over `F₃`, for `K = ℚ₇`, `r(τ) = (1 1; 0 1)`, `r(Φ) = 1`, `N = 0` satisfies the tame relation.
-  Semisimplifying at `Φ` fixes `r`; at `Φτ` it sends `Φ` to `r(τ)⁻¹`. These are not isomorphic.
-  Perfectness alone does not imply lift independence.
+- The unramified pair `r(F) = (1 1; 0 1)`, `N = 0` becomes `r(F) = 1`, with `N = 0`.
+- `Sp(n)` is fixed; `Sp(2) ≇ (1 ⊕ ω, 0)` because semisimplifying Frobenius retains monodromy.
+- For `Sp(2) ⊕ (Jordan block)`, the full parameter, its Frobenius semisimplification and its
+  ordinary semisimplification are three distinct objects.
+- Over `Ω = F_p(t)`, minimal polynomial `(X^p − t)²` gives no Jordan decomposition.
+- Over `F₃` for `K = ℚ₇`, `r(τ) = (1 1; 0 1)`, `r(Φ) = 1`, `N = 0` satisfies the tame relation.
+  Semisimplification at `Φ` fixes `r`; at `Φτ` it sends `Φ` to `r(τ)⁻¹`. The resulting
+  parameters are not isomorphic, so perfectness alone does not give lift independence.
 
-**Local factors.** Define `WeilDeligneRep.localFactor D F`,
+**Local factors.** On the SR.5.2 parameter define its arithmetic local factor
+`WeilDeligneRep.localFactor`,
 `L(V, X) = det(1 − X r(F) | (ker N)^{r(I_K)})` for a geometric lift `F`, and
 `GaloisRep.localEulerFactor` on `V^{ρ(I_K)}`; for a global `ρ` and `v ∤ ℓ`,
 `L_v(ρ, X) = L(ρ|_{G_{F_v}}, X)`, and `L_v(V_ℓA^∨, X) = det(1 − X Frob_v | (V_ℓA)_{I_v})`. Prove
@@ -1369,15 +1414,19 @@ and exact inertia invariants (in particular for a common finite inertia quotient
 invertible in `Ω`, including characteristic zero); multiplicativity for split sequences even
 with nonzero monodromy;
 `L_v(ρ) = L(WD(ρ))`; and `L = det(1 − Xρ(F))` at an unramified place (Deligne 1973, 3.5.1, p. 528, and
-8.12, p. 572; Saha, Lemma 2.3, p. 3, for averaging over finite inertia). *Lean:* `WeilDeligneRep.kerMonodromyInvariants`, `WeilDeligneRep.localFactor`,
-`localFactor_indep`, `GaloisRep.localEulerFactor`, `GaloisRep.localEulerFactor_unramified`.
+8.12, p. 572; Saha, Lemma 2.3, p. 3, for averaging over finite inertia).
+*Needs:* §2.4's SR.5.2 supplier and arithmetic adapter. *Lean:*
+`WeilDeligneRep.kerMonodromyInvariants`, `WeilDeligneRep.localFactor`, `localFactor_indep`
+(lift independence), `GaloisRep.localEulerFactor`, `GaloisRep.localEulerFactor_unramified`.
+The Weil–Deligne signatures here take the supplied fields `deg`, `r`, `N` and the conjugation
+relation directly; they introduce no carrier.
 
 **Checks.**
 - `L(ω, X) = 1 − q⁻¹X` and `L(Sp(2), X) = 1 − q⁻¹X`, while `L(Sp(2)^∨, X) = 1 − X`. *Lean:* the first
-  `example` after `localFactor_indep`.
+  `example` after `localFactor_indep` computes `Sp(2)` from its underlying pair.
 - Computing `L(Sp(2))` on all of `V`, or with an arithmetic lift, gives a different polynomial.
 - `L(0) = 1`, `L(1) = 1 − X`, and `L(Sp(2)) ≠ L(ω) L(1)`: no multiplicativity in exact sequences with
-  nonzero monodromy in general. *Lean:* both `example`s.
+  nonzero monodromy in general. *Lean:* the second `example` gives the zero and trivial cases.
 - The tame `C₃`-extension over `F₃` just above has `N = 0` but one-dimensional inertia invariants:
   its factor is `1 − X`, whereas its two trivial constituents give `(1 − X)²`. Exactness of
   inertia invariants is essential.
@@ -1421,8 +1470,8 @@ kernels, images and quotients of submodules. *Lean:* `WeilDeligneRep.monodromyFi
 **Weights and purity.** Define `WeilDeligneRep.IsWeilNumber q m α` (`α` algebraic over `ℚ` with every
 complex conjugate of absolute value `q^{m/2}`; `q ≥ 2` for the weight to be determined),
 `WeilDeligneRep.IsPureEnd q w φ N` (the eigenvalues of `φ` on `gr^M_a` are `q`-Weil numbers of weight
-`w + a`), `WeilDeligneRep.IsPure D w F` at a geometric lift, mixed representations (a filtration by
-sub-objects with pure graded pieces), and `GaloisRep.IsPureAt` for a global representation at `v`
+`w + a`), `WeilDeligneRep.IsPure r N q w F` on the supplied fields at a geometric lift,
+mixed representations (a filtration by sub-objects with pure graded pieces), and `GaloisRep.IsPureAt` for a global representation at `v`
 (intended signature `Prop`, purity of `WD(ρ|_{G_{F_v}})` after an isomorphism `ℚ̄_ℓ ≅ ℂ`). Its API is
 invariance under Frobenius semisimplification, weights `w + w'` for tensor products, `−w` for duals,
 `w − 2` for the twist by `ω`, and restriction (FSY, §5.3.2, p. 57). *Lean:*
@@ -3023,11 +3072,11 @@ kernel `A[n]·1` and cokernel `A/nA`, so it is an isomorphism, with `ad = A·1 �
 `n ∈ A^×`; and that for `n = 2` and any `A`, `ad/A·1 ≅ Sym² ρ ⊗ det⁻¹` and `ad⁰ ≅ (Sym² ρ)^∨ ⊗ det`.
 Its API is `ad ≅ M ⊗ M^∨`, perfectness, the splitting when `n` is invertible, `1 ∈ ad⁰` iff `n = 0` in
 `A`, kernel and cokernel, base change, the `n = 2` isomorphisms, and the Weil–Deligne adjoint
-`WeilDeligneRep.ad (r, N) = (ad r, [N, −])` (CHT, §2.1, p. 7; ACC+, after Def. 6.2.29, p. 1044).
+`(ad r, [N, −])` on the supplied SR.5.2 carrier (CHT, §2.1, p. 7; ACC+, after Def. 6.2.29, p. 1044).
 *Needs:* PivotalSpherical §Layer 2 and AdicSpacesPartIII §R3.8 as above; Mathlib
-`Representation.linHom`; Tau Ceti `ContRepresentation.linHom`.
+`Representation.linHom`; Tau Ceti `ContRepresentation.linHom`; §2.4.
 *Lean:* `ContinuousRep.endTrace`, `ContinuousRep.ad`, `ContinuousRep.adZero`, `ContinuousRep.adQuot`,
-`ContinuousRep.tracePairing_perfect`, `ContinuousRep.adZero_to_adQuot`, `WeilDeligneRep.ad`.
+`ContinuousRep.tracePairing_perfect`, `ContinuousRep.adZero_to_adQuot`.
 
 **Checks.**
 - `ad` of a character is trivial of rank one, and `endTrace` is `LinearMap.trace` on a free module.
