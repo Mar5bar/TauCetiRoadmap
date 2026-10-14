@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 
 /-!
 # p-adic period rings: suggested Lean forms
@@ -16,6 +18,102 @@ unspecified proposition substitutes for a README target.
 noncomputable section
 
 namespace TauCetiRoadmap.PadicPeriodRings
+
+/-! ## Continuous-cochain boundary calculations -/
+
+open TauCeti.ContCohomology
+
+section ProcyclicChecks
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- §0.1: evaluation at the profinite generator identifies trivial finite-coefficient H¹
+with the coefficient group. -/
+example [action : DistribMulAction TauCeti.zHat.{0} (ZMod p)]
+    [hcont : @ContinuousSMul TauCeti.zHat.{0} (ZMod p) action.toSMul _ _]
+    (htriv : ∀ (g : TauCeti.zHat.{0}) (m : ZMod p),
+      @SMul.smul _ _ action.toSMul g m = m) :
+    ∃ e : @H1 TauCeti.zHat.{0} _ _ (ZMod p) _ _ _ action hcont ≃+ ZMod p,
+      ∀ c : @Z1 TauCeti.zHat.{0} _ _ (ZMod p) _ _ _ action.toDistribSMul,
+        e (@H1pi TauCeti.zHat.{0} _ _ (ZMod p) _ _ _ action hcont c) = c.1 TauCeti.zHat.gen := sorry
+
+/-- §0.1: the action of the generator by `1+p` on `ℤ_p` gives H¹ equal to `ℤ/p`,
+with the residue of the cocycle value as comparison map. -/
+example [DistribMulAction TauCeti.zHat.{0} ℤ_[p]]
+    [ContinuousSMul TauCeti.zHat.{0} ℤ_[p]]
+    (hgen : ∀ m : ℤ_[p], TauCeti.zHat.gen • m = (1 + p) * m) :
+    ∃ e : H1 TauCeti.zHat.{0} ℤ_[p] ≃+ ZMod p,
+      ∀ c : Z1 TauCeti.zHat.{0} ℤ_[p],
+        e (H1pi TauCeti.zHat.{0} ℤ_[p] c) = PadicInt.toZMod (c.1 TauCeti.zHat.gen) := sorry
+
+/-- §0.1: when the generator acts by `2` on `ℚ_p` for odd `p`, H¹ vanishes. -/
+example (hp : p ≠ 2) [DistribMulAction TauCeti.zHat.{0} ℚ_[p]]
+    [ContinuousSMul TauCeti.zHat.{0} ℚ_[p]]
+    (hgen : ∀ m : ℚ_[p], TauCeti.zHat.gen • m = 2 * m) :
+    Subsingleton (H1 TauCeti.zHat.{0} ℚ_[p]) := sorry
+
+/-- §0.1: the trivial action on `ℚ_p` instead has H¹ equal to `ℚ_p`, by evaluation. -/
+example [DistribMulAction TauCeti.zHat.{0} ℚ_[p]]
+    [ContinuousSMul TauCeti.zHat.{0} ℚ_[p]]
+    (htriv : ∀ (g : TauCeti.zHat.{0}) (m : ℚ_[p]), g • m = m) :
+    ∃ e : H1 TauCeti.zHat.{0} ℚ_[p] ≃+ ℚ_[p],
+      ∀ c : Z1 TauCeti.zHat.{0} ℚ_[p],
+        e (H1pi TauCeti.zHat.{0} ℚ_[p] c) = c.1 TauCeti.zHat.gen := sorry
+
+/-- §0.1: multiplication by `2` cannot be the generator of a continuous `Ẑ`-action on `ℚ₂`. -/
+example [DistribMulAction TauCeti.zHat.{0} ℚ_[2]]
+    [ContinuousSMul TauCeti.zHat.{0} ℚ_[2]] :
+    ¬ (∀ m : ℚ_[2], TauCeti.zHat.gen • m = 2 * m) := sorry
+
+end ProcyclicChecks
+
+section DescentChecks
+
+variable (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    (M : Type*) [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M]
+    [T2Space M] [DistribMulAction G M] [ContinuousSMul G M]
+
+/-- §0.2: for the trivial subgroup, inflation is the canonical identification with H¹(G,M)
+and restriction is zero. -/
+example [ContinuousSMul (G ⧸ (⊥ : Subgroup G))
+    (FixedPoints.addSubgroup (⊥ : Subgroup G) M)] :
+    (∃ e : H1 (G ⧸ (⊥ : Subgroup G)) (FixedPoints.addSubgroup (⊥ : Subgroup G) M)
+        ≃+ H1 G M,
+      ∀ x, e x = explicitInfl1 G M (⊥ : Subgroup G) x) ∧
+    ∀ x : H1 G M, explicitRes1 G M (⊥ : Subgroup G) x = 0 := sorry
+
+/-- §0.2: for the whole subgroup, restriction is the canonical identification and
+inflation has zero image. -/
+example [ContinuousSMul (G ⧸ (⊤ : Subgroup G))
+    (FixedPoints.addSubgroup (⊤ : Subgroup G) M)] :
+    (∃ e : H1 G M ≃+ H1 (⊤ : Subgroup G) M,
+      ∀ x, e x = explicitRes1 G M (⊤ : Subgroup G) x) ∧
+    ∀ x : H1 (G ⧸ (⊤ : Subgroup G)) (FixedPoints.addSubgroup (⊤ : Subgroup G) M),
+      explicitInfl1 G M (⊤ : Subgroup G) x = 0 := sorry
+
+end DescentChecks
+
+section FiniteCoefficientChecks
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- §0.2: averaging kills H¹ of the finite group `ℤ/p` with trivial `ℚ_p` coefficients. -/
+example [DistribMulAction (Multiplicative (ZMod p)) ℚ_[p]]
+    [ContinuousSMul (Multiplicative (ZMod p)) ℚ_[p]]
+    (htriv : ∀ (g : Multiplicative (ZMod p)) (m : ℚ_[p]), g • m = m) :
+    Subsingleton (H1 (Multiplicative (ZMod p)) ℚ_[p]) := sorry
+
+/-- §0.2: trivial `ℤ/p` coefficients instead give H¹ equal to `ℤ/p`, by evaluation at `1`. -/
+example [action : DistribMulAction (Multiplicative (ZMod p)) (ZMod p)]
+    [hcont : @ContinuousSMul (Multiplicative (ZMod p)) (ZMod p) action.toSMul _ _]
+    (htriv : ∀ (g : Multiplicative (ZMod p)) (m : ZMod p),
+      @SMul.smul _ _ action.toSMul g m = m) :
+    ∃ e : @H1 (Multiplicative (ZMod p)) _ _ (ZMod p) _ _ _ action hcont ≃+ ZMod p,
+      ∀ c : @Z1 (Multiplicative (ZMod p)) _ _ (ZMod p) _ _ _ action.toDistribSMul,
+        e (@H1pi (Multiplicative (ZMod p)) _ _ (ZMod p) _ _ _ action hcont c) =
+          c.1 (Multiplicative.ofAdd 1) := sorry
+
+end FiniteCoefficientChecks
 
 /-! ## The completed field, its Galois action and fixed points -/
 
@@ -91,13 +189,15 @@ end PadicComplex
 
 /-
 The remaining targets are specified in the README, without stand-in declarations:
-§0.1 procyclic_H1_equiv_coinvariants; §0.2 continuous inflation–restriction and finite descent;
+§0.1 procyclic_H1_equiv_coinvariants; §0.2 continuous inflation–restriction and finite descent
+(the boundary examples above use the supplied explicit H1, explicitInfl1 and explicitRes1);
 §1.1 joint continuity, uniqueness and multiplicativity of padicComplexGaloisAction;
 §1.2 fixed points for every closed subgroup;
 §1.3 periodTraceIdeal, senTowerEstimates, tate_normalizedTrace and tate_almostEtale;
 §1.4 tate_cyclotomicBanachH1 and tate_H1_padicComplex_twist;
 §1.5 the canonical BDeRhamPlus/BDeRham topology, valuation, action, t and graded pieces;
-§2 PadicFieldCompletion, the general-base periodTraceIdeal and senTowerEstimates,
+§2 PadicFieldCompletion, the general-base periodTraceIdeal, senUpperBreaks (including geometric
+reciprocity and unramified-completion invariance) and senTowerEstimates,
 completedUnramifiedDescent, tateSen, tateSen_H0, tateSen_H1, tateSen_character,
 normalisedTrace, tateSen_cyclotomic_twist, tateSen_trivial, tateSen_unramified_character
 and tateSen_H1_trivial_ne_zero;
