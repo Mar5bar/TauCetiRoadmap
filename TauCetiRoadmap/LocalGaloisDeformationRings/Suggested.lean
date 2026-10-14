@@ -548,6 +548,95 @@ example (X : Matrix (Fin 1) (Fin 1) k) (hX : X.trace = 0) : X = 0 := by
 
 end FoundationExamples
 
+section FoundationBoundaryExamples
+
+/-- Evaluation at one parametrizes trivial-residual rank-one lifts of the additive p-adic
+integers by residue-one units of finite discrete local coefficients (README F.1.1). -/
+example (p : ℕ) [Fact p.Prime] {A : Type*} [CommRing A] [IsLocalRing A] [Finite A]
+    [TopologicalSpace A] [DiscreteTopology A] [IsTopologicalRing A]
+    (π : A →+* ZMod p) (hπ : Function.Surjective π)
+    (hres : RingHom.ker π = IsLocalRing.maximalIdeal A) :
+    Function.Bijective (fun ρ : Lift 1
+      (1 : Multiplicative ℤ_[p] →* GL (Fin 1) (ZMod p)) π =>
+      (⟨Matrix.GeneralLinearGroup.det (ρ.toHom (Multiplicative.ofAdd 1)), by
+        sorry⟩ : {u : Aˣ // π (u : A) = 1})) := by
+  sorry
+
+/-- The infinitesimal scalar character attached to a linear functional on the product group. -/
+def productDualCharacter (f : (ℕ → ZMod 3) →ₗ[ZMod 3] ZMod 3) :
+    Multiplicative (ℕ → ZMod 3) →* GL (Fin 1) (DualNumber (ZMod 3)) where
+  toFun g := Matrix.GeneralLinearGroup.scalar (Fin 1)
+    ⟨1 + TrivSqZeroExt.inr (f (Multiplicative.toAdd g)),
+      1 - TrivSqZeroExt.inr (f (Multiplicative.toAdd g)), by sorry, by sorry⟩
+  map_one' := by sorry
+  map_mul' := by sorry
+
+/-- A functional killing the direct sum and taking the constant one sequence to one gives
+an algebraic trivial-residual character which fails the continuity condition (README F.1.1). -/
+example : ∃ f : (ℕ → ZMod 3) →ₗ[ZMod 3] ZMod 3,
+    (∀ x, Set.Finite (Function.support x) → f x = 0) ∧ f (fun _ => 1) = 1 ∧
+    ¬ Continuous f ∧
+    (∀ g, ((productDualCharacter f g :
+      Matrix (Fin 1) (Fin 1) (DualNumber (ZMod 3))) 0 0).fst = 1) ∧
+    ¬ Continuous (fun g => (productDualCharacter f g :
+      Matrix (Fin 1) (Fin 1) (DualNumber (ZMod 3)))) := by
+  sorry
+
+/-- The involution acts on the product of cyclic groups by inversion. -/
+def inversionAction : Multiplicative (ZMod 2) →* MulAut (Multiplicative (ℕ → ZMod 3)) where
+  toFun c := if c = 1 then MulEquiv.refl _ else
+    { toFun := fun x => x⁻¹
+      invFun := fun x => x⁻¹
+      left_inv := inv_inv
+      right_inv := inv_inv
+      map_mul' := by intros; exact mul_inv _ _ }
+  map_one' := by
+    simp only [ite_true]
+    rfl
+  map_mul' := by sorry
+
+/-- The inversion semidirect product used to test the open-subgroup quantifier in Φ_p. -/
+abbrev InversionSemidirect :=
+  SemidirectProduct (Multiplicative (ℕ → ZMod 3)) (Multiplicative (ZMod 2)) inversionAction
+
+/-- The semidirect product has the product topology through its coordinate equivalence. -/
+instance : TopologicalSpace InversionSemidirect :=
+  TopologicalSpace.induced SemidirectProduct.equivProd
+    (inferInstanceAs (TopologicalSpace
+      (Multiplicative (ℕ → ZMod 3) × Multiplicative (ZMod 2))))
+
+/-- The normal factor is open; every character of the whole group is trivial, while
+its infinitely many coordinate characters make Φ₃ fail (README F.2.1). -/
+example :
+    IsTopologicalGroup InversionSemidirect ∧ CompactSpace InversionSemidirect ∧
+    T2Space InversionSemidirect ∧ TotallyDisconnectedSpace InversionSemidirect ∧
+    (∀ f : InversionSemidirect →* Multiplicative (ZMod 3), f = 1) ∧
+    IsOpen ((SemidirectProduct.rightHom (φ := inversionAction)).ker :
+      Set InversionSemidirect) ∧
+    ¬ PhiP 3 InversionSemidirect := by
+  sorry
+
+/-- The ideal defining the truncated polynomial coefficient ring in the square-lifting test. -/
+noncomputable def truncatedIdeal (n : ℕ) : Ideal (Polynomial (ZMod 3)) :=
+  Ideal.span {Polynomial.X ^ n}
+
+/-- Reduction from the cubic truncation to the quadratic truncation. -/
+noncomputable def truncateCubeToSquare :
+    (Polynomial (ZMod 3) ⧸ truncatedIdeal 3) →+*
+      (Polynomial (ZMod 3) ⧸ truncatedIdeal 2) :=
+  Ideal.Quotient.factor (by sorry)
+
+/-- The cubic-to-quadratic truncation has square-zero kernel, but the square-zero class
+of t in the quadratic quotient has no square-zero lift (README F.0.2). -/
+example :
+    (∀ x y, truncateCubeToSquare x = 0 → truncateCubeToSquare y = 0 → x * y = 0) ∧
+    (Ideal.Quotient.mk (truncatedIdeal 2) Polynomial.X) ^ 2 = 0 ∧
+    ¬ ∃ x, truncateCubeToSquare x = Ideal.Quotient.mk (truncatedIdeal 2) Polynomial.X ∧
+      x ^ 2 = 0 := by
+  sorry
+
+end FoundationBoundaryExamples
+
 end GenericFoundations
 
 /-! ## Layer 1: Universal lifting rings and coefficient infrastructure -/
@@ -1205,7 +1294,8 @@ end NodalRing
 The README also specifies the following constructions with their full geometric carriers.
 
 Layer F: `ModDef`, `ModDefFramed`, `DetDef`, `PseudoDefRing`, `univLift`,
-`DeformationProblem` and inertia-rigid deformation rings. Their README-only APIs include
+`DeformationProblem` and inertia-rigid deformation rings. Empty type quotients are excluded
+from `DeformationProblem`. Their README-only APIs include
 `isSchur_baseChange` (F.1.8) and `phiP_iff_fg` (F.2.1).
 
 Layer 1: `heightLatticeFunctor`, `ordinaryWeightRing`, `universalInertialCharacter`,
@@ -1213,13 +1303,18 @@ Layer 1: `heightLatticeFunctor`, `ordinaryWeightRing`, `universalInertialCharact
 `IsSemistableOrdinaryOfWeight`, `ordinaryFlagScheme`, `ordinaryFlagImage`, `CoeffRing`,
 `ArtinCat`, `liftFunctorΛ`, `GLift`, `GFramedRing`, `canonicalTorus`, `chiLambda`, `IsGOrdinary`,
 `PhiGamma.defRing`, `PhiGamma.triangulineDefRing`, `PhiGamma.deRhamDefRing`.
+Integral ordinary flag uniqueness requires residual inertial separation or vanishing Hom
+modules between distinct graded characters; coefficient-change existence retains the flags.
 
 Layer 2: `IsMinimallyRamified`, `SteinbergLifts`, `TameGroup`, `GSp4RamType`,
 `typeQuotient`, the symplectic `GSp4.exp₂` and `GSp4.log₂`, `𝒩(q)`, `ℳ(x,y;q)`,
 `LevelRaising.mix`, `LevelRaising.unr`, `LevelRaising.ram`, `InertialType`,
 `fixedTypeRing`, `IsRigidFor`, `TaylorWilesBlock`, `GSp4.MinimalAt`.
 
-Layer 3: `HodgeType`, `GaloisType`, `IsOfType`, `WDTypeRing`.
+Layer 0: `RankTwoNonordinaryEndpoint.exists` supplies the odd-prime local induced lift.
+Layer 3: `HodgeType` retains integer jumps; `HodgeType.tateTwist` transports the residual
+representation, determinant and universal type quotient maps, with finite WD inertia unchanged.
+The remaining APIs are `GaloisType`, `IsOfType`, `WDTypeRing`.
 Layer 4: `flatLiftingRing`, `flatDeformationRing`, `finiteFlatModels`,
 `flatHodgeTypeQuotient`, `flatResolution`.
 The finite-flat condition and its Fontaine–Laffaille tangent calculation use
@@ -1242,7 +1337,10 @@ and `GL3KisinChart.shape` is defined on residual Laurent-series field fibres.
 The conditional type theorem assumes the functor; its existence for `p > 3` uses
 the separate auxiliary-lift, scoped-globalization and finite-level unitary patching targets.
 Layer 7: `detOrdTilde`, `detOrd`.
-Layer 8: `KWCondition`, `CategoryCondition`.
+Layer 8: `IrreducibleEndpointDeformation` retains the restricted endpoint category and
+coefficient-compatible one-parameter normal form, including p=2. `CategoryCondition` uses
+V-filtrations and subobjects and quotients inside that abelian category; `KWCondition`
+retains its selected branch data.
 -/
 
 end TauCetiRoadmap.LocalGaloisDeformationRings
