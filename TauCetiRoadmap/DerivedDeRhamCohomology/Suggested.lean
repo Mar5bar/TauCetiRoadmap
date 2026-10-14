@@ -44,9 +44,23 @@ open scoped TensorProduct
 
 noncomputable section
 
+universe uFlat
+
 /-! ## Layer 0: Cotangent complexes and integral derived powers -/
 
 namespace DerivedDeRham
+
+/-- Every flat module is the colimit of a small filtered diagram of finite free modules, with a
+colimiting cocone and an identification of its vertex (README 0.2.1; Stacks, Theorem 10.81.4,
+Tag 058G). -/
+theorem flatModuleFilteredFree (R : Type uFlat) [CommRing R] (M : Type uFlat) [AddCommGroup M]
+    [Module R M] [Module.Flat R M] :
+    ∃ (J : Type uFlat) (inst : SmallCategory J),
+      letI := inst
+      ∃ (_ : IsFiltered J) (P : J ⥤ ModuleCat.{uFlat} R) (c : Cocone P),
+        Nonempty (IsColimit c) ∧ Nonempty (c.pt ≅ ModuleCat.of R M) ∧
+          ∀ j, Module.Free R (P.obj j) ∧ Module.Finite R (P.obj j) := by
+  sorry
 
 /-- A family `b : Fin r → k` is a **p-basis** of a field `k` of characteristic `p`: the p-monomials
 `∏ i, b i ^ e i` with `0 ≤ e i < p` form a basis of `k` over the subfield `k^p` of `p`-th powers.
@@ -59,7 +73,7 @@ def IsPBasis (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p] {r : ℕ
       (Set.range fun e : Fin r → Fin p => ∏ i, b i ^ (e i : ℕ)) = ⊤
 
 /-- The differentials of a p-basis form a basis of `Ω¹_(k/F_p)`, so its dimension is
-`log_p [k : k^p]` (Clausen–Mathew–Morrow, §5.1, Footnote 10, p.40;
+`log_p [k : k^p]` (Clausen–Mathew–Morrow, §5.1, Footnote 10, p.39;
 Matsumura, Commutative ring theory, second edition, §26). This is `pBasis_kaehler_basis` of the
 README (0.23). -/
 theorem pBasis_kaehler_basis (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p]
@@ -623,14 +637,16 @@ end DerivedDeRham
 namespace DerivedDeRham
 
 /-- The derived category of sheaves of modules over the base coefficient ring sheaf. Global
-de Rham objects and finite Hodge quotients use this carrier (README 5.8). -/
+de Rham objects and finite Hodge quotients use this carrier; README 5.8 compares it with the
+operations of ClassicalAdicEtaleCohomology and EnhancedDerivedSheaves. -/
 abbrev baseLinearSheafDerived {C : Type} [SmallCategory C] {J : GrothendieckTopology C}
     (R : Sheaf J RingCat.{0}) :=
   letI := HasDerivedCategory.standard (SheafOfModules.{0} R)
   DerivedCategory (SheafOfModules.{0} R)
 
 /-- The filtered derived category of module sheaves over the base coefficient ring sheaf,
-with decreasing filtrations indexed by `ℤᵒᵖ` (README 5.8). -/
+with decreasing filtrations indexed by `ℤᵒᵖ`. README 5.8 compares the supplied ringed-site operations
+with this carrier and transports them to filtered diagrams. -/
 abbrev baseLinearFilteredDerived {C : Type} [SmallCategory C] {J : GrothendieckTopology C}
     (R : Sheaf J RingCat.{0}) :=
   letI := HasDerivedCategory.standard (ℤᵒᵖ ⥤ SheafOfModules.{0} R)
@@ -678,7 +694,9 @@ complex `Algebra.CotangentComplex` and its API (`arrowResolution`, `resolutionRi
 `derivationEvaluation_differential`, `polynomialLift_sign`), derived tensor products and derived powers, derived
 limits (`derivedLimit_surjective`, `derivedLimit_milnor` are the module adapters of
 ArithmeticGaloisDuality §R02.1.1 / The Milnor sequence for towers of complexes; the derived-limit
-functor and `derivedLimit_triangle` are constructed in README 1.1) and completion
+functor and `derivedLimit_triangle` are constructed in README 1.1), the unbounded
+`moduleDerivedHom` point-site adapter using ClassicalAdicEtaleCohomology's `ClassicalDerived.enhancedCategory`,
+`ClassicalDerived.replacements` and `ClassicalDerived.tensorHom` (README 1.1.1), and completion
 (`derivedCompletion`, `completionUnit`, `completionAdjunction`,
 `completionIdempotent`, `completeNakayama`, `completionComplete`, `completedColimit`), the filtered
 derived category, the ordinary de Rham differential, complex and pullback (`complex_d_apply`,
@@ -693,6 +711,19 @@ the adic `perfectSystemEffective` adapter to AlgebraicModuliForArithmeticGeometr
 de Rham–Witt theory, quasisyntomic sites and descent, period comparisons and the logarithmic theory (`LogSquareZeroExtension`, `LogExal`,
 `logRelativeConjugateTransitivity`). Completion functors and their units retain
 `hI : I.FG`; strict DG models use DGAInfinity Layer 1's unital carrier and morphisms.
+`leftDerivedNonadditive` acts on functors defined on all projective modules; functors on finite
+projectives use their filtered-colimit extension. The flat comparisons `exteriorPowerFlat`,
+`symmetricPowerFlat` and `dividedPowerFlat` use `flatModuleFilteredFree`.
+The base-linear sheaf and filtration adapters compare the supplied `ClassicalDerived.inverseLimits`,
+`enhancedPullback` and `enhancedPushforward`; `schemeDeRhamRealization` and `schemeDeRhamCup`
+provide the de Rham realization and cup product.
+`regularFpCrystallineCech` uses EnhancedDerivedSheaves' `frobenius_flat_of_isRegular` and
+`isRegular_of_frobenius_flat`. The period interfaces `bdrPlusStructure` and `tateTwistInvariants`
+compare the supplied structures: SelmerIwasawaCohomology §4.1's `padicComplexGaloisAction`,
+`padicComplex_fixed_eq`, `tate_H0_padicComplex_twist` and de Rham period rings for finite local fields;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory's `PadicFieldCompletion`, `tateSen_H0` (§R07.1.18) and
+`generalBasePeriodRings` (§R07.3.0) for arbitrary perfect residue fields. The derived/PD-filtered
+`A_cris` comparison and its `Fil²` vanishing consequence are in README 5.12–5.15.
 -/
 
 end
