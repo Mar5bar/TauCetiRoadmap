@@ -32,7 +32,7 @@ classes is the new work.
 General Lang surjectivity and finite-field torsor triviality belong to ReductiveGroupsPartII §RG2.3.7, whose
 stated scope includes smooth geometrically connected finite-type groups. General Tsen and Brauer vanishing
 belong to SchemeAndStackFoundations SF.2; the Picard obstruction sequence belongs to its SF.3 and
-AlgebraicModuliForArithmeticGeometry. This roadmap uses their genus-one and projective-line consequences. It
+ComplexComparisonPartII §C3.2d.4. This roadmap uses their genus-one and projective-line consequences. It
 does not construct another elliptic-curve, polynomial quotient, ring pullback, model, lattice or
 numerical-Picard carrier.
 
@@ -201,9 +201,9 @@ with a chosen invariant polarization and the free finite constant-group action s
 supplies `RaynaudNStar` and `raynaud_degree_one_cohomologicallyFlat`: a proper flat finite-presentation
 relative curve over a trait satisfying (N)* is cohomologically flat in degree zero when its strict-henselian
 generic fiber has a divisor of degree one; a section suffices. (N)* includes the stated
-normality/no-embedded-point condition and f_*O=O. Layer 7 also supplies Picard representability and the
-obstruction sequence. Raynaud's multiplicity/order argument is specialized and proved below with all these
-hypotheses.
+normality/no-embedded-point condition and f_*O=O. ComplexComparisonPartII §§C3.2d.2–C3.2d.4
+supplies Picard representability, separatedness and the Brauer obstruction sequence. Raynaud's
+multiplicity/order argument is specialized and proved below with all these hypotheses.
 
 NeronModelsAndSemistableAbelianVarieties Layer 1 supplies Néron models; Layer 2 the identity component, the
 component group, the smooth locus of the minimal regular model (2.7) and the geometric component groups by
@@ -215,10 +215,13 @@ comparison is not silently imported from a semistable theorem. ReductiveGroupsPa
 for every smooth geometrically connected finite-type group over a finite field, including an elliptic curve
 and PGL₂.
 
-LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10 supply finite-coefficient cohomology,
-adic realization, finiteness, duality, purity/Gysin and cycle classes, projective bundles, blowups,
-geometric Frobenius, Tate twists and the trace formula. ClassicalAdicEtaleCohomology §§0.9–0.11
-supplies the algebraic cycle-class, projective-bundle and smooth-trace normalizations. Layer 5 here
+EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b)
+supplies finite-coefficient cohomology, adic realization, finiteness, duality, purity/Gysin and cycle
+classes, projective bundles, blowups, geometric Frobenius, Tate twists and perfect-complex traces.
+EtaleCohomologyFoundations §§0.9–0.11 supplies the algebraic cycle-class, projective-bundle
+and smooth-trace normalizations.
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 supplies the curve, finite-coefficient
+and rational trace formulas and the constant-sheaf point-count trace. Layer 5 here
 specializes these constructions to P² and equivariant point blowups, preserving their canonical maps,
 then constructs the rational-surface cycle-class comparison and rank-ten point-count criterion.
 
@@ -550,7 +553,7 @@ naturally isomorphic to identity, including morphisms.
 - Gluing trivial bundles with different units on Z can give different global line bundles.
 
 *Needs:* §1.7; §1.3, flat-module patching; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3,
-Raynaud/Picard contracts.
+Picard-sheaf contracts.
 
 ### 1.9 finite pinching in algebraic spaces
 
@@ -4174,7 +4177,7 @@ corollary and Theorem2 with proofs, pp556–558.)
 
 - For a disconnected finite constant group the general torsor conclusion can fail.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts; EllipticCurves Layer 1;
+*Needs:* ComplexComparisonPartII §§C3.2d.2–C3.2d.4, Picard representability and obstruction; EllipticCurves Layer 1;
 ReductiveGroupsPartII §RG2.3.7, the general Lang/torsor theorem.
 
 ### 2.16 finite-field forms of the projective line
@@ -8446,8 +8449,8 @@ doubles to (0,0), witnessing cyclicity.
 ### Dependencies
 
 Layer 1; StableReduction Layers 1–2 and 4–6; AlgebraicCurves Layers 10 and 12; JacobianChallenge Layers A–F;
-ReductiveGroupsPartII §RG2.3.7; EllipticCurves Layers 1, 3 and 4; foundational intersection and polarized
-descent.
+ReductiveGroupsPartII §RG2.3.7; EllipticCurves Layers 1, 3 and 4; ComplexComparisonPartII
+§§C3.2d.2–C3.2d.4; foundational intersection and polarized descent.
 
 ## Layer 3: multiple fibers and local isogenies
 
@@ -8517,7 +8520,7 @@ flat Euler-characteristic constancy, finite-dimensionality and degree≥2 vanish
 
 - A section alone is not a proof of every hypothesis of Raynaud’s criterion.
 
-*Needs:* §3.2; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts;
+*Needs:* §3.2; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud cohomological flatness;
 SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts; StableReduction Layer 2.
 
 ### 3.4 genus under domination of an elliptic curve
@@ -8539,7 +8542,7 @@ geometric points outside E[d]; derive the contradiction.
 
 *Needs:* StableReduction Layer 4 component intersections; SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts;
 SchemeAndStackFoundations SF.5 intersection/adjunction;
-AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts; EllipticCurves Layer 1.
+ComplexComparisonPartII §§C3.2d.2–C3.2d.3, Picard representability; EllipticCurves Layer 1.
 
 ### 3.5 regularity in the genus-one equality case
 
@@ -8759,8 +8762,8 @@ from being applied directly with k=F₂.
 ### Dependencies
 
 Layers 1–2; StableReduction Layers 2, 4 and 5; AlgebraicModuliForArithmeticGeometry Layers 3 and 7;
-EllipticCurves Layers 1 and 3; the existing Néron/semistable Picard interfaces, extended locally by the LLR
-targets here.
+ComplexComparisonPartII §§C3.2d.2–C3.2d.3; EllipticCurves Layers 1 and 3; the existing
+Néron/semistable Picard interfaces, extended locally by the LLR targets here.
 
 ## Layer 4: canonical bundles, Picard lattices and global equations
 
@@ -8878,7 +8881,7 @@ Proposition4 and following discussion, pp29–30.)
 
 - No claim that every fiber with reduced support is tame; multiplicity and torsion must be retained.
 
-*Needs:* §4.1; §4.2; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts;
+*Needs:* §4.1; §4.2; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud and Picard-sheaf contracts;
 SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts.
 
 ### 4.4 canonical sheaf and section on a rational Jacobian
@@ -8998,7 +9001,8 @@ section by properness/minimal-model theory; use vertical relations to eliminate 
 - The genus-one torsor version uses a horizontal divisor of index d and only actual Pic⁰ classes; it does not
   identify all Picard-functor rational points without obstruction control.
 
-*Needs:* §4.7; §2.1; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts;
+*Needs:* §4.7; §2.1; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, section/Picard-sheaf contracts;
+ComplexComparisonPartII §C3.2d.4, Picard obstruction;
 StableReduction Layer 5.
 
 ### 4.9 even rank-eight complement
@@ -9250,8 +9254,8 @@ point of C identifies C with its Jacobian compactification and yields the corres
 
 - A chosen point on a smooth C identifies X with the minimal model of its Jacobian, preserving that point.
 
-*Needs:* §2.1; §4.16; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts; StableReduction
-Layer 5.
+*Needs:* §2.1; §4.16; ComplexComparisonPartII §§C3.2d.2–C3.2d.3, Picard representability;
+StableReduction Layer 5.
 
 ### 4.18 tsen and Picard obstruction over algebraically closed constants
 
@@ -9270,7 +9274,7 @@ those constants, or use a section to kill the obstruction in the Jacobian applic
 
 - Br(F₂(t)) is not zero; the original finite-field invocation does not supply Mordell–Weil descent.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts;
+*Needs:* ComplexComparisonPartII §C3.2d.4, Picard obstruction;
 SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts; SchemeAndStackFoundations
 SF.2, Tsen at tag 0A2M.
 
@@ -9286,18 +9290,22 @@ embed that component.
 ### Dependencies
 
 Layers 2–3; StableReduction Layers 2, 4 and 5; JacobianChallenge; SchemeAndStackFoundations SF.2, SF.3 and SF.5;
-AlgebraicModuliForArithmeticGeometry Layers 1 and 7; native IntegralLattices. The nonsmooth model, rational
-blowup and geometric lattice extensions are owned in this layer.
+AlgebraicModuliForArithmeticGeometry Layers 1 and 7; ComplexComparisonPartII §§C3.2d.2–C3.2d.4;
+native IntegralLattices. The nonsmooth model, rational blowup and geometric lattice extensions are owned
+in this layer.
 
 ## Layer 5: Frobenius, marked graphs and Picard constancy
 
 ### 5.0 projective-plane and point-blowup cohomology comparisons
 
-Specialize LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10 before
-`rationalSurface_cycleClass` and §5.2. These sections supply finite-coefficient operations,
-adic realization with derived completion, finiteness, duality, purity/Gysin and cycle classes,
-projective bundles, blowups, geometric Frobenius and the trace formula. Use
-ClassicalAdicEtaleCohomology §§0.9–0.11 for the compatible algebraic class and trace normalizations.
+Specialize EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5
+(including F.10.2b) before `rationalSurface_cycleClass` and §5.2. These sections supply
+finite-coefficient operations, adic realization with derived completion, finiteness, duality,
+purity/Gysin and cycle classes, projective bundles, blowups, geometric Frobenius and perfect-complex
+traces. Use EtaleCohomologyFoundations §§0.9–0.11 for the compatible algebraic class and trace
+normalizations, and
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 for the curve, finite-coefficient
+and rational trace formulas and the constant-sheaf point-count trace.
 Coefficients are Q_ℓ for a prime ℓ invertible in the ground field; geometric cohomology is taken
 after algebraic closure. Geometric Frobenius acts by q⁻¹ on Q_ℓ(1), and finite extension uses
 its corresponding power. The two comparisons below retain the supplied pullback, hyperplane,
@@ -9337,8 +9345,9 @@ proof of Corollary 7.3, p. 21. The twist is fixed by the geometric-Frobenius con
   over F_q and becomes 2q² over F_(q²).
 - With Z empty the comparison is the identity and adds no cohomology or Picard generator.
 
-*Needs:* §4.0; LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10;
-ClassicalAdicEtaleCohomology §§0.9–0.11; StableReduction Layer 4 blowups.
+*Needs:* §4.0; EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
+(including F.10.2b) and §§0.9–0.11; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4;
+StableReduction Layer 4 blowups.
 
 ### 5.1 fiber-count data at rational base points
 
@@ -9391,7 +9400,7 @@ hypotheses, and proves `small_fiber_bound : 10+7+7<rationalSurfaceCount(2)`.
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §7 Proposition7.1 and proof, pp20–21.)
 
 *Needs:* §4.0; §4.5; §5.0; SchemeAndStackFoundations SF.5 intersection/adjunction;
-AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud/Picard contracts.
+ComplexComparisonPartII §§C3.2d.2–C3.2d.4, Picard representability and obstruction.
 
 ### 5.3 geometric fiber root-basis comparison
 
@@ -9636,8 +9645,9 @@ smooth supersingular E₃ has c₄=0 but Δ=1 and is a negative control for “c
 
 ### Dependencies
 
-Layers 2 and 4; LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10;
-ClassicalAdicEtaleCohomology §§0.9–0.11; the projective-plane and point-blowup specializations of §5.0;
+Layers 2 and 4; EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
+(including F.10.2b) and §§0.9–0.11; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4;
+the projective-plane and point-blowup specializations of §5.0;
 native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer.
 
 ## Layer 6: the fourteen-model classification list

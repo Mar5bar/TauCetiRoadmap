@@ -634,9 +634,12 @@ rationalSurface_commonBlowup, blowup_Picard_intersection and rationalSurface_coh
 the supplied projective-bundle and blowup specializations projectivePlane_ellAdicCohomology
 and pointBlowup_ellAdicCohomology (§5.0), followed by
 rationalSurface_cycleClass (§5.2). Their genuine geometric and cohomological carriers are specified there.
-The general cohomology, Frobenius, trace, duality and Gysin constructions come from
-LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10, with the algebraic class and trace
-normalizations of ClassicalAdicEtaleCohomology §§0.9–0.11.
+The general cohomology, Frobenius, perfect-complex trace, duality and Gysin constructions come from
+EtaleCohomologyFoundations §§F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b),
+with the algebraic class and trace normalizations of EtaleCohomologyFoundations §§0.9–0.11.
+The curve, finite-coefficient and rational trace formulas and the constant-sheaf point-count trace
+come from
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
 -/
 
 /-
