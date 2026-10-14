@@ -69,7 +69,6 @@ projective properness and morphism comparison contracts under their stated base 
 `RigidSpace.IsQuasiCompact` are bridges to the supplied rigid carriers and constructions.
 -/
 
-set_option autoImplicit false
 
 namespace TauCetiRoadmap.AdicSpacesPartII
 
