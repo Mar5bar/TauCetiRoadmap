@@ -6,6 +6,7 @@ import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.GlobalSections
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.Padic.Field
 import TauCeti.RingTheory.Huber.Completion
+import TauCeti.Topology.Spectral.ProConstructible
 
 /-!
 # Foundations of adic spaces, Part II: representative target signatures
@@ -1336,6 +1337,17 @@ example (ϖ : K) (hϖ : 0 < ‖ϖ‖ ∧ ‖ϖ‖ < 1)
 end DiscProperness
 
 end AdicSpace
+
+/-! ### R0.18 Spectral images (*spectral-map-image-proconstructible*) -/
+
+/-- A spectral map between spectral spaces carries pro-constructible subsets to
+pro-constructible subsets (Huber 1996, (1.1.13); Stacks Tags 0901 and 0A2S). Continuity for the
+constructible topologies carries the compact source subset to a compact, hence closed, subset
+of the Hausdorff target constructible space. The Hausdorffness input is DiamondsAndVStacks D0.2. -/
+theorem isProConstructible_image {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    [SpectralSpace X] [SpectralSpace Y] {f : X → Y} {T : Set X}
+    (hf : IsSpectralMap f) (hT : IsProConstructible T) :
+    IsProConstructible (f '' T) := sorry
 
 end
 

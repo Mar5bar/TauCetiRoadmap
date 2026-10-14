@@ -6110,10 +6110,25 @@ Huber-standard adic spaces (*locally-huber-standard*) is locally quasi-finite
 (*quasi-finite-morphism*); in particular étale morphisms are locally quasi-finite
 (Huber96 §1.7, Cor. 1.7.4, p. 86, with Huber's proof — 1.6.8 plus the algebraic model 1.7.3(iii),
 the standard étale presentation of Huber96 §1.7, Prop. 1.7.1, p. 80, producing the algebraic model
-through 1.7.2–1.7.3). The squaring map restricted to `{|T| = 1}` is étale with fibres of cardinality
-at most `2`. *Needs:* *infinitesimal-criteria*; *etale-local-structure*; *quasi-finite-morphism*;
+through 1.7.2–1.7.3). Assuming `2 ∈ K^×`, the squaring map restricted to `{|T| = 1}` is finite
+étale with fibres of cardinality at most `2`, the `n = 2` case of the annulus Check of
+*differentials-unramified-smooth-etale*. *Needs:* *infinitesimal-criteria*; *etale-local-structure*; *quasi-finite-morphism*;
 *unramified-morphism*; *closed-adic-subspaces-and-embeddings*; *fibre-products-existence*;
 *etale-algebraic-model*; *etale-presentation-perturbation*.
+
+**Checks.**
+
+- *Computation.* If `2 ∈ K^×`, put `A = K⟨S,S⁻¹⟩`, `B = K⟨T,T⁻¹⟩` and `S ↦ T²`, with
+  their usual integral plus rings. The basis `1,T` makes `B` finite free of rank two over `A`,
+  and the Jacobian `2T` is a unit, so the annulus map is finite étale and locally quasi-finite.
+- *Boundary.* The same map over `ℚ₂` is finite étale: invertibility of `2` in the field is
+  sufficient even though its residue characteristic is two.
+- *Non-example.* Over `K = 𝔽₂((u))`, the same annulus map has
+  `Ωᶜ_{B/A} = B·dT ≠ 0`, so it is neither unramified nor étale. In the complete square-zero
+  extension `B[ε]/(ε²)` the continuous pair maps `T ↦ T` and `T ↦ T + ε` agree over `A`
+  and modulo `ε` but are distinct; both coordinates remain invertible. This is the annulus
+  specialization of the characteristic-`p` Frobenius Check of *differentials-unramified-smooth-etale*.
+
 Lean: README target.
 
 **Characterisations of unramified morphisms (Huber 1.6.8).** (*infinitesimal-criteria*) Let
@@ -7125,27 +7140,35 @@ Mathlib, Tau Ceti and AdicSpaces §§1.3, 2.1, as specified in the supplier tabl
 locally spectral spaces, using DiamondsAndVStacks D0.1 `IsLocallySpectralSpace` and
 `IsLocallySpectralMap`. Prove that `f(T)` is pro-constructible in `Y` for every pro-constructible
 `T ⊆ X`; on locally spectral spaces pro-constructibility is tested on spectral opens
-(Huber96 §1.1, (1.1.13), p. 44, as used in Huber's proofs of 1.3.4, 1.3.7 and 1.5.6): the
-spectral case is supplied by DiamondsAndVStacks D0.3 `isProConstructible_image`;
-the locally spectral corollary applies that theorem
-over a cover of `Y` by spectral opens `V`, `f⁻¹(V)` being quasi-compact and covered by finitely many
-spectral opens. For `X = Y` spectral this is the image of a compact space in a Hausdorff space for the constructible topologies; the image of `Spec ℚ →
-Spec ℤ` is `{(0)}`,
-pro-constructible and not constructible. *Needs:* DiamondsAndVStacks D0.1
-(`IsLocallySpectralSpace`, `IsLocallySpectralMap`) and D0.3 (`isProConstructible_image`); Mathlib
-`compactSpace_withConstructibleTopology`; Tau Ceti
+(Huber96 §1.1, (1.1.13), p. 44, as used in Huber's proofs of 1.3.4, 1.3.7 and 1.5.6).
+Part II owns both the spectral case `isProConstructible_image` and this locally spectral
+corollary. For spectral `X` and `Y` and an `IsSpectralMap f`, prove the spectral case from
+`TauCeti.IsSpectralMap.continuous_constructibleTopology`: `T` is closed in the compact
+constructible topology of `X`, hence compact in that topology; its continuous image is compact
+in the Hausdorff constructible topology of `Y`, hence closed and pro-constructible
+(Stacks Tags 0901, Lem. 5.23.2, and 0A2S, Lem. 5.23.3).
+Deduce the locally spectral corollary over a cover of `Y` by spectral opens `V`.
+Quasi-compactness of `f` gives a finite cover of `f⁻¹(V)` by spectral opens `Uᵢ ⊆ X`.
+Each restriction `Uᵢ → V` is spectral by `IsLocallySpectralMap`, and `T ∩ Uᵢ` is
+pro-constructible in `Uᵢ`. Apply the owned spectral theorem to each restriction and take
+the finite union of the images in `V` to obtain `f(T) ∩ V` pro-constructible.
+*Needs:* DiamondsAndVStacks D0.1 (`IsLocallySpectralSpace`, `IsLocallySpectralMap`) and
+D0.2 (`WithConstructibleTopology.t2Space_totallyDisconnectedSpace`, the independent
+Hausdorffness input); Mathlib `compactSpace_withConstructibleTopology`, `IsClosed.isCompact`,
+`IsCompact.image`, `IsCompact.isClosed`; Tau Ceti
 `TauCeti.IsSpectralMap.continuous_constructibleTopology`, `TauCeti.IsProConstructible`,
-`Set.Finite.isProConstructible_biUnion`.
+`TauCeti.isProConstructible_iff_isClosed`, `Set.Finite.isProConstructible_biUnion`.
 
 **Checks.**
 
 - An identity of a locally spectral space preserves every locally pro-constructible subset.
+- The image of the empty subset is empty and pro-constructible, including for an empty source.
 - The image of `Spec ℚ → Spec ℤ` is pro-constructible but not constructible.
 - For a quasi-compact open inclusion into a spectral space, a pro-constructible subset
   of the open has pro-constructible image in the ambient space; the quasi-compactness
   assumption is needed for this reduction to a finite cover of spectral opens.
 
-Lean: README target.
+Lean: `isProConstructible_image` (the spectral case); the locally spectral corollary is a README target.
 
 ### Examples
 
