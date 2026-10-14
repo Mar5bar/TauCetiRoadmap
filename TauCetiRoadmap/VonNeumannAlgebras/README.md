@@ -381,7 +381,9 @@ dimension one, right-cut formula `dim_M L²(M)q=τ(q)`, nonzero left-corner resc
 `1/τ(p)`, commutant-corner scaling and reciprocal dimensions when both acting factors are
 finite. Give the zero module dimension zero, and impose nonzero modules in the finite-commutant
 and reciprocal-dimension statements. Prove cyclic/separating-vector criteria at dimension
-≤1/≥1 and the original vector-support trace-ratio formula with independence of the vector.
+≤1/≥1. When both acting factors are finite, prove the original
+vector-support trace-ratio formula using their normalized traces, with
+independence of the vector.
 
 For M of type II₁ with separable predual, prove realization of every
 dimension in [0,∞] by separable modules. For nonzero separable modules prove the commutant
