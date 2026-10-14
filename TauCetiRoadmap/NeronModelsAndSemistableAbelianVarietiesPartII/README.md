@@ -3,16 +3,16 @@
 **Summary.** Build the geometry of genus-one fibrations needed to compare multiple fibers with their Jacobians
 and to classify a particular family of rational elliptic surfaces over F₂. The construction starts with finite
 pinching and full conductor ideals, passes through actual fiber schemes, canonical bundles and geometric
-Picard lattices, and ends with fourteen proposed equation representatives. The last step is a theorem obtained
-from individual resolved-model certificates and an exhaustive finite equivalence certificate. An equation, its
-discriminant, or a list of survivors alone supplies neither certificate.
+Picard lattices, and ends with the classification of fourteen equation representatives. The fourteen equations
+and their resolved invariants are Checks of one classification-list target. The classification theorem follows
+from bounded Weierstrass normal forms, admissible equivalence and the geometric and arithmetic fibre conditions.
 
 ## Scope and ownership
 
 This roadmap owns finite Ferrand pinching beyond smooth-section clutching; arbitrary-subring conductors and
 their global reconstruction maps; the explicit quadratic pinching chart and its proper curve; the genus-one
 specialization of multiple-fiber isogeny arguments; the extension from smooth generic curves to regular
-nonsmooth genus-one curves; and the geometric, arithmetic and finite certification needed for the stated
+nonsmooth genus-one curves; and the geometric and arithmetic classification of the stated
 rational-elliptic-surface family. It also owns the surface realization of the Picard lattice and the local LLR
 comparison inputs not covered by semistable reduction alone.
 
@@ -71,7 +71,7 @@ are different notions.
 Point counts include singular points and ignore nilpotent thickening, because maps from fields factor through
 reduction. `WeierstrassCurve.pointCount` counts all affine equation solutions plus the point at infinity; it
 is an elliptic group cardinality only under smoothness. In the tables Eᵢ denotes the smooth binary curve with
-i points. Lean's `F2Model` and `rawCandidates` use zero-based indices; mathematical model numbers start at
+i points. Lean's `F2Model` and `modelEquations` use zero-based indices; mathematical model numbers start at
 one. Every extension-count assertion has r≥1; q is an actual finite-field size and is at least two.
 
 The Weierstrass equation is y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆. Coefficients have weights 1,2,3,4,6; the discriminant
@@ -227,10 +227,20 @@ then constructs the rational-surface cycle-class comparison and rank-ten point-c
 Layer 1 constructs finite pinching and its actual global conductor maps. Layer 2 applies it to genus-one
 fibers and the five binary elliptic classes. Layer 3 proves the local multiple-fiber comparison. Layer 4
 constructs canonical bundles, geometric lattices and the bounded global cubic; Layer 5 turns resolved-surface
-counts and marked graph arguments into Picard constancy. Layer 6 gives fourteen independent resolved-model
-certification problems. Layer 7 proves finite equivalence, exhaustiveness and pairwise orbit separation before
-either classification theorem. The README specifies every geometric target; Suggested.lean keeps only real
-light constructions and signatures whose carriers already exist.
+counts and marked graph arguments into Picard constancy. Layer 6 gives the fourteen-model list with equations
+and resolved invariants as Checks. Layer 7 proves admissible equivalence and classification by normal-form case
+analysis, with uniqueness from the fibre and j-invariants. The README specifies every geometric target;
+Suggested.lean keeps light constructions and signatures whose carriers already exist.
+
+| Layer | Mathematical content |
+| --- | --- |
+| 1 | Finite pinching and full conductor maps |
+| 2 | Genus-one fibres, Kodaira geometry and binary elliptic curves |
+| 3 | Multiple-fibre isogenies and local comparisons |
+| 4 | Canonical bundles, Picard lattices and global equations |
+| 5 | Resolved counts, graph rigidity and Picard constancy |
+| 6 | One fourteen-model list, its invariant Checks and nonrational-fibre theorems |
+| 7 | Admissible equivalence and classification by normal forms |
 
 ## Layer 1: finite pinching and full conductors
 
@@ -9512,7 +9522,7 @@ The stated point-sum assumption is retained; its relation to actual counts is §
 
 **Checks.**
 
-- Do not omit condition(v) or claim the printed enumeration verifies it for every listed model.
+- Do not omit condition(v); the equation list of §6.1 alone does not establish descent of every section.
 
 *Needs:* §4.8; §5.7; §5.1; §5.2.
 
@@ -9541,14 +9551,12 @@ contradicting25≤10+7+7=24.
 Prove separately the configuration exclusions and reductions needed by the classification: rule out II+I₉;
 restrict III+I_m with 6≤m≤9 to m=6 or 8; derive the characteristic-two normal-form reductions conventionally
 labeled 2A, 5A, 5D, 7, 13A and 14; and prove the zero-j nonreduced-fiber/bad-place restrictions. For the
-binary family these assertions may instead be consequences of the complete finite certificate in Layer 7.
-Schröer's uses identify the assertions to prove; the finite route derives them from §7.3 rather than
-assuming them as inputs to its certificate.
+binary family these are independent mathematical inputs to the normal-form argument of §7.4.
+Schröer's uses identify the configuration and coefficient-reduction statements to prove.
 
-Each exclusion and normal-form assertion is a separate statement with its own proof. On the finite route all
-of them are consequences of the rejection certificate of §7.3: the configuration II+E₄+I₉ and the
-configurations III+I_m with m=7 or 9 have no survivor there. On the finite route, these configuration
-exclusions are consequences of §7.3 and must not be prerequisites of its certificate.
+Each exclusion and normal-form assertion is a separate statement with its own proof. Establish them from
+fibre geometry and the characteristic-two coefficient relations, including the exclusions of II+E₄+I₉ and
+III+I_m for m=7 or 9. These statements precede the classification theorem of §7.4.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Section 10, pp. 28–32; arXiv v3.)
 
@@ -9556,7 +9564,7 @@ exclusions are consequences of §7.3 and must not be prerequisites of its certif
 
 - Do not silently use Lang1994 on extremal surfaces for this more general claim.
 - The count alone does not exclude II+E₄+I₉: it has 3+4+18=25 rational points, so its exclusion needs the
-  configuration statement or the certificate.
+  independent configuration statement.
 - The exclusion is about rational fibres over F₂; it says nothing about configurations over F₄.
 
 *Needs:* §4.14; EllipticCurves Layer 4.
@@ -9565,8 +9573,8 @@ exclusions are consequences of §7.3 and must not be prerequisites of its certif
 
 With the hypotheses of §5.9, prove a rational reducible additive fiber exists. If all
 reducible fibers were multiplicative, the large I_r has 6≤r≤9. Parity and the 25-point sum force the other
-fibers to be E₄ and II and r=9. Exclude that configuration by the independent configuration target or, on the
-finite route, by the complete rejection certificate. The count argument alone does not exclude II+I₉.
+fibers to be E₄ and II and r=9. Exclude that configuration by the independent configuration target §5.10.
+The count argument alone does not exclude II+I₉.
 
 If every reducible fiber is multiplicative, §5.9 gives I_r with6≤r≤9. The other rational
 fibers must be ordinary smooth or II; parity and25points force II+E₄+I₉.
@@ -9602,7 +9610,7 @@ characteristic2. Use §5.11 for existence; the zero-divisor argument gives uniqu
 
 If that unique additive fiber has at most five components, prove the rational configuration is III+E₄+I₈ up to
 base automorphism. I₀* exclusion reduces its component bound to three. The large split I_m satisfies 6≤m≤9;
-the independently certified configuration restriction gives III+I₆ or III+I₈. The count equation 25=5+2m+2n,
+the independent configuration restriction of §5.10 gives III+I₆ or III+I₈. The count equation 25=5+2m+2n,
 1≤n≤2, selects m=8 and n=2.
 
 If the unique additive fiber has≤5 components, I₀* exclusion forces≤3. Large-fiber and rank bounds give a
@@ -9632,744 +9640,301 @@ Layers 2 and 4; LefschetzPencilsAndVanishingCycles LPV.F §§F.2–F.7 and F.10;
 ClassicalAdicEtaleCohomology §§0.9–0.11; the projective-plane and point-blowup specializations of §5.0;
 native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer.
 
-## Layer 6: fourteen resolved-model certificates
+## Layer 6: the fourteen-model classification list
 
-### 6.1 fourteen candidate equations
+### 6.1 fourteen-model classification list
 
-Define `rawCandidates` by the fourteen native five-coefficient tuples displayed in this layer. Prove their
-bounds before constructing the refined `CandidateEquation : Fin 14→BoundedWeierstrass F₂`. Distinct raw tuples
-are not yet distinct fibration orbits. Construct a separate `ResolvedModelCertificate` relating each equation
-and both charts to its proper smooth rational relatively minimal resolved Jacobian.
+Give the fourteen equations over F₂(t) representing the classification family: smooth projective
+geometrically rational relatively minimal Jacobian elliptic surfaces over P¹_F₂ with constant Picard scheme
+and at most one rational singular-semistable or smooth-supersingular fibre. Establish their discriminants,
+functional j-invariants, resolved fibres, local minimality on both charts and resolved F₂-counts. The equations
+and their individual invariants below are Checks of this single list target; completeness and uniqueness are
+§7.4.
 
-Models 1–8 are the eight nonzero-j equations of Schröer's Theorem 10.4 (p. 29) and models 9–11 the three
-zero-j equations of his Theorem 10.5 (p. 31). Models 12–14 complete the twisted semistable case in the proof of
-Theorem 10.4 (pp. 30–31): with a nonsplit semistable fibre at infinity and an ordinary fibre E₄ at t=1, the
-configurations I₂*+E₄+Ĩ₂, I₃*+E₄+Ĩ₁ and IV*+E₄+Ĩ₂ also occur, the last with its extra I₁ fibre over the
-degree-two point t²+t+1. Neither the printed table nor the configuration list in the proof of Proposition
-11.1 (p. 33) contains them. Tate's algorithm at t=0, 1 and ∞ gives exactly these fibre types for
-(t,1,t³,0,0), (t,t,t³,0,0) and (t,t²,t²,0,0), with resolved counts 15+4+6, 17+4+4 and 15+4+6, so the family
-has eleven nonzero-j classes, not eight. Use the ordered table of five polynomial coefficients, with the
-characteristic-two convention y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆, and check each coefficient weight bound
-separately. The representative signatures `rawCandidates_bounded`, `rawCandidates_injective`,
-`model_one_invariants` and `zero_j_model_invariants` concern the raw tuples and their invariants, before
-geometric resolution.
+The plain list `modelEquations : Fin 14→WeierstrassCurve F₂[t]` carries the displayed equations, with model i
+at index i−1. Its basic laws `modelEquations_bounded` and `modelEquations_injective` give the five coefficient
+bounds and distinctness of the coefficient tuples. The per-model invariant statements in Suggested.lean are
+examples attached to this list. Geometric equivalence is the relation of §7.2.
 
-The light map `rawCandidates : Fin 14→WeierstrassCurve F₂[t]` contains the fourteen coefficient tuples, with
-mathematical model i stored at index i−1. Its API proves each of the five bounds, literal tuple injectivity
-and the c₄/Δ identities used by the individual certificates. Tuple injectivity does not imply fibration
-nonequivalence. Checks: index 11 is (t,1,t³,0,0) with Δ=t¹⁰; index 12 has Δ=t¹¹; index 13 has Δ=t⁸(t²+t+1).
-The three zero-j entries have c₄=0 and Δ=t⁸, so they remain elliptic at the generic point.
+Models 1–8 are the nonzero-j equations in Schröer's Theorem 10.4 (p. 29), and models 9–11 are the zero-j
+equations in Theorem 10.5 (p. 31). Models 12–14 complete the twisted semistable case in the proof of Theorem
+10.4 (pp. 30–31). With a nonsplit semistable fibre at infinity and E₄ at t=1, the additional configurations
+are I₂*+E₄+Ĩ₂, I₃*+E₄+Ĩ₁ and IV*+E₄+Ĩ₂; the last also has a geometric I₁ fibre at each conjugate point over
+t²+t+1. The equations (t,1,t³,0,0), (t,t,t³,0,0) and (t,t²,t²,0,0) have those local types and rational-fibre
+counts 15+4+6, 17+4+4 and 15+4+6. The printed table and the configuration list in Proposition 11.1 (p. 33)
+omit these three configurations. The classification list therefore has eleven nonzero-j models and three
+zero-j models.
 
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4 and its proof, pp. 29–31; Theorem
-10.5, p. 31; Proposition 11.1, pp. 32–33.)
+For each equation use the weighted chart at s=1/t, with aᵢ′(s)=sⁱaᵢ(1/s) and
+Δ′(s)=s¹²Δ(1/s). Local minimality means minimality at every closed point of each chart, including the
+nonrational discriminant places. Compare the local Kodaira types with the actual resolved fibre schemes by
+§2.3 and EllipticCurves Layer 4. The regular resolutions are smooth projective relatively minimal Jacobian
+surfaces with Hodge line of degree one. Geometric rationality follows from the supporting theorem
+`jacobian_hodgeDegreeOne_rational`: over an algebraically closed field, a smooth projective relatively minimal
+Jacobian elliptic surface over P¹ with Hodge degree one is rational. The section rules out multiple fibres
+and gives cohomological flatness; R¹f_*O=O(−1) and Leray yield H¹(O)=0. The canonical formula gives ω=O(−F),
+hence H⁰(ω²)=0. Prove and apply `surface_rationalityCriterion`, the characteristic-independent
+Castelnuovo–Zariski equivalence between rationality and H¹(O)=H⁰(ω²)=0 for smooth projective surfaces over
+an algebraically closed field. Its proof uses a moving rational curve and a ruled surface with genus-zero
+base. The resolved counts and §5.2 give Picard constancy; the displayed fibre types give the rational-fibre
+restriction.
 
-The construction needs the following maps and laws.
+([Liedtke, arXiv v4](https://arxiv.org/pdf/0912.4291v4), §4.5, Theorem 4.6, printed p. 21;
+Schröer, [arXiv v3](https://arxiv.org/pdf/2004.07025v3), §6, pp. 18–19, for the Jacobian specialization.)
 
-- `CandidateEquation.coefficients`: Returns the specified five polynomials at each of the fourteen indices.
-
-- `CandidateEquation.bounded`: Every equation satisfies the weights1,2,3,4,6 of BoundedWeierstrass.
-
-- `CandidateEquation.ne`: The fourteen raw five-tuples are pairwise distinct; this is weaker than
-  nonequivalence of fibrations.
-
-- `CandidateEquation.chart`: Its infinity chart is the specified weighted reversal, including zero
-  coefficients.
-
-**Checks.**
-
-- Index11 has(a₁,a₂,a₃,a₄,a₆)=(t,1,t³,0,0),Δ=t¹⁰.
-
-- Index12 has(t,t,t³,0,0),Δ=t¹¹.
-
-- Index13 has(t,t²,t²,0,0),Δ=t⁸(t²+t+1).
-
-- None of the specific printed models1–8 has the raw tuple of models12,13 or14; this is a coefficient-table
-  test, not an equivalence assertion.
-
-*Needs:* §4.10.
-
-### 6.2 model 1 certificate
-
-For model 1, with coefficients (t,t,t²,t⁴,t⁵+t⁶) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t⁸ and functional j=t⁴, then certify fibers at 0,1,∞ as I₁*, E₄, split I₄.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4 and proof, pp. 29–31; Theorem 10.5
+and proof, pp. 31–32; Proposition 11.1, pp. 32–33; models 12–14 are the twisted semistable completion above.)
 
 **Checks.**
 
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
+Each row uses y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆ with coefficients in the order (a₁,a₂,a₃,a₄,a₆).
+In the local-minimality column the two entries refer to the t-chart and s-chart respectively, at all their
+closed points. The count column is the sum of the three resolved rational-fibre counts.
 
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
+| Model | (a₁,a₂,a₃,a₄,a₆) | Δ | Functional j | Fibres at 0, 1, ∞ | Local minimality (t, s) | Resolved F₂-count |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | (t,t,t²,t⁴,t⁵+t⁶) | t⁸ | t⁴ | I₁*, E₄, split I₄ | minimal, minimal | 13+4+8=25 |
+| 2 | (t,0,0,t³,t⁵+t⁶) | t¹⁰(t²+t+1) | t²/(t²+t+1) | III*, E₄, E₄ | minimal, minimal | 17+4+4=25 |
+| 3 | (t,0,0,t³,0) | t¹⁰ | t² | III*, E₄, split I₂ | minimal, minimal | 17+4+4=25 |
+| 4 | (t,t²,0,t³,0) | t¹⁰ | t² | III*, E₂, nonsplit I₂ | minimal, minimal | 17+2+6=25 |
+| 5 | (t,0,0,0,t⁵) | t¹¹ | t | II*, E₄, split I₁ | minimal, minimal | 19+4+2=25 |
+| 6 | (t,t²,0,0,t⁵) | t¹¹ | t | II*, E₂, nonsplit I₁ | minimal, minimal | 19+2+4=25 |
+| 7 | (t,t,0,t⁴,0) | t¹² | 1 | I₄*, E₂, E₄ | minimal, minimal | 19+2+4=25 |
+| 8 | (t,t,t,t,0) | t⁴ | t⁸ | III, E₄, split I₈ | minimal, minimal | 5+4+16=25 |
+| 9 | (0,t,t²,0,0) | t⁸ | 0 | I₁*, E₅, IV | minimal, minimal | 13+5+7=25 |
+| 10 | (0,0,t²,t³,0) | t⁸ | 0 | IV*, E₅, III | minimal, minimal | 15+5+5=25 |
+| 11 | (0,0,t²,0,0) | t⁸ | 0 | IV*, E₃, IV | minimal, minimal | 15+3+7=25 |
+| 12 | (t,1,t³,0,0) | t¹⁰ | t² | I₂*, E₄, nonsplit I₂ | minimal, minimal | 15+4+6=25 |
+| 13 | (t,t,t³,0,0) | t¹¹ | t | I₃*, E₄, nonsplit I₁ | minimal, minimal | 17+4+4=25 |
+| 14 | (t,t²,t²,0,0) | t⁸(t²+t+1) | t⁴/(t²+t+1) | IV*, E₄, nonsplit I₂ | minimal, minimal | 15+4+6=25 |
 
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
+- For model 1, c₄=t⁴ and Δ=t⁸ give j=c₄³/Δ=t⁴.
+- Models 9–11 have c₄=0 and Δ=t⁸≠0, so their generic curves are smooth with j=0.
+- The weight bounds are 1,2,3,4,6 for every row, including model 12's constant a₂=1.
+- The nonsplit I₂ and I₁ counts are six and four, respectively, as in §§2.11–2.12.
+- A product E×P¹ has Hodge degree zero and H¹(O)=1; an elliptic K3 surface has Hodge degree two and
+  nonzero H⁰(ω²). Neither satisfies the Hodge-degree-one rationality hypotheses.
 
-### 6.3 model 2 certificate
+*Needs:* §§4.1–4.4 and §§4.10–4.14; §2.3; §§2.10–2.13; §§5.1–5.2; EllipticCurves Layer 4;
+StableReduction Layers 2, 4 and 5; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3 cohomological flatness;
+the rational-surface and intersection constructions of Layer 4 here.
 
-For model 2, with coefficients (t,0,0,t³,t⁵+t⁶) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹⁰(t²+t+1) and functional j=t²/(t²+t+1), then certify fibers at 0,1,∞ as
-III*, E₄, E₄. Establish both charts are locally minimal at every place, compare all Tate outputs with actual
-resolved components and their marked incidence, prove the proper regular resolution is smooth, geometrically
-rational and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard
-functor is constant through the resolved-surface criterion and verify at most one rational fiber is singular
-semistable or smooth supersingular. The discriminant and three rational fibers alone do not certify the
-all-place claims.
+### 6.16 nonrational bad fibres in the eleven nonzero-j models
 
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
+For the eleven nonzero-j models, prove all nonrational bad fibres are absent except in models 2 and 14.
+Their closed point t²+t+1 has residue degree two and geometric type I₁. Factor the discriminant on both
+charts, use local minimality and compare the local type with the resolved fibre scheme. At this point Δ has
+valuation one and c₄ is a unit. A degree-two closed point represents two geometric fibres.
 
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.4 model 3 certificate
-
-For model 3, with coefficients (t,0,0,t³,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹⁰ and functional j=t², then certify fibers at 0,1,∞ as III*, E₄, split
-I₂. Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29, and twisted semistable case,
+pp. 30–31, as completed in §6.1.)
 
 **Checks.**
 
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
+- Models 2 and 14 have precisely the finite nonrational factor t²+t+1 in their discriminants.
+- This factor is irreducible over F₂ and has simple valuation; c₄=t⁴ is a unit there, giving geometric I₁.
+- The closed point contributes no F₂-rational base point and splits into two geometric points over F₄.
+- The other nine nonzero-j models have no nonrational bad place on either chart.
 
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
+*Needs:* §6.1; §2.3; EllipticCurves Layer 4.
 
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
+### 6.17 smooth nonrational fibres of zero-j models
 
-### 6.5 model 4 certificate
+For models 9–11, prove every nonrational fibre is smooth. On the finite chart Δ=t⁸, so every finite
+nonrational point has nonzero discriminant. On the infinity chart Δ′=s⁴, whose only zero is the rational
+point s=0. Use the locally minimal equations and the resolved-fibre comparison on both charts.
 
-For model 4, with coefficients (t,t²,0,t³,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹⁰ and functional j=t², then certify fibers at 0,1,∞ as III*, E₂,
-nonsplit I₂. Establish both charts are locally minimal at every place, compare all Tate outputs with actual
-resolved components and their marked incidence, prove the proper regular resolution is smooth, geometrically
-rational and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard
-functor is constant through the resolved-surface criterion and verify at most one rational fiber is singular
-semistable or smooth supersingular. The discriminant and three rational fibers alone do not certify the
-all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5, p. 31.)
 
 **Checks.**
 
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.6 model 5 certificate
-
-For model 5, with coefficients (t,0,0,0,t⁵) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹¹ and functional j=t, then certify fibers at 0,1,∞ as II*, E₄, split I₁.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.7 model 6 certificate
-
-For model 6, with coefficients (t,t²,0,0,t⁵) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹¹ and functional j=t, then certify fibers at 0,1,∞ as II*, E₂, nonsplit
-I₁. Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.8 model 7 certificate
-
-For model 7, with coefficients (t,t,0,t⁴,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹² and functional j=1, then certify fibers at 0,1,∞ as I₄*, E₂, E₄.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.9 model 8 certificate
-
-For model 8, with coefficients (t,t,t,t,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t⁴ and functional j=t⁸, then certify fibers at 0,1,∞ as III, E₄, split I₈.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.10 model 9 certificate
-
-For model 9, with coefficients (0,t,t²,0,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t⁸ and functional j=0, then certify fibers at 0,1,∞ as I₁*, E₅, IV.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5, p. 31; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.11 model 10 certificate
-
-For model 10, with coefficients (0,0,t²,t³,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t⁸ and functional j=0, then certify fibers at 0,1,∞ as IV*, E₅, III.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5, p. 31; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.12 model 11 certificate
-
-For model 11, with coefficients (0,0,t²,0,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t⁸ and functional j=0, then certify fibers at 0,1,∞ as IV*, E₃, IV.
-Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5, p. 31; arXiv v3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.13 model 12 certificate
-
-For model 12, with coefficients (t,1,t³,0,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹⁰ and functional j=t², then certify fibers at 0,1,∞ as I₂*, E₄, nonsplit
-I₂. Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem10.4 and twisted-case proof, pp29–31,
-arXivv3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.14 model 13 certificate
-
-For model 13, with coefficients (t,t,t³,0,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t¹¹ and functional j=t, then certify fibers at 0,1,∞ as I₃*, E₄, nonsplit
-I₁. Establish both charts are locally minimal at every place, compare all Tate outputs with actual resolved
-components and their marked incidence, prove the proper regular resolution is smooth, geometrically rational
-and relatively minimal with its section, and compute its actual F₂-count as 25. Prove its Picard functor is
-constant through the resolved-surface criterion and verify at most one rational fiber is singular semistable
-or smooth supersingular. The discriminant and three rational fibers alone do not certify the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem10.4 and twisted-case proof, pp29–31,
-arXivv3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.15 model 14 certificate
-
-For model 14, with coefficients (t,t²,t²,0,0) in the order (a₁,a₂,a₃,a₄,a₆), construct a
-`ResolvedModelCertificate`. Prove Δ=t⁸(t²+t+1) and functional j=t⁴/(t²+t+1), then certify fibers at 0,1,∞ as
-IV*, E₄, nonsplit I₂. Establish both charts are locally minimal at every place, compare all Tate outputs with
-actual resolved components and their marked incidence, prove the proper regular resolution is smooth,
-geometrically rational and relatively minimal with its section, and compute its actual F₂-count as 25. Prove
-its Picard functor is constant through the resolved-surface criterion and verify at most one rational fiber is
-singular semistable or smooth supersingular. The discriminant and three rational fibers alone do not certify
-the all-place claims.
-
-Evaluate the baseline discriminant and c₄ formulas on this specific coefficient tuple; reduce the resulting
-rational j=c₄³/Δ. Compute the weighted reverse chart. Factor the two discriminants to identify every rational
-and nonrational bad place. At each bad place prove minimality, run the imported perfect-residue Tate
-algorithm, and transport its result to the actual regular resolution using the scheme-realization comparison;
-check splitting of the displayed residue polynomials. Verify smoothness/rationality and relative minimality of
-that resolution, then sum the resolved fiber counts at0,1,∞. Use the geometric trace criterion to certify
-Picard constancy, without assuming Mordell–Weil descent from the printed list.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem10.4 and twisted-case proof, pp29–31,
-arXivv3.)
-
-**Checks.**
-
-- A complete certificate includes all-place minimality and the resolved fiber geometry, not merely a
-  polynomial discriminant or naive singular-cubic point count.
-
-- For models12,13,14 the rational-fiber sums are15+4+6,17+4+4 and15+4+6 respectively.
-
-*Needs:* §6.1; §4.14; §5.2; §5.1; §2.3; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
-
-### 6.16 nonrational bad fibers in the eleven nonzero-j models
-
-For the eleven nonzero-j models, prove all nonrational bad fibers are absent except in models 2 and 14: there
-the closed point t²+t+1 has residue degree two and geometric type I₁. Factor the discriminant on both charts,
-verify local minimality and apply the local resolution comparison. A degree-two closed point represents two
-geometric fibers.
-
-Factor each explicit polynomial discriminant and inspect the reverse chart. At t²+t+1 the discriminant has
-simple valuation and c₄ is a unit, yielding I₁ via the imported minimal-equation criterion.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, p. 29; arXiv v3.)
-
-**Checks.**
-
-- The exceptions are models 2 and 14. The closed degree-two point contributes no F₂-rational base point and
-  splits into two geometric points after extending to an algebraic closure.
-
-*Needs:* §6.2; §6.3; §6.4; §6.5; §6.6; §6.7; §6.8; §6.9; §6.10; §6.11; §6.12; §6.13; §6.14; §6.15; §6.1;
-EllipticCurves Layer 4.
-
-### 6.17 smooth nonrational fibers of zero-j models
-
-For models 9–11, prove every nonrational fiber is smooth. The only discriminant zeros occur at rational chart
-origins or infinity; certify the infinity chart and local minimality before using the discriminant criterion.
-
-For each of models9–11, Δ=t⁸ on the finite chart and all finite nonrational points have nonzero discriminant.
-Inspect the infinity chart separately; it is a rational base point.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5, p. 31; arXiv v3.)
-
-**Checks.**
-
-- The three zero-j equations define elliptic generic curves because Δ is not identically zero.
-
-*Needs:* §6.10; §6.11; §6.12; §6.1; EllipticCurves Layer 4.
+- All three generic curves are elliptic because t⁸ is nonzero in F₂(t).
+- The finite discriminant vanishes only at the rational point t=0.
+- The reverse discriminant s⁴ vanishes only at the rational point at infinity.
+- The smooth fibre at t=1 is E₅ for models 9 and 10 and E₃ for model 11.
+
+*Needs:* §6.1; §2.3; EllipticCurves Layer 4.
 
 ### Examples
 
-The proposed model 12 has rational-fiber counts 15+4+6=25; model 13 has 17+4+4=25; model 14 has 15+4+6=25.
-These are resolved counts, and the nonsplit I₂ and I₁ contributions include the extra two points. The factor
-t²+t+1 in models 2 and 14 supplies one degree-two closed place and two conjugate geometric I₁ fibers. At
-infinity use Δ′=s¹²Δ(1/s); a degree-ten discriminant has an infinity zero of order two, which is missed by
-finite-chart factorization alone.
+Models 12, 13 and 14 have resolved rational-fibre sums 15+4+6=25, 17+4+4=25 and 15+4+6=25.
+The factor t²+t+1 in models 2 and 14 gives two conjugate geometric I₁ fibres. At infinity,
+Δ′=s¹²Δ(1/s); a degree-ten discriminant has an infinity zero of order two.
 
 ### Dependencies
 
-Layers 2–5; EllipticCurves Layer 4 perfect-residue Tate algorithm and its geometric-resolution comparison
-constructed here; StableReduction Layer 4 blowups and Layer 5 regular models.
+Layers 2–5 for global equations, resolved fibres and Picard constancy; the Hodge-degree-one rationality
+argument of §6.1; EllipticCurves Layer 4 and the geometric-resolution comparison of §2.3;
+StableReduction Layers 2, 4 and 5; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3 cohomological flatness.
 
-## Layer 7: finite equivalence and completeness
+## Layer 7: admissible equivalence and classification
 
 ### 7.1 characteristic-two a₂ normalization
 
-In characteristic two expand x↦x+a₂ to obtain a₂′=0, a₃′=a₃+a₁a₂, a₄′=a₄+a₂² and a₆′=a₆+a₂a₄; the two equal
-cubic terms cancel in characteristic two. Prove all weight bounds remain valid and construct the native
-variable change. Binary normalized coefficient vectors have dimensions 2+4+5+7=18, hence 2¹⁸ tuples, including
-singular equations.
+In characteristic two expand x↦x+a₂ to obtain a₂′=0, a₃′=a₃+a₁a₂, a₄′=a₄+a₂² and a₆′=a₆+a₂a₄; the equal
+cubic terms cancel. Prove all five weight bounds remain valid and identify this normalization with the native
+variable change. The bounded normalized coefficients give finitely many normal forms under §7.2.
 
-Expand the cubic after x↦x+r with r=a₂; in characteristic2 the x² coefficient becomes a₂+r=0. The weighted
-terms a₁r,a₂r²,r³,a₄r all retain their required bounds. Count the coefficient dimensions2+4+5+7=18 for
-weights1,3,4,6.
+Define `coefficientPolynomial n c=Σ_(j:Fin(n+1))cⱼtʲ` over any commutative ring,
+`NormalizedCoefficients=(Fin 2→F₂)×(Fin 4→F₂)×(Fin 5→F₂)×(Fin 7→F₂)`, and `normalizedEquation` with a₂=0.
+Define `normalizeA2` by the expanded x-translation. Their API has coefficient evaluation,
+`coefficientPolynomial_injective`, `coefficientPolynomial_range` for the bounded-polynomial range,
+`normalizedEquation_injective`, the weight bounds, `normalizeA2_variableChange`, `normalizeA2_bounded`,
+vanishing a₂, idempotence and discriminant invariance. Coefficient-vector injectivity follows by taking coeff j;
+the range comparison uses the first n+1 coefficients. The geometric interpretation uses nonzero Δ and local
+minimality.
 
-Define `coefficientPolynomial n c=Σ_(j:Fin(n+1))cⱼtʲ` over any commutative ring, `NormalizedCoefficients=(Fin
-2→F₂)×(Fin 4→F₂)×(Fin 5→F₂)×(Fin 7→F₂)`, and `normalizedEquation` by these four polynomials as a₁,a₃,a₄,a₆
-with a₂=0. Define `normalizeA2` on native binary equations by the expanded x-translation above. Their API has
-coefficient evaluation, `coefficientPolynomial_injective`, `coefficientPolynomial_range` for its exact bounded-polynomial range,
-`normalizedCoefficients_card=2¹⁸`, `normalizedEquation_injective`, all weight bounds,
-`normalizeA2_variableChange`, `normalizeA2_bounded`, vanishing a₂ and idempotence. Coefficient-vector
-injectivity follows by applying coeff j; the range constructs its inverse from the first n+1 coefficients.
-Verify discriminant invariance and apply the geometric interpretation only after nonzero Δ and minimality are proved.
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32.)
 
 **Checks.**
 
 - `coefficientPolynomial`: the zero vector gives zero.
 - `coefficientPolynomial`: the vector (0,1,0) gives t at weight two.
-- `coefficientPolynomial`: at weight zero (c) gives c, including the nonzero nilpotent c=2 in Z/4.
-- `NormalizedCoefficients`: the zero vector is included.
-- `NormalizedCoefficients`: a nonzero highest a₆ coordinate gives t⁶.
-- `NormalizedCoefficients`: an a₆=t⁷ tuple is excluded.
-- `normalizedEquation`: the zero vector gives the singular zero equation.
-- `normalizedEquation`: the highest sixth-coordinate vector gives a₆=t⁶.
-- `normalizedEquation`: changing only the slope coordinate to (0,1) gives a₁=t, with the other coordinates zero.
-- `normalizeA2`: a₂=0 fixes the tuple.
-- `normalizeA2`: (t,t,0,0,0) goes to (t,0,t²,t²,0).
-- `normalizeA2`: (0,1,0,0,0) goes to (0,0,0,1,0), with no smoothness assertion.
-- The normalization must preserve the global chart weights.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5; arXiv v3 pp. 28–32; arXiv v3.)
+- `coefficientPolynomial`: the weight-zero vector (2) over Z/4 gives the nonzero nilpotent constant 2.
+- `normalizedCoefficients_card`: the dimensions 2+4+5+7=18 give 4·16·32·128=2¹⁸ coefficient tuples.
+- `NormalizedCoefficients`: an a₆=t⁷ coefficient is outside the weight-six bound.
+- `normalizedEquation`: the zero vector has Δ=0, while the top a₆ coordinate gives t⁶.
+- `normalizedEquation`: the slope vector (0,1) gives a₁=t with the other coordinates zero.
+- `normalizeA2`: a₂=0 fixes the equation.
+- `normalizeA2`: (t,t,0,0,0) maps to (t,0,t²,t²,0).
+- `normalizeA2`: (0,1,0,0,0) maps to (0,0,0,1,0).
 
 *Needs:* §4.10; §4.14.
 
-### 7.2 finite admissible equivalence action
+### 7.2 admissible fibration equivalence
 
-Construct the global equivalence relation using native changes with u=1, deg s≤1, deg r≤2 and deg q≤3,
-together with PGL₂(F₂)'s six base automorphisms. There are 512 translation triples. Prove these are all
-weight-preserving pointed fibration isomorphisms, including reciprocal-chart denominator transport. A
-transformation may leave the a₂=0 slice; renormalize after it rather than assuming an action of the raw
-triples on that slice.
+Define `FibrationEquivalence` between the smooth resolved Jacobian surfaces by an F₂-automorphism of P¹ and
+an isomorphism over it preserving the zero-sections. Prove that it is exactly the equivalence induced by the
+native Weierstrass changes with u=1, deg s≤1, deg r≤2 and deg q≤3, together with PGL₂(F₂). The base changes
+act on the weight bundles; inversion uses the infinity chart and its denominator transport.
 
-Use the global weight bundles to bound all translation parameters; count2²·2³·2⁴=512. Construct the induced
-two-chart transformations, including the PGL₂ denominator/weight changes. Use the Weierstrass isomorphism
-theorem to prove that every fibration isomorphism is captured, rather than merely enumerating some
-transformations.
+The global weights bound the coordinate changes, and the Weierstrass isomorphism theorem identifies every
+pointed fibration isomorphism with such changes. A change can leave the a₂=0 slice; §7.1 gives a normalized
+representative of its equivalent equation. The relation has reflexivity, symmetry and transitivity, and
+transports fibre schemes and functional j, with j composed with the base automorphism.
 
-Define `AdmissibleParameters=(Fin 2→F₂)×(Fin 3→F₂)×(Fin 4→F₂)`, ordered (s,r,q). The native constructor
-`admissibleChange` has u=1, r=coefficientPolynomial 2 r, s=coefficientPolynomial 1 s and
-t=coefficientPolynomial 3 q (the final native field is the y-translation, denoted q in the prose). Its API
-proves `admissibleParameters_card=512`, coefficient bounds, injectivity into native changes,
-identity/composition/inverse laws and preservation of the five global equation weights. The identity and inverse base maps preserve `FibrationEquivalence`; the inversion t↦1/t uses weight reversal before renormalization.
+Define `AdmissibleParameters=(Fin 2→F₂)×(Fin 3→F₂)×(Fin 4→F₂)`, ordered (s,r,q), and `admissibleChange` with
+u=1, r=coefficientPolynomial 2 r, s=coefficientPolynomial 1 s and t=coefficientPolynomial 3 q. The final native
+field is the y-translation q. Its basic laws give coefficient bounds, injectivity into native changes,
+identity, composition, inverse and preservation of the global weights. The geometric API is
+`FibrationEquivalence.refl`, `symm`, `trans`, `equation_iff`, `preserves_j` and `transports_fibers`, with the
+smooth relatively minimal Jacobian hypotheses on both surfaces for the equation comparison.
 
-**Checks.**
-
-- `AdmissibleParameters`: zero gives a valid triple.
-- `AdmissibleParameters`: r=t² is allowed.
-- `AdmissibleParameters`: r=t³ is excluded.
-- `admissibleChange`: zero gives the identity.
-- `admissibleChange`: the middle vector (0,1,0) has r=t and s=0.
-- `admissibleChange`: the first vector (0,1) has s=t and r=0.
-- Base inversion must use the second chart and its weights; substitution t↦1/t alone does not give a
-  polynomial model.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5; arXiv v3 pp. 28–32; arXiv v3.)
-
-*Needs:* §7.1; §4.14; AlgebraicModuliForArithmeticGeometry Layer 1 §1.1, relative Proj contract;
-EllipticCurves Layer 1.
-
-### 7.3 exhaustive finite rejection certificate
-
-Construct `FiniteRejectionCertificate` assigning every normalized tuple either a sound rejection witness or an
-explicit equivalence to one of the fourteen models. Witnesses cover Δ=0, nonminimality, failure of
-rationality, failure of resolved Picard count, or failure of the rational-fiber condition. Factor all finite
-discriminant places and its weight-twelve reverse, run certified perfect-residue Tate steps, compare them to
-the actual regular resolution and count that surface. Every tuple must be covered; a printed survivor list is
-not a certificate.
-
-Enumerate the finite coefficient space completely after the proved normalization. Factor Δ and its weight12
-reversal; run the perfect-residue Tate algorithm at every bad place, including all irreducible factors and
-infinity. Certify the regular resolved-surface point count and the single-semstable-or-supersingular
-condition; keep rationality/χ prerequisites explicit. For survivors, produce an admissible transformation and
-a base automorphism reaching the named candidate.
-
-The rejection relation concerns equivalence to a globally minimal bounded equation of the target family
-through the invertible global transformations of §7.2. Rejecting a nonminimal tuple does not assert that its
-generic elliptic curve has no different minimal model. At each finite place and infinity, store the coordinate
-translations, every exact valuation/divisibility test, residue-factor and splitting witness, and the
-blowup-chart regularity checks. First prove `jacobian_hodgeDegreeOne_rational`: for a smooth projective
-relatively minimal Jacobian elliptic surface over P¹ over an algebraically closed field, with Hodge line of
-degree one, the section eliminates multiple fibers, cohomological flatness gives R¹f_*O=O(−1), Leray gives
-H¹(O)=0, and the canonical formula gives ω=O(−F). Consequently H⁰(ω²)=0 and the characteristic-independent
-Castelnuovo–Zariski criterion proves rationality. This specialization owns the criterion input
-`surface_rationalityCriterion`, with hypotheses smooth projective surface over an algebraically closed field
-and conclusion rational iff H¹(O)=H⁰(ω²)=0; see Liedtke, arXiv:0912.4291v4, Theorem 4.6, printed p. 21, and
-Cossec–Dolgachev–Liedtke (2024), Remark 1.1.4(3), p. 201. Its proof is the moving rational-curve/ruled-surface
-argument, followed by genus zero of the ruling base; it is separate from rationality of bounded equation data.
-Hodge degree zero gives H¹(O)=1 by Leray, which excludes geometrical rationality without requiring the model
-to be a product. Negative controls are an elliptic K3 surface of Hodge degree two, a product E×P¹ of degree
-zero, and the zero cubic, which has no smooth genus-one generic fiber. Store the common-blowup/rationality
-witness rather than using boundedness as the test. Once resolution and rationality are established, the count
-and the rational-fiber predicate are finite and their failures are explicit numerical witnesses. Orbit
-uniqueness compares marked fiber types, counts, functional j up to all six base maps, then the finite
-transformation witnesses for remaining collisions. These steps define a finite proof-producing computation,
-with a termination bound from the finite coefficient space and the discriminant valuation bounds; no
-classification assertion is built into the definition. On the finite route the order is §7.3, then
-§§5.10–5.13. The certificate uses no configuration exclusion from those targets.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5; arXiv v3 pp. 28–32; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32.)
 
 **Checks.**
 
-- A table of survivors without rejection witnesses is not an exhaustiveness proof.
-- Survivor count: exactly 2592 normalized tuples have Δ≠0, are minimal at t=0, 1 and ∞, have rational-fibre
-  count 25 and at most one rational fibre that is semistable or smooth supersingular; a certificate with a
-  different survivor set is unsound or incomplete.
-- Orbit count: these 2592 tuples form fourteen orbits under the 512 translations, the six base automorphisms
-  and renormalization of a₂; thirteen orbits have 192 normalized members and the III*+E₄+E₄ orbit (model 2)
-  has 96. A certificate that finds eleven orbits has dropped the twisted configurations of models 12–14.
+- `admissibleParameters_card`: 2²·2³·2⁴=512 translation triples; PGL₂(F₂) has six elements.
+- `AdmissibleParameters`: r=t² obeys the bound and r=t³ does not.
+- `admissibleChange`: zero parameters give the identity.
+- `admissibleChange`: the middle vector (0,1,0) gives r=t and s=0.
+- `admissibleChange`: the first vector (0,1) gives s=t and r=0.
+- Base inversion uses the weight-reversed chart and transports the zero-section; applying it twice gives the
+  identity base map.
+- A surface isomorphism moving the chosen zero-section to a different section does not satisfy the relation.
 
-*Needs:* §7.1; §7.2; §5.2; §5.1; SchemeAndStackFoundations SF.5 intersection/adjunction;
-rational-surface realization in Layer 4 here; EllipticCurves Layer 4; StableReduction Layer 4.
+*Needs:* §7.1; §4.14; StableReduction Layer 5 uniqueness of relatively minimal models;
+AlgebraicModuliForArithmeticGeometry Layer 1 §1.1 relative Proj; the native projective variable-change comparison.
 
 ### 7.4 completeness of the fourteen-model list
 
-For every smooth projective geometrically rational relatively minimal Jacobian elliptic surface over P¹_F₂
-with constant Picard scheme and at most one rational singular-semistable or smooth-supersingular fiber, prove
-equivalence to exactly one of the fourteen models. Use the global equation theorem, normalization, the
-complete rejection certificate and the individual model certificates; prove pairwise orbit separation. The
-certificate is a construction target preceding this theorem, not a hypothesis declaring the desired
-classification itself.
+Prove that every smooth projective geometrically rational relatively minimal Jacobian elliptic surface over
+P¹_F₂ with constant Picard scheme and at most one rational singular-semistable or smooth-supersingular fibre
+is equivalent under §7.2 to exactly one of the fourteen models of §6.1. Conversely, each model belongs to
+this family.
 
-The target is a smooth projective geometrically rational relatively minimal Jacobian elliptic surface over
-P¹_F₂, with constant Picard scheme and at most one rational fiber that is singular semistable or smooth
-supersingular. Completeness is conditional on the finite rejection and individual model certificates.
+Use §4.14 to obtain a global equation of weights 1,2,3,4,6 and §7.1 to normalize a₂. The weight bounds and
+admissible changes reduce the equations to finitely many normal forms. Follow Schröer's case analysis:
+for nonzero j put the unique additive fibre at t=0, then distinguish two ordinary rational fibres, a split
+semistable fibre at infinity, a nonsplit semistable fibre at infinity, and the small-additive configuration.
+Use the configuration statements and normal-form reductions of §5.10, with the count and additive-fibre
+results of §§5.9–5.13. Include the twisted semistable completion of §6.1 in the nonsplit case. For j=0 use
+the nonreduced-fibre and bad-place restrictions of §5.10, then the coefficient reductions in the
+proof of Theorem 10.5.
 
-Use global Weierstrass construction to represent every target surface by a bounded equation. Normalize a₂,
-apply the finite rejection certificate and transport back through the admissible-equivalence theorem. Use
-individual model certificates to establish the converse; prove pairwise nonequivalence of surviving orbits.
+For each normal form prove either that it fails Δ≠0, local minimality, geometric rationality, the Picard
+condition or the rational-fibre condition for a stated mathematical reason, or that it is equivalent to a
+model in §6.1. Discriminant identities and valuations settle smoothness and minimality; the Hodge/coherent
+cohomology argument of §6.1 settles rationality; the resolved count criterion of §5.2 settles the Picard condition for rational
+surfaces; the resolved fibres settle the rational-fibre condition. The admissible changes identify the
+remaining normal forms with the listed equations. Existence uses the list's Checks; uniqueness follows from
+the invariant separation in §§7.5–7.6 and the invariant distinction j=0 versus j≠0.
 
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5; arXiv v3 pp. 28–32; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32;
+twisted semistable completion in §6.1.)
 
 **Checks.**
 
-- The theorem is conditional on the full rejection and model certificates until both certificates are
-  constructed and proved sound.
+- The zero normalized equation has Δ=0 and cannot represent a surface in this family.
+- Models 12–14 satisfy the hypotheses with nonsplit infinity fibres and resolved count 25.
+- Models 3 and 4 have the same j=t² but different split fibre types and ordinary counts, so functional j
+  alone does not give uniqueness.
+- Smooth supersingular fibres count towards the fibre restriction; smooth ordinary fibres do not.
 
-*Needs:* §4.14; §7.1; §7.2; §7.3; §6.2; §6.3; §6.4; §6.5; §6.6; §6.7; §6.8; §6.9; §6.10; §6.11; §6.12; §6.13;
-§6.14; §6.15.
+*Needs:* §4.14; §§7.1–7.2; §6.1; §§5.9–5.13; §§7.5–7.6 for uniqueness.
 
 ### 7.5 eleven nonzero-j classes
 
-After proving completeness and the model certificates, partition by the invariant j. Prove exactly eleven
-nonzero-j fibration classes, represented by models 1–8 and 12–14, with uniqueness under the permitted global
-changes and base automorphisms. Schröer's Theorem 10.4 states eight; the other three are models 12–14
-(§6.1), and the first eight printed equations do not by themselves prove exhaustiveness.
+Within the family of §7.4, prove that the nonzero-j surfaces form exactly eleven equivalence classes,
+represented by models 1–8 and 12–14. Existence uses §6.1 and completeness uses the normal-form argument of
+§7.4. Prove pairwise non-equivalence directly from functional j up to base automorphism, resolved Kodaira
+types, multiplicative splitting and the point counts of the smooth rational fibres. This separation is
+independent of the completeness argument and supplies its uniqueness conclusion.
 
-Partition the certified fourteen orbits by their verified functional j. The eleven nonzero-j equations form
-the required subfamily.
+The different nonzero-j functions are separated by their degrees, poles and constancy under base
+automorphisms. For the common j=t² group (models 3, 4 and 12), distinguish III* from I₂*, then E₄/split I₂
+from E₂/nonsplit I₂. For the common j=t group (models 5, 6 and 13), distinguish II* from I₃*, then
+E₄/split I₁ from E₂/nonsplit I₁. These invariants also separate the two degree-four j-functions by their
+pole divisors.
 
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4, pp. 29–31; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.4 and proof, pp. 29–31;
+the three twisted semistable models in §6.1 complete its nonzero-j list.)
 
 **Checks.**
 
-- The three additional candidates cannot be discarded because their infinity fibers are nonsplit.
+- Models 1–8 and 12–14 give eleven models with a₁=t and nonzero functional j.
+- Models 3, 4 and 12 all have j=t²; their resolved fibres distinguish all three classes.
+- Models 5, 6 and 13 all have j=t; their resolved fibres distinguish all three classes.
+- Model 1 has one order-four pole of j=t⁴, whereas model 14 has two geometric poles of order one and an
+  infinity pole of order two, so their degree-four j-functions are inequivalent under a base automorphism.
 
-*Needs:* §7.4; §6.1; §6.2; §6.3; §6.4; §6.5; §6.6; §6.7; §6.8; §6.9; §6.10; §6.11; §6.12; §6.13; §6.14; §6.15.
+*Needs:* §6.1; §7.2; the normal-form completeness argument of §7.4 for the class count.
 
 ### 7.6 three zero-j classes
 
-The complementary certified partition consists of precisely models 9, 10 and 11. Prove existence, the zero-j
-condition and pairwise nonequivalence from their resolved certificates, then prove every zero-j surface in the
-family reaches exactly one of them.
+Within the family of §7.4, prove that the zero-j surfaces form exactly three equivalence classes,
+represented by models 9, 10 and 11. Existence and the zero-j identity use §6.1; the normal-form argument of
+§7.4 gives completeness. Prove pairwise non-equivalence from the resolved fibre types and smooth-fibre counts,
+independently of completeness, to supply uniqueness for this part of §7.4.
 
-Partition the certified fourteen orbits by functional j=0. Use the three individual zero-j certificates and
-pairwise nonequivalence.
+Model 9 has I₁* and IV as its additive fibres. Models 10 and 11 both have IV*, but their other additive
+fibres are III and IV respectively, and their smooth rational fibres have counts five and three. These
+unordered fibre invariants are preserved by §7.2 and separate all three classes.
 
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5, pp. 31–32; arXiv v3.)
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorem 10.5 and proof, pp. 31–32.)
 
 **Checks.**
 
-- Completeness does not follow from the three verified examples alone.
+- Models 9–11 have c₄=0 and Δ=t⁸≠0, giving zero j for smooth generic curves.
+- Model 9's I₁* fibre separates it from the IV* fibres of models 10 and 11.
+- Models 10 and 11 have smooth rational fibres E₅ and E₃ and other additive fibres III and IV respectively.
+- Each model has exactly one smooth supersingular rational fibre and no singular semistable rational fibre.
 
-*Needs:* §7.4; §6.1; §6.10; §6.11; §6.12.
+*Needs:* §6.1; §7.2; the normal-form completeness argument of §7.4 for the class count.
 
 ### Examples
 
-The normalized coefficient count is 4·16·32·128=2¹⁸. The all-zero vector is present and is rejected by Δ=0, so
-this is not a count of elliptic surfaces. The translation vector count is 4·8·16=512; the six base
-automorphisms act through homogeneous weight transport. Normalizing (a₁,a₂,a₃,a₄,a₆)=(t,t,0,0,0) gives
-(t,0,t²,t²,0), not the tuple obtained by erasing a₂. The certificate must retain a transformation witness for
-every survivor and a mathematical rejection witness for every other tuple; count agreement between scripts
-without these witnesses is insufficient.
+The normalized coefficient space has size 4·16·32·128=2¹⁸, including the singular zero equation.
+The translation parameters have size 4·8·16=512. Normalizing (t,t,0,0,0) gives (t,0,t²,t²,0).
+The equality j=t² for models 3, 4 and 12 illustrates the additional information supplied by the resolved
+fibre types and splitting.
 
 ### Dependencies
 
-Layers 4 and 6 for bounded equations and individual model certificates; Layer 5 resolved counts; native
-Weierstrass variable changes; AlgebraicModuliForArithmeticGeometry Layer 1 relative Proj and Layer 3 polarized
-descent.
+Layer 4 global equations and canonical bundles; Layer 5 resolved counts and the independent configuration
+and normal-form statements of §5.10; Layer 6 classification-list Checks; native Weierstrass variable changes;
+StableReduction Layers 2 and 5; AlgebraicModuliForArithmeticGeometry Layer 1 relative Proj and Layer 7
+cohomological flatness; the rationality criterion in §6.1.
 
 ## Downstream consumers
 
@@ -10381,45 +9946,12 @@ satisfying precisely the two stated arithmetic conditions; quasielliptic surface
 nonsmooth targets. An application that, like the configuration table in the proof of Schröer's Proposition
 11.1 (p. 33), treats only the eleven printed configurations must also treat models 12–14.
 
-A model certificate contains an equation-to-scheme comparison, a chosen zero-section, a proof of proper smooth
-geometric rationality, all-place minimality and resolution, actual marked fiber schemes, the resolved point
-count and the rational-fiber restriction. `FibrationEquivalence` consists of an F₂-automorphism of P¹ and an
-isomorphism of the smooth resolved surfaces over that automorphism preserving the zero-sections. Its equation
-comparison theorem identifies this geometric relation with the global native variable changes and base action
-in Layer 7. `FiniteRejectionCertificate` covers every normalized vector with a sound constructor-specific
-witness, not an arbitrary proposition asserting that a classifier is complete.
-
-**Checks for `ResolvedModelCertificate`.**
-
-- The all-zero normalized tuple has Δ=0 and cannot supply its smooth generic fiber.
-- A tuple minimal on the finite t-chart but nonminimal at infinity fails its all-place field even if finite
-  discriminant factorization is correct.
-- Model 12 and 13 must have nonsplit infinity I₂ and I₁ respectively and resolved counts 25; split substitutes
-  fail the marked-fiber/count fields.
-
-**Checks for `FibrationEquivalence`.**
-
-- The identity surface and base isomorphisms give reflexivity with the chosen section.
-- A base inversion is admitted with its actual weight-reversed equation and transported zero-section, and its
-  inverse composes to the identity base map.
-- An isomorphism translating the zero-section to a distinct section fails the relation even though it is an
-  unpointed isomorphism of generic curves.
-
-**Checks for `FiniteRejectionCertificate`.**
-
-- Its all-zero input has the explicit Δ=0 rejection witness, not an equivalence to a candidate elliptic
-  surface.
-- A candidate's normalized vector has an actual variable/base transformation to that model and passes the
-  resolved predicates; “survivor” without that witness fails.
-- A function omitting even one vector, or assigning a rejected boolean without a witness excluding the target
-  family, fails coverage or soundness.
-
-The certificate API has `ResolvedModelCertificate.toFibration`, `fiber_realization`, `allPlaces_minimal`,
-`resolved_count` and `arithmetic_hypotheses`; `FibrationEquivalence.refl`, `symm`, `trans`, `equation_iff`,
-`preserves_j` and `transports_fibers`; and `FiniteRejectionCertificate.case_sound`, `covers`,
-`survivor_equivalence`, `rejection_excludes_target` and `orbit_unique`. Their hypotheses are the constructor
-data just specified, and their proofs use Layers 4–7. A successful finite invariant computation is not a
-substitute for any geometric field.
+Applications use the single classification list of §6.1 and the completeness theorem of §7.4, with its
+exact geometric and arithmetic hypotheses. The equations' resolved fibre types, local minimality and
+25-point counts are the list's Checks. `FibrationEquivalence` is the pointed geometric relation of §7.2;
+its equation comparison and invariant transport give the form of equivalence and uniqueness used by consumers.
+The eleven nonzero-j and three zero-j class theorems are §§7.5–7.6. The nonrational-fibre conclusions remain
+§§6.16–6.17.
 
 ## References
 
@@ -10427,8 +9959,7 @@ The geometric arguments and tables use Schröer's arXiv v3, with its own printed
 silently transferring locators to the Annals version. The polynomial, localization, chart and
 section-coordinate targets are derived refinements of the cited pinching construction; their exact formulas
 are proved here and are not attributed as named lemmas printed in Schröer. Likewise the maximal-count converse
-and the finite certificate are separate targets, not assertions that those proofs or corrections occur
-verbatim in the cited article.
+and the twisted semistable completion are mathematical targets and refinements of the cited arguments.
 
 - Stefan Schröer, *There is no Enriques surface over the integers*, arXiv:2004.07025v3, 9 August 2022.
   Sections 2–3, 6–10 and the quasielliptic discussion in §11. Its Theorem 10.4 lists eight nonzero-j
@@ -10472,8 +10003,8 @@ verbatim in the cited article.
   [Author version](https://szydlo.com/imperfect92803.pdf).
 - William E. Lang, *Configurations of singular fibers on rational elliptic surfaces in characteristic two*,
   Communications in Algebra 28 (2000), 5813–5836, DOI 10.1080/00927870008827190. Schröer §10 identifies the
-  configuration assertions needed. On the finite route they are proved independently, with witnesses, rather
-  than assumed as inputs to the certificate. [Bibliographic
+  configuration assertions needed in §5.10, whose independent proofs supply the normal-form classification
+  argument of §7.4. [Bibliographic
   record](https://doi.org/10.1080/00927870008827190).
 - The Stacks Project: tags linked at the individual targets are the stable locators; displayed theorem numbers
   accompany them where available. [Project](https://stacks.math.columbia.edu/).

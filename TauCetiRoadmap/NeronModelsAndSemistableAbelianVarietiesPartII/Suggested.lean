@@ -11,7 +11,9 @@ milestones statable against the pinned APIs. Ring and
 Weierstrass carriers are the native ones. Conductors retain nilpotents, quadratic
 pinching allows inseparability, reversal uses a specified weight, and coefficient
 bounds carry no minimality or rationality assertion. The geometric constructions and
-the resolved-surface classification are specified in the README.
+the resolved-surface classification are specified in the README. The fourteen-equation
+list and its invariant examples supply Checks for the single classification-list target;
+the classification theorem uses admissible changes and normal-form case analysis.
 -/
 
 namespace TauCetiRoadmap.NeronModelsAndSemistableAbelianVarietiesPartII
@@ -429,10 +431,10 @@ example : rationalSurfaceCount 3 = 40 ∧ rationalSurfaceCount 1 = 12 := by sorr
 /-- Three small fibers cannot achieve the binary threshold. -/
 theorem small_fiber_bound : 10 + 7 + 7 < rationalSurfaceCount 2 := by sorry
 
-/-! ## Layer 6: fourteen resolved-model certificates -/
+/-! ## Layer 6: the fourteen-model classification list -/
 
-/-- Raw native equations; indices zero through thirteen denote models one through fourteen. -/
-def rawCandidates : Fin 14 → WeierstrassCurve (ZMod 2)[X] :=
+/-- The fourteen equations in the classification-list Checks, indexed from zero. -/
+def modelEquations : Fin 14 → WeierstrassCurve (ZMod 2)[X] :=
   ![⟨X, X, X ^ 2, X ^ 4, X ^ 5 + X ^ 6⟩,
     ⟨X, 0, 0, X ^ 3, X ^ 5 + X ^ 6⟩,
     ⟨X, 0, 0, X ^ 3, 0⟩,
@@ -448,35 +450,35 @@ def rawCandidates : Fin 14 → WeierstrassCurve (ZMod 2)[X] :=
     ⟨X, X, X ^ 3, 0, 0⟩,
     ⟨X, X ^ 2, X ^ 2, 0, 0⟩]
 
-/-- All fourteen raw tuples have the five promised bounds. -/
-theorem rawCandidates_bounded (i : Fin 14) :
-    (rawCandidates i).a₁.natDegree ≤ 1 ∧ (rawCandidates i).a₂.natDegree ≤ 2 ∧
-    (rawCandidates i).a₃.natDegree ≤ 3 ∧ (rawCandidates i).a₄.natDegree ≤ 4 ∧
-    (rawCandidates i).a₆.natDegree ≤ 6 := by sorry
+/-- Each equation in the list satisfies the five global weight bounds. -/
+theorem modelEquations_bounded (i : Fin 14) :
+    (modelEquations i).a₁.natDegree ≤ 1 ∧ (modelEquations i).a₂.natDegree ≤ 2 ∧
+    (modelEquations i).a₃.natDegree ≤ 3 ∧ (modelEquations i).a₄.natDegree ≤ 4 ∧
+    (modelEquations i).a₆.natDegree ≤ 6 := by sorry
 
-/-- Raw tuple inequality is weaker than geometric nonequivalence. -/
-theorem rawCandidates_injective : Function.Injective rawCandidates := by sorry
+/-- The fourteen equations have pairwise distinct coefficient tuples. -/
+theorem modelEquations_injective : Function.Injective modelEquations := by sorry
 
-/-- The missing I₂* example is a definite native equation. -/
-example : rawCandidates 11 = ⟨X, 1, X ^ 3, 0, 0⟩ ∧
-    (rawCandidates 11).Δ = X ^ 10 := by sorry
+/-- Model twelve has the displayed coefficients and discriminant t10. -/
+example : modelEquations 11 = ⟨X, 1, X ^ 3, 0, 0⟩ ∧
+    (modelEquations 11).Δ = X ^ 10 := by sorry
 
 /-- The I₃* example has discriminant exponent eleven. -/
-example : (rawCandidates 12).Δ = X ^ 11 := by sorry
+example : (modelEquations 12).Δ = X ^ 11 := by sorry
 
 /-- The remaining IV* example also has a nonrational discriminant factor. -/
-example : (rawCandidates 13).Δ = X ^ 8 * (X ^ 2 + X + 1) := by sorry
+example : (modelEquations 13).Δ = X ^ 8 * (X ^ 2 + X + 1) := by sorry
 
 /-- The first model's binary invariant has c4=t4 and discriminant t8. -/
-theorem model_one_invariants : (rawCandidates 0).c₄ = X ^ 4 ∧
-    (rawCandidates 0).Δ = X ^ 8 := by sorry
+example : (modelEquations 0).c₄ = X ^ 4 ∧
+    (modelEquations 0).Δ = X ^ 8 := by sorry
 
 /-- The three zero-j tuples have c4 zero and nonzero discriminant t8. -/
-theorem zero_j_model_invariants (i : Fin 3) :
-    let W := rawCandidates ⟨i.val + 8, by omega⟩
+example (i : Fin 3) :
+    let W := modelEquations ⟨i.val + 8, by omega⟩
     W.c₄ = 0 ∧ W.Δ = X ^ 8 := by sorry
 
-/-! ## Layer 7: finite equivalence and completeness -/
+/-! ## Layer 7: admissible equivalence and classification -/
 
 /-- A coefficient polynomial of prescribed weight, built from its complete vector. -/
 def coefficientPolynomial {k : Type u} [CommRing k] (n : ℕ) (c : Fin (n + 1) → k) :
@@ -512,10 +514,10 @@ def normalizedEquation (c : NormalizedCoefficients) : WeierstrassCurve (ZMod 2)[
   ⟨coefficientPolynomial 1 c.1, 0, coefficientPolynomial 3 c.2.1,
     coefficientPolynomial 4 c.2.2.1, coefficientPolynomial 6 c.2.2.2⟩
 
-/-- Normalization leaves exactly 2^18 raw tuples, including singular ones. -/
+/-- The normalized coefficient space has cardinality 2^18. -/
 theorem normalizedCoefficients_card : Fintype.card NormalizedCoefficients = 2 ^ 18 := by sorry
 
-/-- This is a coefficient space, not a space of elliptic surfaces. -/
+/-- The zero coefficient vector has discriminant zero. -/
 example : (normalizedEquation (0, 0, 0, 0)).Δ = 0 := by sorry
 
 /-- Every normalized equation has the prescribed absent coefficient. -/
@@ -594,7 +596,7 @@ The Layer 3 targets (multiple-fiber isogenies and the local LLR comparison) have
 carriers at the pins and live in the README. The README also defines the following
 objects whose geometric or comparison constructions are not represented here:
 GeometricPushout, FerrandPushout, GenusOneFibration, FiberTypeDivisor, HasGeometricKodairaFiber,
-DegenerateFiber, CandidateEquation, conductorIdealSheaf, conductorMap,
+DegenerateFiber, conductorIdealSheaf, conductorMap,
 QuadraticPinch.coordinates, QuadraticPinch.presentationEquiv,
 QuadraticPinch.affineParamEquiv, AffinePinching.commonIdealAwayEquiv,
 QuadraticPinch.residueCokernelEquiv_over_k, QuadraticPinch.InfinityChart.curve,
@@ -620,8 +622,13 @@ FerrandPushout.conductorSchemeDesc, FerrandPushout.conductorCokernelBaseChange,
 FerrandPushout.conductorCokernelRightBaseChange,
 FerrandPushout.conductorTargetBaseChangeIso, FerrandPushout.conductorSourceBaseChangeIso,
 FerrandPushout.conductorTargetTowerIso, FerrandPushout.conductorSourceTowerIso,
-ResolvedModelCertificate, FiniteRejectionCertificate and FibrationEquivalence.
-Their full definitions, API, hypotheses and checks remain in the README.
+FibrationEquivalence.
+Their definitions, API, hypotheses and Checks are specified in the README.
+Layer 6 has one classification list with the fourteen equations and resolved invariants as Checks,
+with supporting results surface_rationalityCriterion and jacobian_hodgeDegreeOne_rational (§6.1),
+followed by the nonrational-fibre theorems (§§6.16–6.17). Layer 7 gives admissible
+geometric equivalence (§7.2) and completeness by normal-form case analysis (§7.4).
+The invariant separation and class counts are §§7.5–7.6.
 The additional geometric prerequisites are finiteMap_etaleCover_cofinal (§1.9),
 rationalSurface_commonBlowup, blowup_Picard_intersection and rationalSurface_coherent_vanishing (§4.0),
 the supplied projective-bundle and blowup specializations projectivePlane_ellAdicCohomology
