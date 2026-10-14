@@ -12,7 +12,7 @@ can be stated against the pinned Mathlib and Tau Ceti, so that contributors and 
 on names and signatures; proving all of them finishes neither a layer nor the roadmap. The heavy
 constructions (the Hochschild–Serre spectral sequence, the `S`-idele class formation, the
 restricted products of local cohomology with their topology, Poitou–Tate duality, continuous
-cochains in the derived category, Selmer complexes and the dualizing complex) are README targets
+cochains in the derived category, arithmetic Selmer comparisons and the dualizing complex) are README targets
 with their intended signatures.
 
 Design choices made explicit here:
@@ -35,10 +35,12 @@ Design choices made explicit here:
 * Compact support is the mapping fibre `Cone(res)[-1]` of Mathlib's `CochainComplex.mappingCone`.
   Arithmetic localization uses ordinary cochains at finite places, complete Tate cochains at
   real places and zero at complex places. Under `(P)` this is the finite-place fibre. The
-  ordinary deformation-local diagram uses ordinary cochains at every place; its Selmer fibre
-  is supplied by SelmerIwasawaCohomology §2.21. R02.5.2 constructs the modified arithmetic
-  adapter and its archimedean comparison using the cone API below; the actual arithmetic
-  cochain diagrams and their duality are README targets.
+  ordinary deformation-local diagram uses ordinary cochains at every place.
+  SelmerIwasawaCohomology §§2.21–2.22 supply the parametric Selmer fibre, both instances,
+  functoriality, triangles, the archimedean comparison and the abstract H⁰ correction. R02.3 and
+  D7 supply the arithmetic local complexes, ordinary-to-Tate maps and duality; R02.5.2 identifies
+  the strict modified fibre with arithmetic compact support and calculates the archimedean
+  cohomology and H⁰ corrections. These arithmetic constructions are README targets.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
 * The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
@@ -560,24 +562,6 @@ def compactMap (res : A ⟶ B) (res' : A' ⟶ B') (a : A ⟶ A') (b : B ⟶ B')
     (comm : res ≫ b = a ≫ res') : compactCochains res ⟶ compactCochains res' :=
   (CochainComplex.mappingCone.map res res' a b comm)⟦(-1 : ℤ)⟧'
 
-/-- The arithmetic Selmer adapter on supplied complexes. `loc` is ordinary localization,
-`iMod` is the sum of maps into the modified local complexes, and `q` carries the ordinary diagram
-to the modified one: identity at finite places, the ordinary-to-Tate map at real places, and zero
-at complex places. On these arithmetic diagrams, its strict instance is arithmetic compact
-support. -/
-abbrev modifiedSelmerCochains {U Bmod : CochainComplex (ModuleCat.{u} R) ℤ}
-    (loc : A ⟶ B) (iMod : U ⟶ Bmod) (q : B ⟶ Bmod) :
-    CochainComplex (ModuleCat.{u} R) ℤ :=
-  compactCochains (Limits.biprod.desc (loc ≫ q) (-iMod))
-
-/-- The ordinary-to-modified Selmer comparison on supplied complexes, with identity on the
-global cochains and local conditions and `q` on the local target. -/
-def ordinaryToModifiedSelmerMap {U Bmod : CochainComplex (ModuleCat.{u} R) ℤ}
-    (loc : A ⟶ B) (i : U ⟶ B) (q : B ⟶ Bmod) :
-    compactCochains (Limits.biprod.desc loc (-i)) ⟶ modifiedSelmerCochains loc (i ≫ q) q :=
-  compactMap _ _ (𝟙 _) q (by
-    apply Limits.biprod.hom_ext' <;> simp)
-
 /-- **The compact-support long exact sequence**
 `⋯ → Hⁿ(A) → Hⁿ(B) → Hⁿ⁺¹_c → Hⁿ⁺¹(A) → Hⁿ⁺¹(B) → ⋯`. -/
 theorem compactCohomology_exact (res : A ⟶ B) (n : ℤ) :
@@ -714,9 +698,10 @@ the dualizing complex and local duality for complete local rings, continuous coc
 derived category, the local and global invariant trivialisations, derived local and global
 duality, compactly supported cup products and Euler characteristics, the lattice and rational
 Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field,
-abelian-variety local duality and the isogeny sequence; the Selmer
-comparisons for the ordinary and modified fibres, their ordinary-to-Tate archimedean comparison
-triangle and H⁰ corrections, and the Greenberg–Wiles formula; the Selmer tangent comparison,
+abelian-variety local duality and the isogeny sequence; the arithmetic compact-support
+identification, archimedean cohomology and H⁰ corrections for the Selmer fibres and comparison
+triangle supplied by SelmerIwasawaCohomology §§2.21–2.22, and the Greenberg–Wiles formula;
+the Selmer tangent comparison,
 the full real Tate trace sequence, and derived coefficient
 change; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
 Khare–Wintenberger relation bounds, odd and dyadic Taylor–Wiles primes and finite-order determinant
