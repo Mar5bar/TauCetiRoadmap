@@ -317,6 +317,15 @@ end Certificates
 
 namespace Diophantine
 
+/-- For discriminants 4m, Pell coordinates double only the first coordinate. -/
+example (m x y : ℤ) (h : x ^ 2 - m * y ^ 2 = 1) :
+    (2 * x) ^ 2 - (4 * m) * y ^ 2 = 4 := by
+  sorry
+
+/-- The discriminant-twelve solution detects doubling the wrong coordinate. -/
+example : (4 : ℤ) ^ 2 - 12 * 1 ^ 2 = 4 ∧ (4 : ℤ) ^ 2 - 12 * 2 ^ 2 = -32 := by
+  sorry
+
 /-- Ordered coefficient-three Markoff triples.
 The full README API includes `markoffSet.comp_perm_mem_iff`, `markoffSet.map_mem`,
 `markoffSet.mem_iff`, `markoffSet.ones_mem`, `markoffSet.zero_mem`.
@@ -383,6 +392,21 @@ def markoffHurwitzMove {R : Type*} [CommRing R] {n : ℕ} (a : R) (j : Fin n)
 
 /-- Coefficient-one level eight is distinct from coefficient-three level zero. -/
 example : ![(2 : ℤ), 3, 5] ∈ markoffHurwitzSet 3 1 8 := by
+  sorry
+
+/-- Level three has no point modulo four, so reduction to that target is surjective. -/
+example : markoffHurwitzSet (R := ZMod 4) 3 1 3 = ∅ := by
+  sorry
+
+/-- The negative fundamental branch uses the minus sign in its quadratic norm reduction. -/
+example : ![(3 : ℤ), 3, 4] ∈ markoffHurwitzSet 3 1 (-2) ∧
+    (2 * (4 : ℤ) - 3 * 3) ^ 2 - (3 ^ 2 - 4) * 3 ^ 2 = 4 * (-2 - 3 ^ 2) := by
+  sorry
+
+/-- Unrestricted quadratic roots can grow as the square root of the modulus parameter. -/
+example (p : ℕ) (hp : p.Prime) (hodd : p ≠ 2) :
+    Nat.card {b : Fin (2 * p ^ 2) //
+      (b.val : ℤ) ^ 2 ≡ ((p : ℤ) ^ 2 + 2) ^ 2 - 4 [ZMOD (4 * (p : ℤ) ^ 2)]} = p := by
   sorry
 
 /-- An even-dimensional example tests the full coordinate product. -/
@@ -548,12 +572,43 @@ example : IsPisot 2 ∧ ¬ IsPisot 1 := by
 example : ¬ IsPisot (3 / 2) := by
   sorry
 
+/-- The golden ratio has its other conjugate strictly inside the unit disc. -/
+example : IsPisot Real.goldenRatio := by
+  sorry
+
+/-- The negative conjugate of square root two lies outside the unit disc. -/
+example : ¬ IsPisot (Real.sqrt 2) := by
+  sorry
+
+/-- The golden-ratio polynomial has Mahler measure equal to its positive root. -/
+example : (X ^ 2 - X - 1 : Polynomial ℂ).mahlerMeasure = Real.goldenRatio := by
+  sorry
+
+/-- Quadratic Pisot examples distinguish having one large conjugate from having two. -/
+example : IsPisot (1 + Real.sqrt 3) ∧
+    ¬ IsPisot (3 + Real.sqrt 2) ∧ ¬ IsSalem (3 + Real.sqrt 2) := by
+  sorry
+
 /-- The golden ratio is Pisot rather than Salem. -/
 example : ¬ IsSalem Real.goldenRatio := by
   sorry
 
+/-- Integers and reciprocal quadratic units have no conjugate on the unit circle. -/
+example : ¬ IsSalem 2 ∧ ¬ IsSalem ((3 + Real.sqrt 5) / 2) := by
+  sorry
+
 /-- A reciprocal quartic gives a genuine Salem reference root. -/
 example : IsSalem (sSup {x : ℝ | x ^ 4 - 3 * x ^ 3 + 3 * x ^ 2 - 3 * x + 1 = 0}) := by
+  sorry
+
+/-- The Salem quartic's Mahler measure is its largest real root. -/
+example : (X ^ 4 - C (3 : ℂ) * X ^ 3 + C 3 * X ^ 2 - C 3 * X + 1).mahlerMeasure =
+    sSup {x : ℝ | x ^ 4 - 3 * x ^ 3 + 3 * x ^ 2 - 3 * x + 1 = 0} := by
+  sorry
+
+/-- Lehmer's largest root gives the degree-ten Salem example. -/
+example : IsSalem (sSup {x : ℝ |
+    x ^ 10 + x ^ 9 - x ^ 7 - x ^ 6 - x ^ 5 - x ^ 4 - x ^ 3 + x + 1 = 0}) := by
   sorry
 
 /-- Positive powers retain the Salem condition. -/
@@ -566,11 +621,41 @@ theorem IsPisot.pow {θ : ℝ} (h : IsPisot θ) {n : ℕ} (hn : 0 < n) :
     IsPisot (θ ^ n) := by
   sorry
 
+/-- Squaring the golden ratio remains Pisot. -/
+example : IsPisot (Real.goldenRatio ^ 2) := by
+  sorry
+
+/-- Cubing the plastic number realizes its defining equation and remains Pisot. -/
+example :
+    let θ := sSup {x : ℝ | x ^ 3 - x - 1 = 0}
+    IsPisot (θ ^ 3) ∧ θ ^ 3 = θ + 1 := by
+  sorry
+
+/-- Squaring the quartic and degree-ten Salem roots preserves their degrees. -/
+example :
+    let τ₄ := sSup {x : ℝ | x ^ 4 - 3 * x ^ 3 + 3 * x ^ 2 - 3 * x + 1 = 0}
+    let τ₁₀ := sSup {x : ℝ |
+      x ^ 10 + x ^ 9 - x ^ 7 - x ^ 6 - x ^ 5 - x ^ 4 - x ^ 3 + x + 1 = 0}
+    IsSalem (τ₄ ^ 2) ∧ (minpoly ℤ (τ₄ ^ 2)).natDegree = 4 ∧
+      IsSalem (τ₁₀ ^ 2) ∧ (minpoly ℤ (τ₁₀ ^ 2)).natDegree = 10 := by
+  sorry
+
 /-- The sharp Schinzel–Zassenhaus bound in a carrier-free polynomial form. -/
 theorem schinzel_zassenhaus {P : Polynomial ℤ} (hP : P.Monic) (hirr : Irreducible P)
     (hdeg : 0 < P.natDegree) (h0 : P.coeff 0 ≠ 0)
     (hcycl : ∀ n : ℕ, 0 < n → P ≠ cyclotomic n ℤ) :
     ∃ z ∈ P.aroots ℂ, Real.rpow 2 (1 / (4 * (P.natDegree : ℝ))) ≤ ‖z‖ := by
+  sorry
+
+/-- The quadratic and degree-ten examples satisfy their respective house bounds. -/
+example : Real.rpow 2 (1 / 8) ≤ Real.goldenRatio ∧
+    Real.rpow 2 (1 / 40) ≤ sSup {x : ℝ |
+      x ^ 10 + x ^ 9 - x ^ 7 - x ^ 6 - x ^ 5 - x ^ 4 - x ^ 3 + x + 1 = 0} := by
+  sorry
+
+/-- Cyclotomic roots have norm one and cannot satisfy the strict house growth conclusion. -/
+example (n : ℕ) (hn : 0 < n) (z : ℂ) (hz : z ∈ (cyclotomic n ℤ).aroots ℂ) :
+    ‖z‖ = 1 := by
   sorry
 
 /-- Schur sequences have a holomorphic witness and a closed norm bound on the open disc.
@@ -586,8 +671,33 @@ def RealSchurSeries (e : ℕ → ℝ) : Prop :=
 example : RealSchurSeries (fun n => if n = 0 then 1 else 0) := by
   sorry
 
+/-- The other constant on the unit-circle boundary is also Schur. -/
+example : RealSchurSeries (fun n => if n = 0 then -1 else 0) := by
+  sorry
+
+/-- Positive-degree monomials give Schur series with zero constant coefficient. -/
+example (k : ℕ) (hk : 1 ≤ k) :
+    RealSchurSeries (fun n => if n = k then 1 else 0) := by
+  sorry
+
 /-- A constant outside the closed unit disc is rejected. -/
 example : ¬ RealSchurSeries (fun n => if n = 0 then 3 / 2 else 0) := by
+  sorry
+
+/-- A disc automorphism supplies the rational Schur example and its first coefficients. -/
+example :
+    let e : ℕ → ℝ := fun n => if n = 0 then 1 / 2 else (3 / 4) * (-1 / 2) ^ (n - 1)
+    RealSchurSeries e ∧ e 0 = 1 / 2 ∧ e 1 = 3 / 4 ∧ e 2 = -3 / 8 ∧
+      ∀ z ∈ Metric.ball (0 : ℂ) 1,
+        HasSum (fun n => (e n : ℂ) * z ^ n) ((1 / 2 + z) / (1 + z / 2)) := by
+  sorry
+
+/-- A nonconstant bounded holomorphic disc witness has strict interior norm bound. -/
+example (f : ℂ → ℂ) (hf : DifferentiableOn ℂ f (Metric.ball 0 1))
+    (hb : ∀ z ∈ Metric.ball (0 : ℂ) 1, ‖f z‖ ≤ 1)
+    (hnonconst : ∃ z ∈ Metric.ball (0 : ℂ) 1,
+      ∃ w ∈ Metric.ball (0 : ℂ) 1, f z ≠ f w) :
+    ∀ z ∈ Metric.ball (0 : ℂ) 1, ‖f z‖ < 1 := by
   sorry
 
 /-- Finite pair-product diameter, with the unused small indices fixed to zero.
@@ -622,6 +732,27 @@ example : transfiniteDiameter (Metric.closedBall (0 : ℂ) 1) = 1 := by
 example : transfiniteDiameter ({0, 1} : Set ℂ) = 0 := by
   sorry
 
+/-- Finite-set examples separate pair diameter from limiting diameter. -/
+example : finiteFeketeDiameter ({0, 2} : Set ℂ) 2 = 2 ∧
+    finiteFeketeDiameter ({0, 2} : Set ℂ) 3 = 0 ∧
+    transfiniteDiameter ({0, 2} : Set ℂ) = 0 := by
+  sorry
+
+/-- A singleton has zero finite diameter at every used index. -/
+example (n : ℕ) (hn : 2 ≤ n) :
+    finiteFeketeDiameter ({7} : Set ℂ) n = 0 ∧ transfiniteDiameter ({7} : Set ℂ) = 0 := by
+  sorry
+
+/-- The radius-two disc gives pair diameter four and limiting diameter two. -/
+example : finiteFeketeDiameter (Metric.closedBall (0 : ℂ) 2) 2 = 4 ∧
+    transfiniteDiameter (Metric.closedBall (0 : ℂ) 2) = 2 := by
+  sorry
+
+/-- The segment capacity convention differs from ordinary segment length. -/
+example : transfiniteDiameter (segment ℝ (-1 : ℂ) 1) = 1 / 2 ∧
+    transfiniteDiameter (segment ℝ (0 : ℂ) 1) = 1 / 4 := by
+  sorry
+
 /-- A radial hedgehog is the union of the closed radial segments.
 The full README API includes `radialHedgehog_affine_scale`, `radialHedgehog_compact`,
 `radialHedgehog_complement`, `radialHedgehog_eq_iUnion_segment`, `radialHedgehog_mem`,
@@ -636,6 +767,26 @@ example : (2 : ℂ) ∈ radialHedgehog (fun _ : Fin 1 => (4 : ℂ)) := by
 
 /-- Its endpoint is included but extension beyond it is not. -/
 example : ¬ (5 : ℂ) ∈ radialHedgehog (fun _ : Fin 1 => (4 : ℂ)) := by
+  sorry
+
+/-- An empty family and a zero endpoint give different hedgehogs. -/
+example : radialHedgehog (fun i : Fin 0 => Fin.elim0 i) = ∅ ∧
+    radialHedgehog (fun _ : Fin 1 => (0 : ℂ)) = {0} := by
+  sorry
+
+/-- A single spike is its closed radial segment. -/
+example : radialHedgehog (fun _ : Fin 1 => (4 : ℂ)) = segment ℝ 0 4 ∧
+    transfiniteDiameter (radialHedgehog (fun _ : Fin 1 => (4 : ℂ))) = 1 := by
+  sorry
+
+/-- Every single spike attains the one-spike diameter bound, including the zero spike. -/
+example (a : ℂ) : transfiniteDiameter (radialHedgehog (fun _ : Fin 1 => a)) = ‖a‖ / 4 := by
+  sorry
+
+/-- Opposite endpoints and duplicate endpoints have distinct sharp diameters. -/
+example : transfiniteDiameter (radialHedgehog ![(1 : ℂ), -1]) = 1 / 2 ∧
+    radialHedgehog ![(1 : ℂ), 1] = segment ℝ 0 1 ∧
+    transfiniteDiameter (radialHedgehog ![(1 : ℂ), 1]) = 1 / 4 := by
   sorry
 
 /-- Dubinin's bound allows coincident endpoints and uses the family size. -/
@@ -653,12 +804,32 @@ The full README API includes `shiftedHankelDet_integer`, `shiftedHankelDet_map`,
 def shiftedHankelDet {R : Type*} [CommRing R] (a : ℕ → R) (n : ℕ) : R :=
   Matrix.det (fun i j : Fin n => a (i.val + j.val + 1))
 
+/-- The empty Hankel determinant is one over every coefficient ring. -/
+example {R : Type*} [CommRing R] (a : ℕ → R) : shiftedHankelDet a 0 = 1 := by
+  sorry
+
 /-- One-by-one Hankel determinant reads a₁ rather than a₀. -/
 example (a : ℕ → ℚ) : shiftedHankelDet a 1 = a 1 := by
   sorry
 
 /-- The two-by-two value pins both shift and determinant sign. -/
 example (a : ℕ → ℚ) : shiftedHankelDet a 2 = a 1 * a 3 - a 2 ^ 2 := by
+  sorry
+
+/-- Geometric coefficients give rank one from the shifted first entry. -/
+example : shiftedHankelDet (fun j => (2 : ℚ) ^ j) 1 = 2 ∧
+    shiftedHankelDet (fun j => (2 : ℚ) ^ j) 2 = 0 := by
+  sorry
+
+/-- The zeroth coefficient has no effect on the shifted two-by-two example. -/
+example (c : ℚ) : shiftedHankelDet
+    (fun j => if j = 0 then c else if j = 1 then 2 else if j = 2 then 3 else 5) 2 = 1 := by
+  sorry
+
+/-- One zero leading determinant can be followed by a nonzero determinant. -/
+example :
+    let a : ℕ → ℚ := fun j => if j = 2 then 1 else 0
+    shiftedHankelDet a 1 = 0 ∧ shiftedHankelDet a 2 = -1 := by
   sorry
 
 /-- Exterior continuation includes the actual Laurent germ, not only a holomorphic function. -/
@@ -673,6 +844,30 @@ example : ExteriorLaurentContinuation (fun _ => (1 : ℂ)) {1} := by
 
 /-- The compact exceptional set must be nonempty. -/
 example : ¬ ExteriorLaurentContinuation (fun _ => (0 : ℂ)) ∅ := by
+  sorry
+
+/-- A pole at two is compatible with the geometric Laurent tail. -/
+example : ExteriorLaurentContinuation
+    (fun j => if j = 0 then 0 else (2 : ℂ) ^ (j - 1)) {2} ∧
+    Sequences.IsRational
+      (PowerSeries.mk fun j => if j = 0 then 0 else (2 : ℚ) ^ (j - 1)) := by
+  sorry
+
+/-- The square-root Laurent branch has a noninteger first coefficient. -/
+example : ExteriorLaurentContinuation (fun j =>
+    (∏ i ∈ Finset.range j, ((1 / 2 : ℂ) - i)) / (j.factorial : ℂ) * (-1) ^ j)
+      (segment ℝ (0 : ℂ) 1) ∧
+    (1 / 2 : ℂ) * (-1) = -1 / 2 := by
+  sorry
+
+/-- The exponential cannot have a convergent expansion in nonpositive powers at infinity. -/
+example : ¬ ∃ (a : ℕ → ℂ) (R : ℝ), 0 < R ∧
+    ∀ z : ℂ, R < ‖z‖ → HasSum (fun j => a j * (z⁻¹) ^ j) (Complex.exp z) := by
+  sorry
+
+/-- A constant Laurent germ permits any nonempty compact exceptional set. -/
+example (K : Set ℂ) (hK : IsCompact K) (hne : K.Nonempty) :
+    ExteriorLaurentContinuation (fun j => if j = 0 then (7 : ℂ) else 0) K := by
   sorry
 
 /-- Bertrandias's integer-coefficient rationality criterion has strict diameter bound. -/
@@ -732,6 +927,31 @@ def IsTamelyRamifiedAt (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
 /-- Tameness is tested at every nonzero prime. -/
 def IsTamelyRamified (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] : Prop :=
   ∀ (P : Ideal B) [P.IsPrime], P ≠ ⊥ → IsTamelyRamifiedAt A B P
+
+/-- Index one gives tameness when the residue extension is separable. -/
+example (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
+    (P : Ideal B) [P.IsPrime]
+    (hsep : Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P))
+    (he : P.ramificationIdx A = 1) : IsTamelyRamifiedAt A B P := by
+  sorry
+
+/-- An inseparable residue extension prevents tameness even at ramification index one. -/
+example (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
+    (P : Ideal B) [P.IsPrime]
+    (hsep : ¬ Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P))
+    (he : P.ramificationIdx A = 1) : ¬ IsTamelyRamifiedAt A B P := by
+  sorry
+
+/-- Finite integral Dedekind towers detect tameness in both steps through prime lifting. -/
+theorem isTamelyRamified_trans_iff (A B C : Type*)
+    [CommRing A] [IsDedekindDomain A] [CommRing B] [IsDedekindDomain B]
+    [CommRing C] [IsDedekindDomain C] [Algebra A B] [Algebra B C] [Algebra A C]
+    [IsScalarTower A B C] [Module.Finite A B] [Module.Finite B C]
+    [Module.IsTorsionFree A B] [Module.IsTorsionFree B C]
+    (hinjAB : Function.Injective (algebraMap A B))
+    (hinjBC : Function.Injective (algebraMap B C)) :
+    IsTamelyRamified A C ↔ IsTamelyRamified A B ∧ IsTamelyRamified B C := by
+  sorry
 
 /-- In the self extension, the residue extension and ramification index are trivial. -/
 example (A : Type*) [CommRing A] [IsDedekindDomain A] : IsTamelyRamified A A := by

@@ -14,7 +14,7 @@ ClassFieldTheory owns cohomological local symbols, local and global Artin maps, 
 
 The current Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The current library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and isPrimitive_fundamentalDiscriminantChar), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm −1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one), the narrow class of an element of negative norm (NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg) and the injectivity criterion NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
-Four lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain, and the proper automorphs of indefinite binary forms, are not stated by GeometryOfNumbersAndQuadraticArithmetic, so they are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0), [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0)).
+Four lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0) supplies its Pell-coordinate comparison.
 
 General Catalan–Mihăilescu is outside the elementary exponential-equation scope: the cyclotomic-unit, Stickelberger-ideal and Thaine arguments need a cyclotomic arithmetic development. The powers-of-two/three result here is an elementary special case. Markoff orbit growth and strong-approximation theorems belong to ArithmeticDynamics; this roadmap supplies their carriers, moves, reductions and the surjectivity predicate. ArithmeticStatistics consumes the negative-Pell families; ComputationalNumberTheory consumes the intrinsic arithmetic comparisons; K2SymbolsBrauer and HigherLocalFields consume the degree-n norm-residue symbol; QSeriesPartitionsAndMockModularForms consumes the formal triple product; KTheoryLowDegrees consumes stable equality and scalar-change comparisons; LogarithmicPotentialTheoryAndAlgebraicIntegers consumes the capacity and rationality interfaces. None of these consumers supplies a prerequisite back to this roadmap.
 
@@ -243,6 +243,22 @@ Simple modules and Artin–Wedderburn with its dimension formula (Layers1–2), 
 ### From [TauCetiRoadmap.AdelicAlgebraicGroups, §3.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#34-adelic-reduction-and-arithmetic-quotients)
 
 For a central division algebra D over a number field F, the affine group SL₁(D) has the reduced-norm-one units as its points over each commutative F-algebra; its Hopf-group structure and splitting comparison are supplied there. Layer 7 uses this division-algebra carrier in constructing the corresponding group for matrix components, products and restriction of scalars, and proves the arithmetic restricted-product comparison.
+
+### From [TauCetiRoadmap.IntegralLattices, B4 automorphisms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders)
+
+For a nondegenerate binary lattice of nonsquare discriminant, B4 supplies SO(L) ≅ {u ∈ 𝒪(L)ˣ : N(u)=1}, including positive discriminant. §4.0 consumes this equivalence for a primitive indefinite binary form and computes its matrix in Pell coordinates.
+
+### From [TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants)
+
+The analytic carriers `tateLocalConstant` and `epsilonWeil`, their Deligne–Langlands existence and uniqueness, exact-sequence multiplicativity, degree-zero induction and additive-character/measure normalization, and §2.7's Global inputs: the completed functional equation for finite-image complex representations, proved by Brauer induction and Tate's equation. The primary locators are Deligne (1973), §3.12(A)–(D), pp.533–534, and Theorem4.1, p.535. §7.30 consumes these results, transporting geometric Frobenius to its arithmetic Artin character by dualizing as specified in the supplier.
+
+### From [TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 finite-image Artin functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization)
+
+The convergence-factors target supplies arithmetic-Frobenius local determinants on inertia invariants, ramified induction, the Artin–Hecke comparison and meromorphic assembly by Brauer induction. §7.30 uses this Artin function in its conductor-balanced completion, rather than constructing another finite Euler product.
+
+### From [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#standard-additive-character)
+
+`AL0.StandardAdditiveCharacter.conductor`, `.diagonal` and `.nontrivial` fix the trace character with positive infinity component and negative finite component. `TateZeta.epsilonFactor`, `TateZeta.epsilonFactor_smul_char`, `TateZeta.epsilonFactor_mul_inv`, `TateZeta.epsilonFactor_unramified_zero` and `TateZeta.epsilonFactor_real_sign` supply the analytic one-dimensional factors and their character-change laws. AL.0 supplies self-dual Haar measure. Kudla (2004), §3, Propositions3.5–3.8, pp.120–124, and §4, pp.127–129, fixes these normalizations; §7.30 transports them to the finite additive character of §7.13 and the infinite factor of Fröhlich (1976), (2.3), p.390.
 
 ## How to read the build
 
@@ -859,6 +875,46 @@ Two nonzero integers with the same sign and the same valuation at every prime ar
 
 *Needs:* Mathlib `padicValRat`; Mathlib `padicValRat.mul`; Mathlib `padicValRat.pow`; Mathlib `Squarefree`; Mathlib `Squarefree.natFactorization_le_one`.
 
+<a id="layer-1-squarefree-part"></a>
+
+### 1.18a The squarefree part of a rational number
+
+For a nonzero rational u, ratSquarefreePart u is the unique squarefree integer d such that u = d · c^2 for some nonzero rational c; its sign is the sign of u, and a prime p divides d exactly when the p-adic valuation of u is odd. By convention ratSquarefreePart 0 = 0. The square-invariance law is proved in §1.28, and the prime-parity law in §1.37.
+
+u is a rational number; the defining property is stated for u ≠ 0 and the value at 0 is the convention 0. Squarefree is Mathlib's Squarefree on ℤ, so ±1 are squarefree and d may be negative.
+
+The supporting API comprises:
+
+- `ratSquarefreePart`: The squarefree part ℚ → ℤ, with value 0 at 0.
+- `squarefree_ratSquarefreePart`: For u ≠ 0, ratSquarefreePart u is squarefree.
+- `exists_eq_ratSquarefreePart_mul_sq`: For u ≠ 0 there is a nonzero rational c with u = ratSquarefreePart u · c^2.
+- `ratSquarefreePart_eq_iff`: For u ≠ 0 and d squarefree, ratSquarefreePart u = d if and only if u = d · c^2 for some nonzero rational c.
+- Later API (§1.28), `ratSquarefreePart_mul_sq`: ratSquarefreePart (u · t^2) = ratSquarefreePart u for nonzero u and t.
+- `ratSquarefreePart_intCast_of_squarefree`: On a squarefree integer d, ratSquarefreePart d = d.
+- Later API (§1.37), `prime_dvd_ratSquarefreePart_iff`: For u ≠ 0 and a prime p, p divides ratSquarefreePart u if and only if padicValRat p u is odd.
+- `ratSquarefreePart_pos_iff`: ratSquarefreePart u > 0 if and only if u > 0.
+- `ratSquarefreePart_zero`: ratSquarefreePart 0 = 0.
+
+(Michael A. Bennett and Samir Siksek, [A conjecture of Erdős, supersingular primes and short character sums](#reference-bennett-siksek-erdos-2020), §6, Lemma 6.2 (ii) (p. 367).) The character attached to the rational ω λ depends only on its square class, which the squarefree part represents; the definition is the first step of the construction the paper uses without naming it.
+
+(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#reference-shoup-v2), Exercise 1.30 (printed p. 13, PDF p. 31).) Grouping the factorisation (d) by the parity of νp(x) gives x = ± ∏_{νp(x) odd} p · c^2, which is the existence and the valuation description of the squarefree part; νp on ℚ is Mathlib's padicValRat.
+
+To prove this, existence: Tau Ceti's Rat.exists_squarefree_int_mul_sq gives a squarefree integer d and a nonzero rational c with u = d c^2.
+
+Uniqueness is §1.18. Define ratSquarefreePart u by choice from the supplied existence and that uniqueness, with value 0 at 0. The defining equation proves the sign law and the value on a squarefree integer. §§1.28 and 1.37 prove square invariance and the valuation description from this specification.
+
+**Checks.**
+
+- ratSquarefreePart (8/9) = 2.
+- ratSquarefreePart (-12) = -3.
+- ratSquarefreePart 1 = 1.
+- ratSquarefreePart (-1) = -1, not 1: the sign is part of the square class.
+- ratSquarefreePart (8/9) = 2 and ratSquarefreePart (3/4) = 3, the worked example of Tau Ceti's square-class file.
+- ratSquarefreePart (-12) = -3: the sign is kept.
+- ratSquarefreePart (-1) = -1 ≠ 1, so a definition through |u| fails.
+
+*Needs:* Tau Ceti `Rat.exists_squarefree_int_mul_sq`; [Uniqueness of the signed squarefree part of a rational square class](#layer-1-topic-18).
+
 <a id="layer-1-topic-19"></a>
 
 ### 1.19 The cube of the Gauss sum of a cubic character
@@ -1122,7 +1178,7 @@ For n ≥ 1, 0^n = 0 ≠ a, so no solution is zero; for n = 0, x^0 = 1 for every
 
 For nonzero rationals u and t, ratSquarefreePart(u t²) = ratSquarefreePart(u).
 
-u, t ≠ 0; ratSquarefreePart is the squarefree part of [The squarefree part of a rational number](#layer-1-topic-40) (the unique squarefree d with u = d c², c ≠ 0); this result is part of its API.
+u, t ≠ 0; ratSquarefreePart is the squarefree part of [The squarefree part of a rational number](#layer-1-squarefree-part) (the unique squarefree d with u = d c², c ≠ 0); this result is part of its API.
 
 (Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#reference-shoup-v2), Exercise 1.30 (b) and (d), printed p. 13.) The valuation calculus behind the invariance under multiplication by squares.
 
@@ -1135,7 +1191,7 @@ Then u t² = d (ct)² with ct ≠ 0, so by the signed uniqueness lemma ratSquare
 - ratSquarefreePart(8/9) = ratSquarefreePart(2 · (2/3)²) = 2.
 - ratSquarefreePart(−12) = ratSquarefreePart(−3 · 2²) = −3.
 
-*Needs:* [Uniqueness of the signed squarefree part of a rational square class](#layer-1-topic-18); Tau Ceti `Rat.exists_squarefree_int_mul_sq`.
+*Needs:* [The squarefree part of a rational number](#layer-1-squarefree-part); [Uniqueness of the signed squarefree part of a rational square class](#layer-1-topic-18); Tau Ceti `Rat.exists_squarefree_int_mul_sq`.
 
 <a id="layer-1-topic-29"></a>
 
@@ -1370,7 +1426,7 @@ So v_p(u) is odd exactly when v_p(d) = 1, that is, when p divides d.
 - For u = 8/9: v_2 = 3 is odd and 2 | 2; v_3 = −2 is even and 3 ∤ 2.
 - For u = −12: v_3 = 1 is odd and 3 | −3; v_2 = 2 is even and 2 ∤ −3.
 
-*Needs:* [The squarefree part is constant on square classes](#layer-1-topic-28); Mathlib `padicValRat`; Mathlib `padicValRat.mul`; Mathlib `padicValRat.pow`; Mathlib `Squarefree.natFactorization_le_one`; Tau Ceti `Rat.exists_squarefree_int_mul_sq`.
+*Needs:* [The squarefree part of a rational number](#layer-1-squarefree-part); [The squarefree part is constant on square classes](#layer-1-topic-28); Mathlib `padicValRat`; Mathlib `padicValRat.mul`; Mathlib `padicValRat.pow`; Mathlib `Squarefree.natFactorization_le_one`; Tau Ceti `Rat.exists_squarefree_int_mul_sq`.
 
 <a id="layer-1-topic-38"></a>
 
@@ -1420,50 +1476,6 @@ As p ≡ 1 (mod 3), J ≡ −1 ≡ 2 (mod 3R), and 3R ∩ 𝓞_K = 3𝓞_K (an e
 - For π = −1 − 3ω: J = −1 − 3ω ≡ 2 (mod 3).
 
 *Needs:* [The cube of the Gauss sum of a cubic character](#layer-1-topic-19); [The n-th power residue symbol at a prime not dividing n](#layer-1-topic-23); [Primary elements of the Eisenstein integers](#layer-1-topic-12); Mathlib `gaussSum_frob`; Mathlib `IsCyclotomicExtension`.
-
-<a id="layer-1-topic-40"></a>
-
-### 1.40 The squarefree part of a rational number
-
-For a nonzero rational u, ratSquarefreePart u is the unique squarefree integer d such that u = d · c^2 for some nonzero rational c; its sign is the sign of u, and a prime p divides d exactly when the p-adic valuation of u is odd. By convention ratSquarefreePart 0 = 0. The value depends only on the square class of u.
-
-u is a rational number; the defining property is stated for u ≠ 0 and the value at 0 is the convention 0. Squarefree is Mathlib's Squarefree on ℤ, so ±1 are squarefree and d may be negative.
-
-The supporting API comprises:
-
-- `ratSquarefreePart`: The squarefree part ℚ → ℤ, with value 0 at 0.
-- `squarefree_ratSquarefreePart`: For u ≠ 0, ratSquarefreePart u is squarefree.
-- `exists_eq_ratSquarefreePart_mul_sq`: For u ≠ 0 there is a nonzero rational c with u = ratSquarefreePart u · c^2.
-- `ratSquarefreePart_eq_iff`: For u ≠ 0 and d squarefree, ratSquarefreePart u = d if and only if u = d · c^2 for some nonzero rational c.
-- `ratSquarefreePart_mul_sq`: ratSquarefreePart (u · t^2) = ratSquarefreePart u for nonzero u and t.
-- `ratSquarefreePart_intCast_of_squarefree`: On a squarefree integer d, ratSquarefreePart d = d.
-- `prime_dvd_ratSquarefreePart_iff`: For u ≠ 0 and a prime p, p divides ratSquarefreePart u if and only if padicValRat p u is odd.
-- `ratSquarefreePart_pos_iff`: ratSquarefreePart u > 0 if and only if u > 0.
-- `ratSquarefreePart_zero`: ratSquarefreePart 0 = 0.
-
-(Michael A. Bennett and Samir Siksek, [A conjecture of Erdős, supersingular primes and short character sums](#reference-bennett-siksek-erdos-2020), §6, Lemma 6.2 (ii) (p. 367).) The character attached to the rational ω λ depends only on its square class, which the squarefree part represents; the definition is the first step of the construction the paper uses without naming it.
-
-(Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#reference-shoup-v2), Exercise 1.30 (printed p. 13, PDF p. 31).) Grouping the factorisation (d) by the parity of νp(x) gives x = ± ∏_{νp(x) odd} p · c^2, which is the existence and the valuation description of the squarefree part; νp on ℚ is Mathlib's padicValRat.
-
-To prove this, existence: Tau Ceti's Rat.exists_squarefree_int_mul_sq gives a squarefree integer d and a nonzero rational c with u = d c^2.
-
-Uniqueness: if d c^2 = d' c'^2 with d, d' squarefree then d/d' is a square of a rational whose numerator and denominator are coprime squarefree integers up to sign; comparing p-adic valuations (each 0 or 1 in d and d') forces |d| = |d'|, and comparing signs forces d = d'.
-
-Define ratSquarefreePart u by choice from existence and uniqueness, and 0 at 0.
-
-The valuation description: v_p(u) = v_p(d) + 2 v_p(c) with v_p(d) ∈ {0, 1}, so p ∣ d exactly when v_p(u) is odd (padicValRat).
-
-**Checks.**
-
-- ratSquarefreePart (8/9) = 2.
-- ratSquarefreePart (-12) = -3.
-- ratSquarefreePart 1 = 1.
-- ratSquarefreePart (-1) = -1, not 1: the sign is part of the square class.
-- ratSquarefreePart (8/9) = 2 and ratSquarefreePart (3/4) = 3, the worked example of Tau Ceti's square-class file.
-- ratSquarefreePart (-12) = -3: the sign is kept.
-- ratSquarefreePart (-1) = -1 ≠ 1, so a definition through |u| fails.
-
-*Needs:* Tau Ceti `Rat.exists_squarefree_int_mul_sq`; Mathlib `padicValRat`; Mathlib `Squarefree`; [Uniqueness of the signed squarefree part of a rational square class](#layer-1-topic-18); [The squarefree part is constant on square classes](#layer-1-topic-28); [A prime divides the squarefree part exactly when the valuation is odd](#layer-1-topic-37).
 
 <a id="layer-1-topic-41"></a>
 
@@ -1796,7 +1808,7 @@ Uniqueness among primitive characters is the lemma on primitive characters agree
 - For every nonzero u the 2-adic valuation of the conductor is 0, 2 or 3; this is the 2-adic bound in its sharp form for square-class characters.
 - BS Lemma 6.2(ii) and the characters µ_1 to µ_4 of Proposition 6.1 are squareclassCharacter at λ, -λ, 2λ and -2λ.
 
-*Needs:* [The squarefree part of a rational number](#layer-1-topic-40); [The Kronecker character of a fundamental discriminant](#layer-1-topic-7); Tau Ceti `TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar` (current library); [Primitive characters agreeing at almost all primes are equal](#layer-1-topic-8); Tau Ceti `TauCeti.Multiquadratic.fundamentalDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscriminant_fundamentalDiscriminant`; Tau Ceti `TauCeti.legendreSym_mul_sq`; Mathlib `padicValRat`; Mathlib `legendreSym`; Mathlib `Nat.factorization`.
+*Needs:* [The squarefree part of a rational number](#layer-1-squarefree-part); [The Kronecker character of a fundamental discriminant](#layer-1-topic-7); Tau Ceti `TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar` (current library); [Primitive characters agreeing at almost all primes are equal](#layer-1-topic-8); Tau Ceti `TauCeti.Multiquadratic.fundamentalDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscriminant_fundamentalDiscriminant`; Tau Ceti `TauCeti.legendreSym_mul_sq`; Mathlib `padicValRat`; Mathlib `legendreSym`; Mathlib `Nat.factorization`.
 
 <a id="layer-1-topic-52"></a>
 
@@ -7509,15 +7521,15 @@ Use descent, norm factorisation, lattice points and coefficientwise identities t
 
 Let D > 0 be a nonsquare integer with D ≡ 0 or 1 (mod 4), and write elements of the quadratic order O_D of discriminant D as (X + Y√D)/2 with X, Y ∈ ℤ and X ≡ DY (mod 2), so that their norm is (X² − DY²)/4. (a) The elements of norm one are the (t + u√D)/2 with t² − Du² = 4. Under multiplication they form a group isomorphic to {±1} × ℤ, generated by −1 (t = −2, u = 0) and ε_D = (t₁ + u₁√D)/2 for the solution with t₁, u₁ ≥ 1 and u₁ least. (b) For every integer N, multiplication by these units preserves the set of integer solutions of X² − DY² = 4N; the generator ε_D sends (X, Y) to ((t₁X + Du₁Y)/2, (u₁X + t₁Y)/2). (c) For a primitive integral binary form Q = [a, b, c] of discriminant D = b² − 4ac, the proper automorphs γ ∈ SL₂(ℤ) of Q are the matrices [[(t − bu)/2, −cu], [au, (t + bu)/2]] with t² − Du² = 4, and their image in PSL₂(ℤ) is infinite cyclic, generated by the matrix of (t₁, u₁).
 
-D nonsquare and positive; D ≡ 0, 1 (mod 4), which holds for every D = a² − 4. The group in (a) contains −1, so it is not cyclic; only its image modulo ±1 is. For D = 4m the solutions are (2x, 2y) with x² − my² = 1, Mathlib's Pell.Solution₁ m; for D ≡ 1 (mod 4) solutions with t and u odd occur only when D ≡ 5 (mod 8).
+D nonsquare and positive; D ≡ 0, 1 (mod 4), which holds for every D = a² − 4. The group in (a) contains −1, so it is not cyclic; only its image modulo ±1 is. For D = 4m the solutions are (2x, y) with x² − my² = 1, Mathlib's Pell.Solution₁ m; for D ≡ 1 (mod 4) solutions with t and u odd occur only when D ≡ 5 (mod 8).
 
 The supporting API comprises:
 
 - `pellFourUnits`: The group {(t, u) ∈ ℤ² : t² − Du² = 4} with the product of (t + u√D)/2.
 - `pellFourUnits_equiv`: pellFourUnits D ≃* ℤˣ × Multiplicative ℤ, sending −1 to (−1, 0) and ε_D to (1, 1).
-- `pellFourUnits_of_pell`: For D = 4m, (x, y) ↦ (2x, 2y) is an isomorphism from Pell.Solution₁ m.
+- `pellFourUnits_of_pell`: For D = 4m, (x, y) ↦ (2x, y) is an isomorphism from Pell.Solution₁ m, with inverse (t, u) ↦ (t/2, u).
 - `pellFourUnits_smul_mem`: For (t, u) ∈ pellFourUnits D and X² − DY² = 4N, the product ((tX + DuY)/2, (uX + tY)/2) is again an integer solution of X² − DY² = 4N.
-- `properAutomorph_of_pellFour`: For Q = [a, b, c] primitive of discriminant D, (t, u) ↦ [[(t − bu)/2, −cu], [au, (t + bu)/2]] is an isomorphism onto the stabiliser of Q in SL₂(ℤ).
+- `properAutomorph_of_pellFour`: For Q = [a, b, c] primitive of positive nonsquare discriminant D, express IntegralLattices B4's proper-automorphism/norm-one-unit equivalence in Pell coordinates: the unit (t + u√D)/2 acts by [[(t − bu)/2, −cu], [au, (t + bu)/2]].
 
 (Keith Conrad, [Pell's equation, I](#reference-conrad-pell-one-2025), Theorem 5.3, p. 6, and §7, Theorem 7.1, p. 10.) The generation of the solutions of a Pell equation by a least positive solution, and the multiplicativity of the norm form, which is the case D = 4m of (a) and the source of the product in (b).
 
@@ -7525,16 +7537,16 @@ The supporting API comprises:
 
 (Amit Ghosh and Peter Sarnak, [Integral points on Markoff type cubic surfaces](#reference-ghosh-sarnak-2022-v3), §1, consequence (c) of Theorem 1.1, p. 4.) The use: the unit (a + √(a² − 4))/2 acts on the solutions of X² − (a² − 4)Y² = 4N.
 
-To prove this, for D = 4m, t² − Du² = 4 forces t even and reduces to Pell.Solution₁ m, and Mathlib's Pell.IsFundamental.eq_zpow_or_neg_zpow gives (a). For D ≡ 1 (mod 4), (t + u√D)/2 ∈ O_D has norm one; its cube is (t(t² − 3) + u(t² − 1)√D)/2, whose coordinates are even, so the group contains the Pell group of D with index dividing 3 and is again {±1} × ℤ; the least positive solution generates modulo ±1 because the coordinates of the positive powers increase. For (b), the norm is multiplicative and the displayed coordinates are integers because X ≡ DY and t ≡ Du (mod 2). For (c), a matrix in SL₂(ℤ) fixing Q is determined by its action on a root of Q(x, 1), and the displayed matrix is multiplication by (t + u√D)/2 in the basis attached to that root.
+To prove this, for D = 4m, t² − Du² = 4 forces t even and reduces to Pell.Solution₁ m, and Mathlib's Pell.IsFundamental.eq_zpow_or_neg_zpow gives (a). For D ≡ 1 (mod 4), (t + u√D)/2 ∈ O_D has norm one; its cube is (t(t² − 3) + u(t² − 1)√D)/2, whose coordinates are even, so the group contains the Pell group of D with index dividing 3 and is again {±1} × ℤ; the least positive solution generates modulo ±1 because the coordinates of the positive powers increase. For (b), the norm is multiplicative and the displayed coordinates are integers because X ≡ DY and t ≡ Du (mod 2). For (c), consume IntegralLattices B4's equivalence and compute multiplication by (t + u√D)/2 in the binary-form basis. The resulting matrix is the displayed one; determinant one, preservation of Q and compatibility with multiplication are coordinate consequences of the supplier equivalence.
 
 **Checks.**
 
 - D = 5 (a = 3): the least solution of t² − 5u² = 4 is (3, 1), ε_5 = (3 + √5)/2 = φ², and the norm-one units of ℤ[φ] are ±φ^(2k); the unit φ itself has norm −1 and is not in the group.
-- D = 12 (a = 4): the least solution is (4, 1) and ε_12 = 2 + √3, the fundamental solution of x² − 3y² = 1.
+- D = 12 (a = 4): (x, y) = (2, 1) maps to the least solution (t, u) = (4, 1), with ε_12 = 2 + √3; (4, 2) instead gives t² − 12u² = −32.
 - (−2, 0) ↦ −1 is a nontrivial element of finite order: the group in SL₂(ℤ) is not infinite cyclic, so cyclicity holds only in PSL₂(ℤ).
 - D = 5, N = 1: ε_5 sends (3, 1) to (7, 3), and 7² − 5·3² = 4.
 
-*Needs:* Mathlib `Pell.Solution₁`; Mathlib `Pell.IsFundamental.eq_zpow_or_neg_zpow`; Mathlib `Zsqrtd.norm_mul`; Mathlib `Matrix.SpecialLinearGroup`.
+*Needs:* Mathlib `Pell.Solution₁`; Mathlib `Pell.IsFundamental.eq_zpow_or_neg_zpow`; Mathlib `Zsqrtd.norm_mul`; Mathlib `Matrix.SpecialLinearGroup`; [TauCetiRoadmap.IntegralLattices, B4 proper automorphisms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders).
 
 <a id="layer-4-topic-1"></a>
 
@@ -10277,7 +10289,7 @@ Inequivalence: by [The Δ-differences of the Vieta moves on a level surface](#la
 
 ### 4.97 The quadratic-reciprocity obstruction on V_{4+d}(ℤ) (Ghosh–Sarnak (8.1)–(8.2))
 
-Let d be a nonzero integer, k = 4 + d and x ∈ V_k(ℤ). For {i, j, l} = {1, 2, 3} put w = 2x_i − x_jx_l; then w² − 4d = (x_j² − 4)(x_l² − 4). Consequently every odd prime q with q | x_j² − 4 and q ∤ d has d a nonzero square modulo q (legendreSym q d = 1). In the source's form: if n ↦ (4d/n) is a primitive real character modulo 4d and S_d = {n : (4d/n) ∈ {0, 1}}, then x_j² − 4 ∈ S_d (mod 4d) for every j except when d < 0, 3 ∤ d and x_j = ±1, where x_j² − 4 = −3 and the character takes the value −1 (3 divides x_j² − 4, so d is a square modulo 3) (the source claims it for every j; it fails at k = 2); by quadratic reciprocity this is a congruence condition on x_j modulo 4d that local solubility does not impose, so strong approximation for V_k(ℤ) fails modulo 4d.
+Let d be a nonzero integer, k = 4 + d and x ∈ V_k(ℤ). For {i, j, l} = {1, 2, 3} put w = 2x_i − x_jx_l; then w² − 4d = (x_j² − 4)(x_l² − 4). Consequently every odd prime q with q | x_j² − 4 and q ∤ d has d a nonzero square modulo q (legendreSym q d = 1). In the source's form: if n ↦ (4d/n) is a primitive real character modulo 4d and S_d = {n : (4d/n) ∈ {0, 1}}, then x_j² − 4 ∈ S_d (mod 4d) for every j except when d < 0, 3 ∤ d and x_j = ±1, where x_j² − 4 = −3 and the character takes the value −1 (3 divides x_j² − 4, so d is a square modulo 3) (the source claims it for every j; it fails at k = 2); quadratic reciprocity expresses this as a necessary congruence restriction on integral points. To deduce failure of reduction surjectivity at a specified modulus, a solution modulo that modulus violating this restriction is required.
 
 d ≠ 0 integer, x an integral point; q odd prime not dividing d. The character form needs (4d/·) to be a primitive Dirichlet character modulo 4d (a Kronecker symbol); the prime-factor form needs nothing. A negative x_j² − 4 (x_j ∈ {0, ±1}) also brings in the sign (4d/−1) = sgn d, so the character form fails exactly when d < 0, 3 ∤ d and x_j = ±1.
 
@@ -10292,6 +10304,7 @@ Character form: (4d/·) is multiplicative and (4d/q) = (d/q) = 1 for the odd pri
 **Checks.**
 
 - k = 46 (d = 42): the odd prime factors of x_j² − 4 not dividing 42 are quadratic-residue primes for 42; this is consistent with V₄₆(ℤ) = ∅.
+- d = −1, k = 3: the character has primitive conductor 4, but V₃(Z/4Z) = ∅, so reduction to this empty target is surjective.
 - Every point (2, t, t + w) of V_{4+w²} has x₁² − 4 = 0, the degenerate case of the statement.
 - k = 2, d = −2: (1, 1, 1) ∈ V₂(ℤ) has x₁² − 4 = −3 ≡ 5 (mod 8) and (−8/5) = −1, so the character form fails there , while the prime-factor form holds (3 ∣ −3 and −2 ≡ 1² (mod 3)); k = 2 is the only level where it fails, since a coordinate ±1 needs k ≥ 1, V₃(ℤ) = ∅ and 3 ∣ d at k = 1.
 
@@ -10823,24 +10836,30 @@ For 0 ≤ k ≤ 45: k = 0 (two orbits), 1, 2 ([The levels k = 1, 2, 3: one finit
 
 (a) For every integer k ≥ 5, |F⁺_k(ℤ)| ≤ 2k^{2/3}; for every k < 0, |F⁻_k(ℤ)| ≤ 2(|k| + 9). Hence h_M(k) ≤ 2|k|^{2/3} for k ≥ 5 not exceptional and h_M(k) ≤ 2(|k| + 9) for k < 0. (b) For every ε > 0, h_M(k) ≪_ε |k|^{1/3 + ε} as |k| → ∞ through levels k ≥ 5 that are not exceptional and through k < 0.
 
-(b) is the source's bound, restricted to non-exceptional levels, which is the range its argument covers; at the exceptional levels 4 + w² it is false . The input of (b), a bound ≪_ε N^ε for the number of unit-classes of solutions of X² − (a² − 4)Y² = 4N uniform in a, is an auxiliary proof target.
+(b) is the source's bound, restricted to non-exceptional levels, which is the range its argument covers; at the exceptional levels 4 + w² it is false . The input of (b) is the counting target below: a bound ≪_ε |N|^ε for the norm-one-unit classes arising from F⁺ and F⁻ representations, uniform in a and nonzero signed N with their primitive/imprimitive and order-conductor conditions retained.
 
 (Amit Ghosh and Peter Sarnak, [Integral points on Markoff type cubic surfaces](#reference-ghosh-sarnak-2022-v3), §1, consequence (c) of Theorem 1.1, p. 4.) h_M(k) ≪ |k|^{1/3+ε}, because for each fixed first coordinate the fundamental sets bound the number of units acting on the indefinite binary quadratic form in the other two variables.
 
 To prove this, (a) For u ∈ F⁺_k(ℤ): 3u₁² + u₁³ ≤ k gives u₁ ≤ k^{1/3}, and u₁u₂² ≤ u₁u₂u₃ ≤ k gives u₂ ≤ (k/u₁)^{1/2}; u₃ is the unique positive root of a quadratic. Summing (k/u₁)^{1/2} over u₁ ≤ k^{1/3} gives ≤ 2k^{2/3}. For F⁻_k use the box U(k) of [Descent on V_k(ℤ) for k < 0 (Ghosh–Sarnak, Lemma 2.2)](#layer-4-topic-87), with at most two values of u₃ for each (u₁, u₂). The class-number statement is [Ghosh–Sarnak's theorem on fundamental sets (Theorem 1.1)](#layer-4-topic-113).
 
-(b) Fix u₁ = a ≥ 3 and put N = k − a²; the pairs (u₂, u₃) satisfy (2u₃ + au₂)² − (a² − 4)u₂² = 4N, a norm equation in the order of discriminant a² − 4, on which the unit (a + √(a² − 4))/2 acts. The fundamental-set inequalities a ≤ u₂ ≤ u₃ (and u₃ ≤ au₂/2 for k < 0) cut out a region meeting each unit-orbit in O(1) points.
+(b) Fix u₁ = a ≥ 3 and put N = k − a². For F⁺ use X = 2u₃ + au₂; for F⁻ use X = 2u₃ − au₂. In both cases, with Y = u₂, X² − (a² − 4)Y² = 4N and X ≡ aY (mod 2), so (X + Y√(a² − 4))/2 lies in the quadratic order. Here N is positive in the positive branch and negative in the negative branch. Multiplication by (a + √(a² − 4))/2 preserves the norm equation. The fundamental-set inequalities a ≤ u₂ ≤ u₃ (and u₃ ≤ au₂/2 for k < 0) cut out a region meeting each unit-orbit in O(1) points.
 
-The number of unit-orbits of solutions is at most the number of solutions b (mod 2N) of b² ≡ a² − 4 (mod 4N), summed over the square divisors of N, which is ≪_ε N^ε by the divisor bound (the required auxiliary target).
+Bound the classes actually arising from these representations by the counting target below, retaining their primitive/imprimitive and order-conductor conditions. Unrestricted roots of b² ≡ a² − 4 (mod 4|N|) are not uniformly O_ε(|N|^ε), so their count cannot discharge this step.
 
-Summing over a ≤ |k|^{1/3} gives ≪_ε |k|^{1/3+ε}.
+For positive k, a ≤ k^{1/3}. In the negative fundamental region, the quadratic in u₃ decreases for u₂ ≤ u₃ ≤ au₂/2, so k ≤ a² + (2−a)u₂² ≤ −a²(a−3). Thus (a−3)³ ≤ |k| and a ≤ 3+|k|^{1/3}. In either branch |N| = |k − a²| ≪ |k|. Apply the signed representation bound with exponent ε, then sum over these first coordinates to obtain ≪_ε |k|^{1/3+ε}.
 
 **Checks.**
 
 - k = 9454 (generic): (a) gives h ≤ 2·9454^{2/3} ≈ 894, while h_M(9454) = 11.
 - At the exceptional levels k = 4 + w² the points (2, t, t + w) lie in exactly ⌊w/2⌋ + 1 different orbits for every w ≥ 1 , so h_M(4 + w²) > √(k − 4)/2 and no bound of order |k|^{1/3+ε} holds there.
 
-**Counting proof target.** The uniform N^ε clause needs, for every ε>0, a constant C_ε independent of a≥3 and N≥1 bounding the number of unit orbits of X²−(a²−4)Y²=4N by C_ε N^ε. Prove the representation-to-congruence bound, with the necessary primitive/imprimitive and square-divisor cases, and the divisor estimate τ(N)≪_εN^ε within this layer. No later analytic-number-theory theorem is an input. The unconditional 2|k|^(2/3) bound has no dependence on this additional estimate.
+**Counting proof target.** For every ε>0, require C_ε independent of a≥3 and nonzero signed N such that the number of norm-one-unit classes arising from the F⁺ or F⁻ representations above is at most C_ε |N|^ε. Keep X ≡ aY (mod 2), both signs of N, the primitive and imprimitive cases, the square divisors removed from |N|, and the conductor of the order of discriminant a²−4 in the representation-to-class argument. Prove this representation-count bound and a uniform bound on the number of fundamental-region points in each such class before summing over a. Prove the divisor estimate τ(|N|)≪_ε|N|^ε here; it alone does not bound unrestricted quadratic roots. Ghosh–Sarnak, §1, consequence (c), p.4, supplies the endpoint and the fundamental-region argument; this counting lemma supplies its precise input. The estimate in (a) uses no representation-count bound.
+
+**Checks.**
+
+- k = −2, (a,u₂,u₃) = (3,3,4): N = −11 and X = −1, giving X² − 5·3² = −44 = 4N; the plus sign gives 244.
+- k = 54, (a,u₂,u₃) = (3,3,3): N = 45 and X = 15, giving X² − 5·3² = 180 = 4N.
+- For any odd prime p, N = p² and a = p²+2 give exactly p unrestricted roots modulo 2N, namely b = pt with t odd modulo 2p. This is |N|^(1/2), so a divisor estimate cannot bound that root count by C_ε |N|^ε for ε = 1/4.
 
 *Needs:* [Ghosh–Sarnak's theorem on fundamental sets (Theorem 1.1)](#layer-4-topic-113); [Descent on V_k(ℤ) for k < 0 (Ghosh–Sarnak, Lemma 2.2)](#layer-4-topic-87); [Markoff class numbers h_M(k) and the fundamental sets F^±_k](#layer-4-topic-74); [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0).
 
@@ -13570,7 +13589,7 @@ d ≥ 2 (for d = 2 the right-hand side is below 1, since log log 2 < 0, and the 
 
 (O. B. Berrevoets, [On Lehmer's problem (bachelor thesis, supervisor J.-H. Evertse)](#reference-berrevoets-lehmer-2016), Theorem 4.1, printed p. 15.) The constant and statement agree. The proof sketch supplies degree padding, the N+1 correction in the sum bound, and an independent calculation with the rounded M that still yields 1/11700; it does not assert a proof of the remaining supplier inputs.
 
-(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 4.2, (11), printed p. 326.) The original constant, not proved in the sources read.
+(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 4.2, (11), printed p. 326.) The stronger original constant is 1/1200.
 
 To prove this, non-integral α: the leading coefficient a₀ ≥ 2 of the primitive minimal polynomial gives M(α) ≥ 2 (`leadingCoeff_le_mahlerMeasure` of TauCetiRoadmap.DiophantineApproximationAndTranscendence §0.2) . Assume α integral.
 
@@ -13845,7 +13864,7 @@ F = P(0)P/P* ∈ 1 + Xℤ⟦X⟧ is nonconstant ([Smyth's rational function F = 
 
 Factor F = f/g with f, g holomorphic on |z| < 1 and bounded by 1 there: g is the Blaschke product over the roots αᵢ with |αᵢ| > 1 of the factors (z − 1/ᾱᵢ)/(1 − z/αᵢ) (normalised), f = Fg; then f(0) = g(0) = M(P)⁻¹.
 
-Schur's characterisation of the coefficients of power series bounded by 1 on the disc, combined with the integrality of the coefficients of F = f/g, gives M(P) ≥ θ₀. This analytic step is [The analytic input for Smyth’s theorem](#layer-6-topic-67), through [Schur’s first and doubled-index coefficient conditions](#layer-6-topic-38), [Finite Parseval inequalities for Schur coefficients](#layer-6-topic-39) and the long- and short-gap conditions; the short-gap multipliers of Smyth 1971 (Bull. London Math. Soc. 3, 169–175) are a marked input.
+Schur's characterisation of the coefficients of power series bounded by 1 on the disc, combined with the integrality of the coefficients of F = f/g, gives M(P) ≥ θ₀. This analytic step is [The analytic input for Smyth’s theorem](#layer-6-topic-67), through [Schur’s first and doubled-index coefficient conditions](#layer-6-topic-38), [Finite Parseval inequalities for Schur coefficients](#layer-6-topic-39) and the long- and short-gap conditions; the short-gap multiplier inequality with all its coefficient hypotheses is supplied by §6.62.
 
 Sharpness: M(X³ − X − 1) = θ₀ (`mahlerMeasure_plasticNumber`).
 
@@ -13854,7 +13873,7 @@ Sharpness: M(X³ − X − 1) = θ₀ (`mahlerMeasure_plasticNumber`).
 - α = θ₀ gives equality; α = φ (nonreciprocal: reverse(X² − X − 1) = −X² − X + 1) has M = 1.618 ≥ θ₀.
 - Lehmer's number is reciprocal and has M = 1.176 < θ₀: the hypothesis cannot be dropped.
 
-**Auxiliary proof target.** This endpoint uses the short-gap multiplier inequality with its full coefficient hypotheses. It remains conditional on proving that explicitly marked branch, even though the long-gap argument and quartic comparison are separately specified.
+This endpoint requires [The quartic condition in Smyth’s short-gap case](#layer-6-topic-62), including its short-gap multiplier inequality with all coefficient hypotheses.
 
 *Needs:* [Smyth's rational function F = P(0)P/P* has integer coefficients](#layer-6-topic-31); [Reciprocal algebraic integers and reciprocal minimal polynomials](#layer-6-topic-3); [The smallest Pisot number θ₀](#layer-6-topic-48); Mathlib `Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots`; Mathlib `Algebra.norm_eq_prod_roots`; [Smyth’s bounded holomorphic quotient](#layer-6-topic-51); [Schur’s first and doubled-index coefficient conditions](#layer-6-topic-38); [Finite Parseval inequalities for Schur coefficients](#layer-6-topic-39); [The analytic input for Smyth’s theorem](#layer-6-topic-67).
 
@@ -14271,7 +14290,7 @@ The supporting API comprises:
 - `IntegralGaloisModule.IsTamelyRamified`: Tameness at every nonzero prime of B.
 - `IntegralGaloisModule.isTamelyRamifiedAt_iff_of_finite`: With finite residue fields, tameness at P is p ∤ e(P|p).
 - `IntegralGaloisModule.isTamelyRamifiedAt_of_ramificationIdx_eq_one`: An unramified prime with separable residue extension is tame.
-- `IntegralGaloisModule.isTamelyRamified_trans_iff`: In a tower A ⊆ B ⊆ C of Dedekind domains, C/A is tame exactly when B/A and C/B are.
+- `IntegralGaloisModule.isTamelyRamified_trans_iff`: For inclusions A ⊆ B ⊆ C of Dedekind domains with B finite over A and C finite over B, C/A is tame exactly when B/A and C/B are. The suggested `GaloisModules.isTamelyRamified_trans_iff` carries the injective scalar maps, scalar tower, finite-module and torsion-free hypotheses.
 - `IntegralGaloisModule.isTamelyRamified_numberField_iff`: For number fields, tameness is p ∤ e(P|p) at every nonzero prime P of 𝓞_L, the convention of the NumberFieldArithmetic roadmap.
 
 (Henri Johnston, [Notes on Galois Modules](#reference-johnston-galois-modules-2016), Definition 7.1 (printed p. 13).) The target is this definition, with the residue-separability clause made explicit.
@@ -14293,7 +14312,8 @@ Towers: for A ⊆ B ⊆ C Dedekind with B/A and C/B finite and torsion free (hen
 - ℚ(i)/ℚ is not tamely ramified: e = 2 at the prime above 2.
 - ℚ(ζ_p)/ℚ is tame for an odd prime p: the only ramified prime is p with e = p − 1.
 - ℚ(i)/ℚ is not tame: 2 ramifies with e = 2.
-- An unramified extension (e = 1 everywhere) is tame.
+- If every nonzero prime has index one and separable residue extension, the extension is tame. In characteristic p, F_p(s)[[t]] ⊂ F_p(s^(1/p))[[t]] has index one but inseparable residue extension of degree p, so is not tame.
+- Z ⊂ Z[i] ⊂ Q(i) has a wild lower step above 2, while both extensions with top ring Q(i) satisfy the predicate vacuously; the tower equivalence requires the finite integral steps.
 
 *Needs:* Mathlib `Ideal.ramificationIdx`; Mathlib `Algebra.IsSeparable`; Mathlib `Ideal.LiesOver`; Mathlib `Ideal.ramificationIdxIn_mul_ramificationIdxIn`; Mathlib `IsDedekindDomain`; Mathlib `Ideal.ramificationIdx_tower`; Mathlib `Algebra.IsSeparable.trans`; Mathlib `Ideal.Quotient.algebraOfLiesOver`; [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
 
@@ -14997,7 +15017,7 @@ For the exact form, gaussSum_mulShift_eq shows that ζ_p↦ζ_p^b, for b∈F_p×
 
 ### 7.30 Symplectic Artin root signs
 
-For a global actual character χ set W∞(χ)=∏_(v infinite)i^(−n₋(χ,v)), with n₋ the multiplicity of the negative conjugation eigenspace, and define the algebraic root factor W(χ)=(Nfχ)¹ᐟ²/(τ(χ)W∞(χ)), using the positive real square root. This equals the Artin functional-equation root factor by Fröhlich (1976), (2.4)–(2.5). Define W_G on irreducibles to be this value on symplectic irreducibles and 1 on all others, and extend multiplicatively to R_G.
+For a global actual character χ set W∞(χ)=∏_(v infinite)i^(−n₋(χ,v)), with n₋ the multiplicity of the negative conjugation eigenspace, and define the algebraic root factor W(χ)=(Nfχ)¹ᐟ²/(τ(χ)W∞(χ)), using the positive real square root. Its identification with the Artin functional-equation root factor is the analytic comparison below (Fröhlich (1976), (2.4)–(2.5)). Define W_G on irreducibles to be this value on symplectic irreducibles and 1 on all others, and extend multiplicatively to R_G.
 
 The supporting API comprises:
 
@@ -15008,7 +15028,7 @@ The supporting API comprises:
 
 (Albrecht Fröhlich, [Arithmetic and Galois module structure for tame extensions](#reference-f76), §2 (2.2)–(2.5), p.390; §8 Theorem9, p.410; §9 (9.1), p.412.) The root factor uses the inverse Gauss sum and inverse infinite factor; tame symplectic root numbers are rational signs.
 
-To prove this, import the Frobenius–Schur classification, local conductors and conjugation eigenspaces. The inverse Gauss formula fixes the convention without a complex-conjugation guess. The local/global symplectic duality identities give signs and tame Galois invariance via [Tame symplectic root factors are equivariant signs](#layer-7-topic-111). Comparison with analytic Artin functional equations is the explicit [the comparison with Artin functional equations](#layer-7-topic-30) boundary; the algebraic definition does not depend on having formalized Artin L-functions.
+To prove this, import the Frobenius–Schur classification, local conductors and conjugation eigenspaces. The inverse Gauss formula fixes the convention without a complex-conjugation guess. The local/global symplectic duality identities give signs and tame Galois invariance via [Tame symplectic root factors are equivariant signs](#layer-7-topic-111). Construct the analytic root carrier and its normalization adapters below before comparing it with this algebraic definition. The algebraic representative is defined by the Gauss formula independently of the analytic construction.
 
 **Checks.**
 
@@ -15017,9 +15037,27 @@ To prove this, import the Frobenius–Schur classification, local conductors and
 - For symplectic χ the formula W(χ)τ(χ)=(Nfχ)¹ᐟ²W∞(χ)⁻¹ fixes the sign convention.
 - For an odd-order group every irreducible is non-symplectic, so W_G is one.
 
-**Auxiliary proof target.** Separate the algebraic root-sign representative from identification with the analytic Artin root number in the functional equation. Require `algebraicRootSign_eq_analyticRootNumber` for symplectic virtual characters with the stated conductor and additive-character normalization. Fröhlich (1976), (2.4)–(2.5), p. 390, invokes the analytic comparison; a square-one algebraic representative does not establish it. The analytic comparison remains a local input to this roadmap, not an unnamed higher-tier prerequisite.
+**Analytic Artin root numbers.** For a finite Galois extension L/F of number fields and an actual complex character χ of its Galois group, construct `completedArtinLFunction` as the meromorphic completion of AA.2.4's arithmetic-Frobenius Artin function. Use Cχ = |disc F|^χ(1) Nfχ and the factor Cχ^(s/2). At each real place use Γ_R(s)^n₊ Γ_R(s+1)^n₋, with n₊ and n₋ the conjugation multiplicities, and at each complex place use Γ_C(s)^χ(1). Extend multiplicatively to virtual characters as meromorphic germs, retaining poles and zeros. Consume ArithmeticGaloisRepresentations §2.7's completed finite-image equation and analytic local constants, including `epsilonWeil`, and AL.0–AL.1's standard trace characters and self-dual measures.
 
-*Needs:* [Tame local Galois Gauss sums](#layer-7-topic-13); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 7 the frobenius schur indicator and realquaternionic type](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-7-the-frobenius-schur-indicator-and-realquaternionic-type); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
+Define `analyticArtinRootNumber χ` by the product of normalized analytic local epsilon factors at s=1/2, after the supplier's dual-character conversion from geometric to arithmetic Frobenius. Require `analyticArtinRootNumber_functionalEquation`: Λ(s,χ)=analyticArtinRootNumber(χ) Λ(1−s,χ̄), with the conductor-balanced completion above. Require `analyticArtinRootNumber_unique`: this scalar is determined by that equation, since the Artin function is a nonzero meromorphic germ (its Euler product is nonzero on Re s>1). The carrier and both assertions precede the algebraic comparison. Their analytic inputs are precisely ArithmeticGaloisRepresentations §2.7 (Tate's constants, Deligne–Langlands existence/uniqueness and Global inputs), AA.2.4 (finite-image meromorphic assembly), and AL.0–AL.1 (trace characters, self-dual measures and archimedean Tate factors).
+
+(Deligne, [Les constantes des équations fonctionnelles des fonctions L](#reference-deligne-local-constants-1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#reference-kudla-tate-2004), §3, Propositions3.5–3.8, pp.120–124, and §4, Corollary4.4, p.129.) These supply the finite-image functional equation, local-constant uniqueness and the rank-one archimedean normalization. Transport the additive character by its explicit scaling law, the self-dual measure by the corresponding modulus, and the conductor exponent including the different; no equality of differently normalized epsilon factors is presumed.
+
+**Checks.**
+
+- For χ=1 over Q, the completion is the completed zeta function and its root number is 1; its simple poles at 0 and 1 remain poles of meromorphic germs.
+- An unramified rank-one local character with conductor-zero additive character and volume(O_F)=1 has epsilon 1. At a real place the sign character has analytic epsilon i for the positive trace character, while the algebraic W∞-factor is i^(−1); the adapter retains this distinction.
+- Replacing ψ_v(x) by ψ_v(b_v x) changes the normalized local factor by the determinant character at b_v (with the matching reciprocity conversion). For b in F× the all-place product is unchanged by global reciprocity. The local factor alone need not be unchanged.
+
+**Auxiliary proof target.** Require `algebraicRootSign_eq_analyticRootNumber` for symplectic virtual characters of Gal(L/F), with τ from §7.13, the conductor Cχ above and W∞ from (2.3). Prove the rank-one comparison from the analytic Gauss formula with the explicit character, different and reciprocity conversions, then use the supplied local-constant uniqueness and Brauer induction to prove relation independence and the global comparison. Fröhlich (1976), (2.4)–(2.5), p.390, gives its normalization. The analytic carrier and functional equation are supplied by the preceding construction, while the algebraic sign definition uses its own Gauss formula.
+
+**Checks.**
+
+- For a symplectic χ, the comparison gives W(χ)τ(χ)=(Nfχ)^(1/2)W∞(χ)^(−1), with the positive square root, rather than its complex conjugate by fiat.
+- For virtual −χ, the root number, Gauss factor and infinite factor are inverted; every comparison is multiplicative on the virtual-character group.
+- For the zero character, Λ=1 and both root factors are 1, so uniqueness also applies at virtual rank zero.
+
+*Needs:* [Tame local Galois Gauss sums](#layer-7-topic-13); [TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants and completed finite-image equations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants); [TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 convergence factors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization); [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0 trace characters and self-dual measures](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#standard-additive-character); [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.1 analytic epsilon factors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#local-epsilon-gamma-factors); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 7 the frobenius schur indicator and realquaternionic type](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-7-the-frobenius-schur-indicator-and-realquaternionic-type); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
 
 <a id="layer-7-topic-31"></a>
 
@@ -15418,7 +15456,7 @@ To prove this, augmentation nilpotence modulo p gives I^N⊆pR[G], hence logarit
 
 ### 7.47 Integral-character twisting of determinant homomorphisms
 
-For an integral characteristic-zero character θ of a finite free G-stable Z_p-lattice, define (θ⋆f)(χ)=f(θχ). Twisting with the dual lattice preserves the matrix determinant subgroup Det(GL(R[G])) for every coefficient ring R; when R[G] is semilocal it preserves Det(R[G]×) by semilocal elimination. Chinburg–Pappas–Taylor uses the conjugate of the lattice character, so the dual is required for this convention. Restriction and induction satisfy the projection formula.
+For an integral characteristic-zero character θ of a finite free G-stable Z_p-lattice, define (θ⋆f)(χ)=f(θχ). For every commutative Z_p-algebra R with its specified scalar map, twisting with the dual lattice extended along Z_p → R preserves the matrix determinant subgroup Det(GL(R[G])); when R[G] is semilocal it preserves Det(R[G]×) by semilocal elimination. Chinburg–Pappas–Taylor uses the conjugate of the lattice character, so the dual is required for this convention. The proposed coefficient interface carries `[Algebra (PadicInt p) R]`; when using the character-valued determinant carrier, retain §7.28's characteristic-zero and splitting-field hypotheses, with a compatible map from R into the splitting field. Restriction and induction satisfy the projection formula.
 
 The supporting API comprises:
 
@@ -15429,7 +15467,7 @@ The supporting API comprises:
 
 (Ted Chinburg, Georgios Pappas and Martin J. Taylor, [K₁ of a p-adic group ring I. The determinantal image](#reference-cpt), §5a, Proposition5.2 and Ullom’s formula(5.1), p.27; Taylor (1981), §1, p.44, and §5, pp.52–53.) Integral lattice characters act on determinant images, with an explicit conjugate-character convention.
 
-To prove this, tensoring with the integral dual lattice gives a representation into finite matrices over R[G]. Taking character determinants proves preservation of the matrix determinant image. Only in the semilocal case apply [Semilocal elimination preserves the determinant image](#layer-7-topic-27) to replace this by a unit determinant. Mackey and Frobenius reciprocity give the projection formula.
+To prove this, extend the integral dual lattice to R using the specified Z_p-algebra map, then tensor to obtain a representation into finite matrices over R[G]. Taking character determinants proves preservation of the matrix determinant image. Only in the semilocal case apply [Semilocal elimination preserves the determinant image](#layer-7-topic-27) to replace this by a unit determinant. Mackey and Frobenius reciprocity give the projection formula.
 
 **Checks.**
 
@@ -15437,6 +15475,7 @@ To prove this, tensoring with the integral dual lattice gives a representation i
 - For a rank-m trivial lattice, θ⋆f=fᵐ.
 - An arbitrary rational virtual character without an integral lattice realization cannot be used as an integral-unit twisting construction.
 - A non-real one-dimensional lattice requires the dual lattice when translating Chinburg–Pappas–Taylor’s conjugate-character action to the stated formula.
+- p = 7, G = C₃ and θ(g) = ζ₃ ∈ Z₇: at the trivial character θ⋆Det(g) has value ζ₃. Determinants over Q[G] have rational trivial-character values, so no twisting-preservation assertion applies over Q without a scalar map for this lattice.
 
 *Needs:* [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); [Determinants indexed by virtual characters](#layer-7-topic-28); [Semilocal elimination preserves the determinant image](#layer-7-topic-27).
 
@@ -17052,7 +17091,7 @@ Let M/N be a tame Galois extension of number fields with group Γ, and 𝔐 a ma
 
 M/N tame Galois; 𝔐 ⊇ ℤΓ maximal.
 
-(M. J. Taylor, [On Fröhlich's conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Section 2 (printed p. 44).) The mathematical contract, with the conventions stated here; the proof is in Fröhlich's work, not in the sources read.
+(M. J. Taylor, [On Fröhlich's conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Section 2 (printed p. 44).) Taylor states kernel membership; prove it through [The Hom quotient is the actual maximal-order kernel](#layer-7-topic-106) and [The tame integer-ring class lies in the maximal-order kernel](#layer-7-topic-114).
 
 To prove this, fröhlich's proof (his paper J. reine angew. Math. 286 (1976) 380–440, Taylor's [F1], with Appendix 11.2 for the Hom-description; Taylor p. 44 states the membership without proof) runs through Fröhlich's Hom-description of Cl(ℤΓ) and the resolvend of a local normal integral basis generator; it is decomposed in [The Hom quotient is the actual maximal-order kernel](#layer-7-topic-106) and [The tame integer-ring class lies in the maximal-order kernel](#layer-7-topic-114), with the boundary the virtual-character local-constant laws below.
 
@@ -17320,6 +17359,14 @@ The scope boundaries give the direction of each cross-roadmap import. In particu
 ## References
 
 Page numbers in the layers refer to the edition or preprint version named below; a PDF page number is stated separately when it differs from printed pagination.
+
+<a id="reference-deligne-local-constants-1973"></a>
+
+- **Pierre Deligne**. [Les constantes des équations fonctionnelles des fonctions L](https://publications.ias.edu/sites/default/files/Number20.pdf). In Modular Functions of One Variable II, Lecture Notes in Mathematics 349 (1973), pp.501–597; printed pagination of the author's scan.
+
+<a id="reference-kudla-tate-2004"></a>
+
+- **Stephen S. Kudla**. [Tate's Thesis](https://platoeinsyu.github.io/assets/pdf/Articles/Tate/TatesThesis.pdf). Chapter 6 of An Introduction to the Langlands Program (2004), pp.109–131; printed pagination.
 
 <a id="reference-cpt"></a>
 
