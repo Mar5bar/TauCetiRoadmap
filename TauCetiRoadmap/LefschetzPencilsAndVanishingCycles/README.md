@@ -26,7 +26,9 @@ This roadmap owns:
    It also owns the curve/Jacobian cohomology trace adapter and étale Gauss–Bonnet.
    Generic site/derived functors, compactification geometry, general complex comparison,
    scheme Frobenius, abelian torsion/Tate traces and cycle-class definitions are supplied
-   by the contracts below.
+   by the contracts below. These shared finite-coefficient, adic and trace results have
+   their single owner in LPV.F; downstream point-counting and weight developments consume
+   these declarations on the full domains specified here.
 
 1. **Nearby and vanishing cycles over a henselian trait** (Layer LPV.0): the topos `X_s ×_s S` and its Galois
    description, the functors `Ψ_η`, `Ψ`, `RΨ`, `RΦ`, the specialization triangle and the variation, functoriality under
@@ -52,6 +54,10 @@ It uses, and does not redevelop:
   SchemeAndStackFoundations §§2.1–2.2, 2.5, 2.7, 2.9–2.11, 2.15 and 2.17. The additional étale,
   duality and perverse prerequisites used here are targets of Layer LPV.F, which specializes
   ClassicalAdicEtaleCohomology §§0.1–0.4 and extends its algebraic APIs of §§0.7–0.11;
+- the shared fs log schemes, charts, characteristic monoids, morphism predicates and log
+  regularity of CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4, and the
+  logarithmic differential module of §CR.5.1; 0.10 builds purity-specific equivariant
+  modifications, actions and quotients on those objects;
 - the logarithm of a unipotent automorphism, Grothendieck's monodromy theorem for local fields, and the monodromy
   filtration of a nilpotent endomorphism of a finite-dimensional vector space with its tensor and dual rules from
   ArithmeticGaloisRepresentations Layer 2 (§§2.4, 2.6); function-field Chebotarev from its Layer 5 (§5.13);
@@ -195,6 +201,14 @@ It leaves to other roadmaps:
   Clebsch–Gordan), RootSystems Layer 5 (the Cartan–Killing classification, whose simply laced types are A, D and E).
 - **Completed IntegralLattices** Layer 1 and **Completed HodgeStructures** layer L2 (mixed Hodge structures and
   strictness).
+- **CrystallineCohomology** §§CR.5:log-algebra.1–CR.5:log-algebra.4: monoids,
+  étale log structures and fs charts, log fibre products, strict/exact/integral/Kummer
+  morphisms, log smooth/log étale predicates and Kato's chart criterion, divisorial log
+  structures and log regularity. From §CR.5.1 use only the logarithmic differential
+  module and its universal property. These log-algebra sections and that differential
+  construction are independent of crystalline cohomology, Cartier and Hyodo–Kato theory.
+  Section 0.10 extends this shared carrier with log blow-ups, finite-group actions,
+  quotients, equivariant alteration and purity descent.
 - **ClassicalAdicEtaleCohomology** §§0.1–0.4 (`ClassicalDerived.enhancedCategory`,
   `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`,
   `ClassicalDerived.functorCoherence`, `ClassicalDerived.derivedCompletion`) on scheme étale sites; §§0.7–0.11
@@ -1452,9 +1466,10 @@ p. 210; Caraiani–Scholze, §4.6, p. 63.) *Needs:* 0.1, 0.8; ClassicalAdicEtale
 
 ### 0.10 Absolute cohomological purity
 
-The prerequisite build order is the pointwise reduction, log charts, Galois alteration,
+The prerequisite build order is the pointwise reduction, shared log charts and actions, Galois alteration,
 equivariant resolution, regular log resolution, log-smooth purity and prime-to-ℓ descent below.
 All purity statements carry invertible coefficients; none assumes absolute purity of 0.10.
+The log objects throughout this section are those of the shared CrystallineCohomology contract.
 
 **Theorem (pointwise reduction).** Define `VanishingCycles.PointwisePure X Λ` by requiring
 `Λ(−d)[−2d]→i_x^!Λ` to be an isomorphism at every regular local point of dimension `d`.
@@ -1473,30 +1488,38 @@ ModularCurves Layer 4D (completion).
 - Reduction `ℤ/15→ℤ/3×ℤ/5` tests both prime factors; purity at only one factor does not
   establish purity with `ℤ/15` coefficients.
 
-**Construction (logarithmic charts).** Build `VanishingCycles.FSLogScheme`, fine saturated
-monoid charts, log differentials, log smooth and log étale morphisms, log regularity, log
-blow-ups, finite-group quotients, tame and very tame actions. The structure map from a sheaf
-of monoids to the multiplicative structure sheaf identifies its units with `O^×`; charts are
-étale local and their associated log structures descend. Prove the log-smooth chart criterion:
-an injective map of torsion-free fs monoids has group-cokernel torsion of invertible order and
-an étale map to the corresponding monoid-algebra fibre product. Fix the canonical trait chart
-`ℕ→R`, `1↦π`, and the boundary log structure. Very tame stabilizers act trivially on the
-characteristic monoid and the corresponding stratum. (ILO VI §§1–3; XVI 3.6.1–3.6.4.)
-*Needs:* SchemeAndStackFoundations §§0.8, 1.1; Mathlib monoids, monoid algebras and sheaves.
+**Construction (purity-specific logarithmic actions and quotients).** Use the fs log
+schemes, charts, log differentials, log smooth/log étale predicates and log regularity
+supplied by CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4 and the
+logarithmic-differential construction of §CR.5.1. Use its canonical trait chart
+`ℕ→R`, `1↦π`, and divisorial boundary structures. On this carrier build log blow-ups
+and finite-group actions. An action is tame when every geometric point stabilizer has
+order invertible in its residue field, and very tame when in addition each stabilizer
+acts trivially on the characteristic monoid and on the corresponding stratum.
+Prove `VanishingCycles.veryTameQuotient`: for a noetherian fs log-regular scheme with an
+admissible, generically free, very tame finite-group action, the quotient exists as an
+fs log-regular scheme and the quotient map is a Kummer étale cover. Admissibility means
+that each orbit is contained in an affine open. The quotient log structure and log
+modifications use the shared log sheaves and fs fibre products.
+(ILO VI §§1–3, especially Definition 3.1 and Theorem 3.2; XVI 3.6.1–3.6.4.)
+*Needs:* the specified CrystallineCohomology sections; SchemeAndStackFoundations
+§§0.8, 1.1 (descent and quotients); StableReduction Layer 4 (blow-ups).
 
 **Checks.**
 
-- A smooth scheme with trivial log structure has ordinary smoothness as log smoothness.
-- `xy=π` has chart `ℕ→ℕ²`, `1↦(1,1)` and is log smooth over the canonical trait.
-- For `π=u^e`, the trait chart `ℕ→ℕ`, `1↦e` is log étale when `e` is invertible; the
-  same assertion fails for wild `e` divisible by the residue characteristic.
+- With trivial group on a regular scheme with normal-crossings boundary, the quotient
+  is the same shared fs log scheme and the identity is Kummer étale.
+- For `π=u^e`, with `e` prime to the residue characteristic, the cyclic action on the
+  canonical log trait is very tame; its quotient has the root chart `1↦e` and is log regular.
+- In residue characteristic dividing `e`, the root chart remains Kummer but is not
+  log étale, and its wild stabilizer fails the tame hypothesis.
 
 **Theorem (Galois semistable alteration).** For a normal integral proper flat finite-type model of a geometrically
 integral smooth variety over a strictly henselian trait, construct
 `VanishingCycles.galoisSemistableAlteration`: a finite extension `S'→S`, a finite group `G`
 and a projective regular connected semistable `X'→X`, generically étale Galois with group `G`,
-with compatible `G`-action over `S'→S`. Apply to a projective closure and restrict to a
-quasi-projective open when needed. (ILO XVI §3.7, pp. 254–255; Vidal 2004b, Proposition 4.4.1,
+with compatible `G`-action over `S'→S` on the shared fs log model. Apply to a projective
+closure and restrict to a quasi-projective open when needed. (ILO XVI §3.7, pp. 254–255; Vidal 2004b, Proposition 4.4.1,
 as cited there.) *Needs:* SchemeAndStackFoundations §§0.21, 4.19–4.20; the log charts above.
 
 **Checks.**
@@ -1629,7 +1652,8 @@ Mathlib (henselian and discrete valuation rings, valuation inertia groups, small
 categories); Tau Ceti (`TauCeti.genericFiber`, `TauCeti.specialFiber`); Layer LPV.F
 (F.0; F.2–F.3; F.2; F.4); F.1–F.2, F.5, F.6, F.4 and F.9; F.1 and F.4; SchemeAndStackFoundations Layers 0 and 2; TauCetiRoadmap ModularCurves Layer 4D; ClassicalAdicEtaleCohomology Layer
 4; ArithmeticGaloisRepresentations Layer 2 and LocalFieldsRamification Layer 4 (comparison of the tame
-character only).
+character only); CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4 and
+the logarithmic-differential construction of §CR.5.1 (0.10).
 
 ## Layer LPV.1: Inertia, variation and the monodromy operator
 
@@ -2609,6 +2633,41 @@ above, 2.3, 2.5, 0.5, 0.6; F.6.
 
 - For the persistent cone `xy=0` over the trait, specialization is an isomorphism and every vanishing sheaf is zero.
 
+**Theorem (coefficient-compatible local variation).** For a standard quadratic degeneration
+with smooth generic fibre and `n>0` over a strictly henselian trait, and each prime `ℓ`
+invertible on the trait, construct `VanishingCycles.localVariation_coefficientReduction`.
+`Suggested.lean` prototypes cancellation over `ℤ₂`, its failure modulo two/four and
+invertibility of two modulo three. The middle nearby stalk and costalk lines at levels
+`ℤ/ℓ^ν` have compatible geometrically oriented generators, trace pairings and surjective reduction maps. Their derived adic
+realizations are free rank-one `ℤ_ℓ` modules with the twists of 2.3. Prove that the actual
+maps `Var(σ)` of 0.4, the forget-supports map and the local restriction/Gysin maps commute
+with derived coefficient reduction and recover those finite-level maps. Fix one geometric
+sign across the levels and prime factors, as in the local description below.
+The relevant twisted Hom module between these two local lines is free rank one, hence
+multiplication by two is injective on it, including at `ℓ=2`. For `n=0` use the rank-two
+nearby stalk/costalk and rank-one vanishing quotient, not two middle nearby lines.
+
+*Proof sketch.* The affine-quadric calculations of 2.3 and the stalk/costalk comparisons
+above give free cohomology and compatible generators at every level. Apply the derived
+coefficient exchange maps to the specialization triangle and to the construction of
+`Var(σ)` itself; supports, cup product and trace give compatibility of the local dualities.
+The surjective towers of these local lines have no higher inverse-limit term; F.4 and
+0.8 identify their normalized adic realizations and reductions. Cancellation takes place
+in their torsion-free integral Hom module before reduction, never in a finite ring or
+in arbitrary global cohomology. (SGA 7 II, Exposé XII 3.5–3.7; XIII 1.4.3 and 2.1.8;
+XV 2.2.5–2.2.7, pp. 20–23; Illusie 2021 §6.3, pp. 104–105, for the compatible
+semistable maps.) *Needs:* F.4, F.6, 0.4, 0.8, 2.3, the nearby-cycle theorem above.
+
+**Checks.**
+
+- In `ℤ/2`, doubling annihilates both `0` and `1`; in `ℤ/4`, `0` and `2` have the
+  same double. Multiplication by two on the integral local Hom module is injective.
+- For `xy=π` in residue characteristic different from two, the coefficient `−1` reduces
+  to `1` modulo two and `3` modulo four. Restriction after `π=s²` sees zero modulo two
+  and `2` modulo four, so it cannot itself recover the original finite-level coefficient.
+- In residue characteristic two with `ℤ/3` coefficients, two is a unit and cancellation
+  is valid at that level; no `ℤ/6` nearby-cycle theory is used.
+
 **Theorem (variation in a standard degeneration).** For a standard quadratic degeneration with smooth
 generic fibre over a strictly henselian trait, choose the middle costalk generator `δ` and stalk
 generator `δ'` compatibly with the orientation of the affine quadric, normalized by `(δ', δ) = 1`.
@@ -2616,8 +2675,11 @@ generator `δ'` compatibly with the orientation of the affine quadric, normalize
 - (`n = 2m > 0`.) Both have twist `m`, the forget-supports map sends `δ` to `(−1)^m · 2δ'`, both transform by the
   quadratic character `ε` of the even Clifford centre of the rank-`n + 2` homogenized form
   defining the smooth projective generic quadric `X_{1,η}`, and
-  `Var(σ)(a) = (−1)^m ((ε(σ) − 1)/2) (a, δ) δ`, the integral coefficient being computed with coefficients
-  `ℤ/2k` before reduction to `Λ = ℤ/k`.
+  `Var(σ)(a) = (−1)^m ((ε(σ) − 1)/2) (a, δ) δ`, where the half is the integer
+  `0` or `−1` reduced to the coefficient ring. Compute it in
+  `ℤ/k` directly when `k` is odd (two is a unit). When `k` has a 2-primary part,
+  the residue characteristic is different from two: compute on the compatible local
+  integral lines above, cancel there, and reduce to `ℤ/k` using the same geometric sign.
 - (`n = 2m + 1`.) The costalk twist is `m`, the stalk twist `m + 1`, the forget-supports map is zero, and
   inertia acts trivially on these cohomology groups although the variation can be nonzero:
   `Var(σ)(δ') = λ(σ)δ` for an additive character `λ : I → Λ(1)`, which is a scalar `λ_X` times the Kummer
@@ -2627,11 +2689,15 @@ generator `δ'` compatibly with the orientation of the affine quadric, normalize
 The source writes `D(σ)` for `Var(σ)` in (2.2.5.9). *Proof sketch.* Even case: 2.3 gives `δ`, `δ'` and
 `φ(δ) = (−1)^m · 2δ'`; inertia acts on the two families of generatrices of `X_{1,η̄}` through the Clifford centre,
 hence by `ε` on `δ = cl(α) − cl(β)` and on `δ'`; `Var(σ)(a) = c(σ)(a, δ)δ` because the target is the line spanned
-by `δ`, and `σ = 1 + q ∘ Var(σ)` (0.4) with `q(δ) = φ(δ)` gives `ε(σ)δ' = (1 + 2c(σ)(−1)^m)δ'`, solved in `ℤ/2k`.
+by `δ`, and `σ = 1 + q ∘ Var(σ)` (0.4) with `q(δ) = φ(δ)` gives `ε(σ)δ' = (1 + 2c(σ)(−1)^m)δ'`. If `k` is odd solve in `ℤ/k`.
+If it has a 2-primary part use coefficient-compatible local variation above: solve on
+`ℤ₂` by injectivity of multiplication by two on the local Hom line, and reduce; the
+odd-primary factors allow division already. All coefficient orders used are invertible
+on the trait.
 Odd case: the trivial action follows from 2.3 and the smoothness of `Y/S`; `λ` is additive by the cocycle rule
 of 0.4, and every homomorphism from tame inertia to `Λ(1)` is a multiple of the Kummer character. (SGA 7 II,
 Exposé XV, 2.2.5 D, (2.2.5.3)–(2.2.5.6), p. 21; 2.2.5 E–F, (2.2.5.9)–(2.2.5.10), pp. 21–22.) *Needs:* the
-nearby-cycle theorem above, 2.2, 2.3, 0.1, 0.4.
+nearby-cycle and coefficient-compatible local variation theorems above, 2.2, 2.3, 0.1, 0.4.
 
 **Checks.**
 
@@ -2746,14 +2812,22 @@ gives a regular scheme whose special fibre is reduced with two smooth components
 the cone `Q = 0` and the exceptional divisor (the smooth quadric `Q(x) = s²` of dimension `n` in `P^{n+1}`),
 meeting transversally in the smooth quadric `Q = 0` of dimension `n − 1`. The two-component complex of 1.9
 identifies `N`; restriction and Gysin maps on the exceptional quadric and its primitive classes (2.3) give the
-coefficient `(−1)^{m+1}`; the factor two of the base change is absorbed by `t_ℓ|_{I'} = 2t'_ℓ` (0.1); one returns
-to the original family through the dominant-trait exchange (0.6) and the naturality of `can` and `var` (1.7).
+coefficient after multiplying by the ramification index two. Use the coefficient-compatible
+actual local variation maps of 2.6, not only rational normalized `var`. For `ℓ=2` (hence
+residue characteristic different from two), write the original integral variation as
+`λ_X t₂(σ)` on the local Hom line, as in 2.6, and use `t₂|_{I'}=2t'₂` (0.1).
+The semistable comparison identifies twice `λ_X` with twice `(−1)^{m+1}` in that
+free `ℤ₂` module. Cancel there and then reduce compatibly to every `ℤ/2^ν`.
+For odd `ℓ` multiplication by two is a unit, including in residue characteristic two.
+Combine the primary factors with the common geometric sign. The dominant-trait exchange
+(0.6) and naturality of the actual variation (0.4) preserve these maps; arbitrary global
+integral cohomology need not be torsion-free.
 Illusie's erratum corrects the concentration range used in the local calculation (`|i| > 1`, not `|i| > −1`).
 The purity needed for the regular pairs over the trait is 0.10 (in the semistable case it is due to
 Rapoport–Zink, Illusie 2021, §6.3). The original proof of SGA 7 XV 3.3 is transcendental: it lifts to
 characteristic zero and compares with Betti nearby cycles; the comparison of 2.8 checks the signs. (Illusie 2021, §6.1, pp. 103–104,
 and §6.3, pp. 104–105; Illusie 2002 erratum, correcting p. 251, line 18; SGA 7 II, Exposé XV, 3.3.2–3.3.6,
-pp. 26–30.) *Needs:* 0.4, 0.6, 0.10, 1.7, 1.9, 2.3, 2.4, 2.6; 0.1 (Kummer and tame characters);
+pp. 26–30.) *Needs:* 0.4, 0.6, 0.10, 1.7, 1.9, 2.3, 2.4, 2.6 (coefficient-compatible local variation); 0.1 (Kummer and tame characters);
 F.6.
 
 **Checks.**
@@ -2761,6 +2835,12 @@ F.6.
 - The formula has the sign (−1)^{m+1} and the twist Λ(m); the quadratic character of the even case is replaced by the Kummer character ε_b of b.
 - The global formula requires properness; the case δ = 0 is the direct-image theorem of 2.8.
 
+- For `xy=π`, residue characteristic different from two and modulus two/four, the
+  coefficients are `1`/`3`; the doubled comparison distinguishes neither `0` from `1`
+  modulo two nor `1` from `3` modulo four. The integral local lift gives `−1` at both levels.
+- For `xy=π` in residue characteristic two and odd modulus `k`, the coefficient is
+  `−1` modulo `k`; two is invertible in `ℤ/k` and no coefficient order divisible by the
+  residue characteristic enters the argument.
 - For `xy=π²`, the odd-dimensional variation is `−2t_ℓ(σ)(·,δ)δ`; thickness two detects the valuation factor.
 
 ### 2.8 The Picard–Lefschetz formula for a proper family
@@ -3132,7 +3212,9 @@ geometric generic point of `D_(s)` transports the local vanishing cycle of 2.7�
 path changes it by an element of `π_1(U, u)`. The **vanishing subspace** `LefschetzPencil.vanishingSubspace`
 `E ⊂ H^n(X_u, ℚ_ℓ)` is the span of all transports `g δ_s` (`g ∈ π_1(U, u)`, `s ∈ S`). It does not depend on the paths
 and is `π_1(U, u)`-stable; only `E`, not the individual oriented vectors, is path independent. For suitable
-paths `E` is already spanned by the `δ_s`, `s ∈ S`, which Layer LPV.5 proves. An element of the inertia at `s` acts on `H^n(X_u)` by
+paths `E` is already spanned by the `δ_s`, `s ∈ S`, when `n` is odd or `p ≠ 2` (5.3).
+In the characteristic-two even branch retain the span of all transports; a single vector
+per singular value need not span it. An element of the inertia at `s` acts on `H^n(X_u)` by
 `x ↦ x + (−1)^{m+1} t_ℓ(σ)(x, δ_s)δ_s` (`n` odd), and by the reflection in `δ_s` when `ε_s(σ) = −1` (`n` even), using the possibly wild character
 of 2.7 when `p=2`.
 
@@ -3154,21 +3236,30 @@ F.0 and F.2–F.3 (paths and transport).
 - `LefschetzPencil.vanishingSubspace_eq_bot_of_no_singular_fibre`: If S = ∅ (a line in P²) then E = 0.
 - `LefschetzPencil.vanishingSubspace_quadric_surface`: Quadric-surface pencil: |S| = 2 but each δ_s lies in H^1 of a conic, which is 0, so E = 0 (case (b)).
 - `LefschetzPencil.vanishingSubspace_conic`: n = 0, X a smooth conic in P², p ≠ 2, A a general point: X_u is two points, |S| = 2 (the tangents from A), δ_s = ±(e₁ − e₂) for both s, E = ℚ_ℓ(e₁ − e₂) and E^⊥ = ℚ_ℓ(e₁ + e₂).
+- `LefschetzPencil.wild_twisted_cubic`: in characteristic two the basepoint-free pencil
+  `[s:t]↦[s³+t³:st²]` on the twisted cubic has one singular value, infinity. For finite
+  `a`, `x³+ax+1` is separable since its derivative is `x²+a` and substitution leaves `1`.
+  The infinity fibre is `2[∞]+[0]`; locally `v=u²/(1+u³)` has an ordinary double point.
+  The connected degree-three cover has transitive monodromy and inertia a transposition,
+  hence image `S₃`. For odd `ℓ`, all transports of `e₁−e₂` span the two-dimensional
+  sum-zero plane in `ℚ_ℓ³`; one vector at the sole singular value cannot span `E`.
 - `LefschetzPencil.vanishingCycle_depends_on_path`: For the shear ρ(g)(x, y) = (x + gy, y) on ℚ², δ = (0, 1) and g = 1, the transport gδ = (1, 1) is neither δ nor −δ: individual vanishing cycles depend on the path, while their span does not.
 
 ### 4.3 The fixed space of the local transvections
 
 **Lemma.** Let `V` be a finite-dimensional vector space over a field `K` with a symmetric or alternating
-bilinear form `( , )`, `(δ_s)_{s∈S}` a finite family in `V`, `E` its span, and `T_s(x) = x + c_s(x, δ_s)δ_s` with
+bilinear form `( , )`, `(δ_s)_{s∈S}` an arbitrary family in `V`, `E` its span, and `T_s(x) = x + c_s(x, δ_s)δ_s` with
 `c_s ∈ K^×` (Mathlib's `LinearMap.transvection` of the functional `c_s(·, δ_s)` and the vector `δ_s`: a transvection
 when `(δ_s, δ_s) = 0`, a reflection when `c_s(δ_s, δ_s) = −2`). Then `⋂_s Fix(T_s) = E^⊥`. If `δ_s = 0` then `T_s = id`
-and `δ_s` contributes nothing to `E`. State it as `LefschetzPencil.fixedSpace_localTransvections`.
+and `δ_s` contributes nothing to `E`. Arbitrary indexing permits the full transported
+orbit of 4.2, including the wild branch. State it as `LefschetzPencil.fixedSpace_localTransvections`.
 *Proof sketch.* `T_s x = x` iff `c_s(x, δ_s)δ_s = 0` (Mathlib `LinearEquiv.mem_fixedSubmodule_transvection_iff` for
 an isotropic `δ_s`, the same computation for a reflection), iff `(x, δ_s) = 0` when `δ_s ≠ 0`; intersecting gives
 `E^⊥` (Mathlib `LinearMap.BilinForm.orthogonal` of the span). (Weil I, §5, Proposition (5.3), p. 290.) *Needs:*
 Mathlib `LinearMap.transvection`, `LinearEquiv.transvection`,
 `LinearEquiv.mem_fixedSubmodule_transvection_iff`, `LinearMap.BilinForm.orthogonal`. *Lean:* `Suggested.lean` declares
-the operator `LefschetzPencil.localTransvection B c δ` and the lemma, with the reflection check and the `A₂` trace check
+the operator `LefschetzPencil.localTransvection B c δ` and the theorem for arbitrary indexing,
+with the transported three-point span and invariant-line checks, the reflection check and the `A₂` trace check
 of 5.10 as examples.
 
 **Checks.**
@@ -3343,9 +3434,46 @@ IG.1; Stacks Project, Lemma 0EYG (Abhyankar's lemma).
 - The quadric-surface pencil: both vanishing cycles are 0, consistent with the rule that one zero vanishing cycle forces all to vanish.
 - For a tame Lefschetz pencil of plane cubics, every nodal vanishing cycle is nonzero and conjugate up to sign, even without an additional general-line hypothesis.
 
-### 5.3 Generation by the local transvections
+### 5.3 Boundary inertia and generation by the local transvections
 
-**Theorem.** For a suitable choice of paths, the image of `π_1(U, u)` in `GL(H^n(X_u, ℚ_ℓ))` is topologically generated
+**Theorem (all-characteristic normal generation).** Let `k` be algebraically closed,
+`S⊂ℙ¹_k` a finite set of closed points, `U=ℙ¹_k−S`, and `u` a geometric point of `U`.
+Then `π₁(U,u)` is the closed normal subgroup generated by the boundary inertia images
+`I_s`, with their maps into `π₁(U,u)` chosen using any paths. For any continuous representation on a finite-dimensional
+`ℚ_ℓ`-space, with compact image `H=ρ(π₁(U,u))`, prove
+`LefschetzPencil.boundaryInertia_imageGeneration`:
+
+```text
+H = closure ⟨ g ρ(I_s) g⁻¹ : s∈S, g∈H ⟩.
+```
+
+No tameness or pencil genericity is required. For a Lefschetz pencil, 2.7 identifies
+these conjugates with the local operators for every transported vanishing cycle. Thus
+`E^⊥=H^n(X_u,ℚ_ℓ)^{π₁(U,u)}` by 4.3, and the induced image on the radical quotient
+is generated in the same way. This asserts normal generation by inertia subgroups;
+it does not select one generating element per puncture.
+*Proof sketch.* A finite quotient killing every boundary inertia gives a finite étale
+cover of `U` unramified at the missing points. Normalization extends it to a finite étale
+cover of `ℙ¹_k`, which is trivial by SchemeAndStackFoundations §3.2
+(Riemann–Hurwitz, also used in 4.1). Finite quotients detect a
+closed normal subgroup of a profinite group. Apply the continuous surjection to `H`
+and use compactness to identify its quotient by the closed normal closure. Intersect
+the fixed spaces of all transported local operators to obtain the invariant-space equality.
+(Weil II 4.2.4–4.2.5, p. 220; Stacks Project Proposition 0BQM, unramified extensions.)
+*Needs:* F.0 (finite-cover Galois categories and paths), 0.1 (boundary-trait inertia);
+SchemeAndStackFoundations §3.2
+(`scheme_riemann_hurwitz`); 2.7 and 4.2–4.4 for the pencil application.
+
+**Checks.**
+
+- For `S=∅`, every finite cover is unramified everywhere, so both `π₁(ℙ¹_k)` and `H` are trivial.
+- For the characteristic-two twisted-cubic pencil of 4.2, inertia has image a single
+  transposition; its conjugates generate `S₃`, while one chosen transposition generates only `C₂`.
+- In that example the transported roots span the sum-zero plane and their common
+  orthogonal is the diagonal line, exactly the invariants of the permutation representation.
+
+**Theorem (tame generation by chosen elements).** Assume `n` odd or `p ≠ 2`.
+For a suitable choice of paths, the image of `π_1(U, u)` in `GL(H^n(X_u, ℚ_ℓ))` is topologically generated
 by the local monodromies `T_s`, `s ∈ S`, with `T_s x = x ± (x, δ_s)δ_s` for a generator of the inertia at `s` (for `n` odd, one
 with `t_ℓ(γ_s)` a chosen generator of `ℤ_ℓ(1)`; the sign is that of 2.8). Consequently `E = span(δ_s : s ∈ S)`,
 `E^⊥ = H^n(X_u, ℚ_ℓ)^{π_1(U, u)}` (the common fixed space of the local operators of 4.3 is the full invariant space),
@@ -3510,29 +3638,59 @@ F.1–F.2.
 - In characteristic two a conic pencil with axis off the conic and its nucleus has one ordinary
   double critical fibre; its two-point local system has wild order-two monodromy and one vanishing line.
 - A pencil with no critical fibres has zero transported vanishing subspace.
+- The twisted-cubic pencil of 4.2 has one critical value and a two-dimensional
+  transported span; its three root lines form the `A₂` reflection orbit.
+
+**Theorem (generic wild irreducibility).** Under the characteristic-two even and generic-axis
+hypotheses above, `V=E/(E∩E^⊥)` is absolutely irreducible if nonzero. The full transported
+reflection orbit spans `V`, and its reflections topologically generate the compact image.
+*Proof sketch.* Apply all-characteristic normal generation (5.3) and the conjugacy above.
+A stable subspace pairing nontrivially with a transported root contains that root by the
+reflection formula, hence the whole orbit by conjugacy. A subspace orthogonal to every
+root is zero in the radical quotient. This is the argument of 5.4 with the transported
+orbit in place of one chosen cycle per puncture. (Weil II 4.2.5, 4.2.7–4.2.8,
+pp. 220–221; 4.4.2, p. 228.) *Needs:* 2.7, 4.2–4.4, 5.3 (normal generation),
+the generic conjugacy theorem above.
+
+**Checks.**
+
+- The characteristic-two conic pencil has a one-dimensional absolutely irreducible sign representation.
+- In the twisted-cubic example the sum-zero plane is the absolutely irreducible standard
+  `S₃` representation over `ℚ_ℓ`, including `ℓ=3`; the coefficient field has characteristic zero.
+- If `E=0`, the quotient is zero and is not called irreducible.
 
 ### 5.10 Even dimension: orthogonal monodromy
 
 **Theorem.** Let `n` be even, and assume that the vanishing space `E` is nondegenerate over `ℚ_ℓ` (an explicit
-hypothesis; in Weil II it is a consequence of hard Lefschetz) and that the conjugacy and generation statements of
-5.2–5.3 hold for the pencil. Then the compact geometric monodromy image in `O(E)(ℚ_ℓ)` is open or finite. The
+hypothesis; in Weil II it is a consequence of hard Lefschetz). Assume `p ≠ 2`, or, when
+`p=2`, that the pencil satisfies the generic-axis condition of 5.9. Use the full transported
+orbit of 4.2: its cycles are conjugate up to sign by 5.2 or 5.9, and their reflections
+topologically generate the compact image by all-characteristic normal generation (5.3).
+Then the compact geometric monodromy image in `O(E)(ℚ_ℓ)` is open or finite. The
 orthogonal group over `ℚ_ℓ`, its topology and its closedness are those of TauCetiRoadmap OrthogonalSpinGroups
-Layers 0 and 2. *Proof sketch.* The local reflections and conjugacy act on `E`; the alternative of Weil II
+Layers 0 and 2. *Proof sketch.* The reflections in the full transported orbit and its
+conjugacy act on `E`; the alternative of Weil II
 4.4.1–4.4.4 for the Lie algebra of the compact image (either zero or the full `𝔰𝔬(E)`, by irreducibility and the
 reflection argument) and 5.7 for the symmetric form give the dichotomy. (Weil II, 4.4.1–4.4.4, pp. 227–229.)
-*Needs:* 2.7, 5.2, 5.3, 5.7; TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2; TauCetiRoadmap
+*Needs:* 2.7, 4.2, 5.2 and 5.4 (tame conjugacy and irreducibility), or 5.9
+(generic wild conjugacy and irreducibility),
+5.3 (all-characteristic normal generation), 5.7; TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2; TauCetiRoadmap
 AdelicAlgebraicGroups Layer 4, §4.2.
 
 **Checks.**
 
 - For the conic pencil the one-dimensional orthogonal image is finite of order two.
+- In characteristic two the twisted-cubic pencil has nondegenerate sum-zero plane and
+  finite image `S₃`; all transported reflections, rather than its sole chosen inertia image, generate it.
 - The hyperbolic plane with matrix `[[0,1],[1,0]]` is isotropic and nondegenerate
   (determinant `−1`), so satisfies the form hypothesis; a space with nonzero radical fails it.
 
 - For the zero space, its orthogonal group and monodromy image are trivial, hence both finite and open.
 
 **Theorem (finite monodromy is a Weyl group of type A, D or E).** In the situation of 5.10, suppose `E ≠ 0` and the
-geometric monodromy group `M` is finite. Then, after changing the form by `(−1)^{n/2}`, the vanishing cycles `δ` have
+geometric monodromy group `M` is finite. Use every transported vanishing cycle in the
+reflection orbit, rather than one vector per singular value. Then, after changing the form
+by `(−1)^{n/2}`, the vanishing cycles `δ` have
 `(δ, δ) = 2`, their pairings are integers, they span a lattice `L` on which the form is positive definite, and they
 form an irreducible root system all of whose roots have the same length, so of type A, D or E, with `M` its Weyl
 group. *Proof sketch.* For the finite quotient `M`, the trace formula for all powers of Frobenius
@@ -3547,7 +3705,8 @@ makes `a` a square, so `(δ, δ') ∈ ℤ`. A rational basis of vanishing cycles
 IntegralLattices Layer 1); averaging a positive form over the finite group and absolute irreducibility make the
 invariant form positive definite; the roots form one conjugacy class, so the root system is irreducible and
 simply laced, of type A, D or E (TauCetiRoadmap RepresentationTheory/RootSystems Layer 5), with `M` generated by the
-reflections. (Weil II, 4.4.5–4.4.9 including Lemmas 4.4.6–4.4.7, pp. 229–231.) *Needs:* 5.10;
+reflections of the full transported orbit, by 5.3 in every characteristic. (Weil II,
+4.4.5–4.4.9 including Lemmas 4.4.6–4.4.7, pp. 229–231.) *Needs:* 5.10;
 ArithmeticGaloisRepresentations Layer 5, §5.13; F.10;
 TauCetiRoadmap Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap
 RepresentationTheory/CharacterTheory Layer 4 (rationality of character values); TauCetiRoadmap
@@ -3556,6 +3715,8 @@ RepresentationTheory/RootSystems Layer 5.
 **Checks.**
 
 - The conic-pencil root δ=(1,−1) gives A₁ and its order-two Weyl group.
+- In characteristic two the twisted-cubic pencil gives the six roots `±(e_i−e_j)`
+  of `A₂`, with Weyl group `S₃`, although the base has only one singular value.
 - Trace identity: for `δ' = δ`, `s_δ²` is the identity, of trace `dim E`, and `(δ, δ)² = 4`; for an `A₂` pair, `(δ, δ') = −1`
   in `E = span(δ, δ')`, `s_δ s_{δ'}` is a rotation of order three with trace `−1 = 2 − 4 + 1`. The constant `2` printed in
   Weil II would give `dim E + 2` and `1` in these two cases.
@@ -3577,7 +3738,12 @@ elements of a coset `gM` of the geometric monodromy group have no common eigenva
 Zariski closure of `M` as a symplectic group (5.8), an orthogonal group (5.10) or a Weyl group of type A, D or E
 (the finite case of 5.10), using `±Id` and Coxeter elements. (Weil II, Lemme 4.5.2 and its proof, Lemme 4.5.4, pp. 231–233.)
 *Needs:* nondegeneracy of `E(X_t)` in both parities, as above; 5.3, 5.8, 5.10;
-ArithmeticGaloisRepresentations Layer 5, §5.13.
+ArithmeticGaloisRepresentations Layer 5, §5.13; 5.9 and all-characteristic normal generation
+of 5.3 for the characteristic-two even branch. The no-common-eigenvalue input is Weil II
+4.5.4: a normalizer coset has no common eigenvalue for `Sp(E)`, `O(E)`, or the finite
+ADE reflection group obtained from the full transported orbit. In the finite case treat
+diagram automorphisms as well as Coxeter elements, including the `D_{2r}` outer involution
+and `D₄` triality cases of that lemma.
 
 Combined with the Frobenius-equivariant decomposition `H^n(X_t) = H^n(X) ⊕ E(X_t)` (Weil II, 4.3.9, a consequence of the
 hard Lefschetz theorem, used here as a hypothesis), the lemma gives Weil II, Théorème 4.5.1: `det(1 − FT, H^n(X))` is
@@ -3590,6 +3756,10 @@ group (Weil II, 4.3.10, p. 226), so the rational statements of this layer are no
 
 - A nonzero radical is fixed by geometric monodromy (5.3). If Frobenius has eigenvalue
   `γ` on it, `P=1−γT`, `Q=1` satisfies the divisibility premise; the coset argument requires nondegeneracy.
+- In the characteristic-two `A₂` example, every normalizer coset of the finite reflection
+  group has no common eigenvalue: after scalar multiplication its diagram automorphism
+  is trivial or opposition, reducing to identity and an order-three Coxeter element with
+  disjoint spectra. This tests the finite wild branch of the gcd argument.
 - `gcd_lemma_degree_zero`: for `P = 1` the conclusion is trivial; for `Q = P` the hypothesis holds and so does the
   conclusion.
 - `no_common_eigenvalue_symplectic`: `Id` and `−Id` in `Sp(V)` have no common eigenvalue, so a coset of a group whose
@@ -4653,14 +4823,11 @@ obstruction to extending a class from a fibre `Y_u` to `X` is a relative class o
 between pushforward and the axis, whose negative cohomology sheaves have finite support under the support bounds of 7b.9;
 so the obstruction vanishes when all its local obstructions vanish. *Proof sketch.* Truncate `L` to `H^0` and `H^1` of a sheaf
 without point-supported sections; a class killed at every `b ∈ B` defines a torsor extending over `P¹`, which is trivial
-because `π_1(P¹ − B)` is the closed normal subgroup generated by the inertia groups at `B`: the quotient by that
-subgroup classifies the finite étale covers of `P¹ − B` that are unramified at `B`, which extend by normalization to
-finite étale covers of `P¹_k`, and these are trivial (`π_1(P¹_k) = 1`, 4.1; InverseGaloisAndArithmeticFundamentalGroups
-Layer IG.1, §IG.1.2, for the tame quotients); apply this to the relative cone, using the support bounds
+by the all-characteristic boundary-inertia normal-generation theorem of 5.3; apply this to the relative cone, using the support bounds
 for the finite-support condition. The orthogonal decomposition of Weil II 4.3.9, which uses hard Lefschetz, is not used.
 (Weil II, Proposition 4.3.6 and §§4.3.7–4.3.8, pp. 224–226; proof of 6.2.11.) *Needs:* `hyperplaneIncidence` (7b.7), including its
 regular-sequence axis comparison for a sufficiently general line; 7b.9;
-F.1–F.2; InverseGaloisAndArithmeticFundamentalGroups Layer IG.1.
+F.1–F.2; 5.3 (all-characteristic normal generation).
 
 **Checks.**
 

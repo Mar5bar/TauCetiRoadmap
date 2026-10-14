@@ -305,6 +305,29 @@ example [CharP K 2] : quadraticSeries
 
 end Quadric
 
+namespace VanishingCycles
+
+/-- README 2.6 coefficient-compatible local variation: doubling loses a coefficient
+at modulus two, so the ramified comparison requires the integral local lift. -/
+example : (0 : ZMod 2) ≠ 1 ∧ 2 * (0 : ZMod 2) = 2 * (1 : ZMod 2) := by
+  decide
+
+/-- README 2.6 and 2.7: the distinct coefficients `1` and `-1` have the same double
+modulo four; the original node coefficient is the reduction of integral `-1`. -/
+example : (1 : ZMod 4) ≠ -1 ∧ 2 * (1 : ZMod 4) = 2 * (-1 : ZMod 4) := by
+  decide
+
+/-- README 2.6: cancellation is valid on an integral local scalar line over `ℤ₂`. -/
+example (c d : ℤ_[2]) (h : (2 : ℤ_[2]) * c = 2 * d) : c = d := by
+  exact mul_left_cancel₀ (by norm_num : (2 : ℤ_[2]) ≠ 0) h
+
+/-- README 2.6: in residue characteristic two the admissible odd coefficient ring
+`ℤ/3` permits division by two without introducing `ℤ/6`. -/
+example : IsUnit (2 : ZMod 3) := by
+  decide
+
+end VanishingCycles
+
 /-! ## Layer LPV.4: Global vanishing cycles -/
 
 namespace LefschetzPencil
@@ -317,8 +340,9 @@ def localTransvection (B : LinearMap.BilinForm K V) (c : K) (δ : V) : Module.En
   LinearMap.transvection (c • B.flip δ) δ
 
 /-- The common fixed space of the local operators is the orthogonal of the span of the vanishing
-cycles. README 4.3 (Weil I, Proposition 5.3). -/
-theorem fixedSpace_localTransvections {ι : Type*} [Finite ι] (B : LinearMap.BilinForm K V)
+cycles, for arbitrary indexing including a full transported orbit. README 4.3 and 5.3
+(Weil I, Proposition 5.3; Weil II 4.2.5). -/
+theorem fixedSpace_localTransvections {ι : Type*} (B : LinearMap.BilinForm K V)
     (hB : B.IsRefl) (c : ι → K) (hc : ∀ i, c i ≠ 0) (δ : ι → V) :
     (⨅ i, LinearMap.ker (localTransvection B (c i) (δ i) - 1)) =
       B.orthogonal (Submodule.span K (Set.range δ)) := by
@@ -328,6 +352,20 @@ theorem fixedSpace_localTransvections {ι : Type*} [Finite ι] (B : LinearMap.Bi
 `δ = (1, -1)` swaps the coordinates. -/
 example : localTransvection (Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ)) (-1) ![1, -1]
     ![1, 0] = ![0, 1] := by
+  sorry
+
+/-- README `wild_twisted_cubic`: the transported differences span a plane in the
+three-point permutation representation, while a single chosen difference spans a line. -/
+example : Module.finrank ℚ
+      (Submodule.span ℚ {(![1, -1, 0] : Fin 3 → ℚ), ![1, 0, -1]}) = 2 ∧
+    Module.finrank ℚ (Submodule.span ℚ {(![1, -1, 0] : Fin 3 → ℚ)}) = 1 := by
+  sorry
+
+/-- README 5.3: the orthogonal of the full transported root span is the diagonal
+invariant line of the three-point permutation representation. -/
+example : (Matrix.toBilin' (1 : Matrix (Fin 3) (Fin 3) ℚ)).orthogonal
+      (Submodule.span ℚ {(![1, -1, 0] : Fin 3 → ℚ), ![1, 0, -1]}) =
+    Submodule.span ℚ {(![1, 1, 1] : Fin 3 → ℚ)} := by
   sorry
 
 /-- The coordinate-swap reflection fixes exactly the diagonal line.
@@ -679,7 +717,7 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
   `intermediateExtension`, `etaleGaussBonnet`, `nearbyBettiCompatibility`,
   `frobeniusCohomology`, `curveEndomorphismTrace`, `etaleTraceFormulaFinite`,
   `etaleTraceFormula`, `pointCountTrace`,
-  `PointwisePure`, `purity_pointwiseReduction`, `FSLogScheme`, `galoisSemistableAlteration`,
+  `PointwisePure`, `purity_pointwiseReduction`, `veryTameQuotient`, `galoisSemistableAlteration`,
   `equivariantLogResolution`, `geometricMonodromy_traitDescent`, `purityOfBranchLocus`,
   `regularLogResolution`, `logSmooth_pointwisePure`,
   `pointwisePure_descent`, `RPhi_eq_zero_iff_locallyAcyclic`, `RPhi_node`, `RPhi_smooth`, `RPsi_stalk`,
@@ -705,7 +743,8 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
   `twoComponent_N_square`, `twoComponent_disjoint`, `twoComponent_node`,
   `twoComponent_not_sheaf_split`, `variation_left`, `variation_mul`, `variation_ne_sub_one`,
   `variation_of_phi_zero`, `variation_one`, `variation_picardLefschetz`, `variation_right`,
-  `variation_unique`, `variation_wellDefined`, `wild_inertia_ne_bot`.
+  `variation_unique`, `variation_wellDefined`, `localVariation_coefficientReduction`,
+  `wild_inertia_ne_bot`.
 * `PerfectComplex`: `lefschetzNumber`, `filteredTraceAdditivity` (enhanced perfect-complex
   traces; the finite-projective retract algebra is prototyped above).
 * `Quadric`: `canonical_iso`, `center_even_char_two`, `center_even_discriminant`,
@@ -716,7 +755,8 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
   `lagrangianIdempotent_eq_iff`, `lagrangianIdempotent_sum`, `node_isOrdinary`,
   `not_smoothQuadric_cone`, `smoothQuadric_dim_two`, `smoothQuadric_dim_zero`,
   `smoothQuadric_real_conic`, `smooth_point_not_quadratic`.
-* `LefschetzPencil`: `cubic_surface`, `dualVariety_conic`, `dualVariety_conic_char_two`,
+* `LefschetzPencil`: `boundaryInertia_imageGeneration`, `wild_twisted_cubic`, `cubic_surface`,
+  `dualVariety_conic`, `dualVariety_conic_char_two`,
   `dualVariety_isIrreducible`, `dualVariety_linear`, `dualVariety_projectiveSpace`,
   `hermitian_curve_not_lefschetz`, `incidence_smooth_off_dual`, `line_in_plane`,
   `localMonodromy_vanishingCycle`, `mem_dualVariety_iff`, `quadric_surface`,
