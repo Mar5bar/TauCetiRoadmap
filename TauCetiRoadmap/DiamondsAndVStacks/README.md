@@ -378,7 +378,7 @@ their stability API use `TauCetiRoadmap.AdicSpacesPartII.Topos` (AdicSpacesPartI
 | Generalizing quotient maps | AdicSpacesPartII R0.19.4 | `isQuotientMap_of_generalizingMap`. |
 | Spectral limits and finite-stage opens | AdicSpacesPartII R0.19.5–R0.19.8 | Spectrality and projections, detection of spectral and generalizing maps, Tate-pair spectra and finite-stage opens. |
 | Generic pro-objects and spectral spaces | AdicSpacesPartII R0.19.9 | `TauCetiRoadmap.AdicSpacesPartII.Pro`, its Hom and limit APIs, and the finite-T₀ spectral equivalence. |
-| Quasicompact and quasiseparated sheaves and morphisms | AdicSpacesPartII R0.19.10 | `TauCetiRoadmap.AdicSpacesPartII.Topos.IsQuasicompact`, `IsQuasiseparated`, `Hom.IsQuasicompact`, `Hom.IsQuasiseparated` and `IsAlgebraic`, including their stability API. |
+| Quasicompact and quasiseparated objects; algebraic topoi | AdicSpacesPartII R0.19.10 | `TauCetiRoadmap.AdicSpacesPartII.Topos.IsQuasicompact`, `IsQuasiseparated`, `Hom.IsQuasicompact`, `Hom.IsQuasiseparated` and `IsAlgebraic`, including their stability API. |
 
 The geometric predicates of the README-only targets are specialisations of relative predicates on a
 site, as follows; all names in the next two tables are suggested names. In `Suggested.lean`, total
@@ -10024,7 +10024,7 @@ and `CategoryTheory.Functor.IsFibered`; Tau Ceti `spaCompletionHomeomorph`.
 
 ## Downstream consumers
 
-The étale cohomology of diamonds consumes the whole roadmap: the spectral and coherent-topos
+DiamondEtaleCohomology consumes the whole roadmap: the spectral and coherent-topos
 foundations of D0, the disconnected covers of D1, the pro-étale and v-sites with their descent and
 acyclicity theorems of D2, the morphism classes and effective descent of D3, the quotients,
 underlying spaces and proper maps of D4, the spatial geometry and Hausdorff reduction of D5 and the
@@ -10036,9 +10036,14 @@ Fargues–Fontaine curve. PerfectoidTowers is a consumer, by subsection: its P8 
 D6.4 for quotients and spatial presentations, and its P9 uses D2.5, D2.9, D3.10 and D6.9, with P9.8
 and P9.12 the tower specialisations of D2.9 and of D6.9's seminormal comparison. D2.9 and D6.9 use
 the rigid pro-étale basis of PerfectoidSpaces P7.16. AdicEtaleGeometry A4.2–A4.5 and A4.7 and
-PerfectoidSpaces P6.15–P6.17 supply the presentations used in D6. The enhanced derived-sheaf roadmap
-consumes the ordinary profinite sheaves and ultrafilter stalks of D0 and the sites of D2 as the
-inputs to their infinity-valued and hypercomplete enhancements. The adic-coefficient roadmap
+PerfectoidSpaces P6.15–P6.17 supply the presentations used in D6. EnhancedDerivedSheaves
+consumes D0.22, “Ordinary sheaves on profinite sets”, including its ultrafilter stalks, and the sites
+of D2 as the inputs to their infinity-valued and hypercomplete enhancements. For both
+EnhancedDerivedSheaves and DiamondEtaleCohomology, the generic qcqs and algebraic-topos input is
+AdicSpacesPartII R0.19.10, “Quasicompact and quasiseparated objects; algebraic topoi”. The generic
+filtered-colimit cohomology theorem is SchemeAndStackFoundations §2.5's
+`cohomology_filtered_colimits`; D0.18, “Filtered colimits and cohomology on algebraic topoi”,
+supplies the algebraic-topos comparison with that theorem. The adic-coefficient roadmap
 compares the integral pre-adic diamondification of D6 with the adic-coefficient functors of schemes,
 while the relative Fargues–Fontaine roadmap may use the integral v-sheaves of D6. Smallness for
 integral symmetric powers requires an additional atlas theorem and is not supplied here.
