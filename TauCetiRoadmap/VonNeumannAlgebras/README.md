@@ -606,17 +606,17 @@ supremum of finite subsums. Prove normality and faithfulness; finite sums
 of the p_i have finite weight and increase to 1, giving semifiniteness.
 Develop the associated full left Hilbert algebra from `n_φ∩n_φ*`, its
 commutant Hilbert algebra and the dense Tomita algebra of analytic vectors.
-Conversely, from a left Hilbert algebra construct its commutant and full
-closure 𝔄'', prove `R_l(𝔄'')=R_l(𝔄)`, and construct the canonical
-n.s.f. weight on this left von Neumann algebra from the norm of its
-left-bounded vectors (Takesaki II VII.2.5). Identify its GNS full
-Hilbert algebra with 𝔄''; starting from a weight prove the two
-constructions recover that weight (VII.2.6). Establish the
-preclosedness and fullness arguments of VI.1 before using this converse.
 Establish closability of the involution, modular polar decomposition,
-and Gaussian regularization/common-core arguments. Prove Tomita's theorem
+the preclosedness and fullness arguments of VI.1, and Gaussian
+regularization/common-core arguments. Construct the commutant and full
+closure 𝔄'' of a left Hilbert algebra and prove `R_l(𝔄'')=R_l(𝔄)`.
+Prove Tomita's theorem
 for full left Hilbert algebras: the polar conjugation exchanges the left
 and right represented algebras, and Δ^(it) preserves the left algebra.
+Then construct the canonical n.s.f. weight on the left von Neumann
+algebra from the norm of its left-bounded vectors (Takesaki II VII.2.5).
+Identify its GNS full Hilbert algebra with 𝔄''; starting from a weight
+prove the two constructions recover that weight (VII.2.6).
 Prove the weight modular condition on n_φ∩n_φ*, with its integrable
 strip boundary functions and domain estimates, and uniqueness of σ^φ
 among normal weight-preserving flows satisfying it. Define the weight
@@ -723,7 +723,9 @@ of normal flows from L¹ Fourier annihilator ideals, the Connes spectrum as the
 intersection over nonzero invariant corners. Prove its closed-subgroup
 property for modular actions on factors and its identification with
 log(S(M)\{0}), including the zero-spectral alternative separating
-semifinite and type III factors. For an ITPFI product state, use eigenvalue lists with multiplicities.
+semifinite and type III factors. For the ITPFI and ratio-set development use countable products of
+finite matrix algebras with faithful normalized states, the separable-
+predual class used in classification. Use eigenvalue lists with multiplicities.
 Define its Araki–Woods asymptotic ratio set by disjoint finite coordinate
 blocks I_n, disjoint matched eigenvalue sublists K_n¹,K_n² in each block,
 and bijections f_n:K_n¹→K_n², with all denominator eigenvalues positive,
@@ -822,12 +824,16 @@ partial bijections with graph in R, and the full group [R] of conull
 automorphisms with graph in R, all modulo null sets. Construct composition,
 inverses, restrictions, pushforward of measures and transport of fiber
 functions `f^φ` by reindexing arrows. Give [R] its uniform metric
-`d(S,T)=μ{x:Sx≠Tx}` on the probability base and its closure in the
-nonsingular automorphism group; prove the closure and modulus-cocycle
-identities needed for orbit equivalence. FactorRigidity R6 specializes
+`d(S,T)=μ{x:Sx≠Tx}` on the probability base and prove [R] is closed
+in the nonsingular automorphism group for this metric. Prove the
+modulus-cocycle identities needed for orbit equivalence. FactorRigidity R6 specializes
 this API to p.m.p. relations. Define hyperfinite measured relations by increasing
 finite subrelations modulo invariant null sets. Prove compatibility
-with the smooth/type-I exhaustion formulation. Construct the
+with the smooth/type-I exhaustion formulation. For an exhaustion
+`R=⋃ₙRₙ`, prove `[R]=closure(⋃ₙ[Rₙ])` in the uniform metric:
+restrict a given full-group map to arrows lying in Rₙ and extend the
+resulting partial permutations measurably on each finite Rₙ-class;
+the measure of the discarded set tends to zero. Construct the
 single-transformation presentation from compatible finite orbit
 orderings, measurable successor maps and a conull limiting exhaustion;
 prove the converse for nonsingular transformations by measurable
@@ -917,6 +923,33 @@ free group of rank ≥2, and deduce its factor lacks Γ and is not R. These ultr
 
 ## V13. Hyperfiniteness and injective classification
 
+### V13a. Tensor-independent CP and extension foundations
+
+Develop positive and completely positive maps on concrete operator algebras,
+their matrix-order laws, boundedness, amplifications, unitization and
+point-ultraweak compactness. A concrete operator system is a unital
+self-adjoint linear subspace of B(H) with its inherited matrix positive
+cones. Construct its CP-map and restriction APIs. Prove Arveson's
+completely positive extension theorem for inclusions of concrete operator
+systems and B(K)-valued CP maps, using matrix-order separation and
+scalar/vector functional extension. Prove Tomiyama's theorem for norm-one
+projections onto C*-subalgebras, including positivity, bimodularity and
+complete positivity. Define injectivity by CP extension and prove its
+equivalence to a contractive projection B(H)→M, of norm one when M≠0, for a faithful normal
+representation; such a projection need not be normal. Prove injectivity
+passes to expected subalgebras, corners and type-I amplifications by
+extending and compressing these projections. This layer uses V0–V4's
+concrete representations, positive functionals and matrix algebras; it
+does not use C*-tensor norms, nuclearity or semidiscreteness.
+CStarAlgebras C3–C4 consumes this layer and supplies its abstract
+operator-space/system and dilation refinements.
+
+### V13b. Semidiscreteness, approximation and classification
+
+This layer consumes V13a and CStarAlgebras C5's minimal tensor norm,
+representation independence, slice maps and spatial completion. C5 uses
+V13a through C3–C4, independently of the results in this layer.
+
 For separable-predual algebras define hyperfiniteness by increasing finite-dimensional
 subalgebras whose union generates M, with equivalent finite-set approximation criteria.
 For finite algebras prove the bounded L² formulation, stability under corners and tensor
@@ -928,22 +961,27 @@ conjugacy and dyadic trace adjustments. Prove approximate finite-set dyadic matr
 containment, nested containment by unitary perturbation, and uniqueness of the hyperfinite
 II₁ factor R by trace-preserving intertwining. Identify `L(S_∞)` with R.
 
-Develop norm-one projection onto a von Neumann algebra, Tomiyama bimodularity, positive and
-completely positive maps, matrix-order and operator-system extension APIs required for
-injectivity. Define injectivity by completely positive extension and prove its equivalence
-to a norm-one projection `B(H)→M` for a faithful representation; this projection need not
-be normal. Prove injectivity passes to expected subalgebras, corners
-and type-I amplifications by extending/compressing these projections.
+Use V13a's CP extension, projection and injectivity permanence results.
 Prove tensor products of semidiscrete algebras semidiscrete by tensoring
 normal matrix CP maps and bounded ultraweak approximation; deduce
 injectivity of their spatial tensor products after the equivalence.
 Prove hyperfinite algebras injective by finite-dimensional CP extension
 and point-ultraweak compactness. These permanence results precede their
-use in the approximation and central-reduction arguments. Prove Arveson's
-completely positive extension theorem, define semidiscreteness by normal finite-matrix
+use in the approximation and central-reduction arguments. Define semidiscreteness by normal finite-matrix
 completely positive factorizations approximating the identity point-ultraweakly, and prove
 injectivity iff semidiscreteness for arbitrary von Neumann algebras by the
-reductions below. First, for finite algebras construct hypertraces on B(L²M)
+reductions below. Prove the commuting-representation minimal-norm criterion
+(Takesaki III XV.3, Theorem3.1 and Definition3.5): for every concrete
+von Neumann algebra M⊆B(H), with no separability hypothesis, injectivity
+and semidiscreteness are equivalent to
+`‖Σᵢ xᵢyᵢ‖≤‖Σᵢ xᵢ⊗yᵢ‖_min` for finite xᵢ∈M,yᵢ∈M′.
+Equivalently multiplication extends to a unital star homomorphism
+`M⊗_min M′→B(H)`. Establish its normal finite-matrix approximation
+and predual CP-factorization equivalents, using CP extension/separation
+and the reductions below. In V11's standard form identify M′ with
+Mᵒᵖ by `yᵒᵖ↦Jy*J`, and transport the criterion to M⊙Mᵒᵖ.
+This supplies both the crossed-product restriction argument below and
+CStarAlgebras C6's tensor-norm converse. First, for finite algebras construct hypertraces on B(L²M)
 extending τ and central under M, prove the Powers–Størmer inequality
 `‖a^(1/2)-b^(1/2)‖₂²≤‖a-b‖₁` for positive L¹ elements, and prove Connes's finite-rank
 Følner criterion: finite subsets of the left action admit nonzero finite-rank projections
@@ -1251,6 +1289,8 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   §3.6.1, pp.203–205, for the elementwise S/asymptotic-ratio-set
   comparison for Araki–Woods factors and its block construction.
 - Takesaki, *Theory of Operator Algebras I–III*, for weights, modular theory and classification;
+  volume III XV.3, Theorem3.1 and Definition3.5, for the concrete
+  commuting-representation minimal-norm criterion and semidiscreteness;
   Volume I IV.8.16,8.18,8.20–8.21,8.25,8.34 builds separable reduction; Volume III
   XVI.1.9,1.22–1.23 proves the classification-independent AFD theorem,
   XIII.3.26,3.29,3.34 supplies measurable cohomology reduction,
