@@ -115,6 +115,50 @@ example [action : DistribMulAction (Multiplicative (ZMod p)) (ZMod p)]
 
 end FiniteCoefficientChecks
 
+section TraceHomotopy
+
+variable {Q L : Type*} [Group Q] [Fintype Q] [Field L] [MulSemiringAction Q L]
+
+/-- §1.4: the finite trace average giving a primitive with controlled cocycle defect. -/
+def tate_traceHomotopy (α : L) (a : Q → L) : L :=
+  -∑ τ : Q, (τ • α) * a τ
+
+/-- §1.4: the coboundary of the trace average differs from the cochain by the
+trace-weighted cocycle defect when the conjugates of `α` sum to one. -/
+theorem tate_traceHomotopy_defect (α : L) (a : Q → L)
+    (htrace : ∑ τ : Q, τ • α = 1) (g : Q) :
+    g • tate_traceHomotopy α a - tate_traceHomotopy α a - a g =
+      -∑ τ : Q, ((g * τ) • α) * (g • a τ - a (g * τ) + a g) := sorry
+
+/-- A zero cochain has zero trace average. -/
+example (α : L) : tate_traceHomotopy α (fun _ : Q => 0) = 0 := by
+  simp [tate_traceHomotopy]
+
+/-- The trace average is an exact primitive for a finite-group cocycle. -/
+example (α : L) (a : Q → L) (htrace : ∑ τ : Q, τ • α = 1)
+    (hcocycle : ∀ g h : Q, a (g * h) = g • a h + a g) (g : Q) :
+    g • tate_traceHomotopy α a - tate_traceHomotopy α a = a g := sorry
+
+end TraceHomotopy
+
+section TraceHomotopyBounds
+
+variable {Q L : Type*} [Group Q] [Fintype Q] [NormedField L]
+    [IsUltrametricDist L] [MulSemiringAction Q L]
+
+/-- §1.4: an isometric action bounds the trace average and its coboundary defect
+by the norm of the trace-one element times the respective uniform cochain bounds. -/
+theorem tate_traceHomotopy_bound (hisom : ∀ (g : Q) (x : L), ‖g • x‖ = ‖x‖)
+    (α : L) (a : Q → L) (htrace : ∑ τ : Q, τ • α = 1)
+    (B D : ℝ) (hB : 0 ≤ B) (hD : 0 ≤ D)
+    (ha : ∀ g : Q, ‖a g‖ ≤ B)
+    (hdefect : ∀ g h : Q, ‖g • a h - a (g * h) + a g‖ ≤ D) :
+    ‖tate_traceHomotopy α a‖ ≤ ‖α‖ * B ∧
+      ∀ g : Q, ‖g • tate_traceHomotopy α a - tate_traceHomotopy α a - a g‖ ≤
+        ‖α‖ * D := sorry
+
+end TraceHomotopyBounds
+
 /-! ## The completed field, its Galois action and fixed points -/
 
 section PadicComplex
@@ -193,14 +237,19 @@ The remaining targets are specified in the README, without stand-in declarations
 (the boundary examples above use the supplied explicit H1, explicitInfl1 and explicitRes1);
 §1.1 joint continuity, uniqueness and multiplicativity of padicComplexGaloisAction;
 §1.2 fixed points for every closed subgroup;
-§1.3 periodTraceIdeal, senTowerEstimates, tate_normalizedTrace and tate_almostEtale;
-§1.4 tate_cyclotomicBanachH1 and tate_H1_padicComplex_twist;
+§1.3 periodTraceIdeal, senTowerEstimates, tate_algebraicTraceDescent (finite-stage
+degree and trace compatibility, exact integral preimages and trace-one valuation bounds),
+tate_normalizedTrace and tate_almostEtale;
+§1.4 tate_finiteCochainControl (uniform algebraic cochain approximation with its defect),
+tate_cocycleLimit (convergent primitive sums with uniform valuation loss),
+tate_cyclotomicBanachH1 and tate_H1_padicComplex_twist;
 §1.5 the canonical BDeRhamPlus/BDeRham topology, valuation, action, t and graded pieces;
 §2 PadicFieldCompletion, the general-base periodTraceIdeal, senUpperBreaks (including geometric
 reciprocity and unramified-completion invariance) and senTowerEstimates,
 completedUnramifiedDescent, tateSen, tateSen_H0, tateSen_H1, tateSen_character,
 normalisedTrace, tateSen_cyclotomic_twist, tateSen_trivial, tateSen_unramified_character
-and tateSen_H1_trivial_ne_zero;
+and tateSen_H1_trivial_ne_zero, with the general-base forms of tate_algebraicTraceDescent,
+tate_finiteCochainControl and tate_cocycleLimit on infinitely ramified splitting towers;
 §3 periodPDEnvelope, its completed envelope, initial property and generator independence;
 §§4.1–4.3 generalBasePeriodRings, their structure maps, invariant functors, predicates,
 fixed fields, regularity and fundamental exact sequence.
