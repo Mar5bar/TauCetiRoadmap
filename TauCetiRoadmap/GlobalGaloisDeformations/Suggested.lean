@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Generation
+import TauCeti.Algebra.Lie.GeneralLinear.Basic
 
 /-!
 # GlobalGaloisDeformations: representative target signatures
@@ -326,6 +327,15 @@ def UnrestrictedTFramedDef : Type _ :=
 
 end Framed
 
+/-- Full-adjoint coboundaries take values in the supplied trace-zero ideal, even when the rank
+is divisible by the residue characteristic (README 3.2). Strict-conjugacy stability then places
+these cocycles in the pulled-back local tangent condition. -/
+theorem adjoint_coboundary_mem_slIdeal {k : Type*} [Field k] {n : ℕ}
+    (a : GL (Fin n) k) (X : Matrix (Fin n) (Fin n) k) :
+    (a : Matrix (Fin n) (Fin n) k) * X * (a⁻¹ : GL (Fin n) k) - X ∈
+      TauCeti.slIdeal k (Fin n) := by
+  rw [TauCeti.mem_slIdeal_iff, Matrix.trace_sub, Matrix.trace_units_conj, sub_self]
+
 /-- The cokernel of the diagonal scalar map `k → k^m`: the degree-zero frame directions of the
 framed complex in rank one (README 3.6). -/
 abbrev scalarFrameCokernel (k : Type*) [Field k] (m : ℕ) : Type _ :=
@@ -453,6 +463,19 @@ kernel. -/
 example : (2 * 13 : ZMod 25) = 1 ∧
     ((13 : ZMod 25) • ((!![2, 5; 5, 12] : Matrix (Fin 2) (Fin 2) ℤ).map
       (Int.castRingHom (ZMod 25)))).map (ZMod.castHom (by norm_num : 5 ∣ 25) (ZMod 5)) = 1 := by
+  decide
+
+/-- Rank one has no trace-zero matrix directions, so its pulled-back fixed-determinant local
+condition is zero even when the unrestricted local condition contains characters (README 3.2). -/
+example (X : Matrix (Fin 1) (Fin 1) k) (hX : X.trace = 0) : X = 0 := by
+  ext i j
+  fin_cases i
+  fin_cases j
+  simpa [Matrix.trace, Fin.sum_univ_one] using hX
+
+/-- Rank three in residue characteristic two is trace split, but is excluded from the odd-prime
+arithmetic comparison (README 3.6). -/
+example : ¬ (2 : ℕ) ∣ 3 ∧ ¬ (2 : ℕ) > 2 := by
   decide
 
 /-- Rank-one framed complex: two frames leave one scalar frame direction, `k²/diag(k)`. -/
@@ -608,6 +631,18 @@ example (h S : ℤ) : h + (4 * S - 1) + (2 - S + h) - 3 * S = 2 * h + 1 := by
 /-- `R04.6/kw-deformation-data`: `3|S_f| + [F : ℚ] + 2[F : ℚ] = 3(|S_f| + [F : ℚ])`. -/
 example (Sf d : ℕ) : 3 * Sf + d + 2 * d = 3 * (Sf + d) := by
   ring
+
+/-- The CM example `ℚ(i)/ℚ`: `X² + 1` splits with distinct roots modulo five and has a repeated
+root modulo two, exhibiting the primes used in README 8.1. -/
+example :
+    (Polynomial.X ^ 2 + 1 : Polynomial (ZMod 5)) =
+      (Polynomial.X - 2) * (Polynomial.X + 2) ∧
+    (Polynomial.X ^ 2 + 1 : Polynomial (ZMod 2)) = (Polynomial.X + 1) ^ 2 := by
+  constructor
+  · have h5 : (5 : Polynomial (ZMod 5)) = 0 := CharP.cast_eq_zero _ 5
+    linear_combination h5
+  · have h2 : (2 : Polynomial (ZMod 2)) = 0 := CharP.cast_eq_zero _ 2
+    linear_combination -Polynomial.X * h2
 
 /-- `G7/polarized-tangent-obstruction`: for `p = n = 3` the identity has trace `0`. -/
 example : Matrix.trace (1 : Matrix (Fin 3) (Fin 3) (ZMod 3)) = 0 := by

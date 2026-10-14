@@ -111,12 +111,13 @@ It does not own, and cites instead:
   *Archimedean adjoint dimensions*).
 - **SelmerIwasawaCohomology**, Layer 2 (Selmer structures and the Selmer complex as a mapping fibre,
   which underlies the framed complexes of ArithmeticGaloisDuality).
-- **DeformationAndDerivedPatchingAlgebra**, Layers R03.1–R03.3 (the Artinian and complete Noetherian
-  coefficient categories with their residue identifications, small extensions, completed tensor
-  products and residue extension; Schlessinger's criteria, hulls, the continuous framed matrix
-  construction, minimal presentations and the obstruction bound on relations; excellence,
-  equidimensionality and dimensions of completed tensor products).
-- **LocalGaloisDeformationRings**: every local ring. In particular
+- **SchemeAndStackFoundations**, §§4.2–4.4 (Artinian and complete Noetherian coefficient categories,
+  small extensions, fibre products, Schlessinger's criteria and hulls), §§0.16, 0.20–0.21
+  (catenarity, Nagata rings, excellence and regular completion maps). The completed local products,
+  coefficient-extension and dimension adapters and obstruction-compatible minimal presentations are
+  targets [below](#completed-coefficient-products) of this roadmap.
+- **[LocalGaloisDeformationRings](https://github.com/TauCetiProject/TauCetiRoadmap/pull/923)**:
+  every local ring. In particular
   Layer 1 (local framed rings, 1.1; archimedean rings, 1.11 and 1.14; fixed-determinant and
   coefficient-change versions, 1.10 and 1.12), Layer 2 (Steinberg lifts, 2.5; fixed inertial types,
   2.9; local rings at Taylor–Wiles primes, 2.10; rank-`n` Taylor–Wiles conditions, 2.16 and 2.23),
@@ -167,7 +168,7 @@ the anchor by which other roadmaps cite it.
 
 Constructing automorphic forms, Hecke modules and patched complexes, and comparing them with the
 rings built here, belongs to GL2ModularityLifting, OrdinaryAutomorphicFormsAndModularityLifting and
-PotentialAutomorphyInfrastructure. Abstract patching belongs to DeformationAndDerivedPatchingAlgebra.
+PotentialAutomorphyInfrastructure. Those consumers apply abstract patching to the finite-level inputs.
 No `R → T` map, no automorphy lifting theorem and no finiteness of a deformation ring over `𝒪` is
 asserted here.
 
@@ -185,7 +186,8 @@ completeness includes separatedness. Every residue map `π_A : A ↠ k` is surje
 `𝔪_A`, and Artinian coefficients carry the discrete topology. An arbitrary ring with a surjection
 onto `k` is not an object of either category. Completed tensor products are taken over the stated
 coefficient ring, with the local topology and residue identification of
-DeformationAndDerivedPatchingAlgebra R03.1. A representing ring is an object of `C_𝒪`;
+[the completed coefficient products below](#completed-coefficient-products). A representing ring is
+an object of `C_𝒪`;
 "pro-represented" refers to the restriction of a functor to `Art_𝒪`.
 
 Write `Γ̂ₙ(A) = ker(GLₙ(A) → GLₙ(k))`. A strict class is an orbit under conjugation by `Γ̂ₙ(A)`.
@@ -308,13 +310,96 @@ cohomology vanishing used in prime selection. The framed complexes are mapping f
 of SelmerIwasawaCohomology §2.21, *Selmer complex as a mapping fibre*; the kernel Selmer group
 is its §2.2, *Compact and rational Selmer kernel*.
 
-### From DeformationAndDerivedPatchingAlgebra
+### From SchemeAndStackFoundations
 
-R03.1: the categories `Art_𝒪` and `C_𝒪`, small extensions, fibre products, completed tensor products
-with their coproduct property, and change of residue field. R03.2: Schlessinger's criteria and hulls,
-*Continuous framed representability* (the continuous framed matrix construction), minimal
-presentations, the relation space and the obstruction bound on relations, and the example of a hull whose functor is not pro-representable. R03.3: excellence,
-regular completion maps, equidimensionality and the dimension of completed tensor products.
+[SchemeAndStackFoundations §4.2](../SchemeAndStackFoundations/README.md#42-the-artinian-coefficient-category)
+constructs `ArtinLocalAlg 𝒪 k` and `CompleteLocalAlg 𝒪 k`, used here as `Art_𝒪` and `C_𝒪`, with
+local residue preserving morphisms, small extensions and fibre products.
+Its [§§4.3–4.4](../SchemeAndStackFoundations/README.md#44-versality-hulls-and-schlessingers-theorem)
+supply the set-valued Schlessinger criteria, hulls and pro-representability in the classical
+coefficient case (`𝒪` complete Noetherian local with residue `k`). Its §§0.16, 0.20 and
+[0.21](../SchemeAndStackFoundations/README.md#021-regular-maps-g-rings-j-2-rings-excellent-rings-and-schemes)
+supply catenarity, Nagata rings, excellence of complete Noetherian local rings and regularity of their completion maps,
+with preservation of reducedness and normality. These are the general suppliers; the following
+coefficient and presentation statements are targets of this roadmap.
+
+<a id="completed-coefficient-products"></a>
+
+### Completed coefficient products and dimensions
+
+**Completed local coefficient algebra.** For maps `A → B` and `A → C` in `C_𝒪`, form
+`B ⊗̂_A C` as the separated completion of `B ⊗_A C` at the ideal generated by the two maximal
+ideals, using Mathlib `AdicCompletion`. It is in `C_𝒪` and is its coproduct over `A`: continuous
+local maps to `D ∈ C_𝒪` correspond to pairs of such maps from `B` and `C` agreeing on `A`.
+Prove associativity, symmetry, the unit and empty-product conventions and compatibility with
+Artinian quotients. The general adic-map tensor product of AdicSpacesPartIII F0.1 uses the same
+completion carrier where its hypotheses apply; the maps `𝒪 → 𝒪⟦X⟧` with maximal-ideal topology
+are not adic maps, so the coefficient-category mapping theorem here carries its own hypotheses.
+For a finite extension of coefficient DVRs `𝒪 → 𝒪′` with residue inclusion `k → k′`,
+`B ⊗̂_𝒪 𝒪′` is a complete Noetherian local `𝒪′`-algebra with residue `k′`, flat over `B`;
+construct its residue-extension mapping property and transitivity (KW final, §2.1, pp. 5–6).
+
+For a finite nonempty family of `𝒪`-flat coefficient rings `B_i` whose special fibres are
+equidimensional of dimensions `d_i`, prove that `⊗̂_𝒪 B_i` is flat, with each component of
+absolute dimension `1 + Σ d_i`. In particular its generic fibre has dimension `Σ d_i`.
+For a nonzero flat coefficient ring `B`, prove `dim B = 1 + dim B[1/λ]`.
+If every `B_i` is a domain with an `𝒪`-point and regular generic fibre, the product is a domain
+with regular generic fibre; these hypotheses are retained (KW final, §2.3, Proposition 2.2
+and proof, p. 9; §4.1.3, p. 39). For the dimension assertion, reduction modulo `λ` gives the
+completed product over `k`; systems of parameters give its dimension `Σ d_i`, and catenarity
+and flatness give the component and generic-fibre assertions.
+
+*Needs:* SchemeAndStackFoundations §§4.2, 0.16, 0.20–0.21; Mathlib `AdicCompletion`,
+`IsAdicComplete`, `MvPowerSeries`, `TensorProduct`, `IsNoetherianRing`, `Module.Flat`.
+
+**Checks.**
+
+- **coefficient_product_series.** `𝒪⟦X⟧ ⊗̂_𝒪 𝒪⟦Y⟧ ≅ 𝒪⟦X,Y⟧`, with dimensions `2 + 2 − 1 = 3`.
+  The completed ring carries the joint maximal-ideal topology, rather than only the `λ`-adic one.
+- **coefficient_product_torsion.** `k ⊗̂_𝒪 k = k` has dimension zero; inserting the flat formula
+  `0 + 0 − 1` would give `−1`, so flatness is essential.
+- **coefficient_extension_residue.** for `𝒪 = W(k)` and `𝒪′ = W(k′)`,
+  `𝒪⟦X⟧ ⊗̂_𝒪 𝒪′ ≅ 𝒪′⟦X⟧` has residue `k′`, and extension by `𝒪` itself is the identity.
+- **coefficient_product_domain_hypotheses.** take a nontrivial finite coefficient extension
+  `𝒪′/𝒪` with the same residue field. Its generic fibre is regular and it is a domain, but it
+  has no `𝒪`-point. The generic fibre of `𝒪′ ⊗̂_𝒪 𝒪′` has distinct factors and is not a domain.
+
+<a id="minimal-relative-presentations"></a>
+
+### Minimal relative presentations and obstruction bounds
+
+**Presentation algebra.** For a local map `B → R` in `C_𝒪`, let
+`g = dim_k 𝔪_R/(𝔪_R² + 𝔪_B R)`. Lifts of a basis give a continuous local surjection
+`P = B⟦x₁,…,x_g⟧ ↠ R` inducing an isomorphism on relative tangent spaces.
+For its kernel `J`, `J/𝔪_P J` is the relation space; a basis lifts to a minimal set of generators
+of `J`, and `dim R ≥ dim B + g − dim_k(J/𝔪_P J)` (KW final, §2.1, pp. 5–6; CHT,
+Corollary 2.2.12 and proof, p. 25).
+
+For the represented relative deformation functor, suppose a finite-dimensional obstruction space
+`O` is supplied for all surjections of Artinian `B`-algebras with finite-dimensional kernel `I`
+killed by the maximal ideal. Require classes in `O ⊗_k I`, natural under maps of such extensions,
+additive under direct sums of kernels, and zero exactly when a lift exists. For the minimal
+presentation above, construct the obstruction-compatible injection
+`(J/𝔪_P J)ˇ ↪ O`, equivalently the surjection `Oˇ ↠ J/𝔪_P J`.
+Its construction uses Artinian quotients of the extension with kernel `J/𝔪_P J`; minimality
+makes changes of the variable lifts act trivially on this kernel. Hence
+`dim_k(J/𝔪_P J) ≤ dim_k O`, and `O = 0` makes `R` a power-series ring over `B`.
+An elementary obstruction assignment restricted to one-dimensional kernels alone is not the
+asserted input. The Galois applications supply these compatibilities from the continuous cocycle
+obstructions of ArithmeticGaloisDuality D8 (Gee, Lemma 3.13 and Corollary 3.14, pp. 13–14;
+KW ESI, Lemma 4.5 and proof, pp. 32–33; CHT, Corollary 2.2.12, p. 25).
+
+*Needs:* [completed coefficient algebra](#completed-coefficient-products);
+SchemeAndStackFoundations §§4.2–4.4; Mathlib `MvPowerSeries`, `IsAdicComplete`, `IsNoetherianRing`.
+
+**Checks.**
+
+- **minimal_presentation_series.** `R = B⟦x₁,…,x_g⟧` has `J = 0` and zero relation space.
+- **minimal_presentation_square.** for `B = 𝒪`, `R = 𝒪⟦x⟧/(x²)` has one tangent generator and
+  one minimal relation; `x ↦ t` over `k[t]/(t²)` cannot lift to `k[t]/(t³)`.
+- **minimal_presentation_required.** the one-point functor has zero obstruction space and
+  minimal presentation `B → B`. The presentation `B⟦x⟧ ↠ B`, `x ↦ 0`, has one relation and is
+  not minimal; applying the zero-obstruction bound to it would assert `1 ≤ 0`.
 
 ### From LocalGaloisDeformationRings
 
@@ -381,7 +466,7 @@ The API:
 - `Lift.conj`: `Γ̂ₙ(A)` acts on `Lift(A)` by conjugation.
 - `Lift.limEquiv`: for `A ∈ C_𝒪`, `Lift(A) ≃ limₖ Lift(A/𝔪_Aᵏ)`.
 
-*Needs:* DeformationAndDerivedPatchingAlgebra R03.1; ArithmeticGaloisRepresentations Layer 1;
+*Needs:* [completed coefficient algebra](#completed-coefficient-products); ArithmeticGaloisRepresentations Layer 1;
 Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinianRing`,
 `IsLocalRing`, `ContinuousMonoidHom`.
 
@@ -420,7 +505,7 @@ The API:
 - `ModDef.baseChange`: base change along coefficient morphisms, with identity and composition laws.
 - `ModDef.exists_basis_lift`: every `(V_A, ι)` has a basis lifting `β`.
 
-*Needs:* DeformationAndDerivedPatchingAlgebra R03.1; [1.1](#lifting-functor); Mathlib
+*Needs:* [completed coefficient algebra](#completed-coefficient-products); [1.1](#lifting-functor); Mathlib
 `Module.Free`, `IsLocalRing`.
 
 **Checks.**
@@ -495,7 +580,7 @@ The unbundled form requires locality, surjectivity of `π_A` and `ker π_A = �
 non-Schur failure and the failure for an arbitrary surjection onto `k` are recorded as checks.
 
 *Needs:* [1.3](#strict-deformation-functor); Mathlib `Matrix.GeneralLinearGroup`;
-DeformationAndDerivedPatchingAlgebra R03.1.
+[completed coefficient algebra](#completed-coefficient-products).
 
 *Lean:* `IsSchur`, `strict_of_full`, the two `example`s on rank one and on `1 ⊕ 1`, and the `example`s on
 the integral `S₃` generators, their integral centralizer and the normalisation over `ZMod 25`.
@@ -588,7 +673,7 @@ The API:
 - `isSchur_baseChange`: `ρ̄` Schur `↔` `ρ̄ ⊗ k′` Schur.
 - `LiftDet.changeCoeff`: the same with fixed determinant `χ` composed with `𝒪 → 𝒪′`.
 
-*Needs:* DeformationAndDerivedPatchingAlgebra R03.1; [1.1](#lifting-functor);
+*Needs:* [completed coefficient algebra](#completed-coefficient-products); [1.1](#lifting-functor);
 [1.3](#strict-deformation-functor); [1.7](#fixed-determinant-functors).
 
 **Checks.**
@@ -619,7 +704,7 @@ The API:
 - `DetDef.charpoly`: the characteristic-polynomial coefficients of a lifted determinant.
 - `DetDef.rank_one`: for `n = 1`, `Def_D̄ ≃ Lift_{χ̄}`.
 
-*Needs:* `IntegralHeckeAndGaloisDeterminants` Layer 0; DeformationAndDerivedPatchingAlgebra R03.1.
+*Needs:* `IntegralHeckeAndGaloisDeterminants` Layer 0; [completed coefficient algebra](#completed-coefficient-products).
 
 **Checks.**
 
@@ -666,14 +751,15 @@ p. 4; Chenevier, §3.1, Example 3.4, p. 42).
 
 ### Dependencies
 
-DeformationAndDerivedPatchingAlgebra R03.1; ArithmeticGaloisRepresentations Layer 1;
+[completed coefficient algebra](#completed-coefficient-products); ArithmeticGaloisRepresentations Layer 1;
 `IntegralHeckeAndGaloisDeterminants` Layer 0; Mathlib `Matrix.GeneralLinearGroup`,
 `MulAction.orbitRel`, `Module.Free`, `IsLocalRing`, `IsArtinianRing`.
 
 ## Layer R04.2: Representability and universal lifts
 
-This layer applies the representability algebra of DeformationAndDerivedPatchingAlgebra R03.2 to
-the continuous Galois functors of Layer R04.1. The finiteness condition `Φ_p`, the Schur hypothesis
+This layer applies the Schlessinger criteria of SchemeAndStackFoundations §§4.3–4.4 and the
+[presentation algebra](#minimal-relative-presentations) to the continuous Galois functors of
+Layer R04.1. The finiteness condition `Φ_p`, the Schur hypothesis
 and absolute irreducibility are separate inputs, each used exactly where it is needed. The framing,
 determinant and coefficient comparisons give reusable maps between the resulting rings.
 
@@ -762,13 +848,15 @@ Lecture 1, (1.2), p. 2).
 `ρ^□`. No Schur hypothesis is needed (Kisin, Lecture 1, Proposition (1.2.1)(1) and its proof, p. 2;
 Gee, Lemma 3.2 and Definition 3.3, p. 12).
 
-*Proof sketch.* Apply the continuous framed matrix construction of DeformationAndDerivedPatchingAlgebra
-R03.2: the reduction of the strict kernel and `Φ_p` give a finite tangent space (the framed tangent
-count under *Scope and ownership*), and the lifting functor preserves the required fibre products.
-Specialise to global and local Galois groups by 2.2.
+*Proof sketch.* The continuous lifting functor preserves fibre products along surjections:
+matrices and their reduction equations glue entrywise, and continuity into the finite Artinian
+fibre product is equivalent to continuity of its projections. Its tangent space is finite by
+`Φ_p` and the framed tangent count under *Scope and ownership*. Apply SchemeAndStackFoundations
+§4.4's Schlessinger pro-representability theorem and pass to complete coefficients using the
+inverse-limit comparison of 1.1. Specialise to global and local Galois groups by 2.2.
 
 *Needs:* [2.1](#phi-p-condition); [1.1](#lifting-functor); [tangent spaces](#tangent-spaces);
-DeformationAndDerivedPatchingAlgebra R03.2, *Continuous framed representability*; Mathlib
+SchemeAndStackFoundations §§4.2–4.4; Mathlib
 `MvPowerSeries`, `IsAdicComplete`.
 
 **Checks.**
@@ -797,8 +885,7 @@ The API:
 - `liftEquivHom`: `Lift_ρ̄(A) ≃` local `𝒪`-algebra maps `R^□_ρ̄ → A`, for `A ∈ C_𝒪`.
 - `univLift_continuous`: `ρ^□` is continuous for the `𝔪`-adic topology.
 
-*Needs:* [2.3](#universal-lifting-ring); [1.1](#lifting-functor); DeformationAndDerivedPatchingAlgebra
-R03.1; Mathlib `IsAdicComplete`.
+*Needs:* [2.3](#universal-lifting-ring); [1.1](#lifting-functor); [completed coefficient algebra](#completed-coefficient-products); Mathlib `IsAdicComplete`.
 
 **Checks.**
 
@@ -815,8 +902,8 @@ R03.1; Mathlib `IsAdicComplete`.
 
 **Theorem.** Under `Φ_p` and the Schur hypothesis, `Def_ρ̄` is pro-represented by `R_ρ̄ ∈ C_𝒪` with a
 universal strict class: `Hom_{C_𝒪}(R_ρ̄, A) ≅ Def_ρ̄(A)` naturally. Without Schur, construct a hull from
-the criteria of R03.2 and keep versality distinct from a representing bijection: automorphisms can
-prevent pro-representability, and a hull is not called a universal ring (Kisin, Lecture 1,
+the criteria of SchemeAndStackFoundations §4.4 and keep versality distinct from a representing
+bijection: automorphisms can prevent pro-representability, and a hull is not called a universal ring (Kisin, Lecture 1,
 Proposition (1.2.1)(2), p. 2; Gee, Lemma 3.5, p. 12).
 
 *Proof sketch.* Schlessinger's criteria hold for `Def_ρ̄`: the tangent space is finite by `Φ_p`, and
@@ -825,7 +912,7 @@ scalars `1 + 𝔪_A`, which surject along small extensions (1.5).
 
 *Needs:* [2.1](#phi-p-condition); [1.3](#strict-deformation-functor);
 [1.5](#strict-vs-full-conjugacy); [tangent spaces](#tangent-spaces);
-[2.3](#universal-lifting-ring); DeformationAndDerivedPatchingAlgebra R03.2.
+[2.3](#universal-lifting-ring); [presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
 
 **Checks.**
 
@@ -856,7 +943,7 @@ Remark (1.2.2)(3), p. 2).
 
 *Needs:* [2.3](#universal-lifting-ring); [2.5](#universal-deformation-ring);
 [2.4](#universal-continuous-lift); [1.7](#fixed-determinant-functors);
-DeformationAndDerivedPatchingAlgebra R03.2; Mathlib `MvPowerSeries`, `Algebra.FormallySmooth`.
+[presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4; Mathlib `MvPowerSeries`, `Algebra.FormallySmooth`.
 
 **Checks.**
 
@@ -890,8 +977,7 @@ the framed assertion follows from 2.6. Continuity allows the traces to be taken 
 *Needs:* [2.5](#universal-deformation-ring); [1.3](#strict-deformation-functor);
 ArithmeticGaloisRepresentations §5.10 (`GaloisRep.carayol_conj_of_trace_eq`) and §7.2
 (`GaloisRep.span_eq_top_and_centralizer_of_residually_absIrred`);
-`IntegralHeckeAndGaloisDeterminants` Layer 1 (`coefficient_descent`); DeformationAndDerivedPatchingAlgebra
-R03.1.
+`IntegralHeckeAndGaloisDeterminants` Layer 1 (`coefficient_descent`); [completed coefficient algebra](#completed-coefficient-products).
 
 **Checks.**
 
@@ -974,7 +1060,7 @@ of `𝒪′` over `𝒪` ensures that the completed tensor product is again a No
 (Gee, §3.1, p. 12).
 
 *Needs:* [1.8](#change-of-coefficients); [2.3](#universal-lifting-ring);
-[2.5](#universal-deformation-ring); DeformationAndDerivedPatchingAlgebra R03.1.
+[2.5](#universal-deformation-ring); [completed coefficient algebra](#completed-coefficient-products).
 
 **Checks.**
 
@@ -1019,7 +1105,7 @@ The API:
 
 *Needs:* [1.9](#determinant-deformation-functor); [2.1](#phi-p-condition); [2.2](#phi-p-global);
 [2.8](#determinant-comparison-isomorphism); `IntegralHeckeAndGaloisDeterminants` Layers 0–1;
-DeformationAndDerivedPatchingAlgebra R03.1.
+[completed coefficient algebra](#completed-coefficient-products).
 
 **Checks.**
 
@@ -1042,7 +1128,7 @@ DeformationAndDerivedPatchingAlgebra R03.1.
 
 ### Dependencies
 
-Layer R04.1; DeformationAndDerivedPatchingAlgebra R03.1–R03.2; ArithmeticGaloisDuality R02.3;
+Layer R04.1; [coefficient and presentation algebra](#completed-coefficient-products); SchemeAndStackFoundations §§4.2–4.4; ArithmeticGaloisDuality R02.3;
 ClassFieldTheory Layer 5; `LocalGaloisGroups` Layer 3; `IntegralHeckeAndGaloisDeterminants` Layers 0–1 (including the Roby
 algebra);
 ArithmeticGaloisRepresentations §5.10 and §7.2; Tau Ceti profinite generation; Mathlib
@@ -1099,15 +1185,38 @@ The API:
 lift lies in `D` exactly when its classifying map kills `I(D)`. The universal strict conjugation
 transformations preserve the ideal; these transformations, indexed by matrices over universal rings,
 are not asserted to form an ordinary group action on that ring. The annihilator of `I(D)` in the
-tangent space is `L̃(D) ⊆ Z¹`, the inverse image of a subspace `L(D) ⊆ H¹`. In the sufficient converse
-of Gee's Lemma 3.17(3), a strict-conjugation-invariant radical ideal `I ≠ 𝔪` defines a problem
+tangent space is `L̃(D) ⊆ Z¹(G_v, ad ρ̄_v)`, the inverse image of a subspace
+`L(D) ⊆ H¹(G_v, ad ρ̄_v)`. In the sufficient converse of Gee's Lemma 3.17(3), a strict-conjugation-invariant radical ideal `I ≠ 𝔪` defines a problem
 `D(I)`, and the two constructions are inverse on that domain; radicality is a hypothesis of that
 converse, not an axiom of every quotient-represented problem. The general invariant-ideal
 correspondence of CHT Lemma 2.2.3 also covers non-radical invariant ideals and is used for local
 conditions with nilpotent structure (Gee, Lemma 3.17, p. 14; CHT, Lemma 2.2.3, p. 19).
 
+For a compatible determinant lift `χ_v`, pull `D_v` back along `LiftDet_{χ_v} → Lift` and write
+`D_v^χ(A) = D_v(A) ∩ LiftDet_{χ_v}(A)`. If `q_χ : R^□_ρ̄_v ↠ R^□_{ρ̄_v,χ_v}` is the determinant
+quotient, put `I_v^χ = q_χ(I(D_v))`; the quotient by this image ideal represents `D_v^χ`.
+The fixed-determinant tangent adapter is
+
+```text
+L̃_v^χ = { z ∈ Z¹(G_v, ad⁰ρ̄_v) : image(z) ∈ L̃(D_v) },
+i_v : H¹(G_v, ad⁰ρ̄_v) → H¹(G_v, ad ρ̄_v),
+L_v^χ = i_v⁻¹(L(D_v)).
+```
+
+Thus `L̃_v^χ` is the inverse image of `L_v^χ` under `Z¹(ad⁰) → H¹(ad⁰)`.
+Every full-adjoint coboundary `d⁰X`, for `X ∈ ad`, has trace zero and belongs to `L̃_v^χ`:
+conjugating the residual lift by `1 − εX` gives `(1 + εd⁰X)ρ̄`, and strict-conjugacy stability puts
+it in `D_v`. The strict-class tangent of `D_v^χ` is therefore `L_v^χ/im δ_v`, where
+`δ_v : H⁰(G_v, k) → H¹(G_v, ad⁰)` is the trace-sequence boundary and `ker i_v = im δ_v`.
+When `p ∤ n`, `i_v` is injective and this is the usual trace-zero restriction of `L(D_v)`;
+when `p | n`, neither that inclusion nor the deletion of `im δ_v` is asserted (Gee, Exercise 3.19,
+p. 15; ArithmeticGaloisDuality D8, *Determinant tangent fibres*).
+
 *Needs:* [3.1](#local-deformation-problem); [2.3](#universal-lifting-ring);
-[tangent spaces](#tangent-spaces).
+[2.9](#fixed-determinant-rings); [tangent spaces](#tangent-spaces);
+ArithmeticGaloisDuality D8, *Determinant tangent fibres*.
+
+*Lean:* `adjoint_coboundary_mem_slIdeal` and the rank-one trace-zero `example`.
 
 **Checks.**
 
@@ -1117,6 +1226,16 @@ conditions with nilpotent structure (Gee, Lemma 3.17, p. 14; CHT, Lemma 2.2.3, p
 - **ideal_nonradical.** a condition whose ideal is not radical (for example `(T²)` in `𝒪⟦T⟧`, which is
   strict-conjugation invariant in rank one) is covered by the CHT correspondence but not by Gee's
   radical converse; a statement asserting radicality for every problem would exclude it.
+- **fixed_local_tangent_rank_one.** take `F = ℚ`, `p = 3`, `S = {3, 7}`, `T = {3}`, rank one and
+  unrestricted local conditions. At `7`, `L(D_7) = H¹(G_7, k)` contains the nonzero unramified
+  character direction, but `ad⁰ = 0` and `L_7^χ = L̃_7^χ = 0`. The fixed-determinant quotient uses
+  this zero space, while §7 retains the full-adjoint direction.
+- **fixed_local_full_boundary.** for any local action, `d⁰X` with `X ∈ ad` lies in `L̃_v^χ`.
+  Hence its image in `C¹(G_v, ad⁰)/L̃_v^χ` is zero even when `v ∉ T` and the local degree-zero
+  term is zero; trace zero alone would only place it in the numerator.
+- **fixed_local_trace_boundary.** if `p | n` and the local residual centralizer is scalar,
+  `tr : H⁰(ad) → k` is zero and `δ_v` is injective. The unrestricted condition then has
+  `L_v^χ = H¹(ad⁰)` but strict-class tangent `H¹(ad⁰)/im δ_v`.
 
 <a id="global-deformation-type"></a>
 
@@ -1165,7 +1284,7 @@ on them (Gee, Lemma 3.22, p. 15).
 
 *Needs:* [3.3](#global-deformation-type); [3.2](#deformation-problem-ideal);
 [2.5](#universal-deformation-ring); [2.9](#fixed-determinant-rings); [2.2](#phi-p-global);
-DeformationAndDerivedPatchingAlgebra R03.2.
+[presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
 
 **Checks.**
 
@@ -1180,8 +1299,9 @@ DeformationAndDerivedPatchingAlgebra R03.2.
 
 ### 3.5 The map from local rings to the global framed ring
 
-**Construction.** For each `v ∈ T` take the local framed determinant-`χ` ring and impose `I(D_v)`.
-Form `R^loc_{𝒮,T} = ⊗̂_{v∈T}(R^□_{ρ̄|G_v,χ}/I(D_v))` over `𝒪`. The universal framed local representatives
+**Construction.** For each `v ∈ T` use the pulled-back problem `D_v^χ` of 3.2 and impose the
+image ideal `I_v^χ` in the local framed determinant-`χ` ring.
+Form `R^loc_{𝒮,T} = ⊗̂_{v∈T}(R^□_{ρ̄|G_v,χ}/I_v^χ)` over `𝒪`. The universal framed local representatives
 classify compatible maps from the factors to `R^{□T}_𝒮`, hence a tautological local-to-global
 `𝒪`-algebra map. Check the characterizing restriction formula and compatibility with enlarging `T`.
 The empty tensor product is `𝒪`. The local rings and their condition quotients are supplied by
@@ -1196,7 +1316,7 @@ The API:
 
 *Needs:* [3.4](#global-framed-ring); [3.2](#deformation-problem-ideal);
 [1.6](#restriction-of-deformations); LocalGaloisDeformationRings 1.1 and 1.10;
-DeformationAndDerivedPatchingAlgebra R03.1.
+[completed coefficient algebra](#completed-coefficient-products).
 
 **Checks.**
 
@@ -1213,40 +1333,47 @@ DeformationAndDerivedPatchingAlgebra R03.1.
 
 ### 3.6 The relative tangent space is an adjoint Selmer group
 
-**Theorem.** Identify the dual of the relative cotangent space
-`𝔪_{R^{□T}}/(𝔪_{R^{□T}}², λ, 𝔪_{R^loc}R^{□T})` with `H¹` of the framed mapping fibre of
-ArithmeticGaloisDuality R02.5/D8, whose terms are displayed below. Degree zero uses the full adjoint;
-positive global degrees use trace zero; local degree zero consists only of the full-adjoint framing
-terms at `T`. The dual group is an ordinary Selmer kernel with orthogonal conditions outside `T`, not
-`H¹` of a second framed complex. For the dimension formula assume `p ∤ n`, `S` finite, `T ⊆ S`
-containing all places above `p`, and `ρ̄` Schur; the nonempty-`T` constant is `|T| − 1`. For `T` empty,
-`H⁰_rel = k` and `H¹_rel` is the ordinary fixed-determinant Selmer group, and the dimension formula is
-not extended past its hypotheses (Gee, Proposition 3.24(1), p. 18, with the complexes and
-differential of §3.23, pp. 16–18; KW ESI, §4.1, Lemma 4.3, p. 31).
+**Theorem.** For the fixed-determinant global data of 3.3, identify the dual of the relative
+cotangent space `𝔪_{R^{□T}}/(𝔪_{R^{□T}}², λ, 𝔪_{R^loc}R^{□T})` with `H¹` of the framed mapping
+fibre of ArithmeticGaloisDuality R02.5/D8, with the terms below and the pulled-back conditions of
+3.2. This first-order identification does not require `p > 2` or `p ∤ n`. Degree zero uses the full
+adjoint; positive global degrees use trace zero; local degree zero consists only of the full-adjoint
+framing terms at `T`. The ordinary dual-Selmer interpretation and numerical formula below require
+separate arithmetic hypotheses. For `T = ∅`, `H⁰_rel = k` in the Schur case and
+`H¹_rel = H¹_{L^χ}(G, ad⁰)/im δ_G`; when `p ∤ n`, the trace boundary vanishes and this is the ordinary
+fixed-determinant Selmer group (Gee, Proposition 3.24(1), p. 18, with the complexes and differential
+of §3.23, pp. 16–18; KW ESI, §4.1, Lemma 4.3, p. 31; ArithmeticGaloisDuality D8,
+*Determinant tangent fibres*).
 
 Write `M = ad ρ̄` and `M₀ = ad⁰ρ̄`. The complexes are:
 
 | Degree | Global terms | Local terms |
 | --- | --- | --- |
 | 0 | `C⁰(G, M)` | `⊕_{v∈T} C⁰(G_v, M)` |
-| 1 | `C¹(G, M₀)` | `⊕_{v∈T} C¹(G_v, M₀) ⊕ ⊕_{v∈S∖T} C¹(G_v, M₀)/L̃_v` |
+| 1 | `C¹(G, M₀)` | `⊕_{v∈T} C¹(G_v, M₀) ⊕ ⊕_{v∈S∖T} C¹(G_v, M₀)/L̃_v^χ` |
 | `i ≥ 2` | `Cⁱ(G, M₀)` | `⊕_{v∈S} Cⁱ(G_v, M₀)` |
 
-Negative degrees vanish. Here `L̃_v` is the inverse image of `L_v` under `Z¹ → H¹`; its elements are
-cocycles, so the local quotient differential is well defined, and the degree-zero commutator of a
-full matrix has trace zero, so restriction is a chain map into these terms. The relative complex is
+Negative degrees vanish. Here `L̃_v^χ` and `L_v^χ` are the spaces of 3.2. Elements of `L̃_v^χ`
+are cocycles, so the local quotient differential is well defined. Full-adjoint coboundaries lie in
+`L̃_v^χ`, so restriction is a chain map also at `v ∉ T`, where the degree-zero local term is zero.
+The relative complex is
 `C_relⁱ = C_globⁱ ⊕ C_loc^{i−1}` with `d(φ, ψ) = (dφ, res φ − dψ)`, that is `Cone(res)[−1]`. Its exact
 sequence begins with the scalar boundary `H⁰(G, M) → ⊕_T H⁰(G_v, M)`, injective for nonempty `T` and
-Schur `ρ̄`, so then `H⁰_rel = 0`. With
+Schur `ρ̄`, so then `H⁰_rel = 0`.
+
+For the arithmetic comparison assume `p > 2`, `p ∤ n`, `S` a finite set of finite places
+containing those above `p`, `T ⊆ S` containing all those places, and `ρ̄` Schur. In particular `T` is nonempty. The ordinary
+and modified comparison of ArithmeticGaloisDuality D8 and SelmerIwasawaCohomology §2.21 gives
+`(H²_rel)ˇ ≅ H¹_dual`, `(H³_rel)ˇ ≅ H⁰(G, M₀(1))` and vanishing above degree three, where
 
 ```text
-H¹_dual = ker( H¹(G, M₀ˇ(1)) → ⊕_{v∈S∖T} H¹(G_v, M₀ˇ(1))/L_v^⊥ ),
+H¹_dual = ker( H¹(G, M₀ˇ(1)) → ⊕_{v∈S∖T} H¹(G_v, M₀ˇ(1))/(L_v^χ)^⊥ ),
 ```
 
-the dimension formula is
+the dimension formula, with all counts in `ℤ`, is
 
 ```text
-h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v − h⁰(G_v, M₀)) + dim H¹_dual − h⁰(G, M₀(1)).
+h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v^χ − h⁰(G_v, M₀)) + dim H¹_dual − h⁰(G, M₀(1)).
 ```
 
 *Needs:* [3.4](#global-framed-ring); [3.5](#local-to-global-map);
@@ -1254,7 +1381,7 @@ h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v −
 (*Selmer and deformation tangent comparison*); SelmerIwasawaCohomology Layer 2.
 
 *Lean:* `scalarFrameCokernel`, its three dimension `example`s, and the two-term differential
-`example` over `ZMod 3`.
+`example` over `ZMod 3`, and the `example` separating `2 ∤ 3` from `2 > 2`.
 
 **Checks.**
 
@@ -1268,7 +1395,11 @@ h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v −
 - **relTangent_count_rank_one.** for `n = 1`, `M₀ = 0`, so `h¹_rel = |T| − 1` for nonempty `T`, the
   scalar frame directions only.
 - **relTangent_T_empty.** for `T = ∅` the constant `|T| − 1 = −1` would be wrong; the correct statement
-  is `H⁰_rel = k` and `H¹_rel = H¹_{L}(G, M₀)`.
+  is `H⁰_rel = k` and, for `p ∤ n`, `H¹_rel = H¹_{L^χ}(G, M₀)`; otherwise retain `im δ_G`.
+- **relTangent_dyadic_odd_rank.** at `p = 2`, `n = 3`, the condition `p ∤ n` holds but the odd-prime
+  arithmetic comparison does not apply. For trivial real action on `M₃(𝔽₂)`, the trace-zero
+  space has dimension eight and positive-degree `C₂` cohomology is nonzero: both maps in the
+  periodic resolution are zero. Its trace splitting does not remove the real Tate terms.
 
 <a id="local-to-global-presentation"></a>
 
@@ -1276,9 +1407,11 @@ h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v −
 
 **Theorem.** With `g = dim_k H¹_rel` relative tangent generators there is a surjection
 `R^loc_{𝒮,T}⟦x₁, …, x_g⟧ ↠ R^{□T}_𝒮` inducing the tangent isomorphism. For its kernel `J` and the
-source maximal ideal `𝔪`, assume `T = S` or that every `D_v` outside `T` is liftable; then
-`dim_k J/𝔪J ≤ dim_k H²_rel`, which in the duality setting of 3.6 is the dimension of the ordinary dual
-Selmer group. The extra hypothesis supplies local lifts across each small extension; the
+source maximal ideal `𝔪`, assume `T = S` or that every pulled-back problem `D_v^χ` outside `T`
+is liftable; then `dim_k J/𝔪J ≤ dim_k H²_rel`. Under the arithmetic hypotheses of 3.6
+(`p > 2`, `p ∤ n`, finite-place `S`, `T` containing the places above `p`, and Schur `ρ̄`), this is the
+dimension of its ordinary dual Selmer kernel with conditions `(L_v^χ)^⊥`. The extra hypothesis
+supplies local lifts across each small extension; the
 tangent-generator surjection does not need it. In the rank-two dyadic version use the full-adjoint
 and dual conventions of Khare–Wintenberger instead of the odd-`p` trace splitting (KW ESI, §4.1,
 Lemma 4.5 and its proof, pp. 32–33; Gee, Proposition 3.24(2), p. 18; KW final, §4.2, Lemma 4.6,
@@ -1287,11 +1420,11 @@ pp. 43–45; CHT, Corollary 2.2.12, p. 25).
 *Proof sketch.* The obstruction map and the product formula come from ArithmeticGaloisDuality
 (*Selmer and deformation tangent comparison*; in the Khare–Wintenberger setting, *Khare–Wintenberger
 tangent and relation bounds*); the algebra turning tangent and obstruction spaces into a presentation
-is DeformationAndDerivedPatchingAlgebra R03.2 (minimal presentations and the obstruction bound on
-relations).
+is [presentation algebra](#minimal-relative-presentations), with its obstruction-compatible
+relation map.
 
 *Needs:* [3.6](#relative-tangent-space); [3.5](#local-to-global-map); ArithmeticGaloisDuality R02.4,
-R02.6 and D8; DeformationAndDerivedPatchingAlgebra R03.2.
+R02.6 and D8; [presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
 
 **Checks.**
 
@@ -1301,8 +1434,9 @@ R02.6 and D8; DeformationAndDerivedPatchingAlgebra R03.2.
   common scalar): the presentation has `g = |T| − 1` generators and no relations, matching 3.6.
 - **presentation_needs_liftability.** a problem represented by `𝒪⟦x⟧/(x²)` is not liftable: the point
   `x ↦ t` over `k[t]/(t²)` has no lift to `k[t]/(t³)`, since `(t + at²)² = t² ≠ 0` there. For such a
-  problem outside `T` the relation bound by the dual Selmer dimension is not available, so the
-  hypothesis "`T = S` or liftable outside `T`" is retained.
+  pulled-back problem outside `T` the relation bound by the dual Selmer dimension is not available,
+  so the
+  hypothesis "`T = S` or `D_v^χ` liftable outside `T`" is retained.
 - **presentation_dyadic_conventions.** at `p = 2` the trace-zero module contains the scalars, and a
   count using `ad⁰` with the odd-`p` dual would be off by the boundary term `δ_2 = 1` of
   ArithmeticGaloisDuality's Khare–Wintenberger count.
@@ -1314,7 +1448,7 @@ R02.6 and D8; DeformationAndDerivedPatchingAlgebra R03.2.
 **Theorem.** With the odd-`p` finite-place convention and `T = S`, and with `p > 2` and `p ∤ n`,
 
 ```text
-dim R^univ_𝒮 ≥ 1 + Σ_{v∈S} (dim(R^□_{ρ̄|G_v,χ}/I(D_v)) − n²) − Σ_{v|∞} h⁰(G_v, ad⁰ρ̄) − h⁰(G_{F,S}, ad⁰ρ̄(1)).
+dim R^univ_𝒮 ≥ 1 + Σ_{v∈S} (dim(R^□_{ρ̄|G_v,χ}/I_v^χ) − n²) − Σ_{v|∞} h⁰(G_v, ad⁰ρ̄) − h⁰(G_{F,S}, ad⁰ρ̄(1)).
 ```
 
 Local Krull dimensions are supplied by LocalGaloisDeformationRings. In the Khare–Wintenberger
@@ -1351,7 +1485,7 @@ dimensions*); LocalGaloisDeformationRings 1.1, 1.11, 8.17.
 ### Dependencies
 
 Layers R04.1–R04.2; ArithmeticGaloisDuality R02.4–R02.6 and D8; SelmerIwasawaCohomology Layer 2;
-DeformationAndDerivedPatchingAlgebra R03.1–R03.2; LocalGaloisDeformationRings 1.1, 1.10, 1.11, 8.17.
+[coefficient and presentation algebra](#completed-coefficient-products); SchemeAndStackFoundations §§4.2–4.4; LocalGaloisDeformationRings 1.1, 1.10, 1.11, 8.17.
 
 ## Layer R04.4: Restriction, twists and changes of problem
 
@@ -1524,7 +1658,7 @@ locally free affine quotient is `ModularCurves` Layer 0C; completion, the smooth
 through the torsion and free filtration are the constructions here (KW final, §2.4, p. 10;
 Proposition 2.5 and its proof, pp. 11–12; Proposition 2.6, pp. 12–13).
 
-*Needs:* [4.5](#diagonalizable-groups); DeformationAndDerivedPatchingAlgebra R03.2;
+*Needs:* [4.5](#diagonalizable-groups); [presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4;
 `ModularCurves` Layer 0C.
 
 **Checks.**
@@ -1698,11 +1832,12 @@ and the equality of characteristic polynomials with `ρ₀` on every element of 
 the flat part, every irreducible component is faithfully flat over `𝒪` of absolute dimension `d²`,
 and the generic fibre is regular. Its `𝒪′`-points are exactly the determinant-`φ` lifts whose inertia
 restriction is conjugate over the fraction field of `𝒪′` to that of `ρ₀`. Apply to finite inertial
-image away from `p`, using the excellence and completion theorems of R03.3 (KW final, §2.7,
+image away from `p`, using SchemeAndStackFoundations §0.21's excellence and completion theorems
+(KW final, §2.7,
 Propositions 2.10 and 2.11, pp. 15–16; KW ESI, §2.3, Propositions 2.6–2.7, pp. 9–11).
 
 *Needs:* [2.3](#universal-lifting-ring); [1.7](#fixed-determinant-functors);
-DeformationAndDerivedPatchingAlgebra R03.3.
+[completed coefficient algebra](#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
 **Checks.**
 
@@ -1722,7 +1857,7 @@ DeformationAndDerivedPatchingAlgebra R03.3.
 
 ### Dependencies
 
-Layers R04.1–R04.3; DeformationAndDerivedPatchingAlgebra R03.2–R03.3; `ModularCurves` Layer 0C;
+Layers R04.1–R04.3; [presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§0.16, 0.20–0.21; `ModularCurves` Layer 0C;
 `ClassFieldTheory` Layer 12; ArithmeticGaloisRepresentations Layer 4; ArithmeticGaloisDuality R02.6.
 
 ## Layer R04.5: Taylor–Wiles data at auxiliary primes
@@ -2050,7 +2185,7 @@ The API:
 - `KWDeformationData.localRing_relDim`: relative dimension `3|S|`.
 
 *Needs:* [3.3](#global-deformation-type); [3.5](#local-to-global-map); LocalGaloisDeformationRings 1.11,
-1.14, 2.5, 8.2, 8.17; DeformationAndDerivedPatchingAlgebra R03.3.
+1.14, 2.5, 8.2, 8.17; [completed coefficient algebra](#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
 *Lean:* the `example` `3|S_f| + [F : ℚ] + 2[F : ℚ] = 3(|S_f| + [F : ℚ])`.
 
@@ -2226,7 +2361,7 @@ The API:
 ### Dependencies
 
 Layers R04.2–R04.5; LocalGaloisDeformationRings 1.11, 1.14, 2.5, 8.2, 8.17;
-DeformationAndDerivedPatchingAlgebra R03.3.
+[completed coefficient algebra](#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
 ## Layer G8: Variable-determinant global problems
 
@@ -2331,8 +2466,10 @@ ArithmeticGaloisDuality R02.4 and D8.
 
 ### 7.4 Fixed against variable determinant
 
-**Theorem.** When all `Λ_v = 𝒪`, intersect each `D_v` with determinant `χ` to obtain the fixed-determinant
-problem `𝒮_χ`. The quotient `R_𝒮 ↠ R_{𝒮_χ}` defined by `det ρ_𝒮(g) − χ(g)`, and its `T`-framed version,
+**Theorem.** When all `Λ_v = 𝒪`, use the pullbacks `D_v^χ` of 3.2 to obtain the fixed-determinant
+problem `𝒮_χ`. The variable-determinant complex of 7.3 retains `L(D_v)` in the full adjoint;
+only the fixed-determinant problem uses `L_v^χ`. The quotient `R_𝒮 ↠ R_{𝒮_χ}` defined by
+`det ρ_𝒮(g) − χ(g)`, and its `T`-framed version,
 always exist. If `p ∤ n` and every `D_v` is stable under all residually trivial local character twists,
 unique `n`-th roots split the functor as fixed determinant times the functor of residually trivial
 characters, giving `R_𝒮 ≅ R_{𝒮_χ} ⊗̂_𝒪 𝒪⟦G_{F,S}^{ab,(p)}⟧`. This extension is formally smooth of relative
@@ -2383,15 +2520,33 @@ cyclotomic image. Each branch has its own tangent and generator formula.
 ### 8.1 Polarized deformation problems
 
 **Definition.** Use the group `𝒢ₙ = (GLₙ × GL₁) ⋊ {1, j}` of ArithmeticGaloisRepresentations §7.4
-(`CHTGroup`), with `j(g, μ)j⁻¹ = (μ·ᵗg⁻¹, μ)` and multiplier `ν(j) = −1`. In the CM setting `F/F⁺` take `p`
-odd, a finite set `S` of finite places of `F⁺` split in `F` and containing those above `p`, and a chosen
-place `ṽ` of `F` over each `v ∈ S`. Fix `r̄ : G_{F⁺,S} → 𝒢ₙ(k)` with `r̄⁻¹(𝒢ₙ⁰(k)) = G_{F,S}` and a lift `χ`
-of `ν ∘ r̄`. A polarized lift is a continuous lift `r` with `ν ∘ r = χ`. Quotient by strict `GLₙ`-conjugation,
-and add `T`-frames by simultaneous left multiplication; a type adds `GLₙ` local problems at the places
-`ṽ`. Polarizations are actual pairings: by the correspondence of §7.4, for `γ₀ ∉ G_F` the lifts correspond
-to triples `(ρ, χ, ⟨ , ⟩)` with `⟨x, ρ(γ₀²)y⟩ = −χ(γ₀)⟨y, x⟩` and
-`χ(δ)⟨x, y⟩ = ⟨ρ(δ)x, ρ(γ₀δγ₀⁻¹)y⟩`. Use the Schur condition of CHT; absolute irreducibility on `G_F`
-suffices (CHT, §2.1, Lemma 2.1.1, p. 7; Definitions 2.2.1 and 2.2.7, pp. 17 and 21; §2.3, p. 26).
+(`CHTGroup`), with `j(g, μ)j⁻¹ = (μ·ᵗg⁻¹, μ)` and multiplier `ν(j) = −1`. In the CM setting `F/F⁺`
+take `p` odd, a finite set `S` of finite places of `F⁺` split in `F` and containing those above `p`.
+Let `S_F` be the set of all primes of `F` above `S`, and let `F(S_F)` be the maximal extension of `F`
+unramified outside `S_F`. This set is invariant under `Gal(F/F⁺)`, so `F(S_F)/F⁺` is Galois. Put
+
+```text
+Γ = Gal(F(S_F)/F⁺),   Δ = Gal(F(S_F)/F),
+1 → Δ → Γ → Gal(F/F⁺) → 1.
+```
+
+Write `η : Γ → {±1}` for the quotient character. Ramification of `F/F⁺` outside `S` is allowed in
+`Γ`; it is not the ordinary maximal-extension group of `F⁺` unramified outside `S`.
+Choose one prime `ṽ` over each `v ∈ S` and put `S̃ = {ṽ}`. Compatible separable closures give
+local restriction maps `ι_ṽ : G_{F_ṽ} → Δ → Γ`; their images have trivial quotient character.
+The chosen `S̃` indexes local deformation data, while `S_F` is the full ramification set over `F`.
+
+Fix a continuous `r̄ : Γ → 𝒢ₙ(k)` with `component ∘ r̄ = η`, equivalently
+`r̄⁻¹(𝒢ₙ⁰(k)) = Δ`, and a continuous lift `χ : Γ → 𝒪ˣ` of `ν ∘ r̄`. A polarized lift has
+`component ∘ r = η` and `ν ∘ r = χ_A`. Along `ι_ṽ` it is the pair `(ρ_ṽ, χ_A|G_{F_ṽ})` in
+`GLₙ(A) × GL₁(A)`, so a local problem `D_v` constrains the `GLₙ` component `ρ_ṽ`.
+Quotient by strict `GLₙ`-conjugation and add `T ⊆ S` frames by simultaneous left multiplication.
+Polarizations are actual pairings: by the correspondence of §7.4, for `γ₀ ∈ Γ ∖ Δ` the lifts
+correspond to triples `(ρ : Δ → GLₙ(A), χ, ⟨ , ⟩)` with
+`⟨x, ρ(γ₀²)y⟩ = −χ(γ₀)⟨y, x⟩` and
+`χ(δ)⟨x, y⟩ = ⟨ρ(δ)x, ρ(γ₀δγ₀⁻¹)y⟩` for `δ ∈ Δ`.
+Use the Schur condition of CHT; absolute irreducibility on `Δ` suffices (CHT, §2.1,
+Lemma 2.1.1, p. 7; Definitions 2.2.1 and 2.2.7, pp. 17 and 21; beginning of §2.3, p. 26).
 
 The API:
 
@@ -2403,8 +2558,15 @@ the polarized deformation problem uses that group and that correspondence.
 *Needs:* [3.1](#local-deformation-problem); [1.8](#change-of-coefficients);
 ArithmeticGaloisRepresentations §7.4.
 
+*Lean:* the `example` giving the factorizations of `X² + 1` over `ZMod 5` and `ZMod 2`.
+
 **Checks.**
 
+- **polarized_CM_ramification.** for `F = ℚ(i)`, `F⁺ = ℚ`, `p = 5` and `S = {5}`, the two primes
+  above `5` both belong to `S_F`, and `S̃` chooses one. Since `5` splits but `2` ramifies in
+  `ℚ(i)/ℚ`, the intended `Γ` permits ramification at `2`; the ordinary group unramified outside
+  `{5}` cannot have this quadratic quotient. The factorizations of `X² + 1` modulo `5` and `2`
+  display the splitting and ramification.
 - **polarized_rank_one.** for `n = 1` the polarized lifts are the conjugate-self-dual characters with the
   prescribed multiplier.
 - **polarizedLift_triple_bijective.** the correspondence with triples is bijective (§7.4); a version
@@ -2417,9 +2579,11 @@ ArithmeticGaloisRepresentations §7.4.
 
 ### 8.2 Representability of polarized problems
 
-**Theorem.** For Schur `r̄`, the `T`-framed polarized type-`𝒮` functor is represented by `R^{□T}_𝒮`.
-Construct the local tensor map and identify its relative cotangent dual with
-`H¹_{𝒮,T}(G_{F⁺,S}, ad r̄)`. A universal representative gives `R^{□T}_𝒮 ≅ R^univ_𝒮⟦X_{v,i,j}⟧` in `n²|T|`
+**Theorem.** For Schur `r̄` on the group `Γ` of 8.1, the `T`-framed polarized type-`𝒮` functor is
+represented by `R^{□T}_𝒮`. For every open `U ≤ Γ`, restriction of characters to `U ∩ Δ` is
+injective at odd `p`, since `U/(U ∩ Δ)` has order at most two. Thus `Φ_p(Δ)` from 2.2 gives
+`Φ_p(Γ)`. Construct the local tensor map and identify its relative cotangent dual with
+`H¹_{𝒮,T}(Γ, ad r̄)`. A universal representative gives `R^{□T}_𝒮 ≅ R^univ_𝒮⟦X_{v,i,j}⟧` in `n²|T|`
 variables: the fixed-multiplier polarized strict centralizer is trivial at odd `p`, so no scalar frame
 variable is removed. The adjoint is `Mₙ(k)` with `(g, μ)` acting by conjugation and `j` by negative
 transpose; the `GLₙ` scalar-centralizer count is not reused (CHT, Proposition 2.2.9 and its proof,
@@ -2432,7 +2596,7 @@ pp. 22–24).
 
 - **polarized_frame_count.** `n = 2`, `|T| = 1` gives `4` frame variables, not `3`.
 - **polarized_centralizer_trivial.** conjugating `j` by a scalar `(c, 1)` gives `(c², 1)j`, so a residually
-  trivial scalar commuting with the image of an element outside `G_F` satisfies `c² = 1`, hence `c = 1`
+  trivial scalar commuting with the image of an element in `Γ ∖ Δ` satisfies `c² = 1`, hence `c = 1`
   for odd `p`; the strict polarized centralizer is trivial.
 - **polarized_adjoint_j.** `j` acts on `Mₙ(k)` by `X ↦ −ᵗX`; over `𝔽₂` this is transpose and the invariants
   `gl_n^{𝒢ₙ}` are nonzero, one reason `p` is odd (ArithmeticGaloisRepresentations §7.4).
@@ -2441,21 +2605,22 @@ pp. 22–24).
 
 ### 8.3 Tangent and obstruction spaces of polarized problems
 
-**Theorem.** For Schur polarized data and a small extension with kernel `I`, choose lifts of the
-local representations in their prescribed problems at every place in `S`, including the prescribed
+**Theorem.** For Schur polarized data on `Γ` of 8.1 and a small extension with kernel `I`, choose
+lifts of the local representations in their prescribed problems at every place in `S`, including the prescribed
 framed local lifts at `T`. The obstruction to a compatible global lift then lies in
-`H²_{𝒮,T}(G_{F⁺,S}, ad r̄) ⊗_k I`, and vanishes exactly when such a global lift exists. Without
+`H²_{𝒮,T}(Γ, ad r̄) ⊗_k I`, and vanishes exactly when such a global lift exists. Without
 chosen local lifts this obstruction is not asserted; liftability outside `T` supplies them for the
 relation bound in 8.4. Prove the long exact sequence and the arithmetic comparisons: `Hⁱ_rel`
 vanishes above degree `3`; `H⁰_rel` is the global `H⁰` when `T` is empty and zero otherwise;
-`h³_rel = h⁰(ad r̄(1))`; `h²_rel` is the ordinary dual Selmer dimension. With `χ(c_v) = ±1`, the Euler
+`h³_rel = h⁰(Γ, ad r̄(1))`; `h²_rel` is the ordinary dual Selmer dimension. With `χ(c_v) = ±1`, the Euler
 characteristic `Σ(−1)ⁱhⁱ_rel` is `Σ_{v|∞} n(n + χ(c_v))/2 + Σ_{v∈S∖T} (h⁰(G_{F_ṽ}, ad r̄) − dim L_v)`. The global
-Euler formula uses the CM prime-to-`p` descent of ArithmeticGaloisDuality D7, including ramification
-outside the split set `S`. If `p ∤ n`, the adjoint splits as its trace kernel and a scalar line on which
+Euler formula uses restriction to `Δ = G_{F,S_F}` and index-two prime-to-`p` descent from
+ArithmeticGaloisDuality R02.2/D7. The carrier `Γ` allows the ramification of `F/F⁺` outside `S`.
+If `p ∤ n`, the adjoint splits as its trace kernel and a scalar line on which
 `j` acts by `−1`; if `p | n` this fails and the full adjoint is kept (CHT, Lemmas 2.2.8, 2.2.11, 2.1.3,
 2.3.3 and 2.3.4, pp. 8–32).
 
-*Needs:* [8.2](#polarized-representability); ArithmeticGaloisDuality R02.4, D7 and D8.
+*Needs:* [8.2](#polarized-representability); ArithmeticGaloisDuality R02.2, R02.4, D7 and D8.
 
 *Lean:* the `example` that `1` has trace `0` in `M₃(𝔽₃)`.
 
@@ -2463,7 +2628,7 @@ outside the split set `S`. If `p ∤ n`, the adjoint splits as its trace kernel 
 
 - **polarized_euler_rank_one.** for `n = 1`, the archimedean contribution is `(1 + χ(c_v))/2`, which is `0`
   for a totally odd multiplier (`χ(c_v) = −1`) and `1` otherwise.
-- **polarized_H0_framed.** for nonempty `T`, `H⁰_rel = 0`; for `T` empty it is `H⁰(G_{F⁺,S}, ad r̄)`, which is
+- **polarized_H0_framed.** for nonempty `T`, `H⁰_rel = 0`; for `T` empty it is `H⁰(Γ, ad r̄)`, which is
   `0` for Schur `r̄` and odd `p`.
 - **polarized_p_divides_n.** for `p = n = 3`, `tr(1) = 0` in `M₃(𝔽₃)`, so the scalars lie in the trace kernel
   and the splitting fails.
@@ -2475,17 +2640,18 @@ outside the split set `S`. If `p ∤ n`, the adjoint splits as its trace kernel 
 
 ### 8.4 Presentations of polarized deformation rings
 
-**Theorem.** Present `R^{□T}_𝒮` over its local tensor ring in the nonnegative number
+**Theorem.** For the polarized data on `Γ` of 8.1, present `R^{□T}_𝒮` over its local tensor ring
+in the nonnegative number
 
 ```text
-g = h¹_{L^⊥,T}(ad r̄(1)) − h⁰(ad r̄(1)) + Σ_{v∈S∖T} (dim L_v − h⁰(G_{F_ṽ}, ad r̄)) − Σ_{v|∞} n(n + χ(c_v))/2
+g = h¹_{L^⊥,T}(Γ, ad r̄(1)) − h⁰(Γ, ad r̄(1)) + Σ_{v∈S∖T} (dim L_v − h⁰(G_{F_ṽ}, ad r̄)) − Σ_{v|∞} n(n + χ(c_v))/2
 ```
 
-of variables. If the problems outside `T` are liftable, at most `h¹_{L^⊥,T}(ad r̄(1))` relations are
+of variables. If the problems outside `T` are liftable, at most `h¹_{L^⊥,T}(Γ, ad r̄(1))` relations are
 needed, and then
 
 ```text
-dim R^{□T}_𝒮 ≥ 1 + Σ_{v∈T} (dim(R^loc_v/I_v) − 1) + Σ_{v∈S∖T} (dim L_v − h⁰(G_{F_ṽ}, ad r̄)) − h⁰(G_{F⁺,S}, ad r̄(1)) − Σ_{v|∞} n(n + χ(c_v))/2.
+dim R^{□T}_𝒮 ≥ 1 + Σ_{v∈T} (dim(R^loc_v/I_v) − 1) + Σ_{v∈S∖T} (dim L_v − h⁰(G_{F_ṽ}, ad r̄)) − h⁰(Γ, ad r̄(1)) − Σ_{v|∞} n(n + χ(c_v))/2.
 ```
 
 The local conditions must be nonempty problems for the chosen residual representation; the rank-`n`
@@ -2495,7 +2661,7 @@ reduced generic fibre have their own roles in component arguments and are not su
 representing ring here (CHT, Corollaries 2.2.12, 2.2.13 and 2.3.5, pp. 25 and 32).
 
 *Needs:* [8.3](#polarized-tangent-obstruction); [8.2](#polarized-representability);
-DeformationAndDerivedPatchingAlgebra R03.2; LocalGaloisDeformationRings Layers 1, 2, 3 and 6.
+[presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4; LocalGaloisDeformationRings Layers 1, 2, 3 and 6.
 
 **Checks.**
 
@@ -2503,7 +2669,7 @@ DeformationAndDerivedPatchingAlgebra R03.2; LocalGaloisDeformationRings Layers 1
 - **polarized_liftability.** without liftability outside `T` only the generator count holds, not the
   relation bound (compare 3.7, **presentation_needs_liftability**).
 - **polarized_dim_rank_one.** for `n = 1`, `T = S` and totally odd multiplier, the archimedean term vanishes
-  and the bound reads `1 + Σ_{v∈T}(dim(R^loc_v/I_v) − 1) − h⁰(ad r̄(1))`.
+  and the bound reads `1 + Σ_{v∈T}(dim(R^loc_v/I_v) − 1) − h⁰(Γ, ad r̄(1))`.
 
 <a id="taylor-wiles-local-diamond"></a>
 
@@ -2606,8 +2772,7 @@ and its proof, printed p. 1047, PDF p. 151, with the diamond and augmentation da
 ### Dependencies
 
 Layers R04.1–R04.5 and G8; ArithmeticGaloisRepresentations §7.4 and §7.10; ArithmeticGaloisDuality
-R02.4, D7 and D8; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; DeformationAndDerivedPatchingAlgebra
-R03.2.
+R02.4, D7 and D8; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; [presentation algebra](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
 
 ## Downstream consumers
 
