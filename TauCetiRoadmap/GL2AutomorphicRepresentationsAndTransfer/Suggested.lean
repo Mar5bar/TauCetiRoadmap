@@ -50,6 +50,19 @@ example (u l : GeneralLinearGroup (Fin 2) (ZMod 5))
     (hu : u.val = !![1, 1; 0, 1]) (hl : l.val = !![1, 0; 1, 1]) :
     u ∈ k0 (⊥ : Ideal (ZMod 5)) ∧ l ∉ k0 (⊥ : Ideal (ZMod 5)) := by sorry
 
+example :
+    let d : GeneralLinearGroup (Fin 2) (ZMod 5) :=
+      ⟨!![1, 0; 0, 2], !![1, 0; 0, 3], by sorry, by sorry⟩
+    let u : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
+    d ∈ k0 (⊥ : Ideal (ZMod 5)) ∧
+      GeneralLinearGroup.scalar (Fin 2) u ∈ k0 (⊥ : Ideal (ZMod 5)) := by sorry
+
+example :
+    let l : GeneralLinearGroup (Fin 2) (ZMod 25) :=
+      ⟨!![1, 0; 5, 1], !![1, 0; -5, 1], by sorry, by sorry⟩
+    l ∈ k0 (Ideal.span ({5} : Set (ZMod 25))) ∧
+      l ∉ k0 (⊥ : Ideal (ZMod 25)) := by sorry
+
 /-- The last-row ideal congruence subgroup of GL₂(R): lower-left entry in I and lower-right entry congruent to one. Inversion is included by Submonoid.units. -/
 def k1 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
   ({ carrier := {M : Matrix (Fin 2) (Fin 2) R | M 1 0 ∈ I ∧ M 1 1 - 1 ∈ I}
@@ -74,6 +87,29 @@ example : k1 (⊤ : Ideal R) = ⊤ := by sorry
 
 example (g : GeneralLinearGroup (Fin 2) (ZMod 5)) (hg : g.val = !![2, 0; 0, 1]) :
     g ∈ k1 (⊥ : Ideal (ZMod 5)) ∧ g.val ≠ !![1, 0; 0, 1] := by sorry
+
+example :
+    let u : GeneralLinearGroup (Fin 2) (ZMod 5) :=
+      ⟨!![1, 1; 0, 1], !![1, -1; 0, 1], by sorry, by sorry⟩
+    let l : GeneralLinearGroup (Fin 2) (ZMod 5) :=
+      ⟨!![1, 0; 1, 1], !![1, 0; -1, 1], by sorry, by sorry⟩
+    u ∈ k1 (⊥ : Ideal (ZMod 5)) ∧ l ∉ k1 (⊥ : Ideal (ZMod 5)) := by sorry
+
+example :
+    let d₁ : GeneralLinearGroup (Fin 2) (ZMod 5) :=
+      ⟨!![1, 0; 0, 2], !![1, 0; 0, 3], by sorry, by sorry⟩
+    let d₂ : GeneralLinearGroup (Fin 2) (ZMod 5) :=
+      ⟨!![2, 0; 0, 1], !![3, 0; 0, 1], by sorry, by sorry⟩
+    let u : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
+    d₁ ∉ k1 (⊥ : Ideal (ZMod 5)) ∧
+      GeneralLinearGroup.scalar (Fin 2) u ∉ k1 (⊥ : Ideal (ZMod 5)) ∧
+      d₂ ∈ k1 (⊥ : Ideal (ZMod 5)) := by sorry
+
+example :
+    let l : GeneralLinearGroup (Fin 2) (ZMod 25) :=
+      ⟨!![1, 0; 5, 1], !![1, 0; -5, 1], by sorry, by sorry⟩
+    l ∈ k1 (Ideal.span ({5} : Set (ZMod 25))) ∧
+      l ∉ k1 (⊥ : Ideal (ZMod 25)) := by sorry
 
 end Congruence
 
@@ -354,8 +390,8 @@ example (χ : Fˣ →* ℂˣ)
 end IwahoriOldforms
 
 /-! AutomorphicLFunctionsAndLocalFactors AL.2, GL₂ newvectors, supplies the least-level
-conductor and normalized Whittaker line. The following classification checks express
-that supplied conductor as `Nat.find hex` on the explicit nonempty level set. -/
+conductor and normalized Whittaker line. The following classification checks supply a
+nonempty level set in each concrete model and express its conductor as `Nat.find hex`. -/
 
 section LocalModelFixtures
 open scoped ValuativeRel
@@ -421,26 +457,26 @@ example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
       χ₁ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1 ∧
       χ₂ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
     (hgen : χ₁ * χ₂⁻¹ ≠ localNormCharacter p 1 ∧
-      χ₁ * χ₂⁻¹ ≠ localNormCharacter p (-1))
-    (hex : ∃ n, ∃ v ∈ Representation.invariants
-      ((localPrincipalSeriesRep χ₁ χ₂).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
-    @Nat.find _ (Classical.decPred _) hex = 0 := by sorry
+      χ₁ * χ₂⁻¹ ≠ localNormCharacter p (-1)) :
+    ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
+      ((localPrincipalSeriesRep χ₁ χ₂).comp (localK1 ℚ_[p] n).subtype), v ≠ 0),
+      @Nat.find _ (Classical.decPred _) hex = 0 := by sorry
 
 example (χ : ℚ_[p]ˣ →* ℂˣ)
     (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
-      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
-    (hex : ∃ n, ∃ v ∈ Representation.invariants
-      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
-    @Nat.find _ (Classical.decPred _) hex = 1 := by sorry
+      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1) :
+    ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
+      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0),
+      @Nat.find _ (Classical.decPred _) hex = 1 := by sorry
 
 example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
     (hdepth : ∀ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ a →
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1)
     (hminimal : ∃ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ (a - 1) ∧
-      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) ≠ 1)
-    (hex : ∃ n, ∃ v ∈ Representation.invariants
-      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0) :
-    @Nat.find _ (Classical.decPred _) hex = 2 * a := by sorry
+      χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) ≠ 1) :
+    ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
+      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0),
+      @Nat.find _ (Classical.decPred _) hex = 2 * a := by sorry
 
 end LocalModelFixtures
 
@@ -666,6 +702,28 @@ example (u : ℂˣ) :
         (u : ℂ) ^ 3 • (1 : Module.End ℂ (HilbertWeightSpace ℂ (fun _ : Fin 1 => 3))) := by sorry
 
 example : ¬ ∃ m₁ m₂ w : ℤ, 2 + 2 * m₁ = w ∧ 3 + 2 * m₂ = w := by sorry
+
+example (u : ℂˣ) :
+    hilbertWeightFactor ℂ 2 (-1) (GeneralLinearGroup.scalar (Fin 2) u) =
+      (u : ℂ) ^ (-2 : ℤ) • (1 : Module.End ℂ (Sym[ℂ]^0 (Fin 2 → ℂ))) ∧
+    hilbertWeightRepresentation ℂ (fun _ : Fin 1 => 2) (fun _ => -1)
+        (fun _ => GeneralLinearGroup.scalar (Fin 2) u) =
+      (u : ℂ) ^ (-2 : ℤ) •
+        (1 : Module.End ℂ (HilbertWeightSpace ℂ (fun _ : Fin 1 => 2))) := by sorry
+
+example (u : Fin 2 → ℂˣ) :
+    let k : Fin 2 → ℕ := ![2, 4]
+    let m : Fin 2 → ℤ := ![1, 0]
+    Module.finrank ℂ (HilbertWeightSpace ℂ k) = 3 ∧
+      (∀ i, (k i : ℤ) + 2 * m i = 4) ∧
+      hilbertWeightRepresentation ℂ k m
+          (fun i => GeneralLinearGroup.scalar (Fin 2) (u i)) =
+        ((u 0 : ℂ) ^ 2 * (u 1 : ℂ) ^ 2) •
+          (1 : Module.End ℂ (HilbertWeightSpace ℂ k)) := by sorry
+
+example (g : Fin 0 → GeneralLinearGroup (Fin 2) ℂ) :
+    Module.finrank ℂ (HilbertWeightSpace ℂ (fun _ : Fin 0 => 2)) = 1 ∧
+      hilbertWeightRepresentation ℂ (fun _ : Fin 0 => 2) (fun _ => 0) g = 1 := by sorry
 
 end Weight
 
@@ -1038,6 +1096,60 @@ theorem finite_projective_lift (F : Type*) [Field F] [NumberField F]
 
 end ArithmeticLifting
 
+section CharacterPrescriptionFixtures
+local instance : Fact (Nat.Prime 5) := ⟨by decide⟩
+local instance : Fact (Nat.Prime 2) := ⟨by decide⟩
+
+/-- The quadratic character modulo five with complex coefficients and zero extension. -/
+def quadraticDirichletFive : DirichletCharacter ℂ 5 :=
+  (quadraticChar (ZMod 5)).ringHomComp (Int.castRingHom ℂ)
+
+example : quadraticDirichletFive 0 = 0 := by sorry
+
+example : quadraticDirichletFive 2 = -1 := by sorry
+
+example : quadraticDirichletFive (-1) = 1 := by sorry
+
+/-- The order-four additive character of ZMod 4 taking one to i. -/
+def quarticCharacter : AddChar (ZMod 4) ℂ where
+  toFun a := Complex.I ^ a.val
+  map_zero_eq_one' := by sorry
+  map_add_eq_mul' := by sorry
+
+example : quarticCharacter 1 = Complex.I := by sorry
+
+example : quarticCharacter 2 = -1 := by sorry
+
+example : quarticCharacter 3 = -Complex.I := by sorry
+
+example : quarticCharacter ^ 4 = 1 ∧ quarticCharacter ^ 2 ≠ 1 := by sorry
+
+/-- Extending the nontrivial character on the order-two subgroup forces order growth. -/
+theorem characterExtensionOrder_square_ne_one (χ : AddChar (ZMod 4) ℂ)
+    (hχ : χ 2 = -1) : χ ^ 2 ≠ 1 := by sorry
+
+/-- The nonzero dyadic uniformizer as a unit of Q₂. -/
+def twoUnit : ℚ_[2]ˣ := Units.mk0 2 (by norm_num)
+
+/-- The continuous quadratic character of Q₂× defined by valuation parity. -/
+def unramifiedQuadraticTwo : ContinuousMonoidHom ℚ_[2]ˣ ℂˣ where
+  toFun u := (-1 : ℂˣ) ^ (u : ℚ_[2]).valuation
+  map_one' := by sorry
+  map_mul' := by sorry
+  continuous_toFun := by sorry
+
+example : unramifiedQuadraticTwo twoUnit = -1 := by sorry
+
+example (u : ℤ_[2]ˣ) :
+    unramifiedQuadraticTwo (Units.map PadicInt.Coe.ringHom.toMonoidHom u) = 1 := by sorry
+
+example (u : ℚ_[2]ˣ) (hu : IsOfFinOrder u) :
+    unramifiedQuadraticTwo u = 1 := by sorry
+
+example : unramifiedQuadraticTwo (-1) = 1 := by sorry
+
+end CharacterPrescriptionFixtures
+
 section FiniteSection
 
 /-- Reduction modulo λ = (1 + √−2): ℤ[√−2] → F₃, sending √−2 to −1. -/
@@ -1123,6 +1235,17 @@ theorem compatible_base_change (ρ : Λ → G →* GeneralLinearGroup (Fin 2) K)
     (hfrob : ∀ w, i (FrobE w) = FrobF (below w) ^ f w) :
     ∀ ell w, ρ ell (i (FrobE w)) = unramifiedBaseChange (ρ ell (FrobF (below w))) (f w) := by sorry
 
+/-- Matching irreducible restrictions over algebraically closed coefficients differ by a finite quotient character. -/
+theorem compatible_descent_twist [IsAlgClosed K]
+    (E : Subgroup G) [E.Normal] [E.FiniteIndex]
+    (r s : G →* GeneralLinearGroup (Fin 2) K) (P : GeneralLinearGroup (Fin 2) K)
+    (hres : ∀ h : E, r h = P * s h * P⁻¹)
+    (hirr : Representation.IsIrreducible
+      ((Units.coeHom (Module.End K (Fin 2 → K))).comp
+        (GeneralLinearGroup.toLin.toMonoidHom.comp (s.comp E.subtype)))) :
+    ∃ χ : G →* Kˣ, Set.Finite (Set.range χ) ∧ (∀ h : E, χ h = 1) ∧
+      ∀ g, r g = P * GeneralLinearGroup.scalar (Fin 2) (χ g) * s g * P⁻¹ := by sorry
+
 end TransferExports
 
 end TauCeti.GL2Transfer
@@ -1132,17 +1255,17 @@ README-only definitions and API targets:
 CentralCharacterL2 and its inner product, completeness, translation and measure API (R16.1).
 brauerCharacter, brauerCharacter_conjugate, brauerCharacter_one, brauerCharacter_spectrum.
 cdtVexingType, cdtVexingType_lattice, cdtVexingType_restrict, cdtVexingType_unramified.
-characterExtensionOrder_square_ne_one, cyclicMatching_central.
+cyclicMatching_central.
 involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, k0_mem.
 k0_mono, k0_scalar, k0_top, k1_le_k0.
 k1_mem, k1_mono, k1_scalar, k1_top.
 localK0_antitone, localK0_scalar_mul_localK1, localK0_zero, localK1_antitone.
 localK1_le_integral, localK1_le_localK0, localK1_zero, nonCM_iff.
-quadraticDirichletFive, quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
-quarticCharacter, sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
+quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
+sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
 steinbergProjectorDifference_central, steinbergProjectorDifference_eval, steinbergProjectorDifference_twist, tamelyDihedral.
-tamelyDihedral_parameter, tamelyDihedral_unramified_twist, twoUnit, unramifiedBaseChange_conjugate.
-unramifiedBaseChange_det, unramifiedBaseChange_map, unramifiedBaseChange_one, unramifiedQuadraticTwo.
+tamelyDihedral_parameter, tamelyDihedral_unramified_twist, unramifiedBaseChange_conjugate.
+unramifiedBaseChange_det, unramifiedBaseChange_map, unramifiedBaseChange_one.
 Their intended signatures, hypotheses, source locators and Checks are specified
 in the corresponding README sections.
 -/
