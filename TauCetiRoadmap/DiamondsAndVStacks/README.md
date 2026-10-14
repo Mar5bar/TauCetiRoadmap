@@ -180,9 +180,9 @@ the spectrality of pro-constructible subspaces (`TauCeti.IsProConstructible`,
 (`TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition`; AdicSpaces layers 1–2), the
 Huber pairs, rational subsets and adic structure presheaf of AdicSpaces layers 2–3, and the pre-adic
 spaces `PreAdicSpace` with their underlying-space functor `PreAdicSpace.forgetToTop` and sheaf
-condition `PreAdicSpace.isSheafy`. The targets of D0 on locally spectral spaces and maps, images of
-pro-constructible subsets under spectral maps and the Hochster dual say in one clause how they
-extend Mathlib's `SpectralSpace`, `IsSpectralMap` and `WithConstructibleTopology`.
+condition `PreAdicSpace.isSheafy`. The targets of D0 on locally spectral spaces and maps and the
+Hochster dual say in one clause how they extend Mathlib's `SpectralSpace`, `IsSpectralMap` and
+`WithConstructibleTopology`.
 
 The following results are supplied by the libraries or roadmaps in Exact supplier contracts:
 
@@ -822,6 +822,14 @@ AdicEtaleGeometry layer A1: the analytic/étale finite-projective comparison and
 calculus, with the pro-étale site in A1.12; layer A4: finite étale torsor towers with perfectoid
 uniform completion. AdicSpacesPartII layer R0: the affinoid and étale calculus of Huber pairs and
 the Tate norm `tateNorm` of a ring of definition; layer R1 (§R1.1): fixed-field rigid spaces.
+AdicSpacesPartII [R0.18](../AdicSpacesPartII/README.md#r018-supporting-results),
+*spectral-map-image-proconstructible*, supplies
+`TauCetiRoadmap.AdicSpacesPartII.isProConstructible_image`: for spectral spaces `X`, `Y`,
+`f : X → Y` with `IsSpectralMap f` and `T ⊆ X` with `TauCeti.IsProConstructible T`, the image
+`f '' T` is pro-constructible. Its locally spectral corollary carries pro-constructible subsets
+to pro-constructible subsets under quasi-compact `IsLocallySpectralMap` maps between locally
+spectral spaces, with pro-constructibility tested on every spectral open. D0.3 uses both contracts;
+R0.18 uses only D0.1 and D0.2 from this roadmap.
 AdicSpacesPartIII layer R2: formal schemes, generic fibres and Hasse domains, including flat
 topologically finite type algebras (§R2.1) and the specialisation map (§R2.4); layer R3: the
 Gel'fand spectrum `GelfandSpectrum` of a Banach ring with its compactness, Hausdorffness and
@@ -1106,21 +1114,20 @@ as an example on the Sierpiński space `Prop` and `s0_2_empty_and_point` as an e
 
 ### D0.3 Pro-constructible subsets
 
-**Pro-constructible subsets: closedness in the constructible topology and stability under spectral
-images.** (*pro-constructible-subsets*) Tau Ceti's `TauCeti.IsProConstructible` is closedness in
+**Pro-constructible subsets: closedness in the constructible topology.**
+(*pro-constructible-subsets*) Tau Ceti's `TauCeti.IsProConstructible` is closedness in
 `WithConstructibleTopology`; its compactness, intersections, inverse images and induced
-spectral-space structures are imported, never rebuilt. Let `X` and `Y` be spectral and `f : X → Y`
-spectral. That a subset of `X` is pro-constructible iff it is an intersection of constructible
+spectral-space structures are imported, never rebuilt. Let `X` be spectral.
+That a subset of `X` is pro-constructible iff it is an intersection of constructible
 subsets is read off from Mathlib's `constructibleTopology_eq_generateFrom_isConstructible` and its
 closedness criterion `isClosed_iff` for `WithConstructibleTopology`, constructible subsets being
-closed under complement and finite unions and intersections; the imported clauses are
+closed under complement and finite unions and intersections ([ECD] §2, Lem. 2.3 with proof, p. 10);
+the imported clauses are
 `TauCeti.IsProConstructible.preimage`, `.isCompact`, `.spectralSpace` and
-`.isSpectralMap_subtypeVal`. Prove `isProConstructible_image`: the image under `f` of a
-pro-constructible subset of `X` is pro-constructible in `Y` ([ECD] §2, Lem. 2.3 with proof, p. 10).
-Tau Ceti's `IsSpectralMap.continuous_constructibleTopology` makes `f` continuous for the
-constructible topologies, which are compact Hausdorff by D0.2; the image of the closed subset is
-compact and therefore closed in the target constructible topology. This spectral-space theorem
-supplies AdicSpacesPartII R0.18's extension to quasi-compact locally spectral maps. On a
+`.isSpectralMap_subtypeVal`. Spectral images use
+`TauCetiRoadmap.AdicSpacesPartII.isProConstructible_image` and its quasi-compact locally spectral
+corollary from [AdicSpacesPartII R0.18](../AdicSpacesPartII/README.md#r018-supporting-results),
+with the hypotheses in Exact supplier contracts. On a
 locally spectral space the predicate is checked on spectral opens. The image of `Spa(K, O_K)` in `Spa(K, K⁺)`, for `K` a
 nonarchimedean field and `K⁺ ⊆ O_K` an open bounded valuation subring, is the rank-one point; it is
 pro-constructible and generalizing, and when `K⁺ ≠ O_K` it is not closed. When `K⁺ = O_K` it is the
@@ -1129,7 +1136,8 @@ the residue field of `O_K` has a height-one prime: `Spa(K, K⁺)` is homeomorphi
 with the rank-one point as generic point, so for `K⁺` of rank two it is the Sierpiński space with
 the rank-one point open, and the rank-one point fails to be open only for `K⁺` of infinite rank with
 no height-one prime over `√(ϖK⁺)`. The set of rank-one points of a spectral space need not be
-pro-constructible, which is why ECD never asserts it. *Needs:* D0.2; Mathlib
+pro-constructible, which is why ECD never asserts it. *Needs:* D0.2; AdicSpacesPartII R0.18's
+*spectral-map-image-proconstructible*; Mathlib
 `Topology.IsConstructible`, `Topology.IsLocallyConstructible`, `IsRetrocompact`,
 `WithConstructibleTopology`, `constructibleTopology_eq_generateFrom_isConstructible`, and its
 `isClosed_iff`; Tau Ceti `TauCeti.IsProConstructible` with `.preimage`, `.isCompact`,
@@ -1156,8 +1164,8 @@ pro-constructible, which is why ECD never asserts it. *Needs:* D0.2; Mathlib
 
 - `generalizing_subset_of_a_chain` — In the Sierpiński space, the open singleton is pro-constructible and generalizing; the closed singleton is pro-constructible but not generalizing.
 
-Lean: `isProConstructible_image`. The rest of this subsection is specified in the README only
-(no Lean declaration).
+Lean: none; this subsection uses the supplier declaration
+`TauCetiRoadmap.AdicSpacesPartII.isProConstructible_image` and adds no local Lean declaration.
 
 ### D0.4 Closure of a pro-constructible subset
 
@@ -3106,8 +3114,9 @@ Ceti, `TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition`,
 `TauCeti.IsSpectralMap.continuous_constructibleTopology` and
 `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`. Within the layer, D0.2 feeds D0.3, D0.4, D0.5,
 D0.6, D0.9, D0.10, D0.11 and D0.13; D0.3 and D0.7 feed D0.10; D0.7 feeds D0.8;
-D0.10 feeds D0.13; D0.13 feeds D0.5, D0.6 and D0.15. D0.3 supplies `isProConstructible_image`
-to AdicSpacesPartII R0.18's locally spectral extension; PerfectoidSpaces P5.4 supplies spectrality
+D0.10 feeds D0.13; D0.13 feeds D0.5, D0.6 and D0.15. AdicSpacesPartII R0.18 supplies
+`TauCetiRoadmap.AdicSpacesPartII.isProConstructible_image` and its locally spectral corollary to
+D0.3; its only inputs from this roadmap are D0.1 and D0.2. PerfectoidSpaces P5.4 supplies spectrality
 and the projections in D0.10;
 D0.17 feeds D0.18 and D0.21; D0.16 feeds D0.22; D0.23 feeds D0.24 and the bounded variant of D0.13;
 D0.25 feeds D0.26. SchemeAndStackFoundations supplies the generic site constructions and cohomology
@@ -8076,6 +8085,9 @@ in the build ([ECD] §11, Prop. 11.24 with proof, p. 65, the statement and its c
 Prop. 11.26 and Lem. 11.27, pp. 65–67, the two results the construction terminates in). *Needs:*
 D5.1; D5.3; D0.9; D1.9; D1.4; D0.23; D4.4; D3.10; PerfectoidSpaces P5.7, P6.1–P6.2 and P6.10.
 
+The local-structure input can be constructed in the order D5.3 → D5.8 → D5.7 → D5.4, since
+D5.8 does not use the presentation theorem.
+
 **Checks.**
 
 - `point` (degenerate) — for `Y = Spa(C, C⁺)` with `C` algebraically closed the identity is a
@@ -8261,7 +8273,8 @@ hence spatial) and `Perf.Diamond.localization_space` (the underlying space is th
 generalizations of `y`), and define `Perf.Diamond.localization_toBase` as its canonical qc injection
 into `Y` ([ECD] §11, proof of Lem. 11.31, p. 69, the diamond localization actually used in the
 proof; its inverse-limit construction is justified by [ECD] §11, Lem. 11.22, and the induced
-topology by [ECD] Proposition 11.20, p. 62). *Needs:* D5.3; D5.1; D3.7.
+topology by [ECD] Proposition 11.20, p. 62). *Needs:* D5.3; D5.1; D3.7; no input from D5.4's
+presentation theorem.
 
 **Checks.**
 

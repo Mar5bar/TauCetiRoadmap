@@ -114,12 +114,6 @@ example : constructibleTopology Prop = ⊥ := sorry
 example : constructibleTopology Empty = ⊥ ∧ constructibleTopology PUnit = ⊥ ∧
     CompactSpace (WithConstructibleTopology PUnit) := sorry
 
-/-- Spectral maps of spectral spaces preserve pro-constructible subsets (ECD Lemma 2.3,
-p. 10), by continuity for the compact Hausdorff constructible topologies. -/
-theorem isProConstructible_image {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [SpectralSpace X] [SpectralSpace Y] {f : X → Y} (hf : IsSpectralMap f)
-    {S : Set X} (hS : IsProConstructible S) : IsProConstructible (f '' S) := sorry
-
 /-- The closure of a pro-constructible subset of a spectral space is its set of specializations
 (ECD Lemma 2.4, pp. 10–11). -/
 theorem closure_eq_setOf_specializes_of_isProConstructible {X : Type u} [TopologicalSpace X]
