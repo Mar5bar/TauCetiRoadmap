@@ -78,7 +78,7 @@ remain defined there.
 
 - [CStarAlgebras C1–C4](../CStarAlgebras/README.md) supplies finite matrix
   C*-algebras, ideals, continuous functional calculus and the concrete
-  CP-map interfaces; V13 owns their general CP foundations. C5 supplies
+  CP-map interfaces; V13a owns their general CP foundations. C5 supplies
   spatial tensor products and C*-inductive limits.
   [CStarClassification CL2](../CStarClassification/README.md) supplies
   Bratteli-diagram/AF presentations. This roadmap supplies the TL path
@@ -86,7 +86,7 @@ remain defined there.
   and the elementary unitary TL category.
 - [VonNeumannAlgebras V0–V1](../VonNeumannAlgebras/README.md) supplies
   GNS representations and weak closures; V4 supplies normal functionals
-  and V6 tracial L². V13 supplies general CP maps. The
+  and V6 tracial L². V13a supplies general CP maps. The
   construction here supplies their specific input states and trace Hilbert
   spaces. It asserts no factor classification or index theorem.
 - [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md)
@@ -390,8 +390,12 @@ axioms explicitly, including bounded composition,
 of every finite-dimensional Hom space. Show tensor product respects
 adjoints and is contractive on morphisms, by an explicit *-homomorphism
 from the finite-dimensional spatial tensor product of endomorphism
-algebras. Supply the cups/caps and duality equations, and prove the
-spherical trace is the given positive closure trace. This constructs the
+algebras. For admissible positive δ supply the cups/caps and both conjugate
+equations. Prove cap is cup† in the prescribed bending convention,
+the dual tensorator is unitary and `(f∨)†=(f†)∨`. Identify these
+conjugate solutions as CA2a's balanced solutions, including their
+sum/subobject transport, and prove their spherical trace is the
+given positive closure trace. This constructs the
 TL example directly; it does not require a later general categorical
 operator-algebra realization theorem.
 
