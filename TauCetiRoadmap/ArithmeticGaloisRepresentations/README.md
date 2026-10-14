@@ -57,9 +57,9 @@ The roadmap owns:
   representation to them, unramified and tamely ramified representations and the ramification set,
   Frobenius characteristic polynomials, unramified characters, Dirichlet characters as Galois
   characters, Serre's fundamental characters over finite residue fields, the arithmetic adapter
-  to the shared Weil–Deligne construction and monodromy theorem supplied by
-  SmoothRepresentationsOfLocalGroups SR.5.2, local Euler factors, the monodromy filtration and
-  purity, and Deligne–Langlands local constants (Layer 2);
+  to SmoothRepresentationsOfLocalGroups' Frobenius-semisimplified Weil–Deligne parameter,
+  the shared linear substrate, monodromy theorem and full construction of §2.4, local Euler factors,
+  the monodromy filtration and purity, and Deligne–Langlands local constants (Layer 2);
 - the absolute upper-numbering filtration of `G_K`, breaks, Swan and Artin conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
@@ -454,7 +454,8 @@ labelled weights. These period subtargets use the earlier local and cohomologica
 | --- | --- | --- |
 | Completion and period-ring carriers | `PadicComplex`, `BDeRhamPlus`, `BDeRham` | Pinned Mathlib declarations |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
-| Weil–Deligne carrier, full functor and Frobenius semisimplification | SmoothRepresentationsOfLocalGroups SR.5.2, Classical parameters and the generic convention | Supplier targets; §2.4 arithmetic adapter |
+| Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
+| Linear Weil–Deligne substrate on parameter fields | §2.4 `wd-linear-substrate`, including §2.5 `wd-frobenius-semisimplification` | Owned shared targets; independent of the supplier's functor and Layer 1 |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
 | Period topology, actions, invariants and de Rham realization/predicate | SelmerIwasawaCohomology §§4.1, 4.4–4.5 | Supplier targets; §7.6 adapter |
 | Labelled Sen operators and character-weight criteria | §7.6 below | Owned targets |
@@ -464,7 +465,7 @@ labelled weights. These period subtargets use the earlier local and cohomologica
 
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
-| Weil–Deligne carrier and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md) SR.5.2, Classical parameters and the generic convention | Single owner of the carrier, monodromy theorem, full Weil–Deligne construction and inverse on unit-Frobenius parameters, operations and Frobenius semisimplification. §2.4 transports the Layer 1 carrier to this interface. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. The full construction precedes Frobenius semisimplification; §§2.5–2.7 and Layer 3 consume it for factors, purity, constants and conductors. |
+| Frobenius-semisimplified Weil–Deligne parameter and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md#sr52-integral-blocks-whittaker-projectives-and-families) SR.5.2, **Classical parameters and the generic convention**, `classical-llc-normalization` | Owns the Frobenius-semisimplified parameter and functor, algebraic dual compatibility, descent and scalar extension. §2.4 `wd-linear-substrate` here owns exp/log, monodromy, operations on the underlying parameter fields and the full construction with its inverse and exactness; §2.5 `wd-frobenius-semisimplification` owns the separate operation and its agreement with the supplier's output. These use the same `(V, r, N)` data, with Frobenius semisimplicity an additional hypothesis; there is no second carrier. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. |
 | Fundamental characters and residual tame inertia | [FiniteFlatGroupsAndIntegralPadicHodgeTheory](../FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) R07.1.26 and R07.1.27–R07.1.32 | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
 | Projective-unitary simplicity | CFSGBasicProperties §T1–T2 / `IsSimpleGroup d.Group`, assembled by `CFSGIndex.isSimpleGroup` (an open TauCetiRoadmap pull request by kim-em) | §7.12 verification: unitary/derived-central-quotient comparison, `q = p` versus `p²`, rank, validity and small exceptions. |
 | Grössencharacter continuation and completed equation | LFunctions §Layer 6 / Grossencharacters, `grossencharacterData_hasContinuation`, `grossencharacterData_hasFunctionalEquation`, `Grossencharacter.completed_one_sub`, `Grossencharacter.completed_one_sub_eventuallyEq` (an open TauCetiRoadmap pull request by roed-math) | §2.7 Global inputs: type A₀, primitive conductor, inverse/shift/poles; prove the Tate-local product identification and the needed complex norm-twist extension here. |
@@ -486,11 +487,17 @@ feeds potential good reduction in §6.3, and its §2.7 together with StableReduc
 the conductor comparison and Ogg's formula in §6.5. The supplier's later conductor and Euler-factor
 applications consume these arithmetic results. Layer 7
 (dimension-general API) uses Layers 1, 2, 4 and 5. The supplier order is
-SmoothRepresentationsOfLocalGroups SR.5.2 → §2.4, alongside
+SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization` → the §2.4 arithmetic
+adapter and §2.5 agreement theorem, alongside
 SmoothRepresentationsOfLocalGroups SR.4/SR.6 → IntegralHeckeAndGaloisDeterminants → Layer 1/Layer 5.
-The shared Weil–Deligne construction uses its own linear representations and ClassFieldTheory
-Layer 9, independently of this roadmap's `ContinuousRep`; the arithmetic adapter supplies that
-connection. Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the same direction
+The lower shared target §2.4 `wd-linear-substrate` uses Mathlib linear representations,
+ClassFieldTheory Layer 9 and Tau Ceti's local characters, independently of Layer 1,
+IntegralHeckeAndGaloisDeterminants and the supplier's functor or LLC. It provides the full
+construction and §2.5's semisimplification on the canonical parameter fields for both roadmaps;
+the adapter connects `ContinuousRep`, and the agreement theorem identifies the
+Frobenius-semisimplified output with `classical-llc-normalization`. This target-level order
+does not require SmoothRepresentationsOfLocalGroups to consume Layers 1 or 5.
+Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the same direction
 as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
 are in build order.
 `Suggested.lean` follows the same order, with one `/-! ## Layer k -/` section per layer; it records
@@ -1279,19 +1286,31 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.27–R07.1.32. *Lean:*
 
 ### 2.4 Arithmetic Weil–Deligne adapter
 
-SmoothRepresentationsOfLocalGroups SR.5.2, *Classical parameters and the generic convention*,
-is the single supplier of the Weil–Deligne carrier and functors. This section specifies the
-arithmetic interface to that carrier. All later occurrences of a Weil–Deligne representation
-refer to the supplied object. The supplier contract includes the full construction of Deligne
-§8.4 and its Frobenius-semisimplified parameter of §§8.5–8.6 as separate operations.
+<a id="wd-linear-substrate"></a>
 
-**Nilpotent exponential and unipotent logarithm.** Use SR.5.2's nilpotent/unipotent calculus in a
-`ℚ`-algebra: the finite logarithm `log u = Σ_{i ≥ 1} (−1)^{i+1}(u − 1)^i/i`, inverse to
-Mathlib's `IsNilpotent.exp`, natural in ring maps. Its supplied API gives `exp(mN) = exp(N)^m`,
+The lower shared target `wd-linear-substrate` comprises the exp/log calculus, monodromy theorem,
+parameter operations and full construction below, together with §2.5's
+`wd-frobenius-semisimplification`. These targets are owned here and use ordinary Mathlib linear
+actions and endomorphisms, ClassFieldTheory Layer 9 and Tau Ceti's local characters. Their
+construction is independent of `ContinuousRep`, determinant reconstruction and LLC.
+SmoothRepresentationsOfLocalGroups SR.5.2, **Classical parameters and the generic convention**
+(`classical-llc-normalization`), supplies the Frobenius-semisimplified parameter and functor,
+its dual compatibility, descent and scalar extension. The targets here operate on that
+canonical parameter's underlying `(V, r, N)` fields before imposing Frobenius semisimplicity;
+they introduce no independent bundled Weil–Deligne carrier. The arithmetic adapter uses
+Layer 1, and §2.5 identifies its semisimplified output with the supplier's parameter.
+Here `WD(ρ)` denotes the full construction; `WD(ρ)^{F-ss}` is the supplier's normalized output.
+
+<a id="nilpotent-exp-log"></a>
+
+**Nilpotent exponential and unipotent logarithm.** In a `ℚ`-algebra construct
+`log u = Σ_{i ≥ 1} (−1)^{i+1}(u − 1)^i/i`, inverse to
+Mathlib's `IsNilpotent.exp` on unipotent units, natural in ring maps. Prove `exp(mN) = exp(N)^m`,
 the unique unipotent `m`-th root `exp(m⁻¹ log u)` for nonzero integer `m`, and
 `h(x) = exp(x log h(1))` for continuous `h : ℤ_ℓ → GL_n(ℚ_ℓ)` with unipotent `h(1)`
-(Deligne 1973, Thm 8.2, p. 566). *Needs:* SmoothRepresentationsOfLocalGroups SR.5.2;
-Mathlib `IsNilpotent.exp`.
+(Deligne 1973, Thm 8.2 and §8.4, pp. 566–569; the one-parameter formula follows by density
+of the integers in `ℤ_ℓ`). *Needs:* Mathlib `IsNilpotent.exp`, `IsNilpotent.exp_add_of_commute`,
+`IsNilpotent.map_exp`; Tau Ceti `LinearMap.GeneralLinearGroup.IsUnipotent`.
 
 **Checks.**
 - For `N² = 0`, `exp(N) = 1 + N` and `log(1 + N) = N`.
@@ -1299,36 +1318,45 @@ Mathlib `IsNilpotent.exp`.
 - For nonzero `N² = 0`, the unique unipotent square root of `1 + N` is `1 + N/2`;
   the nonzero-integer hypothesis excludes `m = 0`.
 
-**Grothendieck's monodromy theorem.** Transport the monodromy theorem supplied by SR.5.2 to
-`ρ : ContinuousRep G_K E V`, for `E/ℚ_ℓ` finite and `ℓ ≠ p`, by restriction to its supplied
-local Weil group. The resulting unique nilpotent `N ∈ Hom(ℤ_ℓ(1), End V)` has
+<a id="grothendieck-monodromy"></a>
+
+**Grothendieck's monodromy theorem.** For a nonarchimedean local field `K` of residue
+characteristic `p`, finite `E/ℚ_ℓ`, `ℓ ≠ p` and a continuous linear action
+`ρ : G_K → GL_E(V)` on finite-dimensional `V` with its module topology, prove the existence
+of a unique nilpotent `N ∈ Hom(ℤ_ℓ(1), End V)` with
 `ρ(σ) = exp(N(t_ℓ σ))` on an open subgroup of inertia and
 `ρ(w) N(x) ρ(w)⁻¹ = N(χ_ℓ(w) x)`. With a trivialisation `T`, the scalar operator
-`N' = N(T⁻¹ 1)` satisfies `ρ(Φ) N' ρ(Φ)⁻¹ = q N'`. Identify it with the supplier's monodromy;
-finite inertia image is equivalent to `N = 0`, and restriction to ramification index `e`
+`N' = N(T⁻¹ 1)` satisfies `ρ(Φ) N' ρ(Φ)⁻¹ = q N'`.
+Finite inertia image is equivalent to `N = 0`, and restriction to ramification index `e`
 scales the operator by `e` under compatible tame identifications (Deligne 1973, 8.1 and Thm 8.2,
-p. 566; FSY, §5.3.1, p. 54). *Needs:* SmoothRepresentationsOfLocalGroups SR.5.2;
-Layer 1 and §2.3. *Lean:* `GaloisRep.grothendieck_quasiUnipotent` (the arithmetic consumer
-statement with `T`).
+p. 566; FSY, §5.3.1, p. 54). *Needs:* `nilpotent-exp-log`; Tau Ceti's inertia,
+tame and cyclotomic characters. Its Layer 1 specialization is *Lean:*
+`GaloisRep.grothendieck_quasiUnipotent`, with the trivialisation `T`.
 
 **Checks.**
 - A finite-image representation has `N = 0`.
 - The Tate curve has nonzero rank-one monodromy; inertia acts unipotently on an open subgroup.
 - For `ℓ = p`, `χ_p` on `G_{ℚ_p}` has infinite, non-unipotent image on every open inertia
-  subgroup, so the supplied theorem does not apply.
+  subgroup, so the theorem requires `ℓ ≠ p`.
 
-**Weil–Deligne representations.** Use the SR.5.2 carrier `(V, r, N)` over a characteristic-zero
-field `Ω`, with `V` finite-dimensional, `r` having open kernel, `N` nilpotent and
-`r(w) N r(w)⁻¹ = q^{deg w} N`. Arithmetic Frobenius has degree `+1`; geometric Frobenius has
-degree `−1`. The supplier provides morphisms, isomorphisms, direct sums, tensor products with
+<a id="wd-parameter-operations"></a>
+
+**Weil–Deligne representations.** Work on the canonical parameter fields `(V, r, N)` over a
+characteristic-zero field `Ω`, with `V` finite-dimensional, `r` having open kernel, `N` nilpotent
+and `r(w) N r(w)⁻¹ = q^{deg w} N`. Arithmetic Frobenius has degree `+1`; geometric Frobenius has
+degree `−1`. Construct morphisms, isomorphisms, direct sums, tensor products with
 monodromy `N ⊗ 1 + 1 ⊗ N'`, duals `(r^∨, −N^∨)`, character twists, determinants, restriction,
 induction with `N_Ind(g ⊗ v) = q^{−deg g} g ⊗ Nv`, coefficient extension and inertial type.
-Its unramified character is `ω(w) = q^{deg w}`; its `Sp(n)` has `r(w)e_i = ω(w)^i e_i`
-and `Ne_i = e_{i+1}`, with `Ne_{n−1} = 0`. The supplier also gives the rescaling isomorphism
+Here `g ⊗ v` is left-coset notation; index inversion identifies it with Mathlib's
+`Representation.ind`, whose group action translates the index on the right by the inverse.
+Define the unramified character `ω(w) = q^{deg w}` and the special pair `Sp(n)` with
+`r(w)e_i = ω(w)^i e_i` and `Ne_i = e_{i+1}`, with `Ne_{n−1} = 0`. Prove the rescaling isomorphism
 `(r, N) ≅ (r, aN)` for `a ≠ 0`, `q ≥ 2` and finite inertia image, and
 `Sp(2)^∨ ≅ Sp(2) ⊗ ω⁻¹`, with `det Sp(2) = ω` (Deligne 1973, 8.4.1, p. 568,
-proof of 8.4.3, p. 569, and 2.2.4, p. 522). These are supplier operations on one carrier.
-*Needs:* SmoothRepresentationsOfLocalGroups SR.5.2; ClassFieldTheory Layer 9.
+proof of 8.4.3, p. 569, and 2.2.4, p. 522). These are operations on the same fields,
+without a Frobenius-semisimplicity hypothesis. *Needs:* Mathlib linear representations,
+duals, tensor products and `Representation.ind`; RepresentationTheory/InductionRestriction
+Layer 7 for the finite-index induction API; ClassFieldTheory Layer 9.
 
 **Checks.**
 - `Sp(2)` satisfies `r(Φ) N r(Φ)⁻¹ = q N`; `ω ⊕ 1` with `Ne₀ = e₁` instead gives
@@ -1338,17 +1366,17 @@ proof of 8.4.3, p. 569, and 2.2.4, p. 522). These are supplier operations on one
 - For `q = 1`, `r(F) = 1 + N`, `N ≠ 0`, no automorphism commuting with `r` rescales `N`
   by `2`; the rescaling statement needs `q ≥ 2`.
 - On indiscrete `W = Multiplicative ℤ` the proposed degree-dependent `Sp(2)` action over `ℚ`
-  at `q = 2` has non-open kernel. The supplier's local Weil group has open degree kernel.
+  at `q = 2` has non-open kernel. ClassFieldTheory's local Weil group has open degree kernel.
 
 **Local Weil-group bridge.** Identify ClassFieldTheory Layer 9's local Weil group and arithmetic
-`weilDegree` in the SR.5.2 parameter with Tau Ceti's `I_K`, tame character and Frobenius lifts.
+`weilDegree` in the canonical parameter fields with Tau Ceti's `I_K`, tame character and Frobenius lifts.
 Use the supplied open topological inertia embedding, continuous surjective degree map and
 continuous dense map `W_K → G_K`; an arithmetic lift gives `W_K = I_K ⋊ ⟨Φ⟩`.
 The arithmetic adapter preserves these identifications, so an open-kernel Weil representation
-has finite inertia image and every supplied operation uses the same local Weil group
+has finite inertia image and every parameter operation uses the same local Weil group
 (Deligne 1973, §2.2.1, p. 521; ClassFieldTheory Layer 9,
 `isOpenEmbedding_inertiaToWeil`, `unramifiedCoordinate_weilDegree`).
-*Needs:* ClassFieldTheory Layer 9; SmoothRepresentationsOfLocalGroups SR.5.2; Tau Ceti inertia
+*Needs:* ClassFieldTheory Layer 9; Tau Ceti inertia
 and arithmetic Frobenius.
 
 **Checks.**
@@ -1357,21 +1385,34 @@ and arithmetic Frobenius.
 - An unramified Weil character may send `Φ` to any nonzero scalar; extension to `G_K`
   requires the continuity condition of §2.2.
 
-**The arithmetic Weil–Deligne adapter.** For finite `E/ℚ_ℓ`, `ℓ ≠ p`, pass
-`ρ : ContinuousRep G_K E V` to SR.5.2's full Weil–Deligne functor by its underlying continuous
-linear action. A choice of basis identifies it with the supplier's matrix input; transport back
-to `V` and prove naturality under change of basis. For a geometric lift `F` and trivialisation
+<a id="full-wd-construction"></a>
+
+**Full construction and arithmetic adapter.** For nonarchimedean local `K` of residue characteristic
+`p`, finite `E/ℚ_ℓ` and `ℓ ≠ p`, construct the full functor on continuous linear
+actions `ρ : G_K → GL_E(V)` with finite-dimensional module topology, using
+`grothendieck-monodromy` and `nilpotent-exp-log`. Its output is the canonical fields
+`(V, r, N')`, without imposing Frobenius semisimplicity. For a geometric lift `F` and trivialisation
 `T : ℚ_ℓ(1) ≅ ℚ_ℓ`, its full parameter is `(V, r, N')`, where `t = T ∘ t_ℓ`,
 `N' = N(T⁻¹ 1)` and `r(F^n σ) = ρ(F^n σ) exp(−t(σ)N')`.
-Identify `V^{ρ(I)} = (ker N')^{r(I)}` and `N' = 0` iff `ρ(I_K)` is finite. Changes of lift
-and trivialisation use the supplier's isomorphisms; replacing `T` by `aT` scales `N'` by `a⁻¹`.
-Transport the full functor's exactness, faithfulness and compatibility with tensor products,
-restriction and induction. Its supplied inverse is
+Prove `V^{ρ(I)} = (ker N')^{r(I)}` and `N' = 0` iff `ρ(I_K)` is finite. Construct natural
+isomorphisms for changes of lift and trivialisation; replacing `T` by `aT` scales `N'` by `a⁻¹`.
+Prove exactness, faithfulness and compatibility with tensor products, restriction and induction
+for this full functor. Its inverse on pairs over the same finite `E/ℚ_ℓ` is
 `ρ(F^n σ) = r(F^n σ) exp(t(σ)N')`, extending continuously to `G_K` precisely for
-unit Frobenius eigenvalues; morphisms commute with `ρ` iff they commute with `r` and `N'`.
-The canonical Frobenius-semisimplified parameter used by SR.5.2 is the supplier's Frobenius
-semisimplification of this full parameter (Deligne 1973, 8.3.7, p. 568, and 8.4.2–8.4.3,
-p. 569). *Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2; the local bridge above.
+Frobenius eigenvalues of `ℓ`-adic absolute value one; morphisms commute with `ρ` iff they
+commute with `r` and `N'`. Prove the extension criterion by boundedness of both positive and
+negative powers of Frobenius, compactness of inertia image and extension through finite
+congruence quotients of a preserved `O_E`-lattice. Package the underlying action of
+`ρ : ContinuousRep G_K E V`
+through this construction. A basis identifies it with the matrix input of
+`classical-llc-normalization`; prove naturality under change of basis and the agreement of
+its Frobenius-semisimplification with that supplied parameter in §2.5
+(Deligne 1973, 8.3.7, p. 568, and 8.4.2–8.4.3, p. 569; Bushnell–Henniart, §32.6,
+pp. 206–207, for the equivalence on `W_K`; the compact-image argument above gives the
+`G_K` extension criterion). *Needs:* `grothendieck-monodromy`, `wd-parameter-operations`,
+the local bridge above; finite-dimensional linear algebra and completeness of `E`. Only the arithmetic
+packaging and comparison use Layer 1 and SmoothRepresentationsOfLocalGroups SR.5.2
+`classical-llc-normalization`.
 
 **Checks.**
 - `WD(ℚ_ℓ(1)) = (ω, 0)`; an unramified full parameter has `N = 0` and `r = ρ|_{W_K}`.
@@ -1380,18 +1421,26 @@ p. 569). *Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2; the local 
 - The Tate curve has full parameter `Sp(2)`, and its non-split unramified quadratic twist
   has `Sp(2) ⊗ η`; neither has parameter `(1 ⊕ ω, 0)`.
 - For `ℓ = p`, the cyclotomic character on `G_{ℚ_p}` has no such monodromy operator.
+- The unramified pair `r(Φ) = ℓ`, `N = 0` is a Weil parameter but has no continuous
+  extension to `G_K`; Frobenius eigenvalues of absolute value one are required for the inverse.
 
 ### 2.5 Local factors
 
-**Frobenius semisimplification.** Use SR.5.2's characteristic-zero Frobenius semisimplification
+<a id="wd-frobenius-semisimplification"></a>
+
+**Frobenius semisimplification.** Construct the characteristic-zero operation on the canonical fields
 `(V, r^{F-ss}, N)`, with `r^{F-ss}(F^n σ) = r(F^n σ) u^{−n}` for geometric `F` and the
-multiplicative Jordan decomposition `r(F) = su`. The supplier proves lift independence when
+multiplicative Jordan decomposition `r(F) = su`. Prove lift independence when
 `r(I_K)` is finite, idempotence, preservation of `N`, tensor compatibility and equality of
 characteristic polynomials; the ordinary semisimplification is `(V^ss, r^ss, 0)`.
-The local-factor and purity targets below consume this same operation and predicate
+Prove that applying this operation to `full-wd-construction` gives the parameter of
+SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization`, compatible with its
+duals and coefficient extension. The local-factor and purity targets below consume the
+same operation and predicate
 (Deligne 1973, 8.5–8.6, p. 570; Saha, Definition 2.1 and the following construction, pp. 2–3).
-*Needs:* SmoothRepresentationsOfLocalGroups SR.5.2; Tau Ceti
-`LinearMap.GeneralLinearGroup.jordanDecomposition`.
+*Needs:* `wd-parameter-operations`; Tau Ceti `LinearMap.GeneralLinearGroup.jordanDecomposition`.
+Only the agreement theorem uses `full-wd-construction` and the supplier's
+`classical-llc-normalization`.
 
 **Checks.**
 - The unramified pair `r(F) = (1 1; 0 1)`, `N = 0` becomes `r(F) = 1`, with `N = 0`.
@@ -1403,7 +1452,7 @@ The local-factor and purity targets below consume this same operation and predic
   Semisimplification at `Φ` fixes `r`; at `Φτ` it sends `Φ` to `r(τ)⁻¹`. The resulting
   parameters are not isomorphic, so perfectness alone does not give lift independence.
 
-**Local factors.** On the SR.5.2 parameter define its arithmetic local factor
+**Local factors.** On the canonical parameter fields define the arithmetic local factor
 `WeilDeligneRep.localFactor`,
 `L(V, X) = det(1 − X r(F) | (ker N)^{r(I_K)})` for a geometric lift `F`, and
 `GaloisRep.localEulerFactor` on `V^{ρ(I_K)}`; for a global `ρ` and `v ∤ ℓ`,
@@ -1415,10 +1464,10 @@ invertible in `Ω`, including characteristic zero); multiplicativity for split s
 with nonzero monodromy;
 `L_v(ρ) = L(WD(ρ))`; and `L = det(1 − Xρ(F))` at an unramified place (Deligne 1973, 3.5.1, p. 528, and
 8.12, p. 572; Saha, Lemma 2.3, p. 3, for averaging over finite inertia).
-*Needs:* §2.4's SR.5.2 supplier and arithmetic adapter. *Lean:*
+*Needs:* §2.4 `wd-parameter-operations`, `full-wd-construction` and the arithmetic adapter. *Lean:*
 `WeilDeligneRep.kerMonodromyInvariants`, `WeilDeligneRep.localFactor`, `localFactor_indep`
 (lift independence), `GaloisRep.localEulerFactor`, `GaloisRep.localEulerFactor_unramified`.
-The Weil–Deligne signatures here take the supplied fields `deg`, `r`, `N` and the conjugation
+The Weil–Deligne signatures here take the canonical fields `deg`, `r`, `N` and the conjugation
 relation directly; they introduce no carrier.
 
 **Checks.**
@@ -3072,7 +3121,7 @@ kernel `A[n]·1` and cokernel `A/nA`, so it is an isomorphism, with `ad = A·1 �
 `n ∈ A^×`; and that for `n = 2` and any `A`, `ad/A·1 ≅ Sym² ρ ⊗ det⁻¹` and `ad⁰ ≅ (Sym² ρ)^∨ ⊗ det`.
 Its API is `ad ≅ M ⊗ M^∨`, perfectness, the splitting when `n` is invertible, `1 ∈ ad⁰` iff `n = 0` in
 `A`, kernel and cokernel, base change, the `n = 2` isomorphisms, and the Weil–Deligne adjoint
-`(ad r, [N, −])` on the supplied SR.5.2 carrier (CHT, §2.1, p. 7; ACC+, after Def. 6.2.29, p. 1044).
+`(ad r, [N, −])` on §2.4's canonical parameter fields (CHT, §2.1, p. 7; ACC+, after Def. 6.2.29, p. 1044).
 *Needs:* PivotalSpherical §Layer 2 and AdicSpacesPartIII §R3.8 as above; Mathlib
 `Representation.linHom`; Tau Ceti `ContRepresentation.linHom`; §2.4.
 *Lean:* `ContinuousRep.endTrace`, `ContinuousRep.ad`, `ContinuousRep.adZero`, `ContinuousRep.adQuot`,
@@ -4026,6 +4075,8 @@ printed pagination of version 2.00 (2008).
 - G. Boxer, F. Calegari, T. Gee, V. Pilloni, *Abelian surfaces over totally real fields are potentially
   modular*, Publ. Math. IHÉS 134 (2021), 153–501; arXiv:1812.09269v3.
 - A. Brumer, K. Kramer, *The conductor of an abelian variety*, Compositio Math. 92 (1994), 227–248.
+- C. J. Bushnell, G. Henniart, *The Local Langlands Conjecture for GL(2)*, Grundlehren der
+  mathematischen Wissenschaften 335, Springer, 2006, §32.6, pp. 206–207.
 - F. Calegari, D. Geraghty, *Modularity lifting beyond the Taylor–Wiles method*, Invent. Math. 211
   (2018), 297–433; arXiv:1207.4224v2.
 - F. Calegari, D. Geraghty, *Minimal modularity lifting for nonregular symplectic representations*, Duke

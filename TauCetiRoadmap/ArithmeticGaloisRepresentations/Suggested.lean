@@ -34,11 +34,14 @@ Design choices made explicit here.
   Ceti's `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`; the `ℓ`-adic cyclotomic character
   is Tau Ceti's `TauCeti.continuousLocalCyclotomicCharacter`, and the `ℓ`-adic tame character is
   `TauCeti.inertiaPadicTameCharacter`.
-* SmoothRepresentationsOfLocalGroups SR.5.2 supplies the Weil–Deligne carrier, full functor and
-  Frobenius semisimplification. Its arithmetic lift has degree `1` and relation
-  `r(w) ∘ N = q^{deg w} • (N ∘ r(w))`; dual monodromy is `−Nᵗ`. The arithmetic consumers below
-  take the supplied fields `r`, `N` and their relation directly. Local factors use geometric
-  Frobenius. The full functor and its inverse precede Frobenius semisimplification.
+* SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization` supplies the
+  Frobenius-semisimplified Weil–Deligne parameter and functor. Section 2.4 `wd-linear-substrate`
+  provides the full construction, monodromy and operations on the canonical fields `r`, `N`;
+  §2.5 `wd-frobenius-semisimplification` provides the separate operation and supplier comparison.
+  An arithmetic lift has degree `1` and relation `r(w) ∘ N = q^{deg w} • (N ∘ r(w))`;
+  dual monodromy is `−Nᵗ`. The consumers below take these fields and their relation directly.
+  Local factors use geometric Frobenius. The full functor and its inverse precede
+  Frobenius semisimplification; the latter gives the supplier's normalized output.
 * Data whose construction is a theorem (semisimplification, the Weil–Deligne representation of an
   `ℓ`-adic representation, conductors, local constants, Tate modules of abelian varieties) are README
   targets and do not appear here.
@@ -1443,14 +1446,18 @@ end GaloisRep
 
 /-! ### Arithmetic monodromy and the shared Weil–Deligne interface
 
-SmoothRepresentationsOfLocalGroups SR.5.2 supplies the nilpotent exponential/unipotent logarithm
-calculus, Grothendieck's monodromy theorem, the full Weil–Deligne construction and its inverse on
-unit-Frobenius parameters, and Frobenius semisimplification. Section 2.4 transports these to
-`ContinuousRep` using the supplied local Weil group and Tau Ceti's tame character. -/
+Section 2.4 `wd-linear-substrate` provides the nilpotent exponential/unipotent logarithm
+calculus, Grothendieck's monodromy theorem, parameter operations and `full-wd-construction`,
+with its inverse for Frobenius eigenvalues of ℓ-adic absolute value one. Its shared linear targets
+use Mathlib actions and endomorphisms independently of `ContinuousRep` and determinant
+reconstruction. The arithmetic adapter supplies the `ContinuousRep` interface.
+Section 2.5 `wd-frobenius-semisimplification` gives the separate operation and identifies its
+output with SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization`.
+Both use the same parameter fields; the signatures below introduce no bundled carrier. -/
 
 namespace GaloisRep
 
-/-- The arithmetic consumer of SR.5.2's monodromy theorem (Deligne 1973, Thm 8.2): for `ℓ ≠ p`
+/-- Grothendieck's monodromy theorem on `ContinuousRep` (Deligne 1973, Thm 8.2): for `ℓ ≠ p`
 and a continuous representation of `G_K` on a finite-dimensional space over a finite extension `E` of `ℚ_ℓ`, there are
 a unique nilpotent `N` and an open subgroup `J` of `I_K` with `ρ(σ) = exp(t(σ) N)` on `J`, where
 `t = T ∘ t_ℓ` for a trivialisation `T` of `ℤ_ℓ(1)`, and `ρ(w) N = χ_ℓ(w) N ρ(w)`. -/
@@ -1484,12 +1491,12 @@ variable {W : Type*} [Group W] {deg : W →* Multiplicative ℤ} {q : ℕ}
   {V : Type*} [AddCommGroup V] [Module Ω V] [FiniteDimensional Ω V]
 
 /-- The arithmetic local-factor subspace `(ker N)^{r(I)}`, with `I = ker deg`, computed from the
-fields of the supplied SR.5.2 parameter. -/
+canonical parameter fields used in §2.4. -/
 def kerMonodromyInvariants (deg : W →* Multiplicative ℤ) (r : Representation Ω W V)
     (N : Module.End Ω V) : Submodule Ω V :=
   LinearMap.ker N ⊓ ⨅ σ ∈ deg.ker, LinearMap.ker (r σ - LinearMap.id)
 
-/-- The arithmetic local factor `det(1 − X r(F) | (ker N)^{r(I)})`, computed from the supplied
+/-- The arithmetic local factor `det(1 − X r(F) | (ker N)^{r(I)})`, computed from the canonical
 parameter fields and conjugation relation. For geometric `F` it is independent of the lift
 (Deligne 1973, 8.12). -/
 def localFactor (r : Representation Ω W V) (N : Module.End Ω V)
@@ -1498,7 +1505,7 @@ def localFactor (r : Representation Ω W V) (N : Module.End Ω V)
   (LinearMap.restrict (r F) (p := kerMonodromyInvariants deg r N)
     (q := kerMonodromyInvariants deg r N) sorry).charpoly.reverse
 
-/-- Independence of the geometric Frobenius lift for the local factor of the supplied parameter. -/
+/-- Independence of the geometric Frobenius lift for the local factor on the canonical fields. -/
 theorem localFactor_indep (r : Representation Ω W V) (N : Module.End Ω V)
     (hrel : ∀ w, r w ∘ₗ N = ((q : Ω) ^ Multiplicative.toAdd (deg w)) • (N ∘ₗ r w))
     (F F' : W) (hF : deg F = Multiplicative.ofAdd (-1))
@@ -1595,7 +1602,7 @@ def IsPureEnd (q : ℕ) (w : ℤ) (φ N : Module.End k V) : Prop :=
       (monodromyFiltration N (a - 1)).baseChange (AlgebraicClosure k) →
     IsWeilNumber q (w + a) α
 
-/-- Purity on the fields `r`, `N` of the supplied SR.5.2 parameter, read at a geometric lift `F`. -/
+/-- Purity on the canonical parameter fields `r`, `N`, read at a geometric lift `F`. -/
 def IsPure {W : Type*} [Group W] (r : Representation k W V) (N : Module.End k V)
     (q : ℕ) (w : ℤ) (F : W) : Prop :=
   IsPureEnd q w (r F) N
@@ -2910,7 +2917,7 @@ end Adjoint
 
 end ContinuousRep
 
-/-! The Weil–Deligne adjoint in §7.2 is formed on SR.5.2's supplied carrier: its fields are
+/-! The Weil–Deligne adjoint in §7.2 is formed on §2.4's canonical parameter fields:
 `Representation.linHom r r` and the monodromy commutator `[N, −]`. -/
 
 /-- The trace pairing `(X, Y) ↦ tr(XY)` on `M_n(A)` is perfect over every commutative ring (Tau
