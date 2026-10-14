@@ -5,6 +5,8 @@ import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.RingTheory.PowerSeries.Exp
 import Mathlib.Data.Finset.NatAntidiagonal
 import Mathlib.RingTheory.MvPolynomial.Symmetric.FundamentalTheorem
+import Mathlib.Topology.CWComplex.Classical.Basic
+import Mathlib.Analysis.InnerProductSpace.PiL2
 
 /-!
 **This file is not the roadmap and is not exhaustive.** The definitive document is
@@ -32,6 +34,26 @@ def integralCohomologyUnit (X : TopCat.{0}) : IntegralCohomology X 0 :=
 The zero section is X×{0}; this includes the genuine rank-zero pair. -/
 def deletedTrivialPair (X : TopCat.{0}) (n : ℕ) : TopPair.{0} :=
   TopPair.ofSubset (X := TopCat.of (X × (Fin n → ℝ))) {p | p.2 ≠ 0}
+
+/-- C2.0's disk/sphere cell model for a trivial rank-r bundle over a native
+relative CW pair. The general bundle construction is specified in the README. -/
+@[instance_reducible]
+noncomputable def trivialDiskSphereRelCW
+    (X : Type*) [TopologicalSpace X] [T2Space X] (A : Set X)
+    [Topology.RelCWComplex (Set.univ : Set X) A] (r : ℕ) :
+    Topology.RelCWComplex
+      (Set.univ : Set (X × Metric.closedBall (0 : EuclideanSpace ℝ (Fin r)) 1))
+      {p | p.1 ∈ A ∨ ‖p.2.val‖ = 1} := by
+  sorry
+
+/-- No disk-bundle relative cell lies below the fiber rank. -/
+theorem trivialDiskSphereRelCW_noCellsBelowRank
+    (X : Type*) [TopologicalSpace X] [T2Space X] (A : Set X)
+    [Topology.RelCWComplex (Set.univ : Set X) A] (r n : ℕ) (hn : n < r) :
+    letI := trivialDiskSphereRelCW X A r
+    IsEmpty (Topology.RelCWComplex.cell
+      (Set.univ : Set (X × Metric.closedBall (0 : EuclideanSpace ℝ (Fin r)) 1)) n) := by
+  sorry
 
 /-- A concrete Thom target on the native singular relative-cohomology object.
 The standard ordered coordinates orient the trivial fibre in README C2. -/
@@ -64,6 +86,21 @@ def chernRootValue {A : Type*} [CommRing A] {r : ℕ} (x : Fin r → A) (j : ℕ
 def pontryaginRootValue {A : Type*} [CommRing A] {r : ℕ}
     (x : Fin r → A) (j : ℕ) : A :=
   chernRootValue (fun i ↦ x i ^ 2) j
+
+/-- Ordered oriented-plane Euler root product; rank0 has value1. -/
+def orientedPlaneEulerRootValue {A : Type*} [CommRing A] {r : ℕ}
+    (x : Fin r → A) : A :=
+  ∏ i, x i
+
+/-- Algebraic top Pontryagin/Euler-square identity for the ordered-plane roots. -/
+theorem pontryaginRootValue_top_eq_euler_sq {A : Type*} [CommRing A] {r : ℕ}
+    (x : Fin r → A) :
+    pontryaginRootValue x r = orientedPlaneEulerRootValue x ^ 2 := by
+  have htop : Finset.powersetCard r (Finset.univ : Finset (Fin r)) =
+      {Finset.univ} := by
+    simpa using Finset.powersetCard_self (Finset.univ : Finset (Fin r))
+  simp [pontryaginRootValue, chernRootValue, orientedPlaneEulerRootValue,
+    MvPolynomial.esymm, htop, Finset.prod_pow]
 
 /-- Todd's regular formal series consumes the existing Bernoulli convention B'_1=1/2. -/
 abbrev toddSeries : PowerSeries ℚ := bernoulli'PowerSeries ℚ
