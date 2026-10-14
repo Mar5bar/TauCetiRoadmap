@@ -1,6 +1,8 @@
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Basic
+import TauCeti.CategoryTheory.Sites.ExtensionByZero
+import Mathlib.Topology.Sheaves.Over
 
 /-!
 # DiamondEtaleCohomology: representative target signatures
@@ -25,6 +27,41 @@ open CategoryTheory Limits Topology TopologicalSpace
 universe u v w
 
 namespace TauCeti.DiamondEtale
+
+/-! ## Topological open extension by zero -/
+
+section OpenExtension
+variable (Λ : Type u) [Ring Λ]
+
+/-- Open extension by zero transports the canonical slice-site left adjoint to
+sheaves on the open subspace, using the pinned generic construction. -/
+def extendByZero {X : TopCat.{u}} (U : Opens X) :
+    TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U) ⥤ TopCat.Sheaf (ModuleCat.{u} Λ) X :=
+  U.sheafEquivOver.inverse ⋙
+    (Over.forget U).sheafPullback (ModuleCat.{u} Λ)
+      ((Opens.grothendieckTopology X).over U) (Opens.grothendieckTopology X)
+
+/-- The open adapter is left adjoint to restriction to the open subspace. -/
+theorem extendByZero_adjunction {X : TopCat.{u}} (U : Opens X) :
+    Nonempty (extendByZero Λ U ⊣ U.sheafRestrict (C := ModuleCat.{u} Λ)) := by sorry
+
+/-- Open extension by zero for module sheaves is exact over every ring. -/
+theorem extendByZero_exact {X : TopCat.{u}} (U : Opens X) :
+    PreservesFiniteLimits (extendByZero Λ U) ∧
+      PreservesFiniteColimits (extendByZero Λ U) := by sorry
+
+/-- At a point of the open, the extended sheaf has the original stalk. -/
+theorem extendByZero_stalk_mem {X : TopCat.{u}} (U : Opens X)
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)) (x : X) (hx : x ∈ U) :
+    Nonempty (((extendByZero Λ U).obj F).presheaf.stalk x ≅
+      F.presheaf.stalk ⟨x, hx⟩) := by sorry
+
+/-- Outside the open, the extended sheaf has zero stalk. -/
+theorem extendByZero_stalk_not_mem {X : TopCat.{u}} (U : Opens X)
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)) (x : X) (hx : x ∉ U) :
+    IsZero (((extendByZero Λ U).obj F).presheaf.stalk x) := by sorry
+
+end OpenExtension
 
 /-! ## Layer C5: relative valuation-space acyclicity -/
 

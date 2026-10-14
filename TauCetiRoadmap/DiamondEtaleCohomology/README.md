@@ -14,7 +14,7 @@ Geometry is supplied by the perfectoid and diamond roadmaps. General enhanced sh
 | --- | --- |
 | `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small v-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations, cutoffs and coherent topoi. C0 defines the three coefficient sites using these objects. C4 owns properness and canonical compactification of v-stacks. |
 | `EnhancedDerivedSheaves`, Layers E1–E3 | Unbounded dg/enhanced derived categories of sheaves of modules, K-injective and K-flat models, derived tensor and Hom, replete-topos convergence, Postnikov completion, coherent diagrams, hyperdescent and adjoints. C2–C3 specialize them to étale coefficients on v-stacks. |
-| `ClassicalAdicEtaleCohomology`, §§2.1–2.5, 3.1, 6.1–6.3, 7.1–7.2, 10.1–10.4 and 11.2 | Henselian and Zariski–Riemann inputs, classical algebraically closed field invariance, tautness, and annulus/open-ball cohomology. C1 uses classical field invariance; C6 proves v-stack field invariance from that input and C5, avoiding a reverse dependency through C1. C8.37 specializes §11.2, `field_cohomological_dimension_transcendence`. |
+| `ClassicalAdicEtaleCohomology`, §§2.1–2.5, 3.1, 6.1–6.3, 7.1–7.3, 10.1–10.4 and 11.2 | Henselian and Zariski–Riemann inputs, classical algebraically closed field invariance, tautness, and annulus/open-ball cohomology. C1 uses classical field invariance; C6 proves v-stack field invariance from that input and C5, avoiding a reverse dependency through C1. C8.37 specializes §11.2, `field_cohomological_dimension_transcendence`. |
 | `SchemeAndStackFoundations`, §2.15; `LefschetzPencilsAndVanishingCycles`, §F.2 | Torsion proper base change for schemes and continuity of étale topoi under qcqs limits with affine transitions. C5 uses these in its valuation-space argument. |
 | Tau Ceti `ProfiniteCohomology`, Layers 0, 10 and 11 | Discrete continuous modules, their dictionary with `TopRep`, all-degree continuous cohomology, filtered-colimit compatibility and cohomological dimension. C8 proves the geometric point/sheaf/cohomology comparison; it does not introduce another cohomology carrier. |
 | Tau Ceti `ProfiniteProPGroups`, Layers 2, 3 and 6 | Profinite Sylow theory, pro-p groups and Sylow cohomological-dimension equality. C8 adds the wild kernel attached to an action on an algebraically closed valued field. |
@@ -137,6 +137,42 @@ to an ordinary commutative ring Λ: perfect means represented by a bounded compl
 generated projective Λ-modules. C7 consumes this notion and its basic module API; it owns the
 stratified sheaf and diamond predicates, their descent and their coefficient-ring continuity.
 
+### Topological open extension by zero
+
+**Open extension by zero** (`extendByZero`). For a ring Λ, a topological space X and
+an open U⊆X, use Mathlib's `TopologicalSpace.Opens.sheafEquivOver` to identify sheaves
+on U with sheaves on the slice of the open-set site. Define `extendByZero` by this
+identification followed by the canonical sheaf pullback along `CategoryTheory.Over.forget U`.
+The pinned `TauCeti.CategoryTheory.PresheafExtensionByZero.functor` and
+`TauCeti.CategoryTheory.PresheafExtensionByZero.adjunction` in
+`TauCeti.CategoryTheory.Sites.ExtensionByZero` give its presheaf model; sheafification
+and uniqueness of left adjoints identify that model with the canonical functor.
+`TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback`
+already gives sheaf exactness for `AddCommGrpCat`. This roadmap supplies the
+`ModuleCat Λ` comparison and exactness, using the same presheaf functor with module
+values, and the following topological adapter API before the reductions in C0–C1:
+
+- `extendByZero_adjunction`: The adapter is left adjoint to restriction to U.
+- `extendByZero_exact`: It preserves finite limits and finite colimits for every ring Λ.
+- `extendByZero_stalk_mem`: At x∈U its stalk is naturally the input stalk at x.
+- `extendByZero_stalk_not_mem`: At x∉U its stalk is zero.
+
+These statements use no spectrality or noetherianity. C7.1 owns preservation of
+constructibility for quasicompact opens in spectral spaces over noetherian rings.
+Topological j_! in C0–C3 uses this adapter (abelian groups are ℤ-modules) under C0.19;
+C5's étale extension by zero on diamonds is a separate geometric construction.
+(ECD proof of Theorem 16.1, pp. 92–93; ECD Lemma 20.4, pp. 113–114;
+pinned Tau Ceti `CategoryTheory/Sites/ExtensionByZero.lean`, presheaf adjunction and
+sheaf finite-limit instance; Mathlib `Topology/Sheaves/Over.lean`, `sheafEquivOver`.)
+
+**Checks.**
+
+- For U=∅ the adapter is the zero functor, with zero stalks everywhere.
+- For U=X it is naturally the identity, with the identity adjunction and stalk comparisons.
+- On the two-point spectral space with open generic point η and closed point s,
+  extension of M from {η} has stalk M at η, zero at s, and zero global sections.
+  For M≠0 this differs from direct image, whose stalk at s is M.
+
 ### From geometric and enhanced roadmaps
 
 `PerfectoidSpaces`, Layers P0–P6, supplies perfectoid rings and spaces, geometric field pairs,
@@ -157,7 +193,8 @@ C8.49–C8.51 use this unrestricted predicate. AdicEtaleGeometry Layer A1 suppli
 étale sites and geometric points for the classical supplier. `ClassicalAdicEtaleCohomology`, §§2.1–2.5 and 6.1–6.3,
 supplies henselian and valuation-support comparison; §3.1 supplies tautness; §§7.1–7.2
 supply surjective algebraically closed field-pair invariance, including its perfectoid
-finite-stage passage; §§10.1–10.4 supply discs, annuli, cohomological continuity and the
+finite-stage passage; §7.3 supplies supports and geometric connectedness of
+affinoid perfectoid spaces after arbitrary geometric field-pair extensions; §§10.1–10.4 supply discs, annuli, cohomological continuity and the
 coordinate pullback calculation; §11.2 supplies `field_cohomological_dimension_transcendence`
 for arbitrary field extensions and primes, specialized in C8.37. In the characteristic-p
 instances used here, prime-to-p coefficients are units in every geometric plus ring. The annulus input retains its degree-one
@@ -172,7 +209,10 @@ Use §E2.3 (`postnikovCompletion`) for a coherent Postnikov limit including its 
 lim¹ contribution, §E2.4 for cohomological convergence, and §E3.4 (`coherentMate`) for
 base-change mates. C9 requires realization of every compatible Postnikov tower and one
 uniform truncation window, not only convergence of towers attached to individual objects.
-The site-level finite-bound theorem in Stacks Tag 0D6P is the precise convergence input.
+Stacks Tag 0D6P supplies object-wise convergence on a site; C9.3 also proves
+reconstruction for arbitrary coherent compatible towers from the uniform bound.
+C0.20–C0.21 supply repleteness of the geometric topoi. No coherent projective
+covering condition, and hence no local weak contractibility, is required from them.
 
 `ArithmeticGaloisDuality`, §R02.2.1, supplies continuous Hochschild–Serre for a closed normal
 subgroup and its profinite quotient, with all-degree convergence and edge maps on discrete
@@ -210,7 +250,7 @@ AdicSpacesPartII R0.7 to complete real-valued fields before C8.12–C8.13. No ge
 
 The specialization-chain complex in C8 needs the quasi-augmented comparison and normalized-support theorem used in Kelly–Saito–Tamme Lemma 6.6, p. 24, which refer to Scheiderer §2, Remark 2.5, Theorem 4.1 and Proposition 4.7. An ordinary Cartesian hypercover theorem does not establish this comparison. The dimension bound can also be obtained from Stacks Tag 0A3G, but that route does not replace the chain-space interface specified here. The wild-automorphism proof uses the compact closure of the powers of γ; prove that factorial convergence and the isometry condition extend the powers continuously to a quotient of the profinite completion of ℤ.
 
-For C9 the supplier must prove category-level left completeness, including that every compatible Postnikov tower is realized, as well as object-wise convergence and a uniform truncation window. Use the site-level result Stacks Tag 0D6P; Tag 0719 treats ringed spaces and does not directly supply the required site theorem. Promote `IsPerfectLocalSystem.dualizable` in C7 to a usable named input for C9: its dual is RHom_Λ(L, Λ), with RHom_Λ(L, A) ≃ L^∨ ⊗^L A. The compact/thick-envelope theorem comes from Tau Ceti DGAInfinity Layers 5–6.
+C9.3 proves category-level left completeness by realizing arbitrary compatible Postnikov towers under the uniform bound. EnhancedDerivedSheaves §E2.4 supplies the derived-limit and cohomological stabilization tools and object-wise convergence of Stacks Tag 0D6P; the finite-bound tower reconstruction is a target here. Tag 0719 treats ringed spaces and does not directly supply the required site theorem. Promote `IsPerfectLocalSystem.dualizable` in C7 to a usable named input for C9: its dual is RHom_Λ(L, Λ), with RHom_Λ(L, A) ≃ L^∨ ⊗^L A. The compact/thick-envelope theorem comes from Tau Ceti DGAInfinity Layers 5–6.
 
 The geometric suppliers must expose the field-point localization/presentation contracts, valuative separatedness for v-stacks, locally compact Hausdorff v-sheaves, and the coherent-topos limit theorems used below. The enhanced suppliers must expose module-coefficient repleteness/hyperdescent, small limits of presentable categories and coherent adjunction/base-change data. These are inputs to this roadmap's proofs, not assertions that generic ordinary-category carriers already provide the geometry or enhancement.
 
@@ -316,11 +356,12 @@ Require the following API.
 - `cutoffDerived.ofCutoff`: Every object of D(Y_v, Λ) comes from D(Y_v,κ, Λ) for some cutoff κ, and Hom groups are computed at any common cutoff.
 - `cutoffDerived.tStructure`: The canonical t-structure on D(Y_v, Λ), with H^i computed at any cutoff, and the subcategories D⁺, D⁻, D^b.
 - `cutoffDerived.pullback`: λ_Y^∗, ν_Y^∗ and f_v^∗ for 0-truncated f induce t-exact functors on these derived categories, compatible with the transitions.
-- `cutoffDerived.transition_products`: For κ ≤ κ′ the transition functor commutes with countable products and with R lim of sequences (κ′-small objects are κ-cofiltered limits of κ-small ones and cf(κ) > ω, and products are exact by repleteness).
+- `cutoffDerived.transition_products`: For κ ≤ κ′ the transition functor commutes with countable products and with R lim of sequences (κ′-small objects are κ-cofiltered limits of κ-small ones and cf(κ) > ω, and products are exact by repleteness). This does not assert compatibility with arbitrary products.
 
 **Checks.**
 
-- `cutoffDerived_zeroRing`: For Λ = 0 every D(Y_v, Λ) is the zero category.
+- `cutoffDerived_zeroRing`: For Λ = 0, including nonempty Y, every D(Y_v, Λ) is zero and presentable.
+- For Y=∅ and Λ≠0, D(Y_v, Λ) is also zero and presentable.
 - `cutoffDerived_cohomology_transition`: For A ∈ D(Y_v,κ, Λ) and κ ≤ κ′, H^i of the image of A in D(Y_v,κ′, Λ) is the image of H^i(A).
 - `cutoffDerived_set_generated`: If Y_v,κ is fixed, D(Y_v,κ, Λ) is Mathlib's DerivedCategory of the Grothendieck abelian category of sheaves of Λ-modules on Y_v,κ.
 - `cutoffDerived_not_one_topos`: The category of all small sheaves of Λ-modules on Y_v has no set of generators when Y ≠ ∅ and Λ ≠ 0, so D(Y_v, Λ) is not the derived category of a single Grothendieck abelian category.
@@ -434,7 +475,7 @@ Require the following API.
 
 Let X be strictly totally disconnected and X′_1 → X′_3 ← X′_2 a diagram of strictly totally disconnected perfectoid spaces over X. Then λ∘_X(X′_1 ×_{X′_3} X′_2) → λ∘_X(X′_1) ×_{λ∘_X(X′_3)} λ∘_X(X′_2) is an isomorphism.
 
-*Needs:* `C0.10`; `ClassicalAdicEtaleCohomology`, §§7.1–7.2; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D4.
+*Needs:* `C0.10`; `ClassicalAdicEtaleCohomology`, §§7.1–7.2 and §7.3 (geometric connectedness); `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D4.
 
 (ECD Lemma 14.5(ii), p. 83; ECD proof of Lemma 14.5(ii), p. 84.)
 
@@ -594,7 +635,7 @@ Require the following API.
 
 In the situation of Theorem 16.1 it suffices to prove the final statement for strictly totally disconnected X and X̃, and that statement reduces to: for connected strictly totally disconnected X = Spa(C, C⁺), X̃ = Spa(C̃, C̃⁺) and X′ = Spa(C′, C′⁺) with X̃ → X and X′ → X surjective, and F = j_!M for a quasicompact open V ⊂ X′ with inclusion j and an abelian group M, the map H^i(X′_ét, F) → H^i((X̃ ×_X X′)_ét, F) is an isomorphism (in degree 0, for f pro-étale, or for nM = 0 with n prime to p).
 
-*Needs:* `C1.1`; `C0.14`; `C0.15`; `C0.17`; `C0.19`; `DiamondsAndVStacks`, Layer D1; `C0.18`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* `C1.1`; `C0.14`; `C0.15`; `C0.17`; `C0.19`; `DiamondsAndVStacks`, Layer D1; `C0.18`; `DiamondsAndVStacks`, Layer D0; `extendByZero`.
 
 (ECD proof of Theorem 16.1, p. 92; ECD proof of Theorem 16.1, p. 93.)
 
@@ -604,7 +645,7 @@ In the situation of Theorem 16.1 it suffices to prove the final statement for st
 
 Let f : Y′ → Y be a map of locally spatial diamonds and F a small sheaf of abelian groups on Y′_qproét that comes via pullback from Y′_ét. Then λ_Y^∗f_qproét∗F → f_v∗λ_{Y′}^∗F is an isomorphism, and for X = Y strictly totally disconnected and X̃ ∈ X_v strictly totally disconnected the map H^0((λ∘_X(X̃) ×_X Y′)_qproét, F) → H^0((X̃ ×_X Y′)_v, λ_{Y′}^∗F) is an isomorphism.
 
-*Needs:* `C1.2`; `ClassicalAdicEtaleCohomology`, §§7.1–7.2; `C1.5`.
+*Needs:* `C1.2`; `ClassicalAdicEtaleCohomology`, §§7.1–7.2 and §7.3 (geometric connectedness); `C1.5`.
 
 (ECD Theorem 16.1(i), p. 92; ECD proof of Theorem 16.1, p. 93.)
 
@@ -620,7 +661,7 @@ Let f : Y′ → Y be a quasi-pro-étale map of locally spatial diamonds and F a
 
 Let f : Y′ → Y be a map of locally spatial diamonds and F a small sheaf of abelian groups on Y′_qproét pulled back from Y′_ét with nF = 0 for some integer n prime to p. Then λ_Y^∗R^if_qproét∗F → R^if_v∗λ_{Y′}^∗F is an isomorphism for all i ≥ 0, and for X = Y strictly totally disconnected and X̃ ∈ X_v strictly totally disconnected the map H^i((λ∘_X(X̃) ×_X Y′)_qproét, F) → H^i((X̃ ×_X Y′)_v, λ_{Y′}^∗F) is an isomorphism for all i.
 
-*Needs:* `C1.2`; `ClassicalAdicEtaleCohomology`, §§7.1–7.2; `C0.1`; `C0.19`.
+*Needs:* `C1.2`; `ClassicalAdicEtaleCohomology`, §§7.1–7.2 and §7.3 (geometric connectedness); `C0.1`; `C0.19`.
 
 (ECD Theorem 16.1(iii), p. 92; ECD Lemma 16.3, p. 93.)
 
@@ -997,7 +1038,7 @@ Require the following API.
 - `vTensor.symmetricMonoidal`: For each adequate κ, 𝒟(Y_v,κ, Λ) is presentably symmetric monoidal with unit the constant sheaf Λ; the transitions κ ≤ κ′ are symmetric monoidal, and the colimit 𝒟(Y_v, Λ) is symmetric monoidal, and is not presentable when Y≠∅ and Λ≠0.
 - `vTensor.pull`: f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B, naturally and monoidally coherent.
 - `vTensor.cohomology_flat`: If B is a flat Λ-module sheaf in degree 0, H^i(A ⊗^L B) = H^i(A) ⊗ B.
-- `vTensor.internalHom`: The internal Hom RHom_v(A, −) of 𝒟(Y_v,κ, Λ), right adjoint to − ⊗^L_Λ A, compatible with the cutoff transitions; on homotopy categories the derived internal Hom of the ringed topos.
+- `vTensor.internalHom`: At each adequate κ, RHom_{v,κ}(A, −) is right adjoint to − ⊗^L_Λ A; on homotopy categories it is the derived internal Hom of that ringed topos. For the transition c* from κ to κ′, monoidality and evaluation give a canonical map c*RHom_{v,κ}(A,B) → RHom_{v,κ′}(c*A,c*B), coherent under further enlargement. This map need not be invertible. If A is dualizable, it is an equivalence by RHom(A,B) ≃ A^∨ ⊗^L B and preservation of duals by c*. Perfect local systems give dualizable inputs through C7.12; perfect-constructibility alone does not give dualizability.
 
 **Checks.**
 
@@ -1005,10 +1046,12 @@ Require the following API.
 - `vTensor_constant`: For Λ-modules M, N, const M ⊗^L const N = const (M ⊗^L_Λ N).
 - `vTensor_pull`: For f : X′ → X strictly totally disconnected, f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B agrees with the tensor product of sheaves on |X′|.
 - `vTensor_not_exact`: For Λ = Z, Z/p ⊗^L Z/p has H^{−1} = Z/p ≠ 0, so the derived tensor product is not the underived one.
+- At Y=Spa(C,O_C), Λ=F_ℓ with ℓ≠p, let I have cardinality at least κ in the coefficient universe, A=⊕_{i∈I}Λ_Y and B=Λ_Y. Then H⁰RHom_{v,κ}(A,B)=∏_IΛ_Y. Choose κ′ large enough for X_S=Y×S, S=(F_ℓ)^I profinite. The coordinate tuple on X_S in the larger product cannot come from the smaller product: ECD Proposition 8.2 expresses every extended section through one κ-small affinoid approximation X_j, so its coordinate map factors through |X_j| of cardinality <κ, whereas the identity of S has image of cardinality ℓ^{|I|}>κ. Thus the ambient Hom comparison is not an equivalence in this example; the cutoff bounds tests, not the rank of A.
+- For dualizable A, including finite free constant complexes, the ambient Hom comparison is an equivalence at every adequate enlargement; the dual-tensor formula supplies it.
 
 *Needs:* `EnhancedDerivedSheaves`, Layer E1; `C2.9`; `C3.1`; `CategoryTheory.MonoidalCategory`.
 
-(ECD §17, p. 99.)
+(ECD §17, p. 99; ECD Proposition 8.2 and proof, pp. 39–40; ECD Definition 4.2, p. 20.)
 
 #### C3.8 The derived tensor product on D_ét
 
@@ -1036,13 +1079,13 @@ Require the following API.
 
 #### C3.9 Internal Hom on D_ét
 
-For any small v-stack Y and A ∈ D_ét(Y, Λ), B ↦ B ⊗^L_Λ A on D_ét(Y, Λ) has a right adjoint C ↦ RHom_Λ(A, C), i.e. Hom(B ⊗^L A, C) = Hom(B, RHom_Λ(A, C)); for varying A these assemble into RHom_Λ(−, −) : D_ét(Y, Λ)^op × D_ét(Y, Λ) → D_ét(Y, Λ). In general RHom_Λ(A, C) = R_Yét of the internal Hom of D(Y_v, Λ), and not the latter itself.
+For any small v-stack Y and A ∈ D_ét(Y, Λ), B ↦ B ⊗^L_Λ A on D_ét(Y, Λ) has a right adjoint C ↦ RHom_Λ(A, C), i.e. Hom(B ⊗^L A, C) = Hom(B, RHom_Λ(A, C)); for varying A these assemble into RHom_Λ(−, −) : D_ét(Y, Λ)^op × D_ét(Y, Λ) → D_ét(Y, Λ). Construct this adjoint intrinsically in the fixed presentable category 𝒟_ét(Y,Λ). At each adequate cutoff κ, let iκ:𝒟_ét(Y,Λ)→𝒟(Y_v,κ,Λ) be the inclusion and R_Yét,κ its right adjoint. Then RHom_Λ(A,C) ≃ R_Yét,κ(RHom_{v,κ}(iκ A,iκ C)). These coreflected objects agree coherently for all adequate cutoffs because they represent B↦Map(B⊗^L A,C) on the same étale category. This does not assert that the ambient internal Homs agree under enlargement.
 
 Require the following API.
 
 - `etHom`: The bifunctor RHom_Λ(−, −) on 𝒟_ét(Y, Λ) making it closed symmetric monoidal.
 - `etHom.adj`: Hom(B ⊗^L A, C) ≅ Hom(B, RHom_Λ(A, C)) naturally in A, B, C.
-- `etHom.eq_coreflection`: RHom_Λ(A, C) ≅ R_Yét(RHom_{D(Y_v,Λ)}(A, C)).
+- `etHom.eq_coreflection`: For every adequate κ, RHom_Λ(A,C) ≃ R_Yét,κ(RHom_{v,κ}(iκ A,iκ C)), naturally in A,C and coherently under cutoff enlargement; after coreflection the ambient comparison of C3.7 induces this equivalence.
 - `etHom.globalSections`: RΓ(Y, RHom_Λ(A, C)) computes RHom_{D_ét(Y,Λ)}(A, C).
 - `etHom.pull_map`: A natural map f^∗RHom_Λ(A, C) → RHom_Λ(f^∗A, f^∗C), adjoint to f^∗ monoidality; that it is an isomorphism for étale f is an API item of C5.1 (it needs the projection formula for f_!).
 - `etHom.dual`: The dual A^∨ = RHom_Λ(A, Λ_Y); for dualizable A, RHom_Λ(A, C) ≅ A^∨ ⊗^L C.
@@ -1050,6 +1093,7 @@ Require the following API.
 **Checks.**
 
 - `etHom_unit`: RHom_Λ(Λ_Y, C) ≅ C.
+- For the large free module A=⊕_I F_ℓ at Y=Spa(C,O_C) in C3.7, coreflection at either adequate cutoff gives the constant étale object with value ∏_I F_ℓ. Thus the intrinsic comparison is an equivalence even though the ambient comparison is not.
 - `etHom_point`: For Y = Spa(C, O_C), under D_ét(Y, Λ) ≃ D(Λ), RHom_Λ is the derived Hom of complexes of Λ-modules.
 - `etHom_std_compat`: For strictly totally disconnected X, U ⊂ |X| quasicompact open with inclusion j and Λ_U^! the extension by zero of Λ_U on the space |X|, RHom_Λ(Λ_U^!, C) ≅ Rj_∗j^∗C, as for sheaves of Λ-modules on |X|.
 - `etHom_not_v_hom`: For Y = Spa(C, O_C), Λ = Z and A = ⊕_{n∈N} Z, the v-internal Hom Hom(A, Z) is the sheaf S ↦ C(S, Z^N) with Z^N carrying the product topology, which is not in D_ét(Y, Z); the étale internal Hom RHom_Λ(A, Z) is the constant sheaf with value Z^N.
@@ -1599,10 +1643,10 @@ Require `IsConstFGOn.iff_exists` (the displayed constant-value criterion),
 - On a nonempty space with Λ≠0, the constant sheaf of ⊕_ℕΛ fails this predicate on the whole space, although it is constant.
 
 
-Construct `extendByZero : Sh(U,Λ) → Sh(X,Λ)` for an open U⊆X, as the exact left
-adjoint of restriction, with stalk equal to the input stalk on U and zero outside U.
-For a noetherian Λ and a quasicompact open U in spectral X this construction gives the
-constructibility clause below. (ECD Lemma 20.4, pp. 113–114.)
+Use the topological `extendByZero` adapter and its adjunction, exactness and stalk
+formulas from the exact supplier contracts above. For noetherian Λ and quasicompact
+open U in spectral X, prove its constructibility preservation below; no additional
+generic extension functor is introduced. (ECD Lemma 20.4, pp. 113–114.)
 
 Require the following API.
 
@@ -1885,7 +1929,7 @@ EnhancedDerivedSheaves §E1.4.
 - `isPerfectConstructible_zero`: 0 is perfect-constructible.
 - `isPerfectConstructible_field`: For Λ = F_ℓ, D_ét,pc(Y, F_ℓ) consists of the locally bounded complexes with constructible cohomology sheaves (target C7.17).
 - `isPerfectConstructible_not_bounded_cons`: For Λ = Z[ε]/(ε²), the constructible sheaf Λ/ε on Spa(C, O_C) is bounded with constructible cohomology but not perfect-constructible.
-- `isPerfectConstructible_not_sum`: For Y≠∅ and Λ≠0, ⊕_{n∈N} Λ_Y is not perfect-constructible.
+- `isPerfectConstructible_not_sum`: For Y≠∅ and Λ≠0, ⊕_{n∈N} Λ_Y is not perfect-constructible. For Y=∅ or Λ=0 the same sum is zero and perfect-constructible.
 
 *Needs:* `C7.13`; `C2.2`; `C3.1`; `EnhancedDerivedSheaves`, §E1.4.
 
@@ -2752,11 +2796,46 @@ Let Λ be a commutative ring and Y spatial. Suppose one natural N satisfies H^i(
 
 #### C9.3 Left completeness under the uniform bound
 
-For Y and Λ satisfying C9.2, the unbounded ordinary derived category D(Y_et,Λ) is left-complete.
+For Y and Λ satisfying C9.2, the unbounded ordinary enhanced derived category
+𝒟(Y_et,Λ) is equivalent to its Postnikov completion; hence D(Y_et,Λ) is left-complete.
+In addition to convergence for existing objects, prove the following reconstruction
+statement here. For every coherent tower (L_n)_{n≥0} with L_n∈𝒟^{≥−n} and transition
+maps inducing τ^{≥−n}L_{n+1}≃L_n, put L=Rlim_n L_n in 𝒟(Y_et,Λ). The projections
+induce equivalences τ^{≥−n}L≃L_n for every n, with the prescribed coherences. In
+particular H^i(L)→H^i(L_n) is an isomorphism for every integer i≥−n, including
+negative i. This supplies essential surjectivity onto all coherent compatible towers;
+object-wise convergence supplies full faithfulness.
 
-*Needs:* `C9.2`; `C0.16`; `C0.5`; `EnhancedDerivedSheaves`, Layer E2.
+Use the qc separated étale basis and its common bound N from C9.2. The successive
+fibres are H^{−r−1}(L_{r+1})[r+1]; applying sections on a basis object puts their
+cohomology in [−r−1,N−r−1]. Thus for each integer m the section cohomology in
+both degrees m−1 and m stabilizes uniformly in the basis and its basis refinements,
+for example after r≥max(0,N−m+2). Derived sections commute with Rlim; their Milnor
+sequence identifies H^m(U,L) with the stable section-cohomology value. Sheafify
+this comparison on the basis at a common stabilization stage k, then use
+H^m(L_k)≃H^m(L_n) for k≥n and m≥−n. This gives H^m(L)≃H^m(L_n) for m≥−n.
+This argument applies to an arbitrary coherent compatible tower, without assuming
+that it is already the
+truncation tower of an object or that the étale topos is replete.
 
-(ECD Propositions20.10 and20.17, pp.117,121.)
+**Checks.**
+
+- For a constant tower from an object in 𝒟^{≥0}, reconstruction is that object.
+- For a sheaf F, the tower L_n=⊕_{0≤r≤n}F[r] has H^{−r}(L)=F for every r≥0;
+  the comparison at n retains all degrees −n,…,0, including the negative endpoint.
+- With the zero ring, or empty Y, every compatible tower and its reconstruction is zero.
+- A family of bounded-below objects without the equivalences τ^{≥−n}L_{n+1}≃L_n
+  is not a compatible Postnikov tower and is not assigned this conclusion.
+
+*Needs:* `C9.2`; `C0.16`; `C0.5`; `EnhancedDerivedSheaves`, §E2.3 (coherent limits and
+Postnikov completion), §E2.2 (Milnor for module complexes over the point) and
+§E2.4 (local cohomology comparison). Stacks Tag 0D6K supplies the section-cohomology
+Milnor sequence and commutation of derived sections with Rlim. Tag 0D6P supplies
+convergence of the truncation tower of each existing object; C9.3 supplies the
+arbitrary-tower reconstruction.
+
+(ECD Propositions 20.10 and 20.17, pp. 117, 121; Stacks Tags 0D6K–0D6P,
+cohomology of derived limits on sites.)
 
 #### C9.4 The ordinary and enhanced étale categories agree
 
