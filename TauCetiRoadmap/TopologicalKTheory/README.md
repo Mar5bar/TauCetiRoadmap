@@ -59,6 +59,11 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   the join-classifier input through CharacteristicClasses C1.1 consumes T6.4.
   All precede T6.6, and those classifiers do not consume the smooth upgrade
   or T6.6.
+- [CharacteristicClasses C1.1a–b](../CharacteristicClasses/README.md) supplies
+  the finite orientation-cover/cyclic-SO precursor before T1.6, then the
+  numerable join/frame specialization after T1.6 and T6.4. The early
+  precursor uses neither the join nor T6.4; stable BSO comparisons belong
+  to T1.6 and are consumed by C1.1b and T7.
 - [ComplexKahlerGeometry K5–K7](../ComplexKahlerGeometry/README.md) supplies
   static Laplace-type estimates, Dolbeault Hodge theory, Kähler identities and
   projective examples. T6 owns the continuous-parameter, vertically smooth
@@ -76,8 +81,8 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 - [HomotopySpheres §4A–4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
   supplies stable O/SO, finite oriented Grassmannians, stable BSO, stable oriented
   real-bundle classification and the full real Bott loop chain, including its
-  Clifford comparison. T7 extends the bundle classification to unoriented
-  bundles and proves the geometric KO comparison and multiplicative normalization.
+  Clifford comparison. T1.6 owns the unoriented and oriented stable
+  classifier comparisons; T7 proves the geometric KO comparison and multiplicative normalization.
   The real loop-space proof remains that supplier's target; consume its exact
   §4B.1–4B.9 contract and build any unavailable mathematics in Tau Ceti in
   that shape before using the comparison.
@@ -174,38 +179,180 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    maps and the comparison with orthonormal frames using native
    EuclideanSpace/WithLp coordinate transport and Gram–Schmidt. Treat r=0,
    r=N and r>N explicitly. Construct the continuous graph charts, their
-   transitions, and agreement with these quotient topologies; construct the
+   transitions, and agreement with these quotient topologies. Throughout these
+   coordinate models use zero-based Fin positions and e_i=Pi.single i 1.
+   Construct the
    tautological and orthogonal-complement bundles, finite Stiefel principal
    bundles and their local trivializations, stabilization, direct-sum and
    scalar-forgetting maps on these same carriers. GeneralizedCohomology G4.0b
    supplies the smooth graph-chart/native-projective upgrade; this item owns
    the topological construction, used unchanged by T1.6 and T6.6. Compare its
-   local-coordinate bundle charts with Mathlib bundles. Prove
-   the real `(n−k−1)` and complex `2(n−k)` connectivity bounds for k-frames in
+   local-coordinate bundle charts with Mathlib bundles. Construct the finite
+   Schubert characteristic maps for the standard coordinate flag and their CW
+   structure, with the quotient topology equal to its weak topology. Pin the
+   ambient inclusion as appending the last coordinate by Fin.castSucc. Pin
+   shift as e_i↦e_(i+1), using Fin.succ in finite coordinates and
+   Finsupp.mapDomain Nat.succ on U=ℕ→₀𝕜. The rank inclusion is
+   s(V)=𝕜e₀⊕shift(V). The latter sends pivot symbol τ to
+   (0,τ+1) and is a homeomorphism onto the closed Schubert subcomplex of planes
+   containing e₀. Prove strict commutation of rank and ambient inclusions,
+   and the tautological comparison s*γ_(k+1)≅1⊕γ_k, with the new line first.
+   This finite carrier/cell/map construction precedes CC C1.1a and T1.6.
+   Prove the real `(n−k−1)` and complex `2(n−k)` connectivity bounds for k-frames in
    n-space. The first-column stabilizer includes its contractible off-diagonal
    factor; construct its deformation comparison with the smaller classical
    group before using a fibration sequence. On finite-dimensional CW pairs,
    prove existence/uniqueness of section extensions with the corresponding
    strict/weak dimension bounds, applied to the bundle of surjections E→F.
-6. Build stable complex/unoriented real Grassmannian classification of bundles
+6. **T1.6a. Stable carriers and classification.** Build stable complex/unoriented real Grassmannian classification of bundles
    of bounded rank over compact bases and stable classes over finite CW bases,
-   with clutching and sum naturality. For oriented real stable bundles compare
-   with HomotopySpheres §4A; identify the unoriented stable Grassmannian
-   and rank carrier with §4B.1's BO×Z, including stabilization and group law.
-   This is also T7's BO/BSO classification input,
-   not a second construction there. Prove numerable fixed-rank classification
+   with clutching naturality. For oriented real stable bundles compare
+   using CharacteristicClasses C1.1a's finite oriented-cover precursor.
+   Own the fixed-rank BSO(n) ambient colimits and
+   `stableOrientedGrassmannian` BSO rank-colimit on those lifted cells and
+   their based homotopy comparison with HomotopySpheres §4A, compatible
+   with the universal bundle diagrams and stabilization.
+   This supplies T7's BO/BSO classification input. Prove numerable fixed-rank classification
    over paracompact Hausdorff bases, with the universal numerable bundle and
    locally finite partition/classifying-map proof explicitly constructed.
    Name the fixed-rank universal carrier `Gr_k∞(𝕜)` as the union of the
    T1.5 carriers finiteGrassmannian 𝕜 k (N+k) along coordinate closed embeddings,
-   with the final topology for those inclusions. Construct the Schubert-cell
-   CW structure and prove agreement with its weak topology and with the
-   compactly generated colimit; construct the universal tautological bundle
-   by the same compatible finite stages. This is the fixed-rank carrier used
-   for numerable classification, distinct from stabilization in k giving BO/BU.
+   appending the last coordinate by Fin.castSucc, with the final topology
+   for those inclusions. This fixed-rank carrier is used for numerable
+   classification. Use T1.5's finite Schubert cells and pinned rank/ambient
+   maps to construct the CW structure, proving agreement of the weak topology
+   with the compactly generated colimit. Construct the universal tautological
+   bundle by those compatible finite stages. CC C1.1a owns the finite oriented
+   lift of T1.5's new-line-first rank map and its
+   last-column SO comparison. Define `stableRealGrassmannian` and
+   `stableComplexGrassmannian` as the rank-colimits of these fixed-rank
+   carriers in CompactlyGenerated, with underlying weak-CW union topology
+   and the transported Schubert cells. The basepoint is the image of the
+   rank0 point, represented in rank k by span(e₀,…,e_(k−1)). Pin the universal stable
+   bundle and pullback classification; BO/BU denote these connected
+   Grassmannian models.
+
+   **T1.6b. Actual BO/BU sum and its coordinate homotopies.** Define the
+   finite-stage block sum by interleaving
+   coordinates: Fin index i↦2i for the first ambient 𝕜^a and
+   j↦2j+1 for the second 𝕜^b inside 𝕜^(2 max(a,b)), then take
+   the direct sum of the two images. Prove its bundle comparison
+   ⊕*γ_(k+l)≅pr₁*γ_k⊕pr₂*γ_l, continuity and compatibility
+   with ambient inclusions and sum naturality of T1.6a's classification.
+   Prove the exact diagonal-rank identity
+   μ_(k+1,k+1)∘(s×s)=s²∘μ_(k,k) and the paired-tower/product comparison
+   in CompactlyGenerated; it gives the actual based stable sum map.
+   Build its based left/right unit, associativity and block-swap homotopies
+   across both ambient and rank stages. For each k, the unit endpoint is
+   μ_(k,k)(V,*_k) versus s^k V in rank2k, and the left unit is
+   μ_(k,k)(*_k,V) versus the same s^k V. The associativity endpoints in rank4k
+   are μ_(2k,2k)(μ_(k,k)(U,V),s^k W) and
+   μ_(2k,2k)(s^k U,μ_(k,k)(V,W)). Require
+   H_unit^(k+1)∘s=s²∘H_unit^k and
+   H_assoc^(k+1)∘(s,s,s)=s⁴∘H_assoc^k, as well as ambient compatibility.
+   For block swap use R_t∘μ, where R_t simultaneously rotates every real
+   coordinate plane (e_(2i),e_(2i+1)) through tπ/2, also for complex coordinates
+   viewed as real rotations. Its endpoint exchanges the two subspaces, and it
+   commutes exactly with s² and the ambient inclusions while fixing the
+   coordinate basepoint. The endpoint is the block swap on subspaces; it need
+   not be the literal permutation on oriented frames.
+   Own the coordinate-choice construction for the unit/associativity laws.
+   Write the homotopy data as (J_t,P_t), where U=ℕ→₀𝕜 has the finite-coordinate
+   Hermitian form, J_t is a linear isometric embedding (Fin j→U)→U, and P_t
+   is a moving k-dimensional padding plane orthogonal to its image. Use j=1
+   for either unit and j=3 for associativity. The resulting plane is the direct
+   sum of the images of the j input planes and P_t, of rank2k or4k.
+   Its endpoints are the displayed coordinate injections and finite padding
+   planes. Equip embedding spaces with the weak finite-coordinate topology
+   and k-ified native compact-open mapping topology. Own the contraction and
+   relative-extension API for (Fin j→U)→U through the finite orthonormal-frame
+   tower and its forgetful Serre fibrations. Compact parameter families
+   evaluated on finitely many coordinates must land in a common finite ambient
+   stage. Start the unit and associativity law homotopies at rank0, where
+   P=0 and the basepoint condition is automatic, using that contraction.
+   At the next rank require the
+   old shifted input coordinates to satisfy J_t^(k+1)∘shift=shift^m∘J_t^k
+   on every input copy, with m=2 for units and m=4 for associativity.
+   Define D_t=span(e₀,…,e_(m−1))⊕shift^m(P_t^k), a plane equal to
+   s^m(P_t^k). Choose the one new input line for a
+   unit, or three new input lines for associativity, in D_t; the orthogonal
+   remainder is P_t^(k+1), so no padding frame is required to stabilize.
+   The frame spaces are the unit sphere of 𝕜^(k+2) for units (S^(k+1) overℝ,
+   S^(2k+3) overℂ) and V₃(𝕜^(k+4)) for associativity. Trivialize D_t as a
+   vector bundle over the parameter interval relative to the specified endpoint
+   data and use these connected frame spaces for the new paths. Prove their
+   rank equations, basepoint conditions and ambient compatibility.
+   For unit/associativity/block-swap overlap diagrams require based fillers
+   on each parameter polytope. Compare their prescribed boundary maps in a
+   common target rank N=rk, with r≥j+1 for j inputs; stabilize target stages
+   by additional positive trivial lines when needed, retaining the same map
+   on BO/BU. Choose a bottom tail rank k₀ whose finite Stiefel connectivity
+   exceeds the parameter dimension. Put B=Fin j→span(e₀,…,e_(k₀−1)).
+   At that bottom rank the based extension problem is a frame
+   J|_B∈V_(jk₀)(𝕜^N) inside the fixed coordinate plane *_N, and a linear
+   isometric embedding of the remaining input coordinates into *_N^perp.
+   Extend the finite frame by its connectivity (N−jk₀−1 overℝ and
+   2(N−jk₀) overℂ), and the remaining infinite-coordinate embedding by the
+   contraction. Set P=*_N∩J(B)^perp; this constructs the unframed padding
+   while preserving the basepoint. For successive ranks use the corresponding constrained
+   new-line frame space in D_t and its relative extension with the prescribed
+   boundary frames. Prove compatibility between these tail fillers, then
+   transport the specific diagrams to the CW rank-colimit by homotopy
+   extension and the paired-tower comparison.
+   Export the unit triangles and associativity pentagon with their fixed
+   endpoints. GeneralizedCohomology G2.8 owns the generic permutative
+   group-completion machine.
+
+   **T1.6c. Actual oriented sum.**
+   On the oriented model construct `stableOrientedGrassmannianWhitneySum`.
+   Prove that orientation forgetting BSO→BO is the based universal double cover
+   from C1.1a's finite covers and the cellular colimits, with path/homotopy
+   lifting, consuming native IsCoveringMap.liftHomotopy and liftHomotopyRel.
+   BSO and BSO×BSO are simply connected and locally path connected by their
+   Hausdorff CW structures. Consume the existing Tau Ceti
+   IsCoveringMap.existsUnique_continuousMap_lifts_of_subsingleton_fundamentalGroup
+   criterion. Define the oriented sum as the
+   unique based lift of the actual BO sum composed with forgetting on both
+   inputs. Export the exact forgetting square and the based units,
+   associativity and commutativity homotopies, lifting the BO diagrams relative
+   to all specified boundaries. Compare it with the natural finite Whitney
+   orientation (v₁,…,v_k,w₁,…,w_l). At equal rank k the finite coordinate
+   Whitney orientation of μ(*_k,*_k)=*_(2k) has sign
+   (−1)^(k(k−1)/2) against the standard coordinate orientation,
+   and μ(sV,sW) has sign (−1)^k against s²μ(V,W).
+   Prove the finite-stage identity: at equal rank k this based lift is
+   ε_k times the finite Whitney orientation, where ε_k=(−1)^(k(k−1)/2).
+   Export μtilde_k*γtilde_(2k)≅
+   (pr₁*γtilde_k⊕pr₂*γtilde_k, ε_k·Whitney), retaining the oriented bundles.
+   Prove this sign identity for the normalized based lift. Since ε_k ε_(k+1)(−1)^k=1, the normalized oriented maps satisfy
+   the strict diagonal-rank identity; the natural ordered finite Whitney maps
+   alone do not. Their lifted law homotopies are rank-compatible by unique
+   path lifting. Export the stable classification comparison: the ordinary
+   Whitney-oriented sum of two classified stable bundles is classified by this
+   based map. Compare with the finite formula after adding a positive trivial
+   line, rotating it through a fresh normal direction by π exactly when
+   k≡2 or3 mod4. The rotation changes the underlying plane during the path.
+   This comparison uses an orientation-preserving stabilized
+   bundle isomorphism and its classifying homotopy; the unit/overlap comparisons
+   are relative to the normalized based lift. T7 consumes this actual oriented
+   sum, and GeneralizedCohomology G5.0 owns its subsequent Spin lift and
+   projection/sum H-map comparison.
+
+   **T1.6d. Component and companion-model comparisons.**
+   On BO×ℤ and BU×ℤ also add the integer components. Construct the
+   HomotopySpheres §4B.1 R₀ comparison using T1.6's own 2n-dimensional
+   homogeneous tower, cofinally compared with the supplier's tower: the orbit
+   map from O(2n)/(O(k)×O(2n−k)) sends
+   a matrix to the span of its first k columns in T1.5's carrier.
+   Label that stage by k−n, with the added-first-line/append-last-ambient
+   stabilization preserving this virtual dimension. Prove the cofinal
+   based homotopy equivalence over ℤ, compatibility with the supplier's
+   finite-dimensional inclusions up to the elementary coordinate homotopies,
+   and transport the block sum along it.
+   T2.1 supplies the group-completion comparison for BU×ℤ.
    In rank one use Gr_1(𝕜^(N+1)): name `RP∞` for 𝕜=ℝ and `CP∞` for 𝕜=ℂ,
    with one cell in each nonnegative degree or each even nonnegative degree,
-   respectively, using the rank-one Schubert cells from T1.5.
+   respectively, using the rank-one Schubert cells just constructed.
    CharacteristicClasses C1.5 compares these cells with AT4.6's finite RPⁿ
    and CKG K7's finite CPⁿ characteristic maps and owns the cellular/cup comparisons
    with these carriers. The carrier/bundle/CW construction precedes classification
@@ -222,11 +369,20 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    G by a common trivial stabilization; unequal trivial ranks also change the
    absolute rank. Prove equivalence of the pair model
    `(E,F)~(E',F')` iff `∃G,E⊕F'⊕G≃E'⊕F⊕G` with the categorical presentation.
+   Define `complexKClassifyingMap` from homotopy classes of maps
+   X→BU×ℤ to K(X), for compact Hausdorff X, using T1.6's actual stable
+   Grassmannian carrier. Write a map as (f,n), with n locally constant;
+   compactness places f in a finite-rank stage Gr_k∞ and gives
+   [f*γ_k]−[𝟙^k]+n, where n denotes the difference of trivial bundles
+   on its finitely many rank strata. Prove independence of the stage,
+   naturality, bijectivity and compatibility with block sum and addition.
+   Build `realKOClassifyingMap` from [X,BO×ℤ] to KO(X) by the same
+   stage-independent formula and proof, with its real bundle comparison.
 2. Tensor product gives a commutative unital ring; pullbacks are ring maps.
    Extend dual/conjugate/realification/complexification, with realification
    additive but not a unital ring map in its usual normalization. Prove
    `r c=2` on KO and `c r=1+conjugation` on K. Export the locally constant rank
-   map, its splitting by trivial bundles and basepoint reduced decomposition
+   ring map, its ring-map splitting by trivial bundles and basepoint reduced decomposition
    `K(X)≃Kred(X)⊕Z`; do not identify all rank-zero classes using one basepoint
    on a disconnected space.
 3. Build λ_t(E)=Σ[Λ^j E]t^j for actual bundles and the direct-sum product
@@ -243,6 +399,58 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    identity fibre consists just of the identity is an isomorphism, by first
    constructing inverses in the source. Use it when establishing the stabilized
    sequence model, not to declare an unstabilized tuple monoid a group.
+
+5. **Positive Adams operations.** After T5's flag injection has proved
+   T2.3's special λ-product identities, construct `adamsOperation`
+   for each integer k≥1 as a unital ring endomorphism of the same complex
+   K(X), natural on compact Hausdorff bases. Define it by the integral
+   Newton polynomial N_k in λ¹,…,λᵏ; consume Mathlib's
+   `MvPolynomial.psum_eq_mul_esymm_sub_sum`, rather than divide by k or
+   apply a rational logarithm. Pin
+   Σ_(k≥1)(−1)^(k−1)ψᵏ(x)t^(k−1)=λ'_t(x)λ_t(x)⁻¹
+   on T2.3's constant1 unit power series as the named
+   `adamsOperation_lambdaSeriesComparison` with the Newton definition.
+   On ℚ-algebras compare this integral unit-derivative expression with
+   Tau Ceti's native `PowerSeries.logDeriv`. Prove independence of virtual
+   presentations, additivity, multiplicativity, ψᵏ(1)=1, rank preservation,
+   ψ¹=id, ψᵏψˡ=ψ^(kl), commutation with dual/conjugation and every
+   continuous pullback. On a line L prove ψᵏ([L])=[L^⊗k], and prove
+   ψᵖ(x)−xᵖ lies in pK(X) for each prime p, including torsion K-groups.
+   Prove the integral universal Newton congruence N_p≡e₁^p mod p
+   in ℤ[e₁,…,e_p] and evaluate it on λ-classes;
+   `adamsOperation_frobeniusModPrime` is the resulting quotient-ring
+   identity. For the
+   multiplicativity/composition splitting proofs handle virtual differences
+   and disconnected rank strata; split E⊕1 when E has rank0 so the
+   projectivization is nonempty, then remove the trivial-line term.
+
+   Consume the generic `AdamsOperations` and `AdamsHom` interfaces of
+   [Mathlib PR42468](https://github.com/leanprover-community/mathlib4/pull/42468)
+   over ℤ: package the constructed operations, composition and prime
+   congruence on K(X), and package pullbacks as `AdamsHom`. Set its index0
+   to the locally constant rank endomorphism followed by trivial bundles;
+   prove the composition and pullback laws also at0. If this interface is unavailable, provide it in
+   Tau Ceti in the same shape. The integral λ-series/Newton comparison
+   and topological bundle construction belong here; the supplier's
+   rational symmetric-function action applies after constructing the
+   `AdamsOperations ℚ (ℚ ⊗[ℤ] K(X))` instance by tensoring the actual
+   operations; prove its base-change comparison and pullback `AdamsHom`.
+
+   Preserve the augmentation and transport to `Kred(X)`, T3's relative
+   triples through the actual compact-pair quotient comparison, and
+   compact supports through the one-point compactification. Prove pair
+   naturality, external products, rank maps, proper pullback
+   and open extension, retaining the chosen relative trivialization and
+   support comparison. On T4's β=[L]−1∈Kred(S²), prove ψᵏβ=kβ.
+   For β_n on S^(2n) from the ordered external Bott product and the
+   smash-quotient comparison, export `adamsOperation_bottSphere`:
+   ψᵏ(β_n)=k^n β_n, including n=0. Pin its generator comparison to
+   T3.4's right suspension order and AT's single sphere/smash homeomorphisms.
+   The Bott compatibility square has the explicit factor k; the K⁰
+   operations are not asserted to be integral periodic KU-spectrum ring
+   endomorphisms when k is not a unit. The construction and its Newton,
+   splitting and Bott calculations follow
+   [Hatcher, §2.3, Adams operations and splitting](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf).
 
 ## T3. Relative complexes, compact support and exactness
 
@@ -609,6 +817,76 @@ comparisons, not an assumption on every K-object.
 
 ## T7. Real K-theory and concrete acceptance calculations
 
+**T7.0. Stable classifier inverses.** Use T1.6a's actual
+`stableRealGrassmannian` BO and stable oriented classifier, with their
+trivial-bundle basepoints and prepend-line tower, T1.6b's actual BO sum μ and
+T1.6c's `stableOrientedGrassmannianWhitneySum`. Retain its proved ε_k·Whitney
+finite formula, normalized diagonal and natural stable Whitney comparison.
+This inverse construction follows T1.6 and precedes the real Bott comparison
+of item1 and G5.0's stable-Spin inverse supplement.
+
+On AT4.5's native CW product P=k(BO×BO), with the pair of marked trivial
+0-cells as basepoint, identify P with T1.6b's CompactlyGenerated product
+by the k coreflection universal property. Construct the based shear
+`stableRealGrassmannianShear`, sh(x,y)=(x,μ(x,y)), and the continuous
+map x↦(x,*) through that identification, using `cwProductKelley`. Its basepoint equation is strict,
+since μ(*,*)=*. Consume AT8.1's `homotopyGroupKelleyProduct` for the
+native product homotopy-group comparison.
+The based unit homotopies identify the two restrictions of μ with identity;
+prove μ_*(a,b)=a+b. In degree1 prove commutativity by the Eckmann–Hilton
+comparison between loop composition and the H-space sum; in higher degrees
+use the native group law, and treat components using connectedness of BO.
+Thus sh_* is (a,b)↦(a,a+b), with inverse (a,b)↦(a,b−a).
+Apply AT8.5's full CW Whitehead theorem, then AT4.5's
+`basedHomotopyInverseOfEquivalence` on the marked 0-cell cofibrations to
+obtain a based homotopy inverse g with both inverse homotopies rel basepoint.
+Export g and those actual homotopies with their endpoint equations.
+
+Define `stableRealGrassmannianInverse` by ν(x)=pr₂(g(x,*)), and export the
+actual based continuous self-map. The first projection of sh∘g≃id identifies
+pr₁(g(x,*)) with x; combine this homotopy with its second projection to
+construct μ(x,ν(x))≃*. Derive μ(ν(x),x)≃* by T1.6b's commutativity,
+and ν∘ν≃id by associativity, unit homotopies and cancellation. All these
+homotopies are rel basepoint. Compare ν with the group inverse on compact
+Hausdorff bases through T2.1's actual real classifying/group-completion map.
+On each finite Grassmannian Gr(k,ℝ^N) compare it with the reduced
+orthogonal-complement class [γ^perp]−[1^(N−k)], using the actual
+bundle isomorphism γ⊕γ^perp≃1^N. In BO×ℤ pair this with rank−k to
+recover the full inverse [γ^perp]−[1^N], with the BO×ℤ inverse defined
+by (x,n)↦(νx,−n). Export the unbased comparison homotopy and named
+`stableGrassmannianInverseComplementComparison_stabilization` homotopies
+for its ambient/rank stabilization squares. Track the coordinate basepoint
+path from span(e_k,…,e_(N−1)) to the standard (N−k)-plane in
+Gr(N−k,ℝ^(2N)): for each i=0,…,N−k−1 first perform a positive
+quarter-turn in the ordered plane (e_(k+i),e_(N+i)), then in
+(e_(N+i),e_i), with the path parameter increasing in that order. The
+endpoint frame is (e₀,…,e_(N−k−1)); the raw finite
+complement map is not a based map. Require the comparison from that
+complement map to ν to have this precise projected basepoint track.
+Prove π₁(BO) acts trivially on the based-to-free map-class comparison
+using its H-group sum, so the unbased comparison can be given that track;
+retain it in the cancellation diagrams. Include k=0 and k=N (the latter
+has the empty complement frame and constant path). At k=0 the specified
+track is the null-homotopic backtracking loop. No finite-rank
+complement over the full stable classifier is asserted.
+
+Lift ν composed with orientation forgetting through T1.6c's universal
+BSO→BO cover, using the simply connected based CW domain BSO, to
+`stableOrientedGrassmannianInverse`. Export its exact forgetting square,
+left/right cancellation with `stableOrientedGrassmannianWhitneySum`,
+double-inversion homotopy and the corresponding finite-complement
+comparisons with their orientation and basepoint paths. Orient V^perp by
+placing an oriented frame of V first and a frame of V^perp second in the
+positive ambient frame. Thus γ̃⊕γ̃^perp≃1^N preserves its natural
+Whitney orientation. Use T1.6c's natural stable Whitney comparison and
+uniqueness of the oriented inverse to obtain the finite comparison,
+retaining its actual orientation/basepoint paths. Use existing
+Tau Ceti based-cover lifting and Mathlib relative homotopy lifting, keeping
+the positive trivial orientation at the basepoint throughout each lifted
+homotopy. GeneralizedCohomology G5.0 owns the further based Spin lift and
+its characteristic-class consequences; G2.8 owns the generic
+Γ/permutative infinite-loop machine.
+
 1. Develop KO⁰'s finite-bundle/relative/support API and all negative suspension
    degrees, reusing T1.6's unoriented BO classification and its oriented BSO
    comparison. First work on finite CW pairs. Use HomotopySpheres §4B.1–4B.9's
@@ -717,7 +995,12 @@ comparisons, not an assumption on every K-object.
 ## Dependency order and references
 
 T1→T2's additive/λ-sum basics→T3 supplies the cohomology machinery used by T4;
-T2's λ-product identities follow the T5 splitting theorem. T4 precedes T5. T6 first constructs equivariant bundles and line Thom, then
+T1.6 constructs the stable carriers before T2.1's BU×ℤ classifying comparison.
+T7.0 constructs their inverses from the connected H-space shear using AT4.5,
+AT8.1, AT8.5 and T2.1; it consumes neither the real Bott proof nor characteristic classes.
+T2's λ-product identities and T2.5's Adams operations follow the T5
+splitting theorem; their Bott-sphere calculation uses the earlier T4 Bott
+comparison and no Hopf-invariant-one or bordism coefficient input. T4 precedes T5. T6 first constructs equivariant bundles and line Thom, then
 descent, the projective-family index and normalized transfer; only then does it prove
 general equivariant Thom and projective comparisons. T7's real
 periodicity consumes the existing HomotopySpheres proof, independently of the
@@ -725,7 +1008,8 @@ complex Thom and index developments. Every analytic step in T4 concerns finite
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
 - Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math.112 (1964), 229–247, for the polynomial-clutching proof.
-- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §2.2, for bundle/classification foundations and the elementary product proof.
+- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.2–2.3, for bundle/classification foundations, the elementary product proof and Adams operations.
+- Kriz–May, [*Operads, algebras, modules, and motives*](https://www.math.uchicago.edu/~may/BOOKS/KM.pdf), the section “The linear isometries operad”, for the finite-support universe and compactly generated coordinate-choice topology; T1.6 builds the actual frame/coherence comparisons.
 - Freed's K-theory lectures, [notes by Arun Debray](https://www.math.purdue.edu/~adebray/lecture_notes/m392c_Knotes.pdf), §§5–6, for the companion-pencil, spectral bundle and inverse-independence proof spine, with uniform approximation and signs proved as specified above.
 - Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ.Math.IHÉS34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
 - Atiyah, [*Bott periodicity and the index of elliptic operators*](https://doi.org/10.1093/qmath/19.1.113), Quart.J.Math.19 (1968), §§2 and4 (especially Proposition4.9), for the minimal family-index transfer; prove the analytic bridges of T6.5 rather than importing a general index theorem.

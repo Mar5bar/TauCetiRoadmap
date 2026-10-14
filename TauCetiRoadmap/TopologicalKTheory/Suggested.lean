@@ -1,3 +1,5 @@
+import TauCeti.RingTheory.PowerSeries.Log
+import Mathlib.RingTheory.PowerSeries.Derivative
 import Mathlib.Topology.VectorBundle.Basic
 import Mathlib.Topology.VectorBundle.Constructions
 import Mathlib.Topology.VectorBundle.Hom
@@ -56,6 +58,48 @@ theorem bijective_of_surjective_trivial_identity_fiber
     (hsurj : Function.Surjective f) (hone : ∀ s, f s = 1 → s = 1) :
     Function.Bijective f := by
   sorry
+
+/-- Integral logarithmic-derivative coefficient of a unit λ-series.
+Index n gives ψ^(n+1); no rational logarithm or division is involved. -/
+def adamsValueOfLambdaSeries {R : Type*} [CommRing R]
+    (lambdaSeries : (PowerSeries R)ˣ) (n : ℕ) : R :=
+  (-1 : R) ^ n * PowerSeries.coeff n
+    (PowerSeries.derivative (lambdaSeries : PowerSeries R) *
+      (↑(lambdaSeries⁻¹) : PowerSeries R))
+
+/-- The signed derivative coefficient is additive on multiplication of unit series.
+T2.5 compares it with the integral Newton definition after the exterior-sum identity. -/
+theorem adamsValueOfLambdaSeries_mul {R : Type*} [CommRing R]
+    (a b : (PowerSeries R)ˣ) (n : ℕ) :
+    adamsValueOfLambdaSeries (a * b) n =
+      adamsValueOfLambdaSeries a n + adamsValueOfLambdaSeries b n := by
+  have hd : PowerSeries.derivative ((a : PowerSeries R) * (b : PowerSeries R)) *
+      (((↑(b⁻¹) : PowerSeries R) : PowerSeries R) * (↑(a⁻¹) : PowerSeries R)) =
+      PowerSeries.derivative (a : PowerSeries R) * (↑(a⁻¹) : PowerSeries R) +
+        PowerSeries.derivative (b : PowerSeries R) * (↑(b⁻¹) : PowerSeries R) := by
+    simp only [Derivation.leibniz, smul_eq_mul]
+    calc
+      _ = (PowerSeries.derivative (a : PowerSeries R) * (↑(a⁻¹) : PowerSeries R)) *
+          ((b : PowerSeries R) * (↑(b⁻¹) : PowerSeries R)) +
+        (PowerSeries.derivative (b : PowerSeries R) * (↑(b⁻¹) : PowerSeries R)) *
+          ((a : PowerSeries R) * (↑(a⁻¹) : PowerSeries R)) := by ring
+      _ = _ := by simp
+  unfold adamsValueOfLambdaSeries
+  simp only [mul_inv_rev, Units.val_mul]
+  rw [hd, map_add, mul_add]
+
+/-- The integral unit expression agrees with the existing rational logarithm API. -/
+theorem adamsValueOfLambdaSeries_eq_coeff_logDeriv
+    {A : Type*} [CommRing A] [Algebra ℚ A]
+    (a : (PowerSeries A)ˣ) (ha : PowerSeries.constantCoeff (a : PowerSeries A) = 1)
+    (n : ℕ) :
+    adamsValueOfLambdaSeries a n =
+      (-1 : A) ^ n * PowerSeries.coeff n (PowerSeries.logDeriv (a : PowerSeries A)) := by
+  unfold adamsValueOfLambdaSeries
+  have hd := PowerSeries.logDeriv_mul (a : PowerSeries A) ha
+  have h := congrArg (fun f : PowerSeries A => f * ↑(a⁻¹)) hd
+  simpa [mul_assoc] using congrArg
+    (fun f : PowerSeries A => (-1 : A) ^ n * PowerSeries.coeff n f) h.symm
 
 section Bundles
 variable {X : Type u} [TopologicalSpace X]
