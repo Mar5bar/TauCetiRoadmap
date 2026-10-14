@@ -330,6 +330,26 @@ supremum over unitary representations, prove its universal property and
 separability. This universal algebra is the test object in C7;
 OperatorAlgebraDynamics D1 identifies it with the full free-group algebra.
 
+Construct the path algebra `PA=C([0,1],A)`, cone `CA=C₀((0,1],A)`
+and suspension `SA=C₀((0,1),A)`, with supremum norm and pointwise
+star operations. Prove completeness, endpoint evaluation, ideal/quotient
+identifications, functoriality, tensor comparisons and cone contraction.
+View cone functions as paths vanishing at 0; the cone quotient is
+evaluation at 1. For a star homomorphism φ:A→B construct the mapping cone
+`C_φ={(a,f)∈A×CB : φ(a)=f(1)}` as a closed pullback C*-algebra.
+Prove its pullback universal property, functoriality for commuting squares,
+and the extension `0→SB→C_φ→A→0`, with inclusion g↦(0,g)
+and projection (a,f)↦a. Prove surjectivity using f(t)=tφ(a)
+and give the completely positive contractive section a↦(a,tφ(a)).
+Construct homotopies of star homomorphisms as maps into PB, with
+evaluation, composition and concatenation APIs. For a homotopy
+Φ:A→PB, construct C_Φ and its endpoint maps to C_(ev₀Φ) and
+C_(ev₁Φ). Prove these maps are homotopy equivalences by explicit
+path rescaling and concatenation, hence homotopic homomorphisms have
+homotopy-equivalent mapping cones. OperatorKTheory K2
+consumes these elementary constructions independently of C9's
+approximation and local-reflexivity theorems.
+
 ## C6. Nuclearity, the bidual, and Banach amenability
 
 A completely positive contraction φ:A→B is nuclear when it is a point-norm
@@ -528,20 +548,7 @@ Develop the approximation constructions underlying the quotient theorem.
 A C*-algebra is residually finite-dimensional (RFD) when its finite-dimensional
 *-representations separate points. Give its faithful product-of-matrices
 description and its norm-detecting finite-set criteria, and prove permanence
-under subalgebras and unitization. Construct the path algebra
-`PA=C([0,1],A)`, cone `CA=C₀((0,1],A)` and suspension
-`SA=C₀((0,1),A)`, with supremum norm and pointwise star operations.
-Prove completeness, endpoint evaluation, ideal/quotient identifications,
-functoriality, tensor comparisons and cone contraction. View cone functions
-as paths vanishing at 0; the cone quotient is evaluation at 1.
-For a star homomorphism φ:A→B construct the mapping cone
-`C_φ={(a,f)∈A×CB : φ(a)=f(1)}` as a closed pullback C*-algebra.
-Prove its pullback universal property, functoriality for commuting squares,
-and the extension `0→SB→C_φ→A→0`, with inclusion g↦(0,g)
-and projection (a,f)↦a. Prove surjectivity using f(t)=tφ(a),
-the completely positive contractive section and homotopy transport.
-Construct homotopies of *-homomorphisms as maps into PB, with
-evaluation and composition APIs. Prove
+under subalgebras and unitization. Consume C5's cone and homotopy APIs. Prove
 that cones over RFD algebras are RFD, using evaluation and finite-dimensional
 representations. Prove
 Voiculescu's homotopy invariance of quasidiagonality for separable C*-algebras;
