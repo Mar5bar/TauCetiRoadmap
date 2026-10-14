@@ -22,9 +22,9 @@ be stated against the pinned Mathlib and Tau Ceti, so that contributors and revi
 names and signatures; discharging all of them finishes neither a layer nor the roadmap. `sorry`
 marks goals, not results. Every target whose carrier is not available at the pins (the integral
 quadratic map of a lattice, local densities, genera, the Q-constructions, the hermitian cone,
-Grothendieck–Witt groups and spaces, stable and Poincaré categories, the certified LLL algorithm
-itself, the dynamical incidence carriers, and the comparisons with declarations of the
-ThetaSeries, LFunctions and PointProcesses roadmaps) is stated in the README with its intended
+Grothendieck–Witt groups and spaces, stable and Poincaré categories, the dynamical incidence
+carriers, and the comparisons with declarations of the ThetaSeries, LFunctions and PointProcesses
+roadmaps) is stated in the README with its intended
 signature and does not appear here. The final README roadmap-for-a-roadmap on motivic/étale
 comparisons and higher integer GW tables is motivation outside the targets of this file.
 
@@ -43,7 +43,7 @@ Design choices made explicit here:
 * the three-square formula is stated against Tau Ceti's `hurwitzClassNumber`;
 * unitarity of a representation is Tau Ceti's `ContRepresentation.IsUnitary`, with strong
   continuity added as a separate predicate;
-* LLL data is exact, with integer change-of-basis certificates;
+* LLL-reduced bases use `δ = 3/4` and `η = 1/2`, with their short-vector approximation bound;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
   `Functor.IsInvolutiveDual` with exactness of the duality functor.
 -/
@@ -2744,7 +2744,7 @@ example : ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin 3 → ℤ,
 
 end Oppenheim
 
-/-! ## Layer 5: Certified LLL reduction -/
+/-! ## Layer 5: LLL-reduced bases -/
 
 section LLL
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
@@ -2797,111 +2797,7 @@ theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 <
     (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
     ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
 
-/-- An integral change-of-basis certificate `c_i = Σ_j U_{ji} b_j` with `UV = VU = 1` (5.2.1). -/
-structure UnimodularBasisCertificate (b c : Fin n → E) where
-  matrix : Matrix (Fin n) (Fin n) ℤ
-  inverse : Matrix (Fin n) (Fin n) ℤ
-  rightInverse : matrix * inverse = 1
-  leftInverse : inverse * matrix = 1
-  coordinates : ∀ i, c i = ∑ j, matrix j i • b j
-
-/-- Supply the integral matrices and output coordinates. -/
-def UnimodularBasisCertificate.ofMatrices (b c : Fin n → E)
-    (U V : Matrix (Fin n) (Fin n) ℤ) (hU : U * V = 1) (hV : V * U = 1)
-    (h : ∀ i, c i = ∑ j, U j i • b j) : UnimodularBasisCertificate b c :=
-  ⟨U, V, hU, hV, h⟩
-
-/-- A certificate preserves the integer span. -/
-theorem UnimodularBasisCertificate.span_eq {b c : Fin n → E}
-    (h : UnimodularBasisCertificate b c) :
-    Submodule.span ℤ (Set.range b) = Submodule.span ℤ (Set.range c) := by sorry
-
-/-- A certificate has determinant `±1`. -/
-theorem UnimodularBasisCertificate.det_unit {b c : Fin n → E}
-    (h : UnimodularBasisCertificate b c) : h.matrix.det = 1 ∨ h.matrix.det = -1 := by sorry
-
-/-- Compose certificates: the coordinate matrices multiply in the order `U U'`. -/
-def UnimodularBasisCertificate.trans {b c d : Fin n → E}
-    (h : UnimodularBasisCertificate b c) (k : UnimodularBasisCertificate c d) :
-    UnimodularBasisCertificate b d where
-  matrix := h.matrix * k.matrix
-  inverse := k.inverse * h.inverse
-  rightInverse := by sorry
-  leftInverse := by sorry
-  coordinates := by sorry
-
-/-- A reduced output with a certificate against the input (5.4). -/
-structure LLLReductionResult (b : Fin n → E) where
-  output : Fin n → E
-  certificate : UnimodularBasisCertificate b output
-  reduced : IsLLLReduced output
-
-/-- **LLL reduction exists** (5.4.1): an independent family with integral Gram matrix has a
-certified LLL-reduced basis of its integer span. The README's `exactLLL` computes one. -/
-theorem exists_lllReductionResult (b : Fin n → E) (hb : LinearIndependent ℝ b)
-    (hGram : ∀ i j, ∃ z : ℤ, inner ℝ (b i) (b j) = (z : ℝ)) :
-    Nonempty (LLLReductionResult b) := by sorry
-
-/-- **Verification** (5.4.2): the first output vector is within `2^{(n-1)/2}` of every nonzero
-vector of the input lattice. -/
-theorem LLLReductionResult.shortVector {b : Fin n → E} (r : LLLReductionResult b) (hn : 0 < n)
-    (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
-    ‖r.output ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
-
--- The swap and identity certificates carry explicit integral inverse matrices.
-example (b : Fin 2 → E) : UnimodularBasisCertificate b (fun i => b (1 - i)) :=
-  { matrix := !![0, 1; 1, 0]
-    inverse := !![0, 1; 1, 0]
-    rightInverse := by sorry
-    leftInverse := by sorry
-    coordinates := by sorry }
-example (b : Fin n → E) : UnimodularBasisCertificate b b :=
-  { matrix := 1
-    inverse := 1
-    rightInverse := by sorry
-    leftInverse := by sorry
-    coordinates := by sorry }
-
 end LLL
-
-section IntegerPotential
-variable {n : ℕ}
-
-/-- The LLL potential `∏_k det Gram(b_0, …, b_{k-1})` of an integer basis matrix (5.3.1). -/
-def lllIntegerPotential (A : Matrix (Fin n) (Fin n) ℤ) : ℤ :=
-  ∏ k ∈ Finset.range n,
-    Matrix.det (fun i j : {i : Fin n // i.val < k} => (A.transpose * A) i j)
-
-/-- The potential of a nonsingular integer basis is positive. -/
-theorem lllIntegerPotential_pos (A : Matrix (Fin n) (Fin n) ℤ) (hA : A.det ≠ 0) :
-    0 < lllIntegerPotential A := by sorry
-
-/-- Size reduction by an earlier column preserves the potential. -/
-theorem lllIntegerPotential_sizeReduce (A : Matrix (Fin n) (Fin n) ℤ)
-    (i j : Fin n) (hji : j < i) (a : ℤ) :
-    lllIntegerPotential (fun r c => if c = i then A r c - a * A r j else A r c) =
-      lllIntegerPotential A := by sorry
-
-/-- A strict Lovász failure makes the adjacent swap decrease the potential below `3/4` of its
-value, which proves termination. -/
-theorem lllIntegerPotential_swap (A : Matrix (Fin n) (Fin n) ℤ) (hA : A.det ≠ 0)
-    (i j : Fin n) (hij : i.val + 1 = j.val)
-    (hfail : (3/4 - (lllCoefficient
-      (fun c : Fin n => (WithLp.toLp 2 (fun r : Fin n => (A r c : ℝ)))) j i) ^ 2) *
-      ‖InnerProductSpace.gramSchmidt ℝ
-        (fun c : Fin n => (WithLp.toLp 2 (fun r : Fin n => (A r c : ℝ)))) i‖ ^ 2 >
-      ‖InnerProductSpace.gramSchmidt ℝ
-        (fun c : Fin n => (WithLp.toLp 2 (fun r : Fin n => (A r c : ℝ)))) j‖ ^ 2) :
-    (4 : ℤ) * lllIntegerPotential (fun r c => A r (Equiv.swap i j c)) <
-      3 * lllIntegerPotential A := by sorry
-
--- The potential of `diag(2, 1)` is `4`, and the empty potential is `1`.
-example : lllIntegerPotential (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) = 4 := by sorry
-example : lllIntegerPotential (1 : Matrix (Fin 0) (Fin 0) ℤ) = 1 := by sorry
-
-example : lllIntegerPotential (1 : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by sorry
-
-end IntegerPotential
 
 section LLLChecks
 
@@ -2922,19 +2818,6 @@ example : ¬ IsLLLReduced
 example : ¬ IsLLLReduced
     (![WithLp.toLp 2 ![1, 0], WithLp.toLp 2 ![2, 0]] : Fin 2 → EuclideanSpace ℝ (Fin 2)) := by
   sorry
-
--- Negative control: `1 ↦ 2` has no integral inverse certificate.
-example : ¬ Nonempty (UnimodularBasisCertificate
-    (![(1 : ℝ)] : Fin 1 → ℝ) (![(2 : ℝ)] : Fin 1 → ℝ)) := by sorry
-
--- Native size parameter 1/2 and public parameter 11/20 yield different squared factors.
-example : (1 / ((3 / 4 : ℚ) - (1 / 2) ^ 2)) = 2 ∧
-    (1 / ((3 / 4 : ℚ) - (11 / 20) ^ 2)) = 400 / 179 ∧
-    (2 : ℚ) < 400 / 179 := by norm_num
-
--- Hex's row shear transposes to the column convention of the certificate.
-example : (!![1, 0; -1, 1] : Matrix (Fin 2) (Fin 2) ℤ).transpose =
-    !![1, -1; 0, 1] := by decide
 
 end LLLChecks
 
@@ -3442,7 +3325,6 @@ sources are in the README.
   `singularWedgeUniqueRepresentative`, `polynomialSingularAvoidance`,
   `unipotentSingularOrbitDetection` and `oneOrbitAverageIdentification` on the homogeneous
   wedge and singular-stratum carriers.
-* Layer 5: the algorithm `exactLLL`.
 * Layer 6: `stableIndCompletion`, `finiteSemisimpleIsotypicDecomposition` and
   `stableKHeartComparison` on stable/finite-length category carriers; `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
   `ExactW0`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.

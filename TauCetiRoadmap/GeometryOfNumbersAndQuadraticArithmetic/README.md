@@ -1,8 +1,8 @@
 # Roadmap: geometry of numbers, quadratic forms and homogeneous arithmetic
 
-**Summary.** This roadmap develops the geometry of numbers and the arithmetic of integral quadratic and hermitian lattices: covolumes, successive minima and both halves of Minkowski's second theorem; integral lattices over Dedekind domains with their local invariants, genera and spinor genera; hermitian representation densities, Siegel polynomials and the mass of a genus; lattice-point counts, transference, star bodies and Siegel's mean value theorem; the homogeneous-dynamics theorems behind Margulis's theorem on values of indefinite forms and Duke's equidistribution of lattice points on spheres; a certified LLL reduction; and Schlichting's hermitian K-theory of exact categories, through the hermitian delooping theorem, derived localization and finite-field comparisons. The number-ring homotopy-limit comparison and higher Grothendieck–Witt tables of the integers motivate the final roadmap-for-a-roadmap. We want it because these are the quantitative tools that the arithmetic of quadratic forms, arithmetic statistics, Diophantine approximation and effective number theory draw on: counting and reducing lattices, computing local and global masses, controlling the values of quadratic forms at integer points, and the hermitian invariants that classify forms over rings of integers.
+**Summary.** This roadmap develops the geometry of numbers and the arithmetic of integral quadratic and hermitian lattices: covolumes, successive minima and both halves of Minkowski's second theorem; integral lattices over Dedekind domains with their local invariants, genera and spinor genera; hermitian representation densities, Siegel polynomials and the mass of a genus; lattice-point counts, transference, star bodies and Siegel's mean value theorem; the homogeneous-dynamics theorems behind Margulis's theorem on values of indefinite forms and Duke's equidistribution of lattice points on spheres; LLL-reduced bases; and Schlichting's hermitian K-theory of exact categories, through the hermitian delooping theorem, derived localization and finite-field comparisons. The number-ring homotopy-limit comparison and higher Grothendieck–Witt tables of the integers motivate the final roadmap-for-a-roadmap. We want it because these are the quantitative tools that the arithmetic of quadratic forms, arithmetic statistics, Diophantine approximation and effective number theory draw on: counting and reducing lattices, computing local and global masses, controlling the values of quadratic forms at integer points, and the hermitian invariants that classify forms over rings of integers.
 
-This roadmap builds the geometry of numbers and the arithmetic of quadratic and hermitian lattices on top of Mathlib's `ZLattice`, Minkowski's first theorem and the number-field embeddings, and on top of Tau Ceti's integral lattices over `ℤ`, its exact categories and its spinor norms. From covolumes and Gram determinants it goes to successive minima and both sharp halves of Minkowski's second theorem; from there to integral quadratic lattices over a Dedekind domain with their localisations, genera and spinor genera, to the local theory (invariant factors, dyadic normal forms, hermitian and quaternionic variants), to representation densities, Siegel polynomials and the mass of a genus; then to lattice-point counting, the homogeneous-dynamics theorems behind Margulis's and Duke's results, star bodies and transference; to a certified LLL reduction; and finally to Schlichting's hermitian K-theory of exact categories with derived localization over Dedekind rings, periodicity and finite-field comparisons. The end theorems are Minkowski's second theorem in both directions, the Cho–Yamauchi density formula and the mass identity for a definite genus, Henk's lattice-point bound, Margulis's theorem on values of indefinite forms, Duke's equidistribution of lattice points on spheres, the LLL approximation factor with an exact certificate, and the hermitian delooping theorem. The motivic and cyclotomic arithmetic needed for the higher integral Grothendieck–Witt tables belongs to the final roadmap-for-a-roadmap, outside the implementable targets.
+This roadmap builds the geometry of numbers and the arithmetic of quadratic and hermitian lattices on top of Mathlib's `ZLattice`, Minkowski's first theorem and the number-field embeddings, and on top of Tau Ceti's integral lattices over `ℤ`, its exact categories and its spinor norms. From covolumes and Gram determinants it goes to successive minima and both sharp halves of Minkowski's second theorem; from there to integral quadratic lattices over a Dedekind domain with their localisations, genera and spinor genera, to the local theory (invariant factors, dyadic normal forms, hermitian and quaternionic variants), to representation densities, Siegel polynomials and the mass of a genus; then to lattice-point counting, the homogeneous-dynamics theorems behind Margulis's and Duke's results, star bodies and transference; to LLL-reduced bases; and finally to Schlichting's hermitian K-theory of exact categories with derived localization over Dedekind rings, periodicity and finite-field comparisons. The end theorems are Minkowski's second theorem in both directions, the Cho–Yamauchi density formula and the mass identity for a definite genus, Henk's lattice-point bound, Margulis's theorem on values of indefinite forms, Duke's equidistribution of lattice points on spheres, the short-vector approximation factor for LLL-reduced bases, and the hermitian delooping theorem. The motivic and cyclotomic arithmetic needed for the higher integral Grothendieck–Witt tables belongs to the final roadmap-for-a-roadmap, outside the implementable targets.
 
 The construction has seven layers, in order.
 
@@ -13,14 +13,14 @@ The construction has seven layers, in order.
 | 2 | Integral quadratic and hermitian lattices |
 | 3 | Representation densities, mass and theta coefficients |
 | 4 | Lattice points, star bodies and homogeneous dynamics |
-| 5 | Certified LLL reduction |
+| 5 | LLL-reduced bases |
 | 6 | Hermitian K-theory of exact categories |
 
 Layers 0 and 1 are the geometry of numbers proper and are consumed by Layers 3, 4 and 5. Layer 2 is independent of Layer 1 except for the finiteness lemma 1.2.2, which Layer 3 uses. Layer 5 needs only Layer 0 and the first minimum of Layer 1. Layer 6 needs Layer 2 only for its field-level and signed hermitian comparisons and can be built in parallel with Layers 3–5.
 
 ## Scope and ownership
 
-This roadmap owns: the covolume calculus of discrete full lattices in real inner-product spaces beyond what Mathlib and Tau Ceti state (Hadamard, projections, primitive intersections), using ThetaSeries’ reciprocal inner-dual covolume; the `Fin d`-indexed successive minima of a convex body with respect to a lattice, with their gauge-threshold calculus, attainment, monotonicity and transport laws, both halves of Minkowski's second theorem with their sharpness, the integral minimum flag and the comparison with Tau Ceti's squared-norm minima; Minkowski's linear forms theorem; integral quadratic lattices over a Dedekind domain with localisation, descent, genus and proper spinor genus over a number field; invariant factors over a discrete valuation ring and Voight's atomic normal forms; integral hermitian lattices over a quadratic extension, quaternionic hermitian lattices over a quaternion order, and signed hermitian forms over a local field of odd residue characteristic; hermitian representation counts, local densities, Siegel polynomials and the Cho–Yamauchi formula; finite stabilizers and class sets over number rings, the mass of a genus, the adelic mass identity and the mass formula for maximal lattices; the theta series of a positive definite lattice on Tau Ceti's integral-lattice carrier, as the specialisation of ThetaSeries' theta series through its real model; Henk's lattice-point bounds and Davenport's estimate; Howe–Moore, ergodicity, Dani–Margulis, Ratner's three theorems, Margulis's theorem on quadratic values and Duke's theorem with their analytic inputs; packing and covering radii, Gaussian lattice sums as values of ThetaSeries' coset theta series, and the Gaussian transference estimates; star bodies, critical determinants, critical lattices and Mahler's criterion; Siegel's mean value theorem; certified LLL reduction; and the hermitian K-theory of exact categories from dualities to the nonconnective spectrum, with the ordinary K-theoretic and homotopical inputs it needs.
+This roadmap owns: the covolume calculus of discrete full lattices in real inner-product spaces beyond what Mathlib and Tau Ceti state (Hadamard, projections, primitive intersections), using ThetaSeries’ reciprocal inner-dual covolume; the `Fin d`-indexed successive minima of a convex body with respect to a lattice, with their gauge-threshold calculus, attainment, monotonicity and transport laws, both halves of Minkowski's second theorem with their sharpness, the integral minimum flag and the comparison with Tau Ceti's squared-norm minima; Minkowski's linear forms theorem; integral quadratic lattices over a Dedekind domain with localisation, descent, genus and proper spinor genus over a number field; invariant factors over a discrete valuation ring and Voight's atomic normal forms; integral hermitian lattices over a quadratic extension, quaternionic hermitian lattices over a quaternion order, and signed hermitian forms over a local field of odd residue characteristic; hermitian representation counts, local densities, Siegel polynomials and the Cho–Yamauchi formula; finite stabilizers and class sets over number rings, the mass of a genus, the adelic mass identity and the mass formula for maximal lattices; the theta series of a positive definite lattice on Tau Ceti's integral-lattice carrier, as the specialisation of ThetaSeries' theta series through its real model; Henk's lattice-point bounds and Davenport's estimate; Howe–Moore, ergodicity, Dani–Margulis, Ratner's three theorems, Margulis's theorem on quadratic values and Duke's theorem with their analytic inputs; packing and covering radii, Gaussian lattice sums as values of ThetaSeries' coset theta series, and the Gaussian transference estimates; star bodies, critical determinants, critical lattices and Mahler's criterion; Siegel's mean value theorem; LLL-reduced bases; and the hermitian K-theory of exact categories from dualities to the nonconnective spectrum, with the ordinary K-theoretic and homotopical inputs it needs.
 
 The successive-minima calculus and Minkowski's second theorem are owned here. The single definition is `successiveMin` in §1.2.1; its calculus and attainment are specified in §1.2.2–§1.2.12, and the sharp product inequalities in §1.3.4 and §1.5.21. The rational-flag basis theorem is §0.2.8, with its strict-minimum-sublevel application in §1.2.13; Gram–Hadamard bounds are §0.1. Consumers use these sections. Symmetric bodies and the nonsymmetric gauge extension use the same foundational definition. A natural index below d is read as the corresponding element of `Fin d`; the natural-index extension has value zero outside the dimension and supplies no additional minimum theorem. In §1.2.7 the gauge equality is obtained first; membership in the attained dilate then uses closedness. On compact symmetric bodies the dilation definition and gauge threshold agree. Product-inequality consumers with a different Haar normalization use the scalar transport in §1.3.4 and §1.5.21.
 
@@ -40,7 +40,7 @@ Already in Mathlib or Tau Ceti, used without restatement: Blichfeldt's theorem (
 
 **Mass.** The mass of a genus is the sum of the reciprocals of the orders of the finite integral isometry groups over the classes of the genus; the proper mass uses proper classes and `SO`. The two are related by an index comparison that is a theorem, not a convention.
 
-**Reduction.** The LLL parameter is `δ = 3/4`, Gram–Schmidt coefficients are exact rational numbers, shears use nearest integers in descending index order, and every output carries an integer change-of-basis certificate `U, V` with `UV = VU = I`.
+**Reduction.** LLL-reduced bases use the Lovász parameter `δ = 3/4` and the size parameter `η = 1/2`, so `|μ_{ij}| ≤ 1/2` for `j < i`.
 
 **Dynamics.** Homogeneous spaces are `G/Γ` for a connected real matrix Lie group `G` and a lattice `Γ`, with the invariant probability measure; mixing, ergodicity, nondivergence, orbit closures, measure classification and equidistribution are separate statements.
 
@@ -148,7 +148,7 @@ The rows specify the inputs and local consumer carriers used in this folder.
 
 ## How to read the build
 
-Layer 0 gives the Gram-determinant and Hadamard bounds, consumes ThetaSeries’ reciprocal dual covolume, and proves the projection and primitive-intersection identities and the adapted bases behind them. Layer 1 defines successive minima, proves their calculus and both sharp halves of Minkowski's second theorem, and proves Minkowski's linear forms theorem. Layer 2 sets up integral quadratic and hermitian lattices over Dedekind domains with their local theory and their genera, and the comparisons that connect them to the field theory and to the `ℤ`-lattices of Tau Ceti. Layer 3 counts: finite-field representation numbers, local densities and Siegel polynomials, stabilizers, classes, mass, theta coefficients. Layer 4 is the analytic and dynamical side: lattice-point bounds, the homogeneous-dynamics theorems and their two arithmetic applications, transference, star bodies and critical lattices, Siegel's mean value theorem, lattices from codes. Layer 5 is the certified LLL algorithm. Layer 6 is hermitian K-theory of exact categories, beginning with the ordinary K-theoretic inputs it needs. Its implementable targets exclude the motivic/étale comparison, arithmetic K inputs and higher integer GW tables described in the final roadmap-for-a-roadmap. Within Layer 2, build 2.2 and 2.7 before the field comparisons and the dual-quotient invariants. Within Layer 3, build the primitive/saturation counts and the 3.2.5 finite weights before the 3.2.4 polynomial, then the spherical Fourier comparison before its functional equation. The 3.4 theta series is ThetaSeries' theta series read through its real model and does not depend on Layer 4. Within Layer 6, build 6.1a–b and 6.8a before their derived consumers, 6.6a filtering quotients before the cone suspension, and 6.10.6 multiplicative suppliers before the 6.10.5 conditional stable comparison; the degree-zero presentations and formation comparison feed the exact and stable comparisons. Each target's `*Needs:*` line names its inputs by subsection number or supplier, and every definition ends with its checks; for the definitions stated in `Suggested.lean`, the discriminating checks reappear there as `example`s.
+Layer 0 gives the Gram-determinant and Hadamard bounds, consumes ThetaSeries’ reciprocal dual covolume, and proves the projection and primitive-intersection identities and the adapted bases behind them. Layer 1 defines successive minima, proves their calculus and both sharp halves of Minkowski's second theorem, and proves Minkowski's linear forms theorem. Layer 2 sets up integral quadratic and hermitian lattices over Dedekind domains with their local theory and their genera, and the comparisons that connect them to the field theory and to the `ℤ`-lattices of Tau Ceti. Layer 3 counts: finite-field representation numbers, local densities and Siegel polynomials, stabilizers, classes, mass, theta coefficients. Layer 4 is the analytic and dynamical side: lattice-point bounds, the homogeneous-dynamics theorems and their two arithmetic applications, transference, star bodies and critical lattices, Siegel's mean value theorem, lattices from codes. Layer 5 develops LLL-reduced bases and their short-vector approximation bound. Layer 6 is hermitian K-theory of exact categories, beginning with the ordinary K-theoretic inputs it needs. Its implementable targets exclude the motivic/étale comparison, arithmetic K inputs and higher integer GW tables described in the final roadmap-for-a-roadmap. Within Layer 2, build 2.2 and 2.7 before the field comparisons and the dual-quotient invariants. Within Layer 3, build the primitive/saturation counts and the 3.2.5 finite weights before the 3.2.4 polynomial, then the spherical Fourier comparison before its functional equation. The 3.4 theta series is ThetaSeries' theta series read through its real model and does not depend on Layer 4. Within Layer 6, build 6.1a–b and 6.8a before their derived consumers, 6.6a filtering quotients before the cone suspension, and 6.10.6 multiplicative suppliers before the 6.10.5 conditional stable comparison; the degree-zero presentations and formation comparison feed the exact and stable comparisons. Each target's `*Needs:*` line names its inputs by subsection number or supplier, and every definition ends with its checks; for the definitions stated in `Suggested.lean`, the discriminating checks reappear there as `example`s.
 ## Layer 0: Lattices, Gram determinants and covolumes
 
 This layer is the calculus of covolumes of discrete full ℤ-submodules of a real inner-product space `E`. Everything is stated intrinsically: a lattice of lower rank is first moved into its real span, which carries the inherited inner product and its own Lebesgue measure, and every volume is the canonical Euclidean volume of the space in which it is taken, with volume one in dimension zero. The layer proves the Gram–Hadamard inequality in the hermitian generality needed by Couveignes’ counting argument and consumes ThetaSeries §2C’s reciprocal inner-dual covolume; it establishes the covolume of an orthogonal projection and the equality of the covolumes of the two primitive intersections `Δ ∩ W` and `Δ ∩ W^⊥` of a self-dual lattice. The adapted-basis lemmas of 0.2 are the integral linear algebra these identities need (Smith normal form for a saturated sublattice, the projected basis, biorthogonal families) and are reusable on their own.
@@ -2380,22 +2380,14 @@ For `d≥2`, `ℤ^d` and the cube `[−1,1]^d` Henk’s bound gives `#(L ∩ K) 
 
 Layers 0, 1 and 3; RepresentationTheory/LieGroups Layer 2 for the closed-subgroup theorem and the matrix groups; AdelicAlgebraicGroups AA.2 and AA.3 for the invariant measures and finite volume of `SL_n(ℝ)/SL_n(ℤ)`; Completed AlgebraicCodingTheory Layer 6; Mathlib `Metric.infDist`, `Real.Gamma`, the Gaussian integral and the `ZMod` counting API.
 
-## Layer 5: Certified LLL reduction
+## Layer 5: LLL-reduced bases
 
-This layer is the Lenstra–Lenstra–Lovász reduction with every step certified: the exact Gram–Schmidt coefficients `μ_{ij}` over an ordered real basis, the reduced-basis condition with `δ = 3/4`, the approximation factor `2^{(n−1)/2}` for the first vector, and an algorithm whose output comes with an integer change-of-basis certificate that is checked against the input lattice. The elementary transitions (a nearest-integer shear, an adjacent swap) are separate lemmas with explicit formulas for the new orthogonalised vectors and coefficients (5.2); termination is proved from the integer prefix-Gram potential, which strictly decreases at every swap, together with the cursor position in a lexicographic measure (5.3); the assembled reduction and its verification theorem are 5.4. Floating-point output is never a proof here: all Gram data is exact and rational.
-
-The existing [Hex LLL implementation](https://github.com/leanprover/hex-lll) and [its Mathlib correctness layer at 072ba84](https://github.com/leanprover/hex-lll-mathlib/blob/072ba84e7b8925e9283af64618fb5e8803cfc2a0/HexLLLMathlib/Reduction.lean) provide an implementation path for the standard integer-coordinate case. The latter uses this roadmap's Lean v4.35.0-rc3 and Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a pins. Its Apache-2.0 native reduction and proved reducedness, independence, lattice-preservation and short-vector results can be adapted to the carriers of §§5.1–5.4, with author coordination before code integration.
-
-`Hex.lllNative_isLLLReduced` and `Hex.lllNative_short_vector` use size parameter η=1/2; at δ=3/4 their squared factor is 2^(n−1). `Hex.lll_isLLLReduced`, `Hex.lll_short_vector` and the certified external selection use η=11/20, giving (400/179)^(n−1). The public guarantee therefore does not provide §5.4.2's constant. The implementation path uses the native result, or verifies §5.1.2's η=1/2 inequalities on an externally supplied output before accepting it.
-
-Hex stores basis vectors as integer rows in the standard dot-product metric. The adapters in §§5.2–5.4 transpose these to this roadmap's column convention, identify the row lattice with `Submodule.span ℤ`, translate its rational Gram–Schmidt data, and retain integral matrices U,V proving both inverse identities and the output coordinates. A property-level equality of lattices alone is not this certificate. Positive-rank Hex calls require 1≤n; rank zero returns the empty identity certificate here. The integral/rational Gram-form case uses the exact Gram calculations and termination proof of §5.3: a positive-definite integral Gram matrix need not have a same-dimension integer row realization. Enlarging the coordinate dimension requires an integral embedding proof. These adapters and the general Gram-form algorithm remain work in this layer.
-
-Checks of the reuse interface: at n=2 the native squared factor is 2 while the public factor is 400/179>2; transposing the row shear [[1,0],[−1,1]] gives the column certificate [[1,−1],[0,1]]; the empty input needs no first row or positive-rank Hex call; a rank-one Gram matrix [2] has no integer one-coordinate standard-dot-product realization.
+This layer develops the Gram–Schmidt coefficients of an ordered real family, the Lenstra–Lenstra–Lovász reduced-basis condition at `δ = 3/4` and `η = 1/2`, the decay bound for orthogonalized lengths, and the first-vector approximation factor `2^{(n−1)/2}`.
 
 ### 5.1 Gram–Schmidt coefficients and reduced families
 
 Define `lllCoefficient` (5.1.1): for a real inner-product space and a family b:Fin n→V, set μ_{ij}=⟨b_i,b*_j⟩/‖b*_j‖² using the ordered gramSchmidt b. Reduced-basis theorems require linear independence so denominators for relevant j are nonzero; the total function still uses the zero-division convention.
-Indices are zero based; size reduction concerns j<i only. Exact rational Gram data is retained for certified arithmetic; floating approximations do not discharge inequalities.
+Indices are zero based; the size bound concerns j<i only.
 Its API is `lllCoefficient` (The Gram–Schmidt inner-product ratio.); `lllCoefficient_eq` (Evaluation equals the stated ratio.); `lllCoefficient_orthogonal` (Off-diagonal coefficient is zero for an orthogonal family.); `lllCoefficient_denominator_pos` (Independent input gives a strictly positive squared denominator.).
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.2)–(1.3), physical p.2.)
 *Needs:* Mathlib `InnerProductSpace.gramSchmidt`, `InnerProductSpace.gramSchmidt_ne_zero`.
@@ -2403,11 +2395,11 @@ Its API is `lllCoefficient` (The Gram–Schmidt inner-product ratio.); `lllCoeff
 
 - For b=((1,0),(1/2,1)) the coefficient μ₁₀ is 1/2.
 - For an orthogonal family, off-diagonal reduction coefficients vanish.
-- For dependent input b*_j can be zero; the total coefficient does not certify a reduced basis.
+- For dependent input b*_j can be zero; the total coefficient alone does not imply reducedness.
 - On the real line `(1, 1/2)` has `μ₁₀ = 1/2`, and `(1,1)` is dependent, hence not reduced.
 
-Define `IsLLLReduced` (5.1.2): An LLL-reduced family at δ=3/4 is linearly independent, has |μ_{ij}|≤1/2 for j<i, and for each adjacent j<i with i=j+1 satisfies ‖b*_i‖²≥(3/4−μ_{ij}²)‖b*_j‖². A basis of the input lattice is required separately by output certificates.
-The equality boundary is accepted; swaps occur for strict failure. The empty family is reduced by vacuity; positive-rank approximation statements assume n≥1.
+Define `IsLLLReduced` (5.1.2): An LLL-reduced family at δ=3/4 is linearly independent, has |μ_{ij}|≤1/2 for j<i, and for each adjacent j<i with i=j+1 satisfies ‖b*_i‖²≥(3/4−μ_{ij}²)‖b*_j‖². The lattice in 5.1.4 is the integer span of the family.
+The equality boundary is accepted. The empty family is reduced by vacuity; positive-rank approximation statements assume n≥1.
 Its API is `IsLLLReduced` (The concrete independence, size and Lovász predicate.); `IsLLLReduced.linearIndependent` (Return independence.); `IsLLLReduced.size` (Return |μ_{ij}|≤1/2 for j<i.); `IsLLLReduced.lovasz` (Return the adjacent δ=3/4 inequality.).
 (Source: Lenstra–Lenstra–Lovász 1982, §1, (1.4)–(1.5), physical pp.2–3.)
 *Needs:* 5.1 `lllCoefficient`.
@@ -2426,7 +2418,7 @@ Fin-index differences are ordinary nonnegative integer differences.
 - For orthonormal input the right-hand side is at least the left-hand side.
 - The exponent is an index difference, not the full ambient dimension.
 
-5.1.4. Prove that for n≥1 and an LLL-reduced basis b of a full real Euclidean Z-lattice L, every nonzero x∈L satisfies ‖b₀‖²≤2^{n−1}‖x‖². Equivalently b₀ is within factor 2^{(n−1)/2} of the shortest nonzero vector.
+5.1.4. Prove `lll_short_vector_factor`: for n≥1 and an LLL-reduced basis b of a full real Euclidean Z-lattice L, every nonzero x∈L satisfies ‖b₀‖²≤2^{n−1}‖x‖². Equivalently b₀ is within factor 2^{(n−1)/2} of the shortest nonzero vector.
 L-membership is in the exact integer span of b, not the real span. This is an approximation bound; it does not assert exact SVP or CVP.
 (Source: Lenstra–Lenstra–Lovász 1982, Proposition 1.11 and its proof, physical p.4.)
 *Needs:* 5.1 `IsLLLReduced`, 5.1.3.
@@ -2435,141 +2427,15 @@ L-membership is in the exact integer span of b, not the real span. This is an ap
 - For n=1 the factor is 1 and the basis vector is shortest.
 - Replacing integer coordinates by real coefficients destroys the lower bound on the last nonzero coefficient.
 
-### 5.2 Change-of-basis certificates and the elementary transitions
-
-Define `UnimodularBasisCertificate.ofMatrices` (5.2.1): A certificate for input b and output c consists of U,V∈Mat_n(Z), UV=VU=I, and c_i=Σ_j U_{ji}b_j. Columns are output coordinates in the input family. This proves equality of integer spans and determinant ±1; determinant −1 is allowed.
-Input and output families have the same dimension; an input real basis gives an output basis. The certificate matrices are integral, not arbitrary rational or real inverses.
-Its API is `UnimodularBasisCertificate.ofMatrices` (Supply actual integral inverse matrices and the exact output coordinates.); `UnimodularBasisCertificate.span_eq` (The input and output Z-spans are equal.); `UnimodularBasisCertificate.det_unit` (det U is 1 or −1.); `UnimodularBasisCertificate.trans` (functoriality: Compose certificates by matrix multiplication with the correct column order.).
-(Source: Lenstra–Lenstra–Lovász 1982, reduction algorithm following (1.15), size reductions and adjacent swaps, physical pp.5–7; the certificate format is the one fixed in this target.)
-*Needs:* Mathlib `Matrix.det_mul`.
-**Checks.**
-
-- The coordinate swap [[0,1],[1,0]] has determinant −1 and is a valid certificate.
-- diag(2,1) is not an integer-invertible basis change.
-- Every family has the identity certificate.
-- A floating matrix approximately inverting U does not inhabit this certificate.
-
-5.2.2. Prove that for t∈R put r=floor(t+1/2). Then -1/2≤t-r<1/2; in particular |t-r|≤1/2. This fixes ties deterministically.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, size reduction in (1.18), printed p.31 (physical p.5); the floor tie choice is the convention here.)
-**Checks.**
-
-- `⌊t + 1/2⌋` sends `3/2` to `2`, `−1/2` to `0` and `−8/5` to `−2`: ties round up.
-
-5.2.3. Prove Replacing b_i by b_i-r b_j, j<i and r∈Z, has integral inverse replacing that column by b_i+r b_j; the two coordinate matrices multiply to the identity.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.2 `UnimodularBasisCertificate.ofMatrices`.
-**Checks.**
-
-- On `(1,3)` the shear of `b₁` by `r = 3, 0, −1` gives `(1,0), (1,3), (1,4)`.
-
-5.2.4. Prove that for independent b and j<i, subtracting an integral multiple r b_j from b_i preserves every Gram–Schmidt vector.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.1 `lllCoefficient`, 5.2.3.
-
-5.2.5. Prove that for c_i=b_i-r b_j and c_k=b_k otherwise, μ(c)_ij=μ(b)_ij-r; for ℓ<j, μ(c)_iℓ=μ(b)_iℓ-r μ(b)_jℓ; coefficients in every other row, and in row i at j<ℓ<i, agree.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.2.4.
-
-5.2.6. Prove Process j=i-1,...,0 using the nearest-integer shear. Already bounded coefficients with index greater than j stay bounded; the final row i satisfies all |μ_ij|≤1/2.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.2.2, 5.2.5.
-**Checks.**
-
-- Descending reduction of row 1 of `(1,3)` gives `(1,0)`; a rank-one family is unchanged.
-
-5.2.7. Prove Swapping adjacent columns i,j=i+1 gives an integral involutive coordinate matrix and hence a unimodular certificate.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.2 `UnimodularBasisCertificate.ofMatrices`.
-
-5.2.8. Prove Write u=b*_i, v=b*_j, a=μ_ji, B=||u||²,C=||v||²,T=C+a²B. For the adjacent swap c, c*_i=v+a u and ||c*_i||²=T>0.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.22), printed p.32.)
-*Needs:* 5.1 `lllCoefficient`, 5.2.7.
-
-5.2.9. Prove that in the same notation c*_j=(C/T)u-(a B/T)v, ||c*_j||²=BC/T, and μ(c)_ji=a B/T; T is positive.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.22), printed p.32.)
-*Needs:* 5.2.8.
-
-5.2.10. Prove that for k>j, μ(c)_kj=μ(b)_ki-a μ(b)_kj and μ(c)_ki=μ(b)_kj+(aB/T)μ(c)_kj. Orthogonalized vectors outside i,j are unchanged; earlier coefficients of rows i,j are interchanged.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.22), printed p.32.)
-*Needs:* 5.2.9.
-
-### 5.3 The integer potential and termination
-
-Define `lllIntegerPotential` (5.3.1): for independent integer-column input in Euclidean R^n, let d_i be the determinant of the Gram matrix of the first i vectors, d₀=1, and D=∏_{1≤i<n} d_i. Each d_i is a positive integer; in ranks 0 and 1 the empty potential is 1.
-The metric is the standard integral Gram metric, or a specified positive-definite rational Gram metric cleared by a common denominator. For arbitrary real Gram data integrality of the potential is not claimed.
-Its API is `lllIntegerPotential` (Product of positive integral Gram-prefix determinants.); `lllIntegerPotential_pos` (The potential is a positive integer for independent integral input.); `lllIntegerPotential_sizeReduce` (An integer shear within the relevant prefix preserves the potential.); `lllIntegerPotential_swap` (A strict Lovász-failing adjacent swap decreases the potential by a factor strictly below 3/4.).
-(Source: Lenstra–Lenstra–Lovász 1982, (1.23)–(1.25), physical pp.7–8.)
-*Needs:* Mathlib `Matrix.gram`, `Matrix.det_mul`.
-**Checks.**
-
-- The standard basis has all prefix determinants and potential equal to 1.
-- A rational metric with denominator 2 needs a fixed rescaling; its original determinants are not asserted to be integers.
-- In ranks 0 and 1 the empty potential is 1, and no adjacent swap exists.
-- The columns `(2,0),(0,1)` have potential `4`.
-
-5.3.2. Prove that for independent b and 0≤k≤n, d_k=det Gram(b_0,...,b_(k-1))=∏_{i<k}||b*_i||²>0, including d_0=1.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.24)–(1.25), printed p.33.)
-*Needs:* 5.1 `lllCoefficient`.
-
-5.3.3. Prove that if every original Gram entry is integral, each d_k is a positive integer. Integral shears and swaps preserve integral Gram entries.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.23)–(1.25), printed pp.33–34; integral-Gram extension of the coordinate-integer source setting.)
-*Needs:* 5.3.2, 5.2 `UnimodularBasisCertificate.ofMatrices`.
-
-5.3.4. Prove that for j<i, replacing b_i by b_i-r b_j preserves every d_k and therefore D=∏_{k=0}^{n-1}d_k.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.2.4, 5.3.2.
-
-5.3.5. Prove that for j=i+1 only d_j changes under the adjacent swap, and its ratio is T/B. Thus D(c)=(T/B)D(b).
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.2.8, 5.2.9, 5.3.2.
-**Checks.**
-
-- For the rank-one basis `(2)`, `d₁ = 4` and the potential over proper prefixes is `1`. For `(2,0),(0,1)` the potential is `4` and after the swap it is `1`, the factor `T/B = 1/4`.
-
-5.3.6. Prove that if C<(3/4-a²)B then 0<T/B<3/4 and 4D(c)<3D(b). For integral Gram data D is a positive integer, so D(c)<D(b).
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.15)–(1.25), physical pp.5–8 (reprint folios 31–34).)
-*Needs:* 5.3.5, 5.3.3.
-
-5.3.7. Prove At outer index 1≤k≤n, all pairs in the prefix b_0,...,b_(k-1) satisfy size and Lovász inequalities. A swap at k after reducing μ_k,k-1 preserves this invariant at max(1,k-1); a successful descending reduction extends it to k+1.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, (1.16)–(1.21), printed pp.31–33.)
-*Needs:* 5.2.6, 5.2.10.
-**Checks.**
-
-- In rank one the cursor starts and stays at `1`; rank zero has no loop state, since `1 ≤ k ≤ 0` fails.
-
-5.3.8. Prove Outer transitions for n≥2 strictly decrease the lexicographic pair (D,n-k): swaps decrease D; successful passes increase k at fixed D. The finite descending shear loop terminates separately. The rank-zero and rank-one algorithms terminate immediately.
-(Source: Lenstra–Lenstra–Lovász 1982, §1, termination argument (1.23)–(1.25), printed pp.33–34.)
-*Needs:* 5.3.6, 5.3.4, 5.3.7.
-
-### 5.4 The reduction and its verification
-
-Construct `exactLLL` (5.4.1): Given a nonsingular integer basis matrix (or rational input cleared by a common denominator) in the standard Euclidean metric, compute a reduced output basis together with an exact unimodular-basis certificate. Use nearest-integer size reduction and strict Lovász-failing adjacent swaps at δ=3/4.
-Rank 0 and rank 1 return immediately with the identity certificate. Rounding ties use a fixed nearest-integer rule satisfying distance≤1/2. Bounds on the number of arithmetic operations are not part of this roadmap. `Suggested.lean` states the structure `LLLReductionResult`, its existence form `exists_lllReductionResult` and the verification theorem `LLLReductionResult.shortVector` (5.4.2); `exactLLL` is the algorithm itself.
-Its API is `exactLLL` (Return output coordinates, reducedness and the exact integer inverse certificate.); `exactLLL_certificate` (Recover the original-lattice certificate.); `exactLLL_reduced` (Recover the exact size and Lovász tests.); `exactLLL_shortVector` (For positive rank, the first vector satisfies the proven approximation inequality in the original lattice.).
-(Source: Lenstra–Lenstra–Lovász 1982, reduction algorithm following (1.15), updates (1.22), Figure 1, termination proof, physical pp.5–8.)
-*Needs:* 5.1 `IsLLLReduced`, 5.2 `UnimodularBasisCertificate.ofMatrices`, 5.3 `lllIntegerPotential`, 5.2.2, 5.2.6, 5.3.7, 5.3.8, 5.2.3, 5.2.7.
-**Checks.**
-
-- Input columns (2,0),(0,1) require a swap; the returned certificate may have determinant −1.
-- Rank zero returns an empty reduced basis and empty identity matrices.
-- An output without a proven Lovász condition is rejected even if short in floating-point arithmetic.
-
-5.4.2. Prove that if a certified output c is LLL-reduced and b is an independent input basis of L, then c₀∈L is nonzero and for every nonzero x∈L, ‖c₀‖²≤2^{n−1}‖x‖², for n≥1.
-The metric used by reduction and verification is the same exact Euclidean or specified rational Gram metric. Arithmetic height, relation exclusion and representation conditions are consumer-owned inputs.
-(Source: Lenstra–Lenstra–Lovász 1982, Proposition 1.11 plus exact shear/swap lattice preservation, physical pp.4–8.)
-*Needs:* 5.2 `UnimodularBasisCertificate.ofMatrices`, 5.1 `IsLLLReduced`, 5.1.4.
-**Checks.**
-
-- A verified certificate includes both original membership and the approximation factor.
-- A short vector in the real span but outside the integer span cannot pass verification.
-
 ### Examples
 
-The basis `(1,0), (1/2,1)` has `μ_{10} = 1/2` and is already reduced; `(1,0), (0,1)` has `μ_{10} = 0`. The basis `(1,0), (1,1)` size-reduces by the shear `b_1 ↦ b_1 − b_0` with certificate `U = [[1,−1],[0,1]]`. The basis `(2,0), (1,1)` fails the Lovász condition at `δ = 3/4` and a swap strictly decreases the potential. The output of the reduction on a rank-one lattice is its generator, with factor `1`.
+The basis `(1,0), (1/2,1)` has `μ_{10} = 1/2` and is reduced; `(1,0), (0,1)` has `μ_{10} = 0`. The basis `(2,0), (1,1)` fails the Lovász condition at `δ = 3/4`. For a rank-one lattice its basis vector is shortest, with factor `1`.
 
 ### Dependencies
 
-Layer 0 (Gram determinants) and Layer 1 (the first minimum); Mathlib `InnerProductSpace.gramSchmidt`, `gramSchmidt_ne_zero`, `Matrix.SpecialLinearGroup`, `Int.floor` and `round`, `Polynomial` for the potential arithmetic.
+Layer 0 (Gram determinants) and Layer 1 (the first minimum); Mathlib `InnerProductSpace.gramSchmidt` and `InnerProductSpace.gramSchmidt_ne_zero`.
+
+The reduction algorithm producing an LLL-reduced basis from a basis of an integral lattice is not a target of this roadmap. It is implemented and proved in [hex-lll](https://github.com/leanprover/hex-lll) with [its Mathlib correctness layer at 072ba84](https://github.com/leanprover/hex-lll-mathlib/blob/072ba84e7b8925e9283af64618fb5e8803cfc2a0/HexLLLMathlib/Reduction.lean). Native reducedness uses `η = 1/2`, giving the squared-norm factor `2^(n−1)` of 5.1.4 at `δ = 3/4`; the public interface uses `η = 11/20`. Consumers who need an actual reduced basis use hex-lll.
 
 ## Layer 6: Hermitian K-theory of exact categories
 
@@ -3602,7 +3468,7 @@ For example w₂=24 gives degree-three groups Z/24 and Z/48, while w₄=240 give
 
 ## Downstream consumers
 
-Arithmetic statistics (families of forms and number fields with their heights and measures) and Diophantine approximation (heights and approximation constants) consume Layer 1; integer-relation and lattice-reduction methods in Diophantine approximation and in effective Diophantine methods consume Layer 5, through its certificate and approximation factor only; metric number theory consumes Layer 4. The Grothendieck–Witt groups of Layer 6 are the degree-zero and higher hermitian invariants against which a stable Poincaré-category treatment of hermitian K-theory is compared.
+Arithmetic statistics (families of forms and number fields with their heights and measures) and Diophantine approximation (heights and approximation constants) consume Layer 1; integer-relation and lattice-reduction methods in Diophantine approximation and in effective Diophantine methods consume the LLL-reduced bases of Layer 5 through the reducedness predicate and approximation factor; metric number theory consumes Layer 4. The Grothendieck–Witt groups of Layer 6 are the degree-zero and higher hermitian invariants against which a stable Poincaré-category treatment of hermitian K-theory is compared.
 
 ## References
 
