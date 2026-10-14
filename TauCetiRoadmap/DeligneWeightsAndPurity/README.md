@@ -25,12 +25,14 @@ estimates, weight filtrations, geometric semisimplicity, absolute Lefschetz and
 the weight-facing arithmetic and distribution exports of DWP.10.
 
 Use the scheme geometry of SchemeAndStackFoundations Layers 0–2. Import finite
-cohomology, trace formulae and base change from LefschetzPencilsAndVanishingCycles
-§§F.0–F.4, F.10; coefficient categories, Tate twists, six operations,
-duality, cycle classes and weak Lefschetz from LefschetzPencilsAndVanishingCycles §§F.0–F.7;
+cohomology, base change and Frobenius comparisons from EtaleCohomologyFoundations
+§§F.0–F.4, F.10.1–F.10.5; geometric trace formulae from
+LefschetzPencilsAndVanishingCycles §F.10; coefficient categories, Tate twists, six operations,
+duality, cycle classes and weak Lefschetz from EtaleCohomologyFoundations §§F.0–F.7;
 arithmetic-model approximation from SchemeAndStackFoundations §0.9 and
-LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7; and
-pencils and vanishing cycles from LefschetzPencilsAndVanishingCycles §§0–5, with
+LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7;
+trait inertia from EtaleCohomologyFoundations §F.3a;
+pencils and vanishing cycles from LefschetzPencilsAndVanishingCycles §§0.2–5, with
 semistable curves and invariant cycles from §§7a–7b. Polarizations, Rosati positivity and
 endomorphism polynomials and the Rosati–Frobenius identity come from AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A6.10–A6.14, A6.21,
 with Tate/Galois realization from ArithmeticGaloisRepresentations §§6.1–6.2 and
@@ -41,7 +43,7 @@ of integral degree factors and their independence of ℓ (§4.4), component-awar
 point-count bounds (§10.2), and smooth proper Deligne–Mumford-stack purity (§8.24).
 The numerical predicates are shared export interfaces. Rigid coefficient
 categories, relative hard Lefschetz and decomposition are outside this roadmap;
-perverse carriers used here are supplied by LefschetzPencilsAndVanishingCycles §F.8.
+perverse carriers used here are supplied by EtaleCohomologyFoundations §F.8.
 
 Import the existing Hasse theorem, Abel–Jacobi construction, symplectic invariant
 theory, reductive groups and compact representation theory. The contracts identify the base-point-free Picard and curve/Jacobian comparisons.
@@ -306,11 +308,11 @@ Noetherian approximation of finite-presentation geometry and finite coefficient 
 
 #### ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)
 
-ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius π_A. Section 1.5 supplies descent to finite coefficient fields; §1.6 / exists_stable_lattice_iff and GaloisLattice.IntegralModel.nonempty supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ), compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through LefschetzPencilsAndVanishingCycles §F.10. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
+ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius π_A. Section 1.5 supplies descent to finite coefficient fields; §1.6 / exists_stable_lattice_iff and GaloisLattice.IntegralModel.nonempty supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ), compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through EtaleCohomologyFoundations §§F.10.2–F.10.2b. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
 
 <a id="input-e12"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)
+#### EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)
 
 Constructible adic and rational coefficient categories from constructible integral models, finite coefficient extension, and the Tate line with geometric Frobenius q⁻¹; Weil descent is constructed in §5.2 here. Compare inverse arithmetic action on roots of unity. Uses: [0.15](#target-0-15), [5.12](#target-5-12), [5.2](#target-5-2), [5.3](#target-5-3).
 
@@ -318,69 +320,71 @@ Bounded constructible derived categories and cohomology sheaves over finite fiel
 
 <a id="input-e13"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.0, F.4 (constructible coefficients and adic realization)
+#### EtaleCohomologyFoundations §§F.0, F.4 (constructible coefficients and adic realization)
 
 Change finite coefficient fields and compatible integral lattices before rational adic realization.
 
 <a id="input-e14"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.0, F.10 (Tate twists and Frobenius)
+#### EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)
 
 Use the invertible Tate line, with geometric Frobenius q⁻¹ and integer tensor/inverse powers.
 
 <a id="input-e15"></a>
 
-#### LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)
+#### EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)
 
 Exceptional inverse image right adjoint to Rf_!, dualizing objects, biduality and exchange with the four image functors over the stated bases. Include D(K⊗L)=RHom(K,DL), perfect compact/ordinary cohomology duality, and i^!ℚ_ℓ=ℚ_ℓ(−1)[−2] at a closed point of Spec ℤ[1/ℓ]. Uses: [7.15](#target-7-15), [8.2](#target-8-2), [8.5](#target-8-5), [8.9](#target-8-9), [8.10](#target-8-10), [8.11](#target-8-11), [8.12](#target-8-12), [8.13](#target-8-13), [9.10](#target-9-10).
 
 <a id="input-e16"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)
+#### EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)
 
 Smooth dualizing object ℚ_ℓ(N)[2N], perfect compact/ordinary cohomology pairings and relative traces compatible with base change. For any smooth relative-dimension-e morphism, including singular target, Rf^!L=f*L(e)[2e]. Uses: [7.12](#target-7-12), [7.14](#target-7-14), [7.15](#target-7-15), [8.2](#target-8-2), [8.3](#target-8-3), [8.5](#target-8-5), [8.9](#target-8-9), [8.10](#target-8-10), [8.13](#target-8-13), [9.1](#target-9-1), [9.3](#target-9-3), [9.4](#target-9-4), [9.6](#target-9-6), [9.8](#target-9-8), [alternating-form parity](#exact-supplier-contracts), [9.12](#target-9-12), [7.10](#target-7-10), [9.10](#target-9-10).
 
 <a id="input-e17"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.5–F.6 and ClassicalAdicEtaleCohomology §0.11 (curve duality)
+#### EtaleCohomologyFoundations §§F.5–F.6, 0.11 (curve duality)
 
 Use the perfect pairing on H¹(C,j_*ℱ), dual to H¹(C,j_*ℱ∨)(1); retain smooth C and lisse coefficients on its dense open.
 
 <a id="input-e18"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.4–F.6 (rational adic Poincaré duality)
+#### EtaleCohomologyFoundations §§F.4–F.6 (rational adic Poincaré duality)
 
 Use Frobenius-equivariant perfect compact/ordinary rational cohomology pairings for smooth pure-dimensional schemes.
 
 <a id="input-e19"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)
+#### EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)
 
 For smooth affine curves identify H²_c with geometric coinvariants twisted by (−1), and H⁰ with invariants; a nonzero lisse system has H⁰_c=0.
 
 <a id="input-e20"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.6, F.10 (equivariant pairings and traces)
+#### EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (equivariant pairings and traces)
 
 Keep the Galois action on the trace line; pairings have their stated Tate twist.
 
 <a id="input-e21"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.5–F.6 (lisse tensor–Hom and curve duality)
+#### EtaleCohomologyFoundations §§F.5–F.6 (lisse tensor–Hom and curve duality)
 
 Use the lisse tensor–Hom adjunction and the induced perfect curve pairings.
 
 <a id="input-e22"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.6–F.7 (cycle classes and projective-space cohomology)
+#### EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)
 
-Frobenius-equivariant projective-space and multiplicative-group cohomology, compact support and duality, in the shared Tate convention. Uses: [10.7](#target-10-7).
+Frobenius-equivariant projective-space and multiplicative-group cohomology, compact support and duality, in the shared Tate convention. These computations are used downstream in
+AutomorphicLFunctionsAndLocalFactors §AL.3,
+[the weight-facing acceptance suite](../AutomorphicLFunctionsAndLocalFactors/README.md#weight-facing-acceptance-suite).
 
 First Chern classes, pullback/base-change and additivity; divisor cycle classes and Gysin maps with projection/trace formulas; Tr(c₁(L)^n)=deg_L(X). Uses: [9.1](#target-9-1), [9.3](#target-9-3), [9.4](#target-9-4).
 
 <a id="input-e23"></a>
 
-#### LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)
+#### EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)
 
 Weak Lefschetz and its Gysin transpose; Frobenius-equivariant blowup injectivity and codimension-two decomposition, preceding hard Lefschetz. Uses: [4.1](#target-4-1), [4.3](#target-4-3), [6.1](#target-6-1), [6.3](#target-6-3).
 
@@ -406,7 +410,7 @@ For normal connected X and dense open U, surjectivity π₁(U)→π₁(X), and l
 
 <a id="input-e27"></a>
 
-#### InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)
+#### EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)
 
 Arithmetic/geometric fundamental-group sequence, connected-cover classification and tame specialization; retain constant-field and component comparisons. The dense-open criterion is InverseGaloisAndArithmeticFundamentalGroups §IG.5.7; the dominant finite-index extension is proved in §5.8 here. Uses: [3.1](#target-3-1), [3.5](#target-3-5), [5.1](#target-5-1), [5.5](#target-5-5), [5.15](#target-5-15), [3.2](#target-3-2), [5.8](#target-5-8).
 
@@ -414,7 +418,7 @@ The arithmetic/geometric exact sequence for geometrically connected finite-field
 
 <a id="input-e28"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§0.1–0.8 (boundary traits and nearby cycles)
+#### EtaleCohomologyFoundations §F.3a and LefschetzPencilsAndVanishingCycles §§0.2–0.8 (boundary traits and nearby cycles)
 
 Boundary local traits, Weil representations, tame character and branch sign lines. Uses: [5.11](#target-5-11).
 
@@ -533,7 +537,7 @@ Frobenius-equivariant descent, including signed graph permutations.
 
 <a id="input-e47"></a>
 
-#### FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (absolute, relative and q-power scheme Frobenius)
+#### SchemeAndStackFoundations §0.29 (absolute, relative and q-power scheme Frobenius)
 
 Scheme p-Frobenius and its q=p^a iterate, naturality, products and base change. For smooth pure g-dimensional schemes, supply its finite locally free degree q^g from étale coordinates. Uses: [1.1](#target-1-1).
 
@@ -542,7 +546,7 @@ is identity. For q=p² its affine fixed field is 𝔽_(p²), while one p-iterate
 field 𝔽_p. The abelian specialization on an elliptic curve has degree q, as in §1.1.
 These checks distinguish the q-iterate from a single absolute p-map and from a map
 obtained by extending the closure scalars incorrectly (Milne, [AV](#ref-av), II §1, p. 75;
-LefschetzPencilsAndVanishingCycles §F.10, frobeniusFixedPoints).
+EtaleCohomologyFoundations §F.10.1, frobeniusFixedPoints).
 
 <a id="input-e48"></a>
 
@@ -552,7 +556,7 @@ LefschetzPencilsAndVanishingCycles §F.10, frobeniusFixedPoints).
 
 <a id="input-e49"></a>
 
-#### LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)
+#### EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)
 
 Finite cohomology and the coefficient Grothendieck–Lefschetz formula Z(U₀,F₀,t)=∏ det(1−Ft,Hⁱ_c)^{(−1)^{i+1}}; curve/Jacobian fixed-point formula 1−Tr(α′)+deg α; proper base change on pencil fibres; Frobenius-equivariant Künneth and Leray with finite abutment filtrations. Include descent of pencils, singular/sign data and coefficient models, and trace splitting for finite surjective curve covers, including ramified covers. Uses: [2.1](#target-2-1), [2.4](#target-2-4), [2.10](#target-2-10), [1.6](#target-1-6), [3.3](#target-3-3), [4.1](#target-4-1), [4.2](#target-4-2), [5.2](#target-5-2), [5.10](#target-5-10), [5.12](#target-5-12), [5.15](#target-5-15), [5.18](#target-5-18), [6.2](#target-6-2), [6.3](#target-6-3), [10.5](#target-10-5), [5.9](#target-5-9).
 
@@ -945,7 +949,7 @@ Its API includes:
 
 - `twist_nonintegral_weight`: For b with w_{ι,q}(b) = 1/2, for instance b transcendental with |ι(b)| = q^{1/4}, E^{(b)} is ι-pure of the non-integral weight 1/2 and is not pure in the sense of Weil numbers.
 
-*Needs:* [0.4](#target-0-4), [0.2](#target-0-2), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.0, F.10 (Tate twists and Frobenius)](#input-e14).
+*Needs:* [0.4](#target-0-4), [0.2](#target-0-2), [0.13](#target-0-13), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)](#input-e14).
 
 (Sources: [WII](#ref-wii), §1.2, (1.2.7), p. 154; [WII](#ref-wii), §1.2, Stabilités (1.2.5)(iv), p. 154.)
 
@@ -1028,9 +1032,9 @@ extension has Frobenius π_A^m, with its relative-base-change identification.
 - For q=p² the underlying map is the second p-Frobenius iterate; substituting a single
   p-Frobenius loses the 𝔽_q-linear structure.
 
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0 (qPowerFrobenius and smooth finite-flat rank);
+*Needs:* SchemeAndStackFoundations §0.29 (qPowerFrobenius and smooth finite-flat rank);
 AbelianSchemesAndArithmeticModuli §§A3.1, A4.1, A4.4 / exteriorCohomology, A6.1; ArithmeticGaloisRepresentations §6.1;
-LefschetzPencilsAndVanishingCycles §F.10 (scheme/descent Frobenius comparison).
+EtaleCohomologyFoundations §§F.10.2–F.10.2b (scheme/descent Frobenius comparison).
 
 (Source: [AV](#ref-av), Chapter II, §1, pp. 75–76.)
 
@@ -1100,7 +1104,7 @@ Let C be a smooth projective geometrically connected curve of genus g over 𝔽_
 
 Geometric connectedness is essential: conjugate components change counts. Use the imported curve/Jacobian fixed-point trace comparison.
 
-*Needs:* [1.4](#target-1-4), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and LefschetzPencilsAndVanishingCycles §F.10 (curve/Jacobian trace comparison)](#input-e61), [0.12](#target-0-12).
+*Needs:* [1.4](#target-1-4), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and LefschetzPencilsAndVanishingCycles §F.10 (curve/Jacobian trace comparison)](#input-e61), [0.12](#target-0-12).
 
 (Sources: [AV](#ref-av), Chapter III, Theorem 11.1, p. 118; [AV](#ref-av), Chapter III, Corollary 11.4, p. 119.)
 
@@ -1112,7 +1116,7 @@ Let C be a smooth projective geometrically connected curve of genus g over 𝔽_
 
 The Abel–Jacobi H¹ comparison is Frobenius-equivariant without assuming a rational base point. Permuted components give a nontrivial weight-zero H⁰ permutation action.
 
-*Needs:* AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology, [1.4](#target-1-4), [0.15](#target-0-15), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and LefschetzPencilsAndVanishingCycles §F.10 (curve/Jacobian trace comparison)](#input-e61), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology, [1.4](#target-1-4), [0.15](#target-0-15), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and LefschetzPencilsAndVanishingCycles §F.10 (curve/Jacobian trace comparison)](#input-e61), [0.12](#target-0-12), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
 
 (Sources: [AV](#ref-av), Chapter III, Remark 11.5, p. 119; [Yu](#ref-yu), §1 pp. 2–3; §7.1 p. 64.)
 
@@ -1154,8 +1158,9 @@ constructible finite-model coefficient sheaf, the same determinant formula
 provides rationality over its coefficient field; descent to ℚ requires its
 Euler-series coefficients to lie in ℚ.
 
-*Needs:* §0.10; LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (coefficient
-Euler product, cohomological trace and finiteness); Mathlib power series and
+*Needs:* §0.10; EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 (coefficient
+Euler product, Frobenius and finiteness); LefschetzPencilsAndVanishingCycles §F.10
+(cohomological trace); Mathlib power series and
 finite-dimensional linear algebra.
 (Source: [WI](#ref-wi), (1.1.1)–(1.1.2), (1.5.4) and proof of (1.7) ⇒ (1.6),
 pp. 274–277.)
@@ -1176,7 +1181,7 @@ For E:y²=x³−x over 𝔽₃ there are three affine points and the point at in
 
 ### Dependencies
 
-DWP.0; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0; AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A4.1, A4.4, A6.1, A6.10–A6.14, A6.21; ArithmeticGaloisRepresentations §§6.1–6.2; JacobianChallenge Layer F; SchemeAndStackFoundations §3.6; LefschetzPencilsAndVanishingCycles §F.10; EllipticCurves Layer 3.
+DWP.0; SchemeAndStackFoundations §0.29; AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A4.1, A4.4, A6.1, A6.10–A6.14, A6.21; ArithmeticGaloisRepresentations §§6.1–6.2; JacobianChallenge Layer F; SchemeAndStackFoundations §3.6; LefschetzPencilsAndVanishingCycles §F.10; EllipticCurves Layer 3.
 
 ## Layer DWP.2: The symplectic tensor-power estimate
 
@@ -1186,11 +1191,11 @@ Use an open symplectic geometric image and its even-tensor coinvariants. Rationa
 
 ### 2.1. The Weil I curve coefficient interface
 
-On an open U₀⊂ℙ¹ over 𝔽_q, specialize DWP.5’s common punctual purity predicate to a lisse ℚ_ℓ-sheaf ℱ₀: integer weight β means each closed-point stalk is pure β relative to q^(deg x). The local determinant and Euler product are the LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 coefficient L-function, assembled in §1.10, with local variable t^(deg x). Changing geometric stalk conjugates Frobenius and leaves its determinant unchanged; tensor weights add, dual weights negate, and the Tate line ℚ_ℓ(r) has weight −2r. This comparison fixes the inputs of Weil I §3 without defining a second purity predicate or L-function.
+On an open U₀⊂ℙ¹ over 𝔽_q, specialize DWP.5’s common punctual purity predicate to a lisse ℚ_ℓ-sheaf ℱ₀: integer weight β means each closed-point stalk is pure β relative to q^(deg x). The local determinant and Euler product are the EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.2b coefficient data and LefschetzPencilsAndVanishingCycles §F.10 trace formula for the coefficient L-function, assembled in §1.10, with local variable t^(deg x). Changing geometric stalk conjugates Frobenius and leaves its determinant unchanged; tensor weights add, dual weights negate, and the Tate line ℚ_ℓ(r) has weight −2r. This comparison fixes the inputs of Weil I §3 without defining a second purity predicate or L-function.
 
 Keep the fixed ℚ_ℓ model; ℚ̄_ℓ is used for characteristic roots. This is the DWP.5 predicate specialized to open subsets of ℙ¹.
 
-*Needs:* [5.3](#target-5-3), [0.7](#target-0-7), [0.15](#target-0-15), [1.10](#target-1-10), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [5.3](#target-5-3), [0.7](#target-0-7), [0.15](#target-0-15), [1.10](#target-1-10), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WI](#ref-wi), §3, (3.1), p. 284; [WI](#ref-wi), §3, (3.1), p. 283.)
 
@@ -1226,7 +1231,7 @@ Under the hypotheses of Theorem 3.2, with U affine and F₀ ≠ 0: H⁰_c(U, ⊗
 
 Take U affine and F₀≠0. Import the curve coinvariant description of H²_c and the coefficient trace formula.
 
-*Needs:* [2.1](#target-2-1), [2.2](#target-2-2), [2.3](#target-2-3), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
+*Needs:* [2.1](#target-2-1), [2.2](#target-2-2), [2.3](#target-2-3), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
 
 (Sources: [WI](#ref-wi), §3, (3.7), p. 285; [WI](#ref-wi), §2, Scholie (2.10), p. 282.)
 
@@ -1288,7 +1293,7 @@ Use openness in Sp, rational local factors of the fixed ℚ_ℓ sheaf, and the s
 
 Under the hypotheses of Theorem 3.2, with U affine, every eigenvalue α of F^* on H¹_c(U, F) is an algebraic number, and every complex conjugate of α satisfies |α| ≤ q^{β/2 + 1}.
 
-*Needs:* [2.9](#target-2-9), [2.1](#target-2-1), [2.2](#target-2-2), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
+*Needs:* [2.9](#target-2-9), [2.1](#target-2-1), [2.2](#target-2-2), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
 
 (Sources: [WI](#ref-wi), §3, Corollaire (3.8), p. 286.)
 
@@ -1300,7 +1305,7 @@ Let j : U → ℙ¹ be the inclusion. Under the hypotheses of Theorem 3.2, every
 
 Use the imported duality pairing for H¹(ℙ¹,j_*F).
 
-*Needs:* [2.10](#target-2-10), [0.16](#target-0-16), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 and ClassicalAdicEtaleCohomology §0.11 (curve duality)](#input-e17).
+*Needs:* [2.10](#target-2-10), [0.16](#target-0-16), [EtaleCohomologyFoundations §§F.5–F.6, 0.11 (curve duality)](#input-e17).
 
 (Sources: [WI](#ref-wi), §3, Corollaire (3.9), p. 286; [WI](#ref-wi), §3, Corollaire (3.9), p. 287.)
 
@@ -1310,7 +1315,7 @@ In tensor degree two the pairing contraction gives one symplectic coinvariant li
 
 ### Dependencies
 
-DWP.0 and the coefficient definitions of §§5.1–5.3; LefschetzPencilsAndVanishingCycles §§F.0–F.7, F.10; ReductiveGroups Layers 2–3; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/SchurWeyl Layer 9; §1.10 here.
+DWP.0 and the coefficient definitions of §§5.1–5.3; EtaleCohomologyFoundations §§F.0–F.7, F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §F.10 (trace formulas); ReductiveGroups Layers 2–3; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/SchurWeyl Layer 9; §1.10 here.
 
 ## Layer DWP.3: Rational local factors of a Lefschetz pencil
 
@@ -1322,7 +1327,7 @@ Descend the vanishing-system radical and pairing to the finite field, and isolat
 
 For a finite-field Lefschetz pencil on a geometrically connected smooth projective even-dimensional variety, the LPV.4 vanishing system ℰ and its radical quotient ℱ=ℰ/(ℰ∩ℰ⊥) descend to lisse ℚ_ℓ-sheaves ℰ₀ and ℱ₀ over the smooth-parameter open U₀. The supplied perfect alternating pairing on ℱ₀ has values in ℚ_ℓ(−d), with d odd the fixed fibre dimension, so a local geometric Frobenius of degree e acts by a symplectic similitude with multiplier q^(de). The zero quotient is permitted. LPV.4 owns the construction and perfection of the quotient; this target supplies its finite-field descent and arithmetic normalization.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [LefschetzPencilsAndVanishingCycles §4.4 (radical quotient and pairing)](#input-e38), [LefschetzPencilsAndVanishingCycles §§F.6, F.10 (equivariant pairings and traces)](#input-e20), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
+*Needs:* [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [LefschetzPencilsAndVanishingCycles §4.4 (radical quotient and pairing)](#input-e38), [EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (equivariant pairings and traces)](#input-e20), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
 
 (Sources: [WI](#ref-wi), §6, (6.1), p. 295.)
 
@@ -1334,7 +1339,7 @@ Let U₀ be geometrically connected over 𝔽_q and let 𝒢₀ be a lisse ℚ_�
 
 Compact arithmetic image makes the α_i ℓ-adic units. Apply to the constant cohomological pieces and radical of the pencil.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§4.1–4.5 (global vanishing cycles)](#input-e36), [0.12](#target-0-12), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
+*Needs:* [LefschetzPencilsAndVanishingCycles §§4.1–4.5 (global vanishing cycles)](#input-e36), [0.12](#target-0-12), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
 
 (Sources: [WI](#ref-wi), §6, Lemme (6.4), p. 295; [WI](#ref-wi), §6, proof of (6.4), p. 296.)
 
@@ -1346,7 +1351,7 @@ In the setting of [3.1](#target-3-1), there are ℓ-adic units α_1, …, α_N a
 
 Cancel common α_i and β_j first. Rationality of the fibre zeta functions is an input, while their purity is not.
 
-*Needs:* [3.1](#target-3-1), [3.2](#target-3-2), [0.8](#target-0-8), [1.10](#target-1-10), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [3.1](#target-3-1), [3.2](#target-3-2), [0.8](#target-0-8), [1.10](#target-1-10), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WI](#ref-wi), §6, (6.4), p. 296; [WI](#ref-wi), §1, (1.5.4), p. 276.)
 
@@ -1368,7 +1373,7 @@ The finite families retain multiplicities and the excluded divisor set does not 
 
 Let d be the fixed odd pencil fibre dimension and ℱ₀≠0 its supplied radical quotient with pairing into ℚ_ℓ(−d). Use the arithmetic coordinate a∈ℤ̂, where geometric Frobenius of a degree-e point has a=−e. In a fixed finite ℓ-adic coefficient model define H={(a,g)∈ℤ̂×GSp(ℱ,ψ): μ(g)=q^(−da)}. Then (arithmetic degree,ρ):π₁(U₀)→H has open image H₁, compact because π₁(U₀) is profinite. Its degree-zero image is open in Sp for the ℓ-adic topology.
 
-*Needs:* [3.1](#target-3-1), [LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)](#input-e42), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
+*Needs:* [3.1](#target-3-1), [LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)](#input-e42), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
 
 (Sources: [WI](#ref-wi), §6, (6.10), p. 297; Lemme (6.11), p. 298.)
 
@@ -1417,8 +1422,7 @@ Frobenius coset prescribed by n in the constant-field quotient. The number of
 points in degree n is asymptotic to q^n/n. Convert to geometric Frobenius by
 inverting the coset and the classes. Prove this from the curve Weil estimate and
 finite-cover fixed-point counts, independently of DWP.10.
-*Needs:* §1.6; ArithmeticGaloisRepresentations §5.13; LefschetzPencilsAndVanishingCycles
-§F.10. (Sources: [WI](#ref-wi), §6 (6.13), p. 298; [WII](#ref-wii), §§1.11, 2.2,
+*Needs:* §1.6; ArithmeticGaloisRepresentations §5.13; EtaleCohomologyFoundations §F.10.1. (Sources: [WI](#ref-wi), §6 (6.13), p. 298; [WII](#ref-wii), §§1.11, 2.2,
 pp. 184–186, 195–196.)
 
 Prove `uniform_null_fibre_mass`. Let H be a compact group, π:H→A a continuous
@@ -1487,7 +1491,7 @@ A zero radical quotient has local factor 1. Squaring the multiset {2,−2} gives
 
 ### Dependencies
 
-DWP.0–DWP.2; LefschetzPencilsAndVanishingCycles §§3.1–3.5, 4.1–4.4, 5.2–5.8, F.10; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3; ArithmeticGaloisRepresentations §5.13; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layer 0; §1.10 here.
+DWP.0–DWP.2; LefschetzPencilsAndVanishingCycles §§3.1–3.5, 4.1–4.4, 5.2–5.8; EtaleCohomologyFoundations §§F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §F.10 (trace formulas); EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; ArithmeticGaloisRepresentations §5.13; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layer 0; §1.10 here.
 
 ## Layer DWP.4: Smooth projective purity by induction and Cartesian powers
 
@@ -1499,7 +1503,7 @@ The first reduction gives a half-unit error in even middle dimension. Large even
 
 Let X₀ be smooth projective of pure even dimension d over 𝔽_q, ℓ ≠ char 𝔽_q. Every eigenvalue α of geometric Frobenius on Hᵈ(X,ℚ_ℓ) is algebraic; every complex conjugate satisfies q^(d/2−1/2) ≤ |α| ≤ q^(d/2+1/2). No semisimplicity or degeneration of Leray is required. The induction retains E∩E⊥ and covers zero vanishing cycles, a zero radical quotient, and a nonzero quotient.
 
-*Needs:* [3.11](#target-3-11), [3.2](#target-3-2), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §4.1 (direct images of a pencil)](#input-e37), [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)](#input-e23), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [3.11](#target-3-11), [3.2](#target-3-2), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §4.1 (direct images of a pencil)](#input-e37), [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#input-e23), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WI](#ref-wi), Weil I §7, Lemme (7.1) and (7.1.1)–(7.1.5), pp. 298–300.)
 
@@ -1509,7 +1513,7 @@ Let X₀ be smooth projective of pure even dimension d over 𝔽_q, ℓ ≠ char
 
 For smooth projective X₀ of any pure dimension d over 𝔽_q, every geometric-Frobenius eigenvalue on Hᵈ(X,ℚ_ℓ) is a Weil q-number of weight d.
 
-*Needs:* [4.1](#target-4-1), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [4.1](#target-4-1), [0.13](#target-0-13), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WI](#ref-wi), Weil I §7, Lemme (7.2), pp. 300–301; proof (7.3), p. 301.)
 
@@ -1519,7 +1523,7 @@ For smooth projective X₀ of any pure dimension d over 𝔽_q, every geometric-
 
 For every smooth projective X₀ over 𝔽_q and every i≥0, each eigenvalue of geometric Frobenius on Hⁱ(X,ℚ_ℓ) is a Weil q-number of weight i. This is Weil I Lemma 1.7; integral cohomological factors and their ℓ-independence follow by §4.4 here.
 
-*Needs:* [4.2](#target-4-2), [0.9](#target-0-9), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)](#input-e23), [LefschetzPencilsAndVanishingCycles §§F.4–F.6 (rational adic Poincaré duality)](#input-e18).
+*Needs:* [4.2](#target-4-2), [0.9](#target-0-9), [0.12](#target-0-12), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#input-e23), [EtaleCohomologyFoundations §§F.4–F.6 (rational adic Poincaré duality)](#input-e18).
 
 (Sources: [WI](#ref-wi), Weil I §1, Lemme (1.7), p. 276; §7, Lemme (7.2) and proof (7.3), pp. 300–301.)
 
@@ -1567,7 +1571,7 @@ For ℙ², middle cohomology is the line ℚ_ℓ(−1), with Frobenius q and wei
 
 ### Dependencies
 
-DWP.0–DWP.3; LefschetzPencilsAndVanishingCycles §§F.2, F.6–F.7, 3.4–3.5, 4.1–4.5. Its rational/integral-factor consequence is §4.4 here.
+DWP.0–DWP.3; EtaleCohomologyFoundations §§F.2, F.6–F.7; LefschetzPencilsAndVanishingCycles §§3.4–3.5, 4.1–4.5. Its rational/integral-factor consequence is §4.4 here.
 
 ## Layer DWP.5: Weil coefficients, local monodromy and analytic bounds
 
@@ -1602,7 +1606,7 @@ Its API includes:
 
 - `weilGroup_base_extension_two`: For Spec 𝔽_(q²) over 𝔽_q, arithmetic degrees lie in 2ℤ; degree-one relative Frobenius maps to degree 2.
 
-*Needs:* [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [MonoidHom.eqLocus](#input-b27).
+*Needs:* [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [MonoidHom.eqLocus](#input-b27).
 
 (Sources: [WII](#ref-wii), §1.1 (1.1.7)–(1.1.13.1), pp. 150–153.)
 
@@ -1628,11 +1632,11 @@ Its API includes:
 
 - `weilSheaf_constant`: The constant line with Frobenius 1 descends étale.
 
-- `weilSheaf_tate`: For ℓ≠p the Tate line has geometric scalar q⁻¹ and agrees with LefschetzPencilsAndVanishingCycles §§F.0, F.4, hence descends étale.
+- `weilSheaf_tate`: For ℓ≠p the Tate line has geometric scalar q⁻¹ and agrees with EtaleCohomologyFoundations §§F.0, F.4, hence descends étale.
 
-- On the split rational nodal curve ℙ¹/(0∼∞)/𝔽_q, the rational line with loop multiplier ℓ admits Frobenius descent but no global geometric lisse lattice. The loop multiplies each lattice ℓᵃ𝒪_E by ℓ and cannot preserve it. This Weil object is outside the profinite-π₁ subcategory (LefschetzPencilsAndVanishingCycles §F.4 / rationalAdicRealization).
+- On the split rational nodal curve ℙ¹/(0∼∞)/𝔽_q, the rational line with loop multiplier ℓ admits Frobenius descent but no global geometric lisse lattice. The loop multiplies each lattice ℓᵃ𝒪_E by ℓ and cannot preserve it. This Weil object is outside the profinite-π₁ subcategory (EtaleCohomologyFoundations §F.4 / rationalAdicRealization).
 
-*Needs:* [5.1](#target-5-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
+*Needs:* [5.1](#target-5-1), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13), [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11).
 
 (Sources: [WII](#ref-wii), §1.1 (1.1.6), (1.1.10)–(1.1.14), pp. 150–153.)
 
@@ -1682,7 +1686,7 @@ Its API includes:
 
 - The one-point action diag(1,2), with residue cardinality 2, is punctually ι-pure of no single real weight, for every coefficient embedding.
 
-*Needs:* [5.2](#target-5-2), [0.7](#target-0-7), [0.9](#target-0-9), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13).
+*Needs:* [5.2](#target-5-2), [0.7](#target-0-7), [0.9](#target-0-9), [0.13](#target-0-13), [EtaleCohomologyFoundations §§F.0, F.4 (constructible coefficients and adic realization)](#input-e13).
 
 (Sources: [WII](#ref-wii), §1.2 (1.2.2)–(1.2.8), pp. 153–155.)
 
@@ -1724,7 +1728,7 @@ Its API includes:
 
 For normal geometrically connected X₀/𝔽_q, the image of π₁(X) in the abelianization of W(X₀) is an extension of a finite prime-to-p group by a pro-p group. Consequently every rank-one ℓ-adic Weil representation (ℓ≠p, finite coefficient model) has finite geometric image and is a constant Weil character times a finite-order character; it is punctually ι-pure. An irreducible rank-r system becomes finite-determinant after a rank-one Weil twist. Choosing a twist of arbitrary real weight uses Weil lines and does not assert that it is a motivic Tate twist.
 
-*Needs:* [5.1](#target-5-1), [5.2](#target-5-2), [0.15](#target-0-15), [ArithmeticGaloisDuality §R02.3.2 (function-field ideles, local units and reciprocity)](#input-e24), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40), [5.15](#target-5-15) (full prime-to-p abelian specialization and curve surjection).
+*Needs:* [5.1](#target-5-1), [5.2](#target-5-2), [0.15](#target-0-15), [ArithmeticGaloisDuality §R02.3.2 (function-field ideles, local units and reciprocity)](#input-e24), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40), [5.15](#target-5-15) (full prime-to-p abelian specialization and curve surjection).
 
 (Sources: [WII](#ref-wii), §1.3 (1.3.1), (1.3.4), (1.3.6), pp. 156–158; §1.11 (1.11.4), pp. 185–186.)
 
@@ -1838,7 +1842,7 @@ For a dominant morphism f:X′₀→X₀ of normal connected finite-type schemes
 
 Use a common finite coefficient model. Exterior degree above total rank has no weights; exterior degree zero has weight 0.
 
-*Needs:* [5.6](#target-5-6), [5.7](#target-5-7), [0.14](#target-0-14), [0.13](#target-0-13), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
+*Needs:* [5.6](#target-5-6), [5.7](#target-5-7), [0.14](#target-0-14), [0.13](#target-0-13), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
 
 (Sources: [WII](#ref-wii), §1.3, Corollaire (1.3.12) and Proposition (1.3.13)(i)–(iii), p. 161.)
 
@@ -1850,7 +1854,7 @@ criterion; pure inseparability does not change the étale category. For a dense
 open immersion the image is the whole group. Apply the statement componentwise
 after compatible geometric field extensions for §5.8 and §10.6.
 *Needs:* SchemeAndStackFoundations §§0.9, 0.11, 0.20–0.21 (finite-type geometry and
-normalization); LefschetzPencilsAndVanishingCycles §F.0 (finite étale Galois category);
+normalization); EtaleCohomologyFoundations §F.0 (finite étale Galois category);
 InverseGaloisAndArithmeticFundamentalGroups §IG.5.7 (finite-cover criterion).
 (Source: [WII](#ref-wii), proof of (1.3.13), p. 161.)
 
@@ -1886,7 +1890,7 @@ the ordered-field exponential statement coeff_exp_nonneg specified here;
 
 For a normal connected X₀ of finite type over 𝔽_q, the irreducible constituents of a lisse ι-real sheaf are punctually ι-pure. More precisely, on a smooth curve let r be its maximal determinantal weight; every stalk eigenvalue has ι-weight ≤r, and each irreducible constituent of determinantal weight β is punctually pure of weight β. No open symplectic-image or rational-coefficient hypothesis is imposed.
 
-*Needs:* [5.4](#target-5-4), [5.6](#target-5-6), [5.7](#target-5-7), iotaReal_evenTensor_nonneg above, [2.7](#target-2-7), [2.8](#target-2-8), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40), [0.14](#target-0-14), [5.8](#target-5-8), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [5.4](#target-5-4), [5.6](#target-5-6), [5.7](#target-5-7), iotaReal_evenTensor_nonneg above, [2.7](#target-2-7), [2.8](#target-2-8), [0.13](#target-0-13), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40), [0.14](#target-0-14), [5.8](#target-5-8), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §1.5 Théorème (1.5.1), Lemme (1.5.2), proof (1.5.3), pp. 164–165.)
 
@@ -1896,7 +1900,7 @@ For a normal connected X₀ of finite type over 𝔽_q, the irreducible constitu
 
 For j:U₀→C₀ with C₀ smooth projective over 𝔽_q and ℱ lisse punctually ι-pure of real weight β, boundary eigenvalues of j_*ℱ have ι-weight ≤β, and those on H¹_c(U,ℱ) have weight ≤β+2. These initial non-strict bounds precede the strict analytic bound and the sharp curve theorem.
 
-*Needs:* [5.3](#target-5-3), [5.4](#target-5-4), [5.9](#target-5-9), [2.7](#target-2-7), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
+*Needs:* [5.3](#target-5-3), [5.4](#target-5-4), [5.9](#target-5-9), [2.7](#target-2-7), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
 
 (Sources: [WII](#ref-wii), §1.8 Lemme (1.8.1) and Remarque (1.8.2), p. 175.)
 
@@ -1906,7 +1910,7 @@ For j:U₀→C₀ with C₀ smooth projective over 𝔽_q and ℱ lisse punctual
 
 Let U₀ be a smooth curve over 𝔽_q and ℱ lisse punctually ι-pure of real weight β. At a missing point of its smooth completion take the local Weil representation V and the monodromy filtration M centered at zero after the quasi-unipotent inertia reduction. Then GrᵢᴹV is pure of weight β+i relative to the residue cardinality. With N:V→V(−1), geometric F satisfies FNF⁻¹=q_x⁻¹N in untwisted coordinates. The inertia invariants have only weights ≤β. This is an equal-characteristic curve theorem.
 
-*Needs:* [5.10](#target-5-10), [0.15](#target-0-15), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#input-e31), [LefschetzPencilsAndVanishingCycles §§0.1–0.8 (boundary traits and nearby cycles)](#input-e28).
+*Needs:* [5.10](#target-5-10), [0.15](#target-0-15), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#input-e31), [EtaleCohomologyFoundations §F.3a and LefschetzPencilsAndVanishingCycles §§0.2–0.8 (boundary traits and nearby cycles)](#input-e28).
 
 (Sources: [WII](#ref-wii), §1.7 (1.7.1)–(1.7.12), pp. 170–174; §1.8 Théorème (1.8.4), pp. 175–176.)
 
@@ -1916,7 +1920,7 @@ Let U₀ be a smooth curve over 𝔽_q and ℱ lisse punctually ι-pure of real 
 
 For an ι-mixed local system on a smooth curve, the relative monodromy filtration exists and agrees with the local weight filtration on pure graded pieces. Along a smooth divisor, the relative construction is lisse and compatible with transverse curves and fibres under the tame hypotheses of (1.8.6)–(1.8.7). For an open immersion of finite-type 𝔽_q schemes, underived j_* takes ι-mixed sheaves with weights ≤β to ι-mixed sheaves with weights ≤β. A lisse sheaf pure on a dense open is pure everywhere; on normal X a lisse ι-mixed sheaf has a finite filtration by lisse pure sheaves. On connected X an ι-mixed lisse sheaf pure of weight β at one closed point is pure of weight β everywhere.
 
-*Needs:* [5.11](#target-5-11), [5.3](#target-5-3), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#input-e31), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0, F.10 (Tate twists and Frobenius)](#input-e14).
+*Needs:* [5.11](#target-5-11), [5.3](#target-5-3), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#input-e31), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)](#input-e14).
 
 (Sources: [WII](#ref-wii), §1.8 Corollaires (1.8.5)–(1.8.12), pp. 176–179.)
 
@@ -1966,7 +1970,7 @@ Fix an embedding ι of the coefficient field into an algebraically closed nonarc
 
 Let f:X→S be smooth with geometrically connected curve fibres, S reduced irreducible with generic point η, and g:S→X a section. For a lisse ℤ_ℓ-sheaf ℱ, after shrinking S to a nonempty open there is, simultaneously for every n, a lisse subgroup of Aut(g*ℱ/ℓⁿ) whose stalk is the image of the geometric fibre fundamental group. If f has a smooth proper curve compactification with boundary finite étale over S, the image is locally constant without further shrinking under the stated tame conditions; the inertia images at sections of the boundary specialize compatibly. The extension (1.11.5) covers finite-type families after stratification and dévissage, with the model and the locally constant image conditions kept explicit.
 
-*Needs:* [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40).
+*Needs:* [ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)](#input-e11), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §5.1 and §5.15 here (curve reduction and monodromy specialization)](#input-e40).
 
 (Sources: [WII](#ref-wii), §1.11 (1.11.1)–(1.11.5), pp. 184–186.)
 
@@ -2010,7 +2014,7 @@ with the curve idèle-class theorem to prove §5.5's first assertion. The remain
 p-primary part is pro-p.
 
 *Needs:* SchemeAndStackFoundations §§0.9, 0.21; LefschetzPencilsAndVanishingCycles
-§5.1 (generic Bertini); InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3
+§5.1 (generic Bertini); EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3
 (tame specialization); ProfiniteProPGroups Layers 0–3 (closed quotients and
 prime decompositions); ArithmeticGaloisDuality §R02.3.2 (curve coinvariants).
 (Source: [WII](#ref-wii), (1.11.4), pp. 185–186, using SGA 1 XIII §§4–5.)
@@ -2108,7 +2112,7 @@ Its API includes:
 
 For a smooth curve U₀/𝔽_q and a lisse sheaf punctually ι-pure of real weight β, every eigenvalue on H¹_c(U,ℱ) has ι-weight strictly less than β+2. This bound does not assert β+1; it is the analytic input to the square-improvement argument.
 
-*Needs:* [5.10](#target-5-10), [5.16](#target-5-16), [5.17](#target-5-17), [1.7](#target-1-7), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
+*Needs:* [5.10](#target-5-10), [5.16](#target-5-16), [5.17](#target-5-17), [1.7](#target-1-7), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19).
 
 (Sources: [WII](#ref-wii), §2.2 Corollaire (2.2.9), pp. 195–196; Corollaire (2.2.10), p. 196.)
 
@@ -2128,7 +2132,7 @@ At q=2, diag(1,2) has Newton vertices (0,0),(1,0),(2,1); passing to q=4 and diag
 
 ### Dependencies
 
-DWP.0–DWP.4, with §§5.1–5.3 preceding DWP.2 and the geometric part of §5.15 preceding §§5.5, 5.9; LefschetzPencilsAndVanishingCycles §§F.0–F.7, F.10, 0.1–0.8, 1.1–1.6, 5.1; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.1–IG.1.3; ArithmeticGaloisDuality §R02.3.2; ArithmeticGaloisRepresentations §§1.1–1.6, 5.13; ReductiveGroups Layers 2–3, 6–7, 9; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layers 0, 5–7; RepresentationTheory/LieGroups Layer 7; ArithmeticDirichletSeries Layer 8.
+DWP.0–DWP.4, with §§5.1–5.3 preceding DWP.2 and the geometric part of §5.15 preceding §§5.5, 5.9; EtaleCohomologyFoundations §§F.0–F.7, F.3a, F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§0.2–0.8, 1.1–1.6, 5.1, F.10 (trace formulas); EtaleCohomologyFoundations §§F.0.A1–F.0.A2; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.2–IG.1.3; ArithmeticGaloisDuality §R02.3.2; ArithmeticGaloisRepresentations §§1.1–1.6, 5.13; ReductiveGroups Layers 2–3, 6–7, 9; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layers 0, 5–7; RepresentationTheory/LieGroups Layer 7; ArithmeticDirichletSeries Layer 8.
 
 ## Layer DWP.6: Sharp curve purity by square improvement
 
@@ -2140,7 +2144,7 @@ The external square on C × C, with coefficient-specific vanishing cycles and a 
 
 Let S₀ be a smooth projective surface, D₀ a strict normal-crossings divisor, V₀=S₀−D₀, and ℱ₀ a lisse sheaf on V₀ with unipotent local monodromy along D₀. Choose a pencil satisfying Weil II (3.1.1)(A)–(D), with each exceptional fibre having just one of the three indicated singularities. For j_!ℱ on the blown-up pencil, Φ^a vanishes for a≠1. At an ordinary node outside D, Φ¹=ℱ_x(−1)⊗ε(B), where ε(B) is the sign line on the two branches. At a tangency with D, or a transverse intersection of two branches of D, a locally constant graded boundary filtration gives Gr Φ¹=Gr ℱ_x⊗ε(B), with no Tate twist in these two cases.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§2.4–2.8 (quadratic singularities and branch orientation)](#input-e32), [LefschetzPencilsAndVanishingCycles §§3.1–3.5 (Lefschetz pencils)](#input-e33), [LefschetzPencilsAndVanishingCycles §§4.1–4.5 (global vanishing cycles)](#input-e36), [LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)](#input-e23), [5.11](#target-5-11).
+*Needs:* [LefschetzPencilsAndVanishingCycles §§2.4–2.8 (quadratic singularities and branch orientation)](#input-e32), [LefschetzPencilsAndVanishingCycles §§3.1–3.5 (Lefschetz pencils)](#input-e33), [LefschetzPencilsAndVanishingCycles §§4.1–4.5 (global vanishing cycles)](#input-e36), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#input-e23), [5.11](#target-5-11).
 
 (Sources: [WII](#ref-wii), §3.1 (3.1.1)–(3.1.5), pp. 197–200.)
 
@@ -2176,7 +2180,7 @@ geometry and blow-up API of its §3.3. (Source: [WII](#ref-wii),
 
 If U₀ is a smooth finite-field curve and ℱ₀ is lisse, punctually ι-pure of real weight β and ι-real, then each polynomial ι det(1−tF,Hⁱ_c(U,ℱ)) has real coefficients. Geometric connectedness is unnecessary after component and finite-extension descent.
 
-*Needs:* [5.18](#target-5-18), [5.4](#target-5-4), [1.7](#target-1-7), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [LefschetzPencilsAndVanishingCycles §§F.4–F.6 (rational adic Poincaré duality)](#input-e18).
+*Needs:* [5.18](#target-5-18), [5.4](#target-5-4), [1.7](#target-1-7), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [EtaleCohomologyFoundations §§F.4–F.6 (rational adic Poincaré duality)](#input-e18).
 
 (Sources: [WII](#ref-wii), §3.2 Proposition (3.2.1), Remarque (3.2.2), p. 200.)
 
@@ -2186,7 +2190,7 @@ If U₀ is a smooth finite-field curve and ℱ₀ is lisse, punctually ι-pure o
 
 For a smooth finite-field curve U₀ and lisse punctually ι-pure weight-zero ℱ₀, every eigenvalue α of H¹_c(U,ℱ) satisfies w_ι(α)≤1+2^(−k), for every integer k≥0. The step k→k+1 is proved on a pencil in the compactified surface U₀×U₀ and uses the three coefficient-specific vanishing-cycle cases; it is not a direct application of the general direct-image theorem.
 
-*Needs:* [6.1](#target-6-1), [6.2](#target-6-2), [5.9](#target-5-9), [5.11](#target-5-11), [5.18](#target-5-18), [0.13](#target-0-13), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §§3.1–3.5 (Lefschetz pencils)](#input-e33), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)](#input-e23), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 and ClassicalAdicEtaleCohomology §0.11 (curve duality)](#input-e17).
+*Needs:* [6.1](#target-6-1), [6.2](#target-6-2), [5.9](#target-5-9), [5.11](#target-5-11), [5.18](#target-5-18), [0.13](#target-0-13), [0.12](#target-0-12), [LefschetzPencilsAndVanishingCycles §§3.1–3.5 (Lefschetz pencils)](#input-e33), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#input-e23), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [EtaleCohomologyFoundations §§F.5–F.6, 0.11 (curve duality)](#input-e17).
 
 (Sources: [WII](#ref-wii), §3.2 (3.2.4)–(3.2.14), pp. 201–204.)
 
@@ -2196,7 +2200,7 @@ For a smooth finite-field curve U₀ and lisse punctually ι-pure weight-zero �
 
 Let C₀ be a smooth projective finite-field curve, j:U₀→C₀ a dense open, and ℱ₀ lisse and punctually ι-pure of real weight β. For i=0,1,2, every eigenvalue on Hⁱ(C,j_*ℱ) has ι-weight exactly β+i. In degree one this group is the image of H¹_c(U,ℱ)→H¹(U,ℱ). If ℱ is integer-pure for every embedding, the eigenvalues are algebraic Weil q-numbers of weight β+i.
 
-*Needs:* [6.3](#target-6-3), [5.11](#target-5-11), [5.3](#target-5-3), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 and ClassicalAdicEtaleCohomology §0.11 (curve duality)](#input-e17), [0.5](#target-0-5), [0.6](#target-0-6).
+*Needs:* [6.3](#target-6-3), [5.11](#target-5-11), [5.3](#target-5-3), [EtaleCohomologyFoundations §§F.5–F.6, 0.11 (curve duality)](#input-e17), [0.5](#target-0-5), [0.6](#target-0-6).
 
 (Sources: [WII](#ref-wii), §3.2 Théorème (3.2.3), (3.2.5), (3.2.15), pp. 200–204; [Yu](#ref-yu), Proposition 6.1.1 and proof, pp. 42–43.)
 
@@ -2206,7 +2210,7 @@ Let C₀ be a smooth projective finite-field curve, j:U₀→C₀ a dense open, 
 
 For a smooth finite-field curve U₀ and lisse punctually ι-pure real-weight-β ℱ₀, Hⁱ_c(U,ℱ) has only ι-weights ≤β+i, for i=0,1,2. For integer purity, these are algebraic integer-weight bounds for every complex conjugate. The parabolic image in degree one is pure β+1, while the extra boundary contribution has weights ≤β.
 
-*Needs:* [6.4](#target-6-4), [5.12](#target-5-12), [LefschetzPencilsAndVanishingCycles §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [0.9](#target-0-9).
+*Needs:* [6.4](#target-6-4), [5.12](#target-5-12), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#input-e19), [0.9](#target-0-9).
 
 (Sources: [WII](#ref-wii), §3.2 (3.2.3); §3.3 proof of (3.3.1), pp. 200, 204–205.)
 
@@ -2216,7 +2220,7 @@ For j:𝔾_m→ℙ¹ and constant coefficients of weight zero, parabolic H¹ is 
 
 ### Dependencies
 
-DWP.0–DWP.5; LefschetzPencilsAndVanishingCycles §§2.4–2.8, 3.1–3.5, 4.1–4.4, F.2, F.5–F.7, F.10. Its boundary-adapted surface calculation is §6.1 here; its weights precede the general direct-image theorem.
+DWP.0–DWP.5; LefschetzPencilsAndVanishingCycles §§2.4–2.8, 3.1–3.5, 4.1–4.4; EtaleCohomologyFoundations §§F.2, F.5–F.7, F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §F.10 (trace formulas). Its boundary-adapted surface calculation is §6.1 here; its weights precede the general direct-image theorem.
 
 ## Layer DWP.7: General direct images, integrality and valuation bounds
 
@@ -2230,7 +2234,7 @@ Geometric schemes here are separated and noetherian, with ℓ invertible. The fi
 
 Use DWP.5’s predicates on separated schemes of finite type over ℤ[1/ℓ], with constructible ℚ̄_ℓ coefficients and, over finite fields, Weil descent. At a closed point x use its geometric Frobenius and N(x). Integer purity means all eigenvalues are Weil N(x)-numbers of one integer weight; fixed-ι purity uses one real modulus weight. Mixedness is a finite subsheaf filtration with pure quotients, with actual weights from nonzero pieces. Subquotients, extensions, arbitrary pullback and finite direct image preserve mixedness; pure tensor weights add, lisse dual weights negate and Tate twist r subtracts 2r. Fibre restriction uses the same closed-point residue fields. Integer mixedness implies ι-mixedness for every ι. This item applies the common definitions without constructing a second set of predicates.
 
-*Needs:* [5.3](#target-5-3), [5.2](#target-5-2), [0.15](#target-0-15), [0.1](#target-0-1), [0.4](#target-0-4), [0.6](#target-0-6), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
+*Needs:* [5.3](#target-5-3), [5.2](#target-5-2), [0.15](#target-0-15), [0.1](#target-0-1), [0.4](#target-0-4), [0.6](#target-0-6), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
 
 (Sources: [WII](#ref-wii), §1.2, Définition (1.2.2), p. 153; [WII](#ref-wii), §1.2, Stabilités (1.2.5), p. 154; [WII](#ref-wii), §1.2, (1.2.6), p. 154; [WII](#ref-wii), Notations et conventions, (0.1), p. 144.)
 
@@ -2286,7 +2290,7 @@ Its API includes:
 
 Let f : X → Y be a separated morphism of schemes of finite type over ℤ[1/ℓ] and n ∈ ℤ. Say that a sheaf ℱ on X satisfies P_n(f) when R^i f_!ℱ is mixed of weights ≤ n + i for every i. (a) For an exact sequence 0 → ℱ′ → ℱ → ℱ″ → 0: P_n(f) for ℱ′ and ℱ″ implies P_n(f) for ℱ; P_n(f) for ℱ and ℱ″ implies P_n(f) for ℱ′; if the sequence splits, P_n(f) for ℱ implies P_n(f) for ℱ′. (b) If j : U → X is open with closed complement i : S → X, then P_n(f∘j) for j*ℱ and P_n(f∘i) for i*ℱ imply P_n(f) for ℱ. (f) If f is quasi-finite and ℱ is punctually pure of weight m, then f_!ℱ = R⁰f_!ℱ is punctually pure of weight m and R^i f_!ℱ = 0 for i ≠ 0; hence, by (a), every mixed ℱ of weights ≤ n satisfies P_n(f) when f is quasi-finite. The same statements hold with 'mixed of weights ≤ n + i' replaced by 'ι-mixed of ι-weights ≤ β + i' (β ∈ ℝ) and, for X over 𝔽_q, for Weil sheaves.
 
-*Needs:* [7.1](#target-7-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [0.3](#target-0-3), [0.4](#target-0-4).
+*Needs:* [7.1](#target-7-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [0.3](#target-0-3), [0.4](#target-0-4).
 
 (Sources: [WII](#ref-wii), §3, (3.3.1) a), b), f), p. 204; [WII](#ref-wii), §3, (3.3.1) f), p. 204.)
 
@@ -2296,7 +2300,7 @@ Let f : X → Y be a separated morphism of schemes of finite type over ℤ[1/ℓ
 
 Keep the notation P_n(f) of DWP.7/devissage-in-the-sheaf-and-the-source. (c) Let j : V → Y be open with closed complement i : T → Y, and f_V, f_T the base changes of f. Then ℱ satisfies P_n(f) iff ℱ|X_V satisfies P_n(f_V) and ℱ|X_T satisfies P_n(f_T). More generally, a sheaf 𝒢 on Y is mixed of weights ≤ m iff 𝒢|V and 𝒢|T are. (d) If f = g ∘ h with h : X → Z and g : Z → Y separated of finite type, and R^p g_! R^q h_!ℱ is mixed of weights ≤ n + p + q for all p, q, then ℱ satisfies P_n(f); in particular P_n(h) for ℱ together with P_{n+q}(g) for every R^q h_!ℱ implies P_n(f). (e) If g : Y′ → Y is a universal homeomorphism (integral, radicial, surjective), f′ : X′ → Y′ the base change and ℱ′ the pullback of ℱ, then ℱ satisfies P_n(f) iff ℱ′ satisfies P_n(f′); examples: Y′ = Y_red, and for Y normal integral, the normalisation of Y in a purely inseparable extension of its function field. The same statements hold for ι-mixed sheaves with real weights.
 
-*Needs:* [7.3](#target-7-3), [7.1](#target-7-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [7.3](#target-7-3), [7.1](#target-7-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §3, (3.3.1) c), d), e), p. 204; [WII](#ref-wii), §3, (3.3.1) e), p. 204.)
 
@@ -2308,7 +2312,7 @@ Let K be a field in which ℓ is invertible, C a separated K-scheme of finite ty
 
 Trace followed by adjunction multiplies by the cover degree on each component, which is invertible in ℚ̄_ℓ.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [AlgebraicCurves, Layer 12 (function-field/curve dictionary)](#input-e58), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#input-e31).
+*Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [AlgebraicCurves, Layer 12 (function-field/curve dictionary)](#input-e58), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#input-e31).
 
 (Sources: [WII](#ref-wii), §3, proof of (3.3.1), p. 205.)
 
@@ -2318,7 +2322,7 @@ Trace followed by adjunction multiplies by the cover degree on each component, w
 
 Assume Theorem 3.3.1 holds for every quadruple (f̄, D, ℱ, Y) of the following kind: Y is an integral regular scheme of finite type over ℤ[1/ℓ] (the source's 'Y_red lisse'); f̄ : X̄ → Y is projective and smooth of pure relative dimension 1; D ⊂ X̄ is a divisor finite étale over Y; X = X̄ − D with f = f̄|X; and ℱ is a lisse sheaf on X, punctually pure of weight n and tamely ramified along D. Then Theorem 3.3.1 holds for every separated morphism of schemes of finite type over ℤ[1/ℓ] and every sheaf mixed of weights ≤ n. The same reduction holds for ι-mixed sheaves with real weights.
 
-*Needs:* [7.3](#target-7-3), [7.4](#target-7-4), [7.5](#target-7-5), [ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)](#input-e62), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [7.3](#target-7-3), [7.4](#target-7-4), [7.5](#target-7-5), [ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)](#input-e62), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §3, proof of (3.3.1), p. 205.)
 
@@ -2328,7 +2332,7 @@ Assume Theorem 3.3.1 holds for every quadruple (f̄, D, ℱ, Y) of the following
 
 In the reduced situation of DWP.7/spreading-out-to-a-tame-relative-curve (f̄ : X̄ → Y projective and smooth of pure relative dimension 1 over an integral regular Y of finite type over ℤ[1/ℓ], j : X = X̄ − D → X̄ with i : D → X̄ the inclusion of a divisor finite étale over Y, and ℱ lisse on X, punctually pure of weight n and tamely ramified along D), R^i f_!ℱ is mixed of weights ≤ n + i for every i. More precisely Rf_!ℱ = Rf̄_*(j_!ℱ); R^i f̄_*(j_*ℱ) is punctually pure of weight n + i; and i*j_*ℱ carries the filtration induced by the local monodromy filtration M along D, with Gr^M_k(i*j_*ℱ) zero for k > 0 and punctually pure of weight n + k on D for k ≤ 0. The ι-version holds with n replaced by β ∈ ℝ.
 
-*Needs:* [7.6](#target-7-6), [7.3](#target-7-3), [6.4](#target-6-4), [5.11](#target-5-11), [5.12](#target-5-12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [7.6](#target-7-6), [7.3](#target-7-3), [6.4](#target-6-4), [5.11](#target-5-11), [5.12](#target-5-12), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §3, proof of (3.3.1), p. 205.)
 
@@ -2384,7 +2388,7 @@ SchemeAndStackFoundations §0.7 (dimensions and finite-type morphisms).
 
 Let f : X → Y be a separated morphism of schemes of finite type over ℤ[1/ℓ] whose fibres have dimension ≤ d, and ℱ an integral sheaf on X (DWP.7/integral-sheaf). Then for every i the sheaf R^i f_!ℱ is integral, and for i ≥ d the twist R^i f_!ℱ(i − d) is integral: at every closed point y of Y, every eigenvalue α of F_y on (R^i f_!ℱ)_ȳ is an algebraic integer, and for i ≥ d the number α/N(y)^{i−d} is an algebraic integer.
 
-*Needs:* integrality_fibrationReduction above, [7.2](#target-7-2), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [5.2](#target-5-2), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* integrality_fibrationReduction above, [7.2](#target-7-2), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [5.2](#target-5-2), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §3, proof of Corollaire (3.3.3), p. 205; [Int](#ref-int), Exposé XXI, §5, Lemma 5.2.1 and Théorème 5.2.2, pp. 384–387.)
 
@@ -2404,7 +2408,7 @@ Let f : X → Y be a separated morphism of schemes of finite type over ℤ[1/ℓ
 
 Let X₀ be a scheme of finite type over 𝔽_q, X = X₀ ⊗ 𝔽̄_q. (i) (Weil II 3.3.4) If ℱ₀ is mixed of weights ≤ n (a Weil sheaf being allowed), then H^i_c(X, ℱ) is mixed of weights ≤ n + i: every eigenvalue α of F is algebraic, with an integer w ≤ n + i such that every complex conjugate of α has absolute value q^{w/2}. If ℱ₀ is integral then w ≥ 0, and if moreover i > d = dim X₀ then w ≥ 2(i − d). (ii) (3.3.5) If X₀ is smooth and ℱ₀ is lisse and mixed of weights ≥ n, then H^i(X, ℱ) is mixed of weights ≥ n + i. (iii) (3.3.6) If X₀ is smooth and ℱ₀ is lisse and punctually pure of weight n, then the image of H^i_c(X, ℱ) → H^i(X, ℱ) is pure of weight n + i. (iv) (3.3.10) For a fixed ι, (i) without its integral clauses, (ii) and (iii) hold with 'mixed' replaced by 'ι-mixed', n by β ∈ ℝ and weights read as ι-weights.
 
-*Needs:* [7.8](#target-7-8), [7.11](#target-7-11), [7.9](#target-7-9), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [0.16](#target-0-16), [0.9](#target-0-9), [0.13](#target-0-13).
+*Needs:* [7.8](#target-7-8), [7.11](#target-7-11), [7.9](#target-7-9), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [0.16](#target-0-16), [0.9](#target-0-9), [0.13](#target-0-13).
 
 (Sources: [WII](#ref-wii), §3, Corollaire (3.3.4), p. 206; [WII](#ref-wii), §3, Corollaires (3.3.5) et (3.3.6), p. 206; [WII](#ref-wii), §3, (3.3.10), p. 207.)
 
@@ -2454,7 +2458,7 @@ Let X₀ be a scheme of finite type over 𝔽_q, q = p^f, of dimension ≤ d, an
 
 Use constant coefficients; the upper-triangle duality argument is degreewise on smooth pure-dimensional components.
 
-*Needs:* [7.13](#target-7-13), [7.10](#target-7-10), [7.12](#target-7-12), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [7.13](#target-7-13), [7.10](#target-7-10), [7.12](#target-7-12), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §3, Corollaire (3.3.8), p. 206; [WII](#ref-wii), §3, after (3.3.8), p. 207.)
 
@@ -2462,11 +2466,11 @@ Use constant coefficients; the upper-triangle duality argument is degreewise on 
 
 ### 7.15. Purity for proper smooth varieties and rational homology manifolds over a finite field
 
-Let X₀ be a scheme of finite type over 𝔽_q, X = X₀ ⊗ 𝔽̄_q, a : X₀ → Spec 𝔽_q. (i) If X₀ is proper and smooth and ℱ₀ is lisse and punctually pure of weight n, then H^i(X, ℱ) is pure of weight n + i for every i; the same holds for ι-purity with n ∈ ℝ. (ii) (Weil II 3.3.9) If X₀ is proper and smooth, then for every i the polynomial det(1 − F t, H^i(X, ℚ_ℓ)) has integer coefficients independent of ℓ ≠ p, and its reciprocal roots, the eigenvalues of F, are Weil q-numbers of weight i. (iii) (3.3.11) In (i) and (ii) and in DWP.7/cohomological-bounds-3-3-2-3-3-6 (ii)–(iii), 'smooth of pure dimension N' may be replaced by the condition that X₀ is of pure dimension N and Ra^!ℚ_ℓ ≅ ℚ_ℓ(N)[2N] Frobenius-equivariantly (LefschetzPencilsAndVanishingCycles §F.5's exceptional inverse image), for instance when X₀ is étale-locally the quotient of a smooth scheme of dimension N by a finite group; then the lower bound and purity statements hold with ℱ₀ = ℚ̄_ℓ.
+Let X₀ be a scheme of finite type over 𝔽_q, X = X₀ ⊗ 𝔽̄_q, a : X₀ → Spec 𝔽_q. (i) If X₀ is proper and smooth and ℱ₀ is lisse and punctually pure of weight n, then H^i(X, ℱ) is pure of weight n + i for every i; the same holds for ι-purity with n ∈ ℝ. (ii) (Weil II 3.3.9) If X₀ is proper and smooth, then for every i the polynomial det(1 − F t, H^i(X, ℚ_ℓ)) has integer coefficients independent of ℓ ≠ p, and its reciprocal roots, the eigenvalues of F, are Weil q-numbers of weight i. (iii) (3.3.11) In (i) and (ii) and in DWP.7/cohomological-bounds-3-3-2-3-3-6 (ii)–(iii), 'smooth of pure dimension N' may be replaced by the condition that X₀ is of pure dimension N and Ra^!ℚ_ℓ ≅ ℚ_ℓ(N)[2N] Frobenius-equivariantly (EtaleCohomologyFoundations §F.5's exceptional inverse image), for instance when X₀ is étale-locally the quotient of a smooth scheme of dimension N by a finite group; then the lower bound and purity statements hold with ℱ₀ = ℚ̄_ℓ.
 
 The integral factors and ℓ-independence in (ii) use §4.4 after purity in (i) and integrality from §7.10. In (iii) use constant coefficients and the displayed dualizing-object isomorphism.
 
-*Needs:* [7.12](#target-7-12), [7.1](#target-7-1), [4.4](#target-4-4), [7.10](#target-7-10), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [0.1](#target-0-1).
+*Needs:* [7.12](#target-7-12), [7.1](#target-7-1), [4.4](#target-4-4), [7.10](#target-7-10), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [0.1](#target-0-1).
 
 (Sources: [WII](#ref-wii), §3, Corollaire (3.3.9), p. 207; [WII](#ref-wii), §3, (3.3.11), p. 207; [WII](#ref-wii), Introduction, p. 138; [Yu](#ref-yu), Proposition 6.1.1, proof, pp. 42–43.)
 
@@ -2476,7 +2480,7 @@ For H²c(𝔾_m)=ℚ_ℓ(−1), i=2 and d=1, the eigenvalue q has weight 2 and N
 
 ### Dependencies
 
-DWP.0–DWP.6; LefschetzPencilsAndVanishingCycles §§F.0–F.7, F.10, 1.1–1.6, 7b.3; SchemeAndStackFoundations §0.9; AlgebraicCurves Layer 12; ModularCurves §0E; §4.4 for the integral-factor consequence after purity.
+DWP.0–DWP.6; EtaleCohomologyFoundations §§F.0–F.7, F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§1.1–1.6, 7b.3, F.10 (trace formulas); SchemeAndStackFoundations §0.9; AlgebraicCurves Layer 12; ModularCurves §0E; §4.4 for the integral-factor consequence after purity.
 
 ## Layer DWP.8: Mixed complexes, weight filtrations and geometric semisimplicity
 
@@ -2491,7 +2495,7 @@ Geometric schemes here are separated and noetherian, with ℓ invertible. The fi
 In the imported bounded constructible derived category, define a mixed complex K by mixedness of every ℋⁱK. Define K≤w by requiring ℋⁱK to have punctual weights ≤w+i. The full mixed subcategory is triangulated. Define the fixed-ι version with real w in the same way. Use Weil coefficients over 𝔽_q and constructible coefficients over ℤ[1/ℓ]. Shifts follow cohomological indexing, and twists follow the geometric-Frobenius convention.
 
 Its API includes:
-- `IsMixedComplex`: IsMixedComplex K : Prop := ∀ i, IsMixed (ℋ^i K), for K in the bounded constructible derived category of LefschetzPencilsAndVanishingCycles §§F.0, F.4.
+- `IsMixedComplex`: IsMixedComplex K : Prop := ∀ i, IsMixed (ℋ^i K), for K in the bounded constructible derived category of EtaleCohomologyFoundations §§F.0, F.4.
 
 - `HasWeightsLE`: HasWeightsLE (w : ℤ) K : Prop := ∀ i, IsMixed (ℋ^i K) ∧ ∀ weight m of ℋ^i K, m ≤ w + i.
 
@@ -2528,7 +2532,7 @@ Its API includes:
 
 - `hasWeightsLE_point_iff`: On Spec 𝔽_q, K has weights ≤ w iff every eigenvalue of F on every H^i(K) is a Weil q-number of weight ≤ w + i, i.e. iff each Frobenius module H^i(K) has DWP.0 weights ≤ w + i.
 
-*Needs:* [7.1](#target-7-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [0.7](#target-0-7), [0.9](#target-0-9), [0.12](#target-0-12).
+*Needs:* [7.1](#target-7-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [0.7](#target-0-7), [0.9](#target-0-9), [0.12](#target-0-12).
 
 (Sources: [WII](#ref-wii), §6, Définition (6.2.2), p. 247; [WII](#ref-wii), §6, (6.1.1), p. 243.)
 
@@ -2536,7 +2540,7 @@ Its API includes:
 
 ### 8.2. Complexes of weights ≥ w and pure complexes
 
-Let X₀ be of finite type over 𝔽_q, a : X₀ → Spec 𝔽_q, K_{X₀} = Ra^!ℚ̄_ℓ the dualizing complex and D = RHom(−, K_{X₀}) the duality functor of LefschetzPencilsAndVanishingCycles §F.5, which is involutive on D^b_c(X₀), exchanges f* with Rf^! and Rf_* with Rf_!, and satisfies D(K ⊗ L) = RHom(K, DL). A complex K is mixed of weights ≥ w when DK is mixed of weights ≤ −w (DWP.8/mixed-complexes). K is pure of weight w when it is mixed of weights ≤ w and of weights ≥ w (Weil II 6.2.4). A sheaf ℱ is pure of weight w when the complex ℱ[0] is. The ι-variants (w ∈ ℝ) are defined in the same way. On X₀ smooth of pure dimension d, K_{X₀} = ℚ̄_ℓ(d)[2d] (LefschetzPencilsAndVanishingCycles §F.6), so K has weights ≥ w iff RHom(K, ℚ̄_ℓ) has weights ≤ −w.
+Let X₀ be of finite type over 𝔽_q, a : X₀ → Spec 𝔽_q, K_{X₀} = Ra^!ℚ̄_ℓ the dualizing complex and D = RHom(−, K_{X₀}) the duality functor of EtaleCohomologyFoundations §F.5, which is involutive on D^b_c(X₀), exchanges f* with Rf^! and Rf_* with Rf_!, and satisfies D(K ⊗ L) = RHom(K, DL). A complex K is mixed of weights ≥ w when DK is mixed of weights ≤ −w (DWP.8/mixed-complexes). K is pure of weight w when it is mixed of weights ≤ w and of weights ≥ w (Weil II 6.2.4). A sheaf ℱ is pure of weight w when the complex ℱ[0] is. The ι-variants (w ∈ ℝ) are defined in the same way. On X₀ smooth of pure dimension d, K_{X₀} = ℚ̄_ℓ(d)[2d] (EtaleCohomologyFoundations §F.6), so K has weights ≥ w iff RHom(K, ℚ̄_ℓ) has weights ≤ −w.
 
 Its API includes:
 - `HasWeightsGE`: HasWeightsGE (w : ℤ) K : Prop := HasWeightsLE (−w) (D K).
@@ -2570,7 +2574,7 @@ Its API includes:
 
 - `isPureComplex_zero`: The zero complex is pure of every weight.
 
-*Needs:* [8.1](#target-8-1), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [8.5](#target-8-5).
+*Needs:* [8.1](#target-8-1), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [8.5](#target-8-5).
 
 (Sources: [WII](#ref-wii), §6, Définition (6.2.4), p. 247; [WII](#ref-wii), §6, (6.2.1), p. 247.)
 
@@ -2580,7 +2584,7 @@ Its API includes:
 
 Let S be a scheme of finite type over ℤ[1/ℓ], f : X → Y a morphism of S-schemes of finite type, and ℱ a mixed sheaf on X. Then there is a dense open U ⊂ S over which all the sheaves R^i f_*ℱ are mixed.
 
-*Needs:* [7.8](#target-7-8), [7.1](#target-7-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [8.1](#target-8-1), [7.4](#target-7-4).
+*Needs:* [7.8](#target-7-8), [7.1](#target-7-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [8.1](#target-8-1), [7.4](#target-7-4).
 
 (Sources: [WII](#ref-wii), §6, Lemme (6.1.3), p. 244.)
 
@@ -2590,7 +2594,7 @@ Let S be a scheme of finite type over ℤ[1/ℓ], f : X → Y a morphism of S-sc
 
 Let f : X → Y be a morphism of schemes of finite type over 𝔽_p (Weil sheaves), or of finite type over ℤ[1/ℓ] in the context of Weil II (6.1.1) b) (after inverting finitely many primes), and ℱ a mixed sheaf on X. Then every R^i f_*ℱ is mixed.
 
-*Needs:* [8.3](#target-8-3), [7.8](#target-7-8), [7.4](#target-7-4), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
+*Needs:* [8.3](#target-8-3), [7.8](#target-7-8), [7.4](#target-7-4), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
 
 (Sources: [WII](#ref-wii), §6, Théorème (6.1.2), p. 243; [WII](#ref-wii), §6, after (6.1.2), p. 243.)
 
@@ -2598,9 +2602,9 @@ Let f : X → Y be a morphism of schemes of finite type over 𝔽_p (Weil sheave
 
 ### 8.5. Stability of mixed complexes under the six operations and duality
 
-Let f : X → Y be a morphism of schemes of finite type over 𝔽_p (Weil sheaves), or in context (6.1.1) b). Then Rf_*, Rf_!, f* and Rf^! carry D^b_m to D^b_m; so do ⊗, the local RHom (and the local ℰxt^i), and the duality functor D. In particular the dualizing complex K_X = Ra^!ℚ̄_ℓ is mixed, and D^b_m(X) is stable under all the operations of LefschetzPencilsAndVanishingCycles §§F.0–F.5.
+Let f : X → Y be a morphism of schemes of finite type over 𝔽_p (Weil sheaves), or in context (6.1.1) b). Then Rf_*, Rf_!, f* and Rf^! carry D^b_m to D^b_m; so do ⊗, the local RHom (and the local ℰxt^i), and the duality functor D. In particular the dualizing complex K_X = Ra^!ℚ̄_ℓ is mixed, and D^b_m(X) is stable under all the operations of EtaleCohomologyFoundations §§F.0–F.5.
 
-*Needs:* [8.4](#target-8-4), [7.8](#target-7-8), [7.1](#target-7-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [8.1](#target-8-1).
+*Needs:* [8.4](#target-8-4), [7.8](#target-7-8), [7.1](#target-7-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [8.1](#target-8-1).
 
 (Sources: [WII](#ref-wii), §6, Corollaire (6.1.11), p. 246.)
 
@@ -2661,7 +2665,7 @@ Let f : X₀ → Y₀ be a morphism of schemes of finite type over 𝔽_q. If K 
 
 Require f separated and of finite type for Rf_!.
 
-*Needs:* [7.8](#target-7-8), [7.9](#target-7-9), [8.1](#target-8-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
+*Needs:* [7.8](#target-7-8), [7.9](#target-7-9), [8.1](#target-8-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
 
 (Sources: [WII](#ref-wii), §6, Variante (6.2.3), p. 247.)
 
@@ -2671,7 +2675,7 @@ Require f separated and of finite type for Rf_!.
 
 Let X₀ be of finite type over 𝔽_q. (a) For every N ∈ ℤ, K is mixed of weights ≤ w iff K(N)[2N] is; hence in the definition of purity the dualizing complex may be replaced by any complex locally isomorphic to K_{X₀}(N)[2N]. (b) If X₀ is smooth, K has weights ≥ w iff RHom(K, ℚ̄_ℓ) has weights ≤ −w. If moreover every ℋ^iK is lisse, K is pure of weight w iff every ℋ^iK is punctually pure of weight w + i. (c) Consequently, for X₀ smooth and ℱ₀ lisse and punctually pure of weight w, the complex ℱ₀[m](r) is pure of weight w + m − 2r. The ι-variants hold.
 
-*Needs:* [8.2](#target-8-2), [8.1](#target-8-1), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [0.13](#target-0-13), [7.1](#target-7-1).
+*Needs:* [8.2](#target-8-2), [8.1](#target-8-1), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [0.13](#target-0-13), [7.1](#target-7-1).
 
 (Sources: [WII](#ref-wii), §6, Exemples (6.2.5) a), b), p. 247.)
 
@@ -2683,7 +2687,7 @@ Let X₀ be of finite type over 𝔽_q. (a) For every N ∈ ℤ, K is mixed of w
 
 Use the underived j_* placed in degree zero, with lisse source sheaf.
 
-*Needs:* [8.2](#target-8-2), [8.9](#target-8-9), [5.11](#target-5-11), [5.12](#target-5-12), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [8.2](#target-8-2), [8.9](#target-8-9), [5.11](#target-5-11), [5.12](#target-5-12), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §6, Exemples (6.2.5) c), p. 248.)
 
@@ -2695,7 +2699,7 @@ Let f : X₀ → Y₀ be a morphism of schemes of finite type over 𝔽_q, and a
 
 Require separated finite-type f for the compact-support operations. Each functor has the displayed direction of bound.
 
-*Needs:* [8.8](#target-8-8), [8.2](#target-8-2), [8.5](#target-8-5), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [0.3](#target-0-3), [7.1](#target-7-1).
+*Needs:* [8.8](#target-8-8), [8.2](#target-8-2), [8.5](#target-8-5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [0.3](#target-0-3), [7.1](#target-7-1).
 
 (Sources: [WII](#ref-wii), §6, (6.2.1), p. 247.)
 
@@ -2705,7 +2709,7 @@ Require separated finite-type f for the compact-support operations. Each functor
 
 Let f : X₀ → Y₀ be a proper morphism of schemes of finite type over 𝔽_q and K ∈ D^b_c(X₀) pure of weight w. Then Rf_*K is pure of weight w. In particular, for X₀ proper over 𝔽_q and K pure of weight w, H^i(X, K) is pure of weight w + i for every i. The ι-variant holds.
 
-*Needs:* [8.8](#target-8-8), [8.2](#target-8-2), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15).
+*Needs:* [8.8](#target-8-8), [8.2](#target-8-2), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15).
 
 (Sources: [WII](#ref-wii), §6, Proposition (6.2.6), p. 248.)
 
@@ -2715,7 +2719,7 @@ Let f : X₀ → Y₀ be a proper morphism of schemes of finite type over 𝔽_q
 
 For X of finite type over ℤ[1/ℓ] with structure map a : X → Spec ℤ[1/ℓ], put K′_X = Ra^!ℚ̄_ℓ and D′ = RHom(−, K′_X). Call K ∈ D^b_c(X) pure of weight w when K is mixed of weights ≤ w (DWP.8/mixed-complexes, read on schemes of finite type over ℤ[1/ℓ]) and D′K is mixed of weights ≤ −w. If X is of finite type over 𝔽_p then K′_X = K_X(−1)[−2], so D′ = D(−1)[−2] and this notion agrees with that of DWP.8/pure-complexes. Proper direct images preserve this purity: for f : X → Y proper over ℤ[1/ℓ] and K pure of weight w, Rf_*K is pure of weight w.
 
-*Needs:* [8.2](#target-8-2), [8.9](#target-8-9), [8.8](#target-8-8), [7.8](#target-7-8), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [8.2](#target-8-2), [8.9](#target-8-9), [8.8](#target-8-8), [7.8](#target-7-8), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §6, Variante (6.2.7), p. 248.)
 
@@ -2753,7 +2757,7 @@ Its API includes:
 
 - `isGeometricallySemisimple_of_semisimple`: For a finite-dimensional representation ρ of a group W over a field and a normal subgroup G, if ρ is semisimple then ρ|G is semisimple (Clifford), so arithmetic semisimplicity implies geometric semisimplicity.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [Representation](#input-b30), [IsSemisimpleModule](#input-b33), [Representation.asModule](#input-b31), [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](#input-b41), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
+*Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [Representation](#input-b30), [IsSemisimpleModule](#input-b33), [Representation.asModule](#input-b31), [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](#input-b41), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
 
 (Sources: [WII](#ref-wii), §1, (1.1.15), p. 153; [WII](#ref-wii), §3, Théorème (3.4.1) (iii), p. 207.)
 
@@ -2785,9 +2789,9 @@ profinite-group, discrete-module version.
   leaves its coinvariant class unchanged; a zero class gives a Weil splitting.
 
 *Needs:* §5.2 (Weil descent and finite models), §0.8;
-[LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12)
+[EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12)
 (geometric Ext–cohomology and lisse extensions);
-[InverseGaloisAndArithmeticFundamentalGroups §§IG.1.1–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
+[EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
 
 (Sources: [WII](#ref-wii), §3, Lemme (3.4.2), p. 208.)
 
@@ -2835,7 +2839,7 @@ Its API includes:
 
 - `weightClass_point`: On Spec 𝔽_q, ℱ₀(b) is the sum of the generalised eigenspaces of F whose ι-weights lie in b, i.e. DWP.0's decomposition (ii) regrouped modulo ℤ.
 
-*Needs:* [8.16](#target-8-16), [0.18](#target-0-18), [0.17](#target-0-17), [0.15](#target-0-15), [5.12](#target-5-12), [7.1](#target-7-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
+*Needs:* [8.16](#target-8-16), [0.18](#target-0-18), [0.17](#target-0-17), [0.15](#target-0-15), [5.12](#target-5-12), [7.1](#target-7-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
 
 (Sources: [WII](#ref-wii), §3, Théorème (3.4.1) (i), p. 207; [WII](#ref-wii), §3, (3.4.6), p. 209.)
 
@@ -2881,7 +2885,7 @@ Its API includes:
 
 - `weightFiltration_strict_example`: The inclusion ℚ̄_ℓ(1) → ℒ is strict: its image meets W_{−2}ℒ in the whole image, and W_{−1} of the cokernel ℚ̄_ℓ is 0.
 
-*Needs:* [8.16](#target-8-16), [8.17](#target-8-17), [0.18](#target-0-18), [0.6](#target-0-6), [5.12](#target-5-12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
+*Needs:* [8.16](#target-8-16), [8.17](#target-8-17), [0.18](#target-0-18), [0.6](#target-0-6), [5.12](#target-5-12), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
 
 (Sources: [WII](#ref-wii), §3, Théorème (3.4.1) (ii), p. 207; [WII](#ref-wii), §3, Variante (3.4.9), p. 210.)
 
@@ -2891,7 +2895,7 @@ Its API includes:
 
 On a normal finite-type 𝔽_q-scheme, a lisse sheaf punctually pure of real weight β for one fixed ι becomes semisimple after extension to 𝔽̄_q. This includes integer-pure lisse sheaves. The conclusion is geometric semisimplicity.
 
-*Needs:* [8.16](#target-8-16), [8.14](#target-8-14), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
+*Needs:* [8.16](#target-8-16), [8.14](#target-8-14), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12).
 
 (Sources: [WII](#ref-wii), §3, Théorème (3.4.1) (iii), p. 207; [WII](#ref-wii), §3, (3.4.5), p. 208.)
 
@@ -2942,7 +2946,7 @@ Its API includes:
 
 Let k be algebraically closed with ℓ invertible, X of finite type over k, and f : Y → X proper and smooth. Then for every i the lisse sheaf R^i f_*ℚ_ℓ is potentially punctually pure of weight i: there is a model f_S : Y_S → X_S over an integral S of finite type over ℤ[1/ℓ], with f_S proper and smooth, and for every closed point s of S the sheaf R^i f_{s*}ℚ_ℓ on X_s is lisse and punctually pure of weight i.
 
-*Needs:* [8.20](#target-8-20), [7.15](#target-7-15), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [8.20](#target-8-20), [7.15](#target-7-15), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §3, Exemple (3.4.11), p. 210.)
 
@@ -2962,7 +2966,7 @@ Let k be algebraically closed with ℓ invertible, X a normal scheme of finite t
 
 Let k be algebraically closed with ℓ invertible, S a normal connected scheme of finite type over k, and f : X → S proper and smooth. Then for every i the lisse sheaf R^i f_*ℚ_ℓ on S is semisimple, i.e. H^i(X_s̄, ℚ_ℓ) is a semisimple representation of π₁(S, s̄).
 
-*Needs:* [8.21](#target-8-21), [8.22](#target-8-22), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [8.21](#target-8-21), [8.22](#target-8-22), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §3, Corollaire (3.4.13), p. 210; [WII](#ref-wii), §3, Remarque (3.4.14), p. 210.)
 
@@ -2974,7 +2978,7 @@ Let X₀ be a smooth proper scheme of pure dimension d over 𝔽_q, D₀ ⊂ X�
 
 Retain the orientation sheaf even for non-strict normal crossings. The ordinary-cohomology sequence is obtained by duality.
 
-*Needs:* [7.15](#target-7-15), [smooth proper DM purity](#target-dm-purity) below, [0.17](#target-0-17), [0.18](#target-0-18), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [SchemeAndStackFoundations §§1.19–1.20 (Deligne–Mumford stacks) and the coefficient descent target of §8.24 here](#input-e48).
+*Needs:* [7.15](#target-7-15), [smooth proper DM purity](#target-dm-purity) below, [0.17](#target-0-17), [0.18](#target-0-18), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [SchemeAndStackFoundations §§1.19–1.20 (Deligne–Mumford stacks) and the coefficient descent target of §8.24 here](#input-e48).
 
 (Sources: [BFP](#ref-bfp), proof of Proposition 4.2, p. 7.)
 
@@ -2989,7 +2993,7 @@ resolution by étale descent from scheme charts: its degree-m term is ν_(m)*ε_
 alternating restriction differential squares to zero because the determinant
 line changes sign under a branch swap. It resolves j_!ℚ_ℓ. Descent of cohomology
 and the spectral sequence uses SchemeAndStackFoundations §§1.19–1.20 (étale
-atlases and stabilizers), LefschetzPencilsAndVanishingCycles §§F.1–F.4 (coherent
+atlases and stabilizers), EtaleCohomologyFoundations §§F.1–F.4 (coherent
 derived diagrams, finite descent and cohomology), and the smooth proper DM
 purity target below. These are constructions on the supplied stack
 carriers, with rational coefficients; no new stack carrier is introduced.
@@ -3030,7 +3034,7 @@ the matching lower bound on 𝒳. These constructions use the coefficient descen
 above and precede the stack spectral sequence; they do not use its degeneration.
 
 *Needs:* dmStack_etaleCohomology above; SchemeAndStackFoundations §§1.19–1.20,
-1.23 (DM atlases and coarse spaces); LefschetzPencilsAndVanishingCycles
+1.23 (DM atlases and coarse spaces); EtaleCohomologyFoundations
 §§F.3–F.6 (localization, duality and trace); §§0.9, 0.12–0.13, 7.12.
 (Source: [Sun](#ref-sun), Proposition 7.3.2 and proof, preprint p. 47;
 [BFP](#ref-bfp), proof of Proposition 4.2, p. 7.)
@@ -3051,7 +3055,7 @@ On a point ℚ_ℓ[1] has complex weight 1 and ℚ_ℓ(1)[2] weight 0, pinning b
 
 ### Dependencies
 
-DWP.0, DWP.5–DWP.7; LefschetzPencilsAndVanishingCycles §§F.0–F.6, 0.5–0.8, 1.1–1.6, 7b.3, 7b.7; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.1–IG.1.3, IG.5.7; SchemeAndStackFoundations §§0.9, 1.19–1.20, 1.23; ReductiveGroups Layer 6; Tau Ceti’s Clifford restriction theorem; §8.24 here for coefficient descent and smooth proper DM purity.
+DWP.0, DWP.5–DWP.7; EtaleCohomologyFoundations §§F.0–F.6; LefschetzPencilsAndVanishingCycles §§0.5–0.8, 1.1–1.6, 7b.3, 7b.7; EtaleCohomologyFoundations §§F.0.A1–F.0.A2; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.2–IG.1.3, IG.5.7; SchemeAndStackFoundations §§0.9, 1.19–1.20, 1.23; ReductiveGroups Layer 6; Tau Ceti’s Clifford restriction theorem; §8.24 here for coefficient descent and smooth proper DM purity.
 
 ## Layer DWP.9: Absolute hard Lefschetz and primitive pairings
 
@@ -3063,7 +3067,7 @@ Geometric schemes here are separated and noetherian, with ℓ invertible. The fi
 
 ### 9.1. The Lefschetz operator of a line bundle
 
-Let k be an algebraically closed field, ℓ a prime invertible in k, X a smooth projective k-scheme of pure dimension n, and L a line bundle on X with first Chern class η = c₁(L) ∈ H²(X, ℚ_ℓ(1)) (LefschetzPencilsAndVanishingCycles §§F.6–F.7). The Lefschetz operator is L_η = η ∪ − : H^j(X, ℚ_ℓ(m)) → H^{j+2}(X, ℚ_ℓ(m + 1)), and its r-th iterate is cup product with η^r ∈ H^{2r}(X, ℚ_ℓ(r)). For 0 ≤ r ≤ n: the hard Lefschetz map is η^r ∪ − : H^{n−r}(X, ℚ_ℓ) → H^{n+r}(X, ℚ_ℓ(r)); the primitive part is P^{n−r}(X) = ker(η^{r+1} ∪ − : H^{n−r}(X, ℚ_ℓ) → H^{n+r+2}(X, ℚ_ℓ(r + 1))); the Lefschetz pairing is ψ_r(x, y) = Tr_X(η^r ∪ x ∪ y) ∈ ℚ_ℓ(r − n) for x, y ∈ H^{n−r}(X, ℚ_ℓ), where Tr_X : H^{2n}(X, ℚ_ℓ(n)) → ℚ_ℓ is the trace of LefschetzPencilsAndVanishingCycles §F.6. Tate twists are kept: the source's identification ℤ_ℓ ≅ ℤ_ℓ(1) over k is not used.
+Let k be an algebraically closed field, ℓ a prime invertible in k, X a smooth projective k-scheme of pure dimension n, and L a line bundle on X with first Chern class η = c₁(L) ∈ H²(X, ℚ_ℓ(1)) (EtaleCohomologyFoundations §§F.6–F.7). The Lefschetz operator is L_η = η ∪ − : H^j(X, ℚ_ℓ(m)) → H^{j+2}(X, ℚ_ℓ(m + 1)), and its r-th iterate is cup product with η^r ∈ H^{2r}(X, ℚ_ℓ(r)). For 0 ≤ r ≤ n: the hard Lefschetz map is η^r ∪ − : H^{n−r}(X, ℚ_ℓ) → H^{n+r}(X, ℚ_ℓ(r)); the primitive part is P^{n−r}(X) = ker(η^{r+1} ∪ − : H^{n−r}(X, ℚ_ℓ) → H^{n+r+2}(X, ℚ_ℓ(r + 1))); the Lefschetz pairing is ψ_r(x, y) = Tr_X(η^r ∪ x ∪ y) ∈ ℚ_ℓ(r − n) for x, y ∈ H^{n−r}(X, ℚ_ℓ), where Tr_X : H^{2n}(X, ℚ_ℓ(n)) → ℚ_ℓ is the trace of EtaleCohomologyFoundations §F.6. Tate twists are kept: the source's identification ℤ_ℓ ≅ ℤ_ℓ(1) over k is not used.
 
 Its API includes:
 - `lefschetzOperator`: lefschetzOperator η : H^j(X, ℚ_ℓ(m)) →ₗ H^{j+2}(X, ℚ_ℓ(m + 1)), x ↦ η ∪ x.
@@ -3099,7 +3103,7 @@ Its API includes:
 
 - `lefschetzPairing_curve`: For a smooth projective curve of genus g and L of degree e > 0: ψ₀ on H¹ is Tr(x ∪ y), alternating and nondegenerate on a space of dimension 2g; ψ₁ on H⁰ is x·y·e.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [LefschetzPencilsAndVanishingCycles §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22).
+*Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22).
 
 (Sources: [WII](#ref-wii), §4, Théorème (4.1.1), p. 217; [WII](#ref-wii), §4, (4.1), p. 217; [Lef](#ref-lef), (1.5), p. 108.)
 
@@ -3121,7 +3125,7 @@ The invariant form may be neither symmetric nor alternating.
 
 Let k be algebraically closed with ℓ invertible, X a smooth projective k-scheme of pure dimension n ≥ 1, L a very ample line bundle, η = c₁(L), i : Y → X the inclusion of a smooth hyperplane section in the embedding defined by L, and η_Y = i*η. (a) The Gysin map i_* : H^j(Y, ℚ_ℓ(m)) → H^{j+2}(X, ℚ_ℓ(m + 1)) is the transpose of i* under Poincaré duality on Y and X, and i_* ∘ i* = L_η. (b) For r ≥ 1 and x ∈ H^{n−r}(X, ℚ_ℓ): η^r ∪ x = i_*(η_Y^{r−1} ∪ i*x). (c) (Weak Lefschetz) i* : H^j(X) → H^j(Y) is an isomorphism for j < n − 1 and injective for j = n − 1; dually i_* : H^j(Y) → H^{j+2}(X)(1) is an isomorphism for j > n − 1 and surjective for j = n − 1. (d) Suppose hard Lefschetz holds for (Y, L|_Y). Then η^r ∪ − : H^{n−r}(X, ℚ_ℓ) → H^{n+r}(X, ℚ_ℓ(r)) is an isomorphism for every r ≠ 1, and it is an isomorphism for r = 1 iff the form ⟨y, y′⟩ = Tr_Y(y ∪ y′) on H^{n−1}(Y, ℚ_ℓ) is nondegenerate on the image of i* : H^{n−1}(X, ℚ_ℓ) → H^{n−1}(Y, ℚ_ℓ) (Weil II 4.1.2).
 
-*Needs:* [9.1](#target-9-1), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [LefschetzPencilsAndVanishingCycles §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22), [LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)](#input-e23).
+*Needs:* [9.1](#target-9-1), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#input-e23).
 
 (Sources: [WII](#ref-wii), §4, proof of (4.1.1) and Lemme (4.1.2), p. 217; [WII](#ref-wii), §4, proof of (4.1.1), p. 217.)
 
@@ -3131,7 +3135,7 @@ Let k be algebraically closed with ℓ invertible, X a smooth projective k-schem
 
 For smooth projective pure-dimensional X over algebraically closed k with ℓ invertible, and a very ample embedding X⊂ℙᴺ_k, construct a polarized smooth projective pure-relative-dimensional model X_S⊂ℙᴺ_S over integral finite-type S/ℤ[1/ℓ] through the given k-point. Its smooth proper cohomology sheaves are lisse and commute with base change. Cospecialization preserves the cohomology ring, trace and c₁(L); hard Lefschetz therefore transports from any closed fibre. This model witnesses potential weight-zero purity of the constant sheaf. The family of smooth hyperplane sections also spreads smoothly and projectively, with Rʲg_*ℚ_ℓ potentially pure of weight j.
 
-*Needs:* [8.20](#target-8-20), [8.9](#target-8-9), [8.21](#target-8-21), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [LefschetzPencilsAndVanishingCycles §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22), [LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)](#input-e34).
+*Needs:* [8.20](#target-8-20), [8.9](#target-8-9), [8.21](#target-8-21), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#input-e8), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22), [LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)](#input-e34).
 
 (Sources: [WII](#ref-wii), Introduction, p. 142; [WII](#ref-wii), §3, Exemple (3.4.11), p. 210.)
 
@@ -3141,7 +3145,7 @@ For smooth projective pure-dimensional X over algebraically closed k with ℓ in
 
 Let k be algebraically closed with ℓ invertible, X a smooth projective k-scheme of pure dimension n ≥ 1 embedded by a very ample L in P = ℙ^N, U = P̌ − X̌ the open of hyperplanes H with X ∩ H smooth, g : Z → U the family of smooth hyperplane sections, u ∈ U(k), Y = Z_u and i : Y → X. Then the image of i* : H^{n−1}(X, ℚ_ℓ) → H^{n−1}(Y, ℚ_ℓ) is the subspace H^{n−1}(Y, ℚ_ℓ)^{π₁(U, u)} of monodromy invariants. If D ⊂ P̌ is a sufficiently general line through u (a Lefschetz pencil when one exists), the image of π₁(D ∩ U, u) in GL(H^{n−1}(Y)) equals that of π₁(U, u), so the image of i* is also H^{n−1}(Y)^{π₁(D ∩ U, u)} (Weil II 4.1.3).
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)](#input-e44), [9.4](#target-9-4), [LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)](#input-e34), [LefschetzPencilsAndVanishingCycles §5.1 (Bertini for monodromy images)](#input-e41), [LefschetzPencilsAndVanishingCycles §F.7 (blow-ups and weak Lefschetz)](#input-e23), [8.9](#target-8-9).
+*Needs:* [LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)](#input-e44), [9.4](#target-9-4), [LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)](#input-e34), [LefschetzPencilsAndVanishingCycles §5.1 (Bertini for monodromy images)](#input-e41), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#input-e23), [8.9](#target-8-9).
 
 (Sources: [WII](#ref-wii), §4, (4.1.3), p. 218; [WII](#ref-wii), §6, Corollaire (6.2.12), p. 250.)
 
@@ -3167,7 +3171,7 @@ Let k be an algebraically closed field, ℓ a prime invertible in k, X a smooth 
 
 Use rational ℚ_ℓ coefficients; the integral assertion fails in general.
 
-*Needs:* [9.1](#target-9-1), [9.3](#target-9-3), [9.5](#target-9-5), [8.23](#target-8-23), [9.2](#target-9-2), [LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)](#input-e34), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [9.1](#target-9-1), [9.3](#target-9-3), [9.5](#target-9-5), [8.23](#target-8-23), [9.2](#target-9-2), [LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)](#input-e34), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §4, Théorème (4.1.1), p. 217; [WII](#ref-wii), §4, proof of (4.1.1), p. 218.)
 
@@ -3209,7 +3213,7 @@ Let k be algebraically closed with ℓ invertible, X a smooth projective k-schem
 
 Nondegeneracy and graded symmetry are the conclusions; no Hodge–Riemann positivity is required.
 
-*Needs:* [9.7](#target-9-7), [9.6](#target-9-6), [9.1](#target-9-1), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [9.7](#target-9-7), [9.6](#target-9-6), [9.1](#target-9-1), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [Lef](#ref-lef), (1.5)–(1.6), p. 108; [WII](#ref-wii), §4, Corollaire (4.1.5), proof, p. 218.)
 
@@ -3221,7 +3225,7 @@ Let k be algebraically closed with ℓ invertible and X a smooth projective k-sc
 
 The hypothesis is smooth projective.
 
-*Needs:* [9.8](#target-9-8), [alternating-form parity](#exact-supplier-contracts), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [9.8](#target-9-8), [alternating-form parity](#exact-supplier-contracts), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §4, Corollaire (4.1.5), p. 218.)
 
@@ -3233,7 +3237,7 @@ Let k be algebraically closed with ℓ invertible, X ⊂ P = ℙ^N_k a projectiv
 
 The integer n in the two support conditions need not equal dim X.
 
-*Needs:* [LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)](#input-e44), [8.20](#target-8-20), [8.2](#target-8-2), [8.12](#target-8-12), [8.13](#target-8-13), [8.9](#target-8-9), [8.22](#target-8-22), [9.2](#target-9-2), [9.1](#target-9-1), [LefschetzPencilsAndVanishingCycles §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [LefschetzPencilsAndVanishingCycles §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [8.11](#target-8-11), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
+*Needs:* [LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)](#input-e44), [8.20](#target-8-20), [8.2](#target-8-2), [8.12](#target-8-12), [8.13](#target-8-13), [8.9](#target-8-9), [8.22](#target-8-22), [9.2](#target-9-2), [9.1](#target-9-1), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#input-e15), [8.11](#target-8-11), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16).
 
 (Sources: [WII](#ref-wii), §6, Théorème (6.2.13), p. 250; [WII](#ref-wii), §6, proof of (6.2.13), p. 251.)
 
@@ -3257,7 +3261,7 @@ Let k be algebraically closed with ℓ invertible, X a smooth projective k-schem
 
 Keep ℚ_ℓ coefficients and the supplied pencil, allowing a Veronese embedding when required.
 
-*Needs:* [9.6](#target-9-6), [9.3](#target-9-3), [LefschetzPencilsAndVanishingCycles §§5.2–5.3 (conjugacy and generation by transvections)](#input-e43), [LefschetzPencilsAndVanishingCycles §4.2 (vanishing subspace)](#input-e39), [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)](#input-e44).
+*Needs:* [9.6](#target-9-6), [9.3](#target-9-3), [LefschetzPencilsAndVanishingCycles §§5.2–5.3 (conjugacy and generation by transvections)](#input-e43), [LefschetzPencilsAndVanishingCycles §4.2 (vanishing subspace)](#input-e39), [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#input-e16), [LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)](#input-e44).
 
 (Sources: [WII](#ref-wii), §4, Corollaire (4.3.9), p. 226; [WII](#ref-wii), §4, (4.3.10), p. 226.)
 
@@ -3267,7 +3271,7 @@ On ℙ² with η=c₁(𝒪(1)), the chain 1→η→η²→0 has P⁰=ℚ_ℓ and
 
 ### Dependencies
 
-DWP.0, DWP.5, DWP.7–DWP.8; LefschetzPencilsAndVanishingCycles §§F.5–F.7, 3.1–3.5, 4.2–4.4, 5.1–5.3, 7b.1–7b.11; the supplier’s spectral and local-surjectivity hypotheses are discharged in §9.5. Tau Ceti supplies alternating-form parity. Relative hard Lefschetz and decomposition are outside this roadmap.
+DWP.0, DWP.5, DWP.7–DWP.8; EtaleCohomologyFoundations §§F.5–F.7; LefschetzPencilsAndVanishingCycles §§3.1–3.5, 4.2–4.4, 5.1–5.3, 7b.1–7b.11; the supplier’s spectral and local-surjectivity hypotheses are discharged in §9.5. Tau Ceti supplies alternating-form parity. Relative hard Lefschetz and decomposition are outside this roadmap.
 
 ## Layer DWP.10: Arithmetic weight transport and finite-field equidistribution
 
@@ -3315,8 +3319,8 @@ and weights agree across realizations; ambient purity alone does not construct Q
 - For a geometrically connected genus-g curve, the endpoint is 1+qⁿ and
   the error bound is 2g q^(n/2).
 
-*Needs:* §§1.10, 4.3–4.4, 10.1; LefschetzPencilsAndVanishingCycles §§F.6, F.10
-(componentwise trace and Poincaré duality); §0.12 (powers and multiplicities).
+*Needs:* §§1.10, 4.3–4.4, 10.1; EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (Poincaré duality and Frobenius);
+LefschetzPencilsAndVanishingCycles §F.10 (componentwise trace formula); §0.12 (powers and multiplicities).
 (Sources: [WI](#ref-wi), (1.4)–(1.8), pp. 275–277;
 [WII](#ref-wii), (3.3.9), p. 207.)
 
@@ -3349,7 +3353,7 @@ The arithmetic consumers use DWP.8's mixedness theorem for nearby-cycle cohomolo
 
 In Weil II §2.2’s algebraic-by-ℤ monodromy setting, let X₀/𝔽_q be normal and geometrically connected of dimension N≥1, with the hypotheses (a)–(c) and compact form G_R of DWP.5 (finite kernel is required on the geometric subgroup). Let G_R^i denote degree-i conjugacy classes with the pushforward of normalized compact Haar. For a central z of positive degree d and fixed i, translate by z^(−n) the measure q^(−(nd+i)N) Σ_(x∈X₀(𝔽_(q^(nd+i)))) δ_[ιF_x,ss]. As n→∞ it converges weakly to Haar on the degree-i conjugacy fibre. The sum is over rational points with Frobenius powers, and normalization uses the base dimension N. This is Weil II (3.5.3), not Weil I’s estimate or density of individual Weil numbers.
 
-*Needs:* [5.17](#target-5-17), [5.19](#target-5-19), [7.12](#target-7-12), [8.19](#target-8-19), [LefschetzPencilsAndVanishingCycles §§F.0–F.4, F.10 (finite cohomology, base change and trace formulas)](#input-e49).
+*Needs:* [5.17](#target-5-17), [5.19](#target-5-19), [7.12](#target-7-12), [8.19](#target-8-19), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and LefschetzPencilsAndVanishingCycles §F.10 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
 (Sources: [WII](#ref-wii), §3.5 (3.5.1)–(3.5.3), pp. 210–211.)
 
@@ -3382,47 +3386,17 @@ Zariski closure is SL₂. These comparisons prove the monodromy hypothesis used
 by the Sato–Tate theorem, rather than assuming it from the family’s rank.
 *Needs:* ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, 4.11–4.12;
 InverseGaloisAndArithmeticFundamentalGroups §IG.5.7 (finite-cover and dense-open criteria);
-LefschetzPencilsAndVanishingCycles §F.0 (universal-homeomorphism invariance);
+EtaleCohomologyFoundations §F.0 (universal-homeomorphism invariance);
 ArithmeticGaloisRepresentations §6.1; §2.2; the finite-index lemma of §5.8.
 (Source: [WII](#ref-wii), §3.5 (3.5.4)–(3.5.7), pp. 211–212.)
 
-<a id="target-10-7"></a>
-
-### 10.7. The weight-facing acceptance suite
-
-The common predicates and transports must reproduce: for 0≤r≤N, H^(2r)(ℙᴺ)=ℚ_ℓ(−r) of weight 2r, with all odd cohomology and all degrees above 2N zero (in particular H²(ℙ⁰)=0); H⁰(𝔾_m)=ℚ_ℓ of weight 0, H¹(𝔾_m)=ℚ_ℓ(−1) of weight 2, H¹_c(𝔾_m)=ℚ_ℓ of weight 0 and H²_c(𝔾_m)=ℚ_ℓ(−1) of weight 2; H¹ of a smooth projective genus-g curve of weight 1 with reciprocal pairs α_iα_(i+g)=q; the finite-residue-field semistable graded weights 0,1,2; and the component-aware all-extension point count. For Yu's everywhere-unramified unitary cuspidal Rankin–Selberg inputs on a
-smooth projective geometrically connected curve, use
-AutomorphicLFunctionsAndLocalFactors §AL.3 / UnramifiedPureRealization:
-finite-order central characters give integer-pure weight-zero étale lisse
-realizations, using pure_weight_zero and dual/local tensor-factor compatibility.
-General unitary central characters use its explicit degree-character Weil
-twists and give fixed-ι weight-zero purity. Thus ℱ₁⊗ℱ₂∨ is integer-pure of
-weight zero in the finite-order case and ι-pure of weight zero in the general
-unitary case. Apply the corresponding version of §7.15(i) to get curve factors
-of weights 0,1,2 for that embedding, which cannot cancel; a transcendental
-unitary degree twist need not have algebraic eigenvalues. Correspondence construction, automorphic poles and functional equations remain with their existing owners.
-
-**Checks.**
-
-- For N=0, H⁰(ℙ⁰)=ℚ_ℓ and H²(ℙ⁰)=0; substituting r=1 in the Tate-line
-  identity violates its range. For every N, H^(2N+2)(ℙᴺ)=0.
-- For ℙ¹, the only nonzero groups are the weight-zero constant line in degree
-  zero and the weight-two line ℚ_ℓ(−1) in degree two.
-- An unramified rank-one unitary degree character with a transcendental scalar
-  b and |ιb|=1 gives ι-purity of weight zero, but no integer Weil purity. Its
-  curve factors still have ι-weights 0,1,2, so their zeros cannot cancel across degrees.
-
-*Needs:* [1.7](#target-1-7), [6.4](#target-6-4), [10.1](#target-10-1), [10.3](#target-10-3), [10.2](#target-10-2), [LefschetzPencilsAndVanishingCycles §§F.6–F.7 (cycle classes and projective-space cohomology)](#input-e22), [1.10](#target-1-10), [LefschetzPencilsAndVanishingCycles §§F.5–F.6 (lisse tensor–Hom and curve duality)](#input-e21), [7.15](#target-7-15), AutomorphicLFunctionsAndLocalFactors §AL.3 / UnramifiedPureRealization (everywhere-unramified unitary cuspidal realizations, degree twists and tensor factors), [0.17](#target-0-17).
-
-(Sources: [Yu](#ref-yu), Yu §1 pp. 2–3, Proposition 6.1.1 pp. 42–43, §7.1 p. 64; Weil II (3.2.3).)
-
 ### Examples
 
-For a full-SL₂ elliptic family, normalized trace is 2cos θ. Haar on SU(2) pushes forward to (2/π)sin²θ dθ, so the trace has mean 0 and second moment 1. For Spec 𝔽_(q²), the component permutation gives two points over even-degree extensions and zero over odd-degree extensions, preserving the c_m factor (§§10.2, 10.6–10.7).
+For a full-SL₂ elliptic family, normalized trace is 2cos θ. Haar on SU(2) pushes forward to (2/π)sin²θ dθ, so the trace has mean 0 and second moment 1. For Spec 𝔽_(q²), the component permutation gives two points over even-degree extensions and zero over odd-degree extensions, preserving the c_m factor (§§10.2, 10.6).
 
 ### Dependencies
 
-DWP.0–DWP.9, including §§1.10, 4.4, 8.24; LefschetzPencilsAndVanishingCycles §§F.10, 7a.1–7a.3, 7a.5; AutomorphicLFunctionsAndLocalFactors §AL.3 / UnramifiedPureRealization; ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, 4.11–4.12; InverseGaloisAndArithmeticFundamentalGroups §IG.1.1; ArithmeticGaloisRepresentations §6.1; RepresentationTheory/CompactGroups Layers 0, 6–7.
+DWP.0–DWP.9, including §§1.10, 4.4, 8.24; EtaleCohomologyFoundations §§F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§7a.1–7a.3, 7a.5, F.10 (trace formulas); ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, 4.11–4.12; EtaleCohomologyFoundations §F.0.A2; ArithmeticGaloisRepresentations §6.1; RepresentationTheory/CompactGroups Layers 0, 6–7.
 
 ## Downstream consumers
 
