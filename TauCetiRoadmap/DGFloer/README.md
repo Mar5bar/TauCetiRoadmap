@@ -343,7 +343,8 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
    - excision;
    - the Künneth theorems;
    - cubical local coefficients;
-   - the Serre spectral sequence.
+   - Layer 1 item 2's Serre spectral sequence, transported to cubical chains
+     by its actual filtered comparison and local-coefficient chain maps.
 4. Fundamental chains: a compact oriented topological manifold with corners whose boundary is a
    union of products of lower-dimensional ones has a fundamental chain rel boundary in
    `C^□_*`. Its boundary is the signed sum of the cross products of the fundamental chains of the
@@ -360,18 +361,160 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
 These are general facts that the later layers use, which no other roadmap builds.
 
 1. **Hurewicz in degree one.** For a path-connected space, `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` naturally. This
-   extends Stage 8 of the algebraic topology roadmap, which starts in degree two. The source uses
-   it for `H₁(Ω²Q) ≅ π₃(Q)` in Proposition 5.11.
+   proves the isomorphism theorem for AT8.3's actual normalized absolute
+   Hurewicz map: a loop is sent to its induced positively oriented singular
+   circle class, through Layer 0's cubical/simplicial chain comparison. The
+   induced map on abelianization is the displayed isomorphism, with no
+   independent sign or map. AT8.3's higher-degree isomorphism theorem starts
+   in degree two. The source uses it for `H₁(Ω²Q) ≅ π₃(Q)` in Proposition 5.11.
 2. **Weak equivalences and CW approximation.**
-   - Every space has a CW approximation, natural up to homotopy.
-   - A weak homotopy equivalence induces isomorphisms on singular homology with local
-     coefficients.
-   - As a corollary, the Serre spectral sequence over an arbitrary path-connected base, by pulling
-     back along a CW approximation. The source applies it over `Ω₀Q`, `Ω²B` and `Y`.
-3. **The spectral sequence of a filtered complex.** For a bounded-below, exhaustive, increasing
-   filtration of a chain complex over a ring: the spectral sequence with
-   `E¹_{p,q} = H_{p+q}(F_p/F_{p−1})`, its strong convergence, and naturality under filtered maps.
-   It is built as an instance of Mathlib's `SpectralObject`.
+   - Every space has a CW approximation, natural up to homotopy. This is the
+     abstract approximation theorem; CC C1.2 owns the weak-equivalence
+     theorem for its specific actual singular-realization counit.
+   - Own `connectedMapHomologyComparison` and its weak-equivalence
+     specialization on native simplicial singular and twisted chains. Use the
+     direct Eilenberg-subcomplex route of tom Dieck 9.5.1: formulate connectivity
+     by relative disc/sphere compression and homotopy lifting, without AT8.1's
+     relative homotopy-group construction or AT8.3's Hurewicz theorem. For a
+     k-connected mapping-cylinder pair generate the subcomplex by simplices
+     carrying their k-skeleton into the subspace. Construct face-compatible
+     homotopies P(σ), fixing compressed simplices and relative faces, and the
+     actual prism chain equivalence. Transport local coefficients along P at
+     vertices, with face/prism compatibility. The complexes agree through
+     degree k, giving homology isomorphisms below k and surjectivity in k.
+     For a weak equivalence compress compatibly in every degree to obtain the
+     coefficient-chain homotopy equivalence and its Hom/cohomology comparison,
+     for maps of pairs and their exact sequences. This also proves that a weak
+     equivalence induces local-coefficient homology isomorphisms on arbitrary
+     spaces; CC C1.2 consumes these exact maps, not a second proof.
+   - Own the Serre-fibration carrier by its disc homotopy-lifting property,
+     pullbacks and maps of fibrations, the fibration homotopy exact sequence
+     including components, and the bridge from native locally trivial
+     `FiberBundle` to that lifting property, with no paracompactness hypothesis.
+     Construct the sequence and boundary directly by disc lifting and endpoint
+     restrictions, retaining group laws and pointed-set exactness at π1/π0;
+     do not consume AT8.1's relative-pair sequence. These constructions use
+     AT1–4's homotopy, disc and CW-pair APIs. Paracompactness is retained where
+     Layer 2 asks for the stronger Hurewicz-fibration property.
+   - Own `arbitraryCWSerreSpectralSequence` for every path-connected CW base,
+     using AT1–4 and the actual filtration
+     `E_p = p⁻¹(B^(p))`, with `E_(−1)` empty. Prove that singular chains are
+     exhausted by this filtration using compact simplex images and cellular
+     filtration comparison. Apply item 3's filtered-complex construction;
+     identify `E²_(p,q)=H_p(B;H_q(F;R))` with actual path-transport monodromy,
+     and prove convergence to `H_(p+q)(E;R)`. In each total degree the
+     first-quadrant filtration is finite, exhaustive and separated; identify
+     its graded pieces with `E∞`, including the extension data. No finite-type
+     or dimension bound is imposed on B or F. Prove naturality under maps
+     of fibrations and coefficient maps, and the componentwise version.
+   - Own `arbitraryBaseSerreSpectralSequence`: for a Serre fibration over
+     an arbitrary path-connected space B, pull back along a CW approximation
+     `B'→B`. Prove the induced total-space map is a weak equivalence by the
+     fibration homotopy sequence, including components, and identify its
+     local-coefficient homology maps and the base local-coefficient homology
+     comparison. Transport the preceding spectral sequence, its E² page,
+     convergence and abutment filtration to the original fibration. Prove
+     independence of CW approximation via comparison refinements and
+     naturality from E² onward; also give the disconnected-base version.
+     These targets use AT1–4 and item 3, with no AT5.5 or GeneralizedCohomology input,
+     and precede item 4. The source applies them over `Ω₀Q`, `Ω²B` and `Y`.
+   - Own `arbitraryCWSerreCohomologySpectralSequence` and
+     `arbitraryBaseSerreCohomologySpectralSequence` on that same single Serre
+     carrier and skeletal filtration. Use the actual dual filtered cochain
+     complex and its relative quotients, including the cellular/singular
+     filtration comparison; do not identify cohomology pages by naive duality
+     of homology pages. The cohomological sequence has
+     `E₂^(p,q)=H^p(B;H^q(F;M))`, with path-transport local coefficients,
+     and converges to H^(p+q)(E;M). Prove first-quadrant strong convergence:
+     the induced abutment filtration in each total degree is finite,
+     exhaustive and separated, with E∞ its actual graded module. Prove
+     completeness of the cochain inverse filtration and vanishing of the
+     relevant inverse-limit obstruction; retain the same no finite-type or
+     dimension restriction. Construct coefficient and fibration naturality,
+     arbitrary-base pullback comparison/independence and componentwise forms.
+     For a commutative ring R and local-system pairing M⊗_R N→P, own the
+     multiplicative comparison through the following actual construction.
+     Consume AT4.5's CW structure on k(B×B), its product-cell filtration
+     (B×B)_m=⋃_(i+j≤m)B^i×B^j, and cellular approximation D of Δ_B.
+     Own a compatible filtered CW approximation q:E′→E with CW
+     subcomplexes E′_p and q_p:E′_p→E_p weak equivalences, including
+     relative pair comparisons and actual filtered local-cochain maps that
+     are quasi-isomorphisms on the relative filtration quotients. First
+     pull back p×p along k(B×B)→B×B, and then along D; no map from an
+     arbitrary non-CW E×E into k(B×B) is assumed. Lift the diagonal-to-D
+     homotopy only on the CW source E′, cell by cell with the fixed faces.
+     Construct its product-filtered cup map, then transport through those
+     filtered comparisons; do not lift on a general non-CW total space or
+     assert the ordinary Alexander–Whitney product is filtered on E_p.
+     Own `serrePreimageSubcomplexExcision`: preimages of CW subcomplexes
+     A,B under a Serre fibration over a CW base form an excisive couple for
+     native singular/twisted chains and relative-cochain products. Consume
+     AT4.5's compatible open neighborhoods of A,B and their intersection/union.
+     Prove each preimage inclusion over the deformation retraction is a weak
+     equivalence by the fibration sequence and component path lifting. Apply
+     the weak-equivalence coefficient-chain/Hom comparison and AT3 open
+     excision to the intersection/union diagram. Construct the actual small-
+     chain quasi-isomorphism C(E_A)+C(E_B)→C(E_(A∪B)) and the relative
+     cochain map, with chosen inverses/homotopies only up to specified natural
+     homotopy. Use it, iterated for the finite product-skeletal union in each
+     m, to define the product-filtered cup on a small-chain/relative model;
+     do not evaluate the ordinary cross cochain unconditionally on arbitrary
+     simplices in that closed union. Prove products of Serre fibrations are
+     Serre, and preserve that fact under pullback. Identify g^*(M⊠N) with
+     q^*(M⊗N) by inverse transport along the actual lifted diagonal-to-g
+     homotopy, using AT2.6's path-natural local-system comparison; retain
+     that identification in cups.
+     Own comparison prisms raising the base filtration by at most one,
+     giving independence/naturality of the resulting pairings from E₂
+     onward and preserving the actual abutment cup product. For fixed
+     choices construct all E_r pairings; the E₂ pairing is (−1)^(q p′)
+     times the local coefficient cup pairing in every bidegree.
+     In trivial-monodromy tensor coordinates the product has Koszul sign
+     (a⊗x)(b⊗y)=(−1)^(q p′)(ab⊗xy), with x in fibre degree q and b in
+     base degree p′. State d_r:E_r^(p,q)→E_r^(p+r,q−r+1) and
+     d_r(uv)=d_r(u)v+(−1)^(p+q)u d_r(v), and prove multiplicative
+     abutment/extension compatibility. For a field k, a simply connected
+     base and degreewise finite-dimensional H^q(F;k), own the natural E₂
+     graded-algebra identification H^*(B;k)⊗_k H^*(F;k); prove the local
+     tensor/cohomology comparison giving this algebra, not just its vector space.
+     For the ring sequence take constant R and its multiplication. Use AT6.0–6.2's
+     earlier foundational tower/cochain/cup API and item 3's cohomological filtered
+     construction, independently of AT duality/EM and G5. GeneralizedCohomology G5 consumes this
+     multiplicative supplier for rational K(ℤ,n); no second Serre construction
+     or assumption that additive page calculations determine the cup ring.
+3. **The spectral sequence of a filtered complex.** For an increasing filtration
+   of a module chain complex over a ring, assume degreewise filtration lower
+   bounds `∀ n, ∃ s(n), F_(s(n)) C_n=0` and exhaustion `⋃_p F_p C_n=C_n`.
+   Construct the sequence `E¹_(p,q)=H_(p+q)(F_p C/F_(p−1) C)` as an instance
+   of Mathlib's `SpectralObject`. Prove natural strong convergence in the
+   following sense: the actual induced filtration
+   `F_p H_n=im(H_n(F_p C)→H_n(C))` is exhaustive and bounded below (hence
+   separated and complete in its lower-filtration direction), and
+   `E∞_(p,q)≃F_p H_(p+q)/F_(p−1) H_(p+q)` naturally. No finite upper
+   filtration bound is required. This is Weibel's Classical Convergence
+   Theorem 5.5.1(2); the lower bound concerns the filtration in each chain
+   degree, not merely the degrees in which the complex is nonzero.
+   Regrade C^(−n)=C_n with the same differential, and pull native
+   `HomotopyCategory.spectralObjectMappingCone` back along the EInt-indexed
+   increasing filtration functor, with 0 and C at its infinite endpoints;
+   compose with the degreewise cohomology homological functor. Use native
+   `coreE₂Cohomological`. The stated homological E_r^(p,q) is its page
+   r+1 at native bidegree (a,b)=(1−2p−q,p−1), so deg=a+b=−(p+q),
+   i₁=p−1 and i₂=p. For a decreasing cochain filtration F^p, use the
+   increasing functor G_t=F^(−t); its cohomological E_r^(p,q) is native
+   page r+1 at (a,b)=(2p+q+1,−p−1), so deg=p+q, i₁=−p−1 and i₂=−p.
+   Prove the quotient-page identifications and representative-boundary
+   differential formula, retaining the mapping-cone/reindexing signs.
+   Own the cohomological form of Weibel's Complete Convergence
+   Theorem 5.5.10 for complete exhaustive decreasing cochain filtrations
+   with regular spectral sequence. Prove weak convergence and its actual
+   induced cohomology filtration/E∞ graded identification. Prove strong
+   convergence under the theorem's additional degreewise spectral boundedness
+   after cohomological reindexing, using the Milnor/lim¹ sequence; the
+   first-quadrant case is regular and degreewise bounded. In the Serre instance
+   prove completeness of the inverse cochain filtration and the degreewise
+   finite abutment filtration. Cup pairings come from actual filtered
+   cochain maps, independently of convergence.
 4. **Serre classes and Hurewicz modulo a class.**
    - A Serre class is a class of abelian groups closed under subgroups, quotients and extensions,
      and satisfying Serre's axioms for `⊗`, `Tor` and the homology of `K(A, 1)`. Hurewicz modulo a
