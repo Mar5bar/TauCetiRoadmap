@@ -12,6 +12,10 @@ import TauCeti.CategoryTheory.InvolutiveDual
 import TauCeti.CategoryTheory.Exact.Split
 import TauCeti.CategoryTheory.Exact.Functor
 import TauCeti.CategoryTheory.Exact.Opposite
+import TauCeti.CategoryTheory.DG.HomComplexData
+import TauCeti.CategoryTheory.DG.Functor
+import TauCeti.CategoryTheory.DG.Opposite.Basic
+import TauCeti.CategoryTheory.DG.CochainComplex
 
 /-!
 # Geometry of numbers and quadratic arithmetic: target signatures
@@ -44,6 +48,8 @@ Design choices made explicit here:
 * unitarity of a representation is Tau Ceti's `ContRepresentation.IsUnitary`, with strong
   continuity added as a separate predicate;
 * LLL-reduced bases use `δ = 3/4` and `η = 1/2`, with their short-vector approximation bound;
+* DG duality acts on Tau Ceti's native cochain-complex enrichment, with its signed opposite and
+  Mathlib factor order;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
   `Functor.IsInvolutiveDual` with exactness of the duality functor.
 -/
@@ -2149,10 +2155,39 @@ theorem gauss_signed_three_square_count {n : ℕ} (hn : 0 < n) :
     (Nat.card (ternaryShell n) : ℤ) = signedThreeSquareCount n := by sorry
 
 /-- **Gauss's three-square theorem** in Hurwitz form: `r₃(n) = 12 (H(4n) - 2 H(n))`, with Tau Ceti's
-Hurwitz class number. -/
+Hurwitz class number, including imprimitive classes and their stabilizer weights. -/
 theorem three_square_hurwitz {n : ℕ} (hn : 0 < n) :
     (Nat.card (ternaryShell n) : ℚ) =
       12 * (TauCeti.hurwitzClassNumber (4 * n) - 2 * TauCeti.hurwitzClassNumber n) := by sorry
+
+/-- The primitive vectors of the ternary shell, with coordinate gcd one (§4.3). -/
+def primitiveTernaryShell (n : ℕ) : Set (Fin 3 → ℤ) :=
+  {v | v ∈ ternaryShell n ∧ Finset.univ.gcd (fun i => (v i).natAbs) = 1}
+
+/-- A positive shell partitions by the positive coordinate gcd into primitive shells (§4.3). -/
+theorem ternaryShell_square_divisor_sum {n : ℕ} (hn : 0 < n) :
+    Nat.card (ternaryShell n) = ∑ k ∈ Finset.Icc 1 n,
+      if k ^ 2 ∣ n then Nat.card (primitiveTernaryShell (n / k ^ 2)) else 0 := by sorry
+
+/-- Square-divisor Möbius inversion recovers the primitive three-square count (§4.3). -/
+theorem primitive_three_square_moebius {n : ℕ} (hn : 0 < n) :
+    (Nat.card (primitiveTernaryShell n) : ℤ) = ∑ k ∈ Finset.Icc 1 n,
+      if k ^ 2 ∣ n then ArithmeticFunction.moebius k *
+        (Nat.card (ternaryShell (n / k ^ 2)) : ℤ) else 0 := by sorry
+
+-- Scaling the discriminant −23 form retains Hurwitz classes with nonprimitive edge triples.
+example : (⟨6, 3, 9⟩ : TauCeti.BinaryQuadraticForm ℤ) ∈ TauCeti.reducedForms 207 ∧
+    (3 : ℤ) * 9 + 3 * 15 + 9 * 15 = 207 ∧ Nat.gcd 3 (Nat.gcd 9 15) = 3 := by sorry
+example : (⟨4, 2, 6⟩ : TauCeti.BinaryQuadraticForm ℤ) ∈ TauCeti.reducedForms 92 ∧
+    (2 : ℤ) * 6 + 2 * 10 + 6 * 10 = 92 ∧
+    (Odd (1 : ℤ) ∧ Odd (3 : ℤ) ∧ Odd (5 : ℤ)) := by sorry
+example : TauCeti.hurwitzClassNumber 12 = 4 / 3 ∧ Nat.card (ternaryShell 3) = 8 := by sorry
+
+-- Removing the square-divisor contribution distinguishes all from primitive representations.
+example : Nat.card (primitiveTernaryShell 1) = 6 ∧
+    Nat.card (primitiveTernaryShell 3) = 8 := by sorry
+example : Nat.card (ternaryShell 4) = 6 ∧ Nat.card (primitiveTernaryShell 4) = 0 := by sorry
+example : Nat.card (ternaryShell 9) = 30 ∧ Nat.card (primitiveTernaryShell 9) = 24 := by sorry
 
 /-- The polynomial Laplacian `Σ ∂_i² P`. -/
 def polynomialLaplacian (P : MvPolynomial (Fin 3) ℝ) : MvPolynomial (Fin 3) ℝ :=
@@ -3219,6 +3254,59 @@ example : ¬ (TauCeti.ExactStructure.split (ModuleCat ℤ)).IsInflation
     (ModuleCat.ofHom (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ))) := by sorry
 
 end SplitExactControls
+
+section NativeDGDuality
+open CategoryTheory Opposite
+universe u v
+variable (R : Type v) [CommRing R] (A : Type u) [TauCeti.DGCategory R A]
+
+/-- A duality on the native DG category, with homogeneous bidual naturality and an
+involutive evaluation, preserving the specified acyclic subcategory (§6.8a). -/
+structure DGDuality (A₀ : A → Prop) where
+  dual : EnrichedFunctor (CochainComplex (ModuleCat.{v} R) ℤ) Aᵒᵖ A
+  bidual : ∀ X : A, TauCeti.DGHom R 0 X (dual.obj (op (dual.obj (op X))))
+  bidualInv : ∀ X : A, TauCeti.DGHom R 0 (dual.obj (op (dual.obj (op X)))) X
+  bidual_closed : ∀ X, TauCeti.dgDifferential R 0 (bidual X) = 0
+  bidualInv_closed : ∀ X, TauCeti.dgDifferential R 0 (bidualInv X) = 0
+  bidual_inv : ∀ X, TauCeti.dgComp R (bidual X) (bidualInv X) (by omega) =
+    TauCeti.dgId R X
+  inv_bidual : ∀ X, TauCeti.dgComp R (bidualInv X) (bidual X) (by omega) =
+    TauCeti.dgId R (dual.obj (op (dual.obj (op X))))
+  naturality : ∀ {X Y : A} {n : ℤ} (f : TauCeti.DGHom R n X Y),
+    TauCeti.dgComp R f (bidual Y) (add_zero n) =
+      TauCeti.dgComp R (bidual X)
+        (dual.dgMap n (X := op (dual.obj (op X))) (Y := op (dual.obj (op Y)))
+          (dual.dgMap n (X := op Y) (Y := op X) f)) (zero_add n)
+  triangle : ∀ X, TauCeti.dgComp R (bidual (dual.obj (op X)))
+    (dual.dgMap 0 (X := op (dual.obj (op (dual.obj (op X))))) (Y := op X)
+      (bidual X)) (by omega) = TauCeti.dgId R (dual.obj (op X))
+  acyclic : ∀ X, A₀ X ↔ A₀ (dual.obj (op X))
+
+namespace DGDuality
+variable {R A} {A₀ : A → Prop}
+
+/-- DG duality reverses homogeneous composition with the native opposite's Koszul sign. -/
+theorem map_comp (D : DGDuality R A A₀) {X Y Z : A} {p q n : ℤ}
+    (f : TauCeti.DGHom R p X Y) (g : TauCeti.DGHom R q Y Z) (h : p + q = n) :
+    D.dual.dgMap n (X := op Z) (Y := op X) (TauCeti.dgComp (C := A) R f g h) =
+      (p * q).negOnePow • TauCeti.dgComp R
+        (D.dual.dgMap q (X := op Z) (Y := op Y) g)
+        (D.dual.dgMap p (X := op Y) (Y := op X) f) (by omega : q + p = n) := by sorry
+
+/-- DG duality commutes with the differential on the native Hom complexes. -/
+theorem map_differential (D : DGDuality R A A₀) {X Y : A} (n : ℤ)
+    (f : TauCeti.DGHom R n X Y) :
+    D.dual.dgMap (n + 1) (X := op Y) (Y := op X) (TauCeti.dgDifferential (C := A) R n f) =
+      TauCeti.dgDifferential R n (D.dual.dgMap n (X := op Y) (Y := op X) f) := by sorry
+
+end DGDuality
+
+-- The signed opposite and native composition share the same homogeneous Hom modules.
+example {X Y Z : A} (f : TauCeti.DGHom R 1 Y X) (g : TauCeti.DGHom R 1 Z Y) :
+    TauCeti.dgComp (R := R) (C := Aᵒᵖ) f g (by omega : (1 : ℤ) + 1 = 2) =
+      -TauCeti.dgComp R g f (by omega : (1 : ℤ) + 1 = 2) := by sorry
+
+end NativeDGDuality
 
 section DGDualitySigns
 
