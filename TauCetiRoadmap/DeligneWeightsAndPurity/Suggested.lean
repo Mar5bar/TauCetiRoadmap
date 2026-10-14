@@ -448,8 +448,25 @@ def WeilGroup.baseExtension (d : G →* A) (geo : Multiplicative ℤ →* A) (a 
 example : Function.Bijective (WeilGroup.degree (MonoidHom.id (Multiplicative ℤ))
     (MonoidHom.id (Multiplicative ℤ))) := by sorry
 
-/-- Test `weilGroup_degree_sign`: Weil I uses the negative of geometric degree. -/
-example (e : ℤ) : Multiplicative.toAdd ((Multiplicative.ofAdd e)⁻¹) = -e := by sorry
+/-- A pullback element has its geometric degree and the opposite arithmetic
+coordinate under the specified constant-field maps (README 5.1).
+The integer inversion step is `Multiplicative.toAdd_inv`. -/
+theorem WeilGroup.arithmeticCoordinate (d : G →* A)
+    (geo arith : Multiplicative ℤ →* A) (harith : Function.Injective arith)
+    (hquot : ∀ z, geo z = arith z⁻¹) (g : G) (e a : ℤ)
+    (hg : d g = geo (Multiplicative.ofAdd e))
+    (ha : d g = arith (Multiplicative.ofAdd a)) :
+    Multiplicative.toAdd (WeilGroup.degree d geo
+      ⟨(g, Multiplicative.ofAdd e), hg⟩) = e ∧ a = -e := by sorry
+
+/-- Test `weilGroup_degree_sign`: geometric Frobenius of degree one has
+arithmetic coordinate minus one in the actual pullback group. -/
+example (d : G →* A) (geo arith : Multiplicative ℤ →* A)
+    (harith : Function.Injective arith) (hquot : ∀ z, geo z = arith z⁻¹)
+    (g : G) (a : ℤ) (hg : d g = geo (Multiplicative.ofAdd 1))
+    (ha : d g = arith (Multiplicative.ofAdd a)) :
+    Multiplicative.toAdd (WeilGroup.degree d geo
+      ⟨(g, Multiplicative.ofAdd 1), hg⟩) = 1 ∧ a = -1 := by sorry
 
 /-- Test `weilGroup_base_extension_two`: original degree is twice relative degree. -/
 example (d : G →* A) (geo : Multiplicative ℤ →* A)
