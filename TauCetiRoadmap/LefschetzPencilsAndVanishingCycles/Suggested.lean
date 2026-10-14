@@ -14,8 +14,8 @@ the roadmap.
 Nearby and vanishing cycles, Lefschetz pencils, perverse sheaves, semistable models and the other
 geometric objects of the roadmap have no carriers in the pinned Mathlib and Tau Ceti: they are
 targets of the README, with their intended signatures there, and do not appear here. The signatures below
-provide finite-field descent and projective trace algebra, alongside the linear and
-commutative algebra used by the geometric targets, in their corresponding README layers.
+provide the linear and commutative algebra used by the geometric targets, in their
+corresponding README layers.
 
 Design choices made explicit here:
 * over a field, an ordinary quadratic form is Mathlib's `QuadraticMap.Nondegenerate` on a nonzero
@@ -45,87 +45,6 @@ writes them relative to the suggested home `TauCeti.AlgebraicGeometry`.
 namespace TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
 universe u
-
-/-! ## Layer LPV.F: Finite-field descent and projective trace algebra -/
-
-namespace VanishingCycles
-
-/-- Arithmetic Frobenius on an algebraic extension of a finite field, acting on coordinates
-by the cardinality power. README F.10, `frobeniusFixedPoints`. -/
-noncomputable def arithmeticFrobenius (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
-  FiniteField.frobeniusAlgEquivOfAlgebraic k L
-
-/-- Geometric Frobenius is the inverse field automorphism. README F.10. -/
-noncomputable def geometricFrobenius (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
-  (arithmeticFrobenius k L).symm
-
-/-- Every Frobenius power acts by the corresponding cardinality power. README F.10. -/
-theorem arithmeticFrobenius_pow_apply (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] (r : ℕ) (x : L) :
-    (arithmeticFrobenius k L ^ r) x = x ^ (Fintype.card k ^ r) := by
-  sorry
-
-/-- Over an algebraic closure the fixed field of the r-th Frobenius has q^r elements.
-README F.10, `frobeniusFixedPoints`; positivity excludes the infinite zeroth fixed field. -/
-theorem frobeniusFixedField_card (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
-    (r : ℕ) (hr : 0 < r) :
-    Nat.card {x : L // (arithmeticFrobenius k L ^ r) x = x} = Fintype.card k ^ r := by
-  sorry
-
-open CategoryTheory AlgebraicGeometry
-
-/-- The cardinality of L-valued points over the given structure morphism, total even before
-point finiteness is proved. README F.10. -/
-noncomputable def numberOfRationalPoints (k L : Type u) [Field k] [Field L] [Algebra k L]
-    (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k)) : ℕ :=
-  Nat.card {x : Spec (CommRingCat.of L) ⟶ X //
-    x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))}
-
-/-- Rational points over the fixed subfield are exactly fixed geometric points, without a
-finite-type hypothesis on the scheme. README F.10. -/
-theorem frobeniusFixedPoints (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
-    (r : ℕ) (hr : 0 < r) (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k)) :
-    let k_r := (arithmeticFrobenius k L ^ r).toAlgHom.equalizer (AlgHom.id k L)
-    Nonempty ({x : Spec (CommRingCat.of k_r) ⟶ X //
-      x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k k_r))} ≃
-      {x : Spec (CommRingCat.of L) ⟶ X //
-        x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
-        Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x}) := by
-  sorry
-
-end VanishingCycles
-
-namespace PerfectComplex
-
-/-- The commutative projective-module trace computed through an explicit finite-free retract.
-README F.10, projective trace algebra. -/
-noncomputable def projectiveTraceOfRetract {R P : Type*} [CommRing R] [AddCommGroup P]
-    [Module R P] {ι : Type*} [Fintype ι]
-    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P) (u : Module.End R P) : R :=
-  LinearMap.trace R (ι → R) (i ∘ₗ u ∘ₗ r)
-
-/-- Two finite-free split retracts compute the same trace of a projective-module endomorphism.
-README F.10, projective trace algebra. -/
-theorem projectiveTrace_independent {R P : Type*} [CommRing R] [AddCommGroup P]
-    [Module R P] {ι κ : Type*} [Fintype ι] [Fintype κ]
-    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
-    (j : P →ₗ[R] (κ → R)) (s : (κ → R) →ₗ[R] P)
-    (hi : r ∘ₗ i = LinearMap.id) (hj : s ∘ₗ j = LinearMap.id) (u : Module.End R P) :
-    projectiveTraceOfRetract i r u = projectiveTraceOfRetract j s u := by
-  sorry
-
-end PerfectComplex
-
-/-! ## Layer LPV.0: Nearby and vanishing cycles over a henselian trait
-
-The trait diagram of the README is built on Tau Ceti's generic and special fibres. -/
-
-#check TauCeti.genericFiber
-#check TauCeti.specialFiber
 
 /-! ## Layer LPV.1: Inertia, variation and the monodromy operator -/
 
@@ -754,19 +673,11 @@ end InvariantCycles
 /-!
 ## Targets stated in the README only
 
-F.4's `rationalAdicRealization` uses locally free rational pro-étale sheaves, with a separate
-subcategory admitting a global lisse integral lattice. The general constructible comparison
-uses constructible integral models; all lisse rational objects admit a global lisse lattice
-on the geometrically unibranch domain. F.10's `freeTorsorEquivariantPerfectness` provides
-total-complex perfectness over the actual group ring for finite étale torsors on smooth
-affine curves, and `freeTorsorCoefficientDescent` identifies cohomology of the descended
-coefficients with derived diagonal coinvariants, using inverse deck action for right modules.
-These statements use the shared sheaf and enhancement carriers specified in the README.
-
-The prerequisite targets of Layer LPV.F and the remaining targets of the README have no carriers in the pinned Mathlib and Tau Ceti and are
-stated there only, with their intended signatures: the henselian trait diagram, the tame character
-of a henselian trait and absolute purity (0.1, 0.10); the topos `X_s ×_s S`, `Ψ`, `RΨ`, `RΦ`, the
-variation and their functoriality (0.2–0.9); Grothendieck's monodromy theorems, the twisted
+The remaining targets of the README have no carriers in the pinned Mathlib and Tau Ceti and are
+stated there only, with their intended signatures: curve and finite-field trace formulas (F.10);
+local-field specialization of the tame character
+and absolute purity (0.1, 0.10); the topos `X_s ×_s S`, `Ψ`, `RΨ`, `RΦ`, variation and their
+functoriality (0.2–0.8), and the nearby–Betti adapter (0.8a); Grothendieck's monodromy theorems, the twisted
 operator `N`, the monodromy filtration in an abelian category and its primitive decomposition, the
 relative filtration, `can` and `var`, the filtered derived category and the two-component
 semistable complex, and the semisimple trace (1.1–1.10); quadrics, their cohomology, ordinary
@@ -783,29 +694,15 @@ above. The Tate-line defects in the totally isotropic branch of 5.5 assume `E �
 for `E = 0`, its quotient `F` and its defect vanish, while the degree-`n + 1` skyscrapers remain.
 The README names of their API and checks, by namespace:
 
-* `VanishingCycles`: `constructibleEtale`, `fieldSheavesEquiv`, `lisseMonodromyEquiv`,
-  `finiteEtaleGaloisCategory`, `etaleTateTwists`, `universalHomeomorphismEtaleEquivalence`,
-  `constructibleDerivedCategory`, `finiteCoefficientCohomology`, `filteredColimit_cohomology`,
-  `etaleBaseChange`, `properBaseChange`, `smoothBaseChange`, `localAcyclicity`,
-  `etaleCompactSupports`, `compactSupportCohomology`, `etaleKunneth`, `etaleKunnethCompactSupport`,
-  `etaleCohomologicalDimension`, `affineArtinVanishing`, `etaleFiniteness`,
-  `lisseDirectImageTransport`, `compactSupportFiniteness`, `genericLocalAcyclicity`,
-  `adicRealization`, `normalizedAdicSystems`, `classicalAdicRealization`,
-  `etaleProetaleAdicComparison`, `adicFiniteness`, `rationalAdicRealization`, `adicFunctoriality`,
-  `etaleExceptionalInverseImage`, `etaleVerdierDuality`, `smoothPurity`, `smoothPairGysin`,
-  `etaleBlowup`, `etaleWeakLefschetz`, `fieldPerverseTStructure`,
-  `intermediateExtension`, `etaleGaussBonnet`, `nearbyBettiCompatibility`,
-  `frobeniusCohomology`, `curveEndomorphismTrace`, `freeTorsorEquivariantPerfectness`,
-  `freeTorsorCoefficientDescent`, `etaleTraceFormulaFinite`,
-  `etaleTraceFormula`, `pointCountTrace`,
+* `VanishingCycles`: `curveEndomorphismTrace`, `etaleTraceFormulaFinite`,
+  `etaleTraceFormula`, `pointCountTrace`, `nearbyBettiCompatibility`,
   `PointwisePure`, `purity_pointwiseReduction`, `veryTameQuotient`, `galoisSemistableAlteration`,
   `equivariantLogResolution`, `geometricMonodromy_traitDescent`, `purityOfBranchLocus`,
   `regularLogResolution`, `logSmooth_pointwisePure`,
   `pointwisePure_descent`, `RPhi_eq_zero_iff_locallyAcyclic`, `RPhi_node`, `RPhi_smooth`, `RPsi_stalk`,
   `RPsi_trait`, `equivSheavesOnTrait_constant`, `equivSheavesOnTrait_degenerate`,
   `equivSheavesOnTrait_jPushforward`, `filtrationFrobenius_mk`, `filtrationRepresentation_mk`,
-  `gradedN_mk`, `inertia_eq_top_of_strictlyHenselian`, `inertia_eq_valuation_inertia`,
-  `inertia_puiseux`, `maximalLog_iff`, `maximal_one_dimension`, `monodromyFiltration_conj`,
+  `gradedN_mk`, `maximalLog_iff`, `maximal_one_dimension`, `monodromyFiltration_conj`,
   `monodromyFiltration_eq_vectorSpace`, `monodromyFiltration_lowering`, `monodromyFiltration_mono`,
   `monodromyFiltration_not_kernel_filtration`, `monodromyFiltration_scalar`,
   `monodromyFiltration_three_block`, `monodromyFiltration_two_block`, `monodromyFiltration_zero`,
@@ -817,17 +714,13 @@ The README names of their API and checks, by namespace:
   `semisimpleTrace_frobeniusLift`, `semisimpleTrace_quadratic`, `semisimpleTrace_refinement`,
   `semisimpleTrace_shift`, `semisimpleTrace_shortExact`, `semisimpleTrace_trivial`,
   `semisimpleTrace_unipotent_block`, `specialization_direction`, `standard_double_point`,
-  `standard_node`, `standard_trivial_family`, `tameCharacter_conj`,
-  `tameCharacter_eq_inertiaTameCharacter`, `tameCharacter_kummer`, `tameCharacter_restrict`,
-  `tameCharacter_surjective`, `twoComponentNearbyComplex_grades`,
+  `standard_node`, `standard_trivial_family`,
+  `tameCharacter_eq_inertiaTameCharacter`, `twoComponentNearbyComplex_grades`,
   `twoComponentNearbyComplex_monodromy`, `twoComponentNearbyComplex_resolves`,
   `twoComponent_N_square`, `twoComponent_disjoint`, `twoComponent_node`,
   `twoComponent_not_sheaf_split`, `variation_left`, `variation_mul`, `variation_ne_sub_one`,
   `variation_of_phi_zero`, `variation_one`, `variation_picardLefschetz`, `variation_right`,
-  `variation_unique`, `variation_wellDefined`, `localVariation_coefficientReduction`,
-  `wild_inertia_ne_bot`.
-* `PerfectComplex`: `lefschetzNumber`, `filteredTraceAdditivity` (enhanced perfect-complex
-  traces; the finite-projective retract algebra is prototyped above).
+  `variation_unique`, `variation_wellDefined`, `localVariation_coefficientReduction`.
 * `Quadric`: `canonical_iso`, `center_even_char_two`, `center_even_discriminant`,
   `center_even_hyperbolic`, `cusp_not_ordinary`, `doublePoint_char_two`, `isNondegenerate_iff`,
   `isOrdinaryQuadraticPoint_baseChange`, `isOrdinary_iff_nondegenerate_test`,
