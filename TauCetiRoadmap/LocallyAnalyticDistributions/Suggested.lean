@@ -29,7 +29,7 @@ universal-character action and its `familySpecialization_radius` projective-limi
 characteristic products of complexes, slope decompositions,
 finite-slope windows and the torus slope adapters.
 
-The targets supplied by PadicFunctionalAnalysis and CompactOperators are cited in the README.
+The targets supplied by PadicFunctionalAnalysis, CompactOperators and RestrictedPowerSeries are cited in the README.
 These definitions are signature stand-ins for the named supplier APIs. Implementations import
 those APIs and retain one owner for each object.
 -/
@@ -68,7 +68,7 @@ section Coefficients
 variable {E : Type*} [TopologicalSpace E] [Zero E]
 variable {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
 
-/-- Signature stand-in for PadicFunctionalAnalysis §2.1.2: the coordinate vector `single i a`,
+/-- Signature stand-in for PadicFunctionalAnalysis §2.1: the coordinate vector `single i a`,
 the finitely supported element of Mathlib's `C₀(I, E)` with value `a` at `i` and zero elsewhere; `c0Single i 1` is the basis vector
 `e_i` and supplies the chart monomials of the analytic stages. -/
 def c0Single (i : I) (a : E) : C₀(I, E) where
@@ -626,17 +626,15 @@ section CompleteContinuity
 variable {A M N : Type*} [NormedCommRing A]
   [NormedAddCommGroup M] [Module A M] [NormedAddCommGroup N] [Module A N]
 
-/-- Signature stand-in for CompactOperators §0.1.2: approximation in operator norm by continuous
-`A`-linear maps whose range is a finitely generated `A`-submodule. Its approximants there have range in a finitely generated
-submodule (`IsFiniteRank`), the same predicate over Noetherian `A` by `isFiniteRank_iff_range_fg`;
-its identity criterion `isCompletelyContinuous_id_iff` and the row-decay comparison
-`isCompletelyContinuous_iff_isCompactoid` are stated on it, and on affinoid algebras it agrees with
-AdicSpacesPartIII's predicate of §R3.6 (README §4.1). -/
+/-- Signature stand-in for CompactOperators §0.1: approximation by continuous A-linear maps
+of finitely generated range. Over Noetherian A this is its finite-image approximation predicate
+by `isFiniteRank_iff_range_fg`. Its comparison with row compactness is supplied by §0.2;
+the affinoid lattice comparison is supplied by §0.1 and AdicSpacesPartIII §R3.6. -/
 def IsCompletelyContinuous (f : M →L[A] N) : Prop :=
   ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
     (LinearMap.range g.toLinearMap).FG ∧ ∀ x : M, ‖f x - g x‖ ≤ ε * ‖x‖
 
-/-- Signature stand-in for CompactOperators §0.1.1 (`IsFiniteRank`): the image lies in a finitely
+/-- Signature stand-in for CompactOperators §0.1 (`IsFiniteRank`): the image lies in a finitely
 generated `A`-submodule (finite `A`-image, not finite `K`-rank). -/
 def HasFiniteAImage (f : M →L[A] N) : Prop :=
   ∃ Q : Submodule A N, Q.FG ∧ LinearMap.range f.toLinearMap ≤ Q
@@ -665,7 +663,7 @@ theorem isCompletelyContinuous_iff_norm_approximation (f : M →L[A] N) :
     IsCompletelyContinuous f ↔ ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
       HasFiniteAImage g ∧ ‖(f - g).restrictScalars K‖ < ε := by sorry
 
-/-- Signature stand-in for PadicFunctionalAnalysis §2.2.3: property (Pr), `M` is a continuous
+/-- Signature stand-in for PadicFunctionalAnalysis §2.2: property (Pr), `M` is a continuous
 retract of some `C₀(I, A)`. -/
 def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     [NormedAddCommGroup M] [Module A M] : Prop :=
@@ -687,18 +685,15 @@ end Section41
 
 section Entire
 
-/-- Signature stand-in for CompactOperators §2.1.1 (`PowerSeries.IsEntire`): Mathlib's
-restrictedness at every positive radius.
-The supplier states it over a complete ultrametric ring with `‖1‖ = 1` and proves its division and
-root API on it (`IsEntire.exists_eq_mul_add`, `IsEntire.isEntire_divByMonic`,
-`IsEntire.exists_eq_mul_divByMonic_add`, `IsEntire.evalAt_eq_zero_iff`,
-`IsEntire.isUnit_of_evalAt_eq_zero`). -/
+/-- Signature stand-in for RestrictedPowerSeries §7.2: restrictedness at every positive radius.
+The analytic algebra and division use complete ultrametric coefficients; the predicate itself
+is defined for any normed coefficient ring. The supplier's normalized-root unit criterion
+is named `IsEntire.isUnit_of_evalAt_eq_zero`. -/
 def IsEntire (f : PowerSeries A) : Prop :=
   ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f
 
-/-- Signature stand-in for CompactOperators §2.1.2 (`PowerSeries.evalAt`, with the arguments
-swapped): evaluation of a power series at `a` as the total coefficient sum; it is a convergent evaluation only for entire
-series. -/
+/-- Signature stand-in for RestrictedPowerSeries §§2.1 and 7.2 (`evalAt`, with arguments
+swapped): the total coefficient sum at a scalar, a convergent evaluation for entire series. -/
 def entireEval (f : PowerSeries A) (a : A) : A := ∑' n : ℕ, f.coeff n * a ^ n
 
 omit [NormOneClass A] hNontrivialA hCompleteA hNoeth in
@@ -731,7 +726,8 @@ section LinearDivision
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A]
 
-/-- §4.3 (Tail quotient for division by a linear factor; Coleman Lemma A3.5, p. 434):
+/-- §4.3: the linear-tail realization over complete normed commutative rings, without
+ultrametricity, extending RestrictedPowerSeries §7.2:
 `q_n = Σ_k c_{n+1+k} a^k`. -/
 def entireLinearQuotient (a : A) (f : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk (fun n => ∑' k : ℕ, f.coeff (n + 1 + k) * a ^ k)
@@ -761,11 +757,6 @@ theorem entireLinearQuotient_C (a b : A) : entireLinearQuotient a (PowerSeries.C
 /-- §4.3: `Q_0(F)` is the shifted series, for every formal `F`. -/
 theorem entireLinearQuotient_at_zero (f : PowerSeries A) :
     entireLinearQuotient 0 f = PowerSeries.mk (fun n => f.coeff (n + 1)) := by sorry
-
-/-- §4.3 (Entireness of the linear quotient). -/
-theorem entireLinearQuotient_entire (hA : ∀ x y : A, ‖x + y‖ ≤ max ‖x‖ ‖y‖)
-    (a : A) (f : PowerSeries A) (hf : IsEntire f) : IsEntire (entireLinearQuotient a f) := by
-  sorry
 
 /-- §4.3 (An entire linear product cannot be a nonzero constant): the corrected form of Coleman
 Lemma A3.1, p. 432. -/
@@ -818,9 +809,8 @@ section MonicDivision
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A] [Nontrivial A]
 
-/-- Signature stand-in for CompactOperators §2.2.2 (**The explicit quotient by a monic polynomial**,
-`PowerSeries.divByMonic`):
-`s_n = Σ_k coeff_{n+d+k}(F)·b_k` with `Σ b_k T^k` the inverse of `Q.reverse`. -/
+/-- Signature stand-in for RestrictedPowerSeries §7.2, **Explicit monic division**:
+coefficient n is `Σ_k coeff_{n+d+k}(F) b_k`, with `Σ b_k T^k` the inverse of `Q.reverse`. -/
 def entireMonicQuotient (Q : Polynomial A) (F : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk fun n => ∑' k : ℕ, F.coeff (n + Q.natDegree + k) *
     (PowerSeries.invOfUnit (Q.reverse : PowerSeries A) 1).coeff k
@@ -887,20 +877,11 @@ section HasseFormal
 
 variable {B : Type*} [Semiring B]
 
-/-- Signature stand-in for CompactOperators §2.1.3 (**Hasse derivatives over any semiring**,
-`PowerSeries.semiringHasseDeriv`): coefficient `n` of `Δ_s f` is
-`binom(n + s, s)·coeff_{n+s} f`, with no inverse factorial. -/
+/-- Signature stand-in for RestrictedPowerSeries §2.3: the semiring Hasse derivative,
+whose coefficient n is `binom(n+s,s) • coeff_{n+s} f`. The ordered product rule and polynomial
+comparison are supplied there without inverse factorials. -/
 def hasseSeries (s : ℕ) (f : PowerSeries B) : PowerSeries B :=
   PowerSeries.mk fun n => (n + s).choose s • f.coeff (n + s)
-
-/-- §4.5 (Polynomial and series Hasse derivatives agree). -/
-theorem hasseSeries_polynomial (s : ℕ) (p : Polynomial B) :
-    hasseSeries s (p : PowerSeries B) = (Polynomial.hasseDeriv s p : PowerSeries B) := by sorry
-
-/-- §4.5 (Hasse product formula for power series), with `f` before `g` in every product. -/
-theorem hasseSeries_mul (s : ℕ) (f g : PowerSeries B) :
-    hasseSeries s (f * g) = ∑ ij ∈ Finset.HasAntidiagonal.antidiagonal s,
-      hasseSeries ij.1 f * hasseSeries ij.2 g := by sorry
 
 /-- Convention 13 check `hasse_characteristic_two`: the second Hasse derivative of `X²`
 is one in characteristic two, while its second ordinary derivative is zero. -/
@@ -910,7 +891,8 @@ example : hasseSeries 2 (PowerSeries.X ^ 2 : PowerSeries (ZMod 2)) = 1 ∧
 
 end HasseFormal
 
-/-- §4.5 (Hasse derivatives preserve entireness), over a possibly noncommutative normed ring. -/
+/-- §4.5: Hasse derivatives preserve every-radius restrictedness over any normed ring,
+including noncommutative coefficients, without completeness or ultrametricity. -/
 theorem hasseSeries_entire {B : Type*} [NormedRing B] (f : PowerSeries B)
     (hf : ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f) (s : ℕ) (R : ℝ) (hR : 0 < R) :
     PowerSeries.IsRestricted R (hasseSeries s f) := by sorry
@@ -932,7 +914,7 @@ theorem spectralReversal_monic [Nontrivial A] (P : A[X]) (n : ℕ)
     (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) :
     (P.reflect n).Monic ∧ (P.reflect n).natDegree = n := by sorry
 
-/-- Signature stand-in for CompactOperators §3.3.1 (**Coleman's transform at a prescribed rank**,
+/-- Signature stand-in for CompactOperators §3.3 (**Prescribed finite rank**,
 `colemanDBounded`):
 `D_{n,m}(B, P)` is the bounded resultant over `A[T]` of `Q_n = reflect_n P` and `1 − T·B(Y)`. -/
 def polynomialSpectralResultant (n m : ℕ) (B P : A[X]) : A[X] :=
@@ -953,17 +935,12 @@ theorem polynomialSpectralResultant_linear (m : ℕ) (B : A[X]) (a : A) (hm : B.
     polynomialSpectralResultant 1 m B (1 - Polynomial.C a * Polynomial.X) =
       1 - Polynomial.C (B.eval a) * Polynomial.X := by sorry
 
-/-- §4.9 (Multiplication of finite characteristic factors). -/
-theorem polynomialSpectralResultant_mul (n k m : ℕ) (B P Q : A[X])
-    (hP : P.coeff 0 = 1) (hQ : Q.coeff 0 = 1)
-    (hn : P.natDegree ≤ n) (hk : Q.natDegree ≤ k) (hm : B.natDegree ≤ m) :
-    polynomialSpectralResultant (n + k) m B (P * Q) =
-      polynomialSpectralResultant n m B P * polynomialSpectralResultant k m B Q := by sorry
-
-/-- §4.9 (Coefficient maps preserve the finite transform). -/
+/-- §4.9: fixed-bound coefficient maps over arbitrary commutative rings, without normalization,
+degree or boundedness hypotheses, extending CompactOperators §3.3's bounded-map interface. -/
 theorem polynomialSpectralResultant_map (f : A →+* S) (n m : ℕ) (B P : A[X]) :
     (polynomialSpectralResultant n m B P).map f =
       polynomialSpectralResultant n m (B.map f) (P.map f) := by sorry
+
 
 /-- §4.9 (Finite spectral transform as a native algebra norm). -/
 theorem polynomialSpectralResultant_norm (n m : ℕ) (B P : A[X])
