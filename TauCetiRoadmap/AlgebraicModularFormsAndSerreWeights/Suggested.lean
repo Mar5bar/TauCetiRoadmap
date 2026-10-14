@@ -62,6 +62,8 @@ theorem seriesHecke_map {B : Type*} [CommRing B] (u : A →+* B)
     PowerSeries.map u (seriesHecke l c d f) =
       seriesHecke l (u c) (u d) (PowerSeries.map u f) := by sorry
 
+example (l : ℕ) (c d : A) : seriesHecke l c d 0 = 0 := by sorry
+
 example (delta : PowerSeries ℤ) (h : PowerSeries.coeff 2 delta = -24) :
     PowerSeries.coeff 1 (seriesHecke 2 (2^11) 1 delta) = -24 := by sorry
 
@@ -87,6 +89,12 @@ example (T X : Scheme) (point : T ⟶ X) (w D : X ⟶ X)
 example {M : Type*} [AddCommGroup M] [Module ℚ M] [Nontrivial M]
     (W : Module.End ℚ M) (h : W*W = (4 : ℚ) • (1 : Module.End ℚ M)) :
     W*W ≠ 1 := by sorry
+
+/-- Inverse roots give opposite weight-one evaluations when the evaluation is nonzero. -/
+example {K M : Type*} [Field K] [AddCommGroup M] [Module K M]
+    (h2 : (2 : K) ≠ 0) (Wneg W : Module.End K M) (hsign : Wneg = -W)
+    (ell : Module.Dual K M) (f : M) (hne : ell (W f) ≠ 0) :
+    ell (Wneg f) ≠ ell (W f) := by sorry
 
 /-- Infinity and zero cusp types have different boundary eigenvalues. -/
 example : ((-1 + 3^2 : ℤ) : ZMod 5) = 3 ∧
@@ -124,6 +132,8 @@ example [IsDomain A] [CharP A 2] (a : A) (ha : a^2 ≠ a) :
     PowerSeries.expand 2 (by decide) (PowerSeries.C a * PowerSeries.X) ≠
       (PowerSeries.C a * PowerSeries.X)^2 := by sorry
 
+example (p : ℕ) (hp : 2 ≤ p) : qU p (PowerSeries.X : PowerSeries A) = 0 := by sorry
+
 example (p : ℕ) (hp : 0 < p) (a : A) :
     qU p (PowerSeries.C a) = PowerSeries.C a ∧
     PowerSeries.expand p (Nat.ne_of_gt hp) (PowerSeries.C a) = PowerSeries.C a := by sorry
@@ -138,6 +148,9 @@ example (p : ℕ) [Fact p.Prime] [CharP A p] (g : PowerSeries A) :
     seriesTheta (g^p) = 0 := by sorry
 
 example : seriesTheta (1 : PowerSeries A) = 0 := by sorry
+
+example : seriesTheta (PowerSeries.X^2 : PowerSeries ℤ) =
+    2 * PowerSeries.X^2 := by sorry
 
 /-- Formal coefficient identity underlying the weight-shifted Hecke relation. -/
 theorem seriesTheta_hecke (p l : ℕ) [Fact p.Prime] [CharP A p]
@@ -184,20 +197,22 @@ theorem thetaCyclesSmallCharacteristic :
 
 /-- Edixhoven Proposition 3.3: arithmetic table for p>3 on classified filtration data. -/
 def largeThetaCycle (p k : ℕ) (ordinary : Bool) : Option (List ℕ) :=
-  let progression := fun start count => (List.range count).map (fun j => start+j*(p+1))
-  if ordinary then
-    if k=1 ∨ k=p then some (progression (p+2) (p-1))
-    else if 2 ≤ k ∧ k ≤ p-1 then
-      some (progression (k+p+1) (p-k) ++ progression (2*p+2-k) (k-1))
-    else if k=p+1 then some (progression (2*p+2) (p-1))
-    else none
-  else
-    if k=1 then some (progression (p+2) (p-1))
-    else if k=2 then some (progression (p+3) (p-2) ++ [2])
-    else if 3 ≤ k ∧ k ≤ p-1 then
-      some (progression (k+p+1) (p-k) ++ progression (p+3-k) (k-2) ++ [k])
-    else if k=p then some (progression 3 (p-2) ++ [p])
-    else none
+  if p.Prime ∧ 3 < p then
+    let progression := fun start count => (List.range count).map (fun j => start+j*(p+1))
+    if ordinary then
+      if k=1 ∨ k=p then some (progression (p+2) (p-1))
+      else if 2 ≤ k ∧ k ≤ p-1 then
+        some (progression (k+p+1) (p-k) ++ progression (2*p+2-k) (k-1))
+      else if k=p+1 then some (progression (2*p+2) (p-1))
+      else none
+    else
+      if k=1 then some (progression (p+2) (p-1))
+      else if k=2 then some (progression (p+3) (p-2) ++ [2])
+      else if 3 ≤ k ∧ k ≤ p-1 then
+        some (progression (k+p+1) (p-k) ++ progression (p+3-k) (k-2) ++ [k])
+      else if k=p then some (progression 3 (p-2) ++ [p])
+      else none
+  else none
 
 /-- Every admissible large-prime arithmetic row has p−1 entries. -/
 theorem thetaCycles (p k : ℕ) [Fact p.Prime] (hp : 3 < p)
@@ -205,6 +220,15 @@ theorem thetaCycles (p k : ℕ) [Fact p.Prime] (hp : 3 < p)
     (hadmissible : ordinary = false → k ≠ p+1) :
     ∃ cycle : List ℕ, largeThetaCycle p k ordinary = some cycle ∧
       cycle.length = p-1 := by sorry
+
+example : smallThetaCycle 3 1 false = some [5,9] ∧
+    smallThetaCycle 3 1 true = some [5,9] := by sorry
+
+example : largeThetaCycle 2 1 true = none := by sorry
+
+example : largeThetaCycle 0 1 true = none := by sorry
+
+example (p : ℕ) (hp : 3 < p) : largeThetaCycle p (p+1) false = none := by sorry
 
 -- The arithmetic table distinguishes the ordinary final drop.
 example : largeThetaCycle 5 2 false = some [8, 14, 20, 2] := by sorry
@@ -216,6 +240,8 @@ def ordinaryWeightDivisor (p m : ℕ) : ℕ :=
   if p = 2 then 2^(if m=1 then 0 else if m=2 then 1 else m-2)
   else (p-1)*p^(m-1)
 
+
+example : ordinaryWeightDivisor 2 1 = 1 := by sorry
 
 example : ordinaryWeightDivisor 2 2 = 2 ∧ ordinaryWeightDivisor 2 3 = 2 ∧
     ordinaryWeightDivisor 2 4 = 4 := by sorry
@@ -241,7 +267,7 @@ def tameExponents : LocalData → Option (ℕ × ℕ)
   | .niveauOne a b | .niveauTwo a b => some (a,b)
   | .wild _ _ _ => none
 
-/-- Keeps the order: alpha is the quotient exponent, beta the stable-line exponent. -/
+/-- Projects the ordered quotient/stable-line exponents; LocalData retains the peu/très branch. -/
 def wildExponents : LocalData → Option (ℕ × ℕ)
   | .wild a b _ => some (a,b)
   | _ => none
@@ -287,6 +313,9 @@ example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) :
     serreWeight p (.wild 0 1 false) = p+1 := by sorry
 
 example : serreWeight 5 (.wild 1 3 true) = 9 := by sorry
+
+example : wildExponents (.wild 0 1 true) = wildExponents (.wild 0 1 false) ∧
+    serreWeight 2 (.wild 0 1 true) ≠ serreWeight 2 (.wild 0 1 false) := by sorry
 
 example : serreWeight 2 (.wild 0 1 true) = 2 ∧
     serreWeight 2 (.wild 0 1 false) = 4 := by sorry
@@ -346,6 +375,13 @@ theorem edixhovenExceptionalValues :
     serreWeight 2 (.wild 0 1 false) = 4 := by sorry
 example : edixhovenWeight 5 (.niveauOne 0 0) = 1 ∧
     serreWeight 5 (.niveauOne 0 0) = 5 := by sorry
+
+example (p : ℕ) [Fact p.Prime] :
+    edixhovenWeight p (.niveauTwo 0 1) = 2 ∧
+    serreWeight p (.niveauTwo 0 1) = 2 := by sorry
+
+example : edixhovenWeight 2 (.wild 0 1 true) = 2 ∧
+    serreWeight 2 (.wild 0 1 true) = 2 := by sorry
 end TauCeti.SerreWeight
 
 /-! ## Layer R15.5: Deligne–Serre eigenvalue lifting -/
@@ -569,6 +605,11 @@ example {G K : Type*} [Group G] [Field K] [CharP K 2]
     (rho : G →* Matrix.GeneralLinearGroup (Fin 2) K)
     (c : G) (hc : c*c=1) : (rho c : Matrix (Fin 2) (Fin 2) K).det = -1 := by sorry
 
+/-- The Frobenius polynomial of 11a1 at two modulo three differs from the trivial one. -/
+example (F : Matrix (Fin 2) (Fin 2) (ZMod 3))
+    (htrace : Matrix.trace F = 1) (hdet : F.det = 2) :
+    F.charpoly ≠ (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly := by sorry
+
 /-- The determinant identity fixes the parity of the residual character. -/
 theorem determinantParity {k : Type*} [Field k] (weight : ℕ) (hw : 1 ≤ weight)
     (epsilon : k) (h : (-1 : k) = epsilon * (-1 : k)^(weight-1)) :
@@ -588,7 +629,8 @@ TauCeti.KatzModularForms:
   formsLevelOne_baseChange, formsLevelTwo, formsLevelTwo_baseChange, forms_add, forms_ext,
   forms_negative, forms_odd_low_level, forms_weight_zero, heckeT, heckeT_delta, heckeT_integral,
   heckeT_level_divisible, heckeT_other_normalisation, heckeT_qExpansion, levelOne_E4,
-  levelOne_baseChange_fails_at_2_3, levelOne_via_rigid
+  levelOne_baseChange_fails_at_2_3, levelOne_via_rigid, levelTwo_weight_two,
+  levelTwo_cusp_dimensions, levelTwo_parity_baseChange
 
 TauCeti.GeometricHecke:
   curveFricke, curveFricke_double, curveFricke_not_involution, curveFricke_projection,
@@ -597,12 +639,12 @@ TauCeti.GeometricHecke:
   fricke_weight_one, fricke_weight_zero, heckeCohomology, heckeCohomology_boundary,
   heckeCohomology_coefficients, heckeCohomology_commute, heckeCohomology_sections,
   heckeCohomology_zero_coefficients, rootFricke, rootFricke_coefficients, rootFricke_dual,
-  rootFricke_dual_evaluation, rootFricke_torsion, rootFricke_weight_zero
+  rootFricke_dual_evaluation, rootFricke_inverse_root, rootFricke_torsion, rootFricke_weight_zero
 
 TauCeti.ModPModularForms:
   hasseInvariant, hasseInvariant_tate, hasseInvariant_weight, hasse_E4_mod5,
   hasse_no_level_one_lift_p2, hasse_weight_zero_filtration, qU_constant, qV_X,
-  qV_linear_not_power, supersingularForms, supersingularForms_empty, supersingularForms_eval,
+  qV_linear_not_power, supersingularForms, supersingularForms_p2_five, supersingularForms_eval,
   supersingularForms_ext, supersingularForms_mul, supersingularForms_negative,
   supersingularForms_weight_zero, supersingularRestriction, theta, theta_filtration,
   theta_hasse, theta_hecke, theta_kills_pth_powers, theta_qexp
@@ -623,5 +665,5 @@ TauCeti.ResidualModularity:
   modpCuspForms_baseChange, modpCuspForms_mem, modpCuspForms_zero, not_isSType_11a1_five,
   reduced_delta, target_dyadic, target_unramified, target_weight_two,
   witness_lattice_independent, witness_place_sensitive, witness_scalar_extension,
-  witness_zero_representation
+  witness_11a1_trivial
 -/
