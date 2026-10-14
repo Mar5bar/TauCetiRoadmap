@@ -36,12 +36,12 @@ the underlying vector space. These can differ.
 | [CStarAlgebras C1–C5](../CStarAlgebras/README.md) | Positive functionals/GNS through V0, matrix norms, minimal tensors, star-map extension, slice maps and CP positivity. Q5 owns the bounded universal presentations used here. |
 | [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) | State-space weak-* compactness, Hilbert GNS representations, operator closures and preduals; V10–V11 for the Haar modular comparison. |
 | [HilbertModules H1–H3](../HilbertModules/README.md) | Free modules H⊗A, adjointable/compact operators, multiplier realization and interior tensor identifications. |
-| [CategoricalOperatorAlgebras CA1a,CA2](../CategoricalOperatorAlgebras/README.md) | Finite Hilbert dagger category, unitary rigid tensor categories, chosen conjugates, standard solutions and intrinsic dimension. Reconstruction here supplies the quantum-group realization. |
+| [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md) | Finite Hilbert dagger category, unitary rigid tensor categories, chosen conjugates, standard solutions and intrinsic dimension. Reconstruction here supplies the quantum-group realization. |
 | [TemperleyLiebOperatorAlgebras A2–A4](../TemperleyLiebOperatorAlgebras/README.md) | Hermitian TL forms and positive C*-quotients, native diagram trace comparison. TemperleyLieb Layers 0–7 ([PR #58](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58)) supplies the algebraic diagram/Jones–Wenzl targets for Q7. |
 | [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) | Classical Peter–Weyl, compact Haar integration and the SU(2) representation calculation used for comparisons. |
-| [OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md) | Full/reduced discrete-group C*-algebras and their canonical quotient/expectation. |
+| [OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md) | Full/reduced discrete-group C*-algebras, canonical quotient/expectation and the invariant-mean/Reiter P₁/P₂ comparison. |
 | [FreeProbability F1,F3,F6](../FreeProbability/README.md) | Scalar moments, the free-group adjacency norm/full–reduced counterexample and the standard semicircular law; Q7 supplies the quantum-group character realization. |
-| [AmenableGroups, Layers 1,7 (PR #821)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/821) | Invariant means, Følner/Reiter criteria and group amenability; Q4 constructs the reduced-counit comparison. Adopt its interfaces and build missing prerequisites without waiting for a merge. |
+| [AmenableGroups, Layers 1,7 (PR #821)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/821) | Invariant means, Følner criteria and group amenability; Q4 constructs the reduced-counit comparison using D2's Reiter bridge. Adopt its interfaces and build missing prerequisites without waiting for a merge. |
 
 Use native `Coalgebra`, `Bialgebra`, `HopfAlgebra`, `Coalgebra.counit` and
 `HopfAlgebra.antipode`. Tau Ceti's `Algebra.Coalgebra.Comodule` already provides
@@ -305,7 +305,8 @@ takes this sum to four, so it cannot extend to the reduced algebra.
 Deduce nonamenability, noninjectivity of the full-to-reduced quotient
 and the nonfaithful full Haar state. Build the reduced-counit/amenability
 comparison via positive regular coefficients, almost invariant ℓ²
-vectors and the invariant-mean/Følner interfaces of AmenableGroups. Do not confuse this compact-side
+vectors, D2's Reiter P₂ equivalence and the invariant-mean/Følner
+interfaces of AmenableGroups. Do not confuse this compact-side
 terminology with Haar traciality or with amenability of a compact group.
 For classical compact groups identify Pol(G), A_r=C(G), and the
 ordinary reduced counit and inversion using Haar's full support. Q6
@@ -434,6 +435,9 @@ Prove SUq(2) coamenable throughout `0<|q|≤1`. In the interior
 use the weighted shift model on ℓ²(ℕ×ℤ), identify its kernel with
 the Haar null ideal, and construct a state taking a to one through
 the unilateral shift's Calkin spectrum and Q4's character criterion.
+Use C4's multiplicative-domain theorem and the generator relations to
+prove this state is a character: its value a=1 forces both a-defects
+and c*c=cc* to have value zero, so a,c lie in its multiplicative domain.
 At q=1 use the classical comparison; at q=−1 identify the above
 faithful-Haar matrix-function model with the reduced completion and
 take its character at t=0, z=1 on the σ₃ eigenvalue-one component.
