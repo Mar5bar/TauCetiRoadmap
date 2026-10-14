@@ -308,14 +308,13 @@ conull sets, the symmetric measure `ν₀=D^(-1/2)ν`, and change of density und
 equivalent base measures. Use Mathlib measures, measurable maps, integrals
 and almost-everywhere equality rather than an independent measure language.
 
-Construct measurable fields of separable Hilbert spaces from countable
-fundamental sections, their measurable and square-integrable sections,
-quotient by almost-everywhere equality, completeness, measurable operator
-fields and their direct-integral operators. Prove the diagonal spectral
-representation of a nondegenerate `C₀(G⁰)` representation on a separable
-Hilbert space, including measurable multiplicity and the multiplication
-action. These are targets here; continuous Hilbert fields in H5 alone do
-not supply measurable disintegration.
+Consume [VonNeumannAlgebras V4](../VonNeumannAlgebras/README.md)'s
+measurable Hilbert fields, square-integrable sections, decomposable
+operators and diagonal C₀ spectral representation. Identify the unit-space
+measure/multiplicity obtained here with that shared direct-integral
+construction, and prove the almost-everywhere transport for equivalent
+base measures. The groupoid action and its disintegration below are
+targets here; continuous Hilbert fields in H5 alone do not supply them.
 
 A measurable unitary representation consists of such a field and measurable
 unitaries `U_γ:H_s(γ)→H_r(γ)` satisfying the groupoid laws on a saturated
