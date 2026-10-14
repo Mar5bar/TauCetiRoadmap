@@ -44,7 +44,6 @@ namespace TauCetiRoadmap.AdelicAlgebraicGroups
 
 open TauCetiRoadmap.ReductiveGroupsPartII
 
-set_option autoImplicit false
 
 noncomputable section
 
