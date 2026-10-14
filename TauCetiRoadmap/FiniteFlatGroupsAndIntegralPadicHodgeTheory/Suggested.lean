@@ -535,6 +535,86 @@ theorem muPInfty_length_quotient_imageF :
 theorem qpZp_length_quotient_imageF :
     Module.length (WittVector p k) ((qpZp p k).M ⧸ imageF p k (qpZp p k)) = 0 := sorry
 
+section LieScalars
+
+variable {p k}
+
+/-- The ordinary Witt dual with Frobenius transposed from Verschiebung and conversely. -/
+def dual (M : DieudonneModule p k) : DieudonneModule p k where
+  M := Module.Dual (WittVector p k) M.M
+  F := {
+    toFun := fun f => {
+      toFun := fun x => WittVector.frobenius (f (M.V x))
+      map_add' := sorry
+      map_smul' := sorry }
+    map_zero' := sorry
+    map_add' := sorry }
+  V := {
+    toFun := fun f => {
+      toFun := fun x => (WittVector.frobeniusEquiv p k).symm (f (M.F x))
+      map_add' := sorry
+      map_smul' := sorry }
+    map_zero' := sorry
+    map_add' := sorry }
+  F_smul := sorry
+  V_smul := sorry
+  F_V := sorry
+  V_F := sorry
+
+/-- The Verschiebung image is a Witt submodule over a perfect field. -/
+def imageV (M : DieudonneModule p k) : Submodule (WittVector p k) M.M :=
+  Submodule.span (WittVector p k) (Set.range M.V)
+
+local instance : Module (WittVector p k) k :=
+  Module.compHom k (WittVector.constantCoeff : WittVector p k →+* k)
+
+/-- Residue-valued Witt-linear functionals vanishing on `FM`, the ordinary dual of `M/FM`. -/
+def frobeniusCokernelDual (M : DieudonneModule p k) :
+    Submodule (WittVector p k) (M.M →ₗ[WittVector p k] k) where
+  carrier := {f | ∀ x, f (M.F x) = 0}
+  zero_mem' := by simp
+  add_mem' := by intro f g hf hg x; simp [hf x, hg x]
+  smul_mem' := by intro c f hf x; simp [hf x]
+
+/-- The additive comparison from the covariant Hodge quotient to the ordinary Frobenius-cokernel
+ dual; its scalar transport is Witt Frobenius. -/
+def lieScalarComparison (M : DieudonneModule p k)
+    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M] :
+    (dual M).M ⧸ imageV (dual M) ≃+ frobeniusCokernelDual M := sorry
+
+/-- The scalar comparison evaluates a dual class on Verschiebung and then applies Frobenius. -/
+theorem lieScalarComparison_apply (M : DieudonneModule p k)
+    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M]
+    (f : Module.Dual (WittVector p k) M.M) (x : M.M) :
+    (lieScalarComparison M ((imageV (dual M)).mkQ f)).val x =
+      WittVector.constantCoeff (WittVector.frobenius (f (M.V x))) := sorry
+
+/-- The comparison is Frobenius-semilinear, giving `σ_k^*(M^t/V^tM^t) ≅ Hom_k(M/FM,k)`. -/
+theorem lieScalarComparison_smul (M : DieudonneModule p k)
+    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M]
+    (c : WittVector p k) (q : (dual M).M ⧸ imageV (dual M)) :
+    lieScalarComparison M (c • q) = WittVector.frobenius c • lieScalarComparison M q := sorry
+
+/-- Precomposition with a Dieudonné morphism commutes with the semilinear comparison. -/
+theorem lieScalarComparison_naturality (M N : DieudonneModule p k)
+    [Module.Free (WittVector p k) M.M] [Module.Finite (WittVector p k) M.M]
+    [Module.Free (WittVector p k) N.M] [Module.Finite (WittVector p k) N.M]
+    (T : M ⟶ N) (f : Module.Dual (WittVector p k) N.M) (x : M.M) :
+    (lieScalarComparison M ((imageV (dual M)).mkQ (f.comp T.toLinearMap))).val x =
+      (lieScalarComparison N ((imageV (dual N)).mkQ f)).val (T.toLinearMap x) := sorry
+
+/-- The two one-dimensional automorphism actions of the rank-two supersingular model admit no
+ordinary linear intertwiner when `a` is not fixed by Frobenius. -/
+theorem lieScalarComparison_Fp2 (a : GaloisField p 2) (ha : a ^ p ≠ a) :
+    ¬ ∃ e : GaloisField p 2 ≃ₗ[GaloisField p 2] GaloisField p 2,
+      ∀ x, e (a * x) = a ^ p * e x := sorry
+
+/-- In the quadratic field of characteristic three, a root of `X² + 1` has Frobenius `-a ≠ a`. -/
+theorem lieScalarComparison_F9 (a : GaloisField 3 2) (ha : a ^ 2 = -1) :
+    a ^ 3 = -a ∧ a ^ 3 ≠ a := sorry
+
+end LieScalars
+
 end DieudonneModule
 
 /-- The Frobenius twist `G^{(p)} = G ×_{k, Frob} k`: the group base-change adapter of R07.1.1,
@@ -1034,10 +1114,13 @@ further instances of the statements above.
   `dieudonneModule_trivial`, `dieudonneModule_not_covariant` and `dieudonneModule_cyclic`; the
   checks `dieudonneEquivalenceFinite_length`, `dieudonneEquivalenceFinite_simple` and
   `dieudonneEquivalenceFinite_etale` on that functor (`dieudonneEquivalenceFinite` above states its
-  existence); `dieudonneGaloisDescent`; `dieudonneTangentSpace`; `dieudonnePDivisible`;
-  `dieudonneLieAlgebra`; `standardDieudonneModules` in rank two; `alphaPFiltration`;
+  existence); `dieudonneGaloisDescent`; `dieudonneTangentSpace` (the natural comparison
+  `σ_k^*T_{G,0} ≅ Hom_k(M/FM,k)`); `dieudonnePDivisible` (with crystalline evaluation and
+  ordinary Cartier pairing); `dieudonneLieAlgebra` (the same scalar transport for `Lie(G)`); `standardDieudonneModules` in rank two; `alphaPFiltration`;
   `ellipticDieudonne`; `dieudonneManinClassification` (integral slope consequences and endomorphism algebras); `standardDieudonne`,
-  `slopeSequence`, `aNumber`; `isogenyClassification`; `covariantModule`; `hasseWitt`,
+  `slopeSequence`, `aNumber`; `isogenyClassification`; `covariantModule` with `covariantModule_lie` (the ordinary
+  k-linear Hodge quotient and the semilinear comparison prototyped by `lieScalarComparison`);
+  `hasseWitt`,
   `hasseInvariant`, `farguesLF`; `bt1HasseWittDuality`; `btStackSmooth`; `farguesLF_quasiPolarisation`;
   `henselianLiftingPDivisible`; `BarsottiTate.tateSheaf`, `BarsottiTate.universalCover`;
   `universalCoverRigidity`; `deJongDieudonneEquivalence`; `swDieudonneSemiperfect`;

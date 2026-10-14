@@ -92,6 +92,11 @@ group structure, étale cohomology and Galois actions. SchemeAndStackFoundations
 universal-homeomorphism criteria (§0.23) and perfection
 (§§0.24–0.26); LefschetzPencilsAndVanishingCycles §F.10 owns the Galois and cohomological
 Frobenius conventions and their bridge to scheme pullback.
+[CohomologicalPointCounting/FrobeniusGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/pull/196)
+uses this same supplier contract: its Layers 0–3 import §R07.1.0, with adapters preserving
+its scheme carriers, projections, naturality and base-change maps; its Layer 7 imports the
+convention bridge of LefschetzPencilsAndVanishingCycles §F.10. Its finite-field descent and
+point-counting applications consume these shared maps and comparisons.
 
 **Imported from Tau Ceti and its roadmaps, never planned here.**
 
@@ -215,7 +220,10 @@ the Colmez–Fontaine theorem from here.
   M/FM`, and `M_{a,b} = W[F, V]/(F^a − V^b)` has slope `b/(a + b)`: étale groups have slope `0` and
   multiplicative groups slope `1`. The covariant module is `M_cov(G) = M(G^D) ≅ M(G)^t`, with
   `M_cov(μ_{p^∞}) = (W, σ)`. This agrees with the evaluation at `W(k)` of the contravariant crystal
-  of CrystallineCohomology §CR.7.2.
+  of CrystallineCohomology §CR.7.2. For σ_k(c) = c^p, write σ_k^*L = k ⊗_{k,σ_k} L,
+  so 1 ⊗ cℓ = c^p ⊗ ℓ. The tangent comparison is
+  σ_k^*Lie(G) ≅ Hom_k(M/FM,k), or Lie(G) ≅ (σ_k^{−1})^*Hom_k(M/FM,k);
+  §R07.2.20 gives its scalar map and the ordinary k-linear covariant quotient.
 - **Hodge–Tate weights.** The cyclotomic character has Hodge–Tate weight `+1`, so `V_p(μ_{p^∞}) =
   ℚ_p(1)` has weight `1` and the Tate module of a `p`-divisible group has weights in `{0, 1}`, with
   weight `1` of multiplicity `dim G`.
@@ -2596,19 +2604,28 @@ finite length.
 ### R07.2.9 The tangent space of a finite group scheme from its Dieudonné module
 
 Prove `dieudonneTangentSpace`. For a finite commutative group scheme G of p-power order over a
-perfect field k there is a natural isomorphism T_{G,0} ≅ (M(G)/FM(G))\*, the k-dual of the cokernel
-of F.
+perfect field k, with σ_k(c) = c^p, there is a natural k-linear isomorphism
+σ_k^*T_{G,0} ≅ Hom_k(M(G)/FM(G),k). Equivalently, the comparison from T_{G,0} to the ordinary
+k-dual is σ_k-semilinear. It commutes with group homomorphisms and perfect-field base change,
+using σ_K ∘ i = i ∘ σ_k for every perfect extension i : k → K.
 
-*Proof sketch.* Reduce to the three types. For G_rl both sides vanish: T_{G,0} = 0 and F is
-bijective. For G_lr and G_ll, T_{G,0} ≅ Hom(G\*, 𝔾_a) = Hom(G\*, W_1) (Pink Proposition 13.1), and
-W_1 = ker(V | W_n) gives Hom(G\*, W_1) = ker(V | M(G\*)) = ker(V | M(G)\*) = coker(F | M(G))\* (Pink
-Proposition 28.4). (Pink 2005, §28, Proposition 28.4, p. 73: the statement and proof.)
+*Proof sketch.* The étale case has both sides zero. For the local cases, Cartier duality
+identifies T_{G,0} with Hom(G^D,𝔾_a) with its usual k-scalar action (Pink Proposition 13.1).
+Its inclusion into M(G^D) identifies it additively with ker V. The scalar action on W_1 in
+§R07.2.4 is c acting by c^{1/p}, so this inclusion is σ_k-semilinear.
+The ordinary Cartier pairing identifies ker V in M(G)^* with Hom_k(M(G)/FM(G),k), using
+p^{−1}W/W ≅ k via p^{−1}w ↦ w mod p. The resulting comparison has the stated scalar transport.
+(Pink 2005, §23, Proposition 23.1, pp. 54–55: the σ^{−n} scalar action;
+§26, Proposition 26.2, p. 64: dual F and V; §28, Proposition 28.4, p. 73: the tangent
+comparison, with this scalar action retained.)
 
 *Needs:* §R07.2.8; §R07.2.4.
 
 **Checks.**
 
-- `dieudonneTangentSpace_alphaP`: α_p: T = k and M/FM = k.
+- `dieudonneTangentSpace_alphaP`: α_p: both spaces have dimension one. For x ↦ ax,
+  the action on M(α_p), in the W_1 scalar normalization, is a^p; the action on T is a.
+  The σ_k pullback intertwines them even for a ∉ F_p.
 - `dieudonneTangentSpace_muP`: μ_p: T = k and M(μ_p)/F = k (F = 0).
 - `dieudonneTangentSpace_zmodp`: ℤ/pℤ: T = 0 and F is bijective.
 
@@ -2620,7 +2637,10 @@ G_n ↪ G_{n+1}. Then G ↦ M(G) is an anti-equivalence from p-divisible groups 
 W(k)-free Dieudonné modules of finite rank (free W(k)-modules with σ-linear F, σ^{−1}-linear V, FV =
 VF = p). Moreover M(G_n) ≅ M(G)/p^n M(G), rank_{W(k)} M(G) = h, M is exact and commutes with perfect
 base change, and M(G^D) ≅ M(G)^t := Hom_{W(k)}(M(G), W(k)) with (Ff)(x) = σ(f(Vx)) and (Vf)(x) =
-σ^{−1}(f(Fx)).
+σ^{−1}(f(Fx)). The crystalline adapter in §R07.2.20 identifies this scalar normalization with
+D(G)_{W(k)} of CrystallineCohomology §CR.7.2, preserving the ordinary W(k)-scalar action,
+Cartier pairing, F, V, group-map variance and perfect-field base change. The pairing satisfies
+⟨Fx,F^t f⟩ = pσ⟨x,f⟩; rationally this is D(G^D) ≅ D(G)^∨(−1).
 
 *Proof sketch.* Limit lemma (Demazure III.8, via nLab): for a system … → M_{n+1} → M_n → … → M_1 of
 finite-length W(k)-modules with M_{n+1} →^{p^n} M_{n+1} → M_n → 0 exact, M = lim M_n is finitely
@@ -2650,14 +2670,23 @@ p. 2: the theorem, with exactness, base change and the dual M^t.)
 
 ### R07.2.11 Lie algebra, dimension and height from the Dieudonné module
 
-Prove `dieudonneLieAlgebra`. For a p-divisible group G over a perfect field k with M = M(G): Lie(G)
-≅ Hom_k(M/FM, k), so dim G = dim_k M/FM; dim G^D = dim_k M/VM; and h = rank M = dim G + dim G^D.
+Prove `dieudonneLieAlgebra`. For a p-divisible group G over a perfect field k with M = M(G),
+there is a natural k-linear isomorphism σ_k^*Lie(G) ≅ Hom_k(M/FM,k), equivalently
+Lie(G) ≅ (σ_k^{−1})^*Hom_k(M/FM,k). Consequently dim G = dim_k M/FM,
+dim G^D = dim_k M/VM, and h = rank M = dim G + dim G^D. The comparison and both dimension
+formulas commute with perfect-field base change.
 
-*Proof sketch.* Lie(G) = Lie(G[p]) because d[p] = p = 0 on tangent spaces; M(G[p]) = M/pM, and
-(M/pM)/F = M/FM, so §R07.2.9 gives Lie(G) ≅ (M/FM)^∨ (Yu p. 3). dim G^D = dim M^t/FM^t = dim M/VM,
-by the formula for F on M^t. F is injective on the free module M, and F(x) ∈ pM = FVM iff x ∈ VM, so
-0 → M/VM →^{F} M/pM → M/FM → 0 is exact and h = dim M/pM = dim G + dim G^D. This reproves §R07.1.15
-over perfect fields. (Yu 2026, §2.1, p. 3: height and Lie algebra.)
+*Proof sketch.* Lie(G) = Lie(G[p]) because d[p] = p = 0 on tangent spaces; M(G[p]) = M/pM,
+and (M/pM)/F = M/FM. Apply §R07.2.9 with its scalar transport. F injective and
+pM = FVM give the σ_k-semilinear exact sequence
+0 → M/VM →^{F} M/pM → M/FM → 0; its linear form starts with σ_k^*(M/VM).
+Applying the tangent comparison to G^D and the ordinary dual F formula gives
+dim G^D = dim_k M/VM. The exact sequence then gives the height formula, recovering
+§R07.1.15 over perfect fields. The crystalline Hodge identification and its scalar-explicit
+comparison with Hom_k(M/FM,k) are the adapter of §R07.2.20.
+(Yu 2026, §2.1, pp. 2–3: height and the Lie-space carrier; Pink 2005, §23,
+Proposition 23.1 and §28, Proposition 28.4: its scalar transport; CrystallineCohomology
+§CR.7.2, *Grothendieck–Messing deformation theory*: the Hodge exact sequence.)
 
 *Needs:* §R07.2.10; §R07.2.9; §R07.1.14; §R07.1.15.
 
@@ -2929,39 +2958,71 @@ Dieudonné module; the ℤ_p-integrality of the characteristic polynomial is der
 ### R07.2.20 The covariant Dieudonné module and the comparison of conventions
 
 Construct `covariantModule`. Let k be a perfect field of characteristic p and G a p-divisible group
-over k with contravariant Dieudonné module M(G) (§R07.2.10). The covariant Dieudonné module is
-M_cov(G) := M(G^D), covariant in G. It is identified with the W-dual M(G)^t = Hom_W(M(G), W) with
-F(f) = σ∘f∘V and V(f) = σ^{−1}∘f∘F, has rank the height of G, and satisfies Lie(G) ≅ M_cov(G)/V
-M_cov(G) (while Lie(G) ≅ Hom_k(M(G)/F M(G), k)). Normalisations: M_cov(μ_{p^∞}) = (W, F = σ) and
-M_cov(ℚ_p/ℤ_p) = (W, F = pσ); the covariant slopes are 1 minus the contravariant ones; the rational
-covariant module with φ = p^{−1}F (Caraiani–Scholze) has slopes in [−1, 0], with ℚ_p/ℤ_p of slope 0
-and μ_{p^∞} of slope −1. Over the prime field k = F_p a different, linear-dual realization D^lin(G)
-= Hom_{ℤ_p}(M(G), ℤ_p) with F_D(φ) = φ∘F and V_D(φ) = φ∘V (transpose of F, not of V) is also used;
-it agrees with M_cov(G) only after exchanging F and V.
+over k with M = M(G) = D(G)_{W(k)} in §R07.2.10's contravariant crystalline normalization.
+Put M_cov(G) = M(G^D) ≅ M^t = Hom_W(M,W), with ordinary W-scalars and
+F^t(f) = σ∘f∘V, V^t(f) = σ^{−1}∘f∘F. The Hodge sequence for G^D gives an ordinary
+k-linear isomorphism q_G : Q_G = M^t/V^tM^t → Lie(G); equivalently Q_G ≅ (VM/pM)^∨ by the
+Cartier pairing. Write H_G = Hom_k(M/FM,k). There is a natural σ_k-semilinear bijection
 
-*Construction.* Define M_cov(G) = M(G^D); covariance follows from contravariance of M and of Cartier
-duality. M(G^D) ≅ M(G)^t with F(f) = σ f V and V(f) = σ^{−1} f F (Yu, §2.1, after Theorem 3); this
-is compatible with the Cartier pairing. Lie(G) = Hom_k(M(G)/FM(G), k) (Yu); dualising,
-M_cov(G)/VM_cov(G) = (M(G)/FM(G))^∨ = Lie(G). Normalisations from §R07.2.12: M(ℚ_p/ℤ_p) = (W, F =
-σ), M(μ_{p^∞}) = (W, F = pσ), and Cartier duality exchanges them. Linear dual over F_p: transposing
-F gives F_D V_D = p, but F_D is the transpose of F_C, so D^lin(G) ≅ M_cov(G) with the roles of F and
-V exchanged (Lipnowski–Tsimerman's prime-field convention). (Yu 2026, §2.1, Theorem 3 and the
-paragraph after it, pp. 2–3: M(G^t) ≅ M(G)^t with the dual F and V, and Lie(G) ≅ Hom_k(M/FM, k);
-Caraiani–Scholze 2017, §4.1, the paragraph after Proposition 4.1.2 and Example 4.1.3, p. 691 (arXiv
-v1, p. 38): the covariant Dieudonné module from Lie E_G, the normalisation φ_G with pφ_G the usual
-Frobenius, D(ℚ_p/ℤ_p) = (L, σ), D(μ_{p^∞}) = (L, p^{−1}σ).)
+Ψ_G : Q_G → H_G,     Ψ_G([f])([x]) = σ(f(Vx)) mod p.
+
+Thus σ_k^*Q_G ≅ H_G and σ_k^*Lie(G) ≅ H_G. These statements use the scalar convention
+1 ⊗ cℓ = c^p ⊗ ℓ in σ_k^*L = k ⊗_{k,σ_k} L. For a homomorphism u : G → H, put
+T = M(u) : M(H) → M(G). The naturality square is
+Ψ_H ∘ T^t = (T mod F)^∨ ∘ Ψ_G, while q_H ∘ T^t = Lie(u) ∘ q_G.
+Here T^t is induced by ordinary precomposition and the horizontal Ψ maps are σ_k-semilinear.
+For a perfect extension i : k → K, the base-change identifications of Q, H and Lie intertwine
+q and the linearized Ψ; on representatives Ψ_K([b ⊗ f])([1 ⊗ x]) =
+σ_K(b) i(Ψ_k([f])([x])). This specifies the base-change square, including its scalar map.
+
+M_cov has rank the height of G. Its slopes are 1 minus the contravariant ones;
+with φ = p^{−1}F they lie in [−1,0], with ℚ_p/ℤ_p of slope 0 and μ_{p^∞} of slope −1.
+Over F_p the separate linear-dual realization D^lin(G) = Hom_{ℤ_p}(M(G),ℤ_p),
+with F_D(f) = f∘F and V_D(f) = f∘V, exchanges F and V relative to M_cov.
+
+*Construction.* Cartier duality and contravariance of M give covariance and the displayed
+ordinary dual. For the classical/crystalline adapter, on a length-n covector with terminal
+index zero, Witt scalars act on its first coordinate by σ^{1−n}(ξ). Replacing this action by
+σ^{−n}(ξ), as in §R07.2.4, gives its σ_W pullback, W ⊗_{W,σ_W} (−).
+Thus the BBM comparison σ_W^*Hom(G,CW) ≅ D(G)_{W(k)} is ordinary W-linear on the
+carrier M(G) specified here. Pass through finite levels to the inverse limit of §R07.2.10.
+The Hodge sequence is 0 → ω_G = VM/pM → M/pM → Lie(G^D) → 0; its Cartier-dual
+quotient gives q_G : M(G^D)/VM(G^D) ≅ Lie(G). The evaluation pairing identifies this
+quotient with (VM/pM)^∨. The map V : M/FM → VM/pM is a
+σ_k^{−1}-semilinear bijection: it is surjective, and Vx ∈ pM = VFM iff x ∈ FM,
+since V is injective on M. Dualize this map with the displayed σ to obtain Ψ.
+VF = p makes Ψ vanish on FM; replacing f by f + V^t g changes σ(f(Vx)) by p g(x).
+For c ∈ k, Ψ(c[f]) = c^p Ψ([f]). Precomposition and TV = VT give the naturality square;
+σ_K ∘ i = i ∘ σ_k gives its base-change counterpart. The μ and constant normalizations follow
+from §R07.2.12. (Yu 2026, §2.1, Theorem 3 and the dual formulas, pp. 2–3;
+Pink 2005, §23, Proposition 23.1 and §28, Proposition 28.4, with scalar transport;
+Berthelot–Breen–Messing, Theorem 4.2.14, as stated in
+[Panny–Robert–Sferlazza, Appendix B](https://www.math.u-bordeaux.fr/~damienrobert/pro/publications/articles/lifting_traces.pdf),
+p. 36: the σ_W pullback of the covector realization;
+de Jong 1995, Propositions 2.5.2 and 2.5.5, pp. 27–28: Verschiebung image and Hodge filtration;
+CrystallineCohomology §CR.7.2, *Dieudonné variance and Tate twists* and
+*Grothendieck–Messing deformation theory*, for Cartier duality and the Hodge quotient;
+Caraiani–Scholze 2017, §4.1, after Proposition 4.1.2 and Example 4.1.3, p. 691:
+the normalization φ = p^{−1}F.)
 
 The API:
 
 - `covariantModule`: M_cov(G) = M(G^D), covariant in G.
 - `covariantModule_equiv_dual`: M_cov(G) ≅ M(G)^t with F = σ∘(−)∘V and V = σ^{−1}∘(−)∘F.
-- `covariantModule_lie`: M_cov(G)/V M_cov(G) ≅ Lie(G).
+- `covariantModule_lie`: The ordinary k-linear Hodge quotient q_G : M_cov(G)/V ≅ Lie(G),
+  and the σ_k-semilinear Ψ_G above, with their naturality and perfect-field base-change squares.
+  The algebraic prototypes use `DieudonneModule.dual`, `DieudonneModule.imageV` and
+  `DieudonneModule.frobeniusCokernelDual` for M^t, V^tM^t and H_G;
+  `DieudonneModule.lieScalarComparison`, `DieudonneModule.lieScalarComparison_apply`,
+  `DieudonneModule.lieScalarComparison_smul` and `DieudonneModule.lieScalarComparison_naturality`
+  specify Ψ, its value, scalar transport and the square.
 - `covariantModule_rank`: rank_W M_cov(G) = height G.
 - `covariantModule_slope`: Covariant slope = 1 − contravariant slope; with φ = p^{−1}F the slopes
   lie in [−1, 0].
 - `linearDualModule`: Over F_p: D^lin(G) = Hom_{ℤ_p}(M(G), ℤ_p) with F_D = F^T, V_D = V^T.
 
-*Needs:* §R07.2.10; §R07.1.7; §R07.2.12; §R07.2.11; §R07.2.16.
+*Needs:* §R07.2.10; §R07.1.7; §R07.2.12; §R07.2.11; §R07.2.16;
+CrystallineCohomology §CR.7.2 (Cartier pairing and Hodge exact sequence).
 
 **Checks.**
 
@@ -2969,6 +3030,14 @@ The API:
 - `covariantModule_lie_mu`: dim_k M_cov(μ_{p^∞})/V = 1 = dim Lie μ_{p^∞}, and 0 for ℚ_p/ℤ_p.
 - `linearDual_ne_covariant`: For G = μ_{p^∞} over F_p, D^lin(G) has F_D = p (transpose of F = p)
   while M_cov(G) has F = 1: the two realisations differ by exchanging F and V.
+- `DieudonneModule.lieScalarComparison_Fp2`: over F_{p²}, let M = We₁ ⊕ We₂ with
+  Fe₁ = Ve₁ = e₂ and Fe₂ = Ve₂ = pe₁. For a ∉ F_p and α = [a], the automorphism
+  Te₁ = αe₁, Te₂ = σ(α)e₂ commutes with F and V. On H_G it acts by a; on Q_G it acts
+  by a^p. The σ_k-semilinear Ψ sends the class of f₂ to the functional e₁ ↦ 1 and
+  intertwines these actions since (a^p)^p = a. No ordinary k-linear intertwiner exists.
+  `DieudonneModule.lieScalarComparison_F9` specializes to p = 3, a² = −1, with actions a and −a.
+- After F_{p²} ↪ F̄_p, the same bases and automorphism retain the actions a and a^p.
+  For b ∈ F̄_p, Ψ(b[f₂])([e₁]) = b^p, so the base-change square uses σ_{F̄_p}(b).
 - `covariantModule_zero`: Height 0 gives the zero module.
 - `covariantModule_supersingular`: for E supersingular over F̄_p, M_cov(E[p^∞]) ≅ M(E[p^∞]) (E[p^∞]
   is self-dual), with dim M_cov/VM_cov = 1 = dim Lie E.
