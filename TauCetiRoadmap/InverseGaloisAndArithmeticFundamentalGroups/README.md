@@ -30,7 +30,7 @@ organises the tuples that classify covers; the lifting invariant of Ellenberg, V
 and Wood separates their braid orbits (Layer IG.3). Independently, embedding problems over number
 fields give Shafarevich's theorem (Layer IG.4). Hurwitz spaces assemble covers into moduli spaces,
 whose components and points over finite fields are counted by the lifting invariant and by the
-Grothendieck–Lefschetz formula (Layer IG.5). The last layer packages realizations as certificates and
+Grothendieck–Lefschetz formula (Layer IG.5). The last layer packages realizations and
 states the inverse Galois problem over `ℚ` and its regular version as open propositions, together
 with the implication between them.
 
@@ -96,7 +96,7 @@ The roadmap owns:
   with a fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine
   curves, and Abhyankar's conjecture for affine curves through Serre's solvable step, Raynaud's
   theorem for the affine line and Harbater's theorem for the punctured line (Layer IG.5);
-- realization certificates, their specialization, worked realizations, the transport of the
+- realizations, their specialization, worked realizations, the transport of the
   BelyiMaps conventions, the inverse Galois problem and generic polynomials (Layer IG.6).
 
 It does not own, and consumes by name:
@@ -6711,11 +6711,11 @@ weight bound is not used as a theorem: it is an explicit hypothesis of
 
 ## Layer IG.6: realizations and the inverse Galois problem
 
-This layer turns the constructions of the roadmap into certificates that a finite group is a Galois
-group. It defines field and polynomial realization certificates on Mathlib's Galois theory, packages
-the specializations of Layer IG.2 as such certificates, proves worked realizations of cyclic groups
+This layer turns the constructions of the roadmap into realizations of finite groups as Galois
+groups. It defines field and polynomial realizations on Mathlib's Galois theory, packages
+the specializations of Layer IG.2 as such realizations, proves worked realizations of cyclic groups
 and of the dihedral group of order eight, converts the symmetric-group polynomials of
-PolynomialGaloisGroups Layer 9 into certificates, and fixes how the arithmetic conventions of
+PolynomialGaloisGroups Layer 9 into realizations, and fixes how the arithmetic conventions of
 BelyiMaps Layer 12 are transported to those of this roadmap. It ends with the inverse Galois problem
 and its regular version as named open propositions, the proved implication from a regular
 realization to a realization over `ℚ`, the index of proved families with their base fields, and
@@ -6725,25 +6725,25 @@ Conventions particular to this layer. Galois groups are Mathlib's: `Gal(L/K)` is
 Galois group of a polynomial is `Polynomial.Gal f`, the automorphisms of `f.SplittingField`. The
 dihedral group of order `8` is Mathlib's `DihedralGroup 4`. The cyclotomic character is normalized
 by `σ(ζ) = ζ^{χ(σ)}`, and products of permutations compose from right to left, as in Mathlib. An
-open problem appears as a named proposition. Realization theorems use individual certificates;
+open problem appears as a named proposition. Realization theorems use individual realizations;
 `inverseGaloisProblem_of_regular` states the logical implication between the two propositions.
 
-### IG.6.1 Realization certificates
+### IG.6.1 Realizations
 
-**Field and polynomial realization certificates.** For fields `K` and `L` with `[Algebra K L]` and a
-finite group `G`, define the structure `FieldRealization K L G` of a field realization certificate:
+**Field and polynomial realizations.** For fields `K` and `L` with `[Algebra K L]` and a
+finite group `G`, define the structure `FieldRealization K L G` of a field realization:
 `FiniteDimensional K L`, `IsGalois K L`, and a group isomorphism `Gal(L/K) ≃* G`. For `f ∈ K[Y]`,
 define `PolynomialRealization f G`: separability of `f` and a group isomorphism
 `Gal(f.SplittingField/K) ≃* G`. Irreducibility of `f` is an additional predicate and is not part of
-the certificate. Refinements record more data on top of a certificate: an explicit extension carries
+the realization. Refinements record more data on top of a realization: an explicit extension carries
 its generators and relations, and an explicit cover carries its finite map and the comparison of its
 generic fibre with the function field. Provide `FieldRealization.groupEquiv` (the given isomorphism
 `Gal(L/K) ≃* G`), `FieldRealization.degree` (`[L : K] = |G|`, from `IsGalois.card_aut_eq_finrank`),
 `PolynomialRealization.toField` (the splitting field of a separable polynomial carries the field
-certificate, by `IsGalois.of_separable_splitting_field`) and `FieldRealization.transport` (a
-`K`-algebra isomorphism `L ≃ₐ[K] L′` transports the certificate and its group isomorphism).
+realization, by `IsGalois.of_separable_splitting_field`) and `FieldRealization.transport` (a
+`K`-algebra isomorphism `L ≃ₐ[K] L′` transports the realization and its group isomorphism).
 Everything is stated with Mathlib's `Field`, `Algebra`, `FiniteDimensional`, `IsGalois`, `AlgEquiv`
-and `Polynomial.SplittingField`, and a separable reducible polynomial certificate is kept distinct
+and `Polynomial.SplittingField`, and a separable reducible polynomial realization is kept distinct
 from an irreducible primitive presentation: a realization is a Galois extension with its exact
 group, not a polynomial of a given degree
 ([Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
@@ -6754,21 +6754,21 @@ group, not a polynomial of a given degree
 
 **Checks.**
 
-- `K/K` carries the certificate for the trivial group, with `[K : K] = 1`; a nonzero constant
-  polynomial is separable with splitting field `K` and certifies the trivial group, while the zero
-  polynomial is not separable and certifies nothing.
+- `K/K` carries the realization for the trivial group, with `[K : K] = 1`; a nonzero constant
+  polynomial is separable with splitting field `K` and realizes the trivial group, while the zero
+  polynomial is not separable and realizes no group.
 - Over `ℚ`, `(Y² − 2)(Y² − 3)` is separable with splitting field `ℚ(√2, √3)` and group `C₂ × C₂`, so
-  it is a polynomial certificate for `C₂ × C₂` although it is reducible; a definition requiring
+  it is a polynomial realization for `C₂ × C₂` although it is reducible; a definition requiring
   irreducibility would reject it.
 - `ℚ(∛2)/ℚ` has degree `3` but is not Galois (the other two cube roots of `2` are not real), so it
-  certifies nothing, in particular not `C₃`; a definition by degree alone would accept it.
+  realizes no group, in particular not `C₃`; a definition by degree alone would accept it.
 
 **Specialization with its realization data.** Let `K` be a Hilbertian field of characteristic zero
 and `G` a finite group, and let a regular finite `G`-cover of `P¹_K` with its guarded integral model
 be given as in Layer IG.2 *Full-group specialization of regular covers*, which is stated for exactly
 these fields. At a rational point `t ∈ K` of the Hilbert set of that theorem, provide the connected
 finite étale fibre, its `G`-action, its field `L_t` and the isomorphism `Gal(L_t/K) ≃* G`, as a field
-realization certificate. The conversion at a given `t` whose fibre is connected is algebraic and
+realization. The conversion at a given `t` whose fibre is connected is algebraic and
 needs no Hilbertian hypothesis; the hypothesis is used only to guarantee that such `t` exist. For a
 polynomial model,
 provide the coefficientwise specialization at `t`, the nonvanishing at `t` of the denominator
@@ -6794,7 +6794,7 @@ Proposition 5.2.5, printed p. 137, and §5.2.4, Proposition 5.2.14 and Remark 5.
 discriminant);
 [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
 Propositions 3.3.1 and 3.3.3 and Corollary 3.3.4, pp. 23–24 (connected regular specializations and
-disjointness). *Needs:* *Field and polynomial realization certificates*,
+disjointness). *Needs:* *Field and polynomial realizations*,
 Layer IG.2 *Full-group specialization of regular covers*,
 Layer IG.2 *Hilbert subsets and Hilbertian fields*,
 Layer IG.2 *A polynomial guard for regular specialization*,
@@ -6803,7 +6803,7 @@ Layer IG.2 *Hilbert specialization with local conditions*.
 
 **Checks.**
 
-- `Y² − T` over `ℚ(T)` specialized at a prime `t = p` gives `ℚ(√p)` with its `C₂` certificate.
+- `Y² − T` over `ℚ(T)` specialized at a prime `t = p` gives `ℚ(√p)` with its `C₂` realization.
 - At `t = 4` the guards hold (the discriminant `4t = 16` is nonzero) but `Y² − 4 = (Y − 2)(Y + 2)`
   splits: `4` is outside the Hilbert set, so the guard alone does not give the group; at `t = 0` the
   discriminant vanishes and the guard itself fails.
@@ -6812,7 +6812,7 @@ Layer IG.2 *Hilbert specialization with local conditions*.
 
 ### IG.6.2 Worked realizations
 
-**Cyclic realization examples.** Certify, with exact degree, separability, normality and group
+**Cyclic realization examples.** Provide realizations, with exact degree, separability, normality and group
 isomorphism: `ℚ(√p)/ℚ` for a prime `p`, by the polynomial `Y² − p` and `C₂`; the irreducible
 polynomial `Y³ − 3Y + 1`, of discriminant `81 = 9²`, with `C₃`; and the cyclotomic polynomial
 `Φ₅(Y) = Y⁴ + Y³ + Y² + Y + 1` with `C₄`, generated by `ζ₅ ↦ ζ₅²`. Arbitrary finite cyclic groups
@@ -6829,8 +6829,8 @@ in the Tau Ceti library: `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub
 `3T1` for `X³ − 3X − 1`; substituting `Y = −X` turns `Y³ − 3Y + 1` into `−(X³ − 3X − 1)`, so the
 two cubics have the same splitting field) and
 `TauCeti.hasGaloisLabel_X_pow_four_add_X_pow_three_add_X_sq_add_X_add_one` (label `4T1` for `Φ₅`).
-What this target adds to them is the certificate with its explicit group isomorphism.
-*Needs:* *Field and polynomial realization certificates*, Layer IG.4 *Shafarevich solvable
+What this target adds to them is the realization with its explicit group isomorphism.
+*Needs:* *Field and polynomial realizations*, Layer IG.4 *Shafarevich solvable
 realization*; PolynomialGaloisGroups Layer 2, PolynomialGaloisGroups Layer 3, ClassFieldTheory
 Layer 10, ClassFieldTheory Layer 12; Tau Ceti `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub_one`,
 `TauCeti.hasGaloisLabel_X_pow_four_add_X_pow_three_add_X_sq_add_X_add_one`.
@@ -6854,7 +6854,7 @@ indexes it by `4`. Provide `DihedralEight.alpha` (`α⁴ = 2` and `α` lies in t
 `DihedralEight.rotation` (the assignment defines the automorphism `r` of order four),
 `DihedralEight.reflection` (complex conjugation is `s` and satisfies `srs = r⁻¹`) and
 `DihedralEight.realization` (the normal forms give the isomorphism with `DihedralGroup 4` and the
-polynomial certificate for `Y⁴ − 2`). The proof builds `L` as an intermediate field in the tower
+polynomial realization for `Y⁴ − 2`). The proof builds `L` as an intermediate field in the tower
 `ℚ ⊂ ℚ(α) ⊂ L ⊂ ℂ`, extends the root assignments to algebra automorphisms using the basis of degree
 eight, verifies the dihedral relations on `α` and `i`, and shows that the eight normal forms are
 distinct. The example is the dihedral one of
@@ -6862,8 +6862,8 @@ distinct. The example is the dihedral one of
 §1.2, p. 2. The Galois group of `X⁴ − 2` is already computed in the Tau Ceti library, by
 transitive-group label (`TauCeti.hasGaloisLabel_X_pow_four_sub_two`, label `4T3`) and order
 (`TauCeti.natCard_gal_X_pow_four_sub_two`, order `8`); this target adds the explicit generators `r`
-and `s`, the isomorphism with Mathlib's `DihedralGroup 4` and the certificate inside `ℂ`. *Needs:*
-*Field and polynomial realization certificates*; Mathlib `IntermediateField`,
+and `s`, the isomorphism with Mathlib's `DihedralGroup 4` and the realization inside `ℂ`. *Needs:*
+*Field and polynomial realizations*; Mathlib `IntermediateField`,
 `IntermediateField.adjoin`, `DihedralGroup`; PolynomialGaloisGroups Layer 2,
 PolynomialGaloisGroups Layer 3; Tau Ceti `TauCeti.hasGaloisLabel_X_pow_four_sub_two`,
 `TauCeti.natCard_gal_X_pow_four_sub_two`.
@@ -6876,13 +6876,13 @@ PolynomialGaloisGroups Layer 3; Tau Ceti `TauCeti.hasGaloisLabel_X_pow_four_sub_
 - `sr(α) = s(iα) = −iα` while `rs(α) = r(α) = iα`, so the group is not abelian; replacing
   `DihedralGroup 4` by `C₄ × C₂` fails.
 
-**Symmetric groups as realization certificates.** For every `n ≥ 1`, PolynomialGaloisGroups Layer 9
+**Symmetric groups as realizations.** For every `n ≥ 1`, PolynomialGaloisGroups Layer 9
 provides an explicit monic `f_n ∈ ℤ[X]` of degree `n`, irreducible over `ℚ`, satisfying its
 predicate `HasFullSymmetricGaloisGroup`: the polynomial is separable and the action `galActionHom`
 of its Galois group on the root set in the splitting field is surjective; in the Tau Ceti
 library these are `Polynomial.HasFullSymmetricGaloisGroup` and
 `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`. This target is only the
-comparison with the certificates of this roadmap: for every `f` of degree `n` over `ℚ` with
+comparison with the realizations of this roadmap: for every `f` of degree `n` over `ℚ` with
 `HasFullSymmetricGaloisGroup f`, Tau Ceti's `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv`
 gives an isomorphism `Gal(f.SplittingField/ℚ) ≃* Equiv.Perm (Fin n)`, and with the separability in
 the predicate this is a `PolynomialRealization f (Equiv.Perm (Fin n))`. The construction of `f_n` — its reductions modulo
@@ -6891,21 +6891,21 @@ PolynomialGaloisGroups Layer 9 and is not repeated here, and the alternating exa
 (degrees `3`, `4`, `5` only) are not claimed to realize every alternating group. The proof
 transports the isomorphism of `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv` (which
 combines the injectivity of `galActionHom`, Mathlib `Polynomial.Gal.galActionHom_injective`, the
-surjectivity in the predicate and an enumeration `rootSet f ≃ Fin n`) into the certificate. The symmetric
+surjectivity in the predicate and an enumeration `rootSet f ≃ Fin n`) into the realization. The symmetric
 family is that of
 [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
-§4.4, printed pp. 40–42. *Needs:* *Field and polynomial realization certificates*;
+§4.4, printed pp. 40–42. *Needs:* *Field and polynomial realizations*;
 PolynomialGaloisGroups Layer 9; Mathlib `Polynomial.Gal.galActionHom`; Tau Ceti
 `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv`,
 `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`.
 
 **Checks.**
 
-- For `n = 1` the certified group `Equiv.Perm (Fin 1)` is trivial; for `n = 2` it is `C₂`.
+- For `n = 1` the realized group `Equiv.Perm (Fin 1)` is trivial; for `n = 2` it is `C₂`.
 - The predicate includes separability: `X²` has a bijection from its trivial Galois group onto the
-  permutations of its one-element root set, but it is not separable and gives no `S₂` certificate.
+  permutations of its one-element root set, but it is not separable and gives no `S₂` realization.
 - The predicate includes surjectivity: `X³ − 3X + 1` is separable and irreducible with group
-  `C₃ ⊊ S₃` (*Cyclic realization examples*), so it gives no `S₃` certificate.
+  `C₃ ⊊ S₃` (*Cyclic realization examples*), so it gives no `S₃` realization.
 
 ### IG.6.3 Dessins and the Belyi conventions
 
@@ -6952,28 +6952,28 @@ locally Noetherian schemes or the componentwise groupoid.
 ### IG.6.4 The inverse Galois frontier
 
 **The inverse Galois frontier.** Define two propositions. `IGP(ℚ)`: every finite group `G` has a
-field realization certificate over `ℚ`, that is, a finite Galois extension `L/ℚ` with
+field realization over `ℚ`, that is, a finite Galois extension `L/ℚ` with
 `Gal(L/ℚ) ≃* G`. `RIGP(ℚ)`: every finite group `G` has a finite Galois extension `L` of `ℚ(T)` with
 `Gal(L/ℚ(T)) ≃* G` that is regular, `ℚ` being algebraically closed in `L`. Both are open problems;
-they appear as named propositions. Realization theorems require individual regular certificates;
+they appear as named propositions. Realization theorems require individual regular realizations;
 `inverseGaloisProblem_of_regular` states `RIGP(ℚ) → IGP(ℚ)`. Prove, for each finite group `G`: a
 regular realization of `G` over `ℚ(T)` gives a field
-realization certificate of `G` over `ℚ`, by *Specialization with its realization data* at a point of
+realization of `G` over `ℚ`, by *Specialization with its realization data* at a point of
 the Hilbert set. The proved families are indexed with their exact theorems and base fields: finite
 solvable groups over every number field (Layer IG.4 *Shafarevich solvable realization*); all
-symmetric groups over `ℚ` (*Symmetric groups as realization certificates*); centreless groups with a
+symmetric groups over `ℚ` (*Symmetric groups as realizations*); centreless groups with a
 rationally rigid tuple of classes, under the hypotheses of
 Layer IG.3 *Rational rigidity*, regularly over `ℚ(T)` and hence over
 `ℚ`; and quasi-`p` groups as Galois groups of covers of `A¹` over an algebraically closed field of
 characteristic `p` (Layer IG.5 *Abhyankar affine-curve realization*), a statement over a different
 base field that gives nothing over `ℚ`. The index is a list of theorems, not a universal statement.
-The proof defines the propositions from the certificate, adding regularity for `ℚ(T)`; proves the
-implication for a given regular certificate by guarded Hilbert specialization; and attaches each
+The proof defines the propositions from the realization, adding regularity for `ℚ(T)`; proves the
+implication for a given regular realization by guarded Hilbert specialization; and attaches each
 family to its theorem and base field
 ([Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
 Introduction and §§3.3, 8.1, pp. 1, 23–25, 81–83). *Needs:*
-*Field and polynomial realization certificates*, *Specialization with its realization data*,
-*Symmetric groups as realization certificates*, Layer IG.4 *Shafarevich solvable realization*,
+*Field and polynomial realizations*, *Specialization with its realization data*,
+*Symmetric groups as realizations*, Layer IG.4 *Shafarevich solvable realization*,
 Layer IG.3 *Rational rigidity*,
 Layer IG.5 *Abhyankar affine-curve realization*.
 *Lean:* `InverseGaloisProblem`, `RegularInverseGaloisProblem`, `HasRegularRealization`,
@@ -6982,9 +6982,9 @@ Layer IG.5 *Abhyankar affine-curve realization*.
 **Checks.**
 
 - `IGP(ℚ)` and `RIGP(ℚ)` are named propositions. The implication `RIGP(ℚ) → IGP(ℚ)` follows
-  group by group from individual regular certificates; no open realization result is asserted.
+  group by group from individual regular realizations; no open realization result is asserted.
 - Solvable groups come from Shafarevich's theorem; symmetric groups come from
-  PolynomialGaloisGroups Layer 9 through *Symmetric groups as realization certificates*.
+  PolynomialGaloisGroups Layer 9 through *Symmetric groups as realizations*.
 - The quasi-`p` entry gives no realization over `ℚ`: that `PSL₂(𝔽_p)` is a quotient of `π₁^ét(A¹_k)`
   for `k = F̄_p` is a statement over `k`.
 
@@ -7002,7 +7002,7 @@ asserted for all finite groups, since existence has obstructions. For `char K �
 constants), `GenericPolynomial.guard` (the domain of allowed coefficients and discriminant is
 specified), `GenericPolynomial.realize` (every `G`-extension of an infinite overfield is the
 splitting field of an allowed specialization) and `GenericPolynomial.transport` (extending the base
-field restricts the quantifier over overfields and transports the polynomial certificate). The
+field restricts the quantifier over overfields and transports the polynomial realization). The
 definition uses Mathlib's rational-function fields as coefficient fields and the guarded
 specialization map, and quantifies over actual overfields and actual finite Galois extensions with
 their algebra isomorphisms; for `C₂` it uses the normal form of quadratic extensions, the guard
@@ -7010,7 +7010,7 @@ their algebra isomorphisms; for `C₂` it uses the normal form of quadratic exte
 ordinary specialization are in
 [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
 §§1.1, 3.3, pp. 1–2, 23–25; the general universality predicate is formulated here. *Needs:*
-*Field and polynomial realization certificates*, *Specialization with its realization data*;
+*Field and polynomial realizations*, *Specialization with its realization data*;
 PolynomialGaloisGroups Layer 2, PolynomialGaloisGroups Layer 3.
 
 **Checks.**
@@ -7028,21 +7028,21 @@ PolynomialGaloisGroups Layer 2, PolynomialGaloisGroups Layer 3.
 
 ### Examples
 
-- **Two quadratic fields.** `(Y² − 2)(Y² − 3)` certifies `C₂ × C₂` over `ℚ`, with splitting field
+- **Two quadratic fields.** `(Y² − 2)(Y² − 3)` realizes `C₂ × C₂` over `ℚ`, with splitting field
   `ℚ(√2, √3)` of degree `4 = |C₂ × C₂|`, although the polynomial is reducible and no root generates
   the splitting field.
 - **A cyclic cubic.** The roots of `Y³ − 3Y + 1` are `2cos(2π/9)`, `2cos(4π/9)`, `2cos(8π/9)`, since
   `(2cos θ)³ − 3(2cos θ) = 2cos 3θ = −1` for `θ = 2π/9`; its splitting field is the real subfield of
   `ℚ(ζ₉)`, with group `(ℤ/9ℤ)^×/{±1} ≅ C₃`, matching the square discriminant `81`.
-- **Order eight.** `Y⁴ − 2` certifies `DihedralGroup 4`, with rotation `r : α ↦ iα` and reflection
+- **Order eight.** `Y⁴ − 2` realizes `DihedralGroup 4`, with rotation `r : α ↦ iα` and reflection
   the complex conjugation; its stem field `ℚ(2^{1/4})` has degree `4` and is not Galois.
 - **Specializing `Y² − T`.** At `t = −1` the specialization gives `ℚ(i)`, at `t = p` it gives
   `ℚ(√p)`, and at `t = 4` it splits; distinct primes give linearly disjoint quadratic fields.
 - **`S₃` three ways.** `S₃` is realized over `ℚ` as a solvable group by
   Layer IG.4 *Shafarevich solvable realization*, as `Equiv.Perm (Fin 3)` by
-  *Symmetric groups as realization certificates*, and regularly over `ℚ(T)` from the rigid classes
+  *Symmetric groups as realizations*, and regularly over `ℚ(T)` from the rigid classes
   (transposition, transposition, `3`-cycle) of Layer IG.3 *A rigid S₃ cover and its dessin*; the
-  three certificates are different data for the same group.
+  three realizations are different data for the same group.
 
 ### Dependencies
 
@@ -7064,7 +7064,7 @@ with connected nonempty locally Noetherian based π₁ and no coefficient-invert
   `y ↦ (y³ − 3y + 2)/4` with `S₃` monodromy (Layer IG.3); Hilbert irreducibility specializes it to
   infinitely many linearly disjoint `S₃`-extensions of `ℚ` (Layer IG.2); and Shafarevich's theorem
   realizes `S₃` as a solvable group by successive proper embedding problems with abelian kernels
-  `C₃` and `C₂` (Layer IG.4). The realization certificates of Layer IG.6 make the three outputs
+  `C₃` and `C₂` (Layer IG.4). The realizations of Layer IG.6 make the three outputs
   comparable.
 - **Quadratic specializations.** For `Y² − T` over `ℚ(T)`, the guard of Layer IG.2 is `1`, every
   rational `t` is regular, and `Y² − t` is irreducible exactly when `t` is not a square; the set of

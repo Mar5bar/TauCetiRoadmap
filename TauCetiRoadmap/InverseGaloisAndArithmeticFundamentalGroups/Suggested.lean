@@ -890,11 +890,11 @@ example (K : Type*) [Field K] : Nonempty (FieldRealization K K PUnit) := sorry
 example (K : Type*) [Field K] (a : K) (ha : a ≠ 0) :
     Nonempty (PolynomialRealization (C a) PUnit) := sorry
 
--- The zero polynomial cannot supply the separability field of a certificate.
+-- The zero polynomial cannot supply the separability field of a realization.
 example (K : Type*) [Field K] (G : Type*) [Group G] :
     ¬ Nonempty (PolynomialRealization (0 : K[X]) G) := sorry
 
--- Constant certificates convert to extensions of degree one.
+-- Constant realizations convert to extensions of degree one.
 example (K : Type*) [Field K] (a : K) (ha : a ≠ 0)
     (c : PolynomialRealization (C a) PUnit) :
     Module.finrank K (C a).SplittingField = 1 ∧
