@@ -471,9 +471,10 @@ identification with `Rlim` and the vanishing for `p > 1` are the Stacks Project 
 **Checks.**
 
 - `limOne_surjective_tower`: the tower `ℤ/p^{n+1} ↠ ℤ/p^n` (`CompactCoefficients.reductionTower`)
-  has `lim = ℤ_p` and `lim¹ = 0`.
+  has `lim = ℤ_p`, with the equivalence given by reduction modulo `pⁿ`, and `lim¹ = 0`.
 - `limOne_mul_p`: for a prime `p`, the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by
-  `p` (`mulTower p`) has `lim = 0` and `lim¹ ≅ ℤ_p/ℤ ≠ 0`.
+  `p` (`mulTower p`) has `lim = 0` and `lim¹ ≅ ℤ_p/ℤ ≠ 0`; the latter map sends a family
+  `(a_n)` to the class of the convergent sum `Σ_{n≥0} pⁿa_n`.
 - `lim_constant`: the constant tower with identity transitions has `lim` equal to the diagonal
   copy of `A` and `lim¹ = 0` (`CompactCoefficients.constantTower`).
 
@@ -690,10 +691,12 @@ Exercise 4, p. 11 (PDF p. 25)). *Needs:* Tau Ceti `TauCeti.exists_continuous_sec
 **Checks.**
 
 - The section need not be a homomorphism: `ℤ/4 → ℤ/2` has continuous normalised sections but no
-  additive one.
+  additive one: `CompactCoefficients.Sections` of the reduction map is empty.
 - Profiniteness is needed: the squaring map `z ↦ z²` of the circle group is a continuous
   surjective homomorphism of compact groups without a continuous section (a continuous square root
   on the circle does not exist).
+- The identity homomorphism of a profinite additive group has the identity as its unique
+  set-theoretic section, which is continuous and additive.
 
 **Long exact sequences for continuous cohomology.** Let `G` be profinite and `0 → T' → T → T'' → 0`
 an exact sequence of topological `G`-modules with jointly continuous actions, in which `T' → T` is
@@ -2284,6 +2287,8 @@ Galois localization and Sha kernels*.
 **Checks.**
 
 - `absolute_sha_zero`: for `M = 0`, `Шⁱ(F, M) = 0` in every degree.
+- For zero localization maps, `ArithmeticDuality.absoluteSha` is the whole source group; for a
+  one-component identity localization it is zero.
 - `absolute_sha_nonzero_local`: the class of `ℚ(i)` in `H¹(ℚ, ℤ/2)` is not in `Ш¹(ℚ, ℤ/2)`, since
   its localisations at `2` and at `∞` are nonzero.
 - `relative_sha_identity`: for `K = F`, `H¹(Gal(F/F), M) = 0`, so `Ш¹(F/F, M) = 0`.
@@ -2864,7 +2869,10 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
 
 **Checks.**
 
-- `rp_finite_pi`: for a finite index set the restricted product is the full product.
+- `rp_finite_pi`: for a finite index set the coordinate inclusion identifies the restricted
+  product with the full product.
+- For index set `ℕ` and zero distinguished subgroups, the same coordinates identify the
+  restricted product with the direct sum of the local groups: the families with finite support.
 - `rp_zero_local`: if every localisation is zero, `Ш^r_S` is the whole global group.
 - For `S` all places, `G_{K,S} = G_K`, and `Ш^r_S(K,M) = Ш^r(K,M)` for every `r ≥ 0`, with the
   same Tate-modified archimedean groups on both sides.
@@ -4900,8 +4908,10 @@ homotopy equivalence. Under (P) (`p` odd or `K` without real places), this repre
 modified arithmetic fibre, since `C_v^mod` is acyclic at every archimedean place. It does not
 include ordinary archimedean cochains `C_v^ord`. Under (P), if `X` has cohomology of
 finite type, resp. cofinite type, so does `C_c(G_{K,S}, X)`, and it is bounded. When `p = 2` and `K`
-has a real place the finite-place fibre is not bounded, and duality uses the construction with Tate
-cochains at the real places, *Duality when p = 2 and K has real places*.
+has real places, ordinary global cohomology and the finite-place fibre can be unbounded;
+boundedness depends on the coefficients. Both are bounded for the induced coefficients in the
+Nakamura Check. Dyadic duality uses the construction with Tate cochains at the real places,
+*Duality when p = 2 and K has real places*.
 
 The API:
 
@@ -4939,10 +4949,15 @@ compact and cofinite coefficients*; *Continuous cochains in the derived category
 - For `K = ℚ`, `S = {p, ∞}`, `p` odd and `M = 𝔽_p`: `H⁰_c = H¹_c = H³_c = 0` and `H²_c ≅ 𝔽_p`, so
   `χ_c = 1 = dim 𝔽_p^{G_ℝ}` (Theorem 5.3.6).
 - For `p` odd the complete Tate cohomology of `Gal(ℂ/ℝ)` with `p`-primary coefficients vanishes, so
-  adding Tate terms at the real places does not change `C_c`; for `p = 2` it does.
+  adding Tate terms at the real places does not change `C_c`; for `p = 2` it can change it.
 - For `p = 2`, `K = ℚ`, `S = {2, ∞}` and `M = 𝔽₂`: `Hⁱ(G_{ℚ,S}, 𝔽₂) ≅ Hⁱ(ℝ, 𝔽₂) = 𝔽₂` and
   `Hⁱ(ℚ₂, 𝔽₂) = 0` for `i ≥ 3`, so `Hⁱ_c = 𝔽₂` for every `i ≥ 4`: the finite-place fibre is
   unbounded and does not give Poitou–Tate duality (5.7).
+- For the same `K`, `S` and `p = 2`, take `X = Ind_{G_{ℚ(i),S_F}}^{G_{ℚ,S}} ℤ₂[0]`.
+  Compact Shapiro and the absence of real places in `ℚ(i)` give perfect global amplitude
+  `[0,2]`, as in the Nakamura Check. The finite local terms have amplitude `[0,2]`, so the
+  finite-place fibre has amplitude in `[0,3]` and is bounded. The real restriction is the regular
+  `ℤ₂[C₂]` module, whose complete Tate cohomology is zero.
 
 **Cup products with compact support.** Let `K`, `S`, `S_f`, `G_{K,S}`, `G_v` and `R` be as in *The
 local duality morphisms α_{J,X}*, with (P): if `p = 2`, `K` has no real place (the case `p = 2` with

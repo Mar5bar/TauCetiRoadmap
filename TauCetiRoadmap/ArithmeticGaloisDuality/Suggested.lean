@@ -184,6 +184,11 @@ def reductionTower (p : ℕ) : Tower.{0} where
   obj n := ZMod (p ^ n)
   map n := (ZMod.castHom (pow_dvd_pow p (Nat.le_succ n)) (ZMod (p ^ n))).toAddMonoidHom
 
+/-- Check `limOne_surjective_tower`: reduction modulo `pⁿ` identifies the limit with `ℤ_p`. -/
+example (p : ℕ) [Fact p.Prime] :
+    ∃ e : (reductionTower p).lim ≃+ ℤ_[p],
+      ∀ x n, PadicInt.toZModPow n (e x) = x.1 n := sorry
+
 /-- Check `limOne_surjective_tower`: reduction transitions give vanishing `lim¹`. -/
 example (p : ℕ) (hp : p.Prime) : Subsingleton (reductionTower p).limOne := sorry
 
@@ -203,7 +208,16 @@ def mulTower (p : ℕ) : Tower.{0} where
 never stabilise. -/
 example (p : ℕ) (hp : p.Prime) : ¬ (mulTower p).IsMittagLeffler := sorry
 
-/-- Check `limOne_mul_p`: its `lim¹` is `ℤ_p/ℤ`, in particular nonzero. -/
+/-- Check `limOne_mul_p`: a compatible integer family is divisible by every power of `p`. -/
+example (p : ℕ) (hp : p.Prime) : (mulTower p).lim = ⊥ := sorry
+
+/-- Check `limOne_mul_p`: summing `pⁿ a_n` identifies the cokernel with `ℤ_p/ℤ`. -/
+example (p : ℕ) [Fact p.Prime] :
+    ∃ e : (mulTower p).limOne ≃+ (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range),
+      ∀ a : ℕ → ℤ, e (QuotientAddGroup.mk a) =
+        QuotientAddGroup.mk (∑' n : ℕ, (p : ℤ_[p]) ^ n * (a n : ℤ_[p])) := sorry
+
+/-- Check `limOne_mul_p`: the cokernel is nonzero. -/
 example (p : ℕ) (hp : p.Prime) : Nontrivial (mulTower p).limOne := sorry
 
 /-- **Lifting continuous cochains along surjections of discrete spaces.** Composing with a
@@ -270,7 +284,8 @@ section SplittingTorsor
 
 variable {B C : Type*} [AddCommGroup B] [AddCommGroup C]
 
-/-- The additive sections of `κ : B → C`; for `A = ker κ` they form a torsor under `Hom(C, A)`. -/
+/-- The additive sections of `κ : B → C`. If an additive section exists, this space is a
+torsor under `Hom(C, ker κ)`. -/
 def Sections (κ : B →+ C) : Type _ := {s : C →+ B // κ.comp s = AddMonoidHom.id C}
 
 /-- Two sections differ by a homomorphism `C → ker κ`. -/
@@ -283,6 +298,10 @@ theorem sections_sub_mem_ker (κ : B →+ C) (s t : Sections κ) (c : C) :
 
 /-- The identity of `C` has exactly one section. -/
 example : Subsingleton (Sections (AddMonoidHom.id C)) := sorry
+
+/-- Reduction `ℤ/4 → ℤ/2` has no additive section. -/
+example : IsEmpty (Sections
+    ((ZMod.castHom (show 2 ∣ 4 by decide) (ZMod 2)).toAddMonoidHom)) := sorry
 
 end SplittingTorsor
 
@@ -353,6 +372,10 @@ theorem kummerCoeffS_exists (S : Set (HeightOneSpectrum (𝓞 K))) (m : ℕ) (hm
 /-- Check `restricted_rat_infty`: with no finite place allowed, `ℚ` has no nontrivial extension
 (Minkowski). -/
 example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : maxUnramifiedOutside ℚ Ω ∅ = ⊥ := sorry
+
+/-- Check `restricted_all_places`: algebraicity makes every element lie in a finite
+subextension, and the ramification condition for all finite places is vacuous. -/
+example [Algebra.IsAlgebraic K Ω] : maxUnramifiedOutside K Ω Set.univ = ⊤ := sorry
 
 /-- Check `restricted_rat_two_nonexample`: `√3` is ramified at `3`, so it does not lie in
 `ℚ_{{2}}`. -/
@@ -442,6 +465,15 @@ theorem sha_res_cor {B : Type*} [AddCommGroup B] {J : ι → Type*}
   simp only [AddMonoidHom.coe_comp, Function.comp_apply] at this
   rw [this, ha v, map_zero]
 
+/-- Check `absolute_sha_zero`: a zero global group has zero localization kernel. -/
+example [Subsingleton A] (loc : ∀ v, A →+ H v) : absoluteSha loc = ⊥ := sorry
+
+/-- Zero localization maps have the whole global group as their kernel. -/
+example : absoluteSha (fun v => (0 : A →+ H v)) = ⊤ := sorry
+
+/-- An identity localization has zero kernel. -/
+example : absoluteSha (fun _ : Unit => AddMonoidHom.id A) = ⊥ := sorry
+
 end LocalizationKernel
 
 end ArithmeticDuality
@@ -457,6 +489,18 @@ variable {ι : Type*} (H : ι → Type*) [∀ v, AddCommGroup (H v)] (Hun : ∀ 
 /-- `P_S^r`: the restricted product of the local groups with respect to the unramified
 subgroups. -/
 abbrev restrictedProductCohomology : Type _ := Πʳ v, [H v, Hun v]_[cofinite]
+
+/-- Check `rp_finite_pi`: for finite indices the coordinate inclusion is an additive
+equivalence with the full product. -/
+example [Finite ι] :
+    ∃ e : restrictedProductCohomology H Hun ≃+ (∀ v, H v),
+      ∀ x v, e x v = x v := sorry
+
+/-- With zero distinguished subgroups, the coordinates identify the restricted product
+with finitely supported families. -/
+example (J : ℕ → Type*) [∀ n, AddCommGroup (J n)] :
+    ∃ e : restrictedProductCohomology J (fun n => (⊥ : AddSubgroup (J n))) ≃+ (Π₀ n, J n),
+      ∀ x n, e x n = x n := sorry
 
 variable {H Hun} {A : Type*} [AddCommGroup A]
 
@@ -657,7 +701,8 @@ variable {R : Type u} [CommRing R] {A B A' B' : CochainComplex (ModuleCat.{u} R)
 /-- The mapping fibre `Cone(res)[-1]`. For arithmetic compact support, `res` has target the
 modified local diagram: ordinary finite-place cochains, real Tate cochains and zero complex-place
 terms, or the quasi-isomorphic finite-place model under `(P)` for coefficients of residue
-characteristic `p`. The fibre of ordinary cochains at
+characteristic `p`. At dyadic real places, boundedness of the finite-place fibre depends on
+the coefficients; arithmetic duality uses the model with real Tate terms. The fibre of ordinary cochains at
 every place has the separate archimedean comparison specified in R02.5.2. -/
 abbrev compactCochains (res : A ⟶ B) : CochainComplex (ModuleCat.{u} R) ℤ :=
   (CochainComplex.mappingCone res)⟦(-1 : ℤ)⟧
