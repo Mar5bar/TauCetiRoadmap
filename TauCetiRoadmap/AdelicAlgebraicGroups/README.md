@@ -280,11 +280,11 @@ one, and a single weight of multiplicity two contributes the square.
 All names in this section are part of the dependency contract. Each is cited again in the
 *Needs* clause of the target that consumes it.
 
-### From the student roadmaps
+### Definite quaternion supplier
 
 | Object | Exact supplier and declaration | Use here |
 |---|---|---|
-| Compactness for a definite quaternion algebra | [OverconvergentForms §§0.2–0.3 and the stabilizer target](https://github.com/WilliamCoram/PhD/blob/9d948b203d93167c41d8f171a7a4c9ebbf7cd4b5/PhD/TauCeti/Roadmaps/OverconvergentForms/README.md): `TauCetiRoadmap.OverconvergentForms.Dfx`, `TauCetiRoadmap.OverconvergentForms.unitsIncl`, `TauCetiRoadmap.OverconvergentForms.globalUnits`, `TauCetiRoadmap.OverconvergentForms.classSet`, `TauCetiRoadmap.OverconvergentForms.finite_classSet`; **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**, **DefiniteQuaternion.finite_stab**: `TauCetiRoadmap.OverconvergentForms.DefiniteQuaternion.finite_stab` | AA.5.3 requires the TauCetiRoadmap import of this supplier, with the finite-adele module topology and canonical units topology. It specializes stabilizer finiteness to `F = ℚ` and conjugates `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. |
+| Definite quaternion class sets and stabilizers | [QuaternionicModularForms](https://github.com/WilliamCoram/TauCetiRoadmap/blob/f0be7f1/TauCetiRoadmap/QuaternionicModularForms/README.md), §0.2: `TauCetiRoadmap.QuaternionicModularForms.Dfx`, `TauCetiRoadmap.QuaternionicModularForms.unitsIncl`, `TauCetiRoadmap.QuaternionicModularForms.globalUnits`; §0.3: `TauCetiRoadmap.QuaternionicModularForms.classSet`, `TauCetiRoadmap.QuaternionicModularForms.finite_classSet`, `TauCetiRoadmap.QuaternionicModularForms.DefiniteQuaternion.finite_stab` | For totally definite `D` over totally real `F`, consume finite class sets at open levels and stabilizers finite modulo diagonal `F^×` at compact levels, with the finite-adele module topology and native units topology. AA.5.3 deduces finite-adelic quotient compactness from the class-set theorem and a compact open level, specializes whole-stabilizer finiteness to `F = ℚ`, and conjugates `U ∩ x⁻¹ D^× x` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. |
 
 ### Local analytic and parabolic suppliers
 
@@ -4770,19 +4770,19 @@ preceding layers; each item is a target with its own locator.
 ### 5.3 Definite quaternion groups
 
 - **Compactness for a definite quaternion algebra.** For a totally definite quaternion algebra
-  `D` over a totally real number field `F`, the quotient `D^×\(D ⊗_F 𝔸_{F,f})^×` is compact,
-  its double coset set at any open level is finite, and its stabilizer at a compact level is
-  finite modulo central scalars. Over `F = ℚ` the whole stabilizer is finite.
-  Supplied by the TauCetiRoadmap import of
-  [W. Coram's OverconvergentForms](https://github.com/WilliamCoram/PhD/blob/9d948b203d93167c41d8f171a7a4c9ebbf7cd4b5/PhD/TauCeti/Roadmaps/OverconvergentForms/README.md),
-  §§0.2–0.3, including **DefiniteQuaternion.finite_stab** under
-  **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**.
-  The finite adelic algebra has its module topology and its units have the `Units.embedProduct`
-  topology. The supplier treats totally definite algebras over totally real `F`, with compact
-  level stabilizers finite modulo their intersection with the diagonal `F^×`; this roadmap
-  specializes to `F = ℚ` for whole-stabilizer finiteness
-  and conjugates the supplier's `x⁻¹ D^× x ∩ U` to `D^× ∩ xUx⁻¹`, while full-adelic norm-one
-  compactness uses AA.3.4.
+  `D` over a totally real number field `F`, consume the adelic group and topology comparisons
+  of QuaternionicModularForms §0.2 and its §0.3 theorems: `finite_classSet` at every open
+  level and `DefiniteQuaternion.finite_stab` at every compact level. The latter gives
+  finiteness modulo the intersection with diagonal `F^×`, and whole-stabilizer finiteness
+  over `F = ℚ`. These supplier theorems use the canonical finite-adele module topology
+  and native units topology.
+  Deduce compactness of `D^×\(D ⊗_F 𝔸_{F,f})^×`: for a compact open level, finitely many
+  double-coset representatives give a finite union of images of translates of that compact
+  level in the rational quotient (Fujisaki's lemma, as used in QuaternionicModularForms
+  §0.3). Conjugate `U ∩ x⁻¹ D^× x` to `D^× ∩ xUx⁻¹` for the stabilizers in the volume
+  formula below. Full-adelic norm-one compactness uses AA.3.4.
+  *Needs:* QuaternionicModularForms §§0.2–0.3; AA.1.5; AA.3.4.
+  *Lean:* none; specified in the README only.
 
   **Checks.**
   - For Hamilton's algebra over `ℚ`, the reduced norm is a sum of four squares and cannot be
@@ -4799,11 +4799,20 @@ preceding layers; each item is a target with its own locator.
   ∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|
   ```
 
-  ([Arthur], §2, p. 12). *Needs:* OverconvergentForms §§0.2–0.3 and
-  **Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap**,
-  **DefiniteQuaternion.finite_stab**, specialized to `F = ℚ` and conjugated as above;
+  ([Arthur], §2, p. 12, with the central quotient and its index factor obtained from
+  AA.4.5). *Needs:* QuaternionicModularForms §§0.2–0.3, `finite_classSet` and
+  `DefiniteQuaternion.finite_stab`, specialized to `F = ℚ` and conjugated as above;
   AA.4.5; AA.4.4.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - At `U′ = U` the level and central indices are both one.
+  - If `ℚ^× ∩ U′ = ℚ^× ∩ U`, the weighted sum is multiplied by `[U : U′]`.
+  - For Hamilton's algebra at the Hurwitz maximal-order level, the single class has
+    a stabilizer of order 24 and a central subgroup of order two, giving weighted sum `1/12`.
+    At `U₁(9)` the three classes have trivial stabilizers; the level index is 72
+    and the central index is two, so the formula gives `3 = (72/2) · (1/12)`
+    (QuaternionicModularForms §0.5). This detects the central-index denominator.
 
 ### Examples
 
@@ -4818,9 +4827,8 @@ of the narrow class group; `diag(1, −1)` distinguishes the raw and folded half
 Layers AA.1–AA.4; Mathlib's idele class group, unit lattice, upper half-plane action, arithmetic
 subgroups, congruence subgroups and quaternion algebras; Tau Ceti's `G_m` and `SL_2` comparison
 lemmas; GlobalNumberFields, layers 4 and 6; AlgebraicTopology, stage 6; FuchsianOrbifolds,
-layers 0, 1, 4 and 5; OverconvergentForms §§0.2–0.3 and
-the target **DefiniteQuaternion.finite_stab** under the heading
-“Targets requested by the Tau Ceti AdelicAlgebraicGroups roadmap”.
+layers 0, 1, 4 and 5; QuaternionicModularForms §§0.2–0.3,
+`finite_classSet` and `DefiniteQuaternion.finite_stab`.
 
 ## Downstream consumers
 
