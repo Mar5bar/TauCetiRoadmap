@@ -4,7 +4,8 @@
 that roadmap leaves out — non-discrete coefficients and the Hochschild–Serre spectral sequence —
 and uses them to build global arithmetic duality. Starting from Mathlib's `continuousCohomology`
 and ProfiniteCohomology's exact sequences, Shapiro's lemma and cup products, it uses the tower `lim` and `lim¹` supplied by
-DerivedModuleAlgebra §R02.1.1 to prove Tate's inverse-limit theorem and the passage from finite to compact and rational
+DerivedModuleAlgebra §R02.1.1 and the continuous cochain comparisons supplied by
+PerfectoidTowers §P9.0 to prove Tate's inverse-limit theorem and the passage from finite to compact and rational
 coefficients; the spectral sequence of a group extension with its transgression; the Galois group
 `G_{K,S}` of the maximal extension of a number field unramified outside a set of places `S`, the
 `S`-idele class formation and the corresponding class-field inputs for global function fields;
@@ -37,8 +38,9 @@ R02.1, R02.2, R02.3, R02.4, D7, R02.5, D8, R02.6 (see *How to read the build*).
 ## Scope and ownership
 
 **Owned here.** Continuous cohomology with compact, lattice, rational and torsion
-coefficients compared with Mathlib's carrier, Tate's inverse-limit theorem, the long exact sequences that need a
-continuous section, rationalisation and the discrete quotient `V/T`; the pointwise `Hom` with its
+coefficients using PerfectoidTowers §P9.0's comparison with Mathlib's carrier, Tate's inverse-limit
+theorem, the long exact sequences that need a continuous section, rationalisation and the discrete
+quotient `V/T`; the pointwise `Hom` with its
 splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
 with its evaluation cup product; topologies on factor-set extensions and the
 continuous Schreier classification; unbalanced cochain products. The spectral sequence of a
@@ -90,7 +92,8 @@ and Khare–Wintenberger numerics of Layer R02.6.
   Layer 12 in all degrees);
   Hilbert 90 and Kummer theory (Layer 9); cohomological dimension (Layer 11). That roadmap excludes
   the Hochschild–Serre spectral sequence and all theorems for non-discrete coefficients, profinite
-  Sylow theory and Schur multipliers; the first two are owned here, the last two are not used.
+  Sylow theory and Schur multipliers. The spectral sequence and arithmetic coefficient theory are
+  owned here, using PerfectoidTowers §P9.0's cochain comparisons; the last two are not used.
 - *ClassFieldTheory*. Class formations and fundamental classes (Layer 2), Tate's theorem and the
   Tate–Nakayama isomorphisms (Layer 3), the abstract Artin map (Layer 4); the local Brauer group,
   the local invariant, local Tate duality and the local Euler characteristic for finite modules in
@@ -110,6 +113,11 @@ and Khare–Wintenberger numerics of Layer R02.6.
 
 **Further roadmaps this roadmap builds on.**
 
+- *PerfectoidTowers* §P9.0 supplies lifting continuous cochains along surjections of discrete
+spaces,
+  continuous cochains into inverse limits, and the comparison with Mathlib's homogeneous cochains
+  for jointly continuous actions in all degrees. Topological comparisons use the quotient topology
+  on cohomology; comparisons in derived categories use the underlying modules.
 - *AdelicAlgebraicGroups* §§1.1–1.2 supply integral models, the topology of affine adelic
   points and their restricted-product realization; §1.5 supplies compact open local subgroups.
   Its §3.4 **Finiteness of class numbers** supplies finiteness of
@@ -208,7 +216,8 @@ as inputs; and Galois representations attached to automorphic forms.
   complexes of modules.
 - **Cohomology.** `Hⁱ(G, M)` is Mathlib's `continuousCohomology i M`, the cohomology of the
   homogeneous continuous cochains, compared with explicit inhomogeneous cochains
-  `C^•_cts(G, M)` by ProfiniteCohomology Layer 3 for discrete `M` and by Layer R02.1 here for compact
+  `C^•_cts(G, M)` by ProfiniteCohomology Layer 3 for discrete `M` and by PerfectoidTowers §P9.0 for
+  compact
   and rational coefficients. No third cohomology theory is introduced.
 - **Towers.** Inverse systems are indexed by `ℕ`. `lim` and `lim¹` are the kernel and cokernel of
   `1 − shift`, `(a_n) ↦ (a_n − φ_n(a_{n+1}))`. A `lim¹` term is carried explicitly in every
@@ -327,7 +336,7 @@ as inputs; and Galois representations attached to automorphic forms.
   `TauCeti.ContCohomology.H2 G (Additive M)`) are consumed as stated by Layer R02.1.
 - `TauCeti.ContCohomology.H1` and `TauCeti.ContCohomology.H2`: continuous crossed homomorphisms and
   continuous `2`-cocycles modulo coboundaries, the low-degree descriptions the compact-coefficient
-  comparison of Layer R02.1 is checked against.
+  comparison supplied by PerfectoidTowers §P9.0 is checked against.
 - `TauCeti.ContinuousCohomology.map_eq_id_of_inner`: for smooth discrete coefficients and a locally
   compact group, inner conjugation acts trivially on continuous cohomology in every degree; used for
   the independence of the localisation maps of Layer R02.3.
@@ -358,8 +367,9 @@ as inputs; and Galois representations attached to automorphic forms.
   `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `corestriction`, `corestriction_comp_res`,
   `corestriction_mackey`, `shapiroIso`, `coindAcyclic`, `dimensionShiftIso`, `cup`, `cup_res`,
   `cup_infl`, `cup_projection`, `evalPairing`, `kummerIso`, `hilbert90`, `cd_p`, `scd_p`. These are
-  consumed with their stated hypotheses (discrete coefficients); every statement here about compact
-  or rational coefficients is proved here.
+  consumed with their stated hypotheses (discrete coefficients). Compact and rational coefficients
+  use the cochain comparisons supplied by PerfectoidTowers §P9.0; their arithmetic theory is built
+  here.
 - `ClassFieldTheory`: `ClassFormation` and its fundamental classes, the Tate–Nakayama
   isomorphisms, the abstract Artin map, the local invariant, `tateDualityPairing_perfect_mixed`,
   `finite_H`, `eulerCharacteristic_mixed`, `cd_p_absoluteGaloisGroup_eq_two`, the local Artin map,
@@ -376,6 +386,10 @@ as inputs; and Galois representations attached to automorphic forms.
   Finite dual local conditions use §§D7.7.1–D7.7.2 here.
 - Supplied by EtaleCohomologyFoundations §§F.0.A0, F.0.A2: field fundamental groups,
   the arithmetic fundamental-group sequence and descent, used in §R02.3.0d.
+- Supplied by PerfectoidTowers §P9.0: lifting continuous cochains along surjections of discrete
+  spaces, inverse-limit cochain comparisons, and the all-degree comparison with Mathlib's
+  homogeneous cochains for jointly continuous actions, with quotient topologies on cohomology
+  in topological statements and underlying modules in derived categories.
 - Supplied by DerivedModuleAlgebra §R02.1.1: the tower, shift, lim/lim¹,
   Mittag–Leffler, six-term and Milnor APIs used by compact continuous cochains.
 - `SchemeAndStackFoundations` Layer 2: §2.21 *Dualising complexes* (`DualizingComplex A ω` for a
@@ -433,9 +447,9 @@ used before it is stated.
 ## Layer R02.1: Compact coefficients, limits and continuous extensions
 
 This layer extends continuous cohomology from discrete coefficients to compact and rational ones,
-working throughout with Mathlib's `continuousCohomology`. It uses DerivedModuleAlgebra §R02.1.1 for `lim`, `lim¹`, the Mittag-Leffler criterion and the Milnor sequence; compares continuous
-cochains into an inverse limit with the limit of the cochains, and Mathlib's homogeneous continuous
-cochains with explicit inhomogeneous ones for compact coefficients; proves Tate's inverse-limit
+working throughout with Mathlib's `continuousCohomology`. It uses DerivedModuleAlgebra §R02.1.1
+for `lim`, `lim¹`, the Mittag-Leffler criterion and the Milnor sequence, and PerfectoidTowers §P9.0
+for the inverse-limit and homogeneous–inhomogeneous cochain comparisons; proves Tate's inverse-limit
 theorem and the long exact sequences that need a continuous set-theoretic section; treats a lattice
 `T`, its rationalisation `V = T ⊗ ℚ_p` and the discrete quotient `W = V/T` separately; and adds
 three pieces of continuous algebra: the pointwise `Hom` with its splitting torsor, continuous
@@ -450,76 +464,17 @@ Supplied by DerivedModuleAlgebra §R02.1.1: `CompactCoefficients.Tower`, its shi
 `Tower.lim`, `Tower.limOne`, Mathlib's Mittag–Leffler condition on the underlying
 functor, vanishing of lim¹ for Mittag–Leffler towers, the six-term sequence and
 the Milnor exact sequence for degreewise-surjective towers of complexes.
-Continuous cochain comparisons use this algebra with the inverse-limit topology.
+Arithmetic coefficient comparisons use this algebra with PerfectoidTowers §P9.0's inverse-limit
+cochain comparison.
 
 ### R02.1.2 Continuous cochains into inverse limits
 
-**Lifting continuous cochains along finite surjections.** Let `X` be any topological space and
-`π : Y → Z` a surjection of discrete spaces. Then every continuous `f : X → Z` has a continuous
-lift `g : X → Y` with `π ∘ g = f` (`CompactCoefficients.exists_continuous_lift`). In particular,
-surjective transitions of discrete `G`-modules induce surjective transitions on continuous cochains
-`C(Gⁱ, −)`.
-
-*Proof sketch.* Choose a section `s : Z → Y` of `π`. Every map out of a discrete space is
-continuous, so `g = s ∘ f` is a continuous lift. Apply this with `X = Gⁱ` in each cochain degree
-([Rubin, *Euler Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2,
-Proposition 2.3, printed p. 152 (PDF p. 162)). *Needs:* nothing beyond Mathlib topology.
-
-**Checks.**
-
-- For connected `X` every continuous map to a discrete `Z` is constant, and constant maps lift.
-- Discreteness is needed: for the quotient map `ℝ → ℝ/ℤ`, the identity of `X = ℝ/ℤ` has no
-  continuous lift.
-
-**Continuous cochains into an inverse limit.** Let `G` be profinite and `T = lim T_n` a limit of
-topological `G`-modules, a closed subspace of `∏ T_n` with the induced product topology. Then
-`Cⁱ(G, T) = lim Cⁱ(G, T_n)` as complexes. When the `T_n` are finite discrete with surjective
-transitions, the transitions of the tower `Cⁱ(G, T_n)` are surjective.
-
-*Proof sketch.* A continuous map into a subspace of a product is a compatible family of
-continuous maps into the factors (Mathlib `continuous_pi_iff`); the coboundaries are given by the
-same formula at every level, so the identification is one of complexes. Surjectivity is
-*Lifting continuous cochains along finite surjections* ([Rubin, *Euler
-Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Definition 2.1,
-printed pp. 151–152 (PDF pp. 161–162)). *Needs:* *Lifting continuous cochains along finite
-surjections*; Mathlib `continuous_pi_iff`.
-
-**Checks.**
-
-- For `T = ℤ_p = lim ℤ/pⁿ` with trivial action: in degree `0` both sides are `ℤ_p`, and in
-  degree `1` a continuous homomorphism `G → ℤ_p` is the same as a compatible family of
-  homomorphisms `G → ℤ/pⁿ`.
-- For the trivial group `G`, both cochain complexes have term `T` in every degree; the
-  differentials alternate between zero and the identity, so all positive cohomology vanishes.
-- A coefficient tower with zero transitions has zero limit, as does its tower of cochains;
-  the comparison is the zero complex in every degree.
-
-**Comparison with the canonical carrier for compact coefficients.** Let `G` be a profinite group
-(compact, Hausdorff and totally disconnected) and `M` a topological `R`-module with a jointly
-continuous action `G × M → M`; continuity of each operator separately, as in `TopRep`, is not
-enough. Then dehomogenisation identifies the inhomogeneous complex `C(Gⁿ, M)` with Mathlib's
-`TopRep.homogeneousCochains` after forgetting topology, and hence identifies its cohomology with
-the underlying `R`-module of `continuousCohomology`. For compact and rational coefficients this
-extends the comparison for discrete coefficients of ProfiniteCohomology Layer 3. When a
-topological statement is made, cohomology carries the quotient topology; comparisons in the
-derived category forget it.
-
-*Proof sketch.* Dehomogenisation and its inverse are given by composing with continuous maps
-between `Gⁱ⁺¹` and `Gⁱ` and with the action; the inverse is continuous because the action is
-jointly continuous. Mathlib's homogeneous cochains are iterated spaces of continuous maps with the
-compact-open topology, and currying identifies them with `C(Gⁱ⁺¹, M)` because `G` is locally
-compact Hausdorff. The proof for discrete coefficients then applies unchanged ([Rubin, *Euler
-Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Definition 2.1,
-printed pp. 151–152 (PDF pp. 161–162)). *Needs:* *Continuous cochains into an inverse limit*;
-ProfiniteCohomology Layer 3; Mathlib `continuousCohomology`.
-
-**Checks.**
-
-- In degree `0` both sides are `M^G`.
-- In degree one the comparison agrees with Tau Ceti's `ContCohomology` description of `H¹` by
-  continuous crossed homomorphisms modulo principal ones.
-- In degree two it agrees with `TauCeti.ContCohomology.H2`, continuous `2`-cocycles modulo
-  coboundaries.
+Supplied by PerfectoidTowers §P9.0: *Lifting continuous cochains along finite surjections*,
+*Continuous cochains into an inverse limit*, and *Comparison with the canonical carrier for
+compact coefficients*. The comparison requires a jointly continuous action and applies in all
+degrees;
+topological cohomology carries the quotient topology, and derived comparisons use the underlying
+modules.
 
 **Tate's inverse-limit theorem.** Let `G` be profinite and `T = lim T_n` with finite discrete
 `G`-modules `T_n` and surjective transitions. Then for every `i > 0` there is a short exact
@@ -531,14 +486,16 @@ sequence
 
 In particular `Hⁱ(G, T) = lim Hⁱ(G, T_n)` when every `H^{i−1}(G, T_n)` is finite.
 
-*Proof sketch.* By *Continuous cochains into an inverse limit*, `C^•(G, T) = lim C^•(G, T_n)` with
-surjective transitions, and *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1) gives the short exact
-sequence. Finite groups `H^{i−1}(G, T_n)` form a Mittag-Leffler tower
+*Proof sketch.* By *Continuous cochains into an inverse limit* (PerfectoidTowers §P9.0),
+`C^•(G, T) = lim C^•(G, T_n)` with surjective transitions, and *The Milnor sequence for towers of
+complexes* (DerivedModuleAlgebra §R02.1.1) gives the short exact sequence. Finite groups
+`H^{i−1}(G, T_n)` form a Mittag-Leffler tower
 (`Tower.isMittagLeffler_of_finite`), so `lim¹ = 0` ([Rubin, *Euler
 Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Proposition 2.3,
-printed p. 152 (PDF p. 162)). *Needs:* *Continuous cochains into an inverse limit*; *The Milnor
-sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1); *Mittag-Leffler towers have vanishing lim¹*; *Comparison with
-the canonical carrier for compact coefficients*.
+printed p. 152 (PDF p. 162)). *Needs:* *Continuous cochains into an inverse limit*
+(PerfectoidTowers §P9.0); *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1);
+*Mittag-Leffler towers have vanishing lim¹*; *Comparison with the canonical carrier for compact
+coefficients* (PerfectoidTowers §P9.0).
 
 **Checks.**
 
@@ -585,7 +542,8 @@ Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2
 printed pp. 151–152 (PDF pp. 161–162); [Neukirch–Schmidt–Wingberg, *Cohomology of Number
 Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter II, §7,
 Lemma 2.7.2, p. 137 (PDF p. 154)). *Needs:* *Continuous sections of coefficient surjections*;
-*Comparison with the canonical carrier for compact coefficients*; ProfiniteCohomology Layers 5 and 10
+*Comparison with the canonical carrier for compact coefficients* (PerfectoidTowers §P9.0);
+ProfiniteCohomology Layers 5 and 10
 (the long exact sequence through degree two, and in every degree).
 
 **Checks.**
@@ -664,7 +622,7 @@ Layer 4). Write `W = colim_n W[pⁿ]` under inclusions; multiplication by `pⁿ`
 with `T/pⁿT`, the inclusions becoming the maps `T/pⁿT → T/p^{n+1}T` induced by multiplication by
 `p` ([Rubin, *Euler Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Chapter I, §2,
 Example 2.1, printed p. 3 (PDF p. 13)). *Needs:* *Comparison with the canonical carrier for compact
-coefficients*; ProfiniteCohomology Layer 4.
+coefficients* (PerfectoidTowers §P9.0); ProfiniteCohomology Layer 4.
 
 **Checks.**
 
@@ -830,7 +788,8 @@ Cⁱ_cts(Γ, P) × Cʲ_cts(Γ, Hom_cts(P, A)) → C^{i+j}_cts(Γ, A),
 takes continuous cochains to continuous cochains, satisfies `d(a ∪ b) = da ∪ b + (−1)ⁱ a ∪ db`, and
 induces `Hⁱ(Γ, P) × Hʲ(Γ, Hom_cts(P, A)) → H^{i+j}(Γ, A)` on Mathlib's `continuousCohomology`, the
 compact coefficient `P` entering through *Comparison with the canonical carrier for compact
-coefficients*. If `G` is profinite, `H` a closed normal subgroup acting trivially on `A`, and
+coefficients* (PerfectoidTowers §P9.0). If `G` is profinite, `H` a closed normal subgroup acting
+trivially on `A`, and
 `H^ab = H/H′` (`H′` the closure of the commutator subgroup) carries the conjugation action of
 `G/H`, then `H¹(H, A) ≅ Hom_cts(H^ab, A)` as discrete `G/H`-modules, compatibly with
 `H¹(H, A) = colim_U H¹(H/(H ∩ U), A)` over the open normal subgroups `U` of `G`. For infinite `P`
@@ -864,7 +823,8 @@ Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter
 2.4.4, printed p. 114 (PDF p. 131), which uses `H¹(H, A) = Hom(H^ab, A)` with continuous
 homomorphisms; Mathlib `Topology/Algebra/Group/CompactOpen.lean` for the compact-open topology on
 `ContinuousAddMonoidHom`.) *Needs:* *Comparison with the canonical carrier for compact
-coefficients*; *Pointwise Hom of discrete modules*; ProfiniteCohomology Layers 4 and 12; Mathlib
+coefficients* (PerfectoidTowers §P9.0); *Pointwise Hom of discrete modules*; ProfiniteCohomology
+Layers 4 and 12; Mathlib
 `ContinuousAddMonoidHom`.
 
 **Checks.**
@@ -918,7 +878,8 @@ rebuilt: `TauCeti.FactorSet.Extension.homeomorphProd`,
 `TauCeti.ProfiniteGroupExtension.ofFactorSet`. What is built here is the class of `α` in Mathlib's
 continuous cohomology: read as a continuous inhomogeneous `2`-cocycle with values in the compact
 module `M`, `α` defines a class in `H²(G, M)` (`continuousCohomology 2`) through *Comparison with
-the canonical carrier for compact coefficients*; the class depends only on `α` up to rescaling, and
+the canonical carrier for compact coefficients* (PerfectoidTowers §P9.0); the class depends only on
+`α` up to rescaling, and
 it is the class of the extension in `TauCeti.ContCohomology.H2` under the same comparison.
 
 The API:
@@ -938,7 +899,8 @@ homogeneous cochains, using the coefficient maps and naturality of rescaling ([K
 forms of real and p-adic groups*](https://arxiv.org/pdf/1304.3292v5), §3.2, pp. 10–12, citing NSW
 Theorem 2.7.7; [Neukirch–Schmidt–Wingberg, *Cohomology of Number
 Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), §2.7, Theorem 2.7.7, pp.
-142–143). *Needs:* *Comparison with the canonical carrier for compact coefficients*; Tau Ceti
+142–143). *Needs:* *Comparison with the canonical carrier for compact coefficients*
+(PerfectoidTowers §P9.0); Tau Ceti
 `TauCeti.FactorSet`; Tau Ceti `TauCeti.FactorSet.Extension`; Tau Ceti
 `TauCeti.FactorSet.Extension.homeomorphProd`, `TauCeti.FactorSet.Extension.isTopologicalGroup`,
 `TauCeti.FactorSet.Extension.continuous_canonicalSection`,
@@ -964,7 +926,8 @@ continuous and topologically exact (`M → E` a closed embedding, `E → G` a qu
 topology on `E` and the given action are part of the equivalence relation. Tau Ceti's
 `ProfiniteGroupExtension.contCohomologyClassEquiv` identifies continuous equivalence classes of such
 extensions with `TauCeti.ContCohomology.H2`; transport it to the compact-coefficient `H²` of
-`continuousCohomology` by *Comparison with the canonical carrier for compact coefficients*. In
+`continuousCohomology` by *Comparison with the canonical carrier for compact coefficients*
+(PerfectoidTowers §P9.0). In
 addition, the automorphisms of `E` inducing the identity on `M` and on `G` correspond to continuous
 `1`-cocycles `Z¹(G, M)`, and their quotient by conjugation by elements of `M` is `H¹(G, M)`. No
 finiteness or countability assumption on `G` or `M` is needed, since continuous normalised sections
@@ -973,14 +936,16 @@ of profinite quotient maps always exist.
 *Proof sketch.* The equivalence, the realisation theorem and the splitting criterion are in Tau Ceti
 (`TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv` and the surrounding results), cited and
 not rebuilt, including independence of the chosen normalised section; *Comparison with the canonical
-carrier for compact coefficients* transports the class to `continuousCohomology`. For an
+carrier for compact coefficients* (PerfectoidTowers §P9.0) transports the class to
+`continuousCohomology`. For an
 automorphism `σ` over both ends, `f(g) = σ(s(g))s(g)⁻¹` satisfies the continuous cocycle identity,
 and `σ` is recovered from `f` in the product coordinates; conjugation by `m ∈ M` changes `f` by the
 coboundary of `m` ([Neukirch–Schmidt–Wingberg, *Cohomology of Number
 Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), §2.7, Theorem 2.7.7, pp.
 142–143; [Kaletha, *Rigid inner forms of real and p-adic
 groups*](https://arxiv.org/pdf/1304.3292v5), §3.2, pp. 10–12). *Needs:* *Continuous topology on
-factor-set extensions*; *Comparison with the canonical carrier for compact coefficients*; Tau Ceti
+factor-set extensions*; *Comparison with the canonical carrier for compact coefficients*
+(PerfectoidTowers §P9.0); Tau Ceti
 `TauCeti.exists_continuous_section`.
 
 **Checks.**
@@ -1028,7 +993,8 @@ independence of the lifts from the factoring condition. Expand the differentials
 consecutive terms; the surviving boundary terms give the displayed Leibniz sign ([Kaletha, *Rigid
 inner forms of real and p-adic groups*](https://arxiv.org/pdf/1304.3292v5), §4.3, pp. 19–20,
 product formula and differential identity). *Needs:* *Comparison with the canonical carrier for
-compact coefficients*; ProfiniteCohomology Layer 12; Mathlib `tateCohomology`.
+compact coefficients* (PerfectoidTowers §P9.0); ProfiniteCohomology Layer 12; Mathlib
+`tateCohomology`.
 
 **Checks.**
 
@@ -1316,7 +1282,8 @@ Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter
 Theorem 2.4.4, printed p. 114 (PDF p. 131)). Harpaz–Wittenberg's formula
 `d₂^{1,1}[β] = [β ∪ f]` is this identity for their extension, up to sign. *Needs:* *The
 Hochschild–Serre spectral sequence*; *The five-term sequence and the transgression*; *Comparison
-with the canonical carrier for compact coefficients* (Layer R02.1); *Continuous Hom from a
+with the canonical carrier for compact coefficients* (PerfectoidTowers §P9.0); *Continuous Hom from
+a
 profinite source* (Layer R02.1); *Continuous Schreier classification and automorphisms* (Layer
 R02.1); ProfiniteCohomology Layers 4 and 12.
 
@@ -1450,7 +1417,8 @@ determined by its value at σ, because the cocycle identity determines it on the
 conversely every c ∈ C defines a cocycle on σ^ℤ which extends continuously to Γ: for discrete
 torsion C the stabiliser of c is open and the partial sums 1 + σ + … + σ^{n−1} applied to c are
 periodic, and for compact or rational coefficients pass to the finite quotients C/p^mC (or a
-lattice) and to the limit (§R02.1.2, *Continuous cochains into an inverse limit*). Coboundaries
+lattice) and to the limit (PerfectoidTowers §P9.0, *Continuous cochains into an inverse limit*).
+Coboundaries
 evaluate to (σ − 1)C. (Rubin (1999 draft), Appendix B, Lemma 2.8 and its proof, printed p. 153 (PDF
 p. 163), which reduces to finite C by limits and cites Serre, *Local Fields*, §XIII.1, for that
 case.)
@@ -1466,7 +1434,8 @@ case.)
   continuous action of Ẑ on ℚ₂ has σ acting by 2: the image of the compact group Ẑ in ℚ₂^× is
   compact, hence lies in ℤ₂^×, which does not contain 2.
 
-*Needs:* §R02.1.2 (*Continuous cochains into an inverse limit*); §R02.2.2 (*The five-term sequence
+*Needs:* PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); §R02.2.2 (*The
+five-term sequence
 and the transgression*); TauCetiRoadmap.ProfiniteCohomology Layer 5.
 
 ### R02.2.4 Residue sequences of Laurent-series fields
@@ -4787,7 +4756,8 @@ complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§3.3–3.6,
 4.4, pp. 95–96 and 102–104; [Jannsen, *Continuous étale
 cohomology*](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf), §2, Theorem 2.2, pp. 215–216.)
 *Needs:* *Admissible compact and cofinite coefficients*; *Comparison with the canonical carrier for
-compact coefficients* (Layer R02.1); *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §R02.1.1);
+compact coefficients* (PerfectoidTowers §P9.0); *The Milnor sequence for towers of complexes*
+(DerivedModuleAlgebra §R02.1.1);
 *Derived tensor, perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients*;
 ProfiniteCohomology Layer 10.
 
@@ -4919,7 +4889,8 @@ complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§8.1.1–8.
 §§8.2.1–8.2.3, pp. 200–201; [Rubin, *Euler
 Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §4, Definition 4.1,
 Proposition 4.2 and Remark 4.3, pp. 155–156.) *Needs:* *Continuous cochains into an inverse limit*
-(Layer R02.1); *Completed tensor products and finite reductions* (Layer R02.1); *Continuous
+(PerfectoidTowers §P9.0); *Completed tensor products and finite reductions* (Layer R02.1);
+*Continuous
 cochains in the derived category*; ProfiniteCohomology Layer 7.
 
 **Checks.**
@@ -4999,7 +4970,8 @@ and Nekovář Proposition 3.2.5. The truncation has cohomology only in degree tw
 `J[−2]`, represent the inverse morphism by a chain map, unique up to homotopy. ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.1.3 and §5.2.1,
 (5.2.1.1)–(5.2.1.3), pp. 114–115 (Numdam; PDF 123–124).) *Needs:* *Admissible compact and cofinite
-coefficients*; *Continuous cochains into an inverse limit* (Layer R02.1); *Tate's inverse-limit
+coefficients*; *Continuous cochains into an inverse limit* (PerfectoidTowers §P9.0); *Tate's
+inverse-limit
 theorem* (Layer R02.1); *Local inputs at places of a global function field* (Layer R02.3); *The
 class formation of a global function field* (Layer R02.3); ClassFieldTheory Layers 5 and 7.
 
@@ -5058,7 +5030,8 @@ into `α`. Independence of `r_{v,J}`: two retractions into the K-injective targe
 *Grothendieck local duality for a complete Noetherian local ring* (Nekovář 2.6, 2.8.11) in case (B).
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.2.2–5.2.3,
 pp. 115–116 (PDF 124–125).) *Needs:* *The local invariant map as a quasi-isomorphism*; *Continuous
-cochains into an inverse limit* (Layer R02.1); *Matlis duality for arithmetic coefficients*;
+cochains into an inverse limit* (PerfectoidTowers §P9.0); *Matlis duality for arithmetic
+coefficients*;
 *Continuous cochains in the derived category*; *Grothendieck local duality for a complete Noetherian
 local ring*; ProfiniteCohomology Layer 12; SchemeAndStackFoundations Layer 2, §2.21
 (`NormalizedDualizing`).
@@ -5760,7 +5733,8 @@ Prove this as follows. Each pairing is cup product followed by the invariant map
 are the naturality of the cup product in the coefficients (ProfiniteCohomology Layer 12) together
 with the compatibility of the invariant maps H²(K, Φ(1)) → Φ, H²(K, D(1)) → D and H²(K, O(1)/M) →
 O/MO with the maps O(1)/M ↪ D(1) and Φ(1) ↠ D(1). For the lattice and rational pairings, the
-continuous cochains and limits are those of Layer R02.1.
+continuous cochains and limits use PerfectoidTowers §P9.0's cochain comparisons and Layer R02.1's
+coefficient theory.
 
 (Rubin (1999 draft), Chapter I, §4, proof of Proposition 4.3, printed p. 9 (PDF p. 19).)
 
@@ -6189,7 +6163,8 @@ gives the quotient by `δ(H⁰(G, k))`. ([Khare–Wintenberger, *Serre's modular
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1, pp. 39–42; [Darmon–Diamond–Taylor,
 *Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
 §2.6, Lemma 2.39 and proof, p. 75; the comparison of extensions with cocycles is recalled from
-§2.4.) *Needs:* *Comparison with the canonical carrier for compact coefficients* (Layer R02.1);
+§2.4.) *Needs:* *Comparison with the canonical carrier for compact coefficients* (PerfectoidTowers
+§P9.0);
 *Trace-zero adjoint duality without division by n*; Mathlib `groupCohomology`.
 
 **Checks.**
@@ -6569,8 +6544,9 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
 ## Downstream consumers
 
 - **SelmerIwasawaCohomology**: multiplicative completion and S-unit rank, procyclic H¹,
-  dual local conditions, the carrier comparison, the long exact sequences and
-  rationalisation of Layer R02.1; `G_{K,S}` and the localisation maps of Layer R02.3; Poitou–Tate
+  dual local conditions, the long exact sequences and rationalisation of Layer R02.1;
+  the carrier comparison supplied by PerfectoidTowers §P9.0; `G_{K,S}` and the localisation maps of
+  Layer R02.3; Poitou–Tate
   duality; compact support, derived local and global duality and the compactly supported Euler
   characteristic of Layer D7.
 - **Deformation and modularity lifting** (GlobalGaloisDeformations, DeformationAndDerivedPatchingAlgebra,
@@ -6587,10 +6563,10 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   DeligneWeightsAndPurity, LefschetzPencilsAndVanishingCycles, IgusaVarietiesAndTorsionConcentration,
   CrystallineCohomology, MotivicEtaleKTheory, ArithmeticKTheory, KTheoryFiniteLocalFields,
   StableHomotopyKTheory, HabiroNumberFields, ShimuraCompactifications,
-  PadicHodgeTheory, ExcursionOperatorsAndSpectralAction): continuous cochain limits, the spectral
+  PadicHodgeTheory, ExcursionOperatorsAndSpectralAction): Tate's inverse-limit theorem of R02.1, the spectral
   sequences of R02.2 and the derived duality of D7.
-- **AnabelianGeometryAndNonabelianChabauty**: the carrier comparison and local duality over
-  coefficient fields.
+- **AnabelianGeometryAndNonabelianChabauty**: local duality over coefficient fields, using the
+  carrier comparison supplied by PerfectoidTowers §P9.0.
 
 ## References
 

@@ -22,6 +22,9 @@ Design choices made explicit here:
 * Continuous cohomology is Mathlib's `continuousCohomology n X` for `X : TopRep ℤ G`, and a
   discrete module enters through Tau Ceti's `TauCeti.ofDiscreteModule`. No second cohomology
   theory is introduced; tower algebra is supplied by DerivedModuleAlgebra §R02.1.1.
+  PerfectoidTowers §P9.0 supplies continuous cochain lifting, inverse-limit cochain comparisons
+  and the all-degree homogeneous comparison for jointly continuous actions. Topological cohomology
+  carries the quotient topology; comparisons in derived categories use the underlying modules.
 * In DerivedModuleAlgebra §R02.1.1, `lim` and `lim¹` of an `ℕ`-indexed tower are the kernel
   and cokernel of the shift map
   `(a_n) ↦ (a_n - φ_n(a_{n+1}))`; the Mittag-Leffler condition is Mathlib's
@@ -66,15 +69,6 @@ universe u
 /-! ## Layer R02.1: compact coefficients, limits and continuous extensions -/
 
 namespace CompactCoefficients
-
-/-- **Lifting continuous cochains along surjections of discrete spaces.** Composing with a
-set-theoretic section of `π` is continuous because `Z` is discrete. -/
-theorem exists_continuous_lift {X Y Z : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-    [DiscreteTopology Y] [TopologicalSpace Z] [DiscreteTopology Z] (π : Y → Z)
-    (hπ : Function.Surjective π) (f : C(X, Z)) : ∃ g : C(X, Y), π ∘ g = f :=
-  ⟨⟨Function.surjInv hπ ∘ f, continuous_of_discreteTopology.comp f.continuous⟩, by
-    ext x
-    simp [Function.surjInv_eq hπ]⟩
 
 /-- **Continuous cochains into `V = T ⊗ ℚ_p` land in a lattice**: on a compact space a
 continuous map to `ℚ_pᵈ` is bounded, so some `pⁿ f` takes values in `ℤ_pᵈ`. -/
