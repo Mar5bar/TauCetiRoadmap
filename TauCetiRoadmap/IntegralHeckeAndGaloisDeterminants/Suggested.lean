@@ -88,6 +88,27 @@ example : ¬ IsHomogeneousOfDegree 2 (PolynomialLaw.id : ℤ →ₚₗ[ℤ] ℤ)
 -- The zero law on `ℤ` preserves products but not `1`.
 example : ¬ IsMultiplicative (0 : ℤ →ₚₗ[ℤ] ℤ) := sorry
 
+-- The zero law is homogeneous in every degree, after every scalar extension.
+example {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
+    (n : ℕ) : IsHomogeneousOfDegree n (0 : M →ₚₗ[A] N) := sorry
+
+-- The identity preserves the tensor-product ring operations.
+example {R : Type*} [Ring R] [Algebra A R] :
+    IsMultiplicative (PolynomialLaw.id : R →ₚₗ[A] R) := sorry
+
+-- Ground values do not determine a law over a finite field.
+example {k : Type} [Field k] (p : ℕ) [Fact p.Prime] (e : k ≃+* ZMod p) :
+    ∃ f : (Fin 2 → k) →ₚₗ[k] k,
+      IsHomogeneousOfDegree (A := k) (p + 1) f ∧
+      (∀ (S : Type) [CommRing S] [Algebra k S] (x y : S),
+        f.toFun' S (x ⊗ₜ[k] ![1, 0] + y ⊗ₜ[k] ![0, 1]) =
+          (x ^ p * y - x * y ^ p) ⊗ₜ[k] (1 : k)) ∧
+      (∀ x, f.ground x = 0) ∧ f ≠ 0 ∧
+      Algebra.TensorProduct.rid k k k[X]
+        (f.toFun' k[X]
+          (X ⊗ₜ[k] ![1, 0] + 1 ⊗ₜ[k] ![0, 1])) = X ^ p - X ∧
+      (X ^ p - X : k[X]) ≠ 0 := sorry
+
 end PolynomialLaw
 
 /-- A `d`-dimensional `A`-valued determinant on an `A`-algebra `R` ([Chenevier], §1.5,
@@ -138,6 +159,11 @@ def ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) : Determinant A R d whe
 theorem charpoly_ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) (x : R) :
     (ofMatrix ρ).charpoly x = (ρ x).charpoly := sorry
 
+-- The matrix determinant is multiplicative as a polynomial law.
+example : PolynomialLaw.IsMultiplicative
+    (ofMatrix (AlgHom.id A (Matrix (Fin d) (Fin d) A))).toLaw :=
+  (ofMatrix _).isMultiplicative
+
 -- On `M₂(ℤ)` at `[[2,3],[4,5]]`: value `−2` (`ad − bc`), polynomial `X² − 7X − 2`, trace `7`.
 example :
     (ofMatrix (AlgHom.id ℤ (Matrix (Fin 2) (Fin 2) ℤ))).eval !![2, 3; 4, 5] = -2 ∧
@@ -145,9 +171,10 @@ example :
         X ^ 2 - 7 * X - 2 ∧
       (ofMatrix (AlgHom.id ℤ (Matrix (Fin 2) (Fin 2) ℤ))).trace !![2, 3; 4, 5] = 7 := sorry
 
--- In degree zero the characteristic polynomial is `1` and the trace is `0`.
+-- In degree zero the value at zero and the characteristic polynomial are `1`; the trace is `0`.
 example :
-    (ofMatrix (AlgHom.id ℤ (Matrix (Fin 0) (Fin 0) ℤ))).charpoly 0 = 1 ∧
+    (ofMatrix (AlgHom.id ℤ (Matrix (Fin 0) (Fin 0) ℤ))).eval 0 = 1 ∧
+      (ofMatrix (AlgHom.id ℤ (Matrix (Fin 0) (Fin 0) ℤ))).charpoly 0 = 1 ∧
       (ofMatrix (AlgHom.id ℤ (Matrix (Fin 0) (Fin 0) ℤ))).trace 0 = 0 := sorry
 
 -- Traces lose information in small characteristic: on `𝔽_p[T]`, the `p`-th powers of evaluation
@@ -163,7 +190,9 @@ theorem eq_of_charpoly_eq {G : Type*} [Monoid G] (D E : Determinant A (MonoidAlg
     D = E := sorry
 
 /-- Continuity of every coefficient of `g ↦ χ_D(g,X)` for the supplied topologies. Over a
-topological ring this is equivalent to continuity of every `Λ_i` ([Chenevier], §2.30, p. 37). -/
+topological ring this is equivalent to continuity of every `Λ_i`. For a topological group,
+Amitsur's formula also identifies it with continuity of all mixed determinant maps
+([Chenevier], §2.30, p. 37). -/
 def IsContinuous {G : Type*} [Group G] [TopologicalSpace G] [TopologicalSpace A]
     (D : Determinant A (MonoidAlgebra A G) d) : Prop :=
   ∀ i, Continuous fun g : G ↦ (D.charpoly (MonoidAlgebra.of A G g)).coeff i
@@ -172,6 +201,49 @@ def IsContinuous {G : Type*} [Group G] [TopologicalSpace G] [TopologicalSpace A]
 example {G : Type*} [Group G] [TopologicalSpace G] [DiscreteTopology G] [TopologicalSpace A]
     (D : Determinant A (MonoidAlgebra A G) d) : D.IsContinuous :=
   fun _ ↦ continuous_of_discreteTopology
+
+-- Characteristic coefficients of a continuous matrix representation are continuous.
+example {G : Type*} [Group G] [TopologicalSpace G] [TopologicalSpace A]
+    [IsTopologicalRing A] (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A)
+    (hρ : Continuous fun g : G ↦ ρ (MonoidAlgebra.of A G g)) :
+    (ofMatrix ρ).IsContinuous := sorry
+
+-- With an indiscrete source and discrete coefficients, the sign character is discontinuous.
+example :
+    letI : TopologicalSpace ℤˣ := ⊤
+    let ρ : MonoidAlgebra ℤ ℤˣ →ₐ[ℤ] Matrix (Fin 1) (Fin 1) ℤ :=
+      MonoidAlgebra.lift ℤ _ _
+        ((algebraMap ℤ (Matrix (Fin 1) (Fin 1) ℤ)).toMonoidHom.comp (Units.coeHom ℤ))
+    ¬ Continuous (fun u : ℤˣ ↦ (u : ℤ)) ∧ ¬ (ofMatrix ρ).IsContinuous := sorry
+
+-- Upper sets make the negative sign continuous although the sign is discontinuous.
+example :
+    letI : TopologicalSpace ℤ := TopologicalSpace.generateFrom {s : Set ℤ | IsUpperSet s}
+    letI : TopologicalSpace ℤˣ := TopologicalSpace.generateFrom {{(-1 : ℤˣ)}}
+    let ρ : MonoidAlgebra ℤ ℤˣ →ₐ[ℤ] Matrix (Fin 1) (Fin 1) ℤ :=
+      MonoidAlgebra.lift ℤ _ _
+        ((algebraMap ℤ (Matrix (Fin 1) (Fin 1) ℤ)).toMonoidHom.comp (Units.coeHom ℤ))
+    ¬ Continuous (fun u : ℤˣ ↦ (u : ℤ)) ∧
+      Continuous (fun u : ℤˣ ↦ -(u : ℤ)) ∧ (ofMatrix ρ).IsContinuous := sorry
+
+-- Trace/determinant topology preserves single-element coefficients but not the mixed map.
+example :
+    letI : TopologicalSpace ℚ := ⊥
+    let G := (Matrix (Fin 2) (Fin 2) ℚ)ˣ
+    letI : TopologicalSpace G := TopologicalSpace.induced
+      (fun g : G ↦ ((g : Matrix (Fin 2) (Fin 2) ℚ).trace,
+        (g : Matrix (Fin 2) (Fin 2) ℚ).det)) inferInstance
+    let ρ : MonoidAlgebra ℚ G →ₐ[ℚ] Matrix (Fin 2) (Fin 2) ℚ :=
+      MonoidAlgebra.lift ℚ _ _ (Units.coeHom _)
+    (ofMatrix ρ).IsContinuous ∧
+      ¬ Continuous (fun z : G × G ↦
+        (z.1 : Matrix (Fin 2) (Fin 2) ℚ).trace *
+          (z.2 : Matrix (Fin 2) (Fin 2) ℚ).trace -
+            ((z.1 : Matrix (Fin 2) (Fin 2) ℚ) * z.2).trace) ∧
+      (3 * 3 - (!![2, 0; 0, 1] * !![2, 0; 0, 1] :
+        Matrix (Fin 2) (Fin 2) ℚ).trace = 4) ∧
+      (3 * 3 - (!![1, 0; 0, 2] * !![2, 0; 0, 1] :
+        Matrix (Fin 2) (Fin 2) ℚ).trace = 5) := sorry
 
 /-- `E` is the coefficient change of `D` along `φ`: at every group element the characteristic
 polynomial of `E` is the image of that of `D`. By `eq_of_charpoly_eq` this pins `E` as a
@@ -184,6 +256,34 @@ def IsCoefficientChange {G B : Type*} [Monoid G] [CommRing B]
 -- Coefficient change along the identity.
 example {G : Type*} [Monoid G] (D : Determinant A (MonoidAlgebra A G) d) :
     D.IsCoefficientChange (RingHom.id A) D := fun _ ↦ Polynomial.map_id
+
+-- Rank zero keeps its constant value after reduction modulo two.
+example :
+    let D := ofMatrix (MonoidAlgebra.lift ℤ (Matrix (Fin 0) (Fin 0) ℤ) PUnit 1)
+    let E := ofMatrix (MonoidAlgebra.lift (ZMod 2) (Matrix (Fin 0) (Fin 0) (ZMod 2)) PUnit 1)
+    D.IsCoefficientChange (Int.castRingHom (ZMod 2)) E ∧ E.eval 0 = 1 := sorry
+
+-- The eigenvalues `1, −1` coincide after reduction, with the same rank-two polynomial.
+example :
+    let ρ : ℤˣ →* Matrix (Fin 2) (Fin 2) ℤ :=
+      { toFun := fun u ↦ !![1, 0; 0, (u : ℤ)], map_one' := sorry, map_mul' := sorry }
+    let D := ofMatrix (MonoidAlgebra.lift ℤ _ _ ρ)
+    let E := ofMatrix (MonoidAlgebra.lift (ZMod 2) _ _
+      ((Int.castRingHom (ZMod 2)).mapMatrix.toMonoidHom.comp ρ))
+    D.IsCoefficientChange (Int.castRingHom (ZMod 2)) E ∧
+      D.charpoly (MonoidAlgebra.of ℤ ℤˣ (-1)) = X ^ 2 - 1 ∧
+      E.charpoly (MonoidAlgebra.of (ZMod 2) ℤˣ (-1)) = X ^ 2 + 1 := sorry
+
+-- Identity change retains `3` modulo four; reduction modulo two gives `1`.
+example :
+    let ρ : (ZMod 4)ˣ →* Matrix (Fin 1) (Fin 1) (ZMod 4) :=
+      (algebraMap (ZMod 4) _).toMonoidHom.comp (Units.coeHom (ZMod 4))
+    let D := ofMatrix (MonoidAlgebra.lift (ZMod 4) _ _ ρ)
+    let φ : ZMod 4 →+* ZMod 2 := ZMod.castHom (by decide) (ZMod 2)
+    let E := ofMatrix (MonoidAlgebra.lift (ZMod 2) _ _ (φ.mapMatrix.toMonoidHom.comp ρ))
+    D.IsCoefficientChange (RingHom.id (ZMod 4)) D ∧ D.IsCoefficientChange φ E ∧
+      D.eval (MonoidAlgebra.of (ZMod 4) (ZMod 4)ˣ (-1)) = 3 ∧
+      E.eval (MonoidAlgebra.of (ZMod 2) (ZMod 4)ˣ (-1)) = 1 := sorry
 
 end Determinant
 
@@ -426,6 +526,18 @@ example {K R : Type u} [CommRing K] [Ring R] [Algebra K R] {d : ℕ}
 example : ¬ IsSimpleModule (Matrix (Fin 0) (Fin 0) ℚ)
     (matrixModule (AlgHom.id ℚ (Matrix (Fin 0) (Fin 0) ℚ))) := sorry
 
+-- The positive-dimensional natural matrix action is simple and semisimple.
+example {k : Type u} [Field k] (d : ℕ) (hd : 0 < d) :
+    IsSimpleModule (Matrix (Fin d) (Fin d) k)
+      (matrixModule (AlgHom.id k (Matrix (Fin d) (Fin d) k))) ∧
+    IsSemisimpleModule (Matrix (Fin d) (Fin d) k)
+      (matrixModule (AlgHom.id k (Matrix (Fin d) (Fin d) k))) := sorry
+
+-- A scalar action on two copies of a field is semisimple but reducible.
+example :
+    let ρ : ℚ →ₐ[ℚ] Matrix (Fin 2) (Fin 2) ℚ := Algebra.ofId ℚ _
+    ¬ IsSimpleModule ℚ (matrixModule ρ) ∧ IsSemisimpleModule ℚ (matrixModule ρ) := sorry
+
 /-- A family of matrices `ρ : G → M_d(k)` over a field (the image of a representation) is
 absolutely irreducible: `d > 0`, and after every extension to an algebraically closed field no
 proper nonzero subspace is stable. -/
@@ -573,6 +685,17 @@ def IsGhost {C : DerivedCategory (ModuleCat.{u} A)} (f : End C) : Prop :=
 example (C : DerivedCategory (ModuleCat.{u} A)) : IsGhost (0 : End C) :=
   fun _ ↦ Functor.map_zero _ _ _
 
+-- Scalar two on `ℤ[0]` induces nonzero multiplication on cohomology.
+example :
+    let C := (DerivedCategory.singleFunctor (ModuleCat.{0} ℤ) 0).obj (.of ℤ ℤ)
+    ¬ IsGhost (2 • (𝟙 C)) := sorry
+
+-- The nonzero `Ext¹_ℤ(𝔽₂,𝔽₂)` block is a square-zero ghost across two degrees.
+example :
+    let F := DerivedCategory.singleFunctor (ModuleCat.{0} ℤ)
+    let C := Limits.biprod ((F 0).obj (.of ℤ (ZMod 2))) ((F 1).obj (.of ℤ (ZMod 2)))
+    ∃ f : End C, f ≠ 0 ∧ f * f = 0 ∧ IsGhost f := sorry
+
 /-- Over a noetherian ring, `Hom(M, N)` is finite for bounded `M, N` with finite cohomology; no
 finite projective dimension is assumed ([Boxer–Pilloni], proof of Lemma 2.4.3, p. 18). -/
 theorem derived_hom_finite [IsNoetherianRing A] (M N : DerivedCategory (ModuleCat.{u} A))
@@ -643,6 +766,23 @@ def IsNonEisenstein {T G V : Type u} [CommRing T] [Group G] [TopologicalSpace G]
       IsSemisimpleModule (MonoidAlgebra (T ⧸ m) G) (matrixModule ρ) ∧
       IsAbsolutelyIrreducible (fun g : G ↦ ρ (MonoidAlgebra.of (T ⧸ m) G g)) ∧
       ∀ v, (ρ (MonoidAlgebra.of (T ⧸ m) G (Frob v))).charpoly = P v
+
+-- The trivial group realizes the rank-zero, rank-one and doubled-line systems over `𝔽₂`.
+example : IsGaloisType (⊥ : Ideal (ZMod 2)) 0 (fun _ : Unit ↦ (1 : PUnit))
+    (fun _ ↦ 1) := sorry
+
+example : IsGaloisType (⊥ : Ideal (ZMod 2)) 1 (fun _ : Unit ↦ (1 : PUnit))
+    (fun _ ↦ X - 1) := sorry
+
+example : IsGaloisType (⊥ : Ideal (ZMod 2)) 2 (fun _ : Unit ↦ (1 : PUnit))
+    (fun _ ↦ (X - 1) ^ 2) := sorry
+
+-- The trivial line is absolutely irreducible; the doubled line is not.
+example : IsNonEisenstein (⊥ : Ideal (ZMod 2)) 1 (fun _ : Unit ↦ (1 : PUnit))
+    (fun _ ↦ X - 1) := sorry
+
+example : ¬ IsNonEisenstein (⊥ : Ideal (ZMod 2)) 2 (fun _ : Unit ↦ (1 : PUnit))
+    (fun _ ↦ (X - 1) ^ 2) := sorry
 
 -- At a Frobenius element equal to `1` the observed polynomial is `(X − 1)ⁿ`.
 example {T G V : Type u} [CommRing T] [Group G] [TopologicalSpace G] (m : Ideal T) [m.IsMaximal]
@@ -822,6 +962,29 @@ theorem generic_combinations_regular {S : Type u} [CommRing S] {h ℓ : ℕ}
     RingTheory.Sequence.IsWeaklyRegular (MvPolynomial (Fin ℓ × Fin h) S)
       (genericLinearSequence b ℓ) := sorry
 
+-- The ideal `(2)` supports one generic regular equation over `ℤ`.
+example : RingTheory.Sequence.IsWeaklyRegular (MvPolynomial (Fin 1 × Fin 1) ℤ)
+    (genericLinearSequence (fun _ : Fin 1 ↦ (2 : ℤ)) 1) := sorry
+
+-- Over `ℤ/4`, the same equation annihilates the nonzero constant `2`.
+example :
+    let P := MvPolynomial (Fin 1 × Fin 1) (ZMod 4)
+    ¬ RingTheory.Sequence.IsWeaklyRegular P
+      (genericLinearSequence (fun _ : Fin 1 ↦ (2 : ZMod 4)) 1) ∧
+      (MvPolynomial.C (2 : ZMod 4) : P) ≠ 0 ∧
+      (MvPolynomial.X (0, 0) * MvPolynomial.C (2 : ZMod 4) : P) *
+        MvPolynomial.C (2 : ZMod 4) = 0 := sorry
+
+-- Two independent combinations of `(X)` exceed its regular-sequence length.
+example :
+    let P := MvPolynomial (Fin 2 × Fin 1) ℤ[X]
+    let I : Ideal P := Ideal.span {MvPolynomial.X (0, 0) * MvPolynomial.C X}
+    let v := Ideal.Quotient.mk I (MvPolynomial.X (0, 0))
+    ¬ RingTheory.Sequence.IsWeaklyRegular P
+      (genericLinearSequence (fun _ : Fin 1 ↦ (X : ℤ[X])) 2) ∧
+      v ≠ 0 ∧ v * Ideal.Quotient.mk I
+        (MvPolynomial.X (1, 0) * MvPolynomial.C X) = 0 := sorry
+
 /-- The sum of the disjoint local two-row minor ideals. Left variables are `b′`, right
 variables are `b`; the final `u` right variables are unused coordinates (DKSW Corollary 5.12,
 printed p.43; README §6.5, Coordinate regularity in disjoint minor quotients). -/
@@ -830,6 +993,27 @@ def localMinorIdeal (S : Type u) [CommRing S] {n k : ℕ} (u : ℕ) (block : Fin
   Ideal.span {p | ∃ i j : Fin n, block i = block j ∧
     p = MvPolynomial.X (Sum.inr (Fin.castAdd u i)) * MvPolynomial.X (Sum.inl j) -
       MvPolynomial.X (Sum.inr (Fin.castAdd u j)) * MvPolynomial.X (Sum.inl i)}
+
+-- A singleton block has no nonzero minor.
+example (S : Type u) [CommRing S] :
+    localMinorIdeal S 0 (fun _ : Fin 1 ↦ (0 : Fin 1)) = ⊥ := sorry
+
+-- In the integral two-column quotient `b₁` is regular; modulo `b₁`, `b₂` kills `b′₁`.
+example :
+    let Q := MvPolynomial (Fin 2 ⊕ Fin 2) ℤ
+    let I := localMinorIdeal ℤ 0 (fun _ : Fin 2 ↦ (0 : Fin 1))
+    let b : Q ⧸ I := Ideal.Quotient.mk I (MvPolynomial.X (Sum.inr 0))
+    let J : Ideal (Q ⧸ I) := Ideal.span {b}
+    let v := Ideal.Quotient.mk J (Ideal.Quotient.mk I (MvPolynomial.X (Sum.inl 0)))
+    Function.Injective (fun x : Q ⧸ I ↦ b * x) ∧ v ≠ 0 ∧
+      v * Ideal.Quotient.mk J (Ideal.Quotient.mk I (MvPolynomial.X (Sum.inr 1))) = 0 := sorry
+
+-- The same coordinate remains regular over the torsion base `ℤ/4`.
+example :
+    let Q := MvPolynomial (Fin 2 ⊕ Fin 2) (ZMod 4)
+    let I := localMinorIdeal (ZMod 4) 0 (fun _ : Fin 2 ↦ (0 : Fin 1))
+    Function.Injective (fun x : Q ⧸ I ↦
+      Ideal.Quotient.mk I (MvPolynomial.X (Sum.inr 0)) * x) := sorry
 
 /-- Modulo disjoint local minors, at most `u + k` independent generic scalar equations are
 weakly regular, with `u` unused coordinates and `k` nonempty blocks, over any commutative
@@ -845,6 +1029,22 @@ theorem mixed_scalar_regular (S : Type u) [CommRing S] {n k u ℓ : ℕ}
       (MvPolynomial (Fin ℓ × Fin (n + u)) Q ⧸ I)
       ((genericLinearSequence (fun j : Fin (n + u) ↦
         (MvPolynomial.X (Sum.inr j) : Q)) ℓ).map (Ideal.Quotient.mk I)) := sorry
+
+-- With one two-column block, two equations exceed `u + k = 1`.
+example :
+    let Q := MvPolynomial (Fin 2 ⊕ Fin 2) ℤ
+    let P := MvPolynomial (Fin 2 × Fin 2) Q
+    let L : Fin 2 → P := fun i ↦ ∑ j : Fin 2,
+      MvPolynomial.X (i, j) * MvPolynomial.C (MvPolynomial.X (Sum.inr j))
+    let I := (localMinorIdeal ℤ 0 (fun _ : Fin 2 ↦ (0 : Fin 1))).map
+      (MvPolynomial.C : Q →+* P)
+    let J := I ⊔ Ideal.span {L 0}
+    let v := Ideal.Quotient.mk J (∑ j : Fin 2,
+      MvPolynomial.X (0, j) * MvPolynomial.C (MvPolynomial.X (Sum.inl j)))
+    ¬ RingTheory.Sequence.IsWeaklyRegular (P ⧸ I)
+      ((genericLinearSequence (fun j : Fin 2 ↦
+        (MvPolynomial.X (Sum.inr j) : Q)) 2).map (Ideal.Quotient.mk I)) ∧
+      v ≠ 0 ∧ v * Ideal.Quotient.mk J (L 1) = 0 := sorry
 
 -- Three scalar equations and two unused coordinates. The first two coordinates form the
 -- local block; relabeling puts it at `{3,4}` as in the README check.
@@ -874,6 +1074,12 @@ def scalarRepresentation (ψ : G →* Aˣ) :
     MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) A :=
   MonoidAlgebra.lift A _ G
     ((algebraMap A (Matrix (Fin 2) (Fin 2) A)).toMonoidHom.comp ((Units.coeHom A).comp ψ))
+
+-- The integral unipotent action is reducible and not semisimple.
+example :
+    ¬ IsSimpleModule (MonoidAlgebra ℤ (Multiplicative ℤ)) (matrixModule unipotentRepresentation) ∧
+      ¬ IsSemisimpleModule (MonoidAlgebra ℤ (Multiplicative ℤ))
+        (matrixModule unipotentRepresentation) := sorry
 
 /-- `t ↦ ρ(t) − ψ(t) I₂` on `A[G]`. -/
 def differenceMap (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (ψ : G →* Aˣ) :
@@ -1099,6 +1305,15 @@ def Congruence (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ �
     P.map (Ideal.Quotient.mk I) =
       (X - C (Ideal.Quotient.mk I (χ g))) * (X - C (Ideal.Quotient.mk I (ψ g)))
 
+-- Scalar and unipotent actions have exactly the split characteristic polynomials.
+example (χ : G →* Aˣ) : Congruence (scalarRepresentation χ) χ χ ⊥ := sorry
+
+example : Congruence unipotentRepresentation 1 1 ⊥ := sorry
+
+-- Integral characteristic polynomials impose no restriction modulo the unit ideal.
+example (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) A) (χ ψ : G →* Aˣ) :
+    Congruence ρ χ ψ ⊤ := sorry
+
 /-- The representation `k[G] → M₂(k)` obtained from `ρ` along `φ : B →+* k`. -/
 def fieldRepresentation {k : Type u} [Field k]
     (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (φ : B →+* k) :
@@ -1110,6 +1325,23 @@ def fieldRepresentation {k : Type u} [Field k]
 def IrreducibleOnFields (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) : Prop :=
   ∀ (k : Type u) [Field k] (φ : B →+* k), Function.Surjective φ →
     IsSimpleModule (MonoidAlgebra k G) (matrixModule (fieldRepresentation ρ φ))
+
+-- The full natural `GL₂(ℚ)` action is irreducible on every field quotient of `ℚ`.
+example :
+    let G := (Matrix (Fin 2) (Fin 2) ℚ)ˣ
+    let ρ : MonoidAlgebra ℚ G →ₐ[ℚ] Matrix (Fin 2) (Fin 2) ℚ :=
+      MonoidAlgebra.lift ℚ _ _ (Units.coeHom _)
+    IsSimpleModule (MonoidAlgebra ℚ G) (matrixModule (fieldRepresentation ρ (RingHom.id ℚ))) ∧
+      IrreducibleOnFields ρ := sorry
+
+-- Scalar `ℚ²` has a proper nonzero invariant coordinate line on the identity quotient.
+example {H : Type} [Group H] (χ : H →* ℚˣ) :
+    ¬ IsSimpleModule (MonoidAlgebra ℚ H)
+      (matrixModule (fieldRepresentation (scalarRepresentation χ) (RingHom.id ℚ))) ∧
+      ¬ IrreducibleOnFields (scalarRepresentation χ) := sorry
+
+-- A zero coefficient ring has no unital maps to fields.
+example : IrreducibleOnFields (scalarRepresentation (1 : PUnit →* (ZMod 1)ˣ)) := sorry
 
 -- Reduction `ℤ → 𝔽₂` is a field quotient and preserves the first-coordinate line.
 example :
@@ -1146,6 +1378,17 @@ example {Tilde : Type u} [CommRing Tilde] [Algebra A Tilde] [Algebra Tilde B]
     (χ ψ : G →* Aˣ) (Itilde : Ideal Tilde) :
     Nonempty (LocalInput ⟨0, ∅, Fin.elim0, Fin.elim0, fun v ↦ v.elim0, none, fun v ↦ v.elim0,
       by simp⟩ ρ χ ψ Itilde) := sorry
+
+-- Matching scalar characters supply triangular input with the identity basis.
+example :
+    ∃ loc : LocalInput (fullLocalData ℤˣ) (scalarRepresentation (MonoidHom.id ℤˣ))
+      (MonoidHom.id ℤˣ) (MonoidHom.id ℤˣ) (⊥ : Ideal ℤ),
+      (∀ v, loc.basis v = 1) ∧ (∀ v g, loc.eta v g = g.val) ∧
+        (∀ v g, loc.xi v g = g.val) := sorry
+
+-- The same scalar action cannot have second diagonal character `1` modulo zero.
+example : ¬ Nonempty (LocalInput (fullLocalData ℤˣ)
+    (scalarRepresentation (MonoidHom.id ℤˣ)) 1 1 (⊥ : Ideal ℤ)) := sorry
 
 /-- Ribet's method in the residually indistinguishable case with all local conditions: under the
 hypotheses of [DKSW], Theorem 2.1, together with a finite `T`-lattice `Λ ⊆ M₂(K)` containing both

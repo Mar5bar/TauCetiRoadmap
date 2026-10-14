@@ -100,7 +100,7 @@ exact declarations are listed under *Exact supplier contracts*.
   §2.22 owns affine Azumaya étale splitting and the
   finite-cover-to-one-faithfully-flat-étale-algebra adapter in the neutral `IsAzumaya` API.
   The reduced-norm polynomial law is owned here.
-- **PadicMeasuresIwasawaAlgebras** (§4.5) owns `TauCeti.Iwasawa.fittingIdeal_le_annihilator`;
+- **PadicMeasuresIwasawaAlgebras** (§4.5) owns `TauCeti.Module.fittingIdeal_le_annihilator`;
   the Ribet consequences are owned here.
 
 Tau Ceti's `HeckeRing.GL2.Newform.satakeParameters` carries the classical rank-two polynomial
@@ -482,7 +482,7 @@ The degree-`d` multiplicative polynomial law on endomorphisms is the additional 
 AlgebraicVectorBundles L0C consumes that ring-level foundation for sheaf determinants.
 
 [PadicMeasuresIwasawaAlgebras §4.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c2b687410d8df022e1212fdf22129450963d696/TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md#45-the-iwasawa-coordinate-and-the-initial-fitting-ideal)
-supplies `TauCeti.Iwasawa.fittingIdeal_le_annihilator` on the existing `TauCeti.fittingIdeal`
+supplies `TauCeti.Module.fittingIdeal_le_annihilator` on the existing `TauCeti.fittingIdeal`
 carrier: for a commutative ring `A` and `[Module.FinitePresentation A M]`,
 `fittingIdeal A M 0 ≤ Module.annihilator A M`, that is, for finitely presented modules; the Ribet
 modules of Layer 6 are finite over the noetherian `T`, hence finitely presented, so this form
@@ -502,7 +502,7 @@ additional result here is the global difference lattice of §6.1; together with 
 fraction-lattice topology of §6.1 it supplies the finite-lattice and topology inputs to
 `IntegralRibet.local_ribet`.
 
-[SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a5f34f36fd23d27dd9eaa4a2c69a12d857213fe/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
+[SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d23fdaf388733bd9bcb0dc9b7963cc336f21461d/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
 owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
 Its ring-level supplier is `IsAzumaya.exists_etale_matrix_splitting`: for `IsAzumaya A R`,
 `d>0` and `rankAtStalk R=d²`, it returns an étale faithfully flat commutative `A`-algebra `B`
@@ -587,9 +587,9 @@ Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
 - The identity law is homogeneous of degree `1`: `id_S(s·x) = s·x` on every scalar extension, so a
   definition demanding `s^n` for some other `n`, or testing only ground points, would misclassify
   the identity.
-- Over `𝔽_p` some degree-`(p+1)` law vanishes on all `𝔽_p`-points without being the zero law:
-  homogeneity and vanishing are tested on every scalar extension `S`, so a definition that
-  quantified only over `S = A` would wrongly call this law zero.
+- Over `𝔽_p`, the degree-`(p+1)` law `(x,y) ↦ x^p y − xy^p` vanishes on all
+  `𝔽_p`-points. At `(T,1)` over `𝔽_p[T]` its value is `T^p−T ≠ 0`, so it is not the
+  zero law. Testing only `S=A` would miss it.
 - The zero law is homogeneous of degree `n` for every `n`, the degenerate case; a definition that
   assigned each law a unique degree would reject it.
 
@@ -1141,11 +1141,10 @@ Amitsur's formula for determinants, Mathlib `Subring.closure`, `MonoidAlgebra.of
 
 **Continuous determinants.** For a group `G` and a commutative ring `A`, each with a topology, a determinant
 `D` on `A[G]` is continuous if every coefficient map of `g ↦ χ_D(g,X)` is continuous.
-When `A` is a topological ring, continuity of negation makes this equivalent to continuity of
-every `Λ_i`, and Amitsur's formula makes it equivalent to Chenevier's definition by continuity
-of the maps `D^{[α]} : G^d → A`. Define `Determinant.IsContinuous` using the coefficients of
-`χ_D`; prove that a
-continuous determinant is determined on a dense subgroup and that, for profinite `G` and discrete
+Over a topological ring `A`, this is equivalent to continuity of every `Λ_i`. If `G` is
+also a topological group, Amitsur's formula makes these conditions equivalent to continuity
+of all mixed maps `D^{[α]} : G^d → A` in Chenevier's definition. Define
+`Determinant.IsContinuous` using the coefficients of `χ_D`; prove that a continuous determinant is determined on a dense subgroup and that, for profinite `G` and discrete
 `A`, continuity means that the kernel is open ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §2.30, p. 37). *Needs:*
 Amitsur's formula for determinants, Mathlib `Continuous`, `MonoidAlgebra.of`.
 *Lean:* `Determinant.IsContinuous`.
@@ -1168,6 +1167,13 @@ Amitsur's formula for determinants, Mathlib `Continuous`, `MonoidAlgebra.of`.
   hypothesis is needed: on `ℤ` with the upper-set topology (negation is not continuous) and
   `ℤ/2` with only the nonidentity point open, the sign character is discontinuous but its
   negative is continuous, so that one-dimensional determinant is continuous.
+- The topological-group hypothesis is necessary for the mixed-map equivalence. Give
+  `GL₂(ℚ)` the topology induced by `(trace,det)` into discrete `ℚ²`. The tautological
+  determinant has continuous characteristic coefficients. The matrices
+  `g=diag(2,1)` and `g′=diag(1,2)` have the same neighbourhoods, but with `h=g` the
+  coefficient of `st` in `det(sg+th)` is `4`, while in `det(sg′+th)` it is `5`.
+  Thus this mixed map is discontinuous. Multiplication is also discontinuous, since
+  `gh=diag(4,1)` and `g′h=diag(2,2)` have different traces.
 
 **Continuous determinants are determined on a dense subgroup.** If `A` is Hausdorff (`T2`) and
 `H ≤ G` is dense, prove that two continuous determinants on `G` with the same characteristic
@@ -1240,7 +1246,7 @@ is canonically `A`. Define the law after a faithfully flat matrix splitting and 
 splittings differ by an automorphism of a matrix algebra, which preserves the determinant. Define
 the degree-`d` reduced-norm determinant; prove that under a matrix splitting it becomes
 `Matrix.det` and that every degree-`d` determinant on `R` equals the reduced norm
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.7(ii), p.10 and Example 2.5, p.24;
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.7(ii), p.10 and Exercise 2.5, p.26;
 [Grothendieck](http://www.numdam.org/item/SB_1964-1966__9__199_0.pdf), Théorème 5.1, p.210, for étale matrix splitting;
 Théorème 5.10 and §5.13, pp.212–213, for automorphism invariance and descent of the reduced norm). *Needs:* SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`,
 Determinant coordinate ring,
@@ -2977,7 +2983,8 @@ Source: [ACC, Lemma 2.2.4 and its setup, p.920](https://www.math.uchicago.edu/~f
 *Lean:* `HeckeImage.IsGhost`.
 
 **Checks.** Scalar values and the nonzero Ext class distinguish the cohomology action
-from the derived action.
+from the derived action. The two-degree column is in `D(ℤ)`, where
+`Ext¹_ℤ(𝔽₂,𝔽₂)=𝔽₂`, computed from the resolution `ℤ --2→ ℤ → 𝔽₂`.
 
 | Definition | Zero-object Check | Scalar Check on `ℤ[0]` | Two-degree Check |
 |---|---|---|---|
@@ -3679,7 +3686,7 @@ without irreducibility.
 fraction-ring hypothesis were omitted, every assertion about field quotients of that zero ring
 would be vacuous; `¬ IsLocalization (nonZeroDivisors ℤ) (ZMod 1)` excludes this case.
 
-**Fitting annihilator bound.** The supplier `TauCeti.Iwasawa.fittingIdeal_le_annihilator`, owned
+**Fitting annihilator bound.** The supplier `TauCeti.Module.fittingIdeal_le_annihilator`, owned
 by PadicMeasuresIwasawaAlgebras §4.5, states
 `Fitt₀_A(M) ⊆ Ann_A(M)` for a finitely presented module over a commutative ring
 ([Stacks](https://stacks.math.columbia.edu/tag/07ZA), Lemma 15.8.4(6), tag 07ZA); the Ribet
@@ -4171,14 +4178,14 @@ resolution ([Stacks](https://stacks.math.columbia.edu), Definitions 15.29.1–15
 (tag 0624), Lemma 15.29.12 (tag 0664) and Lemma 15.31.2 (tag 062F)). *Needs:* Mathlib
 `ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`.
 
-Use the linear-functional API of Mathlib [PR #43708](https://github.com/leanprover-community/mathlib4/pull/43708):
+Use Mathlib's [linear-functional Koszul-complex interface](https://github.com/leanprover-community/mathlib4/pull/43708):
 `koszulComplex φ`, for a linear functional `φ : M →ₗ[A] A`, has exterior-power terms,
 alternating-deletion differential, and `koszulComplex.map` induced by `φ′ ∘ g = φ`.
 The finite-sequence notation here specializes this construction to
 `φ(v)=∑ x_i v_i`; its differential on wedges and its induced map in each degree are exactly those
 operations.
-The tensor and homotopy interfaces follow [PR #43711](https://github.com/leanprover-community/mathlib4/pull/43711)
-and [PR #43706](https://github.com/leanprover-community/mathlib4/pull/43706).
+The tensor and homotopy interfaces follow [Koszul tensor-product interface](https://github.com/leanprover-community/mathlib4/pull/43711)
+and [Koszul homotopy interface](https://github.com/leanprover-community/mathlib4/pull/43706).
 Build these contracts in Tau Ceti when absent from the pin and use Mathlib's declarations
 when supplied; the local finite-sequence notation adds no competing complex construction.
 
@@ -5075,8 +5082,8 @@ The proof-plan edges are as follows; each names the result that supplies it.
    (equation (52), p.29). For the computation of `H⁰(B,R)`, the compatibility of the
    invariant product with connecting maps and with the twist-one and diagonal-twist
    identifications supplies product compatibility, and surjectivity of the twisted invariant
-   product supplies Corollary 4.13; the identity `A = H⁰(B, R)` of Trace and determinant
-   invariant subring supplies the formal-ring invariant description (Corollary 4.17).
+   product supplies Corollary 4.13; the identity `A = H⁰(B,R)` of **Invariants of the formal Ribet ring**
+   supplies the formal-ring invariant description (Corollary 4.17).
 6. Invariant lifting → formal determinant comparison:
    Formal determinant comparison combines that lift for `e=det 𝔈′−det 𝔈` with the
    invariant character-error intersection and evaluation of the relation ideal, then uses
@@ -5284,7 +5291,7 @@ Layer IHG.0 (Amitsur's formula for determinants for the character congruence,
 Invariant coordinate algebras under conjugation and Rational cohomology of a flat affine group scheme for the integral Borel cohomology); Layer IHG.1 (Henselian lifting of matrix units for the distinct-character case and Faithful quotients over arbitrary fields for excluding `I = 0`). Tau Ceti `TauCeti.fittingIdeal` with
 `TauCeti.fittingIdeal_eq_minorsIdeal_ker`, and `TauCeti.Comodule`; ProfiniteCohomology layer 2 for
 cocycles, coboundaries and `H¹`. PadicMeasuresIwasawaAlgebras §4.5 supplies the general
-annihilator bound `TauCeti.Iwasawa.fittingIdeal_le_annihilator`; the relation-minor argument here
+annihilator bound `TauCeti.Module.fittingIdeal_le_annihilator`; the relation-minor argument here
 proves the Ribet-specific weighted containment of §6.7. From Mathlib: `MonoidAlgebra`, `Matrix`, `Submodule`,
 `ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`, `MvPolynomial` and
 `IsLocalization.Away`. SchemeAndStackFoundations §0.20 supplies
