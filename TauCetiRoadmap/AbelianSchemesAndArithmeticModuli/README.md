@@ -228,7 +228,8 @@ Supplied by EtaleCohomologyFoundations §F.3 /
 A4.4 specializes these geometric statements to proper abelian varieties over algebraically
 closed `k`, with `ℓ` invertible and the whole normalized tower `ℤ/ℓ^r`.
 Weil's trace theorem for curves, with the curve–Jacobian comparison and the graph–diagonal identity,
-and the Grothendieck–Lefschetz formula are applications in LefschetzPencilsAndVanishingCycles §F.10 /
+and the Grothendieck–Lefschetz formula use the abelian inputs consumed downstream by
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T3 /
 `VanishingCycles.curveEndomorphismTrace`, `VanishingCycles.etaleTraceFormulaFinite`,
 `VanishingCycles.etaleTraceFormula`.
 The curve theorem uses smooth proper geometrically connected curves and invertible `ℓ`;
@@ -3398,8 +3399,8 @@ semisimplicity and `p`-adic libraries.
   and the Tate module of a Weil restriction (A6.33); **PotentialModularityAndCompatibleSystems** and
   **EllipticCurveModularityPartIIGL2TypeAbelianVarieties** use the finite-level lifting theorems (A4.12–A4.14)
   and the trace and degree through subfields (A6.12).
-- **LefschetzPencilsAndVanishingCycles** §F.10 / `VanishingCycles.curveEndomorphismTrace`
-  consumes the abelian torsion, Tate-module and algebraic-trace inputs owned here.
+- The abelian torsion, Tate-module and algebraic-trace inputs owned here are consumed downstream by
+  **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace`.
   Supplied by AbelianSchemesAndArithmeticModuli §A3.2 / `multiplicationAndDensity`.
   Supplied by AbelianSchemesAndArithmeticModuli §A4.1 / `AbelianTate`.
   Supplied by AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 / `End.trace`, `charpolyTate`.
