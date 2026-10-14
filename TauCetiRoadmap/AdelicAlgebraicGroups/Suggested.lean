@@ -199,7 +199,11 @@ def adeleFundamentalSet : Set (AdeleRing (𝓞 K) K) :=
       ZSpan.fundamentalDomain (mixedEmbedding.latticeBasis K)) ×ˢ (finiteIntegers K : Set _)
 
 /-- `D_∞ × ∏_v 𝒪_v` is a fundamental domain for `K` in `𝔸_K`, of mass `|d_K|^{1/2}`; so
-`vol(𝔸_K/K) = |d_K|^{1/2}` for this normalization ([Sutherland], §23.3, p. 6). -/
+`vol(𝔸_K/K) = |d_K|^{1/2}` for this normalization. The domain follows from GlobalNumberFields
+layer 6 additive strong approximation and `ZSpan.isAddFundamentalDomain`; its mass follows from
+`NumberField.mixedEmbedding.volume_fundamentalDomain_latticeBasis`
+(Mathlib `NumberTheory/NumberField/Discriminant/Basic.lean`, line 89) and the factor `2^{r₂}`
+in `infiniteAdeleHaar`. [Sutherland], §23.3, p. 6, fixes the local normalization. -/
 theorem isAddFundamentalDomain_adeleFundamentalSet :
     IsAddFundamentalDomain (algebraMap K (AdeleRing (𝓞 K) K)).range.toAddSubgroup
         (adeleFundamentalSet K) (adeleHaar K) ∧
@@ -467,6 +471,17 @@ end RationalCharacter
 /-- `a_G = Hom(X*_F(G), ℝ)`. -/
 abbrev RealCharacterSpace (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H] :=
   Additive (RationalCharacter F H) →+ ℝ
+
+-- The determinant character makes the real character space of `GL₂` one-dimensional.
+example (F : Type) [Field F] [NumberField F] :
+    Module.finrank ℝ (RealCharacterSpace F
+      (TauCeti.GeneralLinear.coordinateHopfAlgebra F 2)) = 1 := by
+  sorry
+
+-- The real character space of `SL₂` is zero.
+example (F : Type) [Field F] [NumberField F] :
+    Subsingleton (RealCharacterSpace F (TauCeti.SpecialLinear.coordinateHopfAlgebra F 2)) := by
+  sorry
 
 namespace AdelicPoints
 
@@ -906,6 +921,14 @@ example : ¬ IsNeatAut (Matrix.GeneralLinearGroup.mkOfDetNeZero !![(0 : ℂ), -1
     (by simp [Matrix.det_fin_two_of])) := by
   sorry
 
+-- The matrix `2 • [[0,−1],[1,1]]` has infinite order but is not neat: the ratio of its
+-- eigenvalues is a nontrivial cube root of unity.
+example : let g : GL (Fin 2) ℂ :=
+    (Matrix.GeneralLinearGroup.mkOfDetNeZero !![(0 : ℂ), -2; 2, 2]
+      (by norm_num [Matrix.det_fin_two_of]));
+    ¬ IsOfFinOrder g ∧ ¬ IsNeatAut g := by
+  sorry
+
 -- The identity representation is faithful through its identity coordinate morphism.
 example (τ : F →+* ℂ) (n : ℕ) : IsFaithfulAlgebraicPointHom τ n
     (algebraicPointMap τ n (BialgHom.id F
@@ -1126,6 +1149,22 @@ example (t : ℝ) (ht : 0 < t) :
 
 -- Test GL1.levelQ_empty: with `Q = ∅` the level does not depend on `p` and `n`.
 example (p n p' n' : ℕ) : levelQ F ∅ p n = levelQ F ∅ p' n' := by
+  sorry
+
+-- At the rational place above `3`, the supported unit `4 = 2²` lies in the square level.
+example (v : HeightOneSpectrum (𝓞 ℚ)) (hv : (3 : 𝓞 ℚ) ∈ v.asIdeal) :
+    let u : (v.adicCompletion ℚ)ˣ := Units.mk0 4 (by norm_num)
+    let x : IdeleGroup (𝓞 ℚ) ℚ := MulEquiv.prodUnits.symm
+      (1, Units.map (FiniteAdeleRing.ofAdicCompletion ℚ v) u)
+    x ∈ levelQ ℚ {v} 2 1 := by
+  sorry
+
+-- The supported unit `2` is excluded, since its residue modulo `3` is not a square.
+example (v : HeightOneSpectrum (𝓞 ℚ)) (hv : (3 : 𝓞 ℚ) ∈ v.asIdeal) :
+    let u : (v.adicCompletion ℚ)ˣ := Units.mk0 2 (by norm_num)
+    let x : IdeleGroup (𝓞 ℚ) ℚ := MulEquiv.prodUnits.symm
+      (1, Units.map (FiniteAdeleRing.ofAdicCompletion ℚ v) u)
+    x ∉ levelQ ℚ {v} 2 1 := by
   sorry
 
 -- Test GL1.archimedeanScalar_one: the scalar `1` is the unit idele.

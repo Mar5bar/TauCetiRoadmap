@@ -751,7 +751,16 @@ handles the non-unit local volumes needed for Tamagawa measure.
   definition it is the product of the archimedean measure and `finiteAdeleHaar`, and the
   archimedean factor is `2^{r₂}` times the transport of the mixed-space volume (derived from the definition of the restricted-product measure in AA.0.2, using [Platonov–Rapinchuk–Rapinchuk], Lemma 3.63 and the measure construction following it, pp. 188–189). *Needs:* AA.0.4; Mathlib
   `NumberField.AdeleRing`, `NumberField.mixedEmbedding.volume_fundamentalDomain_stdBasis`,
-  `MeasureTheory.Measure.prod`; AA.0.1.
+  `MeasureTheory.Measure.prod`; AA.0.1; GlobalNumberFields, layer 6, additive strong
+  approximation; Mathlib `ZSpan.isAddFundamentalDomain` and
+  `NumberField.mixedEmbedding.volume_fundamentalDomain_latticeBasis`
+  (`NumberTheory/NumberField/Discriminant/Basic.lean`, line 89).
+  The adelic fundamental-domain assertion is an owned deduction: additive strong approximation
+  moves the finite component into `∏_v 𝒪_v`, and translation by `𝓞_K` then moves the infinite
+  component into its integral-basis parallelotope. Two rational translates intersect only when
+  their difference is integral, where `ZSpan.isAddFundamentalDomain` gives uniqueness.
+  Its mass follows from the cited lattice-volume formula and the factor `2^{r₂}` in
+  `infiniteAdeleHaar`. [Sutherland], §23.3, p. 6, supplies the local-measure normalization.
   *Lean:* in `Adeles`: `infiniteAdeleHaar`, `adeleHaar`, `adeleHaar_isAddHaarMeasure`,
   `adeleFundamentalSet`, `isAddFundamentalDomain_adeleFundamentalSet`.
 
@@ -1289,9 +1298,9 @@ restriction of scalars.
 
   **Checks.**
   - For `GL_n` with `n ≥ 1`, the rational character lattice is `ℤ·det` and `a_G` has real
-    dimension `1`.
+    dimension `1` (Lean example for `GL₂`).
   - For `E = ℚ(i)` and `G = Res_{E/ℚ} G_m`, `finrank a_G = 1`, not `2`.
-  - For `SL_n`, the real character space is zero.
+  - For `SL_n`, the real character space is zero (Lean example for `SL₂`).
   - For the squaring map of `G_m` (coordinate map `T ↦ T²`), `a(φ)` is multiplication by `2` on
     `a_{G_m} ≅ ℝ`.
   - For the diagonal `G_m → G_m²`, the first coordinate character of `G_m²` pulls back to `T`, so
@@ -1442,13 +1451,14 @@ restriction of scalars.
   finite-type `F`-group with finite-dimensional identity cotangent space: Mathlib's modular
   character of `P(𝔸_F)` is the modulus, the idele norm of the adjoint determinant.
   *Needs:* AA.2.2; AA.1.5; AA.1.3; Tau Ceti `TauCeti.Cocharacter.leviDecompositionMulEquiv`;
-  Mathlib `MeasureTheory.Measure.modularCharacter`; AA.0.3.
+  Mathlib `MeasureTheory.Measure.modularCharacter`; AA.0.3;
+  SmoothRepresentationsOfLocalGroups SR.2.2, *modulus-character*.
   *Lean:* none; specified in the README only.
 
-  The nonarchimedean input is RG2 `LocalIntegration.modularCharacter_eq_adjointModulus`
-  over every nonarchimedean local field, together with RG2's identification of the adjoint
-  determinant of a parabolic with that of its unipotent radical (RG2.4
-  *iwasawa-integration-and-unimodularity*).
+  The nonarchimedean inputs are ReductiveGroupsPartII RG2.4
+  `LocalIntegration.modularCharacter_eq_adjointModulus` for the general adjoint determinant,
+  and SmoothRepresentationsOfLocalGroups SR.2.2, *modulus-character*, for the parabolic
+  comparison `det(Ad(p)|Lie P) = det(Ad(p)|Lie N)`.
   AA owns the existence of points supported at a single finite place and their modulus: a point
   supported at a finite place has exactly the local adjoint modulus after scalar extension.
   Multiplication gives the finite-support product comparison; continuity and the integral
@@ -1468,6 +1478,8 @@ restriction of scalars.
   - For the upper triangular Borel of `GL₂/ℚ`, the real point `diag(2, 1)` has modular character
     `2`, not `1/2`: right translation by it doubles left Haar
     measure, as `(a, x) ↦ (2a, x)` does for `da dx/a²` in the coordinates `n(x) diag(a, 1)`.
+  - For `P = G`, the unipotent radical is trivial and both adjoint determinants are `1`;
+    the adelic modular character is trivial.
 - **Topology of a closed homogeneous quotient.** For a second countable locally compact
   Hausdorff topological group `G` and a closed subgroup `H ≤ G` acting by left multiplication,
   with `H\G` the orbit space with the quotient topology and `q : G → H\G` the projection, prove
@@ -3062,10 +3074,11 @@ in the standard integral level.
   *Needs:* AA.3.4.
   *Lean:* none; specified in the README only.
 
-**Checks for the window carrier.** The window contains one;
-`H_P` vanishes throughout it; it excludes any
-positive split component with nonzero logarithm. The subgroup inclusions in these
-formulas are the original quotient-coordinate pullbacks.
+**Checks for the window carrier.** The chosen window `ω = {1}` contains one.
+For `SL₂/ℚ`, the allowed window `ω = {n(1)}` and the empty window exclude one.
+`H_P` vanishes throughout every allowed window, so a positive split component with nonzero
+logarithm is excluded. The subgroup inclusions in these formulas are the original
+quotient-coordinate pullbacks.
 
 The adelic Siegel-set carrier allows arbitrary windows; compactness and
 `ω ⊆ N_P(𝔸) M_P(𝔸)^1` are explicit hypotheses of the reduction theorems.
@@ -3954,7 +3967,8 @@ quaternion norms and compact abelian Fourier limits.
   - `diag(2, 1/2) ∈ SL_2(ℚ)` is neat (`Neat.isNeat_diag`).
   - The order-`3` element `(0 −1; 1 −1)` of `SL_2(ℤ)` is not neat (`Neat.not_isNeat_rotation`).
   - Nor is a torsion-free element whose eigenvalue group contains `ζ_3`, such as
-    `(0 −1; 1 1)·(scalar 2)` in `GL_2(ℚ)`.
+    `(0 −1; 1 1)·(scalar 2)` in `GL_2(ℚ)`: its determinant is `4`, so it has infinite
+    order, while the ratio of its eigenvalues is a nontrivial cube root of unity (Lean example).
   - For `r` the identity of `O(GL_n)`, `Neat.algebraicPointMap τ n r` is
     `Matrix.GeneralLinearGroup.map τ` composed with `TauCeti.GeneralLinear.pointsMulEquiv`,
     and satisfies `Neat.IsFaithfulAlgebraicPointHom` since its coordinate map is surjective.
@@ -4149,10 +4163,20 @@ quaternion norms and compact abelian Fourier limits.
   subgroups `S_v ≤ H_v` equal to `H_v` outside a finite set `B` and of finite index for `v ∈ B`,
   prove `(∏ H_v)/(∏ S_v) ≃ ∏_{v∈B} H_v/S_v` and `[∏ H_v : ∏ S_v] = ∏_{v∈B} [H_v : S_v]`; in
   particular for compact open product levels in `G(𝔸_f)`, `[∏ K_v : ∏ K′_v] = ∏_v [K_v : K′_v]`
-  ([LT], §3.2.1, (20), p. 14). For a finite index set this is Mathlib `Subgroup.index_pi`;
-  the target is the variant for an arbitrary index set with finite exceptional
-  support. *Needs:* AA.1.5; Mathlib `Subgroup.index_prod`, `Subgroup.index_pi`.
+  as an owned finite-support deduction from Mathlib `Subgroup.index_pi`
+  (`GroupTheory/Index.lean`, lines 643–649). Split the index set into `B` and its complement;
+  the subgroup on the complement is the full product and its coset space is a point.
+  Coordinate restriction and extension by identity give the displayed equivalence. For varying
+  groups, apply the finite product-index formula inductively using `Subgroup.index_prod`.
+  [LT], §3.2.1, (20), p. 14, is the lattice-counting application.
+  *Needs:* AA.1.5; Mathlib `Subgroup.index_prod`, `Subgroup.index_pi`.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `B = ∅`, every subgroup is the whole group, and the coset space is a singleton.
+  - In `∏_{n∈ℕ} ℤ`, take `S₀ = 2ℤ`, `S₁ = 3ℤ` and all other `S_n = ℤ`; the index is `6`.
+  - If `S_n = 2ℤ` for every `n∈ℕ`, the quotient has infinitely many cosets; the finite-support
+    hypothesis fails, and no finite product of the local indices gives its index.
 - **Level quotients.** For a connected reductive group `G` over `F`, compact open
   `U ⊂ G(𝔸_{F,f})` and a closed subgroup `K_∞ ⊂ G(F_∞)` (for example a maximal compact subgroup
   times `A_G(ℝ)^0`, or trivial), define `LevelMaps.LevelQuotient U K∞ : Type`, the level
@@ -4531,7 +4555,7 @@ preceding layers; each item is a target with its own locator.
   - `levelQ F ∅ p n` does not depend on `p` and `n` (Lean example).
   - For `F = ℚ`, `Q = {3}`, `p = 2` and `n = 1`, the idele with component `4` at `3` and `1` at
     every other place lies in `levelQ` (`4 = 2²` with `2 ∈ ℤ_3^×`); the idele with component `2`
-    at `3` does not, since `2` is not a square mod `3`.
+    at `3` does not, since `2` is not a square mod `3` (Lean examples).
 - **The invariant l0 for GL_1.** Prove that every connected component of `X_Q` has dimension
   `r₁ + r₂ − 1 = NumberField.Units.rank F`, the value of Calegari–Geraghty's invariant `l0` for
   `G = GL_1/F`; in particular its cohomology vanishes above degree `r₁ + r₂ − 1` ([CG], §8.2,
@@ -4563,14 +4587,36 @@ preceding layers; each item is a target with its own locator.
   `Im z ≠ 0`, prove that the raw Möbius maps of `GL₂(ℝ)` induce an action on `ℍ± = ℂ ∖ ℝ`, that
   folding the lower half-plane by conjugation is equivariant for this action and Mathlib's
   `glAction` on `ℍ`, and that for positive determinant the raw and folded formulas coincide;
-  `diag(1, −1)` sends `i` to `−i` in the raw action and fixes `i` in `glAction` ([Milne],
-  Lemma 5.11, p. 56). *Needs:* Mathlib `UpperHalfPlane.glAction`, `Matrix.GeneralLinearGroup.det`,
-  `UpperHalfPlane.moebius_im`, `UpperHalfPlane.denom_ne_zero_of_im`, `UpperHalfPlane.coe_smul`.
+  `diag(1, −1)` sends `i` to `−i` in the raw action and fixes `i` in `glAction`.
+  This is an owned matrix deduction from Mathlib `UpperHalfPlane.denom_ne_zero_of_im`,
+  `UpperHalfPlane.moebius_im`, `UpperHalfPlane.coe_smul` and
+  `UpperHalfPlane.coe_smul_of_det_pos`
+  (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`, lines 58–83 and 188–193).
+  *Needs:* these four declarations; Mathlib `UpperHalfPlane.glAction`,
+  `Matrix.GeneralLinearGroup.det`.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `diag(1, −1)`, the raw image of `i` is `−i` and its folded image is `i`.
+  - For `[[1,1],[0,1]]`, the raw image of `i` is `1+i`, agreeing with the folded action.
+  - For `[[2,0],[0,1]]`, the raw image of `−i` is `−2i`; folding it gives `2i`, the
+    folded action on the folded input.
 - **GL_2(ℝ) modulo ℝ^× SO(2).** Prove that `GL_2(ℝ)/ℝ^× SO(2)` is homeomorphic to `ℍ^± = ℂ ∖ ℝ`
   through `g ↦ g·i`, equivariantly for the Möbius action, and that `GL_2(ℝ)^+` acts transitively
-  on `ℍ` with stabilizer `ℝ^× SO(2)` at `i` ([Milne], Lemma 5.11, p. 56). *Needs:* AA.5.2.
+  on `ℍ` with stabilizer `ℝ^× SO(2)` at `i`. This is an owned matrix deduction from the
+  raw action and Mathlib `UpperHalfPlane.denom_ne_zero_of_im` and `UpperHalfPlane.moebius_im`
+  (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`, lines 58–83): the stabilizer equation
+  is `g·i = i` iff `g = [[a,b],[−b,a]]` with `a²+b² > 0`, giving `ℝ^× SO(2)`.
+  The continuous section `x+iy ↦ [[y,x],[0,1]]` for `y ≠ 0` gives the orbit-quotient
+  homeomorphism; `y > 0` gives positive-determinant transitivity. *Needs:* AA.5.2,
+  raw Möbius action; the two cited Mathlib declarations.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The matrix `[[0,1],[−1,0]]` fixes `i` and lies in `SO(2)`.
+  - The section at `2+3i` is `[[3,2],[0,1]]`, of determinant `3`, and sends `i` to `2+3i`.
+  - The section at `−i` has determinant `−1`; the positive-determinant orbit of `i`
+    therefore excludes `−i`.
 - **Congruence groups of the GL₂ components.** For compact open subgroups `U′ ⊂ U` of
   `GL₂(𝔸_f)`, `g ∈ GL₂(𝔸_f)`, `q ∈ GL₂(ℚ)` with `det q > 0` and `u ∈ U`, put
   `Γ_{g,U} = GL₂(ℚ)^+ ∩ gUg⁻¹`, with `GL₂(ℚ)` embedded diagonally. Prove that every element of
@@ -4611,7 +4657,8 @@ preceding layers; each item is a target with its own locator.
 
   where `Γ_c = GL_2(ℚ)^+ ∩ g_c U g_c⁻¹` for `g_c ∈ GL_2(𝔸_f)` with `det g_c = c`, acting on `ℍ` by
   Möbius transformations; for `det U = ℤ̂^×` there is a single component ([Milne], Lemma 5.13,
-  p. 57). The Lean statement (`AdelicExamples.GL2.exists_componentHomeomorph`) works in the model
+  p. 57; Lemma 5.11, p. 56, supplies the rational orientation reduction from `ℍ±` to `ℍ`).
+  The Lean statement (`AdelicExamples.GL2.exists_componentHomeomorph`) works in the model
   `GL_2(ℚ)^+\(ℍ × GL_2(𝔸_f)/U)` (`AdelicExamples.GL2.LevelSpace`) over `FiniteAdeleRing ℤ ℚ`; its identification with
   `LevelMaps.LevelQuotient` for `GL_2` (finite adeles over `𝓞_ℚ`, `K∞ = ℝ^×SO(2)`), sending
   `[(g_∞, g_f)]` with `det g_∞ > 0` to `[(g_∞ · i, g_f)]`, is part of this target and is
@@ -4620,6 +4667,13 @@ preceding layers; each item is a target with its own locator.
   groups of the components; Mathlib `Matrix.GeneralLinearGroup.det`; AA.4.4.
   *Lean:* in `AdelicExamples.GL2`: `ratPos`, `Components`, `levelSetoid`, `LevelSpace`,
   `exists_componentHomeomorph`.
+
+  **Checks.**
+  - For `U = GL₂(ℤ̂)`, there is one component, `SL₂(ℤ)\ℍ`.
+  - For `U = K(3)`, there are two components, each `Γ(3)\ℍ` when the representatives lie
+    in `GL₂(ℤ̂)`.
+  - The rational reflection `diag(1,−1)` sends the raw pair `(−i,1)` to
+    `(i,diag(1,−1))`; orientation reduction acts on the finite factor as well.
 - **Principal congruence level.** For `N ≥ 1` and `U = K(N) = ker(GL_2(ℤ̂) → GL_2(ℤ/N))`, prove
   `det K(N) = {x ∈ ℤ̂^× : x ≡ 1 mod N}`, that the components are indexed by `(ℤ/N)^×`, and that
   each `Γ_c` is `Γ(N) = ker(SL_2(ℤ) → SL_2(ℤ/N))` when the representatives `g_c` are chosen in `GL₂(ℤ̂)` (other choices give conjugate groups) (Mathlib `CongruenceSubgroup.Gamma`) ([Milne],
