@@ -58,6 +58,7 @@ The roadmap owns:
   characters, Serre's fundamental characters over finite residue fields, the arithmetic adapter
   to SmoothRepresentationsOfLocalGroups' Frobenius-semisimplified Weil–Deligne parameter,
   the shared linear substrate, monodromy theorem and full construction of §2.4, local Euler factors,
+  their finite-image comparison with the adelic convergence factors in §2.5a,
   the monodromy filtration and purity, and Deligne–Langlands local constants (Layer 2);
 - the absolute upper-numbering filtration of `G_K`, breaks, Swan and Artin conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
@@ -109,8 +110,9 @@ Crystalline and finite-flat conditions on Tate modules and automorphic `ε`-fact
 LFunctions Layers 0, 5–6 supply primitive Hecke functions, completions, continuation and
 functional equations on GlobalNumberFields' characters. Section 2.7 owns their comparison with
 adelic Tate integrals and products of local epsilon factors. AdelicAlgebraicGroups AA.2.4 supplies
-finite-image Artin factors, induction and meromorphic assembly; §2.7 proves their completed
-functional equation with these local constants. CFSGBasicProperties T1–T2 supplies finite
+finite-image Artin factors, induction and meromorphic assembly; §2.5a owns their comparison with
+the geometric-Frobenius local polynomials on the dual ℓ-adic representation, and §2.7 proves their
+completed functional equation with these local constants. CFSGBasicProperties T1–T2 supplies finite
 fixed-point root calculus and simplicity; §7.12 owns the Hermitian matrix and projective-quotient
 comparison with its valid twisted type-A carriers.
 The function-field recognition statements used here are targets of §5.13.
@@ -459,8 +461,10 @@ epsilon factors in the specified conductor normalization.
 
 AdelicAlgebraicGroups AA.2.4, *convergence-factors*, supplies finite-image complex Artin factors,
 their ramified induction identity, Artin–Hecke comparison and global meromorphic assembly.
-Section 2.7 consumes these on the dual of our finite-image representation to convert its
-arithmetic Frobenius to our geometric-Frobenius convention. It proves the completed functional
+Section 2.5a compares those factors with §2.5's local polynomials over a common number field
+with specified complex and ℓ-adic embeddings: the geometric lift on the dual ℓ-adic representation
+matches the arithmetic lift on the complex representation, with `N = 0` and `v ∤ ℓ`.
+Section 2.7 consumes this comparison on dual representations. It proves the completed functional
 equation by Brauer induction and identifies its epsilon factors; it constructs the adelic
 Schwartz–Bruhat, Fourier, Poisson and globalization inputs used by local constants.
 
@@ -487,7 +491,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Fundamental characters and residual tame inertia | §2.3 here | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
 | Projective-unitary simplicity | CFSGBasicProperties T1–T2; Mathlib rank-two simplicity | §7.12 owns the Hermitian matrix, centre and quotient comparison with the valid derived central quotient at fixed-field parameter `q`, and transports supplied simplicity. Rank two uses `PSL₂(F_q)`; the small exceptions and rank one are direct checks. |
 | Grössencharacter continuation and completed equation | LFunctions Layers 0, 5–6 | §2.7 consumes the primitive functions and completed equations, compares them with adelic Tate integrals, translates complex norm twists, and identifies the product of local epsilon factors, including conductor, inverse, gamma and pole conventions. |
-| Finite-image Artin factors and meromorphic assembly | AdelicAlgebraicGroups AA.2.4, *convergence-factors* | §2.7 consumes the factors and ramified induction identity on dual representations, and proves the completed functional equation with the local-epsilon product. Only Layers 1–2 through §2.5 feed AA.2.4. |
+| Finite-image Artin factors and meromorphic assembly | AdelicAlgebraicGroups AA.2.4, *convergence-factors* | §2.5a owns the coefficient-extension and Frobenius comparison with §2.5's local polynomials on dual ℓ-adic representations. §2.7 consumes this comparison, the factors and ramified induction identity on dual representations, and proves the completed functional equation with the local-epsilon product. |
 | Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace (`leftTrace`, `rightTrace`, common spherical `trace`) | §7.2 standard symmetric module duality and tensor-unit/scalar identification. |
 | Concrete projective contraction trace | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | §7.2 `ContinuousRep.endTrace` consumer alias and finite-free Check; the concrete scalar realization and its Mathlib-based finite-free compatibility in `Suggested.lean` use contraction, without assuming finite projective modules are free. |
 
@@ -517,9 +521,9 @@ Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the sam
 as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
 are in build order.
 For global constants, GlobalNumberFields → LFunctions Layers 0, 5–6 → §2.7's Tate-integral
-comparison; Layers 1–2 through §2.5 → AdelicAlgebraicGroups AA.2.4 → §2.7's completed Artin
-equation and epsilon comparison → Deligne–Langlands existence. Section 7.12 consumes
-CFSGBasicProperties T2 after constructing the valid matrix comparison. Section 7.6's Tate
+comparison; AdelicAlgebraicGroups AA.2.4 and Layers 1–2 through §2.5 → §2.5a's finite-image
+comparison → §2.7's completed Artin equation and epsilon comparison → Deligne–Langlands existence.
+Section 7.12 consumes CFSGBasicProperties T2 after constructing the valid matrix comparison. Section 7.6's Tate
 vanishing uses ClassFieldTheory Layers 5, 10–12 and its own idelic torsion-character extension;
 ArithmeticGaloisDuality consumes that vanishing.
 `Suggested.lean` follows the same order, with one `/-! ## Layer k -/` section per layer; it records
@@ -1104,7 +1108,8 @@ IntegralHeckeAndGaloisDeterminants §1.4 for the classical Ribet lattice.
 
 This layer restricts a global representation to the places of a number field and fixes the local
 objects every subsequent layer reads: inertia and Frobenius, the cyclotomic, tame and fundamental
-characters, Weil–Deligne representations, local factors, purity and local constants.
+characters, Weil–Deligne representations, local factors and their comparison with adelic
+convergence factors, purity and local constants.
 
 Standing hypotheses: `F` is a number field, `v` a finite place with completion `F_v`, residue field
 `k_v`, `q_v = #k_v` and residue characteristic `p`. `K` is a nonarchimedean local field with residue
@@ -1609,6 +1614,45 @@ unramified at and above `v` (Deligne 1973, 3.8(ii), p. 530). *Lean:* `cyclicBloc
 - Rank-one `φ = 0` with three blocks has characteristic polynomial `X³`.
   *Lean:* the three `example`s after `charpoly_cyclicBlock`.
 
+### 2.5a Comparison with the adelic convergence factors
+
+**Finite-image comparison with Galois and Weil–Deligne local polynomials.** Let `ρ` be a
+continuous finite-image representation of `G_F`, for a number field `F`, on a finite-dimensional
+vector space `V` over a number field `C`. Fix embeddings `ι∞ : C → ℂ` and `ιℓ : C → Eℓ`, where
+`Eℓ/ℚ_ℓ` is finite, and write `ρ_ℂ` and `ρ_ℓ` for the coefficient extensions. For a finite place
+`v ∤ ℓ`, let `I_v` be the inertia image, `q_v` the residue cardinality and `Φ_v` an arithmetic
+Frobenius lift. Put `P_v(T) = det_C(1 − Tρ(Φ_v) | V^{I_v})`. Prove that inertia invariants commute
+with both coefficient extensions and that the complex Artin factor of AdelicAlgebraicGroups
+AA.2.4 is `L_v(ρ_ℂ,s) = (ι∞(P_v)(q_v^{−s}))⁻¹`, as a meromorphic function of `s`.
+Here each embedding acts coefficientwise on `P_v`; no identification of the complex and ℓ-adic
+coefficient spaces is required.
+
+For the geometric lift `Φ_v⁻¹`, prove
+`GaloisRep.localEulerFactor(ρ_ℓ^∨, Φ_v⁻¹) = ιℓ(P_v)` and
+`WeilDeligneRep.localFactor(WD(ρ_ℓ^∨), Φ_v⁻¹) = ιℓ(P_v)`, with the local restriction at `v`
+understood. Finite image gives `N = 0`. The finite inertia order is invertible in these
+characteristic-zero coefficient fields, so averaging identifies the invariants of the dual
+with the dual of the invariants; geometric Frobenius on the dual then acts as the transpose of
+arithmetic Frobenius on the original invariant space. Prove the determinant comparison through
+these identifications. This is the finite-image specialization of Marzec–Neururer, Definition
+5.11, p. 62, and Deligne 1973, 3.5.1, p. 528, and 8.12, p. 572.
+*Needs:* §§1.1–1.2 (continuous representations, coefficient extension and duals), §2.5 (local
+polynomials and exact inertia invariants); AdelicAlgebraicGroups AA.2.4, *convergence-factors*.
+The comparison is specified in this document only.
+
+**Checks.**
+- Zero inertia invariants give `P_v = 1` and Artin factor one; the rank-one trivial
+  representation gives `P_v = 1 − T` and `(1 − q_v^{−s})⁻¹`.
+- The Dirichlet character of `ℚ(i)/ℚ` at `2` has no inertia invariants, so both local
+  polynomials are `1` for `ℓ ≠ 2`. For `Ind_{ℚ(i)}^ℚ 1` the invariant line instead gives `1 − T`.
+- For an unramified character with arithmetic eigenvalue a nontrivial cube root `ζ`,
+  `P_v = 1 − ζT`; geometric Frobenius on the same representation gives `1 − ζ⁻¹T`.
+  Taking the dual with the geometric lift restores `1 − ζT`.
+- For the two-dimensional dihedral Artin representation with image `S₃`, an unramified
+  Frobenius of order three gives `P_v = 1 + T + T²`, while a transposition gives `1 − T²`.
+  The complex Artin factors are the reciprocals after `T = q_v^{−s}`, and the dual ℓ-adic
+  local polynomials agree with `P_v` under `ιℓ`.
+
 ### 2.6 Monodromy filtration and purity
 
 **Jordan strings and tensor monodromy.** For nilpotent `N` on a finite-dimensional space over
@@ -1744,11 +1788,12 @@ Deligne's transfer of local-constant theories at a place that does not split
 (Lemma 4.12 and Lemmas 4.15–4.16, pp. 544–547).
 Consume AdelicAlgebraicGroups AA.2.4's finite-image Artin factors, ramified induction and
 meromorphic assembly. For our representation `V`, use its complex dual in that supplier:
-its arithmetic-Frobenius factor then equals our geometric-Frobenius factor. Use Brauer induction and Tate's equation for the induced one-dimensional twists to prove
+§2.5a identifies its arithmetic-Frobenius factor with our geometric-Frobenius factor. Use Brauer
+induction and Tate's equation for the induced one-dimensional twists to prove
 the completed functional equation for finite-image `V` twisted by a continuous idele-class
 quasi-character, with the product of the local epsilon factors. For the untwisted representation,
 identify it with AA.2.4's meromorphic assembly (Deligne 1973, 3.12 (B)–(C), p. 533). These inputs precede Deligne–Langlands existence.
-*Needs:* LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
+*Needs:* §2.5a; LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
 GlobalNumberFields Layers 4–6 (adeles and ideles) and Layers 9–10 (Hecke characters);
 Mathlib Haar integration and Fourier transform; ClassFieldTheory layers 7, 9 and 11–12;
 RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's local constant above.
@@ -1813,8 +1858,8 @@ Layer 1; Tau Ceti's inertia, Frobenius, cyclotomic and tame declarations;
 9, 13; `TauCetiRoadmap.NumberFieldArithmetic` layers 2, 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6.
 For §2.1a: EtaleCohomologyFoundations §F.3a.
-For §2.7: GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6;
-AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly;
+For §§2.5a and 2.7: AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly.
+For §2.7: §2.5a; GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6;
 ClassFieldTheory Layers 11–12 for global characters.
 
 ## Layer 3: Artin and Swan conductors
@@ -4313,6 +4358,9 @@ printed pagination of version 2.00 (2008).
 - M. Kisin, R. Zhou, *Independence of ℓ for Frobenius conjugacy classes attached to abelian varieties*,
   arXiv:2103.09945v2.
 - Q. Liu, *Conducteur et discriminant minimal de courbes de genre 2*, Compositio Math. 94 (1994), 51–79.
+- J. Marzec, M. Neururer, *L-functions and their applications*, 25 February 2020, Chapter 5,
+  pp. 55–67, especially Definition 5.11, p. 62.
+  <https://jmarzec.ukw.edu.pl/marzec,neururer-lecture.pdf>
 - D. Masser, U. Zannier, *Abelian varieties isogenous to no Jacobian*, Ann. of Math. 191 (2020), 635–674.
 - J. S. Milne, *Abelian Varieties*, course notes, version 2.00, 2008.
 - J. S. Milne, *Elliptic Curves*, 2nd ed., World Scientific, 2021.
