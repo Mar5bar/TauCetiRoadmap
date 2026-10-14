@@ -116,7 +116,9 @@ chains. Do not replace the full cycle construction by this quotient:
 `φ(a,b,c)=abc` on ℂ is a cyclic 2-cocycle nonzero on (1,1,1),
 requiring a possibly nonunital cycle map and the forced unitization.
 
-Define degree-n cochains as multilinear maps A^(n+1)→ℂ. A cyclic cochain
+For unital A define degree-n cochains as multilinear maps A^(n+1)→ℂ.
+For nonunital A apply these formulas to A⁺ and take the relative
+complex specified above. A cyclic cochain
 satisfies `φ(a_n,a₀,…,a_(n−1))=(−1)^nφ(a₀,…,a_n)`.
 Pin the Hochschild coboundary to
 
@@ -341,15 +343,16 @@ unitization where needed. For a unital algebra acting nonunitally replace
 π(u) by `π(u)+I−π(1)`. Construct the trace index identity and its
 perturbation/finite-kernel argument before proving integrality. Compare
 with K4's native index and, under K5–K6's separable C*-algebra
-hypotheses, the KK product. For the parity-reduced
-external KK product using K5's swapped Clifford adapter prove
-`Ch(x×y)=(−1)^(pq)Ch(x)#Ch(y)` for parities p,q; compare with
-the unswapped Clifford convention, whose character product has no
-additional adapter sign. Verify the graded index-interchange sign on
-the two-circle example: the two Hardy classes have indices −1,
-their unswapped product is N7's oriented Dirac class, and the swapped
-period reduction gives its negative. These are product comparisons,
-not a change to N2's cyclic exterior product. Work out point cycles,
+hypotheses, the KK product. Construct the external product of the two
+smooth circle Fredholm modules using N7's Fourier Dirac operator at θ=0.
+Prove the two Hardy classes have indices −1 and their unswapped product
+is this oriented Dirac class. K5's swapped period reduction gives its
+negative class, represented by the reversed grading. For this product
+prove `Ch(x×y)=−Ch(x)#Ch(y)` and the graded index-interchange
+identity; point factors contribute no additional adapter sign. These
+computations concern the explicitly finitely summable point/circle
+products. A general KK product is not assumed to have a finitely
+summable representative on the given smooth algebra. Work out point cycles,
 the circle Hardy/shift compression with index −1 for the forward
 shift and +1 for its adjoint, a finite matrix
 amplification and a nonsummable compact-commutator cycle. Summability
