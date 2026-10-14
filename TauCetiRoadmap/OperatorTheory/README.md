@@ -19,6 +19,8 @@ scope and dependencies.
 - approximation numbers and the symmetric operator ideals their gauges define;
 - the bounded Borel functional calculus, projection-valued measures, and the spectral
   theory of unbounded self-adjoint operators, with Stone's theorem;
+- Hardy-space Toeplitz operators, scalar and matrix symbols, Fredholm index
+  and stable finite sections;
 - spectral-subspace perturbation: Sylvester equations, Rosenblum, and the Davis–Kahan
   `sin Θ` theorems;
 - matrix spectral statistics that feed statistical applications of the perturbation theory —
@@ -57,6 +59,14 @@ scope and dependencies.
 - [**Matrix spectral statistics**](MatrixSpectralStatistics/README.md) — rank and Gram
   factorizations with their uniqueness, entrywise-to-spectral comparisons and
   measurability of spectral functions, sample moments and matrix concentration.
+- [**Toeplitz operators**](ToeplitzOperators/README.md) — the native Hardy/Fourier
+  model, bounded symbols, Coburn's alternative, Fredholm symbols and stable
+  finite sections, consuming the C*-algebra and Calkin suppliers.
+
+ToeplitzOperators owns the Hardy model, measurable scalar/block symbols,
+Fredholm-symbol comparisons and finite sections. CStarAlgebras C8 owns
+its scalar shift extension, and OperatorKTheory K4 owns the Calkin and
+compact-perturbation index foundation.
 
 ## How they depend on one another
 
@@ -70,6 +80,7 @@ scope and dependencies.
 | `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups` |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`                                                                                       |
+| `ToeplitzOperators`            | Mathlib Fourier/projection APIs, Tau Ceti circle degree, `BanachSpaceTheory` B5, `CStarAlgebras` C1/C5/C8, `OperatorKTheory` K4 |
 | `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory`                       |
 
 
