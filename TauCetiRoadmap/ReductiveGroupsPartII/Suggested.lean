@@ -9,6 +9,7 @@ import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.UpperTriangular.Basic
 import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.CharacterLattice.Basic
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
 import TauCeti.Algebra.AlgebraicGroup.Tangent.Representation
+import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Adjoint.Classification
 import TauCeti.Algebra.AlgebraicGroup.Derived.Basic
 import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 import TauCeti.NumberTheory.LocalField.NormalizedValuation
@@ -137,6 +138,12 @@ theorem isOpenEmbedding_localization (f : A) (hU : IsOpen {r : R | IsUnit r})
     Topology.IsOpenEmbedding fun x : Localization.Away f →ₐ[k] R =>
       x.comp (IsScalarTower.toAlgHom k A (Localization.Away f)) := sorry
 
+-- Test PointTopology.polynomial_homeomorph
+example : IsHomeomorph (fun f : Polynomial k →ₐ[k] R => f Polynomial.X) := by sorry
+
+-- Test PointTopology.discrete_of_discrete
+example [DiscreteTopology R] [Algebra.FiniteType k A] : DiscreteTopology (A →ₐ[k] R) := by sorry
+
 -- Test PointTopology.pi_compat
 example : (PointTopology.topology k A R) =
     TopologicalSpace.induced (fun f : A →ₐ[k] R => (⇑f : A → R)) Pi.topologicalSpace := by
@@ -172,6 +179,14 @@ def generalLinearPointsHomeomorph [IsTopologicalRing R] (n : ℕ) :
   toEquiv := (TauCeti.GeneralLinear.pointsMulEquiv (R := k) n (A := R)).toEquiv
   continuous_toFun := sorry
   continuous_invFun := sorry
+
+-- Test PointTopology.generalLinearPointsHomeomorph_isOpenEmbedding
+example [IsTopologicalRing R] (n : ℕ) : Topology.IsOpenEmbedding
+    (generalLinearPointsHomeomorph (k := k) (R := R) n) := by sorry
+
+-- Test PointTopology.generalLinear_integral_iff_det
+example (n : ℕ) (M : Matrix (Fin n) (Fin n) R) : IsUnit M ↔ IsUnit M.det :=
+  Matrix.isUnit_iff_isUnit_det M
 
 end Group
 
@@ -283,6 +298,9 @@ open scoped PointTopology in
 example : ¬ TauCeti.IsProP (ringChar 𝓀[E])
     (subgroup E (TauCeti.GeneralLinear.coordinateHopfAlgebra 𝒪[E] 2) 0) := sorry
 
+-- Test CongruenceSubgroup.iInf_eq_bot
+example : (⨅ n : ℕ, subgroup E H n) = ⊥ := by sorry
+
 end CongruenceSubgroup
 
 /-! ## Layer RG2.0a: Weil restriction and norm tori -/
@@ -323,6 +341,15 @@ example (R : Type u) [CommRing R] [Algebra k R] [Nontrivial (k' ⊗[k] R)] :
   rw [show (1 : PUnit.{u + 1}) = 0 from Subsingleton.elim _ _, h0] at h1
   exact zero_ne_one h1
 
+-- Test WeilRestriction.functor_affineLine
+example (R : Type u) [CommRing R] [Algebra k R] :
+    (functor k k' (Polynomial k')).obj (CommAlgCat.of k R) ≃ (k' ⊗[k] R) := by sorry
+
+-- Test WeilRestriction.res_not_commutative_of_commutative_base
+example :
+    ((!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) * !![1, 0; 1, 1]) ≠
+      (!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℂ) * !![1, 1; 0, 1] := by sorry
+
 end WeilRestriction
 
 namespace NormTorus
@@ -334,7 +361,8 @@ def norm (R : Type u) [CommRing R] [Algebra k R] : (k' ⊗[k] R)ˣ →* Rˣ :=
   (Units.map (Algebra.norm R : (R ⊗[k] k') →* R)).comp
     (Units.map (Algebra.TensorProduct.comm k k' R).toMonoidHom)
 
-/-- The norm-one subgroup of points, the points of the norm-one torus `R^1_{k'/k} G_m`. -/
+/-- The kernel subgroup of the norm on units. For finite separable extensions of fields
+these are the points of the norm-one torus. -/
 def normOne (R : Type u) [CommRing R] [Algebra k R] : Subgroup (k' ⊗[k] R)ˣ := (norm k k' R).ker
 
 /-- On the diagonal `G_m ⊂ Res_{k'/k} G_m` the norm is the `d`-th power, `d = rank_k k'`: the
@@ -374,9 +402,68 @@ example (z : ℂˣ) :
     Units.map (Algebra.TensorProduct.rid ℝ ℂ ℂ).symm.toMonoidHom z ∈ normOne ℝ ℂ ℝ ↔
       ‖(z : ℂ)‖ = 1 := sorry
 
+-- Test NormTorus.norm_trivial_extension
+example (R : Type u) [CommRing R] [Algebra k R] (z : (k ⊗[k] R)ˣ) :
+    norm k k R z = Units.map (Algebra.TensorProduct.lid k R).toMonoidHom z := by sorry
+
+-- Test NormTorus.normOne_trivial_extension
+example (R : Type u) [CommRing R] [Algebra k R] : normOne k k R = ⊥ := by sorry
+
+-- Test NormTorus.norm_not_surjective_points
+example : ¬ Function.Surjective (norm ℝ ℂ ℝ) := by sorry
+
+-- Test NormTorus.normOne_I
+example : Units.map (Algebra.TensorProduct.rid ℝ ℂ ℂ).symm.toMonoidHom
+    (Units.mk0 Complex.I (by simp)) ∈ normOne ℝ ℂ ℝ := by sorry
+
+-- Test NormTorus.normOne_split_complex
+example : Nonempty (normOne ℝ ℂ ℂ ≃* ℂˣ) := by sorry
+
+-- Test NormTorus.resRootsOfUnity_complex
+example : Nat.card (rootsOfUnity 4 ℂ) = 4 := by sorry
+
+-- Test NormTorus.resRootsOfUnity_split
+example : Nat.card (rootsOfUnity 2 (ℝ × ℝ)) = 4 := by sorry
+
 end NormTorus
 
 /-! ## Layer RG2.1: root data, valuations and apartments -/
+
+namespace AlgebraicRelativeRoots
+
+open TauCeti.GeneralLinear
+
+variable (k : Type u) [Field k]
+
+-- Test AlgebraicRelativeRoots.GL2_zero_weight
+example :
+    (∀ x : Module.Dual k (TauCeti.Bialgebra.CotangentSpace k (coordinateHopfAlgebra k 2)),
+      x ∈ Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom 1 ↔
+        cotangentDualMatrixEquiv x 0 1 = 0 ∧ cotangentDualMatrixEquiv x 1 0 = 0) ∧
+    Module.finrank k
+      (Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom 1) = 2 :=
+  by sorry
+
+-- Test AlgebraicRelativeRoots.GL2_nonzero_weights
+example :
+    (∀ α : Multiplicative (ULift.{u} (Fin 2) →₀ ℤ),
+      α ∈ Derivation.nontrivialAdjointWeights
+        (diagonalTorusCoordinateMap (R := k) (N := 2)).hom ↔
+          α = matrixUnitWeight 0 1 ∨ α = matrixUnitWeight 1 0) ∧
+    Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom
+        (matrixUnitWeight 0 1) = k ∙ matrixUnitTangent (k := k) 0 1 ∧
+    Derivation.adjointWeightSpace (diagonalTorusCoordinateMap (R := k) (N := 2)).hom
+        (matrixUnitWeight 1 0) = k ∙ matrixUnitTangent (k := k) 1 0 ∧
+    Module.finrank k (Derivation.adjointWeightSpace
+      (diagonalTorusCoordinateMap (R := k) (N := 2)).hom (matrixUnitWeight 0 1)) = 1 ∧
+    Module.finrank k (Derivation.adjointWeightSpace
+      (diagonalTorusCoordinateMap (R := k) (N := 2)).hom (matrixUnitWeight 1 0)) = 1 := by sorry
+
+-- Test AlgebraicRelativeRoots.root_free_torus
+example : Derivation.nontrivialAdjointWeights
+    (diagonalTorusCoordinateMap (R := k) (N := 1)).hom = ∅ := by sorry
+
+end AlgebraicRelativeRoots
 
 namespace BruhatTits
 
@@ -439,7 +526,27 @@ def IsGenerating (D : RootDatum G Φ) : Prop :=
 example [IsEmpty ι] (D : RootDatum G Φ) : D.IsGenerating ↔ D.T = ⊤ := by
   rw [IsGenerating, Set.iUnion_of_empty, Set.union_empty, Subgroup.closure_eq]
 
+-- Test BruhatTits.RootDatum.not_of_trivial_U
+example (D : RootDatum G Φ) (i : ι) : D.U i ≠ ⊥ := D.U_ne_bot i
+
+-- Test BruhatTits.RootDatum.opposite_ne
+example (D : RootDatum G Φ) (i j : ι) (hij : Φ.root j = -Φ.root i) : D.U i ≠ D.U j := by sorry
+
+-- Test BruhatTits.RootDatum.weylNormalizer_rankZero
+example [IsEmpty ι] (D : RootDatum G Φ) : D.weylNormalizer = D.T := by sorry
+
+-- Test BruhatTits.RootDatum.weylNormalizer_reflection
+example (D : RootDatum G Φ) (i : ι) (m : G) (hm : m ∈ D.reflectionCoset i) :
+    m ∈ D.weylNormalizer := by sorry
+
+-- Test BruhatTits.RootDatum.weylNormalizer_contains_torus
+example (D : RootDatum G Φ) : D.T ≤ D.weylNormalizer := by sorry
+
 end RootDatum
+
+-- Test BruhatTits.RootDatum.rankZero
+example {G : Type v} [Group G] (Φ : RootPairing ι ℝ M N) [IsEmpty ι] (T : Subgroup G) :
+    ∃ D : RootDatum G Φ, D.T = T := by sorry
 
 -- Test BruhatTits.RootDatum.sl2
 example (K : Type) [Field K] :
@@ -478,6 +585,10 @@ structure Valuation {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} (D : Ro
       (a : G) * (u : G) * (b : G) ∈ D.reflectionCoset i →
         ∃ r : ℝ, φ i u = (r : WithTop ℝ) ∧ φ j a = ((-r : ℝ) : WithTop ℝ) ∧
           φ j b = ((-r : ℝ) : WithTop ℝ)
+
+-- Test BruhatTits.Valuation.rankZero
+example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} [IsEmpty ι]
+    (D : RootDatum G Φ) : Nonempty (Valuation D) := by sorry
 
 namespace Valuation
 
@@ -522,6 +633,19 @@ example (i : ι) (h : ∀ j, Φ.root j ≠ (2 : ℝ) • Φ.root i) : φ.primedV
   refine Set.Subset.antisymm (fun _ ⟨u, hu, hφ, _⟩ => ⟨u, hu, hφ⟩) ?_
   rintro r ⟨u, hu, hφ⟩
   exact ⟨u, hu, hφ, fun j hj => absurd hj (h j)⟩
+
+-- Test BruhatTits.Valuation.one_top
+example (i : ι) : φ.φ i 1 = ⊤ := (φ.φ_eq_top_iff i 1).mpr rfl
+
+-- Test BruhatTits.Valuation.isDiscrete_rankZero
+example [IsEmpty ι] : φ.IsDiscrete := by sorry
+
+-- Test BruhatTits.Valuation.opposite_depths
+example (i j : ι) (hij : Φ.root j = -Φ.root i) (u : D.U i) (a b : D.U j)
+    (hf : (a : G) * (u : G) * (b : G) ∈ D.reflectionCoset i)
+    (hu : φ.φ i u = 1 ∨ φ.φ i u = 2) :
+    (φ.φ i u = 1 ∧ φ.φ j a = -1 ∧ φ.φ j b = -1) ∨
+      (φ.φ i u = 2 ∧ φ.φ j a = -2 ∧ φ.φ j b = -2) := by sorry
 
 end Valuation
 
@@ -601,6 +725,12 @@ theorem Apartment.displacement_bijective {G : Type v} [Group G] {Φ : RootPairin
     {D : RootDatum G Φ} (φ : Valuation D) :
     Function.Bijective (Apartment.displacement : Apartment φ → N) := sorry
 
+-- Test BruhatTits.Equipollent.shift
+example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
+    (φ : Valuation D) (v : N) :
+    ∃ ψ : Valuation D, Equipollent φ ψ ∧
+      ∀ i u, ψ.φ i u = φ.φ i u + ((Φ.toLinearMap (Φ.root i) v : ℝ) : WithTop ℝ) := by sorry
+
 -- Test BruhatTits.Apartment.central_displacement
 /- With no roots, distinct central displacements still give distinct points. -/
 example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ} (φ : Valuation D)
@@ -609,6 +739,10 @@ example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ
       (⟨φ, w, fun i => isEmptyElim i⟩ : Apartment φ) := by
   intro he
   exact h (congrArg Apartment.displacement he)
+
+-- Test BruhatTits.Apartment.rankZero_singleton
+example {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
+    (φ : Valuation D) [Subsingleton N] : Subsingleton (Apartment φ) := by sorry
 
 /-- An affine root `a + k` with `a ∈ Φ` and `k ∈ Γ'_a` (Bruhat–Tits I, 6.2.6, p. 120). -/
 structure AffineRoot {G : Type v} [Group G] {Φ : RootPairing ι ℝ M N} {D : RootDatum G Φ}
@@ -636,6 +770,23 @@ theorem finite_walls_segment [Finite ι] (hφ : φ.IsDiscrete) (x : Apartment φ
     {α : AffineRoot φ | ∃ t : ℝ, 0 ≤ t ∧ t ≤ 1 ∧
       Φ.toLinearMap (Φ.root α.gradient) (x.displacement + t • v) + α.constant = 0}.Finite :=
   sorry
+
+-- Test BruhatTits.AffineRoot.eval_base
+example (α : AffineRoot φ) : α.eval ⟨φ, 0, fun i u => by simp⟩ = α.constant := by
+  simp [eval]
+
+-- Test BruhatTits.AffineRoot.wall_base
+example (α : AffineRoot φ) : (⟨φ, 0, fun i u => by simp⟩ : Apartment φ) ∈ α.wall ↔
+    α.constant = 0 := by simp [wall, eval]
+
+-- Test BruhatTits.AffineRoot.wall_ne_univ
+example (α : AffineRoot φ) : α.wall ≠ Set.univ := by sorry
+
+-- Test BruhatTits.AffineRoot.eval_coroot_two_terms
+example (α : AffineRoot φ) (x y : Apartment φ)
+    (hx : x.displacement = Φ.coroot α.gradient)
+    (hy : y.displacement = (2 : ℝ) • Φ.coroot α.gradient) :
+    α.eval x = α.constant + 2 ∧ α.eval y = α.constant + 4 := by sorry
 
 end AffineRoot
 
@@ -827,7 +978,62 @@ theorem exists_normEquivChain {n : ℕ} [NeZero n] :
       (Λ ∈ (e α).chain →
         ((e α).grading Λ : WithTop ℝ) = sInf (α.toFun '' (Λ : Set (Fin n → K)))) := sorry
 
+-- Test GLBuilding.dualNorm_zero_dimension
+example : Subsingleton (SplittableNorm K 0) ∧
+    ∀ (α : SplittableNorm K 0) (x : Fin 0 → K), α.toFun x = ⊤ := by sorry
+
+-- Test GLBuilding.normalizedOrder_units
+example (x : 𝒪[K]ˣ) : ω K (x : K) = 0 := by sorry
+
 end GLBuilding
+
+namespace BruhatTits
+
+section NumericalEquipollence
+
+variable (p : ℕ) [Fact p.Prime]
+  {Φ : RootPairing (Fin 2) ℝ ℝ ℝ}
+  {D : RootDatum (Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) Φ}
+  (φ : Valuation D)
+  (hΦ₀ : Φ.root 0 = 2) (hΦ₁ : Φ.root 1 = -2)
+  (hpair : ∀ x y : ℝ, Φ.toLinearMap x y = x * y)
+  (h₀ : ∀ c : ℚ_[p],
+    ∃ h : (⟨!![1, c; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0,
+      φ.φ 0 ⟨_, h⟩ = GLBuilding.ω ℚ_[p] c)
+  (h₁ : ∀ c : ℚ_[p],
+    ∃ h : (⟨!![1, 0; c, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 1,
+      φ.φ 1 ⟨_, h⟩ = GLBuilding.ω ℚ_[p] c)
+
+include hΦ₀ hΦ₁ hpair h₀ h₁
+
+-- Test BruhatTits.Equipollent.sl2_shift_one
+example : ∃ ψ : Valuation D, Equipollent φ ψ ∧
+    (∀ u, ψ.φ 0 u = φ.φ 0 u + 1) ∧ (∀ u, ψ.φ 1 u = φ.φ 1 u + (-1)) ∧
+    (∃ (h : (⟨!![1, 1; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0)
+       (hp : (⟨!![1, (p : ℚ_[p]); 0, 1], by simp⟩ :
+         Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0),
+      ψ.φ 0 ⟨_, h⟩ = 1 ∧ ψ.φ 0 ⟨_, hp⟩ = 2) ∧
+    (∃ (h : (⟨!![1, 0; 1, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 1)
+       (hp : (⟨!![1, 0; (p : ℚ_[p]), 1], by simp⟩ :
+         Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 1),
+      ψ.φ 1 ⟨_, h⟩ = -1 ∧ ψ.φ 1 ⟨_, hp⟩ = 0) := by sorry
+
+-- Test BruhatTits.Equipollent.sl2_rescale_two
+example : ∃ ψ : Valuation D, (∀ i u, ψ.φ i u = 2 * φ.φ i u) ∧ ¬ Equipollent φ ψ ∧
+    ∃ (h : (⟨!![1, 1; 0, 1], by simp⟩ : Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0)
+       (hp : (⟨!![1, (p : ℚ_[p]); 0, 1], by simp⟩ :
+         Matrix.SpecialLinearGroup (Fin 2) ℚ_[p]) ∈ D.U 0),
+      φ.φ 0 ⟨_, h⟩ = 0 ∧ φ.φ 0 ⟨_, hp⟩ = 1 ∧
+      ψ.φ 0 ⟨_, h⟩ = 0 ∧ ψ.φ 0 ⟨_, hp⟩ = 2 := by sorry
+
+-- Test BruhatTits.Equipollent.sl2_coroot_shift
+example : ∃ x : Apartment φ, x.displacement = 1 ∧
+    (∀ u, x.val.φ 0 u = φ.φ 0 u + 2) ∧
+    (∀ u, x.val.φ 1 u = φ.φ 1 u + (-2)) := by sorry
+
+end NumericalEquipollence
+
+end BruhatTits
 
 namespace BTTree
 
@@ -869,6 +1075,15 @@ theorem isTree : (tree K).IsTree := sorry
 theorem natCard_neighborSet (x : Vertex K) :
     Nat.card ((tree K).neighborSet x) = Nat.card 𝓀[K] + 1 := sorry
 
+-- Test BTTree.degree_Q2
+example (x : BTTree.Vertex ℚ_[2]) : Nat.card ((BTTree.tree ℚ_[2]).neighborSet x) = 3 := by sorry
+
+-- Test BTTree.degree_residue_card
+example (x : Vertex K) : Nat.card ((tree K).neighborSet x) = Nat.card 𝓀[K] + 1 := by sorry
+
+-- Test BTTree.no_leaves
+example (x : BTTree.Vertex K) : (BTTree.tree K).neighborSet x ≠ ∅ := by sorry
+
 end BTTree
 
 namespace TameDescent
@@ -897,6 +1112,19 @@ example {k : Type u} [Field k] (h2 : (2 : k) ≠ 0) :
     (hs.elim ⟨1, inv_one⟩ ⟨-1, by simp⟩)
   simp only [Units.val_one, Units.val_neg] at h
   exact h2 (by linear_combination h)
+
+-- Test TameDescent.fixedPoints_trivial_action
+example {k : Type u} [Field k] (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
+    (Θ : Type u) [Group Θ] (ρ : Θ →* _root_.CategoryTheory.Aut H) (hρ : ρ = 1)
+    (R : Type u) [CommRing R] [Algebra k R] :
+    {g : WithConv (H →ₐ[k] R) | ∀ θ : Θ,
+      TauCeti.AlgHom.mapDomain (A := R) ((ρ θ).hom.hom.hom : (H : Type u) →ₐc[k] H) g = g} =
+      Set.univ := by sorry
+
+-- Test TameDescent.fixedPoints_swap
+example {k : Type u} [Field k] (h2 : (2 : k) ≠ 0) :
+    Function.Bijective (fun z : kˣ =>
+      (⟨(z, z), rfl⟩ : {g : kˣ × kˣ // Prod.swap g = g})) := by sorry
 
 end TameDescent
 
@@ -1032,6 +1260,10 @@ theorem closureIdeal_isHopfIdeal (B : Type u) [CommRing B] [HopfAlgebra O B]
 /- In a flat algebra over a DVR the closure of the whole generic fibre is everything. -/
 example [Module.Flat O A] : closureIdeal O K A ⊥ = ⊥ := sorry
 
+-- Test SchematicClosure.closureIdeal_bot_eq_torsion
+example (a : A) : a ∈ closureIdeal O K A (⊥ : Ideal (K ⊗[O] A)) ↔
+    ∃ r : O, r ≠ 0 ∧ r • a = 0 := by sorry
+
 end DVR
 
 end SchematicClosure
@@ -1058,7 +1290,8 @@ def iwahori : Subgroup (GL (Fin n) K) where
   one_mem' := sorry
   inv_mem' := sorry
 
-/-- The pro-`p` Iwahori subgroup: unipotent upper triangular modulo `𝓂[K]`. -/
+/-- The Iwahori pro-unipotent radical: unipotent upper triangular modulo `𝓂[K]`.
+Over a nonarchimedean local field with residue characteristic `p` it is pro-`p`. -/
 def proPIwahori : Subgroup (GL (Fin n) K) where
   carrier := {g | g ∈ iwahori K n ∧
     ∀ i, valuation K ((g : Matrix (Fin n) (Fin n) K) i i - 1) < 1}
@@ -1093,6 +1326,31 @@ example [TopologicalSpace K] [IsNonarchimedeanLocalField K] :
 /- Residue field `𝔽₂`: every unit is `≡ 1`, so the two subgroups coincide. -/
 example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (h2 : Nat.card 𝓀[K] = 2) :
     proPIwahori K n = iwahori K n := sorry
+
+-- Test LevelSubgroups.principalCongruence_zero
+example : principalCongruence K n 0 = integralGL K n := by sorry
+
+-- Test LevelSubgroups.iwahori_one
+example : iwahori K 1 = integralGL K 1 := by sorry
+
+-- Test LevelSubgroups.not_mem_iwahori
+example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (g : GL (Fin 2) K)
+    (hg : (g : Matrix (Fin 2) (Fin 2) K) = !![1, 0; 1, 1]) :
+    g ∈ integralGL K 2 ∧ g ∉ iwahori K 2 := by sorry
+
+-- Test LevelSubgroups.proPIwahori_normal
+example : ((proPIwahori K n).subgroupOf (iwahori K n)).Normal := by sorry
+
+-- Test LevelSubgroups.principalCongruence_diag
+example [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : GL (Fin 2) K)
+    (hg : (g : Matrix (Fin 2) (Fin 2) K) = Matrix.diagonal ![1 + (ϖ : K), 1]) :
+    g ∈ principalCongruence K 2 1 ∧ g ∉ principalCongruence K 2 2 := by sorry
+
+-- Test LevelSubgroups.parahoricQuotient_card_iwahori_gl2
+example [TopologicalSpace K] [IsNonarchimedeanLocalField K] :
+    Nat.card ((iwahori K 2) ⧸ (proPIwahori K 2).subgroupOf (iwahori K 2)) =
+      (Nat.card 𝓀[K] - 1) ^ 2 := by sorry
 
 end LevelSubgroups
 
@@ -1179,6 +1437,17 @@ theorem iwahoriBruhat_generalLinear (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : G
         (p.1.permMatrix K * Matrix.diagonal (fun i => (ϖ : K) ^ p.2 i)) *
           (i₂ : Matrix (Fin n) (Fin n) K) := sorry
 
+-- Test Decomposition.witt_rank_one_positions
+example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectRing k p] :
+    StrictAnti (fun m : ℕ => Ideal.span ({(p : WittVector p k) ^ m} : Set (WittVector p k))) := by sorry
+
+-- Test Decomposition.witt_characteristic_zero_ghost
+example :
+    letI : Invertible (2 : ℚ) := invertibleOfNonzero (by norm_num)
+    (WittVector.ghostEquiv 2 ℚ) (2 : WittVector 2 ℚ) = (fun _ => 2) ∧
+      IsUnit (2 : WittVector 2 ℚ) ∧
+      ∀ m : ℕ, Ideal.span ({(2 : WittVector 2 ℚ) ^ m} : Set (WittVector 2 ℚ)) = ⊤ := by sorry
+
 -- Test Decomposition.cartan_rank_one
 /- For `n = 1` the Cartan decomposition is `K^× = ⊔ 𝒪^× ϖ^m`, with `m` the normalized valuation. -/
 example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ)
@@ -1206,6 +1475,52 @@ theorem modularCharacter_eq_one [TopologicalSpace K] [IsNonarchimedeanLocalField
     MeasureTheory.Measure.modularCharacter (G := WithConv (H →ₐ[K] K)) = 1 := sorry
 
 end Decomposition
+
+-- Test MoyPrasad.mockExp_GL2_cross_term
+example {k : Type u} [CommRing k] (X Y : Matrix (Fin 2) (Fin 2) k) :
+    ((1 + X) * (1 + Y) - (1 + (X + Y))) 0 0 = X 0 0 * Y 0 0 + X 0 1 * Y 1 0 := by sorry
+
+-- Test LanglandsDual.adjoint_real_point_not_from_sl2
+example (c : ℝ) : Matrix.det (c • (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ)) ≠ 1 := by sorry
+
+-- Test LanglandsDual.transpose_antiHom
+example :
+    ((!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) ℤ) *
+      !![1, 0, 0; 0, 0, 1; 0, 1, 0]).transpose ≠
+    (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) ℤ).transpose *
+      (!![1, 0, 0; 0, 0, 1; 0, 1, 0]).transpose := by decide
+
+-- Test BruhatTits.descent_SU3_central_root
+example {k : Type u} [Field k] (c : k) (hc : c ≠ 0) :
+    ¬ ∃ u v : k,
+      (!![1, u, 0; 0, 1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) k) *
+        !![1, 0, 0; 0, 1, v; 0, 0, 1] = !![1, 0, c; 0, 1, 0; 0, 0, 1] := by sorry
+
+-- Test BruhatTits.Decomposition.conjugation_two_terms
+example :
+    (Matrix.diagonal ![2, (1 / 2)] : Matrix (Fin 2) (Fin 2) ℚ_[2]) * !![1, 1; 0, 1] *
+      Matrix.diagonal ![(1 / 2), 2] = !![1, 4; 0, 1] ∧
+    (Matrix.diagonal ![(1 / 2), 2] : Matrix (Fin 2) (Fin 2) ℚ_[2]) * !![1, 1; 0, 1] *
+      Matrix.diagonal ![2, (1 / 2)] = !![1, (1 / 4); 0, 1] ∧
+    GLBuilding.ω ℚ_[2] 4 = 2 ∧ GLBuilding.ω ℚ_[2] (1 / 4) = -2 := by sorry
+
+namespace GSp4
+
+-- Test GSp4.duality_matrix_unimodular
+example : Matrix.det (!![1, 1, 1; 1, 0, 1; 1, 1, 2] : Matrix (Fin 3) (Fin 3) ℤ) = -1 := by
+  norm_num [Matrix.det_fin_three]
+
+-- Test GSp4.simple_root_images
+example :
+    (!![1, 1, 1; 1, 0, 1; 1, 1, 2] : Matrix (Fin 3) (Fin 3) ℤ).mulVec ![-1, 1, 0] = ![0, -1, 0] ∧
+    (!![1, 1, 1; 1, 0, 1; 1, 1, 2] : Matrix (Fin 3) (Fin 3) ℤ).mulVec ![0, -2, 1] = ![-1, 1, 0] := by
+  constructor <;> ext i <;> fin_cases i <;> norm_num [Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+
+-- Test GSp4.printed_coroot_has_wrong_sign
+example : dotProduct (![0, -2, 1] : Fin 3 → ℤ) ![0, 1, 0] = -2 := by
+  norm_num [dotProduct, Fin.sum_univ_three]
+
+end GSp4
 
 namespace LocalIntegration
 
