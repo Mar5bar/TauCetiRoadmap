@@ -700,6 +700,14 @@ extension of ramification index `e` is `e * t'`. Surjectivity gives a generator 
 rank-one twist in the Néron–Ogg–Shafarevich argument. The Tate periods over `ℂ((t))`
 and `𝔽_p(s)((t))` of README 5.1 use this interface without residue finiteness or perfectness.
 
+`RigidUniformisation` in README 3.14 uses RigidAnalyticGeometry §§6.1–6.2's
+`RigidSpace K`, §8.1's rigid analytification and §§8.2–8.3's classical-point and
+rigid–adic comparison. Here `K` is the fraction field of a complete DVR, with its
+complete nontrivial nonarchimedean valuation. The shared functor `r` is fully faithful;
+its equivalence with adic spaces locally of finite type is restricted to quasi-separated
+objects. AdicSpacesPartIII F0 and R2.3 supply formal completion and generic fibres.
+The quotient by the period lattice is the target `RigidUniformisation` here.
+
 `SemiabelianExtensionClassification` in README 3.13 classifies commutative extensions of
 an abelian scheme over a complete DVR by a torus through morphisms of étale sheaves
 `X^*(T) → B^∨`, naturally under base change and descent, and identifies their completions.

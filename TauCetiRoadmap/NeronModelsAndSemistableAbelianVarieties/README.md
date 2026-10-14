@@ -121,8 +121,8 @@ It leaves to other roadmaps, and consumes from them:
   §7.9 (`picardZeroSheaf`, `picardZeroCriterion`, identity components).
 - **ComplexComparisonPartII**, §§C4.3a–C4.3c: scheme compactifications, Nagata existence
   and common refinements for separated finite-type morphisms over qcqs bases.
-- **RigidAnalyticGeometry**, §§6.1.1, 6.2.2, 6.4.1, 6.4.3, 6.4.5 (rigid spaces),
-  §§8.1.1–8.1.2 (analytification), §§8.2.2–8.2.7, 8.3.1–8.3.2 (rigid–adic comparison),
+- **RigidAnalyticGeometry**, §§6.1–6.2 (`RigidSpace K` and its G-site),
+  §8.1 (rigid analytification), §§8.2–8.3 (classical points and rigid–adic comparison),
   and **AdicSpacesPartIII**, F0 and R2.3 (formal schemes, completion and generic fibres).
   The quotient by the period lattice belongs to 3.14 here; polarised algebraisation
   uses AbelianSchemesAndArithmeticModuli A4.8. Finite analytic isogeny quotients do not
@@ -420,9 +420,15 @@ AbelianSchemesAndArithmeticModuli A4.8, whose polarised input is established in 
 
 ### From `RigidAnalyticGeometry` and `AdicSpacesPartIII`
 
-RigidAnalyticGeometry §§6.1.1, 6.2.2, 6.4.1, 6.4.3, 6.4.5 supplies `rigid-analytic-space`;
-§§8.1.1–8.1.2 supplies `rigid-analytification`; and §§8.2.2–8.2.7, 8.3.1–8.3.2 supplies
-`rigid-adic-comparison-functor`. AdicSpacesPartII R1.1 consumes these same suppliers.
+Over a complete nontrivially valued nonarchimedean field `K`, RigidAnalyticGeometry
+§§6.1–6.2 supplies the G-site and `RigidSpace K`, including admissible restrictions,
+gluing and fibre products. Section 8.1 supplies rigid analytification of schemes locally
+of finite type over `K`, with its universal property and fibre-product compatibility.
+Sections 8.2–8.3 supply the classical-point comparison and the fully faithful functor `r`,
+with `r(Sp A) = Spa(A,A°)` and compatibility with gluing, products and ringed topoi.
+The equivalence with adic spaces locally of finite type over `Spa(K,K°)` is restricted
+to quasi-separated objects on both sides ([Huber, Proposition 4.5(i–v), pp. 543–544](https://virtualmath1.stanford.edu/~conrad/Perfseminar/refs/Huberformalrigid.pdf)).
+AdicSpacesPartII R1.1 and R1.7 consume these same carriers and comparisons.
 AdicSpacesPartIII F0's formal-scheme carrier and completion, and R2.3's
 formal generic fibre supply the comparison between completed identity models and
 analytic groups over a complete discrete valuation field. The quotient by the Raynaud
@@ -1713,8 +1719,8 @@ over `ℝ`. Obtain positivity from the positivity condition on the degeneration 
 (Faltings–Chai II 6.2–6.3), rather than from a sign-unspecified inertia operator. Construct
 the analytic quotient after an unramified splitting extension and descend the period embedding
 and quotient; constant split lattices are auxiliary choices. *Needs:* 2.4, 3.13;
-RigidAnalyticGeometry §§6.1.1, 6.2.2, 6.4.1, 6.4.3, 6.4.5 (rigid spaces), §§8.1.1–8.1.2
-(analytification), §§8.2.2–8.2.7, 8.3.1–8.3.2 (rigid–adic comparison); AdicSpacesPartIII
+RigidAnalyticGeometry §§6.1–6.2 (rigid spaces), §8.1 (rigid analytification),
+§§8.2–8.3 (classical points and rigid–adic comparison); AdicSpacesPartIII
 F0 and R2.3 (formal schemes, completion and generic fibres);
 AbelianSchemesAndArithmeticModuli A2–A3 (Poincaré duality and finite flat torsion).
 
@@ -1748,7 +1754,7 @@ LefschetzPencilsAndVanishingCycles §0.1 for arbitrary henselian-trait inertia, 
 Galois action and tame characters;
 SchemeAndStackFoundations §§0.12–0.14, 0.20–0.21 and §§4.7–4.13 for henselisation,
 excellence and formal geometry; Mathlib's Zariski main theorem;
-RigidAnalyticGeometry §§6.1.1, 6.2.2, 6.4.1, 6.4.3, 6.4.5 and §§8.1.1–8.1.2, 8.2.2–8.2.7, 8.3.1–8.3.2
+RigidAnalyticGeometry §§6.1–6.2 and §§8.1–8.3
 and AdicSpacesPartIII F0 and R2.3 for analytic and formal carriers; EllipticCurves Layer 4 for the Tate curve; StableReduction Layers
 4 and 7 for curve existence and regular resolution; JacobianChallenge Layers D–F for Jacobians;
 AlgebraicModuliForArithmeticGeometry §§7.3, 7.6.1 and 7.9 for the Picard functor.
@@ -2494,7 +2500,7 @@ pairing with the dual abelian variety into `K₀(-1)`, respecting all structures
 `unramified_descent`.
 *Needs:* 3.13–3.14, 4.3; AbelianSchemesAndArithmeticModuli A4.2–A4.3,
 A6.11–A6.12 and A6.14–A6.15;
-RigidAnalyticGeometry's analytic carriers in the 3.14 contract;
+RigidAnalyticGeometry §§6.1–6.2 and §§8.1–8.3, with the analytic carriers of the 3.14 contract;
 CrystallineCohomology CR.2.1, CR.2.3, CR.3.4; ArithmeticGaloisRepresentations R01.6
 (good-reduction Frobenius). The logarithmic and dagger comparisons just specified are
 degree-one abelian/Raynaud targets here.
