@@ -247,7 +247,6 @@ one, and a single weight of multiplicity two contributes the square.
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
-| Finite-image representation carriers and local polynomials | [ArithmeticGaloisRepresentations, Layers 1–2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c601f10/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md): `ContinuousRep`, `GaloisRep.localEulerFactor`, `WeilDeligneRep.localFactor`, §2.5 | AA.2.4 compares factors for representations defined over a common number field with specified complex and ℓ-adic embeddings. The supplier uses geometric Frobenius and a polynomial; AA uses arithmetic Frobenius and its reciprocal. The comparison uses the dual ℓ-adic representation and `N = 0`, with `ℓ` different from the residue characteristic. |
 | Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
 | Rational tuple heights | [ArithmeticHeights, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
 | Finite-order Hecke analysis | [LFunctions, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
@@ -1844,8 +1843,12 @@ restriction of scalars.
   `Tamagawa.splitLocalFactor F v r s = (1 − q_v^{−s})^{−r}` and
   `Tamagawa.splitLeadingCoeff F r = (dedekindZeta_residue F)^r`.
   AA owns the general finite-image Artin theory: for a continuous finite-image
-  complex representation of the absolute Galois group, the local factor uses inertia
-  invariants, and its induction formula includes ramified places.
+  complex representation `ρ : Gal(F̄/F) → GL(V)` on a finite-dimensional complex vector
+  space `V`, construct the inertia-invariant subspace `V^{I_v}` and the determinant
+  `det(1 − q_v^{−s} ρ(Φ_v) | V^{I_v})`, where `Φ_v` is an arithmetic Frobenius lift.
+  Prove independence of the lift and of the chosen place above `v`, invariance under
+  representation isomorphisms, and multiplicativity under direct sums. Its reciprocal is
+  the local Artin factor; its induction formula includes ramified places.
   The global `L`-function is identified with the Euler product on `Re s > 1`;
   `(s−1)^r L(X,s)` has a finite nonzero limit,
   where `r = dim X^Gal`. For a character lattice this real limit is positive.
@@ -1858,9 +1861,8 @@ restriction of scalars.
   AA → LFunctions → ThetaSeries, with GlobalNumberFields and
   ArithmeticDirichletSeries providing the carriers. The analytic hypotheses of
   the nonvanishing of the leading coefficient are precisely that Hecke/reciprocity contract.
-  AA constructs the complex Artin factors and their induction and analytic assembly on the
-  finite-image representation carriers of ArithmeticGaloisRepresentations, Layers 1–2.
-  The coefficient and Frobenius comparison below relates its local polynomials to these factors.
+  AA constructs the complex Artin factors, their ramified induction identity and analytic
+  assembly for these finite-image complex representations.
   General Artin coefficients need not be completely multiplicative
   and do not inhabit `UnitaryIdealWeight`.
   Use arithmetic Frobenius throughout; if a reciprocity API uses geometric Frobenius,
@@ -1909,34 +1911,6 @@ restriction of scalars.
     `splitLeadingCoeff F 2` is the square of that residue.
     The local rank-two factor and double-pole coefficient both use the exponent `2`.
 
-- **Finite-image comparison with Galois and Weil–Deligne local polynomials.** Let `ρ` be a
-  continuous finite-image Galois representation of a number field `F`, defined on a
-  finite-dimensional vector space over a number field `C`. Fix embeddings `ι∞ : C → ℂ` and
-  `ιℓ : C → Eℓ`, where `Eℓ` is a finite extension of `ℚ_ℓ`. For a finite place `v ∤ ℓ`, let `I_v`
-  be the inertia image and `Φ_v` an arithmetic Frobenius lift. Put
-  `P_v(T) = det_C(1 − Tρ(Φ_v) | V^{I_v})`. Prove that inertia invariants commute with both
-  coefficient extensions and that the complex Artin factor is
-  `L_v(ρ_ℂ,s) = (ι∞(P_v)(q_v^{−s}))⁻¹`. With geometric lift `Φ_v⁻¹`, prove
-  `GaloisRep.localEulerFactor(ρ_ℓ^∨, Φ_v⁻¹) = ιℓ(P_v)` and the same equality for
-  `WeilDeligneRep.localFactor` of `WD(ρ_ℓ^∨)`; finite image gives `N = 0`.
-  The finite inertia order is invertible in the characteristic-zero coefficient fields:
-  averaging identifies dual invariants with the dual of invariants, and the geometric lift
-  on the dual acts as the transpose of the original arithmetic lift. This proves the determinant
-  comparison, without identifying the complex and ℓ-adic coefficient spaces.
-  AA owns this specialization of [Marzec–Neururer], Definition 5.11, p. 62, and
-  ArithmeticGaloisRepresentations §2.5, *Local factors* (Deligne 1973, 3.5.1, p. 528, and
-  8.12, p. 572). *Needs:* the finite-image and local-polynomial supplier contract above;
-  *convergence-factors*.
-  *Lean:* none; specified in the README only.
-
-  **Checks.**
-  - Zero inertia invariants give `P_v = 1` and Artin factor one; the rank-one trivial
-    representation gives `P_v = 1 − T` and `(1 − q_v^{−s})⁻¹`.
-  - The quadratic character of `ℚ(i)/ℚ` at 2 has no inertia invariants, so both local
-    polynomials are `1` (take `ℓ ≠ 2`). For `Ind_{ℚ(i)}^ℚ 1` the invariant line instead gives `1 − T`.
-  - For an unramified character with arithmetic eigenvalue a nontrivial cube root `ζ`,
-    `P_v = 1 − ζT`; the geometric lift on the same representation would give `1 − ζ⁻¹T`.
-    Taking the dual with the geometric lift restores `1 − ζT`.
 - **Orders of connected reductive groups over finite fields.** For a connected reductive
   group `H/𝔽_q`, choose a Frobenius-stable Borel pair `(B,T)` over the algebraic closure.
   Put `W = W(H,T)`, `N = #Φ⁺` and let `F*` act on `X*(T)`. Prove
