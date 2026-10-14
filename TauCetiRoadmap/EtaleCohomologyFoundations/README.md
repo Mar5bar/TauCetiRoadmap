@@ -6,9 +6,9 @@
 
 This roadmap owns scheme compactification objects, Nagata existence and coherent common refinements; constructible étale module sheaves, finite étale Galois categories and the étale fundamental groupoid; finite Tate twists and topological invariance; coefficient and bounded-complex descent; étale extension by zero, localization, D⁺ torsion lower shriek, finite traces and finite cycle classes; proper and smooth base change, local acyclicity, finite-coefficient Künneth, cohomological dimension and constructible finiteness; henselian-trait inertia and tame characters; stable lattices for compact groups over finite extensions of ℚ_ℓ; normalized integral and rational adic realization; exceptional inverse image, duality, smooth Gysin maps, projective and blow-up formulas, weak Lefschetz and field perverse t-structures; finite-field descent, scheme/descent Frobenius comparison, perfect-complex trace algebra and free-torsor coefficient descent.
 
-The generic derived enhancement, K-injective/K-flat replacements, coherent tensor–Hom and sheaf-level limits belong to EnhancedDerivedSheaves. Module-level derived tensor, towers, limits and completion belong to DerivedModuleAlgebra. Scheme sites, scheme Frobenius and intersection geometry belong to SchemeAndStackFoundations. Nearby and vanishing cycles, absolute purity and Lefschetz pencils belong to LefschetzPencilsAndVanishingCycles; analytic support geometry and analytic cohomology belong to ClassicalAdicEtaleCohomology; Betti and analytic comparison belong to ComplexComparisonPartII. Hilbert irreducibility, tame specialization and the arithmetic trace formulas belong to InverseGaloisAndArithmeticFundamentalGroups. The stable-lattice scope is finite E/ℚ_ℓ; coefficient-field descent in ℚ̄_ℓ and building comparisons are arithmetic representation theory.
+The generic derived enhancement, K-injective/K-flat replacements, coherent tensor–Hom and sheaf-level limits belong to EnhancedDerivedSheaves. Module-level derived tensor, towers, limits and completion belong to DerivedModuleAlgebra. Scheme sites and intersection geometry belong to SchemeAndStackFoundations; the scheme Frobenius maps used here are targets of §F.0.4. Nearby and vanishing cycles, absolute purity and Lefschetz pencils belong to LefschetzPencilsAndVanishingCycles; analytic support geometry and analytic cohomology belong to ClassicalAdicEtaleCohomology; Betti and analytic comparison belong to ComplexComparisonPartII. Hilbert irreducibility, tame specialization and the arithmetic trace formulas belong to InverseGaloisAndArithmeticFundamentalGroups. The stable-lattice scope is finite E/ℚ_ℓ; coefficient-field descent in ℚ̄_ℓ and building comparisons are arithmetic representation theory.
 
-Consumers include LefschetzPencilsAndVanishingCycles, ClassicalAdicEtaleCohomology, ComplexComparisonPartII, InverseGaloisAndArithmeticFundamentalGroups, AbelianSchemesAndArithmeticModuli, NeronModelsAndSemistableAbelianVarieties, NeronModelsAndSemistableAbelianVarietiesPartII, ArithmeticGaloisRepresentations, ArithmeticGaloisDuality, DeligneWeightsAndPurity, AlgebraicModuliForArithmeticGeometry, FiniteFlatGroupsAndIntegralPadicHodgeTheory, ArithmeticLocallySymmetricSpaces, ModularCurvesPartII, DiamondEtaleCohomology, DiamondSixOperations, AutomorphicLFunctionsAndLocalFactors, GL2AutomorphicRepresentationsAndTransfer and ShimuraVarieties. Consumers use each interface on its stated coefficient and geometric domain.
+The consumer roadmaps include LefschetzPencilsAndVanishingCycles, ClassicalAdicEtaleCohomology, ComplexComparisonPartII, InverseGaloisAndArithmeticFundamentalGroups, AbelianSchemesAndArithmeticModuli, NeronModelsAndSemistableAbelianVarieties, NeronModelsAndSemistableAbelianVarietiesPartII, ArithmeticGaloisRepresentations, ArithmeticGaloisDuality, DeligneWeightsAndPurity, AlgebraicModuliForArithmeticGeometry, FiniteFlatGroupsAndIntegralPadicHodgeTheory, ArithmeticLocallySymmetricSpaces, ModularCurvesPartII, DiamondEtaleCohomology, DiamondSixOperations, AutomorphicLFunctionsAndLocalFactors, GL2AutomorphicRepresentationsAndTransfer and ShimuraVarieties. Consumers use each interface on its stated coefficient and geometric domain. Scheme targets ClassicalCoefficients and ClassicalAlgebraic in §§0.5–0.11 are the common algebraic interfaces; analytic instantiations use these interfaces. Sections F.0–F.8, F.3a and F.10 supply the finite/adic coefficient, trait and trace inputs to nearby-cycle and pencil constructions. Sections F.0.A0–F.0.A2 supply the field, multiplicative-group, arithmetic-sequence and SchemeInertia inputs to arithmetic fundamental-group applications. Section F.4.0 supplies the continuous representation carrier and finite-local-field lattice/model inputs to arithmetic representation applications; coefficient-field descent and building comparisons belong to those applications.
 
 ## Conventions
 
@@ -28,18 +28,18 @@ The mathematical targets below occur in prerequisite order. Labels F.2 and F.10 
 | --- | --- |
 | Mathlib, pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` | `AlgebraicGeometry.Scheme`, `Over`, pullbacks, `IsOpenImmersion`, `QuasiCompact`, `IsProper`, `IsSeparated`, `LocallyOfFiniteType`, `IsSchemeTheoreticallyDominant` and its flat-pullback API; schematic images; `Scheme.smallEtaleTopology`, `Scheme.AffineEtale.sheafEquiv`, `ModuleCat`, `SheafOfModules`, `DerivedCategory`, sheaf cohomology and derived functors; `CategoryTheory.GaloisCategory` and `CategoryTheory.FiberFunctor`; finite fields and `FiniteField.frobeniusAlgEquivOfAlgebraic`; finite projectives, matrices, trace and tensor products; henselian DVRs, valuation decomposition and inertia, ideal residue-action groups; nonarchimedean local fields and compact balls. |
 | Tau Ceti, pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` | `TauCeti.AlgebraicGeometry.Fibers` supplies `TauCeti.genericFiber` and `TauCeti.specialFiber`; function-field place groups supply `TauCeti.Place.stabilizer_eq_decompositionSubgroup`, `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup`; `TauCeti.RepresentationTheory.BaseChange` supplies `Representation.baseChange`; existing affine blow-up charts and henselian roots of unity are used on their stated domains. |
-| SchemeAndStackFoundations | Layer 0: §0.3 relative Proj, §0.8 smooth coordinates, §0.9 limits/approximation, §§0.12–0.14 henselization, §0.21 excellence, §0.23 universal homeomorphisms, §0.29 characteristic-p scheme Frobenius; Layer 1 effective descent; §§2.1–2.2 underlying abelian D⁺ cohomology and Leray, §§2.5/2.7 derived and support foundations, §§2.9–2.11 module sheaves, finite étale sites, Hilbert 90 and Kummer, §2.15 étale descent/continuity, §2.16 Picard theory, §2.17 pro-étale comparison and completeness; §4.11 schematic strict transforms; Layer 5, especially §§5.3–5.5 projective bundles, Chern classes, normal bundles and deformation to the normal cone. |
+| SchemeAndStackFoundations | Layer 0: §0.3 relative Proj, §0.8 smooth coordinates, §0.9 limits/approximation, §§0.12–0.14 henselization, §0.21 excellence, §0.23 universal homeomorphisms; Layer 1 effective descent; §§2.1–2.2 underlying abelian D⁺ cohomology and Leray, §§2.5/2.7 derived and support foundations, §§2.9–2.11 module sheaves, finite étale sites, Hilbert 90 and Kummer, §2.15 étale descent/continuity, §2.16 Picard theory, §2.17 pro-étale comparison and completeness; §4.11 schematic strict transforms; Layer 5, especially §§5.3–5.5 projective bundles, Chern classes, normal bundles and deformation to the normal cone. |
 | EnhancedDerivedSheaves | §§0.1–0.4: `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`, `ClassicalDerived.derivedCompletion`, `ClassicalDerived.functorCoherence` and coefficient-forgetting comparisons; E0–E1 supply enhancement foundations and comparisons, E4 replete-topos completion. All geometric equivalences require their proved geometric hypotheses. |
-| DerivedModuleAlgebra | Module derived tensor and cotangent-independent tensor algebra (§§0.1–0.3), §1.1 coherent module limits, §§1.2–1.5 completeness, reflector, unit and quotient-tower comparison, and §R02.1.1 tower lim/lim¹, ML and Milnor sequences. EnhancedDerivedSheaves compares its sheaf constructions with these module inputs on the point site. |
+| DerivedModuleAlgebra | §0.I.1 module replacements, §0.2 derived tensor, §1.1 coherent module limits, §§1.2–1.5 completeness, reflector, unit and Koszul/quotient-tower comparison, and §1.T.1 tower lim/lim¹, ML and Milnor sequences. Quotient-tower completion retains bounded power-torsion or Noetherian hypotheses. EnhancedDerivedSheaves compares its sheaf constructions with these module inputs on the point site. |
 | StableReduction | Layer 4 Rees-algebra blowups and admissible blowup geometry; compactification extension, separation and gluing are targets of §G.2 here. |
 | ModularCurves | Layer 0d finite étale field algebras and finite Galois sets; Layer 4D strict henselizations and their completions. |
 | AlgebraicCurves | Layers 8 and 12 normalization and the curve/place dictionary for decomposition and inertia groups. |
 | BelyiMaps | Layers 12–13, including §§12.5–12.6, punctured-line finite covers used in §F.0.A0. |
 | ProfiniteArithmetic | Layer 0 profinite integers, their units and continuous exponentiation. |
-| JacobianChallenge | Layer B Picard/Jacobian and Kummer input for the algebraic smooth-curve trace and duality construction in §0.11. |
+| JacobianChallenge | Layer D pointed smooth proper field-curve Jacobian input for the algebraic smooth-curve trace and duality construction in §0.11. |
 | PerfectoidSpaces | P7 site-continuity and finite-cover detection only when instantiating §0.5's conditional analytic statement. The scheme descent theorem uses SchemeAndStackFoundations §0.9/§2.15. |
 
-The scheme Frobenius contract is `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius` in SchemeAndStackFoundations §0.29. A p-power map need not be k-linear; over finite k of cardinality q the q-power map is over k. Sections F.10.1–F.10.2b own its separate field-descent and cohomological comparison.
+The scheme Frobenius contract is `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius` in §F.0.4 here. A p-power map need not be k-linear; over finite k of cardinality q the q-power map is over k. Sections F.10.1–F.10.2b own its separate field-descent and cohomological comparison.
 
 ## G.1 Scheme compactification objects
 
@@ -186,18 +186,17 @@ and the small affine étale-site equivalence.
 **Finite étale Galois categories and the étale fundamental groupoid.**
 `VanishingCycles.finiteEtaleGaloisCategory`. For any scheme X build its finite étale full
 subcategory of `Over X`, with pullback, finite coproducts, connected components, deck maps,
-effective descent and finite-group quotients. For connected nonempty locally Noetherian X
+effective descent and finite-group quotients. For every connected nonempty scheme X
 verify `CategoryTheory.PreGaloisCategory`, `CategoryTheory.GaloisCategory` and the geometric
 `CategoryTheory.FiberFunctor` axioms. Define π₁ as the profinite automorphism group of that
 functor and paths as natural isomorphisms of geometric fibre functors. Prove identity,
 inverse, composition, nonemptiness within a component and simply transitive basepoint actions.
 `VanishingCycles.lisseMonodromyEquiv` identifies finite lisse Λ-modules with continuous
 finite π₁-module actions; finite covers correspond to finite continuous sets. A chosen
-path gives tensor/dual transport and basepoint conjugation. For disconnected locally
-Noetherian X use the groupoid componentwise, with no global choice of basepoints. Retain
+path gives tensor/dual transport and basepoint conjugation. For disconnected X use the groupoid of geometric fibre functors, with no global choice of basepoints; the connected-component description applies when components are open. Retain
 `VanishingCycles.fieldSheavesEquiv` for all sheaves on a field and continuous discrete
 Galois modules. No coefficient invertibility is required. (SGA 1 V §§4–7; SGA 4 VIII §2;
-Mathlib's Galois-category fundamental theorem.)
+Mathlib's Galois-category fundamental theorem; Stacks 58.6.2, tag 0BND.)
 *Needs:* §F.0.1 constructibleEtale; SchemeAndStackFoundations §§2.10, 2.15 (finite étale
 sites and descent); Mathlib Galois categories.
 
@@ -205,7 +204,8 @@ sites and descent); Mathlib Galois categories.
 
 - A separably closed field has trivial étale π₁.
 - A connected finite cover corresponds to a transitive action.
-- Points in different connected components admit no étale path.
+- On a locally Noetherian scheme, points in different connected components admit no étale path.
+- Spec(k[x₁,x₂,…]) has the based finite-cover and path API despite not being locally Noetherian; finite étale covers and their maps over qcqs schemes descend through affine approximation (Stacks 01ZM, 07RP).
 
 ## F.0.3 Finite Tate twists on the canonical roots-of-unity sheaf
 
@@ -221,10 +221,21 @@ SchemeAndStackFoundations §§2.9, 2.11; Kummer remains that roadmap's theorem.
 **Checks.**
 
 - With Λ = ℤ/ℓ, Λ(1) is μ_ℓ.
-- Replacing a primitive root by its u-th power rescales the coordinate by the unit u.
+- Replacing ζ by ζᵘ multiplies the parametrization by u and the coordinate of a fixed element by u⁻¹.
 - Arithmetic q-Frobenius acts on μ_(ℓⁿ) by q and geometric Frobenius by q⁻¹.
 
 ## F.0.4 Étale topological invariance
+
+**Scheme Frobenius maps.** Construct `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius` and `qPowerFrobenius`. For prime p and a characteristic-p scheme X, absolute Frobenius is identity on points and p-th power on the structure sheaf. For X→S in characteristic p define X^(pⁿ/S)=X×_(S,F_Sⁿ)S and the n-fold relative map (F_Xⁿ,id_S):X→X^(pⁿ/S), with n=0 the identity. Prove naturality, factorization of absolute Frobenius through the twist, composition of relative iterates, base-change comparison, and that absolute and relative maps are integral universal homeomorphisms. Over finite k with q=p^a elements, F_X^a is a k-map `qPowerFrobenius`; after base change to k̄ it fixes k̄-scalars and raises coordinates defined over k to their q-th powers. Prove compatibility of the twist identifications with all positive powers and coefficient pullback.
+
+*Source:* Stacks §33.36, Definitions 33.36.1 and 33.36.4, Lemmas 33.36.2–33.36.6, Remark 33.36.11 (03SM, 0CC9, 0CC7, 0CC8, 0CCA, 0CCB, 0CCG).
+*Needs:* Mathlib scheme structure sheaves, ring Frobenius and pullbacks; SchemeAndStackFoundations Layer 0 scheme and base-change geometry.
+
+**Checks.**
+
+- Absolute p-Frobenius on Spec 𝔽_(p²) is not over 𝔽_(p²); its square is.
+- Relative Frobenius on 𝔸¹_k has codomain the specified twist; over k=𝔽_q the q-power map sends T to T^q and fixes k.
+- Base-changing that q-power map to k̄ fixes its scalars; absolute q-Frobenius on the base-changed scheme also raises those scalars to q-th powers and is a different map.
 
 **Étale topological invariance.** `VanishingCycles.universalHomeomorphismEtaleEquivalence`.
 For every universal homeomorphism f:X→Y, prove that base change gives a cover-preserving
@@ -232,7 +243,7 @@ equivalence Y_et ≃ X_et and hence sheaf equivalences for every target category
 Mathlib's sheaf assumptions. Include constants, module coefficients, stalks, sections,
 cohomology, composition and base change, with no Noetherian, finite-type or invertibility
 restriction. Apply this to absolute and relative scheme Frobenius supplied by
-SchemeAndStackFoundations §0.29, without rebuilding those maps.
+the scheme Frobenius target in this section.
 (Stacks §59.45, topological invariance of the small étale site.)
 *Needs:* SchemeAndStackFoundations §0.23 and Layer 2; EnhancedDerivedSheaves §§0.1–0.4 for generic sheaf equivalences and derived transport.
 
@@ -253,13 +264,12 @@ valuation), the decomposition group `D_y ⊂ G` is the stabiliser of `y` and the
 stabiliser of a geometric point lifting `y` is `I_y`, not `D_y`. For a curve, at a discrete valuation
 with separable residue extension, `D_y/I_y ≅ Gal(κ(y)/κ(x))`; `|I_y| = e` holds under the defectless
 hypotheses of the valuation theory, in particular for curves in characteristic zero. For an
-intermediate cover with group `H ⊂ G`, the `D_y`- and `I_y`-orbits on `G/H` give the residue degrees
-and ramification indices of the points above `x`. Define `SchemeInertia` with
+intermediate cover with group `H ⊂ G`, the `D_y`-orbits on `G/H` index points of the intermediate normalization above `x`. For defectless discrete valuations with separable residue extensions, inertia-orbit lengths are ramification indices, and the numbers of inertia orbits within a decomposition orbit are residue degrees. No ramification-index formula is asserted at arbitrary higher-codimension scheme points. Define `SchemeInertia` with
 `SchemeInertia.decomposition`, the stabiliser of the point or valuation, with the geometric lift
 having inertia stabiliser under separability; `SchemeInertia.inertia`, the kernel of the
 residue-field action inside `D_y`; `SchemeInertia.conjugate`, transport to `gy` by conjugation by
 `g`; and `SchemeInertia.intermediateOrbits`, the orbit description on `G/H`, with orbit lengths of
-inertia equal to ramification indices under the defectless hypotheses. For curves, that is for
+inertia equal to ramification indices for defectless discrete valuations with separable residue extensions. For curves, that is for
 places of a Galois extension of function fields, these groups and the
 identities `D/I ≅ Aut(κ(y)/κ(x))` and `|I| = e` (separable residue extension) are Tau Ceti's
 `TauCeti.Place.stabilizer_eq_decompositionSubgroup`, `TauCeti.Place.decompositionQuotientInertiaEquiv`
@@ -277,7 +287,7 @@ AlgebraicCurves Layers 8 and 12; Mathlib `Ideal.inertia`, `Ideal.Quotient.stabil
 `TauCeti.Place.stabilizer_eq_decompositionSubgroup`,
 `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup`.
 Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
-locally Noetherian schemes or the componentwise groupoid.
+schemes and the geometric fibre-functor groupoid.
 
 **Checks.**
 
@@ -285,6 +295,7 @@ locally Noetherian schemes or the componentwise groupoid.
   group of order `n` and the inertia group at a point over `1` is trivial.
 - For an unramified extension of local fields `I = 1` and `D` is the Galois group of the residue
   extension.
+- For A=𝔽₂(u)[[t]] and L=Frac(A)(α), α²−tα−u=0, A[α] is a DVR with e=1 and purely inseparable residue degree 2. The nontrivial automorphism sends α to α+t, so I=C₂ has a regular orbit of length 2 despite defect 1; separability is essential.
 - For the Artin–Schreier cover `y^p − y = x` of `𝔸¹` in characteristic `p`, the inertia group at
   infinity is a nontrivial `p`-group, so tame ramification fails there.
 
@@ -311,7 +322,7 @@ Proposition 8.1, p. 117, and Exposé XIII, Corollary 2.12, p. 290. *Needs:* Supp
 §F.0.2 / `VanishingCycles.finiteEtaleGaloisCategory`; ModularCurves
 Layer 0d; BelyiMaps Layers 12 and 13; ProfiniteArithmetic Layer 0.
 Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
-locally Noetherian schemes or the componentwise groupoid.
+schemes and the geometric fibre-functor groupoid.
 
 **Checks.**
 
@@ -350,7 +361,7 @@ Exposé IX, Theorem 6.1 and Corollary 6.4, pp. 195–196. *Needs:* §F.0.A0; Sup
 `VanishingCycles.finiteEtaleGaloisCategory` (fundamental groups, paths, functoriality);
 SchemeAndStackFoundations Layer 1 (descent).
 Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
-locally Noetherian schemes or the componentwise groupoid.
+schemes and the geometric fibre-functor groupoid.
 
 **Checks.**
 
@@ -767,11 +778,12 @@ limit of the ℓ-power parts of the normalized characters `θ_{L,can}` of Stacks
 - `VanishingCycles.tameCharacter_restrict`: for a finite extension of henselian traits with
   ramification index `e` and inertia `I' ⊂ I`, `t_ℓ|_{I'} = e · t'_ℓ`: write `π = uπ'^e` with `u` a unit
   and apply the Kummer description above, the roots of `u` being fixed by `I'` (the finite-level
-  characters are compatible in towers by Stacks 0BU7).
+  characters are compatible in towers by Stacks 0BU7);
+- `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`: for R the valuation ring of a nonarchimedean local field K, identify trait inertia with the pinned `TauCeti.inertiaSubgroup K` and identify the residue Tate module with the roots-of-unity Tate module in K^sep by henselian lifting. Under these identifications t_ℓ is the ℓ-component of `TauCeti.inertiaTameCharacter`, hence `TauCeti.inertiaPadicTameCharacter` for ℓ prime to the residue characteristic. The comparison follows levelwise from the positive Kummer ratio σ(π^(1/ℓⁿ))/π^(1/ℓⁿ).
 
 (Stacks Project, Section 15.114, Lemma 09EE, Definition 0BU4, Lemma 0BU5, Lemma 0BU7, Remark 0BU8.)
 *Needs:* Mathlib `HenselianLocalRing`, `IsDiscreteValuationRing`, `ValuationSubring.inertiaSubgroup`;
-Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; F.0 and F.2–F.3.
+Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; F.0 and F.2–F.3; for the local-field comparison, pinned `TauCeti.inertiaTameCharacter`, `TauCeti.inertiaPadicTameCharacter`, `TauCeti.coe_proj_inertiaTameCharacter_apply` and henselian prime-to-residue roots-of-unity lifting.
 
 **Checks.**
 
@@ -780,6 +792,7 @@ Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; F.0 and F.2–F.3.
   `I ≅ Ẑ(1)` given by the action on the roots `t^{1/n}`.
 - `tameCharacter_restrict_quadratic`: for `R' = R[π^{1/2}]` with `p ≠ 2`, `e = 2` and `t_ℓ` restricted
   to `I'` is twice the new character; a definition that ignored `e` would fail this.
+- Over a local field, the comparison sends every ℓⁿ-level Kummer ratio to the pinned character with the same positive direction; changing the uniformizer by a unit leaves it unchanged.
 - `tameCharacter_wild`: for `R` the henselization of `𝔽̄_p[t]` at `(t)`, every element of `P`
   has `t_ℓ = 0`, while `P` is nonzero (Artin–Schreier extensions).
 
@@ -787,7 +800,18 @@ Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; F.0 and F.2–F.3.
 
 Throughout, E is a finite extension of ℚ_ℓ, O_E its valuation ring, and V a finite-dimensional E-vector space with the module topology. A lattice is a finitely generated O_E-submodule spanning V over E.
 
-**Stable lattices.** `ContinuousRep.exists_stable_lattice_iff` (also written `exists_stable_lattice_iff`). Prove that every lattice is compact and open, with compact open stabilizer GL(Λ)≤GL(V), equal to GL_n(O_E) in a lattice basis. A subgroup K≤GL(V) stabilizes a lattice if and only if its closure is compact: the sum of the K-translates of a lattice is a finite sum and is K-stable. Every jointly continuous action of a compact group Γ on V therefore has a stable lattice and in a lattice basis is a continuous Γ→GL_n(O_E). (DDT, §2.1, p. 54; Ribet 1976, §2, p. 154; BHKT, Theorem 4.8(ii), p. 16.)
+**Continuous representation carrier.** Construct `ContinuousRep Γ A M` for a topological group Γ, a commutative topological ring A and a finite projective A-module M with its module topology: a Mathlib `Representation A Γ M` whose action Γ×M→M is jointly continuous. Build equivariant `ContinuousRep.Iso`, identity/composition/inverse, rank-one `ContinuousRep.ofCharacter` for a continuous character Γ→Aˣ, and `ContinuousRep.baseChange` using the pinned `Representation.baseChange` along a continuous coefficient map, with module topology on B⊗_A M. Prove continuity, identity/composition of base change, equivariance and agreement with the underlying linear representation. These are the carrier and elementary operations needed by integral models.
+
+*Source:* DDT §2.1, p. 52; pinned Mathlib `Representation` and Tau Ceti `Representation.baseChange`.
+*Needs:* Mathlib topological groups and module topology; Tau Ceti representation base change.
+
+**Checks.**
+
+- The continuous trivial character gives the identity action on A.
+- Joint continuity implies each operator is continuous; individual operator continuity alone need not give continuity in Γ.
+- Base change of a rank-one character sends χ(g) to its image in Bˣ; the generic-fibre comparison of an integral model preserves its action.
+
+**Stable lattices.** `ContinuousRep.exists_stable_lattice_iff` (also written `exists_stable_lattice_iff`). Prove that every lattice is compact and open, with compact open stabilizer GL(Λ)≤GL(V), equal to GL_n(O_E) in a lattice basis. A subgroup K≤GL(V) stabilizes a lattice if and only if its closure is compact: the sum of the K-translates of a lattice is a finite sum and is K-stable. Every jointly continuous action of a compact group Γ on V therefore has a stable lattice and in a lattice basis is a continuous Γ→GL_n(O_E). (DDT, §2.1, p. 53, paragraph after Proposition 2.6; Ribet 1976, §2, p. 154; BHKT, Theorem 4.8(ii), p. 16.)
 *Needs:* Mathlib nonarchimedean local fields, `IsNonarchimedeanLocalField.isCompact_closedBall`, finite-dimensional module topology and finite-module algebra.
 
 **Checks.**
@@ -808,13 +832,13 @@ Throughout, E is a finite extension of ℚ_ℓ, O_E its valuation ring, and V a 
 
 ## F.10.1 Finite-field descent and rational-point fixed points
 
-Scheme Frobenius is supplied by SchemeAndStackFoundations §0.29, with all five maps named in the supplier contract. Coefficient objects carry descent data over k. Geometric Frobenius is the inverse of arithmetic field Frobenius; cohomological traces use geometric Frobenius and compact support.
+Scheme Frobenius is constructed in §F.0.4, with all five maps named in the supplier contract. Coefficient objects carry descent data over k. Geometric Frobenius is the inverse of arithmetic field Frobenius; cohomological traces use geometric Frobenius and compact support.
 
 **Finite-field descent and rational-point fixed points.** `VanishingCycles.frobeniusFixedPoints`.
 For finite k of cardinality q with chosen algebraic closure k̄, use
 `FiniteField.frobeniusAlgEquivOfAlgebraic` as `VanishingCycles.arithmeticFrobenius` and its
 inverse as `VanishingCycles.geometricFrobenius`. For every r≥1 identify the fixed subfield
-of its r-th power with the degree-r field k_r⊂k̄ of cardinality qʳ. For every k-scheme X
+of its r-th power with the degree-r field k_r⊂k̄ of cardinality qʳ, using the fixed intermediate field of the subgroup generated by that power. For every k-scheme X
 prove the natural equivalence X(k_r) ≃ Fix(arithmeticFrobeniusʳ on X(k̄)); give the
 geometric inverse-power formulation. Coordinate action is x↦x^q; preserve maps, products,
 coproducts and changes of algebraic closure. Use the over-Spec k morphism type for points,
@@ -831,7 +855,8 @@ covers; the supplied qPowerFrobenius only for conversion to scheme maps.
 
 - Spec k_m has m k_r-points when m divides r, and none otherwise.
 - 𝔸¹ has qʳ fixed points of arithmetic Frobeniusʳ.
-- The point equivalence for a product is the product of the two point equivalences.
+- The point equivalence for a product is the product of the two point equivalences; for finite-type factors the rational-point count is multiplicative.
+- Arithmetic and geometric Frobenius compose to the identity in both orders.
 
 ## F.10.2 Scheme/descent Frobenius comparison, finite coefficients
 
@@ -854,7 +879,7 @@ frobeniusFixedPoints and the supplied absolute/relative/q-power scheme maps. The
 
 ## F.4.1 Normalized bounded constructible systems
 
-`VanishingCycles.adicRealization` indexes §§F.4.1–F.4.6. Generic limits and completion are EnhancedDerivedSheaves §0.3, with module comparisons supplied by DerivedModuleAlgebra §§1.1–1.5 and R02.1.1.
+`VanishingCycles.adicRealization` indexes §§F.4.1–F.4.6. Generic limits and completion are EnhancedDerivedSheaves §0.3, with module comparisons supplied by DerivedModuleAlgebra §§1.1–1.5 and 1.T.1.
 
 **Normalized bounded constructible systems.** `VanishingCycles.normalizedAdicSystems`.
 For locally Noetherian X and invertible prime ℓ form coherent systems K_n∈Dᵇ_ctf(X,Λ_n),
@@ -1015,7 +1040,7 @@ operations; §F.0.4 universalHomeomorphismEtaleEquivalence and §F.10.2 finite-l
 
 ## 0.9 Algebraic cycle classes and the projective bundle formula
 
-**Normalized algebraic classes.** For n>0 invertible on a qcqs scheme X, provide `ClassicalAlgebraic.cycleClasses`: the Kummer first Chern class of a line bundle and the localized class cl_Z∈H_Z^(2c)(X,μ_n^⊗c) for a regular immersion Z→X of codimension c between schemes smooth over a common base on which n is invertible. Construct the class by deformation to the normal bundle and prove transverse pullback, composition of regular immersions and Cartier-divisor agreement. Provide the étale projective bundle formula for a rank-r vector bundle, with basis 1,c₁(O(1)),…,c₁(O(1))^(r−1), and normalization by degree-one point classes. No absolute purity for arbitrary singular schemes is included. (SGA 4½, *Cycle*, §§1–2; SGA 4, Exposé XVIII, §§2–3; Kummer sequence: Stacks, tag 03PL.)
+**Normalized algebraic classes.** For n>0 invertible on a qcqs scheme X, provide `ClassicalAlgebraic.cycleClasses`: the Kummer first Chern class of a line bundle and the localized class cl_Z∈H_Z^(2c)(X,μ_n^⊗c) for a regular immersion Z→X of codimension c between schemes smooth over a common base on which n is invertible. Construct the class by deformation to the normal bundle and prove transverse pullback, composition of regular immersions and Cartier-divisor agreement. Provide the étale projective bundle formula for a rank-r vector bundle, with summands indexed by 0≤i<r generated by c₁(O(1))ⁱ and normalization by degree-one point classes. For r=0 both the sum and projectivization are empty. No absolute purity for arbitrary singular schemes is included. (SGA 4½, *Cycle*, §§1–2; SGA 4, Exposé XVIII, §§2–3; Kummer sequence: Stacks, tag 03PL.)
 
 For finite commutative Λ annihilated by n, use derived extension of scalars from Z/n for the same classes and projective-bundle decomposition, compatibly with pullback and coefficient reduction. Over a separably closed field this gives one Λ(−i) summand in degree 2i for P^m, generated by the hyperplane powers for 0≤i≤m. §F.6 (`VanishingCycles.smoothPairGysin`), consumes these finite classes for higher Gysin, self-intersection and adic extensions; §F.10 uses the same hyperplane generator and Tate orientation in its Frobenius calculations.
 
@@ -1026,6 +1051,7 @@ For finite commutative Λ annihilated by n, use derived extension of scalars fro
 - On P¹ over an algebraically closed field, c₁(O(1)) has trace +1.
 - The divisor T=0 on A¹ has localized class given by the Kummer connecting image of T.
 - A rank-one bundle has projectivization X and only the degree-zero projective-bundle summand.
+- The zero bundle has empty projectivization and zero cohomology, including over Spec k; there is no degree-zero basis vector.
 
 **Regular-immersion classes.** Provide `ClassicalAlgebraic.lciCycleClass`: for a regular closed immersion i:Z→X of pure codimension c between locally noetherian schemes, with n>0 invertible on X, construct cl_Z∈H_Z^(2c)(X,Λ(c)), Λ=Z/n. For c>0, use the exceptional divisor of Bl_Z(X), the projective bundle formula for its normal bundle and the monic relation for the negative exceptional-divisor class; its constant term defines cl_Z. For c=0, use the coefficient unit on the open-and-closed support. Prove Cartier agreement, coefficient reduction Z/n→Z/m for m>0 with m|n, transverse pullback when the pulled-back immersion remains regular of codimension c, and agreement with `ClassicalAlgebraic.cycleClasses` on locally noetherian pairs in its smooth-pair scope. This constructs a class without asserting purity for singular pairs. (Fujiwara, *A proof of the absolute purity conjecture (after Gabber)*, §1.1, Lemma 1.1.1 and Definition 1.1.2; Li–Reinecke–Zavyalov, §§3.2–3.3, Proposition 3.2.5 and Definition 3.3.2, pp. 24–25, and §3.4, Lemma 3.4.1, pp. 27–28.)
 
@@ -1051,9 +1077,9 @@ For finite commutative Λ annihilated by n, use derived extension of scalars fro
 
 ## 0.11 Algebraic smooth trace and curve duality
 
-**Algebraic smooth trace.** For a separated smooth finitely presented f:X→S of relative pure dimension d, with a compactification as in Section 0.8, n>0 invertible on S and Λ=Z/n, provide `ClassicalAlgebraic.smoothTrace`: Rf!Λ(d)[2d]→Λ. Normalize by degree-one point classes and prove composition, open restriction, finite flat trace and base-change compatibility. Construct it for curves using the Jacobian, Kummer and effacement, then by elementary smooth charts in dimension d. (SGA 4, Exposé XVIII, §§1–3, especially Theorem 3.2.5; SGA 4½, *Cycle*, §2.)
+**Algebraic smooth trace.** For a separated smooth finitely presented f:X→S of relative pure dimension d, with a compactification as in Section 0.8, n>0 invertible on S and Λ=Z/n, provide `ClassicalAlgebraic.smoothTrace`: Rf!Λ(d)[2d]→Λ. Normalize by degree-one point classes and prove composition, open restriction, finite flat trace and base-change compatibility. Construct it for curves using the pointed smooth proper field-curve Jacobian of JacobianChallenge Layer D, Kummer and effacement, then by elementary smooth charts in dimension d. Build the étale-local reduction and spreading/base-change comparisons from relative smooth curves to that field-curve construction, including independence of the chosen point and descent of the trace. No arbitrary-base relative Jacobian is assumed supplied. (SGA 4, Exposé XVIII, §§1–3, especially Theorem 3.2.5; SGA 4½, *Cycle*, §2.)
 
-*Needs:* EnhancedDerivedSheaves §§0.1–0.4; §§0.5–0.10; SchemeAndStackFoundations §§2.11, 2.16; JacobianChallenge Layer B.
+*Needs:* EnhancedDerivedSheaves §§0.1–0.4; §§0.5–0.10; SchemeAndStackFoundations §§2.11, 2.16; JacobianChallenge Layer D (pointed smooth proper curves over fields); the relative reduction and comparisons constructed in this target.
 
 **Checks.**
 
@@ -1069,7 +1095,7 @@ For finite commutative Λ annihilated by n, use derived extension of scalars fro
 - For A¹ over such a field, RΓ_cΛ=Λ(−1)[−2] pairs with RΓΛ=Λ.
 - A finite direct sum of finite locally free coefficient sheaves has the direct sum of the duality pairings; finite Tor amplitude is retained.
 
-*Needs:* EnhancedDerivedSheaves §§0.1–0.4; this roadmap §§0.5–0.10; `SchemeAndStackFoundations`, §§2.11 and 2.16, and `JacobianChallenge`, B, for scheme Picard, Jacobian and Kummer inputs.
+*Needs:* EnhancedDerivedSheaves §§0.1–0.4; this roadmap §§0.5–0.10; `SchemeAndStackFoundations`, §§2.11 and 2.16, and `JacobianChallenge`, Layer D, for the pointed smooth proper field-curve Jacobian; the relative reduction and base-change comparisons of the smooth-trace target above.
 
 ## F.5 Exceptional inverse image and duality
 
@@ -1140,19 +1166,18 @@ centre with exceptional Gysin maps and their inverse signs; and weak Lefschetz f
 ample hyperplane section of a smooth projective variety (isomorphism below the middle degree,
 injection at the middle). These are rational or invertible finite-coefficient statements,
 with adic versions from F.4. (SGA 5 VII; SGA 4 XIV §3; SGA 7 XVIII §§2–5.)
-*Needs:* F.3–F.4, F.6; §0.9; SchemeAndStackFoundations §§0.3, 5.3 (`relativeProj`, `projectiveBundle`, `projectiveBundle_dual_convention`);
+*Needs:* F.3–F.4, F.6; §0.9; SchemeAndStackFoundations §§0.3, 5.4 (`relativeProj`, `projectiveBundle`, `projectiveBundle_dual_convention`);
 StableReduction Layer 4 (Rees-algebra blow-ups).
 
 **Checks.**
 
-- `H^*(ℙ^r,Λ)` has one generator `η^i` in degree `2i`, twist `−i`, and no odd groups.
+- For separably closed k and invertible finite Λ, or ℓ-adic coefficients with ℓ≠char(k), H^*(ℙ^r_k,Λ) has one Λ(−i) in each degree 2i, 0≤i≤r, and no odd groups. Over arbitrary k use the projective-bundle formula over RΓ(k,Λ); for k=𝔽_q and nonzero Λ=ℤ/ℓ with ℓ∤q, H¹(Spec k,Λ)=Λ survives on ℙ^r_k.
 - Blowing up a surface at one point adds one middle Tate class of square minus one.
-- A smooth conic section of a quadric surface has `H¹=0`; restriction in middle degree is
-  injective where weak Lefschetz asserts it, without asserting a middle-degree isomorphism.
+- For a smooth plane cubic C⊂ℙ² over an algebraically closed field with invertible nonzero finite field coefficients, H¹(ℙ²)=0→H¹(C)=Λ² is injective and is not an isomorphism.
 
 ## F.8 Perverse t-structures over a field
 
-**Construction.** Build `VanishingCycles.fieldPerverseTStructure` on bounded constructible
+**Construction.** Let X be a finite-type scheme over a field k, with finite coefficients Λ whose annihilator is invertible in k, or integral/rational ℓ-adic coefficients with ℓ≠char(k). Build `VanishingCycles.fieldPerverseTStructure` on the corresponding bounded constructible
 complexes by the middle support and cosupport inequalities for `δ(x)=dim closure{x}`.
 Prove the t-structure axioms, open–closed gluing, the abelian heart, perverse cohomology,
 affine perverse Artin vanishing and `VanishingCycles.intermediateExtension` as
@@ -1161,7 +1186,7 @@ Include finite coefficients and the distinct integral perversities `p,p⁺`; int
 exchanges them, rational duality preserves the middle perversity. (BBD §§1.4, 2.2, 4.4;
 Illusie 1994 §4.) *Needs:* F.1–F.6.
 
-**Checks.**
+**Checks.** All schemes are finite type over k and coefficients have the preceding invertibility hypotheses.
 
 - On a nonempty smooth curve with `Λ≠0`, `Λ[1]` is perverse, whereas `Λ` is not.
 - On the empty scheme, or with the zero coefficient ring, both shifts are the zero perverse object.
@@ -1170,6 +1195,7 @@ Illusie 1994 §4.) *Needs:* F.1–F.6.
 - For the identity open immersion, intermediate extension is the identity.
 - Restricting intermediate extension back to the open recovers its input, and applying it to zero gives zero.
 - On a point the integral torsion sheaf `ℤ_ℓ/ℓ` has dual in the `p⁺` heart, not the `p` heart.
+- For j:𝔾_m→𝔸¹ over 𝔽̄_p, coefficients 𝔽_p are excluded: the independent Artin–Schreier classes t^(−a), p∤a, in the strict-local fraction field give an infinite-dimensional (R¹j_*𝔽_p)_0, so Rj_* does not preserve constructibility.
 
 ## F.10.3 Perfect-complex traces and coherent additivity
 
@@ -1202,12 +1228,12 @@ A=ℤ/ℓⁿ coefficient-descent argument used in the curve proof. These are the
 monoid-extension identities of Stacks §64.15, Lemmas 64.15.1–64.15.9.
 No division by |G| is used. Generic code belongs in module and category-theory namespaces,
 outside algebraic geometry. The commutative split-retract prototype
-`PerfectComplex.projectiveTraceOfRetract` uses a finite-free complement and Mathlib matrix
+`PerfectComplex.projectiveTraceOfRetract` takes inclusion i and retraction r with r∘i=id and uses Mathlib matrix
 trace; `PerfectComplex.projectiveTrace_independent` proves independence of the chosen split
 retract. Every finite projective admits such a finite-free retract.
 (Stacks §§64.4–64.6, 64.15; finite-projective duality and filtered-complex trace formalism.)
-*Needs:* EnhancedDerivedSheaves §§0.1–0.4 enhancement/tensor and filtered complexes;
-Mathlib projective modules, matrices and trace; DerivedModuleAlgebra §§0.1–0.3 for module-derived tensor.
+*Needs:* EnhancedDerivedSheaves §§0.1–0.4 enhancement/tensor; the finite filtered enhanced objects constructed in this target before localization;
+Mathlib projective modules, matrices and trace; DerivedModuleAlgebra §0.2 for module-derived tensor.
 Geometric uses verify coefficient-ring perfectness by §F.3 and group-ring perfectness by
 §F.10.4; neither geometric assertion is a prerequisite of this algebraic trace construction.
 
@@ -1218,6 +1244,10 @@ Geometric uses verify coefficient-ring perfectness by §F.3 and group-ring perfe
 - The identity on [ℤ/4 —2→ ℤ/4] has Lefschetz number zero, although both cohomology
   modules are ℤ/2 and their finite-projective traces are not defined.
 - Group-ring identities remain meaningful when |G| is zero in Λ.
+- For any finite-free split retract with r∘i=id, the zero endomorphism has projectiveTraceOfRetract equal to zero.
+- On the standard rank-r free retract the identity has trace r, including r=0.
+- On ℤ, i=0 and r=id do not satisfy r∘i=id, so they are excluded as retract data; their raw cyclic expression would give zero for the identity instead of one.
+- On R², diag(a,b) has trace a+b; adjoining a zero complement to the split retract leaves that value unchanged.
 
 ## F.10.4 Free-torsor equivariant compact-support perfectness
 
