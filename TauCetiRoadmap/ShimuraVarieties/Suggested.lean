@@ -71,6 +71,19 @@ example : Subsingleton
     (AnalyticPoints (X := PUnit) (MonoidHom.id PUnit) (⊤ : Subgroup PUnit)) := by
   sorry
 
+-- For a singleton domain, the rational quotient remains part of equality.
+example {Q A : Type*} [Group Q] [Group A] [MulAction Q PUnit]
+    (ι : Q →* A) (K : Subgroup A) (a b : A) :
+    AnalyticPoints.mk ι K PUnit.unit a = AnalyticPoints.mk ι K PUnit.unit b ↔
+      ∃ q : Q, ∃ k : K, b = ι q * a * (k : A) := by
+  sorry
+
+-- At bottom level the full rational image can still identify every representative.
+example {Q : Type*} [Group Q] [MulAction Q PUnit] (a b : Q) :
+    AnalyticPoints.mk (MonoidHom.id Q) (⊥ : Subgroup Q) PUnit.unit a =
+      AnalyticPoints.mk (MonoidHom.id Q) (⊥ : Subgroup Q) PUnit.unit b := by
+  sorry
+
 -- Changing representatives by the rational and level actions changes no point.
 example {Q A X : Type*} [Group Q] [Group A] [MulAction Q X]
     (ι : Q →* A) (K : Subgroup A) (q : Q) (k : K) (x : X) (a : A) :
@@ -184,6 +197,28 @@ end CMType
 example : IsEmpty (CMType ℚ) := by
   sorry
 
+-- The Gaussian partition is inhabited, with exactly one selected embedding.
+example : Nonempty (CMType GaussianInt) := by
+  sorry
+
+-- Product embeddings factor through projections; a product type selects two of them.
+example : ∃ Φ : CMType (GaussianInt × GaussianInt), Nat.card Φ.toSet = 2 := by
+  sorry
+
+-- The type selecting the first and third eighth roots is induced from Q(sqrt(-2)).
+example : ∃ (ζ : CyclotomicField 8 ℚ) (Φ : CMType (CyclotomicField 8 ℚ)),
+    IsPrimitiveRoot ζ 8 ∧
+    (∀ φ : CyclotomicField 8 ℚ →+* ℂ,
+      φ ∈ Φ.toSet ↔
+        φ ζ =
+          Complex.exp (Complex.I * (Real.pi : ℂ) / 4) ∨
+        φ ζ =
+          (Complex.exp (Complex.I * (Real.pi : ℂ) / 4)) ^ 3) ∧
+    Module.finrank ℚ (CyclotomicField 8 ℚ) = 4 ∧
+    Φ.reflexField = IntermediateField.adjoin ℚ {Complex.I * (Real.sqrt 2 : ℂ)} ∧
+    Module.finrank ℚ Φ.reflexField = 2 := by
+  sorry
+
 -- The Gaussian type has trace `i` at `i`; the full trace would give `0`.
 example (Φ : CMType GaussianInt) (h : GaussianInt.toComplex ∈ Φ.toSet) :
     Φ.typeTrace ⟨0, 1⟩ = Complex.I := by
@@ -197,6 +232,85 @@ end CMTypes
 
 /-! ## Layer 8: arithmetic towers and minimal compactifications -/
 
+section NativeCategories
+open CategoryTheory CategoryTheory.Limits
+
+namespace CanonicalTower
+
+/-- Supplied objects and transitions satisfying identity and composition assemble into a functor. -/
+def ofLevelMaps {I C : Type*} [Category I] [Category C]
+    (M : I → C) (t : ∀ {i j : I}, (i ⟶ j) → (M i ⟶ M j))
+    (hid : ∀ i, t (𝟙 i) = 𝟙 (M i))
+    (hcomp : ∀ {i j k : I} (f : i ⟶ j) (g : j ⟶ k), t (f ≫ g) = t f ≫ t g) :
+    I ⥤ C where
+  obj := M
+  map := t
+  map_id := hid
+  map_comp := hcomp
+
+variable {I C : Type*} [Category I] [Category C]
+variable (M : I → C) (t : ∀ {i j : I}, (i ⟶ j) → (M i ⟶ M j))
+variable (hid : ∀ i, t (𝟙 i) = 𝟙 (M i))
+variable (hcomp : ∀ {i j k : I} (f : i ⟶ j) (g : j ⟶ k), t (f ≫ g) = t f ≫ t g)
+
+/-- The assembled functor preserves the supplied object. -/
+theorem ofLevelMaps_obj (i : I) : (ofLevelMaps M t hid hcomp).obj i = M i := rfl
+
+/-- The assembled functor evaluates a transition to the supplied morphism. -/
+theorem ofLevelMaps_map {i j : I} (f : i ⟶ j) :
+    (ofLevelMaps M t hid hcomp).map f = t f := rfl
+
+-- CanonicalTower.test_preserves_supplied_arrow distinguishes the actual transition.
+example {i j : I} (f : i ⟶ j) (u : M i ⟶ M j) (hu : t f ≠ u) :
+    (ofLevelMaps M t hid hcomp).map f ≠ u := by
+  sorry
+
+-- CanonicalTower.test_identity_level and CanonicalTower.test_nested_levels.
+example {i j k : I} (f : i ⟶ j) (g : j ⟶ k) :
+    (ofLevelMaps M t hid hcomp).map (𝟙 i) = 𝟙 (M i) ∧
+    (ofLevelMaps M t hid hcomp).map (f ≫ g) = t f ≫ t g := by
+  sorry
+
+end CanonicalTower
+
+-- CanonicalTower.test_base_change uses the native slice pullback on supplied objects.
+example {I C : Type*} [Category I] [Category C] {B B' : C}
+    (b : B' ⟶ B) [HasPullbacksAlong b]
+    (F : I ⥤ Over B) {i j : I} (f : i ⟶ j) :
+    (F ⋙ Over.pullback b).map f = (Over.pullback b).map (F.map f) := rfl
+
+-- CanonicalHecke.test_native_span and the ordered leg evaluations.
+example {C : Type*} [Category C] {A B D : C} (p1 : A ⟶ B) (p2 : A ⟶ D) :
+    (span p1 p2).obj WalkingSpan.zero = A ∧
+    (span p1 p2).map WalkingSpan.Hom.fst = p1 ∧
+    (span p1 p2).map WalkingSpan.Hom.snd = p2 := by
+  sorry
+
+-- CanonicalHecke.test_identity.
+example {C : Type*} [Category C] (A : C) :
+    (span (𝟙 A) (𝟙 A)).map WalkingSpan.Hom.fst = 𝟙 A ∧
+    (span (𝟙 A) (𝟙 A)).map WalkingSpan.Hom.snd = 𝟙 A := by
+  sorry
+
+-- CanonicalHecke.test_distinct_legs rules out exchanging the two supplied maps.
+example {C : Type*} [Category C] {A : C} (p1 p2 : A ⟶ A) (h : p1 ≠ p2) :
+    (span p1 p2).map WalkingSpan.Hom.fst ≠ p2 ∧
+    (span p1 p2).map WalkingSpan.Hom.snd ≠ p1 := by
+  sorry
+
+-- CanonicalHecke.test_base_change retains both ordered legs and spanCompIso.
+example {C : Type*} [Category C] {B B' : C} (b : B' ⟶ B)
+    [HasPullbacksAlong b] {A D E : Over B} (p1 : A ⟶ D) (p2 : A ⟶ E) :
+    ((span p1 p2) ⋙ Over.pullback b).map WalkingSpan.Hom.fst =
+      (Over.pullback b).map p1 ∧
+    ((span p1 p2) ⋙ Over.pullback b).map WalkingSpan.Hom.snd =
+      (Over.pullback b).map p2 ∧
+    Nonempty ((span p1 p2) ⋙ Over.pullback b ≅
+      span ((Over.pullback b).map p1) ((Over.pullback b).map p2)) := by
+  sorry
+
+end NativeCategories
+
 /-- Two noncommuting integral matrices distinguish the order of right translations. -/
 example :
     (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 0; 1, 1] ≠
@@ -205,16 +319,52 @@ example :
 end TauCetiRoadmap.ShimuraVarieties
 
 /-
+README prerequisite constructions on the analytic/algebraic supplier carriers:
+TauCeti.Shimura.PureDatum,
+TauCeti.Shimura.hermitian_components,
+TauCeti.Shimura.hodge_reflex_foundations,
+TauCeti.Shimura.level_foundations,
+TauCeti.Shimura.real_approximation_tori,
+TauCeti.Shimura.finite_analytic_quotient,
+TauCeti.Shimura.quasi_projective_finite_quotient,
+TauCeti.Shimura.complex_cusp_charts,
+TauCeti.Shimura.polarized_period_definable,
+TauCeti.Shimura.definable_chow,
+TauCeti.Shimura.cocharacter_incidence,
+TauCeti.Shimura.continuous_field_descent,
+TauCeti.Shimura.rational_siegel_moduli,
+TauCeti.Shimura.siegel_moduli_uniformization,
+TauCeti.Shimura.unit_congruence_topology,
+TauCeti.Shimura.SerreProtorus,
+TauCeti.Shimura.TaniyamaExtension,
+TauCeti.Shimura.finite_normalizer_index,
+TauCeti.Shimura.s_arithmetic_reconstruction,
+TauCeti.Shimura.global_centre_adjoint_comparison,
+TauCeti.Shimura.quadratic_torus_norms,
+TauCeti.Shimura.compact_negative_ke_metric,
+TauCeti.Shimura.broader_pure_canonical.
+
 Further README definitions and constructions:
 TauCeti.Shimura.Level, TauCeti.Shimura.AutomorphicRing, TauCeti.CM.CMType.reflexNorm,
 TauCeti.Shimura.ReflexNorm, TauCeti.Shimura.CanonicalModel,
 TauCeti.Shimura.torusModel, TauCeti.Shimura.CMAbelianVariety,
 TauCeti.Shimura.ConnectedTower, TauCeti.Shimura.conjugatedDatum,
 CanonicalTower.ofLevelMaps, CanonicalHecke.span, ZeroDimShimura.shimuraSet.
-Their analytic, arithmetic and canonical-symmetry carriers must be supplied
-before the mathematical target signatures can be stated here.
+The Shimura-specific analytic, arithmetic and canonical-symmetry carriers are
+constructed by the README targets. The native functor and ordered-span examples
+above provide the categorical assembly and base-change checks on supplied diagrams.
+README-only laws on actual canonical models:
+CanonicalTower.ofLevelMaps_id, CanonicalTower.ofLevelMaps_comp,
+CanonicalTower.ofLevelMaps_baseChange, CanonicalHecke.span_apex,
+CanonicalHecke.span_first, CanonicalHecke.span_second, CanonicalHecke.span_baseChange,
+CanonicalTower.test_gl2_jline_degree, CanonicalTower.test_not_constant,
+CanonicalTower.abelian_type, CanonicalTower.general_data,
+CanonicalTower.level_map_finite, CanonicalTower.translation_comp,
+CanonicalHecke.test_gl2_Tp_index. The actual schemes and their complex comparisons
+are the inputs to these Shimura-specific specializations.
 
-README-only CM API and Checks from Section 5.1:
+CM API and Checks specified in Section 5.1; the Gaussian, product and induced
+cyclotomic examples above mirror the statable embedding/reflex-field checks:
 TauCeti.CM.CMType.mem_conjugate_iff, TauCeti.CM.CMType.conjugate_conjugate,
 TauCeti.CM.CMType.induced_mem, TauCeti.CM.CMType.induced_trans,
 TauCeti.CM.CMType.primitive_core_unique, TauCeti.CM.CMType.reflexField_le_iff,
