@@ -3292,10 +3292,17 @@ image concern `V`, not `E`. Define `LefschetzPencil.vanishingQuotient`, `Lefsche
 - `LefschetzPencil.vanishingQuotient_lift_comp`: Composition of the descended map with the quotient projection is the original map.
 
 *Proof sketch.* The kernel of `( , )|_E` is `E ∩ E^⊥` by definition, so the induced form is nondegenerate.
-`Tr(x ∪ y) = (−1)^{n²} Tr(y ∪ x)` and `x ∪ x = 0` for `n` odd, by graded commutativity. `π_1(U, u)` preserves cup product
-and trace (the trace is invariant because `R^{2n} f_*ℚ_ℓ(n) ≅ ℚ_ℓ` on `U`) and preserves `E`, hence `E^⊥` and the
-quotient. (Weil I, §5, (5.9), p. 293.) *Needs:* 4.2; F.6 (Poincaré
-duality and the trace pairing); Mathlib `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`,
+`Tr(x ∪ y) = (−1)^{n²} Tr(y ∪ x)` and `x ∪ x = 0` for `n` odd, by graded commutativity.
+For the smooth proper restriction `f_U = f|_{f^{-1}(U)}`, use F.6's relative trace morphism
+`Tr_{f_U} : R^{2n}(f_U)_*ℚ_ℓ(n) → ℚ_{ℓ,U}`. Its naturality and base-change compatibility,
+together with those of cup product, give a morphism of lisse sheaves
+`R^n(f_U)_*ℚ_ℓ ⊗ R^n(f_U)_*ℚ_ℓ → ℚ_{ℓ,U}(−n)`.
+Thus `π_1(U, u)` preserves the pairing without a connectedness hypothesis on the fibres;
+it preserves `E` by 4.2, hence also `E^⊥` and the quotient.
+(Weil I, §5, (5.9), p. 293; SGA 4 XVIII 3.2; Stacks §59.66, tag 03SH for dimension zero.)
+*Needs:* 4.2; F.6 (Poincaré duality and the relative trace, with F.4's adic realization);
+ClassicalAdicEtaleCohomology §0.8 (`ClassicalAlgebraic.finiteTrace`) for dimension zero;
+Mathlib `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`,
 `Submodule.mkQ`. *Lean:* `Suggested.lean` declares the linear-algebra core: `LefschetzPencil.vanishingRadical`,
 `LefschetzPencil.vanishingQuotient`, `exists_vanishingForm` (a reflexive form descends to a nondegenerate form on the
 radical quotient) and the four-dimensional symplectic checks on `stdSymplectic4`.
@@ -3306,6 +3313,10 @@ radical quotient) and the four-dimensional symplectic checks on `stdSymplectic4`
 - `LefschetzPencil.vanishingQuotient_zero`: For E = 0 in the four-dimensional symplectic space of the next check the quotient is zero; this is the situation of the quadric-surface pencil.
 - `LefschetzPencil.vanishingQuotient_radical`: Over Q with basis e₀,e₁,e₂,e₃ and B(e₀,e₁)=B(e₂,e₃)=1, E=span(e₀,e₁,e₂) has radical Qe₂ and quotient dimension two; span(e₀,e₂) has quotient dimension zero.
 - `LefschetzPencil.vanishingQuotient_conic`: For the dot product on ℚ² and E = ℚ(1, −1), the radical is zero, the quotient is a line and the generator has square two; this is the radical quotient of the conic pencil.
+- For the conic pencil with `n = 0` and `p ≠ 2`, the source of the relative trace has rank two:
+  `H⁰(X_u,ℚ_ℓ) = ℚ_ℓ²`. The trace `(a,b) ↦ a+b` is invariant under the coordinate swap.
+  Cup product is componentwise, so `Tr(x ∪ y) = x₁y₁+x₂y₂`, the dot-product pairing,
+  also invariant under the swap. `Suggested.lean` gives these coordinate checks over ℚ.
 - `LefschetzPencil.vanishingForm_on_E_degenerate`: The restriction of the standard symplectic form of ℚ⁴ to span(e₀, e₁, e₂) is degenerate, whereas the induced form on the quotient is nondegenerate.
 
 ### 4.5 The cohomology of the total space

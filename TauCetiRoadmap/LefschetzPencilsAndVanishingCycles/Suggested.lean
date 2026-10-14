@@ -454,6 +454,30 @@ example : Module.finrank ℚ (vanishingQuotient
 example : Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) ![1, -1] ![1, -1] = 2 := by
   sorry
 
+/-- The two-point conic fibre has rank-two degree-zero cohomology, the source of its trace.
+README 4.4, conic trace check. -/
+example : Module.finrank ℚ (Fin 2 → ℚ) = 2 := by
+  simp
+
+/-- The sum trace on the two-point conic fibre is invariant under swapping the points.
+README 4.4, conic trace check. -/
+example (x : Fin 2 → ℚ) :
+    (![x 1, x 0] : Fin 2 → ℚ) 0 + (![x 1, x 0] : Fin 2 → ℚ) 1 = x 0 + x 1 := by
+  simp [add_comm]
+
+/-- Componentwise cup product followed by sum trace gives the conic dot-product pairing.
+README 4.4, conic trace check. -/
+example (x y : Fin 2 → ℚ) :
+    Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) x y = x 0 * y 0 + x 1 * y 1 := by
+  simp [Matrix.toBilin'_apply, Fin.sum_univ_two, Matrix.one_apply]
+
+/-- The conic cup-trace pairing is invariant under the coordinate-swap monodromy.
+README 4.4, conic trace check. -/
+example (x y : Fin 2 → ℚ) :
+    Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) ![x 1, x 0] ![y 1, y 0] =
+      Matrix.toBilin' (1 : Matrix (Fin 2) (Fin 2) ℚ) x y := by
+  simp [Matrix.toBilin'_apply, Fin.sum_univ_two, Matrix.one_apply, add_comm]
+
 /-- The first ordered basis pairing fixes the sign of `stdSymplectic4`. README 4.4. -/
 example : stdSymplectic4 (Pi.single 0 1) (Pi.single 1 1) = 1 := by
   sorry
