@@ -10,7 +10,8 @@ schemes and their generic fibres, specialisation and tubes, admissible blow-ups 
 theorem, flattening after Bosch–Lütkebohmert and Raynaud–Gruson, formal completions and good
 reduction, smooth formal schemes and Frobenius lifts, and fractional valuation bounds, section
 domains and Hasse domains. Layer R3 develops coherent sheaves on adic spaces: Huber's and Tate's
-acyclicity for finite modules, Kiehl's glueing theorem, vector bundles and uniform rings, the sheaf
+acyclicity for finite modules, the affinoid section comparison for analytified modules,
+Kiehl's glueing theorem, vector bundles and uniform rings, the sheaf
 of continuous differentials, relative compactness and Kiehl-properness, the GAGA comparison maps,
 traces of finite locally free morphisms with the pull–identify–trace operators used for Hecke
 correspondences, and the Gel'fand spectrum of a Banach ring; it cites Kiehl's theorems on
@@ -20,14 +21,15 @@ models and Hasse domains of modular curves and Shimura varieties.
 
 This roadmap develops noetherian formal geometry, formal schemes over `O_K`, generic fibres
 and Hasse domains, coherent sheaves, vector bundles, proper direct images, GAGA and traces.
-Part III uses the morphisms and analytification of [part II](../AdicSpacesPartII/README.md)
-and supplies formal models and coherent sheaves to [part IV](../AdicSpacesPartIV/README.md).
+Part III uses the morphisms and module pullback of [part II](../AdicSpacesPartII/README.md)
+and identifies sections of analytified modules on affinoid charts in R3.1a.
+[Part IV](../AdicSpacesPartIV/README.md) consumes its formal models and coherent sheaves.
 
 | Layer | Title | What it builds |
 |---|---|---|
 | F0 | Formal geometry | `Spf` and formal schemes, completion, coherent formal modules, formal functions, existence and algebraisation |
 | R2 | Formal schemes, generic fibres and Hasse domains | admissible formal schemes, blow-ups, Raynaud's theorem, generic fibres, good reduction, Hasse domains |
-| R3 | Coherent sheaves and finite traces | `M̃`, Tate and Kiehl, vector bundles, Kiehl-properness, GAGA comparison maps, traces |
+| R3 | Coherent sheaves and finite traces | `M̃`, affinoid sections of analytified modules, Tate and Kiehl, vector bundles, Kiehl-properness, GAGA comparison maps, traces |
 
 ## Scope and ownership
 
@@ -57,7 +59,8 @@ The roadmap owns, layer by layer:
   cyclic levels with an auxiliary factor `d ≥ 5` over `ℤ[1/d]` that the Hasse loci need; so are the
   étale-local classification of rigid-analytic generalised elliptic curves by the analytified moduli
   and the descent of admissible opens along étale coverings with local quasi-sections.
-- R3: the sheaf of a finite module and its acyclicity, glueing squares and Kiehl's theorem, operations
+- R3: the sheaf of a finite module and its acyclicity, the affine section comparison
+  `analytification.modules_chartSections` (R3.1a), glueing squares and Kiehl's theorem, operations
   on coherent sheaves, coherent ideals and finite algebras, the open polydisc as a quasi-Stein space,
   vector bundles on sheafy Tate affinoids and uniform rings, the sheaf of continuous differentials,
   the GAGA comparison maps, finite locally free traces and pull–identify–trace on correspondences.
@@ -71,7 +74,9 @@ AdicSpaces owns the underlying adic-space foundations (valuation spectra, ration
 structure presheaf, sheafiness of strongly noetherian and stably uniform Tate rings);
 AdicSpacesPartII owns rings of noetherian type, adic homomorphisms, completed tensor products of
 Huber pairs, the morphism classes of adic spaces, `K`-affinoid algebras, rigid spaces and the
-analytification and rigid–adic functors, which Part III uses by label. Serre's theorems on ample
+analytification and rigid–adic functors, including the general exact module pullback, stalk,
+tensor and ideal comparisons in R1.4. Part III R3.1a owns the affinoid section comparison for
+that pullback through its associated-module sheaf API. Serre's theorems on ample
 sheaves and Chow's lemma are SchemeAndStackFoundations Layers 2 and 4. Its Layer 4 also owns, on its
 tower carrier `Formal.AdicThickeningSystem`, the theorem on formal functions for proper morphisms
 (§4.9, `Scheme.Modules.Cohomology.formalFunctionsIso`) and Grothendieck's existence theorem for
@@ -270,6 +275,7 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 
 | R3 supplier | Exact file | Contract used |
 |---|---|---|
+| `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.analytification.modules_chartSections` | This README, R3.1a (README target) | On a strongly noetherian affinoid chart of an affine scheme's relative analytification, sections of the pulled-back associated module are `B ⊗_C M`. R3.6 uses this for the differential-sheaf comparison and R3.7 for coherent analytification. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `RigidSpace.Affinoid.point`, `RigidSpace.Sp.map`, `AdicSpace.rigidToAdic`; `Huber.TateAlgebra.ofMvPolynomial` (same namespace); `TauCeti.Huber.restrictedMvPowerSeriesCompletion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `Huber.TateAlgebra.ofMvPolynomial`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file); `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | Planned supplier interface: discs, analytic points, polynomial coordinates and induced adic morphisms for the exactness non-example of *glueing-square*, `IsFiniteLocallyFree_closed_point`, `VectorBundle_skyscraper` and `IsFiniteLocallyFree_power_map`. Evaluation at zero is specified on every polynomial. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `Sp`, `Sp.map`, AdicSpacesPartII *proper-separated-comparisons*, `HasInnerAffinoidCover`, `IsProper`; `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `rigidToAdic.proper`, `rigidToAdic.proper_iff` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; they are specified by Part II README targets) | R3 imports the rigid affinoid carriers, generator criterion, and finite inner-cover properness. Part III's `AdicSpace.RelativelyCompact` transports innerness to adic inclusions with commuting base and inclusion maps; its API and Checks belong here. The reverse properness comparison takes `IsDiscreteValuationRing (powerBoundedSubring K)`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `Affinoid.coeff`, `Etale` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Imported affinoid presentations, coefficient maps and the étale predicate used by `proper_directImage_etale_baseChange`. Part III adds the equivalence on coherent cohomology and its pure-tensor equation. |
@@ -430,7 +436,7 @@ and stalks of internal Homs of finitely presented modules.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.isPullback` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Over a locally noetherian affinoid with stably sheafy charts, relative analytification preserves scheme pullback squares. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.finite` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Over a locally noetherian affinoid with stably sheafy charts, relative analytification carries finite scheme morphisms to finite adic morphisms. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.flat` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The scheme projection of relative analytification over a strongly noetherian Tate affinoid is flat on stalks. |
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.ringCatSheaf`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.pullbackModules`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.modules` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The ring-sheaf carrier and module pullback are imported. `FormalScheme.ringCatSheaf` specializes the supplied ring sheaf to the formal scheme’s locally ringed space; its modules are Mathlib’s `SheafOfModules`. |
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.ringCatSheaf`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.pullbackModules`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.modules` | AdicSpacesPartII README, R1.3–R1.4 *analytification-functor*, *analytification-map-flat*, *analytification-of-modules*, *analytification-immersions* (README targets) | The ring-sheaf carrier, general module pullback and its exactness, stalk, tensor and ideal comparisons are supplied here. The affinoid section comparison is R3.1a of this roadmap. `FormalScheme.ringCatSheaf` specializes the supplied ring sheaf to the formal scheme’s locally ringed space; its modules are Mathlib’s `SheafOfModules`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analyticDifferentials.comparison`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analyticDifferentials.comparison_tmul_D`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analyticDifferentials.comparison_chart` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The chart comparison sends `d ⊗ dc` to `d · d(c)`. It is the composite of scalar extension, change of coefficient ring, and the map to continuous differentials; no topology on the algebraic rings `B` and `C` is used. |
 | AdicSpacesPartII *analytic-projective-space-proper* | AdicSpacesPartII README targets cited in this row | Over a strongly noetherian Tate affinoid, the relative analytification of Proj of a finitely generated graded algebra with degree-zero ring the base is proper. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.separated`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.proper` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Relative analytification over an affinoid with stably sheafy charts preserves separatedness, and over a Tate affinoid it preserves properness. |
@@ -9072,7 +9078,9 @@ with `fittingIdeal_Spec`, `mem_support_fittingIdeal_iff` and `fittingIdeal_pullb
 
 This layer builds on AdicSpacesPartII R0–R1 and F0 of this roadmap. It constructs the sheaf `M̃ = M ⊗ 𝒪_X` of a finite module on a
 noetherian affinoid and proves its acyclicity in both of Huber's noetherian cases (Huber's Theorem
-2.5); it proves Čech acyclicity of the structure sheaf on every sheafy Tate affinoid (Kedlaya–Liu)
+2.5); R3.1a identifies sections of analytified modules on strongly noetherian affinoid charts
+with scalar extension, using Part II R1.3–R1.4's general module pullback;
+it proves Čech acyclicity of the structure sheaf on every sheafy Tate affinoid (Kedlaya–Liu)
 through the reduction of rational coverings to simple Laurent coverings — Tau Ceti has this
 reduction for the structure presheaf in degree 0 only, and the results here are for an arbitrary
 presheaf in all degrees; it introduces glueing squares and proves Kiehl's theorem; it builds the
@@ -9511,6 +9519,61 @@ make `𝒪_X` a sheaf), while exactness at `B₁₂` persists (by *simple-lauren
 *Needs:* *simple-laurent-difference-surjective*; *cech-acyclicity-simple-laurent-reduction*;
 `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti `Huber.IsTateRing`,
 `isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`.
+
+### R3.1a affinoid sections of analytified modules
+
+**The affine section comparison for analytified modules.** Let `(A, A⁺)` be a complete
+Hausdorff strongly noetherian Tate Huber pair, let `Spec C → Spec A` be locally of finite
+type, put `X = Spec C`, and let `M` be any `C`-module. Use Part II R1.3–R1.4's relative
+analytification `X^ad = X ×_{Spec A} Spa(A,A⁺)`, its scheme projection `q_X`, and its module
+pullback `(M̃)^ad = q_X^*M̃`, where `M̃` is the algebraic associated sheaf. For a strongly
+noetherian affinoid open chart `c : Spa(B,B⁺) → X^ad`, require that the coefficient map
+`φ : C → B` induce `q_X ∘ c`. In `AdicSpace`, prove `analytification.modules_chartSections`:
+the canonical comparison
+`B ⊗_C M → Γ(Spa(B,B⁺), c^*((M̃)^ad))` is a `B`-linear isomorphism, with the `B`-action
+given by the chart's actual coefficient map `c.affinoid.coeff`. It sends `b ⊗ m` to `b`
+times the pullback of the section corresponding to `m`. Commutativity identifies the source
+with `M ⊗_C B`.
+
+For finite `M`, pull back a finite presentation and use R3.1's `tilde_exact`,
+`tilde_obj_top` and `tilde_obj_rational` to identify the restricted sheaf with the sheaf
+associated to `B ⊗_C M` and its sections with that module (Zavyalov24 §4, Lemma 4.3(2) and
+Theorem 4.2(1)–(2), applied to the mixed projection of §6). For arbitrary `M`, use its
+filtered colimit of finite submodules and the quasi-compact rational basis of the affinoid:
+sections on the whole chart commute with these colimits (Stacks, Tag 009F, Lemma 6.29.1).
+*Needs:* AdicSpacesPartII R1.3–R1.4 *analytification-map-flat*, *analytification-functor*,
+*analytification-of-modules*, *analytification-immersions* and the affine restriction maps
+of `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.modules`;
+R3.1 *associated-module-sheaf*, `AdicSpace.tilde_exact`, `AdicSpace.tilde_obj_top`,
+`AdicSpace.tilde_obj_rational`; Mathlib `SheafOfModules.pullback`,
+`SheafOfModules.pullbackComp`, `SheafOfModules.Submodule`, `AlgebraicGeometry.tilde`,
+`AlgebraicGeometry.tilde.map`, `SheafOfModules.pullbackObjUnitToUnit`.
+Lean: README target.
+
+**Checks.** In the affine-line checks, `K` is a complete nontrivially valued rank-one
+nonarchimedean field, `ϖ ≠ 0` satisfies `|ϖ| < 1`, `k ≥ 0`, and the expanding disc chart
+`D` has coefficient ring `B = K⟨ϖ^kT⟩` with coordinate `t = D.coeff T`.
+
+- *Degenerate.* For `M = 0` the comparison identifies chart sections with zero; for
+  `M = C` it identifies them with `B` and sends `b ⊗ 1` to `b`, giving the structure sheaf.
+- *Computation.* For `X = A¹_K` and `M = K[T]/(T)`, chart sections are `B/(t) ≅ K`.
+  The analytified sheaf is the skyscraper at the classical origin `x₀`: its stalk there
+  is `κ(x₀) ≅ K` as an `O_{X^ad,x₀}`-module and all other stalks vanish. In particular
+  `T` acts by zero, distinguishing it from the quotient by `T²` (Conrad-IC, Appendix A.1,
+  Lemma A.1.2(2),(4), p. 32).
+- *Computation.* For `I = (T) ⊆ K[T]`, identify the pulled-back inclusion on `D` with
+  `B ⊗_{K[T]} I → B`, `b ⊗ i ↦ b · D.coeff i`, using `AlgebraicGeometry.tilde.map I.subtype`,
+  the associated structure-sheaf identification and the pullback maps to the unit sheaves.
+  Its image is the ideal `(t)`; `t ≠ 0` and `1 ∉ (t)`. The coefficient map agrees with
+  the polynomial map under `q_X ∘ D` (Conrad-IC, Lemma A.1.2(2),(4), p. 32).
+- *Compatibility.* The comparison identifies the pullback of
+  `0 → O_{A¹} → O_{A¹} → O_{A¹}/(T) → 0`, with first map multiplication by `T`, with
+  `0 → O_{A^{1,ad}} → O_{A^{1,ad}} → K_0 → 0`; on `D` this is the exact sequence
+  `0 → B → B → B/(t) → 0`, since `t` is a nonzerodivisor.
+- *Computation.* For `M = K[T]/(T²)`, the comparison gives the `B`-linear isomorphism
+  from chart sections to `B/(t²)`. The class of `t` is nonzero and has square zero,
+  distinguishing the thickening from the reduced point (Conrad-IC, Lemma A.1.2(2),(4),
+  p. 32; KL15, Theorem 2.5.20(b), p. 52).
 
 ### R3.2 glueing squares and Kiehl's theorem
 
@@ -10574,7 +10637,8 @@ sheaf is coherent). *Needs:* *coherent-sheaf*; *associated-module-sheaf*;
 *smooth-local-structure*, *differential-criterion-morphism*, *smooth-morphism*,
 *differentials-unramified-smooth-etale*, *etale-local-open-finite-etale-factorisation*,
 *fibre-products-existence*, *fibre-product-along-finite-type*, *smooth-etale-base-change* (all
-AdicSpacesPartII layer R0); *analytic-kahler-differentials*, *analytification-of-modules* (AdicSpacesPartII layer R1); Mathlib
+AdicSpacesPartII layer R0); *analytic-kahler-differentials*, *analytification-of-modules* (AdicSpacesPartII layer R1);
+R3.1a `analytification.modules_chartSections` for the associated-sheaf comparison; Mathlib
 `SheafOfModules`, `SheafOfModules.pullback`, `Derivation`, `ExteriorAlgebra.exteriorPower`.
 
 **Checks.**
@@ -11156,7 +11220,8 @@ Analytification carries coherent sheaves to coherent sheaves (*analytification-c
 that `F ↦ F^an` is an exact functor from `𝒪_X`-modules to `𝒪_{X^an}`-modules carrying coherent
 sheaves to coherent sheaves. Prove exactness by stalk flatness and coherence by local finite presentations
 (Conrad-AWS §2.3, pp. 16–17; Conrad-RA Appendix A.1, Remark A.1.1, pp. 38–39).
-*Needs:* Part II *analytification-map-flat*, *analytification-of-modules*; *tate-kiehl-affinoid*.
+*Needs:* Part II R1.3–R1.4 *analytification-map-flat*, *analytification-of-modules*;
+R3.1a `analytification.modules_chartSections`; *tate-kiehl-affinoid*.
 
 Checks: zero modules pull back to zero; the structure sheaf pulls back to the analytic
 structure sheaf; `O/(T²)` on `A¹_K` pulls back to its coherent nonreduced quotient,
@@ -12112,9 +12177,10 @@ definition, completed tensor products, Tate-ring norms and spectral seminorms, l
 adic spaces, locally Huber-standard adic spaces (*locally-huber-standard*), fibre products and base
 change, closed adic subspaces, proper and finite morphisms, continuous differentials and the
 unramified, smooth and étale classes (*differentials-unramified-smooth-etale*), Banach modules over
-complete Tate rings), AdicSpacesPartII R1 (analytification of schemes and of modules, the rigid–adic comparison,
+complete Tate rings), AdicSpacesPartII R1 (analytification of schemes and general module pullback, the rigid–adic comparison,
 properness and finiteness comparisons, analytic affine and projective spaces, analytic Kähler
-differentials) and F0 (Mittag-Leffler systems, the theorem on formal functions, Chow's lemma and
+differentials), R3.1a's affinoid section comparison for analytified modules,
+and F0 (Mittag-Leffler systems, the theorem on formal functions, Chow's lemma and
 dévissage) of this roadmap, and the structure sheaf, rational localisations, sheafiness,
 uniformity and the Buzzard–Verberkmoes theorem of the Foundations of adic spaces roadmap
 (AdicSpaces), layers 0.2, 3.1, 3.4, 3.5, 4.1, 4.2, 5 and 5.2; `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`; §2.19, §2.21, `trace`);
@@ -12182,6 +12248,7 @@ residue discs of R2.
 - [BHW] Christopher Birkbeck, Ben Heuer, Chris Williams, *Perfectoid Hilbert modular forms and overconvergent Hilbert modular forms*, Annales de l'Institut Fourier 2023. https://aif.centre-mersenne.org/item/10.5802/aif.3560.pdf
 - [DLLZ-A] Hansheng Diao, Kai-Wen Lan, Ruochuan Liu, Xinwen Zhu, *Logarithmic adic spaces: some foundational results*, arXiv:1912.09836v2 (30 Oct 2022); PDF page = printed page. https://arxiv.org/abs/1912.09836v2
 - [Conrad-IC] Brian Conrad, *Irreducible components of rigid spaces*, Ann. Inst. Fourier 49 (1999); author PDF irredpaper.pdf. https://math.stanford.edu/~conrad/papers/irredpaper.pdf
+- [Zavyalov24] Bogdan Zavyalov, *Some foundational results in adic geometry*, arXiv:2409.15516v2 (17 Jul 2025). https://arxiv.org/abs/2409.15516
 - [Conrad-RA] Brian Conrad, *Relative ampleness in rigid geometry*, Ann. Inst. Fourier 56 (2006) 1049–1126; author PDF amplepaperfinal.pdf (45 pp.). https://math.stanford.edu/~conrad/papers/amplepaperfinal.pdf
 - [Conrad-MR] Brian Conrad, *Modular curves and rigid-analytic spaces*, Pure Appl. Math. Q. 2 (2006); author PDF genpaper.pdf. https://math.stanford.edu/~conrad/papers/genpaper.pdf
 - [Conrad-GEC] Brian Conrad, *Arithmetic moduli of generalized elliptic curves*, J. Inst. Math. Jussieu 6 (2007) 209–278; author PDF. https://math.stanford.edu/~conrad/papers/kmpaper.pdf
