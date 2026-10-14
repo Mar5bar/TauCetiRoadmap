@@ -256,8 +256,16 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   of finite type representing the fppf sheaf of relative line-bundle classes. The
   structural morphism is flat and locally of finite presentation; no perfectness or
   rational point is assumed. Use the fixed-Hilbert-polynomial and higher-cohomology-vanishing
-  open subfunctors: their divisor atlases are open subsets of Hilbert schemes, and their
-  kernel pairs are smooth projective families of complete linear systems. Apply the
+  open subfunctors. Fix a very ample `𝒪_Y(1)` and use sufficiently positive twists:
+  for a representative `L` on `Y_T`, with `p : Y_T → T`, require `L(m)` fibrewise
+  globally generated with vanishing higher cohomology and
+  `E = p_* L(m)` finite locally free of positive rank, commuting with base change.
+  The divisor chart has class map `D ↦ 𝒪(D)(−m)`; its complete linear systems
+  parametrize lines in `E`, equivalently rank-one quotients of `E^∨`.
+  Prove that these twisted opens cover, locally on each test scheme, by Serre
+  vanishing and generation. Their divisor atlases are open subsets of Hilbert schemes,
+  and their kernel pairs are smooth projective families of these nonempty complete
+  linear systems. Apply the
   preceding quotient target and glue these open quotients. Supply the natural
   representing comparison on all test schemes, the tensor-product group law, the unit
   and inverse, and coherent field base change. Each fixed-Hilbert-polynomial piece is
@@ -285,6 +293,10 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
     `Spec k[ε]/(ε²)` as well as on field-valued points.
   - For a smooth geometrically integral curve over the imperfect field `𝔽_p(t)`,
     representation and field base change hold without replacing the field by its perfection.
+  - On `ℙ¹_k`, `L = 𝒪(−1)` has zero higher cohomology and `H⁰ = 0`, so its untwisted
+    divisor space is empty. Twisting by `m = 1` gives `E = k` of rank one and the
+    empty divisor maps to `𝒪(−1)` under `D ↦ 𝒪(D)(−1)` (Stacks
+    [01XS](https://stacks.math.columbia.edu/tag/01XS), Lemma 30.8.1).
 - **The curve's neutral component and smoothness.** Before representability, degree
   zero means degree zero on every geometric fibre. Afterwards prove this is the
   open-and-closed identity component `Pic⁰_{X/k}`, geometrically connected and smooth
@@ -333,7 +345,8 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   geometrically connected. Consume its dimension, Hom and field-base-change APIs and
   rigidity-derived commutativity. Prove every such group scheme projective, without
   using the dual construction; Layer D's smooth proper neutral component then defines
-  `Jac X` on this carrier and its tangent comparison gives `dim (Jac X) = g`
+  `Jac X` on this carrier (`JacobianVariety`), and its tangent comparison gives
+  `dim (Jac X) = g`
   (Milne, *Abelian Varieties*, I §§1, 6, Theorem 6.4, pp. 9–10, 27–31). **Checks:**
   - The zero abelian variety is `Spec k` of dimension zero.
   - An elliptic curve has dimension one and a projective embedding.
@@ -391,6 +404,31 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   - In genus zero the principal polarization has degree one and is the identity.
   - In genus two theta is the translated image of `X` under `AJ_1`, an ample divisor
     on a two-dimensional Jacobian.
+- **Abel-map Picard pullback and autoduality.** For the standing pointed curve,
+  write `J = Pic⁰(X)` and `a(x) = 𝒪(x − x₀)`, the translated degree-one Abel map of
+  Layer D. Let `Q` be the universal bundle on `X × J`, normalized along `x₀ × J`
+  and `X × 0`, and `P_J` the doubly normalized bundle on `J × J^∨`.
+  Construct the homomorphism `q = a^* : J^∨ → J` by pullback of relative
+  line-bundle classes on every test scheme, with the rigidification-preserving comparison
+  `(a × 1)^* P_J ≅ (1 × q)^* Q`. Prove the theta bundle comparison
+  `(a × (−λ_Θ))^* P_J ≅ Q`, preserving both trivializations. Deduce
+  `q ∘ λ_Θ = [−1]_J`; hence `q` is an isomorphism and `q⁻¹ = −λ_Θ`.
+  For every abelian variety `A/k` and pointed morphism `f : (X,x₀) → (A,0)`,
+  construct similarly `f^* : A^∨ → J`: algebraically trivial bundles pull back to
+  degree-zero bundles, tensor product gives the homomorphism, and
+  `(f × 1)^* P_A ≅ (1 × f^*)^* Q` preserves both rigidifications.
+  Prove composition compatibility with homomorphisms of abelian varieties and
+  compatibility of these maps, comparisons and the inverse of `q` with every field
+  extension. This is Picard pullback for a curve morphism, extending Layer E's
+  dual-map API (Milne III Lemmas 6.8–6.9 and Remark 6.10(c), pp. 106–107;
+  I §8, Theorem 8.9, pp. 37–38). **Checks:**
+  - For an elliptic curve with origin `x₀`, `q` sends the class `𝒪([b] − [0])`
+    to `b`, while `λ_Θ(b)` is `𝒪([−b] − [0])`; their composite is `[−1]`.
+  - In genus zero, `J = J^∨ = Spec k`, both normalized bundles are trivial,
+    and `q`, `λ_Θ` and `[−1]` are the identity; every `f^*` is zero.
+  - Over a field of characteristic two, the identity is an equality of homomorphisms
+    and normalized families on all test schemes; `[-1]` need not equal the identity
+    on an elliptic curve, even though the scalars `−1` and `1` in the field agree.
 - **Multiplication and characteristic `p`.** For every `n : ℤ` with `n ≠ 0`, prove
   `[n]` finite locally free and surjective, of degree `|n|^{2 dim A}`, hence an
   isogeny in Tau Ceti's sense (`multiplication_isogeny`). For positive-dimensional `A`,
@@ -408,10 +446,31 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
     characteristic `p`, `E[p]` has length `p²` and only one geometric point.
 
 ### Layer F, Abel–Jacobi and the universal property
-- The **Abel–Jacobi morphism** `aj : X ⟶ Jac X`, `x₀ ↦ 0` (the `d = 1` Abel map).
-- **Universal property (precise):** for every abelian variety `A` and pointed morphism
-  `f : (X, x₀) → (A, 0)`, there is a **unique homomorphism of abelian varieties**
-  `φ : Jac X → A` with `f = φ ∘ aj` (the Albanese property; for a curve `Jac = Alb`).
+- **Abel–Jacobi and the Albanese property.** Define `abelJacobi`, written
+  `a : X ⟶ Jac X`, by `x ↦ 𝒪(x − x₀)` (Layer D's translated `AJ_1`), and prove
+  `a(x₀) = 0`. For every abelian variety `A` and pointed morphism
+  `f : (X, x₀) → (A, 0)`, prove there is a unique homomorphism of abelian varieties
+  `φ : Jac X → A` with `f = φ ∘ a` (the Albanese property; for a curve `Jac = Alb`).
+  Construct the proof `isAlbanese_abelJacobi` on the existing
+  `AbelianVariety.IsAlbanese` carrier using Layer E's Picard-pullback comparison:
+  set `r = q⁻¹ ∘ f^* : A^∨ → J^∨` and
+  `φ = b_A⁻¹ ∘ r^∨ ∘ b_J : J → A`, where `b_B : B → B^{∨∨}` is biduality.
+  The normalized universal bundles identify `φ ∘ a` with `f` by biduality's
+  representing property. Any factorization has `q ∘ φ^∨ = f^*`, so invertibility
+  of `q` and biduality give uniqueness. The same construction covers genus zero
+  with the zero Jacobian. All bundle comparisons preserve the two rigidifications
+  and commute with field extension (Milne III Proposition 6.1, p. 104,
+  Lemmas 6.8–6.9 and Remark 6.10(c), pp. 106–107; I Theorem 8.9, pp. 37–38).
+  **Checks:**
+  - For `X = ℙ¹_k`, the constructed factorization through `Spec k` proves every
+    pointed morphism to an abelian variety is zero.
+  - For a pointed elliptic curve, `a` is an isomorphism and the construction gives
+    `φ = f ∘ a⁻¹`, agreeing with `AbelianVariety.isAlbanese_of_isIso`.
+  - For `f = a`, `r` is the identity and biduality gives `φ = 1_J`; for `f = 0`
+    it gives `φ = 0`, including on infinitesimal test schemes.
+  - Properness alone does not construct the factorization: the rational projection
+    `ℙ² ⇢ ℙ¹`, `[x:y:z] ↦ [x:y]`, is undefined at `[0:0:1]` and has no extension
+    there. The normalized-bundle construction supplies a global morphism.
 - **Base-change compatibility** along `k → K` (relies on Layer C).
 
 ## Acceptance criteria ("checks along the way")
