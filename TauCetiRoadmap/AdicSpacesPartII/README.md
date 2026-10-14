@@ -2473,16 +2473,31 @@ Finite
 projective modules: for a
 finite projective `A`-module `P` with its natural topology (a finite Banach module, KL15 §2.2, Lem.
 2.2.12(a), p. 32: direct summands of `Rⁿ`), `P ⊗_A W → P ⊗̂_A W` is an isomorphism. (f) Orthonormal
-bases: let `A = L` be a complete nonarchimedean field and let the Banach `L`-space `V` have an orthonormal basis
+and weighted orthogonal bases: let `A = L` be a complete nonarchimedean field and let `E`, `V` be complete ultrametric
+normed `L`-spaces, with `‖av‖ = |a|‖v‖`. Suppose `V` has an orthonormal basis
 `(e_i)_{i∈I}`: every `v ∈ V` is uniquely `Σ c_i e_i` with `c_i → 0` along the cofinite filter, and
-`|v| = max |c_i|`. Then for every Banach `L`-module `E`, `E ⊗̂_L V ≅ c₀(I, E)`, the Banach module of
+`|v| = sup |c_i|`. Then `E ⊗̂_L V ≅ c₀(I, E)`, the Banach module of
 `I`-indexed families in `E` tending to `0` with the supremum norm, via
-`x ⊗ Σ c_i e_i ↦ (c_i x)_i`, isometrically. If `(e_i)` is only `t`-orthogonal for some `0 < t ≤ 1`
-(`t·max|c_i| ≤ |Σ c_i e_i| ≤ max|c_i|`), the same map is a topological isomorphism with
-`t·|·|_sup ≤ |·| ≤ |·|_sup` (CHJ §2, Lem. 2.23(2), p. 19, the consumer statement of PerfectoidSpaces
-layer P9 proved with this orthonormal description; CHJ §2, proof of Lem. 2.23, p. 20, the
-orthonormal description of `A ⊗̂ V` as opposed to the pseudobasis description of the mixed tensor
-product by bounded families). (g) Base change: for a continuous homomorphism `A → A'` of complete
+`x ⊗ Σ c_i e_i ↦ (c_i x)_i`, isometrically (CHJ §2, Lem. 2.23(2), p. 19, and its proof,
+p. 20, the orthonormal description of `A ⊗̂ V` as opposed to the pseudobasis description of
+the mixed tensor product by bounded families).
+For a `t`-orthogonal Schauder basis `(e_i)`, `0 < t ≤ 1`, use the weighted convention of
+PadicFunctionalAnalysis Convention 5: `w_i = ‖e_i‖ > 0`, and every finite sum satisfies
+`t·max_i(|c_i|w_i) ≤ ‖Σ c_i e_i‖ ≤ max_i(|c_i|w_i)`; expansions require
+`|c_i|w_i → 0` cofinitely. Construct the weighted coefficient space
+`c₀(I, E; w) = {(x_i) : ‖x_i‖w_i → 0 cofinitely}`, with coordinatewise operations and
+`‖(x_i)‖_w = sup_i ‖x_i‖w_i` (the empty supremum is zero). It is a complete ultrametric
+normed `L`-space, its finite-support families are dense, and a family supported at `i`
+has norm `‖x_i‖w_i`. The same coefficient map is a topological linear equivalence
+`E ⊗̂_L V ≅ c₀(I, E; w)` with `t‖(x_i)‖_w ≤ |Σ x_i ⊗ e_i|_π ≤ ‖(x_i)‖_w`.
+These estimates extend the finite-support comparison by completion: the coordinate
+functional at `i` has bound `1/(t w_i)`, giving the lower tensor bound, while the displayed
+tensor presentation gives the upper bound (KL15 §2.2, proof of Lem. 2.2.9, p. 31,
+the Schauder-basis argument). Unit weights and `t = 1` recover the orthonormal isometry.
+A Schauder basis satisfying the additional normalized finite-sum estimates
+`t·max_i |c_i| ≤ ‖Σ c_i e_i‖ ≤ max_i |c_i|` instead gives the ordinary `c₀(I, E)`
+comparison with these constants. This normalized hypothesis is separate from the
+weighted basis existence theorem. (g) Base change: for a continuous homomorphism `A → A'` of complete
 Tate rings, `A' ⊗̂_A V` is a Banach `A'`-module, and `A'' ⊗̂_{A'} (A' ⊗̂_A V) ≅ A'' ⊗̂_A V` for
 `A → A' → A''`. In particular `M ⊗̂_A A⟨T/s⟩` is defined for a Banach `A`-module `M` and a rational
 localisation `A → A⟨T/s⟩`; it equals `M ⊗_A A⟨T/s⟩` when `M` is finite projective (e) or finite over
@@ -2492,12 +2507,15 @@ p. 34, which cites it as [Hub93, Lemma 2.4(i)] although it is Huber94 Lemma 2.4(
 with a null sequence of units, i.e. Tate rings. Conventions: the orthonormal description uses null
 families (`c₀`), not bounded families: `E ⊗̂_L c₀(I, L) = c₀(I, E)`, whereas the mixed completed
 tensor product of *mixed-completed-tensor* in AdicSpacesPartIV layer R5 with the profinite flat module `∏_I O` gives
-bounded families. The existence of orthonormal or `t`-orthogonal bases, for instance for Banach
-spaces of countable type (Bosch–Güntzer–Remmert 2.7.2/3, cited by HK §7, Rem. 7.8, p. 26, whose
+bounded families. The existence of an orthonormal basis is a hypothesis of the isometric
+special case of (f). For spaces of countable type, the weighted `t`-orthogonal basis is
+supplied by *banach-countable-type-orthogonal-basis* (PadicFunctionalAnalysis
+Convention 5 and §2.4.1–2.4.2). The topological identification with ordinary `c₀`
+(Bosch–Güntzer–Remmert 2.7.2/3, cited by HK §7, Rem. 7.8, p. 26, whose
 "countable product" with the supremum norm must be read as the space `c₀` of null sequences, not
-the bounded families), is
-a hypothesis of (f); it is *banach-countable-type-orthogonal-basis* (PadicFunctionalAnalysis
-§2.4.1–2.4.2). In `Huber`, define
+the bounded families) uses scalar rescaling with fixed comparison constants, as specified
+in that supplier contract in R0.18. It does not supply the normalized estimates for every
+prescribed `t` in the original norm. In `Huber`, define
 `IsBanachModule` as the structure "`V` is a Banach module over the complete Tate ring `A`: a complete
 Hausdorff topological `A`-module with a lattice `V₀` stable under `A₀`, `V = ⋃ ϖ⁻ⁿV₀`, the `ϖⁿV₀` a
 basis of neighbourhoods of `0`", `BanachModule.CompletedTensor` as `V ⊗̂_A W`, the Hausdorff
@@ -2527,8 +2545,9 @@ its natural topology, `P ⊗_A W ≅ P ⊗̂_A W`), `BanachModule.CompletedTenso
 ultrametric normed `L`-spaces `E`, `V`, if `V` has an orthonormal basis `(e_i)_{i∈I}`,
 `E ⊗̂_L V ≅ c₀(I, E)` isometrically,
 `x ⊗ Σ c_i e_i ↦ (c_i x)_i`), `BanachModule.CompletedTensor.orthogonalEquiv` (for a `t`-orthogonal
-basis of the same complete spaces, `0 < t ≤ 1`, `E ⊗̂_L V ≅ c₀(I, E)` topologically,
-with `t·|·|_sup ≤ |·| ≤ |·|_sup`),
+basis of the same complete spaces in the weighted convention, `0 < t ≤ 1`,
+`w_i = ‖e_i‖ > 0`, `E ⊗̂_L V ≅ c₀(I, E; w)` topologically,
+with `t‖·‖_w ≤ |·|_π ≤ ‖·‖_w`),
 `BanachModule.CompletedTensor.baseChange` (for a continuous `A → A'` of complete Tate rings, the
 Banach `A'`-module `A' ⊗̂_A V`, e.g. `M ⊗̂_A A⟨T/s⟩` for a rational localisation) and
 `BanachModule.CompletedTensor.cancelBaseChange` (`A'' ⊗̂_{A'} (A' ⊗̂_A V) ≅ A'' ⊗̂_A V` for
@@ -2671,7 +2690,8 @@ use the same hypotheses. Completeness of `X` is essential: for `L = V = ℚ_p` a
 `X ⊗̂_L V` is complete. The Banach-space orthonormal comparison is used in CHJ §2,
 Lemma 2.23(2), p. 19, and its proof, p. 20.
 `orthonormalEquiv_productNorm` is the isometry to null families; for a
-`t`-orthogonal basis, `orthogonalEquiv_productNorm` gives the bounds `t‖·‖ ≤ |·| ≤ ‖·‖`.
+`t`-orthogonal basis with weights `w_i = ‖e_i‖ > 0`, `orthogonalEquiv_productNorm`
+gives the bounds `t‖·‖_w ≤ |·|_π ≤ ‖·‖_w` on the weighted null-family space.
 Both coordinate maps send `x ⊗ eᵢ − y ⊗ eⱼ` to the family with entries x at i
 and −y at j, for distinct i and j.
 
@@ -2696,8 +2716,15 @@ that V is finite or countable-dimensional.
 - For an empty basis the image of every completed tensor is the zero null family.
 - At coordinate i, ax ⊗ eᵢ − x ⊗ beᵢ gives (a−b)x.
 - For a t-orthogonal basis and distinct i,j, x ⊗ eᵢ − y ⊗ eⱼ has coordinates x and −y.
-- For an empty t-orthogonal basis every completed tensor maps to the zero null family.
+- For an empty t-orthogonal basis every completed tensor maps to the zero weighted null family.
 - The t-orthogonal comparison sends ax ⊗ eᵢ − x ⊗ beᵢ to (a−b)x in coordinate i.
+- *Weighted-null control.* For `V = c₀(ℕ, ℚ₂)` with its supremum norm and
+  `e_n = 2ⁿδ_n`, the basis is orthogonal with `w_n = 2⁻ⁿ`. The tensor-unit comparison
+  identifies `1 ⊗ (2ⁿ)_n` with the coefficients `(1)_n` in `c₀(ℕ, ℚ₂; w)`, of weighted
+  norm one. These coefficients are outside ordinary `c₀(ℕ, ℚ₂)`.
+- *Normalized non-example.* On `V = ℚ₂` with `‖x‖_V = (3/4)|x|₂`, any nonzero
+  singleton is a weighted orthogonal basis. Its nonzero norm values `(3/4)2^ℤ`
+  miss `[7/8, 1]`, so no basis satisfies the normalized estimates for `t = 7/8`.
 - The extended scalar action sends a·(b ⊗ v − c ⊗ w) to ab ⊗ v − ac ⊗ w.
 - An A-scalar acting through A′ on b ⊗ v agrees with b ⊗ av.
 - For V = 0, every scalar multiple of every completed tensor is zero.
@@ -6740,24 +6767,56 @@ Lean: `IsAdicHom.spaComap_analytic`, `isAdicHom_of_spaComap_analytic`.
 
 **Banach spaces of countable type have t-orthogonal Schauder bases.**
 (*banach-countable-type-orthogonal-basis*) A Banach space of countable type over a field complete
-for a nontrivial nonarchimedean absolute value has a `t`-orthogonal Schauder basis for every
-`0 < t < 1`, and is therefore topologically isomorphic to `c₀(I, K)` with `I` finite or `ℕ`.
-Supplied by PadicFunctionalAnalysis §2.4.1–2.4.2 (the roadmap of W. Coram, to be contributed to
-TauCetiRoadmap ahead of this one).
+for a nontrivial nonarchimedean absolute value, with an exactly homogeneous ultrametric norm,
+has a `t`-orthogonal Schauder basis for every `0 < t < 1`. Countable type means a dense
+subspace spanned by finitely or countably many vectors. The basis uses the original norm:
+`w_i = ‖e_i‖ > 0`, `t·max_i(|c_i|w_i) ≤ ‖Σ c_i e_i‖ ≤ max_i(|c_i|w_i)` for finite sums,
+and the unique expansions have `|c_i|w_i → 0` cofinitely. Its coefficient space is
+`c₀(I, K; w)` from (f) of *completed-tensor-banach-module*, with `I` finite or `ℕ`.
+For a fixed `π ∈ K` with `0 < q = |π| < 1`, choose scalar powers `λ_i` of `π` so that
+`q < |λ_i|w_i ≤ 1`. Then `b_i = λ_i e_i` has the estimates
+`tq·sup_i |d_i| ≤ ‖Σ d_i b_i‖ ≤ sup_i |d_i|`, and `d_i = c_i/λ_i` are ordinary-null
+coefficients. This gives a topological isomorphism with ordinary `c₀(I, K)` with
+constants `tq` and `1`; it does not give the normalized lower constant `t` for the original norm.
+Supplied by PadicFunctionalAnalysis Convention 5 and §2.4.1–2.4.2 (the roadmap of W. Coram,
+to be contributed to TauCetiRoadmap ahead of this one; HK §7, Rem. 7.8, p. 26, cites
+Bosch–Güntzer–Remmert 2.7.2/3 for the Schauder-basis description).
+Lean: supplier README target.
+
+**Checks.**
+
+- *Computation.* The coordinate vectors of `c₀(ℕ, ℚ₂)` have weights one, and the
+  coefficient norm is the usual supremum norm; this orthonormal basis works for every `0 < t < 1`.
+- *Degenerate.* The zero space has the empty basis and zero weighted coefficient norm.
+- *Normalized non-example.* For `V = ℚ₂` with `‖x‖_V = (3/4)|x|₂`, `e = 1` is a
+  weighted orthogonal singleton. Every nonzero vector has norm in `(3/4)2^ℤ`, which misses
+  `[7/8, 1]`; hence normalized basis existence for `t = 7/8` fails.
+- *Weighted-null control.* The basis `e_n = 2ⁿδ_n` of `c₀(ℕ, ℚ₂)` has weights `2⁻ⁿ`.
+  Its vector `(2ⁿ)_n` has constant coefficients one: weighted-null, but not ordinary-null.
+  Taking `λ_n = 2⁻ⁿ` recovers the coordinate basis and ordinary-null coefficients `(2ⁿ)_n`.
 
 **Completed tensor products over a nonarchimedean field: cross norm, injectivity, kernels and
 strictness (Kedlaya–Liu Lemma 2.2.9).** (*banach-completed-tensor-field-exactness*) Let `K` be a
-field complete for a nontrivial nonarchimedean absolute value and `V`, `W`, `X` Banach `K`-modules,
+field complete for a nontrivial nonarchimedean absolute value and `V`, `W`, `X` complete
+ultrametric normed `K`-spaces (so `‖av‖ = |a|‖v‖`),
 with the completed tensor product of *completed-tensor-banach-module* (`A = K`). Prove
 `Huber.BanachModule.CompletedTensor.norm_tmul`, `injective_tensorProduct_of_field`,
 `ker_map_of_field` and `isStrictMap_map_of_field`: (a) the product seminorm is a cross norm,
 `|v ⊗ w| = ‖v‖·‖w‖`, and `V ⊗_K W → V ⊗̂_K W` is injective; in particular, for `w ∈ W` with `‖w‖ = 1`
 (e.g. `w = 1` in a complete field extension `W = L` of `K`), the map `X → W ⊗̂_K X`, `x ↦ w ⊗ x`, is an
-isometric (hence strict) injection for every Banach `K`-module `X`; (b) if `f : V → W` is a bounded `K`-linear map, the natural map `ker(f) ⊗̂_K X → ker(f ⊗̂ X)` is a
+isometric (hence strict) injection for every such Banach `K`-space `X`; (b) if `f : V → W` is a bounded `K`-linear map, the natural map `ker(f) ⊗̂_K X → ker(f ⊗̂ X)` is a
 topological isomorphism; (c) if moreover `f` is strict, so is `f ⊗̂ X` (KL15 §2.2, Lem. 2.2.9(b),
 p. 31, with parts (a) and (c) stated alongside it on the same page; KL15 §2.2, proof of Lem. 2.2.9,
-p. 31: reduction to separable modules and Schauder bases). The hypotheses allow arbitrary Banach `X`; the countable-dimensional reduction is part of
-the proof of KL15 Lemma 2.2.9, not an additional hypothesis. Degenerate instances: `V = 0` or `W = 0` give `V ⊗̂ W = 0` and
+p. 31: reduction to separable modules and Schauder bases). Use the weighted estimates of
+*completed-tensor-banach-module* (f) on countable-type subspaces, without changing the original
+norms. For each algebraic presentation `v ⊗ w = Σ v_j ⊗ w_j`, a weighted `t`-orthogonal
+basis of the finite-dimensional span of `w` and the `w_j` gives
+`t‖v‖‖w‖ ≤ max_j ‖v_j‖‖w_j‖`. Taking the infimum over presentations and then `t → 1`
+proves the exact cross-norm equality. For kernels and strictness, the weighted coefficient
+map makes `f ⊗̂ X` act coordinatewise on countable-type `X`; the countable-type reduction
+of KL15 handles arbitrary `X`. Thus countable type is part of the proof, not an extra hypothesis,
+and equivalent renorming is not used to infer the numerical identities.
+Degenerate instances: `V = 0` or `W = 0` give `V ⊗̂ W = 0` and
 (a)–(c) read `0 = 0`; for `f = 0`, `ker f = V` and (b) says `V ⊗̂ X → V ⊗̂ X` is the identity; for
 `w = 0` the map `x ↦ w ⊗ x` is zero, which is why `‖w‖ = 1` is required for the isometry. For
 `K = ℚ_p`, `L = ℚ_p(√p)` and `X = ℚ_p⟨T⟩`, the map `X → L ⊗̂_K X` is the isometric inclusion
@@ -6770,6 +6829,16 @@ nonarchimedean field. *Needs:* *completed-tensor-banach-module*;
 `TensorProduct`,
 `ZeroAtInftyContinuousMap`.
 Lean: README target.
+
+**Checks.**
+
+- *Original-norm computation.* For `K = ℚ₂`, `V = K` with `‖x‖_V = (3/4)|x|₂`
+  and `W = K` with its usual norm, `|1 ⊗ 1|_π = 3/4`. The weighted singleton basis
+  proves this equality despite the failure of normalized basis existence at `t = 7/8`.
+- *Degenerate.* For `X = 0`, both sides of the kernel comparison vanish and the induced map is strict.
+- *Compatibility.* For `X = c₀(ℕ, ℚ₂)` and its weighted basis `2ⁿδ_n`,
+  the scalar unit map `X → ℚ₂ ⊗̂_{ℚ₂} X` remains isometric; the image of `(2ⁿ)_n`
+  has weighted coefficients `(1)_n` and norm one.
 
 `Huber.BanachModule.productSeminorm` uses the infimum of finite-presentation maxima;
 `hasBasis_banachTensorTopology` identifies its positive-radius balls with a neighbourhood basis
