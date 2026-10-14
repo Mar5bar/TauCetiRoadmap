@@ -18,10 +18,10 @@ separation and the diamond comparisons are formalisation targets in their own ri
 specified in the README only.
 Good towers use PerfectoidSpaces P7.11's represented-limit affinoid basis through a local
 diamond-limit adapter, and AdicSpacesPartIII R3.7's finite-cover algebraization and projectivity.
-P9.5 supplies local adapters to the general continuous cochain model and homogeneous
-comparison of ArithmeticGaloisDuality R02.1.2, with local naturality and discrete-compatibility
-APIs. Its explicit joint-continuity hypothesis is illustrated below;
-the integral and rational tower Čech comparisons use their lattice and Tate topologies.
+P9.0 constructs continuous cochain foundations, including lifting along discrete surjections
+and the general homogeneous comparison. P9.5 supplies local adapters to that comparison,
+with local naturality and discrete-compatibility APIs. Its explicit joint-continuity hypothesis
+is illustrated below; the integral and rational tower Čech comparisons use their lattice and Tate topologies.
 -/
 
 noncomputable section
@@ -388,10 +388,24 @@ end Perfectoidization
 
 /-! ## Layer P9: continuous torsor descent with coefficients -/
 
+/-! ### P9.0: lifting continuous cochains -/
+
+namespace CompactCoefficients
+
+/-- **Lifting continuous cochains along surjections of discrete spaces.** Composing with a
+set-theoretic section of `π` is continuous because `Z` is discrete. -/
+theorem exists_continuous_lift {X Y Z : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    [DiscreteTopology Y] [TopologicalSpace Z] [DiscreteTopology Z] (π : Y → Z)
+    (hπ : Function.Surjective π) (f : C(X, Z)) : ∃ g : C(X, Y), π ∘ g = f :=
+  ⟨⟨Function.surjInv hπ ∘ f, continuous_of_discreteTopology.comp f.continuous⟩, by
+    ext x
+    simp [Function.surjInv_eq hπ]⟩
+
+end CompactCoefficients
+
 /-! ### Continuous coefficients
 
-The shared cochain model in ArithmeticGaloisDuality R02.1.2 requires joint continuity of the
-representation action. These examples give the continuity of its first two differential formulas
+The cochain model of P9.0 requires joint continuity of the representation action. These examples give the continuity of its first two differential formulas
 and the discrete regular-representation counterexample. The completed tower-section actions use
 the lattice-preservation argument of P9.5 with their integral and rational topologies.
 -/

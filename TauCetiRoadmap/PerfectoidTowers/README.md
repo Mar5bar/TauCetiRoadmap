@@ -9,7 +9,9 @@ spaces. Closed perfectoid loci: Zariski-closed embeddings, good towers of projec
 perfectoidisation of integral extensions and closed subvarieties. Descent along pro-étale Galois
 towers with perfectoid limit: of functions, finite locally free modules and twisted character sheaves
 with weight-space coefficients, local freeness of character sheaves trivialised at finite level, and
-coefficient change. The end results are the finite-quotient theorems for analytically separated
+coefficient change. The cochain foundations include lifting through discrete surjections,
+cochains into inverse limits and the all-degree homogeneous comparison for jointly continuous
+actions. The end results are the finite-quotient theorems for analytically separated
 perfectoid spaces and good towers ([HJ] Theorem 5.8, Proposition 5.13), the closed-locus tilde-limit
 comparison ([HJ] Lemma 5.7), and descent along towers ([CHJ] §2, [BHW] §3–4).
 
@@ -32,7 +34,8 @@ PerfectoidSpaces owns P0–P7, and this roadmap owns the tower-quotient and tors
 - P8: invariant Huber pairs and invariants of a perfectoid ring, quotients of affinoid perfectoid
   spaces and finite quotients of perfectoid spaces, good towers, and Zariski-closed loci in perfectoid
   towers.
-- P9: pro-étale Galois towers, descent of functions along a perfectoid tower, descent with
+- P9: continuous cochains, inverse-limit and homogeneous comparisons, pro-étale Galois towers,
+  descent of functions along a perfectoid tower, descent with
   weight-space coefficients, twisted character sheaves and their local freeness.
 
 DiamondsAndVStacks owns the v-topology, diamondification, diamond presentations and spatiality,
@@ -52,11 +55,11 @@ torsor towers (A4); AdicSpacesPartII owns completed tensor products, separatedne
 analytification (R0, R1); AdicSpacesPartIII owns sheafy affinoid acyclicity and Kiehl's theorem
 (R3); AdicSpacesPartIV owns sousperfectoid coefficient spaces and their localization theory,
 including the coefficient Kiehl comparisons (R4, R5).
-ArithmeticGaloisDuality R02.1.2, *Comparison with the canonical carrier for compact
-coefficients*, owns the early, general continuous inhomogeneous cochain model and its
-all-degree homogeneous comparison for jointly continuous actions on topological modules.
-Its coefficient module need not be compact. P9.5 consumes that target and owns only the
-geometric Čech-nerve, completed-section and integral/rational tower comparisons.
+P9.0 owns lifting continuous cochains through discrete surjections, continuous cochains into
+inverse limits, and the general continuous inhomogeneous cochain model with its all-degree
+homogeneous comparison for jointly continuous actions on topological modules. Its coefficient
+module need not be compact. P9.5 uses P9.0 for the geometric Čech-nerve, completed-section
+and integral/rational tower comparisons.
 The locally analytic distribution theory and Shimura-variety applications belong to downstream
 roadmaps. P8 specifies the integral-extension perfectoidization needed for its closed loci.
 
@@ -78,9 +81,6 @@ Already stated or built elsewhere, cited by the layers and not restated:
   (D3.10) (P9.4, P9.5); the finite-level pro-object of a profinite Galois cover, with its
   covering and torsor Čech nerve — AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering`
   (P9.4, P9.5).
-- the all-degree continuous inhomogeneous model and homogeneous comparison —
-  ArithmeticGaloisDuality R02.1.2, *Comparison with the canonical carrier for compact
-  coefficients* (P9.5), with the prose supplier comparison and local adapter contracts below.
 
 ## Conventions
 
@@ -229,14 +229,13 @@ Names beginning with `AdicSpace`, `CAff` or `YonedaAdicSpace` here have the pref
 | Integral sections and continuous differentials | `AdicSpace.Oplus`, `AdicSpace.structureRingSheaf`, `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.relativeDifferentials` (R3.6, *sheaf-of-continuous-differentials*), re-exported in AdicEtaleGeometry A2.4 through `AdicSpace.relativeDifferentials.continuousIso` | P9's differential sheaf on the small étale site evaluates the supplied continuous differential module on each source space. |
 | Relative polydiscs and underlying maps | `AdicSpace.relativePolydisc`, `AdicSpace.base` | P9 torus Checks use the supplied polydisc coordinates and the continuous maps on underlying adic spaces. |
 
-### From TauCetiRoadmap.ArithmeticGaloisDuality
+### Continuous cochain contracts (P9.0 and P9.5)
 
-[R02.1.2, *Comparison with the canonical carrier for compact coefficients*](../ArithmeticGaloisDuality/README.md#r0212-continuous-cochains-into-inverse-limits)
-supplies the prose comparison target for jointly continuous actions. P9.5 names
-its local cochain, differential and homogeneous-comparison adapters and supplies
-the naturality and discrete-compatibility APIs in the following table. This is an early
-continuous-cohomology layer using Mathlib and ProfiniteCohomology Layer 3; none of the
-arithmetic-duality conclusions is a prerequisite of P9.5.
+[P9.0, *Comparison with the canonical carrier for compact coefficients*](#p90-continuous-cochains-and-inverse-limits)
+supplies the general comparison for jointly continuous actions, using Mathlib and
+[ProfiniteCohomology Layer 3](../ProfiniteCohomology/README.md#layer-3-the-comparison-isomorphisms).
+P9.5 names the local cochain, differential and homogeneous-comparison adapters and
+supplies the naturality and discrete-compatibility APIs in the following table.
 
 | Application | Local P9.5 adapter or API | Contract |
 | --- | --- | --- |
@@ -279,7 +278,7 @@ This roadmap's own targets are cited by subsection.
 | Field-valued Galois descent | `TauCeti.GaloisDescent.span_invariants_eq_top`, `TauCeti/RepresentationTheory/GaloisDescent/Span.lean`; `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`, `TauCeti/RepresentationTheory/GaloisDescent/Injective.lean`; `TauCeti.GaloisDescent.range_eq_invariants_of_liftBaseChange_surjective`, `TauCeti/RepresentationTheory/GaloisDescent/Range.lean` | Finite étale torsors over arbitrary commutative rings, including disconnected rings and characteristic dividing the group order. |
 | Finiteness and rank under base change | `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Finiteness/Descent.lean`; `Module.rankAtStalk_baseChange`, `Mathlib/RingTheory/Spectrum/Prime/FreeLocus.lean` | Establish faithful flatness from finite étaleness and injectivity, then reflect rank using surjectivity on spectra. |
 | Continuous degree-zero cohomology | `ContinuousCohomology.zeroIso`, `Mathlib/RepresentationTheory/Homological/ContCohomology/LowDegree.lean`; `TauCeti.ContinuousCohomology.zeroIsoNatIso`, `TauCeti/RepresentationTheory/Homological/ContCohomology/DegreeZero.lean` | Identify the tower's Čech complex with continuous cochains; use these degree-zero comparisons directly. |
-| Continuous inhomogeneous cochains in degrees 0, 1 and 2 | `TauCeti.ContCohomology.cochainEquiv0`, `TauCeti.ContCohomology.cochainEquiv1`, `TauCeti.ContCohomology.cochainEquiv2`, `TauCeti.ContCohomology.d_cochainEquiv0`, `TauCeti.ContCohomology.d_cochainEquiv1_apply`, `TauCeti/RepresentationTheory/Homological/ContCohomology/CochainComparison.lean` | These additive comparisons use discrete modules with jointly continuous action; degree 2 also assumes local compactness of the group, automatic for profinite groups. P9.5 consumes the all-degree and non-discrete extension from ArithmeticGaloisDuality R02.1.2 with its explicit joint-continuity premise. |
+| Continuous inhomogeneous cochains in degrees 0, 1 and 2 | `TauCeti.ContCohomology.cochainEquiv0`, `TauCeti.ContCohomology.cochainEquiv1`, `TauCeti.ContCohomology.cochainEquiv2`, `TauCeti.ContCohomology.d_cochainEquiv0`, `TauCeti.ContCohomology.d_cochainEquiv1_apply`, `TauCeti/RepresentationTheory/Homological/ContCohomology/CochainComparison.lean` | These additive comparisons use discrete modules with jointly continuous action; degree 2 also assumes local compactness of the group, automatic for profinite groups. P9.5 uses the all-degree and non-discrete extension of P9.0 with its explicit joint-continuity premise. |
 | Finite torsor Galois map and fixed ring | `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor`, `TauCetiRoadmap.AdicEtaleGeometry.Algebra.IsFiniteEtaleTorsor.isInvariant`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A4 | `IsGaloisExtension` retains only map bijectivity. `finite_galois_descent_of_modules_torsor` derives faithful flatness from finite étaleness and injectivity and constructs the imported torsor class; the supplier's `isInvariant` gives `Algebra.IsInvariant A B H`. |
 | Faithful flatness of an injective finite étale algebra | `Algebra.IsIntegral.comap_surjective`, `Mathlib/RingTheory/Spectrum/Prime/Topology.lean`; `Module.FaithfullyFlat.of_comap_surjective`, `Mathlib/RingTheory/Flat/FaithfullyFlat/Algebra.lean` | Finiteness gives integrality, injectivity gives lying over every prime, and étaleness gives flatness. These construct the faithful-flatness field of the torsor. |
 | Integral tensor exactness | `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, `Mathlib/RingTheory/Flat/TorsionFree.lean`; `AdicCompletion.map_surjective`, `Mathlib/RingTheory/AdicCompletion/Exactness.lean` | Fixed points of completed lattice tensors with a specified completed free coefficient lattice. |
@@ -371,8 +370,8 @@ The construction order is determined by the individual *Needs:* clauses:
   projective-tower separation theorem, which precedes P8.19's GoodTower separation and
   P8.15's projective-line separation Check. Construct GoodTower before applying its
   quotient theorem; the remaining closed-tower comparison follows the closed-limit inputs.
-- In P9, build P9.10's algebraic *finite-galois-descent-of-modules* immediately from
-  AdicEtaleGeometry A4.2 before A4.5 and P9.4. After P9.6, build P9.12, then resume
+- In P9, construct P9.0's cochain foundations before P9.5. Build P9.10's algebraic
+  *finite-galois-descent-of-modules* immediately from AdicEtaleGeometry A4.2 before A4.5 and P9.4. After P9.6, build P9.12, then resume
   P9.7–P9.11 and P9.13. P9.10's integral unit-frame application uses the affine
   P9.13 frame criterion, which is independent of the geometric P9.10 applications.
 
@@ -401,6 +400,7 @@ The declarations of `Suggested.lean` are:
 | `exists_isCategoricalQuotient_of_invertible_order` | theorem | P8.9 |
 | `MulAction.IsGClean`, `MulAction.exists_isGClean` | structure, theorem | P8.13 |
 | `exists_perfectoidization`, `integral_extension_of_perfectoid_pair` | theorems | P8.18 |
+| `CompactCoefficients.exists_continuous_lift` | theorem | P9.0 |
 | `finite_projective_sections_descent` | theorem | P9.8 |
 | `twistedInvariants` | def | P9.9 |
 | `finite_character_comparison`, `finite_character_comparison_linear`, `finite_character_comparison_restriction`, `finite_character_comparison_coefficient_change` | theorems | P9.10 |
@@ -1816,11 +1816,84 @@ Tau Ceti `PreAdicSpace`, `PreAdicSpace.isAdic`, `PreAdicSpace.isAffinoid` and
 
 ## Layer P9: continuous torsor descent with coefficients
 
-The layer uses the pro-étale site of a rigid space to construct its affinoid perfectoid objects and
-completed structure sheaves; pro-étale Galois towers with their Čech descent data; descent of
+The layer constructs continuous cochain foundations in P9.0 and uses the pro-étale site of a rigid
+space to construct its affinoid perfectoid objects and completed structure sheaves; pro-étale Galois towers with their Čech descent data; descent of
 `O`, `O⁺` and finite locally free modules along a tower, over smooth and over seminormal bases and
 after product with a smooth weight space; twisted character sheaves with their finite-level
 comparison; and flat and derived coefficient change with the vanishing of higher inverse limits.
+
+### P9.0 continuous cochains and inverse limits
+
+**Lifting continuous cochains along finite surjections.** Let `X` be any topological space and
+`π : Y → Z` a surjection of discrete spaces. Then every continuous `f : X → Z` has a continuous
+lift `g : X → Y` with `π ∘ g = f` (`CompactCoefficients.exists_continuous_lift`). In particular,
+surjective transitions of discrete `G`-modules induce surjective transitions on continuous cochains
+`C(Gⁱ, −)`.
+
+*Proof sketch.* Choose a section `s : Z → Y` of `π`. Every map out of a discrete space is
+continuous, so `g = s ∘ f` is a continuous lift. Apply this with `X = Gⁱ` in each cochain degree
+([Rubin, *Euler Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2,
+Proposition 2.3, printed p. 152 (PDF p. 162)). *Needs:* nothing beyond Mathlib topology.
+
+**Checks.**
+
+- For `π = id` on a discrete space, the unique lift of `f` is `f` itself.
+- For connected `X` every continuous map to a discrete `Z` is constant, and constant maps lift.
+- Discreteness is needed: for the quotient map `ℝ → ℝ/ℤ`, the identity of `X = ℝ/ℤ` has no
+  continuous lift.
+
+**Continuous cochains into an inverse limit.** Let `G` be profinite and `T = lim T_n` a limit of
+topological `G`-modules, a closed subspace of `∏ T_n` with the induced product topology. Then
+`Cⁱ(G, T) = lim Cⁱ(G, T_n)` as complexes. When the `T_n` are finite discrete with surjective
+transitions, the transitions of the tower `Cⁱ(G, T_n)` are surjective.
+
+*Proof sketch.* A continuous map into a subspace of a product is a compatible family of
+continuous maps into the factors (Mathlib `continuous_pi_iff`); the coboundaries are given by the
+same formula at every level, so the identification is one of complexes. Surjectivity is
+*Lifting continuous cochains along finite surjections* ([Rubin, *Euler
+Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Definition 2.1,
+printed pp. 151–152 (PDF pp. 161–162)). *Needs:* P9.0, *Lifting continuous cochains along finite
+surjections*; Mathlib `continuous_pi_iff`.
+
+**Checks.**
+
+- For `T = ℤ_p = lim ℤ/pⁿ` with trivial action: in degree `0` both sides are `ℤ_p`, and in
+  degree `1` a continuous homomorphism `G → ℤ_p` is the same as a compatible family of
+  homomorphisms `G → ℤ/pⁿ`.
+- For the trivial group `G`, both cochain complexes have term `T` in every degree; the
+  differentials alternate between zero and the identity, so all positive cohomology vanishes.
+- A coefficient tower with zero transitions has zero limit, as does its tower of cochains;
+  the comparison is the zero complex in every degree.
+
+**Comparison with the canonical carrier for compact coefficients.** Let `G` be a profinite group
+(compact, Hausdorff and totally disconnected) and `M` a topological `R`-module with a jointly
+continuous action `G × M → M`; continuity of each operator separately, as in `TopRep`, is not
+enough. Then dehomogenisation identifies the inhomogeneous complex `C(Gⁿ, M)` with Mathlib's
+`TopRep.homogeneousCochains` after forgetting topology, and hence identifies its cohomology with
+the underlying `R`-module of `continuousCohomology`. For compact and rational coefficients this
+extends the comparison for discrete coefficients of ProfiniteCohomology Layer 3. When a
+topological statement is made, cohomology carries the quotient topology; comparisons in the
+derived category forget it.
+
+*Proof sketch.* Dehomogenisation and its inverse are given by composing with continuous maps
+between `Gⁱ⁺¹` and `Gⁱ` and with the action; the inverse is continuous because the action is
+jointly continuous. Mathlib's homogeneous cochains are iterated spaces of continuous maps with the
+compact-open topology, and currying identifies them with `C(Gⁱ⁺¹, M)` because `G` is locally
+compact Hausdorff. The proof for discrete coefficients then applies unchanged ([Rubin, *Euler
+Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Definition 2.1,
+printed pp. 151–152 (PDF pp. 161–162)). *Needs:* P9.0, *Continuous cochains into an inverse limit*;
+ProfiniteCohomology Layer 3; Mathlib `continuousCohomology`.
+
+**Checks.**
+
+- In degree `0` both sides are `M^G`.
+- In degree one the comparison agrees with Tau Ceti's `ContCohomology` description of `H¹` by
+  continuous crossed homomorphisms modulo principal ones.
+- In degree two it agrees with `TauCeti.ContCohomology.H2`, continuous `2`-cocycles modulo
+  coboundaries.
+
+Lean: `CompactCoefficients.exists_continuous_lift`; the inverse-limit and homogeneous
+comparisons are README targets.
 
 ### P9.1 the pro-étale site of a rigid space
 
@@ -2302,7 +2375,7 @@ filtered system `(M_i)` of `G`-modules (or `G`-sets) with continuous discrete ac
 factoring through finite quotients (open kernels), `colim_i (M_i^G) → (colim_i M_i)^G` is an isomorphism, as it is for any group `G` when
 the transition maps are eventually injective (*invariants-of-eventually-injective-colimits*) (
 [CHJ] Lemma 2.24, p. 20). *Needs:* *profinite-galois-tower*; AdicEtaleGeometry layer A4
-(*completed-tower-self-product*); ArithmeticGaloisDuality R02.1.2,
+(*completed-tower-self-product*); P9.0,
 *Comparison with the canonical carrier for compact coefficients*; Mathlib `continuousCohomology`,
 `CategoryTheory.Limits.filtered_colim_preservesFiniteLimits`; Tau Ceti
 `TauCeti.ContinuousCohomology.zeroIsoNatIso`.
@@ -2326,7 +2399,7 @@ the transition maps are eventually injective (*invariants-of-eventually-injectiv
 
 The model `continuousInhomogeneousCochains` and the theorems
 `continuousInhomogeneousCochains_d` and `continuousInhomogeneousCochains_homogeneous`
-are local adapters to ArithmeticGaloisDuality R02.1.2, with the contracts specified above.
+are local adapters to P9.0, with the contracts specified above.
 For a profinite group `G` and `ρ : TopRep V G`, each takes the explicit premise
 `Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)` for the representation action.
 Equivalently, install that action and require `ContinuousSMul G ρ.V`.
@@ -3373,7 +3446,8 @@ A1.12) and layer A4 (torsor towers and
 their completed self-products); AdicSpacesPartII layer R0; AdicSpacesPartIII layer R3; AdicSpacesPartIV layers R4 and R5 (in P9.10, the
 `coefficient-sheaf-kiehl` branches and `affinoid-weight-coefficient-sheaf`); DiamondsAndVStacks
 layers D2 (D2.5, and D2.9 for the vector-bundle comparison), D3 (D3.10) and D6 (D6.9 for the
-seminormal comparison); the Tau Ceti and Mathlib declarations named in the *Needs*
+seminormal comparison); ProfiniteCohomology Layer 3 (the discrete cochain comparison
+extended in P9.0); the Tau Ceti and Mathlib declarations named in the *Needs*
 clauses above.
 
 ## Downstream consumers
