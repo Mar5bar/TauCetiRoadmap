@@ -11,14 +11,14 @@ This roadmap owns the material of ECD §§22–25:
 - invertible objects, ℓ-cohomologically smooth maps, the dualizing complex and the permanence and base-change theory of smooth maps;
 - the examples of §24 and the biduality and conservativity theorems of §25.
 
-Three geometric statements that ECD uses in these sections, and that no lower roadmap states, are targets here: hypercovers of small v-stacks by quasiseparated locally spatial diamonds (Section S2.1), the fibre-dimension bound for maps of diamonds and their canonical compactifications (Section S1.1), and quotients of maps of diamonds by non-free profinite group actions (Section S5.3).
+Four geometric statements that ECD uses in these sections, and that no lower roadmap states, are targets here: hypercovers of small v-stacks by quasiseparated locally spatial diamonds (Section S2.1), the fibre-dimension bound for maps of diamonds and their canonical compactifications (Section S1.1), quotients of maps of diamonds by non-free profinite group actions (Section S5.3), and the cyclotomic profinite-Galois-limit torsor over Spd ℚ_p (Section S5.5).
 
 The boundaries are as follows.
 - `DiamondEtaleCohomology` (layers C0–C9) owns D_ét(Y, Λ) and its enhancement, the operations f^*, Rf_*, ⊗^L and RHom, change of coefficients, the étale extension by zero f_! for étale f, proper base change, the canonical compactification of ECD §18, constructible and perfect-constructible complexes, dim.trg and the cohomological-dimension bounds of ECD §21, and compact generation. C5 constructs f_! only for étale f; the general exceptional direct image is built here.
 - `DiamondsAndVStacks` (layers D0–D6) owns perfectoid covers, the v-topology, morphisms of v-stacks (open immersions, separated, étale and quasi-pro-étale maps), diamonds and small v-stacks, spatial geometry and diamondification.
 - `EnhancedDerivedSheaves` (layers E0, E2, E3) owns the ∞-categorical machinery: coCartesian fibrations and straightening, hypercovers and hypercover descent in a topos, left Kan extension along full inclusions, the adjoint functor theorem, mates and the compact-generation criterion for right adjoints.
 - `ClassicalAdicEtaleCohomology` owns Huber's classical theory: the trace and Poincaré duality for smooth curves over Spa(C, C⁺) of arbitrary rank, compactly supported cohomology of relative balls, constructibility in smooth families and the compactification and boundary duality of smooth rigid curves. This roadmap uses those results and compares them with the diamond theory; it does not reprove them.
-- `AdicEtaleGeometry` (layers A2, A4) owns relative balls and tori, smooth morphisms of analytic adic spaces by étale ball charts and the completed torsor towers; `PerfectoidSpaces` (layer P1) owns perfectoid fields, tilts, perfected Tate algebras and the cyclotomic perfectoid field.
+- `AdicEtaleGeometry` (layer A2) owns relative balls and tori and smooth morphisms of analytic adic spaces by étale ball charts; `PerfectoidSpaces` (layer P1) owns perfectoid fields, tilts, perfected Tate algebras and the full cyclotomic perfectoid field. `PerfectoidTowers` (P8.3–P8.4) supplies finite-group quotient presentations, invariants of perfectoid pairs and their compatibility with tilting, used to remove the finite torsion part of the cyclotomic action.
 - `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` owns ring-valued Haar measures on locally profinite groups (`HaarMeasureWithValues`, its normalised existence and uniqueness `HaarMeasureWithValues.existsUnique_vol_eq_one` under `HasUnitProOrder`, and finite-sum integration of locally constant functions), Layers SR.0.3 and SR.1.1. Tau Ceti owns the supernatural order and index of profinite groups (`TauCeti.profiniteOrder`, `Subgroup.profiniteIndex`) and their Lagrange formula. This roadmap uses the normalised measure of a profinite group of pro-order prime to ℓ; it does not construct Haar measures.
 - Six operations for maps that are not representable in locally spatial diamonds (for instance [*/K] → * for a profinite group K), and for Artin v-stacks, belong to `VStackSheavesAndLisseCategories`. ℓ-adic coefficients and the comparison with schemes belong to `AdicCoefficientsAndComparisons`.
 
@@ -30,7 +30,7 @@ Fix a prime p. Perf is the category of perfectoid spaces of characteristic p wit
 
 **Categories and functors.** D_ét(Y, Λ) is the étale derived category of `DiamondEtaleCohomology` C2 and 𝒟_ét(Y, Λ) its presentable stable ∞-categorical enhancement. Every functor and natural transformation in this roadmap is constructed on the enhancements and then passed to homotopy categories; ECD's Rf_! and Rf^! are the homotopy-category functors. f^*, Rf_*, ⊗ = ⊗^L_Λ and RHom = RHom_Λ are the operations of C3, and f_! for étale f is the left adjoint of f^* of C5.
 
-**Compactifications and dimensions.** For a separated map f : Y′ → Y of v-stacks, (Y′)‾^{/Y} → Y is the canonical compactification of C4 (ECD Proposition 18.6), j : Y′ → (Y′)‾^{/Y} the natural map and f‾ : (Y′)‾^{/Y} → Y the structure map, so that f = f‾ ∘ j. dim.trg f ∈ ℤ_{≥0} ∪ {−∞, ∞} is the geometric transcendence dimension of C8 (ECD Definition 21.7). "dim.trg f < ∞" is a global bound. "Locally dim.trg f < ∞" means that after pullback to any spatial diamond X → Y, every quasicompact open subspace of Y′ ×_Y X has finite dim.trg over X; the bound may depend on the open. dim f is the topological fibre dimension of C8 (ECD Definition 21.1 and Remark 21.8).
+**Compactifications and dimensions.** For a separated map f : Y′ → Y of v-stacks, (Y′)‾^{/Y} → Y is the canonical compactification of C4 (ECD Proposition 18.6), j : Y′ → (Y′)‾^{/Y} the natural map and f‾ : (Y′)‾^{/Y} → Y the structure map, so that f = f‾ ∘ j. dim.trg f takes values in C8's `WithBot ENat`, written ℤ_{≥0} ∪ {−∞, ∞}, and an empty source has value ⊥ = −∞ (`DiamondEtaleCohomology §C8.16`, ECD Definition 21.7). "dim.trg f < ∞" is a global bound. "Locally dim.trg f < ∞" means that after pullback to any spatial diamond X → Y, every quasicompact open subspace of Y′ ×_Y X has finite dim.trg over X; the bound may depend on the open. dim f is the topological fibre dimension of C8 (ECD Definition 21.1 and Remark 21.8).
 
 **Smoothness and twists.** A map is ℓ-cohomologically smooth in the sense of Section S4.2. The dualizing complex D_f = Rf^!Λ of a smooth f is invertible, and the twisted-pullback transformation τ_f : Rf^!Λ ⊗ f^* → Rf^! of Section S3.4 is an equivalence for it. For a free action of a finite group of order m prime to ℓ, the averaging transformation of Section S5.3 is multiplication by m^{−1} under the identification Rq^! = q^*; it is not that identification.
 
@@ -81,7 +81,7 @@ The pinned libraries are Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and 
 | `EnhancedDerivedSheaves`, Layer E2 | Hypercovers in a topos, hypercover descent (bounded and unbounded), independence under refinement |
 | `EnhancedDerivedSheaves`, Layer E3 | Left Kan extension along a full inclusion (§E3.1), coherent diagrams of ringed topoi over small posets and coherent mates (§E3.4), the adjoint functor theorem (§E3.2), and the compact-generation criterion: for an adjunction F ⊣ G of stable categories with compactly generated source, G preserves coproducts if and only if F preserves compact objects (§E3.3). Simplicial diagrams use `DiamondEtaleCohomology §C2.9` and restricted straightening of §E0.7; they are not inferred from the poset case alone. |
 | `AdicEtaleGeometry`, Layer A2 | Relative closed polydiscs and tori, smooth morphisms by étale charts over relative balls |
-| `AdicEtaleGeometry`, Layer A4 | Effective descent of finite étale algebras along completed torsor towers |
+| `PerfectoidTowers`, P8.3–P8.4 | Finite-group quotient v-sheaves, invariants of perfectoid pairs without a restriction on the group order, and their compatibility with tilting |
 | `PerfectoidSpaces`, Layer P1 | Perfectoid fields, tilts, perfected Tate algebras, the cyclotomic perfectoid field |
 
 ### From ClassicalAdicEtaleCohomology
@@ -123,6 +123,7 @@ Provide `IsCompactifiable.mk` (if j is an open immersion and g is partially prop
 
 - For every v-stack Y, the identity of Y is compactifiable.
 - For C⁺ ⊊ O_C with Spa(C, O_C) open in Spa(C, C⁺), for example C⁺ of finite rank greater than one, the open immersion j : Spa(C, O_C) → Spa(C, C⁺) is compactifiable, and its canonical compactification over Spa(C, C⁺) is the identity of Spa(C, C⁺): every map Spa(R, R°) → Spa(C, C⁺) factors through Spa(C, O_C).
+- At arbitrary valuation rank, a ∈ O_C ∖ C⁺ defines a nonempty proper quasicompact rational open U = {|a| ≤ 1} in Spa(C, C⁺). Its inclusion is compactifiable with canonical compactification the whole space: every map Spa(R, R°) → Spa(C, C⁺) factors through U. The norm point itself need not be open (Section S6.2).
 - Let B be the perfectoid closed unit ball over Spa(C, O_C) and Y′ = B ⊔_{B∖{0}} B the ball with doubled origin. The map Y′ → B is étale and surjective but not separated, so it is not compactifiable.
 - A proper map of v-stacks (quasicompact, separated and universally closed, ECD Definition 18.1) is compactifiable, with canonical compactification itself.
 
@@ -132,12 +133,13 @@ Provide `IsCompactifiable.mk` (if j is an open immersion and g is partially prop
 
 *Proof route.* If j is open, f‾ is partially proper by C4 (ECD Corollary 18.8(i)), so f = f‾ ∘ j exhibits f as compactifiable. Conversely, given Y′ → Z → Y with the first map an open immersion and the second partially proper, f is separated, and the universal property of the canonical compactification (C4, ECD 18.6) extends Y′ → Z uniquely to an injection h : (Y′)‾^{/Y} → Z over Y. Then j is the pullback of Y′ → Z along h, and open immersions are stable under pullback (D3).
 
-When Spa(C, O_C) is open in Spa(C, C⁺), the criterion holds for j : Spa(C, O_C) → Spa(C, C⁺), where the natural map is j itself; it fails for the doubled-origin ball, which is not separated.
+For any C⁺ ⊊ O_C and a ∈ O_C ∖ C⁺, the criterion holds for j : {|a| ≤ 1} → Spa(C, C⁺), where the natural map into the canonical compactification is j itself. When the norm point Spa(C, O_C) is open, its inclusion is another such example. The criterion fails for the doubled-origin ball, which is not separated.
 
 **Checks.**
 
 - For the identity, the canonical map is the identity and the criterion holds.
 - For C⁺ of rank two, the generic-point inclusion is open and its canonical compactification is the whole two-point space.
+- In the infinite-rank example of Section S6.2 the generic-point inclusion is not open, whereas {|x₀⁻¹| ≤ 1} is a proper rational open with canonical compactification the whole space.
 - For the doubled-origin ball, separatedness fails and no compactifiable factorisation exists.
 
 *Needs:* `IsCompactifiable`; `DiamondEtaleCohomology §C4.5`; `DiamondEtaleCohomology §C4.7`; `DiamondEtaleCohomology §C4.13`; `DiamondEtaleCohomology §C4.14`; `DiamondEtaleCohomology §C4.15`; `DiamondsAndVStacks D3/immersions-separatedness-and-truncatedness`.
@@ -236,6 +238,7 @@ Provide `IsSpatialEligible.mk`, the projections `IsSpatialEligible.isEligible`, 
 ### Examples
 
 - Over Spa(C, C⁺) with C⁺ ⊊ O_C and Spa(C, O_C) open (for example C⁺ of rank two), the generic point j : Spa(C, O_C) → Spa(C, C⁺) is a compactifiable open immersion whose canonical compactification is the whole space; for Λ ≠ 0 it is the basic example of a map with Rj_! ≠ Rj_* (Section S1.2) and of the failure of biduality (Section S6.2).
+- For arbitrary C⁺ ⊊ O_C, the rational open {|a| ≤ 1} for a ∈ O_C ∖ C⁺ gives the biduality counterexample of Section S6.2, including when the generic point is not open.
 - The perfectoid ball B → * is spatial-eligible with dim.trg 1; the open unit disc D → Spa(C, O_C) is eligible but not spatial-eligible; the doubled-origin ball is étale but not compactifiable.
 - Separated étale surjections are locally split; Spa(C′, O_{C′}) → Spa(C, O_C) is a v-cover that is not.
 
@@ -297,9 +300,10 @@ Provide `lowerShriekQC_eq` (Rf_! ≅ Rf‾_* ∘ j_! for the canonical factorisa
 
 **Checks.**
 
-- T = ∅ gives the empty diamond, of dim.trg −∞, and belongs to the equivalence.
-- T = π₀X gives the identity of X; its dim.trg is 0 when X is nonempty.
+- T = ∅ gives the empty diamond. Transporting C8.16's `diamondDimTrg_empty` along the classification gives dim.trg = ⊥ = −∞ ≤ 0.
+- For X = Spa(C, O_C) and T = *, the functor gives the identity, of dim.trg 0. More generally T = π₀X gives the identity of X, of dim.trg 0 when X is nonempty.
 - For X = Spa(C, O_C) and T = [0, 1], the result is proper of dim.trg 0 but not spatial.
+- For X = ∅, the only compact Hausdorff space over π₀X = ∅ is ∅. The classification has the single diamond ∅ → ∅, of dim.trg ⊥.
 
 *Needs:* `DiamondsAndVStacks D1/strictly-totally-disconnected`; `DiamondsAndVStacks D1/topological-classification-of-pro-etale-maps`; `DiamondsAndVStacks D5/universally-open-presentation`; `DiamondsAndVStacks D4/compact-hausdorff-diamonds`; `DiamondsAndVStacks D3/locally-profinite-torsors`; `DiamondEtaleCohomology §C8.16`; `DiamondEtaleCohomology §C4.5`; `DiamondEtaleCohomology §C4.7`; `DiamondEtaleCohomology §C4.13`; `DiamondEtaleCohomology §C4.14`; `DiamondEtaleCohomology §C4.15`.
 
@@ -316,6 +320,7 @@ Provide `lowerShriekQC_eq` (Rf_! ≅ Rf‾_* ∘ j_! for the canonical factorisa
 **Checks.**
 
 - For Y empty both derived categories are zero.
+- Over X = ∅ the classification forces Y = ∅, so the comparison is the unique equivalence between zero categories.
 - For Y = Spa(C, O_C), both are the bounded-below derived category of Λ-modules.
 - For Y = [0, 1] × Spa(C, O_C), constant coefficients have H⁰ = Λ and Hⁱ = 0 for i > 0.
 
@@ -1023,9 +1028,17 @@ Provide `averagingTransformation_trace` (α_q is adjoint to the normalised trace
 
 **Quotients by non-free actions** (`IsCohomologicallySmooth.quotient_nonfree`). Let f : Y′ → Y be separated, representable in locally spatial diamonds and ℓ-cohomologically smooth. Let K be a profinite group of pro-order prime to ℓ acting on Y′ over Y with K × Y′ → Y′ ×_Y Y′ 0-truncated and qcqs, and Y′/K the image-relation quotient. Then f/K is separated and representable in locally spatial diamonds (Section S5.3). Assume moreover that for every complete algebraically closed C with open bounded valuation subring C⁺ and every Spa(C, C⁺) → Y, the pullback Y′/K ×_Y Spa(C, C⁺) → Spa(C, C⁺) is ℓ-cohomologically smooth. Then f/K is ℓ-cohomologically smooth and, for Λ ℓ-power torsion and the normalised Haar measure, Rf^! ≃ q^*R(f/K)^!; as for free actions, ECD omits the coefficient hypothesis. (ECD Proposition 24.3 and its proof, pp. 155–156.)
 
-*Proof route.* f/K is compactifiable, representable in locally spatial diamonds with locally dim.trg f/K = dim.trg f (Section S5.3). Check the practical criterion with Y = X strictly totally disconnected and Y′ quasicompact. Condition (1) is clear. For (2): for F constructible on Y′/K, the composite F → q_*q^*F = Rq_!q^*F → Rq_!Rq^!F → F is the identity, so R(f/K)_!F is a direct summand of the constructible Rf_!q^*F. Condition (3) is the fibrewise hypothesis. Then R(f/K)^! commutes with quasi-pro-étale base change (Section S4.1), so q^*R(f/K)^! → Rf^! can be checked on geometric fibres, where it holds by hypothesis; this gives (4). For example, T_Y for Y over Spa ℤ_p^cycl is the quotient of the compatible-root torus T̃_Y by a non-free ℤ_p-action (Section S5.5).
+*Proof route.* Write g = f/K. It is compactifiable, representable in locally spatial diamonds with locally dim.trg g = dim.trg f (Section S5.3). Check the practical criterion with Y = X strictly totally disconnected and Y′ quasicompact. Condition (1) is clear. For (2), unit followed by the normalised trace is the identity, so Rg_!F is a direct summand of the constructible Rf_!q^*F for constructible F on Y′/K. Condition (3) follows from the smoothness of the geometric quotient fibres. Consequently Rg^! commutes with quasi-pro-étale base change (Section S4.1).
 
-*Needs:* `quotientByProfiniteAction`; `averagingTransformation`; `isCohomologicallySmooth_iff_practical`; `upperShriek_twist_tfae`; `IsCohomologicallySmooth`; `IsCohomologicallySmooth.quotient_free`; `DiamondEtaleCohomology §C7.3`.
+For (4), check the specified averaging comparison on each geometric base S = Spa(C, C⁺), where both f_S and g_S are smooth. First take Λ = F_ℓ and put D_f = Rf_S^!Λ and D_g = Rg_S^!Λ. The map β : q_S^*D_g → D_f is α_{q_S} evaluated at D_g, followed by the composition isomorphism. Both objects are invertible. If β vanished at one geometric point over z of the quotient, K-equivariance and transitivity on that geometric orbit would make it vanish over the whole fibre of q_S. The fibre is a profinite orbit and q_{S*} is exact; proper base change would therefore make (q_{S*}β)_z zero. But the composite D_g → q_{S*}q_S^*D_g → q_{S*}D_f → D_g is the identity: by adjunction it is precisely unit followed by the normalised trace. Hence β is nonzero at every geometric stalk. A nonzero degree-zero map between shifts of one-dimensional F_ℓ-vector spaces forces equal shifts and is an isomorphism. The twisted-pullback and projection-formula coherences identify the comparison on every A ∈ D_ét(S, F_ℓ) with β ⊗ f_S^*A, so this particular averaging comparison is an equivalence. Extend to ℓ-power-torsion Λ using Section S4.3 and compatibility of averaging with coefficients. Quasi-pro-étale base change now gives (4) and the claimed equivalence globally. For example, T_Y for Y over Spa ℤ_p^cycl is the quotient of the compatible-root torus T̃_Y by a non-free ℤ_p-action (Section S5.5).
+
+**Checks.**
+
+- For a trivial action, including nontrivial K, q = id and integration of a constant with total Haar volume 1 makes the comparison the identity.
+- For a free finite action of order m prime to ℓ, the comparison is scaled by m⁻¹ under the canonical étale identification; for m = 2 and Λ = F_5 the scalar is 3, not 1.
+- For the compatible-root torus over Spa ℤ_p^cycl, the action on characteristic-p fibres is trivial, while over C_p it is free. The normalised unit–trace identity applies in both cases and detects the comparison on both types of fibre.
+
+*Needs:* `quotientByProfiniteAction`; `averagingTransformation`; `isCohomologicallySmooth_iff_practical`; `upperShriek_twist_tfae`; `IsCohomologicallySmooth`; `IsCohomologicallySmooth.upperShriek_twist`; `IsCohomologicallySmooth.quotient_free`; `upperShriek_comp`; `twistedPullbackTransformation`; `DiamondEtaleCohomology §C5.9`; `DiamondEtaleCohomology §C8.22`; `DiamondEtaleCohomology §C7.3`.
 
 ### S5.5 Smooth analytic maps, Spd ℚ_p and the geometric-base criterion
 
@@ -1035,11 +1048,30 @@ Provide `averagingTransformation_trace` (α_q is adjoint to the normalised trace
 
 *Needs:* `Ball.isCohomologicallySmooth`; `IsCohomologicallySmooth.quotient_free`; `IsCohomologicallySmooth.quotient_nonfree`; `IsCohomologicallySmooth.comp`; `IsCohomologicallySmooth.of_separated_etale`; `IsCohomologicallySmooth.baseChange`; `IsCohomologicallySmooth.of_baseChange_of_surjective`; `IsCompactifiable.of_openCover`; `IsCompactifiable.of_isSeparated_of_isEtale`; `IsCompactifiable.comp`; `upperShriek_comp`; `upperShriek_etale`; `AdicEtaleGeometry A2/smooth-morphism-ball-charts`; `AdicEtaleGeometry A2/relative-torus`; `AdicEtaleGeometry A2/relative-closed-polydisc`; `DiamondsAndVStacks D6/etale-site-comparison`; `DiamondsAndVStacks D3/locally-profinite-torsors`; `DiamondEtaleCohomology §C8.15`; `PerfectoidSpaces P1/perfectoid-field-definition`; `PerfectoidSpaces P1/perfected-tate-algebra`; `PerfectoidSpaces P1/cyclotomic-perfectoid-field`.
 
+**The cyclotomic limit is a geometric ℤ_p-torsor** (`cyclotomicLimit_torsor`). Let p be prime, L the completed field ℚ_p(μ_{p^∞}) of P1.31, Γ = Gal(ℚ_p(μ_{p^∞})/ℚ_p) ≅ ℤ_p^×, and Δ its finite torsion subgroup (of order p − 1 for odd p and {±1} for p = 2). Put L_n = ℚ_p(μ_{p^n})^{Δ_n}, where Δ_n is the image of Δ, and K_∞ = completion of ⋃_n L_n. Then K_∞ = L^Δ is perfectoid, G = Γ/Δ ≅ ℤ_p acts continuously, and X_∞ = Spa(K_∞^♭, O_{K_∞^♭}) is the inverse limit of (Spa L_n)^♢ over X = Spd ℚ_p. The structural map q : X_∞ → X is a surjective v-cover, and (g, x) ↦ (x, gx) identifies G × X_∞ with X_∞ ×_X X_∞. Thus q is a G-torsor in D3's sense and X_∞/G ≅ Spd ℚ_p. The full cyclotomic cover has group Γ, its quotient by Δ is X_∞, and the two quotient presentations agree. Under tilting, K_∞^♭ ≅ F_p((u^{1/p^∞}))^∧ for a choice of norm parameter u, compatibly with the G-action, so this same presentation is the one used in the smoothness proof. (ECD Proposition 24.5 and its proof, pp. 156–157; P1.31; PerfectoidTowers P8.4.)
+
+*Proof route.* On a marked untilt S^♯ → Spa ℚ_p, the pullbacks of Spa L_n are compatible finite Galois torsors with groups G_n = Gal(L_n/ℚ_p). Their inverse limit is a v-cover: compatible lifts of a geometric point exist by compactness of the inverse system of nonempty finite fibres. The finite-level Galois identifications of the self-fibre products pass to the limit, giving G × X_∞ = X_∞ ×_X X_∞. On affinoid untilts, compatible maps from the L_n extend uniquely to their completion, identifying this limit with Spd(K_∞, O_{K_∞}), hence with X_∞ by D6. Apply the same argument to the full cyclotomic levels. The finite-group quotient presentation and invariant-pair tilting of PerfectoidTowers P8.3–P8.4 identify their Δ-quotient with the perfectoid pair of L^Δ; continuity of finite averaging in characteristic zero identifies L^Δ with the completion of ⋃_n L_n. In the tilt of L, write t = ε − 1. The finite action preserves F_p((t)); its invariant field has uniformizer u = ∏_{δ∈Δ}δ(t). Passing to completed perfections identifies the invariant tilt with F_p((u^{1/p^∞}))^∧. Torsor descent in D3 identifies the quotient with X. These geometric limit and quotient statements use compatible Galois levels, without a universal-splitting assumption on their union.
+
+**Checks.**
+
+- At each finite level the self-fibre product is G_n × (Spa L_n)^♢; passing to the limit gives the displayed G-torsor identity and Spd ℚ_p as its quotient.
+- For odd p, removing Δ of order p − 1 gives G ≅ 1 + pℤ_p; for p = 2, removing {±1} gives G ≅ 1 + 4ℤ_2. Both are isomorphic to ℤ_p. The finite-invariant perfectoid theorem applies also when p divides |Δ|, so the p = 2 case needs no division by |Δ| in characteristic p.
+- After pullback along Spa(C, O_C) → * with C algebraically closed of characteristic p, the tilted cover is D_C^× and its self-fibre product over Spd ℚ_p × Spa(C, O_C) is ℤ_p × D_C^×.
+- The L_n satisfy the geometric G-torsor contract, and the full cyclotomic levels give its Γ-torsor counterpart. Both fail A4's `finite-etale-torsor-tower`: the unramified quadratic extension remains nonsplit over their totally ramified union. This is the non-example `AdicEtaleGeometry A4/test_not_cyclotomic`.
+
+*Needs:* `DiamondsAndVStacks D3/locally-profinite-torsors`; `DiamondsAndVStacks D5/limits-and-finite-stage-comparisons`; `DiamondsAndVStacks D6/spd-of-a-tate-pair`; `PerfectoidSpaces P1/cyclotomic-perfectoid-field`; `PerfectoidSpaces P1/tilt-of-perfectoid-field`; `PerfectoidTowers P8.3/invariant-quotient-v-sheaf-presentation`; `PerfectoidTowers P8.4/invariants-of-perfectoid-tate-ring`.
+
 **Smoothness of Spd ℚ_p** (`SpdQp.isCohomologicallySmooth`). For every prime ℓ ≠ p, the map (Spa ℚ_p)^♢ → * is ℓ-cohomologically smooth. (ECD Proposition 24.5 and its proof, pp. 156–157.)
 
-*Proof route.* Let K_∞ be the completion of the cyclotomic ℤ_p-extension of ℚ_p (P1, the cyclotomic perfectoid field with its finite torsion part removed). With a suitable tilted uniformizer, K_∞^♭ ≅ F_p((t^{1/p^∞}))^∧. The finite Galois levels, the Spd of a Tate pair (D6) and the finite-stage limit comparison (D5) give a ℤ_p-torsor Spa(K_∞^♭, O_{K_∞^♭}) → (Spa ℚ_p)^♢, and torsor descent (D3, A4) gives the quotient presentation (Spa ℚ_p)^♢ = Spa F_p((t^{1/p^∞}))^∧/ℤ_p. The spatiality of Spd(A, A⁺) (D6) supplies spatiality of the base; its tower with no nonsplit finite étale covers is a different construction and is not identified with the cyclotomic tower. After pullback along the v-cover Spa(C, O_C) → *, with C algebraically closed of characteristic p, one gets (Spa ℚ_p)^♢ × Spa(C, O_C) = D^×_C/ℤ_p. Here D^×_C, the punctured open unit disc, is open in B × Spa(C, O_C) (Section S5.1), and D^×_C → Spa(C, O_C) is smooth (the ball, open immersions, composition). ℤ_p acts freely with pro-order prime to ℓ, so the free-quotient target applies. Descend along the v-cover by v-locality on the target; (Spa ℚ_p)^♢ → * has locally finite dim.trg, equal to 1 on quasicompact opens. Consumers such as Div¹ = (Spa Q̆_p)^♢/φ^ℤ combine this with étale quotients.
+*Proof route.* The preceding cyclotomic-limit target supplies the perfectoid K_∞, the tilted ℤ_p-torsor and the quotient presentation (Spa ℚ_p)^♢ = Spa F_p((u^{1/p^∞}))^∧/ℤ_p. The spatiality of Spd(A, A⁺) (D6) supplies spatiality of the base; its tower with no nonsplit finite étale covers is a different construction and is not identified with the cyclotomic tower. After pullback along the v-cover Spa(C, O_C) → *, with C algebraically closed of characteristic p, one gets (Spa ℚ_p)^♢ × Spa(C, O_C) = D^×_C/ℤ_p. Here D^×_C, the punctured open unit disc, is open in B × Spa(C, O_C) (Section S5.1), and D^×_C → Spa(C, O_C) is smooth (the ball, open immersions, composition). ℤ_p acts freely with pro-order prime to ℓ, so the free-quotient target applies. Descend along the v-cover by v-locality on the target; (Spa ℚ_p)^♢ → * has locally finite dim.trg, equal to 1 on nonempty quasicompact opens. Consumers such as Div¹ = (Spa Q̆_p)^♢/φ^ℤ combine this with étale quotients.
 
-*Needs:* `Ball.isCohomologicallySmooth`; `IsCohomologicallySmooth.quotient_free`; `Ball.openDisc`; `IsCohomologicallySmooth.of_separated_etale`; `IsCohomologicallySmooth.comp`; `IsCohomologicallySmooth.of_baseChange_of_surjective`; `DiamondsAndVStacks D6/spd-is-a-spatial-diamond`; `DiamondsAndVStacks D6/spd-of-a-tate-pair`; `DiamondsAndVStacks D3/locally-profinite-torsors`; `DiamondsAndVStacks D5/limits-and-finite-stage-comparisons`; `AdicEtaleGeometry A4/finite-etale-effective-descent-along-tower`; `PerfectoidSpaces P1/perfectoid-field-definition`; `PerfectoidSpaces P1/tilt-of-perfectoid-field`; `PerfectoidSpaces P1/perfected-tate-algebra`; `PerfectoidSpaces P1/cyclotomic-perfectoid-field`.
+**Checks.**
+
+- Over Spa(C, O_C) in characteristic p the geometric presentation is D_C^×/ℤ_p, with D_C^× an open in the perfectoid ball and hence cohomologically smooth.
+- For p = 2 and ℓ odd, the torsion-removed group 1 + 4ℤ_2 has pro-order prime to ℓ, so the same free-quotient theorem applies.
+- A nonsplit unramified quadratic extension of the cyclotomic union does not prevent the geometric torsor presentation or this smoothness theorem; A4's universal-splitting theorem remains inapplicable.
+
+*Needs:* `cyclotomicLimit_torsor`; `Ball.isCohomologicallySmooth`; `IsCohomologicallySmooth.quotient_free`; `Ball.openDisc`; `IsCohomologicallySmooth.of_separated_etale`; `IsCohomologicallySmooth.comp`; `IsCohomologicallySmooth.of_baseChange_of_surjective`; `DiamondsAndVStacks D6/spd-is-a-spatial-diamond`.
 
 **Smoothness over a general perfectoid base** (`isCohomologicallySmooth_iff_geometricBase`). Let X be a perfectoid space, Y a locally spatial diamond and f : Y → X compactifiable with locally dim.trg f < ∞. Then f is ℓ-cohomologically smooth if and only if
 
@@ -1061,7 +1093,7 @@ Provide `averagingTransformation_trace` (α_q is adjoint to the normalised trace
 
 ### Dependencies
 
-Layers S0–S4; `DiamondsAndVStacks` D0, D2, D3, D4, D5, D6; `DiamondEtaleCohomology` C0, C2, C3, C4, C7, C8, C9; `AdicEtaleGeometry` A2, A4; `PerfectoidSpaces` P1; `ClassicalAdicEtaleCohomology`, Sections 8.4, 9.2, 9.5, 9.6 and 10.5; Tau Ceti `TauCeti.profiniteOrder`; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups`, SR.0.3 and SR.1.1.
+Layers S0–S4; `DiamondsAndVStacks` D0, D2, D3, D4, D5, D6; `DiamondEtaleCohomology` C0, C2, C3, C4, C7, C8, C9; `AdicEtaleGeometry` A2; `PerfectoidSpaces` P1; `PerfectoidTowers` P8.3–P8.4; `ClassicalAdicEtaleCohomology`, Sections 8.4, 9.2, 9.5, 9.6 and 10.5; Tau Ceti `TauCeti.profiniteOrder`; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups`, SR.0.3 and SR.1.1.
 
 ## Layer S6: Biduality, finiteness and conservativity over a geometric point
 
@@ -1077,7 +1109,7 @@ Provide `verdierDual_apply` (𝔻_X A = RHom(A, Rf^!Λ)), `verdierDual_const` (�
 
 - For X = Spa(C, O_C), 𝔻 is the linear dual RHom_Λ(−, Λ) on D(Λ); for Λ = F_ℓ and finite-dimensional vector spaces it is reflexive, as Mathlib's `Module.evalEquiv` records.
 - For the ball over Spa(C, O_C), 𝔻(Λ) ≅ Λ(1)[2].
-- Over Spa(C, C⁺) with C⁺ ≠ O_C and Spa(C, O_C) open (for example C⁺ of finite rank greater than one), and j : Spa(C, O_C) → Spa(C, C⁺), RHom(j_!F_ℓ, F_ℓ) = Rj_*F_ℓ = F_ℓ, so the naive double dual of j_!F_ℓ is F_ℓ ≠ j_!F_ℓ (Section S6.2).
+- Over Spa(C, C⁺) with C⁺ ⊊ O_C, take a ∈ O_C ∖ C⁺ and the rational open j : {|a| ≤ 1} → Spa(C, C⁺). Then RHom(j_!F_ℓ, F_ℓ) = Rj_*F_ℓ = F_ℓ, so the naive double dual of j_!F_ℓ is F_ℓ ≠ j_!F_ℓ (Section S6.2). When Spa(C, O_C) is open, its inclusion gives the same calculation.
 - 𝔻 is an exact contravariant functor: 𝔻(A[1]) = (𝔻A)[−1].
 
 *Needs:* `upperShriek`; `dualizingComplex`; `IsInvertibleObject`; `verdierDuality`; `upperShriek_comp`; `IsCohomologicallySmooth.upperShriek_twist`; `IsCohomologicallySmooth.pullback_internalHom`; `DiamondEtaleCohomology §C3.9`; `DiamondEtaleCohomology §C3.11`.
@@ -1104,15 +1136,17 @@ Now X is a quasicompact smooth rigid curve over C, smooth over Spa(C, O_C) by Se
 
 *Needs:* `biduality`; `finite_cohomology_of_smooth`; `DiamondEtaleCohomology §C9.12`; `DiamondEtaleCohomology §C3.11`; `DiamondEtaleCohomology §C3.9`; `DiamondEtaleCohomology §C7.14`; `DiamondEtaleCohomology §C7.22`.
 
-**Biduality fails over Spa(C, C⁺)** (`not_biduality_valuedPlus`). Let C⁺ ⊊ O_C be an open bounded valuation subring and X = Spa(C, C⁺). Assume Spa(C, O_C) is open in X, for example that C⁺ has finite rank greater than one, and let j : U = Spa(C, O_C) → X the open immersion of the generic point. For A = j_!F_ℓ, RHom_{F_ℓ}(j_!F_ℓ, F_ℓ) = Rj_*F_ℓ = j_*F_ℓ = F_ℓ, so the double dual of A is F_ℓ ≠ j_!F_ℓ. Hence the hypothesis C⁺ = O_C in the biduality target is essential, even for the identity X → X, which is ℓ-cohomologically smooth. Indeed RHom(j_!F_ℓ, F_ℓ) = Rj_*RHom(F_ℓ, j^*F_ℓ) by j_! ⊣ j^* (C5). X is strictly local with generic point U, so Rj_*F_ℓ = j_*F_ℓ = F_ℓ: the étale cohomology of Spa(C, O_C) vanishes in positive degrees, and every open neighbourhood of the closed point is X. The double dual F_ℓ has stalk F_ℓ at the closed point, where j_!F_ℓ has stalk 0. This is the open immersion of the second Check of Section S0.1, whose canonical compactification is X. (ECD Remark 25.2, p. 158.)
+**Biduality fails over Spa(C, C⁺)** (`not_biduality_valuedPlus`). Let C be complete algebraically closed nonarchimedean of characteristic p, ℓ ≠ p a prime, C⁺ ⊊ O_C an open bounded valuation subring and X = Spa(C, C⁺). Choose a ∈ O_C ∖ C⁺ and let j : U = {|a| ≤ 1} → X be the inclusion of the rational open. U is nonempty, proper and quasicompact: it contains the norm point and excludes the closed point s. Thus A = j_!F_ℓ is bounded constructible. One has RHom_{F_ℓ}(j_!F_ℓ, F_ℓ) = Rj_*F_ℓ = F_ℓ, so the double dual of A is F_ℓ ≠ A. Hence the hypothesis C⁺ = O_C in the biduality target is essential at arbitrary valuation rank, even for the identity X → X, which is ℓ-cohomologically smooth. (ECD Remark 25.2, p. 158, with a rational open in place of the generic point; Kaib–Werner, §2.1, p. 4, for the valuation-spectrum description.)
+
+*Proof route.* With k = O_C/m_C and V = C⁺/m_C, |X| is Spec(V), a valuation chain with generic norm point. Every nonempty open W meets U in an irreducible space. The constant sheaf on W ∩ U has sections F_ℓ on each nonempty open and identity restriction maps, so it is flabby. The topological description of the étale topos of this strictly totally disconnected space (C0) therefore gives Rj_*F_ℓ = F_ℓ. The extension-by-zero adjunction gives RHom(j_!F_ℓ, F_ℓ) = Rj_*F_ℓ, and the double dual has stalk F_ℓ at s, where A has stalk 0. The canonical compactification of j is X, as in Section S0.1. If the norm point is open, for example at finite rank, its inclusion gives the same calculation; no openness of that point is needed for U.
 
 **Checks.**
 
-- For C⁺ of rank two, j_!F_ℓ has stalk 0 at the closed point but its double dual has stalk F_ℓ.
-- The same stalk discrepancy holds in rank three, where the generic point is still open.
-- At infinite rank the generic point can fail to be open. Take k = overline(F_p(x_i : i ≥ 1)), C the completed algebraic closure of k((π)), and refine O_C by a valuation of k with v(x_i) = e_i in the reverse lexicographic group ⊕_{i≥1} ℚ (largest index dominant). The nonzero residual primes intersect to zero, so the generic point is not open. This j is outside the hypothesis; the closed-point-complement counterexample of S6.3 still applies.
+- For C⁺ of rank two, U is the generic point; j_!F_ℓ has stalk 0 at the closed point but its double dual has stalk F_ℓ.
+- In rank three the generic point is open, but U can also contain the intermediate point. Both proper opens give the same stalk discrepancy at s.
+- At infinite rank, take k = overline(F_p(x_i : i ∈ ℤ)), extend the monomial valuation v(x_i) = e_i with value group Γ = ⊕_{i∈ℤ} ℚ e_i ordered by the least nonzero index, and pull its valuation ring back to O_C for C the completed algebraic closure of k((π)). Every finite set of values lies in a proper convex tail of Γ. Coarsening by that tail gives a nontrivial residue valuation in the same basic neighbourhood as the trivial valuation, so the generic point is not open. Nevertheless a = x₀⁻¹ defines a nonempty proper rational open U and the stated failure of biduality. The closed-point-complement construction of Section S6.3 also applies.
 
-*Needs:* `DiamondsAndVStacks D0/pro-constructible-subsets`; `verdierDual`; `IsCohomologicallySmooth.of_separated_etale`; `DiamondEtaleCohomology §C5.1`; `DiamondEtaleCohomology §C5.3`; `DiamondEtaleCohomology §C2.2`.
+*Needs:* `DiamondsAndVStacks D0/pro-constructible-subsets`; `verdierDual`; `IsCohomologicallySmooth.of_separated_etale`; `DiamondEtaleCohomology §C0.19`; `DiamondEtaleCohomology §C0.24`; `DiamondEtaleCohomology §C7.3`; `DiamondEtaleCohomology §C5.1`; `DiamondEtaleCohomology §C5.3`; `DiamondEtaleCohomology §C2.2`.
 
 ### S6.3 Conservativity
 
@@ -1166,14 +1200,21 @@ Now X is a quasicompact smooth rigid curve over C, smooth over Spa(C, O_C) by Se
 
 *Needs:* `verdierDual_conservative`; `DiamondEtaleCohomology §C0.19`; `DiamondEtaleCohomology §C0.24`; `DiamondEtaleCohomology §C5.1`; `DiamondEtaleCohomology §C5.3`.
 
-**Conditional conservativity for general coefficients** (`verdierDual_conservative_of_ring`). Let Λ be a ring killed by some n prime to p such that, for every M ∈ D(Λ), RHom_Λ(M, Λ) = 0 implies M = 0. Then conservativity of Verdier duality holds with Λ in place of F_ℓ: for f : X → Spa(C, O_C) compactifiable with locally dim.trg f < ∞ and A ∈ D_ét(X, Λ), RHom_Λ(A, Rf^!Λ) = 0 implies A = 0. This is a conditional statement. The ring hypothesis fails, for example, for Λ = O_K with K spherically complete and non-discretely valued and M = k its residue field; such O_K is not killed by any n, so this example illustrates only the ring-theoretic condition. In which generality the condition holds, for instance for noetherian Λ killed by n, is not known. The proof follows the previous one with Λ. The reductions use only Verdier duality and base change. RHom_Λ(RΓ_c(U, A), Λ) = 0 gives RΓ_c(U, A) = 0 by the ring hypothesis, and the last step of closed-point detection works for any coefficient ring. Λ = ℤ/ℓ^m satisfies the hypothesis: it is self-injective, so RHom(M, Λ) is Hom of the cohomology into Λ, and Λ is a cogenerator. (ECD Remark 25.6, p. 161.)
+**Conditional conservativity for general coefficients** (`verdierDual_conservative_of_ring`). Let C be complete algebraically closed nonarchimedean of characteristic p, X a locally spatial diamond, and Λ a ring killed by some n prime to p such that, for every M ∈ D(Λ), RHom_Λ(M, Λ) = 0 implies M = 0. Then conservativity of Verdier duality holds with Λ in place of F_ℓ: for f : X → Spa(C, O_C) compactifiable with locally dim.trg f < ∞ and A ∈ D_ét(X, Λ), RHom_Λ(A, Rf^!Λ) = 0 implies A = 0. The ring hypothesis fails for Λ = O_K with K spherically complete and nondiscretely valued and M its nonzero residue field. In particular K = F_ℓ((t^ℚ)) is a spherically complete Hahn-series field of characteristic ℓ ≠ p; its valuation ring is killed by ℓ and is an admissible coefficient ring for which the hypothesis fails. Spherical completeness and nondiscreteness impose no characteristic-zero condition. For K of characteristic zero, O_K is not killed by any positive integer and illustrates the same ring obstruction outside the coefficient class. In which generality the condition holds, for instance for noetherian Λ killed by n, is not known. The proof follows the previous one with Λ. The reductions use only Verdier duality and base change. RHom_Λ(RΓ_c(U, A), Λ) = 0 gives RΓ_c(U, A) = 0 by the ring hypothesis, and the last step of closed-point detection works for any coefficient ring. Λ = ℤ/ℓ^m satisfies the hypothesis: it is self-injective, so RHom(M, Λ) is Hom of the cohomology into Λ, and Λ is a cogenerator. (ECD Remark 25.6, p. 161; Poonen, *Maximally complete fields*, Lemma 4 and Theorem 1, pp. 8–9, for the Hahn-field completeness property.)
+
+**Checks.**
+
+- For K = F_ℓ((t^ℚ)) with ℓ ≠ p, Λ = O_K is killed by ℓ, but RHom_Λ(F_ℓ, Λ) = 0 while F_ℓ ≠ 0. At X = Spa(C, O_C), this already gives failure of unconditional conservativity with admissible coefficients.
+- For K = ℚ((t^ℚ)), Λ = O_K has characteristic zero, so no positive integer kills it. The residue-field obstruction illustrates only the ring condition.
+- For K = F_p((t^ℚ)), Λ = O_K is killed by p and by no integer prime to p; it is outside the coefficient class. The characteristic of the coefficient field is distinct from the characteristic p defining Perf.
+- For Λ = ℤ/ℓ^m with ℓ ≠ p and m ≥ 1, linear duality detects every nonzero complex by self-injectivity and the cogenerator property.
 
 *Needs:* `verdierDual_conservative`; `closedPoints_detect_zero`; `verdierDuality`.
 
 ### Examples
 
 - Over Spa(C, O_C): smooth curves and balls have finite cohomology and reflexive constructible complexes; RΓ_c(B × Spa(C, O_C), Λ) = Λ(−1)[−2].
-- Over Spa(C, C⁺) with C⁺ ≠ O_C and open generic point (for example finite rank greater than one), the double dual of j_!F_ℓ is F_ℓ. At arbitrary rank, the skyscraper at the closed point has vanishing Verdier dual.
+- Over Spa(C, C⁺) with C⁺ ⊊ O_C, extension by zero from {|a| ≤ 1} for a ∈ O_C ∖ C⁺ has double dual F_ℓ at every valuation rank. When the generic point is open its inclusion gives the same example. The skyscraper at the closed point has vanishing Verdier dual at arbitrary rank.
 - ZR(k(t)/k) for k algebraically closed: its closed points are the points of P¹_k, and it is a Jacobson space.
 
 ### Dependencies
@@ -1195,3 +1236,5 @@ Layers S0–S5; `DiamondsAndVStacks` D1, D5; `DiamondEtaleCohomology` C0, C2, C3
 - [LZ14] Y. Liu and W. Zheng, *Enhanced six operations and base change theorem for Artin stacks*, arXiv:1211.5948v2, 2014.
 - [Sch92] C. Scheiderer, *Quasi-augmented simplicial spaces, with an application to cohomological dimension*, J. Pure Appl. Algebra 81 (1992), 293–311; Corollary 4.6.
 - [SGA4] M. Artin, A. Grothendieck and J.-L. Verdier, *Théorie des topos et cohomologie étale des schémas* (SGA 4), Lecture Notes in Mathematics 269, 270, 305, Springer, 1972–1973; Exposé VI, 5.2.
+- [KW] S. Kaib and A. Werner, *Abeloid varieties over higher rank valued fields: Raynaud uniformization and Néron models*, §2.1, p. 4. https://arxiv.org/abs/2610.01354
+- [Poo] B. Poonen, *Maximally complete fields*, Lemma 4 and Theorem 1, pp. 8–9. https://math.mit.edu/~poonen/papers/amsval.pdf

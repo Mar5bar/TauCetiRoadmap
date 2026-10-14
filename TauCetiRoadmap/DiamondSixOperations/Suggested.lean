@@ -424,6 +424,14 @@ end ZariskiRiemann
 /-!
 Further definitions and theorems specified in README.md, by layer (those stated above are
 omitted):
+The proper-diamond classification and topological comparison in S1 use `dim.trg ≤ 0` in
+`WithBot ENat`, including the empty source of dimension `⊥`. The S5 cyclotomic-limit torsor
+identifies the tilted completion, its self-fibre product and its quotient after removing finite
+torsion, using compatible Galois levels. The S6 biduality counterexample uses the proper rational
+open `{|a| ≤ 1}` for `a ∈ O_C ∖ C⁺` at arbitrary valuation rank; the norm-point inclusion is a
+fixture only when it is open. Conditional conservativity retains the hypothesis that linear
+duality detects every object of `D(Λ)`: the Hahn valuation ring of characteristic `ℓ ≠ p` is an
+admissible coefficient ring failing that hypothesis.
 Layer S0: IsCompactifiable, isCompactifiable_iff_isSeparated_and_isOpenImmersion,
 IsCompactifiable.baseChange, IsCompactifiable.of_baseChange_of_surjective,
 IsCompactifiable.comp, IsCompactifiable.of_openCover,
@@ -466,7 +474,7 @@ unitComplex_zero_ring.
 Layer S5: Ball, tateTwist, Ball.isCohomologicallySmooth, Ball.dualizingComplex_iso,
 quotientByProfiniteAction, averagingTransformation, IsCohomologicallySmooth.quotient_free,
 profiniteProjection_upperShriek_distributions, IsCohomologicallySmooth.quotient_nonfree,
-IsCohomologicallySmooth.of_adic_smooth, SpdQp.isCohomologicallySmooth,
+IsCohomologicallySmooth.of_adic_smooth, cyclotomicLimit_torsor, SpdQp.isCohomologicallySmooth,
 isCohomologicallySmooth_iff_geometricBase.
 Layer S6: verdierDual, naiveDual, biduality, finite_cohomology_of_smooth, biduality_ellTorsion,
 perfect_globalSections, not_biduality_valuedPlus, closedPoints_detect_zero,
