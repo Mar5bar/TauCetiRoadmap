@@ -13,6 +13,8 @@ import TauCeti.AlgebraicTopology.FundamentalGroupoid.Cech.Colimit
 import TauCeti.AlgebraicTopology.Singular.Excision
 import TauCeti.AlgebraicTopology.Singular.MayerVietoris.Basic
 import TauCeti.AlgebraicTopology.Singular.Twisted.Functoriality
+import TauCeti.AlgebraicTopology.Singular.Sphere
+import TauCeti.AlgebraicTopology.Singular.DiskSphere
 import TauCeti.AlgebraicTopology.Singular.EilenbergZilber
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.Singular
 
@@ -354,7 +356,7 @@ example (m : ℕ) {H M : Type} [TopologicalSpace H] [TopologicalSpace M]
 
 /-- Rechart the native interior subtype in the boundaryless model using interior chart targets. -/
 @[instance_reducible]
-noncomputable def boundarylessInteriorAtlas (m : ℕ) {H M : Type}
+noncomputable def boundarylessInteriorAtlas (m : ℕ) {H M : Type*}
     [TopologicalSpace H] [TopologicalSpace M]
     (I : ModelWithCorners ℝ (EuclideanSpace ℝ (Fin m)) H)
     [ChartedSpace H M] [IsManifold I ∞ M] :
@@ -362,7 +364,7 @@ noncomputable def boundarylessInteriorAtlas (m : ℕ) {H M : Type}
   sorry
 
 /-- The interior inherits the smoothness of the original atlas. -/
-theorem boundarylessInterior_isManifold (m : ℕ) {H M : Type}
+theorem boundarylessInterior_isManifold (m : ℕ) {H M : Type*}
     [TopologicalSpace H] [TopologicalSpace M]
     (I : ModelWithCorners ℝ (EuclideanSpace ℝ (Fin m)) H)
     [ChartedSpace H M] [IsManifold I ∞ M] :
@@ -1137,7 +1139,7 @@ noncomputable def homotopySpherePole (n : ℕ) :
     Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1 :=
   ⟨PiLp.single 2 0 (1 : ℝ), by simp⟩
 
-/-- Stage 8.6's quotient map followed by its orientation-normalized homeomorphism. -/
+/-- Stage 4.4's positive-dimensional quotient map, consumed by Stage 8.6. -/
 noncomputable def cubicalSphereQuotient (n : ℕ) [NeZero n] :
     C((Fin n → unitInterval), Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) := by
   sorry
@@ -1348,13 +1350,6 @@ theorem sphereFundamentalGenerator_positiveLocal (n : ℕ) [NeZero n] :
         (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) := by
   sorry
 
-/-- The quotient has degree +1 on the fixed coordinate-order reference class. -/
-theorem cubicalSphereQuotient_referenceClass (n : ℕ) [NeZero n] :
-    ((coordinateCubePair.{u} n).singularHomologyMap (cubicalSpherePairMap n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) =
-        homotopySphereAbsoluteToRelative n (sphereFundamentalGenerator n) := by
-  sorry
-
 /-- The general Stage 8.3 Hurewicz map, including the abelianization map in degree one. -/
 noncomputable def absoluteHurewicz (n : ℕ) [NeZero n]
     (X : Type u) [TopologicalSpace X] (x : X) :
@@ -1439,7 +1434,7 @@ theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A]
       {p | p.1 ∈ B ∨ p.2 = 0 ∨ p.2 = 1} := by
   sorry
 
-/-! ### Stage 4.5: ordinary pair quotient/cofiber comparisons -/
+/-! ### Stage 4.4 carrier and Stage 4.5 ordinary pair comparisons -/
 
 /-- Collapse the given subspace together with a separately added basepoint. -/
 def ordinaryCofiberSupport {X : Type u} (B : Set X) : Set (X ⊕ PUnit) :=
@@ -1598,5 +1593,556 @@ theorem relativeObstructionClass_zero_iff_adjusted_extension
 end SimplyConnectedObstructions
 
 end
+
+universe u
+
+/-! ### Stage 2.5: the single coordinate cube, sup-ball and round-disk maps -/
+
+abbrev coordinateSupBall (n : ℕ) : TopCat.{u} :=
+  TopCat.of (ULift.{u} (Metric.closedBall (0 : Fin n → ℝ) 1))
+
+abbrev coordinateSupBallPair (n : ℕ) : TopPair.{u} :=
+  TopPair.ofSubset (X := coordinateSupBall.{u} n) {x | ‖(x.down : Fin n → ℝ)‖ = 1}
+
+noncomputable def coordinateCubeSupBallHomeomorph (n : ℕ) :
+    (coordinateCubePair.{u} n).fst ≃ₜ coordinateSupBall.{u} n := by
+  sorry
+
+theorem coordinateCubeSupBallHomeomorph_apply (n : ℕ)
+    (t : (coordinateCubePair.{u} n).fst) (j : Fin n) :
+    ((coordinateCubeSupBallHomeomorph n t).down : Fin n → ℝ) j =
+      2 * (t.down j : ℝ) - 1 := by
+  sorry
+
+noncomputable def supBallEuclideanDiskHomeomorph (n : ℕ) :
+    coordinateSupBall.{u} n ≃ₜ TopCat.disk.{u} n := by
+  sorry
+
+theorem supBallEuclideanDiskHomeomorph_apply (n : ℕ) (x : coordinateSupBall.{u} n) :
+    ((supBallEuclideanDiskHomeomorph n x).down : EuclideanSpace ℝ (Fin n)) =
+      if (x.down : Fin n → ℝ) = 0 then 0
+      else (‖(x.down : Fin n → ℝ)‖ / ‖WithLp.toLp 2 (x.down : Fin n → ℝ)‖) •
+        WithLp.toLp 2 (x.down : Fin n → ℝ) := by
+  sorry
+
+theorem coordinateCubeSupBallHomeomorph_boundary (n : ℕ)
+    (t : (coordinateCubePair.{u} n).fst) :
+    ‖((coordinateCubeSupBallHomeomorph n t).down : Fin n → ℝ)‖ = 1 ↔
+      t.down ∈ Cube.boundary (Fin n) := by
+  sorry
+
+theorem supBallEuclideanDiskHomeomorph_boundary (n : ℕ) (x : coordinateSupBall.{u} n) :
+    supBallEuclideanDiskHomeomorph n x ∈ Set.range (TopCat.diskBoundaryInclusion n) ↔
+      ‖(x.down : Fin n → ℝ)‖ = 1 := by
+  sorry
+
+noncomputable def coordinateCubeSupBallPairMap (n : ℕ) :
+    coordinateCubePair.{u} n ⟶ coordinateSupBallPair.{u} n :=
+  TopPair.ofSubsetMap
+    (TopCat.ofHom ⟨coordinateCubeSupBallHomeomorph n, (coordinateCubeSupBallHomeomorph n).continuous⟩)
+    (by
+      intro t ht
+      exact (coordinateCubeSupBallHomeomorph_boundary n t).2 ht)
+
+theorem coordinateCubeSupBallPairMap_apply (n : ℕ) (t : (coordinateCubePair.{u} n).fst) :
+    TopPair.Hom.fst (coordinateCubeSupBallPairMap n) t =
+      coordinateCubeSupBallHomeomorph n t := rfl
+
+noncomputable def supBallEuclideanDiskPairMap (n : ℕ) :
+    coordinateSupBallPair.{u} n ⟶ TauCeti.diskBoundaryPair.{u} n := by
+  sorry
+
+theorem supBallEuclideanDiskPairMap_apply (n : ℕ) (x : coordinateSupBall.{u} n) :
+    TopPair.Hom.fst (supBallEuclideanDiskPairMap n) x =
+      supBallEuclideanDiskHomeomorph n x := by
+  sorry
+
+noncomputable def coordinateSupBallReferenceClass (n : ℕ) :
+    (coordinateSupBallPair.{u} n).singularHomology (C := ModuleCat.{u} ℤ)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
+  (TopPair.singularHomologyMap (coordinateCubeSupBallPairMap n)
+    (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n)
+
+noncomputable def coordinateEuclideanDiskReferenceClass (n : ℕ) :
+    (TauCeti.diskBoundaryPair.{u} n).singularHomology (C := ModuleCat.{u} ℤ)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
+  (TopPair.singularHomologyMap (supBallEuclideanDiskPairMap n)
+    (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateSupBallReferenceClass n)
+
+
+/-- Defined directly from the existing native disk isomorphism, before any sphere quotient. -/
+noncomputable def coordinateDiskNativeComparisonCoefficient (n : ℕ) : ℤ :=
+  ((TauCeti.singularHomologyDiskBoundaryPairIso
+    (ModuleCat.of ℤ (ULift.{u} ℤ)) n).hom (coordinateEuclideanDiskReferenceClass n)).down
+
+theorem coordinateDiskNativeComparisonCoefficient_isUnit (n : ℕ) :
+    IsUnit (coordinateDiskNativeComparisonCoefficient n) := by
+  sorry
+
+theorem coordinateDiskNativeComparisonCoefficient_zero :
+    coordinateDiskNativeComparisonCoefficient.{u} 0 = 1 := by
+  sorry
+
+/-! ### Stage 4.4: chosen based disk, smash and suspension sphere homeomorphisms -/
+
+/-- The actual image of Mathlib's disk-boundary inclusion; empty for n=0. -/
+noncomputable def diskBoundarySubset (n : ℕ) : Set (TopCat.disk.{u} n) :=
+  Set.range (TopCat.diskBoundaryInclusion n)
+
+noncomputable abbrev basedDiskQuotient (n : ℕ) : TopCat.{u} :=
+  ordinaryPairQuotient (TopCat.disk.{u} n) (diskBoundarySubset n)
+
+abbrev basedCubeQuotient (n : ℕ) : TopCat.{u} :=
+  ordinaryPairQuotient (coordinateCubePair.{u} n).fst
+    {t | t.down ∈ Cube.boundary (Fin n)}
+
+/-- Coordinate order, followed by the orientation-preserving sup-ball/Euclidean radial map. -/
+noncomputable def coordinateCubeDiskHomeomorph (n : ℕ) :
+    (coordinateCubePair.{u} n).fst ≃ₜ TopCat.disk.{u} n :=
+  (coordinateCubeSupBallHomeomorph n).trans (supBallEuclideanDiskHomeomorph n)
+
+theorem coordinateCubeDiskHomeomorph_boundary (n : ℕ)
+    (t : (coordinateCubePair.{u} n).fst) :
+    coordinateCubeDiskHomeomorph n t ∈ diskBoundarySubset n ↔
+      t.down ∈ Cube.boundary (Fin n) := by
+  sorry
+
+noncomputable def diskQuotientSphereHomeomorph (n : ℕ) :
+    basedDiskQuotient.{u} n ≃ₜ homotopySphere.{u} n := by
+  sorry
+
+noncomputable def coordinateCubeQuotientSphereHomeomorph (n : ℕ) :
+    basedCubeQuotient.{u} n ≃ₜ homotopySphere.{u} n := by
+  sorry
+
+theorem diskQuotientSphereHomeomorph_point (n : ℕ) :
+    diskQuotientSphereHomeomorph n
+      (ordinaryPairQuotientPoint (TopCat.disk.{u} n) (diskBoundarySubset n)) =
+      ULift.up (homotopySpherePole n) := by
+  sorry
+
+theorem coordinateCubeQuotientSphereHomeomorph_point (n : ℕ) :
+    coordinateCubeQuotientSphereHomeomorph n
+      (ordinaryPairQuotientPoint (coordinateCubePair.{u} n).fst
+        {t | t.down ∈ Cube.boundary (Fin n)}) = ULift.up (homotopySpherePole n) := by
+  sorry
+
+/-- The disk point is the nonbasepoint of S⁰; the added point is the positive pole. -/
+theorem diskQuotientSphereHomeomorph_zero (x : TopCat.disk.{u} 0) :
+    diskQuotientSphereHomeomorph 0
+      ((ordinaryPairQuotientMap (TopCat.disk.{u} 0) (diskBoundarySubset 0)) x) =
+        ULift.up (-homotopySpherePole 0) := by
+  sorry
+
+/-- The new all-degree homeomorphism agrees with the existing positive-degree quotient. -/
+theorem coordinateCubeQuotientSphereHomeomorph_positive (n : ℕ) [NeZero n]
+    (t : (coordinateCubePair.{u} n).fst) :
+    coordinateCubeQuotientSphereHomeomorph n
+      ((ordinaryPairQuotientMap (coordinateCubePair.{u} n).fst
+        {t | t.down ∈ Cube.boundary (Fin n)}) t) =
+      ULift.up (cubicalSphereQuotient n t.down) := by
+  sorry
+
+theorem coordinateCubeDiskQuotient_commutes (n : ℕ)
+    (t : (coordinateCubePair.{u} n).fst) :
+    diskQuotientSphereHomeomorph n
+      ((ordinaryPairQuotientMap (TopCat.disk.{u} n) (diskBoundarySubset n))
+        (coordinateCubeDiskHomeomorph n t)) =
+      coordinateCubeQuotientSphereHomeomorph n
+        ((ordinaryPairQuotientMap (coordinateCubePair.{u} n).fst
+          {t | t.down ∈ Cube.boundary (Fin n)}) t) := by
+  sorry
+
+/-- Bare pointed smash quotient. Categorical and homology adapters consume this carrier. -/
+def basedSmashCarrier (X Y : TopCat.{u}) (x : X) (y : Y) : TopCat.{u} :=
+  ordinaryPairQuotient (X × Y) {p | p.1 = x ∨ p.2 = y}
+
+def basedSmashQuotientMap (X Y : TopCat.{u}) (x : X) (y : Y) :
+    TopCat.of (X × Y) ⟶ basedSmashCarrier X Y x y :=
+  ordinaryPairQuotientMap (X × Y) {p | p.1 = x ∨ p.2 = y}
+
+/-- Right reduced suspension: original coordinates first, interval last. -/
+def reducedSuspensionCarrier (X : TopCat.{u}) (x : X) : TopCat.{u} :=
+  ordinaryPairQuotient (X × unitInterval) {p | p.1 = x ∨ p.2 = 0 ∨ p.2 = 1}
+
+noncomputable def sphereSmashHomeomorph (m n : ℕ) :
+    basedSmashCarrier (homotopySphere.{u} m) (homotopySphere.{u} n)
+      (ULift.up (homotopySpherePole m)) (ULift.up (homotopySpherePole n)) ≃ₜ
+      homotopySphere.{u} (m + n) := by
+  sorry
+
+noncomputable def reducedSuspensionSphereHomeomorph (n : ℕ) :
+    reducedSuspensionCarrier (homotopySphere.{u} n)
+      (ULift.up (homotopySpherePole n)) ≃ₜ homotopySphere.{u} (n + 1) := by
+  sorry
+
+theorem sphereSmashHomeomorph_point (m n : ℕ) :
+    sphereSmashHomeomorph m n
+      (ordinaryPairQuotientPoint (homotopySphere.{u} m × homotopySphere.{u} n)
+        {p | p.1 = ULift.up (homotopySpherePole m) ∨
+          p.2 = ULift.up (homotopySpherePole n)}) =
+      ULift.up (homotopySpherePole (m + n)) := by
+  sorry
+
+theorem reducedSuspensionSphereHomeomorph_point (n : ℕ) :
+    reducedSuspensionSphereHomeomorph n
+      (ordinaryPairQuotientPoint (homotopySphere.{u} n × unitInterval)
+        {p | p.1 = ULift.up (homotopySpherePole n) ∨ p.2 = 0 ∨ p.2 = 1}) =
+      ULift.up (homotopySpherePole (n + 1)) := by
+  sorry
+
+/-- All-degree cube pair map through the same quotient and chosen homeomorphism. -/
+noncomputable def basedCubeSpherePairMap (n : ℕ) :
+    coordinateCubePair.{u} n ⟶ homotopySpherePolePair.{u} n :=
+  TopPair.ofSubsetMap
+    (ordinaryPairQuotientMap (coordinateCubePair.{u} n).fst
+      {t | t.down ∈ Cube.boundary (Fin n)} ≫
+        (TopCat.isoOfHomeo (coordinateCubeQuotientSphereHomeomorph n)).hom) (by
+    sorry)
+
+/-- Normalized independently: positive local chart for n>0; [-p]-[p] for n=0. -/
+noncomputable def basedSphereReferenceGenerator (n : ℕ) :
+    (homotopySpherePolePair.{u} n).singularHomology
+      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n := by
+  sorry
+
+theorem basedSphereReferenceGenerator_positive (n : ℕ) [NeZero n] :
+    basedSphereReferenceGenerator n =
+      homotopySphereAbsoluteToRelative n (sphereFundamentalGenerator n) := by
+  sorry
+
+theorem basedSphereReferenceGenerator_zero :
+    basedSphereReferenceGenerator.{u} 0 =
+      homotopySphereAbsoluteToRelative 0
+        ((TauCeti.singularHomology₀Section (ModuleCat.of ℤ (ULift.{u} ℤ))
+          (X := homotopySphere.{u} 0) (ULift.up (-homotopySpherePole 0))) (ULift.up (1 : ℤ)) -
+        (TauCeti.singularHomology₀Section (ModuleCat.of ℤ (ULift.{u} ℤ))
+          (X := homotopySphere.{u} 0) (ULift.up (homotopySpherePole 0))) (ULift.up (1 : ℤ))) := by
+  sorry
+
+theorem basedCubeSpherePairMap_referenceClass (n : ℕ) :
+    ((coordinateCubePair.{u} n).singularHomologyMap (basedCubeSpherePairMap n)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) =
+      basedSphereReferenceGenerator n := by
+  sorry
+
+/-- Concatenate cube coordinates, map each block to its sphere, and collapse their wedge. -/
+noncomputable def sphereSmashCubePairMap (m n : ℕ) :
+    coordinateCubePair.{u} (m + n) ⟶ homotopySpherePolePair.{u} (m + n) := by
+  sorry
+
+/-- The formula is pinned, not an unspecified map with a generator equation. -/
+theorem sphereSmashCubePairMap_apply (m n : ℕ)
+    (t : (coordinateCubePair.{u} (m + n)).fst) :
+    TopPair.Hom.fst (sphereSmashCubePairMap m n) t =
+      sphereSmashHomeomorph m n
+        (basedSmashQuotientMap (homotopySphere.{u} m) (homotopySphere.{u} n)
+          (ULift.up (homotopySpherePole m)) (ULift.up (homotopySpherePole n))
+          (TopPair.Hom.fst (basedCubeSpherePairMap m) (ULift.up (fun j => t.down (Fin.castAdd n j))),
+           TopPair.Hom.fst (basedCubeSpherePairMap n) (ULift.up (fun j => t.down (Fin.natAdd m j))))) := by
+  sorry
+
+
+
+noncomputable def reducedSuspensionSphereCubePairMap (n : ℕ) :
+    coordinateCubePair.{u} (n + 1) ⟶ homotopySpherePolePair.{u} (n + 1) := by
+  sorry
+
+theorem reducedSuspensionSphereCubePairMap_apply (n : ℕ)
+    (t : (coordinateCubePair.{u} (n + 1)).fst) :
+    TopPair.Hom.fst (reducedSuspensionSphereCubePairMap n) t =
+      reducedSuspensionSphereHomeomorph n
+        ((ordinaryPairQuotientMap (homotopySphere.{u} n × unitInterval)
+          {p | p.1 = ULift.up (homotopySpherePole n) ∨ p.2 = 0 ∨ p.2 = 1})
+          (TopPair.Hom.fst (basedCubeSpherePairMap n)
+            (ULift.up (fun j => t.down (Fin.castSucc j))), t.down (Fin.last n))) := by
+  sorry
+
+
+
+/-- Surjectivity of the cube representatives makes the smash homeomorphism unique. -/
+theorem sphereSmashCubePairMap_eq (m n : ℕ) :
+    sphereSmashCubePairMap.{u} m n = basedCubeSpherePairMap.{u} (m + n) := by
+  sorry
+
+theorem sphereSmashHomeomorph_referenceClass (m n : ℕ) :
+    ((coordinateCubePair.{u} (m + n)).singularHomologyMap (sphereSmashCubePairMap m n)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) (m + n)) (coordinateCubeReferenceClass (m + n)) =
+      basedSphereReferenceGenerator (m + n) := by
+  rw [sphereSmashCubePairMap_eq]
+  exact basedCubeSpherePairMap_referenceClass _
+
+/-- The right suspension is the same chosen next-dimensional cube quotient. -/
+theorem reducedSuspensionSphereCubePairMap_eq (n : ℕ) :
+    reducedSuspensionSphereCubePairMap.{u} n = basedCubeSpherePairMap.{u} (n + 1) := by
+  sorry
+
+theorem reducedSuspensionSphereHomeomorph_referenceClass (n : ℕ) :
+    ((coordinateCubePair.{u} (n + 1)).singularHomologyMap
+      (reducedSuspensionSphereCubePairMap n) (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1))
+      (coordinateCubeReferenceClass (n + 1)) = basedSphereReferenceGenerator (n + 1) := by
+  rw [reducedSuspensionSphereCubePairMap_eq]
+  exact basedCubeSpherePairMap_referenceClass _
+
+noncomputable abbrev sphereSmashQuotientMap (m n : ℕ) :=
+  basedSmashQuotientMap (homotopySphere.{u} m) (homotopySphere.{u} n)
+    (ULift.up (homotopySpherePole m)) (ULift.up (homotopySpherePole n))
+
+theorem sphereSmashHomeomorph_assoc (ℓ m n : ℕ)
+    (x : homotopySphere.{u} ℓ) (y : homotopySphere.{u} m) (z : homotopySphere.{u} n) :
+    (eqToHom (congrArg homotopySphere (Nat.add_assoc ℓ m n)))
+      (sphereSmashHomeomorph (ℓ + m) n
+        (sphereSmashQuotientMap (ℓ + m) n
+          (sphereSmashHomeomorph ℓ m (sphereSmashQuotientMap ℓ m (x, y)), z))) =
+      sphereSmashHomeomorph ℓ (m + n)
+        (sphereSmashQuotientMap ℓ (m + n)
+          (x, sphereSmashHomeomorph m n (sphereSmashQuotientMap m n (y, z)))) := by
+  sorry
+
+theorem sphereSmashHomeomorph_unit_left (n : ℕ) (x : homotopySphere.{u} n) :
+    (eqToHom (congrArg homotopySphere (Nat.zero_add n)))
+      (sphereSmashHomeomorph 0 n
+        (sphereSmashQuotientMap 0 n (ULift.up (-homotopySpherePole 0), x))) = x := by
+  sorry
+
+theorem sphereSmashHomeomorph_unit_right (n : ℕ) (x : homotopySphere.{u} n) :
+    (eqToHom (congrArg homotopySphere (Nat.add_zero n)))
+      (sphereSmashHomeomorph n 0
+        (sphereSmashQuotientMap n 0 (x, ULift.up (-homotopySpherePole 0)))) = x := by
+  sorry
+
+theorem reducedSuspensionSphereHomeomorph_smash (n : ℕ)
+    (x : homotopySphere.{u} n) (t : unitInterval) :
+    reducedSuspensionSphereHomeomorph n
+      ((ordinaryPairQuotientMap (homotopySphere.{u} n × unitInterval)
+        {p | p.1 = ULift.up (homotopySpherePole n) ∨ p.2 = 0 ∨ p.2 = 1}) (x, t)) =
+      sphereSmashHomeomorph n 1
+        (sphereSmashQuotientMap n 1
+          (x, TopPair.Hom.fst (basedCubeSpherePairMap 1) (ULift.up (fun _ => t)))) := by
+  sorry
+
+noncomputable def sphereFactorInterchangePairMap (m n : ℕ) :
+    homotopySpherePolePair.{u} (m + n) ⟶ homotopySpherePolePair.{u} (n + m) := by
+  sorry
+
+theorem sphereFactorInterchangePairMap_apply (m n : ℕ)
+    (x : homotopySphere.{u} m) (y : homotopySphere.{u} n) :
+    TopPair.Hom.fst (sphereFactorInterchangePairMap m n)
+      (sphereSmashHomeomorph m n (sphereSmashQuotientMap m n (x, y))) =
+      sphereSmashHomeomorph n m (sphereSmashQuotientMap n m (y, x)) := by
+  sorry
+
+theorem sphereFactorInterchangePairMap_referenceClass (m n : ℕ) :
+    (TopPair.singularHomologyMap (sphereFactorInterchangePairMap m n)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) (m + n)) (basedSphereReferenceGenerator (m + n)) =
+      (eqToHom (congrArg (fun d => (homotopySpherePolePair.{u} (n + m)).singularHomology
+        (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) d) (Nat.add_comm n m)))
+        (((-1 : ℤ) ^ (m * n)) • basedSphereReferenceGenerator (n + m)) := by
+  sorry
+
+/-- The quotient disk map has a separately stated reference-class comparison. -/
+noncomputable def basedDiskSpherePairMap (n : ℕ) :
+    TauCeti.diskBoundaryPair.{u} n ⟶ homotopySpherePolePair.{u} n := by
+  sorry
+
+theorem basedDiskSpherePairMap_apply (n : ℕ) (x : TopCat.disk.{u} n) :
+    TopPair.Hom.fst (basedDiskSpherePairMap n) x =
+      diskQuotientSphereHomeomorph n
+        ((ordinaryPairQuotientMap (TopCat.disk.{u} n) (diskBoundarySubset n)) x) := by
+  sorry
+
+theorem diskQuotientSphereHomeomorph_referenceClass (n : ℕ) :
+    (TopPair.singularHomologyMap (basedDiskSpherePairMap n)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateEuclideanDiskReferenceClass n) =
+      basedSphereReferenceGenerator n := by
+  sorry
+
+/-- The boundary carrier is definitionally Mathlib's lifted metric sphere. -/
+noncomputable def diskBoundarySphereHomeomorph (n : ℕ) :
+    TopCat.diskBoundary.{u} (n + 1) ≃ₜ homotopySphere.{u} n := Homeomorph.refl _
+
+/-- Native singular-homology/pole-pair comparison for the same sphere carrier. -/
+noncomputable def diskBoundaryHomologyToRelative (n : ℕ) :
+    (TopCat.toSSet.obj (TopCat.diskBoundary.{u} (n + 1))).homology
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) n ⟶
+    (homotopySpherePolePair.{u} n).singularHomology
+      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
+  (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+      (ModuleCat.of ℤ (ULift.{u} ℤ))).map
+        (TopCat.ofHom ⟨diskBoundarySphereHomeomorph n,
+          (diskBoundarySphereHomeomorph n).continuous⟩)) ≫
+    homotopySphereAbsoluteToRelative n
+
+/-- Take the actual native pair boundary of the coordinate-oriented round-disk class. -/
+noncomputable def diskBoundaryReferenceRadial (n : ℕ) :
+    (homotopySpherePolePair.{u} n).singularHomology
+      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
+  diskBoundaryHomologyToRelative n
+    (((TauCeti.diskBoundaryPair.{u} (n + 1)).singularHomologyδ
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1) n) (coordinateEuclideanDiskReferenceClass (n + 1)))
+
+theorem diskBoundaryReference_radial_pos (n : ℕ) [NeZero n] :
+    diskBoundaryReferenceRadial.{u} n = basedSphereReferenceGenerator n := by
+  sorry
+
+theorem diskBoundaryReference_radial_zero :
+    diskBoundaryReferenceRadial.{u} 0 = -basedSphereReferenceGenerator.{u} 0 := by
+  sorry
+
+/-- Actual native generator, included into absolute homology and then into the pole pair. -/
+noncomputable def nativeSphereGeneratorToPolePair (n : ℕ) :
+    (homotopySpherePolePair.{u} n).singularHomology
+      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
+  homotopySphereAbsoluteToRelative n
+    (((TauCeti.reducedSingularHomologyι (ModuleCat.of ℤ (ULift.{u} ℤ)) n).app
+      (homotopySphere.{u} n))
+        ((TauCeti.reducedSingularHomologyTopCatSphereIso
+          (ModuleCat.of ℤ (ULift.{u} ℤ)) n).inv (ULift.up 1)))
+
+theorem nativeSphereReferenceComparison_existsUnit (n : ℕ) :
+    ∃ ε : ℤˣ, basedSphereReferenceGenerator.{u} n =
+      (ε : ℤ) • nativeSphereGeneratorToPolePair n := by
+  sorry
+
+noncomputable def nativeSphereReferenceComparisonUnit (n : ℕ) : ℤˣ :=
+  Classical.choose (nativeSphereReferenceComparison_existsUnit.{u} n)
+
+theorem nativeSphereReferenceComparisonUnit_referenceClass (n : ℕ) :
+    basedSphereReferenceGenerator.{u} n =
+      (nativeSphereReferenceComparisonUnit.{u} n : ℤ) • nativeSphereGeneratorToPolePair n :=
+  Classical.choose_spec (nativeSphereReferenceComparison_existsUnit n)
+
+/-- The actual native zero-sphere pole, transported back through the native coordinate isometry. -/
+noncomputable def nativeSphereZeroPole : homotopySphere.{u} 0 := by
+  let e := TauCeti.diskBoundaryHomeomorph.{u} 1
+  haveI : Nonempty _ := ⟨e (ULift.up (homotopySpherePole 0))⟩
+  exact e.symm (Classical.arbitrary _)
+
+theorem nativeSphereReferenceComparisonUnit_zero_eq_one_iff :
+    nativeSphereReferenceComparisonUnit.{u} 0 = 1 ↔
+      nativeSphereZeroPole.{u} = ULift.up (homotopySpherePole 0) := by
+  sorry
+
+theorem coordinateDiskNativeComparisonCoefficient_succ (n : ℕ) :
+    coordinateDiskNativeComparisonCoefficient.{u} (n + 1) =
+      (if n = 0 then -1 else 1) * (nativeSphereReferenceComparisonUnit.{u} n : ℤ) := by
+  sorry
+
+/-! Raw quotient-to-kification comparisons use only §3A.1; §3A.2 later supplies convenient adapters. -/
+
+noncomputable def compactBasedSmashCarrierComparison
+    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
+    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
+    (X Y : TopCat.{u}) [CompactSpace X] [CompactSpace Y] [T2Space X] [T2Space Y]
+    (x : X) (y : Y) :
+    basedSmashCarrier X Y x y ≃ₜ k.obj (basedSmashCarrier X Y x y) := by
+  sorry
+
+theorem compactBasedSmashCarrierComparison_counit
+    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
+    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
+    (X Y : TopCat.{u}) [CompactSpace X] [CompactSpace Y] [T2Space X] [T2Space Y]
+    (x : X) (y : Y) (z : basedSmashCarrier X Y x y) :
+    (hk.counit.app (basedSmashCarrier X Y x y))
+      (compactBasedSmashCarrierComparison k hk X Y x y z) = z := by
+  sorry
+
+noncomputable def compactReducedSuspensionCarrierComparison
+    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
+    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
+    (X : TopCat.{u}) [CompactSpace X] [T2Space X] (x : X) :
+    reducedSuspensionCarrier X x ≃ₜ k.obj (reducedSuspensionCarrier X x) := by
+  sorry
+
+theorem compactReducedSuspensionCarrierComparison_counit
+    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
+    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
+    (X : TopCat.{u}) [CompactSpace X] [T2Space X] (x : X)
+    (z : reducedSuspensionCarrier X x) :
+    (hk.counit.app (reducedSuspensionCarrier X x))
+      (compactReducedSuspensionCarrierComparison k hk X x z) = z := by
+  sorry
+
+/-- The CW quotient is compactly generated even when X is not compact. -/
+noncomputable def cwReducedSuspensionKelleyComparison
+    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
+    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
+    (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)] (x : X) :
+    reducedSuspensionCarrier X x ≃ₜ k.obj (reducedSuspensionCarrier X x) := by
+  sorry
+
+theorem cwReducedSuspensionKelleyComparison_counit
+    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
+    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
+    (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)] (x : X)
+    (z : reducedSuspensionCarrier X x) :
+    (hk.counit.app (reducedSuspensionCarrier X x))
+      (cwReducedSuspensionKelleyComparison k hk X x z) = z := by
+  sorry
+
+/-! ### Stage 8.11: the two-step cone quotient uses the same interval-last suspension carrier -/
+
+def ordinaryConeCarrier (X : TopCat.{u}) : TopCat.{u} :=
+  ordinaryPairQuotient (X × unitInterval) {p | p.2 = 0}
+
+def ordinaryConeQuotientMap (X : TopCat.{u}) :
+    TopCat.of (X × unitInterval) ⟶ ordinaryConeCarrier X :=
+  ordinaryPairQuotientMap (X × unitInterval) {p | p.2 = 0}
+
+def ordinaryConeBase (X : TopCat.{u}) (x : X) : ordinaryConeCarrier X :=
+  ordinaryConeQuotientMap X (x, 1)
+
+def ordinaryUnreducedSuspensionCarrier (X : TopCat.{u}) : TopCat.{u} :=
+  ordinaryPairQuotient (ordinaryConeCarrier X) (Set.range (ordinaryConeBase X))
+
+def ordinarySuspensionQuotientMap (X : TopCat.{u}) :
+    TopCat.of (X × unitInterval) ⟶ ordinaryUnreducedSuspensionCarrier X :=
+  ordinaryConeQuotientMap X ≫
+    ordinaryPairQuotientMap (ordinaryConeCarrier X) (Set.range (ordinaryConeBase X))
+
+def ordinaryBasepointMeridian (X : TopCat.{u}) (x : X) (t : unitInterval) :
+    ordinaryUnreducedSuspensionCarrier X := ordinarySuspensionQuotientMap X (x, t)
+
+def ordinaryTwoStepReducedSuspensionCarrier (X : TopCat.{u}) (x : X) : TopCat.{u} :=
+  ordinaryPairQuotient (ordinaryUnreducedSuspensionCarrier X)
+    (Set.range (ordinaryBasepointMeridian X x))
+
+def ordinaryTwoStepSuspensionQuotientMap (X : TopCat.{u}) (x : X) :
+    TopCat.of (X × unitInterval) ⟶ ordinaryTwoStepReducedSuspensionCarrier X x :=
+  ordinarySuspensionQuotientMap X ≫
+    ordinaryPairQuotientMap (ordinaryUnreducedSuspensionCarrier X)
+      (Set.range (ordinaryBasepointMeridian X x))
+
+noncomputable def reducedSuspensionTwoStepHomeomorph (X : TopCat.{u}) (x : X) :
+    ordinaryTwoStepReducedSuspensionCarrier X x ≃ₜ reducedSuspensionCarrier X x := by
+  sorry
+
+theorem reducedSuspensionTwoStepHomeomorph_apply (X : TopCat.{u}) (x z : X)
+    (t : unitInterval) :
+    reducedSuspensionTwoStepHomeomorph X x (ordinaryTwoStepSuspensionQuotientMap X x (z, t)) =
+      (ordinaryPairQuotientMap (X × unitInterval)
+        {p | p.1 = x ∨ p.2 = 0 ∨ p.2 = 1}) (z, t) := by
+  sorry
+
+theorem reducedSuspensionTwoStepHomeomorph_point (X : TopCat.{u}) (x : X) :
+    reducedSuspensionTwoStepHomeomorph X x
+      (ordinaryPairQuotientPoint (ordinaryUnreducedSuspensionCarrier X)
+        (Set.range (ordinaryBasepointMeridian X x))) =
+      ordinaryPairQuotientPoint (X × unitInterval) {p | p.1 = x ∨ p.2 = 0 ∨ p.2 = 1} := by
+  sorry
+
+/-- The all-degree quotient map specializes to the existing positive-degree map. -/
+theorem basedCubeSpherePairMap_positive (n : ℕ) [NeZero n] :
+    basedCubeSpherePairMap.{u} n = cubicalSpherePairMap.{u} n := by
+  sorry
+
+/-- Compatibility alias derived from Stage4.4's single all-degree reference comparison. -/
+theorem cubicalSphereQuotient_referenceClass (n : ℕ) [NeZero n] :
+    ((coordinateCubePair.{u} n).singularHomologyMap (cubicalSpherePairMap n)
+      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) =
+        homotopySphereAbsoluteToRelative n (sphereFundamentalGenerator n) := by
+  have h := basedCubeSpherePairMap_referenceClass.{u} n
+  rw [basedCubeSpherePairMap_positive, basedSphereReferenceGenerator_positive] at h
+  exact h
 
 end TauCetiRoadmap.AlgebraicTopology

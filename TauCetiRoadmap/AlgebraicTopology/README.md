@@ -294,9 +294,20 @@ the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based coro
    Own the integral `coordinateCubeReferenceClass`: [I,∂I] is the class of
    t↦t with boundary [1]−[0]; [I^n,∂I^n] is its coordinate-order n-fold
    native Eilenberg–Zilber shuffle product, projected to relative chains.
-   Prove its cycle/generator property and boundary-facet signs. Its ball
-   version uses the explicit orientation-preserving cube/sup-ball radial map;
-   compare with the native disk/sphere generators through those actual maps.
+   Prove its cycle/generator property and boundary-facet signs. Own
+   `coordinateCubeSupBallHomeomorph`: t↦(2t_j−1)_j from Iⁿ to the native
+   sup-norm closed unit ball in Fin n→ℝ. Own `supBallEuclideanDiskHomeomorph`:
+   x↦(‖x‖_∞/‖x‖₂)x for x≠0 and 0↦0, using the native coordinate linear
+   equivalence to EuclideanSpace. Pin these actual formulas and boundary
+   images for all n≥0. Their positive radial factors preserve the ordered
+   coordinate orientation. Define the sup-ball and Euclidean-disk reference
+   classes by the actual pair-map pushforwards of the cube class; prove their
+   comparisons. Own `coordinateDiskNativeComparisonCoefficient` as the actual
+   value of native singularHomologyDiskBoundaryPairIso on the coordinate disk
+   class, and prove it is a unit; at dimension zero it is 1 by augmentation.
+   This early normalization supplies cellular generators, independently of
+   Stage 4.4's quotient homeomorphisms. Stage 4.4
+   consumes these same maps and classes, with no earlier input from Stage 4.
    Stage 4 uses this early class for cell orientations; Stage 6 later proves
    equality with the coordinate-oriented ball's canonical relative fundamental
    class. This reference construction uses only native chains/shuffles and
@@ -304,7 +315,7 @@ the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based coro
    normalized reference class by its positive local chart
    v↦(sqrt(1−‖v‖²),v), with positively scaled chart cube and outward-first
    local generator; use the native sphere homology/excision API to specify
-   its unique absolute class. Stage 8.6 compares q to this earlier class.
+   its unique absolute class. Stage 4.4 compares q to this earlier class.
    Own `coordinateCubeReferenceChain_eq_shuffle`: after the actual coordinate
    product identifications, the signed triangulation chain equals the native
    iterated `TopCat.shuffle` of the n positive interval chains, factor order
@@ -391,6 +402,91 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    summand with the fibre; arbitrary coefficient fibres need not be free.
 4. Consume native finite-CW Euler--Poincare and finite-generation results;
    extend their coefficient hypotheses, naturality and local-coefficient consequences.
+   Own the earlier pointed quotient carrier `ordinaryPairQuotient`: collapse
+   B together with a separately added point in X⊔*, with the quotient topology,
+   actual collapse map, universal mapping property and subspace naturality.
+   Thus X/∅ means X₊. Item 5 consumes this carrier for relative comparisons.
+
+   Own the single chosen based sphere identifications
+   `diskQuotientSphereHomeomorph`, `coordinateCubeQuotientSphereHomeomorph`,
+   `sphereSmashHomeomorph` and `reducedSuspensionSphereHomeomorph` for all
+   n,m≥0. Use native `TopCat.disk n`, its actual boundary-inclusion image,
+   and native `TopCat.sphere n` (the lifted metric sphere); its basepoint
+   is the positive first-coordinate pole p. The disk/cube quotient's basepoint
+   is the collapsed boundary together with the added point. For n=0 the
+   boundary is empty: D⁰⊔* is sent bijectively to S⁰ with its disk point at −p
+   and its added point at p. For n>0, the cube-to-sphere map is the same
+   `cubicalSphereQuotient` used by item 8.6. Construct the coordinate-order
+   `coordinateCubeDiskHomeomorph` as the composite of Stage 2.5's
+   coordinateCubeSupBallHomeomorph and supBallEuclideanDiskHomeomorph,
+   with their boundary maps; the induced quotient homeomorphism commutes with both
+   chosen sphere homeomorphisms and the actual collapse maps. These
+   equations determine the two quotient homeomorphisms from the same q.
+
+
+   Use the same pointed quotient to construct the compact based smash carrier
+   (X×Y)/(X×{y₀}∪{x₀}×Y) and reduced suspension
+   (X×I)/(X×∂I∪{x₀}×I), with the collapsed locus at the added point.
+   The bare smash model is used here for compact Hausdorff inputs,
+   including spheres; the raw suspension also applies to pointed Hausdorff CW
+   spaces because X×I and its quotient are compactly generated. Own
+   `compactBasedSmashCarrierComparison`, `compactReducedSuspensionCarrierComparison`
+   and `cwReducedSuspensionKelleyComparison`: these compare the raw quotient Z
+   with kZ using only HomotopySpheres §3A.1's coreflection, compact and CW
+   compact-generation/locally-compact-product API. Pin their inverse to the
+   actual inclusion/coreflection counit, with quotient/basepoint naturality.
+   This item has no input from §3A.2. That later item owns
+   `compactConvenientSmashComparison`, `compactConvenientSuspensionComparison`
+   and `cwConvenientSuspensionComparison`, comparing its pointed convenient
+   constructions with these same kified raw quotients. It consumes this item's
+   k-counit comparisons. RiemannianGeometry R3 uses that two-stage adapter.
+
+   Own their quotient maps and continuity/universal-property API.
+   `sphereSmashHomeomorph` sends Sᵐ∧Sⁿ to S^(m+n), with m coordinates
+   followed by n coordinates; `reducedSuspensionSphereHomeomorph` sends
+   Σ_right Sⁿ to S^(n+1), with the interval coordinate last. Prove their
+   compatibility through I/∂I≃S¹, their basepoint equations, and the diagrams
+   with cube concatenation as exact equations: sphereSmashCubePairMap m n
+   equals basedCubeSpherePairMap (m+n), and
+   reducedSuspensionSphereCubePairMap n equals basedCubeSpherePairMap (n+1).
+   The surjective cube maps determine these homeomorphisms uniquely.
+   Include associativity (with the dimension reassociation) and unit diagrams,
+   whose nonbasepoint of S⁰ is −p, and
+   the factor-interchange degree (−1)^(mn). These are actual based
+   homeomorphisms, before homotopy, James or stable-spectrum constructions;
+   item 8.11 supplies the homology/cohomology suspension machinery and owns
+   `reducedSuspensionTwoStepHomeomorph`, from its CB/B quotient followed by
+   collapse of the basepoint meridian to the same raw interval-last quotient,
+   with identity formula on (x,t) representatives.
+   GeneralizedCohomology supplies its categorical monoidal adapters.
+
+   Pin `basedSphereReferenceGenerator` in H_n(Sⁿ,{p};ℤ) independently:
+   for n≥1 it is the image of the Stage 2.5 positive-local-chart/outward-first
+   sphere class, and for n=0 it is [−p]−[p], using native
+   `reducedSingularHomologySphereZeroIso_inv_ι`, transported through
+   `diskBoundaryHomeomorph` and its coordinate linear isometry (which
+   commutes with negation), and the reduced/pole-pair comparison. Prove that the disk/cube quotient, smash and right-suspension
+   maps send their coordinate-order relative reference classes to this
+   generator with coefficient +1; a homeomorphism alone does not establish
+   the generator comparison. Define the right-suspension reference by the
+   ordered cube shuffle, with the last interval oriented by [1]−[0]; this
+   uses Stage 2.5's early native shuffles, not Stage 5's product packaging.
+   Compare with native `reducedSingularHomologyTopCatSphereIso` through
+   diskBoundaryHomeomorph and its actual recursive choices: prove the
+   comparison is a unit ε_n∈ℤˣ, expressed through those choices, rather
+   than asserting a fixed numerical sign for `Classical.arbitrary` poles.
+   Retain the normalized reference independently of that generator. Own the
+   native sphere unit and its comparison with the early disk coefficient:
+   in dimension n+1 the disk coefficient is ε_n for n≥1 and −ε_0 for n=0.
+   The latter minus sign follows from the native reduced pair boundary; ε_0=1
+   exactly when its transported native `Classical.arbitrary` zero-sphere pole
+   is p. Stage 2.5 owns the disk coefficient itself; this item derives its
+   relation to the sphere normalization. The radial
+   D^(n+1)-boundary→Sⁿ comparison has coefficient +1 for n≥1; for n=0
+   the oriented interval boundary [p]−[−p] is minus the chosen reduced
+   generator. HomotopySpheres §3A/§3B and RiemannianGeometry R3 consume these
+   homeomorphisms and the explicit generator comparisons, without constructing
+   a second sphere-suspension identification.
 5. Prove that relative CW inclusions are closed cofibrations with the homotopy extension
    property.  Construct mapping cylinders, cellular approximation, and skeletal induction.
    Prove that a cofibration which is a homotopy equivalence is a strong deformation retract.
@@ -423,8 +519,8 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    abelian-category coefficient generality and exactness assumptions of Stage 2. For local
    coefficients require a specified system on the quotient and its pullback
    identification on X; do not assert descent of an arbitrary system on X.
-   Use the pointed pushout of
-   X←B→*; for B empty it is X with an added basepoint. Construct the natural
+   Use item 4’s pointed pushout carrier X←B→*; for B empty it is X
+   with an added basepoint. Construct the natural
    comparison with the mapping-cone homotopy cofiber, with the cone coordinate
    last and B at cone parameter 1. Own `ordinaryPairMappingConeHomologyExactSequenceComparison` and
    `ordinaryPairMappingConeCohomologyExactSequenceComparison`, the commuting diagrams for singular chains and raw relative cochains, retaining the actual
@@ -863,11 +959,11 @@ items 1–7 are independent of those later constructions.
    degree. Prove it by compatible finite-simplex restrictions, subdivision,
    Kan filling and relative simplicial approximation (owned here, including subcomplexes
    and homotopies fixed there); fix the sphere orientation
-   through 8.6. DGFloer item 4 consumes these classical results to compute
+   through Stage 4.4, with item 8.6's cubical representative comparison. DGFloer item 4 consumes these classical results to compute
    π_n|Γ(A[n])|. GeneralizedCohomology G2.1 consumes this unit theorem in
    its Quillen comparison, rather than reconstructing its underlying weak-equivalence proof.
 3. Own the general absolute Hurewicz map for every n≥1. A native generalized
-   cubical loop g descends through the Stage 8.6 quotient q to a pointed sphere
+   cubical loop g descends through the Stage 4.4 quotient q to a pointed sphere
    map ḡ; define h[g]=ḡ_*[S^n] on the outward-first normalized generator.
    Prove independence of representatives, group law and naturality. In degree
    one it factors through abelianization; DGFloer Layer 1 item 1 owns the
@@ -885,26 +981,16 @@ items 1–7 are independent of those later constructions.
 5. Prove Whitehead's theorem for CW complexes using cellular approximation and skeletal
    induction.  Combine relative Hurewicz with the mapping cylinder to prove homological
    Whitehead for simply connected CW complexes, then extend both results to spaces of CW type.
-6. Construct the pointed orientation-normalized homeomorphism from the cube modulo its boundary
-   to Mathlib's metric sphere and prove compatibility with cubical representatives.
-   The reference cube class [I^n,∂I^n] is the coordinate-order external product
-   of n copies of [I,∂I], whose boundary is [1]−[0]. The quotient q collapses
-   precisely ∂I^n to the positive first-coordinate pole, is a quotient map,
-   and sends this reference class to the outward-first [S^n], after the
-   absolute-to-relative identification for (S^n,{pole}). Compare with the
-   native sphere generator and record its sign. Stage 6.3 owns the comparison
-   of this earlier normalized sphere class with its canonical fundamental class.
-   Independently pin the sphere class by its local value in the positive
-   hemisphere chart v↦(sqrt(1−‖v‖²),v): on a small coordinate cube centered
-   at 0 the tail coordinates have positive scaling. This fixes the class
-   before imposing the quotient's degree +1 equation. Stage 6.3 proves that
-   its canonical outward-first fundamental class equals this reference.
-   Also construct the radial homeomorphism from the boundary of the native sup-norm
-   (n+1)-cell ball to that n-sphere. Its degree is +1 for the outward-first
-   boundary of the Stage 2.5 coordinate-oriented ball reference class,
-   which Stage 6 identifies with its canonical relative fundamental class.
-   Stage 4.3 uses that earlier reference, without depending on Stage 6.
-   Prove its comparison and sign against native `singularHomologyDiskBoundaryPairIso`.
+6. Consume Stage 4.4's single pointed orientation-normalized cube quotient
+   homeomorphism and its generator comparison, for n≥1, and prove
+   compatibility with cubical representatives. Its quotient q collapses precisely
+   ∂I^n to the positive first-coordinate pole and sends Stage 2.5's ordered
+   cube class to the normalized sphere class after absolute-to-relative comparison.
+   Use Stage 2.5's independently pinned positive-hemisphere-chart sphere
+   class and disk normalization, together with Stage 4.4's degree +1 equation
+   and its explicit n=0 versus n≥1 radial boundary/native-sphere comparison.
+   Stage 6.3 identifies the canonical outward-first fundamental class with
+   this earlier reference.
    Pin the sphere basepoint
    to the positive first-coordinate pole and export the boundary-generator comparison.
 7. Prove that every finite-dimensional Hausdorff second-countable smooth manifold
@@ -957,7 +1043,7 @@ items 1–7 are independent of those later constructions.
     by its characteristic-map boundary classes. Use the outward-first
     orientation induced by Stage 2.5's coordinate-oriented ball reference
     class, identified with Stage 6's canonical relative fundamental class,
-    transported to the cell by Stage 8.6, and its
+    transported to the cell by Stage 4.4, and its
     degree +1 boundary-sphere homeomorphism. Choose the positive first-coordinate
     boundary point; transport the based class from f(φ_e(v₀)) to the fixed
     y₀ along a specified path in Y. Prove choice independence using the trivial
@@ -1040,7 +1126,13 @@ items 1–7 are independent of those later constructions.
     remain distinct. Let σ_right:H^n(B;M)→H̃^(n+1)(Σ_uB;M) be (−1)^n
     times the cone-pair connecting map, transported by that quotient comparison.
     For a pointed CW complex with 0-cell basepoint, collapse its basepoint
-    meridian and pass to reduced cohomology. This gives the reduced suspension
+    meridian and pass to reduced cohomology. Own the actual
+    `reducedSuspensionTwoStepHomeomorph` to Stage 4.4's interval-last raw
+    quotient, sending every representative (b,t) to that same (b,t) class,
+    with the collapsed meridian at the same basepoint. Prove naturality and
+    transport the suspension/connecting maps through this homeomorphism
+    using Stage4.4's `cwReducedSuspensionKelleyComparison`, then §3A.2's
+    `cwConvenientSuspensionComparison`. This gives the reduced suspension
     ΣB=B∧S¹ with S¹ last; σ_right is the positive cross product with the
     interval generator u with ⟨u,[I,∂I]⟩=+1; the chain boundary is [1]−[0]. In degree zero the unreduced construction
     kills constant functions and factors through H⁰(B)/im H⁰(CB); do not
@@ -1157,7 +1249,7 @@ trivial monodromy.
 | 1 van Kampen | current Mathlib and #41603's shape | 2--8 |
 | 2 relative homology | current Mathlib and #41285/#38369's shapes | 1 |
 | 3 subdivision/excision | 2 | 1 and 6.0 tower algebra |
-| 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, HomotopySpheres §3A.1 for kified CW products; product/suspension compatibility belongs to 8.11 | 1 |
+| 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, HomotopySpheres §3A.1 for kified CW products and raw quotient/k-counit comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11 | 1 |
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
 | 5 bundles/covers/finite covers | 2--4; DGFloer 1.2 Serre carrier/homology SS from 1–4 and DG1.3, cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
