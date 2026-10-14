@@ -568,6 +568,7 @@ example (A : Type u) [CommRing A] (M : D A) : derivedCompleteness A ⊤ M ↔ Is
   sorry
 
 -- `ℤ_p` is derived p-complete over `ℤ`, while `ℚ_p` is not.
+-- The map `ℤ[1/p] → ℚ_p` sending `1` to `1` gives a nonzero degree-zero class over `ℤ`.
 example (p : ℕ) [Fact p.Prime] :
     derivedCompleteness ℤ (Ideal.span {(p : ℤ)}) (mod0 ℤ (ModuleCat.of ℤ (PadicInt p))) ∧
       ¬ derivedCompleteness ℤ (Ideal.span {(p : ℤ)}) (mod0 ℤ (ModuleCat.of ℤ (Padic p))) := by
@@ -788,8 +789,6 @@ DoubleComplex.totalCohomology_of_exact_rows, DoubleComplex.spectralSequence_map.
 The contract of DoubleComplex.exact_of_rows_vanish carries `(n : ℤ) (hn : 1 ≤ n)` and
 vanishing of `E₂^{pq}` for every `p ≥ 0` and `0 < q < n`.
 
-The computation and sign Check aliases in those contracts are:
-.
 -/
 
 end

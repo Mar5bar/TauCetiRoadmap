@@ -1563,8 +1563,9 @@ Prove the following named laws.
 
 - `test_complete_zero_ideal`: for `I = 0`, every complex is derived complete.
 - `test_complete_unit_ideal`: for `I = A`, only the zero object is complete.
-- `test_complete_zp`: `ℤ_p` is derived p-complete, while `ℚ_p` is not: `RHom_(ℤ_p)(ℚ_p, ℚ_p)` has a
-  nonzero identity class.
+- `test_complete_zp`: for a prime `p`, over `A = ℤ` with `I = (p)`, `ℤ_p` is derived p-complete,
+  while `ℚ_p` is not: the map `ℤ[1/p] → ℚ_p` sending `1` to `1` gives a nonzero degree-zero class
+  in `RHom_ℤ(ℤ[1/p], ℚ_p)`.
 
 ### 1.3 The derived completion reflector
 
