@@ -26,7 +26,8 @@ Design choices made explicit here:
 * the centre of the even Clifford algebra is Mathlib's
   `Subalgebra.center K (CliffordAlgebra.even Q)`, with no separate name; Tau Ceti computes it when
   two is invertible (`CliffordAlgebra.adjoinRootEquivCenterEven`), and the theorem below covers
-  characteristic two;
+  characteristic two. Over a general ring the centre theorem uses fibrewise ordinarity
+  of README 2.1, equivalently a perfect polar pairing in positive even rank;
 * local monodromy operators are Mathlib's `LinearMap.transvection` of the functional `c • B.flip δ`,
   covering transvections and reflections at once;
 * the normalization differential lives on the oriented dual graph
@@ -280,7 +281,8 @@ example : quadraticSeries (QuadraticMap.proj 0 0 : QuadraticForm ℚ (Fin 2 → 
 /-- For an ordinary form of even rank the centre `Z(Q)` of the even Clifford algebra has
 dimension two, in every characteristic. When two is invertible this is Tau Ceti's
 `CliffordAlgebra.adjoinRootEquivCenterEven` (`Z(Q) ≅ K[X]/(X² - d)`); in characteristic two `Z(Q)`
-is the Arf (Artin–Schreier) algebra of `Q`. The field case of README 2.2,
+is the Arf (Artin–Schreier) algebra of `Q`. Over a general base the corresponding theorem
+uses fibrewise ordinarity, not the ring-level `QuadraticMap.Nondegenerate`. The field case of README 2.2,
 `center_even_isEtale`. -/
 theorem finrank_center_even [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : IsOrdinaryOverField Q) (heven : Even (Module.finrank K V)) :
@@ -711,6 +713,15 @@ end InvariantCycles
 /-!
 ## Targets stated in the README only
 
+F.4's `rationalAdicRealization` uses locally free rational pro-étale sheaves, with a separate
+subcategory admitting a global lisse integral lattice. The general constructible comparison
+uses constructible integral models; all lisse rational objects admit a global lisse lattice
+on the geometrically unibranch domain. F.10's `freeTorsorEquivariantPerfectness` provides
+total-complex perfectness over the actual group ring for finite étale torsors on smooth
+affine curves, and `freeTorsorCoefficientDescent` identifies cohomology of the descended
+coefficients with derived diagonal coinvariants, using inverse deck action for right modules.
+These statements use the shared sheaf and enhancement carriers specified in the README.
+
 The prerequisite targets of Layer LPV.F and the remaining targets of the README have no carriers in the pinned Mathlib and Tau Ceti and are
 stated there only, with their intended signatures: the henselian trait diagram, the tame character
 of a henselian trait and absolute purity (0.1, 0.10); the topos `X_s ×_s S`, `Ψ`, `RΨ`, `RΦ`, the
@@ -739,7 +750,8 @@ Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the inva
   `etaleExceptionalInverseImage`, `etaleVerdierDuality`, `smoothPurity`, `smoothPairGysin`,
   `etaleBlowup`, `etaleWeakLefschetz`, `fieldPerverseTStructure`,
   `intermediateExtension`, `etaleGaussBonnet`, `nearbyBettiCompatibility`,
-  `frobeniusCohomology`, `curveEndomorphismTrace`, `etaleTraceFormulaFinite`,
+  `frobeniusCohomology`, `curveEndomorphismTrace`, `freeTorsorEquivariantPerfectness`,
+  `freeTorsorCoefficientDescent`, `etaleTraceFormulaFinite`,
   `etaleTraceFormula`, `pointCountTrace`,
   `PointwisePure`, `purity_pointwiseReduction`, `veryTameQuotient`, `galoisSemistableAlteration`,
   `equivariantLogResolution`, `geometricMonodromy_traitDescent`, `purityOfBranchLocus`,

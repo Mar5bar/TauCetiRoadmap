@@ -146,7 +146,8 @@ It leaves to other roadmaps:
   (smoothness at a prime is standard smoothness after inverting an element outside it). These are the Jacobian
   criterion of 2.1, 3.2 and 3.4.
 - Linear algebra: `QuadraticMap`, `QuadraticMap.polarBilin`, `QuadraticMap.Nondegenerate` (radical zero and polar kernel
-  of rank at most one, the characteristic-free notion of 2.1), `CliffordAlgebra.even`, `Subalgebra.center` (the centre
+  of rank at most one, agreeing with 2.1 ordinarity over nonzero finite-dimensional field spaces;
+  over rings use 2.1 fibrewise ordinarity), `CliffordAlgebra.even`, `Subalgebra.center` (the centre
   `Z(Q)` of 2.2 is `Subalgebra.center A (CliffordAlgebra.even Q)`, with no separate name), `LinearMap.BilinForm`,
   `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`, `LinearMap.transvection`, `LinearEquiv.transvection`,
   `LinearEquiv.mem_fixedSubmodule_transvection_iff` (fixed space of a transvection with `f v = 0`), `IsNilpotent.exp`,
@@ -704,20 +705,48 @@ ClassicalAdicEtaleCohomology §0.3.
 - A nonseparably closed field is not covered by this geometric boundedness theorem.
 
 **Rational realization and finite-dimensional cohomology.** `VanishingCycles.rationalAdicRealization`.
-Rationalize the normalized bounded category by derived tensor with ℚ_ℓ. On separated
-finite-type X over separably closed k with invertible ℓ prove
-RΓ_(c)(X,K_Qℓ)≅RΓ_(c)(X,K_Zℓ)⊗ᴸℚ_ℓ, finite-dimensional Hⁱ_(c) and bounded amplitude.
-Prove lattice independence for lattices giving the same rational object, tensor/Hom/duality,
-ordinary/compact Künneth and trace/determinant scalar comparison. Include finite E/ℚ_ℓ by
-scalar extension, and bounded constructible ℚ̄_ℓ objects defined over finite E. Lisse rational
-objects are continuous finite-dimensional representations with a stable lattice.
-(Bhatt–Scholze §6.8; flat scalar extension.) *Needs:* normalizedAdicSystems through
-adicFiniteness; F.2 Künneth; Mathlib finite-dimensional trace/determinant.
+On Noetherian X with invertible ℓ define lisse rational sheaves as locally free finite-rank
+ℚ_ℓ,X-module sheaves on X_proet, where ℚ_ℓ,X=ℤ_ℓ,X[1/ℓ]. Prove pro-étale descent and
+étale-local existence of lisse integral lattices. Separate the full subcategory admitting
+a global lisse ℤ_ℓ lattice: rationalization of integral lisse systems is fully faithful
+up to isogeny with precisely this essential image. On connected X with a geometric basepoint,
+this subcategory corresponds to continuous finite-dimensional representations of F.0's
+profinite π₁; compactness supplies a stable lattice. If X is geometrically unibranch
+(in particular normal), every lisse rational sheaf is in this subcategory. No general
+pro-étale fundamental-group construction is required.
+
+Define the general bounded constructible rational category by finite stratifications with
+lisse rational cohomology on the strata. Prove that each such object has a bounded
+constructible integral model, whose derived reductions have the common cohomological and
+Tor bounds of normalizedAdicSystems, and that rationalization gives an equivalence from
+the integral constructible category up to isogeny. An integral model of a lisse rational
+sheaf need only be constructible. Rationalizing etaleProetaleAdicComparison transports
+this equivalence to the classical normalized constructible category; it preserves both
+general rational lissity and the distinguished global-lattice subcategory without making
+their essential images equal. This comparison uses integral derived realization followed
+by rationalization, rather than an interchange of ν* with inverse limits.
+
+On separated finite-type X over separably closed k with invertible ℓ prove
+RΓ_(c)(X,K_Qℓ)≅RΓ_(c)(X,K_Zℓ)⊗ᴸℚ_ℓ, finite-dimensional Hⁱ_(c) and bounded amplitude
+for a constructible integral model K_Zℓ. Prove independence of the integral model,
+tensor/Hom/duality, ordinary/compact Künneth and trace/determinant scalar comparison.
+Include finite E/ℚ_ℓ by scalar extension, using O_E lattices, and bounded constructible
+ℚ̄_ℓ objects defined over finite E.
+(Bhatt–Scholze Definition 6.8.3, Proposition 6.8.4(4)–(6), Lemma 6.8.13,
+Proposition 6.8.14 and Lemma 7.4.10; flat scalar extension.) *Needs:* normalizedAdicSystems
+through adicFiniteness; F.0 finiteEtaleGaloisCategory; F.2 Künneth;
+ArithmeticGaloisRepresentations §1.6 (`exists_stable_lattice_iff`,
+`GaloisLattice.IntegralModel.nonempty`); Mathlib finite-dimensional trace/determinant.
 
 **Checks.**
 
-- ℤ_ℓ/ℓ rationalizes to zero.
-- ℤ_ℓ rationalizes to a line over ℚ_ℓ.
+- ℤ_ℓ/ℓ rationalizes to zero; ℤ_ℓ rationalizes to a line over ℚ_ℓ.
+- On the rational nodal curve ℙ¹/(0∼∞) over algebraically closed k of characteristic
+  different from ℓ, descend the constant rational line on the infinite-chain cover with
+  loop multiplier ℓ. It is lisse and has a constructible integral model, but no global
+  lisse lattice: ℓ·ℓᵃℤ_ℓ≠ℓᵃℤ_ℓ for every a. Its monodromy does not come from profinite π₁.
+- On a connected normal Noetherian scheme every lisse rational object has a global
+  lisse lattice and recovers the ordinary continuous profinite-representation correspondence.
 - 𝔾_m has two finite-dimensional compact-support groups in degrees one and two,
   different from its ordinary groups in degrees zero and one.
 
@@ -961,7 +990,8 @@ trace; `PerfectComplex.projectiveTrace_independent` proves independence of the c
 retract. Every finite projective admits such a finite-free retract.
 (Stacks §§64.4–64.6, 64.15; finite-projective duality and filtered-complex trace formalism.)
 *Needs:* ClassicalAdicEtaleCohomology §§0.1–0.4 enhancement/tensor and filtered complexes;
-Mathlib projective modules, matrices and trace; F.3 supplies geometric perfectness when applied.
+Mathlib projective modules, matrices and trace. F.3 supplies coefficient-ring geometric
+perfectness; freeTorsorEquivariantPerfectness below supplies the group-ring hypothesis.
 
 **Checks.**
 
@@ -993,6 +1023,74 @@ trace algebra. The finite curve proof does not require F.4, F.9 or abelian exter
 - A nonidentity translation of an elliptic curve has fixed-point intersection zero.
 - Frobenius on a genus-g curve gives 1−Tr(H¹)+q.
 
+**Free-torsor equivariant compact-support perfectness.**
+`VanishingCycles.freeTorsorEquivariantPerfectness`. Let U be a smooth affine curve over a
+field k, ℓ invertible in k, A=ℤ/ℓ^ν with ν≥1, and q:V→U a finite étale torsor under a
+finite constant group G acting on the left. On the existing enhanced étale module-sheaf
+carriers construct the actual deck-equivariant complex
+P_A=RΓc(V_k̄,A)≅RΓc(U_k̄,q_*A) and prove P_A∈D_perf(A[G]). Use the left action
+g·s=(g⁻¹)*s on q_*A and cohomology; right modules are left modules over the opposite ring,
+with p·g=g⁻¹·p. Prove independence of compactification, field-extension compatibility
+and derived reduction P_A⊗ᴸ_A A′≅P_A′ for A′=ℤ/ℓ^μ, 1≤μ≤ν. If q and its G-action
+are defined over finite k, retain the commuting Frobenius action of frobeniusCohomology.
+
+Build the finite-ring perfectness argument needed here for the actual possibly
+noncommutative ring R=A[G]: q_*A is locally free of rank one over R, and its extension
+by zero to a projective compactification of U is constructible of Tor amplitude [0,0]
+over R. Construct right–left derived tensor over R on these same enhancement carriers
+using flat resolutions, with quasi-isomorphism invariance and associative coefficient
+extension. Prove the projection comparison
+N⊗ᴸ_R RΓc(U_k̄,q_*A)≅RΓc(U_k̄,N⊗ᴸ_R q_*A) for right R-modules N.
+Finite cohomology and the uniform geometric cohomological bound then give finite Tor
+amplitude and a bounded finite-projective R-representative. This is perfectness of the
+total complex, without projectivity of its cohomology modules. No invertibility of |G|
+is assumed. (Stacks §64.13, Proposition 64.13.1, tag 03TV, proof with right coefficient
+modules; §64.16, Steps 4–7, tag 03UF.) *Needs:* F.0 finite étale torsors;
+F.1 enhanced module sheaves and coherent actions; F.2 compact-support construction;
+F.3 geometric finiteness and cohomological dimension; ClassicalAdicEtaleCohomology
+§§0.1–0.4, 0.7–0.8 (enhancement and arbitrary-ring torsion lower shriek).
+The noncommutative projection and Tor argument on this torsor domain are targets here.
+
+**Checks.**
+
+- The trivial torsor V=G×U gives P_A≅A[G]⊗_A RΓc(U_k̄,A), perfect over A[G].
+- The free Kummer C_ℓ-torsor t↦t^ℓ on 𝔾_m over k containing μ_ℓ, char k≠ℓ, satisfies
+  the theorem with A=𝔽_ℓ, including when ℓ divides |G|.
+- On a point with trivial C₂-action, A=𝔽₂ is perfect over A but not over
+  A[C₂]=𝔽₂[ε]/(ε²): the resolution with differential ε gives Tor_i(A,A)=A for every i≥0.
+  This action is not a torsor and does not satisfy the free-action hypothesis.
+- Reducing from ℤ/ℓ² to 𝔽_ℓ gives the same equivariant complex as constructing P_𝔽ℓ directly.
+
+**Derived coefficient descent along a finite torsor.**
+`VanishingCycles.freeTorsorCoefficientDescent`. On the preceding torsor domain let Λ be a
+finite commutative A-algebra and M a finite projective Λ-module with left Λ-linear G-action.
+Let F_M be the descended lisse sheaf, with q*F_M identified with the constant M-sheaf and
+its given descent action. Give q_*A⊗_A M and P_A⊗ᴸ_A M the diagonal left G-action and
+convert both to right Λ[G]-modules by x·g=g⁻¹·x; Λ is the trivial left Λ[G]-module.
+Prove (q_*A⊗_A M)⊗ᴸ_Λ[G]Λ≅F_M on sheaves and the derived compact-support counterpart
+
+RΓc(U_k̄,F_M) ≅ (P_A⊗ᴸ_A M)⊗ᴸ_Λ[G]Λ.
+
+Construct these equivalences in the supplied enhancement, with naturality in M,
+coefficient reduction, field extension and, over finite k with descended data,
+Frobenius compatibility. The diagonal tensor of a finite-projective A[G]-representative
+of P_A with M is termwise finite projective over Λ[G], although M need not be projective
+over A. Derive the comparison by finite-cover pushforward, the sheaf coinvariant
+identification and the right-module projection formula above; no exactness of ordinary
+coinvariants for arbitrary G-modules is used. (Stacks §64.16, Steps 4–7, tag 03UF;
+§64.15, Lemma 64.15.8, tag 03UC.) *Needs:* freeTorsorEquivariantPerfectness;
+F.0 finite-cover descent; F.1 coherent derived tensor; PerfectComplex diagonal tensor
+projectivity and trace algebra; ClassicalAdicEtaleCohomology §§0.1–0.4.
+
+**Checks.**
+
+- G=1 gives RΓc(U_k̄,M)≅RΓc(U_k̄,A)⊗ᴸ_A M.
+- On the free Kummer C_ℓ-torsor with Λ=M=𝔽_ℓ and trivial coefficient action,
+  derived diagonal coinvariants recover RΓc((𝔾_m)_k̄,𝔽_ℓ), including its degrees one and two.
+- For A=ℤ/ℓ² and Λ=M=𝔽_ℓ the comparison still holds; M is Λ-free but not A-projective.
+- Frobenius and reduction commute in the comparison square whenever the torsor and
+  coefficient descent data are defined over the finite base field.
+
 **Finite-coefficient Grothendieck–Lefschetz.** `VanishingCycles.etaleTraceFormulaFinite`.
 For separated finite-type X/k, k finite of characteristic p and cardinality q, finite
 commutative Λ of order prime to p and K∈Dᵇ_ctf(X,Λ) descended over k, prove for every r≥1
@@ -1005,14 +1103,17 @@ without another r-th power. Prove zero-dimensional and finite étale cases by pe
 trace, including nilpotents via étale invariance. Give enhanced open–closed devissage and
 the dimension-one proof: reduce to smooth affine curves and finite lisse projective-stalk
 coefficients over primary rings, trivialize on finite étale Galois covers, compactify and
-apply curveEndomorphismTrace and the group-ring/centralizer identities. In higher dimension
+apply freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent to obtain
+the group-ring-perfect representatives, then curveEndomorphismTrace and the
+group-ring/centralizer identities. In higher dimension
 use Noether normalization U→𝔸ᵈ followed by 𝔸ᵈ→𝔸^(d−1); prove the fibre dimension bound ≤1,
 induct on the base and establish the reusable Rf! Fubini identity for local terms.
 Include pushforward, coefficient maps, twists/tensor, products/Künneth, finite groups and
 finite-field extensions. (Stacks §§64.16–64.17, with §64.14 for curves; SGA 4½ [Sommes trig.].)
 *Needs:* F.0–F.3 finite coefficients, compactifications and lower shriek; finite-level
 frobeniusFixedPoints and frobeniusCohomology; PerfectComplex trace/additivity;
-curveEndomorphismTrace; SchemeAndStackFoundations Noether normalization and dimension
+curveEndomorphismTrace; freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent;
+SchemeAndStackFoundations Noether normalization and dimension
 lemmas, building any missing fibre-dimension steps here. This finite proof uses neither
 F.4 nor F.9 nor AbelianSchemesAndArithmeticModuli A4.4.
 
@@ -2212,7 +2313,10 @@ SchemeAndStackFoundations Layer 0, §0.8 (étale-local sections of smooth morphi
 
 ### 2.2 The even Clifford centre and the discriminant cover
 
-**Construction.** Let `Q` be nondegenerate on `V` locally free of rank `2m > 0` over `A`. The centre
+**Construction.** Let `Q` satisfy `Quadric.IsOrdinary` of 2.1 on `V` locally free of rank
+`2m > 0` over `A`: its geometric fibres are ordinary. In even rank this is equivalent
+to the polar map `V → V*` being an isomorphism. The ring-level predicate
+`QuadraticMap.Nondegenerate` alone is insufficient. The centre
 `Z(Q)` of the even Clifford algebra `C⁺(Q) = CliffordAlgebra.even Q` is a finite étale `A`-algebra of rank
 two, and `C⁺(Q)` is an Azumaya algebra over `Z(Q)`; `C⁺(Q)` depends only on the quadric `Q = 0`. A totally
 isotropic direct summand `W` of rank `m` defines an idempotent `e(W) ∈ Z(Q)`, and over a field
@@ -2225,7 +2329,7 @@ separate name; over a field in which two is invertible it is Tau Ceti's `K[X]/(X
 (`CliffordAlgebra.adjoinRootEquivCenterEven`, with `d` the signed discriminant). Define
 `Quadric.lagrangianIdempotent` and `Quadric.discriminantCover`, and prove:
 
-- `Quadric.center_even_isEtale`: Z(Q) is finite étale of rank 2 over A, and C⁺(Q) is Azumaya over Z(Q).
+- `Quadric.center_even_isEtale`: For Q satisfying IsOrdinary in positive even rank, Z(Q) is finite étale of rank 2 over A, and C⁺(Q) is Azumaya over Z(Q).
 - `Quadric.lagrangianIdempotent`: e(W) ∈ Z(Q) for W totally isotropic of rank m.
 - `Quadric.lagrangianIdempotent_eq_iff`: Over a field, e(W₁) = e(W₂) ↔ Even (finrank (W₁ ⧸ W₁ ⊓ W₂)).
 - `Quadric.discriminantCover`: Z(X) → S for a smooth quadric of even dimension, with e : Gén(X) → Z(X) the Stein factorisation.
@@ -2246,6 +2350,9 @@ included).
 
 **Checks.**
 
+- Over ℤ, Q=x²+y² has injective polar map 2I, hence satisfies the native
+  QuadraticMap.Nondegenerate, but its reduction at 2 is not ordinary. Its even Clifford
+  centre ℤ[t]/(t²+1) has fibre 𝔽₂[t]/((t+1)²), so is not étale at 2 and is excluded.
 - `Quadric.center_even_hyperbolic`: V = Ae ⊕ Af with Q(xe + yf) = xy: C⁺(Q) = Z(Q) ≅ A × A, and the isotropic lines Ae and Af give the two idempotents fe and ef = 1 − fe (XII 1.12, proof).
 - `Quadric.center_even_discriminant`: Over a field of characteristic not 2, Q = x² − dy² with d ≠ 0: C⁺(Q) = k ⊕ k·e₁e₂ with (e₁e₂)² = d, so Z(Q) ≅ k[t]/(t² − d), split if and only if d is a square; this agrees with Tau Ceti's `CliffordAlgebra.adjoinRootEquivCenterEven` for the orthogonal basis (e₁, e₂), whose signed discriminant is (−1)·1·(−d) = d.
 - `Quadric.center_even_char_two`: Over a field of characteristic 2, Q = x² + xy + ay² on k²: with u = e₁e₂ one has u² = u − Q(e₁)Q(e₂), so Z(Q) = C⁺(Q) = k[u]/(u² + u + a), the Artin–Schreier algebra of the Arf invariant a, étale for every a and split exactly when a = t² + t for some t ∈ k. No algebra of the shape k[X]/(X² − d) is étale in characteristic 2 (X² − d = (X − √d)² over k̄), so the characteristic-not-two description does not extend.
