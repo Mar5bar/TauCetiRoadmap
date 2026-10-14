@@ -341,6 +341,18 @@ end Haar
 
 /-! ## Layer S6: Biduality, finiteness and conservativity over a geometric point -/
 
+section
+
+local instance : Fact (Nat.Prime 5) := ⟨by decide⟩
+
+/-- The canonical bidual map of a finite-dimensional `𝔽₅`-vector space is bijective, the
+coefficient case of Verdier biduality over a geometric point (Section S6.1). -/
+example (V : Type u) [AddCommGroup V] [Module (ZMod 5) V]
+    [FiniteDimensional (ZMod 5) V] : Function.Bijective (Module.Dual.eval (ZMod 5) V) :=
+  Module.bijective_dual_eval (ZMod 5) V
+
+end
+
 namespace ClosedPoints
 
 open CategoryTheory.Limits
@@ -363,6 +375,13 @@ example : ¬ JacobsonSpace Prop := by
 example (X : Type u) [Fintype X] [TopologicalSpace X] [DiscreteTopology X]
     (Λ : Type u) [CommRing Λ] (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of X))
     (hF : ∀ x : X, IsZero (F.presheaf.stalk x)) : IsZero F := by
+  sorry
+
+/-- On `Spec ℤ`, vanishing of a sheaf of `𝔽₅`-modules at every maximal ideal forces the
+whole sheaf, including its generic stalk, to vanish (Section S6.3). -/
+example (F : TopCat.Sheaf (ModuleCat (ZMod 5)) (TopCat.of (PrimeSpectrum ℤ)))
+    (hF : ∀ x : PrimeSpectrum ℤ, x.asIdeal.IsMaximal → IsZero (F.presheaf.stalk x)) :
+    IsZero F := by
   sorry
 
 end ClosedPoints
@@ -432,6 +451,10 @@ open `{|a| ≤ 1}` for `a ∈ O_C ∖ C⁺` at arbitrary valuation rank; the nor
 fixture only when it is open. Conditional conservativity retains the hypothesis that linear
 duality detects every object of `D(Λ)`: the Hahn valuation ring of characteristic `ℓ ≠ p` is an
 admissible coefficient ring failing that hypothesis.
+Invertibility in S4 is defined for any small v-stack, by étale-local shifts of the unit, and
+descends from v-covers by locally spatial diamonds. The S5 relative-ball approximation constructs
+an inverse system for each affinoid perfectoid morphism in characteristic `p`; the dimensions of
+its affinoid open ball stages need not be bounded.
 Layer S0: IsCompactifiable, isCompactifiable_iff_isSeparated_and_isOpenImmersion,
 IsCompactifiable.baseChange, IsCompactifiable.of_baseChange_of_surjective,
 IsCompactifiable.comp, IsCompactifiable.of_openCover,
@@ -475,7 +498,7 @@ Layer S5: Ball, tateTwist, Ball.isCohomologicallySmooth, Ball.dualizingComplex_i
 quotientByProfiniteAction, averagingTransformation, IsCohomologicallySmooth.quotient_free,
 profiniteProjection_upperShriek_distributions, IsCohomologicallySmooth.quotient_nonfree,
 IsCohomologicallySmooth.of_adic_smooth, cyclotomicLimit_torsor, SpdQp.isCohomologicallySmooth,
-isCohomologicallySmooth_iff_geometricBase.
+affinoidPerfectoid_relativeBallApproximation, isCohomologicallySmooth_iff_geometricBase.
 Layer S6: verdierDual, naiveDual, biduality, finite_cohomology_of_smooth, biduality_ellTorsion,
 perfect_globalSections, not_biduality_valuedPlus, closedPoints_detect_zero,
 verdierDual_conservative, not_verdierDual_conservative_valuedPlus,
