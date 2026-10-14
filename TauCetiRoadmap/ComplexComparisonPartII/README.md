@@ -192,8 +192,9 @@ manifolds, wedge product, exterior derivative, integration and Stokes, smooth de
 its products, the Laplace–Beltrami operator); AlgebraicTopology (singular chains and cochains with
 arbitrary coefficients, cup products, manifold duality and trace); PDE (scalar elliptic estimates on
 Euclidean domains); JacobianChallenge (relative coherent cohomology and base change); AlgebraicCurves
-(the smooth projective model of a function field and the open immersion of an affine curve into it,
-Layers 6 and 12); StableReduction (coherent curve theory); and the completed HodgeStructures roadmap
+(normal affine charts in Layer 2 and the smooth projective model of a function field in
+Layers 12B–12C; C4.5 constructs the affine completion immersion); StableReduction (coherent curve
+theory); and the completed HodgeStructures roadmap
 (abstract pure Hodge structures, implemented in Tau Ceti as `TauCeti.Hodge.HodgeStructureOn` and
 `TauCeti.Hodge.Conjugation`). None of these is re-planned; where this roadmap needs more in one of
 their directions (Hodge stars, Kähler identities, compact elliptic theory on bundles, Ehresmann's
@@ -229,8 +230,9 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 
 ## Conventions
 
-- **Analytic spaces.** A complex analytic space is an object of `ComplexAnalyticSpace`: finite
-  complex dimension, structure sheaf locally a quotient `O_U/I` of the holomorphic sheaf of an open
+- **Analytic spaces.** A complex analytic space is an object of `ComplexAnalyticSpace`: locally
+  finite complex dimension, with a uniform dimension bound only where a target explicitly requires
+  one; structure sheaf locally a quotient `O_U/I` of the holomorphic sheaf of an open
   `U ⊆ ℂⁿ` by a finitely generated ideal sheaf `I`, which need not be radical. Nilpotents are never
   discarded: a closed analytic subspace is given by a coherent ideal, not by its zero set.
 - **Dimensions.** The empty analytic fibre has dimension `−∞`, so the zeroth
@@ -394,8 +396,8 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   cohomology and base change, relative dualizing sheaves of curves.
 - **AlgebraicCurves.** Layer 12B–12C: the regular projective model of a function field and the
   anti-equivalence with regular projective curves (algebraic only; the comparison with compact
-  Riemann surfaces is excluded there and is built in C4 here); Layer 6: extensions of function
-  fields.
+  Riemann surfaces is excluded there and is built in C4 here); Layer 2: normal affine charts
+  and their DVR/place dictionary. C4.5 constructs the open immersion into the projective model.
 - **Completed HodgeStructures.** Abstract pure, polarized and mixed Hodge structures, Tate twists and
   morphisms, implemented as the Tau Ceti declarations above.
 
@@ -679,6 +681,29 @@ SchemeAndStackFoundations §2.1 `Sheaf.higherDirectImage`, §2.2 `leray_spectral
 
 ### C0.6 Fibre-dimension loci
 
+Define and prove `analyticSetGeometry` on reduced complex analytic spaces: local dimension,
+finite decompositions of analytic germs into irreducible branches, the closed analytic singular
+locus and dense open manifold regular locus. On Hausdorff second-countable spaces, construct the
+locally finite global irreducible components, distinguishing them from branches at a point.
+For each irreducible germ of dimension `d`, construct a finite projection of a sufficiently small
+representative onto a polydisc in `ℂᵈ`, an analytic discriminant, and a constant positive sheet number
+off that discriminant. Construct finite analytic normalization, its isomorphism over the regular
+locus and its stalk description by integral closure in the total ring of fractions. Prove
+compatibility with open restriction and invariance of local dimension under nilpotent reduction.
+The finite-projection construction uses Weierstrass division; the regular-locus and normalization
+constructions use the supplier's coherence APIs (Demailly, II §§4–7, pp. 90–115, especially II.4.7,
+II.4.19, II.4.31, II.5.3 and II.7.9–7.15). *Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1
+(`ComplexAnalyticSpace`, `convergentWeierstrassDivision`, `coherentStructure`).
+
+**Checks.**
+
+- A reduced point has dimension zero, is regular and is its own normalization; a nilpotent
+  thickening of the point still has dimension zero.
+- The node `xy = 0` has two branches at zero, singular locus `{0}`, and normalization the disjoint
+  union of the two lines.
+- The cusp `y² = x³` has one branch at zero and a nontrivial normalization
+  `t ↦ (t²,t³)`; projection to `x` has two sheets away from zero.
+
 Prove `fibreDimensionLoci` (Cartan–Remmert): for a holomorphic map `f : T → S` of finite-dimensional
 complex analytic spaces and `k ≥ 0`, the set
 `A_k = {x ∈ T : dim_x f⁻¹(f(x)) ≥ k}` is a closed analytic subset of `T` (with its reduced
@@ -689,7 +714,7 @@ pp. 21–23, where analyticity of `A_k` is quoted from Whitney, *Complex Analyti
 Theorem 9F, p. 240, whose proof is the one relied on). Nilpotents do not change local fibre
 dimensions. Only the `B_k` statement of `remmertProperImage` (C4.1) uses the analyticity; elsewhere
 closedness suffices. *Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1
-(`ComplexAnalyticSpace`, `ComplexAnalyticSpace.fibreProduct`).
+(`ComplexAnalyticSpace`, `ComplexAnalyticSpace.fibreProduct`); `analyticSetGeometry`.
 
 ### Examples
 
@@ -697,6 +722,8 @@ closedness suffices. *Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1
   the kernel is not free of rank one over `O`.
 - For `f : ℂ² → ℂ`, `(z, w) ↦ zw`, every fibre has local dimension one, so `A₁ = ℂ²` and `A₂ = ∅`;
   for the blow-up of `ℂ²` at `0`, `A₁` is the exceptional curve and `A₀` is the whole source.
+- The locally finite-type scheme `∐_{n≥0} Aⁿ_ℂ` analytifies to `∐_{n≥0} ℂⁿ`, with locally
+  finite dimension and no uniform dimension bound.
 - On `A¹`, the holomorphic endomorphism of `O_{A¹,an}` given by multiplication by `exp(z)` is not the
   analytification of an algebraic endomorphism: analytification is exact and faithful but not full
   on nonproper schemes.
@@ -865,8 +892,11 @@ holomorphic bundle, `p, q` with `q ≥ 1`, and suppose the curvature operator
 `(p,q)` with `D''g = 0` and `∫ ⟨A⁻¹g, g⟩ dV < ∞` (the inverse being taken on the range of `A`;
 the integral is infinite if `g` leaves it) there is `u` with `D''u = g` and
 `‖u‖² ≤ ∫ ⟨A⁻¹g, g⟩ dV`; the solution orthogonal to `ker D''` is unique, and smooth when `g` is.
-On a domain of `ℂⁿ` the bundle is trivial with weight `e^{−φ}` for a smooth strictly
-plurisubharmonic `φ`. The proof uses the Bochner–Kodaira identity, completeness to make the
+For the weighted scalar `(0,q)` specialization on a domain of `ℂⁿ`, identify scalar
+`(0,q)`-forms with `(n,q)`-forms valued in `K_M⁻¹`, and weight that bundle by `e^{−φ}` for a
+smooth strictly plurisubharmonic `φ`. Retain a complete Kähler metric and the displayed curvature
+and integrability hypotheses; the induced metric on `K_M⁻¹` also contributes curvature. The proof
+uses the Bochner–Kodaira identity, completeness to make the
 operator domains agree (cutoffs and Friedrichs mollification), and the Riesz representation of
 `D''*v ↦ ⟨v, g⟩` (Demailly, VIII.1.2, pp. 364–365; VIII.3.2–3.3, pp. 368–369; VIII.4.5–4.8,
 pp. 371–372). In the cutoff argument of VIII.2.4 (statement p. 366, proof p. 367) the cutoff is
@@ -874,6 +904,24 @@ decreasing, so the bound to use is `|ρ'| ≤ 2` (equivalently `−2 ≤ ρ' ≤
 derivative. *Needs:* `bochnerKodaira`; `localDolbeault`.
 
 ### C1.5 Strongly 1-complete spaces and Cartan's theorem B
+
+Define `SteinManifold M` for a complex manifold `M` by holomorphic convexity and local
+separation by global holomorphic functions. For a compact `K`, its holomorphic hull is
+`{x : ∀ f ∈ O(M), |f(x)| ≤ sup_K |f|}` (the empty hull is empty), and holomorphic convexity
+means that this hull is compact. Local separation means that every `x` has a neighbourhood `V`
+such that for each `y ∈ V ∖ {x}` some `f ∈ O(M)` has `f(y) ≠ f(x)`.
+Supply hull monotonicity and restriction of separating witnesses to smaller neighbourhoods;
+construct a smooth plurisubharmonic exhaustion from convexity and a smooth strictly
+plurisubharmonic function from local separation, giving `StronglyOneComplete.ofStein`
+(Demailly, I.6.6–6.8 and I.6.13–6.18, pp. 47–51). *Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1 `HolomorphicStructureSheaf`;
+Mathlib compact sets.
+
+**Checks.**
+
+- `ℂⁿ`, including `n = 0`, is Stein: coordinates separate points and bound compact hulls.
+- A polydisc with positive radii is Stein; its compact hull stays inside a smaller closed polydisc.
+- `P¹` is holomorphically convex but not Stein: its global holomorphic functions are constant,
+  so they do not locally separate points.
 
 Define `StronglyOneComplete T` for a Hausdorff second-countable complex analytic space `T`: there is a smooth exhaustion
 function `ψ : T → ℝ` (all sublevel sets relatively compact) that is strictly plurisubharmonic,
@@ -883,7 +931,8 @@ function with positive definite complex Hessian. The API is
 strongly 1-complete, by restricting `ψ`), `StronglyOneComplete.prod` (products, with `ψ₁ + ψ₂`) and
 `StronglyOneComplete.ofStein` (a Stein manifold is strongly 1-complete) (Demailly, I.6.13–6.18,
 pp. 49–51, for manifolds; IX.2.1, IX.2.5 and IX.2.7, pp. 409–410, for analytic schemes).
-*Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1 (`ComplexAnalyticSpace`, local embeddings).
+*Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1 (`ComplexAnalyticSpace`, local embeddings);
+`SteinManifold` for `StronglyOneComplete.ofStein`.
 
 **Checks.**
 
@@ -895,15 +944,44 @@ pp. 49–51, for manifolds; IX.2.1, IX.2.5 and IX.2.7, pp. 409–410, for analyt
   strongly 1-complete (a strictly plurisubharmonic function has no interior maximum on a positive
   dimensional space); the point is.
 
+Prove `StronglyOneComplete.completeKaehlerMetric` on manifolds. Given a smooth strictly
+plurisubharmonic exhaustion `ψ`, shift it to be nonnegative, put `ω = i∂∂̄ψ` and
+`ω̂ = ω + i∂∂̄(ψ²)`. Prove that `ω̂` is positive and closed and hence Kähler, and that it is
+complete: `ω̂ ≥ ω + 2i∂ψ ∧ ∂̄ψ` bounds `|dψ|_{ω̂}` by one, so escape to infinity has infinite
+length by the exhaustion criterion (Demailly, VIII.2.4, pp. 366–367, and VIII.5.2, p. 372).
+*Needs:* `StronglyOneComplete`; DifferentialGeometry's metric, forms and length APIs.
+
+**Checks.**
+
+- On `ℂⁿ`, `ψ = |z|²` gives a metric dominating the complete Euclidean metric.
+- On the unit disc, `ψ = −log(1 − |z|²)` gives infinite length to every escaping path,
+  including a radial path approaching the boundary.
+- In dimension zero the forms vanish and the resulting metric is complete; on a positive
+  dimensional compact manifold no strictly plurisubharmonic exhaustion exists.
+
 Prove `cartanTheoremB`: on a strongly 1-complete complex analytic space `T` (finite-dimensional,
 Hausdorff, second countable, nilpotents allowed), `H^q(T, F) = 0` for every coherent analytic module `F` and
 every `q ≥ 1`. In particular this holds on polydiscs, on `ℂᵃ × (ℂ*)ᵇ`, on their closed analytic
 subspaces and on Stein manifolds. A finite open cover by itself proves nothing of the kind. The
-vector-bundle case on a manifold follows from the weighted estimate with a rapidly increasing
-weight `χ ∘ ψ`; for coherent modules on analytic spaces resolve locally by free modules of an
+vector-bundle case on a manifold first uses `StronglyOneComplete.completeKaehlerMetric` to
+construct `ω̂`. Identify the `F`-valued `(0,q)` Dolbeault complex with the `(n,q)` complex valued
+in `F ⊗ K_M⁻¹`, with induced metrics. Apply `weightedDolbeaultEstimate` to that twisted bundle
+and `ω̂`, choosing a rapidly increasing bundle weight `χ ∘ ψ` to dominate its curvature and make
+the given form integrable. The added curvature acts positively in bidegree `(n,q)` for `q ≥ 1`.
+For coherent modules on analytic spaces resolve locally by free modules of an
 ambient chart and pass along a countable exhaustion by sublevel sets with Runge-type approximation
-(Demailly, IX.4.1, p. 419; IX.4.10–4.11 with `q = 1`, p. 425; IX.4.12–4.13, pp. 426–428).
-*Needs:* `StronglyOneComplete`; `weightedDolbeaultEstimate`; `coherentOperations`.
+(Demailly, IX.4.1, pp. 419–420; IX.4.10–4.11 with `q = 1`, p. 425; IX.4.12–4.13, pp. 426–428).
+*Needs:* `StronglyOneComplete`; `StronglyOneComplete.completeKaehlerMetric`;
+`weightedDolbeaultEstimate`; `coherentOperations`; `holomorphicBundleDictionary` and exterior
+powers/duals for `K_M⁻¹`.
+
+**Checks for the weighted Cartan-B application.**
+
+- On `ℂ²` with `ω = iΣ dzⱼ ∧ dz̄ⱼ`, the trivial line with metric `e^{−|z|²}` has
+  `[iΘ,Λ] = −id` on `(0,1)`-forms and `+id` on `(2,1)`-forms; the canonical twist fixes the degree.
+- For `F = O_M`, the identification is `A^{0,q}(O_M) ≅ A^{n,q}(K_M⁻¹)` and preserves `∂̄`.
+- On a polydisc, a sufficiently increasing weight makes any smooth closed form square integrable
+  and dominates the twisted-bundle curvature on successive compact sublevels.
 
 ### C1.6 Montel, Schwartz and Cartan–Serre finiteness
 
@@ -916,20 +994,36 @@ equicontinuity on compacts and the Arzelà–Ascoli argument of the one-variable
 unchanged. *Needs:* Tau Ceti `TauCeti.montel` (the one-variable case and its compactness
 argument); Mathlib Arzelà–Ascoli, Cauchy estimates.
 
+Prove `frechetOpenMapping`: every continuous complex-linear surjection between complete
+metrizable Hausdorff locally convex complex vector spaces is open. No separability or normability
+is assumed. Use Baire category and absorbing balanced neighbourhoods to obtain a neighbourhood
+in the closure of each image, then successive approximation in a decreasing neighbourhood basis
+to remove the closure (Demailly, IX.1.7–1.10, pp. 405–408, for the open-mapping input and its uses;
+the Baire and approximation argument is part of this target). *Needs:* Mathlib Baire category,
+complete uniform additive groups, locally convex spaces and continuous linear maps.
+
+**Checks.**
+
+- A surjection of complex Banach spaces recovers Mathlib's Banach open mapping theorem.
+- The shift `(z₀,z₁,…) ↦ (z₁,z₂,…)` on `ℂ^ℕ` with its complete product topology is open;
+  this topology is not normable.
+- The continuous bijection from finitely supported sequences with the `ℓ¹` norm to the same
+  space with the `ℓ²` norm is not open: completeness cannot be omitted.
+
 Prove `schwartzFiniteness` (L. Schwartz): let `E`, `F` be Fréchet spaces, `g : E → F` a continuous
 linear surjection and `h : E → F` a compact linear map. Then `g + h` has closed image of finite
 codimension (Demailly, IX.1.8–1.9, pp. 406–407). Its special case for Banach spaces is
-`schwartzFiniteness_banach`. *Needs:* Mathlib open mapping theorem for Fréchet spaces,
-`IsCompactOperator`.
+`schwartzFiniteness_banach`. *Needs:* `frechetOpenMapping`; Mathlib `IsCompactOperator`.
 
 Prove `cartanSerreFiniteness`: for a compact Hausdorff second-countable complex analytic space `T` (nilpotents allowed) and a
 coherent analytic module `F`, every `H^q(T, F)` is a finite-dimensional complex vector space, and
 `H^q(T, F) = 0` for `q > dim T`. The sections of a coherent module on a distinguished chart carry a
-Fréchet topology induced from a local presentation; for finite covers `U'_α ⋐ U_α` by strongly
+Fréchet topology induced from a local presentation; construct this topology and its
+independence of presentation using `frechetOpenMapping`; for finite covers `U'_α ⋐ U_α` by strongly
 1-complete charts both Čech complexes compute `H^q` (Cartan B and SchemeAndStackFoundations §2.2), the refinement map is
 compact by Montel and surjective on cohomology, and Schwartz's theorem gives finite dimension
 (Demailly, IX.4.6–4.8 and proof, pp. 422–424; vanishing above the dimension IX.4.15, p. 428).
-*Needs:* `montelTheorem`; `schwartzFiniteness`; `cartanTheoremB`; SchemeAndStackFoundations §2.2 `cech_to_cohomology`.
+*Needs:* `montelTheorem`; `frechetOpenMapping`; `schwartzFiniteness`; `cartanTheoremB`; SchemeAndStackFoundations §2.2 `cech_to_cohomology`.
 
 ### C1.7 Projective charts and analytic twisting sheaves
 
@@ -1144,7 +1238,10 @@ AlgebraicModuliForArithmeticGeometry Layer 3.
 - `SpaceCoherentAnalytification.scheme`: for a scheme `X` with the identity presentation the functor is
   `CoherentAnalytification X`, including on the dual-number point, where `(O_X)^an = ℂ[ε]/(ε²)`.
 - `SpaceCoherentAnalytification.twoCharts`: for the presentation `U ⊔ U → X` by two copies of the same
-  chart, the descended module is `(F|_U)^an`, not its double; the descent datum identifies the copies.
+  chart, the restriction of the descended module to either copy of `U^an` is `(F|_U)^an`;
+  the descent isomorphism identifies the two pullbacks rather than doubling the module.
+  For `z ↦ z² : G_m → G_m` and `F = O/(t−1)`, the descended support is `{t=1}` on the base,
+  while its pullback to either chart has support `{z=±1}`.
 - `SpaceCoherentAnalytification.doubledOrigin`: on the affine line with doubled origin (a locally
   separated, non-separated algebraic space) the structure sheaf analytifies to the structure sheaf of
   the non-Hausdorff analytic space; the construction does not require separatedness.
@@ -1257,14 +1354,14 @@ and the extension theorem fills in the critical image; closedness is topological
 (Demailly, II.8.8 with the simultaneous proof of II.8.7, pp. 118–121, using the semicontinuity
 results II.8.2–8.6, pp. 116–118). *Needs:* AlgebraicModuliForArithmeticGeometry §7.10.1
 (`ComplexAnalyticSpace`, `convergentWeierstrassPreparation`, `coherentStructure`);
-`fibreDimensionLoci` for the `B_k` statement.
+`analyticSetGeometry`; `fibreDimensionLoci` for the `B_k` statement.
 
 Prove `remmertSteinExtension`: let `T` be a complex analytic space, `E ⊆ T` a closed analytic subset
 of dimension at most `p`, and `Z` an analytic subset of `T ∖ E` with `dim_x Z > p` at every
 `x ∈ Z`. Then the closure of `Z` in `T` is analytic (Demailly, II.8.7 and the simultaneous proof,
 pp. 118–121). The strict inequality cannot be weakened: a sequence of points converging to a point
 of a zero-dimensional `E` has non-analytic closure (see the Examples). *Needs:* `remmertProperImage` (in the simultaneous
-induction); `convergentWeierstrassPreparation`.
+induction); `analyticSetGeometry`; `convergentWeierstrassPreparation`.
 
 ### C4.2 Chow's theorem with nilpotents
 
@@ -1405,8 +1502,8 @@ coherent analytic module on `Y^an` whose support is compact. Then `G ≅ F^an` f
 `F` with proper support and a specified isomorphism `F^an ≅ G`; this pair is unique up to
 unique isomorphism compatible with the specified identification, and morphisms between such
 modules algebraize uniquely. In particular a closed analytic subspace of `Y^an` with compact support is `W^an`
-for a unique closed subscheme `W ⊆ Y`, proper over `ℂ`, nilpotents included. The analytic module `O_{Y^an}` itself has noncompact support and is
-not covered. Choose a compactification `Y ⊆ Ȳ` (§C4.3b `nagataCompactification`); the support of `G` is closed
+for a unique closed subscheme `W ⊆ Y`, proper over `ℂ`, nilpotents included. For `Y = A¹_ℂ`,
+the analytic module `O_{Y^an}` has noncompact support and is not covered. Choose a compactification `Y ⊆ Ȳ` (§C4.3b `nagataCompactification`); the support of `G` is closed
 in `Ȳ^an`, so `G` extended by zero is coherent; apply `properSchemeGagaEquivalence` on `Ȳ`;
 faithfulness puts the support of the algebraic module inside `Y`, and full faithfulness, applied on a
 common refinement of two compactifications (§C4.3c `compactificationCommonRefinement`), makes the result independent of
@@ -1417,6 +1514,12 @@ compactification is the argument just given).
 `compactificationCommonRefinement`); AlgebraicModuliForArithmeticGeometry
 `properSchemeGagaEquivalence`; `coherentAnalytification_faithful`; AlgebraicModuliForArithmeticGeometry
 `complexSchemeAnalytification.openSubspace`.
+
+**Checks.**
+
+- On `A¹_ℂ`, the analytic structure sheaf has support `ℂ`, which is not compact.
+- On `P¹_ℂ`, the analytic structure sheaf has compact support and algebraizes to `O_{P¹}`.
+- On `Spec ℂ`, the structure sheaf is covered and algebraizes to the rank-one module `ℂ`.
 
 ### C4.4 Holomorphic maps out of proper schemes
 
@@ -1467,13 +1570,25 @@ AlgebraicModuliForArithmeticGeometry Layer 3.
 
 Prove `affineCurveCompletionInterface`: let `U` be a connected component of a smooth affine curve
 over `ℂ`. AlgebraicCurves Layer 12B–12C gives its smooth projective model `C` (unique up to unique
-isomorphism), with the open immersion `U → C` from Layer 6's valuation and holomorphy-ring dictionary.
-Then `D = C ∖ U` is a finite set of closed points (a proper closed subset of an irreducible
+isomorphism). Construct `U → C` here by extending the identity of function fields to the
+DVR stalks of the regular affine curve, using Layer 2's normal affine charts and the proper model's
+valuative criterion. The local maps glue by separatedness; prove that the birational morphism
+between regular curves is an open immersion. Then `D = C ∖ U` is a finite set of closed points
+(a proper closed subset of an irreducible
 one-dimensional Noetherian scheme), and `U^an = C^an ∖ D` as an open analytic subspace. Holomorphic
-functions on `U^an` are not the coordinate ring of `U` (AlgebraicCurves, Layers 12B–12C and 6, for
-the model; SGA 1, XII, 1.1 a), printed p. 240, for open immersions under analytification). *Needs:* TauCetiRoadmap.AlgebraicCurves
-(Layers 6 and 12B–12C); AlgebraicModuliForArithmeticGeometry `complexSchemeAnalytification.openSubspace`;
+functions on `U^an` are not the coordinate ring of `U` (AlgebraicCurves, Layers 2 and 12B–12C, for
+the affine chart dictionary and model; SGA 1, XII, 1.1 a), printed p. 240, for open immersions under
+analytification). *Needs:* TauCetiRoadmap.AlgebraicCurves
+(Layers 2 and 12B–12C); AlgebraicModuliForArithmeticGeometry `complexSchemeAnalytification.openSubspace`;
 Mathlib `topologicalKrullDim`.
+
+**Checks.**
+
+- For `U = A¹`, the model is `P¹`, the immersion is the standard affine chart and the complement
+  is the single point `∞`.
+- For `U = G_m`, the same model has complement `{0,∞}`.
+- For an elliptic curve with its origin removed, the model is that elliptic curve and the
+  complement is the origin; the construction is not restricted to rational function fields.
 
 Prove `puncturedRiemannSurfaceConnected`: if `M` is a connected Riemann surface (a connected
 Hausdorff complex manifold of dimension one: Mathlib `ChartedSpace ℂ M` with `IsManifold 𝓘(ℂ) ω M`)
@@ -1514,7 +1629,7 @@ C0–C2; AlgebraicModuliForArithmeticGeometry §§7.10.1, 7.10.3 and Layers 1–
 SchemeAndStackFoundations Layer 1 and §0.9; §§C4.3a–C4.3c
 (`Compactification`, `nagataCompactification`, `compactificationCommonRefinement`);
 StableReduction Layer 4 and SchemeAndStackFoundations §4.11 for compactification geometry;
-TauCetiRoadmap.AlgebraicCurves (Layers 6 and 12); Mathlib schemes and manifolds.
+TauCetiRoadmap.AlgebraicCurves (Layers 2 and 12B–12C); Mathlib schemes and manifolds.
 
 <a id="c5"></a>
 
@@ -1597,7 +1712,8 @@ on a scheme or analytic space, a differential operator of order `≤ m` between 
 is the same as an `O`-linear map `P^m(F) → G` (`Suggested.lean` states the algebraic definition with
 `commutatorWith`) from the module of principal parts of order `m` (the
 quotient of `O_{X×X} ⊗ F` by the `(m+1)`-st power of the diagonal ideal), composed with the universal
-jet. Define `DifferentialOperatorAnalytification`: for coherent `F`, `G` on `X` of finite type over `ℂ`
+jet (EGA IV₄, §§16.7–16.8, especially (16.8.1)–(16.8.2), Proposition (16.8.8) and
+Proposition (16.8.9), printed pp. 40–44). Define `DifferentialOperatorAnalytification`: for coherent `F`, `G` on `X` of finite type over `ℂ`
 and an algebraic differential operator `D` of order `≤ m`, analytify the factorization through
 `P^m(F)` to obtain the analytic differential operator `D^an : F^an → G^an`, independent of the chosen
 `m`. The API is `DifferentialOperatorAnalytification.orderZero` (order-zero operators go to the
@@ -1613,7 +1729,8 @@ when `D` commutes with scalar multiplication by `a`. For `IsDifferentialOperator
 order-zero equivalence with `A`-linearity, monotonicity in the order bound, closure under sums
 at a common order, and the composition bound `ord(D ∘ E) ≤ ord(D) + ord(E)`. These are the
 local commutator and order APIs underlying the principal-parts construction, not substitutes
-for its sheafification (Deligne 1970, II.6.6, pp. 100–101).
+for its sheafification (EGA IV₄, §§16.7–16.8, especially (16.8.1)–(16.8.2),
+Propositions (16.8.8)–(16.8.9), printed pp. 40–44).
 
 **Checks for the commutator and order predicates.**
 
@@ -1725,12 +1842,12 @@ the suppliers named below). *Needs:* `properDeRhamBetti`; TauCetiRoadmap.Differe
 
 Use the ordinary connection carrier `Crystalline.Connection` from CrystallineCohomology CR.1,
 sheafified as `Crystalline.Connection E` for a smooth scheme `X` over a field `k` of characteristic zero and a
-finite locally free `O_X`-module `E`: a `k`-linear sheaf map `∇ : E → Ω¹_X ⊗ E` with
+coherent `O_X`-module `E`: a `k`-linear sheaf map `∇ : E → Ω¹_X ⊗ E` with
 `∇(a s) = da ⊗ s + a ∇s`. It extends uniquely to `∇ : Ω^p ⊗ E → Ω^{p+1} ⊗ E` with the graded Leibniz rule;
 its curvature `∇ ∘ ∇ : E → Ω² ⊗ E` is `O_X`-linear, and `∇` is integrable (flat) when the curvature
 vanishes, equivalently when `(Ω^• ⊗ E, ∇)` is a complex — the de Rham complex of `(E, ∇)`. The API is
 `Crystalline.Connection.leibniz` (the displayed rule), `Crystalline.Connection.tensor` (`∇_E ⊗ 1 + 1 ⊗ ∇_F`
-on `E ⊗ F`, and the dual connection) and `Crystalline.Connection.curvature` (zero curvature
+on `E ⊗ F`, and the dual connection when `E` is finite locally free) and `Crystalline.Connection.curvature` (zero curvature
 iff the extended `∇` squares to zero; the trivial connection is `(A, d)`) (Deligne 1970, I.2.3–2.15, printed pp. 6–11, for holomorphic bundles, and I.2.20.3–2.21, pp. 13–14,
 for smooth schemes). The same
 definitions on complex manifolds give holomorphic connections, and analytification carries one to the
@@ -1823,12 +1940,41 @@ invariance; finiteness uses that the compact fibre has finite CW type (Deligne 1
 printed p. 19, for the stalks of `R^q f_*`; tom Dieck, Corollary 2.2.4, p. 53). *Needs:* `ehresmannFibration`;
 `sheafSingularComparison`; TauCetiRoadmap.AlgebraicTopology (Stage 8, finite CW type).
 
+Prove `coherentFlatConnection_locallyFree`: a coherent module with an integrable ordinary
+connection on a smooth scheme over a characteristic-zero field is finite locally free.
+Over `ℂ`, first establish the horizontal-frame equivalence on arbitrary coherent analytic
+coefficients: locally the module is the structure sheaf tensored with a finite-dimensional
+horizontal vector space (Deligne 1970, I.2.22–2.23(iii), pp. 14–19, with the coherent-presentation
+argument in the proof). This argument does not assume freeness or use the finite locally free equivalence
+`analyticFlatConnectionLocalSystem`. Analytify the coherent
+algebraic module and connection, then descend freeness along C0's faithfully flat analytic stalk
+maps, using `Module.Flat.of_flat_tensorProduct` and `Module.free_of_flat_of_isLocalRing`.
+Over any characteristic-zero field, work on affine charts and descend the smooth algebra,
+finite presentation, connection and integrability to a finitely generated subfield of `k` over `ℚ`;
+embed that subfield in `ℂ`, apply the complex case, and use faithful scalar extension and pullback
+to `k`. Include this descent of finite connection data in the target; smoothness descends
+with the finite presentation. Sheafify `Crystalline.Connection` on coherent coefficients before
+constructing
+`GaussManin`; apply this freeness theorem only after constructing its integrable connection.
+*Needs:* CrystallineCohomology CR.1 `Crystalline.Connection`; `CoherentAnalytification`;
+`coherentPullbackOperations`; `completedAnalyticStalkComparison.flat`; Mathlib
+`Module.Flat.of_flat_tensorProduct`, `Module.free_of_flat_of_isLocalRing`;
+SchemeAndStackFoundations Layer 0 (localization and affine gluing).
+
+**Checks.**
+
+- The zero module with its zero connection is locally free of rank zero.
+- `(O_X^r,d)` is locally free of rank `r`, including disconnected rank strata.
+- On `A¹` in characteristic zero, `O/(t)` cannot carry a connection: applying Leibniz to
+  `t·1 = 0` would give `dt ⊗ 1 = 0`. In characteristic `p`, `O/(t^p)` does carry the induced
+  integrable connection and is not locally free, so the characteristic hypothesis is necessary.
+
 Define `GaussManin f` for a smooth proper morphism `f : X → S` of smooth schemes over a field `k` of
 characteristic zero: filter the absolute de Rham complex `Ω^•_{X/k}` by the subcomplexes generated by
 `p` forms pulled back from `S`; smoothness makes the graded pieces `f^*Ω^p_S ⊗ Ω^•_{X/S}[−p]`. The
 connecting map of the two-step quotient is
-`∇ : H^q_dR(X/S) → Ω¹_S ⊗ H^q_dR(X/S)` (with `H^q_dR(X/S) = R^q f_*Ω^•_{X/S}`, coherent because `f` is proper, hence locally free because
-it carries a connection on a smooth scheme in characteristic zero). It
+`∇ : H^q_dR(X/S) → Ω¹_S ⊗ H^q_dR(X/S)` (with `H^q_dR(X/S) = R^q f_*Ω^•_{X/S}`, coherent because `f` is proper, then finite locally free by
+`coherentFlatConnection_locallyFree` after constructing the integrable connection below). It
 is a connection, and it is integrable: the first page of the spectral sequence of the filtration is
 `Ω^p_S ⊗ H^q_dR(X/S)` with differential the extension of `∇`, and its square is zero. The API is
 `GaussManin.connection` (the connecting-map definition), `GaussManin.integrable` (zero curvature) and
@@ -1837,7 +1983,7 @@ is a connection, and it is integrable: the first page of the spectral sequence o
 de Rham cohomology classes with respect to parameters*, J. Math. Kyoto Univ. 8 (1968), §1,
 pp. 199–201, §2, Theorem 1 and proof, pp. 201–204, and §3, sequence (13), pp. 204–205, for the
 filtration construction and integrability; Deligne 1970, II.7.7, printed p. 117, for
-`horizontalComparison`, and II.7.8, pp. 117–118). *Needs:* `AlgebraicDeRham`; `Crystalline.Connection`;
+`horizontalComparison`, and II.7.8, pp. 117–118). *Needs:* `AlgebraicDeRham`; `Crystalline.Connection`; `coherentFlatConnection_locallyFree`;
 `relativePoincare`; `analyticFlatConnectionLocalSystem`; `relativeBettiLocalSystem`;
 `boundedOperatorHyperGaga`; SchemeAndStackFoundations Layer 2.
 
@@ -2118,7 +2264,7 @@ projection; closedness follows from `closedCurrentExtension` applied across `Z_s
 `AnalyticCycleIntegration.regular` (on a closed submanifold it is the manifold integral of
 DifferentialGeometry), `AnalyticCycleIntegration.add` (additivity in multiplicities) and
 `AnalyticCycleIntegration.closed` (`[Z](dη) = 0`) (Demailly, III.2.1–2.3, pp. 138–140, and
-III.2.5–2.7, p. 140). *Needs:* `CurrentCalculus`; `closedCurrentExtension`; `remmertSteinExtension`;
+III.2.5–2.7, p. 140). *Needs:* `analyticSetGeometry`; `CurrentCalculus`; `closedCurrentExtension`; `remmertSteinExtension`;
 TauCetiRoadmap.DifferentialGeometry (integration, Layer 5).
 
 **Checks.**
@@ -2565,12 +2711,16 @@ smooth proper and `D` SNC, and a set-theoretic section `τ` of `ℂ → ℂ/ℤ`
 logarithmic poles whose residues along each component of `D` have eigenvalues in `τ`.
 The initial bundle and its identification with the horizontal local system use the inverse and
 unit of `analyticFlatConnectionLocalSystem`. Local monodromy
-along a positive loop is `exp(−2πi Res)`. The extension is exact in `V`; tensor products need integer
+along a positive loop is conjugate to `exp(−2πi Res)`: the section `τ` excludes nonzero
+integral differences between distinct residue eigenvalues. A matrix equality uses the chosen
+fibre identification from the local logarithmic model, with its change-of-frame compatibility.
+The extension is exact in `V`; tensor products need integer
 shifts of residues, while the unipotent extension (nilpotent residues) is tensor compatible. Choose
 logarithms of the commuting local monodromies with eigenvalues in `τ` and twist multivalued flat frames
 by the corresponding exponentials; moderate growth glues and characterizes the extension. The API is
 `CanonicalLogExtension.residueSpectrum` (residue eigenvalues in `τ`), `CanonicalLogExtension.monodromy`
-(monodromy `exp(−2πi Res)`, `localMonodromy`; strip representatives `residueStripRep`) and
+(the conjugacy above, and equality with a retained fibre identification;
+rank-one scalar `localMonodromy`; strip representatives `residueStripRep`) and
 `CanonicalLogExtension.uniqueness` (uniqueness of an extension with the
 strip condition) (Deligne 1970, II.5.1–5.6, printed pp. 91–96: the choice of `τ` in II.5.3, misnumbered
 4.3 in print, and Proposition 5.4, p. 94; the monodromy in Corollary 5.6, p. 96).
@@ -2582,6 +2732,8 @@ AlgebraicModuliForArithmeticGeometry Layer 9 (`analyticPolydisc`).
 
 - `CanonicalLogExtension.emptyBoundary`: with `D = ∅` the extension is `(V ⊗ O, d)` itself.
 - `CanonicalLogExtension.rankOne`: residue `a` has monodromy `exp(−2πia)`.
+- Under independent changes of basis on the boundary and nearby fibres, the two matrices
+  need not be equal; their conjugacy class is unchanged.
 - `CanonicalLogExtension.tensorCarry`: residues `3/4` and `3/4` add to `3/2`, whose strip representative
   is `1/2`; so the canonical extension with the strip `[0,1)` is not an unadjusted tensor functor.
 
@@ -3144,6 +3296,8 @@ an instance of the named targets, not a separate theorem.
   §§5–6 (<https://arxiv.org/abs/1309.1198>).
 - The Stacks Project, §§29.6–29.7, §§38.32–38.33 and §63.9, with the Limits locators
   cited in §C4.3b (<https://stacks.math.columbia.edu/>).
+- A. Grothendieck and J. Dieudonné, *Éléments de géométrie algébrique IV₄*, Publ. Math. IHÉS 32
+  (1967), §§16.7–16.8, printed pp. 40–44.
 - A. Grothendieck, *On the de Rham cohomology of algebraic varieties*, Publ. Math. IHÉS 29 (1966),
   95–103 (<https://www.numdam.org/article/PMIHES_1966__29__95_0.pdf>).
 - P. Deligne, *Théorème de Lefschetz et critères de dégénérescence de suites spectrales*, Publ. Math.

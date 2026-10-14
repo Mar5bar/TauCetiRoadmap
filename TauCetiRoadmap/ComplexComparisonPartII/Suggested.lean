@@ -93,7 +93,7 @@ nonnegative operator, the negative of Mathlib's `Δ = div ∘ grad`.
 namespace TauCetiRoadmap.ComplexComparisonPartII
 
 open CategoryTheory AlgebraicGeometry
-open scoped TensorProduct ContDiff Manifold Topology
+open scoped TensorProduct ContDiff Manifold Topology ZeroObject
 
 universe u
 
@@ -180,6 +180,15 @@ example (X : LocallyRingedSpace.{u}) :
   let := TauCeti.SheafOfModules.monoidalCategory X.sheaf
   exact (TauCeti.SheafOfModules.isMonoidal_isFinitePresentation (R := X.sheaf)).prop_unit
 
+/-- The zero sheaf is finitely presented. -/
+example (X : LocallyRingedSpace.{u}) :
+    (0 : SheafOfModules (TauCeti.SheafOfModules.ringCatSheaf X.sheaf)).IsFinitePresentation := sorry
+
+/-- Every finite free sheaf is finitely presented, including rank zero. -/
+example (X : LocallyRingedSpace.{u}) (r : ℕ) :
+    (SheafOfModules.free (R := TauCeti.SheafOfModules.ringCatSheaf X.sheaf)
+      (ULift.{u} (Fin r))).IsFinitePresentation := sorry
+
 end C0
 
 /-! ## Layer C1: Analytic coherent cohomology -/
@@ -193,6 +202,9 @@ computed from the real derivative. Holomorphic functions are exactly the real-di
 functions with `dbar f = 0`. -/
 def dbar (f : ℂ → ℂ) (z : ℂ) : ℂ :=
   (1 / 2 : ℂ) * (fderiv ℝ f z 1 + Complex.I * fderiv ℝ f z Complex.I)
+
+/-- Constants have zero conjugate Wirtinger derivative. -/
+example (c z : ℂ) : dbar (fun _ => c) z = 0 := by simp [dbar]
 
 /-- `∂̄ z = 0`: the coordinate is holomorphic. -/
 example (z : ℂ) : dbar (fun w => w) z = 0 := sorry
@@ -217,6 +229,16 @@ theorem localDolbeault_oneVariable (g : ℂ → ℂ)
     (hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g) (hc : HasCompactSupport g) :
     ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (cauchyGreen g) ∧ ∀ z, dbar (cauchyGreen g) z = g z := sorry
 
+/-- A smooth compactly supported radial function has zero Cauchy–Green transform at zero. -/
+example (g : ℂ → ℂ) (hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g)
+    (hc : HasCompactSupport g) (hr : ∀ z w : ℂ, ‖z‖ = ‖w‖ → g z = g w) :
+    cauchyGreen g 0 = 0 := sorry
+
+/-- A radial cutoff equal to one near zero fixes the normalization of the solution operator. -/
+example (g : ℂ → ℂ) (hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g)
+    (hc : HasCompactSupport g) (hr : ∀ z w : ℂ, ‖z‖ = ‖w‖ → g z = g w)
+    (h1 : ∀ᶠ z in 𝓝 (0 : ℂ), g z = 1) : dbar (cauchyGreen g) 0 = 1 := sorry
+
 /-- **C1.6, `montelTheorem`.** On an open subset of a finite-dimensional complex normed space, a
 sequence of holomorphic functions that is uniformly bounded on every compact subset has a
 subsequence converging locally uniformly, with holomorphic limit. Tau Ceti's `TauCeti.montel` is
@@ -228,6 +250,18 @@ theorem montelTheorem {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     (hb : ∀ K ⊆ Ω, IsCompact K → ∃ C : ℝ, ∀ n, ∀ z ∈ K, ‖f n z‖ ≤ C) :
     ∃ (φ : ℕ → ℕ) (g : E → ℂ), StrictMono φ ∧ DifferentiableOn ℂ g Ω ∧
       TendstoLocallyUniformlyOn (fun n => f (φ n)) g Filter.atTop Ω := sorry
+
+/-- **C1.6, `frechetOpenMapping`.** A continuous complex-linear surjection between complete
+metrizable Hausdorff locally convex complex vector spaces is open. Local convexity uses the
+underlying real scalar structure; neither separability nor normability is required. -/
+theorem frechetOpenMapping {E F : Type*}
+    [AddCommGroup E] [UniformSpace E] [IsUniformAddGroup E] [Module ℂ E]
+    [Module ℝ E] [IsScalarTower ℝ ℂ E] [ContinuousSMul ℂ E]
+    [LocallyConvexSpace ℝ E] [TopologicalSpace.MetrizableSpace E] [T2Space E] [CompleteSpace E]
+    [AddCommGroup F] [UniformSpace F] [IsUniformAddGroup F] [Module ℂ F]
+    [Module ℝ F] [IsScalarTower ℝ ℂ F] [ContinuousSMul ℂ F]
+    [LocallyConvexSpace ℝ F] [TopologicalSpace.MetrizableSpace F] [T2Space F] [CompleteSpace F]
+    (g : E →L[ℂ] F) (hg : Function.Surjective g) : IsOpenMap g := sorry
 
 /-- **C1.6, `schwartzFiniteness`, Banach case.** A compact perturbation of a continuous linear
 surjection between complex Banach spaces has closed range of finite codimension. The README states
@@ -259,6 +293,15 @@ open Laplacian
 def hodgeLaplacianFun {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] (f : E → ℝ) : E → ℝ :=
   -(Δ f)
+
+/-- Constant functions have zero Hodge Laplacian. -/
+example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] (c : ℝ) (x : E) :
+    hodgeLaplacianFun (fun _ : E => c) x = 0 := sorry
+
+/-- Every function on the zero-dimensional Euclidean space has zero Hodge Laplacian. -/
+example (f : EuclideanSpace ℝ (Fin 0) → ℝ) (x : EuclideanSpace ℝ (Fin 0)) :
+    hodgeLaplacianFun f x = 0 := sorry
 
 /-- `HodgeLaplacian.euclideanSign`: in `ℝ³`, `Δ_Hodge(x₁²) = −2`. -/
 example (x : EuclideanSpace ℝ (Fin 3)) :
@@ -315,20 +358,68 @@ abbrev DenseCompactification {X S : Scheme.{u}} (f : X ⟶ S) :=
 
 /-- A proper map has the identity compactification. -/
 def Compactification.identity {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] :
-    Compactification f := sorry
+    Compactification f where
+  Xbar := X
+  j := 𝟙 X
+  p := f
+  fac := by simp
+  openImmersion := by infer_instance
+  quasiCompact := by infer_instance
+  proper := inferInstance
 
 /-- Pulling back a compactification gives a compactification of the pulled-back map. -/
 def Compactification.baseChange {X S S' : Scheme.{u}} {f : X ⟶ S}
     (C : Compactification f) (g : S' ⟶ S) :
-    Compactification (Limits.pullback.snd f g) := sorry
+    Compactification (Limits.pullback.snd f g) where
+  Xbar := Limits.pullback C.p g
+  j := Limits.pullback.lift (Limits.pullback.fst f g ≫ C.j) (Limits.pullback.snd f g)
+    (by rw [Category.assoc, C.fac, Limits.pullback.condition])
+  p := Limits.pullback.snd C.p g
+  fac := by simp
+  openImmersion := by sorry
+  quasiCompact := by sorry
+  proper := by infer_instance
 
 /-- Schematic closure of the open interior gives a dense compactification. -/
 def Compactification.denseReplacement {X S : Scheme.{u}} {f : X ⟶ S}
-    (C : Compactification f) : DenseCompactification f := sorry
+    (C : Compactification f) : DenseCompactification f where
+  obj :=
+    { Xbar := C.j.image
+      j := C.j.toImage
+      p := C.j.imageι ≫ C.p
+      fac := by rw [← Category.assoc, Scheme.Hom.toImage_imageι, C.fac]
+      openImmersion := by infer_instance
+      quasiCompact := by infer_instance
+      proper := by infer_instance }
+  property := by sorry
 
 /-- Dense replacement maps canonically to the original compactification, fixing the interior. -/
 def Compactification.denseReplacementMap {X S : Scheme.{u}} {f : X ⟶ S}
-    (C : Compactification f) : C.denseReplacement.obj ⟶ C := sorry
+    (C : Compactification f) : C.denseReplacement.obj ⟶ C where
+  hom := C.j.imageι
+  comm_j := by exact Scheme.Hom.toImage_imageι C.j
+  comm_p := rfl
+
+/-- The identity construction retains the original scheme and factorization as data. -/
+example {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] :
+    (Compactification.identity f).Xbar = X ∧
+      (Compactification.identity f).j = 𝟙 X ∧ (Compactification.identity f).p = f :=
+  ⟨rfl, rfl, rfl⟩
+
+/-- Base change uses the pullback of the proper factor. -/
+example {X S S' : Scheme.{u}} {f : X ⟶ S}
+    (C : Compactification f) (g : S' ⟶ S) :
+    (C.baseChange g).Xbar = Limits.pullback C.p g := rfl
+
+/-- Dense replacement uses the schematic image, including the interior's nilpotents. -/
+example {X S : Scheme.{u}} {f : X ⟶ S} (C : Compactification f) :
+    C.denseReplacement.obj.Xbar = C.j.image := rfl
+
+/-- The canonical dense-replacement map is the schematic image's closed immersion. -/
+example {X S : Scheme.{u}} {f : X ⟶ S} (C : Compactification f) :
+    IsClosedImmersion C.denseReplacementMap.hom := by
+  change IsClosedImmersion C.j.imageι
+  infer_instance
 
 /-- Every compactification morphism is proper over the fixed base. -/
 theorem Compactification.Hom.proper {X S : Scheme.{u}} {f : X ⟶ S}
@@ -396,6 +487,19 @@ order `≤ m`. The analytification of such operators is `DifferentialOperatorAna
 def IsDifferentialOperator : ℕ → (M →ₗ[k] N) → Prop
   | 0, D => ∀ (a : A) (x : M), D (a • x) = a • D x
   | m + 1, D => ∀ a : A, IsDifferentialOperator m (commutatorWith k a D)
+
+/-- Multiplication maps have order zero. -/
+example (a : A) : IsDifferentialOperator k (A := A) 0
+    ((a • LinearMap.id : M →ₗ[A] M).restrictScalars k) := sorry
+
+/-- Any `A`-linear map is an order-zero differential operator. -/
+example (D : M →ₗ[A] N) : IsDifferentialOperator k (A := A) 0 (D.restrictScalars k) := sorry
+
+/-- The zero map has order zero on any coefficient modules. -/
+example : IsDifferentialOperator k (A := A) 0 (0 : M →ₗ[k] N) := sorry
+
+/-- Order bounds include the zero map at every order. -/
+example (m : ℕ) : IsDifferentialOperator k (A := A) m (0 : M →ₗ[k] N) := sorry
 
 open Polynomial in
 /-- `d/dz` on `ℂ[z]` has order `≤ 1`. -/
@@ -523,6 +627,18 @@ theorem residueStripRep_mem (a : ℂ) :
     0 ≤ (residueStripRep a).re ∧ (residueStripRep a).re < 1 ∧
       ∃ n : ℤ, residueStripRep a = a - n := sorry
 
+/-- The lower strip endpoint represents itself. -/
+example : residueStripRep 0 = 0 := sorry
+
+/-- The upper strip endpoint is represented by zero. -/
+example : residueStripRep 1 = 0 := sorry
+
+/-- A negative real residue is moved into the half-open strip. -/
+example : residueStripRep (-1 / 4) = 3 / 4 := sorry
+
+/-- Removing an integer from a residue preserves its imaginary part. -/
+example (a : ℂ) : (residueStripRep a).im = a.im := sorry
+
 /-- `CanonicalLogExtension.tensorCarry`: residues `3/4` and `3/4` add to `3/2`, whose strip
 representative is `1/2`; the canonical extension is not an unadjusted tensor functor. -/
 example : residueStripRep (3 / 4 + 3 / 4) = 1 / 2 := sorry
@@ -535,6 +651,12 @@ def localMonodromy (a : ℂ) : ℂ :=
 /-- Monodromy depends only on the residue modulo `ℤ`. -/
 theorem localMonodromy_add_int (a : ℂ) (n : ℤ) : localMonodromy (a + n) = localMonodromy a :=
   sorry
+
+/-- Residue zero gives identity scalar monodromy. -/
+example : localMonodromy 0 = 1 := by simp [localMonodromy]
+
+/-- Every integer residue gives identity scalar monodromy. -/
+example (n : ℤ) : localMonodromy (n : ℂ) = 1 := sorry
 
 /-- `CanonicalLogExtension.rankOne`: residue `1/2` has monodromy `−1`; the sign of the exponent is
 invisible here and fixed by the next example. -/
@@ -563,8 +685,9 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `CoherentAnalyticModule` on analytic spaces, `coherentOperations`, `CoherentAnalyticIdeal`,
   `holomorphicBundleDictionary` (model fibre `Fin r → ℂ` at each fixed rank, and gluing on
   clopen rank strata for locally constant ranks), `CoherentAnalytification`, `coherentAnalytification_faithful`,
-  `coherentPullbackOperations`, `HigherImageComparison`, `fibreDimensionLoci`;
-  `StronglyOneComplete`, `cartanTheoremB`, `cartanSerreFiniteness`, `projectiveLerayCover`,
+  `coherentPullbackOperations`, `HigherImageComparison`, `analyticSetGeometry`, `fibreDimensionLoci`;
+  `SteinManifold`, `StronglyOneComplete`, `StronglyOneComplete.completeKaehlerMetric`,
+  `cartanTheoremB`, `cartanSerreFiniteness`, `projectiveLerayCover`,
   `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`,
   `analyticSerreVanishing`, `twistPresentations`; `gagaBaseChange`,
   `projectiveGeometricDictionaries`; `remmertProperImage`, `remmertSteinExtension`,
@@ -624,11 +747,13 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
 * **Coherent local presentations and sheaf connections:**
   `CoherentAnalyticModule.presentation_iff` and `CoherentAnalyticModule.hom_ext` are the
   analytic coherence and cover-restriction statements of C0.1;
-  C5.2 sheafifies `Crystalline.Connection` and uses `Crystalline.Connection.curvature`,
-  `.extend`, `.deRhamComplex`, `.tensor`, `.hom` and `.baseChange` from CrystallineCohomology CR.1.
+  C5.2 sheafifies `Crystalline.Connection` on arbitrary coherent coefficients and uses
+  `Crystalline.Connection.curvature`,
+  `.extend`, `.deRhamComplex`, `.tensor`, `.hom` and `.baseChange` from CrystallineCohomology CR.1
+  (duals and Hom use finite locally free source coefficients).
   On affines its map takes values in `M ⊗ Ω¹`, and tensor symmetry gives the displayed geometric
   order `Ω¹ ⊗ M`; extension uses `DeRham.complex`, not a second de Rham differential.
-* **Global de Rham, Hodge and log theory on schemes:** `AlgebraicDeRham`, `GaussManin`,
+* **Global de Rham, Hodge and log theory on schemes:** `AlgebraicDeRham`, `coherentFlatConnection_locallyFree`, `GaussManin`,
   `artinDeRhamBetti` (smooth proper over a finite-dimensional commutative local `ℂ`-algebra `A`
   with residue `ℂ`; augmentation `A_const → Ω•_(X^an/(Spec A)^an)` and
   `H^n_dR(X/A) ≅ H^n_sing(X₀^an, ℂ) ⊗_ℂ A`, of length
