@@ -12,8 +12,10 @@ layer nor the roadmap.
 
 The statements use spectral spaces, module sheaves and complete nonarchimedean fields on the
 library's carriers. The coefficient sites, enhanced étale categories, geometric operations,
-compactifications and diamond dimension bounds are specified in the README. Field embeddings
-are explicitly isometric; generating, independent and modified degrees remain distinct.
+compactifications and diamond dimension bounds are specified in the README. Field tower
+and extension embeddings are explicitly isometric for compatible norms; point-presentation isomorphisms preserve
+topology and valuation rings independently of normalization. Generating, independent and
+modified degrees remain distinct.
 -/
 
 noncomputable section
@@ -38,6 +40,12 @@ example (K : Type u) [Field K] [TopologicalSpace K] [DiscreteTopology K] :
 example (K : Type u) [Field K] [TopologicalSpace K] [DiscreteTopology K]
     (V : ValuationSubring K) (hV : V ≠ ⊤) :
     ∃ x y : TauCeti.ValuationSpectrum.spa V.toSubring, x ≠ y := by sorry
+
+/-- With V=K, restriction of every relative valuation ring is the whole base field (C5.7). -/
+example (K K' : Type u) [Field K] [Field K'] [Algebra K K']
+    [TopologicalSpace K'] [DiscreteTopology K']
+    (x : TauCeti.ValuationSpectrum.spa ((⊤ : Subring K).map (algebraMap K K'))) :
+    x.val.valuation.valuationSubring.comap (algebraMap K K') = ⊤ := by sorry
 
 /-- Relative Zariski–Riemann acyclicity on the supplied spectrum (C5.7, ECD Lemma 19.4).
 The special fibre consists of valuations whose valuation ring restricts to V. -/
@@ -70,6 +78,11 @@ def IsConstFGOn {X : TopCat.{u}} (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (Z : Se
 /-- A zero sheaf has zero finitely generated value on every subspace (C7.1). -/
 example {X : TopCat.{u}} (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (hF : IsZero F)
     (Z : Set X) : IsConstFGOn Λ F Z := by sorry
+
+/-- A constant finite free sheaf has finitely generated value on every subspace (C7.1). -/
+example {X : TopCat.{u}} (n : ℕ) (Z : Set X) :
+    IsConstFGOn Λ ((constantSheaf (Opens.grothendieckTopology X)
+      (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (Fin n → Λ))) Z := by sorry
 
 /-- Infinite-rank free constant values fail finite generation on a nonempty space (C7.1). -/
 example [Nontrivial Λ] (X : TopCat.{u}) [Nonempty X] :
@@ -137,6 +150,22 @@ example [IsNoetherianRing Λ] [Nontrivial Λ] {X : TopCat.{u}} [SpectralSpace X]
     ¬ IsConstructibleSheaf Λ ((constantSheaf (Opens.grothendieckTopology X) (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (ℕ →₀ Λ))) := by
   sorry
 
+/-- isConstructibleSheaf_finite_T0: constructibility on a finite T0 spectral space
+is finite generation of every stalk (C7.1). -/
+example [IsNoetherianRing Λ] (X : TopCat.{u}) [Finite X] [SpectralSpace X]
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) :
+    IsConstructibleSheaf Λ F ↔ ∀ x : X, Module.Finite Λ (F.presheaf.stalk x) := by sorry
+
+/-- The stalk description of extension by zero on the punctured Cantor set
+excludes constructibility (isConstructibleSheaf_not_qc_open, C7.1). -/
+example [IsNoetherianRing Λ] [Nontrivial Λ]
+    (X : TopCat.{u}) [SpectralSpace X] (e : X ≃ₜ (ℕ → Bool)) (x : X)
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) X)
+    (hx : IsZero (F.presheaf.stalk x))
+    (hU : ∀ y : X, y ≠ x →
+      Nonempty (F.presheaf.stalk y ≅ ModuleCat.of Λ Λ)) :
+    ¬ IsConstructibleSheaf Λ F := by sorry
+
 end ConstructibleSheaves
 
 /-- `F` has a finite filtration `0 = F₀ ⊂ F₁ ⊂ ⋯ ⊂ Fₙ ≅ F` whose graded pieces satisfy `P`. -/
@@ -152,6 +181,43 @@ example {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
 example {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
     (hF : P F) (hP : ObjectProperty.IsClosedUnderIsomorphisms (C := C) P) :
     HasFiltrationBy P F := by sorry
+
+/-- A false graded-piece predicate permits exactly the zero objects (C7.11). -/
+example {C : Type u} [Category C] [Abelian C] (F : C) :
+    HasFiltrationBy (fun _ => False) F ↔ IsZero F := by sorry
+
+/-! ## Layer C7: module Tor-amplitude checks -/
+
+section ModuleTorChecks
+attribute [local instance] HasDerivedCategory.standard
+variable (Λ : Type u) [CommRing Λ]
+
+/-- Degree-zero Tor with the unit recovers the module (C7.14). -/
+example (M : ModuleCat.{u} Λ) :
+    Nonempty ((((CategoryTheory.Tor (ModuleCat.{u} Λ) 0).obj M).obj
+      (ModuleCat.of Λ Λ)) ≅ M) := by sorry
+
+/-- Tensor with the unit has amplitude [0,0]: its positive Tor groups vanish (C7.14). -/
+example (M : ModuleCat.{u} Λ) (n : ℕ) :
+    IsZero (((CategoryTheory.Tor (ModuleCat.{u} Λ) (n + 1)).obj M).obj
+      (ModuleCat.of Λ Λ)) := by sorry
+
+/-- The shifted unit detects the cohomological sign of [1] (C7.14). -/
+example [Nontrivial Λ] :
+    let A := ((DerivedCategory.singleFunctor (ModuleCat.{u} Λ) 0).obj
+      (ModuleCat.of Λ Λ))⟦(1 : ℤ)⟧
+    Nonempty ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-1)).obj A ≅
+      ModuleCat.of Λ Λ) ∧
+    ¬ IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} Λ) (-1)).obj A) := by sorry
+
+end ModuleTorChecks
+
+/-- The dual-number quotient has nonzero Tor in every homological degree;
+the periodic ε-resolution detects failure of any finite Tor interval (C7.14). -/
+example (n : ℕ) :
+    let R := DualNumber ℤ
+    let M := ModuleCat.of R (R ⧸ Ideal.span ({DualNumber.eps} : Set R))
+    ¬ IsZero (((CategoryTheory.Tor (ModuleCat R) n).obj M).obj M) := by sorry
 
 /-! ## Layer C8: field degrees and cohomological bounds -/
 
@@ -190,6 +256,13 @@ def topologicalTrdeg (K L : Type u) [Field K] [Field L] [Algebra K L]
   ⨅ (n : ℕ) (_ : ∃ A : IntermediateField K L,
       Dense (A : Set L) ∧ Algebra.trdeg K A ≤ (n : Cardinal)), (n : ℕ∞)
 
+-- topologicalTrdeg_self_test
+example [TopologicalSpace K] : topologicalTrdeg K K = 0 := by sorry
+
+-- topologicalTrdeg_discrete_one
+example [DiscreteTopology L] (h : Algebra.trdeg K L = 1) :
+    topologicalTrdeg K L = 1 := by sorry
+
 -- topologicalTrdeg_dense_algebraic
 example (A : IntermediateField K L) [Algebra.IsAlgebraic K A]
     (hd : Dense (A : Set L)) : topologicalTrdeg K L = 0 := by sorry
@@ -209,6 +282,13 @@ def IsTopAlgIndependent (s : Set L) : Prop :=
 /-- Temkin's independent degree `top.tr.deg`, through finite independent sets. -/
 def topologicalIndependenceDegree : ℕ∞ :=
   ⨆ (s : Finset L) (_ : IsTopAlgIndependent K (s : Set L)), (s.card : ℕ∞)
+
+/-- The identity extension has independent degree zero (C8.4). -/
+example [TopologicalSpace K] : topologicalIndependenceDegree K K = 0 := by sorry
+
+/-- Discrete transcendence degree one gives independent degree one (C8.4). -/
+example [DiscreteTopology L] (h : Algebra.trdeg K L = 1) :
+    topologicalIndependenceDegree K L = 1 := by sorry
 
 -- isTopAlgIndependent_discrete
 example [DiscreteTopology L] (s : Set L) :
@@ -317,6 +397,34 @@ attribute [instance] CompleteACExtension.normedField CompleteACExtension.complet
   CompleteACExtension.ultrametric CompleteACExtension.algebraicallyClosed
   CompleteACExtension.algebraK CompleteACExtension.algebraL CompleteACExtension.tower
 
+/-- Complete real-valued amalgamation provides compatible isometric embeddings
+of two complete extensions over their nontrivially valued base (C8.11a). -/
+theorem completeFieldAmalgamation
+    (K L M : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
+    [NontriviallyNormedField M] [CompleteSpace K] [CompleteSpace L] [CompleteSpace M]
+    [IsUltrametricDist K] [IsUltrametricDist L] [IsUltrametricDist M]
+    [Algebra K L] [Algebra K M]
+    (hKL : Isometry (algebraMap K L)) (hKM : Isometry (algebraMap K M)) :
+    ∃ E : CompleteACExtension K L, ∃ f : M →ₐ[K] E.Field, Isometry f := by sorry
+
+/-- A commuting isometric tower gives an actual further-extension witness (C8.10). -/
+example (K L M : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
+    [NontriviallyNormedField M] [CompleteSpace M] [IsUltrametricDist M] [IsAlgClosed M]
+    [Algebra K L] [Algebra L M] [Algebra K M] [IsScalarTower K L M]
+    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
+    ∃ E : CompleteACExtension K L, Nonempty (E.Field ≃ₐ[L] M) := by sorry
+
+/-- Actual extension data force the K-algebra triangle to commute (C8.10). -/
+example (K L : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
+    [Algebra K L] (E : CompleteACExtension K L) :
+    ∀ x : K, algebraMap K E.Field x =
+      algebraMap L E.Field (algebraMap K L x) := by sorry
+
+/-- A continuous embedding that changes a norm fails the isometric-witness condition (C8.10). -/
+example (L M : Type u) [NontriviallyNormedField L] [NontriviallyNormedField M]
+    (f : L →+* M) (hf : Continuous f) (x : L) (hx : ‖f x‖ ≠ ‖x‖) :
+    ¬ Isometry f := by sorry
+
 section ModifiedFields
 variable (K L : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
 variable [CompleteSpace K] [CompleteSpace L] [IsUltrametricDist K] [IsUltrametricDist L]
@@ -369,6 +477,19 @@ example (E : CompleteACExtension K L) (hE : topologicalTrdeg K E.Field = 0) :
 -- modifiedTopologicalTrdeg_eq_one
 example (hKL : Isometry (algebraMap K L)) (h : topologicalTrdeg K L = 1) :
     modifiedTopologicalTrdeg K L = 1 := by sorry
+
+-- modifiedTopologicalTrdeg_noFiniteWitness
+example (h : ∀ E : CompleteACExtension K L, topologicalTrdeg K E.Field = ⊤) :
+    modifiedTopologicalTrdeg K L = ⊤ := by sorry
+
+-- modifiedTopologicalTrdeg_vsOriginal
+example (hKL : Isometry (algebraMap K L))
+    (h : ∀ E : CompleteACExtension K L, topologicalTrdeg K L ≤ topologicalTrdeg K E.Field) :
+    modifiedTopologicalTrdeg K L = topologicalTrdeg K L := by sorry
+
+-- modifiedTopologicalTrdeg_eq_zero_iff_surjective
+example (hKL : Isometry (algebraMap K L)) :
+    modifiedTopologicalTrdeg K L = 0 ↔ Function.Surjective (algebraMap K L) := by sorry
 
 end ModifiedFields
 
@@ -423,6 +544,10 @@ abbrev SpecializationChain (X : Type u) [TopologicalSpace X] (n : ℕ) : Type u 
 -- specializationChainSpace_empty
 example [IsEmpty X] (n : ℕ) : IsEmpty (SpecializationChain X n) := by sorry
 
+/-- A one-point space has exactly one chain in every degree (C8.42). -/
+example [Unique X] (n : ℕ) : Nonempty (SpecializationChain X n) ∧
+    Subsingleton (SpecializationChain X n) := by sorry
+
 -- On a discrete space every specialization chain is constant.
 example [DiscreteTopology X] (n : ℕ) (c : SpecializationChain X n)
     (i j : Fin (n + 1)) : c.val i = c.val j := by sorry
@@ -464,17 +589,14 @@ The README also specifies the valuation-ring comparison in C5.7 and
 IsConstFGOn.iff_exists in C7.1.
 The README specifies additional APIs: C7.11 includes HasFiltrationBy.of_mem; C7.1 includes
 IsConstructibleSheaf.extendByZero_open, IsConstructibleSheaf.iff_compact,
-IsConstructibleSheaf.stalk_fg and the checks isConstructibleSheaf_finite_T0 and
-isConstructibleSheaf_not_qc_open. C8.2 includes fibreDimension_eq_iSup,
+IsConstructibleSheaf.stalk_fg. C8.2 includes fibreDimension_eq_iSup,
 fibreDimension_le_iff and fibreDimension_identity. C8.3 includes topologicalTrdeg_le_iff,
 topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
-topologicalTrdeg_equiv, topologicalTrdeg_self_test and topologicalTrdeg_discrete_one.
+topologicalTrdeg_equiv.
 C8.4 includes topologicalIndependenceDegree_le_iff and topologicalIndependenceDegree_self.
 C8.10 includes modifiedTopologicalTrdeg_le_iff, modifiedTopologicalTrdeg_le,
-modifiedTopologicalTrdeg_mono, modifiedTopologicalTrdeg_equiv and the checks
-modifiedTopologicalTrdeg_noFiniteWitness, modifiedTopologicalTrdeg_vsOriginal and
-modifiedTopologicalTrdeg_eq_zero_iff_surjective. Their mathematical contracts and the
-chain-space construction, quasi-augmentation and nondegeneracy theorem are in those sections.
+modifiedTopologicalTrdeg_mono and modifiedTopologicalTrdeg_equiv. Their mathematical
+contracts and the chain-space construction, quasi-augmentation and nondegeneracy theorem are in those sections.
 -/
 
 end TauCeti.DiamondEtale
