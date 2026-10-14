@@ -43,13 +43,19 @@ Design choices made explicit here:
 * hermitian pairings are conjugate-linear in the first argument;
 * the theta series of a positive definite `ℤ`-lattice is stated on Tau Ceti's `IntegralLattice`
   carrier as the specialisation of ThetaSeries' theta series, and its coefficients are Tau Ceti's
-  `representationNumber`;
+  `representationNumber`; its exponent `π i τ B(x,x)` equals `2π i τ q(x)` for
+  `q(x)=B(x,x)/2`, which can be half-integral on an odd bilinear lattice;
 * the three-square formula is stated against Tau Ceti's `hurwitzClassNumber`;
 * unitarity of a representation is Tau Ceti's `ContRepresentation.IsUnitary`, with strong
   continuity added as a separate predicate;
 * LLL-reduced bases use `δ = 3/4` and `η = 1/2`, with their short-vector approximation bound;
 * DG duality acts on Tau Ceti's native cochain-complex enrichment, with its signed opposite and
   Mathlib factor order;
+* the stable, Ind, spectrum, Verdier and Eilenberg–MacLane carriers in the README are supplied
+  by EnhancedDerivedSheaves; this roadmap provides their K-theory and coefficient/duality
+  adapters in the common spectrum category;
+* the finite-field K branch consumes TopologicalKTheory's complex classifier and Bott theorem,
+  with its CW/Milnor extension and BU-level Adams maps specified in the README;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
   `Functor.IsInvolutiveDual` with exactness of the duality functor.
 -/
@@ -1179,7 +1185,8 @@ section IntegralTheta
 variable {V : Type*} [AddCommGroup V] [Module ℚ V]
 
 /-- The theta series `Σ_{x ∈ L} exp(π i τ B(x,x))` of an integral lattice (3.4.1): ThetaSeries'
-`thetaSeries` of the real model `realModel L`, on Tau Ceti's carrier. -/
+`thetaSeries` of the real model `realModel L`, on Tau Ceti's carrier. With `q(x)=B(x,x)/2`,
+the exponent is also `2π i τ q(x)`; q-values can be half-integral on an odd lattice. -/
 def latticeThetaSeries (L : TauCeti.IntegralLattice V) (τ : ℂ) : ℂ :=
   ∑' x : L, Complex.exp ((Real.pi : ℂ) * Complex.I * τ * (L.integralForm x x : ℂ))
 
@@ -1224,6 +1231,18 @@ theorem latticeThetaSeries_directSum {W : Type*} [AddCommGroup W] [Module ℚ W]
 /-- Rescaling the form by `a` rescales the variable: `Θ_{L(a)}(τ) = Θ_L(aτ)`. -/
 theorem latticeThetaSeries_rescale (L : TauCeti.IntegralLattice V) (a : ℤ) (τ : ℂ) :
     latticeThetaSeries (L.scale a) τ = latticeThetaSeries L (a * τ) := by sorry
+
+-- The bilinear norm and half-norm give the same theta exponent.
+example (τ : ℂ) (b : ℤ) :
+    (Real.pi : ℂ) * Complex.I * τ * (b : ℂ) =
+      2 * (Real.pi : ℂ) * Complex.I * τ * ((b : ℂ) / 2) := by ring
+
+-- The odd rank-one norm is `1`, whose half-norm is not integral.
+example : ¬ ∃ m : ℤ, (m : ℚ) = (1 : ℚ) / 2 := by
+  intro ⟨m, hm⟩
+  have h : (2 : ℚ) * m = 1 := by linarith
+  have hi : 2 * m = (1 : ℤ) := by exact_mod_cast h
+  omega
 
 -- The rank-zero lattice has theta series `1`.
 example (τ : ℂ) :
@@ -3413,7 +3432,11 @@ sources are in the README.
   `singularWedgeUniqueRepresentative`, `polynomialSingularAvoidance`,
   `unipotentSingularOrbitDetection` and `oneOrbitAverageIdentification` on the homogeneous
   wedge and singular-stratum carriers.
-* Layer 6: `stableIndCompletion`, `finiteSemisimpleIsotypicDecomposition` and
+* Layer 6: `stableIndBoundedTStructure`, `prespectrumToSharedSpectrum`, `stableMappingSpectrum`,
+  `bottAdamsOperations`, `brauerLift`, `brauerLift_homotopyEquivalence`, `finiteFieldKGroups`,
+  `PerfectDerivedInfinity` and `perfectDerivedHom` on the supplied EnhancedDerivedSheaves and
+  TopologicalKTheory carriers; `stableIndCompletion` is the supplied `indCompletion` on a stable
+  category. `finiteSemisimpleIsotypicDecomposition` and
   `stableKHeartComparison` on stable/finite-length category carriers; `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
   `ExactW0`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
 -/
