@@ -11,6 +11,7 @@ import TauCeti.NumberTheory.LocalField.WildInertia
 import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.Algebra.CentralSimple.Index
+import TauCeti.LinearAlgebra.GeneralLinearGroup.Unipotent
 
 /-!
 # Arithmetic Galois representations and conductors: representative target signatures
@@ -57,15 +58,14 @@ universe u u' v v' w w'
 
 namespace LinearMap
 
-/-- Local restatement of AdicSpacesPartIII §R3.8, to be replaced by the import once that roadmap is merged.
-Concrete projective trace carrier for the §7.2 consumer alias; its categorical interpretation is
-supplied by PivotalSpherical Layer 2 (an open TauCetiRoadmap pull request by kim-em). -/
+/-- Concrete scalar realization of AdicSpacesPartIII §R3.8 projective-module-trace.
+Provides the contraction trace for the §7.2 consumer alias and its symmetric-duality comparison. -/
 def projectiveTrace (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] : Module.End R N →ₗ[R] R :=
   contractLeft R N ∘ₗ (dualTensorHomEquiv R N N).symm.toLinearMap
 
-/-- Local restatement of AdicSpacesPartIII §R3.8, to be replaced by the import once that roadmap is merged.
-Finite-free compatibility used by the §7.2 Check, proved from Mathlib's contraction formula. -/
+/-- Concrete scalar realization of AdicSpacesPartIII §R3.8 projective-module-trace.
+Provides finite-free compatibility with Mathlib's linear trace through the contraction formula. -/
 theorem projectiveTrace_eq_trace {R : Type*} [CommRing R] {N : Type*} [AddCommGroup N]
     [Module R N] [Module.Finite R N] [Module.Projective R N] [Module.Free R N] :
     projectiveTrace R N = _root_.LinearMap.trace R N := by
@@ -1455,6 +1455,30 @@ Section 2.5 `wd-frobenius-semisimplification` gives the separate operation and i
 output with SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization`.
 Both use the same parameter fields; the signatures below introduce no bundled carrier. -/
 
+namespace LinearMap.GeneralLinearGroup.IsUnipotent
+
+/-- The finite unipotent logarithm of §2.4; the nilpotency class supplies a truncation bound. -/
+def log {R V : Type*} [CommRing R] [Algebra ℚ R] [AddCommGroup V]
+    [Module R V] [Module ℚ V] [IsScalarTower ℚ R V]
+    (u : _root_.LinearMap.GeneralLinearGroup R V)
+    (_hu : _root_.LinearMap.GeneralLinearGroup.IsUnipotent u) : Module.End R V :=
+  ∑ i ∈ Finset.range (_root_.nilpotencyClass ((u : Module.End R V) - 1)),
+    (((-1 : ℚ) ^ (i + 1)) / (i : ℚ)) • ((u : Module.End R V) - 1) ^ i
+
+/-- The finite nilpotent exponential and unipotent logarithm are inverse (§2.4). -/
+theorem log_exp_and_exp_log {R V : Type*} [CommRing R] [Algebra ℚ R]
+    [AddCommGroup V] [Module R V] [Module ℚ V] [IsScalarTower ℚ R V]
+    (N : Module.End R V) (hN : IsNilpotent N)
+    (u : _root_.LinearMap.GeneralLinearGroup R V)
+    (hu : _root_.LinearMap.GeneralLinearGroup.IsUnipotent u) :
+    (∃ (v : _root_.LinearMap.GeneralLinearGroup R V)
+      (hv : _root_.LinearMap.GeneralLinearGroup.IsUnipotent v),
+      (v : Module.End R V) = IsNilpotent.exp N ∧ log v hv = N) ∧
+      IsNilpotent.exp (log u hu) = (u : Module.End R V) := by
+  sorry
+
+end LinearMap.GeneralLinearGroup.IsUnipotent
+
 namespace GaloisRep
 
 /-- Grothendieck's monodromy theorem on `ContinuousRep` (Deligne 1973, Thm 8.2): for `ℓ ≠ p`
@@ -1535,6 +1559,22 @@ example (F : W) :
     localFactor (deg := deg) (q := q) (Representation.trivial Ω W Ω) 0 (by simp) F = 1 - X := by
   sorry
 
+-- In characteristic three, nontrivial tame inertia has only a one-dimensional fixed space.
+example :
+    letI : AddCommGroup (ZMod 3) := (ZMod.commRing 3).toAddCommGroup
+    let r : Representation (ZMod 3) (Multiplicative (ZMod 3) × Multiplicative ℤ)
+        (Fin 2 → ZMod 3) :=
+      { toFun := fun w => Matrix.toLin' !![1, Multiplicative.toAdd w.1; 0, 1]
+        map_one' := by sorry
+        map_mul' := by sorry }
+    let deg := MonoidHom.snd (Multiplicative (ZMod 3)) (Multiplicative ℤ)
+    let F : Multiplicative (ZMod 3) × Multiplicative ℤ := (1, Multiplicative.ofAdd (-1))
+    localFactor (Ω := ZMod 3) (V := Fin 2 → ZMod 3) (deg := deg) (q := 7)
+      r 0 (by simp) F = 1 - X ∧
+      localFactor (Ω := ZMod 3) (V := Fin 2 → ZMod 3) (deg := deg) (q := 7)
+        r 0 (by simp) F ≠ (1 - X) ^ 2 := by
+  sorry
+
 end LocalFactor
 
 /-- The cyclic block endomorphism `φ_{n+1}` of `V^{n+1}`: `(φ_{n+1} c)_0 = φ(c_n)` and
@@ -1551,6 +1591,18 @@ def cyclicBlock {A V : Type*} [CommRing A] [AddCommGroup V] [Module A V] (φ : V
 theorem charpoly_cyclicBlock {A V : Type*} [CommRing A] [AddCommGroup V] [Module A V]
     [Module.Free A V] [Module.Finite A V] (φ : V →ₗ[A] V) (n : ℕ) :
     (cyclicBlock φ n).charpoly = φ.charpoly.comp (X ^ (n + 1)) := by
+  sorry
+
+-- Two rank-one blocks apply the scalar only on the wraparound from the last block to the first.
+example : (cyclicBlock (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 1).charpoly = X ^ 2 - C 2 ∧
+    LinearMap.toMatrix' (cyclicBlock (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 1) =
+      !![(0 : ℚ), 2; 1, 0] := by
+  sorry
+
+example : (cyclicBlock (LinearMap.id : ℚ →ₗ[ℚ] ℚ) 1).charpoly = X ^ 2 - 1 := by
+  sorry
+
+example : (cyclicBlock (0 : ℚ →ₗ[ℚ] ℚ) 2).charpoly = X ^ 3 := by
   sorry
 
 /-! ### The monodromy filtration and purity -/
@@ -2843,9 +2895,8 @@ variable {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   [TopologicalSpace M] [IsModuleTopology A M]
 
 /-- Local consumer alias for AdicSpacesPartIII R3.8 `LinearMap.projectiveTrace`, realizing the
-PivotalSpherical Layer 2 duality trace; retained for `adZero`, `tracePairing_perfect` and
-`adZero_to_adQuot`. The standard symmetric duality and tensor-unit/scalar comparison are §7.2
-consumer obligations. -/
+PivotalSpherical Layer 2 duality trace in the standard symmetric module duality.
+Provides the scalar trace used by `adZero`, `tracePairing_perfect` and `adZero_to_adQuot` (§7.2). -/
 def endTrace (R : Type*) [CommRing R] (N : Type*) [AddCommGroup N] [Module R N]
     [Module.Finite R N] [Module.Projective R N] : Module.End R N →ₗ[R] R :=
   LinearMap.projectiveTrace R N
@@ -3145,6 +3196,28 @@ example {k V : Type*} [Field k] [CharP k 3] [AddCommGroup V] [Module k V] [Finit
   sorry
 
 end Polarized
+
+-- The dual numbers are F₂[t]/(t²): a multiplier square identity does not force total oddness.
+example [TopologicalSpace (DualNumber (ZMod 2))] [DiscreteTopology (DualNumber (ZMod 2))]
+    [TopologicalSpace (Multiplicative (ZMod 2))] [DiscreteTopology (Multiplicative (ZMod 2))] :
+    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
+    let R := DualNumber (ZMod 2)
+    letI : CommRing R := inferInstanceAs (CommRing (DualNumber (ZMod 2)))
+    letI : AddCommGroup R := (inferInstance : CommRing R).toAddCommGroup
+    let G := Multiplicative (ZMod 2)
+    let Γ := G × G
+    let Δ : Subgroup Γ := (MonoidHom.fst G G).ker
+    let c : Γ := (Multiplicative.ofAdd 1, 1)
+    let c' : Γ := (1, Multiplicative.ofAdd 1)
+    ∃ (ρ : ContinuousRep Δ R (Fin 2 → R)) (P : PolarizedRep Δ ρ c),
+      (∀ σ : Δ, ρ σ = if (σ : Γ).2 = 1 then LinearMap.id
+        else Matrix.toLin' (Matrix.diagonal ![(1 : R), 1 + (DualNumber.eps : R)])) ∧
+      (∀ x y, P.pairing x y = x 0 * y 1 - x 1 * y 0) ∧
+      P.sign = -1 ∧ P.multiplier c = 1 ∧
+      (P.multiplier c' : R) = 1 + (DualNumber.eps : R) ∧
+      (∀ g : Γ, P.multiplier g ^ 2 = 1) ∧
+      ¬ P.IsTotallyOdd {c, c * c'} := by
+  sorry
 
 /-- For `d!, 2 ∈ Fˣ` and `r` preserving an alternating perfect form `h` on `F²` with multiplier `μ`,
 the normalised symmetrisation `B_d` is a perfect `(−1)^d`-symmetric form on `Sym^d F²` with
