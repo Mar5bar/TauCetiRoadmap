@@ -472,21 +472,39 @@ def beta (loc : ∀ v, A →+ H v) (hloc : ∀ a, ∀ᶠ v in cofinite, loc v a 
     (hloc : ∀ a, ∀ᶠ v in cofinite, loc v a ∈ Hun v) (a : A) (v : ι) :
     beta loc hloc a v = loc v a := rfl
 
-/-- `Шʳ_S`: the kernel of `βʳ`. -/
+/-- `Шʳ_S`: the kernel of `βʳ`. In the arithmetic instance, `A = Hʳ(G_{K,S}, M)`
+and the index type is the subtype of places in `S`. -/
 def sha (loc : ∀ v, A →+ H v) (hloc : ∀ a, ∀ᶠ v in cofinite, loc v a ∈ Hun v) :
     AddSubgroup A := (beta loc hloc).ker
 
-theorem sha_eq_absoluteSha (loc : ∀ v, A →+ H v)
+/-- The restricted-product kernel is the intersection of the kernels of its coordinate maps.
+For `Шʳ_S`, these maps have source `Hʳ(G_{K,S}, M)` and are indexed by places in `S`. -/
+theorem sha_eq_ker_localization (loc : ∀ v, A →+ H v)
     (hloc : ∀ a, ∀ᶠ v in cofinite, loc v a ∈ Hun v) :
-    sha loc hloc = absoluteSha loc := by
+    sha loc hloc = ⨅ v, (loc v).ker := by
   ext a
-  rw [mem_absoluteSha, sha, AddMonoidHom.mem_ker]
+  simp only [AddSubgroup.mem_iInf, AddMonoidHom.mem_ker, sha]
   constructor
   · intro h v
     have := congrArg (fun x : restrictedProductCohomology H Hun => x v) h
     simpa [RestrictedProduct.zero_apply] using this
   · intro h
     ext v
+    exact h v
+
+/-- Localization over `S` gives the all-place kernel when `S` is all places. The arithmetic
+instance uses `G_{K,S} = G_K` to identify the source with `Hʳ(G_K, M)` and keeps the same
+modified archimedean local groups on both sides. -/
+theorem sha_eq_absoluteSha (S : Set ι) (hS : S = Set.univ) (loc : ∀ v, A →+ H v)
+    (hloc : ∀ a, ∀ᶠ v : S in cofinite, loc v a ∈ Hun v) :
+    sha (fun v : S => loc v) hloc = absoluteSha loc := by
+  rw [sha_eq_ker_localization]
+  ext a
+  simp only [AddSubgroup.mem_iInf, AddMonoidHom.mem_ker, mem_absoluteSha]
+  constructor
+  · intro h v
+    exact h ⟨v, by rw [hS]; trivial⟩
+  · intro h v
     exact h v
 
 variable (H Hun)

@@ -255,8 +255,10 @@ as inputs; and Galois representations attached to automorphic forms.
 - **The coefficient-prime hypothesis.** Write `(P)` for: `p` is odd, or `K` has no real places.
   Under `(P)` the `p`-primary cohomology of `G_S` vanishes above degree two and compactly
   supported cohomology lives in degrees `0` to `3`. At `p = 2` with real places, ordinary global
-  cohomology is unbounded and the modified compactly supported complex has negative degrees; the
-  roadmap keeps both phenomena visible and never replaces them by a bounded substitute.
+  cohomology can be unbounded and the modified compactly supported complex can have negative
+  cohomology. For finite `2`-primary coefficients with all places above `2` in `S`, the global
+  groups in degrees `i > 2` are the sums of the real Tate groups of those coefficients; their
+  nonvanishing determines unboundedness. Both complexes retain their full degrees.
 - **Euler function.** For a complete Noetherian local ring `R` of dimension `d` and a finite
   `R`-module `M`, `e_R(M)` is `d!` times the coefficient of `X^d` in the cumulative Hilbert–Samuel
   polynomial `n ↦ length(M/m^{n+1}M)`; a finite-length module over `ℤ_p` has `e = 0`.
@@ -2638,7 +2640,9 @@ about `ℓ`-primary components with `ℓ ∈ P`.
 `Ext^r_G(M, C) ≅ H^r(G, N ⊗ C) = colim_U H^r(G/U, N ⊗ C^U)`; by Tate–Nakayama (ClassFieldTheory
 Layer 3), cup product with the fundamental class `u_{G/U}` gives
 `Ĥ^{r−2}(G/U, N) ≅ Ĥ^r(G/U, N ⊗ C^U)`, and the colimit of the torsion groups `Ĥ^{r−2}` along the
-maps `(U : V)·Inf` has zero `ℓ`-part because `ℓ^∞` divides every index `(G : U)` (`ℓ ∈ P`). So
+maps `(U : V)·Inf` has zero `ℓ`-part: for each fixed open normal `U` and every `m`, there is an
+open normal `V ≤ U` with `ℓ^m | (U : V)`, since `ℓ^∞` divides the supernatural order of `G`
+(`ℓ ∈ P`). Choosing `m` to kill a given `ℓ`-primary torsion class makes its transition image zero. So
 `Ext^r_G(M, C)(ℓ) = 0` for `r ≥ 4`, and for `r = 3` when `M` is torsion-free. For `M = ℤ` and
 `M = ℤ/m` (Milne, Lemma 1.7) the maps `α^r` are described through `rec_G` (ClassFieldTheory Layer 4)
 and `inv_G`, the Yoneda and cup-product pairings agreeing (ProfiniteCohomology Layer 12). For
@@ -2657,6 +2661,8 @@ formations* (Layer R02.3); ProfiniteCohomology Layers 7 and 12; ClassFieldTheory
   `H¹(G, ℤ) = Hom_cts(G, ℤ) = 0`), as (a) requires for torsion-free `M`.
 - `M = ℤ`, `r = 3`: `Ext³_G(ℤ, C) = H³(G, C)` vanishes, its finite layers being
   `Ĥ¹(G/U, ℤ) = 0` by Tate–Nakayama.
+- For `G = ℤ_ℓ`, `U = ℓⁿℤ_ℓ` has finite index `ℓⁿ`; choosing `V = ℓ^{n+m}ℤ_ℓ` gives
+  `(U : V) = ℓ^m`, so the transition multiplier kills an element of order dividing `ℓ^m`.
 
 **Tate's global duality for the S-idele classes.** Let `K` be a number field, `P` the set of primes
 `ℓ` with `ℓ^∞ | [K_S : K]` (it contains every prime that is a unit in `R_{K,S}`), `ℓ ∈ P`, and `M` a
@@ -2824,9 +2830,15 @@ The API:
 - `PoitouTate.restrictedProductCohomology`: `P^r_S(K, M)` as Mathlib's `RestrictedProduct` of the
   `H^r(K_v, M)` over the `H^r_un(K_v, M)`.
 - `PoitouTate.beta`: `β^r : H^r(G_S, M) → P^r_S(K, M)`, the product of the localisation maps.
-- `PoitouTate.sha`: `Ш^r_S(K, M) := ker β^r`; `PoitouTate.sha_eq_absoluteSha`: it is the kernel of
-  the family of localisation maps (`ArithmeticDuality.absoluteSha`, Layer R02.3), and
-  `PoitouTate.beta_apply` evaluates `β^r` at a place.
+- `PoitouTate.sha`: `Ш^r_S(K, M) := ker β^r`;
+  `PoitouTate.sha_eq_ker_localization`: this is the intersection of the kernels of the maps
+  `H^r(G_{K,S}, M) → H^r(K_v, M)` indexed by `v ∈ S`.
+  `PoitouTate.beta_apply` evaluates `β^r` at a place of `S`.
+- `PoitouTate.sha_eq_absoluteSha`: when `S` equals the set of all places, transport through
+  `K_S = K^s` and `G_{K,S} = G_K` identifies `Ш^r_S(K, M)` with
+  `ArithmeticDuality.absoluteSha`, using the same modified archimedean groups in every degree.
+  For a general `S`, unramified localisation outside `S` need not vanish, so inflation need not
+  send `Ш^r_S` into the all-place kernel, even when `#M` is a unit in `R_{K,S}`.
 - `PoitouTate.compactSpace_P0`: `P⁰_S(K, M)` is compact for finite `M`.
 - `PoitouTate.locallyCompactSpace_P1`: `P¹_S(K, M)` is locally compact.
 - `PoitouTate.restrictedProductCohomology_eq_sum`: for finite `M` and `r ≥ 2`,
@@ -2839,7 +2851,10 @@ The API:
 `v` unramified in `L` its localisation is unramified (Milne, Lemma 4.8); so `β^r` lands in the
 restricted product. `H¹(K_v, M)` is finite for finite `v` (ClassFieldTheory Layer 5, `finite_H`),
 so `P¹_S` is locally compact for the restricted-product topology
-(`RestrictedProduct.topologicalSpace`). ([Milne, *Arithmetic Duality
+(`RestrictedProduct.topologicalSpace`). The inclusion of a restricted product into the full
+product is injective, so its localisation kernel is the intersection of the coordinate kernels
+over `S`. For `S` all places, the defining ramification condition on `K_S` is vacuous and these
+are exactly the maps defining the absolute kernel. ([Milne, *Arithmetic Duality
 Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I, §4, statement of the main
 theorem, p. 55 (PDF p. 63); [Harpaz–Wittenberg, *The Massey vanishing conjecture for number
 fields*](https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf), §7, before Lemma 7.6,
@@ -2851,6 +2866,18 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
 
 - `rp_finite_pi`: for a finite index set the restricted product is the full product.
 - `rp_zero_local`: if every localisation is zero, `Ш^r_S` is the whole global group.
+- For `S` all places, `G_{K,S} = G_K`, and `Ш^r_S(K,M) = Ш^r(K,M)` for every `r ≥ 0`, with the
+  same Tate-modified archimedean groups on both sides.
+- For `K = ℚ(√−35)`, `L = ℚ(√5,√−7) = K(√−7)`, trivial `M = ℤ/2` and `S` consisting of the
+  place above `2` and the complex place, the character of `L/K` is a nonzero element of `Ш¹_S`.
+  The quadratic discriminants give `disc(L) = 5·(−7)·(−35) = 1225 = disc(K)²`, so `L/K` is
+  unramified at every finite place. It splits over `2`, since `−7 ≡ 1 mod 8` is a square in `ℚ₂`.
+  At either place above `3`, `K_v = ℚ₃` because `x²−x+9` has two distinct roots modulo `3`,
+  whereas `−7 ≡ 2 mod 3` is nonsquare. Thus inflation has nonzero localisation outside `S`;
+  `Ш¹(K,ℤ/2) = 0` by Chebotarev. Here `S` already contains every coefficient-prime place.
+  The discriminants and fields are recorded in [LMFDB 2.0.35.1](https://www.lmfdb.org/NumberField/2.0.35.1)
+  and [LMFDB 4.0.1225.1](https://www.lmfdb.org/NumberField/4.0.1225.1); the splitting-at-`S`
+  interpretation is Milne, Chapter I, Example 4.11(i), pp. 57–58.
 - `rp_modified_real`: the real Tate group `Ĥ⁰(C₂, ℤ/2) = ℤ/2` is nonzero, so the dyadic real
   contribution is kept.
 - `rp_direct_sum`: over `ℕ`, the restricted product of copies of `ℤ` with respect to the zero
@@ -3443,7 +3470,9 @@ localisation diagram; for `M = μ_m` the sum of the local invariants defines the
 If `M` is `p`-primary and `(P)` holds (`p` odd, or `F` without real places), the
 archimedean complexes are acyclic and `C_c` is the fibre of the localisation to the finite places of
 `S`. If `p = 2` and `F` has a real place, `H^i_c` can be nonzero in negative degrees and the global
-cohomology is unbounded above; both are kept.
+cohomology can be unbounded above. For finite coefficients its groups in degrees `i > 2` are
+the sums of the real Tate cohomology groups of `M`, so nonvanishing depends on `M`; both
+complexes retain their full degrees.
 
 The API:
 
@@ -5120,8 +5149,9 @@ nonarchimedean part, `G_{K,S} = Gal(K_S/K)`, `G_v` the decomposition groups thro
 embeddings, and `R` a complete Noetherian local ring with finite residue field of characteristic
 `p`; assume `p = 2` and that `K` has at least one real place. Replace the local target of `res` by
 the sum of the ordinary cochains at the finite places of `S` and the complete Tate cochains at
-every real place, and let `Ĉ_c` be the mapping fibre. Ordinary global cohomology is nonzero in
-infinitely many degrees and the global cochains are not truncated; `Ĉ_c` may have cohomology in
+every real place, and let `Ĉ_c` be the mapping fibre. Ordinary global cohomology can be nonzero in
+infinitely many degrees: for finite `M` its groups in degrees `i > 2` are the sums of the real
+Tate groups of `M`. The global cochains are not truncated; `Ĉ_c` may have cohomology in
 negative degrees. For finite `M` the pairings
 `Hⁱ(G_{K,S}, M) × Ĥ_c^{3−i}(G_{K,S}, M^D) → ℚ/ℤ`, with `M^D = Hom(M, E_S)`, are perfect for every
 integer `i`, and `Ĥⁱ_c = 0` for `i > 3`. The corresponding derived duality for coefficients of finite
@@ -5143,6 +5173,11 @@ support*; *Derived Poitou–Tate duality*; *Local duality at the archimedean pla
   `H^{3−i}(G_{ℚ,S}, μ₂) ≅ H^{3−i}(ℝ, μ₂) = ℤ/2`.
 - With `ℚ₂`-coefficients the real Tate terms vanish (`Ĥⁱ(ℝ, V) = 0` for a `ℚ₂`-vector space `V`), so
   `Ĉ_c` and the finite-place `C_c` agree after inverting `2`.
+- For `M = 0`, all global and compactly supported cohomology groups vanish, including at real
+  places.
+- For `K = ℚ`, `S = {2,∞}`, `F = ℚ(i)` and `M = Ind_{G_{F,S_F}}^{G_{K,S}} 𝔽₂`, the real
+  restriction is the regular `𝔽₂[C₂]` module, with zero Tate cohomology. By Shapiro and
+  `cd₂(G_{F,S_F}) = 2`, `Hⁱ(G_{K,S},M) = 0` for `i > 2`, and `Ĉ_c` has no negative cohomology.
 - For trivial `V = ℚ₂`, the ordinary archimedean complex has `H⁰ = ℚ₂` at a real place even
   after inverting `2`. It cannot be inserted into the finite-place fibre without its comparison
   term `ℚ₂[0]`.
