@@ -208,6 +208,7 @@ formed on the identical `Root S` and `weightSpace S χ`, with no independently c
 | Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
 | Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
 | Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
+| DVR lattice indices and linear Haar images | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md#layer-2-lattices-index-and-the-haar-scaling-law): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
 
 `NormTorus.norm` differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
 before taking the norm over `R`. The affine point topology here allows general topological
@@ -648,20 +649,25 @@ identification. The local-parameter construction is the one underlying [Conrad],
 p. 11, for fields complete for a nontrivial absolute value; construct its analytic
 and tangent comparison here.
 
-Normalize additive Haar measure by `μ(O_E) = 1` and its product `μ_d` by
-`μ_d(O_E^d) = 1`. Prove the linear pushforward formula
-`A_*μ_d = |det A|_E⁻¹ μ_d` for `A ∈ GL_d(E)`, with
-`|·|_E = TauCeti.normalizedAbsoluteValue E`, and analytic change of variables
+Normalize regular additive Haar measure by `μ(O_E) = 1` and its product `μ_d` by
+`μ_d(O_E^d) = 1`. Consume MassFormula Layer 2's DVR lattice index and linear image law
+`μ_d(MB) = q^{-ω(det M)} μ_d(B)` for integral matrices `M` with nonzero determinant
+and Borel sets `B`. Here extend that law to `A ∈ GL_d(E)` by clearing uniformizer
+denominators in `A`; identify its factor with `|det A|_E`, where
+`|·|_E = TauCeti.normalizedAbsoluteValue E`, using
+`TauCeti.normalizedAbsoluteValue_apply_ne_zero`. Applying the image law to `A⁻¹`
+gives the pushforward adapter `A_*μ_d = |det A|_E⁻¹ μ_d`.
+Prove analytic change of variables
 `μ_d(f(B)) = ∫_B |det Df(x)|_E dμ_d(x)` for an analytic isomorphism of open
-chart domains and a Borel subset `B` of its source. Derive the linear formula by
-elementary matrices and the indices of powers of the maximal ideal; derive the
-analytic formula by shrinking to balls on which the invertible derivative has
-constant absolute determinant and the inverse function theorem identifies their
-images with the corresponding linear images. These Haar-Jacobian deductions are
-part of this target. They provide the positive-characteristic counterpart of
+chart domains and a Borel subset `B` of its source, by shrinking to balls on which
+the invertible derivative has constant absolute determinant and the inverse function
+theorem identifies their images with the corresponding linear images. The adapters
+and nonlinear Haar-Jacobian comparison belong here. They provide the positive-characteristic
+counterpart of
 AdelicAlgebraicGroups AA.2.4 *smooth-group-analytic-charts* for RG2.4.
 *Needs:* *affine-point-topology-embedding*; *points-topological-group*;
-*smooth-morphism-open-map*; ReductiveGroups layer 2; Tau Ceti
+*smooth-morphism-open-map*; MassFormula Layer 2 (DVR lattice index and regular-Haar image law);
+ReductiveGroups layer 2; Tau Ceti
 `Derivation.cotangentLinearEquiv`; Mathlib additive Haar measure and
 `HasStrictFDerivAt.toOpenPartialHomeomorph`.
 *Lean:* none (README-only).
@@ -4901,6 +4907,59 @@ target here. *Needs:* RG2.2 *twisted-levi-subgroup*; *moy-prasad-filtration*;
   at least `1`, off-diagonal entries at least `2`. These distinguish the mixed carriers
   from either ordinary depth subgroup or lattice.
 
+**Prime-to-residue divisibility for torus descent.** (*prime-to-residue-torus-descent*)
+Let `F` be henselian for a nontrivial discrete valuation of rank one, with maximal ideal
+`m_F`, and let `n ≥ 1` be a unit in `O_F`. Put `U_{0+}(F) = 1 + m_F` and, for `r > 0`,
+`U_r(F) = {u ∈ U_{0+}(F) : ω(u − 1) ≥ r}`, with `U_{r+}(F) = ∪_{s>r} U_s(F)`.
+Prove `principalUnitPower_bijective`: `u ↦ u^n` is bijective on each of these groups.
+Hensel lifting of `X^n − u` at `1` gives a unique root in `1 + m_F`, since its residual
+derivative is the unit `n` ([Stacks], Lemmas 10.153.3(2), Tag
+[04GG](https://stacks.math.columbia.edu/tag/04GG), and 10.153.2, Tag
+[06RR](https://stacks.math.columbia.edu/tag/06RR)). The binomial expansion gives
+`ω(v^n − 1) = ω(v − 1)` for `v ∈ 1 + m_F`: after factoring `v − 1`, the remaining
+factor has residue `n`. Thus the root and power maps preserve every depth cutoff.
+
+For a finite group `Γ` of order `n` acting on an abelian group `M`, prove
+`finiteGroupH1_of_uniqueDivisibility`: if multiplication by `n` is bijective on `M`,
+then `H¹(Γ,M) = 0`. In additive notation a cocycle `c` is the coboundary of
+`−n⁻¹∑_{γ∈Γ} c(γ)`; the inverse to multiplication by `n` commutes with the action.
+Now let `K` be a `ModelField`, let `E/K^ur` be finite tame Galois of degree `n`,
+let `Γ = Gal(E/K^ur)` and let `T` be a `K^ur`-torus with
+`T_E ≅ ∏_i Res_{E_i/E} G_m` for finite separable `E_i/E`, as in [Fintzen MP],
+Assumption 2.4.2, arXiv v4 p. 11. Extend the valuation without renormalizing;
+`n` is a residue-field unit. Apply the principal-unit result over each henselian `E_i`. Prove
+`torusPositiveDepth_uniqueDivisibility`: `T(E)_r`, `T(E)_{r+}` (`r > 0`) and `T(E)_{0+}`
+are uniquely `n`-divisible. In particular `H¹(Γ,T(E)_{r+}) = 0`; multiplication by `n`
+on the Lie lattices is invertible over `O_E`, giving their `H¹` vanishing by averaging.
+These are deductions here from Hensel lifting and the induced-torus presentation.
+
+Prove `fixedPositiveDepth_component_eq_one`: the fixed subgroup `T(E)_{0+}^Γ` is
+uniquely `n`-divisible, since uniqueness makes each `n`-th root fixed. Every homomorphism
+from it to a group annihilated by `n` is trivial. These fixed points are bounded over
+`K^ur`; in particular their image in
+`T(K^ur)_b/T(K^ur)_0` is trivial once that component group is annihilated by `n`.
+Neither completeness nor finiteness of the residue field is assumed; the predicate
+`TauCeti.IsProP` alone does not imply this cohomology vanishing.
+*Needs:* *moy-prasad-filtration*; *moy-prasad-lie-lattices*; RG2.0a
+*weil-restriction-group-scheme*; RG2.1 *steinberg-quasi-split*; Mathlib
+`HenselianLocalRing.is_henselian`.
+*Lean:* none (README-only).
+
+**Checks.**
+
+- `principalUnitPower_series` — in `1 + t k[[t]]`, for a field `k` of characteristic
+  `p > 0` and `p ∤ n`, the unique `n`-th root preserves the `t`-adic depth; in
+  particular `ω((1+t)^n − 1) = 1`. For `n = p` the value is `p`, and `1+t` has no
+  `p`-th root in this group.
+- `primeToResidueCohomology_henselization` — for the henselization of `k(t)` at `(t)`,
+  with `k` algebraically closed of characteristic three, squaring is bijective on
+  every positive-depth principal-unit group. The order-two inversion action has
+  trivial `H¹`, despite incompleteness and infinite residue field.
+- `quotientProP_cohomology_failure` (non-example) — `ℤ` with its 3-adic topology
+  satisfies the quotient predicate `TauCeti.IsProP 3`, since each open subgroup
+  contains `3^aℤ`. For the continuous negation action of `C₂`, however,
+  `H¹(C₂,ℤ) = ker(1+σ)/(σ−1)ℤ = ℤ/2ℤ`; multiplication by two is not surjective.
+
 **The Moy–Prasad isomorphism.** (*moy-prasad-isomorphism*) Let `K`, `y`, `A ⊇ S` and `T = Z_G(A)` be
 as in *moy-prasad-filtration*. For every `r > 0` the quotient `G_{y,r}/G_{y,r+}` is abelian, since
 `[G_{y,r}, G_{y,r}] ⊆ G_{y,2r} ⊆ G_{y,r+}` (`commutator_filtration_le`); this needs no hypothesis on
@@ -4913,12 +4972,16 @@ Over a finite tame Galois extension `E ⊇ K^ur` over which `T ≅ ∏_i Res_{E_
 `T(E)_r = ∏_i(1 + {z ∈ E_i : ω(z) ≥ r})` and `t(E)_r = ∏_i{z ∈ E_i : ω(z) ≥ r}`, and `1 + z ↦ z`
 induces a `Gal(E/K^ur)`-equivariant isomorphism of the graded pieces, because
 `(1+z)(1+z') = 1 + z + z' + zz'` with `ω(zz') ≥ 2r`. The isomorphism over `K^ur` is its restriction
-to fixed points: `Gal(E/K^ur)` is cyclic of order prime to `p` (*steinberg-quasi-split*), so it has
-no cohomology in the pro-`p` groups `T(E)_{r+}` and the `O_E`-modules `t(E)_{r+}`, and
-`T(K^ur)_r = T(K^ur) ∩ T(E)_r` for `r > 0`: an element of the right side is bounded, and its image
-in the component group `T(K^ur)_b/T(K^ur)_0`, the torsion of `X_*(T)_I`, which is killed by
-`[E : K^ur]` because `X_*(T)` is a permutation module for the inertia of `E`, is trivial since
-`T(E)_{0+}` is pro-`p` (the torus comparison and these two facts are derived here). (a) Under the
+to fixed points: `Γ = Gal(E/K^ur)` is cyclic of order `n` prime to the residue characteristic
+(*steinberg-quasi-split*). By *prime-to-residue-torus-descent*, unique `n`-divisibility
+gives `H¹(Γ,T(E)_{r+}) = 0`, and averaging gives `H¹(Γ,t(E)_{r+}) = 0`. Moreover,
+`T(K^ur)_r = T(K^ur) ∩ T(E)_r` for `r > 0`: elements of the right side are bounded.
+Their component obstruction lies in `T(K^ur)_b/T(K^ur)_0 ≅ (X_*(T)_I)_tors`, which is
+annihilated by `n`: restriction and norm multiply coinvariant classes by `n`, while the coinvariants for
+the inertia of `E` are torsion-free because `T_E` is induced. This component image is trivial
+by applying `fixedPositiveDepth_component_eq_one` to `T(E)_{0+}^Γ`, which contains the
+right side. Hence the intersection equals `T(K^ur)_r` without a compactness assumption
+(the torus comparison and component argument are derived here). (a) Under the
 same assumption, for `r > 0`, `G_{y,r}/G_{y,r+}` and `g_{y,r}/g_{y,r+}` are isomorphic
 (`groupLieGradedEquiv`; [Fintzen MP], §2.4, p. 11, under Assumption 2.4.2; the construction is
 [Moy–Prasad 1996], §3.3, p. 104, and [Moy–Prasad 1994], §3.2, p. 399, and §3.8, pp. 400–401). Over
@@ -4932,7 +4995,8 @@ the group of `κ`-points of the reductive quotient `𝒢̄_x` for perfect `κ` (
 algebraically closed): `Parahoric.parahoricQuotientEquiv` together with the check
 `filtrationPlus_zero_eq_proUnipotent` ([Moy–Prasad 1996], §3.1–3.2, pp. 102–103, for algebraically
 closed `κ`, and §3.3, p. 104, for finite `κ`); (b) needs no hypothesis on `T`. *Needs:*
-*moy-prasad-lie-lattices*; *reductive-quotient-of-special-fibre*; *moy-prasad-filtration*; RG2.1
+*moy-prasad-lie-lattices*; *reductive-quotient-of-special-fibre*; *moy-prasad-filtration*;
+*prime-to-residue-torus-descent*; RG2.1
 *quasi-split-root-group-coordinates*; RG2.1 *steinberg-quasi-split*; RG2.1
 *kottwitz-homomorphism-torus*; RG2.0a *weil-restriction-group-scheme*.
 *Lean:* none (README-only).
@@ -6381,9 +6445,11 @@ with `W(k) = WittVector p k` and lattices in `W(k)[1/p]^n`, `GL_n(W(k))` acts tr
 in `O^n` when all `λ_i ≥ 0`) ([Zhu], §0.5, p. 6, for the characteristic-`p` hypotheses,
 and Lem. 1.8 and (1.2.3), p. 11; [Garrett],
 §17.5, p. 297). The index formulas in (5) are computed here from the lattices of a given
-elementary-divisor type and are not taken from a source. The first three statements hold for `GL_n`
-over every `ModelField` `K` (henselian for a nontrivial discrete valuation of rank one, with perfect
-residue field), not only over a local field: with a uniformizer `ϖ`, `B` upper triangular and `I`
+elementary-divisor type and are not taken from a source. The decomposition equalities and their
+indexing and uniqueness in the first three statements extend to every `ModelField` `K`
+(henselian for a nontrivial discrete valuation of rank one, with perfect residue field).
+The compactness and finite-cardinality clauses retain their nonarchimedean local-field
+hypotheses. Explicitly, with a uniformizer `ϖ`, `B` upper triangular and `I`
 the standard Iwahori (integral, upper triangular modulo the maximal ideal), every `g ∈ GL_n(K)` lies
 in `GL_n(O) diag(ϖ^μ) GL_n(O)` for a unique `μ ∈ ℤ^n` with `μ_1 ≥ ⋯ ≥ μ_n`, `GL_n(K) = B(K)GL_n(O)`,
 and every `g` lies in `I(P_σ diag(ϖ^μ))I` for a unique `(σ, μ) ∈ S_n × ℤ^n`, `P_σ` the permutation
@@ -6396,6 +6462,11 @@ matrix; `Suggested.lean` states these three decompositions in this form, for eve
 
 **Checks.**
 
+- `glDecompositions_infinite_residue` (non-example) — `K = ℂ((t))` is a `ModelField`.
+  Its algebraic decompositions and uniqueness hold, but `GL₂(K)/B(K) ≅ ℙ¹(K)` is not
+  compact: reduction is a continuous surjection onto the infinite discrete set `ℙ¹(ℂ)`.
+  For a simple affine reflection `s`, `IsI/I` is parametrized by `ℂ`, so its cardinality
+  is infinite.
 - `cartan_rank_one` (Lean example) — for `n = 1` over a local field `E` the Cartan decomposition is
   `E^× = ⊔_m O^× ϖ^m`: every `x ∈ E^×` is `u ϖ^{ω(x)}` with `u ∈ O^×`, `ω` the normalized valuation.
 

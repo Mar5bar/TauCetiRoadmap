@@ -1426,23 +1426,26 @@ open ValuativeRel LevelSubgroups
 
 variable {K : Type u} [Field K] [ValuativeRel K] [ModelField K] {n : ℕ}
 
-/-- The Cartan decomposition of `GL_n(K)`: every `g` lies in `GL_n(𝒪) diag(ϖ^μ) GL_n(𝒪)` for a
-unique antitone `μ ∈ ℤⁿ`, the elementary divisors of `g𝒪ⁿ` (Zhu, Lem. 1.8, p. 11; Garrett,
+/-- Over every `ModelField K`, the Cartan decomposition places each `g` in
+`GL_n(𝒪) diag(ϖ^μ) GL_n(𝒪)` for a unique antitone `μ ∈ ℤⁿ`, the elementary divisors of
+`g𝒪ⁿ` (Zhu, Lem. 1.8, p. 11; Garrett,
 §17.5, p. 297). -/
 theorem cartan_generalLinear (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : GL (Fin n) K) :
     ∃! μ : Fin n → ℤ, Antitone μ ∧ ∃ k₁ ∈ integralGL K n, ∃ k₂ ∈ integralGL K n,
       (g : Matrix (Fin n) (Fin n) K) = (k₁ : Matrix (Fin n) (Fin n) K) *
         Matrix.diagonal (fun i => (ϖ : K) ^ μ i) * (k₂ : Matrix (Fin n) (Fin n) K) := sorry
 
-/-- The Iwasawa decomposition of `GL_n(K)`: `GL_n(K) = B(K) GL_n(𝒪)` with `B` upper triangular
+/-- Over every `ModelField K`, the Iwasawa equality is `GL_n(K) = B(K) GL_n(𝒪)` with `B`
+upper triangular
 (Bruhat–Tits I, Prop. (7.3.1)(i), p. 164, `G = U⁺·N·B_{x,D}`; for `GL_n`, `N = T(K)·S_n` with
 `S_n ⊂ GL_n(𝒪)`). -/
 theorem iwasawa_generalLinear (g : GL (Fin n) K) :
     ∃ b : GL (Fin n) K, (b : Matrix (Fin n) (Fin n) K).BlockTriangular id ∧
       ∃ k ∈ integralGL K n, g = b * k := sorry
 
-/-- The Iwahori–Bruhat decomposition of `GL_n(K)`: `GL_n(K) = ⊔ I (P_σ diag(ϖ^μ)) I` over the
-extended affine Weyl group `ℤⁿ ⋊ Sₙ`, each `g` lying in exactly one double coset (Bruhat–Tits I,
+/-- Over every `ModelField K`, the Iwahori–Bruhat decomposition is
+`GL_n(K) = ⊔ I (P_σ diag(ϖ^μ)) I` over the extended affine Weyl group `ℤⁿ ⋊ Sₙ`, each `g`
+lying in exactly one double coset (Bruhat–Tits I,
 §6.5, Théorème, p. 154, for `GL_n`). -/
 theorem iwahoriBruhat_generalLinear (ϖ : 𝒪[K]) (hϖ : Irreducible ϖ) (g : GL (Fin n) K) :
     ∃! p : Equiv.Perm (Fin n) × (Fin n → ℤ), ∃ i₁ ∈ iwahori K n, ∃ i₂ ∈ iwahori K n,
