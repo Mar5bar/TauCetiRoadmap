@@ -1,6 +1,6 @@
 # Roadmap: automorphic spectral theory and trace distributions
 
-**Summary.** This roadmap constructs the spectral theory of automorphic forms on a connected reductive group G over a number field F and the trace distributions built from it. The main theorem decomposes L²(G(F)\G(𝔸)¹) by continued Eisenstein series and their square-integrable residues. Arthur truncation and the Maass–Selberg relations compute the inner products and lead to the coarse, fine and invariant trace formulas and the L²-Lefschetz formula. Weighted complexes and Franke's filtration connect this analysis to ordinary arithmetic cohomology. Two explicit branches develop rank-one modular kernels and the everywhere-unramified GLₙ trace over 𝔽_q(X), with the measure and finite-cover factors needed for counting local systems.
+**Summary.** This roadmap constructs the spectral theory of automorphic forms on a connected reductive group G over a number field F and the trace distributions built from it. The main theorem decomposes L²(G(F)\G(𝔸)¹) by continued Eisenstein series and their square-integrable residues. Arthur truncation and the Maass–Selberg relations compute the inner products and lead to the coarse, fine and invariant trace formulas and the L²-Lefschetz formula. Weighted complexes and Franke's filtration connect this analysis to ordinary arithmetic cohomology. Two explicit branches develop rank-one modular kernels and the everywhere-unramified GLₙ trace over 𝔽_q(X), with the measure and finite-cover factors needed for counting local systems. The GLₙ applications include number-field residual blocks, Rankin–Selberg strip bounds and normalizers, standard-completion growth and super-positivity, and solvable base change.
 
 ## Scope and ownership
 
@@ -8,7 +8,7 @@ The new functional analysis consists of measurable Hilbert fields and direct int
 
 OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The present additions are measurable multiplicity models, square-integrable kernels on general scalar L² spaces, the complex trace and its representative-dependent diagonal formula.
 
-For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, G(𝔸)¹, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and L-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. Sections 0.48–0.50 construct the general-group real representation foundations, smooth Fréchet globalizations and restricted tensor factorization, consuming the GLₙ specializations from AutomorphicLFunctionsAndLocalFactors. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar L-functions, local factors, Fourier–Laplace analysis, K-Bessel transforms, curve additive analysis, GLₙ isobaric sums and residual-block classification; §§2.14 and 4.14 adapt the latter contracts.
+For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, G(𝔸)¹, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and L-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. Sections 0.48–0.50 construct the general-group real representation foundations, smooth Fréchet globalizations and restricted tensor factorization, consuming the GLₙ specializations from AutomorphicLFunctionsAndLocalFactors. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar L-functions, local factors, Fourier–Laplace analysis, K-Bessel transforms, curve additive analysis, GLₙ isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized GLₙ intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and GLₙ transfer applications (Layer 7).
 
 Ordinary orbital integrals, discrete-series pseudo-coefficients and generic packets built from given tempered packets are constructed here. Stable orbital integrals, endoscopic transfer and stabilization belong to the roadmaps that consume them. Tempered packets, their generic members and compatibility of their local factors with parameters are hypotheses; this roadmap does not prove the general local Langlands correspondence. Its analytic Green kernel precedes the arithmetic Green functions and heights of Gross–Zagier.
 
@@ -74,16 +74,16 @@ AdelicAlgebraicGroups Layer 0, §§0.1–0.3 supplies the restricted products an
 
 ArithmeticLocallySymmetricSpaces ALS.F.5 supplies relative (𝔤,K) cochains and their invariant forms; ALS.5b.1 specializes them to (𝔪_G,K_∞) with 𝔪_G=𝔤/𝔞_G. ALS.F.6 supplies smooth adelic functions, the uniform-moderate-growth space T([G]), constant terms, cuspidal automorphic representations, and cuspidal discreteness/finite multiplicity. Transitivity of constant terms in stages is constructed in §0.51 from integration in stages (AdelicAlgebraicGroups §2.2). ALS.4.5 supplies Kostant's decomposition with weights w(λ+ρ)−ρ. ALS.5b.1 supplies de Rham comparison with local coefficients, ALS.5b.3 supplies moderate-growth comparison, and ALS.5b.5 supplies cuspidal cohomology. ALS.5b.4 takes `LocallySymmetric.FrankeInput(G,K,V)` as a hypothesis. Layer 5 below proves all three clauses of that hypothesis under the neat-level, irreducible-coefficient, split-central and full-K_∞ conventions above; it uses none of those clauses as an assumption.
 
-ArithmeticLocallySymmetricSpaces ALS.F.1 (`LocallySymmetric.realPoints_lieGroup`) supplies the real Lie group and maximal compact; ALS.0.2 supplies the real reductive Lie adapter. RepresentationTheory/LieGroups Layer 9 supplies `iwasawaDecomposition`, Cartan and KAK decompositions. Sections 0.48–0.49 construct real discrete series, tempered representations, the real Langlands classification, smooth Fréchet globalizations and normalized real induction with covariance a^(ν+ρ_P)σ(m), right translation, K∩M_P compact picture and induction in stages. For GLₙ, consume AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` and `restricted-tensor-realizations`; §§0.49–0.50 construct the general-group extensions with agreement on those specializations. For convention Y, consume completion-valued adeles, residue characters and the discrete/cocompact rational additive quotient from its AL.3 `curve-additive-analysis`, including the `CurveAdditiveAnalysis` annihilator, conductor and Poisson API. Section 1.10a adds determinant-degree/Iwasawa data, quotient-volume normalization and reduction; §1.10b constructs the Eisenstein theory. Consume GLₙ isobaric sums and Satake products from its Representation prerequisites, `isobaric-residual-classification`, isobaric uniqueness over number fields from AL.3 `isobaric-strong-multiplicity-one`, and the residual-classification suffix only after the cuspidal Eisenstein prefix here. AutomorphicLFunctionsAndLocalFactors Layer 0 supplies local and adelic Fourier analysis with self-dual measures and Fourier inversion, and its AL.0, Bessel transforms section specifies K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du for c>0, with K_{−ν}=K_ν, entire dependence on ν and K_{1/2}(c)=√(π/(2c))e^(−c). These are mathematical target contracts, rather than declarations imported from the pinned libraries. The Euclidean Paley–Wiener theorem on 𝔞_P^G is the target in §1.6; Layer 1 supplies the global Tate zeta integral and Hecke functional equation; Layers 2–3 supplies standard and Rankin–Selberg scalar factors. These suppliers precede the operator continuation and trace theory here.
+ArithmeticLocallySymmetricSpaces ALS.F.1 (`LocallySymmetric.realPoints_lieGroup`) supplies the real Lie group and maximal compact; ALS.0.2 supplies the real reductive Lie adapter. RepresentationTheory/LieGroups Layer 9 supplies `iwasawaDecomposition`, Cartan and KAK decompositions. Sections 0.48–0.49 construct real discrete series, tempered representations, the real Langlands classification, smooth Fréchet globalizations and normalized real induction with covariance a^(ν+ρ_P)σ(m), right translation, K∩M_P compact picture and induction in stages. For GLₙ, consume AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` and `restricted-tensor-realizations`; §§0.49–0.50 construct the general-group extensions with agreement on those specializations. For convention Y, consume completion-valued adeles, residue characters and the discrete/cocompact rational additive quotient from its AL.3 `curve-additive-analysis`, including the `CurveAdditiveAnalysis` annihilator, conductor and Poisson API. Section 1.10a adds determinant-degree/Iwasawa data, quotient-volume normalization and reduction; §1.10b constructs the Eisenstein theory. Consume GLₙ isobaric sums and Satake products from its Representation prerequisites, `isobaric-construction`, and isobaric uniqueness over number fields from AL.3 `isobaric-strong-multiplicity-one`. Residual classification is constructed in §§4.14–4.14a after the cuspidal Eisenstein continuation and residue prefix; §§4.15a–4.15e construct the residual scalar applications from the retained AL.3 cuspidal factors. AutomorphicLFunctionsAndLocalFactors Layer 0 supplies local and adelic Fourier analysis with self-dual measures and Fourier inversion, and its AL.0, Bessel transforms section specifies K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du for c>0, with K_{−ν}=K_ν, entire dependence on ν and K_{1/2}(c)=√(π/(2c))e^(−c). These are mathematical target contracts, rather than declarations imported from the pinned libraries. The Euclidean Paley–Wiener theorem on 𝔞_P^G is the target in §1.6; Layer 1 supplies the global Tate zeta integral and Hecke functional equation; Layers 2–3 supplies standard and Rankin–Selberg scalar factors. These suppliers precede the operator continuation and trace theory here.
 
 ## How to read the build
 
-Layer 0 constructs the new analytic interfaces and explicit kernels. Layers 1–4 pass from convergent induction and Eisenstein series through continuation, truncation and norm identities to the onto spectral transform. Layer 5 uses that theory to prove weighted acyclicity and the complete Franke contract. Within Layer 5, construct the rapidly decreasing core theorem §5.7a and the constant-term resolution §5.9 before weighted acyclicity §5.8. Layer 6 constructs Paley–Wiener transforms and then the trace distributions. Within the main branch, chamber convergence and the pseudo-Eisenstein inner product precede continuation; the packet norm precedes, and does not substitute for, onto completeness.
+Layer 0 constructs the new analytic interfaces and explicit kernels. Layers 1–4 pass from convergent induction and Eisenstein series through continuation, truncation and norm identities to the onto spectral transform. Layer 5 uses that theory to prove weighted acyclicity and the complete Franke contract. Within Layer 5, construct the rapidly decreasing core theorem §5.7a and the constant-term resolution §5.9 before weighted acyclicity §5.8. Layer 6 constructs Paley–Wiener transforms and then the trace distributions. Layer 7 constructs the cyclic twisted trace comparison and norm transfer from those distributions, then solvable base change and the degree-one comparison. Build §2.3a before §3.6a; build §§3.6a–3.6d in order after their listed prerequisites. The number-field residual-block theorem §4.14a follows §§1.1–1.5, 2.4 and 2.6. Within the main branch, chamber convergence and the pseudo-Eisenstein inner product precede continuation; the packet norm precedes, and does not substitute for, onto completeness.
 
 The layers group targets by subject. Two branches therefore cite later-numbered sections; the dependency graph has no cycles, and the following orders build them.
 
 - *Modular branch.* The special functions of §§0.25–0.45 and the series of §§1.14–1.28 come first, then the completed series and its Fourier expansion and continuation (§1.15, §§2.17–2.18). The growth and weight-two expansions §§1.29–1.30 use §2.17. The self-adjoint level-N Laplacians and their cusp domains of §1.16a precede the spectral expansion §4.8, which also needs the main-branch completeness of §§4.3–4.4. The resolvent and residue sections §§2.19–2.23 use §4.8 and come after it, as do §§4.9 and 4.18–4.20. The initial Green sum §2.25 needs only Layers 0–1; its continued residue theorem §2.24 needs both §2.25 and the resolvent §2.19.
-- *Function-field branch* (everywhere-unramified GLₙ over 𝔽_q(X)). (1) The function-field adelic and cuspidal analytic prerequisites §§1.10a–1.10b, then the finite-dimensional prefix: the character tori §1.11, determinant root coordinates §3.10, Weyl-fixed Levis §6.25 and torus pairings §6.26. (2) The discrete spectrum and discrete pairs §§4.11–4.12, then the induced sections §1.12. (3) Additive and multiplicative (G,M)-families and their identities: §§6.7–6.8, then §§6.27–6.33. (4) Good representatives and residual classification: §§4.13–4.15, then §4.17 and §4.16, using the cuspidal families of §1.10b. (5) Extend the intertwiner families §2.15 to these discrete data, then §1.13 and §2.16. (6) The degree cutoffs §§3.11–3.19. (7) The cycle covers §§0.19–0.24, then §6.34. (8) The fixed-degree trace §§6.21–6.22, the bundle, Higgs and stability dictionaries §§6.22a–6.22c, then §§6.23–6.24, then §§6.36, 6.37, 6.38, 6.35 and 6.39. The root-basis identity §6.40 needs only §3.1 and §3.10.
+- *Function-field branch* (everywhere-unramified GLₙ over 𝔽_q(X)). (1) The function-field adelic and cuspidal analytic prerequisites §§1.10a–1.10b, then the finite-dimensional prefix: the character tori §1.11, determinant root coordinates §3.10, Weyl-fixed Levis §6.25 and torus pairings §6.26. (2) The discrete spectrum and discrete pairs §§4.11–4.12, then the induced sections §1.12. (3) Additive and multiplicative (G,M)-families and their identities: §§6.7–6.8, then §§6.27–6.33. (4) Good representatives, residual classification and scalar applications: §§4.13–4.15e, then §4.17 and §4.16, using the cuspidal families of §1.10b and the retained AutomorphicLFunctionsAndLocalFactors AL.3 cuspidal factors. In particular, §§4.14–4.15e precede the residual specialization of §2.16. Section 4.14a is the separate number-field branch. (5) Extend the intertwiner families §2.15 to these discrete data, then §1.13 and §2.16. (6) The degree cutoffs §§3.11–3.19. (7) The cycle covers §§0.19–0.24, then §6.34. (8) The fixed-degree trace §§6.21–6.22, the bundle, Higgs and stability dictionaries §§6.22a–6.22c, then §§6.23–6.24, then §§6.36, 6.37, 6.38, 6.35 and 6.39. The root-basis identity §6.40 needs only §3.1 and §3.10.
 
 ## Layer 0: Hilbert fields, vector analysis and rank-one kernels
 
@@ -1092,7 +1092,7 @@ Prove the following API statements.
 
 ### 1.12 Induced spherical sections with a fixed normalization
 
-Define `induced_spherical_section` as follows. For each R∈P(M), fix the inducing character s_R explicitly. The spherical section space consists of phi on M(F)N_R(A)\G(A)/K with s_R⁻¹ phi|_M∈pi; its basis is s_R*phi_pi. [Laf97], p.284, and [Yu22], p.32, use s_R=rho_R (with P to be read as R in [Yu22]); [Yu22], p.39, uses s_R=rho_R⁻¹. Use induction_normalization_transport to transport conventions and fix the choice matching the Rankin–Selberg normalizers.
+Define `induced_spherical_section` as follows. For each R∈P(M), fix the inducing character s_R explicitly. The spherical section space consists of phi on M(F)N_R(A)\G(A)/K with s_R⁻¹ phi|_M∈pi; its basis is s_R*phi_pi. [Laf97], p.284, and [Yu22], p.32, use s_R=rho_R (with P to be read as R in [Yu22]); [Yu22], p.39, uses s_R=rho_R⁻¹. Use induction_normalization_transport to transport conventions and fix the choice matching the Rankin–Selberg normalizers of §4.15d.
 
 Prove the following API statements.
 - `sphericalSection`: For specified s_R, extend phi_pi by phi_R(nmk)=s_R(m)phi_pi(m).
@@ -1111,7 +1111,7 @@ Prove the following API statements.
 
 ### 1.13 Explicit transport between induction normalization conventions
 
-Define `induction_normalization_transport` as follows. Fix positive inducing characters s_R on M(A). Define A_R,pi^s by s_R⁻¹*phi|_M∈pi and spherical basis phi_R(nmk)=s_R(m)*phi_pi(m). For a second convention t_R, C_R^(s→t) multiplies by t_R/s_R in Iwasawa coordinates. Transport each operator by M^t_(R′|R)=C_R′ M^s_(R′|R) C_R⁻¹. [Yu22], p.32, and [Laf97], p.284, use s_R=rho_R in their membership formula ([Yu22] writes P); [Yu22], p.39, uses s_R=rho_R⁻¹. One cannot identify their numerical normalizers until this dictionary, including parameter conventions, is checked.
+Define `induction_normalization_transport` as follows. Fix positive inducing characters s_R on M(A). Define A_R,pi^s by s_R⁻¹*phi|_M∈pi and spherical basis phi_R(nmk)=s_R(m)*phi_pi(m). For a second convention t_R, C_R^(s→t) multiplies by t_R/s_R in Iwasawa coordinates. Transport each operator by M^t_(R′|R)=C_R′ M^s_(R′|R) C_R⁻¹. [Yu22], p.32, and [Laf97], p.284, use s_R=rho_R in their membership formula ([Yu22] writes P); [Yu22], p.39, uses s_R=rho_R⁻¹. One cannot identify the numerical normalizers constructed in §4.15d until this dictionary, including parameter conventions, is checked.
 
 Prove the following API statements.
 - `normalizedSection`: From a fixed positive character s_R, extend a Levi spherical vector by multiplication by s_R; independence follows from its triviality on M∩K.
@@ -1468,6 +1468,19 @@ Prove `local_normalization`. There exist scalar meromorphic r_Q|P(π_λ), produc
 *Needs:* §2.2; §2.1; SmoothRepresentationsOfLocalGroups Layer 4.
 
 
+### 2.3a GLₙ normalized intertwining estimates
+
+<a id="gln-normalized-intertwining"></a>
+
+**GLₙ normalized intertwining estimates.** For a characteristic-zero local F and generic unitary irreducible π₁,π₂ of GL_n(F),GL_m(F), use normalized induction to GL_(n+m) in a fixed compact picture. Starting from the standard unipotent intertwiner J of §2.1, construct N with the Rankin–Selberg L/epsilon normalization of Gelbart–Shahidi (2.5); compare those local factors with AutomorphicLFunctionsAndLocalFactors AL.3's integral factors. Transport the inducing representation, Weyl element and additive character in the inverse identity (2.6). Prove the GLₙ instance of Assumption 2.1: at each s with Re(s)≥1/2 there is a flat section and an evaluation g for which N(s) applied to that section is holomorphic and nonzero at s. On fixed finite-level/maximal-compact-type blocks prove polynomial bounds for its matrix coefficients on finite strips away from their poles; at infinity retain continuous seminorm bounds in the compact picture. Unitarity on the imaginary axis from §2.3 alone does not give this positive-half-plane statement. Both a representation and its contragredient carry the hypotheses.
+
+**Checks.** The identity Weyl element gives the identity operator; at an unramified place with conductor-O additive character and hyperspecial Haar normalization, the normalized spherical line maps to its counterpart with value 1; at every point of Re(s)=1/2 at least one flat-section evaluation is nonzero, so the zero operator cannot satisfy the contract.
+
+(Source: Gelbart–Shahidi [GS01], *Boundedness of automorphic L-functions in vertical strips*, JAMS 14 (2001), §2, (2.5)–(2.6) and Assumption 2.1, pp.84–85; §4, Corollary 4.2 and its proof, p.88; Mœglin–Waldspurger [MW89], I §10, Proposition, pp.639–640.)
+
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.3, local L/epsilon factors and local functional equation; [Archimedean Whittaker comparisons](../AutomorphicLFunctionsAndLocalFactors/README.md#archimedean-smooth-representations); SmoothRepresentationsOfLocalGroups SR.2–SR.3; §§2.1–2.3 for unipotent operators, continuation and compact-picture normalization.
+
+
 ### 2.4 Langlands meromorphic continuation and functional equations
 
 Prove `eisenstein_continuation`. For φ∈H_P⁰, E_P(g,φ,λ) and M(w,λ)φ extend meromorphically to all 𝔞_P,ℂ*. On each finite inducing/K-type block there is a common local product of affine linear forms clearing the polar divisor. They obey E_Q(g,M(w,λ)φ,wλ)=E_P(g,φ,λ) and M(vw,λ)=M(v,wλ)M(w,λ). On i𝔞_P* both families are regular and M(w,λ) extends to a unitary H_P→H_Q. Regularity here is for unitary discrete inducing data and the global family; a scalar normalizing factor or arbitrary nonunitary local family can still have a pole.
@@ -1611,7 +1624,7 @@ Prove `jiang_zhang_holomorphy`. Let φ⁺ be the local component of an H_m-relev
 
 ### 2.14 GLₙ isobaric automorphic sums
 
-Use `isobaric_sum` as the adapter to AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification`, consuming its isobaric-construction prefix separately from its residual-classification suffix. For cuspidal automorphic representations π_i of GL_{n_i}(𝔸_F), with specified real/unitary twists and Σn_i=n, the supplied isobaric sum ⊞_iπ_i is the automorphic GL_n representation with those cuspidal Langlands data, equivalently the Langlands quotient of the normalized parabolic induction in its prescribed order. Its unramified Satake multiset is the union of the summands’ multisets and its standard L-function is their product. Over number fields, uniqueness from almost-all Satake data consumes AL.3 `isobaric-strong-multiplicity-one`. The convention-Y specialization transports the supplied Langlands sum and Satake product to the half-modulus Hecke convention of §1.12. The symbol does not mean a Hilbert direct sum of representations of different groups.
+Use `isobaric_sum` as the adapter to AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification`, consuming only its isobaric-construction prefix. For cuspidal automorphic representations π_i of GL_{n_i}(𝔸_F), with specified real/unitary twists and Σn_i=n, the supplied isobaric sum ⊞_iπ_i is the automorphic GL_n representation with those cuspidal Langlands data, equivalently the Langlands quotient of the normalized parabolic induction in its prescribed order. Its unramified Satake multiset is the union of the summands’ multisets and its standard L-function is their product. Over number fields, uniqueness from almost-all Satake data consumes AL.3 `isobaric-strong-multiplicity-one`. The convention-Y specialization transports the supplied Langlands sum and Satake product to the half-modulus Hecke convention of §1.12. The symbol does not mean a Hilbert direct sum of representations of different groups.
 
 *Standing hypotheses:* cuspidal GL_{n_i} data and their twists; compatible Langlands order; strong multiplicity one is required for uniqueness from almost-all Satake parameters.
 
@@ -1627,7 +1640,7 @@ Prove the following API statements.
 
 ([ACC+23], §1.2, local-sum convention p.907 and adelic isobaric-sum convention p.908; the supplied construction and uniqueness are sourced in AutomorphicLFunctionsAndLocalFactors, Representation prerequisites and AL.3.)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` (isobaric prefix only), and AL.3 `isobaric-strong-multiplicity-one` for number-field Satake uniqueness; its standard-factor product API; §1.12 for convention Y; SmoothRepresentationsOfLocalGroups SR.2–SR.4. No residual-classification suffix is used here.
+*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` (isobaric prefix only), and AL.3 `isobaric-strong-multiplicity-one` for number-field Satake uniqueness; its standard-factor product API; §1.12 for convention Y; SmoothRepresentationsOfLocalGroups SR.2–SR.4.
 
 
 ### 2.15 Intertwiners and operator-valued families
@@ -1651,11 +1664,11 @@ Prove the following API statements.
 
 ### 2.16 Scalar intertwiners on spherical sections
 
-Prove `spherical_scalar_intertwiner`. Let (P,π) be a good everywhere-unramified discrete pair, M=M_P, fix nonzero spherical φ_Π for each discrete Π and φ_π their tensor product, and for R in P(M) let φ_R(nmk)=ρ_R(m)φ_π(m) with ρ_R=δ_R^{1/2}. For S,R in P(M): M_{R|S}(λ)φ_S=n_{R|S}(π,λ)φ_R with n_{R|S}(π,λ)=∏_{β in Φ(Z_M,G), β in Φ_S ∩ Φ_{R̄}} n_β(π,λ^{−β^∨}) (equivalently ∏_{α in Φ_R ∩ Φ_S̄} n_{−α}(π,λ^{α^∨})), n_β as in (5.1.1); for L ⊇ M and Q,Q' in P(L) group the factors over β restricting to α in Φ(Z_L,G). In particular M(w,λ)φ_P=n_π(w,λ)φ_P for (w,1) in stab(P,π). The factor q^{(1−g)n_in_j} comes from vol(N(F)\N(A))=1 versus local vol(N(O_v))=1 (vol(F\A)=q^{g−1} for the product measure). Prove the local Gindikin–Karpelevich factors, the restricted Euler product and the global Haar factor separately.
+Prove `spherical_scalar_intertwiner`. Let (P,π) be a good everywhere-unramified discrete pair, M=M_P, fix nonzero spherical φ_Π for each discrete Π and φ_π their tensor product, and for R in P(M) let φ_R(nmk)=ρ_R(m)φ_π(m) with ρ_R=δ_R^{1/2}. For S,R in P(M): M_{R|S}(λ)φ_S=n_{R|S}(π,λ)φ_R with n_{R|S}(π,λ)=∏_{β in Φ(Z_M,G), β in Φ_S ∩ Φ_{R̄}} n_β(π,λ^{−β^∨}) (equivalently ∏_{α in Φ_R ∩ Φ_S̄} n_{−α}(π,λ^{α^∨})), n_β as constructed in §4.15d ([Yu22], (5.1.1)); for L ⊇ M and Q,Q' in P(L) group the factors over β restricting to α in Φ(Z_L,G). In particular M(w,λ)φ_P=n_π(w,λ)φ_P for (w,1) in stab(P,π). The factor q^{(1−g)n_in_j} comes from vol(N(F)\N(A))=1 versus local vol(N(O_v))=1 (vol(F\A)=q^{g−1} for the product measure). Prove the local Gindikin–Karpelevich factors, the restricted Euler product and the global Haar factor separately.
 
 ([Yu22], Proposition 5.3.4, p.39.)
 
-*Needs:* §1.10b; §1.12; §2.15; AutomorphicLFunctionsAndLocalFactors Layer 3; SmoothRepresentationsOfLocalGroups Layer 4.
+*Needs:* §1.10b; §1.12; §2.15; §4.15d (residual normalizing scalar); AutomorphicLFunctionsAndLocalFactors AL.3 (cuspidal pair factors); SmoothRepresentationsOfLocalGroups Layer 4.
 
 
 ### 2.17 Eisenstein Fourier expansion
@@ -1767,7 +1780,7 @@ For unramified GL₂ at q=2,z=−1, the raw spherical factor is (1−q⁻¹z)/(1
 
 ### Dependencies
 
-The main continuation uses the convergent pseudo-Eisenstein inner product and elementary cuspidal-data orthosum, locally convex regularization, the analytic Fredholm interface and local representation theory. Packet normalization takes compatible tempered packets as data. Scalar normalizers use AutomorphicLFunctionsAndLocalFactors Layers 1–3. The modular resolvent branch uses the completed Fourier expansion, the modular spectral theorem in Layer 4 and genuine bounded-inverse or weighted-space continuation hypotheses. The initial effective-group Green sum precedes its continued residue assertion.
+The main continuation uses the convergent pseudo-Eisenstein inner product and elementary cuspidal-data orthosum, locally convex regularization, the analytic Fredholm interface and local representation theory. Packet normalization takes compatible tempered packets as data. Scalar L/epsilon factors use AutomorphicLFunctionsAndLocalFactors Layers 1–3; the residual function-field normalizing scalars are constructed in §4.15d. The modular resolvent branch uses the completed Fourier expansion, the modular spectral theorem in Layer 4 and genuine bounded-inverse or weighted-space continuation hypotheses. The initial effective-group Green sum precedes its continued residue assertion.
 
 ## Layer 3: Truncation, Maass–Selberg relations and wave packets
 
@@ -1855,6 +1868,78 @@ Prove `discrete_maass_selberg_asymptotic`. For fixed cuspidal support χ and fin
 ([Art82], §9 Theorem 9.1, Q=G, printed p.69.)
 
 *Needs:* §3.5; §2.6.
+
+
+### 3.6a Rankin–Selberg vertical-strip bounds
+
+<a id="rs-vertical-strip-bounds"></a>
+
+**Rankin–Selberg vertical-strip bounds.** The completed Λ(s,π×π′) for unitary cuspidal inputs is bounded on finite vertical strips away from its polar points. For m=n or n−1, finite K-finite test realization reduces this to the global-integral bounds. For arbitrary rank gaps prove the GL_(n+m), Levi GL_n×GL_m specialization of Gelbart–Shahidi Theorem 4.1 from the normalized-intertwiner target. Establish its finite-order and Whittaker-coefficient bounds, using the continued Eisenstein and truncated-inner-product contracts of §§2.4, 3.1–3.6, then the scalar complex-analysis argument of §§5–6. Identify its local normalizing factors with the AutomorphicLFunctionsAndLocalFactors AL.3 integral factors before applying it to Λ. Clear the finitely many poles with a polynomial and apply the completed functional equation and archimedean gamma estimates; retain excluded neighborhoods of polar points.
+
+Work under the following hypotheses. K is a number field; the function-field statements are established in AutomorphicLFunctionsAndLocalFactors AL.3's curve-cohomological targets. This is a completed-function bound, not a uniform boundedness assertion for the finite Dirichlet series with gamma factors removed.
+
+(Source: [Cog04], Lecture9 §5, pp.72–73; Gelbart–Shahidi [GS01], §4, Theorem 4.1 and Corollary 4.2, pp.87–88, §§5–6, pp.91–104.)
+
+**Checks.** A GL₁ trivial self-pair gives the completed Dedekind zeta function with poles at 0 and 1, so polar neighborhoods are excluded; a cuspidal pair of different ranks has no pole and is bounded on the whole strip; the statement controls the completed factor, while removing gamma factors can leave polynomial growth.
+
+*Needs:* [GLₙ normalized intertwining estimates](#gln-normalized-intertwining); §§2.4 and 3.1–3.6; [Rankin–Selberg local integrals](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-local-integrals); [Archimedean realization of holomorphic multiples](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-archimedean-realization); [Global Rankin–Selberg unfolding](../AutomorphicLFunctionsAndLocalFactors/README.md#global-rs-unfolding); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); [Archimedean Whittaker comparisons](../AutomorphicLFunctionsAndLocalFactors/README.md#archimedean-smooth-representations); [Archimedean GLₙ parameters](../AutomorphicLFunctionsAndLocalFactors/README.md#archimedean-gln-parameters).
+
+
+### 3.6b Growth of the centered entire standard completion
+
+<a id="standard-order-one"></a>
+
+**Growth of the centered entire standard completion.** For unitary cuspidal π over a number field whose standard completion is entire, its conductor-balanced centered function φ(z)=Λ(1/2+z,π) is an entire function of order at most1: for every ε>0, |φ(z)|≤exp(C_ε(1+|z|)^(1+ε)). Over a function field an entire standard L-function is a polynomial in q^(−s) times a real exponential, hence has order at most1.
+
+Work under the following hypotheses. The rank-one norm/degree characters with poles are excluded by the explicit entirety hypothesis.
+
+(Source: [YZ17], TheoremB.2 proof p.904; RemarkB.4 p.905.)
+
+**Checks.**
+
+- An entire standard completion of a nontrivial unitary GL₁ Hecke character satisfies the bound without a pole-clearing factor.
+- A function-field polynomial P(q^(−s)) times a real exponential has growth at most exp(C(1+|s|)); centering preserves this bound.
+- The trivial number-field GL₁ character has poles at 0 and 1 and fails the entirety hypothesis.
+
+*Needs:* [The global standard L-function](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet); [Rankin–Selberg vertical-strip bounds](#rs-vertical-strip-bounds); AutomorphicLFunctionsAndLocalFactors AL.3 [unramified pure realization](../AutomorphicLFunctionsAndLocalFactors/README.md#curve-arithmetic-and-the-unramified-pure-realization).
+
+
+### 3.6c Super-positivity of the standard completion
+
+<a id="standard-superpositivity"></a>
+
+**Super-positivity of the standard completion.** Let π be unitary, self-dual and cuspidal, with entire completed standard L-function. Under RH in the number-field case, every derivative of the real conductor-balanced Λ at1/2 is nonnegative. If centered Λ is non-polynomial, a nonzero derivative of order r forces every derivative of order r+2j to be positive. A constant centered function has positive zeroth derivative and zero higher derivatives.
+
+Work under the following hypotheses. Use the unitary normalization, global root number±1, order≤1, and positivity sufficiently far right. For the function-field specialization use AutomorphicLFunctionsAndLocalFactors AL.3’s pure realization and tensor cohomological determinant theorem.
+
+(Source: [YZ17], Appendix B corrected PropositionB.1, TheoremB.2, RemarkB.4 pp.902–906.)
+
+**Checks.**
+
+- For root number −1 the central value is zero and all even central derivatives vanish; a nonzero odd derivative propagates strict positivity along the odd orders in the non-polynomial case.
+- A positive constant centered completion has positive zeroth derivative and every higher derivative is zero.
+- For a polynomial centered completion every derivative above its degree vanishes; strictness requires the stated non-polynomial hypothesis.
+
+*Needs:* [Real coefficients of unitary self-dual factors](../AutomorphicLFunctionsAndLocalFactors/README.md#unitary-self-dual-real-factors); [Growth of the centered entire standard completion](#standard-order-one); AutomorphicLFunctionsAndLocalFactors AL.2, centered entire functions and paired Hadamard theorem; its AL.3 unramified pure realization.
+
+
+### 3.6d Clearing the trivial function-field poles
+
+<a id="trivial-function-field-pole-clearer"></a>
+
+**Clearing the trivial function-field poles.** For the trivial character over X/F_q, let ζ_X(s)=P_X(q^(−s))/((1−q^(−s))(1−q^(1−s))) and Λ(1,s)=q^((g−1)(s−1/2))ζ_X(s). Then q^(s−1/2)(1−q^(−s))(1−q^(1−s))Λ(1,s)=q^(g(s−1/2))P_X(q^(−s)) is entire and symmetric under s↦1−s. Its central derivatives are nonnegative by the paired-root argument; for g=0 it is1.
+
+Work under the following hypotheses. The curve-cohomological determinant theorem of AutomorphicLFunctionsAndLocalFactors AL.3 supplies the zeta numerator, reciprocity and root location. The number-field factor s(s−1) does not remove the periodic function-field poles.
+
+(Source: [YZ17], Appendix B, Remark B.5, p.906; apply the displayed reciprocal zeta-factor calculation above to clear every periodic pole.)
+
+**Checks.**
+
+- For genus zero P_X=1 and the corrected entire function is identically 1, with every positive-order central derivative zero.
+- The factors 1−q^(−s) and 1−q^(1−s) clear the poles at every imaginary translate of 0 and 1 by 2πi/log q.
+- Substituting the reciprocal identity for P_X into q^(g(s−1/2))P_X(q^(−s)) gives the same expression at 1−s, retaining the genus exponent.
+
+*Needs:* [Super-positivity of the standard completion](#standard-superpositivity); AutomorphicLFunctionsAndLocalFactors AL.3, tensor cohomological determinant theorem.
 
 
 ### 3.7 Regular Eisenstein wave packets
@@ -2266,11 +2351,37 @@ Prove the following API statements.
 
 ### 4.14 Moeglin–Waldspurger classification
 
-Use `moeglin_waldspurger` as the convention-Y Hecke adapter to the residual-classification suffix of AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` ([MW89], Théorème, p.606). Let Π be a discrete everywhere-unramified automorphic representation of G_n(A) in the central-character realization of §4.11. For a nonunitary character, first unitarize by its specified positive determinant twist, apply the supplied unitary classification, and twist back in the weighted norm. There are d | n, the standard parabolic P with M_P = G_d × ⋯ × G_d (ν = n/d factors), and an everywhere-unramified cuspidal representation π of G_d(A) with the corresponding central character such that, with |g| = q^{deg det g} and π̃ = π|·|^{(ν−1)/2} ⊗ π|·|^{(ν−3)/2} ⊗ ⋯ ⊗ π|·|^{−(ν−1)/2}, Π ≅ π̃ as H_G-modules via t_P at every place. The pair (π, ν) is unique. Conversely, for every such π and every ν ≥ 1, π̃ viewed as an H_G-module via t_P is isomorphic to the H_G-module of a discrete everywhere-unramified representation of G_{νd}(A), denoted π ⊠ ν. The supplier's residual construction follows the cuspidal Eisenstein prefix, including §1.10b for function fields; it is not a prerequisite of that prefix or of §2.14's isobaric adapter.
+Prove `moeglin_waldspurger`, the everywhere-unramified function-field residual classification in convention Y ([MW89], Théorème, p.606, with the function-field central-character clauses of IV). Let Π be a discrete everywhere-unramified automorphic representation of G_n(A) in the central-character realization of §4.11. For a nonunitary character, first unitarize by its specified positive determinant twist, apply the unitary classification, and twist back in the weighted norm. There are d | n, the standard parabolic P with M_P = G_d × ⋯ × G_d (ν = n/d factors), and an everywhere-unramified cuspidal representation π of G_d(A) with the corresponding central character such that, with |g| = q^{deg det g} and π̃ = π|·|^{(ν−1)/2} ⊗ π|·|^{(ν−3)/2} ⊗ ⋯ ⊗ π|·|^{−(ν−1)/2}, Π ≅ π̃ as H_G-modules via t_P at every place. The pair (π, ν) is unique. Conversely, for every such π and every ν ≥ 1, π̃ viewed as an H_G-module via t_P is isomorphic to the H_G-module of a discrete everywhere-unramified representation of G_{νd}(A), denoted π ⊠ ν. Construct these representations from the cuspidal Eisenstein continuation and ordered residues, with their fixed central characters; prove multiplicity one in the corresponding discrete central-character space. The classification follows the cuspidal Eisenstein prefix of §1.10b.
 
 ([Yu22], §2.3.4, p. 12, Théorème 2.3.6 (the theorem is on p. 12 only).)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `isobaric-residual-classification` (residual suffix); §1.10b (cuspidal theory only); §4.11; §1.12 (half-modulus Hecke transport); §1.10a (function-field adeles, heights and measures).
+**Checks.**
+
+- For ν=1 the classified block is the original cuspidal representation.
+- For ν=2 the inducing exponents are ±1/2 and the block is not cuspidal.
+- For d=1 and ν=2 the residual determinant character is nongeneric; Whittaker formulas describe its cuspidal inducing data rather than a Whittaker model of the quotient.
+
+*Needs:* §1.10b (cuspidal continuation and residues); §4.11; §1.12 (half-modulus Hecke transport); §1.10a (function-field adeles, heights and measures); AutomorphicLFunctionsAndLocalFactors AL.3, cuspidal continuation and pole criteria.
+
+
+### 4.14a Number-field GLₙ residual blocks
+
+<a id="number-field-residual-blocks"></a>
+
+**Number-field GLₙ residual blocks.** Fix a number field F and a unitary central character ω of GL_N(𝔸_F). For each N=dν with d,ν≥1 and unitary cuspidal τ of GL_d(𝔸_F) satisfying ω_τ^ν=ω, construct the discrete block τ⊠ν as the irreducible quotient of the ordered normalized induction with exponents (ν−1)/2,(ν−3)/2,…,−(ν−1)/2. Realize it automorphically by the corresponding nonzero iterated residue of the cuspidal Eisenstein family and verify the square-integrability exponent criterion modulo the centre. Every irreducible constituent of the discrete central-character space is one such block, the pair (τ,ν) is unique, and its multiplicity is one. The cuspidal case is exactly ν=1; ν>1 gives the residual spectrum. Identify the unramified Satake multiset with the union of the twisted cuspidal multisets, using the isobaric quotient and its local Langlands data supplied by AutomorphicLFunctionsAndLocalFactors. For a specified nonunitary central character, unitarize by its positive determinant twist, apply this classification, and twist back with the corresponding weighted norm.
+
+*Standing hypotheses:* fixed central-character L² realization modulo the centre; normalized induction with the displayed ordered real exponents; positive integer block length; the unitarization and its norm transport are part of the nonunitary assertion. Residue nonvanishing and the multiplicity assertion are conclusions, rather than assumptions about a formal list of Satake roots.
+
+**Checks.**
+
+- At ν=1 the block is τ and occurs in the cuspidal spectrum with multiplicity one.
+- At ν=2 the exponents are ±1/2 and the block is residual, with central character ω_τ².
+- For d=1,ν=2 the residual representation is the determinant character associated to τ and is nongeneric, so generic integral formulas are applied to its inducing data.
+- A fixed-character space contains only the blocks satisfying ω_τ^ν=ω; changing the character changes that selection without changing the multiplicity of an admitted block.
+
+(Source: Mœglin–Waldspurger [MW89], introduction theorem, pp.605–606; Cogdell [Cog04], Lecture 9, pp.75–76, for the isobaric Langlands data.)
+
+*Needs:* §§1.1–1.5, 2.4 and 2.6; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, [GLₙ isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-construction); its AL.3 [cuspidal continuation and poles](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-global-poles); SmoothRepresentationsOfLocalGroups SR.2–SR.3; §0.48 for archimedean Langlands quotients.
 
 
 ### 4.15 Residual twist stabilizers
@@ -2280,6 +2391,105 @@ Prove `residual_twist_stabilizer`. Fix(pi box ν)≅Fix(pi). Two such discrete c
 ([Yu22], Proposition 2.3.7, p.13.)
 
 *Needs:* §4.14; §1.10a (function-field adeles, heights and measures).
+
+
+### 4.15a The residual Rankin–Selberg product
+
+<a id="residual-rs-product"></a>
+
+**The residual Rankin–Selberg product.** Given the discrete residual representations of §4.14, Π₁=π₁⊠ν₁ and Π₂=π₂⊠ν₂ in unitary normalization, L(Π₁×Π₂∨,z)=∏_{i=1}^{ν₁}∏_{j=1}^{ν₂}L(π₁×π₂∨,q^((ν₁+ν₂)/2+1−i−j)z). The ranks of Π_k are n_kν_k, where n_k is the cusp rank.
+
+Work under the following hypotheses. ν₁,ν₂ positive integers; everywhere-unramified function-field representations. Use §4.14’s everywhere-unramified function-field residual classification.
+
+**Checks.** ν₁=ν₂=1 recovers the cuspidal pair factor; ν₁=2,ν₂=1 gives shifts ±1/2; ν₁=ν₂=2 gives shifts 1,0,0,−1, so the unshifted factor occurs twice. These factors use residual inducing data even though a residual quotient can be nongeneric.
+
+(Source: [Yu22], Lemma6.1.3, pp.43–44.)
+
+*Needs:* [The function-field pair Euler product](../AutomorphicLFunctionsAndLocalFactors/README.md#function-field-rs-euler-product); [Cuspidal pair degrees and poles over a function field](../AutomorphicLFunctionsAndLocalFactors/README.md#function-field-cuspidal-polynomial); §4.14 (actual residual representations and their spherical Hecke modules). Construct the residual Euler-factor comparison from those modules and the supplied cuspidal factors.
+
+
+### 4.15b Telescoping the residual normalizing quotient
+
+<a id="residual-rs-telescoping"></a>
+
+**Telescoping the residual normalizing quotient.** If ν₁≥ν₂, L(Π₁×Π₂∨,z)/L(Π₁×Π₂∨,q^(−1)z)=∏_{i=1}^{ν₂}L(π₁×π₂∨,q^((ν₁+ν₂)/2−i)z)/∏_{i=1}^{ν₂}L(π₁×π₂∨,q^(−(ν₁+ν₂)/2+i−1)z).
+
+The algebraic prototype is `AL3.ResidualRsTelescoping`.
+
+Work under the following hypotheses. ν₁≥ν₂≥1, with the residual representations and unitary normalization of §4.15a. Equality of nonzero rational functions; the two products include their possible cancellations.
+
+(Source: [Yu22], (6.1.5), p.44.)
+
+**Checks.**
+
+- For ν₁=ν₂=1 the quotient is L(π₁×π₂∨,z)/L(π₁×π₂∨,q^(−1)z).
+- For ν₁=2,ν₂=1 cancellation leaves L(π₁×π₂∨,q^(1/2)z)/L(π₁×π₂∨,q^(−3/2)z).
+- For ν₁=ν₂=2 the surviving numerator shifts are 1,0 and denominator shifts are −2,−1, with cancellations interpreted rationally.
+
+*Needs:* [The residual Rankin–Selberg product](#residual-rs-product).
+
+
+### 4.15c The residual zero–pole index
+
+<a id="residual-rs-index"></a>
+
+**The residual zero–pole index.** For unitary everywhere-unramified Π₁=π₁⊠ν₁,Π₂=π₂⊠ν₂ with ν₁≥ν₂, the open-disc index of L(z)/L(q^(−1)z) is ν₂(2g−2)n₁n₂ plus d=|Fix(π₁)| precisely when Π₁ and Π₂ are inertially equivalent (equivalently ν₁=ν₂ and π₁ inertially equivalent to π₂); otherwise there is no d term.
+
+Work under the following hypotheses. Inertial twists have unit-modulus degree parameter, so they rotate roots without changing this index. The extra term depends on inertial equivalence, including nontrivial degree twists, rather than equality of representations.
+
+(Source: [Yu22], Corollary6.1.2 and proof pp.43–44.)
+
+**Checks.**
+
+- At g=1 a non-inertially-equivalent pair has index zero.
+- At g=1 and equal residual lengths, an inertially equivalent pair has index d, including a nontrivial unitary degree twist.
+- For unequal residual lengths the d correction is absent even when the cuspidal inputs are inertially equivalent.
+
+*Needs:* §4.15 (residual twists and inertial equivalence); [Telescoping the residual normalizing quotient](#residual-rs-telescoping); [The self-pair polynomial reflection](../AutomorphicLFunctionsAndLocalFactors/README.md#function-field-self-pair-reflection); [The open-disc zero–pole index](../AutomorphicLFunctionsAndLocalFactors/README.md#open-disc-zero-pole-index).
+
+
+### 4.15d The Rankin–Selberg normalizing scalar
+
+<a id="rs-normalizing-scalar"></a>
+
+**The Rankin–Selberg normalizing scalar.** For a positive root β joining residual blocks Π_i,Π_j of ranks N_i,N_j over X/F_q, put n_β(z)=q^((1−g)N_iN_j)L(Π_i×Π_j∨,z)/L(Π_i×Π_j∨,q^(−1)z). The scalar for a Weyl element is the product over its positive inversion roots, with the corresponding character ratios substituted for z. The subsequent operator realization in §§2.15–2.16 identifies this scalar with the spherical intertwiner after this rational construction.
+
+Work under the following hypotheses. Nonzero rational factors; equality is meromorphic/rational, not a value formula at poles.
+
+Require the following API.
+
+- `AL3.RsNormalizingScalar.root`: The single-root scalar is the displayed shifted-L quotient.
+- `AL3.RsNormalizingScalar.identity_weyl`: The empty inversion product is1.
+- `AL3.RsNormalizingScalar.weyl_product`: For length-additive Weyl products, inversion factors compose after character substitution.
+
+**Checks.**
+
+- `AL3.RsNormalizingScalar.genus_one`: At g=1 the q prefactor is1.
+- `AL3.RsNormalizingScalar.one_root`: A simple reflection has exactly one root factor.
+- `AL3.RsNormalizingScalar.pole_not_value`: If the numerator has a pole at z=1, the scalar is compared as a rational function, not by substituting a totalized pole value.
+
+(Source: [Yu22], §5.1.2 (5.1.1)–(5.1.3) pp.29–30.)
+
+*Needs:* §§4.14 and 4.15a (residual blocks and factor comparison); AutomorphicLFunctionsAndLocalFactors AL.3, cuspidal pair factors; [Telescoping the residual normalizing quotient](#residual-rs-telescoping); [The function-field pair Euler product](../AutomorphicLFunctionsAndLocalFactors/README.md#function-field-rs-euler-product).
+
+
+### 4.15e Reflection of the self-pair normalizer
+
+<a id="self-pair-normalizer-reflection"></a>
+
+**Reflection of the self-pair normalizer.** For Π=π⊠ν, cusp rank r, f=|Fix(π)| and self-pair numerator P, define F(z)=∏_{i=1}^ν P(q^(−i)z)∏_{i=1}^ν(1−(q^iz)^f)∏_{i=1}^{ν−1}(1−(q^iz)^f). Then n_β(z)=−z^E F(1/z)/F(z), E=((2g−2)r²+4f)ν−f. F is a polynomial in z^f with no roots on |z|=1.
+
+Work under the following hypotheses. ν≥1; q>1 and the self-pair reflection/purity theorem. E is an integer, so this is a rational monomial identity.
+
+(Source: [Yu22], (6.2.5)–(6.2.6), p.46.)
+
+**Checks.**
+
+- At ν=1 the product indexed from 1 to ν−1 is empty and E=(2g−2)r²+3f.
+- For f=2 the polynomial F is even; more generally F(ζz)=F(z) for every ζ with ζ^f=1.
+- On |z|=1 the nonvanishing of F makes the quotient regular and nonzero; the monomial −z^E does not introduce a unit-circle pole.
+
+*Needs:* [The Rankin–Selberg normalizing scalar](#rs-normalizing-scalar); [The self-pair polynomial reflection](../AutomorphicLFunctionsAndLocalFactors/README.md#function-field-self-pair-reflection).
 
 
 ### 4.16 A stabilizing twist fixes the spherical function
@@ -3281,9 +3491,39 @@ In a two-chamber family c±=b+a±z, the regularized value is a₊−a₋. Wall v
 
 The real transform uses smooth LF tests, normalized real induction and infinitesimal characters. Spectral multipliers feed the spectral trace estimates. The coarse trace uses automorphic kernels, reduction and truncation; fine expansions add weighted orbital integrals and normalized weighted characters; invariant recursion uses the almost-compact Fourier image and lower-Levi descent. Pseudo-coefficients precede Euler–Poincaré functions and the L²-Lefschetz theorem. The function-field suffix uses fixed-degree kernel convergence, determinant roots, finite-kernel torus Fourier inversion, degree cutoffs and regularized operator families. Its root-basis and family identities are constructed before their cutoff and spectral consumers, in the order specified above.
 
+## Layer 7: GLₙ transfer applications
+
+### 7.1 Solvable GLₙ base change and descent
+
+<a id="solvable-gln-base-change"></a>
+
+**Solvable GLₙ base change and descent.** Over number fields construct cyclic prime-degree base change on cuspidal representations and extend it to isobaric sums and towers of cyclic prime-degree extensions. Prove unramified local compatibility: a place of residue degree f replaces each Satake eigenvalue α by α^f. Preserve central characters, duals and norm twists. For cyclic E/K of prime degree l with associated order-l character η, a cuspidal π has cuspidal base change precisely when π≄π⊗η; otherwise it splits as the orbit of l distinct conjugate cuspidal blocks of rank n/l. Prove descent of Galois-invariant cuspidal representations and the fibre theorem: cuspidal π,π′ with the same base change differ by a character trivial on norms from E. For isobaric inputs retain constituent orbit matching and multiplicities, rather than claiming one common twist for all constituents. Iterate these constructions and the fibre argument along the specified solvable tower; general normal K/F in the degree-one theorem is not itself assumed solvable.
+
+**Checks.** GL₁ base change is composition with the idele norm; an unramified residue-degree-two place squares its Satake roots; π and π⊗η have the same cyclic base change, and the η-self-twist case need not remain cuspidal.
+
+(Source: Arthur–Clozel [AC89], *Simple algebras, base change, and the advanced theory of the trace formula*, Chapter 3, Theorems 3.1, 4.2 and 5.1, pp.201–203 and 212–213; Ramakrishnan [Ram18], pp.3–6, Proposition 1.1 and Claim 1.2.)
+
+*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, [GLₙ isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-construction); ClassFieldTheory §4, Layers 11–12 (number-field Artin reciprocity, norm quotients and the cyclic character dictionary); AutomorphicLFunctionsAndLocalFactors AL.3's number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix; Layer 6 (ordinary trace distributions). Construct the cyclic twisted trace comparison and norm-transfer identities used in Arthur–Clozel Chapter 3 §§1, 4–5 here from the trace distributions of Layer 6; their existence is part of this base-change target, with its number-field/cyclic hypotheses.
+
+
+### 7.2 Ramakrishnan’s degree-one comparison
+
+<a id="ramakrishnan-degree-one"></a>
+
+**Ramakrishnan’s degree-one comparison.** Let K/F be an extension of number fields admitting a tower F=K₀⊂K₁⊂…⊂K_r=K with every K_j/K_{j−1} normal. If isobaric π,π′ of GL_n(𝔸_K) agree outside finitely many primes of K having relative degree1 over F, then π≅π′. In particular, for quadratic E/F, agreement above almost all split F-primes suffices.
+
+Work under the following hypotheses. Do not weaken the normal-tower hypothesis to an arbitrary finite extension; the solvable-normal-closure case is the separate CorollaryB.
+
+**Checks.** For K=F the statement reduces to isobaric strong multiplicity one; for quadratic K/F the required degree-one primes are precisely those above split primes; base change along an auxiliary cyclic extension can identify π with π⊗η, so descent uses its fibre theorem rather than injectivity.
+
+(Source: [Ram18], TheoremA, pp.1–2; proof strategy pp.2–4.)
+
+*Needs:* [Solvable GLₙ base change and descent](#solvable-gln-base-change), including unramified compatibility, cuspidality and the fibre theorem; [Strong multiplicity one for isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-strong-multiplicity-one); [Continuation and the Rankin–Selberg pole criterion](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-global-poles).
+
+
 ## Downstream consumers
 
-Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpaces ALS.5b.4, including its cuspidal-support weight statement. AutomorphicLFunctionsAndLocalFactors uses the continued Eisenstein and intertwining families while supplying their scalar L-factors. Endoscopic trace comparisons consume the ordinary orbital integrals, pseudo-coefficients and generic-packet constructions here. The analytic Green kernel stops before the arithmetic heights of Gross–Zagier; the function-field trace stops at the fixed-degree spectral and geometric identities used in counting local systems.
+Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpaces ALS.5b.4, including its cuspidal-support weight statement. The scalar L-factors and cuspidal analytic theorems supplied by AutomorphicLFunctionsAndLocalFactors support the continued Eisenstein families, residual scalar applications and GLₙ transfers here. Endoscopic trace comparisons consume the ordinary orbital integrals, pseudo-coefficients and generic-packet constructions here. The analytic Green kernel stops before the arithmetic heights of Gross–Zagier; the function-field trace stops at the fixed-degree spectral and geometric identities used in counting local systems.
 
 
 ## References
@@ -3324,3 +3564,9 @@ Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpa
 - **[Laf97]**: Laurent Lafforgue, [Chtoucas de Drinfeld et conjecture de Ramanujan–Petersson](https://numdam.org/item/AST_1997__243__1_0.pdf). Astérisque 243 (1997); locators use the volume's printed pagination.
 - **[MW89]**: Colette Mœglin and Jean-Loup Waldspurger, [Le spectre résiduel de GL(n)](https://www.numdam.org/item/ASENS_1989_4_22_4_605_0.pdf). Ann. Sci. ÉNS (4) 22 (1989), 605–674.
 - **[MW94]**: Colette Mœglin and Jean-Loup Waldspurger, *Décomposition spectrale et séries d'Eisenstein. Une paraphrase de l'Écriture*. Progress in Mathematics 113, Birkhäuser, 1994; not freely available, and cited here only through its use in [Yu22], §5.3.1.
+
+- **[GS01]**: Stephen Gelbart and Freydoon Shahidi, *Boundedness of automorphic L-functions in vertical strips*. J. Amer. Math. Soc. 14 (2001), 79–107; locators use published pagination.
+- **[Cog04]**: James W. Cogdell, [Lectures on L-functions, converse theorems, and functoriality for GL(n)](https://people.math.osu.edu/cogdell.1/fields-www.pdf). Author Fields Institute lecture notes, 2004.
+- **[YZ17]**: Zhiwei Yun and Wei Zhang, [Shtukas and the Taylor expansion of L-functions](https://math.mit.edu/~zyun/Taylor_Expansion_published.pdf). Annals of Math. 186 (2017), 767–911; published author PDF.
+- **[AC89]**: James Arthur and Laurent Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*. Annals of Mathematics Studies 120 (1989); Chapter 3 locators use printed pagination.
+- **[Ram18]**: Dinakar Ramakrishnan, [A mild Tchebotarev theorem for GL(n)](https://arxiv.org/pdf/1806.08429v1). arXiv:1806.08429v1.

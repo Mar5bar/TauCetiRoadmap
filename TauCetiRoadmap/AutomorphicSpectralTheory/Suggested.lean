@@ -439,7 +439,8 @@ spectral_multiplier, automorphic_kernel, coarse_truncated_kernel, gm_family,
 orbital_integral, weighted_orbital_integral, weighted_character, almost_compact_test_space,
 invariant_recursion, discrete_functional_trace, pseudo_coefficient, general_euler_poincare,
 fixed_degree_trace, charpoly_kernel_refinement, weyl_fixed_levi, torus_pairing,
-multiplicative_gm_family, finite_fibre_trace.
+multiplicative_gm_family, finite_fibre_trace, root_basis_identity, root_coordinate_haar,
+root_product_derivative.
 
 The normalized V* family and continued W, Green and modular Eisenstein kernels are
 separate continuation targets. The multiplication models, measurable Hilbert–Schmidt kernels
@@ -449,3 +450,50 @@ Maass–Selberg, spectral completeness and the trace formulas require the README
 -/
 
 end TauCetiRoadmap.AutomorphicSpectralTheory
+
+/-! ## Residual scalar prototypes for §§4.15a–4.15d -/
+
+namespace TauCeti.AutomorphicLFunctions.AL3
+
+/-- Meromorphic quotient represented by polynomials. Numerator and denominator retain pole data. -/
+def RsNormalizingScalar (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ) :
+    Polynomial ℂ × Polynomial ℂ :=
+  (Polynomial.C ((q : ℂ)^(((1 : ℤ)-(g : ℤ))*(Ni : ℤ)*(Nj : ℤ))) * P *
+      Q.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X),
+    Q * P.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X))
+-- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.genus_one
+example (P Q : Polynomial ℂ) (q : ℝ) (Ni Nj : ℕ) :
+    RsNormalizingScalar P Q q 1 Ni Nj =
+      (P*Q.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X),
+        Q*P.comp (Polynomial.C (q : ℂ)⁻¹*Polynomial.X)) := by sorry
+
+/-- Equality at regular points; the polynomial pair retains its pole data. -/
+theorem RsNormalizingScalar.root (P Q : Polynomial ℂ) (q : ℝ) (g Ni Nj : ℕ)
+    (z : ℂ) (hQ : Q.eval z ≠ 0) (hQ' : Q.eval ((q : ℂ)⁻¹*z) ≠ 0)
+    (hP' : P.eval ((q : ℂ)⁻¹*z) ≠ 0) :
+    (RsNormalizingScalar P Q q g Ni Nj).1.eval z /
+      (RsNormalizingScalar P Q q g Ni Nj).2.eval z =
+      (q : ℂ)^(((1 : ℤ)-(g : ℤ))*(Ni : ℤ)*(Nj : ℤ)) *
+      (P.eval z/Q.eval z)/(P.eval ((q : ℂ)⁻¹*z)/Q.eval ((q : ℂ)⁻¹*z)) := by sorry
+
+-- TauCeti.AutomorphicLFunctions.AL3.RsNormalizingScalar.pole_not_value
+example : (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).1.eval 1 = 1/2 ∧
+    (RsNormalizingScalar 1 (1-Polynomial.X) 2 1 1 1).2.eval 1 = 0 := by sorry
+
+/-- Residual lengths two give shifts 1, 0, 0, −1, retaining the repeated middle factor. -/
+example (L : ℤ → ℂˣ) :
+    (∏ i : Fin 2, ∏ j : Fin 2, L (1-(i.val : ℤ)-j.val)) =
+      L 1 * (L 0)^2 * L (-1) := by sorry
+
+/-- The algebraic telescoping underlying residual Rankin–Selberg products. -/
+theorem ResidualRsTelescoping (L : ℤ → ℂˣ) (a : ℤ) (ν₁ ν₂ : ℕ) :
+    (∏ i : Fin ν₁, ∏ j : Fin ν₂, L (a-i.val-j.val)/L (a-i.val-j.val-1)) =
+      ∏ j : Fin ν₂, L (a-j.val)/L (a-ν₁-j.val) := by sorry
+
+/-
+The full Weyl-group API is specified in README §4.15d:
+`RsNormalizingScalar.identity_weyl`, `RsNormalizingScalar.weyl_product` and
+`RsNormalizingScalar.one_root` specify the inversion-root product and its Weyl composition.
+-/
+
+end TauCeti.AutomorphicLFunctions.AL3
