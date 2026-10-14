@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.TraceForm
+import TauCeti.FieldTheory.GaloisCohomology.Coefficients
 
 /-!
 # Compact coefficients and arithmetic duality: target signatures
@@ -34,13 +35,14 @@ Design choices made explicit here:
   outside `S` as in NumberFieldArithmetic §1.2; no wrapper predicate is introduced.
 * Compact support is the mapping fibre `Cone(res)[-1]` of Mathlib's `CochainComplex.mappingCone`.
   Arithmetic localization uses ordinary cochains at finite places, complete Tate cochains at
-  real places and zero at complex places. Under `(P)` this is the finite-place fibre. The
+  real places and zero at complex places. For coefficients of residue characteristic `p`,
+  under `(P)` this is the finite-place fibre. The
   ordinary deformation-local diagram uses ordinary cochains at every place.
   SelmerIwasawaCohomology §§2.21–2.22 supply the parametric Selmer fibre, both instances,
   functoriality, triangles, the archimedean comparison and the abstract H⁰ correction. R02.3 and
   D7 supply the arithmetic local complexes, ordinary-to-Tate maps and duality; R02.5.2 identifies
-  the strict modified fibre with arithmetic compact support and calculates the archimedean
-  cohomology and H⁰ corrections. These arithmetic constructions are README targets.
+  the strict modified fibre with arithmetic compact support and specializes the supplied
+  archimedean cohomology and H⁰ corrections. These arithmetic constructions are README targets.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
 * The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
@@ -163,6 +165,35 @@ theorem limOne_exact {C : Tower.{u}} (f : Hom A B) (g : Hom B C)
 
 end Tower
 
+/-- The constant tower with identity transitions. -/
+def constantTower (A : Type u) [AddCommGroup A] : Tower.{u} where
+  obj _ := A
+  map _ := AddMonoidHom.id A
+
+/-- Check `lim_constant`: evaluation at level zero identifies the limit with `A`, with
+inverse the diagonal family. -/
+example (A : Type u) [AddCommGroup A] :
+    ∃ e : (constantTower A).lim ≃+ A,
+      (∀ x, e x = x.1 0) ∧ (∀ a n, (e.symm a).1 n = a) := sorry
+
+/-- Check `lim_constant`: the constant identity tower has vanishing `lim¹`. -/
+example (A : Type u) [AddCommGroup A] : Subsingleton (constantTower A).limOne := sorry
+
+/-- The reduction tower `ℤ/p^{n+1} → ℤ/p^n`. -/
+def reductionTower (p : ℕ) : Tower.{0} where
+  obj n := ZMod (p ^ n)
+  map n := (ZMod.castHom (pow_dvd_pow p (Nat.le_succ n)) (ZMod (p ^ n))).toAddMonoidHom
+
+/-- Check `limOne_surjective_tower`: reduction transitions give vanishing `lim¹`. -/
+example (p : ℕ) (hp : p.Prime) : Subsingleton (reductionTower p).limOne := sorry
+
+/-- Check `ml_finite`: identity transitions have full stable image. -/
+example : (constantTower (ZMod 2)).IsMittagLeffler := sorry
+
+/-- Check `ml_surjective`: zero transitions have zero stable image. -/
+example : (show Tower from
+    { obj := fun _ => ZMod 2, map := fun _ => (0 : ZMod 2 →+ ZMod 2) }).IsMittagLeffler := sorry
+
 /-- The tower `⋯ → ℤ → ℤ` with every transition multiplication by `p`. -/
 def mulTower (p : ℕ) : Tower.{0} where
   obj _ := ℤ
@@ -215,6 +246,18 @@ theorem continuous_eval [TopologicalSpace C] [DiscreteTopology C] :
 `homPt_fg_discrete`). -/
 theorem discreteTopology_of_fg [DiscreteTopology A] (hC : AddGroup.FG C) :
     DiscreteTopology (HomPt C A) := sorry
+
+/-- Check `homPt_int`: evaluation at `1` is a topological additive equivalence. -/
+example [DiscreteTopology A] :
+    ∃ e : HomPt ℤ A ≃ₜ+ A, ∀ f, e f = f 1 := sorry
+
+/-- Check `homPt_fg_discrete`: two basis evaluations give the product topology on `A²`. -/
+example [DiscreteTopology A] :
+    ∃ e : HomPt (Fin 2 → ℤ) A ≃ₜ+ (Fin 2 → A),
+      ∀ f i, e f i = f (Pi.single i 1) := sorry
+
+/-- The zero source has only the zero additive map. -/
+example : Subsingleton (HomPt (Fin 0 → ℤ) A) := sorry
 
 /-- Check `homPt_not_discrete`: for `C = ⊕_ℕ 𝔽₂` the pointwise topology on `Hom(C, 𝔽₂) = 𝔽₂^ℕ`
 is not discrete. -/
@@ -295,6 +338,18 @@ theorem cyclotomic_le_maxUnramifiedOutside (S : Set (HeightOneSpectrum (𝓞 K))
       (p : 𝓞 K) ∈ v.asIdeal → v ∈ S) (n : ℕ) (x : Ω)
     (hx : x ^ (p ^ n) = 1) : x ∈ maxUnramifiedOutside K Ω S := sorry
 
+/-- The pinned Kummer action descends to `G_{K,S}` when all places dividing `m` are in `S`,
+with its discrete topology and joint continuity. -/
+theorem kummerCoeffS_exists (S : Set (HeightOneSpectrum (𝓞 K))) (m : ℕ) (hm : 0 < m)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), (m : 𝓞 K) ∈ v.asIdeal → v ∈ S) :
+    let L := maxUnramifiedOutside K (SeparableClosure K) S
+    letI : IsGalois K L := isGalois_maxUnramifiedOutside K (SeparableClosure K) S
+    ∃ ρ : ContRepresentation ℤ (galoisGroupS K (SeparableClosure K) S) (TauCeti.KummerCoeff K m),
+      (∀ (σ : TauCeti.AbsoluteGaloisGroup K) (x : TauCeti.KummerCoeff K m),
+        ρ (AlgEquiv.restrictNormalHom L σ) x = σ • x) ∧
+      Continuous (fun gx : galoisGroupS K (SeparableClosure K) S × TauCeti.KummerCoeff K m =>
+        ρ gx.1 gx.2) := sorry
+
 /-- Check `restricted_rat_infty`: with no finite place allowed, `ℚ` has no nontrivial extension
 (Minkowski). -/
 example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : maxUnramifiedOutside ℚ Ω ∅ = ⊥ := sorry
@@ -354,6 +409,9 @@ theorem exponentTwoField_finite (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.F
 exponent-two field of `{2}`. -/
 example (Ω : Type) [Field Ω] [Algebra ℚ Ω] (x : Ω) (hx : x * x = -1) :
     x ∈ exponentTwoField ℚ Ω {v | (2 : 𝓞 ℚ) ∈ v.asIdeal} := sorry
+
+/-- Check `exponent_two_empty_Q`: no quadratic field is unramified at every finite prime. -/
+example (Ω : Type) [Field Ω] [Algebra ℚ Ω] : exponentTwoField ℚ Ω ∅ = ⊥ := sorry
 
 section LocalizationKernel
 
@@ -440,6 +498,9 @@ end PoitouTate
 
 namespace EulerCharacteristic
 
+local instance : TopologicalSpace (ZMod 3) := ⊥
+local instance : DiscreteTopology (ZMod 3) := ⟨rfl⟩
+
 /-- The Euler characteristic `χ = #H⁰ · #H² / #H¹`, with ordinary `H⁰`. -/
 def eulerChar (h0 h1 h2 : ℕ) : ℚ := (h0 * h2 : ℚ) / h1
 
@@ -448,17 +509,13 @@ complex place. -/
 def archFactor (isComplex : Bool) (h0 m : ℕ) : ℚ :=
   (h0 : ℚ) / (if isComplex then (m : ℚ) ^ 2 else m)
 
-/-- At a real place with trivial action on `M = ℤ/2`, the ordinary invariants have order `2`
-and the archimedean factor is `1`; Tate's `Ĥ⁰` is also `ℤ/2`. -/
+/-- The arithmetic function gives factor `1` on real-place input cardinalities `2, 2`. -/
 example : archFactor false 2 2 = 1 := by norm_num [archFactor]
 
-/-- At a complex place with `M = ℤ/2` the factor is `1/2`. -/
+/-- The arithmetic function squares the coefficient cardinality at a complex place. -/
 example : archFactor true 2 2 = 1 / 2 := by norm_num [archFactor]
 
-/-- Over `ℚ` with `S = {3, ∞}`, the pair `ℤ/3`, `μ₃` has global Euler characteristics
-`1`, `1/3` and real-place factors `1`, `1/3`, respectively. The equivariant Kummer Euler
-class is `−[1]`; twisting by the inverse cyclotomic character before taking invariants gives
-these two different values. -/
+/-- Unit values of the Euler quotient and archimedean-factor functions. -/
 example :
     (eulerChar 3 3 1, archFactor false 3 3, eulerChar 1 3 1, archFactor false 1 3) =
       (1, 1, 1 / 3, 1 / 3) := by
@@ -470,6 +527,43 @@ example :
     Fintype.card {x : ZMod 3 // (1 : ZMod 3) * x = x} = 3 ∧
       Fintype.card {x : ZMod 3 // (-1 : ZMod 3) * x = x} = 1 := by
   decide
+
+open RestrictedRamification IsDedekindDomain in
+/-- Over `ℚ`, unramified outside `3`, the trivial coefficient `ℤ/3` has cohomology orders
+`3, 3, 1` in degrees `0, 1, 2`. -/
+example (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsSepClosed Ω] [Algebra.IsAlgebraic ℚ Ω] :
+    let X : TopRep ℤ
+        (galoisGroupS ℚ Ω {v | (3 : NumberField.RingOfIntegers ℚ) ∈ v.asIdeal}) :=
+      { V := ZMod 3, hV5 := ⟨continuous_of_discreteTopology⟩,
+        ρ := ContRepresentation.trivial ℤ _ (ZMod 3) }
+    (Nat.card (continuousCohomology 0 X), Nat.card (continuousCohomology 1 X),
+      Nat.card (continuousCohomology 2 X)) = (3, 3, 1) := sorry
+
+open RestrictedRamification IsDedekindDomain in
+/-- Over `ℚ`, unramified outside `3`, the descended pinned Kummer coefficient `μ₃` has
+cohomology orders `1, 3, 1`. The compatibility pins its nontrivial Galois action. -/
+example :
+    let S : Set (HeightOneSpectrum (NumberField.RingOfIntegers ℚ)) :=
+      {v | (3 : NumberField.RingOfIntegers ℚ) ∈ v.asIdeal}
+    let L := maxUnramifiedOutside ℚ (SeparableClosure ℚ) S
+    letI : IsGalois ℚ L := isGalois_maxUnramifiedOutside ℚ (SeparableClosure ℚ) S
+    ∀ ρ : ContRepresentation ℤ (galoisGroupS ℚ (SeparableClosure ℚ) S) (TauCeti.KummerCoeff ℚ 3),
+      (∀ (σ : TauCeti.AbsoluteGaloisGroup ℚ) (x : TauCeti.KummerCoeff ℚ 3),
+        ρ (AlgEquiv.restrictNormalHom L σ) x = σ • x) →
+      (Nat.card (continuousCohomology 0 (TopRep.of ρ)),
+        Nat.card (continuousCohomology 1 (TopRep.of ρ)),
+        Nat.card (continuousCohomology 2 (TopRep.of ρ))) = (1, 3, 1) := sorry
+
+/-- Real ordinary invariants of the trivial `ℤ/3` action have order three. -/
+example :
+    let X : TopRep ℤ (TauCeti.AbsoluteGaloisGroup ℝ) :=
+      { V := ZMod 3, hV5 := ⟨continuous_of_discreteTopology⟩,
+        ρ := ContRepresentation.trivial ℤ _ (ZMod 3) }
+    Nat.card (continuousCohomology 0 X) = 3 := sorry
+
+/-- Real ordinary invariants of `μ₃` use its Galois action and have order one. -/
+example : Nat.card (continuousCohomology 0
+    (TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup ℝ) (TauCeti.KummerCoeff ℝ 3))) = 1 := sorry
 
 end EulerCharacteristic
 
@@ -544,7 +638,8 @@ variable {R : Type u} [CommRing R] {A B A' B' : CochainComplex (ModuleCat.{u} R)
 
 /-- The mapping fibre `Cone(res)[-1]`. For arithmetic compact support, `res` has target the
 modified local diagram: ordinary finite-place cochains, real Tate cochains and zero complex-place
-terms, or the quasi-isomorphic finite-place model under `(P)`. The fibre of ordinary cochains at
+terms, or the quasi-isomorphic finite-place model under `(P)` for coefficients of residue
+characteristic `p`. The fibre of ordinary cochains at
 every place has the separate archimedean comparison specified in R02.5.2. -/
 abbrev compactCochains (res : A ⟶ B) : CochainComplex (ModuleCat.{u} R) ℤ :=
   (CochainComplex.mappingCone res)⟦(-1 : ℤ)⟧
@@ -575,6 +670,9 @@ theorem compactCohomology_exact (res : A ⟶ B) (n : ℤ) :
 global cohomology. -/
 example (res : A ⟶ B) (hB : Limits.IsZero B) (n : ℤ) :
     Nonempty (compactCohomology res n ≅ A.homology n) := sorry
+
+/-- Check `finite_support_identity`: the fibre of the identity is acyclic. -/
+example (n : ℤ) : Limits.IsZero (compactCohomology (𝟙 A) n) := sorry
 
 end GaloisCohomology
 
@@ -694,13 +792,15 @@ vanishing of `H²(G_K, ℚ/ℤ)`, torus duality, the function-field Poitou–Tat
 obstructions, and totally real local base change; perfect amplitude and Tor for the module-derived
 tensor supplied by DerivedDeRhamCohomology §0.2, Matlis duality, the derived
 composite spectral sequence, adic continuous-map flatness, the Hilbert–Samuel Euler function,
-the dualizing complex and local duality for complete local rings, continuous cochains in the
+the residual criterion for perfect amplitude, the dualizing complex and local duality for complete
+local rings, continuous cochains in the
 derived category, the local and global invariant trivialisations, derived local and global
 duality, compactly supported cup products and Euler characteristics, the lattice and rational
 Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field,
 abelian-variety local duality and the isogeny sequence; the arithmetic compact-support
-identification, archimedean cohomology and H⁰ corrections for the Selmer fibres and comparison
-triangle supplied by SelmerIwasawaCohomology §§2.21–2.22, and the Greenberg–Wiles formula;
+identification and specialization of the archimedean cohomology and H⁰ corrections for the
+Selmer fibres and comparison triangle supplied by SelmerIwasawaCohomology §§2.21–2.22, and the
+Greenberg–Wiles formula;
 the Selmer tangent comparison,
 the full real Tate trace sequence, and derived coefficient
 change; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
@@ -747,8 +847,6 @@ declared here.
   `compactCupRight_leibniz`, `compactCup_forget`, `compactCupLeft_coordinates`,
   `compactCupRight_coordinates`.
 
-The README Checks `limOne_surjective_tower`, `lim_constant` and `homPt_int` are likewise stated
-there only.
 -/
 
 end TauCetiRoadmap.ArithmeticGaloisDuality
