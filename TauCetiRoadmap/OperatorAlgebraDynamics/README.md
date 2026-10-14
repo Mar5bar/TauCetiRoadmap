@@ -179,7 +179,11 @@ middle for every such reduced sequence. Prove that amenability implies
 approximation argument through Reiter's condition P₁. Construct, from an
 invariant mean, positive norm-one L¹ functions whose left translates
 converge in L¹ uniformly on each compact set; prove the converse and the
-square-root P₂ approximation. Use those vectors to show the trivial
+square-root P₂ approximation. Prove the converse P₂ criterion too:
+almost invariant unit vectors ξ in L² give the norm-one L¹ densities
+`|ξ|²`, with `‖|λ_sξ|²−|ξ|²‖₁≤2‖λ_sξ−ξ‖₂`.
+Their integration states have an invariant weak-* cluster point, giving
+amenability; include the discrete ℓ² specialization. Use those vectors to show the trivial
 representation weakly contained in the regular one, and transfer covariant
 integrated norms by tensoring and absorption. Prove the compact-support
 approximation and integrated norm estimates; do not insert exactness as an unconditional
