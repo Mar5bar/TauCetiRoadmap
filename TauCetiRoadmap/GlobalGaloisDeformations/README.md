@@ -116,12 +116,15 @@ It does not own, and cites instead:
   (catenarity, Nagata rings, excellence and regular completion maps). The completed local products,
   coefficient-extension and dimension adapters and obstruction-compatible minimal presentations are
   targets [below](#completed-coefficient-products) of this roadmap.
-- **[LocalGaloisDeformationRings](https://github.com/TauCetiProject/TauCetiRoadmap/pull/923)**:
-  every local ring. In particular
+- **[LocalGaloisDeformationRings](../LocalGaloisDeformationRings/README.md)**:
+  unrestricted local framed rings and the condition-specific local quotients. In particular
   Layer 1 (local framed rings, 1.1; archimedean rings, 1.11 and 1.14; fixed-determinant and
   coefficient-change versions, 1.10 and 1.12), Layer 2 (Steinberg lifts, 2.5; fixed inertial types,
-  2.9; local rings at Taylor–Wiles primes, 2.10; rank-`n` Taylor–Wiles conditions, 2.16 and 2.23),
-  Layers 3 and 6 (`p`-adic Hodge-type and ordinary conditions in rank `n`, with their dimensions and
+  2.9; odd-prime fixed-determinant Taylor–Wiles rings, 2.10; rank-`n` block conditions, 2.16 and 2.23).
+  The all-prime rank-two diagonalization and the unrestricted ACC diamond ring are constructed
+  here in [the preliminary local construction](#rank-two-taylor-wiles-local) and [8.5](#taylor-wiles-local-diamond).
+  The supplier also owns
+  layers 3 and 6 (`p`-adic Hodge-type and ordinary conditions in rank `n`, with their dimensions and
   liftability) and Layer 8 (the local conditions of Khare–Wintenberger, 8.2–8.15, and the completed
   tensor product of their rings, 8.17, with nonemptiness, 8.18).
 
@@ -430,8 +433,8 @@ systems of Khare–Wintenberger patching for odd `p` and for `p = 2`. Layer G8 g
 variable-determinant rings of ACC, which Layer G7 uses for its Taylor–Wiles presentation alongside
 the polarized branch. The unrestricted simultaneous framed quotient is defined in 2.6 before
 its framing comparison.
-Define the finite group `G_V` before 4.8. In R04.5 build 5.2, then 5.3, then 5.1 and 5.4; the
-remaining targets follow in order. In R04.6 build 6.1–6.4, then 6.6, then 6.5, so the dyadic source
+Define the finite group `G_V` before 4.8. In R04.5 build the preliminary rank-two local
+construction, then 5.2, 5.3, 5.1 and 5.4; the remaining targets follow in order. In R04.6 build 6.1–6.4, then 6.6, then 6.5, so the dyadic source
 exists before its dimension is computed.
 
 `README.md` is normative. `Suggested.lean`, in the namespace
@@ -480,12 +483,16 @@ Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinia
 
 *Lean:* `strictKernel`, `Lift`, `Lift.conj`, `Lift.conj_apply`, `Lift.map`, `Lift.map_apply`,
 `Lift.map_id`, `Lift.map_comp`, the `MulAction` instance of `strictKernel` on `Lift`, and the `example`
-that a lift to `k` itself is `ρ̄`.
+that a lift to `k` itself is `ρ̄`, the evaluation-at-one bijection for finite local
+coefficients over `ZMod p`, and the discontinuous product-group character `example`.
 
 **Checks.**
 
-- **lift_trivial_char_Zp.** for `G = ℤ_p`, `n = 1` and `ρ̄ = 1`, evaluation at `1` identifies
-  `Lift(A)` with `1 + 𝔪_A`; a definition dropping the reduction condition would give all of `Aˣ`.
+- **lift_trivial_char_Zp.** For `G=ℤ_p`, `n=1` and `ρ̄=1`, evaluation at `1` identifies
+  `Lift(A)` with `1+𝔪_A`. For finite discrete local `A`, this is a finite `p`-group, so
+  every such value extends uniquely to a continuous character. Over `A=k` only the
+  identity value occurs: continuous characters already reduce trivially because
+  `kˣ` has order prime to `p`. For `A=ℤ/9`, the values are exactly `1,4,7`.
 - **lift_residue.** `Lift_ρ̄(k)` is the singleton `{ρ̄}`; a definition without the reduction equation
   would contain every continuous representation of `G` over `k`.
 - **lift_not_continuous.** for `G = ∏_ℕ ℤ/p`, `n = 1`, `ρ̄ = 1` and `A = k[ε]`, a homomorphism
@@ -821,7 +828,7 @@ The API:
 
 *Lean:* `PhiP`, `PhiP.open` (written `PhiP.«open»`), `phiP_of_fg`, the p-adic-integer and
 open-subgroup `example`s, and an `example` that every finite
-group satisfies `Φ_p`.
+group satisfies `Φ_p`, together with the inversion-semiproduct counterexample.
 
 **Checks.**
 
@@ -1963,6 +1970,43 @@ each local condition. Cohomology dimensions are measured over the new residue fi
 are unchanged by scalar extension. All rings and data in 5.1–6.6 use these coefficients
 (Gee, §5.5, p. 32).
 
+<a id="rank-two-taylor-wiles-local"></a>
+
+**Rank-two local diagonalization at Taylor–Wiles places.** For every prime `p`, let `v ∤ p`,
+`Nv ≡ 1 (mod p)` and let the unramified rank-two residual representation have two distinct
+`k`-rational Frobenius eigenvalues, with one selected. Starting from the unrestricted framed
+local ring of LocalGaloisDeformationRings 1.1, construct the coefficient-natural Hensel
+projectors and the two labelled character deformations. Wild inertia has trivial image in
+its pro-`p` reduction kernel. The tame relation `φtφ⁻¹=t^{Nv}`, together with distinct
+residual eigenvalues and `Nv ≡ 1 (mod p)`, eliminates the off-diagonal inertia entries;
+each labelled summand is therefore a character. The characters are unique, although the
+basis identifying the summands with `A²` is not. Impose the globally fixed unramified
+determinant: their inertia characters become inverse. The selected character gives
+`𝒪[Δ_v] → R^{□,ψ}_v`, formally smooth of relative dimension three, where `Δ_v` is the
+maximal `p`-power quotient of `k(v)ˣ`. Its augmentation quotient is the unramified
+fixed-determinant ring. This construction requires no auxiliary-prime datum and uses
+no division by two (KW final, §5.6, Proposition 5.11, p. 53; ACC published, §6.2.18,
+Lemma 6.2.19 and the following paragraph, pp. 1038–1039).
+
+*Needs:* LocalGaloisDeformationRings 1.1 and 1.10; [1.7](#fixed-determinant-functors);
+ClassFieldTheory Layer 7; [completed coefficient algebra](#completed-coefficient-products).
+
+*Lean:* the three matrix `example`s for dyadic, odd-prime and repeated-eigenvalue inertia.
+
+**Checks.**
+
+- **local_TW_dyadic.** For `p=2`, `k=𝔽₄` and `Nv=7`, Frobenius eigenvalues `ω,ω²`
+  with `ω³=1`, `ω≠1`, are distinct. Over `k[ε]` the inertia matrix `(1+ε)I`
+  has determinant one and satisfies the tame relation. It has a nonzero ramified
+  direction despite equal inverse inertia characters.
+- **local_TW_odd.** For `p=5`, `Nv=11`, Frobenius `diag(1,−1)` and inertia
+  `diag(1+ε,1−ε)` satisfy the tame relation and determinant-one constraint; both
+  labelled characters are ramified, so an unramified complementary block excludes this lift.
+- **local_TW_repeated_fails.** Over `𝔽₅[ε]`, scalar Frobenius and inertia
+  `I+εE₁₂` at `Nv=11` satisfy the tame relation but cannot be diagonalized:
+  its nonzero first-order nilpotent matrix is not similar to a diagonal matrix.
+  Distinct residual eigenvalues are essential.
+
 <a id="taylor-wiles-datum"></a>
 
 ### 5.1 Taylor–Wiles data
@@ -1984,7 +2028,7 @@ The API:
 - `TaylorWilesDatum.delta_quotient`: `Δ_Q/pᴺ ≅ (ℤ/pᴺ)^{#Q}`.
 
 *Needs:* [3.3](#global-deformation-type); [5.3](#dyadic-linear-disjointness) in the dyadic
-case; LocalGaloisDeformationRings 2.10.
+case; [rank-two local diagonalization](#rank-two-taylor-wiles-local).
 
 **Checks.**
 
@@ -2026,7 +2070,8 @@ The API:
 
 *Needs:* ArithmeticGaloisRepresentations Layer 4; [1.3](#strict-deformation-functor).
 
-*Lean:* the three `example`s on the `S₃` representation over `ZMod 5`; 5.1 also has
+*Lean:* the three `example`s on the `S₃` representation over `ZMod 5` and the three
+finite-subgroup big-image `example`s; 5.1 also has
 the `𝔽₃` eigenvalue boundary `example`.
 
 **Checks.**
@@ -2041,6 +2086,13 @@ the `𝔽₃` eigenvalue boundary `example`.
   stated `ℚ` example, while `k·J ⊊ ad⁰` is a nonzero invariant sign line: `J ≠ 0`, `tr J = 0`, the
   three-cycle fixes `J` and the transposition negates it, `diag(1, −1) ∉ k·J`, and `1, C, S, CS` span
   `M₂(𝔽₅)` (determinant of the flattened basis nonzero).
+- **bigImage_GL2_F5.** The full subgroup `GL₂(𝔽₅)` contains `SL₂(𝔽₅)` and passes
+  `HasBigImage`.
+- **bigImage_Borel_fails.** The upper triangular subgroup fails `HasBigImage`:
+  `[[1,0],[1,1]]` has determinant one and is not upper triangular.
+- **bigImage_S3_fails.** The subgroup generated by `C,S` of 1.5 has order six,
+  whereas `SL₂(𝔽₅)` has order 120, so the allowed cyclotomically irreducible `S₃`
+  example fails `HasBigImage`.
 
 <a id="dyadic-linear-disjointness"></a>
 
@@ -2125,15 +2177,16 @@ is (5). Substituting (4) and (7) gives (8) as an identity in `ℤ`.
 
 ### 5.5 Inertia at Taylor–Wiles places and the `Δ_Q`-module structure
 
-**Construction.** Use the selected `α_v` to diagonalize the universal local lift at each `v ∈ Q_N` into
-two characters (LocalGaloisDeformationRings 2.10). For globally fixed unramified determinant their
-inertia characters are inverse to each other, and the selected one factors through `Δ_v`. Construct
+**Construction.** Apply the [rank-two local diagonalization](#rank-two-taylor-wiles-local),
+valid for every prime `p`, with the selected `α_v` at each `v ∈ Q_N`. For globally fixed
+unramified determinant the two characters have inverse inertia restrictions, and the selected
+one factors through `Δ_v`. Construct
 the `𝒪[Δ_Q]`-algebra structure on the framed and the trace rings. Quotienting by the augmentation
 ideal recovers the problem without `Q`. In the dyadic case, for the fixed-determinant twisting
 automorphism `a_χ` and a diamond element `δ`, prove `a_χ ∘ δ = χ(δ)·(δ ∘ a_χ)`. The global augmentation
 statement uses the inertia quotient of 4.3 (KW final, §5.6, Proposition 5.11 and Lemma 5.12, p. 53).
 
-*Needs:* [5.1](#taylor-wiles-datum); LocalGaloisDeformationRings 2.10;
+*Needs:* [5.1](#taylor-wiles-datum); [rank-two local diagonalization](#rank-two-taylor-wiles-local);
 [4.3](#enlarging-ramification); [4.9](#twisting-action).
 
 *Lean:* the `example` computing `diag(α, β)·E₁₂·diag(α, β)⁻¹ = (α/β)·E₁₂`.
@@ -2258,7 +2311,8 @@ group zero this is `|T| − 1 − [F : ℚ] + r`.
 ### Dependencies
 
 Layers R04.3–R04.4; ArithmeticGaloisDuality R02.2, R02.5, R02.6; ArithmeticGaloisRepresentations
-Layer 4; `Chebotarev` Layer 10 and 11.3(2); LocalGaloisDeformationRings 2.10.
+Layer 4; `Chebotarev` Layer 10 and 11.3(2); LocalGaloisDeformationRings 1.1 and 1.10;
+[rank-two local diagonalization](#rank-two-taylor-wiles-local).
 
 ## Layer R04.6: Finite-level deformation data for patching
 
@@ -2326,15 +2380,19 @@ The API:
 *Needs:* [6.1](#kw-deformation-data); [2.6](#framed-unframed-comparison);
 [2.7](#carayol-trace-theorem).
 
-*Lean:* the `example` conjugating the three-cycle matrix over `DualNumber (ZMod 5)`.
+*Lean:* the `example` conjugating the three-cycle matrix over `DualNumber (ZMod 5)`
+and the seven-coordinate rational framing `example`.
 
 **Checks.**
 
-- **framingVars_one_place.** `|S| = 1` gives `3` framing variables.
+- **framingVars_rational.** For `F=ℚ` and `S={p,∞}`, there are `4·2−1=7` independent
+  frame coordinates. Normalizing a distinguished entry at the `p`-adic frame removes the
+  common scalar once; the real frame still has four coordinates.
 - **trace_subring_S3.** in the fixed-sign-determinant `S₃` model over `ℤ₅`, with the
   integral matrices `C,S` of 1.5, prime-to-five order gives no unframed deformation
   directions. The unframed ring and closed trace ring are `ℤ₅` (`tr C=−1`, `tr S=0`),
-  while one frame gives `ℤ₅⟦a,b,c⟧`. Conjugating by `1+εE₁₂` changes the matrices
+  while one frame in this general profinite-group model, outside the KW arithmetic data,
+  gives `ℤ₅⟦a,b,c⟧`. Conjugating by `1+εE₁₂` changes the matrices
   but leaves all traces constant: the three frame directions never enter the trace ring.
 - **framed_not_trace_generated.** `R̄^{□,ψ}_S` is not generated by traces when `|S| ≥ 1`, since the framing
   variables are not traces (2.7, **traceGen_framed_fails**).
@@ -2817,18 +2875,37 @@ representing ring here (CHT, Corollaries 2.2.12, 2.2.13 and 2.3.5, pp. 25 and 32
 
 ### 8.5 Taylor–Wiles places in rank `n`
 
-**Construction.** In the ACC rank-`n` setting take `v ∤ p` with `q_v ≡ 1 (mod p)`, `ρ̄` unramified at `v` and
-an ordering of `n` distinct `k`-rational eigenvalues of `ρ̄(Frob_v)`. The local lifting ring of
-LocalGaloisDeformationRings 2.16 classifies, after a change of basis, a direct sum of uniquely labelled
-character deformations; reciprocity on their inertia characters gives `𝒪[k(v)ˣ(p)ⁿ] → R^□_v`, formally
-smooth of relative dimension `n²`. For a set `Q` put `Δ_Q = ∏_{v∈Q} k(v)ˣ(p)ⁿ` and augment `𝒮` by unrestricted
-local conditions at `Q`. The chosen orderings make `R^T_{𝒮_Q}` a `Λ[Δ_Q]`-algebra, and the specialization
-`R^T_{𝒮_Q} ↠ R^T_𝒮` has kernel the augmentation ideal times `R^T_{𝒮_Q}`. This is the variable-determinant
-action with `n` factors per place; the fixed-determinant rank-two action of 5.5 has its own constraint
-(ACC arXiv v2, §6.2.18, Lemma 6.2.19, p. 143, and the Taylor–Wiles datum and `𝒮_Q`, p. 149).
+**Construction.** In the ACC rank-`n` setting take `v ∤ p` with `q_v ≡ 1 (mod p)`,
+`ρ̄` unramified at `v` and an ordering of `n` distinct `k`-rational eigenvalues of
+arithmetic `ρ̄(Frob_v)`. Start from the unrestricted framed local ring of
+LocalGaloisDeformationRings 1.1. Construct here its coefficient-natural decomposition
+into `n` labelled character deformations, using Hensel projectors and the tame relation
+as in the rank-two local construction. The characters are unique and the diagonalizing
+basis is determined up to rescaling each line. Independent inertia characters give
+`𝒪[k(v)ˣ(p)ⁿ] → R^□_v`, formally smooth of relative dimension `n²`: the `n` unramified
+character parameters and `n²−n` basis parameters supply the smooth directions. There
+is no fixed determinant or unramified complementary block. For a set `Q` put
+`Δ_Q = ∏_{v∈Q} k(v)ˣ(p)ⁿ` and augment `𝒮` by unrestricted local conditions at `Q`.
+The orderings make `R^T_{𝒮_Q}` a `Λ[Δ_Q]`-algebra, and the specialization
+`R^T_{𝒮_Q} ↠ R^T_𝒮` has kernel the augmentation ideal times `R^T_{𝒮_Q}`. This is the
+variable-determinant action with `n` factors per place; 5.5 keeps its fixed-determinant
+rank-two constraint (ACC published, §6.2.18, Lemma 6.2.19 and the following paragraph,
+pp. 1038–1039, and the Taylor–Wiles datum and `𝒮_Q`, p. 1045; ACC arXiv v2,
+§6.2.18, Lemma 6.2.19, p. 143, and the datum, p. 149).
 
-*Needs:* [7.1](#variable-determinant-problem); [5.5](#taylor-wiles-inertia-action);
-LocalGaloisDeformationRings 2.16 and 2.23.
+Let `rec_ar` be Tau Ceti's arithmetic reciprocity. ACC uses
+`Art_geom(u)=rec_ar(u)⁻¹`. Define the arithmetic-normalized diamond map on the
+`i`-th factor by `[u] ↦ γ_i(rec_ar(u))`. Relative to ACC this transports the group
+algebra by `[u] ↦ [u⁻¹]` on every factor. The geometric-Frobenius eigenvalues in
+ACC's ordering are the inverses of the arithmetic-Frobenius eigenvalues used here.
+Use this transport for the action in 8.7 and its exported patching data; augmentation
+and generator counts are preserved (ACC published, notation, p. 906).
+
+*Needs:* [7.1](#variable-determinant-problem);
+[rank-two local diagonalization](#rank-two-taylor-wiles-local);
+LocalGaloisDeformationRings 1.1; ClassFieldTheory Layer 7.
+
+*Lean:* the independent-inertia matrix `example` and the order-five reciprocity `example`.
 
 **Checks.**
 
@@ -2840,6 +2917,14 @@ LocalGaloisDeformationRings 2.16 and 2.23.
   inverse.
 - **rankn_TW_ordering.** changing the ordering of the eigenvalues permutes the factors of `k(v)ˣ(p)ⁿ`; the
   algebra structure depends on the ordering, which is part of the datum.
+- **rankn_TW_independent_inertia.** For `n=2`, `p=5`, `q_v=11`, over `𝔽₅[ε]`,
+  Frobenius `diag(1,−1)` and inertia `(1+ε)I` define an unrestricted ACC lift.
+  Its determinant on inertia is `1+2ε≠1` and both characters are ramified;
+  fixed-determinant and unramified-complement conditions exclude it.
+- **rankn_TW_reciprocity.** For `p=5`, `q_v=11`, a generator of the order-five
+  inertia quotient maps to `ζ₅` under one diamond normalization and `ζ₅⁻¹` under
+  the other. These differ, while both augment to one. Inverting arithmetic
+  Frobenius also inverts each labelled residual eigenvalue.
 
 <a id="enormous-taylor-wiles-primes"></a>
 
@@ -2886,7 +2971,8 @@ R^{T,loc}_𝒮⟦X₁, …, X_g⟧ ↠ R^T_{𝒮_{Q_N}},     g = qn − n²[F⁺
 ```
 
 Prove `g ≥ 0` in `ℤ` before indexing the variables. The diamond group has `qn` cyclic `p`-power factors,
-each of order at least `pᴺ`, and its augmentation quotient is `R^T_𝒮`. The degree-one selection avoids
+each of order at least `pᴺ`, with the arithmetic-normalized action and factorwise
+inversion transport of 8.5; its augmentation quotient is `R^T_𝒮`. The degree-one selection avoids
 the primes ramified in `F₀`, which ensures the splitting assertion. This ring, action, quotient and count
 are the input for patching arithmetic complexes; the polarized and fixed-determinant branches keep their
 own formulas (ACC arXiv v2, Proposition 6.2.32 and its proof, p. 151; ACC published, Proposition 6.2.33
@@ -2926,8 +3012,8 @@ R02.4, D7 and D8; LocalGaloisDeformationRings Layers 1, 2, 3 and 6; [presentatio
   presentation for the ACC branch, and the polarized branch of G7 only where the pairing, multiplier and
   signs are part of its data; with the matching local conditions of LocalGaloisDeformationRings it
   builds the comparison maps to Hecke algebras. It receives from 8.7 the sets `Q_N`, the ordered
-  eigenvalues, the norm congruences, splitting in `F₀`, the `Λ[Δ_Q]`-action with `qn` sufficiently large
-  cyclic factors, the augmentation quotient and the nonnegative count `qn − n²[F⁺ : ℚ]`. Auxiliary
+  eigenvalues, the norm congruences, splitting in `F₀`, the arithmetic-normalized `Λ[Δ_Q]`-action
+  of 8.5 with `qn` sufficiently large cyclic factors, the augmentation quotient and the nonnegative count `qn − n²[F⁺ : ℚ]`. Auxiliary
   neatness primes serve a different purpose and are not added to the Taylor–Wiles set.
 - **LocalGaloisDeformationRings** uses 1.1, 1.3, 1.7, 2.1–2.9, 3.1–3.3 and
   4.12 as the general framework for its local rings, and the pseudodeformation rings of 2.11 for its
