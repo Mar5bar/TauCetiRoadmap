@@ -26,18 +26,25 @@ The prerequisites are Mathlib's Hahn–Banach theorem, Banach–Alaoglu theorem,
 uniform boundedness, open mapping theorem, Bochner integration and finite-dimensional
 linear algebra. Supply the additional constructions below in Tau Ceti. This roadmap
 owns general Banach-space tensor norms and absolutely summing operators.
-[Operator ideals](../OperatorTheory/OperatorIdeals/README.md) owns Hilbert-space Schatten ideals,
-trace norms and singular values; [operator theory](../OperatorTheory/README.md) owns
+[Operator ideals](../OperatorTheory/OperatorIdeals/README.md) owns general approximation
+numbers and finite-rank approximability, as well as Hilbert-space Schatten ideals,
+trace norms and singular values; B4 owns the nuclear/trace-class comparison.
+[Operator theory](../OperatorTheory/README.md) owns
 the Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space
-scope. No operator-algebra roadmap is a prerequisite here.
+scope. B5 consumes SelfAdjointSpectralTheory Part B's generic scalar-measure
+integration and regularity layer (SA-B81–84), which is independent
+of PVMs, representations and this roadmap's bidual comparison.
 
 ## B1. Duality and weak topologies
 
 Develop annihilators and preannihilators, order reversal, annihilators of sums and
-intersections, and the double-annihilator theorem with the correct closure. For a
+intersections, and the double-annihilator theorem: `(Fᗮ)_⊥` is the norm closure
+of a subspace `F ≤ E`, while `(G_⊥)ᗮ` is the weak-star closure of a subspace
+`G ≤ E*`. For a
 closed subspace `F ≤ E`, identify `(E/F)*` isometrically with `Fᗮ`, and `F*` with
 `E*/Fᗮ`; construct restriction, quotient and inclusion maps and prove their naturality.
-Develop the adjoint of a bounded map, its norm, kernels, ranges and composition.
+Develop the adjoint of a bounded map using `ContinuousLinearMap.precomp 𝕜 T`,
+its norm, kernels, ranges and composition.
 For a bounded operator between Banach spaces, with both domain and codomain
 complete, prove the closed-range theorem: `range T` is norm closed iff
 `range T*` is norm closed. Separate the unconditional identities
@@ -56,7 +63,8 @@ combination form of Mazur's lemma for weakly convergent sequences.
 
 Give weak and weak-star continuity criteria by evaluation, boundedness consequences
 of weak boundedness, and the weak-star metrizability of a dual unit ball when the
-predual is separable. Specify an actual compatible metric from a dense sequence in
+predual is separable, reusing `WeakDual.metrizable_of_isCompact` and
+`WeakDual.isSeqCompact_closedBall`. Specify an actual compatible metric from a dense sequence in
 the predual unit ball and prove independence of the chosen sequence at the topology
 level. Do not impose separability on Banach–Alaoglu or Goldstine.
 
@@ -76,25 +84,33 @@ subsequence lemmas.
   continuous linear functional `f`. Attainment includes existence of a finite
   maximum. Deduce reflexivity iff every functional attains its norm on the closed
   unit ball. Develop the separable reduction and finite norming sets needed in the
-  proof; completeness cannot be dropped from the theorem.
+  proof; keep completeness as an explicit hypothesis of the theorem.
 * **Krein–Šmulian:** a convex subset of the dual of a Banach space is weak-star
   closed iff its intersection with every closed ball centered at zero is weak-star
   closed. Include the linear-subspace criterion using just the unit ball.
-* **Bishop–Phelps:** norm-attaining continuous linear functionals are norm dense
-  in the dual; support points are dense in the boundary of a nonempty closed convex
-  set. State the support-functional version with boundedness of the set.
+* **Bishop–Phelps:** for a Banach space, norm-attaining continuous linear
+  functionals are norm dense in the dual. For a nonzero Banach space, support
+  points are dense in the boundary of a nonempty closed convex set, and support
+  functionals are norm dense in the dual when that set is also bounded.
+  A support functional is nonzero and its real part attains its supremum on the
+  set; a support point is such an attaining point. Treat the zero space separately.
 * **Milman–Pettis:** every uniformly convex Banach space is reflexive. Develop the
   modulus of convexity, passage to closed subspaces and invariance of reflexivity
   under equivalent norms. Include the standard uniform convexity estimates for
   `Lᵖ`, `1 < p < ∞`.
 
 For a bounded operator, weak compactness means relative weak compactness of the
-image of the unit ball. Prove the Gantmacher criterion
+image of the unit ball. For `T : E →L[𝕜] F` with `E` normed and `F` Banach,
+prove the Gantmacher criterion
 `T**(E**) ⊆ J_F(F)`, weak compactness iff weak compactness of the adjoint, stability
 under sums and bounded compositions, and compact implies weakly compact.
 Use the identity on an infinite-dimensional reflexive space to separate the two.
 
 ## B3. Schauder bases and classical spaces
+
+The basis-constant, perturbation, duality and convergence results in this
+milestone concern Banach spaces. Coordinate and finite-projection identities
+retain the weaker hypotheses of Mathlib's basis API.
 
 Extend Mathlib's basis and coordinate maps with coefficient uniqueness, basis
 constants, equivalent norms making a basis monotone, subsequences and block bases
@@ -112,27 +128,56 @@ a Banach space with a Schauder basis is reflexive iff that basis is both shrinki
 and boundedly complete. Do not equate an ordinary Schauder expansion with `tsum`
 using the unconditional filter.
 
-For unconditional bases, give the equivalent uniform bound on finite coordinate
+Use `UnconditionalSchauderBasis ℕ 𝕜 E` for sequence-indexed unconditional
+bases; construct its conversions with a `SchauderBasis` whose expansion also
+converges along `SummationFilter.unconditional ℕ`. Reuse
+`SchauderBasis.nnnormProjBound` and `UnconditionalSchauderBasis.nnnormProjBound`
+as basis constants. For unconditional bases, give the equivalent uniform bound on finite coordinate
 projections and on signed coordinate multipliers, suppression and permutation
 invariance, and extension of bounded scalar multipliers. Construct the canonical
 bases of `c₀` and `ℓᵖ`, `1 ≤ p < ∞`, identify `c₀* = ℓ¹` and `(ℓᵖ)* = ℓᑫ` for
 `1 < p < ∞`, and identify `(ℓ¹)* = ℓ∞`. Use Mathlib's sequence-space models and
 give isometric equivalences rather than introducing competing spaces.
+Use `C₀(ℕ,𝕜)` (`ZeroAtInftyContinuousMap`) for `c₀`, and `lp` for `ℓᵖ`;
+prove the dual identifications using the corresponding scalar integral/series
+pairings, including `lp.dualPairing` at conjugate exponents.
 
 Prove Schur's theorem for `ℓ¹`. Exhibit the unit-vector sequence in `c₀` as weakly
 null but not norm null, the nonreflexivity of `c₀` and `ℓ¹`, and reflexivity of `ℓᵖ`
 for `1 < p < ∞`. These examples also distinguish shrinking from bounded completeness.
-Construct the Haar basis of `Lᵖ([0,1])`, `1 ≤ p < ∞`, with the constant first vector
-and increasing dyadic levels; prove it is unconditional for `1 < p < ∞`.
+Construct the Haar basis of `Lᵖ([0,1])`, `1 ≤ p < ∞`, with the constant first
+vector, unnormalized ±1 functions on successive dyadic intervals, and increasing
+dyadic levels. Its initial projections are averages on the successively refined
+dyadic atom partitions; construct these contractions, their composition law and
+convergence on `Lᵖ`, first on dense step functions. For unconditionality, prove
+the scalar Bellman estimates for `p > 2` and
+`Φ_p(x,y)=(x+y)^(p−1)((p−1)x−y)`, for `x,y ≥ 0`:
+`((p−1)^(p−1)/p^(p−2))Φ_p(x,y) ≤ (p−1)^p x^p−y^p`, and
+`Φ_p(|x+a|,|y+εa|)+Φ_p(|x−a|,|y−εa|) ≥ 2Φ_p(|x|,|y|)`
+for real `x,y,a` and `ε=±1`. Integrate the midpoint inequality inductively
+over each split dyadic atom to obtain the signed-transform bound `p−1`.
+Use orthogonality at `p=2` and finite-atom Hölder duality at conjugate
+`q>2` for `1<p<2`. Thus the real Haar sign-transform bound is
+`max(p,p/(p−1))−1`. Deduce the complex bound twice that value by real/imaginary
+parts, and hence unconditionality over both fields.
 
 ## B4. Approximation and Banach tensor products
+
+The approximation-property equivalences and stability results below concern
+Banach spaces. Algebraic tensor norms are defined for normed spaces; completed
+tensor/operator identifications, nuclear operators and scalar-unit isometries
+use Banach factors. In particular the target `F` is complete in the operator
+identifications involving `E* ⊗ε F` and `E* ⊗π F`.
 
 Define the approximation property by uniform approximation of the identity on
 each norm-compact subset by bounded finite-rank operators. The `λ`-bounded
 approximation property adds `‖T‖ ≤ λ`; BAP means such a finite `λ` exists and MAP
-means `λ = 1`. Prove MAP implies BAP implies AP, stability under bounded linear
-equivalence (with the appropriate change in `λ`), inheritance by complemented
-subspaces, and BAP from a Schauder basis with its basis constant. Prove MAP for
+means `λ = 1`. Prove MAP implies BAP implies AP. Under a bounded linear
+equivalence `U`, transport `λ`-BAP to `λ‖U‖‖U⁻¹‖`-BAP; AP and BAP
+are invariant under these equivalences, while MAP is preserved by isometric
+equivalences. For a bounded projection `P` onto a closed subspace, prove
+inheritance of AP and transport `λ`-BAP to `λ‖P‖`-BAP. Prove BAP from
+a Schauder basis with its basis constant. Prove MAP for
 `c₀`, `ℓᵖ` and `Lᵖ([0,1])`, `1 ≤ p < ∞`, using the explicit projections.
 
 Prove Grothendieck's equivalence: `E` has AP iff every compact operator `F → E`
@@ -140,7 +185,11 @@ from every Banach space is an operator-norm limit of finite-rank operators. Incl
 the compact-disk construction and the fact that a relatively norm-compact set is
 contained in the closed convex hull of a null sequence.
 
-On the algebraic tensor product define the projective norm by the infimum of
+Use distinct normed type synonyms of Mathlib's binary `TensorProduct 𝕜 E F`
+for the projective and injective norms, and
+`UniformSpace.Completion` for the completed
+tensors. Give norm-preserving pure-tensor comparisons with the finite-family
+`PiTensorProduct` interfaces. On the algebraic tensor product define the projective norm by the infimum of
 `∑ ‖xᵢ‖ ‖yᵢ‖` over finite decompositions and the injective norm by
 `sup {|∑ f(xᵢ)g(yᵢ)| : ‖f‖ ≤ 1, ‖g‖ ≤ 1}`. Prove they are norms over `ℝ` and `ℂ`,
 the elementary-tensor equality, and `ε ≤ π`. Construct their completions, their
@@ -151,26 +200,93 @@ projective tensor product preserves metric quotient maps.
 
 Prove the norm-preserving universal property of the completed projective tensor
 product for bounded bilinear maps into a Banach space, and its dual identification
-with bounded bilinear forms. Identify the injective completion `E* ⊗ε F` with the
+with bounded bilinear forms. Prove that every completed projective tensor is a
+norm-convergent series `∑ xₙ⊗yₙ` with `∑ ‖xₙ‖‖yₙ‖ < ‖u‖π+ε` for each
+`ε>0`, by successive finite-tensor approximations. Identify the injective completion `E* ⊗ε F` with the
 operator-norm closure of finite-rank maps `E → F`. Construct the canonical map
 `E* ⊗π F → (E →L[𝕜] F)` and its range with quotient norm: nuclear operators.
 Prove completeness, rank-one norm, the ideal inequality and the series
 representation `T x = ∑ fₙ(x)yₙ` with `∑ ‖fₙ‖‖yₙ‖ < ∞`; the nuclear norm is the
-infimum over those representations. Keep this norm distinct from the operator
-norm and from the Hilbert-space trace-class identification owned by OperatorIdeals.
+infimum over those representations. Use the range submodule of the canonical map
+as the underlying algebraic carrier, with a separate normed type synonym carrying
+the quotient norm and a contractive forgetful map into bounded operators.
+Prove the kernel closed. Reuse OperatorIdeals OI-A01 and
+OI-A25–OI-A28 for approximation numbers and finite-rank approximability.
+Connect AP to tensors: a Banach space `E` has AP iff
+`F ⊗π E → F ⊗ε E` is injective for every Banach `F`. Prove that
+`E* ⊗π F → (E →L[𝕜] F)` is injective if `E*` or `F` has AP; distinguish
+this hypothesis-dependent tensor identification from the always-defined
+quotient-norm nuclear carrier. Build the finite-rank tensor approximation and
+separation/compact-set arguments for these comparisons.
+Keep the nuclear norm distinct from operator norm. On Hilbert pairs, construct
+its isometric identification with OperatorIdeals OI-B29–OI-B30's trace-class
+gauge. Construct the compact Schmidt series from the existing compact
+self-adjoint theorem, reusing Mathlib's
+`ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot` and
+Tau Ceti's `exists_hilbertBasis_forall_hasEigenvector` in
+`TauCeti.Analysis.InnerProductSpace.Spectrum`. For compact `T:H→K` on
+complete real or complex Hilbert spaces, apply these to `T†T`. Order the
+positive eigenvalues `λ_j` with multiplicity and put `s_j=√λ_j`.
+Prove only finitely many eigenvalues exceed
+any positive threshold, and choose the associated finite or countable
+orthonormal families `(e_j),(f_j)`, with `f_j=s_j⁻¹T e_j` and
+`s_j>0` nonincreasing, tending to zero in the infinite-rank case. Prove
+`Tx=∑ s_j⟪e_j,x⟫f_j`, vanishing on ker T, and operator-norm convergence
+of its finite truncations. Zero-pad the singular-value sequence in the
+finite-rank case and prove `s_n=a_n(T)` with the zero-based OI convention:
+the rank-n truncation gives the upper bound and, below the rank, a kernel
+vector on an (n+1)-dimensional singular span gives the lower bound;
+at or above finite rank both sides are zero. A finite trace-class
+gauge implies compactness by the OI approximation-number criterion.
+The summable Schmidt series gives the nuclear-norm upper bound. For the
+reverse inequality, use OI's gauge subadditivity and rank-one norm on
+partial nuclear sums, operator-norm continuity of each `a_n`, and Fatou
+for the series of approximation numbers. This also pins the rank-one norms.
+
+Identify `(E ⊗ε F)*` with integral bilinear forms: those forms whose induced
+linear functional on algebraic tensors is bounded for `ε`, with norm the least
+such bound. Prove evaluation, completeness, rank-one formulas, and bounded
+functoriality in both factors. Compare currying into `F*` and the forgetful map
+to bounded bilinear forms; do not conflate the integral and ordinary bilinear norms.
 
 ## B5. Function spaces and weak compactness
 
-For compact Hausdorff `K`, develop the Banach-space duality between `C(K,𝕜)` and
+This milestone uses Banach spaces and finite measure spaces. For compact Hausdorff
+`K` with its Borel measurable structure, develop the Banach-space duality between `C(K,𝕜)` and
 finite regular scalar Borel measures, with the total-variation norm, evaluation
-measures and the weak-star topology. Extend Mathlib's measure representation API
-as needed. Prove the Banach–Stone theorem in its operator form: a surjective linear
+measures and the weak-star topology. Use the submodule of
+`MeasureTheory.VectorMeasure K 𝕜` with finite regular variation, normed by
+`(ν.variation Set.univ).toReal`; compare with native `SignedMeasure` and
+`ComplexMeasure`. Construct the norm, completeness and Dirac maps; write
+`M(K)` for this normed measure submodule. Consume `VectorMeasure.integral`
+for its integration pairing, using `ContinuousLinearMap.mul ℝ ℂ` for complex
+measures and `ContinuousLinearMap.mul ℝ ℝ` for real measures. Consume
+SelfAdjointSpectralTheory SA-B81–82's 𝕜-linearity and scalar-integral
+comparison and SA-B83's finite absolute-continuity regularity lemma. Prove this normed
+dual identification, continuous-function evaluation and the variation norm. Use
+`VectorMeasure.variation`, native scalar Radon–Nikodym
+derivatives and `RealRMK.rieszMeasure`. Construct positive and negative parts
+of real bounded functionals using `Λ⁺(f)=sup{Λ(g):0≤g≤f}` for `f≥0`;
+prove additivity, boundedness and extension to a positive linear functional.
+Apply RMK to those parts. For complex functionals, restrict to real-valued
+functions and represent their real and imaginary parts, then use complex
+linearity. Prove the norm equality for the pairing and its surjectivity.
+For nonempty `K`, prove that the extreme points of its dual unit ball are
+exactly `λδ_x`, `|λ|=1`, by splitting variation on measurable sets and
+using regularity; handle empty spaces separately.
+Prove the Banach–Stone theorem in its operator form: a surjective linear
 isometry `C(K,𝕜) → C(L,𝕜)` is `f ↦ h · (f ∘ φ)`, where `φ : L ≃ₜ K` and
 `h : C(L,𝕜)` has pointwise modulus one; include uniqueness and the converse.
+Construct `φ` and `h` from the adjoint action on extreme Dirac functionals,
+with `h=T1`, and prove continuity of `φ` via evaluation of continuous functions.
 
 For a finite measure `μ`, prove the Dunford–Pettis weak compactness criterion:
 a subset of `L¹(μ)` is relatively weakly compact iff it is norm bounded and its
-integrals are uniformly absolutely continuous with respect to `μ`. Relate this
+integrals `∫_A ‖f‖ dμ` are uniformly absolutely continuous with respect to `μ`:
+for every `ε>0` there is `δ>0` such that `μ(A)≤δ` implies all these integrals
+are at most `ε`. Relate this to native `UnifIntegrable` at exponent 1, and the
+bounded version to `UniformIntegrable`; transport representatives of `Lp`
+classes explicitly. Relate this
 to the uniform tail-integral criterion. Build the truncation, Radon–Nikodym and
 weak-closure arguments, and prove weak sequential completeness of `L¹(μ)`.
 
@@ -179,16 +295,61 @@ norm-convergent images. Prove equivalence to taking weakly compact sets to
 norm-compact sets. The Dunford–Pettis property of a space means that every weakly
 compact operator from it to any Banach space is completely continuous. Prove the
 criterion `fₙ(xₙ) → 0` when both sequences are weakly null in the space and its
-dual, and prove the property for `C(K)` and `L¹(μ)`. Include an infinite-dimensional
+dual, and prove the property for `C(K)` and `L¹(μ)`. Supply the connecting
+constructions: for a weakly null sequence of regular scalar measures `(νₙ)`,
+form the finite regular measure `ν=∑ 2^(−n−1)|νₙ|`. Prove that
+for every finite regular positive ν `g↦ν.withDensityᵥ g` is an
+isometric embedding `L¹(ν)→M(K)` with closed range, consuming native
+`Measure.variation_withDensityᵥ` and SA-B82's pairing identity
+`⟨f,ν.withDensityᵥ g⟩=∫fg dν`. For ℂ use native `ComplexMeasure.rnDeriv`, `integrable_rnDeriv` and
+`singularPart_add_withDensity_rnDeriv_eq`. Install its two-field
+`HaveLebesgueDecomposition` instance for σ-finite ν using native
+`SignedMeasure.haveLebesgueDecomposition_of_sigmaFinite` on the real and
+imaginary parts. For |μ|≪ν prove the missing complex comparison
+`μ=ν.withDensityᵥ (μ.rnDeriv ν)`. For ℝ consume native
+`SignedMeasure.absolutelyContinuous_iff_withDensityᵥ_rnDeriv_eq` and
+`SignedMeasure.totalVariation_eq_variation`. For general RCLike 𝕜,
+construct the density from the signed real/imaginary parts as
+`h=rnDeriv(re μ,ν)+I·rnDeriv(im μ,ν)`, using RCLike's real/imaginary
+reconstruction; specialize to those same native ℝ and ℂ derivatives.
+Consume `Integrable.withDensityᵥ_eq_iff` for a.e.-uniqueness and
+`Measure.variation_withDensityᵥ` for
+`|μ|=ν.withDensity (fun x=>‖h x‖ₑ)`; for ν=|μ| prove |h|=1 ν-a.e. Use these derivatives to transfer weak
+nullity to the densities in the displayed dominating-measure construction.
+Uniform integrability of those densities and bounded convergence of the weakly
+null continuous functions then prove the `C(K)` sequence criterion.
+Construct the isometric duality `(L¹(μ))*≃L∞(μ)` by the integral pairing,
+with indicator tests and Radon–Nikodym densities giving surjectivity and the
+essential-bound norm equality. Reuse native scalar `Lp 𝕜 ∞ μ` star and
+the Hölder `HSMul` product at exponents ∞,∞,∞ for pointwise multiplication,
+construct its unit, and prove its commutative C*-algebra laws over
+`ℂ`. Reuse Mathlib's `gelfandStarTransform` to identify it with `C(K_μ,ℂ)`;
+construct the real-linear isometries
+`selfAdjoint (Lp ℂ ∞ μ) ≃ Lp ℝ ∞ μ` and
+`selfAdjoint C(K_μ,ℂ) ≃ C(K_μ,ℝ)` for the real version.
+Prove the function-space comparison preserves absolute values and finite
+square functions. Treat the zero measure
+separately. Prove that DPP of `X*` implies DPP of `X` using the canonical
+bidual embedding and the sequence criterion, and apply this to `L¹(μ)`.
+Include an infinite-dimensional
 Hilbert space as a counterexample. Weak-star null functionals cannot replace
-weakly null functionals in the criterion.
+weakly null functionals in the criterion: in `c₀`, the unit vectors are weakly
+null and their coordinate functionals are weak-star null, with pairing always 1.
+Prove that `c₀` has DPP from B3's Schur property of `c₀*=ℓ¹` and the
+sequence criterion, so it supplies the claimed counterexample.
 
 ## B6. Summing operators and Grothendieck's inequality
+
+The operator-ideal completeness and series characterizations below use Banach
+source and target spaces; finite-family inequalities retain normed-space scope.
 
 For real `1 ≤ p < ∞`, define the weak `p`-norm of a finite family `(xᵢ)` as
 `sup_{‖f‖≤1} (∑ |f(xᵢ)|ᵖ)^(1/p)`. A bounded operator is absolutely `p`-summing
 if `(∑ ‖Txᵢ‖ᵖ)^(1/p)` is bounded by a constant times that weak norm; `πₚ(T)`
-is the least constant. Construct the Banach operator ideal, with rank-one norm,
+is the least constant. Bundle the operators satisfying this finite-family
+inequality as an underlying submodule of `E →L[𝕜] F`. Use a separate normed
+type synonym `Π_p(E,F)` carrying the `π_p` norm, with a contractive
+forgetful inclusion into the operator-norm carrier. Construct the Banach operator ideal, with rank-one norm,
 `‖T‖ ≤ πₚ(T)`, completeness, ideal inequality and inclusion `π_q(T) ≤ π_p(T)`
 for `p ≤ q`. For `p = 1`, prove the characterization by taking unconditionally
 convergent series to absolutely convergent series.
@@ -197,16 +358,39 @@ Prove Pietsch domination: `πₚ(T) ≤ C`, for `C ≥ 0`, iff there is a regula
 probability measure `ν` on the weak-star compact dual unit ball such that
 `‖Tx‖ ≤ C (∫ |f(x)|ᵖ dν(f))^(1/p)` for all `x`. Include the separating-convex-sets
 argument constructing `ν`, measurability of evaluations, and factorization through
-the closure of the canonical image of `E` in `Lᵖ(ν)`, with factor norm at most `C`.
+the closure of the canonical image of `E` in `Lᵖ(ν)` when the target `F` is
+complete, with factor norm at most `C`. For normed incomplete targets,
+construct the factor on the canonical image itself.
 Do not assert extension of this factor to all `Lᵖ(ν)` with arbitrary codomain.
+Use the closed dual unit ball as a subtype of `WeakDual 𝕜 E`, with the inherited
+compact topology and its Borel measurable structure, for the carrier of `ν`.
 
 Prove the real and complex Grothendieck inequalities with finite universal
-constants: for any finite scalar matrix `a`, the supremum of
-`|∑ aᵢⱼ ⟨uᵢ,vⱼ⟩|` over Hilbert unit vectors is bounded by `K_G` times the
-supremum of `|∑ aᵢⱼ sᵢtⱼ|` over scalar unit balls. Give the real Gaussian/sign
-construction, its covariance calculation and the passage to complex scalars;
-no optimal value of `K_G` is required. Derive the bounded bilinear-form version
-on `C(K) × C(L)` and `π₂(T) ≤ K_G ‖T‖` for `T : C(K) → L¹(μ)` with finite `μ`.
+constants `κ_ℝ=8` and `κ_ℂ=16`: for any finite scalar matrix `a`, the supremum of
+`|∑ aᵢⱼ ⟨uᵢ,vⱼ⟩|` over Hilbert unit-ball vectors is bounded by `κ_𝕜` times the
+supremum of `|∑ aᵢⱼ sᵢtⱼ|` over scalar unit balls. First use finite-dimensional
+Euclidean vectors; pass from any Hilbert space to their finite-dimensional
+linear span. For real scalars, construct a finite independent Gaussian model
+of that span and prove `𝔼g⁴=3(𝔼g²)²`. Handle the zero matrix, then normalize
+the nonzero scalar matrix bound to one. Define `Γ(a)` as the supremum over
+all real inner-product spaces; prove that it equals the supremum in
+`ℝ^(m+n)` for an m-by-n matrix, so it applies also to truncated Gaussian
+functions and error vectors in `L²(γ_N)`. It is initially bounded by
+`∑|aᵢⱼ|`. For truncations at `M>0`, prove the squared tail bound
+`‖u−u^M‖₂²≤3/(16M²)` and the absorption inequality
+`Γ(a)≤M²+Γ(a)√3/(2M)`. Taking `M=2` proves the real bound with `κ_ℝ`.
+For complex scalars, use realification, split real and imaginary
+parts of the coefficient matrix, and rotate the total sum by a unit scalar
+to obtain the bound with `κ_ℂ=2κ_ℝ`. Construct the compact-space bilinear-form version
+by finite partitions of unity and passage to the limit;
+these chosen constants carry no optimality claim. Derive
+`π₂(T) ≤ κ_𝕜 ‖T‖` for `T : C(K) → L¹(μ)` with finite `μ`, using
+B5's `L∞≃C(K_μ)` and its square-function comparison in the integral
+bilinear form `(f,g)↦∫Tf·g`. Also derive `π₁(T) ≤ κ_𝕜 ‖T‖`
+for `T : L¹(μ) → H`, with `H` a Hilbert
+space. First prove the weighted finite-atom case by applying the matrix
+inequality to normalized columns of `T` and vectors norming its images;
+extend from simple functions by density. Reuse B5's integral/dual pairing.
 
 ## B7. Local theory and Euclidean sections
 
@@ -219,13 +403,24 @@ each finite-dimensional subspace; prove transitivity and inheritance by subspace
 Prove local reflexivity: for finite-dimensional `F ≤ E**`, `G ≤ E*` and `ε > 0`,
 there is a linear embedding `T : F → E` with distortion at most `1+ε`, preserving
 every pairing with `G` and satisfying `T(J_E x) = x` whenever `J_E x ∈ F`.
-Give the equivalent `(1−ε,1+ε)` norm bounds for `0 < ε < 1`. Develop the
+Make the two-sided `(1−ε,1+ε)` norm bounds for `0 < ε < 1` the primary
+existence statement. Derive any requested distortion bound by choosing a
+smaller tolerance. Conversely derive this existence statement from the
+distortion theorem by adjoining a nonzero `J_E x₀` to `F`, so both `T` and
+its inverse on its range have norm at least one; handle the zero space
+separately. This compares existence statements with changed data and tolerance.
+Develop the
 finite-system separation and norm approximation lemmas used in its proof.
 Deduce finite representability of `E**` in `E`.
 
+Use native `ConvexBody` with explicit symmetry and nonempty-interior conditions.
 Develop symmetric convex bodies in finite-dimensional Euclidean spaces, polar
 bodies, ellipsoids, volume and change of variables. Prove John's ellipsoid theorem
-and its contact-point decomposition for symmetric bodies; derive
+and its contact-point decomposition for symmetric bodies with nonempty interior.
+In the position where the maximal-volume inscribed ellipsoid is the Euclidean
+unit ball, construct contact points `u_i∈∂K∩S^(n−1)` and positive weights
+`c_i` with `∑ c_i(u_i⊗u_i)=I` and `∑ c_i=n`, for `n≥1`; here
+`u_i⊗u_i` denotes the rank-one map `x↦⟨u_i,x⟩u_i`. Derive
 `d(E,ℓ²_n) ≤ √n` and the Kadec–Snobar projection theorem: every `n`-dimensional
 subspace of a real Banach space admits a projection of norm at most `√n`.
 
@@ -236,10 +431,36 @@ representable in every infinite-dimensional real Banach space. Build the sphere
 concentration and net estimates used for this: normalized spherical measure,
 rotation invariance, a bound `2 exp(−c n t²/L²)` about a median for real
 `L`-Lipschitz functions on `Sⁿ⁻¹` with its Euclidean distance, for `n ≥ 2`, `L > 0`
-and `t > 0`, with a universal positive `c`; also construct a finite `η`-net of
+and `t > 0`, with `c=1/(1024π²)`. Prove the mean-centered estimate
+`σ{|f−∫f dσ|>t} ≤ 4 exp(−n t²/(32π²L²))` and the bound
+`|median(f)−∫f dσ| ≤ √(32π² log 8) L/√n`.
+Reuse B6's finite Gaussian model. Prove its radial/directional
+independence and the normalized direction's spherical distribution, and construct
+normalized Haar rotations on the orthogonal group and the map `U↦Ux`
+pushing Haar probability to spherical probability. Use the normalization of
+Mathlib's `Measure.toSphere` for the latter. Supply the Gaussian
+exponential-moment and interpolation estimates and the smooth approximation
+of Lipschitz functions used in concentration. For a centered Lipschitz
+spherical function, use the valid bound `|f| ≤ 2L` in the radial-extension
+argument and propagate the resulting constants. Also construct a finite `η`-net of
 `Sᵏ⁻¹` of size at most `(1+2/η)^k`, for `η > 0`.
-Combine these with John's position to obtain the dimension threshold; specify a
-concrete valid threshold in the implementation, without an optimality claim.
+Make the dimension-growth step explicit. In John's position for an
+`n`-dimensional space, `n ≥ 4`, construct a Dvoretzky–Rogers orthonormal
+basis with `‖e_j‖ ≥ 2^(−n/(n−j+1))`. Pass to the span `Y` of the first
+`m = ⌊n/2⌋` vectors, whose norms are at least `1/4`. Prove
+`𝔼 max_{j≤m}|g_j| ≥ (1/100)√(log m)` for independent standard Gaussians,
+using a scalar tail estimate at `s=(1/4)√(log m)` and independence.
+Use the elementary Rademacher convexity inequality
+`max_j ‖v_j‖ ≤ 𝔼_ε ‖∑ ε_j v_j‖` to deduce
+`θ_Y = ∫_{S^(m−1)} ‖x‖ dσ ≥ (1/400)√(log m/m)`.
+Prove the random-rotation/net lemma: for `0 < η < 1/3` and
+`k ≤ 10⁻⁶ m θ_Y² η²/log(3/η)`, a `k`-dimensional subspace has norm between
+`(1−η)θ_Y‖x‖₂` and `(1+η)θ_Y‖x‖₂`. This yields the logarithmic
+dimension bound and the qualitative theorem. For a requested `ε > 0`, use
+`η = min(ε/4,1/4)` and the threshold
+`N = max(4, ⌈exp(10¹² k η⁻² log(3/η))⌉)`.
+Verify this constant from the preceding estimates and `log⌊n/2⌋≥(log n)/3`
+for `n≥4`, without an optimality claim.
 
 ## Sources and API alignment
 
@@ -248,11 +469,24 @@ concrete valid threshold in the implementation, without an optimality claim.
   Bishop–Phelps 2.11.14), §3.4 (AP equivalence 3.4.32), §4.4 (basis criterion
   4.4.15), §5.2 (Milman–Pettis 5.2.15).
 * Albiac–Kalton, *Topics in Banach Space Theory*: Chapters 1–5 (bases and
-  function spaces), Chapter 8 (Grothendieck 8.1.1, Pietsch 8.2.8), §12.2
+  function spaces), §6.1 (Haar basis 6.1.3, scalar Bellman estimates
+  6.1.5–6.1.6, unconditionality 6.1.7), Chapter 8 (Grothendieck 8.1.1,
+  compact-space form 8.1.3, Pietsch 8.2.8), §12.2
   (local reflexivity 12.2.4), §12.3 and Chapter 13 (Dvoretzky 12.3.13,
-  John 13.1.5, Kadec–Snobar 13.1.7).
+  John 13.1.5, Kadec–Snobar 13.1.7), §§13.2–13.3 (concentration,
+  mean-norm estimate 13.3.2, Dvoretzky–Rogers 13.3.5,
+  Gaussian maximum 13.3.6 and logarithmic Dvoretzky bound 13.3.7).
 * Runde, *Lectures on Amenability*, Appendix B.2: injective/projective tensor
   norms, completions, functoriality and the projective universal property.
+* Ryan, [*Introduction to Tensor Products of Banach Spaces*](https://doi.org/10.1007/978-1-4471-3903-4),
+  Chapters 2–4: completed projective series, nuclear operators, injective duality
+  and approximation/tensor comparisons.
+* Ball, [*An Elementary Introduction to Modern Convex Geometry*](https://math.uchicago.edu/~shmuel/AAT-readings/Combinatorial%20Geometry%2C%20Concentration%2C%20Real%20Algebraic%20Geometry/ball.pdf),
+  Lecture 3, Theorem 3.1: John's ellipsoid and the contact-point decomposition.
+* Garrido–Jaramillo, [*Variations on the Banach–Stone theorem*](https://matematicas.unex.es/~extracta/Vol-17-3/17J3Mari.pdf),
+  §2, Theorems 2 and 4: the real weighted-composition theorem and Arens–Kelley
+  extreme points. The complex version uses the variation splitting and phase
+  arguments specified in B5.
 
 Mathlib's `Analysis.Normed.Module.Bases` already supplies generalized Schauder
 bases, finite projections and projection bounds. Follow the designs discussed in

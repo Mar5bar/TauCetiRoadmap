@@ -26,10 +26,11 @@ theorem eberlein_smulian (K : Set E) :
     IsCompact (toWeakSpace ℝ E '' K) ↔ IsSeqCompact (toWeakSpace ℝ E '' K) := by
   sorry
 
-/-- Analytic reflexivity uses the continuous bidual. -/
-theorem james [CompleteSpace E] :
-    Function.Surjective (NormedSpace.inclusionInDoubleDual ℝ E) ↔
-      ∀ f : StrongDual ℝ E, ∃ x : E, ‖x‖ ≤ 1 ∧ ‖f x‖ = ‖f‖ := by
+/-- Analytic reflexivity uses the continuous bidual, over either scalar field. -/
+theorem james {𝕜 X : Type*} [RCLike 𝕜] [NormedAddCommGroup X]
+    [NormedSpace 𝕜 X] [CompleteSpace X] :
+    Function.Surjective (NormedSpace.inclusionInDoubleDual 𝕜 X) ↔
+      ∀ f : StrongDual 𝕜 X, ∃ x : X, ‖x‖ ≤ 1 ∧ ‖f x‖ = ‖f‖ := by
   sorry
 
 /-- Approximation on compact subsets; finite rank refers to the algebraic range. -/
@@ -62,7 +63,8 @@ theorem approximationProperty [CompleteSpace E] (b : _root_.SchauderBasis ℝ E)
 
 end SchauderBasis
 
--- Fix the normed-space instances before forming subspaces of the iterated dual.
+-- Keep normed dual instances explicit so the finite-dimensional subspace norms
+-- use the operator norm at both stages of the iterated dual.
 local instance : NormedAddCommGroup (StrongDual ℝ E) := inferInstance
 local instance : NormedSpace ℝ (StrongDual ℝ E) := inferInstance
 local instance : NormedAddCommGroup (StrongDual ℝ (StrongDual ℝ E)) := inferInstance
