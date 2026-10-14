@@ -54,6 +54,8 @@ example : StripOrder Complex.exp 1 0 := by sorry
 example : FiniteStripOrder (fun z : ℂ => Complex.exp (z ^ 2)) 0 := by sorry
 example : ¬ FiniteStripOrder (fun z : ℂ => Complex.exp (Complex.exp (-Complex.I * z))) (-1) := by sorry
 example : CommonDenominator Set.univ (fun z : ℂ => z⁻¹) := by sorry
+example : CommonDenominator Set.univ (fun z : ℂ => z) := by sorry
+example : CommonDenominator Set.univ (fun z : ℂ => (Complex.exp z - 1) / z) := by sorry
 example : ¬ CommonDenominator Set.univ (fun z : ℂ => Complex.exp z⁻¹) := by sorry
 end VectorAnalysis
 
@@ -89,6 +91,11 @@ theorem herglotz_representation (F : ℂ → ℂ)
         ∫ t : ℝ, ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ) ∂p.2.2 := by sorry
 
 example : weightedMeasure (0 : Measure ℝ) = 0 := by sorry
+example (a b : ℝ) (mu : Measure ℝ) (hb : 0 ≤ b)
+    (hmu : Integrable (fun t : ℝ => (1 + t ^ 2)⁻¹) mu)
+    (hrep : ∀ z : ℂ, 0 < z.im → z = (a : ℂ) + (b : ℂ) * z +
+      ∫ t : ℝ, ((t : ℂ) - z)⁻¹ - (t / (1 + t ^ 2) : ℝ) ∂mu) :
+    (a, b, mu) = (0, 1, 0) := by sorry
 example : weightedMeasure (Measure.dirac (2 : ℝ)) =
     (5 : ℝ≥0∞) • Measure.dirac (2 : ℝ) := by sorry
 end Herglotz
@@ -100,6 +107,7 @@ def rpowC (x : ℝ) (s : ℂ) : ℂ := Complex.exp (s * (Real.log x : ℂ))
 
 example : rpowC 4 (1 / 2) = 2 := by sorry
 example : rpowC 4 (-1) = 1 / 4 := by sorry
+example (s : ℂ) : rpowC 1 s = 1 := by sorry
 
 -- The first-kind Bessel function and its integral-order symmetry are library suppliers.
 #check Complex.besselJ
@@ -135,6 +143,10 @@ example (y : ℝ) (hy : 0 < y) :
 example (y : ℝ) (hy : 0 < y) :
     bessel_i (1 / 2) y = (Real.sqrt (2 / (Real.pi * y)) * Real.sinh y : ℝ) := by sorry
 example : bessel_i 0 0 = 1 := by sorry
+example (y : ℝ) (hy : 0 < y) : bessel_i (-1) y = bessel_i 1 y := by sorry
+example : Complex.besselJ 0 0 = 1 := by sorry
+example (n : ℕ) (y : ℝ) (hy : 0 < y) :
+    Complex.besselJ (-(n : ℂ)) y = (-1 : ℂ) ^ n * Complex.besselJ n y := by sorry
 
 /-- M uses the entire regularized series, with gamma poles excluded from its analytic domain. -/
 def whittaker_m (mu nu : ℂ) (y : ℝ) : ℂ :=
@@ -172,6 +184,9 @@ example (y : ℝ) (hy : 0 < y) :
     whittaker_m 0 (1 / 2) y = (2 * Real.sinh (y / 2) : ℝ) := by sorry
 example (y : ℝ) (hy : 0 < y) :
     whittaker_m 1 (1 / 2) y = y * Complex.exp (-(y : ℂ) / 2) := by sorry
+example (t : ℝ) (ht : 0 < t) :
+    whittaker_m 0 (1 / 2) (2 * t * Real.sin (Real.pi / 2)) =
+      (2 * Real.sinh t : ℝ) := by sorry
 
 /-- Corrected sine-power integral; reciprocal gamma interprets exceptional denominator values. -/
 theorem sine_power_integral (nu beta : ℂ) (hnu : 0 < nu.re) :
@@ -263,6 +278,9 @@ theorem weight_laplacian_power (k : ℝ) (s z : ℂ) (hz : 0 < z.im) :
 
 example (z : ℂ) : weight_laplacian 0 (fun w => (w.im ^ 2 : ℂ)) z = -2 * z.im ^ 2 := by sorry
 example (k : ℝ) (z : ℂ) : weight_laplacian k (fun _ => (1 : ℂ)) z = 0 := by sorry
+example (z : ℂ) (hz : 0 < z.im) :
+    weight_laplacian (1 / 2) (fun w => rpowC w.im (-1 / 4)) z =
+      (-3 / 16 : ℂ) * rpowC z.im (-1 / 4) := by sorry
 
 /-- The finite Kloosterman sum uses units modulo a positive modulus. -/
 def kloosterman_sum (m n : ℤ) (c : ℕ) [NeZero c] : ℂ :=
@@ -276,6 +294,8 @@ theorem kloosterman_sum_symm (m n : ℤ) (c : ℕ) [NeZero c] :
 
 example (m n : ℤ) : kloosterman_sum m n 1 = 1 := by sorry
 example (c : ℕ) [NeZero c] : kloosterman_sum 0 0 c = (Nat.totient c : ℂ) := by sorry
+example (p : ℕ) [NeZero p] (hp : p.Prime) (m : ℤ) :
+    kloosterman_sum m 0 p = if (p : ℤ) ∣ m then (p : ℂ) - 1 else -1 := by sorry
 
 /-- Primitive-pair expression for the full modular Eisenstein series; ± pairs count once. -/
 def nonholomorphic_eisenstein (z : UpperHalfPlane) (s : ℂ) : ℂ :=
@@ -303,6 +323,10 @@ example (z : UpperHalfPlane) (s : ℂ) (hs : 1 < s.re) :
     (∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
       rpowC z.im s * rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2 * s)) =
         2 * nonholomorphic_eisenstein z s := by sorry
+example : Tendsto
+    (fun y : {y : ℝ // 0 < y} =>
+      nonholomorphic_eisenstein ⟨⟨0, y.val⟩, y.property⟩ 2 / (y.val : ℂ) ^ 2)
+    (Filter.comap Subtype.val atTop) (𝓝 1) := by sorry
 example (z : UpperHalfPlane) :
     ¬ Summable (fun p : {p : ℤ × ℤ // p.1.gcd p.2 = 1} =>
       rpowC ‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ (-2)) := by sorry
@@ -366,12 +390,15 @@ end Modular
 README constructions needing the adelic, representation-theoretic, direct-integral or
 locally convex carriers:
 Layer 0: measurable_hilbert_field, direct_integral, decomposable_operator, hilbert_schmidt_kernel,
-operator_trace, nuclear_lf_space, projective_tensor, vector_schwartz, operator_meromorphic, archimedean_v_normalized_entire,
+operator_trace, nuclear_lf_space, nuclear_function_kernel, vector_schwartz, operator_meromorphic, archimedean_v_normalized_entire,
 spectral_cycle_coordinates, compact_cover_transfer, whittaker_w,
-vector_schwartz_entire, locally_convex_integration, vector_phragmen_lindelof.
+vector_schwartz_entire, locally_convex_integration, vector_phragmen_lindelof,
+real_representation_foundations, smooth_frechet_globalization, restricted_tensor_factorization,
+constant_term_transitivity. Completed projective tensors are supplied by NoncommutativeGeometry N1.
 The strip-order API target StripOrder.mono_order is in README §0.18.
 
-Layer 1: induced_family, eisenstein_series, convergent_intertwiner, euclidean_paley_wiener, pseudo_eisenstein,
+Layer 1: function_field_adelic_data, function_field_eisenstein_theory, modular_laplacian_realization,
+induced_family, eisenstein_series, convergent_intertwiner, euclidean_paley_wiener, pseudo_eisenstein,
 cuspidal_datum_space, unramified_character_torus, induced_spherical_section,
 induction_normalization_transport, bessel_kloosterman_coefficient, poincare_family,
 poincare_one_form, character_eisenstein, genus_eisenstein.
@@ -384,12 +411,14 @@ Layer 3: truncation_cones, arthur_truncation, eisenstein_wave_packet, gln_relati
 chamber_height_functions, auxiliary_chamber_selector, degree_cone_series, floor_monomial_family.
 
 Layer 4: associate_parameter_fields, spectral_map, residual_spectrum, discrete_spherical_spectrum,
-discrete_pair, good_discrete_pair.
+discrete_pair, good_discrete_pair, quadratic_weyl_domains.
 
-Layer 5: weighted_l2_complex, finite_character_functor, franke_filtration,
+Layer 5: weighted_l2_complex, compatible_module_category, finite_character_functor, franke_filtration,
+core_finite_character_acyclic,
 eisenstein_principal_value.
 
-Layer 6: spectral_multiplier, automorphic_kernel, coarse_truncated_kernel, gm_family,
+Layer 6: adelic_bundle_dictionary, higgs_flag_dictionary, higgs_harder_narasimhan,
+spectral_multiplier, automorphic_kernel, coarse_truncated_kernel, gm_family,
 orbital_integral, weighted_orbital_integral, weighted_character, almost_compact_test_space,
 invariant_recursion, discrete_functional_trace, pseudo_coefficient, general_euler_poincare,
 fixed_degree_trace, charpoly_kernel_refinement, weyl_fixed_levi, torus_pairing,
