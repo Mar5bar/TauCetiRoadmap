@@ -25,6 +25,8 @@ open Module
 namespace QuantumGroups
 
 universe u v w
+section HopfCore
+
 variable {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A] [StarModule ℂ A]
 
 /-- Star compatibility supplements the native Hopf algebra, without another carrier. -/
@@ -102,6 +104,13 @@ theorem schur_orthogonality [StarCompatibleHopf (A := A)]
           (if i = k then Ft j l / Matrix.trace Ft else 0)) := by
   sorry
 
+end HopfCore
+
+section StarPresentations
+
+variable {A : Type u} [Ring A] [Algebra ℂ A] [StarRing A] [StarModule ℂ A]
+variable {ι : Type w} [Fintype ι] [DecidableEq ι]
+
 /-- Q5's coefficient relation uses the entrywise bar, not the matrix adjoint. -/
 def freeOrthogonalRelation (F : Matrix ι ι ℂ) [Invertible F] (U : Matrix ι ι A) : Prop :=
   U ∈ unitary (Matrix ι ι A) ∧
@@ -143,5 +152,7 @@ structure SUqRelations (q : ℝ) (a c : A) : Prop where
 theorem suqMatrix_unitary_iff (q : ℝ) (a c : A) :
     suqMatrix q a c ∈ unitary (Matrix (Fin 2) (Fin 2) A) ↔ SUqRelations q a c := by
   sorry
+
+end StarPresentations
 
 end QuantumGroups
