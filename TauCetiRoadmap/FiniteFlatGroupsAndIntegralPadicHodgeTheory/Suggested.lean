@@ -1013,7 +1013,13 @@ further instances of the statements above.
   `isSimple_killed_by_prime`; `BarsottiTate.quotientFiniteFlatSubgroup`;
   `Prolongation.sup`, `Prolongation.inf`, with the check
   `Prolongation.two_models_mu_p` over `ℤ_p[ζ_p]`; `BarsottiTate.exists_extension_of_levels`;
-  `tameInertiaIso`, `fundamentalCharacter`; `FVectorScheme` and `FVectorScheme.classification`;
+  `tameInertiaIso`, `tameInertiaIso_eq_inertiaTameCharacter`;
+  `perfectResidueFundamentalCharacter`, `perfectResidueFundamentalCharacter_pow_p`,
+  `perfectResidueFundamentalCharacter_norm`,
+  `perfectResidueFundamentalCharacter_eq_fundamentalCharacter` (agreement with the finite-residue
+  API of ArithmeticGaloisRepresentations §2.3),
+  `perfectResidueFundamentalCharacter_one_surjective`, `perfectResidueFundamentalCharacter_two_norm`,
+  `perfectResidueCyclotomic_restrict_tameInertia`; `FVectorScheme` and `FVectorScheme.classification`;
   `exists_fVector_composition`; the checks `prolongation_unique_Zp`, `prolongation_unique_boundary`
   and `prolongation_unique_ext` of Raynaud's theorem; `prolongation_boundary`, with its checks
   `prolongation_boundary_examples`, `prolongation_boundary_needs_simple` and
@@ -1045,7 +1051,10 @@ further instances of the statements above.
   `mfTorAbelian`; `ringS` (including its p-adic completion and the rational ring formed
   from that completion);
   `flFunctor`;
-  `flExactFaithful`; `flSimpleObjects`; `flTameInertia`; `flFullFaithfulness`;
+  `flExactFaithful`; `flSimpleObjects`; `flTameInertia`; `flFullFaithfulness`
+  (endpoint self-Ext vanishing and semisimplicity over an algebraically closed residue field only
+  in the killed-by-p subcategory, followed by dévissage for arbitrary p-power torsion;
+  the pure-endpoint W(k)/p² extension is nonsplit);
   `flEssentialImageSubquotients`; `StronglyDivisibleLattice`; `flLatticeFunctor`;
   `flPeriodComparison`; `flAdmissibility` (unshifted on jumps `[0,p−1]`, with Tate
   twists for translated intervals); `flLatticeCorrespondence`; `flFiniteFlatDictionary`.
@@ -1054,7 +1063,14 @@ further instances of the statements above.
   `phiNNablaModules`; `robba`, `robbaBounded`, `robbaInt`, `PhiModule.slope`;
   `kedlayaSlopeFiltration`; `weaklyAdmissibleSlopeZero`; `kisinCrystallineEmbedding`;
   `finiteHeightLattices`; `semistableFiniteHeight`; `crystallineRestrictionFullFaithfulness`;
-  `bkModuleStructure`; `bmsKisinFunctor`; `btTypeEquivalence`; `BreuilModule`;
+  `bkModuleStructure`; `bmsKisinFunctor` (all weights use meromorphic Frobenius);
+  `kisinPeriodScalarMaps` (ι₀ has u ↦ [π^♭] and identity on W(k), ι₁ = φ ∘ ι₀ has
+  u ↦ [π^♭]^p and σ on W(k); βᵢ are their B_cris composites, ε₀ is evaluation at zero
+  and ε₁ = σ ∘ ε₀; every all-weight period comparison uses the index-one map);
+  `bkPeriodScalarAdapter` (semilinear scalar Frobenius transports the θ and θ ∘ φ⁻¹
+  filtrations, whereas linearised module Frobenius is an isomorphism after inverting ι₀(E),
+  after inverting β₀(E) over B_cris^+, and after inverting p for εᵢ);
+  `btTypeEquivalence`; `BreuilModule`;
   `BarsottiTate.isCrystalline` (the full
   Galois-equivariant rational crystalline comparison); `tateModuleAcris`;
   `crystalline01IsBt`; `kisinPDivisibleClassification`; `finiteFlatClassification`;
@@ -1064,6 +1080,10 @@ further instances of the statements above.
   `tameTypeWeightTwoFilteredModules`; `descentDataPDivisibleGroups`; `breuilSyntomicPeriods`; `StronglyDivisibleModule`
   (finite free, weights `1 ≤ k ≤ p−1`, with canonical monodromy only for `k = 2`);
   `descentDataLatticeClassification`; `StronglyDivisibleRModule`; `BreuilModuleModP`;
+  `BreuilModuleModP.exists_hom_to_maximal` (the unique morphism inducing a prescribed
+  isomorphism T_st(M′) ≅ T_st(M″), with the contravariant direction M″ → M′);
+  `BreuilModuleModP.exists_nonzero_hom_to_maximal` (requires nonzero realisation);
+  `BreuilModuleModP.zero` (the zero identification lifts to the zero morphism);
   `stronglyDivisibleModulesForCharacters`; `KisinModuleCoeff`; `multiplicativeEtaleDictionary`;
   `breuilModulesWithCoefficients`; `etalePhiModulesWithCoefficients`;
   `crystallineWithCoefficients`.
