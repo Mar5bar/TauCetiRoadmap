@@ -30,7 +30,6 @@ Design choices.
 
 namespace TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
 
-set_option autoImplicit false
 
 noncomputable section
 
