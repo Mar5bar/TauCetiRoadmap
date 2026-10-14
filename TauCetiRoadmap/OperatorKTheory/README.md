@@ -44,7 +44,7 @@ matrix multiplication, not casts identifying unequal matrix sizes.
   Consume actual `TauCeti.SplitK0` and
   `Algebra.GrothendieckAddGroup`, comparing their presentations rather
   than defining another group-completion mechanism.
-- [TopologicalKTheory T1–T4](../TopologicalKTheory/README.md) supplies
+- [TopologicalKTheory T1–T6](../TopologicalKTheory/README.md) supplies
   finite-rank continuous bundles, geometric K-groups of compact pairs
   and compact supports, and geometric complex Bott periodicity. This
   roadmap proves the comparison with `K_i(C₀(X))` and Bott for general
@@ -179,8 +179,9 @@ induced by an imprimitivity module, and prove identity, composition and
 agreement with full-corner maps; distinguish the chosen natural map from
 an abstract existence of a stable isomorphism.
 
-Consume CStarAlgebras C9's path, cone and mapping-cone algebras, using
-the cone/evaluation convention fixed above. Establish their K-theory sequences and
+Consume CStarAlgebras C9's path, cone, suspension and mapping-cone
+algebras and their pullback/extension API, with the cone/evaluation
+convention fixed above. Establish their K-theory sequences and
 homotopies, cone contractibility, and the action of orientation reversal
 on suspension classes. Develop the elementary exactness and lifting
 lemmas before using Bott to close a six-term sequence.
@@ -255,6 +256,13 @@ explicitly, and include the sufficient condition that the other tensor
 factor is exact. Compare products for commutative algebras with tensor
 products of bundles and geometric external products. Compute the sphere
 and torus examples with their generators and grading.
+Pin the odd-by-odd torus product to `q*β`: q collapses the two
+coordinate circles in 𝕋² and has degree +1 from the ordered (s,t)
+two-cell to the complex-oriented sphere. Thus the positive winding
+classes satisfy `[z_s]×[z_t]=q*β` for the tautological β fixed above.
+Construct the representative and compare it with the ordered suspension
+and Clifford product, rather than choosing its sign after an index
+calculation. NoncommutativeGeometry N2 computes its cyclic pairing.
 
 Develop topological K-theory of dense inverse-closed Fréchet subalgebras
 `𝒜⊆A`, where the Fréchet topology is stronger than the ambient C*-norm
@@ -597,13 +605,16 @@ boundary by the inverse `−(α⁻¹)_*`. Prove naturality and comparison
 of these normalized boundaries with the extension index maps. Extend the theorem
 to arbitrary A using directed unions of separable α-invariant
 subalgebras and K2 continuity. Include the identity automorphism and
-irrational rotations of the circle as computations. For irrational
-0<θ<1 define `α(f)(z)=f(exp(2πiθ)z)` and
+rotations of the circle as computations. For every real θ define
+`α(f)(z)=f(exp(2πiθ)z)` and
 `A_θ=C(𝕋)⋊_αℤ`; v(z)=z is the coordinate unitary and u is
 U, so `uv=exp(2πiθ)vu`. Prove its universal unitary presentation
 with these relations from Dynamics D1, including injectivity of the
-coordinate copy. Define `τ=HaarIntegral∘E` using D2's expectation.
-Prove it is the unique normalized trace by invariance of the circle
+coordinate copy, with no irrationality hypothesis. Define the canonical
+trace `τ=HaarIntegral∘E` using D2's expectation. Prove its faithfulness
+and comparison under integral parameter shifts; identify θ=0 with C(𝕋²).
+The following unique-trace, generator and trace-range assertions assume
+irrational 0<θ<1. Prove τ the unique normalized trace by invariance of the circle
 Fourier coefficients and vanishing of the nonzero crossed-product
 Fourier modes under conjugation by v. Prove K₀(A_θ)=K₁(A_θ)=ℤ²,
 with K₁ basis [u],[v]. Construct a Powers–Rieffel projection of trace
