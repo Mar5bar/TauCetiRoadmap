@@ -63,12 +63,12 @@ Remmert–Stein's theorems, Chow's theorem with nilpotents, algebraization
 with proper support, algebraicity of holomorphic maps from proper sources and of maps with algebraic
 graphs, the morphism interfaces for families, and the affine-curve connectedness comparison. In
 Layer C5: sheafification of the shared algebraic de Rham complex and the holomorphic de Rham complex, the holomorphic and relative Poincaré
-lemmas, analytification of differential operators and proper hypercohomology comparison for
+lemmas, the nilpotent-retaining Artin-base de Rham–Betti comparison, analytification of differential operators and proper hypercohomology comparison for
 operator complexes, small singular cochains and the sheaf–singular comparison for arbitrary abelian
 coefficients, the proper de Rham–Betti comparison with its multiplicative and integral structure,
 Ehresmann's fibration theorem and Betti local systems, the Gauss–Manin connection and the relative
 comparison, compact elliptic theory for the Hodge Laplacian, harmonic projection and the Green
-operator, the compact Kähler Hodge decomposition, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem, integration over analytic
+operator, the compact Kähler Hodge decomposition, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem, the test-form topology and current calculus with positivity, mass and local regularization, integration over analytic
 cycles, positivity of (1,1)-forms and the Chern normalisation, sheafification and analytification of shared ordinary connections,
 regular singularities, canonical logarithmic extensions, Deligne's Riemann–Hilbert equivalence and
 nonproper comparison, the curve logarithmic and compact-support complexes with residues, and the
@@ -178,7 +178,10 @@ in §F.9. C6 does not use that application to construct its comparisons.
   §2.6 `ample_serre_vanishing`), the quasi-coherent derived category of a scheme with derived
   pullback and pushforward, its perfect generator and Tor-independent base change
   (§2.18 `DQCoh`, §2.18 `derivedPullback`, `totalDirectImage`,
-  §2.18 `perfect_generator`, §2.18 `torIndependent_baseChange`); Chow's lemma (§4.12).
+  §2.18 `perfect_generator`, §2.18 `torIndependent_baseChange`); coherent duality and its trace
+  (§2.19 `upperShriek`, `trace`; §2.20 `relativeDualizingModule_smooth`, `cm_serre_duality`,
+  `sheafified_grothendieck_duality`), used for the Hodge-cohomology retraction in C5.3;
+  Chow's lemma (§4.12).
 
 **Tau Ceti roadmaps this roadmap builds on.** AlgebraicVectorBundles (general sheaf-module tensor
 product, internal Hom, finite local freeness, exterior powers, duals and determinants); DifferentialGeometry (smooth differential forms on
@@ -311,7 +314,12 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   function theorem `ContDiffAt.to_localInverse` (valid at analytic smoothness `ω`), Montel-type
   compactness via Arzelà–Ascoli, `circleIntegral` with
   `circleIntegral.integral_sub_inv_of_mem_ball` (`∮ (z − w)⁻¹ = 2πi`), Lebesgue measure on `ℂ`,
-  `Matrix.PosSemidef`, `Matrix.det`.
+  `Matrix.PosSemidef`, `Matrix.det`. `TestFunction` has the locally convex inductive-limit
+  topology of compactly supported smooth functions; `Distribution Ω F ⊤` is the compact-convergence
+  continuous real-linear dual of real-valued test functions, with values in `F`.
+  `Distribution.lineDerivCLM`, `Distribution.ofFun` and `Distribution.delta` supply the
+  chartwise derivative, locally integrable coefficients and Dirac distribution for `CurrentCalculus`.
+  Module lengths use `Module.length`; `DualNumber ℂ` is the square-zero algebra in the Artin check.
 - Manifolds: `ModelWithCorners`, `𝓘(ℂ, E)`, `IsManifold I ω M` (complex manifolds),
   `ContMDiffVectorBundle`, `topologicalKrullDim`, `LocallyContractibleSpace` (a predicate).
 - Singular chains: `AlgebraicTopology.singularChainComplexFunctor` (singular cohomology itself is
@@ -407,7 +415,8 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   of C0–C1; the proper GAGA proofs consume C0's coherent API and C1's analytic cohomology
   before their outputs are used in C2–C5. In particular C1 does not use proper GAGA.
 - **SchemeAndStackFoundations.** Layer 1 (algebraic spaces, étale sites, effective descent); Layer 2 (the site-cohomology, quasi-coherent cohomology and derived
-  quasi-coherent declarations named in *Scope and ownership*); §4.12 (Chow's lemma).
+  quasi-coherent declarations named in *Scope and ownership*), including §§2.19–2.20's coherent
+  duality, smooth dualizing module, trace and Serre duality for C5.3; §4.12 (Chow's lemma).
 
 ### Finite and adic étale suppliers
 
@@ -1807,6 +1816,50 @@ Lefschetz et critères de dégénérescence de suites spectrales*, Publ. Math. I
 printed pp. 123–125, for local freeness). *Needs:* `GaussManin`;
 `relativePoincare`; `relativeBettiLocalSystem`; `boundedOperatorHyperGaga`.
 
+**Artin-base relative comparison — `artinDeRhamBetti`.** Let `A` be a finite-dimensional
+commutative local `ℂ`-algebra with maximal ideal `m` and specified residue identification `A/m ≅ ℂ`,
+and let `f : X → Spec A` be smooth and proper, with special fibre `X₀`. Sheafify the shared
+`DeRham.complex A B` on affine opens of `X` to form `Ω^•_{X/A}`; analytify its terms and relative
+operators to obtain `Ω^•_{X^an/(Spec A)^an}` on the nilpotent-retaining analytic ringed space.
+Its underlying topological space is `X₀^an`, whereas its structure sheaf and relative forms retain
+`A`. Prove that the canonical augmentation from the constant sheaf `A` is a quasi-isomorphism,
+and that it gives canonical `A`-linear isomorphisms, natural for morphisms over `A` and compatible
+with extension of these Artin coefficient algebras,
+
+```text
+A_const → Ω^•_{X^an/(Spec A)^an},
+H^n_dR(X/A) ≅ H^n_sing(X₀^an, A) ≅ H^n_sing(X₀^an, ℂ) ⊗_ℂ A.
+```
+
+In particular `H^n_dR(X/A)` is free of rank `dim_ℂ H^n_sing(X₀^an, ℂ)` and
+`length_A H^n_dR(X/A) = length_A(A) · dim_ℂ H^n_sing(X₀^an, ℂ)`.
+No freeness or base-change hypothesis on the individual Hodge cohomology modules is used.
+Smoothness makes the relative forms flat over `A`: analytified étale coordinates identify them
+locally with `A ⊗_ℂ Ω^•` on a polydisc. For the finite `m`-adic filtration,
+`gr_m^i Ω^•_{X^an/(Spec A)^an} ≅ (m^i/m^{i+1}) ⊗_ℂ Ω^•_{X₀^an/ℂ}`.
+The associated graded augmentation is a quasi-isomorphism by `holomorphicPoincare`; induction
+through this finite filtration proves the augmentation over `A`. Apply
+`boundedOperatorHyperGaga` to the bounded relative complex (properness bounds the relative
+dimension), then `sheafSingularComparison` with coefficients in the additive group of `A`.
+Finite-dimensional coefficient extension gives the final tensor isomorphism and the length
+formula (Deligne 1968, Lemma (5.5.3) and equation (5.5.4), printed p. 124).
+*Needs:* DerivedDeRhamCohomology Layer 2 (`DeRham.complex`, `DeRham.complexMap`);
+AlgebraicModuliForArithmeticGeometry §§7.10.1 and 7.10.3 (`ComplexAnalyticSpace`,
+`complexSchemeAnalytification`, its nilpotent and étale comparisons, `properSchemeGagaPushforward`);
+`DifferentialOperatorAnalytification`; `boundedOperatorHyperGaga`; `holomorphicPoincare`;
+`sheafSingularComparison`; AlgebraicTopology Stage 8 (finite CW type of the compact special fibre);
+Mathlib `Module.length`.
+
+**Checks.**
+
+- For `A = ℂ`, the maps recover `holomorphicPoincare` and `properDeRhamBetti`.
+- For `A = ℂ[ε]/(ε²)` and `X = P¹_A`, degrees zero and two are each free rank-one `A`-modules
+  of length two, and degree one is zero. Reduction sends these modules to the corresponding
+  one-dimensional `ℂ`-cohomology; discarding `ε` before comparison loses their length.
+- For `X = Spec A` over itself, the relative complex is `A` in degree zero and zero otherwise;
+  its augmentation is the identity. For any local coefficient map `A → B` of the stated type,
+  this comparison becomes the identity on `B` after tensoring with `B`.
+
 ### Examples (C5.1–C5.2)
 
 - `H¹_dR(G_m)` is one-dimensional, spanned by `dz/z`; its period on the positive loop is `2πi`, so the
@@ -1894,13 +1947,18 @@ filtration of `H^n_dR(X/ℂ)` by form degree (the image of the hypercohomology o
 nonprojective `X^an` need not be Kähler, so the structure is transported: Chow's lemma and resolution of
 singularities in characteristic zero give a smooth projective `Y` with a birational proper `π : Y → X`;
 `π^*` is injective on cohomology with a retraction given by the trace (Poincaré duality on Betti
-cohomology; on Hodge cohomology the coherent trace of Grothendieck duality, Deligne 1968, (4.2) and
-Proposition 4.3, printed p. 120), it is compatible with the algebraic filtrations, and the Kähler
+cohomology). On Hodge cohomology specialize SchemeAndStackFoundations §§2.19–2.20's coherent
+duality and smooth dualizing modules to construct the derived trace and its induced maps
+`Tr_π : H^q(Y, Ω_Y^p) → H^q(X, Ω_X^p)` with `Tr_π ∘ π^* = id`, by transposing pullback under
+Serre duality. The derived composite induces an endomorphism of the locally free sheaf `Ω_X^p`
+which is the identity on a dense open, hence everywhere (Deligne 1968, (4.2) and Proposition 4.3,
+printed p. 120). Pullback is compatible with the algebraic filtrations, and the Kähler
 Hodge structure of `Y^an` restricts (Deligne 1968, Proposition 5.3, printed pp. 121–123). The completed HodgeStructures roadmap
 supplies only the linear algebra; no geometric theorem is attributed to it. *Needs:*
 `kaehlerHodgeDecomposition`; `properDeRhamBetti`; `multiplicativePeriodInterface` (trace);
 AlgebraicModuliForArithmeticGeometry Layer 2 (`devissageViaChow`) and Layer 9 (resolution);
-SchemeAndStackFoundations §4.12 (Chow's lemma); Tau Ceti `TauCeti.Hodge.HodgeStructureOn`.
+SchemeAndStackFoundations §§2.19–2.20 (coherent duality, trace and Serre duality), §4.12
+(Chow's lemma); Tau Ceti `TauCeti.Hodge.HodgeStructureOn`.
 
 Prove `relativeHodgeBundles` (Deligne): let `f : X → S` be smooth and proper with `S` locally Noetherian
 over a field of characteristic zero; `S` may be nonreduced. Then each `R^q f_*Ω^p_{X/S}` is finite
@@ -1909,16 +1967,89 @@ Hodge-to-de Rham spectral sequence `E₁^{p,q} = R^q f_*Ω^p_{X/S} ⇒ R^{p+q} f
 `E₁`, and each step of the Hodge filtration of `H^n_dR(X/S)` is a locally direct summand compatible with
 base change. If a finite group whose order is invertible on `S` acts on `X` over `S`, each isotypic
 summand cut out by a character idempotent defined over the coefficient field is again finite locally free and inherits the filtration and the comparison.
-Reduce by Noetherian approximation to `S` of finite type, then to Artin local thickenings of points;
-over fields embed into `ℂ` and use `properPureHodge` (equality of Hodge and de Rham dimensions); on an
-Artin base, length counting forces degeneration, freeness and base change; idempotents of the group
+Reduce by Noetherian approximation to `S` of finite type, then by completion and formal functions
+to Artin local thickenings of points. Choose a coefficient field in the equicharacteristic Artin
+ring, descend the finite data to a finitely generated characteristic-zero subfield and embed that
+subfield into `ℂ`; faithful field extension reduces to the Artin `ℂ`-algebras of `artinDeRhamBetti`.
+That comparison supplies the total de Rham length. The bounds
+`length_A H^q(X, Ω^p_{X/A}) ≤ length_A(A) · dim_ℂ H^q(X₀, Ω^p_{X₀/ℂ})`, with equality forcing
+freeness, together with the spectral-sequence length inequality and `properPureHodge` on `X₀`,
+force equality in every bound, degeneration and freeness. Coherent base change and formal
+functions then give local freeness and arbitrary base change on `S`; idempotents of the group
 algebra cut out direct summands (Deligne 1968, Theorem 5.5 and proof, printed pp. 123–125; the
 character summands are the argument just given, and Qian, *Potential automorphy for GL_n*, Lemma
 3.10(2), printed p. 1266, applies them to the Dwork family). *Needs:* `properPureHodge`;
-`relativeDeRhamBetti`; TauCetiRoadmap.JacobianChallenge (Layer C, cohomology and base change); Mathlib
+`artinDeRhamBetti`; TauCetiRoadmap.JacobianChallenge (Layer C, cohomology and base change,
+formal functions); SchemeAndStackFoundations §0.9 (Noetherian approximation);
+Mathlib
 `AlgebraicGeometry.IsLocallyNoetherian`, `SheafOfModules.IsLocallyFree`.
 
 ### C5.4 Integration over analytic cycles and the Chern normalisation
+
+**Test forms and current calculus — `CurrentCalculus`.** On the same smooth complex manifolds
+`M` as the forms API, of complex dimension `n`, construct compactly supported smooth complex
+test forms with the locally convex inductive-limit topology over compact supports: on a fixed
+compact support, the seminorms bound every derivative of every coefficient in finitely many charts.
+A current of degree `k` is a continuous `ℂ`-linear functional on test forms of degree `2n − k`,
+with the compact-convergence dual topology; weak convergence means convergence on each test form.
+In a real chart identify it with a finite family of Mathlib `Distribution Ω ℂ ⊤` coefficients,
+complexifying the real-valued `TestFunction Ω ℝ ⊤` arguments. Prove independence of coordinates,
+restriction, extension by zero of test forms on opens, and gluing of compatible local currents
+using partitions of unity. These constructions use DifferentialGeometry's form bundles.
+
+Pin degree `k` versus dimension `2n − k`, and bidegree `(a,b)` versus bidimension `(n−a,n−b)`;
+a current of bidegree `(a,b)` acts on test forms of type `(n−a,n−b)`. Define
+`(dT)(η) = (−1)^{k+1} T(dη)`, and the same duality sign for `∂T` and `∂̄T`, the type components
+of `dT`. Prove `d² = ∂² = ∂̄² = 0` and `∂∂̄ + ∂̄∂ = 0`, continuity and compatibility with
+restriction and weak limits. Embed locally integrable forms by `T_α(η) = ∫_M α ∧ η`, injectively
+up to almost-everywhere equality; for smooth forms `dT_α = T_{dα}`, also for `∂` and `∂̄`.
+For a smooth form `β`, set `(T ∧ β)(η) = T(β ∧ η)`; prove graded commutation with left wedge,
+the graded Leibniz laws and `supp(T ∧ β) ⊆ supp T ∩ supp β`. Construct the integration current
+of a closed smooth oriented submanifold by the existing manifold integral, with its Stokes
+identity `d[Z] = (−1)^{2n−dim_ℝ Z+1}[∂Z]` when `Z` has smooth boundary. This supplies the
+integration-by-parts pairing used by the cycle and Poincaré–Lelong targets.
+
+For every `0 ≤ p ≤ n`, strongly positive `(p,p)`-forms are sums with nonnegative coefficients
+of `iα₁ ∧ ᾱ₁ ∧ ⋯ ∧ iα_p ∧ ᾱ_p`, where the `α_j` have type `(1,0)`;
+positive forms pair nonnegatively with complementary
+strongly positive forms. A positive current of bidimension `(p,p)` acts nonnegatively on
+strongly positive test forms; a strongly positive current acts nonnegatively on positive test
+forms. Keep these cones distinct in intermediate degrees and prove compatibility with smooth
+forms, restriction and weak limits. Prove that positive currents have order zero, hence
+locally finite complex Radon-measure coefficients in charts. For a Hermitian metric with
+fundamental form `ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`, define its trace mass measure by
+`T ∧ ω^p/p!`. On compact sets this controls the total variations of all coefficient measures,
+and two such metrics give comparable mass measures. Thus finiteness near a deleted closed set
+is independent of the metric. For an order-zero current on `M ∖ E` with coefficient variations
+finite near `E`, extend those measures by zero to construct a coordinate-independent current
+on `M`, assigning no mass to `E`; positivity is preserved. Closedness of this extension is the
+separate theorem `closedCurrentExtension`.
+
+In complex coordinate opens construct convolution regularization by nonnegative smooth kernels of
+integral one, on smaller opens. Prove weak convergence, commutation with `d`, `∂`, `∂̄`,
+preservation of positivity and closedness there, and local mass bounds. Include dominated
+convergence for bounded smooth cutoffs tending to one off `E` in the finite-mass zero extension,
+and the positive-current Cauchy–Schwarz bounds for the mixed test forms used in Skoda–El Mir.
+Use the same convolution to regularize locally integrable plurisubharmonic functions on smaller
+complex coordinate opens, retaining plurisubharmonicity and their distributional derivatives
+(Demailly, I §2.A–B, pp. 13–16, I §2.D.3, p. 19, I (3.20), p. 25; III (1.1)–(1.14),
+pp. 129–133, (1.21)–(1.22), pp. 135–136; III (2.2)–(2.3) and proof, pp. 138–140).
+*Needs:* DifferentialGeometry Layers 0–2 and 5 (forms, orientation, partitions of unity,
+integration and Stokes); Mathlib `TestFunction`, `Distribution`, `Distribution.lineDerivCLM`,
+`Distribution.ofFun`, `Distribution.delta`, convolution and Radon measures.
+
+**Checks.**
+
+- For a smooth `k`-form `α`, `(dT_α)(η) = (−1)^{k+1}∫ α ∧ dη = ∫ dα ∧ η`.
+  In a chart a scalar coefficient derivative is Mathlib's negative transpose
+  `Distribution.lineDerivCLM`, with no second distribution carrier.
+- The point current `[a]`, of bidimension `(0,0)` and bidegree `(n,n)`, is `f ↦ f(a)`;
+  its chart coefficient is `Distribution.delta a`, it is positive and has trace mass one.
+- For the closed coordinate submanifold `Z = ℂ^p × {0} ⊂ ℂ^n`, `[Z](η)` is the
+  DifferentialGeometry integral of the restricted form, is closed and strongly positive,
+  and its trace mass for the Euclidean metric is the usual volume on `Z`.
+- Extending the positive measure `|z|⁻² dx dy` from a punctured disc by zero fails the local
+  finite-mass hypothesis at zero; positivity on the complement alone does not provide an extension.
 
 Prove `closedCurrentExtension` (Skoda–El Mir): let `E` be a closed complete pluripolar subset of a
 complex manifold `M` (locally `{v = −∞}` for a plurisubharmonic `v`; analytic subsets qualify) and `Θ` a
@@ -1926,7 +2057,7 @@ closed positive current on `M ∖ E` with locally finite mass near every point o
 of `Θ` by zero across `E` is a closed positive current on `M`. Finite mass cannot be dropped. Use cutoffs
 built from the plurisubharmonic function with pole set `E` (smoothed locally by convolution); Stokes and
 Cauchy–Schwarz bound the error by the mass on shrinking neighbourhoods (Demailly, III.2.3 and its proof,
-pp. 138–140). *Needs:* `remmertSteinExtension` (local structure of analytic sets);
+pp. 138–140). *Needs:* `CurrentCalculus`; `remmertSteinExtension` (local structure of analytic sets);
 TauCetiRoadmap.DifferentialGeometry (forms, Stokes); Mathlib convolution.
 
 Define `AnalyticCycleIntegration` for a pure `d`-dimensional analytic subset `Z` of a complex manifold
@@ -1938,7 +2069,7 @@ projection; closedness follows from `closedCurrentExtension` applied across `Z_s
 `AnalyticCycleIntegration.regular` (on a closed submanifold it is the manifold integral of
 DifferentialGeometry), `AnalyticCycleIntegration.add` (additivity in multiplicities) and
 `AnalyticCycleIntegration.closed` (`[Z](dη) = 0`) (Demailly, III.2.1–2.3, pp. 138–140, and
-III.2.5–2.7, p. 140). *Needs:* `closedCurrentExtension`; `remmertSteinExtension`;
+III.2.5–2.7, p. 140). *Needs:* `CurrentCalculus`; `closedCurrentExtension`; `remmertSteinExtension`;
 TauCetiRoadmap.DifferentialGeometry (integration, Layer 5).
 
 **Checks.**
@@ -1984,7 +2115,7 @@ support theorem (a normal current of bidimension `(p,p)` supported in an analyti
 `< p` is zero), which is proved with this target (Demailly, III.2.10–2.11, p. 141, for the support
 theorem; III.2.15 and proof, pp. 143–144, for meromorphic functions;
 V.13.1–13.4, p. 271, for sections of Hermitian line bundles, equation (13.2) and Theorem 13.4).
-*Needs:* `AnalyticCycleIntegration`; `ChernConnection`; AlgebraicModuliForArithmeticGeometry
+*Needs:* `CurrentCalculus`; `AnalyticCycleIntegration`; `ChernConnection`; AlgebraicModuliForArithmeticGeometry
 §7.10.1 `convergentWeierstrassPreparation`; TauCetiRoadmap.DifferentialGeometry (forms, Stokes);
 Mathlib `circleIntegral`.
 
@@ -2502,7 +2633,7 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 ### Dependencies
 
 C0–C4; AlgebraicModuliForArithmeticGeometry (§§7.10.1 and 7.10.3; Layers 1–3 and 9);
-SchemeAndStackFoundations (Layer 1, Layer 2, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–3,
+SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–3,
 5, 6, 8, 9 and 12); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
 D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C); TauCetiRoadmap.JacobianChallenge (Layer C);
 Tau Ceti `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`,

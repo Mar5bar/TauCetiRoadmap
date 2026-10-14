@@ -36,6 +36,16 @@ LefschetzPencilsAndVanishingCycles F.4's étale normalized systems and
 ClassicalAdicEtaleCohomology's generic derived limits/completion. F.0–F.4 supply C6;
 F.9's nearby-cycle and inertia comparison consumes C6.
 
+C5.2 owns `artinDeRhamBetti`: for a finite-dimensional local complex algebra with residue
+field `ℂ` and a smooth proper scheme over it, the nilpotent-retaining relative analytic de Rham
+complex resolves the constant algebra sheaf. Operator-complex GAGA and constant-coefficient
+sheaf–singular comparison identify its cohomology with special-fibre Betti cohomology tensored
+with the algebra. This supplies the total length input to `relativeHodgeBundles`, including
+nonreduced bases, before freeness of the Hodge pieces is proved. C5.4 owns `CurrentCalculus`,
+the test-form dual and its chartwise comparison with Mathlib distributions, differential signs,
+smooth wedge, positivity, mass and local regularization used by `closedCurrentExtension` and
+the cycle and Chern targets.
+
 Most of its carriers are not in Mathlib or Tau Ceti at the pinned commits: complex analytic spaces
 with nilpotents, the analytification functor and proper coherent GAGA are built in the
 roadmap AlgebraicModuliForArithmeticGeometry (Layer 7, §7.10), and algebraic spaces, compact
@@ -128,6 +138,15 @@ noncomputable section
 #check @TauCeti.IsSemialgebraic
 #check @TauCeti.IsSemialgebraicOn
 #check @TauCeti.IsSemialgebraicMap
+-- Chartwise coefficients and their topology for C5.4's test-form dual.
+#check @TestFunction
+#check @Distribution
+#check @Distribution.lineDerivCLM
+#check @Distribution.ofFun
+#check @Distribution.delta
+-- Length and the dual-number coefficient algebra in C5.2's Artin comparison.
+#check @Module.length
+#check @DualNumber
 
 /-! ## Layer C0: Coherent analytic modules and coherent analytification -/
 
@@ -387,7 +406,29 @@ example : commutatorWith ℂ (A := ℂ[X]) X
 
 end DifferentialOperators
 
-/-! ### C5.4 Positivity and the Chern normalisation -/
+/-! ### C5.2 Artin coefficients -/
+
+/-- The coefficient algebra for the `artinDeRhamBetti` check on `P¹` has length two;
+its degree-zero and degree-two cohomology modules each identify with this algebra. -/
+example : Module.length (DualNumber ℂ) (DualNumber ℂ) = 2 := sorry
+
+/-! ### C5.4 Current coefficients, positivity and the Chern normalisation -/
+
+section CurrentCoefficients
+
+/-- `CurrentCalculus` uses Mathlib's negative-transpose derivative on each chart coefficient. -/
+example (Ω : TopologicalSpace.Opens ℂ) (T : Distribution Ω ℂ ⊤) (v : ℂ)
+    (φ : TestFunction Ω ℝ ⊤) :
+    Distribution.lineDerivCLM v T φ = -T (TestFunction.lineDerivCLM ℝ v φ) :=
+  Distribution.lineDerivCLM_apply
+
+/-- The point current in `CurrentCalculus` evaluates a test function equal to one at the point
+to one, fixing its unit mass normalization. -/
+example (Ω : TopologicalSpace.Opens ℂ) (a : ℂ) (φ : TestFunction Ω ℝ ⊤)
+    (hφ : φ a = 1) : Distribution.delta a φ = 1 :=
+  hφ
+
+end CurrentCoefficients
 
 section Positivity
 
@@ -516,7 +557,11 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`,
   `HolomorphicDeRham`, `holomorphicPoincare`, `relativePoincare`, `compactEllipticHodge`
   (operator-dependent shifted coercivity, graph-norm regularity and the original operator's kernel),
-  `HarmonicGreen`, `kaehlerHodgeDecomposition`, `closedCurrentExtension`,
+  `HarmonicGreen`, `kaehlerHodgeDecomposition`, `CurrentCalculus` (compactly supported test forms
+  with their inductive-limit topology; degree `k` acts on degree `2n − k`, bidegree `(a,b)`
+  on type `(n−a,n−b)`, differential sign `(−1)^{k+1}`; positivity dual to strongly positive forms,
+  trace mass `T ∧ ω^p/p!` for `ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`, finite-mass extension by zero and
+  local convolution convergence), `closedCurrentExtension`,
   `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
   `chernFubiniStudyIntersection` in general, `dghIntegrationApplication`.
 * **Singular cohomology with coefficients** (AlgebraicTopology, Stage 6): `SmallSingularCochains`,
@@ -546,7 +591,14 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   On affines its map takes values in `M ⊗ Ω¹`, and tensor symmetry gives the displayed geometric
   order `Ω¹ ⊗ M`; extension uses `DeRham.complex`, not a second de Rham differential.
 * **Global de Rham, Hodge and log theory on schemes:** `AlgebraicDeRham`, `GaussManin`,
-  `properPureHodge`, `relativeHodgeBundles`, `RegularSingular`, `CanonicalLogExtension`,
+  `artinDeRhamBetti` (smooth proper over a finite-dimensional commutative local `ℂ`-algebra `A`
+  with residue `ℂ`; augmentation `A_const → Ω•_(X^an/(Spec A)^an)` and
+  `H^n_dR(X/A) ≅ H^n_sing(X₀^an, ℂ) ⊗_ℂ A`, of length
+  `length_A(A) · dim_ℂ H^n_sing(X₀^an, ℂ)`; no Hodge-piece freeness assumption),
+  `properPureHodge` (the Hodge-cohomology trace from SchemeAndStackFoundations §§2.19–2.20
+  gives a left inverse to pullback for a proper birational modification of smooth proper schemes),
+  `relativeHodgeBundles` (nonreduced locally Noetherian characteristic-zero bases, using
+  `artinDeRhamBetti` for the Artin length argument), `RegularSingular`, `CanonicalLogExtension`,
   `CurveLogComplex`, `curveResidueLocalization`; the sheaf-level `PrelogStructure`, `LogStructure`,
   `AssociatedLog`, `LogPullback`, `FineLogChart`, `DivisorialLog`, `LogSmooth`, `logChartCriterion`,
   `LogDeRham`, `logAnalytification`, `logDifferentialTransitivitySplit`. The algebraic prefix
